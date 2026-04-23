@@ -1,165 +1,159 @@
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BF53BE64B
-	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 13:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776949904; cv=none; b=gJDTOeuF8BhkNkbuB8rDszEyLXZdRQ3rOJRaKQNFw6RER88zqD5k5lp1TQ/mu6V7+R5MOEDOJAxiBv4EmCiNEORW3kMerlMAk3EVPDQ2hr7IpC8yf7QwAB3qU0ThG4GtQDqQsSQz4kYuXEG9vOTSkTBgMB9dMMZGAdZOzHTkfKk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776949904; c=relaxed/simple;
-	bh=ejM1Zmsj5fEcYO+eOjD7aSvSj+6S4bU9vJee6fm5kjg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Vl6JKdw369U5lQv2Y9FwLnZjiLSu2NAF/ZKP4gVoIxOfyiczLBPV9lEe1TlH1MO47zWQLCFTd9WH65rrhAyJ+lUeFOrmBH5GZNGAm7ItoGd/X1Ue+tSNP73W/uGbNyA1zXNsp7jfVKsEelNcIqGE3p0zGS9B/sDd8Hb+hFZcR8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KljHhsBJ; arc=none smtp.client-ip=74.125.82.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BACC29D260;
+	Thu, 23 Apr 2026 13:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776951149; cv=fail; b=MNfm3sI4mJsXayeyV3JZu/lYEwqsqLXz1wv0we9RtBDQrjs/I7MufeQxvrMS66+bZxmrCn6yvMEbaJJpofCk9PeHUNHbGZbAgkZ+X7GZJd8TEOfnlZuoxwdUpIQGtjCey3IsYQTldOGp1Vl5eNIl37ZEvhj+LqqYuUwzFGR0wbI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776951149; c=relaxed/simple;
+	bh=lJNFZFxnbKnmhEZ3E3uoRUGgabyuiJuq6XdxUeksEFU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lkbsVVAI7JVgNaOTw1MSMcGwdWqDjOZ6X25ca0wHV5lOxhSqhWHE/k3ZM0FtwExXBmcuo5PPbGQEiQwJ/41eQUhTcF4DsvntRSlB3Q9XJYCu5PQUflHv0eDJ2i0UYCpv0tYBBuHeC7LNkkhzyBrjoN8tFwAtcYJuNRgyKbRUjpY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=hDQL366a; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=hp9ksBSk; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KljHhsBJ"
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2d8fa0fadfeso3546988eec.1
-        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 06:11:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="hDQL366a";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="hp9ksBSk"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63N7KvJR3311433;
+	Thu, 23 Apr 2026 08:32:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=qjEpGnUyOkR0/QmL9EQcacuLsGOxhlMm9BvRztLfD4A=; b=
+	hDQL366a6Nt3pnPu0SQJJgzBXJKxg9sIr5lpBOdVLZeWeWOOncbp09oz2FaxeqEz
+	dR7NpYnaSFduYRDmAtbI/kFNfpIu0y+D9Ajhw4AokcBjqUiLkk0ClE5u8vt5IADa
+	q1L8ABF7n4NE5ZDzGgXGlwb83wd6naK25h+gLPne8IK/Z3v6XIlHgg89bE1RewSL
+	tHcmE0pXGHspK5X0aijWGTcCD9hT9hzWq8SOn2JXTalYQJnKZwAVQY9y3eTLBPcf
+	0ijuIQH6CQMNUmH3o97/rHOIZ8Bxq9Fpogr9UN5nLAM7EJZgVM66I8A0h62gjJLf
+	62etLyuRHEMaAZS+tIFoVg==
+Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11020079.outbound.protection.outlook.com [52.101.56.79])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4dpenu2fdw-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 23 Apr 2026 08:32:17 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PHcTJ63aT8YPetD2vZBOZOKRX2UhcTeFfG9+w1ObssQLpfIcgL40rkInS31oE5OpGO9MS2P505Jsc8BN4cvNwUHOyV5mXM4e8HQ0R/eGPZ65oKVk4nY360GBlFuzuExpi9tCZ7i1cbzgFh3qMe02nscqJeG4Rv3/uhKOW0QOzNC4fzP593jepzU3QHcYDaiOQxFeOG8ZoCjmR0/9mN/UZWt6rzkkAhfzt3c45pIMpSxs4mNkWmQt6mSo3pFPIfXJSWUO4uO1uzSCb39G6FNjJYJRxM05X7Mdhs+h+f5zi1reCxl4mmiCk6Aoduo8h3/pb/eLYf5Jm8VudiCKdOP49A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qjEpGnUyOkR0/QmL9EQcacuLsGOxhlMm9BvRztLfD4A=;
+ b=A1xG4abBtEeaDVUmjhO+Q3ItoO2MR55L4hJiXtudEEv74kBeUPrPvXRJcdboILEPWmEJYEgigJwfi4U84x411HE3YiaZ8C+8TA7tIbdoY9oIE5eiLGhCXmYajk3+PqWgM5IJwM9YLsdHhy/CO0IdvFcWW4GCa1sjHlZNh2+ROhL3hgxIXT4d7HRFyseeE+/c4fOmWTrjUQB3g7SHcBB/+HPydiQf7wEpiD1tYJng+dUM+/qk9uuL0mjBXb10iF805sCeJPIgLT6d1+2tZ+ee6IdU3DbHlUbUdfJRY52W36ewYSiZ7TDU6rUFdTjbLBwXhFhLp+IJ+tmoZjOfy9ND6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776949903; x=1777554703; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sF0+se07evB4kXx7iQu5RCnYJG9uujVMlzreUGv6DlA=;
-        b=KljHhsBJjA86ah4HJEGytG1NoK6AudumaRRcEAMlsnYvlnGn1CPRt56SJNbgXdt5CT
-         gPD/G/XwATcIP1lMkhDaeKyVkP6ttuoXQ2fH0d6y0L1iWRDuYaDkN0MpXJc5SpiqU3aC
-         gf1V9USaIhAY3jziWCSUuD2br+Cxp3WBRDDGfwyhtYORcnEuXpuz4M6WHHxvW1NibNKO
-         NDfm5e+IrBSMzbSzkunKvN+I7kFoimA1DsCs0lm3bYNxq1EC+QYR3MffYAhMpucQIRHa
-         1PpTPduIVR7iTKY6oSqGNElAGynS4NdRYSGGfynhHiK1Ek4WRpaWqV+Y2odWxZ+DQwkh
-         JcSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776949903; x=1777554703;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sF0+se07evB4kXx7iQu5RCnYJG9uujVMlzreUGv6DlA=;
-        b=DcK03hQA182MmfnHSHRj6UnR/jJ2tH+M8loS81O9mU1oxc4fDif0MehVOvE7VR7xKX
-         LdJikTzLx4ASfxWAa+XP8DT++6f+QEHqsubiGO25tHW83TwWlckK/iBxrO7Y33KlQonk
-         VRazIisVuNyQ2VmSELrrWVLMPW6qveazEpUO9fGK0XgCXs/IqZmbbGxhJVCp720qf4H7
-         Fi1M7CNYbTOqwIvcHCtlnXWj0hWugVK7zleRKvVw9P1fU2Cq+d2RSaFUcXUscDWaQ2+e
-         x8Vg1LVj72lKT8tsEsgWJyQf+LwVAZKjUN0r26zXXTPrqUn8CO7aGHkhRn1cO9EqjGk+
-         jtpw==
-X-Gm-Message-State: AOJu0YzLf0boEkXzFvNkyhvHrlaVHdwJVJLFlCUu8XuCxpOQ17kMqsn+
-	yjjPAcEkT0TL+tcsbeGbG4aRZWR2VKJXLVOsXTqe+asjVPX7+IPVrza/IvolzLFP
-X-Gm-Gg: AeBDietMekRERJYxd4OwK+S7qnAkDjpI++11tY5sPgZM+0n9UNXq8/VFqyKRsdPG085
-	fbGRFsxOJsU3EeuFwcA4Ingra/o+6Xu8v6d9Xm6bc765Bv5dOvnTnfSQ7mhRM+Z1tFEHvSnrYt2
-	k0pK8f6aeuNW9+dp/1ALx4eMcuGFwOxbbt2CdEdCJtTM5TyFB8RTFtwpn+i+2VP5DeB+JaWRhH2
-	j4uoaFoIU2BrHAd0A3NYd9PhMvFnZHheA8BWfTprfM+tyiswexWjEYmWL08eBvKQaKZZUifNPjl
-	fvwb9+DnS/nIWmlRAjvuTPdTX+yNhKq7I0wP9Th6g8wtifBqGwmOb03yNd/DBaZuSnfEtibM0OU
-	gzDZdRTi82WsKDGg6RdyXSriBv42cpsBVKsNnQCsQB7PJV4nA39r9BeO/00z7O4rdqCPRdRprYs
-	SmnZxMtk5kIvIwMO0LN1rVGIfr3b1R6muwq7lgyH8xUHfuzhJy7AuthWvlV+bsuRcNF/L/hfHuP
-	3MYyRQgxnuW
-X-Received: by 2002:a05:693c:3011:b0:2df:7882:1cf3 with SMTP id 5a478bee46e88-2e42c15cf81mr12036056eec.2.1776949902444;
-        Thu, 23 Apr 2026 06:11:42 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53d9b056fsm36088988eec.29.2026.04.23.06.11.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 06:11:41 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Thu, 23 Apr 2026 10:11:31 -0300
-Subject: [PATCH] ALSA: hda: cs35l56: Propagate ASP TX source control errors
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qjEpGnUyOkR0/QmL9EQcacuLsGOxhlMm9BvRztLfD4A=;
+ b=hp9ksBSkEOicFmfESA8az5rWuTyc00yGg8WhTVcg1MUQi80+9+rC/DQ3tjVKTnpfEtTx+KVxvjru4sMViLi3q9IaMQT9OKtQc5v1s3KAeycbm4Ci/5AhOBDU7Ljki2VhsIsx0b5JFo6yOCQwBPzcIr4LJUjLtJnj9irdS4JZn3o=
+Received: from BL1PR13CA0168.namprd13.prod.outlook.com (2603:10b6:208:2bd::23)
+ by BLAPR19MB4417.namprd19.prod.outlook.com (2603:10b6:208:29f::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.20; Thu, 23 Apr
+ 2026 13:32:11 +0000
+Received: from MN1PEPF0000F0DF.namprd04.prod.outlook.com
+ (2603:10b6:208:2bd:cafe::be) by BL1PR13CA0168.outlook.office365.com
+ (2603:10b6:208:2bd::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.21 via Frontend Transport; Thu,
+ 23 Apr 2026 13:32:11 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ MN1PEPF0000F0DF.mail.protection.outlook.com (10.167.242.37) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.18
+ via Frontend Transport; Thu, 23 Apr 2026 13:32:10 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 450F3406540;
+	Thu, 23 Apr 2026 13:32:09 +0000 (UTC)
+Received: from [198.90.208.24] (ediswws06.ad.cirrus.com [198.90.208.24])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 354BB82024A;
+	Thu, 23 Apr 2026 13:32:09 +0000 (UTC)
+Message-ID: <876d2550-751c-4299-a090-fb7f4d264bde@opensource.cirrus.com>
+Date: Thu, 23 Apr 2026 14:32:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda: cs35l56: Propagate ASP TX source control
+ errors
+To: =?UTF-8?Q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
+        Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>,
+        Simon Trimmer <simont@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260423-alsa-cs35l56-asp-tx-source-errors-v1-1-17ea7c62ec31@gmail.com>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20260423-alsa-cs35l56-asp-tx-source-errors-v1-1-17ea7c62ec31@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260423-alsa-cs35l56-asp-tx-source-errors-v1-1-17ea7c62ec31@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNwQqDMAyA4VeRnBeIrRXZq4wduhi3DrGS6BDEd
- 183j9/l/3cw0SQG12oHlU+ylKeC+lIBv+L0FEx9MThyLTWOMI4Wkc2HMbQYbcZlQ8ursqCoZjX
- s+prYu9B5aqB0ZpUhbf/H7X7a1sdbePmF4Ti+q6CooIUAAAA=
-X-Change-ID: 20260420-alsa-cs35l56-asp-tx-source-errors-8d10c3258304
-To: Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>, 
- Simon Trimmer <simont@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2467;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=ejM1Zmsj5fEcYO+eOjD7aSvSj+6S4bU9vJee6fm5kjg=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJmvpDrkPvv0JZwTMRLcw2/GlepVUtzkuf7zzdkTLbtm5
- 5bGTF/SUcrCIMbFICumyLI6aZHlnq4HV+vjVnjAzGFlAhnCwMUpABN5YMbI8JZjdv/ZyTb7zjca
- LJ+4zv/doZjXu9VfN5XJ1i5ZL57il83IsOSJFu8peQ65zYlPHOMeOi/R55/04Oedu16p8asFW9g
- +MwMA
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0DF:EE_|BLAPR19MB4417:EE_
+X-MS-Office365-Filtering-Correlation-Id: 47c3cc2c-8ffd-47e5-ab54-08dea13cb929
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|61400799027|376014|82310400026|18002099003|16102099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	JITT4Mc/W7kwRYfwCNXTeFBzr7e3373XGrxuaHbvt/HaPa0RkM3zVpwUzX+uTazD+7mo3w6G387iaafg539P2BMco4ho79CaTYApjwGciPbEcoayYufypjy1AdBUV3bGIzk7ZigYHmDkDIGa6TLZuRtWArd6AoEIFkiKtORJ+ixLNVzdCQufsMfwE46AlGg+DFtL18fW11VtxrdLHiUmz1gFTmeemfMzlmyAE75Hk6fcyBjlrH3grFsnhV/ntiX2C4cXFxcV8FFUIa394gUXRCLkKBlUiL/ITkcWafrcvgPnDVGEAqK/nNmrETF9xXqbEk3MsisvufVTMWG2VK5/pwVnXTQfZaj2BICkBMbfvV/T0z75PLRYZSok7BvqKDw3pyO3haRT3LokgF7Jq7uaXuWZ6PFBoR199CLXpEdLJp5bmNPYOB7anRaYpU6gCoMtdOJnajzY24j6A0XyjDvD7Kw0QBPIucB8QHe66tzuU7jODgJvh+wt4sfu40etsAvPUpB9pkvonSU90Zy0xgn67vPtTFYGI5crgH7mu6VT5Vy74CPTwGQQvtM+FDaVvXBWvndY1lgbzUzm2zy5LiW9N/KdcPabg49MfGhKqJwlciYPsoSe+kwpq8utAAb7guYbvwrLNo0fPVRJtoy1Q3VPUgiC+J7ktOpAUf9DlMHj/wjWAwHRUSezETwf1zmRsV/tSfLJsoWiTzC5PaGlGrnu+l0y1C+7fRCTd+RUbHgGLPhi+9tySM9/kKTQdPCzjogzVB5RW4s7qzS2hTv5JClKFg==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(61400799027)(376014)(82310400026)(18002099003)(16102099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	2rPozO8JrYti3AvZqAeKN11JiB4ppiJWY4gTdWzj6HdrWsD8yzSOHpNlFY/U68Gtb4/dX5yRGkxLRGpai/29cxfWy7s8+CTSDidqhp75TFUrJH1bdWGvyRkMXSjU9Lg8LJpo7D3p4D0PFlOoNixicaRjd6E9VbFqe1J3aPRyUHtiH3+k4r7gQUefn1Z6sbLLraV+SJ7EyE3C1jlON1LeLSN2Tum3HiPN3AwpVLB8Xuw8/NXGlaHmfkEEEmcQDLc846Z3ohN54RCbKyTb9v/NFTIwTHiPA9ZX3jhHoXa8KiPEfFfYT39EDg+ThhUxVq2aNuIxMTfmXUr6M/5pGwjRdaqtUX/AWmegGm/5rqiKVHAUoaHgRhz9oUfWeqz6mSC1cXku+Hbu7sbyqR6y2Po+/ACICddCfrZcvXogH03bslFXZaAdM/ndNgUqTdNBkoG3
+X-Exchange-RoutingPolicyChecked:
+	a7v7LnqDbDz19bgrhB0JDNtJxkz9ltNAodxo/VWKNwN8Kh6VXIUla/WRdDoow+s4DXmYy1QUoqHyNBvZ/cbsRJyTRyPt7eNAyYUdKJCioKSc/5xebcBnSKn2cBHIQHyNTtHkNWG+b/238l+ExR7s2x59LGCmghh9TbHqGOfStsA3syqXQIoDgizSpE6ECu84SfWjNNHYX+o9y2xFQBVG8sFAF06saiDXmqijzhALmexHxmHp82pqkyFJqitdVARtJ7zI+yHx6idULnd3yMmaHEHJiqHW8HyoADoT0QakOe4YQZUp9k38smbgkQNSSm7mfWFY4ZPyJGQaKFCtY6EaeQ==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2026 13:32:10.7760
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47c3cc2c-8ffd-47e5-ab54-08dea13cb929
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MN1PEPF0000F0DF.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR19MB4417
+X-Authority-Analysis: v=2.4 cv=DbknbPtW c=1 sm=1 tr=0 ts=69ea1f61 cx=c_pps
+ a=kNb0EPoEURSSyKZUeQUlVQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=JvBwcO1VsS_aB5xwRE4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=zZCYzV9kfG8A:10
+X-Proofpoint-GUID: 3GIdxo30FmE5s3Pw-QGns9ph7SqQYKQF
+X-Proofpoint-ORIG-GUID: 3GIdxo30FmE5s3Pw-QGns9ph7SqQYKQF
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIzMDEzNCBTYWx0ZWRfX6jE9CAM3NLsJ
+ wp+lqIe0b4oLTwuX8+o8zgwoAYWt6GVOy46cXH2wCTN2+B8TE9wIXj1+R7CyD3ZNR0RDG/NB1Ix
+ v6F4tojQldNY3QXJXcXh0meIGt4PW711weOMSFRsHuzrZjE5r8uHykXCy0rfjhCJ03Kal/cjKRs
+ FXKorVsq99cMsBOg0hWdQ8AKZvID6aqgvRx/G81FLNhdBztKorXFVPipcCKEAHFkbzZvOyIEZar
+ cMkcx5hP6GciZPMlT40gB1SUrA3jiWYXZdLPDbVuK4T1zjz5gVYeZAYGWA/PAy9G4f9jGlNHRhK
+ jplsnMgGVSnd5kSLLDRFdNsc7SgygAdroKQux1f0JBaVlQQo9WL/vZ5r4AtyDdkmNTgNyAyRZzf
+ JolunfRy8I1SfEcdM0OLQ60Bzj3iy+GPaQH6yGvI1qZNJE/csyVyB5N48xt8oyxOOd8jW94aLI+
+ n8dpSmn3NgNHwnX6adw==
+X-Proofpoint-Spam-Reason: safe
 
-cs35l56_hda_mixer_get() ignores regmap_read() and
-cs35l56_hda_mixer_put() ignores regmap_update_bits_check().
+On 23/04/2026 2:11 pm, Cássio Gabriel wrote:
+> cs35l56_hda_mixer_get() ignores regmap_read() and
+> cs35l56_hda_mixer_put() ignores regmap_update_bits_check().
+> 
+> This makes the ASP TX source controls report success when a regmap
+> access fails. The write path returns no change instead of an error,
+> and the read path continues after a failed read instead of aborting
+> the control callback.
 
-This makes the ASP TX source controls report success when a regmap
-access fails. The write path returns no change instead of an error,
-and the read path continues after a failed read instead of aborting
-the control callback.
-
-Propagate the regmap errors, matching the posture and volume controls
-in this driver.
-
-Fixes: 73cfbfa9caea ("ALSA: hda/cs35l56: Add driver for Cirrus Logic CS35L56 amplifier")
-Cc: stable@vger.kernel.org
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/hda/codecs/side-codecs/cs35l56_hda.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
-
-diff --git a/sound/hda/codecs/side-codecs/cs35l56_hda.c b/sound/hda/codecs/side-codecs/cs35l56_hda.c
-index 1ace4beef508..dc25960a4f23 100644
---- a/sound/hda/codecs/side-codecs/cs35l56_hda.c
-+++ b/sound/hda/codecs/side-codecs/cs35l56_hda.c
-@@ -180,11 +180,15 @@ static int cs35l56_hda_mixer_get(struct snd_kcontrol *kcontrol,
- {
- 	struct cs35l56_hda *cs35l56 = snd_kcontrol_chip(kcontrol);
- 	unsigned int reg_val;
--	int i;
-+	int i, ret;
- 
- 	cs35l56_hda_wait_dsp_ready(cs35l56);
- 
--	regmap_read(cs35l56->base.regmap, kcontrol->private_value, &reg_val);
-+	ret = regmap_read(cs35l56->base.regmap, kcontrol->private_value,
-+			  &reg_val);
-+	if (ret)
-+		return ret;
-+
- 	reg_val &= CS35L56_ASP_TXn_SRC_MASK;
- 
- 	for (i = 0; i < CS35L56_NUM_INPUT_SRC; ++i) {
-@@ -203,15 +207,20 @@ static int cs35l56_hda_mixer_put(struct snd_kcontrol *kcontrol,
- 	struct cs35l56_hda *cs35l56 = snd_kcontrol_chip(kcontrol);
- 	unsigned int item = ucontrol->value.enumerated.item[0];
- 	bool changed;
-+	int ret;
- 
- 	if (item >= CS35L56_NUM_INPUT_SRC)
- 		return -EINVAL;
- 
- 	cs35l56_hda_wait_dsp_ready(cs35l56);
- 
--	regmap_update_bits_check(cs35l56->base.regmap, kcontrol->private_value,
--				 CS35L56_INPUT_MASK, cs35l56_tx_input_values[item],
--				 &changed);
-+	ret = regmap_update_bits_check(cs35l56->base.regmap,
-+				       kcontrol->private_value,
-+				       CS35L56_INPUT_MASK,
-+				       cs35l56_tx_input_values[item],
-+				       &changed);
-+	if (ret)
-+		return ret;
- 
- 	return changed;
- }
-
----
-base-commit: 876c495d412ef67bd4d0bdc4b74b0bd3d9f4e890
-change-id: 20260420-alsa-cs35l56-asp-tx-source-errors-8d10c3258304
-
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+Are you seeing a problem on hardware? Or is this a static analysis
+warning?
 
