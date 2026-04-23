@@ -1,203 +1,236 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CD43793BB;
-	Thu, 23 Apr 2026 10:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776939012; cv=fail; b=ZknSa9+ERnXg4oyFfLoFcON12PsmFOArPeDyYq1Mb1rbU8QbE+C/m2gaTAfsIbBd2Kr2vz4HMfbGdxGwJd6YJPNXTBM6dREogeyJtW1EMg71Rycf0w9PF8P9MN4LDxC92Px5lEdjf1cSzfryDdJTFLv9op9PAXMRfE2eVY8ekXc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776939012; c=relaxed/simple;
-	bh=R5zBjjfqpByTSo0tYAB7mvzSkFUeCSgC7YMnZ8BKtQI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AUuStNnMlawY0+8o6cf435nJjbaZJ+Msa948smUrM9UD+rkdKPShEOi28bUaXqWqivhSyuteT7TSFrg5VBIN5+ys7w+9hSJLDI2UqFbPK9LeGHuSD7bEoTPFwgJwKqp81C9nOppGT7n5hn9ukdPfA03b21ZUkoW42CAp2LGChSc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=aW0pV0/t; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=D8GYM4Oj; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BBBE379EE6
+	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 10:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.122
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776939249; cv=none; b=pcmJyvv2IbTCRnJ4FPmTsRSmPdhI8rmLI5iXtyaxBuzeEOiEpe3E/5VrJekcvMmo/wARyW2qVO/9hqkLiHb35c3rcIFoLNi39G2FWcSyttjRrxkWn69jqCTILEd8qvQbBG9fYjNjN/hN14ZQDmnUShzL3IAPcnAoZGU0sJEXawA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776939249; c=relaxed/simple;
+	bh=9Gi2UeJiHgL8A1nFLQOErKqePeAwxk/3845DEoBewrA=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=I5epA7z8ZUPCgWqli27cypw+DUbKCViWgmYeg+GF6RsYsagBSxs1qqghRsnYNi0JwA6tRASetpmClZwvEi1JqPIiXxuBCbs8QAyqGq+zFm4YzHaT9hD8r+cO6wSzrVhoiViffEVxO0ENipVMCfkSlKeRRI20OuslRj7L5Yw6ml8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=l69/rEP7; arc=none smtp.client-ip=185.125.188.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="aW0pV0/t";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="D8GYM4Oj"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63N3uxME2984847;
-	Thu, 23 Apr 2026 05:09:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=cDQxqboDZV+DtcWZu9RLAwGOUlkwYuJ4SQkUYsRE5pI=; b=
-	aW0pV0/t17KcyiX1eD/J5p7MenInhqx2BRVreRzgjUCKFB21tD+VcPVskjWbdIBr
-	8NWMM0AK0AwhIC0I09h0eLw7LvuekV8nzYZRZgvT0Lktgnw6Gv2StySmJc5A7zTq
-	rfHY7zoAUXnZYFKDGuIpEypjlP3GaC4BuNkMC2rNyMtNVzB1XhMuqUGmIOYfCARZ
-	B9HKAS2FH2hncjYB0+9WKq8yhPC6f1KBogMB0/PiLGWUCY+d5dL6ZVJlgkm4WfnQ
-	D6RsLw5KPNZw3JUoeMpMxhZ0qlaThV/d+SIXMau+/GT5OS9FpUnBQ3uazgPQBt0r
-	Vtbf2ZnDTBJjjiWnoGdZvQ==
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11021109.outbound.protection.outlook.com [52.101.62.109])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4dpenu28rv-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 23 Apr 2026 05:09:41 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=syNj9Yf3n7498GK8xrNVF9b3Eq+GRwjiskZTK7sdLXyIeBCkmghJYvUGzTF2EABzoKQw0mucSG0mNnRAcVyk/r8CrNlLbrglhMePqbv8p/9WIhG6kfAHe5KszMGsZkb7s4oZRlo7T6Qc3SSYcuP1+3WN6bghZKYCaZ48idtZ+CyEjPUHwv/rU2uQBCwhN/B+aGs+em77Zep34EKF3hrXb+/EhnCIL6nh1JgwaHdYFjVZu/YFF2manObAEgD562QK191iQgIFzeGrjE4Q522fFlX52yAAZetbgveL0ZwlbSIijU7r3dkSdG2+OaY6EkWWY0ccjR+eGuqc504d7dt9ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cDQxqboDZV+DtcWZu9RLAwGOUlkwYuJ4SQkUYsRE5pI=;
- b=VYXcrxZMmvz66iurnDFuJaqFk0f3kEBlSN25kcroDHVZja/CNIFPzMnaYA/09Cc+JAAo4C2m4zLrZ3AKwyMVm1Ss1O+bKrVHxLzL5qAHaJd2bBWBKcjBshIFeEk7nQBRRN5gOEQUdUQbGtWx+faPo5I257i6+79Sld8AolkQQ18XMAbfaQtmv4MX5FsVfcQzIFP59cREdNvaQ10itkZWMyJwogu5HFvRXKTQtTOqMyEtgN+rmJXm1LqJTdePisEAIfk9dk7JNk5FPm08FdVFCsg5gVp2HAPLKRVO22mVRHu0+Lay1s63XkwmBQ9c+gHmAX3Y+1g0JzkxdGIBxbbjfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cDQxqboDZV+DtcWZu9RLAwGOUlkwYuJ4SQkUYsRE5pI=;
- b=D8GYM4OjNQ0wdjlaUeCkGhGvKNVFlucmkT8afDLfxDSfzdwvERJLFpu2XvMjkj+YQmySr3jiJy6wXs6qX1noQCdw3Xyrk5VH9u7leN7kA7pNbJe3MRuGaojL2rD/Df/B07bEBS6UE5DcTR06ABx2bNpoqdj7nvXS35X3dCmfiX8=
-Received: from IA4P221CA0005.NAMP221.PROD.OUTLOOK.COM (2603:10b6:208:559::10)
- by DS0PR19MB7498.namprd19.prod.outlook.com (2603:10b6:8:149::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.21; Thu, 23 Apr
- 2026 10:09:37 +0000
-Received: from BL6PEPF0001AB75.namprd02.prod.outlook.com
- (2603:10b6:208:559:cafe::be) by IA4P221CA0005.outlook.office365.com
- (2603:10b6:208:559::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.22 via Frontend Transport; Thu,
- 23 Apr 2026 10:09:37 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BL6PEPF0001AB75.mail.protection.outlook.com (10.167.242.168) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.18
- via Frontend Transport; Thu, 23 Apr 2026 10:09:37 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id BA829406540;
-	Thu, 23 Apr 2026 10:09:35 +0000 (UTC)
-Received: from [198.90.208.24] (ediswws06.ad.cirrus.com [198.90.208.24])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id A0933820247;
-	Thu, 23 Apr 2026 10:09:35 +0000 (UTC)
-Message-ID: <63c18e33-b2bc-492a-8879-3e298ca81465@opensource.cirrus.com>
-Date: Thu, 23 Apr 2026 11:09:35 +0100
+	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="l69/rEP7"
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 291FB3FEB4
+	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 10:14:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20251003; t=1776939243;
+	bh=ibjJki248JoN3yaZbt15RJg6fscWNGTYVJ5M96Tgzeg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=l69/rEP7ph6JMrlUmm5zo6KHIWFr/Dep7aVV2YG374Lhm1UTdhHqKp5mZ49FxBQSj
+	 PnjNCo+cBVv2B7Gp8MZWeTVTVyy00Bdqq9lO1vH3kUBm+kfs1LnqqQ+8eBwYDVO8S/
+	 qGI0do7q+QZfFjlxwGVXM86Cih74+7CvXmHtFeFVXIvBEQK31B/kYYoAl13iCQRo1U
+	 lGKbEQUoqjaALX8oBty/N50aUe+hsVo3UdQWy0PgODfu9ejWU+RTP/MuFCbzH0q6Ps
+	 hGRURS8RaX/vv73F1Qh08BbzZIAJI3A05I74QYxte2mqoYiYEKqfnLfDGwFtLFaYsJ
+	 BFmxluaNl/QcOb5hNvS7OUs96fNid98blCJfoCXa3Dd730kzUjE0i6iufqOmxak+OX
+	 1ImPh/b8yYrF8oGqp45pTGk0zJL0G5U8mQIa2IlkRl3v0FkWK/KVelfOlkGw+K12yP
+	 5NXr06JjOYMFVZz7gkYGfpirzR6/CvX2UyWFooKFqUQwzT4unThKda4Wtfa+G8v7cQ
+	 yDbNIOSQcJQ1lhMx7+12CZBnJJ5aaT4bC4ffd/BvPpr9R/PmJI6fqdWcyKVLCN7hl5
+	 4GR1PSU4KtE/oL8EyZJlQu62jbB4cB7b9WPgrVJVIO5+trEe9X3qKe7IHa5Br4YuWn
+	 L672G4WIlEjOB4k/o+3nov7c=
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2b24308165dso74913735ad.1
+        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 03:14:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776939242; x=1777544042;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ibjJki248JoN3yaZbt15RJg6fscWNGTYVJ5M96Tgzeg=;
+        b=RJpElYXSO7jMLX4PqrgCQg1D7cI8i56Mlpb4v5M4ISOZZduhTpSV6tRhXRKAK7PFrV
+         i4KUFkakpnQ35G1WKN1dzsgWFHOnkuA6ls5jqLWKSTn32nZdstzcgSLNDbINEpbO4XD3
+         4XGEmGslbXYlJNG9qcymcjfZPmnTwacd3gJkPToUK3xq0VnfNlvYEvW+kt8tksx87N/X
+         T1U8nzaTv5U0x+hZ8Ex6UF0blsUZg63g236TOr3sNCFG/hJUn07egl7qdHuz5t0MehjN
+         asgYN7Uxn+4YmURK640z4KAgnRhiGKXqFi647KQpVPJD0yUGRMa8UUltcO3VH7Iby/PU
+         MVYQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8oKiFW1pOdsU69JJQquhwMI2ZAyCVjGUbxPsr4Z9cSWlcpjNpB49NeRJAcs69pjZQYEli3jSk3PUBZgw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywhqt/3/+FFvE4M8x+msdws2Frrkt7LU98dzxjD6Zr2s1wAYBPA
+	Go8DIH6KTugMUex3ilyKu2B7dSoh23g5/OY6uT47yfeQiTLmE9cdQinrQWK1yyJyRAt9Z/m4AXC
+	nmQrve4bCrfONvF/8X0ejRMjM6VGBXnom2VWh6PQvUkpw6di2guPzlvvURzF6mqcTwEix1y37fN
+	AOIPLf
+X-Gm-Gg: AeBDietrd2nRbPAv3Z7K8B8RbG6hIF6uZBu+/sK4KYoaChy7nI/l+fctfz3qBaAAPtO
+	y5+jPdGTLW1MRzVlU2QN4AUxmfS9uxqnZdKLhDoQkNbt24vgBH5OOU/H3JpyZvlZReMcTuhGAIT
+	JU2+MZxakV2ACfv6AT3yTb+zPL9BhX/vgDfsQfU0vv+CTP4fCKMBoX+MJhfEdrKNAvs8Gh1MlY3
+	/wVK5wHLNIhAk/maqZpH4+lllLRfg+xFDrxEejWP++XpKamIgRd7ZYq2o4kt+pW76XsRTRBcsJd
+	LC4O9Qr5MewPoNNx3d1EfLryk+7NebrrR46B3MZt3Ivuir/4fmVmvC6kyFsOHAwqmZOQMgOcLrg
+	AA6MpZ+pingwKPW63/FilhsGT/jLgh+icKZCTxU1tqmfXfTpZ
+X-Received: by 2002:a17:903:2986:b0:2b2:4c58:5ba7 with SMTP id d9443c01a7336-2b5f9f43679mr284364765ad.30.1776939241763;
+        Thu, 23 Apr 2026 03:14:01 -0700 (PDT)
+X-Received: by 2002:a17:903:2986:b0:2b2:4c58:5ba7 with SMTP id d9443c01a7336-2b5f9f43679mr284364515ad.30.1776939241379;
+        Thu, 23 Apr 2026 03:14:01 -0700 (PDT)
+Received: from localhost.localdomain ([103.155.100.1])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab405f3sm187974685ad.78.2026.04.23.03.13.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2026 03:14:00 -0700 (PDT)
+From: Aaron Ma <aaron.ma@canonical.com>
+To: oder_chiou@realtek.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: rt722-sdca: add FU06 Playback Switch for speaker mute control
+Date: Thu, 23 Apr 2026 18:13:38 +0800
+Message-ID: <20260423101338.1040131-1-aaron.ma@canonical.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: cs-amp-lib-test: Fix some NULL vs IS_ERR() bugs
-To: Dan Carpenter <error27@gmail.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
-        kernel-janitors@vger.kernel.org
-References: <aenFqUC8X2CucQwb@stanley.mountain>
-Content-Language: en-GB
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <aenFqUC8X2CucQwb@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB75:EE_|DS0PR19MB7498:EE_
-X-MS-Office365-Filtering-Correlation-Id: d68f2927-0337-4c66-8836-08dea1206cf2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|36860700016|61400799027|56012099003|22082099003|18002099003|16102099003;
-X-Microsoft-Antispam-Message-Info:
-	SfPCGWDq9UxhxgQIFMv1yyTfkGdpXeFbDYss4iVF/eD2S9eajeTaW6GUcSLJq0IIRlEGGK3hO3fWkyCOz84km17jJ39iGdfyViNHAd461T1UFMktXyJmAAk9MptNam9ZzUJcyWgGvYeBfr1QduesRm3zQFfse+VZTvLG8hst1fSwAcGAWMkarhUqdQQQ8w3MoqBqN2j8FjeHaVvf3VdH62iadHDT+AMz1XKFbIS6e07qsGUIju9MpnLFvqWEeqyC6wPLB2AliDLlZaTSVTlzuUG35GhVMESUqPl/XQ/zzLf0uizfwbrmM8oTif3KkJzHQvQOJJuauZnUN7rW0VmNTn4CD3YwYGAVDatnU6gS1VeJDWgqXpBPtVpZusdcTToxFvIW1MoKc+4kFwqEnBqAj7SXTd1iF5aX6wd1dGxeLJXwgbxRq8Iyfjo6OH9+WYtC643mjfIm2LroOWBpqO8ZXvXCkj1t1JFaAw4eSR5VrZZbMNmz7cdiJvcUq6k9M3IWuOJw6KsMIsvFF5PoF/r8ci2kIGLsmGC6Y3E2tuxd+WIpKXmtiIJYG9PI+YVqw7RcPSCgTnZeuiCk/kW4Ui7DDmzUoGsEIdzW4TUZzXPVNW7et697fFhja5XPS9qCadmehU5Yosxmr0dvqmrMeEJKTvKJT+IHWZjpzgbCevEXWw4080fPJBu0qsX4O32QxEhqaHreYG6Y6xBOlqJ9tMibhCAb0cUtGe2a859lD3PNsuoiFiNkpkADmpLoEcIocx5JW3v7F65DTCBKdEfx8mrHZg==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700016)(61400799027)(56012099003)(22082099003)(18002099003)(16102099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	P2UmVAhYWZk05mQIlbsJA+0FWFVhmDjKssjI1eXsZfMkE9JVPh8nUJIodFvGKF3YxC9tx8r3Hu96mrgB3zUWbx3wSG9Vu6fLNURJiv6tPnVXiJAjwEnCGZhwIekt6Cu7mntNzcg0XhBZk/pEPptRNVrtEuespmeggXWsvHNj/3fARZeQ+0GMsD2oK1vWzZlvy4/9t+5yoIn6ljDncxi3UU/+AtkHyEYl5WTTiDaJ9zntmlx6nDsRmpS+4uqR89MEm+NO1lLNpAjXk+mMPssVT0xFEsTJOrgTHZL1vTiozyw1aaJMPvQYfaQopVC0ov9U2S5+5o6QbrqyqQxkj0wqA4qa714lIlIHYiMI0mL3GltUqnseqYIWJSTOEjgjFREeij9SYGfyG1JwA63fG8PchB5dlcz33D4cxXUWXbmGDxWxzUMaRBf45Kp18l66iEsO
-X-Exchange-RoutingPolicyChecked:
-	LYYHmuGLGqVWAluSv8g/KPzsZnGKzCpV2zsg/4r6h1ioXjjIsnmWxJQ3nbVxaVwi70+pHUFW4l+SZHcV9LG4d/7e20YL5WsEgjk5TbcbiKZKnxMZH5oymcsRpM69myuZM5G9itQo+EZl37RMjKrqZi+DL14fpCh/6EgV0gPDzmDmMHBD+b72PRMrW4rXOuMgPvAT5SR/IJIPfpu1xycYoIgzjOqGuRGHMqOU10rJtJ354y4QS1cIghydTTM9Fua0r19wyGG7+bJcEislkG4PyYLPmm+6jxjCv/WQXGuVupUuVPV+c0KztlQFrWjDEkdA7nvZ1FKr8Z+IT8tVF7r8Tg==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2026 10:09:37.0000
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d68f2927-0337-4c66-8836-08dea1206cf2
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL6PEPF0001AB75.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR19MB7498
-X-Authority-Analysis: v=2.4 cv=DbknbPtW c=1 sm=1 tr=0 ts=69e9efe5 cx=c_pps
- a=4XUxxCGR/dZid869Kuw6NA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=pGLkceISAAAA:8 a=qPN4gXW9k4pzgnuM2kEA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: 5OWyXQuA9lC4HFOUofmQ2r8s4Pj4xx0a
-X-Proofpoint-ORIG-GUID: 5OWyXQuA9lC4HFOUofmQ2r8s4Pj4xx0a
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIzMDA5OSBTYWx0ZWRfX/cJ8wLgAVlH8
- iuJdmby9py/1NYTqJ5EFLcBhx0dC9pOTQ7/YvIJX+ivIVziXqC8oNgT4RsRfNXHmVx64lEqAC0Z
- KK5RHw+rT6vgmKBJzO/fDpUT4GPWyvIGPXP9llNfYkSWrhKbg2i2l6qLiI0CLDpWfA4xL/KIga3
- M4B1KArFy2pMZ3aUOFsU6XHDIVDAGH1lAdK2R283WQ1IQYmWc/6d4eKp9UhZMixgKNv62srxTQj
- 7iEuwytF975xMIx7p0vKv/nzXW3r1IsXxdqIk9U3D8gRaC/jz2LwAcYYOIQdUOHW8flDm23hvTK
- d6wAz7Q++pNt5PXM4cvQAPu36VHL6a3+Qmi1TKFeklXteUC8bptk5D+ci9pxLW0MenHcChWcNOG
- iPz4pgzR97sh2DM36Jygv5gfocKD2FMB+5GneL3JkTy/Ao4ymXVLRdZ50gzG+UpT6mlwrOZXD7g
- xi6MakDlqFFQn4GDF+Q==
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
 
-On 23/04/2026 8:09 am, Dan Carpenter wrote:
-> The cs_amp_devm_get_vendor_specific_variant_id() function doesn't return
-> NULL, it returns error pointers.  Update the checking to match.
-> 
-> Fixes: d70fa6b569a9 ("ASoC: cs-amp-lib-test: Tests for reading SSIDExV2")
-> Signed-off-by: Dan Carpenter <error27@gmail.com>
-> ---
->   sound/soc/codecs/cs-amp-lib-test.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/sound/soc/codecs/cs-amp-lib-test.c b/sound/soc/codecs/cs-amp-lib-test.c
-> index 636d0f3198b8..bb0cfd9d5db2 100644
-> --- a/sound/soc/codecs/cs-amp-lib-test.c
-> +++ b/sound/soc/codecs/cs-amp-lib-test.c
-> @@ -2360,7 +2360,7 @@ static void cs_amp_lib_test_ssidexv2_fetch_invalid(struct kunit *test)
->   				   cs_amp_lib_test_get_efi_vendor_sysid);
->   
->   	got = cs_amp_devm_get_vendor_specific_variant_id(dev, PCI_VENDOR_ID_DELL, 0xabcd);
-> -	KUNIT_EXPECT_NOT_NULL(test, got);
-> +	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, got);
->   	KUNIT_EXPECT_EQ(test, PTR_ERR_OR_ZERO(got), -ENOENT);
->   }
+The rt722-sdca codec driver exposes FU06 Playback Volume but no
+corresponding mute switch. Without a user-facing ALSA switch, UCM
+cannot attach the speaker mute LED via snd_ctl_led, and PipeWire
+cannot drive hardware mute.
 
-No, this is incorrect because we are expecting to get -ENOENT but now it
-will fail the KUNIT_EXPECT_NOT_ERR_OR_NULL() and not proceed to the next
-line where we assert that we got the expected error.
+Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
+---
+ sound/soc/codecs/rt722-sdca.c | 77 ++++++++++++++++++++++++++++-------
+ sound/soc/codecs/rt722-sdca.h |  4 ++
+ 2 files changed, 67 insertions(+), 14 deletions(-)
 
-The asserts are:
-1. It should never return NULL (because it returns ERR_PTRs)
-2. It should return ERR_PTR(-ENOENT)
-
-The same for the cases below.
-
->   
-> @@ -2376,7 +2376,7 @@ static void cs_amp_lib_test_ssidexv2_not_dell(struct kunit *test)
->   
->   	/* Not returned if SSID vendor is not Dell */
->   	got = cs_amp_devm_get_vendor_specific_variant_id(dev, PCI_VENDOR_ID_CIRRUS, 0xabcd);
-> -	KUNIT_EXPECT_NOT_NULL(test, got);
-> +	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, got);
->   	KUNIT_EXPECT_EQ(test, PTR_ERR_OR_ZERO(got), -ENOENT);
->   }
->   
-> @@ -2391,11 +2391,11 @@ static void cs_amp_lib_test_vendor_variant_id_not_found(struct kunit *test)
->   				   cs_amp_lib_test_get_efi_variable_none);
->   
->   	got = cs_amp_devm_get_vendor_specific_variant_id(dev, PCI_VENDOR_ID_DELL, 0xabcd);
-> -	KUNIT_EXPECT_NOT_NULL(test, got);
-> +	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, got);
->   	KUNIT_EXPECT_EQ(test, PTR_ERR_OR_ZERO(got), -ENOENT);
->   
->   	got = cs_amp_devm_get_vendor_specific_variant_id(dev, -1, -1);
-> -	KUNIT_EXPECT_NOT_NULL(test, got);
-> +	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, got);
->   	KUNIT_EXPECT_EQ(test, PTR_ERR_OR_ZERO(got), -ENOENT);
->   }
->   
+diff --git a/sound/soc/codecs/rt722-sdca.c b/sound/soc/codecs/rt722-sdca.c
+index 79b8b7e70a334..23d2f63d68ef3 100644
+--- a/sound/soc/codecs/rt722-sdca.c
++++ b/sound/soc/codecs/rt722-sdca.c
+@@ -517,6 +517,61 @@ static int rt722_sdca_fu1e_capture_put(struct snd_kcontrol *kcontrol,
+ 	return changed;
+ }
+ 
++static int rt722_sdca_set_fu06_playback_ctl(struct rt722_sdca_priv *rt722)
++{
++	int err;
++	unsigned int ch_l, ch_r;
++
++	ch_l = (rt722->fu06_dapm_mute || rt722->fu06_mixer_l_mute) ? 0x01 : 0x00;
++	ch_r = (rt722->fu06_dapm_mute || rt722->fu06_mixer_r_mute) ? 0x01 : 0x00;
++
++	err = regmap_write(rt722->regmap,
++			SDW_SDCA_CTL(FUNC_NUM_AMP, RT722_SDCA_ENT_USER_FU06,
++			RT722_SDCA_CTL_FU_MUTE, CH_L), ch_l);
++	if (err < 0)
++		return err;
++
++	err = regmap_write(rt722->regmap,
++			SDW_SDCA_CTL(FUNC_NUM_AMP, RT722_SDCA_ENT_USER_FU06,
++			RT722_SDCA_CTL_FU_MUTE, CH_R), ch_r);
++	if (err < 0)
++		return err;
++
++	return 0;
++}
++
++static int rt722_sdca_fu06_playback_get(struct snd_kcontrol *kcontrol,
++			struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct rt722_sdca_priv *rt722 = snd_soc_component_get_drvdata(component);
++
++	ucontrol->value.integer.value[0] = !rt722->fu06_mixer_l_mute;
++	ucontrol->value.integer.value[1] = !rt722->fu06_mixer_r_mute;
++	return 0;
++}
++
++static int rt722_sdca_fu06_playback_put(struct snd_kcontrol *kcontrol,
++			struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct rt722_sdca_priv *rt722 = snd_soc_component_get_drvdata(component);
++	int err, changed = 0;
++
++	if (rt722->fu06_mixer_l_mute != !ucontrol->value.integer.value[0] ||
++		rt722->fu06_mixer_r_mute != !ucontrol->value.integer.value[1])
++		changed = 1;
++
++	rt722->fu06_mixer_l_mute = !ucontrol->value.integer.value[0];
++	rt722->fu06_mixer_r_mute = !ucontrol->value.integer.value[1];
++
++	err = rt722_sdca_set_fu06_playback_ctl(rt722);
++	if (err < 0)
++		return err;
++
++	return changed;
++}
++
+ static int rt722_sdca_set_fu0f_capture_ctl(struct rt722_sdca_priv *rt722)
+ {
+ 	int err;
+@@ -718,6 +773,8 @@ static const struct snd_kcontrol_new rt722_sdca_controls[] = {
+ 			RT722_SDCA_CTL_FU_CH_GAIN, CH_R), 8, 3, 0,
+ 		rt722_sdca_set_gain_get, rt722_sdca_set_gain_put, boost_vol_tlv),
+ 	/* AMP playback settings */
++	SOC_DOUBLE_EXT("FU06 Playback Switch", SND_SOC_NOPM, 0, 1, 1, 0,
++		rt722_sdca_fu06_playback_get, rt722_sdca_fu06_playback_put),
+ 	SOC_DOUBLE_R_EXT_TLV("FU06 Playback Volume",
+ 		SDW_SDCA_CTL(FUNC_NUM_AMP, RT722_SDCA_ENT_USER_FU06,
+ 			RT722_SDCA_CTL_FU_VOLUME, CH_L),
+@@ -807,27 +864,17 @@ static int rt722_sdca_fu21_event(struct snd_soc_dapm_widget *w,
+ 	struct snd_soc_component *component =
+ 		snd_soc_dapm_to_component(w->dapm);
+ 	struct rt722_sdca_priv *rt722 = snd_soc_component_get_drvdata(component);
+-	unsigned char unmute = 0x0, mute = 0x1;
+ 
+ 	switch (event) {
+ 	case SND_SOC_DAPM_POST_PMU:
+-		regmap_write(rt722->regmap,
+-			SDW_SDCA_CTL(FUNC_NUM_AMP, RT722_SDCA_ENT_USER_FU06,
+-				RT722_SDCA_CTL_FU_MUTE, CH_L), unmute);
+-		regmap_write(rt722->regmap,
+-			SDW_SDCA_CTL(FUNC_NUM_AMP, RT722_SDCA_ENT_USER_FU06,
+-				RT722_SDCA_CTL_FU_MUTE, CH_R), unmute);
++		rt722->fu06_dapm_mute = false;
+ 		break;
+ 	case SND_SOC_DAPM_PRE_PMD:
+-		regmap_write(rt722->regmap,
+-			SDW_SDCA_CTL(FUNC_NUM_AMP, RT722_SDCA_ENT_USER_FU06,
+-				RT722_SDCA_CTL_FU_MUTE, CH_L), mute);
+-		regmap_write(rt722->regmap,
+-			SDW_SDCA_CTL(FUNC_NUM_AMP, RT722_SDCA_ENT_USER_FU06,
+-				RT722_SDCA_CTL_FU_MUTE, CH_R), mute);
++		rt722->fu06_dapm_mute = true;
+ 		break;
+ 	}
+-	return 0;
++
++	return rt722_sdca_set_fu06_playback_ctl(rt722);
+ }
+ 
+ static int rt722_sdca_fu113_event(struct snd_soc_dapm_widget *w,
+@@ -1324,6 +1371,8 @@ int rt722_sdca_init(struct device *dev, struct regmap *regmap, struct sdw_slave
+ 	rt722->first_hw_init = false;
+ 	rt722->fu1e_dapm_mute = true;
+ 	rt722->fu0f_dapm_mute = true;
++	rt722->fu06_dapm_mute = true;
++	rt722->fu06_mixer_l_mute = rt722->fu06_mixer_r_mute = false;
+ 	rt722->fu0f_mixer_l_mute = rt722->fu0f_mixer_r_mute = true;
+ 	rt722->fu1e_mixer_mute[0] = rt722->fu1e_mixer_mute[1] =
+ 		rt722->fu1e_mixer_mute[2] = rt722->fu1e_mixer_mute[3] = true;
+diff --git a/sound/soc/codecs/rt722-sdca.h b/sound/soc/codecs/rt722-sdca.h
+index 823abee9ab76c..fc50beff94245 100644
+--- a/sound/soc/codecs/rt722-sdca.h
++++ b/sound/soc/codecs/rt722-sdca.h
+@@ -36,6 +36,10 @@ struct  rt722_sdca_priv {
+ 	bool fu0f_dapm_mute;
+ 	bool fu0f_mixer_l_mute;
+ 	bool fu0f_mixer_r_mute;
++	/* For AMP */
++	bool fu06_dapm_mute;
++	bool fu06_mixer_l_mute;
++	bool fu06_mixer_r_mute;
+ 	/* For DMIC */
+ 	bool fu1e_dapm_mute;
+ 	bool fu1e_mixer_mute[4];
+-- 
+2.43.0
 
