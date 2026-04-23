@@ -1,83 +1,320 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F074137C914;
-	Thu, 23 Apr 2026 18:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C79730BBBC
+	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 19:35:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776969458; cv=none; b=BS/Q+pyTGlrjX5CiuD5FyYaugbkdtrL86V5KzFb+uFzr3JQusxPEP78yCaX6QyPK5OJJNh5q3HwsGuAXni7BWDFVyFhmiW7/DLeIEROdYJ8FVA1qQyRzPT/tazVUSaL53Ki3MseuiCDwUpxSB3vOLDD9GSe3EZ0iwbIZ/5EWqEE=
+	t=1776972961; cv=none; b=hXIPFfO4HhwiRFqAMPi3+8Ldxnf67OupknxA3RowzQQAfDWBcq4tGOPCiojDgLqs9SgU8eoJBkINfGObOOp9Tt78eaLINh4r+gxyysFiuPOLeMGn1fIOrfg4uRivRlQdyHxvQe5iC4/lhpQL5hxlBarUeC3RhkVrIRpO50Sp1Hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776969458; c=relaxed/simple;
-	bh=zd36ffggd3VWRH4Dmqd/xnuvocBVqlQil8+V0iyjQn8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VHDrWotHS4TajJzGap502T4LU/YMa7qO20C3iFYvbkN7XDyfur24mSG62XopyQgsfRVpV1HHIEIeuivoXgwNOrzwdnbeLg0b6DxAmtfT9EvVqbHDK/9h/kAg4uyDWHbxKP/Z3uus6dZ0+2YGjmJwRxcVoP0IgLGt3CpB2DfWJwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=geBHZ4DJ; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1776972961; c=relaxed/simple;
+	bh=+ROQYDUPR3KaBdvxioUxfURKPK2CiZkWQqklVW22WfA=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ntyj0SONb50f2mzCFXtVPhGK91au5gURfvz+0wdq/eSOIk4O/G/2P5isRI3zBK/iE400cDd+8ujUOrJaRHuCKj3+RsfiN+s4CiohKEUgpeYBEFDlflX9a95BNBReJ5TTa/GtxV7PYSd/Lzap5NWPznOUUaBWY6tlE6KToqOhCts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i8PBWYqr; arc=none smtp.client-ip=74.125.82.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="geBHZ4DJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=ZjfbCyv+q8Q2fdC9++f/81D7Y4BHFovHuItmWHcIQrk=; b=geBHZ4DJTe2RwY5N7I3cdKLxhz
-	B7aYxVtPSWp8ZFpm1cgjU7KiELn0FPpr4nRxQ5cGZDkkX8/MH0Rx8MRkNYtyfrbkwS7l6EEqEpggc
-	sDQzW/63j/1EheHC1UW5ULReaH14kqnUJTboR7gOrHVOzloMDkVFUiiJRLj1US2I25fIpNY/WsDh+
-	iKazRHOJRVk0ZggjdY3oMENzra/fC2SSp82t1KXvzO460V4MljqekDgb6Gb0Q3oDmwSJwrIcngwY9
-	3s0HyGktgiY/qRa/fZN0uvpHQhEMXsBWZMMzIEkCsT7qVLsTbjRszfshRV5ZEx2Bd25UY/QXBMYJ2
-	9FJf35GA==;
-Received: from [179.111.22.136] (helo=[192.168.1.56])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1wFyvZ-001EK4-5G; Thu, 23 Apr 2026 20:37:28 +0200
-Message-ID: <9b11564e-bb1c-b606-4968-9fcecb10c181@igalia.com>
-Date: Thu, 23 Apr 2026 15:37:23 -0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i8PBWYqr"
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12c8f9846c8so6459904c88.0
+        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 12:35:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776972959; x=1777577759; darn=vger.kernel.org;
+        h=in-reply-to:content-language:references:cc:to:from:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h/qPcMgZ+YR+uvy+PQQIty7E7QSzK0iXUhqFNtXYgWA=;
+        b=i8PBWYqrmrreRuj2aOxJSEfDMDtFSMdYOhsVdFxSlfUBGZwlH9hEh3+Jc3rePqkYD9
+         SHKvuDptCdtOme4yt3+XKD4OUKR9Jci5vmxaJdP1lqd/IcBMrzSE+nAhp8kgjjjVFdRQ
+         T6rcNgTPzJfwG7HvsxrhAnLpJofuBkI1qWkYkOk7WO7EDp4a9t5yqxhQzax5hX84lfr9
+         D4F4pdue3FD5I5o5RP+ahiazhxM0B2WUIOsTH9lh/RvZ4XZuetTJTa0xeSCSYBT2S8eQ
+         ufEg94Zfo1HJWPY7UYcSvVK4Bz0aj54H0vCwqUnAU0iVd7pteIWmE8o4+eaBa8wUWI7w
+         zyxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776972959; x=1777577759;
+        h=in-reply-to:content-language:references:cc:to:from:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=h/qPcMgZ+YR+uvy+PQQIty7E7QSzK0iXUhqFNtXYgWA=;
+        b=djmPgYYysb9u1xqoO8pfvQ1EGbBUHZrwEczBoV40JRdHER6c17jpyuNAMlKpUAcXxa
+         QnCGiOWo4fSLrcqbRVjW5f5dGW+fRrdDPzo0ZuGPd/uFiSKpAUZ9VhrPFApVsLNdKBBA
+         WHEwoSPxlPOKEd//iUGPAlP9OTGAxCe+wyTGKkSJ5nhve9sOATpbweue/3BsfYrxqsg/
+         78WrhVQS1y3CV3NBphzjrk80seop3vrTY+RnMDR/9P9maDfEhEXk/dunKGmmx14h8e8D
+         WmN+xZAjVdrTs/vxrmcREWkb2r+05aC/rjE9IyvBV2X7pEBcSF/Z0tF5lklhWSoFewjP
+         yKEQ==
+X-Gm-Message-State: AOJu0YwFnpVP+CrDkRHpqSoDwoiKKohIWDd4Vw6W9h4BhQRi6sycS3ir
+	jwBX53y7aXdr/6TGlUtqdvsZSE0sirknnA1iU5Z5xkd27kVmyBfBj3Fq
+X-Gm-Gg: AeBDiesTKF2uYoijTNmiou7nHYbjrcDzO4Kc4G2eXTOH4ZsRFydeYp00hexh7CHmSwn
+	sKIviSxLK2kmmvhcutquaBnDzkqU0yphb8nFCpOXxDEK77VV54PNO/3UvOhOAwZ7L6mzd+3UMp+
+	yeDQqtvFTgGWEVcVv8nTQvz+HB9dyrpVNWnXMTgDH15eL85VjVS3AU5i4ffqKREuVhdlxBffTQf
+	VfoMOy05eZpkPDUmE+QFvBrgIcbXJVuiArPHMfqugRjWr4ba7PqvUVzZ5qPnKxs9Qs+0GJwhBJ1
+	yTNyzuJz4Q1/gHq8ojgK76hebU0Ys1LV0bdxVHoxWciQGD2ylWXEL7jqxdMfmkRJdWeiD6gF6qU
+	Hv475WnqUoqHOW0o7octsZmcPSvKJc2JCLXyEGeScLEuqUWjBqEpnL2fMSldOLL7Q7AaVYqQ6eO
+	dpHGlLa22lCGtTV3PstkrztkosYfJScnGQzdAX8bJruIOF5lXl9VcgsbdLQJRevT2Viz5Lf5Edg
+	rPlWM2N6Q0fjMACP9YbkrU=
+X-Received: by 2002:a05:7022:383:b0:128:d4db:447a with SMTP id a92af1059eb24-12c73fa73e6mr15582618c88.29.1776972958642;
+        Thu, 23 Apr 2026 12:35:58 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c919266f6sm22518055c88.1.2026.04.23.12.35.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Apr 2026 12:35:57 -0700 (PDT)
+Message-ID: <29ae429c-59af-4360-ad79-7fa2f2e02212@gmail.com>
+Date: Thu, 23 Apr 2026 16:35:51 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] ASoC: amd: acp: Add DMI quirk for Valve Steam Deck OLED
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda: cs35l56: Propagate ASP TX source control
+ errors
+From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
+ <cassiogabrielcontato@gmail.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
+ Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>,
+ Simon Trimmer <simont@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260423-alsa-cs35l56-asp-tx-source-errors-v1-1-17ea7c62ec31@gmail.com>
+ <876d2550-751c-4299-a090-fb7f4d264bde@opensource.cirrus.com>
+ <e6d5bdfd-6d65-43d6-b14c-b0d5e949b969@gmail.com>
 Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Vijendar.Mukunda@amd.com, linux-sound@vger.kernel.org,
- venkataprasad.potturu@amd.com, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, linux-kernel@vger.kernel.org, kernel-dev@igalia.com,
- kernel@gpiccoli.net, Mario Limonciello <mario.limonciello@amd.com>,
- Robert Beckett <bob.beckett@collabora.com>, Umang Jain <uajain@igalia.com>,
- Melissa Wen <mwen@igalia.com>
-References: <20260421192214.77819-1-gpiccoli@igalia.com>
- <e27dfa2e-ebe9-4cc4-a2ab-6f1f8140bbdc@collabora.com>
- <fdba7581-72b2-791e-c21b-e629d7b86457@igalia.com>
- <823eb16f-339a-499a-9fb1-27a166f8838d@sirena.org.uk>
-From: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
-In-Reply-To: <823eb16f-339a-499a-9fb1-27a166f8838d@sirena.org.uk>
+In-Reply-To: <e6d5bdfd-6d65-43d6-b14c-b0d5e949b969@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Wi5Bv0za0GaPJa4oGOIiKLhM"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Wi5Bv0za0GaPJa4oGOIiKLhM
+Content-Type: multipart/mixed; boundary="------------erjYu2Nt1UmDLV0W1e7mz71H";
+ protected-headers="v1"
+From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
+ <cassiogabrielcontato@gmail.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
+ Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>,
+ Simon Trimmer <simont@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Message-ID: <29ae429c-59af-4360-ad79-7fa2f2e02212@gmail.com>
+Subject: Re: [PATCH] ALSA: hda: cs35l56: Propagate ASP TX source control
+ errors
+References: <20260423-alsa-cs35l56-asp-tx-source-errors-v1-1-17ea7c62ec31@gmail.com>
+ <876d2550-751c-4299-a090-fb7f4d264bde@opensource.cirrus.com>
+ <e6d5bdfd-6d65-43d6-b14c-b0d5e949b969@gmail.com>
+In-Reply-To: <e6d5bdfd-6d65-43d6-b14c-b0d5e949b969@gmail.com>
+Autocrypt-Gossip: addr=perex@perex.cz; keydata=
+ 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
+Autocrypt-Gossip: addr=broonie@kernel.org; keydata=
+ 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
+
+--------------erjYu2Nt1UmDLV0W1e7mz71H
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On 22/04/2026 09:14, Mark Brown wrote:
-> On Tue, Apr 21, 2026 at 05:23:08PM -0300, Guilherme G. Piccoli wrote:
-> 
->>>> +/* List of DMI quirks - check acp-mach-common.c for usage. */
->>>> +#define TDM_MODE_ENABLE 1
->>>> +#define REMAP_DMIC_BT 2
-> 
->>> Since the list of quirks may grow over time, it might be worth differentiating
->>> these macros from the common ones — either by adding a `QUIRK_` prefix (or
->>> similar), or better yet, turning them into an enum?!
-> 
->> Hi Cristian! Thanks for the suggestion, I'm OK either way, let's see
->> what maintainers prefer and I can easily spin a V2 with such change.
-> 
-> I think Cristian's suggestions make sense.
+On 4/23/26 11:09, C=C3=A1ssio Gabriel Monteiro Pires wrote:
+> On 4/23/26 10:32, Richard Fitzgerald wrote:
+>> On 23/04/2026 2:11 pm, C=C3=A1ssio Gabriel wrote:
+>>> cs35l56_hda_mixer_get() ignores regmap_read() and
+>>> cs35l56_hda_mixer_put() ignores regmap_update_bits_check().
+>>>
+>>> This makes the ASP TX source controls report success when a regmap
+>>> access fails. The write path returns no change instead of an error,
+>>> and the read path continues after a failed read instead of aborting
+>>> the control callback.
+>>
+>> Are you seeing a problem on hardware? Or is this a static analysis
+>> warning?
+>=20
+> This was found by code inspection, then checked with a focused
+> Coccinelle rule (I do not have the hardware to check it).
+>=20
+> Rule:
+>=20
+> @ignored_regmap_read@
+> position p;
+> expression map, reg, val;
+> @@
+>=20
+> regmap_read@p(map, reg, val);
+>=20
+> @script:python depends on ignored_regmap_read@
+> p << ignored_regmap_read.p;
+> @@
+>=20
+> coccilib.report.print_report(p[0], "ignored regmap_read() return value"=
+)
+>=20
+> @ignored_regmap_update_bits_check@
+> position p;
+> expression map, reg, mask, val, change;
+> @@
+>=20
+> regmap_update_bits_check@p(map, reg, mask, val, change);
+>=20
+> @script:python depends on ignored_regmap_update_bits_check@
+> p << ignored_regmap_update_bits_check.p;
+> @@
+>=20
+> coccilib.report.print_report(p[0], "ignored regmap_update_bits_check() =
+return value")
+>=20
+>=20
+>=20
+> Before the patch:
+> $ spatch --very-quiet --cocci-file /tmp/ignored-regmap-access.cocci /tm=
+p/cs35l56_hda-before.c
+> /tmp/cs35l56_hda-before.c:187:1-12: ignored regmap_read() return value
+> /tmp/cs35l56_hda-before.c:212:1-25: ignored regmap_update_bits_check() =
+return value
+>=20
+> After the patch:
+> $ spatch --very-quiet --cocci-file /tmp/ignored-regmap-access.cocci sou=
+nd/hda/codecs/side-
+> codecs/cs35l56_hda.c
+>=20
+> No matches.
 
+Hello,
+
+Sorry for bothering you guys with this minor fix.
+
+After further analysis checking the callback contract in the current tree=
+:
+
+ALSA propagates negative errors from control callbacks:
+
+sound/core/control.c
+ret =3D kctl->get(kctl, control);
+if (ret < 0)
+        return ret;
+
+sound/core/control.c
+result =3D snd_ctl_put(card, kctl, control, vd->access);
+if (result < 0)
+        return result;
+
+regmap_update_bits_check() also sets *change =3D false before attempting
+the access and returns an error if the read/write fails:
+
+drivers/base/regmap/regmap.c
+if (change)
+        *change =3D false;
+=2E..
+ret =3D _regmap_read(map, reg, &orig);
+if (ret !=3D 0)
+        return ret;
+
+Before the patch, cs35l56_hda_mixer_get() ignored regmap_read() and
+cs35l56_hda_mixer_put() ignored regmap_update_bits_check(), so a real
+regmap failure was being converted into a successful ALSA callback
+return. In the put path that can become return 0, i.e. "success, no
+change".
+
+The sibling posture/volume callbacks in the same file already propagate
+the regmap errors, so this brings the ASP TX source controls in line
+with the rest of the driver.
+
+Looking forward to know what you think.
 Thanks!
 
-Closing the loop, V2 posted here:
-https://lore.kernel.org/r/20260423183505.116445-1-gpiccoli@igalia.com/
+--------------erjYu2Nt1UmDLV0W1e7mz71H--
+
+--------------Wi5Bv0za0GaPJa4oGOIiKLhM
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSrYqI5vIrg1X9eqEjQXT8aWv/ugwUCaep0lwUDAAAAAAAKCRDQXT8aWv/ug4oP
+AQCmEMC37bdu2iKEbQXmNS5pYVdMDzMMZXdRFPlS/CqsxQD/WpVE2pV3k9TJcm0P3w0rz4eLxcKA
+53F25wWzN12eugc=
+=LFZa
+-----END PGP SIGNATURE-----
+
+--------------Wi5Bv0za0GaPJa4oGOIiKLhM--
