@@ -1,206 +1,167 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710F438C43A
-	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 06:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560783D7D99
+	for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 07:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776924670; cv=none; b=JMgqrTDZbubMa6InN11/Sx5hxX/3Z70rVHcEmatp1Mq0aUehnRhr5kvSlRdd5V//T2DHatVDlDKR/rwYoyqIQTU3pCOdQ8fa+RnGY3D4Ge216kaTCh+bMOA544bg+Kdnq8RmqYQZxIVjEZaUjLqcMJZliXwWNt2jS8Z2wGMntQM=
+	t=1776927630; cv=none; b=uOUjCsNKWVdYZXCkMGrPOw0GW5b9LAs38eD23QPYyX6n/6wB9FLckBrjUw+S4gBCbIxOSnZmf3c0eVJbeHUBkh2xefGVkbtE0MlxACRHBqpxvV3EeKvzaU3YBi0rAoP4p15+NPVeLdb7HNxIQky2mM7vn24KYCDswVMpvXErdPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776924670; c=relaxed/simple;
-	bh=WOrKOJR71lSSEbrOQxKdvEYkwv/rR/+jiveljJNwSCw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=CioyxIAgJ/V/q9S6IlwMkWLDTpG2kGHGJxQ9I2PLUhKhgPS2IUZEdb41Zo9rBHyLLRBZYCxD5szbiNFHF5h8fWkdQBLrhUy9HzJNCzC4JALmtESR3p5T3EWn9V4uXX84OvDAeFrvlU4i9NKbgFqrd8nlPLUu3cDK53Dh/Zb2wwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=IEQSkHuI; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="IEQSkHuI"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ba7a1cc0380so869892966b.2
-        for <linux-sound@vger.kernel.org>; Wed, 22 Apr 2026 23:11:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1776924667; x=1777529467; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4Ct5MwsIQzYx6IC/ibX2+EvebgSz1yi1aAGAGW2PAu4=;
-        b=IEQSkHuIWGs13fzw0Ru5KIF2amckmxeD8Vt76UO864YvMCdlFrlhuEkJIfik253z1i
-         BZje0fPweElYy/q4UnpnLBBXr3i9joiu0hhy/2/aPlFnsddYQpm2e8RIcjXMEhPhAekU
-         8qBIrrQmQamrBEkESCaleM/+yZIm6Ot8T7B78/KnEShj3SGUtmKCY0cwEQY0Mjn1Ej8j
-         lbt9TBWdEAjgE51l5EMDVeMiVYV0s8y9lOoi9w1a4JypOUW5Gu5E+4bkJVNNVYJ4/iFQ
-         kieX9aVw1gwcYyf1LBnu0LQAlScBu3/6LPgxh426ULmaMrGVfqNhe2SZRMlUT9FL5dWk
-         4nRA==
+	s=arc-20240116; t=1776927630; c=relaxed/simple;
+	bh=hexwbOGW/6m/Df6+GU12KM4IKYYaGu617h9GqYfIhNY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ilhs5zAHRbqVcLaqRRXGyp6uT6k2QmYRCiycNoVccPY3XSftYKFmbQlDrg0H/h0aEwV50X5je6kR22lTT6QLN8fwwClM3ejuV4W8DzCaNwrUHE8FKgbw2FSRaQRaVGOeEy7N20UtLJ3ss+po8e4s2dTzNoibQTcPA5zA3E+/sM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8a093c784b0so74801876d6.3
+        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 00:00:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776924667; x=1777529467;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4Ct5MwsIQzYx6IC/ibX2+EvebgSz1yi1aAGAGW2PAu4=;
-        b=lt2zhD9+mP59vvR+PRa0F/LTzrahL15/560xgWjMgVTC+hCW5eqTOAZbwn/ZqBgsGy
-         YPS6Kjgv3tBX+tka27eVukV/DuGkeYQYAs2ctYCiTmFjQHDNpo11Aolhdfr72+6Q9pER
-         QqWjB24cPbSV5jq+o1zxyDsX8RrE1klNe1ss8RqghUISrUTt90ng1bGl7ZznKZc75uK9
-         7OQv6RihDKshZRmNYZBQtE8V7KdzmOo9OI0NF/MbBN1GrMfUQ42GeFM0g2wkGNKnyi/n
-         gHmTFF2LUqzQGNkEhi1mHQCj8Ur1IV5NsIvlygbgm36tVwlaRKxU0vD0WTBhhnvRpOdj
-         O/pg==
-X-Forwarded-Encrypted: i=1; AFNElJ+duNkukCnUPhBE8sEROQjJRkXyVkOK4q+lXsLcMWU6fd6u+xmFSTh7eoAukJ6/OgupBUE3TpPzUMFNPg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxqg8N8hquSGXfsIGJxhVKUg3tGs7olJ286taHoA1YGQci0ztsl
-	ssJy/yB8MJXwmuNUuc9hvnEevOOdTM6HL6FRSiyF+C8B4e4OT3nGyS4tfI3FsqaQhwQ=
-X-Gm-Gg: AeBDietklWp3XPJz/o1o7hDuc8t51zce8WO6G++/QpyzL/nf15OLE19KkKvnq91LzJk
-	BVZDxaCEUzQslCw4aQICKS+yo7RfMTuBuRbuXSAR2vmEjC2k1HBHAaWrysZjNG+u/OPy4I2+TTG
-	SK4I9FaTxs+3Ud3AhB71VgPEf6zGG9URLIUTs1UJgofXYzzMmcaxEmYzXwVKlhjxDejjBc2UGp2
-	MIRpWbcJ1AAPSVFQivwpNStsS/CY1y6HQndr+RPGvcc+L2jovwpNMCxsHZgzOrwnr+dzUB2ggUT
-	ic1OhFRCShybs6Y4Cmeghdt7EGEH83qTYFSg/9rioqygkeh7uQRloQ0lV4Ik3JMa9g4fVtcpVY4
-	R8tvyUdEuHgxe6a3QIHhyCliVgw3+H2w+ltmUTqlYQnajd1ewVpWkUkNvFQR7PLN1l+Dp7Q0Gkx
-	n7rtJrATsYOJs2oM5tWTLTnJ+iiT3uIKrkBNpwijfGMXyrE2b5o9IUE9jOQYa/iDFrAmU9vcSiK
-	ubHcFui7ld2Ka5s1i/1uZy660ycRYjZDdIjRA6rGfMaWag=
-X-Received: by 2002:a17:907:60d5:b0:bab:e307:7bdf with SMTP id a640c23a62f3a-babe3077ce3mr162415866b.19.1776924666676;
-        Wed, 22 Apr 2026 23:11:06 -0700 (PDT)
-Received: from localhost (2001-1c04-0504-7401-4b2e-1820-6d24-b264.cable.dynamic.v6.ziggo.nl. [2001:1c04:504:7401:4b2e:1820:6d24:b264])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba454d1b908sm627916666b.34.2026.04.22.23.11.05
+        d=1e100.net; s=20251104; t=1776927627; x=1777532427;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=FB5PTwtw54UUlBS193h15pAhGHmMjXQQ1mJTpaYMvb8=;
+        b=JkfO8lqF2iJhtVb4xxIOOJAUrTOkNRk7Nl3c74qk9E7u99d1v4VDOpyLQYi+zMhMP7
+         Alj9mVR5XJd5ecwl/R/t5TPu+AvBAWIHaDdg/b568nSnl6GJVNDMfvCDsu3AUF0AvXxN
+         UexTTP13Q37MBAZQegE83xGjcBMYb2d6heaATfpKQl7kO9tRsMB0U0xE73xcRU5SIEV2
+         Ds7LbFuOIW32BuhXdSopipiP6gkiX6jQpFWzmk6fz3Hr+ANkJsgyhpdeGqcg1hc2gLKO
+         BkQI9T8RED0eVD2bt9WZVU5pvo0ykRqMIaAl7BSxjaGFWddjpriYn/8Pw7EVzNzyvoaM
+         jV9A==
+X-Forwarded-Encrypted: i=1; AFNElJ+wtCtITg2A2YCGvXqw0EUjxIhlD2815w2v4pt8gx1xLYMgJ7oKhvOESMF92bx+XdBC+axIL35p8qee8A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1LH+h0rST/eVUxgb9/5RdzGp9HLa7Dd5naQRJYKGpoLOyuTHZ
+	M0xfrTDneLiDMlU0qXp6rgbnnfxRYudlbkWO4YVzg5stAqFES6cttY59z3cqNFxeKoQ=
+X-Gm-Gg: AeBDievCIQPStDqH8wAN14Wa0pjWHfeI+Hbd8H0s/m6nd7stVThgRS2eloHyzEO+plf
+	8fxb7bd1C1s6wuid3uc6d8hEMa+KYlJkSxH6sOcRovFIfV65IVF0+uJ35CBcWhwp8RvkO4cmGQ7
+	kagRpEvZPRH3zjl8w8rvzYrLXBRizwQmN21MCohO7BBmwYIddRA9AHSRYtO/L29QYiEqvMwZtqZ
+	+VJaCIHZgVfcLK3oKL9zNoq75JoqVjmWhz/4xc3Ic2KzFVxifugJEozxVVydt5VyPWXWfmrTHUj
+	HopwTMCGxOrs9pKhemfkx2YGOwNKfDssDIGxnic6Q7y2FF06rFAZx4uyGbMUaTnYr+nsZxk8gra
+	Xxp5BVe8fOQ21/aQ0Z50ivTpth6D5KlGVpDtUrzf/DPDyxcr76lbGOu8+KrAd2aXPmPNHD4/9xs
+	iiG5K66tXWOQGUnJO6cKxGu3VP3QDEshHxwaIOsVkHFJHzUrjIXikPmMv5OO5UMXAnkk26v2TK/
+	fs+jbykGGM5CA==
+X-Received: by 2002:ac8:7d56:0:b0:50e:ca38:e219 with SMTP id d75a77b69052e-50eca390557mr217599731cf.45.1776927627007;
+        Thu, 23 Apr 2026 00:00:27 -0700 (PDT)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com. [209.85.160.180])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50e61c191basm111635291cf.16.2026.04.23.00.00.26
+        for <linux-sound@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Apr 2026 23:11:06 -0700 (PDT)
+        Thu, 23 Apr 2026 00:00:26 -0700 (PDT)
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-50e97863425so37927911cf.0
+        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 00:00:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+nscjMbMS+2OjlfLM96H1guMWPl7o/76XEXcKsq3IcreIMUF6/TqlNwdDy10t79xVc8W8/XXQHwCtaiw==@vger.kernel.org
+X-Received: by 2002:a05:6102:441d:b0:611:6fef:905 with SMTP id
+ ada2fe7eead31-616f750858emr13450072137.20.1776927225241; Wed, 22 Apr 2026
+ 23:53:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20260325143555.451852-1-herve.codina@bootlin.com>
+ <20260325143555.451852-3-herve.codina@bootlin.com> <CAMuHMdU7x7LWFkD9xiq+wyOqnn0bdzr+JLfvbBexoiWyv8kftA@mail.gmail.com>
+ <CAD=FV=UK3NQKQN7FXyG4nGdDKO=LQYhnL4ZweomQ_4R9-EAYag@mail.gmail.com>
+ <aekg_IELc65BFrWp@ashevche-desk.local> <CAD=FV=XTvvq11y7kxmrfBe3dZsKro7N9=i-Hj9aqsLBay2Q9Rw@mail.gmail.com>
+In-Reply-To: <CAD=FV=XTvvq11y7kxmrfBe3dZsKro7N9=i-Hj9aqsLBay2Q9Rw@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 23 Apr 2026 08:53:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUDCQrQ2Z9D7-ZOKiuDznDJVf2R_b_8P9+Xhk4RiJ3vdw@mail.gmail.com>
+X-Gm-Features: AQROBzAvgx3axNivzcvHu1RjLcwZ8ZssrkMMWMoOA6QWZi8LwGEf_PBN_biPlMM
+Message-ID: <CAMuHMdUDCQrQ2Z9D7-ZOKiuDznDJVf2R_b_8P9+Xhk4RiJ3vdw@mail.gmail.com>
+Subject: Re: [PATCH v6 02/27] of: dynamic: Fix overlayed devices not probing
+ because of fw_devlink
+To: Doug Anderson <dianders@chromium.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Herve Codina <herve.codina@bootlin.com>, Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Kalle Niemi <kaleposti@gmail.com>, Matti Vaittinen <mazziesaccount@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, 
+	Arnd Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Linus Walleij <linusw@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Mark Brown <broonie@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Wolfram Sang <wsa@kernel.org>, linux-kernel@vger.kernel.org, 
+	driver-core@lists.linux.dev, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
+	Steen Hegelund <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 23 Apr 2026 08:11:05 +0200
-Message-Id: <DI0B81W07N33.3HZQ4R8DEJ9EJ@fairphone.com>
-Cc: "Bhushan Shah" <bhushan.shah@machinesoul.in>, "Luca Weiss"
- <luca.weiss@fairphone.com>, "Antoine Bernard" <zalnir@proton.me>,
- <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/6] ASoC: qcom: qdsp6: q6afe: fix clk vote response
- type mismatch
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Val Packett" <val@packett.cool>, "Srinivas Kandagatla"
- <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown"
- <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
- <tiwai@suse.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260423050801.210840-2-val@packett.cool>
- <20260423050801.210840-3-val@packett.cool>
-In-Reply-To: <20260423050801.210840-3-val@packett.cool>
 
-Hi Val,
+Hi Doug,
 
-On Thu Apr 23, 2026 at 6:41 AM CEST, Val Packett wrote:
-> The response sent by the firmware when requesting a clock vote (opcode
-> AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST) does not actually have
-> the same opcode + status payload as APR_BASIC_RSP_RESULT. Rather, it
-> returns one single u32 which is the client_handle that must be used in
-> future unvote requests for the same clock.
->
-> As a result of this type confusion, the status returned by the callback
-> to q6afe_vote_lpass_core_hw was actually an out-of-bounds read. It was
-> only interpreted as success (0) most of the time due to luck, but there
-> are reports of random ("more likely on cold boot", "depending on hacks
-> made in other drivers") errors such as:
->
-> [   20.961100] qcom-q6afe aprsvc:service:4:4: AFE failed to vote (3)
-> [   20.961131] Failed to prepare clk 'core': -110
->
-> Fix by correctly interpreting the response as a single u32, and actually
-> store it as the client_handle to ensure unvote would work correctly.
->
-> Link: https://lore.kernel.org/all/5976946.DvuYhMxLoT@antlia/
-> Signed-off-by: Val Packett <val@packett.cool>
-> ---
->
-> Found by reading and comparing with downstream:
-> https://github.com/YumeMichi/kernel_xiaomi_pipa/blob/27190355fb31284988dd=
-f505cb7cfba5128104cf/techpack/audio/dsp/q6afe.c#L1261-L1263
->
-> What's really bizzare though is that some of the logs go:
->
-> [ 10.827469] qcom-q6afe aprsvc:service:4:4: cmd =3D 0x100f4 returned erro=
-r=20
-> =3D 0x16
-> [ 10.827512] qcom-q6afe aprsvc:service:4:4: Unknown cmd 0x100f4
-> [ 14.052896] qcom-q6afe aprsvc:service:4:4: AFE failed to vote (3)
->
-> ..where the "returned error =3D" message is something that can only be
-> printed by the callback if it goes into the **other** switch() branch,
-> i.e. when hdr->opcode =3D=3D APR_BASIC_RSP_RESULT. How reading out-of-bou=
-nds
-> only in the AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST branch would
-> cause that to happen (even on a subsequent vote after the first one to
-> perform the read) is beyond me.
->
-> Still, the person that reported this heisenbug told me that this has
-> actually completely fixed it.
+On Wed, 22 Apr 2026 at 21:40, Doug Anderson <dianders@chromium.org> wrote:
+> On Wed, Apr 22, 2026 at 12:27=E2=80=AFPM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Wed, Apr 22, 2026 at 11:51:36AM -0700, Doug Anderson wrote:
+> > > On Wed, Apr 22, 2026 at 10:44=E2=80=AFAM Geert Uytterhoeven
+> > > <geert@linux-m68k.org> wrote:
+> > > > On Wed, 25 Mar 2026 at 15:36, Herve Codina <herve.codina@bootlin.co=
+m> wrote:
+> >
+> > ...
+> >
+> > > > > +               if (fwnode->flags & FWNODE_FLAG_NOT_DEVICE)
+> > > >
+> > > > After commit f72e77c33e4b5657 ("device property: Make modifications
+> > > > of fwnode "flags" thread safe"), this must be changed to:
+> > > >
+> > > >     if (fwnode_test_flag(fwnode, FWNODE_FLAG_NOT_DEVICE))
+> > > >
+> > > > With this change my DT overlays are working again.
+> > > >
+> > > > I guess keeping the FWNODE_FLAG_* names, but changing their values
+> > > > from bit masks to bit numbers was probably not such a good idea,
+> > > > as it fails to catch missing conversions...
+> > >
+> > > Crud, I should have thought about that. :( Do you think it's worth it
+> > > to do a rename at this point to catch future problems?
 
-This seems conceptually similar to what I needed to do for SM6350/SM7225
-microphone (wip) - it's not necessary for just speaker btw:
-https://github.com/z3ntu/linux/commit/107bf0c39e40a207036e963f878f39467f978=
-393
+I am afraid it is too late (it is already in Linus' tree), and would
+add only more to the confusion.  We just have to take care when this
+patch (and 01/27) is backported to stable.  Fortunately the reverse
+is caught, as the fwnode_*_flag() helpers did not exist before.
 
-There I'm storing this handle per 'block' and not just one "vote_res",
-essentially copying how downstream Linux does it. Your solution
-definitely has less lines of diff, but I can't judge whether it's enough
-to store it like that :)
-
-Thanks for looking into this though!
-
+> > You can try locally with allyesconfig / allmodconfig and see the outcom=
+e.
+> > If there are missed cases, and their amount reasonably low, I won't bot=
+her
+> > in this case.
 >
-> ---
->  sound/soc/qcom/qdsp6/q6afe.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
-> index 40237267fda0..28b5b6b91897 100644
-> --- a/sound/soc/qcom/qdsp6/q6afe.c
-> +++ b/sound/soc/qcom/qdsp6/q6afe.c
-> @@ -379,6 +379,7 @@ struct q6afe {
->  	struct q6core_svc_api_info ainfo;
->  	struct mutex lock;
->  	struct aprv2_ibasic_rsp_result_t result;
-> +	uint32_t vote_result;
->  	wait_queue_head_t wait;
->  	struct list_head port_list;
->  	spinlock_t port_list_lock;
-> @@ -968,13 +969,14 @@ static int q6afe_callback(struct apr_device *adev, =
-const struct apr_resp_pkt *da
->  	const struct aprv2_ibasic_rsp_result_t *res;
->  	const struct apr_hdr *hdr =3D &data->hdr;
->  	struct q6afe_port *port;
-> +	uint32_t *vote_res;
-> =20
->  	if (!data->payload_size)
->  		return 0;
-> =20
-> -	res =3D data->payload;
->  	switch (hdr->opcode) {
->  	case APR_BASIC_RSP_RESULT: {
-> +		res =3D data->payload;
->  		if (res->status) {
->  			dev_err(afe->dev, "cmd =3D 0x%x returned error =3D 0x%x\n",
->  				res->opcode, res->status);
-> @@ -1001,8 +1003,10 @@ static int q6afe_callback(struct apr_device *adev,=
- const struct apr_resp_pkt *da
->  	}
->  		break;
->  	case AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST:
-> +		vote_res =3D data->payload;
->  		afe->result.opcode =3D hdr->opcode;
-> -		afe->result.status =3D res->status;
-> +		afe->result.status =3D 0;
-> +		afe->vote_result =3D *vote_res;
->  		wake_up(&afe->wait);
->  		break;
->  	default:
-> @@ -1899,6 +1903,8 @@ int q6afe_vote_lpass_core_hw(struct device *dev, ui=
-nt32_t hw_block_id,
->  			       AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST);
->  	if (ret)
->  		dev_err(afe->dev, "AFE failed to vote (%d)\n", hw_block_id);
-> +	else
-> +		*client_handle =3D afe->vote_result;
-> =20
->  	return ret;
->  }
+> I believe I caught all of them at the time of my CL, but the problem
+> is in-flight stuff, right? I think the problem Geert is pointing out
+> isn't something I missed in my original patch but rather an
+> interaction between my patch and this in-flight patch.
 
+There are no unconverted cases in upstream or linux-next
+(I checked yesterday, and rechecked this morning).
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
