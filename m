@@ -1,275 +1,166 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51CA388377
-	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 13:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777037115; cv=none; b=tmhpc/oMGaw8VpOy1Uu0Z+wW0Waxsv7qE8zyBSsMH4WBMNSPE5JSelcgArC9+gemrDIvYWHhbBBxOR9RI+eALnav0627lkBv4b8cYg6mhNZLPjdZWnQVIwwsLeY+ZD5Fq3Qa5Ui/EH4A6LwLBB8yvmXYCOS9lQ4EaqCnorQgns0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777037115; c=relaxed/simple;
-	bh=4jLek8ywiq6yf0DP4SpeLsH4+FOG9LANRqFItcX4lwY=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA423DC4D2;
+	Fri, 24 Apr 2026 15:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777045344; cv=fail; b=q7qvpamDMeYwr5JDNkIDyGhMKda+nNR2eOFOFN9Cgx9CFZAZK2ouTNpuJqi32G5S1D2gvwXmIQ07UmxvETr398aOy5iTIC9lyNlddblH0VXQGzuAN54IcITvWydy05vQjpZ/uDEhBhciQvO8SkFEJ9R3xMwBTEQ1LY2suy/Y/RQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777045344; c=relaxed/simple;
+	bh=mgF3ZvJjscQWv4lO1yJwdR4fT5QurC9EW73PMAV48ug=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dmcqo045GiRGcZnBt0MdFvDXFuypk2+vTX8ZhO2jMBFsyuWaBV8mBT2giPLFwHrO1hDHOu1JXTLnQsQNvDyA6jdT0bYfr98hP6EJYkMPS+9r+iPdeNU6tbazBmWXoq+QD3JF/4Gi1h2tAWV6JSYGIgoPPMxD/H4qhKzBoHQAEuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wfxturgF; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=WyLanO5YSbEoygNaM4yFCoOtm4gPjchNUtT/d5zF6chmb7BAU3/zCu5yQUiCD/nUMcBRLxpcfe9y8k66Sv5jopJ5ujcTEJ7xbXUO5M/BtQXG0IstVoJHlreLqZGbKeoYm4CZ/D3ZPD5j2eK2+mgAL6WWRfcmqt0I+lLN+69AMZM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Cjxp0t1Y; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=yE44t8VL; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="wfxturgF"
-Message-ID: <b1b6d0cd-293b-43a1-ac3c-6e5bb4dee735@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777037112;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CeHvaACN4Zb72yifZvHoGv9VwBbV3zQAWgiIwryJ5dg=;
-	b=wfxturgF2MaqQYK07ykSd/BMWtUyj9ok78L8phoCgclx4kJhYBmhiR4l1iX7Do+J/hmlke
-	/wrFe+sbFVmTcHOsdXgOP6w79B41QnFxHQTFlzB4NZV2CgAuKVJAA4AqcjIAr2OuNS9Ys2
-	wK3vYh3ZitLkVFIHZsyipgRbNtNdLHo=
-Date: Fri, 24 Apr 2026 15:24:01 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Cjxp0t1Y";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="yE44t8VL"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63O6aSbp3341144;
+	Fri, 24 Apr 2026 10:41:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=A/bOK0AlmAYVHv7IpDx/v8iJJ7Xys4v2LZ4+KOZuHJI=; b=
+	Cjxp0t1YCeHI3mla6uuNbbnJ+JWN9TRIwS8GxaCUOsZGyZiXyx164rjvpkRnAsyq
+	JqlcskvDf+errpE8SIB7kGY5bvYAwGiWKPfD6DJAyfLjY6INDgPTm+sh15SSwCpB
+	F8ZUyHQNhEVmhyF5b6jQCAVuulNrixBLr2uJqVcXaVMSb32z1dfiEwGAB/gdxJDo
+	2RC5zj7i7em64rD4IjxK8Jq6mmbEOXmQk613BFhgLDUjZtdWukRoomiTFMB0euqT
+	tysDMMwn4nOV+igL10/s1usoO6MzNZSoLDl5y11e5lPspQn+Xtaux33vwpv3Qx6R
+	kXbq0YuHGsJLGFH+xHtbYQ==
+Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11021143.outbound.protection.outlook.com [52.101.57.143])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4dpenhv2tb-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 24 Apr 2026 10:41:48 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZTHz4maFBZS9vJHO9USp0TaFsG2pWlxxyUhrBjFfhxH+QoJEK9jhVoEA13GV2jzORFPcgdcsKgYuyQkL0kHA3AiCjzFODyPrrFbH7tKvd1NsJ5kfHC8yYwnDuTFFfAc6mXbQoaVnojXoKfKIapi89yD0Hyi9wz/16sI2wC+2UgRFDTmmu4bwdZmdwxkFRvMu4NuQ3aBL4jJiDaRCP5FSfTanafxMnzVb5zYyzy8bJ2PC4cuINUHkQMizyOgG3991FyokeSJiQXselX2qtjdA2aQmQ76uyIyRjYk5oNkoCh9nQZ6ZX5McIP93xUAC0MWbkaOTPeHQ2pVwgAKws+xGFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A/bOK0AlmAYVHv7IpDx/v8iJJ7Xys4v2LZ4+KOZuHJI=;
+ b=yKm1V4QQHDwI4Uro0LmY5bK113v9dpydBNSaR2HqArkQmTjU9v2Yn582Dfslrh2A0RdK5kGZ+tAqXrpEcU2ltH0g7mn3eeF4ZLmLr5x5n2LjttxxAo76SN2oNJeTUV/l0aE/363gBGyOE5bi0RV27Y+1Q/T/TJbfOcRW8w/ji4EuxqOl8t0sjO4IVG/2AoB7JsKoxJ4VIkilxTSMFD21/94F+vHYj/9hKawJPeJDubFw5I2/PNgwNXMulQuBJxeKxEWrJ9EVeY/jp/8Po7DZheb31fdJix2QE689FX+yJEWUsaR00COeO+ARPP9WuJrCSt/M300RK+5iWaw4beYlHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A/bOK0AlmAYVHv7IpDx/v8iJJ7Xys4v2LZ4+KOZuHJI=;
+ b=yE44t8VLSM6Ia3mATPQlULWr56xxfNL9alEwPjey3RKTr/dZ2+uaD83RnC5XeY0X+WoBk0L0Ot+45JvfriPHPKHOtIGRs6M4LWSIwte1aaqWZpDyg8KYigV/MaYhKku41ePvZ+cXtymW3Yd9Nu7skD/UDBYN6pNu4sFdvOBLVD4=
+Received: from DS7PR03CA0323.namprd03.prod.outlook.com (2603:10b6:8:2b::12) by
+ CO6PR19MB4818.namprd19.prod.outlook.com (2603:10b6:5:34f::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9846.22; Fri, 24 Apr 2026 15:41:45 +0000
+Received: from CH3PEPF00000013.namprd21.prod.outlook.com
+ (2603:10b6:8:2b:cafe::7) by DS7PR03CA0323.outlook.office365.com
+ (2603:10b6:8:2b::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.22 via Frontend Transport; Fri,
+ 24 Apr 2026 15:41:45 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH3PEPF00000013.mail.protection.outlook.com (10.167.244.118) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.4
+ via Frontend Transport; Fri, 24 Apr 2026 15:41:44 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 004E0406540;
+	Fri, 24 Apr 2026 15:41:43 +0000 (UTC)
+Received: from [198.90.208.24] (ediswws06.ad.cirrus.com [198.90.208.24])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id E435F82024A;
+	Fri, 24 Apr 2026 15:41:42 +0000 (UTC)
+Message-ID: <1e0fec70-7af8-44d0-a9f9-69b0b42c6931@opensource.cirrus.com>
+Date: Fri, 24 Apr 2026 16:41:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v10 3/5] ASoC: es9356-sdca: Add ES9356 SDCA driver
-To: Zhang Yi <zhangyi@everest-semi.com>, broonie@kernel.org, tiwai@suse.com,
- linux-sound@vger.kernel.org
-Cc: peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
- ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
- ckeepax@opensource.cirrus.com
-References: <20260424054928.3257-1-zhangyi@everest-semi.com>
- <20260424054928.3257-4-zhangyi@everest-semi.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260424054928.3257-4-zhangyi@everest-semi.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda: cs35l56: Propagate ASP TX source control
+ errors
+To: =?UTF-8?Q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
+        Jaroslav Kysela <perex@perex.cz>, Mark Brown <broonie@kernel.org>,
+        Simon Trimmer <simont@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260423-alsa-cs35l56-asp-tx-source-errors-v1-1-17ea7c62ec31@gmail.com>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20260423-alsa-cs35l56-asp-tx-source-errors-v1-1-17ea7c62ec31@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF00000013:EE_|CO6PR19MB4818:EE_
+X-MS-Office365-Filtering-Correlation-Id: d83d8e98-03ec-41ef-ba0c-08dea217fd24
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|376014|82310400026|61400799027|16102099003|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	piBQdHgpGEjMtVB/BVQxE2i3+q/tcPTbbp9RaTUd4QRvk/K0aqBoAcJL5MTYx8Z3ts3ovromuKUtEXD0FSIu/5oFCYVAnPq4vJMJ7Qq2GyZQZ8r2zVH5IRew68cuK+EsYftanIWEWuFPTDFBt1LRiEH71n9A9k0LuIc3ZMJNkus0RTUVaPObxDwNctgy6QKxWKql0Pk0JX/LcV4IJZ8WoE/RGGBOfsuyvsGSBRL2y/67jeDgWX6U3u+0kGPsaK9CbyV/E3MkSvZrZD7AwKBzjSkwqyzQcIwmBGgHfuaxG+OnhZCrlsxAE5fTMCi6kptNnIMOmbj2rvfXU0crEdGqgUWpH5kRzejOp9dELWXOZSYmGIncb1H7onpB4sPfUGR4tRjl9+WXCuQwRnA0X3bD7cekZB56ovB0DjONPTB94XsoUPcpOXX+iSLWDvk2oXCub9RP7qzzK3x+zd2oJFGYHMGEVBl6TfD720KPv26/yGIQGOO/CG6en9q+9cIG9hNzUF/oWA/2tLjIE1w9HvzNvfZN8qzy4d8H7QJ3hqLiWfr66uKA7Cf9qxgb/V+Qhgrc6I/G2KXOAethhRHNpkcr/H7+wSYqYdJfy3Y78aJsfKc6nno7irpeW7vvOjMelrxXHh/J/JaIUdlaMibjxI8ag7HEv4cZ6W3x1jb4us9IVxp8zslmb8ZakaYF0L3IqLoYE5r51o8K+kwrfTmgGdDHr/2bUfTaYkudQfQvliceJ+Fl4DAujSupb7YjWo4Evz6M0X2bqAu0a7ehgOx9UsA1hw==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(82310400026)(61400799027)(16102099003)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	VWla58oLporWJI4HduFkNmD6v1iVeuGXaEI5KFArImulnQGOZV3raXpU8BeqCzFVZcNtg9A2+0KBeHHNabujZiO6KvqQpZEFfEn0x9pDYilGcu0yEaa5788VyK2L+nonGBVltxg1GqnkP+bMIG3JTHP8i1zQYmasZSN/FnPv6LlbtPMCXIoUph3gb9gR7nBC9O8pX/rVyslOlOWDjrtd4knG57Q/hm7WBIJke8FxtEaXuUBJZ2h3e48d3LyQFozWF+cIhkuXvNSn+yvDFyLv1EDYuebhyyeonizqWVzd+BuLaJ2a8hIPxusPKwCVh9ClGYSkhnvBc2/ju9+fasmFAD7iRnfSfr0lROCuMfM8D2mR2mZ0SxtZgTrLcIQ3DarbnXky+BSha/swXUPuTUQClLcI7RbzLGehIeUH9DoXiLjszmrAXydIiRPOuOjfOV9T
+X-Exchange-RoutingPolicyChecked:
+	AMzdTmfgvWA44/AcVOHyXcsv27xlNsAHJqdpD8cCQyCDbsJY/bjoIH1y3ULq0k5CnPF3KyEhyK1Po2BpDPi9iSoIsQwGQ4HwrOJnvrxjyup7qUneOB0YW3vfunns9445i15MfTVWQNTjUgTlJCORR8762lfOig6i4MTm8gPhYy3G1FjrGIk0pg/YIZmyf5ny2fupRUIBHOLYRkultvnvNjWzXE03tYn+7h47i1CqUrkMEsdlBEDxg+X4ubg6dSlM3CTVKXlIQDUv9WjH/wfCTzMx+6lJ718SkZUjan2AJQ737QQJCdEsm+EfCoGWgz5Mu4cwgqKOrpuYMBHyISChyw==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 15:41:44.5825
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d83d8e98-03ec-41ef-ba0c-08dea217fd24
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH3PEPF00000013.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR19MB4818
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI0MDE1MiBTYWx0ZWRfX+c2lY1T8vdKl
+ TcDBrWJOD9e6tINbtHmSkwKTzW9colwfY5xKAsF2SA9paxb3FaxzvWLcEdCHK9q5sQ0PKIP8PN5
+ Eh+dp1aN8x+lePVRu0f0rCxnyO454n2naVmN93DUXS+UggbM2B5qDTijVFmOD2UpXoW9gwKi8qp
+ DxWNdrTIjCBam6Ue7llSVgfi5kYRgQ3B9xpo3sF8O8NTukvHH8pDvvaqxqd/NLZIPxudsMnrPxo
+ /zQrQ4zvZeFtT9S6D54QTJ15pQyuL9dgP2xgYrn+RBZvGcsTocCW5ttlAZyvc3shMr+qhhXbk+K
+ jSIFwg9dsl2twy8Sx/d2xWHCM+3bRNAL8oUB6FwNnGgDMxT1YeGP3qKhPDFb/K4X2t1wKCxRp26
+ ODBgQPLgHLda9rgHNHOgc90seuRGGKvMEBzLWxS4fO21lvaBdJBsAwcePSfP5xByLl/qaxgBKD9
+ reYH8MJN36xGv0jgGCA==
+X-Proofpoint-GUID: 80D7y0JOgbaSIRBr3j-cpHk1CaYxljQd
+X-Proofpoint-ORIG-GUID: 80D7y0JOgbaSIRBr3j-cpHk1CaYxljQd
+X-Authority-Analysis: v=2.4 cv=DZInbPtW c=1 sm=1 tr=0 ts=69eb8f3c cx=c_pps
+ a=pCScd9Md5F2Oib7HHR5gBQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=w1d2syhTAAAA:8 a=JvBwcO1VsS_aB5xwRE4A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
+X-Proofpoint-Spam-Reason: safe
 
-On 4/24/26 07:49, Zhang Yi wrote:
-> This is the codec driver for es9356-sdca.
+On 23/04/2026 2:11 pm, Cássio Gabriel wrote:
+> cs35l56_hda_mixer_get() ignores regmap_read() and
+> cs35l56_hda_mixer_put() ignores regmap_update_bits_check().
+> 
+> This makes the ASP TX source controls report success when a regmap
+> access fails. The write path returns no change instead of an error,
+> and the read path continues after a failed read instead of aborting
+> the control callback.
+> 
+> Propagate the regmap errors, matching the posture and volume controls
+> in this driver.
+> 
+> Fixes: 73cfbfa9caea ("ALSA: hda/cs35l56: Add driver for Cirrus Logic CS35L56 amplifier")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+> ---
+>   sound/hda/codecs/side-codecs/cs35l56_hda.c | 19 ++++++++++++++-----
+>   1 file changed, 14 insertions(+), 5 deletions(-)
 
-Starting to look quite good, additional comments below
-
-> +struct  es9356_sdw_priv {
-> +	struct sdw_slave *slave;
-> +	struct device *dev;
-> +	struct regmap *regmap;
-> +	struct snd_soc_component *component;
-> +	struct snd_soc_jack *hs_jack;
-> +
-> +	struct mutex disable_irq_lock;
-> +	struct mutex pde_lock;
-
-if you run checkpatch.pl ---strict it'll flag that the expectation is a comment where mutexes are declared.
-
-> +	bool hw_init;
-> +	bool first_hw_init;
-> +	int jack_type;
-> +	bool disable_irq;
-> +
-> +	struct delayed_work interrupt_handle_work;
-> +	struct delayed_work button_detect_work;
-> +	unsigned int sdca_status;
-
-> +static int es9356_sdca_button_detect(struct es9356_sdw_priv *es9356)
-> +{
-> +	unsigned int btn_type = 0, offset, idx, val, owner;
-> +	int ret;
-> +	unsigned int button[3];
-
-nit-pick: swap last two lines for reverse x-mas style.
-
-> +
-> +	ret = regmap_read(es9356->regmap,
-> +		SDW_SDCA_CTL(FUNC_NUM_HID, ES9356_SDCA_ENT_HID01, ES9356_SDCA_CTL_HIDTX_CURRENT_OWNER, 0), &owner);
-> +	if (ret < 0 || owner == 0x01)
-> +		return 0;
-> +
-> +	ret = regmap_read(es9356->regmap, ES9356_BUF_ADDR_HID, &offset);
-> +	if (ret < 0)
-> +		goto button_det_end;
-> +
-> +	for (idx = 0; idx < ARRAY_SIZE(button); idx++) {
-> +		ret = regmap_read(es9356->regmap, ES9356_BUF_ADDR_HID + offset + idx, &val);
-> +		if (ret < 0)
-> +			goto button_det_end;
-> +		button[idx] = val;
-> +	}
-> +
-> +	btn_type = es9356_sdca_button(&button[0]);
-> +
-> +button_det_end:
-> +	if (owner == 0x00)
-> +		regmap_write(es9356->regmap,
-> +			SDW_SDCA_CTL(FUNC_NUM_HID, ES9356_SDCA_ENT_HID01, ES9356_SDCA_CTL_HIDTX_CURRENT_OWNER, 0), 0x01);
-> +
-> +	return btn_type;
-> +}
-
-> +static int es9356_sdw_pcm_hw_params(struct snd_pcm_substream *substream,
-> +				    struct snd_pcm_hw_params *params,
-> +				    struct snd_soc_dai *dai)
-> +{
-> +	struct snd_soc_component *component = dai->component;
-> +	struct es9356_sdw_priv *es9356 = snd_soc_component_get_drvdata(component);
-> +	struct sdw_stream_config stream_config = {0};
-> +	struct sdw_port_config port_config = {0};
-> +	struct sdw_stream_runtime *sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
-> +	int ret;
-> +	unsigned char func, pde_entity, cs_entity;
-> +	unsigned char ps0 = 0x0, ps3 = 0x3;
-> +	unsigned int rate;
-> +
-> +	if (!sdw_stream)
-> +		return -EINVAL;
-> +
-> +	if (!es9356->slave)
-> +		return -EINVAL;
-> +
-> +	/* SoundWire specific configuration */
-> +	snd_sdw_params_to_config(substream, params, &stream_config, &port_config);
-> +
-> +	port_config.num = dai->id;
-> +
-> +	ret = sdw_stream_add_slave(es9356->slave, &stream_config,
-> +				   &port_config, 1, sdw_stream);
-> +	if (ret) {
-> +		dev_err(dai->dev, "Unable to configure port\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	switch (params_rate(params)) {
-> +	case 16000:
-> +		rate = ES9356_SDCA_RATE_16000HZ;
-> +		break;
-> +	case 44100:
-> +		rate = ES9356_SDCA_RATE_44100HZ;
-> +		break;
-> +	case 48000:
-> +		rate = ES9356_SDCA_RATE_48000HZ;
-> +		break;
-> +	case 96000:
-> +		rate = ES9356_SDCA_RATE_96000HZ;
-> +		break;
-> +	default:
-> +		dev_err(component->dev, "%s: Rate %d is not supported\n",
-> +			__func__, params_rate(params));
-> +		return -EINVAL;
-> +	}
-> +
-> +	switch (dai->id) {
-> +	case ES9356_DMIC:
-> +		func = FUNC_NUM_MIC;
-> +		cs_entity = ES9356_SDCA_ENT_CS113;
-> +		pde_entity = ES9356_SDCA_ENT_PDE11;
-> +		break;
-> +	case ES9356_AMP:
-> +		func = FUNC_NUM_AMP;
-> +		cs_entity = ES9356_SDCA_ENT_CS21;
-> +		pde_entity = ES9356_SDCA_ENT_PDE23;
-> +		break;
-> +	case ES9356_JACK_IN:
-> +		func = FUNC_NUM_UAJ;
-> +		cs_entity = ES9356_SDCA_ENT_CS36;
-> +		pde_entity = ES9356_SDCA_ENT_PDE34;
-> +		break;
-> +	case ES9356_JACK_OUT:
-> +		func = FUNC_NUM_UAJ;
-> +		cs_entity = ES9356_SDCA_ENT_CS41;
-> +		pde_entity = ES9356_SDCA_ENT_PDE47;
-> +		break;
-> +	default:
-> +		dev_err(component->dev, "%s: Invalid dai id: %d\n",
-> +			__func__, dai->id);
-> +		return -EINVAL;
-> +	}
-
-can this switch + the power sequence below be factored in a helper used by hw_params and hw_free
-
-> +
-> +	regmap_write(es9356->regmap,
-> +			SDW_SDCA_CTL(func, cs_entity, ES9356_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), rate);
-
-does this need to be done before the power sequence, if not can this be moved before the switch or after the power sequence to help create a helper?
-> +
-> +	/* power state changes are not independent across functions */
-> +	mutex_lock(&es9356->pde_lock);
-> +	ret = es9356_pde_transition_delay(es9356, func, pde_entity, ps3);
-
-hah this is interesting, do you need to turn off before turning on?
-
-Actually, since you have a pde_lock, is there really a case where another thread could turn off the power but not wait for the power transition to be complete?
-
-Wondering how useful this is...
-
-> +	if (ret) {
-> +		regmap_write(es9356->regmap,
-> +			SDW_SDCA_CTL(func, pde_entity, ES9356_SDCA_CTL_REQ_POWER_STATE, 0), ps0);
-> +		ret = es9356_pde_transition_delay(es9356, func, pde_entity, ps0);
-> +	} else
-> +		dev_dbg(component->dev, "%s PDE is already PS0", __func__);
-> +
-> +	mutex_unlock(&es9356->pde_lock);
-> +
-> +	return 0;
-> +}
-> +
-> +static int es9356_sdw_pcm_hw_free(struct snd_pcm_substream *substream,
-> +				  struct snd_soc_dai *dai)
-> +{
-> +	struct snd_soc_component *component = dai->component;
-> +	struct es9356_sdw_priv *es9356 = snd_soc_component_get_drvdata(component);
-> +	struct sdw_stream_runtime *sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
-> +	int ret;
-> +	unsigned char func, pde_entity;
-> +	unsigned char ps0 = 0x0, ps3 = 0x3;
-> +
-> +	if (!es9356->slave)
-> +		return -EINVAL;
-> +
-> +	sdw_stream_remove_slave(es9356->slave, sdw_stream);
-> +
-> +	switch (dai->id) {
-> +	case ES9356_DMIC:
-> +		func = FUNC_NUM_MIC;
-> +		pde_entity = ES9356_SDCA_ENT_PDE11;
-> +		break;
-> +	case ES9356_AMP:
-> +		func = FUNC_NUM_AMP;
-> +		pde_entity = ES9356_SDCA_ENT_PDE23;
-> +		break;
-> +	case ES9356_JACK_IN:
-> +		func = FUNC_NUM_UAJ;
-> +		pde_entity = ES9356_SDCA_ENT_PDE34;
-> +		break;
-> +	case ES9356_JACK_OUT:
-> +		func = FUNC_NUM_UAJ;
-> +		pde_entity = ES9356_SDCA_ENT_PDE47;
-> +		break;
-> +	default:
-> +		dev_err(component->dev, "%s: Invalid dai id: %d\n",
-> +			__func__, dai->id);
-> +		return -EINVAL;
-> +	}
-> +
-> +	mutex_lock(&es9356->pde_lock);
-> +	ret = es9356_pde_transition_delay(es9356, func, pde_entity, ps0);
-
-same here, do you need to turn on before turning off?
-in which cases would the power state NOT be PS0?
-
-> +	if (ret) {
-> +		regmap_write(es9356->regmap,
-> +			SDW_SDCA_CTL(func, pde_entity, ES9356_SDCA_CTL_REQ_POWER_STATE, 0), ps3);
-> +		ret = es9356_pde_transition_delay(es9356, func, pde_entity, ps3);
-> +	} else
-> +		dev_dbg(component->dev, "%s PDE is already PS0", __func__);
-> +
-> +	mutex_unlock(&es9356->pde_lock);
-> +
-> +	return 0;
+Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
