@@ -1,174 +1,340 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from r3-57.sinamail.sina.com.cn (r3-57.sinamail.sina.com.cn [202.108.3.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD92121CFEF
-	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 03:53:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.125.188.123
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777002785; cv=pass; b=J8PcptYgem31yCHPcBWBVGM5f+VHAEVNgXvhlS63OWZglHS8+3MQ1fK5RSTIh1y3fstQ4vJLAAoF/xdMpy3ICXLnFGMCKlTSgQKfhKwfC/jhBCRJiX/jasNAKxarXSOr8wlhzmDHSufX9VhbvkOl/57uOEkDNZSnyfAj3R9Nlp4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777002785; c=relaxed/simple;
-	bh=QIlxIIzrBZ0N/KPvc0uB8FAQSxXW/2BSgLn1HxvjEDA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FXTBbw6Ir4BLcTQMW7bUTMrXexhGCRnF5U9TYL/IRkiFtunxHcm3rNq+g0GfRGJ4tUC48vkuNCtXOvEsUQcJFj7kn3E3SnoL49n6tkNwusNf9jVHSt0MMoBPk0BDlh1aPgg6kEPOIZOwMonMvSy41hZDYckzKYPaFhkr5WXO/Tc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=lEsXdPr0; arc=pass smtp.client-ip=185.125.188.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="lEsXdPr0"
-Received: from mail-dl1-f70.google.com (mail-dl1-f70.google.com [74.125.82.70])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 6D27C3F9CD
-	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 03:53:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1777002781;
-	bh=887cakPgYvPGM3+avHUoAsSOSozp7Sf0ilGVQwH8MxY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type;
-	b=lEsXdPr0lFGafh/FVbPVHWYl+CEqqmYtMaQ6l8VTtNuklB+ClJefHJFrruVEsfc0x
-	 99auoXL2K6ZYpGmAe3n4rCgPuF95nfHpAr2iVLBf48YPUiSog5nO/ibrj/3OiWGBO2
-	 d2ewX47w7hHoXtOE8DGCQ+IcJTL+1r5qjkuTosMXWh9mqS67o02S/c1kBT/VFncBoP
-	 SHql85elI4dU2E+WOMWFsrbSRmHkCFjAP6ZYCNH3TGqwX8juWqvKTkg66SoDXQhFGm
-	 kmHDPW1Bbw42+uXLzW/QyyiPQqsA2Q8kfKz4cTiEl+qf8vPRjBsZvHsY6qj6fBP5uz
-	 EvWsW68+E30if7/aHWoTpP15kBuvrO4OvJLXUX2y5AKHDUul9YvnbqeHHFyKW+oarg
-	 aHWy0eE9RVMKu3MIz1QLxJO1thet+UHobZwCXjDYkvvnrDwsQrBmiDwxLnxQN5lvTv
-	 S0Jr2yq22uzLh9Q661kxaUz417QNM1eGk1GTW8yXDXtgg0GrXFLi8i2LcLzlnI8u2Q
-	 9KJvU6mJZ/eQjfe9St8RcMNuRnNv+rZRmiaXLOnBTbtVK3ELUvknuSPQ9aM9VZ89gV
-	 1eAxoEnpggxpJeb15m5D09zG4j0/loaCoW1qP2B5hMj/EbENda009gYoIDsh/3h6Nf
-	 dwwXVKboqkra4no0aLtebkY0=
-Received: by mail-dl1-f70.google.com with SMTP id a92af1059eb24-12c91ef7009so16474988c88.1
-        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 20:53:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777002779; cv=none;
-        d=google.com; s=arc-20240605;
-        b=R6VjLuaqTBFPL2apPSKXaSMMlFxLbTCEboPnBU7uGV1LaId//8xv8awRxTS6XkIAdf
-         X7wXgPJKyHo30tSrjJdeSot0/T7eeHA+r74gch4XbkDMxpnMb1URrb7mJX9nINcjlwW2
-         vcIPQc8FvSdN6NrjeFhswxvexQ0frcafzhx47vrReHFO76mJnolSnBhG7ZBTrm05sNfo
-         rxO6nGh8BrYkYTLXLSHrH7Wwcxjgj9j+GtOz+KVB94UMRmqQvhAZRx4/nItVWQULjxwv
-         KwCtqj+c6GjD9oH8b8fBd5f1W81NUhrdjWi7zvxgfMp60iegrBQWZqZ24DN/wIr1Lbcv
-         b8iA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version;
-        bh=887cakPgYvPGM3+avHUoAsSOSozp7Sf0ilGVQwH8MxY=;
-        fh=C1sRWDgKLEfnr1aBijbbywzheOm7t/ETp/CyCzmr6TI=;
-        b=iSZPfj+0qpeCt7yNL8tffXNKgRFvklQJhzZihdsj+f/0N6W9o4B8pqRXaAAjk93vCm
-         yx+i4yppN6PtUPR18+q/6oL0PFgtYJhb2pmLbUbTn0+vtM4vssIXqHnzMkfbsLEbQ2sO
-         LvMDc1zE3Sz0aDApe45lvGGSpAOskhHCGT75pDeAqsPiAhQ9BfsUlJvzb4PWIs2YgVWN
-         L+OumnmX87NPn44l9B7GAl6OR5D15bw7XVPsIrKyfehFWknYUPCrKHLWrpDREURC+Da1
-         zf3yVE2A0PNV7Gy8x7lEVaAt3mRbzPpc3MS56ijgB+4BBlFhiMiCfr/KQWvmuR1Q8qMk
-         2j/A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777002779; x=1777607579;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=887cakPgYvPGM3+avHUoAsSOSozp7Sf0ilGVQwH8MxY=;
-        b=qej+3/tB1+WpesW5rrR4JJOwlEl87L9MxCv01ByhHNbV+bXdiE2Bb4e5/0KQ/PVsd7
-         B7rnOQIPPnqZ/FhsJvUuWN6+8rHFKW9y9dtkSkNOq3Q2LEQSZXex6Y+HFJvXxAZv4ZF6
-         0h1TyBr5BnKXyVU6HpRsGiDAHuHpHAilaIkheHVc0PRhRupSNngESPdw8CAUdrTeekuK
-         VJqSP2bMUDaPcfOPSX5ppyduUOScjTNovMZ/q2rm7ylPIyy7lruo726G23IqxMQUQ8+P
-         ow8AQAowK5WJ6Q4rVDaXj+BHkoaGgBu8i/CgKRJ6vpbKFkQzD94DyVqQD5trWG4E77XY
-         WjMA==
-X-Forwarded-Encrypted: i=1; AFNElJ8dK+LX05SakXpHzwtTZEO2cR+PEvQqohf10dcNx6EK0ybDxrmGOP94d96bCmLE10655+kCliOSHJyeNQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwczoBQ0xoOXhy/OIT+WuUFpGogbglx5LyGGW8vDh7GXvPc3dA
-	6QOBe11YNMPTrOCNCjJ2w08JlWyQuKP5Vk9sB1tR7yRRfvNV3387XEB7gKEbQu5lmPGzUy+7k0m
-	VCUY1D4mXIcLPE/Eg0GkTxE7CbPSHVkkdSbsaknIkNPW7KiD/GB5kZJaUYVBw30hZvvS8VQr1cL
-	whxcQ9vyDjr2Dt8SSgWzliOtmx5nU3YjAz/skxI0sjk1ruBdKRA51lPnbenc6q7rPeNXcn
-X-Gm-Gg: AeBDiet1zPCC67zixK8n238NQRKAyfYsXRGckurXSpBgAVFXEDfHutDsdw7eOTDY3by
-	ivUBvgsph137sM6llSbhzO5MKqU0I/hAYRq7gnbQPBmGFaH2H9/ant66tIqbYsHq74JxtwJgwxT
-	ZpuKyga8ehlkCNKpyE5pDjwVFiNZSV6a7DJx2PM8mWyAl6sjmsYbYTpmXFqhKchiS7sVm1Qr/F+
-	6Ik2QDYjgNGOEDdWA==
-X-Received: by 2002:a05:7022:eac8:b0:123:2c98:f6af with SMTP id a92af1059eb24-12c73f75a96mr17182394c88.14.1777002779463;
-        Thu, 23 Apr 2026 20:52:59 -0700 (PDT)
-X-Received: by 2002:a05:7022:eac8:b0:123:2c98:f6af with SMTP id
- a92af1059eb24-12c73f75a96mr17182383c88.14.1777002779082; Thu, 23 Apr 2026
- 20:52:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831D433F580
+	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 05:50:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.57
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777009816; cv=none; b=h0l6UIOIJ6Hefa355mWuHVyOd5KHCc4t6oHY27CYl0j4g5qvIgxEA8FsvdwQ0RcMMjdO3QV9+kQNY7mms/aWijPwYGwbGY15ljNamRXyq3vCqoEIZE1gxaPYa9x2kI7AFr8ajY97UIn45e3xfKiB9636FK1Ooek+v4RgIAVckcM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777009816; c=relaxed/simple;
+	bh=984Hvw3MENsRoN59fDj56e+GhDeqM2YaXNn/Ar7kEOQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=p7w5l/SwgLV0G4wEXo/hvb14ASXECE+HAlUbeuLAlMji2vDQP5339a3A57yTIgZgesUNmYHSdg4mzXVZGwkVFGvt5iS3qytwVW00GAgsUFz5/wFmc6i1PpafVCHkbNk5Bek+UWrzgQpdtOK9b5hnR0TsH2Nowq5tPSCHafpLuBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([180.154.36.64])
+	by sina.net (10.54.253.36) with ESMTP
+	id 69EB046A00003A69; Fri, 24 Apr 2026 13:49:32 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 0504D4A2C7C740709C1EEE65F66610CC
+X-SMAIL-UIID: 0504D4A2C7C740709C1EEE65F66610CC-20260424-134932
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Cc: peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ckeepax@opensource.cirrus.com,
+	Zhang Yi <zhangyi@everest-semi.com>
+Subject: [PATCH v10 1/5] ASoC: sdw_utils: add soc_sdw_es9356
+Date: Fri, 24 Apr 2026 13:49:24 +0800
+Message-Id: <20260424054928.3257-2-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260424054928.3257-1-zhangyi@everest-semi.com>
+References: <20260424054928.3257-1-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260423101338.1040131-1-aaron.ma@canonical.com> <76827f27-1a27-422f-8e83-5f5e5ae0f7ef@linux.dev>
-In-Reply-To: <76827f27-1a27-422f-8e83-5f5e5ae0f7ef@linux.dev>
-From: Aaron Ma <aaron.ma@canonical.com>
-Date: Fri, 24 Apr 2026 11:52:47 +0800
-X-Gm-Features: AQROBzAiNzDu49u1IMWu7XySLupko1e2QuzshhzqOXXvHjoooj_2VleSXZzzN0M
-Message-ID: <CAJ6xRxVy5+PnoNDK0z=15PrsUXewAgZb6y=a4pdUQ5JTqphk8A@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: rt722-sdca: add FU06 Playback Switch for speaker
- mute control
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: oder_chiou@realtek.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 23, 2026 at 9:01=E2=80=AFPM Pierre-Louis Bossart
-<pierre-louis.bossart@linux.dev> wrote:
->
-> On 4/23/26 12:13, Aaron Ma wrote:
-> > The rt722-sdca codec driver exposes FU06 Playback Volume but no
-> > corresponding mute switch. Without a user-facing ALSA switch, UCM
-> > cannot attach the speaker mute LED via snd_ctl_led, and PipeWire
-> > cannot drive hardware mute.
-> >
-> > Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
-> > ---
-> >  sound/soc/codecs/rt722-sdca.c | 77 ++++++++++++++++++++++++++++-------
-> >  sound/soc/codecs/rt722-sdca.h |  4 ++
-> >  2 files changed, 67 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/sound/soc/codecs/rt722-sdca.c b/sound/soc/codecs/rt722-sdc=
-a.c
-> > index 79b8b7e70a334..23d2f63d68ef3 100644
-> > --- a/sound/soc/codecs/rt722-sdca.c
-> > +++ b/sound/soc/codecs/rt722-sdca.c
-> > @@ -517,6 +517,61 @@ static int rt722_sdca_fu1e_capture_put(struct snd_=
-kcontrol *kcontrol,
-> >       return changed;
-> >  }
-> >
-> > +static int rt722_sdca_set_fu06_playback_ctl(struct rt722_sdca_priv *rt=
-722)
-> > +{
-> > +     int err;
-> > +     unsigned int ch_l, ch_r;
-> > +
-> > +     ch_l =3D (rt722->fu06_dapm_mute || rt722->fu06_mixer_l_mute) ? 0x=
-01 : 0x00;
-> > +     ch_r =3D (rt722->fu06_dapm_mute || rt722->fu06_mixer_r_mute) ? 0x=
-01 : 0x00;
-> > +
-> > +     err =3D regmap_write(rt722->regmap,
-> > +                     SDW_SDCA_CTL(FUNC_NUM_AMP, RT722_SDCA_ENT_USER_FU=
-06,
-> > +                     RT722_SDCA_CTL_FU_MUTE, CH_L), ch_l);
-> > +     if (err < 0)
-> > +             return err;
-> > +
-> > +     err =3D regmap_write(rt722->regmap,
-> > +                     SDW_SDCA_CTL(FUNC_NUM_AMP, RT722_SDCA_ENT_USER_FU=
-06,
-> > +                     RT722_SDCA_CTL_FU_MUTE, CH_R), ch_r);
->
-> IIRC you can mute all channels at once in a FU (Feature Unit) using Contr=
-ol Number 0.
->
-> If both channels need to be muted/unmuted it's better to do so in a singl=
-e command.
->
+Add a utility program for handling ES9356 in the universal machine driver
 
-Thanks for the review.
+Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+---
+ include/sound/soc_sdw_utils.h        |  14 ++
+ sound/soc/sdw_utils/Makefile         |   1 +
+ sound/soc/sdw_utils/soc_sdw_es9356.c | 230 +++++++++++++++++++++++++++
+ 3 files changed, 245 insertions(+)
+ create mode 100644 sound/soc/sdw_utils/soc_sdw_es9356.c
 
-The per-channel mute writes are unchanged from the existing DAPM
-handler, just moved into a helper.
-All rt711/rt712/rt722 drivers use per-channel writes for FU_MUTE =E2=80=94 =
-no
-CN0 precedent exists.
+diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
+index 489083183..5ddbbc8bb 100644
+--- a/include/sound/soc_sdw_utils.h
++++ b/include/sound/soc_sdw_utils.h
+@@ -223,6 +223,17 @@ int asoc_sdw_cs42l43_spk_init(struct snd_soc_card *card,
+ 			      struct asoc_sdw_codec_info *info,
+ 			      bool playback);
+ 
++/* es9356 codec support */
++int asoc_sdw_es9356_init(struct snd_soc_card *card,
++			       struct snd_soc_dai_link *dai_links,
++			       struct asoc_sdw_codec_info *info,
++			       bool playback);
++int asoc_sdw_es9356_amp_init(struct snd_soc_card *card,
++			       struct snd_soc_dai_link *dai_links,
++			       struct asoc_sdw_codec_info *info,
++			       bool playback);
++int asoc_sdw_es9356_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link);
++
+ /* CS AMP support */
+ int asoc_sdw_bridge_cs35l56_count_sidecar(struct snd_soc_card *card,
+ 					  int *num_dais, int *num_devs);
+@@ -274,5 +285,8 @@ int asoc_sdw_ti_amp_init(struct snd_soc_card *card,
+ int asoc_sdw_ti_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ int asoc_sdw_ti_amp_initial_settings(struct snd_soc_card *card,
+ 				     const char *name_prefix);
++int asoc_sdw_es9356_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
++int asoc_sdw_es9356_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
++int asoc_sdw_es9356_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ 
+ #endif
+diff --git a/sound/soc/sdw_utils/Makefile b/sound/soc/sdw_utils/Makefile
+index a8d091fd3..5ae8c69b8 100644
+--- a/sound/soc/sdw_utils/Makefile
++++ b/sound/soc/sdw_utils/Makefile
+@@ -8,6 +8,7 @@ snd-soc-sdw-utils-y := soc_sdw_utils.o soc_sdw_dmic.o soc_sdw_rt_dmic.o \
+ 		       soc_sdw_cs42l45.o				\
+ 		       soc_sdw_cs47l47.o				\
+ 		       soc_sdw_cs_amp.o					\
++		       soc_sdw_es9356.o					\
+ 		       soc_sdw_maxim.o \
+ 		       soc_sdw_ti_amp.o
+ obj-$(CONFIG_SND_SOC_SDW_UTILS) += snd-soc-sdw-utils.o
+diff --git a/sound/soc/sdw_utils/soc_sdw_es9356.c b/sound/soc/sdw_utils/soc_sdw_es9356.c
+new file mode 100644
+index 000000000..aa405e7da
+--- /dev/null
++++ b/sound/soc/sdw_utils/soc_sdw_es9356.c
+@@ -0,0 +1,230 @@
++// SPDX-License-Identifier: GPL-2.0-only
++// Based on sof_sdw_rt5682.c
++// This file incorporates work covered by the following copyright notice:
++// Copyright (c) 2023 Intel Corporation
++// Copyright (c) 2024 Advanced Micro Devices, Inc.
++// Copyright (c) 2025 Everest Semiconductor Co., Ltd
++
++/*
++ *  soc_sdw_es9356 - Helpers to handle ES9356 from generic machine driver
++ */
++
++#include <linux/device.h>
++#include <linux/errno.h>
++#include <linux/input.h>
++#include <linux/soundwire/sdw.h>
++#include <linux/soundwire/sdw_type.h>
++#include <sound/control.h>
++#include <sound/soc.h>
++#include <sound/soc-acpi.h>
++#include <sound/soc-dapm.h>
++#include <sound/jack.h>
++#include <sound/soc_sdw_utils.h>
++
++/*
++ * Note this MUST be called before snd_soc_register_card(), so that the props
++ * are in place before the codec component driver's probe function parses them.
++ */
++static int es9356_add_codec_device_props(struct device *sdw_dev, unsigned long quirk)
++{
++	struct property_entry props[SOC_SDW_MAX_NO_PROPS] = {};
++	struct fwnode_handle *fwnode;
++	int ret;
++
++	if (!SOC_SDW_JACK_JDSRC(quirk))
++		return 0;
++	props[0] = PROPERTY_ENTRY_U32("everest,jd-src", SOC_SDW_JACK_JDSRC(quirk));
++
++	fwnode = fwnode_create_software_node(props, NULL);
++	if (IS_ERR(fwnode))
++		return PTR_ERR(fwnode);
++
++	ret = device_add_software_node(sdw_dev, to_software_node(fwnode));
++
++	fwnode_handle_put(fwnode);
++
++	return ret;
++}
++
++static const struct snd_soc_dapm_route es9356_map[] = {
++	/* Headphones */
++	{ "Headphone", NULL, "es9356 HP" },
++	{ "es9356 MIC1", NULL, "Headset Mic" },
++};
++
++static const struct snd_soc_dapm_route es9356_spk_map[] = {
++	/* Speaker */
++	{ "Speaker", NULL, "es9356 SPK" },
++};
++
++static const struct snd_soc_dapm_route es9356_dmic_map[] = {
++	/* DMIC */
++	{ "es9356 PDM_DIN", NULL, "DMIC" },
++};
++
++static struct snd_soc_jack_pin es9356_jack_pins[] = {
++	{
++		.pin    = "Headphone",
++		.mask   = SND_JACK_HEADPHONE,
++	},
++	{
++		.pin    = "Headset Mic",
++		.mask   = SND_JACK_MICROPHONE,
++	},
++};
++
++int asoc_sdw_es9356_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
++{
++	struct snd_soc_card *card = rtd->card;
++	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
++	int ret;
++
++	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
++					  "%s spk:es9356-spk",
++					  card->components);
++	if (!card->components)
++		return -ENOMEM;
++
++	ret = snd_soc_dapm_add_routes(dapm, es9356_spk_map,
++				      ARRAY_SIZE(es9356_spk_map));
++	if (ret)
++		dev_err(card->dev, "es9356 map addition failed: %d\n", ret);
++
++	return ret;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_es9356_spk_rtd_init, "SND_SOC_SDW_UTILS");
++
++int asoc_sdw_es9356_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
++{
++	struct snd_soc_card *card = rtd->card;
++	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
++	int ret;
++
++	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
++					  "%s mic:es9356-dmic",
++					  card->components);
++	if (!card->components)
++		return -ENOMEM;
++
++	ret = snd_soc_dapm_add_routes(dapm, es9356_dmic_map,
++				      ARRAY_SIZE(es9356_dmic_map));
++	if (ret)
++		dev_err(card->dev, "es9356 map addition failed: %d\n", ret);
++
++	return ret;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_es9356_dmic_rtd_init, "SND_SOC_SDW_UTILS");
++
++int asoc_sdw_es9356_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
++{
++	struct snd_soc_card *card = rtd->card;
++	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
++	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
++	struct snd_soc_component *component;
++	struct snd_soc_jack *jack;
++	int ret;
++
++	component = dai->component;
++	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
++					  "%s hs:es9356",
++					  card->components);
++	if (!card->components)
++		return -ENOMEM;
++
++	ret = snd_soc_dapm_add_routes(dapm, es9356_map,
++				      ARRAY_SIZE(es9356_map));
++
++	if (ret) {
++		dev_err(card->dev, "es9356 map addition failed: %d\n", ret);
++		return ret;
++	}
++
++	ret = snd_soc_card_jack_new_pins(rtd->card, "Headset Jack",
++					 SND_JACK_HEADSET | SND_JACK_BTN_0 |
++					 SND_JACK_BTN_1 | SND_JACK_BTN_2 |
++					 SND_JACK_BTN_3 | SND_JACK_BTN_4,
++					 &ctx->sdw_headset,
++					 es9356_jack_pins,
++					 ARRAY_SIZE(es9356_jack_pins));
++	if (ret) {
++		dev_err(rtd->card->dev, "Headset Jack creation failed: %d\n",
++			ret);
++		return ret;
++	}
++
++	jack = &ctx->sdw_headset;
++
++	snd_jack_set_key(jack->jack, SND_JACK_BTN_0, KEY_PLAYPAUSE);
++	snd_jack_set_key(jack->jack, SND_JACK_BTN_1, KEY_VOLUMEUP);
++	snd_jack_set_key(jack->jack, SND_JACK_BTN_2, KEY_VOLUMEDOWN);
++	snd_jack_set_key(jack->jack, SND_JACK_BTN_3, KEY_NEXTSONG);
++	snd_jack_set_key(jack->jack, SND_JACK_BTN_4, KEY_PREVIOUSSONG);
++
++	ret = snd_soc_component_set_jack(component, jack, NULL);
++
++	if (ret)
++		dev_err(rtd->card->dev, "Headset Jack call-back failed: %d\n",
++			ret);
++
++	return ret;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_es9356_rtd_init, "SND_SOC_SDW_UTILS");
++
++int asoc_sdw_es9356_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link)
++{
++	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
++
++	if (!ctx->headset_codec_dev)
++		return 0;
++
++	device_remove_software_node(ctx->headset_codec_dev);
++	put_device(ctx->headset_codec_dev);
++
++	return 0;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_es9356_exit, "SND_SOC_SDW_UTILS");
++
++int asoc_sdw_es9356_init(struct snd_soc_card *card,
++		       struct snd_soc_dai_link *dai_links,
++		       struct asoc_sdw_codec_info *info,
++		       bool playback)
++{
++	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
++	struct device *sdw_dev;
++	int ret;
++
++	/*
++	 * headset should be initialized once.
++	 * Do it with dai link for playback.
++	 */
++	if (!playback)
++		return 0;
++
++	sdw_dev = bus_find_device_by_name(&sdw_bus_type, NULL, dai_links->codecs[0].name);
++	if (!sdw_dev)
++		return -EPROBE_DEFER;
++
++	ret = es9356_add_codec_device_props(sdw_dev, ctx->mc_quirk);
++	if (ret < 0) {
++		put_device(sdw_dev);
++		return ret;
++	}
++	ctx->headset_codec_dev = sdw_dev;
++
++	return 0;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_es9356_init, "SND_SOC_SDW_UTILS");
++
++int asoc_sdw_es9356_amp_init(struct snd_soc_card *card,
++		       struct snd_soc_dai_link *dai_links,
++		       struct asoc_sdw_codec_info *info,
++		       bool playback)
++{
++	if (!playback)
++		return 0;
++
++	info->amp_num++;
++
++	return 0;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_es9356_amp_init, "SND_SOC_SDW_UTILS");
+-- 
+2.17.1
 
-Aaron
