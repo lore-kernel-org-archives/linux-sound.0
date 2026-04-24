@@ -1,16 +1,16 @@
 Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D192E888C;
-	Fri, 24 Apr 2026 02:50:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD2C2E3AF1;
+	Fri, 24 Apr 2026 02:51:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776999057; cv=none; b=jOCuNQJ1ATS/vqmecTeQWTKHF5I5VfzBgsUA4llhGiw9U8bW3/BHP+oIm97E0IOp18259gid1njHVjga5JxPNfCgjdPkihHpNOu1YHmo/GRuBgHID8uJ0fCTuQSuvKguC5ljRfn+dk84c8QpCs0G7I7nN+V41tWdUeyoIU2eq68=
+	t=1776999068; cv=none; b=iFvJY53XA42kyY5EWJ7FLG2dgKpSBlHar+gGMH4lnuBCBELfMtDxzHppn1/YX0s5RFwsG8M5Td0p89hAj0cHsDcx83O1PYrT6qrypKWQiFZNt4fJdZT61WDzkMPSDTOH0Tzu1AjuwQ5R45CUq+OocckSkzbazFYdBWWWA0sp4AY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776999057; c=relaxed/simple;
-	bh=F+NzI9FIxutDsF1gfI44vix3SsKxwQbL8sWjJvfsQwA=;
+	s=arc-20240116; t=1776999068; c=relaxed/simple;
+	bh=CS3J8VZWW9nKd/fVcyQCMRpG/Rqggn1vq0Uf/ahU//s=;
 	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KcFLXja3/pmqw+P1VbIcUz2qdOc+RFzcNiiOCLebutt8+ZXExDMzHyoKk4gC6mGlICd6/J2ntwOwKFjFeRuaXfBKGfzS9xoZY9OIui2ba5ZBCadIavCBL6Lsvk6jMk5oJ0bzluCs0llQpJS7lbfpX0GGTNQb3CX+yHznBDbti8g=
+	 Content-Type:Content-Disposition:In-Reply-To; b=XrUfadDeYgKUPPLpR4dl7FGAtXBh0laFGn8NmZsB8ULWy0ZwQNFjpxummKrou+CmUJ/4cjf3p1TK/GXNTMU0eMnwipRvjLlX7Vw9kulO588nh0DgzKfWmLvfZX6l1jp9ljcP0KKZA2tfxsN5/Pmr0OIR922S5An38Olq8spBR2A=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
@@ -18,9 +18,9 @@ Received: from local
 	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
 	 (Exim 4.99)
 	(envelope-from <daniel@makrotopia.org>)
-	id 1wG6cs-000000002R9-47ZH;
-	Fri, 24 Apr 2026 02:50:43 +0000
-Date: Fri, 24 Apr 2026 03:50:35 +0100
+	id 1wG6d4-000000002Ri-1eCA;
+	Fri, 24 Apr 2026 02:50:54 +0000
+Date: Fri, 24 Apr 2026 03:50:46 +0100
 From: Daniel Golle <daniel@makrotopia.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -37,9 +37,9 @@ To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: [PATCH v3 7/9] ARM: dts: mediatek: mt2701: wire HDMI audio path
+Subject: [PATCH v3 8/9] ARM: dts: mediatek: mt7623: wire HDMI audio path
  clocks into AFE
-Message-ID: <99fb10ae55dd26e1086b6d865f2f12d75dc7ac61.1776998727.git.daniel@makrotopia.org>
+Message-ID: <5dba44c0f9b63c6b97119eabaaff92768d6295bf.1776998727.git.daniel@makrotopia.org>
 References: <cover.1776998727.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -51,25 +51,24 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1776998727.git.daniel@makrotopia.org>
 
-Add the HADDS2 PLL 294 MHz root, the audio_hdmi and audio_spdf
-interface gates and the audio_apll gate to the MT2701 AFE node,
-and reparent the AUDPLL mux to HADDS2PLL_98M so the HDMI audio
-serial clock path has a stable 294.912 MHz source. The clock
-names match the updated mediatek,mt2701-audio binding.
+Mirror the MT2701 change for the MT7623 SoC dtsi: add HADDS2PLL,
+audio_hdmi, audio_spdf and audio_apll to the AFE clocks list and
+reparent the AUDPLL mux to HADDS2PLL_98M. Required for HDMI audio
+on MT7623N boards via the shared mt2701 AFE driver.
 
 Signed-off-by: Daniel Golle <daniel@makrotopia.org>
 ---
 v3: no changes
 v2: no changes
 
- arch/arm/boot/dts/mediatek/mt2701.dtsi | 21 ++++++++++++++++-----
+ arch/arm/boot/dts/mediatek/mt7623.dtsi | 21 ++++++++++++++++-----
  1 file changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm/boot/dts/mediatek/mt2701.dtsi b/arch/arm/boot/dts/mediatek/mt2701.dtsi
-index 128b87229f3d..80c8c7e6a422 100644
---- a/arch/arm/boot/dts/mediatek/mt2701.dtsi
-+++ b/arch/arm/boot/dts/mediatek/mt2701.dtsi
-@@ -464,7 +464,11 @@ afe: audio-controller {
+diff --git a/arch/arm/boot/dts/mediatek/mt7623.dtsi b/arch/arm/boot/dts/mediatek/mt7623.dtsi
+index 71ac2b94c6ba..4eb028ffee6f 100644
+--- a/arch/arm/boot/dts/mediatek/mt7623.dtsi
++++ b/arch/arm/boot/dts/mediatek/mt7623.dtsi
+@@ -665,7 +665,11 @@ afe: audio-controller {
  				 <&audsys CLK_AUD_AFE_CONN>,
  				 <&audsys CLK_AUD_A1SYS>,
  				 <&audsys CLK_AUD_A2SYS>,
@@ -82,7 +81,7 @@ index 128b87229f3d..80c8c7e6a422 100644
  
  			clock-names = "infra_sys_audio_clk",
  				      "top_audio_mux1_sel",
-@@ -499,15 +503,22 @@ afe: audio-controller {
+@@ -700,15 +704,22 @@ afe: audio-controller {
  				      "audio_afe_conn_pd",
  				      "audio_a1sys_pd",
  				      "audio_a2sys_pd",
