@@ -1,29 +1,29 @@
-Received: from r3-89.sinamail.sina.com.cn (r3-89.sinamail.sina.com.cn [202.108.3.89])
+Received: from r3-57.sinamail.sina.com.cn (r3-57.sinamail.sina.com.cn [202.108.3.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C98F346AFB
-	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 05:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93089346E6D
+	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 05:52:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777009926; cv=none; b=iZ9cOPLh54sD3LdMHe2ur9uo/U67W4dv/9WEs/b9nAcVqgIOF9YhcH9WZXgbwHtic6LZTcyKN/aqtuneDWaPVuSfxYVsmApwIl/hYpDx2u7/XEyHJ6hgqICrcXBnjaM7QrtdafN2ladtetMVch1XJnMVgwFB24MhDZ/TwCLYSqw=
+	t=1777009929; cv=none; b=pniCQy8MFT+UZarbXWPEk5KHJpWB7eiuA38MokBBD5SF1QfHCsdQRAB8jf9eaI7QYuUTqLvI0Ywdfmnd39MV3JvQ3349pjoEZSQ3QwE00RgCcF11rAwvcPd+gyNDPo4WBHAZvczkd6ysFMLB6kyy5UJQ9ELmlODopusGtmrPE28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777009926; c=relaxed/simple;
-	bh=dtZ8/W39N3hmTDcDKtmDOQp0npQ9SBLiKkkWAQvr8yg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=QoIBK0Qbx6A7BKJoD8w5r9t47Qq0UCvPyQujXtNRPgn9qbPJ9gKeXTWIcfLvmZk9aFWnmwF+lvH9e30q+UR5p8phICZLR22mHDWD8M/UsyKUpFJLNgr9ILyIVsAQNWLLbsR/IVkw2iu9Y5M1LKz9dZ+7WG0u9JHnEN1LausIr7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.89
+	s=arc-20240116; t=1777009929; c=relaxed/simple;
+	bh=c3qB6n24yF0GGWk3JhnztkerQuG8WCyBP/bsu4j26e8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=K9eNca6r//POIzFNZ1caBr89KNepAiEbl47O16J/BNc4Jtz4ejjKA90HansRAXG8v36Ld+Yev/HJK+NATF4vh6r6xGQqSPDya7D0ap29oRreFYAGln4n1F4sJM8MSOnJFBNOgTF7l+s9PHXOmLjPuoWKBy6rcF2+dv18wGOnv4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.57
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
 Received: from unknown (HELO zy-virtual-machine.localdomain)([180.154.36.64])
 	by sina.net (10.54.253.36) with ESMTP
-	id 69EB046A00003A69; Fri, 24 Apr 2026 13:49:33 +0800 (CST)
+	id 69EB046A00003A69; Fri, 24 Apr 2026 13:49:37 +0800 (CST)
 X-Sender: zhangyi@everest-semi.com
 X-Auth-ID: zhangyi@everest-semi.com
 Authentication-Results: sina.net;
 	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
 	 dkim=none header.i=none;
 	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 9D563D10DCA74B64B883B198DB1091F4
-X-SMAIL-UIID: 9D563D10DCA74B64B883B198DB1091F4-20260424-134933
+X-SMAIL-MID: 009CCAA18B4B4CC483230E5904AFD476
+X-SMAIL-UIID: 009CCAA18B4B4CC483230E5904AFD476-20260424-134937
 From: Zhang Yi <zhangyi@everest-semi.com>
 To: broonie@kernel.org,
 	tiwai@suse.com,
@@ -34,9 +34,9 @@ Cc: peter.ujfalusi@linux.intel.com,
 	kai.vehmanen@linux.intel.com,
 	ckeepax@opensource.cirrus.com,
 	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v10 2/5] ASoC: sdw_utils: add ES9356 in codec_info_list
-Date: Fri, 24 Apr 2026 13:49:25 +0800
-Message-Id: <20260424054928.3257-3-zhangyi@everest-semi.com>
+Subject: [PATCH v10 4/5] ASoC: Intel: soc-acpi: arl: Add es9356 support
+Date: Fri, 24 Apr 2026 13:49:27 +0800
+Message-Id: <20260424054928.3257-5-zhangyi@everest-semi.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20260424054928.3257-1-zhangyi@everest-semi.com>
 References: <20260424054928.3257-1-zhangyi@everest-semi.com>
@@ -46,74 +46,90 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-Add ES9356 in codec_info_list
+Add support for the es9356 codec in the ARL board configuration.
 
 Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
 ---
- sound/soc/sdw_utils/soc_sdw_utils.c | 50 +++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+ .../intel/common/soc-acpi-intel-arl-match.c   | 52 +++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index 2807f536e..840242d7f 100644
---- a/sound/soc/sdw_utils/soc_sdw_utils.c
-+++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -938,6 +938,56 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 		},
- 		.aux_num = 1,
+diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+index c952f7d2b..9782825dd 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+@@ -192,6 +192,42 @@ static const struct snd_soc_acpi_endpoint cs42l43_endpoints[] = {
+ 	},
+ };
+ 
++static const struct snd_soc_acpi_endpoint es9356_endpoints[] = {
++	{ /* Jack Playback Endpoint */
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* DMIC Capture Endpoint */
++		.num = 1,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* Jack Capture Endpoint */
++		.num = 2,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* Speaker Playback Endpoint */
++		.num = 3,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++};
++
++static const struct snd_soc_acpi_adr_device es9356_adr[] = {
++	{
++		.adr = 0x00013004b3935601ull,
++		.num_endpoints = ARRAY_SIZE(es9356_endpoints),
++		.endpoints = es9356_endpoints,
++		.name_prefix = "es9356"
++	}
++};
++
+ static const struct snd_soc_acpi_adr_device cs42l43_0_adr[] = {
+ 	{
+ 		.adr = 0x00003001FA424301ull,
+@@ -255,6 +291,15 @@ static const struct snd_soc_acpi_adr_device rt1320_2_single_adr[] = {
+ 	}
+ };
+ 
++static const struct snd_soc_acpi_link_adr arl_n_mrd_es9356_link1[] = {
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(es9356_adr),
++		.adr_d = es9356_adr,
++	},
++	{}
++};
++
+ static const struct snd_soc_acpi_link_adr arl_cs42l43_l0[] = {
+ 	{
+ 		.mask = BIT(0),
+@@ -528,6 +573,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
+ 		.sof_tplg_filename = "sof-arl-rt722-l0_rt1320-l2.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
  	},
 +	{
-+		.vendor_id = 0x04b3,
-+		.part_id = 0x9356,
-+		.name_prefix = "es9356",
-+		.version_id = 3,
-+		.dais = {
-+			{
-+				.direction = {true, false},
-+				.dai_name = "es9356-sdp-aif1",
-+				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-+				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
-+				.init = asoc_sdw_es9356_init,
-+				.exit = asoc_sdw_es9356_exit,
-+				.rtd_init = asoc_sdw_es9356_rtd_init,
-+				.controls = generic_jack_controls,
-+				.num_controls = ARRAY_SIZE(generic_jack_controls),
-+				.widgets = generic_jack_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
-+			},
-+			{
-+				.direction = {false, true},
-+				.dai_name = "es9356-sdp-aif4",
-+				.dai_type = SOC_SDW_DAI_TYPE_MIC,
-+				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
-+				.rtd_init = asoc_sdw_es9356_dmic_rtd_init,
-+				.widgets = generic_dmic_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_dmic_widgets),
-+			},
-+			{
-+				.direction = {false, true},
-+				.dai_name = "es9356-sdp-aif2",
-+				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-+				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
-+			},
-+			{
-+				.direction = {true, false},
-+				.dai_name = "es9356-sdp-aif3",
-+				.component_name = "es9356",
-+				.dai_type = SOC_SDW_DAI_TYPE_AMP,
-+				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
-+				.init = asoc_sdw_es9356_amp_init,
-+				.rtd_init = asoc_sdw_es9356_spk_rtd_init,
-+				.controls = generic_spk_controls,
-+				.num_controls = ARRAY_SIZE(generic_spk_controls),
-+				.widgets = generic_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
-+			},
-+		},
-+		.dai_num = 4,
++		.link_mask = BIT(1),
++		.links = arl_n_mrd_es9356_link1,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-arl-es9356.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
 +	},
- 	{
- 		.vendor_id = 0x0105,
- 		.part_id = 0xaaaa, /* generic codec mockup */
+ 	{},
+ };
+ EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_arl_sdw_machines);
 -- 
 2.17.1
 
