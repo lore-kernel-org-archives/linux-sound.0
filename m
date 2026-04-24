@@ -1,182 +1,108 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BE42264A9
-	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 06:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD4E3246EF
+	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 07:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777011882; cv=none; b=ZPb5iFv3pyp0zjDhiOjSn+E5BWDB1auTf2El7q8Sxo3JecuujZPEiUZeSXawYspvjeGxLRsU2aIii03YZ1sYs0dcSOiMVwguUV9hl4jfGjzr0ivsqQtalz/HZjpLuDYaLYh9VfA8R1vNqSjLv9xPqJVjhUFUnn0SJOf1fWQZfXg=
+	t=1777014739; cv=none; b=Ra5Ue4LXZT4StzPPP1U8YcUysaIJwMJfkuq4V0AptA2pYooVxQ+sDbsMLfgxBrYtM3jc7FqEk8IXcGsBbBbN04znrkIoPT5dU6GMXiGJPhXttC43Bpeon3teRjnygCB7npoAltsc+nhb6s4Ev3alZg6lKV0NEMrhSA4MwezRWWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777011882; c=relaxed/simple;
-	bh=jWnKWFsq2UQMYrWu/2lPXunCsMi2nCGVKHLymQhz4/c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KdPRfH9uYxvL0TF0nMux5zXzw1Ty6i5qjvfy3R9q3ZwtLtfembgPZ8+3XLolVEIui6XioBetINn6CvBe8p0iSbba2vH2EJKdQ3I7hS46frOt5yBe/GFIfNXAVrBu/BTqH0tzYjhES+baOn0NSFBtF50DhV3g2ICP6sBD98oBmVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-56d9ed609d2so2232426e0c.1
-        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 23:24:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777011880; x=1777616680;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+	s=arc-20240116; t=1777014739; c=relaxed/simple;
+	bh=+MMxXr52Maj39GjmOnu/1e+16jAfJQ15YgGr4S60Cxc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=JaivFJRfvXvI0StaiJAJALueMKsK0RHVZsxl7aZFj2uqU6mAda07f7LIT+/K07nGibXFLRQbXFiq0dq7n+ZgYmWeMtjBJ4Mfb7XsE6KA7dwuWcgFhRb0SmCtnKr1jKBiy697xb8Hpjooo2xqCo87auD+IxRSximfw9KByhkPhTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr; spf=pass smtp.mailfrom=snu.ac.kr; dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b=drw6kPEF; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snu.ac.kr
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b="drw6kPEF"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-35d971fb6f1so5975159a91.0
+        for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 00:12:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=snu.ac.kr; s=google; t=1777014734; x=1777619534; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FapzwhdvoGXDd8qZ19lMZ3BT1g7fv1HHVzqpUQuOKIY=;
-        b=UOdByKETFMpuOI71hUijwIMXxAdk4kvaUWPv+3s/NKLZinDwvaInR3gh/kEF6VCqeg
-         C25zkcQgNNRCYjzMoBREUJcQYxTs74yqKjQOwEjkTP4cJ7pOlDB7NYcV7Bzh5f6IxWRu
-         zrs3ZB6QEyp3HYvi14xkywomCqBMmF8oC9R9sgyhlvVPdYeBuGeaDytWa/TDKbAm33d1
-         DCvkAJNmoh5XoaVzfWoqFIda+vO4CUQUukvXwk+R6T2BKRd7GyyANKUX5B0SCU7qGcaq
-         viSUIvc2O/Kk3a8to3H9WkwsNR3mVyjMfyUXEfLp6Jj1o+JHIn2KMvUuGm4OVlM6KaPM
-         CmRg==
-X-Forwarded-Encrypted: i=1; AFNElJ/Xbc3yyxut4YuKWrHLJEznQywRne/uNQIDUhGsiwWnw2eQW6EnWsY7R1y7YXtRAo2A0+nSgd0KD0yUgQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzylKHyU4mi7C2HfiaCU+7114lUpmGo+LJQ+LPLi2Gc1kCYDSE
-	qRYkJl//augfINW5LaZcZLZ+wm/Zoyi51nNIEUynyUdvRAcMIyuliTU3TLXzpRQlsxY=
-X-Gm-Gg: AeBDiesHS5fJZrPZt+BnZNnfa4nUiTeRkYeJBKLLcWsYuwTMD+3s4CiEQ9J3RN7FE8/
-	D7pCFmJUA2iBc/h35bZbd8JrK67UAaBSYtJISuOVqUjfSHVQDAWCiZeAgvrf9LweXrV4szabmhd
-	uAfYRHdyM9LyoM28+7m1obMdCoEia61CAWIg8ARYXSy4P6g4PjdbwbehuKgpDKOUQlsTXwOduyC
-	QO44MsZXpwcp6yO5Nase+p2mf2e5QanvguongR9d7oI92mJpkDvqvBdFI33J6bP90KphU/wKAAq
-	TdajB+cihpmg2SRvsliGHxgmT//4OERU2AJ6xIdHoiwHme1SyoyzL1Pc5w8H/AbFYaDJeVszB9T
-	Ykc0VK2syI8ur6M4sfe/68tVt+y/VgvK7j1lHlVxn4twNudkzlcHERgNJTSgdNZ0a31UMzilW/7
-	lObfltB8v6u+ApweDrrVQg9JJHeyQhbIq0xVYBKsRm76YA0I7DJvrZdpC16Al1+9wmTOOYlmOLo
-	48=
-X-Received: by 2002:a05:6122:e144:b0:566:2711:d8ab with SMTP id 71dfb90a1353d-56fa585db6emr15780839e0c.6.1777011880081;
-        Thu, 23 Apr 2026 23:24:40 -0700 (PDT)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56fa933a54dsm12855641e0c.16.2026.04.23.23.24.38
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Apr 2026 23:24:38 -0700 (PDT)
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-56eec951db1so2217442e0c.3
-        for <linux-sound@vger.kernel.org>; Thu, 23 Apr 2026 23:24:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8mq7g4bQAAMjm9eXEey86+U5zVDW5LVVTxQq9uAwv5DHL6qN537LN03wqFXiDLeK5h+/+9uvumRFcwCA==@vger.kernel.org
-X-Received: by 2002:a05:6122:f8c:b0:56f:6cc0:681e with SMTP id
- 71dfb90a1353d-56fa57db05dmr15358381e0c.1.1777011877979; Thu, 23 Apr 2026
- 23:24:37 -0700 (PDT)
+        bh=bSB8eHNTWglbhom7jqMObvhP+66e0F4LO6bcsIBXY0U=;
+        b=drw6kPEFVuseaQZsbpAvbnocE+z5zV5Z3+Y4AO04KSC1jYihmAlSuofwklW66mqDr9
+         III/1+UBD2OWZjYtbQR48ZyqiLhKoi3c0JhPwcBh6VPK2V/Ar78Bgf8qPyhqKP0pVnnd
+         UOFpBmRXsfgWesd7cMfEbDlAWaZWAH/Zh0wJ4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777014734; x=1777619534;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bSB8eHNTWglbhom7jqMObvhP+66e0F4LO6bcsIBXY0U=;
+        b=PWc2JWdB65Hcn/00nLvv+/ZL7t0VKM5JHgKgdgOdsg5kM79suKoSjCk0ZGyi/PjKdF
+         X1VJ/+WIswGWCkz0/By3RR/AoCRHEklJ1QMMeDWIdl5TtvT7OFcMwUG8/ZQU0DJVeShv
+         +SFK0MwQuvJ5THIQ2F7TR8OHDywIfDsL4JxADi0Pp1lt9ezXrlB1TR/rVuODPr/x6siZ
+         w6RlbWlgQtDFgLWfGn3LXVp6LZp8WGP3gne4ktnbuSAgqDT1LO5bCxY8kAgoSacVHZ1S
+         5zyVboagovTFDhTuKAXdY17coMTK9s9NRTD69na8VJmLdxjw6z1YrTr/n1m0fZuRi7Cw
+         J+ug==
+X-Forwarded-Encrypted: i=1; AFNElJ/CBp3pHmXYAc4+2BsO1oO5x32jNNNe/BduGtNXe9ajsWHz15wCY/BOsTQ4P72a+DcBVSTQHdN9uzSWuA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuK8QdGSGYaU0LmRMxaJPvzkJDMDKQRmckA/uwPVL3o1SfoZaR
+	kuvGgKrITYKP+ZNskWpKKbZtVsXi3Lh1uvcN9w41gIy7LlWQAcxoJl3Xg/bbWlAayHA=
+X-Gm-Gg: AeBDieuDIY7jB3cglbtyk+UubomVmMg6P9nBTTNFgnX736UZC6GSM0khqAH/G8wmahF
+	ro/TWA0Obqsxms4gyD4SE8UMCMh9Q4glJoCo/G/f9HkURsSerw2BjA40HSvJQcY9TImHFug11As
+	BBgQI6kfkdVjJP9GSf21KMsXNmJdXhr0ZtCjfwtmlPg8P+fd3yLT8nV9nBXLMnvT3i26LfStteb
+	g3bd2VxxDrz2qs09Z5+l/zsLF/rpmlt6JA80XdZ9ewOMU4KvUlMxA5s6hXIr5Z/rkXuD7ays6o1
+	Zq8sKi+MgPPpUh0kEbxANIoCiD9og7L5d4kkYW4YfbEK4kSpH0VRFakIObF1omk33lrJ2N+Bhm8
+	PusTDrQ/QMU74Q72a20tLVXiwaZK304FF01u6Lzj3JcYFdbsJfQmkcEVt356SHQFXYxlt51ejYJ
+	q4QfaI2Q2Z+pGiDkpR/wK91VOP/gRlghdGNNEPjLY7UHzYei7NZwfxBGjuhHSX8GbED2ihYEyYk
+	xZBBw==
+X-Received: by 2002:a17:90b:4c12:b0:35f:ba8e:150d with SMTP id 98e67ed59e1d1-36140464038mr31761615a91.14.1777014733924;
+        Fri, 24 Apr 2026 00:12:13 -0700 (PDT)
+Received: from nunu.. (nunu.snu.ac.kr. [147.46.112.82])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-361410b998fsm22318852a91.13.2026.04.24.00.12.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Apr 2026 00:12:13 -0700 (PDT)
+From: Jaeyoung Chung <jjy600901@snu.ac.kr>
+To: tiwai@suse.de
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	byoungyoung@snu.ac.kr,
+	eulgyukim@snu.ac.kr
+Subject: Re: [BUG] KASAN: slab-use-after-free in ALSA OSS read/poll race
+Date: Fri, 24 Apr 2026 16:12:08 +0900
+Message-Id: <20260424071208.2388558-1-jjy600901@snu.ac.kr>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <87a4ut3dfp.wl-tiwai@suse.de>
+References: <20260423145330.210035-1-jjy600901@snu.ac.kr> <87a4ut3dfp.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260415124731.3684773-1-john.madieu.xa@bp.renesas.com>
- <20260415124731.3684773-2-john.madieu.xa@bp.renesas.com> <20260417-energetic-practical-frigatebird-5b93ad@quoll>
- <TY6PR01MB17377C02109A651FBCB31CFDBFF2B2@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY6PR01MB17377C02109A651FBCB31CFDBFF2B2@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 24 Apr 2026 08:24:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUnbxjbj6ahebyH8VKg5RJEjoZ=bRNRv85EHyYC=Fuvow@mail.gmail.com>
-X-Gm-Features: AQROBzBh__-xpGTZuPSCZvvq_Mj1-8UpRxwY9s8nlkbsDmTamvZ85Y60nHWYt7M
-Message-ID: <CAMuHMdUnbxjbj6ahebyH8VKg5RJEjoZ=bRNRv85EHyYC=Fuvow@mail.gmail.com>
-Subject: Re: [PATCH v5 01/14] ASoC: dt-bindings: sound: Add DT binding for
- RZ/G3E sound
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, John Madieu <john.madieu@gmail.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown <broonie@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, "magnus.damm" <magnus.damm@gmail.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, "Claudiu.Beznea" <claudiu.beznea@tuxon.dev>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi John,
-
-On Fri, 24 Apr 2026 at 03:39, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
-> > From: Krzysztof Kozlowski <krzk@kernel.org>
-> > On Wed, Apr 15, 2026 at 12:47:18PM +0000, John Madieu wrote:
-> > > Add a standalone device tree binding for the Renesas RZ/G3E
-> > > (R9A09G047) sound controller.
-> > >
-> > > The RZ/G3E sound IP is based on R-Car Sound but differs in several ways:
-> > > - Uses unprefixed sub-node names (ssi, ssiu, src, dvc, mix, ctu) instead
-> > >   of R-Car's rcar_sound,xxx prefixed names.
-> > > - Supports up to 5 DMA controllers per direction, allowing multiple DMA
-> > >   entries with repeated channel names in SSIU, SRC and DVC sub-nodes.
-> > > - Has 47 clocks including per-SSI ADG clocks (adg.ssi.0-9), SCU clocks
-> > >   (scu, scu_x2, scu_supply), SSIF supply clock, AUDMAC peri-peri clock,
-> > >   and ADG clock.
-> > > - Has 14 reset lines including SCU, ADG and AUDMAC peri-peri resets.
-> > > - SSI operates exclusively in BUSIF mode.
-> > >
-> > > These differences make the RZ/G3E binding incompatible with the
-> > > existing renesas,rsnd.yaml, so it is added as a separate standalone
-> > > binding with its own $ref to dai-common.yaml.
-> > >
-> > > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.
-> > > +++ yaml
-
-> > > +  "#sound-dai-cells":
-> > > +    enum: [0, 1]
-> >
-> > Why is this flexible? That's a defined device meaning you have one XOR
-> > more DAIs. Not "1 and more".
+On Fri, Apr 24, 2026 at 12:26 AM Takashi Iwai <tiwai@suse.de> wrote:
 >
-> The IP exposes ten independent SSI interfaces, and a board can
-> reasonably wire either a single SSI to one codec or several SSIs
-> to several codecs. The cells value follows that wiring: 0 when
-> the phandle is `<&rcar_sound>` for the single-DAI case, 1 when
-> it is `<&rcar_sound N>` selecting a specific DAI index.
-
-How does this work if both types of wiring are present?
-e.g. SSI1 wired to one codec, and SSI2-4 wired to several codecs?
-
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: ssi-all
-> > > +      - const: ssi.9
-> >
-> > Use consistently -
+> Thanks for the report.  I see the point, and IMO, a better fix is to
+> protect runtime->oss.trigger access with the mutex.  We can change the
+> bit fields to bool as a separate patch, but it shouldn't be considered
+> as an ad hoc fix.
 >
-> Agreed, I'll switch to hyphens for all indexed entries
-> in both lists (ssi-0..9, src-0..9, mix-0..1, ctu-0..7,
-> dvc-0..1, adg-ssi-0..9).
+> Could you submit a proper patch after verifying that it fixes your
+> fuzzer?
 >
-> > > +      - const: ssi.8
-> > > +      - const: ssi.7
-> > > +      - const: ssi.6
-> > > +      - const: ssi.5
-> > > +      - const: ssi.4
-> > > +      - const: ssi.3
-> > > +      - const: ssi.2
-> > > +      - const: ssi.1
-> > > +      - const: ssi.0
-> > > +      - const: src.9
-> > > +      - const: src.8
-> > > +      - const: src.7
-> > > +      - const: src.6
-> > > +      - const: src.5
-> > > +      - const: src.4
-> > > +      - const: src.3
-> > > +      - const: src.2
-> > > +      - const: src.1
-> > > +      - const: src.0
-> > > +      - const: mix.1
-> > > +      - const: mix.0
-> > > +      - const: ctu.1
-> > > +      - const: ctu.0
+>
+> thanks,
+>
+> Takashi
 
-Why are these listed in descending order...
+Hi Takashi,
 
-> > > +      - const: dvc.0
-> > > +      - const: dvc.1
+Thank you for taking a look.
 
-... and these in ascending order?
+Since we are not very familiar with this subsystem, we are a bit cautious
+about preparing a patch ourselves.
 
-Gr{oetje,eeting}s,
+If you could suggest a patch or a preferred fix direction, we would be
+happy to test it on our reproducer and report the results.
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best,
+Jaeyoung
