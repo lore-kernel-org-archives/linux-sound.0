@@ -1,160 +1,132 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088A330DD3C
-	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 21:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B714327FD74
+	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 21:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777064623; cv=none; b=qWaSOGnI9ZzpaJu2Bq1uJ7dj4FHCaEw3EeiEtIILufrq/It1CipC9uRHzTb0kc3yyw+wSiSJOzgs0MM+/6G/GAnIUXihoH4J4AXL10wYdOfG5q1Wrkgt3EtUmwVVzh5hmely/MSykrM/yNh7t3uCYtXMIamU44bnfLoUWqMTxbU=
+	t=1777067419; cv=none; b=V/fQI87wXEfgMCTgdDWn5SU3X7s+Ao2a+TAQ+H8nBpfySkr157jNgCZe8G7mdfcdabnLJfXe+eDOWIdnFrHQt7A3TRVM2TnmWygvvM05YiIg7yG063681HpyuLzWAelMndWfc4/fzrcfJmShU92zTNln5S9pV4VDaYrzD/2HT4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777064623; c=relaxed/simple;
-	bh=I+fRfGmkPvPGaNpKDlxAfO1n69/Mhn9SKg60oFSvpVE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o+9GuuIa/WppEpWuLfBDwvIjgEv8ZC88dLrSheCjWE0XY5559t2YLGNn/ejylZhj4waw9ptbJX0JAJKexHpJWe068pdaEQ+NAmFPMtjRjdER/v0nvHs2YEfv+6WQpbRGKhia4+Brojyylk4rk8gdlaKWvMBiFg08rsz+WFqnF8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oojix8Sb; arc=none smtp.client-ip=209.85.215.171
+	s=arc-20240116; t=1777067419; c=relaxed/simple;
+	bh=sOzXWXjps4JMTmPSEpvaGYrcfzquE0jv7XgocWHMu+o=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QbWtqb5IwAdqC2JBAEEaCGYZ5MHArNTDah0yQnKG9c82Y9SanjY9HO65+OiChl/X9SHEYBiHG0+996rM+3GOVB4JHbtldNEvYGVT1tkN2Y0eg+vrqVCslzvvmocjsW79s8+ewbuP4trrVoZoqdbtC49ARrZnHPf2GWrc8GDkAX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h/frN8ZU; arc=none smtp.client-ip=74.125.82.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oojix8Sb"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c795eacbeb0so3652760a12.2
-        for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 14:03:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h/frN8ZU"
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2ba9c484e5eso8792329eec.1
+        for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 14:50:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777064621; x=1777669421; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CUvVods0MbRhBVxLXtfEtW5oc137WtgLFEVTq/ba2PY=;
-        b=oojix8Sb92Cf0KCBHn4uUwenGtOknsq07fxHS7Z6MluR0PiahVudD+n3rn+432MMBg
-         uY10qKBtdDadKTHY7w51eRU0s6KJrDgT5r6bovLWlfJpiUuysSFWkjyuNripXDZr0+Mx
-         INC4xA/U+rF+MHNNYpEpfa5aM4qf70jEJQCepBtZPxRDIjOZi+BR23v+6Co/rw09DOuE
-         rx5biBcSEJbaRqa/KCkkOKf4+8Z9YP42rcvebk+fcSkPQ0SAslQ/VBSzXtsCIHjSrpxa
-         rd0G4Zheylb+M/ZWmpAiVEG9/uvVHnKR7RAPqBlGhXvyYg5BVkl1uZHKbdseaE51AmMK
-         IrkQ==
+        d=gmail.com; s=20251104; t=1777067418; x=1777672218; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K7c5cn3YaWCRG575DFbshGCJWY8c9pDATtWOqeL7XQQ=;
+        b=h/frN8ZUKhdauSPza0lxH0uc96qPoTbHNYWW4VOnuJABqqdIfoxgupMA8cg5m8vUwX
+         uxdc9ftaH8DQ1wQWlm32SBd/kxkB1KL7UUhpz5VLvWAoHIKGxqvesZdLZndALDczozxi
+         0kmNX1zKzSl7csJEOmGbuWtQ3SwG5Zj5CTmp4NQwaTis1ThEVdJGVwx5ts/ui86SH5o6
+         aZ+1kbVAf9XnmtEZ1PLOGLhiY75lylTjloPq1pAKNMkA8neleZGpFdk1++jM0eWVtVr1
+         1pc9LpsMvCFVM3z/YUyrJ6vq49mFkAX/O3BGTiRlj65u2Bdysmd2hPtH6cLewn8HzVPe
+         +e1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777064621; x=1777669421;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1777067418; x=1777672218;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CUvVods0MbRhBVxLXtfEtW5oc137WtgLFEVTq/ba2PY=;
-        b=m4pUWEyQagJjOqboksZC0gpjnVjdkubuNWfhc6/91Q0PN243Z7MY11iGG/u9ZiW8pw
-         9TFyqc4okIYBktQK/97V+GHtx8xc1ovDt2s3X3dpi3WdmRuz/NGxeE3T3zURcs63cY95
-         hjvAmWEmXlWv/+rrtYV6uv9IQsPDobeK5YXKjuK4pdBIUsZ44zvaQzyUAgWqXQeuAft2
-         cJSAIaSYKdAMp2X1TmCLOloOBeVA40z2wzB0fk6HKBhWDmueDsu4yJkh+qG3jTMZkOB8
-         koPn6L5qC+xh9+jyAIru7YXsjgDvMnontr49B721BQl05MHd6Yn2e6DBpshrwltB5FQZ
-         bBUQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+7kmDt0Oy9EoqgA5g9ZnkrDho6vxNuu4yMngqbn4oc5ixGJ4m7Nea0frbN+y6vfrWzSB01oH5He4Pl8w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzCdJca36RLstqxhp/DBb5VowHOxDZkAdSZPKT6K5sRnaP4Ad3
-	8AfLbIJIvzetAu4iCuVR9KWW37T+IzsoV+52WHjq086IHPFj16iR52Ia
-X-Gm-Gg: AeBDievUomQQsAPWaVpZZ5Q03R7uJSIbZi9MGG3quctPexYyZOUMktt/IR4g5Ix5Rl4
-	uMF0XidKpk6BPVVPAIqxwhYjlFAUmS4IeGf09FgZ2FhrSTMRrh05tlb/YKHXCOQ32ZMsUbecR8G
-	5AU0KwKp5Ditnl413DFSyYYV0+iaeKHtAdao609pYP9Ip+v/rFp040RhWBJaODNyx3JV2FDRMfJ
-	FxcXPg3KPzgsyYJwhTqp4XaB3UQFXbzQVjIutxMLbtBy/KEPVHUwjZ9nIe+IDSJCDWH1ztlK6Et
-	4zfpOKgF13JTNwWfnytCDZDSKuIHPxW6auAux9OKTNwnEYFACEzOyqG9tItC4dhEMlXwWmtJrhF
-	3giazn0BgzwxPIQeEFY9QBrkhp3mR5a/yO5EHSkClWuUqNL1tixD2sB3eSfB/qcCp7LVV5whxiI
-	Fljv7dzMd4UqGdLF9DMoTotWA63D32qjhgLgldC1176z9jfPegu5+TSXbNBoVNI8MSq9EP7wXeB
-	51VZg==
-X-Received: by 2002:a17:902:aa06:b0:2b4:6664:97d4 with SMTP id d9443c01a7336-2b5f9f83295mr238594565ad.24.1777064621178;
-        Fri, 24 Apr 2026 14:03:41 -0700 (PDT)
-Received: from Ubuntu.. ([49.37.171.124])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab0db13sm250554025ad.53.2026.04.24.14.03.36
+        bh=K7c5cn3YaWCRG575DFbshGCJWY8c9pDATtWOqeL7XQQ=;
+        b=IQ+z6Do/Yy+9LXb7CLRI/Xi4nFVwkQ4gheQ11dS7qACpVh2CGEDQLhy5xxMDUham0i
+         olcd8S6rFdq25iGGjsRYDrSX7drAyixKgW9xYN90rF6PcMlhru4h1fGdg2gpaPgOw3eX
+         HkKjTsRNNn0zx9Yd2e9tE6KY2pBbyUn0jhn7asBJmBgTIK1ZzyK2Ty3b01gaR8m+zStX
+         YN3/Eg+ONk4fLKpSjGlVHzUB2pctq+uj7mNMYsHFraqnraA+/Hnf4P5nL9hoS9qjonhl
+         w0fcah+fi9oiCnzb06pEL/rdYeOF0us9XVh1ZFwdMtc4z7Kq5LDTgsf16VGx4b649Imh
+         JyYQ==
+X-Gm-Message-State: AOJu0YyBQ7j8XWwtoUaBO3MrHaE8SmM+sL4OFmeNlIc8Qi2T8jMJwmzt
+	M2g2dZLCg2H1t57B3TyYcIkK3EN1oeDrv4o3vyMMYrOOsU0RXMpPZOIg
+X-Gm-Gg: AeBDieuEw0WtJkYrkze8w9yxY68mIsEpj8ch9y5yF58R217/TcVLySFjI9g1irheJhH
+	s2u5fsOtvc81+nsh9fASx6Zfdjdyz1CWvUwZsAEw5iwbVQnbfNZfH+mIS2Y/e0F3QXtyfEpMKJ7
+	l03mwFVtItGX40y8lca09fZtix+ZKu7/4YbHeL/yc3SJoPiKoQ2w/jFpzxWwq+iRMVc0vg0RiVB
+	m7C7OIcOeBO2HRKoNpQ7AWJ67Z2Z349GhAXpVK9k0Hsld6fKOpikXpqLnWry5zK4+EP5Q/QVapM
+	AlL7Se/G/BMARfW8FCiwyyyeR12PMLlFSreAIpkgMvLqcycX5Oj64q4aC8iW65CIECjGDbdgxyd
+	IZPm1UMfcbWVLIKnSz4ss1ABaoO37sy0EOhcIgTtxrVoXuhP6+qECa+VYvMm+LmokugXyNC/HJM
+	Z/CT7QtxnnHgCwc1YMKxQIW6M2uZo0LhLVpH456PS1ava6bka8yh+udzTanB0m8Udg5MLHPNflo
+	mQr4Bswajgxp42YM2ahImk=
+X-Received: by 2002:a05:7300:dc88:b0:2be:171c:5048 with SMTP id 5a478bee46e88-2e4646cbd46mr16530489eec.5.1777067417797;
+        Fri, 24 Apr 2026 14:50:17 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53ac84c38sm34723359eec.13.2026.04.24.14.50.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 14:03:40 -0700 (PDT)
-From: Manish Baing <manishbaing2789@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	kaichieh.chuang@mediatek.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	manishbaing2789@gmail.com
-Subject: [PATCH] ASoC: dt-bindings: mediatek,mt6351: convert to DT schema
-Date: Fri, 24 Apr 2026 21:03:02 +0000
-Message-ID: <20260424210302.39972-1-manishbaing2789@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Fri, 24 Apr 2026 14:50:17 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Fri, 24 Apr 2026 18:50:10 -0300
+Subject: [PATCH] ALSA: usb-audio: Fix UAC3 cluster descriptor size check
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20260424-alsa-usb-uac3-cluster-size-v1-1-99a5808898a3@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQ6CMAwA0F8hPdtkbssg/orx0I0KJQTNyoiR8
+ O9OPb7L20E5Cytcmh0yb6LyWCrOpwbSSMvAKH01WGOD8dYjzUpYNGKh5DDNRVfOqPJm9LFr++C
+ caQNBDZ6Z7/L65dfb31rixGn9jnAcH0X7XLN+AAAA
+X-Change-ID: 20260424-alsa-usb-uac3-cluster-size-4b87d633076a
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Youngjun Lee <yjjuny.lee@samsung.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1424;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=sOzXWXjps4JMTmPSEpvaGYrcfzquE0jv7XgocWHMu+o=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJmvn07LfebX8jLij8IECwmd//zJfzcyFpXeKHIs2xbet
+ 63u9bGvHaUsDGJcDLJiiiyrkxZZ7ul6cLU+boUHzBxWJpAhDFycAjCRvQyMDId3Zmqvd/6j6JUd
+ IcgU7M3HUr3qFPv7o4xTG56/KQ8PYmT47xShG2aw9xp3+yXXt7sXzbv0Qrl0wT2ez9nTDUW2PbA
+ 7xQkA
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-Convert MediaTek MT6351 Audio CODEC bindings from text format to
-YAML schema to enable dtbs_check validation.
+The UAC3 cluster descriptor length check in
+snd_usb_get_audioformat_uac3()was added to
+make sure that the buffer is large enough for
+a struct uac3_cluster_header_descriptor before the
+returned data is cast and used.
 
-Signed-off-by: Manish Baing <manishbaing2789@gmail.com>
+However, the check uses sizeof(cluster), where cluster
+is a pointer, not the size of the descriptor header.
+This makes the validation depend on the architecture
+pointer size and does not match the intended object size.
+
+Check against sizeof(*cluster) instead.
+
+Fixes: fb4e2a6e8f28 ("ALSA: usb-audio: Fix out-of-bounds read in snd_usb_get_audioformat_uac3()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
- .../bindings/sound/mediatek,mt6351-sound.yaml | 32 +++++++++++++++++++
- .../devicetree/bindings/sound/mt6351.txt      | 16 ----------
- 2 files changed, 32 insertions(+), 16 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt6351-sound.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/mt6351.txt
+ sound/usb/stream.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt6351-sound.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt6351-sound.yaml
-new file mode 100644
-index 000000000000..f9fab8962325
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/mediatek,mt6351-sound.yaml
-@@ -0,0 +1,32 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/mediatek,mt6351-sound.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MediaTek MT6351 Audio CODEC
-+
-+maintainers:
-+  - KaiChieh Chuang <kaichieh.chuang@mediatek.com>
-+
-+description:
-+  MT6351 Audio CODEC is a part of the MediaTek MT6351 PMIC.
-+  It communicates with the SoC through the MediaTek PMIC wrapper(pwrap).
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: mediatek,mt6351-sound
-+
-+required:
-+  - compatible
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sound {
-+       compatible = "mediatek,mt6351-sound";
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/mt6351.txt b/Documentation/devicetree/bindings/sound/mt6351.txt
-deleted file mode 100644
-index 7fb2cb99245e..000000000000
---- a/Documentation/devicetree/bindings/sound/mt6351.txt
-+++ /dev/null
-@@ -1,16 +0,0 @@
--Mediatek MT6351 Audio Codec
--
--The communication between MT6351 and SoC is through Mediatek PMIC wrapper.
--For more detail, please visit Mediatek PMIC wrapper documentation.
--
--Must be a child node of PMIC wrapper.
--
--Required properties:
--
--- compatible : "mediatek,mt6351-sound".
--
--Example:
--
--mt6351_snd {
--	compatible = "mediatek,mt6351-sound";
--};
--- 
-2.43.0
+diff --git a/sound/usb/stream.c b/sound/usb/stream.c
+index 2532bf97e05e..6c51226f771b 100644
+--- a/sound/usb/stream.c
++++ b/sound/usb/stream.c
+@@ -1003,7 +1003,7 @@ snd_usb_get_audioformat_uac3(struct snd_usb_audio *chip,
+ 	 * and request Cluster Descriptor
+ 	 */
+ 	wLength = le16_to_cpu(hc_header.wLength);
+-	if (wLength < sizeof(cluster))
++	if (wLength < sizeof(*cluster))
+ 		return NULL;
+ 	cluster = kzalloc(wLength, GFP_KERNEL);
+ 	if (!cluster)
+
+---
+base-commit: 876c495d412ef67bd4d0bdc4b74b0bd3d9f4e890
+change-id: 20260424-alsa-usb-uac3-cluster-size-4b87d633076a
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
