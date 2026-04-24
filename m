@@ -1,16 +1,16 @@
 Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD2C2E3AF1;
-	Fri, 24 Apr 2026 02:51:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38B72FBDFD;
+	Fri, 24 Apr 2026 02:51:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776999068; cv=none; b=iFvJY53XA42kyY5EWJ7FLG2dgKpSBlHar+gGMH4lnuBCBELfMtDxzHppn1/YX0s5RFwsG8M5Td0p89hAj0cHsDcx83O1PYrT6qrypKWQiFZNt4fJdZT61WDzkMPSDTOH0Tzu1AjuwQ5R45CUq+OocckSkzbazFYdBWWWA0sp4AY=
+	t=1776999078; cv=none; b=utk6CUrBzS6Tm4MqPrZCR1qmHnPW2fFUoGwMJD0X4npSu4a/UagY4WKJx9yqpNi4/agzZxwW3BggXgu6f+x77lPc8gVZAn15IGiEhg/53ZJ0hdQ0gk2WNk7s4sVTHJD93EEJmU0XJzLDV/R3qL/EL9woncAug/i6YQ2KO6D1L/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776999068; c=relaxed/simple;
-	bh=CS3J8VZWW9nKd/fVcyQCMRpG/Rqggn1vq0Uf/ahU//s=;
+	s=arc-20240116; t=1776999078; c=relaxed/simple;
+	bh=CIbqoCpGK9adH8q/AtaFqJAFfQZA8LBejUrXq2ZlVos=;
 	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XrUfadDeYgKUPPLpR4dl7FGAtXBh0laFGn8NmZsB8ULWy0ZwQNFjpxummKrou+CmUJ/4cjf3p1TK/GXNTMU0eMnwipRvjLlX7Vw9kulO588nh0DgzKfWmLvfZX6l1jp9ljcP0KKZA2tfxsN5/Pmr0OIR922S5An38Olq8spBR2A=
+	 Content-Type:Content-Disposition:In-Reply-To; b=TkFuJSqwMSYc5rnwODtdr7GzsRx0pqYsmCM/O3LNTs8C+WGIJ+WnueQNNfjKTZlpbAKzv7cNN2sQbpRw+0PKHlX69ItWS7d8LoDrz5NPD1EtZUZSZd6r3TIGrFA7E/qXREtzsQ9O72g2aZ6DDk5ovDjzcO3UnXYuX+tbPw4jM9A=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
@@ -18,9 +18,9 @@ Received: from local
 	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
 	 (Exim 4.99)
 	(envelope-from <daniel@makrotopia.org>)
-	id 1wG6d4-000000002Ri-1eCA;
-	Fri, 24 Apr 2026 02:50:54 +0000
-Date: Fri, 24 Apr 2026 03:50:46 +0100
+	id 1wG6dG-000000002SF-09LZ;
+	Fri, 24 Apr 2026 02:51:06 +0000
+Date: Fri, 24 Apr 2026 03:50:58 +0100
 From: Daniel Golle <daniel@makrotopia.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -37,9 +37,9 @@ To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: [PATCH v3 8/9] ARM: dts: mediatek: mt7623: wire HDMI audio path
- clocks into AFE
-Message-ID: <5dba44c0f9b63c6b97119eabaaff92768d6295bf.1776998727.git.daniel@makrotopia.org>
+Subject: [PATCH v3 9/9] ARM: dts: mediatek: mt7623n-bananapi-bpi-r2: add HDMI
+ audio machine node
+Message-ID: <30f71787e8e438ed12c27b98c1dc3e0c1ca81155.1776998727.git.daniel@makrotopia.org>
 References: <cover.1776998727.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -51,62 +51,35 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1776998727.git.daniel@makrotopia.org>
 
-Mirror the MT2701 change for the MT7623 SoC dtsi: add HADDS2PLL,
-audio_hdmi, audio_spdf and audio_apll to the AFE clocks list and
-reparent the AUDPLL mux to HADDS2PLL_98M. Required for HDMI audio
-on MT7623N boards via the shared mt2701 AFE driver.
+Instantiate the mediatek,mt2701-hdmi-audio machine on the
+BananaPi BPI-R2, binding the AFE HDMI playback path to the
+on-chip HDMI transmitter acting as the generic HDMI codec.
 
 Signed-off-by: Daniel Golle <daniel@makrotopia.org>
 ---
 v3: no changes
 v2: no changes
 
- arch/arm/boot/dts/mediatek/mt7623.dtsi | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dts | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/arch/arm/boot/dts/mediatek/mt7623.dtsi b/arch/arm/boot/dts/mediatek/mt7623.dtsi
-index 71ac2b94c6ba..4eb028ffee6f 100644
---- a/arch/arm/boot/dts/mediatek/mt7623.dtsi
-+++ b/arch/arm/boot/dts/mediatek/mt7623.dtsi
-@@ -665,7 +665,11 @@ afe: audio-controller {
- 				 <&audsys CLK_AUD_AFE_CONN>,
- 				 <&audsys CLK_AUD_A1SYS>,
- 				 <&audsys CLK_AUD_A2SYS>,
--				 <&audsys CLK_AUD_AFE_MRGIF>;
-+				 <&audsys CLK_AUD_AFE_MRGIF>,
-+				 <&topckgen CLK_TOP_HADDS2PLL_294M>,
-+				 <&audsys CLK_AUD_HDMI>,
-+				 <&audsys CLK_AUD_SPDF>,
-+				 <&audsys CLK_AUD_APLL>;
- 
- 			clock-names = "infra_sys_audio_clk",
- 				      "top_audio_mux1_sel",
-@@ -700,15 +704,22 @@ afe: audio-controller {
- 				      "audio_afe_conn_pd",
- 				      "audio_a1sys_pd",
- 				      "audio_a2sys_pd",
--				      "audio_mrgif_pd";
-+				      "audio_mrgif_pd",
-+				      "hadds2pll_294m",
-+				      "audio_hdmi_pd",
-+				      "audio_spdf_pd",
-+				      "audio_apll_pd";
- 
- 			assigned-clocks = <&topckgen CLK_TOP_AUD_MUX1_SEL>,
- 					  <&topckgen CLK_TOP_AUD_MUX2_SEL>,
- 					  <&topckgen CLK_TOP_AUD_MUX1_DIV>,
--					  <&topckgen CLK_TOP_AUD_MUX2_DIV>;
-+					  <&topckgen CLK_TOP_AUD_MUX2_DIV>,
-+					  <&topckgen CLK_TOP_AUDPLL_MUX_SEL>;
- 			assigned-clock-parents = <&topckgen CLK_TOP_AUD1PLL_98M>,
--						 <&topckgen CLK_TOP_AUD2PLL_90M>;
--			assigned-clock-rates = <0>, <0>, <49152000>, <45158400>;
-+						 <&topckgen CLK_TOP_AUD2PLL_90M>,
-+						 <0>, <0>,
-+						 <&topckgen CLK_TOP_HADDS2PLL_98M>;
-+			assigned-clock-rates = <0>, <0>, <49152000>, <45158400>, <0>;
- 		};
+diff --git a/arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dts b/arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dts
+index a37f3fa223c7..139a76764faa 100644
+--- a/arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dts
++++ b/arch/arm/boot/dts/mediatek/mt7623n-bananapi-bpi-r2.dts
+@@ -132,6 +132,13 @@ memory@80000000 {
+ 		device_type = "memory";
+ 		reg = <0 0x80000000 0 0x80000000>;
  	};
++
++	sound-hdmi {
++		compatible = "mediatek,mt7623n-hdmi-audio",
++			     "mediatek,mt2701-hdmi-audio";
++		mediatek,platform = <&afe>;
++		mediatek,audio-codec = <&hdmi0>;
++	};
+ };
  
+ &bls {
 -- 
 2.54.0
