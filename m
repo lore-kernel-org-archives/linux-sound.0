@@ -1,480 +1,104 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7788033555F;
-	Fri, 24 Apr 2026 17:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFCCA332917
+	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 19:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777053158; cv=none; b=ZxTxN1xFxuYV63TKvZzD1RlKU6CPGvkIouGeeuiyh9xhoHXKD5NczN8NklqJEel778EzGDtSOblaD4DMZn8idbau4pBBuJtK/VJWka6vjg9u/OMLCSBZe59yj/vVf9ldvQr5pCKYEJ2QB31V08siQDxwnvM0+BfgUgXKVz04Txw=
+	t=1777057694; cv=none; b=td0Psbt7Fd4fTlyEYupLjU+eXoDbR6uZT80KEermTzHb03vdVmYXD1LLSxqFAsHR7JMe+SpmMfTHM3vP7aOtK4KKDmGROvve9mMMzLjLFBzympHEmI805Cd/3ojXQq5l57N0ZysdLycBM3wnHEmhhgqW+2akLHJvwzH8CUmj1OY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777053158; c=relaxed/simple;
-	bh=ZVw1cJ2t1degYNBFcX1lM5AjJWrP2Ykw4E8zWNS3NFw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V1NDb2OzNBBXab1+27JGk51Hxogq8TuywY+IF4j0KHsKqQxIuHdDtWcIQCSgiUh6HN3Tx1k7HLhu1qUxzlA2KTielB8OEAr7Vfpr+Kc2XhXzf22OPsZYnB05sGxyaHucDBxwDAO8jHLzdeEvaE6ZN+rO24R23wggwXroHn9zfg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=nm8mYTb0; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=VP9RoJ5H; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1777057694; c=relaxed/simple;
+	bh=8A6x/gwvigokDWQHjH1XTTPUpJb98Mhg/r0z4VARm4Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jGnccckELBeeo1Dkwxr/Tm1nHBg6xJK7If4HXHpvwDYVIBUkZSnRyjNeF1LKFAwpAzd+w8vaMDBAupxVI1GCce0qShjBwAhCg0PGyXQc112Xn98tIjQ9Oh7KOab95XLsp1T5N+wZuildC5kihDC9N4d+NBYlfr1oGWDIm3hx9W0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=nnt1cmrY; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="nm8mYTb0";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="VP9RoJ5H"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4g2LC5436Rz9v09;
-	Fri, 24 Apr 2026 19:52:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777053153;
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="nnt1cmrY"
+Message-ID: <c3b833d8-2e8a-4418-9043-6cd04d9901e1@packett.cool>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
+	s=key1; t=1777057689;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ddmDedl83zXNIObRm6zW5Jzs9CzNkrFziMH4FhbMenE=;
-	b=nm8mYTb08t43c8nFpk+IRDk5KKB7zSBMPjW0nk9RsHy/dGY6NRqtEs3K6FsZjFqMFbRSxC
-	M7MVCDvX7nHEZDhNxHN7NIydNv4itYaaFq6draj8c1jeKmWxRBzdxqPIGe70K328h57TA2
-	jtuzWSb6mWRlwp9ObXdqnlrz14JQgHwAZPlSOy2ctUICLzh2JRcbl5yo/DgeAnvYSkfqFB
-	WiZZrYcVmqsR8IhZG6Wedms2WBv1+M3nuaPMv7l8sgonj4Anf68iRWzuOLkzZ3r0aFaMZ6
-	qQWkrv2wGPyYC+XeYCE+j936MiQrMlUvcnPtmj8KZL0wMn82qldZbQAwa8Rj0g==
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777053151;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ddmDedl83zXNIObRm6zW5Jzs9CzNkrFziMH4FhbMenE=;
-	b=VP9RoJ5HzPBvXr+IN02j+eHBaFjw8jTLH+Z/8lMFH/AIb3PN6GB/jRcbXvbwB8XXWHLhOc
-	04bj6PFdVnXFTbz+w2iFxeCTj4Ef8o4khj67l49mPuTCCqnpLF+ehxua9vcLq/FtY/4grQ
-	ehyAF5g92JeMqQWzrMVl0FBwk0an6qbuLAESSo8a1yb1OrYo6vo5TxpGHPjW3MAX+eprK9
-	AoSqmTQoJtNFqcMN7p5WIadPoQtPsjzKAtyr36y4d1T7P230OJXu4Qe7qLv+WJN7WoF095
-	iSNLCVoSTCbPaD/a0xaGHZKBCMxQSe+6O5BPa6tHI158/HfdoL8anburfKQgdQ==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Cc: Kees Cook <kees@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mm@kvack.org,
-	Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH v3 1/3] Documentation: adopt new coding style of type-aware kmalloc-family
-Date: Fri, 24 Apr 2026 19:51:40 +0200
-Message-ID: <20260424175141.258168-2-manuelebner@mailbox.org>
-In-Reply-To: <20260424174743.257951-2-manuelebner@mailbox.org>
-References: <20260424174743.257951-2-manuelebner@mailbox.org>
+	bh=/Q7AY28qlHBjgzfWhhXsEAsuWHcEKhugX23O64AEQqA=;
+	b=nnt1cmrYKgqViG1liVRq6/0f4EejzGYfXen3cebO9qtTfbXXcCQm7vSo3J/ezkwa1y1Huj
+	yuEhv5AQt9otPdCsyU5Si1H+ksvzqUjbHms01qDdVFCGwSYpnMkJQ5N8epX1tab+xAO4/G
+	vz0B/vHMxyRIHTeAxHIvhXQD/5e2r3gy/cVkFvTUbSqwfMeUKqL4bIgfYr1vFyVfTWGLb1
+	FOwQHBlzAxLRyq4Pho8rDP6u2W1W42Yf6R5Op7z9JzR/sM2fZLT3XWXfKQTxjk4rJ1uNZz
+	tXuapn2aXf9bId8MCU6aT1JfKrUHgu0GpKyNf/R0irr3cfRjvi4KIR+j5BMtXg==
+Date: Fri, 24 Apr 2026 16:07:56 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 8820d89aad0e4e8209e
-X-MBO-RS-META: g45oidfyf1w6moxjguhzu5rkks79nhda
+Subject: Re: [PATCH 12/12] arm64: dts: qcom: qcs6490-radxa-dragon-q6a: add
+ LPASS CPU audio variant
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Xilin Wu <sophon@radxa.com>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Judy Hsiao <judyhsiao@chromium.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20260407-dragon-q6a-feat-fixes-v1-0-14aca49dde3d@radxa.com>
+ <20260407-dragon-q6a-feat-fixes-v1-12-14aca49dde3d@radxa.com>
+ <29a7dd01-7513-4fe5-8546-d57757b3b2d0@oss.qualcomm.com>
+ <88B7BBB9133FBAD1+ccb025ea-4999-4701-bb18-c57a42cabe2f@radxa.com>
+ <2f830f17-4bc5-4ebd-a66b-8068a14a871a@oss.qualcomm.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Val Packett <val@packett.cool>
+In-Reply-To: <2f830f17-4bc5-4ebd-a66b-8068a14a871a@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Update the documentation to reflect new type-aware kmalloc-family as
-suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
-and family")
 
-ptr = kmalloc(sizeof(*ptr), gfp);
- -> ptr = kmalloc_obj(*ptr);
-ptr = kmalloc(sizeof(struct some_obj_name), gfp);
- -> ptr = kmalloc_obj(*ptr);
-ptr = kzalloc(sizeof(*ptr), gfp);
- -> ptr = kzalloc_obj(*ptr);
-ptr = kmalloc_array(count, sizeof(*ptr), gfp);
- -> ptr = kmalloc_objs(*ptr, count);
-ptr = kcalloc(count, sizeof(*ptr), gfp);
- -> ptr = kzalloc_objs(*ptr, count);
+On 4/24/26 9:28 AM, Konrad Dybcio wrote:
+> On 4/8/26 11:47 AM, Xilin Wu wrote:
+>> On 4/8/2026 5:06 PM, Konrad Dybcio wrote:
+>>> On 4/7/26 5:20 PM, Xilin Wu wrote:
+>>>> Add a qcs6490-radxa-dragon-q6a-lpass-cpu.dts variant for debugging and
+>>>> bring-up of the host-controlled LPASS audio path on the Radxa Dragon
+>>>> Q6A.
+>>>>
+>>>> This variant enables the LPASS blocks and codec macros needed by the
+>>>> lpass-cpu driver, wires WCD9380 playback/capture and DisplayPort audio
+>>>> to the LPASS CDC DMA and DP interfaces, and disables remoteproc_adsp so
+>>>> that the audio hardware is owned directly by Linux.
+>>>>
+>>>> This DTB is an optional configuration for systems booted with the kernel
+>>>> running at EL2, where direct CPU access to the LPASS hardware is
+>>>> available. It is useful for users who need low-latency and fully
+>>>> controllable audio.
+>>> I believe on Chrome platforms it was done this way because at some point
+>>> it was determined that they would specifically like not to use the DSP.
+>>>
+>>> I think this is more of a hack than anything else.. but at the end of the
+>>> commit message you mention low latency - is the impact actually measurable?
+>>>
+>> Some of our users also specifically prefer not to use the DSP [1] :)
+>>
+>> Based on their testing, the AudioReach/ADSP path imposes a minimum scheduling interval of 10 ms, which is much higher than the 0.67 ms they can get on a Raspberry Pi 5 with direct I2S/DMA.
+> We passed on this feedback.
+>
+>> Since the lpass-cpu setup works properly, I would not consider this a hack.
+> Well yeah it works, but I was really hoping it would be made
+> unnecessary and available for removal sooner or later..
+>
+> But since there's a genuine usecase, perhaps not.
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
----
- Documentation/core-api/kref.rst                      |  4 ++--
- Documentation/core-api/list.rst                      |  4 ++--
- Documentation/driver-api/mailbox.rst                 |  4 ++--
- Documentation/driver-api/media/v4l2-fh.rst           |  2 +-
- Documentation/kernel-hacking/locking.rst             |  4 ++--
- Documentation/locking/locktypes.rst                  |  4 ++--
- Documentation/process/coding-style.rst               |  8 ++++----
- .../sound/kernel-api/writing-an-alsa-driver.rst      | 12 ++++++------
- Documentation/spi/spi-summary.rst                    |  4 ++--
- .../translations/it_IT/kernel-hacking/locking.rst    |  4 ++--
- .../translations/it_IT/locking/locktypes.rst         |  4 ++--
- .../translations/it_IT/process/coding-style.rst      |  2 +-
- .../translations/sp_SP/process/coding-style.rst      |  2 +-
- Documentation/translations/zh_CN/core-api/kref.rst   |  4 ++--
- .../translations/zh_CN/process/coding-style.rst      |  2 +-
- .../zh_CN/video4linux/v4l2-framework.txt             |  2 +-
- .../translations/zh_TW/process/coding-style.rst      |  2 +-
- 18 files changed, 36 insertions(+), 36 deletions(-)
+lpass-cpu is also great from a "I don't want my pure libre operating 
+system to touch dirty proprietary binary blobs" perspective, but you can 
+definitely argue that that's not a genuine use case :)
 
-diff --git a/Documentation/core-api/kref.rst b/Documentation/core-api/kref.rst
-index 8db9ff03d952..1c14c036699d 100644
---- a/Documentation/core-api/kref.rst
-+++ b/Documentation/core-api/kref.rst
-@@ -40,7 +40,7 @@ kref_init as so::
- 
-      struct my_data *data;
- 
--     data = kmalloc(sizeof(*data), GFP_KERNEL);
-+     data = kmalloc_obj(*data);
-      if (!data)
-             return -ENOMEM;
-      kref_init(&data->refcount);
-@@ -100,7 +100,7 @@ thread to process::
- 	int rv = 0;
- 	struct my_data *data;
- 	struct task_struct *task;
--	data = kmalloc(sizeof(*data), GFP_KERNEL);
-+	data = kmalloc_obj(*data);
- 	if (!data)
- 		return -ENOMEM;
- 	kref_init(&data->refcount);
-diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.rst
-index 241464ca0549..86cd0a1b77ea 100644
---- a/Documentation/core-api/list.rst
-+++ b/Documentation/core-api/list.rst
-@@ -112,7 +112,7 @@ list:
- 
-           /* State 1 */
- 
--          grock = kzalloc(sizeof(*grock), GFP_KERNEL);
-+          grock = kzalloc_obj(*grock);
-           if (!grock)
-                   return -ENOMEM;
-           grock->name = "Grock";
-@@ -123,7 +123,7 @@ list:
- 
-           /* State 2 */
- 
--          dimitri = kzalloc(sizeof(*dimitri), GFP_KERNEL);
-+          dimitri = kzalloc_obj(*dimitri);
-           if (!dimitri)
-                   return -ENOMEM;
-           dimitri->name = "Dimitri";
-diff --git a/Documentation/driver-api/mailbox.rst b/Documentation/driver-api/mailbox.rst
-index 463dd032b96c..4bcd73a99115 100644
---- a/Documentation/driver-api/mailbox.rst
-+++ b/Documentation/driver-api/mailbox.rst
-@@ -87,8 +87,8 @@ a message and a callback function to the API and return immediately).
- 		struct async_pkt ap;
- 		struct sync_pkt sp;
- 
--		dc_sync = kzalloc(sizeof(*dc_sync), GFP_KERNEL);
--		dc_async = kzalloc(sizeof(*dc_async), GFP_KERNEL);
-+		dc_sync = kzalloc_obj(*dc_sync);
-+		dc_async = kzalloc_obj(*dc_async);
- 
- 		/* Populate non-blocking mode client */
- 		dc_async->cl.dev = &pdev->dev;
-diff --git a/Documentation/driver-api/media/v4l2-fh.rst b/Documentation/driver-api/media/v4l2-fh.rst
-index a934caa483a4..38319130ebf5 100644
---- a/Documentation/driver-api/media/v4l2-fh.rst
-+++ b/Documentation/driver-api/media/v4l2-fh.rst
-@@ -42,7 +42,7 @@ Example:
- 
- 		...
- 
--		my_fh = kzalloc(sizeof(*my_fh), GFP_KERNEL);
-+		my_fh = kzalloc_obj(*my_fh);
- 
- 		...
- 
-diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
-index dff0646a717b..d02e62367c4f 100644
---- a/Documentation/kernel-hacking/locking.rst
-+++ b/Documentation/kernel-hacking/locking.rst
-@@ -442,7 +442,7 @@ to protect the cache and all the objects within it. Here's the code::
-     {
-             struct object *obj;
- 
--            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+            if ((obj = kmalloc_obj(*obj)) == NULL)
-                     return -ENOMEM;
- 
-             strscpy(obj->name, name, sizeof(obj->name));
-@@ -517,7 +517,7 @@ which are taken away, and the ``+`` are lines which are added.
-              struct object *obj;
-     +        unsigned long flags;
- 
--             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+             if ((obj = kmalloc_obj(*obj)) == NULL)
-                      return -ENOMEM;
-     @@ -63,30 +64,33 @@
-              obj->id = id;
-diff --git a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
-index 37b6a5670c2f..ac1ad722a9e7 100644
---- a/Documentation/locking/locktypes.rst
-+++ b/Documentation/locking/locktypes.rst
-@@ -498,7 +498,7 @@ allocating memory.  Thus, on a non-PREEMPT_RT kernel the following code
- works perfectly::
- 
-   raw_spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- But this code fails on PREEMPT_RT kernels because the memory allocator is
- fully preemptible and therefore cannot be invoked from truly atomic
-@@ -507,7 +507,7 @@ while holding normal non-raw spinlocks because they do not disable
- preemption on PREEMPT_RT kernels::
- 
-   spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- 
- bit spinlocks
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index 35b381230f6e..a3bf75dc7c88 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -936,7 +936,7 @@ used.
- ---------------------
- 
- The kernel provides the following general purpose memory allocators:
--kmalloc(), kzalloc(), kmalloc_array(), kcalloc(), vmalloc(), and
-+kmalloc(), kzalloc(), kmalloc_objs(), kzalloc_objs(), vmalloc(), and
- vzalloc().  Please refer to the API documentation for further information
- about them.  :ref:`Documentation/core-api/memory-allocation.rst
- <memory_allocation>`
-@@ -945,7 +945,7 @@ The preferred form for passing a size of a struct is the following:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- The alternative form where struct name is spelled out hurts readability and
- introduces an opportunity for a bug when the pointer variable type is changed
-@@ -959,13 +959,13 @@ The preferred form for allocating an array is the following:
- 
- .. code-block:: c
- 
--	p = kmalloc_array(n, sizeof(...), ...);
-+	p = kmalloc_objs(*ptr, n, ...);
- 
- The preferred form for allocating a zeroed array is the following:
- 
- .. code-block:: c
- 
--	p = kcalloc(n, sizeof(...), ...);
-+	p = kzalloc_objs(*ptr, n, ...);
- 
- Both forms check for overflow on the allocation size n * sizeof(...),
- and return NULL if that occurred.
-diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-index 895752cbcedd..12433612aa9c 100644
---- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-+++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-@@ -266,7 +266,7 @@ to details explained in the following section.
-               ....
- 
-               /* allocate a chip-specific data with zero filled */
--              chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+              chip = kzalloc_obj(*chip);
-               if (chip == NULL)
-                       return -ENOMEM;
- 
-@@ -628,7 +628,7 @@ After allocating a card instance via :c:func:`snd_card_new()`
-   err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
-                      0, &card);
-   .....
--  chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+  chip = kzalloc_obj(*chip);
- 
- The chip record should have the field to hold the card pointer at least,
- 
-@@ -747,7 +747,7 @@ destructor and PCI entries. Example code is shown first, below::
-                       return -ENXIO;
-               }
- 
--              chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+              chip = kzalloc_obj(*chip);
-               if (chip == NULL) {
-                       pci_disable_device(pci);
-                       return -ENOMEM;
-@@ -1737,7 +1737,7 @@ callback::
-   {
-           struct my_pcm_data *data;
-           ....
--          data = kmalloc(sizeof(*data), GFP_KERNEL);
-+          data = kmalloc_obj(*data);
-           substream->runtime->private_data = data;
-           ....
-   }
-@@ -3301,7 +3301,7 @@ You can then pass any pointer value to the ``private_data``. If you
- assign private data, you should define a destructor, too. The
- destructor function is set in the ``private_free`` field::
- 
--  struct mydata *p = kmalloc(sizeof(*p), GFP_KERNEL);
-+  struct mydata *p = kmalloc_obj(*p);
-   hw->private_data = p;
-   hw->private_free = mydata_free;
- 
-@@ -3833,7 +3833,7 @@ chip data individually::
-           err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
-                              0, &card);
-           ....
--          chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+          chip = kzalloc_obj(*chip);
-           ....
-           card->private_data = chip;
-           ....
-diff --git a/Documentation/spi/spi-summary.rst b/Documentation/spi/spi-summary.rst
-index 6e21e6f86912..7ad6af76c247 100644
---- a/Documentation/spi/spi-summary.rst
-+++ b/Documentation/spi/spi-summary.rst
-@@ -249,7 +249,7 @@ And SOC-specific utility code might look something like::
- 	{
- 		struct mysoc_spi_data *pdata2;
- 
--		pdata2 = kmalloc(sizeof *pdata2, GFP_KERNEL);
-+		pdata2 = kmalloc_obj(*pdata2);
- 		*pdata2 = pdata;
- 		...
- 		if (n == 2) {
-@@ -373,7 +373,7 @@ a bus (appearing under /sys/class/spi_master).
- 			return -ENODEV;
- 
- 		/* get memory for driver's per-chip state */
--		chip = kzalloc(sizeof *chip, GFP_KERNEL);
-+		chip = kzalloc(*chip);
- 		if (!chip)
- 			return -ENOMEM;
- 		spi_set_drvdata(spi, chip);
-diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-index 4c21cf60f775..acca89a3743a 100644
---- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
-+++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-@@ -462,7 +462,7 @@ e tutti gli oggetti che contiene. Ecco il codice::
-     {
-             struct object *obj;
- 
--            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+            if ((obj = kmalloc_obj(*obj)) == NULL)
-                     return -ENOMEM;
- 
-             strscpy(obj->name, name, sizeof(obj->name));
-@@ -537,7 +537,7 @@ sono quelle rimosse, mentre quelle ``+`` sono quelle aggiunte.
-              struct object *obj;
-     +        unsigned long flags;
- 
--             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+             if ((obj = kmalloc_obj(*obj)) == NULL)
-                      return -ENOMEM;
-     @@ -63,30 +64,33 @@
-              obj->id = id;
-diff --git a/Documentation/translations/it_IT/locking/locktypes.rst b/Documentation/translations/it_IT/locking/locktypes.rst
-index 1c7056283b9d..d5fa36aa05cc 100644
---- a/Documentation/translations/it_IT/locking/locktypes.rst
-+++ b/Documentation/translations/it_IT/locking/locktypes.rst
-@@ -488,7 +488,7 @@ o rwlock_t. Per esempio, la sezione critica non deve fare allocazioni di
- memoria. Su un kernel non-PREEMPT_RT il seguente codice funziona perfettamente::
- 
-   raw_spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- Ma lo stesso codice non funziona su un kernel PREEMPT_RT perché l'allocatore di
- memoria può essere oggetto di prelazione e quindi non può essere chiamato in un
-@@ -497,7 +497,7 @@ trattiene un blocco *non-raw* perché non disabilitano la prelazione sui kernel
- PREEMPT_RT::
- 
-   spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- 
- bit spinlocks
-diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
-index c0dc786b8474..2a499412a2e3 100644
---- a/Documentation/translations/it_IT/process/coding-style.rst
-+++ b/Documentation/translations/it_IT/process/coding-style.rst
-@@ -943,7 +943,7 @@ Il modo preferito per passare la dimensione di una struttura è il seguente:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- La forma alternativa, dove il nome della struttura viene scritto interamente,
- peggiora la leggibilità e introduce possibili bachi quando il tipo di
-diff --git a/Documentation/translations/sp_SP/process/coding-style.rst b/Documentation/translations/sp_SP/process/coding-style.rst
-index 7d63aa8426e6..44c93d5f6beb 100644
---- a/Documentation/translations/sp_SP/process/coding-style.rst
-+++ b/Documentation/translations/sp_SP/process/coding-style.rst
-@@ -955,7 +955,7 @@ La forma preferida para pasar el tamaño de una estructura es la siguiente:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- La forma alternativa donde se deletrea el nombre de la estructura perjudica
- la legibilidad, y presenta una oportunidad para un error cuando se cambia
-diff --git a/Documentation/translations/zh_CN/core-api/kref.rst b/Documentation/translations/zh_CN/core-api/kref.rst
-index b9902af310c5..fcff01e99852 100644
---- a/Documentation/translations/zh_CN/core-api/kref.rst
-+++ b/Documentation/translations/zh_CN/core-api/kref.rst
-@@ -52,7 +52,7 @@ kref可以出现在数据结构体中的任何地方。
- 
-      struct my_data *data;
- 
--     data = kmalloc(sizeof(*data), GFP_KERNEL);
-+     data = kmalloc_obj(*data);
-      if (!data)
-             return -ENOMEM;
-      kref_init(&data->refcount);
-@@ -106,7 +106,7 @@ Kref规则
- 	int rv = 0;
- 	struct my_data *data;
- 	struct task_struct *task;
--	data = kmalloc(sizeof(*data), GFP_KERNEL);
-+	data = kmalloc_obj(*data);
- 	if (!data)
- 		return -ENOMEM;
- 	kref_init(&data->refcount);
-diff --git a/Documentation/translations/zh_CN/process/coding-style.rst b/Documentation/translations/zh_CN/process/coding-style.rst
-index 5a342a024c01..55d5da974d89 100644
---- a/Documentation/translations/zh_CN/process/coding-style.rst
-+++ b/Documentation/translations/zh_CN/process/coding-style.rst
-@@ -813,7 +813,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- 另外一种传递方式中，sizeof 的操作数是结构体的名字，这样会降低可读性，并且可能
- 会引入 bug。有可能指针变量类型被改变时，而对应的传递给内存分配函数的 sizeof
-diff --git a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-index f0be21a60a0f..ba43c5c4797c 100644
---- a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-+++ b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-@@ -799,7 +799,7 @@ int my_open(struct file *file)
- 
- 	...
- 
--	my_fh = kzalloc(sizeof(*my_fh), GFP_KERNEL);
-+	my_fh = kzalloc_obj(*my_fh);
- 
- 	...
- 
-diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
-index e2ba97b3d8bb..63c78982a1af 100644
---- a/Documentation/translations/zh_TW/process/coding-style.rst
-+++ b/Documentation/translations/zh_TW/process/coding-style.rst
-@@ -827,7 +827,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- 另外一種傳遞方式中，sizeof 的操作數是結構體的名字，這樣會降低可讀性，並且可能
- 會引入 bug。有可能指針變量類型被改變時，而對應的傳遞給內存分配函數的 sizeof
--- 
-2.53.0
+~val
 
