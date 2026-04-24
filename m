@@ -1,16 +1,16 @@
 Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 199BC33E7;
-	Fri, 24 Apr 2026 02:48:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE3F2DF144;
+	Fri, 24 Apr 2026 02:49:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776998940; cv=none; b=D1+Bvy3lPYvyNkIadaImTqucYLseTPkfsfPt8eIYeJrXKzK2fYEfhmiAfnDEsVoO5KuIBdORM/+sF3Cj/JYycGjUiwz5fksoiGJhGrmdH4xhLRqgseojwPA4OPP0pdBqsElV9ucXHAIq3+YCi8SB0Utz9/mNxSuTDeO5pzB0/AQ=
+	t=1776998943; cv=none; b=DyAjPx8Au0t4op/fYWHKUjwx+85Rvz++i68ZhTIAYpVIVQO39iUOYQb3IdSlBDLBWOFeDSMNlRYv4cpKoWNquGHILRXS/zCqoSUEkkne1NrrW+svh887qCzhRWphsXl7O/xBIIrskCansf/jkdJzKzgJVrxtz+qnmo0DCky+tPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776998940; c=relaxed/simple;
-	bh=FBI3pcwVPL3yzcDpYNuqqnzLmf/xJqQS3HsHUCTkH2o=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cTESAPe38n/UuHlcFpO3gMwt8hUJaAeADW45wKop0T73RrMABaDfqP67axS6vOxyYOAmoBaBtT9mH8+FSpvMmeBfgU2OBNsgs0XlLgnzfmQpU7LDvjeJHNBboFzox68eqA0Tn8+0D0OygmtpADLdNmjCx3piRKQdCJW1OTpuUPM=
+	s=arc-20240116; t=1776998943; c=relaxed/simple;
+	bh=3IcQwCRm/Ci1OhkWAtFBs4imf9Heu9LAFxZIohYXgYs=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KTVGTX61PsCIJDRBJFqrw5x3yBhecN7UY7cZaaQPzSVXtK2HwZITqbInsler2aBs3Gw6idBvAV18W5UAW6ZEZ91XUHmPjkqDag3PTj/iTPZWkg1VAyrSdnowHwpcct9vZfWkay00hhUzwISPmAkgkV69zLSyrpXNYKqn8EqJ2sU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
@@ -18,9 +18,9 @@ Received: from local
 	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
 	 (Exim 4.99)
 	(envelope-from <daniel@makrotopia.org>)
-	id 1wG6ar-000000002MP-2gbT;
-	Fri, 24 Apr 2026 02:48:37 +0000
-Date: Fri, 24 Apr 2026 03:48:29 +0100
+	id 1wG6b3-000000002MT-2mWi;
+	Fri, 24 Apr 2026 02:48:49 +0000
+Date: Fri, 24 Apr 2026 03:48:41 +0100
 From: Daniel Golle <daniel@makrotopia.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -37,8 +37,10 @@ To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: [PATCH v3 0/9] ASoC: mediatek: mt2701: HDMI audio support
-Message-ID: <cover.1776998727.git.daniel@makrotopia.org>
+Subject: [PATCH v3 1/9] ASoC: dt-bindings: mt2701-afe-pcm: add HDMI audio
+ path clocks
+Message-ID: <1a871e4494d514a270c7c27c080e338b2dbf6559.1776998727.git.daniel@makrotopia.org>
+References: <cover.1776998727.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,69 +49,82 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <cover.1776998727.git.daniel@makrotopia.org>
 
-This series wires up on-chip HDMI audio on MT2701 and MT7623N, from the
-DRM bridge down through the AFE into a small machine driver that binds
-the AFE HDMI BE to the HDMI TX codec already exposed by the
-mediatek-drm-hdmi driver. Bindings, DT and a BananaPi R2 board node
-are included.
+Document four additional optional clocks feeding the HDMI audio
+output path on MT2701: the HADDS2 PLL (root of the HDMI audio
+clock tree), the HDMI audio and S/PDIF interface power gates,
+and the audio APLL root gate. Older device trees that do not
+wire these up remain valid via minItems. MT7622 does not have
+HDMI audio hardware, so its compatible is restricted to the
+base set of 34 clocks.
 
-In order to survive vblank or late hotplug of the monitor, the fix
-submitted separately [1] is required as well.
-
-Everything here was developed for and tested on a BananaPi R2
-(MT7623N), which turns ten years old this year -- a nice occasion to
-finally land HDMI audio for a SoC which was truly ahead of its time.
-
-[1]: https://patchwork.kernel.org/project/linux-mediatek/patch/a3e22cbae528c9a38d854a586d1736b860998d41.1776265222.git.daniel@makrotopia.org/
-
-Changes since v2:
- * allOf goes before additionalProperties
- * remove now unused clk bits
- * remove redundant clock un-gating via regmap access
-
-Changes since v1:
+Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+---
+v3: allOf goes before additionalProperties
+v2:
  * Restrict the four HDMI clocks to mediatek,mt2701-audio only
    using an allOf/if/then conditional; MT7622 is capped at 34
    clocks (Krzysztof Kozlowski)
- * Fix subject prefix to use schema filename (Krzysztof Kozlowski)
- * Rewrite title and description to describe hardware, not driver
-   (Krzysztof Kozlowski)
- * Clarify in commit message why this is a separate binding from
-   mediatek,mt2701-audio (Krzysztof Kozlowski)
- * use named masks and explicitly set BIT_WIDTH_16 when
-   programming AFE_HDMI_OUT_CON0 channel count (Mark Brown)
- * add AUDIO_TOP_CON3, AFE_HDMI_OUT_CON0, AFE_HDMI_CONN0,
-   AFE_8CH_I2S_OUT_CON to suspend/resume backup list
-   (Mark Brown)
 
-Daniel Golle (9):
-  ASoC: dt-bindings: mt2701-afe-pcm: add HDMI audio path clocks
-  ASoC: dt-bindings: mediatek,mt2701-hdmi-audio: add MT2701 HDMI audio
-  ASoC: mediatek: mt2701: add AFE HDMI register definitions
-  ASoC: mediatek: mt2701: add optional HDMI audio path clocks
-  ASoC: mediatek: mt2701: add HDMI audio memif, FE and BE DAIs
-  ASoC: mediatek: mt2701: add machine driver for on-chip HDMI codec
-  ARM: dts: mediatek: mt2701: wire HDMI audio path clocks into AFE
-  ARM: dts: mediatek: mt7623: wire HDMI audio path clocks into AFE
-  ARM: dts: mediatek: mt7623n-bananapi-bpi-r2: add HDMI audio machine
-    node
+ .../bindings/sound/mediatek,mt2701-audio.yaml | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
- .../bindings/sound/mediatek,mt2701-audio.yaml |  23 ++
- .../sound/mediatek,mt2701-hdmi-audio.yaml     |  48 +++
- arch/arm/boot/dts/mediatek/mt2701.dtsi        |  21 +-
- arch/arm/boot/dts/mediatek/mt7623.dtsi        |  21 +-
- .../dts/mediatek/mt7623n-bananapi-bpi-r2.dts  |   7 +
- sound/soc/mediatek/Kconfig                    |  10 +
- sound/soc/mediatek/mt2701/Makefile            |   1 +
- .../mediatek/mt2701/mt2701-afe-clock-ctrl.c   |  22 ++
- sound/soc/mediatek/mt2701/mt2701-afe-common.h |   6 +
- sound/soc/mediatek/mt2701/mt2701-afe-pcm.c    | 284 +++++++++++++++++-
- sound/soc/mediatek/mt2701/mt2701-hdmi.c       | 114 +++++++
- sound/soc/mediatek/mt2701/mt2701-reg.h        |  29 ++
- 12 files changed, 575 insertions(+), 11 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt2701-hdmi-audio.yaml
- create mode 100644 sound/soc/mediatek/mt2701/mt2701-hdmi.c
-
+diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt2701-audio.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt2701-audio.yaml
+index 45382c4d86aa..30f331366566 100644
+--- a/Documentation/devicetree/bindings/sound/mediatek,mt2701-audio.yaml
++++ b/Documentation/devicetree/bindings/sound/mediatek,mt2701-audio.yaml
+@@ -32,6 +32,7 @@ properties:
+     maxItems: 1
+ 
+   clocks:
++    minItems: 34
+     items:
+       - description: audio infra sys clock
+       - description: top audio mux 1
+@@ -67,8 +68,13 @@ properties:
+       - description: top audio a1 sys pd
+       - description: top audio a2 sys pd
+       - description: audio merge interface pd
++      - description: HADDS2 PLL 294 MHz (HDMI audio path root)
++      - description: HDMI audio interface pd
++      - description: S/PDIF interface pd
++      - description: audio APLL root pd
+ 
+   clock-names:
++    minItems: 34
+     items:
+       - const: infra_sys_audio_clk
+       - const: top_audio_mux1_sel
+@@ -104,6 +110,10 @@ properties:
+       - const: audio_a1sys_pd
+       - const: audio_a2sys_pd
+       - const: audio_mrgif_pd
++      - const: hadds2pll_294m
++      - const: audio_hdmi_pd
++      - const: audio_spdf_pd
++      - const: audio_apll_pd
+ 
+ required:
+   - compatible
+@@ -113,4 +123,17 @@ required:
+   - clocks
+   - clock-names
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: mediatek,mt7622-audio
++    then:
++      properties:
++        clocks:
++          maxItems: 34
++        clock-names:
++          maxItems: 34
++
+ additionalProperties: false
 -- 
 2.54.0
