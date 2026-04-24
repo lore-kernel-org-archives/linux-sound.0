@@ -1,16 +1,16 @@
 Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02F12DA768;
-	Fri, 24 Apr 2026 02:49:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9B22D8DA8;
+	Fri, 24 Apr 2026 02:49:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.142.180.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776998960; cv=none; b=FZc7/OfyXopvlxSG0tlS5odjl54/RrqN+g+iP0gyHteORyamgS0yM7g5wr9rtZCbf8OzuBAN0UN0CjjKgDLMiUFzW1dth2IEBkqgpeIXL2l/bn7pQWUqdnXdQuggMMX0+staGwuLS9fDui5ZLkaSqT/n+7pyuZJ1IK9O76eKxY8=
+	t=1776998972; cv=none; b=DbEa8vK6nQIgTP5tdRDSxVwjaMyXsQvGJoKhm2UEnf0z7HmPCWNnhwLZ5Kxa79dkwO4JLxLOtlezfkduzFAkkSWZ6ElpnoTZdN2MorUG4MGmgjDLkEDUJeaIVwCiii/5fDuGdf4oEAG2xYE/AP7Y/VmhQZt/C4GsyhniZZykiNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776998960; c=relaxed/simple;
-	bh=09v0LrWZSFTcAJlaKABsCoox9/E++zpaUMBRFyHhEfA=;
+	s=arc-20240116; t=1776998972; c=relaxed/simple;
+	bh=xXjisB7rYH+3rkA/+gvfw09PxtmhznUKCu8Lr2n2aq0=;
 	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RJDRFsNMKgqxrqFBz2545lz+O+fTkWOmsymTrcuYB2fMsiq1ZMGriOCO7CeF54XeTpYuy7/z8pLnjm6zI0gzA20VyFlSKdqNI9VoP2eh7kkqd3rgxyjRKsPyvVH9AHDhVqtwiqJmUL79dUjAbJP3PQiC2Tuj4gTRYokd6k1K8IA=
+	 Content-Type:Content-Disposition:In-Reply-To; b=XKzuudCJFz0Baz1ue3ntqvRMlbSy9lD4v0ibVBhquuRrBTkNGf/oBdTEuxIiUTBC4raaa5DhaujZzWrF+BsY++F1SWuupOONVrdNQpqJqMyv7icpIZ2MvbDmXQvlxJCfFzuIbrIOyx2AKQDSK+RH46segtOtSxaJ+KZBIOjcghE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org; spf=pass smtp.mailfrom=makrotopia.org; arc=none smtp.client-ip=185.142.180.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
@@ -18,9 +18,9 @@ Received: from local
 	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
 	 (Exim 4.99)
 	(envelope-from <daniel@makrotopia.org>)
-	id 1wG6bS-000000002NV-1eTM;
-	Fri, 24 Apr 2026 02:49:14 +0000
-Date: Fri, 24 Apr 2026 03:49:06 +0100
+	id 1wG6be-000000002OZ-0hFp;
+	Fri, 24 Apr 2026 02:49:26 +0000
+Date: Fri, 24 Apr 2026 03:49:18 +0100
 From: Daniel Golle <daniel@makrotopia.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -37,9 +37,9 @@ To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: [PATCH v3 3/9] ASoC: mediatek: mt2701: add AFE HDMI register
- definitions
-Message-ID: <2c2a2e3e5d01da4a130160f5d5ffbd2a3808fe12.1776998727.git.daniel@makrotopia.org>
+Subject: [PATCH v3 4/9] ASoC: mediatek: mt2701: add optional HDMI audio path
+ clocks
+Message-ID: <5e24890acf597b04485145b5056ad8b161b4cbda.1776998727.git.daniel@makrotopia.org>
 References: <cover.1776998727.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -51,72 +51,69 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <cover.1776998727.git.daniel@makrotopia.org>
 
-Add register offsets and bit defines for the MT2701/MT7623N AFE
-HDMI audio output path: the HDMI BCK divider in AUDIO_TOP_CON3,
-the HDMI output memif control and descriptor registers, the 8-bit
-AFE_HDMI_CONN0 interconnect, and the AFE_8CH_I2S_OUT_CON engine
-that drives the HDMI TX serial link. These are a prerequisite for
-adding an HDMI playback path to the mt2701 AFE driver and have no
-behavioural effect on their own.
+The HDMI audio output path on MT2701/MT7623N is rooted in HADDS2PLL
+and gated by the audio_hdmi, audio_spdf and audio_apll power gates.
+Acquire these four clocks from device tree using devm_clk_get_optional
+so that existing platforms which do not wire up HDMI audio keep
+probing unchanged. Actual clock enable/prepare is deferred to the
+upcoming HDMI DAI startup path.
 
 Signed-off-by: Daniel Golle <daniel@makrotopia.org>
 ---
-v3: remove now unused clk bits
+v3: no changes
 v2: no changes
 
- sound/soc/mediatek/mt2701/mt2701-reg.h | 29 ++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ .../mediatek/mt2701/mt2701-afe-clock-ctrl.c   | 22 +++++++++++++++++++
+ sound/soc/mediatek/mt2701/mt2701-afe-common.h |  4 ++++
+ 2 files changed, 26 insertions(+)
 
-diff --git a/sound/soc/mediatek/mt2701/mt2701-reg.h b/sound/soc/mediatek/mt2701/mt2701-reg.h
-index c84d14cdd7ae..ca914df02c96 100644
---- a/sound/soc/mediatek/mt2701/mt2701-reg.h
-+++ b/sound/soc/mediatek/mt2701/mt2701-reg.h
-@@ -10,10 +10,17 @@
- #define _MT2701_REG_H_
+diff --git a/sound/soc/mediatek/mt2701/mt2701-afe-clock-ctrl.c b/sound/soc/mediatek/mt2701/mt2701-afe-clock-ctrl.c
+index ae620890bb3a..5a2bcf027b4f 100644
+--- a/sound/soc/mediatek/mt2701/mt2701-afe-clock-ctrl.c
++++ b/sound/soc/mediatek/mt2701/mt2701-afe-clock-ctrl.c
+@@ -95,6 +95,28 @@ int mt2701_init_clock(struct mtk_base_afe *afe)
+ 		afe_priv->mrgif_ck = NULL;
+ 	}
  
- #define AUDIO_TOP_CON0 0x0000
-+#define AUDIO_TOP_CON3 0x000c
- #define AUDIO_TOP_CON4 0x0010
- #define AUDIO_TOP_CON5 0x0014
- #define AFE_DAIBT_CON0 0x001c
- #define AFE_MRGIF_CON 0x003c
-+#define AFE_HDMI_OUT_CON0 0x0370
-+#define AFE_HDMI_OUT_BASE 0x0374
-+#define AFE_HDMI_OUT_CUR  0x0378
-+#define AFE_HDMI_OUT_END  0x037c
-+#define AFE_HDMI_CONN0    0x0390
-+#define AFE_8CH_I2S_OUT_CON 0x0394
- #define ASMI_TIMING_CON1 0x0100
- #define ASMO_TIMING_CON1 0x0104
- #define PWR1_ASM_CON1 0x0108
-@@ -125,6 +132,28 @@
- #define AFE_MEMIF_PBUF_SIZE_DLM_BYTE_MASK	(0x3 << 12)
- #define AFE_MEMIF_PBUF_SIZE_DLM_32BYTES		(0x1 << 12)
++	/*
++	 * Optional HDMI audio clocks. Platforms that do not wire up the
++	 * HDMI output (e.g. MT2701 devkits using only the I2S BE DAIs)
++	 * may omit these; in that case the HDMI BE DAI simply cannot be
++	 * enabled, but the rest of the AFE still probes.
++	 */
++	afe_priv->hadds2pll_ck = devm_clk_get_optional(afe->dev, "hadds2pll_294m");
++	if (IS_ERR(afe_priv->hadds2pll_ck))
++		return PTR_ERR(afe_priv->hadds2pll_ck);
++
++	afe_priv->audio_hdmi_ck = devm_clk_get_optional(afe->dev, "audio_hdmi_pd");
++	if (IS_ERR(afe_priv->audio_hdmi_ck))
++		return PTR_ERR(afe_priv->audio_hdmi_ck);
++
++	afe_priv->audio_spdf_ck = devm_clk_get_optional(afe->dev, "audio_spdf_pd");
++	if (IS_ERR(afe_priv->audio_spdf_ck))
++		return PTR_ERR(afe_priv->audio_spdf_ck);
++
++	afe_priv->audio_apll_ck = devm_clk_get_optional(afe->dev, "audio_apll_pd");
++	if (IS_ERR(afe_priv->audio_apll_ck))
++		return PTR_ERR(afe_priv->audio_apll_ck);
++
+ 	return 0;
+ }
  
-+/* AUDIO_TOP_CON3 (0x000c) -- HDMI BCK divider */
-+#define AUDIO_TOP_CON3_HDMI_BCK_DIV_MASK	(0x3f << 8)
-+#define AUDIO_TOP_CON3_HDMI_BCK_DIV(x)		(((x) & 0x3f) << 8)
-+
-+/* AFE_HDMI_OUT_CON0 (0x0370) */
-+#define AFE_HDMI_OUT_CON0_OUT_ON		(0x1 << 0)
-+#define AFE_HDMI_OUT_CON0_BIT_WIDTH_MASK	(0x1 << 1)
-+#define AFE_HDMI_OUT_CON0_BIT_WIDTH_16		(0x0 << 1)
-+#define AFE_HDMI_OUT_CON0_BIT_WIDTH_32		(0x1 << 1)
-+#define AFE_HDMI_OUT_CON0_CH_NUM_MASK		(0xf << 4)
-+#define AFE_HDMI_OUT_CON0_CH_NUM(x)		(((x) & 0xf) << 4)
-+
-+/* AFE_8CH_I2S_OUT_CON (0x0394) -- on-SoC 8-channel I2S that feeds HDMI TX */
-+#define AFE_8CH_I2S_OUT_CON_EN			(0x1 << 0)
-+#define AFE_8CH_I2S_OUT_CON_BCK_INV		(0x1 << 1)
-+#define AFE_8CH_I2S_OUT_CON_LRCK_INV		(0x1 << 2)
-+#define AFE_8CH_I2S_OUT_CON_I2S_DELAY		(0x1 << 3)
-+#define AFE_8CH_I2S_OUT_CON_WLEN_MASK		(0x3 << 4)
-+#define AFE_8CH_I2S_OUT_CON_WLEN_16BIT		(0x1 << 4)
-+#define AFE_8CH_I2S_OUT_CON_WLEN_24BIT		(0x2 << 4)
-+#define AFE_8CH_I2S_OUT_CON_WLEN_32BIT		(0x3 << 4)
-+
- /* I2S in/out register bit control */
- #define ASYS_I2S_CON_FS			(0x1f << 8)
- #define ASYS_I2S_CON_FS_SET(x)		((x) << 8)
+diff --git a/sound/soc/mediatek/mt2701/mt2701-afe-common.h b/sound/soc/mediatek/mt2701/mt2701-afe-common.h
+index 32bef5e2a56d..7b15283d6351 100644
+--- a/sound/soc/mediatek/mt2701/mt2701-afe-common.h
++++ b/sound/soc/mediatek/mt2701/mt2701-afe-common.h
+@@ -90,6 +90,10 @@ struct mt2701_afe_private {
+ 	struct mt2701_i2s_path *i2s_path;
+ 	struct clk *base_ck[MT2701_BASE_CLK_NUM];
+ 	struct clk *mrgif_ck;
++	struct clk *hadds2pll_ck;
++	struct clk *audio_hdmi_ck;
++	struct clk *audio_spdf_ck;
++	struct clk *audio_apll_ck;
+ 	bool mrg_enable[MTK_STREAM_NUM];
+ 
+ 	const struct mt2701_soc_variants *soc;
 -- 
 2.54.0
