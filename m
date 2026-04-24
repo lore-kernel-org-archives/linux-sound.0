@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5157F27144B;
-	Fri, 24 Apr 2026 20:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AE93E4C7E;
+	Fri, 24 Apr 2026 20:52:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777063912; cv=none; b=Z7p0mrEUCj3BBpccS7gkiAv1N9qlB0Ll8owkxA+z/bnsPficMYRl1XEypk29FKB9F23I2V0G4Y1gy1COE3U1z3N+CY7pbJucR9UXWhwGdC5pDPS+WiXZzgN1zVXTA7IG7Pe/sVDu2arySBLzjEjg2T+7uQOlwD7cyfrFw+fhjg0=
+	t=1777063972; cv=none; b=T55CkMn2FxpK/Ypc4gF5WozupMJTOBzDnoS2sIbCpgG3iK9dIyin9NE2A4b/IZjow7bFpHL3KuYRQWZ0MsFX9aSvALNyHiSJ+I56AyLt9wq/57dHHghXnizwWdMYdVVuuHRKPqWrKn/lFgmkGQgS2jEp6dLwVnkOBnKrI76FVHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777063912; c=relaxed/simple;
-	bh=5JZ3H3/sBXDgx/LQAxlJHDrG4zVZxFDW0oYorxTeGoA=;
+	s=arc-20240116; t=1777063972; c=relaxed/simple;
+	bh=7mHP31dYHvW5/qK1YQx8tju7ZGZpKpZlZySUM0kcp+8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lnzszgcYX6JM9/OAK0rry6DahJCt0oxZF/4kk4mL/d4x/MdDKG+W5xdmpLj8oddst/7Hr2zfTQHauJtil+wLnNNFmgzUXrkXY3ioA5aat4rJa4Q2AZEZul6S7GqTS8anC6youbVdqrTQh5hP016wKDd2+0P/hAFw4gHWhS1kqqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gHDwfBVa; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=J4lrHLjCa5LwfTrHLYTt5JIM0XYUsfUKXb+6XIY0acP6B5UJajwb8zXJVeaLZb92t7I9U3OqrR8THW4T9SLrsOSVbjbwhPWHQeVb1HlDgQ1eAM1wIG7L2oTIJxORgdtS9wcIFW8FqsjXw1WC4tPJxiLWYsWiE2e67thq6BcbU50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OMWHzAK1; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gHDwfBVa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMWHzAK1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777063908; x=1808599908;
+  t=1777063967; x=1808599967;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5JZ3H3/sBXDgx/LQAxlJHDrG4zVZxFDW0oYorxTeGoA=;
-  b=gHDwfBVa7o0qZs3w1LOlLRnQDNhFLk677G0a4+wY+9w3Hg57fMCpC3zl
-   ezxrkb1WfQSuBhx59nFaHkO+Zvs8Zl3VoQ+/3eZd/IrzankEakoRNiHh2
-   pZdDUXuKghjrX7QCkOQB2xFA76hgWvsmO2oiu22ZfPikGDgYJS+CbV0F5
-   sqKGXrqoDFPDJiGiFU9f+qGVPlnHcv57FfRB+ns0uyhqh2odv1eIPzzwh
-   NJRCm5LLPHGft2d5ZIb/E9FBpsS+oBc89NVSNFk+FNytKD3Qr/GNNbf6U
-   xQyVuoYfYHylgIgZBFZ4zgiwcRxo/jdxpAo7ED+3G+rybrx6R1PeQ1UXn
-   Q==;
-X-CSE-ConnectionGUID: ZxYp+7b1QdOoaS17ulxcLQ==
-X-CSE-MsgGUID: t7L48ZU+RNiFrGJWHzqAFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11766"; a="89515398"
+  bh=7mHP31dYHvW5/qK1YQx8tju7ZGZpKpZlZySUM0kcp+8=;
+  b=OMWHzAK1mhv1GeS8BQ2icDFyi7ZJYBwOyplO0Rwxl3EHV3ftKPRVtpCW
+   adSKKBhcVSWPa3RVks+na8FHV3tf6IacesKfyGgWVYlGwZ0/BP2NAP/ht
+   QItrDGYkE/V7ih1SOShYXHtifz2wc5q7TCCynqQcRs0G1XiAo0ZxV4+uB
+   AFvEVVw/k7BiX4mlW5wS4sDvKpIj3XlPIrZvejPTtLrNtJAVsqORGAR0P
+   9DUaVJq1Z26Gc9z/p/lhZYjD7atwbbDChwjNMP4QTS3eguFVAJqCkbKV1
+   1J16Uw9HyvOlDLVKUx4xZsoKZx3Y2r+s0Ok9NBCq87okhHJxqUTCkl4be
+   w==;
+X-CSE-ConnectionGUID: EA2Fq+XpQIKyYTTaqvDZbA==
+X-CSE-MsgGUID: rnTgXzrYQ+CONLw85Zgkog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11766"; a="78111006"
 X-IronPort-AV: E=Sophos;i="6.23,197,1770624000"; 
-   d="scan'208";a="89515398"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 13:51:47 -0700
-X-CSE-ConnectionGUID: BTqxahfjQ62EP8FX4YF++A==
-X-CSE-MsgGUID: UpEJ00LxSZGGD9fzdG2wcw==
+   d="scan'208";a="78111006"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 13:52:47 -0700
+X-CSE-ConnectionGUID: 5WT3vqKsQTq/Rk95CIQpLQ==
+X-CSE-MsgGUID: QSkvZ/e5TUqAF0iga2YdiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,197,1770624000"; 
-   d="scan'208";a="232063567"
+   d="scan'208";a="238050981"
 Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 24 Apr 2026 13:51:45 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 24 Apr 2026 13:52:43 -0700
 Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wGNUz-00000000661-1nZ6;
-	Fri, 24 Apr 2026 20:51:41 +0000
-Date: Sat, 25 Apr 2026 04:51:31 +0800
+	id 1wGNVx-00000000665-2283;
+	Fri, 24 Apr 2026 20:52:41 +0000
+Date: Sat, 25 Apr 2026 04:51:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: Hristiyan <hristian.anchev@gmail.com>, tiwai@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, perex@perex.cz,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, perex@perex.cz,
 	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Hristiyan <hristian.anchev@gmail.com>
 Subject: Re: [PATCH] ALSA: hda/realtek: Add support for HP ENVY x360
  Convertible 15-ee0xxx
-Message-ID: <202604250441.52wRPUuy-lkp@intel.com>
+Message-ID: <202604250407.190G0j3u-lkp@intel.com>
 References: <20260412224316.29010-1-hristian.anchev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -81,28 +81,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Hristiyan/ALSA-hda-realte
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
 patch link:    https://lore.kernel.org/r/20260412224316.29010-1-hristian.anchev%40gmail.com
 patch subject: [PATCH] ALSA: hda/realtek: Add support for HP ENVY x360 Convertible 15-ee0xxx
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260425/202604250441.52wRPUuy-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260425/202604250441.52wRPUuy-lkp@intel.com/reproduce)
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260425/202604250407.190G0j3u-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260425/202604250407.190G0j3u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604250441.52wRPUuy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604250407.190G0j3u-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from sound/hda/codecs/realtek/realtek.h:22,
-                    from sound/hda/codecs/realtek/alc269.c:8:
->> sound/hda/codecs/realtek/alc269.c:6922:77: error: 'ALC245_FIXUP_CS35L41_I2C_2' undeclared here (not in a function); did you mean 'ALC294_FIXUP_CS35L41_I2C_2'?
+>> sound/hda/codecs/realtek/alc269.c:6922:70: error: use of undeclared identifier 'ALC245_FIXUP_CS35L41_I2C_2'
     6922 |         SND_PCI_QUIRK(0x103c, 0x876f, "HP ENVY x360 Convertible 15-ee0xxx", ALC245_FIXUP_CS35L41_I2C_2),
-         |                                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/sound/core.h:406:50: note: in definition of macro 'SND_PCI_QUIRK'
-     406 |         {_SND_PCI_QUIRK_ID(vend, dev), .value = (val), .name = (xname)}
-         |                                                  ^~~
+         |                                                                             ^
+   1 error generated.
 
 
-vim +6922 sound/hda/codecs/realtek/alc269.c
+vim +/ALC245_FIXUP_CS35L41_I2C_2 +6922 sound/hda/codecs/realtek/alc269.c
 
   6669	
   6670	static const struct hda_quirk alc269_fixup_tbl[] = {
