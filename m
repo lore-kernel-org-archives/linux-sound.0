@@ -1,98 +1,91 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96A130B51D
-	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 10:56:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2D7372B24
+	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 11:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777028171; cv=none; b=SFw9/mEKYafcWroYvgLJ6fgUuEQlAO5dH1YL1C7GVbp8jNhhN+oVnKsa434Cp7eNOAmBOYIz/2XuQKIF3F+ocPTYKKPO+Abq/9Z20l1vfxGjCa1RMNXApjO66z2SUqzRqUnOAohKTTe/bofVqIdG6DWidNRi0D++pboyOOBu1sM=
+	t=1777029275; cv=none; b=rVFdtW0rQWRRfDv9qtA16HepNHIiyo+0od/ZHY5S6BqG4cvmdPMa65c8Qk3DTZ/8MBgZGbIN6qFnJOQn04XDG1jfthZ7wh9NwLJsrpHhBxkanlWNzhlJ3rej3A6eYscS6lVNRURXmW5Ca7TjDyalSvRcjmR+aXdQL9jGEFZn+kM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777028171; c=relaxed/simple;
-	bh=t6f/QTq9IW8qyCOZqTcqxJKNGharoYTt7FR9nFkJ+1U=;
+	s=arc-20240116; t=1777029275; c=relaxed/simple;
+	bh=ZKT1sepTKpW1nMj55n6arlBlwYJl1MbxTNrlOijCGKI=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=stvHrmswLwloy5jZgQ5aVSgh4A1ChWX8q3M9AwNpFxIvFI52CgEGvxN7oZh+WJpp/EL1NrbQrss5uv2131GnSGbnN0+4vFSy2vphwGZfoYFdcTLT+hS1qjIGuG/wsCCwwYOi7ZRPGF06koKPMZBR3ucGRxUkJvHtmYULzJ6Ddt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=czlDADw3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8VOX8/IP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M4+NwHXI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QVSBXWA5; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=Ym3XJoVcnoQbu6/teN5HbJ+I3GWaHmDTv/anpT0VkNHGm9Ik7zSyuwSGUOWV5xr88hmJLCuucOyb9CydJgLy4jPe7Q9AHKa23A+VYyx/UdH9hwYjMt3fMqqAR12eiZPO0VM6PsCCXN2FsU+nfXoS3HNuGT3cLZ6n4gknVxCIKSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D3jfUd/t; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=84FQ/nvP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gDdi5fNF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L/+SVR0p; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="czlDADw3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8VOX8/IP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M4+NwHXI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QVSBXWA5"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D3jfUd/t";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="84FQ/nvP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gDdi5fNF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L/+SVR0p"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E6D9F6A836;
-	Fri, 24 Apr 2026 10:56:07 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 01C835BCC1;
+	Fri, 24 Apr 2026 11:14:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777028168; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1777029272; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9+Xg7o8N5O7U1PoamGPZorwlp6X5fVmtBjkFbLZG3XY=;
-	b=czlDADw3NFZo3Cg9b8x6V3THJe9mzQ46tfWT0YCmlpFvc3o/aM4/o6qInxcvygn0FVp+Pl
-	TfXplkMcJ9JK6yML6DlImOQHqX8Swv+x67BOUGpnzq+MfmQwBzUXJpNtg9zxKEZ2WN4KOV
-	ZylmWi/tDiBb5bFgJh+WyK1zMvJK9uE=
+	bh=M3WuoMBtZgKp11lsvEXRtxuakMMlf6c4sL4ohllFrsg=;
+	b=D3jfUd/tg78rLjzZCObeKbSJYwIqSSGQgMIQVMPpV+fyIm0U3LSLsVGtuwOHHmhcH+q/pk
+	SPo5y4rX6jklW29abfRqWglO7GU17ZztVq83tZkjfVJIeWZVqNu9m3uqELlWrPmtmreinW
+	3IjPV5c78GThIqGmJndZtCpE1FpL5rU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777028168;
+	s=susede2_ed25519; t=1777029272;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9+Xg7o8N5O7U1PoamGPZorwlp6X5fVmtBjkFbLZG3XY=;
-	b=8VOX8/IP0rAdyPsww4q1YohxuyxrRitpRAiDbEhmt65VW5y6u7Oi3UfWqCj0/kywAARySg
-	QsOYw7VtCEB/8gAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=M4+NwHXI;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QVSBXWA5
+	bh=M3WuoMBtZgKp11lsvEXRtxuakMMlf6c4sL4ohllFrsg=;
+	b=84FQ/nvPmiqyhaQYlmsDWXG7d16QwjS5HlaHKZqbDSiO0VCiODKUweJjGj1YGJaV/9U0fd
+	2yO4OpMbjW0rJqBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777028167; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1777029268; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9+Xg7o8N5O7U1PoamGPZorwlp6X5fVmtBjkFbLZG3XY=;
-	b=M4+NwHXIf4k2ZRG7A6XRRGabjaEuPdav9GoQEIVyTn0L5aobYXqJJbcLfKUS7ohLDGNQTY
-	nWuXtgvA7ly6XK/3WzGpr0cyIWQ+L2tpLMLhYzk6OhK3BKJ5jy/mqp6ElRg4RNI7otYyBT
-	4662Wi5/iKRJYwFgg7amwOEwNKPO/3k=
+	bh=M3WuoMBtZgKp11lsvEXRtxuakMMlf6c4sL4ohllFrsg=;
+	b=gDdi5fNFFJZoHktnZD4bO5qbfx/rrpU1ECDu+JFCw6jCGuzwedaqeb8NHD7mTZu0x6T0uH
+	UpnlJuUvc4u+pbyHjqd5EYZzQ0bJiUY10kmu3rRRgr6WX3vcG1GFnwwCUKRHEfbFmsKHrm
+	ZNoOMXY9a85up/NjzrmoRMq2nLpWBfM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777028167;
+	s=susede2_ed25519; t=1777029268;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9+Xg7o8N5O7U1PoamGPZorwlp6X5fVmtBjkFbLZG3XY=;
-	b=QVSBXWA5kX4rXKgyzOzI+zUUyNQeeTKvl6vC6Cc1e58Oq1KjW2KmvTFArTs13lUXrGGlgb
-	u3yBTSxnMDUgiYAQ==
+	bh=M3WuoMBtZgKp11lsvEXRtxuakMMlf6c4sL4ohllFrsg=;
+	b=L/+SVR0pi2db4992cdcFdITOmEWIwF/2++G2wRF3gJSVjx0PSR+RKDN6nj8gEool5vuUe3
+	BfRpwpDhDI8gErBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9804C593A4;
-	Fri, 24 Apr 2026 10:56:07 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BF1EA593A4;
+	Fri, 24 Apr 2026 11:14:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id p3rWI0dM62lDGwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 24 Apr 2026 10:56:07 +0000
-Date: Fri, 24 Apr 2026 12:56:07 +0200
-Message-ID: <87v7dg1vaw.wl-tiwai@suse.de>
+	id 6uZKLZNQ62kGLQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 24 Apr 2026 11:14:27 +0000
+Date: Fri, 24 Apr 2026 13:14:27 +0200
+Message-ID: <87se8k1ugc.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Jaeyoung Chung <jjy600901@snu.ac.kr>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	perex@perex.cz,
-	tiwai@suse.com,
+To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	byoungyoung@snu.ac.kr,
-	eulgyukim@snu.ac.kr
-Subject: Re: [BUG] KASAN: slab-use-after-free in ALSA OSS read/poll race
-In-Reply-To: <CAD6E879vAXrUasE1Jp6xdPO_AZ-wbqRoThZTKSfVu2s0BbntiA@mail.gmail.com>
-References: <20260423145330.210035-1-jjy600901@snu.ac.kr>
-	<87a4ut3dfp.wl-tiwai@suse.de>
-	<20260424071208.2388558-1-jjy600901@snu.ac.kr>
-	<874il03gpy.wl-tiwai@suse.de>
-	<CAD6E879vAXrUasE1Jp6xdPO_AZ-wbqRoThZTKSfVu2s0BbntiA@mail.gmail.com>
+	syzbot+8fa95c41eafbc9d2ff6f@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: aloop: Fix peer runtime UAF during format-change stop
+In-Reply-To: <20260423-alsa-aloop-peer-stop-uaf-v1-1-25d8a9745f6c@gmail.com>
+References: <20260423-alsa-aloop-peer-stop-uaf-v1-1-25d8a9745f6c@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -100,119 +93,132 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spamd-Result: default: False [-1.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[8fa95c41eafbc9d2ff6f];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: E6D9F6A836
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
-X-Spam-Score: -3.51
+X-Spam-Score: -1.80
 X-Spam-Level: 
 
-On Fri, 24 Apr 2026 12:12:41 +0200,
-Jaeyoung Chung wrote:
+On Thu, 23 Apr 2026 05:22:22 +0200,
+Cássio Gabriel wrote:
 > 
-> On Fri, Apr 24, 2026 at 5:28â€¯PM Takashi Iwai <tiwai@suse.de> wrote:
-> >
-> > Does something below work?
-> > Once after confirming, I'll submit a proper patch.
-> >
-> >
-> > thanks,
-> >
-> > Takashi
-> >
-> > -- 8< --
-> > diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
-> > --- a/sound/core/oss/pcm_oss.c
-> > +++ b/sound/core/oss/pcm_oss.c
-> > @@ -2155,10 +2155,16 @@ static int snd_pcm_oss_get_trigger(struct snd_pcm_oss_file *pcm_oss_file)
-> >
-> >         psubstream = pcm_oss_file->streams[SNDRV_PCM_STREAM_PLAYBACK];
-> >         csubstream = pcm_oss_file->streams[SNDRV_PCM_STREAM_CAPTURE];
-> > -       if (psubstream && psubstream->runtime && psubstream->runtime->oss.trigger)
-> > -               result |= PCM_ENABLE_OUTPUT;
-> > -       if (csubstream && csubstream->runtime && csubstream->runtime->oss.trigger)
-> > -               result |= PCM_ENABLE_INPUT;
-> > +       if (psubstream && psubstream->runtime) {
-> > +               guard(mutex)(&psubstream->runtime->oss.params_lock);
-> > +               if (psubstream->runtime->oss.trigger)
-> > +                       result |= PCM_ENABLE_OUTPUT;
-> > +       }
-> > +       if (csubstream && csubstream->runtime) {
-> > +               guard(mutex)(&csubstream->runtime->oss.params_lock);
-> > +               if (csubstream->runtime->oss.trigger)
-> > +                       result |= PCM_ENABLE_INPUT;
-> > +       }
-> >         return result;
-> >  }
-> >
-> > @@ -2832,6 +2838,17 @@ static int snd_pcm_oss_capture_ready(struct snd_pcm_substream *substream)
-> >                                                 runtime->oss.period_frames;
-> >  }
-> >
-> > +static bool need_input_retrigger(struct snd_pcm_runtime *runtime)
-> > +{
-> > +       bool ret;
-> > +
-> > +       guard(mutex)(&runtime->oss.params_lock);
-> > +       ret = runtime->oss.trigger;
-> > +       if (ret)
-> > +               runtime->oss.trigger = 0;
-> > +       return ret;
-> > +}
-> > +
-> >  static __poll_t snd_pcm_oss_poll(struct file *file, poll_table * wait)
-> >  {
-> >         struct snd_pcm_oss_file *pcm_oss_file;
-> > @@ -2864,11 +2881,11 @@ static __poll_t snd_pcm_oss_poll(struct file *file, poll_table * wait)
-> >                             snd_pcm_oss_capture_ready(csubstream))
-> >                                 mask |= EPOLLIN | EPOLLRDNORM;
-> >                 }
-> > -               if (ostate != SNDRV_PCM_STATE_RUNNING && runtime->oss.trigger) {
-> > +               if (ostate != SNDRV_PCM_STATE_RUNNING &&
-> > +                   need_input_retrigger(runtime)) {
-> >                         struct snd_pcm_oss_file ofile;
-> >                         memset(&ofile, 0, sizeof(ofile));
-> >                         ofile.streams[SNDRV_PCM_STREAM_CAPTURE] = pcm_oss_file->streams[SNDRV_PCM_STREAM_CAPTURE];
-> > -                       runtime->oss.trigger = 0;
-> >                         snd_pcm_oss_set_trigger(&ofile, PCM_ENABLE_INPUT);
-> >                 }
-> >         }
-> >
-> >
+> loopback_check_format() may stop the capture side when playback starts
+> with parameters that no longer match a running capture stream. Commit
+> 826af7fa62e3 ("ALSA: aloop: Fix racy access at PCM trigger") moved
+> the peer lookup under cable->lock, but the actual snd_pcm_stop() still
+> runs after dropping that lock.
 > 
-> Thanks for the quick fix.
+> A concurrent close can clear the capture entry from cable->streams[] and
+> detach or free its runtime while the playback trigger path still holds a
+> stale peer substream pointer.
 > 
-> The patch looks good to me. I tested it on my side and no longer
-> see the KASAN report.
+> Keep a per-cable count of in-flight peer stops before dropping
+> cable->lock, make free_cable() wait for those stops before detaching the
+> runtime, and take the peer stream lock around snd_pcm_stop(). This
+> preserves the existing behavior while making the peer runtime lifetime
+> explicit.
+> 
+> Reported-by: syzbot+8fa95c41eafbc9d2ff6f@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=8fa95c41eafbc9d2ff6f
+> Fixes: 597603d615d2 ("ALSA: introduce the snd-aloop module for the PCM loopback")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+> ---
+>  sound/drivers/aloop.c | 56 ++++++++++++++++++++++++++++++++++++---------------
+>  1 file changed, 40 insertions(+), 16 deletions(-)
+> 
+> diff --git a/sound/drivers/aloop.c b/sound/drivers/aloop.c
+> index aa0d2fcb1a18..a997ee262740 100644
+> --- a/sound/drivers/aloop.c
+> +++ b/sound/drivers/aloop.c
+> @@ -99,6 +99,9 @@ struct loopback_ops {
+>  struct loopback_cable {
+>  	spinlock_t lock;
+>  	struct loopback_pcm *streams[2];
+> +	/* in-flight peer stops running outside cable->lock */
+> +	atomic_t stop_count;
+> +	wait_queue_head_t stop_wait;
+>  	struct snd_pcm_hardware hw;
+>  	/* flags */
+>  	unsigned int valid;
+> @@ -337,10 +340,10 @@ static bool is_access_interleaved(snd_pcm_access_t access)
+>  static int loopback_check_format(struct loopback_cable *cable, int stream)
+>  {
+>  	struct loopback_pcm *dpcm_play, *dpcm_capt;
+> +	struct loopback_pcm *stop_dpcm = NULL;
+>  	struct snd_pcm_runtime *runtime, *cruntime;
+>  	struct loopback_setup *setup;
+>  	struct snd_card *card;
+> -	bool stop_capture = false;
+>  	int check;
+>  
+>  	scoped_guard(spinlock_irqsave, &cable->lock) {
+> @@ -366,8 +369,11 @@ static int loopback_check_format(struct loopback_cable *cable, int stream)
+>  				return 0;
+>  			if (stream == SNDRV_PCM_STREAM_CAPTURE)
+>  				return -EIO;
+> -			else if (cruntime->state == SNDRV_PCM_STATE_RUNNING)
+> -				stop_capture = true;
+> +			else if (cruntime->state == SNDRV_PCM_STATE_RUNNING) {
+> +				/* close must not free the peer runtime below */
+> +				atomic_inc(&cable->stop_count);
+> +				stop_dpcm = dpcm_capt;
+> +			}
+>  		}
+>  
+>  		setup = get_setup(dpcm_play);
+> @@ -396,8 +402,18 @@ static int loopback_check_format(struct loopback_cable *cable, int stream)
+>  		}
+>  	}
+>  
+> -	if (stop_capture)
+> -		snd_pcm_stop(dpcm_capt->substream, SNDRV_PCM_STATE_DRAINING);
+> +	if (stop_dpcm) {
+> +		struct snd_pcm_substream *stop_substream = stop_dpcm->substream;
+> +		unsigned long flags;
+> +
+> +		snd_pcm_stream_lock_irqsave_nested(stop_substream, flags);
+> +		if (stop_substream->runtime && snd_pcm_running(stop_substream))
+> +			snd_pcm_stop(stop_substream, SNDRV_PCM_STATE_DRAINING);
+> +		snd_pcm_stream_unlock_irqrestore(stop_substream, flags);
+> +
+> +		if (atomic_dec_and_test(&cable->stop_count))
+> +			wake_up(&cable->stop_wait);
+> +	}
 
-Good to hear.  I'm going to submit a formal patch.
-Thank you for quick testing!
+Do we need to complicate this handling?  IOW, can it be simply be like
+below?
 
+	if (stop_capture) {
+		snd_pcm_stop(dpcm_capt->substream, SNDRV_PCM_STATE_DRAINING);
+		if (atomic_dec_and_test(&cable->stop_count))
+			wake_up(&cable->stop_wait);
+	}
+
+
+thanks,
 
 Takashi
