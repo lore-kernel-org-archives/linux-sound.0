@@ -1,104 +1,133 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFCCA332917
-	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 19:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B123E33508E
+	for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 19:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777057694; cv=none; b=td0Psbt7Fd4fTlyEYupLjU+eXoDbR6uZT80KEermTzHb03vdVmYXD1LLSxqFAsHR7JMe+SpmMfTHM3vP7aOtK4KKDmGROvve9mMMzLjLFBzympHEmI805Cd/3ojXQq5l57N0ZysdLycBM3wnHEmhhgqW+2akLHJvwzH8CUmj1OY=
+	t=1777060687; cv=none; b=C9hhKQxsfxZsDlbY6L71sw+16RF3bfPu6B4HFJWVTGKHF4ofUmAiErvzCMz13GrxRKqt6u795Lr4xpOiQhBS5E/1zT8OHptuHRPEBWNCfEiCfS/zJbKcBgP96WNPmLACyrGk/Xg7OlyfcOgPrv532CBW6ckl6aXJ3L1sS8lKFlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777057694; c=relaxed/simple;
-	bh=8A6x/gwvigokDWQHjH1XTTPUpJb98Mhg/r0z4VARm4Q=;
+	s=arc-20240116; t=1777060687; c=relaxed/simple;
+	bh=uCQEJZgXHrlBR8fif2fi669uXR1ZpKllKRXGAVjMdRU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jGnccckELBeeo1Dkwxr/Tm1nHBg6xJK7If4HXHpvwDYVIBUkZSnRyjNeF1LKFAwpAzd+w8vaMDBAupxVI1GCce0qShjBwAhCg0PGyXQc112Xn98tIjQ9Oh7KOab95XLsp1T5N+wZuildC5kihDC9N4d+NBYlfr1oGWDIm3hx9W0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=nnt1cmrY; arc=none smtp.client-ip=95.215.58.170
+	 In-Reply-To:Content-Type; b=EVbV1j21oE1Aoys55JBl7tJMOqU2QAkecQ+BOBOWRkIIrhF4FZTt1uouz4voFo58FwKzQBmIDsqktYGyroIyPO9IGt7e8LoISUC6qH07zukYHSfOGBFuzlDvI7ATwmKmaAWNTuzI+j/F1HIxuYtlp/dyoXWbAS8kczhgK3ZvKCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=dl3bYulU; arc=none smtp.client-ip=95.215.58.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="nnt1cmrY"
-Message-ID: <c3b833d8-2e8a-4418-9043-6cd04d9901e1@packett.cool>
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="dl3bYulU"
+Message-ID: <0f465991-0ad7-47f4-8cc3-237e131f3fdb@packett.cool>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
-	s=key1; t=1777057689;
+	s=key1; t=1777060681;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/Q7AY28qlHBjgzfWhhXsEAsuWHcEKhugX23O64AEQqA=;
-	b=nnt1cmrYKgqViG1liVRq6/0f4EejzGYfXen3cebO9qtTfbXXcCQm7vSo3J/ezkwa1y1Huj
-	yuEhv5AQt9otPdCsyU5Si1H+ksvzqUjbHms01qDdVFCGwSYpnMkJQ5N8epX1tab+xAO4/G
-	vz0B/vHMxyRIHTeAxHIvhXQD/5e2r3gy/cVkFvTUbSqwfMeUKqL4bIgfYr1vFyVfTWGLb1
-	FOwQHBlzAxLRyq4Pho8rDP6u2W1W42Yf6R5Op7z9JzR/sM2fZLT3XWXfKQTxjk4rJ1uNZz
-	tXuapn2aXf9bId8MCU6aT1JfKrUHgu0GpKyNf/R0irr3cfRjvi4KIR+j5BMtXg==
-Date: Fri, 24 Apr 2026 16:07:56 -0300
+	bh=7CVawkKQLvLPTpGW9LkdsKtXLR4eUHtA0MpmU0WdVWA=;
+	b=dl3bYulUePrkGQnXqqlfgE/VAva/4gHw5zFZLEiN1ZOuY2J51f81T5IroC9R9CutjnruJv
+	ahLWaa1+ePvqs3jR8ikPf7s6NZwk8ESpgM5cvKulrX7UU9QrNtDo2masxFi2Jtgi53qb4+
+	JCArTuKgbqOEq0uWVWzgT+jNVU1Z+PGbTs5XrWagHTBMMOvAeWnjIELqboqJC3oVmfRbv8
+	pnzo4PNkOn52zEvIm9lItZIknGYjC/jjMrMRYAtgVMMK78nidinFx+u2+UPn9NDSsko2qR
+	M3RIyMijzbN6YvfGzN7dC/G0+87gfRBIso2b2oCeZQT6yGtAWSwUXl37MbePAg==
+Date: Fri, 24 Apr 2026 16:57:49 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 12/12] arm64: dts: qcom: qcs6490-radxa-dragon-q6a: add
- LPASS CPU audio variant
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Xilin Wu <sophon@radxa.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Judy Hsiao <judyhsiao@chromium.org>,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20260407-dragon-q6a-feat-fixes-v1-0-14aca49dde3d@radxa.com>
- <20260407-dragon-q6a-feat-fixes-v1-12-14aca49dde3d@radxa.com>
- <29a7dd01-7513-4fe5-8546-d57757b3b2d0@oss.qualcomm.com>
- <88B7BBB9133FBAD1+ccb025ea-4999-4701-bb18-c57a42cabe2f@radxa.com>
- <2f830f17-4bc5-4ebd-a66b-8068a14a871a@oss.qualcomm.com>
+Subject: Re: [PATCH 1/6] ASoC: qcom: qdsp6: q6afe: fix clk vote response type
+ mismatch
+To: Luca Weiss <luca.weiss@fairphone.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Bhushan Shah <bhushan.shah@machinesoul.in>,
+ Antoine Bernard <zalnir@proton.me>, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260423050801.210840-2-val@packett.cool>
+ <20260423050801.210840-3-val@packett.cool>
+ <DI0B81W07N33.3HZQ4R8DEJ9EJ@fairphone.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Val Packett <val@packett.cool>
-In-Reply-To: <2f830f17-4bc5-4ebd-a66b-8068a14a871a@oss.qualcomm.com>
+In-Reply-To: <DI0B81W07N33.3HZQ4R8DEJ9EJ@fairphone.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
 
-On 4/24/26 9:28 AM, Konrad Dybcio wrote:
-> On 4/8/26 11:47 AM, Xilin Wu wrote:
->> On 4/8/2026 5:06 PM, Konrad Dybcio wrote:
->>> On 4/7/26 5:20 PM, Xilin Wu wrote:
->>>> Add a qcs6490-radxa-dragon-q6a-lpass-cpu.dts variant for debugging and
->>>> bring-up of the host-controlled LPASS audio path on the Radxa Dragon
->>>> Q6A.
->>>>
->>>> This variant enables the LPASS blocks and codec macros needed by the
->>>> lpass-cpu driver, wires WCD9380 playback/capture and DisplayPort audio
->>>> to the LPASS CDC DMA and DP interfaces, and disables remoteproc_adsp so
->>>> that the audio hardware is owned directly by Linux.
->>>>
->>>> This DTB is an optional configuration for systems booted with the kernel
->>>> running at EL2, where direct CPU access to the LPASS hardware is
->>>> available. It is useful for users who need low-latency and fully
->>>> controllable audio.
->>> I believe on Chrome platforms it was done this way because at some point
->>> it was determined that they would specifically like not to use the DSP.
->>>
->>> I think this is more of a hack than anything else.. but at the end of the
->>> commit message you mention low latency - is the impact actually measurable?
->>>
->> Some of our users also specifically prefer not to use the DSP [1] :)
+On 4/23/26 3:11 AM, Luca Weiss wrote:
+> Hi Val,
+>
+> On Thu Apr 23, 2026 at 6:41 AM CEST, Val Packett wrote:
+>> The response sent by the firmware when requesting a clock vote (opcode
+>> AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST) does not actually have
+>> the same opcode + status payload as APR_BASIC_RSP_RESULT. Rather, it
+>> returns one single u32 which is the client_handle that must be used in
+>> future unvote requests for the same clock.
 >>
->> Based on their testing, the AudioReach/ADSP path imposes a minimum scheduling interval of 10 ms, which is much higher than the 0.67 ms they can get on a Raspberry Pi 5 with direct I2S/DMA.
-> We passed on this feedback.
+>> As a result of this type confusion, the status returned by the callback
+>> to q6afe_vote_lpass_core_hw was actually an out-of-bounds read. It was
+>> only interpreted as success (0) most of the time due to luck, but there
+>> are reports of random ("more likely on cold boot", "depending on hacks
+>> made in other drivers") errors such as:
+>>
+>> [   20.961100] qcom-q6afe aprsvc:service:4:4: AFE failed to vote (3)
+>> [   20.961131] Failed to prepare clk 'core': -110
+>>
+>> Fix by correctly interpreting the response as a single u32, and actually
+>> store it as the client_handle to ensure unvote would work correctly.
+>>
+>> Link: https://lore.kernel.org/all/5976946.DvuYhMxLoT@antlia/
+>> Signed-off-by: Val Packett <val@packett.cool>
+>> ---
+>>
+>> Found by reading and comparing with downstream:
+>> https://github.com/YumeMichi/kernel_xiaomi_pipa/blob/27190355fb31284988ddf505cb7cfba5128104cf/techpack/audio/dsp/q6afe.c#L1261-L1263
+>>
+>> What's really bizzare though is that some of the logs go:
+>>
+>> [ 10.827469] qcom-q6afe aprsvc:service:4:4: cmd = 0x100f4 returned error
+>> = 0x16
+>> [ 10.827512] qcom-q6afe aprsvc:service:4:4: Unknown cmd 0x100f4
+>> [ 14.052896] qcom-q6afe aprsvc:service:4:4: AFE failed to vote (3)
+>>
+>> ..where the "returned error =" message is something that can only be
+>> printed by the callback if it goes into the **other** switch() branch,
+>> i.e. when hdr->opcode == APR_BASIC_RSP_RESULT. How reading out-of-bounds
+>> only in the AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST branch would
+>> cause that to happen (even on a subsequent vote after the first one to
+>> perform the read) is beyond me.
+>>
+>> Still, the person that reported this heisenbug told me that this has
+>> actually completely fixed it.
+(upd: not really it seems, as expected.. there's gotta be something 
+else, could it be trying to use the vote command too early before the 
+firmware is ready for it or something?)
+> This seems conceptually similar to what I needed to do for SM6350/SM7225
+> microphone (wip) - it's not necessary for just speaker btw:
+> https://github.com/z3ntu/linux/commit/107bf0c39e40a207036e963f878f39467f978393
 >
->> Since the lpass-cpu setup works properly, I would not consider this a hack.
-> Well yeah it works, but I was really hoping it would be made
-> unnecessary and available for removal sooner or later..
+> There I'm storing this handle per 'block' and not just one "vote_res",
+> essentially copying how downstream Linux does it. Your solution
+> definitely has less lines of diff, but I can't judge whether it's enough
+> to store it like that :)
 >
-> But since there's a genuine usecase, perhaps not.
+> Thanks for looking into this though!
 
-lpass-cpu is also great from a "I don't want my pure libre operating 
-system to touch dirty proprietary binary blobs" perspective, but you can 
-definitely argue that that's not a genuine use case :)
+Oh wow, didn't know you looked into this already! I'm surprised it was 
+already necessary for getting something to work. We actually shouldn't 
+be getting to the unvote part at runtime yet?? o.0 As only the recent 
+"ASoC: codecs: lpass-*-macro: Switch to PM clock framework for runtime 
+PM" series change that (and tx/rx weren't posted yet).
+
+The downstream multiple storage thing seems completely unnecessary as 
+the entire request-response cycle (afe_apr_send_pkt) happens under the 
+&afe->lock mutex. If another block starts a vote request while another 
+is in progress, it will wait for the first one to unlock the mutex, 
+which would only happen after the response is processed.
 
 ~val
 
