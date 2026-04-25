@@ -1,40 +1,40 @@
 Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E1326A0B9
-	for <linux-sound@vger.kernel.org>; Sat, 25 Apr 2026 21:17:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF2E223707
+	for <linux-sound@vger.kernel.org>; Sat, 25 Apr 2026 21:17:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777151823; cv=none; b=RoOH2l2chckMKhJhhwpmRoHCVNKPvLMM7MZiMvVvFcPsrD2iV2lqOaRzdk13aT/S2t2afl4Fa6NiWKfiVoaKhLkrg+zDXpN2WL3RHB4cHXEZEaeGSMbTSjA55hL6vdd3yQsHqZyJAvEzorUl44GF8e+O6rBytpgGazSa5bMYZwM=
+	t=1777151837; cv=none; b=YgGMnsBLBkdxFsERYMMwY8X4tluzJYcgUWXy5hurRNyXO0uS5+TqDl1tAYvoXpjoSor77B1YMgsGH1zH981BI56vIkEXK0Cq3P+gHwCeGhCBteRDpD3L/np3oVi4A8C74SwvzFNn5/BANLjCex2vNCn8rncRcZ51zYd7tAyp6EI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777151823; c=relaxed/simple;
-	bh=dHqJ9puByX4lb63oT6N9pw4Pgt2+d+Lp4uzQpHP59WM=;
+	s=arc-20240116; t=1777151837; c=relaxed/simple;
+	bh=YJ/XpQLIVxi/lRYg1ks15A1e0otL4OCuKF5p/NJiUo4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uMk/QncTEXm62sxbK8oSdwbVdEfTqumQsEPJdlt/DWtNhdFCO6NRICZH8I+y504o20bA14nOuKkKHUjQ1KRHgjEEoH+1oKH4S/JDaf2qnnCMvgMp4DbFbOUU/aMpTZ67hgH7f5SNExrkb9ugyhPgxmcUW+wYBzafQFIMBBsEvUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=p7mv/wKp; arc=none smtp.client-ip=203.16.231.148
+	 Content-Type:Content-Disposition:In-Reply-To; b=FI0MAa+LsbulbpZ4TlFHJeS/ZvB+ZzSwN+djd8AmFg6nLCeWhA7nprSG4YfOyffkNI8CncX1Pegq+ouDNdI12Pr1N0wdSt3Cfcg9qmojCpsU7xXQDQL4qefZXCgxdQmSK8ISjyUVJEiLhXBfJyaOF3XqdbPgqw6bISsu3vJCXoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=OzSWrt8t; arc=none smtp.client-ip=203.16.231.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="p7mv/wKp"
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="OzSWrt8t"
 Received: by m.b4.vu (Postfix, from userid 1000)
-	id C483967BB596; Sun, 26 Apr 2026 06:46:59 +0930 (ACST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu C483967BB596
+	id C1F3667BDB24; Sun, 26 Apr 2026 06:47:14 +0930 (ACST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu C1F3667BDB24
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1777151819; bh=AtEtYUJWRQWqlM/NMO3/FvNPl/w5FxQoYc0mIm3MZtc=;
+	t=1777151834; bh=wO0wkn3l8nizjOTcyCfAsgJkFAyLbV67JyA8uipd5u8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p7mv/wKpAH8VvgML/Qw5Y+er9sIXwgmQd5oW9yGoK74/aYRoyOMcC3ktUM/U7jPHP
-	 XhzEPgRH/2pbEaYkeDntJn90osdRFXBoa5QBIPqJDqVZ91p7pDpOiVhaQCoYCDGHzw
-	 Inr+8QJa7ctGXDBFUYgnSYsh9uncnaVxaU30/Gk0tV5wKu+N6gJZY78Mk5VHNCCY/c
-	 qzVgKBC8gZ0XO3P6htEBtihuA3wxK7Qo1INCzRXk4mtdU1nKSQw0kL/O37kOrLwvQp
-	 4Qi7+4mc8MF+BsOK2w1HHgxPLT7b5n99/xoMcyCwPz+rShqmj//UJ6E2XZ5akuivLy
-	 XnuHYO78hHTeQ==
-Date: Sun, 26 Apr 2026 06:46:59 +0930
+	b=OzSWrt8tEcHONKqjXt+pGPk3PvyIzVMADbWBRiPW2bmLj5nHNSGOJJaSiALMrMYXN
+	 n56U07x+20km2eHh3DriFG6XOH20Hu5JMOtXr4UbbcRWA4g9tixMVxiDaUzHy5LMAt
+	 47hXOwlyzGaOu09er+NZoiJHCj5RDyzM5LAf4fRKFWryj8TRWEdw62GSNAzmNwbXV1
+	 9S0WOqPhTKeDcC/AYrWZoqSg4lWpIl55r7PEnkk9VDO5RcLbbMDQNb9ZDTbdGARc4z
+	 PbQ3jKlimBRKCfI0VucE5r5/+Qm0VxzJHm9y3NXVRHOR1S5Tm7msECsHwI9ELgBygA
+	 Gfo1/+nIaGSqQ==
+Date: Sun, 26 Apr 2026 06:47:14 +0930
 From: "Geoffrey D. Bennett" <g@b4.vu>
 To: Takashi Iwai <tiwai@suse.de>
 Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: [PATCH 2/3] ALSA: scarlett2: Fold min_firmware_version into
- config_sets
-Message-ID: <f2ca214b39c773c186adafc8726d6ff79f198459.1777151532.git.g@b4.vu>
+Subject: [PATCH 3/3] ALSA: scarlett2: Update offsets for 2i2 Gen 4 firmware
+ 2417
+Message-ID: <ad0fc5a131e76eb656a24e0e198382f7134068fe.1777151532.git.g@b4.vu>
 References: <ae0tEsi8dKm1akJd@m.b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -46,135 +46,95 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <ae0tEsi8dKm1akJd@m.b4.vu>
 
-The device info's min_firmware_version field encoded the oldest
-firmware the driver supports on each device. With the config_sets
-array in place, the first entry's from_firmware_version carries the
-same meaning (it's the oldest firmware range any config_set applies
-to). Merge the two by dropping min_firmware_version from
-scarlett2_device_info and reading config_sets[0].from_firmware_version
-at the three call sites that used it.
+Firmware 2417 for the Scarlett 4th Gen 2i2 moved the direct monitor gain
+parameters, so add a second config_set with the shifted offset and
+select it for firmware versions >= 2417.
 
-No functional change.
-
+Fixes: 4e809a299677 ("ALSA: scarlett2: Add support for Solo, 2i2, and 4i4 Gen 4")
+Cc: <stable@vger.kernel.org> # ALSA: scarlett2: Allow selecting config_set by firmware version
+Cc: <stable@vger.kernel.org> # ALSA: scarlett2: Fold min_firmware_version into config_sets
+Cc: <stable@vger.kernel.org>
 Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
 ---
- sound/usb/mixer_scarlett2.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+ sound/usb/mixer_scarlett2.c | 58 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
 diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 15abca6d34ef..68adec4f21d9 100644
+index 68adec4f21d9..bb7373fac63a 100644
 --- a/sound/usb/mixer_scarlett2.c
 +++ b/sound/usb/mixer_scarlett2.c
-@@ -1117,9 +1117,6 @@ struct scarlett2_device_info {
- 	/* which sets of configuration parameters the device uses */
- 	const struct scarlett2_config_set_entry *config_sets;
+@@ -937,6 +937,63 @@ static const struct scarlett2_config_set scarlett2_config_set_gen4_2i2 = {
+ 	}
+ };
  
--	/* minimum firmware version required */
--	u16 min_firmware_version;
--
- 	/* has a downloadable device map */
- 	u8 has_devmap;
- 
-@@ -1848,7 +1845,6 @@ static const struct scarlett2_device_info vocaster_one_info = {
- 		{ 1769, &scarlett2_config_set_vocaster },
- 		{ }
- 	},
--	.min_firmware_version = 1769,
- 	.has_devmap = 1,
- 
- 	.phantom_count = 1,
-@@ -1895,7 +1891,6 @@ static const struct scarlett2_device_info vocaster_two_info = {
- 		{ 1769, &scarlett2_config_set_vocaster },
- 		{ }
- 	},
--	.min_firmware_version = 1769,
- 	.has_devmap = 1,
- 
- 	.phantom_count = 2,
-@@ -1943,7 +1938,6 @@ static const struct scarlett2_device_info solo_gen4_info = {
- 		{ 2115, &scarlett2_config_set_gen4_solo },
- 		{ }
- 	},
--	.min_firmware_version = 2115,
- 	.has_devmap = 1,
- 
- 	.level_input_count = 1,
-@@ -2001,7 +1995,6 @@ static const struct scarlett2_device_info s2i2_gen4_info = {
++/* 2i2 Gen 4, firmware version 2417 and above
++ *
++ * Firmware 2417 shifted DIRECT_MONITOR_GAIN by 4 bytes; all other
++ * offsets are unchanged from scarlett2_config_set_gen4_2i2.
++ */
++static const struct scarlett2_config_set scarlett2_config_set_gen4_2i2_2417 = {
++	.notifications = scarlett4_2i2_notifications,
++	.param_buf_addr = 0xfc,
++	.input_gain_tlv = db_scale_gen4_gain,
++	.autogain_status_texts = scarlett2_autogain_status_gen4,
++	.items = {
++		[SCARLETT2_CONFIG_MSD_SWITCH] = {
++			.offset = 0x49, .size = 8, .activate = 4 },
++
++		[SCARLETT2_CONFIG_DIRECT_MONITOR] = {
++			.offset = 0x14a, .size = 8, .activate = 16, .pbuf = 1 },
++
++		[SCARLETT2_CONFIG_AUTOGAIN_SWITCH] = {
++			.offset = 0x135, .size = 8, .activate = 10, .pbuf = 1 },
++
++		[SCARLETT2_CONFIG_AUTOGAIN_STATUS] = {
++			.offset = 0x137, .size = 8 },
++
++		[SCARLETT2_CONFIG_AG_MEAN_TARGET] = {
++			.offset = 0x131, .size = 8, .activate = 29, .pbuf = 1 },
++
++		[SCARLETT2_CONFIG_AG_PEAK_TARGET] = {
++			.offset = 0x132, .size = 8, .activate = 30, .pbuf = 1 },
++
++		[SCARLETT2_CONFIG_PHANTOM_SWITCH] = {
++			.offset = 0x48, .size = 8, .activate = 11, .pbuf = 1,
++			.mute = 1 },
++
++		[SCARLETT2_CONFIG_INPUT_GAIN] = {
++			.offset = 0x4b, .size = 8, .activate = 12, .pbuf = 1 },
++
++		[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
++			.offset = 0x3c, .size = 8, .activate = 13, .pbuf = 1,
++			.mute = 1 },
++
++		[SCARLETT2_CONFIG_SAFE_SWITCH] = {
++			.offset = 0x147, .size = 8, .activate = 14, .pbuf = 1 },
++
++		[SCARLETT2_CONFIG_AIR_SWITCH] = {
++			.offset = 0x3e, .size = 8, .activate = 15, .pbuf = 1 },
++
++		[SCARLETT2_CONFIG_INPUT_SELECT_SWITCH] = {
++			.offset = 0x14b, .size = 8, .activate = 17, .pbuf = 1 },
++
++		[SCARLETT2_CONFIG_INPUT_LINK_SWITCH] = {
++			.offset = 0x14e, .size = 8, .activate = 18, .pbuf = 1 },
++
++		[SCARLETT2_CONFIG_DIRECT_MONITOR_GAIN] = {
++			.offset = 0x2a4, .size = 16, .activate = 36 }
++	}
++};
++
+ /* 4i4 Gen 4 */
+ static const struct scarlett2_config_set scarlett2_config_set_gen4_4i4 = {
+ 	.notifications = scarlett4_4i4_notifications,
+@@ -1993,6 +2050,7 @@ static const struct scarlett2_device_info solo_gen4_info = {
+ static const struct scarlett2_device_info s2i2_gen4_info = {
+ 	.config_sets = (const struct scarlett2_config_set_entry[]) {
  		{ 2115, &scarlett2_config_set_gen4_2i2 },
++		{ 2417, &scarlett2_config_set_gen4_2i2_2417 },
  		{ }
  	},
--	.min_firmware_version = 2115,
  	.has_devmap = 1,
- 
- 	.level_input_count = 2,
-@@ -2059,7 +2052,6 @@ static const struct scarlett2_device_info s4i4_gen4_info = {
- 		{ 2089, &scarlett2_config_set_gen4_4i4 },
- 		{ }
- 	},
--	.min_firmware_version = 2089,
- 	.has_devmap = 1,
- 
- 	.level_input_count = 2,
-@@ -3341,7 +3333,8 @@ static int scarlett2_min_firmware_version_ctl_get(
- 	struct usb_mixer_elem_info *elem = kctl->private_data;
- 	struct scarlett2_data *private = elem->head.mixer->private_data;
- 
--	ucontrol->value.integer.value[0] = private->info->min_firmware_version;
-+	ucontrol->value.integer.value[0] =
-+		private->info->config_sets[0].from_firmware_version;
- 
- 	return 0;
- }
-@@ -8566,6 +8559,7 @@ static int scarlett2_read_configs(struct usb_mixer_interface *mixer)
- {
- 	struct scarlett2_data *private = mixer->private_data;
- 	const struct scarlett2_device_info *info = private->info;
-+	u16 min_firmware_version = info->config_sets[0].from_firmware_version;
- 	int err, i;
- 
- 	if (scarlett2_has_config_item(private, SCARLETT2_CONFIG_MSD_SWITCH)) {
-@@ -8576,13 +8570,13 @@ static int scarlett2_read_configs(struct usb_mixer_interface *mixer)
- 			return err;
- 	}
- 
--	if (private->firmware_version < info->min_firmware_version) {
-+	if (private->firmware_version < min_firmware_version) {
- 		usb_audio_err(mixer->chip,
- 			      "Focusrite %s firmware version %d is too old; "
- 			      "need %d",
- 			      private->series_name,
- 			      private->firmware_version,
--			      info->min_firmware_version);
-+			      min_firmware_version);
- 		return 0;
- 	}
- 
-@@ -8766,6 +8760,7 @@ static int snd_scarlett2_controls_create(
- 	const struct scarlett2_device_entry *entry)
- {
- 	struct scarlett2_data *private;
-+	u16 min_firmware_version;
- 	int err;
- 
- 	/* Initialise private data */
-@@ -8774,6 +8769,8 @@ static int snd_scarlett2_controls_create(
- 		return err;
- 
- 	private = mixer->private_data;
-+	min_firmware_version =
-+		private->info->config_sets[0].from_firmware_version;
- 
- 	/* Send proprietary USB initialisation sequence */
- 	err = scarlett2_usb_init(mixer);
-@@ -8816,7 +8813,7 @@ static int snd_scarlett2_controls_create(
- 	 * old, don't create any other controls
- 	 */
- 	if (private->msd_switch ||
--	    private->firmware_version < private->info->min_firmware_version)
-+	    private->firmware_version < min_firmware_version)
- 		return 0;
- 
- 	/* Create the analogue output controls */
 -- 
 2.53.0
 
