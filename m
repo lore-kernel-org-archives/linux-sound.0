@@ -1,69 +1,74 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B15A1427A
-	for <linux-sound@vger.kernel.org>; Sat, 25 Apr 2026 01:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5212621ABAA
+	for <linux-sound@vger.kernel.org>; Sat, 25 Apr 2026 01:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777080641; cv=none; b=NeO2WuE5p2mmosZ6aT6EgI0WwU2r5byzKga0iBjploDWr6ZcHEVNtNd7NEA9DKOthuLGQjbv1vPI7XaCVTfjWlrp1nmHAzyvvXegiT5cvTS2CAtrT9gvPsMOn+dLEWVxIkywODuesI+qrtGWZJKQPOKanrWvh+pPZchBuvyJPtY=
+	t=1777081384; cv=none; b=g0IncC0sytazNdaSaC8GPskyOSU88cvOsIvqOqpfVXpXOyH7i1XRapsYDJeI6czirU04viLLnBcyolwffAhIXDwkBWAShaR54lCE8V+eGT4kMgYlOlLvMF8pZsD4XmhO9LSlCuY5wWrwmvVvwbVjNJw6wAlgwUbRGAG2KmYTk3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777080641; c=relaxed/simple;
-	bh=1Li1v/z4AI1HDPIQlMFbgqUBJzJ0+NGYWz+n+mOwMjY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iNNFT4CMDROCXu+n0t1KmBJcM/RlDifwpAGfs3pfX8M+bC5nnUqlgjwtcoNougMuMrGjdFdds8o7NWb2gKqqgWEOpBH9HeG2Ghw2ZnDJ7ywp1+ZtHIHW+DomPU4i7CrFs9rVy22/k+94VL0Nre8+x0pwsDetKYbxKzbI5za4H+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pYwAQ8SO; arc=none smtp.client-ip=209.85.210.177
+	s=arc-20240116; t=1777081384; c=relaxed/simple;
+	bh=+cdLIRk7vhwZO1mTjgtO6cxF+uoVQlfIJe72382/1X8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uN6wqxhjSugXR1J5/nAWxJYHMYz4Nd4pzwQ804XgpqIiLb9RNoH2ceCossbV2AAQjbXXvhPCy18yVeDjoziY+rP8nEuj+hVmRpHt7HrsGrwcvGYkgswUiObqQv77hEP+1ADkW1NXqzS75tYGlJwchxKz1rvh/UEGJqAQs0OB7Pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G6Gfbe4r; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pYwAQ8SO"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-82f943870baso3446821b3a.1
-        for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 18:30:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G6Gfbe4r"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2ab46931cf1so65640795ad.0
+        for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 18:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777080638; x=1777685438; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777081382; x=1777686182; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=e+G3DrkqN/4PurMQeEE3NidJZYF70aW0MCaMm3xLhHk=;
-        b=pYwAQ8SOcM2boppmDB8N14cQSuP97pA2r2dZCR2OWPQ5Nux3F70Wm1B9InY7ubBld5
-         avh1Vv+BZksIz6CK/mu9pV0IeNkoLSl69kqdr/u+hbOKYBjF+5m5Q9wcmGdXwMnH9/YJ
-         Wk7O1Os2e33DSCPxkVv/ARr7br1JEC/JUNsdx0r0B8FlyW9TkGyMQoruqtElWKz5EYKK
-         ixLcfVAnXpUQKmUhk5hu/iE5gamQTi9YvwGJYcGQqKvO4TG8BKYmKQySYbaNJYwD382/
-         SsKueFgd6QcGgga0/qQ3aPnbKuvvfrE19dF2iIrLVMz6tZ7EvlAztJmoRuurAxT7LbUv
-         R9zA==
+        bh=Z7jfOZXdYS61UScW0k+/0N0W+wALOe5mQD08+f58S0o=;
+        b=G6Gfbe4rwPdKE9yQ1N9dR77SsaGX7INzaTIO5P3JFJHkv6EaucQ/fxW6QlI7+7acCE
+         9W7wAh2T+1Kw/PUNRaay4Eq6rcL9YAqS2EkIeY1+O6JYFBgMDWRtHW21FRMOw0qCFp/f
+         jlmOlF7AjXr4xpcIz+zYv3GD5GLz6tpuiz/1D97uryvXiKhcuOULbRy2rKoLLWw8oMd0
+         ZZDeifch6lO+6weuXgTy5yA49XxnazinE3xGPjBEpRKvst4Fn32zJ+szEiUEr1t3sRej
+         9NfkHFScdHDxf12rwpyT9kZawrk16CbJsdN66KPqJ6ulTHmksBuhYvhsRpkjMHjnh1gc
+         gY/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777080638; x=1777685438;
+        d=1e100.net; s=20251104; t=1777081382; x=1777686182;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=e+G3DrkqN/4PurMQeEE3NidJZYF70aW0MCaMm3xLhHk=;
-        b=QOnBDWFKIe9Ut/2XSUb/9sZwpQPdqGKtohnnpil/D+Ne4IH9svcvnXHbgQlQsAmI3R
-         9dZd2XAMiwoPNVEOMK6uwsH4PGFrNRLajevX0S9vSfUaJUYrP6pi5dwJxyoAwZ8HcoF2
-         Oout/YpjtFa/qNDJXR4AdlTAgSV6qeY4Qa1LQAeE3vtXyOsqRldHk9jAKPwjuxMJd/Rj
-         ysmrb83sZNa+/W+hYk3FxeGmDMSmT8bG1/umj3zobX3vr/772xqcula3hWDZIQV+mEnN
-         u/pvNnsLbQU4Dn8/J7kq+Z9fUlGyQWnGqiYkxr+4vQwuiF2KxVWOOyKgCRX78G1ZMZJV
-         XWXw==
-X-Gm-Message-State: AOJu0YwJryue3y4bRTjWzEZ4tNierU2AiI1QuaD7rMe9WM/AE82BfGIa
-	gioveG1/3/eixx8tufI5lRraa9i6aBFdwDURkKFwNxGCiCrrsT6DzZmTSxQo0A==
-X-Gm-Gg: AeBDiettHEFMGBcN+tJSSOfVnPLMykraD/4GzWuTfjw8zVMXkaw9K334ha63glPwl5/
-	LQjbf/r5QDztR/viWne6kkqP94NHKLLG3rEnAdE1fBzyPBQ9KuwAjOGqOQF0hV3HXjxJI/+PNEe
-	bV0lD6CMZJHCOb4y5BGRlfNW18vePIKobY6HixIozm89Qreb/VnZ3lNXk7DkXIMEKbrD8TujAo2
-	hM+QRySAI+rZQ5dJgQyeHNjmd7VFTaCoVQ6Q1UoxDa+7JM4Uoqewdz5usZyQCnC2ntOog+3I7YY
-	9q/MfplulTNIYDDLvGXgJsGQU8h8z69G5FpZxVkoSythcutAppuEH/I/a2/CtASN9LsqZUP2j0a
-	H87NANApL8zGvZVphrOUWclca7hpAzaBlFmSLqDTdijJW0IRmx4OP2SjQllrxHXNGEdtlpP0OnD
-	4mEdrMJZ7zs5hz4X9sTaQeiBiPPubQakHSPRYyolhz7ASR2jGO7LlTesipLRRJrVmpmCBtni+54
-	LnomM368b5YupG9z8hCTO6Zag==
-X-Received: by 2002:a05:6a00:a90:b0:827:433c:ba7e with SMTP id d2e1a72fcca58-82f8c970703mr35175890b3a.41.1777080638313;
-        Fri, 24 Apr 2026 18:30:38 -0700 (PDT)
+        bh=Z7jfOZXdYS61UScW0k+/0N0W+wALOe5mQD08+f58S0o=;
+        b=P3a7c3fG0309leCq/Dq99ImUNWlWNxA+WIgATV5vBL4idYoSFlHuSsEptcrb0zDvy2
+         j1N0Gj6wJbSxmyEXQYck/lsEsp5/6/aJ6NaV8pMBPQQA0GlUm1bEP+hnakhe67V89ySV
+         rJ585CWX+Etkn1z4tQeD2sr3gYLoCfT+ChM8tpZG31oFrd7+tMOlQqsSJ9fJy4x92XXa
+         d3m8gJ5rCk0NAGv3vMsZcDqw/fqjISeJShJYPmAUNFMrxEuzm8QWRD/ALSmZlhlDO/2Y
+         3N0i7XZhTg4xrSjXQL3jYHIrmH9Uj9R0eusjHVKTFf4Hoyt+jjWsgckw0hjymOEmwOMW
+         dZ3A==
+X-Gm-Message-State: AOJu0YyKypNGsrTgUj93OCzFLdiYiZZ5qN4AKd94ilxJEoxF7YHBHJmb
+	/CxQWJfqrhlk3+4P0nOgdo+YqWtUFJWw8GDbKC4/JvyqGRbr97KHTWxVKuHBBw==
+X-Gm-Gg: AeBDiesBwCVgujU/BGAZ+0ylQpvMKjmqh+JNDttHDGj6kODDSYJNS6YcmSxnCMqVDKi
+	ICN0k4U/ylTBiY1x1HUGYcwDVYtMg0IIktl8G7/WdfffnsCRN57/6F49yfhQNYUwop+9PjFhBT4
+	Xl03owJst271FkmtdAxfEykckUiDLn2+MwPSeTmgAddOZVnFELsAz/fK4GFphHPwDXTMzS18LzR
+	bBD9EtXUq3z4aHof6qVwZu3Pgq6sGjuilibgXUrBCU/cP2E8V1eIfvLO2qP5EYAE4xmw5ozhtQk
+	1ljapiABJ2ZPgaxy/C0cG+YwpJudHe626AjmNb9NYhyvLZfKhZIpB9jHZgM+uIwVDQUTQ7eGXd5
+	qaERw2yAB+cr6EBgTOQAAJgxx3s0bMXUx1SMMihYtzZiHd76JLqW4vKb4rRnZFTDuo3+KoOF33p
+	HFctlMp9I5Q/auzJdzJuDUq4ol5X1UE14xKBScbAF+5shLkv843wmV9n4OuFLD+L9YOnTjItjM7
+	tq97BYXCqN2F7PDdri8cpP0ug==
+X-Received: by 2002:a17:902:e748:b0:2b4:5d0c:7a85 with SMTP id d9443c01a7336-2b5f9dbcd42mr318493365ad.3.1777081382212;
+        Fri, 24 Apr 2026 18:43:02 -0700 (PDT)
 Received: from ryzen ([2601:644:8000:5b5d::8bd])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8e981d00sm24353027b3a.5.2026.04.24.18.30.37
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5faa494e1sm235306615ad.35.2026.04.24.18.43.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 18:30:37 -0700 (PDT)
+        Fri, 24 Apr 2026 18:43:01 -0700 (PDT)
 From: Rosen Penev <rosenp@gmail.com>
 To: linux-sound@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>,
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	linux-tegra@vger.kernel.org (open list:TEGRA ARCHITECTURE SUPPORT),
 	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] ALSA: ctxfi: simplify mixer allocation
-Date: Fri, 24 Apr 2026 18:30:20 -0700
-Message-ID: <20260425013020.430496-1-rosenp@gmail.com>
+Subject: [PATCH] ASoC: tegra: ADX: simplify probe allocation
+Date: Fri, 24 Apr 2026 18:42:44 -0700
+Message-ID: <20260425014244.439788-1-rosenp@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -73,94 +78,80 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Combine 3 allocations into one to simplify memory management.
+Reduce 3 allocations to one using a flexible array member.
 
-No need for 3 separate frees now.
-
-Replace void pointers with proper types. No need for void here.
+Also use of_device_get_match_data. No error checking since it cannot be
+NULL.
 
 Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- sound/pci/ctxfi/ctmixer.c | 27 +++++----------------------
- sound/pci/ctxfi/ctmixer.h |  4 ++--
- 2 files changed, 7 insertions(+), 24 deletions(-)
+ sound/soc/tegra/tegra210_adx.c | 24 ++++++++----------------
+ sound/soc/tegra/tegra210_adx.h |  2 +-
+ 2 files changed, 9 insertions(+), 17 deletions(-)
 
-diff --git a/sound/pci/ctxfi/ctmixer.c b/sound/pci/ctxfi/ctmixer.c
-index e3ee76bd8482..50ab69aca2fa 100644
---- a/sound/pci/ctxfi/ctmixer.c
-+++ b/sound/pci/ctxfi/ctmixer.c
-@@ -965,35 +965,20 @@ static int ct_mixer_get_resources(struct ct_mixer *mixer)
- static int ct_mixer_get_mem(struct ct_mixer **rmixer)
+diff --git a/sound/soc/tegra/tegra210_adx.c b/sound/soc/tegra/tegra210_adx.c
+index d2f742ffc59d..3f6c068d00c8 100644
+--- a/sound/soc/tegra/tegra210_adx.c
++++ b/sound/soc/tegra/tegra210_adx.c
+@@ -676,17 +676,20 @@ static int tegra210_adx_platform_probe(struct platform_device *pdev)
  {
- 	struct ct_mixer *mixer;
--	int err;
+ 	struct device *dev = &pdev->dev;
+ 	struct tegra210_adx *adx;
+-	const struct of_device_id *match;
+-	struct tegra210_adx_soc_data *soc_data;
++	const struct tegra210_adx_soc_data *soc_data;
+ 	void __iomem *regs;
 +	size_t alloc_size;
+ 	int err;
  
- 	*rmixer = NULL;
- 	/* Allocate mem for mixer obj */
--	mixer = kzalloc_obj(*mixer);
-+	alloc_size = struct_size(mixer, amixers, NUM_CT_AMIXERS * CHN_NUM);
-+	alloc_size += sizeof(*mixer->sums) * NUM_CT_SUMS * CHN_NUM;
-+	mixer = kzalloc(alloc_size, GFP_KERNEL);
- 	if (!mixer)
+-	adx = devm_kzalloc(dev, sizeof(*adx), GFP_KERNEL);
++	soc_data = of_device_get_match_data(&pdev->dev);
++	alloc_size = struct_size(adx, map, soc_data->ram_depth);
++	alloc_size += sizeof(u32) * soc_data->byte_mask_size;
++
++	adx = devm_kzalloc(dev, alloc_size, GFP_KERNEL);
+ 	if (!adx)
  		return -ENOMEM;
  
--	mixer->amixers = kcalloc(NUM_CT_AMIXERS * CHN_NUM, sizeof(void *),
--				 GFP_KERNEL);
--	if (!mixer->amixers) {
--		err = -ENOMEM;
--		goto error1;
--	}
--	mixer->sums = kcalloc(NUM_CT_SUMS * CHN_NUM, sizeof(void *),
--			      GFP_KERNEL);
--	if (!mixer->sums) {
--		err = -ENOMEM;
--		goto error2;
--	}
-+	mixer->sums = (struct sum **)(mixer->amixers + (NUM_CT_AMIXERS * CHN_NUM));
+-	match = of_match_device(tegra210_adx_of_match, dev);
+-	soc_data = (struct tegra210_adx_soc_data *)match->data;
++	adx->byte_mask = adx->map + soc_data->ram_depth;
+ 	adx->soc_data = soc_data;
  
- 	*rmixer = mixer;
- 	return 0;
+ 	dev_set_drvdata(dev, adx);
+@@ -703,17 +706,6 @@ static int tegra210_adx_platform_probe(struct platform_device *pdev)
+ 
+ 	regcache_cache_only(adx->regmap, true);
+ 
+-	adx->map = devm_kzalloc(dev, soc_data->ram_depth * sizeof(*adx->map),
+-				GFP_KERNEL);
+-	if (!adx->map)
+-		return -ENOMEM;
 -
--error2:
--	kfree(mixer->amixers);
--error1:
--	kfree(mixer);
--	return err;
- }
+-	adx->byte_mask = devm_kzalloc(dev,
+-				      soc_data->byte_mask_size * sizeof(*adx->byte_mask),
+-				      GFP_KERNEL);
+-	if (!adx->byte_mask)
+-		return -ENOMEM;
+-
+ 	tegra210_adx_dais[TEGRA_ADX_IN_DAI_ID].playback.channels_max =
+ 			adx->soc_data->max_ch;
  
- static int ct_mixer_topology_build(struct ct_mixer *mixer)
-@@ -1228,8 +1213,6 @@ int ct_mixer_destroy(struct ct_mixer *mixer)
- 	}
+diff --git a/sound/soc/tegra/tegra210_adx.h b/sound/soc/tegra/tegra210_adx.h
+index 176a4e40de0a..4406a4a74496 100644
+--- a/sound/soc/tegra/tegra210_adx.h
++++ b/sound/soc/tegra/tegra210_adx.h
+@@ -88,9 +88,9 @@ struct tegra210_adx_soc_data {
  
- 	/* Release mem assigned to mixer object */
--	kfree(mixer->sums);
--	kfree(mixer->amixers);
- 	kfree(mixer);
- 
- 	return 0;
-diff --git a/sound/pci/ctxfi/ctmixer.h b/sound/pci/ctxfi/ctmixer.h
-index e812f6c93b41..dd23d227aeb5 100644
---- a/sound/pci/ctxfi/ctmixer.h
-+++ b/sound/pci/ctxfi/ctmixer.h
-@@ -41,8 +41,7 @@ enum MIXER_PORT_T {
- struct ct_mixer {
- 	struct ct_atc *atc;
- 
--	void **amixers;		/* amixer resources for volume control */
--	void **sums;		/* sum resources for signal collection */
-+	struct sum **sums;		/* sum resources for signal collection */
- 	unsigned int switch_state; /* A bit-map to indicate state of switches */
- 
- 	int (*get_output_ports)(struct ct_mixer *mixer, enum MIXER_PORT_T type,
-@@ -55,6 +54,7 @@ struct ct_mixer {
- #ifdef CONFIG_PM_SLEEP
- 	int (*resume)(struct ct_mixer *mixer);
- #endif
-+	struct amixer *amixers[];		/* amixer resources for volume control */
+ struct tegra210_adx {
+ 	struct regmap *regmap;
+-	unsigned int *map;
+ 	unsigned int *byte_mask;
+ 	const struct tegra210_adx_soc_data *soc_data;
++	unsigned int map[];
  };
  
- int ct_alsa_mix_create(struct ct_atc *atc,
+ #endif
 -- 
 2.54.0
 
