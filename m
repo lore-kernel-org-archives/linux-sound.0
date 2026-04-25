@@ -1,41 +1,39 @@
 Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF2E223707
-	for <linux-sound@vger.kernel.org>; Sat, 25 Apr 2026 21:17:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB341509AB
+	for <linux-sound@vger.kernel.org>; Sat, 25 Apr 2026 21:39:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777151837; cv=none; b=YgGMnsBLBkdxFsERYMMwY8X4tluzJYcgUWXy5hurRNyXO0uS5+TqDl1tAYvoXpjoSor77B1YMgsGH1zH981BI56vIkEXK0Cq3P+gHwCeGhCBteRDpD3L/np3oVi4A8C74SwvzFNn5/BANLjCex2vNCn8rncRcZ51zYd7tAyp6EI=
+	t=1777153189; cv=none; b=kPgcF8osJ0NrjwTxNKSjmCSipcnxU/NDpBlAzqdYVCD8D1EavuKmk4FLYnpPX+kEmm+8LW30JsLD/Y/ltLv3+P4OzZ9e9GcCSoKnrIAb4H0qJxlwgwMVA0VS4wOvHC7IxA9GADYeWUJq37L43R4jLRMdP+t2QnhIKq7hBi4+h0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777151837; c=relaxed/simple;
-	bh=YJ/XpQLIVxi/lRYg1ks15A1e0otL4OCuKF5p/NJiUo4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FI0MAa+LsbulbpZ4TlFHJeS/ZvB+ZzSwN+djd8AmFg6nLCeWhA7nprSG4YfOyffkNI8CncX1Pegq+ouDNdI12Pr1N0wdSt3Cfcg9qmojCpsU7xXQDQL4qefZXCgxdQmSK8ISjyUVJEiLhXBfJyaOF3XqdbPgqw6bISsu3vJCXoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=OzSWrt8t; arc=none smtp.client-ip=203.16.231.148
+	s=arc-20240116; t=1777153189; c=relaxed/simple;
+	bh=wTfQ5Q2z6D+mRlMV0YVWB7dRf3ES16ImvocStI30gwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HXT53gNBontY6xRhJNnlawhBjy4sYsMU2GVBFPnbxI2LkHc6vIzkvALQHqzSus8ibOAL4w2M/Fh9Hwu2R0RYWyhN/Vj2SIBaTN06TaA9aWhPKKGqfpbZLcrN/Sl1bawQdXS5vsOL5MdkTYGN/Zt/vZ2lAcmJatCqdsKNtVq9IZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=OAEi+LB+; arc=none smtp.client-ip=203.16.231.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="OzSWrt8t"
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="OAEi+LB+"
 Received: by m.b4.vu (Postfix, from userid 1000)
-	id C1F3667BDB24; Sun, 26 Apr 2026 06:47:14 +0930 (ACST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu C1F3667BDB24
+	id D747567BB596; Sun, 26 Apr 2026 07:09:45 +0930 (ACST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu D747567BB596
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1777151834; bh=wO0wkn3l8nizjOTcyCfAsgJkFAyLbV67JyA8uipd5u8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OzSWrt8tEcHONKqjXt+pGPk3PvyIzVMADbWBRiPW2bmLj5nHNSGOJJaSiALMrMYXN
-	 n56U07x+20km2eHh3DriFG6XOH20Hu5JMOtXr4UbbcRWA4g9tixMVxiDaUzHy5LMAt
-	 47hXOwlyzGaOu09er+NZoiJHCj5RDyzM5LAf4fRKFWryj8TRWEdw62GSNAzmNwbXV1
-	 9S0WOqPhTKeDcC/AYrWZoqSg4lWpIl55r7PEnkk9VDO5RcLbbMDQNb9ZDTbdGARc4z
-	 PbQ3jKlimBRKCfI0VucE5r5/+Qm0VxzJHm9y3NXVRHOR1S5Tm7msECsHwI9ELgBygA
-	 Gfo1/+nIaGSqQ==
-Date: Sun, 26 Apr 2026 06:47:14 +0930
+	t=1777153185; bh=LgiDNsbguNaQxnuOZPjg1uYE4W/ea3v3lqQDzmhOKMc=;
+	h=Date:From:To:Cc:Subject:From;
+	b=OAEi+LB+o0PZDy3m+4jJDXgc176eKfrfhRe1XDsmFxbKCwdjtIPOxy7Izc8vnRO+I
+	 ZTxYWaXHiw4nQa+Wl6pq+4BP44+2pl8kN1NAt/U+SGnElg7j6O5e7ZIAIv1s9hg5xy
+	 Q/yF9RYAoHj9xdfJ8G6CMcZvzBOPKewa0YQHW2pw40liIfXowPX9kP+pqjZm7gI/q1
+	 XrKScwmNNh9D2YP5mt5ybWn7Q8HzRCtfy+itm1niDBqjdGLhU1GUGTXtBRYCy3YHQn
+	 fbz3mNnn8yXkyFYF97o9zNIGDUKVJomRM+z+RlWXdJm2K1ZzfRYxVoJEh2h1kQBY5M
+	 MEJxOctBWfGdA==
+Date: Sun, 26 Apr 2026 07:09:45 +0930
 From: "Geoffrey D. Bennett" <g@b4.vu>
 To: Takashi Iwai <tiwai@suse.de>
 Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: [PATCH 3/3] ALSA: scarlett2: Update offsets for 2i2 Gen 4 firmware
- 2417
-Message-ID: <ad0fc5a131e76eb656a24e0e198382f7134068fe.1777151532.git.g@b4.vu>
-References: <ae0tEsi8dKm1akJd@m.b4.vu>
+Subject: [PATCH 0/2] ALSA: scarlett2: Gen 4 firmware 2417 follow-up
+Message-ID: <cover.1777153011.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,97 +42,28 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ae0tEsi8dKm1akJd@m.b4.vu>
 
-Firmware 2417 for the Scarlett 4th Gen 2i2 moved the direct monitor gain
-parameters, so add a second config_set with the shifted offset and
-select it for firmware versions >= 2417.
+Hi Takashi,
 
-Fixes: 4e809a299677 ("ALSA: scarlett2: Add support for Solo, 2i2, and 4i4 Gen 4")
-Cc: <stable@vger.kernel.org> # ALSA: scarlett2: Allow selecting config_set by firmware version
-Cc: <stable@vger.kernel.org> # ALSA: scarlett2: Fold min_firmware_version into config_sets
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
----
- sound/usb/mixer_scarlett2.c | 58 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
+This is a small follow-up to the "Fix 2i2 Gen 4 direct monitor on
+firmware 2417" series, exposing two features added by that firmware:
+a new autogain exit code, and the front-panel brightness/sleep
+controls.
 
-diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 68adec4f21d9..bb7373fac63a 100644
---- a/sound/usb/mixer_scarlett2.c
-+++ b/sound/usb/mixer_scarlett2.c
-@@ -937,6 +937,63 @@ static const struct scarlett2_config_set scarlett2_config_set_gen4_2i2 = {
- 	}
- };
- 
-+/* 2i2 Gen 4, firmware version 2417 and above
-+ *
-+ * Firmware 2417 shifted DIRECT_MONITOR_GAIN by 4 bytes; all other
-+ * offsets are unchanged from scarlett2_config_set_gen4_2i2.
-+ */
-+static const struct scarlett2_config_set scarlett2_config_set_gen4_2i2_2417 = {
-+	.notifications = scarlett4_2i2_notifications,
-+	.param_buf_addr = 0xfc,
-+	.input_gain_tlv = db_scale_gen4_gain,
-+	.autogain_status_texts = scarlett2_autogain_status_gen4,
-+	.items = {
-+		[SCARLETT2_CONFIG_MSD_SWITCH] = {
-+			.offset = 0x49, .size = 8, .activate = 4 },
-+
-+		[SCARLETT2_CONFIG_DIRECT_MONITOR] = {
-+			.offset = 0x14a, .size = 8, .activate = 16, .pbuf = 1 },
-+
-+		[SCARLETT2_CONFIG_AUTOGAIN_SWITCH] = {
-+			.offset = 0x135, .size = 8, .activate = 10, .pbuf = 1 },
-+
-+		[SCARLETT2_CONFIG_AUTOGAIN_STATUS] = {
-+			.offset = 0x137, .size = 8 },
-+
-+		[SCARLETT2_CONFIG_AG_MEAN_TARGET] = {
-+			.offset = 0x131, .size = 8, .activate = 29, .pbuf = 1 },
-+
-+		[SCARLETT2_CONFIG_AG_PEAK_TARGET] = {
-+			.offset = 0x132, .size = 8, .activate = 30, .pbuf = 1 },
-+
-+		[SCARLETT2_CONFIG_PHANTOM_SWITCH] = {
-+			.offset = 0x48, .size = 8, .activate = 11, .pbuf = 1,
-+			.mute = 1 },
-+
-+		[SCARLETT2_CONFIG_INPUT_GAIN] = {
-+			.offset = 0x4b, .size = 8, .activate = 12, .pbuf = 1 },
-+
-+		[SCARLETT2_CONFIG_LEVEL_SWITCH] = {
-+			.offset = 0x3c, .size = 8, .activate = 13, .pbuf = 1,
-+			.mute = 1 },
-+
-+		[SCARLETT2_CONFIG_SAFE_SWITCH] = {
-+			.offset = 0x147, .size = 8, .activate = 14, .pbuf = 1 },
-+
-+		[SCARLETT2_CONFIG_AIR_SWITCH] = {
-+			.offset = 0x3e, .size = 8, .activate = 15, .pbuf = 1 },
-+
-+		[SCARLETT2_CONFIG_INPUT_SELECT_SWITCH] = {
-+			.offset = 0x14b, .size = 8, .activate = 17, .pbuf = 1 },
-+
-+		[SCARLETT2_CONFIG_INPUT_LINK_SWITCH] = {
-+			.offset = 0x14e, .size = 8, .activate = 18, .pbuf = 1 },
-+
-+		[SCARLETT2_CONFIG_DIRECT_MONITOR_GAIN] = {
-+			.offset = 0x2a4, .size = 16, .activate = 36 }
-+	}
-+};
-+
- /* 4i4 Gen 4 */
- static const struct scarlett2_config_set scarlett2_config_set_gen4_4i4 = {
- 	.notifications = scarlett4_4i4_notifications,
-@@ -1993,6 +2050,7 @@ static const struct scarlett2_device_info solo_gen4_info = {
- static const struct scarlett2_device_info s2i2_gen4_info = {
- 	.config_sets = (const struct scarlett2_config_set_entry[]) {
- 		{ 2115, &scarlett2_config_set_gen4_2i2 },
-+		{ 2417, &scarlett2_config_set_gen4_2i2_2417 },
- 		{ }
- 	},
- 	.has_devmap = 1,
+Depends on the prior series for the config_sets[] machinery.
+
+Tested on Scarlett 4th Gen Solo, 2i2, and 4i4 with firmware 2417.
+
+Regards,
+Geoffrey
+
+Geoffrey D. Bennett (2):
+  ALSA: scarlett2: Add Gen 4 firmware 2417 autogain status text
+  ALSA: scarlett2: Add Gen 4 firmware 2417 front-panel controls
+
+ sound/usb/mixer_scarlett2.c | 299 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 296 insertions(+), 3 deletions(-)
+
 -- 
 2.53.0
 
