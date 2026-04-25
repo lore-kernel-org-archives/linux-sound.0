@@ -1,107 +1,109 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0279EEBB
-	for <linux-sound@vger.kernel.org>; Sat, 25 Apr 2026 15:41:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0C44A07
+	for <linux-sound@vger.kernel.org>; Sat, 25 Apr 2026 20:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777131689; cv=none; b=tubVW0nGK9+RnyOY4M0DuPOORqkxVCLTriyrtersGQjiLpQLn7QsK0FYWLnkODglfmJDKPeYsfhDtmrHBP95ni9tFee9T6g2kPO/oN/8MQEVYIfwxYyamrdahZPFCpg0vmc3LbJAPD6MsAMWYxQYQKsAxSVySqLGkKq0f5eKLMs=
+	t=1777148498; cv=none; b=lmyflaCI6y/GyvJsNHD0BdlSDHt0nQd07o0Hu8pQ4KHkyhDNzcOrlpmHNetXI60/naPxo5svLezFV1sPWjNyfbAK+pw/Ygypx1FSayqRstH2/2T0OeI2vmpTBeSNjRgvXw7rTpN/20j/Z/kk0NtnydQrq0pUaVK4Vf0yJfo0dYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777131689; c=relaxed/simple;
-	bh=8EpqcSCihoJmzvC4cH3ptI0Yhl6e3iiwEFrTxCnABi4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EReXgPErjRrltBpvQaDk+f6mbAFYrix4Vxz5vZAGMHmrQ/9E5SnvateBS7Z9FhjsegtJ1wj3j4BAk+9XPaEcvMJ+9lBBFdmPvVmxvBQz9uuthUrgFUv/Jo2rhxvhbDU/n92n7tlnz7i76QxLGBenWN9AlRF/O2Sr2IoBbzp+FCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pERB0j2Z; arc=none smtp.client-ip=209.85.167.48
+	s=arc-20240116; t=1777148498; c=relaxed/simple;
+	bh=0fz8/k4k7blC+UhK2bvX1ejQhOxXeWzxTNq6JixBC08=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=jGiOWcDg+ggkDueNWsvZ4j3j4w0mIc7SdM+W44o5Us7hj7EJRZARuHwg9gDsZlLz8YdGH6x8CfZyc4MSYJ91s06W05Qf21t+eLTOw0h3qXSn8fFPdb5HraQKMi3IeiKusrx1w3Dnjode+MuXhHj+AypRtfFrkUlhYJ0LmYWMODA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rbOvCCs8; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pERB0j2Z"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a41099fa86so7769402e87.2
-        for <linux-sound@vger.kernel.org>; Sat, 25 Apr 2026 08:41:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rbOvCCs8"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a2c7427ad9so8654981e87.1
+        for <linux-sound@vger.kernel.org>; Sat, 25 Apr 2026 13:21:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777131686; x=1777736486; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7E1wYO3D8D125+M3Nc+VvAkr/VMUiiUXw1nBlrOtuk0=;
-        b=pERB0j2ZrZPFqtv4fmSL8hYMOoGoW7g5PlCd8fy1vI7KMHkAzbidVgiC//Ys/ymc1p
-         eqgJFbkvqumM3CRjWt5rlqfVCvRFJlCQhEPaUILy1rLuRor2QwhH5ashQhvQWUJ0kSLF
-         J3G84RYiXtHndUegvVcZ6p8EfS9eSLjNtE4zBiSYD51tfBPmHiLfygiZ980N4grPViGW
-         s/3rVFj1TaVd/7NumBr/6/sV4u5EgAiHVEk+1rymkp6vhCpr5dZ2jUAcWSA2pRKZ1S+d
-         n2a4wmzNKrlSlnhEjAmp1bOrv1qHxGb0nrDuQYg7jMKAQlUFrx365rZLPt34JmEGL4lJ
-         SjfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777131686; x=1777736486;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1777148495; x=1777753295; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7E1wYO3D8D125+M3Nc+VvAkr/VMUiiUXw1nBlrOtuk0=;
-        b=bp9h4okMfBbPWTl8CZTeXY3BF3PWbJMY8NHaluOtBy6RVP31Cvyv6uYvcSvOt7BY8Z
-         ReWc/ivdzx5Wu8dApepiVED1Sp1zyY1jy5L6BAyRyEfmhpmvDggU6Udh5lYSdib3IZvM
-         2GsrKgqQ/JjxMst8Zi1wGrvAEHxX5ueOefhlPlfumR6mxZr6VMT86R2J92nkeuQ6Pr9l
-         tvKYN1apl0KRs3Z06Hs+5zJBXYxZ1xL8hrcHIgSFabggNRF8P6oOcHiWOXTVFgUDv87g
-         zJJMwvJmx/IwgGzEYhj6TJAFt2fGymK4l0D9L5pg7RQ/V+ukkgc10zSeVdGYE6N14/NL
-         vamg==
-X-Gm-Message-State: AOJu0YyK9jd0wFNTVLzz4PIhc/dZoKky4/SEHn6Iqeh4FqSI6rPOe+Vz
-	CcXbyt85jSiVMWsVGrg+HU4NHQ3caEljAbM7ZFS63FyDo92uEvzWkKTWGLQppzk0
-X-Gm-Gg: AeBDievGehqLKPDTKqZw//id2K9r4latBY/Sg8KsaqBq/XgVSpEpKtJB5GirWIXD4W9
-	cC+BP4rDzAwZHbYT4RVh5lXCWfWM+Ku/1xLZ4D/j+M6CS2QLA6eWQXI25w1hLTZd0l3O3YNO80j
-	g33qJmpuZEgmpVSrORLfKtbsSM2T1YyvoYQmv+FjmWkZbLieppIhDT9A8qZucut4CVwj5d/nhXY
-	PDMStPTDjMBDFDUQdZL7ZMcLmVT8m0HRUr39hOBLoKedHTioOgil5lzEXaYiR1csplPH93ClQGM
-	vb8l+goCJsdMR8gpPmvwR9tp5lDe1JqGO78VufFCysTFNUhPaJzWi6HD1KTk/CNpCoiQuO1BxOa
-	XaWk/H3DCzXMFkU8GCeHZONu0Vov0McwrpCBqBqwdAezkcWEyrkru5wwVTgnWtfYldji70vf6jA
-	gX68VmCzLaz5Ky1fhUVJz94Wc84oYnS5mKKgAh
-X-Received: by 2002:a05:6512:138e:b0:5a3:d3bf:d3e7 with SMTP id 2adb3069b0e04-5a4172da9f2mr10975498e87.21.1777131685856;
-        Sat, 25 Apr 2026 08:41:25 -0700 (PDT)
-Received: from raven ([2001:2042:9844:6b00:c235:32ff:fea2:5ed7])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4187e1131sm7019450e87.42.2026.04.25.08.41.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Apr 2026 08:41:25 -0700 (PDT)
-From: Naser Al-Asbahi <nasserqahtan0@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Naser Al-Asbahi <nasserqahtan0@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Add micmute LED quirk for Acer Aspire A315-44P
-Date: Sat, 25 Apr 2026 17:40:14 +0200
-Message-ID: <20260425154014.83982-1-nasserqahtan0@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        bh=0fz8/k4k7blC+UhK2bvX1ejQhOxXeWzxTNq6JixBC08=;
+        b=rbOvCCs8AcatKIie0Meh09ZPeaIPbTGcWY67XDuoYz/qSSNR6csE2UCtOlo33BCbAL
+         Hzw6VMe7WdamVpYVkt/Xe05qyzlWFOCx7bgw4oPhq2kbKTSBLBPWWShIk8giGXl5ThzQ
+         qICoEb86YoKv0QMUdYytN3R+7aPiAG5m8oO3Jl0fvxPN+wEEVa1GGXaaWs71j6R1KrkG
+         PPz5fzDJRUIReOs+v5WJDge326jOocIkR//O3lTIRouPfRWr/JWTmUKgC7JOLV7VvFSF
+         dHexPbIMKMxpYWL08hUVGsll0+3T4KNGSKLRQRha4+UZ4QS9nQ1/K4mD33uK45UC/Sgy
+         4uew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777148495; x=1777753295;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0fz8/k4k7blC+UhK2bvX1ejQhOxXeWzxTNq6JixBC08=;
+        b=Oc7kw/9VE5lmXscT5wpC7+W6RfJfCW34wzcV2VAOIWM5ecqVlnIdCvJT8LdifVisnp
+         S7FUl3NTxGJI4vcdnKVIbwXa/ByKsxsJBCXmk1O24y5VDtKO3zw1YYAvWp3yeJ5/W9zU
+         5xQwN+4kYoULHCMfDop8188FlGWaEDmDFCMsqXOBT+YAwCoEBIwR34lSnejmXEypLIMS
+         7uI+jjByPtlDRlmd/xiodmYoi5CVrzRn62GILDJKKJf/evGWzlb0IxnfaKWNpGDzTglV
+         epIr6pAsQamTJ3zogfE/OFzJYW3GxIydNW7QnwbnQhUgbLonegHwTpzP5+MhT8Yw6m8b
+         LHLA==
+X-Forwarded-Encrypted: i=1; AFNElJ8Q5FWHL+uPKK+05nplDJm3gZGTIwqHj9N+lBRZR9vfXUiTY9zzD1QM1kLU+FsaJEbymMI9SoL59WHa7g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHoe7kQl7rfDR626cBktxoIIYQU1qE0uFRnuZtlWFVC9ndD8wT
+	ay5m0aNkOadrRPM4vBIn6alxTkINusaw3BjjTHo+Cu6OologGP+fus8U
+X-Gm-Gg: AeBDievbb5jx/iLabiQk4hWBzpyPG1r/PSnc5OPafOR90tfqnwoxBPz1hpid4lq+vay
+	VAbnkryiCsLuQSsQwR1FFjk+9cTMt1XavzLeRtMeZ94MlXlEbJYbsSLjGjQhiZ5BHG8Ke1RmdSj
+	cNe51iq9gOdeaWs6vdSQPf3PkRt3SXApjnfVSqyBmmKg0XKJY2VF01VNxFnfY6rEMGEXFlUOn7T
+	GpnjfQexc6mdEWduJcakoZmXW8JliyJBebnL7eJCqWEppLnu7ZwpNm5IAPudhUfHbH3hkfe4DwD
+	yMZ6gCUXbtxGkH/SztiCbxqi390tCvqDJYsx5T0erb8meB4Jo6rim03H2R3P088BBgrNB/rH36W
+	C6qIJJYuv1g8rBVVhMwhhvGSta4+PAY6fmmM4bdJgYCy+kJF9KSkUWLvShjT5Wh+ZwxAyuMU2QJ
+	fT9BwTJjIO4oUVgGwcM6Ue+BKEKaHHpH85cR+iFkce0SbVxx/zoauT5J37wExbM8Y8b5Mo+pPPw
+	z+aoy6F
+X-Received: by 2002:a05:6512:12c2:b0:5a3:ffca:9890 with SMTP id 2adb3069b0e04-5a4172bf8afmr10340370e87.10.1777148495023;
+        Sat, 25 Apr 2026 13:21:35 -0700 (PDT)
+Received: from [192.168.88.200] (m91-95-13-154.cust.tele2.ee. [91.95.13.154])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a4185ad0e7sm6913886e87.12.2026.04.25.13.21.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Apr 2026 13:21:34 -0700 (PDT)
+Message-ID: <604d99a4-4ba1-45b8-a0fc-b5b0d484b534@gmail.com>
+Date: Sat, 25 Apr 2026 23:21:34 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: syed.sabakareem@amd.com
+Cc: vijendar.mukunda@amd.com, linux-sound@vger.kernel.org
+From: =?UTF-8?Q?Sven_Vaink=C3=BCla?= <svenvainkyla@gmail.com>
+Subject: ASUS ProArt PX13 audio loss after suspend (Strix Halo, ACP70)
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The mic-mute LED on the Acer Aspire A315-44P (subsystem ID 0x10251640)
-does not light up when the microphone is muted. The LED is connected to
-GPIO3 of the Realtek ALC256 codec.
+Hello!
 
-Add a quirk entry using ALC256_FIXUP_ACER_SFG16_MICMUTE_LED, which
-configures GPIO3 (bitmask 0x04) as the micmute LED, identical to
-the Acer Swift SFG16.
+I am trying to fix audio loss after suspend-resume on the ASUS PX13
+(HN7306EA) laptop. It has an AMD Strix Halo APU with RT721 codec and
+TAS2783 amplifiers on SoundWire bus. When resuming the system locks up
+for 5-10 s and the SoundWire bus appears dead with no audio playback
+(with more lock-ups at some times when playback is attempted).
 
-Tested by manually sending HDA verb commands directly to the codec
-and verifying that GPIO3 drives the LED while GPIO1 and GPIO2
-do not.
+This problem is also reported by other users, so this doesn't appear to
+be bad hardware on my end. Audio support for this laptop got merged in
+7.0-rcX and this problem has been present ever since (currently on 7.0.1).
 
-Signed-off-by: Naser Al-Asbahi <nasserqahtan0@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+I discovered that setting "amd-sdw-power-mode" in ACPI SSDT9 from
+power-off mode (2) to clock-stop mode (1) allows the audio to continue
+functioning after suspend-resume cycles.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index d720565db..d870f87a5 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6717,6 +6717,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x1597, "Acer Nitro 5 AN517-55", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x160e, "Acer PT316-51S", ALC2XX_FIXUP_HEADSET_MIC),
-+	SND_PCI_QUIRK(0x1025, 0x1640, "Acer Aspire A315-44P", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
- 	SND_PCI_QUIRK(0x1025, 0x1679, "Acer Nitro 16 AN16-41", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x169a, "Acer Swift SFG16", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
- 	SND_PCI_QUIRK(0x1025, 0x171e, "Acer Nitro ANV15-51", ALC245_FIXUP_ACER_MICMUTE_LED),
--- 
-2.54.0
+This might be due to bad ACPI tables that ASUS neglected to modify to
+fit this configuration, or possibly a suspend bug in somewhere in the
+driver code. Sadly I don't have access to documentation for the devices
+to debug this further.
+
+Are you able to provide any input on whether the power-off mode should
+be functional for this ASUS hardware configuration?
+If the ACPI tables are correct and the power-off mode should work then
+do you have any ideas on how to debug further and solve this problem?
+
+If I can provide any more information, logs or apply any patches then
+please let me know. Thank you!
+
+Best regards,
+Sven Vainküla
 
