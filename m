@@ -1,67 +1,67 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E151A0BE0
-	for <linux-sound@vger.kernel.org>; Sat, 25 Apr 2026 00:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85689335BA
+	for <linux-sound@vger.kernel.org>; Sat, 25 Apr 2026 00:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777077867; cv=none; b=ieFaDZI/5p9NlH+C89D7IjvJ8y/KQ3TqAuPEQP2MrIqDONagX7BzWiEj/h05+lr5TTRaH+yufWEpnBDwVyYGTAaOw4G0/wHiIGCdA4cy4IxE6HoozrlfkG3kr/GVcp3V/CbXhdiubYZtT+oA3yhVkRgdcMkBwBzhQgQngT2UWCU=
+	t=1777077872; cv=none; b=p6y3W11m7BS289CcKBAwm9UF/VPCUlNK8xvMdApL9rQqt9JqEeWWKfEwgidvK8K5Zx1/wKVe4BjCTGJY/XqeHlehHh0nkv2JqVFeDSkukjOWdDelLDcuzF/K2h+OK/A4fz3gVS7dzSqNoMeB11ThV+OPRZK6i6Ot2jfYjivv+Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777077867; c=relaxed/simple;
-	bh=OM3g9FtTD35pKvRKldl4QuwFBMFj0CM7U9jz3AYWiF4=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NWP4a90W6IaUM1cLERUiQuR4mesdZZBhIXbdcsq/2ZQ9kul6zE8nh9a6bZSoizRus12qtB6exzJyXrlFOwkOwPgRgGPKvIStTDk3wJnyDimICZQwDs0UCc3OtzgnjMuI8iPxHsT4PjSWDyJVFbA1MRIPm3fBYJsGiuB3VpZWIS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dA9orYsl; arc=none smtp.client-ip=209.85.210.171
+	s=arc-20240116; t=1777077872; c=relaxed/simple;
+	bh=vbRWR4+e3gI1T28wrrTlg16+8udVjYCSiQQA8vBr/y0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=m2v7XIYLV1nacvhE7G3ldRYlEGn3kZ55U9sn+gMdeg89ruUK2aUy0ylJ7ZQYnA+8JcTPVvoDO4n9XOxdk4BeSI2RpBwjPzfbSKhkKYU3ZqGf7xgkMkLVkZ6t5Ly9uwkzPuWEFawisRalSmYL53O/reNe76dObM1vj4BNuE64Rrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ExglKHg4; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dA9orYsl"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-82f69a286dbso6379024b3a.2
-        for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 17:44:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ExglKHg4"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-82f431c0ab6so3931386b3a.0
+        for <linux-sound@vger.kernel.org>; Fri, 24 Apr 2026 17:44:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777077866; x=1777682666; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZXELO0KaVcDm5nDbpYvDIqJfkxikSAl12jvPRMM61W0=;
-        b=dA9orYsls4R9jRACcK0w/UmFd3NM+HGqQRHfdMfgAWliFnKbqoCy6d0Z+S+ZOZwupK
-         YFYVCR8WOcWmZdZny6/D/aGFLZWEwkvWLO0S3MIdLz8W6aIzkC8iQR66GZwH6X8o3+Ji
-         RNolSEhm0tWskBr+w3DvjzdBqJ7r13BogKhPfl+zGuhlGfQWP3/4gqUplULAkM3ZWZJj
-         jHjZz1jT9qiBPftIm3j1GRsWTiGaiUXQM7XPSrP7xllfG/LRYt+yKD3/oLjFmog/5cA0
-         7tjbWvFzM0Ozf83HSQyy/2qotb/GeY+12VktyVpSCwt1QqJX/Ab+5KHbwZy3AeBdyPYn
-         bT+g==
+        d=gmail.com; s=20251104; t=1777077871; x=1777682671; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xm2BMd5f70+IFDw9oIxnL0UFKMFjyAQAWO1QVmfPcuU=;
+        b=ExglKHg4Pq71wWMzV9LCjf2dYdBiOGNQQFXBbrmEDTgbtGMNPkco/ikC1czmTgDRoa
+         k194QH08KFnfS5VmH4F4uo8JDupi0VZa+OoS9M3jJhGddfdEqpEyodYjN5ymFF9x4vR/
+         fgYROv44XMzfzJax1j250L7vOt2WUShlbDuS6Mfp83PKBnkhFijENxDxFDjRENQm/n0h
+         y04oKCar3bULWClYowzlA+8JCCtlKrftniAU519qMKJxydxnnOEecscl0hy6bov1b+7Y
+         LB8ZXNd0hnhWPMBZc58lgVS90ZPSsVTWx/t8j9ciMeFO8brXItav7LhTnoi9iTDaBKZn
+         Dk4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777077866; x=1777682666;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZXELO0KaVcDm5nDbpYvDIqJfkxikSAl12jvPRMM61W0=;
-        b=ry5XoTmW3s2AFet7OBVwN2XUuBvv2sS5U60X4oNmhQhDfe3+SlIoXxfUXJgv7cc6bk
-         +9llN6IbotDxEmqsMPREcaMgR9M5TsPc8nUusurKEbBVLOFE21pi8JoQjKZPKk6rFukP
-         i4bgPLk65uFPZBEhCnMThHBdWoFAIfgV0QpecTqL3P7csOm7ltt0kjHEdNwGTT1ja1fx
-         j3iATAerHIKq+tO/O52IVbDslu4ql5xu3+kg6Ltqi2dp5hfO+B6lREuzMRmS8AsIMITY
-         vMPdTbbKJhVufSj/dAyTB1K8om6grJ1u4ABnQ2vcYQQ5BBtPvwzIK9gNR6I+JO2a7o3U
-         wLtA==
-X-Gm-Message-State: AOJu0YxoHsdEdgYG+CjgqlKT2hhTTj63iulWjuPBRRnVZ7CamTpByLz6
-	Ej9zdF6YkCm5hb+cnoxjvqh0IV6A/hQwHjgsshlkCIJu0Dv9jZSS8BzH
-X-Gm-Gg: AeBDies1XTiSqecIRRHD9fHy9cLDQQ2RkdSYfqtkjXx7PG0li+0PmNoq+jZQ6hHlSAX
-	Ud+Mal58o83ilU3PIIY4ptFrw2vN1Gg4qRH0tEImhuvpAtYLvoyFg+1jFfUs+fuApsNgnGAfHRP
-	VWsJVunlANzw6nQ8mx80k0EoprGzVIw1KZTa87mxrkRNKkrWM8gvx08WwMZ6jxhGJEUERKb+tde
-	SW5nQT05wrUZNuW9u+uj8aKwR45840yHroIdqmowLGJRCcZNJkjvdPAYxu/7rM3JyRK/A1NCW3R
-	07nlimQviuIDAW90fmp9+UqeTrlW7WiSN5RI1DDN0+HuHnuWAKQheqky1S/z0N0pmTqTbrQdOnm
-	ZmifhF+opHdKiWpLvsxjogC5+rIHugKp40L7dUUmvREVhxjHfAGY6Cdz4po1fBHhmVDuCxzJfca
-	fTM12QjSUw23uome534DIy/0uiH/nsFjy7jZRPuOW8w+uNFxua0YpAhm1v9vNt1+iuXf6n7kecy
-	tbP2AYADXz4pLKIdxTY0eLLMgu87pbT/hFN1R963k5uDVUFamQuOXOUCiAXpznolKE+1JcB6P/i
-	MmzsReHNCg==
-X-Received: by 2002:a05:6a00:8715:b0:82f:a89e:e16f with SMTP id d2e1a72fcca58-82fa89ee99fmr18683408b3a.14.1777077865744;
-        Fri, 24 Apr 2026 17:44:25 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777077871; x=1777682671;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=xm2BMd5f70+IFDw9oIxnL0UFKMFjyAQAWO1QVmfPcuU=;
+        b=Z3ZajTPUmrWyT+ylYfzlq+nFNfyS2nuQizWo6ahop2WaI+fc2FPOYjnTA1jkJh0mVu
+         A3cjXzawdVeSnYKX2Rf4crD7xaefmdBNORobHFL7jw5Ub5CrtE3Gn5TW7jrH7Rvv/qKE
+         AAhI4zdTmbkcwHzoX2QNUCRfFmeqNBXWCkKKX7Q7QGO9w09zn/9R8pG2m6RyKPsV4GsS
+         fKgEPhCzy0T3I7ApfDEYDSF7742XPfBINh165wnB3imlXhBCJVlgffcc7Y+q/5S1OlJG
+         BK9s8au+SXSovniT1bTZ6qe7G4MOAzOznNnQ8/TEL8ZMn1QgPjkbvciaPhBldncSVfKP
+         o96g==
+X-Gm-Message-State: AOJu0YxvB7iNhYX2BPUqCJ4LgXi2bOyNepNazu6aFjwMzgep6YlweW01
+	0SknCq76T9zXZdisIQ0AcysBamItSUmdoqzpIwkpi/j+l9BZWCboqy4q
+X-Gm-Gg: AeBDietYJKilgv+lrzoWzo+w5Bh/3Eg0dx04EAyn7g9/PJicNecyh8axM9zsZ/52kXF
+	Mlhb3XGU5LyFBmyBZSVTTQeg4MQE1oPPy5NvS0qOiARVDjZIgootllKirnHtZpVO/p+wIr9p1pD
+	HvNYS+O/YY9JOhSgEKTvYLY96I5T2Egsqnfo5XXOXe86zyR/CcXx5HeA/SFFwr/AIp8Tyorsx7E
+	OJ853TkQMVUhD31CpL4tmYeBn8+U5TbttUcXDIFRjZUTQFlIW6cJB4G0bHLVcMQm2VbhoqOjdgy
+	uyLX9KUZLiCl7c/1Z4DYD433s6fnZfE5MZspbo4WxDOLzKJWmgOMqkcT+uFRKKkMok0MNCocoW0
+	lCTa9R9r4WWxDRTkPf72/SMT/HtExiXkkl0FmEB47fK5keVdoItJq9sgHQmcfzYjX8mGb3/NqdS
+	TUXKPhDDvw6gPonIgL2Qz/49qsrGyW/N7a6s0xDjkunfTpjFeBFNjGMyr5sIfsAZivlbWSlckzS
+	X1jKSBsFBM08drXbkAKYZQVKZ1kyaJbVkWw53COszPraoJNggrvy2Z0JT7UpheaqU8BWjj79Gsd
+	sPlRFM+Nog==
+X-Received: by 2002:a05:6a00:2ea5:b0:82f:1973:4b96 with SMTP id d2e1a72fcca58-82f8c91bc71mr39302406b3a.26.1777077870896;
+        Fri, 24 Apr 2026 17:44:30 -0700 (PDT)
 Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec0566dsm24948385b3a.57.2026.04.24.17.44.20
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec0566dsm24948385b3a.57.2026.04.24.17.44.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 17:44:25 -0700 (PDT)
+        Fri, 24 Apr 2026 17:44:30 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Subject: [PATCH 0/4] ASoC: tas27{64,70}: Fixes for hwmon temperature
- readout
-Date: Sat, 25 Apr 2026 10:44:02 +1000
-Message-Id: <20260425-tas27xx-hwmon-fixes-v1-0-83c13b8e8f54@gmail.com>
+Date: Sat, 25 Apr 2026 10:44:03 +1000
+Subject: [PATCH 1/4] ASoC: tas2764: Mark die temp register as volatile
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,10 +70,9 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFIO7GkC/yXMywqDMBCF4VeRWXcgBuPtVUoXNh11BKNkrAbEd
- zfq8uPwnx2EPJNAnezgaWXhyUWkrwRs37iOkH/RoJXOVaYNLo3oIgTst3Fy2HIgwdaWJlNUppV
- REMvZ0z3E8P15LP/vQHa5ruA4TkXOikx3AAAA
-X-Change-ID: 20260425-tas27xx-hwmon-fixes-fc8540e81950
+Message-Id: <20260425-tas27xx-hwmon-fixes-v1-1-83c13b8e8f54@gmail.com>
+References: <20260425-tas27xx-hwmon-fixes-v1-0-83c13b8e8f54@gmail.com>
+In-Reply-To: <20260425-tas27xx-hwmon-fixes-v1-0-83c13b8e8f54@gmail.com>
 To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
  Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
  Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
@@ -82,49 +81,41 @@ To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, James Calligeros <jcalligeros99@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1274;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=860;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=OM3g9FtTD35pKvRKldl4QuwFBMFj0CM7U9jz3AYWiF4=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDJlv+FKkN2d9adi0KMv8sOY5lm1Wjd8bX8bmMh/68Wdtz
- fff08q3d0xkYRDjYrAUU2TZ0CTkMduI7Wa/SOVemDmsTGBDRBoYgICFgS83Ma/USMdIz1TbUM/Q
- SMdYx4iBi1MApjpRnJFh5cGJb3V2ZJx7avnKNc7o0t5L3i4KrbvnnzJ85+vxn2vXaUaGf6eF026
- stLzg/f/k6SsZtgvdDK9JrPy8Tku/9OO1mvcl/AA=
+ bh=vbRWR4+e3gI1T28wrrTlg16+8udVjYCSiQQA8vBr/y0=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDJlv+FIO8OgtsTpy6fl1eTM17fYVx6732x49qbnbds6Ns
+ qfr/2X/6ZjIwiDGxWAppsiyoUnIY7YR281+kcq9MHNYmUCGSIs0MAABCwNfbmJeqZGOkZ6ptqGe
+ oZGOsY4RAxenAEy1/QeGfya9zcf4bhUnWwR9eVKyctObv//izaf1et6xErC9x+fhKMvwv7qyXiz
+ Jr3/HBtUJoh9WJBczTwnbcXV5toDw1xeaVS7xDAA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Hi folks,
+Reading the temperature register always returns the first value
+read from the chip due to regcache.
 
-This series makes some fixes to the hwmon temperature reading
-functionality added as part of [1].
+Mark TAS2764_TEMP as volatile to prevent returning stale, cached
+values when reading the die temp.
 
-- The arithmetic for TAS2770 was incorrect, leading to readings
-  which deviated from the true value sampled by the ADC.
-- TAS2764 was returning the cached value for each read after the
-  first register sampling.
-- Both chips were returning nonsense values before the ADC was
-  fully powered up, causing issues with some monitoring software.
-
-Regards,
-James
-
-[1]: https://lore.kernel.org/all/20250406-apple-codec-changes-v5-0-50a00ec850a3@gmail.com/
-
+Fixes: 186dfc85f9a8 ("ASoC: tas2764: expose die temp to hwmon")
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
-James Calligeros (4):
-      ASoC: tas2764: Mark die temp register as volatile
-      ASoC: tas2764: Deal with bogus initial temperature register value
-      ASoC: tas2770: Fix order of operations for temperature calculation
-      ASoC: tas2770: Deal with bogus initial temperature value
+ sound/soc/codecs/tas2764.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- sound/soc/codecs/tas2764.c | 22 ++++++++++++++--------
- sound/soc/codecs/tas2770.c | 13 ++++++++++---
- 2 files changed, 24 insertions(+), 11 deletions(-)
----
-base-commit: 7a69564045595263837fbd57e9f67e0507b04d8c
-change-id: 20260425-tas27xx-hwmon-fixes-fc8540e81950
+diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
+index 423b7073b302..6aab6d2b7419 100644
+--- a/sound/soc/codecs/tas2764.c
++++ b/sound/soc/codecs/tas2764.c
+@@ -904,6 +904,7 @@ static bool tas2764_volatile_register(struct device *dev, unsigned int reg)
+ {
+ 	switch (reg) {
+ 	case TAS2764_SW_RST:
++	case TAS2764_TEMP:
+ 	case TAS2764_INT_LTCH0 ... TAS2764_INT_LTCH4:
+ 	case TAS2764_INT_CLK_CFG:
+ 		return true;
 
-Best regards,
---  
-James Calligeros <jcalligeros99@gmail.com>
+-- 
+2.54.0
 
