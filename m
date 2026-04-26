@@ -1,42 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DDE26A08A;
-	Sun, 26 Apr 2026 23:22:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BDF831619B
+	for <linux-sound@vger.kernel.org>; Sun, 26 Apr 2026 23:22:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777245749; cv=none; b=MUKAM6GuxbI15cPsIdvIyx4JAqh5vvoCFOvf10T9B2B5v7MEdj6UyESlWy4mGAXW4ThbdUC/xHZfFhWBBXeRwkC3RlbDMFKcsTRkSjk8kQaBlTulCSUKcXrJ6k/BUnZAud096fdweOnJOjTXKvXV4L9Ehiz/8Oqt7PozHdT+VY8=
+	t=1777245756; cv=none; b=F6itlVDBDBqCvcbiztaFZtTI0sb55MGk/4Kga6BiZkHFiD5dRBnLMO+D5q0/T7wNTZAIJawG/BtmbsKPgoO1+zYfoaqgvdLkaekkHAsjHoX4bYhsqhdHhHV5ldJiMZ7IbVY7mAtSyEjtouadG20Lg5NkG3T/0mMFgu2ouktEr7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777245749; c=relaxed/simple;
-	bh=FU/k+L8i7Ta4OHCpZRnzemqVs2DF9E6WhaOdevkZjGA=;
+	s=arc-20240116; t=1777245756; c=relaxed/simple;
+	bh=kiJglZ/30/8Ol7NyESoLQ0LibuRTLQxEphVQwhRV9tI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=osGLRmbg9FZViwZ00rVJk6lYVi0t1UFlWmRsXyrX/jwZlxdWUtfv3Vqt7pYGwA87N+sldX2PMkKQ9twNIF4Ap7/fpNGuAsoa9Kgbe2QpYo5I3UZte3pNbSa9riocArCxoEXZUPu9Z8X9omeWpddqxNGnPqLRv+d9I0i9DAqHyLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dskz/xhh; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Rp7bIsyO+JvnsKSVYE8owXwftHcSDKQbfW+k231f/PZYASz7otZy5dbCzzOL7VK6l6ElfdfALNN9iJRh2AGhBhxksULPYJj689+Pwh7HSg92jHNYkIlTXzBy2VfZV1Gb7HvbxHgp4KDgDJ7zbw6oTUhRq2XLUZOk+qHn2eNqK6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k0UMTrUS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dskz/xhh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F29FC2BCB8;
-	Sun, 26 Apr 2026 23:22:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k0UMTrUS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57437C2BCB4;
+	Sun, 26 Apr 2026 23:22:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777245748;
-	bh=FU/k+L8i7Ta4OHCpZRnzemqVs2DF9E6WhaOdevkZjGA=;
+	s=k20201202; t=1777245756;
+	bh=kiJglZ/30/8Ol7NyESoLQ0LibuRTLQxEphVQwhRV9tI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dskz/xhhzU5GTHSCU/lVXrHZEG4iz15DZ1FYmfANNQavfuQGHEpgrifREDyKCwFkW
-	 bdztSlGdS52GO5BIizzSmMEM1cdSdX+Zago6un6CBjpRVpmJxzMTv9KS+clvPN9Osb
-	 2BhV+cCRdyjGFB8PZ2MyWxIB6bCqpE3zt8OWLtQxa+JdL/uT4fgAarjThjvQ/NwUQG
-	 hkUaT/i6cSpfeh5B8zwzqQFiGiU/iBW1REf94huWOp0ZgO2C01NpoSizxorEIvOlCx
-	 ycFt3V8GJmgRDwEUXel3Y8nbGHClqyYRHbGxRo7IlCAdyJamvtAomNtVvJ3cCoUWno
-	 dVgUBc+0Zpc2g==
+	b=k0UMTrUSqhXfXkEzL+BW22ik4BCVaE9tEdgdP8yto5mDUmm6lVDs1P0+GwJzNN6O4
+	 li9AFZpyoxhxV0M8Ymdn8NmCDNGuy0HG60zBBaIu+xjOhyrClw8qh18uM5AWXeKRzv
+	 EhEXlSsbePxftXU09cW4GjMbTZ82DjbnJgjiZdeJty4FIuSJ4vOF6JrZNfaGo6d1PT
+	 64Hg3Iy5I0dV/DvBjJ3GPVF12rKlLniCN0ykjSXb7aXlIjx4SrRy/TQjTzSuwAS6G5
+	 LchLyki141UsmmFcq20A5I5JUzQL++1xDm1wIVHwEMxSvmCxwjvzH7cgIGu4rhLwVO
+	 gzlX6P4xeHg+Q==
 From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260423125154.156257-1-phucduc.bui@gmail.com>
-References: <20260423125154.156257-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH] ASoC: apple: mca: Use guard() for mutex locks
-Message-Id: <177724034927.266775.12675076324275289049.b4-ty@b4>
-Date: Mon, 27 Apr 2026 06:52:29 +0900
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, 
+ peter.ujfalusi@linux.intel.com
+In-Reply-To: <20260424105031.114053-1-yung-chuan.liao@linux.intel.com>
+References: <20260424105031.114053-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: Intel: add an empty adr_link
+Message-Id: <177724049962.266775.5548137692021701185.b4-ty@b4>
+Date: Mon, 27 Apr 2026 06:54:59 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,29 +44,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1117; i=broonie@kernel.org;
- h=from:subject:message-id; bh=FU/k+L8i7Ta4OHCpZRnzemqVs2DF9E6WhaOdevkZjGA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7p4ypWpJ6CbBU3iQ0ipBBmPE5ZIFP1UPsdBft
- evB2cIqRq+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae6eMgAKCRAk1otyXVSH
- 0MYjB/9h5ZcVrhGxChFdnig5i5XRxG0+9F2VTT2ZIN9Zw2sXcK8tsIm6pbzJtP2HAFzI6YVM06N
- vC7mhFD9eOGiTQtV/wKBsX/u8LP6RP9JE98ousbYVQNTrjuWuSrN4LLFiB3Cpx3iNd1hhzDd5Zz
- C/J6uCwNMPk+Sh4FnKAevzk/EUX1/Hobdrm2osG83n7NW6ID4tsr7bsZXBFrwqg2bHoDaYbFIZ6
- RxgZo+3XUAvAzVbNXvZixtCS3lx7iloIQqha4AzschbSk9i0d4d/1/VWhmvutgnPlwmqvsTzdHz
- JujbnWwMcZT23aEuuO/q9jlLkrjT3FeWFl0/UU+Sk3q2VC8o
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1093; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=kiJglZ/30/8Ol7NyESoLQ0LibuRTLQxEphVQwhRV9tI=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7p46ltDzdrfViiatbgHxwubxN1GhYmD7w32FZ
+ ICOMgYiagmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae6eOgAKCRAk1otyXVSH
+ 0EDrB/9aY0hvVgIE8iTUtSSMssVKEvJlXm8f+ivXkwKuSvK3fu9DVyHdcjJwtrBfq9LUCYdiYeZ
+ u+1XA0N8tveZ1CP4jbgwU83tM+uZHTGM6GKqZ1JGkICXbzEFxAaUBN32ApvVVwpK2eblFv/q/Ui
+ bP//an94kT3va/fCFGpRxtk0aV9mWNJ8bRTCDvNvFOWe2dIeTxawvBbZKObJZNygWStCk1MUhed
+ +PrJZiuxGhEOA648MmwZ1v8l6b6gINXMVxM8vLuaUek+GIovzIb54AFW7COHS6WzmCVIjHFKWC1
+ mkQ49wT8mmzQelan7/TYWEt0/p/H/nvX27or2WTfww9b0r8Q
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 23 Apr 2026 19:51:54 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: apple: mca: Use guard() for mutex locks
+On Fri, 24 Apr 2026 18:50:31 +0800, Bard Liao wrote:
+> ASoC: SOF: Intel: add an empty adr_link
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
 Thanks!
 
-[1/1] ASoC: apple: mca: Use guard() for mutex locks
-      https://git.kernel.org/broonie/sound/c/fc86d55e8b78
+[1/1] ASoC: SOF: Intel: add an empty adr_link
+      https://git.kernel.org/broonie/sound/c/3c6f06a20079
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
