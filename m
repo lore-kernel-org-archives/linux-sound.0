@@ -1,46 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4038E28F5;
-	Sun, 26 Apr 2026 00:02:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67102A1CF;
+	Sun, 26 Apr 2026 00:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777161772; cv=none; b=Z0n5MwC4+lvB0X7hmmDR2sR3xfdYWqF/TaZ4P7YKRg+F7vbX3uva0xVtmEtVPLXMrYWZW2wTLpwEe6wPv6jK4dgkpZnK4O/vepQJvqKWkDH15yo19vrBZj+ANC4nQRkO5MviwmFzgO/EIcV8pUAcFPs4P5rgq6iALJU2JBv81V8=
+	t=1777161809; cv=none; b=AO2kbdNHdQy4iSiD5VTuNt+xQRIJOcy5BfCRnTIqnf6CutGeJ+M1kRTvzbPfDP/4h2sIVjTthE4l3cZQYqHoq1k88igiRNDlmwgBfgoGsAmHMqBkZ6JfNAWiMWgWodLFh0hAo731Vk/Zy6/aJ231mMZx1kARaim63QTToH4JZTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777161772; c=relaxed/simple;
-	bh=BHseaMuIagpoO9jrUkIF1FcsO979B0BZteW6pp2JoQY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EhMi0stMUX/BXePhKMUmjclRmyywhPcuhWKIcbImrnNnTzUkxfSSrEIpeVynlf7gNd4ENbIIxXSTMDCjcECg1f/cI/kzut6uIYKCQ9zJi2AR7+qCSVBqaZlv5ylvvaVehl4IuwknflD5Qfv9SfK5KU6DMmV1TzdaxzB4rDap5Wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eNGtMeHN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777161809; c=relaxed/simple;
+	bh=fKeOLDi1b/CZhehpyEQ3J7pCisexHFar3xK6TAxv6jM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gkzm2N4U2h6AQCTvZSxmi50HWPC2fJXuNpTgEL3qWiougxGuMDHArsA7wCSETn49fN9VMf433VrgxLrADKZ01ti7/Y56comJ4MJUfaxT22VjJAdoVx0egMNCa/saF9GShueYp1xBTbveKFQ2kzYtKs8NOPzKFgaOHzT1e1u2tIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sSzTIZyU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eNGtMeHN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7A5AC2BCB0;
-	Sun, 26 Apr 2026 00:02:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sSzTIZyU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA07CC2BCB0;
+	Sun, 26 Apr 2026 00:03:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777161771;
-	bh=BHseaMuIagpoO9jrUkIF1FcsO979B0BZteW6pp2JoQY=;
+	s=k20201202; t=1777161809;
+	bh=fKeOLDi1b/CZhehpyEQ3J7pCisexHFar3xK6TAxv6jM=;
 	h=From:To:Cc:Subject:Date:From;
-	b=eNGtMeHNnGXje2hc+WAAMVNLv4Rn4kMK2mnzZIHTTuDJWqmlIR7YwqyA7SgG9dSYm
-	 GwphvxtLY2xl0BZaezF3I8dqVUcx//SqTN0u9fyuQg+PocNTRtnmkE13PSYAxTieZw
-	 pzXujfSCiJREem736jl4O7oT/tN0896ltxemUlteRldyH3LH1Kl7bCO9631zSBqePX
-	 S7AiJr83y7YfXjhwWSlzE1cyH2bxWs8PqCSbM6OzyJEihp3OenlodaVYIfHBBoSsHK
-	 qqu3OaDxmE/vFRdW+Q0aZe1alfBE36RZ5lKpjClitz5y8w1vyujmBw3IdkHO71A2v/
-	 CRxDoaqnDRldQ==
+	b=sSzTIZyU6YWNkWa5mXzejt5UplXJzWQJ+UAmMakXdl+K2+r6r6S+SIHm4v/q1vayd
+	 0BYaafW1btzBukUJ7iDxu6fD7QZwrahFhLY81g83aLV5uukJtpyl3d8cZQm+wxmQWu
+	 zfLcZx7U657hmGM/9PIQ3B0K2Zded1WqNSDHQ50Ybh6T0foV2+szHTUbuTCM37ii1k
+	 EbdQFr4UPcgkQdDL8bCJRP/RdzFyrFHBkIuFtiIULadh5SIbOSXV42fSdkIFbyK8YI
+	 y0x65bxnh00ODowgN5HFJSkVzOCw9OXgoqyUuFB/0p8lIlM6WAL7T+vyPInkp3f/EO
+	 rUvoVx2HnT+3A==
 From: Sasha Levin <sashal@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>,
 	Sasha Levin <sashal@kernel.org>,
-	=?UTF-8?q?Jonas=20Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
 	linux-sound@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: tegra: Remove stale snd-soc-tegra-utils composite module definition
-Date: Sat, 25 Apr 2026 20:02:49 -0400
-Message-ID: <20260426000249.54799-1-sashal@kernel.org>
+Subject: [PATCH] ALSA: hda: Remove duplicate cmedia entries in codecs Makefile
+Date: Sat, 25 Apr 2026 20:03:27 -0400
+Message-ID: <20260426000327.56079-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -51,61 +45,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-kconfiglint reports two warnings for sound/soc/tegra/Makefile:
+kconfiglint reports:
 
-  M002: composite module 'snd-soc-tegra-utils' defined but not in any obj-*
-  M008: composite module 'snd-soc-tegra-utils': tegra_asoc_utils.o has no
-        source file
+  M004: 'snd-hda-codec-cmedia-y' assigned with ':=' but was already
+        assigned at line 5; previous value is overwritten
 
-The composite module definition
-`snd-soc-tegra-utils-y += tegra_asoc_utils.o` references a source file that
-no longer exists and defines a module that is never included in any obj-*
-target.
+sound/hda/codecs/Makefile contains duplicate entries for the C-Media
+codec driver — both the composite module definition and the obj-* build
+target appear twice:
 
-The tegra_asoc_utils module was originally introduced in commit
-a3cd50deef7b ("ASoC: Tegra: Move utilities to separate module") by Stephen
-Warren in 2011 to provide shared clock/rate utility functions for Tegra
-machine drivers. At that time, the Makefile had both the composite
-definition (`snd-soc-tegra-utils-objs`) and the build target
-(`obj-$(CONFIG_SND_TEGRA_SOC) += snd-soc-tegra-utils.o`).
+  Line 5:  snd-hda-codec-cmedia-y :=  cmedia.o
+  Line 10: snd-hda-codec-cmedia-y :=  cmedia.o  (duplicate)
+  Line 24: obj-$(CONFIG_SND_HDA_CODEC_CMEDIA) += snd-hda-codec-cmedia.o
+  Line 29: obj-$(CONFIG_SND_HDA_CODEC_CMEDIA) += snd-hda-codec-cmedia.o  (duplicate)
 
-In 2021,
-commit 8c1b3b159300 ("ASoC: tegra: Squash utils into common machine
-driver")
-by Dmitry Osipenko merged tegra_asoc_utils.c into tegra_asoc_machine.c,
-deleting both the .c and .h files. That commit correctly removed the obj-*
-build target line but overlooked the composite module definition line
-(`snd-soc-tegra-utils-objs += tegra_asoc_utils.o`).
+This file was created by commit 6014e9021b28 ("ALSA: hda: Move codec
+drivers into sound/hda/codecs directory") which
+moved codec drivers from sound/pci/hda/ to sound/hda/codecs/. In that
+initial file, cmedia appeared once in each section.
 
-The orphaned line persisted unnoticed and was even mechanically updated in
-2024 by
-commit 51a50d6ad727 ("ASoC: tegra: Use *-y instead of *-objs in
-Makefile")
-by Takashi Iwai, which converted it from `-objs` to `-y` syntax as part of
-a treewide cleanup — inadvertently refreshing a stale definition.
+Immediately after, commit aeeb85f26c3b ("ALSA: hda: Split Realtek
+HD-audio codec driver") reordered the entries and
+inserted cmedia at new positions near the top of each section, as part
+of splitting out the Realtek driver. However, the original cmedia entries
+were not removed during this reordering, creating duplicates of both
+lines. The second assignment harmlessly overwrites the first with the
+same value, and the second obj-* line causes the module to be listed
+twice — neither causes a build failure, but both are dead code.
 
-Remove the orphaned composite module definition since it serves no purpose:
-the source file was deleted, the obj-* target was already removed, and the
-functionality now lives in tegra_asoc_machine.c.
+Remove the duplicate entries (second occurrence of each).
 
 Assisted-by: Claude:claude-opus-4-6 kconfiglint
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/tegra/Makefile | 1 -
- 1 file changed, 1 deletion(-)
+ sound/hda/codecs/Makefile | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/sound/soc/tegra/Makefile b/sound/soc/tegra/Makefile
-index 3f396c87802ed..1c18ef6971c09 100644
---- a/sound/soc/tegra/Makefile
-+++ b/sound/soc/tegra/Makefile
-@@ -1,7 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- # Tegra platform Support
- snd-soc-tegra-pcm-y := tegra_pcm.o
--snd-soc-tegra-utils-y += tegra_asoc_utils.o
- snd-soc-tegra20-ac97-y := tegra20_ac97.o
- snd-soc-tegra20-das-y := tegra20_das.o
- snd-soc-tegra20-i2s-y := tegra20_i2s.o
+diff --git a/sound/hda/codecs/Makefile b/sound/hda/codecs/Makefile
+index e7f03e281999f..88d2f8a79467b 100644
+--- a/sound/hda/codecs/Makefile
++++ b/sound/hda/codecs/Makefile
+@@ -7,7 +7,6 @@ snd-hda-codec-cm9825-y :=	cm9825.o
+ snd-hda-codec-analog-y :=	analog.o
+ snd-hda-codec-ca0110-y :=	ca0110.o
+ snd-hda-codec-ca0132-y :=	ca0132.o
+-snd-hda-codec-cmedia-y :=	cmedia.o
+ snd-hda-codec-conexant-y :=	conexant.o
+ snd-hda-codec-idt-y :=		sigmatel.o
+ snd-hda-codec-senarytech-y :=	senarytech.o
+@@ -26,7 +25,6 @@ obj-$(CONFIG_SND_HDA_CODEC_CM9825) += snd-hda-codec-cm9825.o
+ obj-$(CONFIG_SND_HDA_CODEC_ANALOG) += snd-hda-codec-analog.o
+ obj-$(CONFIG_SND_HDA_CODEC_CA0110) += snd-hda-codec-ca0110.o
+ obj-$(CONFIG_SND_HDA_CODEC_CA0132) += snd-hda-codec-ca0132.o
+-obj-$(CONFIG_SND_HDA_CODEC_CMEDIA) += snd-hda-codec-cmedia.o
+ obj-$(CONFIG_SND_HDA_CODEC_CONEXANT) += snd-hda-codec-conexant.o
+ obj-$(CONFIG_SND_HDA_CODEC_SIGMATEL) += snd-hda-codec-idt.o
+ obj-$(CONFIG_SND_HDA_CODEC_SENARYTECH) += snd-hda-codec-senarytech.o
 -- 
 2.53.0
 
