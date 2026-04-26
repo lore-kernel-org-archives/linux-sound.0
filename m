@@ -1,48 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF8630AD05;
-	Mon, 27 Apr 2026 10:20:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A833F30595B;
+	Mon, 27 Apr 2026 10:20:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777285253; cv=none; b=IsH3rlAe9GqnlDu8/0C6lQsEYfgE+FDYMyZtvYoBv/WI48swt3wyBmvNaHZs8Dv8/4y8CqGH7XZJ7rhTySUdwVpBNF33BRWExDuf1YIyPsbnsAIxHm5E6V3M80W/18XtFem8dBRR30B6LLv4+7NjlUt5TrK+O4/lKbE5tnEiHCk=
+	t=1777285258; cv=none; b=ZjL+i1FMIJRAdyWvNScJyq/brcU3dJaxS/S6qGObYop5UlkGs/07BHP3jbTutwVYDQbkhA55W6h+C59C9ovRTCUbPZy9NcaxOoQqY23fXQmWr9FOKVUi/OPq2Nvh4bPVZ6jhJnVuBhnuFxe8NHQ0Pujwz/lLamoC1WAOSFhQc3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777285253; c=relaxed/simple;
-	bh=qIq9a7y2HB+AIJXm05tCUyKUl06Y44EASdDXzgfv7ik=;
+	s=arc-20240116; t=1777285258; c=relaxed/simple;
+	bh=zgOEC5VHuYVLv5NsTjji1+71ymgLOISctmE/pX7AqcE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ceXoKM8yqNwl2+JDX6+0CQLbe3xo9iMGuqc4GWsJJsXQma9euFBMGfP3xp/P7ovgzl2rG9I4sc/tU/OwWDtHP16N5DdYdD0E7ksHS7Zi2HUwzFpK6H4qFEpbEkGf6yTDAXk0pOd1bNEnm+n+m91L87mrKntkgUUw3o7ekoF8Trw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O9Xg2PY9; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=sKG3CR1uN22HVoDqiRLorRMAffM4GrKHe2BnsvF5dKgckt9X/nHt5LQ74dTq/aZZcNE67FIVAl8B4/iUvxJcFW7JU8X1sFu3qnJMYcD0u1+pn1T8/9nlCoHFvGFpkP38I9mj6XRlh2Am/AUXZEs8ZC0kr3eu52HZbRwAh7P64O0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UwnZZY/S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O9Xg2PY9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DCD6C19425;
-	Mon, 27 Apr 2026 10:20:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UwnZZY/S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 392F8C2BCB4;
+	Mon, 27 Apr 2026 10:20:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777285253;
-	bh=qIq9a7y2HB+AIJXm05tCUyKUl06Y44EASdDXzgfv7ik=;
+	s=k20201202; t=1777285258;
+	bh=zgOEC5VHuYVLv5NsTjji1+71ymgLOISctmE/pX7AqcE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=O9Xg2PY994COHuO6QSmoEENizIGm9RgVRcpkPr1A4+5zGzhi/JVkCTBEUfcpZ4AOL
-	 YznCcrzJNiN12wHK1F4+nC4GzMeQF+Jl7t1I1QtTN4W9nGR2vOP5Wiv6B2BqQ1L7Jq
-	 Ag7HIXMNF632JOlQt9IP6vol2J6C46xKRa/BToTo3gX9Fergw7Y4c7qQkSqKlF3PLn
-	 sJ9vRp4B90c9uJnspSo+Z/tknVzqBSVsUWOsF22fsTFsA8ecmpFTy51FBKxbJvYtqZ
-	 f5lqnTnjgrgiMimKSbyQixzlNQD1kTOnaHY5dxCqbQhRh7oAruGeqFntTaT8GB/gux
-	 l861m4ydUrOFg==
+	b=UwnZZY/SrnN6siocfy5OviPCGy4qLMxuhhXaXqW+K0ke2KQw9KgIGAYmgvPycX15q
+	 nEDNsimfiEuWUITjkhQlKiivtwMxKJ8nge7ZEJ7MRA2u3dyjhESFaYUsQYP31H69O0
+	 kyNZep67mLGPQoLHMqxpcElG+ucCJl1yJUXb1ejoIxzmcBD57fS0ZHymJYNmqmir+z
+	 hzXoR/WxNjV4+hfCVwL2hAoPEuGvBpiPGX82/6CZvAGQqtlwDm7JD0DTP5ejQdlCfr
+	 DkPC1xa4g/JwHWlSOW1XngQGEZy0CepaastoXpvncx4cPKw5WEmFlUjfikfMUecIWv
+	 tpe2BKlkSNLPQ==
 From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, Li Jian <lazycat-xiao@foxmail.com>
-Cc: lgirdwood@gmail.com, loongarch@vger.kernel.org, zhoubinbin@loongson.cn, 
- jeffbai@aosc.io, stable@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Zhang Yi <zhangyi@everest-semi.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Alexandru Ardelean <aardelean@deviqon.com>, Stephen Boyd <sboyd@kernel.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- linux-sound@vger.kernel.org, Huacai Chen <chenhuacai@kernel.org>, 
- Jonathan Cameron <jic23@kernel.org>
-In-Reply-To: <tencent_7C78374FB9F4B3A37101E5C719715D8BC40A@qq.com>
-References: <tencent_7C78374FB9F4B3A37101E5C719715D8BC40A@qq.com>
-Subject: Re: [PATCH] ASoC: ES8389: convert to devm_clk_get_optional() to
- get clock
-Message-Id: <177724622731.266775.3161558352144649934.b4-ty@b4>
-Date: Mon, 27 Apr 2026 08:30:27 +0900
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, mohammad.rafi.shaik@oss.qualcomm.com
+In-Reply-To: <20260420180221.785113-1-ajay.nandam@oss.qualcomm.com>
+References: <20260420180221.785113-1-ajay.nandam@oss.qualcomm.com>
+Subject: Re: [PATCH] ASoC: codecs: wcd937x: fix AUX PA sequencing and mixer
+ controls
+Message-Id: <177724587376.266775.14182011479480763882.b4-ty@b4>
+Date: Mon, 27 Apr 2026 08:24:33 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,20 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1135; i=broonie@kernel.org;
- h=from:subject:message-id; bh=qIq9a7y2HB+AIJXm05tCUyKUl06Y44EASdDXzgfv7ik=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7ziAqg+YwEGgqucVEamTegt1j8wZ+Klu0PRbQ
- Xx3L0KvcoOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae84gAAKCRAk1otyXVSH
- 0G3wB/0aC6iydm3hf/x/950UQznmdZXfLvRHVbKcsG6BZXshcAdfbuZ3+F6EyZWjq5LSojqVx8u
- CUWdBLYJJlACTxKi3lfJVaCA3s7bZgkdLfFi1yrgwuozuKatYBs0QOxgi1RqvC1tX13XMVty9Zl
- iTNl9T09ub8Rimi8sWxU+jWaVx2SfMkDc+aGJDtg5B14Q249qZy5ncZmEuurcfBr4k9KsBigYEd
- kNUAD9lNaFZ06fsyC6C1/u3ZcPJz4Tt1NJwgk7lBOp4s7YVIAwz2rDuvz9j+dZkhY4qdUFhSd+n
- aE0bM83xEZUF6eI/Vy9CrYEF3oLXI55NCx+2Tt6FLhxpyvQS
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1149; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=zgOEC5VHuYVLv5NsTjji1+71ymgLOISctmE/pX7AqcE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7ziHTgBglBZNpE+TZ972f1loWQgiSiprcfq2C
+ w2/RR7LAQGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae84hwAKCRAk1otyXVSH
+ 0M8YB/9Jvyor17dOsS/GBtmnEzsOISwvxtEvj93V0POf4WXm+UzVbRnhfxwwcGrSTfBCsR+pNSf
+ JDVRY/sq1ezVOVtq95hPpKgYwlnTNASCJSx/QzvW5f+UD1Dhl76DaE6vmzo/vD862Zmgu9MFTtK
+ 9EOL4NzdpptBwkC+EBVa1TzKnWEo7iHi/hcgBVV2llOlhAk60Dbm3c7Tups1QyvTCnC35TJCb+y
+ I0Qat7EPL8w0hMH5U51Nb3CnLd7FIA9TT1BnlET+6kSM6mg6bgg0wVjumqk29PSkE8ADP4CpDzb
+ nAK/w7VKM1KI71K3P13Od+rpqVNMi8aVBk3sFvKgrLVbAweI
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 17 Apr 2026 18:53:14 +0800, Li Jian wrote:
-> ASoC: ES8389: convert to devm_clk_get_optional() to get clock
+On Mon, 20 Apr 2026 23:32:21 +0530, Ajay Kumar Nandam wrote:
+> ASoC: codecs: wcd937x: fix AUX PA sequencing and mixer controls
 
 Applied to
 
@@ -73,8 +69,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: ES8389: convert to devm_clk_get_optional() to get clock
-      https://git.kernel.org/broonie/sound/c/8ed331113107
+[1/1] ASoC: codecs: wcd937x: fix AUX PA sequencing and mixer controls
+      https://git.kernel.org/broonie/sound/c/74c876bfd71b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
