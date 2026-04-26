@@ -1,42 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97A6314D2D;
-	Sun, 26 Apr 2026 23:22:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1859A315D53
+	for <linux-sound@vger.kernel.org>; Sun, 26 Apr 2026 23:22:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777245738; cv=none; b=eZeBqt2tTYJ63rcggTIHq2Dgjvui9oeLB79Jc0FaTTm3ORDUBQZXnPxboK1Ybrg115G+L0VSzB6rx8Susjq7AZ7KdZHG3mPn03miLqnSNrd903RLw83lk0WW4xzq1ncs4x3wOO9t4OjjaCKs4Ksc2qVks+sYv3NUFm1smGpCSW0=
+	t=1777245744; cv=none; b=Ug3A8uUVzj6PZ3g6FonSA+E//C32TwACKJA7GzWlXkQB56sZ8+DLLlARGI55YyEJcUSqpys9fpiTvTu0qTX3KjWuHlsqXLOs3M2z6F5nNszSd0nwsTkDUxX14YBEtNK2sBMjsje6Imq/uKt+uoRA04vlFysfwo7Zphh1NsiPigw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777245738; c=relaxed/simple;
-	bh=NHVhQpDhXjjYXxTSl6z+dDi1wscOut6j9RAL0xW1J+g=;
+	s=arc-20240116; t=1777245744; c=relaxed/simple;
+	bh=S9dBTChFIlnYvDUEZaETK0hIKafFubYQ+1rcMFkVN8I=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=O0MCM9MFOzAgjgk6lmC+1DPm01xxjmUmvTgjaFxHoTvZroj0XQlD2LWRelPiuqumx0t3Z8xDrFG7EoQC3i/3DjvOin1FBEE2zlB38ZQMAkfCa7Pl7TuISz6gxT8PAIIO/56yfvmi1TYS6ymH1OniniT2aiQWosKCly6aAzmwKEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t7BVyR76; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=UWVryjoJ8C5DA/o9xK7vHTGTYSbmv1bl3XIBbQr/+YmZPwMzYmVbp+cLkPdqjdNQBOXu0M9siqfAw/xwXHiQXTyc6o2QXmb4ewY0rjUC8I9tuLGV37nXW7Gj/jN9ypmLYzC22dJpRkVWYg6DGuAMQVWFsTJGyAvW/wiON7fEF+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=om0ejSB4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t7BVyR76"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2944AC2BCB4;
-	Sun, 26 Apr 2026 23:22:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="om0ejSB4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 266CCC2BCAF;
+	Sun, 26 Apr 2026 23:22:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777245738;
-	bh=NHVhQpDhXjjYXxTSl6z+dDi1wscOut6j9RAL0xW1J+g=;
+	s=k20201202; t=1777245744;
+	bh=S9dBTChFIlnYvDUEZaETK0hIKafFubYQ+1rcMFkVN8I=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=t7BVyR76ftyReB1ZsdZKxM+i0GjRwhPYlqpliCUmdQZnzkfbmEvtV65jp3hi3+g1D
-	 yDPVdb1bYQ74RH8lWICTudQNnRMPJLjErHy+wBq3jg/DFY9Wa8S8H5ocrm07d43wd/
-	 SeyX1CnNfyLjV6USJI1IlH1D0CYnS+ok7/Z6DsTYK3R4A/cKgi7SLUWcreWg1m0H/h
-	 lmR+iHquFB92c9oSrZEb2EXebAUuRX2KHsn/zX5+NzrU+mziKjrJr3i8gFOXjWuvPj
-	 CqskaBry4SOCCJCs41PQjG+smY6iYXe89DaikKA3DR0Faxo4eh69YHrY9ob6A21POj
-	 JpzQ36TNC2a8A==
+	b=om0ejSB48rnF07FqWKyOsSodsGu7SU/3sGdOBHyfvqGV5T18gdUnVa8Qh8rkRiRs+
+	 mssiLicxFZWKcMOraKuR61UClbLosjDoLhg3vKe1FgGKNDDm5jPCMYCAqxXch15bxD
+	 VVCCeo8V4J6N5nN7/Ic0UmRZuYHtzWJuOe8kCJk55FFn7tjePtJoArZVjdVTkccAe1
+	 QGygaTQIDBBX54VqgeVRVJE0DnrJjS7yT8CrgIlsbgPcfZyDFME7M2kw9nJXUnm6IN
+	 En3h6PLZJqCN8hvWLV8OopfC8tgNEvhDZ0+OaTY1G5JABM8sP6WNXUkrlOkQNHSRgE
+	 DFo1aWZ2li9tw==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>
-Cc: Tobias Heider <tobias.heider@canonical.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260422-asoc-limit-volume-error-v2-1-2e2ced321229@kernel.org>
-References: <20260422-asoc-limit-volume-error-v2-1-2e2ced321229@kernel.org>
-Subject: Re: [PATCH v2] ASoC: ops: Log unknown controls in
- snd_soc_limit_volume()
-Message-Id: <177724032564.266775.10089230662279547583.b4-ty@b4>
-Date: Mon, 27 Apr 2026 06:52:05 +0900
+To: claudiu.beznea@tuxon.dev, andrei.simion@microchip.com, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+ Gabriel Jacob Perin <gabrieljp@usp.br>
+Cc: carlos.albmr@usp.br, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20260421193113.1060213-1-gabrieljp@usp.br>
+References: <20260421193113.1060213-1-gabrieljp@usp.br>
+Subject: Re: [PATCH] Change manual bitfield manipulation to use
+ FIELD_PREP()
+Message-Id: <177724043581.266775.16077702022130631965.b4-ty@b4>
+Date: Mon, 27 Apr 2026 06:53:55 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,20 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1130; i=broonie@kernel.org;
- h=from:subject:message-id; bh=NHVhQpDhXjjYXxTSl6z+dDi1wscOut6j9RAL0xW1J+g=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7p4oApzpzquN3zzwHVJhtP7uLxaKe+Lm2q5XL
- jlXZGOVUF2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae6eKAAKCRAk1otyXVSH
- 0Jh1B/4tmj2UNe1U1LMB3zEjJewMf4e2geE6ffdL+mL212u5CKkBaAE3NxXNwQydfKrKQ4ojbha
- lLPD5WiJKarVMZlmkjdEisxdxWR/6xUFVm+FcI/Jg9irdo/5UzwTCznTzzlHs9ZPrt7HVGyska9
- vtN31Ga9kjGKa2Kcbr+gLV2gFUJ9iLU6xnh++ojcmL3/SGELchUV476H+it5PZRn+1Coj9zonoC
- sTlZ4kwd4fXU9WkOb74CyEZ2t6rLXoWYFCSzrEUoTIVllL/vYHFeSXsEcllaIOX2mA7sU9Sg1oS
- D8BqJHRsliNUhLCPbn9oP23ecoyHjtBNwGjUiTq28QkZNXkF
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1135; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=S9dBTChFIlnYvDUEZaETK0hIKafFubYQ+1rcMFkVN8I=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7p4t6CI4Rcq9kTqMarTJ4G7FVZB3M5EfMwoOn
+ KkZAF1QL96JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae6eLQAKCRAk1otyXVSH
+ 0OSsB/99y9bUzrW42ETTKfIN3VqLin/KgFpythZJnIH46o7vyOsUQjO3KLJllGqDYfZU5LQOdzt
+ 6c2QTn3l1nG4xUfDpBuxyh0qpeUBHN6E/HY7+WU1DvH8Z2bNvPa1Hmyb1MtJ5pEnu8i4N/emBSQ
+ upnyNLlRP/64wqwDIzWWdFQlrn/NL3OJwhreyWUuicRyRs4+X3nrRaB4feOI+B82G7YuzXj/mNu
+ eM5vRywc48TAY+LILEsorvcLHR+xr4FxwpJOkhri3R+ir98aEDGFxWJx4AtXSiGKswX/7qZ4QRD
+ +JU+hdQ0qukg6vxi0sUXndNd7DF16faD63QLAfpqCUbguSU2
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 22 Apr 2026 21:34:05 +0100, Mark Brown wrote:
-> ASoC: ops: Log unknown controls in snd_soc_limit_volume()
+On Tue, 21 Apr 2026 16:31:13 -0300, Gabriel Jacob Perin wrote:
+> Change manual bitfield manipulation to use FIELD_PREP()
 
 Applied to
 
@@ -67,8 +69,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: ops: Log unknown controls in snd_soc_limit_volume()
-      https://git.kernel.org/broonie/sound/c/0fa63c7ea9e1
+[1/1] Change manual bitfield manipulation to use FIELD_PREP()
+      https://git.kernel.org/broonie/sound/c/ae93afff9818
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
