@@ -1,90 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2433B38A0
-	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 09:46:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C50305E3B;
+	Mon, 27 Apr 2026 10:20:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777283208; cv=none; b=KoudcsaD5QEph9rA3bdwqtFPEjzTM3FVqnOLqE0CkmBq9aEL6t6ZmlE0nls2Mj/u7JclR+jYxPqlaQFL+Va7L3BfVkdggmFfdyvZTg2lkUXdJCKtoGpfjRA/DDyGrL01yHRCyLChfwM1LC0oMf+IJeyg6P178sPh2QLGRrynay0=
+	t=1777285226; cv=none; b=eZDPelokRfLmhjkF6q/Kuuiffj0SpfZoUJSjxzuxIJpscB79M5QidOTdVLyRCMkP94drgdZ/B3tJmbto9JHV3OmNMQSH/Hc/Gi0SlKOtLBAR0MwkrBGzmKGrYrkWEyzOmbPjicAvwHEQs6vrEX0gI1Ckjyu/kR1yV+WUgWiPPxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777283208; c=relaxed/simple;
-	bh=y0fy7lc+4ecGjLqijfQj3GLONiVBHD4dhGkY4y7xtiE=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ioM2Vrlr1i20VqmsAtKq45RCfq/lH3RC5msqosZfQtxjun2pf5C6jfHMagaUVRk+Vyf86pydaSQsCBl+bSi94cC2zTTjjGBh/uksvp3N4khobvE2yD9oo24xeddLDOJEXEyOWDbKZZEN/XITnK8Mr6z7p6EE5jgcStIdMkfbmv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s77qyTAS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777285226; c=relaxed/simple;
+	bh=NhCAOaKAon5sq23oNjs0R3LpQS4MmUsU3jGRLCPg8Mo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=cRjRDX4Ba6LFJ0ATMhcm32q/zFYL1e+luyPAULTvAY2NAUdQ0VXXhoCcezTv7ikjn26HB620MrjkPn85WkG6M3bghkJJaSGclEfvlv33TQn+HlXhTRQfeUcSqaBt7rYfFgq3gOXQ6hPaIQFARvdgy7NhcxG67cQXvqwVKh/qP9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uwRK+Svw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s77qyTAS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01432C2BCB6
-	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 09:46:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uwRK+Svw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72447C19425;
+	Mon, 27 Apr 2026 10:20:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777283208;
-	bh=y0fy7lc+4ecGjLqijfQj3GLONiVBHD4dhGkY4y7xtiE=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=s77qyTASmzKVe6sO2F60mluG+dj56WAeBxqI9LEQR4FBWhYeBNuCXdIUQ41w60N1t
-	 okjUZ+p5dbzxXLiYT+10L3aADTaUamuf0kCX0I/vkKfxf9OznX86L4Kb79P66eJPkq
-	 w9bX8087rgWFPDCd5Sc8FjqCmq+SkYYkkr/IaykoP7HVqPjR9KbuVZYt+/oE++JXxE
-	 w5tmE77ANS1Kl1PVgSR3xopJl1jorloyepLW6YeGuYrdfx/kUbBXt7CKeWMjPNH2KN
-	 xHOVXT402NYB2+ChSReCFa6OLzs4vw3Y2fMkVF/JOZ1XeniX9iCOx4gt2rCEae8U0i
-	 t0J85/N8IfeCA==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a40cfab24dso10266920e87.2
-        for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 02:46:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/jveHGKMrp/sTarHmTPy0FaNjiqVslA7nuYLHE9p4mvdX3t8pR8linhs1ohaVevfaYxdxqcLN6K0AkMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIROUbHU4mqrLL3xgOZvzpEmtullfCsV60rKhcfb0Bfwu3KomL
-	ZiR2zuEFdHmKsLDkhYD7Q/mAEATuaMjYfHBh9vq0SdEpyZ2UHa5QBmFCYtCIVSNL+DcX17rZj1g
-	tM2Tp45zl4bpF7QGCwmY/UTv0q7D0jdwj34IFIestHA==
-X-Received: by 2002:ac2:4c4c:0:b0:5a2:bac1:97bc with SMTP id
- 2adb3069b0e04-5a4172ec416mr12082045e87.44.1777283206666; Mon, 27 Apr 2026
- 02:46:46 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 27 Apr 2026 05:46:45 -0400
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 27 Apr 2026 05:46:45 -0400
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260427-asoc-wsa881x-v2-1-9ef965f94624@kernel.org>
+	s=k20201202; t=1777285226;
+	bh=NhCAOaKAon5sq23oNjs0R3LpQS4MmUsU3jGRLCPg8Mo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=uwRK+SvwQLoJIqFsCUAvgwb/Vdi1uHTUc/hHXiXV1gtVR1XtcvmntT/gPz0rx3pnQ
+	 DDSyLC+zFylgmZaqHBdnPQRnf4p2tLq+fFJugv+lF6QA8aamOc4yoJxBiTSxqGOcCw
+	 mx6sRwjOdq78A3An2QIw97NYBeEyFH4lR/E1FVvtimYCE9lazpEvdCaQoxZP3kugzw
+	 X6wSRpGa26TlZioqv52Pu8IeiPGCnvhmGpFJPrb8x6XYeVubGbPqpKI1WTe61e7+nW
+	 2Ku117QnGsqQAjTkK9+BNwtIo/G0a36XVgss5PwY1VkIgbOUFxQ6Pk40LyEW6p1tPI
+	 8bKTF8vJw/fkA==
+From: Mark Brown <broonie@kernel.org>
+To: linux-sound@vger.kernel.org, Marek Vasut <marex@nabladev.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Shengjiu Wang <shengjiu.wang@gmail.com>, 
+ Takashi Iwai <tiwai@suse.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org
+In-Reply-To: <20260404183547.46509-1-marex@nabladev.com>
+References: <20260404183547.46509-1-marex@nabladev.com>
+Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: fsl-sai: Document RX/TX BCLK
+ swap support
+Message-Id: <177724631903.266775.17442968887704831835.b4-ty@b4>
+Date: Mon, 27 Apr 2026 08:31:59 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260427-asoc-wsa881x-v2-1-9ef965f94624@kernel.org>
-Date: Mon, 27 Apr 2026 05:46:45 -0400
-X-Gmail-Original-Message-ID: <CAMRc=MfF-mPyJMfJ4xgYzW54QNfsiZr8O+rk0opk_91jp=+JRg@mail.gmail.com>
-X-Gm-Features: AVHnY4I5QyWoNevkdCkzvdNgswGsXHVekWWLfQoZtIw1ZKHspAa1umCT6cDRihY
-Message-ID: <CAMRc=MfF-mPyJMfJ4xgYzW54QNfsiZr8O+rk0opk_91jp=+JRg@mail.gmail.com>
-Subject: Re: [PATCH v2] ASoC: wsa881x: Move custom workaround to gpiolib-of
-To: Linus Walleij <linusw@kernel.org>
-Cc: linux-gpio@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, Bartosz Golaszewski <brgl@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1246; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=NhCAOaKAon5sq23oNjs0R3LpQS4MmUsU3jGRLCPg8Mo=;
+ b=owGbwMvMwMWocq27KDak/QLjabUkhsz3FmmneNVOFn7SZNTo0BDX3rxPtyH/1OwlebkH+lUcc
+ r5w6Nd2MhqzMDByMciKKbKsfZaxKj1cYuv8R/NfwQxiZQKZwsDFKQATmSnK/r/6USr3X/7Lmvtt
+ Nur2TJnC9ZTJMHFdX2C/ueRL6Ut/9U+IeyaKOuTVeqrP+HvdZfN8vsv/mEoYZUQlNm7wubFwipk
+ Cw9pFevWGb2R2z/6UpFJqWjw9msd/BmPvgrcZZv3NQoqMYctz+8/7mtpsijs5U9P/Z07GFM0gj9
+ SfxrFTFtj5PpzjeKtmtUVhWkzxHrHtra7yp9d47ZkfbhWXHLs596DeNfOIzBbJ6Fz94wsz+oNmv
+ 3k2iUXYfkbhgzgbjy7R3703P2wMm7NF4e7qb+H3uAQLEy43+mipyRR01K0RXpcW26ddLphVssu0
+ ftX9QxfOHNz175znh0TON3brAro+X++tTlc9xO+yMJ4dAA==
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 27 Apr 2026 10:43:21 +0200, Linus Walleij <linusw@kernel.org> said:
-> The WSA881x codec driver has a local workaround for old device
-> trees that have the "powerdown" GPIO flagged as active high,
-> despite it is active low.
->
-> This quirk can be replaced by a single quirk entry in
-> gpiolib-of.c
->
-> Drop all polarity inversion code and drop the surplus
-> gpiod_direction_output() call in probe() since we now set up
-> the line correctly when getting the GPIO.
->
-> Also drop the inclusion of the unused <linux/gpio.h>.
->
-> Signed-off-by: Linus Walleij <linusw@kernel.org>
-> ---
-> Perhaps this can be applied to ASoC directly we seldom add
-> things to these quirks so I think it'll be fine.
->
+On Sat, 04 Apr 2026 20:35:00 +0200, Marek Vasut wrote:
+> ASoC: dt-bindings: fsl-sai: Document RX/TX BCLK swap support
 
-I'm fine with that but I'd still like this to be in an immutable branch
-shared with the GPIO tree as we're very early into the cycle and we can't
-tell what kind of patches we'll see.
+Applied to
 
-Or we can do it the other way around and I can create an immutable branch
-for Mark.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
-Bart
+Thanks!
+
+[1/2] ASoC: dt-bindings: fsl-sai: Document RX/TX BCLK swap support
+      https://git.kernel.org/broonie/sound/c/9897a9776681
+[2/2] ASoC: fsl_sai: Add RX/TX BCLK swap support
+      https://git.kernel.org/broonie/sound/c/dc06cf4268a4
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
