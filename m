@@ -1,41 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D133B2FF1
-	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 10:20:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF8630AD05;
+	Mon, 27 Apr 2026 10:20:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777285242; cv=none; b=soLwBvRq9gXqQ523jgrJleCmzyBJDArPBphalz+YrsPBoIbfxEIvYoH5vEb+fg7b5Hqe4ajpjiGgHTT/hw7GrVjHbzp6qz+vvrhPgcndOdhcR3ibGJfmUe1GDVHWaE74G40bKTQWlfkYeaqtYG4GFisWvoyPEkwea0Qye+E/dzA=
+	t=1777285253; cv=none; b=IsH3rlAe9GqnlDu8/0C6lQsEYfgE+FDYMyZtvYoBv/WI48swt3wyBmvNaHZs8Dv8/4y8CqGH7XZJ7rhTySUdwVpBNF33BRWExDuf1YIyPsbnsAIxHm5E6V3M80W/18XtFem8dBRR30B6LLv4+7NjlUt5TrK+O4/lKbE5tnEiHCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777285242; c=relaxed/simple;
-	bh=rrmmfx9WESSOnlMPboJvM1inGXOKfZgf8WjHTC3S1/k=;
+	s=arc-20240116; t=1777285253; c=relaxed/simple;
+	bh=qIq9a7y2HB+AIJXm05tCUyKUl06Y44EASdDXzgfv7ik=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=TC5GMtPNatmW0/u00Z9B7nGmmZEFD+6a1GM19493kNknkjLZCAuRM4vMATcW81fUREbHKQTiRpx4tKiGagtXCDs896cUdwPe30qRlAekyD06eAvilmpast82VmuxC0UEjF2KVCRRX0a6r3TeaBqCrWyXpUScTTnMcBpDTg/l6aA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ImX89wQd; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ceXoKM8yqNwl2+JDX6+0CQLbe3xo9iMGuqc4GWsJJsXQma9euFBMGfP3xp/P7ovgzl2rG9I4sc/tU/OwWDtHP16N5DdYdD0E7ksHS7Zi2HUwzFpK6H4qFEpbEkGf6yTDAXk0pOd1bNEnm+n+m91L87mrKntkgUUw3o7ekoF8Trw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O9Xg2PY9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ImX89wQd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 778EDC2BCB6;
-	Mon, 27 Apr 2026 10:20:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O9Xg2PY9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DCD6C19425;
+	Mon, 27 Apr 2026 10:20:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777285242;
-	bh=rrmmfx9WESSOnlMPboJvM1inGXOKfZgf8WjHTC3S1/k=;
+	s=k20201202; t=1777285253;
+	bh=qIq9a7y2HB+AIJXm05tCUyKUl06Y44EASdDXzgfv7ik=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ImX89wQdyqYytHmSTJ7gNiZlqu7vMkuvNYGzJzpD1Qho5sqynQQPEEMRqoqlko0rt
-	 2uhKQMPiMHdLKOYVc9w1+w8wm/9UN1idX4xH19a5uiWRAq/T7zTumVts+/UbeK6zZN
-	 +ctIYRpPdpRFGcpMQbZJLL+2fkTkc9sDZ46HZFg3K8w/wfFS1NW5b+uHktvUAP8dPc
-	 6/PUovZXcQdqrUKVj1AQR5W/qTcxGCjIicrUUFIqHrynYZTL4aP3gN9iQ8nIOILQhZ
-	 NVa8C1Bq48GOJvbJ+A1VcjcCjIEfEGzMVLeTOAo1h25GiLCMlwCR3o8k7V0z+LlUHh
-	 d5OM2+HhZoWLw==
+	b=O9Xg2PY994COHuO6QSmoEENizIGm9RgVRcpkPr1A4+5zGzhi/JVkCTBEUfcpZ4AOL
+	 YznCcrzJNiN12wHK1F4+nC4GzMeQF+Jl7t1I1QtTN4W9nGR2vOP5Wiv6B2BqQ1L7Jq
+	 Ag7HIXMNF632JOlQt9IP6vol2J6C46xKRa/BToTo3gX9Fergw7Y4c7qQkSqKlF3PLn
+	 sJ9vRp4B90c9uJnspSo+Z/tknVzqBSVsUWOsF22fsTFsA8ecmpFTy51FBKxbJvYtqZ
+	 f5lqnTnjgrgiMimKSbyQixzlNQD1kTOnaHY5dxCqbQhRh7oAruGeqFntTaT8GB/gux
+	 l861m4ydUrOFg==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, 
- peter.ujfalusi@linux.intel.com
-In-Reply-To: <20260421091351.4056377-1-yung-chuan.liao@linux.intel.com>
-References: <20260421091351.4056377-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH v3 0/2] ASoC: SOF: topology: allow user to add
- topologies
-Message-Id: <177724614654.266775.15116164847672581113.b4-ty@b4>
-Date: Mon, 27 Apr 2026 08:29:06 +0900
+To: linux-kernel@vger.kernel.org, Li Jian <lazycat-xiao@foxmail.com>
+Cc: lgirdwood@gmail.com, loongarch@vger.kernel.org, zhoubinbin@loongson.cn, 
+ jeffbai@aosc.io, stable@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Zhang Yi <zhangyi@everest-semi.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Alexandru Ardelean <aardelean@deviqon.com>, Stephen Boyd <sboyd@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ linux-sound@vger.kernel.org, Huacai Chen <chenhuacai@kernel.org>, 
+ Jonathan Cameron <jic23@kernel.org>
+In-Reply-To: <tencent_7C78374FB9F4B3A37101E5C719715D8BC40A@qq.com>
+References: <tencent_7C78374FB9F4B3A37101E5C719715D8BC40A@qq.com>
+Subject: Re: [PATCH] ASoC: ES8389: convert to devm_clk_get_optional() to
+ get clock
+Message-Id: <177724622731.266775.3161558352144649934.b4-ty@b4>
+Date: Mon, 27 Apr 2026 08:30:27 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,39 +52,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1431; i=broonie@kernel.org;
- h=from:subject:message-id; bh=rrmmfx9WESSOnlMPboJvM1inGXOKfZgf8WjHTC3S1/k=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7zh4s5BaXjGxMXt4CvGg08+Kn9gbm+DfZRNl9
- gZCIB915v+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae84eAAKCRAk1otyXVSH
- 0B2OB/9NnGF9BOA5xr/N/ji1T5Y0NzyrhnrLnq+OGhHwfEhBoMybIihEJ3K0zkwmcNNZ0xtWC8q
- 8x6aWD+N63ciDw4dv/2UfrwVQb3egIb8SL8KPnKr94l5FpBummaJfVzbyBjllm6KQb3qJ9adz4l
- 5Hb46RaP3dA8Ir94iUXknjgbcmN8NuO6zQaKTcuR1lKiqGjq3/KPKd9p6+FoON1phSzI8cngIQj
- UmKNrL96Wb5rTMgNYAG4X6rYEz7URQtjMv97/Ul7B3PlScBuXPPwoQE/uz/xmUhyL7RwxhsMZ77
- 4w3d/WM4k9LGSUwF8Sf9jefunpnwWsySbaLplJAIU4O2WUhv
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1135; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=qIq9a7y2HB+AIJXm05tCUyKUl06Y44EASdDXzgfv7ik=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7ziAqg+YwEGgqucVEamTegt1j8wZ+Klu0PRbQ
+ Xx3L0KvcoOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae84gAAKCRAk1otyXVSH
+ 0G3wB/0aC6iydm3hf/x/950UQznmdZXfLvRHVbKcsG6BZXshcAdfbuZ3+F6EyZWjq5LSojqVx8u
+ CUWdBLYJJlACTxKi3lfJVaCA3s7bZgkdLfFi1yrgwuozuKatYBs0QOxgi1RqvC1tX13XMVty9Zl
+ iTNl9T09ub8Rimi8sWxU+jWaVx2SfMkDc+aGJDtg5B14Q249qZy5ncZmEuurcfBr4k9KsBigYEd
+ kNUAD9lNaFZ06fsyC6C1/u3ZcPJz4Tt1NJwgk7lBOp4s7YVIAwz2rDuvz9j+dZkhY4qdUFhSd+n
+ aE0bM83xEZUF6eI/Vy9CrYEF3oLXI55NCx+2Tt6FLhxpyvQS
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 21 Apr 2026 17:13:49 +0800, Bard Liao wrote:
-> ASoC: SOF: topology: allow user to add topologies
-> 
-> This series adds a module parameter array to allow users to load specific
-> feature topologies.
-> 
-> v2: add a out of memory check.
-> v3: fix the module description.
-> 
-> [...]
+On Fri, 17 Apr 2026 18:53:14 +0800, Li Jian wrote:
+> ASoC: ES8389: convert to devm_clk_get_optional() to get clock
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
 Thanks!
 
-[1/2] ASoC: sof-function-topology-lib: add virtual loop dai support
-      https://git.kernel.org/broonie/sound/c/0d0e98603f9f
-[2/2] ASoC: SOF: topology: allow user to add topologies
-      https://git.kernel.org/broonie/sound/c/d82bf6af6213
+[1/1] ASoC: ES8389: convert to devm_clk_get_optional() to get clock
+      https://git.kernel.org/broonie/sound/c/8ed331113107
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
