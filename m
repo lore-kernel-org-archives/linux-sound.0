@@ -1,58 +1,75 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24EE421ABD7;
-	Sun, 26 Apr 2026 02:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B550357A25
+	for <linux-sound@vger.kernel.org>; Sun, 26 Apr 2026 11:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777172161; cv=none; b=YpktQIBa6cvhZpcGqUPJ4W7Xv/hjGoyQIxh1WbKGqwIhYeoRqGjivdXT3aUAf2R9H2MA6jIOQSNoDgnOsv6Mo3WrlyJBnQkmk7gFXV/2K+Xv5uBz8p1dr3lIGha2H2dxm5VIwHPfqq2R5O9swIywG5Ca+3+HaimysDj7Q+kcNnA=
+	t=1777201994; cv=none; b=vCkOzO91pXqymzxGRG5gj+0IgnogDesJhSH4RQAvhE9qS2bDBY6QbKg5Mi2FMDaE7jeKIDqrMUtJ8Mdt5lVGTSSmABfkFbkaXsAy7dtgQ9AWw7H6rJiOt2dg7TWHoz574U4ZTpLPphByl6d07JGKUTuzaWchnf+tS4e57fDH4p8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777172161; c=relaxed/simple;
-	bh=rOOmQhIdzJ1IZFxfVhh+J+Ct5w/NGBQYqPIm0fcg0rs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JxzM4jcobqqFOYL9QjbXVFvE/I1zJuvp9kdsIhtIQ7wPMTKqnuxl0CfDD+8AcW951RgImLHwZro8C5yxxTngIzbw1m8ZMSmswzLqiBoh0XbDAcG/OhXCDke+tXtva+ycQ1bhDsZLn/u1HsqimaXGV5YXNHZkD1gv+B62x/ukaJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=mdOwSJeN; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=SWIIrLOV; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1777201994; c=relaxed/simple;
+	bh=B/9eEE6B2PxEEwz8XP6be4i93RoXNRJ69P6xJrqTv8c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dkfprj2hc7A7YHz1lwpZmyhGF8duI8PfhUOlyQp2jzpQT3nmggCJEiZKJfgrmKw8BdJIfUw6Oww44jaHLthNgXoZ3fm2egSUrqgc8zVJVR43SVp3chOFN8qmiiOrNZcQYlmDp3kSkFLo9ZbvY6MyqynbBcKEGKAu4X7jwREA4CM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gom058It; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="mdOwSJeN";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="SWIIrLOV"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4g3BCW3sf1z9tlc;
-	Sun, 26 Apr 2026 04:55:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777172151;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GeyGjrCyUFdASnIAyc58FFuUZfCbZkgysHho/cPW4Mk=;
-	b=mdOwSJeNFSAPN5krBceUBlGBiD5+Pw+muKXL2N9zlYtjGVGn2A8D1ZK2NBRPyWObPiRC5K
-	deYLkQSATOUlpan+gcJHw6n+VM79MAZ2dNLI7VjB5DopBblkL+pvtOIhvVBLLkQ+ibJx65
-	ZBkz9ePWNK85XIdbh7zrvARZJCLbj23MmNNnOSwaLKSoJILSg8FXXwbEhybe/lWxvxcmcO
-	v9WKv/f/Q0ZG7dZ5qbNs+KxGGdDlcJzwkLEgKxtOkBX62syvm63Wi2Kbeom4MQG+N6fuDW
-	IxtJ/JdBZCUyphlN9iL2Gx9xeWZw3tWkleBZNqMybSpU1tHOaY6BsVkelqlhng==
-From: Rosalie Wanders <rosalie@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777172149;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=GeyGjrCyUFdASnIAyc58FFuUZfCbZkgysHho/cPW4Mk=;
-	b=SWIIrLOV2z7ceMqAMiA3ScZT70d19Cr8UPK9KmKCFWBcTBi08ZHG/cK28mD3/xXYG/JOJW
-	KmDQDhJlpmej9ByJ8rWZdDbEpMfheyd9m+F9Jm8ISj/DO4C40/ee2rBS9yLykLj8gcoc9j
-	yqiDS5CwiFAo3Pf3i6B01i3XuWRiP5AD20cCMOuprV1osvh/tFqGutckBAeTeQhMlkbk43
-	3hNvf/Ao7LbI/BHF8HUR2GW+CYxZ8Dhy2fUTEVHx268tzvG2Wcf+UV/tgirsNzBzYDWTeN
-	SFBNaDw49P92Vloe1bzEpFuvb5xz4zOJlfo2NxVKc9+Ra+9K5YN7cuQkrO6ryg==
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Rosalie Wanders <rosalie@mailbox.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: apply quirk for Playstation PDP Riffmaster
-Date: Sun, 26 Apr 2026 04:55:19 +0200
-Message-ID: <20260426025520.3985-2-rosalie@mailbox.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gom058It"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2aae146b604so62084765ad.3
+        for <linux-sound@vger.kernel.org>; Sun, 26 Apr 2026 04:13:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777201992; x=1777806792; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/9JOiMw/TUHAEKpVZ4imVP6XP0XS06uXgFI4h8oSnkI=;
+        b=Gom058ItaKEUp44LK88/QOzEZ3tBt0+pP947dNm0XyjNSKD4T4PM38sMi2CNydiiG9
+         jGUNISgx2/veeYZY1FL9g3vEwIt2nuIKj+nWvTTj0/4uXpCmpBrn8Kad2EkbcQAGPJPv
+         1zQD9fEaBipUI2+KTxcq0lr6zqkzQLtZi5YnofGcztXEKchiU9vO42O9HCD041yftk6G
+         e6PvnN4XW2bJ223YV84CMk/yHP0GCBCf88PJP370h4OdZngMrFvnfJCf+1+rcHV/7HeC
+         FL3u7guZl4XHS1h2A9zQsyPMMucWTNNx+r2kAztBOVH/EH4+KkrouqKcaOF6L5eokINq
+         VMSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777201992; x=1777806792;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/9JOiMw/TUHAEKpVZ4imVP6XP0XS06uXgFI4h8oSnkI=;
+        b=Gu805BSlQ0e4UosIYjB2tN4L8KT+vmOJQ5SNRhX2NzqqUcN66Q4Dt3HhCeFxcPmoLB
+         YC5nMCizDkJT58TbeDljAJUaLYBavzhTsVWXU+ChyarE6stMFBXfeVoGV1OG1fEaELpa
+         3a1IVP3+wQjiNbwVkdoZdqItQYwQ7pHuPhXAOSFxdiwqoQoFG9X3aQGz8nUM/wg1U1xE
+         /Aq/7VreeCWy8mu3cAt/3/JP3kbYqhk2YUqPeOHANfUE8Ka21Ewk6xn6Jg42d+rzoUrW
+         BZh7K6R4ELlzcaZRbvFTF/Zu3gs8LvveF5/x+NJT2ywILz/eStzq1icAXbNO+NKxJ+Tb
+         B7ew==
+X-Gm-Message-State: AOJu0Yx5JxmRHLNYoCzZbcsXN3orqEN6Mmu2m+XJjSh2zHyeZOVWMUXs
+	0USzb4FEUXE7g5Lj70J19mDrJ8Nm/QpEAwVervi+dEiFZtA1Ia97ljcK
+X-Gm-Gg: AeBDietvTpo3+s0D3OMSFKxBz6/U1cBwNPfy6MCDH8ocBSgvVwKD3giocjkDcZ2t+yf
+	z6kO4l0nDfKzUFqoeYIsZQ4GwIKuPGynA1zP8knsb7P74Qb1gQrfKZrJNdQDqAnJGXgHSAcMeti
+	bIX6Kmep6eIlJUm2GhyXiG6VTbOZ/6SP5/MrJdPeM1aBS2D+9mwh0kVbbONPodRsAjCdbab6gT8
+	BOl0Hvy+WHDwKa9Me7y0KYeE1twKv1qtFuPnRKzXKuZD1X3Tnemn+J66gix5HxrBcxlAjrn40oO
+	youLLXmx6t1texPAvdmQpRZcU98LJg4MhqT3wFjKkvJHr2ouSzD0czgbab/YziBV+wox1KyueBJ
+	Oj7cbVFI4tjNOGN8qpYb2Mkp6QPqhtTCQj49AvFX1Xr6FFXTbt4s08Qm9KJGu9YLWRegmJnodeB
+	b8V0HYFzCBcdTDPnwkPVwz+bte+Zq5+YrZfRYJBU9xqBqRR7440hXmxU8oLA==
+X-Received: by 2002:a17:903:2654:b0:2b4:5d51:ce96 with SMTP id d9443c01a7336-2b5f9f4e6damr310434855ad.24.1777201992565;
+        Sun, 26 Apr 2026 04:13:12 -0700 (PDT)
+Received: from fedora ([61.74.238.173])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab32cfasm351390385ad.69.2026.04.26.04.13.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Apr 2026 04:13:12 -0700 (PDT)
+From: SeungJu Cheon <suunj1331@gmail.com>
+To: clemens@ladisch.de,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	me@brighamcampbell.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	SeungJu Cheon <suunj1331@gmail.com>
+Subject: [PATCH] sound: ua101: fix division by zero at probe
+Date: Sun, 26 Apr 2026 20:12:39 +0900
+Message-ID: <20260426111239.103296-1-suunj1331@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -60,41 +77,45 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: cxrytfid7zxzcsa34tbkirttng566rny
-X-MBO-RS-ID: 3921e6cb5fd993de8bc
 
-This device, just like the Playstation 5's DualSense, has a volume
-that's too low, hid-playstation solves this by raising the minimum
-volume on the device itself by sending an output report, third party PS5
-controllers/accessories do not support this output report format, so we
-apply a quirk to raise the minimum volume by 6dB.
+Add a missing sanity check for bNrChannels in detect_usb_format()
+to prevent a division by zero in playback_urb_complete() and
+capture_urb_complete().
 
-Signed-off-by: Rosalie Wanders <rosalie@mailbox.org>
+USB core does not validate class-specific descriptor fields such
+as bNrChannels, so drivers must verify them before use. If a
+device provides bNrChannels = 0, frame_bytes becomes zero and is
+later used as a divisor in the URB completion handlers, leading
+to a kernel crash.
+
+Fixes: 63978ab3e3e9 ("sound: add Edirol UA-101 support")
+Cc: stable@vger.kernel.org
+Signed-off-by: SeungJu Cheon <suunj1331@gmail.com>
 ---
- sound/usb/mixer.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Testing:
+- dummy_hcd + raw_gadget emulating a UA-101 with bNrChannels=0.
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index 85653112e7f3..5fba456eb4a9 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -1190,6 +1190,16 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
- 			cval->res = 1;
- 		}
- 		break;
+ sound/usb/misc/ua101.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/sound/usb/misc/ua101.c b/sound/usb/misc/ua101.c
+index 49b3dd8d827d..d129b42eb979 100644
+--- a/sound/usb/misc/ua101.c
++++ b/sound/usb/misc/ua101.c
+@@ -974,6 +974,13 @@ static int detect_usb_format(struct ua101 *ua)
+ 
+ 	ua->capture.channels = fmt_capture->bNrChannels;
+ 	ua->playback.channels = fmt_playback->bNrChannels;
++	if (!ua->capture.channels || !ua->playback.channels) {
++		dev_err(&ua->dev->dev,
++			"invalid channel count: capture %u, playback %u\n",
++			ua->capture.channels, ua->playback.channels);
++		return -EINVAL;
++	}
 +
-+	case USB_ID(0x0e6f, 0x024a): /* PDP Riffmaster for PS4 */
-+	case USB_ID(0x0e6f, 0x0249): /* PDP Riffmaster for PS5 */
-+		if (!strcmp(kctl->id.name, "PCM Playback Volume")) {
-+			usb_audio_info(chip,
-+				"set volume quirk for PDP Riffmaster for PS4/PS5\n");
-+			cval->min = -2560; /* Mute under it */
-+		}
-+		break;
-+
- 	case USB_ID(0x3302, 0x12db): /* MOONDROP Quark2 */
- 		if (!strcmp(kctl->id.name, "PCM Playback Volume")) {
- 			usb_audio_info(chip,
+ 	ua->capture.frame_bytes =
+ 		fmt_capture->bSubframeSize * ua->capture.channels;
+ 	ua->playback.frame_bytes =
 -- 
-2.53.0
+2.52.0
 
