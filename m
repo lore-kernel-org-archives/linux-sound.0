@@ -1,41 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38656155C82;
-	Sun, 26 Apr 2026 23:22:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EB926A08A
+	for <linux-sound@vger.kernel.org>; Sun, 26 Apr 2026 23:22:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777245722; cv=none; b=N0lnBIVg9YzeoxuM5ob641qYj6eeg+Mz6TpMBbUkvSeHZUEKY6dobSQu2kuQUooWUHmiApg7r0vfm07Da4cd3DpMxaE8KugJtWUMz92rxsVQ2mcWA8/FmBoI7wnlQPzUm6Mbcj3HwYQkvDW8ALY6Xa68n4AuRu/y1haTcZmOXo0=
+	t=1777245728; cv=none; b=k/5DRU2D/CGr81ReaYK/OhpIT42qE8erRpDWHSf/ih6JnEt5zYZzxrW0lRHKaL90ps1+njEZRMwhR0voYTnFGQpLeP++KYkKIK3PdyFYXftkAvVDrabW7h8nRuM+K/sJM3ZQ4Ad55sBjf/qw9JX0AHh5nTq68jmR+OOCOLYKo2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777245722; c=relaxed/simple;
-	bh=DNbyBiB+kR7DtKPb1naiFdHB1FjL/D3BXevIDYDiQy0=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=iGc0yd2ONxf+aZL7FBBt/Mzlcq/SMzRt7KuJgWQ5xJOCRF+wclPHTXuKMQDevXChY6szKIk3elMG/GOaVAwglP5TlApmG2LYeSKwbINwob8c2XRXdvSlRKFM2n9/LkDQ3HcADgt80zf8MEKqQRgrY4Dchch/vRgVaHZOd2UgW54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OkV90V9H; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777245728; c=relaxed/simple;
+	bh=Vb925mdM59mifykWSUAilNqCYymWpBDmg2sRxFVkdAU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=WAVaQCOAX7FLCG6ZC5ddSoXqHMq2rcYBs+poZhNZ2g1ry2c4n80iFZbXgDcPNrJj6SRSlAprYgtCttBSTL4MTgz7Oy7fuJW0uHvZlUDYCkMrogBXvVFohAChJbW41BHvpdljzzxPLUAp9bjgUo9OKcxvav19ZKor8vZIpjRPvps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A0vBkJeQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OkV90V9H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE61FC2BCB4;
-	Sun, 26 Apr 2026 23:21:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A0vBkJeQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16ADBC2BCAF;
+	Sun, 26 Apr 2026 23:22:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777245722;
-	bh=DNbyBiB+kR7DtKPb1naiFdHB1FjL/D3BXevIDYDiQy0=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=OkV90V9Hh6JlgQBXjJbVZnjQGLpLyFDESzKVS9G3epcjpWZBHOF3uTcatym/10Q6h
-	 2NorljMetwRsAx9BoWRB8B+sv42vjswefASSb74cUyriZBAY3FFa2ZyBjK1vrSb4SX
-	 Xdt/rV6z+ICy8rv7pJfta9H/Yfrj0TrLRi8F7OKHBAgKB+J/2GaRh+p5vqdEcnWGt4
-	 zFYzcgtLx4NzgvAkHB6zv7fMqKmlt3zQeDq9rCgjmRc7VRGj3T4a4Mbzl+54z8pQPB
-	 zdY2K0LqWLCtBUs54iD/FnEOa42/40g3U/19AV4bxAQUDUJNxoaWV41XLUK0fvesr7
-	 /rlxN6emIRGJw==
+	s=k20201202; t=1777245728;
+	bh=Vb925mdM59mifykWSUAilNqCYymWpBDmg2sRxFVkdAU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=A0vBkJeQgvCofu1H5cBx1Ulflpzf3POW1hHjIz0TtXPs3+BvUigyvT0LZ9JoxadqG
+	 LtaMw3gXRmeL6o/FqHi8aKrkn+dke0cjGLbAW4oQrvKpAktoT7aoUFWYqaMEi4ydDx
+	 wNs8UCa+naSa1w8Q8xvalaUt6uEZBVhROODZer8UqG0dhqvYTTvUsXFZ24IXUJZI/D
+	 fqVzpLEFAbG1QmlzpOpoJ6bgIM0poi+yIQJuR6+E6WQZaMh5eB0wBcok3Mr6mmunch
+	 rc3YWqE0kovZ8yRgMrgFQyouRGBBK3jM5rDJBukPOLLQxIeur4DfiPQnDbdL0V4oNS
+	 4YxOQq7Uco4fg==
 From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <20260420085344.2081805-1-shengjiu.wang@nxp.com>
-References: <20260420085344.2081805-1-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH] ASoC: fsl_micfil: Add DC output remover control
-Message-Id: <177724018870.266775.2671015409036578113.b4-ty@b4>
-Date: Mon, 27 Apr 2026 06:49:48 +0900
+To: claudiu.beznea@tuxon.dev, andrei.simion@microchip.com, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
+ "Joao Marinho joao.bcc@usp.br" <joao.bcc@usp.br>
+Cc: Micael Vinicius <micael0208@usp.br>, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20260420203218.15060-1-joao.bcc@usp.br>
+References: <20260420203218.15060-1-joao.bcc@usp.br>
+Subject: Re: [PATCH] ASoC: mchp-spdifrx: Replace manual bitfield
+ manipulations with macros and typo correction
+Message-Id: <177724027656.266775.2142649172096596981.b4-ty@b4>
+Date: Mon, 27 Apr 2026 06:51:16 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,20 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1113; i=broonie@kernel.org;
- h=from:subject:message-id; bh=DNbyBiB+kR7DtKPb1naiFdHB1FjL/D3BXevIDYDiQy0=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7p4WhB2Q7f/tY73pPKy4AHh5gbpCF2ia2cdk4
- UnFaUi9KpOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae6eFgAKCRAk1otyXVSH
- 0DEYB/sH09HagHwadjLYVuAG9ec9j9nSdptX+JxgfXlJiTT9ICQo34hm7ymyoa4By6p+F5uw0WK
- pA6DU09UAsWGyZGbwPK3BavwUAc6Ks//Qe7xlPFjZqxZKh2vdkwQ8XHvZp4DlilC4Nrwnfc0hjl
- E7ziJjOtkSnvZPMB6m7NDGTJjgRihuftLOfVOuQ+KQlhQ1nSuuXBFaP3YpUfmCPoNjyQ2kOF7Bt
- ou6nHKCAhXsKV1cqjjvOfecsy78cKi63PYHEXBMuAfsC6uraXFyZ3dUWHaS4cGZRHIjR0PVuh3I
- 8BSF8h6mWyxNYmDl8S+ckq9LLaFaVbIKU5kFEBWRNtke14ac
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1211; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Vb925mdM59mifykWSUAilNqCYymWpBDmg2sRxFVkdAU=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7p4dObPlaXZsO4jJNaQ+VjfelH62WTdyJitPs
+ dcmk5gIqbCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae6eHQAKCRAk1otyXVSH
+ 0PojB/9GYTnzHZQFK8TCC2scT21prvmrlQ83JaK+CH3VaODU5Lyv1QQCzXsYuITzbX+KmKYG0uz
+ 7d/Tmj9WnIXOHBcnGjlM4oxOOCRrrjihgdMjvMh9sOjkYh3037NdodyVR2Y/7uQAlxlqFFR50/o
+ JWd/Kobh4zgPUT/x0TNJK74zHI711/nrkpxuSQPgVMjIiEttZcry5jeaZmkQulHYHscY4hKxUey
+ t1vAhaaSE7nGN+ZcRPbfD80LnZcG555wePEe9iZMxDZ1qq9UAuMzkk5Wp+eaoBB4dD2yQQ0dhjV
+ /qIrfAmgi29aSlzqmTAVfLW7kerm2QEA7JNMIa1gRpSL1orY
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 20 Apr 2026 16:53:44 +0800, Shengjiu Wang wrote:
-> ASoC: fsl_micfil: Add DC output remover control
+On Mon, 20 Apr 2026 17:32:03 -0300, Joao Marinho joao.bcc@usp.br wrote:
+> ASoC: mchp-spdifrx: Replace manual bitfield manipulations with macros and typo correction
 
 Applied to
 
@@ -66,8 +69,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: fsl_micfil: Add DC output remover control
-      https://git.kernel.org/broonie/sound/c/e9a6f077e415
+[1/1] ASoC: mchp-spdifrx: Replace manual bitfield manipulations with macros and typo correction
+      https://git.kernel.org/broonie/asoc/c/0241d6192a11
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
