@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A833F30595B;
-	Mon, 27 Apr 2026 10:20:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E3C2F616B;
+	Mon, 27 Apr 2026 10:21:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777285258; cv=none; b=ZjL+i1FMIJRAdyWvNScJyq/brcU3dJaxS/S6qGObYop5UlkGs/07BHP3jbTutwVYDQbkhA55W6h+C59C9ovRTCUbPZy9NcaxOoQqY23fXQmWr9FOKVUi/OPq2Nvh4bPVZ6jhJnVuBhnuFxe8NHQ0Pujwz/lLamoC1WAOSFhQc3c=
+	t=1777285272; cv=none; b=j6bkymciUxsWQF/nGhl/dS5TPiE3xxMvbRCHAziyPCNCvviIdcFGSMlLyPQxzJLX2Yv7ihlIXvvvU/ZD1JMpleQX6RjVI5QflTt2t8gddIq7isjjtPf9afA1FzfMCq4nVteLq5tA6+9Ip6i/xZcXRMuYRUCuoBEPsSCZsR6gTR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777285258; c=relaxed/simple;
-	bh=zgOEC5VHuYVLv5NsTjji1+71ymgLOISctmE/pX7AqcE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=sKG3CR1uN22HVoDqiRLorRMAffM4GrKHe2BnsvF5dKgckt9X/nHt5LQ74dTq/aZZcNE67FIVAl8B4/iUvxJcFW7JU8X1sFu3qnJMYcD0u1+pn1T8/9nlCoHFvGFpkP38I9mj6XRlh2Am/AUXZEs8ZC0kr3eu52HZbRwAh7P64O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UwnZZY/S; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777285272; c=relaxed/simple;
+	bh=JEEK1PlEd4r3bMKfMiyyL2guGTqwy8ijppuUu/cUNAs=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=FYbvki59RwGjtoaFToKQfRmDo5c009pVwXzaSUeI1mCwaFSGYYqeot+t7VgQbturDxI2FwKWHnU+2hBICQxy4YWE+dDoOvReCew6jZ0DyX/9imS22V7l/dtINCZNs+D1FufK55Fwrbo0bEGk2yvP27KvWeUJsJq9+S0e2xt0Uf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WkrTXkLj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UwnZZY/S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 392F8C2BCB4;
-	Mon, 27 Apr 2026 10:20:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WkrTXkLj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A63C2C19425;
+	Mon, 27 Apr 2026 10:21:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777285258;
-	bh=zgOEC5VHuYVLv5NsTjji1+71ymgLOISctmE/pX7AqcE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=UwnZZY/SrnN6siocfy5OviPCGy4qLMxuhhXaXqW+K0ke2KQw9KgIGAYmgvPycX15q
-	 nEDNsimfiEuWUITjkhQlKiivtwMxKJ8nge7ZEJ7MRA2u3dyjhESFaYUsQYP31H69O0
-	 kyNZep67mLGPQoLHMqxpcElG+ucCJl1yJUXb1ejoIxzmcBD57fS0ZHymJYNmqmir+z
-	 hzXoR/WxNjV4+hfCVwL2hAoPEuGvBpiPGX82/6CZvAGQqtlwDm7JD0DTP5ejQdlCfr
-	 DkPC1xa4g/JwHWlSOW1XngQGEZy0CepaastoXpvncx4cPKw5WEmFlUjfikfMUecIWv
-	 tpe2BKlkSNLPQ==
+	s=k20201202; t=1777285272;
+	bh=JEEK1PlEd4r3bMKfMiyyL2guGTqwy8ijppuUu/cUNAs=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=WkrTXkLjQjX3XUuiiEHpKGV1+RZbjcc6p6/MX9rb7bVOVdIa+kkieLUlExPA+RHvu
+	 AP5kekKssYe9SZn8ZKLjoGfnIqZoT7a+CYyMpAeSk9mtyLFyt1dlM6ZkRPKQnGS5rm
+	 Z4v+2QClxq+wo+gw3foi8KpR+oEPcyN7tZDyFK0coXkRuAmaX+pKDTjySxlTex5VE7
+	 RHagdbpoVRijO8vLniILGJZ52hGUZnK+CoGMJe8kjwn9KHq5yddze3ilAjgkAwgPc7
+	 L9GfJ7SD+K8LVPDU92GVMDda8y0F73uee6PZ6+tM0OLaP10TtAfIKi20nSopEb6/hO
+	 srdTQIRju35Bw==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, mohammad.rafi.shaik@oss.qualcomm.com
-In-Reply-To: <20260420180221.785113-1-ajay.nandam@oss.qualcomm.com>
-References: <20260420180221.785113-1-ajay.nandam@oss.qualcomm.com>
-Subject: Re: [PATCH] ASoC: codecs: wcd937x: fix AUX PA sequencing and mixer
- controls
-Message-Id: <177724587376.266775.14182011479480763882.b4-ty@b4>
-Date: Mon, 27 Apr 2026 08:24:33 +0900
+To: oder_chiou@realtek.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Aaron Ma <aaron.ma@canonical.com>
+In-Reply-To: <20260423101338.1040131-1-aaron.ma@canonical.com>
+References: <20260423101338.1040131-1-aaron.ma@canonical.com>
+Subject: Re: [PATCH] ASoC: rt722-sdca: add FU06 Playback Switch for speaker
+ mute control
+Message-Id: <177724578496.266775.11546935048323593545.b4-ty@b4>
+Date: Mon, 27 Apr 2026 08:23:04 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,29 +45,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1149; i=broonie@kernel.org;
- h=from:subject:message-id; bh=zgOEC5VHuYVLv5NsTjji1+71ymgLOISctmE/pX7AqcE=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7ziHTgBglBZNpE+TZ972f1loWQgiSiprcfq2C
- w2/RR7LAQGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae84hwAKCRAk1otyXVSH
- 0M8YB/9Jvyor17dOsS/GBtmnEzsOISwvxtEvj93V0POf4WXm+UzVbRnhfxwwcGrSTfBCsR+pNSf
- JDVRY/sq1ezVOVtq95hPpKgYwlnTNASCJSx/QzvW5f+UD1Dhl76DaE6vmzo/vD862Zmgu9MFTtK
- 9EOL4NzdpptBwkC+EBVa1TzKnWEo7iHi/hcgBVV2llOlhAk60Dbm3c7Tups1QyvTCnC35TJCb+y
- I0Qat7EPL8w0hMH5U51Nb3CnLd7FIA9TT1BnlET+6kSM6mg6bgg0wVjumqk29PSkE8ADP4CpDzb
- nAK/w7VKM1KI71K3P13Od+rpqVNMi8aVBk3sFvKgrLVbAweI
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1148; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=JEEK1PlEd4r3bMKfMiyyL2guGTqwy8ijppuUu/cUNAs=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7ziV145rTeHPb9JxK8ke2CW+igupCXm0Ws/zR
+ AHLpdyY712JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae84lQAKCRAk1otyXVSH
+ 0CEnB/0ZnxOOTAqsYEPoaavhoMnnYvUZd7pIVDCrdIA+wkepT+AsyYem7NEmkpfeOO1Xp9QbgBl
+ tRVpkr0+qnGvq6myI8ZPFxaNdYA2YnBxAwF9stiiZh0kdhy7etjWDB2XF5hBAigElzHHDjRU52u
+ v1fmk6FStyBb3vh8l4YU0fwxo321ZIFJhsG4Lz9+ZHHJFXJzq66fYlBxzQay2ggHDM+S9zHpjLu
+ Zb+Q+oytTONEybimXB0bqCs08Yp8Uovh7iBrIpV5re6XsUqzJ14QVYuO5NLXy2NYyFEO7VWpH8D
+ tz6pJXBFkT6k2wSraGc23fkwkMbOh/W8OlUIaQW+No74QwDh
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 20 Apr 2026 23:32:21 +0530, Ajay Kumar Nandam wrote:
-> ASoC: codecs: wcd937x: fix AUX PA sequencing and mixer controls
+On Thu, 23 Apr 2026 18:13:38 +0800, Aaron Ma wrote:
+> ASoC: rt722-sdca: add FU06 Playback Switch for speaker mute control
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
 Thanks!
 
-[1/1] ASoC: codecs: wcd937x: fix AUX PA sequencing and mixer controls
-      https://git.kernel.org/broonie/sound/c/74c876bfd71b
+[1/1] ASoC: rt722-sdca: add FU06 Playback Switch for speaker mute control
+      https://git.kernel.org/broonie/sound/c/bda41dd5e1dd
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
