@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E3C2F616B;
-	Mon, 27 Apr 2026 10:21:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D422F616B;
+	Mon, 27 Apr 2026 10:21:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777285272; cv=none; b=j6bkymciUxsWQF/nGhl/dS5TPiE3xxMvbRCHAziyPCNCvviIdcFGSMlLyPQxzJLX2Yv7ihlIXvvvU/ZD1JMpleQX6RjVI5QflTt2t8gddIq7isjjtPf9afA1FzfMCq4nVteLq5tA6+9Ip6i/xZcXRMuYRUCuoBEPsSCZsR6gTR0=
+	t=1777285277; cv=none; b=bn/zezqzeLzA1xcyBNypbqXoLVyubhbt/krptNCcU/pfHyfb5HQRD/Bedxox3ye6y+vSQsaLJCv4j9EF9608q54UpSIeQ/d/GcaT4X0FwTfP/aiEST7/lbPMKRXw8PyODkv6gzLPmy7taM5uhQkmec2E9jjo9VWGz6ey8haLkQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777285272; c=relaxed/simple;
-	bh=JEEK1PlEd4r3bMKfMiyyL2guGTqwy8ijppuUu/cUNAs=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FYbvki59RwGjtoaFToKQfRmDo5c009pVwXzaSUeI1mCwaFSGYYqeot+t7VgQbturDxI2FwKWHnU+2hBICQxy4YWE+dDoOvReCew6jZ0DyX/9imS22V7l/dtINCZNs+D1FufK55Fwrbo0bEGk2yvP27KvWeUJsJq9+S0e2xt0Uf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WkrTXkLj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777285277; c=relaxed/simple;
+	bh=7Qty8DwkTmllGqENaE6i9N8L01jntNuzBHKmBfohAMc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MNle7lR8byEuO+PUklNc9IoWPrpLuMzgf3tK4d5dYYDCR6Dfv4HGC/6NQWNK9jKOHp7+/MvoAHvkNhNDeBPxU3lTLdaJkeXYvUm0/fpW2ay5nwTiOZsR1xYDldHy20PZUGB+Rs/AeidvMLXczzjpGrKsUVIx3OitBNu8mA0iPjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Co7AsZRg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WkrTXkLj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A63C2C19425;
-	Mon, 27 Apr 2026 10:21:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Co7AsZRg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D336C2BCB4;
+	Mon, 27 Apr 2026 10:21:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777285272;
-	bh=JEEK1PlEd4r3bMKfMiyyL2guGTqwy8ijppuUu/cUNAs=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=WkrTXkLjQjX3XUuiiEHpKGV1+RZbjcc6p6/MX9rb7bVOVdIa+kkieLUlExPA+RHvu
-	 AP5kekKssYe9SZn8ZKLjoGfnIqZoT7a+CYyMpAeSk9mtyLFyt1dlM6ZkRPKQnGS5rm
-	 Z4v+2QClxq+wo+gw3foi8KpR+oEPcyN7tZDyFK0coXkRuAmaX+pKDTjySxlTex5VE7
-	 RHagdbpoVRijO8vLniILGJZ52hGUZnK+CoGMJe8kjwn9KHq5yddze3ilAjgkAwgPc7
-	 L9GfJ7SD+K8LVPDU92GVMDda8y0F73uee6PZ6+tM0OLaP10TtAfIKi20nSopEb6/hO
-	 srdTQIRju35Bw==
+	s=k20201202; t=1777285277;
+	bh=7Qty8DwkTmllGqENaE6i9N8L01jntNuzBHKmBfohAMc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Co7AsZRgQu+3qj2BDqwwMRgybolAgS0EK5LesGPbiN9Y/1ohCfCK4tdmyD3EvdtZ9
+	 C13vwWkb1ty6LSAWJOEi6kunRuCJoYRx4MsqPkCO8m9Rwd3MMJysn7i87yzLKU1mWH
+	 E9H18X1fm33T0WzF0inzmfLl+eTqFsZoU2Z2HNbHYwOZWvvKSg6wkQmHJs18xhSuFh
+	 bs3KyMtJvN1Veq1xQBdUXKHCFsOW5j8roEnoA4R54Iq8dIOHhGnMpQRhwn7q4pV/5E
+	 Skm6vKDajVpOm9o+MQE9mL9qlUZsTUlR2d9ADqHMfuybQs3UC5QLd8E3lgst4Sc1pM
+	 /w09PKTCxekJw==
 From: Mark Brown <broonie@kernel.org>
-To: oder_chiou@realtek.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Aaron Ma <aaron.ma@canonical.com>
-In-Reply-To: <20260423101338.1040131-1-aaron.ma@canonical.com>
-References: <20260423101338.1040131-1-aaron.ma@canonical.com>
-Subject: Re: [PATCH] ASoC: rt722-sdca: add FU06 Playback Switch for speaker
- mute control
-Message-Id: <177724578496.266775.11546935048323593545.b4-ty@b4>
-Date: Mon, 27 Apr 2026 08:23:04 +0900
+To: phucduc.bui@gmail.com
+Cc: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260423125646.156599-1-phucduc.bui@gmail.com>
+References: <20260423125646.156599-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH 0/5] ASoC: samsung: Use guard() for spin locks
+Message-Id: <177724610467.266775.11938385437413240828.b4-ty@b4>
+Date: Mon, 27 Apr 2026 08:28:24 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,20 +46,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1148; i=broonie@kernel.org;
- h=from:subject:message-id; bh=JEEK1PlEd4r3bMKfMiyyL2guGTqwy8ijppuUu/cUNAs=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7ziV145rTeHPb9JxK8ke2CW+igupCXm0Ws/zR
- AHLpdyY712JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae84lQAKCRAk1otyXVSH
- 0CEnB/0ZnxOOTAqsYEPoaavhoMnnYvUZd7pIVDCrdIA+wkepT+AsyYem7NEmkpfeOO1Xp9QbgBl
- tRVpkr0+qnGvq6myI8ZPFxaNdYA2YnBxAwF9stiiZh0kdhy7etjWDB2XF5hBAigElzHHDjRU52u
- v1fmk6FStyBb3vh8l4YU0fwxo321ZIFJhsG4Lz9+ZHHJFXJzq66fYlBxzQay2ggHDM+S9zHpjLu
- Zb+Q+oytTONEybimXB0bqCs08Yp8Uovh7iBrIpV5re6XsUqzJ14QVYuO5NLXy2NYyFEO7VWpH8D
- tz6pJXBFkT6k2wSraGc23fkwkMbOh/W8OlUIaQW+No74QwDh
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1855; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=7Qty8DwkTmllGqENaE6i9N8L01jntNuzBHKmBfohAMc=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7ziahrLktKeit2lBZjNLOg9n09tAYNApg61Zc
+ QOpr3DAxWCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae84mgAKCRAk1otyXVSH
+ 0PzaB/4rdIKWVqtUvyTglVBgc3MiIpk1PrdfTbVBDlrFdkaRY+RdoZyFtx4ETf0JOMWt0iYz4dh
+ KvohTCLIErdTzvkH636Tn1svoNMYxoSZ9MDGnhkymUDP2McbOXUjJvnmFZV/8fUIPI+tpcsDjX1
+ GXU6DlFPNgLftdqNXG+Qb3TBBl7woHPpkN6vGRTuVZBc8PBXItpB/4weVgzP62KWYE+FpIn2sDa
+ cZNvFyuv8tdBhjTiuIVcXn3dwZF3+tY7f4zbrT+pG2Q8rxGSE+0ukFwY1kldnOY4R4CxT01x2Ej
+ ic0qRA37fHfBBozgT8yUIj3qvPsWapNueyDMQjyNdKJ9M0VJ
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 23 Apr 2026 18:13:38 +0800, Aaron Ma wrote:
-> ASoC: rt722-sdca: add FU06 Playback Switch for speaker mute control
+On Thu, 23 Apr 2026 19:56:41 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: samsung: Use guard() for spin locks
+> 
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> Hi all,
+> 
+> This series simplifies spinlock management across several Samsung ASoC
+> drivers by adopting the guard() macro.
+> All patches are strictly code refactoring with no functional changes
+> intended.
+> 
+> [...]
 
 Applied to
 
@@ -66,8 +78,16 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: rt722-sdca: add FU06 Playback Switch for speaker mute control
-      https://git.kernel.org/broonie/sound/c/bda41dd5e1dd
+[1/5] ASoC: samsung: i2s: Use guard() for spin locks
+      https://git.kernel.org/broonie/sound/c/3d08517b5c67
+[2/5] ASoC: samsung: idma: Use guard() for spin locks
+      https://git.kernel.org/broonie/sound/c/a54f20fe8897
+[3/5] ASoC: samsung: odroid: Use guard() for spin locks
+      https://git.kernel.org/broonie/sound/c/1d4dfb27554c
+[4/5] ASoC: samsung: pcm: Use guard() for spin locks
+      https://git.kernel.org/broonie/sound/c/02f43a0d0dc6
+[5/5] ASoC: samsung: spdif: Use guard() for spin locks
+      https://git.kernel.org/broonie/sound/c/922fc982af98
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
