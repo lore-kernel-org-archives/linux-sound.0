@@ -1,44 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EB926A08A
-	for <linux-sound@vger.kernel.org>; Sun, 26 Apr 2026 23:22:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5812526A08A;
+	Sun, 26 Apr 2026 23:22:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777245728; cv=none; b=k/5DRU2D/CGr81ReaYK/OhpIT42qE8erRpDWHSf/ih6JnEt5zYZzxrW0lRHKaL90ps1+njEZRMwhR0voYTnFGQpLeP++KYkKIK3PdyFYXftkAvVDrabW7h8nRuM+K/sJM3ZQ4Ad55sBjf/qw9JX0AHh5nTq68jmR+OOCOLYKo2c=
+	t=1777245734; cv=none; b=ceGdG8j7SmekPs5UndRwf79ql8emK1S9VPNVwxqnbdOaT9y41HjMvzIEZyRTL4McSeFGOKYWVQnUTkSIJWNUWhMFwJ6kxk/sOnl6EN3i9+hIPbMxXA0ja2IY0tq6YiSls4llHlH0Nv8VSt0cusf2ROWUxKn9zIobrgOaKLa3PB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777245728; c=relaxed/simple;
-	bh=Vb925mdM59mifykWSUAilNqCYymWpBDmg2sRxFVkdAU=;
+	s=arc-20240116; t=1777245734; c=relaxed/simple;
+	bh=UE1pPai0Sbq4k96a0wkCf2S7y3cSXs6tp/dMMzRzfTE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=WAVaQCOAX7FLCG6ZC5ddSoXqHMq2rcYBs+poZhNZ2g1ry2c4n80iFZbXgDcPNrJj6SRSlAprYgtCttBSTL4MTgz7Oy7fuJW0uHvZlUDYCkMrogBXvVFohAChJbW41BHvpdljzzxPLUAp9bjgUo9OKcxvav19ZKor8vZIpjRPvps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A0vBkJeQ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Wa4jFOUas1GhGyAF7xi2sBAxpeK2PAkT66K+HB9+0h7riI4VXkCEbgQcPaLQEFGo4OJ+Ic8mLNdl1ufCeM471B8g4M/GSiKJBSB8EaSzo9d9htZdYzl3gEYe9m7HO3qBN0guvjzNomHO4m4fNvccXWvjHn5pDO6jf/C3c6zM4iY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DED9Q8zV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A0vBkJeQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16ADBC2BCAF;
-	Sun, 26 Apr 2026 23:22:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DED9Q8zV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F3A8C2BCAF;
+	Sun, 26 Apr 2026 23:22:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777245728;
-	bh=Vb925mdM59mifykWSUAilNqCYymWpBDmg2sRxFVkdAU=;
+	s=k20201202; t=1777245734;
+	bh=UE1pPai0Sbq4k96a0wkCf2S7y3cSXs6tp/dMMzRzfTE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=A0vBkJeQgvCofu1H5cBx1Ulflpzf3POW1hHjIz0TtXPs3+BvUigyvT0LZ9JoxadqG
-	 LtaMw3gXRmeL6o/FqHi8aKrkn+dke0cjGLbAW4oQrvKpAktoT7aoUFWYqaMEi4ydDx
-	 wNs8UCa+naSa1w8Q8xvalaUt6uEZBVhROODZer8UqG0dhqvYTTvUsXFZ24IXUJZI/D
-	 fqVzpLEFAbG1QmlzpOpoJ6bgIM0poi+yIQJuR6+E6WQZaMh5eB0wBcok3Mr6mmunch
-	 rc3YWqE0kovZ8yRgMrgFQyouRGBBK3jM5rDJBukPOLLQxIeur4DfiPQnDbdL0V4oNS
-	 4YxOQq7Uco4fg==
+	b=DED9Q8zV/GtrKnAp8tjknrmUs8ttI/vbio54q3Fx4buHDfbkc+2As0XiSOO8TcDjB
+	 UaNxtheRxkoYUxmNVxL641shi8ooDUU6F1wBTdPKI5wJ1+ya1D1+9XKqHEufSJGeY4
+	 jRYmt3htEBegDEQ2/prvJU+REhymOcxj4XQVK950HKA0scxs5UC6vR0VjawiMUjhqz
+	 iPg8o8X6wET3fn7B5KVj3UHAsX5DJmVWgedxleCELm4YW5jyxjaygAvr6rkjWKP3AV
+	 2AqhbSf3/NDsx4dtCb5+Reh5blNdBD0K2AEWXF8tO4NITdwq3FPUE3cokXH1GOM0zk
+	 WgKcLQUt60YbA==
 From: Mark Brown <broonie@kernel.org>
-To: claudiu.beznea@tuxon.dev, andrei.simion@microchip.com, 
+To: linux-sound@vger.kernel.org, 
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com, 
  lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com, 
- "Joao Marinho joao.bcc@usp.br" <joao.bcc@usp.br>
-Cc: Micael Vinicius <micael0208@usp.br>, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20260420203218.15060-1-joao.bcc@usp.br>
-References: <20260420203218.15060-1-joao.bcc@usp.br>
-Subject: Re: [PATCH] ASoC: mchp-spdifrx: Replace manual bitfield
- manipulations with macros and typo correction
-Message-Id: <177724027656.266775.2142649172096596981.b4-ty@b4>
-Date: Mon, 27 Apr 2026 06:51:16 +0900
+ linux-kernel@vger.kernel.org, kernel-dev@igalia.com, kernel@gpiccoli.net, 
+ Robert Beckett <bob.beckett@collabora.com>, Umang Jain <uajain@igalia.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ Melissa Wen <mwen@igalia.com>
+In-Reply-To: <20260423183505.116445-1-gpiccoli@igalia.com>
+References: <20260423183505.116445-1-gpiccoli@igalia.com>
+Subject: Re: [PATCH V2] ASoC: amd: acp: Add DMI quirk for Valve Steam Deck
+ OLED
+Message-Id: <177724046328.266775.3646182629938640063.b4-ty@b4>
+Date: Mon, 27 Apr 2026 06:54:23 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,29 +51,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1211; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Vb925mdM59mifykWSUAilNqCYymWpBDmg2sRxFVkdAU=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7p4dObPlaXZsO4jJNaQ+VjfelH62WTdyJitPs
- dcmk5gIqbCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae6eHQAKCRAk1otyXVSH
- 0PojB/9GYTnzHZQFK8TCC2scT21prvmrlQ83JaK+CH3VaODU5Lyv1QQCzXsYuITzbX+KmKYG0uz
- 7d/Tmj9WnIXOHBcnGjlM4oxOOCRrrjihgdMjvMh9sOjkYh3037NdodyVR2Y/7uQAlxlqFFR50/o
- JWd/Kobh4zgPUT/x0TNJK74zHI711/nrkpxuSQPgVMjIiEttZcry5jeaZmkQulHYHscY4hKxUey
- t1vAhaaSE7nGN+ZcRPbfD80LnZcG555wePEe9iZMxDZ1qq9UAuMzkk5Wp+eaoBB4dD2yQQ0dhjV
- /qIrfAmgi29aSlzqmTAVfLW7kerm2QEA7JNMIa1gRpSL1orY
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1136; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=UE1pPai0Sbq4k96a0wkCf2S7y3cSXs6tp/dMMzRzfTE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7p4ifwyGvLnC0g92xj0aIi5QoTUjrq4+kVn6g
+ qQIxKuphRqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae6eIgAKCRAk1otyXVSH
+ 0DEvB/9gKzlhjwcRNEW77QshxPjeyLJZhUGDqPzuBll7w+rRIatEL7m0buln5tZRvFKkYprVgwe
+ y1AaaM5UFCw9+RzZJgtnOVuBYF/FmH/Vj8obIryXNwxVUzSM7HNLZk+54dD+5VesPIwdGvsap5k
+ 4LM35j3qxkDj46vqGyDfEtjfo/DOKK1pHD32/dflCJACCo8ZuxnJVDkm4+yYOE9l40PfWzXMviL
+ 1m+U8otn7eVvuCmvM0tL17mxaoLHOorTJWQqQZDrmHP8E2ACTPZRvMDMGMufGbEDMfgGR757xjX
+ qo4kpFdMwH3AlOj7FzfugTqBe5poDxtWvyRSDePlX+wRbWuc
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 20 Apr 2026 17:32:03 -0300, Joao Marinho joao.bcc@usp.br wrote:
-> ASoC: mchp-spdifrx: Replace manual bitfield manipulations with macros and typo correction
+On Thu, 23 Apr 2026 15:30:58 -0300, Guilherme G. Piccoli wrote:
+> ASoC: amd: acp: Add DMI quirk for Valve Steam Deck OLED
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
 Thanks!
 
-[1/1] ASoC: mchp-spdifrx: Replace manual bitfield manipulations with macros and typo correction
-      https://git.kernel.org/broonie/asoc/c/0241d6192a11
+[1/1] ASoC: amd: acp: Add DMI quirk for Valve Steam Deck OLED
+      https://git.kernel.org/broonie/sound/c/b0f6f4ac7d5d
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
