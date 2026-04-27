@@ -1,147 +1,175 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013036.outbound.protection.outlook.com [40.107.201.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A413ACA6A
-	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 22:13:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777328016; cv=none; b=nL77hgyst3IAsgsWF2ILNcqdgqaprvAkVf0eW0QPXT9k8GJCG/HRzUxaniEyXLA+iW9PWo4aHY6d+f7V0IL7u86GksRzF/KII9qMlEmk+M0yviG4NxAHO74JY3JqDIZ9AJYJjPl1NnV8TBYRKu0rSkz1BFo16YTNHfalWHZyF3I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777328016; c=relaxed/simple;
-	bh=PYhtnYqGckhE2YWR1biESc9MwLUwlD48h3xEADUHv14=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qAsC+CkG4wsr8R0Wv6YEXBcpO1T++K6X2PjvxqknloEAqPq5DRLDeE9/gKQzCVzj0YBzr/1H6WU6RhxecWEY1Uq0JbAbjXVq2YnivsoNCTpzyft1KF4GEk5pKzaw3JsLMnohYe2TdDWBPFuvzkNnipReT5ndHEqtG1ORlPzqfAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YQqc9An/; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F25A264A97;
+	Mon, 27 Apr 2026 22:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.36
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777329030; cv=fail; b=uxjiPRgsemOguxFsr/u526sua9Ji81Pb35xtaH2pR6oTiZQPDe+winqAOCzoPI0BhOUkrWj+qJttYHC+f9hh1032kQe//BSN8FpP1BAy2dzYtVb3KBLfP0muF8yw7elhPOLjzfULjh96oAHNIb1gvtfIAKgmeiHhZ7/Pnj6ey1s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777329030; c=relaxed/simple;
+	bh=msNz8K+R7tcezW+jasT95EJ5zMdq6fMm1GADMREockM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=UzOeaFQ06qyjKdPahMdOFf/DENR+JGpgtdfdpzfacIoAJjlCQM00LBJXgr5pu6Jc/5uBc/NgNTEy8P6FyruwZ/71jtiAIVefZQpjYJtI0XGTluDo+0bCdQ9APmAqUcokGs8hmrGsN68f5O7OZImPtCmjuVmiEWuHWVhCdrccdPU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=nMn9Mg2e; arc=fail smtp.client-ip=40.107.201.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YQqc9An/"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-794719afcd4so113181067b3.1
-        for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 15:13:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777328014; x=1777932814; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ao3FwC9SC31+DJ+b35375kjpd4YpXHW0GdgfnI/QqZw=;
-        b=YQqc9An/jvwN8c5UpPEOx1T9hdljnz08lpQGo4scoAoOTKbrEg/RYVpPhlrKLVE6yv
-         Ub02QnzRr91hIePo2nr52iiGZ4RmyyHiqTQg6MQaXpyNJM57gkND8Fh+9Ti+dDALvNXy
-         z73h9KxCz+NtkmCaR8B9xPR2FV+eEhr+6kRIyUFzfP6EugiM3wbjnpvGn62/Kni4sijC
-         ErLXme3cyTLEULciFzYkIeF7JQryy2/WYC7jNgEBgex444JxR+r+rfNPmxHyd2bcW6Bj
-         +Rqb3mnGtFN4/8Yma0HJ2NuQjrc/SaiMU8fdPDdghszONda+YjoCkoK6NLdXjnUCP9fS
-         Tetw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777328014; x=1777932814;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ao3FwC9SC31+DJ+b35375kjpd4YpXHW0GdgfnI/QqZw=;
-        b=CM8NDf5GNH5qwzUmKJ6AN+uxZ0RcbbOdUnm7m+kQdLkwYeavMsoJC293Al2kzh/Bnu
-         aLfbsn51LkjwNHJFNFwvisQK+2qf1Pz/APRV5RII1QH+lZaGHvb6otPAsfAXx1ZC00gV
-         e48n1/KC2pTQfIZc1X26N6NcmBeU/lJlnZkqUO1GKn3uKSZRPvxTbqRzeLneXuwGgxgW
-         bmdsvdcWeAYIPEarWf0lJMu3/+cA1PipiFQVYr5AEV4WUOoQro0vcRx//je3ltk+Tm7d
-         ZrQDMxwGgY4jPhz7t+j8/qjxFMvJUHHXiyjhs9iOXs2fvPoDil3CGdSk2iC+HhlYns0X
-         thaQ==
-X-Gm-Message-State: AOJu0YwONGYrmE6WgY5uSM+IZto5Z1SIPLiEQ8a8WLiJA1E2DwETsQ2G
-	C1xjJNWduifZcd9axMC0bEPgocSSYkO+MdUuLUgqODRY1aHU8YtR7c+c8THQSQ==
-X-Gm-Gg: AeBDievflJTkEW47monbHPgQm/SFnxBcHVXoM+Hl17F0sqoKCx97otsBXIqa5A516Pu
-	9hV740E7uXhVu5OwMFpi1FfsGZJ0uU9tX2K7iJ5Cl6RlmuSOwNSNIFhfkhmTmbMhcqaXclSbsm8
-	xJCIXue5eCdfBURtkZW37So2K2+OSG1YU1mCsqis7huEAcjTfM2XyrgAg2OcYsf0hAusGo3aC/f
-	DOiEq/o8B4miDeLjeGmxYQoO6GlbuyC5rkMwL95PRq6IrmVSn30FpOe5p/KdHMrf5X3ypMUp3Wr
-	k5xpHIGy04OyWEzO1lB3Itp8CelpfC+wyywsal1LVp32Nsybvci20xt3sqKg7nSVh41AKd0OTsp
-	icerRa9uHImxOVWMZGCz/B5ykvfeWNT1oGjiChyIjDtrfJo3igUHOXBmyKs53wdX6D4DdW7yozO
-	94xSsx17n3RKP2jd0/oc8NWBiS7NJeipQFTWdvS0LvavwcPVyAns8JsaM/TaZ/HwRYFzjv8Y6IW
-	lD/Gdr/Zviw
-X-Received: by 2002:a05:690c:6ac4:b0:7b7:5f48:d9a8 with SMTP id 00721157ae682-7bcf579f246mr4337777b3.43.1777328013940;
-        Mon, 27 Apr 2026 15:13:33 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7bcf0d1eee0sm3590157b3.42.2026.04.27.15.13.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 15:13:33 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Mon, 27 Apr 2026 19:13:28 -0300
-Subject: [PATCH] sound: oss: dmasound: kick queued output before extending
- tail fragment
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="nMn9Mg2e"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cw2dkYic0VXH1kOjwz3jIZQqr8NTQVH9DBTRDd+uRIJW8uYvfM3m58iBDy5zpHYFWzEy5HurjZ12uATc9tuoWjt6/VUzJQgYZAXBZYTEWP2XEmKALhwnH1ENaA8Ac3CwlRTLvFMEwZgba4b3Efi2fsBGQWsShlfVbk+iphjAE+Pk8XuV/eyWjUpmRM4Y9HTRa5iR9RbjMNZZynCz9AHHff0s05EhkIWAfnApXK/qNRqGYLDiFlw7SNnaj3GyeIXPMO8znU+1Kcc/CMVRnCsFx/w1kA7TU7UcIRQb+Rb580j65fMEeEArkSpCjuQa2ek7DCgnd0gLF6jXF9N06qZxtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=INTDocwjeOkxaSI4e6JrPlp7Kh7b3u8/5GXqjyNfeUk=;
+ b=SqLxt4MZPnahGOYqHMCjywU0/HSF4waA/vwnt9ydy1Lm3yrvjNZmkOwuRl93fy6RdmE6bPOC0ZQH4p62+pUUajNd8KxX3yJjBZ746IuQ8gH2tmJrktf9NUD/vrVHw11Y2NBVtrlIsVl9bi7Gqi3ZmgASKvtgOkWY/PmrmgA8udiJVCjbw3br3CieEjsiA/YIbcoZFACykvsdKe3H0iQEMKywElW7FGY/qQYU/hi4PYicWTB3SL3zcJzUqBCWxEiVibRndteACQ6BsdcLI27Rvh553IDZD+jPGF6v9qtpISs3YncftmVw4ldPrz0yQOOExCWF0vjzgVzKvTwuTXEdYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=INTDocwjeOkxaSI4e6JrPlp7Kh7b3u8/5GXqjyNfeUk=;
+ b=nMn9Mg2etjSkCULYpJ5Rnl9/tmBSYad+HpQiMXeFiB6hdvpkrBodtOjFqLvvae82lTwKkV5GAhUHMYupb9utCbBt74zqUto3WQW72bithMtImxRQVa6G6ZaLkW4OIEKHFvEKJ+4xMIBslyesZGqZr4aXMhT6ctHxrHNz0lcJuSDOtu83n51qwHc7wWb/LGrn5RUMmskk9za8NlV0oTff8Bpmfg6PDqFInZvOWRUYF9K6Lc76NhEMq83jHNyESr4la6NDuNth/60Y4SeDe0uNCU02GfnTMD1so+hMFearXgJnH1poNP4yUWzDn8gizO53kHtparXBSnIxAyJtXuIfFA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CY8PR12MB8300.namprd12.prod.outlook.com (2603:10b6:930:7d::16)
+ by SA1PR12MB6871.namprd12.prod.outlook.com (2603:10b6:806:25f::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.16; Mon, 27 Apr
+ 2026 22:30:21 +0000
+Received: from CY8PR12MB8300.namprd12.prod.outlook.com
+ ([fe80::ce75:8187:3ac3:c5de]) by CY8PR12MB8300.namprd12.prod.outlook.com
+ ([fe80::ce75:8187:3ac3:c5de%3]) with mapi id 15.20.9870.013; Mon, 27 Apr 2026
+ 22:30:18 +0000
+Date: Mon, 27 Apr 2026 18:30:16 -0400
+From: Yury Norov <ynorov@nvidia.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org,
+	Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+	dmaengine@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-fsi@lists.ozlabs.org, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev, bpf@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-mm@kvack.org,
+	linux-x25@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org,
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+	linux-sh@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [RFC PATCH v1 7/9] x86: Add unsafe_copy_from_user()
+Message-ID: <ae_jeJLlVWjJ4sOY@yury>
+References: <cover.1777306795.git.chleroy@kernel.org>
+ <0ee46bb228d97163fbdc14f2a7c52b93d8bc34ce.1777306795.git.chleroy@kernel.org>
+ <ae-j2_QirCySZD02@yury>
+ <63a4d0f6-0eb3-48cd-9f98-bf7b223b2606@kernel.org>
+ <ae-2yLWSGnfeTvh1@yury>
+ <CAHk-=wgPrLy0FR3sEWBYQuNAac1axDASYMnTuPuxEU0WytzL7w@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wgPrLy0FR3sEWBYQuNAac1axDASYMnTuPuxEU0WytzL7w@mail.gmail.com>
+X-ClientProxiedBy: BN0PR04CA0197.namprd04.prod.outlook.com
+ (2603:10b6:408:e9::22) To CY8PR12MB8300.namprd12.prod.outlook.com
+ (2603:10b6:930:7d::16)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260427-dmasound-sq-play-v1-1-28bbeb8509b1@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBBA0auQWTMJjFUDVyEuSjvoGCjQEYMh3
- N2iy7f4fwPlKKxQZxtEfovKGBLKPAP3sOHOKD4ZqKBLYeiKfrA6LsGjzjj19oPGnB1R5ytzIkj
- ZFLmT9bdsbn/r0j7ZvY4P7PsXDaGdi3QAAAA=
-X-Change-ID: 20260427-dmasound-sq-play-445c22fd9432
-To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2444;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=PYhtnYqGckhE2YWR1biESc9MwLUwlD48h3xEADUHv14=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJnv73cXSAdc38znGLTM3VJ5m0vWE759YtxJ4ud15r+b3
- NdVmxTWUcrCIMbFICumyLI6aZHlnq4HV+vjVnjAzGFlAhnCwMUpABNpucTIcG3lvat1aTsvh16x
- KVtSGMWU2ia+Upp90wYf/+YFk4wvzGD47xw/i9Ox5OnTDzUei74WJl7aLZy+v3XFg8V89drfl+2
- czQsA
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY8PR12MB8300:EE_|SA1PR12MB6871:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1f3655ce-20ef-4e2c-2fe2-08dea4ac8fa5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|376014|7416014|366016|1800799024|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	/PUX5wTJGMs/KBsNviNpWA288jfovgZeFH/D5rlo4Ft68PLkNzRu+VJLbwZPVL7WMTmGE/7sGAUjidmOrf6PO7cVfcrQe6QT08Oqm4vVTbq+1kk8SU+vprwEBmYwG+gAfH2qmWzaQJsEm7YpHDRuW/7Cs1/Xk+BrlRiawZrKiyZzPhbDmpZp82G1md2nBR6MipihlTfUyQ+saizppq6JVvqKLc5dE++LYGjddOZxiO3yutMfU07Cp5tvF3yobREfTw/fDdOZgk2+rMoVASDdUVkAaqH0FXJ28Bm6NVJs+NSRjDYnMLXVfJoJcrsNuF4W22tsLIY5w3wDLjkrtfUAaGwMnqXvKgmEE1qpibH4HaSjxrWfCswHPCx7Vc7oELIEGKApXlepMVtafKQ1eBm0bnWKqspLr19ifmkOBqioMXptCdlJ75n5gVcLiBzfflllkv55OjNYGzmu/P23vn89/MqFVHCPYaOOw1vjLjy3Olm5/wQLP++hGKYxXIrZ64iQpyo+GIlD3HGQMFC+oPQ+4alqqHQ0+kc6l4epUtSsHVmWOEFWpRzFBafriU8ilGCl8/f8jCwsnB3t+/+q8pFFXiilqgDF9lWOw60zcIbP7xO24Ozxdu5GXF2ThaRP8NVaPA/4be0MJgysKa4xa0hnonHdTiIDcF4SkkqpHjiJ5qwmY2Gce2PdYuEwEpTf8TjR66psUlL2DcOZVs8sQNjcffnyedzo5Nat0VSDOW7wgzk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR12MB8300.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(7416014)(366016)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?y1CvQpZYZ2eMHe2MhRl9jMjiWbPAKKWXFKb0rNr6P2FKNpuYqlm0vHnj/c+p?=
+ =?us-ascii?Q?etrijvKck7MltKVOhuLlrUk/4maEie31AAuCO4vEDEQz7eLSMhE+LXqZ7580?=
+ =?us-ascii?Q?/dTzhhd6ZXj5MAUt3SGOfXeBZ9mnjjf2uZ2zVl0944wpMj1aPR6bhJJsKwkp?=
+ =?us-ascii?Q?VUL5kcdJLltj/bbXdIYt5R4Q5sFcreBO2t2YjdncWBk9awGhHkshgH2+xQK3?=
+ =?us-ascii?Q?KZ9jZvFRcaTs7WARWb/cK4emdp6bDzM7GZoacpZC4jFUpUOAzU++q1cUqbIp?=
+ =?us-ascii?Q?IcojDKNgAE9HncwAue719JnQVeUjYbuQfI9vFrEzSJwqQkAaJNY/N9KIqHH5?=
+ =?us-ascii?Q?gb6ElO029nGL4z2hh5SKSqKFAJYfJvd6N318L3xLFXMXoREhQbz05reO9kR7?=
+ =?us-ascii?Q?GWI0NeihuZjKnE/Ak2IoeTePP++KCVgyuhiSD0PXj7MCcQGFIfSjdMtsrSD0?=
+ =?us-ascii?Q?qpof8HORPaHefDg6xtvU0Ls17iRCuj1Xtuu5fBcRshNrriAJmj0nlZqzlPp0?=
+ =?us-ascii?Q?oq96Gm2fPd5N0qcJLOIB4vfutS46eOW3OBK4BlzxlMwOHl6WCEd/wmb2kDAK?=
+ =?us-ascii?Q?VPTN1pR756Yxc8PWdgyvhKBLft+N8lDJQGyoSrLOClJEovN6quxxF5UrmLgl?=
+ =?us-ascii?Q?BSzU4GMBOjLU5qQqVVM1fzFPiQJrPzyeuGPUF6s5eWsZMUNFhY8uESY52c+S?=
+ =?us-ascii?Q?SE6TQJUy1lWTLGmxVFeFQgD9qZCVc47lVZv/tMLN8sA71HzeCfL2tx6zUAP1?=
+ =?us-ascii?Q?hu81S/ywLrBvCHKaffr0P8d1j0edNWOzngwXYnwimWLWnJ+OOYH82yO8AfMj?=
+ =?us-ascii?Q?9OG00BjXZXIsalWG80IQlBy27WpQ84/1c9oAnvbNeJfjdgOz4uIbM6FHkYyA?=
+ =?us-ascii?Q?MupGlptk1Xu50YbzeOZ03kGiMKX0VxGdprIqVjtikQtw3BlYFt0IIGwsWiy8?=
+ =?us-ascii?Q?wb6reRFBF6KZAnTmSERVS8uD68yLvuu4uDhGLoBqPxQofaxbHl5bqyIHeiVZ?=
+ =?us-ascii?Q?JmIJF4RPeAJ5/v6RFBLjGohX5ZjyNkXJb9RZjSdHP1ziqpItJ3rcJG2ZFZJT?=
+ =?us-ascii?Q?TOtNJUdl8MYzQUzieK78aUKDOyKuWpAWh2Jep6/sVe9CBZ2NlHHJGqtGJ0+6?=
+ =?us-ascii?Q?owwVe4C6J1ikL7yn0gdEWIiiyjuOxoCdI3+hulZemm7LK5thRU+ZyJaPjQR+?=
+ =?us-ascii?Q?YK+iuiqW4QYnqG8Bp71RoCe6giJoTJeiqfcGpFeX0h22VmfkFjYMyp/W8nb3?=
+ =?us-ascii?Q?mBn+6WSNLOLGrrznB6jKXoRf6cnQ1xEMeJxPdXY/BnX2sOfoIY42tLqAScbN?=
+ =?us-ascii?Q?LtZ7qBEv6zip7I8sQ5//f4FDcyaAHJDISd0ze+LMD1SGCz1vUejeBGt5jNwE?=
+ =?us-ascii?Q?iyPDDoJ3VJHJ8aGIrV8p6MgUo+UO94WHdRtz/JHe7JLmdPqflsqW5Z53kqYw?=
+ =?us-ascii?Q?MP/nGig0/bW+qSUHZi0ybA7U9qUULzBtAdJ3gf4NkhxIRHImljJP3sZS+AbG?=
+ =?us-ascii?Q?VX+xV6ny9hftAe82VJ9ewoJIvZ1jOdavxAo38YgxrnhYM4VA4PLlPxMJgrFB?=
+ =?us-ascii?Q?bl95emjkBX7MxnGkfKrgN0u2MtTSs3sO1Wdm6BH6ZQ9kazGSKdvWqMQAmcgZ?=
+ =?us-ascii?Q?2TAXsG9f2jiTJy/XjYe+XqDYMz+09yazlugWhbXrIX8heUtqQqlD4RBq2C5J?=
+ =?us-ascii?Q?CuCIR2G+UzaeT6rHBATVfYnF1JfQa1er7U7HJW5PSDW8XBt5cyY/COXOF+YI?=
+ =?us-ascii?Q?h6yFwkKGk0zfxpHpRxxXg2KPpUtDCbrrUbX4jMC5IsdF387MIWjR?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f3655ce-20ef-4e2c-2fe2-08dea4ac8fa5
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR12MB8300.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2026 22:30:18.5780
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8yVCjxcKtFstGt67IdVeO9hT/qCk0UDq0EBYtz0042ex6ttmtrXzmmIlGerSzGsUENgCE8ayV5UchO391MZbfA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6871
 
-sq_write() currently clears POST and then immediately appends
-to the current rear fragment.
+On Mon, Apr 27, 2026 at 02:52:05PM -0700, Linus Torvalds wrote:
+> On Mon, 27 Apr 2026 at 12:19, Yury Norov <ynorov@nvidia.com> wrote:
+> >
+> > This is what Linus said when added x86 implementation for copy_from_user()
+> > in c512c69187197:
+> 
+> Note that some things have happily changed in the six+ years since...
+> 
+> >   That's partly because we have no current users of it, but also partly
+> >   because the copy_from_user() case is slightly different and cannot
+> >   efficiently be implemented in terms of a unsafe_get_user() loop (because
+> >   gcc can't do asm goto with outputs).
+> 
+> now everybody can do asm goto with outputs.
+> 
+> Yes, it's disabled on older versions, so it's not *always* available,
+> but all modern versions do it. And if you care about performance, you
+> won't be using an old compiler.
 
-If the queue already contains complete fragments ahead of that
-incomplete tail, playback is not kicked until the queue-full wait
-path or the final sq_play() at the end of the write. That wastes
-the slack those queued samples would otherwise provide while the driver
-spends more time copying and translating more data into the tail fragment.
+The minimal GCC version is 8.1, and asm goto with outputs is supported
+since GCC-11. That would brake the build, if we just switch to using it
+without "CC_IS_GCC && (GCC_VERSION >= 110100)" guard.
 
-All in-tree dmasound playback backends still refuse to queue
-an incomplete last fragment while !syncing, but they can start
-earlier complete fragments.
+Is it worth to maintain 2 version of the function? I don't know...
 
-Call sq_play() immediately after clearing POST and before extending
-the rear fragment so already-queued complete output can start earlier.
-
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/oss/dmasound/dmasound_core.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/sound/oss/dmasound/dmasound_core.c b/sound/oss/dmasound/dmasound_core.c
-index a718b75bb6a0..e80f730d0803 100644
---- a/sound/oss/dmasound/dmasound_core.c
-+++ b/sound/oss/dmasound/dmasound_core.c
-@@ -574,11 +574,6 @@ static ssize_t sq_write(struct file *file, const char __user *src, size_t uLeft,
- 		uWritten = 0 ;
- 	}
- 
--/* FIXME: I think that this may be the wrong behaviour when we get strapped
--	for time and the cpu is close to being (or actually) behind in sending data.
--	- because we've lost the time that the N samples, already in the buffer,
--	would have given us to get here with the next lot from the user.
--*/
- 	/* The interrupt doesn't start to play the last, incomplete frame.
- 	 * Thus we can append to it without disabling the interrupts! (Note
- 	 * also that write_sq.rear isn't affected by the interrupt.)
-@@ -598,6 +593,11 @@ static ssize_t sq_write(struct file *file, const char __user *src, size_t uLeft,
- 	write_sq.syncing &= ~2 ; /* take out POST status */
- 	spin_unlock_irqrestore(&dmasound.lock, flags);
- 
-+	/* Start any already-complete fragments before we spend
-+	 * more time extending the incomplete tail fragment.
-+	 */
-+	sq_play();
-+
- 	if (write_sq.count > 0 &&
- 	    (bLeft = write_sq.block_size-write_sq.rear_size) > 0) {
- 		dest = write_sq.buffers[write_sq.rear];
-
----
-base-commit: 702806986e6bd2b2b37186be47aa63774bd62198
-change-id: 20260427-dmasound-sq-play-445c22fd9432
-
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
-
+Thanks,
+Yury
