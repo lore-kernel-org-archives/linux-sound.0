@@ -1,103 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593B230C62D;
-	Mon, 27 Apr 2026 10:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777285288; cv=none; b=pMsqycb0yGatC+kWF8/3s8cgJSL3J5VUWUAx73oJceKK12Sb32c3abyMXCSkyD+c6RBPcH03MiRtvaFPvMzyLkRKGR0e4r2WIW/caZslUGXNUTuHOP/EZGC3ykfmH7UG3Oq5AXs+OCNCzQei13Gg9I9eXthgcBjqBSs3wqaKiLg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777285288; c=relaxed/simple;
-	bh=6oCimQ81i3iJ2tB9rQv7XOudFnZoYFTg3njOnEDtoaA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Zj8qxdKOER1BcHYUbNEfU+34/HhzvdwwxJ1+URbl1kI/JrslCiwL2ZCI6Qa2fdWOj8icYU+O4c047asydMVs6c5FgYfI5BY612Fux2Cm1/ACKoiEMTxhQI9hRxgywhYiL+LldKcMFpIowg7NpoWqzksBSxZgtVueLxjCMEv/hqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wps5XYnc; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6F73B4EAA
+	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 10:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777286878; cv=pass; b=euWhgZhPzYTKih+f1zO1/mqWWcBOR2h0kT//2PLIETd9HCpIBSvNzwTCEfUUhl80goxFD7h8UZxFgoBTuW33NAOH3MtKfTy+sP269L2ilKRgtvQSWNeMQi73kkibXwmJ8MOKq4sXu90AZymxqfx6dd+8G89vJk1oMMwM0AimbGw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777286878; c=relaxed/simple;
+	bh=YpU8r+MdLtrongUxlOhttaG6cy/l7Tz9MTUipK+v9vQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HHzKKPMEt+9vsOXtJ0PYjjirFXhY4RQduZI9LcijDkkhUKyL+GJ8ajN4OO+rJuf7rj2U+O2064LSjvnUDG/qhCT7/94NR1YzfjhFQv2ysj7ud42j9KQzP5tQjon77FK2lz6XMDR+ZkkjVlj+GbTMtUSxNOkKz70WVfEr7XsC18s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HC7hyv6s; arc=pass smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wps5XYnc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98C9EC2BCB4;
-	Mon, 27 Apr 2026 10:21:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777285288;
-	bh=6oCimQ81i3iJ2tB9rQv7XOudFnZoYFTg3njOnEDtoaA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Wps5XYnc1kdJqf09WN1Zfey0pTki4rmHJNDdICIw8GBnDCDrTFJWKpZYNSTK+GElb
-	 F7QmQvtfyXePQvzTJf6cIwEnBeWQ+9CzFJW5190rbkIM8voOpoBEx487tVSAFnnmva
-	 Bfxd7fplPVcezDbWE8FqjkKGC68ZH6Y3mQC98Mo2JPH4mCE9QnusPRapg/tOKPLee9
-	 NXt97JVa/EgcuMPGImnEb2eglV6+7UAnxmN65xDOspFsfKyjUnd981Hqrr/p9Jq4ID
-	 WeeTYzaQAnIldMP4QeHPiJ+edL0A6jFBctrvTS9sWQMDAhCVCN67XnC4lYKU6oBz6T
-	 ta2oOR5QlJwfA==
-From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- James Calligeros <jcalligeros99@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev
-In-Reply-To: <20260425-tas27xx-hwmon-fixes-v1-0-83c13b8e8f54@gmail.com>
-References: <20260425-tas27xx-hwmon-fixes-v1-0-83c13b8e8f54@gmail.com>
-Subject: Re: (subset) [PATCH 0/4] ASoC: tas27{64,70}: Fixes for hwmon
- temperature readout
-Message-Id: <177724583534.266775.7120869912944867731.b4-ty@b4>
-Date: Mon, 27 Apr 2026 08:23:55 +0900
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HC7hyv6s"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ab077e3f32so42766605ad.3
+        for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 03:47:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777286877; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UGPPzqsb9wP7yWE1YZvPkfK/lsq7qdct9nmkaHJlm3yUaeKN8TOpiGpUsdo9a6XKd2
+         X6BP0x7RWST36C1Z9mrzrPhjyWKPCe78VQP0BZKGpnkMp2Mce0GkblQRm3KSPpJHVSNv
+         K1mGWGVzUULw6M95SlwyezqQYrVJ/lN77tXJtP4b/lzZENPirJMuf2Bx67n8c6pU0GfC
+         6BDyGcdVhfGxyTYI6RupAWdNWvoVI0YRwjou4m4piGNmAyXJ29jwhhbed513Tm4nlUKj
+         7thtqT7xCtFl/vjGahtVOaODRzryED3BHfCUQtPwkLyFOSyCVoaK65nWhRPqq8XXfU7h
+         0rcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=O7WIXV3vy7glDtk0NEp5Cspv2KG7UzeIls2bJ47h0Z0=;
+        fh=JvYbctVq7nMuNiP3K6PELxN9qsIFXlS5vIEknjGvhO4=;
+        b=T0sfyPyAskVRNMioX8GZCQ1M5W0gcEBymvqn1nBoee0zQhCU97zgoCAQziL77GtKZ+
+         VQaOswplFdMtfrMB1c1Bcs0L0eo7jbl0tuTswrEykiR4Y/6d3KpUugCXEGB9pEPTwyfM
+         wPp1eNpXoGWoxtTqv0ySvDMoGhEdzN2XTdEw0CNW54vLB99SbYPR2NA3dLSNE0BLsVp1
+         bs29BS4JEMFVU+6vQb/m/t3+SZPrCWLE3varzxUthrnF3xzaoRppl2y1v3JGCsti003J
+         HEorO7rjS0WIi4+L01MJJa8wxMNrkTTlAAUn8r+viONiJljk23ijvatwVu8RdNboEbW0
+         68Rg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777286877; x=1777891677; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O7WIXV3vy7glDtk0NEp5Cspv2KG7UzeIls2bJ47h0Z0=;
+        b=HC7hyv6sUdhzTG0aiWowCmQ0A4Sbtvmiv5H0UZNCifDQuY7u85u0NlCyOMlvONHuMG
+         5QESSdOg9oYktiK/mI6ShF+3y04o/jqqAiEIxIsAq9cx9bC/u+HfjuwDH1hy72p7dE50
+         0fMLS9pGDS+rxuLVEdpQv76Iqx+WPI41Kjr8GnGOBywdoQw0PRU7qZ5DLMetgcNnoBbt
+         0tbnj2+eBVB2oOeaExMkQyhiF68wBa5JMRKGgoWjx2EehIjR6rqpV48JIsb3cVu3pLoB
+         ngWGNcHxiX6D8hZeSmwo8O1EW/HjMYm1f2dnO9tGwCMcqW+FMy1viLVjLD2oT7g6c7cq
+         my/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777286877; x=1777891677;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=O7WIXV3vy7glDtk0NEp5Cspv2KG7UzeIls2bJ47h0Z0=;
+        b=M9XglKAtYV6UuMfhuYDyyXWcyew/JblgGWQhYWjujvwtP/B1kddp2f1z/mXQlXVmgg
+         nmJ3KoBz2vgR8wVoqcdMGouwrnAe6Tbb50OqEvdh1tq8aGJQzScoKzdPd1A3Jlk0Mc8K
+         VJP4ffUCxKBZpj5UzsbQe0nenmtbJ+YARCN8UOhk0k13kKEN3mGRcyvoKc5JE5HNbntJ
+         i/1Gu6x+0j1BbmiobgbGizajVySBdgbUsirzO5bOk0asz2oTi3esfckb+Cy9hl8db7FL
+         wJmxSWq8pKpy8OpXamkfokMVXB35ywkh/eloFoRBDP3N0jZx2Jm3Qe4jXCBdI0DHWVzE
+         J77g==
+X-Forwarded-Encrypted: i=1; AFNElJ8tszghtDGuiG3Pq7mGvXjq12UJGm7xV29TOr5Y5PdHCFq6XP/rUq9MOmOLfut/VnR/5NKKzFdRC21xWw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTtGkcgVjaeSrWMbMfNsRoVgeVBXp6D2l8v00fX9+9iJkKeny2
+	HhLETHQJ5EzehgsgHlBIFVU9FSQu84obd9NYmw1vQxu65tQFADFVuauueYJJvXf0SO8+NDQKv+7
+	9ZhRIBKP9ZUQbdxw0LDt0mKCKhmBNago=
+X-Gm-Gg: AeBDieunpU1BcTWWh1bOLdqgcJXZRjIuMGwaIKDE9kvKGKv/94POm9mawq47vd9IUhZ
+	13EThrRAjRV8XTTJnVy935r17JMe5s2UsnZRC6D15iAP+j5y/KRQlZoxI4yCVCImvLNlnNB/H+D
+	2ufJ5PoPIqV3EvtpIvzLa6EaJBHlFspo1ryqk9PIvcJvtfEArqW0lzf7oTT+ktI58+VLcX0VKAq
+	x7INMLYal4pAPVNOZ0BanCcDMkhJyojFr31L3wQH2+6Iv0x7DUN2fMgNxDaPAVQ+0Y7clWrwPRf
+	d8BMENSXYCSlgjaJVQ==
+X-Received: by 2002:a17:903:48f:b0:2b5:ffc2:b8d with SMTP id
+ d9443c01a7336-2b5ffc20c6cmr288496845ad.40.1777286876631; Mon, 27 Apr 2026
+ 03:47:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1397; i=broonie@kernel.org;
- h=from:subject:message-id; bh=6oCimQ81i3iJ2tB9rQv7XOudFnZoYFTg3njOnEDtoaA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp7zikqJUHJFUm8pxOEpfWUAPrqUkogAc8Ct5dA
- ZWTBUjf+I6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCae84pAAKCRAk1otyXVSH
- 0IexB/9lJHHg2EkeA4F8oTmyOyhLtB+2nvaBhuhdE6rwh2ziiDWs6ky28Yb89HnOIp+fjzZfKY3
- m3qiCw5XIfkbeQcJwVPNF8/tNZbOjnEwd55xiaZ5Euke0rxacJiiDc1CCx8srS/ovfaSaZZrNBk
- EHfvM38AmZpuLATUFlinxOkJ11cT+uPlZ7l4AHiR+ZZ2g43o3jg0dX9Cc1WkRis9imjzwc5EUf3
- EFYaNOsSB0mhO4ZqwvKbWhznrXQoqOCvFCLmDEPR7uMlN8ZqvfOVk/PGKeUho1IG+ewu/qe1o+k
- HiKamSUnrbJHT/P9V35SjdPbeGLIeH77u2bZWVAEy0+/AoNh
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+References: <20260424103806.2276780-1-shengjiu.wang@nxp.com>
+ <20260424103806.2276780-4-shengjiu.wang@nxp.com> <c925e9e6-934d-4b07-aaef-a7f737c687a2@sirena.org.uk>
+In-Reply-To: <c925e9e6-934d-4b07-aaef-a7f737c687a2@sirena.org.uk>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Mon, 27 Apr 2026 18:47:44 +0800
+X-Gm-Features: AVHnY4IckQd0kNOio5AaSh11MDWGsTPIgl8JS33ob56G8t0YqSY5T0f6WsqJIBs
+Message-ID: <CAA+D8AOUVbSmWpr4+KhHC+9zmvj2M-BE_bpYEOUByGUv-wdHMA@mail.gmail.com>
+Subject: Re: [PATCH 3/5] ASoC: fsl-asoc-card: add channel and rate constraints
+ for CS42888
+To: Mark Brown <broonie@kernel.org>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 25 Apr 2026 10:44:02 +1000, James Calligeros wrote:
-> ASoC: tas27{64,70}: Fixes for hwmon temperature readout
-> 
-> Hi folks,
-> 
-> This series makes some fixes to the hwmon temperature reading
-> functionality added as part of [1].
-> 
-> [...]
+On Sat, Apr 25, 2026 at 12:09=E2=80=AFAM Mark Brown <broonie@kernel.org> wr=
+ote:
+>
+> On Fri, Apr 24, 2026 at 06:38:04PM +0800, Shengjiu Wang wrote:
+>
+> > The CS42888 codec has 4 I2S lanes with 2 channels per lane. Using odd
+> > channel counts (3, 5, 7) causes data misalignment in the I2S frame,
+> > resulting in incorrect channel mapping. Only mono and even channel
+> > counts (1, 2, 4, 6, 8) work correctly.
+>
+> > +static int fsl_asoc_card_startup(struct snd_pcm_substream *substream)
+> > +{
+> > +     struct snd_soc_pcm_runtime *rtd =3D substream->private_data;
+> > +     struct fsl_asoc_card_priv *priv =3D snd_soc_card_get_drvdata(rtd-=
+>card);
+> > +     struct snd_pcm_runtime *runtime =3D substream->runtime;
+> > +     static struct snd_pcm_hw_constraint_list constraint_rates;
+> > +     static struct snd_pcm_hw_constraint_list constraint_channels;
+>
+> This makes the constraints global for all substreams, given that the
+> Freescale SoCs tend to have multiple DAIs and have things like direct
+> PDM inputs I'd expect it'd be relatively common to have disjoint
+> constraints.
 
-Applied to
+Thanks for the comments.  I will refine it.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
-
-Thanks!
-
-[1/4] ASoC: tas2764: Mark die temp register as volatile
-      https://git.kernel.org/broonie/sound/c/4cfb5971c2fb
-[3/4] ASoC: tas2770: Fix order of operations for temperature calculation
-      https://git.kernel.org/broonie/sound/c/c7ecb6a61908
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best regards
+Shengjiu Wang
