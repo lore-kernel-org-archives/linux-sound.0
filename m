@@ -1,86 +1,84 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2962830E84F
-	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 12:14:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1527230C368
+	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 12:20:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777292091; cv=none; b=q/88uRlsyHX6102/Uz/M35VQY4QcR6/0+hIjuOyL90ktwg0e4hsI1ubAR5ndJL2fYeFHlX9Rce9hRjQ1+EG+Z+DnrAMjjLq1On6eLddVIZMAVxzz61kbIvSkPEOebWo49D9dLNXV+CjKy3qnbvCFwvkfHqKoq7yBMy/Tk8oeLOA=
+	t=1777292452; cv=none; b=lvitY4wFytQOXYxkUChipsT52J46O6YpDN3bSAmIdfjanX9d0v41bUPSHDua8pj1LM6D41BEJd8WTCMMnEr0BNTzKuswdi6plil7UcfpbtJ4dqQKscRKcgUWlwdvMG55LBsdN+AVMnivUYtxmzBizAg6SkGYWuII5deQ0ps3IiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777292091; c=relaxed/simple;
-	bh=XrR8UQT3SYZEIZPgw4Q27ERO78nahVhqymlOUnOBBjY=;
+	s=arc-20240116; t=1777292452; c=relaxed/simple;
+	bh=I+sSQrGnFg7uXM8WMzKok2xZaU8VuYoB5k974gbi17Y=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=My0iNwJoFLcQLtfShEkkacbClPu8XTVjyYozZpgpbqTcQ7b+95Pr9aZdsQ3sRwTEJ4GY3UWVg3fWflF2bcOAJcEg3+6JyjZyox6zJ7GKg9CxPXN+eER2s8fuuttP/FAtcIjZZkNuTZ5w2DN7muCzy+dAHw+m8Mnw0HJMeQ1vwT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fxJJ/bCw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=b1wYDpe0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fxJJ/bCw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=b1wYDpe0; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=e85z2662HqCxGFRKmLUqUf6c02EeB9YeapPEcf3mf/r+YpU0a/n3RPMECSW5x0PUOYWByqi0fOH0gxT210aF8hb15cYJrMLWzTmrftDU7QBFBx+T9JiZbC8J8aWxKyhZp1ML3zu5Oqr95tlKa0DE1A6J6W5c4uI4YqHk5LIoL3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Js4+REhG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iAuvspl2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Js4+REhG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iAuvspl2; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fxJJ/bCw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="b1wYDpe0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fxJJ/bCw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="b1wYDpe0"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Js4+REhG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iAuvspl2";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Js4+REhG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iAuvspl2"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 86B945BD1D;
-	Mon, 27 Apr 2026 12:14:48 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5C7296A824;
+	Mon, 27 Apr 2026 12:20:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777292088; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1777292449; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZU0u6OWxd8mWZq1+vve2FcXArW1AAS9q83WyUtVHBXA=;
-	b=fxJJ/bCw2dz7o3hUFDtwLgDqfsuYnBE1rMzEMnUPdz3mRg1LW4JjQ4uni3irlLbrzd83zG
-	6V1tHGL6F67Tqpjrj/wfclTqpQVqQsu8iJBcitr2SuZkJdBFuJ6QqowMVlGPDqHv1tFqpe
-	7Ktk7cNh4xZWKriAKlA+FJ6F747VSno=
+	bh=8/pm6Dp1/1Kbfhrmb4B0Vz0Z+pChB/b593DGbioa7nY=;
+	b=Js4+REhGvOn8J4iTt80WY2BjuDGFPf3E0jEQ42nElWI4BERd1jSy54uve0yC3pbELPPz/u
+	F3xsjTTYdQovCrEb2SVnzopPi9tHe3Zj+BQ0MVXewqOr3GKDGnPOSQLVJ8o8e5eLnsdnt9
+	JFIyXDzDR2wFJrllZ+AGA8WIeebEn64=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777292088;
+	s=susede2_ed25519; t=1777292449;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZU0u6OWxd8mWZq1+vve2FcXArW1AAS9q83WyUtVHBXA=;
-	b=b1wYDpe0FoEuBwjdz+jmW67vbVggloUUq6SNkeR12W7buuBGD/iyiRyb12lg8lAf8UEcIq
-	y4b7mos2IzELXUAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="fxJJ/bCw";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=b1wYDpe0
+	bh=8/pm6Dp1/1Kbfhrmb4B0Vz0Z+pChB/b593DGbioa7nY=;
+	b=iAuvspl2bhZcskXp/y8o/XsMSW4X6g8XupN35arTGGwmuimNPjcgTKLDuG9uumCiUOmiMf
+	K67S1J6ZtAoEunAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777292088; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1777292449; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZU0u6OWxd8mWZq1+vve2FcXArW1AAS9q83WyUtVHBXA=;
-	b=fxJJ/bCw2dz7o3hUFDtwLgDqfsuYnBE1rMzEMnUPdz3mRg1LW4JjQ4uni3irlLbrzd83zG
-	6V1tHGL6F67Tqpjrj/wfclTqpQVqQsu8iJBcitr2SuZkJdBFuJ6QqowMVlGPDqHv1tFqpe
-	7Ktk7cNh4xZWKriAKlA+FJ6F747VSno=
+	bh=8/pm6Dp1/1Kbfhrmb4B0Vz0Z+pChB/b593DGbioa7nY=;
+	b=Js4+REhGvOn8J4iTt80WY2BjuDGFPf3E0jEQ42nElWI4BERd1jSy54uve0yC3pbELPPz/u
+	F3xsjTTYdQovCrEb2SVnzopPi9tHe3Zj+BQ0MVXewqOr3GKDGnPOSQLVJ8o8e5eLnsdnt9
+	JFIyXDzDR2wFJrllZ+AGA8WIeebEn64=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777292088;
+	s=susede2_ed25519; t=1777292449;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZU0u6OWxd8mWZq1+vve2FcXArW1AAS9q83WyUtVHBXA=;
-	b=b1wYDpe0FoEuBwjdz+jmW67vbVggloUUq6SNkeR12W7buuBGD/iyiRyb12lg8lAf8UEcIq
-	y4b7mos2IzELXUAg==
+	bh=8/pm6Dp1/1Kbfhrmb4B0Vz0Z+pChB/b593DGbioa7nY=;
+	b=iAuvspl2bhZcskXp/y8o/XsMSW4X6g8XupN35arTGGwmuimNPjcgTKLDuG9uumCiUOmiMf
+	K67S1J6ZtAoEunAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5947F593B0;
-	Mon, 27 Apr 2026 12:14:48 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2A3C8593B1;
+	Mon, 27 Apr 2026 12:20:49 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3hNZFDhT72k+CwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 27 Apr 2026 12:14:48 +0000
-Date: Mon, 27 Apr 2026 14:14:47 +0200
-Message-ID: <87eck0zjk8.wl-tiwai@suse.de>
+	id /uljCKFU72lSEQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 27 Apr 2026 12:20:49 +0000
+Date: Mon, 27 Apr 2026 14:20:48 +0200
+Message-ID: <87cxzkzja7.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Naser Al-Asbahi <nasserqahtan0@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add micmute LED quirk for Acer Aspire A315-44P
-In-Reply-To: <20260425154014.83982-1-nasserqahtan0@gmail.com>
-References: <20260425154014.83982-1-nasserqahtan0@gmail.com>
+To: "Geoffrey D. Bennett" <g@b4.vu>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/3] ALSA: scarlett2: Fix 2i2 Gen 4 direct monitor on firmware 2417
+In-Reply-To: <ae0tEsi8dKm1akJd@m.b4.vu>
+References: <ae0tEsi8dKm1akJd@m.b4.vu>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,56 +87,84 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 86B945BD1D
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
-X-Spam-Score: -3.51
+X-Spam-Score: -3.30
 X-Spam-Level: 
 
-On Sat, 25 Apr 2026 17:40:14 +0200,
-Naser Al-Asbahi wrote:
+On Sat, 25 Apr 2026 23:07:30 +0200,
+Geoffrey D. Bennett wrote:
 > 
-> The mic-mute LED on the Acer Aspire A315-44P (subsystem ID 0x10251640)
-> does not light up when the microphone is muted. The LED is connected to
-> GPIO3 of the Realtek ALC256 codec.
+> Hi Takashi,
 > 
-> Add a quirk entry using ALC256_FIXUP_ACER_SFG16_MICMUTE_LED, which
-> configures GPIO3 (bitmask 0x04) as the micmute LED, identical to
-> the Acer Swift SFG16.
+> Firmware 2417 for the Scarlett 4th Gen 2i2 moved the direct monitor
+> gain parameters, breaking that control's functionality.
 > 
-> Tested by manually sending HDA verb commands directly to the codec
-> and verifying that GPIO3 drives the LED while GPIO1 and GPIO2
-> do not.
+> The driver already has per-device scarlett2_config_set tables
+> describing each parameter's offset, but only one table per device, so
+> there was no way to express "this offset changed at firmware version
+> N". This series adds that capability and uses it to fix the 2i2 Gen 4.
 > 
-> Signed-off-by: Naser Al-Asbahi <nasserqahtan0@gmail.com>
+> Patches
+> -------
+> 
+> 1/3: Replace the device info's single config_set pointer with a
+> config_sets array of {from_firmware_version, config_set} entries, and
+> resolve the running config_set at probe time once the firmware version
+> has been read. Each device gets a single entry matching its previous
+> min_firmware_version (or 0), so this is a no-op preparation step.
+> 
+> 2/3: Drop the now-redundant min_firmware_version field from
+> scarlett2_device_info; config_sets[0].from_firmware_version carries
+> the same meaning. No functional change.
+> 
+> 3/3: Add a second 2i2 Gen 4 config_set with DIRECT_MONITOR_GAIN at the
+> new offset, gated on firmware >= 2417. All other offsets are
+> unchanged.
+> 
+> Patch 1 is a prerequisite for patch 3. Patch 2 isn't a strict
+> dependency, but it removes a now-redundant field, so patch 3's Cc:
+> stable trailer names both 1 and 2 as prereqs by subject (please
+> substitute SHAs at apply time). Patch 2 can be dropped from the stable
+> backport if you'd prefer.
+> 
+> Tested
+> ------
+> 
+> Verified on a Scarlett 2i2 4th Gen by writing to Monitor 1 Mix A Input
+> 01 and observing with usbmon:
+> 
+> - Firmware 2128, patched driver:   write targets offset 0x2A0
+> - Firmware 2417, patched driver:   write targets offset 0x2A4
+> - Firmware 2417, unpatched driver: write targets offset 0x2A0 (bug)
+> 
+> Regards,
+> Geoffrey
+> 
+> Geoffrey D. Bennett (3):
+>   ALSA: scarlett2: Allow selecting config_set by firmware version
+>   ALSA: scarlett2: Fold min_firmware_version into config_sets
+>   ALSA: scarlett2: Update offsets for 2i2 Gen 4 firmware 2417
 
-Thanks, applied now.
+Applied all to for-next branch now.  Thanks.
 
 
 Takashi
