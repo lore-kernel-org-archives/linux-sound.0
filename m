@@ -1,298 +1,190 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEF233064A
-	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 15:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777302915; cv=none; b=g82wwhrngHwKk97H9p3Obq+BZIMUgNnpaM9HxESCKjJzQ9dS5bMyi/fr2iMU8ljVFLITa3hmzuzHPwQxp99HfY7YyP8FvxcM3ZwrFOaO5hrtmfHvbmLAc25Qbi0mrVkwp73wyEE1js7vXfpbqReoOYsjo2/k3yfeEsPt4euayUo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777302915; c=relaxed/simple;
-	bh=oAvst4+8s1KLzkzKIZUuFW9XPW9ZSZItW3PSVaUaLVI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BsU9R4v2Le9ZBGZV94WefCo3KrN79/FinNmHTjfpp1fwcgD2Tt2UZ5iB+EV1SVPbWz0+uQ7o026E8SqNY8aQOPvuoN3JqhV6gvEURJqu+44ZyhNciOErF4vB4il66Fm7FNVOiINL4oXRa+AKqXy3S47MB78M9ev3nxNw4haV+Ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NMswLVNV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KjMm/mH1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NMswLVNV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KjMm/mH1; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF7C31ED83
+	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 15:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777303205; cv=fail; b=HSX1zwk8eOsu6y4XbI/dh71ZNd0tN+BnX/1hQdQr/Bjkm1ph0335A/bT8IG7nz6DnzraCqttMIIAzbbMsPCFP3+FD5JItuOvIDpnMXyAhTtkc+C27WOepv7yr+z1iRulDx1nU510PxmBOr7jOCRzi4Tfxb6TayOABYNb1u+bigM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777303205; c=relaxed/simple;
+	bh=TbN7TNoelyAEk7J1HlGuGUb8pBguqHNO6YNj1iwD4Bk=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=SbG8M0AEZ18k2cIbC5Z6mu5WiGg4k9KJbD1ScD7Tbs1YPqLpOW1Oq33YlVN4GC1Z9TVbr/zlitQDmznbfLpCwH+g5SevYLsrlSuq2FK1RMVcGVI5GofouIWqx2al+KXXLAkapbQiMY+oONTLZxmyRD0+5hZtxIA03e/r4DjlWa8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Umy90jj4; arc=fail smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NMswLVNV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KjMm/mH1";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NMswLVNV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KjMm/mH1"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8BB7B5BD28;
-	Mon, 27 Apr 2026 15:15:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777302910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=3z+5h1XhEekJKvv/3xuLzHGo+E7n/vHH4h0N8z82KKk=;
-	b=NMswLVNVf0Sd7jZR1BUq4JbRZ4HzIO26eyQHrDxsRWc0DRzLkiiHuneuNjLxsZo5ufIQuC
-	PseHht8ASHYjcd1uyszgngw7+pAUMeZpNUsQivGZaz3YB2R0ezq/uFnSACOvTN0YZinLmz
-	kQq+4anHIIw8K+t6Y4ZgBQb1GTCnt4M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777302910;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=3z+5h1XhEekJKvv/3xuLzHGo+E7n/vHH4h0N8z82KKk=;
-	b=KjMm/mH16eZFSvBzWy9VcB53XjHjya9QgS0z4JyOEUUuff7YCREqajt3QGulkjD+p+0dAP
-	CJI2AM0mfZLS0YDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777302910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=3z+5h1XhEekJKvv/3xuLzHGo+E7n/vHH4h0N8z82KKk=;
-	b=NMswLVNVf0Sd7jZR1BUq4JbRZ4HzIO26eyQHrDxsRWc0DRzLkiiHuneuNjLxsZo5ufIQuC
-	PseHht8ASHYjcd1uyszgngw7+pAUMeZpNUsQivGZaz3YB2R0ezq/uFnSACOvTN0YZinLmz
-	kQq+4anHIIw8K+t6Y4ZgBQb1GTCnt4M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777302910;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=3z+5h1XhEekJKvv/3xuLzHGo+E7n/vHH4h0N8z82KKk=;
-	b=KjMm/mH16eZFSvBzWy9VcB53XjHjya9QgS0z4JyOEUUuff7YCREqajt3QGulkjD+p+0dAP
-	CJI2AM0mfZLS0YDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6AAB0593B0;
-	Mon, 27 Apr 2026 15:15:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id I6HmGH5972mRRQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 27 Apr 2026 15:15:10 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Fix potential leak of pd at parsing UAC3 streams
-Date: Mon, 27 Apr 2026 17:15:04 +0200
-Message-ID: <20260427151508.12544-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Umy90jj4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777303203; x=1808839203;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=TbN7TNoelyAEk7J1HlGuGUb8pBguqHNO6YNj1iwD4Bk=;
+  b=Umy90jj4UWjdZ43Qiwo3GbqZpsc7IsMBXXtoTDMUL8Fj1yIzOudtqvGu
+   RiQ5JWfUjmvtWbpyDN95SBPZ5v8WZRUQlLAWoN8c0ox5z4ZZN/5Dtw3hG
+   K7KT1gwfwf1dG+38ldUIEuJ0R7G1Vx73pmVV5oV8ifS0GbL/WoeLykOPB
+   pL7vvV1v/z8D4yswc4VPNIMTlPVPoaq/0p30IKyhAqiMZO1VgS5RqcOM8
+   voECOhJjosn84/SsKpbAzIoMs+0en6n+niws26xEayPw1ym4MMag5uNZj
+   CBbXm8PK/zZMYFGcd7whq0Erf1XWLoXBz0A0EythXjrviZ+Zrx6nGips/
+   Q==;
+X-CSE-ConnectionGUID: PhkyYrDnSwCaxHl3OCi/SQ==
+X-CSE-MsgGUID: IWtaFDVuSSizlbJzWtEnKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="88890575"
+X-IronPort-AV: E=Sophos;i="6.23,202,1770624000"; 
+   d="scan'208";a="88890575"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 08:20:02 -0700
+X-CSE-ConnectionGUID: oH1UDCJkQ3W4U0v7YgdAGA==
+X-CSE-MsgGUID: HfKHQ2IrRe+KdDqagaPuzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,202,1770624000"; 
+   d="scan'208";a="229107359"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 08:20:02 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 27 Apr 2026 08:20:02 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Mon, 27 Apr 2026 08:20:02 -0700
+Received: from BN1PR04CU002.outbound.protection.outlook.com (52.101.56.39) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 27 Apr 2026 08:20:01 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LZA9643lWRx1X+nP8Xc6mSDyML6SqDvX+PU+SlxjCszg0Lffl+S0ufgkKgjQ940wHAJ6qIVwyvG7eiQp9bF5Sdxz9F8wMtUOVACwocQsElfJP339IqLzAE10/uXYeYun9ZsIPAm0+QHjRhSeRXhIqSrvHRv3uaTjAI1s1hNXYUAfmsfz1e9BB6CusZDpZi61h5beYWK7UjZK/fVV+0ZSrCi+YMHcp6px2ZvuvbWoeZmcpHN2upcnoII3CGDVo273Ws2c8Q1LFtSbaJnz3+B4Iy9M5N0yR3L6Jy0EiDx+0lyYDak090gwQ/k8MAh1dM6so9koseT70E/q2DffRiiXSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D1QQ1bPnSvcZHaObXPGwhUWIi7c72+IdObwAvk94uG0=;
+ b=OSMYr5RCxEGA7J9CiQN5/Hk0vc+d2YvVeNbTONqyiUwFBEKuIvkqOSOXgS6zMLuktGcyvbUeefWE+aXotiuqHeCO+JYCEu+/cU/+A8qi7jIjucq5Q8Q+h4GHHi5loCMNlImuJ+TRp7q2j4ncwxsVp9FulkNGO1nDTIIVcKkW5nr+8LzvLJgXYBearlHA4oGyyAo/pec5RV0C0WosYkNWXJ/reFwef6NegBwLR+M65JvKTlZ+HX76Lip153DNNGS3WlbPc4IemUcytRGM+dRFp4zlgWEpD4beWqBMT5dk9eFxww8lVCGB9DsAH8cNZTIvkcGHWtW6b8cHicVEKNKP9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
+ by SN7PR11MB6603.namprd11.prod.outlook.com (2603:10b6:806:271::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.16; Mon, 27 Apr
+ 2026 15:19:58 +0000
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4%4]) with mapi id 15.20.9870.013; Mon, 27 Apr 2026
+ 15:19:58 +0000
+Message-ID: <4d5f3abb-bab9-468e-b1be-74bfa728b255@intel.com>
+Date: Mon, 27 Apr 2026 17:19:51 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: Intel: cht_bsw_rt5672: Simplify probe() with local
+ 'dev' pointer
+To: Sachin Mokashi <sachin.mokashi@intel.com>
+CC: <linux-sound@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+	<tiwai@suse.com>, <pierre-louis.bossart@linux.dev>, Mark Brown
+	<broonie@kernel.org>
+References: <20260427144619.1739971-1-sachin.mokashi@intel.com>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <20260427144619.1739971-1-sachin.mokashi@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1P194CA0035.EURP194.PROD.OUTLOOK.COM
+ (2603:10a6:803:3c::24) To SA1PR11MB6967.namprd11.prod.outlook.com
+ (2603:10b6:806:2bb::15)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWO(0.00)[2];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|SN7PR11MB6603:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1366042b-a34d-4014-af5a-08dea4707173
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: PGWDUqYGfTcgSzThR9vlY54IFCPOLsSRtUcC+BsB2p/JaTITOo3vPrKEAYkir4RRalqZCv5wkrI6wHF0gzm3p7u2AmOikvhh9pTsBqjtcKq3K/Bc1WCzb4Sj/oObMIlrUAEofXhxij245taTIJONXK5IaNREsII02c+DHTZdFSfxR1rjrqbW5oVRJqLQO9nHSuPasWUqY4yf2NP0XijsocWm5dDHU/+oxXWGLkzYpS2lPnXKBV/jQLYFywBNm5buWmQwz0YSOUoeQ2xIbhWYa5YLtx17Wb9SxOnsiNZCjBXGzaA6B63raRA86frJ1sfSOutOTEfNdCtNp7o7R0JsykllQhtzgkVMbXwS/JE4UG1EGr9e+XASyOkVI7O+Pu2V15/hqGScGeHfpPbJvMZg/vhfUd2zH6d0w4SKz/UD7OXTj2Gdf7K9QMSAPxX32pObYRYmnWK3JLK9gHIuUre+3oRh5ZZ9yscLAIvYSY0JM4mAaEl7EYchSSLPrMWteXyvaHEq9HuAGSVnvBzYBdNDmpwVq8UKpQ3A1hdUy938Ra78Glmcz/xgJQ32Y3ca9orazBdl5s2eZjx6GTpns4KKl9S6imYYlrJCKfoDzjqVp9WLsBYDYm01D/IN9yYDhv5NpyKM95iKh3afbSfsluobm1t+ijgI975Ri+7S/N2Af4WXRtHtWn7I48AxbMEfZJh+jsAohVz31mNBlKS1uGOBfNmGCGcecS8W6qEgz8SHZ4g=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZHJqOXpBQjAzL2RuTGZvSGltTDlxVGQyUzllOVZ6YlRVMC9FMVYxeGE5TlF0?=
+ =?utf-8?B?OWlndTNtQnVxeVdVUHRwLzZPdWFnb0RxeURRbDMrNG4wWW5zQ3Q0YXNEWGIx?=
+ =?utf-8?B?RTI2RGoxSElpTmFXdW9yTTZrODkzblBkd2FUVTB2SXRnZytQbkdDT0tiai9U?=
+ =?utf-8?B?L1dGWHZYMkUyN2dacmtHUXBZZ3V3K1UycGxiOXg2UTVEaGpTSWZPZHM2NnJz?=
+ =?utf-8?B?S3B0M21EY2tCN1VaOEpOMSsxbkNaaGREb2swU2tWWXo4NEZzdEUvZ3psVnd3?=
+ =?utf-8?B?a0psRGZGSS9qOCtRb2gzV2RacGV4Q1lOVUhsTlBMOUgyc0doSW5kTGNwQ2Ja?=
+ =?utf-8?B?NE96YzhHSjRheTRNeGJZNmErcXZUMzYvMkkyc1J1ZHJhdkw0dzhNWnFKVHlT?=
+ =?utf-8?B?NUtjaVFpYis1S3p0Rm1oWTJKRWdtaExFaGFpK2tRTXhDdENrRllIc0pSOGpr?=
+ =?utf-8?B?U1p5S05HUW51NVVIbU1KOWMxTXBxWlRycUt0b0E3QnExZTRoTDlSZkl3UlZE?=
+ =?utf-8?B?QlhHelJOeWF3c3gySjhsRmdzbDdiTFNnN2ludFVLNkFPU0U3amJPZG9LT3Qw?=
+ =?utf-8?B?aEpsRkJoUnUrcUZ0YWRpc0l2b3hoZVowZlJzbVNheUd5aWlvbjRFTzYraVIv?=
+ =?utf-8?B?dGd2K3dDTlljMkZlRWMwbGxhcW9hSml4akVZWTkxS21nbjNwWVg5cmdud2p0?=
+ =?utf-8?B?UFg4WlZGdFpmV3JYR2liejVIdXdBUDhPTExNcFR0VmFCRm8xN0piRXh6d3hy?=
+ =?utf-8?B?MzlIeWdLS3MxM2x6bUxwUWtMYk5oRzJtUEFDcGxyYXluN0t5ZkczWXdQUlQy?=
+ =?utf-8?B?cXF5K2hFenhDZFUzMWN6dlBnenBldDhiVVdLOVp3azMrZFlzZ2NLL08xVHhw?=
+ =?utf-8?B?Q0xlQmRkQ1EybHlHWExrVEI3MWptTVNnUDg0RjBZZjk0KzlnVzBiMDgwZkJX?=
+ =?utf-8?B?V091M2lMWkxaaWh0dWNtVHlXMlBPdHBsVUVqWERWZUJ3a0pXNC8xMlhqaFRO?=
+ =?utf-8?B?SGtCTmx4bktxd0N3a2V6Y3JVRjVNbk50RE52a2s2SWxIZDZ6U1pFQlhrRnh4?=
+ =?utf-8?B?eHM1TGNqUEFRNHJDRU43dE83QXFSU3ROUUJUVi8zU0xPeEJjT1IxelBBWlRs?=
+ =?utf-8?B?aDRzVDYyeFN3b2xGNVVkRXZtdVNWTzg3VzlzZWUwdFR3dGJudU1ZSklJalh6?=
+ =?utf-8?B?OVRNc3pYZXlYZEVRZEFyZTc3eVBONEVCZEFPeE5GeGp4eXJRMEM2T0ljZ1hw?=
+ =?utf-8?B?NjJXZS9oV1lMRjJJTWZFZHF5WlFXQnNaeGpJRmZ5NDRKVytUOGlsWE9ub1Rp?=
+ =?utf-8?B?MnlLbjdabHZzNzUrTHA1ck5LYWpPOFZIVU1nUlFRakRXa25BNG9ZcEhqMnZ4?=
+ =?utf-8?B?WUY0S2xBSWg5V202U3hDKzJSNTRFQnhkemp3KzZXb1M5UUtpWTJOZVZyekgx?=
+ =?utf-8?B?YTJqbGlpVFpWQ3N3ZHdWcE15RFJsd1ZNbTJOMWgzQzYrNjJtZ05BSDZGODlm?=
+ =?utf-8?B?SGo0YkNERytGSk1qZkhFbjJ6TVRJMDEwTmdvZnJ0U1FqYmd3czNCUWxqUits?=
+ =?utf-8?B?eFNieFFCemhudUNsb1owOTY3SzcwbmhUWEN4TkQ5RjNBQ0hXYzY0SldXaDJj?=
+ =?utf-8?B?N2xMUVFCR2VvTTJodGZxQStzQXBzWFhxWkQ5MFM5dU4rcU5UZ2JyQUtrbW16?=
+ =?utf-8?B?Z2NvbWtRL3pJWERnZDFqNk5PRWhqNElWbzUwTW9YRHBaVUJqRWZlUXltdXho?=
+ =?utf-8?B?WHhXL0F0RUR2M0VFT1dwMjk2K1dIcU9xYitxTy93SG5YYXRiOXo4MnMxRVM5?=
+ =?utf-8?B?eEJyRExkTWZNRlQxRnd0VmhJQVgydzR0cHhiWm85VFVQaUhQSm1Mb1B3Y20w?=
+ =?utf-8?B?UE81K1pLMEZOZ0txZGxGMjd5TFFMUUxneFZtSG8rYzRSUk9FU0gvZnRweTRM?=
+ =?utf-8?B?WlB1YjRxR09EU3JNR1hkTWJzVFdzanloa1hKMmF5M3lRc1grUHRSV3MyeWh5?=
+ =?utf-8?B?ejhXRStjYUQzQzlHUHNjZXd2a2xxQjgvM1lQMjRGZk5zMXVZREpWY1gvNzhL?=
+ =?utf-8?B?T1FtL3dTRmxjQmNZV3oxcFJ0WjYrL3oybm9QTEZZa1NHK3hBaVVack0zZ010?=
+ =?utf-8?B?Q1UwMGg4YmVLRGhKdXhUaERSbUtzV3N1YVFQelRPSHVyQ1VVM1FPS1hLbmx3?=
+ =?utf-8?B?MGhtWHpDbjgrNDNOUFZ6c25OU05USUNJeWZjUXliQWlNTXBRVngxazZRaGs5?=
+ =?utf-8?B?ZFJEalJrMi9QemE4L2x1MDdLbXlKZGFKVml1L0FCZHJTNng0aWJFRzk5Yms2?=
+ =?utf-8?B?SEJoNjVCYThSUXRpRHdhWm5TOUFoRnVyUTRoRFVGWUdlWjN4dURKVEpJOWQ3?=
+ =?utf-8?Q?CPqrx17XCsYV4x4U=3D?=
+X-Exchange-RoutingPolicyChecked: qcXI3TLVuryYZCeRZcGWGGgzeIAu2LIhf3uU4MPfC14VhTNfb1Qxtg+TeNBKOPIAY+EIsHCG1Pd6Do9YrgmneMpYOfj1e3IIjv17uFjj9d58ghPF6m60daKO7JhI2jZcUuB+eHB4ZqC8VmtnG0saofjfdPwpoEOwNk/5VMrSzX1+2e2z1hWXfrnEKHjZSKC9TV2a0ZM3iGU6WJ9Us1i//k6CxYTOtHAATOn8SFsrBuxI+rFYpjme+SqcXh2pdsAWsLrf/Gm+OFRpdGtyzYXqo26tMFikXrmZH0X68r+gx0ZWASWogF3vfrQgD1QGvbPJ27Zwdtf/ygi+riiA7uMvFw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1366042b-a34d-4014-af5a-08dea4707173
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2026 15:19:58.2796
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OYrSskb3+wRJ4riEBsvp5UHgOzY7lvCFOCQgnuqix4gvubZo0tdDeilHj93/mXoWCmbLoSTWtrtkWztb1VR0OIl0EL6LvEUFYS1nt41AG3E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6603
+X-OriginatorOrg: intel.com
 
-At parsing UAC3 streams, we allocate a PD object at each time, and
-either assign or free it.  But there is a case where the PD object may
-be leaked; namely, in __snd_usb_parse_audio_interface() loop, when an
-audioformat shares the same endpoint with others, it's put to a link
-and returns from snd_usb_add_audio_stream(), but the PD is forgotten
-afterwards.  Overall, the treatment of PD object in the parser code is
-a bit flaky, and we should be more careful about the object ownership.
+On 2026-04-27 4:46 PM, Sachin Mokashi wrote:
+> In snd_cht_mc_probe(), &pdev->dev is dereferenced repeatedly throughout
+> the function. Introduce a local dev pointer
+> early in the function and use it consistently in place of all open-coded
+> &pdev->dev references.
+> 
+> It reduces repetition, improves readability, and aligns with the common
+> kernel driver pattern of caching the device pointer at function entry.
 
-This patch tries to fix the above case and improve the code a bit.
-The pd object is now managed with the auto-cleanup in the loop, and
-the ownership is updated when the pd object gets assigned to the
-stream, which guarantees the release of the leftover object.
+One nit below but it's not a strong for v2.  For the patch:
 
-Fixes: 7edf3b5e6a45 ("ALSA: usb-audio: AudioStreaming Power Domain parsing")
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/usb/quirks.c |  2 +-
- sound/usb/stream.c | 58 ++++++++++++++++++----------------------------
- sound/usb/stream.h |  3 ++-
- 3 files changed, 25 insertions(+), 38 deletions(-)
+Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 7b803ad58487..0b4ecc2c6bcc 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -125,7 +125,7 @@ static int add_audio_stream_from_fixed_fmt(struct snd_usb_audio *chip,
- 
- 	snd_usb_audioformat_set_sync_ep(chip, fp);
- 
--	err = snd_usb_add_audio_stream(chip, stream, fp);
-+	err = snd_usb_add_audio_stream(chip, stream, fp, NULL);
- 	if (err < 0)
- 		return err;
- 
-diff --git a/sound/usb/stream.c b/sound/usb/stream.c
-index 6c51226f771b..f8f56ace5652 100644
---- a/sound/usb/stream.c
-+++ b/sound/usb/stream.c
-@@ -79,7 +79,7 @@ static void snd_usb_audio_pcm_free(struct snd_pcm *pcm)
- static void snd_usb_init_substream(struct snd_usb_stream *as,
- 				   int stream,
- 				   struct audioformat *fp,
--				   struct snd_usb_power_domain *pd)
-+				   struct snd_usb_power_domain **pdptr)
- {
- 	struct snd_usb_substream *subs = &as->substream[stream];
- 
-@@ -105,10 +105,11 @@ static void snd_usb_init_substream(struct snd_usb_stream *as,
- 	if (fp->channels > subs->channels_max)
- 		subs->channels_max = fp->channels;
- 
--	if (pd) {
--		subs->str_pd = pd;
-+	if (pdptr && *pdptr) {
-+		subs->str_pd = *pdptr;
-+		*pdptr = NULL; /* assigned */
- 		/* Initialize Power Domain to idle status D1 */
--		snd_usb_power_domain_set(subs->stream->chip, pd,
-+		snd_usb_power_domain_set(subs->stream->chip, subs->str_pd,
- 					 UAC3_PD_STATE_D1);
- 	}
- 
-@@ -492,11 +493,14 @@ snd_pcm_chmap_elem *convert_chmap_v3(struct uac3_cluster_header_descriptor
-  * if not, create a new pcm stream. note, fp is added to the substream
-  * fmt_list and will be freed on the chip instance release. do not free
-  * fp or do remove it from the substream fmt_list to avoid double-free.
-+ *
-+ * pdptr is optional and can be NULL.  When it's non-NULL and the PD gets
-+ * assigned to the stream, *pdptr is cleared to NULL upon return.
-  */
--static int __snd_usb_add_audio_stream(struct snd_usb_audio *chip,
--				      int stream,
--				      struct audioformat *fp,
--				      struct snd_usb_power_domain *pd)
-+int snd_usb_add_audio_stream(struct snd_usb_audio *chip,
-+			     int stream,
-+			     struct audioformat *fp,
-+			     struct snd_usb_power_domain **pdptr)
- 
- {
- 	struct snd_usb_stream *as;
-@@ -529,7 +533,7 @@ static int __snd_usb_add_audio_stream(struct snd_usb_audio *chip,
- 		err = snd_pcm_new_stream(as->pcm, stream, 1);
- 		if (err < 0)
- 			return err;
--		snd_usb_init_substream(as, stream, fp, pd);
-+		snd_usb_init_substream(as, stream, fp, pdptr);
- 		return add_chmap(as->pcm, stream, subs);
- 	}
- 
-@@ -558,7 +562,7 @@ static int __snd_usb_add_audio_stream(struct snd_usb_audio *chip,
- 	else
- 		strscpy(pcm->name, "USB Audio");
- 
--	snd_usb_init_substream(as, stream, fp, pd);
-+	snd_usb_init_substream(as, stream, fp, pdptr);
- 
- 	/*
- 	 * Keep using head insertion for M-Audio Audiophile USB (tm) which has a
-@@ -576,21 +580,6 @@ static int __snd_usb_add_audio_stream(struct snd_usb_audio *chip,
- 	return add_chmap(pcm, stream, &as->substream[stream]);
- }
- 
--int snd_usb_add_audio_stream(struct snd_usb_audio *chip,
--			     int stream,
--			     struct audioformat *fp)
--{
--	return __snd_usb_add_audio_stream(chip, stream, fp, NULL);
--}
--
--static int snd_usb_add_audio_stream_v3(struct snd_usb_audio *chip,
--				       int stream,
--				       struct audioformat *fp,
--				       struct snd_usb_power_domain *pd)
--{
--	return __snd_usb_add_audio_stream(chip, stream, fp, pd);
--}
--
- static int parse_uac_endpoint_attributes(struct snd_usb_audio *chip,
- 					 struct usb_host_interface *alts,
- 					 int protocol, int iface_no)
-@@ -1113,8 +1102,7 @@ snd_usb_get_audioformat_uac3(struct snd_usb_audio *chip,
- 		}
- 	}
- 
--	if (pd)
--		*pd_out = pd;
-+	*pd_out = pd;
- 
- 	return fp;
- }
-@@ -1129,7 +1117,6 @@ static int __snd_usb_parse_audio_interface(struct snd_usb_audio *chip,
- 	struct usb_interface_descriptor *altsd;
- 	int i, altno, err, stream;
- 	struct audioformat *fp = NULL;
--	struct snd_usb_power_domain *pd = NULL;
- 	bool set_iface_first;
- 	int num, protocol;
- 
-@@ -1171,6 +1158,12 @@ static int __snd_usb_parse_audio_interface(struct snd_usb_audio *chip,
- 		if (snd_usb_apply_interface_quirk(chip, iface_no, altno))
- 			continue;
- 
-+		/* pd may be allocated at snd_usb_get_audioformat_uac3() and
-+		 * assigned at snd_usb_add_audio_stream(); otherwise it'll be
-+		 * freed automatically by cleanup at each loop.
-+		 */
-+		struct snd_usb_power_domain *pd __free(kfree) = NULL;
-+
- 		/*
- 		 * Roland audio streaming interfaces are marked with protocols
- 		 * 0/1/2, but are UAC 1 compatible.
-@@ -1226,23 +1219,16 @@ static int __snd_usb_parse_audio_interface(struct snd_usb_audio *chip,
- 			*has_non_pcm = true;
- 		if ((fp->fmt_type == UAC_FORMAT_TYPE_I) == non_pcm) {
- 			audioformat_free(fp);
--			kfree(pd);
- 			fp = NULL;
--			pd = NULL;
- 			continue;
- 		}
- 
- 		snd_usb_audioformat_set_sync_ep(chip, fp);
- 
- 		dev_dbg(&dev->dev, "%u:%d: add audio endpoint %#x\n", iface_no, altno, fp->endpoint);
--		if (protocol == UAC_VERSION_3)
--			err = snd_usb_add_audio_stream_v3(chip, stream, fp, pd);
--		else
--			err = snd_usb_add_audio_stream(chip, stream, fp);
--
-+		err = snd_usb_add_audio_stream(chip, stream, fp, &pd);
- 		if (err < 0) {
- 			audioformat_free(fp);
--			kfree(pd);
- 			return err;
- 		}
- 
-diff --git a/sound/usb/stream.h b/sound/usb/stream.h
-index d92e18d5818f..61b9a133da01 100644
---- a/sound/usb/stream.h
-+++ b/sound/usb/stream.h
-@@ -7,7 +7,8 @@ int snd_usb_parse_audio_interface(struct snd_usb_audio *chip,
- 
- int snd_usb_add_audio_stream(struct snd_usb_audio *chip,
- 			     int stream,
--			     struct audioformat *fp);
-+			     struct audioformat *fp,
-+			     struct snd_usb_power_domain **pdptr);
- 
- #endif /* __USBAUDIO_STREAM_H */
- 
--- 
-2.54.0
 
+> @@ -450,12 +450,13 @@ static int snd_cht_mc_probe(struct platform_device *pdev)
+>   	struct cht_mc_private *drv;
+>   	struct snd_soc_acpi_mach *mach = pdev->dev.platform_data;
+>   	const char *platform_name;
+> +	struct device *dev = &pdev->dev;
+
+Weird location for this declaration. Why in the middle of nowhere?
+
+>   	struct acpi_device *adev;
+>   	bool sof_parent;
+>   	int dai_index = 0;
+>   	int i;
