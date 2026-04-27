@@ -1,348 +1,242 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C57122A4FC
-	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 12:00:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777291205; cv=fail; b=VK4D0Wxkxut9vEi6Tyt5E7rcnIkyARxPAesdika9VNtVBaDxffIOCrlxkiDpkXKbLdgGqjtM5AGnM5ST+STSfea1hygg/0Y0Z5ChJfU8w0RKS2u2asFY2sVe/ElYFGY9er7SkxvhJRo70ljQMq13e/bfOAyukuJ5DIl745jnMGc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777291205; c=relaxed/simple;
-	bh=LDwka08CzwMP0Hp4N7KXpmDl4/DC0PuntD8MuR22WTQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BDx5e9phWT8Fk++yjxa34gI0LBvCVswsoc/HerpBS1VnbphSmfSq5R50jZG95p8sy0oZ0AC0GexOcBFwcoqov4Vp7Ey8qZUzhwrUH968sDpNDPCafy41ieOWQNKUisAIRFPjFRHBd3StcJOdjt4L73iwqB94QD2c0pa37Mx9lbI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=dMFeO0/t; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=k8v5PwqG; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DFB3B0AD4
+	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 12:06:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777291572; cv=none; b=YGfrlFQ5bxvsk4wumTQ7ng3cDyKlKMRlqirFkSnhMiBaP0UWtK/NGMzJx14VK1ql7smqwhmyrwioOa0weXY0n5dT1zW29fdi7PDXvXQA89+mrwjoUQCMhcUf1uA9ucEeG6FXGb5FnCTK5ihI2sK8hWsoJJ8km6/YeA0ahdLxHlQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777291572; c=relaxed/simple;
+	bh=F6MsY6q4bSeme9jrlCkMC7+dXwQzMH5QgSd0FEaplVw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nY/R+SerRlq6y1Iod2Z4TkdNbR/KyJuPx4BllfKa+efCQIru4VSsYB/YG/GaKsZFifTWXWv37xoW/ot5roElTeJJbnLpoqz3TEJnZMmexucJf6weqSsWP0LVBrfxj6FcxqB2HWkWWMfbiHqC1YoZVtQYeHvd8Z5hZMIJnMr289E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=AM7uF6/V; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=V325ap2Q; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="dMFeO0/t";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="k8v5PwqG"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63R6AhQj2037150;
-	Mon, 27 Apr 2026 06:59:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=EsR+FxU1A3IMVVOma8/st5RlzvegyTE102AP/+RLb3w=; b=
-	dMFeO0/tUh1MigroD3EbcvaOmeoB9NTLhW4R8fBOQdC/+9h/6JpkT+hPOilnI1pk
-	fwTf5xw/1DHtPLD1Nx6Ir2zSCRbgeLg7d62abQbcGzh3hJ1rbwuwzgLnKpzYHGLk
-	cweIVZHl1VvHgfSzO9ZkbTMW9/vyqTeEi2OGAYfSJsp66Feah9gIX4xAtVbAFEj0
-	WMilzd5ZwLUWi7cuVGTUf/vRzDJj+/HAm6VYxuSLAnUuiKp4XhABSVIn7UR4cH3O
-	WcCGJ2TYk352Fj6nWJSx2w88Q9ZKV6DK5BGkNL9clongF+WgRvHxkmtys4AwUueK
-	lKCLxboH2IqfYodn6HJKUQ==
-Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11022072.outbound.protection.outlook.com [40.107.200.72])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4drt1jjc0h-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 27 Apr 2026 06:59:40 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sSxwRhlR4VpZrkAkrWETg0EYLAD0xY/2wVms12QOuPOrUEqwYiRxKjs+UepYe+j1QI8YJeXTWREPFxw+1qC+DgQ2cXDKEYrmEV5GCZU9iSJ8p8S5EtJIzIOHGOiBZ34LFRLwuB4y9I10iprMBeqxZdJBVuwZL8XeEOGOnpO5BUIMTK82ketoMre5YYopTOWgOa303bugsJDyMOulLtcPU1op9Q0giIfyS3OutFv5TD0mKiosDFmLpILCTIG5CVjT74xFNDulM0tQmtC6iL7QNRoWLuvEcm+oNM907KncCiRQxhYuvdI4S+AvT+nJd/JTwaKNWnzRCkNbPaDQxRUUEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EsR+FxU1A3IMVVOma8/st5RlzvegyTE102AP/+RLb3w=;
- b=yB/Rs4JtRbi6XVAHUaSsREbzBIr0AMcsPlS8tDSnY6N0l3EWrAb4S0L8WRP6lYAo8aYdR77RACxGVuoRPIx+6tevhAeUYAXxoIpGhqjb0BGEYtS5E7xvNh5XgAu1lF8GzJXQUaUZGQ+FT7E0oWvxdPnxJ6SZg7Hd8eppR7O4X3Unlt4B1/D7cJ9bbWhNfXAnES7QI39fz7eAsN2yVUaA7GidSDFcoCRdKSd9jr+OZt0kJ5XUoFgecN08m4e1j+lBNqZdgzBrncasLAprd1Ij0e0X5YWQcmXpI9uD9LSaOS0JeYvvXUzYYu3oBGJr8m9QbK8gYrYtbXXTnJXroFImdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="AM7uF6/V";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="V325ap2Q"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63R9OeXt3825247
+	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 12:06:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	TsESwDIwA8Eq86xNAI5r6tmdBS46YOMoxxD+xO9ArOU=; b=AM7uF6/V6eslYfVE
+	Zkep01HRb86Ernt5r8jwNmosJ6H6oNeDk6SPF5SLidbxQP1pWXQblU+PMV/JMHTN
+	ZwQTDRySJ7+TWzd+RyS745BSl5isj27ifZYpAaEq3Lvw/5jAK6MLNGjOCtSlSi0K
+	3wiD0nEQVcVHD/pSA+AYH4YtzRcAzqWCsy15OqjkJsedehViNyE8+TMw7AVx1HgT
+	mYpDoNfKKZBeI1t8UHv9iButu1sKucLJNSHjdkjAk0Xm7/xcAEg3OqcSGC/hcHUV
+	balKGGQ+dUIW66KfqOtBJNBGK0QVY4NiVnM/rAgledVe052TBMJdlO2zvuGbXvA9
+	/K6deg==
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dt5550ksm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 12:06:08 +0000 (GMT)
+Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-7dcc8f071b3so14514454a34.2
+        for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 05:06:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EsR+FxU1A3IMVVOma8/st5RlzvegyTE102AP/+RLb3w=;
- b=k8v5PwqG88hRwTGr4Fn5CCDnyvBc0BUXju6pcIJ7+h423UbFM2cSoBYS7Iblio0HQuuWHHSlyPMjV0xdx7Dqnzbu63XNqEn2Dt5ys5sl4603HvozK0cBlI5WGnX0PjZ2ImLAR6BXw0KfunsTUT0Z9420xsypkyAcBX0UYxviK4c=
-Received: from PH7P221CA0049.NAMP221.PROD.OUTLOOK.COM (2603:10b6:510:33c::32)
- by SA7PR19MB997344.namprd19.prod.outlook.com (2603:10b6:806:4d0::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Mon, 27 Apr
- 2026 11:59:31 +0000
-Received: from SN1PEPF000252A4.namprd05.prod.outlook.com
- (2603:10b6:510:33c:cafe::d1) by PH7P221CA0049.outlook.office365.com
- (2603:10b6:510:33c::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.26 via Frontend Transport; Mon,
- 27 Apr 2026 11:59:31 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SN1PEPF000252A4.mail.protection.outlook.com (10.167.242.11) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.18
- via Frontend Transport; Mon, 27 Apr 2026 11:59:30 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 9B496406542;
-	Mon, 27 Apr 2026 11:59:29 +0000 (UTC)
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 8AAD5820247;
-	Mon, 27 Apr 2026 11:59:29 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: broonie@kernel.org
-Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
-        pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
-        linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-Subject: [PATCH 2/3] ASoC: SDCA: Remove sdca_function_data duplication
-Date: Mon, 27 Apr 2026 12:59:24 +0100
-Message-ID: <20260427115925.3801099-3-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260427115925.3801099-1-ckeepax@opensource.cirrus.com>
-References: <20260427115925.3801099-1-ckeepax@opensource.cirrus.com>
+        d=oss.qualcomm.com; s=google; t=1777291568; x=1777896368; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TsESwDIwA8Eq86xNAI5r6tmdBS46YOMoxxD+xO9ArOU=;
+        b=V325ap2QHdHt8DOfagjGBgjOs6YvisqITJk8XVr+jq/gkZUWIoywl15jNHUMR3KKc0
+         n+qUWFkX+iNcSssUpswUSnwQqaOgbDjUb1y0KXgda6llQG6ZcokztebOktp9kQbdanXp
+         Z162Mu4ldpY6LfIDf8eswgdqpc+RMzfcDhFj6KEtW3r/M7nX9bKhDuUECF2EJ2hNlIwE
+         BuBPbq6OC9gD38Pi+1Kfu8NtrPU/xdDI84BZGW0z+gguDmgf57SWLp6PGNu74R9NY9bF
+         PWg49PpTXx5TJPOurhoNUD0yNlHf6BAKW4Vv59Iz/qXh4Wvc2k9J84224onHtk0XKw+E
+         lVKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777291568; x=1777896368;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TsESwDIwA8Eq86xNAI5r6tmdBS46YOMoxxD+xO9ArOU=;
+        b=LbrcZNLpwRczhodj4RixZsu49PdCPS9zKhC4Adb8Et3dU7RvZEdVIkbga9vxN6pG+a
+         0Dumn/RdB38uoK+h3bXPQghPkTn0GHcVe23OMK40isOMT1df/MvXD8cXihv5C/oB4nIH
+         GUr0vmbi6E6gj9ILVqecakq9EH3mL+EmKND+IPWcTjtZ1KHtrxKF82LdPky6wV2vPtZN
+         cT/l2Hiw8UM06/4bdhFB/IoGZP+9isutMuEZPGiurTKVV6zPwDin5X/QZsXWsjrxpG1c
+         EWTJS26PWHaiAz3AjPUYMWYn1sKJf7ObhIlU8vGDq2k9Yo2+vEEaDQorOQ5l9E7vpEkS
+         1ALQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/uhc10mbwxWCrTVzLNUvNAbUpWPi1I017lPk1IszXCQZ9tHSJyVAabeINhgqBh7O41M5s8W4Q0M1ud8Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yykq2l+f24d5itrHhW2s5g5nZsZuN3qqn94yAyND8lcaYniCLcu
+	LCNFT5KEhRE1gA/i/hChk4MxqyyZI2GDWzzZURkvGV2YMN8Tt9J9OSCuP54IBPR+/9++j8/12YK
+	QJsJJjbtN4dtFsnTAsKyfzKspf9XqgbNyD5YrJJWs411qHUkH/jNcy/NtdqmhIjCK8Q==
+X-Gm-Gg: AeBDievYue4BoO4zk8hb23OqmvydRDG8+d8eim5Cmw5zN1iIjNxO/kPFFp9XzmDbMJM
+	lHVULp4b0ZrDfsf+8NKhzKKR2+DRCK1BDMlafHhLv2QAs1rVC+I6+J8zZqticouGOHJNWZ2gfmG
+	wtR7t5sKZEipEvyCOmFjWtKXjLBOq4wIqMTdoWRm+tjbVD+Yl+kC7b1s+WLTRYZ+YdFxI2xPRd9
+	6n3w+ctJ59jdkdTbkCdQFiimAq9iPnNWqXVpq1mDou7JEPgqqLeBJEVirS0rZpzsLA61bAwe4ju
+	rKWKrjrz968nVDpyo0tJAzW62SA7+zVq4UY0UMUzaWUYv2p9u1IFwffxnNw8vAAt38T1qKWi63h
+	7WjrHY8Yasw5JxsuWg7KpKnsUwfCIJyNyqbG0KVAavoEoudT8P/pLi+mW6TI=
+X-Received: by 2002:a05:6820:1627:b0:696:4874:2dcf with SMTP id 006d021491bc7-696487430cemr2020533eaf.23.1777291567975;
+        Mon, 27 Apr 2026 05:06:07 -0700 (PDT)
+X-Received: by 2002:a05:6820:1627:b0:696:4874:2dcf with SMTP id 006d021491bc7-696487430cemr2020512eaf.23.1777291567329;
+        Mon, 27 Apr 2026 05:06:07 -0700 (PDT)
+Received: from [192.168.68.112] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-43fe4cb11b4sm81262966f8f.2.2026.04.27.05.06.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Apr 2026 05:06:06 -0700 (PDT)
+Message-ID: <47f72fe9-886b-4837-9612-2b2d3e5b5da5@oss.qualcomm.com>
+Date: Mon, 27 Apr 2026 12:06:05 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000252A4:EE_|SA7PR19MB997344:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 709772c4-e5a5-45e7-e3b7-08dea45470e2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|82310400026|36860700016|376014|56012099003|18002099003|16102099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	c/3R0OMumAGyc8mIXka2nyai3gRIC+I8pvdOcGcrQRsOuGuib1hk85GnM4ktFfFCcBhuPRmG7PStKQtj2/0/u0hGJXrPmXGubD7ILFz19CSQpubAuBgWx2jrXtj8x3DhCzPSVXeH/CMQtj8MMuWXDgx1TAcO9qusQszYg4RkNip1Ao+6QVpRcijRWTVpXgb8g8yNsrsTan7/j72cFsvKHHLuRiLsDkU88EV1bfLP5Za6fXQJGwklP+nbFaAK3IKvwpXSTp6kG1CcXr6hbMRcImsphzAowgACHmb4Vo2a33jnAl2y58vb3TQtE5pgpZukgZlNCWDVGTwdhL+x3JoZKv4CVADr4FdonkHRjFEX2lpHFGoPB8d40z0fNjDBVA1Yvz8SUePtKOe/LvGZZ6rspD1CHnpTWulcGQZyu27TSmVsGZJ4PA+07SPigpcXuTQLGwGPT26hOcczAwyBlVV5RPfvY0DYqxVuIRdi6N2otA4frQ83VeiE5MTZiMDjq5mdH/I8DqhL+skprerfQtROo+hOEd4iAL5FiNSWvhWJEta6tMMkUy9XwMxrIrs8VZqA5dbMDAyqgdgUrx9eNd4LXxilJ7GyLVMGdVwQjjKGusHOSUxmo93hUtf3SkNgnlBlRE+7wBWUh2pmnCE2UIfTDTZDWr9Tdrs/CpWxyaXVK3tf39shwWu03acYbO/8JPtwu0Q+JJ8olu9ZxJFu8jcy4TKT0+ghzpR83gLnglQ13NbyVkXAd8s9s4/2/0edQH9i11V5IiBsTi4DPJp3u5d5lQ==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(82310400026)(36860700016)(376014)(56012099003)(18002099003)(16102099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	wsmvxgwZUVoEglykiG9O984/YtsZDf8TY6Y3D/UeCt8pO8Sx4CKV6bfzhKOv5awb/X19JaxbogYYZ5PJistEjZVkqX8fanbrqV42JSd4yjvj923i8QhvaddKZR6XCZxQQRF0IRhUMEXI1U8x/eSHBLdEOMn7qPvRADDj49TG1wGA4N4b1PGLkkMloDeaGcwo1IFTXEp1bN1v5p4K85BV24mavnd2M/+pY8+nRPjvxxMCXDnC+SS9HGkSt/4FJkKYJ6ECkl6TLTAz/FHFhkMNJJo3vqqHkqsS23UM/imUxUcB9MGdZRFoCUo3OTl0GEXCMys68U6qrnPTfiQCtXSTUJbSoRt2FZdgcj/SqLW44sYMBvcoRNseqrjIrytpJWoYMBj6L032t4eQkXE9X14YkHzfSBd1cYxn8BHv66u7xBiYEcjYmCPQVm9dTurh8rMz
-X-Exchange-RoutingPolicyChecked:
-	rFhFBIrA/qYaUFGsk03kONoFXtzwzOjSEbaLjOg49Ub7Qiz2krx6qSoaXmrn9cbl4m31h9OuhtmIvieE9P189hABrgewy279DN5V0iDK0+EoKl5JCw3nEOZWLV6YxxvKJdYaj3GOKYP7Bp7daW/xhUvFNGEHEe8ju9/cm1LtwnyuAKjw//FmnLvzRlbZVfb78+mFE/BBxD0/0bRrV3DjmskyemlekxzBByUxd/hgfrcZPPUGoL1CoIQR5QSVz98jg+Ng5QCCJnuKwj6b4gfgb0336R44JAPVlMC/NPCCtB+Q4t+9iTsPfHn8K+CHquFWlI3gpiaLhgSZJZFuZT+BXQ==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2026 11:59:30.8519
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 709772c4-e5a5-45e7-e3b7-08dea45470e2
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SN1PEPF000252A4.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA7PR19MB997344
-X-Authority-Analysis: v=2.4 cv=fbudDUQF c=1 sm=1 tr=0 ts=69ef4fac cx=c_pps
- a=lZ5sci2pGqwcsYvHxs2BaA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=A5OVakUREuEA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=w1d2syhTAAAA:8 a=QOvZEWDp8sjL2V-Hxj8A:9 a=O8hF6Hzn-FEA:10
-X-Proofpoint-GUID: RPFSerQmrR0L0sPXS9o0YQBUb8Wo06z9
-X-Proofpoint-ORIG-GUID: RPFSerQmrR0L0sPXS9o0YQBUb8Wo06z9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI3MDEyNyBTYWx0ZWRfX9n7MGX7N0hY4
- Mh7mY40boVCxW+Tu0RvchX1JMNrA0cnP8yOw9Nlbw5OWwRaoh+DZCT2fV7H8RMXdr9MuPxJU3yo
- f/djvTLXV/zVxbEu1JEFZHPm5abvW8Y8DevnimnF/vTaX7CSzFVLumBO9CQtbDMktxO0Ok36o7t
- dIU3RxJiUjRpPLHLxh8uVh7kmbqG4HIRlWpWhTbwvTrRre4uyIrCGJIfBV7dk52U3W5b7kpjBKN
- iUl/JbkV9FErOtCkz/ZFjvt1ne+8vwvlFwHdRk6ay9FAoONLdbC33t3hG8a5LUx3teg94sZpxTK
- CnTG4hHSK5GjQQTNR8uB1A+5mBh70W+Knxw9XL6/cGGCUGtcBzfIb1Hse1t8TmRX9yalNxZ7DLm
- W8ko89WuA8ORd6Vtrv57D++V0MNEzd5m8JfsN576q7s9wJJSSI/97akA3GyUrMcNWoC+L7T5O/z
- 6FX1L+KccjCQfSOfwuA==
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] ASoC: qcom: qdsp6: q6afe: fix clk vote response type
+ mismatch
+To: Val Packett <val@packett.cool>, Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Bhushan Shah <bhushan.shah@machinesoul.in>,
+        Luca Weiss <luca.weiss@fairphone.com>,
+        Antoine Bernard <zalnir@proton.me>,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260423050801.210840-2-val@packett.cool>
+ <20260423050801.210840-3-val@packett.cool>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20260423050801.210840-3-val@packett.cool>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: DEc3gwrxGUAWgWlqOAqJcwviA-n5Bly5
+X-Authority-Analysis: v=2.4 cv=CJEamxrD c=1 sm=1 tr=0 ts=69ef5130 cx=c_pps
+ a=OI0sxtj7PyCX9F1bxD/puw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=VwQbUJbxAAAA:8 a=VIjOQ41OAAAA:20 a=EUspDBNiAAAA:8 a=L06xKFqT_MmC7owT6poA:9
+ a=QEXdDO2ut3YA:10 a=Z1Yy7GAxqfX1iEi80vsk:22 a=bA3UWDv6hWIuX7UZL3qL:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI3MDEyOSBTYWx0ZWRfX620FDbrsCl4W
+ Vclr1pF+I/6eQZkqVIA7Xpel+etuuMF73aHfgIfnWtE9hwki4zLrg6iY6MclZfQxvxH83sJC31t
+ 3i0wpQy3jyRekgqljZqarFipD0ISVaNao3M8QJTZVR1h4oHoo/3dvb7NwIZS8DRLkMjEyOJwd1B
+ yKZXGbo4mPp8xJVsNPLbuKjdWUIG70md/GNrjAT9pmBTkySyUSK3w6VjOL+fjSnJvJRflZ7KZkn
+ s0tu98aAO8ZtdN40Av6aMirRxKJBcNhbkSLRACEkVUjNLIr84hfgDYj3/zukMbTUIiIGZ4QgbT+
+ pNGjvwSIexeNZQhyuiPOqHh+SGFRvX24MVKSKzYyiKqUU5lFHVsMVFbzJzZh98rU5PuXF31R2z3
+ HPlc0+woMH4IXDrhf5GmauYNmGvcsTLwZYmaRkcVimlzKBvC66OcSpurdOQd8UA0EEAWFMlqTUk
+ jLMSYBtqXlmhRB3msEw==
+X-Proofpoint-ORIG-GUID: DEc3gwrxGUAWgWlqOAqJcwviA-n5Bly5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-27_03,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604270129
 
-The class driver internally has an array of sdca_function_data pointers
-that it uses to store the parsed DisCo data. However, there is already
-an sdca_function_data attached to the auxdev device. It makes more sense
-to use the one already provided in the auxdev device, as it could also
-be used by custom drivers for parts that require those.
 
-Using the auxdev copy also prevents the need for the class function
-drivers to search through the array for the correct data, which
-currently is based off matching the function type. This has problems
-when two functions have the same type as the current code will find the
-same data for both drivers, using the auxdev copy of the data avoids
-this problem.
 
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
- include/sound/sdca_function.h        |  1 -
- sound/soc/sdca/sdca_class.c          |  7 -------
- sound/soc/sdca/sdca_class.h          |  1 -
- sound/soc/sdca/sdca_class_function.c | 23 +++++------------------
- sound/soc/sdca/sdca_functions.c      | 25 ++++++++++---------------
- 5 files changed, 15 insertions(+), 42 deletions(-)
+On 4/23/26 4:41 AM, Val Packett wrote:
+> The response sent by the firmware when requesting a clock vote (opcode
+> AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST) does not actually have
+> the same opcode + status payload as APR_BASIC_RSP_RESULT. Rather, it
+> returns one single u32 which is the client_handle that must be used in
+> future unvote requests for the same clock.
+> 
+> As a result of this type confusion, the status returned by the callback
+> to q6afe_vote_lpass_core_hw was actually an out-of-bounds read. It was
+> only interpreted as success (0) most of the time due to luck, but there
+> are reports of random ("more likely on cold boot", "depending on hacks
+> made in other drivers") errors such as:
+> 
+> [   20.961100] qcom-q6afe aprsvc:service:4:4: AFE failed to vote (3)
+> [   20.961131] Failed to prepare clk 'core': -110
+> 
+> Fix by correctly interpreting the response as a single u32, and actually
+> store it as the client_handle to ensure unvote would work correctly.
+> 
+> Link: https://lore.kernel.org/all/5976946.DvuYhMxLoT@antlia/
+> Signed-off-by: Val Packett <val@packett.cool>
 
-diff --git a/include/sound/sdca_function.h b/include/sound/sdca_function.h
-index 0e871c786513f..b1489178b0ef8 100644
---- a/include/sound/sdca_function.h
-+++ b/include/sound/sdca_function.h
-@@ -1452,7 +1452,6 @@ static inline u32 sdca_range_search(struct sdca_control_range *range,
- }
- 
- int sdca_parse_function(struct device *dev, struct sdw_slave *sdw,
--			struct sdca_function_desc *desc,
- 			struct sdca_function_data *function);
- 
- const char *sdca_find_terminal_name(enum sdca_terminal_type type);
-diff --git a/sound/soc/sdca/sdca_class.c b/sound/soc/sdca/sdca_class.c
-index 6e9b66f718019..a6a3da8de4371 100644
---- a/sound/soc/sdca/sdca_class.c
-+++ b/sound/soc/sdca/sdca_class.c
-@@ -183,7 +183,6 @@ static void class_boot_work(struct work_struct *work)
- static int class_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *id)
- {
- 	struct device *dev = &sdw->dev;
--	struct sdca_device_data *data = &sdw->sdca_data;
- 	struct regmap_config *dev_config;
- 	struct sdca_class_drv *drv;
- 	int ret;
-@@ -199,12 +198,6 @@ static int class_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *id
- 	if (!dev_config)
- 		return -ENOMEM;
- 
--	drv->functions = devm_kcalloc(dev, data->num_functions,
--				      sizeof(*drv->functions),
--				      GFP_KERNEL);
--	if (!drv->functions)
--		return -ENOMEM;
--
- 	drv->dev = dev;
- 	drv->sdw = sdw;
- 	mutex_init(&drv->regmap_lock);
-diff --git a/sound/soc/sdca/sdca_class.h b/sound/soc/sdca/sdca_class.h
-index 6f24ea2bbd381..8b63e62485e64 100644
---- a/sound/soc/sdca/sdca_class.h
-+++ b/sound/soc/sdca/sdca_class.h
-@@ -24,7 +24,6 @@ struct sdca_class_drv {
- 	struct regmap *dev_regmap;
- 	struct sdw_slave *sdw;
- 
--	struct sdca_function_data *functions;
- 	struct sdca_interrupt_info *irq_info;
- 
- 	struct mutex regmap_lock;
-diff --git a/sound/soc/sdca/sdca_class_function.c b/sound/soc/sdca/sdca_class_function.c
-index 31fc08d513077..1496a15f7d2ac 100644
---- a/sound/soc/sdca/sdca_class_function.c
-+++ b/sound/soc/sdca/sdca_class_function.c
-@@ -27,6 +27,7 @@
- #include <sound/soc-dai.h>
- #include <sound/soc.h>
- #include "sdca_class.h"
-+#include "sdca_function_device.h"
- 
- struct class_function_drv {
- 	struct device *dev;
-@@ -294,8 +295,7 @@ static int class_function_probe(struct auxiliary_device *auxdev,
- {
- 	struct device *dev = &auxdev->dev;
- 	struct sdca_class_drv *core = dev_get_drvdata(dev->parent);
--	struct sdca_device_data *data = &core->sdw->sdca_data;
--	struct sdca_function_desc *desc;
-+	struct sdca_dev *sdev = auxiliary_dev_to_sdca_dev(auxdev);
- 	struct snd_soc_component_driver *cmp_drv;
- 	struct snd_soc_dai_driver *dais;
- 	struct class_function_drv *drv;
-@@ -305,7 +305,6 @@ static int class_function_probe(struct auxiliary_device *auxdev,
- 	int ndefaults;
- 	int num_dais;
- 	int ret;
--	int i;
- 
- 	drv = devm_kzalloc(dev, sizeof(*drv), GFP_KERNEL);
- 	if (!drv)
-@@ -328,21 +327,9 @@ static int class_function_probe(struct auxiliary_device *auxdev,
- 
- 	drv->dev = dev;
- 	drv->core = core;
-+	drv->function = &sdev->function;
- 
--	for (i = 0; i < data->num_functions; i++) {
--		desc = &data->function[i];
--
--		if (desc->type == aux_dev_id->driver_data)
--			break;
--	}
--	if (i == core->sdw->sdca_data.num_functions) {
--		dev_err(dev, "failed to locate function\n");
--		return -EINVAL;
--	}
--
--	drv->function = &core->functions[i];
--
--	ret = sdca_parse_function(dev, core->sdw, desc, drv->function);
-+	ret = sdca_parse_function(dev, core->sdw, drv->function);
- 	if (ret)
- 		return ret;
- 
-@@ -377,7 +364,7 @@ static int class_function_probe(struct auxiliary_device *auxdev,
- 		return dev_err_probe(dev, PTR_ERR(drv->regmap),
- 				     "failed to create regmap");
- 
--	switch (desc->type) {
-+	switch (drv->function->desc->type) {
- 	case SDCA_FUNCTION_TYPE_UAJ:
- 	case SDCA_FUNCTION_TYPE_RJ:
- 		cmp_drv->set_jack = class_function_set_jack;
-diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index 196bade11ab5d..02abb7315b727 100644
---- a/sound/soc/sdca/sdca_functions.c
-+++ b/sound/soc/sdca/sdca_functions.c
-@@ -2158,27 +2158,22 @@ static int find_sdca_filesets(struct device *dev, struct sdw_slave *sdw,
-  * sdca_parse_function - parse ACPI DisCo for a Function
-  * @dev: Pointer to device against which function data will be allocated.
-  * @sdw: SoundWire slave device to be processed.
-- * @function_desc: Pointer to the Function short descriptor.
-  * @function: Pointer to the Function information, to be populated.
-  *
-  * Return: Returns 0 for success.
-  */
- int sdca_parse_function(struct device *dev, struct sdw_slave *sdw,
--			struct sdca_function_desc *function_desc,
- 			struct sdca_function_data *function)
- {
-+	struct fwnode_handle *node = function->desc->node;
- 	u32 tmp;
- 	int ret;
- 
--	function->desc = function_desc;
--
--	ret = fwnode_property_read_u32(function_desc->node,
--				       "mipi-sdca-function-busy-max-delay", &tmp);
-+	ret = fwnode_property_read_u32(node, "mipi-sdca-function-busy-max-delay", &tmp);
- 	if (!ret)
- 		function->busy_max_delay = tmp;
- 
--	ret = fwnode_property_read_u32(function_desc->node,
--				       "mipi-sdca-function-reset-max-delay", &tmp);
-+	ret = fwnode_property_read_u32(node, "mipi-sdca-function-reset-max-delay", &tmp);
- 	if (ret || tmp == 0) {
- 		dev_dbg(dev, "reset delay missing, defaulting to 100mS\n");
- 		function->reset_max_delay = 100000;
-@@ -2187,26 +2182,26 @@ int sdca_parse_function(struct device *dev, struct sdw_slave *sdw,
- 	}
- 
- 	dev_dbg(dev, "%pfwP: name %s busy delay %dus reset delay %dus\n",
--		function->desc->node, function->desc->name,
--		function->busy_max_delay, function->reset_max_delay);
-+		node, function->desc->name, function->busy_max_delay,
-+		function->reset_max_delay);
- 
--	ret = find_sdca_init_table(dev, function_desc->node, function);
-+	ret = find_sdca_init_table(dev, node, function);
- 	if (ret)
- 		return ret;
- 
--	ret = find_sdca_entities(dev, sdw, function_desc->node, function);
-+	ret = find_sdca_entities(dev, sdw, node, function);
- 	if (ret)
- 		return ret;
- 
--	ret = find_sdca_connections(dev, function_desc->node, function);
-+	ret = find_sdca_connections(dev, node, function);
- 	if (ret)
- 		return ret;
- 
--	ret = find_sdca_clusters(dev, function_desc->node, function);
-+	ret = find_sdca_clusters(dev, node, function);
- 	if (ret < 0)
- 		return ret;
- 
--	ret = find_sdca_filesets(dev, sdw, function_desc->node, function);
-+	ret = find_sdca_filesets(dev, sdw, node, function);
- 	if (ret)
- 		return ret;
- 
--- 
-2.47.3
+Fixes and Stable tag is missing.
+
+
+otherwise lgtm.
+
+
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+
+--srini
+> ---
+> 
+> Found by reading and comparing with downstream:
+> https://github.com/YumeMichi/kernel_xiaomi_pipa/blob/27190355fb31284988ddf505cb7cfba5128104cf/techpack/audio/dsp/q6afe.c#L1261-L1263
+> 
+> What's really bizzare though is that some of the logs go:
+> 
+> [ 10.827469] qcom-q6afe aprsvc:service:4:4: cmd = 0x100f4 returned error 
+> = 0x16
+> [ 10.827512] qcom-q6afe aprsvc:service:4:4: Unknown cmd 0x100f4
+> [ 14.052896] qcom-q6afe aprsvc:service:4:4: AFE failed to vote (3)
+> 
+> ..where the "returned error =" message is something that can only be
+> printed by the callback if it goes into the **other** switch() branch,
+> i.e. when hdr->opcode == APR_BASIC_RSP_RESULT. How reading out-of-bounds
+> only in the AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST branch would
+> cause that to happen (even on a subsequent vote after the first one to
+> perform the read) is beyond me.
+> 
+> Still, the person that reported this heisenbug told me that this has
+> actually completely fixed it.
+> 
+> ---
+>  sound/soc/qcom/qdsp6/q6afe.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
+> index 40237267fda0..28b5b6b91897 100644
+> --- a/sound/soc/qcom/qdsp6/q6afe.c
+> +++ b/sound/soc/qcom/qdsp6/q6afe.c
+> @@ -379,6 +379,7 @@ struct q6afe {
+>  	struct q6core_svc_api_info ainfo;
+>  	struct mutex lock;
+>  	struct aprv2_ibasic_rsp_result_t result;
+> +	uint32_t vote_result;
+>  	wait_queue_head_t wait;
+>  	struct list_head port_list;
+>  	spinlock_t port_list_lock;
+> @@ -968,13 +969,14 @@ static int q6afe_callback(struct apr_device *adev, const struct apr_resp_pkt *da
+>  	const struct aprv2_ibasic_rsp_result_t *res;
+>  	const struct apr_hdr *hdr = &data->hdr;
+>  	struct q6afe_port *port;
+> +	uint32_t *vote_res;
+>  
+>  	if (!data->payload_size)
+>  		return 0;
+>  
+> -	res = data->payload;
+>  	switch (hdr->opcode) {
+>  	case APR_BASIC_RSP_RESULT: {
+> +		res = data->payload;
+>  		if (res->status) {
+>  			dev_err(afe->dev, "cmd = 0x%x returned error = 0x%x\n",
+>  				res->opcode, res->status);
+> @@ -1001,8 +1003,10 @@ static int q6afe_callback(struct apr_device *adev, const struct apr_resp_pkt *da
+>  	}
+>  		break;
+>  	case AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST:
+> +		vote_res = data->payload;
+>  		afe->result.opcode = hdr->opcode;
+> -		afe->result.status = res->status;
+> +		afe->result.status = 0;
+> +		afe->vote_result = *vote_res;
+>  		wake_up(&afe->wait);
+>  		break;
+>  	default:
+> @@ -1899,6 +1903,8 @@ int q6afe_vote_lpass_core_hw(struct device *dev, uint32_t hw_block_id,
+>  			       AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST);
+>  	if (ret)
+>  		dev_err(afe->dev, "AFE failed to vote (%d)\n", hw_block_id);
+> +	else
+> +		*client_handle = afe->vote_result;
+>  
+>  	return ret;
+>  }
 
