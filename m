@@ -1,92 +1,95 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1DA3B3BE2
-	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 11:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A743101D4
+	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 11:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777290479; cv=none; b=VjAJ99jyCClcq97zg5xcs6x3qmmWx3YvToN+5QBRDuoD4kRrL6ODrO2svo0VHHU0v+rZulUKnJb1E1wudHsuN8IALTLfbZ49mf5dAx/ml0NvLLP6eIv7YT8/J7uEiuPo/21HC7CDZyDPmC3BfSTHSDqLmMmdtQnUvL4p/e4YeKQ=
+	t=1777290552; cv=none; b=IxgqGmha1XLSGoonl5dPwzwTI3vdDHWZ4WQ+fxQO1J7cpGg0uPxRAwJrE7mdINTdDYIEf/S+xuiXTSOwCsHAo/GRtGyU+mMDSHEHF7WZz9d8Tb75m2r2OfGxGkIMFXb49xE/Nft4tbZYDRIepEKfjXh8yhw1ctIoys7SH/BXWw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777290479; c=relaxed/simple;
-	bh=lcsTz/kxOp+OXij0GHTFhC5eaogvP5+haKJjjriiWeM=;
+	s=arc-20240116; t=1777290552; c=relaxed/simple;
+	bh=aPs9t7S5uWBkvtSUvJho9ZkM7zYr3cmtSHeKY07ACr4=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ppCDmMpZVlo+yRqpl8AxBrRG7sRxwSx7TnaylU9YqZnGMh1n+vKbdGvZb8DGN2nB71EfgUh/mRP+ru4yFl9yj+oTjruF6alm7o3OLVO9yUoqUsVjxlM/XZNrbn/5MS40zXgxgjBelIKbm4egbhgnSUBGnTdHj/t0ySZ9NcB2z0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1PJi6v3Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cSTD+rLL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1PJi6v3Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cSTD+rLL; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=REGs+RYc6vunQaow4xv8F7eFJjITv6QDyc9HO04aw+sSQ6k68jpf2ubH/UUHf/3B74N6BNNi7ywE4DQfeDnNVQ+Uq49seaLNoymC1cPvuflkGR/3BafRLR6Z0GIZ3ohKvyOmyPege55GZq32LoXkCd+2Uy2vP//PyRhWjf2aO+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u9tZXhmi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5F7E815C; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u9tZXhmi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5F7E815C; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1PJi6v3Q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cSTD+rLL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1PJi6v3Q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cSTD+rLL"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u9tZXhmi";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5F7E815C";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u9tZXhmi";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5F7E815C"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 470386A8FE;
-	Mon, 27 Apr 2026 11:47:56 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1651D5BCD3;
+	Mon, 27 Apr 2026 11:49:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777290476; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1777290548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4JPwDoYh5TXZUuC3n7SbSbkKFH7AMwZhzsBKFitOM+k=;
-	b=1PJi6v3QDxsBBR0wlXNBkuk8R7zIrzFraEKldqY728L04mxWgoQ1rO0KEWGFcRvoA+iV3G
-	2Er2haUClSUtNynRpd2i0aUJHzLdn/nRAF/2SG6GlVPofrNt14mjIRWctXFnIihp2vrFG7
-	TBBW1or/rCQPRKhc54gOjsQzhNEVIM4=
+	bh=jyWh/1nPDTzXDr48Mt+2DrAPuoCXDfKecpIJHGSU3Ow=;
+	b=u9tZXhmiCmWg+iDs0ZilFNi6F0R2uEiGBBpRsly4aOMdxPc9d9qkkNEyhN51Fbz2YVHSuZ
+	ApMeRojKM8L2pyCY/2KRTJgtrj9l3bFqWbpOAY0x8plM7QrO5pcIcx9n4M+OaG6O5eozRQ
+	R5uWwSnvGg9x8jM6IMjG+r1JumQSC2o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777290476;
+	s=susede2_ed25519; t=1777290548;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4JPwDoYh5TXZUuC3n7SbSbkKFH7AMwZhzsBKFitOM+k=;
-	b=cSTD+rLLQXjRIrNJFSLIdJj7oot2szEldtxMaf04A2P2hAMqE/LQq8qxxS6HuhVVC04a5J
-	Yf9JvGYneLKTkTDQ==
-Authentication-Results: smtp-out1.suse.de;
+	bh=jyWh/1nPDTzXDr48Mt+2DrAPuoCXDfKecpIJHGSU3Ow=;
+	b=5F7E815CWYwMqwzjKuYzuviiPd0/goGM2nVhowjUVg8mGceKKV0aETEkXyQvEv5ImmKvza
+	PjO9HGCabLej34DA==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777290476; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1777290548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4JPwDoYh5TXZUuC3n7SbSbkKFH7AMwZhzsBKFitOM+k=;
-	b=1PJi6v3QDxsBBR0wlXNBkuk8R7zIrzFraEKldqY728L04mxWgoQ1rO0KEWGFcRvoA+iV3G
-	2Er2haUClSUtNynRpd2i0aUJHzLdn/nRAF/2SG6GlVPofrNt14mjIRWctXFnIihp2vrFG7
-	TBBW1or/rCQPRKhc54gOjsQzhNEVIM4=
+	bh=jyWh/1nPDTzXDr48Mt+2DrAPuoCXDfKecpIJHGSU3Ow=;
+	b=u9tZXhmiCmWg+iDs0ZilFNi6F0R2uEiGBBpRsly4aOMdxPc9d9qkkNEyhN51Fbz2YVHSuZ
+	ApMeRojKM8L2pyCY/2KRTJgtrj9l3bFqWbpOAY0x8plM7QrO5pcIcx9n4M+OaG6O5eozRQ
+	R5uWwSnvGg9x8jM6IMjG+r1JumQSC2o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777290476;
+	s=susede2_ed25519; t=1777290548;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4JPwDoYh5TXZUuC3n7SbSbkKFH7AMwZhzsBKFitOM+k=;
-	b=cSTD+rLLQXjRIrNJFSLIdJj7oot2szEldtxMaf04A2P2hAMqE/LQq8qxxS6HuhVVC04a5J
-	Yf9JvGYneLKTkTDQ==
+	bh=jyWh/1nPDTzXDr48Mt+2DrAPuoCXDfKecpIJHGSU3Ow=;
+	b=5F7E815CWYwMqwzjKuYzuviiPd0/goGM2nVhowjUVg8mGceKKV0aETEkXyQvEv5ImmKvza
+	PjO9HGCabLej34DA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0E7BB593B0;
-	Mon, 27 Apr 2026 11:47:56 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A9274593B0;
+	Mon, 27 Apr 2026 11:49:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NHwyAuxM72l0bgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 27 Apr 2026 11:47:56 +0000
-Date: Mon, 27 Apr 2026 13:47:55 +0200
-Message-ID: <87pl3kzkt0.wl-tiwai@suse.de>
+	id hbjXJzNN72nBbwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 27 Apr 2026 11:49:07 +0000
+Date: Mon, 27 Apr 2026 13:49:07 +0200
+Message-ID: <87o6j4zkr0.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
 Cc: Takashi Iwai <tiwai@suse.com>,
-	Chris J Arges <chris.j.arges@canonical.com>,
-	Detlef Urban <onkel@paraair.de>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
 	Jaroslav Kysela <perex@perex.cz>,
+	Mark Brown <broonie@kernel.org>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
 	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: Re: [PATCH 0/4] usb-audio: fix mixer write failure handling
-In-Reply-To: <20260419-usb-write-error-propagation-v1-0-5a3bd4a673ae@gmail.com>
-References: <20260419-usb-write-error-propagation-v1-0-5a3bd4a673ae@gmail.com>
+Subject: Re: [PATCH] ALSA: hda: cs35l56: Propagate ASP TX source control errors
+In-Reply-To: <20260423-alsa-cs35l56-asp-tx-source-errors-v1-1-17ea7c62ec31@gmail.com>
+References: <20260423-alsa-cs35l56-asp-tx-source-errors-v1-1-17ea7c62ec31@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -104,57 +107,42 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
 X-Spam-Flag: NO
 
-On Sun, 19 Apr 2026 22:30:28 +0200,
+On Thu, 23 Apr 2026 15:11:31 +0200,
 Cássio Gabriel wrote:
 > 
-> This series fixes usb-audio mixer put() paths that currently report
-> success even when the underlying device write fails.
+> cs35l56_hda_mixer_get() ignores regmap_read() and
+> cs35l56_hda_mixer_put() ignores regmap_update_bits_check().
 > 
-> The issue exists in the generic mixer core callbacks, the Scarlett
-> Gen1 enum path, and several Tascam US-16x08 put() callbacks.
+> This makes the ASP TX source controls report success when a regmap
+> access fails. The write path returns no change instead of an error,
+> and the read path continues after a failed read instead of aborting
+> the control callback.
 > 
-> The US-16x08 EQ and compressor callbacks have an additional bug: they
-> update their software shadow state before sending the USB write, so a
-> failed transfer can leave later get() results out of sync with the
-> hardware state.
+> Propagate the regmap errors, matching the posture and volume controls
+> in this driver.
 > 
-> The series is split into four patches:
-> - propagate write failures in the generic mixer core callbacks
-> - fix the Scarlett Gen1 enum callback
-> - propagate write failures in the simple US-16x08 put() callbacks
-> - commit the US-16x08 EQ and compressor shadow state only after a
-> successful write
-> 
-> Successful writes are unchanged. Failed writes are now reported
-> correctly, and the US-16x08 shadow state remains coherent with the
-> hardware after write errors.
-> 
+> Fixes: 73cfbfa9caea ("ALSA: hda/cs35l56: Add driver for Cirrus Logic CS35L56 amplifier")
+> Cc: stable@vger.kernel.org
 > Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
-> ---
-> Cássio Gabriel (4):
->       ALSA: usb-audio: Propagate write errors in generic mixer put callbacks
->       ALSA: usb-audio: Propagate errors in scarlett_ctl_enum_put()
->       ALSA: usb-audio: Propagate US-16x08 write errors in route/mix EQ-switch put callbacks
->       ALSA: usb-audio: Update US-16x08 EQ/comp shadow state after successful writes
 
-Applied all to for-next branch.  Thanks.
+Applied now.  Thanks.
 
 
 Takashi
