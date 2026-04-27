@@ -1,201 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC59339714;
-	Mon, 27 Apr 2026 17:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2349A2E5B02;
+	Mon, 27 Apr 2026 17:47:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777310365; cv=none; b=FMMCJWBZRrjjYSiA3eaR054EBybd+MBN+lSN3BN5CocSCcm8tIENJh1D+pCEesMt/NXdLvmDrgdKbTCry0Ws+gXSliqYGgAikUbOn+Q+F0KGjeL6CPBJrSP/6A4kIKVX2k8i7JaCo/d+VNC51IcRSJYDEqTpxQo1Wefcb3LD8UI=
+	t=1777312077; cv=none; b=TeybLPw4jO78DRqBsFkbhTmyPfwpbnaUJsH/6NnjAR9R/u6AzoDAaObh60XPfBGe28kxfkDlvyU8g+2BdjZdk6prIRN/213SqJJuh5apsrcG3hDIfkP4xhGCBXHq/pbv0wUYxmpx5+i4irAu2/aXx6oCPlQcM3v3s9AWcZ4vt+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777310365; c=relaxed/simple;
-	bh=xblTv37x9V4gU3cvmA9ILfz6xXNOv0sNe2zU9C6a5nw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XhQrdf7UOghUHj346nNBuNK4t8QKwv42weWTHzLB9J9H1Pg4KEcSn0eVYUQ5ec4lrY6ahBwiH6ofUxBY24/Bicz662twTEYvS8xMs3PQ8bMO23fNazIbxyRHabz7++ADrmyPHUUZtHt6Ieg+neofEfeiXp9GpsZ8FZ+KHzEUFP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k8kV5Zhk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777312077; c=relaxed/simple;
+	bh=e+J+iOPJfP6z+ZH6Ruj8nWFBBRT4ttpezIBE6Sl1LSc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QtISpXe2g950jjFmsxEM9mcKfGd9Q2cYD2JLVQxkM0dXZC15VgvaL9vi9/vy5qMyVX2cW4dbQ8Qx6hSAS48zYoLUlM/ppfv5FS1JE3ZyGI4nNAvDDWVpHONzsaRZLf9YfpKDMSUadO43KpBFgSy8xVdc9QgppU5lgO/+ixlU4M4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HFQ/5glX; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k8kV5Zhk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A25EEC2BCB7;
-	Mon, 27 Apr 2026 17:19:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777310364;
-	bh=xblTv37x9V4gU3cvmA9ILfz6xXNOv0sNe2zU9C6a5nw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=k8kV5Zhk7HZbxy8X7mxqUL5UgTTJPPuuLtSKHKOe5PwbIiNodL9/7ESxRbcOMv4dB
-	 NN/pd897F5mMQZv6MW+RM/3mikWvqmJGQCtupbd6YHiobStaCQu79RRkwt3Bs1rL/A
-	 WmXtcy3vIzgejB2MGSu6MrKJ33itreKKdFlemNypyCUExoUHGXA1bHbqFqaNX4ujdd
-	 iXZiXWTV/w69yfgs2V8e+zdWAilhhtsvDDxzPIT8CbbievjXPmrPwVloE5aoqLKmYP
-	 ca2+sf92YJQm2mLHcpyNlGd6mMQP6QhUed6Hx8vk/CloBjO7tSgz4fayv+CeXka+Fz
-	 NwGM6tvALNVmQ==
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-To: Yury Norov <ynorov@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>
-Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	dmaengine@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-fsi@lists.ozlabs.org,
-	amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-wpan@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	xen-devel@lists.xenproject.org,
-	linux-fsdevel@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	bpf@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-x25@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	sound-open-firmware@alsa-project.org,
-	linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org,
-	linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Subject: [RFC PATCH v1 9/9] uaccess: Convert small fixed size copy_{to/from}_user() to scoped user access
-Date: Mon, 27 Apr 2026 19:13:50 +0200
-Message-ID: <8780eb2ef80575931a339e5225bc80eb13e9be6c.1777306795.git.chleroy@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1777306795.git.chleroy@kernel.org>
-References: <cover.1777306795.git.chleroy@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HFQ/5glX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777312076; x=1808848076;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e+J+iOPJfP6z+ZH6Ruj8nWFBBRT4ttpezIBE6Sl1LSc=;
+  b=HFQ/5glXuj8lsBEAUBCBNjOOByOW4vvcUskGlqQWz2gvLK1hJIMImFTE
+   gwhASMYQm0P0TK7LMzAUJ+jeHLyHh0gj3Sd5wyImpN6GHOC4iwkKiChk7
+   DvZn0ldg/XRJpbnvANbibXcjZZh/1ysWtR9qtlu9kGXJ5D3R4gG7wye2c
+   4L3WYeXF5mQ4pwkDu0VERIEIXrx1W4uHwZEuOhw3/7EsjTHtdVe6VKaci
+   H72P5w7O7TO1QNhBK0tMUHz163MUKMkrLzXYmsDdBy0eaA7pCZmngSF8d
+   h0RvhivKyD14tblNz1B08yIV/2o+xGT0MSotp4duaX1fZtqostAhdye5i
+   A==;
+X-CSE-ConnectionGUID: SW69WRxIQiWI3lct2rYs6Q==
+X-CSE-MsgGUID: Rd7M56wfR4yW+dI1gLH9UQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="80784606"
+X-IronPort-AV: E=Sophos;i="6.23,202,1770624000"; 
+   d="scan'208";a="80784606"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 10:47:55 -0700
+X-CSE-ConnectionGUID: bdt4f1QrSvqbpmLyWvoIuA==
+X-CSE-MsgGUID: NZEGh0wLSNqo3U3TR5hHyg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,202,1770624000"; 
+   d="scan'208";a="229156488"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.2])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 10:47:51 -0700
+Date: Mon, 27 Apr 2026 20:47:49 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Arnd Bergmann <arnd@kernel.org>, Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 3/3] ASoC: pxa: integrate sound/arm/pxa2xx into
+ sound/soc/pxa2xx
+Message-ID: <ae-hRXdoVCeNhNSm@ashevche-desk.local>
+References: <20260427144658.3609647-1-arnd@kernel.org>
+ <20260427144658.3609647-3-arnd@kernel.org>
+ <ae-GOQjD4Kq0ve8D@ashevche-desk.local>
+ <2e77971c-ce4d-4489-9e8a-7766c6576a39@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3638; i=chleroy@kernel.org; h=from:subject:message-id; bh=xblTv37x9V4gU3cvmA9ILfz6xXNOv0sNe2zU9C6a5nw=; b=owGbwMvMwCV2d0KB2p7V54MZT6slMWS+nxlr/n9yu2DE7uwkCZGbl0uCp6Y1JLvZTPpz+P/PY xNqPMoaOkpZGMS4GGTFFFmO/+feNaPrS2r+1F36MHNYmUCGMHBxCsBE9HwZ/ns82Ho9PV2Q+7Pp 5fqvs6O/v3YN+3EgL+Wk4b/co1rlkZ8YGVZxmDl7XFiUcmPSTPW14WGSHT6/1u4pcTY2cjD0U7P bzAkA
-X-Developer-Key: i=chleroy@kernel.org; a=openpgp; fpr=10FFE6F8B390DE17ACC2632368A92FEB01B8DD78
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2e77971c-ce4d-4489-9e8a-7766c6576a39@app.fastmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-copy_{to/from}_user() is a heavy function optimised for copy of large
-blocs of memory between user and kernel space.
+On Mon, Apr 27, 2026 at 05:58:00PM +0200, Arnd Bergmann wrote:
+> On Mon, Apr 27, 2026, at 17:52, Andy Shevchenko wrote:
+> > On Mon, Apr 27, 2026 at 04:46:31PM +0200, Arnd Bergmann wrote:
+> >
+> >> The pxa2xx sound library modules are only used by the ASoC driver since
+> >> commit b094de7810f3 ("ASoC: codec: Remove pxa2xx-ac97.c"), so move the
+> >> code into the one module that uses as a simpliciation.
+> >
+> > Is this part of the series that touches UDC? Btw, the UDC one despite on being
+> > mentioned as v2 in the changelog still have no versioning in the Subject.
+> 
+> Both patches came out of my work to hide the last users of GPIO numbers
+> behind CONFIG_GPIO_LEGACY that I first posted last year. A lot of my
+> patches got merged (or replaced with other work) in the meantime,
+> so there are only a few drivers and platforms left that won't use
+> GPIO descriptors any time soon.
 
-When the number of bytes to be copied is known at build time and small,
-using scoped user access removes the burden of that optimisation.
+I'm fine with that, I just got patch for UDC and patches 2 and 3 out of 3 of
+some series related to ASoC PXA. I was wondering if they are coming from the
+same series. Anyway, it's not so important.
 
-Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
----
- include/linux/uaccess.h | 47 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+...
 
-diff --git a/include/linux/uaccess.h b/include/linux/uaccess.h
-index 33b7d0f5f808..3ac544527af2 100644
---- a/include/linux/uaccess.h
-+++ b/include/linux/uaccess.h
-@@ -50,6 +50,8 @@
-  #define mask_user_address(src) (src)
- #endif
- 
-+#define SMALL_COPY_USER		64
-+
- /*
-  * Architectures should provide two primitives (raw_copy_{to,from}_user())
-  * and get rid of their private instances of copy_{to,from}_user() and
-@@ -191,6 +193,9 @@ _inline_copy_from_user(void *to, const void __user *from, unsigned long n)
- 	return res;
- }
- 
-+static __always_inline __must_check unsigned long
-+_small_copy_from_user(void *to, const void __user *from, unsigned long n);
-+
- extern __must_check unsigned long
- _copy_from_user(void *, const void __user *, unsigned long);
- 
-@@ -207,6 +212,9 @@ _inline_copy_to_user(void __user *to, const void *from, unsigned long n)
- 	return n;
- }
- 
-+static __always_inline __must_check unsigned long
-+_small_copy_to_user(void __user *to, const void *from, unsigned long n);
-+
- extern __must_check unsigned long
- _copy_to_user(void __user *, const void *, unsigned long);
- 
-@@ -215,6 +223,8 @@ copy_from_user_common(void *to, const void __user *from, unsigned long n, bool p
- {
- 	if (!check_copy_size(to, n, false))
- 		return n;
-+	if (!partial && __builtin_constant_p(n) && n <= SMALL_COPY_USER)
-+		return _small_copy_from_user(to, from, n);
- 	if (IS_ENABLED(ARCH_WANTS_NOINLINE_COPY_USER))
- 		return _copy_from_user(to, from, n);
- 	else
-@@ -239,6 +249,8 @@ copy_to_user_common(void __user *to, const void *from, unsigned long n, bool par
- 	if (!check_copy_size(from, n, true))
- 		return n;
- 
-+	if (!partial && __builtin_constant_p(n) && n <= SMALL_COPY_USER)
-+		return _small_copy_to_user(to, from, n);
- 	if (IS_ENABLED(ARCH_WANTS_NOINLINE_COPY_USER))
- 		return _copy_to_user(to, from, n);
- 	else
-@@ -838,6 +850,41 @@ for (bool done = false; !done; done = true)					\
- #define scoped_user_rw_access(uptr, elbl)				\
- 	scoped_user_rw_access_size(uptr, sizeof(*(uptr)), elbl)
- 
-+static __always_inline __must_check unsigned long
-+_small_copy_from_user(void *to, const void __user *from, unsigned long n)
-+{
-+	might_fault();
-+	instrument_copy_from_user_before(to, from, n);
-+	scoped_user_read_access_size(from, n, failed) {
-+		/*
-+		 * Ensure that bad access_ok() speculation will not lead
-+		 * to nasty side effects *after* the copy is finished:
-+		 */
-+		if (!can_do_masked_user_access())
-+			barrier_nospec();
-+		unsafe_copy_from_user(to, from, n, failed);
-+	}
-+	instrument_copy_from_user_after(to, from, n, 0);
-+	return 0;
-+failed:
-+	instrument_copy_from_user_after(to, from, n, n);
-+	return n;
-+}
-+
-+static __always_inline __must_check unsigned long
-+_small_copy_to_user(void __user *to, const void *from, unsigned long n)
-+{
-+	might_fault();
-+	if (should_fail_usercopy())
-+		return n;
-+	instrument_copy_to_user(to, from, n);
-+	scoped_user_write_access_size(to, n, failed)
-+		unsafe_copy_to_user(to, from, n, failed);
-+	return 0;
-+failed:
-+	return n;
-+}
-+
- /**
-  * get_user_inline - Read user data inlined
-  * @val:	The variable to store the value read from user memory
+> > What a lovely change! I would like to give a tag, but see a comment below.
+> 
+> >> +extern int pxa2xx_soc_pcm_new(struct snd_soc_component *component,
+> >> +			      struct snd_soc_pcm_runtime *rtd);
+> >
+> > Can we kill 'extern' while at it?
+> 
+> I can change that, though I usually try to minimize changes to
+> code that I just move around.
+
+I don't see the point to have another patch to drop 'extern' while we anyway
+move the code around and all those are being touched.
+
 -- 
-2.49.0
+With Best Regards,
+Andy Shevchenko
+
 
