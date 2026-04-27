@@ -1,40 +1,73 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8165DF59;
-	Mon, 27 Apr 2026 02:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EFD2777FC
+	for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 05:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777257029; cv=none; b=Vw5Utp2lAnWK8vrVSRymo9F1K9fNekDVwfA/2T7k+G86OBRUAiCrASvy37yHPXNYmwv1vHFf6Md896wEkJG2foI1hvq9TSCuMpO8DiPYhk73QiyAtH6KXiRASAX6bwGrE/dlygAYLVM6iNRThvStSVbzlHdxt3S8JCUUHiNqLbE=
+	t=1777267213; cv=none; b=XJL+LP6wGtysOk2AgRc54kZhd1SL9xBr8tIF24AAGslRRZSgoirxD9avq30kU3abbsbgYTZIWvckEJJ9qnfYO8rahJSA1IpFIYufr1agWjBpNJSVLNXLFgvYdW5tg1jCpGKbCavc5mtaZOBxtdsXOfIAnEagNO0qjiRrigypANE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777257029; c=relaxed/simple;
-	bh=f3ZIWJDjDv29AI59sQDBQHbt9vYdSZbomtqJ6zmTVOc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AJOJHf3TTq+e+IFyj2PCidsdreGKvSjegf51CJV8wjciOpUltSLxHYTc2X9PwHpO0ArOaMF4BnRpnBbl5nZd4h/IeO7iaDojADrE6mBljd2C1EuCY/tCzcxJLjCnI9JEZ2SxldGVMtzfg+X79yEnJphi4wHIrXybP/PV8FcwK4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=amLTDGtl; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1777267213; c=relaxed/simple;
+	bh=kLZWnM9y28y8ldbkGVoQdJpea9B9e0SdXFajf1RExA8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SVNx7kxgM3xfiX1HbCEHrnTZBGO6foLKlHUaHH+MkDJDubefedTTpuVIkEGber2XjzSD/CfMgD6DOVMDbzw+9trU5FLwMIdHbuG6tGC1vOv/+Kn3uQ58ChFVWOcqLLUdIHaMm0m4tsDBu1kIIKZ3XzfK/vrfAGuyfhLAy7e7xkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EAPy0GLP; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="amLTDGtl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Qv
-	DxuTwweRKErYsdSQnwAoexuHqo6KmGkmz0+hTJPHk=; b=amLTDGtlvqNY/X7YJ5
-	kXv3x79Q6S4gS8eAo9TVgMkMxA4krF9/0lvkn9sRRWoRGgqH2us4F//kOBNQvCeX
-	+99pEimRsQ+OeAStMh7jfII7EPO4Br3CZNO11PrxLNz6n4yeEdeqd5FyIQkds/Gd
-	cb97PyzzAioZTTkLwPx5eQoL4=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgCHKA4cyu5pFeVBBg--.92S2;
-	Mon, 27 Apr 2026 10:29:52 +0800 (CST)
-From: wangdich9700@163.com
-To: broonie@kernel.org,
-	tiwai@suse.com,
-	wangdich9700@163.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	wangdicheng <wangdicheng@kylinos.cn>
-Subject: [PATCH] ASoC: aw88395: Fix kernel panic caused by invalid GPIO error pointer
-Date: Mon, 27 Apr 2026 10:29:46 +0800
-Message-Id: <20260427022946.48886-1-wangdich9700@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EAPy0GLP"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2ad617d5b80so57142235ad.1
+        for <linux-sound@vger.kernel.org>; Sun, 26 Apr 2026 22:20:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777267211; x=1777872011; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NGtV/ZWxjAAYhGmZ7Trrlqe5ZDiPRNjc23KXIz9tO/Y=;
+        b=EAPy0GLPwq6PTiz1qJ6kgwKHLvDHsoxJPVt6pOcyn5GFjhnvtFA/8oPdteGRiIeCbr
+         eWWskLrb3ThbQMZaBoPPjzu9S6MK6BDWBtbP5FqG5JtatJNA9NLn7mycrCmVgKP+uP6s
+         CFduzK5GkvuTBBKcI9Vcr7yew2V+1xdawj1Pq3v0a8efCIltNvrHd+yjTwj4zJUyToet
+         tbwhgLjIHnJ8h8GzqO2R9L55og9hmsbocM2R1myMuKTSmmNh7PZV0hW4Ll4S8F1qH+CQ
+         EnNRYe8VoNxK1jCFRQj4nEYKe+32qoAoS3LHMAjxxqBRtipRLUwUrvphsKE7erHFDPdw
+         s3ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777267211; x=1777872011;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NGtV/ZWxjAAYhGmZ7Trrlqe5ZDiPRNjc23KXIz9tO/Y=;
+        b=Ma8NjhdCqxS+Jk/iY4ILgU/k6LXVekts0PILDtsKG0XV2bYqorzuBqBpO0OZ09c6rq
+         mxRhGNFGl7AJTQdQeJf7kE7dW/KcxjBCiJpZnbm5uUxXvWe0711JVChIq9r6km0+ZhmA
+         JTm7Q2fH2jyFFo9BKJcofzlW5KzlCeUviDNG/TGUCHnM9lD91SoZsGBeQzukKpxYTZ97
+         jvUNm8fJFj/UINH9w9/M+xLJviQIgC53tkEFf1FcRCcMWXcv9De4Hbg+SFGG4b1yCAGo
+         tbZmQRCeCIvlDPEQIe9KJ04tmk3BCz71z6h7sK8PyJ5Ki6GemG84XB1tbSMvFagJ25Oz
+         oJyA==
+X-Gm-Message-State: AOJu0YyLjSYngtvz0XXELYehNThEcw4Fb/A803XvXgOsX1AChIIqwSmK
+	b4gHFfWXdBV3xm2WOTJXVhfNWiX4DUK5KT3NsGWzl5UsFTwFjgnd39mwQTkx0A==
+X-Gm-Gg: AeBDievvDE6oo10BW+u4n2ZWjfN9xVs6bBakNmfhFYXKAWg5H9ZHlLUAAfzmUsAV9D0
+	BN5erZucrkOYh/DMekmJNmsCxayVAWnwZHJZVhewT6KIsGctoFw8ckTjqJUi9q5N8au32vD4LaE
+	wh/+n3y8etWwkcXpZsflcgx9J96lVzm7dJ7lBaVoV/5tJbhXMIyg9U5VyCfYAgp9AUTwEpSAMM/
+	/hc6D2GNdBLn5BprMSmvs6zdv/VbnB5j/0d9+mhF49pCSYaZYyHxnUYDxlaDtyo1TT5//z2gu3h
+	S5j/NGQC35UCVRmGUuGYJvEUCPklyxtnGgjnHpQb0JLnRMvrEg5MGL92vsOIonrBuH/0jlsLB6x
+	jIMXkub363Kmz4SZp6zWD+x1G0QjBvFM2ZBT4v8/WJnhJpKXkhqNgSZERmFLOJlihzfJX5VOIq1
+	BDgUimoM/6qKG8Qmvqgi2YL8BVqtubL2U8K3e+3IucAMfXazrIGDy9tT96/nX9dupNQHeXWRZ5U
+	gGumKTl0g2pgFvhpSHDsPRYDA==
+X-Received: by 2002:a17:903:2ecc:b0:2b4:6022:bf8c with SMTP id d9443c01a7336-2b5f9f52984mr455496645ad.22.1777267211224;
+        Sun, 26 Apr 2026 22:20:11 -0700 (PDT)
+Received: from ryzen ([2601:644:8000:5b5d::8bd])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5faa16e72sm292136575ad.19.2026.04.26.22.20.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Apr 2026 22:20:10 -0700 (PDT)
+From: Rosen Penev <rosenp@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] ASoC: ti: j721e-evm: allocate dai_links with priv
+Date: Sun, 26 Apr 2026 22:19:53 -0700
+Message-ID: <20260427051953.956372-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,46 +75,78 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PygvCgCHKA4cyu5pFeVBBg--.92S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WryfuF4xGr4DZw18JF4ktFb_yoW8Xryrpr
-	4fGFZ5KFyDJ3yUZrW0qr4fZF1FkFyjyF48WFyFkw4UZwn8tw10qr1xKw129r4xtryfGFWa
-	qF4xu3yUuF4rZr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pEbAwnUUUUU=
-X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbC6ADQIGnuyiDZNgAA3a
 
-From: wangdicheng <wangdicheng@kylinos.cn>
+Use a flexible array member to combine allocations. Simplifies the code
+slightly.
 
-In aw88395_i2c_probe(), if `devm_gpiod_get_optional()` fails, it returns
-an ERR_PTR() error pointer. The current code only prints a message and
-continues execution, leaving `aw88395->reset_gpio` as an invalid pointer.
+Remove open coding of of_device_get_match_data as well as unnecessary
+NULL checks. of_device_get_match_data cannot fail. All compatible
+entries have a corresponding data section.
 
-Later, in `aw88395_hw_reset()`, this invalid pointer is passed to
-`gpiod_set_value_cansleep()`, which dereferences it and causes a kernel
-panic.
-
-For optional GPIOs, `devm_gpiod_get_optional()` returns NULL if the GPIO
-is not defined in the DT, which is safe. If it returns an ERR_PTR, it
-means a real error occurred (e.g., -EPROBE_DEFER) and the probe must be
-aborted. Fix this by returning the error code when IS_ERR() is true.
-
-Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- sound/soc/codecs/aw88395/aw88395.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/ti/j721e-evm.c | 27 ++++++---------------------
+ 1 file changed, 6 insertions(+), 21 deletions(-)
 
-diff --git a/sound/soc/codecs/aw88395/aw88395.c b/sound/soc/codecs/aw88395/aw88395.c
-index 3602b5b9f7d7..e60cd7e239cc 100644
---- a/sound/soc/codecs/aw88395/aw88395.c
-+++ b/sound/soc/codecs/aw88395/aw88395.c
-@@ -523,7 +523,7 @@ static int aw88395_i2c_probe(struct i2c_client *i2c)
+diff --git a/sound/soc/ti/j721e-evm.c b/sound/soc/ti/j721e-evm.c
+index faa62c1a9b8e..cbb10781e042 100644
+--- a/sound/soc/ti/j721e-evm.c
++++ b/sound/soc/ti/j721e-evm.c
+@@ -74,7 +74,6 @@ struct j721e_audio_domain {
+ struct j721e_priv {
+ 	struct device *dev;
+ 	struct snd_soc_card card;
+-	struct snd_soc_dai_link *dai_links;
+ 	struct snd_soc_codec_conf codec_conf[J721E_CODEC_CONF_COUNT];
+ 	struct snd_interval rate_range;
+ 	const struct j721e_audio_match_data *match_data;
+@@ -84,6 +83,7 @@ struct j721e_priv {
+ 	struct j721e_audio_domain audio_domains[J721E_AUDIO_DOMAIN_LAST];
  
- 	aw88395->reset_gpio = devm_gpiod_get_optional(&i2c->dev, "reset", GPIOD_OUT_LOW);
- 	if (IS_ERR(aw88395->reset_gpio))
--		dev_info(&i2c->dev, "reset gpio not defined\n");
-+		return PTR_ERR(aw88395->reset_gpio);
+ 	struct mutex mutex;
++	struct snd_soc_dai_link dai_links[];
+ };
  
- 	/* hardware reset */
- 	aw88395_hw_reset(aw88395);
+ static const struct snd_soc_dapm_widget j721e_cpb_dapm_widgets[] = {
+@@ -844,33 +844,18 @@ static int j721e_soc_probe_ivi(struct j721e_priv *priv, int *link_idx,
+ 
+ static int j721e_soc_probe(struct platform_device *pdev)
+ {
+-	struct device_node *node = pdev->dev.of_node;
++	const struct j721e_audio_match_data *match;
+ 	struct snd_soc_card *card;
+-	const struct of_device_id *match;
+ 	struct j721e_priv *priv;
+ 	int link_cnt, conf_cnt, ret, i;
+ 
+-	if (!node) {
+-		dev_err(&pdev->dev, "of node is missing.\n");
+-		return -ENODEV;
+-	}
+-
+-	match = of_match_node(j721e_audio_of_match, node);
+-	if (!match) {
+-		dev_err(&pdev->dev, "No compatible match found\n");
+-		return -ENODEV;
+-	}
+-
+-	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
++	match = of_device_get_match_data(&pdev->dev);
++	priv = devm_kzalloc(&pdev->dev,
++			struct_size(priv, dai_links, match->num_links), GFP_KERNEL);
+ 	if (!priv)
+ 		return -ENOMEM;
+ 
+-	priv->match_data = match->data;
+-
+-	priv->dai_links = devm_kcalloc(&pdev->dev, priv->match_data->num_links,
+-				       sizeof(*priv->dai_links), GFP_KERNEL);
+-	if (!priv->dai_links)
+-		return -ENOMEM;
++	priv->match_data = match;
+ 
+ 	for (i = 0; i < J721E_AUDIO_DOMAIN_LAST; i++)
+ 		priv->audio_domains[i].parent_clk_id = -1;
 -- 
-2.25.1
+2.54.0
 
