@@ -1,142 +1,176 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010032.outbound.protection.outlook.com [52.101.85.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667BC2DF6F4;
-	Tue, 28 Apr 2026 05:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777353185; cv=fail; b=sGw6IqpekRaT7IrGvp1g3el0gdTlU0m8aXmYuwCY2aZhUSA6gQ4Bev3NgGIKY8cSMV+vHtVkKsZGE5rgXmPNQjVy1dMyLFEMzrGevEhSx07Uipn1fvLnxbSDhCOAyU4R7xc8gZlWC48hp0yGyO38s3EmFFMOKvnrDd5rW9HOjhY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777353185; c=relaxed/simple;
-	bh=JPbTUHrn/KKX+CHDzOzeXbsUWczSHwOhc6FhaHpw7hs=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=u65iyehAlphgBP0nz5vdUA8xfK7iafI57Jv7zecvo+7zUdsVFncdsVKpj+mNUeTI5xNrQfyvO/UfVBGwYDaKXg1nd78QNILEWF7RrM6kium8ziWcwU6HeDDCyY2aJ/MijYOWgm9zINKSCB5emls308FatEed/i1nzHSrRy2wHW4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WL2P/NFh; arc=fail smtp.client-ip=52.101.85.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684EF28B4E2
+	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 06:04:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777356293; cv=none; b=Iitvu/R/rvBSKX3zboCWDxpw/75ZASai92CQ2D1mtkNmzm2C66fycfebFspFEbrcMXYq0kqmVEAWsWND6HDuOimbQZNX10jwnITCDG6u6GNOtUo3vTOWez7MMUyQ2EJSYF6Q/jdB9U+oaNZIQ+Lkme8X0Y1kZk6evA9nOytEYdI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777356293; c=relaxed/simple;
+	bh=2Mt7uUJePTtBOs80C/UCxpiCjlEW0lAPBbbyTxJ6Fwg=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ne3dVpk1odW+XBNAeQ3XYdQm4R/i8jFry3/td6rcX3jMDlg/bnGQALmZdYLPYW4gC976lN/FhvA42c2htBePAF/+zQPqR/7Swv1BexC5CzZ3xs4GT7X12kzwhGxSaGd+GDQMedSAcRkPjXYYT9GCzwlu8ctQqQ1MbMGjNsLg9Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WaDQ/4In; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GWnblFVM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WaDQ/4In; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GWnblFVM; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WL2P/NFh"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=c+37PdsXhcZqF+HX4g/4ZjpxcsWe5GzuNkHapsz6YU/Frq9RMWLjKBoJ82mLRTgrwLVk4G2euB/ZWcsI6lOi8U42Cq/Spg5ZhKRjgVzXCnjLcN62oGW7owyEcx6hK+10yyy+EdPHIiA9zslM1oFBd5Jtzjdo163RXFtgKyQZo2/oNQqd3cJy3MJGrlhu1t6EZBUUBuQJDmpoz7OPLYL9oN/Ix3ApKJsUY4w/wxoAep/sBSR+I9k9VM9XLeKhjEcuuciFaI3QMX7D0iV3dsu+AaH9Xs/k/9tfiR/HycWELeXmnKxxbLDcvktkZxrVfsK5i27ESPizNWi12Kjsi8wI2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wZalfikKIJwQCUi4YVHaEjl5XxHCG7LKeCudHPzrha4=;
- b=hyyEpJ+0Dkj04Jx+ahbnpRAWovMwvQUjIcbw5Ik6KClNUm4AtkmIp01zvM8m9ol/KqyqRsAUqY6NAIK7uQTCh8QlhryJJ7yepNh423tjfbGHubz8bpILv2NhW1WcUEOnvNdXYkeUplXeX35h5NxJiDOWjQUIup+Z4KHAkO23zCw/VOXgWK36oOnJtgOPtP4gVGshzo3tFu6XArgpNiCR/Ea9dLMdKM7oGpOiVOLZRDUi5jnVc/0Q6sBQ4MOo2BBjMReTAAT1Ney2TEjWv1aIXT795+9mUD+B88eZSwQMYHMN76paYkYS3GkiYwpnpHA/d3w16Ul7t776SzlHntphsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wZalfikKIJwQCUi4YVHaEjl5XxHCG7LKeCudHPzrha4=;
- b=WL2P/NFhTCzenq5xv1xUKjH4LH1acJfqBDV1vh/MNIiYK10IcwwfteMCAeZglngdKMRjjqe+3xdDrNWcQdcpsvKkSLBh0IVTIXFl+EbRc1XVDk+47RnVNqlY3pSnl2wXUQlhRjOXKhchKzipv+e6u4X8Rn8E1ZY4Ge3sLiNAjqUV+buV57qifpE9+Weh8rlK74RBIiGehssDqWS/H4HTNyrlMgRI5JiGaOgpbHZi/5rBUbECgiCNzDPDdvBsagWmu/C4/GLHvJCxTV4eN5qM5Ftcin3gHM2XLn6PKRCCclWBYRMrYSlHO34hAJcem61FWQzitKDHuarycW/o2lvO/w==
-Received: from CY8PR12CA0067.namprd12.prod.outlook.com (2603:10b6:930:4c::7)
- by CY8PR12MB7684.namprd12.prod.outlook.com (2603:10b6:930:87::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.16; Tue, 28 Apr
- 2026 05:12:58 +0000
-Received: from CY4PEPF0000EE3E.namprd03.prod.outlook.com
- (2603:10b6:930:4c:cafe::4) by CY8PR12CA0067.outlook.office365.com
- (2603:10b6:930:4c::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.26 via Frontend Transport; Tue,
- 28 Apr 2026 05:12:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CY4PEPF0000EE3E.mail.protection.outlook.com (10.167.242.16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.18 via Frontend Transport; Tue, 28 Apr 2026 05:12:58 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 27 Apr
- 2026 22:12:38 -0700
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 27 Apr
- 2026 22:12:38 -0700
-Received: from build-sheetal-bionic-20251202.nvidia.com (10.127.8.14) by
- mail.nvidia.com (10.129.68.7) with Microsoft SMTP Server id 15.2.2562.20 via
- Frontend Transport; Mon, 27 Apr 2026 22:12:37 -0700
-From: Sheetal <sheetal@nvidia.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
-CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Thierry
- Reding" <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mohan Kumar
-	<mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>,
-	<linux-sound@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Anupama Kunkulagunta
-	<akunkulagunt@nvidia.com>, Sheetal <sheetal@nvidia.com>
-Subject: [PATCH] ASoC: tegra: Add S8 PCM format support for MVC
-Date: Tue, 28 Apr 2026 05:12:16 +0000
-Message-ID: <20260428051216.2746030-1-sheetal@nvidia.com>
-X-Mailer: git-send-email 2.17.1
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WaDQ/4In";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GWnblFVM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WaDQ/4In";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GWnblFVM"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3E17C5BD0A;
+	Tue, 28 Apr 2026 06:04:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777356290; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/ER5LZCAAsHKY1g7Hwq6Kpzv3g+WbuVWN8L24K2+jxQ=;
+	b=WaDQ/4In72V9X9zFGYYc9JiPccBho0exUQOM6I1j/3JyKl5wvIajjH/sx67v3mF1Be0uqC
+	sFC8RO649eUVO5wFgnMjaZW4I3o5C5fzPEsjMfLAGf3G2jBTQuQcxdi45VkJTD/gbjCr8L
+	F6cfPy1KXCGa8sDtojev02/Y5bOcXZE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777356290;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/ER5LZCAAsHKY1g7Hwq6Kpzv3g+WbuVWN8L24K2+jxQ=;
+	b=GWnblFVMPAqHsC/CdJTK7jazZRF0tyYmj/a5lzCKNGKCA91uOzIHTImx+m5jbtjUJzhKzn
+	+NZIVrKDZoiGjCDg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="WaDQ/4In";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=GWnblFVM
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777356290; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/ER5LZCAAsHKY1g7Hwq6Kpzv3g+WbuVWN8L24K2+jxQ=;
+	b=WaDQ/4In72V9X9zFGYYc9JiPccBho0exUQOM6I1j/3JyKl5wvIajjH/sx67v3mF1Be0uqC
+	sFC8RO649eUVO5wFgnMjaZW4I3o5C5fzPEsjMfLAGf3G2jBTQuQcxdi45VkJTD/gbjCr8L
+	F6cfPy1KXCGa8sDtojev02/Y5bOcXZE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777356290;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/ER5LZCAAsHKY1g7Hwq6Kpzv3g+WbuVWN8L24K2+jxQ=;
+	b=GWnblFVMPAqHsC/CdJTK7jazZRF0tyYmj/a5lzCKNGKCA91uOzIHTImx+m5jbtjUJzhKzn
+	+NZIVrKDZoiGjCDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E707E593B0;
+	Tue, 28 Apr 2026 06:04:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qTRmMgFO8GmrJgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 28 Apr 2026 06:04:49 +0000
+Date: Tue, 28 Apr 2026 08:04:49 +0200
+Message-ID: <87340ffwn2.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Abhinav Mahadevan <abhi220204@gmail.com>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: usb-audio: Add quirk for PreSonus AudioBox USB
+In-Reply-To: <20260428005433.6326-1-abhi220204@gmail.com>
+References: <20260410143335.5974-1-abhi220204@gmail.com>
+	<20260428005433.6326-1-abhi220204@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE3E:EE_|CY8PR12MB7684:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27549537-c7a9-4ea9-a8a2-08dea4e4d045
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|1800799024|82310400026|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	8tXBZtVEMnorALjj2RJkTM+l5l5emOgD19cyv0jUJFUbUNHPgCB3hti+a4D4P7ZKCrmgc9wEIRruLu5WFxjr9ffH7mI52qUL7o6mfNqBRk+qaY+Q6gkneuTrbM7azJIuH959t+gU/+z6l16wxoN9FMcbUFHxxZo5r6asujXDXVpGQ5PO9ZnGnifOueHmUF6EQxZZKBopd09CNqprkkrTKCzUhC9UoyETkr+ihwEEMuVNT80cvI7/WplZQ07U9V9OSfEQJGqgl59VzjFn3xMh0IHVV2DXD+igT992MinXCO1lOayRIkHQDq3+LAvoqnhk0Y9Vp+4QOP/0f4RhKfjpvo+yZaoLGGV/BtynG/yPEShtRggnOvC4C37ftwh8t4oHeD4+CsXv+BrVULrV3YDy3YcuDgmQX6WiKQgpCdURsM5xnvB4DX8vX2ie0E96rVq0iYLA8TeKJsZqk8BBpPxZU0R4SN9b5UhaYGoUlXP55/lq3rtGqutfK7J03ZeGwK7qmftMKHrV1++n6iRjBJK+sUkm/N+f4y9m4uaIaSW0zs1v2aR5n4TcdmdRr34fJeO64SNV2YXA6/GucckUNzlKjDPWasiH5TiIrBkOc360pUmYo1b5ofsKy0UdIsHdrb1wQlioPP4I/UjBlodWSY9tt7I9meLsMqeMt60slOYOQtlElcdkdKphfCecTExeFMW8R58bifo4byNkc4hM/mqhS7C6zCoUULGwfr1DCvUiIAiAOXywN5upG97sUa+5lJ+S6kdlWXgWjWgP+AjKi3Ftdw==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700016)(376014)(1800799024)(82310400026)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	1JwRxHSuOM/1XFtlCGYMEO5qmjNdmE24gZB+b4H5gVUxLWhul+obLF93F6Tlos3et3+l30M7txxR/+tbuAsMKinq1cgN/FRUVV5LUEgr8X2Iqn5DjjQLpFa4AGAEFck2qTje0T4BTwSy8sv7pbbYqv5vcAuV8f51gXDgE2I3A8NWvJoPoEQ02b30Om4+OeynSpIJrHkTVqgAtHhdNEKWqSJjl7lpARIisr6DLLWkXiagd8SfhtesDfFrJSRh+3TIh52BcTwtSZCyaumsgttzSySH28SxCq8ey5nbKY8etP2rROcQxhr8Q2gTaZZVy46nKCKkxzoDGzlJ3VCSaXDHlPRVhhlXJ7y+/B2rMPR7BcbVZ/dwZ5z34dw4Ys5yDG4bI8k2eV8ovxQetXZTFaGhXaWD5JF1YQJEFgUcsance0fyt6fNySCsRQpV4+dNxEZ3
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 05:12:58.5511
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27549537-c7a9-4ea9-a8a2-08dea4e4d045
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EE3E.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7684
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 3E17C5BD0A
 
-From: "Anupama Kunkulagunta" <akunkulagunt@nvidia.com>
+On Tue, 28 Apr 2026 02:51:19 +0200,
+Abhinav Mahadevan wrote:
+> 
+> The PreSonus AudioBox USB (0x194f:0x0301) only supports S24_3LE
+> format for both playback and capture. It does not support S16_LE
+> despite being a USB full-speed device. Add explicit format quirks
+> for both the playback (interface 2) and capture (interface 3)
+> interfaces to ensure correct format negotiation.
+> 
+> Signed-off-by: Abhinav Mahadevan <abhi220204@gmail.com>
+> ---
+> 
+> v2: Fix placement -  entry was incorrectly inside a #if 0 disabled block.
+> Moved to after the #endif /* disabled */.
 
-Add handling for SNDRV_PCM_FORMAT_S8 in the MVC audio CIF
-configuration. This allows 8-bit PCM streams to be processed
-by setting the appropriate TEGRA_ACIF_BITS_8 format in the
-CIF configuration.
+The patch description doesn't match with what you actually change
+here.  Also, as it's a correction, it should have a Fixes tag.
+Please update the description and resubmit.
 
-Signed-off-by: Anupama Kunkulagunta <akunkulagunt@nvidia.com>
-Signed-off-by: Sheetal <sheetal@nvidia.com>
----
- sound/soc/tegra/tegra210_mvc.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/tegra/tegra210_mvc.c b/sound/soc/tegra/tegra210_mvc.c
-index 2c299704ef4f..07b88e5f18ae 100644
---- a/sound/soc/tegra/tegra210_mvc.c
-+++ b/sound/soc/tegra/tegra210_mvc.c
-@@ -438,6 +438,9 @@ static int tegra210_mvc_set_audio_cif(struct tegra210_mvc *mvc,
- 	channels = params_channels(params);
- 
- 	switch (params_format(params)) {
-+	case SNDRV_PCM_FORMAT_S8:
-+		audio_bits = TEGRA_ACIF_BITS_8;
-+		break;
- 	case SNDRV_PCM_FORMAT_S16_LE:
- 		audio_bits = TEGRA_ACIF_BITS_16;
- 		break;
--- 
-2.17.1
+thanks,
 
+Takashi
+
+>  
+>  sound/usb/quirks-table.h | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+> index 803e03d4d..4e9cfff40 100644
+> --- a/sound/usb/quirks-table.h
+> +++ b/sound/usb/quirks-table.h
+> @@ -2652,6 +2652,9 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+>  		}
+>  	}
+>  },
+> +
+> +#endif /* disabled */
+> +
+>  {
+>  	/*
+>  	 * The AudioBox USB advertises S24_3LE as the only supported format
+> @@ -2700,7 +2703,6 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+>  		}
+>  	}
+>  },
+> -#endif /* disabled */
+>  
+>  {
+>  	/*
+> -- 
+> 2.43.0
+> 
