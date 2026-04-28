@@ -1,134 +1,77 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from cse.ust.hk (cssvr7.cse.ust.hk [143.89.41.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4379B3AC0E7
-	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 07:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777361875; cv=none; b=OpkWTlxJguIzeh3dW7fMIdbZOEnaX4GYvyVjSFTL5m8z6E8l9MdWFZfjjtboMl8PU3PADiwlkrANnAc6gFPTnvUHWEEJGu9A2gr+OzJzg8FTIIYRaMt4DGGjubw5tIj4uh4b6/8RFu+Ls7jjbF8FldQLOGje0S9ZLbRGSLkOKHo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777361875; c=relaxed/simple;
-	bh=cypE6I5Oks+J1cXo64H9AjkzHnHUJ7VyGIZOIAVE1+0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WFEBH64K0zuCHG1rrnK8xxyguh+4CG/8R6GsCPC9zPYM0WNk04sotMqomePz1K3v9AOB/wqKj4cZikwbBIcUN2RoDlbGqsEhWdcm5bBzywhSLv4MtfjlP2QYgVkNhGm16T5V5qy/RIqL6fTvnLSEzIlfDVOf4o/KhuvipsKHIzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=NDw91MTx; arc=none smtp.client-ip=185.125.188.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E453B5826;
+	Tue, 28 Apr 2026 07:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=143.89.41.157
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777362295; cv=pass; b=dQ7whcF7xl2BTyrSsMY5swNdsMWlxTmQRfaOqlOwqb6a0a8S4zV9likneT728R3NbRwaQ7Fp2E+ixe8TY7B35mee9jWvmOJ5MC4WpghluQNCZZ1sop7MmqJIRFGEHzJ0Bt48iYlv3CFbntfnyFfqUEgtaVuVKk3+6aqgNeuYC48=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777362295; c=relaxed/simple;
+	bh=aSlYiThN314JtSIdBPA5gv7QtcuqUw3NsLfDi0KAUk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZXLyDlnyK5GRic/QtD0ALTwPGuzMywwpuKvZmiPoKX0XuapyicfYuALh8wNCaRo78pMjFgh5sfrSs94BhILpRLJPJ7vp0HHyMcMZFDlNmp7heW4d2YUpQwMyRGNFywf8Loe9YC+Nc7d+/YlNziD9O5VGrDmNHtln+wcxrBtu90Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.ust.hk; spf=pass smtp.mailfrom=cse.ust.hk; dkim=pass (1024-bit key) header.d=cse.ust.hk header.i=@cse.ust.hk header.b=YIL9xb7c; arc=pass smtp.client-ip=143.89.41.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.ust.hk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cse.ust.hk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="NDw91MTx"
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id A6F8D3F2B7
-	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 07:37:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1777361865;
-	bh=wUycbjX4hyf+V/tl18Y+01ZB1hiYdyYUcYNBoEP2xzI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=NDw91MTx5v8YAlKcN9SA0m3X0Fh4Fv3l1XL/Mhy/d9LJx5HZNmD26jyhmrNzNKeed
-	 LfM5/R2n4sfFCofn0jUFUOzRwuc+83E1ZoMcSpDZZorAovgSikbgpskskWZXRjCUsF
-	 2xQWmg6Cni2PoLP1Oaz6HxKV3BlUijz5+dXorp1Hc6Aaou8ezPw4TBPD5Lb76DaBqD
-	 jiTOMVP3biOsVQDh+3rlooTEOwAOoYXvMb18NScoRK5/6EC0bhoiD9Wl2HavIDKWkP
-	 f4Pgo6gm7K4nBh6Ce1+o7g7RzT8dUw0RKvOKdSqe+T50ug5bBm7AXUfFtxNkfBeQmR
-	 g9KXc5JIp0FEH4k0jzggzxoHM9iyVwUDBfLqQLMD1lfEVU+Ewc3Hy5iEm2lcpIqkgG
-	 dkBpg2GHThG3oL+5jyixNrZdvjXa87o+xIbNIqq36o/15VsH+mDJD8SvzVLHqhU6JD
-	 i4q/yBCzHhVotlL9KQUwuWqN0RZyomtn5bGLWRpkTxG/vC0GmjDdiPz2Loi71IY3uK
-	 IRtie8IXpOlttu23swWCgsgi1nXwhfemTqaO95DdWC8xaY29DcKxejyC5naNpQ7FyF
-	 IsrZ+qaregmeGAWW2KS/e2k+vQ/NhPm5yLXIIC9XF0ZwlwWKVNkUy59Lz/9RGtPyqV
-	 ciJ0VX27Ym1dlBjWB3gdaFjM=
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-c7948640854so5791372a12.1
-        for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 00:37:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777361864; x=1777966664;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wUycbjX4hyf+V/tl18Y+01ZB1hiYdyYUcYNBoEP2xzI=;
-        b=JY6+a//BCTkiCJJAMFv2sxXqsQakNTVIOsVK/xKcMwzbWgx7nLbUpPtN1uVzdVzqhf
-         ULNVm1cMMvh7LP+E9m64f2vJREth78jhpPGL1Tg4ErgqAVJnBsO5r1DxnGWL2igSAE9b
-         mhrh+Bd5evwg4fyu4DhzqGPrCmiwe0hHND4Bmj/04PMThYepgEpzZu2sH58Y7EXKlr8+
-         6u7rlOyUlPlYOtRbgvAKxUPB2NF4RQcTqtwzSZRS0JAaIgQ67uw9Jjpi7d73HCoeM4Rj
-         +PJnsaOnI25CBRyMKyJYZyVCvZW6MPDcIqtZ/ampRsut3vc5nDO7gAZ4XNuDcziIkyu2
-         zMKQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/ujML6/gLMpRiSS1v9GwfnVywM/5VuA+uuPMixoeTFcZc0qwlZboDS3rP1IYSos5hwJTkTeuLL1gZDew==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9/vCnOMiGzYYXnDWDYOMSFKgBek2ZGCrpObw8UCTGHLs0LFqP
-	Wbd2STrZSF2dWDdECi7mEKadP/FLhSDONmIJ3MwzPDi7IYGiNDXclNLRdn/8QwULlj637lKGmq9
-	7fCn9nkBj8cNTwL+/b3oXni7nQzfkq/c/tw7SDTgEvcTscbuk2Zf6b6/9eosj2La2Cx1cqHgQWa
-	Xxi25d
-X-Gm-Gg: AeBDietKmlOZ6pPgS0iMzgi7eg9fZhptaW2lKYYfEfA9N1L9J9Gg2UQdIPv+JtTOutu
-	e47ls3MqY2uG4Urrjr+GQPUJ8K35O3vi7tNT4w1yFDyg94QqNUeflwPTD2/ONk7QLRDdosimMez
-	B8JICSuXmXdRIVDhSKw4oGthzQ8E0dcB38XvZgW1PSI7Lvm3Nv9fTZ7Ef2kYiRsZZMnqAN4VMDY
-	+qGaL+Eo8xSgoN+bLGdxAt5E3eMoIowNzBcK1OfT4lNEXGQm0yxWiH0Ndr5/tbZ7XVcaQoPKw9N
-	/a6hZ0nfOZheWaZhUZodpeeo0Pb/BrTbNyUBCh94h0/uxf8XrGDRfMWsieZK54OvujnS/z5oBLK
-	82bZIU+Gybdf0nkRIGYOU/9ksF72oIdAXGlIncfT0cL/LceVYHhS963+aNwRVhiv+8oNcEvMDgd
-	FNx7zyYAgjDlJy1KKTiP8BXM9DmVj/ZQ==
-X-Received: by 2002:a05:6a20:3ca2:b0:39c:39de:3cd2 with SMTP id adf61e73a8af0-3a39c10bc3bmr2487056637.22.1777361864128;
-        Tue, 28 Apr 2026 00:37:44 -0700 (PDT)
-X-Received: by 2002:a05:6a20:3ca2:b0:39c:39de:3cd2 with SMTP id adf61e73a8af0-3a39c10bc3bmr2487028637.22.1777361863796;
-        Tue, 28 Apr 2026 00:37:43 -0700 (PDT)
-Received: from localhost.localdomain ([103.155.100.13])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7fc6015691sm1383931a12.18.2026.04.28.00.37.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 00:37:43 -0700 (PDT)
-From: Aaron Ma <aaron.ma@canonical.com>
-To: Oder Chiou <oder_chiou@realtek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH] ASoC: rt1320-sdw: don't poll PDE state on power-down
-Date: Tue, 28 Apr 2026 15:37:26 +0800
-Message-ID: <20260428073726.1611777-1-aaron.ma@canonical.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=cse.ust.hk header.i=@cse.ust.hk header.b="YIL9xb7c"
+ARC-Seal: i=1; d=cse.ust.hk; s=arccse; a=rsa-sha256; cv=none; t=1777362268;
+	b=BycuQojgkVg8FQUBNr0pAc+zHUC6SLK0oKktpzHdzPuYollaKlxLdHDM9Zqw2zrBl52O
+	 NrpC1vJoaDZjOQcwcnX3vMnzyuHi6z3yki/d7q443nnl89zK1lVE4irDj7vZNF2J2SwHg
+	 gczcaPjUE/n3y8DkjzmEfbA3p8D/bcE0Dk=
+ARC-Message-Signature: i=1; d=cse.ust.hk; s=arccse; a=rsa-sha256;
+	c=relaxed/relaxed; t=1777362268;
+	h=DKIM-Signature:Date:From:To:Subject:Message-ID:MIME-Version;
+	bh=oaqB/2eox/BDkgs1hqLWEKq+prT8zf4FLH66GF7uTWM=;
+	b=CSCTZ6vLC8iBIyucA2EO8zi0Piwszmh7CDoqgOxzQoHECCegPJYF0G9SpRyhIY2xuth1
+	 aaZzz4cGZTJaSHynStIAknBHr10L6CdqBSkE0Qom+yOWWjKfs+cMu6pdvCnIVuPURbY4l
+	 e8wy2Z9GOMFWsbbYxi6/zqznJTF5XZnKgY=
+ARC-Authentication-Results: i=1; cse.ust.hk; arc=none smtp.remote-ip=143.89.191.45
+Received: from chcpu16 (191host045.mobilenet.cse.ust.hk [143.89.191.45])
+	(authenticated bits=0)
+	by cse.ust.hk (8.18.1/8.12.5) with ESMTPSA id 63S7iKsY3237512
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 28 Apr 2026 15:44:26 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cse.ust.hk;
+	s=cseusthk; t=1777362268;
+	bh=oaqB/2eox/BDkgs1hqLWEKq+prT8zf4FLH66GF7uTWM=;
+	h=Date:From:To:Cc:Subject:From;
+	b=YIL9xb7cZ97At2e0i4Ew79jOkN/WXrTuLg3bJ8ihg8fILi09NQY10eJdOhoefsoOO
+	 g6i04BsrIdPqT9VyRbjTAy85yCa4huM0TDZZdW1nATy6CursaatIiaoKONCTqxPMK0
+	 g7+miRnaR3CHuJuMBqfdbtPUJvZBNmOik4otuD5s=
+Date: Tue, 28 Apr 2026 15:44:15 +0800
+From: Shuhao Fu <sfual@cse.ust.hk>
+To: David Rhodes <david.rhodes@cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] ALSA: hda: Fix Cirrus ACPI device reference leaks
+Message-ID: <20260428074415.GA1632446@chcpu16>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Env-From: sfual
 
-rt1320_pde23_event(PRE_PMD) writes REQ_POWER_STATE=PS3 then polls
-ACTUAL_POWER_STATE. DAPM fires PRE_PMD while the SoundWire data port
-is still streaming — the codec cannot reach PS3 until the port stops,
-so the poll always times out during playback. This blocks
-snd_ctl_elem_write() for 2-3s making mute unresponsive.
+This series fixes two missing acpi_dev_put() cases in Cirrus HDA side-codec
+ACPI lookup paths.
 
-Remove the poll from PRE_PMD in rt1320_pde23_event() and
-rt1320_pde11_event(). The codec transitions to PS3 on its own once the
-data port becomes inactive. Keep the POST_PMU poll — on power-up the
-domain must reach PS0 before audio can flow.
+Patch 1 drops the lookup reference after synthesizing the companion in
+cs35l56_hda_read_acpi().
 
-Fixes: f465d10cd731 ("ASoC: rt1320: Add support for version C")
-Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
----
- sound/soc/codecs/rt1320-sdw.c | 2 --
- 1 file changed, 2 deletions(-)
+Patch 2 drops the lookup reference on the early !physdev error path in
+cs35l41_hda_read_acpi().
 
-diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index 192faa431b5e9..e42e8b6de853e 100644
---- a/sound/soc/codecs/rt1320-sdw.c
-+++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -2000,7 +2000,6 @@ static int rt1320_pde11_event(struct snd_soc_dapm_widget *w,
- 		regmap_write(rt1320->regmap,
- 			SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11,
- 				RT1320_SDCA_CTL_REQ_POWER_STATE, 0), ps3);
--		rt1320_pde_transition_delay(rt1320, FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, ps3);
- 		break;
- 	default:
- 		break;
-@@ -2028,7 +2027,6 @@ static int rt1320_pde23_event(struct snd_soc_dapm_widget *w,
- 		regmap_write(rt1320->regmap,
- 			SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
- 				RT1320_SDCA_CTL_REQ_POWER_STATE, 0), ps3);
--		rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, ps3);
- 		break;
- 	default:
- 		break;
--- 
-2.43.0
+Shuhao Fu (2):
+  ALSA: hda: cs35l56: Put ACPI device after setting companion
+  ALSA: hda: cs35l41: Fix ACPI device leak on missing physical node
 
+ sound/hda/codecs/side-codecs/cs35l41_hda.c | 4 +++-
+ sound/hda/codecs/side-codecs/cs35l56_hda.c | 1 +
+ 2 files changed, 4 insertions(+), 1 deletion(-)
