@@ -1,95 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E6E3AA187;
-	Tue, 28 Apr 2026 08:17:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777364224; cv=none; b=ro5soEbeFa0bft6Sa/JXhQ2I01ZK4HxmImkPUgwPcRfCOcgrgivEljda+brXDXlEMmQAkA4Fz+Hk1qwss5GVFKpXNPf5b6HxAwdCQZfd/VMNkxFDFZ4vikMvfei4VBsV2e++d1hLi12bxC41dUfpnB78T3nn68alSmWgphcEVQU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777364224; c=relaxed/simple;
-	bh=NffJV9927dT7rL6wOI2jZY/JNaOI2+xtGL0rewEq1d4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P1xFGhudXWiPhOJgfKrKqXmfY1G97Dy+Qlrx8ktO5EPTeaJ0ge53XnRmCesnCKzl73cQGCTnl20hPs72cnLBExnDsHx2+AyZCxs/3IFNLXhMZcYlYNmeRQSJleJh2w/Sx2eyakCgGYqbUe+Jj0qF+y+OGe64NVfrhVCW+TQzWr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d/3jeMMt; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18C33D3304;
+	Tue, 28 Apr 2026 08:25:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777364725; cv=fail; b=RwdQOpy73T5G6R3bWozxtkSFcCv2kWYtZhGXWSaxoWoGqq7WqvIGdPwQ48dD1V7etHA+YvLMQ5LH/0ayFWz9b7vThE46em78jN5QJ0jEij75fKQDk0P2va4qxhDWmJdvtc08y94UBLumK1RzL9b82Z9Ww7mba4gB+ieyYEH4ahI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777364725; c=relaxed/simple;
+	bh=R4jDjm17xwUpn46/1jmkCOshlRcKc20ohR6P0/EHlPY=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Uq7b3LfPjfbCO7IZ7DYq0bDPERWnV4MwqK19pk/JIOw003yxpoMC4cIdK60BHDIzmztefgYsu7AxV9mjdUwfWvzT8eZneHlu77DIcH3q9ayej9eNA40gPPwp5ud5OT7togrvIX4oBCw2cCtudgPq8ej4QpKJoTyVARPbwtjDTDo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T6RLJSI8; arc=fail smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d/3jeMMt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T6RLJSI8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777364222; x=1808900222;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NffJV9927dT7rL6wOI2jZY/JNaOI2+xtGL0rewEq1d4=;
-  b=d/3jeMMtLnOq/z63/Zd2kUFGaRfWxM/IpKejM3cjiuJNX3ZuFYjR5WM8
-   9azioQg71laQJ2fmHq2mpC4+8eeNi/HqWxRJN2vBfwqX5GYiQv384t0Zf
-   9ETbOfjYcOhmQFXrNIeNDP2UqlyTfpUmle/aL4/BTwxMN0LA6KwxFcJc0
-   qGBJvTNfi+3DUmZhNRtNeOY4yYzaV7J0MAi7Z+3DLzawdNId2ix8gYbuo
-   ZoqLsAn+Cmh8FjbHA21qiFpLEVcJoqTRxIJHt3OuGg/coYmqcOZhISv/i
-   KnKZcbcL0BMub+dgdZTv9z0fsjkrH9jUxGqKEW6HEXHm0E20k3+oZpLof
-   w==;
-X-CSE-ConnectionGUID: bb1EGTXRTXujaVOpwarY+A==
-X-CSE-MsgGUID: EV/p61A9Qdi/cpY+4jk0gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="95679810"
+  t=1777364724; x=1808900724;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=R4jDjm17xwUpn46/1jmkCOshlRcKc20ohR6P0/EHlPY=;
+  b=T6RLJSI8wBRVJrGQnbjYlv8uJ+6EPXW1P69mqi9eW61FXiD7+8AyHXa0
+   9TB6X9v0sX6pgT9g5y0g1ZaNaKeEojVo9uz9DgAKeKjMC+INsVqJ3YOIR
+   I+72FdRVw53V72iuroizdvgQjILwIbVqIJEU4nC85E1Y4Vw3pJzFoPvv6
+   WMZ0X17Em+QzYQO8mLC5ijVkQoqufgOKWHlqa6UFK0HiGwK6MBSUgkPRg
+   5CUbkzUCH99W58SIkvQI8sPEHeLMlGS07cdjwu3jDRvUb9mX5kRzAZSiU
+   UbaONj4ET+I77B5fmBTg++vYi3PTTxMUe14py2hIPzH/BC4gwz74H22B+
+   Q==;
+X-CSE-ConnectionGUID: NCG/OFZLS8iR5nimYu3E3g==
+X-CSE-MsgGUID: 3wEPE6siQbCrhufrnDda5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="65796321"
 X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
-   d="scan'208";a="95679810"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 01:17:01 -0700
-X-CSE-ConnectionGUID: REh0jLZkTJ21zB9AO5OwMg==
-X-CSE-MsgGUID: aX95HfucTu6V/6B5SZgmFQ==
+   d="scan'208";a="65796321"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 01:25:23 -0700
+X-CSE-ConnectionGUID: 8TF9d8zOQsyoOzhHJF6tlw==
+X-CSE-MsgGUID: ixcMRfFyRQmsVj2HJPajCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
-   d="scan'208";a="237841606"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.213])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 01:16:58 -0700
-Date: Tue, 28 Apr 2026 11:16:56 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH v1 1/1] ASoC: Intel: cht_bsw_rt5672: Drop unneeded NULL
- checks
-Message-ID: <afBs-GWQYIdcv0zM@ashevche-desk.local>
-References: <20260428074758.3087437-1-andriy.shevchenko@linux.intel.com>
- <afBqy-LWQ6th2S9v@sirena.co.uk>
+   d="scan'208";a="229326421"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 01:25:22 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 28 Apr 2026 01:25:22 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Tue, 28 Apr 2026 01:25:22 -0700
+Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.18) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 28 Apr 2026 01:25:21 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RLZ0tdQIz0709Um5dcaV6cnk9pkqHXaNgZ29Tl+CKxl6uNx6m4Wiu2veTUZ+sujrbBQhQNgSHoJ78gPvnHs1Kpnyfy5cYSEjmrUcI9siRAHcLiYHf6US2a4JQmz3Os0tyeNm4L6e38R+ul4jY3evcEHaK/NMA6yRB2vKUm34UXo535+Ks6XQTX7iKW5xSR/3qCQjST4QW+dgF0PSB+wZU0k9s/7QCxxHkjasL32OHwUiwEOisZL82+Z0pbp+vJwL2FbdAySLFombTyG1/0Kaet7J6f+8OMK5J7ZWYN8DSG0i9kZBBpCIDf0hj5eXq+geMQN/4u02oWnJZytWfdLP/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ztO0hl+qO6EfdKiSedm8LpLrAODM2AK6jyJVQYso3Yk=;
+ b=PE3RZj0PaFD6RiMFeYRx3+0QRCgV5btccGOQ3JZxKjxQ4FRZglKqwXN9kz9zkYYbUYicqU6koInq7VchfJK9nbWoeftXRUB7t1nfEBiO2iEhhhaurD5xgAXA1eNCIu1b1wO+KNjb+IDr09tpup3MIWaAYDB+cqp/aplOQhvygNI4AbbhhhQhtppQD5Yl5sKAwQayGkP5l4o3geE4jqr0UY2mI9R1yHDXVCPnhNmd+IuwURpr9PdVTQVRUw8kRpwWHojN9VazTJp/5ay5fvIrUpcXtB5aIen3/Uowh6J0P+YrTx2cxYT0nN50s+f1hO/FF0woWN21n8+mJy9ETNmrwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
+ by BN9PR11MB5323.namprd11.prod.outlook.com (2603:10b6:408:118::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.18; Tue, 28 Apr
+ 2026 08:25:19 +0000
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4%4]) with mapi id 15.20.9870.013; Tue, 28 Apr 2026
+ 08:25:19 +0000
+Message-ID: <d028fbd3-d6d2-4228-896c-eb1e2f2eb0ea@intel.com>
+Date: Tue, 28 Apr 2026 10:25:12 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: Intel: bytcr_wm5102: Fix MCLK leak on
+ platform_clock_control error
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+CC: Liam Girdwood <liam.r.girdwood@linux.intel.com>, Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>, Ranjani Sridharan
+	<ranjani.sridharan@linux.intel.com>, Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, "Jaroslav
+ Kysela" <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Hans de Goede
+	<hansg@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<stable@vger.kernel.org>, =?UTF-8?Q?C=C3=A1ssio_Gabriel?=
+	<cassiogabrielcontato@gmail.com>
+References: <20260427-bytcr-wm5102-mclk-leak-v1-1-02b96d08e99c@gmail.com>
+ <CAHp75VdMEXag0oeRd620YJn5TpgqGy4YProDcR7EZE__cwwC2g@mail.gmail.com>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <CAHp75VdMEXag0oeRd620YJn5TpgqGy4YProDcR7EZE__cwwC2g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI1P195CA0047.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:802:5a::36) To SA1PR11MB6967.namprd11.prod.outlook.com
+ (2603:10b6:806:2bb::15)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <afBqy-LWQ6th2S9v@sirena.co.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|BN9PR11MB5323:EE_
+X-MS-Office365-Filtering-Correlation-Id: f8a27450-3844-42f4-c943-08dea4ffaef3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: ea5u2Jz4dbSY0XHrp4md+V6CTu6t/TRPkgvNugpFu1O3FAKu/T0QFMTt95xc90A/A6z5yYAuv3sZgHC6h8hBWZgS+YeWUCWrYBXPysWD0SBUBXR6gf6V2gYCTZrjnkZwjGG85CvNuSh6GGNAINdXimF7tg64EJFV5q49y7zYO/EVUOcvf6qMkMV6D9DDTWqhCCxEScyCyBohMGx11JIroprtj7LATAWFLNklmN4XgoNjbISgqcCGuUmAHKPAmXUywXcRgSMcW4B/rFA3Xh+OYgRJWlHUUm/Oozq+FZayA3dZc1q6290zSKlH04KPcmsiV/d3IUWeyJnEJrXyL+Nex5z3tqMBUe1YGZh5f3z2vMY8h8ZVGoUPoWaNxthlHY/RzOwkVRp1IyoU3imwIgIygW07Mn97/0KTnTBo21E+TgIMHSWJxZvok8lCjbQTUTFjXSz/VHM9GzCDcg9QOFtsJOOTOOp+xL/pOWFAaCvpg02iZumXIppqdVFRo28BtRBM1LyuruqIwi4F1BiGrsUrBOhb6VcwsdJQz1DJmzPxc/5UxM1bosPNqi4gp6HhTfVi+nqV1aezIeadOME4M99FtrYNTxQbUiqcWYXItPajwqV9daHXZI0zGXXu+HACJBBLXs6hKGz/ewPMjSFIUokbOcWkvmKMLwp/GlYFYwMOe2yVezUmi2BF/Xh9S2Njd4Xz7BsAxSVrnXGOFeWhcJQtUVduuElobkg+C20cZWMJlJmn8Gfb+CqhN3SlHRiig8c/
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TTB4c0gwdnh0Z1VhVGdmQVdWWjZYZEhCWkpWOHFPaTdxS0pncDVmSEZFbjlw?=
+ =?utf-8?B?czJKUWZoNGtkUUJ2UjhGOUZqVi9uRTJPL1NtdTZydm41NTZTR1BOY290L1Uv?=
+ =?utf-8?B?R09LOEVUOHhNaHJuMjZ1M3NhaWFiRGw2elQwZ0NtdzJzZGJjRGwvb3doWnlm?=
+ =?utf-8?B?ancxZWIrZ1pIUTRyQzJIMklQaHh5dnYrWkhXdmppR3Q5SE1FakxhdU1wbTYr?=
+ =?utf-8?B?NnNyM3hENVB3dVR4cnBqNzFuVzh3NGdaSkxkcmtMdGJXLy81SjAxVGQrVlF3?=
+ =?utf-8?B?UVdFb2x1SGFSMXlUdFJMWmVzZlBtT0xjNTVwclJpZEdETUZ4WmljMFFvdlRh?=
+ =?utf-8?B?NXRkQ3FVYklPNFNGSitUczE4emk3TnBPNVRmZ09zWklHczhQRlBhdmkzb3lo?=
+ =?utf-8?B?T0VRVXp2VWV5RkF0U05wMEhra0lUMnpxdCtmVGR0dEYwOUlhOU14YTcxZG1i?=
+ =?utf-8?B?RW5HSGtIOVpKSWJzalNCS0xTaUQ2STIrU05iL2xHODRhQ1pna3IvcEZqN09z?=
+ =?utf-8?B?M1BucCtFb0lULzZoeXI2MzIvSnlma3dlUWdFNHJUSG5xVTJUTlZhRHRaTGxq?=
+ =?utf-8?B?KzRtU1dvZy9aNEVMaFQrdWtNRk5COUN0OFIwVndZSmRPQkxwMzVOa1hYT3Ry?=
+ =?utf-8?B?V0JCOVFxam01NUovVG12Wmp2d2MyRFRWNUhZUkV2a2Y4azA2NDdCVVVEZTdu?=
+ =?utf-8?B?cW9XNGgyQ3BpUDlqU0ttK05zR2xTcjVpdmV1MHQxSG5Sby9PT09GWFk2ZXdT?=
+ =?utf-8?B?TUNlWlB2SEJYRkpQMStwNGorZUNsUjhwMTlHSHFRQS90L2RsajlNaWFWU0Rr?=
+ =?utf-8?B?bk4vMWNiQXpUVUprcEdxU09YREVSMUZpQU1mRklZcm9sbUE3WXExemQ2dnMx?=
+ =?utf-8?B?NkdWZjVuNVUwU0JkM1hOQXpZNWJaRlNuTHRoWGg0eWxEWVJrRWdtR2xrcXVv?=
+ =?utf-8?B?Vk9Xc0l4TjZVR3Bnckt6anhZbjdCeVdlMDhjcDVVSHJXemt3T1lDYWRlNUZj?=
+ =?utf-8?B?YjY0eDR3MFhGN2lnQXd2dHJJV0wvRExZbURuTTdIMUYwQ0srejU0eFJRaGh5?=
+ =?utf-8?B?T2NiYlREOGZFNFFobW81V3RHQ3RIN0V2cmxRcEdEc0w3UENPVEV6enpCTTRF?=
+ =?utf-8?B?VVhrczBUMk9IZDhiSEVQb210bWY1NXpzcmtsRnRlb0sycDFyTVN2WWU2bjVr?=
+ =?utf-8?B?R1hPQ0ZpRUJJUzREbE5iRXgySzd2RkY2OUJpQ0Q3RzRjWXpXUkw2YkFVaVli?=
+ =?utf-8?B?UzN1enFVRjNPOTVuaXh0ZVFQbmF0UzdIOVNHeERnYThacHF3WDIwRDc4TWpT?=
+ =?utf-8?B?ZkZVbTRhL3gxbGFJODlIU3NyaFNLMFJwS3kyZSs4V2MweDFiN2VyOVFXK24x?=
+ =?utf-8?B?bm01UGVsdmRXM3IvSVlXREZ4Q1VKaWtUYW1NQWRwMWRIb014Z2Q1SXAyOVlD?=
+ =?utf-8?B?V3M1dC90cThPYitIbjFORnNmMzF3Ukl2d1JpVGNkSGJWRVNTQ1BPY1ZtQXZo?=
+ =?utf-8?B?WURJUlNYL1NtVkUrVW4xazdsQ0s1bStyT25IdG8wSjRtbkN4ZkVwSDd5cDI5?=
+ =?utf-8?B?Z0ptWktFT0N4TjJkdnkwTEFqS01vVTMrQXlocVA3ZUhLcE0rNWZPa1ZFb1px?=
+ =?utf-8?B?VDE0ak92T2JDUHg2bGN3dW15UVNHcmdvZ2x3VWFFMWpQZ283aUxhWnNZb2lw?=
+ =?utf-8?B?azFRcEowZUw0ME9Rb0xnR251bjQvWFNlbktrclY1cENBQk0rcGV6NGxlZHNr?=
+ =?utf-8?B?SjZrOGp3NHFQdHUrVjNGRmpETG4xeUFzZUtvNFlhb3FRRjJoKzBORW1qZlUv?=
+ =?utf-8?B?L2Z6OE51N1NnOW9QNGVpNFFRYmNzYUVObzR0WldHN0IzeEZIMG1QSVFBaGxU?=
+ =?utf-8?B?cnRheEcrdXZHQWJBSlJDTExjbTFZQ01BOWxuOFFHbHNQYjNPZDJhTFRYcHV5?=
+ =?utf-8?B?N3hUNmVQUmVDVGVoQVl2cmFpTUloL0grbnVrL0V5eExWYVlzUDl6U0swSm14?=
+ =?utf-8?B?a2EvaWZIVll0LzdlMVptSW9FRmlRV0JwVC9JZngxc2NRZm1nNTd1Rm9vSktE?=
+ =?utf-8?B?K0dVbFoyRkdHYzBTcmc0K2NXNEpRQVRnU1hrT1V3bFVIUHlJME1JZkcwNC9v?=
+ =?utf-8?B?VEU2Y3MyTlRlbXJaRDFYNFdSd1BvcVFyVUJ5QTZBa1dRem0zSThvR1U2RlQ0?=
+ =?utf-8?B?azMzUC9xK1M3VDZJOFFUWklEN1pXSEdOY1dWVS91Q2dKVFcyYWRlWHh4WGFN?=
+ =?utf-8?B?MWlyb2NYU0VmZWpNa1JlZXBSVUtUSTRHVGZ5K0ZFUWZNUE93SmM2bEFtYTNn?=
+ =?utf-8?B?eCtDd0UzRU1qcjljeTVGemo1dVdzUDVLQVhNaG5qaXFRQ1ozUzl6czV5czhC?=
+ =?utf-8?Q?zLkVQ55go32hG+WI=3D?=
+X-Exchange-RoutingPolicyChecked: DSCI9fHFIyfsiRybkYcdlXUK+J2EF5YdnGtcB75U6DUnSJh4q8r4P8N5pcHR28F3PnuAR+aA9Qy5FeWrE/7TOP4QyZ08BhYtWRyTIyrgPqKC5gA5ikIC3T1Nc6N8Cx2gDoLw46VWqk6IJpbASbIJQUsVlwwwk9YcI50RWzkSqosrchNIMDwO+lleVrWaRRaUIMM7tHvT6SLVqWkVLorSUF365dHQwGAnPm+ad0qF/kEu4x+XcihduVCgP3xE4yyiBmMMFbaim7OBFUWylEoghEdjgA6vOpjfGqpXJZzJQcnMYLjeC9w8pu9BcYuDFvzsrxJu5ywTBfV3tlAPHvuEzQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8a27450-3844-42f4-c943-08dea4ffaef3
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 08:25:19.4212
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RhOWfLQivvtaL6Sp+9qRdhPIpvLBMUpOfns9CPY6kpTAyh95bGNr0amHdcuaqX+Y1shM3cM2ljo48nXVxut1QaJONWXypm4dYnek6s0sVHI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5323
+X-OriginatorOrg: intel.com
 
-On Tue, Apr 28, 2026 at 05:07:39PM +0900, Mark Brown wrote:
-> On Tue, Apr 28, 2026 at 09:47:58AM +0200, Andy Shevchenko wrote:
-> > After the commit 7735bce05a9c ("ASoC: Intel: boards: use devm_clk_get()
-> > unconditionally") the driver assumes that mclk is always provided, hence
-> > no need to check for it being NULL anymore.
+On 2026-04-28 8:55 AM, Andy Shevchenko wrote:
+> On Tue, Apr 28, 2026 at 5:38 AM Cássio Gabriel
+> <cassiogabrielcontato@gmail.com> wrote:
+>>
+>> If byt_wm5102_prepare_and_enable_pll1() fails in the
+>> SND_SOC_DAPM_EVENT_ON() path, platform_clock_control() returns after
+>> clk_prepare_enable(priv->mclk) without disabling the clock again.
+>>
+>> This leaks an MCLK enable reference on failed power-up attempts. Add the
+>> missing clk_disable_unprepare() on the error path, matching the unwind
+>> used by the other Intel platform_clock_control() implementations.
 > 
-> There's also the fact that as part of support for optional clocks the
-> clock API will quite happily consume NULL clocks.
-
-This clock is not optional, it's always retrieved with devm_clk_get().
-When the flow runs into these code pieces the mclk != NULL, and always
-valid (excluding some unrelated to this driver strange data corruption cases,
-of course).
-
-But yes, the CCF APIs are NULL-aware for a long time.
-
--- 
-With Best Regards,
-Andy Shevchenko
+> There are 6 drivers that do the same, why is only this one special?
+> Have you checked the flow on the error path of the caller of this
+> `platform_clock_control()`? Maybe there it calls with the opposite
+> event to shut the clock down?
+> 
+> ...
+> 
+> TL;DR: If it's a real issue, it has to be fixed for all affected drivers.
 
 
+There have been multiple reports regarding similar problem for all three 
+ATOM-based generations I believe.  One of the more recent being "ASoC: 
+Intel: Fix MCLK leaks and clean up error" [1].  Does not look like there 
+is a single owner of that subject.
+
+
+[1]: 
+https://lore.kernel.org/linux-sound/20260401220507.23557-1-aravindanilraj0702@gmail.com/
+
+Kind regards,
+Czarek
