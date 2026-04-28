@@ -1,190 +1,305 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010068.outbound.protection.outlook.com [40.93.198.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57DA32F765
-	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 16:22:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF6E32720D;
+	Tue, 28 Apr 2026 16:29:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.68
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777393378; cv=fail; b=ek8Gw86tw5+AGp7c7bsmVoRv/gvwsRmU9yhfG9vULCEmRd2LQZdYUUty6oQwIYNBKNGkMRT9fKTLmhMZnSAP47c21+ozl/vm1uQN3yzDFhMqer+425Y44ooZo/iDK51ZbuUgtA/GJ0JqH/w4Hq2cTZAMvcQjoUpdFmIOUSyYx9U=
+	t=1777393777; cv=fail; b=f0dzrnojY+Gp9ciGxfk11QBaEAaZHYBlr8vESfKg4PXOghUf149isM9vZ5xBSL88EKq01VVNJmeI3I+799LvAQhUjY18oba96xAyW4ye3K5q/nPA7BiDoqtTwShGrwtJXnPufBa7dJQzh463DbbD9n2NuCHDD9MdkZsgk7llZ6g=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777393378; c=relaxed/simple;
-	bh=Zfr0QZ/uiz86iErVUEUAy5ym98oNFCfU7xOm6BrRrRw=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=OKeRxqjsV6uYaauXdR7DxdOlwN/ScZKSoHe0LSt+5+IIBH6MG62pEIicqXJkMm5NC6zzPfgrOt/vvqwM7JXRZRLXipbuQ0vQbaZrVPQOU5HhP9EYNMg/s1yEAxT8tB5F5E5biLtXTEAGKacyzsGSEttdUnQMEsmrdOLy5/bkPgE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UD9Q4Bt4; arc=fail smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777393777; c=relaxed/simple;
+	bh=W+gRmIXT/omriVAFrpLc7OCE3WdtcpSi6mTuZikGUqY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YxBxf2SJL0CG+ts1YNoT/T/FkzL3qjZFL5zOdCc9lQbOw2uUGxAXcIT4jbZVNhThFp+3mz50F3f0Euxo7D0VktRf737e2Gfcc854nCjD6FmRV12EhawdCJ6wXuXEXmz2yIDNq7fkw9FCbKlGw11RBJk0KDXodfeF1MY0K//EdtM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=pExyUwFu; arc=fail smtp.client-ip=40.93.198.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UD9Q4Bt4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777393377; x=1808929377;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Zfr0QZ/uiz86iErVUEUAy5ym98oNFCfU7xOm6BrRrRw=;
-  b=UD9Q4Bt4AbDazq6gcy4S0X5XKEtaP4nkINX3PuVBeKd1nmkgsJVSZnSo
-   k6NetAVpnuNvDR/TVVuoJ+Nh2lUsJJhqPO2Xk+Zg/P9E7tFyFY3ojgcQr
-   1jkSui18sUjVBF0OwCsU3nnf4erDEqe5aK3RATYeH47/+vdkFpQecGYKd
-   v36xuX0xHWYSFDl6TFcWN3LuYC9B/FRbrG3DNZLdYyfXmT8K4gefI9guy
-   LAKxVVg72o9/56i3GM9UR0QZKGioDJvXVyyYp0VGlk8veI+VDiYKYoajk
-   ws9RejAiGd8mzMiFdh206u57VGciJ4zzMIu6kMGJDMB9MxbgTFGkIbCrh
-   g==;
-X-CSE-ConnectionGUID: DiKnFZhqRNqTSlkl0kLedw==
-X-CSE-MsgGUID: h6vR2oemS+KbaW4Tedht8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="78184471"
-X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
-   d="scan'208";a="78184471"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 09:22:56 -0700
-X-CSE-ConnectionGUID: D3yZ/ODyTXKPH6ozVUyBiQ==
-X-CSE-MsgGUID: KlqLpFYJTEq/oIkTqb6xaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
-   d="scan'208";a="257318101"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 09:22:56 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 28 Apr 2026 09:22:55 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 28 Apr 2026 09:22:55 -0700
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.9) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 28 Apr 2026 09:22:54 -0700
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="pExyUwFu"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PCAJT7eE/I7qvW+BASj1DQSJ12+LNraJZXYpA/L+nzZRxU4TxslFQ/R9rb6Ez1PZGuGyKnG46dkzH26L+NY/V/rmy5P4DoBgtwHX2s6zrHiQUyK/qO8LMch4tb0Q8BnofpR7cKqcFGoStUh35FTJs3373aAwoUOObL8zteyNxuFH3ezOVC8aaXQgFixIV1/Dk/vPciqa26NkQ34sUU4FDqV+MPSNoRtlmvQXq2cqrUFCWkZyJPf2LqDl2Tj2X8XBSC+zSjrBJOBiO2vjBoovXAyRbFX6PiMG1YDA2s9R2LWXqdxx6QU+Rx4wcBrA91AdTuOovHFKIOv4OehJIKIGhA==
+ b=fByYUMsJEjJEWL49oX+J9SysbA0k9lmAJI3fBvKSZYZHqbQr/5GbtxIknWuQlueT7gRtE5kLFQZWfpm9jJWutf9qVwoQIU5MagEFSwi5hPqDBUAmZTzRSeV8D/XhRJI0V+dPtKIj1hZi68hBWjihGtVw17+xp/9s1JBoqeV0yCkByAZc0flhzlzMgrMms42FJaEUf3kb0Abky5hS0CC4/n/IRsYgBK382ZRCKTiq1P1ldVQbUdtSsKKpvIpigskTciKb6uOXMVlrmbbKsQ0hd/6g6MVAdZuo8vQ/yMrjvEZBUIhArloForfwPV/JgY0P0lcfvdA/okAYCDwvQ/feig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M80Fd0wMos+Sgmgbovho3x+zAyhhMPMG6OsGwbosbnE=;
- b=TXNVkn5F2hjYkX0O3mkc0aNXK1eW8re7+YXbhG/mk1EI02iqwo5V4DAVhc1YAR22t0sEfxFZZS/MQWdPobZv9mriLb6EYdDrpUAPontVlOn6egxw7deV8MgokoKvZ41LTgwt4MI27nHJePq4YWAeNdOMGjbRkQLyxdWn49/wLh64FiaKdaQ4tWumy6NtY8O88ocKpSBY6YY2tidkHchsr0ek4Lw65Iifl3DTnHRrCZQbQ4S2qhGfdSqNrNTLQVAXMjMBOor04bZK/VuIsJkYYf0Ag22K897N4zPkgeLlAlfYsgDAvxg3mBZB1a9uOXD3NK/bP3YgHYnH790b2Ea5JA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
- by SJ0PR11MB5772.namprd11.prod.outlook.com (2603:10b6:a03:422::8) with
+ bh=oDr0ynKW1U098rEvtQQ63VA1ZUIRX58Hg2vpYRCNabU=;
+ b=iLB1tTHH35+3jCJLoe4bULv80WqMN/q0elj0xzlFO0toScgtHOUhUyKuLJYTY3g6LOMKvzaw+bNvfpQLVOsWGyAyGvnK0qxhszwOKNw65z3xxtuRkdCnQmacCCoe8x13zteXOeOSImn1SmWqttNgfdvz/eWJnVf5sJSpPauuaJDi/cVBqbnaMd878DMqul20te1ZFaGArChPUSm9/RnDyjMBVrwYb+xznDfkePUUvUUsfti8IUq8A7wOFJRuvTMuE3uQzz1mJyJk59B9N2ARC3UCdKEzNM5k6mJK0pWEmbPJU5u1YSR36oOiMOTVPhc18SChw6d9BPanyCsWoCrqCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=linux.dev smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oDr0ynKW1U098rEvtQQ63VA1ZUIRX58Hg2vpYRCNabU=;
+ b=pExyUwFuutXTrb+At334s1DfaQmBATTpqEEYxPMNJ6j/rmpenF7T2tAm+flaWSOVZzkv9FGWQ245Uhge2CoBW/G219vpIotGjgCd0gCDPoq0iALuJ4Uxw8ZaipSljZ+65PDPlfqJ2Trq9jLz0t+nRqCN9hcFZtvPqk1gbVtUqFo=
+Received: from SA1PR02CA0022.namprd02.prod.outlook.com (2603:10b6:806:2cf::29)
+ by PH5PR10MB997735.namprd10.prod.outlook.com (2603:10b6:510:34d::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.18; Tue, 28 Apr
- 2026 16:22:49 +0000
-Received: from SA1PR11MB6967.namprd11.prod.outlook.com
- ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
- ([fe80::36a9:3aca:a63e:c8f4%4]) with mapi id 15.20.9870.013; Tue, 28 Apr 2026
- 16:22:49 +0000
-Message-ID: <14a2f5a4-c29a-4aeb-985d-1618feeeb345@intel.com>
-Date: Tue, 28 Apr 2026 18:22:42 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH v4 0/2] ASoC: core: use Complete rebind cards by
- default for all users
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-CC: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>
-References: <87eck7k868.wl-kuninori.morimoto.gx@renesas.com>
- <62019496-ec5e-41d5-a17c-7739b829f15b@intel.com>
- <87wlxtxqd1.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <87wlxtxqd1.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1P190CA0043.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:800:1bb::6) To SA1PR11MB6967.namprd11.prod.outlook.com
- (2603:10b6:806:2bb::15)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.27; Tue, 28 Apr
+ 2026 16:29:32 +0000
+Received: from SN1PEPF000252A1.namprd05.prod.outlook.com
+ (2603:10b6:806:2cf:cafe::75) by SA1PR02CA0022.outlook.office365.com
+ (2603:10b6:806:2cf::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.28 via Frontend Transport; Tue,
+ 28 Apr 2026 16:29:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ SN1PEPF000252A1.mail.protection.outlook.com (10.167.242.8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9846.18 via Frontend Transport; Tue, 28 Apr 2026 16:29:30 +0000
+Received: from DFLE211.ent.ti.com (10.64.6.69) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 28 Apr
+ 2026 11:29:29 -0500
+Received: from DFLE210.ent.ti.com (10.64.6.68) by DFLE211.ent.ti.com
+ (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 28 Apr
+ 2026 11:29:28 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE210.ent.ti.com
+ (10.64.6.68) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 28 Apr 2026 11:29:28 -0500
+Received: from LTPW0EX92E.dhcp.ti.com (ltpw0ex92e.dhcp.ti.com [10.82.30.14])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 63SGTNnx1314937;
+	Tue, 28 Apr 2026 11:29:24 -0500
+From: Niranjan H Y <niranjan.hy@ti.com>
+To: <linux-sound@vger.kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <broonie@kernel.org>,
+	<ckeepax@opensource.cirrus.com>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <cezary.rojewski@intel.com>,
+	<peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
+	<ranjani.sridharan@linux.intel.com>, <kai.vehmanen@linux.intel.com>,
+	<pierre-louis.bossart@linux.dev>, <baojun.xu@ti.com>, <shenghao-ding@ti.com>,
+	<sandeepk@ti.com>, <v-hampiholi@ti.com>, Niranjan H Y <niranjan.hy@ti.com>
+Subject: [PATCH v12 1/4] ASoC: SDCA: Add PDE verification reusable helper
+Date: Tue, 28 Apr 2026 21:59:08 +0530
+Message-ID: <20260428162911.2372-1-niranjan.hy@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|SJ0PR11MB5772:EE_
-X-MS-Office365-Filtering-Correlation-Id: 01845d5e-e635-4ef5-4af8-08dea542638b
+X-MS-TrafficTypeDiagnostic: SN1PEPF000252A1:EE_|PH5PR10MB997735:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5458db25-4b9c-4ac1-63f8-08dea543532d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 1aggUliFjUlCFtweTMLpBbwUwpVw6/Z7ym79FJhplwX+HQGqUz3QxK7yvpr59sDbq+TbLVAi/3QUCzDMe9Zd+irPqs61iLH8zRNVKt60Uuj54+pHyHXZIw9n8Fvdm72/mhrZMFUaqLLvoqkkcSTVFkbeVAPZhUBCfOWZxJfpWdbZ0U2lMq6EXxnc/yz/sUOlDEhDWun0Tl0QFcWVI4kdrRq+BEapy4wMl6I/N4Emusy7QQrnThNEw0mSxHqXBRpRfIJ3IYFpMPCnOElMMb6Z5p+cce7ah2jslqyrGSAsOTiyU9HkYEbTOeYuLZuGFkCxlqSGiUadXExBn/4tuQLdpwl6eCQkZxlqjZvltr1g+FswXg8fbo1baELLJe0RSO/NvIceATsxM+e7pDgw1TsXwa5CzlrUVjyFZLG34XO2o/D7BVgvF3OPv53o1K0mS4AFe+k1u+wmBI5riHOywyZ7U2mp6nF8rgZwZ0j9e6VSs5prnw9YN1zMjvNfKqe9C1WKeUGLto3zh6Pr26A+yt7DXItBUQcwlgJNtBj/4QSps244hVKU2zvofUDu5brKDa1VnWbYTH31Nf1z1JebAMC5P79iWkbul8oa99UiXM9IGmzcBriOIdu/80F118iJFr+PTq+uKRQwe5i5xf9S20oyDIOcEMlZdccs2hYbjhyDpj5T5ZqwDQn0YfnYso5y6OEiIR8KN2uNTktCoQrKmEBVVgYRSU8JuV/cXYqQfcrPqpI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700016|1800799024|376014|7416014|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	/rcMndpNOXT4CfX8l99TARNUsVNH3xG3FCKKmhVJBPz69tmQNnoC758uLCn3DZWrJ2A2lgQWztBVbJ2xtfe1c1JG3iXpeMRVv/gyW77sZPSdEB08EOvk0EF298CPam69SDfefGF2vw7F8g6e0Er1CG/bgtt168gn4yTawyuKedIXMHL00Gz2DigpHs71f9Cts9AkxUWTxNYRxFRqlNHmMdJlLhn81yijqySjfq8P0/1t6FElvbqxLiWbKllDg3JRRIr+D1slXagGIIgw7xCnCn+8Gyse2KtUzka/+e1SWh8pfpRizKOV5A+qlWejPvpr/RH5agcKOwfkcgKRm/Ss5tNQb/0j06M6JEM5b6awY8XAmCdX+tdspNvzazW2N8wTsPifuzqcaN0zHXRkPcqYF9TSEAIeFRxvSV0qPnRsavo2cvkhZ6fjxrIMrkg3gvFUdKjp5xAHXlRi2P4qX8NOExcCStGaDp2Xa7bHOG+LspPIp+WVGAd0G/SR/Kb1DU1EbbEU4LkzsPQJx82cl2EpC7UR/UZzyfilh5aa83B0JFtWdBfX7Jb1ulpuEeBgZcH48LSi/jWoKLcdK3L/4lZ9C6V3bkrh+XholsFv3llSfHbLrvONp968WMHukfUcCozcFf80PX82kwgraYMdXiZX9RSZH+CTEFVzOALOEv3b5NSOabQ8rGNw1d+R7IEkvLvIbHWjzpdKHTTZNupVQR99XuER5NXcms6tz17aaxc4HHGIKduAUyrot6GilBihtU8IxYw6w8Sc4YYZ70zPoiDOOQ==
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(1800799024)(376014)(7416014)(56012099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TndlUkpZUld3amlWK241SjB2WXNpOVR3KzJiS1l3WFpvMkxkZFcwSDJmZGkv?=
- =?utf-8?B?cVBReEkwSHkrL3dVN3VuL25EOStUMmtkQzNwNGhCNi85c013TURQN2ZnVFJX?=
- =?utf-8?B?TlpVKzZTUVB5czB3TFpiQmZGUUt5ZjVMV0EraVF3OUtwbFcrUWNjUVFYa2ds?=
- =?utf-8?B?bjcrNUprenRlVVY0bEcxb2lCd0xTYXhLK3hjKzhNa3ZsbkhUWFhBQk5zOVNx?=
- =?utf-8?B?dzczd1NiUGZsdHorRDFiUnNaZnZ5bEZrWFoxTTF4OUwyYzM4cmgwNWdya2h2?=
- =?utf-8?B?YVhpeGhkOGVWWXJBRzJlQlR2L1VuR1dnVkhBUUczdHNud2tveTdMKzRMaUVJ?=
- =?utf-8?B?RVk2SlZPaFE5bU9GNG1uSHRhN29DWUhyd3VPVkNXTlNhOFdLd08wVGI5NGYv?=
- =?utf-8?B?T0QxU2cvTHZpTlh4ZU1BNVJaWGsxT1hkSVQ5alZOSUJVMkhXbTJudExjV3Jk?=
- =?utf-8?B?dE95SGI5N1NhRks0Nm9sMVAyMzFwRjJ6TW5Bc2NWdXBEdGtDcGtLK1Bac1Fn?=
- =?utf-8?B?NW5xLzNNUStUL3lZc3FHMVhyUDROc1FudDFveVliU2x2OEREbENnSDUvNEZF?=
- =?utf-8?B?cnJUYVNEelhUbGJRYldpWFFQQ3NmYmErL3VKa1A2dWVwbTlETGVVemFCWjZG?=
- =?utf-8?B?b0tpUXlMSkhBUFN1VjR2bEJMMnFQaVFudjlLenZmYjA2M00yZE1pN3FrSzlF?=
- =?utf-8?B?dmdieWN5Lytvb0xra0h6VkZVSit1MDZPK2h5dzdlamcvT21nMFZGRS9ZM0Rr?=
- =?utf-8?B?RWMyOWVEWGNNY2NiNkxVOHIyVWRUT3owTlZ3RHZ4cEV6WWRDVnZ0Z09EcGpU?=
- =?utf-8?B?eGkvZnh2c2UxUUk0M1V6SksreUVJRitLdDJCVUY1bmNZL2QvckJFRnVkSEFQ?=
- =?utf-8?B?aGdIc3RtaE5yb0FlcWhYOWR1eXUvWE1qMkk1RXlZRjM2QWRHc2tNTm4wRVF2?=
- =?utf-8?B?RDArQ04rWlZiSXZMMUpqRk5reXB6bmlOSTZ4SnVLRzROcGN1elZBejNQdGpq?=
- =?utf-8?B?RG94K0pTcitaVTBIUmhzblQ1b2FrSTFvTUpQdjhialo0ZVRqSlNLOHVEN2FO?=
- =?utf-8?B?aTRMN2orSHkvQmZsRWludzRHczF5S0tvTElrNUFrTmxOK0hlckR4LzZNVmJ2?=
- =?utf-8?B?bkc5NWFZbnY5K1BwQzBicitDK1cvdHFzcVZYV2JBSGV4ME8zV3B3S0YrNFFC?=
- =?utf-8?B?eEdIeWNuMWVFeHR0dVVDMU1GYjZ4T0lBRCtSNEZuTmxrVTBCQldoUnZWNklG?=
- =?utf-8?B?UFVFOGN1dzUySnYyQVJpaTI5S3hId2oxYWMzaDhQOXlqVU5pOFR0aWlSSldt?=
- =?utf-8?B?ZHNDblMzU1owdU9UeXpIeE5BZmo0Zlh2RDZYUnFWaXB1L25ta2VPMzRmM1pZ?=
- =?utf-8?B?UXl1aXVLd3NQcnZ6NVhVYitkblNjWjg1STRMd3JONEp2ZTdDMGxWRm9uTHFh?=
- =?utf-8?B?L2Y0YmU3dWZ4U3RmNElMYVBwUTJaZkIrN3RaTjZsYnEvdFJMRi9SbEpEZTZt?=
- =?utf-8?B?VXNSUGlTVEd4eEtubUFBVGNSQ1FuRUNSWGhQZ0dwWjRRRWdwV1JDa2UwbXRS?=
- =?utf-8?B?Zm9IQjI1VDBEYWM2cUVvQ0lpU2NhT0hLSGV1ZkZFSENBRzNnQU1zeEZDWDVZ?=
- =?utf-8?B?MEVUekdJSVhLemlTYkE3S3RSaUhYcmxhREgrUVY4bHNFVTdFZDh1ZUpyTXJQ?=
- =?utf-8?B?aWg1UUNxL0EyY0Q3UWxJUGRrbHVIQmVPTW5ERkN5QkRXU1c2UkVSV05ZVVBW?=
- =?utf-8?B?NmREUG1SUXBtSzMvZzZ4OGtDVFhKOXVwSGVKcmcvSnVNcUpFVk53ZHZoODI0?=
- =?utf-8?B?dTJ6TTNWV3NVMk5MZ0Z6Tm1mOVNkSnVBRzFCL2hwL05LbWtiNFFBQ1RQWlVC?=
- =?utf-8?B?Y0xTSmE1dmhxdWowZFppQXpIWXVhN0F0SnFzK2pqelFNK3M2bUlDNTZlQzE0?=
- =?utf-8?B?eVV0UVlSUE1LalNudWw3Q1FmYkdSVUp2bi83eTFzNVVyTTJ4alIvSjdwa0FR?=
- =?utf-8?B?dEtpSUNlbGRZT3RuY05tcDBuTXBGYkZraEtmbGliUkpwUUp6TVJHV2h3UWZJ?=
- =?utf-8?B?VmhwQTRvTFJGT05ZWnoyL3NLSWhkWjVpc2NGaHZRblNzTm04Z1d0MU1BQ0to?=
- =?utf-8?B?dUZxb29rUjBYUkpzOWkzOEhZRGxmVSsxdy9HRTdsWGhzTlFtRDlzM2dJNXhC?=
- =?utf-8?B?TFJiYmdScFRLeGZCMitURDkwa3J4Z2tCbEx4d2NaMVJTUE56UEx2UnpmR3FR?=
- =?utf-8?B?c2ZYUDNtK0lmSUNTdkQvY1ZsVmEzS0dTZ1lORUlDb21NMmRBUkwyM2puNHE5?=
- =?utf-8?B?Vk5abWFWeGc2YU1RS2VKT3h3UFZRMThHd1JVcHJCZ1l5SHhWeE51SS9kZFU3?=
- =?utf-8?Q?oWuT8R+fxLv2hAqM=3D?=
-X-Exchange-RoutingPolicyChecked: g27mbJaPH5kFz6uarYkoIT93smLVAA4UQtQfXjg3VaGJmR2B2vf8CN9u2kdS9l44gOPn46d+2tAbP374M+IBijUfRfPIRaDFF2KKv7Ikxvdo9tO/RsAMrGp6sgeg4q1kVrNIH7GLVT5zMcSnFfKMzuzHL5GqVvXGgAtK8Nd13pO5r+my1RRijLhLDg7hF9OeWw2qlLyvjFAvjGvwJcBxypUT+5tOydfZH/03w1MjALCYuSrS2HFsGNFPgXbDW/c9NOlm3DkgWMebtY+8wgC61FjxbrncohfyVyo4brtXbs4sPIXe8ibVpZkWeLm2EFs6iZRwDTd4+mxzfS9K+Xqi4w==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01845d5e-e635-4ef5-4af8-08dea542638b
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 16:22:49.2297
+X-MS-Exchange-AntiSpam-MessageData-0:
+	6MXzFme7wuJW+0DVq6VgDIEgXgIXIkrcuFrOTNlhoHi8HEyQbEjJzawUORt2OgDBLg4YASjyCEdd1oQwZYTFWTmAer5nhUeOEzRxM57n/s82588U449OOvEr9h/7nQlPFwhEl7gwd3WuznOMGcF9lou8giMiTxle+zMk3oGymCahRF7fwn0zvQ7ku0waIqEjD/rkVz2U95MLhWbivx5maa17ymGSeLFjAdFpAFId9Egag9OdYvfFeonIGyeqnVXHnTlGZ6YYWsrc5l3/BGuxcwoLlpHBORNuYUvZCLJ4L8U74hKySgk6Hx7RTL9KkfYvHL7nxof7CToXsSpcw+v1Oy4cRYOvoodie+S0FNym5DEfxhB7icIgSaJdSM7v1adRzEJJO2Sk9oK3NGeZcTO4Y2asL/ZxEKckTX4enwaJAqnOhouYW/84JPDvIGrVTNq/
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 16:29:30.9280
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nK9ZHC2Y3bcFZQ3HXrq65YgTgGoYIwHDaDs6f08rC3j+oytEr9Xw8TeLf5f82QNtldRoki2P2Iv2+mFAecPCtDkf/Wot+cGgJZPXy0FIE00=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5772
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5458db25-4b9c-4ac1-63f8-08dea543532d
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF000252A1.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH5PR10MB997735
 
-On 2026-04-27 1:18 AM, Kuninori Morimoto wrote:
-> 
-> Hi Cezary
-> 
->> There is soc_tplg_remove_link() already, I believe introducing
->> soc_tplg_link_release(), an "unbalanced" function goes against the goal
->> of the patch.  Internal struct is a heavy hitter, I'd argue it alone
->> defeats the purpose of the patch.
-> 
-> Ah, yes indeed.
-> 
->> Perhaps we can achieve the goal in multiple steps.  Simplify the code
->> implementing the feature by merging 2) and work from there if you
->> believe the readability still isn't where it should be.
-> 
-> Thanks.
-> Just I can do is indicate the idea only for topology.
-> My posted patch was not good enough, but happy if the idea (= use
-> devres_add() to remove rtd/dai-link) acceptable for you.
-> 
-> Thank you for your help !!
-Before I send my patch, given your large impact in shaping the subject, 
-would you like me to add Suggested-by: or Co-developed-by: (you) to the 
-message?
+  Implement sdca_asoc_pde_ensure_ps() helper function to poll for PDE
+power state transitions. Per SDCA specification, after writing
+REQUESTED_PS, drivers must poll ACTUAL_PS until the target power state
+is reached.
+
+Changes include:
+- Add sdca_asoc_pde_ensure_ps() to handle ACTUAL_PS polling with
+  support for device-specific delay tables or default intervals
+- Export function via sdca_asoc.h for use by SDCA-compliant drivers
+- Refactor entity_pde_event() in sdca_asoc.c to use the helper
+
+Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
+---
+v12:
+- use correct namespace while exporting the variable
+- fix missing entity information while logging
+
+v11:
+- revert v10 changes
+- API is renamed from sdca_asoc_pde_ensure_ps to
+  sdca_asoc_pde_poll_actual_ps
+
+v10:
+- write REQUESTED_PS before checking the target state.
+- change the API name sdca_asoc_pde_ensure_ps to
+  sdca_asoc_set_pde_poll_sync
+
+v9:
+- newly added interface
+---
+ include/sound/sdca_asoc.h  |   6 +++
+ sound/soc/sdca/sdca_asoc.c | 106 ++++++++++++++++++++++++++-----------
+ 2 files changed, 82 insertions(+), 30 deletions(-)
+
+diff --git a/include/sound/sdca_asoc.h b/include/sound/sdca_asoc.h
+index 46a61a52d..ca35d5a44 100644
+--- a/include/sound/sdca_asoc.h
++++ b/include/sound/sdca_asoc.h
+@@ -13,6 +13,7 @@
+ struct device;
+ struct regmap;
+ struct sdca_function_data;
++struct sdca_pde_delay;
+ struct snd_ctl_elem_value;
+ struct snd_kcontrol;
+ struct snd_kcontrol_new;
+@@ -99,4 +100,9 @@ int sdca_asoc_q78_put_volsw(struct snd_kcontrol *kcontrol,
+ 			    struct snd_ctl_elem_value *ucontrol);
+ int sdca_asoc_q78_get_volsw(struct snd_kcontrol *kcontrol,
+ 			    struct snd_ctl_elem_value *ucontrol);
++int sdca_asoc_pde_poll_actual_ps(struct device *dev, struct regmap *regmap,
++				 int function_id, int entity_id,
++			    int from_ps, int to_ps,
++			    const struct sdca_pde_delay *pde_delays,
++			    int num_delays);
+ #endif // __SDCA_ASOC_H__
+diff --git a/sound/soc/sdca/sdca_asoc.c b/sound/soc/sdca/sdca_asoc.c
+index 2bfc8e5ae..e76afa396 100644
+--- a/sound/soc/sdca/sdca_asoc.c
++++ b/sound/soc/sdca/sdca_asoc.c
+@@ -359,15 +359,77 @@ static int entity_parse_ot(struct device *dev,
+ 	return 0;
+ }
+ 
++/**
++ * sdca_asoc_pde_poll_actual_ps - Verify PDE power state reached target state
++ * @dev: Pointer to the device for error logging.
++ * @regmap: Register map for reading ACTUAL_PS register.
++ * @function_id: SDCA function identifier.
++ * @entity_id: SDCA entity identifier for the power domain.
++ * @from_ps: Source power state (SDCA_PDE_PSn value).
++ * @to_ps: Target power state (SDCA_PDE_PSn value).
++ * @pde_delays: Pointer to array of PDE delay specifications for this device,
++ *              or NULL to use default polling interval.
++ * @num_delays: Number of entries in pde_delays array.
++ *
++ * This function polls the ACTUAL_PS register to verify that a PDE power state
++ * transition has completed. Per SDCA specification, after writing REQUESTED_PS,
++ * the caller must poll ACTUAL_PS until it reflects the requested state.
++ *
++ * This function implements the polling logic but does NOT modify the power state.
++ * The caller is responsible for writing REQUESTED_PS before invoking this function.
++ *
++ * If a delay table is provided, appropriate polling intervals are extracted based
++ * on the from_ps and to_ps transition. If no table is provided or no matching entry
++ * is found, a default polling interval is used.
++ *
++ * Return: Returns zero when ACTUAL_PS reaches the target state, -ETIMEDOUT if the
++ * polling times out before reaching the target state, or a negative error code if
++ * a register read fails.
++ */
++int sdca_asoc_pde_poll_actual_ps(struct device *dev, struct regmap *regmap,
++				 int function_id, int entity_id,
++			    int from_ps, int to_ps,
++			    const struct sdca_pde_delay *pde_delays,
++			    int num_delays)
++{
++	static const int polls = 100;
++	static const int default_poll_us = 1000;
++	unsigned int reg, val;
++	int i, poll_us = default_poll_us;
++	int ret;
++
++	if (pde_delays && num_delays > 0) {
++		for (i = 0; i < num_delays; i++) {
++			if (pde_delays[i].from_ps == from_ps && pde_delays[i].to_ps == to_ps) {
++				poll_us = pde_delays[i].us / polls;
++				break;
++			}
++		}
++	}
++
++	reg = SDW_SDCA_CTL(function_id, entity_id, SDCA_CTL_PDE_ACTUAL_PS, 0);
++
++	for (i = 0; i < polls; i++) {
++		if (i)
++			fsleep(poll_us);
++
++		ret = regmap_read(regmap, reg, &val);
++		if (ret)
++			return ret;
++		else if (val == to_ps)
++			return 0;
++	}
++
++	return -ETIMEDOUT;
++}
++EXPORT_SYMBOL_NS(sdca_asoc_pde_poll_actual_ps, "SND_SOC_SDCA");
++
+ static int entity_pde_event(struct snd_soc_dapm_widget *widget,
+ 			    struct snd_kcontrol *kctl, int event)
+ {
+ 	struct snd_soc_component *component = snd_soc_dapm_to_component(widget->dapm);
+ 	struct sdca_entity *entity = widget->priv;
+-	static const int polls = 100;
+-	unsigned int reg, val;
+-	int from, to, i;
+-	int poll_us;
++	int from, to;
+ 	int ret;
+ 
+ 	if (!component)
+@@ -386,33 +448,17 @@ static int entity_pde_event(struct snd_soc_dapm_widget *widget,
+ 		return 0;
+ 	}
+ 
+-	for (i = 0; i < entity->pde.num_max_delay; i++) {
+-		struct sdca_pde_delay *delay = &entity->pde.max_delay[i];
+-
+-		if (delay->from_ps == from && delay->to_ps == to) {
+-			poll_us = delay->us / polls;
+-			break;
+-		}
+-	}
+-
+-	reg = SDW_SDCA_CTL(SDW_SDCA_CTL_FUNC(widget->reg),
+-			   SDW_SDCA_CTL_ENT(widget->reg),
+-			   SDCA_CTL_PDE_ACTUAL_PS, 0);
+-
+-	for (i = 0; i < polls; i++) {
+-		if (i)
+-			fsleep(poll_us);
+-
+-		ret = regmap_read(component->regmap, reg, &val);
+-		if (ret)
+-			return ret;
+-		else if (val == to)
+-			return 0;
+-	}
++	ret = sdca_asoc_pde_poll_actual_ps(component->dev, component->regmap,
++					   SDW_SDCA_CTL_FUNC(widget->reg),
++					   SDW_SDCA_CTL_ENT(widget->reg),
++					   from, to,
++					   entity->pde.max_delay,
++					   entity->pde.num_max_delay);
++	if (ret)
++		dev_err(component->dev, "%s: PDE transition %x -> %x failed, err=%d\n",
++			entity->label, from, to, ret);
+ 
+-	dev_err(component->dev, "%s: power transition failed: %x\n",
+-		entity->label, val);
+-	return -ETIMEDOUT;
++	return ret;
+ }
+ 
+ static int entity_parse_pde(struct device *dev,
+-- 
+2.34.1
+
