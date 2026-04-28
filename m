@@ -1,131 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD09427E1DC;
-	Tue, 28 Apr 2026 00:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1081E2882B4
+	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 01:00:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777337563; cv=none; b=HclYqiy71o5Vy+0XveFt4x8AwNnQSgXBuRs3uh6tnQpfYzb6/5ck0aVNumoGLV6SFLupBITrrkRLEmXjLuT1UzCTbDEeaJYDR9XK/EIxZVe48t13U4ROhj7WcFuEq40frS1uS+TbnmSy+ya/AQADpbGQ02WFamo0Q9Aoqg5ZzvI=
+	t=1777338012; cv=none; b=o54MxgktT+gb0Wrip+iOx48nmlF9YNXJ9MnDh6Lp9Agwglb4tCWgMlaRdwTzXwq7PDz7UoC8Z0eeRsQXtimBZBE45/r1jUIyh+67PFVWciB3O63K/wPEXHhV29pJvnUofIHVER0CK8obOuXRIq0dNi7ncwvYNxVPegz5cuUfPEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777337563; c=relaxed/simple;
-	bh=INAf2+d9NePEX2JaAeX+w57D5WMqdcJj8Xpl+jfQhwg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KqONc7945xxAzBcgpwwh9UrN4aNR5/FUlDYVqWTg8hPV1WsDKocuZlXcZMsonFiu4YfJG+oV+vrCxoSaW3rf5zeaEAbYirn0QnHqNN5JodSZa2aCjUSKGXBpRbh6WfECYV666IqyrUuv8Ey+PITjXJKCK6n4twznmFP6lMllKDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fl4Jxe/t; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777338012; c=relaxed/simple;
+	bh=NZCWf9yjEs/rjPoGS0uiCsWPv06fVvw4MUHTqXCC3po=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Gzd/pTenBQEo+ms19MCwUL+9avJ+zp5a0u1Fi0yQ4WOp4Z112+YtoeEAoT6h/ac8YIo1Bz9+T4+2PkoF/L/2Eg3h2JUNFXBW+xFSNfTOcOihZodzH9ZUnrEW8OTcHmDbJwANemT479IswZBNaHxHEIR6gZ0PKsDAEXXasoyO0S8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EWDmdWpZ; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fl4Jxe/t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AEF0C19425;
-	Tue, 28 Apr 2026 00:52:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777337563;
-	bh=INAf2+d9NePEX2JaAeX+w57D5WMqdcJj8Xpl+jfQhwg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Fl4Jxe/tc02YAjA2cJcOfQ73t6BNvPh8r9dmhLRocriC/PAMwkPy8jsh4edoDUdLc
-	 p0kruuYMHW/H9DeKKRGiYxbnTEAmyxLSEHrV2IniIjd1+1R5SWU4wp88s7yb1UVuZ3
-	 XaoZ/2CG5orsIRy7+06fOVASK6506krxLDfxmg6ZtV6GJM6rV/UfQaVPa9KMvK/tSJ
-	 1G4BiBWrd0/YJdibXro63c+Wg6FCBuzVI1DU3IRrNBfrEEHW5IC7DvNBjFAaQOiwMm
-	 zjdZ/WkgXeO/JK/lB68635jB9RcHGo23nNkaE9ATEIW4fYOAEd991Qk/o3qiIapiyk
-	 SwOf6Y0a9p/QQ==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 6D7FC1AC583F; Tue, 28 Apr 2026 01:52:40 +0100 (BST)
-Date: Tue, 28 Apr 2026 09:52:40 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Niranjan H Y <niranjan.hy@ti.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ckeepax@opensource.cirrus.com, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, cezary.rojewski@intel.com,
-	peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev, baojun.xu@ti.com,
-	shenghao-ding@ti.com, sandeepk@ti.com, v-hampiholi@ti.com
-Subject: Re: [PATCH v11 2/4] ASoC: tac5xx2-sdw: add soundwire based codec
- driver
-Message-ID: <afAE2GAgMahJaxkq@sirena.co.uk>
-References: <20260427082401.2118-1-niranjan.hy@ti.com>
- <20260427082401.2118-2-niranjan.hy@ti.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EWDmdWpZ"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-834da62e52dso201568b3a.3
+        for <linux-sound@vger.kernel.org>; Mon, 27 Apr 2026 18:00:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777338010; x=1777942810; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1ExVlBK6yfPF6ChKFqCEfF4LFbrOBgO9xJ9WM36C6VQ=;
+        b=EWDmdWpZQOUkbwfuCFw8SEXr/HJaBT1JUE7DusZOLZUpwZsYu90++tNv4vc7g8RXYi
+         4STs33sNIu24L7T8tZjgtR68Qa+vwP4fVNGbMRVglD4rdPJSRRSUidvD1uPMlFK0wYk4
+         ZvcbrmiiDCOOKnrRjC8xfK4CzeZJDztwG1YIlpTWXoPY9r6b6qHzXzSoWuKe8Rf9eFFk
+         tP4e07hrYqsS/qR6ilt3Ww10CgUVdpwehA0frfo4FQPoRhv6GPdwY1dihvLTvDKSRx7o
+         tiCV89mxMTc5ObVIecIEGVlxutlVNQfv5Ozrz61FJp4//X5vgsArBhHHTzYRZHvOtJ8Q
+         txKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777338010; x=1777942810;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1ExVlBK6yfPF6ChKFqCEfF4LFbrOBgO9xJ9WM36C6VQ=;
+        b=YxyAZX1Xd4rhDaty6F1Ykga8VQKv00EaOlCgUi7S2Ct8g+4fJRbBVDzq8UXu9OT0eU
+         YgryeMV5x5ObOVodQ+ZploGCoVF1mkWZtpJ8AXvrxIOVkJVcbgMD6CyVfNpxpUmzDpgr
+         XsCVvGxiNIBxym68Dd7AWBuEHd3gebnCHne/NTip6XoVNJxhKSeHLZC0U6oJ7xRnoj9p
+         0iwsaH0Y54JLv0BESMu2V4gOFm+D/h+lTa1xgYXkqCNTG7h3h3qTHIqGuBvyxBR3RZK4
+         uLv7mARBFVpwE6bZlzMg39IKyGOf1sEVqw2DKO9LfC0TswyBWIGfYUgPdcsMEZdOqrdM
+         oMvw==
+X-Forwarded-Encrypted: i=1; AFNElJ+cUTQxw8CUv9Two4OKv6xzx96mCPkRAYX4oFQds2Z+OetymCiLBlclmZbOXqG/bhqndB/1MzoNuNSFNA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpsjdGJLaW0aIhqqw10+GcjGCkWRH1w/BKjRNrEx49KaqNM5Mk
+	1HuRa1mN+3speJQn1vnI3pBBFno57cPLxPwl05yqfVTz3KhoFtKlXUyfXHOMdh+gGqA=
+X-Gm-Gg: AeBDietmP6lNNNobRx/2S2hgqCqVr1mgV5ZLAJmzrd9Uw1wyNfK2sI/FdZ8o48DEo0D
+	mti5QjkMhzbX5arT50tm24Fa7HkfV/7wKCVQMMj3Lrn4qyzKHCTglukNytRmpN7Gj/x0xWEbH1n
+	OW1qpm7bc9HhxdtYOE9CL1resSrzfAEWiIL/KMIJyPHox/XuKjV3Yur0wTDO4IjmXbDVtKJ6dvO
+	38kT/L36P1/hK3SqjDLQHh9plcHgNGHLYDFXK7juJ7lkEAgiNs4GBbgTgYLRXEy75/QBoyL3Hxk
+	U26R5DkJptxFr5IrfN6xKkMewfuPJ4YJuDmp5ZFXL2VygcK2GNXHLrKRGbrLNqASxGla6Z2+7OH
+	PRSbRr584X3WtRpRT2GTS0vAk0ApEtIgcHIGaPFHjVEvTM8Ccv9G+ajBUBgo5qi2DlpEgZ9tw+z
+	/3KuPbhcjtJopmou6db6uvSYdViBwOhe1P0YYq4vurbWqyncDGkNFTfAfS9qRKq98qvSQqYh2Ok
+	xRzi9fgaZqddHVjK9J1uCTlgZHftzzV4TRQxQEU2/o79SKdGzx3Mns=
+X-Received: by 2002:a05:6a00:2191:b0:82c:212a:906a with SMTP id d2e1a72fcca58-834ddbd1f0cmr752937b3a.36.1777338010112;
+        Mon, 27 Apr 2026 18:00:10 -0700 (PDT)
+Received: from abhinav-victus.tailde2db8.ts.net ([2401:4900:8fce:e883:fb90:df80:4d01:5ac2])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-834dae2027bsm766279b3a.16.2026.04.27.18.00.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Apr 2026 18:00:09 -0700 (PDT)
+From: Abhinav Mahadevan <abhi220204@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Abhinav Mahadevan <abhi220204@gmail.com>
+Subject: [PATCH v2] ALSA: usb-audio: Add quirk for PreSonus AudioBox USB
+Date: Tue, 28 Apr 2026 06:21:19 +0530
+Message-ID: <20260428005433.6326-1-abhi220204@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260410143335.5974-1-abhi220204@gmail.com>
+References: <20260410143335.5974-1-abhi220204@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iqcATWuFFE84eLVs"
-Content-Disposition: inline
-In-Reply-To: <20260427082401.2118-2-niranjan.hy@ti.com>
-X-Cookie: Victory uber allies!
+Content-Transfer-Encoding: 8bit
 
+The PreSonus AudioBox USB (0x194f:0x0301) only supports S24_3LE
+format for both playback and capture. It does not support S16_LE
+despite being a USB full-speed device. Add explicit format quirks
+for both the playback (interface 2) and capture (interface 3)
+interfaces to ensure correct format negotiation.
 
---iqcATWuFFE84eLVs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Abhinav Mahadevan <abhi220204@gmail.com>
+---
 
-On Mon, Apr 27, 2026 at 01:53:59PM +0530, Niranjan H Y wrote:
-> Add codec driver for tac5xx2 family of devices.
+v2: Fix placement -  entry was incorrectly inside a #if 0 disabled block.
+Moved to after the #endif /* disabled */.
+ 
+ sound/usb/quirks-table.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> +	switch (dai->id) {
-> +	case TAC5XX2_DMIC:
-> +		pde_entity = TAC_SDCA_ENT_PDE11;
-> +		function_id = TAC_FUNCTION_ID_SM;
-> +		break;
-> +	case TAC5XX2_UAJ:
-> +		function_id = TAC_FUNCTION_ID_UAJ;
-> +		pde_entity = substream->stream == SNDRV_PCM_STREAM_PLAYBACK ?
-> +				TAC_SDCA_ENT_PDE47 : TAC_SDCA_ENT_PDE34;
-> +		break;
-> +	default:
-> +		function_id = TAC_FUNCTION_ID_SA;
-> +		pde_entity = TAC_SDCA_ENT_PDE23;
-> +		break;
-> +	}
+diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+index 803e03d4d..4e9cfff40 100644
+--- a/sound/usb/quirks-table.h
++++ b/sound/usb/quirks-table.h
+@@ -2652,6 +2652,9 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+ 		}
+ 	}
+ },
++
++#endif /* disabled */
++
+ {
+ 	/*
+ 	 * The AudioBox USB advertises S24_3LE as the only supported format
+@@ -2700,7 +2703,6 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+ 		}
+ 	}
+ },
+-#endif /* disabled */
+ 
+ {
+ 	/*
+-- 
+2.43.0
 
-Shouldn't the default case be to print a warning or something and have
-an explicit case for what's there now?  It seems weird that we just
-silently handle one ID by mapping any old number that gets passed in to
-it.
-
-> +static int tac5xx2_set_jack(struct snd_soc_component *component,
-> +			    struct snd_soc_jack *hs_jack, void *data)
-> +{
-
-> +	tac_dev->hs_jack = hs_jack;
-> +	if (!tac_dev->hw_init) {
-> +		dev_err(tac_dev->dev, "jack init failed, hw not initialized");
-> +		return 0;
-> +	}
-
-I'm not seeing anything that does the jack setup when the hw_init
-happens?
-
-> +static int tac_update_status(struct sdw_slave *slave,
-> +			     enum sdw_slave_status status)
-> +{
-
-> +	if (!tac_dev->first_hw_init) {
-> +		pm_runtime_set_autosuspend_delay(tac_dev->dev, 3000);
-> +		pm_runtime_use_autosuspend(tac_dev->dev);
-> +		pm_runtime_mark_last_busy(tac_dev->dev);
-> +		pm_runtime_set_active(tac_dev->dev);
-> +		pm_runtime_enable(tac_dev->dev);
-> +		tac_dev->first_hw_init = true;
-> +		first = true;
-> +	}
-
-Does anything ever actually undo this pm_runtime_enable()?
-
---iqcATWuFFE84eLVs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnwBNcACgkQJNaLcl1U
-h9A3zwf/cl0ZPuLeyYhkgrCcnhrgoHHJO4OiZyEbBDVIseQLfieOfv6Dq+b+Go62
-z4N30yvA+cF/qM0pO3vws3aNfHlHauXANXdLss/K+/VJY6lRsT+A2CmE71+O6gfG
-rCCEqUAdsypb3g9EzeZUQCCTIu/l1eQOgS6FoDPeEUjHmK4lmKdjHnlcEX7Zx+tj
-OFYs3NGAwJprNr+EBX5p63oYTUTfByQlHgCUn7Yle3TNpWdx5A0KsZxQct1XWLuX
-wN+AQ3NZCNuYnN/fsAQaeNHIeA+OfbFVd4n5nqyhjpFm4EjHnNYfFOZZIgSAP3V8
-dA7CnpiAJZ0pvQwqEdjBDf97tynWSQ==
-=Dnp4
------END PGP SIGNATURE-----
-
---iqcATWuFFE84eLVs--
