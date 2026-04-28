@@ -1,204 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1833B3DA5D2;
-	Tue, 28 Apr 2026 08:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777364854; cv=fail; b=pXeNCzACdfPX52xfJFzK7qO5zgD35WVjO4pppBmMKck6C0nmBnKUymnMovseRFwmsPsN+ti2m1T26nDVsdULBxPEe5gw7ClDXlYRI60trNQiaasmG/aXvd8U7utYzNWRclviQgYgHlVVTVx77v+1g/sdcIBC8nYxFl42gx6xWSY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777364854; c=relaxed/simple;
-	bh=IEhhOOaTANq50KeUUokP90UMbiKIIRgzeaEmK3fky1c=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=CYycjQ1PYg/5Q5OwiJzJQmNvI9cvOTeSAU/TeZ7j8wr0J/F0eUBW9ZQ8hPDRxbY08o1zLNH/gh5/9r4QZa7+M4a5E3M3LVb8ZmbJrCuMspaoLhXr9ISe0OZYHzFsuwaJ/KVTfSeqLEiWsPzhGSfJiUdWtJdGC1lrtyiei6up6Eo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aotzoqU4; arc=fail smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5DE3A7831;
+	Tue, 28 Apr 2026 08:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777365222; cv=none; b=soaLOQbHueFWgdadDMgjcoizQy5gFsCdP7B8Ih4w84IYJY8yE7uUDoMhsbgHT+1Bg0KqgiEFIwNP5ylBlNUs/Yx51oYiCkJyUvaoNKEcMU7hYL/moqp34IbrDkNGDjCl63IRbmwtKonMb03/iwBCsAemygKmTHSm5svgzjH6/6A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777365222; c=relaxed/simple;
+	bh=2nPWt8y0UuftwYQCEIiW1OXFPIwhT16kB5elrqeR8CA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R9D5p66Gc5b0OorHg6M11zhdUMCUVyXD7v/8i6tanRMrABff0rGCIdSD8E+9AkbV+EVLE5ybUrkIbHtaJnxJ5iQW1TK4LZVscHq0OfiiDi1y6bPUkLG8R/puzi2xDItt/FWzEL8h2k38DcGPRN48yEBCx6QuO0MMyQsSY8WRY/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=neludCdP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aotzoqU4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777364852; x=1808900852;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=IEhhOOaTANq50KeUUokP90UMbiKIIRgzeaEmK3fky1c=;
-  b=aotzoqU4Gzf879dLKmenMPfT9FZRGKCtSar3V9KIdoOQxp4DiYigdlYL
-   WtQDWx94wHlQGlRg3yDfhhFFFuLIDXwtYhoCwNgwn9ED6kQvW1j4oCYFJ
-   fcGN3Xbp2joG2HS/gcRkhFxC0Oa5mH9KeKjN+eHMb0apVLLjjwTqyGFML
-   EQqcBHcw2ktX2dVDqgSdT3FXeg2KK4uYB9Bx+10WtrV5TL+XEadD/W3v8
-   cR6TvnkK51gfsd+NxQxwcMWqHYjJKzP5jDVrweoDvcOdlGlgqTFUPsYTY
-   b7kRNcleL9YO32U2E35GohPlXDmvC4cM39SD1vWsb8plxp5bFSlDJgx2f
-   w==;
-X-CSE-ConnectionGUID: t3jl4uoJTOqGMzrcFIqBjg==
-X-CSE-MsgGUID: oi8NVvKpRLuMmRsqVqSrNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="77431293"
-X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
-   d="scan'208";a="77431293"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 01:27:29 -0700
-X-CSE-ConnectionGUID: Tc0KHaJrRG25oChOZYXOcw==
-X-CSE-MsgGUID: IPGVGyUfTEm9oFoeqLCY6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
-   d="scan'208";a="272020432"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 01:27:29 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 28 Apr 2026 01:27:28 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 28 Apr 2026 01:27:28 -0700
-Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.57) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 28 Apr 2026 01:27:27 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ROUCJLGJW+/VhQxuOmmYhLhfyWOcLhzU5hapXlaF6XOjiZvrmS0p/GUB90b7VSiOLbNELMgyU2yT2lOJOjm9urO4mIQwE/6Va4zFSzY/gW71jAFTGxVjZZuVKz4YYmz0/qZiZ4zFNAfIg0hGz2KwRJBu7UKX5YTBHvqXKZigIRdTiYC6QnkUblcNSN7z7rOALqdbKEKJnHZm9wRSQ0OabtZ98UKqk2HlPPX8KBgf7ifq4CetpV06bzvF4Jw6XCJoVHhXl7zt+CrLLKe980drqC6UK0vJdO4u4E4kwURYq+hq7t9ddb6vf/4sZ0C2Ow0a28lWQein/HH2JcApMaALqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a0ERwsKQ+St6+QG6MZ7w/N9hO574G3t085N5WnzAva4=;
- b=djVmSl4fuPjmd/nx6J1DwBTqlm//mWodktEVudbJqa68XrDxB40jSdYpRODRVl2ZQaeNtjyKcEtuR1GkNrUUYWp9E16dNCeP1jb8oxHp196ws0SrUSnxhiEYnajP49R0boZQN3zTkpJRyZjaVnyVc9ePMaY5+RKDNL1TKUQNSjwgzf+1v1aO+/w7BQLNQFGilwG9774hcB4oprNfgNBYEq63/l6PP5bvbcqICgg4HQg3/xuBiiXRTZVVJx+g5hn756EgDK9y0Jlk0Q69A6nGwjfRyx1GEAZ42OqKwMTya98qwAo0N1LBhAmvygaRdowbfFH+/oem+o3fu20YNM5VAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
- by BN9PR11MB5323.namprd11.prod.outlook.com (2603:10b6:408:118::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.18; Tue, 28 Apr
- 2026 08:27:20 +0000
-Received: from SA1PR11MB6967.namprd11.prod.outlook.com
- ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
- ([fe80::36a9:3aca:a63e:c8f4%4]) with mapi id 15.20.9870.013; Tue, 28 Apr 2026
- 08:27:20 +0000
-Message-ID: <a496168b-409d-4270-bc41-70737b9b4a25@intel.com>
-Date: Tue, 28 Apr 2026 10:27:14 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: Intel: bytcr_wm5102: Fix MCLK leak on
- platform_clock_control error
-To: =?UTF-8?Q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<stable@vger.kernel.org>, Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Bard Liao
-	<yung-chuan.liao@linux.intel.com>, Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>, Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, "Jaroslav
- Kysela" <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Hans de Goede
-	<hansg@kernel.org>, Andy Shevchenko <andy.shevchenko@gmail.com>, "Charles
- Keepax" <ckeepax@opensource.cirrus.com>
-References: <20260427-bytcr-wm5102-mclk-leak-v1-1-02b96d08e99c@gmail.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <20260427-bytcr-wm5102-mclk-leak-v1-1-02b96d08e99c@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1PR03CA0057.eurprd03.prod.outlook.com
- (2603:10a6:803:50::28) To SA1PR11MB6967.namprd11.prod.outlook.com
- (2603:10b6:806:2bb::15)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="neludCdP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5745C2BCB8;
+	Tue, 28 Apr 2026 08:33:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777365221;
+	bh=2nPWt8y0UuftwYQCEIiW1OXFPIwhT16kB5elrqeR8CA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=neludCdPyVuqwrZ3HkOG4iu+5k3xY8RLS92f/EliAvjRzWpnops+TtpkywG5JVHsL
+	 t+GlCsSuQcDxfAtinXOOLf9Ld7GLVJYrMQBa8HLEelbjzSKEzyBpFgRy1pOtnHVLCU
+	 Sf1o6bb1jIkVRu2SNym1PjP/fhu4GxMvY7e1LzNe+3h8MUc8JYBttKWYS8oSOARgbT
+	 VfR8BC38J5gxIjyBf4JCmOK9kuaLEUSOO2tQ0gdKPjz3k0H2Tvd316H3Q+3IFfrDx2
+	 LBtLGPomk0xokGpU4MifF4rICybi4m909rrvMY6xS6PopzvMZn75XoDp9dreo5hwbA
+	 +AZdCMsA2+zrw==
+Message-ID: <ce219aa2-0bb1-4a74-b40d-bd753f1a22dd@kernel.org>
+Date: Tue, 28 Apr 2026 10:33:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|BN9PR11MB5323:EE_
-X-MS-Office365-Filtering-Correlation-Id: b50c6059-35fe-42d5-1f5c-08dea4fff74b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: l2H+PpCR6f347imPNwtrjA9Kby/FVq6PzMz/+U6SHK6pqv3HkggEgFmUJ0gW73wBKlgstzh1Aqzeyo72jAwL79vKl6DrJJRoRgVPbOQ1pOcBx/S2iQ7nlPC9fFbifV9O7SRHapdG+fXNCZqwSeP9GQR8Y07NNjVklpkPW+Qqk78VsjwbnSwQ2t/Q/Yz+0Y9BY5Hpcjz8hBlCqJJ8nu97UnvIID8mUbywrpqkrs9gLbTWCTzLS3TyE0TD2100hcMK1jBKTeG9hhsyRcNnH321qXCy8Xaci7iXFd3cxRQgLt6Zolx0wR5j1xXKdQMU48UqlbI7bLFB1bZi0wd+gvf2CUwVcK5+jrhwZcgVpGkRJAMWqQVDn1A5v3EHtkJEImzQoPpVHZvMt/pW2wAUp3HMyJXd/zbmR9NFyNy9AW/SLjKuaNd5P1LYk4gYUX83cJ3gD+ITomtrPEGau+TxB7JOs8zF8vgoxe0UjlAowoJwjuYsUfUfxBcmXSMrQV/oQi94LTmSkpNBfjMcmi9Lt9xGq9QmLFJm4BLh7nGpUnZix/9RSk6sJ9Ab5KoIfaCVmeRGXEiGuxCkjWU/oIQzFIeSKUmlUyctJNORKpk+sQ1HMepC/eXajkh+ZK5HMpZCpNVIT/IIk5kiSvHgX2nxFW6VAlqtq4yGHEnv3r8tDtvQhsq1TdZaKiekZYF8Vexz2pHzaOiEBQlMd1uaBwaNVTsaGnIQBIpxT9d59H2cttizR4o=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NEZiN083a1UvUWlFVklWcDNhR3FKTS9sK054Vk1QYlVJZHI1dDE0akFGMUp4?=
- =?utf-8?B?QVd0alFOOG9VaWVPTHhoWmI2RUJnOXpHaDZuRFY5alRqSkxpdHF2RkJENDBo?=
- =?utf-8?B?czZicFZDQVRVTkNuRjh3UE1ORVBrdURWVkQ2ejRaZG84VUhZWVc0VG5ZSGJy?=
- =?utf-8?B?M1RKVXl6Q1ZxTDAwbGNyVFpMeHgyMGl5ZVNvck02ZkpXQXF2NFBSTDRMb2Ur?=
- =?utf-8?B?QjdWUTZoQXpaQlJuSmNqRkVqNzcvc1dEbVVBUGhzcnp2bXpjazJESXBnaFgr?=
- =?utf-8?B?YjhKRFNqNklyT09zVEdYemNWTmJTQjV4QTJVSzhwWW8remxzWFNnZnRhb1U0?=
- =?utf-8?B?ZGI3dGQ1YkpabGgvaXM0OU1COElDcmlJMXZCanRYNEUrWm9wU1NSVDlqeHpU?=
- =?utf-8?B?SldXTk9NaU0vdXVwSGc4VFppRlMrVFRoakFReWxpTWkvRnRxQnowRzBDSFR3?=
- =?utf-8?B?aWtwVmN6RW9WRGZhUENoWlM0OWRxN2tRaUwzRlQ1cjE5K2J5TUY3TEZEdU5W?=
- =?utf-8?B?NnplWkVtRUdJdXVYS0hQR0VOVkdyYldXT05ZTVc2L2RpNG5Fb3M1RkdvZW9D?=
- =?utf-8?B?c1k1YjllcU5ieHQ1L2c0K3JTNms0d3QyQytZVldXcFovNVVNdUIyYnBhSFFW?=
- =?utf-8?B?bWhnUm1PWE1zeElMaUQ0dmFod3gvcm4weVZ6MzJHY3l5RTJWcnNMR1dqYWlk?=
- =?utf-8?B?TEE4UDlpMXpiNkN6OWFHUmo2SUk2YWx1N2puZnhIdWoxQ0JRK1ZMVHJkZTJW?=
- =?utf-8?B?TnRoZUgrWkpQMEx2VTVaUjBsQlJjaDExcVFsVkNLNWNqWjVLaTJkcEExd2tD?=
- =?utf-8?B?SmErZFNCUWhCcnZDL2hhRlZTZnh1Tkxod3dkWitFN0hkRXExS0EvS2dHRHUw?=
- =?utf-8?B?TlBjeFdNa2hiUU9oNU95ZGVlUnVxbFhsZVpyZzlERVg0dFZ2NXR3a1FxK3Aw?=
- =?utf-8?B?MEcwOEtzNVlwNlNIWVEvejhjN2t4eFVkNVgvd2p1c1o1MEFUc1Z4aW5WZzI5?=
- =?utf-8?B?R3k2bVovNXFvejBXUkVtVnRxZ0RpYjlPZWpZcVBjTmhURkRPYlhBTWFibUNE?=
- =?utf-8?B?L0ZtTHgzSUhHa0U1cnJ0dDdkT2lISUVnOUdvblAzcCtRVDZZWWQ2bDQ4K2Rw?=
- =?utf-8?B?bC9wQ3RyK1hvbzA5bzh5ZzhySVgzZENlTzZVMlNnYVFrMlNHdXA4ZmM2YjJD?=
- =?utf-8?B?N21RQ3U5MDFMWkI2aGsyaU9CdVJ2U0NqdHdYVFE1SXdwOXB0NU9KOTF5VnNG?=
- =?utf-8?B?SXF1em5DR2NtbEFrTHQvSlA5OXZYd0h1LzlQRktWR3cvMTRSTE5oN1kwZ05L?=
- =?utf-8?B?NGpVMjdTaDJxZnlVU3lEWG03S3owZGNvV2xuM2t5NFo4NTJFRVJtZWdVNXdE?=
- =?utf-8?B?d2UvSlNXNzM5cW9LZ2JsMk9LeWlLekxDTjdQQmFBYkxNSHMyS0lpQ2xQYmVI?=
- =?utf-8?B?anR2bFFtVXVXY2JIM295eFR6WlNUQmkzQUYzdFQwbHc4RkMyRkFVTFJIYlRi?=
- =?utf-8?B?bW8wNUJJeUFUbGM2U0RaeEtvRElYVmZLRnpaZEE1UDF1cWR2d1g4MmlTem9Q?=
- =?utf-8?B?V3NZNkk4Y29ML2I2K1ZnN0ZTbWltKzgzaTlvdWpxZmI5Y0h6aTBsNXBZWjk1?=
- =?utf-8?B?cjhXd1FuNThKeDY5WFo1QXk4NXhTOWJxaFZST0RTeTBaWmsxVmdKUUpqOG9p?=
- =?utf-8?B?ZHRXUzdZbjJ6WjlqbmJnK0FaYXpBRWRGa011eDNKbGFRNFBFcGx0bXl3R3pm?=
- =?utf-8?B?cElMQ2p6RFNDZ1ZCaERDSGJnZUJKQm92Z2w4Q3VQUmRaYXpRSHJ0alVWL3FQ?=
- =?utf-8?B?ZExKTFY1U3VTbUZMc0RFOUhmeXExcnhyQXJiYVRKa3BUTHAzU3dHK2VwR1p3?=
- =?utf-8?B?bWJma3VBaTZOTDBlbVo3WW50ck1QeWF3blhYOHQ2MVBQWW1XVHVtZDhtYXRv?=
- =?utf-8?B?RmtCbTNmdHhERHhYdHZhd2hIcjcxVVYxc3NsN0ppS2RvZXVWNWhESjZDd2Rv?=
- =?utf-8?B?cUVSZkVHK1krK1V1aVZXeWE1aHc5bTJ3U2F5SlNMNWJ5bllnalNRQWlrR3Er?=
- =?utf-8?B?N1cvSUhmWXpPc3cwbjk3dllGVk8rRkxTaGVuWERMUmlXMFdZa2NBWmRoZGU3?=
- =?utf-8?B?eUFwRUVuNk4rWFBCc01hLzJCeGZxaE05RzRJVzM4RmZrRms4U0ZKbXpsTUs3?=
- =?utf-8?B?Qm9CWUZiRmVLSEMzTWkrcDlLcWFKT2d6WG81a0xmNEN1a1lXdmk3OExJcFRp?=
- =?utf-8?B?aU03MVZZWlErTGJ0ZVVGTERtR2Q1d3BLYlJjQXpGK0JYSGQxMkl1YjUva2dh?=
- =?utf-8?B?TmFGcWUwd2kzY0VHUmthRTA5TUpuMy9CVVdGOVg3WHdJc3ZaQjlnTFkwWWtJ?=
- =?utf-8?Q?3t4X8zOIeQR6jSck=3D?=
-X-Exchange-RoutingPolicyChecked: Qjz1rf/756q6UnelgnSS6xZpJVO1dBhelYIRyrs9Rzq+rkQlv+5tfEHRVyKBTCltmRyA1tMhgx2HADOUO9UjO7KB8wRHJxEBCO2fgMLbc0osBcV1zsullOh7sfd5KCDYhvBWEDIn2obZwJFnummIS7kldBGtsBh2q13bzY32HmUbfRRl8/wPK+vwlhunGSa5r3AXWweqr08mjSwvf/q5Q8Dd3u3jZO28VTm/ivsmRFwFK3Zgp5T+GeE6OYiHPJV7oNX89jFmJ9rclfUHIapFRvmYmd+cL9eJrlYpQWR09fl9aylmF+3DNohvVGgtdsyOs40P7/jtgdIx9wIooppUeg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: b50c6059-35fe-42d5-1f5c-08dea4fff74b
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 08:27:20.7824
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0BegOa/2IO/tsPd4KHX+gc9r3wd/5l969V1Z+GatbOgZ0MHvrWKato5xCDoAN2jf6KCc8dRDYapVQ5Tq5M28G/Njl4u1kh15/cNe1AZDMtA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR11MB5323
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: drop redundant wakeup-source
+ definitions
+To: Bui Duc Phuc <phucduc.bui@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Joseph Chen <chenjh@rock-chips.com>, Chris Zhong <zyw@rock-chips.com>,
+ Zhang Qing <zhangqing@rock-chips.com>,
+ David Rau <David.Rau.opensource@dm.renesas.com>,
+ Animesh Agarwal <animeshagarwal28@gmail.com>, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20260423042831.21114-1-phucduc.bui@gmail.com>
+ <20260423042831.21114-2-phucduc.bui@gmail.com>
+ <20260423-ingenious-psychedelic-jaybird-40bb4d@quoll>
+ <CAABR9nGH4yZcgyzm=wNYVHB2vLhojZJSHKOC6dSeQPm0rbh4KQ@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CAABR9nGH4yZcgyzm=wNYVHB2vLhojZJSHKOC6dSeQPm0rbh4KQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2026-04-28 4:38 AM, Cássio Gabriel wrote:
-> If byt_wm5102_prepare_and_enable_pll1() fails in the
-> SND_SOC_DAPM_EVENT_ON() path, platform_clock_control() returns after
-> clk_prepare_enable(priv->mclk) without disabling the clock again.
+On 27/04/2026 01:40, Bui Duc Phuc wrote:
+> Hi,
 > 
-> This leaks an MCLK enable reference on failed power-up attempts. Add the
-> missing clk_disable_unprepare() on the error path, matching the unwind
-> used by the other Intel platform_clock_control() implementations.
+>>> The 'wakeup-source' property already has its type defined in the core
 > 
-> Fixes: 9a87fc1e0619 ("ASoC: Intel: bytcr_wm5102: Add machine driver for BYT/WM5102")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
-> ---
->   sound/soc/intel/boards/bytcr_wm5102.c | 1 +
->   1 file changed, 1 insertion(+)
 > 
-> diff --git a/sound/soc/intel/boards/bytcr_wm5102.c b/sound/soc/intel/boards/bytcr_wm5102.c
-> index 4879f79aef29..4aa0cf49b033 100644
-> --- a/sound/soc/intel/boards/bytcr_wm5102.c
-> +++ b/sound/soc/intel/boards/bytcr_wm5102.c
-> @@ -170,6 +170,7 @@ static int platform_clock_control(struct snd_soc_dapm_widget *w,
->   		ret = byt_wm5102_prepare_and_enable_pll1(codec_dai, 48000);
->   		if (ret) {
->   			dev_err(card->dev, "Error setting codec sysclk: %d\n", ret);
-> +			clk_disable_unprepare(priv->mclk);
->   			return ret;
->   		}
->   	} else {
+>> TYPES. It is plural.
 > 
+> 
+> Thank you for pointing that out. That was a mistake in my wording.
+> Regarding the two data types, I’m already aware of this and have
+> discussed it in a previous patch.
+> 
+> https://lore.kernel.org/all/CAABR9nH3hr+Y5ksD0cn3Gd9XUvmb07X7zJw0b4k_yVbnAuz9=w@mail.gmail.com/
+> 
+>>> -  wakeup-source:
+> 
+>>> -    type: boolean
+> 
+>>> -    description:
+> 
+>>> -      Flag to indicate this device can wake system (suspend/resume).
+> 
+>>> +  wakeup-source: true
+> 
+>>
+> 
+>> That's wrong. Commit msg is making here false statements that it is
+> 
+>> redundant. I checked (and you should too!) and driver does clearly
+> 
+>> device_property_read_bool() thus the property CANNOT be the second type.
+> 
+> I think Device Tree bindings should describe the hardware capability.
 
-Thank you for the fix.
+Yes. And the ABI. You cannot have ABI which has an incompatible
+implementation. IOW, when implementation contradicts the ABI, something
+is wrong.
 
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+The question of course if read_bool() is here incompatible. From the
+actual code point of view, it is compatible, but how it is documented
+and how it is intended to use: it is not compatible.
+
+Also if future schema-kernel-ABI checker gets implemented, the tool
+might report here a mistake for that reason. read_bool() means property
+is bool.
+
+
+> If the hardware supports wakeup functionality,
+> referencing the core schema is sufficient. Hardware description should
+> not be constrained by the current driver implementation
+> ( e.g. the use of device_property_read_bool() ).
+> Bindings should remain stable and generic, while drivers can evolve over time.
+
+So you claim that bindings can define property as integer, but drivers
+can evolve and for example read it as string?
+
+> 
+> Re-defining the type locally duplicates the core definition. If the
+> core schema evolves,
+
+There is no re-definition here. This is choice of subset of types.
+
+> this approach would require touching many bindings instead of updating
+> one central place.
+> 
+> This follows the recent cleanups suggested by Rob
+> 
+> https://lore.kernel.org/all/177628888260.592110.11727813820499601669.robh@kernel.org/
+> https://lore.kernel.org/all/177679687272.1458365.1328485324673928433.robh@kernel.org/
+
+Where is Rob's suggestion to do such cleanups for EXISTING code? I only
+see that new code should come like that.
+
+Anyway, your commit msg is for me incorrect because it misses all this
+points I made. Whether the schema code is correct, I'll defer to Rob,
+although I still claim the same I claimed before at v2 or v3 of your
+previous work - this should have defined type.
+
+Best regards,
+Krzysztof
