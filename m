@@ -1,40 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DC43859E2;
-	Wed, 29 Apr 2026 04:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5C53890FC;
+	Wed, 29 Apr 2026 04:20:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777436418; cv=none; b=hnat+5AFR299ijzjqI4dcuQQTLu9Cd+ZaFsQ3Hp4XXl+c/hM+aH2R3dFTfppHbFQO4mFeo7qs9GAbOVl8aeDtnS+juA4LQrO+xR+gl/GhyoZwSVSgQVxD6ixV/L3Fc0CysTO4JdDPnBr3yJDsOg6IQRzXpVAHn/fWFZOseUu2x0=
+	t=1777436423; cv=none; b=DctUndLBdc3mK1WKBplAvCNA2z+4HsDtEnqoyjvocuzH2NEMdCos08FO68XIfWnXWC3qKUFpz8LCHSYMl2NcZ14bndeMwVs0rUt4Wu/0Vwn4PlIz2oKXgyXcvke0xwo3+If//SPjKRvWClwd1rT9z72rWklgMaBtJpB7sIlccFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777436418; c=relaxed/simple;
-	bh=U8FJ32FFrQHgLTS2Yom8zlOEhaml2B24SQBefpFmFQM=;
+	s=arc-20240116; t=1777436423; c=relaxed/simple;
+	bh=JWBZNBsKs4T8x8KHeqTCDTZdBQGd4ulpbQX0mM3ZqFw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ltVnZ1PYHhQvI2GWkyg98TGlgyx3PRra2GVokQa04G4gwdSkWOs/kgh2NlSZTulWcAWUnUfnLUNBKEIkYDbFUXCwdIEhyt64NtYiVuhOW7jCgoiN9qZ0LbpdKcJWWKKWiRgTq4QjWrA803AY1abTeq2U1HFAMQqzNO/VAz1hl5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CR+GR9PP; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=jm+iK0ErJpuvd45ewi48hnXzmFD82LDufJ/xa6lBXVjFr38oV6g0J8kuZZgtVhvtJHd3CXGEOD+Hy/NcguY2QedKLBUKNWABcT9NdfWc+/hU2+/gK6Y2VmlUfqo4E25xEz6seoD12e+NazNJrWwSLSX/ecjrET6pzoOXSdjz9ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Na8pQQnT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CR+GR9PP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE91FC19425;
-	Wed, 29 Apr 2026 04:20:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Na8pQQnT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2F7BC19425;
+	Wed, 29 Apr 2026 04:20:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777436417;
-	bh=U8FJ32FFrQHgLTS2Yom8zlOEhaml2B24SQBefpFmFQM=;
+	s=k20201202; t=1777436423;
+	bh=JWBZNBsKs4T8x8KHeqTCDTZdBQGd4ulpbQX0mM3ZqFw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=CR+GR9PPjsiIPmHXVxSPANuR5i/fnDugR/zrhCXOAv6Zb0Jh4d8O0WIS7PapQtO9W
-	 e7YHtCogPO2EX7yv9c4Y2rGP2kNDiUQA1SPU/PKDGDxylZuxD5+qIBpgt3wHTRV9sd
-	 Bsmgn5TjB+q8pJTYw7Vrz+ps4LzHYkY7JL5Gh95c2Gb6o85l9u4OijA6aUVoc73MeU
-	 4UWNFxIQztAyfIDaxKmCTVqK4hrGEmxmD8PeX0sEVvlj7gCk3Byx+lsAk4ak5fZOcw
-	 0Pz2dpIqLa6+cEZvbveAfuwoiqTIpnz+/cI3H1mDodA+e9eVmclm62e/my/Am8mCI3
-	 BLKeVroXcbVwA==
+	b=Na8pQQnTwBLMbk5XGKTMkp+Kr+yM80iTIQ8GYIldy+dLTzmgWWk1ik9J5swOnJ0io
+	 pIpUO5wc/wRoCfVLEnxbjrZS40gk6HHllioG6bTiiBVQ5y7zM6IHGm1c6HKGx2S9Vt
+	 1qKl5MKpsLlnK4pXffN8f0lTyfohG/j40o70l4os876BLpUkO4aDgZuT+t/zzYhTgX
+	 HZqmQ8np/aGH9tjubmk18izGsovIkMfdrDIDHR98YLJlUZVFFVQrC/p/bPsrCvW7Ih
+	 M71tzvI/+YmolQEWC3mF4PHVHILxobyao5QwFh2JeKEF+EmST+ms4xzV4MgcN/sqW9
+	 FAReQHIZKwBfg==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260428115228.158252-1-rf@opensource.cirrus.com>
-References: <20260428115228.158252-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: cs35l56: Fix illegal writes to OTP_MEM registers
-Message-Id: <177741967813.363516.16954911230074404150.b4-ty@b4>
-Date: Wed, 29 Apr 2026 08:41:18 +0900
+To: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+In-Reply-To: <20260428074758.3087437-1-andriy.shevchenko@linux.intel.com>
+References: <20260428074758.3087437-1-andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v1 1/1] ASoC: Intel: cht_bsw_rt5672: Drop unneeded NULL
+ checks
+Message-Id: <177741827851.363516.33934947282643519.b4-ty@b4>
+Date: Wed, 29 Apr 2026 08:17:58 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,29 +52,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1132; i=broonie@kernel.org;
- h=from:subject:message-id; bh=U8FJ32FFrQHgLTS2Yom8zlOEhaml2B24SQBefpFmFQM=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp8Yb+d82otwFDT74YcqAJp7APvYcj3ta0mp5QJ
- /671O4wmVWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCafGG/gAKCRAk1otyXVSH
- 0GnbB/946NCirq5YO15S66kY02oNDWxyCyOiUProeTn4TuvFvS24UpPwn6BO+xABF6wj6/tkIqY
- 9Gh4rwA+lUwgq6DGNd4PK1TmSIy4us58JAHznR86AFLxg6xdveMSbUb6clyqF8rwceXNwlZVq+N
- szfwNAoxgTDbGdafRAvhqss6ufQCszXFsr9q4dSw33W5cGLgYi517ZyoGnk9RrpKw+vVb9EqlLw
- 48ej+JqnJtp03WaxZXKvfuOuszEkgnHkJN0C4yQbFAQiLiI7UdzKbZtAdSnNwUXa4QhLmKUXkak
- g95AhNvqfUFnaU4KcH49G2TVSFEjBpbwOIYSwKax0MdAGfs5
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1129; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=JWBZNBsKs4T8x8KHeqTCDTZdBQGd4ulpbQX0mM3ZqFw=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp8YcDqT6TrZZ2Ay0R5lcPzmdYUb+6ylVQzAJKJ
+ EMvchclBk2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCafGHAwAKCRAk1otyXVSH
+ 0BUVB/0fGcYCDYOqn/KnsoIu3gWWhuihfvh9GNP3FNHR/4W3GoljPejF0C73QoHMnSs+wjoNIqT
+ 63sCmCiv7bVFtFKIO6EjXOHOIem141Xf1nMzeV5kkTATmvhiT8yAqw8We0hC3epNxZY6aO5iKFg
+ jO7lm+rsv3bFu5rsIZoFe33TkFF5jT1rqjqqAn7sPb99uLzLoPrilKKpyUfImE+DShQZRdJgQiS
+ Q7yPGrBOQew0VtR/26VPPppDNW5QO/RHnewxzqm/H7b8JnbJ1cImHsSiiLSSBJ5YqTrv3eK1xy0
+ FV+oatfemJQ9OftJT9Mt1UkztQIv/xuKXy9hh7vVcu+h3/Zz
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 28 Apr 2026 12:52:28 +0100, Richard Fitzgerald wrote:
-> ASoC: cs35l56: Fix illegal writes to OTP_MEM registers
+On Tue, 28 Apr 2026 09:47:58 +0200, Andy Shevchenko wrote:
+> ASoC: Intel: cht_bsw_rt5672: Drop unneeded NULL checks
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
 Thanks!
 
-[1/1] ASoC: cs35l56: Fix illegal writes to OTP_MEM registers
-      https://git.kernel.org/broonie/sound/c/be102efb832e
+[1/1] ASoC: Intel: cht_bsw_rt5672: Drop unneeded NULL checks
+      https://git.kernel.org/broonie/sound/c/ee26bad1b52c
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
