@@ -1,99 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30E73D7D6F;
-	Tue, 28 Apr 2026 08:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CB5138490;
+	Tue, 28 Apr 2026 08:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777365984; cv=none; b=TJ897Nk1r9mWG/Du0q9w6d5sApKZpGtGNO1QpqZaS0eR9bdamxt/n6BbTUdTasOxLWOkldUGqoFJpbBsR/Wuo+e3c6auPigHWYJjvV74pKj9lsJAT58z3h6REv95KChbesGC7qqW9JlWoPEIPpjTcxfoxYHnzS9+b49A7XXkHkE=
+	t=1777366107; cv=none; b=U3W2lc0BZZ3zmHWXAgDUOf0wWk71IZcGWNknYnfB95faJZUznhBqU/wyJnvD5GrhPiiRmeVAlepEmeg7WslqNWXF9ec4zMO6Vdmxipocg6zyZrjighs4XEhnc0aURoUgYen4fU2Mbl9axM45GpXfpY353/IqF1W6b+jamDwU6iI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777365984; c=relaxed/simple;
-	bh=v/FtdyqYqM6XmYIAUEAXApbL23Nchrm1fV+xHfiiy1U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=p7N5kx81I4+B1ddmBN1btnfTvGd1388ze8Bz/gnvzOhsa4xYTTuN0bVvKHdjrv8LKUEd/xTPc3J1F6atyt00h57HL9C7zSN0R5sBrnSZFjKmF93Ctjq6xzBOsplOXfGxjbhWPqJwJ0m71MfkzXWwWnxminD/Dok91aM5fKmo1F4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Frw8+cra; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1777366107; c=relaxed/simple;
+	bh=mYuU6MXaswUtoHhacsBHyqLEb3RQrKd2tVDX/wlE3eI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ysm3z4a8O6p6/vDyUlbuvaJ4lVdDGWBAHVC7CU1c8I3suzgHIWGeuEhkZyLDafbO48GRwUB88+u1aq6WXRLzFzpi1jM5y6VpsDXvBb0bauFQMWBxf5hZDSBspxl28rWTgcTkRdzwCjaS8omp3kxBifBxr+7XSELDYO7lUL6Gp7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z1UvRjJE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Frw8+cra"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777365983; x=1808901983;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=v/FtdyqYqM6XmYIAUEAXApbL23Nchrm1fV+xHfiiy1U=;
-  b=Frw8+craVjfd8wlcOF7MlykxfH1D7Dw8MB1Db5GOGox/ZWm9hVbpq3TS
-   qlnv2W1nJ0BNmd/El7GLRUscx0gI7xNv0ArQhARS3qblbiBg73nh/YD5v
-   lmhFeH1x9N3aLUgDeU1SWLd4rkFRcGRkzC1+23Q7rURQUMxujM4NFMQ4X
-   7CQuadsKehdogj1BSnJCMFy7CU47DR08N74igku8JqDX6iA26Txmz7hV3
-   2AI2Tz7HMpnIS+z8UwHytmMCpmV/9U8RHb1gVKd60AfOuoLKhPgYG53Sx
-   ymSOJvFOBFpLmB9Hl4N89DRUynvjTj8gEMZLKLAob9afnWghWE1eROSgH
-   Q==;
-X-CSE-ConnectionGUID: dlcUPUJ9RUiXc7iRq5wlCw==
-X-CSE-MsgGUID: Eofr2kgLQ/ySMiXpoSnpaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="78252281"
-X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
-   d="scan'208";a="78252281"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 01:46:22 -0700
-X-CSE-ConnectionGUID: 6UgYy2z9RFmtdzWegae3CA==
-X-CSE-MsgGUID: bG5HnRMnQbCBgKaPAYjHjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
-   d="scan'208";a="257423146"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 01:46:20 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	peter.ujfalusi@linux.intel.com,
-	bard.liao@intel.com
-Subject: [PATCH RESEND] soundwire: don't program SDW_SCP_BUSCLOCK_SCALE on a unattached Peripheral
-Date: Tue, 28 Apr 2026 16:46:12 +0800
-Message-ID: <20260428084612.322701-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z1UvRjJE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A22AC2BCAF;
+	Tue, 28 Apr 2026 08:48:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777366107;
+	bh=mYuU6MXaswUtoHhacsBHyqLEb3RQrKd2tVDX/wlE3eI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z1UvRjJE6dflfyQhl8JY3L4hVKRTdb2yQn2oMGAXOIbVRq0ZE7yZrHlCJiQWzyqOO
+	 Ayl4xpG2K9JvWcjNz6M84OnOonhmyhzMHQSWPUKF70T+ZedmFx4i6rIq8l1oGhDjJH
+	 /p4D/qUIvM2cdbG/6+bIUxDPrDJSn+Dl6gwmVi0oh6fY9PCddZGxaVzSLwgaA7sSzQ
+	 j/F8H1o4gReMWS3wfLhSk+uW2mBiTSAYnrRi/6PWHd+4xq4UuHFidugqYKbhaopTOD
+	 ndEHGwLH3UfYPox7uUHMjZullYmSdqb+weGzUd5oNgqJovNthw4Vr8OTgr38Myi8q9
+	 NFTyzHQvLk4Yg==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id EB9C01AC5841; Tue, 28 Apr 2026 09:48:24 +0100 (BST)
+Date: Tue, 28 Apr 2026 17:48:24 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Chancel Liu <chancel.liu@nxp.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+	nicoleotsuka@gmail.com, Frank.Li@nxp.com, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, shumingf@realtek.com,
+	rander.wang@linux.intel.com, pierre-louis.bossart@linux.dev,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 3/3] ASoC: fsl: imx-rpmsg: Switch to core
+ ignore-suspend-widgets support
+Message-ID: <afB0WHueZ5AGF3Vi@sirena.co.uk>
+References: <20260415081942.4183108-1-chancel.liu@nxp.com>
+ <20260415081942.4183108-4-chancel.liu@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9UPrFDxvpRfQw9KX"
+Content-Disposition: inline
+In-Reply-To: <20260415081942.4183108-4-chancel.liu@nxp.com>
+X-Cookie: Victory uber allies!
 
-The SDW_SCP_BUSCLOCK_SCALE register will be programmed when the
-Peripheral is attached. We can and should skip programming the
-SDW_SCP_BUSCLOCK_SCALE register when the Peripheral is unattached.
 
-Fixes: 645291cfe5e5 ("Soundwire: stream: program BUSCLOCK_SCALE")
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Simon Trimmer <simont@opensource.cirrus.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- drivers/soundwire/stream.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+--9UPrFDxvpRfQw9KX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
-index 4ed8fb7663ad..0b9626838028 100644
---- a/drivers/soundwire/stream.c
-+++ b/drivers/soundwire/stream.c
-@@ -697,6 +697,13 @@ static int sdw_program_params(struct sdw_bus *bus, bool prepare)
- 		if (scale_index < 0)
- 			return scale_index;
- 
-+		/* Skip the unattached Peripherals */
-+		if (!completion_done(&slave->enumeration_complete)) {
-+			dev_warn(&slave->dev,
-+				 "Not enumerated, skip programming BUSCLOCK_SCALE\n");
-+			continue;
-+		}
-+
- 		ret = sdw_write_no_pm(slave, addr1, scale_index);
- 		if (ret < 0) {
- 			dev_err(&slave->dev, "SDW_SCP_BUSCLOCK_SCALE register write failed\n");
--- 
-2.43.0
+On Wed, Apr 15, 2026 at 05:19:42PM +0900, Chancel Liu wrote:
 
+> @@ -274,6 +257,15 @@ static int imx_rpmsg_probe(struct platform_device *p=
+dev)
+>  		}
+>  	}
+> =20
+> +	if (data->lpa && of_property_present(np, "ignore-suspend-widgets")) {
+> +		ret =3D snd_soc_of_parse_ignore_suspend_widgets(&data->card,
+> +							      "ignore-suspend-widgets");
+> +		if (ret) {
+> +			dev_err(&pdev->dev, "failed to parse ignore-suspend-widgets: %d\n", r=
+et);
+> +			return ret;
+> +		}
+> +	}
+> +
+
+The other error handling paths here have a goto fail to do cleanup of
+the of_node in the platform device.
+
+--9UPrFDxvpRfQw9KX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnwdFgACgkQJNaLcl1U
+h9A7RQf/QUn+qnt2gIgZyXelbB3F/TVFy2HzRTJNgNigI/pP+0D9evGIAfFSilHe
+bY/DChXlgzVcbleDy0tYinjOEJCFWMFbM5geexzQDCeLBVttOFJBxGFg+6miD3ny
+XBfA3eBsgWML7fjtuVl8L9VvSoY/VqAxOlVd0ezQQhdPv1/+OTZ6tKMC2sfijJQi
+OEo5m8hZpyStL9ez+64ZtCGJp8YjUa4yCqjEnqqCRvVAiJZCySLZHY3qQx19x4F/
+biWimRE9KOg4o7MaSjodS1el8vIllMT13FpJMud9r3TnHhIgG9IRNrUdtdgBtriI
+lVH1KxPbEDVL6hP8ny9Ick5+7MOiaQ==
+=7KNo
+-----END PGP SIGNATURE-----
+
+--9UPrFDxvpRfQw9KX--
