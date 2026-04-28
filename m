@@ -1,181 +1,108 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA123324B24
-	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 06:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070493290C2
+	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 06:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777357188; cv=none; b=MFzXvxOXotLQVIEZkczsebifGH4EqQx5dlLFgK38v7ymuILgXR5oMH7/uL7dYUhRC9MrkYYPxzaZAHgT/ZKLDsR+t3Zd2L/vVjDj+25L9Sbcy73Yo3KP23WbxFfwGbOQBPQEuDcWcLfbhUFm1x3vUNsXnxR/qV0CVwIckcrrEQg=
+	t=1777357634; cv=none; b=tGvgA7DvsFD3ovS0KH4wPLmrpnpH8gfgNzAQmkz2fIDR9bqzatK9YhwbhQlABpUh0sFfH0Jks00pKsPqPL3MMpniOnVLa9ZTCPb9RgPmLUhLxqkqMA6oz2z86cVcwuYiFiIAwinaEJEpLPJCI6qjaYCGIsxxQ4p343j/pkaUAfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777357188; c=relaxed/simple;
-	bh=aBEaJNgIofjO7cEcOODl1BmXBomk1cMT92Ssjw5evfc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=X1MKsLe09DIICqZxxL+jqeu1YFXZr81BwLLSk35BVighpIwQ/f1Kset2dAdtz8XGGSjC7xjdJpWRsphEZoho7Gd57N+SqRIYD3d1NVlIkvJv6MtSz8fRd/b6p7rhYZ9qUYT/wm5EZatQvLLJPbo0jw9hQokyDO2SCrS9Nw62TEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ej6wnQ+e; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hSv5i7ZM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ej6wnQ+e; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hSv5i7ZM; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1777357634; c=relaxed/simple;
+	bh=KsIAmnLob4ZTTe48Ql2J0gkqKjtyzI7gwllEBYwAv1Y=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=neRM0dAJWMUOZ3u24ky8NYgUkfza61p6IMJPnTKhKlk9SVZJHmRD8vOREUirJOY6G7qFmWBzTOxrGRoMRFZejN1f40JKs0KHAgKe5FYFcavJPaN0wBJ1tFItIbmg9Pc8F8IV5DJaaUxA98qH13UumWfUBF4I90/K+KjPPZ4YpJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=hGWQ0HE3; arc=none smtp.client-ip=162.62.57.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ej6wnQ+e";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hSv5i7ZM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ej6wnQ+e";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hSv5i7ZM"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1B25C5BD33;
-	Tue, 28 Apr 2026 06:19:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777357185; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rpCFgolyZEt8PPtiDFYURWs4bwF8eaRQRN05WRQxlJs=;
-	b=Ej6wnQ+ej2iwOdtFK4EuC4OHBzzKq+ebYGOokHJSvSOmFKY9W6nJroq/sjgqUYb4PIOMpr
-	25N/+f/d6IIEABNLa/Bw/XK3NyVprr9TYCToYtlupG9ZKS9piBKv7zia34L4ndwqFs0qXs
-	4VoSFGtB6aia6M3MI110rCm1XYO68zg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777357185;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rpCFgolyZEt8PPtiDFYURWs4bwF8eaRQRN05WRQxlJs=;
-	b=hSv5i7ZMsu1LrzJPK8SQv7iELPE8YrWE2m3un88HsQeFUC35M2xSU2+/yOF9oeb9+8Ir1h
-	87mv5kVnnKsyNNBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777357185; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rpCFgolyZEt8PPtiDFYURWs4bwF8eaRQRN05WRQxlJs=;
-	b=Ej6wnQ+ej2iwOdtFK4EuC4OHBzzKq+ebYGOokHJSvSOmFKY9W6nJroq/sjgqUYb4PIOMpr
-	25N/+f/d6IIEABNLa/Bw/XK3NyVprr9TYCToYtlupG9ZKS9piBKv7zia34L4ndwqFs0qXs
-	4VoSFGtB6aia6M3MI110rCm1XYO68zg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777357185;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rpCFgolyZEt8PPtiDFYURWs4bwF8eaRQRN05WRQxlJs=;
-	b=hSv5i7ZMsu1LrzJPK8SQv7iELPE8YrWE2m3un88HsQeFUC35M2xSU2+/yOF9oeb9+8Ir1h
-	87mv5kVnnKsyNNBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8BAD9593B0;
-	Tue, 28 Apr 2026 06:19:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ymDrHoBR8GktNQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 28 Apr 2026 06:19:44 +0000
-Date: Tue, 28 Apr 2026 08:19:44 +0200
-Message-ID: <87y0i7ehdr.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="hGWQ0HE3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1777357618;
+	bh=bh06cfQ61YF2IrXdjHDgvS8aqVFo7eN3jtbRKO4oJL0=;
+	h=From:To:Cc:Subject:Date;
+	b=hGWQ0HE3VmH//TwaNNvuMAUOhNy1uQGRsoMilsoNvX3xCBLrpvmm4CgtwiPabXjGU
+	 QepGCWa0IjmMnFuq6ng4ry3TX9bEhYsChbGf6Ipw75t0voE/cIRiEcC157lYKMmt0B
+	 +SVTIFiPQivnseUYP8jJD7vcBRS4zs127Ksd+kwU=
+Received: from xiao.localdomain ([223.73.200.233])
+	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
+	id 6B699A2B; Tue, 28 Apr 2026 14:26:54 +0800
+X-QQ-mid: xmsmtpt1777357614tma2lu1im
+Message-ID: <tencent_50175A0490455C1D17850883F7C314503F06@qq.com>
+X-QQ-XMAILINFO: NGZp1yYNf7Y+/TTNrQSMJgix2+vW821Dulk8tk9pKkj0nT5kbns+yf0076v4WR
+	 pzgd5eKWzKhfrk7Ow8kxLZ3TXW4wpzQ6iZDcvOyHGijalx9hQwMac7GtKH+3qxCp5j3xGP94pdmX
+	 jKS2SLm69GR0DOj+miYpa4ATZ/KM6QosbvxKDYScSFLb7lV1Rohomv8bxqR6juHD1DQwr9IDrD0R
+	 CBef7IMRa90RQjuDEgMTpkdgD+mlptTvOylUDTVKMpZzXFxJBxjyRo7eFlOLc6+o85NoTDDxXrje
+	 2IVjX4CkfB1Isvlevtdn9dU82yYRPMp7APU8PrL7kqn9+mjv/tnQJ3iNFMDf0AbRizBw/sfccyJj
+	 Nf+QsTruy+sp7tB0koFIcy6XVpAiGWYKWW4tAJuF1vmiNL6/ebFOmnZOCG0Mu5/heaWEoIkHXhdG
+	 2cf4VOheXsjr8X6I/eOeu3VigAGKCU+T/+oytSaP6GjJnG0vPR6qo6X53UEw+Yvk7bi+Mb/OkXvU
+	 WdJDvdwWdFqbeS7rMem2hePHWtQ/9D6zUtPb+JfhONBggRXeDto/fPkpfX71Ei2GaEAa0B35F1KU
+	 ZojTdGN9C3QYz418k8Trc8TCwyZM24p9jldBTIZKQmVxov8A8wlpsYCfUoY8/Baez0sxcOcClDYG
+	 uuSxzIBwUCqmOiMn/USYNunt9wPJghYzGR89VOGdfAfFIzqAX9HdwJbwiIC75fn0Yaqr7RsBZs3M
+	 aY64oXH9Yv8kAn7KUz9imV7fqO37l/Ev3dwsFF67JHMKcvFjKiNqxqgQ8mun4xRAj3Rd+lq6jol7
+	 9tRSt3UWnnYEAim1+18he3JAV5Xv3X9OWXbkbCNpinqZl4mJUVffanmjXKwjs7VzG6kln9yaQzEZ
+	 X6mgNcpePc3COCPY/Pshqx0/m0pLKk5DopTPxwlLXHXBOpd5sCHFT1EnNtBO8L8IXbHaUnEmvDjk
+	 Cgbmxe7RshBnj0JAgvkojB+vroRTt3eGdKV8ERxJM4jaF3Bh2WauK50T8b359Gaurb0fDwLjnjSv
+	 MrCPJrsUK3d3Vcg+Ne+sVG1cpxtiDtGRxnOp57NOYqpK3bRl7XfQ66dcZd5FrN9lRToTVToww9hp
+	 dTE7US
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+From: Li Jian <lazycat-xiao@foxmail.com>
+To: linux-kernel@vger.kernel.org,
+	broonie@kernel.org
+Cc: lgirdwood@gmail.com,
+	loongarch@vger.kernel.org,
+	chenhuacai@loongson.cn,
+	zhoubinbin@loongson.cn,
+	jeffbai@aosc.io,
+	Li Jian <lazycat-xiao@foxmail.com>,
+	stable@vger.kernel.org,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH] x86/olpc: select GPIOLIB_LEGACY
-In-Reply-To: <20260427144338.3436940-1-arnd@kernel.org>
-References: <20260427144338.3436940-1-arnd@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	Zhang Yi <zhangyi@everest-semi.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v2] ASoC: ES8389: convert to devm_clk_get_optional() to get clock
+Date: Tue, 28 Apr 2026 14:23:52 +0800
+X-OQ-MSGID: <20260428062425.1377-1-lazycat-xiao@foxmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[alien8.de:email,suse.de:mid,suse.de:email,arndb.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, 27 Apr 2026 16:43:05 +0200,
-Arnd Bergmann wrote:
-> 
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The OLPC GPIO controller sets up a fixed number space that is used
-> by at least two drivers:
-> 
-> arch/x86/platform/olpc/olpc-xo1-sci.c: In function 'setup_ec_sci':
-> arch/x86/platform/olpc/olpc-xo1-sci.c:358:13: error: implicit declaration of function 'gpio_request' [-Wimplicit-function-declaration]
->   358 |         r = gpio_request(OLPC_GPIO_ECSCI, "OLPC-ECSCI");
->       |             ^~~~~~~~~~~~
-> sound/pci/cs5535audio/cs5535audio_olpc.c: In function 'olpc_analog_input':
-> sound/pci/cs5535audio/cs5535audio_olpc.c:41:9: error: implicit declaration of function 'gpio_set_value'; did you mean 'gpiod_set_value'? [-Wimplicit-function-declaration]
->    41 |         gpio_set_value(OLPC_GPIO_MIC_AC, on);
-> 
-> Select CONFIG_GPIOLIB_LEGACY for this platform and make sure the
-> sound driver portion cannot be compiled without this.
-> 
-> Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  arch/x86/Kconfig  | 1 +
->  sound/pci/Kconfig | 1 +
->  2 files changed, 2 insertions(+)
-> 
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index f3f7cb01d69d..5ada2c108f4a 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -3022,6 +3022,7 @@ config OLPC
->  	bool "One Laptop Per Child support"
->  	depends on !X86_PAE
->  	select GPIOLIB
-> +	select GPIOLIB_LEGACY
->  	select OF
->  	select OF_PROMTREE
->  	select IRQ_DOMAIN
-> diff --git a/sound/pci/Kconfig b/sound/pci/Kconfig
-> index e0996a9d90b0..6366f72b3667 100644
-> --- a/sound/pci/Kconfig
-> +++ b/sound/pci/Kconfig
-> @@ -300,6 +300,7 @@ config SND_CS5535AUDIO
->  	tristate "CS5535/CS5536 Audio"
->  	depends on X86_32 || MIPS || COMPILE_TEST
->  	depends on HAS_IOPORT
-> +	depends on GPIOLIB_LEGACY || !OLPC
->  	select SND_PCM
->  	select SND_AC97_CODEC
->  	help
+Per Documentation/devicetree/bindings/sound/everest,es8389.yaml,
+this driver does not require `mclk', so the DT node may lack this
+ property (even the example lacks the `mclk' property). Therefore,
+ the driver code should handle this situation by using
+ `devm_clk_get_optional()'.
 
-Acked-by: Takashi Iwai <tiwai@suse.de>
+Indeed there is already null checking based on CONFIG_HAVE_CLK,
+ but the driver will not finish initialization, as previously
+ devm_clk_get() would just return an error pointer. Address this
+ by introducing a simple conversion to use `devm_clk_get_optional()'.
 
+Cc: stable@vger.kernel.org
+Fixes: commit 0319c26889f7 ("ASoC: codecs: add support for ES8389")
+Signed-off-by: Li Jian <lazycat-xiao@foxmail.com>
+---
+ sound/soc/codecs/es8389.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks,
+diff --git a/sound/soc/codecs/es8389.c b/sound/soc/codecs/es8389.c
+index 8d418cae371a..449d9574b03a 100644
+--- a/sound/soc/codecs/es8389.c
++++ b/sound/soc/codecs/es8389.c
+@@ -892,7 +892,7 @@ static int es8389_probe(struct snd_soc_component *component)
+ 		return ret;
+ 	}
+ 
+-	es8389->mclk = devm_clk_get(component->dev, "mclk");
++	es8389->mclk = devm_clk_get_optional(component->dev, "mclk");
+ 	if (IS_ERR(es8389->mclk))
+ 		return dev_err_probe(component->dev, PTR_ERR(es8389->mclk),
+ 			"ES8389 is unable to get mclk\n");
+-- 
+2.47.3
 
-Takashi
