@@ -1,90 +1,106 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCB22765FF
-	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 03:37:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80972DB7B4;
+	Tue, 28 Apr 2026 03:40:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777347450; cv=none; b=LjkXC/Psb/X/lt+Qn604+dN7o3Of8TVbmmt9m0UTTgGBiesxU1xwDthUl27a5x10tR+dLVIl5uadsvDwn8FkUGaWZqDhMS9HPMdjhWrHalLof/z/j9TMlMm9TZNczVNa0/O6f08jBcrxjncdAXXJioAbxqodWT2VqxKu+Q7s6iM=
+	t=1777347609; cv=none; b=XvbvClEauLFGfm+96vG5pmJKf1OnUQOUBCqAk2sHpRur6FTE+ArqZiTBWvrsL4lQC6UDdSF8OtPXTmbhsWX+MZCtKC46ywfIzGG0+LvlPRM/FA2GWqE+UySQIqWg7Nk45sOsFSe8NIRI8YIIZ0RSl6RYtqiNQ4unbWotekLpuNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777347450; c=relaxed/simple;
-	bh=v+k0mxR7uS4QEobk6K87ilUPY+SsHJk1YDnSyP1LnG4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=QBp3F+MPGOdAQBf72ZIh4rbpvAh5dE3cSUEihohCtS/HEyls8hv3cBVw6NZM4ICSWxGmM09qgosEG/XBO6JjexpiDFpYg+9jjEszMULvlVa+N9xvfWB/mUcoq40fZuWZokcvhW9sWkH4M6MA37tF1EaJzvyNor2HDeRFtVmH9qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fFGXpHhl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777347609; c=relaxed/simple;
+	bh=tciipBfN6vxEQA++yDaPsZs/cffL7BXyOIjkrkOatdI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ELnBJkDPVulb4c3S2mxoUhPvg/1pCFR41ptZkiTU8R3QyWOR8S5B9/AV7+ZqgI/rU7kGaUsL+nnTXUUZ6MKuTCoaKmkj51O6x6wlbixjX9nNuEXWkJSR+IkJ31zZNUqWzmkOinpdFWbqTsAt7cNVEBc2na+bCGznOdPUxbeh8a4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PT8ZZz9u; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fFGXpHhl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06F49C2BCAF;
-	Tue, 28 Apr 2026 03:37:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PT8ZZz9u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AB7AC2BCC4;
+	Tue, 28 Apr 2026 03:40:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777347450;
-	bh=v+k0mxR7uS4QEobk6K87ilUPY+SsHJk1YDnSyP1LnG4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=fFGXpHhl2G8N8StPnAWQ5Yg37pyImayNq8lCo8KbQl+pS9roJlPl9NAEIxjIiC+qv
-	 uL8f9JH5sfgiLoyGzsgCrjm+cSdRM8UAdCGKIshSL5hovhK2+mt65RkgjfTIm2h/80
-	 8Antrzm3sZvzBfNNFXwPVpGMhdoWeCVY9wipsSq1rLsJ+zOEJwzfeshqG19i35AURy
-	 puw1aNs/kk+2yxI4/P4DSO/QRZLdF753iFLsccAjzC1Wpde4zuv3B3WgXJp8FvMPj3
-	 in0emcyOrKo4iLe97izNHHfReTbbeOdiHfcUqfsrawe6IPzq3BLtM9GwCok7VFJxTt
-	 X81ErnopVVCZQ==
+	s=k20201202; t=1777347608;
+	bh=tciipBfN6vxEQA++yDaPsZs/cffL7BXyOIjkrkOatdI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PT8ZZz9u58TmBScOUwl+aDVDYcfHPnDtU4fbPH0CvsxSic/gGROQ4Dua8gHDnub8j
+	 ZyQyn0IrCDw+DO8ofQ2uAEuCVs1Ga7FbgNLGouv3OBgf60vI3f2vC4Siv9e0L6dY5q
+	 FPXuyssUE1M6ZT9LxwLbAFg+jx96p16JsFqilLdr9R6qroqoGwuimKOZvSHCDdWGvu
+	 6hivtfaIuzoSZI8SfH9iXt8jskkM4MxGKFbEguKGwNRp5GgZ1fi7x3ycraRUpCr3sS
+	 CNyOBIIFdacjyE/m9MJQgd+PDe0TdpFqU4Jfh4SE32WTd5Y/UPfkBRcLF+Sy9H4x3P
+	 hp7He85FQqRkw==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id A55E51AC5840; Tue, 28 Apr 2026 04:40:05 +0100 (BST)
+Date: Tue, 28 Apr 2026 12:40:05 +0900
 From: Mark Brown <broonie@kernel.org>
-To: Sachin Mokashi <sachin.mokashi@intel.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
- tiwai@suse.com, pierre-louis.bossart@linux.dev, cezary.rojewski@intel.com
-In-Reply-To: <20260427144619.1739971-1-sachin.mokashi@intel.com>
-References: <20260427144619.1739971-1-sachin.mokashi@intel.com>
-Subject: Re: [PATCH] ASoC: Intel: cht_bsw_rt5672: Simplify probe() with
- local 'dev' pointer
-Message-Id: <177732988081.324244.9990584552671602789.b4-ty@b4>
-Date: Tue, 28 Apr 2026 07:44:40 +0900
+To: Linus Walleij <linusw@kernel.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-gpio@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: wsa881x: Move custom workaround to gpiolib-of
+Message-ID: <afAsFcydwlCEgWZf@sirena.co.uk>
+References: <20260427-asoc-wsa881x-v2-1-9ef965f94624@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1160; i=broonie@kernel.org;
- h=from:subject:message-id; bh=v+k0mxR7uS4QEobk6K87ilUPY+SsHJk1YDnSyP1LnG4=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp8Ct3tTi0lTyXbNyTrU2X7fsHYas5WeO6GvHeV
- puE40ct75OJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCafArdwAKCRAk1otyXVSH
- 0GZXB/9Kl9rYQ63LnO0JguojjfdizNTWW+iEIH7IN+Hfw0nkBoYvRGk9psfgs7WJG6+Nyym6Hpu
- i/yyusKfoXNas0uLfOz9j3nm9Mayj+T9JDhhiXN5vWXR4HgQgipVX0GoHHOY5TYELExQScuiCvO
- N0p6Cz7v+wReeqeNp3U9vBk3x6s6mGHlaDLwJ7MCU1cWO2ceQHKXzdYhy9MoUblpR17New5Zr6G
- lpw+RWCYo3H7GDG1tE82QeDJZGZOsQaOvqejtXvKVYcBb09K2qOEbOvJeusXUipFD8T+trMXuvH
- EoV5qf11IZ543L29MR/YohueE2CjSET+a4/kvuh3gHvoyJJX
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="u/1OWsNPlQcuGK2l"
+Content-Disposition: inline
+In-Reply-To: <20260427-asoc-wsa881x-v2-1-9ef965f94624@kernel.org>
+X-Cookie: Victory uber allies!
 
-On Mon, 27 Apr 2026 10:46:19 -0400, Sachin Mokashi wrote:
-> ASoC: Intel: cht_bsw_rt5672: Simplify probe() with local 'dev' pointer
 
-Applied to
+--u/1OWsNPlQcuGK2l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+On Mon, Apr 27, 2026 at 10:43:21AM +0200, Linus Walleij wrote:
+> The WSA881x codec driver has a local workaround for old device
+> trees that have the "powerdown" GPIO flagged as active high,
+> despite it is active low.
 
-Thanks!
+The following changes since commit 254f49634ee16a731174d2ae34bc50bd5f45e731:
 
-[1/1] ASoC: Intel: cht_bsw_rt5672: Simplify probe() with local 'dev' pointer
-      https://git.kernel.org/broonie/sound/c/cda1cf0526f1
+  Linux 7.1-rc1 (2026-04-26 14:19:00 -0700)
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+are available in the Git repository at:
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-wsa881x-gpiolib-of
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+for you to fetch changes up to bfa336cee3324f991e93e9e570e8b827273df97e:
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+  ASoC: wsa881x: Move custom workaround to gpiolib-of (2026-04-28 07:39:15 +0900)
 
-Thanks,
-Mark
+----------------------------------------------------------------
+ASoC: wsa881x: Move custom workaround to gpiolib-of
 
+Move a workaround for misdescribed GPIOs from the wsa881x to use a
+generic implementation in gpiolib-of.
+
+----------------------------------------------------------------
+Linus Walleij (1):
+      ASoC: wsa881x: Move custom workaround to gpiolib-of
+
+ drivers/gpio/gpiolib-of.c  |  8 ++++++++
+ sound/soc/codecs/wsa881x.c | 35 ++++-------------------------------
+ 2 files changed, 12 insertions(+), 31 deletions(-)
+
+--u/1OWsNPlQcuGK2l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnwLBQACgkQJNaLcl1U
+h9A8Fwf/RBYc3lgJ6uaIaetgHwkfNe97gFTvGfLt7aFB0Er09dp9xDlflChhSiVL
+q2+BA6a4Ea9NT4rpH6f6SrDn/IrmYX+doLtqUL3+jrivzV1J4HW00jLNrWJUn3CF
+2BFc1/hCOc/cdmVBc3iHresimI0LckOM+RvaBKBORZ32YZribLX2vLAq1nVj0GT6
+WK8QsNUBcndVRGOcE9xCas3b61qQJqkyEeBWRCBKtNDxnuOqEXmVR9JI76ZN7bWE
+O6JASY/cVzpK8mpU3p1umSao7jxX0EZi6xeInEu9C+9GzY4+poYk+YZoaZsXalj8
+53kpGKlqydYWv0Z0Dn9Mov3MWrKLKg==
+=wO9n
+-----END PGP SIGNATURE-----
+
+--u/1OWsNPlQcuGK2l--
