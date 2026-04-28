@@ -1,87 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15365330649
-	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 08:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BEA330649;
+	Tue, 28 Apr 2026 08:07:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777363635; cv=none; b=ELHl7WGnLqqbb4haX+ud7ahHvaqXifDw53FNuoRDaZjTdPsJy+Fha+DmWeHm2RG9qIymLkvyBAOTZzlLXgSWPTvZMqr1FHbxuFYMa54NUQQUFrVnCx7gx9mDdfhC3+W0oGdbEKQGhw48AtuNzBlksBp/BQhBcKYRlK6pYHHLmX8=
+	t=1777363662; cv=none; b=oU4Jem0ntwM7iuvbjQdqcq7fgZrjAZL9xiuIczuSA8zHX5ybhHdLRr68HMEzAIfgjjTeswK24PnMHn0RMj+Oqrt1m7M9F4ea55/tsvaejInotV04GXez7dokdbvDadA2pfd/QzJdVyRq8IvkVSsJzPmdPeOOmOUQBorFkma/NNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777363635; c=relaxed/simple;
-	bh=c9P/8jxujvm3C66tIWuYt0KLPICR50EgTHln6yDH+6A=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TIefFxui5DsCo0xfkE9XH0Qeh1Oxy2OcM+8UAsd0iFFj+7OurM+IF5te5Ch463mK0kBnkici7m3JLIaXsmjIwbxad0iRq3BLKBbHv6bYZvRn5Li3IvJGw9heDY51B0KxwxBGebA1fVHIvW4YaPTPjb2U/JbnP+P1hMqX8PbnBoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YMW2/vfP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777363662; c=relaxed/simple;
+	bh=UfAd2Jq9oazNbJgG/1QKnEfmNwcZyGx8kZ1KbvhgwoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nWDYPydTUjce67TnllvKTef95A9EuNdK41vrNTPn9ZOH3mIar4+5mmbgnhwtd4DFP6qHsbGcDTlBP5nknVf08Ec7EPtVNua6hTLrj23oBczBcLbA2kkkrY+7luuWEXitEpMIrLUtZfpytl4ktbD+wopLdAu2cfzrRcxJkYUYSXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bgl8iOYc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YMW2/vfP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7351C2BCFA
-	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 08:07:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bgl8iOYc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1672BC2BCAF;
+	Tue, 28 Apr 2026 08:07:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777363634;
-	bh=c9P/8jxujvm3C66tIWuYt0KLPICR50EgTHln6yDH+6A=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=YMW2/vfPtWrjs4tey8HDo8H/LxGc8Xtz1lTAx+xTIh2YulZktSYe3xrZemau46Mkv
-	 N7AiMVsYKLCEm3wICBEOKs4dA88SC/m+qzA6NYepajc2kgqQQl3CSUl2G2fwjmGXKd
-	 CIrrlA05s8fYipRvGsEqzjY7LVP/IQOaaM6o+YP8O5pHRyLHnxzaXFz3pDIbnF06KN
-	 RmgIxpfR1u1B+xpYlJCl/QDqI+hYgLgNg3/HZ2CyuCBmfnQyiFt9EuWc3DDnnYY7Lc
-	 OI0juRPwYajYYc/WyhQTvWEUqIiZO+UpJGvHPerjB/130lftiIZnyrlT32KjI5fKef
-	 jM406g3PltXPg==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a2c77c62d7so12011149e87.0
-        for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 01:07:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8VwrYtMBAn9ihgaFE9kI8EkqAOlRkl6Q3MFpN7jWF4vjCzsoYXfJbLgAbJVehmY9d9ndFljQYDNTio+g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YySUFhiK0szQEk3TI0WBD6YGg7uUAukL4jO17mI8cjYagxS6PjC
-	GE1jxgbkmc9BNuNtvNWAiXKWOZ4m7T/QQJ5M6I9UZM/Cfo6cXt4pMBlCfBL1zDKifUzg8eGm5VW
-	oIpS2Ma41jiLlIM61f7nDcjn0vRzDJBkvAFlzshS8Jg==
-X-Received: by 2002:ac2:5083:0:b0:5a7:470c:daef with SMTP id
- 2adb3069b0e04-5a7470cdb7amr367300e87.14.1777363633435; Tue, 28 Apr 2026
- 01:07:13 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 28 Apr 2026 01:07:11 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 28 Apr 2026 01:07:11 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260427144338.3436940-1-arnd@kernel.org>
+	s=k20201202; t=1777363662;
+	bh=UfAd2Jq9oazNbJgG/1QKnEfmNwcZyGx8kZ1KbvhgwoM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Bgl8iOYcaGjsXREWK76L7oXinyeIa6cilEmnDf31bw6HDV/xuJ0x2N5ezlHxv1PYc
+	 1KAIL8nfh8HJA5HlMjB6bBT/IRlOUAPL0c99WUV7bph/qc8BhgMAw7EoEaiWe6HuBg
+	 V2HniuI6i00m3+8ZlqhbaGDoRrotvvUhuoY0y+ycVvKHWEYK+61KKjJ2eunwlsGKHJ
+	 JqtTVf1aBWFz7mHVFIYRiuIQKK7eBjeT0ODkVQrjLrFtD4kHMQ2vHfE1bZR5jce/4O
+	 gDp4CxDakFg5JeVNgOHUARSgFS8O4eb2kJyvEjObGR4CB+NpaKQK7IhYqIJdlp21uO
+	 o3gT7rcCV7kIw==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id BF1C41AC5840; Tue, 28 Apr 2026 09:07:39 +0100 (BST)
+Date: Tue, 28 Apr 2026 17:07:39 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v1 1/1] ASoC: Intel: cht_bsw_rt5672: Drop unneeded NULL
+ checks
+Message-ID: <afBqy-LWQ6th2S9v@sirena.co.uk>
+References: <20260428074758.3087437-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260427144338.3436940-1-arnd@kernel.org>
-Date: Tue, 28 Apr 2026 01:07:11 -0700
-X-Gmail-Original-Message-ID: <CAMRc=Mf5DRfDNht-pDpdU5mT3XzWtKuVhyfK6EXE+9bdy=h1HA@mail.gmail.com>
-X-Gm-Features: AVHnY4IKg28r4rY_OTjHZiHO6OsvjVj2nMnj_y3oNdasfuWqri7U8txCSGLn2pQ
-Message-ID: <CAMRc=Mf5DRfDNht-pDpdU5mT3XzWtKuVhyfK6EXE+9bdy=h1HA@mail.gmail.com>
-Subject: Re: [PATCH] x86/olpc: select GPIOLIB_LEGACY
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, "H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="S8xKput8qTDS2AV0"
+Content-Disposition: inline
+In-Reply-To: <20260428074758.3087437-1-andriy.shevchenko@linux.intel.com>
+X-Cookie: Victory uber allies!
 
-On Mon, 27 Apr 2026 16:43:05 +0200, Arnd Bergmann <arnd@kernel.org> said:
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The OLPC GPIO controller sets up a fixed number space that is used
-> by at least two drivers:
->
-> arch/x86/platform/olpc/olpc-xo1-sci.c: In function 'setup_ec_sci':
-> arch/x86/platform/olpc/olpc-xo1-sci.c:358:13: error: implicit declaration of function 'gpio_request' [-Wimplicit-function-declaration]
->   358 |         r = gpio_request(OLPC_GPIO_ECSCI, "OLPC-ECSCI");
->       |             ^~~~~~~~~~~~
-> sound/pci/cs5535audio/cs5535audio_olpc.c: In function 'olpc_analog_input':
-> sound/pci/cs5535audio/cs5535audio_olpc.c:41:9: error: implicit declaration of function 'gpio_set_value'; did you mean 'gpiod_set_value'? [-Wimplicit-function-declaration]
->    41 |         gpio_set_value(OLPC_GPIO_MIC_AC, on);
->
-> Select CONFIG_GPIOLIB_LEGACY for this platform and make sure the
-> sound driver portion cannot be compiled without this.
->
-> Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+--S8xKput8qTDS2AV0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Apr 28, 2026 at 09:47:58AM +0200, Andy Shevchenko wrote:
+> After the commit 7735bce05a9c ("ASoC: Intel: boards: use devm_clk_get()
+> unconditionally") the driver assumes that mclk is always provided, hence
+> no need to check for it being NULL anymore.
+
+There's also the fact that as part of support for optional clocks the
+clock API will quite happily consume NULL clocks.
+
+--S8xKput8qTDS2AV0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnwasoACgkQJNaLcl1U
+h9AYlgf/Y1OdpHdsvqm4hY1F00rFJnS0/UEC2sQ2S3Xq4/4W+Bm6EU1F9DnMdx86
+rnznmTz081E7fpXURLri+DE16Z4oQe5t49VII+4HuWQef3yS2kIfeNVh8rmpRke+
+73V3FW56kU+mcA9eFMqxbFK+8EeGER+eGKzsg5FaXJDBp6wZbTJhPMLjrmbhcHRL
+RKaRQYS9dPU5x7mH0PUG990QD4cozvkIcvYqAwSecMSUlXBqE+PgaNSE6XZGgreX
+qZB2cn4vWNbDV1SiPcFEv3lfArPYU1ItxCXcVVV+Ly0a1fc5hz8UxuG34lwv8P2G
+S1VJwDr2b7p70A5Nvhij98TlODo3qw==
+=mBYU
+-----END PGP SIGNATURE-----
+
+--S8xKput8qTDS2AV0--
