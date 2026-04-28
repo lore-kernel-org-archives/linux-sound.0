@@ -1,106 +1,87 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6308A340A59;
-	Tue, 28 Apr 2026 08:05:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15365330649
+	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 08:07:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777363551; cv=none; b=fD1+iDSD17jOLg81PPjvQyTJk6oTqIxoMwgqHYiUXlRX86NFO4fvi7h1sRAPXImH6n21J6G9zWKV2RQu96V1skGk28YxBzMTqQxoN+8M+RhrBle68RlqMMqqqByp04uHSFceyGlH36GWWbaZ/tINvY56PEivm7lrk5rv3yekKk0=
+	t=1777363635; cv=none; b=ELHl7WGnLqqbb4haX+ud7ahHvaqXifDw53FNuoRDaZjTdPsJy+Fha+DmWeHm2RG9qIymLkvyBAOTZzlLXgSWPTvZMqr1FHbxuFYMa54NUQQUFrVnCx7gx9mDdfhC3+W0oGdbEKQGhw48AtuNzBlksBp/BQhBcKYRlK6pYHHLmX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777363551; c=relaxed/simple;
-	bh=MSNGniOg8caUHapSWb6qVKePj1Pttht3yNcd8qlt9wU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MdTwmdaDUDSK0cuC1NB3OEijzxCsYkOxrj/HJhM/+rZWAFyMX2VxL7sGN7gmn7V5c2BPpgjpQD4RRoM6cX9TOn9d5Pf2Ab7TOWDMb4Z8TaFsl76zrr6n0bOwzfwEPCsiMHkGh3i6IXojR9OleBLFE6NLJayV0bDAXTAiZYF8LrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=frNPXHu1; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1777363635; c=relaxed/simple;
+	bh=c9P/8jxujvm3C66tIWuYt0KLPICR50EgTHln6yDH+6A=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TIefFxui5DsCo0xfkE9XH0Qeh1Oxy2OcM+8UAsd0iFFj+7OurM+IF5te5Ch463mK0kBnkici7m3JLIaXsmjIwbxad0iRq3BLKBbHv6bYZvRn5Li3IvJGw9heDY51B0KxwxBGebA1fVHIvW4YaPTPjb2U/JbnP+P1hMqX8PbnBoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YMW2/vfP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="frNPXHu1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Ih
-	AwFagRcfWmN4mKHyd4J+Yp6aQiKbMSFvFpZToE6Sc=; b=frNPXHu1dCvw0p7i0S
-	IY4t4O2MH5AgHlBUKoniDj0kGLvWeIyfFPyQQP5r4Mm7tFN6wNfcq7d5Xls4DPPR
-	febADlyEP+2KKAor6jqG60tqWFtk6IwLm0OzZ7C0PHQnth1SmcD8PPXhGzuxp0i1
-	nU7pwH+PVB9GZAym8ROqvcEDE=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wCHTwYkavBpamoNCQ--.34861S2;
-	Tue, 28 Apr 2026 16:04:53 +0800 (CST)
-From: wangdich9700@163.com
-To: tiwai@suse.com,
-	wangdich9700@163.com,
-	bo.liu@senarytech.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	wangdicheng <wangdicheng@kylinos.cn>
-Subject: [PATCH v2] ALSA: hda/conexant: Fix missing error check for jack detection
-Date: Tue, 28 Apr 2026 16:04:50 +0800
-Message-Id: <20260428080450.108801-1-wangdich9700@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YMW2/vfP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7351C2BCFA
+	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 08:07:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777363634;
+	bh=c9P/8jxujvm3C66tIWuYt0KLPICR50EgTHln6yDH+6A=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=YMW2/vfPtWrjs4tey8HDo8H/LxGc8Xtz1lTAx+xTIh2YulZktSYe3xrZemau46Mkv
+	 N7AiMVsYKLCEm3wICBEOKs4dA88SC/m+qzA6NYepajc2kgqQQl3CSUl2G2fwjmGXKd
+	 CIrrlA05s8fYipRvGsEqzjY7LVP/IQOaaM6o+YP8O5pHRyLHnxzaXFz3pDIbnF06KN
+	 RmgIxpfR1u1B+xpYlJCl/QDqI+hYgLgNg3/HZ2CyuCBmfnQyiFt9EuWc3DDnnYY7Lc
+	 OI0juRPwYajYYc/WyhQTvWEUqIiZO+UpJGvHPerjB/130lftiIZnyrlT32KjI5fKef
+	 jM406g3PltXPg==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a2c77c62d7so12011149e87.0
+        for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 01:07:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8VwrYtMBAn9ihgaFE9kI8EkqAOlRkl6Q3MFpN7jWF4vjCzsoYXfJbLgAbJVehmY9d9ndFljQYDNTio+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YySUFhiK0szQEk3TI0WBD6YGg7uUAukL4jO17mI8cjYagxS6PjC
+	GE1jxgbkmc9BNuNtvNWAiXKWOZ4m7T/QQJ5M6I9UZM/Cfo6cXt4pMBlCfBL1zDKifUzg8eGm5VW
+	oIpS2Ma41jiLlIM61f7nDcjn0vRzDJBkvAFlzshS8Jg==
+X-Received: by 2002:ac2:5083:0:b0:5a7:470c:daef with SMTP id
+ 2adb3069b0e04-5a7470cdb7amr367300e87.14.1777363633435; Tue, 28 Apr 2026
+ 01:07:13 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 28 Apr 2026 01:07:11 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 28 Apr 2026 01:07:11 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260427144338.3436940-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wCHTwYkavBpamoNCQ--.34861S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7CFyUJFykKw4fJr47WF18Grg_yoW8Zrykpr
-	yUua4rK39xKayI9F4xKr1xC3WFkFWruFW5C3ykK3WYvr45JF18Wa4qq34UtayfC39YkF17
-	ZF42q34UJFW5ZFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ztYLJbUUUUU=
-X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbCvwU6iWnwaiX5wgAA3k
+References: <20260427144338.3436940-1-arnd@kernel.org>
+Date: Tue, 28 Apr 2026 01:07:11 -0700
+X-Gmail-Original-Message-ID: <CAMRc=Mf5DRfDNht-pDpdU5mT3XzWtKuVhyfK6EXE+9bdy=h1HA@mail.gmail.com>
+X-Gm-Features: AVHnY4IKg28r4rY_OTjHZiHO6OsvjVj2nMnj_y3oNdasfuWqri7U8txCSGLn2pQ
+Message-ID: <CAMRc=Mf5DRfDNht-pDpdU5mT3XzWtKuVhyfK6EXE+9bdy=h1HA@mail.gmail.com>
+Subject: Re: [PATCH] x86/olpc: select GPIOLIB_LEGACY
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, "H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: wangdicheng <wangdicheng@kylinos.cn>
+On Mon, 27 Apr 2026 16:43:05 +0200, Arnd Bergmann <arnd@kernel.org> said:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The OLPC GPIO controller sets up a fixed number space that is used
+> by at least two drivers:
+>
+> arch/x86/platform/olpc/olpc-xo1-sci.c: In function 'setup_ec_sci':
+> arch/x86/platform/olpc/olpc-xo1-sci.c:358:13: error: implicit declaration of function 'gpio_request' [-Wimplicit-function-declaration]
+>   358 |         r = gpio_request(OLPC_GPIO_ECSCI, "OLPC-ECSCI");
+>       |             ^~~~~~~~~~~~
+> sound/pci/cs5535audio/cs5535audio_olpc.c: In function 'olpc_analog_input':
+> sound/pci/cs5535audio/cs5535audio_olpc.c:41:9: error: implicit declaration of function 'gpio_set_value'; did you mean 'gpiod_set_value'? [-Wimplicit-function-declaration]
+>    41 |         gpio_set_value(OLPC_GPIO_MIC_AC, on);
+>
+> Select CONFIG_GPIOLIB_LEGACY for this platform and make sure the
+> sound driver portion cannot be compiled without this.
+>
+> Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
 
-In cx_probe(), the return value of snd_hda_jack_detect_enable_callback()
-is ignored. This function returns a pointer, and if it fails (e.g., due
-to memory allocation failure), it returns an error pointer which must
-be checked using IS_ERR().
-
-If the registration fails, the driver continues to probe, but the jack
-detection callback will not be registered. This can lead to a kernel
-crash later when the driver attempts to handle jack events or accesses
-the uninitialized structure.
-
-Check the return value using IS_ERR() and propagate the error via
-PTR_ERR() to the probe caller.
-
-Fixes: 7aeb25908648 ("ALSA: hda/conexant: Fix headset auto detect fail in cx8070 and SN6140")
-Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
----
-v1 -> v2:
-Use IS_ERR() and PTR_ERR() to handle pointer return value.
-Add Fixes tag.
-
- sound/hda/codecs/conexant.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
-index 3a9717df39b4..e3b6aaabe3a9 100644
---- a/sound/hda/codecs/conexant.c
-+++ b/sound/hda/codecs/conexant.c
-@@ -1175,6 +1175,7 @@ static void add_cx5051_fake_mutes(struct hda_codec *codec)
- static int cx_probe(struct hda_codec *codec, const struct hda_device_id *id)
- {
- 	struct conexant_spec *spec;
-+	struct hda_jack_callback *callback;
- 	int err;
- 
- 	codec_info(codec, "%s: BIOS auto-probing.\n", codec->core.chip_name);
-@@ -1190,7 +1191,12 @@ static int cx_probe(struct hda_codec *codec, const struct hda_device_id *id)
- 	case 0x14f11f86:
- 	case 0x14f11f87:
- 		spec->is_cx11880_sn6140 = true;
--		snd_hda_jack_detect_enable_callback(codec, 0x19, cx_update_headset_mic_vref);
-+		callback = snd_hda_jack_detect_enable_callback(codec, 0x19,
-+				cx_update_headset_mic_vref);
-+		if (IS_ERR(callback)) {
-+			err = PTR_ERR(callback);
-+			goto error;
-+		}
- 		break;
- 	}
- 
--- 
-2.25.1
-
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
