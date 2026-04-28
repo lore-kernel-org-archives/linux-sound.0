@@ -1,140 +1,124 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F5A4279E7;
-	Tue, 28 Apr 2026 13:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D254A37BE60
+	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 14:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777384654; cv=none; b=lG9+RZ/WVJPF0W1JDamOl4vwPbB6woJ+tVbF+hZabbYqCNx4MDqa8qDJTUojDY1uq96lQO88sVXBrDqD9JzPnCKcCmsurfGmWmcf5Jg+Jk87YoU5OWsgZf9sJm5b1cgJR9n2kwbFyoTIXqQKQLCzRVerE0u643E8fIezpkWRC+Q=
+	t=1777386956; cv=none; b=f2+ONgJz8bD+sbk6fNRacRSX0Ivyhn641dmq8+TpCO/lmhAPNky6s/88mhrtMUAUitjkRwMOQ9BXLuqoaEoz953orkFPr4AYheWMohNj4oBzt5vuyHcpi8AWj0v3i8DPiFJDon33VTKXrV1Jk8Tcre4JKKRoMJ/T78dSv5PT524=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777384654; c=relaxed/simple;
-	bh=q3Hl1nVOQfRhHn+cDPDtpnSNAOnm1kFaAMCoY31NU5M=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=iLgqRJRzehho7VFHLR0jwDoNOHXAP3UM+6W4uYVo1ClMlx3lzwKAYYkEDFSW2/2SZ86xZODKdu0SCpm4cPxOtSh/iZVYn4/RTnCIhCLIyntUzdoMMee64uSpTpM/49keLD3SnM2dsaU3+y4P8bn/PEfXmVeXq1UN1XoV2JiVHOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=DOOlaxgR; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SnSWHZLE; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1777386956; c=relaxed/simple;
+	bh=ULXCE/DINPDcPZJLLNwFuv60Sr/9WbWueODASFxRFj4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Su3v1Ofrt5yAAkm5aW9H3HaK1Fq+kMj7GWAnfHLYRINfcBOp/zIAmmcdFP0bUdvMQ8N+6LWZEXoQeGmtpBdZQNFqRpFeXcequUmrY9YkTp2fP36jyPwY/ZEP1wGst+Oyl8Mh7sW7VIcBy8hp1f6dfCkU+5eiVy9qiKJiqE4Sg+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wo8hxx2G; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="DOOlaxgR";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SnSWHZLE"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id A404B1400039;
-	Tue, 28 Apr 2026 09:57:31 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Tue, 28 Apr 2026 09:57:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1777384651;
-	 x=1777471051; bh=1hWRIKHI9M656vUhaN9NG60ADnGaNgrqoehuR4bNgXY=; b=
-	DOOlaxgRSwg0rX5ZGLTnok42M/ajAjpKWD5wJV3NRNtuYLORA00EcUezLB4STeED
-	iYy24WBkoAJhPjW41NX9Ay1DFreTSKrBt5A5FXdA3klkySNTCp1+InuhgUqUwLTC
-	t8Sbf3KmwUCk6nOynlAPpSdXLpdcWMjDePFB2LlMIzCZV9cI5TrqtnFJZIUD52nY
-	MaTtpaoocXORn6E+6GRimw3xFua8Y0fpDvRKoW0xdVWElgr/SQRFan13OP5KKAqn
-	Xx7VIA9rRaby8iydvpWLm0Jmc2KJ5qgc2ptmI7GkTZHnE3ibHcSZO5eqMHdiuGva
-	2xUev/PekMG+FrIFPdffxQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777384651; x=
-	1777471051; bh=1hWRIKHI9M656vUhaN9NG60ADnGaNgrqoehuR4bNgXY=; b=S
-	nSWHZLE0N7L06ZClwiH144Iaym4iicUffXq/ug2k+IyiRlTCLRLggTYVM1Z49Cj1
-	1ysfZxHIBD02uQs2PkC7iL/QCUfeMP+Dkqer3tN+r2Gnf/sb83jSD477FNhNJ+Zz
-	uPlzatetnbkobIWn9pcuoHHQeg11TlkTmK0YsIMERPpk06/jB/fFCNf47NGyws/6
-	/x74fDdLiUwBfkFwmdLVDFX4009iZnwXHng37j+0yjomzAs6VWAxC3yPoGWD63SD
-	QYMnm+wfCG24pYmAvwfzelUvzYcBmB48nd1xmOrSp58PbIULmulb83yE3kjI1Ogj
-	TAOvxR4fsmFiSWfqEcV3g==
-X-ME-Sender: <xms:ybzwaTKrXmX9PFG9a0hX3yEo8I0fSHEZeLYqePqPI10EkRZlKe2nWQ>
-    <xme:ybzwaR-kxECdpBQ8kLnb19CxVcEbm_WLqsF89M41p_7Lb0xNO0xFIqTE2UsiDzudJ
-    7dqsRzhpDjtCT2IAUGE1wXCn2JkH9u76tgddbkh_uZufvvnfUu1ATc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekudejgecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdetrhhnugcu
-    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
-    hnpedvhfdvkeeuudevfffftefgvdevfedvleehvddvgeejvdefhedtgeegveehfeeljeen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
-    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopedvtddpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtohepsghpsegrlhhivghnkedruggvpdhrtghpthhtohepphgvthgvrhiise
-    hinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopegsrhhglheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
-    hushifsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtghhlgieskhgvrhhnvghlrdho
-    rhhgpdhrtghpthhtohepgiekieeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepqhhuoh
-    iilheslhgrphhtohhprdhorhhgpdhrtghpthhtohepuggrvhgvrdhhrghnshgvnheslhhi
-    nhhugidrihhnthgvlhdrtghomh
-X-ME-Proxy: <xmx:ybzwadCrAm-6CfkGElUwNJoqeTRwjppT8SCZ7Z7l5RQso9L0OpRIlQ>
-    <xmx:ybzwab67TjhJL8-F-ksR3RFATYiDVZRkHxB2_g3o9QVDFD5BrMaC5g>
-    <xmx:ybzwaZuxFAyqjuf2sFVIbK0FthUjzQxq69hZLcDo35cPRAAu-sWZFw>
-    <xmx:ybzwaTySFn_EMyneJb3z93jmA1TELmjFAy1ONrXY6IWYS2AQoCYZhQ>
-    <xmx:y7zwaaGVrsnYAEyiaJiMtEipZ_5dtBnLhjl06XkanYJ3G1uanQvLKk53>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 933F7700065; Tue, 28 Apr 2026 09:57:29 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wo8hxx2G"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c76bde70ec9so4640907a12.2
+        for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 07:35:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777386953; x=1777991753; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3TbURgcn4892JYCU7p3QwlNvRYpU8IqpPWAeAR1LEww=;
+        b=Wo8hxx2Gj120yzPFkAxlIC0CXNDdralwhXlub8ZqhrkeEXEdiLifNwDQp1kEQ3iGaf
+         CfFzYZsIfZDY3BI16NJq06hfccfNVbUmM6p7FDndZgba5tJPYyYL3+o2/yfckI4kWwyR
+         3LhYb7FqJfdKInpxOK1DFeHN73ZlgwI2Y+uZ5UhLaxvm4XtKOdHXUFr7Ce/AWt5pRSYy
+         tEmS6RwMXyBiKhU9kNO8uQn8LgFYrQ5Ge7O1dMfVrgiBfBTrYv6VLspnp/VuxLwm1YNA
+         zXEpZXZtbwjwMGXYEJrcfK1ktCTh5PNqm8G3IxUJ0jH8ZW1fK7Bhot1XRb5nQrBxrH44
+         CCZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777386953; x=1777991753;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3TbURgcn4892JYCU7p3QwlNvRYpU8IqpPWAeAR1LEww=;
+        b=gVEM1QIsd9QkYQf59E2MHUi1xbOviV/el2g1v+U/4+i+RGrFNQsVo1P/iiJKuHLbq4
+         uMnAyXX2l4AFj1xH5oueLsmqWVoHWO2ay4LFKZwz5cPKsW+MVN109nPdLJUW+tNCDZBS
+         tZVY311WasSuSKUykV4o47wtcWtjDboX/hmgeff0QrPtjMGXZSBBaucXlIYIglqMpIR/
+         uciGok+tdz0cja8zuVkZPt61D+5b2u4VFUch3P5hEYe2J+tp6C9oVQMHgbGkVifr5wZ3
+         nt6HsI8G4pW0+nMCy/oBPQBj1gGMA9K1rPqaNXGrVJdkvNZDMcqbK9UF4lucb+RnlSx+
+         TQwg==
+X-Forwarded-Encrypted: i=1; AFNElJ/KNMMS/tISkre0lCgRYhGt8N8FDz0aNA++hbTaNu0rLxBoyI4N9OPXslkhZ0sskqFOYLNy1MMqt87wlA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyl/vFP+Fg0nNndKF2H+gP5LbdWaNbm2Vx9scWHH2hZV8u/37Wh
+	crz7Fq2vBCqX1r1sw/wW+aRcz8ZAQiVzg/mu51OxLCPgPKohYGkYi4HqmAAMK9jfjqg=
+X-Gm-Gg: AeBDievPTczpLDVwg7qkZusZFXmWqshmEOHhtqZEflbYYuoJsNLZqEQaH9170QGpXdU
+	jL+dJNXUEtoutMUoTYV2rFCg2GGCD5ZNLpBeXXDrPrSb79JZ/9n4/Wscbl6Jy9/QmYuw+8BRBWj
+	2ZJA8Hbs9nJlG9U+vuU/vOlPgLi1G4JOcoFaPY9PU6eKxTTkyFSl7yDlDuvkR0HvmOUkdecCu8i
+	zsgGrGAc1bLJOcCde1p+B055G9bXoxQ2jpRLdJz/ieFDCe7e9jXeuuhW0drG8CXaRBVDfzdTQUt
+	IrD5fbswbbz3Fn6B5Fq6okeSDngNAyioauboKwAvwjfkPWVckNeK4vSniVbQfM2FC6SPDnEv8nw
+	NFqCwCf0W1ESGqJXoOdFFRuIyaj0MIrTYTFoSYmL6hLjQ8wJKG0G5Ch752A9db0i0JaipleQHDN
+	JcDkGtiY2nXs+g1JCplLSKxZYJndlJew6VDPO+anhcL7eHNLOZ/oTcSrzt0Lxyu5Gk0SoRRY0Lu
+	EARqgxUsaifGsci5gX3iZ+GS5HLEjIMCEL88vEaCSUOZSadc296WAz0O7/nSm0c
+X-Received: by 2002:a05:6a20:e212:b0:39f:216:f400 with SMTP id adf61e73a8af0-3a39c078403mr4405658637.14.1777386952949;
+        Tue, 28 Apr 2026 07:35:52 -0700 (PDT)
+Received: from abhinav-victus.tailde2db8.ts.net ([2401:4900:8938:3da0:d553:4c7:c6e7:70ae])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7fc33d8c29sm3689181a12.26.2026.04.28.07.35.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2026 07:35:52 -0700 (PDT)
+From: Abhinav Mahadevan <abhi220204@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Abhinav Mahadevan <abhi220204@gmail.com>
+Subject: [PATCH v3] ALSA: usb-audio: Add quirk for PreSonus AudioBox USB
+Date: Tue, 28 Apr 2026 20:03:38 +0530
+Message-ID: <20260428143527.5453-1-abhi220204@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260410143335.5974-1-abhi220204@gmail.com>
+References: <20260410143335.5974-1-abhi220204@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: ATt-TkTEJJAR
-Date: Tue, 28 Apr 2026 15:56:49 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Linus Walleij" <linusw@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
-Cc: "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- "Bartosz Golaszewski" <brgl@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
- "Peter Zijlstra" <peterz@infradead.org>, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- "James Cameron" <quozl@us.netrek.org>, "James Cameron" <quozl@laptop.org>,
- linux-geode@lists.infradead.org, "Andres Salomon" <dilinger@queued.net>,
- "Lubomir Rintel" <lkundrak@v3.sk>
-Message-Id: <63e9542f-c170-4361-9b2e-7fde8fc16da4@app.fastmail.com>
-In-Reply-To: 
- <CAD++jLm951WUzBVWa4QakOBuLQy+HQOD0SwQ7tHEuPkM=j3XGw@mail.gmail.com>
-References: <20260427144338.3436940-1-arnd@kernel.org>
- <CAD++jLm951WUzBVWa4QakOBuLQy+HQOD0SwQ7tHEuPkM=j3XGw@mail.gmail.com>
-Subject: Re: [PATCH] x86/olpc: select GPIOLIB_LEGACY
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 27, 2026, at 22:13, Linus Walleij wrote:
-> On Mon, Apr 27, 2026 at 4:43=E2=80=AFPM Arnd Bergmann <arnd@kernel.org=
-> wrote:
->> Select CONFIG_GPIOLIB_LEGACY for this platform and make sure the
->> sound driver portion cannot be compiled without this.
->>
->> Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
->> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->
-> Reviewed-by: Linus Walleij <linusw@kernel.org>
->
-> I started to try to fix up this driver but it's such a mess. I feel
-> the OLPC XO1 support needs to be deleted unless someone
-> steps up to actually test and maintain it.
+The PreSonus AudioBox USB (0x194f:0x0301) only advertises S24_3LE
+for both playback and capture interfaces. Add an explicit entry to
+the quirks table to ensure correct format handling for this device.
 
-I understand where you're coming from: the machine was certainly
-never really nice and was already quite underpowered 20 years ago,
-Pretty much any distro that used to support it has stopped
-years ago.
+Fixes: 099cce2b5 ("ALSA: usb-audio: Add quirk for PreSonus AudioBox USB")
+Signed-off-by: Abhinav Mahadevan <abhi220204@gmail.com>
+---
 
-On the other hand, even the XO-1 was widely shipped to both users
-and developers, super durable, and influential. There are a handful
-of other upstream board files for the SCx200/Geode family, but this
-is probably the most common one by far.
+v3: Update patch description to accurately reflect the change
+(adding a quirks table entry, not fixing format negotiation).
+Add Fixes tag referencing the original commit.
 
-I see that the display controller driver (olpc_dcon) was removed
-two years ago after being broken for years. It was first
-removed in 2016 but restored immediately as there were still
-users at the time.
+v2: Fix placement - entry was incorrectly inside a #if 0 disabled
+block. Moved to after the #endif /* disabled */.
 
-I've added Andres Salomon, James Cameron and Lubomir Rintel
-to Cc, they may have more information about who is still using
-XO-1, and if anyone is still updating kernels.
+ sound/usb/quirks-table.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-       Arnd
+diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+index 803e03d4d..4e9cfff40 100644
+--- a/sound/usb/quirks-table.h
++++ b/sound/usb/quirks-table.h
+@@ -2652,6 +2652,9 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+ 		}
+ 	}
+ },
++
++#endif /* disabled */
++
+ {
+ 	/*
+ 	 * The AudioBox USB advertises S24_3LE as the only supported format
+@@ -2700,7 +2703,6 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+ 		}
+ 	}
+ },
+-#endif /* disabled */
+ 
+ {
+ 	/*
+-- 
+2.43.0
+
