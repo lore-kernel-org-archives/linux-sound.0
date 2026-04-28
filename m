@@ -1,56 +1,63 @@
-Received: from cse.ust.hk (cssvr7.cse.ust.hk [143.89.41.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7BC352C3C;
-	Tue, 28 Apr 2026 10:41:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=143.89.41.157
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777372875; cv=pass; b=X0pz7/sSr5MIj93gQrzsSrW63feQfRYm5LUHaUvKl7R7aObcOXUNdIw66eJ8o0y2J0y7xhjTfsVNHEFXg3ioITwo49NWYWzb3yhOczG0N6BNugWjN7sjq2BPmJz1atRHJNUNwgB4TN7rJP1+bG2OGPB0xihHXcAkznZ2R1NdipI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777372875; c=relaxed/simple;
-	bh=GS1hS/8peRnuuD17RTQ+cDFo7pzYqWQZE43VZsYVZRY=;
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D44FE3E639B;
+	Tue, 28 Apr 2026 11:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.228.1.57
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777375287; cv=none; b=rsLv5ksg+pZccawDdmqPDJtrde+qLU4mI+UjlpegBcAMMWRV+pcpyRQdnHPCcQR4zxv9unPXU9QkuPaQjm7B8GoMYylO7ATav9HNfdZZLS3ZV2quCKKN36PvemkmRjlawVOQjlR6tHRs3rWhre5HFI2q9XrRRcFu0VMUyBaPZMw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777375287; c=relaxed/simple;
+	bh=5DkX/L9B3d/cRrLHprvgAdk9AfWqqBG9xKTQLL8w4bk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S8ZUUQpNyLp0NW41qoagkLJBICJJvg7tKA9AOFWfWqYp71xPTBcKNeSLv5DOhJ/rpVp9GPJw0X9bRRUrxRB0bAFTqquyJghkeoEV3QkFMGj9Xw3gHcQ+ufMlea0D/KULglwaumF1ndlQanUeYveo6xrv1oHr1SVmUi+mQSkfrEQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.ust.hk; spf=pass smtp.mailfrom=cse.ust.hk; dkim=pass (1024-bit key) header.d=cse.ust.hk header.i=@cse.ust.hk header.b=iIpi8sxM; arc=pass smtp.client-ip=143.89.41.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cse.ust.hk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cse.ust.hk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cse.ust.hk header.i=@cse.ust.hk header.b="iIpi8sxM"
-ARC-Seal: i=1; d=cse.ust.hk; s=arccse; a=rsa-sha256; cv=none; t=1777372856;
-	b=KlCUN8cxGtNYC1tl50gJ57HcEwKrdGaosDrV0qV44Yh5w7u8mVPNIVC1lGiCEErkGUrz
-	 8NgbwHc3ytPjXgRY2TE3Kjdw/uKxBHEn+5XNhr+mbDaUy/slodQOr4u7N2sJLaWhXn99T
-	 jwkPAcuIFQP+kPfqkW2/QBbH8FbZojZYmg=
-ARC-Message-Signature: i=1; d=cse.ust.hk; s=arccse; a=rsa-sha256;
-	c=relaxed/relaxed; t=1777372856;
-	h=DKIM-Signature:Date:From:To:Subject:Message-ID:MIME-Version;
-	bh=Ccz1qwmSFsGa6gBIsc9RuWdnuMW3Km1n7RJgmdjGwUM=;
-	b=hHvhI4qlY0FOeHLUMaN+UzkVzM3K/leD5GieiBx5XYuBIABjhsEoAl4gjXxySYsD2lw8
-	 rViFOWeZzPAsDO44YEnxPFDK3/LJjJx2tfgIYFDtyyemdsKkfEmKbVDKOE/FnAM26aeMd
-	 vWy7zAAUynRglcPTjS185whrqXPH9luh/w=
-ARC-Authentication-Results: i=1; cse.ust.hk; arc=none smtp.remote-ip=143.89.191.45
-Received: from chcpu16 (191host045.mobilenet.cse.ust.hk [143.89.191.45])
-	(authenticated bits=0)
-	by cse.ust.hk (8.18.1/8.12.5) with ESMTPSA id 63SAenie3291243
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 28 Apr 2026 18:40:55 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cse.ust.hk;
-	s=cseusthk; t=1777372856;
-	bh=Ccz1qwmSFsGa6gBIsc9RuWdnuMW3Km1n7RJgmdjGwUM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iIpi8sxMMwMv/aEFpw3SJTScj4wJ7QQwWY+GGD7L9ARDfMnlQLal2ig7Dv4uF4WOz
-	 8tc6k/MqM8DWoqfqNpQiGDL+5IkF9/XxRykv5I9nhHa5u7Nm0dAQV0VatcwNfffoij
-	 uv0NMc785Ojrjl+9n2aYm2aifdgJrJ3w/Q93EDCw=
-Date: Tue, 28 Apr 2026 18:40:44 +0800
-From: Shuhao Fu <sfual@cse.ust.hk>
-To: David Rhodes <david.rhodes@cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] ALSA: hda: cs35l56: Put ACPI device after setting
- companion
-Message-ID: <20260428104044.GA1898666@chcpu16>
-References: <20260428074415.GA1632446@chcpu16>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ifTVo8zGagZ/MdjS/wuYsnorXKSpevC5JrwBnXijCGbLDkP4n0uhlrMnDm5YbFML5zbc/ed6U1ZpueaIm5J+BoI9Q68K4BirJZ1cHKBEdd09J0VmkeuTJuvVmAyjq1vl2EUPTwOpOaF/9cyCGZ3sr9duv3ZqHA/bN7RVjE4yzSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.crashing.org; spf=pass smtp.mailfrom=kernel.crashing.org; arc=none smtp.client-ip=63.228.1.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.crashing.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.crashing.org
+Received: from gate.crashing.org (localhost [127.0.0.1])
+	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 63SBKIxF1057213;
+	Tue, 28 Apr 2026 06:20:18 -0500
+Received: (from segher@localhost)
+	by gate.crashing.org (8.18.1/8.18.1/Submit) id 63SBKHXo1057211;
+	Tue, 28 Apr 2026 06:20:17 -0500
+X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
+Date: Tue, 28 Apr 2026 06:20:17 -0500
+From: Segher Boessenkool <segher@kernel.crashing.org>
+To: Yury Norov <ynorov@nvidia.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+        "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Laight <david.laight.linux@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org,
+        Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+        dmaengine@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-fsi@lists.ozlabs.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org,
+        ocfs2-devel@lists.linux.dev, bpf@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-mm@kvack.org,
+        linux-x25@vger.kernel.org, rust-for-linux@vger.kernel.org,
+        linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org,
+        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@vger.kernel.org,
+        linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-arch@vger.kernel.org
+Subject: Re: [RFC PATCH v1 7/9] x86: Add unsafe_copy_from_user()
+Message-ID: <afCX8WlnEFUei1y6@gate>
+References: <cover.1777306795.git.chleroy@kernel.org>
+ <0ee46bb228d97163fbdc14f2a7c52b93d8bc34ce.1777306795.git.chleroy@kernel.org>
+ <ae-j2_QirCySZD02@yury>
+ <63a4d0f6-0eb3-48cd-9f98-bf7b223b2606@kernel.org>
+ <ae-2yLWSGnfeTvh1@yury>
+ <CAHk-=wgPrLy0FR3sEWBYQuNAac1axDASYMnTuPuxEU0WytzL7w@mail.gmail.com>
+ <ae_jeJLlVWjJ4sOY@yury>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,68 +66,43 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260428074415.GA1632446@chcpu16>
-X-Env-From: sfual
+In-Reply-To: <ae_jeJLlVWjJ4sOY@yury>
 
-Hi Richard,
+Hi!
 
-> Are you sure about this?
-> I remember when I wrote this code I checked the driver core and saw that
-> if there is a companion it puts it when the driver is removed.
-> That is why I didn't put the reference here, it would have caused a
-> double put.
+On Mon, Apr 27, 2026 at 06:30:16PM -0400, Yury Norov wrote:
+> On Mon, Apr 27, 2026 at 02:52:05PM -0700, Linus Torvalds wrote:
+> > On Mon, 27 Apr 2026 at 12:19, Yury Norov <ynorov@nvidia.com> wrote:
+> > >
+> > > This is what Linus said when added x86 implementation for copy_from_user()
+> > > in c512c69187197:
+> > 
+> > Note that some things have happily changed in the six+ years since...
+> > 
+> > >   That's partly because we have no current users of it, but also partly
+> > >   because the copy_from_user() case is slightly different and cannot
+> > >   efficiently be implemented in terms of a unsafe_get_user() loop (because
+> > >   gcc can't do asm goto with outputs).
+> > 
+> > now everybody can do asm goto with outputs.
+> > 
+> > Yes, it's disabled on older versions, so it's not *always* available,
+> > but all modern versions do it. And if you care about performance, you
+> > won't be using an old compiler.
+> 
+> The minimal GCC version is 8.1, and asm goto with outputs is supported
+> since GCC-11. That would brake the build, if we just switch to using it
+> without "CC_IS_GCC && (GCC_VERSION >= 110100)" guard.
+> 
+> Is it worth to maintain 2 version of the function? I don't know...
 
-I may well be missing something here. But from my reading of the current
-code, it does not seem to cause a double put.
+GCC 11 was released five years and a day ago.  The last GCC 11 release
+(that of 11.5) is not even two years ago though (but there will be no
+more!)
 
-The place where I do seem to find ACPI companion cleanup is when the device 
-object itself is deleted/unregistered:
+So it would be not conservative at all to require GCC 11 as minimum now,
+some people might even call it a bit aggressive.  But in a year (or
+maybe two) the lay of the land will be rather different.
 
-  `device_del()`
-    -> `device_platform_notify_remove()`
-    -> `acpi_device_notify_remove()`
-    -> `acpi_unbind_one()`
 
-What makes me think this is not the matching put for
-`acpi_dev_get_first_match_dev()` is that `acpi_unbind_one()` only calls
-`acpi_dev_put()` after it finds a matching entry for the device in
-`acpi_dev->physical_node_list`.
-
-As far as I can tell, that list entry is created by `acpi_bind_one()`, which
-also takes its own extra reference with `acpi_dev_get(acpi_dev)`. So the put
-in `acpi_unbind_one()` looks to me like it is paired with that
-`acpi_bind_one()` reference, rather than with the earlier
-`acpi_dev_get_first_match_dev()` lookup.
-
-If that reading is right, then I think the ownership looks like this:
-
-- `ACPI_COMPANION_SET()` only attaches the companion pointer/fwnode
-- the lookup reference from `acpi_dev_get_first_match_dev()` is still with
-  the caller
-- `acpi_dev_put(adev)` after `ACPI_COMPANION_SET()` balances only that
-  lookup reference
-- the later `acpi_unbind_one()` path would not be putting the same
-  reference again, because that put is for the separate ref taken by
-  `acpi_bind_one()`
-
-Part of why I leaned that way is that I found a couple of in-tree examples
-that seem to follow the same pattern:
-
-- `drivers/platform/x86/x86-android-tablets/core.c`
-  does `acpi_dev_get_first_match_dev()`, `ACPI_COMPANION_SET()`, then
-  `acpi_dev_put()`
-
-- `drivers/acpi/arm64/mpam.c`
-  does `acpi_dev_get_first_match_dev()`, `ACPI_COMPANION_SET()`, then
-  `acpi_dev_put()`
-
-So from my own understanding, those examples also seem to treat
-`ACPI_COMPANION_SET()` as not consuming the reference returned by
-`acpi_dev_get_first_match_dev()`.
-
-But this is only my reading of the current ownership flow, so if I am
-overlooking some rule around manually assigned companions I am happy to
-re-check.
-
-Best regards,
-Shuhao
+Segher
