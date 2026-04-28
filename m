@@ -1,242 +1,188 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D1113E867F
-	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 10:28:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9AC23504B
+	for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 10:32:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777372098; cv=none; b=rHXIthbE8szuOTd5neqv1BfAsAPS6TqRRBJXSACQTczu0mxG+ItVgUq29EvwXS/oN/yfZkep1HWo37YaE36D3wRR8HkouKar2HOtL6us18NPY+wySm1Pc460KLIh8bZ6VNA1LtqevLr739WKExEh+7bVrxLqOuSu0g82aSldXxM=
+	t=1777372340; cv=none; b=kaO9U09rIdK84/MD1P3WtZ3s1XY09eJmagDbjctEZFAI8L/cghMvQ//0CnpmJo2/bg5fSejT94XdscAVJLT9hZGi4K/QLN1ll7NTDp3IkAmt+GGI8TpozAP8M6HI+fRZ8MumfLDmgEIawrMp3+AU8pV6GwNJUn27ztXeabK7/XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777372098; c=relaxed/simple;
-	bh=Hjg+kOiaavIfwq7sMMzz0vJKqeEtWEB04zXlfhi8Fpw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OPYSdFfwJpzNQUAaqsyDdsUWqPvDqX5iLSpkPxjFWEvuLqiVyxqNBPpccZoXcJqjRMqo810eDFAbHr8tvFYkLX9dTdFLuZkp4OEKMhyPCIOhOb9u6/F0SM+BGFu5KjikrG/ojMbltwRomOMaoTvVV0sxb2ISfSJqsPXbJyK/LD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a2JhIdsr; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1777372340; c=relaxed/simple;
+	bh=UG+AWWYF8+8wcJMCUjbTFh4VwOPAlhF8FZLDzvsNMAg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Nzk+T6GK4jA0UlTtdJBQ6ZAZog4kwRY1dmXOb1qHRVjao4EVXw1AX2/+sCoyHhy0mXjlQenYPgybg8oAC6gXsliWD+jS2/wvP/mZyKwPzjIKBJ5U++Aa/9JxNOyM4kB2h88WQf6ejMKjjUcAsVaR+bTmgd+RPDPsG+RcOGfM9m8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a2JhIdsr"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-7bb0d18c7f9so67518427b3.0
-        for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 03:28:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777372096; x=1777976896; darn=vger.kernel.org;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Hjg+kOiaavIfwq7sMMzz0vJKqeEtWEB04zXlfhi8Fpw=;
-        b=a2JhIdsrEU3xOWKXB7Oj+w2u8u2yMMLNhIME3XRaFfwvh2W0RLKB5ZoGvjkrD0ILaG
-         Osm+sDjnxKkCrhYgtJSxKpnPXhT7vGODx+I/wjsdqtCps6iOsYNAzouGTRB//UbwKdAc
-         trCptQvQWvmpmuP4eAFJWa1BDTDkxx7NlUCNa3Kbz72WSxcyZ3ZrfUokie7ACWVvgE1F
-         Wchg0bDnkc/oxcLF9YsWPjRdY0EyH+z4U7S1m51/51Nf3GwC8oQaDVcsQ9jUImJXbzTJ
-         muMHO2Pxs/fzUx1AOpctKFtFosqPpAtpONDZ2e4zkgVedRDxD8gagt+IGevVPWopqoSk
-         Y/KQ==
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-56eee0ba462so6819189e0c.1
+        for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 03:32:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777372096; x=1777976896;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Hjg+kOiaavIfwq7sMMzz0vJKqeEtWEB04zXlfhi8Fpw=;
-        b=UlcQDKrA0W0qzD3WLK2yq6MX30K5e35K5WVQ9Usfcx2FiL6ar44eFl0G/J1RS7Q6q1
-         ZzaqFPfRhV+yvNthkIa8YS8JwcsY/Ldwn+XB1HTscisUxSxTiYh8YbGSg91SPvedoMHW
-         ZxyoNUcpJ32AafRoIWmITwTmr+NKtnIsfrGOzgMqmdpirBDbBdvnpJAGHBuRBxnKeZQo
-         M4x3PQ1JvJDcLQ1EVWLsCgS6K7orf5sprDW8RZqnKnDYKfNy3gIHCeGIIH6UxGcYFBWA
-         0DVC/ZKxhkl8ZMMFbr1lRgl3pHJ1PN8aqVsFz2pKkrV2EhpYZ7tVdMdm7F250TtMNUfh
-         wFBg==
-X-Forwarded-Encrypted: i=1; AFNElJ8p6CBMsFnPqltFIK559GgXfUx+kTjUhQIget96FuKCENHGPNl9FaNfOAen69uBMCJ1n7Lf5xtTZ1OBGg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1yOsFK/bZbLM+DOrNpBWxbowtX/GqjrXOts+Olvwk9s0LRelK
-	HlBVS0vd2z8IH8VonJPV3nxdQj7i0mg+kLPUrTQLXl0vCl1mJDmre3QO
-X-Gm-Gg: AeBDiesThXSlYF4a/ve7ZvqcxWTERroLGviShmn0mSJxWtApc3NT/JfPOpI6FOLs46A
-	0TQNyFlabqSUax7JEFHqNZ9cDLekD0wUqlgvgzPlk+866D4Y+E2p0YahpHIfA6F5cxpGS9wr4Uc
-	MbHzVDJ6sWlCryuQy2oF4W+xPQpgJn8hyyPuFYya7W6ai9fKKWGqETEO3D0m6KaHhl8BqqUmJie
-	LBqI3D9MgNNRvtmbjeBHTHk8d5qNYGW6XcKhpd5gWaHCSUAb/qNQ2i4ms53e6cpxejNbP0F9tra
-	+w6UbI8PKynrlnis/oZazSaXjZef0a5dRurLsv0o+ccX4YcHWGiHYHeH5wRokZWqQlwYfruztYb
-	44oz8SHh91Cxgamk6WBr4/4KFcrcgJs3QN08W+NWEItJxMpKhz8bS/eIyn21XL3M84mAjtb6NwZ
-	TfErg5rNERmgeLFG2lr0trz5/yFsvN/tkiM9p1JajmyOfOfwinf7NjZYgBqrIogtMhY0uP6Y4Hn
-	ZAac///+4k=
-X-Received: by 2002:a05:690c:110:b0:7a2:1f26:3d6a with SMTP id 00721157ae682-7bcf58b5769mr22319267b3.45.1777372096127;
-        Tue, 28 Apr 2026 03:28:16 -0700 (PDT)
-Received: from [192.168.1.8] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7bcf0d46735sm14384797b3.49.2026.04.28.03.28.10
+        d=1e100.net; s=20251104; t=1777372338; x=1777977138;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yX0h1Y9Mkq6p8qHdHFJchBdDb8mSjHkwiA1G/+/zjKk=;
+        b=R32AMQJ/sRQus60g5pMCFpTz3oocxQ1keNle9O0+cxZSK7jAZjF+naDGfMOJvyBLi5
+         jCnl7yA953sidgSYiodKd83fdDssBfoMSEFje1jPiQ1jrwnJEIB40ledXoWarAQXruhO
+         F/eQ7hLJjQJ64rfmqzXvy2Chv71LPQNsnEVYFpYs4foeNFPugkS/io3NZBzNpzpWzkwI
+         +CfsurEWj0afB7b//A3Qh1t8ksNdKihJ0a/l5BMMD++ClDxBVoqDVsLHGsSie2DMZ1Hc
+         t7lyEIwWizncz4e0WWgw7ASBR21xIsh2mZvG2Yj6/EJ6DbAQOyGqzlNTtnAjsDkyfPF4
+         Fa7g==
+X-Forwarded-Encrypted: i=1; AFNElJ+8EA60Q88KcBlVbO2yrDH+81FDo6IQRCdw2ksCR6Wx58lswguTuozVWWSCfk0IOBDCfUg/R6EU6a5EEQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIMokCJxwamdzhb9G7WrYMnsj2WE2U4bizYqPtjt5fLjxgedhg
+	HCCRs48X1FyAGkUDUltvyq1hOamsm2v4yAb5W3WNz28hVNqrSp3Vikm5rcjN3eA1kQA=
+X-Gm-Gg: AeBDiesA0mM+FNPulCVCEkqy8+c+I+0lMDxqr9mqeyXdXAOUNZVragZcDD2Kya8C4OW
+	3+rSjiPTLkGj0yxxnlfkLGh4OCh4HCM6qE4roPQ0U9r7+lkFdNfVRAp1UwpSk826mbKV1Fpu7PD
+	i6x45109q1SYXEv58nC87FedBHgzGJIVAlPdUPOJeaAXiRHZCw96J3341OE8k1I5gTZgm6Mgg7S
+	Rb+jePu0CLrzp1UyJoQOXWekvvMTO6LrAQgzcVExAkN29z7n1bC1yVClvPgDrbw77msoGCfI7Nt
+	v6e6K+t0xqbueL2E8B7g97ccrr4wIVHPSxhG22wgyOUemvBHa83A1D976vn2nBgvSpSSVT/zNbm
+	BjSzQ48pmApu6BG18tSaH+lN3rqhWO0onvqMAGi3Su8a4FoD/JY7XT4vT/7hIaMKbaw2kH26788
+	WpuA+JlOuJ5gSqovpl4yxC5weyb7hzip+wkqy5uwxj2qfB1E/w0eBRWxH+x0xR0o6fhRHZHas=
+X-Received: by 2002:a05:6122:219e:b0:56f:3b3b:eea with SMTP id 71dfb90a1353d-573a59f0232mr678194e0c.2.1777372338228;
+        Tue, 28 Apr 2026 03:32:18 -0700 (PDT)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-573a4338401sm1404195e0c.4.2026.04.28.03.32.18
+        for <linux-sound@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Apr 2026 03:28:15 -0700 (PDT)
-Message-ID: <d4d340ad-d181-4892-8f70-9b71f2cbef83@gmail.com>
-Date: Tue, 28 Apr 2026 07:28:08 -0300
+        Tue, 28 Apr 2026 03:32:18 -0700 (PDT)
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-6058a955e04so7229500137.0
+        for <linux-sound@vger.kernel.org>; Tue, 28 Apr 2026 03:32:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8EA6FNDSAvLK/NZkM73/pdOrS4iySGYkyHvY7TqXC53BFwGbULdMxuQQPPMsY7+7JIuh89t2Zg3NjRQw==@vger.kernel.org
+X-Received: by 2002:a05:6122:4b81:b0:56f:b831:909c with SMTP id
+ 71dfb90a1353d-573a54f6dd3mr738558e0c.1.1777371942065; Tue, 28 Apr 2026
+ 03:25:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: Intel: bytcr_wm5102: Fix MCLK leak on
- platform_clock_control error
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
- Liam Girdwood <liam.r.girdwood@linux.intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Hans de Goede <hansg@kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260427-bytcr-wm5102-mclk-leak-v1-1-02b96d08e99c@gmail.com>
- <CAHp75VdMEXag0oeRd620YJn5TpgqGy4YProDcR7EZE__cwwC2g@mail.gmail.com>
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-Content-Language: en-US
-In-Reply-To: <CAHp75VdMEXag0oeRd620YJn5TpgqGy4YProDcR7EZE__cwwC2g@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------5IseU3GI28pBUYA0j9xHaex3"
+References: <20260415124731.3684773-1-john.madieu.xa@bp.renesas.com> <20260415124731.3684773-15-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20260415124731.3684773-15-john.madieu.xa@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 28 Apr 2026 12:25:29 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWnZhUeY+498Ot4wCjRKM3YEpq9C1vcqbyKe=_Rt4O3Aw@mail.gmail.com>
+X-Gm-Features: AVHnY4JGBNGTte30b8cNYuVFq1Ftrjan7Mckgl-ml10MKOiPXuleAlM2Dd1l_54
+Message-ID: <CAMuHMdWnZhUeY+498Ot4wCjRKM3YEpq9C1vcqbyKe=_Rt4O3Aw@mail.gmail.com>
+Subject: Re: [PATCH v5 14/14] ASoC: rsnd: Add system suspend/resume support
+To: John Madieu <john.madieu@gmail.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, linux-sound@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, John Madieu <john.madieu.xa@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------5IseU3GI28pBUYA0j9xHaex3
-Content-Type: multipart/mixed; boundary="------------VjIIFNyuxZ1RadoyFxesJyvm";
- protected-headers="v1"
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
- Liam Girdwood <liam.r.girdwood@linux.intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Hans de Goede <hansg@kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Message-ID: <d4d340ad-d181-4892-8f70-9b71f2cbef83@gmail.com>
-Subject: Re: [PATCH] ASoC: Intel: bytcr_wm5102: Fix MCLK leak on
- platform_clock_control error
-References: <20260427-bytcr-wm5102-mclk-leak-v1-1-02b96d08e99c@gmail.com>
- <CAHp75VdMEXag0oeRd620YJn5TpgqGy4YProDcR7EZE__cwwC2g@mail.gmail.com>
-In-Reply-To: <CAHp75VdMEXag0oeRd620YJn5TpgqGy4YProDcR7EZE__cwwC2g@mail.gmail.com>
-Autocrypt-Gossip: addr=broonie@kernel.org; keydata=
- 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
-Autocrypt-Gossip: addr=perex@perex.cz; keydata=
- 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
+Hi John,
 
---------------VjIIFNyuxZ1RadoyFxesJyvm
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Wed, 15 Apr 2026 at 14:47, John Madieu <john.madieu@gmail.com> wrote:
+> Add per-module suspend/resume functions following the existing driver
+> architecture where each module manages its own resources in its own
+> file. core.c provides common clock/reset helpers and orchestrates the
+> calls in the correct order (reverse probe for suspend, probe order
+> for resume).
+>
+> Infrastructure clocks (ADG, audmacpp, SCU) are managed globally
+> using optional APIs to remain transparent to platforms that don't
+> specify these clocks/resets.
+>
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
-On 4/28/26 03:55, Andy Shevchenko wrote:
->=20
-> There are 6 drivers that do the same, why is only this one special?
-> Have you checked the flow on the error path of the caller of this
-> `platform_clock_control()`? Maybe there it calls with the opposite
-> event to shut the clock down?
->=20
-> TL;DR: If it's a real issue, it has to be fixed for all affected driver=
-s.
+Thanks for your patch!
 
-Yes, I'm going to check the other drivers.
+This causes a crash on Gray Hawk Single (R-Car V4M), but not on
+Salvator-XS (R-Car H3 ES2.0):
 
---=20
-Thanks,
-C=C3=A1ssio
+    Unable to handle kernel NULL pointer dereference at virtual
+address 0000000000000008
+    Mem abort info:
+      ESR = 0x0000000096000004
+      EC = 0x25: DABT (current EL), IL = 32 bits
+      SET = 0, FnV = 0
+      EA = 0, S1PTW = 0
+      FSC = 0x04: level 0 translation fault
+    Data abort info:
+      ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+      CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+      GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+    user pgtable: 4k pages, 48-bit VAs, pgdp=00000004879ed000
+    [0000000000000008] pgd=0000000000000000, p4d=0000000000000000
+    Internal error: Oops: 0000000096000004 [#1]  SMP
+    CPU: 0 UID: 0 PID: 675 Comm: s2idle Not tainted
+7.1.0-rc1-arm64-renesas-03756-g4cf47bc1e3d7 #3579 PREEMPT
+    Hardware name: Renesas Gray Hawk Single board based on r8a779h0 (DT)
+    pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+    pc : rsnd_src_suspend+0x60/0x98
+    lr : rsnd_suspend+0x44/0x6c
+    sp : ffff800082e03ab0
+    x29: ffff800082e03ab0 x28: ffff000444022ac0 x27: ffff8000817d9050
+    x26: 0000000000000002 x25: ffff80008073dd64 x24: ffff800080ab0b20
+    x23: 0000000000000000 x22: ffff0004408a84a0 x21: 0000000000000002
+    x20: ffff0004402d6e80 x19: ffff0004402d6e80 x18: 0000000000000000
+    x17: 003fffffffffffff x16: ffff800082d8bc18 x15: ffff0005bef86f00
+    x14: ffff000444022b40 x13: 0000000000000112 x12: 071c71c71c71c71c
+    x11: 00000000000000c0 x10: 00000000000009f0 x9 : ffff800082e03880
+    x8 : ffff000444022ac0 x7 : ffff0005bef86f80 x6 : 0000000000000000
+    x5 : 0000000000000084 x4 : ffff000444022ac0 x3 : 0000000000000000
+    x2 : ffff000444022ac0 x1 : 0000000000000000 x0 : 0000000000000000
+    Call trace:
+     rsnd_src_suspend+0x60/0x98 (P)
+     rsnd_suspend+0x44/0x6c
+     device_suspend+0x134/0x3d8
+     dpm_suspend+0x164/0x268
+     dpm_suspend_start+0x4c/0x64
+     suspend_devices_and_enter+0x1c8/0x544
+     pm_suspend+0x194/0x1e0
+     state_store+0x7c/0x100
+     kobj_attr_store+0x14/0x24
+     sysfs_kf_write+0x78/0x8c
+     kernfs_fop_write_iter+0x128/0x1d0
+     vfs_write+0x210/0x390
+     ksys_write+0x6c/0x100
+     __arm64_sys_write+0x18/0x20
+     invoke_syscall+0x50/0x104
+     el0_svc_common.constprop.0+0x3c/0xd4
+     do_el0_svc+0x18/0x20
+     el0_svc+0x24/0xd8
+     el0t_64_sync_handler+0x98/0xdc
+     el0t_64_sync+0x154/0x158
+    Code: 6b13001f 54ffff0c f94013f5 f9402e80 (f9400413)
+    ---[ end trace 0000000000000000 ]---
 
+> --- a/sound/soc/renesas/rcar/src.c
+> +++ b/sound/soc/renesas/rcar/src.c
+> @@ -848,3 +848,29 @@ void rsnd_src_remove(struct rsnd_priv *priv)
+>                 rsnd_mod_quit(rsnd_mod_get(src));
+>         }
+>  }
+> +
+> +void rsnd_src_suspend(struct rsnd_priv *priv)
+> +{
+> +       struct rsnd_src *src;
+> +       int i;
+> +
+> +       for_each_rsnd_src(src, priv, i)
+> +               rsnd_suspend_clk_reset(rsnd_mod_get(src)->clk,
+> +                                      rsnd_mod_get(src)->rstc);
+> +
+> +       clk_disable_unprepare(rsnd_priv_to_src_ctrl(priv)->scu_x2);
 
---------------VjIIFNyuxZ1RadoyFxesJyvm--
+Apparently rsnd_priv_to_src_ctrl(priv) is NULL.
 
---------------5IseU3GI28pBUYA0j9xHaex3
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+> +       clk_disable_unprepare(rsnd_priv_to_src_ctrl(priv)->scu);
+> +}
 
------BEGIN PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
-wnsEABYIACMWIQSrYqI5vIrg1X9eqEjQXT8aWv/ugwUCafCLuAUDAAAAAAAKCRDQXT8aWv/ug3YQ
-AP9314BDmxmF2YpG/usL3jvFl6bEIk4wQkfI2BEdFiwyMgD/VoDE4enrfCpjUyW8vjKv2ePwLpgu
-ax5Ez/GphBtz2Qs=
-=2gZs
------END PGP SIGNATURE-----
+                        Geert
 
---------------5IseU3GI28pBUYA0j9xHaex3--
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
