@@ -1,210 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F243D37E2FA;
-	Tue, 28 Apr 2026 22:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B899F38423B;
+	Tue, 28 Apr 2026 23:23:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777415982; cv=none; b=th46Vfre0NxOtXwo36iEB0FWveuLlBLsuGIehjUyRbedL05GssxHbqNV3Mb3oLWY91nE3jtz16kNLyiw1dM7/+7QJ2mUznOPFCGh3VGObXyW1iUdxebNWWPZnq4ajF5hXVEA8MgLQEKdyk9x1cn9H2e/lmkVbtQtgU/ivOXEyCA=
+	t=1777418599; cv=none; b=q2Fw9PQOqnYLW48Zcibcs5AY33MhsCHFmdjGSwxfAGICd4oUAMyJd3z/VMAwc8YEJXlNuZsQSU9IYih4ClD5HLtQF8+Kb6BNDRwySAt0AnjSflBpQ+Dl+Sdx8O6V4SUmBP5291dh1aXGkq5KjrSz7wZ5heXBFBcYTFKE7HAl/xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777415982; c=relaxed/simple;
-	bh=YRJ6BL8Njhn3bqwg3Jq7FwxiZ0pRzrVIFp2ySYSiHfU=;
+	s=arc-20240116; t=1777418599; c=relaxed/simple;
+	bh=9NUysSWG+x3PrA9tVI4rHEUrpj54nXczJIPdSwGQdak=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BqvB6V2npQCkgQqCtUqpUK14LzXO5I/tK4OwvglRoW+GkCb7EP34xUbyvZYRzdeJR4MtmkiIGZa5txRBZxM0ZJEg4jY8yHbRlTONf87GCMJJOc2XkX0bQbLdOONmUA/Wo6lyKKpwFku1NnAocVX3HeynoqfeGhPYiCHZGpYDx08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e32IpeT+; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=d02eHzJLj41rt1hHYiy4zfBNSqT4qik6MJTqfGefiY+679Oo/RW5eERH0w09MvGUBuhpyfggu8EvuPn6Jq7hsMbLeMFzBnEpUa+EH5WvCJAgakY4PzBTSiLnqwn+3F38krw9FS9T3BS7lxZz05MOyxNReYTEohyjzoWPr+cD6wA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BNMoyg3x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e32IpeT+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777415980; x=1808951980;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YRJ6BL8Njhn3bqwg3Jq7FwxiZ0pRzrVIFp2ySYSiHfU=;
-  b=e32IpeT+7RXHtVyZq6EsIea3VAG5aAMdMzaZrSmbu8+vhX3H81IwMt2u
-   XbjXzoW6VPmwqFuB8G39r5tXSWBe/fc/2iR3tVSu6ZdUykFtLmxg3p7z1
-   ltqC6wJNTZJ1kT5taQbGYmelg/x6kJrrmZTNDtN5Sg4U2la7Li+GkQFjn
-   61iqzOVb9wkh7MZoo+ZWcZptQGjKKaSI9DGBmbNBqQ4YlCDpmyUwVkrPT
-   TY0a4PUG6w9MLVF0Us28Ndi6HWhHoD/BmmFpxRV7QtwyJ14i/NrIp+woS
-   Y+t9NFg5w7V3/PLtSzk7EW0YBl6JwoFbj+mlB9c+15zoWs8CRd1tYvf6u
-   A==;
-X-CSE-ConnectionGUID: n/7zhTuhS7aIbdFqt86bvw==
-X-CSE-MsgGUID: NgKHooulR9+GosVrl1qYuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="78322263"
-X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
-   d="scan'208";a="78322263"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 15:39:40 -0700
-X-CSE-ConnectionGUID: oF5McbczRKyocqlm7beMcg==
-X-CSE-MsgGUID: pvq82DjbQJOwN4NyhZEnYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
-   d="scan'208";a="238059386"
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 28 Apr 2026 15:39:38 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wHr5a-00000000AK8-10VU;
-	Tue, 28 Apr 2026 22:39:34 +0000
-Date: Wed, 29 Apr 2026 06:38:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: wangdich9700@163.com, perex@perex.cz, tiwai@suse.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kees@kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	wangdicheng <wangdicheng@kylinos.cn>
-Subject: Re: [PATCH] ALSA: hda/conexant: Fix missing error check for jack
- detection
-Message-ID: <202604290635.UqkW5dEd-lkp@intel.com>
-References: <20260427070739.133369-1-wangdich9700@163.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BNMoyg3x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 402D9C2BCAF;
+	Tue, 28 Apr 2026 23:23:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777418599;
+	bh=9NUysSWG+x3PrA9tVI4rHEUrpj54nXczJIPdSwGQdak=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BNMoyg3xABqJJus3AsWwBhOilVZufsnXGeZORMmiJtrANEG5qVOfeJPqzdeH/QJCM
+	 NkDMkwBsgO/pdk/Gzpddq0Owh63J/S/UYsC477LJN64LWANHUMh/kGSl6NSb3h9S00
+	 SyNuAD2xYnVxHws6PM9OA3Oh43KR5+y2PRhVXqRBG3LQxbUscYvHvAt5S1wcgdEBnW
+	 jw31fE17+odUtN5NFfufpw4mRpWltij0zVew9GgbFiTnsSFFcHHKy+tamVEFF5HU3+
+	 qsOPVOdhveM7IXpj8D6aX3Uvq5AkNuwx/2YMMtZ5NrflGABMU8QpRjYmyeLgT9VASr
+	 HHugn1yno6lZw==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id A4ACB1AC5842; Wed, 29 Apr 2026 00:23:15 +0100 (BST)
+Date: Wed, 29 Apr 2026 08:23:15 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH] ASoC: cs35l56: Fix illegal writes to OTP_MEM registers
+Message-ID: <afFBY3BuBbScZdu2@sirena.co.uk>
+References: <20260428115228.158252-1-rf@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7OGMxDDllCYWBEh2"
+Content-Disposition: inline
+In-Reply-To: <20260428115228.158252-1-rf@opensource.cirrus.com>
+X-Cookie: 667:
+
+
+--7OGMxDDllCYWBEh2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260427070739.133369-1-wangdich9700@163.com>
 
-Hi,
+On Tue, Apr 28, 2026 at 12:52:28PM +0100, Richard Fitzgerald wrote:
 
-kernel test robot noticed the following build errors:
+> These registers hold a constant, and originally they were marked as
+> readable non-volatile so that this value would be read into the regmap
+> cache. The problem with this is regcache_sync() issues a write for any
+> cached register that does not have a reg_default.
 
-[auto build test ERROR on tiwai-sound/for-next]
-[also build test ERROR on tiwai-sound/for-linus linus/master v7.1-rc1 next-20260428]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This feels like something that's common enough to be worth teaching the
+regmap core about.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/wangdich9700-163-com/ALSA-hda-conexant-Fix-missing-error-check-for-jack-detection/20260427-223457
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260427070739.133369-1-wangdich9700%40163.com
-patch subject: [PATCH] ALSA: hda/conexant: Fix missing error check for jack detection
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260429/202604290635.UqkW5dEd-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260429/202604290635.UqkW5dEd-lkp@intel.com/reproduce)
+--7OGMxDDllCYWBEh2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604290635.UqkW5dEd-lkp@intel.com/
+-----BEGIN PGP SIGNATURE-----
 
-All errors (new ones prefixed by >>):
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnxQWIACgkQJNaLcl1U
+h9DxyAf+OvTwyWTAQBdkBgibvJhKR8HbEbowW8NoF2SnT2E+lyAdNYn9A49adszp
+SU1lnHSnEUlp4QznKnDQOnHKixbpTOPAjkF1Nn6Q50DevUEBoeXtVY/WKrfTfmud
++FPT8kG9RPcpciKIiUnKw3y0QMsj3TgP/xxixAOY65s/ZnFFUJyTGXarD5aoxeMP
+aBb2SXtLs7GmG700gr2XNfchdMdeEXGBavl5cmphyAWB646HVg/BQh6Vg41o7Zg/
+O5RKaT4cL2kBUjw1kHVVIMCb2TM9pZ/sLHcypA9Cc6mk91fD6xfiHNklStmMasWM
+xgp76SNdqX3MrA7Cnc0cdDiK7eLZ4w==
+=rwor
+-----END PGP SIGNATURE-----
 
->> sound/hda/codecs/conexant.c:1193:7: error: incompatible pointer to integer conversion assigning to 'int' from 'struct hda_jack_callback *' [-Wint-conversion]
-    1193 |                 err = snd_hda_jack_detect_enable_callback(codec, 0x19, cx_update_headset_mic_vref);
-         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +1193 sound/hda/codecs/conexant.c
-
-  1174	
-  1175	static int cx_probe(struct hda_codec *codec, const struct hda_device_id *id)
-  1176	{
-  1177		struct conexant_spec *spec;
-  1178		int err;
-  1179	
-  1180		codec_info(codec, "%s: BIOS auto-probing.\n", codec->core.chip_name);
-  1181	
-  1182		spec = kzalloc_obj(*spec);
-  1183		if (!spec)
-  1184			return -ENOMEM;
-  1185		snd_hda_gen_spec_init(&spec->gen);
-  1186		codec->spec = spec;
-  1187	
-  1188		/* init cx11880/sn6140 flag and reset headset_present_flag */
-  1189		switch (codec->core.vendor_id) {
-  1190		case 0x14f11f86:
-  1191		case 0x14f11f87:
-  1192			spec->is_cx11880_sn6140 = true;
-> 1193			err = snd_hda_jack_detect_enable_callback(codec, 0x19, cx_update_headset_mic_vref);
-  1194			if (err < 0)
-  1195				goto error;
-  1196			break;
-  1197		}
-  1198	
-  1199		cx_auto_parse_eapd(codec);
-  1200		spec->gen.own_eapd_ctl = 1;
-  1201	
-  1202		switch (codec->core.vendor_id) {
-  1203		case 0x14f15045:
-  1204			codec->single_adc_amp = 1;
-  1205			spec->gen.mixer_nid = 0x17;
-  1206			spec->gen.add_stereo_mix_input = HDA_HINT_STEREO_MIX_AUTO;
-  1207			snd_hda_pick_fixup(codec, cxt5045_fixup_models,
-  1208					   cxt5045_fixups, cxt_fixups);
-  1209			break;
-  1210		case 0x14f15047:
-  1211			codec->pin_amp_workaround = 1;
-  1212			spec->gen.mixer_nid = 0x19;
-  1213			spec->gen.add_stereo_mix_input = HDA_HINT_STEREO_MIX_AUTO;
-  1214			snd_hda_pick_fixup(codec, cxt5047_fixup_models,
-  1215					   cxt5047_fixups, cxt_fixups);
-  1216			break;
-  1217		case 0x14f15051:
-  1218			add_cx5051_fake_mutes(codec);
-  1219			codec->pin_amp_workaround = 1;
-  1220			snd_hda_pick_fixup(codec, cxt5051_fixup_models,
-  1221					   cxt5051_fixups, cxt_fixups);
-  1222			break;
-  1223		case 0x14f15098:
-  1224			codec->pin_amp_workaround = 1;
-  1225			spec->gen.mixer_nid = 0x22;
-  1226			spec->gen.add_stereo_mix_input = HDA_HINT_STEREO_MIX_AUTO;
-  1227			snd_hda_pick_fixup(codec, cxt5066_fixup_models,
-  1228					   cxt5066_fixups, cxt_fixups);
-  1229			break;
-  1230		case 0x14f150f2:
-  1231			codec->power_save_node = 1;
-  1232			fallthrough;
-  1233		default:
-  1234			codec->pin_amp_workaround = 1;
-  1235			snd_hda_pick_fixup(codec, cxt5066_fixup_models,
-  1236					   cxt5066_fixups, cxt_fixups);
-  1237			break;
-  1238		}
-  1239	
-  1240		if (!spec->gen.vmaster_mute.hook && spec->dynamic_eapd)
-  1241			spec->gen.vmaster_mute.hook = cx_auto_vmaster_hook;
-  1242	
-  1243		snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PRE_PROBE);
-  1244	
-  1245		err = snd_hda_parse_pin_defcfg(codec, &spec->gen.autocfg, NULL,
-  1246					       spec->parse_flags);
-  1247		if (err < 0)
-  1248			goto error;
-  1249	
-  1250		err = cx_auto_parse_beep(codec);
-  1251		if (err < 0)
-  1252			goto error;
-  1253	
-  1254		err = snd_hda_gen_parse_auto_config(codec, &spec->gen.autocfg);
-  1255		if (err < 0)
-  1256			goto error;
-  1257	
-  1258		/* Some laptops with Conexant chips show stalls in S3 resume,
-  1259		 * which falls into the single-cmd mode.
-  1260		 * Better to make reset, then.
-  1261		 */
-  1262		if (!codec->bus->core.sync_write) {
-  1263			codec_info(codec,
-  1264				   "Enable sync_write for stable communication\n");
-  1265			codec->bus->core.sync_write = 1;
-  1266			codec->bus->allow_bus_reset = 1;
-  1267		}
-  1268	
-  1269		snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PROBE);
-  1270	
-  1271		return 0;
-  1272	
-  1273	 error:
-  1274		cx_remove(codec);
-  1275		return err;
-  1276	}
-  1277	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--7OGMxDDllCYWBEh2--
