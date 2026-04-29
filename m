@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A493815D3;
-	Wed, 29 Apr 2026 02:28:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C2537F746;
+	Wed, 29 Apr 2026 02:32:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777429709; cv=none; b=hb6LNzeTTwSSGLFs01mHRDLSnQsf4FPgS77x9xq5nih8trHulxNQVKMT+Lbrq9VcS7Rx4YTCnXxsl7xvOieoY/hLhnN6y3n5hQYGwZ6Jgx5ZHTopbxrfSoOKPS/teU5vD0ycOm5IETbpY201Nk8Xluxqs8pIZPioMLlflAZKMTc=
+	t=1777429963; cv=none; b=eLTC9hya7H8FKa338RPCvDF3RjMfVL7odtAKuUt3z+PLbIgSli2dwQ+jN8M+xz1JxJ4yKnVCr0LaqrNl+xEhOAf5rVWCdQwmGGMOBN3qs6xdcQGy/8YOApnfXeK7f4kRhCLPwP1kVvGt7jG51RsSNOezL0ptTYw8NIFl0UmTUIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777429709; c=relaxed/simple;
-	bh=U917FEeP1a65aybvARWiLBBMfAgnhdvtyR+oFIuOO7A=;
+	s=arc-20240116; t=1777429963; c=relaxed/simple;
+	bh=W81uUkEy7KPTgF2Dy6r7p6wtBRPqM/IKhBRulVRDGqg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uIR53excUoMXC51WPuZQu1Y9TC+39mVQxF4duKD3HlHgt/qkeoPcfqqeUAOQYcH4KCkHHvaCT9jf8UFgZY0pfUVvcH3jEWaQy3Z6EXQ0O0mCQ/66uS9+8PT0DqrUc5b4Kfu4fnM16f9p/AqG11UU697xzU3ZHmVMf1zreO8n/3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uWyCWVT1; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=vAJSK2D+KgwbCuhaQym/Yc1igkgPO83TXanNwSsKzemhFaxOAf/8/up1w7R81vCjMLr8vAyaVgKH8YS/g5VtYGwUS+cA2G4GomW5hkR6ib3iNTzW0xw/JhaUMlZdm9zaM674dxh2N/U5PGovQw5Ea3U89Ae2qEvQl5euMZCr8ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i/XHH52y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uWyCWVT1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E251FC2BCB7;
-	Wed, 29 Apr 2026 02:28:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i/XHH52y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BC3EC2BCB7;
+	Wed, 29 Apr 2026 02:32:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777429709;
-	bh=U917FEeP1a65aybvARWiLBBMfAgnhdvtyR+oFIuOO7A=;
+	s=k20201202; t=1777429963;
+	bh=W81uUkEy7KPTgF2Dy6r7p6wtBRPqM/IKhBRulVRDGqg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uWyCWVT1Ar3mzr0oxmaCB36QUdEw5kMfe3jmzUVhavC8+NzT4xgbLioHp2nHM/7R9
-	 pIy5cagrWv8W8878zgVZoEGMHwTxuTc8+PBhThOUC+6/V73QySfT2RHfZd6By0nZjv
-	 9U8RjfUA+3r8TQ0dF0/6t+dlcmuUIjEITS5AwenOYlLsvb98rCvQvA3Pr/SJWPgqWc
-	 Zt0ScKlSm/fqEIDlPKOk2k5t1M35QO4G9pXJYJxKZukLoI5JOK4RYOAS3yc85JXc7c
-	 LsqnkCtiNb6FaK8CgQt49DXtXqXkW2a6ndqwGCJx7zM0Aj3dB4WHSCf3kDXe0WXlff
-	 DNUmYUOlPMbRg==
+	b=i/XHH52y+VDppxvjzZBqtfA84pxQIkexvF6YIBtaWKuBGO9vu2sPwNrq28NUBuPjR
+	 gDeB3+BuWF/6ce3J3rQXUtOoVAw/UfvOWg8IRalE7ApPQLb0414k89ellV2F7s1w2R
+	 cTY77uzdVHo9Ffw8HpHqTPCBHRGTRoqr4UFzvHAPZLGhr0m+Gsqnms3mrVR5xmuuPq
+	 Kk7r27+7agDolB4ebq0N3GcUQNrRCDMwsy+nyz0pxpb8bgx5s6mNco+/9lh5GcH5a4
+	 eYtNyZK5p0efltfGz6qOzR+UxTP6jfePwGBcACd4Fvh5xGIBiZ53UekiSfcE13ersK
+	 lY/JB8D4zPxhA==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 55E151AC5850; Wed, 29 Apr 2026 03:28:26 +0100 (BST)
-Date: Wed, 29 Apr 2026 11:28:26 +0900
+	id B480D1AC5851; Wed, 29 Apr 2026 03:32:40 +0100 (BST)
+Date: Wed, 29 Apr 2026 11:32:40 +0900
 From: Mark Brown <broonie@kernel.org>
 To: Troy Mitchell <troy.mitchell@linux.spacemit.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
@@ -39,11 +39,10 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
 	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
 	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
 	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/7] ASoC: spacemit: fix RX DMA params not set when TX is
- running
-Message-ID: <afFsyiSHrVBapQ9V@sirena.co.uk>
+Subject: Re: [PATCH 0/7] ASoC: spacemit: bug fixes, refactoring, and K3 SoC
+ support
+Message-ID: <afFtyCuA28042C3b@sirena.co.uk>
 References: <20260429-k3-i2s-v1-0-2fe99db11ecb@linux.spacemit.com>
- <20260429-k3-i2s-v1-1-2fe99db11ecb@linux.spacemit.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,41 +50,45 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6SEXtm4k7tE0lPs/"
+	protocol="application/pgp-signature"; boundary="AdB0/2Kbr7dgh/8k"
 Content-Disposition: inline
-In-Reply-To: <20260429-k3-i2s-v1-1-2fe99db11ecb@linux.spacemit.com>
+In-Reply-To: <20260429-k3-i2s-v1-0-2fe99db11ecb@linux.spacemit.com>
 X-Cookie: 667:
 
 
---6SEXtm4k7tE0lPs/
+--AdB0/2Kbr7dgh/8k
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 29, 2026 at 09:38:46AM +0800, Troy Mitchell wrote:
+On Wed, Apr 29, 2026 at 09:38:45AM +0800, Troy Mitchell wrote:
+> This series fixes bugs and adds K3 SoC support for the SpacemiT I2S
+> controller driver (sound/soc/spacemit/).
+>=20
+> Patches 1-3 are bug fixes and refactoring for the existing K1 I2S driver:
+>   - Fix RX DMA params not being set when TX is already running
+>   - Move hw constraints from hw_params to startup where they belong
+>   - Adjust FIFO trigger threshold to half FIFO size for better DMA
+>     efficiency
 
-> +	val = readl(i2s->base + SSCR);
-> +	if (val & SSCR_SSE)
-> +		return 0;
-> +
->  	val = readl(i2s->base + SSCR);
->  	val &= ~SSCR_DW_32BYTE;
->  	val |= data_width;
+Just as a general thing there doesn't seem to be any textual overlap
+between the fixes and the new features, it makes life easier to split
+things up - the individual serieses are smaller and it's easier to avoid
+dependencies that cause issues getting the fixes applied.
 
-Very minor optimisation but those two SSCR reads could be combined.
-
---6SEXtm4k7tE0lPs/
+--AdB0/2Kbr7dgh/8k
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnxbMkACgkQJNaLcl1U
-h9DP0wf9FedyLiR2jbRQe052LYOVrGdSJyZFyiLrFiI/r3FDgyi5TzL8gejQm5DI
-nYSEijJQO323eNHosl4l1xC3cqIr+q3XEbWw8Z1JSnUhvQbkyHpE+U/yBwNqsRnZ
-HPPelZUia70N79+ff/6QKNjDuzJ2fLeRCxkUbgq79qdOaBQEQz69VrgrH3kG4Lah
-aLpE1Iw/6fl5KC4vci2S5yIrp0tYv9jt+dI7t9A2BKZ0YBZkCdgbSEgFRBbJYJg1
-ELGiysUjUwII8tO+GA7D8QiCegZEFHRKhPNNbE/ujVrUduyAuQGUkxriMwS9lFIC
-XUtJuRWo/V1+ZMAzyfgugi8+fFaRaQ==
-=H/sj
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnxbccACgkQJNaLcl1U
+h9A9+wf7BD/aVPdConysbSRuDNL+sUcw7BM99xirg8cM3j76wF+UIg2DcytGtqhW
+oa53CpnKiqeQV2gvRBCLtNLC3ah8N6/vqDwk2Tjn8L/WfybcAU/zDUwH5mUfezQn
+A+3O3GSnzYPV6xK+0neGwofZ7w9ymGCQaUHLMGea1FH4aMos7g2JbncIuEY9QIcn
+U2ZmTnlHJrPRG6VWZXPnbYOBLeJrbA90KesWkzH208l4N3FetXMFAird89S3DFnl
+VmW3zNR1ZcF3GA2EugFcRTVaEfgkHTC2H8WhEMX+zuxxTsaEOyZZ7MpcIEVn+2Gy
+bcnhE3bQTMLU7iGu9JBHg3prOIdQ9Q==
+=UUPA
 -----END PGP SIGNATURE-----
 
---6SEXtm4k7tE0lPs/--
+--AdB0/2Kbr7dgh/8k--
