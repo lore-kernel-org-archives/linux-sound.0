@@ -1,154 +1,161 @@
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015763FCB2B
-	for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 13:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD942F745C
+	for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 15:17:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777468825; cv=none; b=ogutPGABZ6AX2wJ5wagYWhMZjSQemlr3KIt1d6HUbajNrlo24zCJXqAXC0RnJvYZmxb1QxNnprWR84GDt5HlQJS8xv+zh5Rw4PcQRrsp1eYM2TE+zH1zYvkwE8LmhOZTxgwud4VKP1v5CALPzzJNEzXPhmFIfiWyA3hX73lZKII=
+	t=1777475827; cv=none; b=L/fvVo+z0rtt3K7WmN5uExNlDjrpO/VA123sLEyBAft8u/r4qnReEzrAa8L6Tc7V1oQay6lIZtiR2VtJBxadH5e2a0F47f9RlO4Dbktlfczizy03MtGCxGZxA8uDPrraZD8eZ1A5LOhjP5Apn4nB+734scJRRJK6239gPrrSH9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777468825; c=relaxed/simple;
-	bh=feuCS+Wde8W7EpfVCWxGj5z6QZqJHZ4hcRmQpIJg2Y8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OUGmOHzHIQ1fYkdXnJMrNNMcxp5JuNhTEO8bqU7Md+YL8ioQ+p+o761yLm4GyqiRqC2/RQKggxJqxwVdrkQOovObU5Af9M4xN5ZosCKGRuSZ3FrNHh0Uni6avZv3XCzFlUrgbcOdxCeM4Un2s05yu7APkqWkIIhbfJo1NWB5PZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k2gXbMUj; arc=none smtp.client-ip=74.125.82.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777475827; c=relaxed/simple;
+	bh=F+++xzQp5aVAsyzg6uzYAS1GM5medti3+Yx6VGapZIU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bIzd1zn5+Ed91BNQrx9dy+6vnzljjNevq0145I+LnWVO0Sso800FrQveS6vSWWyVprK3PpZXAWZDnwUD5pEdb0KySu50j4u0CyJaVtMhGkp0xIZC3G6pHbpTF8WwIHjzJQyengjm+lKtHki0thmT7TpzYnFbfSAa33fEX4axClg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XVl2bCK3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s9IJtw4h; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XVl2bCK3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s9IJtw4h; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k2gXbMUj"
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-12c1a170a50so15859407c88.0
-        for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 06:20:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777468823; x=1778073623; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=syI6vCyidI7u0qaJd4ZC0RGGlbIolm5pPKH0di9GsB0=;
-        b=k2gXbMUjAHIP9ks38qtvQQyWs2hSgZTiskIWCXpVnMz3H1jJiOJQo8xQRRu1mjeANA
-         GoiytNp6pASpSH50tNwIOpS8nBto25mpeTgIOhL+gu8Z+9m8GO2kixc3ojTBvuEEIa89
-         U5iVAK+2/FTHI3t+TVMlbF+7NlCHm4eGu455n0fe5j0Q9g6VWiKoCyXYK/tVaktWaTdf
-         9JJbQSOT5vNsz5YWedSDrBev2J34aItEUL7bVrR9lLScHLUR6QIE1bUcGwR7jwG0OLhN
-         5CutsLThTzdwQVRa4VGE2NYB8mkWwna4BmdPiWRhsc5nisc7tvbZ8EUj+Hth3ew9Dd98
-         Or9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777468823; x=1778073623;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=syI6vCyidI7u0qaJd4ZC0RGGlbIolm5pPKH0di9GsB0=;
-        b=mhxy3x2UZU3eOtOx3D6N4lpQmuDVplQBIv5pTiHc1POYJAKSlxXumendiVX8HGsxOW
-         WQUldEUlzcglIOtrA9k/NmiI9erhPNMxJHqAEKvoAtadMm0CJwv5LNqiEjzcPUKS5rji
-         KaHwNhu+J9lFe0ql42wqXnLIkWTqo9ZRTjNlZigbh5gcJHYbus2fAEijZDgMaylGul1Q
-         8wuB+/DZ1TQkK1kTIQmaj9EJ6hMyx9SO36E2k1yQ5CxBJWXYBpfURiSD0QRQMIlUXumS
-         WkWJxMwmb7bRrsAqyq7TbgXu6LQeL6d6WFCOfAw7SnPFnhc4++45d3DQmZxwvjVGYfhi
-         OUgQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8oCpT4R9q8pNoV8fx5D9zJxUgBVyoiBAKxVRU4FmTpoaOeSqOhE+/evySvr2/qr52YPfktuZ6UX77yvw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YznTPA/Z5/cew/LA5Cpo6yLCvShel8BEf4Bclw5o4jubsPLKje/
-	zCT+6QPqAAtyXySpEv4hh0kVcuqBuxx5+7kgUfWCCDfhqrmrnUyvKlCpI04RSwBG
-X-Gm-Gg: AeBDieu0JkL9pPx2xQ0wKi2fNdiMu7gKrtZxEH7HMPiWTCcVMOxfpfvsX36xRhwYN1l
-	kEobIC1ePBFs7aUIyluJHbbitG5nnkNzUymdui3fi0a06vCMWOsEAgSpDDotMX486B4JNt0lr6A
-	xGnuf2wCHiB21zT5lCJ4cC3o59oxeLnDPgCKRvdQlOQNxQIzxF2rto0AKWrArLZvWZMOxhxQ/cY
-	vH+cbYciwaj/01Aaxv8KOTstb6pQZYZfgPQA+pIiQxOEIhmXx/BustTfXHZCclHFnQUI6KzXDnE
-	Eiu9gybeG+o1I/tnVtJF/vr7F2oWQ5xGmSoSzv4Oz9wNM4M0d1yd2j/7w+qSRD5Bf1uwrgeXOj8
-	XcoNcTO7EBcS9yKNZOeeM3fsG66ZMqWJBNFNezuMRNYCw0GjUFAbTV/uzq8q+ySHW+RD1gF1Mm5
-	nFkyoga6RmqlpDbDJ15bjq1JHrxlazd4Yl0TGWiGXCTzIGwpdJMMMhlm8UURZf33KSIGxnLQmgK
-	0sQ0LRi4tcG
-X-Received: by 2002:a05:7022:e98d:b0:127:366f:8bb7 with SMTP id a92af1059eb24-12de2a4b858mr1514450c88.25.1777468822679;
-        Wed, 29 Apr 2026 06:20:22 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12de321df36sm3336852c88.7.2026.04.29.06.20.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 06:20:22 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Wed, 29 Apr 2026 10:20:02 -0300
-Subject: [PATCH 2/2] ALSA: usb-audio: Update Babyface Pro control caches
- only after successful writes
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XVl2bCK3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s9IJtw4h";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XVl2bCK3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s9IJtw4h"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C12966A8AB;
+	Wed, 29 Apr 2026 15:16:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777475819; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d7JjNaM297TMNmQuIWZ5HbTkm/ljPh5n9huno2uduGE=;
+	b=XVl2bCK3bsfie7syT0rQ44iLX8dsz8wNS/PFQ5WQ2rY/25YPFHHoj4ca5EA+IvkVHaN5Cv
+	tE7Yt5nH1WoZvtrEJMrwYt406EFmNOD4OaJFVTRSmKiYSRMHRq6TpEGP2Pt4MpUFz3g4t5
+	c/YgS6VVmkGIOqaW+ZCKCF4BZciJmMc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777475819;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d7JjNaM297TMNmQuIWZ5HbTkm/ljPh5n9huno2uduGE=;
+	b=s9IJtw4hB1TyvP/OimSURye4hPifQJlwiG7rzvbSRZhvM2Fiet1oSIPqwf/G5O93d3pshG
+	YZozZEqc9A+OY1Bw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XVl2bCK3;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=s9IJtw4h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777475819; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d7JjNaM297TMNmQuIWZ5HbTkm/ljPh5n9huno2uduGE=;
+	b=XVl2bCK3bsfie7syT0rQ44iLX8dsz8wNS/PFQ5WQ2rY/25YPFHHoj4ca5EA+IvkVHaN5Cv
+	tE7Yt5nH1WoZvtrEJMrwYt406EFmNOD4OaJFVTRSmKiYSRMHRq6TpEGP2Pt4MpUFz3g4t5
+	c/YgS6VVmkGIOqaW+ZCKCF4BZciJmMc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777475819;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d7JjNaM297TMNmQuIWZ5HbTkm/ljPh5n9huno2uduGE=;
+	b=s9IJtw4hB1TyvP/OimSURye4hPifQJlwiG7rzvbSRZhvM2Fiet1oSIPqwf/G5O93d3pshG
+	YZozZEqc9A+OY1Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9C018593B0;
+	Wed, 29 Apr 2026 15:16:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lAdTJesg8mkGGQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 29 Apr 2026 15:16:59 +0000
+Date: Wed, 29 Apr 2026 17:16:59 +0200
+Message-ID: <87tsstokyc.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Thomas Ebeling <penguins@bollie.de>,
+	Ian Douglas Scott <ian@iandouglasscott.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 0/2] ALSA: usb-audio: Fix stale quirk control caches after write failures
+In-Reply-To: <20260429-alsa-usb-quirks-cache-rollback-v1-0-01b35c688b80@gmail.com>
+References: <20260429-alsa-usb-quirks-cache-rollback-v1-0-01b35c688b80@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260429-alsa-usb-quirks-cache-rollback-v1-2-01b35c688b80@gmail.com>
-References: <20260429-alsa-usb-quirks-cache-rollback-v1-0-01b35c688b80@gmail.com>
-In-Reply-To: <20260429-alsa-usb-quirks-cache-rollback-v1-0-01b35c688b80@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Thomas Ebeling <penguins@bollie.de>, 
- Ian Douglas Scott <ian@iandouglasscott.com>, 
- Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>, 
- stable@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1885;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=feuCS+Wde8W7EpfVCWxGj5z6QZqJHZ4hcRmQpIJg2Y8=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJmfWLtajwc095kkiQt6yG67uunhz0dcbCv2ZizvXpO19
- ZT3g+UpHaUsDGJcDLJiiiyrkxZZ7ul6cLU+boUHzBxWJpAhDFycAjAR2ceMDC/O8VfwN3XZpQQv
- m6kTe0jx7U7lwL3c7yqd/X2fOal3rmZkWLNdozE37vv6Tb0bz216FvG7dNOFcpHFTvM2TJFztZj
- EwQkA
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: C12966A8AB
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-snd_bbfpro_ctl_put() and snd_bbfpro_vol_put()
-cache the requested packed control state in
-kcontrol->private_value before issuing the USB write.
+On Wed, 29 Apr 2026 15:20:00 +0200,
+Cássio Gabriel wrote:
+> 
+> This series fixes stale software cache handling in several usb-audio
+> mixer quirks.
+> 
+> A number of quirk callbacks update kcontrol->private_value before
+> issuing vendor or class writes. When such a write fails, the driver can
+> keep reporting and later replaying a value the device never accepted,
+> because the corresponding get and resume paths consume the cached state.
+> 
+> - Patch 1 fixes the simple single-write quirk callbacks by restoring the
+>   previous cache on error.
+> - Patch 2 fixes the RME Babyface Pro packed-state callbacks by updating
+>   the cache only after a successful write, since those helpers already
+>   take explicit arguments and do not need private_value to be updated
+>   before the USB request.
+> 
+> The split keeps the generic quirk fixes separate from the Babyface Pro
+> packed-state logic and keeps each patch tied to its own introducing bug.
+> 
+> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+> ---
+> Cássio Gabriel (2):
+>       ALSA: usb-audio: Roll back quirk control caches on write errors
+>       ALSA: usb-audio: Update Babyface Pro control caches only after successful writes
 
-Their get and resume paths use that cached value directly,
-so a failed write can leave the driver reporting and later
-replaying a setting the hardware never accepted.
+Applied both to for-next branch.  Thanks.
 
-Update the cached state only after a successful USB write.
 
-Fixes: 3e8f3bd04716 ("ALSA: usb-audio: RME Babyface Pro mixer patch")
-Cc: stable@vger.kernel.org
-Signed-off-by: CÃ¡ssio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/usb/mixer_quirks.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
-
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index 229be55e9158..99975c3240a5 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -3027,12 +3027,14 @@ static int snd_bbfpro_ctl_put(struct snd_kcontrol *kcontrol,
- 	if (val == old_value)
- 		return 0;
- 
-+	err = snd_bbfpro_ctl_update(mixer, reg, idx, val);
-+	if (err < 0)
-+		return err;
-+
- 	kcontrol->private_value = reg
- 		| ((idx & SND_BBFPRO_CTL_IDX_MASK) << SND_BBFPRO_CTL_IDX_SHIFT)
- 		| ((val & SND_BBFPRO_CTL_VAL_MASK) << SND_BBFPRO_CTL_VAL_SHIFT);
--
--	err = snd_bbfpro_ctl_update(mixer, reg, idx, val);
--	return err < 0 ? err : 1;
-+	return 1;
- }
- 
- static int snd_bbfpro_ctl_resume(struct usb_mixer_elem_list *list)
-@@ -3217,11 +3219,13 @@ static int snd_bbfpro_vol_put(struct snd_kcontrol *kcontrol,
- 
- 	new_val = uvalue & SND_BBFPRO_MIXER_VAL_MASK;
- 
-+	err = snd_bbfpro_vol_update(mixer, idx, new_val);
-+	if (err < 0)
-+		return err;
-+
- 	kcontrol->private_value = idx
- 		| (new_val << SND_BBFPRO_MIXER_VAL_SHIFT);
--
--	err = snd_bbfpro_vol_update(mixer, idx, new_val);
--	return err < 0 ? err : 1;
-+	return 1;
- }
- 
- static int snd_bbfpro_vol_resume(struct usb_mixer_elem_list *list)
-
--- 
-2.54.0
-
+Takashi
