@@ -1,40 +1,41 @@
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622BB22370A;
-	Wed, 29 Apr 2026 01:39:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68BA810F2;
+	Wed, 29 Apr 2026 01:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777426759; cv=none; b=sxq997cxxaQonDdosbAh5YIpJs83M3KPvp/UTT7XA7oRWFhLJvlS/GgQQt959xBpyiUFb1On6Cv+x2BRNpfGkAnF3WmCvW+YEunqjJNisONsdCS6DZiH+xAEs1gCxEv7QuZnU7+BJ/g+NfGoQzhja21/+zKH9UT4DVvwMKy/+bc=
+	t=1777426765; cv=none; b=gpRyqmpMpTS2K8qFjlGBOSaBtCo/ZPVafGysBBfaUon18vyKWsQKJLy+GEBB2dbVQ2bD38kiTvD1/k8NxxDrgMFGuzJJ3GYFnBbdGPMdRUfcPWvEmIgHIufxRaFP+qFhIqrVkRVb6pNUCERvzPF2ISd+3ka6EVbBSy0ZEi/sVfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777426759; c=relaxed/simple;
-	bh=PyG99/8R0TpsWO1jWHnifATKcOhOPS8LywBZeCYZFZY=;
+	s=arc-20240116; t=1777426765; c=relaxed/simple;
+	bh=NAgZL6RRaKXXih+6ACD5ImpEXa86qDP16TxAOhPDHIQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hpgzD/lylHUVsj8/WGsFOcAWPhvt7ev/kpHRbKKf1NWvlS97SxVnoTtbXPDddkZvSmi3lporNgWz+xXIbrNK+aJZ/5Yf5EKK8slH8xYFyeCM1ouR4LpqgfgkwfyhRDR2uuvKjU5E+DKGJCy4ruvL7Iwl1r04cTrX0zJH7K5Fzfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=nHkucCRv; arc=none smtp.client-ip=54.254.200.128
+	 In-Reply-To:To:Cc; b=EDTPqvZD3dWzIC2/8Fb2UHdUUrIUXaV6Olo1fGrmStYr5jElXOPXmdhJ2u9KDQXPE2DFb/br46MEQOCUlyD1hYYrbCdeV+GQkhYpxLf3c4IInbOX2lfJ09H4iOamDu4HjQRjIRqZa7vSAKqdrfnIokcxMnVfY4JRD+6R3udYFHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=f2RHNbWz; arc=none smtp.client-ip=52.59.177.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="nHkucCRv"
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="f2RHNbWz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1777426755;
-	bh=wUXoDWfKSMmaRMhMXzMvroZGWtAYAAcr+bc0qP0VGz8=;
+	s=mxsw2412; t=1777426759;
+	bh=FI4ajARcW5357tLN5/I0ua9TZkOJrFRVAlMis1T0b2M=;
 	h=From:Date:Subject:MIME-Version:Message-Id:To;
-	b=nHkucCRvl0GFeUoU8qsUbQDI689HRP6VU2d1huJEi3iQTAE91Ssa1lzi9Y1yWmgR/
-	 4IIfaNk5V/xEwzJxo+XapGFwwfWPJXlA0QMTCogH8Y8DCxoACC2Tz3vwqs3vYa1+8Q
-	 5ipBkJjo/Ge6afT40zIh8zQUNLWhrwEll/sdveik=
-X-QQ-mid: esmtpgz16t1777426751taed3181a
-X-QQ-Originating-IP: vI4sGNfIgv1/h6mK+YQd1WJmQOsZPj6r30Cg1uCqF3A=
+	b=f2RHNbWza+D8n4xRFvCFEbb10aFrEYaiMIqi/OS40cLEzbm/qww1Zcj+29BHr1/4+
+	 NVSyLMCAjiS7Ih6HAQxNfVsaOXV/cStJWdXygfIwVHNM4xBu6TvbNGi+odiL58l0bI
+	 ANNsJBqnft1DE+MoS3Qojpavsivug5fz5fzD8/7o=
+X-QQ-mid: esmtpgz12t1777426755t013c7bfe
+X-QQ-Originating-IP: xdBdhRDl77xch4NsM0af+nFog4tII5MZi881pdQy8Kw=
 Received: from = ( [120.237.158.181])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 29 Apr 2026 09:39:08 +0800 (CST)
+	id ; Wed, 29 Apr 2026 09:39:12 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 11863181746122903502
+X-BIZMAIL-ID: 7627828452192065809
 EX-QQ-RecipientCnt: 15
 From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Date: Wed, 29 Apr 2026 09:38:49 +0800
-Subject: [PATCH 4/7] ASoC: dt-bindings: add SpacemiT K3 SoC compatible
+Date: Wed, 29 Apr 2026 09:38:50 +0800
+Subject: [PATCH 5/7] ASoC: dt-bindings: add fixed-sample-rate property for
+ SpacemiT K1/K3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,7 +44,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260429-k3-i2s-v1-4-2fe99db11ecb@linux.spacemit.com>
+Message-Id: <20260429-k3-i2s-v1-5-2fe99db11ecb@linux.spacemit.com>
 References: <20260429-k3-i2s-v1-0-2fe99db11ecb@linux.spacemit.com>
 In-Reply-To: <20260429-k3-i2s-v1-0-2fe99db11ecb@linux.spacemit.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -56,118 +57,66 @@ Cc: linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org,
  devicetree@vger.kernel.org, 
  Troy Mitchell <troy.mitchell@linux.spacemit.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777426731; l=2426;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777426731; l=1270;
  i=troy.mitchell@linux.spacemit.com; s=20250710; h=from:subject:message-id;
- bh=PyG99/8R0TpsWO1jWHnifATKcOhOPS8LywBZeCYZFZY=;
- b=XPnYB5sjZ9lutwmRgfjnz0oFWS9Zl6AxEVe+jvTb9maBaSi+h5G1J+ifvsEpt1vdxM4vWqIly
- r4iSsTIbzNCAFX10bIHT7pe+HZc1V1QBdd7FpLdew8mK2kPqfcC5oxk
+ bh=NAgZL6RRaKXXih+6ACD5ImpEXa86qDP16TxAOhPDHIQ=;
+ b=TusiHIciXUEkTyZdF0agxDOszJih+9MIoUSFVA68HIDOa8vi2cUesDBfQe6f4l4R+9H2D8znc
+ iEXn6JQBHR1DS1pO8ZQIdzSeDXsQeMaCRPGheSGBpUYrD6BmdWQTB97
 X-Developer-Key: i=troy.mitchell@linux.spacemit.com; a=ed25519;
  pk=lQa7BzLrq8DfZnChqmwJ5qQk8fP2USmY/4xZ2/MSsXc=
 X-QQ-SENDSIZE: 520
 Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: M/5qe47GLMYOQHgZY0Ycgek5hYmKhrz1s2Pf3TldZ+DzyI4ntzjZTVVq
-	reeTDxqTfR2Dj9Ov00i3JLBZOYWDeTLyJ8riYslVZ7nx6CVl3GAO4hnIeHGogWLRH3LvXp/
-	U1aWIrFC2hFVUyqlRsDFI5qlaV4i+rVM/xqF5eWiQnop5Nsb9V9KxkPk+5T9BqmEcXauDyR
-	8gTEqZmnhmdNyXJncqP0fnUK+hs+J9H295Ns7zVwgnJoTCYISOne170n2Mp7WjwSVjJQnsc
-	49QBbUqVuBYqRXZ1SBugVehs/KseKDR1tbRCdWh6XleLRKkZf6H4eAI/F+njWFBc2sica41
-	BzOo9XfP0spWSxzHIms4wVX3rGkNLyrV8edHnNQkCWZf3rqHAOUpKg6Wo6wKqM6+U8VNgNv
-	TTZtoCil3F/10kQswNSUeh4rbQMOu+D9NHZrQIB3/UuL0EF1oejRB/2bMZCTHxJanzMAUYM
-	1jrdu0FrinW+gl8QJ5PAX4pYHi/vhw2IsF67ZlbG4j2aLxlkHC7Oxp3QVHhZWSEiaRewQlY
-	l++mucbEJvpeBWBklckQFwA/oNCFdb8NPcHeVWFi5Fb3XcIMkZB+OQZ7LLOdfo2jWFQW5gs
-	4zUTrlvr1EjB+H1nB2HjqeqgqyqpMgNcO98LTwJvlURICdcEZOGNaHAi5gMxmTRObxQOfJQ
-	hFck1z4fU+7aGU0CCFiuxUq0ANqSyxP+K/vw4l85Up1yw01THvgUnqS98FRq64GhDTL6OZ0
-	ml0nblwcwf79Yi+v0hsuf/h/0X7UzC44Sb291ydzLeaF9cW8MA0C50xjd0nAqUaJAm66gG9
-	N8CeHntgpt9d4mfjz0Sem+4JJR3kmK709VhdJbhQR3BsZFz80N5Uxtzb8vuC2nUyQMowRM8
-	3jPu8FlwVYBp95RiV43czYFTTRj6MJd8EhrSRsU6guClqmNiXc+q8K5vNlxFI97Mew0Kyjy
-	YIQ1LdcUBWEYAuctqRO+T5tuLHOfBTVfMBMdVLBgTf+SFsYqNfFB45fb60sgKSl/ZMKAcDK
-	Orw1p89bKi73n1vy+q2T8auvQ5ZAQ/IyHof2Eh8ZmBL/sAEgN0LXeidZ9FpJ4Hb74EzwZQW
-	7mdIFHiIW2RYuSuw3xrouw7DY2rIZiiSUUZuoWP+PCgUcuR2CxBSVDeJ6TnFHEGHgCZoORp
-	S86PuRt7QvcUfiVtxo013tKdtLT9bVIdifez
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-XMAILINFO: NV33GuG3VJ0ZMZyi/YYYHy5b1IYD3h2lu4bAGgv6aLCmLSi/OTtZwO79
+	8WlrHfVyuI1CP68DHGbyaGFgE0az28ZQwwmwKGzll8nP1wWkMd6Oy0PWZYjqsQZEJhAdDHl
+	5J9UqsVmNw9W4eYiJaDwuan05x4vWc/zznAETMUaDVLOeIv4SxjL+pVC4bkbKi0dptHUUHy
+	EAKI4yclmXKN9azte1EHOkfbUK0CBpP//kjIdW4MZLRH8Qcia2a32ioEIQFf2VP/v1v+IVx
+	BgEQfBNj7MzjcI+q4eStpil3r7+GXM48IwQOHdU9xZEHNTr5jnZAD70NmEX+XPuaFQ3Io16
+	Vaapzktmrno5gCucjVB0mn5t1EBPm+uO7Zu7ohqMbF+ND8LgJSME5ycft9f9JrJgnE0GY/o
+	AzMmm9vyyJWOSi8TTzSD2k6BiBBqD4ebm0II17F0IgTMXjol+Ot7q6Rf4JvsTmtWwcksRGv
+	oD7C194ZzcZEyVfEeV7t+2YIQpaUYOWxaFll6psycENAbPRapU3q4nDvkYGFj/ZzCdvKHCV
+	Rzf4ygqEgmXnIyLBoMc6fKdWElwVkUoh4/d2+h/mtXvt5HNMJytClwSCvS01Mymadttu8os
+	TNQGCmb8R8mgCNnlncabD3Yzi2yiTmH7oTB4aSJB1CQxbAxwmF4n15afqDHs4x0t82hcXYu
+	fcXu+y9A6Yp6RQFRKV74DcvnnCnXK2BmSu+ywpSJRBYZfIOqgwDdkplNaa+G87FYTaFvwRv
+	14XiOOkTO2y0RIApJzpYmJUHt4qrjHl6nkmxPIjoWzRr7A7iqYxpnxnCMPuLdqRuhxIfR0y
+	84V2sCyGXKfnpfoVD3YOnjq/+bfxvSj+mMe3lMo7SNq6tGBodPA0EoAdDIj2c1QlY7+KO52
+	OclItZDKYsleLLZDd05/Y5iZvkxqMMEHu5YJhUecUmMligFhVlO+7H7pUDhXSaK3Jbj7Ovj
+	PrESz7JKrdgo0UdNuz+SfHkmspMUtENpGLfJ+HXdnCmPj4BqQ0/9n3TfP9QTwP+TVY63nuO
+	XHAqzxM2lNFBJrx4UQe/IZGtIV/mp7CJHIyCmxldxG3K7Uwq7cmo9PcnZToxpB9FpgziUcP
+	dJOCkY+WPM5koUFgFYZbMfoI/Ckz57lGb3YyAH9KOriWUhGXYrp13Rc3LdHwPGtLNsq2HQJ
+	aZDwF3cdO9sy/e+ND4HNtanwpQ==
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
 X-QQ-RECHKSPAM: 0
 
-Add the spacemit,k3-i2s compatible string for the K3 SoC I2S
-controller. The K3 I2S IP is the same as K1 but requires additional
-clocks: sysclk_div, common_sysclk, and common_bclk. These common
-clocks are shared across multiple I2S controllers on K3.
-
-Also add the spacemit,fixed-sample-rate property which constrains
-the sample rate when multiple I2S controllers share a common bclk.
+Add the optional spacemit,fixed-sample-rate property. When multiple I2S
+controllers share a common bclk, this property constrains all
+controllers to the same sample rate. This applies to both K1 and K3
+SoCs and is only needed when two or more I2S controllers are active
+simultaneously.
 
 Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
 ---
- .../devicetree/bindings/sound/spacemit,k1-i2s.yaml | 31 ++++++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
+ Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml b/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml
-index 55bd0b307d22..240d90402e4f 100644
+index 240d90402e4f..137070ad9eba 100644
 --- a/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml
 +++ b/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml
-@@ -4,7 +4,7 @@
- $id: http://devicetree.org/schemas/sound/spacemit,k1-i2s.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
+@@ -84,6 +84,14 @@ properties:
+   "#sound-dai-cells":
+     const: 0
  
--title: K1 I2S controller
-+title: SpacemiT K1/K3 I2S controller
- 
- description:
-   The I2S bus (Inter-IC sound bus) is a serial link for digital
-@@ -15,27 +15,54 @@ maintainers:
- 
- allOf:
-   - $ref: dai-common.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: spacemit,k3-i2s
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 7
-+        clock-names:
-+          minItems: 7
-+    else:
-+      properties:
-+        clocks:
-+          maxItems: 4
-+        clock-names:
-+          maxItems: 4
- 
- properties:
-   compatible:
--    const: spacemit,k1-i2s
-+    enum:
-+      - spacemit,k1-i2s
-+      - spacemit,k3-i2s
- 
-   reg:
-     maxItems: 1
- 
-   clocks:
-+    minItems: 4
-     items:
-       - description: clock for I2S sysclk
-       - description: clock for I2S bclk
-       - description: clock for I2S bus
-       - description: clock for I2S controller
-+      - description: clock for I2S sysclk divider
-+      - description: clock for I2S common sysclk
-+      - description: clock for I2S common bclk
- 
-   clock-names:
-+    minItems: 4
-     items:
-       - const: sysclk
-       - const: bclk
-       - const: bus
-       - const: func
-+      - const: sysclk_div
-+      - const: c_sysclk
-+      - const: c_bclk
- 
-   dmas:
-     minItems: 1
++  spacemit,fixed-sample-rate:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Fixed sample rate in Hz. When multiple I2S controllers share a
++      common bclk, this property constrains all controllers to the same
++      sample rate. Only needed when two or more I2S controllers are
++      active simultaneously.
++
+ required:
+   - compatible
+   - reg
 
 -- 
 2.54.0
