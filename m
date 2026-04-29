@@ -1,67 +1,68 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512BC3FD129
-	for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 13:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E293C8731
+	for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 13:20:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777468816; cv=none; b=SPbMvJYSxFjnfVDqDmgLUf3YBTRoiP8Ugm7H+GP40+gnRA3wGPRDawXpuBBeVc2IWTuwqha0a5N40VaycK7K1bMV5/mLemmi97T4G1iPYTRbu6Dk0D/5Qr7eEXSPj7gYYIN1i9O74/7pj6HB16JiZxLyf9Qa5QH3iu2lP9xaoqA=
+	t=1777468821; cv=none; b=aKfG4+Mho+BSEoc3vu2s+26/u4AoRBwf0GYyO3NyWf0zPZL1mmuSFCQ6I7Yl8KqLxr18Whz3qc1IwRs8O6u0rArgUUBI37MgTjwP5p5EcQEYAXbUP6CHJsNEHVUsLuuf0alT+QpS/yelm9FLSKi+xJrj3USdo8Cb0pEn5dFVIVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777468816; c=relaxed/simple;
-	bh=V+z3lB4+pCRWf3agDWSa+KADY1fFSo/WBirj1hovzuM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=e6rPt0XLgLpPfAnZuVhBjLS6hda6Hy8znedzgKgtZdKo5xt3J4/WIXFLX9T0XCzM/FSzledtsEAWGdrWF/hf6InHefBnPVVKp3zanPiUKM/EFjnXgf5MuSz67HS7iuwDMoRgtjjGOGYyeFwvNMNyzfYTlFpYbARU6PqYzFVZH7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EB1FcybH; arc=none smtp.client-ip=74.125.82.48
+	s=arc-20240116; t=1777468821; c=relaxed/simple;
+	bh=qY6eB96FgX4rdA5fSKY5R/IfRUGHMZl8tl+qMd0TShc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=D/fJhXqTQtaM1hF19w87sZuIrI35iydOqFYmbhM/tAj0Ef1clZPuSL2xtJBKBHJJARQyXBSnk40Yrjq6it1dLenPUi2bw3Zg89Pe0EMlMiDdbsLKw1ohnCdRCq81ajtFKAcKVkYWepDrLOnALHWwjhpJa3KMdKk/TE2ur7ZLWkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CqijdlY4; arc=none smtp.client-ip=74.125.82.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EB1FcybH"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12dbd0f8063so2537912c88.0
-        for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 06:20:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CqijdlY4"
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-12c565dd3a7so5708578c88.1
+        for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 06:20:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777468814; x=1778073614; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=miTiWvSjRX28D9+/gaoocQinz9zlsPUu/gC8XD44ro8=;
-        b=EB1FcybHBRKOF8TbvlMHJov0pXbugl6AHmTT0K3xDiSuEaeBlAZe5vm/QDUud+5kr1
-         KsHPrE42R6Quey3Gm2P9JEMuMd33hw8GI5GTurZv2QqqQ2scbpowxapkd7rLatJGHwGa
-         j2BOE0lc5Nmp2dG/xImqu3q5WyIhYyexVZ2R7QvXMAvEsZMIem//tSAV9IwDo9KPVqsN
-         2o+chj3otlH4mxUDcobWzGpS92z6cWvqcaz5BvlfrVVWrf+qJhMWLW4yWPQJ1XAbVKOH
-         wVCDEond4VHx4O/fWHaoWIXyVJdpY9i51Hjr/SWm3QFA/kh4kSF9eOZb3Mc+o8JhLnrr
-         l61g==
+        d=gmail.com; s=20251104; t=1777468818; x=1778073618; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UR0FCOG1yA7m2DxeXQAQxx+l2dMQw9njJ++QgkzdIdw=;
+        b=CqijdlY45PbkwkTiQ0qg8vOWJv22ZUPqXa/jzs3SicOn4Iz3NzAYGD0AA5YAY5Pg7n
+         53GCIltbWdbPF/h4Y8Ypx9Ywv/2gRmdVSOMbXO0krHUOUL573O8XG+qwRGGMRRG+sHf9
+         MwLYdsdXFBV9AdEsf0I9xAm8ZTLzkD77RVswROuMEORJkgprys/I5HpFbTsasOhwMCaz
+         qL9/XY4ti28Radv2891fGSlkmOVlc9z6qGHk8jhUdnqRc+oaLZ+NDuWGe/XqIL7665NS
+         mblpKfoAI0Kx8gYX+CHusBoIgVZj9WyZH50rmWXZBExg10r/dvAMt9AgUife7/thYMER
+         MyOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777468814; x=1778073614;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=miTiWvSjRX28D9+/gaoocQinz9zlsPUu/gC8XD44ro8=;
-        b=Z5gPMDMr6WUhXvm/hCuLkdguvwFpq33lutkMz5etXfaRWG4c4fU3PvBeHLfH+4jIKB
-         KBnn7MV2ifIfCW3jvTobAyZc1iz5t2IlMEPr6zTWHhOd+36whOCkkyt2FsM7DxruGVSj
-         YXkVmAjvbJgdPMvAECXYl2nBF3f2wVyxo/C71P8s2WcLJRL7P7zbZI/pMeggnlthpCtn
-         5ZMF/5rf/lUtFuQtl7IhTI49Eqr7BFKJlojGaVDD/C7ILBGu+rDm5arVKjjoJShr2D8m
-         7egHtH6tufcPAc32nClosScs3KMMbFpMyObfcmDLw5rsKtN/RT0bt1VAfV/tvd3LI34D
-         ckCw==
-X-Forwarded-Encrypted: i=1; AFNElJ+NuAb/BejypIggY/qsj0VTG4vMOJ2yHMG9nKT+GA3h+8ieHPqHy9w7GTij4hHgejwUpWTXa5FC/Ks9dw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywh3VvbTfkTG6oMNNax2n2ijqXpUhvNrvq2pjyp0F9en0McOJ0v
-	bd5ufOBZk/FGxMSWwWB0MP/7nv/I426Az03o9S04jhbUZ/wjsGuDbkm9HCxyGB8w
-X-Gm-Gg: AeBDieuhrDB5G8CqfYAf2vVITpuGyoc6Ht4q/PshL67VK1j5rHzxHT+BBQciqDVv5/e
-	+kPSJ8BMwQ14Ecmyw7Sy2DkZnHTerEBmHf7udkY4jRL/CZxz1oMaY7Vt0T3ENpm7iFFHGLb5WaU
-	16uea5onprhk6gZY3/eG4tjS1kLLbjgZ2COLIOxPMGb0B/GaaPRKP/nlf7t0S0q7sdMBH+yhutl
-	+uNmq/5sh7G1EB799YVjB6+k4A3t33wynl8vg3osTAdtn8pzz+GjOEOma+uBHQ6lsvb4gVkPVAe
-	QXvUixpy6XFfAIRxx9M0es3YJPAlbviUgdftnPppmShXkrYHZ35SbbwFRAxw/yfClr0mazokjee
-	8Mu3xg87WhabF0b5Ibbn/s+/HVLYTOhPTYgqvNYGspg5j9dcXs+CtDZ4+HGhezXNepQLV70x6JJ
-	bqZASDaTLX2wd0TH3nqPWNFV2WGEfjz4MpNGLLH6mv33gmbiuyJhVOreyjXB5hCx+DcdwEkcYZ3
-	23lt7jD2Cnh
-X-Received: by 2002:a05:701b:2908:b0:12d:de3e:52c7 with SMTP id a92af1059eb24-12dde3e5305mr1742619c88.43.1777468814248;
-        Wed, 29 Apr 2026 06:20:14 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777468818; x=1778073618;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=UR0FCOG1yA7m2DxeXQAQxx+l2dMQw9njJ++QgkzdIdw=;
+        b=KEt1hSpEJJDLUQXwJBJAZKCR/AEUbhVbzbUBYa7Ccv0jHIOmqnAo/n8pDIIH+3HBEs
+         xwJDRWlblSFZtVbS9K9xqCm13NJm5o9opWHHe6IPPg0I5cgO+E6HqLLxQFSVWrqpwlCe
+         vShqLpZm7lIutedE8YneU1SjNmCFObcpGYAnrDdBs8Wut1U7atge9Nyzjwm3Dr/tYfxA
+         InyZT4+I0dK0InAvSXwE4h56LhpuTWajKIuVqCAZmY4OnyWXR3ul8WOjKxGizlCH7gSM
+         Up1G/AQa6qpELGurqRZhEXinkbCW5HKMMJ58MpsZYGF9fpjN+4rvDiI4RgG6L4cCmeM+
+         P+Zg==
+X-Forwarded-Encrypted: i=1; AFNElJ8k351PJbp8ixeVPZ9HRxyvhLCJFkMbMMIDbKhkYR2CF5IxK70QIwjEXZHIPAfiXoEWt1PS0jNLrN5JxQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxW7uQGl5OFLHbbeS9CuVnvZ8QInu4A13AjAycxoIhq9ds7f0FU
+	LX5VuGJVxtJ7r5gMZselnpV+0CxuKwsI2W4QaTjLWuG4ZJofKsRbx4jw4rjjH5Kl
+X-Gm-Gg: AeBDietbjFDHSB0fka1LLnIVJ7n8wsEaVaOVtCnDzHNIhX5GAvLMbC8TnzDVwV3o1LK
+	qhlURE4D3tMTP0FawqboXQ44hLloLYX6/kWXhjb4XxLDJV7snPcSpUy8eFZUAlCoCenlYspr+Ek
+	GukzwymDbcwykp+Jo3cHY6HRPqahPtJrV9P/0yr0ycTy3Gat/ZOUZb72tdaTks+EaCvOyC0NI6D
+	aRoON/qF+P+uOf73hkl4W3lRz7JLysgK/+gRGgZ9kCgs6EsMnwTPX89YXKAWfHJBFmbvmSY4JTf
+	XC/UNvP3k3bfgcxeLr3235jYL380IhjvIRGXPK1oyFvVdzA2/DwcR2kABqXt8xG9rmeIUch5vJi
+	g+ADZ2CW3jUp/7elBxq+HDoH47ntLRO7At57HKc6GuUXhmtWpcVrX3Ur6xcfyV8OkPRdp0ZUF4K
+	DW0zOrIG79NSx7V0mrf2jnaCeMAouANEhTHgllT3NNwwvQGqrMkXXf3ZsvvZQEPTXuJpmGduwfU
+	PFs34pQiiFw
+X-Received: by 2002:a05:7023:b05:b0:12d:de3f:d848 with SMTP id a92af1059eb24-12de2a76b36mr1531162c88.43.1777468818213;
+        Wed, 29 Apr 2026 06:20:18 -0700 (PDT)
 Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12de321df36sm3336852c88.7.2026.04.29.06.20.10
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12de321df36sm3336852c88.7.2026.04.29.06.20.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 06:20:13 -0700 (PDT)
+        Wed, 29 Apr 2026 06:20:17 -0700 (PDT)
 From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Subject: [PATCH 0/2] ALSA: usb-audio: Fix stale quirk control caches after
- write failures
-Date: Wed, 29 Apr 2026 10:20:00 -0300
-Message-Id: <20260429-alsa-usb-quirks-cache-rollback-v1-0-01b35c688b80@gmail.com>
+Date: Wed, 29 Apr 2026 10:20:01 -0300
+Subject: [PATCH 1/2] ALSA: usb-audio: Roll back quirk control caches on
+ write errors
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,10 +71,9 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNTQ6CQAxA4auQrm0yjPgTr2JcdEqRygRk6hgSw
- t0ddflt3lvBJKkYXKoVkrzVdBoL6l0F3NN4F9S2GLzzR9fUZ6RohNkCzlnTYMjEvWCaYgzEAzZ
- 7cid38J33DCXyTNLp8htcb39bDg/h17cK2/YBE6Q4joIAAAA=
-X-Change-ID: 20260418-alsa-usb-quirks-cache-rollback-43a07052f22c
+Message-Id: <20260429-alsa-usb-quirks-cache-rollback-v1-1-01b35c688b80@gmail.com>
+References: <20260429-alsa-usb-quirks-cache-rollback-v1-0-01b35c688b80@gmail.com>
+In-Reply-To: <20260429-alsa-usb-quirks-cache-rollback-v1-0-01b35c688b80@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>
 Cc: Thomas Ebeling <penguins@bollie.de>, 
  Ian Douglas Scott <ian@iandouglasscott.com>, 
@@ -82,47 +82,169 @@ Cc: Thomas Ebeling <penguins@bollie.de>,
  =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>, 
  stable@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1453;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5747;
  i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=V+z3lB4+pCRWf3agDWSa+KADY1fFSo/WBirj1hovzuM=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJmfWLs0PcQW2ih92uabLqp6NUTi/tcfdbzmxzh3vjCc8
- nN/yNO/HaUsDGJcDLJiiiyrkxZZ7ul6cLU+boUHzBxWJpAhDFycAjCRtwEMfwUYklX2XOfZMTFb
- YV3+TIG6F9snhS+9fm65IfeTLY93lB5k+B8Zymu/nfGZD2tidXsz73+9y8pV9otW5oVPu3zY5Oe
- yL1wA
+ bh=qY6eB96FgX4rdA5fSKY5R/IfRUGHMZl8tl+qMd0TShc=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJmfWLt+Jr3vZcthXVazcHpSSTDLtdcBaeI1nexvtsgF6
+ lZPe9HXUcrCIMbFICumyLI6aZHlnq4HV+vjVnjAzGFlAhnCwMUpABNZ8IPhN8t5me7S2RcuRL24
+ qiuV4zzJeukc5qOdV7d79d5SWe85az4jw0rG19pptwOzd1+eK1+674HDb10br9ZzpbLHN/+cMCt
+ 9MiMA
 X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
  fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-This series fixes stale software cache handling in several usb-audio
-mixer quirks.
+Several mixer quirk callbacks cache the requested
+control value in kcontrol->private_value before
+issuing a single vendor or class write.
 
-A number of quirk callbacks update kcontrol->private_value before
-issuing vendor or class writes. When such a write fails, the driver can
-keep reporting and later replaying a value the device never accepted,
-because the corresponding get and resume paths consume the cached state.
+Their paired get and resume paths consume that cache
+directly, so a failed write currently leaves software
+state changed even though the update did not succeed.
+That can make later reads report a value the device
+never accepted and can replay the stale cache on resume.
 
-- Patch 1 fixes the simple single-write quirk callbacks by restoring the
-  previous cache on error.
-- Patch 2 fixes the RME Babyface Pro packed-state callbacks by updating
-  the cache only after a successful write, since those helpers already
-  take explicit arguments and do not need private_value to be updated
-  before the USB request.
+Restore the previous cached value on failure in
+the Audigy2NX LED, Emu0204 channel switch,
+Xonar U1 output switch, Native Instruments controls,
+FTU effect program switch, and Sound Blaster E1 input source switch.
 
-The split keeps the generic quirk fixes separate from the Babyface Pro
-packed-state logic and keeps each patch tied to its own introducing bug.
-
+Fixes: 9cf3689bfe07 ("ALSA: usb-audio: Add audigy2nx resume support")
+Fixes: 5f503ee9e270 ("ALSA: usb-audio: Add Emu0204 channel switch resume support")
+Fixes: 2bfb14c3b8fb ("ALSA: usb-audio: Add Xonar U1 resume support")
+Fixes: da6d276957ea ("ALSA: usb-audio: Add resume support for Native Instruments controls")
+Fixes: 0b4e9cfcef05 ("ALSA: usb-audio: Add resume support for FTU controls")
+Fixes: 388fdb8f882a ("ALSA: usb-audio: Support changing input on Sound Blaster E1")
+Cc: stable@vger.kernel.org
 Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
-Cássio Gabriel (2):
-      ALSA: usb-audio: Roll back quirk control caches on write errors
-      ALSA: usb-audio: Update Babyface Pro control caches only after successful writes
+ sound/usb/mixer_quirks.c | 45 +++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 37 insertions(+), 8 deletions(-)
 
- sound/usb/mixer_quirks.c | 61 +++++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 47 insertions(+), 14 deletions(-)
----
-base-commit: 7b04e87c2a10db9c65b3133949bbe1b738b6ed7e
-change-id: 20260418-alsa-usb-quirks-cache-rollback-43a07052f22c
+diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+index 1bdaa46d4fe1..229be55e9158 100644
+--- a/sound/usb/mixer_quirks.c
++++ b/sound/usb/mixer_quirks.c
+@@ -333,6 +333,7 @@ static int snd_audigy2nx_led_put(struct snd_kcontrol *kcontrol,
+ 	int index = kcontrol->private_value & 0xff;
+ 	unsigned int value = ucontrol->value.integer.value[0];
+ 	int old_value = kcontrol->private_value >> 8;
++	unsigned long old_pval = kcontrol->private_value;
+ 	int err;
+ 
+ 	if (value > 1)
+@@ -341,7 +342,11 @@ static int snd_audigy2nx_led_put(struct snd_kcontrol *kcontrol,
+ 		return 0;
+ 	kcontrol->private_value = (value << 8) | index;
+ 	err = snd_audigy2nx_led_update(mixer, value, index);
+-	return err < 0 ? err : 1;
++	if (err < 0) {
++		kcontrol->private_value = old_pval;
++		return err;
++	}
++	return 1;
+ }
+ 
+ static int snd_audigy2nx_led_resume(struct usb_mixer_elem_list *list)
+@@ -487,6 +492,7 @@ static int snd_emu0204_ch_switch_put(struct snd_kcontrol *kcontrol,
+ 	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
+ 	struct usb_mixer_interface *mixer = list->mixer;
+ 	unsigned int value = ucontrol->value.enumerated.item[0];
++	unsigned long old_pval = kcontrol->private_value;
+ 	int err;
+ 
+ 	if (value > 1)
+@@ -497,7 +503,11 @@ static int snd_emu0204_ch_switch_put(struct snd_kcontrol *kcontrol,
+ 
+ 	kcontrol->private_value = value;
+ 	err = snd_emu0204_ch_switch_update(mixer, value);
+-	return err < 0 ? err : 1;
++	if (err < 0) {
++		kcontrol->private_value = old_pval;
++		return err;
++	}
++	return 1;
+ }
+ 
+ static int snd_emu0204_ch_switch_resume(struct usb_mixer_elem_list *list)
+@@ -821,7 +831,11 @@ static int snd_xonar_u1_switch_put(struct snd_kcontrol *kcontrol,
+ 
+ 	kcontrol->private_value = new_status;
+ 	err = snd_xonar_u1_switch_update(list->mixer, new_status);
+-	return err < 0 ? err : 1;
++	if (err < 0) {
++		kcontrol->private_value = old_status;
++		return err;
++	}
++	return 1;
+ }
+ 
+ static int snd_xonar_u1_switch_resume(struct usb_mixer_elem_list *list)
+@@ -1159,7 +1173,8 @@ static int snd_nativeinstruments_control_put(struct snd_kcontrol *kcontrol,
+ 					     struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
+-	u8 oldval = (kcontrol->private_value >> 24) & 0xff;
++	unsigned long old_pval = kcontrol->private_value;
++	u8 oldval = (old_pval >> 24) & 0xff;
+ 	u8 newval = ucontrol->value.integer.value[0];
+ 	int err;
+ 
+@@ -1169,7 +1184,11 @@ static int snd_nativeinstruments_control_put(struct snd_kcontrol *kcontrol,
+ 	kcontrol->private_value &= ~(0xff << 24);
+ 	kcontrol->private_value |= (unsigned int)newval << 24;
+ 	err = snd_ni_update_cur_val(list);
+-	return err < 0 ? err : 1;
++	if (err < 0) {
++		kcontrol->private_value = old_pval;
++		return err;
++	}
++	return 1;
+ }
+ 
+ static const struct snd_kcontrol_new snd_nativeinstruments_ta6_mixers[] = {
+@@ -1324,7 +1343,8 @@ static int snd_ftu_eff_switch_put(struct snd_kcontrol *kctl,
+ 				  struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kctl);
+-	unsigned int pval = list->kctl->private_value;
++	unsigned long old_pval = list->kctl->private_value;
++	unsigned int pval = old_pval;
+ 	int cur_val, err, new_val;
+ 
+ 	cur_val = pval >> 24;
+@@ -1335,7 +1355,11 @@ static int snd_ftu_eff_switch_put(struct snd_kcontrol *kctl,
+ 	kctl->private_value &= ~(0xff << 24);
+ 	kctl->private_value |= new_val << 24;
+ 	err = snd_ftu_eff_switch_update(list);
+-	return err < 0 ? err : 1;
++	if (err < 0) {
++		kctl->private_value = old_pval;
++		return err;
++	}
++	return 1;
+ }
+ 
+ static int snd_ftu_create_effect_switch(struct usb_mixer_interface *mixer,
+@@ -2114,13 +2138,18 @@ static int snd_soundblaster_e1_switch_put(struct snd_kcontrol *kcontrol,
+ {
+ 	struct usb_mixer_elem_list *list = snd_kcontrol_chip(kcontrol);
+ 	unsigned char value = !!ucontrol->value.integer.value[0];
++	unsigned long old_pval = kcontrol->private_value;
+ 	int err;
+ 
+ 	if (kcontrol->private_value == value)
+ 		return 0;
+ 	kcontrol->private_value = value;
+ 	err = snd_soundblaster_e1_switch_update(list->mixer, value);
+-	return err < 0 ? err : 1;
++	if (err < 0) {
++		kcontrol->private_value = old_pval;
++		return err;
++	}
++	return 1;
+ }
+ 
+ static int snd_soundblaster_e1_switch_resume(struct usb_mixer_elem_list *list)
 
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+-- 
+2.54.0
 
