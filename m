@@ -1,163 +1,180 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58760407574;
-	Wed, 29 Apr 2026 16:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170943F7880
+	for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 17:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.169
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777479740; cv=fail; b=UUKA8ZU6LSnM85Eg2Kew4ma8Q5AUsdUndhVXaDYn17YaLqaD3knzjijna1LZvW/RwJWLdmTvFVz8aFaVPIKdiHcS3azn+96Zj03/kcovTJiIC/56X4i36zUSWm9l0Dj+5wV0DYIAkc/pR5/apqGL2vo+ovwTZ55CuSIsgs4OYUA=
+	t=1777482789; cv=pass; b=rpCQpgA8SyskulVTWyqyVwiRRpfWxdbZf+l7XS6nwKyskhNjnZSWHAhwuVGAkwr8OtOVqqy+COBWcufI2oT0xXqSQG7Rm+lGriBkBBRc6pwCO/10ZhZpubO7Qw/LnKvFThicdxOD138EsRk1Tno+6+WBFBVOppsFJXqOq9i+x7k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777479740; c=relaxed/simple;
-	bh=2H0vGY4HZWDYIiCFL6X6SrxwDjqHY9vTBBhkYUXxRZw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ehTmDcrhc1NfvjU4n4H2XqffDREmj4dWnQWephBXhxlQlR4hl/HasqurPslMEWyuEwX90IcaSb6/hlIBWM89TM7ii0aBe0Y+G0wGN4NSOHW+ufB7hZ1YUG+nzo3peFmZkPO6b6o7K2xYtD+wWT3j3ZpimYoc+o2etnGLdxVsHns=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=ijXjPFfA; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=YHlp1P4t; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1777482789; c=relaxed/simple;
+	bh=keKJyATHH/9XZlJC+tuXNxKnBFaRlDa69beG7NG/Ie0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=g5q7FD5BDojSkOvDSNc5a4PllswCH1Ggv4lnPJhPpISKrGJl98jVOhH3KXlWHPMH+rov2HKlStYO1UpZIcYlbUYJl/n9zZsnF6IG/t7Cp4/St7BhZGlhxtLCeLWOkNA1yyqn+8cw4m9gGyb0PStDRMYi0N4ql11WeVIe/LYo/lE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l+WbIpkL; arc=pass smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ijXjPFfA";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="YHlp1P4t"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63T5QPVJ2565692;
-	Wed, 29 Apr 2026 11:21:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=9/Nh3hOxWfOYoWU5qJ
-	dnfs8GuIljMuLpEXXCEPXOUF0=; b=ijXjPFfA3PGXH+JRo0WaBuKMf1D/yljxF+
-	h89FqtwlLP2uJSz4VkON2EjncXlk+JzQiq/sN8tYhKZpY2ZygU12b6uOQP5JJeee
-	qz8SrE2k2yWH7RmEdbUIj27yR6gfHF+u5GVZZ8vag4Vp3aNm6YcdI1twBv7Pe+Pn
-	xFV/Ba8NGE86X0DOm/yjtFMuACrwfFPUtNp3KAAw+r2I3sCDr7Rc1qVhEMhpGekx
-	usZ9rg8HJGomZUFhrLdvxPBMyXCC/hVgO4MaSN/J/zSguL5iJfYyBdZhWaCPkt8q
-	Z6Fkxn0t4/RSinw9Pj8rnHXpICbEwSEIERk9HsV0heOS0gMs63Ww==
-Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11020130.outbound.protection.outlook.com [52.101.85.130])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4drt1jnvve-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 29 Apr 2026 11:21:55 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NxjIoQlHKBO3hXv/PAul/vgMEBCvwXAgAmgbz5Z+aFAGkz45JStNUfNomPaY0I7LmCOmVsj2U7pGC5l0LMBhRip9Yc6wFaI+eiW9dqqpLiJmeL8KUZJKac22CEYVdZJLgqHxBfIVriMwm3KaJAZaxTtFniEZ7U8TSi/mtVIIJfOpeyCL4g6hORaGa2sLnMknXguZ+0Jzz2D9J7hlny/IBZ9fX2KeP0W+sDtI9johMTiGJo+MD3LkFqkYHSiOos3idpToflkNFemw0AhCz+UHvnMHvMV+vLUm37QNUbqx2rTCQ0IiCmDqEXXRrVpGETVfztnTQfZRXoNKuqEEPDurzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9/Nh3hOxWfOYoWU5qJdnfs8GuIljMuLpEXXCEPXOUF0=;
- b=j9xRXC91n04vnBw0vLJVeHs4sXRbt9SZE6sSdCWgrPQn8xgHs3S7jwqTy0e6vvpZrMnugBx+9u25T00pj3ZaBrk1V8e3lGuga/Qh8/jpHyd7mDlkSGtzAcvNQU3TNzAIShi6EgLaA85osTpS7DI9zyJrJKHDzDgU/3NG/DPd3HkMj6JQtdXSGXHON7djyM/niN5xmnHcC3gHTOTIrZXICw9vTMIwiq3ATDcoh0li2C0gINDV8LMFEV8vhGKQoeNJWZ7GSFWO0rYMW7G+0GYxo1qT1GSrx9y2OMpR2Y1TX/E21KazpesA8Ok7QQkS4HzCXiREreXeRNTHXc7Y/Q784w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=gmail.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l+WbIpkL"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8296d553142so30557b3a.3
+        for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 10:13:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777482787; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UeLfA6ksnsD8fWTSOUudpuwcqGsoogODs45ExrgA6ItxKeXPFbrgjTOA4z2GSD50ah
+         8rb3L2SimiHgfTozq0yvGVXsS6rIuONY92FGhtQQ68WGTEGG5WYKPuIoIlM39vhcsxxE
+         cpiaf+rcuP6Mm48i/oYKNbt1zBRbMZQDqroLoWbJg23A4Z2wthPcYMw9DbGQvQ3jVDYq
+         1dlAFmXW79BLLq79tCKga4E/xR4nnmvMs1fJSbJJdt9Fmq7Vcdt8TrsRMGfX6cc8pVwn
+         CaCG/UxOM9EXgq0FdaKi7x0nEUs2qMfMHSzO0WeJAb+LlthP6uPXcAlX4ZQyAG1U9GiN
+         k91A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=keKJyATHH/9XZlJC+tuXNxKnBFaRlDa69beG7NG/Ie0=;
+        fh=OL2ea8uw1XT5iGeAWCtwWGOXZagdKx02jvnONbwdpDg=;
+        b=eQq/ZgdEGe4q7HNGpb3oyKlYBVYUu6uHv8voGCC37lOh0nf5T2QAqIAkMT5YaCeOaK
+         xSzfbP/8DQNAF0zyZMQaoWHTEANc6Q4PtRAYpemcA4mLgls5k5Q/bffseZypmL8BkWkK
+         21NIPkLPccNaTvM5N/OHQ4/zCh9v10Ph53Zu8XIIUIKBYGZI1tBwgR4iJURb8WjSuyRC
+         39//na9lJh2BPqrajLqST0jilUiazTcceTqVA1QQaUSW1cITENfCVKycCxbLtCzRcT/u
+         GlwipgslyQcB06lWxP7et4JWssOJz4bgt+1P0weRRUHe3uQl9pz2GaKDmP4gC41Z8Jf8
+         Nnag==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9/Nh3hOxWfOYoWU5qJdnfs8GuIljMuLpEXXCEPXOUF0=;
- b=YHlp1P4t8zD6HdCsJT7PDYFW5v8udHJFNIfStPc0TZg86wiT+eVhgvOe+T0CXxcY8Hh4Lt330LfM4W9Wlm3KvRO6BRpAvMxkYBV5tJDMNzBzF22ekVnhkhl98cZ4H7UkQCv4j4DMQ6IhMVVuhPF7XVMHjKsqjsoqaB5SE3ffaIU=
-Received: from BN0PR03CA0012.namprd03.prod.outlook.com (2603:10b6:408:e6::17)
- by CYXPR19MB8403.namprd19.prod.outlook.com (2603:10b6:930:e6::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.19; Wed, 29 Apr
- 2026 16:21:50 +0000
-Received: from BN1PEPF00004687.namprd05.prod.outlook.com
- (2603:10b6:408:e6:cafe::4d) by BN0PR03CA0012.outlook.office365.com
- (2603:10b6:408:e6::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.28 via Frontend Transport; Wed,
- 29 Apr 2026 16:21:50 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BN1PEPF00004687.mail.protection.outlook.com (10.167.243.132) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.18
- via Frontend Transport; Wed, 29 Apr 2026 16:21:50 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 3CEE4406554;
-	Wed, 29 Apr 2026 16:21:49 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 2447982024A;
-	Wed, 29 Apr 2026 16:21:49 +0000 (UTC)
-Date: Wed, 29 Apr 2026 17:21:48 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Niranjan H Y <niranjan.hy@ti.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz,
-        tiwai@suse.com, cezary.rojewski@intel.com,
-        peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
-        ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
-        pierre-louis.bossart@linux.dev, baojun.xu@ti.com, shenghao-ding@ti.com,
-        sandeepk@ti.com, v-hampiholi@ti.com
-Subject: Re: [PATCH v12 1/4] ASoC: SDCA: Add PDE verification reusable helper
-Message-ID: <afIwHKUHPEkbGuW7@opensource.cirrus.com>
-References: <20260428162911.2372-1-niranjan.hy@ti.com>
+        d=gmail.com; s=20251104; t=1777482787; x=1778087587; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=keKJyATHH/9XZlJC+tuXNxKnBFaRlDa69beG7NG/Ie0=;
+        b=l+WbIpkLdmYuJJYHZiBsvRvJQpua16fxHwYlyCjjgdhnCYtnySFXc0uUrSqU1VxSQA
+         faBXPfuV1ggf+CUzZgmOanbGjvkirE29Vi/V/YDe+8nHFSIly5JsqVRrsJFN6KMP1y2H
+         X1DVPnOjMY6H2eD21d8q6KkeC64LMMmbVNhhifk4Kt8uNWdyxIsg3my33sNltNk2udrw
+         IX2uqkLlgmBoWePd+fURIUytGZ7IG+Z/+Fgoz1OvSSYdT29YDdrPcf3cl//UsMlXf1BX
+         tokdN/WL30wRNhqAOtBuZfJQIk8FXsFGUGMqohU5XQVNfSlvA9XrlC/GVYmfmLRzEHh9
+         CwOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777482787; x=1778087587;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=keKJyATHH/9XZlJC+tuXNxKnBFaRlDa69beG7NG/Ie0=;
+        b=iR4BenQnOxccYkZHtnMgYzvBaxa4hO+ipwe+olgGHcdoz8b7s2tftRrZEjYKKmYP88
+         +/zc+uzw9Zx3AlsiufcpcZ6Ab9LgsjGKGnTolssIexlX3dpOC6V4MIF0zoxCSwEsz7c9
+         +SBsuZQ2vIDazbYqz10Qbp31Bq257JyjSRYO7BSDqvpah3jO8Z1SZXJIqaewtO5tg+F6
+         ONUqPziFSbRaa/iZplyjAQ7CLC7EWPoAj8TfOiQMPGCsP+badJ9seWTlxK8qhKE7z4p1
+         +4379jDLEQT47aO0AcmXy0w+FlZmQHCv9ZdHaHdcTHmYPRtLyhfGh2oJRBRIz4WGiz1q
+         1DQw==
+X-Forwarded-Encrypted: i=1; AFNElJ9MZ0C/LGjGdM0p3X/zwXHp7smuRA3DmSziukw6hYi+rXuMYZ+n4M86AvW4ZmSViDi/Vi2EBbUAvfnUYA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxe8cC7Qra66E5ROAWua9uUpkz+t64VbzO+4ApfYxkFDwJK0UJc
+	QKJb05yXjhfs0agJJuVCvIyLW+aM4WJpTF79JX63D8AXRf1+V7SYmK89CaDJEi6IuHm+++edq4L
+	YYpvlGHlQ243hkTI2VUz8TEDr/shmR1A=
+X-Gm-Gg: AeBDiev+Fy0SRNNb/SXI+PXesdNNSjLih5GOKroP5ChRiuk4eQmJgs2/Es3bL6X9CO8
+	gn8fw0PXbeMtLhB8hZTukrrW2ut7K77MS9xmHyp4Bgcnb0uQo32FqI0p8+wGduxEk7xkRZXQ1ig
+	105SqO4L0G992ExpAX65dWZWtx4Of0BuBsTf+4bqxlPxn/4jN8/+JbckGo2+cHlVurAMfBAGruH
+	MsRw9z65o6wUbB+0nB6Q5tTCyQN3wnVXYPxf9HLVk0H61gtWxFUaURFHFjFY1cVQEQLmDYW7nrL
+	XVLgo8BddQD7QdHDH9JZsNREqhM/Rs/rtjCIGXC2qMnsA4qJnNHVaiXrcZP09WQpK6kwqfFWpai
+	jl3Zf8bo=
+X-Received: by 2002:a05:6a00:338e:b0:82a:5d55:5807 with SMTP id
+ d2e1a72fcca58-834ea5688a1mr4806793b3a.6.1777482787258; Wed, 29 Apr 2026
+ 10:13:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260428162911.2372-1-niranjan.hy@ti.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004687:EE_|CYXPR19MB8403:EE_
-X-MS-Office365-Filtering-Correlation-Id: afb14587-6285-47a2-1ff3-08dea60b6af4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|36860700016|61400799027|82310400026|56012099003|18002099003|16102099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	bDtHfSZkB3QUPxZYfwoALbgxFh9OjB1J3eee8EDnXI+iwHIbTtBNGPIk1X3LsV8YeGjJHM1fX5uhUQlf1wnOjcrVJtRgQpC2SybJ+g5DQNIVGw2oAi2fjDBIjeSMmIcRilFxvXSbC00bPuujrctfk6YeWPmY97nmsW+cDF+s5Ggaef2XU/gM63rMorCdshr33EElwCMnMM4voEoMo4Vvy42XqmAQ6e1a4wUpkyEr4QKUiafJim8UW+nvp5YmLNMYi+EfKTL2OIvp5sC2Bsko7LLzmn04P0P4fSc4/YU7VxFq6wJx69hCItw8viHl7dBoxQn7IjlWU3ooZFXftgKv3we7EjkmZlNNzZqq4RO2NSSKuDjakQ0GsST/70cILYv5rTHTBC5wP4bPci6s+5rbQ2WpfY7PwoCeVlf0OLpNr80vN9xPmSIeEOLNLDOKi+zyF8tiQ0QNYIbHw5xCgtQNfJD3VB06pHjFr5UEH4lVes1ae4esnGS2llZOVuSvhqUHfMQyY7/i2GzJg8Sn4fUGGjQOBNIKT1+/pNnAQZRhtGPokXa5iBft5x21onRCStJlZjRxC3UMW9ysI/XMbixPV5zSmNQOfL6O+WvPkOJfq1vFnDJSFcNPZZdf/6VzgSu8gDzkYm5uzfnQERQIeV/uSuh3E0tMDhaLT0gNWEsbJ+ZFrO3AY9rAlvTUAUMefL6f6T+GZZxwpVCschQQ+VeSzX+swbbQJY7eVOjgPBI1d237dUSKFHa6vCOcqIL8wjOZDVsMrJFRBD58klJZ9RQIzQ==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700016)(61400799027)(82310400026)(56012099003)(18002099003)(16102099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	Whbldn153OkWrQFzJPD2cJ7XLXmpdPGjSIsIaOyL4SpHH0ZVOmhWXEPj3tZK9ivZ9PgWMe1UW2VdDTTR2PSijbcRDpY1S32z/MRM4y9gAGvWTlcKxv0idjqS/vSgxeUOS5Hdm7n1KxJdDceWl51AwHWhqV5JfaWg0bUZgiBc8tZ82lIxBSLNGEP2XL4vrluvPPviGaQPw41oTGuE7/lFb8Pss4thlY1K7RzWKjs6PsAXby2alYtjygig84GOKcLUUuPfUuumJP5o/xhmmraQqCZDplM/3Tg06Xju37MYwgx2P5yGZnzuio+iRMl7PrsM+q3QqgB0ATWBTWO3JQwLgMPAI+F7P/an2tqCX0D6uJxAw0ruSVWFP2SdAPopcxPzvQ9DRt4vBYsJynKSjTgtWA1sMR7/ynE1nMr/ODcMsL3E3QsP3cc2EmJauj6/7Vgc
-X-Exchange-RoutingPolicyChecked:
-	nR4UROeDo3jIObN7y6W2E+zaUdZNZdpuQlB7ipwCeLPS7MovEq9VVXlsDCh7Cw2wR9BqfJSOysx8AQx52lhEant86raB+XMSHQN37O9MsgFSBQ1xC0UXZZ3IZZecTAQ89KAWuRPwuW00CMVlQ+zVpSU6EgqbfacgmCjmznOv1ymM40hhpsnN3QAIb3+Wfuu9A4W+0lsZ5rozc6YmAPORMmQO6Jd7vNtZypZY3sz97BaRoy1cxMNtEJyJRmymlRY9Y279ANPO7QggNsBAzh7FBY9rrFXZ3Tqpyvva9gYkBBCwroQg+Rj/7R5hMSPCIlL3AIMfSL6dgvZfO0BiXCosQA==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 16:21:50.0259
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: afb14587-6285-47a2-1ff3-08dea60b6af4
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN1PEPF00004687.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR19MB8403
-X-Authority-Analysis: v=2.4 cv=fbudDUQF c=1 sm=1 tr=0 ts=69f23023 cx=c_pps
- a=X2L/u1ma8r2rsimHZpPbHg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=A5OVakUREuEA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=sozttTNsAAAA:8 a=w1d2syhTAAAA:8 a=e7yRUnEFdbXuKGm2py8A:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: LPhWje-8QXT2e2vloORTTr06WadHed9e
-X-Proofpoint-ORIG-GUID: LPhWje-8QXT2e2vloORTTr06WadHed9e
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI5MDE2NCBTYWx0ZWRfX05gajawbyItg
- 4jzNNnpDSdwmReKEvuxziJEGpO2zsYYIuy0DITMm93vmewpiuZkM0uGfobHL+Mg6FKAcxNkHHgv
- RYDucBj1KvIM68RLwJKbz2eeAwQKf8+OQamz34uKQxMa0wqSUgwyLzbWEHo4dh9g8T0c0GdUnh3
- sizI+M2+Dc+G819q7JWcn7FCByQ0ygprQnlX317qWP9DLb1tqmKMD1vk4z8Auvz0twohzNwjRTB
- e9yO3J6qWq46tt1DKzduIw6PkK0yLpBt2BJNCCbl1CFjybxKI/qCpl11wbReab9rhJ63DLseFZu
- GfKbj/qFNshbB/szNntHOqEeU/tsOc1kNtHLij09jxbSFYz8H7Qt3QpGO4VxoDRuWfJMuFcTpgN
- URA2qridbKcNzIsQIezwSKApKDPZzUmUrgkLpY8KFgErKFtozHiiJ7n6uvFBXdjm6BipI7e7FF5
- 4xahzl70i85bkkNBAVA==
-X-Proofpoint-Spam-Reason: safe
+References: <20260423042831.21114-1-phucduc.bui@gmail.com> <20260423042831.21114-2-phucduc.bui@gmail.com>
+ <20260423-ingenious-psychedelic-jaybird-40bb4d@quoll> <CAABR9nGH4yZcgyzm=wNYVHB2vLhojZJSHKOC6dSeQPm0rbh4KQ@mail.gmail.com>
+ <ce219aa2-0bb1-4a74-b40d-bd753f1a22dd@kernel.org>
+In-Reply-To: <ce219aa2-0bb1-4a74-b40d-bd753f1a22dd@kernel.org>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Thu, 30 Apr 2026 00:12:55 +0700
+X-Gm-Features: AVHnY4I11t3zhGT597ar3Rdt0vn7aUxGwU6Xnaq00d5qQJd5Fda2EZBP9xaayKI
+Message-ID: <CAABR9nHaGBU9KAWJZrnBy8HO0Waccp8CCGmBdKJ3QOEb8WZsXA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: drop redundant wakeup-source definitions
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Joseph Chen <chenjh@rock-chips.com>, 
+	Chris Zhong <zyw@rock-chips.com>, Zhang Qing <zhangqing@rock-chips.com>, 
+	David Rau <David.Rau.opensource@dm.renesas.com>, 
+	Animesh Agarwal <animeshagarwal28@gmail.com>, devicetree@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 28, 2026 at 09:59:08PM +0530, Niranjan H Y wrote:
->   Implement sdca_asoc_pde_ensure_ps() helper function to poll for PDE
-> power state transitions. Per SDCA specification, after writing
-> REQUESTED_PS, drivers must poll ACTUAL_PS until the target power state
-> is reached.
-> 
-> Changes include:
-> - Add sdca_asoc_pde_ensure_ps() to handle ACTUAL_PS polling with
->   support for device-specific delay tables or default intervals
-> - Export function via sdca_asoc.h for use by SDCA-compliant drivers
-> - Refactor entity_pde_event() in sdca_asoc.c to use the helper
-> 
-> Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
-> ---
+Hi,
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> Yes. And the ABI. You cannot have ABI which has an incompatible
+> implementation. IOW, when implementation contradicts the ABI, something
+> is wrong.
+>
+> The question of course if read_bool() is here incompatible. From the
+> actual code point of view, it is compatible, but how it is documented
+> and how it is intended to use: it is not compatible.
+>
+> Also if future schema-kernel-ABI checker gets implemented, the tool
+> might report here a mistake for that reason. read_bool() means property
+> is bool.
+>
+>
+> > If the hardware supports wakeup functionality,
+> > referencing the core schema is sufficient. Hardware description should
+> > not be constrained by the current driver implementation
+> > ( e.g. the use of device_property_read_bool() ).
+> > Bindings should remain stable and generic, while drivers can evolve ove=
+r time.
+> So you claim that bindings can define property as integer, but drivers
+> can evolve and for example read it as string?
 
-Thanks,
-Charles
+I see your point regarding the ABI semantics and the intended use of
+read_bool().
+My understanding is that the I2C core currently uses of_property_read_bool(=
+)
+for wakeup-source as a presence check, even though it has no way to
+determine in advance whether a specific device will define the property as
+a boolean or a phandle-array in its DTS.
+
+From a behavioral point of view, switching to of_property_present() would
+not change anything, but it would better reflect that the driver only check=
+s
+for the existence of the property without assuming its type.
+
+If the expectation is to strictly follow the binding types, then
+of_property_present()
+seems more appropriate here.
+I can prepare a patch accordingly and send it to the I2C maintainers for
+review and feedback.
+
+> >
+> > Re-defining the type locally duplicates the core definition. If the
+> > core schema evolves,
+>
+> There is no re-definition here. This is choice of subset of types.
+
+The flow is: core schema =E2=86=92 YAML binding (ABI) =E2=86=92 DTS (actual=
+ usage).
+From a high-level perspective, the binding may appear to redefine the
+property type by narrowing its scope, while the DTS selects one valid
+representation from the permitted set.
+
+> Where is Rob's suggestion to do such cleanups for EXISTING code? I only
+> see that new code should come like that.
+>
+> Anyway, your commit msg is for me incorrect because it misses all this
+> points I made. Whether the schema code is correct, I'll defer to Rob,
+> although I still claim the same I claimed before at v2 or v3 of your
+> previous work - this should have defined type.
+
+You are right that Rob did not explicitly request cleanups to existing code=
+.
+I included them to improve consistency while working on the new parts,
+but for now, I will stop modifying the existing code and wait for
+Rob's feedback.
+Since there are differing perspectives, I would appreciate a consensus
+on the preferred
+approach before I send out the next version to avoid redundant rework.
+
+Best regards,
+Phuc
