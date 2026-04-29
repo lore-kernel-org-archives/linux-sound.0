@@ -1,88 +1,77 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B9C3D171F;
-	Wed, 29 Apr 2026 10:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144EC3D7D78
+	for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 10:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777458347; cv=none; b=Yd4jv0375oEqgk2TffT6ce+KbK5vUN5fJDzksDchYACegMs1N81whhx9nM9Vfyo73BfQbfd2hrwMrR+volUfmc2PcBoLmeHTzR5sB254mCi3Q65iBh6BiRFRXf7JeQOsyltwCvLHjL3JWnv7phEWn6FYLB7vbALi4GNRwQ7zJS0=
+	t=1777458484; cv=none; b=JbL8ARD9e8YWj0TqF6iXXmlXsbZzSMT0pH2dWjstWpc/D/K4cYdWyznwwVkUslI15HJ8Rih3AZRRiJ4VoC5xZE3oTLMgETDxDjvIrcL+98cCNXA7p2CQgkDtwf4WloNx/qnX9nhj+ilk42lToqdBGdNIkaBTC1KmSMkGeIu7C6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777458347; c=relaxed/simple;
-	bh=uKx2BLK4SWtORQ3Y1X9QU+u3JmhryAfpmr007sf8OrM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Okk7xSo1DqiJWQ4y5ORbmodxvUqt3z7zCtusOnpvcI6F+PKzYOfkQFTyBq3bN+8mArFQu4WO1DwLu+GdJknoq6ExMfWw+ey3SzI8ikmr2WKk5gRRAHG4shfZhm7eYpkB/Od0XNzPxS+ybyprXAmLoGJxmb/B8NXg7JdOVW6Hp/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=syDuJ2eb; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1777458484; c=relaxed/simple;
+	bh=aVFPK7SUpcpakPalTN3Yuz97INHgAbhDB4lXhxI43k0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f+tGmwSBdQq165edRSWuh/XgoAeQyidXi0rqp7AB7uLhRrG4FFACFCsxdhB2UXEqgg9qsQFTmAkZsyBEy15XyNC+AJn1T5nllbcdIvV1dCOKM766K409Ar9piDyB6jeikl2+cWP5OmPtRsT6NiRTydDxuKdmuCpoowrfvYn5vQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MR1fHvxS; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="syDuJ2eb"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777458333;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0ubnPqyEuUH+bb9tWP9+TOUp+n6C5onOR58LCuBDEiw=;
-	b=syDuJ2ebh9z2sjffREH58o0aT6Ajjew8W5I8ReEUtvp2EQkdghmYv8iT9JcU1iX87oMIbX
-	D+xmbMoFNHgWVKDoL6XEe6kPFjJgAeA5FQrv1tK/6uUbSyjmFqItMdxDS/n3eJA5ihtrWC
-	pDy1LXDxeyfrSgRVjezaD0bM6Fa+Scc=
-From: Usama Arif <usama.arif@linux.dev>
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	Yury Norov <ynorov@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	dmaengine@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-fsi@lists.ozlabs.org,
-	amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-wpan@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	xen-devel@lists.xenproject.org,
-	linux-fsdevel@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	bpf@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-x25@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MR1fHvxS"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-36146ae9dd4so10580597a91.3
+        for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 03:28:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777458480; x=1778063280; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=i+9QBBMU8htpcS6BmZ6YxHpCBuohfRwpwtrnTFil/Yo=;
+        b=MR1fHvxSxBm93sjFnEN0TH0225cWbCntxDq+TVuvvJCRCUtD1B/JKe5zbtEJ6lfXWA
+         MTej4gZl54gBesKO88Kr2Xsj8InHVVTlGsXCYv69lMW6kSm/j7Hz4/RjYUfdSn0hxQ1L
+         wBs1nJ3TGYj67j05vo76VXz0pZGnyOb1IsxjhxL8/1lkGj7XWDEwSjkyhlwhyQia3BYx
+         8q4m4AYnEGr00BfT66NFw8fEs60GCPvR9Vz9yQz5bquKNF63jn+C7Lqvw9YiBBxiwzA9
+         G09Db2h/1cWDivP8D70ov8VVaWKhZBFn4fS3bcCJUmgx41qhdvt3iHbDjQNiH9LLlcwq
+         waMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777458480; x=1778063280;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i+9QBBMU8htpcS6BmZ6YxHpCBuohfRwpwtrnTFil/Yo=;
+        b=seTLlkh/6qfFoo4a2jMrPFjMtCUQ2wiSy34TjkHhYajatiJBJpmoe2QVOVtU3PeCt2
+         KL0yGVq0+DPss8voVkkoTMj+4s/3KrwI1bvNDLDgJUlh+UjQ3FfQOqoGLIzeObzxKzLI
+         FoQ2P/pHd32+l9zMnON6hkP4v0iHJ+i4yRQwHaPNkQlrhek53G8PY7wDcBMT/9L4pk76
+         iLBG281mPM6DqZQ5yhW8hqvg9azXaY3n+uk5XeoGAmie1u3jlrTr9dQwZkgXwGpHH06b
+         PQo9UoCcRGZuHZmeXE0uzLu1MHVb5zfrXi72CDFB8oIkTYY2FfOgZEVfAvydwjAOp0IH
+         UqDg==
+X-Forwarded-Encrypted: i=1; AFNElJ9epapKvZXT21nNpAsQ3IW98+pcUW+zc729LyB+vEZW50176tHZzMS+2HxoLCZeIkm2CUGn5J4P4UoFVQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxooAyAczCvMhK/sz5fof9uKhohGmp6rhcRLfjEZFwqxtDmc6nC
+	/C1zULRckySiMj2vwzIf43S9yFSGG+osI+WA2jCJZ5E5Zz/aNKysBhxBFoLUAw==
+X-Gm-Gg: AeBDievPCivo93dza53c+PWsUaRWPJNHTHGn5KnDra6lOla3MWas6R63M1hRB2xp0BI
+	zMF+J/mN7Wr3TA3HNHAqqMso1yXcn3HMeDV0vcSJoy7Jfrde81Pt/o/6/0m6T6iy2aL3jLuo0ST
+	SvLhBbPA3HBr3K5/fVHDFy6JsKbjXxk+Orvl1vow9IC1kCvowV1cH9OQ9tRPG4sFE5ym/0O/L9Q
+	ZLY7nJUoLkGHiqh+n7k+cr7GTpRXc8KkZvr13C7eZI8HOKozzTMy30NkwVPZ0ZhMp+qiCeoDu97
+	Xao/WGl0p48bzLgtQ5vsbE25WRMoKtioicmmwnGu7x7At7XvoynRtFlQV37wxrssrcyWeKcXQq0
+	RoMQgsyV2lWp422kwGFZ9QK+5TRQUGu6WpRZfC4dlVcMZjfaVT9B1pW3u5DWoA3RWC8IdN3SrvO
+	zrd+JoF9MbncJApInv0GlI2qqYImvRNeje8rprk0EtQz44QUoeF4MQ6NtdUA5lUWpHRZyZ
+X-Received: by 2002:a17:90a:e18c:b0:35e:5929:d78d with SMTP id 98e67ed59e1d1-364a0ade51bmr3299256a91.3.1777458479986;
+        Wed, 29 Apr 2026 03:27:59 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364a27c356asm1107003a91.0.2026.04.29.03.27.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 03:27:59 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Cc: Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sheetal <sheetal@nvidia.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	sound-open-firmware@alsa-project.org,
-	linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org,
-	linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Subject: Re: [RFC PATCH v1 7/9] x86: Add unsafe_copy_from_user()
-Date: Wed, 29 Apr 2026 03:25:19 -0700
-Message-ID: <20260429102520.1617327-1-usama.arif@linux.dev>
-In-Reply-To: <0ee46bb228d97163fbdc14f2a7c52b93d8bc34ce.1777306795.git.chleroy@kernel.org>
-References: 
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH] ASoC: tegra: Use guard() for mutex locks
+Date: Wed, 29 Apr 2026 17:27:43 +0700
+Message-ID: <20260429102743.103197-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -90,72 +79,51 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-On Mon, 27 Apr 2026 19:13:48 +0200 "Christophe Leroy (CS GROUP)" <chleroy@kernel.org> wrote:
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-> At the time being, x86 and arm64 are missing unsafe_copy_from_user().
-> 
-> Add it.
-> 
-> Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
-> ---
->  arch/x86/include/asm/uaccess.h | 29 ++++++++++++++++++++++++-----
->  1 file changed, 24 insertions(+), 5 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
-> index 3a0dd3c2b233..10c458ffa399 100644
-> --- a/arch/x86/include/asm/uaccess.h
-> +++ b/arch/x86/include/asm/uaccess.h
-> @@ -598,7 +598,7 @@ _label:									\
->   * We want the unsafe accessors to always be inlined and use
->   * the error labels - thus the macro games.
->   */
-> -#define unsafe_copy_loop(dst, src, len, type, label)				\
-> +#define unsafe_put_loop(dst, src, len, type, label)				\
->  	while (len >= sizeof(type)) {						\
->  		unsafe_put_user(*(type *)(src),(type __user *)(dst),label);	\
->  		dst += sizeof(type);						\
-> @@ -611,10 +611,29 @@ do {									\
->  	char __user *__ucu_dst = (_dst);				\
->  	const char *__ucu_src = (_src);					\
->  	size_t __ucu_len = (_len);					\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
-> +} while (0)
-> +
-> +#define unsafe_get_loop(dst, src, len, type, label)				\
-> +	while (len >= sizeof(type)) {						\
-> +		unsafe_get_user(*(type __user *)(src),(type *)(dst),label);	\
+Clean up the code using guard() for mutex locks.
+Merely code refactoring, and no behavior change.
 
-Hi,
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/tegra/tegra_isomgr_bw.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
-Just wanted to check if src and dst need to be swapped? Same for arm64 patch.
+diff --git a/sound/soc/tegra/tegra_isomgr_bw.c b/sound/soc/tegra/tegra_isomgr_bw.c
+index fa979960bc09..db33acbf6c67 100644
+--- a/sound/soc/tegra/tegra_isomgr_bw.c
++++ b/sound/soc/tegra/tegra_isomgr_bw.c
+@@ -55,19 +55,18 @@ int tegra_isomgr_adma_setbw(struct snd_pcm_substream *substream,
+ 				sample_bytes;
+ 	}
+ 
+-	mutex_lock(&adma_isomgr->mutex);
+-
+-	if (is_running) {
+-		if (bandwidth + adma_isomgr->current_bandwidth > adma_isomgr->max_bw)
+-			bandwidth = adma_isomgr->max_bw - adma_isomgr->current_bandwidth;
+-
+-		adma_isomgr->current_bandwidth += bandwidth;
+-	} else {
+-		adma_isomgr->current_bandwidth -= adma_isomgr->bw_per_dev[type][pcm->device];
++	scoped_guard(mutex, &adma_isomgr->mutex) {
++		if (is_running) {
++			if (bandwidth + adma_isomgr->current_bandwidth > adma_isomgr->max_bw)
++				bandwidth = adma_isomgr->max_bw - adma_isomgr->current_bandwidth;
++
++			adma_isomgr->current_bandwidth += bandwidth;
++		} else {
++			adma_isomgr->current_bandwidth -=
++				adma_isomgr->bw_per_dev[type][pcm->device];
++		}
+ 	}
+ 
+-	mutex_unlock(&adma_isomgr->mutex);
+-
+ 	adma_isomgr->bw_per_dev[type][pcm->device] = bandwidth;
+ 
+ 	dev_dbg(dev, "Setting up bandwidth to %d KBps\n", adma_isomgr->current_bandwidth);
+-- 
+2.43.0
 
-> +		dst += sizeof(type);						\
-> +		src += sizeof(type);						\
-> +		len -= sizeof(type);						\
-> +	}
-> +
-> +#define unsafe_copy_from_user(_dst,_src,_len,label)			\
-> +do {									\
-> +	char *__ucu_dst = (_dst);					\
-> +	const char __user *__ucu_src = (_src);				\
-> +	size_t __ucu_len = (_len);					\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
->  } while (0)
->  
->  #ifdef CONFIG_CC_HAS_ASM_GOTO_OUTPUT
-> -- 
-> 2.49.0
-> 
-> 
