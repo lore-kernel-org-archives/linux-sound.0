@@ -1,199 +1,161 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010008.outbound.protection.outlook.com [52.101.84.8])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF2A3C8724;
-	Wed, 29 Apr 2026 09:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777456734; cv=fail; b=m0EQZR5MiZ6YAaE0V2do4TcG8FwXTf7lYs4r/ANBH4ISXuein49/+GrcRZCecbuOYy3ZSxfDJhM2HpzKrcmY2j8w8JshogwhPlJng1zTc0avgSX8uVJYsHw0APZylr8+3QNSO4Qn53iV/RgFU6SBaxzCWZK+d8fsidnLXRaIYqE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777456734; c=relaxed/simple;
-	bh=wPgiNOxK7Jdpznf+zHd+bQ6akJhh/2Z2La3tXXRmy1k=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YRi3eS5fhA5pCA7+kMtiRQ9kKJh+D7lsvr5jzK655iqUZ7oRabb1rluFOnMH+N7ySYE42lSSyR6MiqqIeJhEqdmf0j2YKKf79w1IJ4xB91QbPnZ/gAN8tS788McB2ivnC9gkvWyJgbq19BBs4YmAzmq74pacQuBEoqE685EBYkg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=GlPuKi3x; arc=fail smtp.client-ip=52.101.84.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B9C3D171F;
+	Wed, 29 Apr 2026 10:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777458347; cv=none; b=Yd4jv0375oEqgk2TffT6ce+KbK5vUN5fJDzksDchYACegMs1N81whhx9nM9Vfyo73BfQbfd2hrwMrR+volUfmc2PcBoLmeHTzR5sB254mCi3Q65iBh6BiRFRXf7JeQOsyltwCvLHjL3JWnv7phEWn6FYLB7vbALi4GNRwQ7zJS0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777458347; c=relaxed/simple;
+	bh=uKx2BLK4SWtORQ3Y1X9QU+u3JmhryAfpmr007sf8OrM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Okk7xSo1DqiJWQ4y5ORbmodxvUqt3z7zCtusOnpvcI6F+PKzYOfkQFTyBq3bN+8mArFQu4WO1DwLu+GdJknoq6ExMfWw+ey3SzI8ikmr2WKk5gRRAHG4shfZhm7eYpkB/Od0XNzPxS+ybyprXAmLoGJxmb/B8NXg7JdOVW6Hp/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=syDuJ2eb; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="GlPuKi3x"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KA4nUr/ph4QUs7AVr1M4qN4KAyIYwq23tSrMAPUTAGBv8p+PZnj8g300lJiTjfTulebe5Rde0oCEeDTIZfKoDIMCuqtB+CVPOs+QD9frneUaGwrs7u5fnibRII50P5ifqLFjocy8O4qkfkctfel1bEDjOMswKb78atr3QUL3GW0FR8/Skf8rK5kT4zv+ZtAiKaLCrzwv1yKytv6wclHyUhDQ7FyJ/ym90dQvTGk0aFl11pF0iXyu8EhnSVE50ApGvjm+c7m4Avb+Btkr2EYOG715gWAq58J0OAmg8aVlqN75oNDc9IFZJpETWxTqxFXuIJUbkBNPtErDLrE6vHyUlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t0Qx/JKN7UCYKtrFKJOHk4u2zJLqGN6fxPhI9K+8mX0=;
- b=wNqiNYtcSfVVVqBJIJyaE5in/W/2j21sxBswD8J4EiDKVlVBhXYa+CXCBfRE67Pn9y+ye9WtBa+LJJERu6FYAOXD4UNwo5OGMNQJUvZczaNwikYbRW9dx1tm0eBFOAB/XJ4uximwkGNjQhApMOYyQDQigRqwAfNVzC4v3LVHyLibySD5mQ+kt71zcdLuih+BmX/JtSs0GIKp3tXZAB1g3my+m9HNDV0uNMj9IXcFHE2uaFfaboFRx2Wd7uF1r5iovIhNlm3npmT3qVZ+1/W9xHJTafvNQpfCvlwG6/tn5XaYIvkKnGuUFdng5/JsxoVaH+Xa/wiuvqRnxXCzlmMKUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t0Qx/JKN7UCYKtrFKJOHk4u2zJLqGN6fxPhI9K+8mX0=;
- b=GlPuKi3x/68JVOoaEANKnr97hBvhMG0sqh+vGYevVwCr9JYx08zdO4wyOuFetoEYZfZVvbcNdGTwXknJbRqOtxJ7iTv5jfP+qWndd0EbSDe8AyIGHkwo0p5w3o/aF9rCkqW8AN0hPn1L699Ht0QQz4XgZd2VjTbaodRydUTWXgZT8lToc/1H2QhZgaHZBVs5CQhV7YSx0CuJtEfI0853tT3sq6Rfpe7sSY/6BTHLk1lVE4DHjFMjaZW+U+pFaQL08Yfo3NSvIPahzvGnSwRKr5Wm5ojeMszNasoeoUrNuqCgRqkV8fqImwdVDpK2X2VLXp5OEoBp6plNh3mh/0X9LA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
- by PAXPR04MB8269.eurprd04.prod.outlook.com (2603:10a6:102:1c4::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.19; Wed, 29 Apr
- 2026 09:58:50 +0000
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b]) by AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::bab2:d15c:fcf8:ef2b%4]) with mapi id 15.20.9846.025; Wed, 29 Apr 2026
- 09:58:50 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="syDuJ2eb"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1777458333;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0ubnPqyEuUH+bb9tWP9+TOUp+n6C5onOR58LCuBDEiw=;
+	b=syDuJ2ebh9z2sjffREH58o0aT6Ajjew8W5I8ReEUtvp2EQkdghmYv8iT9JcU1iX87oMIbX
+	D+xmbMoFNHgWVKDoL6XEe6kPFjJgAeA5FQrv1tK/6uUbSyjmFqItMdxDS/n3eJA5ihtrWC
+	pDy1LXDxeyfrSgRVjezaD0bM6Fa+Scc=
+From: Usama Arif <usama.arif@linux.dev>
+To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	Yury Norov <ynorov@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mips@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] ASoC: fsl-asoc-card: reduce WM8904 PLL ratio to meet frequency limit
-Date: Wed, 29 Apr 2026 18:00:27 +0800
-Message-Id: <20260429100028.2739711-6-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20260429100028.2739711-1-shengjiu.wang@nxp.com>
-References: <20260429100028.2739711-1-shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2P153CA0005.APCP153.PROD.OUTLOOK.COM (2603:1096::15) To
- AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+	kvm@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	dmaengine@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-fsi@lists.ozlabs.org,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-wpan@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-serial@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	linux-fsdevel@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev,
+	bpf@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	linux-x25@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	sound-open-firmware@alsa-project.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org,
+	linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-arch@vger.kernel.org
+Subject: Re: [RFC PATCH v1 7/9] x86: Add unsafe_copy_from_user()
+Date: Wed, 29 Apr 2026 03:25:19 -0700
+Message-ID: <20260429102520.1617327-1-usama.arif@linux.dev>
+In-Reply-To: <0ee46bb228d97163fbdc14f2a7c52b93d8bc34ce.1777306795.git.chleroy@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|PAXPR04MB8269:EE_
-X-MS-Office365-Filtering-Correlation-Id: 68b85a09-15b9-4349-f0c4-08dea5d5e98a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|19092799006|376014|52116014|7416014|1800799024|56012099003|22082099003|18002099003|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	Ll+egqkJjs+4totX7qTYygz4sAxodZPoF6gQOolZAapW/Pmp345Y2rftBrmxZGJTgEiuDj5g9dB/JgllX90R5ZET+wE7597Z9jf23ODHq5/n3xedcIv+fNpw+2UWm5ojY6sxJaLMNeLpSEZ8mkwrKce8cEmmZSSQJZJnig80/dlyGwAY7blWpGIWe99wHOM9wbkWSFgWvWv3sbO9FJfjrIXeIlvC4Pe4CFgYM08cxvJ7/Zari3wBabXExRNNMP6n9bXDdvf0EaN3A3o0MiL8y8LhdGXGNW3oPnu1ze5mmhA76EpqTq10uRqb2Txw8JNAnS68edCkNgzXTZauFXYAFv8/k6L/QTI40nNOi/zPW50sBOuqIal+wrN2wrJmyHaIsfbXgy7rvBpa2y8R1wto+u21p3rwJv8leQj4+1C+MMvC5wVF+As+aR1HEhdOCmUyKIRUfb5ZhQqtUTRsy5ugfkDuOUvbld6R1iDVqFJ2TefBQ9Bzyq5hbF2LKw8PB9IL7MH/Lt6Hc2qpSqRgrNiO5he39G20S0G0x7ceuJLQozC0K2VIIUCPgC5okfKC0symwiqUvUWYz9YOmzVQ69beclBbZhHt9zZuybKT9k6L37LhO11NyyPHj7MAg99+9W+md0r/BAPwRbsGAoBEsZYDIhB43uWNNdlpjXSGDNDotr/nVx4rWO9CwrkgY855eDkrI8SlOS6CmBo1U+PkVz81Yak4KMcvhKpjjm3bik727YWOixY/ChWFHTLh9qOWtkaR9U76pT8FCK01+yYwyNDzCv7Ik9UlOgPaKe2m3RDVb7PXx/8T3KQA6pcKtHgy5CiA
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(376014)(52116014)(7416014)(1800799024)(56012099003)(22082099003)(18002099003)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OC9Gdnkva3VxYjJQMEMrWXZYcUdhNHkvZVhHL0ZJOUM2bFZBZUV4aHNoRlUx?=
- =?utf-8?B?VXMzZ1NSMGIyVnc4NisrNnQ0TDFYVStkNkQvQ01XcHJGQVd6c0lDckhmV3FG?=
- =?utf-8?B?RmRVSE5XZENEZ3RlMmJtRGZ3V01LdWpIV3V2N0lFOG9nWWVrVzRwMTRoSU5v?=
- =?utf-8?B?KzNoeEs2YXZsaWhXNjhxb1AyTHYzRTAxT2phM0VFUVNQZmZWbDZqZzF5OElq?=
- =?utf-8?B?WFZ1MWE1dE54bkV5U2lDeiszalI3M2puU1p0OXRpNmhLeS9meWx0c0hMSlZ4?=
- =?utf-8?B?M3IvYjhRY1djRGZCL283dEQ0NUJHNUgxWGxCUlBlR29ZcXZBL1J1SzIwanMx?=
- =?utf-8?B?ZmdIcEJ5ZjBQRTF3cm1BZGNPY09za0lzZnJUVGw4bmNEdUZvZGNNeDN5MW5j?=
- =?utf-8?B?QWRhc1MzbzNzak1lK3pZZm0zUnVZb0RtVXVROWkxSEtxUW1JcC81dk1ub0Vq?=
- =?utf-8?B?NHdSb3NVTDVRdnJrVTlVaG4xK2JabE9jcUlOQWlvcnNRYnErbkJVYVVVa1Fl?=
- =?utf-8?B?M05vNnRJam4yZzBUVjUvZGRzNzJmeVpqSjYwL204TS9IemV6L3FkYzA2eDVj?=
- =?utf-8?B?Wk15RkJuTllSSjVNcmJFL2ZneXd2eUkxS1lyMUlOK3M2S0RxTWhjaGhZQlh4?=
- =?utf-8?B?ZUVPdVhTZjFOSWpxWWVlS0N5TEE0WjJ5cXZqYmF4SHBnMUpjcDNkMFJkNEZR?=
- =?utf-8?B?TlcxWWFhRVY2SHVUUUZDSkp0Vm1rejIrSW9oeWM1MlVMRklDSjA0cm5BaDFs?=
- =?utf-8?B?ZnFSTFpmNXJ0SUxGM2lxWTRCMjE0NGVpUmxqUnVBSVdCRWQxUVhxek9GZitP?=
- =?utf-8?B?M3AzYUZQYklEZmsydm45dkNBQndKcWY0c21VaFZiRk5IVnc2dTZSY1ZyaTl5?=
- =?utf-8?B?VzRQTHpqSnNxNXZrdmZqTGx2YjQycmdZS1c3eGlheFh2eHVlMTdDdW9mbTRv?=
- =?utf-8?B?U1REYkFxeUFQQnlFUWIzK0V0bng3WXJ1QmxXNTFNTFhKZUlVTlVwenRpMGc2?=
- =?utf-8?B?dEZoVkwyVUd0SUFBeFA0d0Z6NlNqVDBDUjdDcTFDZ2hyQmlZK1ZGZDUzeFJI?=
- =?utf-8?B?NlhRcFFOT0R1bnFoT1dDU2NncGFnMGwycmRweXdzWit1akxSWlJuL2ZjdDFF?=
- =?utf-8?B?RWR1NUdxNDlpMGtIdzNhMDZvT2Rod0ViOTZVa3Nvcjk5YWN6c0VqTFFVMUxF?=
- =?utf-8?B?dEE5VUJadHlSUVFjWHBiMytpR3lZeGxGT1JGUG83ZkRKQlpSQjN2ZkpNM1Ex?=
- =?utf-8?B?cjVoYUN2cnpGWjd6OFhIR2lUUVBWUFpqYUIzS3dQMEVFZjRIbzMxejlZaXlO?=
- =?utf-8?B?L0grbHVTOU5adCtTdENkdGFSbURHQk9hWGtYS0F5WUhPYVNHT0lFcnVhek0z?=
- =?utf-8?B?N1lTYW9iUlJSejF0OExmVTEyeUM4ZE84dXRGcStuQkhqQUxSOGp4aVkxVmcv?=
- =?utf-8?B?NSsyVGxtcU1CaFg1SFhZRW1URnlLYlRpeEJGeDBoOEdVV2xzRXVTRDAveVVO?=
- =?utf-8?B?YTVkaCtQcDBWcHUraDFCNzZvdDJESmZvVm5MRjNMQzZRbUU2ZnppYWM4ZjlD?=
- =?utf-8?B?eWhuTWdvNW5NSVpwUXZzbXU2S0YvMzRab1ZqUzZ5dEJNSXNxZTF1N1Y4Z0xF?=
- =?utf-8?B?NTI5R1g4QkZQVGsrNWExL29ta0tod0FKNlVNSHpVQ3gyY3hibFVsTDJvM041?=
- =?utf-8?B?V2NrM0xaajI4T2ZoUHBRL2dvWEVHZ0hKVG1kUXdmWHBpbnZpUDJreVlzMVJL?=
- =?utf-8?B?UmdMbVpSQ2J1czBFUHZjeDF6Z0xKdkVLOEpjMm1WOHdYc0JBYmQ0WHBOWHlV?=
- =?utf-8?B?RFNEWHhFeEVTSmNqNGtkMTk3em55NGFQcTluUHY5bkVXR2tJV2haK0pmZGV3?=
- =?utf-8?B?YmZoemdEQ3M3aUN2UlRHYThBdzNzc2hRMHViYkVjNGxJRGVuMWhJaTE0YmJP?=
- =?utf-8?B?NjMrekE2UTRxUkhFV3BjcUphTEIrT2JaYktzcW51ZzBOSVE0ZFArN25UWXBT?=
- =?utf-8?B?bWxBVjNqRVpUN2FzMjRyaGZXNFRsZ0lTK2lONUE2c3V1cUlDdFJqSHBjUDI1?=
- =?utf-8?B?ZkZQOEhUNUQ3ZE5oQ3FzL09KNEhBREYwcTlwM1FXbzRjd2ZFSGlFUjRNa3Vo?=
- =?utf-8?B?U2NpN1FIZzREb3hMbCs3U2lzUjN0SEpSWmhYV3JrTmRXcnp3S0RBOWJGT1BK?=
- =?utf-8?B?UkpLaGNrMjN1azBIVENIZjlxL3JOZHVlSjZSUEVlMTNiN1l6VGdSSmFqd3hQ?=
- =?utf-8?B?Q2l3SXBiYjg5dmdnMkJwb1lDWGF0OHJ3Q2FCVldPMlA5RXhkUHp5NXNaQXc5?=
- =?utf-8?B?K0JDai9wREtJcWZEekMzd0FGZmVhNGhxSlBWUFJjUUJXYm1xSWQwQT09?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68b85a09-15b9-4349-f0c4-08dea5d5e98a
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 09:58:49.9406
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iM1fd8q2Oj90H07XPcIeNShPU8UfoslYVpNYVSoM3wPk/WFDdURstqh70yv0xjTii/ME0osIq8sTE9NRTle2rQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8269
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-WM8904 has a 27 MHz PLL frequency limit. The current S24_LE PLL ratio
-of 384 exceeds this at high sample rates (96 kHz × 384 = 36.864 MHz).
+On Mon, 27 Apr 2026 19:13:48 +0200 "Christophe Leroy (CS GROUP)" <chleroy@kernel.org> wrote:
 
-Reduce the ratio to 192 for WM8904, keeping PLL within limits at all
-supported rates (96 kHz × 192 = 18.432 MHz).
+> At the time being, x86 and arm64 are missing unsafe_copy_from_user().
+> 
+> Add it.
+> 
+> Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+> ---
+>  arch/x86/include/asm/uaccess.h | 29 ++++++++++++++++++++++++-----
+>  1 file changed, 24 insertions(+), 5 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
+> index 3a0dd3c2b233..10c458ffa399 100644
+> --- a/arch/x86/include/asm/uaccess.h
+> +++ b/arch/x86/include/asm/uaccess.h
+> @@ -598,7 +598,7 @@ _label:									\
+>   * We want the unsafe accessors to always be inlined and use
+>   * the error labels - thus the macro games.
+>   */
+> -#define unsafe_copy_loop(dst, src, len, type, label)				\
+> +#define unsafe_put_loop(dst, src, len, type, label)				\
+>  	while (len >= sizeof(type)) {						\
+>  		unsafe_put_user(*(type *)(src),(type __user *)(dst),label);	\
+>  		dst += sizeof(type);						\
+> @@ -611,10 +611,29 @@ do {									\
+>  	char __user *__ucu_dst = (_dst);				\
+>  	const char *__ucu_src = (_src);					\
+>  	size_t __ucu_len = (_len);					\
+> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
+> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
+> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
+> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
+> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
+> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
+> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
+> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
+> +} while (0)
+> +
+> +#define unsafe_get_loop(dst, src, len, type, label)				\
+> +	while (len >= sizeof(type)) {						\
+> +		unsafe_get_user(*(type __user *)(src),(type *)(dst),label);	\
 
-Add codec-specific pll_ratio_s24 field, default 384, override to 192
-for WM8904.
+Hi,
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/fsl/fsl-asoc-card.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Just wanted to check if src and dst need to be swapped? Same for arm64 patch.
 
-diff --git a/sound/soc/fsl/fsl-asoc-card.c b/sound/soc/fsl/fsl-asoc-card.c
-index 44083d15f6e5..709543308fe9 100644
---- a/sound/soc/fsl/fsl-asoc-card.c
-+++ b/sound/soc/fsl/fsl-asoc-card.c
-@@ -75,6 +75,9 @@ static const struct snd_pcm_hw_constraint_list cs42888_channel_constraints = {
-  * @mclk_id: MCLK (or main clock) id for set_sysclk()
-  * @fll_id: FLL (or secordary clock) id for set_sysclk()
-  * @pll_id: PLL id for set_pll()
-+ * @pll_ratio_s24: PLL output ratio for S24_LE format (PLL_freq = sample_rate × ratio)
-+ *                 Default is 384, but some codecs (e.g., WM8904) require lower values
-+ *                 to stay within PLL frequency limits
-  */
- struct codec_priv {
- 	struct clk *mclk;
-@@ -83,6 +86,7 @@ struct codec_priv {
- 	u32 mclk_id;
- 	int fll_id;
- 	int pll_id;
-+	int pll_ratio_s24;
- };
- 
- /**
-@@ -255,7 +259,7 @@ static int fsl_asoc_card_hw_params(struct snd_pcm_substream *substream,
- 
- 		if (codec_priv->pll_id >= 0 && codec_priv->fll_id >= 0) {
- 			if (priv->sample_format == SNDRV_PCM_FORMAT_S24_LE)
--				pll_out = priv->sample_rate * 384;
-+				pll_out = priv->sample_rate * codec_priv->pll_ratio_s24;
- 			else
- 				pll_out = priv->sample_rate * 256;
- 
-@@ -815,6 +819,7 @@ static int fsl_asoc_card_probe(struct platform_device *pdev)
- 	for (codec_idx = 0; codec_idx < 2; codec_idx++) {
- 		priv->codec_priv[codec_idx].fll_id = -1;
- 		priv->codec_priv[codec_idx].pll_id = -1;
-+		priv->codec_priv[codec_idx].pll_ratio_s24 = 384;
- 	}
- 
- 	/* Diversify the card configurations */
-@@ -935,6 +940,7 @@ static int fsl_asoc_card_probe(struct platform_device *pdev)
- 		priv->codec_priv[0].mclk_id = WM8904_FLL_MCLK;
- 		priv->codec_priv[0].fll_id = WM8904_CLK_FLL;
- 		priv->codec_priv[0].pll_id = WM8904_FLL_MCLK;
-+		priv->codec_priv[0].pll_ratio_s24 = 192;
- 		priv->dai_fmt |= SND_SOC_DAIFMT_CBP_CFP;
- 	} else if (of_device_is_compatible(np, "fsl,imx-audio-spdif")) {
- 		ret = fsl_asoc_card_spdif_init(codec_np, cpu_np, codec_dai_name, priv);
--- 
-2.34.1
-
+> +		dst += sizeof(type);						\
+> +		src += sizeof(type);						\
+> +		len -= sizeof(type);						\
+> +	}
+> +
+> +#define unsafe_copy_from_user(_dst,_src,_len,label)			\
+> +do {									\
+> +	char *__ucu_dst = (_dst);					\
+> +	const char __user *__ucu_src = (_src);				\
+> +	size_t __ucu_len = (_len);					\
+> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
+> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
+> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
+> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
+>  } while (0)
+>  
+>  #ifdef CONFIG_CC_HAS_ASM_GOTO_OUTPUT
+> -- 
+> 2.49.0
+> 
+> 
