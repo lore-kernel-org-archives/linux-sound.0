@@ -1,194 +1,180 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094603F788C
-	for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 13:04:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777467886; cv=none; b=FprIEsXcGLvN8NZUD4FICotntX4zfz4pNkDLbgSIaIf9XT01X//BQZqOYtALDy1IbdqcYmagxHG+lHcVlRhwzlvoMm0s0sZZICkLyWlXmJkGlLUWZvQBwTSeFOsQB0NaWkoj2TtR5ssyaqj4iG0wNpVqoKR8qH0qMvJeZmIfaRc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777467886; c=relaxed/simple;
-	bh=TJSav80DktfmY3B8ZqB1exR63A4WNnjakBVK9H9Fy88=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F9xWnhOi0Ae1MgvN7IsDtG85CSeu9YV/TKUmFp8WVhNQfDYMJDLRw3HBR17yf5rB25Sr8xKSG4J1KY8UQJfjEYdDEyco/D9TyRidVB7B6K2EfXg2pCryDag4F4RkB6ulDPmGlpyNctEj3MkJ/8iiLTkYXm0A274KlgKsQrMdtdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ctISp6AY; arc=none smtp.client-ip=74.125.82.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08953C8731
+	for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 13:11:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777468275; cv=fail; b=lcHSmFXAf4X76XG7d4wLi5fsic9ATBvhZxwZJaqLk2x7g1gZ6mP+tyLeVV5YgGjI8v3USJ6bVd9AcJ4M9p4BWSBQbObl0Xub54dHbSW2y1IK4T0TcRzxWBLMYDvLnF2YrSQt/woIUYKLcR2Oe+3ZjT9A2du8zC/9V/XHBlqSPq8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777468275; c=relaxed/simple;
+	bh=EZU82RDI2qpuviXYeWajWNd7MnWVUe4AxEqfHJhqF0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f/gtHhsIC1sEPVvyKeGz5eB1OfkNMOs/sl2Z7xGZ1d/WeTr2+XWZMiIOYHxvk4jxWCpM7EibhMldqKCpVT/liRig3ChnS0bpErpVpf4TWArkLnZJsyNO6J9gh2F1FAG74xXz5Kt1xBYcpGmLvUjJeAxvC472aTm23yq8pz8mvRk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=KA+8j4Fh; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=jwqb7RBQ; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ctISp6AY"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2c156c4a9efso17446424eec.1
-        for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 06:04:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="KA+8j4Fh";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="jwqb7RBQ"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63T5QQ3Z2565698;
+	Wed, 29 Apr 2026 08:10:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=oH2Ak3H1hTawHEyd4b
+	13blBVMMmckffkpF3DyWKnzTY=; b=KA+8j4FhUDBirCRBoRaXZroJElI/6v7gqm
+	Th+xxGLDMyBloOl3HDsMSycnTgjRmfAQZSbiea6wIxFBuAZLxV1FBSDMq0/bYeH2
+	C02ZirQfPu1A7GVSm/HB0ynjn4ZJiEPmtLhNw4pG/si02OsPI1c6i2iYJC+jAPnz
+	BgcoH8mGkIk0DF40D6EBpdjc8fAIlNII9iltybW3ECFWamWloHMntiaB/enVPK0Q
+	G5ifPzzdhIOrGIuit2dzXCU4vRapTCxnDih3wFgttXcLDwKuyFf7PHIMg/naAYyw
+	gq6/PYfP57xV36R58+3+J2/VOUf1NW5IlHYl3qFgdjA9AwaBW7LA==
+Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11023128.outbound.protection.outlook.com [40.93.196.128])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4drt1jnkah-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 29 Apr 2026 08:10:20 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ujgTxWSj+RxgFMAQ8YS2leneawKmBJLjunH2CHpadk7wtOeXKxEpMvVFRdqdzmUB+LRkD7vVfB+ebUheKcHO34IhtFXk/lRcMwr8Ish7v3ELhXYReoY84ufATx1Z9gCS2Jjx17V6Xj1Y/W9ZuxvER2Z/nxwe0hUEKCgSvz5aDsqF1wcpLQF6ndpp8LWIHJ6i0mkq8xJiWhHQcva+kNOJTe37SMDdNrpW5S4KzPc9Ny4BhnUFi1wMmhQKheMob6zytJJd1x6mY0diC8enHCBkug7ZNbI0iPCtScxlTNWP8XKjUIKWXbBCEluhhAlMPsEWw0ZKziOfaby7G6Vvak1evA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oH2Ak3H1hTawHEyd4b13blBVMMmckffkpF3DyWKnzTY=;
+ b=TfD2zDXAT/t1bKeYxpgTB5Su864WnDp+UkOgq+dmfxyyd5T1Ku6cD1dQJ0Bpah/1jWXCS/SXX3+CnSVtBXnjphzUC0aT5thFvSKmSPdFQI7ci1cnQ5BqkXEREpEb/gEGw9r3manb2GkFEGiT0UNNtN8ek1H9640ymhl1f2eMfdAa6gH/prybVYdigYgncK64+LlEcfOvCA5VcaituVCvylHw0nmfE7gd9GY00Ri9ee1Xa7Oww3jQpdf0UJRXhkzf0ULkVRZ1VtJEoYeAKrlae0DQcLQ5RSg124JtapeBmzaGj+1UoqQDnRumDrfmTkX/fqLvKlcg7Sr7aJ3l5QXp+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777467884; x=1778072684; darn=vger.kernel.org;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dG3vv118uAikoQ8DAdJIrTS307cS6CSisA18Twdwdyg=;
-        b=ctISp6AYaRQWwHV3rO4VWfskkZWMUiHjXfry9lHv1QJJVZ/qOCJr7OgokvhcKDfXjs
-         1/rI+CFa0GRcxuAYy/ptJUHY+HpN5KOFHS+jD3oBtHofhbpqD/dSHsWCuvnKgJCkotZ+
-         4Pshnn3jaNmMyjZsK4QKG25yNsUXZb9fL9DyhkLFOMgYyn2HUPpkpRc1Attex7Pt02uN
-         0OBbgipEQ40RS9VrPLb22HtDV9w1NC0M7ZXJSY9D1fdn8humtGvzmFcLbf67ywjEL31Q
-         0KBekRsg5jPBYz+9Bv5PSL+gTrfbqBgTLpSETDItz64l7OWasi/Bd3pS82INPcDeLpi4
-         TQxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777467884; x=1778072684;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dG3vv118uAikoQ8DAdJIrTS307cS6CSisA18Twdwdyg=;
-        b=o0+PHk7ccgTu0WqWAXmZL95b6SCx3/mn6FzNSp+WSNOOkRnx98P1F/D/VOE/fvM6o8
-         v71HTuZQn98TlkznrqRxv4ct4wdu5drR26TY+Xetvk8UHSBC+qk8cJ2pFnzL21zOCygr
-         T+fh+qwfLUgN8/XP5t6OQoctrysPUPR0qwg42gbAM7hcMydZsOPUVPUeW9vdZoPozovV
-         HWEBms3HwJWeyJBqRETS06qz3d/qDuN0JQ5HbNXsd+a14NO+MeKEi3KSFol3PUqyY/Ue
-         G9e3HHK9MTrpMoroUNW7CNTRdt1d3mPl08i4lPoRMYEdm+pm5C7zwBnQZOk1ieMpI2CJ
-         FbmQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+SI1MSTv4aTIugs9pBmVJWLehUuFXpihOm3kjdP8PV1qm4q5VRgDixSViuUNkJ4AI51OBFEVJf7G3QTQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcE06cuha73LCohvWE3AA2Xj47XF2qrvDkynUwNSErff2BXLAO
-	aMj8zPCpOjsk5pmDhVEyVIVBwnOgXNBALj3Usp2Fla6NWFYUzTpUNGcY
-X-Gm-Gg: AeBDieukKbBzIE+iR+/AJeuTTA9HQJBNJCf9w5V990G9bAVr3C6ZuxB4EJChxv5m9KS
-	EteXixKn8vmUYM/PpDUdnWkW4gRZd4ZAu66lWkgXJZbA/wkiuGOneyVtRPhzl9IJKGExlJKhKOn
-	WscN4Ls719cCTtTZLZ8lDmB9WQs3+Hn157uA0W0jV2IK/rlMkiGx6rhd9f0yCI59Oy2NwkJNUI3
-	gtsO/SjbSHODLaSRP3Bo5ZLzT56WGoEVOBulh0D9lNMu7GQtb59c0LYyjMAKDXjj1V6+ofXmk5J
-	Cpu61FvhWLl4Bn2BozBSh8Z0XkhsvzBFCTZS8tZmdhPRGt5Wwvx/HcfjBbsQlvSfNn51WBqs76K
-	AUYK1XzGsRBw7ROsZRd6QDk3MC7EfvItYngJkJn2DJPodcx1TdGqh6qcqz6ak49C/IFQWaiZeLn
-	JimYWLbyi3v64r+gNuQoAaATlJsqPOorLZONMDsInBBo2JJgntjKBnxBWoFRtC9OiFlpAtuZSIr
-	3R1TPF8bHYl
-X-Received: by 2002:a05:693c:3018:b0:2dd:db16:478e with SMTP id 5a478bee46e88-2ed1977df07mr1864099eec.10.1777467883726;
-        Wed, 29 Apr 2026 06:04:43 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ed1c070523sm2093806eec.19.2026.04.29.06.04.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Apr 2026 06:04:43 -0700 (PDT)
-Message-ID: <f2636cc2-4e49-4a20-bc68-54c6ed830ecd@gmail.com>
-Date: Wed, 29 Apr 2026 10:04:38 -0300
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oH2Ak3H1hTawHEyd4b13blBVMMmckffkpF3DyWKnzTY=;
+ b=jwqb7RBQOGffQVxfHrr0Y0QWnNmLdeKY+zgz2Rc1Qnwf0MhWROQ4W1QBU5KJVCvgdSOB/QgwBTjtYuRwr9FH5RgsaParV+cd1JX1UQYrRWjxiXOsgVpMFyVEUBN4uYu3f07NiWwK6covDJyYFW8YLd0VqVQmhLnKyuEBXmS8DNI=
+Received: from DSZP220CA0004.NAMP220.PROD.OUTLOOK.COM (2603:10b6:5:280::7) by
+ LV0PR19MB9264.namprd19.prod.outlook.com (2603:10b6:408:327::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.19; Wed, 29 Apr
+ 2026 13:10:18 +0000
+Received: from CY4PEPF0000FCC1.namprd03.prod.outlook.com
+ (2603:10b6:5:280:cafe::45) by DSZP220CA0004.outlook.office365.com
+ (2603:10b6:5:280::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.30 via Frontend Transport; Wed,
+ 29 Apr 2026 13:10:17 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CY4PEPF0000FCC1.mail.protection.outlook.com (10.167.242.103) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.18
+ via Frontend Transport; Wed, 29 Apr 2026 13:10:16 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 1B7AE40654A;
+	Wed, 29 Apr 2026 13:10:15 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id F14B3820247;
+	Wed, 29 Apr 2026 13:10:14 +0000 (UTC)
+Date: Wed, 29 Apr 2026 14:10:13 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+        peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
+        patches@opensource.cirrus.com
+Subject: Re: [PATCH 1/3] ASoC: SDCA: Add correct masks whilst reporting SDCA
+ jack status
+Message-ID: <afIDNXrQ23Cja0vm@opensource.cirrus.com>
+References: <20260427115925.3801099-1-ckeepax@opensource.cirrus.com>
+ <20260427115925.3801099-2-ckeepax@opensource.cirrus.com>
+ <cb90c6dd-5976-4aef-92c4-e7f6b91fda90@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: ac97: drop stale CMI9738 PCM-volume quirk
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260429-ac97-cmi9738-pcm-volume-v1-1-d3f90cc00604@gmail.com>
- <87h5ouos8m.wl-tiwai@suse.de>
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-Content-Language: en-US
-In-Reply-To: <87h5ouos8m.wl-tiwai@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------p0GITUeVMg0bwkw1oimDtb2h"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cb90c6dd-5976-4aef-92c4-e7f6b91fda90@linux.dev>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC1:EE_|LV0PR19MB9264:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2d9f4753-8748-4ee9-7404-08dea5f0a872
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|376014|61400799027|82310400026|22082099003|56012099003|18002099003|16102099003;
+X-Microsoft-Antispam-Message-Info:
+	60ZwD9ie4JYlB81vcus/AMiBdG92mAc3kuBw0Brv/ZHkEbTvnmkt7STzQ2C2mS8tDy3mDna399Y7JfbH0tJujIZCcij0DiuBo15PO2xtqjh1JBrnO7kAs0JgAGwM+5zRIPVgDmIXJdMg9OYEfz4zCznwYFSXLPrhtgw9u/lOuiKRygIXIJWiIzaxLmG8hup1/z6PpWoZ1dPvsPH5QU90XleT+KY1jXsOIgTTNEO5DCWhHidz827ldGcoFA6q3su6s3FtbSquPnAC4M4ZhCB0tF8qTJsfImnUGciOoDpWAEF2E5w1XY5od7vcUgWN/DkxebpzEdy2VkycnCF9lCB2JDZ9DlfC/SwWBD4Sn78oWKINhIYtChJnrxtIHdSH5/NIfSM7bCcCE1Of7FZ7O8sAju3LZHtRPf3S0666mSlwlLF0vU6Uvak0kDQdD6i59mPTowu8NTc+kLnc0CQJBb6ia73u0hFHh24k5d1hhNO+jHbz6mdZvFrTkHsnczbnWsVGYsJqVXqiYe1A89vpQNgye0B1rBD+8x5XEnqXs3InrIyBdsg9DylsgjYmr/xz/Kxv2tG51erx7rgpT69cwelJlLkAnbpI5bejhilSmwqJo5jfVTqRGKrJi30O0/O7d7HvHZEbiskYXsT/SJ+N1UXkXUGpHFnGswHRgsTsMpS/cVMC/kKy0RPaGBVVjhRdbmNkN7+3GPpIOZGT3uGmQA26ZSf22QYRZ7nqIdVoy55B62YkCNxto/ZN3OwBgk+xJRYBoNBZ4Y+l68mIL9C/3YoSng==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(61400799027)(82310400026)(22082099003)(56012099003)(18002099003)(16102099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	eo+bgNBNvBK6eH23BNA342tnQydyYRdPVf4WIHoFr5QgKrqM42ZoTv1C028glivWjueyYduklOi1rBoIMywx/uqRSz84QbWWDifOWG9+Qv4Pqgbb9ujO48pr5umYdlhkcKQLKQ1tAYR6Y1tift7S/NA/lcivTaL1CI6F5OFXzcebK4qWjPKwZO64W6NUISex6TLzSNPo6ITv20/HLNZdUEDxBOIaEqlOTV35+i7TPZgX1l71CkiCpq3dkqN2HJ3/HLFXncJHIPomCwkRHc7srHT0QvIBav/+CaedRMQTNWR12ScKeg7i8TZSxAE8mR9oXOraQMxUOk2GS49DkFML95CrO/PkcYHAYvXrTT5u5xTWPlAcPgtcSMknHWbwIJUzUD3g1K+3FjxrbOSW+hAGdNMzXHLggDNYPcon7m/47mAe+9UxS/sZN6eMbbSnM0Cl
+X-Exchange-RoutingPolicyChecked:
+	SQvkNnVZTCuesvVg4s9o/R3Ob1umBrcj2wd+KbEtfJdVUzF9IRSK/IC+oqFVYwjIMuUud5MMR6MTGXqJWfMUFq4/4TdzH2tU4xoWy64MXjYZCB6CScbXz/eb5bhBKe/USMiKVeY0Hl2hLVi/x11/tcx3S7vFQx/iB8JxG6IN2kuj8ENRN+SUmlm3r7B7AthjRwaiVIg4i35YZqhdj2oA1HkXF9sFZuuiffzyJWZpVj7x2gIwWK62+v3N7Z0bLWT/RjdqEPGLQJtaAiGH9+Boq6M9Hai2YRiffaWgBnhcNWcB2VJNr1HtZYQxxwV1ZOz87G8TCwSBRVYcOSPRdmFiPA==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 13:10:16.7041
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d9f4753-8748-4ee9-7404-08dea5f0a872
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CY4PEPF0000FCC1.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV0PR19MB9264
+X-Authority-Analysis: v=2.4 cv=fbudDUQF c=1 sm=1 tr=0 ts=69f2033c cx=c_pps
+ a=7mMRTYqth7La13Zyv/ERAg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=A5OVakUREuEA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=RRJvbsusou0oBApgF1gA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: rFw_NK55tSl4LI3WqdEpgLoBBgggBA_N
+X-Proofpoint-ORIG-GUID: rFw_NK55tSl4LI3WqdEpgLoBBgggBA_N
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDI5MDEzMyBTYWx0ZWRfX+ym7skjIhq2L
+ fAjUT0tkVCSmmoOyKLVfm60fDsridPxFGOvNBQs/Rz44Y40fdWfYoqsSCZhvxLu9JpXHKjSzPX6
+ iy0oeLU3vYvvKXcQasnnjNX6S+r8SO+SsKC1AOvT4HxCU6aHRQj3/5R3XQEuVng9NmiBY3GWy31
+ zaApzaNl2faNfu7VKJcJzgSc/7F+eUXCcmflFP7jahyYPt5ZXJOESoz9MaGPcOXg5NNn9xBiHLf
+ a0hb1gwZwiBmInTJoUpvoyxO4Vw6TF5oIXpLSQK+jgGXmK/YXD7Uppvbl+sU5425+S+B9Qxkzvp
+ NFECa9drr2jM60Ko50YTztBYhhoHJSBrg7cidTw1FTyZUauT1w0MkJxzuivTMnY2x1KmAYdNdPV
+ 9M2I4QEJeVylpPElVabuKpOUqAt78x8U83C2y4j2fxQwScXh9/A2ZJHo7JGFcwbqg2RERlhkQAz
+ m+9L6h9Df3orxr9sfiw==
+X-Proofpoint-Spam-Reason: safe
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------p0GITUeVMg0bwkw1oimDtb2h
-Content-Type: multipart/mixed; boundary="------------vP7ADpzMsjtDFwv0PTyOtC0m";
- protected-headers="v1"
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <f2636cc2-4e49-4a20-bc68-54c6ed830ecd@gmail.com>
-Subject: Re: [PATCH] ALSA: ac97: drop stale CMI9738 PCM-volume quirk
-References: <20260429-ac97-cmi9738-pcm-volume-v1-1-d3f90cc00604@gmail.com>
- <87h5ouos8m.wl-tiwai@suse.de>
-In-Reply-To: <87h5ouos8m.wl-tiwai@suse.de>
-Autocrypt-Gossip: addr=perex@perex.cz; keydata=
- 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
+On Tue, Apr 28, 2026 at 10:18:17PM +0200, Pierre-Louis Bossart wrote:
+> On 4/27/26 13:59, Charles Keepax wrote:
+> > Currently, all SDCA jacks simply report against a mask of 0xFFFF. This
+> > works fine for system with a single SDCA jack control as the status
+> > reflects that single control at all times. However, if two SDCA
+> > jack controls exist in the system, such as a separate representation for
+> > input and output, then the second control can cancel reports from the
+> > other since it will only report its relevant bits and zero in all other
+> > slots. This is exactly what the mask is for.
+> > 
+> > Build up a mask using all the possible states for an SCDA jack control
+> > at registration time and use that mask when reporting a particular jack.
+> > It is worth noting this still doesn't handle cases such as two headphone
+> > jacks as that would require separate ALSA jacks to report to.
+> 
+> I couldn't quite get the last sentence. If you have two
+> functions for separate headphones, where would you have a
+> conflict?
 
---------------vP7ADpzMsjtDFwv0PTyOtC0m
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+For the SDCA side this is fine, as in we create our controls
+there is enough to distinguish everything.
 
-On 4/29/26 09:39, Takashi Iwai wrote:
-> On Wed, 29 Apr 2026 14:05:31 +0200,
-> C=C3=A1ssio Gabriel wrote:
->>
->> patch_cm9738() still carries an old comment claiming that CMI9738
->> has no PCM volume although AC97_PCM reacts, and then forces
->> AC97_HAS_NO_PCM_VOL.
->>
->> The CMI9738 datasheet documents register 0x18 as "PCM Out Vol"
->> with mute and left/right volume fields, so that old assumption is
->> not justified.
->=20
-> Well, that's actually the part the FIXME points to.  Although the spec
-> shows the register is available and the chip reads out, the volume
-> didn't seem reacting properly on the real hardware, as far as I
-> remember correctly.
->=20
-> So, it's really doubtful whether it's safe to cut off this workaround
-> just by reading the data sheet.
+> Don't you have separate ALSA jacks created independently by
+> each function?
 
-Yes, that matches what I suspected at first glance; I wanted to confirm
-whether the datasheet was enough to revisit the old workaround.
+For the ALSA jack side we still have a jack object being created at
+the machine driver level. Primarily because the existing jack
+APIs require a card pointer. There is certainly an argument to
+pull this into the class driver itself, such as we did for the
+mic and speaker widgets. Doing so would let us support even more
+topologies however that is definitely a bigger piece of work.
 
-> thanks,
->=20
-> Takashi
+But either way this change is helpful we should really mask for
+the bits we are reporting.
 
---=20
 Thanks,
-C=C3=A1ssio
-
-
---------------vP7ADpzMsjtDFwv0PTyOtC0m--
-
---------------p0GITUeVMg0bwkw1oimDtb2h
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSrYqI5vIrg1X9eqEjQXT8aWv/ugwUCafIB5gUDAAAAAAAKCRDQXT8aWv/ug5SX
-AP0Yum7Eac5IXqFSoWIQT1OBuK37ilvy6DNOKqr+WZPikwEA7JNo3F6Jr6dPBUk3P2TxOwsrISBX
-3CwIZThngFHnFAI=
-=Oyxn
------END PGP SIGNATURE-----
-
---------------p0GITUeVMg0bwkw1oimDtb2h--
+Charles
