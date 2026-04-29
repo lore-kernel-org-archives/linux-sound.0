@@ -1,142 +1,106 @@
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB992EA498;
-	Wed, 29 Apr 2026 09:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF03D3A7839
+	for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 09:16:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777453331; cv=none; b=eho864RIVQhhf0DnneHerTRgLFPgxGcnGTkJ2iCqEUFxNC9rWNAxmlH06cibspcktcyfN9+uhL05TklQuvmzuoKufOsox/2ilS4v27JqqQVyaUxFrk3scst6IGYM/e6lhKmFbEL4dAlhunYZuuG42+9nYWs1ITNbDPIKDGjcVkI=
+	t=1777454196; cv=none; b=btSOm/OsixFoFzioOWlUaIVDp3/RKWhsnaGIBAkQW7LUz+0oV3aglkHgICZFrVsqNnZkHWJ1zWkXx9YpJa1UYkjsSXu149JtX57CRFWEy/qYDB2Uy6D/xHYcmbJWXHP8bGFB/6w4x4+Agm1nFaFd+bEmlwv67ikZSDhDBqQ8mSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777453331; c=relaxed/simple;
-	bh=eAOCn8t3y4a8isApCxHiYqSR+fK5XKtYspJVmy3GquQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=an+Asy4EFOU9yYC5AaQgDVbD8UArkRkyWM9kh0zK76PS4UmKNRpxn5U8YnX4tUoS1kgVEoLjkA1KGis7bJdyhfZBE8JOV1zBRKoe+BI2S4BmP+sFGvXCxBC+E32h5JY6zt9A+Zdjgd5YyeZSLRPyiSfRQ38ZEKFaaGj0keEWsuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=wr0V2bdQ; arc=none smtp.client-ip=54.204.34.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1777454196; c=relaxed/simple;
+	bh=xBDt8msP8huNYfMxxrIQZL5xnH0dWef8P3ZpdpQ6n1E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a0FhRboNLq5hURiSzivNc3KvslzH7oGxI7RXSDXvmGz+NfPpKIA5jj9JEdiC67XBCxrlVqcatBkTCXoWT+lg9XHc8XESbTte3KH3g4Wbsn0ODrrZnhe51PisQsc5zYvfXSfB8Xx3Gtq0rtQ6+wcg/AChfET3tlAxa73ie08HeE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cSdHi+ls; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="wr0V2bdQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1777453258;
-	bh=5hbBNXyz3ix3md8y0mu38ycuDHtRftKDniRKPAgPjQM=;
-	h=From:Date:Subject:MIME-Version:Message-Id:To;
-	b=wr0V2bdQ7/FLVeEedcVrhpus1iz9j8DSJR3P2AZLSeCrFAaFO43u7mGySj7ZOPWsd
-	 Bn9jmrzH4a1Xt0rAdsedHIEl0EJZtf0KzCmaPXCcUjniB9sMU6gqpuKikdtPI+8IFT
-	 9ESpoF8dBbRLyRu5EUGWRkzrJo0t8hmk7K3uSLuQ=
-X-QQ-mid: zesmtpgz4t1777453249t984e47fe
-X-QQ-Originating-IP: pEucucTvef8aPDvCE3KgxZBoR3hZDvm5CXh2YLLOWiE=
-Received: from = ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 29 Apr 2026 17:00:47 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 926023287553214828
-EX-QQ-RecipientCnt: 11
-From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Date: Wed, 29 Apr 2026 17:00:50 +0800
-Subject: [PATCH v2] ASoC: spacemit: fix RX DMA params not set when TX is
- running
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cSdHi+ls"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8296dabef74so10284928b3a.1
+        for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 02:16:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777454194; x=1778058994; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SATdzDMyTuOhzxtlpYGXWtCzK5ku+exSSCqgROaZE+w=;
+        b=cSdHi+lsEqPPORGpjtguSwk35T+HaRSLGzJuYepSOgCWy9JXrE7t4xJ7Ut8sDhYvx5
+         5Qm8DV72oxdKplJ4AwVi8idhVytdK11bzdxxWdsTdwJaEEv7rYSir0hHgkxU0qgvL3Re
+         bjsoyPe0pWVQReNmvsVzVBmA0iUUKa0JOVrm6exXH8Edde6Zok67F4yBde9lacQcEkt5
+         0DwWgrU6pW/sMz2cMoJk75R93eApASkkZ9glvbLRyLkIPL80LtldppiPXiMxoMXa9Uld
+         foGssv2qbfnkMsvbm5T3hSscZApH8+u9QAjV689uppFdCI4yWQfLHmzlZ5PiTUPSyLeQ
+         uhJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777454194; x=1778058994;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SATdzDMyTuOhzxtlpYGXWtCzK5ku+exSSCqgROaZE+w=;
+        b=VFNh88GGAf1A8h4P3vs2q/i+VIrM/4K1vsKgRlQs18knzSvNmzS+TNU0aJRMCOiFHR
+         BerdvmYfg6fwnS8jI9eXKPXS6FycVKkIDwx5FfkVYS8yn0h0sYwV6x1zW53bV5RBIAje
+         /1YmSZSfjOtyc5upSHygBsUYFH0+EABVjmSwE0LEERTeX9ZfXEnbdtrHKGyQPCzR6Zns
+         cPFcV7TEbJvkuqyQKDbVwR4dlnrYKyBRz3UBBfhbQ++8v3ed/9wUYwjT79eUNXQ5lIRV
+         8SugHL2XXzvP4EOND1bfPt3S+mTF6+3dOoFdilSRqF3wL1ydg6igYd9NW5/TAIJAUish
+         pILA==
+X-Forwarded-Encrypted: i=1; AFNElJ/GrkciwNfXILIvHGqEPy8cCGtb2Ag3zqeTEAxWvQxiMGH60dgis1WChrqsDQOjKHsE8rf76UXXfYIj0g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+Zu49/oShpOVGCLr4l7O9x4CSD8drCODJuf8GMvrQPh13eAoT
+	CjYsVYzIwoF6aZBdcokzBwFCvfsc7Np0jdD75kYVbiU1C0+yPSUoKbmt
+X-Gm-Gg: AeBDies4rQ/G3cAWKRp04xB/H3Pc7Xlji3poQMen+s0kfFF7Qc+hplRysvGuXp/uFh2
+	jtPxF/Yrt70v84xqtL4JhE+XeINhs9fqI8wsXUPw3ORF3WDHtrhvACeM11PyHdYN1WFld6CCv0n
+	nff0tCPtRYqejrVKd0iqarElGVAq520R8/MWmr5tseERfZbfuf6Jvblq492fGDKg0ch6WYXW1EU
+	GEh13cT9INHa8OfmLlAMOZHxZ7pi+x/hmCQfLvvyQI+l15XIKZRC7dImsJ3zkRhwN363Dl8ywNg
+	mm21pNr51+1pOgQChfWhEfyAIjMXOrDASKmLUeCRG00oyio+EpsqBGzCMVL2zT8ePqwqk7AIOTF
+	we04VKRz1lb5s761GFrRvUqx/sDIxkj7nDIQgArQuqF0ofLp/0tBV4pVGKajeHIVsTYtcLKLrSl
+	5zI7/bxBiutT7DqIjt/VLRbg4JLGqi1yLXM0N2Xt1Jn8iLoO6XutS8+/jJyfGy7P+wgcpe
+X-Received: by 2002:a05:6a00:4487:b0:82f:77c9:a89f with SMTP id d2e1a72fcca58-834ddc57adfmr7234747b3a.37.1777454194159;
+        Wed, 29 Apr 2026 02:16:34 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-834ed5cd3b8sm1586865b3a.16.2026.04.29.02.16.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 02:16:33 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Joris Verhaegen <verhaegen@google.com>,
+	Miller Liang <millerliang@google.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 0/2] ASoC: uniphier: Use guard() for spin locks
+Date: Wed, 29 Apr 2026 16:16:12 +0700
+Message-ID: <20260429091614.96667-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260429-k1-i2s-fix-v2-1-8d67835aaddc@linux.spacemit.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
- vPSU3UzU4B8JSMDIzMDEyNL3WxD3UyjYt20zArdlFQzg2QTM0PDZEMTJaCGgqJUoDDYsOhYCL+
- 4NCkrNbkEZIJSbS0Ah468wW4AAAA=
-X-Change-ID: 20260429-k1-i2s-fix-de60c4611c14
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Yixun Lan <dlan@kernel.org>, Jinmei Wei <weijinmei@linux.spacemit.com>
-Cc: linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org, 
- spacemit@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Troy Mitchell <troy.mitchell@linux.spacemit.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777453250; l=1903;
- i=troy.mitchell@linux.spacemit.com; s=20250710; h=from:subject:message-id;
- bh=eAOCn8t3y4a8isApCxHiYqSR+fK5XKtYspJVmy3GquQ=;
- b=Vy6WZiz8bJMUqd9rKM5833CQlzF4sjRVemwqtDjhX3FbrYl+XOadkfNGqMERooDo1ivNhEk6R
- Ekl/ipCmWgLAbLbtn4q2IERKMwupOKPQ3k183KBUFNM41tAtX9y2vvS
-X-Developer-Key: i=troy.mitchell@linux.spacemit.com; a=ed25519;
- pk=lQa7BzLrq8DfZnChqmwJ5qQk8fP2USmY/4xZ2/MSsXc=
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: N1R/fLSnwNqMSix5Xgm6xjiJEFClwHohdjmLZyLAsUeaY29o3eJ0R+vl
-	dWDn1a6BjFnER20QFsXFOs9n4N0Q1ssPvxebzlRJlV6tf1j2ZLgqLiaoke0/iQVd9vg4N4D
-	gQElG7LlIds5mVIxwcu4vFDxpdriet6BbsLXVgqXRSmWtwN4nTrnU2K/DjihG2NB33qbZ3Z
-	kBM9fAR+Lclg7CQYKkIlQAnPxmdI5Dj3IUz1p9CpQ71zy0ILRy5mPzPbvoP2sHaYZc4tU6r
-	aHYhUM9ZltEup1SZk9YHtR53mh/tXydGUxz6bcHxzJUNpUbry+vUN9AdNS1vZJopQZ3k8d7
-	k3Ndej2F6nCbOxHwXwXlpORnwIzPDYYmxexyfUc7C1jF0ZaMf+Dbpf/wY3LYgaGQQqPrWg2
-	dE6MNPx8f7GEzPrMSaGf3tRLrMpqxfr4KMa2CLAQqhYh+MPUiNYZZKSS/4UaFxwqiEZyEyy
-	H0qt7em4DVAOmyyno/DUflpxLKuiV6GVNNt1EP91NsRvU9RkOjzovVXkV+xRpOP/ahMJ/bs
-	vMUubZUqWu7LpMPO12Tm08PM9SarxEGLfyqSZ3gAcBgWiqSOYEKh28c3dZh3hlTf7nu8Pbq
-	a/OD83VSXWRaW3ThxnTjwaMDPe8YDGxGqvVVwQ2o555Nd9qVkgduQoHhsXTv3u8C8PdC6x1
-	QcMypWipbsYrz7zR2zKhjxn9Ll2gHeRCQhF/INFD6cFwThEW1v1NAHhv1AwehSy6lkkK/gI
-	ot75RxbLe1CUHVAtEVlwEP14P6hBol/icck1lqTmAyVgz1jpyUSR7xwwGHFXWCj45Ud5NMu
-	RoESge66h0gXBfFT/gu5xB8J8P6YxDhPyCVE+aijFYqN7x6aAs6Sh+8acxD2xoo9vW4OgLL
-	uddZ5i70AYJQFWPGYeC7Tt9fBLI2zwN1WgCxTUzSNQ5IbbRsF6saezJsHCjOn+rwn/SVGd3
-	4VLCOrXDMGle6TQGwzVf4AH9EWVxS5uAd8kjd6HyRBk0l0nam4mbakBN7iWY/hOUDb9oRLR
-	l7GGnYHGiEG6DI77hSVT2C2ueqAYyakuc70oXYGNkXF09BfGqSv7zxEy87+HM5xDMS5HAon
-	/I0ncaVfqB9QgAlX1k9Ya0dOPWz8CrL7rxkyMDOLcxoP7QqW0s00fRpNsWH3J09f3v/fLu9
-	CJSQ8xZf6g9AXpk=
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
-X-QQ-RECHKSPAM: 0
+Content-Transfer-Encoding: 8bit
 
-When TX is already running (SSCR_SSE is set), the hw_params callback
-returns early before setting up DMA parameters for the RX stream. This
-prevents the capture path from configuring its DMA data properly.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Move the SSCR_SSE check after DMA parameter setup and format
-constraints, so both TX and RX streams get their DMA configuration
-regardless of whether the hardware is already enabled. The early return
-now only skips the register writes that would disrupt an active stream.
+Hi all,
 
-Fixes: fce217449075 ("ASoC: spacemit: add i2s support for K1 SoC")
-Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
----
-Changes in v2:
-- Combine two consecutive SSCR reads into one
-- Fix Fixes tag SHA1 to match the upstream commit
-- Split from the original 7-patch series into a standalone fix
-Link: https://lore.kernel.org/all/20260429-k3-i2s-v1-1-2fe99db11ecb@linux.spacemit.com/
----
- sound/soc/spacemit/k1_i2s.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/sound/soc/spacemit/k1_i2s.c b/sound/soc/spacemit/k1_i2s.c
-index 1cb99f1abc7c..dccf6dcb72b1 100644
---- a/sound/soc/spacemit/k1_i2s.c
-+++ b/sound/soc/spacemit/k1_i2s.c
-@@ -117,10 +117,6 @@ static int spacemit_i2s_hw_params(struct snd_pcm_substream *substream,
- 	u32 val;
- 	int ret;
- 
--	val = readl(i2s->base + SSCR);
--	if (val & SSCR_SSE)
--		return 0;
--
- 	dma_data = &i2s->playback_dma_data;
- 
- 	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
-@@ -181,6 +177,9 @@ static int spacemit_i2s_hw_params(struct snd_pcm_substream *substream,
- 	}
- 
- 	val = readl(i2s->base + SSCR);
-+	if (val & SSCR_SSE)
-+		return 0;
-+
- 	val &= ~SSCR_DW_32BYTE;
- 	val |= data_width;
- 	writel(val, i2s->base + SSCR);
-
----
-base-commit: c7275b05bc428c7373d97aa2da02d3a7fa6b9f66
-change-id: 20260429-k1-i2s-fix-de60c4611c14
+This series converts spin lock handling in UniPhier AIO drivers
+to use guard() helpers.
+The changes are purely code cleanups with no functional impact.
 
 Best regards,
---  
-Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Phuc
+
+bui duc phuc (2):
+  ASoC: uniphier: aio-compress: Use guard() for spin locks
+  ASoC: uniphier: aio-dma: Use guard() for spin locks
+
+ sound/soc/uniphier/aio-compress.c | 24 +++++---------
+ sound/soc/uniphier/aio-dma.c      | 52 ++++++++++++++-----------------
+ 2 files changed, 30 insertions(+), 46 deletions(-)
+
+-- 
+2.43.0
 
