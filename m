@@ -1,106 +1,96 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B5D3A75B5
-	for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 08:00:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4899435C1B6;
+	Wed, 29 Apr 2026 08:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777449648; cv=none; b=Vq/jMRcGSkR/iUrXt2xW9+EF4UM0KVNYNmM71MM/uSTc/OSoWVAJ4CffrQY8MbFdJ01ZC42B4n/RBQhGVsZvH9b0ph7Ibv5Ov7FLZ/vS3SKLFHr4+5WFz/WDWIYzUv5RtRD1blppeY2tV43WsxS2mZQBwFDQmkZ3mM7ViJ/5LSs=
+	t=1777449843; cv=none; b=ontFeKvo20SggGcUR7DY8bxjFddKqQ0AHYmkklBCd97rCYxWb2yrr2gm63SZyvDK2/gCTzpJC1PK/28KgWRE8P1LvEgxitILaJpvkyXqudy+grOGTu6DiQJFPnJbz2Pueba5MLNPg/p+V3btP3Dmie+4LH6B/TIK17mVR+kNMRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777449648; c=relaxed/simple;
-	bh=jUfv7BY18i0hzz1iwaD/eeJ7LRQt53qdiERx2ReGrsE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g2oHXO/slLr1nj/Iqe2qQCxIBKLI7VMuwjDR386/NCRx6VqjbzHyKjd0fav3lxwP2OxJmuC327UrVfjmmwTcZOYzNY2dJuJNhjx9vRV3/ITbpeVy7wp2ce46+OAXFcAYR4srdAaJw4yNyzWayIGHe+geUlA/MrfF3P6fEzFbdRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=UtJa0cOJ; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1777449843; c=relaxed/simple;
+	bh=dX7QsEGz4VtKbIHdSeXLo6QP+Ue7Cyb5IAqSUgvZDPU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=OllN18CXcv+XHlXF5YGGaf/rI01JwmZUdNv1V5xMJG0JTa+uf5hw366GnGx9z1MzwnoWYmLECv7N5rAZ3c1qB80T84P0aqr32KK9H8fZGg1VS9DBhbKnVndxyzzB2R+aU1PxOiyZD3C0Jic21GxLMrZFCHqD8pH8shDRocEVgYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=UHuxi3Eg; arc=none smtp.client-ip=54.207.19.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="UtJa0cOJ"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43d7828221bso619211f8f.3
-        for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 01:00:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1777449646; x=1778054446; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sKt07qcPF1NidEM1dAs7s4kLamhrOjHwcNAU0l78/qI=;
-        b=UtJa0cOJ2Ik+0qnbSPe4O4cQakHmMhkItx+4s9ze5KogBaWHBGCr3JoawwPTy4Hr+o
-         OB/XHMKOdUenA/X7fvMpfos/E6HQiOKtKt4oefQ2kDl9oBu8hv8ZE4Wuw/Zfhv6rc0C0
-         J2QO7kjSssKqGhCqD6iQhV2wQNGp0xmwOhcKhBDYQOb0ML89QSI3WsJjvX2+ZX818dos
-         ry2TyQVwTC4xlTkqHrrEBKj+RvRwdCOaLks2dmtFPoqzc8e2wJggeOh3V0pLiT3IH4BU
-         PvxTVMpscT1CLsem8eCukS3Ny8wl7xO1WClUgsql0Txktgo+GOmjGCtz+WVvpazhGvwS
-         MvJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777449646; x=1778054446;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sKt07qcPF1NidEM1dAs7s4kLamhrOjHwcNAU0l78/qI=;
-        b=hZhdqmmLppQg6RAQXTWJ1rc+QkM3b54HtyhQ3mdY8U/rbImw0jh+jtRi8VK30XPIuj
-         EPsmLNp40GL7yXDTr0pGn2T4v31l2SUPCSl2lJpPoeA6eToS1gjCq5lubwx65rBOLSa/
-         jwmGJSU8EYciwXnl9foulXWdZVx4GG1QrYYMu/YOFoQvHLAZQrG9AKimxNHUMgrosxC1
-         bJ4TeiecRlI53PKYnMJOTmAJ5teMDLZrJHd/dKyq1dBkw5NL8Fi/zyYEXwBXPSADpFJm
-         0/iOPAG0hGc2s0/0NN6Hf3cWyisywcMSgE1zmWPIll+NX9lm+3I5XCw2XEa4SouhQf+2
-         bEQA==
-X-Forwarded-Encrypted: i=1; AFNElJ8zHK6vFQRm3UnHAUhjzpmHrvwlk1yI7jd+yGRudEi939jkhcV8W5KC9+IVX7nfG5AvyOCK6ZVQarNEgw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQlnRrfTCjyFAQyiIwwkxUdq5U6DlIvSru8ytluX7gWyyVqzV6
-	QNT0W0JLcZKND2DJVj3KJEWMwL3YaHISo9lqVEE0zyoSCiIbdKGlJpmEoxxO6sKbcbo=
-X-Gm-Gg: AeBDieszSwTSEfCShPqdldLFbrtjpVJvBq4u/NA4E0GpVEbBgy3MupbrThcgrrFjxHu
-	sHu6bJJo5kmH44HGjou1SG6vg3VJJA3JbOVgSKzX4ywAkPY2d6cUMTZSFc+0/QELjVaA5d2lyL+
-	veSVqrq07VBeMyR8ntqFKtQMbOwq8wTgI/adBqvxAZEEE7sV9zE9Ooqs7QADlwpooZX5aWj3vQG
-	JZsrd1qui6n17xiqkOvxm870iwHJ8XPxn5bkl2uhP74Jxo2LEfkK4YCskUx0qZZQvufNcxMbvYQ
-	SZpo2eSHhz70+Z9K6gfMjsQyXJvmrIBLbJ3Za5NCjVI43JPq173c6x0Qgm3xJNBlUzMkEQyXt04
-	ht0yIeeWlPmUXnP6IQdbzNevwkYEpHGgtBrkDHciUTbKo4Yp8MbysjB80Joc1Le1TdqyutS2CuP
-	r3CKHIXw1GrPvDTo1xrzAk74eMma49ShvPFx0OMUdBvhrU33JHG/WDj6jMfBkX3Hgv3GSy
-X-Received: by 2002:a05:600c:3acd:b0:489:e696:127d with SMTP id 5b1f17b1804b1-48a76f82973mr58572165e9.5.1777449641184;
-        Wed, 29 Apr 2026 01:00:41 -0700 (PDT)
-Received: from ?IPV6:2001:1a48:8:903:1ed6:4f73:ce38:f9d4? ([2001:1a48:8:903:1ed6:4f73:ce38:f9d4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a7c303c3bsm18098475e9.7.2026.04.29.01.00.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Apr 2026 01:00:40 -0700 (PDT)
-Message-ID: <78978a11-8345-4b84-bef7-90d17f4c581c@suse.com>
-Date: Wed, 29 Apr 2026 10:00:38 +0200
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="UHuxi3Eg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
+	s=mxsw2412; t=1777449833;
+	bh=5fUuBfC7bwv1lJmKApj9TAOEI13YVB4KodPqQkdcyHw=;
+	h=Mime-Version:Date:Message-Id:Subject:From:To;
+	b=UHuxi3EgviWKmwfjSBodUN7+cH/Cp51DYzO3SWEjymHu5I6Z23faTNMD+7ACQbbUU
+	 gYYU0IiLcGSOWNZr4Mep5FtwU86JrL7I9pdJhy+8B880R6/UFTiTbdJmOz9gKMMegQ
+	 dtkMSV8MQ/O6KQmx+7DnCmYcAsnZWvCmLGcmE5sE=
+X-QQ-mid: zesmtpgz3t1777449827t5d1bd17e
+X-QQ-Originating-IP: rX94L3y+/0mK+XkUrL28TUJzyamFByYqjc5ZNvM/9pc=
+Received: from = ( [120.237.158.181])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 29 Apr 2026 16:03:45 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 15618526834681889661
+EX-QQ-RecipientCnt: 15
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] Documentation: adopt new coding style of
- type-aware kmalloc-family
-Content-Language: en-US
-To: Manuel Ebner <manuelebner@mailbox.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Cc: Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mm@kvack.org
-References: <20260429070759.309110-3-manuelebner@mailbox.org>
- <20260429071445.309733-2-manuelebner@mailbox.org>
-From: Vlastimil Babka <vbabka@suse.com>
-In-Reply-To: <20260429071445.309733-2-manuelebner@mailbox.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Wed, 29 Apr 2026 16:03:46 +0800
+Message-Id: <DI5HDLS7LRAX.3M0H0KH046K04@linux.spacemit.com>
+Cc: "Liam Girdwood" <lgirdwood@gmail.com>, "Jaroslav Kysela"
+ <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Yixun Lan"
+ <dlan@kernel.org>, "Jinmei Wei" <weijinmei@linux.spacemit.com>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, <linux-sound@vger.kernel.org>,
+ <linux-riscv@lists.infradead.org>, <spacemit@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 1/7] ASoC: spacemit: fix RX DMA params not set when TX
+ is running
+From: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>
+To: "Mark Brown" <broonie@kernel.org>, "Troy Mitchell"
+ <troy.mitchell@linux.spacemit.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260429-k3-i2s-v1-0-2fe99db11ecb@linux.spacemit.com>
+ <20260429-k3-i2s-v1-1-2fe99db11ecb@linux.spacemit.com>
+ <afFuXO3IfV6CSsLf@sirena.co.uk>
+In-Reply-To: <afFuXO3IfV6CSsLf@sirena.co.uk>
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: NVJ59BI8BGh+BFPWtIceeGCRduANYadvAz0ipfnrQ0VYK/UmUTH9ek2F
+	wb0eWitfQrgv6Ffv3h39eb+EkB9rm3VccJ3RcDjdn6Kk0ZmsI5MtVfoYJFEz50CTNwgxa2F
+	gUqFx1mTu2Vz1HjbYJv/U+AS+wi4N4UbqxCECATmfAdiVgcAdUorVc+uS2Dm/+2olnUuE3g
+	DyoPU2UDpSMcQD+ndM+iTUOdItbwY2q3WQS0hnT2cn/giO46hFxauypiTnH+0xbULGlDlHv
+	E4WDpX5uBTGCQALiPivh9Friq+CSZ/b+1emW3H4VSAH3aiDyi0viBm06tyGL/mJIFg5Qnf5
+	3qZykKl1PVEz5UDNjM+mvPjY3sRrlE0zHAgd62Cf/8WW757fZVuhyNg0GClx0xd3zhdNyBp
+	CnC9JDB1xu+ofAvOCmqFLxnyRP6VaIRq9lF4WeLm6ppmW7cT3ZStblMFUtYs0v8Ly9Ssho/
+	mqZMBv7m7zbmeQivXd0vknBZEmAK5MtPmQG/XPbxpegVZAHrAXn4bW7nJeq7IWXyHOtjcQN
+	oDe/YzOTQvS+hfA4Vc0ytf5YE68J+eTPa01IVggp55vj9azUl6xWiqvG4Ym2fzYVAfT4r4Z
+	0Iy0GQXLUp7W5AR5mfHrYdjYg1/oO/S1H2ZxZ1dNyu/LVz0QsUweesFyxnKNMoP3ut38P5l
+	sATcCNGR2GRBH+K92mKmx3yHGHh2nX1Be40AbKIqbLbomzFiQKPJwMpk+59H05PSZedMkQL
+	3fmDW1QoRhYAEQdbZADBjnQXMC7v5vl3UwRMfvBLdKtWaOOikKZ32yujjNpIYTIl7C+wbj9
+	P1D5yBr1cYbj8yyrYQmlA9wiHjtqL/dwSU/duHN9LzVw0ivI4ubbsdSyXJi2jIHmYoDOmKR
+	i0M51cy3eIcGVLsBA115PaKftxaSrtS78wLFYfzZ1bL0zwlvL+pPCLQGBHxTHe2D/UZNM6E
+	/9Cg9i6Tj7hnxWcWZIQR7Zs9bNO06jTzRprljp4pW4CVcGlA+ozKDLMYX/ZURuYTFfJLx6r
+	ltp2d4+MYOrdiX8s2ifvRbYbNN49YOhISQNBfIGQYQlkX42KIiWdIyUVUHyixkmDTQvWKJC
+	GuPEYihJfz4
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+X-QQ-RECHKSPAM: 0
 
-On 4/29/26 09:14, Manuel Ebner wrote:
-> Update the documentation to reflect new type-aware kmalloc-family as
-> suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
-> and family")
-> 
-> ptr = kmalloc(sizeof(*ptr), gfp);
->  -> ptr = kmalloc_obj(*ptr);
-> ptr = kmalloc(sizeof(struct some_obj_name), gfp);
->  -> ptr = kmalloc_obj(*ptr);
-> ptr = kzalloc(sizeof(*ptr), gfp);
->  -> ptr = kzalloc_obj(*ptr);
-> ptr = kmalloc_array(count, sizeof(*ptr), gfp);
->  -> ptr = kmalloc_objs(*ptr, count);
-> ptr = kcalloc(count, sizeof(*ptr), gfp);
->  -> ptr = kzalloc_objs(*ptr, count);
-> 
-> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+On Wed Apr 29, 2026 at 10:35 AM CST, Mark Brown wrote:
+> On Wed, Apr 29, 2026 at 09:38:46AM +0800, Troy Mitchell wrote:
+>
+>> Fixes: 955f7b46873e ("ASoC: spacemit: add i2s support for K1 SoC")
+>
+> 	Fixes tag: Fixes: 955f7b46873e ("ASoC: spacemit: add i2s support for K1 =
+SoC")
+> 	Has these problem(s):
+> 		- Target SHA1 does not exist
+should be fce217449075 ("ASoC: spacemit: add i2s support for K1 SoC")
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-
+                          - Troy
 
