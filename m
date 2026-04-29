@@ -1,111 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E055B38B7D4
-	for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 05:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5F02D876A
+	for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 05:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777441357; cv=none; b=oq5fRBFJk5QJi2tifbwBMk/6lWx7NwOmAFEQjagmlrzKB/1il/yZXl0luhGdMFxvbX/8CtlyeUzvPqZLEOStGim0u4+CTsAFzj2M0gxugQIBmP3HeW+LgMCIKlvjd/Q7Y4RRpHyApV7wO1ASV3mJwjNk2wtm10sP1QP2pQqMHhk=
+	t=1777441686; cv=none; b=EBlI4WPweliZR973FS/YMDMLMy1NNC2dqpxLYQyBA2GIaNEMQJ32/AMri4uASavawv7Cn2BVuX+IGoR1WV7m1/C5D+nopFV6hyprPuWBacAWi3Sffcnq+VSqhQSlc3W703HVn0ZPtKLAp252jxC1pex/BvdcxH0767bm9j9SvFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777441357; c=relaxed/simple;
-	bh=iy+pKVRIEhGd/OGXEiMAk1gH/Bc+GjNZpgxmXTv4kt0=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=edjUdSQ7R3qybGvtFbn+4yZ+S1XBvR8OervBE8wD/QmhJnnF7pG3F+515dZXilM1OIG8FYe0Al5KmNVD2Pvr/4Pg3XOIbwsxiizhVYVA0eCqd2W3cTQQxE+uS/KY0EdkzBFeDL47h9/mrvc0697NGjp4kpCHxDba9ScGVu9Y4Ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q+5I21zZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777441686; c=relaxed/simple;
+	bh=A1n/UYUoaphToXYwryyWX67OkpMd2DZ5NYLGb86kJh8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OFcR/Jl/G9B0wT/VpnWldMXr7Nl6Ihe5XV849AaKqN3hHZZhCUBBnIiUvi6wTIqd6l1Anz8ASuvN7/DWDAXQdkUar2Ctr79D7MIvZWpLrCdge9Vptv+4wxBy88awvvOvr63sHRGb2hrmyNxIvjXSDcM3K4i5RsfcmivQkdQYn/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QNBRHiIg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZgztFsBw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QNBRHiIg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZgztFsBw; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q+5I21zZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6413CC19425;
-	Wed, 29 Apr 2026 05:42:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777441357;
-	bh=iy+pKVRIEhGd/OGXEiMAk1gH/Bc+GjNZpgxmXTv4kt0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Q+5I21zZnlwfr68+545EGi/hOsK1NgRuZI+fBjcAtJXsY4E30SZRY4DtFOM750MDY
-	 1fpCRIpZuwuKUliBs2ieQ8DwOpFYFy90Ba+NVWF8ue18mGOYW/il6XiT2mkLTAz3Xg
-	 uH6vF7bhPTVSVerCf8AYxV7KwEqSvY3slg68weCTkPT2oBh3mGLmPBz1JyrMqk5EJV
-	 N1Txe8IBX02KLV8Vkq0UxnwRexlS8sFWkMG8Lvw/rWUcbBzEsngzx+4o89flTiAIE2
-	 ly/0taduPDMurWK6mTJr2sJwOUgemOD6w1EWxHUeULIF27g4OxZHrqS5CYQA7ktieB
-	 MdDvLlk3Ayo1g==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id CBC321AC5855; Wed, 29 Apr 2026 06:42:34 +0100 (BST)
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v7.1-rc1
-Date: Wed, 29 Apr 2026 14:42:28 +0900
-Message-Id: <20260429054234.CBC321AC5855@finisterre.sirena.org.uk>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QNBRHiIg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZgztFsBw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QNBRHiIg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZgztFsBw"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 73DD16A7FC;
+	Wed, 29 Apr 2026 05:48:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777441683; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eL+eQAyLzVtGBKlIdMNqOhpSWygpw3z8gnUGxknB18c=;
+	b=QNBRHiIgo+w3SNigjVkEDHKUodUaGZYbG6NanBForgjK1xoROnA+AwoQ+kozvQGegRpapE
+	CIqKsscltNUETJ/xWzu3zFRqduLs7PBTk4UirAYGp8dsk8H+08q31swSAYql0X8EB/m+Nx
+	MqWOj5DDitpgvHXqTi/POta7oFvXG64=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777441683;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eL+eQAyLzVtGBKlIdMNqOhpSWygpw3z8gnUGxknB18c=;
+	b=ZgztFsBw8MnHGRhWPbvDkqSgFMqXQunEdV1sjLv4nEnKM+xPF8E8GEq7tzhl8FUCRBAmcp
+	EKA+0CPMf1u+QDAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777441683; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eL+eQAyLzVtGBKlIdMNqOhpSWygpw3z8gnUGxknB18c=;
+	b=QNBRHiIgo+w3SNigjVkEDHKUodUaGZYbG6NanBForgjK1xoROnA+AwoQ+kozvQGegRpapE
+	CIqKsscltNUETJ/xWzu3zFRqduLs7PBTk4UirAYGp8dsk8H+08q31swSAYql0X8EB/m+Nx
+	MqWOj5DDitpgvHXqTi/POta7oFvXG64=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777441683;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eL+eQAyLzVtGBKlIdMNqOhpSWygpw3z8gnUGxknB18c=;
+	b=ZgztFsBw8MnHGRhWPbvDkqSgFMqXQunEdV1sjLv4nEnKM+xPF8E8GEq7tzhl8FUCRBAmcp
+	EKA+0CPMf1u+QDAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 39543593B0;
+	Wed, 29 Apr 2026 05:48:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id NV7RCpOb8WnVLAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 29 Apr 2026 05:48:03 +0000
+Date: Wed, 29 Apr 2026 07:48:02 +0200
+Message-ID: <878qa6qpv1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Abhinav Mahadevan <abhi220204@gmail.com>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] ALSA: usb-audio: Fix quirk entry placement for PreSonus AudioBox USB
+In-Reply-To: <20260428155117.5170-1-abhi220204@gmail.com>
+References: <20260410143335.5974-1-abhi220204@gmail.com>
+	<20260428155117.5170-1-abhi220204@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-The following changes since commit 254f49634ee16a731174d2ae34bc50bd5f45e731:
+On Tue, 28 Apr 2026 17:50:00 +0200,
+Abhinav Mahadevan wrote:
+> 
+> The quirk entry for PreSonus AudioBox USB was mistakenly placed inside
+> a disabled #if 0 block. Move it to the correct position after the
+> 
+> Fixes: 34fe4a9df247 ("ALSA: usb-audio: Add quirk for PreSonus AudioBox USB")
+> Signed-off-by: Abhinav Mahadevan <abhi220204@gmail.com>
 
-  Linux 7.1-rc1 (2026-04-26 14:19:00 -0700)
+Applied now.  Thanks.
 
-are available in the Git repository at:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.1-rc1
-
-for you to fetch changes up to 03dcb5b68a96b51157ec2d17042fa2f0106828ae:
-
-  ASoC: spacemit: adjust FIFO trigger threshold to half FIFO size (2026-04-29 11:41:32 +0900)
-
-----------------------------------------------------------------
-ASoC: Fixes for v7.1
-
-We've had quite a lot of fixes come in this past week, all driver stuff
-rather than any broad systematic issue.  All quite routine stuff.
-
-----------------------------------------------------------------
-Ajay Kumar Nandam (1):
-      ASoC: codecs: wcd937x: fix AUX PA sequencing and mixer controls
-
-Bard Liao (1):
-      ASoC: SOF: Intel: add an empty adr_link
-
-Christian A. Ehrhardt (1):
-      ASoC: codecs: ab8500: Fix casting of private data
-
-Cássio Gabriel (1):
-      ASoC: Intel: bytcr_wm5102: Fix MCLK leak on platform_clock_control error
-
-Guilherme G. Piccoli (1):
-      ASoC: amd: acp: Add DMI quirk for Valve Steam Deck OLED
-
-James Calligeros (2):
-      ASoC: tas2764: Mark die temp register as volatile
-      ASoC: tas2770: Fix order of operations for temperature calculation
-
-Li Jian (1):
-      ASoC: ES8389: convert to devm_clk_get_optional() to get clock
-
-Richard Fitzgerald (1):
-      ASoC: cs35l56: Fix illegal writes to OTP_MEM registers
-
-Sasha Levin (1):
-      ASoC: tegra: Remove stale snd-soc-tegra-utils composite module definition
-
-Troy Mitchell (2):
-      ASoC: spacemit: move hw constraints from hw_params to startup
-      ASoC: spacemit: adjust FIFO trigger threshold to half FIFO size
-
-wangdicheng (1):
-      ASoC: aw88395: Fix kernel panic caused by invalid GPIO error pointer
-
- sound/soc/amd/acp/acp-legacy-mach.c   |  2 +-
- sound/soc/amd/acp/acp-mach-common.c   | 22 +++++++++++++---
- sound/soc/amd/acp/acp-mach.h          |  4 +++
- sound/soc/amd/acp/acp-sof-mach.c      |  2 +-
- sound/soc/codecs/ab8500-codec.c       |  6 ++---
- sound/soc/codecs/aw88395/aw88395.c    |  9 +++----
- sound/soc/codecs/cs35l56-shared.c     |  7 +++--
- sound/soc/codecs/es8389.c             |  2 +-
- sound/soc/codecs/tas2764.c            |  1 +
- sound/soc/codecs/tas2770.c            |  4 +--
- sound/soc/codecs/wcd937x.c            | 26 ++++++++++++++++++-
- sound/soc/intel/boards/bytcr_wm5102.c |  1 +
- sound/soc/sof/intel/hda.c             |  3 ++-
- sound/soc/spacemit/k1_i2s.c           | 49 ++++++++++++++++++++++++-----------
- sound/soc/tegra/Makefile              |  1 -
- 15 files changed, 101 insertions(+), 38 deletions(-)
+Takashi
