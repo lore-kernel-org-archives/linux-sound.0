@@ -1,92 +1,95 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ADCF35AC3B;
-	Wed, 29 Apr 2026 22:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F37355F54;
+	Wed, 29 Apr 2026 23:19:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777503479; cv=none; b=Mj2XJU4goVUpVzld22npoVpRdqw4QCi24GDvbZ0qv3LaPHxuMOaf5tC0o7/fh2CEn4lgdwJCl8euZurlGlHIXbGZRiE5JT60F/8isR0dP60vej7nMMgOillsPsOL3YnrNLLxlTv2GzdYQBADBskc42TWWaayIDVJqdRbSLLaJTM=
+	t=1777504792; cv=none; b=nTDmghU3IoucYYiUuz4BgqukVhS24GIoyqyYL3FGf8dlNXMyutiaapxyEZHzkYzPQ/pNGD0/l3RezxcaeOkqVEB3kqGBJbbpYbIEvH2HoKohg1t8U2R2qtbUU8yp1xldnlvcZZ5uXpmprd1Pzzp9AIlelWH4v5YvYPKrjHcpgos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777503479; c=relaxed/simple;
-	bh=zIsXCGXRvHEjkLFxx/D0QluBX4QaPwS9iqZP7TxCeuk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iesbE1Y4rGMKepxrTQ6AZMZ/WDxmzUCoSix2u99BzShlX8z5102gA0kpYjJOR4UuhIWX3hiy1ifXpMbUmQSQ5I0rjz7tTeJAof/Dj/Xk17LR3oBTjtyNsOHhdQwE05VFS2lxVrsVUJeuNA7qzmjCw/lDfOK45UlDtKgcp/ZNeQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=m7g/fXoT; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1777504792; c=relaxed/simple;
+	bh=XqiVdwLtQFthu7nh0kBQRc3auy5Ysg/jY1GPAXlIAfI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nOeD2+iMUIdSShKhW7rq2CH1P59+eOaJeFFuBBHMJBOXgPa+zu+6TYx8VJjiNYFdRAxvrndFx/Ys/EbFD+0+/nPSY4ASbnZA/01gH18n5YmI6XxU0RM6WfLt684Kv7g7OQXZTW85lefqQcr24JJC8X+3N1NVCpCGQtdGTs+Hk78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hkeuhTi8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="m7g/fXoT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=bvfCCGjIsytxB0DaPhBA2XH/4ziXKHOu0BtwvQ/tlhc=; b=m7g/fXoTGGRLr5GpVhSeZiHQ7U
-	gpVYIgUA7FsGgZp+Avzsw0AI1XDSU0CfLZA6v5oUJRdEGXDhcIUYlMe13/kP1JgyXad7Fms3dWNUj
-	Ea8GU/Ee7fuxMIZjMkOQNdND/ztGfm3rFOVQDxAwi69fkuq8aK+1U8YWsAg/Ptsai5A4+I+UEJMv6
-	tHbO49YRu7mFVQrEAK5x9PJY8rjd8CTRPmS8HvIQnWvu8uTQBk3vvITLkFl32i3CtaI+z8GmPFX1w
-	csybfwWnPHLAim2gZtuQPqY88jJxxEfTJW++qaVN/izY0MNifzcou7gUIKRqRwxo0OGmBVyW6JJSe
-	mQS1nqow==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wIDqq-00000004IEB-3bsr;
-	Wed, 29 Apr 2026 22:57:52 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Sen Wang <sen@ti.com>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] Documentation: sound: fix TAS675x doc build warnings
-Date: Wed, 29 Apr 2026 15:57:51 -0700
-Message-ID: <20260429225751.1995224-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hkeuhTi8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ACB7C19425;
+	Wed, 29 Apr 2026 23:19:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777504792;
+	bh=XqiVdwLtQFthu7nh0kBQRc3auy5Ysg/jY1GPAXlIAfI=;
+	h=Date:From:To:Cc:Subject:From;
+	b=hkeuhTi8H/29ki9H0sr9MxGKwDQmRwIwY6dseeQK7KMPmWol4RVIAsTitJ4UNJjP+
+	 nQc15zYDZVd2aXamISQfDVqEEZKRvm68eM2I7C8q+mIov0hIdhLsHEMoODW88Q6Aan
+	 UjDkwBm1ME17LvYoJ4A2QV3xX37u36cFlyfZGKX3vCc43Xq4FPPbkkIFuQox6Qi90F
+	 nYvjdKXKejzH3XIOqelNMcYF6DWQC88MZ5/Lsq35YLKxlPbRLBp+1vdWuAH7Px40zb
+	 iy5X347swtAVbhTRoSc1fKrUL7+w03ntlY0bw+fHoX1U3txR4gMYJhimJD/72kbwC7
+	 8ZRGZRBi56IPw==
+Date: Wed, 29 Apr 2026 17:19:49 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH][next] ASoC: soc-topology: Avoid
+ -Wflex-array-member-not-at-end warning
+Message-ID: <afKSFY3qrlSOJ0EJ@kspp>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Add tas675x.rst to the index file and extend the heading underline
-to avoid build warnings:
+-Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+getting ready to enable it, globally.
 
-Documentation/sound/codecs/tas675x.rst: WARNING: document isn't included in any toctree [toc.not_included]
-Documentation/sound/codecs/tas675x.rst:659: WARNING: Title underline too short.
-Overtemperature Shutdown (0x87)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
+Use the __TRAILING_OVERLAP() helper to fix the following warning:
 
-Fixes: ba46edca354e ("Documentation: sound: Add TAS675x codec mixer controls documentation")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+sound/soc/soc-topology-test.c:136:38: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+
+This helper creates a union between a flexible-array member (FAM)
+and a set of members that would otherwise follow it. This overlays
+the trailing members onto the FAM while preserving the original
+memory layout.
+
+Lastly, the static_assert() ensures the alignment between the FAM
+and struct snd_soc_tplg_hdr pcm_header; is not inadvertently changed,
+and it's intentionally placed immediately after the related structure
+(that is, no blank line in between).
+
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
-Cc: Sen Wang <sen@ti.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org
+ sound/soc/soc-topology-test.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
- Documentation/sound/codecs/index.rst   |    1 +
- Documentation/sound/codecs/tas675x.rst |    2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+diff --git a/sound/soc/soc-topology-test.c b/sound/soc/soc-topology-test.c
+index c8f2ec29e970..ef6725613b01 100644
+--- a/sound/soc/soc-topology-test.c
++++ b/sound/soc/soc-topology-test.c
+@@ -133,10 +133,15 @@ static struct tplg_tmpl_001 tplg_tmpl_empty = {
+ 
+ struct tplg_tmpl_002 {
+ 	struct snd_soc_tplg_hdr header;
+-	struct snd_soc_tplg_manifest manifest;
+-	struct snd_soc_tplg_hdr pcm_header;
+-	struct snd_soc_tplg_pcm pcm;
++
++	/* Must be last as it ends in a flexible-array member. */
++	__TRAILING_OVERLAP(struct snd_soc_tplg_manifest, manifest, priv.data, __packed,
++		struct snd_soc_tplg_hdr pcm_header;
++		struct snd_soc_tplg_pcm pcm;
++	);
+ } __packed;
++static_assert(offsetof(struct tplg_tmpl_002, manifest.priv.data) ==
++	      offsetof(struct tplg_tmpl_002, pcm_header));
+ 
+ static struct tplg_tmpl_002 tplg_tmpl_with_pcm = {
+ 	.header = {
+-- 
+2.51.0
 
---- linux-next-20260429.orig/Documentation/sound/codecs/index.rst
-+++ linux-next-20260429/Documentation/sound/codecs/index.rst
-@@ -7,3 +7,4 @@ Codec-Specific Information
-    :maxdepth: 2
- 
-    cs35l56
-+   tas675x
---- linux-next-20260429.orig/Documentation/sound/codecs/tas675x.rst
-+++ linux-next-20260429/Documentation/sound/codecs/tas675x.rst
-@@ -656,7 +656,7 @@ These faults place affected channels int
- issues fault clear (register 0x01 bit 3) to allow recovery.
- 
- Overtemperature Shutdown (0x87)
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-   ========  ==========================================
-   Bits      Description
