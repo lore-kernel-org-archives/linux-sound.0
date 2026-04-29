@@ -1,41 +1,41 @@
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C860523183B;
-	Wed, 29 Apr 2026 01:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571F825B2FA;
+	Wed, 29 Apr 2026 01:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777426749; cv=none; b=mNk4cIUUWEKn8pncJRiQq+hZICdMT6s+HvbwfFHfH6B/rQF0FZrl1OW8XMl/UDKttig2a8C7nSyj6zjUNTln4WhoPcyUQSbOPBytCf2JHxUnkLFgZ/SM8qOM2Zmu4NB6YQreZM6JhwTdDs68TQmbOsuv5Y3p+2G10I4R7Umx2S0=
+	t=1777426757; cv=none; b=uRUgWN07oGWEDO+sjCxpi41fy6bxhssxlW3y963h7dfVda6DL04j/rTMGh1g5zpggEVpEY86fMq9oZKKubhB1m+Yi7JM/LEy/hg7KWqFWFpY6rL8Kc1v7zTZ+DB8kQzE2pDU3nEuWxxTwtSYR4ZHfIBGXP4ULZuSs76fggeP6TY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777426749; c=relaxed/simple;
-	bh=fqs712JSCd2q2Oqmt1LbqXOCERM/xXmlTc8QrXeirL0=;
+	s=arc-20240116; t=1777426757; c=relaxed/simple;
+	bh=TN3IekLzdp18HVU+1Rpq+9TEk2UtnO7ag9ShWepOCxY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jpDI8RterJDeukwMO5gTCAe/+gcBSbay2Z59wOzW+Grho0koXYzsL12Xy/N+dpC1S3lmOmKXZWB+Ghs02yHXL5rp3EmLzppKDDtmYoM5zLmeHSkSTXW+k0drAW2olPQcHD5LOxgvxk4hzqtM4DXcJAIYIFz+sJBLiC7cD1hwSnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=Ux5Ml9QA; arc=none smtp.client-ip=54.254.200.128
+	 In-Reply-To:To:Cc; b=qGAepACnDMpZXaTao/vgpTUAwwNU2fDVwg4YextvzqlVTwU4XSP4Uws+608mZqF+QrJu08uB+qTWX6ayYaWK5+JICP2aX0qtXnHPzLC9kRs0OQhPSvHhHz6ZYMNMgLznXNR0RjGitX1krrOfzKwBuYVaSBKgmvq7lJtdkMjYVaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=w8ALSAXr; arc=none smtp.client-ip=52.59.177.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="Ux5Ml9QA"
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="w8ALSAXr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1777426744;
-	bh=umt9s+fWxPSHuP81XZcEF9uKcHi4dTg/6NHhQ9slX2A=;
+	s=mxsw2412; t=1777426751;
+	bh=IhNm7b5aaqeGytIsBEHmKesKKDGy9a0voGkBOun2Fb4=;
 	h=From:Date:Subject:MIME-Version:Message-Id:To;
-	b=Ux5Ml9QAvRYWiIiN35of9j/C4ZTcGQ6f6dRG+wZdRmGJfTZcBYZAbJOZCV1u+/SFM
-	 Ydn1IwEk45gMf7Bjn8KsbZuMSXbLwnGFuWOek499KLCdXJ8Ol6DnLpOxfQJaSQ8ZKQ
-	 4uLIZ3tlnCXbC3tXlElLVWNZoZLLQxaYiFMIN7yo=
-X-QQ-mid: esmtpgz13t1777426738tdd87611e
-X-QQ-Originating-IP: vWIv63VhrF74ROnm/3QKqWXpoDGEYGEsALkQyVl99SY=
+	b=w8ALSAXrcB5slO3vMAEilljRcTkxN/2/vWCx/BUZQ13uZ7y6aZ+jnGJ/3GrI03kqs
+	 A4IJfYoJSG0gc75J5mM5j7noMhPY6eku74LA+2zIBLgZmqG8uPsA5uNv7v7MvMhpa/
+	 OFjUeOQO5WROlcpVlebB+x3QMOXeekqkno+7CEWk=
+X-QQ-mid: esmtpgz13t1777426747t360c3668
+X-QQ-Originating-IP: rd3CXtHqGvswSSKw6JZjHsL50HqUHdZsoRaXYQ+43t8=
 Received: from = ( [120.237.158.181])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 29 Apr 2026 09:38:55 +0800 (CST)
+	id ; Wed, 29 Apr 2026 09:39:04 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 10487816630640131910
+X-BIZMAIL-ID: 7139710470832578007
 EX-QQ-RecipientCnt: 15
 From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Date: Wed, 29 Apr 2026 09:38:46 +0800
-Subject: [PATCH 1/7] ASoC: spacemit: fix RX DMA params not set when TX is
- running
+Date: Wed, 29 Apr 2026 09:38:48 +0800
+Subject: [PATCH 3/7] ASoC: spacemit: adjust FIFO trigger threshold to half
+ FIFO size
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,7 +44,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260429-k3-i2s-v1-1-2fe99db11ecb@linux.spacemit.com>
+Message-Id: <20260429-k3-i2s-v1-3-2fe99db11ecb@linux.spacemit.com>
 References: <20260429-k3-i2s-v1-0-2fe99db11ecb@linux.spacemit.com>
 In-Reply-To: <20260429-k3-i2s-v1-0-2fe99db11ecb@linux.spacemit.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -57,77 +57,61 @@ Cc: linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org,
  devicetree@vger.kernel.org, 
  Troy Mitchell <troy.mitchell@linux.spacemit.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777426731; l=1471;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777426731; l=1063;
  i=troy.mitchell@linux.spacemit.com; s=20250710; h=from:subject:message-id;
- bh=fqs712JSCd2q2Oqmt1LbqXOCERM/xXmlTc8QrXeirL0=;
- b=dOkNR7ewgmOY2VvQT0HJotglsEmMZlVysXzc+cYHBp6B84ugDG50p8cS5glYCM8tWSKL89oW4
- GPOpMOXWpanDhly6ItJjrKyqP673diM7Q2lOO/kPQfEvnQtFmta0DYt
+ bh=TN3IekLzdp18HVU+1Rpq+9TEk2UtnO7ag9ShWepOCxY=;
+ b=ec7QeL6JrXUVZ6cJTDvuUdDooCidwlmr8lArWG5oMoYjQVIX6WmJGiNfPdpsvXXfGLqXc069i
+ /HyE4YCuvkYAufz1dVpsxL1IkXIvH2zfUQfXE1mxlIB7tMZqKJGy3L5
 X-Developer-Key: i=troy.mitchell@linux.spacemit.com; a=ed25519;
  pk=lQa7BzLrq8DfZnChqmwJ5qQk8fP2USmY/4xZ2/MSsXc=
 X-QQ-SENDSIZE: 520
 Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: MPVgWQkf6XGksJ3xgJaYfoTzYb//cGREN3mcLLVDKxOw4FgzyLLrNYQ5
-	RMPWMQXQJP8miOcgN09ILcQrYZxydMCdzETBrvKWb+Mu4NkU9KDTeDgDdLy8I3gKfRGLzjr
-	ABDt5o9jdePjmR931eys6TSNLifOlXNYqSN8n3UAfCkbNgtjlU41VuQVSiQcVzK3q4O6Jzk
-	V0Qx+CAbMxo0k2g1pqm4sjcdB3nydEbvtf/JAMpmHCTzFT1ntLFakYcN7MUq74wjfz6PF3X
-	GUA6wi0MWPvQbN3310Vpu7mTmhawlhAdraeCsiEcazgYvOEZ/BtpOUPiVd4OAvGsXSzw4Yh
-	q36tFXC/YD3Bx109TB74ZouyVgpRUqubF0yer4rPnt7NAog1BfnWhk3zgTglH/JYL/G9kgZ
-	5PEcwdVlOC3Pe1vCaoSBNRCrfvEwmCDLW+Z2JR5+ARnsyf553N5LxCIXoZLkQkj7U/ynCGh
-	pVFzVPuBRJkQQQ4Xk+YW0FxNG1u36PsKiMY61KMOeMmqM5cLiD9QJRySEDNop7N+D/Bt0mM
-	fqjG9kybuov4Vx5R4VOJLSCKWLvqAGauxE4pl3FG9SvRjgX6nmMRH/vOFsOEUld5D4JQego
-	unqAEDTtlVp8Ls9xwoVFmN3AJjHP2HUJkcwNWsrMhl1zwpLX2el3T04+sqdPbLpTAukyhCr
-	WWt/fT7LcA1djogNSX5tVj2Kir0hWFj3JhTzEbawB/dZwKohd1mWQ7NQ90BULjGyT31F6wi
-	fHNVVduk2GuBQFVLB3kWMyPBe/hD2dJXG3MTD1lxZKktQ6dh8dFB1SHfF+eL5LSZMFdDAWf
-	10IktGAyRsH9VEsEcPb4mnBJSPnpVzFLGD+dicEuO+L7E3/PBo1B9PRkVlr+LmftOLQ2X3a
-	YkpWELfI1Otd81B9nMEyXdgRDkXEM3PsGSXCONWrCyVG+lvhjBwbwHpC6qLDYCbACNWe/ZQ
-	12v/0Glm/mr4PqNcWS4Euu1DB9BM5w9WJ304vX8fqJPyj/tT60T1TbLhFAhAY6l4d3Mmv+e
-	blx9Ac9xoBkL+IzG085ylQLWGn2TD+r6KC4CrVaY4+GlFAcoDWk39HEcSeR1RcUsMfj1157
-	91wNQbkY1Pu8BunGBrsh9WyoWjhyH6JbuV8yuE9fTtaDVtkKv6QFfUikooM4KSTPIr5s+zX
-	m3IG
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+X-QQ-XMAILINFO: MydYCacP+cDPw+ybcMtVnqNHyV5jWfq0oQKckuQo8iFxq4X/1cJb4lZw
+	Ib7aePYK8MUjrE/gduReSZFAd1QWr/7LzMC7L7LfX6ruVoXCswXDyhSFFRcLBcpoZKj6Zuu
+	aliZcTxzHLiBNZXjWJeZpz/L3YvPxwC1Vxz3HrUtexzvzdKLdvo206zpBDq+pG/8YnYzfo+
+	lbQTVhNLQIKeH75Eca1EGHv07KpBKvWcwWOGzlwuDiLt2NTfm0uyKHWi4/EsNiQ7EPQPuWS
+	z7DcvqJIlNjuf2X6j94CCs7yatI4xjqh9h5Nka34nKGgvy0IHQnOPg+maurjRrqGr2dn+PJ
+	1ImtDSujHUjLRseCNH0rc0+wymhYXm2Jj40htL0zmMlF8ZTh+l3OqNE28ZAnVhYyia54g8e
+	un6FfKcHYjUrm0T/kiz89FxihBkdqZOrXMmsHXOlPx4FGO+mA8DqNcXMe0POekHx+DUHkKh
+	rm8zX+qKQS7afWfvAc7BdJT4rpBrz1rzUxBwpHRY6DOVy4Xh64f1koxwoGt4ssvmD1tLM3y
+	iLj7y57tvcIbUYaVtknwEV7C5yQs9CTcsxv2X/RWpgSc6oPjA+yvFfE6M5G4m7CpLY7jmOi
+	sE329vgV2uKSq3nKFL1kBVWzTY8Fjm7Y8h9Emx0LfvSAa6VhXU2ki4FNDuczZTvUPWBEVTo
+	3ZszcuBREXjFAsn3HFDkm/rUzpVQQzpBGLarWpnzBDVVDgmY2kIhRUWhtPWZcy1PhSTP3LO
+	tP89GntTHWc1nUGzLE2h7MAVYjM04YcNCH201TxKZ9S8fCGfyAa/4m+Ci3jwI+1PTjGZaYY
+	o8Fq5rAK7IfNSjnFjywoFxo2Tfigs+Jih8+CPI3bOQM7rFXwxSuD14dUWVTK6f+RKdXZ/OB
+	KhZXn3WZZsLh14pM/ifKsmk1TfN3YSCMWlSRTzCiTP4vropGuyvrY+HDFBLnbz9x0RCxtW8
+	b7JfDw7NIBvxlbHRSPwX+a6ZdOvp/+53mtfe46JPG7Cij3oQecLwYSCva/rB2HOY7vVqkrG
+	M2XZ0X7lJEki2hgrsV3gtp3rZLQMFXKVJuZd6BnAMctiLzhIUpvbX24eZn0WKFcpKXTB1Zo
+	nWQqaCuxSJruVhjiWeR8XrgYFPdyvfCjtK6TJaaBY5PIL7xgFqO9v6eXNlbHjXLco0UyBgj
+	9e/lO6T7hdxtndI=
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
 X-QQ-RECHKSPAM: 0
 
-When TX is already running (SSCR_SSE is set), the hw_params callback
-returns early before setting up DMA parameters for the RX stream. This
-prevents the capture path from configuring its DMA data properly.
+Set both TX and RX FIFO trigger thresholds (TFT/RFT) to 0xF (half of
+the 32-entry FIFO) instead of 5. This provides better DMA efficiency
+by allowing more data to accumulate before triggering a DMA request,
+reducing the number of DMA transactions needed.
 
-Move the SSCR_SSE check after DMA parameter setup and format
-constraints, so both TX and RX streams get their DMA configuration
-regardless of whether the hardware is already enabled. The early return
-now only skips the register writes that would disrupt an active stream.
-
-Fixes: 955f7b46873e ("ASoC: spacemit: add i2s support for K1 SoC")
 Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
 ---
- sound/soc/spacemit/k1_i2s.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ sound/soc/spacemit/k1_i2s.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/spacemit/k1_i2s.c b/sound/soc/spacemit/k1_i2s.c
-index 1cb99f1abc7c..5c878f02cc93 100644
+index e59624b2e23a..cef883ba4de9 100644
 --- a/sound/soc/spacemit/k1_i2s.c
 +++ b/sound/soc/spacemit/k1_i2s.c
-@@ -117,10 +117,6 @@ static int spacemit_i2s_hw_params(struct snd_pcm_substream *substream,
- 	u32 val;
- 	int ret;
+@@ -93,8 +93,8 @@ static void spacemit_i2s_init(struct spacemit_i2s_dev *i2s)
+ 	u32 sscr_val, sspsp_val, ssfcr_val, ssrwt_val;
  
--	val = readl(i2s->base + SSCR);
--	if (val & SSCR_SSE)
--		return 0;
--
- 	dma_data = &i2s->playback_dma_data;
- 
- 	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
-@@ -180,6 +176,10 @@ static int spacemit_i2s_hw_params(struct snd_pcm_substream *substream,
- 
- 	}
- 
-+	val = readl(i2s->base + SSCR);
-+	if (val & SSCR_SSE)
-+		return 0;
-+
- 	val = readl(i2s->base + SSCR);
- 	val &= ~SSCR_DW_32BYTE;
- 	val |= data_width;
+ 	sscr_val = SSCR_TRAIL | SSCR_FRF_PSP;
+-	ssfcr_val = FIELD_PREP(SSFCR_FIELD_TFT, 5) |
+-		    FIELD_PREP(SSFCR_FIELD_RFT, 5) |
++	ssfcr_val = FIELD_PREP(SSFCR_FIELD_TFT, 0xF) |
++		    FIELD_PREP(SSFCR_FIELD_RFT, 0xF) |
+ 		    SSFCR_RSRE | SSFCR_TSRE;
+ 	ssrwt_val = SSRWT_RWOT;
+ 	sspsp_val = SSPSP_SFRMP;
 
 -- 
 2.54.0
