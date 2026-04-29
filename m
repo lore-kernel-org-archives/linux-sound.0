@@ -1,38 +1,38 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44453A6B9F
-	for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 07:44:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022633A75AA;
+	Wed, 29 Apr 2026 07:44:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777448664; cv=none; b=QGu5Xs3zznoPsKZCQHagoy/fLrONUDu7QUWS+6eEz/TNVROtynh+kPeSWy5YOQJqWY1g+gOhI1Y+uSnBoCukLe/UC7oYnvRNbAFU7dU7j1mFLDY/TuySsSmuffz9mBA63EHtjIF9C1Km/rtFl8MfdDpp3+1vlYwVSNaKvuJsEuo=
+	t=1777448666; cv=none; b=ehnWLt6UTO+bnFwK+GsOkDhYYRAZGi3jSXIRjfhWrvctXm6W1wC0toH0ynFLlfvRTP5/P0D05UlH9zD9REQCmAf/JRGQXHPBhKl9t7ivEwiTKlrSmc7gGF1nnxtvm4uHdwMqHTgDATx96YpIs06ZpeIBBrhJL6ZF31X+wJvkVPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777448664; c=relaxed/simple;
-	bh=ReWwt6iaMYqdtIPhdkJViA/sCiJQgZnX+BqD9iMnbMA=;
+	s=arc-20240116; t=1777448666; c=relaxed/simple;
+	bh=XB4PAC9+Xt1SlGkK8fa2uT700JX99DgEJP/N4cZVx6I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gp5ui5jlnGaF18tQCUY0lu7LXnsn18WY49zXg1q00/MdbECb3P92LSWxtHhDcP2lQeUHGUh8SZ0z4yjhIgeMM652gQGHOCAtZSPL3kD6H6+UykJqPF8ZAFpEp6AMrMDb151AZnxdMpKEpiGFmDrLMsTquAADubz6x6pJ8nZgVy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=PIFscuU1; arc=none smtp.client-ip=185.246.85.4
+	 MIME-Version; b=Jxt3aKLQkQ2+WfjouapzBUAVSoUJkrwRVJpRjaayRfW3jtDi4nMuh95tk+j1rMtmXAgUayuIgadI9SxSxe5fFO+f6+QGqZzoT3QyOSfZOrRq8XWsIrhMORG2hwhOXhhowWW0UAD4NWcNlMpIFI5THmKubnt0S/l1FGqr7rW7S4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=1X0M2PKq; arc=none smtp.client-ip=185.171.202.116
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PIFscuU1"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="1X0M2PKq"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 38F424E42ADE;
-	Wed, 29 Apr 2026 07:44:17 +0000 (UTC)
+	by smtpout-04.galae.net (Postfix) with ESMTPS id B0E2AC5CD50;
+	Wed, 29 Apr 2026 07:45:07 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 08258601DF;
-	Wed, 29 Apr 2026 07:44:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0246E10728FEB;
-	Wed, 29 Apr 2026 09:44:13 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id AFF7E601DF;
+	Wed, 29 Apr 2026 07:44:23 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8490B1072988A;
+	Wed, 29 Apr 2026 09:44:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777448655; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1777448662; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=6b9GO4bt3gqfGSPPpPA2FX9bro+DbzrPQkDmfCWkm78=;
-	b=PIFscuU1858CKMRFpyR3RpLpfM/ZbZx2g+q4gAhNF8lcixKRASq1/ZFF4ziBv2caVTSE7R
-	pdspwggAeFXbPoq4KyIczhQuW1zVZYmnkT8n9aAJe+vT00Tj6/x1Yw8BOLwodqT+dfGbR4
-	bvF7xNjtMdRi5w7FWuQcrv3g1l8meYVmrQGL1up2snoF2DGN64Z+iuhonlfOPC/j+4o0/U
-	8qjn8g1MpPF6i3327C9fxX+YVSsjLIEnYfzhDaDEFWPu4cKQyOHgsUHOshPeQQDvRmF1j+
-	mBMGeD9rW4SCfOlnd1YBMzB4QunW2oAiowdfgkQlVzZcksrTdKaLxhLzmU/k2w==
+	bh=Ao/Ge/7pzeYgeQwu1DzSFkfa9mVgrNeq6YT9C0YLJQ0=;
+	b=1X0M2PKqVM0WS0MleB02urqi7GBYeGMCv8SJ5CPt7amRZfcFD4QlAP5AAXCfjV0lqjvig4
+	1A+ju3PTz7wr52GBXbUnkg4h8/rqBdUgUWgp9DKvbU464x6iXf7NMy/ETWsFaMJBMcVNOy
+	IA8Y3RVL76ZNeGp3aItjB0mJ5Gw87jMYgngLbHBzaq7kbr768lnm39unfmEWbja9lQdTdQ
+	89PTgGUwhzmZH/S1/lH3pf5E7M6AFj7cH73aXUM41yGxxempLqTGC5+Ogsnr363aujRXG8
+	gOQaNrf5CpUgka9fFEZtD0EwGZVd/lWjJ3BX/Wg3Dhvwr3IK8Z2uocA1YhF6pw==
 From: Herve Codina <herve.codina@bootlin.com>
 To: Herve Codina <herve.codina@bootlin.com>,
 	Bartosz Golaszewski <brgl@kernel.org>,
@@ -51,9 +51,9 @@ Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v2 03/17] ASoC: simple-amplifier: Remove DRV_NAME defined value
-Date: Wed, 29 Apr 2026 09:43:39 +0200
-Message-ID: <20260429074356.118420-4-herve.codina@bootlin.com>
+Subject: [PATCH v2 05/17] ASoC: simple-amplifier: Remove CONFIG_OF flag and of_match_ptr()
+Date: Wed, 29 Apr 2026 09:43:41 +0200
+Message-ID: <20260429074356.118420-6-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260429074356.118420-1-herve.codina@bootlin.com>
 References: <20260429074356.118420-1-herve.codina@bootlin.com>
@@ -66,11 +66,10 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-DRV_NAME is defined and used only in the simple-amplifier driver
-declaration.
+The simple-amplifier Use CONFIG_OF flag for its of_device_id table
+and of_match_ptr() when it assigns the table in the driver declaration.
 
-Remove the useless defined and use directly the value in the driver
-declaration itself.
+This is no more needed. Drop them.
 
 Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 ---
@@ -78,27 +77,30 @@ Signed-off-by: Herve Codina <herve.codina@bootlin.com>
  1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/sound/soc/codecs/simple-amplifier.c b/sound/soc/codecs/simple-amplifier.c
-index d306c585b52b..41485445727d 100644
+index 5b44bcfef49e..215318ff62fc 100644
 --- a/sound/soc/codecs/simple-amplifier.c
 +++ b/sound/soc/codecs/simple-amplifier.c
-@@ -9,8 +9,6 @@
- #include <linux/regulator/consumer.h>
- #include <sound/soc.h>
+@@ -86,19 +86,17 @@ static int simple_amp_probe(struct platform_device *pdev)
+ 					       NULL, 0);
+ }
  
--#define DRV_NAME "simple-amplifier"
--
- struct simple_amp {
- 	struct gpio_desc *gpiod_enable;
+-#ifdef CONFIG_OF
+ static const struct of_device_id simple_amp_ids[] = {
+ 	{ .compatible = "dioo,dio2125", },
+ 	{ .compatible = "simple-audio-amplifier", },
+ 	{ }
  };
-@@ -97,7 +95,7 @@ MODULE_DEVICE_TABLE(of, simple_amp_ids);
+ MODULE_DEVICE_TABLE(of, simple_amp_ids);
+-#endif
  
  static struct platform_driver simple_amp_driver = {
  	.driver = {
--		.name = DRV_NAME,
-+		.name = "simple-amplifier",
- 		.of_match_table = of_match_ptr(simple_amp_ids),
+ 		.name = "simple-amplifier",
+-		.of_match_table = of_match_ptr(simple_amp_ids),
++		.of_match_table = simple_amp_ids,
  	},
  	.probe = simple_amp_probe,
+ };
 -- 
 2.53.0
 
