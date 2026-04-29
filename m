@@ -1,52 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B257388E60;
-	Wed, 29 Apr 2026 04:20:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6CD3859E2;
+	Wed, 29 Apr 2026 04:20:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777436403; cv=none; b=k0GR8caPzeQksNZ9cZH1SrLidN/d3bq+LgrdlsRD+qxl+E79fAskgv1K1fOWrG19kXEEZYFjwkUEHSTLXc+QjsoWOv05UI7d8tWVGmMZgxmJ0Wx6Sp6ccaCDcQ9AbCVQ3pZ6sJ7ZfMdhkXR0Ewq1M0nxNYqKYSkP8m3k9QTcE3I=
+	t=1777436408; cv=none; b=Huq181k3v0mcczvgQweB4bsHwvCVkTXs/qs+2k8to+wpUyt7KsXuZfWbBHXzKn9DLDzAqwRWY3H+sDDDpdu1AO0WMkQgjxPnN1KG92PWw8a71JqD+pHF7tc0g7TRUdcql186tOr5uAVB7RmFRWdMTAuq5I9tRFnMEvAFIt6mXsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777436403; c=relaxed/simple;
-	bh=ghgjIDBtVeNlErdghN+AGA8IQkj4MB957ucFn2678gE=;
+	s=arc-20240116; t=1777436408; c=relaxed/simple;
+	bh=Y3TadPI+Uk+0lcra2ukxy7a1jSLDUZdGEsO0a8IaOuM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=cuDYsmKqCURQFXBUpnsLp8AO7NNXPDIy3SGyadpLzG33Sqer/1KYwOLJC3eoCR/ma48LvnlRU/SI+2PDhdEqa9kZ4gbN4Gol0wS3tXteFllLwdkyTnXnFCQMmYWmQ+Q2TPGexkHIA96j8bgx0VkTyOnHghAGl+xdZDzA5iEQUJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X//TiDp6; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=e7znOLc5Q2QguHmAKUWmt0Z0nZTFZQ2e5kPfxHI2qDXe3pz4D/WzC/WO2Z/8Xj7cUpWzXA6OjPLSHvXzx92bCJP9kEHOjMNYvRJUjX/hrUfvA9GisMisJmPmh6uP3Lpu8ZpVaVGQgvXZSHE70PMGK2GFmiLBD7yOl7zF2SfFsxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KtLnoFDX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X//TiDp6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEC0AC19425;
-	Wed, 29 Apr 2026 04:19:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KtLnoFDX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10462C2BCB4;
+	Wed, 29 Apr 2026 04:20:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777436403;
-	bh=ghgjIDBtVeNlErdghN+AGA8IQkj4MB957ucFn2678gE=;
+	s=k20201202; t=1777436408;
+	bh=Y3TadPI+Uk+0lcra2ukxy7a1jSLDUZdGEsO0a8IaOuM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=X//TiDp6TvYz4CyaKoUpdfwhu18vpXFhKyULmz9k0yvW1j4Fx031AmqxvU7t8NhHz
-	 DlcvFMOmD3N3szsnS7pGZG7fQM0UdzEAhWnNlYcdpNUbIIWlu5TtVskadBEwRPdya1
-	 i7kzsb3zVVD/6A7rWDStcA2Eu1S80IN+PWcggGq1ujWds7g86TE3ZEMzxVy8RfyC5X
-	 iP4wLZvvlHQx/uNKboNjT1p8xskSF61zkNKzvVwoOyDQNKc3ZHpiGQ6CQ/ZMSCouBN
-	 ZvmyxcN1NNJLYBL6xd+xptM+uGaOnC8XMyyTlK/QL79Mgtf+Ty6Odqvi6CREkGLjib
-	 pLOkiXKFReCoA==
+	b=KtLnoFDX/LmckW/QlstZ6bfDZxf1oto3yy2sVCHBbWDmtY9LuVjn+O7QtJcerlfZP
+	 aVBxPB4fOZ/WzwQmcvhAkJjZgxhEC5cO3uDlLnvzCRIwcMAva7msvwDS6MflfjJ0FR
+	 4AgqhJxlJ8qKZeHTxRH9k09GbMeDhqsh9OKxkbBHPUc+MQuhTYsLU/+NcUdnrngBK5
+	 N5/qM9+E5Z0Z3wK0z6igY9Q9S/D1LqsKaw5+iE0dPovpGe48vtHhyt9Ko0nfyYSHPO
+	 8MQl9RAUiBhHQEBaNOEMOcEQD4HJsSb3hZ8KwSq3SSUKUs1S+ZOLtL1z+mY4MxgqzG
+	 r3k++/wyxliCw==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>, 
- Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Hans de Goede <hansg@kernel.org>, 
- Andy Shevchenko <andy.shevchenko@gmail.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-In-Reply-To: <20260427-bytcr-wm5102-mclk-leak-v1-1-02b96d08e99c@gmail.com>
-References: <20260427-bytcr-wm5102-mclk-leak-v1-1-02b96d08e99c@gmail.com>
-Subject: Re: [PATCH] ASoC: Intel: bytcr_wm5102: Fix MCLK leak on
- platform_clock_control error
-Message-Id: <177736621216.363516.6152802951852112106.b4-ty@b4>
-Date: Tue, 28 Apr 2026 17:50:12 +0900
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Yixun Lan <dlan@kernel.org>, 
+ Jinmei Wei <weijinmei@linux.spacemit.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Cc: linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ spacemit@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org
+In-Reply-To: <20260429-k3-i2s-v1-0-2fe99db11ecb@linux.spacemit.com>
+References: <20260429-k3-i2s-v1-0-2fe99db11ecb@linux.spacemit.com>
+Subject: Re: (subset) [PATCH 0/7] ASoC: spacemit: bug fixes, refactoring,
+ and K3 SoC support
+Message-Id: <177743049537.363516.3431185859758571339.b4-ty@b4>
+Date: Wed, 29 Apr 2026 11:41:35 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,22 +49,33 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1165; i=broonie@kernel.org;
- h=from:subject:message-id; bh=ghgjIDBtVeNlErdghN+AGA8IQkj4MB957ucFn2678gE=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp8YbuLMQs0SWOf1y+OKCg+nZnieSHRQKGeXeLQ
- 0AAIr1aeKGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCafGG7gAKCRAk1otyXVSH
- 0NXFB/9EQCi8CuFDsBYdAOMiAVzHgNwP/6qNItxrOU2mDYmCs5d8b7XT4OXsGEEP6A89+PX7RB8
- MYpIg0Iv5BnbDxZ9APl/FporFpIXQ22f2S/BLvfJDreE9GvaRxPUO77TpovhT5yFAkuY2LX9PP1
- 4F2yPDyOITu3rMsXOwmsgWOrtSVLptEYDSpV5KhEmSrNP5nzgz1BarDiaNK+zQCSiHwf8cdI9A+
- fyahupYgfjDvxnbITdkA1IH8Y23mwwC0HDZ35F3QpqMdqduxiI/SxWDNZ9Yn5+Z51zLQzASRjkY
- cTP8tnjIxn38prRlTfkaee2Kr1zfE1Sgi2xpfOxdmtVAddr5
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1706; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Y3TadPI+Uk+0lcra2ukxy7a1jSLDUZdGEsO0a8IaOuM=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp8Yb0K+ucIi3HDtgy/2P9jyTHgZHvTNgpG3lfC
+ rcwtX3nqkeJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCafGG9AAKCRAk1otyXVSH
+ 0HsGB/0SR87C+jiNlh2idBxBsVbfTMnM51S9G6GDqaJKpv/Q0igZROaqjIOgR+7rgwkxtu/APtK
+ roW2rPY+7xkz8uYz9wQb+Y28UuChQFbDcPEcrgIzT6Y7uSxzg9kU0Z2N4MGmf5/uaHAPw81iyy/
+ bYcX2K0Q6OTTGHeR+9xT3hqSupM8HaGMX0ZCHGi+D5h4dPoMWcRaiQ7297iT4x64WngNvviymse
+ yi0pcZRFCp8/QCQ3ll3FugTOHRVdsLE83t0trkfDzgO2uidRU/D6qtbE5xawG8lmzZxbFB3MDoV
+ fECtrWN6f3zAS/C+LisSWJobTUle1BCnFLz6FfkJY7GK8uWR
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 27 Apr 2026 23:38:41 -0300, Cássio Gabriel wrote:
-> ASoC: Intel: bytcr_wm5102: Fix MCLK leak on platform_clock_control error
+On Wed, 29 Apr 2026 09:38:45 +0800, Troy Mitchell wrote:
+> ASoC: spacemit: bug fixes, refactoring, and K3 SoC support
+> 
+> This series fixes bugs and adds K3 SoC support for the SpacemiT I2S
+> controller driver (sound/soc/spacemit/).
+> 
+> Patches 1-3 are bug fixes and refactoring for the existing K1 I2S driver:
+>   - Fix RX DMA params not being set when TX is already running
+>   - Move hw constraints from hw_params to startup where they belong
+>   - Adjust FIFO trigger threshold to half FIFO size for better DMA
+>     efficiency
+> 
+> [...]
 
 Applied to
 
@@ -77,8 +83,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Intel: bytcr_wm5102: Fix MCLK leak on platform_clock_control error
-      https://git.kernel.org/broonie/sound/c/13d30682e8de
+[2/7] ASoC: spacemit: move hw constraints from hw_params to startup
+      https://git.kernel.org/broonie/sound/c/6b4afbaaa342
+[3/7] ASoC: spacemit: adjust FIFO trigger threshold to half FIFO size
+      https://git.kernel.org/broonie/sound/c/03dcb5b68a96
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
