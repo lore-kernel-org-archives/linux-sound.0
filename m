@@ -1,126 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CEAE19D092;
-	Thu, 30 Apr 2026 05:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C17C279917
+	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 06:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777528800; cv=none; b=sq1Myu9QmYomOnOaeD14/8pdoZli0plNCB1080ir5u6CgkIx3UaORskI9Yds5YyShCoJk/XJO79oPfaMsFPnC6hlMvPpGnVF7BBZSMGqFgo1smUUiNPFw35XealJMOX/KsXwvkSxh9OmsZMduw5HEiPP9pl9MqfJLAu0nPWMejg=
+	t=1777529257; cv=none; b=k+yHZsDPcCbzdVxGyStdou/W4CZ426/QAcYs58IbhkOaWLe9Rrdijb9IZ/WTzJ5HjLZmBtCIQhgQ4joPTeSOh8gwHuHZXN6h7LNLBFfgbsiD7pZU4MihcY+pOUqHWtXq/TxchCGwaEejB729SqMizFZoneqhiyFdRarwSj9Rj+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777528800; c=relaxed/simple;
-	bh=VILLUmaEI3VxYczJPbzj72pY8Mq3pBWIFnAWWa4Byvk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HhQuj5FFf1a7aGVKYLUreCZF57cbvk5dTt2Knc6XTPqzea8iuSVtAxJxqfaaGk063RozBXcqD7A8cmoFy3DXlXcB0IhJnLmGtiEL/yNOd7M246oBKxJok6BadIt6QpeAYqcgoILKY0BOFup1pZHkOZaXXWYl+r/Bfqgf/Qy2LUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PG6+z9J7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777529257; c=relaxed/simple;
+	bh=JUU6HO+uZ/Ds+HZcrdp/1CDj51hLL68V8KxvjF+5Qq4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PN9pRC6ChAfclGlqTvZMqCtgVtSyASZG/wi4JFPNAZXCfKTqGMuMQAcvxm+9hCNc4cLQSaJQ2Tz+wZV8V/a2TZRta5afeGoJtTo/YOAGsZWZ+w905cfUQUiTKPubso1hQ8LgRq7nP8q0IJfX/Q8sPlKg1EH516UsEicFVC3Ud2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Cg6EdOQv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=E8P58/dQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Cg6EdOQv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=E8P58/dQ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PG6+z9J7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CE22C2BCB8;
-	Thu, 30 Apr 2026 05:59:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777528799;
-	bh=VILLUmaEI3VxYczJPbzj72pY8Mq3pBWIFnAWWa4Byvk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PG6+z9J7FQZBNNLhhLtp1wXWUuqFN+d6gT8Z+jiVbpfrr2pzJVOfvzL6/ZpF6JdhX
-	 9Pwp3BHPR4MsKRxH77+trF0PKx48BNYxHXiWS4DXKbxWBtzHYHCRdRu8+craG4qZDc
-	 owWoKx890oN6Ts/0VBxtxT2fx1uAfsin3scVIyu/J6jJg091jreOoroCfxq95WvIGG
-	 y7zNIv4NLMqQqieCzYQTgy6nwr2XmvxyHmYgoO47spy6B0rUX0Zof2U3A2wkyG1svB
-	 9NlRE80V7Gq+P2ClocdkEwotkbLdRKt2I1nqKWu79xhgLAT5cuPLlG6P4TV33I8fr2
-	 lhW7wWOVzvHZw==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 897321AC585D; Thu, 30 Apr 2026 06:59:57 +0100 (BST)
-Date: Thu, 30 Apr 2026 14:59:57 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Sheetal <sheetal@nvidia.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sameer Pujar <spujar@nvidia.com>, Mohan Kumar <mkumard@nvidia.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: tegra: Add per-stream Mixer Fade controls
-Message-ID: <afLv3S6kWnt0D6PW@sirena.co.uk>
-References: <20260429070603.2791011-1-sheetal@nvidia.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Cg6EdOQv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="E8P58/dQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Cg6EdOQv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="E8P58/dQ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 76D0D6A7CB;
+	Thu, 30 Apr 2026 06:07:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777529254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FpK3PWNksdiVOVWCzAi2BclofGGwAa0SKyKceJDpRoQ=;
+	b=Cg6EdOQvC4qazTeKWEKAHXWkyEBHmGr+hF568suOAmaq5fqjxPUVFqEDnytdPwul3AFZ0E
+	lHWHIV3mJkZwvlH2Qm4IviPS5qNfXzpMpeXvP/oIPAPcJXrL2KZxaATd+gANCh0nejXw5B
+	gvvW2zYZ8UjGOaeE9p0HSILqrDjpi3E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777529254;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FpK3PWNksdiVOVWCzAi2BclofGGwAa0SKyKceJDpRoQ=;
+	b=E8P58/dQ8GwgpT7d2xPf7gsI82iTMg4oQBBVA2fRjuY67t/EV8TEjpmdQprmbYeXXdnu1+
+	doSGfBc8eZTRKCCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777529254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FpK3PWNksdiVOVWCzAi2BclofGGwAa0SKyKceJDpRoQ=;
+	b=Cg6EdOQvC4qazTeKWEKAHXWkyEBHmGr+hF568suOAmaq5fqjxPUVFqEDnytdPwul3AFZ0E
+	lHWHIV3mJkZwvlH2Qm4IviPS5qNfXzpMpeXvP/oIPAPcJXrL2KZxaATd+gANCh0nejXw5B
+	gvvW2zYZ8UjGOaeE9p0HSILqrDjpi3E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777529254;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FpK3PWNksdiVOVWCzAi2BclofGGwAa0SKyKceJDpRoQ=;
+	b=E8P58/dQ8GwgpT7d2xPf7gsI82iTMg4oQBBVA2fRjuY67t/EV8TEjpmdQprmbYeXXdnu1+
+	doSGfBc8eZTRKCCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44E8B593B0;
+	Thu, 30 Apr 2026 06:07:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6J6FD6bx8mnKdwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 30 Apr 2026 06:07:34 +0000
+Date: Thu, 30 Apr 2026 08:07:33 +0200
+Message-ID: <87pl3hnfq2.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: songxiebing <songxiebing@kylinos.cn>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+ee73befabe68e7907adf@syzkaller.appspotmail.com
+Subject: Re: [PATCH] ALSA: pcm_oss: Fix use-after-free in poll via io_uring
+In-Reply-To: <20260430021401.181505-1-songxiebing@kylinos.cn>
+References: <20260430021401.181505-1-songxiebing@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ELuvR44kxn05ZwYn"
-Content-Disposition: inline
-In-Reply-To: <20260429070603.2791011-1-sheetal@nvidia.com>
-X-Cookie: 667:
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_DN_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[ee73befabe68e7907adf];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:helo,appspotmail.com:email,suse.de:mid]
+X-Spam-Flag: NO
+
+On Thu, 30 Apr 2026 04:14:01 +0200,
+songxiebing wrote:
+> 
+> From: Bob Song <songxiebing@kylinos.cn>
+> 
+> Fix use-after-free bug in snd_pcm_oss_poll() caused by
+> io_uring asynchronous poll operations accessing already-freed
+> pcm_oss_file private data.
+> 
+> The bug happens because file->private_data still points to
+> kfree()'d memory after snd_pcm_oss_release(), and io_uring
+> may invoke ->poll() handler later.
+> 
+> Fix by:
+> 1. Clearing file->private_data early in release function
+> 2. Adding NULL check in release to avoid invalid access
+> 3. Adding NULL check in poll handler to prevent UAF
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2") /* pcm_oss initial */
+> Reported-by: syzbot+ee73befabe68e7907adf@syzkaller.appspotmail.com
+> Closes: https://lore.kernel.org/alsa-devel/000000000000f1068105f20e5e8f@google.com/
+
+This is a very old report.  Are you sure that it's still valid with
+the latest kernel?
+I believe this kind of bug should have been already fixed.
+(And above all, the suggested code change doesn't look enough as a
+proper fix.)
+
+The same question applied for your other two patches for rawmidi and
+PCM UAFs.
 
 
---ELuvR44kxn05ZwYn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+thanks,
 
-On Wed, Apr 29, 2026 at 07:06:03AM +0000, Sheetal wrote:
-> Add per-stream fade controls for the Tegra mixer to allow
-> independently configuring target gain and fade duration for each of
-> the 10 input streams (RX1 through RX10).
-
-> +static int tegra210_mixer_get_fade_status(struct snd_kcontrol *kcontrol,
-> +					  struct snd_ctl_elem_value *ucontrol)
-> +{
-
-> +		if (count >=3D mixer->duration[id]) {
-> +			ucontrol->value.integer.value[id] =3D TEGRA210_MIXER_FADE_COMPLETE;
-> +			regmap_update_bits(mixer->regmap,
-> +					   MIXER_REG(TEGRA210_MIXER_RX1_CTRL, id),
-> +					   TEGRA210_MIXER_SAMPLE_COUNT_ENABLE, 0);
-> +			mixer->in_fade[id] =3D false;
-> +		} else {
-> +			ucontrol->value.integer.value[id] =3D TEGRA210_MIXER_FADE_ACTIVE;
-> +		}
-
-Is the _FADE_COMPLETE state a good idea here?  Only the first read after
-a fade will show it, and functionally it's the same as _IDLE - there's
-no current fade running. =20
-
-Also is there any overhead to having the sample counting enabled?  This
-is the only thing that turns it off AFAICT so if userspace doesn't look
-at the control we'll just leave it running indefinitely.  Perhaps a
-timer to disable might be useful?  It's generally a bit odd that we have
-a write to the hardware in a get().
-
-> +	SOC_SINGLE_EXT("Fade Enable", SND_SOC_NOPM, 0, 1, 0,
-> +		       tegra210_mixer_get_fade_enable,
-> +		       tegra210_mixer_put_fade_enable),
-
-Fade Switch.
-
->  struct tegra210_mixer {
->  	int gain_value[TEGRA210_MIXER_RX_MAX];
-> +	u32 duration[TEGRA210_MIXER_RX_MAX];
-> +	bool in_fade[TEGRA210_MIXER_RX_MAX];
-> +	bool fade_pending[TEGRA210_MIXER_RX_MAX];
->  	struct regmap *regmap;
->  };
-
-gain_value is used by the existing RX n Gain Volume controls, don't we
-need separate data for the fade controls here, or should we just have
-the new Fade Gain controls?  Having the separate controls is more
-complicated.
-
---ELuvR44kxn05ZwYn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmny79wACgkQJNaLcl1U
-h9DydAf/T97FNM3DJU21+ekLVDuQYxuinNrazGteFkDOnbd9lM1t9wcxqb4958Ds
-qi9VFgUnjSBSP+kmK3gSs4l5+QsrXRHariwSKh8pdWuaTUlAOuRljbBxwevToVae
-kj7JuGD/lj2f66OECG6UTAbfHvbsOHhVdTjFHPZ2XHFQmJ/ChIGOj9T2igj+gDGC
-LJqDb/W0DMfEgVifq+RFff3PNepm8DhzgDJ4r5p7mf8DAk6wW/Hp9gW1oVuqOpJH
-8UY/Q5F3QLKKO8BLDfeQnxuzLyayVgsdaSIz0Xgf9KxidDCxcKNM6VeZzmpCNQqF
-A5jy+fnCxnC2OOYECGTUYK0+yJd/Pg==
-=YDWg
------END PGP SIGNATURE-----
-
---ELuvR44kxn05ZwYn--
+Takashi
