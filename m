@@ -1,207 +1,134 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22746351C14
-	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 07:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5420E377574
+	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 08:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777535977; cv=none; b=SZOH7PyzPUF4ThZt/1XtE3rvaa16hjbCBQj4cNauuzZh5mdUUxLMMoGn8ID3xnaomDubqWr9L+g5Zs52aftxXwzWXsTvW/QIVdqv4eJ7FmShHcTRkuhvXn3O5yO1jZsa5SNO3WqEY3XXX/Fd3OBuhCcD8ioe5W/jaWXL1lSfEJA=
+	t=1777536437; cv=none; b=LrmKXPq2CyeMTqgvhN1xpQopypc3lyT1JqH3er6nGa5lW/U1l92WP40yjE1LhKll329AsHJ73J1fFErGu8XwSGZL5kKy4F91hXJrd2OHyRCxbEvzAdlpPSBI2gAqDtvDyQutQmaqVSQnMbXFrgsvKIZV1XMeKgVzreuNcvYQ5sM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777535977; c=relaxed/simple;
-	bh=Qb7e/ZezYp3QGqXovcYuPUubAztS9Ep20FKZdAc0amo=;
+	s=arc-20240116; t=1777536437; c=relaxed/simple;
+	bh=q9h0MvbHGEw6d25Ym6ANGUDWnGDI9afZd7TZ+Z/PU/w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=He09XD6rNzOUqqknhJzB5kFBsZ/T9G/qCzsz+kQE18shAsvzGnCkrQiBpv9njoCxz1hjLye7I9o9RhGFWD9tOfWzBqEeYyH49o4+eXs7797DNr00gVcwwf5DEX7QKYS2mKZumJLJ9AAzBs9/Kaze0P//njO9IFYvwuZo3ckedrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=t3j9qnhb; arc=none smtp.client-ip=91.218.175.170
+	 In-Reply-To:Content-Type; b=LpMWK5kXyeX7+fXiwEo/tbSbi0+kmuITBewUZxoZy6VpGsXkt4W6I4E7rCVYcrkQMBtp1HGDvWqkEvh4S/+Fk07EoFzJ1BpMDsWNVsqjKDczoixB830Nu/VHKJuqDNEmASDBSweRfaUP5U2qWTTYFouStkZmeSistM8aRYVvLyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LK44AKVF; arc=none smtp.client-ip=95.215.58.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="t3j9qnhb"
-Message-ID: <892253fc-92da-4c60-af3a-5f7f331bec61@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LK44AKVF"
+Message-ID: <78c57b26-505f-473d-8472-a491ede5aad9@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777535962;
+	t=1777536433;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=D1DmkNUq37MZ0rGy13xiiupoE0HRwTKd9vqYo1pyCto=;
-	b=t3j9qnhbk4nH5UjIg2UK2GpfYa9UPy68t4PAfCSUzOGsc/2EwQl6Q62/qAJM9U2rCYTJU1
-	Jr9zBIuKvrraUna/7IKeeBcv95ndpbkS5M8jNfaMmkn/+gpLN37KB0dpnfReZiJXVefPPA
-	lvH/xBjAlEo0q64r8i5nBOgp2lXk8Aw=
-Date: Thu, 30 Apr 2026 09:59:14 +0200
+	bh=A4SmEOnwak44qk6ykdANG6Tok8fpdAo9btlLDOvpeIo=;
+	b=LK44AKVFt6ISQy6YWqLkKH8H84lJsIyC1f954WDBM+hDAE25wXEVc8D0YRxdvKgWOf+nYt
+	3Rncerg2JxzEftdT6TBuBp4ii9iDyox/asAMfeiIJsPfgyWJWp3MVwEiEHHerCEdMMtxHC
+	dOMl95ouETiLshUqBItbW4FhNF3mD6k=
+Date: Thu, 30 Apr 2026 10:07:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v11 2/4] ASoC: tac5xx2-sdw: add soundwire based codec
- driver
-To: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "ckeepax@opensource.cirrus.com" <ckeepax@opensource.cirrus.com>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>, "perex@perex.cz"
- <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
- "cezary.rojewski@intel.com" <cezary.rojewski@intel.com>,
- "peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
- "yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>,
- "ranjani.sridharan@linux.intel.com" <ranjani.sridharan@linux.intel.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "kai.vehmanen@linux.intel.com" <kai.vehmanen@linux.intel.com>,
- "Xu, Baojun" <baojun.xu@ti.com>, "Ding, Shenghao" <shenghao-ding@ti.com>,
- "Kasargod, Sandeep" <sandeepk@ti.com>,
- "Hampiholi, Vallabha" <v-hampiholi@ti.com>
-References: <20260427082401.2118-1-niranjan.hy@ti.com>
- <20260427082401.2118-2-niranjan.hy@ti.com>
- <7137df6a-5e49-4516-a356-3414f7d14c33@linux.dev>
- <d624812fe0f54563a2e628dbf1a428e3@ti.com>
+Subject: Re: [PATCH] ASoC: rt1320-sdw: don't poll PDE state on power-down
+To: Aaron Ma <aaron.ma@canonical.com>
+Cc: Oder Chiou <oder_chiou@realtek.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Shuming Fan <shumingf@realtek.com>
+References: <20260428073726.1611777-1-aaron.ma@canonical.com>
+ <69a3d80d-c9aa-459f-8522-c07e225bd5d9@linux.dev>
+ <CAJ6xRxUuOgfoJ1VP3++Hm_UdhYLJH-16J3rXUcN6O1BmSDJVbA@mail.gmail.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <d624812fe0f54563a2e628dbf1a428e3@ti.com>
+In-Reply-To: <CAJ6xRxUuOgfoJ1VP3++Hm_UdhYLJH-16J3rXUcN6O1BmSDJVbA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-On 4/29/26 06:06, Holalu Yogendra, Niranjan wrote:
->> On 01:28-20260429, Pierre-Louis Bossart wrote:
->> Subject: Re: [PATCH v11 2/4] ASoC: tac5xx2-sdw: add soundwire based codec driver
-> 
->>> +struct tac5xx2_prv {
->>> +	struct snd_soc_component *component;
->>> +	struct sdw_slave *sdw_peripheral;
->>> +	struct sdca_function_data *sa_func_data;
->>> +	struct sdca_function_data *sm_func_data;
->>> +	struct sdca_function_data *uaj_func_data;
->>> +	struct sdca_function_data *hid_func_data;
->>> +	enum sdw_slave_status status;
->>> +	/* serialize potential concurrent uaj detection in .hw_params
->>> +	 * during playback session and .interrupt_callback.
->>> +	 */
->>> +	struct mutex uaj_lock;
+On 4/29/26 06:12, Aaron Ma wrote:
+> On Wed, Apr 29, 2026 at 4:20 AM Pierre-Louis Bossart
+> <pierre-louis.bossart@linux.dev> wrote:
 >>
->> is this uaj_lock really needed, if you look below at hw_params there's nothing
->> that looks even remotely tied to jack detection...
-> 
->  I think comment needs update to remove the hw_params related description here. ...
-
-ok, but still see below...
-
->>> +static int tac_sdw_hw_params(struct snd_pcm_substream *substream,
->>> +			     struct snd_pcm_hw_params *params,
->>> +			     struct snd_soc_dai *dai)
->>> +{
->>> +	struct snd_soc_component *component = dai->component;
->>> +	struct tac5xx2_prv *tac_dev =
->>> +	return ret;
+>> On 4/28/26 09:37, Aaron Ma wrote:
+>>> rt1320_pde23_event(PRE_PMD) writes REQ_POWER_STATE=PS3 then polls
+>>> ACTUAL_POWER_STATE. DAPM fires PRE_PMD while the SoundWire data port
+>>> is still streaming — the codec cannot reach PS3 until the port stops,
+>>> so the poll always times out during playback. This blocks
+>>> snd_ctl_elem_write() for 2-3s making mute unresponsive.
+>>>
+>>> Remove the poll from PRE_PMD in rt1320_pde23_event() and
+>>> rt1320_pde11_event(). The codec transitions to PS3 on its own once the
+>>> data port becomes inactive. Keep the POST_PMU poll — on power-up the
+>>> domain must reach PS0 before audio can flow.
+>>>
+>>> Fixes: f465d10cd731 ("ASoC: rt1320: Add support for version C")
+>>> Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
+>>> ---
+>>>  sound/soc/codecs/rt1320-sdw.c | 2 --
+>>>  1 file changed, 2 deletions(-)
+>>>
+>>> diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
+>>> index 192faa431b5e9..e42e8b6de853e 100644
+>>> --- a/sound/soc/codecs/rt1320-sdw.c
+>>> +++ b/sound/soc/codecs/rt1320-sdw.c
+>>> @@ -2000,7 +2000,6 @@ static int rt1320_pde11_event(struct snd_soc_dapm_widget *w,
+>>>               regmap_write(rt1320->regmap,
+>>>                       SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11,
+>>>                               RT1320_SDCA_CTL_REQ_POWER_STATE, 0), ps3);
+>>> -             rt1320_pde_transition_delay(rt1320, FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, ps3);
+>>>               break;
+>>>       default:
+>>>               break;
+>>> @@ -2028,7 +2027,6 @@ static int rt1320_pde23_event(struct snd_soc_dapm_widget *w,
+>>>               regmap_write(rt1320->regmap,
+>>>                       SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
+>>>                               RT1320_SDCA_CTL_REQ_POWER_STATE, 0), ps3);
+>>> -             rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, ps3);
 >>
->> so as I said above there's nothing here that might conflict with the interrupt
->> callback?
->> What am I missing?
-> 
-> ...  uaj_lock is still needed to handle potential race condition  in case .set_jack is called with jack as NULL
-> (potentially to disable the jack functionality ) when the interrupt is being handled.
-> This was suggested in earlier review comment and it made sense to me as well 
-
-This isn't the first jack codec we've reviewed, and so far none of them have such a lock.
-There is in some cases a lock to make sure the calibration is only done once, but that's different to your explanation.
-So either everyone was wrong or this is unnecessary. Please double-check.
-
-And in addition this driver is missing the pm_resume_and_get() that's present in most implementations to avoid races between set_jack and resume.
-
-see e.g. commit e02b99e "ASoC: codecs: rt700/rt711/rt711-sdca: resume bus/codec in .set_jack_detect"
-
->>> +static struct pci_dev *tac_get_pci_dev(struct sdw_slave *peripheral)
->>> +{
->>> +	struct device *dev = &peripheral->dev;
->>> +
->>> +	for (; dev; dev = dev->parent) {
->>> +		if (dev_is_pci(dev))
->>> +			return to_pci_dev(dev);
+>> no, sorry, that's clearly wrong.
 >>
->> I find this surprising, what is the purpose of going up in the device hierarchy to
->> find a PCI device?
->> Why would this driver care?
-> 
-> For Speaker protection modules running on the firmware based devices, we need to have 
-> different firmware for different projects as there are firmware differences.
-> We need a way to uniquely identify firmware for each of these projects.
-> Currently this is done through the  "subsystem id" which is part of the pci device.
-> So we find the pci bus and then identify the subsystem id.
-> 
-> I see similar changes in class driver as well sound/soc/sdca/sdca_fdl.c.
-
-ok, now I get it.
-
->>> +static int tac_update_status(struct sdw_slave *slave,
->>> +			     enum sdw_slave_status status)
->>> +{
->>> +	int ret;
->>> +	bool first = false;
->>> +	struct tac5xx2_prv *tac_dev = dev_get_drvdata(&slave->dev);
->>> +	struct device *dev = &slave->dev;
->>> +
->>> +	tac_dev->status = status;
->>> +	if (status == SDW_SLAVE_UNATTACHED) {
->>> +		tac_dev->hw_init = false;
->>> +		tac_dev->fw_dl_success = false;
->>> +	}
->>> +
->>> +	if (tac_dev->hw_init || tac_dev->status != SDW_SLAVE_ATTACHED) {
->>> +		dev_dbg(dev, "%s: early return, hw_init=%d, status=%d",
->>> +			__func__, tac_dev->hw_init, tac_dev->status);
->>> +		return 0;
->>> +	}
->>> +
->>> +	if (!tac_dev->first_hw_init) {
->>> +		pm_runtime_set_autosuspend_delay(tac_dev->dev, 3000);
->>> +		pm_runtime_use_autosuspend(tac_dev->dev);
->>> +		pm_runtime_mark_last_busy(tac_dev->dev);
->>> +		pm_runtime_set_active(tac_dev->dev);
->>> +		pm_runtime_enable(tac_dev->dev);
+>> When we touch the requested power state, we *shall* wait for the power state to be reached.
+>> removing the transition delay is silly.
 >>
->> I suggest you look at other codec drivers, all the pm_runtime configuration is
->> done in the .probe callback and only set_active done upon a change in status.
-> 
-> I thought I will keep it here so that all pm_runtime_* initializations are in one place.
-
-well that's well intended but not so good.
-
-You want to have a symmetric handling of pm_runtime_enable() and pm_runtime_disable() in .probe and .remove driver callbacks.
-With your implementation the pm_runtime_enable() is only done if/when the device attaches.
-
-And then you do want to take a look at other drivers where there's this big fat comment..
-
-	/* set autosuspend parameters */
-	pm_runtime_set_autosuspend_delay(dev, 3000);
-	pm_runtime_use_autosuspend(dev);
-
-	/* make sure the device does not suspend immediately */
-	pm_runtime_mark_last_busy(dev);
-
-	pm_runtime_enable(dev);
-
-	/* important note: the device is NOT tagged as 'active' and will remain
-	 * 'suspended' until the hardware is enumerated/initialized. This is required
-	 * to make sure the ASoC framework use of pm_runtime_get_sync() does not silently
-	 * fail with -EACCESS because of race conditions between card creation and enumeration
-	 */
-
-> 
->>> +
->>> +static int tac5xx2_sdw_clk_stop(struct sdw_slave *peripheral,
->>> +				enum sdw_clk_stop_mode mode,
->>> +				enum sdw_clk_stop_type type)
->>> +{
->>> +	struct tac5xx2_prv *tac_dev = dev_get_drvdata(&peripheral->dev);
->>> +
->>> +	dev_dbg(tac_dev->dev, "%s: mode:%d type:%d", __func__, mode,
->> type);
->>> +	return 0;
+>> You would really need to find out why streaming still occurs when you get a DAPM event. That doesn't seem right in the first place.
 >>
->> this looks rather useless, no?
 > 
-> Yes, currently only required in case of debugging. 
+>  The stream is active by design — this is a mute, not a stream close.
+> 
+> To reproduce:
+> 
+>   1. Play audio through rt1320 speaker (aplay or PipeWire)
+>   2. Press speaker mute key (or amixer cset on both FU21 channels)
+>   3. Second channel mute takes 2-3s to return
+> 
+> Muting both channels removes the last DAPM path consumer of PDE23.
+> DAPM fires PRE_PMD while PipeWire still holds the PCM open —
+> DP1 keeps streaming zeros. The codec cannot reach PS3 while its data
+> port is active, so the poll always times out. The mute register write
+> that actually silences the speaker happens after this useless wait.
+> 
+> I confirmed via SoundWire debugfs reads: ACTUAL_POWER_STATE stays PS0
+> while the port streams and only transitions to PS3 after PipeWire calls
+> hw_free (~3s later). The poll can never succeed in this path.
+> 
+> Every other Realtek SDCA amp driver does fire-and-forget on PRE_PMD with
+> no transition delay — rt712_sdca_pde23_event(), rt721_sdca_pde41_event(),
+> rt1316_pde24_event(), and rt1017_sdca_pde23_event() all just write PS3
+> and return. rt1320 is the only one that polls on power-down.
+> 
+> The POST_PMU poll is kept — on power-up the domain must reach PS0 before
+> audio can flow, and the port is not yet active at that point so the
+> transition succeeds immediately.
 
-the clock stop is logged at the host level, this seems useless to me, even for debugging.
+well that's an interesting issue. IMHO all those drivers are broken then... 
+A mute should let the ports active and not start any power transitions on the codec side. 
+That's what should be fixed first.
+
+I am not sure either why PipeWire would send a hw_free on a mute either, that's a sure what to have audible delays and glitches. Mute != Stop.
 
