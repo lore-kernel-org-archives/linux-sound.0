@@ -1,126 +1,161 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED559443
-	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 06:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777529680; cv=pass; b=LcD1z9Dyf7hmgEkXod61PraGCRml5/sj5wf5yIGvDtAzaLTpxEN/cua10NLsX1hVIcNo+6MSN7ok7w+tOkhkZrSaA03KH6Rrs8LpOk+/7qHdfm6lpIz5UCZ8i3GYyXPOzKJc26ZF2AWWYee6M8TkEUixYaw2VVE9M3CdSWoRgkA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777529680; c=relaxed/simple;
-	bh=d3tGzUAC9OSobd87Cfftdm63q2dFqar/YSj1XdS41kk=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=MtrihY/GXy6WJ/32Zf78shZaj30Pqfj/OAUEhLn5i3/PYOgWKcp2nFXW3urIAVIVSZT5XqNZSBj8LaXJl6CBllwQ2ueUOgg2L0mW2zuOlYCSPXLaE1of5+6L73VWmlvc5KWewxzaXFp+TQaqRI31c868o/NAbBCL8xFcTd87iow=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h8rmKlyh; arc=pass smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A95218A92F;
+	Thu, 30 Apr 2026 06:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777531924; cv=none; b=Z35Npwvemkh6F7S7La1WpOYIZdOM3ZM9cIgcSZCbWKhKWE8Mfob3iBEiVAqaZG8/8F8mCp10w31ok/Byc51DOiRUq+c13kkZtHK0SE/tbcGmHrgS2BRsj7oKFM1bmoXI1CYwg3byab8R8JEQfG/V/LZpsucsOjuD6N+07m+yGkg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777531924; c=relaxed/simple;
+	bh=aveps26u73Lbdux+mfz9WLnUDWbrjQgvoV2u2B3BYv8=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ly3BFU7FHrKUq9CJWwx/kTM4gZKyuSSiPd4vuDRB6RqltziDiVojHKP7KVE5GcNDeg/iTeIWbU/TqB9/YL7uSnvNQa4pXRWo72snZqmaTHOcNRltZ/M5xKrqeojQDI9/3n/OIR1V3VkG8A8qlULrsHXDemobB9/DNqt/Ld6q31M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=x8GO7dpF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cIrzY4gL; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h8rmKlyh"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a2c3dfb4a1so483178e87.2
-        for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 23:14:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777529677; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TxRgxh8M/P4w+MWQ+N7bFlWk3GdHb+HpoLL45eQyfrujRe4gopJ5G8ErOAMwWpBN7i
-         cCO+WiLCYRMJ2hCq0VfCKv8xYm5/ybXUkLIOrMUV1VaFkbsLHtCeI3E1EE9bLQy1k2dd
-         DJRxKHsO8LaeDB1B2HpnDOlTBN0W9cLBzX7i1YGLTj4urmCPlKKpNc/Yxb6/joh7pZdM
-         h1Ti6T8mhnDEloWO0FT3U8rqO8pQDosJ6rcpfKE/OjJ2tQ/yorjr9e5l6qFjbKCLGVkK
-         ljRI6l9BD11cvFbkYQ+0rUZqnfWFCJYpHyA7h5vlDiLdLJpmjlHAwhuM+I9QauQuQDLJ
-         niHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=x/qGCnLwlRPUO2j/SZcze5hu+HNTsOOMUi0iTo8gbeE=;
-        fh=/SRmtwMKVlnBiKIp7neNX0t1lqP3Ac5EIQf0WLv4lck=;
-        b=GrpoYVBchEhsT7nkGQXSYJm1HVRBdeonVcKrk/6/kwm3AnVBTT1zzu8p9sp2lAi8yy
-         wedA9BPPFwUEhxZmxDBiDbAqvczCIdzXDOVhPXmupB+MFoqUN6oNEtWJjejYY0yTdcLN
-         NfWsNDehrclwqvbK2eu1Nv0vEiH8I60WSs4Gr+AAMTX40i9Ssk85q/suJgaN+/PEGOXy
-         KV45PYt3wLG55x1CwqGG6I3msQyiVDShK11HpAYweHEQF7OQ9TtZmxKxzIljb7TNsVzv
-         wEuwc+bMpMS4GTCAvY/ou6rry0ljgXNOWETV9zJWZnu76U40euie7sT5h1cowL6zgmWX
-         ot8g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777529677; x=1778134477; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=x/qGCnLwlRPUO2j/SZcze5hu+HNTsOOMUi0iTo8gbeE=;
-        b=h8rmKlyhjpGzbGjovq8byOEBX25manJU59P6+I7sdZxOC8L2qrvLpYBjEfg/FTGTFs
-         gzj2hZBTuCnGtPk7bELjRCRk6arlsSFKI7A9X0zencZH7B8iwzdDgreKaHn23vnLiymV
-         XDC7QIoPLLUsso6Or6sTNz0+/TeMiv1rW06tJ8tc9Faj1Z+sWoRfaRDdDn3CJt3khCok
-         vHqKj6Hk8jxhv39Io1oWXl1i4kpGzp18CM8A5YGsE869GdZp6yRhyYPB/ARlHjXH9gxH
-         rbQCmMChWABvQr5qDdjed7eI9fVYtNWXcotrUNhASMg8IGe0QH+pAa2NBgfZeMa3i9sR
-         Ebqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777529677; x=1778134477;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x/qGCnLwlRPUO2j/SZcze5hu+HNTsOOMUi0iTo8gbeE=;
-        b=eQAMwsqOAfb1XNis5ZJQR43cNYyqWaH3yPsBA+aiWMoLNTCfPmjX+hHDCNrOTw4TVe
-         Jm2SYZdYzyieNpoNiLKiylpXBKIGm4EgYlEJmGcaKbWcz+6fzyPGytn29m+4BzInVT5Q
-         SttIgaHKaJO/DWrWyz9WLaidBicwELC4679x4k56ZDOipjUrt9IEo88+owcJpbzy7Ryy
-         i5yCgZYy6jniIIjfsau+0usAstPbDaLs0h0jbBkpTm72QQSWCxZO8dMTyOumU3VgU9oc
-         HiBskjl0cob7O3pQyKFf8de+Oe2tMytoDxkTiDCk2ulX4iAV9zgo6CvjvOXiMLiTzYyP
-         ylCw==
-X-Gm-Message-State: AOJu0YzTjBB+PxTsFlFgiSNuFOnQ5XPa5xUQv3zs5x8861OqjzyG8nly
-	hLEfsxKzLlOjwyykEwZcz3OjzyyVVeNYsprXy0upUezf/eRoMoRp5hwHCiy/IkmQ5bT75JctLcF
-	g5vUs+P0FbM8e9aqTJHwNancDtOJYcJ3dDLr7VyU+I/Rt
-X-Gm-Gg: AeBDievrPm8lcKODInnP4jjP30ImGFc2S3MmwpZDbhqKaIr0UYudqN16TuLrL1xEj61
-	wx5DAz2HAiSNjgxRuHgnNdH7M1iE9uBzINwi0ujljUG+c1c7MUZ/np6pQMFAoGParoU7NvNKZkG
-	0s4VxGpE9U9yV8O+0U8UEE8kR3sw4oQ0eHJd1sktRL+3AyRVuebe+DAgLkB5yC1G5KNMhsCW5Re
-	3qEra2o/AKRMHR+Eg+na3mDRwO9/E/QXxzYWb6OfVPG170ph8b6bdkdKj3JSfVgibdS2KXVIuM3
-	YUl7lhy1Cpqa6DXEpPnZ
-X-Received: by 2002:a05:6512:224d:b0:5a3:ff48:f7db with SMTP id
- 2adb3069b0e04-5a8522db507mr496883e87.34.1777529677170; Wed, 29 Apr 2026
- 23:14:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="x8GO7dpF";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cIrzY4gL"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id DBF281D0007A;
+	Thu, 30 Apr 2026 02:52:00 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Thu, 30 Apr 2026 02:52:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1777531920;
+	 x=1777618320; bh=ek6xpIfo20HsnxFyxsCjBtFY92tBng0eH8MYMh2ft+g=; b=
+	x8GO7dpFnOzlEbXSs92P6nBLBoR3Pi5hHPIWGsxdCDsX6Eg8NFUWHYqUexubYRdH
+	iYt5/UbMhH8tCZwC4pspaAmC2YHMUsAGH2wFb7a/OQIJQcKzgGKkG69O1rFgG6em
+	Y/3VirWd7gTTo0O/qSebGUvgeDssn86+elLjXfeJAtrwT3v8/43sPUKBkTUivvV3
+	v6cO/cqdi8IB8HNQk+XZN/9E5m2oi1kjEYS2EFvG7XEvvN3iQue2KDH3ICU4Z9Pe
+	vMf4kww1nsnloRLRYK1w/6TYaSmQpU3jzZpkjBZHjJBLj1xkWACxa7RyDCKlm1F/
+	rtiacPpiKM4XAPqqXx/w+w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777531920; x=
+	1777618320; bh=ek6xpIfo20HsnxFyxsCjBtFY92tBng0eH8MYMh2ft+g=; b=c
+	IrzY4gL6hrZeuTde82C6N/XzutKHBzhcLf1YFO0Irv2WF9KyqsXaTI3GCaEsdKs4
+	craBaUcH3rD1FTR9+NKy2l2e9CCIgfHYH7qB98KpYcdncR48yvBv861CGoBsWPp0
+	vwkzC9ymwkGT3iv2kSldQpbWYfZLzrBhZXqnuPS+re5YM67iC9v7rEjaesiz6tmq
+	ZFsJ6sUyDeeknYkmr1Bklz1Pdsk2/sW8avos2OvV4cXJerRXC9VIcYxuYm0DcFgn
+	Z0b6xUdrCvpSRHZbyBn5gXK02oMuRHbeel/8FKaQJF68FmSlcfeE8wotG9brR9kx
+	6b/y2wK6p1Xaizcn1B6Eg==
+X-ME-Sender: <xms:D_zyaahAX5lAhDLutqhyRH5u2CokogeWmSs76Swf0KyMsuxryKv6jw>
+    <xme:D_zyaV1LFAgRSwXqTmaOFJ-Cggdz9W5QyTi22a3s38lpR_Rx-Nf5MomcTu78uz9A3
+    LDwOCHV5uiu7npK9DNZ84lHx2LRzoaXGpEdgNk3lV5lZi45iWSCwyab>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekieeihecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdetrhhnugcu
+    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+    hnpedvhfdvkeeuudevfffftefgvdevfedvleehvddvgeejvdefhedtgeegveehfeeljeen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
+    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopedvtddpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtohepsghpsegrlhhivghnkedruggvpdhrtghpthhtohepphgvthgvrhiise
+    hinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopegsrhhglheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
+    hushifsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtghhlgieskhgvrhhnvghlrdho
+    rhhgpdhrtghpthhtohepgiekieeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepqhhuoh
+    iilheslhgrphhtohhprdhorhhgpdhrtghpthhtohepuggrvhgvrdhhrghnshgvnheslhhi
+    nhhugidrihhnthgvlhdrtghomh
+X-ME-Proxy: <xmx:D_zyaQzVj7RKxtXPvqXfSZCMFGc4S1VziK7vjCb4Kzvnghb6W3lqYA>
+    <xmx:D_zyadGLcGg3swKXvaSoYaZ5_a7DfSw9D5XMvg09x6f1b-7vQjAjlw>
+    <xmx:D_zyaTr_BlYIA28XrGBnLtG6tf1LPNbTt8Wlq1Dp2xoK0vKQQZkSEg>
+    <xmx:D_zyaTzM7xqisEfWD-nj8SEz8lTVgjIHi6J0rI_GI2ZhiVZ9UL2RUQ>
+    <xmx:EPzyabG9-Xw2ZWTLNYQW1UIynBGuxF9kt7BO4_xyEa4gtLWwW6Gkjo2O>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id E6F71700065; Thu, 30 Apr 2026 02:51:58 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: weikang feng <fengwk94@gmail.com>
-Date: Thu, 30 Apr 2026 14:14:24 +0800
-X-Gm-Features: AVHnY4KL5sUk8N5Uq2s48swm6dEG4CwL_hc_F5BKsOLma3EFvfNoTuXnsRHJZJg
-Message-ID: <CAGc4AAQqoFHSeqh1G-55aL+jq0TywtPmGeoorZ0ZUH=0TGfX7Q@mail.gmail.com>
-Subject: [BUG] ASUS TX Air FA401EA / AMD ACP70: No matching ASoC machine
- driver found, only HDMI audio available
-To: linux-sound@vger.kernel.org
-Cc: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com
-Content-Type: text/plain; charset="UTF-8"
+X-ThreadId: ATt-TkTEJJAR
+Date: Thu, 30 Apr 2026 08:51:18 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Andres Salomon" <dilinger@queued.net>,
+ "Linus Walleij" <linusw@kernel.org>
+Cc: "Arnd Bergmann" <arnd@kernel.org>, "Thomas Gleixner" <tglx@kernel.org>,
+ "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Bartosz Golaszewski" <brgl@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+ "Peter Zijlstra" <peterz@infradead.org>, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ "James Cameron" <quozl@us.netrek.org>, "James Cameron" <quozl@laptop.org>,
+ linux-geode@lists.infradead.org, "Lubomir Rintel" <lkundrak@v3.sk>
+Message-Id: <5a0aca77-8d50-49d4-a3fb-82817f73fd37@app.fastmail.com>
+In-Reply-To: <fddba1c8-a95a-490f-962e-8505cb948672@queued.net>
+References: <20260427144338.3436940-1-arnd@kernel.org>
+ <CAD++jLm951WUzBVWa4QakOBuLQy+HQOD0SwQ7tHEuPkM=j3XGw@mail.gmail.com>
+ <63e9542f-c170-4361-9b2e-7fde8fc16da4@app.fastmail.com>
+ <CAD++jLmQRMs=Hwh9=Kzu_HEAqJea2jPJ=R9eBFQQVTYpXCZ+gw@mail.gmail.com>
+ <86f3a260-5d1f-4e86-afac-23a0e47736ff@queued.net>
+ <cc7fe7a5-9a60-4ab2-800b-4708abf42032@app.fastmail.com>
+ <fddba1c8-a95a-490f-962e-8505cb948672@queued.net>
+Subject: Re: [PATCH] x86/olpc: select GPIOLIB_LEGACY
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
-I originally tried to report this to linux-sound@vger.kernel.org, but
-the mailing list rejected the message because Gmail webmail added an
-HTML MIME part even when plain text mode was enabled. So I am sending
-this report directly first.
-I am reporting an audio issue on an ASUS TX Air FA401EA laptop.
-Hardware / software:
-- Laptop: ASUS TX Air FA401EA
-- BIOS: FA401EA.304
-- Distro: Ubuntu 26.04
-- Kernels tested:
-  - 7.0.0-14-generic
-  - 7.0.0-15-generic
-Problem:
-- Internal speakers, headphone jack, and internal microphone are not available.
-- Only HDMI playback is enumerated by ALSA.
-- Desktop audio falls back to Dummy Output.
-Observed data:
-- lspci shows:
-  - 65:00.1 Audio device: Advanced Micro Devices, Inc. [AMD/ATI]
-Radeon High Definition Audio Controller
-  - 65:00.5 Multimedia controller: Advanced Micro Devices, Inc. [AMD]
-Audio Coprocessor [1022:15e2] (rev 70)
-- aplay -l only shows:
-  card 0: Generic [HD-Audio Generic], device 3: HDMI 0 [HDMI 0]
-- arecord -l shows no capture devices
-- Kernel log contains:
-  platform acp_asoc_acp70.0: warning: No matching ASoC machine driver found
-PipeWire and WirePlumber are running normally, so this does not look
-like a userspace issue.
-This appears to be an ACP70 ASoC machine-driver / ACPI matching issue
-for this laptop.
-Please let me know if you want:
-- full dmesg
-- acpidump
-- dmidecode output
-- additional debug logs
-Thanks.
+On Wed, Apr 29, 2026, at 23:18, Andres Salomon wrote:
+> On 4/29/26 16:39, Arnd Bergmann wrote:
+>> On Wed, Apr 29, 2026, at 00:39, Andres Salomon wrote:
+>>> On 4/28/26 18:34, Linus Walleij wrote:
+>>>> On Tue, Apr 28, 2026 at 3:57=E2=80=AFPM Arnd Bergmann <arnd@arndb.d=
+e> wrote:
+> [...]
+>>=20
+>>> I can't speak for other (former) OLPC folks, but I donated my remain=
+ing
+>>> OLPC hardware about seven years ago; so I no longer have any interes=
+t or
+>>> ability to support the hardware.
+>>=20
+>> I see you are still listed as paid support for AMD Geode in the
+>> MAINTAINERS file. Is that still the case, or did that end along
+>> with your involvement in XO-1?
+>>=20
+>
+> No, my involvement with anything Geode and OLPC ended years ago. Feel=20
+> free to remove me from MAINTAINERS (unless someone has specific=20
+> questions about hardware, which I'm happy to answer).
+
+Ok, marking it 'Orphaned' is probably the right choice then,
+or the x86 maintainers can decide to remove it right away.
+
+>> Are you aware of any Geode users that still update their kernels?
+>> I found that OpenWRT still publishes Geode builds (with XO-1
+>> disabled, but everything else built in) but no indication that
+>> anyone has actually run these after around 2017.
+>
+> Personally I don't know anyone, but I feel like those Geode thin clien=
+ts=20
+> are more likely to still be in use. A machine with 256MB of ram in 202=
+6=20
+> is going to be an absolutely miserable laptop to use, but that's still=20
+> fine for a limited router or wifi access point. If you remove/disable=20
+> the Geode stuff, you probably won't hear complaints until the next maj=
+or=20
+> OpenWRT release, though.
+
+Ah right, I was only looking at the embedded boards that have custom
+arch/x86/platform/ code. I guess the thin clients would
+generally just work as long as the SoC and south bridge drivers
+are there?
+
+I'm also less worried about the thin clients, as they are unlikely
+to be used for anything mission-critical but were rather repurposed
+after the original owner replaced them with with Arm or x86-64
+machines in the 2010s.
+
+      Arnd
