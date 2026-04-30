@@ -1,93 +1,81 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F3E355F46
-	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 08:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4FA346FCF
+	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 08:15:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777536940; cv=none; b=f0O6wqj/4Rjd25iMGpL711fKt8mRsYAazo+3fWztwjgBErsgifK+WtpB3UCosviFDJZsDDOynoXhkgM11Q9Ps3kIXPxPWn5zvnf6LQw9GlMlmq1RRpzaU3IC6RjNSww/8KVgXts7avapRDcrGDOf1euX4f2B0FpwPthBYvb73fU=
+	t=1777536942; cv=none; b=oikyuDghDIGjMSWwnvpQpjKazunOluroRDrxSPE9maA0A/lKo+pwoPx9bznXj9bHQ2N67WDZs9pLiIKVaLjkSD8S9nghSqNKCz3EpbxbBVlzfObuyr5+cgotlqgcA3ZyyRBjMHpJG+JzHhcj3jdlU4UZKsXoDOSDxAmp8hNFt/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777536940; c=relaxed/simple;
-	bh=HjqrMYBM6MID0433yRT1x8xmj2KupOh8u2Krj9yH/Ak=;
+	s=arc-20240116; t=1777536942; c=relaxed/simple;
+	bh=4BtmSROXrgJ3uYaIivsNKUAZzGBNSL62GrG1BUWaHvo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZIFfUupcHlapBJxo4+2ixL8wFal0/TlVZZLJ2ht0rwRsGx8oA6IzKEcbYtjaxjx4v2qfv3S/Fp27v4a3SIIBWu3iXFdgLsQXCvXwg61fOfur4LspEJPdf6LkuxjNPG7+rufvqxAhfAfe2vi5L3uhSxEeRKZwi0fpiALbQZruMAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tBnKaOhi; arc=none smtp.client-ip=91.218.175.181
+	 In-Reply-To:Content-Type; b=Vyn+TtfnG6a8L739Hp9VtwLQ2ieRiiYS2NTmMkxxOck2rkHbkmDN4uANAPFkc8hCPh+wiicyGfRJucTdkF/S1UjcXHyPYJ2kuXhVKrNnBROr2aVMd8zS31LMiRFGaulDMu36k37wis6lXMiFL9+ln1pcc8mZqNOno8Hvljnh4Zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=HlLLxdCg; arc=none smtp.client-ip=91.218.175.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tBnKaOhi"
-Message-ID: <3be07800-9c02-4d9c-ae9d-b2dce44c5fd3@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="HlLLxdCg"
+Message-ID: <425da74d-159a-43c6-a205-c404d0c74fb4@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777536937;
+	t=1777536938;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=w43CDXPHdCJtj8zhL3o+YGyAGmvtZaH32iMve4CbegA=;
-	b=tBnKaOhiR8IGfx6Mnr3Vsl23atfUiDiZrn9xNiB4Vyvb+dt9ez31SgDk3fWoLnk9rjYxOg
-	CDJnyVD1tuG+oDtIUeXWRB7pTN1c1D3PX4eXILGJEPEEqspQW0xxhascuFLBk2mU++rrGw
-	WRBBL+Vfego1NWM4k5EGF+V+GMHibm8=
-Date: Thu, 30 Apr 2026 10:11:09 +0200
+	bh=yb6JMqsoHETISacK/WZM7A7l2mq1ilEtNYGXhpKzL/U=;
+	b=HlLLxdCgKnIX+WXPcRQsd82TFHnt0zeQ1G+fQhT7Ri+KymKvjcdD4KRFjSq8+MVxaiAaGs
+	cZwJZJ2ygSiEQ6UIC84bSMck7arl3DjnvgSgstnHcy0fNDGyDG7T7Kz8DhagMJyYkAhq2z
+	mn9HXTOZNlwHzJjj7bZCC9I+8iB9Y9w=
+Date: Thu, 30 Apr 2026 10:12:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] ASoC: SDCA: Add correct masks whilst reporting SDCA
- jack status
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
- peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20260427115925.3801099-1-ckeepax@opensource.cirrus.com>
- <20260427115925.3801099-2-ckeepax@opensource.cirrus.com>
- <cb90c6dd-5976-4aef-92c4-e7f6b91fda90@linux.dev>
- <afIDNXrQ23Cja0vm@opensource.cirrus.com>
+Subject: Re: [PATCH v2] soundwire: intel_auxdevice: Add cs42l43b to
+ wake_capable_list
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, vkoul@kernel.org
+Cc: yung-chuan.liao@linux.intel.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+References: <20260429153614.741899-1-ckeepax@opensource.cirrus.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <afIDNXrQ23Cja0vm@opensource.cirrus.com>
+In-Reply-To: <20260429153614.741899-1-ckeepax@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-On 4/29/26 15:10, Charles Keepax wrote:
-> On Tue, Apr 28, 2026 at 10:18:17PM +0200, Pierre-Louis Bossart wrote:
->> On 4/27/26 13:59, Charles Keepax wrote:
->>> Currently, all SDCA jacks simply report against a mask of 0xFFFF. This
->>> works fine for system with a single SDCA jack control as the status
->>> reflects that single control at all times. However, if two SDCA
->>> jack controls exist in the system, such as a separate representation for
->>> input and output, then the second control can cancel reports from the
->>> other since it will only report its relevant bits and zero in all other
->>> slots. This is exactly what the mask is for.
->>>
->>> Build up a mask using all the possible states for an SCDA jack control
->>> at registration time and use that mask when reporting a particular jack.
->>> It is worth noting this still doesn't handle cases such as two headphone
->>> jacks as that would require separate ALSA jacks to report to.
->>
->> I couldn't quite get the last sentence. If you have two
->> functions for separate headphones, where would you have a
->> conflict?
+On 4/29/26 17:36, Charles Keepax wrote:
+> Add cs42l43b (both packaging options) to the wake_capable_list
+> because it can generate jack events whilst the bus is stopped.
 > 
-> For the SDCA side this is fine, as in we create our controls
-> there is enough to distinguish everything.
+> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> ---
+
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+
 > 
->> Don't you have separate ALSA jacks created independently by
->> each function?
+> Changes since v1:
+>  - Add support for the QFN package of cs42l43b which will actually have
+>    a different part number.
 > 
-> For the ALSA jack side we still have a jack object being created at
-> the machine driver level. Primarily because the existing jack
-> APIs require a card pointer. There is certainly an argument to
-> pull this into the class driver itself, such as we did for the
-> mic and speaker widgets. Doing so would let us support even more
-> topologies however that is definitely a bigger piece of work.
+>  drivers/soundwire/intel_auxdevice.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/soundwire/intel_auxdevice.c b/drivers/soundwire/intel_auxdevice.c
+> index 913e95207ee1a..ee951be154657 100644
+> --- a/drivers/soundwire/intel_auxdevice.c
+> +++ b/drivers/soundwire/intel_auxdevice.c
+> @@ -51,6 +51,8 @@ struct wake_capable_part {
+>  };
+>  
+>  static struct wake_capable_part wake_capable_list[] = {
+> +	{0x01fa, 0x2A30},
+> +	{0x01fa, 0x2A3B},
+>  	{0x01fa, 0x4243},
+>  	{0x01fa, 0x4245},
+>  	{0x01fa, 0x4249},
 
-ok, thanks for the explanation. the TODO list seems like a Hilbert hotel, always some way to expand it with new things...
-
-> But either way this change is helpful we should really mask for
-> the bits we are reporting.
-
-ack.
