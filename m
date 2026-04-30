@@ -1,134 +1,69 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5420E377574
-	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 08:07:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A44C3FB7FB
+	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 08:15:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777536437; cv=none; b=LrmKXPq2CyeMTqgvhN1xpQopypc3lyT1JqH3er6nGa5lW/U1l92WP40yjE1LhKll329AsHJ73J1fFErGu8XwSGZL5kKy4F91hXJrd2OHyRCxbEvzAdlpPSBI2gAqDtvDyQutQmaqVSQnMbXFrgsvKIZV1XMeKgVzreuNcvYQ5sM=
+	t=1777536939; cv=none; b=pUCqukT6sOuzzbUiTinFrOXY3xe8hTcPxmlDXhBbV9G3DzkSbPujXJM6qras2Mj7m/8cDamPqR1spJJc+bhGszve52q9JbAmyxwKfu3eaoKlzkPRnwWIiApCvkS7vaoo//o+qsw2ngDAfEZpxmMgqeq8wcywMexEDojfw72iO8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777536437; c=relaxed/simple;
-	bh=q9h0MvbHGEw6d25Ym6ANGUDWnGDI9afZd7TZ+Z/PU/w=;
+	s=arc-20240116; t=1777536939; c=relaxed/simple;
+	bh=QYwBfh9aEBJ9xg4j1MA/bTv/P3S7AzUKoot7jo/SreY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LpMWK5kXyeX7+fXiwEo/tbSbi0+kmuITBewUZxoZy6VpGsXkt4W6I4E7rCVYcrkQMBtp1HGDvWqkEvh4S/+Fk07EoFzJ1BpMDsWNVsqjKDczoixB830Nu/VHKJuqDNEmASDBSweRfaUP5U2qWTTYFouStkZmeSistM8aRYVvLyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LK44AKVF; arc=none smtp.client-ip=95.215.58.174
+	 In-Reply-To:Content-Type; b=QufsEgTtT++rTX/sCv0pUoQHL1Jslq/izS0E0kPWA2YxKf8iRZ/R4hsZ8bKniH1GbC35z0hPnubUP9wn7hO0SZKZ5v6N6bTv8wwojQKf0ZzBw1bDct4fYdcpSsWdQEnlMf6KuhQ2wE6CY5Ay+UxdLd7if4CtyZ8GSZ+08jbtPqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GnjA4++a; arc=none smtp.client-ip=91.218.175.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LK44AKVF"
-Message-ID: <78c57b26-505f-473d-8472-a491ede5aad9@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GnjA4++a"
+Message-ID: <cbf1eb3a-7942-4a90-af5c-a6608939e823@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777536433;
+	t=1777536935;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=A4SmEOnwak44qk6ykdANG6Tok8fpdAo9btlLDOvpeIo=;
-	b=LK44AKVFt6ISQy6YWqLkKH8H84lJsIyC1f954WDBM+hDAE25wXEVc8D0YRxdvKgWOf+nYt
-	3Rncerg2JxzEftdT6TBuBp4ii9iDyox/asAMfeiIJsPfgyWJWp3MVwEiEHHerCEdMMtxHC
-	dOMl95ouETiLshUqBItbW4FhNF3mD6k=
-Date: Thu, 30 Apr 2026 10:07:10 +0200
+	bh=4BB/rp3teQQUnAQhlKRqakS49p5e4PIX3xc/URT70Vw=;
+	b=GnjA4++am1W8qyBm5ejDFdLzfcx0U0go45eUWc3q8tIvblSSEzznY+PvYeQZqUb8bELynV
+	kvVIAgoWaML06Hed5foUrWrkmJO++1RjMmJHkVysZ8t1m/9U/AcMvJs8OzDTkIcmJGIcrX
+	SK77PS1AgC3nNBt1kUXqMm/dfDnFTt0=
+Date: Thu, 30 Apr 2026 10:09:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] ASoC: rt1320-sdw: don't poll PDE state on power-down
-To: Aaron Ma <aaron.ma@canonical.com>
-Cc: Oder Chiou <oder_chiou@realtek.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shuming Fan <shumingf@realtek.com>
-References: <20260428073726.1611777-1-aaron.ma@canonical.com>
- <69a3d80d-c9aa-459f-8522-c07e225bd5d9@linux.dev>
- <CAJ6xRxUuOgfoJ1VP3++Hm_UdhYLJH-16J3rXUcN6O1BmSDJVbA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Improve SDCA support for duplicated features
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+ peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com
+References: <20260427115925.3801099-1-ckeepax@opensource.cirrus.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <CAJ6xRxUuOgfoJ1VP3++Hm_UdhYLJH-16J3rXUcN6O1BmSDJVbA@mail.gmail.com>
+In-Reply-To: <20260427115925.3801099-1-ckeepax@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-On 4/29/26 06:12, Aaron Ma wrote:
-> On Wed, Apr 29, 2026 at 4:20 AM Pierre-Louis Bossart
-> <pierre-louis.bossart@linux.dev> wrote:
->>
->> On 4/28/26 09:37, Aaron Ma wrote:
->>> rt1320_pde23_event(PRE_PMD) writes REQ_POWER_STATE=PS3 then polls
->>> ACTUAL_POWER_STATE. DAPM fires PRE_PMD while the SoundWire data port
->>> is still streaming — the codec cannot reach PS3 until the port stops,
->>> so the poll always times out during playback. This blocks
->>> snd_ctl_elem_write() for 2-3s making mute unresponsive.
->>>
->>> Remove the poll from PRE_PMD in rt1320_pde23_event() and
->>> rt1320_pde11_event(). The codec transitions to PS3 on its own once the
->>> data port becomes inactive. Keep the POST_PMU poll — on power-up the
->>> domain must reach PS0 before audio can flow.
->>>
->>> Fixes: f465d10cd731 ("ASoC: rt1320: Add support for version C")
->>> Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
->>> ---
->>>  sound/soc/codecs/rt1320-sdw.c | 2 --
->>>  1 file changed, 2 deletions(-)
->>>
->>> diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
->>> index 192faa431b5e9..e42e8b6de853e 100644
->>> --- a/sound/soc/codecs/rt1320-sdw.c
->>> +++ b/sound/soc/codecs/rt1320-sdw.c
->>> @@ -2000,7 +2000,6 @@ static int rt1320_pde11_event(struct snd_soc_dapm_widget *w,
->>>               regmap_write(rt1320->regmap,
->>>                       SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11,
->>>                               RT1320_SDCA_CTL_REQ_POWER_STATE, 0), ps3);
->>> -             rt1320_pde_transition_delay(rt1320, FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, ps3);
->>>               break;
->>>       default:
->>>               break;
->>> @@ -2028,7 +2027,6 @@ static int rt1320_pde23_event(struct snd_soc_dapm_widget *w,
->>>               regmap_write(rt1320->regmap,
->>>                       SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
->>>                               RT1320_SDCA_CTL_REQ_POWER_STATE, 0), ps3);
->>> -             rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, ps3);
->>
->> no, sorry, that's clearly wrong.
->>
->> When we touch the requested power state, we *shall* wait for the power state to be reached.
->> removing the transition delay is silly.
->>
->> You would really need to find out why streaming still occurs when you get a DAPM event. That doesn't seem right in the first place.
->>
+On 4/27/26 13:59, Charles Keepax wrote:
+> There are some short comings of the current SDCA class driver with
+> respect to duplicated functions and jacks. Fix some issues in the
+> reporting of jacks when there are multiple jacks represented in the SDCA
+> topology. When a single device contains multiple instances of the same
+> type of SDCA function the current class driver will create duplicate
+> controls, update the code to fix this. Finally whilst working through
+> this also tidy up the handling of the sdca_function_desc pointers as it
+> turns out some duplication has crept into the code on that front.
 > 
->  The stream is active by design — this is a mute, not a stream close.
+> Thanks,
+> Charles
 > 
-> To reproduce:
-> 
->   1. Play audio through rt1320 speaker (aplay or PipeWire)
->   2. Press speaker mute key (or amixer cset on both FU21 channels)
->   3. Second channel mute takes 2-3s to return
-> 
-> Muting both channels removes the last DAPM path consumer of PDE23.
-> DAPM fires PRE_PMD while PipeWire still holds the PCM open —
-> DP1 keeps streaming zeros. The codec cannot reach PS3 while its data
-> port is active, so the poll always times out. The mute register write
-> that actually silences the speaker happens after this useless wait.
-> 
-> I confirmed via SoundWire debugfs reads: ACTUAL_POWER_STATE stays PS0
-> while the port streams and only transitions to PS3 after PipeWire calls
-> hw_free (~3s later). The poll can never succeed in this path.
-> 
-> Every other Realtek SDCA amp driver does fire-and-forget on PRE_PMD with
-> no transition delay — rt712_sdca_pde23_event(), rt721_sdca_pde41_event(),
-> rt1316_pde24_event(), and rt1017_sdca_pde23_event() all just write PS3
-> and return. rt1320 is the only one that polls on power-down.
-> 
-> The POST_PMU poll is kept — on power-up the domain must reach PS0 before
-> audio can flow, and the port is not yet active at that point so the
-> transition succeeds immediately.
+> Charles Keepax (3):
+>   ASoC: SDCA: Add correct masks whilst reporting SDCA jack status
+>   ASoC: SDCA: Remove sdca_function_data duplication
+>   ASoC: SDCA: Support devices with multiple functions of identical type
 
-well that's an interesting issue. IMHO all those drivers are broken then... 
-A mute should let the ports active and not start any power transitions on the codec side. 
-That's what should be fixed first.
-
-I am not sure either why PipeWire would send a hw_free on a mute either, that's a sure what to have audible delays and glitches. Mute != Stop.
-
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
