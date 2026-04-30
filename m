@@ -1,46 +1,46 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3082A3A1696;
-	Thu, 30 Apr 2026 10:21:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590453FE373;
+	Thu, 30 Apr 2026 10:21:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777544515; cv=fail; b=Anxjv3/vY8/J5yNUIB1l/g9YwHKEA9UWyoRk9DDuWggAG4fcOky6S07XNHXBjyEBy1BbCWDys8aSlEC8/0XrgWJ5dBDfczAVM22cVjPBiOl8c6pwslaEZEkKGMEXgFB9JunVM0iLlXUZMIcDiI4Byd33s1I2PndgNJPXl9d5dIU=
+	t=1777544518; cv=fail; b=lvKQ7fC4UD7jdIXXBzyqLxoDp92Dc5QCZwCCJkOsp38TWB6nvNdN7SsjH1WT5pIkV74DRW5aR934OgxajPcbIhgV/zq88uKyeoAlSGVKlTkRF2nqrjYbl2Cr3zSHdLVpXHscPTkArt+049V7TD6WBL+FeTQJX1RBXpztiPZvCNo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777544515; c=relaxed/simple;
-	bh=pVXKq0/LOF8zmbzhCiBDVZn7c61XAROge9XxfCZRXp0=;
+	s=arc-20240116; t=1777544518; c=relaxed/simple;
+	bh=sbxWqve+BGPp37cquj4y7WbMU9JyDcV3m6gkkTa3P0Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NDI41oW2oIfuFOtwMZZ795SJXVPGhL1y99YVLdZtPrch/cd11hltpq2oN87W/+uBoUEZpwPiltnevwTeNPuOYlMc1U0cSKyvkj4bEJw1dRtTn9T5ULZm2FFHd/fqJ7TGyZdG26r0ogHe1iCe6Jc1p9MGUqa9PLrovW0RpCoYnRg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=UoN0PHa6; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=vh0tRmuR; arc=fail smtp.client-ip=67.231.149.25
+	 MIME-Version:Content-Type; b=SABvBLqEf0ixxkyuxK8rlau94OC7Afw91heSREFxz1mBOy3Mk5CTKI3ymORsxcbt5yBMZoQfy5OP8S426uZrXMOZykS62VgXER8hJsr05czk7iAxRBqxQKefkJsruOmnzZY0bUoV/elUDIDiS6RJvBKrlsBehUuONu7cCTRmfeM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=BgHjHaWp; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=Bf2wO5NH; arc=fail smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="UoN0PHa6";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="vh0tRmuR"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="BgHjHaWp";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="Bf2wO5NH"
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63U5NwGx2865616;
-	Thu, 30 Apr 2026 05:21:34 -0500
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63U3pXNu2717378;
+	Thu, 30 Apr 2026 05:21:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=AEaz+vOsUMSC/xFJ887qslRPiEI3PZQKQqdnkIMmPP0=; b=
-	UoN0PHa6LGlARnMPA7eGgHY7es5ECjHwR1nDvh5picdNEl8kmQByRFaCh2dNsn95
-	Z9tnjqdRlWzONhFKlVjIpfJVeGIA4ywE4ALLG6mSen4psQ7QBQU4d+ZIjrF+Dwb4
-	EJzyF/MKOAgUBmQ6L0k36yqMy8yp568PgeqFPtWzk4yBXBvqXDpkHGcTQcSecBF1
-	0OESO0+j+rqBEt+/Fd6HUKri/621q8EoqziUKKnp0Gy13cBE5tBCkS+nol3vz1t3
-	12KuEl7mqw5FKcIWmmrMH0JO4o8WkKyBarne0xWLbYXFDHEJXIpU3FWX1mHo5dr4
-	/OQHWxX1BZC2yRYOzYnlhg==
-Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11021111.outbound.protection.outlook.com [40.93.194.111])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4dru10efkf-1
+	PODMain02222019; bh=i5QnBSugQ6TYgZcfl+vX57j5c40YtgWvWznu4dXEwOE=; b=
+	BgHjHaWpXITaPXs+7Tn+ik//wx7Tgb4tqp2r+2KubdnncIyjbMTgVZVNfXnk0KG6
+	USjk1WLafZS/ZXL2Kj6voCBO+ze/ZiK+O++rGQE+2UqHh/cdjESXaDQN4f0sYrze
+	jimTYyYrT82AfsN/54X5o2DUlyERON0wVCClBAbeFvDhTvH4ll12VE+ariGGfLUw
+	18vlcGlicKbBfhVxVtEjzMZ/4NbrhJfEhDgFNX/Z8580KwDXuggwiX61hFe+7LlM
+	Q4S2SV+1lJnlHhz7PZvWn1yllHmDqCC/lzhcGaR65OKr8aB9H+WRzk8qkzQDCu2E
+	wyvSGLGJEEXR7rsLkPxvUA==
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11023073.outbound.protection.outlook.com [40.93.201.73])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4dru10efk6-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 30 Apr 2026 05:21:34 -0500 (CDT)
+	Thu, 30 Apr 2026 05:21:30 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CsAZ4klZIAxB4Ber5j+BI1EpR4dCRhCQBrrqHnMgFOipgiSDEirRs+6tbDYw8OpWhF5CPyVSViuk09JWLJF6103yY+gDyLCsDGj5YHV24NTv4RQ9irnqFGd9RqtzfJj25s0WKEMNVNFnuzMhAn7N/vcNsEV82b3OBIfXjd7lEearAppZAhBncyxM4dCQAvLmw12xIBP7Ylmus6FzR1LpkVCgvz26GVbNxc+arOddld6XTxurQq54cwYTQBDs6LHpSPULHQlzdFwvMp3Eq0ZYjocyroySZbC3khrR1GXdTlL71hHj1OZZnDaAgA6iVMZ6rn+yX+Ga1S7BVfsSXZ4WFQ==
+ b=uH9ctmD+UZWHNokoE2nVzy/1ZYI2PZ9yU5fJavdnk7uSDuUaRotOBJplqPGssNtOPQg68gVjOpR9h+J7oBjSz9yTvP2K9b+9X0EXOeKETbj9/2w3XDKYMGVTQmh59ZVDtfTjn+fEHjo2UHJuL6kB/X9Gk0LxS8OlKYqpFMOrd8goODRbF9xDw8ExggBHH83Oi5PAjn1x4vFkO14UlylyGJv23xGi+7xGNt2GJ+oigJPLvImUg/zTwqAWyrKqHef84YWShfQwkDn6m/6gIbnfxJdjvSyoGXl0K3Hen9MKV3cXpfLZasJHpnbFc9iKXFBTuoAqic1CoVhL3fmG8Qpqdg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AEaz+vOsUMSC/xFJ887qslRPiEI3PZQKQqdnkIMmPP0=;
- b=PFXfjgMKAOmDZ3U6eEaVoKv2S7kWIUNYrYShbxu6sWVugZeJLBg14cJ6ZV0oVlN7o3acEloDAcJibbYWNedPIOna8MNfsVvwNrLCdoLwMKoNzJqbDMwasWkBjD5v+qISCql+MWS4RdTiYoqQRGf2TlD3oRLZ/5C3znXkVzOPpebBkIi9vdJp5MoeK6e36QLMzRbhGdFQkru3iE+HSYJrc2mr8FNNo4m9kR0VNmc0lS8IMlK0afkt08axQDLRP/XyzIT64pUNoaIJ/o4ZvUdB3gCG7BXJcgCsBKNAFhGjAQVLCTBw2Dxp+l54NLdramjMVIGPFKOuBG2Mp0f9UCh5og==
+ bh=i5QnBSugQ6TYgZcfl+vX57j5c40YtgWvWznu4dXEwOE=;
+ b=K1jhdvXddKQJci2B6/wnM6iKka9Jc+emneAce9QowIa4YA7VAtoTrObA8L29steyHiu8v8TWPKZVXSpdRwGVI7p0leBkG3IYDJP9jM8NnHusGxO6f36TbSC878i7NsmiX3Gh0UGhJSifvvo0pgzABMFtYMkZbmh0Q0QC3R1IhBLhxPm4tTG3sSe+aUPREFdR8XF7NVGYsvP1Sh4rmnfFhdB+HoUpQ3s54f5DD1nblSlgOg49Tbn0iG43KqZWw6HCJOsD74ga0UPfJdPMk8WssOoM2P0hfQuADvDIQc5tohZXZlssSsYzAAX4tLgJlrieMARzjFAZLhQLhGP59/n9WA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
  is 84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -49,32 +49,32 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AEaz+vOsUMSC/xFJ887qslRPiEI3PZQKQqdnkIMmPP0=;
- b=vh0tRmuRCobDqPcLIPp9mPn1nt2b0BJFnn3KzJt9mdJfU2ie2eDKCrDQjKkeV/dk80cvkMbIO+/Fub3MhI8ecizSftkgotPR+87NPw6sFWsFR+dbhR7WM7MmrlnGrndcr/KwjXZnTKXPE5WUv/vGqJ4tJPCHQ+WAbEH2O6wQCt8=
-Received: from CY5PR22CA0022.namprd22.prod.outlook.com (2603:10b6:930:16::35)
- by SJ1PR19MB8288.namprd19.prod.outlook.com (2603:10b6:a03:45d::11) with
+ bh=i5QnBSugQ6TYgZcfl+vX57j5c40YtgWvWznu4dXEwOE=;
+ b=Bf2wO5NH8XRiZcQpbIVyRa/+8QK4qyAYcxLMNGTZiy73WV7jjT+bAZfKcmfllIGR95ksQP8onWRbLiZdm0rdKkvgnoj/PwIEGS0PWrMY2b6Q3E563COzawPwdoo9tKipovnG3Xk2EFC9VXs70wtoAyYl9d7sHb6uwn3nt5VUw/I=
+Received: from BYAPR02CA0047.namprd02.prod.outlook.com (2603:10b6:a03:54::24)
+ by SJ0PR19MB6867.namprd19.prod.outlook.com (2603:10b6:a03:47c::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.20; Thu, 30 Apr
- 2026 10:21:25 +0000
-Received: from CH1PEPF0000A346.namprd04.prod.outlook.com
- (2603:10b6:930:16:cafe::73) by CY5PR22CA0022.outlook.office365.com
- (2603:10b6:930:16::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.21 via Frontend Transport; Thu,
- 30 Apr 2026 10:21:25 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Thu, 30 Apr
+ 2026 10:21:26 +0000
+Received: from SJ5PEPF000001D1.namprd05.prod.outlook.com
+ (2603:10b6:a03:54:cafe::82) by BYAPR02CA0047.outlook.office365.com
+ (2603:10b6:a03:54::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.30 via Frontend Transport; Thu,
+ 30 Apr 2026 10:21:26 +0000
 X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
 Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
  opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CH1PEPF0000A346.mail.protection.outlook.com (10.167.244.11) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.22
- via Frontend Transport; Thu, 30 Apr 2026 10:21:24 +0000
+ SJ5PEPF000001D1.mail.protection.outlook.com (10.167.242.53) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.18
+ via Frontend Transport; Thu, 30 Apr 2026 10:21:25 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id D216F406550;
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id E2DAA406558;
 	Thu, 30 Apr 2026 10:21:23 +0000 (UTC)
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id ACAD782025A;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id C9F32820244;
 	Thu, 30 Apr 2026 10:21:23 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: broonie@kernel.org
@@ -83,9 +83,9 @@ Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
         niranjan.hy@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
         linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
         patches@opensource.cirrus.com
-Subject: [PATCH v2 1/3] ASoC: SDCA: Add correct masks whilst reporting SDCA jack status
-Date: Thu, 30 Apr 2026 11:21:18 +0100
-Message-ID: <20260430102120.1283320-2-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v2 3/3] ASoC: SDCA: Support devices with multiple functions of identical type
+Date: Thu, 30 Apr 2026 11:21:20 +0100
+Message-ID: <20260430102120.1283320-4-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260430102120.1283320-1-ckeepax@opensource.cirrus.com>
 References: <20260430102120.1283320-1-ckeepax@opensource.cirrus.com>
@@ -98,215 +98,184 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000A346:EE_|SJ1PR19MB8288:EE_
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001D1:EE_|SJ0PR19MB6867:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: ae8b5d35-a589-440b-643c-08dea6a23bbe
+X-MS-Office365-Filtering-Correlation-Id: 1035150a-b5f7-4244-5862-08dea6a23c57
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|7416014|376014|36860700016|61400799027|56012099003|16102099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|61400799027|36860700016|376014|82310400026|7416014|22082099003|18002099003|56012099003|16102099003;
 X-Microsoft-Antispam-Message-Info:
-	K/mWGkKs5hoepg5hi8o8HtLG/55AV5R3QzhSFRLXktmOHOUpc4zw433fSJiqOU2fPnVMFdPmzo2IrIr1Ffqh70jgmngI/0egiv1U6JNRBNIuokBZEteNLjbLKHw6QDUCMN20vwhBJTXEZ2CG8wj+MlfYtQ8w1+aYQ/ufm8MuOQBYKVrnQGyyk5KIY34H5SB6FYBLpU0JU1vTlArmdHr3EiMjPQIvzp3hx63vNPe8KalZfPYuqc3By+sZOoMM26SQ4bXdFaJMxVVo3Mjbe+rH50NiEZgGfIDDz4btQZXDs46UCaaWt+8acnYhSoTheTSahH2OF6l9tfkuRJ4CotP4/4xpjgBHVMHLTA7Xj+McQi59dhVH84Q55mCy6I/Bfj3L/PUPEWyEtvojwGGQPev6PcxAQrPGze4Yyf/6VAc/VirR0NC0CpcAz4mtCrQoW9K6U2lSdO6P7PW9MTu9gG2E+PQTZ8081sIG6qYn9Iwz5WQUrHaWcaAqjHuN8ETIuetu6GhWLlgEKgH4a2dYz9eQ6ltR54qtSrcuoRY0X37Sn4H4w/3InLSoIdhdDGK5C+O92ZKuuXizALrRr6pvCCbibXq1Jp4GBrocGrW5vW6R2t23Uncb1aUgqvClgGES+sru4KDuuoV7Y34un+BUhsaW5GolDIPwQ47eHAG4+1/MNlZntBNfLZ7ULVlBCdo91OOig1uGITlhSL39E09G0OX+/V8LpI43feQ80m3ayWFIGzOGEyE7IwQB0dDjz9Ecc9+btV2ga0oxUS4+FNKCt5AAGA==
+	hwB37gik1flU+BH9VxkLI/aECNVwIDkJruk1PSw7Qlnlbm2TVGumrnMtIrrOygjGQ36AX3qbgzLkbQ10wTpFgI2TX2FOQ7cMgBZ1EK5DK2OKoF/iGFOtVweNu0rwxOZu31p8HNqJsbt+7+KrH4f0cRpxQDumJWz+MpgvdxcuDpIf0jrLWcAZLFFd58lz+C+XiXbcQr4zryC8Xh2aQkR4Sth/qohLrgxZA4WJU7hvWldTwFmIhlAVOrdD6IW1zpOORXM4XriXO/zOLY8giJg2TGkIZsTIdCyQCMg5OELzvQKis6HE3DylbnIBpD/hqnLn4kqGxNmRfjRwDaVnFZDeM6W5gLruo/FER1qyn1ySYdl6uWr0qHlJXDUPK2nGjfN1T1rmrIjf0xD7h8FC2erTq+mDI65flWN+uFaTkmtf7Bu0IrqnjN66oN2nPjwAM8D1XNKasGMUHIlOqLl6YiA0PDncdQsIS/Ee3T1DSuPkNfem+kc4rOLpIqVtykKMFMHywAgS1eMsuqURIbMB/G/macSqg9Doo6jQB/CX6SryC/TdJWElaxtAw8kj+ESXIB2yRN7OQ14gPIqMyYUkqvJPQH0bnx0Bk2aWrx2En3PBmGb0M37Zmc6RuIzp/TL4ZcJhwBi5aM0qiRkWH0VlSYghZ57cxib2gmz1yZXzpNzdh/uSFQ8r9kw4OFvez0Ni5Nxc8yczYRMG03bUkX32BCgH26eYoWveiertmcASwzGo2LPtieNyN5k+tljJ5QWRcqCph7IqLpmbsK4IJRayeY28bg==
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(36860700016)(61400799027)(56012099003)(16102099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(36860700016)(376014)(82310400026)(7416014)(22082099003)(18002099003)(56012099003)(16102099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	fjRHiE9VPE8ZfDRn9ncu3zOCb3b23I+hLD1kEuaqNLxv2ftYJsAV+21/YkA0tcrNJo2Oq47picRHgEZectkPAa7RhlXum2SCFo7cQuIRXjZ7PosZlWov+GEF7DGsDr6bGZ/2ZrgDTMj9v2wf217+UO+A8Euwytq4Yt8MLcxZbfj8PsV6Ycerf/MbJdD24+7yHevxwgmDYkCb0m7k3FgLAj4VuntY0UT28XbVQpqy2pbcJHLJ4OlBBrZQOyiOR3YpnKbh0E79Ik3y6meEGpUWNCADZ5Jq7lY6gEy+H8xwSMvWSoQFNwe7oLZejwE4hXmgcF/l9Qv3HY4rbwho31d7xvdRcDks7GzddVauRzK2K98AZoiALrt2Gqqi6uyve1YqfrzqjRZYEP8ZwzRbwxe0EBHs5m8EgXcOA6bDnJWUTBINM6WcENT3dDrpPEDOGfXy
+	Fb1G3ivKM7njB0EoQzO8Qz511nV2qNNvKETuo9vsxaCTxjO9Pu6bGItlTAIgi6gceu6p/P/tI0Vx4D6vBedehB443zpSOfoWZ8XDagqfrSinJlLM2xDniylzitHeo7NwODGnULg9vD1H6m2Iqs/7Z0akqTTjGzy+FBaQqK44J8GOuhZh5hR6Y3qVFmaKgBP5vgocokzUXBYY1BlqvYXDRKstE0Byluuc7WVjLKAHtOONmTT53+ZLlkHqo0IJ9paT1xNQGD/ZdmoB5H5ynwB70v4OBGSaCmHj0oNgUuTb06m9Sn37U1HNLsC+GD2d7jzfLIwG9qr67nNVROiNurxPhijETBzGbIR5Ub+BKP2MSXkQ3PZFp/9Cc1nn1O9XXvaBcX3C6hrTAnbAbrg/lsoSyF2uYbkPOfMF9A/UQYfVClJd7/fF94ueBxRYpzSrOtwN
 X-Exchange-RoutingPolicyChecked:
-	iQa4NyWlgpR14+vgD3qZJhMD9wsxBYbU4X6a7yGp5YWw24bLcIAuEaV8+V/TrsGMTrLHF4z3//LkY3Z5efNM8cNk7W3d14eJDi2A9lBvqMAPNIJ7b89R98s4jrLe7XWgpvDI1x6M156QDc1M7IK0clDmoeXY60tty4gm+QlpoyoazMvf9KBmS09PkkwLI98pugvT7zOdOCkK7zm0GMIXtp5b8KcV/kqCL1SY3fQbPr06/oFa2gUHuRXC/ThqugXkdFFgF+nliU8jfUVah77fogYsdrYmrjl2ZiPi4uW2IH88gm5rrC/7NhFx9bue/0X7wCHvhGBy0/o5JX2v0LqVJg==
+	KBHopIbRmM7MqivNEfnME1WovrYPMyxd3KGvLWCPukwu008PraJCVHxJEu2OE+xfkCtwGS9u/oIb3DIyAlaMs1AAuy1sGfvNBwEePVUQCafVUQT0krB8NzfUN0Uu+kJ4OS/TZz7YTo9ivaGy7sGa9Y+om6Uf/e/8Kyh7JC2CITo0p05+tsK62D19GN+yMUKvAUcCzATCq5aFPjOONfLIMi3cUNzj3VggRTXzdmtXMjMoWitUjSpT1pSTkbPIaDrF8ZAJPuO9Bq8M9aYuRKWaNVFMcquL1VegcO4lVOGExD0pyLLTg848jVUjm1ysB8HcWwPtHLesHP1e4AJXulL0/w==
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 10:21:24.8016
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 10:21:25.7129
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae8b5d35-a589-440b-643c-08dea6a23bbe
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1035150a-b5f7-4244-5862-08dea6a23c57
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH1PEPF0000A346.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ5PEPF000001D1.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR19MB8288
-X-Proofpoint-ORIG-GUID: 9VPft-6XRZqG3ofqisR5nbNsHJbGupmw
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDMwMDEwMyBTYWx0ZWRfX989QRDeV0khg
- bcPzBvUyOo3IGxrjQ6A8wJHdRvv3nD7PG7BCEU+xB8sCYV4Yf0UY48jvx/qjhT9WTWH8vHQY+XN
- f5vMtCIIRZBOhnQK2wTqqpOdWxwGkt7upgDKicKr0lqpcJEnlonwM1l9blhQ02ftCyuGSfwzoiK
- c1g3VCD5nShDJFeRTMnDMhIHUp4aeMXVOpyH8AEHK/iOmkG2j4SN0mWCoz5K0A3CAO3lig1/ddA
- fR8ekQoucBZAPiPiNnXJp4pmyvCZf2qfeGR/EzD+P0cDi1g7W1ih0lrdyiX8DU7Cs/1/R43fBEL
- bo29SF/ZDcHkAfxJ0omft1fS9u1Xg+MTfas3yCtLdgEH2w3OLOCJolGjYC5bYldLTWvreRn8iPL
- 04A7ZrHyALwUxrVZetMkj7j75kEWjzH646DPxuct98gIxj8lif5S20s2zjeKdCFalb8anYXw/ge
- KdJFyBZdrMKKwuSWzHQ==
-X-Authority-Analysis: v=2.4 cv=EuTiaycA c=1 sm=1 tr=0 ts=69f32d2e cx=c_pps
- a=Xow/CfGS+sd61STD3JSCXQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR19MB6867
+X-Proofpoint-ORIG-GUID: qBz_QpEWnKmosgCfaiJoHcvKycnUUQDk
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDMwMDEwMyBTYWx0ZWRfXyoYtZli/XfK+
+ Pi6z3A0QpWn3W/qD1HuzPIyHvDJ1MGBorNjGb4lisjd0gFJfth07DiqSZUZ+P+lI6O4zKoTeoM4
+ /lNkdDFzFUwbJaL915C5W/tzFZOtUj2a06lK3jBayFr73UoBfS9/M0KULdk/rFeRvVn/oYsFfTM
+ kRZ1j0CMy7QG+/OFo7qhhZoze5nUcmhZN4NRs1pBmuEMS1ezZ2qu8THgGcJae/vTyVzgM4QdnW7
+ LiXXtFNUt638bigdNg6J9wHxSjW9VRnVZP8x7PvKxJmO20T46KP+2g/6t3nbDYCOtp1zvnQSPzh
+ WiNHFcQFpGZxpA0dc2HmWtO9Tx48iXhBtdEvbDMZHPHZSOKZk1Jm00wPfhq3I+uEr6f/eGKn6uC
+ UR/kfCEKZ/SvZ2+qS0EjT/9TbReB5HE/x83kmSunoIAwE+kS5KI/pQ1kht2CULOAQRnMvPo2IxT
+ hYzb5nrtcgmaj4fb/IQ==
+X-Authority-Analysis: v=2.4 cv=EuTiaycA c=1 sm=1 tr=0 ts=69f32d2a cx=c_pps
+ a=GKgL0VAr1x+Lwu9ZGPB1HQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=A5OVakUREuEA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
  a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=w1d2syhTAAAA:8 a=M2GLoMmDkqpnuoSPwl0A:9
-X-Proofpoint-GUID: 9VPft-6XRZqG3ofqisR5nbNsHJbGupmw
+ a=w1d2syhTAAAA:8 a=uwUvDvqBefo4-HQeGWsA:9 a=O8hF6Hzn-FEA:10
+X-Proofpoint-GUID: qBz_QpEWnKmosgCfaiJoHcvKycnUUQDk
 X-Proofpoint-Spam-Reason: safe
 
-Currently, all SDCA jacks simply report against a mask of 0xFFFF. This
-works fine for system with a single SDCA jack control as the status
-reflects that single control at all times. However, if two SDCA
-jack controls exist in the system, such as a separate representation for
-input and output, then the second control can cancel reports from the
-other since it will only report its relevant bits and zero in all other
-slots. This is exactly what the mask is for.
+It is possible that SDCAs devices might have multiple functions of
+the same type, as the entity names within a function are defined by
+the specification it is very likely such a device will have duplicate
+entities. This causes problems where DAIs and ALSA controls end up
+with clashing names.
 
-Build up a mask using all the possible states for an SCDA jack control
-at registration time and use that mask when reporting a particular jack.
-It is worth noting this still doesn't handle cases such as two headphone
-jacks as that would require separate ALSA jacks to report to.
+This can be handled by adding the function address into the names to
+ensure uniqueness, although, ideally this would have been included from
+the start. User-space already has UCM using the current control names,
+so as a compromise the first function of a given type will use the
+raw entity names, then duplicates will get an added function address.
 
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
 
-No changes since v1.
+Changes since v1:
+ - Correct kernel doc.
 
- include/sound/sdca_jack.h  |  3 ++
- sound/soc/sdca/sdca_jack.c | 75 ++++++++++++++++++++++----------------
- 2 files changed, 47 insertions(+), 31 deletions(-)
+ include/sound/sdca.h             |  4 ++++
+ sound/soc/sdca/sdca_functions.c  | 26 ++++++++++++++++++++++++--
+ sound/soc/sdca/sdca_interrupts.c |  3 +--
+ 3 files changed, 29 insertions(+), 4 deletions(-)
 
-diff --git a/include/sound/sdca_jack.h b/include/sound/sdca_jack.h
-index 3ec22046d3ebc..181541f0f4d8c 100644
---- a/include/sound/sdca_jack.h
-+++ b/include/sound/sdca_jack.h
-@@ -18,10 +18,13 @@ struct snd_soc_jack;
-  * struct jack_state - Jack state structure to keep data between interrupts
-  * @kctl: Pointer to the ALSA control attached to this jack
-  * @jack: Pointer to the ASoC jack struct for this jack
-+ * @mask: Possible reported jack status bits for this jack
+diff --git a/include/sound/sdca.h b/include/sound/sdca.h
+index 67ff3c88705d5..2bdf4e333e044 100644
+--- a/include/sound/sdca.h
++++ b/include/sound/sdca.h
+@@ -26,6 +26,8 @@ struct sdca_dev;
+  * @name: Human-readable string.
+  * @type: Function topology type.
+  * @adr: ACPI address (used for SDCA register access).
++ * @duplicate: Internal flag to indicate if other functions of the same type
++ * exist.
   */
- struct jack_state {
- 	struct snd_kcontrol *kctl;
- 	struct snd_soc_jack *jack;
+ struct sdca_function_desc {
+ 	struct fwnode_handle *node;
+@@ -33,6 +35,8 @@ struct sdca_function_desc {
+ 	const char *name;
+ 	u32 type;
+ 	u8 adr;
 +
-+	unsigned int mask;
++	bool duplicate;
  };
  
- int sdca_jack_alloc_state(struct sdca_interrupt *interrupt);
-diff --git a/sound/soc/sdca/sdca_jack.c b/sound/soc/sdca/sdca_jack.c
-index 49d317d3b8c85..be2506f38c711 100644
---- a/sound/soc/sdca/sdca_jack.c
-+++ b/sound/soc/sdca/sdca_jack.c
-@@ -145,6 +145,32 @@ int sdca_jack_alloc_state(struct sdca_interrupt *interrupt)
- }
- EXPORT_SYMBOL_NS_GPL(sdca_jack_alloc_state, "SND_SOC_SDCA");
- 
-+static int type_get_mask(enum sdca_terminal_type type)
-+{
-+	switch (type) {
-+	case SDCA_TERM_TYPE_LINEIN_STEREO:
-+	case SDCA_TERM_TYPE_LINEIN_FRONT_LR:
-+	case SDCA_TERM_TYPE_LINEIN_CENTER_LFE:
-+	case SDCA_TERM_TYPE_LINEIN_SURROUND_LR:
-+	case SDCA_TERM_TYPE_LINEIN_REAR_LR:
-+		return SND_JACK_LINEIN;
-+	case SDCA_TERM_TYPE_LINEOUT_STEREO:
-+	case SDCA_TERM_TYPE_LINEOUT_FRONT_LR:
-+	case SDCA_TERM_TYPE_LINEOUT_CENTER_LFE:
-+	case SDCA_TERM_TYPE_LINEOUT_SURROUND_LR:
-+	case SDCA_TERM_TYPE_LINEOUT_REAR_LR:
-+		return SND_JACK_LINEOUT;
-+	case SDCA_TERM_TYPE_MIC_JACK:
-+		return SND_JACK_MICROPHONE;
-+	case SDCA_TERM_TYPE_HEADPHONE_JACK:
-+		return SND_JACK_HEADPHONE;
-+	case SDCA_TERM_TYPE_HEADSET_JACK:
-+		return SND_JACK_HEADSET;
-+	default:
-+		return 0;
-+	}
-+}
-+
  /**
-  * sdca_jack_set_jack - attach an ASoC jack to SDCA
-  * @info: SDCA interrupt information.
-@@ -154,7 +180,8 @@ EXPORT_SYMBOL_NS_GPL(sdca_jack_alloc_state, "SND_SOC_SDCA");
-  */
- int sdca_jack_set_jack(struct sdca_interrupt_info *info, struct snd_soc_jack *jack)
- {
--	int i, ret;
-+	int i, j;
-+	int ret;
+diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
+index 02abb7315b727..77940bd6b33c9 100644
+--- a/sound/soc/sdca/sdca_functions.c
++++ b/sound/soc/sdca/sdca_functions.c
+@@ -98,7 +98,7 @@ static int find_sdca_function(struct acpi_device *adev, void *data)
+ 	u32 function_type;
+ 	int function_index;
+ 	u64 addr;
+-	int ret;
++	int i, ret;
  
- 	guard(mutex)(&info->irq_lock);
+ 	if (sdca_data->num_functions >= SDCA_MAX_FUNCTION_COUNT) {
+ 		dev_err(dev, "maximum number of functions exceeded\n");
+@@ -159,6 +159,14 @@ static int find_sdca_function(struct acpi_device *adev, void *data)
  
-@@ -162,6 +189,7 @@ int sdca_jack_set_jack(struct sdca_interrupt_info *info, struct snd_soc_jack *ja
- 		struct sdca_interrupt *interrupt = &info->irqs[i];
- 		struct sdca_control *control = interrupt->control;
- 		struct sdca_entity *entity = interrupt->entity;
-+		struct sdca_control_range *range;
- 		struct jack_state *jack_state;
- 
- 		if (!interrupt->irq)
-@@ -169,9 +197,23 @@ int sdca_jack_set_jack(struct sdca_interrupt_info *info, struct snd_soc_jack *ja
- 
- 		switch (SDCA_CTL_TYPE(entity->type, control->sel)) {
- 		case SDCA_CTL_TYPE_S(GE, DETECTED_MODE):
-+			range = sdca_selector_find_range(interrupt->dev, entity,
-+							 SDCA_CTL_GE_SELECTED_MODE,
-+							 SDCA_SELECTED_MODE_NCOLS, 0);
-+			if (!range)
-+				return -EINVAL;
+ 	/* store results */
+ 	function_index = sdca_data->num_functions;
 +
- 			jack_state = interrupt->priv;
- 			jack_state->jack = jack;
- 
-+			for (j = 0; j < range->rows; j++) {
-+				enum sdca_terminal_type type;
++	for (i = 0; i < function_index; i++) {
++		if (sdca_data->function[i].type == function_type) {
++			sdca_data->function[function_index].duplicate = true;
++			break;
++		}
++	}
 +
-+				type = sdca_range(range, SDCA_SELECTED_MODE_TERM_TYPE, j);
-+
-+				jack_state->mask |= type_get_mask(type);
-+			}
-+
- 			/* Report initial state in case IRQ was already handled */
- 			ret = sdca_jack_report(interrupt);
- 			if (ret)
-@@ -191,7 +233,6 @@ int sdca_jack_report(struct sdca_interrupt *interrupt)
- 	struct jack_state *jack_state = interrupt->priv;
- 	struct sdca_control_range *range;
- 	enum sdca_terminal_type type;
--	unsigned int report = 0;
- 	unsigned int reg, val;
- 	int ret;
- 
-@@ -213,35 +254,7 @@ int sdca_jack_report(struct sdca_interrupt *interrupt)
- 	type = sdca_range_search(range, SDCA_SELECTED_MODE_INDEX,
- 				 val, SDCA_SELECTED_MODE_TERM_TYPE);
- 
--	switch (type) {
--	case SDCA_TERM_TYPE_LINEIN_STEREO:
--	case SDCA_TERM_TYPE_LINEIN_FRONT_LR:
--	case SDCA_TERM_TYPE_LINEIN_CENTER_LFE:
--	case SDCA_TERM_TYPE_LINEIN_SURROUND_LR:
--	case SDCA_TERM_TYPE_LINEIN_REAR_LR:
--		report = SND_JACK_LINEIN;
--		break;
--	case SDCA_TERM_TYPE_LINEOUT_STEREO:
--	case SDCA_TERM_TYPE_LINEOUT_FRONT_LR:
--	case SDCA_TERM_TYPE_LINEOUT_CENTER_LFE:
--	case SDCA_TERM_TYPE_LINEOUT_SURROUND_LR:
--	case SDCA_TERM_TYPE_LINEOUT_REAR_LR:
--		report = SND_JACK_LINEOUT;
--		break;
--	case SDCA_TERM_TYPE_MIC_JACK:
--		report = SND_JACK_MICROPHONE;
--		break;
--	case SDCA_TERM_TYPE_HEADPHONE_JACK:
--		report = SND_JACK_HEADPHONE;
--		break;
--	case SDCA_TERM_TYPE_HEADSET_JACK:
--		report = SND_JACK_HEADSET;
--		break;
--	default:
--		break;
--	}
--
--	snd_soc_jack_report(jack_state->jack, report, 0xFFFF);
-+	snd_soc_jack_report(jack_state->jack, type_get_mask(type), jack_state->mask);
- 
- 	return 0;
+ 	sdca_data->function[function_index].adr = addr;
+ 	sdca_data->function[function_index].type = function_type;
+ 	sdca_data->function[function_index].name = function_name;
+@@ -1466,6 +1474,7 @@ static int find_sdca_entity_xu(struct device *dev,
  }
+ 
+ static int find_sdca_entity(struct device *dev, struct sdw_slave *sdw,
++			    struct sdca_function_data *function,
+ 			    struct fwnode_handle *function_node,
+ 			    struct fwnode_handle *entity_node,
+ 			    struct sdca_entity *entity)
+@@ -1481,6 +1490,13 @@ static int find_sdca_entity(struct device *dev, struct sdw_slave *sdw,
+ 		return ret;
+ 	}
+ 
++	if (function->desc->duplicate) {
++		entity->label = devm_kasprintf(dev, GFP_KERNEL, "%d %s",
++					       function->desc->adr, entity->label);
++		if (!entity->label)
++			return -ENOMEM;
++	}
++
+ 	ret = fwnode_property_read_u32(entity_node, "mipi-sdca-entity-type", &tmp);
+ 	if (ret) {
+ 		dev_err(dev, "%s: type missing: %d\n", entity->label, ret);
+@@ -1578,7 +1594,7 @@ static int find_sdca_entities(struct device *dev, struct sdw_slave *sdw,
+ 			return -EINVAL;
+ 		}
+ 
+-		ret = find_sdca_entity(dev, sdw, function_node,
++		ret = find_sdca_entity(dev, sdw, function, function_node,
+ 				       entity_node, &entities[i]);
+ 		fwnode_handle_put(entity_node);
+ 		if (ret)
+@@ -1605,8 +1621,14 @@ static struct sdca_entity *find_sdca_entity_by_label(struct sdca_function_data *
+ 						     const char *entity_label)
+ {
+ 	struct sdca_entity *entity = NULL;
++	char tmp[64];
+ 	int i;
+ 
++	if (function->desc->duplicate) {
++		snprintf(tmp, sizeof(tmp), "%d %s", function->desc->adr, entity_label);
++		entity_label = tmp;
++	}
++
+ 	for (i = 0; i < function->num_entities; i++) {
+ 		entity = &function->entities[i];
+ 
+diff --git a/sound/soc/sdca/sdca_interrupts.c b/sound/soc/sdca/sdca_interrupts.c
+index 6e10b4e660d96..4539a52a8e32b 100644
+--- a/sound/soc/sdca/sdca_interrupts.c
++++ b/sound/soc/sdca/sdca_interrupts.c
+@@ -375,8 +375,7 @@ int sdca_irq_data_populate(struct device *dev, struct regmap *regmap,
+ 	if (!dev)
+ 		return -ENODEV;
+ 
+-	name = kasprintf(GFP_KERNEL, "%s %s %s", function->desc->name,
+-			 entity->label, control->label);
++	name = kasprintf(GFP_KERNEL, "%s %s", entity->label, control->label);
+ 	if (!name)
+ 		return -ENOMEM;
+ 
 -- 
 2.47.3
 
