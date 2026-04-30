@@ -1,259 +1,207 @@
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67093FADEB;
-	Thu, 30 Apr 2026 07:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22746351C14
+	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 07:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777535266; cv=none; b=dbvn8kMCIfGy6HHBlXzGacAq0n7106IVNTLAWk4ZsoYQSqX+fQNv/vZHLhYNZCNYn3uHiKs5YaCVepaBUb2wDCeGIH0qxXUuNU7X27TOT6P/HnwpowUONEuZDIQM9eONtiUrJHjFWLTKimODVR9APAhTYMsrYJQosKunM31EY5I=
+	t=1777535977; cv=none; b=SZOH7PyzPUF4ThZt/1XtE3rvaa16hjbCBQj4cNauuzZh5mdUUxLMMoGn8ID3xnaomDubqWr9L+g5Zs52aftxXwzWXsTvW/QIVdqv4eJ7FmShHcTRkuhvXn3O5yO1jZsa5SNO3WqEY3XXX/Fd3OBuhCcD8ioe5W/jaWXL1lSfEJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777535266; c=relaxed/simple;
-	bh=+AOehAeFMZ/iCsOdMkiivxTgmBjlqo18Jbb1Af4YUAU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gYA4/9nuvM11+vN1J78INByNKriZPte/P5hyA+gUhw0K/K/twFs+LOIedbUT6JvJVX8quMlEzAr9Ph1WcVryx97C8xcZ+eaLX47uUR4E3WTQ2zhKjncSPHghVUnQBpCqO+eaurXgeXrlMeX04gTXdmSC+IdPWE43qIL676xfuC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=Pf8dxb9r; arc=none smtp.client-ip=54.207.19.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1777535977; c=relaxed/simple;
+	bh=Qb7e/ZezYp3QGqXovcYuPUubAztS9Ep20FKZdAc0amo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=He09XD6rNzOUqqknhJzB5kFBsZ/T9G/qCzsz+kQE18shAsvzGnCkrQiBpv9njoCxz1hjLye7I9o9RhGFWD9tOfWzBqEeYyH49o4+eXs7797DNr00gVcwwf5DEX7QKYS2mKZumJLJ9AAzBs9/Kaze0P//njO9IFYvwuZo3ckedrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=t3j9qnhb; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="Pf8dxb9r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1777535184;
-	bh=ZyK4+tYKJ8Cm73O23RbpzHZP3WQI9PDB7siKkct6zPk=;
-	h=From:Date:Subject:MIME-Version:Message-Id:To;
-	b=Pf8dxb9rgIzIVrsJyrVQ8bmiIKgj6awoTl0TkghYToAKew/60RMgivO+dU1yvifAP
-	 aSIabGr+aQUIB/sYk8+M8NjA5Dc1ZRGeBLX9Ip4yNnrgo+SIi2lh/HgmFpYmJw143N
-	 XeZu32PeRwNDobz88eDpCLf6xcrOG8sHmCpXDbDQ=
-X-QQ-mid: zesmtpsz7t1777535177t10e7e85f
-X-QQ-Originating-IP: VDWhBp4dhMLxPMNny7x3zYhYOI7Bh+2JVpdq1duQmuU=
-Received: from = ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 30 Apr 2026 15:46:14 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 9984203707270973070
-EX-QQ-RecipientCnt: 11
-From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Date: Thu, 30 Apr 2026 15:46:02 +0800
-Subject: [PATCH 2/3] ASoC: soc-pcm: constrain hw_params when DAIs share the
- same BCLK
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="t3j9qnhb"
+Message-ID: <892253fc-92da-4c60-af3a-5f7f331bec61@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1777535962;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D1DmkNUq37MZ0rGy13xiiupoE0HRwTKd9vqYo1pyCto=;
+	b=t3j9qnhbk4nH5UjIg2UK2GpfYa9UPy68t4PAfCSUzOGsc/2EwQl6Q62/qAJM9U2rCYTJU1
+	Jr9zBIuKvrraUna/7IKeeBcv95ndpbkS5M8jNfaMmkn/+gpLN37KB0dpnfReZiJXVefPPA
+	lvH/xBjAlEo0q64r8i5nBOgp2lXk8Aw=
+Date: Thu, 30 Apr 2026 09:59:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [PATCH v11 2/4] ASoC: tac5xx2-sdw: add soundwire based codec
+ driver
+To: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "broonie@kernel.org" <broonie@kernel.org>,
+ "ckeepax@opensource.cirrus.com" <ckeepax@opensource.cirrus.com>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>, "perex@perex.cz"
+ <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+ "cezary.rojewski@intel.com" <cezary.rojewski@intel.com>,
+ "peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
+ "yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>,
+ "ranjani.sridharan@linux.intel.com" <ranjani.sridharan@linux.intel.com>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "kai.vehmanen@linux.intel.com" <kai.vehmanen@linux.intel.com>,
+ "Xu, Baojun" <baojun.xu@ti.com>, "Ding, Shenghao" <shenghao-ding@ti.com>,
+ "Kasargod, Sandeep" <sandeepk@ti.com>,
+ "Hampiholi, Vallabha" <v-hampiholi@ti.com>
+References: <20260427082401.2118-1-niranjan.hy@ti.com>
+ <20260427082401.2118-2-niranjan.hy@ti.com>
+ <7137df6a-5e49-4516-a356-3414f7d14c33@linux.dev>
+ <d624812fe0f54563a2e628dbf1a428e3@ti.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <d624812fe0f54563a2e628dbf1a428e3@ti.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260430-i2s-same-blk-v1-2-3a1f04eb6159@linux.spacemit.com>
-References: <20260430-i2s-same-blk-v1-0-3a1f04eb6159@linux.spacemit.com>
-In-Reply-To: <20260430-i2s-same-blk-v1-0-3a1f04eb6159@linux.spacemit.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Yixun Lan <dlan@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
- jinmei.wei@spacemit.com, Troy Mitchell <troy.mitchell@linux.spacemit.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777535165; l=5604;
- i=troy.mitchell@linux.spacemit.com; s=20250710; h=from:subject:message-id;
- bh=+AOehAeFMZ/iCsOdMkiivxTgmBjlqo18Jbb1Af4YUAU=;
- b=3hdSSwzTHR6ZIkEfyQJbJauaEO24gGqui7DXH+gacJWBaWg5UEX18zzrZoeASmhtzY8mdLqpg
- A6HvsvCAkyMASQicdxasGcPjPXV80+2FgXk3bRql5YoSJLRFB3RFKsi
-X-Developer-Key: i=troy.mitchell@linux.spacemit.com; a=ed25519;
- pk=lQa7BzLrq8DfZnChqmwJ5qQk8fP2USmY/4xZ2/MSsXc=
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: NaSDI5eCksKEvs3Iro5iw2MtL8nKv6pSfQaURi6RicN/Y6L2qlrsfBFC
-	PW2wgDBJx6k+iroKFfFwN0A7NCdaKNhsUwQLXPzKkc9q3DscXRZRxRX/qsHT7zSseLLp596
-	LAg004rFMWaX7OFuEkIa2LoYnwOhxNisGFBlzecus0/dL73zUtsp7nPrWlbiIJq2fgRuifR
-	fJ/8mJH+q/ODWRc3wV3W/JkYI3+P4PpunbR9p5E+n02Xf9/nEkgt8m+VI3IX6djZiSGSAPu
-	bmr4se2xlIbHDF2Aqqz7iVASE2NaaKWLEWavy6uU3vr4wzxWPXdiVVxqMjTSYh9fE3MxkSN
-	Im/DXpu7dVBw3XPcLzpIjyls33pB8GOObqYuT1WbZmVXAz2Lg4kF5njHPv19/FKIAkcO4NB
-	2r+TUIrpZ7zxf2ozzu5n5ZuwqXwcMH3/amLOhp87dZV4rLX5BNt/UCBxrL6GnOZijtYboLc
-	olCP9puRxmI+xQ6dVK+Qge3ZJ5tqUuotFx92UL8Z/cKFklyKMBiYB/tqLuEcCZeERs6nlrs
-	c5qgUBzKH+05RoR8dkpQE6AJO+xtkVIY8L1wV4d9rEPIVZeRSJVQR9p49m4xKtt8XITFV0v
-	IvPK+XxhOHDS8esEVAkqfyVBQsRw7a5qfdXLcccOk0Mhlh5L4rDS/NY0fHEdexy3+htDN0j
-	idEKVFSfcEJSyhSawGvAKP1zWOdCKTVwzvlSjfU8czpB0s5bkX70RjxD72uQFOWeKrdi5MW
-	YTsMhLxOJ5+A/I3ukOj8IScJ3cu5RRgeY0RkDbrQYOmti7K2aYhXoo9jhEr9LfLRrYUa6CO
-	547YIy24V2x1JUb0TTp/OimEa/L3TJSSp/02S0f1l383uLyrxrU+2bY+9HGLqhaQc2FTpwe
-	TGrdPUuux4vJQSlG1PVxjcoCAU8euTwxUMhHHuOrT3I9wGEx2aSu+S0HDD7/QuJHUQiSzGb
-	hZMPDxW2P++jGjnrp5+K29GYTSafrkDyikoSff7xjlrJS5SVAptMvi/4ToR/X3g6UQ20Dy2
-	2N55qv9WcSqGobVVcVpnI/OZvNLwwootlKfGeuyj0c9YSSLQ3HbJjcD9Gz9/poEz0BmUSp+
-	4/gMHPsCdtwPqmlkrYh5ZS25lyUm9aK/yKEkaX3NTT6seroUF2oeLJNAcmXfQCvJqIGldSc
-	Y8sVLGEKSF0TMQQ=
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-X-QQ-RECHKSPAM: 0
+X-Migadu-Flow: FLOW_OUT
 
-When multiple CPU DAIs on the same sound card share the same physical
-BCLK, add a hw_rule during PCM open that constrains the sample rate so
-the resulting BCLK rate stays consistent across all sharing DAIs.
+On 4/29/26 06:06, Holalu Yogendra, Niranjan wrote:
+>> On 01:28-20260429, Pierre-Louis Bossart wrote:
+>> Subject: Re: [PATCH v11 2/4] ASoC: tac5xx2-sdw: add soundwire based codec driver
+> 
+>>> +struct tac5xx2_prv {
+>>> +	struct snd_soc_component *component;
+>>> +	struct sdw_slave *sdw_peripheral;
+>>> +	struct sdca_function_data *sa_func_data;
+>>> +	struct sdca_function_data *sm_func_data;
+>>> +	struct sdca_function_data *uaj_func_data;
+>>> +	struct sdca_function_data *hid_func_data;
+>>> +	enum sdw_slave_status status;
+>>> +	/* serialize potential concurrent uaj detection in .hw_params
+>>> +	 * during playback session and .interrupt_callback.
+>>> +	 */
+>>> +	struct mutex uaj_lock;
+>>
+>> is this uaj_lock really needed, if you look below at hw_params there's nothing
+>> that looks even remotely tied to jack detection...
+> 
+>  I think comment needs update to remove the hw_params related description here. ...
 
-The hw_rule is registered unconditionally for every DAI that has a bclk
-clock pointer set. The actual peer scanning happens inside the rule
-callback at hw_refine time: it walks all DAIs on the card, looking for
-an active peer that shares the same physical BCLK (via clk_is_match())
-and has already completed hw_params (checked via dai->symmetric_rate
-!= 0). This ensures the constraint uses the real BCLK rate established
-by the peer's clk_set_rate() in hw_params, not a stale boot-time
-default.
+ok, but still see below...
 
-The first DAI to complete hw_params is unconstrained (no active peer
-yet); subsequent DAIs are constrained to match.
+>>> +static int tac_sdw_hw_params(struct snd_pcm_substream *substream,
+>>> +			     struct snd_pcm_hw_params *params,
+>>> +			     struct snd_soc_dai *dai)
+>>> +{
+>>> +	struct snd_soc_component *component = dai->component;
+>>> +	struct tac5xx2_prv *tac_dev =
+>>> +	return ret;
+>>
+>> so as I said above there's nothing here that might conflict with the interrupt
+>> callback?
+>> What am I missing?
+> 
+> ...  uaj_lock is still needed to handle potential race condition  in case .set_jack is called with jack as NULL
+> (potentially to disable the jack functionality ) when the interrupt is being handled.
+> This was suggested in earlier review comment and it made sense to me as well 
 
-The rule supports two modes:
-- If the DAI has an explicit bclk_ratio set (e.g. for TDM where
-  BCLK = rate * slots * slot_width), the rate is constrained to
-  active_bclk_rate / bclk_ratio.
-- Otherwise, the default formula BCLK = rate * channels * sample_bits
-  is used to derive the valid rate range.
+This isn't the first jack codec we've reviewed, and so far none of them have such a lock.
+There is in some cases a lock to make sure the calibration is only done once, but that's different to your explanation.
+So either everyone was wrong or this is unnecessary. Please double-check.
 
-The constraint is purely additive: DAIs that do not set a bclk clock
-pointer are completely unaffected.
+And in addition this driver is missing the pm_resume_and_get() that's present in most implementations to avoid races between set_jack and resume.
 
-Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
----
- sound/soc/soc-pcm.c | 113 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 113 insertions(+)
+see e.g. commit e02b99e "ASoC: codecs: rt700/rt711/rt711-sdca: resume bus/codec in .set_jack_detect"
 
-diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
-index 9b12eedb77c3..31f48795a653 100644
---- a/sound/soc/soc-pcm.c
-+++ b/sound/soc/soc-pcm.c
-@@ -12,6 +12,7 @@
- 
- #include <linux/kernel.h>
- #include <linux/init.h>
-+#include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/slab.h>
-@@ -467,6 +468,111 @@ static int soc_pcm_apply_symmetry(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
-+/*
-+ * Shared BCLK constraint: when multiple DAIs share the same physical BCLK,
-+ * constrain hw_params so that the BCLK rate (rate * channels * sample_bits,
-+ * or rate * slots * slot_width for TDM) remains consistent.
-+ */
-+
-+static int soc_pcm_shared_bclk_rule_rate(struct snd_pcm_hw_params *params,
-+					 struct snd_pcm_hw_rule *rule)
-+{
-+	struct snd_soc_dai *dai = rule->private;
-+	struct snd_soc_card *card = dai->component->card;
-+	struct snd_soc_pcm_runtime *rtd;
-+	struct snd_soc_dai *other_dai;
-+	unsigned long active_bclk_rate = 0;
-+	struct snd_interval *rate = hw_param_interval(params, SNDRV_PCM_HW_PARAM_RATE);
-+	struct snd_interval constraint = { .empty = 1 };
-+	unsigned int target_rate;
-+	int i;
-+
-+	/* Scan all DAIs on the card for an active peer sharing the same BCLK */
-+	for_each_card_rtds(card, rtd) {
-+		for_each_rtd_cpu_dais(rtd, i, other_dai) {
-+			if (other_dai == dai)
-+				continue;
-+			if (!other_dai->bclk)
-+				continue;
-+			if (!snd_soc_dai_active(other_dai))
-+				continue;
-+			/*
-+			 * Skip peers whose hw_params hasn't run yet.
-+			 * symmetric_rate is set by soc_pcm_set_dai_params()
-+			 * after snd_soc_dai_hw_params(), so non-zero means
-+			 * the DAI's clk_set_rate() has already executed.
-+			 */
-+			if (!other_dai->symmetric_rate)
-+				continue;
-+			if (!clk_is_match(dai->bclk, other_dai->bclk))
-+				continue;
-+
-+			active_bclk_rate = clk_get_rate(other_dai->bclk);
-+			if (active_bclk_rate)
-+				goto found;
-+		}
-+	}
-+
-+	return 0;
-+
-+found:
-+	if (dai->bclk_ratio) {
-+		/*
-+		 * Driver has set an explicit BCLK ratio (e.g. for TDM where
-+		 * BCLK = rate * slots * slot_width). The only valid rate is
-+		 * active_bclk_rate / bclk_ratio.
-+		 */
-+		target_rate = active_bclk_rate / dai->bclk_ratio;
-+
-+		constraint.min = target_rate;
-+		constraint.max = target_rate;
-+	} else {
-+		struct snd_interval *channels = hw_param_interval(params,
-+						SNDRV_PCM_HW_PARAM_CHANNELS);
-+		struct snd_interval *sample_bits = hw_param_interval(params,
-+						SNDRV_PCM_HW_PARAM_SAMPLE_BITS);
-+
-+		/*
-+		 * Default: BCLK = rate * channels * sample_bits.
-+		 * Calculate the range of valid rates given the current
-+		 * channel and sample_bits intervals.
-+		 */
-+		if (!channels->min || !sample_bits->min)
-+			return 0;
-+
-+		constraint.max = active_bclk_rate /
-+				 ((unsigned long)channels->min * sample_bits->min);
-+
-+		if (channels->max && sample_bits->max)
-+			constraint.min = active_bclk_rate /
-+					 ((unsigned long)channels->max * sample_bits->max);
-+		else
-+			constraint.min = constraint.max;
-+	}
-+
-+	constraint.integer = 1;
-+	constraint.empty = 0;
-+
-+	return snd_interval_refine(rate, &constraint);
-+}
-+
-+static int soc_pcm_apply_shared_bclk(struct snd_pcm_substream *substream,
-+				     struct snd_soc_dai *dai)
-+{
-+	if (!dai->bclk)
-+		return 0;
-+
-+	dev_dbg(dai->dev,
-+		"ASoC: registering shared BCLK rate constraint\n");
-+
-+	return snd_pcm_hw_rule_add(substream->runtime, 0,
-+		SNDRV_PCM_HW_PARAM_RATE,
-+		soc_pcm_shared_bclk_rule_rate, dai,
-+		SNDRV_PCM_HW_PARAM_CHANNELS,
-+		SNDRV_PCM_HW_PARAM_SAMPLE_BITS,
-+		-1);
-+}
-+
- static int soc_pcm_params_symmetry(struct snd_pcm_substream *substream,
- 				struct snd_pcm_hw_params *params)
- {
-@@ -903,6 +1009,13 @@ static int __soc_pcm_open(struct snd_soc_pcm_runtime *rtd,
- 		if (ret != 0)
- 			goto err;
- 	}
-+
-+	/* Shared BCLK constraint across DAIs on the same card */
-+	for_each_rtd_cpu_dais(rtd, i, dai) {
-+		ret = soc_pcm_apply_shared_bclk(substream, dai);
-+		if (ret != 0)
-+			goto err;
-+	}
- dynamic:
- 	snd_soc_runtime_activate(rtd, substream->stream);
- 	ret = 0;
+>>> +static struct pci_dev *tac_get_pci_dev(struct sdw_slave *peripheral)
+>>> +{
+>>> +	struct device *dev = &peripheral->dev;
+>>> +
+>>> +	for (; dev; dev = dev->parent) {
+>>> +		if (dev_is_pci(dev))
+>>> +			return to_pci_dev(dev);
+>>
+>> I find this surprising, what is the purpose of going up in the device hierarchy to
+>> find a PCI device?
+>> Why would this driver care?
+> 
+> For Speaker protection modules running on the firmware based devices, we need to have 
+> different firmware for different projects as there are firmware differences.
+> We need a way to uniquely identify firmware for each of these projects.
+> Currently this is done through the  "subsystem id" which is part of the pci device.
+> So we find the pci bus and then identify the subsystem id.
+> 
+> I see similar changes in class driver as well sound/soc/sdca/sdca_fdl.c.
 
--- 
-2.54.0
+ok, now I get it.
+
+>>> +static int tac_update_status(struct sdw_slave *slave,
+>>> +			     enum sdw_slave_status status)
+>>> +{
+>>> +	int ret;
+>>> +	bool first = false;
+>>> +	struct tac5xx2_prv *tac_dev = dev_get_drvdata(&slave->dev);
+>>> +	struct device *dev = &slave->dev;
+>>> +
+>>> +	tac_dev->status = status;
+>>> +	if (status == SDW_SLAVE_UNATTACHED) {
+>>> +		tac_dev->hw_init = false;
+>>> +		tac_dev->fw_dl_success = false;
+>>> +	}
+>>> +
+>>> +	if (tac_dev->hw_init || tac_dev->status != SDW_SLAVE_ATTACHED) {
+>>> +		dev_dbg(dev, "%s: early return, hw_init=%d, status=%d",
+>>> +			__func__, tac_dev->hw_init, tac_dev->status);
+>>> +		return 0;
+>>> +	}
+>>> +
+>>> +	if (!tac_dev->first_hw_init) {
+>>> +		pm_runtime_set_autosuspend_delay(tac_dev->dev, 3000);
+>>> +		pm_runtime_use_autosuspend(tac_dev->dev);
+>>> +		pm_runtime_mark_last_busy(tac_dev->dev);
+>>> +		pm_runtime_set_active(tac_dev->dev);
+>>> +		pm_runtime_enable(tac_dev->dev);
+>>
+>> I suggest you look at other codec drivers, all the pm_runtime configuration is
+>> done in the .probe callback and only set_active done upon a change in status.
+> 
+> I thought I will keep it here so that all pm_runtime_* initializations are in one place.
+
+well that's well intended but not so good.
+
+You want to have a symmetric handling of pm_runtime_enable() and pm_runtime_disable() in .probe and .remove driver callbacks.
+With your implementation the pm_runtime_enable() is only done if/when the device attaches.
+
+And then you do want to take a look at other drivers where there's this big fat comment..
+
+	/* set autosuspend parameters */
+	pm_runtime_set_autosuspend_delay(dev, 3000);
+	pm_runtime_use_autosuspend(dev);
+
+	/* make sure the device does not suspend immediately */
+	pm_runtime_mark_last_busy(dev);
+
+	pm_runtime_enable(dev);
+
+	/* important note: the device is NOT tagged as 'active' and will remain
+	 * 'suspended' until the hardware is enumerated/initialized. This is required
+	 * to make sure the ASoC framework use of pm_runtime_get_sync() does not silently
+	 * fail with -EACCESS because of race conditions between card creation and enumeration
+	 */
+
+> 
+>>> +
+>>> +static int tac5xx2_sdw_clk_stop(struct sdw_slave *peripheral,
+>>> +				enum sdw_clk_stop_mode mode,
+>>> +				enum sdw_clk_stop_type type)
+>>> +{
+>>> +	struct tac5xx2_prv *tac_dev = dev_get_drvdata(&peripheral->dev);
+>>> +
+>>> +	dev_dbg(tac_dev->dev, "%s: mode:%d type:%d", __func__, mode,
+>> type);
+>>> +	return 0;
+>>
+>> this looks rather useless, no?
+> 
+> Yes, currently only required in case of debugging. 
+
+the clock stop is logged at the host level, this seems useless to me, even for debugging.
 
