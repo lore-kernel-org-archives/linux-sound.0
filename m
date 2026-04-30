@@ -1,114 +1,75 @@
-Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
+Received: from mx.brightberry.eu (mx.brightberry.eu [185.229.55.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CDF3659FB
-	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 17:43:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C27274B3B
+	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 19:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.229.55.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777570999; cv=none; b=u7+KuWqaTlwu4hX/6o5uUZ0wjQgt78g6yGqWh5+TURjQvtYv4Wcnn1rEPXGJK4WtoPjGRBvKJaCUKSbIMo9BOV55m127l+Y5iRffvNIsVLVDtwrzZ78j8/IG4jzwdZtpvWLQbnG2pitxSA7ODm8giCnHMuRVnkyhODn46ClkNAw=
+	t=1777576889; cv=none; b=Myl0dslSxyhHxJqyaRA2v3VKb2puwyJY7axhZpi9mFbQf/fSbKc2r/Q6kmx8qorr5YROaDqTVVVYuZsDRCwPm4PsmOAU4QWjFT5kB+qWzAaImF/uvuxEnqqaDyz9X21NfS94OpqlO8Y9MSYfGr3xEBokBut193Qn4olW0yT4Kik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777570999; c=relaxed/simple;
-	bh=GHRSqlUETSp8BScDc8UzS8c4UvPdttzofOIr1ef2KhA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c6eWBZO2VlU+mZQqMFbEAJthXC+1C4SAXnwDqFaTQlZvabHirU8NsiE7VukwV+mnYZjXjMFIsHJbZUiH52dsYc6Dr40T1PWqVxUK1Iw5I2F+Q7Nu+hTWtSjIpGNgLRMs8dx+zM7HtODZJMPUhthl96N+KkjyfMfv7oFioJYvpmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=QOuqoknL; arc=none smtp.client-ip=35.89.44.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="QOuqoknL"
-Received: from eig-obgw-5001b.ext.cloudfilter.net ([10.0.29.181])
-	by cmsmtp with ESMTPS
-	id IQZawysgTshqQIVPqwmwsb; Thu, 30 Apr 2026 17:43:11 +0000
-Received: from gator4166.hostgator.com ([108.167.190.91])
-	by cmsmtp with ESMTPS
-	id IVPqwm610I7vWIVPqwBQFj; Thu, 30 Apr 2026 17:43:10 +0000
-X-Authority-Analysis: v=2.4 cv=T6WMT+KQ c=1 sm=1 tr=0 ts=69f394ae
- a=vY9Mjuda9oMEc2E4Cx1x2A==:117 a=vY9Mjuda9oMEc2E4Cx1x2A==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=7T7KSl7uo7wA:10 a=c92rfblmAAAA:8
- a=Gzb0PC3O3UAx9o55Kw4A:9 a=QEXdDO2ut3YA:10 a=GvGzcOZaWPEFPQC_NcjD:22
- a=2aFnImwKRvkU0tJ3nQRT:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=j88sOiZjSmpXroFOaEZFgoC5LI9ePIXWW+V4QuPo+D8=; b=QOuqoknLF5DJbJxNPfaGled5ya
-	uzes+Xp5COQ+L0AwtciFIZG9VyxWrvhQaBh4nQlsaEpUX9UC/wnbaS8LFQxRGJ4arV3uG+4/eW9iY
-	/rcnI25JSEVkui8Z4m/Uy3/yXEdCVIshEDD4fv4As8O3CZPqoWm/ydMQZLePGrj9QfFV3U6tqw/og
-	bxWBCk+ptfBBb3jUYuJ85eKMQjBQwwoDQQ6DaYubcN/mp6dYuH9UVtXrSe7r5olLO4ubpDXjfCu6R
-	svA2urybXAQdn+8q0C35cL+ONjsfJMne/wTdbWmbjfmznBwy54o+26v5uAFH58OZ5fgvpGjAult4P
-	Mk+/aW5A==;
-Received: from [177.238.19.10] (port=58586 helo=[192.168.0.37])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.99.1)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1wIVPp-00000001Ga8-1QtV;
-	Thu, 30 Apr 2026 12:43:09 -0500
-Message-ID: <d71b0a25-f65c-4781-8806-b4dc9cc9c929@embeddedor.com>
-Date: Thu, 30 Apr 2026 11:43:02 -0600
+	s=arc-20240116; t=1777576889; c=relaxed/simple;
+	bh=cle3FIpVj8rMuxtFGWmJq6+qk/rpfD+/VkzLUIDbXRo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=hcR4nUqTD3Jja6+esqQtdCexkFSAerVhwx3rP/4DAsohheBsjFTxAVnxsw026aSaGmJopGSdT2wN2O2g9IosBpqGMZadv+ktU551RwTHRG2geocJ+Su4SiABCvc33jmjaCSh8Sy0WzjQpmS41DXOWbL1ouNqIxguKkg/VSdeMWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vanraaij.eu; spf=pass smtp.mailfrom=vanraaij.eu; arc=none smtp.client-ip=185.229.55.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vanraaij.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vanraaij.eu
+Received: from mx.brightberry.eu (localhost [127.0.0.1])
+	by mx.brightberry.eu (Proxmox) with ESMTP id AAD803855;
+	Thu, 30 Apr 2026 21:14:15 +0200 (CEST)
+Received: from yoga9-patch.eml (YST00841.fritz.box [192.168.178.64])
+	by mx.brightberry.eu (Proxmox) with ESMTP id 8CF252ED4;
+	Thu, 30 Apr 2026 21:14:15 +0200 (CEST)
+From: =?UTF-8?q?R=C3=A1mon_van_Raaij?= <ramon@vanraaij.eu>
+To: linux-sound@vger.kernel.org
+Cc: alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH] ALSA: hda/realtek: Add codec SSID quirk for Lenovo Yoga Pro 9 16IMH9
+Date: Thu, 30 Apr 2026 21:12:24 +0200
+Message-Id: <20260430191224.patch1-ramon@vanraaij.eu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][next] ASoC: soc-topology: Avoid
- -Wflex-array-member-not-at-end warning
-To: Mark Brown <broonie@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <afKSFY3qrlSOJ0EJ@kspp> <afLcQBJ4POnSacjV@sirena.co.uk>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <afLcQBJ4POnSacjV@sirena.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 177.238.19.10
-X-Source-L: No
-X-Exim-ID: 1wIVPp-00000001Ga8-1QtV
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.0.37]) [177.238.19.10]:58586
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 3
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfHQPibzo38dPKfe/efTKc6DvNMBm5NmJqEszfgGBtzz/QI6Ti6A541/ZmXNtsM6vGBXw/4OElgXKpA/DHVrICIONo3ntMzBpDOY8cUESnYQBZGTvU7+X
- SF9njs3AHQUr+RY6eWDi7UOKw6TlA4Z9dr9Zot1Zl5x5FK7RNKZbM7EHi9ka1quy4fjphx6urTKJ69pzkwrqdBCLuQJz54bjSTNLcmwIKvLhdDgqWifBBukz
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+The Yoga Pro 9 16IMH9 (codec SSID 17aa:38d6) shares PCI audio device
+subsystem ID 17aa:3811 with the Legion S7 15IMH05. The existing
+SND_PCI_QUIRK entry for the Legion routes both machines to
+ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS, which does not bind the TAS2781
+smart amplifiers, resulting in near-silent built-in speakers.
 
+Add an HDA_CODEC_QUIRK entry immediately before the conflicting PCI quirk
+that matches the Yoga Pro 9's unique codec SSID and routes it to
+ALC287_FIXUP_TAS2781_I2C. Codec quirks are evaluated after PCI quirks and
+take precedence, leaving the Legion S7 15IMH05 entry unaffected.
 
-On 4/29/26 22:36, Mark Brown wrote:
-> On Wed, Apr 29, 2026 at 05:19:49PM -0600, Gustavo A. R. Silva wrote:
->> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
->> getting ready to enable it, globally.
-> 
->> Use the __TRAILING_OVERLAP() helper to fix the following warning:
->>
->> sound/soc/soc-topology-test.c:136:38: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
-> 
-> Sashiko is complaining about this breaking some of the users:
-> 
->     https://sashiko.dev/#/patchset/afKSFY3qrlSOJ0EJ%40kspp
-> 
-> I don't know enough to tell if that's actually a sensible report or not.
+This follows the same pattern used to disambiguate PCI SSID 17aa:3847
+(shared between Yoga Pro 7 14IMH9 and Legion 7 16ACHG6), where a
+HDA_CODEC_QUIRK for codec SSID 17aa:38cf resolves the conflict.
 
-It seems Sashiko is correct here.
+Signed-off-by: Rámon van Raaij <ramon@vanraaij.eu>
+---
+ sound/hda/codecs/realtek/alc269.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-I'll rework this patch.
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index ae74e1b69..648051366 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7605,6 +7605,10 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3801, "Lenovo Yoga9 14IAP7", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	HDA_CODEC_QUIRK(0x17aa, 0x3802, "DuetITL 2021", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3802, "Lenovo Yoga Pro 9 14IRP8", ALC287_FIXUP_TAS2781_I2C),
++	/* Yoga Pro 9 16IMH9 shares PCI SSID 17aa:3811 with Legion S7 15IMH05;
++	 * use codec SSID to distinguish them
++	 */
++	HDA_CODEC_QUIRK(0x17aa, 0x38d6, "Lenovo Yoga Pro 9 16IMH9", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3811, "Legion S7 15IMH05", ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3813, "Legion 7i 15IMHG05", ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3818, "Lenovo C940 / Yoga Duet 7", ALC298_FIXUP_LENOVO_C940_DUET7),
+--
+2.54.0
 
-Thanks!
--Gustavo
 
