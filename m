@@ -1,49 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5890639EF30;
-	Thu, 30 Apr 2026 10:41:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19203B4EB1;
+	Thu, 30 Apr 2026 10:55:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777545664; cv=none; b=Y4eryXn7GUVsBZRD0vn9lK9WbDBJy9QdNXnM8wOQziXf2j6aCtxCRWXqbpnVV3UdHKdWGyTqyEujaYNSWze8KxM5V+euLGkssMOhzoRhXKi2/EPz714HVSxYqZxkQEBdy3cYm90OB2MEhCXQGD2H7sPa2JxjiWjv3uMfG3vskes=
+	t=1777546533; cv=none; b=Wg4PMAz2rWwJ8jCnDy0TssRqr+cg/kcYKoAohjSafv2VZm49sRh+bxfSi4x3aQh2EpZ0fWSLozkq3BEat0XWX7k5CdToxWra4ixW75rC122gC91Ux7Z/ya3kn/Sxzus1zktAZIpGcfpMvgVgZSUYGIsetHLLtUfTVp1EJuPLD8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777545664; c=relaxed/simple;
-	bh=C5pMirUInL0Wgzkxt9sEiCkDGWtvuhIS382p9bXhc74=;
+	s=arc-20240116; t=1777546533; c=relaxed/simple;
+	bh=1oO40JLRKxec4YkXCMkvg7w7tFWbMAVrhomR9Bf4kUM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t5XNaHWrG7ro4+h87kHO6bY8g4G9F2cdXHUYXkbPvtMep9Si6bGeSc90SY6cXOmi+1OP2iLifo3khJXYl0sY6F11sRFO35gO6w9AJhLz+WEUNbXlp2ow8+6QGMJKj2ezgrsWvhGoKpFDWuH4A42UiViTBAmWg41gldE+rAHVrl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bldCdZND; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y9uy3ey67kRz3gPKYBm0xvmEdBbnPMQCBV7czGY8VdNLq5n5kJo7teNPKq5BWv4FadJ1A9yC4/RlFz/go88Km6b9BMX1GyxYq7wyAucDYkcwa8JP8bSMBwjZn9e/dQaJw94e5eG0gbXxIBfqlyRK6Z14f+Pa7q4hJjNDokEPE7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JOLbwzNI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bldCdZND"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E72DC2BCB3;
-	Thu, 30 Apr 2026 10:41:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JOLbwzNI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91325C2BCB3;
+	Thu, 30 Apr 2026 10:55:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777545664;
-	bh=C5pMirUInL0Wgzkxt9sEiCkDGWtvuhIS382p9bXhc74=;
+	s=k20201202; t=1777546533;
+	bh=1oO40JLRKxec4YkXCMkvg7w7tFWbMAVrhomR9Bf4kUM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bldCdZNDcGEWWum+cCJWCDoSjztMl1O+Ng21a8bDiYLNzXWOHxviI4GZbF7TsB/pl
-	 wSxtgUZ+kj4xTN8kh8NSGzV2zwxUJU4qU2EoKfjGUkeHxqVPrCLoMdHpOnBIZNRfh3
-	 7lR6IbeUK9+60qc+2xssOewxjsZxjojO3YQnJBaIqpNaMKxZHfZH9963gHL502l5GP
-	 3UYuCKn3X9/lAQD40kQ9qFo3oNX1B0JBBccA5f6ng4pNf8p/ENkdvoYX8eFI5kwvlk
-	 eYsC6P26rkDc0n1Yna/qS8Qaxi2lrNs1zQKfCpDgTh5dlM3Z6o2r99gEyG/oC1b2XF
-	 8Kp8CGCx4SDqw==
+	b=JOLbwzNISeZqhh4jyU+ZqDAAE45xaQhcS/RKaQ5A80sC5lquY8o3N1ZL3tkosnUnn
+	 w8ZY5UnOzN/UPBleE1L4Cz7i87jKNR8kGSXBLM50JISgzLbLSN9LacBMrNy45wF3gC
+	 8autyA5vry9p0gPHYNZbPJGosHkpz/74p0nI8Sxw27k9FbKa19d5YpBXrqZrJ4a8CJ
+	 pWwKMql1Wz9yL/r1COXNmJtv5uaSRPQJ1J3d8Or1nbWpX+LQ9NXLKXUOqo7n/V4ZnF
+	 aUxczWc2tKX9Jh5AfOOednoQruQEzgM26zdlywTGHSpHk2iV777uCDD5NwNgHfZnoI
+	 Ns3tPwyRE8lyQ==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id E9F181AC585E; Thu, 30 Apr 2026 11:41:01 +0100 (BST)
-Date: Thu, 30 Apr 2026 19:41:01 +0900
+	id 4CB2C1AC585E; Thu, 30 Apr 2026 11:55:30 +0100 (BST)
+Date: Thu, 30 Apr 2026 19:55:30 +0900
 From: Mark Brown <broonie@kernel.org>
-To: "Sheetal ." <sheetal@nvidia.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sameer Pujar <spujar@nvidia.com>, Mohan Kumar <mkumard@nvidia.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: tegra: Add per-stream Mixer Fade controls
-Message-ID: <afMxvRbiMhVF0F7i@sirena.co.uk>
-References: <20260429070603.2791011-1-sheetal@nvidia.com>
- <afLv3S6kWnt0D6PW@sirena.co.uk>
- <f6200923-d796-4ac1-85d8-3ed7383b90a0@nvidia.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
+	niranjan.hy@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH v2 2/3] ASoC: SDCA: Remove sdca_function_data duplication
+Message-ID: <afM1ImzBB5lsueUa@sirena.co.uk>
+References: <20260430102120.1283320-1-ckeepax@opensource.cirrus.com>
+ <20260430102120.1283320-3-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,49 +47,39 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="FwfmPUddWjxvT/HH"
+	protocol="application/pgp-signature"; boundary="d7IdQpDZWcSvwOAt"
 Content-Disposition: inline
-In-Reply-To: <f6200923-d796-4ac1-85d8-3ed7383b90a0@nvidia.com>
+In-Reply-To: <20260430102120.1283320-3-ckeepax@opensource.cirrus.com>
 X-Cookie: 667:
 
 
---FwfmPUddWjxvT/HH
+--d7IdQpDZWcSvwOAt
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Apr 30, 2026 at 03:12:08PM +0530, Sheetal . wrote:
-> On 30-04-2026 11:29, Mark Brown wrote:
-> > On Wed, Apr 29, 2026 at 07:06:03AM +0000, Sheetal wrote:
+On Thu, Apr 30, 2026 at 11:21:19AM +0100, Charles Keepax wrote:
 
-> > Also is there any overhead to having the sample counting enabled?  This
-> > is the only thing that turns it off AFAICT so if userspace doesn't look
-> > at the control we'll just leave it running indefinitely.  Perhaps a
-> > timer to disable might be useful?  It's generally a bit odd that we have
-> > a write to the hardware in a get().
+>  		/* Parse the function */
+> -		ret = sdca_parse_function(dev, peripheral,
+> -					  &peripheral->sdca_data.function[i],
+> -					  function_data);
+> +		ret = sdca_parse_function(dev, peripheral, function_data);
 
-> Rather than a timer (which would require sample rate tracking to convert the
-> sample-based duration to wall-clock time), sample count will be disabled
-> before re-enabling it in the put callback, ensuring the counter restarts
-> from zero for each new fade. Does that sound reasonable, or would you prefer
-> a different approach?
+What sets up function_data->desc here?
 
-It depends on how important it is to do the disable - if there's no
-real need to do it until the next fade that's fine, if there's some cost
-to having it run then you might need something more active.
-
---FwfmPUddWjxvT/HH
+--d7IdQpDZWcSvwOAt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnzMb0ACgkQJNaLcl1U
-h9A0Swf/QJuyedeQRUYdhl0SAGgcDnnkPtp6p/hlISZIekesuZCIpCT+EnPiheil
-Mj5JAdg85fGfGUtTjO4ZGTX3u/DzZcc+dn0GZmop84Qy0N682DslJwGSmjQiRAI9
-K7KrE2qx3aKNeatT5qRnN63+PXYeIV1GjYdcqHt49MrL763ZJ1XHY84fW/K+7Al5
-KBWhHRoIsHNiTUiblajsxhUm+mU89NkOJxfcqVANkdtI5hmQhktwtfPvQijAgm6G
-zfM+HyTaE3upKxJkk/8h2UsZ6Y5YVimVPP9S+uDinn1yRZhVSnOSG/Im3f2nRnJA
-PwrDdvlGotNxv3cIPHpfyYvJOaBRDA==
-=Gm18
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnzNR0ACgkQJNaLcl1U
+h9Ahrwf/TB5N5CvT31wAhrFARqZZ03kkv3fvhyzrzbIvMghT+h7DZ2FIze0lM2k/
+jHuTEqFykKmvQ92D3F34c1zhb9fPNBWtCWBMNkpT0XWPUTpAPT4uWEWZ0P7foFgv
+Sn9opthfy4oWCkb5982+/Gdcby7T3OIgm+1/bgI5wm1SNPyRIKx43gxxjBExoyPv
+tfkt4GnSDIgGHGepjrBUIcdISp7TD2VLr0SYaeDMlaSJT5ef8CenP4qQ0E6NV8eZ
+8ndzM0tMwNgGd6FzhfljUT64S17bZiB77ZvKCK25vwT0vaz9wrEhEU2YsAobifdG
+pktzgQteYeohG9vcVlqyQUxEZidf4A==
+=Pvax
 -----END PGP SIGNATURE-----
 
---FwfmPUddWjxvT/HH--
+--d7IdQpDZWcSvwOAt--
