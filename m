@@ -1,269 +1,317 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4177C429806
-	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 14:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFE1428838
+	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 14:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777557972; cv=none; b=NRfy416zGa2hlSc7CO4eOrI2525KpCBMFA/e4TWuuzLHXntYo0ezBZSAWthvBsUwNngwc61Z5YHlrszj522ptO9D9511XXUeePCOSEwROZpuyJCLqKUoSUzwmLl6O7hxwfyLRuiw/LfUqFlv4B3ap9agpx8oXdmnW2/10TRjNKc=
+	t=1777559370; cv=none; b=UGt4bzzYDOMeaFKRGQJRMde3ZvC32a4RctZ3b2B5seD0yFcFfrLcXc7bxiar6W5cmrhlTpI5x9jRvni2xfWuknpVDuiGgGwiRXmPE3WCp4IVxDF6KdX7SnW72i8PmVX0KHLQVz9tWwHNGcIsrcXUL1qC/OrVB2hAFJwi3rvzAd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777557972; c=relaxed/simple;
-	bh=tmhrNRjGE46qGeWDsWSeSCEPefzkAKEH4PTvfLc4d3U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NMu1wF+Bpx2h6DobAWDsZNfQim679OAMYj0L+28G4Qeh/iOEukmlrHx4tfWL+S/eLRmDj8DbApV9SYDQ+uIjj19Y8zrOJ/UzqgfDXDUWYmktoB2ZYrB7X4UqlQ4qjHt9Hn5lrebdhgTe5xx25w8FGXGsInMCwL+3TZhOHYp4ppQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bNOabM1w; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777559370; c=relaxed/simple;
+	bh=PqLfuc+u5Eu8mywuPSgcKKE2kSP+9+K5t2wIbxTcPjY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=R70yzGBhepEx50OIFkeSKfPQTSJYyNnrpMLazBITgiQlx2GuHwu4i6iMatW1531VJ2pkFc045L+zBzVKmOFwpB5145J674jrSHD0vEyJHDubHz0CLJvU+qoOYv8YKmqRJE5v2KWP33d/ErmuGBkO2lgNfX8yTlLaENXLlX3wyb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wYpqmr8L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Vm/l7ArT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wYpqmr8L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Vm/l7ArT; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bNOabM1w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777557970; x=1809093970;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=tmhrNRjGE46qGeWDsWSeSCEPefzkAKEH4PTvfLc4d3U=;
-  b=bNOabM1wiB6D4vTVCPLdWKbiUDVhhlmirTlIcYiNv21QD+mY7oECFsYS
-   WkaHMGLinZVZLTO1WDftFjpoqzUfgnun4i4QIG/NBqHiilm1++ZXWDFOf
-   IXDesktiI5g4zpHtCPJM7QexW6JKdg1E1wNvkUAfLqFJUS4vB9PtaN5Mk
-   Osb7UW5OJTaaqBUlczqwfa4Fe1zkriywbqtN+mH8GcsRX2SW8kveURAHH
-   sSakyUFfyLlXLb3kbxmMI7FbpOIHo3MCykziPlj/sSuoe92gFTt6gzMxs
-   umtmK5yT3zHEubmtiNhjbx+QT4jxkQ+rArFcOsCGsRCvPwXTcgbk6aBBX
-   A==;
-X-CSE-ConnectionGUID: lUMSj9LkRq6LzK5UGhUVlg==
-X-CSE-MsgGUID: BVUuP+L/Que5m0j4a6xP4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="89198542"
-X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="89198542"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 07:06:09 -0700
-X-CSE-ConnectionGUID: kQh908ObTIye7AOSui/n7A==
-X-CSE-MsgGUID: IMxBzgkcRSiUhplAm/oi8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="233560830"
-Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa006.jf.intel.com with ESMTP; 30 Apr 2026 07:06:07 -0700
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-To: broonie@kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	amade@asmblr.net,
-	kuninori.morimoto.gx@renesas.com,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wYpqmr8L";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Vm/l7ArT";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wYpqmr8L";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Vm/l7ArT"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1A1405BD3C;
+	Thu, 30 Apr 2026 14:29:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777559367; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ohAgqVDBAfASVnGPkaLLDwXnJ/6bmFpEe/jmONatg/8=;
+	b=wYpqmr8L0fS6kFIDZjO1V21K4pmUG1igYG+W7TRcOJfwrCa1eHpZVaezTbNe8wJIxhjiry
+	r49xugIhvXvVcRx5KiSDZ7wuooZlJk3J2WiE30Cn8ucIc0W7L/CbCTdo/Pz8JzNw+M9e+e
+	kvdM97LlXgl44Kux10KByZuWW3/zSf8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777559367;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ohAgqVDBAfASVnGPkaLLDwXnJ/6bmFpEe/jmONatg/8=;
+	b=Vm/l7ArT5v1sTOGN5BqXg+wBUF0SwX6vpmgSCdTU1RzYtQvA3gNPXQS5sFnRbBqCpCXkmr
+	sJokhhBgzt6UA1AA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wYpqmr8L;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Vm/l7ArT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777559367; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ohAgqVDBAfASVnGPkaLLDwXnJ/6bmFpEe/jmONatg/8=;
+	b=wYpqmr8L0fS6kFIDZjO1V21K4pmUG1igYG+W7TRcOJfwrCa1eHpZVaezTbNe8wJIxhjiry
+	r49xugIhvXvVcRx5KiSDZ7wuooZlJk3J2WiE30Cn8ucIc0W7L/CbCTdo/Pz8JzNw+M9e+e
+	kvdM97LlXgl44Kux10KByZuWW3/zSf8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777559367;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ohAgqVDBAfASVnGPkaLLDwXnJ/6bmFpEe/jmONatg/8=;
+	b=Vm/l7ArT5v1sTOGN5BqXg+wBUF0SwX6vpmgSCdTU1RzYtQvA3gNPXQS5sFnRbBqCpCXkmr
+	sJokhhBgzt6UA1AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CFAD7593B0;
+	Thu, 30 Apr 2026 14:29:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id mfdeMUZn82lOcwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 30 Apr 2026 14:29:26 +0000
+Date: Thu, 30 Apr 2026 16:29:26 +0200
+Message-ID: <87wlxomshl.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+Cc: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH] ASoC: core: Move all users to deferrable card binding
-Date: Thu, 30 Apr 2026 16:07:52 +0200
-Message-Id: <20260430140752.766130-1-cezary.rojewski@intel.com>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/tas2781: Wait for async firmware callback at unbind
+In-Reply-To: <87y0i4mu22.wl-tiwai@suse.de>
+References: <20260430-alsa-hda-tas2781-fw-callback-teardown-v1-1-874367d6b41b@gmail.com>
+	<87y0i4mu22.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
+X-Rspamd-Queue-Id: 1A1405BD3C
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-Commit a3375522bb5e2 ("ASoC: core: Complete support for card rebinding")
-completed the feature and at the same time divided ASoC users into two
-groups:
+On Thu, 30 Apr 2026 15:55:33 +0200,
+Takashi Iwai wrote:
+> 
+> On Thu, 30 Apr 2026 06:02:02 +0200,
+> Cássio Gabriel wrote:
+> > 
+> > The TAS2781 HDA I2C and SPI side-codec drivers queue the RCA
+> > firmware load with request_firmware_nowait() from component bind. The
+> > firmware loader keeps a device reference and pins the callback module,
+> > but it does not protect the driver's HDA private state from component
+> > unbind.
+> > 
+> > The callback dereferences tas_hda/tas_priv, takes codec_lock,
+> > creates ALSA controls, updates RCA/DSP state, runs runtime PM, and may
+> > load DSP and calibration data. Component unbind currently removes
+> > controls and DSP state immediately, and the later device remove destroys
+> > codec_lock through tasdevice_remove(). A delayed callback can therefore
+> > run after the HDA component state has been torn down.
+> > 
+> > Track the pending HDA RCA request with a completion. Mark it cancelled
+> > at unbind, let a callback that observes cancellation exit before parsing
+> > firmware or creating controls, and wait for any already-running callback
+> > before tearing down HDA controls and DSP state.
+> > 
+> > Clear cached kcontrol pointers as controls are removed, and when
+> > snd_ctl_add() rejects them, so a later cancelled or failed bind cannot
+> > remove stale controls from an earlier bind.
+> > 
+> > Fixes: 5be27f1e3ec9 ("ALSA: hda/tas2781: Add tas2781 HDA driver")
+> > Fixes: bb5f86ea50ff ("ALSA: hda/tas2781: Add tas2781 hda SPI driver")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+> 
+> Hmm, this looks too complex than needed.  Basically what we want is a
+> simple cancel or sync for async firmware loading work.  Once when such
+> a helper is provided, the rest in the HD-audio side will be just a
+> call of it at the remove or unbind.  And, I guess we can implement the
+> helper in the f/w loader with a help of devres or such.
 
-1) cards that fail to enumerate the moment one of the components is
-   not available
-2) cards that succeed to enumerate even if some of their components
-   become available late
+I meant something like below (caution: totally untested)
 
-Given the component-based nature of ASoC, approach 2) is preferred and
-can be used by all ASoC users.  By dropping 1) the card binding code can
-also be simplified.
 
-Flatten code that is currently conditional based on ->devres_dev and
-convert snd_soc_rebind_card() to call_soc_bind_card().  The latter is a
-selector between managed and unmanaged card-binding behaviour to keep
-non-devm users happy.
+Takashi
 
-With rebinding being the default, devm_snd_soc_register_card() takes
-form of its deferrable friend - all the devm job is already done by
-devm_snd_soc_bind_card().
+-- 8< --
 
-Suggested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
----
-
-This is a direct continuation of subject [1] begun by Kuninori with goal
-of simplifying the code related to card rebinding.
-
-[1]: https://lore.kernel.org/linux-sound/87eck7k868.wl-kuninori.morimoto.gx@renesas.com/
-
- include/sound/soc.h    |  2 +-
- sound/soc/soc-core.c   | 44 ++++++++++++++----------------------------
- sound/soc/soc-devres.c | 28 +--------------------------
- 3 files changed, 17 insertions(+), 57 deletions(-)
-
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index a30f95ff7d86..f0935523c8df 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -425,7 +425,7 @@ struct snd_soc_jack_pin;
- int snd_soc_register_card(struct snd_soc_card *card);
- void snd_soc_unregister_card(struct snd_soc_card *card);
- int devm_snd_soc_register_card(struct device *dev, struct snd_soc_card *card);
--int devm_snd_soc_register_deferrable_card(struct device *dev, struct snd_soc_card *card);
-+#define devm_snd_soc_register_deferrable_card(d, c) devm_snd_soc_register_card(d, c)
- #ifdef CONFIG_PM_SLEEP
- int snd_soc_suspend(struct device *dev);
- int snd_soc_resume(struct device *dev);
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index e70bf22db5c9..ec141b810b50 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -2165,6 +2165,7 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
- 	snd_soc_fill_dummy_dai(card);
+diff --git a/drivers/base/firmware_loader/main.c b/drivers/base/firmware_loader/main.c
+index a11b30dda23b..bd99c5417be8 100644
+--- a/drivers/base/firmware_loader/main.c
++++ b/drivers/base/firmware_loader/main.c
+@@ -1140,6 +1140,20 @@ struct firmware_work {
+ 	u32 opt_flags;
+ };
  
- 	snd_soc_dapm_init(dapm, card, NULL);
-+	list_del_init(&card->list);
- 
- 	/* check whether any platform is ignore machine FE and using topology */
- 	soc_check_tplg_fes(card);
-@@ -2308,6 +2309,10 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
- probe_end:
- 	if (ret < 0)
- 		soc_cleanup_card_resources(card);
-+	if (ret == -EPROBE_DEFER) {
-+		list_add(&card->list, &unbind_card_list);
-+		ret = 0;
-+	}
- 	snd_soc_card_mutex_unlock(card);
- 
- 	return ret;
-@@ -2323,12 +2328,15 @@ static int devm_snd_soc_bind_card(struct device *dev, struct snd_soc_card *card)
- 	struct snd_soc_card **ptr;
- 	int ret;
- 
-+	/* The procedure may be called many times during the lifetime of the card. */
-+	devres_destroy(dev, devm_card_bind_release, NULL, NULL);
++static void firmware_devres_release(struct device *dev, void *res)
++{
++	struct firmware_work *fw_work = res;
 +
- 	ptr = devres_alloc(devm_card_bind_release, sizeof(*ptr), GFP_KERNEL);
- 	if (!ptr)
++	module_put(fw_work->module);
++	kfree_const(fw_work->name);
++	put_device(fw_work->device); /* taken in request_firmware_nowait() */
++}
++
++static int firmware_devres_match(struct device *dev, void *res, void *data)
++{
++	return res == data;
++}
++
+ static void request_firmware_work_func(struct work_struct *work)
+ {
+ 	struct firmware_work *fw_work;
+@@ -1150,14 +1164,10 @@ static void request_firmware_work_func(struct work_struct *work)
+ 	_request_firmware(&fw, fw_work->name, fw_work->device, NULL, 0, 0,
+ 			  fw_work->opt_flags);
+ 	fw_work->cont(fw, fw_work->context);
+-	put_device(fw_work->device); /* taken in request_firmware_nowait() */
+-
+-	module_put(fw_work->module);
+-	kfree_const(fw_work->name);
+-	kfree(fw_work);
++	devres_release(fw_work->device, firmware_devres_release,
++		       firmware_devres_match, fw_work);
+ }
+ 
+-
+ static int _request_firmware_nowait(
+ 	struct module *module, bool uevent,
+ 	const char *name, struct device *device, gfp_t gfp, void *context,
+@@ -1165,14 +1175,14 @@ static int _request_firmware_nowait(
+ {
+ 	struct firmware_work *fw_work;
+ 
+-	fw_work = kzalloc_obj(struct firmware_work, gfp);
++	fw_work = devres_alloc(firmware_devres_release, sizeof(*fw_work), gfp);
+ 	if (!fw_work)
  		return -ENOMEM;
  
- 	ret = snd_soc_bind_card(card);
--	if (ret == 0 || ret == -EPROBE_DEFER) {
-+	if (ret == 0) {
- 		*ptr = card;
- 		devres_add(dev, ptr);
- 	} else {
-@@ -2338,21 +2346,11 @@ static int devm_snd_soc_bind_card(struct device *dev, struct snd_soc_card *card)
- 	return ret;
+ 	fw_work->module = module;
+ 	fw_work->name = kstrdup_const(name, gfp);
+ 	if (!fw_work->name) {
+-		kfree(fw_work);
++		devres_free(fw_work);
+ 		return -ENOMEM;
+ 	}
+ 	fw_work->device = device;
+@@ -1184,18 +1194,19 @@ static int _request_firmware_nowait(
+ 
+ 	if (!uevent && fw_cache_is_setup(device, name)) {
+ 		kfree_const(fw_work->name);
+-		kfree(fw_work);
++		devres_free(fw_work);
+ 		return -EOPNOTSUPP;
+ 	}
+ 
+ 	if (!try_module_get(module)) {
+ 		kfree_const(fw_work->name);
+-		kfree(fw_work);
++		devres_free(fw_work);
+ 		return -EFAULT;
+ 	}
+ 
+ 	get_device(fw_work->device);
+ 	INIT_WORK(&fw_work->work, request_firmware_work_func);
++	devres_add(device, fw_work);
+ 	schedule_work(&fw_work->work);
+ 	return 0;
+ }
+@@ -1259,6 +1270,28 @@ int firmware_request_nowait_nowarn(
+ }
+ EXPORT_SYMBOL_GPL(firmware_request_nowait_nowarn);
+ 
++static int firmware_devres_cont_match(struct device *dev, void *res, void *data)
++{
++	struct firmware_work *fw_work = res;
++
++	return fw_work->cont == data;
++}
++
++void request_firmware_nowait_cancel(
++	struct device *device,
++	void (*cont)(const struct firmware *fw, void *context))
++{
++	struct firmware_work *fw_work;
++
++	fw_work = devres_remove(device, firmware_devres_release,
++				firmware_devres_cont_match, cont);
++	if (!fw_work)
++		return;
++	cancel_work_sync(&fw_work->work);
++	firmware_devres_release(fw_work->device, fw_work);
++	devres_free(fw_work);
++}
++
+ #ifdef CONFIG_FW_CACHE
+ static ASYNC_DOMAIN_EXCLUSIVE(fw_cache_domain);
+ 
+diff --git a/include/linux/firmware.h b/include/linux/firmware.h
+index aae1b85ffc10..f7a80ed9c825 100644
+--- a/include/linux/firmware.h
++++ b/include/linux/firmware.h
+@@ -110,6 +110,9 @@ int request_firmware_nowait(
+ 	struct module *module, bool uevent,
+ 	const char *name, struct device *device, gfp_t gfp, void *context,
+ 	void (*cont)(const struct firmware *fw, void *context));
++void request_firmware_nowait_cancel(
++	struct device *device,
++	void (*cont)(const struct firmware *fw, void *context));
+ int request_firmware_direct(const struct firmware **fw, const char *name,
+ 			    struct device *device);
+ int request_firmware_into_buf(const struct firmware **firmware_p,
+@@ -157,6 +160,12 @@ static inline int request_firmware_nowait(
+ 	return -EINVAL;
  }
  
--static int snd_soc_rebind_card(struct snd_soc_card *card)
-+static int call_soc_bind_card(struct snd_soc_card *card)
++static inline void request_firmware_nowait_cancel(
++	struct device *device,
++	void (*cont)(const struct firmware *fw, void *context))
++{
++}
++
+ static inline void release_firmware(const struct firmware *fw)
  {
--	int ret;
--
--	if (card->devres_dev) {
--		devres_destroy(card->devres_dev, devm_card_bind_release, NULL, NULL);
--		ret = devm_snd_soc_bind_card(card->devres_dev, card);
--	} else {
--		ret = snd_soc_bind_card(card);
--	}
--
--	if (ret != -EPROBE_DEFER)
--		list_del_init(&card->list);
--
--	return ret;
-+	if (card->devres_dev)
-+		return devm_snd_soc_bind_card(card->devres_dev, card);
-+	return snd_soc_bind_card(card);
  }
- 
- /* probes a new socdev */
-@@ -2550,8 +2548,6 @@ EXPORT_SYMBOL_GPL(snd_soc_add_dai_controls);
-  */
- int snd_soc_register_card(struct snd_soc_card *card)
- {
--	int ret;
--
- 	if (!card->name || !card->dev)
- 		return -EINVAL;
- 
-@@ -2578,17 +2574,7 @@ int snd_soc_register_card(struct snd_soc_card *card)
- 
- 	guard(mutex)(&client_mutex);
- 
--	if (card->devres_dev) {
--		ret = devm_snd_soc_bind_card(card->devres_dev, card);
--		if (ret == -EPROBE_DEFER) {
--			list_add(&card->list, &unbind_card_list);
--			ret = 0;
--		}
--	} else {
--		ret = snd_soc_bind_card(card);
--	}
--
--	return ret;
-+	return call_soc_bind_card(card);
- }
- EXPORT_SYMBOL_GPL(snd_soc_register_card);
- 
-@@ -2909,7 +2895,7 @@ int snd_soc_add_component(struct snd_soc_component *component,
- 	list_add(&component->list, &component_list);
- 
- 	list_for_each_entry_safe(card, c, &unbind_card_list, list)
--		snd_soc_rebind_card(card);
-+		call_soc_bind_card(card);
- 
- err_cleanup:
- 	if (ret < 0)
-diff --git a/sound/soc/soc-devres.c b/sound/soc/soc-devres.c
-index d33f83ec24f2..718165ba84ac 100644
---- a/sound/soc/soc-devres.c
-+++ b/sound/soc/soc-devres.c
-@@ -49,11 +49,6 @@ int devm_snd_soc_register_component(struct device *dev,
- }
- EXPORT_SYMBOL_GPL(devm_snd_soc_register_component);
- 
--static void devm_card_release(struct device *dev, void *res)
--{
--	snd_soc_unregister_card(*(struct snd_soc_card **)res);
--}
--
- /**
-  * devm_snd_soc_register_card - resource managed card registration
-  * @dev: Device used to manage card
-@@ -63,32 +58,11 @@ static void devm_card_release(struct device *dev, void *res)
-  * unregistered.
-  */
- int devm_snd_soc_register_card(struct device *dev, struct snd_soc_card *card)
--{
--	struct snd_soc_card **ptr;
--	int ret;
--
--	ptr = devres_alloc(devm_card_release, sizeof(*ptr), GFP_KERNEL);
--	if (!ptr)
--		return -ENOMEM;
--
--	ret = snd_soc_register_card(card);
--	if (ret == 0) {
--		*ptr = card;
--		devres_add(dev, ptr);
--	} else {
--		devres_free(ptr);
--	}
--
--	return ret;
--}
--EXPORT_SYMBOL_GPL(devm_snd_soc_register_card);
--
--int devm_snd_soc_register_deferrable_card(struct device *dev, struct snd_soc_card *card)
- {
- 	card->devres_dev = dev;
- 	return snd_soc_register_card(card);
- }
--EXPORT_SYMBOL_GPL(devm_snd_soc_register_deferrable_card);
-+EXPORT_SYMBOL_GPL(devm_snd_soc_register_card);
- 
- #ifdef CONFIG_SND_SOC_GENERIC_DMAENGINE_PCM
- 
--- 
-2.34.1
-
