@@ -1,117 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6525218EB1;
-	Thu, 30 Apr 2026 01:33:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40AF613A3F7;
+	Thu, 30 Apr 2026 01:49:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777512781; cv=none; b=Mc18qdrtf5tUjnGixJUk7BvuYkZ2OMe/qLnNRoaNROruA9OIGK7ZEMS/uFpU+mnaHh3/bmxT5JZtwDS5gj9Pbc65XBDTaWC7+Z3tiaKXbQFUG+jmAdeGae9IJbpNn5cwy6LEoFoxdlYYX8RhBIQsO0Y70oai3VHgPs/yOcy1sT4=
+	t=1777513773; cv=none; b=Xi8nQo1aGLoJDKoFYsfdqKDAToZSxIhPdsFE18C4/9OZ6Df2OZBhOjVlhCk9nxnaGOPYQnkbOG54uUlfCbBj+n7zSa5R+tR63GA8bUY56Ie7pEmz4UOqhasq2SMjFSJ95jLyxEnxzLpj0XMxxPhfXjBlwEuwbTThjJQXEAZu23A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777512781; c=relaxed/simple;
-	bh=i7DKF5WFF5Q8Rb2RXIWeQOHBYezeUVKdDpu9M5O4baA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KZtQm6WDVHSFbxIf62szesWIHrYqrgnF3cPLyGxKyxTZGGIz5k6r5w2O3tJbjmVUqH3Z548U9WnU0VKzt9kS2MDjTLUdybSsUum4gzSIY58LA1JEiXIieJd/8vamRlzzcMAOgTkXIilXXRRrze0ErmuWf4IB97FqavGmZJmA7C8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TCszheGi; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TCszheGi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75424C19425;
-	Thu, 30 Apr 2026 01:33:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777512780;
-	bh=i7DKF5WFF5Q8Rb2RXIWeQOHBYezeUVKdDpu9M5O4baA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TCszheGiQXAe5yn9Z++veLJzaGL3hmpLbQ2j9862D1S52cj8I7YjTav8ElZG3m5cb
-	 rHhbnHNI/3iRADJHi2CUzQHrdFpAG0Ctqvm4itIQk6ta5P6CUjdWwtZ9/NqqsDjVAX
-	 7h0rFmva5K7kKRPxrBFL0N/96zdtbjpvDwZXk1WstBfbknWhmb8K8yfWORAIywTMyV
-	 zro0yoKxtlV65BYViiY/MVFOAYbTiXWbGj31jHodVaEU9Zc3HPLu9iOVypOLMwCe9z
-	 5bufqZF1NJfXj8W7Vjs+QN/ms5YX956twT9RBax0+7gkSCCmpYhvbaH1dAkCyA+2n4
-	 7TxHE+hfhboeA==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id D77B51AC585D; Thu, 30 Apr 2026 02:32:57 +0100 (BST)
-Date: Thu, 30 Apr 2026 10:32:57 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 14/17] ASoC: simple-amplifier: gpio-audio-amp: Add
- support for gain-ranges
-Message-ID: <afKxSWnQeQheAd3x@sirena.co.uk>
-References: <20260429074356.118420-1-herve.codina@bootlin.com>
- <20260429074356.118420-15-herve.codina@bootlin.com>
+	s=arc-20240116; t=1777513773; c=relaxed/simple;
+	bh=qy+Vk90TlEiEr6f91phfAIf7kh5KlbQH5M0MZUOzCwg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=sveIJKtEawNCX4S/mctZol/H0H8MCPa3nEj4N4XStrTllAYUGST4elhtK338fyQwJ46L11Xt8tsa/Ii1/pn7YUTR/u1hBUvlQz/1PwoEiSyefaL/wQz17RR6R/6LpE3025KFGIy6IrDOlNZFPQ8CYPFa1gZrWNGqZMSGDpx6NI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: d07aa77c443611f1aa26b74ffac11d73-20260430
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:418af980-f99a-47be-81de-5281d3c6796e,IP:0,U
+	RL:0,TC:0,Content:0,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-20
+X-CID-META: VersionHash:e7bac3a,CLOUDID:918071d3efd711d916cb974024e3c10e,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850|898,TC:nil,Content:0|15|50
+	,EDM:1,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: d07aa77c443611f1aa26b74ffac11d73-20260430
+X-User: songxiebing@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <songxiebing@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 159184957; Thu, 30 Apr 2026 09:49:24 +0800
+From: songxiebing <songxiebing@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	Vijendar.Mukunda@amd.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	songxiebing@kylinos.cn,
+	gannovera <gannovera@gmail.com>
+Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for MSI Bravo 15 C7VE
+Date: Thu, 30 Apr 2026 09:49:20 +0800
+Message-Id: <20260430014920.141276-1-songxiebing@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260422012136.87542-1-songxiebing@kylinos.cn>
+References: <20260422012136.87542-1-songxiebing@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="shBljPdY0kdTjMii"
-Content-Disposition: inline
-In-Reply-To: <20260429074356.118420-15-herve.codina@bootlin.com>
-X-Cookie: 667:
+Content-Transfer-Encoding: 8bit
 
+From: Bob Song <songxiebing@kylinos.cn>
 
---shBljPdY0kdTjMii
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The laptop requires a quirk ID to enable its internal microphone. Add
+it to the DMI quirk table.
 
-On Wed, Apr 29, 2026 at 09:43:50AM +0200, Herve Codina wrote:
+Reported-by: gannovera <gannovera@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218402
+Signed-off-by: Bob Song <songxiebing@kylinos.cn>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-> +static int *simple_amp_alloc_tlv_ranges(const struct simple_amp_ranges *ranges)
-> +{
-> +	unsigned int index;
-> +	unsigned int *tlv;
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index c5cf45881416..dde1a144e4d4 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -479,6 +479,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 15 B7ED"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 15 C7VE"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.25.1
 
-> +	return tlv;
-> +}
-
-The function returns a pointer to int but everything else is pointer to
-unsigned int.
-
-> +static int simple_amp_check_new_range(const struct simple_amp_range *new_range,
-> +				      const struct simple_amp_range *tab_ranges,
-> +				      unsigned int nb_ranges)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < nb_ranges; i++) {
-> +		/* Check for range overlaps */
-> +		if (new_range->min.gain_db >= tab_ranges[i].min.gain_db &&
-> +		    new_range->min.gain_db <= tab_ranges[i].max.gain_db)
-> +			return -EINVAL;
-> +
-> +		if (new_range->max.gain_db >= tab_ranges[i].min.gain_db &&
-> +		    new_range->max.gain_db <= tab_ranges[i].max.gain_db)
-> +			return -EINVAL;
-> +	}
-> +	return 0;
-> +}
-
-This checks if the new range is inside an existing range but won't
-notice if the existing range is entirely inside the new one.
-
---shBljPdY0kdTjMii
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnysUkACgkQJNaLcl1U
-h9B2Twf/fxpVYs0BPZn9UxEkwvIDkkSmzznKA8O2sjvO1udwM7HugXl/6K72z0In
-xH0Nf4OgHgC1CmBFXl/+wPx6wcSo5znCGIQCaQMOXaML+MppyDAhrqKgnrpRURZN
-FWScZpxCAfMK05YVIY8/S7kOUJjdl6bs7uj6Qp4cIB4E8pP0H6T5wQcPi/eBDVo1
-52xe7ev5UNfdtarWhBZCdk/T6LPZORXiR+/GeUN2fjbtFUk/NiyXXEPRH7CJkPHN
-OlcYofp3dR+whzneWR9xl4Ccl2VVzxBfqRx2n8tmmN3qKgVqKXV8418vLiWrFAFh
-As/6O5vA2NavQCqhFQKZlckdntEVTg==
-=ClHY
------END PGP SIGNATURE-----
-
---shBljPdY0kdTjMii--
