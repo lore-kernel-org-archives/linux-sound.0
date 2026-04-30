@@ -1,311 +1,164 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE62630E0ED;
-	Thu, 30 Apr 2026 15:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777561844; cv=fail; b=AoKUxDabhV/MZKvjVs/gCKEn1yA32oEJIAL5qgt0FYe8P1ViG5kaBFs69ZACLikHk03sQdorDCfUg66lp1TByUJWqxDhH4PaEQUYKfy8mEZaee3g+Gen/FmqtCJvBfHCpXFC1lg4lU7V/ZG9KVyAqn9jrNQ9bY/nc7UZBpPPMSc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777561844; c=relaxed/simple;
-	bh=7/e1GRx3MuW+xkxbrHPYenjJtRODiO7Va5xLqxAzeFI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GQxzJu4ov4ksqakwedKgcly+9Rla9+xJW19bFvpucvBwphFoBew81YqE31tN09Y/gQphDYvMOnoKBlOzUX90Se6eqRqyczXd+5pQnNy0cmHeZRlVgUr3VHyVIwbCu8z8p9/8UxJ4JNxxI/Zuq1epLC75dNwEY5tGUdnPZQjgAhQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=FdPZea43; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=b2KYGtYd; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1349282F25
+	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 15:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777562911; cv=none; b=HrfRIoYghJNXTL6GLxgNTxDbcWbgiJcsnye/gW3iZ3//x2UYCjUTVE8ENuHbQ7KE6tBpkmD6KnnoUXw699ZxfR0pnB57+qjYeMtrakTC9B5IEFzP8ojPFESC1FEqTzAQLTX3Uap9rPZR7M9dKEHbC8yxmN3/M6wPUZhJrY//FDo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777562911; c=relaxed/simple;
+	bh=mNPZ5sYYqWOjeFriaaEX0R7Oih5V4qWuBPabf77DjEE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iUSHkAOzqYseYu7QK4cEYxUgXSBkjc62hk8v7YhX791I7x7BUerWenhMzYGFAGMeMu+Cl+t0XIkTboU+tuT9ydX/ulu1JH3IzwFwkkXRP47j9q1C1lYaElfxEbHkv6rpGwVpzAEmsQn5iL1X5TWOc4he5+DJgcMK0aQKT0L0lZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=zJizQc2T; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="FdPZea43";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="b2KYGtYd"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63U5NwWI2865616;
-	Thu, 30 Apr 2026 10:09:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=9s+e64GgZm7A4uMkb5RLaL/E0VSTXziB2qDU8dovn14=; b=
-	FdPZea43FgTr8QCMSXj5zFEfBFv7spYflLMCOhJB0aiZvU6+P7us+TeC36Y4w7Tm
-	JzNXuSOSZuqjC9sYnAcF040WvRUGbr9cmwz5yhBG60KBHvrbMCIAoZVctep3PJ6f
-	QptMEa5sm9GP3Maa/DGjyteR66lk2REFycp5H3MjpwgAC12a55kgS6TESsAKK21s
-	q/VmC/3tlKz82oGLyDmohrxa4vySgM682gL/TdeAXvlWI2gBfR3sujaYo5u6LzQi
-	wX9342Skcoes4RHw3lwXVPqebhwOj+kVNoPS5dDnpoY7r3NwUZcO7pdNGAXtLr3q
-	So4T8fFtu23Fcno2pbGh+w==
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11020117.outbound.protection.outlook.com [52.101.56.117])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4dru10eu9a-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 30 Apr 2026 10:09:43 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YRTtxbQXxX+rPizx+NONOBHBp7XXHBJULHqV2lXD++ZE+n3zx5WPz7hkxSOsHp3Cx6+R4hga0SASBLIAk80ynZl1NOwww6QL+zhcWaSC8fkwUl9OcTxAzni3pDj6b568B2Uq5wvmehTZYLsahYeioSK7dGpBICfR2oV8N5+f0VMNBBdFT+k4MXdrxgcHqm4yQ5mJHeIE/CbrsopKaYLb74mQeS4coPvCrWUp4fFENNCxIAM5f+PUjYvPlwZhUi0iAq8F4faQlcEp2WtKL2HhZ3QCHivkQwgSf9nmr/9UQ9SwIkS4gd5yekEZ6qVIboPW6/O8ibNZgaUvVPXI8Ro60w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9s+e64GgZm7A4uMkb5RLaL/E0VSTXziB2qDU8dovn14=;
- b=POyS+AgdIW0BEe0uqoJGx2ha47FU6hHXhfO7zzHF3ruUZHeiG+MjHVN0u2BaCNLqVZiF+UfKX69cS/ek6FCJOeySY2h+4Ks62VqUes4iZVg8LfOckX4h1FTrNszM8bTkfb/UuxcVbk0aFM2eTewoAQ0Uf9+GFh2XNNsKje7BtSTs8HRl+eURsz+1B92ByQCDm8xOLRTfvMm3Aqn0VSLyy/zhSHwnjUzS172N4z9b5PWOXSJtJZAU9KsB14lEHATDKNoNBMrR3vIoeLr9Kz322twN1zDi+CpskHl6bS4ddMfuFbBnV86b2r+h5LM5EW27traJJ/n/N3+FM8xX9TS4Fw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9s+e64GgZm7A4uMkb5RLaL/E0VSTXziB2qDU8dovn14=;
- b=b2KYGtYdCV3VgPtVNB02Bl9smbr/gwmRWsVxacBO7SBc8oDqFXLkvDwU7GrY/8vy8GyLoadYlRzhlk2iABBH98X5kklDETFkcsiSi75YQnpjNcMACRSSZQfpPYCyTQURVIh+opcJZYwb9qMW5310ZaMi2i4xkGRKibc5SL+687w=
-Received: from SJ0PR13CA0024.namprd13.prod.outlook.com (2603:10b6:a03:2c0::29)
- by PH7PR19MB7463.namprd19.prod.outlook.com (2603:10b6:510:27a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.19; Thu, 30 Apr
- 2026 15:09:37 +0000
-Received: from MW1PEPF0001615F.namprd21.prod.outlook.com
- (2603:10b6:a03:2c0:cafe::89) by SJ0PR13CA0024.outlook.office365.com
- (2603:10b6:a03:2c0::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.16 via Frontend Transport; Thu,
- 30 Apr 2026 15:09:37 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- MW1PEPF0001615F.mail.protection.outlook.com (10.167.249.90) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.0
- via Frontend Transport; Thu, 30 Apr 2026 15:09:36 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 78990406550;
-	Thu, 30 Apr 2026 15:09:34 +0000 (UTC)
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 5663282025A;
-	Thu, 30 Apr 2026 15:09:34 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: broonie@kernel.org
-Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
-        pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
-        niranjan.hy@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
-        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-Subject: [PATCH v3 1/3] ASoC: SDCA: Add correct masks whilst reporting SDCA jack status
-Date: Thu, 30 Apr 2026 16:09:29 +0100
-Message-ID: <20260430150931.2025953-2-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260430150931.2025953-1-ckeepax@opensource.cirrus.com>
-References: <20260430150931.2025953-1-ckeepax@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="zJizQc2T"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 04DBC3D824;
+	Thu, 30 Apr 2026 17:21:22 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 04DBC3D824
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1777562482; bh=ik3CE4TVOwLu1uAljwLagGIJ2WH1s7LQ9ufFx0siGec=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=zJizQc2TL198MwDwZfwCUN3c49zuSvjp+jH0V6/1HCo8jU8S1wyC2m7c+7TwuoG1o
+	 en/XxkamLxLNGtKQZJA4DnviSjBHWV1IVuoFj3DXQptxwacx9LQ+lJX/z1Kio6UzdJ
+	 qNTuy6N7z9RrbcgZbSFLGNFkv/S6CCfSY9P4xDMA=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Thu, 30 Apr 2026 17:21:11 +0200 (CEST)
+Message-ID: <fdaecae2-f8cb-421b-add5-afe1c0695a1f@perex.cz>
+Date: Thu, 30 Apr 2026 17:21:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: (re)use and (re)definition of snd_pcm_hw_params->fifo_size for
+ 'jumpy DMA'
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+ Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Linux-ALSA <alsa-devel@alsa-project.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, arun@asymptotic.io,
+ wim.taymans@gmail.com
+References: <a03350b3-5828-4ffe-ade7-b94bb6ec7d64@linux.intel.com>
+ <87se9htms4.wl-tiwai@suse.de>
+ <67b9f48b-1cc7-4dac-8f6a-c0cba6a84b36@linux.intel.com>
+ <87ikadtgpe.wl-tiwai@suse.de>
+ <dadef18b-1c2e-4c0d-8ae8-2e4b8ad75d04@linux.intel.com>
+ <878qb8tsib.wl-tiwai@suse.de> <88979231-caef-4eaa-b89d-22e6973c92f9@perex.cz>
+ <cfb84df3-c2bf-4173-bc45-7df29b6a94a3@linux.intel.com>
+ <a1b6b2ed-2e26-48ff-afab-60f90ecc4360@perex.cz>
+ <4c73e4cb-298a-411a-97ed-f0eff1b06ac9@linux.intel.com>
+ <978bdc67-b91e-437a-bb8a-b609a4fef6d1@perex.cz>
+ <b97ae6b9-ef72-4dbf-bf29-9092ec3919d8@linux.intel.com>
+ <82d870b3-4ec1-440a-ae8b-87edbf665b99@perex.cz>
+ <542a9743-2a47-477a-b457-ae32c3f8dc49@linux.intel.com>
+ <39fcca55-77f4-4cd9-8a94-d80e5b94c8ba@perex.cz>
+ <401a7777-e83c-4120-9d82-71388bf38397@linux.intel.com>
+ <b9308972-1795-44c5-9263-ab9f88013215@perex.cz>
+ <8af520bc-cb27-416a-b823-7a21f0784f89@linux.intel.com>
+ <463d844b-ef44-471a-8749-6bb068833c4a@linux.intel.com>
+Content-Language: en-US
+From: Jaroslav Kysela <perex@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
+ ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
+ E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
+ HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
+ LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
+ aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
+ srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
+ GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
+ 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
+ njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
+ eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
+ BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
+ lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
+ VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
+ 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
+ cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
+ nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
+ LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
+ Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
+ ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
+ +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
+ aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
+ FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
+ 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
+ V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
+ t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
+ +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
+ 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
+ f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
+ z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
+ zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
+ Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
+ MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
+ y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
+ uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
+ ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
+ dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
+ qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
+ 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
+ k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
+ m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
+ WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
+In-Reply-To: <463d844b-ef44-471a-8749-6bb068833c4a@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW1PEPF0001615F:EE_|PH7PR19MB7463:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 49585a25-600a-4d1a-3f16-08dea6ca7e6c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|36860700016|7416014|376014|82310400026|16102099003|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	y+ktwVq9FF/XouGK3H7Oje8bOCNeN+ieFL8wzBWRMydhYaQ97MkzvD6FfYtxFucXL2Ne5RcaPdE2CB5NlOKc7hI2ZQL76CZAdWvpZyK2bYzQEW9dbC4JIdjCOc6GjPrO1clH6wmy+LgXKqy4B+PTfN9RaZiZ0j15n8O9LhO7kUmTUTdj3aS58wi8eTq9TVNK8rBmlzejAcd2oeP4DqGI8ijPpcT3JOvM+XEQ/MOybdRJnnWTwMYGUBaZ+R8B1tbBrcPfXj/dzJNPzXEpYzGVBZzSeQ/zEVkMnsMS8WMWXrgxAvHVUa8D+yrlkDWNYDwqB77AjyrZlHsX/PWRw56vLDLdwc+i+wpTmUVJtPkIe4GcyXKGbKW3+RlhL4aaJRWAcLNORj8O/XkADABrxsSxMt9A+Hee959nywAjhlggsnVWhuPuUwG+0+5SLzCsEKKbtskWGVPQm8Sei8Z73oCBzYsVc8l13Br7lPZl0yGNdsdlfGLCsnYH6+utSD8LnXDmwLQTbIFConupohgztpSBxczfWucYiJHicgPeGvaJQItXSzA1uxLiHg7LDy7vwhm8gUxQKYlpbszyXs+paM5dnI/DKLSVbGHEEz/7qwYcILAGhjKgUSqfocJoZgART2FLsEgdcUkm1Mi4BtVq+fWLWfC/XCGei2vWRDSZTj++2WC/t2ebQUh1MO8RjL6FrXWLMJvC2oW+ZV7p+c+Ykio6seTY4lzyNzTqEh9kgSMivVZSCeaNc74DtNOx1CuI06UTNbYxpxgiP83WYIJAT43upQ==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(36860700016)(7416014)(376014)(82310400026)(16102099003)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	zgwPSAUxED0nWxsbv/Bc04Qp1lbd/y4DAcZbglp2d3fEXyV8PwXSYzWzHULaHE/v1yn/JMZwzefGcxF32jh0lLb9UNM8xLjebk41nBc02G3GekLHWLNo+TJAKrMisYntECuRhpABjpIxFLB4r/vIdJKg/9D0NFkQImcBSygzw39Y7hDnjJe+dP8GhJ+ml7AK2+cIwTgsKgdtt9ja7/aGmQc1XlPm4ruZwwpp8FlK7UxNYngC9XM8RPRv2LrdPKKVq9hduu3K/a6VB8nsIxszL+aJ2U7Pd8DSldSjvP98olczonbCB4zRfD776fG4bji0QF/Zsnh2uvjwX8Ykt6cR4WAeYWSSHAIIc09mKwgyY9TAnfrWuJfYVe7GcG0hOxT3awYH+LQiVvcBpGZHrvNwLkelSAAxdwxqtygHViDAwei3FdD6y9a1ELTLw8nk+r/v
-X-Exchange-RoutingPolicyChecked:
-	vuIXuIbEmzSWtGfxmxPD6gvm1gL9WJLyikEBccvUnODvBiHnM1hLIovqS6NvcA5iwcsjXxEE9aX3TeQuVIqFfL3L5fUY3Al8h+k0EWSSI/N+fdquqmDVr2KuqGbdBGvoX9VCt0ibzTLhzlyfYZikErLe1N3TYRy5bLmJX5XXozPjqJ9gOLQ2PEkNnFlxr1UuJb6kWO74QXNKMwQ+Pk897JKKvlnEsf7dZzdTI03QjR4IItn++QsSbsGePHws3mMaGwAkEowRRnS7ogJ8XnFas28jKk4dbp7G9Iu0VqcSmnQAibxfPDHi0sxrhxFDeVHP/J3gF9amF6nAEjItnpRhXg==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 15:09:36.4554
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49585a25-600a-4d1a-3f16-08dea6ca7e6c
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MW1PEPF0001615F.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB7463
-X-Proofpoint-ORIG-GUID: aHroiWgkusB0s_027sBBUxfH9ATSeFki
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDMwMDE1NiBTYWx0ZWRfXyryiinlBBF5P
- n1rPA0iEDI08fFFHSXe3ZQo4sCWE/YzEAc1Jcy5ycu0sVsUKF8TlOOIUc1PDVubRIPea6v08VSq
- 4CKI31sKxebrawFhUMzkXUX9MHSvzUyHil0hYmpPNq4EUg3CDSlYEOc/I4r9ME4fc3fbdfGH5T/
- eyRg8JSfkh3TsblnJWt28FY+nLEq3oC+J6yegL6NSgAydy0GXhzfCLC8/xxu0TKokWZIPwftDYG
- qGVIrRUj7KUEZTxtnNZaEN83W7JL4xPGjDKijJx1ptynNTG8XCKtc48zp3kfUQO2vQs8ypOONWr
- Qia2ZDWWlk8QU9pkM6Ff34Jn3yMjyJ8r650uJIkPiYB2/bRPX6jTPBSCu42S8QGXQBb2i4j3RqZ
- 60g0cHS5fRCKMK+5f7L0fqxCDSX87oMr3kjXQqKno9/rVh00CT+iab1CmVmHlx0nyzIT7KcQaib
- iS/v0Srnb8GP0aRWBUw==
-X-Authority-Analysis: v=2.4 cv=EuTiaycA c=1 sm=1 tr=0 ts=69f370b7 cx=c_pps
- a=v6Z6meDQFn3ji2zknzBGMg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=A5OVakUREuEA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=w1d2syhTAAAA:8 a=M2GLoMmDkqpnuoSPwl0A:9
-X-Proofpoint-GUID: aHroiWgkusB0s_027sBBUxfH9ATSeFki
-X-Proofpoint-Spam-Reason: safe
 
-Currently, all SDCA jacks simply report against a mask of 0xFFFF. This
-works fine for system with a single SDCA jack control as the status
-reflects that single control at all times. However, if two SDCA
-jack controls exist in the system, such as a separate representation for
-input and output, then the second control can cancel reports from the
-other since it will only report its relevant bits and zero in all other
-slots. This is exactly what the mask is for.
+On 4/23/26 07:05, Péter Ujfalusi wrote:
+> 
+> 
+> On 22/04/2026 17:19, Péter Ujfalusi wrote:
+> 
+>> Hrm, so this is a driver scoped refine, right? Based on the requested
+>> period size and a flag (SNDRV_PCM_HW_PARAMS_LATENCY_AWARE?) the driver
+>> refines the period size based on it's jumpyDMA capabilities?
+>>
+>> But in this example the application will have no knowledge still how the
+>> DMA will move, the DMA will initially move 30ms and after that, every
+>> 5ms it moves 5ms, so the driver should be refining to 5ms period size, 6
+>> initial periods and 1 period step, no.
+>>
+>> Or with my favorite examples:
+>> 4ms initial burst w/ 1ms steps will refine to 1ms periods, 4 init and 1
+>> step.
+>> 100ms initial burst w/ 96ms steps will refine to... I'm not sure
+> 
+> 4ms period size, 25 init periods, 24 step periods?
+> 
+> and same for
+>> 40ms initial burst w/ 36ms steps.
+> 
+> 4ms period size, 10 init periods, 9 step periods?
 
-Build up a mask using all the possible states for an SCDA jack control
-at registration time and use that mask when reporting a particular jack.
-It is worth noting this still doesn't handle cases such as two headphone
-jacks as that would require separate ALSA jacks to report to.
+Yes, the settled period size will be like the basic transfer block.
 
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
+I am trying to put things together and create a proposal. Very preliminary 
+version is available here [1]. We can discuss this more. It should cover all 
+missing pieces in the current PCM API buffering setup (realtime double 
+buffering, deep buffer, power consumption optimizations).
 
-Changes since v2:
- - Slightly reorder sdca_jack_set_jack just to make things a littler
-   neater.
+I just need to verify, if we can create a constraint for this mechanism. The 
+maximal period size from app should define the requested latency (half).
 
- include/sound/sdca_jack.h  |  3 ++
- sound/soc/sdca/sdca_jack.c | 75 ++++++++++++++++++++++----------------
- 2 files changed, 47 insertions(+), 31 deletions(-)
+					Jaroslav
 
-diff --git a/include/sound/sdca_jack.h b/include/sound/sdca_jack.h
-index 3ec22046d3ebc..181541f0f4d8c 100644
---- a/include/sound/sdca_jack.h
-+++ b/include/sound/sdca_jack.h
-@@ -18,10 +18,13 @@ struct snd_soc_jack;
-  * struct jack_state - Jack state structure to keep data between interrupts
-  * @kctl: Pointer to the ALSA control attached to this jack
-  * @jack: Pointer to the ASoC jack struct for this jack
-+ * @mask: Possible reported jack status bits for this jack
-  */
- struct jack_state {
- 	struct snd_kcontrol *kctl;
- 	struct snd_soc_jack *jack;
-+
-+	unsigned int mask;
- };
- 
- int sdca_jack_alloc_state(struct sdca_interrupt *interrupt);
-diff --git a/sound/soc/sdca/sdca_jack.c b/sound/soc/sdca/sdca_jack.c
-index 49d317d3b8c85..a2d95b124b789 100644
---- a/sound/soc/sdca/sdca_jack.c
-+++ b/sound/soc/sdca/sdca_jack.c
-@@ -145,6 +145,32 @@ int sdca_jack_alloc_state(struct sdca_interrupt *interrupt)
- }
- EXPORT_SYMBOL_NS_GPL(sdca_jack_alloc_state, "SND_SOC_SDCA");
- 
-+static int type_get_mask(enum sdca_terminal_type type)
-+{
-+	switch (type) {
-+	case SDCA_TERM_TYPE_LINEIN_STEREO:
-+	case SDCA_TERM_TYPE_LINEIN_FRONT_LR:
-+	case SDCA_TERM_TYPE_LINEIN_CENTER_LFE:
-+	case SDCA_TERM_TYPE_LINEIN_SURROUND_LR:
-+	case SDCA_TERM_TYPE_LINEIN_REAR_LR:
-+		return SND_JACK_LINEIN;
-+	case SDCA_TERM_TYPE_LINEOUT_STEREO:
-+	case SDCA_TERM_TYPE_LINEOUT_FRONT_LR:
-+	case SDCA_TERM_TYPE_LINEOUT_CENTER_LFE:
-+	case SDCA_TERM_TYPE_LINEOUT_SURROUND_LR:
-+	case SDCA_TERM_TYPE_LINEOUT_REAR_LR:
-+		return SND_JACK_LINEOUT;
-+	case SDCA_TERM_TYPE_MIC_JACK:
-+		return SND_JACK_MICROPHONE;
-+	case SDCA_TERM_TYPE_HEADPHONE_JACK:
-+		return SND_JACK_HEADPHONE;
-+	case SDCA_TERM_TYPE_HEADSET_JACK:
-+		return SND_JACK_HEADSET;
-+	default:
-+		return 0;
-+	}
-+}
-+
- /**
-  * sdca_jack_set_jack - attach an ASoC jack to SDCA
-  * @info: SDCA interrupt information.
-@@ -154,7 +180,8 @@ EXPORT_SYMBOL_NS_GPL(sdca_jack_alloc_state, "SND_SOC_SDCA");
-  */
- int sdca_jack_set_jack(struct sdca_interrupt_info *info, struct snd_soc_jack *jack)
- {
--	int i, ret;
-+	int i, j;
-+	int ret;
- 
- 	guard(mutex)(&info->irq_lock);
- 
-@@ -162,6 +189,7 @@ int sdca_jack_set_jack(struct sdca_interrupt_info *info, struct snd_soc_jack *ja
- 		struct sdca_interrupt *interrupt = &info->irqs[i];
- 		struct sdca_control *control = interrupt->control;
- 		struct sdca_entity *entity = interrupt->entity;
-+		struct sdca_control_range *range;
- 		struct jack_state *jack_state;
- 
- 		if (!interrupt->irq)
-@@ -169,6 +197,20 @@ int sdca_jack_set_jack(struct sdca_interrupt_info *info, struct snd_soc_jack *ja
- 
- 		switch (SDCA_CTL_TYPE(entity->type, control->sel)) {
- 		case SDCA_CTL_TYPE_S(GE, DETECTED_MODE):
-+			range = sdca_selector_find_range(interrupt->dev, entity,
-+							 SDCA_CTL_GE_SELECTED_MODE,
-+							 SDCA_SELECTED_MODE_NCOLS, 0);
-+			if (!range)
-+				return -EINVAL;
-+
-+			for (j = 0; j < range->rows; j++) {
-+				enum sdca_terminal_type type;
-+
-+				type = sdca_range(range, SDCA_SELECTED_MODE_TERM_TYPE, j);
-+
-+				jack_state->mask |= type_get_mask(type);
-+			}
-+
- 			jack_state = interrupt->priv;
- 			jack_state->jack = jack;
- 
-@@ -191,7 +233,6 @@ int sdca_jack_report(struct sdca_interrupt *interrupt)
- 	struct jack_state *jack_state = interrupt->priv;
- 	struct sdca_control_range *range;
- 	enum sdca_terminal_type type;
--	unsigned int report = 0;
- 	unsigned int reg, val;
- 	int ret;
- 
-@@ -213,35 +254,7 @@ int sdca_jack_report(struct sdca_interrupt *interrupt)
- 	type = sdca_range_search(range, SDCA_SELECTED_MODE_INDEX,
- 				 val, SDCA_SELECTED_MODE_TERM_TYPE);
- 
--	switch (type) {
--	case SDCA_TERM_TYPE_LINEIN_STEREO:
--	case SDCA_TERM_TYPE_LINEIN_FRONT_LR:
--	case SDCA_TERM_TYPE_LINEIN_CENTER_LFE:
--	case SDCA_TERM_TYPE_LINEIN_SURROUND_LR:
--	case SDCA_TERM_TYPE_LINEIN_REAR_LR:
--		report = SND_JACK_LINEIN;
--		break;
--	case SDCA_TERM_TYPE_LINEOUT_STEREO:
--	case SDCA_TERM_TYPE_LINEOUT_FRONT_LR:
--	case SDCA_TERM_TYPE_LINEOUT_CENTER_LFE:
--	case SDCA_TERM_TYPE_LINEOUT_SURROUND_LR:
--	case SDCA_TERM_TYPE_LINEOUT_REAR_LR:
--		report = SND_JACK_LINEOUT;
--		break;
--	case SDCA_TERM_TYPE_MIC_JACK:
--		report = SND_JACK_MICROPHONE;
--		break;
--	case SDCA_TERM_TYPE_HEADPHONE_JACK:
--		report = SND_JACK_HEADPHONE;
--		break;
--	case SDCA_TERM_TYPE_HEADSET_JACK:
--		report = SND_JACK_HEADSET;
--		break;
--	default:
--		break;
--	}
--
--	snd_soc_jack_report(jack_state->jack, report, 0xFFFF);
-+	snd_soc_jack_report(jack_state->jack, type_get_mask(type), jack_state->mask);
- 
- 	return 0;
- }
+[1] https://gist.github.com/perexg/c552e92c38be47c8c4d6768a9c8d40ce
+
 -- 
-2.47.3
-
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
