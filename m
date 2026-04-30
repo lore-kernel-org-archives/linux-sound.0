@@ -1,239 +1,209 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010067.outbound.protection.outlook.com [40.93.198.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F933ACF02
-	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 08:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.125.188.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1512264B0;
+	Thu, 30 Apr 2026 09:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.67
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777538775; cv=pass; b=YksgcQWU5TnU3JpOr7dy98Gbyrh6N7VELACQw6p4Q6/ePCRtdrp+lQYLUWla5N1ZEV34SoEKwockKL5tl37mh3FHS8IOHtcgzqA3gxvRUbifX9xtFEmz5z/bipkz7STwOvVREQVxpCUL90QbiFSzE8/lItwENnVkT3x9049IZ2o=
+	t=1777542144; cv=fail; b=pQjBAMS1EPYe/toWxFKpAZ5cCGnjunc3NCWOkEejQewNsk6sue7EgyVAW+DtrU9NkvrEXvFmy0Qzo2NNt/AY8ORxHUOjfMOtizuJMb6krhizNDPf3GygPHttNEZn+rgXOOsj8SlVYIHbsYA+PCeR6uJibNvrKOtV444Kt4FWjac=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777538775; c=relaxed/simple;
-	bh=C6WrJVZ7mxiaCqHx3Pg8/FaCGf/eN1Q3ix9DQPNXg8Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PKu+skZ0l/MXEcxobhm4cRihvLqzzxNd+g0HgjbmH0PCxs0cmI9usSRJINnoBS0cH30yatCPTZdR2/RxRUwkcwBi2Scm1pkwb/33Kr0L2SNsg1AYMbgR1s3/v1c4s6nVh/L6D293ve6JQ2Sr7AnFC6OapiMkbpNs8HChyoVBgSg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=WOKIPDWQ; arc=pass smtp.client-ip=185.125.188.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1777542144; c=relaxed/simple;
+	bh=0rltcw+eXjGSXlnn/UiErj71LZ3vX15NW8eWkfCWz+4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Ihveyp+JTav00MkJzlrsQdkmwkgxQfj/R/BRx2a6iaaJgaBn1rKifnQLVkilBEwSIAyNVW47nbslxS9M3esKwkD9XygUZclTkm2SZVIp58dwyFe24SUCuGotlJffpuigP1mTV0c1xi9hc4InMMTfeqJvwFrEQzyvZgSAKO88u0M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=M8tLyXGS; arc=fail smtp.client-ip=40.93.198.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="WOKIPDWQ"
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 1EB613F9CB
-	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 08:46:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1777538768;
-	bh=zAwcTVTDJAFx7Zf1XHw1mE8M1HnA1HbUWR/ulL9i3S8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type;
-	b=WOKIPDWQkh48IR/qnfCy3y0yPa9Cw+KiwxZaow2Yz50A74VB6EoSM89iPbDiySxzZ
-	 vna9/89J9yoNo8Z8WTIBD+7eO79l0muHaU9DdI/559kJbV0d/F+0CNAOJcoPc6FRzh
-	 punjFrqdRM6Y6TIPrPuMTgXYt5nsw30Ss82MxOg0eXINCCEVhFgJZRsTgVc7u3AOFc
-	 wHytFQ4d1Et/6kPZYm3Tid/P15jb8XfJrGGYZGjnB/n/VjoSAzHK1J4NQ9yAQN7YQ+
-	 SQkliIWp+jEoQX4qc6R8u3hiOff6L450eavqxWIKQ/hyeqivCIqZ3xAiCv3UDBmrEL
-	 GBFxo8f59WgSgiDZ/CxSqVwU2I4hXpzZC5dVGuOP8cM432zCgkDdTD+TAOrecw91Ev
-	 /xH43JcK9hB1P940Kd4HvIfiirJYVtyH2Qhfwj41S7vWi38Y1GfNbtjG4bQTKAjU1C
-	 KWt/Njc8OqkHTaGGvQe0oi++kOR0PYIYDJfsY8WD/UljMEH7ZgYgs27W+cDgXjCUlZ
-	 BT8zQO5XKI5UND15t3fzTRCdemIpiyn5+vAFf/DokDvn4KK/LAXbOweXzX9D64a0zc
-	 FvTNfz5RTQ/WXrbPl9g69qm5fIZmdTe/bOx//m7/vhaTKo/znl/+qGH6N0VCStIe1U
-	 /HrME2/Cn7ab/mz7WmTovaw8=
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-2c16233ee11so959157eec.1
-        for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 01:46:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777538766; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cjnLxKzZsNJmGqKtgXxI9CgxhRO6D9RMBk/j6QwsG7MnZLe7ecKr88WVZCfCMwzRL5
-         IHm78eK/Vi8C4oEzKrCyEIEwuIns24XX3A+lCNB7WIMwWT3ol9VqOChErqUmPtm1hi2g
-         KMTzZ9D+zawfeSGUWqD/wGLCkHDp1VrROFGn3kxzBxmv5J7AJqQPA7KfM9+9mAtQqK5l
-         wT4sDkfVl08NUKYgUmVH7kWgnDcbGYGFPccJAl9ZquI0vg5LF+ND5WZIppXuWPZeUfKf
-         67+nq6GQ8hhPehgDuxvOPAy0jX3YbrN4r7RMVi4xLYE257GiUO54kjvdNvSdDrAP6lhi
-         NVOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version;
-        bh=zAwcTVTDJAFx7Zf1XHw1mE8M1HnA1HbUWR/ulL9i3S8=;
-        fh=EXPfc674KCLCemD75NVN+TKODzPMzzndmey2++R+/tI=;
-        b=WJm0b9CHhPnF7jNNYDKVRAzl/Bly5ENKenjlRRJrvn/T8fKmNNLqwIFTyo1kxMv/ch
-         QO6HM6iuxkSQSvoGdC4ftNOjCz2+OTvIVQjzeMaDbz2SYVcgra30DWl4wA1WISmYyP8g
-         P5/owzMp1jI80a7BuqWxc861MKDUgSEHL92Sxvgd4OxUMfJWKGC7bkI1Dz9fk426R9ZS
-         CjZcSzV6zzqzLOxPS5yCUiqch7uYyKDEtG/e8hvEJzjedEW17HoG+kkZ+zYAY9n43eu3
-         Uc4uOYxAkX96wdiU16X+8b1RUgOiSzIsxZ3gUDdAY96dgWhwd5UMgWu5Zbs+RuRLZXZ6
-         ueaw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777538766; x=1778143566;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zAwcTVTDJAFx7Zf1XHw1mE8M1HnA1HbUWR/ulL9i3S8=;
-        b=Na5y64vCjVjjYpoLeYZ5wjlDWsQ7M9+z/6Y2QBb8kuulkFv4uu0XQX8oHSo2ND16E+
-         KiQoVBDOtEs8pImbm7U79vp+ItHQUlCHKvz+dAXn56f7pzIhkadzg0Uzs2KE8+SbKmQb
-         pTm9t1dUSjhWuWko6E0G5c1Du5trcRw6xF6Qhf2VTpqsxRBPsYQVS/j4o7wtVjonPv1v
-         RPE/BsHyvF27oQeG/x4yX13RhT5yuDjDAttOfc8VGJcqdcZkLR6rzpwff24U2LIhsMv0
-         KjKSesy7Y0ahGUlhM7wrNC+i2h2hML/Wrmiw++SrDqUznXKDcH4rQb7RE7UPnsyW3igG
-         uHtQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9dtUwVTOjAQHgY4wVwkTSex5Fque/q6NbURf6N4ZatP966J3TIo1Zu59F/LyXb/hrVqaHFGxjyDdZRgg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAnZl/p+qlbZqXUHQ5NREJwDdaEMzkl1KCPVvKKgu/PhwLnbcZ
-	5DAK2Bw508yXUnJuVXto+ql04k/QJNndt+ZeM6sSgcc7UU0iGLYKv9Brn+g6qVo9bEpYE0BuAn+
-	9tZfzJctolj7MKSdCNxk6wDuGfxl8lybxWlU/T5t+7MPywTu5pIe+iMRSIvbWZmQrPtlWZj/fdz
-	bBayMthSJNzqe1ozyLrSkf/lVB5CPuRipo59XOlUb1hbdsAB1ayI4UEPI=
-X-Gm-Gg: AeBDievzQXrOjwC4Nn8+lxRapYxkRgrvMuBuSStEzRMqcz0EGPHwfgqSbesO4PTYVAr
-	BHBKqPmHan2qAa9TC9P5kk89cu660S+q0R3tHHE1IsAtZBD2tiZj0VlInpby4CvY/K5xa+WNcWk
-	B1ALqfzTe/gA0/Gh34ObXs+BM7oOYP3c0xwVqxT+lEM1GZ51lxZ1dWdPlqY6dyahZCcitcisaiN
-	N9jNWf79mWdcIw9kGg7wnyWJ3YsZNfwx62GYDN1BexZAVwXTqC6nC/aZmz4Cix8U0ewTdCY
-X-Received: by 2002:a05:7022:218:b0:12c:6e75:bb1 with SMTP id a92af1059eb24-12deac4f179mr805357c88.4.1777538766222;
-        Thu, 30 Apr 2026 01:46:06 -0700 (PDT)
-X-Received: by 2002:a05:7022:218:b0:12c:6e75:bb1 with SMTP id
- a92af1059eb24-12deac4f179mr805345c88.4.1777538765778; Thu, 30 Apr 2026
- 01:46:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="M8tLyXGS"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jYpA4UKhuifOIRh98qAHKugOGu6psPH9SbWHUXqk5FRPuO4+CRH4MGdO9c/oWuofYTp1n1jVL9KtZ5KSxatK0dl+C6G+Jb6OddTBscB+TvKNhl+V8Gusn+lJhudTR34SCr68R2yqN7DB8iuJVxI9CV7g5zk7Hy8T6f2nxKGjFEmazZLF4UnKm/hsiDU/Ekh7Y/L1NI78oFM9tcAb0l4PE75lS7s31ZtxZ3Pan9fH89XEMdxMFD1al/HLH8swVQr1UQP7c298/bR1UveDTnqMqG1NzHrfycYfR0hbHCnHbx8SxbC9AMN90A3u55PFtsWF2Lb80MHPiMEe9EaqOuMKdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+pxY7CElGsrjS5BgDkpFBV9Ls547EcboMXNUGuOrTR0=;
+ b=eKy9Re+XdFahgwj43w+prPWTyItdcrWhhwZZ84dgq6/lbJ0lLjk0GTQQrAyFzSJYHe80Ds0kP38oECdwj39Y+XqgyJWr5NlRCycZtuGP7ycSUltvmSamoqPMXh/7KYhUbN93Vdi1saazRB4UTgkzHGaR6NBsT789F6ZHVXXUTgav4WfuKq+xKVUXRe2h89kR8wWBXIsCoKa36RpZHyQTXIWo3FF0wRKl8zRNajCyM6Lsag3pC2uMup4q2MVVDsBg02Nr0RbBLsYdAchKaEEYd0P/SRfJgefTq7Hl0Q/rf8zywvv0rVCOrb7ZT8/A1FR55SAC7kow/BSn5pqIqJcBPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+pxY7CElGsrjS5BgDkpFBV9Ls547EcboMXNUGuOrTR0=;
+ b=M8tLyXGS1UjkEoA0MXxoI+FAoIpCbrYgRt3mdWuAA3kbXy1egnp5H2p6aKdxuUF+kfFHXvBZR2Wv8Lx7j0pNXap4+Bge3N0u6rxMHgIeWysNVsxqB83YGGVWKwYCJJfBaPVTcoHi/XPmLQ0dp3JKzPIe5ngLPwB5Z7wyz+VJ82b1P4efKBIAS9GsQ3tjB2gsioC/TPmNautEvxa9Q4UlADKUTwKW7wJ6nm6YzY5vmM5NITaF2Cvxc2f+XarSX9eT6fSSni/zRdKq1HyG0+aAkV8n544hqbjE3CpNFiXrL5f/lGwlaY6JhzVcJbLHeIjv4Nk33i7x+lX05tIMsRnlcA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DSSPR12MB999212.namprd12.prod.outlook.com (2603:10b6:8:376::11)
+ by PH0PR12MB7932.namprd12.prod.outlook.com (2603:10b6:510:280::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.21; Thu, 30 Apr
+ 2026 09:42:18 +0000
+Received: from DSSPR12MB999212.namprd12.prod.outlook.com
+ ([fe80::5e39:8f96:935a:87ba]) by DSSPR12MB999212.namprd12.prod.outlook.com
+ ([fe80::5e39:8f96:935a:87ba%3]) with mapi id 15.20.9870.013; Thu, 30 Apr 2026
+ 09:42:18 +0000
+Message-ID: <f6200923-d796-4ac1-85d8-3ed7383b90a0@nvidia.com>
+Date: Thu, 30 Apr 2026 15:12:08 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ASoC: tegra: Add per-stream Mixer Fade controls
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Sameer Pujar <spujar@nvidia.com>,
+ Mohan Kumar <mkumard@nvidia.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260429070603.2791011-1-sheetal@nvidia.com>
+ <afLv3S6kWnt0D6PW@sirena.co.uk>
+Content-Language: en-US
+From: "Sheetal ." <sheetal@nvidia.com>
+In-Reply-To: <afLv3S6kWnt0D6PW@sirena.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN5PR01CA0041.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:264::14) To DSSPR12MB999212.namprd12.prod.outlook.com
+ (2603:10b6:8:376::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260428073726.1611777-1-aaron.ma@canonical.com>
- <69a3d80d-c9aa-459f-8522-c07e225bd5d9@linux.dev> <CAJ6xRxUuOgfoJ1VP3++Hm_UdhYLJH-16J3rXUcN6O1BmSDJVbA@mail.gmail.com>
- <78c57b26-505f-473d-8472-a491ede5aad9@linux.dev>
-In-Reply-To: <78c57b26-505f-473d-8472-a491ede5aad9@linux.dev>
-From: Aaron Ma <aaron.ma@canonical.com>
-Date: Thu, 30 Apr 2026 16:45:54 +0800
-X-Gm-Features: AVHnY4JNxbHWhyqVZ7Q0-HGij_C6byjbJzU1_GXwcIG1u859Z0VLmk7qUmb4mcs
-Message-ID: <CAJ6xRxVeOJWteUsRZNE6QdYvv7ODoErRc7DQda6CdQfvq8-Z8g@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: rt1320-sdw: don't poll PDE state on power-down
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: Oder Chiou <oder_chiou@realtek.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Shuming Fan <shumingf@realtek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DSSPR12MB999212:EE_|PH0PR12MB7932:EE_
+X-MS-Office365-Filtering-Correlation-Id: 788c7578-6de6-4ca8-9b48-08dea69cc4bc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|1800799024|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	pu0UvfXiMzWG2B+v3QVmC+Za3/u7RYCImQsrKmx+YEupEz74vFlS43Xx0NTmyDT2oZhaMG8RqHeBlRl/lwgT79lR3wsSmF5jAvZ+XdJ/NGUjwd0libX4CXtJbjNaBGDNFfe+e61xgehK8r/J/PsYaPxwbIV1a2ZoLD21RuBclLzhmIwF7uHO+KIV/rTURD4APL+3CHrimCrzWr7jTZZSnvkYYLzvoy8J2sb1iQaS5pTy4NM2DenfhuvDWtmNkewz58nkrD+FcfL17Xts8yZHc6VR3w3uefTqHgPvfyoqhLk26LWyvWMkLZGCOD4GFtBORWsL1Q1qpXKrzn4o56ceylsJ1qyTkbYPoD0bakyvob+h11rlmhdfN6vbI/TqrzTvBLeFS0Wy0qYPIXvCBLsnESL7di7gZcjPVkY6qSzMY/5Ofk2L4aLqSnaA8o3KlxbjdxbvUwvbYScVqNe0WC3xP3rUNNeTo97qr5fQfWbvaCDdYyhfOvBNBkCcXCUZD3dROUxPnoUb9YGBhTWA3vA31bRhoh2OdQJAKa/0PYLfHmgUCG9lfT4beeIbNFlPovoCdtMIRff6oAtf7UnPiabC8U7hq+C4q7s4j5Fsz8RLxf/Xvc5xUv6cG3FhmtInFEk5cz5pZ/uqAJfTcVl/X3LcUvV/vtTKSeeMagHbObu7mOCXdaZ1PTBAGWfU40VUFvz4jhKJFTGuDJtNjJ8oNaZzODGP87om64TSboCt3rCKK3U=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DSSPR12MB999212.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Y3NMRHRmSGozV1pFY0VpaHo0R3VHQUNMU2V2Z01EYUZBaEs1OG01WlFYN0wv?=
+ =?utf-8?B?ZzlFQ3I5OTFUUE1BenpuYjZjVTEycG52ZHcrREdtSXU0ZUg1TVROSVZGeVNJ?=
+ =?utf-8?B?bnN2Z1VwVVlyajlkbVRBWElRUlNLd2pJelVIaFZDTjc0Yjl6RmtLQm8zdnpE?=
+ =?utf-8?B?L1FZMXRXM2xlK1U4RElJbzFQYlF6VWJNcWZ0eFJaaW1vZThWSXF5S3dWYXIy?=
+ =?utf-8?B?dnZiZG81dXVQVTUyRHdJb2RHZURpMnh1V3diTzRqMFJkc0ZiRzkySG95NjJM?=
+ =?utf-8?B?MkZocG5Qd3k5NWRTN0VwcVJNUEZIdzJicVZaTWZDSFZPczZtbERkWlNKbTF3?=
+ =?utf-8?B?V2ZndDVsRStqb2FjV2k4cUZmMzVoL1Z5b3B0OGkyM25yYzIvUVo4VFZQaUJW?=
+ =?utf-8?B?YnVhQmUrbUhLNkltSGlVcCtXYzNnVGxVcDNkZXJPYTM2QUJvRWtFNUowWHN5?=
+ =?utf-8?B?YWRWVGh3czVOUzlPS0VjdTgreE9mZXczaXNsbEE0dUVCU3NiUzlaS24rNDVk?=
+ =?utf-8?B?MWJFN0hUaUZZTXVmeXhSdGhpSDJrTGZ4K0hCeGRPWVhYSHkwd1JSMTBvcTVD?=
+ =?utf-8?B?aDFGQjZiM3pJTVVKWFBFMEh4MERZODg4d24zb1d5akZOdzRoQW5Fc0JPbyta?=
+ =?utf-8?B?NUZmL3FTQ2FFcjNwcU4wUnRJUCtzSUMyRi9wdkJSVTEvcElHL1FuMUJnTGov?=
+ =?utf-8?B?T05OVjA2M0Q4N202YVNmZTNTeWFIREhMdjRxZUZFSmNYR0lja0NBeTlvNS9L?=
+ =?utf-8?B?OThpVDZYUTFwMnRSeXpJRzF6RnZmRTFtYU9oWXc4ckUzRkRwbVN6WXdMNHJw?=
+ =?utf-8?B?LzlSaEE5Mkx3Ykp4OUM2bkpYTXI4cW9uZnZXZ3VDZHQ4Z1YyRU5BeFBxWDZF?=
+ =?utf-8?B?SXQ4UjBWK2UxMi8vYTFXcENLQUN0cDdqRWZUQzc4KzZXL25jdmJNakg5MTI0?=
+ =?utf-8?B?T1B4azdBMFRWVlBDQUdZbnY5a0lGazVHYnJPOU50ZHI5bStpTUhsdWY0aEJt?=
+ =?utf-8?B?cEtTTDdUR0xGbzhrNE1kYUJ0UUhUT2dTd1Y5RTQrTXREWCt0VFBDU3dPZ0xl?=
+ =?utf-8?B?SG53ODd5OXc5MlB3cEYvOW1RU01aQTlZeUNUN0N4VHdmdWVWc0wwUW9sVWhV?=
+ =?utf-8?B?OU1vWjdLMWhjampSenNIa1hscnp1SzRaenRFcDhxSEJLQnNLN1ZVNUpEd2ZW?=
+ =?utf-8?B?SWpFSDBLN1p4Q0lmTmZESHFPR2wvbDRWeU9HR2pGd2ZsMHd5QnBzVEhDR3Jy?=
+ =?utf-8?B?bWdUZEdtTFRlN2lrVklvbnc5a2hOMzZUejk1MVUzVURUdVhzNC9rMEFsUlpO?=
+ =?utf-8?B?L0hGU21qNyttWkhXNDFydVNEZE94MXVGVUVpeU8rQmgyNHpId0NreHI2OGln?=
+ =?utf-8?B?S083R1l0cEJkSDRFNjFwdk1Edm9RcHdQMkxXVlRNNnJSalJnK3l5QjNRZEds?=
+ =?utf-8?B?S1pRN0FnRjJvdEs0YlRmbjlqTGZzYTFDUkRmbExMTTQva0NQd2J4M0tOVE8x?=
+ =?utf-8?B?R3hGKzduOXpvdnFhTXVCc0ZSYXR5bFRYd1FhTjY4NWVzeVRVR3Y3SE9tR1dm?=
+ =?utf-8?B?UStpTTdiYnpQWVJEU1FSOGl6K25WWjQ4TmpkK01GSFpjdnA3Wk9DZTYwQU5C?=
+ =?utf-8?B?WGlGUVZWellUTHF6ZVBZSWxWYm1lZW9mZUNpYmI2Q2ZZNjEraEhOSWM1TDgv?=
+ =?utf-8?B?a3BBNDduNDRlM1Jqb2FTejUwYmFiZ01nQzB6RlQ5RWVIZ3hnNUsvTFZEZEdX?=
+ =?utf-8?B?K2xZdEs4NGR1THRHcmNCbDdVL0ZJZFA5WE5lSk9xUjlLWWpFa2FhekxuZ2Fi?=
+ =?utf-8?B?a0crdmhGdWJjaWF4VGNUS29qRm9pWlVjTHowUGJNc09yMWwxZFo0V3pOdThH?=
+ =?utf-8?B?aEcwc0JNeWNIOGgxV1lRa1hiRnpud0lCOVd1RHgvRzBPbGxzSGlzQjZ2SXNn?=
+ =?utf-8?B?ckJTb2lrRkdSb21FcDN2dFE4YjNDWnpZTDdCelJZeWJLU2U2dnVpWlRtWFdo?=
+ =?utf-8?B?eWtacDJQNHNmdFJJMTB2RUFscldYUGF1Rk9LZnBwbm9TWkxFc2pycSt3S0J1?=
+ =?utf-8?B?K0J1dGkxZzRYVkRhUURNRkM1U3l0SmpEMzQ0a3Y5TjNYenR3UklBSVNHRkR1?=
+ =?utf-8?B?N0x1VFBoTUd2dUhHeWNvK2ptS0RDNUg2M1VpTTJSTlF0VGRLME9YSnJhQzRT?=
+ =?utf-8?B?Ry9Sd0xkNEoxckVUcS91dnMrNU9pUE5KTEZJNmdKNWp1UE5XM1ZkRWZiSHU2?=
+ =?utf-8?B?dklMNWx2YXpZS3hLN2Zwai9EeHU2TVY0ZmxaenM0bzJ1cGRRTXQvdFZHMnFG?=
+ =?utf-8?B?NGFUUVUrWEVZR0x6U1V5dzdXdkxCWG1CaUdwaldoMDBYSkJsVGREQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 788c7578-6de6-4ca8-9b48-08dea69cc4bc
+X-MS-Exchange-CrossTenant-AuthSource: DSSPR12MB999212.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 09:42:17.9943
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: O9o//6wCdQWGBQmGTVNcvFC6pimtzEm/mTbOz0rTB5y92tMI8/XCKS4zDOsRbq69qQnnxiT9UQywGee9VNAP/A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7932
 
-On Thu, Apr 30, 2026 at 4:07=E2=80=AFPM Pierre-Louis Bossart
-<pierre-louis.bossart@linux.dev> wrote:
->
-> On 4/29/26 06:12, Aaron Ma wrote:
-> > On Wed, Apr 29, 2026 at 4:20=E2=80=AFAM Pierre-Louis Bossart
-> > <pierre-louis.bossart@linux.dev> wrote:
-> >>
-> >> On 4/28/26 09:37, Aaron Ma wrote:
-> >>> rt1320_pde23_event(PRE_PMD) writes REQ_POWER_STATE=3DPS3 then polls
-> >>> ACTUAL_POWER_STATE. DAPM fires PRE_PMD while the SoundWire data port
-> >>> is still streaming =E2=80=94 the codec cannot reach PS3 until the por=
-t stops,
-> >>> so the poll always times out during playback. This blocks
-> >>> snd_ctl_elem_write() for 2-3s making mute unresponsive.
-> >>>
-> >>> Remove the poll from PRE_PMD in rt1320_pde23_event() and
-> >>> rt1320_pde11_event(). The codec transitions to PS3 on its own once th=
-e
-> >>> data port becomes inactive. Keep the POST_PMU poll =E2=80=94 on power=
--up the
-> >>> domain must reach PS0 before audio can flow.
-> >>>
-> >>> Fixes: f465d10cd731 ("ASoC: rt1320: Add support for version C")
-> >>> Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
-> >>> ---
-> >>>  sound/soc/codecs/rt1320-sdw.c | 2 --
-> >>>  1 file changed, 2 deletions(-)
-> >>>
-> >>> diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-=
-sdw.c
-> >>> index 192faa431b5e9..e42e8b6de853e 100644
-> >>> --- a/sound/soc/codecs/rt1320-sdw.c
-> >>> +++ b/sound/soc/codecs/rt1320-sdw.c
-> >>> @@ -2000,7 +2000,6 @@ static int rt1320_pde11_event(struct snd_soc_da=
-pm_widget *w,
-> >>>               regmap_write(rt1320->regmap,
-> >>>                       SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE1=
-1,
-> >>>                               RT1320_SDCA_CTL_REQ_POWER_STATE, 0), ps=
-3);
-> >>> -             rt1320_pde_transition_delay(rt1320, FUNC_NUM_MIC, RT132=
-0_SDCA_ENT_PDE11, ps3);
-> >>>               break;
-> >>>       default:
-> >>>               break;
-> >>> @@ -2028,7 +2027,6 @@ static int rt1320_pde23_event(struct snd_soc_da=
-pm_widget *w,
-> >>>               regmap_write(rt1320->regmap,
-> >>>                       SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE2=
-3,
-> >>>                               RT1320_SDCA_CTL_REQ_POWER_STATE, 0), ps=
-3);
-> >>> -             rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT132=
-0_SDCA_ENT_PDE23, ps3);
-> >>
-> >> no, sorry, that's clearly wrong.
-> >>
-> >> When we touch the requested power state, we *shall* wait for the power=
- state to be reached.
-> >> removing the transition delay is silly.
-> >>
-> >> You would really need to find out why streaming still occurs when you =
-get a DAPM event. That doesn't seem right in the first place.
-> >>
-> >
-> >  The stream is active by design =E2=80=94 this is a mute, not a stream =
-close.
-> >
-> > To reproduce:
-> >
-> >   1. Play audio through rt1320 speaker (aplay or PipeWire)
-> >   2. Press speaker mute key (or amixer cset on both FU21 channels)
-> >   3. Second channel mute takes 2-3s to return
-> >
-> > Muting both channels removes the last DAPM path consumer of PDE23.
-> > DAPM fires PRE_PMD while PipeWire still holds the PCM open =E2=80=94
-> > DP1 keeps streaming zeros. The codec cannot reach PS3 while its data
-> > port is active, so the poll always times out. The mute register write
-> > that actually silences the speaker happens after this useless wait.
-> >
-> > I confirmed via SoundWire debugfs reads: ACTUAL_POWER_STATE stays PS0
-> > while the port streams and only transitions to PS3 after PipeWire calls
-> > hw_free (~3s later). The poll can never succeed in this path.
-> >
-> > Every other Realtek SDCA amp driver does fire-and-forget on PRE_PMD wit=
-h
-> > no transition delay =E2=80=94 rt712_sdca_pde23_event(), rt721_sdca_pde4=
-1_event(),
-> > rt1316_pde24_event(), and rt1017_sdca_pde23_event() all just write PS3
-> > and return. rt1320 is the only one that polls on power-down.
-> >
-> > The POST_PMU poll is kept =E2=80=94 on power-up the domain must reach P=
-S0 before
-> > audio can flow, and the port is not yet active at that point so the
-> > transition succeeds immediately.
->
-> well that's an interesting issue. IMHO all those drivers are broken then.=
-..
-> A mute should let the ports active and not start any power transitions on=
- the codec side.
-> That's what should be fixed first.
->
-> I am not sure either why PipeWire would send a hw_free on a mute either, =
-that's a sure what to have audible delays and glitches. Mute !=3D Stop.
->
 
-hw_free is not involved here. The mute is purely at the codec's FU
-level (FU_MUTE=3D1 silences the output) =E2=80=94 the PCM stream remains op=
-en and
-DP1 stays active. SoundWire debugfs confirms: after mute during
-playback, REQ_POWER_STATE=3DPS3 but ACTUAL_POWER_STATE remains PS0. The
-codec cannot transition while the port is streaming. As long as the
-application keeps playing, this state persists indefinitely.
 
-The power transition is not triggered by PipeWire either. It is standard
-DAPM behavior: muting both FU21 channels removes the last active path
-consumer of PDE23, so DAPM evaluates the widget as unused and fires
-PRE_PMD. This is how every rt7xx/rt13xx driver's DAPM graph works today.
+On 30-04-2026 11:29, Mark Brown wrote:
+> On Wed, Apr 29, 2026 at 07:06:03AM +0000, Sheetal wrote:
+>> Add per-stream fade controls for the Tegra mixer to allow
+>> independently configuring target gain and fade duration for each of
+>> the 10 input streams (RX1 through RX10).
+> 
+>> +static int tegra210_mixer_get_fade_status(struct snd_kcontrol *kcontrol,
+>> +					  struct snd_ctl_elem_value *ucontrol)
+>> +{
+> 
+>> +		if (count >= mixer->duration[id]) {
+>> +			ucontrol->value.integer.value[id] = TEGRA210_MIXER_FADE_COMPLETE;
+>> +			regmap_update_bits(mixer->regmap,
+>> +					   MIXER_REG(TEGRA210_MIXER_RX1_CTRL, id),
+>> +					   TEGRA210_MIXER_SAMPLE_COUNT_ENABLE, 0);
+>> +			mixer->in_fade[id] = false;
+>> +		} else {
+>> +			ucontrol->value.integer.value[id] = TEGRA210_MIXER_FADE_ACTIVE;
+>> +		}
+> 
+> Is the _FADE_COMPLETE state a good idea here?  Only the first read after
+> a fade will show it, and functionally it's the same as _IDLE - there's
+> no current fade running.
+> 
 
-The poll itself is broken in this path: it cannot succeed while the port
-is active, always times out, and the handler continues anyway. Removing
-it fixes the user-facing 2-3s mute latency without changing any DAPM
-topology or power semantics =E2=80=94 the REQ_POWER_STATE=3DPS3 write is st=
-ill
-issued, and the codec transitions once the port stops.
+Yes makes sense, will keep IDLE(0) and ACTIVE(1)
 
-Aaron
+> Also is there any overhead to having the sample counting enabled?  This
+> is the only thing that turns it off AFAICT so if userspace doesn't look
+> at the control we'll just leave it running indefinitely.  Perhaps a
+> timer to disable might be useful?  It's generally a bit odd that we have
+> a write to the hardware in a get().
+> 
+
+
+Rather than a timer (which would require sample rate tracking to convert 
+the sample-based duration to wall-clock time), sample count will be 
+disabled before re-enabling it in the put callback, ensuring the counter 
+restarts from zero for each new fade. Does that sound reasonable, or 
+would you prefer a different approach?
+
+
+>> +	SOC_SINGLE_EXT("Fade Enable", SND_SOC_NOPM, 0, 1, 0,
+>> +		       tegra210_mixer_get_fade_enable,
+>> +		       tegra210_mixer_put_fade_enable),
+> 
+> Fade Switch.
+> 
+
+Ack
+
+>>   struct tegra210_mixer {
+>>   	int gain_value[TEGRA210_MIXER_RX_MAX];
+>> +	u32 duration[TEGRA210_MIXER_RX_MAX];
+>> +	bool in_fade[TEGRA210_MIXER_RX_MAX];
+>> +	bool fade_pending[TEGRA210_MIXER_RX_MAX];
+>>   	struct regmap *regmap;
+>>   };
+> 
+> gain_value is used by the existing RX n Gain Volume controls, don't we
+> need separate data for the fade controls here, or should we just have
+> the new Fade Gain controls?  Having the separate controls is more
+> complicated.
+
+
+The existing "RXn Gain Volume" applies gain immediately on each put 
+call, while Fade Gain needs to be staged until the Fade Switch strobe is 
+triggered. Sharing gain_value would break this staged semantics, so a 
+separate fade_gain[] field keeps the two independent.
+
+
