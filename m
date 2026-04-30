@@ -1,91 +1,209 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECA92868B5
-	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 12:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8682D3BA25C;
+	Thu, 30 Apr 2026 12:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777551065; cv=none; b=iOskCuW+bFgs9UwBQQR/199fCicOFxxFJc1EPgv58POKZ8fR3SoZntsR0QuolYDJlJr/uYPl78uJYnUi/ZTaSY+EP4Ylo67+WtAQkZcrKwAOuuNmbfViNcAmIuLmNovwQhyZXjp/Vj5Mou3NyEUga/u+kdHz2LYfDLB8rTlSq2A=
+	t=1777551868; cv=none; b=MxmigtJRzN6LZ890HQSNO7cmjZbxSDTYfOSzTh7iIwUDCraF39J88f6ETMJTBALJW1UkurtcSUbkrx+Ea6zt0w3oTo64TFVsPfLUeAN+9srIDDsyqHm+16IH8jUe7zdd4Vl35mc13KDRblKpGmaadznhY9jHApDi1kA/zp0DQe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777551065; c=relaxed/simple;
-	bh=siXxICERYXvFASDVI9XkiSguYLIhSlF+r6SW3WAPYSs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bD5OSk3LTajLzBahqvbMQyE6JRTRjM9gnR1EG0SuC22eEn7AaX/ZRoJwt/zn0D8iaNxSPH9zg76BlaMVq0gyh3g9biqzu7yOGEXl/ikNSCAPR7h2dl6vw1fkkt1QO3junR+44Vvdh/qT+ghweyQownj0vD4y/69B677nG8sIuJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j+87ZH3k; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1777551868; c=relaxed/simple;
+	bh=fUnQGXpdpk749hvfnoPTB9PnQ/m0xHLXASmsDsHWPU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BBo6lSNIG7DV2CmZVjP52NzrqpIT8n3YljMdpjIEG1UQcVcOeG+SdXrdXrIT1bVQxQkaDL2SmF9o7LTfBI7aSThhP3QYveTYG+wZ1AlFCz8qoLpmZsKZm3866Mb8N/SQD/WkfqIvP/1vukFpBnZVLdcPWIeufHuofagC1C2rPyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZHa5vvv8; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j+87ZH3k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZHa5vvv8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777551064; x=1809087064;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=siXxICERYXvFASDVI9XkiSguYLIhSlF+r6SW3WAPYSs=;
-  b=j+87ZH3kb6WarfcYpzeM3OTzaWKfntVveq1tk0hxEmNhpxB8JFWcMxvA
-   J/K2/66wErUQ1QpNrOYrkeZCbIVF1+OC49/5CmeKNvOYTk0TXadLuvhR5
-   5cXspKObIArwIYvIwTgcukYt9Dm02i120op1xKmz7ZvB7YdlYympjuIBQ
-   B1fhqBdaIIcJvHC7mPe4ihGshsBQKUaCnZ28v15bs/cFd4LLqNaYXdCzY
-   EOoh7LXrKkHw0pKw3VJFsAWcRg1JsbbU/uebmx48NE0oSupEBfn36syl5
-   HURMWzaHyKyas9C4s1HPAxzdfkwQONN8AxWGaf3SgRQmDIBkJDdlvqhGK
+  t=1777551867; x=1809087867;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fUnQGXpdpk749hvfnoPTB9PnQ/m0xHLXASmsDsHWPU4=;
+  b=ZHa5vvv8BI/5LD4N1Ps3TD8LGV5NudgSDRxaX5/PllM7Uuj0C0QDQQx6
+   7MJJuskzkeSSB56SPwf5ALdstcOGkvxVqa9Vrqpd7giBvMccjFxvpc8zQ
+   ENyZjZLS1736YAJoWK62EvKVKnCddPU06wJtuUakIUOF02yqv/eDjYsl8
+   S9npcVKEmd74PjPVRylLWEBv3gqZelm44ImLcX5+4TDSl36dMHzCAdM0/
+   WFrlL/IdXH7gDn+csKgOwz/CYQ2At8tZ8sasakm/QZb7I3x4YCNO7VTeP
+   ZlRB+hh5MLad8Tdko18rKiLKz8KK2qpH1Ee+/ibr+lPgcmEnH9QCILp9o
    g==;
-X-CSE-ConnectionGUID: Gsc0tkpwQRqmUaVUj04Itw==
-X-CSE-MsgGUID: lcRb2xKXSoua72i7YmJuvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78365443"
+X-CSE-ConnectionGUID: fl0VbEAQQji9cEKq28rjig==
+X-CSE-MsgGUID: RhU21JwwQ3+nXiYB6ow9Rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78689083"
 X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="78365443"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 05:10:58 -0700
-X-CSE-ConnectionGUID: mHvXKOMGQe23bp8/1oAsXQ==
-X-CSE-MsgGUID: WQAStNzuRY2yZ+MwEptiug==
+   d="scan'208";a="78689083"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 05:24:27 -0700
+X-CSE-ConnectionGUID: B+VO4aPhTjKRjdCG3ImbGg==
+X-CSE-MsgGUID: wp79iQk9RXSmB1Zfn8URSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
-   d="scan'208";a="264934474"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 05:10:55 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	bard.liao@intel.com,
-	peter.ujfalusi@linux.intel.com,
-	flove@realtek.com,
-	derek.fang@realtek.com
-Subject: [PATCH] ASoC: sdw_utils: avoid the SDCA companion function not supported failure
-Date: Thu, 30 Apr 2026 20:10:43 +0800
-Message-ID: <20260430121043.552241-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+   d="scan'208";a="233538241"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 30 Apr 2026 05:24:25 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wIQRK-00000000COG-16uH;
+	Thu, 30 Apr 2026 12:24:22 +0000
+Date: Thu, 30 Apr 2026 20:23:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: wangdich9700@163.com, perex@perex.cz, tiwai@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, kees@kernel.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	wangdicheng <wangdicheng@kylinos.cn>
+Subject: Re: [PATCH] ALSA: hda/conexant: Fix missing error check for jack
+ detection
+Message-ID: <202604302001.sGykyKli-lkp@intel.com>
+References: <20260427070739.133369-1-wangdich9700@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260427070739.133369-1-wangdich9700@163.com>
 
-From: Derek Fang <derek.fang@realtek.com>
+Hi,
 
-Treat the companion amp as generic AMP until full support for companion
-amp is added.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Derek Fang <derek.fang@realtek.com>
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/soc/sdw_utils/soc_sdw_utils.c | 1 +
- 1 file changed, 1 insertion(+)
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on linus/master v7.1-rc1]
+[cannot apply to tiwai-sound/for-linus next-20260429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index 1637cc3f3d59..849ae876d7a4 100644
---- a/sound/soc/sdw_utils/soc_sdw_utils.c
-+++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -1608,6 +1608,7 @@ int asoc_sdw_get_dai_type(u32 type)
- 	switch (type) {
- 	case SDCA_FUNCTION_TYPE_SMART_AMP:
- 	case SDCA_FUNCTION_TYPE_SIMPLE_AMP:
-+	case SDCA_FUNCTION_TYPE_COMPANION_AMP:
- 		return SOC_SDW_DAI_TYPE_AMP;
- 	case SDCA_FUNCTION_TYPE_SMART_MIC:
- 	case SDCA_FUNCTION_TYPE_SIMPLE_MIC:
+url:    https://github.com/intel-lab-lkp/linux/commits/wangdich9700-163-com/ALSA-hda-conexant-Fix-missing-error-check-for-jack-detection/20260427-223457
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20260427070739.133369-1-wangdich9700%40163.com
+patch subject: [PATCH] ALSA: hda/conexant: Fix missing error check for jack detection
+config: i386-randconfig-062-20260430 (https://download.01.org/0day-ci/archive/20260430/202604302001.sGykyKli-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604302001.sGykyKli-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604302001.sGykyKli-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> sound/hda/codecs/conexant.c:1193:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int err @@     got struct hda_jack_callback * @@
+   sound/hda/codecs/conexant.c:1193:21: sparse:     expected int err
+   sound/hda/codecs/conexant.c:1193:21: sparse:     got struct hda_jack_callback *
+
+vim +1193 sound/hda/codecs/conexant.c
+
+  1174	
+  1175	static int cx_probe(struct hda_codec *codec, const struct hda_device_id *id)
+  1176	{
+  1177		struct conexant_spec *spec;
+  1178		int err;
+  1179	
+  1180		codec_info(codec, "%s: BIOS auto-probing.\n", codec->core.chip_name);
+  1181	
+  1182		spec = kzalloc_obj(*spec);
+  1183		if (!spec)
+  1184			return -ENOMEM;
+  1185		snd_hda_gen_spec_init(&spec->gen);
+  1186		codec->spec = spec;
+  1187	
+  1188		/* init cx11880/sn6140 flag and reset headset_present_flag */
+  1189		switch (codec->core.vendor_id) {
+  1190		case 0x14f11f86:
+  1191		case 0x14f11f87:
+  1192			spec->is_cx11880_sn6140 = true;
+> 1193			err = snd_hda_jack_detect_enable_callback(codec, 0x19, cx_update_headset_mic_vref);
+  1194			if (err < 0)
+  1195				goto error;
+  1196			break;
+  1197		}
+  1198	
+  1199		cx_auto_parse_eapd(codec);
+  1200		spec->gen.own_eapd_ctl = 1;
+  1201	
+  1202		switch (codec->core.vendor_id) {
+  1203		case 0x14f15045:
+  1204			codec->single_adc_amp = 1;
+  1205			spec->gen.mixer_nid = 0x17;
+  1206			spec->gen.add_stereo_mix_input = HDA_HINT_STEREO_MIX_AUTO;
+  1207			snd_hda_pick_fixup(codec, cxt5045_fixup_models,
+  1208					   cxt5045_fixups, cxt_fixups);
+  1209			break;
+  1210		case 0x14f15047:
+  1211			codec->pin_amp_workaround = 1;
+  1212			spec->gen.mixer_nid = 0x19;
+  1213			spec->gen.add_stereo_mix_input = HDA_HINT_STEREO_MIX_AUTO;
+  1214			snd_hda_pick_fixup(codec, cxt5047_fixup_models,
+  1215					   cxt5047_fixups, cxt_fixups);
+  1216			break;
+  1217		case 0x14f15051:
+  1218			add_cx5051_fake_mutes(codec);
+  1219			codec->pin_amp_workaround = 1;
+  1220			snd_hda_pick_fixup(codec, cxt5051_fixup_models,
+  1221					   cxt5051_fixups, cxt_fixups);
+  1222			break;
+  1223		case 0x14f15098:
+  1224			codec->pin_amp_workaround = 1;
+  1225			spec->gen.mixer_nid = 0x22;
+  1226			spec->gen.add_stereo_mix_input = HDA_HINT_STEREO_MIX_AUTO;
+  1227			snd_hda_pick_fixup(codec, cxt5066_fixup_models,
+  1228					   cxt5066_fixups, cxt_fixups);
+  1229			break;
+  1230		case 0x14f150f2:
+  1231			codec->power_save_node = 1;
+  1232			fallthrough;
+  1233		default:
+  1234			codec->pin_amp_workaround = 1;
+  1235			snd_hda_pick_fixup(codec, cxt5066_fixup_models,
+  1236					   cxt5066_fixups, cxt_fixups);
+  1237			break;
+  1238		}
+  1239	
+  1240		if (!spec->gen.vmaster_mute.hook && spec->dynamic_eapd)
+  1241			spec->gen.vmaster_mute.hook = cx_auto_vmaster_hook;
+  1242	
+  1243		snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PRE_PROBE);
+  1244	
+  1245		err = snd_hda_parse_pin_defcfg(codec, &spec->gen.autocfg, NULL,
+  1246					       spec->parse_flags);
+  1247		if (err < 0)
+  1248			goto error;
+  1249	
+  1250		err = cx_auto_parse_beep(codec);
+  1251		if (err < 0)
+  1252			goto error;
+  1253	
+  1254		err = snd_hda_gen_parse_auto_config(codec, &spec->gen.autocfg);
+  1255		if (err < 0)
+  1256			goto error;
+  1257	
+  1258		/* Some laptops with Conexant chips show stalls in S3 resume,
+  1259		 * which falls into the single-cmd mode.
+  1260		 * Better to make reset, then.
+  1261		 */
+  1262		if (!codec->bus->core.sync_write) {
+  1263			codec_info(codec,
+  1264				   "Enable sync_write for stable communication\n");
+  1265			codec->bus->core.sync_write = 1;
+  1266			codec->bus->allow_bus_reset = 1;
+  1267		}
+  1268	
+  1269		snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PROBE);
+  1270	
+  1271		return 0;
+  1272	
+  1273	 error:
+  1274		cx_remove(codec);
+  1275		return err;
+  1276	}
+  1277	
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
