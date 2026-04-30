@@ -1,61 +1,72 @@
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DE9274FD0;
-	Thu, 30 Apr 2026 20:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777582283; cv=pass; b=dN4ofEeE6YWnuRwqEic+buAZKa5slkemkNuZzGhzda3p9h99g2irvNfZCaxkmDhxT+NtVl7Wl+W3Ard9kGkWU6JLuzeuDxbUsT01yqVOkSp8JukbaPZvpDmZgoi2uOiDX3G+6fhiXxgGM051T8Ng5yrzTyXVd2hzHPBKc9I8zJM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777582283; c=relaxed/simple;
-	bh=l9a/SZjbsOvCMQ4lo+YPtUh+FzojdBXr3NjZnbFTUyI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SmHxZLw3qgQeYnYBabUxg0MR6pnoDjL1HtT8Nnqmsibsc7xAskblaUvKVxUHrtTw0FKx4ccWgmdOMCYuDmb01lRT373axetIrMkY9IA/O0uenwNqivnEbTgLwaQuVUwGv04phyc8M0m30XBbmGwtdlJBYF3hJBIl+nja+UrBS4s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=lE89ACgR; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EF33B19C9
+	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 21:04:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777583073; cv=none; b=k9YlbKMyhgrK8VRqgghAwSJvGPI5hqRDz7mfMwoc11lmgXcor+KwkeZPS2EjAL7ovDfIaV6WvFghLU2TxkQRFqGWN/2uHdRLQusmt4010Q6BoRtvNQw/t1jmjUwijeXauAjp6bKeWHl7GLd6atbb/JaaC0J22xTG43xnm/3ga8A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777583073; c=relaxed/simple;
+	bh=/Ym5QeWDmS8aXaCZ0dJMdfBuuWVO2xCRZ9rCNhhr6qM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sSyjrC5dWCUjbIOwf73+mP35EbvqaBig0Hfp0lNii4FlZ9fJLDbk/sE0oEKuq+7vJ/INkkR1prpiCNids9UiCRY60xnv+WkvxI5qgTWxjQnXjYXDyTXzcf9pjxvu7WKHMIPsKfm3wcGqMP07/3jDTeKHAyA58lAkaV5LzyDGGMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hZ89f8Dj; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="lE89ACgR"
-Received: from monolith (unknown [23.159.216.125])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pav)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4g65tQ5HJczyRl;
-	Thu, 30 Apr 2026 23:51:10 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1777582274;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=I2PXZRT1pdsHUQKKde9NybswLkVM35agExES8FoujQc=;
-	b=lE89ACgRwRUeZJ1wPd3w+r6SB/Dln7S6rR0/r+TVZtCIOo9V8fXFZlm5Ll1S+8gkk//9WZ
-	I+r6d9Sn/0lUvZW6JdQf5xfwnParzkgzswGPFRAsPd6mT/5BrbCMMRNoqK1+ixgSvbyr7p
-	sd106/jNqm84W8DzEd+648pnueLQLkI=
-ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=meesny; cv=none; t=1777582274;
-	b=TA6xxG/gJQXCRLzdaCjnxyY+k2aXhiSroj+AYCJqbjNemKAMRZWAaM1dm25llOVwerUNK8
-	9g2t9DqaYiHtYmm1BdWba5XIVyCQ02M5L7AfUaTE5oRYd7VYi9BIignroVJ8IlCfvImoGo
-	y15vO1JsylOFI10R3YBWQdQS6xPdVVo=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=pav smtp.mailfrom=pav@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1777582274;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=I2PXZRT1pdsHUQKKde9NybswLkVM35agExES8FoujQc=;
-	b=anBz8lOEuiLmMCHGcWBgCIuyiVxiUj6941hEUNugxXfC6flchp3DkYF3y9fazMqYtSnMpd
-	SsIlnThcHHkv0NdF+nqW6F8fQ/uHEqftbSDiFeIZ5yrUr7lvBryDBPW6FELWc9k3pNF3O5
-	Yne37BWXvHmd/NQ597mZ8kFAyOOsPx0=
-From: Pauli Virtanen <pav@iki.fi>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hZ89f8Dj"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-35d99bae2ebso1454728a91.3
+        for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 14:04:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777583071; x=1778187871; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GuOdTdW6Yw0LouknCktkX27HwvULvRGgOoDUGd76UIY=;
+        b=hZ89f8Dj2u7Bu8s7wEKPYWVBBFlRhGzGmdqjpA2+6Jro+Lc768XxltP2JVR/wKoDGt
+         rlSTlqD11KXWn/gQQ4amPQt/WaAbOKtqb86Wp+R2/uY+9rg6UVux9P0zRYo++Yb6wD8E
+         Mo7+jY9ObJ77dW2FNTjBBzoe1470Y6uPNe7tDSjcdn4vmDlJYPH7UUr1ru82jvzryQNG
+         q4T4GBXVBfh74PGRwKMOh5BggwoBlVE6B/ZB1PG9Zv1WQgVkLAL/Li5rGubSqap02k3G
+         I2FWVDzWlGSdPp5KDvXbDENFCAM4OSBjnyMdaHQbuGkyJM2cR6FAO3yoa/QdlH6z/AlM
+         PyYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777583071; x=1778187871;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GuOdTdW6Yw0LouknCktkX27HwvULvRGgOoDUGd76UIY=;
+        b=OzpVe25VyDYm327Mf0lKdXr2FjURDJWY+/KpJ2DjzY1SDvspapDRE+4b/hYV3NkQuT
+         o/iKk57yIo6Jqxc9OpDYgTkg27WxfCquLNUQoUddPpeYvKFJMnbCnfeukqVsZkPYR0mB
+         +9BcIVrNMWH2apAkYHUKS9p0kpzvrgIpX96FZBu/jQWvhgu0LXf215uqRNQR+TPb2sxO
+         F1lQ6AAUb1J9sp1nDES1cdZ5OIoMi/wgiKqzONqf/qIW5p3CaFmEfznq03U6OwdyKp7X
+         GPfZPlWGBK7tm+BnXFxTWmRX+xQwpRST4XhIxPZ2BmSWGUNaNNiSVGtQKPgYbGoCSDfI
+         brzg==
+X-Gm-Message-State: AOJu0Yys0YtK4MJzJvO4R+axeIi9J36nZ1hKnXZR/cbjodwMqXS3FTxa
+	dvfOlGw8YzPrVovAXCVB8HZ+YPA5007D6BC7kIWeBJ1VazEYMOgYex7/DtZ7vA==
+X-Gm-Gg: AeBDievl0iPxU3IeR+N7y2tZ/UV8SpBysdiKVkUDcRHrEWe2RCtFGt68CjSBstutsAU
+	002veeeKG12nf7pdctMKya6PwCA4eE0dxwpHDQtU9JJ1XGXMJJaLKTY1rwqbTEejexisJrg2w/3
+	4hwJGrI10Fh8aDzlLMiGidUaF7I7RMgMNPPtzXpksO2p7juZ/WTMKM500pxA8lQehCxTWo/CFcu
+	ThzonXfdvEYJwL/R4aazaM0ekEhX7SPmw4NJMhsnEAIIqFq6kEiMkOvaF7Zm0Z5MGbsCnwfurL7
+	nD1YrTvde00NsgaXbanXpEYtMaL0bPTbbDwr28F/lKfY06QR0Pdh3JKHYzgJcG8b8unvXD8hlfv
+	nsJRaxCBUy5ASCqYcQlKsowihu0dKOTX4i2Kx/bAkDr4bFQBPbb6eJg1nbDEZU6qd0UlAaYUrAP
+	zmpr63gqeaLKq85KkFD1d5ShVIG4dgFAMDw6ya18+bDLrT7jnaLdwi6jiRWLUZO/iTa2zuDYBwa
+	7wQlgBlDeUN4iMvteYzMNHGEbIawm8jI8A9WtEl/aXzdw==
+X-Received: by 2002:a17:90b:2f87:b0:35b:e593:b1d7 with SMTP id 98e67ed59e1d1-364ef3a7c4bmr256089a91.12.1777583071151;
+        Thu, 30 Apr 2026 14:04:31 -0700 (PDT)
+Received: from ryzen ([2601:644:8000:5b5d:7285:c2ff:fe45:8a32])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7ffbba635dsm487794a12.3.2026.04.30.14.04.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Apr 2026 14:04:30 -0700 (PDT)
+From: Rosen Penev <rosenp@gmail.com>
 To: linux-sound@vger.kernel.org
-Cc: Pauli Virtanen <pav@iki.fi>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: add min_mute quirk for Razer Nommo V2 X
-Date: Thu, 30 Apr 2026 23:49:50 +0300
-Message-ID: <94449577332d14d7974864903825f27e5824ddbc.1777579951.git.pav@iki.fi>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-kernel@vger.kernel.org (open list),
+	linux-hardening@vger.kernel.org (open list:KERNEL HARDENING (not covered by other areas):Keyword:\b__counted_by(_le|_be)?\b)
+Subject: [PATCH] ALSA: seq: oss/rw: allocate evrec with main struct
+Date: Thu, 30 Apr 2026 14:04:13 -0700
+Message-ID: <20260430210413.31185-1-rosenp@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -65,28 +76,79 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-ID 1532:055e Razer USA, Ltd Razer Nommo V2 X
-is tested to have muted min playback volume. Apply quirk for that.
+Use a flexible array member to simplify allocation slightly.
 
-Link: https://gitlab.freedesktop.org/pipewire/pipewire/-/work_items/5235
-Signed-off-by: Pauli Virtanen <pav@iki.fi>
+Add the header as flexible array members require full definitions.
+
+Remove null check and just kfree. The former is not needed.
+
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/core/seq/oss/seq_oss_readq.c | 13 ++-----------
+ sound/core/seq/oss/seq_oss_readq.h |  3 ++-
+ 2 files changed, 4 insertions(+), 12 deletions(-)
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 0b4ecc2c6bcc..f77ff05dff0b 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2366,6 +2366,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
- 	DEVICE_FLG(0x152a, 0x880a, /* NeuralDSP Quad Cortex */
- 		   0), /* Doesn't have the vendor quirk which would otherwise apply */
-+	DEVICE_FLG(0x1532, 0x055e, /* Razer Nommo V2 X */
-+		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
- 	DEVICE_FLG(0x154e, 0x1002, /* Denon DCD-1500RE */
- 		   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
- 	DEVICE_FLG(0x154e, 0x1003, /* Denon DA-300USB */
+diff --git a/sound/core/seq/oss/seq_oss_readq.c b/sound/core/seq/oss/seq_oss_readq.c
+index c880d4771169..6b474615ced8 100644
+--- a/sound/core/seq/oss/seq_oss_readq.c
++++ b/sound/core/seq/oss/seq_oss_readq.c
+@@ -34,16 +34,10 @@ snd_seq_oss_readq_new(struct seq_oss_devinfo *dp, int maxlen)
+ {
+ 	struct seq_oss_readq *q;
+ 
+-	q = kzalloc_obj(*q);
++	q = kzalloc_flex(*q, q, maxlen);
+ 	if (!q)
+ 		return NULL;
+ 
+-	q->q = kzalloc_objs(union evrec, maxlen);
+-	if (!q->q) {
+-		kfree(q);
+-		return NULL;
+-	}
+-
+ 	q->maxlen = maxlen;
+ 	q->qlen = 0;
+ 	q->head = q->tail = 0;
+@@ -61,10 +55,7 @@ snd_seq_oss_readq_new(struct seq_oss_devinfo *dp, int maxlen)
+ void
+ snd_seq_oss_readq_delete(struct seq_oss_readq *q)
+ {
+-	if (q) {
+-		kfree(q->q);
+-		kfree(q);
+-	}
++	kfree(q);
+ }
+ 
+ /*
+diff --git a/sound/core/seq/oss/seq_oss_readq.h b/sound/core/seq/oss/seq_oss_readq.h
+index 38d0c4682b29..d8e1e7504d8f 100644
+--- a/sound/core/seq/oss/seq_oss_readq.h
++++ b/sound/core/seq/oss/seq_oss_readq.h
+@@ -10,13 +10,13 @@
+ #define __SEQ_OSS_READQ_H
+ 
+ #include "seq_oss_device.h"
++#include "seq_oss_event.h"
+ 
+ 
+ /*
+  * definition of read queue
+  */
+ struct seq_oss_readq {
+-	union evrec *q;
+ 	int qlen;
+ 	int maxlen;
+ 	int head, tail;
+@@ -24,6 +24,7 @@ struct seq_oss_readq {
+ 	unsigned long input_time;
+ 	wait_queue_head_t midi_sleep;
+ 	spinlock_t lock;
++	union evrec q[] __counted_by(maxlen);
+ };
+ 
+ struct seq_oss_readq *snd_seq_oss_readq_new(struct seq_oss_devinfo *dp, int maxlen);
 -- 
 2.54.0
 
