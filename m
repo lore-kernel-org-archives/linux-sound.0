@@ -1,98 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA5326A08F;
-	Thu, 30 Apr 2026 06:12:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777529542; cv=none; b=FZ+Bak9wL2X7YeR0rHFF0mkPUD4IWWTEM2RWpU7PBFvHw4mMBWulj2WY5HHnYO6puwC5EZ7T4QRuZAmapofBvJkzPkOFmydUFMR95vvo3jPSvEDu1kHpZYMCw+bK4T7Vu32stkW88Hdv2WhnedK88WcXATFN9i6ppk11HaQS0O4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777529542; c=relaxed/simple;
-	bh=kvAKDX5Mq5y5ycWcUtrWveKLskZUZR3FKJJav0RXSt0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZM5zdeMAIlYUd5frhGGHVwGbPt2d9usd6ynKQOfqYIaVKEWvLEMdnTBaSHl4XHP5Hfv54h12NFhCw0FORpsE+gVEtpY4R4rPlABRdB2QEM3ek2nMlZkAvxYmMiVgqTOozsmjZkN6FlYP7jdccpcUHsMMsoa7/DzBqkI3nr4f4Vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cCSB78yq; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED559443
+	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 06:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777529680; cv=pass; b=LcD1z9Dyf7hmgEkXod61PraGCRml5/sj5wf5yIGvDtAzaLTpxEN/cua10NLsX1hVIcNo+6MSN7ok7w+tOkhkZrSaA03KH6Rrs8LpOk+/7qHdfm6lpIz5UCZ8i3GYyXPOzKJc26ZF2AWWYee6M8TkEUixYaw2VVE9M3CdSWoRgkA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777529680; c=relaxed/simple;
+	bh=d3tGzUAC9OSobd87Cfftdm63q2dFqar/YSj1XdS41kk=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=MtrihY/GXy6WJ/32Zf78shZaj30Pqfj/OAUEhLn5i3/PYOgWKcp2nFXW3urIAVIVSZT5XqNZSBj8LaXJl6CBllwQ2ueUOgg2L0mW2zuOlYCSPXLaE1of5+6L73VWmlvc5KWewxzaXFp+TQaqRI31c868o/NAbBCL8xFcTd87iow=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h8rmKlyh; arc=pass smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cCSB78yq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87E85C2BCB8;
-	Thu, 30 Apr 2026 06:12:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777529542;
-	bh=kvAKDX5Mq5y5ycWcUtrWveKLskZUZR3FKJJav0RXSt0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cCSB78yq7G3L84WOECFePz0hvBPxCAUUhEWKTvtSWWpYa8gZh8Ic3OuoPL+ZEqThf
-	 eiwfNt18bNPTHRNmnnYrRBdxG3Wn7K5UlogRQ5OoHnTX8p8E6WtYxpVHIhqf+o5GVw
-	 JLSbTsxXGFND+ZNx1GuF6cNJeK6QYsASyT2G9yxwfejDOG72BqqjdKqaQuw5uCKk2R
-	 tkWGfnNc5E2W+Q2lI6tCw5pRjSN9xxQojK1m6Rd6z5Ad7nWFlNeLJzzonhqXR6myG2
-	 jY8ak5rO73eoQVIa/pmpMcofHP/srYD6PrKGBDeNnqdWa6KOznVqOk8jKrWgFG9e6/
-	 6bCTKmM78MHsQ==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 7367E1AC585E; Thu, 30 Apr 2026 07:12:20 +0100 (BST)
-Date: Thu, 30 Apr 2026 15:12:20 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Ola Lilja <ola.o.lilja@stericsson.com>,
-	"Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>,
-	"Christian A. Ehrhardt" <lk@c--e.de>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: codecs: ab8500: Fix casting of private data
-Message-ID: <afLyxMXsMt7G12g1@sirena.co.uk>
-Mail-Followup-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Ola Lilja <ola.o.lilja@stericsson.com>,
-	"Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>,
-	"Christian A. Ehrhardt" <lk@c--e.de>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <20260428192255.2294705-2-u.kleine-koenig@baylibre.com>
- <177742366371.363516.7540902089580354260.b4-ty@b4>
- <afGUk057kw5f2EOO@monoceros>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h8rmKlyh"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a2c3dfb4a1so483178e87.2
+        for <linux-sound@vger.kernel.org>; Wed, 29 Apr 2026 23:14:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777529677; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TxRgxh8M/P4w+MWQ+N7bFlWk3GdHb+HpoLL45eQyfrujRe4gopJ5G8ErOAMwWpBN7i
+         cCO+WiLCYRMJ2hCq0VfCKv8xYm5/ybXUkLIOrMUV1VaFkbsLHtCeI3E1EE9bLQy1k2dd
+         DJRxKHsO8LaeDB1B2HpnDOlTBN0W9cLBzX7i1YGLTj4urmCPlKKpNc/Yxb6/joh7pZdM
+         h1Ti6T8mhnDEloWO0FT3U8rqO8pQDosJ6rcpfKE/OjJ2tQ/yorjr9e5l6qFjbKCLGVkK
+         ljRI6l9BD11cvFbkYQ+0rUZqnfWFCJYpHyA7h5vlDiLdLJpmjlHAwhuM+I9QauQuQDLJ
+         niHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=x/qGCnLwlRPUO2j/SZcze5hu+HNTsOOMUi0iTo8gbeE=;
+        fh=/SRmtwMKVlnBiKIp7neNX0t1lqP3Ac5EIQf0WLv4lck=;
+        b=GrpoYVBchEhsT7nkGQXSYJm1HVRBdeonVcKrk/6/kwm3AnVBTT1zzu8p9sp2lAi8yy
+         wedA9BPPFwUEhxZmxDBiDbAqvczCIdzXDOVhPXmupB+MFoqUN6oNEtWJjejYY0yTdcLN
+         NfWsNDehrclwqvbK2eu1Nv0vEiH8I60WSs4Gr+AAMTX40i9Ssk85q/suJgaN+/PEGOXy
+         KV45PYt3wLG55x1CwqGG6I3msQyiVDShK11HpAYweHEQF7OQ9TtZmxKxzIljb7TNsVzv
+         wEuwc+bMpMS4GTCAvY/ou6rry0ljgXNOWETV9zJWZnu76U40euie7sT5h1cowL6zgmWX
+         ot8g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777529677; x=1778134477; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=x/qGCnLwlRPUO2j/SZcze5hu+HNTsOOMUi0iTo8gbeE=;
+        b=h8rmKlyhjpGzbGjovq8byOEBX25manJU59P6+I7sdZxOC8L2qrvLpYBjEfg/FTGTFs
+         gzj2hZBTuCnGtPk7bELjRCRk6arlsSFKI7A9X0zencZH7B8iwzdDgreKaHn23vnLiymV
+         XDC7QIoPLLUsso6Or6sTNz0+/TeMiv1rW06tJ8tc9Faj1Z+sWoRfaRDdDn3CJt3khCok
+         vHqKj6Hk8jxhv39Io1oWXl1i4kpGzp18CM8A5YGsE869GdZp6yRhyYPB/ARlHjXH9gxH
+         rbQCmMChWABvQr5qDdjed7eI9fVYtNWXcotrUNhASMg8IGe0QH+pAa2NBgfZeMa3i9sR
+         Ebqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777529677; x=1778134477;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x/qGCnLwlRPUO2j/SZcze5hu+HNTsOOMUi0iTo8gbeE=;
+        b=eQAMwsqOAfb1XNis5ZJQR43cNYyqWaH3yPsBA+aiWMoLNTCfPmjX+hHDCNrOTw4TVe
+         Jm2SYZdYzyieNpoNiLKiylpXBKIGm4EgYlEJmGcaKbWcz+6fzyPGytn29m+4BzInVT5Q
+         SttIgaHKaJO/DWrWyz9WLaidBicwELC4679x4k56ZDOipjUrt9IEo88+owcJpbzy7Ryy
+         i5yCgZYy6jniIIjfsau+0usAstPbDaLs0h0jbBkpTm72QQSWCxZO8dMTyOumU3VgU9oc
+         HiBskjl0cob7O3pQyKFf8de+Oe2tMytoDxkTiDCk2ulX4iAV9zgo6CvjvOXiMLiTzYyP
+         ylCw==
+X-Gm-Message-State: AOJu0YzTjBB+PxTsFlFgiSNuFOnQ5XPa5xUQv3zs5x8861OqjzyG8nly
+	hLEfsxKzLlOjwyykEwZcz3OjzyyVVeNYsprXy0upUezf/eRoMoRp5hwHCiy/IkmQ5bT75JctLcF
+	g5vUs+P0FbM8e9aqTJHwNancDtOJYcJ3dDLr7VyU+I/Rt
+X-Gm-Gg: AeBDievrPm8lcKODInnP4jjP30ImGFc2S3MmwpZDbhqKaIr0UYudqN16TuLrL1xEj61
+	wx5DAz2HAiSNjgxRuHgnNdH7M1iE9uBzINwi0ujljUG+c1c7MUZ/np6pQMFAoGParoU7NvNKZkG
+	0s4VxGpE9U9yV8O+0U8UEE8kR3sw4oQ0eHJd1sktRL+3AyRVuebe+DAgLkB5yC1G5KNMhsCW5Re
+	3qEra2o/AKRMHR+Eg+na3mDRwO9/E/QXxzYWb6OfVPG170ph8b6bdkdKj3JSfVgibdS2KXVIuM3
+	YUl7lhy1Cpqa6DXEpPnZ
+X-Received: by 2002:a05:6512:224d:b0:5a3:ff48:f7db with SMTP id
+ 2adb3069b0e04-5a8522db507mr496883e87.34.1777529677170; Wed, 29 Apr 2026
+ 23:14:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sQu3Nu5hJZbz9tF2"
-Content-Disposition: inline
-In-Reply-To: <afGUk057kw5f2EOO@monoceros>
-X-Cookie: 667:
+From: weikang feng <fengwk94@gmail.com>
+Date: Thu, 30 Apr 2026 14:14:24 +0800
+X-Gm-Features: AVHnY4KL5sUk8N5Uq2s48swm6dEG4CwL_hc_F5BKsOLma3EFvfNoTuXnsRHJZJg
+Message-ID: <CAGc4AAQqoFHSeqh1G-55aL+jq0TywtPmGeoorZ0ZUH=0TGfX7Q@mail.gmail.com>
+Subject: [BUG] ASUS TX Air FA401EA / AMD ACP70: No matching ASoC machine
+ driver found, only HDMI audio available
+To: linux-sound@vger.kernel.org
+Cc: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com
+Content-Type: text/plain; charset="UTF-8"
 
-
---sQu3Nu5hJZbz9tF2
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Apr 29, 2026 at 07:21:48AM +0200, Uwe Kleine-K=F6nig (The Capable H=
-ub) wrote:
-
-> Thanks for applying. Sashiko found[1] that I should have written
-> "private_value" instead of "private_data" in the commit log. I think it's
-> still understandable as is, but if you want to fixup that would please
-> the pedant in me.
-
-Sorry, there's already other stuff on top of it (and I generally try to
-avoid changing existing commits).
-
---sQu3Nu5hJZbz9tF2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmny8sMACgkQJNaLcl1U
-h9CiZQf+NXxS7+gAHn02DUjklsli5x3j5Y+UBSbx1I6fS5NT1zEyor+Jq4dtqtPW
-c5QPGKG0yu/lq/hKlenokRTY7Bg6+Bw2KcjATT+kFfBDaI5olbkyIuT9SbrsefB4
-wQ0QhYDIVJPn4JS6JOnJL4N3qQYb8fZuBBsYr1BoFvgzgIC7pu7EdSPYkvz0/KJ1
-yFDbnYjWTnrzMwSwSFZQ9gtM2cw02GPVKicB7DoT3rE8WDUFQGrPBTfXIYf69Ge1
-dAgFFpvaxfIm7kkB0FFSw0WI23jxT5x0b8VRMBW052Cjrs4KzVTMVnkc0A6N7AMf
-XtoJaPBUsVYYyD/EWozn17nWknxC5w==
-=NEnZ
------END PGP SIGNATURE-----
-
---sQu3Nu5hJZbz9tF2--
+Hello,
+I originally tried to report this to linux-sound@vger.kernel.org, but
+the mailing list rejected the message because Gmail webmail added an
+HTML MIME part even when plain text mode was enabled. So I am sending
+this report directly first.
+I am reporting an audio issue on an ASUS TX Air FA401EA laptop.
+Hardware / software:
+- Laptop: ASUS TX Air FA401EA
+- BIOS: FA401EA.304
+- Distro: Ubuntu 26.04
+- Kernels tested:
+  - 7.0.0-14-generic
+  - 7.0.0-15-generic
+Problem:
+- Internal speakers, headphone jack, and internal microphone are not available.
+- Only HDMI playback is enumerated by ALSA.
+- Desktop audio falls back to Dummy Output.
+Observed data:
+- lspci shows:
+  - 65:00.1 Audio device: Advanced Micro Devices, Inc. [AMD/ATI]
+Radeon High Definition Audio Controller
+  - 65:00.5 Multimedia controller: Advanced Micro Devices, Inc. [AMD]
+Audio Coprocessor [1022:15e2] (rev 70)
+- aplay -l only shows:
+  card 0: Generic [HD-Audio Generic], device 3: HDMI 0 [HDMI 0]
+- arecord -l shows no capture devices
+- Kernel log contains:
+  platform acp_asoc_acp70.0: warning: No matching ASoC machine driver found
+PipeWire and WirePlumber are running normally, so this does not look
+like a userspace issue.
+This appears to be an ACP70 ASoC machine-driver / ACPI matching issue
+for this laptop.
+Please let me know if you want:
+- full dmesg
+- acpidump
+- dmidecode output
+- additional debug logs
+Thanks.
