@@ -1,84 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CE740243D;
-	Thu, 30 Apr 2026 12:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECA92868B5
+	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 12:11:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777550706; cv=none; b=t6ExlMnAoK7SJfjTTpBG/lMG00E3zjiK2GkoWB1wfqVIFu1QScrs66orCgWqlcRVb4ykKtZqSgB2aiZ+j7J1b+aCvWsXLTfsoOVtV6qOryRQ+L4ka0gyEDj6hSm2ujG+xnP1cuvWzCBRJJnPZDAQdRujHP4p/DeLUc7hW0xhlaM=
+	t=1777551065; cv=none; b=iOskCuW+bFgs9UwBQQR/199fCicOFxxFJc1EPgv58POKZ8fR3SoZntsR0QuolYDJlJr/uYPl78uJYnUi/ZTaSY+EP4Ylo67+WtAQkZcrKwAOuuNmbfViNcAmIuLmNovwQhyZXjp/Vj5Mou3NyEUga/u+kdHz2LYfDLB8rTlSq2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777550706; c=relaxed/simple;
-	bh=I0Oq0dU5jJ+UppyowHKAPu+eaXgi/MmNRyNn9m2b0no=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ia8DxFtP+8ilTpYVJ39A3GI8Jx/CB3Nuj2LtE+tRQZQoMvXG4BUAlkVB0JAjEvUITJz2Ttzopirh/IRm2UuXrFVbuUnkCbvPf9+UK8hRh20gqlnPeH0s1zP32bDBTYtSrVbO1z3q9q1M6Oa6+YEPrTS+eG2rBQlmlrAwWfNMYBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E2ts0IbG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777551065; c=relaxed/simple;
+	bh=siXxICERYXvFASDVI9XkiSguYLIhSlF+r6SW3WAPYSs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bD5OSk3LTajLzBahqvbMQyE6JRTRjM9gnR1EG0SuC22eEn7AaX/ZRoJwt/zn0D8iaNxSPH9zg76BlaMVq0gyh3g9biqzu7yOGEXl/ikNSCAPR7h2dl6vw1fkkt1QO3junR+44Vvdh/qT+ghweyQownj0vD4y/69B677nG8sIuJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j+87ZH3k; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E2ts0IbG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C906C2BCB3;
-	Thu, 30 Apr 2026 12:05:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777550705;
-	bh=I0Oq0dU5jJ+UppyowHKAPu+eaXgi/MmNRyNn9m2b0no=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E2ts0IbG7QQ49QnqZq9Cp13PZISVMFeTKl5ubX4tNjMMCLlGYLRdNtk3I0XcQYTrb
-	 Q8hcQnev89dkEwBLyQSpAttSfTOU7wbnbWedxpGHtAbi9Rqd4TF4btT5OHcrxx7E5o
-	 AVJr4AEbZYlAvan68XZrmkp/Ap7UQlOmzQ1mLVwzf9LovCdNKbEQNl2Ul3JPvvDG9j
-	 0g6COzNIMSk8ief7P0XEiy6raqcb3y6vJcesKg7bCyPIqJbgEaFj2WjrN2GNmR25xB
-	 0jDbsu0ACq2P3VNDwwWd8IUQ2xuEumnXlqyn8HCBRvnUAV7NEEegnDKy6dF0kkdOUQ
-	 blKSvwJ9vFtog==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 2AC5F1AC585F; Thu, 30 Apr 2026 13:05:03 +0100 (BST)
-Date: Thu, 30 Apr 2026 21:05:02 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Yixun Lan <dlan@kernel.org>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, spacemit@lists.linux.dev,
-	jinmei.wei@spacemit.com
-Subject: Re: [PATCH 2/3] ASoC: soc-pcm: constrain hw_params when DAIs share
- the same BCLK
-Message-ID: <afNFbsk3mg1KVOpF@sirena.co.uk>
-References: <20260430-i2s-same-blk-v1-0-3a1f04eb6159@linux.spacemit.com>
- <20260430-i2s-same-blk-v1-2-3a1f04eb6159@linux.spacemit.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j+87ZH3k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777551064; x=1809087064;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=siXxICERYXvFASDVI9XkiSguYLIhSlF+r6SW3WAPYSs=;
+  b=j+87ZH3kb6WarfcYpzeM3OTzaWKfntVveq1tk0hxEmNhpxB8JFWcMxvA
+   J/K2/66wErUQ1QpNrOYrkeZCbIVF1+OC49/5CmeKNvOYTk0TXadLuvhR5
+   5cXspKObIArwIYvIwTgcukYt9Dm02i120op1xKmz7ZvB7YdlYympjuIBQ
+   B1fhqBdaIIcJvHC7mPe4ihGshsBQKUaCnZ28v15bs/cFd4LLqNaYXdCzY
+   EOoh7LXrKkHw0pKw3VJFsAWcRg1JsbbU/uebmx48NE0oSupEBfn36syl5
+   HURMWzaHyKyas9C4s1HPAxzdfkwQONN8AxWGaf3SgRQmDIBkJDdlvqhGK
+   g==;
+X-CSE-ConnectionGUID: Gsc0tkpwQRqmUaVUj04Itw==
+X-CSE-MsgGUID: lcRb2xKXSoua72i7YmJuvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78365443"
+X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
+   d="scan'208";a="78365443"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 05:10:58 -0700
+X-CSE-ConnectionGUID: mHvXKOMGQe23bp8/1oAsXQ==
+X-CSE-MsgGUID: WQAStNzuRY2yZ+MwEptiug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,208,1770624000"; 
+   d="scan'208";a="264934474"
+Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 05:10:55 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	bard.liao@intel.com,
+	peter.ujfalusi@linux.intel.com,
+	flove@realtek.com,
+	derek.fang@realtek.com
+Subject: [PATCH] ASoC: sdw_utils: avoid the SDCA companion function not supported failure
+Date: Thu, 30 Apr 2026 20:10:43 +0800
+Message-ID: <20260430121043.552241-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WlK7fYYf5jmaqu86"
-Content-Disposition: inline
-In-Reply-To: <20260430-i2s-same-blk-v1-2-3a1f04eb6159@linux.spacemit.com>
-X-Cookie: 667:
+Content-Transfer-Encoding: 8bit
 
+From: Derek Fang <derek.fang@realtek.com>
 
---WlK7fYYf5jmaqu86
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Treat the companion amp as generic AMP until full support for companion
+amp is added.
 
-On Thu, Apr 30, 2026 at 03:46:02PM +0800, Troy Mitchell wrote:
+Signed-off-by: Derek Fang <derek.fang@realtek.com>
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+---
+ sound/soc/sdw_utils/soc_sdw_utils.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> +	/* Scan all DAIs on the card for an active peer sharing the same BCLK */
-> +	for_each_card_rtds(card, rtd) {
-> +		for_each_rtd_cpu_dais(rtd, i, other_dai) {
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index 1637cc3f3d59..849ae876d7a4 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -1608,6 +1608,7 @@ int asoc_sdw_get_dai_type(u32 type)
+ 	switch (type) {
+ 	case SDCA_FUNCTION_TYPE_SMART_AMP:
+ 	case SDCA_FUNCTION_TYPE_SIMPLE_AMP:
++	case SDCA_FUNCTION_TYPE_COMPANION_AMP:
+ 		return SOC_SDW_DAI_TYPE_AMP;
+ 	case SDCA_FUNCTION_TYPE_SMART_MIC:
+ 	case SDCA_FUNCTION_TYPE_SIMPLE_MIC:
+-- 
+2.43.0
 
-We need card->mutex here.
-
---WlK7fYYf5jmaqu86
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnzRW4ACgkQJNaLcl1U
-h9CK5gf9Gj5JC8A8JSaCvNquVF+8OacEiVe5EC5OzF6wRRqZr4PgCv7ZnzJ6tLbn
-tjvfrAGLZgckx8Jw9ymX+VZGlhU1mtQ1a1UsoOq7UjgTxrx+1LmGeuDkQgWph2WS
-VycRRJbyVdenywyuyvHjXZK8Cy3QWRX4SM1ZFj7hKenPTFDxw7bw/U7ihAV8SnHq
-KNRnE9fts7PcBxUjQ5VS3meIEyECxhUsxUSJyVxjr3fzuRtN3tPnJOMoAEUSWbH9
-WN6TcFSL3nxYw0HP0L7MAhFDuvo9EpWRGWqmLnsgBFSKYn7UhKV52GCp77y2Ihb+
-B9SHhsPaRiwHgzL9aDT2TORyBxVU/A==
-=a6r/
------END PGP SIGNATURE-----
-
---WlK7fYYf5jmaqu86--
