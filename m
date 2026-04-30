@@ -1,87 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A4C13790B;
-	Thu, 30 Apr 2026 01:00:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BA572631;
+	Thu, 30 Apr 2026 01:15:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777510821; cv=none; b=n3JkXBcUdrQTGmUgbOG+J1yeqMKbFJc6nkPhs9ISFb8xBEAy2UG0hYw8hQMFMr3kJ7RKE63fXJy/0eFm1L+jMIfeKH/wYIiZShdjSekld70tKMhigkP3nlAd522Yh4i2mDS6JbpiAvpismcyfVpGsH/UKrcRkdrD/p9qoqytjrg=
+	t=1777511726; cv=none; b=hhVArP/1TFHvAwIns2wwh70gwp1gJyU/CEz0uq16VOkzQYahu/dm6FL4smgItIJXDyuIwigNeZrhtONrclp1Ww8QMFhif4coILijozxXuT1Qhil4tGpN1RMKU73dlBzVuddlBNjclAhQTVTRDnYdHFInDpynf7Ui1vdrKcb1nAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777510821; c=relaxed/simple;
-	bh=wSFWxLyFmwkXCFlEqXdpW5aD9S/d9XFlVOX1pPmAbnc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rH/TyOi9c9LT8mupX2pr3ltVnp6Mk2Hq/QMtelB0n9KgHPkzbc2GbzAIFg/BcMziJ69SqihvZPSjeer+LO0k2Aa2XFcw4b7PQFL2TknA8Yq4WtksVPdltIc1IzpCq3D2jPvPxrHOV+zeaHCwMze1G2G3Ih+JTDZzrIuXs2D6FIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H8++NKB0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777511726; c=relaxed/simple;
+	bh=vvDX/pA4obptcoB8r+zBlgS7GWuCXYfNLD3tyicSDSc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FJ76kKJ2I7KD+uRl2uOioSEVpywoeWtXwD9xUWSb5vj10sGygOZeifSpGYDJ/ARVM6hOHkhsrqa009TayhSPqlEc/FjnGoTMYMEZgwgJoBzSkbn7GqcEfpFNbOPjJyAa3egbf4xMItnGg9fjRWEuha5f2yDaLP6aF608jev/AG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MrkX8KhD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H8++NKB0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BDFCC19425;
-	Thu, 30 Apr 2026 01:00:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MrkX8KhD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36ECCC19425;
+	Thu, 30 Apr 2026 01:15:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777510821;
-	bh=wSFWxLyFmwkXCFlEqXdpW5aD9S/d9XFlVOX1pPmAbnc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=H8++NKB04PVoYU78Xho68s/d2aq4pwIy99pVtsI8OXDHx5luQL//4gQmPqP2fMJA9
-	 vRCzfpwUs1OkROvSO/XcudpFJjqJ39Ra64kLarQC/6l3IodxJUqcrfUr/AK+OJN49m
-	 BGHRXxwNcg0U0ccm7CoYlW+RLuIhkACKb/IJCtIkmW9x2KdvNjEj9YLOyD4o+6AKDI
-	 B53z36PpE+a6YdMVFY+pllqe7epGTOsbX/Kia4wEzMVVtjtIMFGUlhNV+e9Nkwl5sM
-	 uUPPgJcPCki5tj1/WihbxoIGi2+dCZWENwsyzTanrMHyudLJefh2RVOv7CblI4iPZe
-	 W8UFXOeJC6NXA==
-From: SeongJae Park <sj@kernel.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: Manuel Ebner <manuelebner@mailbox.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	Kees Cook <kees@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v4 1/3] Documentation: adopt new coding style of type-aware kmalloc-family
-Date: Wed, 29 Apr 2026 18:00:12 -0700
-Message-ID: <20260430010013.113971-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260430005333.113698-1-sj@kernel.org>
-References: 
+	s=k20201202; t=1777511726;
+	bh=vvDX/pA4obptcoB8r+zBlgS7GWuCXYfNLD3tyicSDSc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MrkX8KhD6zsAjd9QvQmk3O1y+6q9Guz8hJLyHRDNOV6HrOEbn7AKNvLnHFmyA67PV
+	 hODjS9SgGMljY8wadLm2M3Fj1WUzzSxqpGcNPXL6IAn0iMFAHaYk/I2IslWkwym8nc
+	 jHyggflWm8G9wxf1RkUUTiScGKu51kDNwpfhu1MksRu8gO4XMxm1VhsfwufeDBJGgI
+	 bfSUTHfMmLjQCcgvpaW7PCqBzHlu1yKko488Jl9G+6UVzcRNd9Sn1q9IQpikIK/2MP
+	 IZDL48bi1w+40BUHx/VWSrt+ZuLZYlm4VuUCEuZ5I4EniSUBhFxZ1K1/r0Y/TdGaR7
+	 PEMQS56XB7t2g==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 9AA111AC585D; Thu, 30 Apr 2026 02:15:23 +0100 (BST)
+Date: Thu, 30 Apr 2026 10:15:23 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 08/17] ASoC: simple-amplifier: Remove DAPM widgets and
+ routes from the ASoC component driver
+Message-ID: <afKtK2r7oD9_ZSHe@sirena.co.uk>
+References: <20260429074356.118420-1-herve.codina@bootlin.com>
+ <20260429074356.118420-9-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-
-On Wed, 29 Apr 2026 17:53:36 -0700 SeongJae Park <sj@kernel.org> wrote:
-
-> On Wed, 29 Apr 2026 09:14:44 +0200 Manuel Ebner <manuelebner@mailbox.org> wrote:
-> 
-> > Update the documentation to reflect new type-aware kmalloc-family as
-> > suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
-> > and family")
-> > 
-> > ptr = kmalloc(sizeof(*ptr), gfp);
-> >  -> ptr = kmalloc_obj(*ptr);
-> > ptr = kmalloc(sizeof(struct some_obj_name), gfp);
-> >  -> ptr = kmalloc_obj(*ptr);
-> > ptr = kzalloc(sizeof(*ptr), gfp);
-> >  -> ptr = kzalloc_obj(*ptr);
-> > ptr = kmalloc_array(count, sizeof(*ptr), gfp);
-> >  -> ptr = kmalloc_objs(*ptr, count);
-> > ptr = kcalloc(count, sizeof(*ptr), gfp);
-> >  -> ptr = kzalloc_objs(*ptr, count);
-
-Forgot asking this, sorry.  Shouldn't 'gfp' parameters be kept?
-
-> > 
-> > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> 
-> Acked-by: SeongJae Park <sj@kernel.org>
-
-My Acked-by: is still valid regardless of your answer to my trivial question.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="YzX+qqkkFX9ZNKo4"
+Content-Disposition: inline
+In-Reply-To: <20260429074356.118420-9-herve.codina@bootlin.com>
+X-Cookie: 667:
 
 
-Thanks,
-SJ
+--YzX+qqkkFX9ZNKo4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-[...]
+On Wed, Apr 29, 2026 at 09:43:44AM +0200, Herve Codina wrote:
+
+> +	ret = snd_soc_dapm_add_routes(dapm, simple_amp->data->dapm_routes,
+> +				      simple_amp->data->num_dapm_routes);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to basic dapm routes (%d)\n", ret);
+> +		return ret;
+> +	}
+
+failed to add.
+
+--YzX+qqkkFX9ZNKo4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnyrSoACgkQJNaLcl1U
+h9CxWwf7B7BwikowS64ll/nFyPsTdf1LTK2ejHsnmJSFmyb02Y+FFjNqnVYKPxRm
+Wdsn5w5lbhN31hP6QvJNIRKjIKd3YPQI+ZFC1s55RaiJ1mDPHD3od9MQLhGSkEFn
+GdaOJezgwQNS95ynCEqX8wDMBQCfLXNEGR7dVTXeSiIPD9oUeOETwnX+5C/kW3nd
+K3GRX1sMq3OaV/HL8FlW0DVOAGXEY9RkyrlmQE/nvkolYkgsyDkZhoheRdXkLNZ3
+ZuwyyM0os8aSiMcO9AA4sW/rLhi6Ixd5q3CnQiHMkqQKBfvfXAyGFcynG210YvWx
+KB/q5Whb9r2x2DBNj0pAXIhvb4FRag==
+=bN5d
+-----END PGP SIGNATURE-----
+
+--YzX+qqkkFX9ZNKo4--
