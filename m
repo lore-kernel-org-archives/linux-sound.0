@@ -1,63 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BE046AF21;
-	Thu, 30 Apr 2026 16:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CDF3659FB
+	for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 17:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.89.44.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777566870; cv=none; b=C/wq4qtcsebqqY958JvqTnj99ryyb+82DlIFZWoPSoVKGm44BSFEpos7BgYnsnP7/r/yUJDudI7lsCpp+D4NBLc40KalVWwTqEwEGaBKPj86Gvf3yWl24f2fwJR+Wayi50tQ6muG29ZRYVPYsT1b4t6B//uG+FZub1fYF80ThLY=
+	t=1777570999; cv=none; b=u7+KuWqaTlwu4hX/6o5uUZ0wjQgt78g6yGqWh5+TURjQvtYv4Wcnn1rEPXGJK4WtoPjGRBvKJaCUKSbIMo9BOV55m127l+Y5iRffvNIsVLVDtwrzZ78j8/IG4jzwdZtpvWLQbnG2pitxSA7ODm8giCnHMuRVnkyhODn46ClkNAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777566870; c=relaxed/simple;
-	bh=5IB3WwjNT1Vb070c7VZ0ypv3QiBA47tvx/lL5H0cmlU=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=tiLKHz45WCvEgswsFlbFJO6lqWaP5F6YsSOUWlIkpcgSqtSRJ9wx8gQ74z39L5umHGg2nGJrRxn7tWxWm4UYt7wlNqjyyuAkBQhiIaT9DD7bc88uZxtqfx7yaWTi0MWs+Do3Uq0+m8I/GzHHSXMmlgYdDzz/QHv7lZe5cXlWe1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uf/PaaJk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777570999; c=relaxed/simple;
+	bh=GHRSqlUETSp8BScDc8UzS8c4UvPdttzofOIr1ef2KhA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=c6eWBZO2VlU+mZQqMFbEAJthXC+1C4SAXnwDqFaTQlZvabHirU8NsiE7VukwV+mnYZjXjMFIsHJbZUiH52dsYc6Dr40T1PWqVxUK1Iw5I2F+Q7Nu+hTWtSjIpGNgLRMs8dx+zM7HtODZJMPUhthl96N+KkjyfMfv7oFioJYvpmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=QOuqoknL; arc=none smtp.client-ip=35.89.44.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uf/PaaJk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEA1CC2BCB8;
-	Thu, 30 Apr 2026 16:34:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777566870;
-	bh=5IB3WwjNT1Vb070c7VZ0ypv3QiBA47tvx/lL5H0cmlU=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=uf/PaaJk4+WOcnACuzd/sQAS9WSe8mz5lhbvgvckXQjepmULmum3JrxaYp3le0Tli
-	 oJ8U8Hsr/SU4FDloFy42biaIuK0ky7OFgLtXB72pEmd/pdcORGGFVgoC8BNty3WhYg
-	 izSgOq746Kb7l1wLRTT0xCcL1BhLUkndcJDRr3XDTaRLBb+COPvKBcOjz4s5PKKlm1
-	 zKeFDLsATU0XBYxUUA/1NH/VfLkb8buQxWwL6hTM4CErcGEadAP6lWDw6iVmhOIRKp
-	 lWVlSSDgk9zIzP4+8jp2cbFQ64Edyz3zYWH9EarSj6zOZpx1hP9YH5kmWtG6sGmkDM
-	 lk4fovPmMwzVg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7CE78380AA61;
-	Thu, 30 Apr 2026 16:33:46 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 7.1-rc2
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87ik99ndd8.wl-tiwai@suse.de>
-References: <87ik99ndd8.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87ik99ndd8.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.1-rc2
-X-PR-Tracked-Commit-Id: e052a1f7199260eda4d6ca08a59c3b98738f8491
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 2aa0a3691711257b888d6024a492eb9fd1e8f52a
-Message-Id: <177756682508.3088538.10263561969063176324.pr-tracker-bot@kernel.org>
-Date: Thu, 30 Apr 2026 16:33:45 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="QOuqoknL"
+Received: from eig-obgw-5001b.ext.cloudfilter.net ([10.0.29.181])
+	by cmsmtp with ESMTPS
+	id IQZawysgTshqQIVPqwmwsb; Thu, 30 Apr 2026 17:43:11 +0000
+Received: from gator4166.hostgator.com ([108.167.190.91])
+	by cmsmtp with ESMTPS
+	id IVPqwm610I7vWIVPqwBQFj; Thu, 30 Apr 2026 17:43:10 +0000
+X-Authority-Analysis: v=2.4 cv=T6WMT+KQ c=1 sm=1 tr=0 ts=69f394ae
+ a=vY9Mjuda9oMEc2E4Cx1x2A==:117 a=vY9Mjuda9oMEc2E4Cx1x2A==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=7T7KSl7uo7wA:10 a=c92rfblmAAAA:8
+ a=Gzb0PC3O3UAx9o55Kw4A:9 a=QEXdDO2ut3YA:10 a=GvGzcOZaWPEFPQC_NcjD:22
+ a=2aFnImwKRvkU0tJ3nQRT:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=j88sOiZjSmpXroFOaEZFgoC5LI9ePIXWW+V4QuPo+D8=; b=QOuqoknLF5DJbJxNPfaGled5ya
+	uzes+Xp5COQ+L0AwtciFIZG9VyxWrvhQaBh4nQlsaEpUX9UC/wnbaS8LFQxRGJ4arV3uG+4/eW9iY
+	/rcnI25JSEVkui8Z4m/Uy3/yXEdCVIshEDD4fv4As8O3CZPqoWm/ydMQZLePGrj9QfFV3U6tqw/og
+	bxWBCk+ptfBBb3jUYuJ85eKMQjBQwwoDQQ6DaYubcN/mp6dYuH9UVtXrSe7r5olLO4ubpDXjfCu6R
+	svA2urybXAQdn+8q0C35cL+ONjsfJMne/wTdbWmbjfmznBwy54o+26v5uAFH58OZ5fgvpGjAult4P
+	Mk+/aW5A==;
+Received: from [177.238.19.10] (port=58586 helo=[192.168.0.37])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.99.1)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1wIVPp-00000001Ga8-1QtV;
+	Thu, 30 Apr 2026 12:43:09 -0500
+Message-ID: <d71b0a25-f65c-4781-8806-b4dc9cc9c929@embeddedor.com>
+Date: Thu, 30 Apr 2026 11:43:02 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH][next] ASoC: soc-topology: Avoid
+ -Wflex-array-member-not-at-end warning
+To: Mark Brown <broonie@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <afKSFY3qrlSOJ0EJ@kspp> <afLcQBJ4POnSacjV@sirena.co.uk>
+Content-Language: en-US
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <afLcQBJ4POnSacjV@sirena.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 177.238.19.10
+X-Source-L: No
+X-Exim-ID: 1wIVPp-00000001Ga8-1QtV
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.0.37]) [177.238.19.10]:58586
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 3
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfHQPibzo38dPKfe/efTKc6DvNMBm5NmJqEszfgGBtzz/QI6Ti6A541/ZmXNtsM6vGBXw/4OElgXKpA/DHVrICIONo3ntMzBpDOY8cUESnYQBZGTvU7+X
+ SF9njs3AHQUr+RY6eWDi7UOKw6TlA4Z9dr9Zot1Zl5x5FK7RNKZbM7EHi9ka1quy4fjphx6urTKJ69pzkwrqdBCLuQJz54bjSTNLcmwIKvLhdDgqWifBBukz
 
-The pull request you sent on Thu, 30 Apr 2026 08:58:27 +0200:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.1-rc2
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/2aa0a3691711257b888d6024a492eb9fd1e8f52a
+On 4/29/26 22:36, Mark Brown wrote:
+> On Wed, Apr 29, 2026 at 05:19:49PM -0600, Gustavo A. R. Silva wrote:
+>> -Wflex-array-member-not-at-end was introduced in GCC-14, and we are
+>> getting ready to enable it, globally.
+> 
+>> Use the __TRAILING_OVERLAP() helper to fix the following warning:
+>>
+>> sound/soc/soc-topology-test.c:136:38: warning: structure containing a flexible array member is not at the end of another structure [-Wflex-array-member-not-at-end]
+> 
+> Sashiko is complaining about this breaking some of the users:
+> 
+>     https://sashiko.dev/#/patchset/afKSFY3qrlSOJ0EJ%40kspp
+> 
+> I don't know enough to tell if that's actually a sensible report or not.
 
-Thank you!
+It seems Sashiko is correct here.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+I'll rework this patch.
+
+Thanks!
+-Gustavo
+
