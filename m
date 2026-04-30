@@ -1,454 +1,156 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013035.outbound.protection.outlook.com [40.107.201.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7FA347FD1;
-	Thu, 30 Apr 2026 11:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF193168E1;
+	Thu, 30 Apr 2026 11:21:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.35
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777547026; cv=fail; b=HjqWk+HXzPip7Xgs/ZWIJXL97fAcTB/lUmDgXLSAfXoseW6rzE8/XueKbJ6aTfCV8JYHN/YyeXoeKQU4NYRPz8LJTib9U59mIk0nExzmgSMQY+CLFjnvQTmQVc8HW/H7H3WSkSEpVPRD8g3vwGx85zZlz01sfdzcm0TxVxOlnH0=
+	t=1777548087; cv=fail; b=KyOf28C+NaGiw6rb93lLhjkoaa3vTsIzqjNmSi/bhotIlVdvRYqIoEl/a4Q6X4M3zn4nR436R4KIVYF+vE6mA/VYMQK8L96BWD8715R8nGPWd+4VGirUKcIV4Uyb1dTi/usXaoDAuq2X4UpBBGpxpDTTMDu9CK/RvQRmOyYhEus=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777547026; c=relaxed/simple;
-	bh=6aZQQt4wgmFG6pfFAwiK8twfkZ91JWPyFapaqiKvDFY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SR3JjnoZv/voQ/qC/rxC7hVKHMH/jlIYs/Axfwd1afLDf4LP4+xestjxtPb7gKnROiFcYTv7l0MOzmd8TqPkQshT+BXqOyChcHNm7bacbqcCShnrakkmuSLzTa/LFRLOUFCeERNyECngbR1J35W7FD98GkNoPYhM7yBTBeBeGgc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=naVJxzzJ; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=nloGSXtm; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1777548087; c=relaxed/simple;
+	bh=xRSaU+8i7woTJooeEXmNZyjaM6ZxrHk9ikKfCdr3gjk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=oSFsEo+Q9m3bS1pJbEs83ZKdjdUMdFhu8NKVqXFvI+vaj1vD8/p4BGKHoZJ2Vzg5YrArNM0DfmGhRhBTHA3s3Tg4HMYvk+ZrhSQpwU92A6Gxw0azvEEEa3R5N/E0var3X8vPK8nMj3fMZvV+anUhDAN9/Fq8uvfa8NpmBJOPStk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=neV1XuDF; arc=fail smtp.client-ip=40.107.201.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="naVJxzzJ";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="nloGSXtm"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63U1mNo6411545;
-	Thu, 30 Apr 2026 06:03:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=VuD0tP6V0Cqaw5E3cgOc/oIDj3D2LuoqlkqzWcthOiM=; b=
-	naVJxzzJO+gg5hZM0ZzOZHdxHxAgJHjBkFD2OajoN+JRST2Kg+s0f/PUjA16yiXV
-	mBjVaJ1KrNZo9K75YxkrpIB2MYDbzp2UChk4g9gaD+8b+qeOiAsgXwOCDUMDPuIb
-	6mDn1jOwlqvtqFJ2utEzvVNs4WlwpX5uI8vF8dw0KrkHiuo31v9HNIvlEDCyBUUK
-	V+f66Bp53IyIR6P7YQk7iHz/NBOq4LPfEvIawG1Xzn1n+2J/hAQT/Sezk6Dx265t
-	/owAmtEDe+njPxcn/JOGX3HtbVb93b67rKWQ0R19qPUPO+wtng2tktmS1bTrIp0q
-	CqrGG4g2LOEqq8phzC2oUw==
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11020074.outbound.protection.outlook.com [52.101.201.74])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4drt1jq1p9-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 30 Apr 2026 06:03:31 -0500 (CDT)
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="neV1XuDF"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QXnk78cYm5g0NnYup6SLqBDvxFPVuQtHZYtcHu76emBZdjHnNRUo0X8fSMcSSoxdeVxvLp41ObDbh2VghS3PxAZTJkpF8yEw//rmMtVakrlTvAMjW4lVKkQ8o86SpZ6F3RFWaKM/7+/nWTdfBbjUYIMZeQ/uycNXFWf44X8ruTFSne1+K4/kZoJZS3mcCuaQ2v2JWdaGtiPNeOAhrS1uhxDdxfhxx8r1Q1sBXUTEG6RM+H6JHwwavjM81mULlJO2hIW0yqMXovPYiDFZfwx/y8a2OmH1EjssMDPUaEHjJvnA5YFR5UEwvpp1zuT/gh1DI2QehrdAWngc8AyAUgbC6w==
+ b=JnvSAt/1lzpSYgpQGLIVPywHmCQESzrW4fWGR0ysctg9zgWQQ9sBShCpaEwu2ylkM8JMumJ319NaK0F169Rho0Uw4JBFWvkRiAe64YNCCBrQSYpsrIodz1ORDXwuEyCCMirob0c/HsHM7JZLKfNHlbUBX03swIilIgBP7LnYrjtf7olNoh7KcSjFukSjuovMnAnjBOOq5uWUQ8vrhV0bgNoiXauIIZQrLs4jm0dzLPQNjG62bj7xfpi8DlsOz/WSMcJBP+DPECRcgWELs4kasSG6tsjFDS2bwMwlwBvOxz+NNrMkkyuF0AI13r63NbB2U1L+JYrOYDs5ZpPaE23B8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VuD0tP6V0Cqaw5E3cgOc/oIDj3D2LuoqlkqzWcthOiM=;
- b=EaGn9756IUfNv7SSlZYwLkw2LzG6dQzG0JzbIhHz+9a1lqG+Ok2fKT6swnlDTafOKSvNKcNBhwIdRAccfLGXQOgCI24D4jCznNCUsLBXTNifnScUs5kG/4BUxdrzqNQ50bj7Os2Ion6C8TFXeyrOp0XefLsAzNGLsN6ooKWwppG/cjh0iMgXtVVqm588FTWGb0Wy0GVYAIm1S0vb8LnMLU8otmb7Iy0XwDjSlCYcyDP2iItKYPsp+gfNHgfu2wsIOt9Or0jKfEVRnF/dFJ3yWwZzk1ZRLNAKQxad+gf92QmyuN9Fl+qHLrXEyZfpPzynB54ZL/j1GZIUX4PeMJV0dg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=alsa-project.org
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ bh=xmwcmVH5xurQDvXJDrV/1hplMZTJfQaWMxAPBUuEhjU=;
+ b=SkXToB3vb2R6WIznuvNEu9ALHCcdSmdYfRTXEbMcOABRT7csmFOoqvCzsyKF86Q1ergwHqm38zdzY5m08kDtbg8HZcbtamj4+VzPvU1VTggZmv/AmKk3BRmoeQ+apnAOB78fG5qs+gcSZdPcBrb7esDjrK1mPWEZXx1OYf7SPH8w6AkNiV+2AdDnfBGFPoCXWvoPfvWfhNyCm5vcaKEJCMafkbzqvm1gwpNMKvw+cFICxttMQzVOZpOg7Kx3H6C0c256SDFUki4Om4BQsBQqCxOhPvyM08LncvBzyGeu2FWOMZ8SkL8Lnr0ggRg7C3nZHM92UZHOL4lnpdfnzZivLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VuD0tP6V0Cqaw5E3cgOc/oIDj3D2LuoqlkqzWcthOiM=;
- b=nloGSXtmyvsWWlVWnqqt4VaIhYjvVq/dlGj27nTxBKpogRPFCpR9FBz1On1AtuIkPMHTQ7pIKZ6rsTfW0maDdRXV4WQzeCBBJkWbvShJUJS4ePBNvmp96aiGIVKwC93AaTtD8sbMbjGtswl6ZZ1WOHXnCpRWke6FRx72q5KEKms=
-Received: from MN0PR02CA0002.namprd02.prod.outlook.com (2603:10b6:208:530::29)
- by DS2PR19MB9481.namprd19.prod.outlook.com (2603:10b6:8:2d2::17) with
+ bh=xmwcmVH5xurQDvXJDrV/1hplMZTJfQaWMxAPBUuEhjU=;
+ b=neV1XuDFZ+I3JfpdM4SjiDEGt6pTMITBuhP3QTAJ/wzf2CbgNu28NsGlDSHwyPR51sxO/BBTAIwMvo/7gKLu+3S9RgUgPn8rz6AWFceAFJv183XfNI6XkIvuuZy8jq7aBCv1agVaxs+VtgVMdSAPPQ5NW9vKBvjXxGgYrcFT+uI=
+Received: from CYZPR17CA0010.namprd17.prod.outlook.com (2603:10b6:930:8c::12)
+ by CY8PR10MB7194.namprd10.prod.outlook.com (2603:10b6:930:77::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.20; Thu, 30 Apr
- 2026 11:03:26 +0000
-Received: from BL6PEPF0001AB71.namprd02.prod.outlook.com
- (2603:10b6:208:530:cafe::f4) by MN0PR02CA0002.outlook.office365.com
- (2603:10b6:208:530::29) with Microsoft SMTP Server (version=TLS1_3,
+ 2026 11:21:21 +0000
+Received: from CH1PEPF0000A345.namprd04.prod.outlook.com
+ (2603:10b6:930:8c:cafe::9b) by CYZPR17CA0010.outlook.office365.com
+ (2603:10b6:930:8c::12) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.21 via Frontend Transport; Thu,
- 30 Apr 2026 11:03:25 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BL6PEPF0001AB71.mail.protection.outlook.com (10.167.242.164) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9791.48
- via Frontend Transport; Thu, 30 Apr 2026 11:03:24 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 02245406550;
-	Thu, 30 Apr 2026 11:03:24 +0000 (UTC)
-Received: from ediswws03.ad.cirrus.com (ediswws03.ad.cirrus.com [198.90.208.11])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id D34B382025A;
-	Thu, 30 Apr 2026 11:03:23 +0000 (UTC)
-From: Maciej Strozek <mstrozek@opensource.cirrus.com>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com, alsa-devel@alsa-project.org,
-        Maciej Strozek <mstrozek@opensource.cirrus.com>
-Subject: [PATCH v4 2/2] ALSA: control: add ioctl to retrieve full card components
-Date: Thu, 30 Apr 2026 12:03:01 +0100
-Message-ID: <20260430110302.3745917-2-mstrozek@opensource.cirrus.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260430110302.3745917-1-mstrozek@opensource.cirrus.com>
-References: <20260430110302.3745917-1-mstrozek@opensource.cirrus.com>
+ 30 Apr 2026 11:21:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ CH1PEPF0000A345.mail.protection.outlook.com (10.167.244.8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9846.18 via Frontend Transport; Thu, 30 Apr 2026 11:21:21 +0000
+Received: from DLEE211.ent.ti.com (157.170.170.113) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 30 Apr
+ 2026 06:21:12 -0500
+Received: from DLEE204.ent.ti.com (157.170.170.84) by DLEE211.ent.ti.com
+ (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 30 Apr
+ 2026 06:21:12 -0500
+Received: from DLEE204.ent.ti.com ([fe80::81dc:e6c6:4c37:9bc6]) by
+ DLEE204.ent.ti.com ([fe80::81dc:e6c6:4c37:9bc6%14]) with mapi id
+ 15.02.2562.020; Thu, 30 Apr 2026 06:21:12 -0500
+From: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>
+To: Mark Brown <broonie@kernel.org>
+CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"ckeepax@opensource.cirrus.com" <ckeepax@opensource.cirrus.com>,
+	"lgirdwood@gmail.com" <lgirdwood@gmail.com>, "perex@perex.cz"
+	<perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+	"cezary.rojewski@intel.com" <cezary.rojewski@intel.com>,
+	"peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
+	"yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>,
+	"ranjani.sridharan@linux.intel.com" <ranjani.sridharan@linux.intel.com>,
+	"kai.vehmanen@linux.intel.com" <kai.vehmanen@linux.intel.com>,
+	"pierre-louis.bossart@linux.dev" <pierre-louis.bossart@linux.dev>, "Xu,
+ Baojun" <baojun.xu@ti.com>, "Ding, Shenghao" <shenghao-ding@ti.com>,
+	"Kasargod, Sandeep" <sandeepk@ti.com>, "Hampiholi, Vallabha"
+	<v-hampiholi@ti.com>
+Subject: Re: [PATCH v13 1/4] ASoC: SDCA: Add PDE verification reusable helper
+Thread-Topic: [PATCH v13 1/4] ASoC: SDCA: Add PDE verification reusable helper
+Thread-Index: AQHc2JNzndceWa7RuE+Tye1X93xR3w==
+Date: Thu, 30 Apr 2026 11:21:11 +0000
+Message-ID: <bf2728235dd9445b94f762fcea09e685@ti.com>
+References: <20260430072324.2183-1-niranjan.hy@ti.com>
+ <afM1ib1iQG0ha5l_@sirena.co.uk>
+In-Reply-To: <afM1ib1iQG0ha5l_@sirena.co.uk>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB71:EE_|DS2PR19MB9481:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 391c3569-8a32-4405-1308-08dea6a819c2
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000A345:EE_|CY8PR10MB7194:EE_
+X-MS-Office365-Filtering-Correlation-Id: 97b0816a-5b32-4057-cfdd-08dea6aa9b40
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|36860700016|61400799027|13003099007|56012099003|22082099003|16102099003|18002099003;
+	BCL:0;ARA:13230040|36860700016|82310400026|376014|7416014|1800799024|18002099003|56012099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	WjsT89GA4D6DweIHbOjDZ6GC9lgCCVVxAGapZ1usjeyCK4TERM1TKz5geRHSQYqKL96zQ5KXzjIhFyvAL/78ZHzj0OKZ+pLDkgJroFl1pWSPXPmOI4yvSbt7DCXgkEamvcPnCMsi/AJS3QLUiu98Add/wGfQBxbcnvwaMeTYfXjjEBmN4YOz/TymqwrRsbRGsgKHYohUN6Jmsa3VMetaHlfa+Kecf8wz9aV3mlXn9njBEhDHXhKchp7rEkCR4Z9uvWPEYnM9HREIcNjfAg6pn9Ro9sVOKFpQ5h8Fj1lianDNPEdtgd9nEk2DWHABraMAwD5H6Zsx/sSZv9The+UiXtAcvvjElPon7vN9+WT8mr/yCTvrQJE6sFPWlT/PIank1Ca91CIl5UfP8eswDHE5N6aEovUFYpRtt5AUcOBgku6RVBkGt6IO31lA8Kl9SPKMvUzH4D9f5CA9nhRYDZlC4O4XwojpRHMj65ttb7RKCaxVRIut5rGfimxF373siHVqUPFqe7Cn2w5bnshBujO87nkwze5SUmXdf25Yu+7ZJLg9TPOHXcvx6YOBGxXhCn2NCeEatmXDGb2/hel0etyTIs1qN8mNZYsvzsJm0GmgbAOp/to3vafGNi+WgiaMtr3EI6tGIv3xlbANO0mAzs1aLhGwLmiAD8UWHX/e94dEkK+ksZf6in0JQxDZ1Q7tOt3T6vy1XkpSMUZa/+esz1tb8fHymNenm+HBiEALtHxHnj9nFOnpWqCa+ohXHnv7sJrlDj/DCSzcTEDrDfEKVLVQzg==
+	D71qnot/7t9lsEHlzWvDFmDYM5/Ci74MPfHfsx4zHJgaUu34ObHFgiPuHBloHa35q/zR5fosughaf9aFacjKXr9B/0O2QMQHj49zjJoQK/peYZ2yPRkibsr7uFtA3Kxo4f9O+iDm88/CHYELPRsVYwpkww26+j9L4fPDe+pD2PspIkX7ewYMaaaFwcAKB8Ee0M9/RbZDGx6f3e/qx+C1EYWojd1yChWqVScQG3BHA1RvkOmd5keSXRVhcNpjU/TO02c4FQziPM0q+K/h0aaVMLzhUOO+CWEnOBM037f4YREnRJJNnadv3wRjflVrtiJGUHQ8dqZCGsmzq2/jHcfY2LysZdZkVOtkUA9jDiTsp0X1FIcjCRxckJtvWXQd4byjmZWYNuuEMghMhQOqqIOR+cfZ5qvcHD/7y1/oaDsSo7gHXE1cDYD/Aa0cSCBAQC04DqAKb/U0smpkxNecXCdA8xXPEqgpFGEh2OO/qbr3+JoaafZFhquuOP/9OqzNJh7BZ9sEUqUahe6254vuxwGxxkEL/2a7GqMqA4HMolf/HMopezxBZm5W6yeldNRhINBkGxklFewr+eSXzldl9wnIjE16u2cbCDpCyGZln7peHpXFv6i3rLWJsnA36rxu66CyE0nKVQ9RYWE6niWjvAc/jXINavjAxCwYdxDBAi/i4XSdtuvGUIHTFUJQc0HAarPM1S7TG8UwCh0ns9BRRYcMxP+oGEzMXU1IhwSIw7dQfZfrK4c8Uylr7BmF60nMwEkMdoRpV6mK5G34fK3PvCYmQQ==
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700016)(61400799027)(13003099007)(56012099003)(22082099003)(16102099003)(18002099003);DIR:OUT;SFP:1102;
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(376014)(7416014)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	qOUVbJqRa6fv1VtQUXUToIrHIOKvvSpvydavsb/LYUVJYWjIOJIM19D5Lfijlzc3fE8dBt23eAFwzA5SgtlWZdfI4O3uykCr1lina9bbETyZVw3p83o04WFSqHVKmN6GrRh6Sbb07G/aYaNirLp9C6NHzQgpfpV94yoBtzL9mO3MhO33NEqvs7brkSrKF+lGBR7FTWLp34JFprU9L+TtWSwUfXY8eRBDfVLrFMw7gzh6IxFo7tLngZhNbP+bgoKPqUZlzUW9JkPmkj7vcxuFQLrc2lZdPQwxTtu7u508LDbxkaxNlEvwV6PvVTuw3hv0W02n57plpG1kYGD9ELRiBvJ3i6FpJdBICA20ItGRZFZ8c/Bhh6yK8RXt4BA17r1820lPBCuhZ7bkz7rbk/miPRhhLELT6ycHy1OxmWSPkyHo/QA9YRFWIbQuOLttfwi7
-X-Exchange-RoutingPolicyChecked:
-	QAwUOxWFV/ZDC33mSx6WT8kQ5zIeNCz2u2bZmduwv0DfCgpNGZKZP4GNXUTRfTCQkXLKY7yALMlcHN9hAcC+Yh+SYa1HTlBtGMm6MBg2kXV4G5BytQyPQNtvMMON8DUzNUbWzAI/2vfoxqAXTtqQwQIGxITUkl8lxnzjU0qX+deF85pM78r9MkeJge5+8ncjWGU2ywgNAHjXKxFfeahSATzkEi2CxS7C9NKdDdE1gHbiBXdo0HFSF2k9IGNypROsnYPkT3OMzWinjWW1ZhyN5PIrRShpr9zMp0wPgW1urEMnCJc9UC2iUet0kxJF9Vd/9+eW/A34uMLUzOwOZPvXJg==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 11:03:24.8002
+	/Byr0BUb10V3NNcpVP6n54fKzO3czR+ci6cWgf7rscWF2VYIcNVrOgh5K3G29UBbqPtIlmu+SJMNJIuEMIRe5MKJvn/v2dGJd0RGJGzbnepwQ9OPu0kistsZdMPRS1F9clQjCRecZ74zfppVVuJSMjuarUezVgJPCBfy33HdRIUCw+tfkYJweh+LKyFJjvKdzzKgebCBd+f1831B31SclS352Ih2sTAfu9xUdIe/SN6T2VKeM9cSVh5NCQcZzP59R1ztw0dko+qwV+oHDwtkBUMfDosWKXbAKkw+H2YZaHNZZrF/n1ejtxgrWNdRFpjYmPvkGH2W5gqcFXwH4NEXtSsI/gGovFoBJLOrehUwL7Wup7TYibgVsNTEZ061wY++i8orHmRoGwfTGD023WPLyQ08OUhCdDWZIf5WqncjL9TLgPi9dHvUF+siDCRcPzYk
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 11:21:21.1596
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 391c3569-8a32-4405-1308-08dea6a819c2
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL6PEPF0001AB71.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97b0816a-5b32-4057-cfdd-08dea6aa9b40
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH1PEPF0000A345.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR19MB9481
-X-Authority-Analysis: v=2.4 cv=fbudDUQF c=1 sm=1 tr=0 ts=69f33703 cx=c_pps
- a=9mF5moCRh3baUhQ7ZsOuTg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=A5OVakUREuEA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=NEAV23lmAAAA:8 a=iox4zFpeAAAA:8 a=w1d2syhTAAAA:8 a=sefg8_7nxHGFjYeqZrUA:9
- a=WzC6qhA0u3u7Ye7llzcV:22
-X-Proofpoint-GUID: shPA1klq0a0fJI4SSCk6OGIWoR5U5DSH
-X-Proofpoint-ORIG-GUID: shPA1klq0a0fJI4SSCk6OGIWoR5U5DSH
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDMwMDExMiBTYWx0ZWRfX3ZdBjsEMpeMc
- u/1vMeepd6LKibobd6Jvd4paIARy2td8/Ku36NaarYIvDy4cES8tDvGIqKM6pRk4uAXUJyLdmvq
- brNbj7AwxHk4IGIVHZwd3kfYMe7GQxk8itfhQE2WaK8PsEe2y3PBJEQU6JD2zXQwSLe/E0RzddZ
- 64Of25KK71KPnIjIFRt0XWwbkmFYpkxUigCJqU1cawOMTh6yvj0S1A19VVdIx3+h6Rshx/B9THR
- E7j4JGgvZx0kxZGRQGuYuP/8pbPuC7pd6GkiPJFA14hsKZN3Zkh2KHvI0RJvBqOm8cLfhFv7VXT
- Yv7CbYzRFqQS3JludRSi3b38LYD7aAQAD88wORqJ87RTZ0k0kRPguuPRtk3UjGChLA1IDDeXjcx
- XIm4ZvDXaTBtNp4UnX7gStV9o5XuYzQ7aYMU/qZPdHl4Pnl8oTiIK3W/RbjlTCZwgUNUSHg9wAA
- VP6VM7fKh9HxZPgYjtA==
-X-Proofpoint-Spam-Reason: safe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB7194
 
-The fixed-size components field in SNDRV_CTL_IOCTL_CARD_INFO can be too
-small on systems with many audio devices.
+> On 16:27-20260430, Mark Brown wrote:
+> Subject: Re: [PATCH v13 1/4] ASoC: SDCA: Add PDE verification reusable he=
+lper
+> On Thu, Apr 30, 2026 at 12:53:21PM +0530, Niranjan H Y wrote:
+> >   Implement sdca_asoc_pde_ensure_ps() helper function to poll for PDE
+> > power state transitions. Per SDCA specification, after writing
+> > REQUESTED_PS, drivers must poll ACTUAL_PS until the target power state
+> > is reached.
+>=20
+> You've not copied me on the rest of the series so I don't know what's
+> going on with dependencies.  When sending a patch series it is important
+> to ensure that all the various maintainers understand what the
+> relationship between the patches as the expecation is that there will be
+> interdependencies.  Either copy everyone on the whole series or at least
+> copy them on the cover letter and explain what's going on.  If there are
+> no strong interdependencies then it's generally simplest to just send
+> the patches separately to avoid any possible confusion.
 
-Keep the existing struct snd_ctl_card_info ABI intact and add a new
-ioctl SNDRV_CTL_IOCTL_CARD_BYTES that carries a variable-length payload
-selected by a type discriminator. The first defined type
-SND_CTL_CARD_BTYPE_COMPONENTS returns the full components string. The
-ioctl is designed to be reused for other variable-length card payloads
-in the future.
+My apologies, I am yet to send the rest of the series.
+Accidentally sent this alone. Next time I will send all the patches at once=
+.
 
-The user-space caller may set data_allocated == 0 (or data == NULL) to
-query the required length; otherwise the kernel copies the payload into
-the user buffer and writes back the actual length in data_len.
+Sorry for the inconvenience.=20
 
-When the legacy components field in struct snd_ctl_card_info is
-truncated, '>' is written just before the NUL terminator to signal to
-user-space that the full string is available via the new ioctl.
+Regards
+Niranjan
 
-card->components is now dynamically allocated and grown in 32 byte
-increments via krealloc(), capped at 512 bytes.
-
-Link: https://github.com/alsa-project/alsa-lib/pull/494
-Suggested-by: Jaroslav Kysela <perex@perex.cz>
-Suggested-by: Takashi Iwai <tiwai@suse.com>
-Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
----
-Changes for v4:
- - replaced snd_ctl_card_components with snd_ctl_card_bytes for possible
-   future extensions
- - support query mode (data_allocated == 0 or data == NULL)
- - added compat 32-bit
- - renamed card->components_ptr / components_ptr_alloc_size to
-   card->components / components_alloc_size
-Changes for v3:
- - change components field to a dynamic array resizable in 32 byte
-   increments
- - removed SNDRV_CTL_COMPONENTS_LEN define
- - sanity check if 'components' requests more than 512 bytes
- - added a commit to clean up trailing whitespaces
- - alsa-utils link no longer needed
-Changes for v2:
- - do not modify existing card->components field
- - add a new ioctl and struct to keep the full components string
- - handle the split/trim in snd_ctl_card_info()
----
- include/sound/core.h        |  4 +--
- include/uapi/sound/asound.h | 21 ++++++++++++++-
- sound/core/control.c        | 52 ++++++++++++++++++++++++++++++++++++-
- sound/core/control_compat.c | 27 +++++++++++++++++++
- sound/core/init.c           | 34 ++++++++++++++++++++----
- 5 files changed, 129 insertions(+), 9 deletions(-)
-
-diff --git a/include/sound/core.h b/include/sound/core.h
-index 4093ec82a0a12..8a6a0e86da5e5 100644
---- a/include/sound/core.h
-+++ b/include/sound/core.h
-@@ -87,8 +87,8 @@ struct snd_card {
- 	char longname[80];		/* name of this soundcard */
- 	char irq_descr[32];		/* Interrupt description */
- 	char mixername[80];		/* mixer name */
--	char components[128];		/* card components delimited with
--								space */
-+	char *components;		/* card components, space-delimited */
-+	unsigned int components_alloc_size;	/* current allocation size of components */
- 	struct module *module;		/* top-level module */
-
- 	void *private_data;		/* private data for soundcard */
-diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
-index d3ce75ba938a8..a6b695a798f07 100644
---- a/include/uapi/sound/asound.h
-+++ b/include/uapi/sound/asound.h
-@@ -1058,7 +1058,7 @@ struct snd_timer_tread {
-  *                                                                          *
-  ****************************************************************************/
-
--#define SNDRV_CTL_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 9)
-+#define SNDRV_CTL_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 10)
-
- struct snd_ctl_card_info {
- 	int card;			/* card number */
-@@ -1072,6 +1072,24 @@ struct snd_ctl_card_info {
- 	unsigned char components[128];	/* card components / fine identification, delimited with one space (AC97 etc..) */
- };
-
-+/*
-+ * Card components can exceed the fixed 128 bytes in snd_ctl_card_info.
-+ * Use SNDRV_CTL_IOCTL_CARD_BYTES with type SND_CTL_CARD_BTYPE_COMPONENTS
-+ * to retrieve the full string.
-+ */
-+
-+/* Type values for struct snd_ctl_card_bytes::type */
-+enum {
-+	SND_CTL_CARD_BTYPE_COMPONENTS	= 1,	/* full card components string */
-+};
-+
-+struct snd_ctl_card_bytes {
-+	unsigned int type;		/* SND_CTL_CARD_BTYPE_* */
-+	unsigned int data_allocated;	/* size of @data buffer in bytes */
-+	unsigned int data_len;		/* in/out: actual data length in bytes */
-+	unsigned char *data;		/* user buffer */
-+};
-+
- typedef int __bitwise snd_ctl_elem_type_t;
- #define	SNDRV_CTL_ELEM_TYPE_NONE	((__force snd_ctl_elem_type_t) 0) /* invalid */
- #define	SNDRV_CTL_ELEM_TYPE_BOOLEAN	((__force snd_ctl_elem_type_t) 1) /* boolean type */
-@@ -1198,6 +1216,7 @@ struct snd_ctl_tlv {
-
- #define SNDRV_CTL_IOCTL_PVERSION	_IOR('U', 0x00, int)
- #define SNDRV_CTL_IOCTL_CARD_INFO	_IOR('U', 0x01, struct snd_ctl_card_info)
-+#define SNDRV_CTL_IOCTL_CARD_BYTES	_IOWR('U', 0x02, struct snd_ctl_card_bytes)
- #define SNDRV_CTL_IOCTL_ELEM_LIST	_IOWR('U', 0x10, struct snd_ctl_elem_list)
- #define SNDRV_CTL_IOCTL_ELEM_INFO	_IOWR('U', 0x11, struct snd_ctl_elem_info)
- #define SNDRV_CTL_IOCTL_ELEM_READ	_IOWR('U', 0x12, struct snd_ctl_elem_value)
-diff --git a/sound/core/control.c b/sound/core/control.c
-index 5e51857635e62..9a3772f1126d8 100644
---- a/sound/core/control.c
-+++ b/sound/core/control.c
-@@ -876,9 +876,13 @@ static int snd_ctl_card_info(struct snd_card *card, struct snd_ctl_file * ctl,
- {
- 	struct snd_ctl_card_info *info __free(kfree) =
- 		kzalloc(sizeof(*info), GFP_KERNEL);
-+	ssize_t n;
-
- 	if (! info)
- 		return -ENOMEM;
-+
-+	static_assert(sizeof(info->components) >= 2);
-+
- 	scoped_guard(rwsem_read, &snd_ioctl_rwsem) {
- 		info->card = card->number;
- 		strscpy(info->id, card->id, sizeof(info->id));
-@@ -886,13 +890,57 @@ static int snd_ctl_card_info(struct snd_card *card, struct snd_ctl_file * ctl,
- 		strscpy(info->name, card->shortname, sizeof(info->name));
- 		strscpy(info->longname, card->longname, sizeof(info->longname));
- 		strscpy(info->mixername, card->mixername, sizeof(info->mixername));
--		strscpy(info->components, card->components, sizeof(info->components));
-+		n = strscpy(info->components, card->components, sizeof(info->components));
-+		if (n < 0) // mark the truncation with '>' before NULL terminator
-+			info->components[sizeof(info->components) - 2] = '>';
- 	}
- 	if (copy_to_user(arg, info, sizeof(struct snd_ctl_card_info)))
- 		return -EFAULT;
- 	return 0;
- }
-
-+static int snd_ctl_card_bytes(struct snd_card *card,
-+			      struct snd_ctl_card_bytes *info,
-+			      unsigned int __user *data_len_out)
-+{
-+	unsigned int data_len;
-+
-+	switch (info->type) {
-+	case SND_CTL_CARD_BTYPE_COMPONENTS:
-+		scoped_guard(rwsem_read, &snd_ioctl_rwsem) {
-+			data_len = strlen(card->components) + 1;
-+
-+			if (!info->data || info->data_allocated == 0)
-+				break;
-+
-+			if (info->data_allocated < data_len)
-+				return -ENOMEM;
-+
-+			if (copy_to_user(info->data, card->components, data_len))
-+				return -EFAULT;
-+		}
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	if (put_user(data_len, data_len_out))
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
-+static int snd_ctl_card_bytes_user(struct snd_card *card,
-+				   struct snd_ctl_card_bytes __user *_info)
-+{
-+	struct snd_ctl_card_bytes info;
-+
-+	if (copy_from_user(&info, _info, sizeof(info)))
-+		return -EFAULT;
-+
-+	return snd_ctl_card_bytes(card, &info, &_info->data_len);
-+}
-+
- static int snd_ctl_elem_list(struct snd_card *card,
- 			     struct snd_ctl_elem_list *list)
- {
-@@ -1992,6 +2040,8 @@ static long snd_ctl_ioctl(struct file *file, unsigned int cmd, unsigned long arg
- 		return put_user(SNDRV_CTL_VERSION, ip) ? -EFAULT : 0;
- 	case SNDRV_CTL_IOCTL_CARD_INFO:
- 		return snd_ctl_card_info(card, ctl, cmd, argp);
-+	case SNDRV_CTL_IOCTL_CARD_BYTES:
-+		return snd_ctl_card_bytes_user(card, argp);
- 	case SNDRV_CTL_IOCTL_ELEM_LIST:
- 		return snd_ctl_elem_list_user(card, argp);
- 	case SNDRV_CTL_IOCTL_ELEM_INFO:
-diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
-index 4ad571087ff59..9077482d67440 100644
---- a/sound/core/control_compat.c
-+++ b/sound/core/control_compat.c
-@@ -19,6 +19,30 @@ struct snd_ctl_elem_list32 {
- 	unsigned char reserved[50];
- } /* don't set packed attribute here */;
-
-+struct snd_ctl_card_bytes32 {
-+	u32 type;
-+	u32 data_allocated;
-+	u32 data_len;
-+	u32 data;
-+};
-+
-+static int snd_ctl_card_bytes_compat(struct snd_card *card,
-+				     struct snd_ctl_card_bytes32 __user *data32)
-+{
-+	struct snd_ctl_card_bytes data = {};
-+	compat_caddr_t ptr;
-+
-+	/* type, data_allocated, data_len */
-+	if (copy_from_user(&data, data32, 3 * sizeof(u32)))
-+		return -EFAULT;
-+	/* data */
-+	if (get_user(ptr, &data32->data))
-+		return -EFAULT;
-+	data.data = compat_ptr(ptr);
-+
-+	return snd_ctl_card_bytes(card, &data, &data32->data_len);
-+}
-+
- static int snd_ctl_elem_list_compat(struct snd_card *card,
- 				    struct snd_ctl_elem_list32 __user *data32)
- {
-@@ -426,6 +450,7 @@ enum {
- 	SNDRV_CTL_IOCTL_ELEM_WRITE32 = _IOWR('U', 0x13, struct snd_ctl_elem_value32),
- 	SNDRV_CTL_IOCTL_ELEM_ADD32 = _IOWR('U', 0x17, struct snd_ctl_elem_info32),
- 	SNDRV_CTL_IOCTL_ELEM_REPLACE32 = _IOWR('U', 0x18, struct snd_ctl_elem_info32),
-+	SNDRV_CTL_IOCTL_CARD_BYTES32 = _IOWR('U', 0x02, struct snd_ctl_card_bytes32),
- #ifdef CONFIG_X86_X32_ABI
- 	SNDRV_CTL_IOCTL_ELEM_READ_X32 = _IOWR('U', 0x12, struct snd_ctl_elem_value_x32),
- 	SNDRV_CTL_IOCTL_ELEM_WRITE_X32 = _IOWR('U', 0x13, struct snd_ctl_elem_value_x32),
-@@ -456,6 +481,8 @@ static inline long snd_ctl_ioctl_compat(struct file *file, unsigned int cmd, uns
- 	case SNDRV_CTL_IOCTL_TLV_WRITE:
- 	case SNDRV_CTL_IOCTL_TLV_COMMAND:
- 		return snd_ctl_ioctl(file, cmd, (unsigned long)argp);
-+	case SNDRV_CTL_IOCTL_CARD_BYTES32:
-+		return snd_ctl_card_bytes_compat(ctl->card, argp);
- 	case SNDRV_CTL_IOCTL_ELEM_LIST32:
- 		return snd_ctl_elem_list_compat(ctl->card, argp);
- 	case SNDRV_CTL_IOCTL_ELEM_INFO32:
-diff --git a/sound/core/init.c b/sound/core/init.c
-index 593c05895e118..a683803bcf96a 100644
---- a/sound/core/init.c
-+++ b/sound/core/init.c
-@@ -590,6 +590,9 @@ static int snd_card_do_free(struct snd_card *card)
- 		snd_mixer_oss_notify_callback(card, SND_MIXER_OSS_NOTIFY_FREE);
- #endif
- 	snd_device_free_all(card);
-+	kfree(card->components);
-+	card->components = NULL;
-+	card->components_alloc_size = 0;
- 	if (card->private_free)
- 		card->private_free(card);
- #ifdef CONFIG_SND_CTL_DEBUG
-@@ -1036,16 +1039,37 @@ int snd_component_add(struct snd_card *card, const char *component)
- {
- 	char *ptr;
- 	int len = strlen(component);
-+	unsigned int cur_len, need_len;
-
--	ptr = strstr(card->components, component);
--	if (ptr != NULL) {
--		if (ptr[len] == '\0' || ptr[len] == ' ')	/* already there */
--			return 1;
-+	if (card->components) {
-+		ptr = strstr(card->components, component);
-+		if (ptr) {
-+			if (ptr[len] == '\0' || ptr[len] == ' ')	/* already there */
-+				return 1;
-+		}
-+		cur_len = strlen(card->components) + 1;
-+	} else {
-+		cur_len = 0;
- 	}
--	if (strlen(card->components) + 1 + len + 1 > sizeof(card->components)) {
-+
-+	need_len = cur_len + len + 1;
-+	if (need_len > 512) {
- 		snd_BUG();
- 		return -ENOMEM;
- 	}
-+
-+	if (need_len > card->components_alloc_size) {
-+		unsigned int new_alloc = roundup(need_len, 32);
-+
-+		ptr = krealloc(card->components, new_alloc, GFP_KERNEL);
-+		if (!ptr)
-+			return -ENOMEM;
-+		if (!card->components)
-+			ptr[0] = '\0';
-+		card->components = ptr;
-+		card->components_alloc_size = new_alloc;
-+	}
-+
- 	if (card->components[0] != '\0')
- 		strcat(card->components, " ");
- 	strcat(card->components, component);
---
-2.47.3
 
