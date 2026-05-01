@@ -1,196 +1,287 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5B82D77E9
-	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 11:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777633857; cv=none; b=r7n9BnyUgJ6xr2d2UgYEnWoYhQDxW7AGrd/yeX4Qrp2CGNdp0Y956vVko3oSvTlNdue0ruT9GamFyTUgkQHDy1ayNpHsPSQE86uma0qpkkXJdt+7hnj5R7jEFJFpypymBTzYUzRd9ChSmVoYmZ3xNIL1dyEQZt57ToG8fjEWIes=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777633857; c=relaxed/simple;
-	bh=3Wcuv7vWXril4wnR8nrnNGWz346GKjDN1CfiXRWaVXg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=FmS1o7KmYzbVqwx3XZUO+yNZByzz9w19xpRRF4nVmGP0qHRpr7S8jCtox3nzbXlYLgt8C6XC5sfddrHFMruXVVHpVD4oQowg4zH4ILcsIOAd9Cqv8ozcRCfUHSgo76z1wxZ43PWIVBykJElzlwx8HXT4P5k0DYtvNpOW3Vw1/fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qwgoRfh1; arc=none smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FAE39EF20
+	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 12:24:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.125.188.122
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777638246; cv=pass; b=TfzBO2mwjrJdVlhi4hzvwRul+WJB1bBRNxfyq7GFAaMlwguwWtIG/O/bRh7kP1/+kgvlXzz76NNNbP3s/akysLQlP/Dps3JS9SgAAzwvowNGb78Lw3vTh8sXZTsrHPQNo8Hfn32Li3YmNYgSrpGKAYFOfMx1lKd8pVbnuOps4cM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777638246; c=relaxed/simple;
+	bh=LPm0+K4i6lGxFJ6h0W2UZct9gJ3DEXyv78XPYSegIl4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AoLtdv5HWsT+ImspiJFio3Mf00kZPpWQXPliIB71rda6O6M52QrTmgtwvmuopG1BOA6hIe7VxKk3dDm658CZ8JR5IM7C790Ghk/6gqeEGHyw0tKIPXp14gQXFkgLprdj7Rdw2PxiqQ3T1PzkU+yo7EjJNomha20i+RQZ8bTNuAY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=kwbqsVnU; arc=pass smtp.client-ip=185.125.188.122
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qwgoRfh1"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12c45281a06so2876463c88.1
-        for <linux-sound@vger.kernel.org>; Fri, 01 May 2026 04:10:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777633855; x=1778238655; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p8/WVfHESUffqanqnB+tvboreu3xWHPzbWiU3q5ebRc=;
-        b=qwgoRfh1kk3G23t+6ZpOqk7PiNtmaK8YnrASu25n/sMJcaB7K9s+v6pOFBrNRDRdgG
-         tVhO9WJN0L/RFybt2GgKd0klvcE4k21VSAAcr2RO+++jHTMW0M/HmiThgjqzsKFjFYCp
-         ioipJ3xUIuVzC7P4w1wTRhCYcv87e9d9ER1j/nJbPMm1DljaWcW0nFImxqRqCaYTlwGJ
-         Pv7t/rBvx7GwlWTqplPFXodfBEsMpSoYHPws8myzo81FQ71UYWF+nm3dSVnhWCbk4NBt
-         K6TsGnD0dPkB+9ED8K28j8KQYe25hViBHt12DOUlIdciTXnFWvEquUGHEDMaPP+lSKNG
-         KX3A==
+	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="kwbqsVnU"
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id DB2AC3FECE
+	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 12:23:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20251003; t=1777638236;
+	bh=LehvrC/EwCqytqj7XaSFhay2+icV8/y+NPt4SLYsWZQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type;
+	b=kwbqsVnUuZZKo9pGSysHpaGbzLCPCpNXPUnH5Nn3xPnEx6JLsqDDqbqi85CArXc0+
+	 ZWlDM2wzxBvKkZH+j8tknTPT6tzbiHz8Htzg0pxdHdHCULF2K6M0ScHF0Sb7KBEg9d
+	 BzMJ+Pvm+XiztOmMbmiyJ34BcU/b9RjXoz3YicL2kS1E6/eWXE6qMG7WTd3tZ47EiX
+	 VeP8/a9P3CCvvIR6Nq1gKwY+/KaQu+quzgpXl7ICxKOt7xH9y3GomZuMXXSodITC8S
+	 Ou3LyfwfRIQkdRjlHVXdk1XV5VPvdRXZx4zkFUYyRhmO6/lNSeapZBm+A5z4iZwfjy
+	 mrtaehn5FBQ6k9D9tF06CxsqgKDOupHemBIk/bni8UCvokGQQ6+EV1imYescYrNmYN
+	 3AZpWsMQR8OjYU98KOyc2g5LaAjF3LXUt3APUEeMeMpAl7gbpjHw0ihEzpw+Ze8h5w
+	 wMINMWabjy6kgr5UPuN+QOCg9TYMn7KlS6Ure63CPDj7Ns/k6mL99DJIS6RlnF2OKJ
+	 6EznMOXu4seA0CZ9j8S2W7gjmRNtu9JkmtGxQ3uldU2hVwbNI3vc3FJep9FJqcDx3o
+	 slx6Qr71skDLjA+g88QQ5xoLGbn50JOW2UfZz5ktxelKptPZ2U4gqDkHhbTMeqwYib
+	 1eMSkvyCG+lA8nv1Xum0CaDM=
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-2ee5b73c5f2so300611eec.0
+        for <linux-sound@vger.kernel.org>; Fri, 01 May 2026 05:23:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777638234; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RO1gfVklSvSmkIgntFzBEKVtBJ7Oyz0Iuf9PwB6uZMF8Gk61wxMciw/2NolmPpOZRN
+         2b0t696T/vTwTD4gZ5EhUeIDnqW/5tGIlJtA0y+THa23ZCnOrCeDRLEuyai0Da1MXScT
+         mJDyH4IfloXq79KJEB3ixfy0tIGqNId7unclu+ybuEYENSI/B+dMgJ35UUEIqFf0a22g
+         VhiW56SprRpkTe2tEdqNPXWY8w5FEZQ3RJtY7YsCwcT8LzjiAzmyikL8s23fYIkGG1WQ
+         rkrKY04SucpHayfKkpcNyS0PlU1Oquyqg2POdZgDKEJbgofj8jUkU10IM/rnqri6pqkR
+         OWcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version;
+        bh=LehvrC/EwCqytqj7XaSFhay2+icV8/y+NPt4SLYsWZQ=;
+        fh=kNFkK4+7M8J3DJnKfM/GUB6gMH41XZkj5gwPXnxUFdQ=;
+        b=DmvsbMIn07impOP1o+U85UfGaJUykjWls/xJdzPFfEAxyYxaLDMUca/gxy+jzu0ZFk
+         RGY19XEorEpNVfP6up+2TyfBvXbj8ypubdSttWeE6fnHF1fC6A1TWLQhwhi1vc3f2abA
+         7+Mxqr6iFq/wuOsCFL4FXgeFqybxBOP6jkz0uklhlK/aCb+Anl+0IPPcXyR+S+ZjAJjs
+         2465FIpiAsLGHst1boQhkKJMQi9TvD2af/WWhOU5yfJ/Yp3yRLMZ60fvTE+hZ5+u+vhi
+         0n9hIfm3Yd5b15V0M0P3Q2pHLSBzv58QFWkwIIceN2+OyjQ57LgaWU+5wSLV/Hvvn115
+         TmzQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777633855; x=1778238655;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p8/WVfHESUffqanqnB+tvboreu3xWHPzbWiU3q5ebRc=;
-        b=KY0mYnX3WDcun6H/Pt3gtrekHQcFQM0kW80nd9Mfwta9lBZ6iu5ol59cD6IVOsyDoz
-         ukHLZqztsiG2Ybjk7W2p2S4aG7blbJ5GGfPcUZHzPh+4sAvF6PCb/qEZp1J3+qZCtn+d
-         9S6VOSu+iXEJpVA49Habbn3Ee/jxwgQf5AJntOPjuG2QPNjttMq7AL37uATglmIDI2KV
-         m8VNlVBY8v8Crkzm8FwkgMudHnPwVXFKK/pdDQeS0gDcnralKJDYi9q9eJcIxBYBLcDU
-         YPesuFuTe8AB7V0Qz6hcJh6nE2Rmq/0khMT9LmYbksyEYqgLyanUrL2DmSOa8/IJlC/g
-         hP+A==
-X-Gm-Message-State: AOJu0YzsI6SXLmqv+rfAkh3y78qiFuf9ZNKNjk40y3FsXo7rdIZGYPVw
-	XGyT4YAO5Ea9g35qp8s/MWEGDB9ucP8y/47iQPLOwEdhWrBo5MtQwpRj
-X-Gm-Gg: AeBDievbKKG0vIdyUei7dhzDyQQfE8eozPwJe83fWXJDCC1GUTiOfyUtOf36V8Xc6+A
-	0ima5caeio9VR+2pOj5fdQsxgQ+epeoxh4jw7ndcRJaiKPVqLg/nYT9Oz6Pr5KWf+bV3O4gZYaW
-	xUKGvNk2hbPW8FdXOby1RXSF8ofC/2fuqszcFr9lqUC48avgn5n+t7hPnSBsD+f5mfpiccC+tfh
-	UCOdATuTy3i2Wp0qiRWi+RpwXF7/DejunB2WWEpxETwYfOvYT7XGAae81US8P3+JXZLD+Gyuw9G
-	821b9QPNZhiozjwdVhJYFVxywPtbYx0hOm+s09IbE+tkzwVbpMaX0ykI2pGMrmDrxExo4O522T/
-	g3Cpw9ut4Q5rBycfg+/1zqzyxjY9Vh6QcAGugltzCgnheyfjTEpnMCtE2ylJRIAPInHH3c+gPZ1
-	tgXZfUU3IQgb1JnN929JKGzxxam9chiXtG4Ne5uwabb0EShjiozRX/XGld0aj1MJw7Ie/Ld1xmL
-	lH9Ffj4sKIscUI6oKFpPmoRIffY/7G4BQ==
-X-Received: by 2002:a05:7022:1a85:b0:11b:923d:7753 with SMTP id a92af1059eb24-12deac47e55mr3671481c88.3.1777633854634;
-        Fri, 01 May 2026 04:10:54 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12df8279e57sm2628939c88.3.2026.05.01.04.10.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2026 04:10:53 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Fri, 01 May 2026 08:10:46 -0300
-Subject: [PATCH] ALSA: usb-audio: qcom: Check offload mapping failures
+        d=1e100.net; s=20251104; t=1777638234; x=1778243034;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LehvrC/EwCqytqj7XaSFhay2+icV8/y+NPt4SLYsWZQ=;
+        b=NBYc/st/CrYHfISPFEzx29mchgVKnnt9+FCxeAc4yXLX+6zFNX6n5uEME1YcyUo7ZR
+         2yvNeCsm6vjxRY/Wa9sGmy22PpyOxdcawJ539GZdYXt/19fuNDGY5kwqtmkGGRvYiaFF
+         hVaEpz3Kg0Due1RtSU65pdeB4LSwZQM5cn+rXAdlONhBkCOdBAizm8rxlN0gArJkJxmI
+         EzUzBwkQiqnFIVW3pKGwSsFou/iYVWXi1GGds+JRkBNnDmShJY7XofXDgE3dHq7bEgy0
+         SmzJ+ZVhoBH1WRySI2SmBkE4SbBdG4JEhPpvKyAOX2DJlquvC2wWCDbebR3za5xCFbl9
+         AfAg==
+X-Forwarded-Encrypted: i=1; AFNElJ9vecmISwECccHC5udk/uc/dychAfaa3Fe6foqz4s6Dr9lDoQsmDvMVwnWpAEDxcFfCFT+pR56StVaH4w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzs0O3mMlUH4Rj3gT3og09SescQ0H3ZQt/4npFdanVPxvwWOuzJ
+	9zU6kapGHZGfzseMBnWCm2+Xs06vxxsqBLFMrQafePVtuSY3kh1lzweWZ3phwwVikwPLzemvxq5
+	8oQGDyg47Rq9N6dbVawN00n0YCR4rpjuZIi3R+fzaIRz8nFu7V1jpsLVRldsdxAq5MO8uw6Z4kc
+	vXGViGx/wm/h88A21K4f7lwCOOLytaCpz9F7uU1TyGaMWCJDmPTicsVJI=
+X-Gm-Gg: AeBDieuoanwQZ8lxAzs865TU6tjB+h4D4v9DhW4wwweIxdbsgUkLf3VAXce6u+upQCr
+	eP0+xNgSv5YDY+tNjZUpLV7fbQmlpi2BIYXhgGIPCuTynY/fmZjHd+m8xZLuLjV6bAezwYdGTcY
+	JXvfg1/xbr+ilxdEFNaQ4VBwLj1pZiyYiau32oQ/rgHyGNVzRiEXdaqDmYK0MMqIcYPnO2blLy7
+	4AbJ7KsTWFUm4OqJqkSfZSC1DdVwWLoVJ25TfwOy2wykrd4k+9qQi6SHTXLv8ar8cVic9s=
+X-Received: by 2002:a05:7022:100b:b0:12b:ec96:c936 with SMTP id a92af1059eb24-12deac541cfmr3338972c88.14.1777638234230;
+        Fri, 01 May 2026 05:23:54 -0700 (PDT)
+X-Received: by 2002:a05:7022:100b:b0:12b:ec96:c936 with SMTP id
+ a92af1059eb24-12deac541cfmr3338958c88.14.1777638233738; Fri, 01 May 2026
+ 05:23:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260501-alsa-usb-qcom-offload-map-errors-v1-1-ea927afd42c0@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNQQrCQAxA0auUrA3UQat4FXGRTDI60nZqYkUov
- bujLt/m/wVcLavDqVnA9JU9l7Fiu2kg3mi8KmaphtCGrt2FgNQ74eyMj1gGLCn1hQQHmlDNijm
- KMHfC6bA/EtTMZJry+7c4X/72me8an98urOsHUE9eJYQAAAA=
-X-Change-ID: 20260422-alsa-usb-qcom-offload-map-errors-ddbb6dbf758a
-To: Takashi Iwai <tiwai@suse.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Mark Brown <broonie@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
- Arnd Bergmann <arnd@arndb.de>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3601;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=3Wcuv7vWXril4wnR8nrnNGWz346GKjDN1CfiXRWaVXg=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJlfuqzO8G9h5Z947LPZmziJD2uVMuKFc/4kalTL1AWkH
- VMROK7YUcrCIMbFICumyLI6aZHlnq4HV+vjVnjAzGFlAhnCwMUpABPpCGT472Kx8WvbDn6bv4km
- hvy6u1mV18ycvGHp8oQOnTNPeuNrGxn+8MmFcRs4KrG+q5paZWDo7DfTW51vC/vpTdmqzGoGjdu
- ZAA==
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+References: <20260428073726.1611777-1-aaron.ma@canonical.com>
+ <69a3d80d-c9aa-459f-8522-c07e225bd5d9@linux.dev> <CAJ6xRxUuOgfoJ1VP3++Hm_UdhYLJH-16J3rXUcN6O1BmSDJVbA@mail.gmail.com>
+ <78c57b26-505f-473d-8472-a491ede5aad9@linux.dev> <CAJ6xRxVeOJWteUsRZNE6QdYvv7ODoErRc7DQda6CdQfvq8-Z8g@mail.gmail.com>
+ <579aaccd-990f-449e-a3ab-802b17925ab4@linux.dev>
+In-Reply-To: <579aaccd-990f-449e-a3ab-802b17925ab4@linux.dev>
+From: Aaron Ma <aaron.ma@canonical.com>
+Date: Fri, 1 May 2026 20:23:42 +0800
+X-Gm-Features: AVHnY4LAIUPRYevr_5ItS57tgFyGaKLEkwbHDWFdzp5v05yt95mpXJXn6zgFI9Q
+Message-ID: <CAJ6xRxWx1QO286deAhLsCivV2_mx8VFAq=fA8gOkHOUrjATYRA@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: rt1320-sdw: don't poll PDE state on power-down
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: Oder Chiou <oder_chiou@realtek.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Shuming Fan <shumingf@realtek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-uaudio_transfer_buffer_setup() calls dma_get_sgtable() and then passes
-the sg_table to uaudio_iommu_map_xfer_buf() without checking whether sg
-table construction succeeded. If dma_get_sgtable() fails, the sg_table
-contents are not valid.
+On Fri, May 1, 2026 at 3:59=E2=80=AFAM Pierre-Louis Bossart
+<pierre-louis.bossart@linux.dev> wrote:
+>
+> On 4/30/26 10:45, Aaron Ma wrote:
+> > On Thu, Apr 30, 2026 at 4:07=E2=80=AFPM Pierre-Louis Bossart
+> > <pierre-louis.bossart@linux.dev> wrote:
+> >>
+> >> On 4/29/26 06:12, Aaron Ma wrote:
+> >>> On Wed, Apr 29, 2026 at 4:20=E2=80=AFAM Pierre-Louis Bossart
+> >>> <pierre-louis.bossart@linux.dev> wrote:
+> >>>>
+> >>>> On 4/28/26 09:37, Aaron Ma wrote:
+> >>>>> rt1320_pde23_event(PRE_PMD) writes REQ_POWER_STATE=3DPS3 then polls
+> >>>>> ACTUAL_POWER_STATE. DAPM fires PRE_PMD while the SoundWire data por=
+t
+> >>>>> is still streaming =E2=80=94 the codec cannot reach PS3 until the p=
+ort stops,
+> >>>>> so the poll always times out during playback. This blocks
+> >>>>> snd_ctl_elem_write() for 2-3s making mute unresponsive.
+> >>>>>
+> >>>>> Remove the poll from PRE_PMD in rt1320_pde23_event() and
+> >>>>> rt1320_pde11_event(). The codec transitions to PS3 on its own once =
+the
+> >>>>> data port becomes inactive. Keep the POST_PMU poll =E2=80=94 on pow=
+er-up the
+> >>>>> domain must reach PS0 before audio can flow.
+> >>>>>
+> >>>>> Fixes: f465d10cd731 ("ASoC: rt1320: Add support for version C")
+> >>>>> Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
+> >>>>> ---
+> >>>>>  sound/soc/codecs/rt1320-sdw.c | 2 --
+> >>>>>  1 file changed, 2 deletions(-)
+> >>>>>
+> >>>>> diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt132=
+0-sdw.c
+> >>>>> index 192faa431b5e9..e42e8b6de853e 100644
+> >>>>> --- a/sound/soc/codecs/rt1320-sdw.c
+> >>>>> +++ b/sound/soc/codecs/rt1320-sdw.c
+> >>>>> @@ -2000,7 +2000,6 @@ static int rt1320_pde11_event(struct snd_soc_=
+dapm_widget *w,
+> >>>>>               regmap_write(rt1320->regmap,
+> >>>>>                       SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PD=
+E11,
+> >>>>>                               RT1320_SDCA_CTL_REQ_POWER_STATE, 0), =
+ps3);
+> >>>>> -             rt1320_pde_transition_delay(rt1320, FUNC_NUM_MIC, RT1=
+320_SDCA_ENT_PDE11, ps3);
+> >>>>>               break;
+> >>>>>       default:
+> >>>>>               break;
+> >>>>> @@ -2028,7 +2027,6 @@ static int rt1320_pde23_event(struct snd_soc_=
+dapm_widget *w,
+> >>>>>               regmap_write(rt1320->regmap,
+> >>>>>                       SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PD=
+E23,
+> >>>>>                               RT1320_SDCA_CTL_REQ_POWER_STATE, 0), =
+ps3);
+> >>>>> -             rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1=
+320_SDCA_ENT_PDE23, ps3);
+> >>>>
+> >>>> no, sorry, that's clearly wrong.
+> >>>>
+> >>>> When we touch the requested power state, we *shall* wait for the pow=
+er state to be reached.
+> >>>> removing the transition delay is silly.
+> >>>>
+> >>>> You would really need to find out why streaming still occurs when yo=
+u get a DAPM event. That doesn't seem right in the first place.
+> >>>>
+> >>>
+> >>>  The stream is active by design =E2=80=94 this is a mute, not a strea=
+m close.
+> >>>
+> >>> To reproduce:
+> >>>
+> >>>   1. Play audio through rt1320 speaker (aplay or PipeWire)
+> >>>   2. Press speaker mute key (or amixer cset on both FU21 channels)
+> >>>   3. Second channel mute takes 2-3s to return
+> >>>
+> >>> Muting both channels removes the last DAPM path consumer of PDE23.
+> >>> DAPM fires PRE_PMD while PipeWire still holds the PCM open =E2=80=94
+> >>> DP1 keeps streaming zeros. The codec cannot reach PS3 while its data
+> >>> port is active, so the poll always times out. The mute register write
+> >>> that actually silences the speaker happens after this useless wait.
+> >>>
+> >>> I confirmed via SoundWire debugfs reads: ACTUAL_POWER_STATE stays PS0
+> >>> while the port streams and only transitions to PS3 after PipeWire cal=
+ls
+> >>> hw_free (~3s later). The poll can never succeed in this path.
+> >>>
+> >>> Every other Realtek SDCA amp driver does fire-and-forget on PRE_PMD w=
+ith
+> >>> no transition delay =E2=80=94 rt712_sdca_pde23_event(), rt721_sdca_pd=
+e41_event(),
+> >>> rt1316_pde24_event(), and rt1017_sdca_pde23_event() all just write PS=
+3
+> >>> and return. rt1320 is the only one that polls on power-down.
+> >>>
+> >>> The POST_PMU poll is kept =E2=80=94 on power-up the domain must reach=
+ PS0 before
+> >>> audio can flow, and the port is not yet active at that point so the
+> >>> transition succeeds immediately.
+> >>
+> >> well that's an interesting issue. IMHO all those drivers are broken th=
+en...
+> >> A mute should let the ports active and not start any power transitions=
+ on the codec side.
+> >> That's what should be fixed first.
+> >>
+> >> I am not sure either why PipeWire would send a hw_free on a mute eithe=
+r, that's a sure what to have audible delays and glitches. Mute !=3D Stop.
+> >>
+> >
+> > hw_free is not involved here. The mute is purely at the codec's FU
+> > level (FU_MUTE=3D1 silences the output) =E2=80=94 the PCM stream remain=
+s open and
+> > DP1 stays active. SoundWire debugfs confirms: after mute during
+> > playback, REQ_POWER_STATE=3DPS3 but ACTUAL_POWER_STATE remains PS0. The
+> > codec cannot transition while the port is streaming. As long as the
+> > application keeps playing, this state persists indefinitely.
+> >
+> > The power transition is not triggered by PipeWire either. It is standar=
+d
+> > DAPM behavior: muting both FU21 channels removes the last active path
+> > consumer of PDE23, so DAPM evaluates the widget as unused and fires
+> > PRE_PMD. This is how every rt7xx/rt13xx driver's DAPM graph works today=
+.
+> >
+> > The poll itself is broken in this path: it cannot succeed while the por=
+t
+> > is active, always times out, and the handler continues anyway. Removing
+> > it fixes the user-facing 2-3s mute latency without changing any DAPM
+> > topology or power semantics =E2=80=94 the REQ_POWER_STATE=3DPS3 write i=
+s still
+> > issued, and the codec transitions once the port stops.
+>
+> well we're talking past each other. The only thing we agree on is that go=
+ing to PS3 while audio is still streaming is really bad.
+>
+> To repeat myself, there is *no reason* why a mute should trigger a power-=
+down.
+> I am not expert enough in DAPM but that isn't a desired behavior.
+>
+> Don't fix this unwanted behavior with a change in how the power state tra=
+nsition is implemented, fix the unwanted behavior instead.
+>
+>
 
-uaudio_iommu_map_pa() also ignores iommu_map() failures for the event and
-transfer rings and still returns the allocated IOVA to the QMI response.
-That can expose an unmapped IOVA to the audio DSP. For transfer rings,
-the failed mapping also leaves the IOVA allocator state marked in use.
+The current rt1320 behavior is consistent with how this driver models
+the playback path in DAPM.
 
-Check both operations. Free the coherent transfer buffer when sg table
-construction fails, free the sg table when transfer-buffer IOMMU mapping
-fails, and release the transfer-ring IOVA if iommu_map() fails. Also
-return the existing event-ring IOVA when the event ring is already mapped,
-matching the pre-split helper behavior.
+DAPM is documented to make power decisions from stream activity and
+mixer settings,
+with those decisions derived from the routing graph
+(`Documentation/sound/soc/dapm.rst`).
 
-Fixes: 326bbc348298 ("ALSA: usb-audio: qcom: Introduce QC USB SND offloading support")
-Fixes: 44499ecb4f28 ("ALSA: usb: qcom: Fix false-positive address space check")
-Cc: stable@vger.kernel.org
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/usb/qcom/qc_audio_offload.c | 31 +++++++++++++++++++++++++------
- 1 file changed, 25 insertions(+), 6 deletions(-)
+In rt1320, the speaker mute controls are `SOC_DAPM_SINGLE_AUTODISABLE`
+switches on the two `FU21` mute bits,
+and the playback path is `DP1RX -> FU21 -> OT23 L/R -> SPOL/SPOR`,
+with `FU21` also depending on `PDE 23`.
 
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index 5f993b88448c..a0009503b2c5 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -565,6 +565,7 @@ static unsigned long uaudio_iommu_map_pa(enum mem_type mtype, bool dma_coherent,
- 	unsigned long iova = 0;
- 	bool map = true;
- 	int prot = uaudio_iommu_map_prot(dma_coherent);
-+	int ret;
- 
- 	switch (mtype) {
- 	case MEM_EVENT_RING:
-@@ -582,10 +583,24 @@ static unsigned long uaudio_iommu_map_pa(enum mem_type mtype, bool dma_coherent,
- 		dev_err(uaudio_qdev->data->dev, "unknown mem type %d\n", mtype);
- 	}
- 
--	if (!iova || !map)
-+	if (!iova)
- 		return 0;
- 
--	iommu_map(uaudio_qdev->data->domain, iova, pa, size, prot, GFP_KERNEL);
-+	if (!map)
-+		return iova;
-+
-+	ret = iommu_map(uaudio_qdev->data->domain, iova, pa, size, prot,
-+			GFP_KERNEL);
-+	if (ret) {
-+		dev_err(uaudio_qdev->data->dev,
-+			"failed to map %zu bytes at iova 0x%08lx: %d\n",
-+			size, iova, ret);
-+		if (mtype == MEM_XFER_RING)
-+			uaudio_put_iova(iova, size,
-+					&uaudio_qdev->xfer_ring_list,
-+					&uaudio_qdev->xfer_ring_iova_size);
-+		return 0;
-+	}
- 
- 	return iova;
- }
-@@ -1054,15 +1069,17 @@ static int uaudio_transfer_buffer_setup(struct snd_usb_substream *subs,
- 	if (!xfer_buf)
- 		return -ENOMEM;
- 
--	dma_get_sgtable(subs->dev->bus->sysdev, &xfer_buf_sgt, xfer_buf,
--			xfer_buf_dma, len);
-+	ret = dma_get_sgtable(subs->dev->bus->sysdev, &xfer_buf_sgt, xfer_buf,
-+			      xfer_buf_dma, len);
-+	if (ret)
-+		goto free_xfer_buf;
- 
- 	/* map the physical buffer into sysdev as well */
- 	xfer_buf_dma_sysdev = uaudio_iommu_map_xfer_buf(dma_coherent,
- 							len, &xfer_buf_sgt);
- 	if (!xfer_buf_dma_sysdev) {
- 		ret = -ENOMEM;
--		goto unmap_sync;
-+		goto free_sgt;
- 	}
- 
- 	mem_info->dma = xfer_buf_dma;
-@@ -1073,7 +1090,9 @@ static int uaudio_transfer_buffer_setup(struct snd_usb_substream *subs,
- 
- 	return 0;
- 
--unmap_sync:
-+free_sgt:
-+	sg_free_table(&xfer_buf_sgt);
-+free_xfer_buf:
- 	usb_free_coherent(subs->dev, len, xfer_buf, xfer_buf_dma);
- 
- 	return ret;
+With that graph, muting both speaker switches removes the active
+speaker path, so `PDE 23` receiving `PRE_PMD` is consistent with the
+current DAPM model of this driver.
 
----
-base-commit: ab4a88fdef2813446e3af179a708d024622ff4fa
-change-id: 20260422-alsa-usb-qcom-offload-map-errors-ddbb6dbf758a
+Given that, I think the immediate bug is the synchronous wait in
+`rt1320_pde23_event(PRE_PMD)`, not the fact that DAPM attempts to
+power down the now-unused speaker supply path.
 
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+Thanks,
+Aaron
 
+
+>
