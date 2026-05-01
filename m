@@ -1,287 +1,209 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C70B2DCC04
-	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 03:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F7D196C7C;
+	Fri,  1 May 2026 04:05:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777606131; cv=none; b=azJhHDzJ7mePT8/Hi0Jxw92dIRxrMcSxFpOA2OJrQfPTyzMe1FRrwMgdT10PwmfsCnC1xszHOvO7jquW3LebPlhyfx0ECAlo1LPS0g+5M1lQYclhNBYKeaaw36aicZ6diAPDbyOpG/X0/JmJsTgsWgW2BTWudn8aFUpgBwSW49w=
+	t=1777608323; cv=none; b=hxfG5Yx15KNH3zb9w1nRXgxshSnLT5duyi3Re+mEhTIWEzxMIOCTtO2MxL+PV6nNzFL11iykr1GYHANkVxgKX1xb4MIdPYH3mQ7TMoubOcNe2/7hc5RijhEhTEyubdA1PZqaMlJqOol8s+mISgdJnsrD4jAjMrkh6QZMs8rE2Xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777606131; c=relaxed/simple;
-	bh=4md3m4LmrE4S3agwDm1tdU1h3LAXl6T1ke1Y6zrCyEs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pHBIAeACrhupeMk3cZGU13ucylvlFpSNHiCKV6Ul4gNhtldSWuU4zwT21j8UPl+wmzpuLSzC9slrugHqvcQ2/Rn/n0CWieXPYulQcNEBfeAFmvDfA06H46p1y0FS/U9c45ULTV8iidOH+46cWoVstb54f8UWSgVo37fj2/Z8c7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AaKDe2Wm; arc=none smtp.client-ip=74.125.82.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777608323; c=relaxed/simple;
+	bh=n3SVW2/BPmkjrmRDdOHgYmVGwRsqVmOibTPTW2Xi400=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ksW1mc6WW6NLBIb/gl0SaCtr0DzwfILto4ZwakDEBXXzepUyymDbIP15rD3OiyJilBKjrTRsucw2KM3jruMq5cJKELvzKa2ScWBTuhGpJYlSZt4k3sl9axhfduGxTNm9PMzFk2HOWnF0+jyNW/u9DMtWec2k2HodhrPd7OJKowI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QRMLjEh5; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AaKDe2Wm"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2ba9c484e5eso1865279eec.1
-        for <linux-sound@vger.kernel.org>; Thu, 30 Apr 2026 20:28:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777606129; x=1778210929; darn=vger.kernel.org;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eYd7+zRIuqZpCWzJf7jANSx+Kankukycdkw0qBK1GPw=;
-        b=AaKDe2WmWK0rSVCnUKZSe9Oksb9PukTThsjrVyzDcqwOtwdZDpeCprE2kdoj7oHLwP
-         faN74B8jGUX1OFmz2wdyEy04cJ0ey0XwN8obhWnr7L0wgtQvJvfXtBDQLqnJNSCSqjIn
-         iF10QlP21WamJVN+vsL48tD1WqeUR8DNygyDAaBRYGI3vgv1o3yAP2vL0z4oehMz9wWp
-         pzu03Q557m0zJWMPXliVJtGcm3wjyD4t2lupMrfDVU7mSN1Ul7ZKZlyXyD24w0xekI8m
-         Ug4/tyNtAZ4O8/kdT3W7HoE/D+dH7ZUZFdlcx+YsECEs8Cb9AMvg4kiL3ju97M4rQjS4
-         ah7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777606129; x=1778210929;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eYd7+zRIuqZpCWzJf7jANSx+Kankukycdkw0qBK1GPw=;
-        b=bXI0pspSlLuhWCX2Sk/ef74kJ98bw6RNYXsMkdfWggsiaOPl9v6p44sM8XMj6Kt4fa
-         wA5LYoXX8sHr0f1DxZxoMP2ohSb7UrgYnn4ossECYDmj3ndbuoOLGjNZiIF6pc0K946x
-         qltAS6eFxtzeGYy31kRUb85xoUmgV2+2W5WU+x7zXkuoP942bC8kIcYaAWH6w2WVDNKF
-         GRY8SUNCo1IBPWPhviaHiaBRW8fegRWA3mfHttVUwvD9RBrahjmEqkln1msZ3D/CPW/J
-         NVun8j0LTR1E9KuuyxdxsMUt+MQRY3lvkCssgoXpabPA+gBqPxJi+m0KZAD9O88+fsUN
-         5d2A==
-X-Forwarded-Encrypted: i=1; AFNElJ95LLnoPWfyBRHigxZC5q/miS/w5RSoNxubBWEVOmtUSqHEcbw6AOOg5/yOsKW1grmwoekWtqaadgILpA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWZxwZcWIMEMKKUS668zGZGO0XAgxdLoOrqLeM4Y+NL/+Z+2sM
-	skFmNGqLmCXdKwuYPKJkq6aqjlNyBRThZq6ow39o5QXfOvdsz0wUsGf3
-X-Gm-Gg: AeBDiesFICRIzoqz1GJdLiL24OvGITYPZupVn3/HRSauPI0MOPvrLt7Uv8uosvpIBhV
-	xG3PCr5Fb2yRHYiMrNEn/whbAfCEBRMU+3SEtcIElCM93zAQumXF0+4i6O0uZnj6rzYzS/trf7Y
-	Jw1NO1zbC/D2YYpKh1DKqC9XG7BwDQKZjOgPyrkzT+IaTw5rv/+mouASnUv4GGUfaY1A046Qt6O
-	hFLIQifXcD3M4SYFewpBvwg9qReg/VmNWfe7U8lRkoMkq3V0LL0eeG2XojgqfQ4JkrqNfNnX8V4
-	9vfLNEWoOTLvonJUSaBl7cT2GKRSwKhOa2km6S/cs9Vhzt0am2CfngM4ndbqWY5/ZG9d6xj70SI
-	IC+MC2BcKL+a/FfRpBEaZHDISW3Ta+Hh/DDWSmiqIHKO2bEQGgQGLBa94/qvd09N/1X/L/VBEx1
-	whlhfwHHvY7mk9vcWvfCENYWs/yibqlYO0KzwafGIxNxQu1oJ78W7QMAeC5YRFSXFvdtjhfZsgB
-	TKrtgadopEY
-X-Received: by 2002:a05:7300:4341:b0:2da:d4b4:c85a with SMTP id 5a478bee46e88-2ed3d8b85a3mr2320272eec.11.1777606128411;
-        Thu, 30 Apr 2026 20:28:48 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee3889d634sm3714594eec.3.2026.04.30.20.28.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2026 20:28:47 -0700 (PDT)
-Message-ID: <662ed68f-dd37-4a3e-821b-e2f715cb4a47@gmail.com>
-Date: Fri, 1 May 2026 00:28:40 -0300
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QRMLjEh5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777608320; x=1809144320;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n3SVW2/BPmkjrmRDdOHgYmVGwRsqVmOibTPTW2Xi400=;
+  b=QRMLjEh51PVQYxNmd046G3Ds+h6ORkgis+5tDoYGWqYos1OxHciiqEOv
+   e6MLLybBjeqAzuFZVxG4IfIj0y2nqyZJJrhK/vPoV1/MYAS0uaJxT/UB9
+   CL0rvoQgphUHIeoMFCeNsxfCvBHW7pW4jShQo+ovGz4ZFDSmId4obEF5x
+   NSOGPgRXANgLvGDnNH5lA/J9o1eppPBeXE4BfGkypTtIda96N48emHLBk
+   ZZhO9uuEe9ruTmChyn2JXFGeIKR0NdhlFNP0EvRB++5Bb5fsyfQnh8vGF
+   /pRc3jC7mgPMKEbnj9AqXi6xXaptgyikNSwsrRqhc87PH2AR2c02ZiZcl
+   Q==;
+X-CSE-ConnectionGUID: Ph9tQobOQFKrMzA/2H0CIg==
+X-CSE-MsgGUID: oEaqBxrgSauftVOoP+G3VA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="78283599"
+X-IronPort-AV: E=Sophos;i="6.23,209,1770624000"; 
+   d="scan'208";a="78283599"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 21:05:20 -0700
+X-CSE-ConnectionGUID: h85BGaGUSruEIcaAGgP9AA==
+X-CSE-MsgGUID: 3JL2KKsmRcmiBFyv4Jt+2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,209,1770624000"; 
+   d="scan'208";a="233910004"
+Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 30 Apr 2026 21:05:18 -0700
+Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wIf7r-0000000009Z-2WKt;
+	Fri, 01 May 2026 04:05:15 +0000
+Date: Fri, 1 May 2026 12:05:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: wangdich9700@163.com, perex@perex.cz, tiwai@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, kees@kernel.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	wangdicheng <wangdicheng@kylinos.cn>
+Subject: Re: [PATCH] ALSA: hda/conexant: Fix missing error check for jack
+ detection
+Message-ID: <202605011107.lDwIcnm6-lkp@intel.com>
+References: <20260427070739.133369-1-wangdich9700@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] firmware_loader: Add cancel helper for async
- requests
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
- <russ.weight@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
-References: <20260430-alsa-hda-tas2781-fw-callback-teardown-v2-0-2c7d89cb3175@gmail.com>
- <20260430-alsa-hda-tas2781-fw-callback-teardown-v2-1-2c7d89cb3175@gmail.com>
- <DI6UQN8M515K.3KSH2M0AXDTRG@kernel.org>
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-Content-Language: en-US
-In-Reply-To: <DI6UQN8M515K.3KSH2M0AXDTRG@kernel.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------YGdOVAJBVEA1TPH3T13ph9kG"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260427070739.133369-1-wangdich9700@163.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------YGdOVAJBVEA1TPH3T13ph9kG
-Content-Type: multipart/mixed; boundary="------------aV2TDdxkkyQRlrI9J4ccR6AJ";
- protected-headers="v1"
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
- <russ.weight@linux.dev>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
-Message-ID: <662ed68f-dd37-4a3e-821b-e2f715cb4a47@gmail.com>
-Subject: Re: [PATCH v2 1/2] firmware_loader: Add cancel helper for async
- requests
-References: <20260430-alsa-hda-tas2781-fw-callback-teardown-v2-0-2c7d89cb3175@gmail.com>
- <20260430-alsa-hda-tas2781-fw-callback-teardown-v2-1-2c7d89cb3175@gmail.com>
- <DI6UQN8M515K.3KSH2M0AXDTRG@kernel.org>
-In-Reply-To: <DI6UQN8M515K.3KSH2M0AXDTRG@kernel.org>
-Autocrypt-Gossip: addr=perex@perex.cz; keydata=
- xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
- ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
- E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
- HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
- LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
- aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
- srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
- GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
- 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
- njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
- eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
- BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
- lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
- VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
- 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
- cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
- nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
- LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
- Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
- ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
- +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
- aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
- FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
- 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
- V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
- t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
- +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
- 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
- f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
- z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
- zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
- Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
- MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
- y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
- uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
- ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
- dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
- qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
- 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
- k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
- m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
- WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
+Hi,
 
---------------aV2TDdxkkyQRlrI9J4ccR6AJ
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build warnings:
 
-Hi!
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on v7.1-rc1]
+[cannot apply to tiwai-sound/for-linus linus/master next-20260430]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-On 4/30/26 19:44, Danilo Krummrich wrote:
-> On Thu Apr 30, 2026 at 11:15 PM CEST, C=C3=A1ssio Gabriel wrote:
->> request_firmware_nowait() keeps the callback module pinned and holds
->> a device reference until the firmware work completes.
->>
->> Callers still have no way to cancel or synchronize the queued callback=
+url:    https://github.com/intel-lab-lkp/linux/commits/wangdich9700-163-com/ALSA-hda-conexant-Fix-missing-error-check-for-jack-detection/20260427-223457
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20260427070739.133369-1-wangdich9700%40163.com
+patch subject: [PATCH] ALSA: hda/conexant: Fix missing error check for jack detection
+config: i386-randconfig-062-20260430 (https://download.01.org/0day-ci/archive/20260501/202605011107.lDwIcnm6-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260501/202605011107.lDwIcnm6-lkp@intel.com/reproduce)
 
->> before tearing down their driver-private state.
->>
->> Track async firmware work with devres and add
->> request_firmware_nowait_cancel().
->=20
-> I assume this is needed for manual ordering in case the callback access=
-es
-> resources that are not managed by devres, but are released in remove().=
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605011107.lDwIcnm6-lkp@intel.com/
 
->=20
-> So, I think this is mixing two patterns, managed by the caller and devr=
-es
-> managed.
->=20
-> For the former we just want the ability to cancel things, this should b=
-e
-> compatible with the existing request_firmware_nowait().
->=20
-> Note that some (hopefully most) drivers already open code synchronizati=
-on
-> patterns, e.g. a completion that is waited for in remove().
->=20
-> However, some drivers also seem to just check a pointer, which is obvio=
-usly
-> vulnerable to TOCTOU races.
->=20
-> For a devres managed version, I think it should be a new API,
-> devm_request_firmware_nowait(), which should be possible to simply laye=
-r on top
-> of the existing API with devm_add_action(), so you can just call cancel=
-() from
-> the release callback.
->=20
->> The helper cancels work that has not
->> started yet and waits for an already-running callback to return. If th=
-e
->> request has already completed, it is a no-op.
->>
->> The devres release path uses the same synchronization so device teardo=
-wn
->> cannot free the firmware work state while the queued work can still ru=
-n.
->>
->> Signed-off-by: C=C3=A1ssio Gabriel <cassiogabrielcontato@gmail.com>
->=20
-> <snip>
->=20
->> @@ -1184,18 +1213,19 @@ static int _request_firmware_nowait(
->> =20
->>  	if (!uevent && fw_cache_is_setup(device, name)) {
->>  		kfree_const(fw_work->name);
->> -		kfree(fw_work);
->> +		devres_free(fw_work);
->>  		return -EOPNOTSUPP;
->>  	}
->> =20
->>  	if (!try_module_get(module)) {
->>  		kfree_const(fw_work->name);
->> -		kfree(fw_work);
->> +		devres_free(fw_work);
->>  		return -EFAULT;
->>  	}
->> =20
->>  	get_device(fw_work->device);
->>  	INIT_WORK(&fw_work->work, request_firmware_work_func);
->> +	devres_add(device, fw_work);
->=20
-> This puts the requirement on request_firmware_nowait() that it must be =
-called
-> from a context where the device is guaranteed to not be unbound concurr=
-ently,
-> otherwise this may race with firmware_work_release(), which could free =
-fw_work
-> before this functions attempts to schedule it below.
->=20
-> As mentioned above, I think this patch should just add a cancel() funct=
-ion, so
-> we can layer devres managed functionality on top of that as needed.
+sparse warnings: (new ones prefixed by >>)
+>> sound/hda/codecs/conexant.c:1193:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int err @@     got struct hda_jack_callback * @@
+   sound/hda/codecs/conexant.c:1193:21: sparse:     expected int err
+   sound/hda/codecs/conexant.c:1193:21: sparse:     got struct hda_jack_callback *
 
-Thanks for pointing this out.
+vim +1193 sound/hda/codecs/conexant.c
 
-I=E2=80=99ll split the two lifetime models. For v3 I=E2=80=99ll keep the =
-existing
-request_firmware_nowait() semantics and add only an explicit cancel/sync =
-path
-for callers that manage teardown manually.
+  1174	
+  1175	static int cx_probe(struct hda_codec *codec, const struct hda_device_id *id)
+  1176	{
+  1177		struct conexant_spec *spec;
+  1178		int err;
+  1179	
+  1180		codec_info(codec, "%s: BIOS auto-probing.\n", codec->core.chip_name);
+  1181	
+  1182		spec = kzalloc_obj(*spec);
+  1183		if (!spec)
+  1184			return -ENOMEM;
+  1185		snd_hda_gen_spec_init(&spec->gen);
+  1186		codec->spec = spec;
+  1187	
+  1188		/* init cx11880/sn6140 flag and reset headset_present_flag */
+  1189		switch (codec->core.vendor_id) {
+  1190		case 0x14f11f86:
+  1191		case 0x14f11f87:
+  1192			spec->is_cx11880_sn6140 = true;
+> 1193			err = snd_hda_jack_detect_enable_callback(codec, 0x19, cx_update_headset_mic_vref);
+  1194			if (err < 0)
+  1195				goto error;
+  1196			break;
+  1197		}
+  1198	
+  1199		cx_auto_parse_eapd(codec);
+  1200		spec->gen.own_eapd_ctl = 1;
+  1201	
+  1202		switch (codec->core.vendor_id) {
+  1203		case 0x14f15045:
+  1204			codec->single_adc_amp = 1;
+  1205			spec->gen.mixer_nid = 0x17;
+  1206			spec->gen.add_stereo_mix_input = HDA_HINT_STEREO_MIX_AUTO;
+  1207			snd_hda_pick_fixup(codec, cxt5045_fixup_models,
+  1208					   cxt5045_fixups, cxt_fixups);
+  1209			break;
+  1210		case 0x14f15047:
+  1211			codec->pin_amp_workaround = 1;
+  1212			spec->gen.mixer_nid = 0x19;
+  1213			spec->gen.add_stereo_mix_input = HDA_HINT_STEREO_MIX_AUTO;
+  1214			snd_hda_pick_fixup(codec, cxt5047_fixup_models,
+  1215					   cxt5047_fixups, cxt_fixups);
+  1216			break;
+  1217		case 0x14f15051:
+  1218			add_cx5051_fake_mutes(codec);
+  1219			codec->pin_amp_workaround = 1;
+  1220			snd_hda_pick_fixup(codec, cxt5051_fixup_models,
+  1221					   cxt5051_fixups, cxt_fixups);
+  1222			break;
+  1223		case 0x14f15098:
+  1224			codec->pin_amp_workaround = 1;
+  1225			spec->gen.mixer_nid = 0x22;
+  1226			spec->gen.add_stereo_mix_input = HDA_HINT_STEREO_MIX_AUTO;
+  1227			snd_hda_pick_fixup(codec, cxt5066_fixup_models,
+  1228					   cxt5066_fixups, cxt_fixups);
+  1229			break;
+  1230		case 0x14f150f2:
+  1231			codec->power_save_node = 1;
+  1232			fallthrough;
+  1233		default:
+  1234			codec->pin_amp_workaround = 1;
+  1235			snd_hda_pick_fixup(codec, cxt5066_fixup_models,
+  1236					   cxt5066_fixups, cxt_fixups);
+  1237			break;
+  1238		}
+  1239	
+  1240		if (!spec->gen.vmaster_mute.hook && spec->dynamic_eapd)
+  1241			spec->gen.vmaster_mute.hook = cx_auto_vmaster_hook;
+  1242	
+  1243		snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PRE_PROBE);
+  1244	
+  1245		err = snd_hda_parse_pin_defcfg(codec, &spec->gen.autocfg, NULL,
+  1246					       spec->parse_flags);
+  1247		if (err < 0)
+  1248			goto error;
+  1249	
+  1250		err = cx_auto_parse_beep(codec);
+  1251		if (err < 0)
+  1252			goto error;
+  1253	
+  1254		err = snd_hda_gen_parse_auto_config(codec, &spec->gen.autocfg);
+  1255		if (err < 0)
+  1256			goto error;
+  1257	
+  1258		/* Some laptops with Conexant chips show stalls in S3 resume,
+  1259		 * which falls into the single-cmd mode.
+  1260		 * Better to make reset, then.
+  1261		 */
+  1262		if (!codec->bus->core.sync_write) {
+  1263			codec_info(codec,
+  1264				   "Enable sync_write for stable communication\n");
+  1265			codec->bus->core.sync_write = 1;
+  1266			codec->bus->allow_bus_reset = 1;
+  1267		}
+  1268	
+  1269		snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PROBE);
+  1270	
+  1271		return 0;
+  1272	
+  1273	 error:
+  1274		cx_remove(codec);
+  1275		return err;
+  1276	}
+  1277	
 
-That should cover the TAS2781 case without making the existing API implic=
-itly
-devres-managed. If a managed variant is useful, it can be added separatel=
-y as
-devm_request_firmware_nowait() on top of the explicit cancel path.
-
-I=E2=80=99ll also avoid the devres_add() / schedule_work() ordering issue=
- in the
-current version.
-
---=20
-Thanks,
-C=C3=A1ssio
-
-
---------------aV2TDdxkkyQRlrI9J4ccR6AJ--
-
---------------YGdOVAJBVEA1TPH3T13ph9kG
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSrYqI5vIrg1X9eqEjQXT8aWv/ugwUCafQd6QUDAAAAAAAKCRDQXT8aWv/ug+RH
-AP9HQg53zZJFnXm7+M5h8QCkDPtpDeepvobxBCADZe8uSwEAt0sk2q2cf9VilZUUkqneF3Bmy+LY
-vffG7i2is5U9zgM=
-=pMut
------END PGP SIGNATURE-----
-
---------------YGdOVAJBVEA1TPH3T13ph9kG--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
