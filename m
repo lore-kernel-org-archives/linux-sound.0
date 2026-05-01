@@ -1,287 +1,169 @@
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FAE39EF20
-	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 12:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.125.188.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6493A3827;
+	Fri,  1 May 2026 12:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777638246; cv=pass; b=TfzBO2mwjrJdVlhi4hzvwRul+WJB1bBRNxfyq7GFAaMlwguwWtIG/O/bRh7kP1/+kgvlXzz76NNNbP3s/akysLQlP/Dps3JS9SgAAzwvowNGb78Lw3vTh8sXZTsrHPQNo8Hfn32Li3YmNYgSrpGKAYFOfMx1lKd8pVbnuOps4cM=
+	t=1777638591; cv=fail; b=Z9ERXXtl2C45cr82dky6G+Op++Ogp3mBLF9s1jPbRbrcu3HpX5AuSi1D0tjK6eTZ5x39LcmyICpfmAZ8190+nCogTSyA5hQe6KfTMMp7HEKtgH9NrQ4pPhYbtZ4ueLvbDKP3rQvwla5t0KzLtl0tUCm2SIzFu6Yl8Z2khd4yzHs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777638246; c=relaxed/simple;
-	bh=LPm0+K4i6lGxFJ6h0W2UZct9gJ3DEXyv78XPYSegIl4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AoLtdv5HWsT+ImspiJFio3Mf00kZPpWQXPliIB71rda6O6M52QrTmgtwvmuopG1BOA6hIe7VxKk3dDm658CZ8JR5IM7C790Ghk/6gqeEGHyw0tKIPXp14gQXFkgLprdj7Rdw2PxiqQ3T1PzkU+yo7EjJNomha20i+RQZ8bTNuAY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=kwbqsVnU; arc=pass smtp.client-ip=185.125.188.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1777638591; c=relaxed/simple;
+	bh=ZRyQsX4py8zm7EdrxMmBKD5P1JxzeQKWWl2JF9pzGUs=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=YGt6N/oOKPbPDt1Qe0i6taC/ICkcilFB2N6SyeaTlBeAYi8hcFgHxkZMoL4j70n3GTe20GKaLvwbp8+7+gXGjxwPGBj5xB89fG4M1JpjV4KZC4i+YvLdMCyPbgCpO5rsEvFAiAwa7f59nEan21kIWSJSyYn5c0KOgsUzbgA2ows=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=QmjzA/mp; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=pqlWSFK1; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="kwbqsVnU"
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id DB2AC3FECE
-	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 12:23:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1777638236;
-	bh=LehvrC/EwCqytqj7XaSFhay2+icV8/y+NPt4SLYsWZQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type;
-	b=kwbqsVnUuZZKo9pGSysHpaGbzLCPCpNXPUnH5Nn3xPnEx6JLsqDDqbqi85CArXc0+
-	 ZWlDM2wzxBvKkZH+j8tknTPT6tzbiHz8Htzg0pxdHdHCULF2K6M0ScHF0Sb7KBEg9d
-	 BzMJ+Pvm+XiztOmMbmiyJ34BcU/b9RjXoz3YicL2kS1E6/eWXE6qMG7WTd3tZ47EiX
-	 VeP8/a9P3CCvvIR6Nq1gKwY+/KaQu+quzgpXl7ICxKOt7xH9y3GomZuMXXSodITC8S
-	 Ou3LyfwfRIQkdRjlHVXdk1XV5VPvdRXZx4zkFUYyRhmO6/lNSeapZBm+A5z4iZwfjy
-	 mrtaehn5FBQ6k9D9tF06CxsqgKDOupHemBIk/bni8UCvokGQQ6+EV1imYescYrNmYN
-	 3AZpWsMQR8OjYU98KOyc2g5LaAjF3LXUt3APUEeMeMpAl7gbpjHw0ihEzpw+Ze8h5w
-	 wMINMWabjy6kgr5UPuN+QOCg9TYMn7KlS6Ure63CPDj7Ns/k6mL99DJIS6RlnF2OKJ
-	 6EznMOXu4seA0CZ9j8S2W7gjmRNtu9JkmtGxQ3uldU2hVwbNI3vc3FJep9FJqcDx3o
-	 slx6Qr71skDLjA+g88QQ5xoLGbn50JOW2UfZz5ktxelKptPZ2U4gqDkHhbTMeqwYib
-	 1eMSkvyCG+lA8nv1Xum0CaDM=
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-2ee5b73c5f2so300611eec.0
-        for <linux-sound@vger.kernel.org>; Fri, 01 May 2026 05:23:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777638234; cv=none;
-        d=google.com; s=arc-20240605;
-        b=RO1gfVklSvSmkIgntFzBEKVtBJ7Oyz0Iuf9PwB6uZMF8Gk61wxMciw/2NolmPpOZRN
-         2b0t696T/vTwTD4gZ5EhUeIDnqW/5tGIlJtA0y+THa23ZCnOrCeDRLEuyai0Da1MXScT
-         mJDyH4IfloXq79KJEB3ixfy0tIGqNId7unclu+ybuEYENSI/B+dMgJ35UUEIqFf0a22g
-         VhiW56SprRpkTe2tEdqNPXWY8w5FEZQ3RJtY7YsCwcT8LzjiAzmyikL8s23fYIkGG1WQ
-         rkrKY04SucpHayfKkpcNyS0PlU1Oquyqg2POdZgDKEJbgofj8jUkU10IM/rnqri6pqkR
-         OWcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version;
-        bh=LehvrC/EwCqytqj7XaSFhay2+icV8/y+NPt4SLYsWZQ=;
-        fh=kNFkK4+7M8J3DJnKfM/GUB6gMH41XZkj5gwPXnxUFdQ=;
-        b=DmvsbMIn07impOP1o+U85UfGaJUykjWls/xJdzPFfEAxyYxaLDMUca/gxy+jzu0ZFk
-         RGY19XEorEpNVfP6up+2TyfBvXbj8ypubdSttWeE6fnHF1fC6A1TWLQhwhi1vc3f2abA
-         7+Mxqr6iFq/wuOsCFL4FXgeFqybxBOP6jkz0uklhlK/aCb+Anl+0IPPcXyR+S+ZjAJjs
-         2465FIpiAsLGHst1boQhkKJMQi9TvD2af/WWhOU5yfJ/Yp3yRLMZ60fvTE+hZ5+u+vhi
-         0n9hIfm3Yd5b15V0M0P3Q2pHLSBzv58QFWkwIIceN2+OyjQ57LgaWU+5wSLV/Hvvn115
-         TmzQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777638234; x=1778243034;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LehvrC/EwCqytqj7XaSFhay2+icV8/y+NPt4SLYsWZQ=;
-        b=NBYc/st/CrYHfISPFEzx29mchgVKnnt9+FCxeAc4yXLX+6zFNX6n5uEME1YcyUo7ZR
-         2yvNeCsm6vjxRY/Wa9sGmy22PpyOxdcawJ539GZdYXt/19fuNDGY5kwqtmkGGRvYiaFF
-         hVaEpz3Kg0Due1RtSU65pdeB4LSwZQM5cn+rXAdlONhBkCOdBAizm8rxlN0gArJkJxmI
-         EzUzBwkQiqnFIVW3pKGwSsFou/iYVWXi1GGds+JRkBNnDmShJY7XofXDgE3dHq7bEgy0
-         SmzJ+ZVhoBH1WRySI2SmBkE4SbBdG4JEhPpvKyAOX2DJlquvC2wWCDbebR3za5xCFbl9
-         AfAg==
-X-Forwarded-Encrypted: i=1; AFNElJ9vecmISwECccHC5udk/uc/dychAfaa3Fe6foqz4s6Dr9lDoQsmDvMVwnWpAEDxcFfCFT+pR56StVaH4w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzs0O3mMlUH4Rj3gT3og09SescQ0H3ZQt/4npFdanVPxvwWOuzJ
-	9zU6kapGHZGfzseMBnWCm2+Xs06vxxsqBLFMrQafePVtuSY3kh1lzweWZ3phwwVikwPLzemvxq5
-	8oQGDyg47Rq9N6dbVawN00n0YCR4rpjuZIi3R+fzaIRz8nFu7V1jpsLVRldsdxAq5MO8uw6Z4kc
-	vXGViGx/wm/h88A21K4f7lwCOOLytaCpz9F7uU1TyGaMWCJDmPTicsVJI=
-X-Gm-Gg: AeBDieuoanwQZ8lxAzs865TU6tjB+h4D4v9DhW4wwweIxdbsgUkLf3VAXce6u+upQCr
-	eP0+xNgSv5YDY+tNjZUpLV7fbQmlpi2BIYXhgGIPCuTynY/fmZjHd+m8xZLuLjV6bAezwYdGTcY
-	JXvfg1/xbr+ilxdEFNaQ4VBwLj1pZiyYiau32oQ/rgHyGNVzRiEXdaqDmYK0MMqIcYPnO2blLy7
-	4AbJ7KsTWFUm4OqJqkSfZSC1DdVwWLoVJ25TfwOy2wykrd4k+9qQi6SHTXLv8ar8cVic9s=
-X-Received: by 2002:a05:7022:100b:b0:12b:ec96:c936 with SMTP id a92af1059eb24-12deac541cfmr3338972c88.14.1777638234230;
-        Fri, 01 May 2026 05:23:54 -0700 (PDT)
-X-Received: by 2002:a05:7022:100b:b0:12b:ec96:c936 with SMTP id
- a92af1059eb24-12deac541cfmr3338958c88.14.1777638233738; Fri, 01 May 2026
- 05:23:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="QmjzA/mp";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="pqlWSFK1"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6418QxDU1282799;
+	Fri, 1 May 2026 07:29:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=7AVpFzZfcKdv20jfPZPNB0NONPr76DCJmx7LMOfY1UQ=; b=
+	QmjzA/mpqhrdo1obKutjpUPCoxJZ48u3g5W2x7R4fDqghG+Uyw6wTB6/tdb3j9Rc
+	EmlH7WsGpciLeFB6SqnwYEmZAPpcZGfV8FI9YUskZOkFrOEoLzxdjbm6uad5WNOt
+	dcx9A2o439IxcU2sYWaZJvQ2kh7ppVzLW2Gj4oM5Zzc+aNg3mdI2+PdmHh5WUWCC
+	lWrFiBQtCslcEtLQIxmCAZDHSPzk9bX38Hz5gAg1VCXtWt7lHE1vaaE9EBDz5ZpE
+	cVHEvHezAcHjTmTI299mvffblL8YqsJUPISg3OzuxpkBIcNYW2ZnzCr2A8x9YCI9
+	mZ1ic2dpPgYxV9mnOSfmOA==
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022085.outbound.protection.outlook.com [52.101.48.85])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4dru10g04b-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 01 May 2026 07:29:46 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VU5IO8NQWtmJ7h+HxHoljriUdxlXW1X5BAyOJy/TWGnQiLdYpjZ7az2hJ7yVk0F4tQFpivuWHwr77DaThBZFZj6623sZDHqfG3JzSCw1JEnxYB9ysbSVlbAmtDD5RNUuemjy4TJDuiRguUoFmhzK46JAY92TIbe+EPu/obNOKdIsZIeOfAUCBCoWtJDehmnuGGdAKyXVSa3goNk7U7TndU1nU9lmuB8/KgJUxPPiWYQxej6G0JydfCNxxeatr+iA1FTpvX7cSHG84K/X6tFdn8HFoqK+pE0Ejg4g7+90wmWTppRijt+ZB2mfd2fd1/30lR5/Hrr7ZFXxmGMl7DNFqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7AVpFzZfcKdv20jfPZPNB0NONPr76DCJmx7LMOfY1UQ=;
+ b=XGeAGiEpiH9NjumBCPjtcLdO/5n0TMGoXBtMxC/2PooWyar5ZRPmVEJTNKDP6lZhGGq0z6GxWyPOuuAHgNPSv1CNcJYAnXLuOBmCUxnxv/QoyPPQbKnGxEJNvQGcn54Suu5/NUFlenBixd5gf+alGPqnIKpWQkrmK6SrJVFiUhP7oOVEgIDqI+JX+5ThQ8qJIVvOvI6mHqmqUqYcCUj2ESDm9u05zR64Go9QmQJlDi8BdvevhuyUzHdz4C4X7SiAfx4HvpThsv9Nh3HGFN9Z5DmGSUVac4rnRmWBJQDiQ0P/vzdiklr8kHK0Z377oaiEjTSDuiQoKkxzDcq615bjCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7AVpFzZfcKdv20jfPZPNB0NONPr76DCJmx7LMOfY1UQ=;
+ b=pqlWSFK1NIS/Gt0EwMC8YY2i0+mr9LSSjHaWYeHLucXx7483CVzg9gn91Zn83BKXCLd6hX0Qyr7oP5ywwXmIwvCXTsFXG8E3D1rgUKHyMsA77FISMssnwMvXweTuwEI3CSnfS2uQdGoF9oNO7ohNK1BDJcXW2o7zzki5R9FtVFQ=
+Received: from BLAPR05CA0033.namprd05.prod.outlook.com (2603:10b6:208:335::14)
+ by BL3PR19MB6443.namprd19.prod.outlook.com (2603:10b6:208:3b2::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.23; Fri, 1 May
+ 2026 12:29:41 +0000
+Received: from BL6PEPF0001AB58.namprd02.prod.outlook.com
+ (2603:10b6:208:335:cafe::17) by BLAPR05CA0033.outlook.office365.com
+ (2603:10b6:208:335::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.9 via Frontend Transport; Fri, 1
+ May 2026 12:29:41 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ BL6PEPF0001AB58.mail.protection.outlook.com (10.167.241.10) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.9
+ via Frontend Transport; Fri, 1 May 2026 12:29:41 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id D5AA740654A;
+	Fri,  1 May 2026 12:29:39 +0000 (UTC)
+Received: from [198.61.69.19] (EDIN4L06LR3.ad.cirrus.com [198.61.69.19])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 9F756822546;
+	Fri,  1 May 2026 12:29:39 +0000 (UTC)
+Message-ID: <5890dd8f-eaa8-456a-ba77-0baa11ccfc71@opensource.cirrus.com>
+Date: Fri, 1 May 2026 13:29:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260428073726.1611777-1-aaron.ma@canonical.com>
- <69a3d80d-c9aa-459f-8522-c07e225bd5d9@linux.dev> <CAJ6xRxUuOgfoJ1VP3++Hm_UdhYLJH-16J3rXUcN6O1BmSDJVbA@mail.gmail.com>
- <78c57b26-505f-473d-8472-a491ede5aad9@linux.dev> <CAJ6xRxVeOJWteUsRZNE6QdYvv7ODoErRc7DQda6CdQfvq8-Z8g@mail.gmail.com>
- <579aaccd-990f-449e-a3ab-802b17925ab4@linux.dev>
-In-Reply-To: <579aaccd-990f-449e-a3ab-802b17925ab4@linux.dev>
-From: Aaron Ma <aaron.ma@canonical.com>
-Date: Fri, 1 May 2026 20:23:42 +0800
-X-Gm-Features: AVHnY4LAIUPRYevr_5ItS57tgFyGaKLEkwbHDWFdzp5v05yt95mpXJXn6zgFI9Q
-Message-ID: <CAJ6xRxWx1QO286deAhLsCivV2_mx8VFAq=fA8gOkHOUrjATYRA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: rt1320-sdw: don't poll PDE state on power-down
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: Oder Chiou <oder_chiou@realtek.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Shuming Fan <shumingf@realtek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: cs35l56: Destroy workqueue in probe error path
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com
+References: <20260501103002.2843735-1-rf@opensource.cirrus.com>
+Content-Language: en-US
+In-Reply-To: <20260501103002.2843735-1-rf@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB58:EE_|BL3PR19MB6443:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd31958e-1a36-4d24-2fc2-08dea77d51a3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|61400799027|376014|82310400026|36860700016|16102099003|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	97oSjfPSD30Xo+GwJS91SBWVHptcjA/xLEPYCrDCnFpp1bqqrbsGj/kgmufu2WNJafQvS5cd1ThnwhYWySV2zrFVQbPL/DvfJdNCqi89SYMia46NSPaIjk2AAKAIqRjy6bRrvxBCFmxS2/UaFJwdf3Eax2Scr38Bu3qWhTRd57r2jPs8ZzbdxG3AfIZa1/sr0GDnHrDL5vG7PdEL3HKhsT4rAF9xMY3+uHHzt/UII/wEvJJtU9UAtqR9EMa9LN2RHG3swmb0ucwq2/mIuygM1Qs5WuELWg5Gux7Z9nkcQb9Gmq/YKhpTmEIIQmgRtxwqCSc1LFN8QQBWIHZtIh2r2cSX2l5+xaMGGPcnl1WF/7kqTQ7A25zetQruUZLTn8MgjNWPNf/bnO9eXbgxFItG5AMgah2zDk8iVwpWVlbPONJ2HCI6nNO3c73nJfEevrZ9oDZnoS/OwdoUV5tcU/q0GZJYmWoy6RfgVscvTxnNsfi0EfjiLXRlEDG2FD1ijTL/Omm7wONWyhgg/qrOOcOCUl1he7QFONasmHw6lRFMdK5X+OqwlDBEGPsRkc+eZsF5IDyiUSRdbdgVXuYUWT0u1t2+Pz0RY6Tofyxq+JnjzXGNJvob5EuWZ4tRFvfCpsjkAqaenz9gy2/laef4M3VzisKIi2YPQDogqY6f3qtCuvnH6i31gLkD6fS8hYMPDKFj+qoSeld+RG2gnNHvNXc0m/qzLIGjYrs1lujGd5A6Mz0=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(376014)(82310400026)(36860700016)(16102099003)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	TQ65Usw4hDhq1d4XQMyShIFKGYRTb4GcNhUJmDZRn1O+qeo7XdP27oaTmpRRbyIsfImKgCfT4kCgdh9WJgW4ANzm6rICW/ypmAcBSmBeJLn3a4nhBUcIM37M2tP0DeH9DmS97xFbQMXAviDuKKv27nfGB6M/aLzNBT0sS0dVTJGoIHB7cVv1CbiowS9PBC4u36zgSf/GqrXmkC3zLiufHb76+ZUa5NR0Pm7MNRi6fu1Ut0u86bYrA57Bu7MVSIlAYhfGZv4MNhJHDqfi2VxRoDXySuOVvxBEAr08Dzz6gz89Jgl2qBm/+drVd3vKXxJzfgams+y0wZL2MpaMDD3Jnwza/kKnWkvD6hNIq8iWmYrs9+aAIqmTa/BLo42ObVbs1lLYGJGy07LsMSJhr6q87XPZLvT3LrxiilOwXmYG/GMlBlFWKqU7zeWBTbUm1bP6
+X-Exchange-RoutingPolicyChecked:
+	jpSGFmxd9HAdJcMBAEiRVHoFdx3C/A3ypHYbipmIaB6Xy3NMclI4Acth6Fab0rpqfne5TKCnqVIJoIwoU4aoc8Xi4xb5m5NQ1ygeyZ9FPNtLTDBQkwCvtfb41xHwDnmEBBSbb49JAAeZiBdJberMsVZj2CfpH72zUwLmQn3wJoVxKS8SQNgWPBQVYs7b50yPSyuqU09vm47Sg0cRLiovDBceajXe5eIuaPRRRPYMjjCkn/3lQqm2uNL+NuGnDotTcJ7aBR6fA/kaMFdglTqAzKcsy5k+wk40hC2cJjxulsxplpZSyHHiu8b25VG34V5MtUFrhhqb301zF+YKEjxXFw==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2026 12:29:41.3530
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd31958e-1a36-4d24-2fc2-08dea77d51a3
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL6PEPF0001AB58.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR19MB6443
+X-Proofpoint-ORIG-GUID: 0ZgPt_OJRlL-9zdtXbgtriMSo8i995vq
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTAxMDEyMCBTYWx0ZWRfX4E2FtAYCg5bQ
+ TxQwbTVR2g1id9DHy95Gx9UKi+hH6Wc6a6dhNzrVDgatAzq1hnXIoLjqoMsBPBHCUO+8HDuD6Mb
+ 1+zQ38NnQo1Arj+eJhS6YWRAl+pBiIOqwNRLUFJvIX2tuJqX0zoR09vogAtveZNnTVbdqyaklpM
+ Vp1iKkqT4RTeIFESkd/WCmRdbKGONZuAbi6xIR7MaPDLiY/yad8sKozQqQqhwfBPup/baGKYmZU
+ 5Fvi3JsEjXRGBVonsyx/YCAJFkvIOzYpix4LdKRMSgFdymXs8H+ll3UHcuozSOS3fZbk1QxctIn
+ YlfNj58nbwKjYl1xX0w3vxV5DFWNpjZ8QWgH15+f7JlIAb+r78g9rIkrrVGQkakMIEnWv+E0Uzf
+ rqaDa0o9Yt0SjNPNNzyysTVSneAhFYJ+arLhNghAz1oyIGp0CVhvefxdfaIcTt9TeoKQxH7Nijt
+ 7SkoFqPVuqT55APCx7Q==
+X-Authority-Analysis: v=2.4 cv=EuTiaycA c=1 sm=1 tr=0 ts=69f49cba cx=c_pps
+ a=k/qEcsOZaAb73X0OMcDaoA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=w1d2syhTAAAA:8 a=SEjBpzHyPH_AOb8OoSgA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: 0ZgPt_OJRlL-9zdtXbgtriMSo8i995vq
+X-Proofpoint-Spam-Reason: safe
 
-On Fri, May 1, 2026 at 3:59=E2=80=AFAM Pierre-Louis Bossart
-<pierre-louis.bossart@linux.dev> wrote:
->
-> On 4/30/26 10:45, Aaron Ma wrote:
-> > On Thu, Apr 30, 2026 at 4:07=E2=80=AFPM Pierre-Louis Bossart
-> > <pierre-louis.bossart@linux.dev> wrote:
-> >>
-> >> On 4/29/26 06:12, Aaron Ma wrote:
-> >>> On Wed, Apr 29, 2026 at 4:20=E2=80=AFAM Pierre-Louis Bossart
-> >>> <pierre-louis.bossart@linux.dev> wrote:
-> >>>>
-> >>>> On 4/28/26 09:37, Aaron Ma wrote:
-> >>>>> rt1320_pde23_event(PRE_PMD) writes REQ_POWER_STATE=3DPS3 then polls
-> >>>>> ACTUAL_POWER_STATE. DAPM fires PRE_PMD while the SoundWire data por=
-t
-> >>>>> is still streaming =E2=80=94 the codec cannot reach PS3 until the p=
-ort stops,
-> >>>>> so the poll always times out during playback. This blocks
-> >>>>> snd_ctl_elem_write() for 2-3s making mute unresponsive.
-> >>>>>
-> >>>>> Remove the poll from PRE_PMD in rt1320_pde23_event() and
-> >>>>> rt1320_pde11_event(). The codec transitions to PS3 on its own once =
-the
-> >>>>> data port becomes inactive. Keep the POST_PMU poll =E2=80=94 on pow=
-er-up the
-> >>>>> domain must reach PS0 before audio can flow.
-> >>>>>
-> >>>>> Fixes: f465d10cd731 ("ASoC: rt1320: Add support for version C")
-> >>>>> Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
-> >>>>> ---
-> >>>>>  sound/soc/codecs/rt1320-sdw.c | 2 --
-> >>>>>  1 file changed, 2 deletions(-)
-> >>>>>
-> >>>>> diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt132=
-0-sdw.c
-> >>>>> index 192faa431b5e9..e42e8b6de853e 100644
-> >>>>> --- a/sound/soc/codecs/rt1320-sdw.c
-> >>>>> +++ b/sound/soc/codecs/rt1320-sdw.c
-> >>>>> @@ -2000,7 +2000,6 @@ static int rt1320_pde11_event(struct snd_soc_=
-dapm_widget *w,
-> >>>>>               regmap_write(rt1320->regmap,
-> >>>>>                       SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PD=
-E11,
-> >>>>>                               RT1320_SDCA_CTL_REQ_POWER_STATE, 0), =
-ps3);
-> >>>>> -             rt1320_pde_transition_delay(rt1320, FUNC_NUM_MIC, RT1=
-320_SDCA_ENT_PDE11, ps3);
-> >>>>>               break;
-> >>>>>       default:
-> >>>>>               break;
-> >>>>> @@ -2028,7 +2027,6 @@ static int rt1320_pde23_event(struct snd_soc_=
-dapm_widget *w,
-> >>>>>               regmap_write(rt1320->regmap,
-> >>>>>                       SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PD=
-E23,
-> >>>>>                               RT1320_SDCA_CTL_REQ_POWER_STATE, 0), =
-ps3);
-> >>>>> -             rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1=
-320_SDCA_ENT_PDE23, ps3);
-> >>>>
-> >>>> no, sorry, that's clearly wrong.
-> >>>>
-> >>>> When we touch the requested power state, we *shall* wait for the pow=
-er state to be reached.
-> >>>> removing the transition delay is silly.
-> >>>>
-> >>>> You would really need to find out why streaming still occurs when yo=
-u get a DAPM event. That doesn't seem right in the first place.
-> >>>>
-> >>>
-> >>>  The stream is active by design =E2=80=94 this is a mute, not a strea=
-m close.
-> >>>
-> >>> To reproduce:
-> >>>
-> >>>   1. Play audio through rt1320 speaker (aplay or PipeWire)
-> >>>   2. Press speaker mute key (or amixer cset on both FU21 channels)
-> >>>   3. Second channel mute takes 2-3s to return
-> >>>
-> >>> Muting both channels removes the last DAPM path consumer of PDE23.
-> >>> DAPM fires PRE_PMD while PipeWire still holds the PCM open =E2=80=94
-> >>> DP1 keeps streaming zeros. The codec cannot reach PS3 while its data
-> >>> port is active, so the poll always times out. The mute register write
-> >>> that actually silences the speaker happens after this useless wait.
-> >>>
-> >>> I confirmed via SoundWire debugfs reads: ACTUAL_POWER_STATE stays PS0
-> >>> while the port streams and only transitions to PS3 after PipeWire cal=
-ls
-> >>> hw_free (~3s later). The poll can never succeed in this path.
-> >>>
-> >>> Every other Realtek SDCA amp driver does fire-and-forget on PRE_PMD w=
-ith
-> >>> no transition delay =E2=80=94 rt712_sdca_pde23_event(), rt721_sdca_pd=
-e41_event(),
-> >>> rt1316_pde24_event(), and rt1017_sdca_pde23_event() all just write PS=
-3
-> >>> and return. rt1320 is the only one that polls on power-down.
-> >>>
-> >>> The POST_PMU poll is kept =E2=80=94 on power-up the domain must reach=
- PS0 before
-> >>> audio can flow, and the port is not yet active at that point so the
-> >>> transition succeeds immediately.
-> >>
-> >> well that's an interesting issue. IMHO all those drivers are broken th=
-en...
-> >> A mute should let the ports active and not start any power transitions=
- on the codec side.
-> >> That's what should be fixed first.
-> >>
-> >> I am not sure either why PipeWire would send a hw_free on a mute eithe=
-r, that's a sure what to have audible delays and glitches. Mute !=3D Stop.
-> >>
-> >
-> > hw_free is not involved here. The mute is purely at the codec's FU
-> > level (FU_MUTE=3D1 silences the output) =E2=80=94 the PCM stream remain=
-s open and
-> > DP1 stays active. SoundWire debugfs confirms: after mute during
-> > playback, REQ_POWER_STATE=3DPS3 but ACTUAL_POWER_STATE remains PS0. The
-> > codec cannot transition while the port is streaming. As long as the
-> > application keeps playing, this state persists indefinitely.
-> >
-> > The power transition is not triggered by PipeWire either. It is standar=
-d
-> > DAPM behavior: muting both FU21 channels removes the last active path
-> > consumer of PDE23, so DAPM evaluates the widget as unused and fires
-> > PRE_PMD. This is how every rt7xx/rt13xx driver's DAPM graph works today=
-.
-> >
-> > The poll itself is broken in this path: it cannot succeed while the por=
-t
-> > is active, always times out, and the handler continues anyway. Removing
-> > it fixes the user-facing 2-3s mute latency without changing any DAPM
-> > topology or power semantics =E2=80=94 the REQ_POWER_STATE=3DPS3 write i=
-s still
-> > issued, and the codec transitions once the port stops.
->
-> well we're talking past each other. The only thing we agree on is that go=
-ing to PS3 while audio is still streaming is really bad.
->
-> To repeat myself, there is *no reason* why a mute should trigger a power-=
-down.
-> I am not expert enough in DAPM but that isn't a desired behavior.
->
-> Don't fix this unwanted behavior with a change in how the power state tra=
-nsition is implemented, fix the unwanted behavior instead.
->
->
+On 1/5/26 11:30, Richard Fitzgerald wrote:
+> The error path in cs35l56_common_probe() should call destroy_workqueue()
+> on the workqueue that was created by cs35l56_dsp_init().
+> 
+> Fixes: e49611252900 ("ASoC: cs35l56: Add driver for Cirrus Logic CS35L56")
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> ---
+>   sound/soc/codecs/cs35l56.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+> index 378017fcea10..401a41b648f5 100644
+> --- a/sound/soc/codecs/cs35l56.c
+> +++ b/sound/soc/codecs/cs35l56.c
+> @@ -1970,6 +1970,9 @@ int cs35l56_common_probe(struct cs35l56_private *cs35l56)
+>   	gpiod_set_value_cansleep(cs35l56->base.reset_gpio, 0);
+>   	regulator_bulk_disable(ARRAY_SIZE(cs35l56->supplies), cs35l56->supplies);
+>   
+> +	if (cs35l56->dsp_wq)
+> +		destroy_workqueue(cs35l56->dsp_wq);
+> +
+>   	return ret;
+>   }
+>   EXPORT_SYMBOL_NS_GPL(cs35l56_common_probe, "SND_SOC_CS35L56_CORE");
 
-The current rt1320 behavior is consistent with how this driver models
-the playback path in DAPM.
-
-DAPM is documented to make power decisions from stream activity and
-mixer settings,
-with those decisions derived from the routing graph
-(`Documentation/sound/soc/dapm.rst`).
-
-In rt1320, the speaker mute controls are `SOC_DAPM_SINGLE_AUTODISABLE`
-switches on the two `FU21` mute bits,
-and the playback path is `DP1RX -> FU21 -> OT23 L/R -> SPOL/SPOR`,
-with `FU21` also depending on `PDE 23`.
-
-With that graph, muting both speaker switches removes the active
-speaker path, so `PDE 23` receiving `PRE_PMD` is consistent with the
-current DAPM model of this driver.
-
-Given that, I think the immediate bug is the synchronous wait in
-`rt1320_pde23_event(PRE_PMD)`, not the fact that DAPM attempts to
-power down the now-unused speaker supply path.
-
-Thanks,
-Aaron
-
-
->
+On second thoughts, it would be better to change the queue creation to
+use the new devm-managed functions. I'll do a V2 to fix it that way.
