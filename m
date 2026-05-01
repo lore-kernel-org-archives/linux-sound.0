@@ -1,167 +1,106 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012019.outbound.protection.outlook.com [52.101.43.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C1B3630B9;
-	Fri,  1 May 2026 19:09:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777662593; cv=fail; b=gd7pGinSezL94UzebF5AymznMSif988jfITVGNauySunNnQA7gN/SZstUQTbosaMOZ67UK99xctem13MFIVuHpZxfXf3UcFvN0Fr/3LoSNZTW8n2QSFPbUsR6VP6vstnhT4B102EVSZW/rQ6NJvt1+vge5M1DJIEWo7mp+lLTqo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777662593; c=relaxed/simple;
-	bh=1iIADPqbCoSLPJI0TxNQTwCBIYChhB41DJXuou3afi4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=m5KRnFsGU/y0VQ63A9H6Jwlpag4J//+3KSjXiaosNqz6aL7FquIltsDKzRis0Mi0Vvi11/7uLvr2u73OszFarE4tmlZf71JQn9hr6CKFoZNC6Xmhv0iuuiw3KazwEOm9NdYbFgVkHfS3rnUJSMAY/Te/Tr1nSryexSx7e4EaHoo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=NpisgfJZ; arc=fail smtp.client-ip=52.101.43.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BBED37B03F
+	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 23:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777679597; cv=none; b=p03++t3pmOT51meOP7G9GzblHLANP61LwzhR6fD5MGZniUkyXtHz+MAMW9rYa+ohByHNzd4S2AVWTno7Al9YjqAP9zQp9VdmGY8JhjfJbXIKnXm4EXWxfEFhCFZld/Oj9nm03dOQhURn/v/y1OR/UuVZu/A9C+LBkGpDH2L8BpE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777679597; c=relaxed/simple;
+	bh=sTLTPWbkkR+J79wA5XET+FhSZQxeeBxgYYs31m8y0as=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uHJIMfe/wiNfQaDU9SzALGYP9TInWiLJdd2dFVy+ah2OCQcOXXIjlUuHmrDwVDhyhF86UP7alr7MfOY04Ca430w5AIg9G3YDuZLrCxB4H3uhYs6eFBm9u/fARGywa6c0tn1+FB06GkqQ2PhcT52VN7rKa+rFpjfIganBtmkEtJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=racDQXss; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="NpisgfJZ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e5nZfKcywx8ogpSMbW4uYxyqRXmusq5qIOUxfOKKlQSBNojq0jod/nTDDNxEEalPYp1ngHOKr+DYT3fxNkA9fP8QpNf3fOWRi4Oxl3yh+4k0xMsXVMcZ4FeE8Bp3Yea9MAIUAVHHShYpRqGRHNSa0mhXLdrW17tvAlWC0uH1+BcvbCdtPfWalyYkdd/wyxGbG/uv56x2w0Li6hJQU84r0PevdEMwbn87yAtuToO+Y3RD9oqiJvne2XkviHzrkrq5+b1gOhBvRvzwKrjgOs+ab5/mhhBYTvH/7GLVIY3RVhcw8TQNPVX7M+/USGh6Bi3YAdpB3yyhT+mzToJyiQ9l9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/ZtFVhfJHe18+nvblpTzCLot0RqSAU75EwxRTtuHGwU=;
- b=h+F2n7aUw1wu3oYMfmlvu99F6FOCCH+d0RlpHE0IFztUTgZELAkLmzUrJrAsBPrudVmQGtXpSQ3rQE4zZ832U+Z3uVLIbIa5Nk+SkwykfqYSO6dDeymOPxv+a1EynddIEaY1unKySL9Y5I5vWE3nvzVwqdZ68tKh17n80wGqGV19gIbZtjcUDRSRbLhJxPSj/jZYdXl7+g1ve9vQgYDTz5MYHg930DgGo5nEistKCvjr7Ceh67ulpWuAKg9OKWy0IFOwUgz7+3jEBqdDyvJZLcRotPwoH1ZeOglE/OLynNbUYXDDqKPsbcM+UWuKvniRrpW6r93fprytEqYCGU5XxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/ZtFVhfJHe18+nvblpTzCLot0RqSAU75EwxRTtuHGwU=;
- b=NpisgfJZpmtl9ziQzpQG5822ZYZNNzwr4CWjSyxrzEDtaqSru055Jz7KTWgH95k0p2ia5BCBr41vOMT5V1EX8nPqKpz9viM6tYre/9IOUImTk8I5dWuvSv+i7q9Xi2CXYK8YS7qcVZXvAPoMroSJszJzamr3aMw15pN0fMFz/z4=
-Received: from MW4PR04CA0182.namprd04.prod.outlook.com (2603:10b6:303:86::7)
- by SA3PR10MB7071.namprd10.prod.outlook.com (2603:10b6:806:319::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.20; Fri, 1 May
- 2026 19:09:46 +0000
-Received: from SJ1PEPF0000231C.namprd03.prod.outlook.com
- (2603:10b6:303:86:cafe::5c) by MW4PR04CA0182.outlook.office365.com
- (2603:10b6:303:86::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.21 via Frontend Transport; Fri,
- 1 May 2026 19:09:45 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- SJ1PEPF0000231C.mail.protection.outlook.com (10.167.242.233) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9891.9 via Frontend Transport; Fri, 1 May 2026 19:09:45 +0000
-Received: from DLEE202.ent.ti.com (157.170.170.77) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 1 May
- 2026 14:09:43 -0500
-Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE202.ent.ti.com
- (157.170.170.77) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 1 May
- 2026 14:09:43 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE208.ent.ti.com
- (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 1 May 2026 14:09:43 -0500
-Received: from [128.247.81.183] (ltpf5gwk6l.dhcp.ti.com [128.247.81.183])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 641J9hPb3820034;
-	Fri, 1 May 2026 14:09:43 -0500
-Message-ID: <dd9ce1aa-7eb6-49ee-8189-d5ad76e5622f@ti.com>
-Date: Fri, 1 May 2026 14:09:43 -0500
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="racDQXss"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-50faf8ed9c5so12051691cf.2
+        for <linux-sound@vger.kernel.org>; Fri, 01 May 2026 16:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777679595; x=1778284395; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=auq8XZ/n50n6kobbrJwVjj4F1ZYF7RNuGE7nh7nDocM=;
+        b=racDQXssdAUjh1mCnK3JhFd2oA65ibXLnTVq8SB3N2nPXCCcZDc6QultUq+SpZheNv
+         LumrafoaaZS7oOimJgqoNpepfjG0tC7WlyCb4rxg8jE2lT0qQAmP/7Gj3TJOwE4RBtU6
+         CwlN1Wrf8kgNjRL70W83RR8Xm4mEuKvSWy34mxcnd3K4maHG6871LL+nL5f2Rt2QBQk4
+         XbSPciH4fTsbvaiWFu/Yt2X4Kmv/vd5q09xOoDtbqcKMkfd2OVrOaVkHNwDzdlAaYkkh
+         0xCx0O1rPYwnfpvX/S2ZHodRETG2ZeJ+XLgGmOWH9bK1Ox9a5NpmfkEm5uNxnaadekIy
+         3jnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777679595; x=1778284395;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=auq8XZ/n50n6kobbrJwVjj4F1ZYF7RNuGE7nh7nDocM=;
+        b=aWDIDDWXZ0UdB6MLh3jpu7AUbe/+DTv7QRalJn0e29uRpnJBBKCF6QJ/Mha2Mp2RJc
+         TAdSMnMkUVHjVbCWHBPMiOTeLGqhFdE5kHYAL1obHiA6G3VvXAT+qGcQord9WvhJN8o0
+         mTLTkLzBHAsJTin7kOX0fIWCo4yvDAHZ1pzo/taP+9GQ3n8iFjAJJQmuwUP1zIEPJj7j
+         R+Rj9OEI44uwBp05WQpfZcwIaqMXCDpPli+SXlu7KZBVnZOA97gXCGZqQaNxYE8jltCW
+         ZO1y66TwL8L8bgxohbq0zSbs2vqv4AYphsR5X+0YEesp2kzqrs/hNjbyGWeR8+6h41Fv
+         38iA==
+X-Forwarded-Encrypted: i=1; AFNElJ9Q3IqwL5S05UtbxilFnQrXTdMP7cDrrDFM/jo0FZIg0G6WKg/SQ6+koEVQ5XI+7byBOpo/Oa0Xyhphaw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaLhhlN1OGIkC3yvDr23oxWmCFImdoe6vLMNcIL84w3BLDvWeo
+	XqSUij+c1IHxk3Yqs1Imk1e2+SSFcwUY1DSh3l4Ww4CTGK5OFMJNZtra
+X-Gm-Gg: AeBDietMeqnxnFpizETbjH428BQhjbVAIviiSNc9QjRm6ryYifwdeAs3GKzZc3aAs+f
+	/B21Se6Kzunw0nrAuFF7IPyH/IyvB9qiMKDU0t+v2vkgvVKmA+0n1RF6lbuocYYvjlld9dzmw7u
+	h9zNROfBaAhyhjvGTHSAS0XraSbFh9kN2wmWh6kyl3UqmYynYYiNASn1NyN6HPAvC0q02Y8FiCL
+	Av+AV9ug4cASFe3lujSgIDjj6sqC2eQoQgNgVJsCH+D6nTIJzpqihzSn2x+pYHQFZeKy5ggtBYd
+	LW9ACRuR9loH4BQW9wdqI0JFPdbIIh3DqOOrveDeBSIXGEORieNqgZvOp3dXJKqyrkxmJYZnC0h
+	Ocyl8dvGBmBcysPDoQqIyhvDEpvhW+ukBpbvwCWXeSMFwVNzmSmQKnasJMwOCjX8osQqe/GCefE
+	wnhediSOjkhTCQa68svRGVtRvGB75HzvtxKGv7
+X-Received: by 2002:a05:622a:17c7:b0:50f:b821:9c3f with SMTP id d75a77b69052e-5104c16c480mr21543551cf.60.1777679595414;
+        Fri, 01 May 2026 16:53:15 -0700 (PDT)
+Received: from localhost ([184.144.58.243])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51040b8174csm32094481cf.25.2026.05.01.16.53.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2026 16:53:14 -0700 (PDT)
+Date: Fri, 1 May 2026 19:53:57 -0400
+From: Richard Acayan <mailingradian@gmail.com>
+To: Alexey Klimov <alexey.klimov@linaro.org>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kees Cook <kees@kernel.org>, Joris Verhaegen <verhaegen@google.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: ASoC q6asm race condition when stopping and preparing the stream
+Message-ID: <afU9FQnWKgRtV6mW@rdacayan>
+References: <afS7rTHdc9TyIeLx@rdacayan>
+ <DI7G2SF71B39.22LPDZWBG87O9@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: sound: fix TAS675x doc build warnings
-To: Randy Dunlap <rdunlap@infradead.org>, <linux-kernel@vger.kernel.org>
-CC: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>
-References: <20260429225751.1995224-1-rdunlap@infradead.org>
-Content-Language: en-US
-From: "Wang, Sen" <sen@ti.com>
-In-Reply-To: <20260429225751.1995224-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF0000231C:EE_|SA3PR10MB7071:EE_
-X-MS-Office365-Filtering-Correlation-Id: fc9fc59a-3241-47e8-599c-08dea7b53535
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|1800799024|376014|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	gbWBSTZjpiuhk6M8DI5ENGxZLjo7dOfMzc1KsUNZwu9DedYkLL3kx7b1BppTJ9E+kJ2I33LfLfns3bGzBCStiamMqunmrhE8O20wUVlCNR32iD0JxNUQGoSDdKaqUBJIgG2DG9OJK4tLpRTpQ0unX/rsFLM8XAF2pbbQcJbJnLgBn2s+PLf9vusqfaQrnhRF0rYYdKHBaJxTMHEdelGVKFTXC71vPbLDq/9t889CBXJEghM+rntlZE3c2Lg2rKmekAEdk0K5eylaH6MgrwdttQnas62+6t8YX7rEeohx8nSgVGdN+ttXPWmtug9LMQBeXqcrYXVyQjjalVcfBJCLIDB6njGA/F8iLn1ElxVkdlcWIwSNVfJwvGx2tkSBG/I0lM+Yz+VgAEyGgTv0YzUCfuj4a1hW5WYCpHX3tTskPuJGHLpHow+dsqzsxouHzA+fuulZ786YqZ6zfX/zjpBRCJcCjHZ6W+AYUBCSV2LEFY9hUhUfsXvcmsdsA76W2Ddvz+HDivfeEpGFY7IQgtoIqfQ3JlXbrkqH8g6VqeZyL8Ymm42kRZB8nD8uoF1BAsJ//yO9HFTYZvY/oKSK5tWLRNo25H59FYZXuiREzbhaoDWVEnMTp+biZvO9EKlQQv1n/rPa/Vp26CsCYzEcGmzYLK9j6gFKkl2x/TjRBNPmKPpVYFJxMHGNcDc/bjw8HJR4
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(1800799024)(376014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	hYf0m98JlBvu5IHi5/MD1GhnvANGbsvOSlIuX9cSmkWvwiM3vyrATgxeMSnZmWT67164lz7rDIO1Zf1bOwbqoK8YkUOZvFqzZgHkDTuo974x0LVg7cI4rmFq40OegXiv4EHGy9y6KfOwe1N0FVfqRVrCpAyIq601TrpQOiZO9AQfnpm9M/HJyqG8+ncSdqijEBE2c8t58tk02tIlKWqLeL7rF0K/kKe44sDDxdOQNUDsMMdvIq0dqwDo4j2PMlfeqSUhgYLZmLxaVhafgNNQ2nWn2renqRgO2oCmg8bSxOsIA7lB41DHz7mnIwJdvJScxlSlBFLpzBW8i2XLwOqf48Ox6JIknYxVNt1GL8sPRk7UKam6jS9G+0o7z4sM/CAWMqP4SmcTs3+4HJ/CEJe9luAmwVX5X2DE3iqNSP2DU/vijKqszZnadfwc7/UCv7wj
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2026 19:09:45.5437
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc9fc59a-3241-47e8-599c-08dea7b53535
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF0000231C.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR10MB7071
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DI7G2SF71B39.22LPDZWBG87O9@linaro.org>
 
-On 4/29/2026 5:57 PM, Randy Dunlap wrote:
-> Add tas675x.rst to the index file and extend the heading underline
-> to avoid build warnings:
+On Fri, May 01, 2026 at 04:27:57PM +0100, Alexey Klimov wrote:
+> On Fri May 1, 2026 at 3:41 PM BST, Richard Acayan wrote:
+> > Hi,
+> >
+> > There seems to be a race condition in q6asm when stopping the stream
+> > (with uncompressed PCM). When receiving SNDRV_PCM_TRIGGER_STOP, the
+> > driver sets the state to Q6ASM_STREAM_STOPPED and sends CMD_EOS to the
+> > ADSP. If userspace decides to prepare the stream again in
+> > q6asm_dai_prepare before receiving ASM_CLIENT_EVENT_CMD_EOS_DONE, the
+> > memory-mapped region appears to still be in use and fails to map again.
+> >
+> > I believe this race was observed since commit 81c53b52de21 ("ASoC: qcom:
+> > qdsp6: q6asm-dai: set 10 ms period and buffer alignment."), but would
+> > need to verify. On sdm670, we are coping downstream by keeping the state
+> > as Q6ASM_STREAM_RUNNING until receiving CMD_EOS_DONE.
 > 
-> Documentation/sound/codecs/tas675x.rst: WARNING: document isn't included in any toctree [toc.not_included]
-> Documentation/sound/codecs/tas675x.rst:659: WARNING: Title underline too short.
-> Overtemperature Shutdown (0x87)
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
-> 
-> Fixes: ba46edca354e ("Documentation: sound: Add TAS675x codec mixer controls documentation")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Do you have a reproducer or specific steps to test/reproduce the issue?
 
-Thanks for catching and fixing this Randy, really appreciate the patch!
-
-(Already merged so no need to but...)
-Acked-by: Sen Wang <sen@ti.com>
-
-Best,
-Sen Wang
-
-> ---
-> Cc: Sen Wang <sen@ti.com>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: linux-sound@vger.kernel.org
-> 
->   Documentation/sound/codecs/index.rst   |    1 +
->   Documentation/sound/codecs/tas675x.rst |    2 +-
->   2 files changed, 2 insertions(+), 1 deletion(-)
-> 
-> --- linux-next-20260429.orig/Documentation/sound/codecs/index.rst
-> +++ linux-next-20260429/Documentation/sound/codecs/index.rst
-> @@ -7,3 +7,4 @@ Codec-Specific Information
->      :maxdepth: 2
->   
->      cs35l56
-> +   tas675x
-> --- linux-next-20260429.orig/Documentation/sound/codecs/tas675x.rst
-> +++ linux-next-20260429/Documentation/sound/codecs/tas675x.rst
-> @@ -656,7 +656,7 @@ These faults place affected channels int
->   issues fault clear (register 0x01 bit 3) to allow recovery.
->   
->   Overtemperature Shutdown (0x87)
-> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   
->     ========  ==========================================
->     Bits      Description
-
+I don't really have an easy way to reproduce. On a device with a
+Qualcomm SoC and q6asm, running postmarketOS with Phosh and without the
+workaround, waiting a few hours usually reproduces it.
