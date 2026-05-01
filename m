@@ -1,109 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CD53B47DA;
-	Thu, 30 Apr 2026 23:51:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15FFF79CD;
+	Fri,  1 May 2026 00:57:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777593078; cv=none; b=d/7s5L5FQjLktgt0U7Nji2cAgHPWaT9YM0eyu2H5OQXRffunM8PUTcDJxnsJ+1W4aX1vnDZvaiZ7wCsMbnJyonaYSGignIV5NhmYPKqOxAHICJT0xrBesOe1ln6pJc0T57J3aDOPXPjt4eFqptlKbOm0e8c3BLX+l5IMrrRVjz8=
+	t=1777597038; cv=none; b=brgVvhANQvyjNj7pI9HfrwPFUwy3EHrGEIHHqWHaAYNggZ+/ppoX7hVXk8FCXmXr0PS2+JYavj84s6I2pKneUVRFKArTsFs1OIMDN7eKTyoSn1k1rdEo7upJzzCsf4lFfcgshR6IYp+bsJeoehVBNF5/VEWiobK5cFXayuTJP5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777593078; c=relaxed/simple;
-	bh=JvafTrDOUTNbsv8vnx7ex86phNvggiWY6OT9/LP5/Nc=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=qnD1WrSVfsuoFvPpM64tFrUmR9PhjSABCuPnrOTT3Ycz3zMDbz8LWh6ZM6cUbyMfwDJM8CBLqeppo442MgVXsEGwqb6HPLYdTNeI/OPFbiRHFKttWC0bqZe/Izt2ngabrCez7UM+lcgj2ropZc7dgKB+CfNG7PpdIyJjbDAMtyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Db15ui54; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777597038; c=relaxed/simple;
+	bh=PG9ltAWBLj8EtAjYTgCzT0ZRbzn2Rm/InA+LF3h+xBg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y7+H+Qy/Nv873L9sy8HptognYBkzj3tePysiYXBksZUlCgHOf+bNPopjG8UCpM528Ov49/+aMnXV/0zm1g8T2NL2DI55IjZW6KOOFwpaiHVksRWuMjjo+T0hIFbRT7Nd8uiLx4onKC5WwBcA5+v8j/4KZXOfgqLsRO6+C8uvPyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g4m4RRYB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Db15ui54"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BA70C2BCB3;
-	Thu, 30 Apr 2026 23:51:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g4m4RRYB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81DFAC2BCB3;
+	Fri,  1 May 2026 00:57:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777593078;
-	bh=JvafTrDOUTNbsv8vnx7ex86phNvggiWY6OT9/LP5/Nc=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=Db15ui54483FZjnBZlbUr3eO8etE/4h3okqw9prbMX+bIHls1vUacTn4a5hB2AS1p
-	 V+CdHi9+VEsGUJ5hlEeeFYdWiMRMiCko9HT047XU0DjCNu1zv23TOaHiBAoeyne19c
-	 WoQy6qm+pRZ13rOvszGCBVNCAjeXizo+lerdRKhy/pypuEUuSMdeRwW2aFzfsrjbcV
-	 GttKP0ZmRGoAsq0Aa89wHducoGxsa5KfOzt+JuoGJcbnxy9ihW2/ePliHpMldwUjPH
-	 Pd2+lnx+Hgp74Ia6lbuWza2XRDuq5xgjLnl4ALkasLRruTVQIKxQ/gUyUhpIWkb/5O
-	 cE8+WkgY1nSZw==
+	s=k20201202; t=1777597037;
+	bh=PG9ltAWBLj8EtAjYTgCzT0ZRbzn2Rm/InA+LF3h+xBg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=g4m4RRYB2N8oxdneirtbwnEec5RVHmYBrsqFf4i2dDPhSDiOjXq2S7+vCOJ5OLuaE
+	 65RUkTKmv0cWs9iNSXlFKXgWK3qRHn9o8eTe+aMTXakCvEAs09ov5tdb5a42+YFmge
+	 5y7HsATQU+Yst6nuSrp+ynCqYhtxdPwCMAujyLm9A9vVjHU4iB6KwCP7z3JuLj59LS
+	 +gifv6MILoCuj0mbEe+AaUKh7o1XWKhMgm2AeJcmg0plHcLly/xifjbgWRkPj2GWFT
+	 gTa3ZPda0O7RzEtwAp6pGw4u+wJ8GYTegYCyazhMnEb6ex3YAVkbtSJyKlJBxDdItj
+	 R/LgMaIkqG6DQ==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 36FA71AC5860; Fri, 01 May 2026 01:57:15 +0100 (BST)
+Date: Fri, 1 May 2026 09:57:15 +0900
 From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <20260429100028.2739711-1-shengjiu.wang@nxp.com>
-References: <20260429100028.2739711-1-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH v2 0/5] ASoC: fsl-asoc-card: Add some improvements
-Message-Id: <177755089814.458539.1076703312564291362.b4-ty@b4>
-Date: Thu, 30 Apr 2026 21:08:18 +0900
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: tegra: ADMAIF: allocate with a single kzalloc
+Message-ID: <afP6ayAbxtTq6xaJ@sirena.co.uk>
+References: <20260430214202.58405-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2105; i=broonie@kernel.org;
- h=from:subject:message-id; bh=JvafTrDOUTNbsv8vnx7ex86phNvggiWY6OT9/LP5/Nc=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp8+ry5p1Ma8K+HKR46uX6X8vXt0kIWBUXHkhhY
- KgGK69uXYOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCafPq8gAKCRAk1otyXVSH
- 0NYYB/9uhp3a0I/QRWCOUBDCuS5nPeizCw0iU4HnFAUasL/nl8C7Bsz/LlLkaLndjl7Csw3gvBC
- snPLnSziSlAm8eLfBtY9cv2hZCEpFth22hreez6ipJGeosvgzbGizrk9zG1vDJAPzzUJvT+KIUT
- adzso8aIy6AzOQ7RPBFTZpDjXYtZ+edyByLPx80o9DWzb01nCB3Ohkl82+mvSSU72jJFfWXOa7Z
- JAFlx3MVfvg298MNFLdj51W3ibocimdAf6xpELUQAKsBTpsDkVjtyIZM/IPKrwtZhlBMwBHfDRU
- c8OoJoa3M/j0Oz2M0Kyjwj0K9EwM3MJix9i4nwHzpbyvhWXq
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4tm3J6wD+vEuxauR"
+Content-Disposition: inline
+In-Reply-To: <20260430214202.58405-1-rosenp@gmail.com>
+X-Cookie: 667:
 
-On Wed, 29 Apr 2026 18:00:22 +0800, Shengjiu Wang wrote:
-> ASoC: fsl-asoc-card: Add some improvements
-> 
-> This patch series addresses several issues in the Freescale Generic ASoC
-> Sound Card driver related to hardware limitations, DPCM path switching,
-> and codec-specific constraints.
-> 
-> The fsl-asoc-card driver provides a generic machine driver for i.MX SoCs,
-> supporting various codecs and optional ASRC (Asynchronous Sample Rate
-> Converter) for sample rate conversion. During testing several issues were
-> identified:
-> 
-> [...]
 
-Applied to
+--4tm3J6wD+vEuxauR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+On Thu, Apr 30, 2026 at 02:42:02PM -0700, Rosen Penev wrote:
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> ---
+> Consolidate the allocations for capture_dma_data and playback_dma_data
+> into a single kzalloc by using a flexible array member at the end of
+> the tegra_admaif struct. This reduces the number of allocations from
+> three to one, simplifies error handling, and improves memory locality.
+>=20
 
-Thanks!
+Why is the changelog for this included after the --- as something to be
+removed from the commit?
 
-[1/5] ASoC: fsl-asoc-card: enable dpcm_merged_chan flag for ASRC frontend
-      https://git.kernel.org/broonie/sound/c/3b9c088aeabf
-[2/5] ASoC: fsl-asoc-card: enable ignore_pmdown_time for ASRC case
-      https://git.kernel.org/broonie/sound/c/d611feb52de8
-[3/5] ASoC: fsl-asoc-card: add channel and rate constraints for CS42888
-      https://git.kernel.org/broonie/sound/c/e78abe395d30
-[4/5] ASoC: fsl-asoc-card: exclude S20_3LE format for WM8960/WM8962 + SAI
-      https://git.kernel.org/broonie/sound/c/fa7d8ea56c58
-[5/5] ASoC: fsl-asoc-card: reduce WM8904 PLL ratio to meet frequency limit
-      https://git.kernel.org/broonie/sound/c/99b5316f08f3
+--4tm3J6wD+vEuxauR
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnz+moACgkQJNaLcl1U
+h9BiWwgAgO6V0o4cZ4mPkLEYlu9A2t7Irt+J3SuuKeZbQ5PfXcGU/ikU/NTfPAgU
+x4c0TFnE3YRTuCGwWNJH9BrTYIruO7HGYtmjEAV0yd6Lj1SiRNzk7BmjMPiCo4ZV
+KDakfoB+lykPAJuVAktZNF2mNr893rHEY4NrN4LCjqNg2bNb+B94mv155yH6BpMA
+zXCO6ZAa8tvdF55sHrg4X5BiYSbkJlg6PRjp8Gh9CTeXS8CezAHnredFKq0XlorC
+6CxEvvED7L9I0yYlhvs3n6VlXzGLEJhhqprlGqLuf9MfbH2eYHjhIhqo5ahwssbA
+marj+b+nESmMZBfBADvOvjjpJq3wAA==
+=vDWH
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--4tm3J6wD+vEuxauR--
