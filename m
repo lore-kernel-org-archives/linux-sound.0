@@ -1,135 +1,100 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992121EE7D5
-	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 13:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5693C2787
+	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 14:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777640590; cv=none; b=BFhqk0Cgghx4ErHm+v7X5hhEe4QNBklkA3BB96S7HA9M3sg8+ifWdsYE/rOfUASZStEQuf4ELYmMDV+lnAUid7KM5l7fcAVC+2Ej5QhhCfEBno+XXIq2x1efZR+gLbxAe0gu5v0mFvsnnTuIT9endRw3b8viSbje4eZTQfyvZRs=
+	t=1777646460; cv=none; b=qTXJW3tmWjLCWGpnldUxWoJGbukYfz3qDFBpb4ePKx1NULsNtbCYkDPy/8XNj8JGFo/7hyd/7+aMpCNDbhgmYMlzcEOCnYDiO9dopl5DMhE9kDaD/X0msGMeVa9xautt12OD6PIMSdGpE+nBm41mTlFNDAKE8evnjHozIP2RVTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777640590; c=relaxed/simple;
-	bh=oWI+ljjXfhADMNI5fSnsTVI11GbjZ1QTUZGRTGOj7gY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hEbC1oshHtmCN2FBIfoYrQNKwuxy9QuLGUlMOtQTfG6yFWDNrkz5gA4JB9Y3qg8x2TzSuMgYBJcqnvyL+g47k7mCOIJqRC8oaIXM0Y9LVpEWmqjvrimVnImVu7HPgGUUhwPdZQoDidHdR3ocA/4wafq0UDS92t2MmEyQGPsMCEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Zv821D3x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ux4Nsvba; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vkI6L8Dr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HPw1pTip; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1777646460; c=relaxed/simple;
+	bh=axhZE7iq4V4NfKtkFtOnf9unIcr5Q6pw8mBt6qvrky4=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=p6g9rlXbTKiSmloOpgS67NN3BkYWoUAFtVr/YVq8JRGmxL9BAAen+Ay2yI7Oddqm3cmpPgpl8ievZ1loj7eORDmM01bZwUSB5cYQSsrq8Bc9HDZSQiDbUG00W9CIkIDqyng0NPJfc/Geuwz5/W175xbNrO/NaHzzqWjW6y8QISg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RQrgPpYN; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Zv821D3x";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ux4Nsvba";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vkI6L8Dr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HPw1pTip"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 464785BD44;
-	Fri,  1 May 2026 13:03:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777640582; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fb6PUISBiQAVZc8Gb0V2m2vwu/U9SJ5PMAdOtBH19Qc=;
-	b=Zv821D3xUOj+9Cktso00ZVrbXs8d/oHEKyeP4DrHxdNNo2iVQmeI5G0GvmJpqysmMVIzYH
-	waEqSPEiiHqlmrsXnhMRsacdl4IZjvLt9EbnaN7HnDeGQ4Ykr4ETEyHH/6q1EKQ2eFKUC4
-	cT7WoAxb9T+AJYJHdacOXNclrm3Ur4Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777640582;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fb6PUISBiQAVZc8Gb0V2m2vwu/U9SJ5PMAdOtBH19Qc=;
-	b=ux4NsvbaPDWfbk7mFJ4bIHW6nbiz7nMoqEKNBAbYKB/pkmx8ODE8T9c052jm2CTFYy3DQ6
-	wXQbET3VJ/Zh9gCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vkI6L8Dr;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HPw1pTip
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777640581; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fb6PUISBiQAVZc8Gb0V2m2vwu/U9SJ5PMAdOtBH19Qc=;
-	b=vkI6L8DrJSWE3ME+F2M4tMWishgv6wY+Y6HAxOXBzSqihmY9GX/LTmqklMT8jnotQZH4aX
-	Es3LYsH2KY/Ico5H4EuhS2pKCj3RsZu2/bfFKAursBSp8+rs3mitC1rxENx+Ph8dXGLSgH
-	7vTjII4L3oKiblKiTSg/Ra49aNggYKg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777640581;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fb6PUISBiQAVZc8Gb0V2m2vwu/U9SJ5PMAdOtBH19Qc=;
-	b=HPw1pTipP4j2N/bXZ487TiFWg/WIhP/Jwf8hxDCopDM70MzQbSVb00wmEKvnQRx16vvEaU
-	6C6ZJOiJNDEOtxBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 13A70593B0;
-	Fri,  1 May 2026 13:03:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Ra6FA4Wk9GmgeAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 01 May 2026 13:03:01 +0000
-Date: Fri, 01 May 2026 15:03:00 +0200
-Message-ID: <87ecjvl1tn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Pauli Virtanen <pav@iki.fi>
-Cc: linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RQrgPpYN"
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-8b59772d441so4906886d6.0
+        for <linux-sound@vger.kernel.org>; Fri, 01 May 2026 07:40:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777646457; x=1778251257; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=axhZE7iq4V4NfKtkFtOnf9unIcr5Q6pw8mBt6qvrky4=;
+        b=RQrgPpYNGtyAbT/hwsUN3smG0TtRk0ER4qeekKs0D+bIj7LZeSm0DlKbbwBr8eRLX3
+         +UO1uCxCSRwlW3+dylrKI9R85XtCJuQb8I5y6/nu8AJyQuAQ40txrLggKxFARwqYwhVS
+         GJRgalO40GCtI1NYOm2xRoLH6/bU3D5d5fPPWpohoAFloWGHQZRehhw8m2dQGK6pju+e
+         3WI5N+2CB/CnXhXDo8xwtkcvELyNCoJgv8bR2SM/fg7A7wxMHjs4Z5LtoQYaBSwA64Kg
+         UiwCpcpUQP3T5haqHUQjRkNNB4GoO0yIRfPyJUGSI5ZnlB7vx38Agy7rz8Tx46WVlwTD
+         rd9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777646457; x=1778251257;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=axhZE7iq4V4NfKtkFtOnf9unIcr5Q6pw8mBt6qvrky4=;
+        b=gSb2zjGTX3oLd7VX4rn0tkfEx58Wiy8vZi6UmK8GU2BXyucUEM0xDfIBjbO0gbtgVs
+         9YC+vM86xMijsYYQRJVsGNU/agJIDjCNxkRa5kIYKLt47ksTTCeeDY7WbTnp2rLvbVST
+         yxA6uw0lQx+mBEOsV1ebsz5hRL7TofRubMOA9igaZSjP1htNfUGg1Ee696dwtot3trLU
+         EO6M587OUFHvCZXtPGocspjHrDCrJKd72A81JkzRRgQiLj1O3fOOhHZirJWWvvHB2FVK
+         lUY5TO3LCObT0CoavlhalbMSYxh22my6vbPjc0lEFWjw/MeHYqFcK2ie+6fkJ3FIwUec
+         Sz0g==
+X-Forwarded-Encrypted: i=1; AFNElJ9Vu0zX0t9adJlRKTY9GgKm371d5ISWJzy8QXnlJLb7h1c0nNhnEyPi2+r7/f6gQWy71Jleh8+HYJhzbg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyE515Z467dkfAwUJyrWvVhQTQgcxVh6YKYRbp5lSLKZ6ZA+PbS
+	PyNmo3ybd9BdkYGlxFGc5CrsHT3H+qqOqQk65GhvFMToPf6lFBJTSSSZ
+X-Gm-Gg: AeBDieud5K5AxkghG70Hz4WdT/InfHRhbkKoGkQRAlhYIKBXbR0WrtgjwlSb45GO1Yf
+	14gtNO8BrO/IBEHTSULv74LxWYJBGYp905GxPkPpv2Gfw2ZIuBO9RNgMEA7++2hXAxFQV3sivJT
+	8lrjmCg+3VEXA92rVLK5eL0gAlNiA1Ql2N224VN9zoZ2z//3+dHoo+4KPXmJtOE1aNjxHXyYQHg
+	UNxQH3v37jzMaf0ehyU9sW40QDBAthGMMgfd2y5lT1M9xYp9aSKMBIHX74a7GHFNYU3hmhPxT0B
+	mQILlp4iNamVQ4b5iKEaIAHuj3OqE3ic8VkKXfViSfoymKfbJk9Tg6lhDSY4MSf5qId2l8nl2on
+	edihChqU5EHW1/h2KuQMo1UfZOEcz9CEbSguXKl1I51dvsmW2MHy5iGMns4CdzUTDTVPUCfEWHs
+	dcsAGyoRceAIFQvO3rOJIQNWEYldXe4bk1x2Ek4YfiZheWsCTd3kfRIL6Tp5Cvygc/K0gWaP1Va
+	UzISFCtZfgxy6z746lTsQGWVxsG7MKAdiKH
+X-Received: by 2002:a05:6214:3012:b0:8a1:3ba4:9832 with SMTP id 6a1803df08f44-8b3fe766b5cmr104223706d6.16.1777646457024;
+        Fri, 01 May 2026 07:40:57 -0700 (PDT)
+Received: from localhost (bras-base-toroon21-grc-75-184-144-58-243.dsl.bell.ca. [184.144.58.243])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b5395c5b4csm26439146d6.16.2026.05.01.07.40.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2026 07:40:56 -0700 (PDT)
+Date: Fri, 1 May 2026 10:41:49 -0400
+From: Richard Acayan <mailingradian@gmail.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Richard Acayan <mailingradian@gmail.com>,
+	Kees Cook <kees@kernel.org>, Joris Verhaegen <verhaegen@google.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: add min_mute quirk for Razer Nommo V2 X
-In-Reply-To: <94449577332d14d7974864903825f27e5824ddbc.1777579951.git.pav@iki.fi>
-References: <94449577332d14d7974864903825f27e5824ddbc.1777579951.git.pav@iki.fi>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+Subject: ASoC q6asm race condition when stopping and preparing the stream
+Message-ID: <afS7rTHdc9TyIeLx@rdacayan>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,gitlab.freedesktop.org:url,suse.de:dkim,suse.de:mid,iki.fi:email];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 464785BD44
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 30 Apr 2026 22:49:50 +0200,
-Pauli Virtanen wrote:
-> 
-> ID 1532:055e Razer USA, Ltd Razer Nommo V2 X
-> is tested to have muted min playback volume. Apply quirk for that.
-> 
-> Link: https://gitlab.freedesktop.org/pipewire/pipewire/-/work_items/5235
-> Signed-off-by: Pauli Virtanen <pav@iki.fi>
+Hi,
 
-Applied now.  Thanks.
+There seems to be a race condition in q6asm when stopping the stream
+(with uncompressed PCM). When receiving SNDRV_PCM_TRIGGER_STOP, the
+driver sets the state to Q6ASM_STREAM_STOPPED and sends CMD_EOS to the
+ADSP. If userspace decides to prepare the stream again in
+q6asm_dai_prepare before receiving ASM_CLIENT_EVENT_CMD_EOS_DONE, the
+memory-mapped region appears to still be in use and fails to map again.
 
+I believe this race was observed since commit 81c53b52de21 ("ASoC: qcom:
+qdsp6: q6asm-dai: set 10 ms period and buffer alignment."), but would
+need to verify. On sdm670, we are coping downstream by keeping the state
+as Q6ASM_STREAM_RUNNING until receiving CMD_EOS_DONE.
 
-Takashi
+Can the ADSP emit DATA_WRITE_DONE or DATA_READ_DONE before CMD_EOS_DONE?
+We might need an extra stopping state between CMD_EOS and CMD_EOS_DONE
+so the driver doesn't request more data transfers.
