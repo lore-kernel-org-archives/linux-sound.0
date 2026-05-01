@@ -1,206 +1,129 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2493BFE3F
-	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 15:32:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8710321CC58
+	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 17:45:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777649581; cv=none; b=pIFfAAPuFqRv/JHdZnFV8zKgXmohhVSZmXgCM0ivvj3xClPT90rghHr8kKHkJHiqd0BYTqCtyZzmSAsmv1zO5qz2Kp18qymZ1SlNO5pRk3DsEQKcK+4KeJiiRd5OmsHWgObMsBN8G/SKmVx2pXV4KozJSShqQPcCoZRIgN1mE+Y=
+	t=1777657528; cv=none; b=AjePGvQssmFqlt8qDN4hmC170xvBVTvvu+HZTLT87ehVPNnkL3/9P7PldJn9ZPprL2+ofiO6Rdo8K/cuaGsnGQmx5su1zfx1XENSA6sqNat0Z1tgVxdh+yXBBZjNFVKAhzvxH7gaaIFLReNXzH3vdZUSq5Af8epNFqUIP+BKgXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777649581; c=relaxed/simple;
-	bh=lSUFMq9Iap1rdJNlT3oDAV2LcIWyyogUVtvmIuYB+vA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P/PSjBvUtvLjVolabopZJdBQ2QVoZ0sRD20HXZP1HZvlNENvm1wCXjSgCdycNZb2yJXD1UNeeWH05yAa+N5OYdngT5/5Ielee1XRuRUwLgJ/tTMCqF9Qz8zOhSg7DAaZzefH352Amb70HLz5+XuRzJY6Avcxq1bHDJod/3CFETo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N0agkG4a; arc=none smtp.client-ip=209.85.160.173
+	s=arc-20240116; t=1777657528; c=relaxed/simple;
+	bh=Scl+joqX0tx+AMWQx/QuDw81ijXza+FNxi57JtbsiNA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=FgShTVXd6drH5AzhMGZfWDqQe0J1vbvY8MEbPUQiLT5NSBBJg93K/+INR3SoGu10kV3v0ISv+63BWx95SPePkc/pN0BJAtntiXZpL15p60GytNwWNadgxgUGVt+Ess5OGa87vOlXHk/1jM8g4NIP8s/l8nN0JnvAL6UDnEzaf8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N4Djss+Q; arc=none smtp.client-ip=74.125.82.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N0agkG4a"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-50e5c5033f6so15608101cf.0
-        for <linux-sound@vger.kernel.org>; Fri, 01 May 2026 08:32:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N4Djss+Q"
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2ba9c484e5eso2436538eec.1
+        for <linux-sound@vger.kernel.org>; Fri, 01 May 2026 10:45:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777649578; x=1778254378; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZQauIJKMkpkl88TicZuiGE6oI1IQBcGG5Fit1zxYJvY=;
-        b=N0agkG4aoJWXLc22wgN7sojkUTwyxhc2QBkLSJA67Sx7fivlkVyvfuopX9/JtkytXM
-         //ZNzumgluO39NXCNQ47AJZNhf6sst/HxXl6YlJlYCX7QdE4X/PWyOggrbCECQUn3CkS
-         s579V8DsfVdI9pNaXoKIOEdZxVFTAkxxLcrC8dkGtvByz/XLrtPNe/3ZJfgPyIzbaEPw
-         MVXHyxMolAQflZ6rpo7d6xIYEHR3sX9AjYRw5TQtW/6oxhmRssIoThiu8YMruWXEKnoP
-         QjUVMZoOePuPpGwR75gRkRlsUZTWdtU0IAzhWeg56bOzJ9J0/IgTfcCAcbgZmvbl8FQd
-         7V4Q==
+        d=gmail.com; s=20251104; t=1777657524; x=1778262324; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qoj42dXFE3hTibbCPqdhNWHZyxchsEumCBYSF8/GZh4=;
+        b=N4Djss+QY10bRwL4AOWiS+90eqmyDr2gbv9XrIej2dfud5Twn/IUZeL+eH1xnJnC0s
+         9VLbL7IfBEXC0Kv4L8iJHkd2b1XwHFm1fNFKQtC3ITp7TNmREMbHVS+NuKIfOEckAXi/
+         GEWpdEsh2v9XcR2mq9x3eAwikfCGMNluBygLt72lN+WZbW7xeDl+/sHCSeAthJblXVyg
+         orMUDULNsstsGPlxluzIf0cRSqgV+ygmC2EoS3Fhj7biVjb4J5SAt/zo3rT/HHa/nwQU
+         uHQ18n9uePfdCS+l85XpXoyB2DydckpzebEg4sh46CHUooYCP8QnGkK61SclhbkyksGu
+         xkvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777649578; x=1778254378;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZQauIJKMkpkl88TicZuiGE6oI1IQBcGG5Fit1zxYJvY=;
-        b=Y5VHdDH8eD16owOEKo4j61n8VTlDyXx+xteZ1nkzwRMjggd2pdg5nd0lzMQKVOydPH
-         XlMGBGp2bAMIRv/1lgKOG38mChI3eUgbvGjC4NhQYVcVoddQN76YE5AMWnZIPGTgDVJ4
-         sMuwK/6V4LN6g3wwqI/PAt8MYYTF6brKHYjlIXhZin+axcl+FicGXQVY0jSBQK6AYiLN
-         3YhvfAi8iXBFOhmBftPt9ejwYqVSSirp5Ci4X/EApAXnaFke+NgWmHtjtDp4j7pHT7rE
-         LPDZgfIDrGBaBzX/5H2B0qxMEnVE1nROV0df1rs2xUqXA4Ad3fknl4aNBcoZigxu93Ae
-         +9rw==
-X-Forwarded-Encrypted: i=1; AFNElJ9nA3K6gZ3F0Y2rpB9fsKq++7Gioq1ajMqhr76aF4qxNFsXyToYS83roWsj8MKkEfVXX+jrH4cKx7hqiA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwjMnreJNyF2Vm+71d6CI1dxrpWMsO6pt0D1Xj53HvJ5iScom0d
-	OcjLqwwQy200ivVZblN/CemCAP5Wd3tx9UqHUVYWhAbvykvJT8SzHm6k
-X-Gm-Gg: AeBDiesHXiLCrwtn8iqLG37OW5Uhb6op1aLpBQwNmHYAsauX4IYeg/hnQWZghE2haOW
-	gedBQ3mtRQi71rkOwR8FyaK55NTuexserbMQ+xPzxYG/QWjXPB5C9x4ON9vaH/2ghr7rcJuO4Oo
-	mJ6ym3I85SjIqkSotZDYgP0b+leat6jPAisZ6s/MRtiG5XaNRgBZgOsSAGwFkEgpWaNVFeb4L+j
-	VjfYeHh6oxvPKTrPfYvwbp8g2WZ2FSOG77E5JFhv7j95PYtP/ML3psu0Du8UXdhJw0efnx7NQDA
-	sP/FnWI4sm+XHKhKEfqudISDKidWYW1M2lLSlGxq1+qCOF34hlHvAxQjBCr+W9JcDDYiP7e5JpC
-	wmT1Srd1AVuVpe2xCbCu2cAzEKzdyrRf+q+EPBJe6uM7xdIJsIxyRWApUf7i/cT0DkxZmaglYzW
-	r6IqiQPO4JrEdokmNIMLBggB+eFdgFzBtQc8e5t9qu5N5HaKQfNXaSunMpQa7SBt0VIqrBDLt7I
-	xWFlNm8pxwkQQ0lEa0lkI0D0g==
-X-Received: by 2002:a05:622a:1f0c:b0:50f:aff4:95f with SMTP id d75a77b69052e-5102ae261a6mr116396721cf.56.1777649578590;
-        Fri, 01 May 2026 08:32:58 -0700 (PDT)
-Received: from localhost (bras-base-toroon21-grc-75-184-144-58-243.dsl.bell.ca. [184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b53c1dc658sm26930626d6.27.2026.05.01.08.32.57
+        d=1e100.net; s=20251104; t=1777657524; x=1778262324;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qoj42dXFE3hTibbCPqdhNWHZyxchsEumCBYSF8/GZh4=;
+        b=TKa5z/8e4nWHryn4e7fCFgJMgEH6SuQHINAvc21K9TvS5gRTKvh1tixoMTmI3f6pGk
+         U9yknRbKqNM1RfyqxEwEp59wQ3V0eW/yFUBTMZARrZ0u33zCmi7D7xZlgNXwvpLqEsw2
+         7BiavchczTxBn7+sFXV0WWcOCN8+5ZUd9AoG+mQChwpsCXtdG6ALgmo08oCjEa50Bsti
+         FROVL/+NsgjQX1p11UR6bDrqak7P9+b5lshGsbpZHU+zjHf9WGu+V209bTGk+mVn1tLP
+         LWkdqoiJ+xSXw4U0NSEOd1Le/uKMJEePePMFhBoBU4+s4kwhsquoLRsoat12I9wyL777
+         cI5Q==
+X-Gm-Message-State: AOJu0Yw+klabHaqKyHomkEoUvzoelsrkFp4UFNj5Rf/uH7jAd1hLSnYB
+	ZvY6rH/qfI0JMBHIxAy1bhcj9Fl+1Cp8U53wgjhI1QcFk2EWCfjqPYEv
+X-Gm-Gg: AeBDieuHfp9d8I3l1FWKoIUeBDz9yWumC+ULymlxyGS3fS4IGLj+DpIyK+yJl3FKqdK
+	/HuTgrHgyAG3OhulJPVu568K/gcRIsSbrGtGhvmLJV6CNcj4UrSosxHQ/GVhxFZj5OK1ynV0/uA
+	X7/Aa2QCH2IJQio+aCfsGTv1sc9wtGP8fIOpu5AlDdsPxC3AZJayezJVdsgQFgL3mFWwT4tDDyw
+	b48d+ZElAIAqwWWUrTG/BjqIRET5uPXSZXw+Dwtqxk9Vvt9DXDpcSgGdt+MtW9NqJMZXL/wS/BY
+	vcVijnZhYpV4foFA2xzIpANILeOp95bWoXFX5MQFDbOrMGO8Ygg0E2HhuGQQfeYswxk/ir9lZMV
+	6RELalQcNuNoxZrorhu+v0NWZPkBst68bBQsCUM2OR3hqxReriM34zy5m7I5KsYsXeZwXBWuNZ/
+	XOIjnXe1XKdHiEzvDG2ezfda15rzl36kslQXVQ1YS7hn07u404W+c3T0x+KMluQYrxTDXazLeP3
+	c2YuRPy4nVjw56MZOeCFck=
+X-Received: by 2002:a05:7300:550:b0:2ee:be86:7b90 with SMTP id 5a478bee46e88-2efba3a98camr172936eec.29.1777657523728;
+        Fri, 01 May 2026 10:45:23 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee38d79eb9sm7254174eec.8.2026.05.01.10.45.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2026 08:32:58 -0700 (PDT)
-From: Richard Acayan <mailingradian@gmail.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: Nickolay Goppen <setotau@mainlining.org>,
-	Adam Skladowski <a39.skl@gmail.com>,
-	Vladimir Lypak <vladimir.lypak@gmail.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH v4 15/15] ASoC: msm8916-wcd-analog: add quirk for cajon 2.0
-Date: Fri,  1 May 2026 11:31:28 -0400
-Message-ID: <20260501153128.8152-16-mailingradian@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260501153128.8152-1-mailingradian@gmail.com>
-References: <20260501153128.8152-1-mailingradian@gmail.com>
+        Fri, 01 May 2026 10:45:23 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Fri, 01 May 2026 14:45:14 -0300
+Subject: [PATCH] ALSA: pcmtest: Return -EFAULT on pattern read copy failure
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20260501-alsa-pcmtest-pattern-read-efault-v1-1-53e1e8c11dda@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNSw7CMAwA0atUXmMpKeJ7FdSFmzgQVEJkuwip6
+ t0JsHybmQWUJbPCuVtA+JU1P0uD33QQblSujDk2Q+/6vds5jzQpYQ0PYzWsZMZSUJgicqJ5Mjy
+ Op+S3nviQIrRMFU75/Vtchr91Hu8c7NuFdf0ADKLGZoQAAAA=
+X-Change-ID: 20260501-alsa-pcmtest-pattern-read-efault-8b9f131ae7fd
+To: Takashi Iwai <tiwai@suse.com>, Ivan Orlov <ivan.orlov0322@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1273;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=Scl+joqX0tx+AMWQx/QuDw81ijXza+FNxi57JtbsiNA=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJlfnm24vl6l78pLz8+fwhkj0tlfvb79uH6CW5Tfejab4
+ nLTlRa/O0pZGMS4GGTFFFlWJy2y3NP14Gp93AoPmDmsTCBDGLg4BWAi8V8Z/il9sjpwWOLOffsi
+ i/epX7gXnA5pPOn3kZ+z+prMjj8PXHYy/LO+3niV01K53/aNYPV3o5yAvY035vA4ZSn6VGyYMC3
+ 0ITsA
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-The codec version CAJON_2_0 on the Snapdragon 670 requires touching the
-HPH test registers. Add the quirk so this driver can also support
-SDM670.
+pattern_write() reports -EFAULT when copy_from_user() fails, but
+pattern_read() converts copy_to_user() failures into a zero-length read.
+That makes a userspace buffer fault look like EOF instead of reporting the
+actual error.
 
-Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+Return -EFAULT from pattern_read() when copying the pattern data to
+userspace fails, and update the file offset only after a successful copy.
+
+Fixes: 315a3d57c64c ("ALSA: Implement the new Virtual PCM Test Driver")
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
- sound/soc/codecs/msm8916-wcd-analog.c | 63 ++++++++++++++++++++++++++-
- 1 file changed, 61 insertions(+), 2 deletions(-)
+ sound/drivers/pcmtest.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/msm8916-wcd-analog.c b/sound/soc/codecs/msm8916-wcd-analog.c
-index b9325290c28d..87f8a47cc293 100644
---- a/sound/soc/codecs/msm8916-wcd-analog.c
-+++ b/sound/soc/codecs/msm8916-wcd-analog.c
-@@ -217,9 +217,11 @@
- #define CDC_A_RX_HPH_BIAS_LDO_OCP	(0xf195)
- #define CDC_A_RX_HPH_BIAS_CNP		(0xf196)
- #define CDC_A_RX_HPH_CNP_EN		(0xf197)
-+#define CDC_A_RX_HPH_L_TEST		(0xf19A)
- #define CDC_A_RX_HPH_L_PA_DAC_CTL	(0xf19B)
- #define RX_HPA_L_PA_DAC_CTL_DATA_RESET_MASK	BIT(1)
- #define RX_HPA_L_PA_DAC_CTL_DATA_RESET_RESET	BIT(1)
-+#define CDC_A_RX_HPH_R_TEST		(0xf19C)
- #define CDC_A_RX_HPH_R_PA_DAC_CTL	(0xf19D)
- #define RX_HPH_R_PA_DAC_CTL_DATA_RESET	BIT(1)
- #define RX_HPH_R_PA_DAC_CTL_DATA_RESET_MASK BIT(1)
-@@ -705,6 +707,59 @@ static int pm8916_wcd_analog_enable_ear_pa(struct snd_soc_dapm_widget *w,
- 	return 0;
+diff --git a/sound/drivers/pcmtest.c b/sound/drivers/pcmtest.c
+index 5bfec4c7bf71..7f93557b51ec 100644
+--- a/sound/drivers/pcmtest.c
++++ b/sound/drivers/pcmtest.c
+@@ -679,9 +679,9 @@ static ssize_t pattern_read(struct file *file, char __user *u_buff, size_t len,
+ 		return 0;
+ 
+ 	if (copy_to_user(u_buff, patt_buf->buf + *off, to_read))
+-		to_read = 0;
+-	else
+-		*off += to_read;
++		return -EFAULT;
++
++	*off += to_read;
+ 
+ 	return to_read;
  }
- 
-+static int pm8916_wcd_analog_enable_hphl_pa(struct snd_soc_dapm_widget *w,
-+					    struct snd_kcontrol *kcontrol,
-+					    int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	struct pm8916_wcd_analog_priv *priv = dev_get_drvdata(component->dev);
-+
-+	/* This quirk is not required for revisions prior to CAJON_2_0 */
-+	if (priv->codec_version < 4)
-+		return 0;
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_POST_PMU:
-+		usleep_range(7000, 7100);
-+		snd_soc_component_update_bits(component, CDC_A_RX_HPH_L_TEST,
-+				0x04, 0x04);
-+		break;
-+	case SND_SOC_DAPM_POST_PMD:
-+		/* wait 20 ms after the digital codec has powered down */
-+		msleep(20);
-+		snd_soc_component_update_bits(component, CDC_A_RX_HPH_L_TEST,
-+				0x04, 0x00);
-+		break;
-+	}
-+	return 0;
-+}
-+
-+static int pm8916_wcd_analog_enable_hphr_pa(struct snd_soc_dapm_widget *w,
-+					    struct snd_kcontrol *kcontrol,
-+					    int event)
-+{
-+	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	struct pm8916_wcd_analog_priv *priv = dev_get_drvdata(component->dev);
-+
-+	/* This quirk is not required for revisions prior to CAJON_2_0 */
-+	if (priv->codec_version < 4)
-+		return 0;
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_POST_PMU:
-+		usleep_range(7000, 7100);
-+		snd_soc_component_update_bits(component, CDC_A_RX_HPH_R_TEST,
-+				0x04, 0x04);
-+		break;
-+	case SND_SOC_DAPM_POST_PMD:
-+		msleep(20);
-+		snd_soc_component_update_bits(component, CDC_A_RX_HPH_R_TEST,
-+				0x04, 0x00);
-+		break;
-+	}
-+	return 0;
-+}
-+
- static const struct reg_default wcd_reg_defaults_2_0[] = {
- 	{CDC_A_RX_COM_OCP_CTL, 0xD1},
- 	{CDC_A_RX_COM_OCP_COUNT, 0xFF},
-@@ -954,11 +1009,15 @@ static const struct snd_soc_dapm_widget pm8916_wcd_analog_dapm_widgets[] = {
- 	SND_SOC_DAPM_MUX("EAR_S", SND_SOC_NOPM, 0, 0, &ear_mux),
- 	SND_SOC_DAPM_SUPPLY("EAR CP", CDC_A_NCP_EN, 4, 0, NULL, 0),
- 
--	SND_SOC_DAPM_PGA("HPHL PA", CDC_A_RX_HPH_CNP_EN, 5, 0, NULL, 0),
-+	SND_SOC_DAPM_PGA_E("HPHL PA", CDC_A_RX_HPH_CNP_EN, 5, 0, NULL, 0,
-+			   pm8916_wcd_analog_enable_hphl_pa,
-+			   SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_POST_PMD),
- 	SND_SOC_DAPM_MUX("HPHL", SND_SOC_NOPM, 0, 0, &hphl_mux),
- 	SND_SOC_DAPM_MIXER("HPHL DAC", CDC_A_RX_HPH_L_PA_DAC_CTL, 3, 0, NULL,
- 			   0),
--	SND_SOC_DAPM_PGA("HPHR PA", CDC_A_RX_HPH_CNP_EN, 4, 0, NULL, 0),
-+	SND_SOC_DAPM_PGA_E("HPHR PA", CDC_A_RX_HPH_CNP_EN, 4, 0, NULL, 0,
-+			   pm8916_wcd_analog_enable_hphr_pa,
-+			   SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_POST_PMD),
- 	SND_SOC_DAPM_MUX("HPHR", SND_SOC_NOPM, 0, 0, &hphr_mux),
- 	SND_SOC_DAPM_MIXER("HPHR DAC", CDC_A_RX_HPH_R_PA_DAC_CTL, 3, 0, NULL,
- 			   0),
--- 
-2.54.0
+
+---
+base-commit: 9e8d6ddd7ecf2ad42d614243f86e50fcf0183b9e
+change-id: 20260501-alsa-pcmtest-pattern-read-efault-8b9f131ae7fd
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
