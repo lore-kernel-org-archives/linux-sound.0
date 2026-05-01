@@ -1,63 +1,63 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B7D23D7DC
-	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 15:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D383CA4BF
+	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 15:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777649534; cv=none; b=ZOe4lbVb/2TnC5PZabOtvJpBMqNjHDCPCd0ZmW5X9WCOdxJ8enYSUnrP7UF9I+DOPUn8iVzubc7dTQZjcPRvwiKtfc3OqGFdJMnhAT+Ip/2Xxv7fEFXFpy8OcJ+vv7c5nJQ5hqQm/2MOdB3kK6iY8+cx1mtKc0fDHySYHaq/vO0=
+	t=1777649546; cv=none; b=iE0UTEmK8SghW3J9bKlJibU2BeV4fjFv+ldQ7xwRzXLIEd4Vj2hRzMpiWpARQ1R8UyU5v8YpVtiSB0/lJHdYO1sVnQ0wnAX3txO2JDFYrWFSyBYQLutMjSihQpnKv76er3Y3i0Wdu1G7ukEEzgZSKxiTij3dEopERZuvlM6CZnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777649534; c=relaxed/simple;
-	bh=f0Orc1mithwNbdfxYZQlvF9j2sskbZrc7VO+CPxNk5E=;
+	s=arc-20240116; t=1777649546; c=relaxed/simple;
+	bh=i6n4kgYlK/kQHPEe7+5DwAlZeJEwIPoycv1dqqBd5II=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pPaR6sIz/ltlmtun/aXseZkeDhfhlOK/nDkiNVi+cSjDAt9kWqDJZOkaPEN7zxO5Or09SGRzGWknCIAJcmWYlT1rsbwRtB0152HjrCRLrk78Ujze9HguH2NDnAPvnFlGu3YoxC15LTm5dxLQdjk3Wifoh0+cKNNwLrmSarzwFIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d6App4BS; arc=none smtp.client-ip=209.85.222.173
+	 MIME-Version; b=Yih8UrFgUhp+CBh75e5Ss/b/pM/0QixXvULws7eHmaxwf7QjBSgqmnjdzHA9YVzje9KoUUwFmlU/yhxcj68MERbKjg4qAebAovPrD7i7YTy7BafQJme/AnQZvuNSqE4uOtGDkIgQ3JhjyJqgEbMclLjL1o7nM5oazJ7JfOyElG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sbUVIfZb; arc=none smtp.client-ip=209.85.222.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d6App4BS"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8ed4dd182efso124651185a.3
-        for <linux-sound@vger.kernel.org>; Fri, 01 May 2026 08:32:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sbUVIfZb"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-8d67a483d3eso230246785a.1
+        for <linux-sound@vger.kernel.org>; Fri, 01 May 2026 08:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777649532; x=1778254332; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777649543; x=1778254343; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uwXrARjuVS6fRkPJXbe4DRKrN2z+z4Y57tEGlpWIH80=;
-        b=d6App4BS9gbFJKjPnczQWHZLTjkJl0NQn9ofITbtgEhFh9XGNItzYiUb5OXr99NrmI
-         g/ycnVYz6pSv4viJCQ+znL7O8xNGUd4D60g2sRXSsiEQD8kOSc5HrVBn8anSizDh9oEz
-         Lm6ADgW2vdubXr72zAom0iMkmlxDctAFerGJyqUwxcv3we/QfIblGvLilinoKN/o6rWK
-         XKc9Es9bsPewUj9OZMER9E2wifOcaZBdyomnSLp6QdM1DDzdm4DU74RwC72e4H5ePrag
-         qz7CHxDJy3SsK7UpPyuIgHAXgCIyyLIvq+XUEMCl9VHkqntfBsCZTYGfjVXqjqAxIW/E
-         F+PQ==
+        bh=BgmKodKO3BKZ5SGeQ+n3wh4X6xMoeU7XIti8CgEQnWk=;
+        b=sbUVIfZbyitC/FUiyqErcl4TaYG8Q/G5l3eOg7a0SthEPQQapX08VabViUaz6Ao90C
+         ALDjnwM1ggQfQC/tne7pRbxgrdyNWvnaB1FKbhyt3xQu+jEQwO7QsYdUa2kN1MzG39LU
+         mpJimH1uZAf5uLqko26oV9TMR7urSkrACOSQTxOYmN64YUSST5JRB+08sNmcEU9/yzyb
+         G+SsxuwAmbY0Ajmtso98bZhFKovOV5Dce8/e7/lX7MqzNSWI5llK0Xw2lguukWeQKCic
+         z7mFl5dZPbky7gSFcxo101uwjubTrnaMwiKcUDJa7CgyA4JzO3DAw+9e95ilyRtUmrNS
+         xnQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777649532; x=1778254332;
+        d=1e100.net; s=20251104; t=1777649543; x=1778254343;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=uwXrARjuVS6fRkPJXbe4DRKrN2z+z4Y57tEGlpWIH80=;
-        b=ButzqVdQSNcdGmwxWpk21BUgboAP0Csi/2T6Lk/nGFy7hGrQAQpQFcIcpKYVN3gpiX
-         M6IvO3TThrf50/2ee6iiW6czvTvHOc0u1wcH/rRdAT9uEAt/qgylzsQxCe4ySAWdwcRC
-         aoAHbOCCm4ZTZPX8DVksb5/C2a0Gq77+hSeRg8jtecuf7u2enSVb84eKqmftJHEE+EAj
-         9w+SwrYLV9m2Zjet97KoCzzi6+cDvmpdggdFyQUeOkOoYbwrT7sBhhpq52QvdAQoS9xc
-         Rv0cTPyl5JWgmN3ifEFENcdlHFmu5lpomgObWDP2LIXR7hgKGv1d3LzAOAkYmd7KknnX
-         mVEg==
-X-Forwarded-Encrypted: i=1; AFNElJ8HNuuUURfRSEJy+6akB3mvfz7VASBXHEsxuR3c+T97iXkD50SG36vbmO0CBW8YjdkFwGxdyGtbOdMRww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhCv0GZyKHhiNStiiGkJXIJrGsZWzNqZSuedFr3MEPF6vLCA8q
-	tXhQGMHkbPq5F/hCuXfNppbD677XVYsx8rtdGnDZqPUwON8iPpU4dpfA
-X-Gm-Gg: AeBDiesWNchOlhDPsN56BH/P4/rMPosgXrS2SGRY7cN2HYkNjrDzXRQEbJyxqySawci
-	Uah4qKBBmO2qZirI/D+LOEB+dDgPRJbSuvjS3jCKxJs1NsHBPjlSMTqx3ckH8FTjYeb5t+bTSKS
-	IaRwlOpcFhcTxMa51qR3GNP/WoJsSUQw0JrgVZqZVMcBjkqa0R4xnd9r+7+fnGOYEledqAGgDOo
-	mC52tGgcjSIejAuK6E1AX6dchbYrCWYuymVDoBChIphniIHAa/PO3PofCGB8ujedNCMj6jTbLd4
-	fGjOykVXa+kd1jrKUV2cs1IGZSLtsTduDL+9+Hk77JU/HmrvQMj92TyvcZzL88Ngk74CaVwePF8
-	Lqp7l4c47cDQlbhQbR/+ZLjXWpq+0jFD/GyzMOIisM8WloZfJM1JxP5wMB6uIlRQqndxmve1dsl
-	QCRSEUQDmiwiroApAMOLxZzPVFqsT1m3DdY8/o
-X-Received: by 2002:a05:620a:4084:b0:8f0:a3f8:fb33 with SMTP id af79cd13be357-8fa89bfd648mr1146049085a.55.1777649531701;
-        Fri, 01 May 2026 08:32:11 -0700 (PDT)
+        bh=BgmKodKO3BKZ5SGeQ+n3wh4X6xMoeU7XIti8CgEQnWk=;
+        b=jmco4lU5WzeQHipuFBL0h+8XSpRWSItGPMOoeYbd5XSGB2m1Q7XyOtoTPt+ZMadMVz
+         KKCGk8FGFd4kt3SgC7d2mdUjYcLLmpD+CttyhAw7UbTtZQUXVX7iftyBVDSj4yi0biC2
+         fwrl+5mRAWr2FFc6Hd7MpqnwPtV2JWSYkBSxlTng3B+dpfcUUKbwAC8P7MUYiGbfElEc
+         vAGiISP8X53CO09KQSto87X6wQZKTMKv6ckewuajf/cZVh+1AXiAsGXJNibq1nldnRiM
+         G2vwGmjVb4wC4CQLrZZpptTSKUYRoBU1z5sMnJEYffhJEihRLD2QztQfKxUl4YTQ4Bt5
+         +sXw==
+X-Forwarded-Encrypted: i=1; AFNElJ9Mcr+joGiRsqLhAbcNNCA5amoUum6DJty4h5PT4lz4cXqNPursyFQR3QquWoXq6yDibpYDkO7n9qEJ6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEZAw2hZN/EgZL9xGQX/05H3nISWEdbtMtk51PkvOC4N27DxOJ
+	wDJcGSdNmg6i2KfZMsPdhqOXMPqQK0+Y///kNervMr4aRZ8690ezgYSy
+X-Gm-Gg: AeBDiet7vQypRnm3WZBi/UtwPa23tOXUKCRhWnaBuWhG6Y4hHWbg1+IpFZGCcnHAInw
+	N9zN2B7oXTb94SNA8DzCw80BdLdhJIHCh6Ii6SjtFwu7IUXG+rd85FEfOLvPcCqA1KmMYHcXXnk
+	LownZA3JiSbcAhKCKRKkF+xoKPwvwE5Ci6TmRlfV10Lq5hvQ5jl9WESnHlNVWISZ76dvn9iwS4y
+	O4Gd5s88qB9E2hUjqxDhQHx9YNIFPMzm8rySgDdIfyM1dB7kBsyLmZqw1vlI3Vb+Jy86bx6aEwI
+	e5CZJ8bpoqu3ei+SYWY+emtXwqWbtGCYEvQtDaKuVCQQoC9qXtVIjCbsLLa776kj2iiG7DV5I9f
+	MulbvFpuNyjaFlyfTbs91lcslj0sAvi+E7Qq9F41ro6c8NFH3AA2Fgbh95sILhM6rYtFPz7xYJ7
+	wJClaNmYOqAkx0RAVYXd0VqXqbEoQ/N8KsyvdO
+X-Received: by 2002:a05:620a:1726:b0:8cf:da76:58ea with SMTP id af79cd13be357-8faafef903fmr1157541085a.25.1777649543538;
+        Fri, 01 May 2026 08:32:23 -0700 (PDT)
 Received: from localhost ([184.144.58.243])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8fc2938596bsm192983285a.5.2026.05.01.08.32.10
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8fc29a7a627sm194432885a.17.2026.05.01.08.32.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2026 08:32:11 -0700 (PDT)
+        Fri, 01 May 2026 08:32:22 -0700 (PDT)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -83,9 +83,9 @@ Cc: Nickolay Goppen <setotau@mainlining.org>,
 	Charles Keepax <ckeepax@opensource.cirrus.com>,
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH v4 08/15] ASoC: qdsp6: q6afe-dai: add internal mi2s support
-Date: Fri,  1 May 2026 11:31:21 -0400
-Message-ID: <20260501153128.8152-9-mailingradian@gmail.com>
+Subject: [PATCH v4 09/15] ASoC: qdsp6: q6routing: add internal mi2s support
+Date: Fri,  1 May 2026 11:31:22 -0400
+Message-ID: <20260501153128.8152-10-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260501153128.8152-1-mailingradian@gmail.com>
 References: <20260501153128.8152-1-mailingradian@gmail.com>
@@ -97,91 +97,130 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the internal MI2S ports found on the SDM660 internal sound card.
+Add the ASM-AFE routing for internal MI2S ports.
 
 Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 ---
- sound/soc/qcom/qdsp6/q6afe-dai.c | 46 ++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ sound/soc/qcom/qdsp6/q6routing.c | 78 +++++++++++++++++++++++++++++++-
+ 1 file changed, 77 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6afe-dai.c
-index a0d21034a626..34ec3bd3ea8c 100644
---- a/sound/soc/qcom/qdsp6/q6afe-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
-@@ -412,6 +412,7 @@ static int q6afe_dai_prepare(struct snd_pcm_substream *substream,
- 	case SENARY_MI2S_RX ... SENARY_MI2S_TX:
- 	case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
- 	case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
-+	case INT0_MI2S_RX ... INT6_MI2S_TX:
- 		rc = q6afe_i2s_port_prepare(dai_data->port[dai->id],
- 			       &dai_data->port_config[dai->id].i2s_cfg);
- 		if (rc < 0) {
-@@ -665,6 +666,21 @@ static const struct snd_soc_dapm_route q6afe_dapm_routes[] = {
+diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6routing.c
+index 7386226046fa..cfb953700f14 100644
+--- a/sound/soc/qcom/qdsp6/q6routing.c
++++ b/sound/soc/qcom/qdsp6/q6routing.c
+@@ -127,7 +127,14 @@
+ 	{ mix_name, "TX_CODEC_DMA_TX_2", "TX_CODEC_DMA_TX_2"},	\
+ 	{ mix_name, "TX_CODEC_DMA_TX_3", "TX_CODEC_DMA_TX_3"},	\
+ 	{ mix_name, "TX_CODEC_DMA_TX_4", "TX_CODEC_DMA_TX_4"},	\
+-	{ mix_name, "TX_CODEC_DMA_TX_5", "TX_CODEC_DMA_TX_5"}
++	{ mix_name, "TX_CODEC_DMA_TX_5", "TX_CODEC_DMA_TX_5"},	\
++	{ mix_name, "INT0_MI2S_TX", "INT0_MI2S_TX" },		\
++	{ mix_name, "INT1_MI2S_TX", "INT1_MI2S_TX" },		\
++	{ mix_name, "INT2_MI2S_TX", "INT2_MI2S_TX" },		\
++	{ mix_name, "INT3_MI2S_TX", "INT3_MI2S_TX" },		\
++	{ mix_name, "INT4_MI2S_TX", "INT4_MI2S_TX" },		\
++	{ mix_name, "INT5_MI2S_TX", "INT5_MI2S_TX" },		\
++	{ mix_name, "INT6_MI2S_TX", "INT6_MI2S_TX" }
  
- 	/* USB playback AFE port receives data for playback, hence use the RX port */
- 	{"USB Playback", NULL, "USB_RX"},
+ #define Q6ROUTING_TX_MIXERS(id)						\
+ 	SOC_SINGLE_EXT("PRI_MI2S_TX", PRIMARY_MI2S_TX,			\
+@@ -320,6 +327,27 @@
+ 		id, 1, 0, msm_routing_get_audio_mixer,			\
+ 		msm_routing_put_audio_mixer),				\
+ 	SOC_SINGLE_EXT("TX_CODEC_DMA_TX_5", TX_CODEC_DMA_TX_5,		\
++		id, 1, 0, msm_routing_get_audio_mixer,			\
++		msm_routing_put_audio_mixer),				\
++	SOC_SINGLE_EXT("INT0_MI2S_TX", INT0_MI2S_TX,			\
++		id, 1, 0, msm_routing_get_audio_mixer,			\
++		msm_routing_put_audio_mixer),				\
++	SOC_SINGLE_EXT("INT1_MI2S_TX", INT1_MI2S_TX,			\
++		id, 1, 0, msm_routing_get_audio_mixer,			\
++		msm_routing_put_audio_mixer),				\
++	SOC_SINGLE_EXT("INT2_MI2S_TX", INT2_MI2S_TX,			\
++		id, 1, 0, msm_routing_get_audio_mixer,			\
++		msm_routing_put_audio_mixer),				\
++	SOC_SINGLE_EXT("INT3_MI2S_TX", INT3_MI2S_TX,			\
++		id, 1, 0, msm_routing_get_audio_mixer,			\
++		msm_routing_put_audio_mixer),				\
++	SOC_SINGLE_EXT("INT4_MI2S_TX", INT4_MI2S_TX,			\
++		id, 1, 0, msm_routing_get_audio_mixer,			\
++		msm_routing_put_audio_mixer),				\
++	SOC_SINGLE_EXT("INT5_MI2S_TX", INT5_MI2S_TX,			\
++		id, 1, 0, msm_routing_get_audio_mixer,			\
++		msm_routing_put_audio_mixer),				\
++	SOC_SINGLE_EXT("INT6_MI2S_TX", INT6_MI2S_TX,			\
+ 		id, 1, 0, msm_routing_get_audio_mixer,			\
+ 		msm_routing_put_audio_mixer),
+ 
+@@ -709,6 +737,26 @@ static const struct snd_kcontrol_new rxcodec_dma_rx_6_mixer_controls[] = {
+ static const struct snd_kcontrol_new rx_codec_dma_rx_7_mixer_controls[] = {
+ 	Q6ROUTING_RX_MIXERS(RX_CODEC_DMA_RX_7) };
+ 
++static const struct snd_kcontrol_new int0_mi2s_rx_mixer_controls[] = {
++	Q6ROUTING_RX_MIXERS(INT0_MI2S_RX) };
 +
-+	{"INT0 MI2S Playback", NULL, "INT0_MI2S_RX"},
-+	{"INT0_MI2S_TX", NULL, "INT0 MI2S Capture"},
-+	{"INT1 MI2S Playback", NULL, "INT1_MI2S_RX"},
-+	{"INT1_MI2S_TX", NULL, "INT1 MI2S Capture"},
-+	{"INT2 MI2S Playback", NULL, "INT2_MI2S_RX"},
-+	{"INT2_MI2S_TX", NULL, "INT2 MI2S Capture"},
-+	{"INT3 MI2S Playback", NULL, "INT3_MI2S_RX"},
-+	{"INT3_MI2S_TX", NULL, "INT3 MI2S Capture"},
-+	{"INT4 MI2S Playback", NULL, "INT4_MI2S_RX"},
-+	{"INT4_MI2S_TX", NULL, "INT4 MI2S Capture"},
-+	{"INT5 MI2S Playback", NULL, "INT5_MI2S_RX"},
-+	{"INT5_MI2S_TX", NULL, "INT5 MI2S Capture"},
-+	{"INT6 MI2S Playback", NULL, "INT6_MI2S_RX"},
-+	{"INT6_MI2S_TX", NULL, "INT6 MI2S Capture"},
- };
- 
- static int msm_dai_q6_dai_probe(struct snd_soc_dai *dai)
-@@ -1011,6 +1027,35 @@ static const struct snd_soc_dapm_widget q6afe_dai_widgets[] = {
- 		0, SND_SOC_NOPM, 0, 0),
- 
- 	SND_SOC_DAPM_AIF_IN("USB_RX", NULL, 0, SND_SOC_NOPM, 0, 0),
++static const struct snd_kcontrol_new int1_mi2s_rx_mixer_controls[] = {
++	Q6ROUTING_RX_MIXERS(INT1_MI2S_RX) };
 +
-+	SND_SOC_DAPM_AIF_IN("INT0_MI2S_RX", "NULL",
-+		0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("INT0_MI2S_TX", "NULL",
-+		0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_IN("INT1_MI2S_RX", "NULL",
-+		0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("INT1_MI2S_TX", "NULL",
-+		0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_IN("INT2_MI2S_RX", "NULL",
-+		0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("INT2_MI2S_TX", "NULL",
-+		0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_IN("INT3_MI2S_RX", "NULL",
-+		0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("INT3_MI2S_TX", "NULL",
-+		0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_IN("INT4_MI2S_RX", "NULL",
-+		0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("INT4_MI2S_TX", "NULL",
-+		0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_IN("INT5_MI2S_RX", "NULL",
-+		0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("INT5_MI2S_TX", "NULL",
-+		0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_IN("INT6_MI2S_RX", "NULL",
-+		0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("INT6_MI2S_TX", "NULL",
-+		0, SND_SOC_NOPM, 0, 0),
- };
++static const struct snd_kcontrol_new int2_mi2s_rx_mixer_controls[] = {
++	Q6ROUTING_RX_MIXERS(INT2_MI2S_RX) };
++
++static const struct snd_kcontrol_new int3_mi2s_rx_mixer_controls[] = {
++	Q6ROUTING_RX_MIXERS(INT3_MI2S_RX) };
++
++static const struct snd_kcontrol_new int4_mi2s_rx_mixer_controls[] = {
++	Q6ROUTING_RX_MIXERS(INT4_MI2S_RX) };
++
++static const struct snd_kcontrol_new int5_mi2s_rx_mixer_controls[] = {
++	Q6ROUTING_RX_MIXERS(INT5_MI2S_RX) };
++
++static const struct snd_kcontrol_new int6_mi2s_rx_mixer_controls[] = {
++	Q6ROUTING_RX_MIXERS(INT6_MI2S_RX) };
  
- static const struct snd_soc_component_driver q6afe_dai_component = {
-@@ -1045,6 +1090,7 @@ static void of_q6afe_parse_dai_data(struct device *dev,
- 		case SENARY_MI2S_RX ... SENARY_MI2S_TX:
- 		case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
- 		case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
-+		case INT0_MI2S_RX ... INT6_MI2S_TX:
- 			priv = &data->priv[id];
- 			ret = of_property_read_variable_u32_array(node,
- 							"qcom,sd-lines",
+ static const struct snd_kcontrol_new mmul1_mixer_controls[] = {
+ 	Q6ROUTING_TX_MIXERS(MSM_FRONTEND_DAI_MULTIMEDIA1) };
+@@ -938,6 +986,27 @@ static const struct snd_soc_dapm_widget msm_qdsp6_widgets[] = {
+ 	SND_SOC_DAPM_MIXER("USB_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
+ 			   usb_rx_mixer_controls,
+ 			   ARRAY_SIZE(usb_rx_mixer_controls)),
++	SND_SOC_DAPM_MIXER("INT0_MI2S_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
++		int0_mi2s_rx_mixer_controls,
++		ARRAY_SIZE(int0_mi2s_rx_mixer_controls)),
++	SND_SOC_DAPM_MIXER("INT1_MI2S_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
++		int1_mi2s_rx_mixer_controls,
++		ARRAY_SIZE(int1_mi2s_rx_mixer_controls)),
++	SND_SOC_DAPM_MIXER("INT2_MI2S_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
++		int2_mi2s_rx_mixer_controls,
++		ARRAY_SIZE(int2_mi2s_rx_mixer_controls)),
++	SND_SOC_DAPM_MIXER("INT3_MI2S_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
++		int3_mi2s_rx_mixer_controls,
++		ARRAY_SIZE(int3_mi2s_rx_mixer_controls)),
++	SND_SOC_DAPM_MIXER("INT4_MI2S_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
++		int4_mi2s_rx_mixer_controls,
++		ARRAY_SIZE(int4_mi2s_rx_mixer_controls)),
++	SND_SOC_DAPM_MIXER("INT5_MI2S_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
++		int5_mi2s_rx_mixer_controls,
++		ARRAY_SIZE(int5_mi2s_rx_mixer_controls)),
++	SND_SOC_DAPM_MIXER("INT6_MI2S_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
++		int6_mi2s_rx_mixer_controls,
++		ARRAY_SIZE(int6_mi2s_rx_mixer_controls)),
+ 	SND_SOC_DAPM_MIXER("MultiMedia1 Mixer", SND_SOC_NOPM, 0, 0,
+ 		mmul1_mixer_controls, ARRAY_SIZE(mmul1_mixer_controls)),
+ 	SND_SOC_DAPM_MIXER("MultiMedia2 Mixer", SND_SOC_NOPM, 0, 0,
+@@ -1031,6 +1100,13 @@ static const struct snd_soc_dapm_route intercon[] = {
+ 	Q6ROUTING_RX_DAPM_ROUTE("RX_CODEC_DMA_RX_6 Audio Mixer", "RX_CODEC_DMA_RX_6"),
+ 	Q6ROUTING_RX_DAPM_ROUTE("RX_CODEC_DMA_RX_7 Audio Mixer", "RX_CODEC_DMA_RX_7"),
+ 	Q6ROUTING_RX_DAPM_ROUTE("USB_RX Audio Mixer", "USB_RX"),
++	Q6ROUTING_RX_DAPM_ROUTE("INT0_MI2S_RX Audio Mixer", "INT0_MI2S_RX"),
++	Q6ROUTING_RX_DAPM_ROUTE("INT1_MI2S_RX Audio Mixer", "INT1_MI2S_RX"),
++	Q6ROUTING_RX_DAPM_ROUTE("INT2_MI2S_RX Audio Mixer", "INT2_MI2S_RX"),
++	Q6ROUTING_RX_DAPM_ROUTE("INT3_MI2S_RX Audio Mixer", "INT3_MI2S_RX"),
++	Q6ROUTING_RX_DAPM_ROUTE("INT4_MI2S_RX Audio Mixer", "INT4_MI2S_RX"),
++	Q6ROUTING_RX_DAPM_ROUTE("INT5_MI2S_RX Audio Mixer", "INT5_MI2S_RX"),
++	Q6ROUTING_RX_DAPM_ROUTE("INT6_MI2S_RX Audio Mixer", "INT6_MI2S_RX"),
+ 	Q6ROUTING_TX_DAPM_ROUTE("MultiMedia1 Mixer"),
+ 	Q6ROUTING_TX_DAPM_ROUTE("MultiMedia2 Mixer"),
+ 	Q6ROUTING_TX_DAPM_ROUTE("MultiMedia3 Mixer"),
 -- 
 2.54.0
 
