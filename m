@@ -1,123 +1,150 @@
-Received: from mx.brightberry.eu (mx.brightberry.eu [185.229.55.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3733621ADC7
-	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 17:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.229.55.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCFB40F8D6
+	for <linux-sound@vger.kernel.org>; Fri,  1 May 2026 18:23:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777658211; cv=none; b=TYjadMAhYuVHqiE1AnMjAtYH2iw5eo9R2LusqtZAaZoC0A70XWW/nLdL2qfyKSE8v7wQQ1O+Ql5fIQPLoIIPF/7KkKVbDfxJcwFP1VrlcvxBImUOB8EeStASKBwWMXWIBSzkC836blBWULvXoGl61VV5DZXXcrIpwWr3Qq+xPjg=
+	t=1777659787; cv=none; b=p4cQg1psJnPcqoe0B2AJUJked9r/l8dfA9UQHEsORu9XxG9PoUXNFHfWO35ZpOfOBBrf/eoI8YAZPUqQVkJ7u7TvdvNU/0iUqYFSCucYR1QOmrl1NtqMXLVXPrs2UHP5mQGXj6JekVjTQrEPBLlAnigYhxwFtqjjCUvRGblLzeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777658211; c=relaxed/simple;
-	bh=QWBXXwbuDrwOrSYq7WJWVSKkBCHPaQ9kqB9p6dp8hZE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=iUkpznwj5Tbj46NIEZZNiqvTbH0F6yPOx0xk+nJ/f/l0ZDWOEOLfHu1ARKrFRpQMR0nT2FLBykjWF4MJtqmHny4QzxPzT8hTz0n8y1gOfUhNrHk7pSGXFdBy0u9ezJlJOgfJumWpbj9qd6BlEpISrVWFgTrqipPVD0gXjoKvlko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vanraaij.eu; spf=pass smtp.mailfrom=vanraaij.eu; arc=none smtp.client-ip=185.229.55.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vanraaij.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vanraaij.eu
-Received: from mx.brightberry.eu (localhost [127.0.0.1])
-	by mx.brightberry.eu (Proxmox) with ESMTP id 01DBC594A;
-	Fri, 01 May 2026 19:56:47 +0200 (CEST)
-Received: from bug-report.eml (YST00841.fritz.box [192.168.178.64])
-	by mx.brightberry.eu (Proxmox) with ESMTP id D5A3712D1;
-	Fri, 01 May 2026 19:56:46 +0200 (CEST)
-From: =?UTF-8?q?R=C3=A1mon_van_Raaij?= <ramon@vanraaij.eu>
-To: linux-sound@vger.kernel.org
-Cc: alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.de>, Shenghao Ding <shenghao-ding@ti.com>
-Subject: [BUG] ALSA: hda: snd_hda_scodec_tas2781_i2c: DSP firmware silently fails to load at cold boot (Lenovo Yoga Pro 9 16IMH9)
-Date: Fri, 01 May 2026 19:56:33 +0200
-Message-Id: <20260501175633.bug1-ramon@vanraaij.eu>
+	s=arc-20240116; t=1777659787; c=relaxed/simple;
+	bh=SVi8OGcFQK9lZRrLuOntWSN6V+qhlhdqgyG2gVPyLdM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=GmtMA5xVXxvJPKMn/r3KFqOZ3YzKmuEy/j/OqnAx/nwewqlKkGleqpn+0GhIn8zj7t3dEVKai9mtaDkrHbqRvQYY5FY9W8QEp/h9M97GESTwcPmirU6E3Mfr3KPVBlOHL8Q2LbkFqMVbaRVszMV02B8wGFy8y/Nwhxd6XN3QhME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m65Mbash; arc=none smtp.client-ip=74.125.82.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m65Mbash"
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-12c726ef332so3482424c88.1
+        for <linux-sound@vger.kernel.org>; Fri, 01 May 2026 11:23:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777659785; x=1778264585; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GLMoGsBUlC+X0dGT0ghykkSOnQo8Jg5A53fEDIQtS04=;
+        b=m65Mbash/ozRr3MOwpXi1yKZaB6rG77kw55N5XtScnqSQXXQiDAQo8tl2juwcQOAKr
+         iiljU0Ta0hfBZ2b5A5AqfGinVQISkcDxNYltWTEPs0YYMvBxqJMlGsiVoHVWrsbMkcSA
+         DCgailzWMPl4JFpYCNaNYXdy36oD5YKAhzDnLNywefha37GK5EET+/1iIoIOE5aT7pZg
+         PSSwAsrZgpHHmrseSpYbH4BpA3nA1C+hvc46QzbyC64V0ZWytQOlxgWtpMjyFrNPtuN9
+         mCkP2dqhvqRhV+IHSnUU/QgGEVHRmBp0Fb6/3mWnjzsuOFreaU0awvX9BMIPLooKe24H
+         aJEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777659785; x=1778264585;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GLMoGsBUlC+X0dGT0ghykkSOnQo8Jg5A53fEDIQtS04=;
+        b=YFzGNiXCbQmBpcbxSSqEyLWxJLLPvmTHZZVCuQFucrOlDYkk/OidQPh0GXV7Ftzg4L
+         VqZa+I6aKt10gnyPcQA/zCLbcVK3W3ft4ZmKw2TB/AfTawqKbQjKIfh5LG3ZfG/HmdJy
+         YsFB0IXAcVEImjUroaYt8RXFNIl6Np61HtW+WjZsngYBnzsWHfJWEgvrbiY6PLMroiLc
+         PubmpYp9Klv/9oQ6/ZLn4hdyrbvc8vqcMBsVwh5Cx2wvwNBmB6S+T/NVHW6R1f2ar4kh
+         WEG6+E6qFTzUITE2ZPAZgqCHaPuJLjMoQl0/Klrzrc+aC6AXwRckAWJTYdUTs5td2yll
+         8iDA==
+X-Gm-Message-State: AOJu0YyPCafvS27lgyEB49ToYTLIrXKkuvhjfvCP03XVDINNl8LubDuC
+	CE05BBH1P0rrS4gPvWOqn9HivBlnWt+2wQsATpG9TlvxQCMOnoxXXdnNzC/4NKhv
+X-Gm-Gg: AeBDiesM8tO6pncuRJ7ZtWsLw3y/xmrTC7gCi9vbwi/040w9kXBLLUi6caRQ7x65fhQ
+	Ht1IWV3JJakpt/CoWpzSBPdwFLJaZHPS0U4GTgXiA+TnsVM4k9hObXF92boHzSfltFknYd8DRQi
+	onl280lEA3JoXGHr6fhOHVT2lmykX4u4kG1vg042mn7e9xNIyJHK76HehiJ1W49HXIqdMVJislu
+	O622ZyIy3OmHKD4RbMKPbMcOSlyy9ybQvYqWgMOa492h2tDhC4QfHNe/zPKFUzBWTfdqtriYWKD
+	6NgmJ10SpytUhcpOrvoB7YFYEpJhZMU0BsiB31v1nO2+B9+5Wu2x6n9D/clHS0uKhPOwu8JXNBG
+	nnVZokmLG6M4w64maGkIc+qDKHnPGYnkV5Mo9dikYrzdyEbN2bJOes4swEDdy5736yx9Fiio81z
+	JrF93awSuI1MahVmXNB0TPqKQBc8Lyh9oKNHv5dr70gfedr2Z4YmtwFYN32PfUuFQFF38GwRWod
+	l5fBFDr1Jg/
+X-Received: by 2002:a05:7301:228f:b0:2dd:6937:79cb with SMTP id 5a478bee46e88-2efb82b272emr220762eec.12.1777659785240;
+        Fri, 01 May 2026 11:23:05 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee38e71cedsm6590624eec.9.2026.05.01.11.23.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2026 11:23:04 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Fri, 01 May 2026 15:22:58 -0300
+Subject: [PATCH] ALSA: firewire-tascam: Do not drop unread control events
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20260501-alsa-firewire-tascam-read-queue-v1-1-7baa4ba1a4de@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNwQrCMBCE4Vcpe3YhKVjBVxEP22SiK1o129RC6
+ bs36mEO3+WfhQxZYXRsFsqY1PQ5VPhdQ+EqwwWssZpa13Zu7zzL3YSTZnzqeBQL8uAMifwuKOA
+ DBMm7zknsqVZeGUnn38Pp/LeV/oYwfrO0rhsMvmkKgwAAAA==
+X-Change-ID: 20260501-alsa-firewire-tascam-read-queue-7eaef1060adb
+To: Clemens Ladisch <clemens@ladisch.de>, 
+ Takashi Sakamoto <o-takashi@sakamocchi.jp>, Takashi Iwai <tiwai@suse.com>, 
+ Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2281;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=SVi8OGcFQK9lZRrLuOntWSN6V+qhlhdqgyG2gVPyLdM=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJlf3rdeq72b6CQ5wyFaaCOvq9I/jkS23GlMW0/eFVJdz
+ jhp6YNXHaUsDGJcDLJiiiyrkxZZ7ul6cLU+boUHzBxWJpAhDFycAjCRc/kM/5T0lRl+B+kIsQcX
+ SH3LUWPhU+nNP+Z6drGZ5/cnD8UlpzH8z4mZ2HHiPP+vCe6hj9xv6zdH/bugM40pflYFG8OOvXe
+ C+QA=
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-Machine:  Lenovo Yoga Pro 9 16IMH9 (board SSID 83DN)
-Kernel:   7.0.3-zen1-1-zen (linux-zen)
-Codec:    Realtek ALC287, subsystem ID 17aa:38d6
-Amps:     4x TI TAS2781, ACPI HID TIAS2781, I2C bus i2c-4
-          (I2C controller: PCI 0000:00:15.2, Intel Designware)
-Fixup:    ALC287_FIXUP_TAS2781_I2C (applied correctly via HDA_CODEC_QUIRK 17aa:38d6)
+tscm_hwdep_read_queue() copies as many queued control events as fit in
+the userspace buffer. When the buffer is smaller than the current
+contiguous queue segment, length is rounded down to the number of bytes
+that can be copied.
 
-PROBLEM
--------
-At cold boot the built-in speakers produce ~10-15% of normal volume.
-The TAS2781 amplifiers are powered and the HDA component bind succeeds:
+However, after copying that shortened length, the code advances pull_pos
+to tail_pos, marking the whole contiguous segment as consumed. Any events
+between the copied portion and tail_pos are lost.
 
-  snd_hda_codec_alc269 ehdaudio0D0: bound i2c-TIAS2781:00
-      (ops tas2781_hda_comp_ops [snd_hda_scodec_tas2781_i2c])
+Advance pull_pos by the number of entries actually copied instead. When
+the whole segment fits, this is equivalent to the old tail_pos update;
+when the buffer is smaller, the remaining events stay queued for the next
+read.
 
-However, the DSP firmware (TAS2XXX38D6.bin) is not loaded. The ALSA
-control "Speaker Force Firmware Load" -- which is only registered after
-a successful firmware load inside tas2781_hda_comp_bind() -- is absent:
+Fixes: a8c0d13267a4 ("ALSA: firewire-tascam: notify events of change of state for userspace applications")
+Cc: stable@vger.kernel.org
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+---
+ sound/firewire/tascam/tascam-hwdep.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-  $ amixer -c sofhdadsp cget name="Speaker Force Firmware Load"
-  amixer: Cannot find the given element from control sysdefault:0
+diff --git a/sound/firewire/tascam/tascam-hwdep.c b/sound/firewire/tascam/tascam-hwdep.c
+index 867b4ea1096e..dcd3fbcbeb79 100644
+--- a/sound/firewire/tascam/tascam-hwdep.c
++++ b/sound/firewire/tascam/tascam-hwdep.c
+@@ -59,6 +59,7 @@ static long tscm_hwdep_read_queue(struct snd_tscm *tscm, char __user *buf,
+ 		unsigned int head_pos;
+ 		unsigned int tail_pos;
+ 		unsigned int length;
++		unsigned int entries_copied;
+ 
+ 		if (tscm->pull_pos == tscm->push_pos)
+ 			break;
+@@ -73,6 +74,7 @@ static long tscm_hwdep_read_queue(struct snd_tscm *tscm, char __user *buf,
+ 			length = rounddown(remained, sizeof(*entries));
+ 		if (length == 0)
+ 			break;
++		entries_copied = length / sizeof(*entries);
+ 
+ 		spin_unlock_irq(&tscm->lock);
+ 		if (copy_to_user(pos, &entries[head_pos], length))
+@@ -80,7 +82,7 @@ static long tscm_hwdep_read_queue(struct snd_tscm *tscm, char __user *buf,
+ 
+ 		spin_lock_irq(&tscm->lock);
+ 
+-		tscm->pull_pos = tail_pos % SND_TSCM_QUEUE_COUNT;
++		tscm->pull_pos = (head_pos + entries_copied) % SND_TSCM_QUEUE_COUNT;
+ 
+ 		count += length;
+ 		remained -= length;
 
-No error is logged to dmesg. The driver continues without DSP calibration
-data, leaving the amplifiers at uncalibrated default gain.
+---
+base-commit: 9e8d6ddd7ecf2ad42d614243f86e50fcf0183b9e
+change-id: 20260501-alsa-firewire-tascam-read-queue-7eaef1060adb
 
-The issue does NOT occur after S3 suspend/resume. After resume, a
-modprobe -r / modprobe cycle restores full speaker volume.
-
-ROOT CAUSE
-----------
-The BIOS initialises the TAS2781 amps during POST and leaves them in a
-hardware state incompatible with the kernel firmware load sequence. The
-request_firmware_nowait() call in the bind path silently fails when called
-against hardware in this BIOS-initialised state.
-
-Critical observation: a PCI-level power cycle of the I2C controller
-(0000:00:15.2) reliably resolves the issue:
-
-  echo 1 > /sys/bus/pci/devices/0000:00:15.2/remove
-  sleep 2
-  echo 1 > /sys/bus/pci/rescan
-
-After this sequence ACPI gates the I2C controller power rail (D3cold),
-resetting the TAS2781 amps to factory state. On rescan, i2c_designware
-and snd_hda_scodec_tas2781_i2c re-probe, DSP firmware loads, and
-"Speaker Force Firmware Load" appears in amixer.
-
-A plain modprobe -r / modprobe cycle WITHOUT the PCI power cycle does
-NOT fix the issue, confirming this is a hardware state problem, not a
-module loading or firmware subsystem timing race.
-
-WORKAROUND
-----------
-The following systemd service (After=sound.target,
-Before=display-manager.service) reliably restores correct volume on
-every boot. It must run before PipeWire opens the device; hot-removing
-the PCI device while WirePlumber has an active ALSA handle causes a
-SIGSEGV in snd_hctl_elem_get_interface (libasound).
-
-  [Service]
-  Type=oneshot
-  ExecStartPre=/bin/sleep 2
-  ExecStart=/bin/bash -c 'echo 1 > /sys/bus/pci/devices/0000:00:15.2/remove'
-  ExecStart=/bin/sleep 2
-  ExecStart=/bin/bash -c 'echo 1 > /sys/bus/pci/rescan'
-  ExecStart=/bin/bash -c 'modprobe snd_hda_scodec_tas2781_i2c || true'
-  ExecStart=/bin/sleep 5
-  RemainAfterExit=yes
-
-SUGGESTED FIX
--------------
-The driver should detect a failed firmware load in tas2781_hda_comp_bind()
-and either:
-
-  a) Perform a hardware reset sequence on the TAS2781 amps (e.g. via an
-     ACPI power state transition on the I2C controller) before retrying, or
-
-  b) Schedule a deferred retry after the firmware subsystem has fully
-     settled, with a fallback hardware reset if the retry also fails.
-
-The fix should live in tas2781_hda_comp_bind() or the
-request_firmware_nowait() completion callback in
-snd_hda_scodec_tas2781_i2c.
-
-Signed-off-by: Rámon van Raaij <ramon@vanraaij.eu>
-
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
