@@ -1,111 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.brightberry.eu (mx.brightberry.eu [185.229.55.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7743128B0;
-	Sat,  2 May 2026 23:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738E41EFFA1
+	for <linux-sound@vger.kernel.org>; Sat,  2 May 2026 23:31:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.229.55.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777764606; cv=none; b=eCLVDINsmUOTngFnjvLIYEXPDgs5KCLaDT4fVTXdwW2wGY4+Nu3M2AUtZ7NLYqS28db1unXaFR3bIbT90OkKBc0H/wWBVpHaMZ7yGjVmtczlvu8xYr+u71XzqkbFzWL3CITisT1+OUd1ctDWkBbv05GiBvbC79tA6kQT+JJbMPU=
+	t=1777764672; cv=none; b=S95YbKDCIY4ErW7jd/chm6S3q+ykVYkpaWpp/Rk3Oi5vS+Hq/oU3dP4Qm/yqMHhUiymrLbVmgI2zMasSI6qOc6Wc4s0kxN3eAssHizGYpDyJwl/tz23quttXN1MD5gosntimieUsdb7Mfxskb30innN3iC0HEutKA10yNnPl6Yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777764606; c=relaxed/simple;
-	bh=c8tSNJ5FwoK/bo93cmcfDUrwcAE4yfvaA0eLewWAF+4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NmUwAysVOAybehc2jP5tFR5Tv8o02LUhNP3xq7bnsvsba7G4RoMtEICjXEC8iXmA2RyrgIh8IVG2cYUlMiKb5wDHOZWxz2hoAWRwKvm0ROHypcthT+MJm5SUwAtjDAKDkzgB+Oe/dqgZXah0iPm/2bRSUJmyWqYblL0PygdGXPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iRsBz1Fm; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iRsBz1Fm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36734C19425;
-	Sat,  2 May 2026 23:30:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777764606;
-	bh=c8tSNJ5FwoK/bo93cmcfDUrwcAE4yfvaA0eLewWAF+4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iRsBz1FmTh2Q5Q9XJsOjM0ygtpRp9u2sJUjsTJfmAlT6BAX+BtRLC3qPbG7otsIUz
-	 oUUrtRV9UrXSsTYiCA1o6D8yKDHrgXknTDVAF1m2sT+ylQ5QUHbkmqZUubRHnWu19j
-	 FDwOmuZM2by3QWCYyxjwZHvC/vg+6KmK9WO2mI+GYKMMMs+CqOenrqjH9/ryJs20Ge
-	 vLx5kFi3mB5WMD36ZZoepeJECjmRe0+MlgsAZXSyZoE7cYmzIDMRxBpxDcvcMdG3Wc
-	 4v+97CSntQKrvVNjLYqThpe8PF2sQys/tUGl5RGskDEmi3sezgIYwuauqq1puT67sS
-	 /0gKm8mQ7idGQ==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 1D14D1AC5863; Sun, 03 May 2026 00:30:04 +0100 (BST)
-Date: Sun, 3 May 2026 08:30:04 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Richard Acayan <mailingradian@gmail.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-	Konrad Dybcio <konradybcio@kernel.org>, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	Nickolay Goppen <setotau@mainlining.org>,
-	Adam Skladowski <a39.skl@gmail.com>,
-	Vladimir Lypak <vladimir.lypak@gmail.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v4 11/15] ASoC: qcom: sm8250: add support for
- INT0_MI2S_RX and INT3_MI2S_TX
-Message-ID: <afaI_FuIq7Pb0kYh@sirena.co.uk>
-References: <20260501153128.8152-1-mailingradian@gmail.com>
- <20260501153128.8152-12-mailingradian@gmail.com>
+	s=arc-20240116; t=1777764672; c=relaxed/simple;
+	bh=AJSiv4rlM1Y72yTCDwIkevBY2jyeOE4AJNNWaG9HSkA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Ly2dNws3Lbj3344J5Bev19Xpbb2/SSstkL/Aaz2aKwD35f0mo22hYgfwg8dH9XosJ7b3bLDCZaVH1qBk/2VyB5WiRUNwXU2rhbUse5a3BkZ2DEtYSZ5xqsB2oTnye6ffJngKNQDvs7Va98pxQSPBnH9IKsQoJlKAHi+AxQBILWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vanraaij.eu; spf=pass smtp.mailfrom=vanraaij.eu; arc=none smtp.client-ip=185.229.55.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vanraaij.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vanraaij.eu
+Received: from mx.brightberry.eu (localhost [127.0.0.1])
+	by mx.brightberry.eu (Proxmox) with ESMTP id 601232A01;
+	Sun, 03 May 2026 01:31:03 +0200 (CEST)
+Received: from d3cold-bug-report.eml (YST00841.fritz.box [192.168.178.64])
+	by mx.brightberry.eu (Proxmox) with ESMTP id 40E62100F;
+	Sun, 03 May 2026 01:31:03 +0200 (CEST)
+From: =?UTF-8?q?R=C3=A1mon_van_Raaij?= <ramon@vanraaij.eu>
+To: linux-sound@vger.kernel.org
+Cc: alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.de>, Shenghao Ding <shenghao-ding@ti.com>
+Subject: [BUG] snd_hda_scodec_tas2781_i2c: parent I2C controller enters D3cold during idle, erasing amp register state
+Date: Sun, 03 May 2026 01:30:50 +0200
+Message-Id: <20260502230243.bug2-ramon@vanraaij.eu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5TVXTFgvmuU5e6Ml"
-Content-Disposition: inline
-In-Reply-To: <20260501153128.8152-12-mailingradian@gmail.com>
-X-Cookie: 667:
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Machine:  Lenovo Yoga Pro 9 16IMH9 (board name 83DN)
+Kernel:   7.0.3-zen1-1-zen (linux-zen)
+Amps:     2x TI TAS2781, ACPI HID TIAS2781, I2C bus i2c-4
+          (I2C controller: PCI 0000:00:15.2, Intel DesignWare / Meteor Lake)
+Related:  <20260501175633.bug1-ramon@vanraaij.eu>
+          (DSP firmware fails at cold boot - separate issue, same hardware)
+
+PROBLEM
+-------
+After approximately 5 minutes of audio inactivity the built-in speakers
+drop to ~10-15% of normal volume. No dmesg message is emitted and no
+driver error is reported. Audio continues to function at the low volume;
+the issue is not a complete failure. The drop is not tied to display
+power-off; it occurs during I2C bus inactivity regardless of display state.
+
+ROOT CAUSE
+----------
+The TAS2781 amplifiers sit on a Synopsys DesignWare I2C bus whose parent
+PCI device (0000:00:15.2) defaults to power/control=auto. During deep
+idle the kernel runtime-suspends this controller. When the controller
+enters D3cold (which ACPI can gate the power rail for), the entire I2C
+bus loses power and all TAS2781 register state is erased.
+
+This is distinct from the TAS2781 I2C device's own runtime-PM: pinning
+the I2C device to power/control=on does not help because the power loss
+comes from the parent PCI controller, not from the I2C device itself.
+
+Confirmed by checking power state before and after idle:
+
+  # Before idle (volume normal):
+  $ cat /sys/bus/pci/devices/0000:00:15.2/power/runtime_status
+  active
+  $ cat /sys/bus/pci/devices/0000:00:15.2/power/control
+  auto
+
+  # After ~5 min audio inactivity (volume dropped to ~10-15%):
+  $ cat /sys/bus/pci/devices/0000:00:15.2/power/runtime_status
+  suspended
+
+The timing (~5 min) corresponds to the system entering a deep idle
+state during I2C bus inactivity, which allows the PCI controller to
+runtime-suspend.
+
+WORKAROUND
+----------
+Pinning the PCI controller to always-on prevents the volume drop:
+
+  echo on > /sys/bus/pci/devices/0000:00:15.2/power/control
+
+Persistent via udev (ACTION=="add" alone is insufficient: i2c_designware
+resets power/control back to auto after driver binding, so ACTION=="bind"
+is also required):
+
+  ACTION=="add|bind", SUBSYSTEM=="pci", ENV{PCI_SLOT_NAME}=="0000:00:15.2", \
+      ATTR{power/control}="on"
+
+This is a blunt workaround that prevents any runtime PM on the entire I2C
+controller, which affects all devices on that bus.
+
+SUGGESTED FIX
+-------------
+snd_hda_scodec_tas2781_i2c should hold a PM runtime reference on the
+parent PCI device of its I2C controller during probe, preventing D3cold
+for as long as the driver is bound. Something along the lines of:
+
+  /* In probe: */
+  pci_dev = to_pci_dev(client->adapter->dev.parent->parent);
+  pm_runtime_get_sync(&pci_dev->dev);
+
+  /* In remove: */
+  pm_runtime_put(&pci_dev->dev);
+
+Alternatively a PCI quirk could set ACPI_COMPANION power flags to prevent
+D3cold for PCI 8086:7e7a (the Meteor Lake DesignWare controller) on
+platforms where TAS2781 amps are present.
+
+Signed-off-by: Ramon van Raaij <ramon@vanraaij.eu>
 
 
---5TVXTFgvmuU5e6Ml
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Fri, May 01, 2026 at 11:31:24AM -0400, Richard Acayan wrote:
-
-> The INT0_MI2S_RX and INT3_MI2S_TX ports on SDM660 can be connected to
-> the digital and analog WCD codecs. They can be supported with the same
-> logic for other ports, but just need to be explicitly stated. Add
-> support for these ports.
-
-> +	case INT0_MI2S_RX:
-> +		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
-> +		snd_soc_dai_set_sysclk(cpu_dai,
-> +			Q6AFE_LPASS_CLK_ID_INT0_MI2S_IBIT,
-> +			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-> +		snd_soc_dai_set_fmt(cpu_dai, fmt);
-> +		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
-> +		break;
-> +	case INT3_MI2S_TX:
-> +		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
-> +		snd_soc_dai_set_sysclk(cpu_dai,
-> +			Q6AFE_LPASS_CLK_ID_INT3_MI2S_IBIT,
-> +			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-
-Should these both be using SNDRV_PCM_STREAM_PLAYBACK?
-
---5TVXTFgvmuU5e6Ml
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn2iPsACgkQJNaLcl1U
-h9A9wAf/ZF5dVK3iNZz2v38moW57Dc4bSRh94ogb4y6SZk1Swr1DMnHrZPXj3uTD
-4nktAqqUvy/uMN3PGDbrNZRYIQIqgQ0i+YqNQZ9Pb53nKXWDe9iKCo9dEK8Hd1Ay
-ANSTdkxFheOSEYhYqmlYmNiieMgdba65OYCRtDrhiVYwn5gRHF+HIC8R71f+ATdk
-3/wqdpQzSStf0LA6tycbZv6mMtGTiapUry7uOQtiveSptW4ZAQvxy3IqXGrD313x
-jiYzhDEmpN9W8WzIyhtE44ODZJWTvx4XDbMMUNZeLCMkC99OiUVeFMMRqn21HrAO
-gSgKrRKqd5VnvuLTd34syj+4cC5Vow==
-=p9nj
------END PGP SIGNATURE-----
-
---5TVXTFgvmuU5e6Ml--
