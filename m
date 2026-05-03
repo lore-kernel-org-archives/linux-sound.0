@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FDB3AD53B;
-	Sun,  3 May 2026 12:10:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04E71C5D44;
+	Sun,  3 May 2026 12:11:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777810206; cv=none; b=qiC9ZkRtBNiIM7bis5+S9ySLgQcyfLMpzMCV/hvSedXD4XQX2b9jMrK4ir/o1cH5Gdczutbfh+I59Y+6AIzDYLsLMoMrN8Kgr9tHoD5E9lFFIKPcMZWOXqYPw7oHaRtEGMiM4wvyv4ksecYd0dqbBqizRWWBpWOJuBS50QeAgHI=
+	t=1777810294; cv=none; b=S2G+YCOy3udf95EEtArZr3ORlh3LxlqPDegDHUZT+wcX3ZVq2u8ML96TtpvfJ2AgcKw5ROm22bm/jQfm9oxJ8yt78XsqEmC7PqM3VO3J8wqG59D4J7qtg1R/eq553hsu6zfOqKe768oheOve2GKBBgzrsSmQ4rCp8r0YhZfvrJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777810206; c=relaxed/simple;
-	bh=TrwSYASiwAn2wXslbk9LoH560GwPVOU2ySn9whSb3ZI=;
+	s=arc-20240116; t=1777810294; c=relaxed/simple;
+	bh=jxUMgcbkcksArszPbK0H0q0KV9QPN28u1wNry0icvPI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EcSSZl56e+5cTS6ZuVONb4e6bXN+B5cQNDeNtGGidWEHgi6KnJcbDRVZKaZiWEqN1eVfgYBH+rpbB9SFcH9REPUibb6mh4uDAVQ7nyYyPPjblJu2R+WnxMzvF3OI+qtBQqoiBdH3gItTNJAMpYnboC0+x5zTbLQqSMsUvAWybOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h74OIVBx; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=i7kSkOV3/zyz7z9u2q8kGFVsYVPV2vt9txccjPu6TRSpVLhMsAGLx6O7WDyMVSfMO4k2mMVypAYeKJFCaIchpBWPUH6aJAeM33Ocsu/u6M6g4amTsuVgVSy2p5MY68HpF3DUaiE8hSp7OXXAPFQ7zWnqztUCPd7Pa2vlZ3pD1Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nSKr5iZ4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h74OIVBx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66F47C4AF09;
-	Sun,  3 May 2026 12:10:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nSKr5iZ4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44AFBC2BCB4;
+	Sun,  3 May 2026 12:11:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777810206;
-	bh=TrwSYASiwAn2wXslbk9LoH560GwPVOU2ySn9whSb3ZI=;
+	s=k20201202; t=1777810293;
+	bh=jxUMgcbkcksArszPbK0H0q0KV9QPN28u1wNry0icvPI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h74OIVBxEJJ70d8sD4ScGR36Bzs9m7qcUszUgEQD+E7cKxe2OrsaG+EeVL7htji0B
-	 HQrUI/XHgjS65e3COBkuYHwpTBc0c8nUFvPf/Eeer5YyUuqtoWgOF7z9E5W/2+CEfv
-	 XMyFDd2UPNiigJoMLgPk18E/7jyTR8ywBFtUxunmRKAnDoiBlu5pyEqGNS11kETK45
-	 Z9baCnhuZM3dUb4+e2fss9Ipzpc4lxPYwCII8fPBkvImDAHNoWsuAS5RqGxXw2aM2B
-	 f4HzLRoQGnsH1uabc5Hi3kF4lQiicwwLCKYTC25O1ykxLP0eJQ/WTvftFKJlmg2IcE
-	 l/My6HJKHQQCg==
-Date: Sun, 3 May 2026 14:10:03 +0200
+	b=nSKr5iZ4CN3h4mdXGLDlPlvDDCVWEcUVG3tyW14uaG0CcWQaEvkPjshSrmYo6xSLe
+	 n2LyYRYrZGsppIfzkDHQ+1wFDmaLaM9tPeY7VLxqgH8yqd2qAbzZ8eg9WA/m8IiQMa
+	 0ChOHFPCtoTUAlcIiVn2A8QAwH27ru3BXX53h1l9o+EECTlISbFvcjTqiAX01+wIsZ
+	 12u1FOJlDiQ3m6NJEUjpJcQmA6d1CXp3YuLgmwBOcCTtNrpl6qd6Sdwl1h1mAxG90t
+	 9nYI6DQNd9WTp51ya9XTa7wwmcwcqrSe5pwpaomNjcOy5iJCmr66o/flKzP/E+Dk1V
+	 QTn2AXr1e3tkA==
+Date: Sun, 3 May 2026 14:11:31 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Richard Acayan <mailingradian@gmail.com>
 Cc: Srinivas Kandagatla <srini@kernel.org>, 
@@ -40,11 +40,11 @@ Cc: Srinivas Kandagatla <srini@kernel.org>,
 	Wesley Cheng <quic_wcheng@quicinc.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
 	Charles Keepax <ckeepax@opensource.cirrus.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v4 03/15] ASoC: dt-bindings: pm8916-wcd-analog-codec:
- Document pm8950/pm8953
-Message-ID: <20260503-furry-attractive-stallion-0d9d83@quoll>
+Subject: Re: [PATCH v4 02/15] ASoC: dt-bindings: qcom: q6dsp: add internal
+ mi2s support
+Message-ID: <20260503-devout-mamba-of-sorcery-d4ecb2@quoll>
 References: <20260501153128.8152-1-mailingradian@gmail.com>
- <20260501153128.8152-4-mailingradian@gmail.com>
+ <20260501153128.8152-3-mailingradian@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,21 +53,20 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260501153128.8152-4-mailingradian@gmail.com>
+In-Reply-To: <20260501153128.8152-3-mailingradian@gmail.com>
 
-On Fri, May 01, 2026 at 11:31:16AM -0400, Richard Acayan wrote:
-> From: Adam Skladowski <a39.skl@gmail.com>
+On Fri, May 01, 2026 at 11:31:15AM -0400, Richard Acayan wrote:
+> The internal MI2S ports are found on devices with the internal sound
+> card for Snapdragon 660. Add support for them.
 > 
-> Document pm8950 and pm8953 analog audio codecs.
-> 
-> Signed-off-by: Adam Skladowski <a39.skl@gmail.com>
-> [richard: add back empty line]
 > Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 > ---
->  .../bindings/sound/qcom,pm8916-wcd-analog-codec.yaml         | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  .../bindings/sound/qcom,q6dsp-lpass-ports.yaml     |  4 ++--
+>  include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h | 14 ++++++++++++++
+>  2 files changed, 16 insertions(+), 2 deletions(-)
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Same feedback as last time. DO NOT send next versions, untill you reply
+or address the feedback.
 
 Best regards,
 Krzysztof
