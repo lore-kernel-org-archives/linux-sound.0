@@ -1,91 +1,71 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0859397E64;
-	Sun,  3 May 2026 15:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2026E273D6D;
+	Sun,  3 May 2026 16:33:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777823484; cv=none; b=GE145ZP83rWwEGfgDD1d45SQcT1h/RfhUl+NIvHDUrvqM+B1RbBkYvZlC2JyFmnmUG45tIrTpTT0xgk6mCPmcZhxtb2oTNVFUFA1KRuoEfQEwILlpfY4pqAEwWFJRk+AhPFskV4r0boI7q3n+YYb1UX/bIcX+jip2nP7i7SaEN8=
+	t=1777825997; cv=none; b=Mpiv1iIS+2BgQnFWPjq5vKK7XX1BAcc0G6+KJjIGzXTjBWPJNThq4UgniqYVyBY0/y40tUFm+7CRH3XG6f2DnEjRKZtjMqZu3M4u5z/CETPB5vP7uEoXw//sWEN1r7JYRkYWEkh+R+c67WYNmCbrhqfuhR7iOj+m95EABrjCx5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777823484; c=relaxed/simple;
-	bh=Bid/fim6QF7BXHxw5C6NNB6CjrRdX7EsliigzYoywHU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=cYwu62SOV2P1iLGBpBH7aPHG2q7tFZFr+nTkDN0XAjiqH8rBY1L29zWcAvVOZqUm3dk8wGg+X/qUIz+PDLZEnRubd/TVsQCgdO/VZ8bHbCusYoeRD0NxyPMqQSraV4OXofiisDGDWjdY37RTJc3vzyAdYAoAVJi+m8s9rfb14xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Q9oPpzEV; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1777825997; c=relaxed/simple;
+	bh=/SBxFmC6JHvhB4nCjCdBaLMVy39VHyYArlMuEU0OJFs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=DLB9qwAaeGUl70jat/QBlMVbXHXvRWMEr5NqjDDxQ6JMqvY0FCOcuaU9zJ4IbbwlUljisvnk71Tjz92Cgx7AerFLEElVsEAOnMMGnZUUVRr1fM/MrueWgNCIUIywefsaxPWjMnygBjZjoTpZxs46OcULZa7+zW1P+AROTOCs8lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XFLEcsfA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Q9oPpzEV"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 759B141084
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1777823483; bh=fyRPsaLeyAmCgD7qP12n2O4WOzwaY15FpNC0oBQOyY4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Q9oPpzEV0FONZtRS5W4Fi9uvnUEQqPxOWkdpHtCbMXHJnDNo8ZYco68Gv+cdnRJQ0
-	 HiYIRvbkdMQRdD4ggSgJrRNTgjJgFHRNO+M7U6FJy7tfxMkPdPeAS6W4PiTAj9oJb5
-	 t7H6o2TmnslANristxpVyAsBCWVaXW0XkjUb2cDVKRFYJJFuFWHSMy6rJF02Y+1aQT
-	 8peZdxLpkMbPuYLpPiF7PkfNRfkFroy/V8EA7zVNcA2ufyQtJ+85OQw3CLcbccPGI8
-	 fG4mvPHY4NDJZqMstnuiRw1B4h08V4n/d1ZOqHJUHL7PpDiyOUchZ0EMzYzJohxyOS
-	 YK8PRgeWb3v/w==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 759B141084;
-	Sun,  3 May 2026 15:51:22 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebner@mailbox.org>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, Kees Cook
- <kees@kernel.org>
-Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
- linux-sound@vger.kernel.org, rcu@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v4 0/3] Documentation: adopt new coding style of
- type-aware kmalloc-family
-In-Reply-To: <df48beafcb0cc9caff40db78285113f0b1bd9b87.camel@mailbox.org>
-References: <20260429070759.309110-3-manuelebner@mailbox.org>
- <87o6iwczjm.fsf@trenco.lwn.net>
- <df48beafcb0cc9caff40db78285113f0b1bd9b87.camel@mailbox.org>
-Date: Sun, 03 May 2026 09:51:19 -0600
-Message-ID: <87h5oobifc.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XFLEcsfA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CE17C2BCB4;
+	Sun,  3 May 2026 16:33:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777825996;
+	bh=/SBxFmC6JHvhB4nCjCdBaLMVy39VHyYArlMuEU0OJFs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=XFLEcsfAhBnk7B0GINDiNhiFBcMELj5bsnO/Pl3gWhSf37PZRdEbZA99drDvkRqjq
+	 w7M4zeQ6pNuPa+0ZciKWEIvtmh/2bA7IEiSFJ92sTrAjmUcIHRC+UigVf0eIvXkg4x
+	 P3YS5RWMIPgg2+Alhs9YLfp4SKgmBbn27Vhqem4L203YolYMz11CBkpSJoPNhDtqg+
+	 9XBGAJ0V3LUD/BP3iHZWjDM2YwRcL14UO/IPA18D/wTNwhZlbZELH1A5hMuoO84L1b
+	 JDrs5JodY+C2T4CvmY1BNNp1diV85kjHO9WUbpOH3OeZSkerHZj9xPIF//iAqhu5gu
+	 8S/0QB83ch/Og==
+From: Vinod Koul <vkoul@kernel.org>
+To: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260430143353.2702714-1-rf@opensource.cirrus.com>
+References: <20260430143353.2702714-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] soundwire: stream: sdw_stream_remove_slave(): Check
+ stream is valid
+Message-Id: <177782599389.108644.14907204831190239743.b4-ty@kernel.org>
+Date: Sun, 03 May 2026 22:03:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-Manuel Ebner <manuelebner@mailbox.org> writes:
 
-> On Sun, 2026-05-03 at 08:56 -0600, Jonathan Corbet wrote:
->> Manuel Ebner <manuelebner@mailbox.org> writes:
->>=20
->> > Update the documentation to reflect new type-aware kmalloc-family as
->> > suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
->> > and family")
->>=20
->> OK, I have applied this series.=C2=A0 While doing so, I restored the "gf=
-p"
->> parameter in the changelog portion where it had been mistakenly removed.
->
-> That's good, thanks.
-> I had two more changes lined up for v5 of this series:
->
-> -	ptr =3D kmalloc(sizeof(struct foo, gfp);
-> +	ptr =3D kmalloc(sizeof(struct foo), gfp);
->
-> and=20
->
-> -The argument gfp is optional, the default value is GFP_KERNEL.
-> +The argument `gfp` is optional, the default value is `GFP_KERNEL`.
->
-> I don't know how to go forward with this.
-> please advice
+On Thu, 30 Apr 2026 15:33:53 +0100, Richard Fitzgerald wrote:
+> In sdw_stream_remove_slave() check that stream is a valid pointer
+> before passing it to functions that dereference it. Return 0 if the
+> pointer is invalid.
+> 
+> This is a convenience for callers. They can safely call this function
+> during cleanup code without needing a pointer validity check duplicated
+> at every call point.
+> 
+> [...]
 
-Make a new patch on top of docs-next with the additional changes you
-want to do.
+Applied, thanks!
 
-Thanks,
+[1/1] soundwire: stream: sdw_stream_remove_slave(): Check stream is valid
+      commit: 9a0afdd19a01c6edddb92eb6a464f9e99d946b90
 
-jon
+Best regards,
+-- 
+~Vinod
+
+
