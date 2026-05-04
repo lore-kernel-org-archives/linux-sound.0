@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2936E2E06D2
-	for <linux-sound@vger.kernel.org>; Tue,  5 May 2026 01:09:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D193E282F13;
+	Tue,  5 May 2026 01:09:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777943385; cv=none; b=qASiPCfOzMjET53qH5eDuk+vgnBdtFdU/8fq+Te6h3c916bYxjua75vJX+KSs4umjZvbp1k38N4DOBcURj7owdts9PiNtCzGOf+wuzb/ij2sru6OzMzAq8SO+NRyxt+QSnFOQV9qVTTdNi1m93cSOm5J5aC+4CfTHEOfrBHsguA=
+	t=1777943389; cv=none; b=RxpTxaBo2UNjSS6GOUHjre9yYPmrxIWbJ0PgrJfd2e/LgtrT9s2zq8Rh/NtQFKbvFRvgeOEX+CPJljwQZjqITEIJY2D1W43S7iotIzxSiZb5EHTCcKrJuvMmhlcGE2fLEe9sAzp4iJ7hcqD3811hvTHj214UQqvCVJ3vlqwwfGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777943385; c=relaxed/simple;
-	bh=R3dGb1NHNB8C471b6Z/Epkr8ulECrgyoVYfLSwbev60=;
+	s=arc-20240116; t=1777943389; c=relaxed/simple;
+	bh=uA0zD1vMpc24aJEhxRcc5ooTVhI0mhN+ZJ8MCcePrlE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ii2Ts0HGiJvkz6/IHvpCWYYda3zYKkThupjUvVGaq2vkp8aoTGHwVE51xUszEaMi57W7nG2+fX63G5yAAENFbw3BUe6gNcFH8PMOImCkx66LqvIuc1woMAC2ZRINwUzGjc+tBOsfRow2r8cnm/xPJYRSdqStdUk7vD3jpMFu3Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o83YpbsY; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=KSNziLXn1WeXwovTPgnp3myhBEo3ToHGUNblvxU1a1OwyYkCtrWA3C7IUdwhK1kUPdZ7JD5ay8sTCmgoDTk+ZElPZRnCAY0RkYU8Ztl1qaMj0wMLkwbv1feVoz7W5DBeZf7y/7mNaRdchddZq7crPEaQHTTh2L+OmGdN75q8yrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xx8kGxiy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o83YpbsY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CAAAC2BCB8;
-	Tue,  5 May 2026 01:09:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xx8kGxiy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ACBBC2BCB8;
+	Tue,  5 May 2026 01:09:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777943384;
-	bh=R3dGb1NHNB8C471b6Z/Epkr8ulECrgyoVYfLSwbev60=;
+	s=k20201202; t=1777943389;
+	bh=uA0zD1vMpc24aJEhxRcc5ooTVhI0mhN+ZJ8MCcePrlE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=o83YpbsYgRDVi49HvQL3ZYn3QZ9GBpXLnulSNWw0DTmjYMVB46MkkWD4Nwl6F8BOS
-	 52OuIoXN+Un+yPdgdxEScbIuMwXvD1XhlX6i1B0wCDyNkqvIeZmeaSxtuRoFB5gnKb
-	 zt+vobi1+JsdJQspyFKXf1whUuGXtaIWfe9o/1V8YuDQO8RySN0R+3U9Xyh6KaOU8l
-	 kL8R4Y0OQWouOHGvmtYX5VjiebV6IOoJne3CaMYTbAY+T12ckkyT5sLP7Lhq/1UX6K
-	 KENnQT55S6L1aK7ZHZuZfvlS8kpgih6pdQlvpMewjRvHAtiuPsPFtgYa7I6SM3pGKV
-	 30T8ZubsnY5HA==
+	b=Xx8kGxiy6QsfCyJcJPeUbryYPzcdq7rHqAfCRHqxa3BkpL7dD9imQv3adkFaKD4CK
+	 m6T6SPFtfQytBFNzT215/s7T2d/s5IZJJnw1vOMw1THI0ex8UlPk/lMlqFDz6OJ1ej
+	 qtXu11tVBw5Hebybbh6OgfHdABOzSGlPjIVJR1y8+oloGDa3uEnopC77khK0b7vOr/
+	 qAWK7l/mKVDcHVpgc6tb7s63Xf6+n+19WCcrpsAGKWwVwAVfvIrpyAeNMryry9dcP0
+	 4GVcXccCtMaHwbUfBjoPO0YagDVjTEXXGR+nZl3raC46dDPEgXo9c3qndEV5Ge3ilP
+	 4Zt50no8VNkZQ==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, 
- peter.ujfalusi@linux.intel.com, flove@realtek.com, derek.fang@realtek.com
-In-Reply-To: <20260430121043.552241-1-yung-chuan.liao@linux.intel.com>
-References: <20260430121043.552241-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: sdw_utils: avoid the SDCA companion function not
- supported failure
-Message-Id: <177789997234.458539.3306181050924438743.b4-ty@b4>
-Date: Mon, 04 May 2026 22:06:12 +0900
+To: linux-sound@vger.kernel.org, Rosen Penev <rosenp@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260503003037.11942-1-rosenp@gmail.com>
+References: <20260503003037.11942-1-rosenp@gmail.com>
+Subject: Re: [PATCHv2] ASoC: tegra: ADMAIF: allocate with a single kzalloc
+Message-Id: <177789971653.458539.7304051237550317105.b4-ty@b4>
+Date: Mon, 04 May 2026 22:01:56 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,29 +46,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1159; i=broonie@kernel.org;
- h=from:subject:message-id; bh=R3dGb1NHNB8C471b6Z/Epkr8ulECrgyoVYfLSwbev60=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp+UNWhXr9qHUXI6uidyY5jzRKW0ZEHL29iHhZQ
- UHPG0YuigKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaflDVgAKCRAk1otyXVSH
- 0EUIB/wN5/g4+Tywe1ZR+P5FGRI5bcvCIFK6PeJd2MCcIgUwVo/MivyvaZA44X5XZs/mYjeEo9P
- FpA7BwyQTbL8ZpcDKHdRy0EBTAlqzfpW3+B+cZje4D49RS8vaVeG4oiTvwk7ePf/ooFmu1CpWUo
- C6fy0H2pmoFjX6xnDL/S/t7x4K2V1TprvlHmXccrqyGV4EclaEBca5J9XD/ny7V0zH5rB79fFbD
- +xAeORmDGgb2BKrGi1HOWIlIW/LVKgNfU3jgl0mBw9nghTG58w2g0lZKj4q/sy2oQPj5wA3zXSm
- WgsgHTUF+TmscWDgWigPu7b7ZQFyocSPTwsxZqHu0pRNYNLZ
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1119; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=uA0zD1vMpc24aJEhxRcc5ooTVhI0mhN+ZJ8MCcePrlE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp+UNbwEBE6yb8jJ9qJRXuJXP1+MncX7PC53pys
+ 8qZ1zIZqjKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaflDWwAKCRAk1otyXVSH
+ 0ANpB/41GOe+dCeLeSLpTUfO9j7cYX9viLeQ6Ipi8HHXX7T4iGH3Pl/u2mFxZR5nhNeX+Znsx74
+ RGWFPIrbyc00OxyoJF6f9CQziR91H61F+UIoyj4MawRJAHfgLYCE1j+zuwVNFinrKH17/51CzsT
+ H9xFAsFK8Hg1jvR40pChWtoav/smGBmoJJjMNB3d2JKSF97bnJX7J6Q09umnXfe2VZ6ewXiu7lw
+ 6CL12pDVK7b8srx978SLRQrU9pXUCejGafnlKklTF/1zJXzDULH2TUTCJBDYfDlFO8DvLz9aObJ
+ XAaOQryvlpgbmf7o4ffUtT++zuaAJnMpUStkYYM5k9KDgj64
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 30 Apr 2026 20:10:43 +0800, Bard Liao wrote:
-> ASoC: sdw_utils: avoid the SDCA companion function not supported failure
+On Sat, 02 May 2026 17:30:37 -0700, Rosen Penev wrote:
+> ASoC: tegra: ADMAIF: allocate with a single kzalloc
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
 Thanks!
 
-[1/1] ASoC: sdw_utils: avoid the SDCA companion function not supported failure
-      https://git.kernel.org/broonie/sound/c/56d5a9eaf60a
+[1/1] ASoC: tegra: ADMAIF: allocate with a single kzalloc
+      https://git.kernel.org/broonie/sound/c/7ff50c1f3183
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
