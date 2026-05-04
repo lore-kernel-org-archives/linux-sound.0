@@ -1,150 +1,132 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9DA83ACA64
-	for <linux-sound@vger.kernel.org>; Mon,  4 May 2026 11:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777894222; cv=none; b=uALl9KQ7jJ0h08DgchniRJ7znW6Tac69vtGnGeoDcbN20XpIL1XByWRD21+wAjnV5zjfv9NarsKkr5irG8fKYa/Ut+4ctfJeorspP+09XdVGxaMEz+6JQY5isKqmnMQx8fagpgpSmFBA8aE2EmEfBmNxTAENVISv+KOD3rDdVC8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777894222; c=relaxed/simple;
-	bh=6JSv02po0RWTzO/bgtInmv9gCi0M4h3Bmh8I9Dx/p8U=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bh3dYd/2E7pJr5LwjX+qnKZyX9oY8YGg5EjvDxpLRfM+XJ09kg8D/+sMJRTGYFvYFFr+IC/uzgedq1SDKDceV0ggIiS73AoRYY39e8P1qf0DiGcigULxqkdDjhaVxl7+XMjgDo8vfLBYUUPm/+5esAFZ8VZ1TVWTPHj7HKCkaoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Kio4VKhi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pKDC1PSd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Gh0F0dCM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Fp0DFkOU; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F89B35A3AD;
+	Mon,  4 May 2026 11:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777894742; cv=pass; b=Q9xGg7/2nXxXkaL/PE7QAXVt8nY3nph7F+/A+0RbPMOKN/wgvAkS2pUId9K3dT3Yvfx4DQcNPqoydJ0lEmrWVMXPM8rDs118dsDqeCppESvRlh87nQzX9dH1iNpGtrbsSyqWdDzHL8N1NKoyn6tMlgWtK+NodsKLhV30p8vcixI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777894742; c=relaxed/simple;
+	bh=1KM6bSbKQmVr7ws4NZhO9j4iKY0DtiiPShk2NmShw7E=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hvDHpAW/hvhPRvQICqsM7FkrFg9/KCAySiTQHyUQXJrmjdqz1xfBiAtTI4riknvTBznKAxa+1Tjwc98Fak4sB109ogqU/xvzY+iuHK+RUx744+exQAQpkGUPechJ4hYlSgF4cv4HVIf0eiV2cPK2Xo12PRB3iPgZxeu9amuGC5g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=O7LLvqpC; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Kio4VKhi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pKDC1PSd";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Gh0F0dCM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Fp0DFkOU"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E3AD15C599;
-	Mon,  4 May 2026 11:30:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777894218; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X77MCTfP6oUt3rkFQ0tNawnARqoNxlYJz/UmLl3BZN8=;
-	b=Kio4VKhi/OOgu2q9+wuAGCBvZCsrG3NcVmL8QHFyrCpKwiYqFwU6TPiZ5gzWJf566EOhts
-	frAqoV/0qsRXK5iamsR4x3ZmeQCBHX+IO3k8U4t+FwaJZr6psIWNf8OEMvA5PVwPLnWhjU
-	NHH1wmRZCPQC5JxnJUI2P2DmmENCmYM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777894218;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X77MCTfP6oUt3rkFQ0tNawnARqoNxlYJz/UmLl3BZN8=;
-	b=pKDC1PSd9QNuk34awuh/+4NHOVCT22+54cAkUDOJKgoTNAi0AmG4uxYo1pHvfCsJM+aAK8
-	/aDApjRZ0xGTD1Aw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777894217; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X77MCTfP6oUt3rkFQ0tNawnARqoNxlYJz/UmLl3BZN8=;
-	b=Gh0F0dCMOLc31M30fxQDtpjak/+U/9AXQQbmWIpcv30Cnhy1wER9IOQ50nwvhQL7Qd7bMr
-	UQbx2kDf2O6A9IwQmYwrtW0SY1frbnOoR06PH3ofzQE2+vV19B2BBtyOu3bPvBgKmGmCLM
-	RzAeyPkMzX7U/5f+QvhXD6h/ahq4EVk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777894217;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=X77MCTfP6oUt3rkFQ0tNawnARqoNxlYJz/UmLl3BZN8=;
-	b=Fp0DFkOUJXw515HKZrizgqWXM2pp5ZkcCiNtXr+u+Md4PAa4QVxFVN1a07qs4nJPvVssZu
-	MzwOsMNYyaNYq2Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A0C4A593A3;
-	Mon,  4 May 2026 11:30:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jvMFJkmD+GmXHgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 04 May 2026 11:30:17 +0000
-Date: Mon, 04 May 2026 13:30:17 +0200
-Message-ID: <87se87xvhy.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Clemens Ladisch <clemens@ladisch.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: firewire-tascam: Do not drop unread control events
-In-Reply-To: <20260503-alsa-firewire-tascam-read-queue-v2-1-126c6efd7642@gmail.com>
-References: <20260503-alsa-firewire-tascam-read-queue-v2-1-126c6efd7642@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="O7LLvqpC"
+ARC-Seal: i=1; a=rsa-sha256; t=1777894726; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=UlJaQ0GPs2fFd4jrh4vR9dOJaqjR/r1sTNu9rGCm1hRBDZIM+WByWpKltnv5sCY/L2PH8vrkMlujT8OlZPQ78vtfjwTJ1ImHvSxpyBAKG4qLjjZLkuZOydC8c6FDxEwY4qf3kDOYRH1rFF6sSlSN3x+tjax6toPxGVmJ3FcTzw0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1777894726; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=NXbLAAo9trVGVR5bttMGHAI1QfndQ1IHx7Y9sM/y180=; 
+	b=ilH/Sj+6KG+qliF7vtfwClEmgobKUBysmk496fcVnGysZxtaNRBE2tF3KC6phEECATNCx+Dz5Jr7YIUOnhpklMFSxHH5EbyScPFjZ4p+tinC0h5JbFS8oyHDwBQPS5xp8BQSt/J3uEZM21MZfFQo33Ov+TjijR7BSHZSfVlvphY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1777894726;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Cc:Cc:Reply-To;
+	bh=NXbLAAo9trVGVR5bttMGHAI1QfndQ1IHx7Y9sM/y180=;
+	b=O7LLvqpC4V6zEq5iOAd4+10cH8YTODZHvyFGkG5jJT+R7LjUJpHebloYQ50HRyBs
+	ojHH/z8TNS6OzKYGK/VmefE/LevejPowBSEl2a58+qUI3mErUeki5SGUQwvt0GUkSwj
+	UlJvbLlvDHnpAe9owWiHCdfSe9+jjt6cVqCuDWK6WPJtlW7FhJl6+SsSVUiyVpVcjnz
+	+GYuiHQQI6Z+1mPtqNy3q7ZPJxjpZRn8s2RqVdbteb1z/N4tNt1FCM1QS5BcK1/U+Xt
+	JjRYjiuvnB9sIDXs9GINkhwTYNd0sruUfLfvGbpL3mBTcDi3nnttxBLVJTaGOrr68rN
+	jFaTX6PwmQ==
+Received: by mx.zohomail.com with SMTPS id 1777894724429561.8846944103783;
+	Mon, 4 May 2026 04:38:44 -0700 (PDT)
+From: Rong Zhang <i@rong.moe>
+Date: Mon, 04 May 2026 19:38:05 +0800
+Subject: [PATCH] ALSA: usb-audio: Add quirk flags for JBL Pebbles
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260504-uac-jbl-pebbles-v1-1-c888d592a286@rong.moe>
+X-B4-Tracking: v=1; b=H4sIAByF+GkC/yXMQQqEMAxA0atI1gZa0SpzFXHR1qgRUWlUhOLd7
+ cws3+L/CEKBSeCTRQh0sfC2Jug8Az/ZdSTkPhkKVRhVqRJP63F2C+7k3EKCda8bU2tjbakhVXu
+ gge/fse3+ltPN5I/vBp7nBcmZweJzAAAA
+X-Change-ID: 20260504-uac-jbl-pebbles-7d186716aa41
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Rong Zhang <i@rong.moe>
+X-Mailer: b4 0.16-dev-7777e
+X-ZohoMailClient: External
 
-On Mon, 04 May 2026 02:55:52 +0200,
-Cássio Gabriel wrote:
-> 
-> tscm_hwdep_read_queue() copies as many queued control events as fit in
-> the userspace buffer. When the buffer is smaller than the current
-> contiguous queue segment, length is rounded down to the number of bytes
-> that can be copied.
-> 
-> However, after copying that shortened length, the code advances pull_pos
-> to the original tail_pos, marking the whole contiguous segment as
-> consumed. Any events between the copied portion and tail_pos are lost.
-> 
-> Limit tail_pos to the position after the entries actually copied before
-> updating pull_pos. When the whole segment fits, this is equivalent to the
-> old tail_pos update; when the buffer is smaller, the remaining events
-> stay queued for the next read.
-> 
-> Fixes: a8c0d13267a4 ("ALSA: firewire-tascam: notify events of change of state for userspace applications")
-> Cc: stable@vger.kernel.org
-> Suggested-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+JBL Pebbles is a pair of desktop speakers with UAC interface. Its
+Playback and Capture mixers use linear volume with val = 0/999/1 and
+0/3996/4. Meanwhile, the reported sample rates are truncated to
+multiples of 0x100 (i.e., 44100 => 44032), resulting in noisy kmsg, as a
+warning message is printed each time a stream is opened.
 
-Applied now.  Thanks.
+Add a quirk table entry matching VID/PID=0x05fc/0x0231 and applying
+linear volume and sample rate quirk flags, so that it can work properly.
 
+Also note that the volume control knob on device is an incremental
+encoder. It does nothing but sends KEY_VOLUMEUP and KEY_VOLUMEDOWN per
+rotation, controlling the UAC Playback volume mixer indirectly. Hence,
+the linear volume quirk flags also enable the volume control knob to
+function properly.
 
-Takashi
+Quirky device sample:
+
+  usb 5-1.1: new full-speed USB device number 12 using xhci_hcd
+  usb 5-1.1: New USB device found, idVendor=05fc, idProduct=0231, bcdDevice= 1.00
+  usb 5-1.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+  usb 5-1.1: Product: JBL Pebbles
+  usb 5-1.1: Manufacturer: Harman International Industries
+  usb 5-1.1: SerialNumber: 1.0.0
+  usb-storage 5-1.1:1.0: USB Mass Storage device detected
+  scsi host0: usb-storage 5-1.1:1.0
+  usb 5-1.1: Found last interface = 1
+  usb 5-1.1: 2:1: add audio endpoint 0x5
+  usb 5-1.1: Creating new data endpoint #5
+  usb 5-1.1: 2:1 Set sample rate 44100, clock 0
+  usb 5-1.1: current rate 44032 is different from the runtime rate 44100
+  usb 5-1.1: 3:1: add audio endpoint 0x84
+  usb 5-1.1: Creating new data endpoint #84
+  usb 5-1.1: 3:1 Set sample rate 44100, clock 0
+  usb 5-1.1: current rate 44032 is different from the runtime rate 44100
+  usb 5-1.1: [2] FU [PCM Playback Switch] ch = 1, val = 0/1/1
+  usb 5-1.1: Warning! Unlikely big volume step count (=999), linear volume or wrong cval->res?
+  usb 5-1.1: [2] FU [PCM Playback Volume] ch = 2, val = 0/999/1
+  usb 5-1.1: [5] FU [Mic Capture Switch] ch = 1, val = 0/1/1
+  usb 5-1.1: Warning! Unlikely big volume step count (=999), linear volume or wrong cval->res?
+  usb 5-1.1: [5] FU [Mic Capture Volume] ch = 2, val = 0/3996/4
+  input: Harman International Industries JBL Pebbles as /devices/pci0000:00/0000:00:08.3/0000:67:00.3/usb5/5-1/5-1.1/5-1.1:1.4/0003:05FC:0231.0018/input/input55
+  hid-generic 0003:05FC:0231.0018: input,hidraw2: USB HID v2.01 Device [Harman International Industries JBL Pebbles] on usb-0000:67:00.3-1.1/input4
+
+Signed-off-by: Rong Zhang <i@rong.moe>
+---
+ sound/usb/quirks.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 0b4ecc2c6bcc..3a4caec3f8ff 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2277,6 +2277,9 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_ALIGN_TRANSFER),
+ 	DEVICE_FLG(0x05e1, 0x0480, /* Hauppauge Woodbury */
+ 		   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
++	DEVICE_FLG(0x05fc, 0x0231, /* JBL Pebbles */
++		   QUIRK_FLAG_MIXER_PLAYBACK_LINEAR_VOL | QUIRK_FLAG_MIXER_CAPTURE_LINEAR_VOL |
++		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x0624, 0x3d3f, /* AB13X USB Audio */
+ 		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
+ 	DEVICE_FLG(0x0644, 0x8043, /* TEAC UD-501/UD-501V2/UD-503/NT-503 */
+
+---
+base-commit: 6d35786de28116ecf78797a62b84e6bf3c45aa5a
+change-id: 20260504-uac-jbl-pebbles-7d186716aa41
+
+Thanks,
+Rong
+
