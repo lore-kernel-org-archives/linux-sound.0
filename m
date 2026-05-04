@@ -1,142 +1,148 @@
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0D2136358
-	for <linux-sound@vger.kernel.org>; Mon,  4 May 2026 00:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7406240DFD1;
+	Mon,  4 May 2026 04:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777856161; cv=none; b=sOdkV17xFiLSajGLPJoRd/eifvEOR17Ud6Tjvpna5YhytmiCeoQuF+n3gn3RWbPPwCkkQ/tZBkRC4UewIPojyq3+Lm2qs9hET6Ue21TyjnGR+qkPSmwIGNRYRdDU7qqCz6wjYEb4dxvGYJ55V4/gQVSp7tXgfKCJAOFsrJjV99w=
+	t=1777867650; cv=none; b=PWGgz4WqjVPff/cNNq+MX1wiYieZGPBEPqRn506MTjpANZ9dxy9ZSzixNxWJIj7T35dddRSU45cz8PeIR1d0rm1LTnBjl/Zr0mWJilosX6fDvgxtJKGZwx8MpZC3/5bMMCIiTftIQoXQT+TGYjoUQXsEFi407yn3dlD9D2tyBUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777856161; c=relaxed/simple;
-	bh=ND0ebtMtgG2oFEY74U8JFQQZ+pCiMd7ihtIY2d/33g0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=V8pOwAZVHln3mNFyIzddpCp9xt2WtYnfs7iT5rWz1joY0RU2X3Jn8zizaKFDlQis6IdEVWyFSqtbnW9nBOwlxzLH24f3bejay82mAXkh/TC4Pna2wbcPAoYl4QisYd0szg5G3xdSN9rBQkMiFs1W+/vSm7iQwamSNnA+BoWyNY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oNSQcqCK; arc=none smtp.client-ip=74.125.82.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777867650; c=relaxed/simple;
+	bh=MNLfm31CuSD9bY0fB2ljoYFQmQ0yfp1g+94VYHm6ffo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hskl1/gV/zP9yYh13YY+bIdeVe2ykIkYHkSSJqosxxE1eCyOioyMVAdW0CYybk8soIZJwhI+SkkATMOS+qM5G4M/+tpHbSOWXH+RuSpLtsW7WEp/6YJ38BRcKiZJXsD8Vkq6p3HnOyN3k//A5zmSjSUsLeEURyNC4q61XeKLu3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=L12JVhGo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IIHU4632; arc=none smtp.client-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oNSQcqCK"
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-12db2e415a7so2050705c88.1
-        for <linux-sound@vger.kernel.org>; Sun, 03 May 2026 17:56:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777856159; x=1778460959; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WqgkeVGdbgXGvlU7ikkEcZEa18Qa/BkxqtfZd1WqbAA=;
-        b=oNSQcqCKgzcgrEha8y332ajiMymmIU8IXujZae0wBFxCCV0V1BQzTEGXZid68XQ7UK
-         K7ifmscc64qVlT07MGhr4jXPDuBTb2T2bmJakEadRt2PLuq80YBAzQI8hHqg/ovjYizs
-         Joqs8Oz0vpAKa42+Ie6xoON5XwBKuMwdOjy5zB/h/rQy5aMK2hqX/IXMa2RihryajOnB
-         yClGXO8jnl3maPw+EaJZYThIT8dNR61SNh1kXGmVYpHtzRbgvZynal64t6ITUySNFUY+
-         fUi791KtP4FKjVWzKxTRmtk8oB/pzEy3mL+Wr+5BeAKF5wkTb/84s4NZtzJ59seiYldh
-         ZrXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777856159; x=1778460959;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WqgkeVGdbgXGvlU7ikkEcZEa18Qa/BkxqtfZd1WqbAA=;
-        b=a3dnJ0zK8k8osB+h7MUWDopYBTGc96qso6HGnXejtjIJTPFkugQBejFCXxLWOQz1wJ
-         mt/nke6vL4rfOibU8pZL8JgzbLI4GImHIo4lUujSWBCa3sXFyLZOUYYUHYhF9qmEPq9j
-         otsw16MSYy9RHwSBc0Xm1gLjlf21P0Kt65RXvanGRKRujiulkXN6wwR+5vabj9K9n50k
-         LGN6NGr5Pu/p4wvJVOAqRFt32J4feX23PvEOk30/tzxB0tP4RprB8Zf9aRY26oIn2fjU
-         Km4PaWh2hm57CkYlPbbhb/la1tsJ1jXzL4iY4Y1l9xSEHq5OJDu/0fvXJBaBlpxpoI66
-         C0Jg==
-X-Gm-Message-State: AOJu0YwEd2r05MVOtKlR0F9C2Z5pTruoNgrQ/PJxkJO1Lc96i/prfXK6
-	zgtQz9nAbgZ+GV4cDbb9Fm/esD73aqB0qW7suMVDtENKshYV4lcLa++t
-X-Gm-Gg: AeBDietHr5i/xddyCwFSaHzJ+2gDsCfysS+fhUss1DWJCV95fcbd9XOmTd+NcONLicd
-	UUm8ZS6omkgv/byJeFgMIN5qVZ/ICMzJlCGmK5bYhgMnSSc4YoAgG0Ej2CRi1SYS8dX2NIMnskE
-	cldVQ/Yzwu1FF7T5FFDpEdenjytheFeX/9idGFtfscbhKCLdCHiwXWV7zM1jHW+6v2bncY/lZKy
-	qTpxWW4+8i4v7CXzVk1HBkJOp+kooP4XgFz4hn8kGl7AGKC8kP/2/2kudReP34SSQY08Mq8YQra
-	y8jrpljISvbYBEnVoAtg+dPARZQOuoloiBz/jfTYceb0iJIL14cL9iGhNTorO7NU9sTsVt0eJ6w
-	7LfNTXiDBmWTmsu5YQMalZglTpFdhTU+plb8Aa1UNWogGEz8O+m9fwq9k5pnJU/Z3EYA5vK0q5Q
-	BOBygMp8MdHuVLgaHw8dRRx7Nynuu7KDT5GsFPEbYJGqVjHpMIf7pcYvpHiwnu2Vo7DoAI25YLi
-	m4alINGU0aS
-X-Received: by 2002:a05:7022:4c:b0:12a:6c4b:9cf0 with SMTP id a92af1059eb24-12dfd7d3817mr3789870c88.3.1777856159242;
-        Sun, 03 May 2026 17:55:59 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12df84252c0sm15864885c88.10.2026.05.03.17.55.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2026 17:55:58 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Sun, 03 May 2026 21:55:52 -0300
-Subject: [PATCH v2] ALSA: firewire-tascam: Do not drop unread control
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="L12JVhGo";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IIHU4632"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 889081400065;
+	Mon,  4 May 2026 00:07:26 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Mon, 04 May 2026 00:07:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1777867646; x=1777954046; bh=umlJXxAcNxZ9Q2Ni2iGink1BMJ+a6L1A
+	SXDw2P3E0s8=; b=L12JVhGo6Bhd51mZ0iBkKnO0FXg0oyxoPCig2IF0O5esKfzX
+	0FG1HLxqZsd104NZXZ/BEUspQfoJyc4tVO4qRnH+vJ1P6kwT9E9c3u+v/VHHbBiw
+	n+sN1ubCLJNj/qVZLySyViCo0gbOc2LRPf4svF00qInwtbHa6HEC6CoCK0J80RIJ
+	kWqCazS8kELn1LPpVa2fwX29nIEiLo1F1J6Qe8KDjp9TBI5ROPSqnOl/iYICjvKp
+	+B9M9SUGwHmjPvSKmiYrn/GGUgnMAgt2bZTjKVgF3DqTIDgvc7xd9AqPvTknoIPO
+	ArkfK6jX91RGv4gxT80UxAIXPLwoXn6l0v3t4w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1777867646; x=
+	1777954046; bh=umlJXxAcNxZ9Q2Ni2iGink1BMJ+a6L1ASXDw2P3E0s8=; b=I
+	IHU4632/4OFqGYSMke/fs+xURqhcyOkmbNlhqMjmlT6QtFP/ScmkVqJyC/f1zAVu
+	Q07a6MKv+mX9/ZRcdWMg+s/XuPe2Z+PdjDkfvSPIyWfpvofgIusJf268SvHpeNBb
+	S728xWCDOQGljKB4AXaK5i/hHyKmbaPsYvEDBSGsBn1IoVjzHPNTOBYPjELr+iYs
+	sjRVYubr0bLu2INAtcx59VnYFCJhk2iw4+k+mdvdX6lxwtGx6W7Vp/r0t0jQtkZG
+	AgM/+VpWjQPSV61bD+J7ZoRHsOx6APdRolnLGSGicgrdayObGVGa2vCWg3QR57Pt
+	sF6/aHb/YO7gIbQ1Jb57A==
+X-ME-Sender: <xms:fRv4aYKf_bf_gxhEeo0LUPz_w9wKcUv40JJJ_zgiS3Ci2S1zP98m6Q>
+    <xme:fRv4aSMWcU6cpHw-GPxVcw0lzvHb9waMn6r8mKLMZf9KOFVtb1EAPgHHycck-Yx-U
+    yb7op-vegBFkPBPfuCUrccwdJwKjb4m_0frMqfpI_2djaoaoSY0DYE>
+X-ME-Received: <xmr:fRv4aYk6KDbDL2iJg1PlLFNrVJMn7FshEwwgDJ5pX9xzbP9s62v3y4V7D8uacfwYkQVoQ6vMqEsCNWqBEAYbgVBJEEfSMmY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeljeekgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomhepvfgrkhgrshhh
+    ihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhirdhjph
+    eqnecuggftrfgrthhtvghrnhepieffjeetjedvgfejffekuefgtdehjefhgeethfehvdej
+    ueffueduteejtdfghfejnecuffhomhgrihhnpehmshhgihgurdhlihhnkhenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhi
+    sehsrghkrghmohgttghhihdrjhhppdhnsggprhgtphhtthhopeejpdhmohguvgepshhmth
+    hpohhuthdprhgtphhtthhopegtrghsshhiohhgrggsrhhivghltghonhhtrghtohesghhm
+    rghilhdrtghomhdprhgtphhtthhopegtlhgvmhgvnhhssehlrgguihhstghhrdguvgdprh
+    gtphhtthhopehtihifrghisehsuhhsvgdrtghomhdprhgtphhtthhopehpvghrvgigsehp
+    vghrvgigrdgtiidprhgtphhtthhopehlihhnuhigqdhsohhunhgusehvghgvrhdrkhgvrh
+    hnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtohepshhtrggslhgvsehvghgvrhdrkhgvrhhnvghlrd
+    horhhg
+X-ME-Proxy: <xmx:fRv4aW79bIbX_ips3UzZAp5jc1CSmJjmNai-d8Wop3lFXV0Wysogjw>
+    <xmx:fRv4ac15DcFHCkLxrLLmt_VX2u8WCTAAX_iqlRZN24luCkyYIUmiAg>
+    <xmx:fRv4aREoENJRD02g8o_jtPh2claU4-6V6hQ7rQIumjOlFfWe0Ceexg>
+    <xmx:fRv4abjjyspJq1rkg0n1nflo__kvBnBxUnYUI-WO_Mk4I6dRRQ_WEA>
+    <xmx:fhv4adwVfNt4rmqvpvNgUPLtYkoj4pEuXbmRPj8P00GH_5LLUZGKx4MY>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 4 May 2026 00:07:24 -0400 (EDT)
+Date: Mon, 4 May 2026 13:07:21 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: =?iso-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+Cc: Clemens Ladisch <clemens@ladisch.de>, Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: firewire-tascam: Do not drop unread control
  events
+Message-ID: <20260504040721.GA398619@sakamocchi.jp>
+Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	=?iso-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>,
+	Clemens Ladisch <clemens@ladisch.de>, Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260503-alsa-firewire-tascam-read-queue-v2-1-126c6efd7642@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260503-alsa-firewire-tascam-read-queue-v2-1-126c6efd7642@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42OTQ6CMBCFr0K6dkxLEBJX3sOwmLYDjOFHOoAaw
- t0teAEXb/ElL997qxIKTKKuyaoCLSw89BHSU6Jcg31NwD6ySnWa64s2gK0gVBzoFQMTisMOAqG
- HcaaZoCCkyuhco7cqWp6BKn4fC/fyxzLbB7lp1+6NhmUawue4sJi99//aYsBAYREziwYzT7e6Q
- 27PbuhUuW3bF/RSJHLgAAAA
-X-Change-ID: 20260501-alsa-firewire-tascam-read-queue-7eaef1060adb
-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>, 
- Clemens Ladisch <clemens@ladisch.de>, Takashi Iwai <tiwai@suse.com>, 
- Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2064;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=ND0ebtMtgG2oFEY74U8JFQQZ+pCiMd7ihtIY2d/33g0=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJnf381hvCgkvttW5P7x8pn3N9Yp6sj2ix5csbL09jrHz
- dWPOsI2dJSyMIhxMciKKbKsTlpkuafrwdX6uBUeMHNYmUCGMHBxCsBEzlgw/PdR1JzJ/vPhxCz/
- k3cm7jdhDdzhmFswvYhty84ZNx/YXXZmZDgqJrv8qPDeGWsvxOj+sq+J/rbXa+N2zpsnOr655m/
- f7csHAA==
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+In-Reply-To: <20260503-alsa-firewire-tascam-read-queue-v2-1-126c6efd7642@gmail.com>
 
-tscm_hwdep_read_queue() copies as many queued control events as fit in
-the userspace buffer. When the buffer is smaller than the current
-contiguous queue segment, length is rounded down to the number of bytes
-that can be copied.
+Hi,
 
-However, after copying that shortened length, the code advances pull_pos
-to the original tail_pos, marking the whole contiguous segment as
-consumed. Any events between the copied portion and tail_pos are lost.
+On Sun, May 03, 2026 at 09:55:52PM -0300, Cássio Gabriel wrote:
+> tscm_hwdep_read_queue() copies as many queued control events as fit in
+> the userspace buffer. When the buffer is smaller than the current
+> contiguous queue segment, length is rounded down to the number of bytes
+> that can be copied.
+> 
+> However, after copying that shortened length, the code advances pull_pos
+> to the original tail_pos, marking the whole contiguous segment as
+> consumed. Any events between the copied portion and tail_pos are lost.
+> 
+> Limit tail_pos to the position after the entries actually copied before
+> updating pull_pos. When the whole segment fits, this is equivalent to the
+> old tail_pos update; when the buffer is smaller, the remaining events
+> stay queued for the next read.
+> 
+> Fixes: a8c0d13267a4 ("ALSA: firewire-tascam: notify events of change of state for userspace applications")
+> Cc: stable@vger.kernel.org
+> Suggested-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+> ---
+> Changes in v2:
+> - Recompute tail_pos after shortening length instead of adding a separate
+>   entries_copied variable, as suggested.
+> - Add Suggested-by tag.
+> - Link to v1: https://patch.msgid.link/20260501-alsa-firewire-tascam-read-queue-v1-1-7baa4ba1a4de@gmail.com
+> ---
+>  sound/firewire/tascam/tascam-hwdep.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-Limit tail_pos to the position after the entries actually copied before
-updating pull_pos. When the whole segment fits, this is equivalent to the
-old tail_pos update; when the buffer is smaller, the remaining events
-stay queued for the next read.
+Looks good to me;)
 
-Fixes: a8c0d13267a4 ("ALSA: firewire-tascam: notify events of change of state for userspace applications")
-Cc: stable@vger.kernel.org
-Suggested-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Signed-off-by: CÃ¡ssio Gabriel <cassiogabrielcontato@gmail.com>
----
-Changes in v2:
-- Recompute tail_pos after shortening length instead of adding a separate
-  entries_copied variable, as suggested.
-- Add Suggested-by tag.
-- Link to v1: https://patch.msgid.link/20260501-alsa-firewire-tascam-read-queue-v1-1-7baa4ba1a4de@gmail.com
----
- sound/firewire/tascam/tascam-hwdep.c | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
-diff --git a/sound/firewire/tascam/tascam-hwdep.c b/sound/firewire/tascam/tascam-hwdep.c
-index 867b4ea1096e..6270263e7bf4 100644
---- a/sound/firewire/tascam/tascam-hwdep.c
-+++ b/sound/firewire/tascam/tascam-hwdep.c
-@@ -73,6 +73,7 @@ static long tscm_hwdep_read_queue(struct snd_tscm *tscm, char __user *buf,
- 			length = rounddown(remained, sizeof(*entries));
- 		if (length == 0)
- 			break;
-+		tail_pos = head_pos + length / sizeof(*entries);
- 
- 		spin_unlock_irq(&tscm->lock);
- 		if (copy_to_user(pos, &entries[head_pos], length))
+Or as a second Co-Author,
+    Co-developed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+    Signed-off-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
----
-base-commit: 9e8d6ddd7ecf2ad42d614243f86e50fcf0183b9e
-change-id: 20260501-alsa-firewire-tascam-read-queue-7eaef1060adb
+To maintainer, please feel free to assign the above tags according to
+your preferences.
 
-Best regards,
---  
-CÃ¡ssio Gabriel <cassiogabrielcontato@gmail.com>
 
+Thanks
+
+Takashi Sakamoto
