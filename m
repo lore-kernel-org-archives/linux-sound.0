@@ -1,70 +1,71 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012062.outbound.protection.outlook.com [40.93.195.62])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012006.outbound.protection.outlook.com [40.93.195.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8CB39A073;
-	Mon,  4 May 2026 12:57:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4883D88FE;
+	Mon,  4 May 2026 12:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.6
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777899471; cv=fail; b=JXOi798i67Oy9avCNRJOI1XOF24jX/p2kkQfca4KglKSZPBko0IZjse+xFDArYNW1JSWaKZfXvfj5nR0E7dKHQA0F3VH5sRh0XuaphpBbSrtO3eMewwNP9QbZfr4kreGLe+ybzUEQFoAc3bTS6lsksGEKu/f2WAL6IlRgytqqZ4=
+	t=1777899484; cv=fail; b=tm3HFBJRvjYMfhclAr/anQ/6g909ZDsBEbnxStZ9/xaH0e49kOJviqqUnCV1WucDkuo8lBe+rnhRFHS+6UnxMyyFmSBHea+AonZZoK/UAvMxzB3pVwyJun55TJpbp6NnGIZ3eaChzUS6Rp+XNAQty6HPG3UUs1bj9p7Ea5XomyE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777899471; c=relaxed/simple;
-	bh=2eGuNbqTqQpYuP5pd3feXTbAdetoU5FTszgYawDO/6o=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dbuEnwQ/0EIIP/nYz4NeOGHSOSqlzwf74rIyTQ9M3RXHZFEtjqxId1L0VU/C0NlZnd1jhH/KRjHVGnnZV46MQqtybucrb3Tur/syTnc/afGJwuq9b4BjRibB5bK3PctI+UPNI39a7T+tvYSsvxwMasWNpO1DxaE7VjxUrKpYdwQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=MykjPsTr; arc=fail smtp.client-ip=40.93.195.62
+	s=arc-20240116; t=1777899484; c=relaxed/simple;
+	bh=2/GLBI0TqPrQr+kaHLe4i0583oRlfo3qjh1y2mHyygk=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Q8EjGjhxNS8biWvTcBdpFduruV/s9KYmJe2xGmiE1fk0Hu1REipBJHwXhP+HrBE6UWVJoYJUtsF9XSfnJ1zlztMWkoH/3XBS7cgrz0g/QV0YF0t4cZH71quKbGT3m0FyVb4+Ws7mmbQJTR0AIlv1YHeHK6W5MdKv1knD2ZGwbF0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=hbMsNOFp; arc=fail smtp.client-ip=40.93.195.6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="MykjPsTr"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="hbMsNOFp"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EY2bjTGaTaYg5+Hi1nQ2anKBoPLDqJRupgCC/tm1BoSmEOa2/Sw3pJocMhl8eH9xt15AkfrX6dN7ZAnbP58CTGTbVrAGMUrdFLRgjkDAT8KoaP9PucxjuZVSJOPcb+zHW/2g0zuzKtTBmXpmdcXwjyW2lMobp7lGrFM0XT/97z+vmnr+OTlNlUgL+q5bzscrkKa4+DWebfcyB4JmVHLNvgYY65qRBLr6vKev/cQeVTc8uaquaLl+Nc69S6WLPDisUMEAde0ZZPDSqC3y1bI2ocDSEBCZaYYPUJ5eLF2NHjy8Di91lZrrDZ3kA3agWEKCPVenUxbhX9moA/0t03XDnw==
+ b=Fu/dqRwU9E2JdeQw1HXUyT6V1dmvR6/pBDFB+mH6LhD2ZMOmGu96jQWjdV0w+MAIHCpFYo6EuP351BH3EjrmElSEOuaG74YiI2F+F16TNna2Qyr15DISG5xBaw/j6UOB6rvAa7KNvTt5lydzAmkdp/aAnK87VO9PHnae5lJUXxlU0tmnLRPj7tYmF97/6NmCduGZ4WxifgMALAoj6FUAPDvYgX4pGt/W1jirD4e5Ky4Q5kHJurF9Ziy4HFNkFxj+R7Z2E/W5pCfk4moLYkesvAtJJHlrqvMlctE+CnLZQofVg43HybDw3I4aasFzDQkpFEBTlQVKW+d6LNpw57gDng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7V9stgsfj7kqRlAC9LR/RpuVwAgbw9NrJKibppor7EY=;
- b=RPj0qyi+fYJvtEnv26H9W5/8RaYrFyQvO2j/YvfMick2GueIoXhRLdWSniggnExCjo0uARhfJ+jQE2gzFL9IEg+c1wkNWqZ4Dw/RhcHVzT9P74ThvesBX69OOLeoIc7rMc/mwqV8XL1Z+nmOd23ckmpwqVvjYsHwv4e1bbWcDMhAIWNhtI10+kTWgtnDWs72OI7rCMrgxE2qXa/v8+RmUCXrfVWrUzRKEJBjHiLkFZh2q0nmsinTtfA6SfbbU7GTEu25130yAni/yJPSz8C0ZLtzOJAfRmveGjz5uSHR1As0UCyYfj6JBSPLTEjJKoPciCyVs9uwBfzZXZUrptDUIw==
+ bh=oMTirqjoVQ4fCR5cUM93cpW/BQmr8NIhmuQdPfNGErM=;
+ b=dHS4pg2CP5RJImw9AoyBhXsfkSMnfQ3d1Cw+wRAx6xMjmBEWH7YShtPljAjaPALPXFEoGvZruAwGBPq7kIgtWDQx0V1tEIn9KTZBipyAj3TuzBwQcIxsuCfWWbaeeuQzlyrtWewQ8hvETee+wuHmBMIv3KCBO3BMJNBNuqlrumZly9fTjUwpdZ5ljjDriuUcP9EEXmOJlXSr6nWp8gGpJLlsCE2xg5kLTtfgjv/Kodkn2JWy02Pqm8jWaujxFr9eNMcqS4WC9hQS1irYXSArCoSX5zFDk0N2mt2DT8dSzIwffzIUqbUp/voMZbr3xhfdwkdIVqoUdiJsjMOzjgaxZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=linux.dev smtp.mailfrom=ti.com; dmarc=pass
+ 198.47.21.195) smtp.rcpttodomain=linux.dev smtp.mailfrom=ti.com; dmarc=pass
  (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
  (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7V9stgsfj7kqRlAC9LR/RpuVwAgbw9NrJKibppor7EY=;
- b=MykjPsTrAHretmlIk9/Yli8KLYFwScQY0rYvY8y49G0nn3ie5mqDmATapSQq5Lj3P5ePNPQefzh0Y1Zihlrr6tiasFBPPs3InGAdZhsY7LCfl7rvWGXhYLcbtG9IOFSn9KjLjhov0VNZSIOpRQfEOGhuo6g8TmO0TGUHZ1QnzUg=
-Received: from IA4P220CA0011.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:558::11)
- by BN0PR10MB5063.namprd10.prod.outlook.com (2603:10b6:408:126::22) with
+ bh=oMTirqjoVQ4fCR5cUM93cpW/BQmr8NIhmuQdPfNGErM=;
+ b=hbMsNOFpLfQPs/tzh8IrzbQWJQ8X+H6h/vwlvbn0rBxmEuYoA7gCZdtK6aFCXG2x8NRG0m/8oaK5ZjrkKH8+nsl3Cyva+6g6bTrLBcmENyc49ZydAy+WUx3GgSJ/5+sunHfziYwzqv4ao7hEmPI+0FvvRq660PrDEZZ5u8MG+Cc=
+Received: from MW4PR04CA0301.namprd04.prod.outlook.com (2603:10b6:303:82::6)
+ by CO1PR10MB4578.namprd10.prod.outlook.com (2603:10b6:303:9e::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Mon, 4 May
- 2026 12:57:47 +0000
-Received: from BL6PEPF00020E64.namprd04.prod.outlook.com
- (2603:10b6:208:558:cafe::6e) by IA4P220CA0011.outlook.office365.com
- (2603:10b6:208:558::11) with Microsoft SMTP Server (version=TLS1_3,
+ 2026 12:58:00 +0000
+Received: from MWH0EPF000C6184.namprd02.prod.outlook.com
+ (2603:10b6:303:82:cafe::95) by MW4PR04CA0301.outlook.office365.com
+ (2603:10b6:303:82::6) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.25 via Frontend Transport; Mon,
- 4 May 2026 12:57:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ 4 May 2026 12:58:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
  action=none header.from=ti.com;
 Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- BL6PEPF00020E64.mail.protection.outlook.com (10.167.249.25) with Microsoft
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ MWH0EPF000C6184.mail.protection.outlook.com (10.167.249.116) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9891.9 via Frontend Transport; Mon, 4 May 2026 12:57:46 +0000
-Received: from DLEE203.ent.ti.com (157.170.170.78) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9891.9 via Frontend Transport; Mon, 4 May 2026 12:57:59 +0000
+Received: from DFLE214.ent.ti.com (10.64.6.72) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 4 May
- 2026 07:57:46 -0500
-Received: from DLEE210.ent.ti.com (157.170.170.112) by DLEE203.ent.ti.com
- (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 07:57:51 -0500
+Received: from DFLE209.ent.ti.com (10.64.6.67) by DFLE214.ent.ti.com
+ (10.64.6.72) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 4 May
- 2026 07:57:46 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE210.ent.ti.com
- (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
+ 2026 07:57:51 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE209.ent.ti.com
+ (10.64.6.67) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 4 May 2026 07:57:46 -0500
+ Transport; Mon, 4 May 2026 07:57:51 -0500
 Received: from LTPW0EX92E.dhcp.ti.com (ltpw0ex92e.dhcp.ti.com [10.82.30.14])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 644Cvep6762893;
-	Mon, 4 May 2026 07:57:41 -0500
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 644Cvep7762893;
+	Mon, 4 May 2026 07:57:46 -0500
 From: Niranjan H Y <niranjan.hy@ti.com>
 To: <linux-sound@vger.kernel.org>
 CC: <linux-kernel@vger.kernel.org>, <broonie@kernel.org>,
@@ -74,111 +75,245 @@ CC: <linux-kernel@vger.kernel.org>, <broonie@kernel.org>,
 	<ranjani.sridharan@linux.intel.com>, <kai.vehmanen@linux.intel.com>,
 	<pierre-louis.bossart@linux.dev>, <baojun.xu@ti.com>, <shenghao-ding@ti.com>,
 	<sandeepk@ti.com>, <v-hampiholi@ti.com>, Niranjan H Y <niranjan.hy@ti.com>
-Subject: [PATCH v15 0/4] ASoC: Add TI TAC5XX2 SoundWire codec driver support
-Date: Mon, 4 May 2026 18:27:12 +0530
-Message-ID: <20260504125716.2015-1-niranjan.hy@ti.com>
+Subject: [PATCH v15 1/4] ASoC: SDCA: Add PDE verification reusable helper
+Date: Mon, 4 May 2026 18:27:13 +0530
+Message-ID: <20260504125716.2015-2-niranjan.hy@ti.com>
 X-Mailer: git-send-email 2.33.0.windows.2
+In-Reply-To: <20260504125716.2015-1-niranjan.hy@ti.com>
+References: <20260504125716.2015-1-niranjan.hy@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00020E64:EE_|BN0PR10MB5063:EE_
-X-MS-Office365-Filtering-Correlation-Id: a4f25d51-7aad-48bf-d3c3-08dea9dcbd76
+X-MS-TrafficTypeDiagnostic: MWH0EPF000C6184:EE_|CO1PR10MB4578:EE_
+X-MS-Office365-Filtering-Correlation-Id: 650455b7-b336-468f-43ae-08dea9dcc4eb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|7416014|376014|82310400026|1800799024|56012099003|18002099003;
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700016|376014|7416014|56012099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	IoXdQUkPr5aPq+Lyp2Pr8kQ0DzEcIEhhxW1n2TJqvxcA7dHTicsgBGo1V9PMDrEaVNPezNPXrtwZicvjcO4c4a98uXPmb6OhrtiTSpdn/qftGZgR34K3W+gQONNgFSVsRE/IVQ4V8oWfdVZ8O8xw0p3gR3cd6bVmIrVn5Z3S3kvT5iF3k7QLpP5Bh8VLIUz6NnOmlHtvmb1NLaSg5SALr1CqEvNqeFCWEkiHupYgZorpZJdD7Q36btG3OPOdd03qgUZxqy6LEEiWGRHjhH2dRqcnHNqqXVd/ljEx2Uq6JWV3Gq4gmoGQmjJvkL7ZFiRXd8mt7/k50VxyypEqS6dLlt6Z6b/I18ZQu/9Oc9OZTIBkjjP6YIZGV3tNt48T10kjg+yDSFiEAFwubl24A5JAQ+w6znMHoPxP8HqCesjEp6ttz9r8ttlgAVF2UPkvlE7krIxtJUSCD5UKHkyHoDy7P85YCv31ja+LX9d/gXG2GFKz0yfQdTyaWptlqk2hjVHUV/RtKpQqnDVry92JMQQ4xTivCuJMW0lKG4AWFPQJOk6fVCHMf2WFIRi3Pt4F2nj/Jff+qUnsIN6TmN4UiODzLXez3KBDIDV8VniDFTseyWDvX2Nz4oDfhUJxAc+BHAxqxZzFHgqSRwy3iV6vJkT02BkvXPMaOZ/NSBLJB4817xMGPMqtOCOrGa+WglZg8R8FSkuT/RacupSGZtKoKi2Lx/0dXD3or7YgqLfr46fdvlE=
+	a4hRLYpI1jFuVR3hOM52zxr5YR/Ump/kKUro30sIi1YCOy8zhg70mQb50sFoRlRIapLLyTjW/mR6ilBnlBzOJerhmX9nVCK0fAzpfOuwtPrh62eUK73mK7ZNoE6FIuaUfICSaOkf0lg13dgKlnmHmnvSGBt/9oAuF9VzLZXabrLWoCzXntO3UsbqM1jD6cPxJwMgg8BzM72/L/YEtGyK3d9r6Vt8hdqx6L4t6/13BmBW7lx9aL2Ad7cacacJX91z2yWafIDL1mqNEXatbE2Gcdd3AE7KpAYIkHg2YRkU5du1wHw9NsYgTxtQibcMF7Ihalq1RVPBPI1f/4o+LORg8T2jzgPyhlFD92PjdtGNqfdQiNObbylUjSJ9yDUHo1q2ynmM7RyZxcsx2mUrksTojp2QCbFfCPQuMhXhXMTJ5Jnn/7srY4h7AJhjwGARj4Cj7qtMKh98tZYyEsrpH7KVBcprjCQXinAWAKOfDCWnmv21egDmXDFN7MN0S6+hVpI4XEemNfGKyqIgpI5YN9/OhhRZTg7eYiPJxsP/RS9fGZfl2vgERRkx8I+ZUKzJrQrCgPfbLS9fz4KK+/XVeA7+ZIihWt0hjte8ytdtw+n+3gYEwxY1gq8t5NrHRZYai+belYhEQoUxt1Xn5MYzUpGXTXpYezXdI9Hj5cqrqGHDueQzmcohTIu3TPIXO49/Q6dvUlzJo/EaM8UvdTFpeKPaMj9oXyYqwqsOqwR86mCm9P8=
 X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(7416014)(376014)(82310400026)(1800799024)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700016)(376014)(7416014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	16uWn/WFJj039HHFDR692lIp8pZyyQh+sn/8/S3s1RQh9ZjeV4b+VPp8hwhi5iaIZ+w58z4/HHZaJbKmNGNIGAmiBJVP1mYgTUp/Hi8CNPnZBTtHLt/XBYkYFf/yCSmiwoPvUEKNzORljPL6S4DvKdzHEeInQu/PPPHOtoSbamUkWCWsXSemeUi7V5R2VJGeayPZKUuZ1RC0aDP2wcMcMXUP4QLixeF/1mrx1ZtSz9YFHO0G5NoIMgISc+yjxvsKq5DYgv5DcVcDt4dLFhXxTylRexQnDNIbGoDkHqFfN8WMKoxmUGWm3ego+r9VwCGrQvrru2Z8+36ddnultCjC5p9HYoBbGa0cEbWVsmE1IDJ7JO0pw+4WgHkS0A+u2SeyQtVUfzLt7zY1Z2tN5QzPggKRVBbNgH5hkXpH2DXuZX+F8o7nD2xGY/9s/r0cT1Vj
+	TjMHK5u8w4WDzMcjH6Q3wN2xOzM0SU8BJBaonMamXfXFGL8aBQsY8/2vPxknqHrKQKXelNrHosWtt39S/jRGNQ1oh++TqF91Is/4cm/9Rj2lHeeTfRsBrTbDhjB/9LbnVEmdiPB/e48L8k/z4gKvLqYFcMMh+HB+dkyPyJ9+LCihtl3gGQzLkNCzewokUBNlaFiAfZcnk71PQbaxKC8cI5z19RWi3XkHjXEICCWucj9A2gHoPXDI6QNPFEQ6rxJRjuR89xEgFf24HXfcCmnUOAzHpk7DiDiUx72gVGjuwKUWvBkpLDT35goMdNGLo+go2mjfwXBdCctvNTV5bpGvy01tNpuuB9fRFwEYNifYUnDCn2zsyBBI+jddZDMbk4U4Ko0htSjXgJzMb3SMr16Mk8hAfqfPm+7YgVyszoCD/a1vFs7hpHKthzL/FDlQO74s
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2026 12:57:46.8575
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2026 12:57:59.3430
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4f25d51-7aad-48bf-d3c3-08dea9dcbd76
+X-MS-Exchange-CrossTenant-Network-Message-Id: 650455b7-b336-468f-43ae-08dea9dcc4eb
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF00020E64.namprd04.prod.outlook.com
+	MWH0EPF000C6184.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB5063
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4578
 
-This patch series adds support for Texas Instruments TAC5XX2 family of
-SoundWire smart amplifiers, including TAC5572, TAC5672, TAC5682, and
-TAS2883 devices.
+  Implement sdca_asoc_pde_ensure_ps() helper function to poll for PDE
+power state transitions. Per SDCA specification, after writing
+REQUESTED_PS, drivers must poll ACTUAL_PS until the target power state
+is reached.
 
-The series includes:
-- SDCA power state management helper for PDE verification
-- New codec driver for TAC5XX2 family with SmartAmp, SmartMic,
-  UAJ, and HID support
-- Machine driver integration for Intel SoundWire platforms
-- ACPI match entries for Intel MTL platform
+Changes include:
+- Add sdca_asoc_pde_ensure_ps() to handle ACTUAL_PS polling with
+  support for device-specific delay tables or default intervals
+- Export function via sdca_asoc.h for use by SDCA-compliant drivers
+- Refactor entity_pde_event() in sdca_asoc.c to use the helper
 
-Changes in v15: (Patch 2/4)
-- call pm_runtime_resume instead of waiting for
-  device to get initialised similar to other drivers
-- skip reading the uaj and hid registers in the interrupt
-  handler if the uaj is not supported
-- remove had_unattached in the dev_resume callback
-- detect headset in the dev_resume callback only if the uaj
-  is supported
-- indentation fixes to use reverse-xmas tree
+Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
+v15:
+- no change
 
-Changes in v14:
+v14:
 - Resending complete series (v13 1/4 was accidentally sent alone)
-- rename the first_hw_init to first_hw_init_done for readability.
-- Removed dummy tac5xx2_sdw_clk_stop function (Patch 2/4)
-- Added pm_runtime calls in .set_jack callback (Patch 2/4)
-- Improved error handling for early .set_jack calls (Patch 2/4)
-- drop uaj_lock to make it simiar to other drivers (Patch 2/4)
-- move the pm_runtime_enable to probe and keep only
-  pm_runtime_set_active for first attach case. (Patch 2/4)
-- remove tac5xx2_sdw_clk_stop as currently it is dummy (Patch 2/4)
-- Used xmas tree style in .hw_free (Patch 2/4)
+- No code changes from v13
 
-Changes in v13:
-- no code changes (v13 1/4 was sent alone accidentally)
+v13:
+- no change
 
-Changes in v12:
-- Used correct namespace while exporting variables (Patch 1/4)
-- Fixed missing entity information in logging (Patch 1/4)
-- Removed hw_init check in .set_jack (Patch 2/4)
-- Added missing pm_runtime_disable in .remove callback (Patch 2/4)
-- Improved error logging in .hw_params and .hw_free (Patch 2/4)
-- Included part_id in firmware binary name (Patch 2/4)
-- Updated firmware header parsing (Patch 2/4)
+v12:
+- use correct namespace while exporting the variable
+- fix missing entity information while logging
 
-Niranjan H Y (4):
-  ASoC: SDCA: Add PDE verification reusable helper
-  ASoC: tac5xx2-sdw: add soundwire based codec driver
-  ASoC: sdw_utils: TI amp utility for tac5xx2 family
-  ASoC: tac5xx2-sdw: ACPI match for intel mtl platform
+v11:
+- revert v10 changes
+- API is renamed from sdca_asoc_pde_ensure_ps to
+  sdca_asoc_pde_poll_actual_ps
 
- include/sound/sdca_asoc.h                     |    6 +
- include/sound/soc_sdw_utils.h                 |    4 +
- sound/soc/codecs/Kconfig                      |   11 +
- sound/soc/codecs/Makefile                     |    2 +
- sound/soc/codecs/tac5xx2-sdw.c                | 2049 +++++++++++++++++
- sound/soc/codecs/tac5xx2.h                    |  259 +++
- .../intel/common/soc-acpi-intel-mtl-match.c   |  132 ++
- sound/soc/sdca/sdca_asoc.c                    |  106 +-
- sound/soc/sdw_utils/soc_sdw_ti_amp.c          |  144 +-
- sound/soc/sdw_utils/soc_sdw_utils.c           |  151 ++
- 10 files changed, 2833 insertions(+), 31 deletions(-)
- create mode 100644 sound/soc/codecs/tac5xx2-sdw.c
- create mode 100644 sound/soc/codecs/tac5xx2.h
+v10:
+- write REQUESTED_PS before checking the target state.
+- change the API name sdca_asoc_pde_ensure_ps to
+  sdca_asoc_set_pde_poll_sync
 
+v9:
+- newly added interface
+---
+ include/sound/sdca_asoc.h  |   6 +++
+ sound/soc/sdca/sdca_asoc.c | 106 ++++++++++++++++++++++++++-----------
+ 2 files changed, 82 insertions(+), 30 deletions(-)
+
+diff --git a/include/sound/sdca_asoc.h b/include/sound/sdca_asoc.h
+index 46a61a52d..ca35d5a44 100644
+--- a/include/sound/sdca_asoc.h
++++ b/include/sound/sdca_asoc.h
+@@ -13,6 +13,7 @@
+ struct device;
+ struct regmap;
+ struct sdca_function_data;
++struct sdca_pde_delay;
+ struct snd_ctl_elem_value;
+ struct snd_kcontrol;
+ struct snd_kcontrol_new;
+@@ -99,4 +100,9 @@ int sdca_asoc_q78_put_volsw(struct snd_kcontrol *kcontrol,
+ 			    struct snd_ctl_elem_value *ucontrol);
+ int sdca_asoc_q78_get_volsw(struct snd_kcontrol *kcontrol,
+ 			    struct snd_ctl_elem_value *ucontrol);
++int sdca_asoc_pde_poll_actual_ps(struct device *dev, struct regmap *regmap,
++				 int function_id, int entity_id,
++			    int from_ps, int to_ps,
++			    const struct sdca_pde_delay *pde_delays,
++			    int num_delays);
+ #endif // __SDCA_ASOC_H__
+diff --git a/sound/soc/sdca/sdca_asoc.c b/sound/soc/sdca/sdca_asoc.c
+index 2bfc8e5ae..e76afa396 100644
+--- a/sound/soc/sdca/sdca_asoc.c
++++ b/sound/soc/sdca/sdca_asoc.c
+@@ -359,15 +359,77 @@ static int entity_parse_ot(struct device *dev,
+ 	return 0;
+ }
+ 
++/**
++ * sdca_asoc_pde_poll_actual_ps - Verify PDE power state reached target state
++ * @dev: Pointer to the device for error logging.
++ * @regmap: Register map for reading ACTUAL_PS register.
++ * @function_id: SDCA function identifier.
++ * @entity_id: SDCA entity identifier for the power domain.
++ * @from_ps: Source power state (SDCA_PDE_PSn value).
++ * @to_ps: Target power state (SDCA_PDE_PSn value).
++ * @pde_delays: Pointer to array of PDE delay specifications for this device,
++ *              or NULL to use default polling interval.
++ * @num_delays: Number of entries in pde_delays array.
++ *
++ * This function polls the ACTUAL_PS register to verify that a PDE power state
++ * transition has completed. Per SDCA specification, after writing REQUESTED_PS,
++ * the caller must poll ACTUAL_PS until it reflects the requested state.
++ *
++ * This function implements the polling logic but does NOT modify the power state.
++ * The caller is responsible for writing REQUESTED_PS before invoking this function.
++ *
++ * If a delay table is provided, appropriate polling intervals are extracted based
++ * on the from_ps and to_ps transition. If no table is provided or no matching entry
++ * is found, a default polling interval is used.
++ *
++ * Return: Returns zero when ACTUAL_PS reaches the target state, -ETIMEDOUT if the
++ * polling times out before reaching the target state, or a negative error code if
++ * a register read fails.
++ */
++int sdca_asoc_pde_poll_actual_ps(struct device *dev, struct regmap *regmap,
++				 int function_id, int entity_id,
++			    int from_ps, int to_ps,
++			    const struct sdca_pde_delay *pde_delays,
++			    int num_delays)
++{
++	static const int polls = 100;
++	static const int default_poll_us = 1000;
++	unsigned int reg, val;
++	int i, poll_us = default_poll_us;
++	int ret;
++
++	if (pde_delays && num_delays > 0) {
++		for (i = 0; i < num_delays; i++) {
++			if (pde_delays[i].from_ps == from_ps && pde_delays[i].to_ps == to_ps) {
++				poll_us = pde_delays[i].us / polls;
++				break;
++			}
++		}
++	}
++
++	reg = SDW_SDCA_CTL(function_id, entity_id, SDCA_CTL_PDE_ACTUAL_PS, 0);
++
++	for (i = 0; i < polls; i++) {
++		if (i)
++			fsleep(poll_us);
++
++		ret = regmap_read(regmap, reg, &val);
++		if (ret)
++			return ret;
++		else if (val == to_ps)
++			return 0;
++	}
++
++	return -ETIMEDOUT;
++}
++EXPORT_SYMBOL_NS(sdca_asoc_pde_poll_actual_ps, "SND_SOC_SDCA");
++
+ static int entity_pde_event(struct snd_soc_dapm_widget *widget,
+ 			    struct snd_kcontrol *kctl, int event)
+ {
+ 	struct snd_soc_component *component = snd_soc_dapm_to_component(widget->dapm);
+ 	struct sdca_entity *entity = widget->priv;
+-	static const int polls = 100;
+-	unsigned int reg, val;
+-	int from, to, i;
+-	int poll_us;
++	int from, to;
+ 	int ret;
+ 
+ 	if (!component)
+@@ -386,33 +448,17 @@ static int entity_pde_event(struct snd_soc_dapm_widget *widget,
+ 		return 0;
+ 	}
+ 
+-	for (i = 0; i < entity->pde.num_max_delay; i++) {
+-		struct sdca_pde_delay *delay = &entity->pde.max_delay[i];
+-
+-		if (delay->from_ps == from && delay->to_ps == to) {
+-			poll_us = delay->us / polls;
+-			break;
+-		}
+-	}
+-
+-	reg = SDW_SDCA_CTL(SDW_SDCA_CTL_FUNC(widget->reg),
+-			   SDW_SDCA_CTL_ENT(widget->reg),
+-			   SDCA_CTL_PDE_ACTUAL_PS, 0);
+-
+-	for (i = 0; i < polls; i++) {
+-		if (i)
+-			fsleep(poll_us);
+-
+-		ret = regmap_read(component->regmap, reg, &val);
+-		if (ret)
+-			return ret;
+-		else if (val == to)
+-			return 0;
+-	}
++	ret = sdca_asoc_pde_poll_actual_ps(component->dev, component->regmap,
++					   SDW_SDCA_CTL_FUNC(widget->reg),
++					   SDW_SDCA_CTL_ENT(widget->reg),
++					   from, to,
++					   entity->pde.max_delay,
++					   entity->pde.num_max_delay);
++	if (ret)
++		dev_err(component->dev, "%s: PDE transition %x -> %x failed, err=%d\n",
++			entity->label, from, to, ret);
+ 
+-	dev_err(component->dev, "%s: power transition failed: %x\n",
+-		entity->label, val);
+-	return -ETIMEDOUT;
++	return ret;
+ }
+ 
+ static int entity_parse_pde(struct device *dev,
 -- 
 2.34.1
 
