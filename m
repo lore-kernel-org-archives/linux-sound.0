@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94F43BED46;
-	Mon,  4 May 2026 13:49:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155E33D6481;
+	Mon,  4 May 2026 13:52:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777902598; cv=none; b=TFRvG6O9ICbV9zdesmH0+PLN+TKWvNd49O7TDRydPRkn83t1Oawj5moNxSoyrtCuOcQDHmHOpud3dF6qwtFvxsvG9yyoj41Lqn9YLsZEtwJw89NnimEINaQFHZ8YGkJXzM35blP7ySrGOkgI21Z9lGIfHS9NvcOHTr9whJd49eQ=
+	t=1777902778; cv=none; b=SUwSuWzoKy3z+YLeTsF0mW2h4ObFJpXK50wt7AhuAPPFAwTiOuMbK7CTSvC/b0XxrGVICAn5LD9AG/bavEeZvjPzv1xTHoXl5t5zopMcEmlOMx+HxDYJCm1USmiy5f9iqqylN9nQ/2NiKhJ1vNfm8N2/GRkl3FL8UHPZ5MeLvyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777902598; c=relaxed/simple;
-	bh=7Y3TtYS4/shsbu2UKhNA4Nqaob5i3kIIqd1viluZmKs=;
+	s=arc-20240116; t=1777902778; c=relaxed/simple;
+	bh=8rh8pD504ewRqsZbNeFp1FjCWMLehdxXgu5NQImGCG0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IehmfA/x8kMuN3C2ImeocIBwk71zXvSU0OGDA4eCwUGK3xZAVTk0Xdq0qiEdnGH+Ls5ovhOnapwFdtNAQuBTjvt+Y4S4vLIs0R9FxxJqtjmfxsYuCvW7sRCkyqWM3SC5Nmy9iTumt8WVsjc5+H4JsUj6+zvtOG9ByfTKEok1p0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H981NfkM; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=YLZ7fefR85mnOiqacxImjfMo1nzu9SLoPw3JOB9k2KtUh4pGv5rFUGrgvl1DPsX1nxuWQeougegUTtHKo8xcQ100vEcqYPCV7Kod8uMJG36wnmSjACfnAZBckMQLNWpuMmEAELip12KJ4B04ev46O8+h74VbXWhYvLrOLfbOZLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QPYMwFvd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H981NfkM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6518CC2BCB8;
-	Mon,  4 May 2026 13:49:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QPYMwFvd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99A44C2BCB8;
+	Mon,  4 May 2026 13:52:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777902597;
-	bh=7Y3TtYS4/shsbu2UKhNA4Nqaob5i3kIIqd1viluZmKs=;
+	s=k20201202; t=1777902777;
+	bh=8rh8pD504ewRqsZbNeFp1FjCWMLehdxXgu5NQImGCG0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H981NfkM0kyBjliixhjJWaIxJhepuFVe6OClp0EeMCuoOmJzNkqnIwqoRASW1pXi/
-	 flQQPXJJycK/b4t5rXQ9KyTu629eNUA+0ynSvl07yGRT6kzuM/Q8d/NuNDceltzki1
-	 MlrEGnPPdDHPc3ci5QaCExaShfu+UaaKGtm7tkuGrIq3zchK4ZgdIsJ6FmRnx1eDAg
-	 f4QD2C1iaWijZLZhjinP2gdeoKCIMkZAHf0UnMJNlxAsiLzyCvNv053VCBTyDEjvX3
-	 3Eiy1zm8VGojlw+KKFVMakxcsDor0eQFCEkBRb8HCboPrTdi4qEO2RM3wC9mtMIiNz
-	 qkwJf9C313XMg==
+	b=QPYMwFvdI7XvG6UczVbIgTkS6TEm4nOV2xK6qlMUmHwqpNjgjx2krfajXJhfAbFoa
+	 u2ptPnaypgum5H5x748KiFc+KeldU5GY+8w3Lmu/xASF3jaXtAZwUPVhrt3kiGDLMj
+	 zp7RCwXn6cw0HlXu3rjPQeM7wZvqLUzunPOGyxltDj+aKjzhFf+EEI4kp22DoFPY07
+	 vW+1n33TDz+yaGVMmJp00XQRHxS6Oy7ipLWLQa2yd2fG7vAQMsXa8Dvu1fvK0DXy59
+	 0dvvC2R7WTiiNueF465TqabLRSg+foMb/q1qrXq7xD61H1+b2SxibDO7nR8hIsZ7Y5
+	 Iy0HjSS4TS9Fw==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 0225B1AC586B; Mon, 04 May 2026 14:49:54 +0100 (BST)
-Date: Mon, 4 May 2026 22:49:54 +0900
+	id 633A01AC586B; Mon, 04 May 2026 14:52:55 +0100 (BST)
+Date: Mon, 4 May 2026 22:52:55 +0900
 From: Mark Brown <broonie@kernel.org>
 To: Niranjan H Y <niranjan.hy@ti.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -38,11 +38,11 @@ Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
 	ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
 	pierre-louis.bossart@linux.dev, baojun.xu@ti.com,
 	shenghao-ding@ti.com, sandeepk@ti.com, v-hampiholi@ti.com
-Subject: Re: [PATCH v15 3/4] ASoC: sdw_utils: TI amp utility for tac5xx2
- family
-Message-ID: <afikAnQRYH96azCv@sirena.co.uk>
+Subject: Re: [PATCH v15 2/4] ASoC: tac5xx2-sdw: add soundwire based codec
+ driver
+Message-ID: <afikt0VzLDHrTjvM@sirena.co.uk>
 References: <20260504125716.2015-1-niranjan.hy@ti.com>
- <20260504125716.2015-4-niranjan.hy@ti.com>
+ <20260504125716.2015-3-niranjan.hy@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,51 +50,58 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2m8+CUxlUu4HyZkC"
+	protocol="application/pgp-signature"; boundary="8E+klVZ3TSHOp9nl"
 Content-Disposition: inline
-In-Reply-To: <20260504125716.2015-4-niranjan.hy@ti.com>
+In-Reply-To: <20260504125716.2015-3-niranjan.hy@ti.com>
 X-Cookie: Alex Haley was adopted!
 
 
---2m8+CUxlUu4HyZkC
+--8E+klVZ3TSHOp9nl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Mon, May 04, 2026 at 06:27:15PM +0530, Niranjan H Y wrote:
+On Mon, May 04, 2026 at 06:27:14PM +0530, Niranjan H Y wrote:
+> Add codec driver for tac5xx2 family of devices.
 
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(asoc_sdw_ti_tac5xx2_spk_rtd_init);
+> +static s32 tac5xx2_sdca_dev_resume(struct device *dev)
+> +{
+> +	struct tac5xx2_prv *tac_dev = dev_get_drvdata(dev);
+> +	struct sdw_slave *slave = dev_to_sdw_dev(dev);
+> +	unsigned long t;
+> +	int ret;
 
-The other helpers in the file are all EXPORT_SYMBOL_NS("SND_SOC_SDW_UTILS")
+> +
+> +	/* Detect and set jack type for UAJ path before playback.
+> +	 * This is required as jack detection does not trigger interrupt
+> +	 * when device is in runtime_pm suspend with bus in clock stop mode.
+> +	 */
+> +	if (tac_has_uaj_support(tac_dev))
+> +		tac5xx2_sdca_headset_detect(tac_dev);
+> +
+> +regmap_sync:
+> +	regcache_cache_only(tac_dev->regmap, false);
+> +	regcache_mark_dirty(tac_dev->regmap);
+> +	ret = regcache_sync(tac_dev->regmap);
+> +	if (ret < 0)
+> +		dev_warn(dev, "Failed to sync regcache: %d\n", ret);
 
-> +int asoc_sdw_ti_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct
+We do the jack detect before we reinitialise the registers, meaning the
+device is still in cache only mode and volatile reads will all return
+-EBUSY.
 
-> +       mic_name = devm_kasprintf(card->dev, GFP_KERNEL, "%s", component->name_prefix);
-
-> +       card->components = devm_kasprintf(card->dev, GFP_KERNEL,
-> +                                         "%s mic:%s", card->components,
-> +                                         mic_name);
-> +       if (!card->components)
-
-Do we need the local mic_name given that it just gets fed into another
-printf() or could we just use component->name_prefix directly in the
-second print?
-
-
---2m8+CUxlUu4HyZkC
+--8E+klVZ3TSHOp9nl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn4pAIACgkQJNaLcl1U
-h9Al3wgAhHAQZy/BoEHu50a1irnicQ/4UlBeDwAob0e8FMMLCHnxKma/yaBhbHni
-yVmqwEROSjeIhoqTcsRRC3PK67phZn72bgZsqo/HbH0r/4XDeF/TiVjkLOE5cJej
-ZlhLaJIx08VjEzBlg0AR9HjRjfFMWqb7qUznV/vhBreUCIDiKRlO5QpRmOXQNccT
-RWtsx0ovdYhgrv9WTSsBP3EnVxzQwScCqk2lQXMksaDjlmyh/gkCZfB5dxYYcFWx
-YzfHVQNB3mn+viYngFdVG892tPtlqXXKUOVcmtQo/L1GlBYabbO7UmH5YuRpWJg0
-Wk5ARP6hlL7yfmitGJhCpIp5RLZyig==
-=AeBb
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn4pLYACgkQJNaLcl1U
+h9Bkwwf/TC2t0yJLZpLLC4MpoarVoZXnIPARjX8+gyg1RLHtWgAyXFArmsgZ/Jop
+S2pCSdCkAhJp8WDBgbn6RebaUsTJplmRuRCSO6G6f19GIV33Juapi3UjYNbw1wni
+pqx77gCTh0QC4Bw1bGi2FRracZyoZlbBn3TYPurtlkHN45CQCtn2KL/JbDoBu0Zz
+SHhd8D3BXtuKZbDyuPxjPF+Ug/aRO+TBaB2UFchRb4fPVIBGLmv4MApZYA+n03Rw
+h8ka7IGgSJiIBnwzm1I24lC4AUcHJb8kUla4mWMBExZgU5GeGZqvrf+ttZstGNtp
+Nq83ytwbopQBziWdKudwOIUYZQqqZA==
+=609v
 -----END PGP SIGNATURE-----
 
---2m8+CUxlUu4HyZkC--
+--8E+klVZ3TSHOp9nl--
