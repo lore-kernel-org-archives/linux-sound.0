@@ -1,261 +1,94 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8633845C0
-	for <linux-sound@vger.kernel.org>; Mon,  4 May 2026 22:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EF630146C;
+	Tue,  5 May 2026 01:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777934427; cv=none; b=u5be+de2b5zeCadM+05g10EIJNOYcckp84oatKhgfTOnjZSm3ygbvwEUhtuMQpAxd71GIixxeDps0ZP3R3gkgPNKTNam4jqOA1FJdhQA4TNDbiLbJi04ghJg9HDXvEIXDZoDgY+OHxtknYSUL9w0oO3GeN/LhCOi6Ri+/V1t4UU=
+	t=1777943312; cv=none; b=XpnHJvk0oDdKb6izq1IaEGFOeC8LERjhUZRdJFPxiUdewCQ8Darn3EyqZT4arV4wOT4xVZD8dZau48iZ5rzQ5Mt6xXYYaUAn71QUm71rWLRSo1NqbZWNK//5lh8p+bG8WGJBSMDeP1pWkDuCDRiMHKejG07feeV/kuxoS22P0s0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777934427; c=relaxed/simple;
-	bh=IV4lIE/sAJGhfLhlPaCkFiYyIHmolOIEkTmTLS9KkxE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XQItRwkJfBVJ1CbOMucMXC0UElqQ6JBTkn5ChQzJqyuA5ibW4dmfIA7lJrMAi9vtWKyAwyHafDdpXKpvrwQJvJUS1wPmByd9BRsTJEVc8Ll6xRMY0i7rKs98qO0zEtUF/lhEsWyRT7ZUGoqZuxPHd++EMWwrB+ypt/LQBLiH3To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OL+HwxAY; arc=none smtp.client-ip=74.125.82.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777943312; c=relaxed/simple;
+	bh=sExGztjbNjK53NIWW7HhbL2VQMKB7jHq+Mz4VXC6PkY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ncSgmMyx3xy8MC0I5r9M3GURvYdAa8QLwNrhkIZsogAaVWCjbJar2FSQBr9+X9Xh3LnG3J9bSACZH0DQWvsjaptes9QtZGpKBqs5wrmY0no5ZMWPKArMGhEjvMezr8LtUg8+9w31fsTGe1/gMAbtDETT2IY4/juBe8unlLn3PKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JsBWl9IR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OL+HwxAY"
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2c156c4a9efso8132339eec.1
-        for <linux-sound@vger.kernel.org>; Mon, 04 May 2026 15:40:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777934425; x=1778539225; darn=vger.kernel.org;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YOyMVqWhiGWsLeCi4F+cbwxOvc3jINtzcH+2zOdTKlA=;
-        b=OL+HwxAYYiciHK/AtYMCkTlWo0YjeWSEewkQAEr4m4TFpAJjOQh0Yn2PGdFTrobHAO
-         TfUXtH8klEEVz5Iizl/Jofg7aaUAZfU7NOwydNUAkM/o7AsNO93evhYLLXUabm0XmjN7
-         DdW18u9i3Mnoq6taREepQmVqjmCCfYJVIH79s9++i+L5G6qxD3PTBXpB4jIS8fkaPMSv
-         F7nqpGKmE11RglVbgQzd7ztq1ZEupXY4/u9z6LGUaNEeuRvkRiKU2ZPJkrw0fbkNX9jV
-         U1CefpR4Afe8azVa+9sBbIJ545O/vsocU+VVsJQR8fz6EvLCYku16Zelt7+r1P450Rq+
-         j/jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777934425; x=1778539225;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YOyMVqWhiGWsLeCi4F+cbwxOvc3jINtzcH+2zOdTKlA=;
-        b=KOY88Sd+Dvw/IHQ1bSNYtpO6WfOXxzOjLL9XUW9kcatu+PueKUZwJmtgIF9URmAjZN
-         gimShFSscaK/fO3h/pnfkQuL+tSR5RKkyN4E1K7LdDv9+Z4YcBwtSTzDOj4Y4Rc0GsxD
-         Xh2hP5mSTrDCPmq8op7Bhz3Q4G1DU7NSlgkIHtSQ4pZvOW1ogPnystgv25/QMisC9KPD
-         x0aXfFE90EqCNYCxeTcZ5oaAtMRfhs+hmnQRBrmS3DcXtmBMxZF9SX7Y+Xx1oRHzLlWP
-         InkursVVi/wMV9F/gkvwNxrIW/QauGkWYzZxLgeo00viKXXH8Q6D62+/B4+PCGcDCgkF
-         w6wA==
-X-Forwarded-Encrypted: i=1; AFNElJ8qtUK2ffEzy/jA/E6uQCwa07CR4/Gyc0KBqOQnO9cuh7QfqaxrIgQbc5Sixze7qHU3fP3DIrYYo9wOwQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJiaR0tTeDFLngYD7OqZdL0gAR2EMW5FI27R/xHxvDSpCHjByH
-	RRjXhYMbz0RZ73B3cmEgZlBxroMncionczVDlyvair/57sNszit8Sy09
-X-Gm-Gg: AeBDieuuWQviWoj0LzHIrOCBFYvrt8kEyw7F355TrUu4gX+HtixliefIysdeRe31OUT
-	6PylI7e2oEIu2e+WQkD9VgY9m6/1GyLxHMrkoskQfUS07u6yBFOVq3z3C4/opC9p0rz8CAlD14o
-	pl9YwF5qCjDgUj2cd1vx/Hcr5h4VgEkDUyQoVmO5ZO4XBFZhdky+lfsMCjX3vBnaVUDOUCPEFwe
-	f2j6wlAkEpv+6wsYg3t8a6q3GAn9vJ+afYn+VVbbRqH8/HRB4rUdkrEvzkHCbbJFM+rfJ+XAljv
-	JjbhK7xgfAkkjKexxlLdkQFrEmp6plOt9j0X2twfqkcwD8qeA/djCPiDXXZ/l5JWp92biQI3Zdc
-	Dt/4BstCObRxDaD0klRYKLy1cezKumzHr7n87ybNeKfKmB3EH5Mz48KfbEgEtozFBo2nHqbiB90
-	hHbbYzcaDn9+5F4XD1wtSnU4/PtMbmW4UiAklIah0wC/6Ywl1vv9qIv+mmSOhizW3/GKsSeRynb
-	t5Qt5mR8x2w
-X-Received: by 2002:a05:7300:7fa2:b0:2ed:e14:e956 with SMTP id 5a478bee46e88-2efbaa9db2amr4361109eec.32.1777934425254;
-        Mon, 04 May 2026 15:40:25 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee3bb60811sm17636248eec.24.2026.05.04.15.40.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 May 2026 15:40:24 -0700 (PDT)
-Message-ID: <0b52cd6d-8845-4591-9b5b-0e3b97221c80@gmail.com>
-Date: Mon, 4 May 2026 19:40:17 -0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JsBWl9IR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B39BC2BCB9;
+	Tue,  5 May 2026 01:08:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777943311;
+	bh=sExGztjbNjK53NIWW7HhbL2VQMKB7jHq+Mz4VXC6PkY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=JsBWl9IRX6wu54VWJu+VVWHSnPlJ+63UqA99BB47VRXwaBZOhyJb5l87NrIcE3ZX+
+	 C/IsSEpd4bL305xpYWDxnWQ/z9+tn3LGPlQv9bGuVKjX5exOTQclCxnURc08Y+aSLz
+	 V7MosTs5WfYQt602Ggc/a3Hj240w3g85vkes5kVlQfHhgJll4U1c8NCsa1JqKq4MH3
+	 lFbQyn/VF6PbasvlEYbxKV6YC1vzcFd4WPav4Th4i4U+Hxl+6EOdYgiHaTQCJZZPUv
+	 SrVTp8Kp9yxe+wn4CzS53NzkgcBL5E7k5No3iBEnZ113XgijD3ZcZ2mbihaXD1T3qc
+	 p79VVkD6xCV+w==
+From: Mark Brown <broonie@kernel.org>
+To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Viorel Suman <viorel.suman@nxp.com>, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Cc: linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260428-asoc-fsl-xcvr-event-generation-v1-1-f21cf0812c4f@gmail.com>
+References: <20260428-asoc-fsl-xcvr-event-generation-v1-1-f21cf0812c4f@gmail.com>
+Subject: Re: [PATCH] ASoC: fsl_xcvr: Fix event generation for cached
+ controls
+Message-Id: <177790088876.458539.12321460496657732500.b4-ty@b4>
+Date: Mon, 04 May 2026 22:21:28 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] firmware_loader: Add cancel helper for async
- requests
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
- <russ.weight@linux.dev>, Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20260501-alsa-hda-tas2781-fw-callback-teardown-v3-0-8d9f873b97bd@gmail.com>
- <20260501-alsa-hda-tas2781-fw-callback-teardown-v3-1-8d9f873b97bd@gmail.com>
- <871pfrxkmj.wl-tiwai@suse.de>
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-Content-Language: en-US
-In-Reply-To: <871pfrxkmj.wl-tiwai@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------iUt5MEuhmb6OXhDNeLznijJx"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1133; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=sExGztjbNjK53NIWW7HhbL2VQMKB7jHq+Mz4VXC6PkY=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp+UMMvTt3S99ftFabi4GLdy4UvAT0nQ4UKgBvn
+ JxAe8Ni9USJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaflDDAAKCRAk1otyXVSH
+ 0FUHB/49evf8kQJKEqAWNgacwWUapt3tQu91CD601pBBjvaqilub/Ub72fuk+gwgnGLGe6Z8tjT
+ 2N7Q4kLLisrsPoBy9ULO20mhCtdwhTEK/OnaUFcc0GkNHbjzNCl8F6evKYkdatVVe0UFsayAdUV
+ eWfXWlck4vXPzGo6f/R8Nlrnzn4IDKekzMotXrLrAN7O2sHWC6goOG+wJ02aRw8CjwWpYnJzE05
+ O6vNLez2PRFTsLYNEX+qnRt2E0sUdqVAajml+rciu+GUciOkoOrUuVw6cbNK9x+7qVWlNSkY7Wo
+ uM5ABcRc9CVByaVD+EMvoqTdq/B3yF1RS4p6va6K2iZO8p0+
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------iUt5MEuhmb6OXhDNeLznijJx
-Content-Type: multipart/mixed; boundary="------------WwOXLcl06XP6tUs7vz394GjH";
- protected-headers="v1"
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Russ Weight
- <russ.weight@linux.dev>, Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>,
- driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-Message-ID: <0b52cd6d-8845-4591-9b5b-0e3b97221c80@gmail.com>
-Subject: Re: [PATCH v3 1/2] firmware_loader: Add cancel helper for async
- requests
-References: <20260501-alsa-hda-tas2781-fw-callback-teardown-v3-0-8d9f873b97bd@gmail.com>
- <20260501-alsa-hda-tas2781-fw-callback-teardown-v3-1-8d9f873b97bd@gmail.com>
- <871pfrxkmj.wl-tiwai@suse.de>
-In-Reply-To: <871pfrxkmj.wl-tiwai@suse.de>
-Autocrypt-Gossip: addr=perex@perex.cz; keydata=
- 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
+On Tue, 28 Apr 2026 00:07:08 -0300, Cássio Gabriel wrote:
+> ASoC: fsl_xcvr: Fix event generation for cached controls
 
---------------WwOXLcl06XP6tUs7vz394GjH
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On 5/4/26 12:25, Takashi Iwai wrote:
-> On Fri, 01 May 2026 12:22:12 +0200,
-> C=C3=A1ssio Gabriel wrote:
->> +static void firmware_work_free(struct firmware_work *fw_work)
->> +{
->> +	put_device(fw_work->device); /* taken in request_firmware_nowait() *=
-/
->> +	module_put(fw_work->module);
->> +	kfree_const(fw_work->name);
->> +}
->> +
->>  static void request_firmware_work_func(struct work_struct *work)
->>  {
->>  	struct firmware_work *fw_work;
->>  	const struct firmware *fw;
->> +	unsigned long flags;
->> =20
->>  	fw_work =3D container_of(work, struct firmware_work, work);
->> =20
->>  	_request_firmware(&fw, fw_work->name, fw_work->device, NULL, 0, 0,
->>  			  fw_work->opt_flags);
->>  	fw_work->cont(fw, fw_work->context);
->> -	put_device(fw_work->device); /* taken in request_firmware_nowait() *=
-/
->> =20
->> -	module_put(fw_work->module);
->> -	kfree_const(fw_work->name);
->> -	kfree(fw_work);
->> +	spin_lock_irqsave(&firmware_work_lock, flags);
->=20
-> This is a sleepable context, so you can use spin_lock_irq().
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
-Thanks, I'll fold those in v4.
+Thanks!
 
->=20
->> +	if (!list_empty(&fw_work->list)) {
->> +		list_del_init(&fw_work->list);
->> +		spin_unlock_irqrestore(&firmware_work_lock, flags);
->> +		firmware_work_free(fw_work);
->> +		kfree(fw_work);
->=20
-> Can kfree(fw_work) be in firmware_work_free(), too?  All callers free
-> it in anyway.
+[1/1] ASoC: fsl_xcvr: Fix event generation for cached controls
+      https://git.kernel.org/broonie/sound/c/e8446a4a574d
 
-The worker and cancel paths are both sleepable contexts, so we can switch=
- those
-two sites from spin_lock_irqsave() to spin_lock_irq().
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-I think we need to keep irqsave in _request_firmware_nowait(), since that=
- path
-still supports GFP_ATOMIC callers and should not assume IRQs are enabled.=
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
->=20
-> (snip)
->> +void request_firmware_nowait_cancel(struct device *device, void *cont=
-ext,
->> +				    void (*cont)(const struct firmware *fw,
->> +						 void *context))
->> +{
->> +	struct firmware_work *fw_work =3D NULL;
->> +	struct firmware_work *tmp;
->> +	unsigned long flags;
->> +
->> +	spin_lock_irqsave(&firmware_work_lock, flags);
->=20
-> Here you can use spin_lock_irq() as well.
-
-Thanks, I'll change it in v4.
-
-We can also move kfree(fw_work) into firmware_work_free(), since the succ=
-essful
-completion and cancel paths both free the object after releasing the devi=
-ce,
-module and firmware-name references.
-=20
-> thanks,
->=20
-> Takashi
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-C=C3=A1ssio
+Mark
 
---------------WwOXLcl06XP6tUs7vz394GjH--
-
---------------iUt5MEuhmb6OXhDNeLznijJx
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSrYqI5vIrg1X9eqEjQXT8aWv/ugwUCafkgUgUDAAAAAAAKCRDQXT8aWv/ug0wh
-AQCvNSrFEuyv65YBjhmuNlt+EUnhgQRb01N8wKDW21JL6gD+OPBeif+WJvgkS9BmUxkKEh3smoKF
-WF2wb96tbDdFSQM=
-=H1yK
------END PGP SIGNATURE-----
-
---------------iUt5MEuhmb6OXhDNeLznijJx--
