@@ -1,107 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155E33D6481;
-	Mon,  4 May 2026 13:52:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71323D5667
+	for <linux-sound@vger.kernel.org>; Mon,  4 May 2026 14:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777902778; cv=none; b=SUwSuWzoKy3z+YLeTsF0mW2h4ObFJpXK50wt7AhuAPPFAwTiOuMbK7CTSvC/b0XxrGVICAn5LD9AG/bavEeZvjPzv1xTHoXl5t5zopMcEmlOMx+HxDYJCm1USmiy5f9iqqylN9nQ/2NiKhJ1vNfm8N2/GRkl3FL8UHPZ5MeLvyI=
+	t=1777903735; cv=none; b=kPfllSIOntv0Qs4Y7HaoBPrCClQrLIyf7GSGR9FYCxX2l5hM9zUiq9FGiKuRgDMNp1z+n3f8xbql3AR+5bCVssSimqPEi/5Jslh7c9/ljZZoBvBXar5F1efiorkLtas+vuOX7U7Ol0ZHNEeghgeHMeCbQNfQq3QwoIfe0JCJa88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777902778; c=relaxed/simple;
-	bh=8rh8pD504ewRqsZbNeFp1FjCWMLehdxXgu5NQImGCG0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YLZ7fefR85mnOiqacxImjfMo1nzu9SLoPw3JOB9k2KtUh4pGv5rFUGrgvl1DPsX1nxuWQeougegUTtHKo8xcQ100vEcqYPCV7Kod8uMJG36wnmSjACfnAZBckMQLNWpuMmEAELip12KJ4B04ev46O8+h74VbXWhYvLrOLfbOZLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QPYMwFvd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777903735; c=relaxed/simple;
+	bh=ntupBoAYH3fMF82pW8zLlPf7lecYFnYUQau6eu9pJsY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=C5uToFfaIjGm5xIZ+jXpRJdk7nDyUcTxiSviT524v3e69IcUOxAcSHzt5jM6HzbFTl/Hr9L6UBcSB091k7nO2NnQI0SwUvU8JyJq2dbdD26wFJgdKRpjRMnwuaNuCbi/R6Mk+5STg8D08mctyuNsLJcSx64c0MdQ40HiUPHInXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FACOFOc7; arc=none smtp.client-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QPYMwFvd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99A44C2BCB8;
-	Mon,  4 May 2026 13:52:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777902777;
-	bh=8rh8pD504ewRqsZbNeFp1FjCWMLehdxXgu5NQImGCG0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QPYMwFvdI7XvG6UczVbIgTkS6TEm4nOV2xK6qlMUmHwqpNjgjx2krfajXJhfAbFoa
-	 u2ptPnaypgum5H5x748KiFc+KeldU5GY+8w3Lmu/xASF3jaXtAZwUPVhrt3kiGDLMj
-	 zp7RCwXn6cw0HlXu3rjPQeM7wZvqLUzunPOGyxltDj+aKjzhFf+EEI4kp22DoFPY07
-	 vW+1n33TDz+yaGVMmJp00XQRHxS6Oy7ipLWLQa2yd2fG7vAQMsXa8Dvu1fvK0DXy59
-	 0dvvC2R7WTiiNueF465TqabLRSg+foMb/q1qrXq7xD61H1+b2SxibDO7nR8hIsZ7Y5
-	 Iy0HjSS4TS9Fw==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 633A01AC586B; Mon, 04 May 2026 14:52:55 +0100 (BST)
-Date: Mon, 4 May 2026 22:52:55 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Niranjan H Y <niranjan.hy@ti.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ckeepax@opensource.cirrus.com, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, cezary.rojewski@intel.com,
-	peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev, baojun.xu@ti.com,
-	shenghao-ding@ti.com, sandeepk@ti.com, v-hampiholi@ti.com
-Subject: Re: [PATCH v15 2/4] ASoC: tac5xx2-sdw: add soundwire based codec
- driver
-Message-ID: <afikt0VzLDHrTjvM@sirena.co.uk>
-References: <20260504125716.2015-1-niranjan.hy@ti.com>
- <20260504125716.2015-3-niranjan.hy@ti.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FACOFOc7"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2ef8d6ba48bso1333224eec.1
+        for <linux-sound@vger.kernel.org>; Mon, 04 May 2026 07:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777903733; x=1778508533; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jq9KrqS3Q7K9ftxbbAePDLzdwZrp1AWI/uIHBK4Uqd4=;
+        b=FACOFOc7lPqb0rqfMEvMeWNANgLaZXwY2QL+L5T0dp2boeUiBb3w8PJ+aznZ5eiKP+
+         p5PRukEayehQ+BYFGgbh8rzQq4BnilYCVxbx7SllxaO8UqL0/7+Ck/JKbcrwo4z1QpET
+         I2KcyJeZZHI/zXapkuvXYIAhQFcH5NEn1n3GUthQ8Hn/32bRAdxlR8JO9CDDMk3uNJ6P
+         YZfc5Lg+aI3LY/k2zYInWLZvOT5nrefcjsXIKC/UMkiwNgGl/2RUEHHcuzGnKIffSowy
+         CfOZhJ2ej4TaQNrTIG6rq8sxJwMNMAHSFYJAH30SYpC4mpU1MjG3dOv0j8U44DTdtLq2
+         //aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777903733; x=1778508533;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Jq9KrqS3Q7K9ftxbbAePDLzdwZrp1AWI/uIHBK4Uqd4=;
+        b=hABo0Ue06e9otWspSIf9/6/ZUR6EQwaxoodge+YHJgyGij4jX414jG5a365JGrL7g6
+         hjXi0t3CjQu4FH7fHY/JcZoqu0jQJX5/N2LtcMjTqWNMYOJNieO91gKy7VvQNTjn4OFl
+         c/Vbqgjf5/XqzD032AtaY+znXPb8Z2VXVgraJzQu6qmB+jjiHQUESbrweA/MvSF/99wd
+         UMP0aOj2d70YeZRJ36QuRwp8RZrkLEfVVzr1dyi3d0Obwi8Kh+pGsFQIRgTzDmeVExBf
+         6n77xNmonTg+onMLGGW9Q58kPQAo9c1N12tDDCLXoj2wACwsHM8U8O2trP9eEiQCsXSY
+         Bcfw==
+X-Gm-Message-State: AOJu0YzcL21zuyScr/bRjiRjJ17Hjeiw6RwMOasb+7AFc4RwO89MyB3m
+	cvdLTZPW/PzITmxc8ASW7eUv80LwY/rsYv0ugZydXhLiA2hdJ7m5Wm5CCjYYcw==
+X-Gm-Gg: AeBDietoVNLTG7K5ni4j5sJS+DEkC9SpXwDPPz4P5/mWX5LsHaDONXrAprYydKrpEl3
+	GsKLKTkDkpp8XiYExOSDL7S6e1Dbjfr/Tgs6c8MYfWKPrNBqtwI136mgZj+pKMnuHqyKLUGW/ZA
+	uPptAASDPfA+1OCtbmtLHuipAVCiCE1Tdwe5HTiBmDwpXPFEu69RBVk5DjOz2gwcwHyniktflv9
+	xry4D+y2EBPZUgt8V4/UbRnb/Bv9pvtjvCYhJFCQo2D79oTHsTFoF4A1oJixAFThs+KdvEwmRGK
+	ICJF2vqpKuDdrlAi31++AYKdEMbpp9xhrLKQEy4plBtK2u/2kt4GtpSAXJO74phMv24V63QlglU
+	Qsnt3S3WD2askGg9aUsLNriEjiwFG1QXZXGHXmOZNHFUo76auNWlhmhKwG7Hplnm5bPfPjOhrGg
+	jDPPumVRCSHgj04UTYrjacaEDyMSD9VZ6NJph/oRlIzXhDo1XzqlPq+QAjcN3JKTYQeLLnm3Z3O
+	Ypu3dItDZhu
+X-Received: by 2002:a05:7301:18ab:b0:2ed:a58c:956 with SMTP id 5a478bee46e88-2eda58c0affmr4415025eec.8.1777903732671;
+        Mon, 04 May 2026 07:08:52 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee3b878317sm16680568eec.23.2026.05.04.07.08.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 May 2026 07:08:52 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Mon, 04 May 2026 11:08:45 -0300
+Subject: [PATCH] ALSA: usb-audio: midi2: Restart output URBs on resume
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8E+klVZ3TSHOp9nl"
-Content-Disposition: inline
-In-Reply-To: <20260504125716.2015-3-niranjan.hy@ti.com>
-X-Cookie: Alex Haley was adopted!
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260504-usb-midi2-output-resume-v1-1-c089cc8ad3c6@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMyw6CQAxG4VchXdsEiwHjqxgXDPxoTbhkOiUmh
+ Hd3lOW3OGcjQ1QY3YqNIlY1naeM86mg7tVOT7D22SSl1OVFhN0Cj9qr8Oxp8cQR5iO4auVaN6G
+ pEEC5XiIG/fzP98dh8/BGl3472vcv9VliansAAAA=
+X-Change-ID: 20260422-usb-midi2-output-resume-3a2867b73ebe
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2220;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=ntupBoAYH3fMF82pW8zLlPf7lecYFnYUQau6eu9pJsY=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJk/VhT+mJ3BbevW9XJvpXfiDVv169/FHsd56U3azq+r8
+ ogppbato5SFQYyLQVZMkWV10iLLPV0PrtbHrfCAmcPKBDKEgYtTACay4AUjw6rHOt78Fu2eJtYK
+ mn2FAW0LZS5d0+qPa219xXKu7n7pCUaGB9mvrB1j/q5Msv9er3+Iy2zhtgzdudXvn1i3HXZzT33
+ IDAA=
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
+USB MIDI 2.0 suspend saves the endpoint running state, clears it and
+kills all endpoint URBs. Resume restores the running state, but only
+restarts input endpoints.
 
---8E+klVZ3TSHOp9nl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+For a running output endpoint, this leaves the endpoint marked running
+with an empty URB queue. Output transfer progress depends on either the
+rawmidi trigger path starting the queue or an output completion refilling
+it. After suspend there is no completion left, and output data that
+remains queued in the raw UMP or legacy rawmidi buffer can stay stalled
+until userspace happens to trigger the stream again.
 
-On Mon, May 04, 2026 at 06:27:14PM +0530, Niranjan H Y wrote:
-> Add codec driver for tac5xx2 family of devices.
+Restore the saved state with atomic accessors, keep input endpoints
+restarted as before, and restart output endpoints that were running before
+suspend. Clear the saved suspend state after restoring it.
 
-> +static s32 tac5xx2_sdca_dev_resume(struct device *dev)
-> +{
-> +	struct tac5xx2_prv *tac_dev = dev_get_drvdata(dev);
-> +	struct sdw_slave *slave = dev_to_sdw_dev(dev);
-> +	unsigned long t;
-> +	int ret;
+Fixes: ff49d1df79ae ("ALSA: usb-audio: USB MIDI 2.0 UMP support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+---
+ sound/usb/midi2.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-> +
-> +	/* Detect and set jack type for UAJ path before playback.
-> +	 * This is required as jack detection does not trigger interrupt
-> +	 * when device is in runtime_pm suspend with bus in clock stop mode.
-> +	 */
-> +	if (tac_has_uaj_support(tac_dev))
-> +		tac5xx2_sdca_headset_detect(tac_dev);
-> +
-> +regmap_sync:
-> +	regcache_cache_only(tac_dev->regmap, false);
-> +	regcache_mark_dirty(tac_dev->regmap);
-> +	ret = regcache_sync(tac_dev->regmap);
-> +	if (ret < 0)
-> +		dev_warn(dev, "Failed to sync regcache: %d\n", ret);
+diff --git a/sound/usb/midi2.c b/sound/usb/midi2.c
+index 3546ba926cb3..2785600d2312 100644
+--- a/sound/usb/midi2.c
++++ b/sound/usb/midi2.c
+@@ -227,7 +227,7 @@ static void kill_midi_urbs(struct snd_usb_midi2_endpoint *ep, bool suspending)
+ 	if (!ep)
+ 		return;
+ 	if (suspending)
+-		ep->suspended = ep->running;
++		atomic_set(&ep->suspended, atomic_read(&ep->running));
+ 	atomic_set(&ep->running, 0);
+ 	for (i = 0; i < ep->num_urbs; i++) {
+ 		if (!ep->urbs[i].urb)
+@@ -1188,10 +1188,11 @@ void snd_usb_midi_v2_suspend_all(struct snd_usb_audio *chip)
+ 
+ static void resume_midi2_endpoint(struct snd_usb_midi2_endpoint *ep)
+ {
+-	ep->running = ep->suspended;
+-	if (ep->direction == STR_IN)
++	atomic_set(&ep->running, atomic_read(&ep->suspended));
++	atomic_set(&ep->suspended, 0);
++
++	if (ep->direction == STR_IN || atomic_read(&ep->running))
+ 		submit_io_urbs(ep);
+-	/* FIXME: does it all? */
+ }
+ 
+ void snd_usb_midi_v2_resume_all(struct snd_usb_audio *chip)
 
-We do the jack detect before we reinitialise the registers, meaning the
-device is still in cache only mode and volatile reads will all return
--EBUSY.
+---
+base-commit: fac9a31701803e4e41fdb7b5c71582c65cf47176
+change-id: 20260422-usb-midi2-output-resume-3a2867b73ebe
 
---8E+klVZ3TSHOp9nl
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn4pLYACgkQJNaLcl1U
-h9Bkwwf/TC2t0yJLZpLLC4MpoarVoZXnIPARjX8+gyg1RLHtWgAyXFArmsgZ/Jop
-S2pCSdCkAhJp8WDBgbn6RebaUsTJplmRuRCSO6G6f19GIV33Juapi3UjYNbw1wni
-pqx77gCTh0QC4Bw1bGi2FRracZyoZlbBn3TYPurtlkHN45CQCtn2KL/JbDoBu0Zz
-SHhd8D3BXtuKZbDyuPxjPF+Ug/aRO+TBaB2UFchRb4fPVIBGLmv4MApZYA+n03Rw
-h8ka7IGgSJiIBnwzm1I24lC4AUcHJb8kUla4mWMBExZgU5GeGZqvrf+ttZstGNtp
-Nq83ytwbopQBziWdKudwOIUYZQqqZA==
-=609v
------END PGP SIGNATURE-----
-
---8E+klVZ3TSHOp9nl--
