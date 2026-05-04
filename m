@@ -1,195 +1,119 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7D73DFC94
-	for <linux-sound@vger.kernel.org>; Mon,  4 May 2026 15:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5DB3DF01B
+	for <linux-sound@vger.kernel.org>; Mon,  4 May 2026 15:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777908312; cv=none; b=T/4l8+mbjvowAzrCJMEcWi5akSYSyBsbbaUsa1/8g8toJ/WPyeAKcw1iHeFvT5BTxBIRIwTu7dlr5xfCZfidlO++bl7MgCrxpLiQAh3ArUxuq3BNAFMjy72uXKWOOKclUMpoF5AhPmGe4IXpMt5fOgULQUM1zSkEnADr276I01k=
+	t=1777909121; cv=none; b=FR6BHrrkO+j89i+iPvDxS0da7ZmcD/wedyKTRZiHBsqK4sL8whmhivL72HLj0XwwpSN2+ZZvvUfQG1+hbVh6+GPD0TqDjT5+KGrKQMV/OnHaZmYmMl1WJi4Gu+kFI/T9YKvyKBbqUhyolkzz3yJdwjQxz9nZUcAFDDCUHdqKZlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777908312; c=relaxed/simple;
-	bh=WTttH7EilVB42FXttHGWpNmaVuaYhqJL4ZVyMCXetyU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MlTQNXiRsffXK9Vw/zBjDjgORD7nYVzEnMBRtYkiKwYjmNKfjBjb9X6rNsUGXqY+nJZAVspHKpwDXq6/bbery670+o0RZccJ0EQhNr96rDiTSjcse9EJvlzN1XzHCUo1Skhly+8xPpfxsATjGUDXaYsmnm9a8XuZphAwB0DcCoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1S2hefqt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=n3E1N9xK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lO9XOheC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QPnVOEbR; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1777909121; c=relaxed/simple;
+	bh=70eLQsTvtEwGlVPQzRJXRiGjkMch0oM49edUxNO3TlE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rvDQSVfxQN3QykRA6BHu6nnUO0+8WCdxSCqTUk9B93JIOA8TPpmrqPL1qfhDebavWFnsa/9Nhrb6zbQiVsNskU6Lh0/KACtudgDdDmF1LHcJi+S8cRhgFmr8nfKcIeSJvP282oVV37TVFNJp09otsgWf8wTQk9H4P1gwvZlxPhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PZnMO5f7; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1S2hefqt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="n3E1N9xK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lO9XOheC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QPnVOEbR"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D0D9E6B385;
-	Mon,  4 May 2026 15:25:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777908309; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EI5bGrC7bzwLqHWoJahkcAwKUupDAAlH1SWOz7FCM9M=;
-	b=1S2hefqttJhYyoq3HWi2wIfrnXaJ2+jB4zPeXKjps1bva7TMuYFCy6jKJu/Q2Q+N1uueRv
-	g4dT4iN8f6ffqiWR/lfpTq7w2xk33Fum18Si1+l1rHy30EWfW0ZmgfaJremk3+mLaZvlto
-	3w8JVA5INHbFL8pB7tjU8EWiVyT5Fug=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777908309;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EI5bGrC7bzwLqHWoJahkcAwKUupDAAlH1SWOz7FCM9M=;
-	b=n3E1N9xKKf77A/hyPbtER8I1AXhVGPkY8yS/iyMQ+wqFniaV/yBsRVngBzGVhHmZWQ0wCm
-	AJeSTi9/48D5RnDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lO9XOheC;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QPnVOEbR
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1777908308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EI5bGrC7bzwLqHWoJahkcAwKUupDAAlH1SWOz7FCM9M=;
-	b=lO9XOheCWPzetSSv9MwQ4ZHwArg4IOPxR0kyuIinh6YumCybbvARGh0dIj85Hqx7gIzBcq
-	j8dfdObRzQ+DQuwLD7UzQmqlLb6NllxvR1XiUN/cXBnkVtaZwf4WfitaO5NHf5p8GxNfgi
-	EcY6GLCoDnlNW1kgdqnWs91/DD2qywY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1777908308;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EI5bGrC7bzwLqHWoJahkcAwKUupDAAlH1SWOz7FCM9M=;
-	b=QPnVOEbRzABPwJkSIZb8m2XZ0dWBgUhurPYvhXGdqO+gedi7YIw5KYisc158PPXHqMD6Y+
-	rur0PvFRV7ISZ3BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7215E593A3;
-	Mon,  4 May 2026 15:25:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id T8ioGlS6+GleEwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 04 May 2026 15:25:08 +0000
-Date: Mon, 04 May 2026 17:25:08 +0200
-Message-ID: <871pfrxkmj.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>,
-	Russ Weight <russ.weight@linux.dev>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	driver-core@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PZnMO5f7"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-483708b697cso5572335e9.3
+        for <linux-sound@vger.kernel.org>; Mon, 04 May 2026 08:38:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777909118; x=1778513918; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6mI/mVzsPMweUr77VUTDY+mzcBZiLj43Uk4Bw3xKnHA=;
+        b=PZnMO5f7sQkblUrB/39mzli246rosnoC0xnrghdPjla5tKBS+BcBdXGzOMVO79Jtn6
+         GjPmJkikqDXG87348/FixLx+b2QP55T2hVNtMQ88uPui3TbtO2AbAW1MnNAUlNdXGC2m
+         W7VCJVZMkW+CY/tI1XugWi9l/AbH+qbFWmNaBfXjP//Ev8bT+fBNJ+COUGKhsujvNdo9
+         0mxZnbhS5M0m0Q6FVc9WJtBeDmnZ+9Zpl5DGC41BY4CykrIOjmMnKbfa9UumQz+J3bi8
+         VjMxwW9N22SpQXx71GEabA8kW35Eq4S+FqqJqJIbzW3ubJCVDJAP0MxRGBOlmfP2ze4v
+         89lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777909118; x=1778513918;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6mI/mVzsPMweUr77VUTDY+mzcBZiLj43Uk4Bw3xKnHA=;
+        b=BQcmv9cA6vi9EJZ+g48SNcs/ofM9/xQnyCoXxtylkeklVHtKGKptUqJIBkTDTxtQ09
+         ImGMZGe7VObFdp+8E1oq7ODM7cQinvDDyyPYu1+xIrJClVonOLgvB/AFyjEW8lizhr8B
+         BPgPr+DW8M/ZVUGwD++MfBxEnsZP+9mYwWiJsF9S91hvyPFeC2eBJzNSmoPJA8EkPnKW
+         lB+pYz8F3RFG8tVVqdzUduBEcP4tl9NuvLvqSL6sSVHDM+0p7S4niAnLwA0QrQ4ydUdO
+         86G2sgUMvlgYcXvbFLiQZ5pvuxSU+Vc86MnCiARY5YCaK76e7kMKslWFnXcFhwBnnwC8
+         fZvA==
+X-Gm-Message-State: AOJu0YzGkCoOD2X/Vs68ID4jpAwHkYFnkAR+UOXASQL1cB3TVz2rKh0o
+	/GozGIOknF2dre2qj5V3C3wSCE17PtMjXlMZvUAFxJThZpt7MX+Hhbzl
+X-Gm-Gg: AeBDieuyBMwpx4uhmEO2ehtCJf4HGDDSlSwW83QfY8mczTa4Gf59CXjQxuLd1j5TbLP
+	JTAM+tAJ72UURwfy9wb7+OlcVVwdmX6VKkulAjv12BQcs1LSR/ox6p03h/NRLE/wgfLY0hw3xjN
+	j3BF73uLUXODnrnBxTRXtep3NFsgjloe16+krrpHztb7kE444F6z35YbwNf/BoQdEw2LCJv3MHD
+	9BMUDfYAlK80fydyF8mahro1J7s8aXKRaSm/WGbyhoQHZ2Pjok9eubNy9tg5HJ5IBcbv+afgNYq
+	tx3TjgkmNQ2veKE2OozRIeMdwgHmzD92sT87Xs0g1EoPo8E3VZVX059JqFhs5pQDNu9e55N2EBX
+	p54euZOi2US56R2SGNqxY3ZbE8TQ3Got2TnHFGEF992tJbS4/s6oK5gWHKi0Q5e1wpOnMvlIus8
+	E/QBvDpU7WYzhXLWQdFRI0
+X-Received: by 2002:a5d:5582:0:b0:448:8796:9c1e with SMTP id ffacd0b85a97d-44bb07a4fbamr4835022f8f.0.1777909118298;
+        Mon, 04 May 2026 08:38:38 -0700 (PDT)
+Received: from lucas ([2a01:e0a:354:c290:234c:5dad:48b0:9188])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a8ea7cf6asm27189958f8f.8.2026.05.04.08.38.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 May 2026 08:38:37 -0700 (PDT)
+From: Lucas Poupeau <lucasp.linux@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] firmware_loader: Add cancel helper for async requests
-In-Reply-To: <20260501-alsa-hda-tas2781-fw-callback-teardown-v3-1-8d9f873b97bd@gmail.com>
-References: <20260501-alsa-hda-tas2781-fw-callback-teardown-v3-0-8d9f873b97bd@gmail.com>
-	<20260501-alsa-hda-tas2781-fw-callback-teardown-v3-1-8d9f873b97bd@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	Lucas Poupeau <lucasp.linux@gmail.com>
+Subject: [PATCH] bus: ac97: clean up whitespace and move EXPORT_SYMBOLs
+Date: Mon,  4 May 2026 17:38:31 +0200
+Message-ID: <20260504153831.18381-1-lucasp.linux@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Queue-Id: D0D9E6B385
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
 
-On Fri, 01 May 2026 12:22:12 +0200,
-Cássio Gabriel wrote:
-> +static void firmware_work_free(struct firmware_work *fw_work)
-> +{
-> +	put_device(fw_work->device); /* taken in request_firmware_nowait() */
-> +	module_put(fw_work->module);
-> +	kfree_const(fw_work->name);
-> +}
-> +
->  static void request_firmware_work_func(struct work_struct *work)
->  {
->  	struct firmware_work *fw_work;
->  	const struct firmware *fw;
-> +	unsigned long flags;
->  
->  	fw_work = container_of(work, struct firmware_work, work);
->  
->  	_request_firmware(&fw, fw_work->name, fw_work->device, NULL, 0, 0,
->  			  fw_work->opt_flags);
->  	fw_work->cont(fw, fw_work->context);
-> -	put_device(fw_work->device); /* taken in request_firmware_nowait() */
->  
-> -	module_put(fw_work->module);
-> -	kfree_const(fw_work->name);
-> -	kfree(fw_work);
-> +	spin_lock_irqsave(&firmware_work_lock, flags);
+Clean up an unnecessary space in a conditional statement and move
+EXPORT_SYMBOL_GPL(snd_ac97_reset) and EXPORT_SYMBOL(ac97_bus_type)
+to immediately follow their respective definitions.
 
-This is a sleepable context, so you can use spin_lock_irq().
+This complies with the Linux kernel coding style convention which
+prefers exports to be placed next to the exported symbol for better
+code locality and readability.
 
-> +	if (!list_empty(&fw_work->list)) {
-> +		list_del_init(&fw_work->list);
-> +		spin_unlock_irqrestore(&firmware_work_lock, flags);
-> +		firmware_work_free(fw_work);
-> +		kfree(fw_work);
+Signed-off-by: Lucas Poupeau <lucasp.linux@gmail.com>
+---
+ sound/ac97_bus.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Can kfree(fw_work) be in firmware_work_free(), too?  All callers free
-it in anyway.
+diff --git a/sound/ac97_bus.c b/sound/ac97_bus.c
+index 8a44297964f5..ad7fb6b0c2c0 100644
+--- a/sound/ac97_bus.c
++++ b/sound/ac97_bus.c
+@@ -73,7 +73,6 @@ int snd_ac97_reset(struct snd_ac97 *ac97, bool try_warm, unsigned int id,
+ 
+ 	if (snd_ac97_check_id(ac97, id, id_mask))
+ 		return 0;
+-
+ 	return -ENODEV;
+ }
+ EXPORT_SYMBOL_GPL(snd_ac97_reset);
+@@ -81,6 +80,7 @@ EXPORT_SYMBOL_GPL(snd_ac97_reset);
+ const struct bus_type ac97_bus_type = {
+ 	.name		= "ac97",
+ };
++EXPORT_SYMBOL(ac97_bus_type);
+ 
+ static int __init ac97_bus_init(void)
+ {
+@@ -96,7 +96,5 @@ static void __exit ac97_bus_exit(void)
+ 
+ module_exit(ac97_bus_exit);
+ 
+-EXPORT_SYMBOL(ac97_bus_type);
+-
+ MODULE_DESCRIPTION("Legacy AC97 bus interface");
+ MODULE_LICENSE("GPL");
+-- 
+2.54.0
 
-(snip)
-> +void request_firmware_nowait_cancel(struct device *device, void *context,
-> +				    void (*cont)(const struct firmware *fw,
-> +						 void *context))
-> +{
-> +	struct firmware_work *fw_work = NULL;
-> +	struct firmware_work *tmp;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&firmware_work_lock, flags);
-
-Here you can use spin_lock_irq() as well.
-
-
-thanks,
-
-Takashi
