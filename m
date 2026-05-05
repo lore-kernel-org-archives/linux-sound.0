@@ -1,152 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89AFB1A682E;
-	Tue,  5 May 2026 21:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24EE4223DEA
+	for <linux-sound@vger.kernel.org>; Tue,  5 May 2026 22:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778015409; cv=none; b=CTGIrz6ShlUaylDMm/jiMS8+7GeeE/29fu/ouvUPzeEUXz/86J+hMtzeZwZI1bWoP1Si2Qi+0mBV2fI17TwBPPiMEzCzxMv3P7QAfjFfgg61Q1+Ywt3Zh1l4z5J5EOJv/NutXtcndQntcohHl6YUtKPm1uK9iHrFbRveo3nMKnk=
+	t=1778019605; cv=none; b=oMimqTMX5fwYY55RXyfGgIha2/sefPspEMNrnvql/8pHrh2+bfXucoqGGdmLDKi26SqDNPL1xcW7siPfC09pBXgfCLhsSnPqAhzr34CtU0t6s9LBvaFd72iWwU1iE7UQPJAXUV/8UhHteTfjtT8GTpuyxPLgXhRXlDPmVOU0uu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778015409; c=relaxed/simple;
-	bh=YJRd4B8dBI7NnuwfxeAAKCP/9sHlFCzWsZu+lnLLO7g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DGLdC5UojPqPKzWaov990KwkxGx/s818IHEfj2DcfVKSxcur+n4j8rYePF+co6RboGiJwlIgInG/EtbwjNz2Y6xfAXBo/f6A0OWFEvlZY4I5kjivJaBKLQCo5L4xgv1R2ik6gtd5tDYpTGZzV8HdkA2Th76e/Kpc2hy1E10Ek2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gIvLSBvl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778019605; c=relaxed/simple;
+	bh=abOJwPyE8mb5QCKIgxoEOdFYqAeXEPmKF3ypaGeb4l4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XQ7q82FfeDbqKpoWqQBw8FjLATlfTGpnu4YJXtJAN91YZAzptsaS8tJTI3erX3D+sPYLbDOebc1P2mh5UJomkpauqHxLvh+Dyv2NH8t5UucRosOg6yg9sRRxxIkkYm5UOqhjZ3VKGaAO1iomWE+AqspCDVdI7FElI4fyt5bFsMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BbgprXEL; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gIvLSBvl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2C20C2BCB4;
-	Tue,  5 May 2026 21:10:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778015409;
-	bh=YJRd4B8dBI7NnuwfxeAAKCP/9sHlFCzWsZu+lnLLO7g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gIvLSBvl1Cpo4rpWBWXR85ZTXl2vG6EzcWbfoLxY7dK0d4JlrAtBNLJr3Ocuy7W+P
-	 OUu/mHrbIYpCgGiCHL9T0/v1sCpPvGHtqudcd9d1LHTAF5/db9dL6nv/sY5hT+BgnT
-	 2d+QtWiXpqrejubxHb0E+BDSgQJeLVuXeOUisTeqYdeAtxIA4VP6942dl1Fqj0wmzB
-	 KqxeJwZsQX4v9oGzBvEAQFRsl8LBKZ2iytOeCQJ3jBov4AnIQ/nzy9MYeB2SO/h+S0
-	 cY4fBa9rDHQ2PyWJkwHLDm3s4P66z1Z6ePCI8MXAdt9AfNllldpwDeDs52UPBt7zwo
-	 Hn7WmEtXAhllg==
-Date: Tue, 5 May 2026 16:10:06 -0500
-From: Rob Herring <robh@kernel.org>
-To: Bui Duc Phuc <phucduc.bui@gmail.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Joseph Chen <chenjh@rock-chips.com>,
-	Chris Zhong <zyw@rock-chips.com>,
-	Zhang Qing <zhangqing@rock-chips.com>,
-	David Rau <David.Rau.opensource@dm.renesas.com>,
-	Animesh Agarwal <animeshagarwal28@gmail.com>,
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ASoC: dt-bindings: drop redundant wakeup-source
- definitions
-Message-ID: <20260505211006.GA3875657-robh@kernel.org>
-References: <20260423042831.21114-1-phucduc.bui@gmail.com>
- <20260423042831.21114-2-phucduc.bui@gmail.com>
- <20260423-ingenious-psychedelic-jaybird-40bb4d@quoll>
- <CAABR9nGH4yZcgyzm=wNYVHB2vLhojZJSHKOC6dSeQPm0rbh4KQ@mail.gmail.com>
- <ce219aa2-0bb1-4a74-b40d-bd753f1a22dd@kernel.org>
- <CAABR9nHaGBU9KAWJZrnBy8HO0Waccp8CCGmBdKJ3QOEb8WZsXA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BbgprXEL"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3939d2bd739so25660861fa.0
+        for <linux-sound@vger.kernel.org>; Tue, 05 May 2026 15:20:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778019602; x=1778624402; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mBxbWhfHd9YCzjRX/n5LK6AHrQ9o5QmfF+F5hs9R+y4=;
+        b=BbgprXELQn+ElCWEo0+DN8mxze9OXJ152nfKg5zEdD6fXhzWMb1xzt/15ZTVlCmTr+
+         L2BUBAWFHTgUWUpFbVqQqNDV4GbHsMlXCjb2k+BhFJTebCxZU8hs7aCI2lPOA94Wy1KT
+         q/IJo2pPGCvi8xHe2mq/qOP02k+7ThHoez8u8mwpo5BBYs1JTcPiw9UuAyhmpgBTfVuq
+         xK+BZ9kq2t1HfuGchsGjuV4AkIP9J+e0WouytWPuc9d3gsaUyr2NzRvxiDW2I7bXP5+n
+         DDZn7MZ8wxs04+r9qGRx3JI3JXthVFuaSv1cthjHiyp5YAPFh5/uKpaTY6fjVoisYuF3
+         rY3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778019602; x=1778624402;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mBxbWhfHd9YCzjRX/n5LK6AHrQ9o5QmfF+F5hs9R+y4=;
+        b=sdo2JFD+2SVUt7w4KngHnH3EWJcFWTkZVAXQAS6a/IzTwDbHjmDERRnwsNKLD0FADl
+         ir5E/4i7J0COEOHGe1wI1SSy7BUbbTxMeAAlIdVv4kFNxis5khY3zdTS4XEbtnFuy1kR
+         B9gDN1GqL6agS/EoZFrtBgKe8HAR9UsegzaGdYYDwHgTjdR/7fiJAxOmpdKQpYEGlw5e
+         ppMpYhm0LfeMLBXl8SelJOKKbi6RpRDLCSWocrcJI4ahcZUh4cnv1HbABV+32RF2hfsP
+         ndDqKh5QP0Ox5J/QjwehCJKr5nHXKKwtWNC7Q46oWUhlIqrn4O2TH/GSAOdiAitT+1QT
+         Zweg==
+X-Gm-Message-State: AOJu0Yz9UtKL3SU12EgYEyJ/Vvrk0BB6X8UkNhN9HyN5TdGrKC4A2rzZ
+	mHN9tjz5SnuIvmM9WVPLRl7mmxEr+0WdqeRvgxh3A+tkQEVKI0glyjy7u1dDKFTG
+X-Gm-Gg: AeBDiesHLniOZYdEw2s/bGqNgq3uEYHijbeB8MIypX7W+wSAGVWP2ZzUYT8vAbg1skE
+	bdsNcHA7eNMrGYDhXdrVEqKKdloFn049CQjBrxVXqEdyIW/mlFcr/P1XL8gyz5nJhuDObGi4PDm
+	+yKtL0CapFYd5Pbyi+fWu+027ZQPY8/L++Al/WZWWGEhCOVNE9L4u1TX2uAnHIjYbk/eViusm5P
+	ggVmOiI0tk1ne4rkCyAzaoykix6NDaa1g8cEGXfNWcZWHxxQ6V3ASZfEVv/B96/oQ+P0RV9ogWP
+	ErkXQAjNLhGUbplUSmFf1QFXKaB3jnRRFDYiMda654Z5IPQaqnJK100HF4ESNWsLukfYQXdfGDz
+	40aOt+tGxWSPtPHsJNPVcsIoYvmHVBYjdtHKTMPq5ICUd4tpunnIbSlD+TM9o5q1ErMGYJMhd3u
+	sQZjVhTiDrLvChUwSBn7buo9p69p7i6gX84iE0umNZNEan3YpDuL9C56UiOXudaekondM=
+X-Received: by 2002:a05:651c:4015:b0:38d:e977:554b with SMTP id 38308e7fff4ca-393c41c9896mr2625361fa.16.1778019601687;
+        Tue, 05 May 2026 15:20:01 -0700 (PDT)
+Received: from Shofiq.home (87-92-218-151.rev.dnainternet.fi. [87.92.218.151])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39361356c5csm44500921fa.36.2026.05.05.15.20.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2026 15:20:01 -0700 (PDT)
+From: Md Shofiqul Islam <shofiqtest@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: broonie@kernel.org,
+	lgirdwood@gmail.com,
+	Md Shofiqul Islam <shofiqtest@gmail.com>
+Subject: [PATCH] ASoC: nau8825: Fix typos in comments
+Date: Wed,  6 May 2026 01:19:58 +0300
+Message-ID: <20260505221958.3751-1-shofiqtest@gmail.com>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAABR9nHaGBU9KAWJZrnBy8HO0Waccp8CCGmBdKJ3QOEb8WZsXA@mail.gmail.com>
 
-On Thu, Apr 30, 2026 at 12:12:55AM +0700, Bui Duc Phuc wrote:
-> Hi,
-> 
-> > Yes. And the ABI. You cannot have ABI which has an incompatible
-> > implementation. IOW, when implementation contradicts the ABI, something
-> > is wrong.
-> >
-> > The question of course if read_bool() is here incompatible. From the
-> > actual code point of view, it is compatible, but how it is documented
-> > and how it is intended to use: it is not compatible.
-> >
-> > Also if future schema-kernel-ABI checker gets implemented, the tool
-> > might report here a mistake for that reason. read_bool() means property
-> > is bool.
+Fix spelling mistakes in comments:
+ - suppresstion -> suppression (twice)
+ - funciton -> function (twice)
+ - imedance -> impedance
+ - tak -> talk
+---
+ sound/soc/codecs/nau8825.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-It is doubtful such a tool would do per binding type checking given 
-types are global and we've avoided making types per binding so far.
+diff --git a/sound/soc/codecs/nau8825.c b/sound/soc/codecs/nau8825.c
+index dd3528537..80964d58b 100644
+--- a/sound/soc/codecs/nau8825.c
++++ b/sound/soc/codecs/nau8825.c
+@@ -712,8 +712,8 @@ static void nau8825_xtalk_measure(struct nau8825 *nau8825)
+ 		/* In left headphone IMM state, read out left headphone
+ 		 * impedance measure result, and delay some time to wait
+ 		 * detection sine wave output finish. Then, we can calculate
+-		 * the cross talk suppresstion side tone according to the L/R
+-		 * headphone imedance.
++		 * the cross talk suppression side tone according to the L/R
++		 * headphone impedance.
+ 		 */
+ 		regmap_read(nau8825->regmap, NAU8825_REG_IMM_RMS_L,
+ 			&nau8825->imp_rms[NAU8825_XTALK_HPL_R2L]);
+@@ -2237,7 +2237,7 @@ static void nau8825_component_remove(struct snd_soc_component *component)
+ {
+ 	struct nau8825 *nau8825 = snd_soc_component_get_drvdata(component);
+ 
+-	/* Cancel and reset cross tak suppresstion detection funciton */
++	/* Cancel and reset cross talk suppression detection function */
+ 	nau8825_xtalk_cancel(nau8825);
+ }
+ 
+@@ -2651,7 +2651,7 @@ static int nau8825_set_bias_level(struct snd_soc_component *component,
+ 		/* ground HPL/HPR, MICGRND1/2 */
+ 		regmap_update_bits(nau8825->regmap,
+ 			NAU8825_REG_HSD_CTRL, 0xf, 0xf);
+-		/* Cancel and reset cross talk detection funciton */
++		/* Cancel and reset cross talk detection function */
+ 		nau8825_xtalk_cancel(nau8825);
+ 		/* Turn off all interruptions before system shutdown. Keep the
+ 		 * interruption quiet before resume setup completes.
+-- 
+2.51.1
 
-> >
-> > > If the hardware supports wakeup functionality,
-> > > referencing the core schema is sufficient. Hardware description should
-> > > not be constrained by the current driver implementation
-> > > ( e.g. the use of device_property_read_bool() ).
-> > > Bindings should remain stable and generic, while drivers can evolve over time.
-> > So you claim that bindings can define property as integer, but drivers
-> > can evolve and for example read it as string?
-> 
-> I see your point regarding the ABI semantics and the intended use of
-> read_bool().
-> My understanding is that the I2C core currently uses of_property_read_bool()
-> for wakeup-source as a presence check, even though it has no way to
-> determine in advance whether a specific device will define the property as
-> a boolean or a phandle-array in its DTS.
-
-If this was a problem, then it probably would have been fixed already 
-because it generates a warning. An I2C device probably isn't all that 
-coupled to SoC power states, so boolean is probably always going to be 
-used here. But maybe not.
-
-If we do any cleanup here, I think that should have exactly 1 location 
-that reads this property instead of 77. Perhaps the driver core can just 
-handle everything and drivers don't have to deal with it.
-
-> >From a behavioral point of view, switching to of_property_present() would
-> not change anything, but it would better reflect that the driver only checks
-> for the existence of the property without assuming its type.
-> 
-> If the expectation is to strictly follow the binding types, then
-> of_property_present()
-> seems more appropriate here.
-> I can prepare a patch accordingly and send it to the I2C maintainers for
-> review and feedback.
-> 
-> > >
-> > > Re-defining the type locally duplicates the core definition. If the
-> > > core schema evolves,
-> >
-> > There is no re-definition here. This is choice of subset of types.
-> 
-> The flow is: core schema → YAML binding (ABI) → DTS (actual usage).
-> >From a high-level perspective, the binding may appear to redefine the
-> property type by narrowing its scope, while the DTS selects one valid
-> representation from the permitted set.
-> 
-> > Where is Rob's suggestion to do such cleanups for EXISTING code? I only
-> > see that new code should come like that.
-> >
-> > Anyway, your commit msg is for me incorrect because it misses all this
-> > points I made. Whether the schema code is correct, I'll defer to Rob,
-> > although I still claim the same I claimed before at v2 or v3 of your
-> > previous work - this should have defined type.
-> 
-> You are right that Rob did not explicitly request cleanups to existing code.
-> I included them to improve consistency while working on the new parts,
-> but for now, I will stop modifying the existing code and wait for
-> Rob's feedback.
-> Since there are differing perspectives, I would appreciate a consensus
-> on the preferred
-> approach before I send out the next version to avoid redundant rework.
-
-It's really outside the scope of a device binding what is used for 
-wakeup-source as that depends on the platform. So I think just 
-'wakeup-source: true' in device bindings is fine. I don't think we have 
-to change all the existing cases either, but the patches are already 
-written so I don't have an issue applying them.
-
-Rob
