@@ -1,330 +1,218 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6003E31E82B;
-	Tue,  5 May 2026 09:52:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A73E33342C
+	for <linux-sound@vger.kernel.org>; Tue,  5 May 2026 09:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777974746; cv=none; b=qwzLC24xayEXEF5Tl+7QgeFgSC7cThTYcCJ+frVgtgHY3yRIsEWQiPUvJzPM2825w6dv90FX2sLmOkIgiTPF0CGWi47buYtjW1Vj2H5bFOSs7DgAx4aR75StzqSQiPjx62mUi4guRRo3jk4IpiDYgWxzHMrNHkfw9OIixbv3FbM=
+	t=1777974751; cv=none; b=J0Hrs9uc3s2Qpqi+2Il6aJyAw1CY8BUwI7y/BUa8CKX8UUuHgbyDWRIR4hw8DehuZbG0XOagKgslxIlECr+v4+AnclMBk6CwFhOeMhiN8tdywIWZBG0z6r4cFVJqYCkVjER1q7//iB5aC9NbVsTTQDyGcfQrkMfwBD9gIx2LezI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777974746; c=relaxed/simple;
-	bh=f84Y5TVEmr22zCYb60Nse16esybFpQ0wAWR5ZZ0YvII=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jl+S0Rscme5diB3WGk1EtF5HmnIpGT5OLMsCPtJB9welYuqbaqRbKGO16uKdNiDDB3CF5GlO4InBU2HOa/WmbmphYOYQekByHL/y/FyhxgVZvaAHXrFio1wHduu8qFho6JX7ORP+SymU/Z5jbcvkIhwznWPBMCoh/6HiyZYsjrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jTX1SJr2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777974751; c=relaxed/simple;
+	bh=D4h/EDA6ms7AJ9Q4VdmjFlQcNxZQQ19Ir9ikHsLC0Q8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=arNuRHqVLPk5Y4L8f42sxFlheElsY+BhIlVS5brqoDrY/LOX6rjv4kAcbMVPwp5kN/cCbBKYIid+s+aqOGq7lGOaRMhf0kl43Gq712GUN7feg91TLGwUu3HDKDac8t4qfDpXALzLVmGB95E5EIANWGcIyr7ySN55nAfmvtQKZ5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Px9IalJA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=M2T0apNW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Px9IalJA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=M2T0apNW; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jTX1SJr2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EA7AC2BCC9;
-	Tue,  5 May 2026 09:52:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777974746;
-	bh=f84Y5TVEmr22zCYb60Nse16esybFpQ0wAWR5ZZ0YvII=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jTX1SJr2CoLRi6IleF5y9HaaFvRpvc5hvxF8tM5TR/7hzjXeuEPfc6RBF6qey3oWL
-	 eUQ/H/3ovOx6HUUt9Lxn74iyWSf31boG1aboFDneOBYPmB1u/hQMCF4rsm+On5ZreJ
-	 W+AtBaToSES1byN3zXcsZXJKGLbTMq/WVlIA7DEaKzTmmRHqfYz9vKhixmHyea2h56
-	 h5C4mClYzTMBVjjxXVNOWk8oAXkl61eojIv8ZstytXfTOi/ihZk1GZluparu5QAcE/
-	 iVE7L1VjKHYmEHXROr7kGPMUii+c2WwSWyhdKxec6spAYIo/MowdWOrdl/WnThEX4I
-	 rCAPGI+UaC3YA==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Rosalie Wanders <rosalie@mailbox.org>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>,
-	perex@perex.cz,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Px9IalJA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="M2T0apNW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Px9IalJA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="M2T0apNW"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8553D6A921;
+	Tue,  5 May 2026 09:52:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777974747; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZpmbFtG3fLzR1ot9v0B3eYwO0j9BzXXXsgF9aBg7SUo=;
+	b=Px9IalJAtdxdZdjv6IFOYr9K1a8ULgYueaYQE0VngQOy3lnxQPWIqIH7znki4yv5rIzlbZ
+	2wT9ckcTI+lHkXOn4UzZ6D+wYHAAQr5M/VEyfn4gR/Ly2r1/gKiWH8hXjrr1XDruY5nNx6
+	9yI/I1zpd9fC6hwvhduRlbBzIfch85A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777974747;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZpmbFtG3fLzR1ot9v0B3eYwO0j9BzXXXsgF9aBg7SUo=;
+	b=M2T0apNWLw3tWvahvLU9iAVbaoMo3QbO3DbWh/R1e84W3fhaPoTwR6mIjIgW1iID+QLTW6
+	JosmTiGasQNzeCCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Px9IalJA;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=M2T0apNW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1777974747; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZpmbFtG3fLzR1ot9v0B3eYwO0j9BzXXXsgF9aBg7SUo=;
+	b=Px9IalJAtdxdZdjv6IFOYr9K1a8ULgYueaYQE0VngQOy3lnxQPWIqIH7znki4yv5rIzlbZ
+	2wT9ckcTI+lHkXOn4UzZ6D+wYHAAQr5M/VEyfn4gR/Ly2r1/gKiWH8hXjrr1XDruY5nNx6
+	9yI/I1zpd9fC6hwvhduRlbBzIfch85A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1777974747;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZpmbFtG3fLzR1ot9v0B3eYwO0j9BzXXXsgF9aBg7SUo=;
+	b=M2T0apNWLw3tWvahvLU9iAVbaoMo3QbO3DbWh/R1e84W3fhaPoTwR6mIjIgW1iID+QLTW6
+	JosmTiGasQNzeCCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44176593A3;
+	Tue,  5 May 2026 09:52:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id p8D+D9u9+WnDbQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 05 May 2026 09:52:27 +0000
+Date: Tue, 05 May 2026 11:52:23 +0200
+Message-ID: <878q9yw5d4.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Rodrigo Faria <rodrigofilipefaria@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
 	tiwai@suse.com,
+	perex@perex.cz,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.10] ALSA: usb-audio: apply quirk for Playstation PDP Riffmaster
-Date: Tue,  5 May 2026 05:51:27 -0400
-Message-ID: <20260505095149.512052-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260505095149.512052-1-sashal@kernel.org>
-References: <20260505095149.512052-1-sashal@kernel.org>
+Subject: Re: [PATCH] ALSA: hda/realtek: Add mute LED fixup for HP Pavilion 15-cs1xxx
+In-Reply-To: <CAPmh8XQi+TbOAh7-cAa0i3nwcLq_c0mYHCf0qPT2YT8ak2YQTQ@mail.gmail.com>
+References: <20260504145337.8740-1-rodrigofilipefaria@gmail.com>
+	<87qznrw4om.wl-tiwai@suse.de>
+	<CAPmh8XQi+TbOAh7-cAa0i3nwcLq_c0mYHCf0qPT2YT8ak2YQTQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 7.0.3
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,suse.de:mid]
+X-Rspamd-Queue-Id: 8553D6A921
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
 
-From: Rosalie Wanders <rosalie@mailbox.org>
+On Mon, 04 May 2026 19:31:26 +0200,
+Rodrigo Faria wrote:
+> 
+> The OEM Strings (Type 11) contain "String 6: HP_Mute_LED_0_A", which
+> confirms the BIOS knows about the LED.
 
-[ Upstream commit 110189f0268d0eb85895721526328cac5804a739 ]
+So BIOS declares the pin 0x18 being the one that controls the mute
+LED, polarity = 0.  Basically it's a bug in BIOS.
+Is BIOS update available?
 
-This device, just like the Playstation 5's DualSense, has a volume
-that's too low, hid-playstation solves this by raising the minimum
-volume on the device itself by sending an output report, third party PS5
-controllers/accessories do not support this output report format, so we
-apply a quirk to raise the minimum volume by 6dB.
+> However, it seems the auto-parser is not correctly mapping this to the
+> actual hardware on this model.
+> Regarding the 103c:0000 SSID: I noticed it in dmesg during some early
+> boot cycles, but the codec_dump consistently identifies the device as
+> 103c:856a.
 
-Signed-off-by: Rosalie Wanders <rosalie@mailbox.org>
-Link: https://patch.msgid.link/20260426025520.3985-2-rosalie@mailbox.org
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+What about PCI SSID (not codec SSID)?
+At best, give alsa-info.sh output; run the script with --no-upload
+option and attach the output.
 
-LLM Generated explanations, may be completely bogus:
+> I've physically verified that the mute LED is connected to NID 0x1b.
+> Without this quirk, the LED remains non-functional even though the
+> audio itself works fine with the generic driver.
 
-## Phase 1: Commit Message Forensics
-Step 1.1 Record: Subsystem is `ALSA: usb-audio`; action verb is `apply`;
-intent is to add a device-specific volume quirk for PlayStation PDP
-Riffmaster controllers/accessories.
+OK, so it should be NID 0x1b.  I guess you can drop the line to set
+polarity but keep only the line to override to the NID.
+And, if BIOS update doesn't help, this kind of workaround is the only
+way to go, and in that case, please give some more brief comments in
+the function what does this and why this is needed.
 
-Step 1.2 Record: Tags present are:
-- `Signed-off-by: Rosalie Wanders <rosalie@mailbox.org>`
-- `Link:
-  https://patch.msgid.link/20260426025520.3985-2-rosalie@mailbox.org`
-- `Signed-off-by: Takashi Iwai <tiwai@suse.de>`
-No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-by:`,
-or `Cc: stable@vger.kernel.org` tags were present.
 
-Step 1.3 Record: The commit says the PDP Riffmaster has too-low volume,
-similar to the PS5 DualSense. It states `hid-playstation` compensates
-for DualSense by sending an output report, but third-party PS5
-controllers/accessories do not support that output report format, so
-this patch raises the ALSA minimum volume by 6 dB. Symptom is functional
-audio output being too quiet on this hardware. No affected kernel
-version is stated.
+thanks,
 
-Step 1.4 Record: This is not hidden as cleanup; it is explicitly a
-hardware quirk/workaround. It fixes a device-specific functional
-problem, not a crash, memory safety issue, or data corruption issue.
+Takashi
 
-## Phase 2: Diff Analysis
-Step 2.1 Record: One file changed: `sound/usb/mixer.c`, with 10
-insertions and no removals. One function changed:
-`volume_control_quirks()`. Scope is a single-file, single-switch-entry
-hardware quirk.
-
-Step 2.2 Record: Before, PDP Riffmaster USB IDs had no special handling,
-so the device-reported volume range was used as-is. After, for USB IDs
-`0x0e6f:0x024a` and `0x0e6f:0x0249`, if the ALSA control name is `PCM
-Playback Volume`, the code logs the quirk and sets `cval->min = -2560`.
-
-Step 2.3 Record: Bug category is hardware workaround / device-specific
-USB-audio volume quirk. The mechanism is correcting the exposed minimum
-playback-volume value before ALSA dB conversion and control
-registration.
-
-Step 2.4 Record: Fix quality is high: tiny, isolated, matches existing
-nearby patterns for device-specific volume quirks, changes no API, and
-is gated by exact USB IDs plus exact control name. Regression risk is
-very low and limited to the two PDP Riffmaster IDs.
-
-## Phase 3: Git History Investigation
-Step 3.1 Record: `git blame` shows `volume_control_quirks()` was
-introduced by `dcaaf9f2c16b56` and is present since `v3.2-rc2~23^2~3`.
-The immediate insertion context includes the Asus USB DAC quirk from
-`4020d1ccbe55bd` (`v5.7~16^2~2`) and, on newer branches, MOONDROP
-quirks. For this commit, the “buggy code” is effectively the absence of
-a quirk for this hardware, not a bad prior line.
-
-Step 3.2 Record: No `Fixes:` tag is present, so there is no introducing
-commit to follow.
-
-Step 3.3 Record: Recent `sound/usb/mixer.c` history contains multiple
-related USB-audio volume/control fixes and quirks, including MOONDROP,
-Huawei, MS LifeChat, and volume-range checking work. No prerequisite
-commit was identified for the Riffmaster quirk itself.
-
-Step 3.4 Record: `git log --author='Rosalie Wanders'` under `sound/usb`
-found this one sound commit. The patch was committed by Takashi Iwai,
-and `MAINTAINERS` lists Takashi Iwai and Jaroslav Kysela as `SOUND`
-maintainers.
-
-Step 3.5 Record: No functional dependencies found. The code assumes only
-existing `USB_ID()` matching and `volume_control_quirks()`
-infrastructure. Backport may need minor contextual placement on some
-branches.
-
-## Phase 4: Mailing List And External Research
-Step 4.1 Record: `b4 dig -c 110189f0268d0` found the original thread at
-`https://patch.msgid.link/20260426025520.3985-2-rosalie@mailbox.org`.
-`b4 dig -a` found only v1. Patchew and b4 showed Takashi Iwai replied
-“Applied now. Thanks.” No objections or NAKs found.
-
-Step 4.2 Record: `b4 dig -w` showed recipients: Rosalie Wanders,
-Jaroslav Kysela, Takashi Iwai, `linux-sound@vger.kernel.org`, and
-`linux-kernel@vger.kernel.org`. The appropriate sound maintainers/list
-were included.
-
-Step 4.3 Record: The only `Link:` is the patch submission itself. No
-separate bugzilla, syzbot, or user report link was found.
-
-Step 4.4 Record: The patch is standalone v1, not part of a multi-patch
-series. No related Riffmaster patches were found in local
-`origin/master` history.
-
-Step 4.5 Record: Direct lore stable search was blocked by Anubis, and
-web search did not find stable-list discussion for PDP Riffmaster. No
-stable-specific nomination or rejection was verified.
-
-## Phase 5: Code Semantic Analysis
-Step 5.1 Record: Modified function: `volume_control_quirks()`.
-
-Step 5.2 Record: Call path verified manually: USB probe creates streams
-and mixer via `snd_usb_create_mixer()`, mixer parsing reaches
-`snd_usb_mixer_controls()`, feature units call `build_feature_ctl()`,
-which calls `get_min_max_with_quirks()`, which calls
-`volume_control_quirks()` when a `kctl` exists.
-
-Step 5.3 Record: Relevant callees are `usb_audio_info()` and later ALSA
-dB/range handling in `get_min_max_with_quirks()`. The patch changes
-`cval->min` before `dBmin`, `dBmax`, initialization, and control
-registration.
-
-Step 5.4 Record: Reachability is via USB device enumeration and ALSA
-mixer creation for this specific hardware. Userspace impact is through
-normal audio/mixer use after the device is connected. I did not verify
-the actual device descriptor/control name on hardware.
-
-Step 5.5 Record: Similar patterns exist in the same switch for
-CM102-A+/102S+, Asus USB DAC, MOONDROP Quark2, Huawei CM-Q3, and
-MOONDROP JU Jiu. A similar MOONDROP JU Jiu quirk was explicitly tagged
-for stable.
-
-## Phase 6: Stable Tree Analysis
-Step 6.1 Record: Checked `remotes/stable/linux-5.10.y`, `5.15.y`,
-`6.1.y`, `6.6.y`, `6.12.y`, `6.18.y`, `6.19.y`, and `7.0.y`: all contain
-`volume_control_quirks()` and the call from `get_min_max_with_quirks()`.
-None contained the Riffmaster IDs.
-
-Step 6.2 Record: Current `7.0.y` working tree accepts the patch with
-`git apply --check`. `git merge-tree` suggests most checked branches can
-merge the addition automatically, but `5.15.y` shows a minor context
-conflict around another quirk entry after the Asus DAC entry.
-
-Step 6.3 Record: No related Riffmaster fix already present in the
-checked stable branches or `origin/master` history beyond
-`110189f0268d0`.
-
-## Phase 7: Subsystem And Maintainer Context
-Step 7.1 Record: Subsystem is ALSA USB audio under `sound/usb`.
-Criticality is driver-specific/peripheral: it affects users of the PDP
-Riffmaster hardware, not the whole system.
-
-Step 7.2 Record: Recent history shows `sound/usb` is actively
-maintained, with nearby fixes and quirks. The patch was committed by a
-listed sound maintainer.
-
-## Phase 8: Impact And Risk Assessment
-Step 8.1 Record: Affected population is hardware-specific: PDP
-Riffmaster PS4/PS5 users with USB-audio playback exposed as `PCM
-Playback Volume`.
-
-Step 8.2 Record: Trigger is connecting/using that hardware and its ALSA
-playback volume control. This is common for affected users but
-irrelevant to everyone else. Unprivileged users can observe/use ALSA
-controls depending on system policy, but the patch itself runs at device
-enumeration/control setup.
-
-Step 8.3 Record: Failure mode is too-low audio volume / poor device
-usability, not a crash or corruption issue. Severity is medium for
-affected hardware.
-
-Step 8.4 Record: Benefit is high for affected device users and zero-
-impact for other devices. Risk is very low because the change is 10
-lines, exact USB-ID gated, and follows existing quirk-table style.
-
-## Phase 9: Final Synthesis
-Step 9.1 Record:
-Evidence for backporting: this is a classic hardware quirk, small and
-contained, maintainer-applied, affects real hardware, and all checked
-active stable branches have the infrastructure. Hardware quirks are an
-accepted stable exception.
-Evidence against: no `Cc: stable`, no `Tested-by`, no separate bug
-report, and the failure is not crash/security/data corruption. `5.15.y`
-may need minor manual placement.
-Unresolved: no hardware test or descriptor dump was available to
-independently verify that the device exposes the exact `PCM Playback
-Volume` control.
-
-Step 9.2 Stable rules:
-1. Obviously correct and tested? Mostly yes on correctness; no explicit
-   `Tested-by` or local hardware test.
-2. Fixes a real bug? Yes, per commit and mailing-list submission: too-
-   low volume on specific hardware.
-3. Important issue? Medium severity hardware usability issue; stable
-   exception applies for quirks.
-4. Small and contained? Yes, 10 lines in one switch.
-5. No new features/APIs? Yes, no API or broad behavior change.
-6. Can apply to stable? Yes for current tree; likely minor context
-   handling for at least `5.15.y`.
-
-Step 9.3 Exception category Record: Hardware quirk/workaround for
-specific USB devices. This is a stable-appropriate exception category.
-
-Step 9.4 Decision: Backport. The technical risk is extremely low, the
-change is device-specific, and stable policy explicitly allows
-quirks/workarounds for real hardware problems.
-
-## Verification
-- Phase 1: Parsed `git show --format=fuller --stat --patch
-  110189f0268d0`; confirmed subject, tags, commit body, author,
-  committer, and 10-line diff.
-- Phase 2: Verified the only code change is adding two `USB_ID()` cases
-  in `volume_control_quirks()`.
-- Phase 3: Ran `git blame` around the insertion context; identified
-  historical context commits and version containment via `git describe
-  --contains`.
-- Phase 3: Ran local history searches without `--all`; found no
-  prerequisite Riffmaster commits.
-- Phase 4: Ran `b4 dig -c`, `b4 dig -a`, and `b4 dig -w`; confirmed one
-  v1 patch, original recipients, and lore URL.
-- Phase 4: Used b4 mbox and Patchew to read the thread; confirmed
-  Takashi’s “Applied now. Thanks.” reply and no objections.
-- Phase 4: Stable lore WebFetch was blocked by Anubis; WebSearch found
-  no stable-specific Riffmaster discussion.
-- Phase 5: Read `sound/usb/mixer.c`, `sound/usb/card.c`, and
-  `sound/usb/quirks.c`; traced the mixer creation and feature-control
-  path to `volume_control_quirks()`.
-- Phase 6: Checked stable branches `5.10.y`, `5.15.y`, `6.1.y`, `6.6.y`,
-  `6.12.y`, `6.18.y`, `6.19.y`, and `7.0.y`; confirmed infrastructure
-  exists and Riffmaster IDs are absent.
-- Phase 6: Ran `git apply --check` on current tree; passed. Ran `git
-  merge-tree`; noted a minor conflict marker for `5.15.y`.
-- Phase 7: Verified `MAINTAINERS` lists Jaroslav Kysela and Takashi Iwai
-  for `SOUND`.
-- Phase 8: Verified scope is exact-device gated by USB IDs and exact
-  mixer control name.
-- UNVERIFIED: Actual PDP Riffmaster USB descriptors and hardware
-  behavior were not locally tested.
-- UNVERIFIED: Older branches outside the checked active stable set were
-  not analyzed.
-
-**YES**
-
- sound/usb/mixer.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index 1ced9ba8be406..75c932ea77388 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -1190,6 +1190,16 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
- 			cval->res = 1;
- 		}
- 		break;
-+
-+	case USB_ID(0x0e6f, 0x024a): /* PDP Riffmaster for PS4 */
-+	case USB_ID(0x0e6f, 0x0249): /* PDP Riffmaster for PS5 */
-+		if (!strcmp(kctl->id.name, "PCM Playback Volume")) {
-+			usb_audio_info(chip,
-+				"set volume quirk for PDP Riffmaster for PS4/PS5\n");
-+			cval->min = -2560; /* Mute under it */
-+		}
-+		break;
-+
- 	case USB_ID(0x3302, 0x12db): /* MOONDROP Quark2 */
- 		if (!strcmp(kctl->id.name, "PCM Playback Volume")) {
- 			usb_audio_info(chip,
--- 
-2.53.0
-
+> Best regards,
+> Rodrigo Faria
+> 
+> On Mon, May 4, 2026 at 4:54 PM Takashi Iwai <tiwai@suse.de> wrote:
+> >
+> > On Mon, 04 May 2026 16:53:37 +0200,
+> > Rodrigo Faria wrote:
+> > >
+> > > Add a new fixup for the mute LED on the HP Pavilion 15-cs series
+> > > using the VREF on NID 0x1b. These models will no longer fall back
+> > > to the generic 103c:0000.
+> >
+> > So your model has a PCI SSID *:0000?  Or what does this mean exactly?
+> >
+> > > Signed-off-by: Rodrigo Faria <rodrigofilipefaria@gmail.com>
+> > > ---
+> > >  sound/hda/codecs/realtek/alc269.c | 20 ++++++++++++++++++++
+> > >  1 file changed, 20 insertions(+)
+> > >
+> > > diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+> > > index a9cd03bb7..1db72bf28 100644
+> > > --- a/sound/hda/codecs/realtek/alc269.c
+> > > +++ b/sound/hda/codecs/realtek/alc269.c
+> > > @@ -1669,6 +1669,20 @@ static void alc295_fixup_hp_mute_led_coefbit11(struct hda_codec *codec,
+> > >       }
+> > >  }
+> > >
+> > > +static void alc295_fixup_hp_pavilion_mute_led_1b(struct hda_codec *codec,
+> > > +                                              const struct hda_fixup *fix,
+> > > +                                              int action)
+> > > +{
+> > > +     struct alc_spec *spec = codec->spec;
+> > > +
+> > > +     alc269_fixup_hp_mute_led(codec, fix, action);
+> > > +
+> > > +     if (action == HDA_FIXUP_ACT_PRE_PROBE) {
+> > > +             spec->mute_led_nid = 0x1b;
+> > > +             spec->mute_led_polarity = 0;
+> > > +     }
+> >
+> > Hm, the BIOS gives a wrong pin number via DMI?
+> > This bug pattern is new.
+> >
+> > I can take the patch, but I'd like to understand better what's going
+> > on.
+> >
+> >
+> > thanks,
+> >
+> > Takashi
