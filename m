@@ -1,45 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D83839B482;
-	Tue,  5 May 2026 11:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846E840B6C9;
+	Tue,  5 May 2026 12:06:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777982300; cv=none; b=NdmvYU9FYI+W2+JibrupSIydlRYZbNgNC+O+2mmYgEq2B464Dlni5kl7RazvLn4e/V1UjyEU35DrbSxahjOlVRGEf6t8Sczu3BV3iPj1OBoN6WiLWtMI/5YnU1yQfposeX1Au/pZgp+ljqU0bnEfd46mQDwkuObeYy2Sw3DRrak=
+	t=1777982816; cv=none; b=Ek2SflMuihLUULKODz+GEd9qPJkeixBW/Z55EMjBmkpDpQnVdoxbqdXI0wUFr7YB434wf33xFCbwSb/zW0Jig7+vkyr5wO2f/7U4QdaCp/bJ25tkpJ2rrnaDN17GQaXeO8KA2PzADVNTkj8DkJ2X7MjZ2sW45A7NUrS6agIf5dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777982300; c=relaxed/simple;
-	bh=xeHgIov2eBpdGzkI2CwiiBe+BA7OivIJjLZsOU3eaw0=;
+	s=arc-20240116; t=1777982816; c=relaxed/simple;
+	bh=EvcaFmZ3SemGSNQwfe2IqD0C3HrRr8Eraf8WWgh4zRU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NOTZMzAXrxLbbWA7u9dWYSTCa4ptET8JOyvsc097YtS0sB7LKDMSAqOTgxmCJX/QwBRzyF+1qK7/UicezvK0ZMmK9n5ztwuju2ODZ9jOVtZzgB4/Qqu9mPS0oD1N1uNMVopwqj1W0Q3SwEgbHahoAIEyMPGfZ/Bq9fPPBUSzj0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fYN5N1rc; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=A+9zfm8B+5wv0/n//8lS/GQ3Rp5dZmIPn8ihNB0Pk7aIJ9ui2FUcCY0V0uTLHkcL0nqtuT3T87Y3JmkQaIBTJvXD+OHxHS4Goai2kBoHeZ2HP8lWnLbQKkJX0DvPOX2cPFjIkcVqkbeka5EfDmcvzSBYc2L+Nu1G0GOxPFDRpEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BcqsIg5E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fYN5N1rc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF412C2BCB9;
-	Tue,  5 May 2026 11:58:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BcqsIg5E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF650C2BCB4;
+	Tue,  5 May 2026 12:06:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777982300;
-	bh=xeHgIov2eBpdGzkI2CwiiBe+BA7OivIJjLZsOU3eaw0=;
+	s=k20201202; t=1777982816;
+	bh=EvcaFmZ3SemGSNQwfe2IqD0C3HrRr8Eraf8WWgh4zRU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=fYN5N1rchR7eEvP0govyfmD6MHZoqKNVzkzvxVNi0Sas2SUr2iGMcQdsXawiHjDdU
-	 0cctc47NJyEbVT5jmIC/dZEAD5nca5uBnOfPOIT7NyTQ3hJFF1O7O5aSs6MbtL+VIY
-	 jHESJv8Pg21JJno+GBYvveiqtMaZwrZCE9cI16et41fM1fvkfrAg+z68OShEbRFTp5
-	 8A35krKli6nZhiOF8TNokue0WTiwRaOdfhkhcnvx2AJ5z04v4r3cArxm0VKGgbUyEA
-	 wAcIZMBzfgjaRvo5EHqO3qlZDJXK52juCNUynq+rr9G/CXr7uvxpB1sVzJQANzNExX
-	 JpsPBI2lQg6Kg==
+	b=BcqsIg5EChrpTYw+1mkCeRZNKk0ebPUvdtgicO05R5BTyrMFZ1KbCNFm7k5aXLh+v
+	 0Fhz5g9dZA5ePmxLooBKaY1WdSQEyAjrc+FbcF9wl05Z0kUl9Fc1z/gegCZCD6DJ6M
+	 fHd8U1cgAwcIAJpA9oQsUQo+C9RNsWFB9DLPbs0y+2q0yEZjl3CI7LIkzbDs+Uc9cS
+	 E5l7+ccGhzT2iDzfB4G6rYYkEM3GjX/+Du0+Tl/IqVJV3u5OEnFrE1/WRK3tO5KlW7
+	 CH/JIre/oli+cfRoLCgD3H3SZHx5kJWLXgIfxvKTo38A0iXhxdETIHAA0QXZs9ANqI
+	 zFl2w5VzMJA9g==
 From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Sen Wang <sen@ti.com>, James Calligeros <jcalligeros99@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev
-In-Reply-To: <20260503-tas27xx-hwmon-fixes-v2-0-208e802be4ac@gmail.com>
-References: <20260503-tas27xx-hwmon-fixes-v2-0-208e802be4ac@gmail.com>
-Subject: Re: [PATCH v2 0/2] ASoC: tas27{64,70}: Fixes for hwmon temperature
- readout
-Message-Id: <177798229732.597350.3675316757687862413.b4-ty@b4>
-Date: Tue, 05 May 2026 20:58:17 +0900
+ Cyril Chao <Cyril.Chao@mediatek.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, Cyril Chao <cyril.chao@mediatek.com>, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+In-Reply-To: <20260430022417.32282-1-Cyril.Chao@mediatek.com>
+References: <20260430022417.32282-1-Cyril.Chao@mediatek.com>
+Subject: Re: [PATCH v9 00/10] ASoC: mediatek: Add support for MT8196 SoC
+Message-Id: <177794601708.568329.5706730296147006187.b4-ty@b4>
+Date: Tue, 05 May 2026 10:53:37 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,30 +52,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2541; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=EvcaFmZ3SemGSNQwfe2IqD0C3HrRr8Eraf8WWgh4zRU=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp+d1b+imK4W+OLIW4agEVcJncBcrDG50aFRvJI
+ 1ZXQWIype+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCafndWwAKCRAk1otyXVSH
+ 0JksB/0bq9itAWEAmXSTpnL4jGlTXrf6FE2oxQTrsoA5VKlc//N/hafJMmKe1pklS3uRc2epzcx
+ AqFnusgzPUsSBjxbStPioCyF0QKuCnbtFxWRjLvE0U6CC3Z8nKp+UPCKflMAKEWVcGXp/fv0E13
+ GMz5ejem2tqbtwt89/7ebYCo2b+Yfvd9gmELqInRHMp6zUdESrYilJUPFtPuw8a9t+z4P1/TWsJ
+ IdOoO7Hh6L/xsddtzwekY7X4bou0WP3fZKBZ0IQkXIMbLcz1sYzjn1xTgBNNPi4XYQBqIkX8Fkf
+ TSAU9HDof/2e5ZkF8NHafLrRpaJTD9ypVJQEfiHh2hqsvnXX
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sun, 03 May 2026 22:23:22 +1000, James Calligeros wrote:
-> This series makes some fixes to the hwmon temperature reading
-> functionality added as part of [1].
+On Thu, 30 Apr 2026 10:23:13 +0800, Cyril Chao wrote:
+> ASoC: mediatek: Add support for MT8196 SoC
 > 
-> - The arithmetic for TAS2770 was incorrect, leading to readings
->   which deviated from the true value sampled by the ADC.
-> - TAS2764 was returning the cached value for each read after the
->   first register sampling.
-> - Both chips were returning nonsense values before the ADC was
->   fully powered up, causing issues with some monitoring software.
+> This series of patches adds support for Mediatek AFE of MT8196 SoC.
+> Patches are based on broonie tree "for-next" branch.
+> 
+> This v9 series is based on the v8 version:
+> Link: https://patchwork.kernel.org/project/alsa-devel/patch/20260324015719.17543-2-Cyril.Chao@mediatek.com/
 > 
 > [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
 Thanks!
 
-[1/2] ASoC: tas2764: Deal with bogus initial temperature register value
-      https://git.kernel.org/broonie/misc/c/915f9860fe1c
-[2/2] ASoC: tas2770: Deal with bogus initial temperature value
-      https://git.kernel.org/broonie/misc/c/d0771f4995d3
+[01/10] ASoC: mediatek: common: modify mtk afe platform driver for mt8196
+        https://git.kernel.org/broonie/sound/c/1aadc0147b42
+[02/10] ASoC: mediatek: mt8196: add common header
+        https://git.kernel.org/broonie/sound/c/33eda2c14ff7
+[03/10] ASoC: mediatek: mt8196: support audio clock control
+        https://git.kernel.org/broonie/sound/c/7384ecab34eb
+[04/10] ASoC: mediatek: mt8196: support ADDA in platform driver
+        https://git.kernel.org/broonie/sound/c/9a5881402c6e
+[05/10] ASoC: mediatek: mt8196: support I2S in platform driver
+        https://git.kernel.org/broonie/sound/c/65a195132669
+[06/10] ASoC: mediatek: mt8196: support TDM in platform driver
+        https://git.kernel.org/broonie/sound/c/ede4d841111a
+[07/10] ASoC: dt-bindings: mediatek,mt8196-afe: add audio AFE
+        https://git.kernel.org/broonie/sound/c/5cd03440c0d4
+[08/10] ASoC: mediatek: mt8196: add platform driver
+        https://git.kernel.org/broonie/sound/c/57513aabfe5b
+[09/10] ASoC: dt-bindings: mediatek,mt8196-nau8825: Add audio sound card
+        https://git.kernel.org/broonie/sound/c/1c65cc451873
+[10/10] ASoC: mediatek: mt8196: add machine driver with nau8825
+        https://git.kernel.org/broonie/sound/c/de764b0d1838
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
