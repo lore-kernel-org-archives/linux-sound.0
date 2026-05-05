@@ -1,30 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF523CBE93;
-	Tue,  5 May 2026 20:25:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500C63D47C8;
+	Tue,  5 May 2026 20:25:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778012700; cv=none; b=sHFu4Fdb+DpggD53SkGGbHMq7qxCLxjH8qBrOXGfpGb2sdVPVJGWc5IhViQ96GdBs6+d6LCvuBtJJOqDQPlH90reueOsNXeWxDv52yyoHT0zJAH4h+DtsAU/qV3ISfI9oGzfIgpZQmzu9PjFVo72Tn00ITfHRrUc79yTVWdNspQ=
+	t=1778012703; cv=none; b=GB3uYnHkEPb+IwCh26NvuDuERfMb9n72+L+vj8mGR+gr53b41D1WxT5G0Vg857DCeORPmAD7I3BijklVk4szfyQxjOmaF6xcia6DOYR6PhIP42hpHOUJVsQVxKJoVqs/E8Ix2YhiQwYQ3fR8EcJhpK4q8WIkF90GTI4mqC1gQ9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778012700; c=relaxed/simple;
-	bh=RPLbGSaE9fK6W+hLR2tVvhlPdS/IRjZSLnCkOBHVBE4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ERhmngDBAJT0XnwDPCPDBhHobdJ/AiJ7bUAH3zCIZLD6XSyq41QVbhIb9t/72IQxplvGbb2hNbtzygoFMDDmlb3XSmBhWkQ6IM2SigR9C0aAME9R8LkzXMVdG/pQm5CGGebqpmFxrIaiYydfmSAI5lNGhOUPbDJoQBWN0U/lXAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VRxh79Rq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778012703; c=relaxed/simple;
+	bh=byMAaIYf23XaZ6l4TbPLjWMB5nZIhPSjaRIrNd1ToUo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=VDY56eSFQ0h9aOV9mLvw5zk8gzTeQ6306aACZFqA00E36arsxr6qEH7kGYwimbUH2T3gnm0W1FUKJzRlBgkNiEvP0IZabeL5y3uAan/oR237dcM8/0mfjcerVsQP2ljDAIa1D11gGyQgRCIr7pcgF9wJIwHrlXZmf56E8ZU7Qa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ThtdlLb9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VRxh79Rq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC596C2BCB4;
-	Tue,  5 May 2026 20:24:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ThtdlLb9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9856FC2BCB9;
+	Tue,  5 May 2026 20:25:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778012700;
-	bh=RPLbGSaE9fK6W+hLR2tVvhlPdS/IRjZSLnCkOBHVBE4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=VRxh79RqvDUMWVTE4B7/c/eAi7o9E5k1WDOypwV2Ud0rVXDbbQ8sgxsMVaXjPNNU3
-	 M8pTE5pPX/CfmRhnYfDv9VPZ33two7TrV0siW3zl+wF2aXdqplvn6D8HtSsw8sPUqe
-	 r+/TUIfp7YTwxjKn7y+ibKOyyvTgysyFGUtiN6sD9ogR65GOcmd9ddklny2tjMVngd
-	 6nv07yyJD8/VqE21OisD1piMYQkTF5GY1RmPH1J8luGm0uwF4sDEc8V8oBlqKqUP+U
-	 OWtTORqBkp1iFsCVhwBYlAxd5Icuuo6zK7DWAMX7vMKnKY1WdGU4SjHKyedGs2SFJG
-	 98Exx4ydMdwcQ==
+	s=k20201202; t=1778012702;
+	bh=byMAaIYf23XaZ6l4TbPLjWMB5nZIhPSjaRIrNd1ToUo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ThtdlLb9PZSvsA4ysBD3sx9TuYAfNK8VSHQsrZsDPwVjMN8JooIZoEZY0wkjplS2U
+	 VAEFpJoUQgQdD0BrFwxAIu9+IxhdVGDxDqMHWHC/9JxfVG8mZ2PLbHQ3+MjKgupPiZ
+	 OOkkzgQjTI6HSUUiJL8/yhlyJ92S1Leb/8GGb8CF8kc5DB9GaSejf8oSStZHpmbGRp
+	 UJhDzX3IvC/A02PZzqEmg0yEsIdi7vltd66GJTOpOI5+403G5fmh1jzXvNCT9DyC9m
+	 sEWebJrShr0YSWnWyXKv8LYtV47rJUnxQMPZF+DHq2jyHfjbjdJc7b8hN4lTMdqg9k
+	 MKzUjkVmbg56w==
 From: Arnd Bergmann <arnd@kernel.org>
 To: Mark Brown <broonie@kernel.org>,
 	Daniel Mack <daniel@zonque.org>,
@@ -37,10 +38,12 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH v2 1/3] ASoC: arm: pxa2xx: remove platform_data processing
-Date: Tue,  5 May 2026 22:24:24 +0200
-Message-Id: <20260505202426.3605262-1-arnd@kernel.org>
+Subject: [PATCH v2 2/3] ASoC: pxa2xx: push gpio usage into arch code
+Date: Tue,  5 May 2026 22:24:25 +0200
+Message-Id: <20260505202426.3605262-2-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20260505202426.3605262-1-arnd@kernel.org>
+References: <20260505202426.3605262-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,159 +54,117 @@ Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Nothing ever sets pxa2xx_audio_ops_t since the last users were removed
-in ce79f3a1ad5f ("ARM: pxa: prune unused device support") , so stop
-passing it around through the sound, ac97 code.
+There are no remaining static platform_device users of pxa2xx ac97,
+so the rest of that code path can go away as well.
+
+Since nothing in the driver uses the gpio number now, constrain the use
+of the legacy gpio interface to the architecture specific code.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- include/linux/platform_data/asoc-pxa.h | 21 ---------------------
- include/sound/ac97/codec.h             |  5 ++++-
- include/sound/ac97/controller.h        |  5 ++---
- sound/ac97/bus.c                       | 26 ++------------------------
- sound/soc/pxa/pxa2xx-ac97.c            |  3 +--
- 5 files changed, 9 insertions(+), 51 deletions(-)
+ arch/arm/mach-pxa/pxa27x.c             |  9 +++++++-
+ include/linux/platform_data/asoc-pxa.h |  2 +-
+ sound/arm/pxa2xx-ac97-lib.c            | 29 ++++++++------------------
+ 3 files changed, 18 insertions(+), 22 deletions(-)
 
+diff --git a/arch/arm/mach-pxa/pxa27x.c b/arch/arm/mach-pxa/pxa27x.c
+index ff6361979038..c588eeea1485 100644
+--- a/arch/arm/mach-pxa/pxa27x.c
++++ b/arch/arm/mach-pxa/pxa27x.c
+@@ -58,8 +58,15 @@ static unsigned long ac97_reset_config[] = {
+ 	GPIO95_AC97_nRESET,
+ };
+ 
+-void pxa27x_configure_ac97reset(int reset_gpio, bool to_gpio)
++void pxa27x_configure_ac97reset(struct gpio_desc *gpiod, bool to_gpio)
+ {
++	int reset_gpio;
++
++	if (!gpiod)
++		return;
++
++	reset_gpio = desc_to_gpio(gpiod);
++
+ 	/*
+ 	 * This helper function is used to work around a bug in the pxa27x's
+ 	 * ac97 controller during a warm reset.  The configuration of the
 diff --git a/include/linux/platform_data/asoc-pxa.h b/include/linux/platform_data/asoc-pxa.h
-index 7b5b9e20fbf5..7df78867db49 100644
+index 7df78867db49..0d5eaf4b100c 100644
 --- a/include/linux/platform_data/asoc-pxa.h
 +++ b/include/linux/platform_data/asoc-pxa.h
-@@ -6,27 +6,6 @@
+@@ -6,6 +6,6 @@
  #include <sound/pcm.h>
  #include <sound/ac97_codec.h>
  
--/*
-- * @reset_gpio: AC97 reset gpio (normally gpio113 or gpio95)
-- *              a -1 value means no gpio will be used for reset
-- * @codec_pdata: AC97 codec platform_data
--
-- * reset_gpio should only be specified for pxa27x CPUs where a silicon
-- * bug prevents correct operation of the reset line. If not specified,
-- * the default behaviour on these CPUs is to consider gpio 113 as the
-- * AC97 reset line, which is the default on most boards.
-- */
--typedef struct {
--	int (*startup)(struct snd_pcm_substream *, void *);
--	void (*shutdown)(struct snd_pcm_substream *, void *);
--	void (*suspend)(void *);
--	void (*resume)(void *);
--	void *priv;
--	int reset_gpio;
--	void *codec_pdata[AC97_BUS_MAX_DEVICES];
--} pxa2xx_audio_ops_t;
--
--extern void pxa_set_ac97_info(pxa2xx_audio_ops_t *ops);
- extern void pxa27x_configure_ac97reset(int reset_gpio, bool to_gpio);
+-extern void pxa27x_configure_ac97reset(int reset_gpio, bool to_gpio);
++extern void pxa27x_configure_ac97reset(struct gpio_desc *reset_gpio, bool to_gpio);
  
  #endif
-diff --git a/include/sound/ac97/codec.h b/include/sound/ac97/codec.h
-index 882b849b9255..69b404c354f5 100644
---- a/include/sound/ac97/codec.h
-+++ b/include/sound/ac97/codec.h
-@@ -108,6 +108,9 @@ static inline void ac97_set_drvdata(struct ac97_codec_device *adev,
- 	dev_set_drvdata(ac97_codec_dev2dev(adev), data);
+diff --git a/sound/arm/pxa2xx-ac97-lib.c b/sound/arm/pxa2xx-ac97-lib.c
+index 79eb557d4942..87e0d6b1e160 100644
+--- a/sound/arm/pxa2xx-ac97-lib.c
++++ b/sound/arm/pxa2xx-ac97-lib.c
+@@ -29,7 +29,6 @@ static DECLARE_WAIT_QUEUE_HEAD(gsr_wq);
+ static volatile long gsr_bits;
+ static struct clk *ac97_clk;
+ static struct clk *ac97conf_clk;
+-static int reset_gpio;
+ struct gpio_desc *rst_gpio;
+ static void __iomem *ac97_reg_base;
+ 
+@@ -140,10 +139,10 @@ static inline void pxa_ac97_warm_pxa27x(void)
+ 	gsr_bits = 0;
+ 
+ 	/* warm reset broken on Bulverde, so manually keep AC97 reset high */
+-	pxa27x_configure_ac97reset(reset_gpio, true);
++	pxa27x_configure_ac97reset(rst_gpio, true);
+ 	udelay(10);
+ 	writel(readl(ac97_reg_base + GCR) | (GCR_WARM_RST), ac97_reg_base + GCR);
+-	pxa27x_configure_ac97reset(reset_gpio, false);
++	pxa27x_configure_ac97reset(rst_gpio, false);
+ 	udelay(500);
  }
  
--void *snd_ac97_codec_get_platdata(const struct ac97_codec_device *adev);
-+static inline void *snd_ac97_codec_get_platdata(const struct ac97_codec_device *adev)
-+{
-+	return NULL;
-+}
- 
- #endif
-diff --git a/include/sound/ac97/controller.h b/include/sound/ac97/controller.h
-index 06b5afb7fa6b..d5895ea3922b 100644
---- a/include/sound/ac97/controller.h
-+++ b/include/sound/ac97/controller.h
-@@ -62,14 +62,13 @@ struct ac97_controller_ops {
- #if IS_ENABLED(CONFIG_AC97_BUS_NEW)
- struct ac97_controller *snd_ac97_controller_register(
- 	const struct ac97_controller_ops *ops, struct device *dev,
--	unsigned short slots_available, void **codecs_pdata);
-+	unsigned short slots_available);
- void snd_ac97_controller_unregister(struct ac97_controller *ac97_ctrl);
- #else
- static inline struct ac97_controller *
- snd_ac97_controller_register(const struct ac97_controller_ops *ops,
- 			     struct device *dev,
--			     unsigned short slots_available,
--			     void **codecs_pdata)
-+			     unsigned short slots_available)
- {
- 	return ERR_PTR(-ENODEV);
- }
-diff --git a/sound/ac97/bus.c b/sound/ac97/bus.c
-index 15487837e894..a4d230a19c56 100644
---- a/sound/ac97/bus.c
-+++ b/sound/ac97/bus.c
-@@ -206,24 +206,6 @@ void snd_ac97_codec_driver_unregister(struct ac97_codec_driver *drv)
- }
- EXPORT_SYMBOL_GPL(snd_ac97_codec_driver_unregister);
- 
--/**
-- * snd_ac97_codec_get_platdata - get platform_data
-- * @adev: the ac97 codec device
-- *
-- * For legacy platforms, in order to have platform_data in codec drivers
-- * available, while ac97 device are auto-created upon probe, this retrieves the
-- * platdata which was setup on ac97 controller registration.
-- *
-- * Returns the platform data pointer
-- */
--void *snd_ac97_codec_get_platdata(const struct ac97_codec_device *adev)
--{
--	struct ac97_controller *ac97_ctrl = adev->ac97_ctrl;
--
--	return ac97_ctrl->codecs_pdata[adev->num];
--}
--EXPORT_SYMBOL_GPL(snd_ac97_codec_get_platdata);
--
- static void ac97_ctrl_codecs_unregister(struct ac97_controller *ac97_ctrl)
- {
- 	int i;
-@@ -337,7 +319,6 @@ static int ac97_add_adapter(struct ac97_controller *ac97_ctrl)
-  * @dev: the device providing the ac97 DC function
-  * @slots_available: mask of the ac97 codecs that can be scanned and probed
-  *                   bit0 => codec 0, bit1 => codec 1 ... bit 3 => codec 3
-- * @codecs_pdata: codec platform data
-  *
-  * Register a digital controller which can control up to 4 ac97 codecs. This is
-  * the controller side of the AC97 AC-link, while the slave side are the codecs.
-@@ -346,18 +327,15 @@ static int ac97_add_adapter(struct ac97_controller *ac97_ctrl)
-  */
- struct ac97_controller *snd_ac97_controller_register(
- 	const struct ac97_controller_ops *ops, struct device *dev,
--	unsigned short slots_available, void **codecs_pdata)
-+	unsigned short slots_available)
- {
- 	struct ac97_controller *ac97_ctrl;
--	int ret, i;
-+	int ret;
- 
- 	ac97_ctrl = kzalloc_obj(*ac97_ctrl);
- 	if (!ac97_ctrl)
- 		return ERR_PTR(-ENOMEM);
- 
--	for (i = 0; i < AC97_BUS_MAX_CODECS && codecs_pdata; i++)
--		ac97_ctrl->codecs_pdata[i] = codecs_pdata[i];
--
- 	ac97_ctrl->ops = ops;
- 	ac97_ctrl->slots_available = slots_available;
- 	ac97_ctrl->parent = dev;
-diff --git a/sound/soc/pxa/pxa2xx-ac97.c b/sound/soc/pxa/pxa2xx-ac97.c
-index a0c672602918..b0b1293bc849 100644
---- a/sound/soc/pxa/pxa2xx-ac97.c
-+++ b/sound/soc/pxa/pxa2xx-ac97.c
-@@ -246,8 +246,7 @@ static int pxa2xx_ac97_dev_probe(struct platform_device *pdev)
+@@ -328,24 +327,14 @@ int pxa2xx_ac97_hw_probe(struct platform_device *dev)
+ 		return PTR_ERR(ac97_reg_base);
  	}
  
- 	ctrl = snd_ac97_controller_register(&pxa2xx_ac97_ops, &pdev->dev,
--					    AC97_SLOTS_AVAILABLE_ALL,
--					    NULL);
-+					    AC97_SLOTS_AVAILABLE_ALL);
- 	if (IS_ERR(ctrl))
- 		return PTR_ERR(ctrl);
+-	if (dev->dev.of_node) {
++	if (cpu_is_pxa27x()) {
+ 		/* Assert reset using GPIOD_OUT_HIGH, because reset is GPIO_ACTIVE_LOW */
+-		rst_gpio = devm_gpiod_get(&dev->dev, "reset", GPIOD_OUT_HIGH);
+-		if (IS_ERR(rst_gpio)) {
+-			ret = PTR_ERR(rst_gpio);
+-			if (ret == -ENOENT)
+-				reset_gpio = -1;
+-			else if (ret)
+-				return ret;
+-		} else {
+-			reset_gpio = desc_to_gpio(rst_gpio);
+-		}
+-	} else {
+-		if (cpu_is_pxa27x())
+-			reset_gpio = 113;
+-	}
++		rst_gpio = devm_gpiod_get_optional(&dev->dev, "reset",
++						   GPIOD_OUT_HIGH);
++		if (IS_ERR(rst_gpio))
++			return dev_err_probe(&dev->dev, PTR_ERR(rst_gpio),
++					     "reset gpio failed\n");
  
+-	if (cpu_is_pxa27x()) {
+ 		/*
+ 		 * This gpio is needed for a work-around to a bug in the ac97
+ 		 * controller during warm reset.  The direction and level is set
+@@ -353,7 +342,7 @@ int pxa2xx_ac97_hw_probe(struct platform_device *dev)
+ 		 * AC97_nRESET alt function to generic gpio.
+ 		 */
+ 		gpiod_set_consumer_name(rst_gpio, "pxa27x ac97 reset");
+-		pxa27x_configure_ac97reset(reset_gpio, false);
++		pxa27x_configure_ac97reset(rst_gpio, false);
+ 
+ 		ac97conf_clk = clk_get(&dev->dev, "AC97CONFCLK");
+ 		if (IS_ERR(ac97conf_clk)) {
 -- 
 2.39.5
 
