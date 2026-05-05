@@ -1,218 +1,349 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3562C1594;
-	Tue,  5 May 2026 09:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777974399; cv=fail; b=NHfoFtEWhC5jsJF41trros1uxHEywgtsRcre/4QS2n4oSNu7SaB0h9aSigzVoJlWYtz5jGuIEdHa1yHVKnvC9POsC+p4ju+zgs8JzK6VFy2G/iluq7RkKrcimZ4BY++qVfbJsUm1kY22oNuen2869z1anWqJqAw7Bau41cydJvM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777974399; c=relaxed/simple;
-	bh=cHZ3QCoDdyPFUjk5vgohH7Btw/IMCgfAbSg1xl0T9po=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PgxXJpcYliVziPsJy3Sp5/9m+OTbGZrfKU33CRS92S7vUws6yLInb4XO0T3xZoZPogYMYPZIacOR3L51XSj02+PSaeIZxp1/mP1WtN9DUgZupj6DrzNty4rMe9tcQLWmdLSYU9yyLOlovo/NiN9IkntAXgsreN5dVd2kmwFqO74=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=hvxi56sJ; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=Hhmnh8w3; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0F6325491;
+	Tue,  5 May 2026 09:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777974713; cv=none; b=dA7oSuMYLEau7Cj2PIWOybPjf3gw64HelpPkMOnuxdsCwktu87w7KZ1pWSgmZMLOETPazbOKC8IQG09Ii2CQ80GwNLacpVgGvO2wENPFOLtb4nKFXUDEVdXlALbZ+eLvXoi2fDwQ6fDmh7cEdkynlXhzRcBYlFELqvcXvsVWmGI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777974713; c=relaxed/simple;
+	bh=sb6o6Unc0M66XMHsZpONLOYyiHRqwcTBufVToiYEHDw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sE0ZEb7fnBPlH1GY8ogxnL9NQ8BvYFbsdSr4oftMAxYQJH8Lp7th9EE/sqQKYpc2rdik8C3mBO6OjT9DCIVIYCk3iAddThGqW24XmHlxHJXKDSuOAUiaYYhJ89WZsM8ryBNhgO8UWnGxPj1hm7Pgs7ewV2fOWGoYJ4yEHWuKLiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ErT3+8In; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="hvxi56sJ";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="Hhmnh8w3"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6454rArA1749407;
-	Tue, 5 May 2026 04:46:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=6CbP4ZtHUWHdH2WWIge66z1a4cKHhL6rrxdHbabjPic=; b=
-	hvxi56sJ5z1m0TD82h297j1b38ECnB21DNfJ9evgioiraZWd82SrrYcImCtzgmcA
-	9IeYv+XYfgHewRJOqGRswXv7orEtky0BzOT9fgRjRaPT+GF4+euFDt9aoFWTUKsI
-	JyTemDmlaot0mlb6/lgh+KM8BNJ4VYHaWjG4PGGh1+57a+O+SNt4+bRdD9mmlNKA
-	8u9SwCbgQ3mzN3+wwYfiOaHs5QhoJn9eUCzwK+BNucKRVCkvILxDyH9FPgdtDRNF
-	Dj+zWFcehM6DuE1QP5ZTZfQnfXDTOr7+qEBFUk3iyfW2OeEzd9Pk25Oh88ohrT1+
-	wdOUugjoWBUNhyLN1Qjojw==
-Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11023134.outbound.protection.outlook.com [40.93.201.134])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4dwep0u8rd-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 05 May 2026 04:46:35 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VCmcIp7+pM4ajbGwNzHzBD6bhPCa3IdnGCoeFh2mfDlucsAOIakOhtUXXvhNVnMV41fhsgnmN2LrlyQ86CRE05bHwuH4HKh8h1zOJQyIblLapFdI0qAnMQvfP9o+feKuSUc5giMNrfgIUfrDe95yNrPYD1yar19O+GmxTqDN2amZioPUCBwarRICod//01UobkI3FhhFFWp3qBpoFgEvdjkxUqgWtjl+Qd53PuRBFFi9JJg3/7iC5YAwpVVT2iVIU6FCwgeDXex/MD0+PSD0cFIMnK9a/vSl5yOYNhkhT5uambU5OHYqfG9Sbp62thzWP0SojnTsUBeEN4FTIw71PQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6CbP4ZtHUWHdH2WWIge66z1a4cKHhL6rrxdHbabjPic=;
- b=fTnyfsIKp8xJwDrF/38vI0SZ2e+Pk8c6SwdpkjdWFHPRyXhKQeoUp1UdTBogeJYuN4mR3Wh+6J3H1VGTSqNdyc9Lv17NEmM2zVd5V+XC1H44J6+6Hraz+/x04UkQ39e7p+gNidPXj1Qpa9wxjRrrrUniYyRi4bJoA/LQp+TL4/VDr2CLLn9IQyl2Qv3pzO3JTJMp0WzRL+hwjr6aEIyrLj30zRfy7UMPnRNOgwvvSJs3u4o9DU8OXsJ+CeX8Tmkzrw7n56ErD5YYde552yagDDm4zXKJyDzMhhdn7X/uoBs1sChHnLnui18n5qWAYJnHZBIcHvfbe4U3ClWc9y1FYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6CbP4ZtHUWHdH2WWIge66z1a4cKHhL6rrxdHbabjPic=;
- b=Hhmnh8w3mQ5fvB4FwqyhCIKk6dnFg3gB6Cm22WDz/z2KGmtEPj/R3UYB7CbKXjFBLaTettS5sc/vJUgLZC6H0QAPwHgdbHz6tjcAmPI7M7ZpXGaww5pScVQ4bEKNtCz7bZOiKdczV8QMSPeIpqp0eaoV70u4RCMq7E8FoTt1SIg=
-Received: from PH8PR02CA0050.namprd02.prod.outlook.com (2603:10b6:510:2da::19)
- by CH3PR19MB7212.namprd19.prod.outlook.com (2603:10b6:610:144::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Tue, 5 May
- 2026 09:46:31 +0000
-Received: from SN1PEPF000397B5.namprd05.prod.outlook.com
- (2603:10b6:510:2da:cafe::13) by PH8PR02CA0050.outlook.office365.com
- (2603:10b6:510:2da::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.27 via Frontend Transport; Tue,
- 5 May 2026 09:46:30 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SN1PEPF000397B5.mail.protection.outlook.com (10.167.248.59) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.9
- via Frontend Transport; Tue, 5 May 2026 09:46:30 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 13B5040654A;
-	Tue,  5 May 2026 09:46:29 +0000 (UTC)
-Received: from [198.61.69.19] (EDIN4L06LR3.ad.cirrus.com [198.61.69.19])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id C36AF82024A;
-	Tue,  5 May 2026 09:46:28 +0000 (UTC)
-Message-ID: <c376b094-9724-4605-aaf4-0b4592b74a48@opensource.cirrus.com>
-Date: Tue, 5 May 2026 10:46:28 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ErT3+8In"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66A12C2BCB9;
+	Tue,  5 May 2026 09:51:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777974713;
+	bh=sb6o6Unc0M66XMHsZpONLOYyiHRqwcTBufVToiYEHDw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ErT3+8InskYEioA1u3kT8gO1IPkEiX+2lLBbP3kqofLgqYnpJyhsbp423FFRRlOvz
+	 IyYwG3Qdfk30N6uDrRBzcJCgtpe3KXJcPfJyjfcThSUv59faUciFtOChSmjdDoGafA
+	 rrqBr3uTIl/OCBNcEtedijPHpA7GCwParL/zebn710SM+fgQS/nbfouqtEawSbTQrq
+	 ZyRXTC9zDgyjFUwxMo2/fk1XurVimidxDa7sW9cJrHSJ+193/gzkcVtQyhcUcxi6Ek
+	 hji3+fO5N8ddsxmKmfhIQk6Rx/L5ygKUALIcNVXe2jBeU3QGrOEFXpSxGib8PKwSNE
+	 U3c958UwyaOWg==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 7.0-5.10] ALSA: hda: Avoid WARN_ON() for HDMI chmap slot checks
+Date: Tue,  5 May 2026 05:51:17 -0400
+Message-ID: <20260505095149.512052-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: cs35l56: Use devres to destroy workqueue
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-References: <20260504151006.3374934-1-rf@opensource.cirrus.com>
- <e322b673-0eda-4342-bebe-2a444b004bc0@wanadoo.fr>
-Content-Language: en-US
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <e322b673-0eda-4342-bebe-2a444b004bc0@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 7.0.3
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000397B5:EE_|CH3PR19MB7212:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a6d8327-efe7-474f-2f9c-08deaa8b2f5d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700016|82310400026|61400799027|13003099007|56012099003|16102099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	WP2BRgQfcPsUauhfVm4DZH7MIyhpsKFgSxhnMkVvIiVOjATO+vtFalNGaGzu8AsJAjqC7iC++u23OtqTQ7ra7senNN4Vm4JDdgsI5AmeMBdCJfPxMBwz9ftcju1gAC+Bor6urIoolUOM2LjlsbjemtqwrAKNzJfgA4sJQX3giHPAfePxAMX222keUjjp5fTK6MLjRq85vEjwPIRiy11pp0qxxWzC5EuAsQ3ghcZ2p3TTrHaYbqD0ACa7qhies3woEIDshvfiIdWZ1GWe9lxQ/6RgZ9OmA96aOTbr0bthH2FbqMzq/yhcsx1aD0y8fZWWdgZjmI7Z7iJfoy+KNBjQzFgZ4MdLubJ84p14u26dE/RL26hZxuKM3w8vruk2BiCBhmRXTISRcSIz2yZVumIhWXeZHv+Y5zNsepNzx1qEZBs1yVezzplNYo33U0paTnKcG0r09v9clFQ2Khg36FN6MBcr/QAqSOF1vwSCPI4dBBkDaqpDKYPf1EuRR/3HwQ079umF8u5Ynta3fEj+UPC9Aw1x8B81Tljx5LJzkKoGTetRKE0670O5v+A7iVxCQjxICskD8JIk7NS0L0slodKgR0BheurneuGXeQvNgCbPIOxFVs8p14vwk19UsLijyvkPtE2XAzjlYDc1RwjMp3FgZDu/SXaEx5r3IJNRRzUXcEM=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(82310400026)(61400799027)(13003099007)(56012099003)(16102099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	dE6DmAm/+DmrrrmJk8eVYazNjPqVW32VSIFHqDockW+4CyRPFjJH6V+/K8oRydHOmyOs+5EscADwyefKy4YyR9cxbD3gjPA6T6b/rH2vdbolv/tL4DkwU//7NacNzlW/BGncOi63T/umP1+U6WN915YYZugpU5jxxWVaE4zZ1c7h+4iv9xBs9FFD5eyrDx3FywaclwSEkK7x+ufyTHF5b3y6S7s7WTo5vbMAo1NQXhqA+MspNUQqLy/3J2le2lgpDDpQBauJAJ8OuRQ0zmN/HS2yfHy67jqQim52Nr32VXxppqoZfxB0lhw0YIUQYvZGEuHBy/K3NisHgKdVn1ONPiSQPsZxMnIQ+6FR0H1RsfDmwAb1v47ACYoqe5+Em2IR3JRWUB/6kpSQXik/FpJ+23vATsS5fxHwLW9dalN3L44ms4k42K+Du6uHAY6hurep
-X-Exchange-RoutingPolicyChecked:
-	tx0y72T4JCd329E2arN2i6y9pVWAkrMqesEhZeB1jvzU5LaFLeJyObwWlrzMRbaVCgnAPqCbuFALT3qznKs+Tx9k3ykJjY+GUaqZ02lABQFomtvyQ2d9MMmnVYGQe9VxrcW5FGA6ivtukhiKvgeOBrXI3Kq2IVgEKIleZziw+mDzykJLs4xFcdD59YSqNIk89hZCRL78KoMddhmQ9A78OtS96BUUGg12mGeY8QcXDf2z9InsaPsO9xXMCj8YSu4XeFGNOVVn+k3nb2Hf1+C5PkAs96bW180N3/prmm/olPBOQz8z92REnZCDkE+FpwQueKiQ0CyGZoT2QQSG5PwG0g==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2026 09:46:30.2287
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a6d8327-efe7-474f-2f9c-08deaa8b2f5d
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SN1PEPF000397B5.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR19MB7212
-X-Proofpoint-ORIG-GUID: uFn1HNS1QFy4jDR2r2HlmGgzmxUKF3X1
-X-Authority-Analysis: v=2.4 cv=fcCdDUQF c=1 sm=1 tr=0 ts=69f9bc7b cx=c_pps
- a=kguG1nR2ma0GTtLk2h9wKQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=c92rfblmAAAA:8 a=w1d2syhTAAAA:8 a=-shhNCbG7RmcuK1FwAoA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=GvGzcOZaWPEFPQC_NcjD:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA1MDA5MCBTYWx0ZWRfX/P2Kz/9Ybqrc
- Vs2zfGwyALHPWH8JFUqIra5XsZ/CIbb9dITtOaNbQ5TCreOA1ngVoK3WIlZ1/p2H4C248yOKCnV
- 5JKuJwNoFFXFnrTvlE5PK2hlHPhH5EMupPkShmXkNbBW3iaqT5sL7aTtO9pEhiLY+BOEYlvmT0j
- QN6ZWc0TVUbvpPAsQZbhTCAcpmqdj+IS7y6Obhri6mSGPzX5NOchGAUJgvQSOgE31xbHMYSfMqb
- OTJxuwG8feOO5H3wXRC8dTylZugAeeutWsyCLOFtyoVzPwRs7Lru0o93ykxvOh+VoUwas0VLUEM
- 1CGL257OvISomgGc0DlnszEqDZECSk9bGv7lgA4f2jWipZE7c9pMnWSjDe6hljo3KiDJmMeZjpG
- bpZZDSjtiPZVecM5zOjTPR8AMsj6y/JYkvhx1vusW3D74nT/VoTjjcfp1J9JlLzBVFE0PHlqesX
- cf9EEZtoLBhFN6CaOPw==
-X-Proofpoint-GUID: uFn1HNS1QFy4jDR2r2HlmGgzmxUKF3X1
-X-Proofpoint-Spam-Reason: safe
 
-On 4/5/26 17:46, Christophe JAILLET wrote:
-> Le 04/05/2026 à 17:10, Richard Fitzgerald a écrit :
->> In cs35l56_dsp_init() use devm_add_action_or_reset() to add a devres
->> cleanup function that flushes and destroys the workqueue. This replaces
->> manually calling destroy_workqueue().
->>
->> The error path in cs35l56_common_probe() did not call 
->> destroy_workqueue().
->> Using devres keeps the destroy_workqueue() automatically ordered relative
->> to all the other devres-managed cleanup.
->>
->> The call to destroy_workqueue() in cs35l56_remove() has been changed to
->> flush_workqueue(), as pointed out by Sashiko:
->> https://sashiko.dev/#/patchset/20260504110743.3341869-1- 
->> rf%40opensource.cirrus.com
->>
->> The use of devres cleanup was suggested by https://sashiko.dev to avoid a
->> small cleanup inversion window if destroy_workqueue() is called in the
->> error path of cs35l56_common_probe().
->>
->> Fixes: e49611252900 ("ASoC: cs35l56: Add driver for Cirrus Logic 
->> CS35L56")
->> Closes: https://sashiko.dev/#/patchset/20260501103002.2843735-1- 
->> rf%40opensource.cirrus.com
->> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
->> ---
->> Change in V2:
->> - Call flush_workqueue() in cs35l56_remove().
->>
->>   sound/soc/codecs/cs35l56.c | 16 +++++++++++++++-
->>   1 file changed, 15 insertions(+), 1 deletion(-)
->>
->> diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
->> index 378017fcea10..26fa94c98775 100644
->> --- a/sound/soc/codecs/cs35l56.c
->> +++ b/sound/soc/codecs/cs35l56.c
->> @@ -1627,6 +1627,14 @@ static int cs35l56_control_add_nop(struct 
->> wm_adsp *dsp, struct cs_dsp_coeff_ctl
->>       return 0;
->>   }
->> +static void cs35l56_dsp_workqueue_destroy(void *data)
->> +{
->> +    struct workqueue_struct *wq = data;
->> +
->> +    flush_workqueue(wq);
-> 
-> I don't think that an explicit flush_workqueue() is needed here.
-> 
-> destroy_workqueue() already does the job ( destroy_workqueue() --> 
-> drain_workqueue() --> __flush_workqueue())
-> 
->> +    destroy_workqueue(wq);
->> +}
->> +
->>   static int cs35l56_dsp_init(struct cs35l56_private *cs35l56)
->>   {
->>       struct wm_adsp *dsp;
->> @@ -1636,6 +1644,12 @@ static int cs35l56_dsp_init(struct 
->> cs35l56_private *cs35l56)
->>       if (!cs35l56->dsp_wq)
->>           return -ENOMEM;
->> +    ret = devm_add_action_or_reset(cs35l56->base.dev,
->> +                       cs35l56_dsp_workqueue_destroy,
-> 
-> so, I guess that destroy_workqueue() could even be called directly 
-> without the need of cs35l56_dsp_workqueue_destroy(). Not sure it is 
-> cleaner.
-> 
-> CJ
+From: Takashi Iwai <tiwai@suse.de>
 
-Ok, I will change to manually destroying the ASoC component in the
-driver remove(), instead of using devm_snd_soc_register_component().
-That would make it safe to directly call destroy_workqueue() from
-driver remove().
+[ Upstream commit 077c593dacf7ee33511468e4f29417d795cf07a4 ]
+
+At parsing the channel mapping for HDMI, the current code may spew
+WARN_ON() unnecessarily for the case where only invalid (zero) channel
+maps are given from the hardware.  Drop WARN_ON() and reorganize the
+code a bit for avoiding the hdmi_slot over the array size.
+
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221390
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Link: https://patch.msgid.link/20260428061800.80527-1-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+## Phase 1: Commit Message Forensics
+
+Step 1.1 Record: subsystem is `ALSA: hda`; action verb is `Avoid`;
+claimed intent is to avoid unnecessary `WARN_ON()` during HDMI channel-
+map slot checks.
+
+Step 1.2 Record: tags present are `Closes:
+https://bugzilla.kernel.org/show_bug.cgi?id=221390`, `Signed-off-by:
+Takashi Iwai <tiwai@suse.de>`, `Link:
+https://patch.msgid.link/20260428061800.80527-1-tiwai@suse.de`, and
+another `Signed-off-by: Takashi Iwai <tiwai@suse.de>` in the supplied
+commit text. No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`,
+`Acked-by:`, or `Cc: stable` tag was present.
+
+Step 1.3 Record: the commit says HDMI channel-map parsing can emit
+unnecessary `WARN_ON()` when hardware supplies only invalid zero channel
+maps, and also says the code is reorganized to avoid `hdmi_slot` going
+over the array size. The visible user symptom is kernel warning spam;
+the linked Bugzilla content could not be fetched because Bugzilla
+returned an Anubis bot-protection page.
+
+Step 1.4 Record: this is a real bug fix, not just cleanup. The diff
+removes a warning path reachable from bad hardware-provided mapping data
+and adds an explicit bound exit before programming or storing an invalid
+HDMI slot.
+
+## Phase 2: Diff Analysis
+
+Step 2.1 Record: one file changes: `sound/hda/core/hdmi_chmap.c`, with 7
+insertions and 4 deletions. The only modified function is
+`hdmi_std_setup_channel_mapping()`. Scope is a single-file surgical fix.
+
+Step 2.2 Record: before the patch, the loop skipped empty speaker slots
+using `WARN_ON(hdmi_slot >= 8)` as part of the while condition, but
+after the warning fired the loop still proceeded to assign `hdmi_slot`
+into `hdmi_channel_mapping`. After the patch, the outer loop stops when
+`hdmi_slot` reaches 8, the inner skip loop jumps to `out` before
+assignment when the slot limit is reached, and the remaining slots are
+filled with the invalid ALSA channel marker as before.
+
+Step 2.3 Record: bug category is logic/bounds handling plus spurious
+warning removal. The broken mechanism is that `hdmi_slot` can reach the
+8-slot HDMI limit while looking for a nonzero speaker slot, causing a
+`WARN_ON()` and allowing an invalid slot number to be used in the
+mapping path. The fix prevents the over-limit assignment.
+
+Step 2.4 Record: the fix is obviously local and low-risk. It changes
+only the invalid/edge path where slot scanning reaches the HDMI 8-slot
+limit. It does not add APIs, data structures, or features.
+
+## Phase 3: Git History Investigation
+
+Step 3.1 Record: `git blame` shows the function and mapping logic came
+from `2f6e8a8518f3` (`ALSA: hda - Move chmap support helpers/ops to
+core`, first contained in `v4.6-rc1`), and the current
+`WARN_ON(hdmi_slot >= 8)` ordering came from `960a581e22d9` (`ALSA: hda:
+fix some klockwork scan warnings`, first contained in `v4.8-rc1`).
+
+Step 3.2 Record: no `Fixes:` tag is present, so there was no tagged
+introducing commit to follow. Blame identifies `960a581e22d9` as the
+source of the current warning expression.
+
+Step 3.3 Record: recent history for this file is sparse. Relevant later
+changes include `c2432466f583c` HDMI/DP chmap reporting, `6278056e42d9`
+input value sanity checks, and `b2660d1ebde` moving the file into
+`sound/hda/core`. No prerequisite for this patch was identified.
+
+Step 3.4 Record: author Takashi Iwai is listed in `MAINTAINERS` as a
+maintainer for `SOUND`, and recent git history shows many HDA commits
+authored/merged by him. This is a strong subsystem-authority signal.
+
+Step 3.5 Record: no dependency on newer structures or helper functions
+was found. The affected code pattern exists in active stable trees;
+older trees before `v6.17` use the path `sound/hda/hdmi_chmap.c` instead
+of `sound/hda/core/hdmi_chmap.c`.
+
+## Phase 4: Mailing List And External Research
+
+Step 4.1 Record: an exact candidate commit SHA was not found by subject
+on the searched refs, so `b4 dig -c <candidate>` could not be run for
+the candidate. Using the message-id instead, `b4 am
+20260428061800.80527-1-tiwai@suse.de` found the patch, confirmed a
+single patch, DKIM-signed by `suse.de`, and reported that it applies
+cleanly to the current tree. `b4 am -c` found no newer revision.
+
+Step 4.2 Record: `b4 mbox` showed the original patch was sent by Takashi
+Iwai to `linux-sound@vger.kernel.org` and Cc’d `linux-
+kernel@vger.kernel.org`. The fetched thread contained one message and no
+code-review replies or review trailers.
+
+Step 4.3 Record: the patch has a Bugzilla `Closes:` link, but WebFetch
+for Bugzilla was blocked by Anubis. I could not verify reporter severity
+or duplicates from Bugzilla content.
+
+Step 4.4 Record: `b4 am` reported one total patch, and no series context
+or newer revision was found. This appears standalone.
+
+Step 4.5 Record: web searches did not find stable-list discussion for
+the exact title. No stable-specific objection was found.
+
+## Phase 5: Code Semantic Analysis
+
+Step 5.1 Record: modified function is
+`hdmi_std_setup_channel_mapping()`.
+
+Step 5.2 Record: `rg` shows `hdmi_std_setup_channel_mapping()` is called
+only by `snd_hdac_setup_channel_mapping()`. That exported helper is
+called from HDA HDMI setup in `sound/hda/codecs/hdmi/hdmi.c` and ASoC
+HDMI codec setup in `sound/soc/codecs/hdac_hdmi.c`.
+
+Step 5.3 Record: the affected function computes slot/channel assignments
+and calls `chmap->ops.pin_set_slot_channel()`, which writes the
+`AC_VERB_SET_HDMI_CHAN_SLOT` HDA verb through the codec operation.
+
+Step 5.4 Record: the path is reachable during HDMI/DP audio setup: PCM
+prepare, ELD/presence update, channel-map control update when prepared,
+and ASoC DAPM pin power-up call into the infoframe setup path. This is a
+real runtime hardware path, not dead code.
+
+Step 5.5 Record: `rg` found no other `WARN_ON(hdmi_slot >= 8)` or
+similar `hdmi_slot` warning pattern elsewhere in `sound/`.
+
+## Phase 6: Cross-Referencing And Stable Tree Analysis
+
+Step 6.1 Record: the exact `WARN_ON(hdmi_slot >= 8)` pattern exists in
+active stable branches checked: `stable/linux-5.10.y`, `5.15.y`,
+`6.1.y`, `6.6.y`, `6.12.y`, `6.18.y`, `6.19.y`, and `7.0.y`.
+
+Step 6.2 Record: backport difficulty should be clean or minor. `git
+apply --check` succeeds on the current `7.0.y` checkout. For `5.10.y`
+through `6.12.y`, the code is effectively the same but the file path is
+`sound/hda/hdmi_chmap.c`; `6.18.y+` uses `sound/hda/core/hdmi_chmap.c`.
+
+Step 6.3 Record: searches for the exact subject and bug number in stable
+history found no existing matching stable fix.
+
+## Phase 7: Subsystem And Maintainer Context
+
+Step 7.1 Record: subsystem is ALSA HDA HDMI channel mapping under
+`sound/`. Criticality is IMPORTANT: it affects users of HDA HDMI/DP
+audio hardware, not all kernel users.
+
+Step 7.2 Record: subsystem activity is active; recent `sound/hda`
+history contains HDA HDMI fixes, quirks, cleanups, and device IDs. The
+touched file itself has low churn.
+
+## Phase 8: Impact And Risk Assessment
+
+Step 8.1 Record: affected users are driver/hardware-specific: systems
+using HDA HDMI/DP audio channel mapping, especially hardware that
+reports invalid zero channel-map data.
+
+Step 8.2 Record: trigger is HDMI channel-map setup with invalid/zero
+mapping data from hardware, reached during audio infoframe/channel
+setup. I did not verify whether an unprivileged user can force the exact
+bad hardware data; the runtime setup path itself is reachable during
+normal audio/display operation.
+
+Step 8.3 Record: failure mode is warning splat/log spam and invalid slot
+handling. Severity is MEDIUM normally, and potentially higher on systems
+configured with `panic_on_warn`, but I did not verify `panic_on_warn` in
+the bug report.
+
+Step 8.4 Record: benefit is medium: avoids a user-reported warning and
+prevents invalid HDMI slot use on affected hardware. Risk is very low:
+11-line single-function change in an edge path with no API or behavior
+expansion.
+
+## Phase 9: Final Synthesis
+
+Step 9.1 Record: evidence for backporting: user-reported Bugzilla-linked
+issue, maintainer-authored ALSA fix, small and isolated diff, removes a
+spurious runtime `WARN_ON()`, adds explicit bounds handling, code exists
+across active stable trees, and current-tree apply check succeeds.
+Evidence against: primary verified symptom is warning/log noise rather
+than confirmed crash, data corruption, or security issue; Bugzilla
+details could not be fetched; older stable trees need a path-adjusted
+backport because of the `sound/hda/core` rename.
+
+Step 9.2 Record: stable rules checklist:
+1. Obviously correct and tested: yes for obvious correctness by
+   inspection; external testing is not evidenced by tags.
+2. Fixes a real bug: yes, commit has a Bugzilla `Closes:` and fixes a
+   concrete warning/bounds condition.
+3. Important issue: moderate importance; warnings from hardware-
+   triggered paths are stable-worthy when the fix is tiny and safe.
+4. Small and contained: yes, one function, one file, 7 insertions and 4
+   deletions.
+5. No new features/APIs: yes.
+6. Can apply to stable: yes for current path; minor path adjustment
+   needed for older stable branches.
+
+Step 9.3 Record: no automatic exception category applies. This is not a
+device ID, quirk table entry, DT update, build fix, or documentation
+fix.
+
+Step 9.4 Record: decision is YES. The patch is small, maintainer-
+authored, fixes a real user-reported WARN/bounds handling issue in
+existing HDA HDMI code present across stable trees, and has very low
+regression risk.
+
+## Verification
+
+- [Phase 1] Read the supplied commit message and the fetched mbox:
+  confirmed subject, body, `Closes`, and `Signed-off-by`.
+- [Phase 2] Read the b4-fetched patch: confirmed
+  `sound/hda/core/hdmi_chmap.c`, 7 insertions, 4 deletions, one hunk in
+  `hdmi_std_setup_channel_mapping()`.
+- [Phase 3] Ran `git blame` on the changed region: confirmed
+  `2f6e8a8518f3` and `960a581e22d9` history.
+- [Phase 3] Ran `git describe --contains`: confirmed `2f6e8a8518f3`
+  appears in `v4.6-rc1` ancestry and `960a581e22d9` in `v4.8-rc1`
+  ancestry.
+- [Phase 3] Checked file history and author history: no prerequisite
+  commit identified; Takashi Iwai is active in HDA history.
+- [Phase 4] `b4 am` by message-id: found the exact patch, one total
+  patch, DKIM signed, applies cleanly to current tree.
+- [Phase 4] `b4 am -c`: found no newer revision.
+- [Phase 4] `b4 mbox`: confirmed To/Cc and that the thread has one
+  message.
+- [Phase 4] WebFetch for lore and Bugzilla: blocked by Anubis, so bug
+  details beyond the `Closes` URL are unverified.
+- [Phase 5] `rg` call tracing: confirmed caller chain through
+  `snd_hdac_setup_channel_mapping()` into HDA HDMI and ASoC HDMI setup
+  paths.
+- [Phase 5] Read caller code: confirmed use during audio infoframe
+  setup, ELD/presence handling, PCM prepare, DAPM power-up, and prepared
+  chmap update paths.
+- [Phase 6] `git grep` on active stable refs: confirmed the exact
+  `WARN_ON(hdmi_slot >= 8)` pattern exists in checked `5.10.y` through
+  `7.0.y`.
+- [Phase 6] `git diff` across stable refs: confirmed older branches
+  mostly differ by file rename, with `5.10.y/5.15.y` having one
+  unrelated PCM runtime-state line difference.
+- [Phase 6] `git apply --check`: candidate patch applies cleanly to the
+  current `7.0.y` checkout.
+- [Phase 7] `MAINTAINERS` search: confirmed Takashi Iwai is listed as a
+  `SOUND` maintainer.
+- [Phase 8] Severity/risk assessment is based on the verified diff,
+  commit message, and runtime call paths.
+- UNVERIFIED: exact Bugzilla reporter details, number of affected users,
+  and whether the reporter hit a panic rather than warning spam.
+- UNVERIFIED: exact upstream commit SHA, because the subject was not
+  found on searched local refs; candidate-specific `b4 dig -c` could not
+  be performed.
+
+**YES**
+
+ sound/hda/core/hdmi_chmap.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/sound/hda/core/hdmi_chmap.c b/sound/hda/core/hdmi_chmap.c
+index 7b276047f85a7..c897fc443467c 100644
+--- a/sound/hda/core/hdmi_chmap.c
++++ b/sound/hda/core/hdmi_chmap.c
+@@ -353,13 +353,16 @@ static void hdmi_std_setup_channel_mapping(struct hdac_chmap *chmap,
+ 	if (hdmi_channel_mapping[ca][1] == 0) {
+ 		int hdmi_slot = 0;
+ 		/* fill actual channel mappings in ALSA channel (i) order */
+-		for (i = 0; i < ch_alloc->channels; i++) {
+-			while (!WARN_ON(hdmi_slot >= 8) &&
+-			       !ch_alloc->speakers[7 - hdmi_slot])
+-				hdmi_slot++; /* skip zero slots */
++		for (i = 0; i < ch_alloc->channels && hdmi_slot < 8; i++) {
++			while (!ch_alloc->speakers[7 - hdmi_slot]) {
++				/* skip zero slots */
++				if (++hdmi_slot >= 8)
++					goto out;
++			}
+ 
+ 			hdmi_channel_mapping[ca][i] = (i << 4) | hdmi_slot++;
+ 		}
++	out:
+ 		/* fill the rest of the slots with ALSA channel 0xf */
+ 		for (hdmi_slot = 0; hdmi_slot < 8; hdmi_slot++)
+ 			if (!ch_alloc->speakers[7 - hdmi_slot])
+-- 
+2.53.0
+
