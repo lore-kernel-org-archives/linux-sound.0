@@ -1,98 +1,85 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30851F09A8
-	for <linux-sound@vger.kernel.org>; Tue,  5 May 2026 22:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE032F745E
+	for <linux-sound@vger.kernel.org>; Tue,  5 May 2026 23:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778020416; cv=none; b=IEQJIfDUDQSjdDgz8F1eTZb1bj23Huhy50sxypcQ7BYHiqhbADPTBQ70q+UWy58rRSmtas2bc1j+Xq3TAw4Zn/FAR7NnA1CbNhhWMoLvSUK9vq6tw3/m/A0E8DJ6ZCjvjExYJleaLB7kQsAvis46djsBjKcTBXkY4k5gVuSqYng=
+	t=1778024096; cv=none; b=JITC1Je24rBRPxlYRtNa8vfj6dWaxPWJ/fvDw87VQIy4GW4tbgrZWG5D05mnq/jYfwLhLwB5Sj1V+EGynzo8hd9tb38KQV4+YDE6L4dHGGgAR8eezuOsLyPjykPm46SnHbcCJVvVL5VI61cBY3uaJTZvFh8/+0HstQY1zHUxvW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778020416; c=relaxed/simple;
-	bh=ReMBnTVBoEx4tVDC0dBEmFnbe+UTyXjIi0laM1CuvsY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=elr9cCLW0Xr5yMle2Tqpgjy/osXAiJg9V5FsizVPYvvU2U4kZDnMtEWhaMQb78R07StYZj9Fuxx4TtVMsO2U0c8Coy5BFhXifR3dxILxsi0qxSXy/TadP7jzjynePSCSXXfzuNCubJ7yfGYGfj56JwGJ07XiVRRnjs9OHjlblks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jOvfMk1M; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778024096; c=relaxed/simple;
+	bh=I4clqWJBQF+mPm5vwO8/th2jz5ng2CXGJLyucI+uwZw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CKRCVpLn7EPDKRCJoV4oGlsYCzdT4raJH+SoND/1zGEaunkYKPP42SyBU/sguhwzsjjQahjLQZrexlHl5LIcK26RIsMVbHafX4nBvASf0nhCmwqjc3Ixr/Immmasc2OgmX7SN6VNWivFkmoGh6dgJGBiJf8l0es9BXMgx9d9HJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ErWZdTUr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jOvfMk1M"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-38e7d983f91so62654961fa.2
-        for <linux-sound@vger.kernel.org>; Tue, 05 May 2026 15:33:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778020413; x=1778625213; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4k3o1MtIhSEHki6YNMWi78SGlObbN4TdIsJculoTZlE=;
-        b=jOvfMk1M+qdM1gCcIBRZVPBxA3eT7Tr488HirHF4viqSoQuFwBipiITKIf1v0GcwKR
-         GsAejM4hlchdBn5GGxmYsoSTPPljzrlI4kCV7MjFWL7o0//Kbk33x3THK2CZlZEuzohT
-         pPLPITxj5siG8JaEzwKP/yA+s998aqJsxvC1vxZwJT5Q15RFF0M8NCtmxzYhFUe3ZGZM
-         awwrpqgIngax8KmFyWHbSydMmQUm+wh6b4B/4QoWNJGOtLbt1q2ttHGOzF/y2Nv8kyCr
-         SwohVVMAir3M9e9ub6IQT4GTB21R4eCRHoFj16z5lAEF5KD4R2UrEAmMR3tGG2X2jcTJ
-         Qz+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778020413; x=1778625213;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4k3o1MtIhSEHki6YNMWi78SGlObbN4TdIsJculoTZlE=;
-        b=i1/BSuqx0UxmtZ8T+oo2bIHGDJJa5ia9Y5kVV/hPAgdCXyuBjvllTBxiSltMEF7m1S
-         hPuZUZP0ySh3grbs9onmeXQv62rql7dHKJXxVsxv6sAqMbf9DqFRoV90x9ZqqFofS86H
-         tcg3MQoRyeCZ2gRwqUVjrgeankPeL4BSDyHoWyF4u3WnYKSv6UaD/33pxCuDg/zmk6a3
-         m2RZ6iewDXfTmZpsILdTC+b9bsRikPPVh27Okx0kB6Kc/A2tVL4KD4fKxfKKHIxFRYvt
-         FmEGV6b7hGJBY2GXOeK9D+scDtVfhnHpSTAB3w7zsNpKTUpQAkvN8IyJcDIuPwUmo9qf
-         hZOQ==
-X-Gm-Message-State: AOJu0YwMXS4wi4CULWNfWc/49R5IZsinp4X3yymF4T/N31KBxM+TCCRH
-	fXGFZ9HBTNYAy4fw59bxTXwxHIWOwu6cNcTRttcxoDqbPfcIkXgj2fmBx/kFfXo+
-X-Gm-Gg: AeBDievfOgioSbmQ+BXtqrwCEtDs8nVF4OjmDuMpWWvUyj4VMOCNBeY+9ovVpRmST+O
-	OU2vPphYzL6KcIORoNlWQ3rDC4n7RPzMM1zngF9jJtppbXzwxmc8R3dnhgVDcMXPkUtZrh4jwoS
-	NGTajKkp49KqHL7fzH99Kqz1XfyrBJlzCxCnK998xXw7OESHqIBOGozqhYzjZiwNMhyUWniNAVg
-	et56YXLZzVczHhUEFbwvcPrmx5Dwma+NXLOi6+l3EFjuzkgVYAlMf9eqBPK/1CUXVlL2mltkmFn
-	3T7nE3PhZdqnQLYroLLgAn2kHieCrDjBvpAwmIVToLNBQjQ7fx/AUTa2RZgNjN9hodmZpv0hLnh
-	wG3P7PeygYTnWw2Bn7Zh92iNBW8+4kTDhdWEcdeIgLwJjAhsVEp0eNq8jwIG284X3UXWg6p11GV
-	AXjlC7zyHcI/t7frLr+2LOIm4xkrOrIEF+HECvF3VB87IlkFOxb1McmQ8lqPQfxMz16cQ=
-X-Received: by 2002:a2e:958c:0:b0:38c:6b40:c6bc with SMTP id 38308e7fff4ca-393c42147d7mr3258281fa.27.1778020412524;
-        Tue, 05 May 2026 15:33:32 -0700 (PDT)
-Received: from Shofiq.home (87-92-218-151.rev.dnainternet.fi. [87.92.218.151])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39361343c1esm44423971fa.34.2026.05.05.15.33.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 15:33:31 -0700 (PDT)
-From: Md Shofiqul Islam <shofiqtest@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: broonie@kernel.org,
-	lgirdwood@gmail.com,
-	claudiu.beznea@tuxon.dev,
-	andrei.simion@microchip.com,
-	Md Shofiqul Islam <shofiqtest@gmail.com>
-Subject: [PATCH] ASoC: atmel: Fix typo in comment
-Date: Wed,  6 May 2026 01:33:30 +0300
-Message-ID: <20260505223330.5678-1-shofiqtest@gmail.com>
-X-Mailer: git-send-email 2.51.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ErWZdTUr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFF4CC2BCB4;
+	Tue,  5 May 2026 23:34:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778024095;
+	bh=I4clqWJBQF+mPm5vwO8/th2jz5ng2CXGJLyucI+uwZw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ErWZdTUrJWLw5Lxnp5FGpCSIu906rKErvzJtC44YDGtEuoTf1RbSkeKLSZjNq74sR
+	 dWRNXIaKQjiXtTuzCcqBV8fAPc8FRza3/1gUWgNQlS5QpxWFb/iv/2mTDloCAhcZqN
+	 9MllUYXuHZI9+kc3Xz5U4ez+jP3MSrhQUXL6/ZzdYnCgMg+5fT9Kxtb51zsnM1Ojt+
+	 yU5ycAm8rTZZMoOzxNOJqDAjmyKtqL35ZLapRMVqhNbfMzWXQHH1kK72JgwyuKp+jn
+	 +/M6JB8gBiXQ/XgSXqnQcIAPfWq6KFlrEcWnZ7a9cU84Irj/D3SGxHw2zqzzg/TX2Y
+	 pLtwAHBuae5sw==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 7A9D01AC5877; Wed, 06 May 2026 00:34:52 +0100 (BST)
+Date: Wed, 6 May 2026 08:34:52 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Md Shofiqul Islam <shofiqtest@gmail.com>
+Cc: linux-sound@vger.kernel.org, lgirdwood@gmail.com
+Subject: Re: [PATCH] ASoC: nau8825: Fix typos in comments
+Message-ID: <afp-nAp_cRWMWA30@sirena.co.uk>
+References: <20260505221958.3751-1-shofiqtest@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ybzoMfUxtqtQHpf/"
+Content-Disposition: inline
+In-Reply-To: <20260505221958.3751-1-shofiqtest@gmail.com>
+X-Cookie: Alex Haley was adopted!
 
-Fix spelling mistake in comment:
- - occured -> occurred
----
- sound/soc/atmel/atmel-pcm-dma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/atmel/atmel-pcm-dma.c b/sound/soc/atmel/atmel-pcm-dma.c
-index 7306e04da..e4b73ae3d 100644
---- a/sound/soc/atmel/atmel-pcm-dma.c
-+++ b/sound/soc/atmel/atmel-pcm-dma.c
-@@ -47,7 +47,7 @@ static const struct snd_pcm_hardware atmel_pcm_dma_hardware = {
-  * atmel_pcm_dma_irq: SSC interrupt handler for DMAENGINE enabled SSC
-  *
-  * We use DMAENGINE to send/receive data to/from SSC so this ISR is only to
-- * check if any overrun occured.
-+ * check if any overrun occurred.
-  */
- static void atmel_pcm_dma_irq(u32 ssc_sr,
- 	struct snd_pcm_substream *substream)
--- 
-2.51.1
+--ybzoMfUxtqtQHpf/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Wed, May 06, 2026 at 01:19:58AM +0300, Md Shofiqul Islam wrote:
+> Fix spelling mistakes in comments:
+>  - suppresstion -> suppression (twice)
+>  - funciton -> function (twice)
+>  - imedance -> impedance
+>  - tak -> talk
+> ---
+>  sound/soc/codecs/nau8825.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+
+
+You've not provided a Signed-off-by for this so I can't do anything with
+it, please see Documentation/process/submitting-patches.rst for details
+on what this is and why it's important.
+
+--ybzoMfUxtqtQHpf/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn6fpsACgkQJNaLcl1U
+h9BmbAf/Zy+rQmpxFW6syldu9hnaMsMf1iE/ygzr16bSqM5Avz+317m+mHfxWwBB
+vtoiezXR8pwqJWyEdikuKysX/Cs1xSBwK+FePehoZkiovHTcWL05raYwVoRk/Xt5
+rKWoAqnStw+dXvMlggbV77Xu26Mbg7Wr70//QO9Gh6Klm6VHY8uG5NdkThJu3Pg3
+WOdbMwVTS0COP+P3cl4GMDEoshYEoGQudoKO6+Y9DLBbZkw4gOuYYOLw3QS1MGNI
+9Yq4K/uYc+iZqNPt/fwcusBGTecyQvxqsvZQkbq08YZwVL+W7i31VwNwWtHywK1A
+C8vHxrrzlwBwBS8t7a/rEinEE1ywuQ==
+=NCV6
+-----END PGP SIGNATURE-----
+
+--ybzoMfUxtqtQHpf/--
