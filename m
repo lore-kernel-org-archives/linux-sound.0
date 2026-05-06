@@ -1,45 +1,63 @@
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED3524336D
-	for <linux-sound@vger.kernel.org>; Wed,  6 May 2026 04:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CBDE2DB781;
+	Wed,  6 May 2026 05:59:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778040790; cv=none; b=kUaJbc48gzbbZbSJjoEN/n7H4StZr6HUIzQbbJHsakKy/ZyrwqwZoT6Owj9W8V+98Hqcg6fa91AhVpMiI1ycfRvjt5E0+0o4OYEgf48RX/pQz8lfIPuCbYCM4uKWCU3WA7CD3jO9iWcRbIoGjbipwpDquG6fAw1jYOZwyG6Pirg=
+	t=1778047173; cv=none; b=SUzmwckO16hhKl3O629ooqFQbx8uX1kqYnkUjLtPZOlPvYRJhvglvShHAJcoBtNxqeTrAblla5EGBGlUF2Sg5kztXR7FGjIQUpXwQGcKoSxfA+ODke6EqrBFuiLtWXwOzmifW6FzBSdXsyc+5g5IhIL8N0VkuXf6BEoPkxuGF7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778040790; c=relaxed/simple;
-	bh=frbzxEXgRRlVE51v+aCI98zlf4/cdiVrUDs7Jwkc0KQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sK7M4amHUuz5htp4kqNpXlnhK2ZOJBZgCrF51WpIkmGy1cNTpwRKcT8MaNgPkUkon3IHq1hpxK/L5pHLDCx5RBV98oSHFd4lFWSycOoUkUxyt6yQ9dUIpmnkr9iOxZI72IGX33BVsmAc9S3OmvcNggP8Kv0blt1cbMWF9GjItK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=xUvOWaae; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
+	s=arc-20240116; t=1778047173; c=relaxed/simple;
+	bh=K6+XNgvwZ0qTloEpeGDlwPnhBULZDLl6TfttFtr7hls=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mz8aMs4Tx8w8RDo+lH+HzRCBqUquOan5S5hsfEpJORGlEK94A5GKUWcfK2dw3cIxjDeV7Bjc4poEhEfm9/q9XGIQFSNB6hMrZltX1m4KexOC8L4cdnJj/RizusL90+ct04I6FMlRN5oafLAmxY80npyPJ0MmTq5xbzHml2eF3ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XwoI532N; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="xUvOWaae"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
-	s=key1; t=1778040785;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=cBHmrDBv19QyurC3+jHUVbKKZE2OfTIyANnOpKeAJWo=;
-	b=xUvOWaaeiAd8BM4h89r6eIOcG+GMW3d5rX49gC8wHsXfrWg99NpLOGd11kPA21LQ6uL6Fd
-	Mf/GW8uo5g5fxy6FUIfIM9PJI3aWjToi1G8PUY1lquwDSYr8xMgRCdR50k3X/3chCSe7X4
-	s86321knoLpUh6gMbjr96NyePoTyQfMJCajtG605cmaUb6bNmyG0aAZLPqd8MYzLZS5bwI
-	5LpoX+5aUZj8GMfjMSSVNslutubexbGtc/axFzNwzPO8BtkGarIxn4nDB4msNV4T8DpzeL
-	55wQGvd2433FVFK8lr+wFyHkuewz+GikC7etCYBKty+9kST66lb+dPwLH0fAEw==
-From: Val Packett <val@packett.cool>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Val Packett <val@packett.cool>,
-	~postmarketos/upstreaming@lists.sr.ht,
-	phone-devel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XwoI532N"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778047172; x=1809583172;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=K6+XNgvwZ0qTloEpeGDlwPnhBULZDLl6TfttFtr7hls=;
+  b=XwoI532NYGsCIlS1LBz3ch90fOrTMHPv9LQrX+xvkW+msLoRrVQii5Ce
+   HONun0AHdeUOkbYCL3ZDP4mFmi1PeuYKA/QYkG5VpU+WIsnUHK6tTAzTt
+   b20T47tISf1jnW1v+Ow0BsR8k0JMQwy0ysPgqBaUpZbGxetDpvQFwPAy9
+   049ToImDCYCKFtr9gUA3SpsCeJ4yFPCzYbCRirUeGPj6DCE9TzOsGICaF
+   CPeiPjmvATb/zYAqZY88UmTjbrxY01yLEMUs5Rr0TWhjWB9FHEiBlf0OQ
+   09JA5eigG4LpiXJMU5AxfOxBKafOmGN/abY4/uFa5N9GqTFTajloywGVq
+   g==;
+X-CSE-ConnectionGUID: BxZPmTK0QFq+0ytrEIbcbw==
+X-CSE-MsgGUID: dTBoYW5QQPqfaAzU9J3Kqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="78983744"
+X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
+   d="scan'208";a="78983744"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 22:59:31 -0700
+X-CSE-ConnectionGUID: 7w9V2AheQKe3OrikebBVoA==
+X-CSE-MsgGUID: I0Op8mYESzmcZ7TFa66IZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
+   d="scan'208";a="240010670"
+Received: from emr-371.sh.intel.com ([10.67.116.174])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 22:59:28 -0700
+From: Baoli Zhang <baoli.zhang@linux.intel.com>
+To: Vinod Koul <vkoul@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: "Baoli.Zhang" <baoli.zhang@linux.intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] ASoC: soc-core: use the device tree card name as long_name
-Date: Wed,  6 May 2026 00:58:55 -0300
-Message-ID: <20260506041112.412871-2-val@packett.cool>
+Subject: [PATCH RESEND v1 1/3] soundwire: fix bug in sdw_add_element_group_count found by syzkaller
+Date: Wed,  6 May 2026 13:50:35 +0800
+Message-ID: <20260506055039.3751028-2-baoli.zhang@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260506055039.3751028-1-baoli.zhang@linux.intel.com>
+References: <20260506055039.3751028-1-baoli.zhang@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,80 +65,96 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-When setting the model property for the sound card on an OF/DT system,
-the expectation is that that model name would be used in the UCM config
-path lookup. However, the DT model name was only used as the "short"
-name, which gets overriden by the "long" name during loading, and
-the "long" name is automatically set based on DMI data if available.
-As a result, adding an intermediate bootloader such as U-Boot which
-provides DMI data on a device that didn't have it before would break
-the UCM config loading by suddenly looking at the "wrong" path.
+From: "Baoli.Zhang" <baoli.zhang@linux.intel.com>
 
-Fix by assigning the DT model name to the long_name field as well.
+The original implementation caused an out-of-bounds memory access
+in the sdw_add_element_group_count for-loop when i == num.
 
-Signed-off-by: Val Packett <val@packett.cool>
+for (i = 0; i <= num; i++) {
+    if (rate == group->rates[i] && lane == group->lanes[i])
+        ...
+
+To fix this error, the function now checks for existing rate/lane
+entries in the group(a function parameter) using a for-loop before
+adding them.
+
+No functional changes apart from this fix.
+
+Fixes: 9026118f20e2 ("soundwire: Add generic bandwidth allocation algorithm")
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Baoli.Zhang <baoli.zhang@linux.intel.com>
 ---
+ .../soundwire/generic_bandwidth_allocation.c  | 47 +++++++++----------
+ 1 file changed, 22 insertions(+), 25 deletions(-)
 
-For more context/examples, see:
-https://gitlab.postmarketos.org/postmarketOS/pmaports/-/work_items/4386
-
-err, for some reason that link requires an account to view right now,
-hopefully that's fixed by the time you're reading this. if not, quoting:
-
-> ALSA looks for wrong device name when using U-Boot
-> 
-> What's the expected behaviour?
->   ALSA finds Fairphone 5.conf
-> What's the current behaviour?
->   ALSA looks for fairphone-Fairphone5-.conf, doesn't find it, and results in no audio.
-
-("Fairphone 5.conf" coming from `model = "Fairphone 5";` in .dts)
-
-So it's totally unexpected in the DT world that adding DMI info would
-change which UCM path is used.
-
-Now the question is, could this possibly break anything for anyone???..
-
-Qcom laptops do not rely on these model-based paths at all, instead
-having custom DMI match `If` conditions inside of "fallback" SoC-wide
-UCM .conf files such as:
-https://github.com/alsa-project/alsa-ucm-conf/blob/980fb83651e82c3e53d3a0ab7fa9b7d6fc2d809b/ucm2/Qualcomm/x1e80100/x1e80100.conf
-
-So there it shouldn't make a difference. But does *anyone* use DMI-based
-soundcard names intentionally on *any* DT platform?
-
-
-Thanks,
-~val
-
-P.S. I don't understand the lifecycle of these strings but it seeeems that
-the expectation is that they point to static data so they're never freed?
-
----
- sound/soc/soc-core.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 3fecf9fc903c..8456595bb41d 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -2995,6 +2995,14 @@ int snd_soc_of_parse_card_name(struct snd_soc_card *card,
- 		return ret;
+diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/soundwire/generic_bandwidth_allocation.c
+index fb3970e12dac9..f016ad088a1db 100644
+--- a/drivers/soundwire/generic_bandwidth_allocation.c
++++ b/drivers/soundwire/generic_bandwidth_allocation.c
+@@ -299,39 +299,36 @@ static int sdw_add_element_group_count(struct sdw_group *group,
+ 	int num = group->count;
+ 	int i;
+ 
+-	for (i = 0; i <= num; i++) {
++	for (i = 0; i < num; i++) {
+ 		if (rate == group->rates[i] && lane == group->lanes[i])
+-			break;
+-
+-		if (i != num)
+-			continue;
+-
+-		if (group->count >= group->max_size) {
+-			unsigned int *rates;
+-			unsigned int *lanes;
++			return 0;
++	}
+ 
+-			group->max_size += 1;
+-			rates = krealloc(group->rates,
+-					 (sizeof(int) * group->max_size),
+-					 GFP_KERNEL);
+-			if (!rates)
+-				return -ENOMEM;
++	if (group->count >= group->max_size) {
++		unsigned int *rates;
++		unsigned int *lanes;
+ 
+-			group->rates = rates;
++		group->max_size += 1;
++		rates = krealloc(group->rates,
++				 (sizeof(int) * group->max_size),
++				 GFP_KERNEL);
++		if (!rates)
++			return -ENOMEM;
+ 
+-			lanes = krealloc(group->lanes,
+-					 (sizeof(int) * group->max_size),
+-					 GFP_KERNEL);
+-			if (!lanes)
+-				return -ENOMEM;
++		group->rates = rates;
+ 
+-			group->lanes = lanes;
+-		}
++		lanes = krealloc(group->lanes,
++				 (sizeof(int) * group->max_size),
++				 GFP_KERNEL);
++		if (!lanes)
++			return -ENOMEM;
+ 
+-		group->rates[group->count] = rate;
+-		group->lanes[group->count++] = lane;
++		group->lanes = lanes;
  	}
  
-+	/*
-+	 * When setting the OF property in a device tree, the expectation is
-+	 * that the UCM config matching the value would be loaded. However if
-+	 * a long_name is set, it would be used in the config path instead, and
-+	 * snd_soc_set_dmi_name sets long_name to the DMI name if it's unset.
-+	 */
-+	card->long_name = card->name;
++	group->rates[group->count] = rate;
++	group->lanes[group->count++] = lane;
 +
  	return 0;
  }
- EXPORT_SYMBOL_GPL(snd_soc_of_parse_card_name);
+ 
 -- 
-2.53.0
+2.43.0
 
