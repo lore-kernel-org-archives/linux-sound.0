@@ -1,47 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE573264C2;
-	Tue,  5 May 2026 23:58:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE51846A;
+	Wed,  6 May 2026 00:13:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778025505; cv=none; b=MZDCYd7uDszVi5yFSnFRlU7Vn0FQniapqudWhdNbCAET2HtAhuEHgyL6cwFEfsng8U6SvxaQ6Ta8MW8t0oYZesAYFzq998CJjkRRIB9tCD3pNg+H2Ww7z8P7coOJkmF3dNj1TurGuFytFzrxm+Da/cBcJDaHCPx2cJKP9SkFqls=
+	t=1778026438; cv=none; b=SbRAyja2rFWGVT6ZGaiO5wJx9tqqBJOTYR63Wp2piLC2JBgz7oLg0Q0ayblhkauqoK8FceJgH0BGGfXcWJxa82EpWSl3jd9BITgRluVz8t8TmHt8S1oFid93kBeHMs5+kYCX/q62PzQR4GTGTJbsJysr/eDLhm2EcBnAce9Htm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778025505; c=relaxed/simple;
-	bh=oZi5mOLJO5tHaHGOBk0mIAUMjE6TaWnkHFAMBM6by+c=;
+	s=arc-20240116; t=1778026438; c=relaxed/simple;
+	bh=iMc6Dhd7ZOOQCJ9g5Ov0WeT1mvkq1myTk4NZyeOCadw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ecdur72VTH8vZEU7vWMSHMSl7e3UJu5G7mCKtXxaV2diAz6UJ3QHUosUWGOQcVjNE92gAVCeExpQhriSXWAzSSKi4TyvGEqofy5EXMbVzbx5usBiOrtBDnKS5rTg/EaAsusEKqoph9i5l6xYRAJUZzcT/JmpVGEcVtIsCSoS9WU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JsmR+I5H; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=CMbKi6o+pvDjTdsA0EVooCs9JihoFvmhR3gJp/vTQY1U3x15pbVcUUFb5DCjPFCvmWrRCssIp4RptzfPhE6Y0cqITZuwotQ70YP3UqwuudlA3tdERkm8R6ba1xcvHOzh08Q+SdsKl7oT8E0HzEalwIXLzW+/hz8nKiQ2vO0od9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=McdFY0JS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JsmR+I5H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95368C2BCB4;
-	Tue,  5 May 2026 23:58:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="McdFY0JS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9363BC2BCB4;
+	Wed,  6 May 2026 00:13:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778025504;
-	bh=oZi5mOLJO5tHaHGOBk0mIAUMjE6TaWnkHFAMBM6by+c=;
+	s=k20201202; t=1778026437;
+	bh=iMc6Dhd7ZOOQCJ9g5Ov0WeT1mvkq1myTk4NZyeOCadw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JsmR+I5H5ev8eTvCdYfQowrbT0G+qLlOffLa6uWw/PMCnR5YANoFysupz43z1cPV3
-	 yygfJJWwCDheUdWDgoCBEM/PYXcP6bOICgdUTDCg1Ym7sB8ukKk+5POoeBuxS4MiPg
-	 5Crk8mUZ/kMz/n5PwGij9h/Hot1o4HwTGePlMgZ1lVq0hhnc1YcsGfDb9H+CA2LJus
-	 Hj/HYGg5IbzsJU6HJTeTMG9NqpFNOIYdNAl7iXo5QTIoY2t5k1olVcKiSDtujuFUP3
-	 4Fehqr9TDWriaorqRQdmuUF+RHQWUcEJm9jwqsaPoHRo66yxbWNa8P0zAKWAjoE5AW
-	 XXI5hzmYEtpbA==
+	b=McdFY0JS4e4mhUnhx+0T1Ve/6uL/qE6Hc1NHOKRwfG39mJeCtwAj9fpV5+zcr3RO4
+	 6CafEZ6qRljMZxRdVWJ68zB+mUdpiF7fvw1jANVINrlYPslcN5We8nOgVS3JeQMO0J
+	 i0eGqqwB7YwWTmSxPQt4GFUQGiUnszGQriLqoDguKc9YEg7ybkRSnm5kRfQ4vqu57O
+	 txK7taMaji4hqHaB0i7/iktK0zBIXM59DY+YJ2c0+TipGdMAOAuMH3dlQr1FdLWl4s
+	 NSgnXeG014OJz0HeHHVqMS21YMUaUch8bNkHRTBL4bCkqWxU2ZsfE2soXH/Vfgb5Xx
+	 VycXUJF2d1vzQ==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 9B99D1AC5878; Wed, 06 May 2026 00:58:21 +0100 (BST)
-Date: Wed, 6 May 2026 08:58:21 +0900
+	id 331541AC5879; Wed, 06 May 2026 01:13:55 +0100 (BST)
+Date: Wed, 6 May 2026 09:13:55 +0900
 From: Mark Brown <broonie@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v2 2/3] ASoC: pxa2xx: push gpio usage into arch code
-Message-ID: <afqEHZSUCASXPUze@sirena.co.uk>
-References: <20260505202426.3605262-1-arnd@kernel.org>
- <20260505202426.3605262-2-arnd@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
+	oder_chiou@realtek.com, jack.yu@realtek.com, shumingf@realtek.com,
+	shenghao-ding@ti.com, niranjan.hy@ti.com, kevin-lu@ti.com,
+	baojun.xu@ti.com, sen@ti.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH 02/17] ASoC: cs42l42: Use new SoundWire enumeration helper
+Message-ID: <afqHw42Vcq-mPSFg@sirena.co.uk>
+References: <20260505164807.4108684-1-ckeepax@opensource.cirrus.com>
+ <20260505164807.4108684-3-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,48 +48,50 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0lcLZ48zRt5QpNpN"
+	protocol="application/pgp-signature"; boundary="ufUrsGE6WunnGMTv"
 Content-Disposition: inline
-In-Reply-To: <20260505202426.3605262-2-arnd@kernel.org>
+In-Reply-To: <20260505164807.4108684-3-ckeepax@opensource.cirrus.com>
 X-Cookie: Alex Haley was adopted!
 
 
---0lcLZ48zRt5QpNpN
+--ufUrsGE6WunnGMTv
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 05, 2026 at 10:24:25PM +0200, Arnd Bergmann wrote:
+On Tue, May 05, 2026 at 05:47:52PM +0100, Charles Keepax wrote:
+> Update the driver to use the new core helper that waits for the device
+> to enumerate on SoundWire and be initialised by the SoundWire core.
 
-> index 7df78867db49..0d5eaf4b100c 100644
-> --- a/include/linux/platform_data/asoc-pxa.h
-> +++ b/include/linux/platform_data/asoc-pxa.h
-> @@ -6,6 +6,6 @@
->  #include <sound/pcm.h>
->  #include <sound/ac97_codec.h>
+>  static int cs42l42_sdw_handle_unattach(struct cs42l42_private *cs42l42)
+>  {
+
+> -	if (!peripheral->unattach_request)
+> -		return 0;
+
+=2E..
+
 > =20
-> -extern void pxa27x_configure_ac97reset(int reset_gpio, bool to_gpio);
-> +extern void pxa27x_configure_ac97reset(struct gpio_desc *reset_gpio, boo=
-l to_gpio);
-> =20
->  #endif
+>  	/*
+>  	 * After a bus reset there must be a reconfiguration reset to
 
-You're adding a use of struct gpio_desc but not including the header for
-it or declaring it.  Which won't really matter here but still.
+We now always fall through to this block of code instead of exiting
+early if the device wasn't actually reset, the new helper doesn't
+distinguish between no reset and successfully waited for reset.
 
---0lcLZ48zRt5QpNpN
+--ufUrsGE6WunnGMTv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn6hBwACgkQJNaLcl1U
-h9BV7wf+Jmw366XieA0d2MdbU3V0YXlDc+OCwyOPneDbRc8EVPKcVBtuGL3uDNrg
-mcKj4o5Vz6xBqJTo601VF9QKjxP8m6GHMoBaqnTigLj2cpijXYk/P/IRg5R5++tZ
-HUivwwyNM4Irp8wRyEn2+I+6cdRX/urSBzRNVPhyIC/VIKNSG4BjfMr7v2t26PMj
-J1iCQ/psxlDDj8pxFHtBlgG9FTLDJFJUnbAGVSE3kMFFk9XAbnj2rTOqvtzfXt62
-Z2aDCvNtzaCV/H0mN1uRyJGNdf2GCv8Qg30aT7ytbEB0PBUbozCbe4ZYQbLQ74N6
-kITzSVhWFCoWqejbh9OCPiE1wKlwEw==
-=yhzA
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn6h8IACgkQJNaLcl1U
+h9Bn9gf/f+SrNqz+RIQDhUmZXxSTcYJVkIqaN6zF6ukWJwuxCdYOrkp0GIMfMxLc
+HPMcEK1LnwRA1YjuBCVf4QwHkn7ZQE4MZ1zKgXOPfS2fK2Xq48fBhaBdww6fRoqZ
+hi25HG4lhwJ2aH4+7dhM8TTtRgeiXOEradMKSj6z3CLsJ3KQOvTeBCiGaJLDOgmQ
+6IqJqCtlX1pEzZBs3xwBre8xHjPRavLnodh+je7Z9cNzU433wLOnpUFBzleALPQe
+7oK6jCwPxyBMdQpYv96WPRvOJDQ8rWFxMWPo1gdyrGYoOWEU5+pkQyIGHTr87mDN
+MnSScR2Lr6mpoQqo3nd/pPCJQsw+Cw==
+=E1B8
 -----END PGP SIGNATURE-----
 
---0lcLZ48zRt5QpNpN--
+--ufUrsGE6WunnGMTv--
