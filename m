@@ -1,316 +1,176 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34661D9A5F;
-	Wed,  6 May 2026 07:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AEB3368296
+	for <linux-sound@vger.kernel.org>; Wed,  6 May 2026 07:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778051045; cv=none; b=gzyiQWnWkyk6YPHlLnLVkVYMc0RfI2zRwv0MYPDC5UoiThcJU8M4L1Ej41M89+T+M5rimF80eZeClS6ZJbm0np/cBZmxayycbMiJNpB6nMMcaXR2K2QJjhzav403wUgoMrz62pfh8MZzhbzfV0JLQqUXUJMxNH4WPXfILP4YzPg=
+	t=1778051150; cv=none; b=HPJKNZefMna2ACbyMz1q/WzH3q4qcMNCfyiuPtJ0UubykdAcdDnxl8GILfPR7+D8oW5nPuOMiF1dpM6Lb6Fj1OeVpGk8vDWc7mJonbSvasUlkid9HuSjlUTK/5XyifTlb3f/bUMqtNoXiHW+Fc3pRUTTj4IM2MJsxt4C9ogCdWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778051045; c=relaxed/simple;
-	bh=o8UO7Zdh2TNoU/53XOBYSfnPcKXSEoq4HfHDd5sHVk0=;
-	h=Message-ID:Date:MIME-Version:Subject:References:To:From:
-	 In-Reply-To:Content-Type; b=KMUpe4ODxVlZwKaijX/nC8oMtOVSKUWn/e/DwH7/e+KJ3yp/VNm6jDKyanudkcMVkXb5r/TDA0u5gMQpFxSYYlLtWERWvosZKAXW6jdOuqBaap0+Q0uOIO1kzocKCT7sEs6BEiOM7jci8k1V9BVDxhxueECj2xCSId/cKPuCXB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: bee9b024491911f1aa26b74ffac11d73-20260506
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:c48efb5b-5a06-4923-8d2e-a933f66c7e9a,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:e7bac3a,CLOUDID:fd2cc8c1649fd06b3a8398ed62f9fd1a,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
-	52,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
-	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: bee9b024491911f1aa26b74ffac11d73-20260506
-X-User: zhangheng@kylinos.cn
-Received: from [172.25.120.76] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1288426002; Wed, 06 May 2026 15:03:55 +0800
-Message-ID: <a7daf8a3-559b-4532-a2ee-a211a7e0e0b0@kylinos.cn>
-Date: Wed, 6 May 2026 15:03:52 +0800
+	s=arc-20240116; t=1778051150; c=relaxed/simple;
+	bh=EhY1mtW596x8tGqB6jyFvXdnLYWhoUpdD3W+CAL1d7I=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RXT/+L0FIC+TIR1MuC7F1aJDjd5Bh2PDLNVreLpcK1B9vaPix4jqP8x+7lKDg3BTG+ruHeHUAjlVBsxWFkTLC8qiF+uB1q6fqsduA+VsRst47i7LAvgOv0/9FYrAkOU36gAdJ1xPNMTEm+cKyci/5ISnCKlRSvA/mHjFK8yr0j8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W5E6dC/S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/VVd1sR2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W5E6dC/S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/VVd1sR2; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W5E6dC/S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/VVd1sR2";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W5E6dC/S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/VVd1sR2"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 675436B9E0;
+	Wed,  6 May 2026 07:05:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778051147; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/ZbuRux4jDLNDFV+fpt1cge4sx3xMcGnFDGvVM5M85Y=;
+	b=W5E6dC/SLbVC/kHsdx7ZVM1tsD6DOXabj3cKLRKdMSOVh8TL/A9IZg4M3MaAf9VYoMmWsC
+	gRYWXzfPORmb/keP8aZFo/HxAeLBnEJ0xb9i4jetIRXdiccIURphoqZCbDkYZcxIKgtROu
+	3u2MXpMH72TUorvroVHs/ZW+UVzJiIA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778051147;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/ZbuRux4jDLNDFV+fpt1cge4sx3xMcGnFDGvVM5M85Y=;
+	b=/VVd1sR2AgSN1Lg0KdjgaJBlFE3jKt61aTLi9AYSTbE/08JX8HG+3H5wwdNfUZTVD5P4fP
+	QPYwjIiYEv9KBZAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778051147; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/ZbuRux4jDLNDFV+fpt1cge4sx3xMcGnFDGvVM5M85Y=;
+	b=W5E6dC/SLbVC/kHsdx7ZVM1tsD6DOXabj3cKLRKdMSOVh8TL/A9IZg4M3MaAf9VYoMmWsC
+	gRYWXzfPORmb/keP8aZFo/HxAeLBnEJ0xb9i4jetIRXdiccIURphoqZCbDkYZcxIKgtROu
+	3u2MXpMH72TUorvroVHs/ZW+UVzJiIA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778051147;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/ZbuRux4jDLNDFV+fpt1cge4sx3xMcGnFDGvVM5M85Y=;
+	b=/VVd1sR2AgSN1Lg0KdjgaJBlFE3jKt61aTLi9AYSTbE/08JX8HG+3H5wwdNfUZTVD5P4fP
+	QPYwjIiYEv9KBZAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 23132593A3;
+	Wed,  6 May 2026 07:05:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ySGaBkvo+mnYQwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 06 May 2026 07:05:47 +0000
+Date: Wed, 06 May 2026 09:05:46 +0200
+Message-ID: <87bjett3ud.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Thorsten Leemhuis <regressions@leemhuis.info>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Linux kernel regressions list <regressions@lists.linux.dev>,
+	Linux Sound System <linux-sound@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	stoa@gmx.us,
+	Harin Lee <me@harin.net>
+Subject: Re: [regression] ctxfi: no speaker output when headphones connected on >=7.0.x
+In-Reply-To: <36875d66-f601-4d18-9654-bd86b60918e8@leemhuis.info>
+References: <36875d66-f601-4d18-9654-bd86b60918e8@leemhuis.info>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Fwd: [PATCH] ALSA: hda/generic: Add mic autoswitch support for
- dyn_adc_switch mode
-References: <5b215802-4c94-4f94-9cee-f8e497b31337@kylinos.cn>
-To: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-From: Zhang Heng <zhangheng@kylinos.cn>
-In-Reply-To: <5b215802-4c94-4f94-9cee-f8e497b31337@kylinos.cn>
-X-Forwarded-Message-Id: <5b215802-4c94-4f94-9cee-f8e497b31337@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmx.us];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,lists.linux.dev,vger.kernel.org,gmx.us,harin.net];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+
+On Wed, 06 May 2026 08:24:36 +0200,
+Thorsten Leemhuis wrote:
+> 
+> Hi! Just FYI, I noticed a regression report in bugzilla:
+> 
+> https://bugzilla.kernel.org/show_bug.cgi?id=221461
+> 
+> To quote:
+> 
+> > Dutch Ingraham 2026-05-03 18:12:49 UTC
+> >
+> > Kernels >=7.0.1 contain a regression as to Creative Sound Blaster Z SE 
+> > discrete pci sound card, but not integrated. Kernels 7.0.1, 7.0.2, and 
+> > 7.0.3 tested; 7.0.0 not tested. Reverting to any 6.18.x or 6.12.x does 
+> > not present the issue.
+> > 
+> > Specifically, using pipewire managed by pavucontrol, on both Gentoo and 
+> > Arch Linux, when both external speakers and headphones are connected,
+> > all sound is routed through the headphones regardless of whether settings
+> > are set to Line Out/Speaker or Line Out/Headphones; there is no speaker 
+> > output. If headphones are disconnected, without reboot, speakers work; 
+> > reconnect headphones, without reboot, sound reverts to headphones.
+> > 
+> > Kernel: 7.0.3, Gentoo compiled from source using olddefconfig on 6.18.24
+> > 		.config; Arch standard release
+> > 'lspci -nnk | grep -i audio' attached
+> > 'dmesg | grep -i audio' for 7.0.3 and 6.18.24 attached
+> > pipewire-1.6.4 on both Gentoo and Arch Linux
+> > alsa-firmware-1.2.4 on both Gentoo and Arch Linux
+> > 'cat /proc/sys/kernel/tainted' returns 0 for both Gentoo and Arch Linux
+> > 
+> > Processor		:	AMD Ryzen7 5700G
+> > Motherboard		:	Asus Prime X570-Pro
+> > RAM				:	Patriot Viper Steel DDR-4 @3200mHz
+> > Graphics        :   ASRock AMD Radeon RX 7600 Challenger 8GB OC
+> > Sound Card      :   Creative Sound Blaster Z SE
+> > 
+> > 
+> > Expected outcome: ability to choose output to either speakers or head-
+> > phones while both are plugged-in to sound card.
+> > 
+> > Workaround: none known.
+> 
+> See the ticket for more details. One of them: 7.1-rc2 is affected as
+> well. Reporter is CCed. Forwarded this to ensure this report makes it to
+> the interested parties, as bugzilla might not have forwarded this.
+> 
+> Dutch Ingraham: if nobody within a few days has an idea why this
+> happens, you will likely have to use a git bisection to get this resolved.
+
+As there have been many significant changes in ctxfi since 6.18, it's
+hard to tell what broke.  Please go git bisect.
 
 
+thanks,
 
-
--------- 转发的消息 --------
-主题: 	Re: [PATCH] ALSA: hda/generic: Add mic autoswitch support for 
-dyn_adc_switch mode
-日期: 	Wed, 6 May 2026 14:19:14 +0800
-发件人: 	Zhang Heng <zhangheng@kylinos.cn>
-收件人: 	Takashi Iwai <tiwai@suse.de>
-
-
-
-
-在 2026/5/5 0:25, Takashi Iwai 写道:
-> On Sun, 03 May 2026 13:45:12 +0200,
-> Zhang Heng wrote:
->> When auto_mic is not available but dyn_adc_switch mode is enabled
->> (e.g., on laptops with both front and rear mic jacks), this patch
->> enables automatic microphone switching based on jack detection.
->>
->> The patch includes three changes:
->>
->> 1. In check_dyn_adc_switch(): Register jack detect callbacks for
->> all input pins when dyn_adc_switch is enabled and auto_mic is
->> not available.
->>
->> 2. In call_mic_autoswitch(): Add handling for dyn_adc_switch mode
->> to check imux_pins[] for jack presence, searching from back to
->> front (last inserted wins).
->>
->> 3. In mux_select(): Notify Capture Source controls after switching
->> to sync with user-space (PulseAudio/PipeWire).
->>
->> Problem description:
->> On Ubuntu 20.04 (with older PulseAudio/PipeWire):
->> - Front mic is unplugged
->> - Plug in rear mic
->> - Jack event is reported correctly
->> - Volume control (PulseAudio/PipeWire) recognizes the rear mic
->> - But alsamixer does NOT switch to rear mic
->> - Codec also does NOT perform the switch
->>
->> The root cause is that in dyn_adc_switch mode without auto_mic,
->> the jack detect callback was not properly set up to trigger the
->> mic autoswitch. The call_mic_autoswitch() function only calls
->> mic_autoswitch_hook or snd_hda_gen_mic_autoswitch(), which rely
->> on auto_mic being enabled.
->>
->> Additionally, after mux_select() performs the switch, user-space
->> (PulseAudio/PipeWire) may not be aware of the path change,
->> causing Capture Switch to show 'off'.
->>
->> This patch fixes both issues by:
->> 1. Registering jack detect callbacks for all input pins in
->> dyn_adc_switch mode
->> 2. Notifying Capture Source controls after switching
->>
->> Tested on SN6186 codec with Ubuntu 20.04 and 25.10.
->>
->> Question to the community: Is this approach correct? Should additional
->> changes be made to handle mute state preservation, or is this purely
->> a user-space issue that requires updating PulseAudio/PipeWire?
->>
->> Testing and feedback are welcome.
-> I think the basic idea is OK. We can treat the auto-mic with dynamic
-> ADC switches, too.
->
-> But it's not clear what's the actual intent in your code changes:
->
->
->> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
->> ---
->> sound/hda/codecs/generic.c | 82 ++++++++++++++++++++++++++++++++++++--
->> 1 file changed, 79 insertions(+), 3 deletions(-)
->>
->> diff --git a/sound/hda/codecs/generic.c b/sound/hda/codecs/generic.c
->> index 660a9f2c0ded..c536de10d8b8 100644
->> --- a/sound/hda/codecs/generic.c
->> +++ b/sound/hda/codecs/generic.c
->> @@ -27,6 +27,10 @@
->> #include "hda_beep.h"
->> #include "generic.h"
->> +/* Forward declaration */
->> +static void call_mic_autoswitch(struct hda_codec *codec,
->> + struct hda_jack_callback *jack);
->> +
->> /**
->> * snd_hda_gen_spec_init - initialize hda_gen_spec struct
->> @@ -3238,6 +3242,19 @@ static int check_dyn_adc_switch(struct 
->> hda_codec *codec)
->> if (!spec->dyn_adc_switch && spec->multi_cap_vol)
->> spec->num_adc_nids = 1;
->> + /* Enable mic autoswitch for dyn_adc_switch mode when auto_mic is 
->> not available */
->> + if (!spec->auto_mic && imux->num_items > 1) {
->> + int i;
->> + for (i = 0; i < imux->num_items; i++) {
->> + hda_nid_t pin = spec->imux_pins[i];
->> + if (!is_jack_detectable(codec, pin))
->> + continue;
->> + snd_hda_jack_detect_enable_callback(codec, pin,
->> + call_mic_autoswitch);
->> + }
->> + codec_dbg(codec, "Enable mic autoswitch for input sources\n");
->> + }
-> IMO, this should be rather put at auto_mic_check_imux() instead,
-> something like:
->
-> @@ -4789,13 +4789,15 @@ static bool auto_mic_check_imux(struct 
-> hda_codec *codec)
-> const struct hda_input_mux *imux;
-> int i;
-> - imux = &spec->input_mux;
-> - for (i = 0; i < spec->am_num_entries; i++) {
-> - spec->am_entry[i].idx =
-> - find_idx_in_nid_list(spec->am_entry[i].pin,
-> - spec->imux_pins, imux->num_items);
-> - if (spec->am_entry[i].idx < 0)
-> - return false; /* no corresponding imux */
-> + if (!spec->dyn_adc_switch) {
-> + imux = &spec->input_mux;
-> + for (i = 0; i < spec->am_num_entries; i++) {
-> + spec->am_entry[i].idx =
-> + find_idx_in_nid_list(spec->am_entry[i].pin,
-> + spec->imux_pins, imux->num_items);
-> + if (spec->am_entry[i].idx < 0)
-> + return false; /* no corresponding imux */
-> + }
-> }
-> /* we don't need the jack detection for the first pin */
->
-In fact, auto_ic_check_imux cannot be executed on desktop computers at 
-all. You can take a look at the check_outo_ic_availability section
-for (int i = 0; i < cfg->num_inputs; i++) {
-     hda_nid_t nid = cfg->inputs[i].pin;
-     unsigned int attr;
-     attr = snd_hda_codec_get_pincfg(codec, nid);
-     attr = snd_hda_get_input_pin_attr(attr);
-     if (types & (1 << attr))        For desktop computers, the rear mic 
-and line are an attr, which will be directly returned here.
-         return 0;  /* already occupied */
-}
-
->> return 0;
->> }
->> @@ -4107,9 +4124,38 @@ static int mux_select(struct hda_codec *codec, 
->> unsigned int adc_idx,
->> path = get_input_path(codec, adc_idx, idx);
->> if (!path)
->> return 0;
->> - if (path->active)
->> - return 0;
->> - snd_hda_activate_path(codec, path, true, false);
->> + if (path->active) {
->> + codec_err(codec, "[MUX] mux_select: path already active, skip 
->> activate but still notify\n");
->> + } else {
->> + snd_hda_activate_path(codec, path, true, false);
->> + }
->> +
->> + /* Notify Input Source / Capture Source controls that the path has 
->> changed */
->> + if (!spec->auto_mic && spec->input_mux.num_items > 1) {
->> + struct snd_card *card = codec->card;
->> + struct snd_kcontrol *kctl;
->> + struct snd_ctl_elem_id id;
->> + int notified = 0;
->> +
->> + codec_err(codec, "[MUX] mux_select: notifying controls, 
->> num_items=%d\n", spec->input_mux.num_items);
->> +
->> + if (card) {
->> + list_for_each_entry(kctl, &card->controls, list) {
->> + if (kctl->id.iface != SNDRV_CTL_ELEM_IFACE_MIXER)
->> + continue;
->> + codec_err(codec, "[MUX] mux_select: found control '%s'\n", 
->> kctl->id.name);
->> + if (strncmp(kctl->id.name, "Capture Source", 14) == 0) {
->> + id = kctl->id;
->> + snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE, &id);
->> + codec_err(codec, "[MUX] mux_select: notified '%s'\n", kctl->id.name);
->> + notified = 1;
->> + }
->> + }
->> + }
->> + if (!notified)
->> + codec_err(codec, "[MUX] mux_select: no Input/Capture Source control 
->> found!\n");
->> + }
->> +
-> Hmm, I can't follow the logic here. What does this code change try to
-> achieve...?
-
-If I open Alsamixer first without adding snd_ctl_notify, the ADC 
-switching caused
-
-by inserting and unplugging mic will not notify Alsamixer in real time, 
-resulting
-
-in asynchronous information and still retaining the state when it was 
-opened.
-
-
-I will create another patch for this notification later to prevent 
-confusion in understanding.
-
->> if (spec->cap_sync_hook)
->> spec->cap_sync_hook(codec, NULL, NULL);
->> path_power_down_sync(codec, old_path);
->> @@ -4602,6 +4648,36 @@ static void call_mic_autoswitch(struct 
->> hda_codec *codec,
->> struct hda_jack_callback *jack)
->> {
->> struct hda_gen_spec *spec = codec->spec;
->> + const struct hda_input_mux *imux;
->> + int i;
->> +
->> + /* Handle dyn_adc_switch mode - use imux_pins[] */
->> + if (!spec->auto_mic && spec->dyn_adc_switch) {
->> + imux = &spec->input_mux;
->> + if (imux->num_items <= 1)
->> + goto fallback;
->> +
->> + codec_err(codec, "[AUTO_MIC] call_mic_autoswitch: dyn_adc_switch 
->> mode, checking %d inputs\n", imux->num_items);
->> +
->> + /* Search from back to front (last inserted wins) */
->> + for (i = imux->num_items - 1; i >= 0; i--) {
->> + hda_nid_t pin = spec->imux_pins[i];
->> + int det = is_jack_detectable(codec, pin);
->> + int state = snd_hda_jack_detect_state(codec, pin);
->> + codec_err(codec, "[AUTO_MIC] call_mic_autoswitch: imux[%d] 
->> pin=0x%02x, det=%d, state=%s\n",
->> + i, pin, det, state == HDA_JACK_PRESENT ? "PRESENT" : "ABSENT");
->> + if (det && state == HDA_JACK_PRESENT) {
->> + codec_err(codec, "[AUTO_MIC] call_mic_autoswitch: switching to imux 
->> %d\n", i);
->> + mux_select(codec, 0, i);
->> + return;
->> + }
->> + }
->> + /* No jack present, keep current selection (don't switch to imux 0) */
->> + codec_err(codec, "[AUTO_MIC] call_mic_autoswitch: no jack present, 
->> keeping current\n");
->> + return;
->> + }
->> +
->> +fallback:
->> if (spec->mic_autoswitch_hook)
->> spec->mic_autoswitch_hook(codec, jack);
->> else
-> Ditto. Something too complex here.
-> mux_select() should handle the dynamic ADC switching, per se.
->
-> And, with the auto-mic mode, the driver shouldn't expose the Capture
-> Source mixer control. That said, enabling the auto-mic would have a
-> clear downside for the user of PA/PW, too.
-
-I have added a lot of debugging information here, which will be 
-simplified when submitting v2 later.
+Takashi
 
