@@ -1,152 +1,92 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7507D402B9B
-	for <linux-sound@vger.kernel.org>; Wed,  6 May 2026 11:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FC843CEFC;
+	Wed,  6 May 2026 12:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778066069; cv=none; b=pmuAy0Hh4Lo6NWnwRnP5k1wCgettBEEnqyMpWeD/gfnTLApHLqo2dxHOuaYshmVcVlQM+IlXU7Qu2P+ubiuMyCiphFPJE57OdAVIfFZQtfQOSPtqNvJ1Fi7rq7uRh7FAE9ydDJ/HridbZdFq32J/zPV4eHppTTBhq6Wbvrc4pKM=
+	t=1778070097; cv=none; b=lNRtETWDo4Y7+5wP3YfOIhNx0oinM/KaJLt8d3ENnWjoQFsRprlm4rseqzbW8NksKUaRNgBwCSuekLag6La0ecjtWMxwEaU8QER1RGPRFcQ+zxJJkpy6fRSGaulPxii/j3rCmVILA38nerd7Ztofb9dzZFFfDsZrs4569USus7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778066069; c=relaxed/simple;
-	bh=LvFxCHbOGRjJ7dpu5UsC9gpZu0+Ci2F3B15Uv+62HLA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Crulwt2npF6X+VEBqkgKga85WzRIScX63Aj/qQ1KKxs6B2NdIqnA/NNC/KMsIHc4OOUglS74LkQakDasBJ7YDdz/WdCW+GvxtokKufeTLXCyy/InxwiQecpjqOwobZE1aa4b2QhvdimPscy8wUFffxH2sXleKU0ShCBMwT/ui5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KBCjgcHf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QMwy4HWM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KBCjgcHf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QMwy4HWM; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1778070097; c=relaxed/simple;
+	bh=t3hbP7AubYp2C3nJfkuMIJM/a1DKJTDOt/tBbj3XISQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qJ2j7WibK9XE0kkKedXx7SLJH2+ZamL0ZjCOokjX2XASz/yZVHpQT9yyWJSVQbBM+sDuVNJ24kr6Du6WkJ0XphYQ43BhWJxjy/aZ1UC4HcUQFX4FMQZLVgNjXc7nRXSXGDG3ZAVI0i1zkRQ4QrVDh0spx1TTNgWUbPWifzYPw08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WTUibB+y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KBCjgcHf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QMwy4HWM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KBCjgcHf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QMwy4HWM"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D0BE96B7F1;
-	Wed,  6 May 2026 11:14:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778066065; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y4XhxgKG4AAWZH0Z2axsmkZ4iCzPZcug/kEaSYRSO4Q=;
-	b=KBCjgcHfWRJnxq27EAiOMtwRXoeO23PQD9SgDVW/ARDQtivDaR9AHIXbVL6qWxNm9EFSwU
-	5057MeXrqnpVgeSy5ri+xIkpk3leWmYgW3WYeDOji+bCI8FSf91pjSrZDhI86xPv0ltrDV
-	UYOxbqg8mOt3no08+v7wmPCORYKXBzE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778066065;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y4XhxgKG4AAWZH0Z2axsmkZ4iCzPZcug/kEaSYRSO4Q=;
-	b=QMwy4HWMzI3eMSM7m4snJFPuEgBOxX1t1ISMIqDquiDJmW0UgDmgErB1iljDuIcoEdabyp
-	DZ2HkdpOxAPZdtDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778066065; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y4XhxgKG4AAWZH0Z2axsmkZ4iCzPZcug/kEaSYRSO4Q=;
-	b=KBCjgcHfWRJnxq27EAiOMtwRXoeO23PQD9SgDVW/ARDQtivDaR9AHIXbVL6qWxNm9EFSwU
-	5057MeXrqnpVgeSy5ri+xIkpk3leWmYgW3WYeDOji+bCI8FSf91pjSrZDhI86xPv0ltrDV
-	UYOxbqg8mOt3no08+v7wmPCORYKXBzE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778066065;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y4XhxgKG4AAWZH0Z2axsmkZ4iCzPZcug/kEaSYRSO4Q=;
-	b=QMwy4HWMzI3eMSM7m4snJFPuEgBOxX1t1ISMIqDquiDJmW0UgDmgErB1iljDuIcoEdabyp
-	DZ2HkdpOxAPZdtDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 69B78593A3;
-	Wed,  6 May 2026 11:14:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Z2tYGJEi+2k7ZgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 06 May 2026 11:14:25 +0000
-Date: Wed, 06 May 2026 13:14:25 +0200
-Message-ID: <87ik90ssby.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Danilo Krummrich" <dakr@kernel.org>
-Cc: "Takashi Iwai" <tiwai@suse.de>,	=?ISO-8859-1?Q?C=E1ssio?= Gabriel
- <cassiogabrielcontato@gmail.com>,	"Luis Chamberlain" <mcgrof@kernel.org>,
-	"Russ Weight" <russ.weight@linux.dev>,	"Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>,	"Rafael J. Wysocki" <rafael@kernel.org>,
-	"Takashi Iwai" <tiwai@suse.com>,	"Shenghao Ding" <shenghao-ding@ti.com>,
-	"Kevin Lu" <kevin-lu@ti.com>,	"Baojun Xu" <baojun.xu@ti.com>,
-	"Jaroslav Kysela" <perex@perex.cz>,<driver-core@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>,<linux-sound@vger.kernel.org>,
- <stable@vger.kernel.org>
-Subject: Re: [PATCH v4 0/2] firmware_loader/ALSA: Fix TAS2781 async firmware teardown
-In-Reply-To: <DIBHP03H2703.3GVN744LMKNQ1@kernel.org>
-References: <20260505-alsa-hda-tas2781-fw-callback-teardown-v4-0-e7c4bf930dc8@gmail.com>
-	<874iklt12t.wl-tiwai@suse.de>
-	<DIBHP03H2703.3GVN744LMKNQ1@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WTUibB+y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3ACAC2BCB8;
+	Wed,  6 May 2026 12:21:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778070096;
+	bh=t3hbP7AubYp2C3nJfkuMIJM/a1DKJTDOt/tBbj3XISQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WTUibB+y8GyqoowmuKM8+ovNKS77fRx8/vjuE6rgloJBlMrA8gRRLKFLK4IU939MH
+	 Cu2zMUhNbemjCYlUHyHvTR0u8fUz5nNyFVFXRY7nVTxT9h+MWpv8pUW0Y7qmIgcTdE
+	 FF/0DtbB+awOVVIQ6n4lFrhulvhvWMQa1lZDgbP98g6uGMGBIZQ2fYPLl6PVSHRs8/
+	 nizGoOrmlFu4AHpU9zPdPOh/g19viA8oy36W0W+QDOJ7jpBXRetnYDBeDzgWoKBYOR
+	 q62oroFPZLBrKk/oA4kq96bJJ8yCM+yNS3zZzXE4NUlCtBkFtY1raNaCcw7YvhhjVI
+	 /upQhf1T5NchQ==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 21D9E1AC587D; Wed, 06 May 2026 13:21:34 +0100 (BST)
+Date: Wed, 6 May 2026 21:21:33 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Sheetal <sheetal@nvidia.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sameer Pujar <spujar@nvidia.com>, Mohan Kumar <mkumard@nvidia.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] ASoC: tegra: Add per-stream Mixer Fade controls
+Message-ID: <afsyTS8XL3HuXIRI@sirena.co.uk>
+References: <20260506102032.1644851-1-sheetal@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[suse.de,gmail.com,kernel.org,linux.dev,linuxfoundation.org,suse.com,ti.com,perex.cz,lists.linux.dev,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-
-On Wed, 06 May 2026 11:34:39 +0200,
-Danilo Krummrich wrote:
-> 
-> On Wed May 6, 2026 at 10:05 AM CEST, Takashi Iwai wrote:
-> > On Tue, 05 May 2026 13:18:15 +0200,
-> > Cássio Gabriel wrote:
-> >> Cássio Gabriel (2):
-> >>       firmware_loader: Add cancel helper for async requests
-> >>       ALSA: hda/tas2781: Cancel async firmware request at unbind
-> 
-> Looks good to me now.
-> 
-> > I guess this could go via driver tree?  Or I can take both if I get an
-> > ack, too.
-> 
-> Sure, I can pick it up via the driver-core tree, but please also feel free to
-> take it through the sounds tree.
-> 
-> Acked-by: Danilo Krummrich <dakr@kernel.org>
-
-Thanks, then I'm going to take this to sound git tree, as it's the
-only user so far.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dy75Tbp2warPCQ8+"
+Content-Disposition: inline
+In-Reply-To: <20260506102032.1644851-1-sheetal@nvidia.com>
+X-Cookie: Alex Haley was adopted!
 
 
-Takashi
+--dy75Tbp2warPCQ8+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Wed, May 06, 2026 at 10:20:32AM +0000, Sheetal wrote:
+> Add per-stream fade controls for the Tegra mixer to allow
+> independently configuring target gain and fade duration for each of
+> the 10 input streams (RX1 through RX10).
+
+> +			else if (i == DURATION_INV_N3_ID)
+> +				val = (u32)(BIT_ULL(31 + TEGRA210_MIXER_PRESCALAR) /
+> +					    mixer->duration[id]);
+> +			else
+
+I'll apply this but there's one small issue which can be addressed
+incrementally: if the duration is very small (32 or less) then we'll
+overflow the u32 and generate nonsense values.  Either constraining the
+minimum or doing the maths with a 64 bit value would avoid the issue.
+
+--dy75Tbp2warPCQ8+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn7MkkACgkQJNaLcl1U
+h9Ai0Qf/cPNIwpqGXVY2FnIqmaX+Ns9G9ioqwgdLQzB5EolNGkz6McWFNoc6L+Nj
+WoNxnp/g/lJ/+6DTdWoaUgRNFswvzSiyNMOm4VG2pqojhu4CdTknTz/B3X1FNDaE
+rI+oFomiVV6D/9gM9q2IJK/lHe09v9HNLMQVfpns4bydROD+aTjYiMQy/oX9hGwH
+v4XZE3E8bYeaBqiWsxW7tPAooHF9YJK3Qu1jXFNHRuzIwFkR/NnTxN5o4hBUm9Ln
+wBSr3P5twPXevbamfavAO/RthseRqVEl01uaDJtWjyFlxwCXEvq9ihmHqW5WOlBT
+lu09CUSrQNtdKXBg9e9DmdtejF1BkQ==
+=OIxD
+-----END PGP SIGNATURE-----
+
+--dy75Tbp2warPCQ8+--
