@@ -1,134 +1,137 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117803CF68F
-	for <linux-sound@vger.kernel.org>; Wed,  6 May 2026 08:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE03029AAFD;
+	Wed,  6 May 2026 08:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778054941; cv=none; b=eUfXaMj3pVY7W3g+/WDlatpdtQR75JkMo1rhw/WpwXnQy4ouG7qN0SePWG5JUFG/0Sc4AZwY4ArYvxUHfLr8RZEiDoD03yr6++cse1m1QZC+r47GhoRdZfCAZFu6wSm5oFnnOlHt9JDhjo3XQ0sfk5cVMNaFSMeCCrpb85eGCDs=
+	t=1778055235; cv=none; b=rdKREmQxENyLUBW0NUbnNNSnkXxyYyoI/G7jqZxWSwxHUisMVHxdmp123+QmhD5k7PFBAtCQzIQjFLXi82w4+1itA59+i9EQ1wWLtSFtawtltZ6ngDqd9e93xz4xRZ0M9y0FwUQ4654/cAuda7hts9gr19jN3P+Bl6BwRSrAqJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778054941; c=relaxed/simple;
-	bh=S72qG40myR9ufB02bQogqZi/Nwl43iUNW4vHNj6mRh8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=emgljyu8l2zUGOKyP55RBLDwn6N85xOjm1WVf64Qtc+IJ31/sWt2WpKi6edufwAVFeuwiKdlELSlHq+gCV71faDv0aT2Ymiyt8SwHkgO5WuVeqsNkoLxmKD5x/81Y0S/wiqiE4Lz2KoBm3ay7kNKIidj2aojR7HSXCJKZ1pYMWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xEAF0+aE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7jNXKMyy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xEAF0+aE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7jNXKMyy; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1778055235; c=relaxed/simple;
+	bh=0FwViEFZHiQJ3iExOzuEZ2gtzbIGH5AsMXLZKpIKtCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HNGh9z+5BqUnxoBQCy4U5fJByj+AX4VblDSui/cuHlYQmR1HpepM8oy40bXs1GCFIL70A5I24G8pwQsxKfG/k85UoedXWoUKle+Eh+AdiMF/N4qyGvUvt+VyBe6JtU/1FKcXJEMZ8n6c+eYV+iL8auNaxBpPNwSh5YzPdSB0764=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cPZ7XkN3; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xEAF0+aE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7jNXKMyy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xEAF0+aE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7jNXKMyy"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 66CDB5C3E6;
-	Wed,  6 May 2026 08:08:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778054938; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xmdLG5xrLCAEm//LY3U7/HYhtHV1gWq7scizKQFeYYs=;
-	b=xEAF0+aEB8ZjvclOUbTOqmP1DNDn7wsloZIQG6SytAe3zR7Et+hpzUzxLgHqRYGI5Vs9tb
-	HJPh2KExUHLsN6k7S4sEskZ8kPi/firLGtjj1jEy0PNdRdXzg6nlu+kZUY8IovaqEzrIRI
-	kj0nIR1/wgih/Iohe/pKNkgEzhqNPjY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778054938;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xmdLG5xrLCAEm//LY3U7/HYhtHV1gWq7scizKQFeYYs=;
-	b=7jNXKMyyG+9xek9k5iehChr68iMkzsZtKnDObt8lB/GrxZI+EbxUiqzRWpUrwzq+EEQED4
-	UYo3j+9x4FkrApAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778054938; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xmdLG5xrLCAEm//LY3U7/HYhtHV1gWq7scizKQFeYYs=;
-	b=xEAF0+aEB8ZjvclOUbTOqmP1DNDn7wsloZIQG6SytAe3zR7Et+hpzUzxLgHqRYGI5Vs9tb
-	HJPh2KExUHLsN6k7S4sEskZ8kPi/firLGtjj1jEy0PNdRdXzg6nlu+kZUY8IovaqEzrIRI
-	kj0nIR1/wgih/Iohe/pKNkgEzhqNPjY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778054938;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xmdLG5xrLCAEm//LY3U7/HYhtHV1gWq7scizKQFeYYs=;
-	b=7jNXKMyyG+9xek9k5iehChr68iMkzsZtKnDObt8lB/GrxZI+EbxUiqzRWpUrwzq+EEQED4
-	UYo3j+9x4FkrApAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C07A593A3;
-	Wed,  6 May 2026 08:08:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id A8ofDRr3+mlALgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 06 May 2026 08:08:58 +0000
-Date: Wed, 06 May 2026 10:08:57 +0200
-Message-ID: <871pfpt0x2.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH] ALSA: sparc/dbri: add missing fallthrough
-In-Reply-To: <20260506031854.780411-1-rosenp@gmail.com>
-References: <20260506031854.780411-1-rosenp@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cPZ7XkN3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778055234; x=1809591234;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0FwViEFZHiQJ3iExOzuEZ2gtzbIGH5AsMXLZKpIKtCA=;
+  b=cPZ7XkN3utKeFJ6cbSjXqDVYrmASOKZvsesTg8OmUkQotw2XlUZMweRk
+   FcScHyErQYH8BY9oFVe/H1xPhiz14xuC7a9Qwc9dZ0hX0OxIVXKiav7LT
+   yqfnkwCZb0lldfAxv/nS7pQ948ptvUN9V80H7l7sYW6Sa/c18fYHqYdhn
+   YSsGfGjRrKqG7XMc9XIVtrXVbAbSjc7y/+SwqDr0QPqnfJsv/56NLiO4h
+   td9WidCtCFoVjJfbZETo9Q2khTHX32uhFMFyAcYvpO2CR2idNAlYDnh7e
+   YIpZa1IDaU06bFbZgT+wJc3lR3P6GGmoz4a+K7fUdpeopRn1tkJqg3NgT
+   w==;
+X-CSE-ConnectionGUID: exLhXIIXT5KbfU4BTj4FZA==
+X-CSE-MsgGUID: Ii155yIAT/iiIDV/1MIcUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="89287889"
+X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
+   d="scan'208";a="89287889"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 01:13:53 -0700
+X-CSE-ConnectionGUID: 6qVlkn3CTKCyNwjRFVC9cw==
+X-CSE-MsgGUID: DEaDb42jRkelGndeWVrH9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
+   d="scan'208";a="259500826"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.183])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 01:13:50 -0700
+Date: Wed, 6 May 2026 11:13:48 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v2 2/3] ASoC: pxa2xx: push gpio usage into arch code
+Message-ID: <afr4PEk9OPpJnu49@ashevche-desk.local>
+References: <20260505202426.3605262-1-arnd@kernel.org>
+ <20260505202426.3605262-2-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260505202426.3605262-2-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, 06 May 2026 05:18:54 +0200,
-Rosen Penev wrote:
+On Tue, May 05, 2026 at 10:24:25PM +0200, Arnd Bergmann wrote:
+
+> There are no remaining static platform_device users of pxa2xx ac97,
+> so the rest of that code path can go away as well.
 > 
-> Fixes compiler error with probably newer compilers:
-> 
-> sound/sparc/dbri.c:595:2: error: unannotated fall-through between switch labels [-Werror,-Wimplicit-fallthrough]
->   595 |         case 1:
->       |         ^
-> sound/sparc/dbri.c:595:2: note: insert 'break;' to avoid fall-through
->   595 |         case 1:
->       |         ^
->       |         break;
-> 
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> Since nothing in the driver uses the gpio number now, constrain the use
 
-Applied now.  Thanks.
+GPIO
+
+> of the legacy gpio interface to the architecture specific code.
+
+GPIO
+
+...
+
+>  #include <sound/pcm.h>
+>  #include <sound/ac97_codec.h>
+>  
+> -extern void pxa27x_configure_ac97reset(int reset_gpio, bool to_gpio);
+> +extern void pxa27x_configure_ac97reset(struct gpio_desc *reset_gpio, bool to_gpio);
+
+Looks like this is the only useful line in the header, hence while at it we may
+drop 'extern'.
+
+>  #endif
+
+...
+
+> +	if (cpu_is_pxa27x()) {
+>  		/* Assert reset using GPIOD_OUT_HIGH, because reset is GPIO_ACTIVE_LOW */
+> -		rst_gpio = devm_gpiod_get(&dev->dev, "reset", GPIOD_OUT_HIGH);
+> -		if (IS_ERR(rst_gpio)) {
+> -			ret = PTR_ERR(rst_gpio);
+> -			if (ret == -ENOENT)
+> -				reset_gpio = -1;
+> -			else if (ret)
+> -				return ret;
+> -		} else {
+> -			reset_gpio = desc_to_gpio(rst_gpio);
+> -		}
+> -	} else {
+> -		if (cpu_is_pxa27x())
+> -			reset_gpio = 113;
+> -	}
+> +		rst_gpio = devm_gpiod_get_optional(&dev->dev, "reset",
+> +						   GPIOD_OUT_HIGH);
+> +		if (IS_ERR(rst_gpio))
+> +			return dev_err_probe(&dev->dev, PTR_ERR(rst_gpio),
+> +					     "reset gpio failed\n");
+
+I *slightly* tend to have my patch just as preparatory for this one as it does
+one logical change, this one does another. But if you think it is not worth it,
+okay then.
+
+...
+
+Now looking at this, I am not even sure that we need that if (cpu_is_pxa27x())
+since optional GPIO will return NULL and everything should work as long as
+there is no mistake in DT or platform code that provides the GPIO.
+
+But such a change should be done carefully.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Takashi
