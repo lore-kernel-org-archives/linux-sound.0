@@ -1,85 +1,69 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.brightberry.eu (mx.brightberry.eu [185.229.55.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF809318EC4;
-	Wed,  6 May 2026 18:18:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F0F309EE7
+	for <linux-sound@vger.kernel.org>; Wed,  6 May 2026 18:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.229.55.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778091534; cv=none; b=IMPhfNNLvvSc26tqPctgDEBtuC63SNrF/VEEmlcPYEqhIBBc8jWuijdvUOW/XuPxuaLzZPfuX0v8kfPemWjMi90EiO9alIH9IsVLM+74qz7++zxP9lyKDHXu1whoHnfYpjn7v3Jbc7hyZOc+/LlJn2lKmKE9W3WbE/plMSnk+oE=
+	t=1778092415; cv=none; b=uzltJvaTOKtbxoU8ArxxUVrg4ZuQO0Gr6Rraht5bHkhmOQThkKCbz02j3UThmv9/Tt9r/EoLSGMux1vrbiRVGzrJG51qidqJ/L0z8dLZrkWzvgS0dzT4mriRqfrg4PHmFPNJBl5ngyCTlCxf9G47AgXaLWlBwf8X7wLlIZHGd+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778091534; c=relaxed/simple;
-	bh=B3g5tLFHaDq9C4UNLjtQHDOAc7kvnDsur09qtwVpeGA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rvzo0+urmk4QO5r3BGQWSnWImRWmTMGzHkIlgv68rWJ1H/d3Q5SkjzLcVlEkzwdMT7XCrq1ex0zFtWdu1Yjjt19ztqD0GBd81lBxna5qgOz1xFfe+cYxWQro9BbreJxXEZxh3aIiRRWZPj9lqCl+3rHrlgUkqgbe4HCm74CAjIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=BQFjSG4Z; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="BQFjSG4Z"
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id A987927146;
-	Wed,  6 May 2026 20:18:44 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 6QQi_MlneqGM; Wed,  6 May 2026 20:18:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1778091524; bh=B3g5tLFHaDq9C4UNLjtQHDOAc7kvnDsur09qtwVpeGA=;
-	h=From:To:Cc:Subject:Date;
-	b=BQFjSG4ZMceQgPL22jA4oIKcOjRPpeGxyzlfZ2BajAJiEbmmJzlUEr/ZNIJkFgwLf
-	 ymSvCKuJONR5H1v9beo2iw0u1fpdLQAMToNCGEWegcb9tTacs+lPH8f9Q21ESlwE2Q
-	 O6gdTO3Bi3SmDdzQWSK+c/MSwiniMQEAqVrbo56MZ8xgIQwW4f8qHhl8ni7Xs7t1WD
-	 GMA9ZSlXeTpUE+VRwrAnzDeaOgouQLr4ZLzCspFG4tuBgBK4prrad7etpkO0EIb/+d
-	 5sY+qfTSwS35BSU8CFZNvYStmDhEw6eXcsW+g7ZTZWXhgnBdntsBB2hkE9cdz14aCm
-	 ByER7L855USuQ==
-From: Sven Jans <skbotnl@disroot.org>
-To: 
-Cc: Sven Jans <skbotnl@disroot.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hda: cs35l41: Support HP OmniBook 7 Laptop 16-bh0xxx
-Date: Wed,  6 May 2026 20:17:41 +0200
-Message-ID: <20260506181807.22547-1-skbotnl@disroot.org>
+	s=arc-20240116; t=1778092415; c=relaxed/simple;
+	bh=ZFRFZrVkjqNZBHax1F2/Juf7EuDYvO80Hfsf06etGTU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=FIo+dcoPWUii38yar1p9GgE6qHepoBpkXMqj/HRspZ+w34jUxB3TalQr/+FThpuz//pgXInP3oUdJPrLJHf6gx+UG+GSBJIt6cLnem2GF/y9R5xLIZlFws49B934fR5MWjFbqLGoU/3qqv18RlTBrZhlOwEPH0QJ6a/Nw/TCpB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vanraaij.eu; spf=pass smtp.mailfrom=vanraaij.eu; arc=none smtp.client-ip=185.229.55.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=vanraaij.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vanraaij.eu
+Received: from mx.brightberry.eu (localhost [127.0.0.1])
+	by mx.brightberry.eu (Proxmox) with ESMTP id EAC2F26CC;
+	Wed, 06 May 2026 20:33:24 +0200 (CEST)
+Received: from yoga9-patch-38d5.eml (YST00841.fritz.box [192.168.178.64])
+	by mx.brightberry.eu (Proxmox) with ESMTP id CD7DF173;
+	Wed, 06 May 2026 20:33:24 +0200 (CEST)
+From: =?UTF-8?q?R=C3=A1mon_van_Raaij?= <ramon@vanraaij.eu>
+To: linux-sound@vger.kernel.org
+Cc: alsa-devel@alsa-project.org, Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH] ALSA: hda/realtek: Add codec SSID quirk for Lenovo Yoga Pro 9 16IMH9 (17aa:38d5)
+Date: Wed, 06 May 2026 20:31:18 +0200
+Message-Id: <20260506183118.patch1-ramon@vanraaij.eu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The laptop has _DSD but the cirrus,dev-index property fails to
-parse, so it needs to be supported using the configuration table.
+Some Lenovo Yoga Pro 9 16IMH9 units carry codec SSID 17aa:38d5 instead
+of 17aa:38d6, which was added in commit 56722cfbb78d ("ALSA: hda/realtek:
+Add codec SSID quirk for Lenovo Yoga Pro 9 16IMH9"). The corresponding
+firmware blob TAS2XXX38D5.bin already ships in linux-firmware, and the
+hardware is otherwise identical: same PCI subsystem ID 17aa:3811 shared
+with the Legion S7 15IMH05, same TI TAS2781 amplifiers behind ACPI HID
+TIAS2781, same ALC287_FIXUP_TAS2781_I2C requirement.
 
-Signed-off-by: Sven Jans <skbotnl@disroot.org>
+Add a second HDA_CODEC_QUIRK entry directly above the existing 17aa:38d6
+entry so both variants resolve to the correct fixup. Reported and
+verified on hardware by GitHub user 0xEthamin.
+
+Link: https://github.com/ramonvanraaij/yoga9-tas2781-hda/issues/1
+Signed-off-by: Rámon van Raaij <ramon@vanraaij.eu>
 ---
- sound/hda/codecs/side-codecs/cs35l41_hda_property.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-index 732ae534db36..a972da0ae4e1 100644
---- a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-+++ b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-@@ -85,6 +85,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "103C8C51", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
- 	{ "103C8CDD", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
- 	{ "103C8CDE", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 3900, 24 },
-+	{ "103C8E60", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "104312AF", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
- 	{ "10431433", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "10431463", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
-@@ -510,6 +511,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "103C8C6A", hp_i2c_int_2amp_dual_spkid },
- 	{ "CSC3551", "103C8CDD", generic_dsd_config },
- 	{ "CSC3551", "103C8CDE", generic_dsd_config },
-+	{ "CSC3551", "103C8E60", generic_dsd_config },
- 	{ "CSC3551", "104312AF", generic_dsd_config },
- 	{ "CSC3551", "10431433", generic_dsd_config },
- 	{ "CSC3551", "10431463", generic_dsd_config },
--- 
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7608,6 +7608,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	/* Yoga Pro 9 16IMH9 shares PCI SSID 17aa:3811 with Legion S7 15IMH05;
+ 	 * use codec SSID to distinguish them
+ 	 */
++	HDA_CODEC_QUIRK(0x17aa, 0x38d5, "Lenovo Yoga Pro 9 16IMH9", ALC287_FIXUP_TAS2781_I2C),
+ 	HDA_CODEC_QUIRK(0x17aa, 0x38d6, "Lenovo Yoga Pro 9 16IMH9", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3811, "Legion S7 15IMH05", ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3813, "Legion 7i 15IMHG05", ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS),
+--
 2.54.0
+
 
