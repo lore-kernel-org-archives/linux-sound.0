@@ -1,88 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from r3-81.sinamail.sina.com.cn (r3-81.sinamail.sina.com.cn [202.108.3.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1532459EA
-	for <linux-sound@vger.kernel.org>; Wed,  6 May 2026 02:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647E4282F1E
+	for <linux-sound@vger.kernel.org>; Wed,  6 May 2026 02:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778033902; cv=none; b=NmB+U/XeasDtVwU5G/O+LoE3gSaLncSeTlkAJx3X3nVDsQrnlCGJbAy0k3w+wNKwUtR058ugK3Q+NhCCRVTI5iPdJ3XLAxdBtmnqtKGT7BCWItoXN/Tm4MQS1hkj+2x+2YXa6y4oYe9gXUU8j1hmDa8J5pxgxB9YkvodFdrLUkg=
+	t=1778036139; cv=none; b=rvcUUtA2GLZ71s8tUlCBe7bIsrSMEnm8EqMScoqY+KEVqzQ3Lwx5MjN1LT5Ay92RijTVRuvz5ikXxLZ+quMaZ4ymv7PiqtT6dOQCEIAinZH5jPy/Q1O0/TMCoiEUNYhUgZ7YhuumQrKUsKzuFkZiDyWsvI73lsxzjp11Q+Ism3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778033902; c=relaxed/simple;
-	bh=F22uXgoE3MVAqHgDCRSDcaD0wBEE7hyj1OijHjMVKgM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=avN4N6m+lRYhkgOV7Fo3qQWNdmvTxfnupKieTesY7uFxFM/WULZy4/aEXrB6EZkxGTWOHluSbVJILivaCcPVEbBTdgdCQWQbYha0urLe83dzQYIvpBds2tOScQLaVa5QyL/TKLe8GZ3ysy00HNvAUmhkbCzTBpwTUI9wJhHt+ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j6rJmug4; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j6rJmug4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3748C2BCB4;
-	Wed,  6 May 2026 02:18:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778033901;
-	bh=F22uXgoE3MVAqHgDCRSDcaD0wBEE7hyj1OijHjMVKgM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=j6rJmug40m2Tfl+wuXpxQ1s8CvCDfjgC4TQTA2MvAWcNYqGpamnhSMxgK8jkCQMj6
-	 jN0a+Y5akYq77S8Ma8PLWk1EnTMHyvcarO1MDwr9ar/gcCSKQtb8IFBTEpjP7TjmAY
-	 Jukq1inqiBmvBsQdSb1NzuvNap1N30uNl0IPF/5L5yahCu63wOm9ByXIgqDO7FrMTj
-	 bNWJb1CJrqFlMCxkrZ8tHNGwOUTsXw8eYGc1ObomyNUMS+wwbqMvbDeDsPk/WpuTQ7
-	 ywLJ0ez6KP9Mkhkxdjv6zz72poGpXrumOl+VWKaCYrbbNwGZ782PL30MFSgsIP41kz
-	 IiZk5LhaWKRbQ==
-From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Md Shofiqul Islam <shofiqtest@gmail.com>
-Cc: lgirdwood@gmail.com
-In-Reply-To: <20260505235705.8601-1-shofiqtest@gmail.com>
-References: <20260505235705.8601-1-shofiqtest@gmail.com>
-Subject: Re: [PATCH v2] ASoC: nau8825: Fix typos in comments
-Message-Id: <177802998768.624351.5743690863224356579.b4-ty@b4>
-Date: Wed, 06 May 2026 10:13:07 +0900
+	s=arc-20240116; t=1778036139; c=relaxed/simple;
+	bh=lHVKOcvKTQnmFkntR5AdB5lSrUWCWCylt9wwfqOZVBE=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=frM4jMsVj3e1tQpICzrJ+/y0wyBDNttqg6gkwgRWWDIljpieA9r55zkNWrr8KY+ReNqg5aluFExfPK1zR0/zJwbRq0f1dZBhcuIAW/HiePdpUzPXwP24QLF3z1Rb7uua6X3fTXwrqkC/f4TX+zd0CvhWaaq9aNArAoBYduWtKuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
+	by sina.net (10.54.253.37) with ESMTP
+	id 69FAAD7A00001505; Wed, 6 May 2026 10:54:52 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 6B5C697B624642029863B7541553EA8D
+X-SMAIL-UIID: 6B5C697B624642029863B7541553EA8D-20260506-105452
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Cc: peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ckeepax@opensource.cirrus.com,
+	Zhang Yi <zhangyi@everest-semi.com>
+Subject: [PATCH v11 0/5] Add es9356 focused SoundWire CODEC
+Date: Wed,  6 May 2026 10:54:42 +0800
+Message-Id: <20260506025447.3288-1-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1095; i=broonie@kernel.org;
- h=from:subject:message-id; bh=F22uXgoE3MVAqHgDCRSDcaD0wBEE7hyj1OijHjMVKgM=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp+qTr7AbXLX7e49p0y6IAQrlFAQhYN9Glvx9hH
- CA9WeHNG0KJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCafqk6wAKCRAk1otyXVSH
- 0JoMB/oCa8aCoJlFiI98JquFOZuSm6pBh1LQRW6sPkqy2z6vp6FllOgU+3GjVeCMlaYWs/54Iw+
- 2dmBLkRmZnJucdXF2OmFvuIgVo6NtMbs7iJWwcSqjV6D5DLDEtpQPKkOdJw068zwO7wRsadtH6N
- nh5uBgU22bXzbvikYwoNdyt3J8/d30FJckdOvQkBD1rkHbSTIjqAXp+wkkaQb3P+JR8yAs9lu0K
- cIgH6vQwxutoYDULolFAGb3GMJc31ciWq81Y6s62ZX8pwMLp9FBcfwToa/znIv12XNSQmHwTgE7
- ki8NDBauq5QoqWXFZ0KWQqR70qM8YjZpenUWQNvLmSQI/xBS
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 06 May 2026 02:57:05 +0300, Md Shofiqul Islam wrote:
-> ASoC: nau8825: Fix typos in comments
+This patch chain adds support for the ES9356 PC focused
+SoundWire CODEC.
 
-Applied to
+v11 -> v10:
+	-Add some comment for lock
+	-Add a helper function to `hw_params` and `hw_free`
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+v10 -> v9:
+	-Add some comment at codec driver
+	-Fixed the jack_lock issue during suspend
 
-Thanks!
+v9 -> v8:
+	-Fix some formatting issues in es9356.c
+	-Removed regmap_write(SDW_SCP_SYSTEMCTRL) from the codec driver
 
-[1/1] ASoC: nau8825: Fix typos in comments
-      https://git.kernel.org/broonie/sound/c/5f1752afb464
+v8 -> v7:
+	-When the device status is UNATTACHED,
+	 set regmap to cache-only and cancel any delay work already in the queue.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+v7 -> v6:
+	-Provide comments for some parameters
+	-Rename `jack_detect_work` to `interrupt_handle_work`
+	-Add a jack_lock when handling disable_irq in suspend
+	-Adjust the handling procedure when a jack register
+	 is incorrectly identified
+	-Replace the custom SOC_SINGLE_Q78_TLV with SDCA_SINGLE_Q78_TLV
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+v6 -> v5:
+	-Handling default values in `button_detect` and `jack_detect`
+	-Add the member `disable_irq` so that interrupts are
+	 no longer processed after suspend.
+	-Move the PDE processing to `hw_params` and `hw_free`
+	-Separate JACK_OUT and JACK_IN in hw_params
+	-Simplify reading and writing to SDW_SCP_SDCA_INT1 in the callback
+	-Adjust the scope of `regcache_sync` in the resume
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+v5 -> v4:
+	-Merge patch1 and patch3
+	-Add vendor_id in codec_info
+	-Use q78_get and q78_set to create Kcontrol
+	-Set mbq_size and use regmap_mbq
+	-An additional helper function to implement DAPM
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+v4 -> v3:
+	-Updated some KControl names
+	-add copyright in soc_sdw_es9356
 
-Thanks,
-Mark
+v3 -> v2:
+	-Removed unnecessary section in soc_sdw_es9356.c
+	-Add `pm_runtime_put_noidle` to `es9356.c` to
+	 reduce device incremented count
+	-Updated some KControl names
+	-Fix the error related to jack_report in the codec driver
+
+v2 -> v1:
+	-Adjusted mutexes in the ES9356 driver
+	-Use macros to replace certain values
+	-Adjusted some ordering issues in Kconfig.
+
+v1 -> v0:
+	-Modified snd_soc_dapm_add_routes in soc_sdw_es9356
+
+Zhang Yi (5):
+  ASoC: sdw_utils: add soc_sdw_es9356
+  ASoC: sdw_utils: add ES9356 in codec_info_list
+  ASoC: es9356-sdca: Add ES9356 SDCA driver
+  ASoC: Intel: soc-acpi: arl: Add es9356 support
+  ASoC: Intel: sof_sdw: add es9356 support
+
+ include/sound/soc_sdw_utils.h                 |   14 +
+ sound/soc/codecs/Kconfig                      |    7 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/es9356.c                     | 1146 +++++++++++++++++
+ sound/soc/codecs/es9356.h                     |  208 +++
+ sound/soc/intel/boards/Kconfig                |    1 +
+ .../intel/common/soc-acpi-intel-arl-match.c   |   52 +
+ sound/soc/sdw_utils/Makefile                  |    1 +
+ sound/soc/sdw_utils/soc_sdw_es9356.c          |  230 ++++
+ sound/soc/sdw_utils/soc_sdw_utils.c           |   50 +
+ 10 files changed, 1711 insertions(+)
+ create mode 100644 sound/soc/codecs/es9356.c
+ create mode 100644 sound/soc/codecs/es9356.h
+ create mode 100644 sound/soc/sdw_utils/soc_sdw_es9356.c
+
+-- 
+2.17.1
 
