@@ -1,68 +1,106 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7071946DA
-	for <linux-sound@vger.kernel.org>; Wed,  6 May 2026 12:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8513034252D
+	for <linux-sound@vger.kernel.org>; Wed,  6 May 2026 14:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778071642; cv=none; b=efvEM7sgaug2YXORZuwBjVXEoHCbCmix4bjrspfTkgRT5DJm//HZzxgRT5ZAzEbbW+Z3h7CNfUDsE7tMI52R+bxrwolMelc9foJLUrMjit3FvDwVTzFgMxpbE9YVeqjCHUuzRw8m004QxnrIrgG2V72lTllYeYQvJFHRvdy+/JA=
+	t=1778076355; cv=none; b=tuKmqW6JmYyG5/pwqtqKwPX39+f+Qm8qt0Ek2rKpoXVnQjyb6bqjMG8OcMMYSFpNpTZujVG0ESV2WuFnvByvPg0UG2S/bTpuvR+IUpoxIxBy3Cdl5J/6AAsq9BS+1Wqhy7zjWnRNWlIRequ1fyTwGKiR3xo9R/8YVRNtvErqsks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778071642; c=relaxed/simple;
-	bh=IE6Rjvj4+N6Yes9GE5wwFUeUxlLk0SW8zuKWT0UTt/8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PBl0C+RzRueaPIPpqYfUsVvo7jH7MBA7H04amKwQ8YVq4bxbRb4JP3ejr4quHOIw+DX3YzQEkJDiH8YqPXFSEcMU9OZUd5isKm6mZqLlNuxQdTdyaR7z/qNP9dX+tK0Jfq4Uk2X9ROyML8LQiAvvGV68DFaZCLg3rzJayCXKY0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DSLgbBoM; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1778076355; c=relaxed/simple;
+	bh=R6F38CqNLNqRG+cFUfxfGsJMsiKTyn6CCJXNGR/rlqU=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=VveJ/bL4e6vCebI0c3hFO9Ukj4GAohfZ0p/uUoYwLG4k2ya9yqxNhqJVKbMPqIbdU61BJirWimUbmGYXaVwqBclnGATwGwyGqGC2s9+OVV4gr0pweroLwbh6IVzA6ZwvWrO7DmbDyqOzOccY2g2RAYZsgs5QFFKErMbNe73ou18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yp5DMqta; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DSLgbBoM"
-Message-ID: <9c0c1749-aaea-427d-a3c5-76174efa1102@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778071634;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jKUB0OUtdWSf8ugGZAt5RcLMjIri22U11y8H/0X4OLM=;
-	b=DSLgbBoMBLPFe5pUstguXRncVBTCitzrlHfRqyovIQM4/VYcFYDYTYO/lqtVigDJa4dhs5
-	WuFg12HilNdABM5eMuGIevG53m+MSsGuE7Amovjje+I0M5Ic6GYs0i0zdQcHm2zQnYMsqo
-	IwgdlXtAfzl8CrfYUaZ+/f3K2R+VrIU=
-Date: Wed, 6 May 2026 14:46:22 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yp5DMqta"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D47C2BCB0;
+	Wed,  6 May 2026 14:05:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778076355;
+	bh=R6F38CqNLNqRG+cFUfxfGsJMsiKTyn6CCJXNGR/rlqU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Yp5DMqtasUqJfz2zl4rM261fZEkwBuxaOAV/HyfLBNeOSNTV9YRvsRu4lo0yVmRs9
+	 zWfxUcdk1V1TzYiZx3ejWYoIJymWb7E059FsO7SoWcLVOMoufdShzSERaOX4NglVuI
+	 5QRibM9EczbQhQlP15Kjm5LR7nB7TizqUXeB26BQTT8W18Rkfh8V5W8tvMjiuk01ax
+	 wiiQ3sQMwAknARS5Spok5S1vnOAlC10npoVnlvTF9gjJ9IhA53KujVFKEjDnBGEyLD
+	 YXi48ZKGHZQrLJDCHmiVEyNdVslYOzxAS6tILTANQrHmG7FpVSnjl/3oRuFpPj9pgr
+	 nakUPMqjP+xBg==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 603EF1AC587E; Wed, 06 May 2026 15:05:52 +0100 (BST)
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v7.1-rc2
+Date: Wed, 06 May 2026 23:05:47 +0900
+Message-Id: <20260506140552.603EF1AC587E@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH v16 2/4] ASoC: tac5xx2-sdw: add soundwire based codec
- driver
-To: Niranjan H Y <niranjan.hy@ti.com>, linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, broonie@kernel.org,
- ckeepax@opensource.cirrus.com, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, cezary.rojewski@intel.com, peter.ujfalusi@linux.intel.com,
- yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
- kai.vehmanen@linux.intel.com, baojun.xu@ti.com, shenghao-ding@ti.com,
- sandeepk@ti.com, v-hampiholi@ti.com
-References: <20260505111806.2280-1-niranjan.hy@ti.com>
- <20260505111806.2280-3-niranjan.hy@ti.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260505111806.2280-3-niranjan.hy@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 
-On 5/5/26 13:18, Niranjan H Y wrote:
-> Add codec driver for tac5xx2 family of devices.
-> This includes the support for
->   1. tac5572 - DAC, PDM, UAJ and HID
->   2. tas2883 - Amplifier with DSP
->   3. tac5672 - Similar to tac5572 with feedback
->   4. tac5682 - Similar to tac5672 with Amplifier DSP.
-> 
-> Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
+The following changes since commit 7fd2df204f342fc17d1a0bfcd474b24232fb0f32:
 
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+  Linux 7.1-rc2 (2026-05-03 14:21:25 -0700)
 
+are available in the Git repository at:
 
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.1-rc2
+
+for you to fetch changes up to 5776bcdf4dccac8edc1160482792b512da5c08b4:
+
+  ASoC: cs35l56: Fixes for driver cleanup (2026-05-06 21:22:53 +0900)
+
+----------------------------------------------------------------
+ASoC: Fixes for v7.1
+
+Another batch of fixes, plus a couple of quirks (mostly AMD ones, as has
+been the case recently).  All driver changes, including fixes for the
+KUnit tests for the Cirrus drivers that could cause memory corruption.
+
+----------------------------------------------------------------
+Bob Song (1):
+      ASoC: amd: yc: Add DMI quirk for MSI Bravo 15 C7VE
+
+Cássio Gabriel (1):
+      ASoC: fsl_xcvr: Fix event generation for cached controls
+
+Derek Fang (1):
+      ASoC: sdw_utils: avoid the SDCA companion function not supported failure
+
+James Calligeros (2):
+      ASoC: tas2764: Deal with bogus initial temperature register value
+      ASoC: tas2770: Deal with bogus initial temperature value
+
+Mark Brown (2):
+      ASoC: wm_adsp_fw_find_test: Fix a couple of bugs
+      ASoC: cs35l56: Fixes for driver cleanup
+
+Richard Fitzgerald (6):
+      ASoC: cs35l56: Fix hibernate write in runtime resume error path
+      ASoC: cs35l56: Fix out-of-bounds in dev_err() in cs35l56_read_onchip_spkid()
+      ASoC: wm_adsp_fw_find_test: Redirect wm_adsp_release_firmware_files()
+      ASoC: wm_adsp_fw_find_test: Clear searched_fw_files in find-by-index test
+      ASoC: cs35l56: Don't use devres to unregister component
+      ASoC: cs35l56: Destroy workqueue in probe error path
+
+Tommaso Soncin (1):
+      ASoC: amd: yc: Add HP OMEN Gaming Laptop 16-ap0xxx product line in quirk table
+
+Troy Mitchell (1):
+      ASoC: spacemit: fix RX DMA params not set when TX is running
+
+Uwe Kleine-König (The Capable Hub) (1):
+      ASoC: codecs: ab8500: Remove suspicious code
+
+ sound/soc/amd/yc/acp6x-mach.c           |  21 +++
+ sound/soc/codecs/ab8500-codec.c         | 304 +-------------------------------
+ sound/soc/codecs/cs35l56-shared.c       |  11 +-
+ sound/soc/codecs/cs35l56.c              |  11 +-
+ sound/soc/codecs/tas2764.c              |  35 +++-
+ sound/soc/codecs/tas2770.c              |  23 ++-
+ sound/soc/codecs/wm_adsp_fw_find_test.c |  57 ++++--
+ sound/soc/fsl/fsl_xcvr.c                |  17 +-
+ sound/soc/sdw_utils/soc_sdw_utils.c     |   1 +
+ sound/soc/spacemit/k1_i2s.c             |   7 +-
+ 10 files changed, 151 insertions(+), 336 deletions(-)
