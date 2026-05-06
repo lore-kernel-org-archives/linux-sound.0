@@ -1,198 +1,140 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB67A38836F;
-	Wed,  6 May 2026 20:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A36A26D4F7
+	for <linux-sound@vger.kernel.org>; Wed,  6 May 2026 20:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778099434; cv=none; b=YqtMAQ0+SnXigfUrTPpmp6AFXAYD3/JHo3+Eh3xLgGLIt1lz+yMCqyMRTgWu97d5DBK4+GBrTBOwTUmvXkmpg0V+GJyUyCsp3whbTtTnovpcN69j9mkuxHybppBA/4jZ6hacYttzGpH6WsHl1dLYO4dz8oSbAkq34CMqdmPq180=
+	t=1778100195; cv=none; b=tVzy9j+eHPGvGU7LCIlwSHr8hQjGpZM/Bmf1rKeZ376paSx22WnMEACDcrFBLmelj7Kohg4Y6tqk2YCa+AH+aeGgyNoVYX05Y+anDb+I52silgOn78uTiIjP3UMDyZCANY2H9Hkx8fzuF/RoXW4ApBdxzRAsP/c0Co/tW4lE9rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778099434; c=relaxed/simple;
-	bh=ElJosHTYLcI9BgvAkBOdPtaYbxUdlkp93c6ZPh+hIQ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lO1OFGrxg8KZmmr6cvOCOOmNddD+n9Y/04/ocGHMCdhTeG6YMHXWN42f9ofz8NIFkDsA3WikvgJ8zHqCOYDIkVDSeJIDR+giFIcF3wLHoy4I1VCtwpk3247ZU3CLCdre4IhAaK8cTTsuieQ2Wz1Kw85ssveeHCBLB0DrRcQM65o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=P6Hvk6+A; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1778100195; c=relaxed/simple;
+	bh=0QiQBPIOcLjIk+6uVZ2ym6r2K6OOhQg2VGfU3Pf5PwM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kbqA1WKR5CF3eNGDFh/odarYbYEZMkySX02quv4KgILXPrCyD0HqVw/M+o7kGMle6SIW6vg7jpf/AzE3cto3z5LdXD9PgbyxUAjfAQ0SmoUN59OqRLUvh7+gLHYyl6t8du6UT83H8udhaEstrF07F+HGUZE/jEPEEiZ0rfVdi6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=UL1QvyZO; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="P6Hvk6+A"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 3539D1A3556;
-	Wed,  6 May 2026 20:30:29 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E9AF660558;
-	Wed,  6 May 2026 20:30:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 879BB107F1E2B;
-	Wed,  6 May 2026 22:30:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778099425; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Vrqq7dyzDgCl+FqaMvTiuXKBdsOhTj/wqsPWsAfCeVU=;
-	b=P6Hvk6+A9KAGIiXMc5ppzQ8YnInesNyobJwlVOScdEn3BK6ZEG23RDVXqJ6UhXoJCZ/ClQ
-	IUaW5ffmO1GB5JT6pTn4JtgmuSK+cRR3G1OcUYmDqGuh+VBCxuJ5HSm/LVFRPC4a7eFPCK
-	lYEJgLQ08RS58hm0mDonItlSHMq4n57ZfMggV7q1BtmhvLggvm/45yz/tuzkuo9gCOFf+u
-	3K5HNHEI5PY46RtLY6F5VEi1OqnYZRWCqhL897NXI0JaUY6wU9HQsCRvqSXESwzhM7jo2T
-	za6fvFc/XcHv7AFGlUDrBhtbj3FxDismo+IFvtdNJhuaoK/yerA+Brrcvr3ndA==
-Date: Wed, 6 May 2026 22:30:15 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Kalle Niemi <kaleposti@gmail.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>, Sascha
- Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi
- Shyti <andi.shyti@kernel.org>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, Arnd
- Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@kernel.org>, Bjorn
- Helgaas <bhelgaas@google.com>, Charles Keepax
- <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
- Walleij <linusw@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, Mark
- Brown <broonie@kernel.org>, Len Brown <lenb@kernel.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>, Dave Jiang
- <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, Shawn Guo <shawnguo@kernel.org>,
- Wolfram Sang <wsa@kernel.org>, linux-kernel@vger.kernel.org,
- driver-core@lists.linux.dev, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
- <allan.nielsen@microchip.com>, Horatiu Vultur
- <horatiu.vultur@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v6 13/27] PCI: of: Remove fwnode_dev_initialized() call
- for a PCI root bridge node
-Message-ID: <20260506222846.68963c71@bootlin.com>
-In-Reply-To: <20260325202037.GA1291636@bhelgaas>
-References: <20260325143555.451852-14-herve.codina@bootlin.com>
-	<20260325202037.GA1291636@bhelgaas>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="UL1QvyZO"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
+	s=key1; t=1778100189;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W1Y43cl3NFWC2uTS5PoFccmqAiBjm5cvOxvgFfBLr4E=;
+	b=UL1QvyZOPHYGTO8hTStY+HmqBR5MB/RV8keKyFDCly7SbFDcejaobMPNs/TrHa2iMhHHlJ
+	Vr15Te0ceR05o3mpRksK2X/Rg2UeAYWrd5wrm6CEwJfahREWQwHe8l7ywzjUeDTIC1QFuv
+	NcVvW4a8WNvg0uTVxRnEdCNbnx+9JHLPM82DutEKnHpDihPlYUX5v0rfT/FWyM06wJlL9U
+	Xy2c7AdEE3Hzfp/lNVF8Y+Y2avwYnAZNkUAg7ocPolOUAmzZutvnxMiPpq+S2EnqZVvWu8
+	FCQ7qpwNh70TeHhAT7foA4+2+hcXU2RzN5YrLcPxvuR+0P/566/ifWA1Nr0HLw==
+From: Val Packett <val@packett.cool>
+To: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Val Packett <val@packett.cool>,
+	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+	Bhushan Shah <bhushan.shah@machinesoul.in>,
+	Luca Weiss <luca.weiss@fairphone.com>,
+	Antoine Bernard <zalnir@proton.me>,
+	~postmarketos/upstreaming@lists.sr.ht,
+	phone-devel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2 1/6] ASoC: qcom: qdsp6: q6afe: fix clk vote response type mismatch
+Date: Wed,  6 May 2026 17:33:02 -0300
+Message-ID: <20260506204142.659778-2-val@packett.cool>
+In-Reply-To: <20260506204142.659778-1-val@packett.cool>
+References: <20260506204142.659778-1-val@packett.cool>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-Migadu-Flow: FLOW_OUT
 
-Hi Bjorn,
+The response sent by the firmware when requesting a clock vote (opcode
+AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST) does not actually have
+the same opcode + status payload as APR_BASIC_RSP_RESULT. Rather, it
+returns one single u32 which is the client_handle that must be used in
+future unvote requests for the same clock.
 
-On Wed, 25 Mar 2026 15:20:37 -0500
-Bjorn Helgaas <helgaas@kernel.org> wrote:
+As a result of this type confusion, the status returned by the callback
+to q6afe_vote_lpass_core_hw was actually an out-of-bounds read. It was
+only interpreted as success (0) most of the time due to luck, but there
+are some reports of random errors such as:
 
-> On Wed, Mar 25, 2026 at 03:35:40PM +0100, Herve Codina wrote:
-> > During the instantiation of devices described by a device-tree overlay
-> > applied on a PCI device, devlink displays the following kind of debug
-> > messages instead of creating the expected links:
-> >    'Not linking xxxx - might never become dev'
-> > 
-> > Without those expected links, the device removal order cannot be
-> > correct.
-> > 
-> > Those debug traces are printed by fw_devlink_create_devlink(). In our
-> > use case, they are all printed because the supplier of the link has at
-> > least one of its ancestor with its fwnode flag FWNODE_FLAG_INITIALIZED
-> > set.
-> > 
-> > The culprit ancestor is the PCI root bridge.
-> > 
-> > The fwnode related to the PCI root bridge is created dynamically by the
-> > of_pci_make_host_bridge_node() function. During this creation
-> > fwnode_dev_initialized() is called which set the FWNODE_FLAG_INITIALIZED
-> > flag.
-> > 
-> > Calling fwnode_dev_initialized() tells devlink that the device related
-> > to this node is handled out of the driver core. This is not correct in
-> > our case. Indeed the device related to this firmware node is handled
-> > using driver core mechanisms and is fully compliant devlink
-> > expectations.
-> > 
-> > Simply remove the fwnode_dev_initialized() call. With that done, the
-> > devlink debug messages are no more displayed and links that were missing
-> > are correctly created.
-> > 
-> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>  
-> 
-> I would ordinarily make sure the person who added
-> fwnode_dev_initialized() here was ok with its removal, but it looks
-> like you added this with 1f340724419e ("PCI: of: Create device tree
-> PCI host bridge node"), so I assume you're ok with removing it :)
+[   20.961100] qcom-q6afe aprsvc:service:4:4: AFE failed to vote (3)
+[   20.961131] Failed to prepare clk 'core': -110
 
-Yes, I am really ok to remove it :)
+Fix by correctly interpreting the response as a single u32, and actually
+store it as the client_handle to ensure unvote would work correctly.
 
-> 
-> I suppose there could be a "Fixes: 1f340724419e" tag, but maybe
-> there's no need to backport this anywhere?
+Cc: stable@vger.kernel.org
+Link: https://lore.kernel.org/all/5976946.DvuYhMxLoT@antlia/
+Fixes: 55e07531d922 ("ASoC: q6dsp: q6afe: add lpass hw voting support")
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Signed-off-by: Val Packett <val@packett.cool>
+---
+ sound/soc/qcom/qdsp6/q6afe.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-Yes, I will add the Fixes tag.
-
-Also the previous patch ("PCI: of: Set fwnode device of newly created PCI
-device nodes") fixes 407d1a51921e ("PCI: Create device tree node for bridge")
-
-I plan to add "Fixes: 407d1a51921e" to the previous patch to make things
-consistent.
-
-To ease backports and avoid conflicts, I plan to add 'Cc: stable' in 4
-patches:
- - patch 13 "PCI: of: Remove fwnode_dev_initialized() call for a PCI root
-   bridge node"
-   This current patch with Fixes added
-
- - patch 12 "PCI: of: Set fwnode device of newly created PCI device nodes"
-   The previous patch with Fixes added
-
- - patch 11 "PCI: of: Use fw_devlink_set_device()"
-   Avoid conflict when patch 13 is applied
-
- - patch 6  "driver core: fw_devlink: Introduce fw_devlink_set_device()"
-   Needed for patch 11 and 12
-
-Do you think it makes sense ?
-
-Best regards,
-Hervé
-
-> 
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> 
-> > ---
-> >  drivers/pci/of.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> > 
-> > diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> > index b694fcda16b1..0993257fe025 100644
-> > --- a/drivers/pci/of.c
-> > +++ b/drivers/pci/of.c
-> > @@ -811,7 +811,6 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
-> >  	 */
-> >  	of_node_set_flag(np, OF_POPULATED);
-> >  	fw_devlink_set_device(&np->fwnode, &bridge->dev);
-> > -	fwnode_dev_initialized(&np->fwnode, true);
-> >  
-> >  	ret = of_changeset_apply(cset);
-> >  	if (ret)
-> > -- 
-> > 2.53.0
-> >   
-
-
-
+diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
+index 40237267fda0..28b5b6b91897 100644
+--- a/sound/soc/qcom/qdsp6/q6afe.c
++++ b/sound/soc/qcom/qdsp6/q6afe.c
+@@ -379,6 +379,7 @@ struct q6afe {
+ 	struct q6core_svc_api_info ainfo;
+ 	struct mutex lock;
+ 	struct aprv2_ibasic_rsp_result_t result;
++	uint32_t vote_result;
+ 	wait_queue_head_t wait;
+ 	struct list_head port_list;
+ 	spinlock_t port_list_lock;
+@@ -968,13 +969,14 @@ static int q6afe_callback(struct apr_device *adev, const struct apr_resp_pkt *da
+ 	const struct aprv2_ibasic_rsp_result_t *res;
+ 	const struct apr_hdr *hdr = &data->hdr;
+ 	struct q6afe_port *port;
++	uint32_t *vote_res;
+ 
+ 	if (!data->payload_size)
+ 		return 0;
+ 
+-	res = data->payload;
+ 	switch (hdr->opcode) {
+ 	case APR_BASIC_RSP_RESULT: {
++		res = data->payload;
+ 		if (res->status) {
+ 			dev_err(afe->dev, "cmd = 0x%x returned error = 0x%x\n",
+ 				res->opcode, res->status);
+@@ -1001,8 +1003,10 @@ static int q6afe_callback(struct apr_device *adev, const struct apr_resp_pkt *da
+ 	}
+ 		break;
+ 	case AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST:
++		vote_res = data->payload;
+ 		afe->result.opcode = hdr->opcode;
+-		afe->result.status = res->status;
++		afe->result.status = 0;
++		afe->vote_result = *vote_res;
+ 		wake_up(&afe->wait);
+ 		break;
+ 	default:
+@@ -1899,6 +1903,8 @@ int q6afe_vote_lpass_core_hw(struct device *dev, uint32_t hw_block_id,
+ 			       AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST);
+ 	if (ret)
+ 		dev_err(afe->dev, "AFE failed to vote (%d)\n", hw_block_id);
++	else
++		*client_handle = afe->vote_result;
+ 
+ 	return ret;
+ }
 -- 
-Hervé Codina, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.53.0
+
