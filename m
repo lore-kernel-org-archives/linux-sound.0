@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3BF309EE9;
-	Wed,  6 May 2026 05:59:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB1B20CCDC;
+	Wed,  6 May 2026 06:00:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778047176; cv=none; b=IlxwMyLFm1ZdfKLM5KYzB1IRLQUoT9WJE90B7ppx6550zV9tFrfoGQNrDTezdT3rzSSxcQQE4dfiN55RUFh40NYUBkeeUixajq5hbUWGdWGZT3SdYYRUuGjTyhkLOHCO8rgJyIW1beXEJsI+sShmahIVWN02JCtDCS4Iv0r+rLk=
+	t=1778047248; cv=none; b=sLGNcsXQavNIXE8T967T3F4LshTCVAO0XBg/JKVJuDK7mRrIDo5V3WveDz3624tsgJhbaUJZdrMsqpm2V9r0ml1BMrY1JY2LXDfuzJdBw5bCsgfOZ8K9YsP18bvY5xbW9AB4+zH2l0Mkzhnpc+VRDyYXGsKyRbprhKbuKtPveg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778047176; c=relaxed/simple;
-	bh=VL4DmH3jsiXoPHucbRmxsRNDkiojV3PEV5otulB4XEQ=;
+	s=arc-20240116; t=1778047248; c=relaxed/simple;
+	bh=lUjjwbH/5N/xS84fn3wDg8Ez/aqdZhfJ7OXoQIAouoA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OlRQJgg13rEZHBCaCn4Lw7VzZVHXiS727/x3o9437B7sGCWXCH7hOtMLz7dCkfN8C2WIZR8ZhA7G2DuC2wER9Qj6aZpc4tJOu4pq0hCriusVWqy6/aCCZYqKSYl/ZJ4QJNDJ+7ZzD7BrIKzc52HAm9ukVBZ3cV13qS0vCpKPbaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B8TSfxi+; arc=none smtp.client-ip=192.198.163.14
+	 MIME-Version; b=MHbnK9KAspD+8OUQLEtOmIPVxx3DZSvuJqv4rjbhjTZm8+vEyobggVLuIIIiaeTvyad1Up6peAJa4omzNKjmBfxq2hp/tuQonMs37seQrh5H/x8kVCjeAzcmba9Ox1UqQkfL/eQI6gsxB+7OWgrunPTmOkmzeEJj6DcJHFKRV80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J1wUaYxq; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B8TSfxi+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J1wUaYxq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778047176; x=1809583176;
+  t=1778047247; x=1809583247;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=VL4DmH3jsiXoPHucbRmxsRNDkiojV3PEV5otulB4XEQ=;
-  b=B8TSfxi+/Rs/MeXNZmfr7H2LUGzN9bSXSvwqgwxcs5sgrDWu43GRKsu/
-   5JWM0oTZcnkX6FIzcGmHf3/WmwiDnaWZipcfin9DalysQqJcNtUWQdMq3
-   d6aq/G3orQgMoWMmK4ALZnYATqLAcYo3XKQpLnGUVK/NH4a3darpzCjSR
-   1+FkYPoJwxvg4Ld3f38bYcMu3beeZ8zUPBuYDxfB7oTBInW14pWHMmJV5
-   L6GNvm6OdVN+gTOn/3uSq+VFJ0794L+bQrfCmYGerI2WgZZ0uamtfi2AS
-   m0Mc/KAV41tmANSCqFBm0AGa2XovggRBLnl1XU46rDJLhy39w5nAJBzOw
+  bh=lUjjwbH/5N/xS84fn3wDg8Ez/aqdZhfJ7OXoQIAouoA=;
+  b=J1wUaYxqfZrr4zos4gdomDNyhGC2BntmQEB6G98nOVse+ng0QiltJrC2
+   FN8mOsFH4PFLztfeX0HqeUM8DUVQFDw6kz3i2Ediwhzk0yliDdnFMdjyr
+   m7GTP2SqIOo96/99PSTpDAHPoq43cqrOPo87+1fHHUnSUI3GX3wH4lgg/
+   qJLT6JtSQ7dnQ8IO6VO7g+FPJvaQZVr4o8o4qeAPBUAEpWNi0mlfcaCZD
+   /3rbmrIGP+MWBfUuFeUcRzPSK172sMt6YI/IT2vbyyvsX2g5in3xDj0bP
+   5WjWkvbyiViSN5YA4tJI1Vg4j/7lktWx7cqEhpDIHw15Yp5Cj+7i5TZZ8
    w==;
-X-CSE-ConnectionGUID: Am/uwMQlSz27jlxCJkXNMg==
-X-CSE-MsgGUID: /xU/F4AiTTG/fObwuMWWQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="78983757"
+X-CSE-ConnectionGUID: lF2uRp8gS/Ki4/8xFU//lg==
+X-CSE-MsgGUID: QZm7RwoDT22W3UGftQAwtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="78984343"
 X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="78983757"
+   d="scan'208";a="78984343"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 22:59:35 -0700
-X-CSE-ConnectionGUID: ds9m7ps/RsCZmJdbW7L8NA==
-X-CSE-MsgGUID: /l4J5SoyR6mg5eTMz5CU4Q==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 23:00:47 -0700
+X-CSE-ConnectionGUID: PEeeXOnESquVaGvPnrLO0w==
+X-CSE-MsgGUID: cf2GKVQ6S2KeK6CZ/do6Yw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="240010677"
+   d="scan'208";a="240011136"
 Received: from emr-371.sh.intel.com ([10.67.116.174])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 22:59:33 -0700
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 23:00:44 -0700
 From: Baoli Zhang <baoli.zhang@linux.intel.com>
 To: Vinod Koul <vkoul@kernel.org>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
@@ -51,9 +51,9 @@ Cc: "Baoli.Zhang" <baoli.zhang@linux.intel.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND v1 2/3] soundwire: increase group->max_size after allocation
-Date: Wed,  6 May 2026 13:50:36 +0800
-Message-ID: <20260506055039.3751028-3-baoli.zhang@linux.intel.com>
+Subject: [PATCH RESEND v1 3/3] soundwire: use krealloc_array to prevent integer overflow
+Date: Wed,  6 May 2026 13:50:37 +0800
+Message-ID: <20260506055039.3751028-4-baoli.zhang@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260506055039.3751028-1-baoli.zhang@linux.intel.com>
 References: <20260506055039.3751028-1-baoli.zhang@linux.intel.com>
@@ -67,46 +67,43 @@ Content-Transfer-Encoding: 8bit
 
 From: "Baoli.Zhang" <baoli.zhang@linux.intel.com>
 
-Only update `group->max_size` after both allocations succeed to avoid
-leaving the group's state inconsistent if one allocation fails.
+Replace the use of krealloc() with krealloc_array() in
+sdw_add_element_group_count to mitigate the risk of integer overflow during
+memory allocation size calculation.
 
+Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Baoli.Zhang <baoli.zhang@linux.intel.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/soundwire/generic_bandwidth_allocation.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/soundwire/generic_bandwidth_allocation.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/soundwire/generic_bandwidth_allocation.c
-index f016ad088a1db..cd9ccbaf0e46f 100644
+index cd9ccbaf0e46f..3575d69ce1c50 100644
 --- a/drivers/soundwire/generic_bandwidth_allocation.c
 +++ b/drivers/soundwire/generic_bandwidth_allocation.c
-@@ -308,9 +308,8 @@ static int sdw_add_element_group_count(struct sdw_group *group,
+@@ -308,17 +308,15 @@ static int sdw_add_element_group_count(struct sdw_group *group,
  		unsigned int *rates;
  		unsigned int *lanes;
  
--		group->max_size += 1;
- 		rates = krealloc(group->rates,
--				 (sizeof(int) * group->max_size),
-+				 sizeof(int) * (group->max_size + 1),
- 				 GFP_KERNEL);
+-		rates = krealloc(group->rates,
+-				 sizeof(int) * (group->max_size + 1),
+-				 GFP_KERNEL);
++		rates = krealloc_array(group->rates, group->max_size + 1,
++				       sizeof(*group->rates), GFP_KERNEL);
  		if (!rates)
  			return -ENOMEM;
-@@ -318,12 +317,14 @@ static int sdw_add_element_group_count(struct sdw_group *group,
+ 
  		group->rates = rates;
  
- 		lanes = krealloc(group->lanes,
--				 (sizeof(int) * group->max_size),
-+				 sizeof(int) * (group->max_size + 1),
- 				 GFP_KERNEL);
+-		lanes = krealloc(group->lanes,
+-				 sizeof(int) * (group->max_size + 1),
+-				 GFP_KERNEL);
++		lanes = krealloc_array(group->lanes, group->max_size + 1,
++				       sizeof(*group->lanes), GFP_KERNEL);
  		if (!lanes)
  			return -ENOMEM;
  
- 		group->lanes = lanes;
-+
-+		group->max_size += 1;
- 	}
- 
- 	group->rates[group->count] = rate;
 -- 
 2.43.0
 
