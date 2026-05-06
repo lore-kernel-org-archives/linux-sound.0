@@ -1,111 +1,176 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177833148C2
-	for <linux-sound@vger.kernel.org>; Wed,  6 May 2026 21:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778102535; cv=none; b=q5wZVpJ3v04D9owuFMOyZg4pAJ5adKQ8d4wJKx3M5fg23l/6reaGZRp42561fMMEand+NujQSzu07bUVHTYOmMuawFpnRtQxHYJwxiRnfK2v1EZmbbcOtCQlsAHL7ub0U3l27JIr6+KFdmMHe8fe9KmXIgXq/MV56eApeu9K1TQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778102535; c=relaxed/simple;
-	bh=TDFlAyJw1nUODGr7CJgiZNIw/mOTrHdvnPgaxqyWrIM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=H8S7jdriM1hWjX1fXNJqh/09I8C7KFoi1SoHi1PMIqfBJTPqOy0pTP4tQXA84lmCkPH8UrVDcDdiwG2CPqXHLABYHwa77vnia6VQb3rxjL3GSXK4cvGdq3Rsx4cJAr49mbAMrruGTvbwTG3qoBKLtUX7Sygg0eWeE3neGb1Npoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=GXpETEK6; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7D13537C0;
+	Wed,  6 May 2026 22:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778105200; cv=pass; b=N5cfG36Q8dvZwkBjrt3y8MF65jrMZa2/S7JoCnjaadZyWGcUgSSZeGKt7g6gscuObjMh7r9biD8iN3iOkieOBRIZUXX8w1oF0T1TdchIuuXw13eGsFIyw/yl9hEFPL6bQtHO1ChlvfmtFbBPn34S+8AsOfscekLCWqT9tf8Bfyo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778105200; c=relaxed/simple;
+	bh=kG//RpSgCek4dzLQJZPfcKev3QYiO0nVTNRvPy17R18=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=m7dagzTLJoHG3LzsELHDEvvVa8N4+t3phV2IF9KEbRAgb35p0rNTelYy5AzjckQJ7Hv1cJp4FeBgxVnQc4cErrXlp9OSO9/3N6KpQek0OKtBxquyzUfYWXvYxK2e1IDwuMsnY+1q2VngicbgDuOsIORRTujND82YM6Un/KnRVB4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=Q46fBCUI; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harin.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="GXpETEK6"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-364d72f2986so106280a91.3
-        for <linux-sound@vger.kernel.org>; Wed, 06 May 2026 14:22:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778102533; x=1778707333; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E+3kkHmTsm2rX61tkHXl0gWLDyLZTSYok7GwmcKQ3fQ=;
-        b=GXpETEK6PSp8V4gOKJ2seojB66tCYausMgQiarlrQpA8DfAVRX+xxFgQrNhA8Qtzgf
-         gpy8xp4WRYD5R3NGt98Pa3urG/Y5Ugy4DY7LcuoafImQl1E6n74lRZ9rDAW3mkuEJDre
-         tOpMMZcHlvmhAQohMVNVztCoIAR1XYVREuBxHe5mMHnaiLE+rhBaWycN/Cbk8GnAi2bs
-         CNy5pWS9tZBGxA4zcii+CHBW3Zh/P+0sXmVCZun8lK4CWdxCVgWbFNUABfveOXds34A5
-         k8J2Yz9/ZnRY+5MgSJ4l0rWLEdv0/Qj8iIVzT1gcbSjew6eebMsFAmYUhtNqHuiCZFB9
-         4lUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778102533; x=1778707333;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=E+3kkHmTsm2rX61tkHXl0gWLDyLZTSYok7GwmcKQ3fQ=;
-        b=cDYp8MBkJtXXJYiuwMfDwttYgGts+yY5WuqPAyMqmmldYXQOWO91S0gz0tAb5UdgP9
-         bWzR3FSrhHXtZdBC47C3K7Wj8BUFaG52p6g1aLId//jjMVK/wQq+biCsFvKc2wf8Z9cD
-         2CQ+PgffxNMra7CuBMeQ9f+UzjCCClPQG859VY/vQ4/10QgaqYqnPjzfU9HOFVXPEkNm
-         YKY1WJ/Ix6X6OW/4ki5TQ5aqPq3EygCu+cKqVzNTcFPNiDLq2wyjRjAmcgYFmZSDYUck
-         uNaSpi9lOSShEAKm9g9C4HE0KuVMgpPj6nGEtHLoAFHNSL44eE4BYWuLq50+FZ3h3qVY
-         6fMA==
-X-Forwarded-Encrypted: i=1; AFNElJ9Xp7E9Curgc9CSIr2CVi6EwkHkPq/MHOG59jYwD4cmeKRCsQCrVLkmA2X6yNvFMd7aBaqy149mvQS/Kg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3Cfdf1fAEVnlBOW7DDV3pM/4TuYnEFxMwAajql1p0W0pn0cxQ
-	r6YlJ9AAsmmZTW4naR/qe2YUtktaEZKayzhb9GxHuBqSaSnDn6uKOmGu2Ig4s0XVQKI=
-X-Gm-Gg: AeBDieueYcUicdE0/v35X6kfVeqxshg0MpF6ozPLXPL2PSElRR281D7bQG3IlnmZ7BB
-	8Zcn1q9+DM+nZAlyuI6rFHui+mXWC8yQWmkaE+WMEp/pLIlejc5J73gyTl0TRU4MtpPjnbzqsIV
-	cU+e28aGC/iIN1qQKc9Xh3ex+BaVIXS6f+t9n1yxj2rkCRMldEpinOVdeKOivuSji/V7gTXVb0c
-	6KoOawXE3mGUhMTr+9gf9RMQ8la0IE7/NvagS4Xiodp4tCzw+jFQFPCRJrvbc018YNo9dBo9uKV
-	EjZ6Ed6xgMzUnsG/7m1MDLUVX1XKznN9WYDrxXovO2fq9IxjYsLtzF9WAZQc2+G45Z06kxUxBPA
-	dNTM4zY0v9Sb31afrHmmP34Xniu1gg8yvd4vPl6+BUHGredFtXCaDwx+4UTbfke0ADq3UDD9BZN
-	7t9Dt+x2pGPtXHzXQE4u2KIRfgGgj4NA==
-X-Received: by 2002:a17:90b:548d:b0:35f:b647:d98a with SMTP id 98e67ed59e1d1-365ab9b8c53mr4534954a91.5.1778102533545;
-        Wed, 06 May 2026 14:22:13 -0700 (PDT)
-Received: from localhost ([97.126.187.42])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-365b08feeb0sm2272665a91.2.2026.05.06.14.22.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2026 14:22:13 -0700 (PDT)
-From: Kevin Hilman <khilman@baylibre.com>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Tony Lindgren <tony@atomide.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>, 
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-omap@vger.kernel.org, linux-sound@vger.kernel.org
-In-Reply-To: <20250122164129.807247-1-ivo.g.dimitrov.75@gmail.com>
-References: <20250122164129.807247-1-ivo.g.dimitrov.75@gmail.com>
-Subject: Re: (subset) [PATCH v2 0/5] ASoC: cpcap: Implement jack headset
- detection
-Message-Id: <177810253253.236754.5359911875458195041.b4-ty@b4>
-Date: Wed, 06 May 2026 14:22:12 -0700
+	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="Q46fBCUI"
+ARC-Seal: i=1; a=rsa-sha256; t=1778105177; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=HnjxqvwGqH+drOKo4+pSQx64YnY9MV9M/8lX6Za6ruhV3YS0jj3rSCyb4XhInvMOkiLkQBvJWp7kUNTLzFjUKXuX6hzyXXtFb1xAZOP+NQR8L++E6TRFkbE1MxXH7idGnW45sKWljbPpF6xPMzBhZG9MfE0OGNg1sH4E3xY+H5Q=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1778105177; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=CUs4AuipDPWTJ+PC7ClkOBoflf7NncdDKt+wqffbGcM=; 
+	b=BY3R2Ov9S5RV1aavdxAw0ZvKHuQnH8ZXeo1S5S+Obx3QdfHzv+y7/Lc9wqCw7w1l9UQjOAPlM5H2sKHjOFOjynmKGWEm8L7c6wVSyYHAFNyGsEHr+XdFa1KhWoqInf0gC8k37ho08FXXDhs3RoI9YBUkrI/iY5m2cM3ZK/CCUW4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=harin.net;
+	spf=pass  smtp.mailfrom=me@harin.net;
+	dmarc=pass header.from=<me@harin.net>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778105177;
+	s=zmail; d=harin.net; i=me@harin.net;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=CUs4AuipDPWTJ+PC7ClkOBoflf7NncdDKt+wqffbGcM=;
+	b=Q46fBCUIMCglMIdB18Z353PMOzNAd9XX9+XxSu2Cw8pU1elbbeLQqjLRDgAWObKd
+	WdIP3/dbOP+uaP7EcGI7udMJkQGbD12niQtvJEZ9+ML+cgqPnsRckkQdE5rMQZY+ReP
+	EPDsI8Ad1uynGDlssJcbt5FVoXQPg1kCIPKB3NCV+XBCKZdlSjEmPpkqwHVyvrWpC2Z
+	fhuQ/A9c3KkXchac/zgz46xyit3MEicSEGCmnjWyh9abbsFzw6wYI9DU3S8Slj8hPY1
+	nFAVyupHqGyio2JS/UfpfXWuvd9SGkhjKXDLOoZJAycvDVZsTKKINHHgcmeRijMtr54
+	BUvZpU7jQQ==
+Received: by mx.zohomail.com with SMTPS id 1778105175752998.7270007329777;
+	Wed, 6 May 2026 15:06:15 -0700 (PDT)
+Message-ID: <7929c116-ff2e-413b-ae73-e7d19e846e0f@harin.net>
+Date: Thu, 7 May 2026 07:06:11 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [regression] ctxfi: no speaker output when headphones connected
+ on >=7.0.x
+To: Takashi Iwai <tiwai@suse.de>,
+ Thorsten Leemhuis <regressions@leemhuis.info>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ Linux Sound System <linux-sound@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, stoa@gmx.us
+References: <36875d66-f601-4d18-9654-bd86b60918e8@leemhuis.info>
+ <87bjett3ud.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Harin Lee <me@harin.net>
+Autocrypt: addr=me@harin.net; keydata=
+ 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
+In-Reply-To: <87bjett3ud.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15.2
+X-ZohoMailClient: External
 
-
-On Wed, 22 Jan 2025 18:41:24 +0200, Ivaylo Dimitrov wrote:
-> cpcap audio codec found on cpcap PMIC supports headset detection
-> and PTT button through its 3.5 mm jack. This series implements
-> support for those capabilities.
+On 5/6/26 4:05 PM, Takashi Iwai wrote:
+> On Wed, 06 May 2026 08:24:36 +0200,
+> Thorsten Leemhuis wrote:
+>>
+>> Hi! Just FYI, I noticed a regression report in bugzilla:
+>>
+>> https://bugzilla.kernel.org/show_bug.cgi?id=221461
+>>
+>> To quote:
+>>
+>>> Dutch Ingraham 2026-05-03 18:12:49 UTC
+>>>
+>>> Kernels >=7.0.1 contain a regression as to Creative Sound Blaster Z SE
+>>> discrete pci sound card, but not integrated. Kernels 7.0.1, 7.0.2, and
+>>> 7.0.3 tested; 7.0.0 not tested. Reverting to any 6.18.x or 6.12.x does
+>>> not present the issue.
+>>>
+>>> Specifically, using pipewire managed by pavucontrol, on both Gentoo and
+>>> Arch Linux, when both external speakers and headphones are connected,
+>>> all sound is routed through the headphones regardless of whether settings
+>>> are set to Line Out/Speaker or Line Out/Headphones; there is no speaker
+>>> output. If headphones are disconnected, without reboot, speakers work;
+>>> reconnect headphones, without reboot, sound reverts to headphones.
+>>>
+>>> Kernel: 7.0.3, Gentoo compiled from source using olddefconfig on 6.18.24
+>>> 		.config; Arch standard release
+>>> 'lspci -nnk | grep -i audio' attached
+>>> 'dmesg | grep -i audio' for 7.0.3 and 6.18.24 attached
+>>> pipewire-1.6.4 on both Gentoo and Arch Linux
+>>> alsa-firmware-1.2.4 on both Gentoo and Arch Linux
+>>> 'cat /proc/sys/kernel/tainted' returns 0 for both Gentoo and Arch Linux
+>>>
+>>> Processor		:	AMD Ryzen7 5700G
+>>> Motherboard		:	Asus Prime X570-Pro
+>>> RAM				:	Patriot Viper Steel DDR-4 @3200mHz
+>>> Graphics        :   ASRock AMD Radeon RX 7600 Challenger 8GB OC
+>>> Sound Card      :   Creative Sound Blaster Z SE
+>>>
+>>>
+>>> Expected outcome: ability to choose output to either speakers or head-
+>>> phones while both are plugged-in to sound card.
+>>>
+>>> Workaround: none known.
+>>
+>> See the ticket for more details. One of them: 7.1-rc2 is affected as
+>> well. Reporter is CCed. Forwarded this to ensure this report makes it to
+>> the interested parties, as bugzilla might not have forwarded this.
+>>
+>> Dutch Ingraham: if nobody within a few days has an idea why this
+>> happens, you will likely have to use a git bisection to get this resolved.
 > 
-> Changelog:
-> v2:
-> - cpcap.c: fix a typo
-> - dt-bindings: fix interrupts description and alignment
-> - motorola-cpcap-mapphone.dtsi: fix interrupts alignment
+> As there have been many significant changes in ctxfi since 6.18, it's
+> hard to tell what broke.  Please go git bisect.
 > 
-> [...]
+> 
+> thanks,
+> 
+> Takashi
+> 
 
-Applied, thanks!
+Creative Sound Blaster Z-series uses the snd_hda_codec_ca0132 driver,
+not snd_ctxfi. The dmesg logs in the bugzilla shows only ca0132
+entries.
 
-[1/5] arch: arm: dts: cpcap-mapphone: Set VAUDIO regulator always-on
-      commit: 009f64641db3fbfecf92dee910c57a41c3e77a4b
-[4/5] arch: arm: dts: cpcap-mapphone: Add audio-codec jack detection interrupts
-      commit: 164f88cd7e0c0fcb950e8b4ba5d8c26404334c88
-
-Best regards,
--- 
-Kevin Hilman (TI) <khilman@baylibre.com>
-
+Thanks,
+Harin Lee
