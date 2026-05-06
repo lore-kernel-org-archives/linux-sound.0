@@ -1,106 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8513034252D
-	for <linux-sound@vger.kernel.org>; Wed,  6 May 2026 14:05:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CDD747798B;
+	Wed,  6 May 2026 14:07:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778076355; cv=none; b=tuKmqW6JmYyG5/pwqtqKwPX39+f+Qm8qt0Ek2rKpoXVnQjyb6bqjMG8OcMMYSFpNpTZujVG0ESV2WuFnvByvPg0UG2S/bTpuvR+IUpoxIxBy3Cdl5J/6AAsq9BS+1Wqhy7zjWnRNWlIRequ1fyTwGKiR3xo9R/8YVRNtvErqsks=
+	t=1778076476; cv=none; b=B5ayhfvOSBcr5R77VpyeCGv4sTEzZXcdrFiteg/y1QpvY/ozuLea69645CT9QJR/3oqmTVZH30mzq3JT9bnwTyOcITf4hXSVWYaRaDo0RDqoJzFuhjC7e60/hjeX+sH+hfp4oxauGhZn1vqPG74K0+MDeLTK/xT1pDT+oC1d4gY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778076355; c=relaxed/simple;
-	bh=R6F38CqNLNqRG+cFUfxfGsJMsiKTyn6CCJXNGR/rlqU=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=VveJ/bL4e6vCebI0c3hFO9Ukj4GAohfZ0p/uUoYwLG4k2ya9yqxNhqJVKbMPqIbdU61BJirWimUbmGYXaVwqBclnGATwGwyGqGC2s9+OVV4gr0pweroLwbh6IVzA6ZwvWrO7DmbDyqOzOccY2g2RAYZsgs5QFFKErMbNe73ou18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yp5DMqta; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778076476; c=relaxed/simple;
+	bh=cQlnEwAXRpnNanjvzfKUqX/rIx5TBMYTuUgvbOozgHw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=tMXoDyC9VrjY+5rX+BWVkKKRxe4CvJ9NvR/40sE9BlLXGAoKKbdXRMh7oicBqjdWzcw4kSo/TKA8dtylF0j5gmUgSFmWCe4Nl61x5tzUioz4InBTjRLJHVclTQNO1mWLcORRon33hj5u6hzgspBU8vq+vih5EwWfMb+cWKn4Kps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nHgouN9g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yp5DMqta"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D47C2BCB0;
-	Wed,  6 May 2026 14:05:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nHgouN9g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5412AC2BCB0;
+	Wed,  6 May 2026 14:07:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778076355;
-	bh=R6F38CqNLNqRG+cFUfxfGsJMsiKTyn6CCJXNGR/rlqU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Yp5DMqtasUqJfz2zl4rM261fZEkwBuxaOAV/HyfLBNeOSNTV9YRvsRu4lo0yVmRs9
-	 zWfxUcdk1V1TzYiZx3ejWYoIJymWb7E059FsO7SoWcLVOMoufdShzSERaOX4NglVuI
-	 5QRibM9EczbQhQlP15Kjm5LR7nB7TizqUXeB26BQTT8W18Rkfh8V5W8tvMjiuk01ax
-	 wiiQ3sQMwAknARS5Spok5S1vnOAlC10npoVnlvTF9gjJ9IhA53KujVFKEjDnBGEyLD
-	 YXi48ZKGHZQrLJDCHmiVEyNdVslYOzxAS6tILTANQrHmG7FpVSnjl/3oRuFpPj9pgr
-	 nakUPMqjP+xBg==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 603EF1AC587E; Wed, 06 May 2026 15:05:52 +0100 (BST)
+	s=k20201202; t=1778076475;
+	bh=cQlnEwAXRpnNanjvzfKUqX/rIx5TBMYTuUgvbOozgHw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=nHgouN9gINhTwXFiYi2DxwBxXH2sgOZudmJHZbHv8Ev03GlvHmEQdrvrG+uB9WDKN
+	 P0f+CDua+TnwG3Uahh9YVWG4qRa5US2U63Qa9vIEsfrvbTlpTUNHUPaHwMenMpAf9U
+	 JjcktYlbOZksli9U7T9yEA66NRVUyKyFucoBsjRZDoRR8mcke6PBfGMLE8agdDtjMW
+	 HfyQv14z0yg/rMI7aWUuMDTlEI2tMcog8CQfYJzw8lrG1Bh4v/Sev8T+yjlMi8wpM7
+	 6tri/d5kNS3YDGPltBYKwi7K5ZZIVimYJH359RcXlEnknurcVe0SMcEpcNLPsp+pY3
+	 QiXSKopOEXuiw==
 From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v7.1-rc2
-Date: Wed, 06 May 2026 23:05:47 +0900
-Message-Id: <20260506140552.603EF1AC587E@finisterre.sirena.org.uk>
+To: Liam Girdwood <lgirdwood@gmail.com>, Sheetal <sheetal@nvidia.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Sameer Pujar <spujar@nvidia.com>, 
+ Mohan Kumar <mkumard@nvidia.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260506102032.1644851-1-sheetal@nvidia.com>
+References: <20260506102032.1644851-1-sheetal@nvidia.com>
+Subject: Re: [PATCH v4] ASoC: tegra: Add per-stream Mixer Fade controls
+Message-Id: <177807013262.624351.14072023020143249146.b4-ty@b4>
+Date: Wed, 06 May 2026 21:22:12 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1107; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=cQlnEwAXRpnNanjvzfKUqX/rIx5TBMYTuUgvbOozgHw=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp+0s4C2Fkg9GPKPt2URXcGk6sVE2GzKwqUpfZt
+ qQmTDYCk7WJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaftLOAAKCRAk1otyXVSH
+ 0HSkB/wP2aiYrccXO6hDWncmKF7jG6ds84OhYrfdLEq/FH2k7rgU+cKvU07I+x425UcDmeZ9axX
+ 4fyn+nnSAoYpCrj+SOKoytOuUwxL6z/j0QdDn7th5VUeVP+CpakKAsm3xBCYf5aESf0zDToCmQc
+ sMNTm3eG3e53Q7KWeyC1JPBlKcT1h5KkvuBrY1Dq7V7LuxKlcFDqTaeb/j4tjauwz7nCNrWXGBg
+ Lj5VdDdr8kSkkE7CIaNsyLUyDTco1lhqLeEBElgNs1oHL2PctCc6mCqVBld8eTn0N4r/q0Hj74q
+ tAJLcSiV19fJqPVrESgdV1KjBDvxMwozAx6jLjJLfTLbJ4zR
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-The following changes since commit 7fd2df204f342fc17d1a0bfcd474b24232fb0f32:
+On Wed, 06 May 2026 10:20:32 +0000, Sheetal wrote:
+> ASoC: tegra: Add per-stream Mixer Fade controls
 
-  Linux 7.1-rc2 (2026-05-03 14:21:25 -0700)
+Applied to
 
-are available in the Git repository at:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.1-rc2
+Thanks!
 
-for you to fetch changes up to 5776bcdf4dccac8edc1160482792b512da5c08b4:
+[1/1] ASoC: tegra: Add per-stream Mixer Fade controls
+      https://git.kernel.org/broonie/sound/c/36645381b864
 
-  ASoC: cs35l56: Fixes for driver cleanup (2026-05-06 21:22:53 +0900)
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-----------------------------------------------------------------
-ASoC: Fixes for v7.1
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Another batch of fixes, plus a couple of quirks (mostly AMD ones, as has
-been the case recently).  All driver changes, including fixes for the
-KUnit tests for the Cirrus drivers that could cause memory corruption.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-----------------------------------------------------------------
-Bob Song (1):
-      ASoC: amd: yc: Add DMI quirk for MSI Bravo 15 C7VE
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Cássio Gabriel (1):
-      ASoC: fsl_xcvr: Fix event generation for cached controls
+Thanks,
+Mark
 
-Derek Fang (1):
-      ASoC: sdw_utils: avoid the SDCA companion function not supported failure
-
-James Calligeros (2):
-      ASoC: tas2764: Deal with bogus initial temperature register value
-      ASoC: tas2770: Deal with bogus initial temperature value
-
-Mark Brown (2):
-      ASoC: wm_adsp_fw_find_test: Fix a couple of bugs
-      ASoC: cs35l56: Fixes for driver cleanup
-
-Richard Fitzgerald (6):
-      ASoC: cs35l56: Fix hibernate write in runtime resume error path
-      ASoC: cs35l56: Fix out-of-bounds in dev_err() in cs35l56_read_onchip_spkid()
-      ASoC: wm_adsp_fw_find_test: Redirect wm_adsp_release_firmware_files()
-      ASoC: wm_adsp_fw_find_test: Clear searched_fw_files in find-by-index test
-      ASoC: cs35l56: Don't use devres to unregister component
-      ASoC: cs35l56: Destroy workqueue in probe error path
-
-Tommaso Soncin (1):
-      ASoC: amd: yc: Add HP OMEN Gaming Laptop 16-ap0xxx product line in quirk table
-
-Troy Mitchell (1):
-      ASoC: spacemit: fix RX DMA params not set when TX is running
-
-Uwe Kleine-König (The Capable Hub) (1):
-      ASoC: codecs: ab8500: Remove suspicious code
-
- sound/soc/amd/yc/acp6x-mach.c           |  21 +++
- sound/soc/codecs/ab8500-codec.c         | 304 +-------------------------------
- sound/soc/codecs/cs35l56-shared.c       |  11 +-
- sound/soc/codecs/cs35l56.c              |  11 +-
- sound/soc/codecs/tas2764.c              |  35 +++-
- sound/soc/codecs/tas2770.c              |  23 ++-
- sound/soc/codecs/wm_adsp_fw_find_test.c |  57 ++++--
- sound/soc/fsl/fsl_xcvr.c                |  17 +-
- sound/soc/sdw_utils/soc_sdw_utils.c     |   1 +
- sound/soc/spacemit/k1_i2s.c             |   7 +-
- 10 files changed, 151 insertions(+), 336 deletions(-)
