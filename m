@@ -1,138 +1,190 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010033.outbound.protection.outlook.com [52.101.69.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF4C19ADA4
-	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 01:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778116803; cv=none; b=qLyoFQD+20866YzZVFIJbKjL0JsMeXPjdwL9wlVA3KhEYIM8qe7HSrct/XP8OBPI8V/Iry2GU3BSIK5MAxBNWmGhSXA3gRouHsNhu3NDxK1HAzPxxyFaHeWUvDcbUJG8ImFtPmW58Dwu1SmzuQXO03KHcTa/Cytq9yOhkO/cEe8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778116803; c=relaxed/simple;
-	bh=Z9kl4I2mfB/w+jPxVnqdY3FShwBp79BxtLp7QNIriks=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=vDpO+Eub01oFnLAAhXVyG5NL9OsHxmQ6WMWrIPMh9viNnAKdT2b85kLv+CRfQdC3pw4tVHLVDrPViqkKH0nnr/Gmwlhui/9R3wxM2QlkcqCAfQqYbgFUnNbfgjwcN1LZXd2te0CjepXVVPP7/F8s/46HnA48Gfrfiqwnazw+rUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XPMFNBg3; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D0223504B;
+	Thu,  7 May 2026 01:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.33
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778117898; cv=fail; b=j6EFrgQV6tiCs92MBzqdO4b5dh1nmQdTHcHLxtKX4yByiEnOkYadEkU5y3SXFg+mP6A2yyumAU0OaOmgnxmar8w7AgDVxBStfiPmwY9HUx9B8M1ArHUvfPX3NgbUAj/pTyKP7mMK1fGiqpqrGOSbj5/dL9rjDIrI9KGEklpxM8o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778117898; c=relaxed/simple;
+	bh=22pio/mXii/UikkJP/sSJ+l0UFvOHxrHeTOcsIGOrck=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=iUDG7WsfR6JBpA6AVSnEjYCipSUrM1XMQ4WDQ/+5cpsd3JywjYx/idTtjnw9CHCJcrnoqWFJkyx9yyoXsSjhnpWSuSAWJhr40NXnQ8Ywk6rDO/BJV6MWvu7YtEi4a0cFFW3p2D96j/qQraaGGcF59UTd5MK+kp0C86mI617BOw0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=mfRXofnL; arc=fail smtp.client-ip=52.101.69.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XPMFNBg3"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ba3e3c4f87so2573695ad.3
-        for <linux-sound@vger.kernel.org>; Wed, 06 May 2026 18:20:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778116801; x=1778721601; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jUGQTAHwt1uQui9BCrjh8OlUKlhXS2NSOCMtKyNZUew=;
-        b=XPMFNBg33o2GBseD7gPQtmVRLYjUd+xg7QmhYkDCdh3bc4ZOdkCpfQenZeiKCM4lhs
-         YGlgOAbvp52aHBW9Ytny3kvRr0qFPKexs1kcefLh0wb7Y2O6jJzAKfnlYDtcDsOS2Rjf
-         hy7mAAX1mVdMMyiPBD8KxXpI+dncT1RxLf87zk8ju+cSWxqB/FuBtdONo+v2eHprQkOj
-         Pdr4dvM3/RRP3LfUIYLZDwIh4NJ5WqBF2vLnH2lOpDzR1YCmx2zemAL68akzTZAhFUUB
-         tpl9/Zcv8DMdQcJBEWSfUhUxhZYD/6LFvFlAYG+CpGWBwS5WCHhTAZenNp4AUi1Wd9Ut
-         EVXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778116801; x=1778721601;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jUGQTAHwt1uQui9BCrjh8OlUKlhXS2NSOCMtKyNZUew=;
-        b=WZUcJ9zdZzfrXBTdcr8ik/qfkWDwqHiqHSYxGX1dcnYw+JoOswCl6nIoFZZ8GC/vr1
-         Gpscmtdet4ZozzhzR+xglOmZmy9EG5xdzRkPa/aYj9dL0AJT4Aw2k56ejBelNvcc9ytO
-         3lV6I+8K68CPZaO1Jd2iP6CD6TIE9qsGQQVofWr4lS2yUngli03Og2r/QM5I6TwMi1Tf
-         PZ252faz+j17qR5PCTmdQd3x7UQkSwSgIBjCta2nlN9Yu8lSAp90o1xAGO7R68cLEkVA
-         ssCfv0IVAmBMA3a78bYZtoz5jpHcjQxeQ+BM5NfboUUBjYC2EUIDyYNSNiiE9+8NVzb+
-         MrHw==
-X-Forwarded-Encrypted: i=1; AFNElJ9SPvpkIV1qzMIU49sGwj4sMeP+i/sqK4HB9hysPi4TWMmUCpvYkTTRaooM1MJ1NukYbl9ZioaSiRvZQQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNVa+hChd0/17gKAr09pzQY4UDAfeCHw/WZjpektLvpJruYuF/
-	HTB1rqP/yKz4+Gz/shjXyrLgaBhquMQoHE337xfm4uC2U8Qdj7MQlZTC
-X-Gm-Gg: AeBDieuJ2eilg/gL7cL7vfgnOT5HOlqHTz0IIg+3EClBTdTOKaD+Nypk9LDA6EsgsBn
-	MTTN0ORr+dXPNZUPKgeZj8E6m3ldZhw/r+0jv9105PXwbfFfcytFmjf0jipDoyMBcl4U/HedN5b
-	jg803WwyBU/IWNicKBfYoiEG0YR8zuK6vf7iAZ1HsAJe33rKhXM4Uhd33tjuTATVDOqzMyG/2Np
-	E4WP9EsfZWUzlmYd7UMnSa1rxLxVRCMkunqkOnfaYD25LJNIRJzxVJ5nYnsDGUzmzw5K0rOvKck
-	cgJg83ntERpwJIHGM6NvI5UQenr+PH7KZDBNYN4n4HLz16YF8ehrjbLiBZEz3Md0KUA8SORosB6
-	2QmAkqsHUuVeVbAJ8AlBYKPiciI64l+9KxkoMp3mC1dD+17AzN5RiWdzEhoUIlskdLbhNKedWKy
-	4giK0n/pc1gcynm6j6n/E3Y1wX/1W1SzbUIPLTLx8=
-X-Received: by 2002:a17:903:280e:b0:2b2:50e1:f104 with SMTP id d9443c01a7336-2ba78f63defmr42518355ad.3.1778116800937;
-        Wed, 06 May 2026 18:20:00 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2babadef85esm4761775ad.62.2026.05.06.18.19.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2026 18:20:00 -0700 (PDT)
-From: Cen Zhang <zzzccc427@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: gregkh@linuxfoundation.org,
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="mfRXofnL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VCOK84Rr2H89W7czpUdQ/aRUqnxCwVBxfeRjmsoRFXFedbB1UlhgxhMxZ+FNUKmzZhH3OP2EtDVf8W8QDjMrezdJwOYyOy4r67MUCQvSokAh8OWgQfrUWJ3ZM+LUZ+iqxF9t3uJITr46sbG070BUs4mtTXWOnzGI4SW1YVE/3iJjc3jg8SjvhKPS0iI/8DQ2rfOilL0no2WZjZ1DVR0E7wbDpC1g7tF2IP49c5/8aRhXKADtLezZ+oZ4KsGtEr/qiya2nd0y7BUOD8O1dPJxKVR7gi5FJbTArQSm1tzWh/wx0fvfdJoUpzyFqxXB3nrRGd5JssqfNEDi1RHQVnUnEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OzITesbsPMenK7G7D9k4XXQY94du/QN33zLUJqIj/YM=;
+ b=bdL4gNeO59LS6fRvoNXdDOWLgZK8sJEmBOxKpV9A1gnkoxDzM1/dq4A2ng0t7mDdrY7u2ncAku7cDWGFWHuxcg8NWeK6gSJxHpYTEZNSl95qy8IkfIQWPnkgxLb69StMYSBgpmgw6yw/90GQdBikTz4ehAACD4HFR3bNfvApiQjav6nE0h90LHwc9nAwg/TmjpVMXGSis1qqDBPrygYdCBWOXuoR78cRaxIRF8MQv/VHBZGIQd9RAZoZeflc7yETmTYrvekr7eBNZLGDT5UJAKC24DgPSr5wLcgRp93BnWD811w85M/IyL0523rTbRjvprrIVRij1rxgPneW1DBsEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OzITesbsPMenK7G7D9k4XXQY94du/QN33zLUJqIj/YM=;
+ b=mfRXofnL5TBjta7I/W36lhzsyMBvRt5VwWw9jg6QC5Q8PEBfrHjjcuU8dhBZi7XlsIxOSzEEEolfPu88mq8ALzkqNN2LYbfvFggOfwQQzwj9YlLfrIMzLsOgZx9KEN2zC17kMCoE/GULrMEkYhfw/F8akXiSIVnTbtL1ktORU6upxVr4Gzdzs6EmpdHIiCv+ylfsyUIzEfQzBEB2rQYWKIFEHejMaUf09unt/Mge0xXSAwP9n5BR0DvIEjTJKI14CgKNYe3nuNWDEvsjXATvmM3NsOk/gtVO3hVH2pv9Gow3riErNGuzCy3Lly34GsnVVjxRlVXlnIRQBfnS9ZDhvg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com (2603:10a6:20b:3ef::22)
+ by PA2PR04MB10514.eurprd04.prod.outlook.com (2603:10a6:102:41e::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Thu, 7 May
+ 2026 01:38:13 +0000
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc]) by AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc%5]) with mapi id 15.20.9870.023; Thu, 7 May 2026
+ 01:38:13 +0000
+From: Chancel Liu <chancel.liu@nxp.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	Frank.Li@nxp.com,
+	s.hauer@pengutronix.de
+Cc: kernel@pengutronix.de,
+	shumingf@realtek.com,
+	pierre-louis.bossart@linux.dev,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	Cen Zhang <zzzccc427@gmail.com>
-Subject: [PATCH] ALSA: pcm: use snd_pcm_get_state() in remaining ioctl checks
-Date: Thu,  7 May 2026 09:19:44 +0800
-Message-Id: <20260507011944.2897240-1-zzzccc427@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v4 0/3] ASoC: soc-core: Add core support for ignoring suspend on selected DAPM widgets
+Date: Thu,  7 May 2026 10:36:51 +0900
+Message-ID: <20260507013654.2945915-1-chancel.liu@nxp.com>
+X-Mailer: git-send-email 2.50.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SEWP216CA0087.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2bf::14) To AM9PR04MB8353.eurprd04.prod.outlook.com
+ (2603:10a6:20b:3ef::22)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8353:EE_|PA2PR04MB10514:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c9c9aad-33e8-443f-676c-08deabd94d7f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|19092799006|52116014|366016|921020|38350700014|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	k43b2F4uJ8QdfHajmuzpBoxl0Xv2yDjqkUXSzvaNZd7RxkQ5oUAo8TaZRzm9wjCOEDcRmaqB+/ytG3WAbXQ8tUsLpMhRZ1xC/Sk9pMLzS2rlAUKDPeLHDye5Jzgayklo0nD6gJi3QeDb9tkPXcyQ0qWlcOISt5vLOTxGPFvwunv52xejmcEbkEKXDG+ElffpJxdvt5xVRY/iF7wDit8flkFFk2iKWYkQG38pl0KhLQy80408afEXvAMoHL0OlZic90cPvX6tPEBDyYEv4m5ImtY4/7CHSx0IytG2jHSVVO//EEk6pnmjvjT0cCkeQ6jbC/n3h8ShZFo2HbUIdbuYMekwLZmvuHNwe3OUDTekiGXn1H8ntYTeYd7aDULrfpzNb17XwujPa5aHnN49K6FzVjGre0nq9lUsqSA5NaEURAHlqgZGFq8MvlTaTK/2u9FhvbZCvyfPYN04LjisEhr/wkNUSaLocB02JfLQqk6s69hqAsZAI4WToM97O5KJMxGaDEUSoKPT1Bc/JVMF33E6cc3Zu57vsH4Kk1og/oS4rYRh9TBSFnKpZOWsugeR8N46lWwWVtTLeapYo04jReHTEuaSHpwupqjcl8/ZmmisxE1fhQoFAfl7/+uZ8zotXv4TolcKDIAaOF9xAUj6JExiZvrWU89k6lG/JiBExNZN/nwg7x8UWGJ5RfAGPlzkohf12I+r8x2HulVshQwwlWU/BWFHMyIK2p0PfSuTq4TPQGJKP4WFz4IGdmEUoOwUVTY84cLqP7EJC0zl0VK2ntTwEQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8353.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(19092799006)(52116014)(366016)(921020)(38350700014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?QASS6FTMBTq89D9eYSSzAMIoexUNbXFNE0j/6StvDe7FJr9ERJhTKHkdYmzr?=
+ =?us-ascii?Q?UJWzuK9uAZB1hx2913X3ygrvjal5aoMmmwfrGB0TtqU23yLUZDrq6sBNPL19?=
+ =?us-ascii?Q?JNVBHeensh5DcYqFZQAxEk4bsBV2kpECaOOJCQ8Ga1vAkVI5qzcmIjnLh7WK?=
+ =?us-ascii?Q?jL8DdkXky/9mHEoduZgm3Tmi+F3Fc590NJ/BPDtwMNzUeMPnx4zDwJL40U5A?=
+ =?us-ascii?Q?EULSJ3P3gmaAb01tZL2QpjoXx8PcPuf29efq91baQ0yI78IB3y1MqE7kPc08?=
+ =?us-ascii?Q?LMda8bJ0gwAxae9SONa57vsAdw32V0qBca1vOectLeAjwZGaE8OUA5VF7HJ2?=
+ =?us-ascii?Q?DB10Gn8ABJoh61xr8RFFjO39zpActvWkae3ex7+zT4gP3TpMAEHo2Ir8+SMP?=
+ =?us-ascii?Q?zOax8jmszZXryWweKGiSvNcSBwcn9rChBAlduEhkg+0dPdTR2r1lmwl+1iHR?=
+ =?us-ascii?Q?78rLmwMggCWVnHnBR6DApthPBHtTgO6woUggxPLvDbhZeRZS8aejmPoPKF63?=
+ =?us-ascii?Q?yA86u//G8oAnSNp++5BmbvDW6HxKk7HuhxY2PRNgFwLjXFJ4zaa6i80tYBq2?=
+ =?us-ascii?Q?jOugW9eMAUrMdjF0FQ9+csOk4AGkfbrY5YPolr8dt9vr5BGzTIK1PqxWiT3N?=
+ =?us-ascii?Q?A4PGlbqOX2vuPJZlUoon2Cro5fSaummKZSutaV0tGusnnqPjDNxi3H/jaZTO?=
+ =?us-ascii?Q?X0Y9sJbltzmWPP06hAvLgMSLpb1v4zZyrXj1UNIemCzpq+FI17wsDIr1GTQy?=
+ =?us-ascii?Q?K21DY5VZ/ZPqOxzt9vs/WAS4F2jZqdb5kEM35djgbas7VvNhoin0t+q/1CY3?=
+ =?us-ascii?Q?1oEFiKZV9yB6i1WJiCtxH//SSm002xqZn7fhl3+Z8kfwq1EMhHMCldTlUr+n?=
+ =?us-ascii?Q?Cb93/rk0NGiofZbDxpY2LNs9sM9ut1trTX5tt5HrCQ+qFKacrSNbbG3l4Jgk?=
+ =?us-ascii?Q?5vGgyo5iNK1vP2wBnxdeEzkVRPWlq0pfim+RhAg0gm/pujH+vDJgChJ9w2Xr?=
+ =?us-ascii?Q?ncTeQ71t70zU49bEtwl2XRsnVYXtwSCT04DU3UR9hMukAB5Sv9yBdB7TTOKD?=
+ =?us-ascii?Q?6qmzCa7Yb/woryKS7MbEhZRc3hLQwbeythuyQUw7abLgPhS7WVmihtp+xU4k?=
+ =?us-ascii?Q?L7HHPTFeZ0+myKXFuFkF5IoIW9HPY2YfJZrSR2YD14LthN4n+kz+K2sm1B5U?=
+ =?us-ascii?Q?Qq+frRCHSbWbDQ2Vgqo3AgviI6DQbYX7BSWzSbS7+eu5TwUeS9IDmzKjMZBV?=
+ =?us-ascii?Q?adWwpZm8n68wrJ3O5Em+uE2Gq8BI0w40auIWlXw+QGk+JI+PIRp+fGMZcMpB?=
+ =?us-ascii?Q?SVvUFwUo0sw+FhT0a3ZMRQftnsV8ll+CEWn/fNGse1Qizp4cabIT03MUJuPk?=
+ =?us-ascii?Q?rQDK9xL9Nqeync7suRRb09AjOQM98vIplO+V+E6cyUuSkSuTbC/ONuQjrpb5?=
+ =?us-ascii?Q?e4A0i7yj9xznh3nWwKSK/rXXNtM2OKTmd1qzrIcd7ICVdbeR5CM9W7MjSb7/?=
+ =?us-ascii?Q?Y9ku+pvClAzsDj7bkn5IuB6CzBwfpuh+VKMaDPtM+H8RjTf+/mY5Jn2SFfua?=
+ =?us-ascii?Q?HrUMX59ZIMwAEw0eXloH2GzdpKSCnlP+k8kY7gW6eGbr/VRDP4GzR+svL9FJ?=
+ =?us-ascii?Q?RA7feTp8Vjpl7CpSfKv1Gvh2SbAMXH9IcvV+qh433xusjMldjLksQYIq8m3B?=
+ =?us-ascii?Q?p9lZ+0O5O0IMAs9ooOTp4+G10fJQx9ed26NvBrtzcL69zverFAlQF7oMNHHA?=
+ =?us-ascii?Q?R7nj0jnjaQ=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c9c9aad-33e8-443f-676c-08deabd94d7f
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8353.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 01:38:13.1066
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: twWGZa2g5rozPeHw1RUjwVGnDkDWKX7y+4nWdXGcOdstUxOde/AehAr86IcBlV0ADEKsXHzQC2mNa3tm423k2Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR04MB10514
 
-The recent OSS runtime->state locking cleanup converted the OSS I/O
-paths to use snd_pcm_get_state(), but a few ioctl-side checks in
-pcm_native.c still sample runtime->state directly: the prepare
-pre-checks, the early drain open-state check, and the common
-snd_pcm_kernel_ioctl() disconnected check.
+Some audio systems require specific DAPM widgets to remain powered
+during system suspend. Introduce a generic and reusable mechanism in
+the ASoC core to mark selected DAPM widgets as ignore_suspend.
 
-Use snd_pcm_get_state() for those remaining samples. In
-snd_pcm_pre_prepare(), keep a single state snapshot and reuse it for
-both the OPEN/DISCONNECTED check and the running-state test.
+The unified mechanism consists of two parts:
+1. Parse and store the name list of widgets to ignore suspend in
+struct snd_soc_card
 
-Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
----
- sound/core/pcm_native.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+The list of widgets can be provided either by the machine driver or
+parsed from Device Tree. Different machines have different routing and
+power requirements. Each machine can specify its own widgets to ignore
+suspend through DT property. It enables flexible policy without hard
+code. A new helper, snd_soc_of_parse_ignore_suspend_widgets() is added
+for this purpose.
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index a541bb2..50da38b 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -1973,13 +1973,15 @@ static int snd_pcm_reset(struct snd_pcm_substream *substream)
- static int snd_pcm_pre_prepare(struct snd_pcm_substream *substream,
- 			       snd_pcm_state_t state)
- {
--	struct snd_pcm_runtime *runtime = substream->runtime;
-+	snd_pcm_state_t cur_state = snd_pcm_get_state(substream);
- 	int f_flags = (__force int)state;
- 
--	if (runtime->state == SNDRV_PCM_STATE_OPEN ||
--	    runtime->state == SNDRV_PCM_STATE_DISCONNECTED)
-+	if (cur_state == SNDRV_PCM_STATE_OPEN ||
-+	    cur_state == SNDRV_PCM_STATE_DISCONNECTED)
- 		return -EBADFD;
--	if (snd_pcm_running(substream))
-+	if (cur_state == SNDRV_PCM_STATE_RUNNING ||
-+	    (cur_state == SNDRV_PCM_STATE_DRAINING &&
-+	     substream->stream == SNDRV_PCM_STREAM_PLAYBACK))
- 		return -EBUSY;
- 	substream->f_flags = f_flags;
- 	return 0;
-@@ -2139,7 +2141,7 @@ static int snd_pcm_drain(struct snd_pcm_substream *substream,
- 	card = substream->pcm->card;
- 	runtime = substream->runtime;
- 
--	if (runtime->state == SNDRV_PCM_STATE_OPEN)
-+	if (snd_pcm_get_state(substream) == SNDRV_PCM_STATE_OPEN)
- 		return -EBADFD;
- 
- 	if (file) {
-@@ -3524,7 +3526,7 @@ int snd_pcm_kernel_ioctl(struct snd_pcm_substream *substream,
- 	snd_pcm_uframes_t *frames = arg;
- 	snd_pcm_sframes_t result;
- 	
--	if (substream->runtime->state == SNDRV_PCM_STATE_DISCONNECTED)
-+	if (snd_pcm_get_state(substream) == SNDRV_PCM_STATE_DISCONNECTED)
- 		return -EBADFD;
- 
- 	switch (cmd) {
--- 
-2.43.0
+2. Apply ignore_suspend flags during snd_soc_bind_card()
+
+After all components have been probed and all DAPM widgets have been
+registered, snd_soc_bind_card() performs a unified lookup of the
+configured widget names across all DAPM contexts of the card and marks
+the matching widgets with ignore_suspend = 1.
+
+Switch to use core ignore-suspend-widgets support for imx-rpmsg driver.
+
+Changes in v4:
+- Rework first patch to improve widget lookup strategy:
+  Add snd_soc_dapm_pin_has_prefix() helper function to detect if pin
+  name contains a component prefix
+  Preserve exact matching for names with prefix to support
+  disambiguation
+  Only apply prefix-stripped matching when pin has no known prefix
+
+Changes in v3:
+- Reword first patch subject to use snd_soc_dapm_widget_name_cmp()
+- Use goto fail for error handling in imx_rpmsg_probe() to ensure proper
+cleanup of of_node references
+
+The v2 series is a rework of the previous "[PATCH] ASoC: imx-rpmsg:
+Fix ignore-suspend-widgets only applied to codec DAPM".
+Changes in v2:
+- Rework to use a unified core mechanism instead of machine driver
+specific code
+
+Chancel Liu (3):
+  ASoC: dapm: Fix widget lookup with prefixed names across DAPM contexts
+  ASoC: soc-core: Add core support for ignoring suspend on selected DAPM
+    widgets
+  ASoC: fsl: imx-rpmsg: Switch to core ignore-suspend-widgets support
+
+ include/sound/soc-dapm.h  |  2 +
+ include/sound/soc.h       |  5 +++
+ sound/soc/fsl/imx-rpmsg.c | 26 +++++--------
+ sound/soc/soc-core.c      | 43 +++++++++++++++++++++
+ sound/soc/soc-dapm.c      | 79 +++++++++++++++++++++++++++++++++------
+ 5 files changed, 126 insertions(+), 29 deletions(-)
+
+--
+2.50.1
 
