@@ -1,154 +1,148 @@
-Received: from smtp.smtpout.orange.fr (smtp-12.smtpout.orange.fr [80.12.242.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011065.outbound.protection.outlook.com [52.101.52.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75172C21C5
-	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 17:05:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778173539; cv=none; b=ujyf1RpU92Wz+QacKX+DiZkIFTWx2JfiltviV8isCACFCfx7QKxNUdFys7k//tJfD5yMN7ZjSUiagWDtERCXuqSmOmklB0R/WswiPorRCVoLmMPKzrXqGBsFBRKTBZRAza4HKajRa1eKk1ByT+H0DzzQCp+e/HUOp6ogPwafWlM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778173539; c=relaxed/simple;
-	bh=LgrmyCXF9pBHH24NUWUDbO0zMsnNJGKur+oP3lTdoBY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pO1AaPj2NzL5oJWz0waYkRg74a0me/2UOVUbEuiw+8SPJKeoQ3wVjlLLLV/1RizDvHJfkiv7B0dHPrtDI3mEohTNq1tdVwYDbx5RzzX/zvr4fM0o5nl0IEF6bCGdO3i5lLGEFNNEee+Br1x+wVZhdqs6e6GXqNTSge+7dQ+we8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=sO4k7w3A; arc=none smtp.client-ip=80.12.242.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBF63B47C1;
+	Thu,  7 May 2026 18:13:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778177600; cv=fail; b=jpwTVHesGsi9HIYCd2TXbJh5sts8ILEjhEgApwUjq2H65dbGhHnDaYX7s0Fgfu4nkMQc4bXTlbwBBwiY68jipmsF18IqVi1z7i/MGyTbWDxOskwPiZarVUiqDpXxX6kboapK/KP9JvVs/KqsKXGd8Y+dKkKBdukv2VMi3kNYSxQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778177600; c=relaxed/simple;
+	bh=ScHWcUzSeUppcZVljYz59olbLAOEgACrzdFd6erukjw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=euOvAgVNH99zl8h1SA9n9yxu8h/p7WkOD9CzE/wPQCh2QOBOyZwVFO2hLSITN1bQ4zmyeefN7b4H4UJvbDt46Sdvnj00Zj0ubXaw25ZyhCEGgcjO+v5vWh62hyOjQMRAEW4lQBAYSp26WvCYbhJ5dBBY6+Hlzf6dE9xTW9ZwxMs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=y58QuB8f; arc=fail smtp.client-ip=52.101.52.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="sO4k7w3A"
-Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662] ([10.64.95.113])
-	by smtp.orange.fr with ESMTP
-	id L29CwCSDZYKcaL29Cw9XwS; Thu, 07 May 2026 19:04:26 +0200
-Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
- ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
-	by smtp.orange.fr with ESMTPSA
-	id L294wE2ZFKQy3L294wbFbC; Thu, 07 May 2026 19:04:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1778173459;
-	bh=Xfj6xOAAVZsg96hKQbKbMUlMmwM7NkOunH7IYAxcliU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=sO4k7w3ATzggScDJT1oTCKQf7IfMrjQoejXmKtHVBuvoVS2HnVKN//P9o6bJ9OFAp
-	 cirhXCxgIdfn2uAuAeOOqIlAMNbspuDqg5IWD4huBct8jkJszabVNDEoDy4PalVhZJ
-	 BTnj8LSdETbNAfTaUjAnNe1SFOZGbWOwPDsMXWsMBKBD5jS/huWUxXB0I/Bc9zpiQn
-	 BdY8vRkgR3ggzntm1N75YrNM+FpQYS6eNv6ZtYZpmt+YTVqlQkwPDtANjOIBv9XWhk
-	 btMXnMcxkr3eOCys5xIGv2fDmlUULSB+yU1u3Ry1wni8XSOTenVhLxWqitJIdMd3l3
-	 xomIqMjG86q9A==
-X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 07 May 2026 19:04:19 +0200
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-Message-ID: <87657a15-0087-48f2-b700-8e21a5ad2e30@wanadoo.fr>
-Date: Thu, 7 May 2026 19:04:17 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="y58QuB8f"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q053AjqQdzs2ya6Lt9/0NP1ziWE3UucmUCN/oxVU6sSIEZS7Dx8DOMBAGd6MV08OTrKOxB8fhmNfKJhiJ+VfM0CQUCjXNmamW68dFeHF6R7tK5WfVVyUymnbLmI82tCA7mKw9rFud+KaRpeKxK+BAlS2UwN+AfKO5qTW/ONlODYZUXHRxTyAzf8ZUfEl6TDKzvaKYVTLwH9pKXSepa4ZrxbV1EP6vI50qNUIAPbzvopnyCFfgMrxgOdaB/NGeaMMzz82tKJG+LThrxSEFPbKaX/azOAUPMoVUJr6dUeQWowh1JTkErFYGRgonhqBH14N1d1uhiXPf6xDkU3yT85Gjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q/ETUd1sDiXopoRSWu8UQ4jS0yvAHe0oKSPRePTYt6A=;
+ b=g6aYQd4t/j+HXZNxYMFmshqwXg+yLKF10CfYrSuSqzhJjTzSQVn1Djz4CWTMrD0O6k05dMorx3ZTtHPb8nGWFlP22MW0vFvLyWpARWGiC/ugbhbp1cHXKqB2ZpXjTSboYv/pY4dQXRyD8am7ju0/8G4dLZvLRL0Ev0iIJmzdwFEnVdyASfc2wvMWf3hL7EHUuv42LHmza8XmRfe4HWy03VeTRRjmzflcnkyA44Omg7YV2xYicRbUwHNlSCEZ+duAqBcYfq+L0gAHbAuFD2qFlXxrNTxG0aJfFb9QMEHXb8xFXjnnEea2LxGFyomHziNGxB8qM4nt+8FDNCgGiOsjAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q/ETUd1sDiXopoRSWu8UQ4jS0yvAHe0oKSPRePTYt6A=;
+ b=y58QuB8f8/6sZXCDiMIl6Mqk/w6Ca+iuzIBUgkLBrs/KLBQpn3ad8/vagl8zERwiZDandddStqv2q65MCoEFkSNrMsBfWJh91Txv881hdShAhmnIDnIhz6zs1xYGR7Wwu/gRXgKcljAGOzYKQ/L5kBU72Fm6H88yAeOohZmOySU=
+Received: from BL1PR13CA0166.namprd13.prod.outlook.com (2603:10b6:208:2bd::21)
+ by CH0PR12MB8462.namprd12.prod.outlook.com (2603:10b6:610:190::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.27; Thu, 7 May
+ 2026 18:13:10 +0000
+Received: from BL6PEPF00022572.namprd02.prod.outlook.com
+ (2603:10b6:208:2bd:cafe::9c) by BL1PR13CA0166.outlook.office365.com
+ (2603:10b6:208:2bd::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9913.6 via Frontend Transport; Thu, 7
+ May 2026 18:13:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BL6PEPF00022572.mail.protection.outlook.com (10.167.249.40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9891.9 via Frontend Transport; Thu, 7 May 2026 18:13:10 +0000
+Received: from vijendar-linux.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 7 May
+ 2026 13:13:06 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <Sunil-kumar.Dommati@amd.com>,
+	<venkataprasad.potturu@amd.com>, <mario.limonciello@amd.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>
+Subject: [PATCH 0/5] ASoC: AMD: ACP7.x initial PCI driver bring-up
+Date: Thu, 7 May 2026 23:41:28 +0530
+Message-ID: <20260507181251.20594-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: cs35l56: Use devres to destroy workqueue
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20260504151006.3374934-1-rf@opensource.cirrus.com>
- <e322b673-0eda-4342-bebe-2a444b004bc0@wanadoo.fr>
- <c376b094-9724-4605-aaf4-0b4592b74a48@opensource.cirrus.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <c376b094-9724-4605-aaf4-0b4592b74a48@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF00022572:EE_|CH0PR12MB8462:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1749c8c0-7ebd-43c2-afdc-08deac644bca
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|82310400026|36860700016|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	gB0xHXmz3WUb9EU1cuIELmThuWz7rqnQoLpg0WbiuoksZ6d7wrKUpS3Q3U+9EgVUUvc89ZfrhwUDE6vIFvEZPfPipzVmrrNSNoFhUh3mWubNEpIPwej7KvUiT0f1exBYofon0tjWkS6l7W7D3qiDgi5qT5lrZGhrig8TY8TjxiztftF2QyCwRCsz2AY5GeBnN8doLNlrBpH+S2W8medUXsmm5YqmVKOCr9f0yCYaZkDdDnQvf9I3M5nNd0M4OiwOh3lO9WEcS73qgNHguiX71TO0H/pr5oO81nDVTUMz+LxuG864jwMF+zyECdf9/ktBJu6XLmThr7NmHUQmpIziIEOKZHtBCALauHocnE75BnPFAbO4dtTN58dUtDRziSjVy9TA05em2YypHntsS7vBxIwkoRk/F4vjrTenPwFDJLfize+F8uK+p7sKr6gJ2qzlp8uVFJKmbg+5L5NeknQ3JiTCfUtNCzY9yPQRa5ABZ7FYOd5HZRS5pWTdfdrx5tffkRQnWLjpZ3/icV9fQw54pV+m+IEGr+YYt4dSZlh74eV4aRF7AcXZxdy4d8037EyvKqoGC5DQEHiKUOcP+tBVu4l0pO09cpzBMaRoA67XyaKPk2VLQDovG890clhq4bGhkuzzhkq7YmODnbucItuJXFiJQNy/gyKfA4vtIVdMmuPjm7m+eoAgeJdHSepIX3HsR+ZmKj6MMhSfCWhvnY/NSxOSR9yZchinZNzBiflS9zU=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(36860700016)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	RkZOXGV8lI3V7BLrmiqnuZIBb5y7kPz3dy08//7ZGWUEHXLnrVfFqFkzST8NR/iAPgojuqDPydLqIdi3geY3Un4ihzn7PdgJjQr3suDkyn+ChR21bsoTRTipCn4ZH5Eb6u2ldy9IGMgK6mVoGQX4WclaiRwVM4fnCeF0JQcVdMKeVQ55xt22QYBaF9RzNq+m0AmQb9ATUufnF3H4pmk8vr8WR8agZI5FoEshSNPeZ2BYPah3/WICu2x/Z3G9IipCVNeP0RGqGhRKkrDOv63Qte2su7wTE6Eh0FBgRKZzFhMLfQbegta27Jn6s3/KnbZV34Rwrqzn0MjrYdENYgR8wJ2OLEwPTKzFrwcfEhZvIXpIonUHA84UGRNDbsexRQpzu7/jkNDvJcN6lTiMq7rusuxZPUDpv4XE4xvfMIJHUKWpYHm1drf7aGVmLHJg8Qj1
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 18:13:10.0937
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1749c8c0-7ebd-43c2-afdc-08deac644bca
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF00022572.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8462
 
-Le 05/05/2026 à 11:46, Richard Fitzgerald a écrit :
-> On 4/5/26 17:46, Christophe JAILLET wrote:
->> Le 04/05/2026 à 17:10, Richard Fitzgerald a écrit :
->>> In cs35l56_dsp_init() use devm_add_action_or_reset() to add a devres
->>> cleanup function that flushes and destroys the workqueue. This replaces
->>> manually calling destroy_workqueue().
->>>
->>> The error path in cs35l56_common_probe() did not call 
->>> destroy_workqueue().
->>> Using devres keeps the destroy_workqueue() automatically ordered 
->>> relative
->>> to all the other devres-managed cleanup.
->>>
->>> The call to destroy_workqueue() in cs35l56_remove() has been changed to
->>> flush_workqueue(), as pointed out by Sashiko:
->>> https://sashiko.dev/#/patchset/20260504110743.3341869-1- 
->>> rf%40opensource.cirrus.com
->>>
->>> The use of devres cleanup was suggested by https://sashiko.dev to 
->>> avoid a
->>> small cleanup inversion window if destroy_workqueue() is called in the
->>> error path of cs35l56_common_probe().
->>>
->>> Fixes: e49611252900 ("ASoC: cs35l56: Add driver for Cirrus Logic 
->>> CS35L56")
->>> Closes: https://sashiko.dev/#/patchset/20260501103002.2843735-1- 
->>> rf%40opensource.cirrus.com
->>> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
->>> ---
->>> Change in V2:
->>> - Call flush_workqueue() in cs35l56_remove().
->>>
->>>   sound/soc/codecs/cs35l56.c | 16 +++++++++++++++-
->>>   1 file changed, 15 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
->>> index 378017fcea10..26fa94c98775 100644
->>> --- a/sound/soc/codecs/cs35l56.c
->>> +++ b/sound/soc/codecs/cs35l56.c
->>> @@ -1627,6 +1627,14 @@ static int cs35l56_control_add_nop(struct 
->>> wm_adsp *dsp, struct cs_dsp_coeff_ctl
->>>       return 0;
->>>   }
->>> +static void cs35l56_dsp_workqueue_destroy(void *data)
->>> +{
->>> +    struct workqueue_struct *wq = data;
->>> +
->>> +    flush_workqueue(wq);
->>
->> I don't think that an explicit flush_workqueue() is needed here.
->>
->> destroy_workqueue() already does the job ( destroy_workqueue() --> 
->> drain_workqueue() --> __flush_workqueue())
->>
->>> +    destroy_workqueue(wq);
->>> +}
->>> +
->>>   static int cs35l56_dsp_init(struct cs35l56_private *cs35l56)
->>>   {
->>>       struct wm_adsp *dsp;
->>> @@ -1636,6 +1644,12 @@ static int cs35l56_dsp_init(struct 
->>> cs35l56_private *cs35l56)
->>>       if (!cs35l56->dsp_wq)
->>>           return -ENOMEM;
->>> +    ret = devm_add_action_or_reset(cs35l56->base.dev,
->>> +                       cs35l56_dsp_workqueue_destroy,
->>
->> so, I guess that destroy_workqueue() could even be called directly 
->> without the need of cs35l56_dsp_workqueue_destroy(). Not sure it is 
->> cleaner.
->>
->> CJ
-> 
-> Ok, I will change to manually destroying the ASoC component in the
-> driver remove(), instead of using devm_snd_soc_register_component().
-> That would make it safe to directly call destroy_workqueue() from
-> driver remove().
-> 
-> 
+This series adds initial AMD ACP 7.x support for ACP7.D / 7.E / 7.F
+platforms.
 
-Hi,
+Compared to earlier ACP generations, ACP7.x includes substantial design
+changes, including an updated register set/layout. For that reason,
+the ACP7.x implementation is placed under a separate sound/soc/amd/acp7x/
+directory instead of extending older-generation code paths,
+keeping ACP7.x-specific logic and register definitions cleanly separated
+and easier to maintain.
 
-That's not my point.
-Using devm_add_action_or_reset() here looks safe to me.
+This initial version is intentionally focused on the core PCI driver
+bring-up: register definitions, probe/remove, basic helper wiring, and
+system sleep + runtime PM integration. A follow-up series will add support
+for additional Audio I/O blocks, including SoundWire and the ACP PDM
+controller.
 
-What I mean is that maybe using:
-	ret = devm_add_action_or_reset(cs35l56->base.dev,
-				       destroy_workqueue,
+The primary goal of this series is to unblock power validation, since the
+ACP IP currently does not have a driver available with PM ops support on
+these platforms.
 
-*if* it compiles, could save some extra lines of code, if desired.
+Vijendar Mukunda (5):
+  include: sound: add register header file for acp7.x series
+  ASoC: amd: acp7x: add ACP PCI driver probe/remove sequence
+  ASoC: amd: acp7x: add helper functions and hw ops
+  ASoC: amd: enable acp7.x drivers build
+  ASoC: amd: acp7x: add system and runtime PM ops
 
-CJ
+ include/sound/acp7x_chip_offset_byte.h | 2519 ++++++++++++++++++++++++
+ sound/soc/amd/Kconfig                  |   10 +
+ sound/soc/amd/Makefile                 |    1 +
+ sound/soc/amd/acp7x/Makefile           |    5 +
+ sound/soc/amd/acp7x/acp7x-common.c     |  125 ++
+ sound/soc/amd/acp7x/acp7x.h            |  110 ++
+ sound/soc/amd/acp7x/pci-acp7x.c        |  168 ++
+ 7 files changed, 2938 insertions(+)
+ create mode 100644 include/sound/acp7x_chip_offset_byte.h
+ create mode 100644 sound/soc/amd/acp7x/Makefile
+ create mode 100644 sound/soc/amd/acp7x/acp7x-common.c
+ create mode 100644 sound/soc/amd/acp7x/acp7x.h
+ create mode 100644 sound/soc/amd/acp7x/pci-acp7x.c
+
+-- 
+2.45.2
 
