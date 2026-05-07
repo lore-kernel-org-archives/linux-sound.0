@@ -1,86 +1,86 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BC43AEF4A
-	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 08:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0A3346E4E
+	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 09:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778144252; cv=none; b=HnRNKG04MLzHBUVBZFAEqQpwxOyk3OEoHGTh0ju4j6LnIYNBph8EhAi6RBZcI5EB3GVJi6bpgBADyNqgmS5OHMmgexMSXHEnUryr4CjFbZG69aNH4MtEvoSqZpkl9GZbbhH6gQQKqOfolzXv8NjkyILLfbRocu0vNXhJA9leVdU=
+	t=1778144587; cv=none; b=m91fnw+8SZch+5grtDMeCV9qghP6xBCa75fmBUDDv+RbJvhUI6xXCCAbqWUJJj1y0hZPKox0L9LMP7vuA9zk4BHT+fNLQQTq6PcmCDyS6rc/IrsETnkTD+sRpqDLeULgIop+8RppNIQad2QtORCufTld1Id/wnOmIxYjNV4YYPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778144252; c=relaxed/simple;
-	bh=+WoGGFhtYcbQJjAFrWKoyIYd7RIh1Y7qXYNblfctVHI=;
+	s=arc-20240116; t=1778144587; c=relaxed/simple;
+	bh=5aI9ufeEspbP6oC6uFRabDZP0aBxIPK41cWs+AYJpXo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N0YyWnENjdH9tIbPxk3XDSUkTyQLlhJXzwW75QVY3tn194JFAKJ60+Dv300A/y3oe/FibNMvKyDBL4+1Ee+w2Sk8Gwu5EbsESyCUL76SXMvtFHujn9opFm4GEH7OTr7fHD3n3FewNIXFCx4e/b5xWnLqs8GHbVO1WqAp+95XQzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=X1gDRLoh; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=RX7z+Res; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=RnlqQcRnOM+/xA4hnqi2rmgx8L17TAII7iDAEPkatfoICauGctvxWVdIyK4hVsx4ZqD1J0wQ8VyeHJfzQJW/UyU2yRM14QToInnuZWRG3H7DA0pPAp+UuV/IJUe/cRcpYxXxKu2cTOnwcfxhuPZ07QiPEBRaXXjWyx2hK1bHbro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JyjiVLNX; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=XuvmNKjK; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="X1gDRLoh";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RX7z+Res"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6478q73f259326
-	for <linux-sound@vger.kernel.org>; Thu, 7 May 2026 08:57:24 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JyjiVLNX";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XuvmNKjK"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6475Psvn3924293
+	for <linux-sound@vger.kernel.org>; Thu, 7 May 2026 09:02:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	HwnTa+6y8iyblD7EtUXT7iF9f1ove6W57rU238ZGCj8=; b=X1gDRLohyveGUNtG
-	mlNMvk8XAuiAbp+n+u3A3xRxNeXCWIF0JJQbY1bWuo9ryItdV1h8WclUaOq3/E2D
-	3+/qrK74OZjqor/mSUq+jGKl7oBl6d0kZixzIi0KtdE4fYM4qytFju6dM1AgLflk
-	9viD/2rwnnoGAAYMqKm7QKx3iPZjyA6iOa4kEPqYTTSNwc4XFUoDw2Ep4kDC7Hqa
-	Tmrsyeb9l80N9bFDelBbWSl/HPEWhdCVpZxnPPiW/9clVfjLBxsBfWxQDY1PPSJO
-	/eiBLn9p4pNG8sp8sDgQBQG2bHXns0BjHV0QoXDGZEkE+TRXTkQOF8OlS4YFYkyt
-	kDbwuA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e0hr8sbbd-1
+	ZGaXOPh/VhtEqlgASKzMxEBSPnFHvs3T2iviND934Wo=; b=JyjiVLNXyQm0DlBZ
+	10sXw+5GiBcd6zTMT8pKGu72TAosSsyWzXI+0ZB0kT68Qt+BeBaxlCHuXK4M9o9M
+	YnrYveghdPyhg1CUgNFhcvIz2qYDNVTOfZkhzfNGlfCtk69QUdJ7LdROqwcS+1Vp
+	TiegUKKesEAX0WH/TOicWso8mNCrGZyxb/jNcim7igzvKLDUBmIRDPCkmGXgfqIf
+	SKjSJOLfyQ+y8wXbuHTcL3PNrk6ZYUTE+YssNqloTur7RlCQcEsnNIWjNYTPnjB2
+	Tv6VzJnUleekidXr1Jq4n3n9sKeVZtQ4vVX9B6d5HZMtv+29LlbgEk324aM07QTm
+	E/K7EA==
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com [209.85.221.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e0c88abxy-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 07 May 2026 08:57:23 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-50d890580e1so9241371cf.3
-        for <linux-sound@vger.kernel.org>; Thu, 07 May 2026 01:57:23 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Thu, 07 May 2026 09:02:56 +0000 (GMT)
+Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-57539d5391dso1476464e0c.1
+        for <linux-sound@vger.kernel.org>; Thu, 07 May 2026 02:02:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1778144243; x=1778749043; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1778144575; x=1778749375; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=HwnTa+6y8iyblD7EtUXT7iF9f1ove6W57rU238ZGCj8=;
-        b=RX7z+ResmH83kUOm8V10wAXRrGiwUoLGVby0Ku8f+i4EY4TgJwHd4OTpErtQLnt5qp
-         3KvSljMfuzXfR/P0ZUPeqRAZ1jSQvT7m/nv2YYBDTKDFhzA+/X/hpBdaFYQdFvT3nHo6
-         uUaSeZLwORyW/QbC/cFq1Tdkqt/F45zv21p9ZA48qfyYHWVOiXR2yjQcbwGfhqebreW/
-         7IwoPnTgTyypBtwtjnuOWAKHAyf0OIW/hwSfovSpqztUE+QSl2WMJEZ5SmjrayiYTbqb
-         0VnL1y813Xwp3AghW3JiAII1ynFYW/ZCtEWwWYEgX+V2ZfLAMu4Cn0NVjPoed4wYj4Ii
-         HcbQ==
+        bh=ZGaXOPh/VhtEqlgASKzMxEBSPnFHvs3T2iviND934Wo=;
+        b=XuvmNKjKdNRCefo9bUOI/rJBHRT2yy0nU8NnPTNqvehSOUh9ZkvrfkLkVl8mekRm4s
+         K6rrvHAjXnOsoHHFyq0C9LJVwWbhQjG+TAKCI3Ah5SduHJQxFcp8C2EYgZNiwfAjsm2c
+         g4Q3mj36gHmSXn7o87vC2iO06M6QJ48gSqMgcSCcC8LkkW6OI0vSXx27BXcCKEgOPOJU
+         lKxcOxG0f9uPZuxm9ksJUnLh6HLMTzzvwgcUEK2qvLW0li/b6DFZKiR4WqoCZ/jbJ0Dz
+         fw4NAwHR9UvavsSCEpvL4a+iOfo7jza7iv+c2OaUBSOsrXdzf4pnZR6bwICDqnzZph1T
+         5W3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778144243; x=1778749043;
+        d=1e100.net; s=20251104; t=1778144575; x=1778749375;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HwnTa+6y8iyblD7EtUXT7iF9f1ove6W57rU238ZGCj8=;
-        b=QhsaE0HFQCDQkm26XWI6rAZCCHjeJKj8lb+GXFlQvfbleeEZMcPAxCEq32Pk7+DS2t
-         VxhjwjAc88SUkUpTA5++vduSW5ouzFKakHdR95L52K1EL8twoUc3Q3On0DCd5bQNj+CL
-         xuzDnC0KS/wBw9EFhK6XVhGX6qx6vgqORY9LAqHaf50ZGMRsMbdpish4zEB53YC3Y4PW
-         ek1r8xLm6MuOzANoDP810bb5DWlRDP3jGrTJq5xTfMFt3yPgk3qkusyoBgcU5356DEzc
-         /Az65bR1SVP626mfQISkx0kSmFwhHbQUZfAqK5h8kld0mj8/GYAsxTY8SefRtLmG9Kvo
-         f7Cw==
-X-Forwarded-Encrypted: i=1; AFNElJ9qHywuQvCOnvzE+lPDJ3NmO/y6ZlUS3y548NBUfDosWmWwiVqbJSZCA8QuD28QFzZauG1SVSJBoiS0rw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiGOb99WjuFPrnVXtMlq7h2hRUi6HIH67Exb4iI49peS6hOfeE
-	ywHFR1eC5XgLj2NFPG41p2osWpt6mrP/I5Yjx1LE7JSHBKnBcMtHgW077sg/cRfE4ZiGVMkJHIB
-	F7IsZU7KFiHG6EotTA3FDD1wlPrftWwavISdGhBAM2opBRLuLVTvJAh4egPRmdGCe9g==
-X-Gm-Gg: AeBDieumlQzhD0FD/j3MecCMz7Ary/xrmylBe5w5yaGdjQ6r+YhwTGpxU8tOTGKuD5Q
-	qn+Rmdcp7btHeRyVqFpfoV0/q3GL893Zb0Y7/7RzW7GeJf8p8at3+rEjFIchJixu+Qv7OBPWmhp
-	nqmzPACtYYoRdMu9lbYwtnNPkPpENMG7/sc2aDN3iU63d5lZBck9eDr6PmrWLqDVnD/wUb8oJsy
-	8mDyH/+KUxW9UnojJjvpYhugn+4Aep7+fwOcL3g1cl+VFrQ7toiO3zQvy0Eol7WJtzzqDgPDHOg
-	U9/m1dHu+5WfOzN0jBWL0GPELZsqANL+3/UF91l48IpVIj8hqsFL6rVGAkpXNZtpNNUly7m7/gr
-	ZgscNDha7XraX9cOVK38EF5GsfLMNCGqebF1oI86qnQj7uP6uJ1FGXEP1bwY=
-X-Received: by 2002:a05:622a:1813:b0:50f:bcfe:e8dd with SMTP id d75a77b69052e-51461be0535mr98108141cf.8.1778144242716;
-        Thu, 07 May 2026 01:57:22 -0700 (PDT)
-X-Received: by 2002:a05:622a:1813:b0:50f:bcfe:e8dd with SMTP id d75a77b69052e-51461be0535mr98107161cf.8.1778144241048;
-        Thu, 07 May 2026 01:57:21 -0700 (PDT)
+        bh=ZGaXOPh/VhtEqlgASKzMxEBSPnFHvs3T2iviND934Wo=;
+        b=FNWtkxckVFgJBom+syoG2KRXIwVPw/VM1eOM1V/gJbVGEWptNoYHJkEqkjmSp/Adlq
+         6QKArbW7E63VHtVAq7193AWBHhv/7e7u2B67y8A7OmcB6hru3bhaC0uW+GY3G9DW6ab8
+         LcXaHCeQyHmXa6iNQ7cRNzHPTU/nFKzmtVDGUz3bhvHMHaW1RqAoMuWlbD/yBSlDCXdy
+         AIc8e3Uaf7aaAjiLqy8WQpj2EzdE0swfttcitA42lu1Fe26+P+TtEYwc6B2o3NAUvrao
+         kdFyKWEHx3WimQ7dglZM9eIJh3kDjm0itmaOWeIZwEi64P2bxbZWjhEwRgAAPWPEvxFQ
+         Wi0A==
+X-Forwarded-Encrypted: i=1; AFNElJ+UefvMbKk/kXlzZtvQTMPYzEZYwoOrOmVqNrjdh1AYIT+eLnlLr4msZAokA/FdOycTgh8zQ8CE0UowlA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4q6uNIbn+4XiZWzUMugZSJ10NwSYN7wbqG8OaPo1l6VixKXGP
+	X/3gDa3HcSwzKnKysq0kUsIbbE09TcfKx1YIkvkgqm/eW5fYp/ElH3RUEESeM88u/e8r60ID7cR
+	bih6zS0m87Yz81Ixz+J7T70zacV3FhMGYo+ynG11htl2pVZG1+4IDjLNBgM5m10iAVw==
+X-Gm-Gg: AeBDieseootvaV8B7GAF4oIAwWaaIK/FS2pDXEOmhQVWGQEyXhU2143Bn75GeZpCjG7
+	bbHSHlUaUJ9vf+UK61++gzvnnJhOb+V8NCPSlGanQq6KPqDpyiDiAAegkwIKZTvBka574GUja40
+	KSUYnraZBWwZuAZgvP8YbCCJrHlES6Y8HFngZ+Z8G5X2aNGNiLkW7ZgbU2so/n5x5gpmrwJLrSh
+	8j3uRiv0txtfpVahHA/UlUZlXNEOUoTyVkvjq/3/vyTkMlbyBmdyfXIls7kyalbf15ZGZ4Nd3dx
+	x4/MeGNlOe1UBXOYwRHYBOxMR0LdLSL/h1TMuyWhnp0RPQUMWrGI3PO+DmFqd+ksUndz/m9DHWl
+	JFjYHX8aMEtYTtnDOVB+woEAMcOH5klwvLb48yd2rFnjHt/mD3+5IILN5a0Q=
+X-Received: by 2002:a05:6123:a8:b0:56c:ca03:b668 with SMTP id 71dfb90a1353d-575595d0087mr3834632e0c.3.1778144575612;
+        Thu, 07 May 2026 02:02:55 -0700 (PDT)
+X-Received: by 2002:a05:6123:a8:b0:56c:ca03:b668 with SMTP id 71dfb90a1353d-575595d0087mr3834615e0c.3.1778144575212;
+        Thu, 07 May 2026 02:02:55 -0700 (PDT)
 Received: from [192.168.68.112] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-48e538b26a3sm201855315e9.9.2026.05.07.01.57.19
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-bc8351448a8sm58349766b.50.2026.05.07.02.02.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 May 2026 01:57:20 -0700 (PDT)
-Message-ID: <dd0e22ed-e464-4d61-b354-b396f9694976@oss.qualcomm.com>
-Date: Thu, 7 May 2026 08:57:19 +0000
+        Thu, 07 May 2026 02:02:54 -0700 (PDT)
+Message-ID: <2f516258-d71d-4b52-a310-1b6ea11455ed@oss.qualcomm.com>
+Date: Thu, 7 May 2026 09:02:53 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,8 +88,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/6] ASoC: qcom: sm8250: shut down MI2S/TDM AFE port
- clocks
+Subject: Re: [PATCH v2 6/6] ASoC: qcom: sm8250: apply codec_fmt to all codec
+ DAIs
 To: Val Packett <val@packett.cool>, Srinivas Kandagatla <srini@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
         Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
@@ -100,284 +100,165 @@ Cc: Bhushan Shah <bhushan.shah@machinesoul.in>,
         linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20260506204142.659778-1-val@packett.cool>
- <20260506204142.659778-6-val@packett.cool>
+ <20260506204142.659778-7-val@packett.cool>
 Content-Language: en-US
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <20260506204142.659778-6-val@packett.cool>
+In-Reply-To: <20260506204142.659778-7-val@packett.cool>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: v6kHTyTVrhIl5WSzLhprO0VTKUmqeRBA
-X-Authority-Analysis: v=2.4 cv=caHiaHDM c=1 sm=1 tr=0 ts=69fc53f3 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+X-Proofpoint-ORIG-GUID: 66-NkQc9k0PTeI40H9e_FCfu-EfSFOOo
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDA4OSBTYWx0ZWRfXycFnRbNr6ZWK
+ q5mO/AfnZ7X1nvvQ3pO+DR7DqQBfjt8ogWzuWJ5amcOA3/zgdmJ5am/bK9K82omQ2zkvI5BJrHT
+ kjBamRehZ9e9TFv9vqk2OyRjkG15b83J4aKcU2P6fmgaxjs+ekY6+LyCHzsUF7DWF0ZuDqVD8hK
+ MbBqVL/7ihln16qPIutkah6ORoInUOLRfrd5FxP6GWBTpWGcghw+BeG1deMnZVWjgGbTkjX1/Uy
+ mtOmfgyTpwa0GGkN3pgmB22eov1G6aqOlxafgiccm13wav7hVpGM438p0aSuYuboF8LwWIlkvpR
+ wlyJTmDcfFGFGu85Jil+oE5SQa25VCgvCRqhbHpJqSl3OwtDjfJWrZWuybPSqEH1mMibJjXUeNj
+ KDzzVlKPRO59/yo5wu31NC5jnp9m4ZNO8TaMPnbRl2utNm8NVaUbd1nR6lF/IHr1wA7njd0RYBx
+ JaPB74bTtinkFaiVf1Q==
+X-Proofpoint-GUID: 66-NkQc9k0PTeI40H9e_FCfu-EfSFOOo
+X-Authority-Analysis: v=2.4 cv=X8Zi7mTe c=1 sm=1 tr=0 ts=69fc5540 cx=c_pps
+ a=wuOIiItHwq1biOnFUQQHKA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
  a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=OxOCmRKzI9gie0uB-wgA:9 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-GUID: v6kHTyTVrhIl5WSzLhprO0VTKUmqeRBA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDA4OCBTYWx0ZWRfX4EvPiplHD06N
- imUVipINhx8f7f7P9y5uTF9wHByphCFhLFZU4dWscO5aly/axWnpQXyUUD5rBQHbagm13LpUUeN
- Rr/KOusoULddHZZssZbGYvtwOsxlBUdWFgdkm+xCO9OJ7PXCDRbigh/oPmMGysIdj3wyu2uf0+K
- m1HNRvGmyIvRa/3ifcYoYKfjB5VEjZyC99QnXxywAQeMpfnc+oeuYqG4Xhhi1TF5naa8w5egXCA
- rrmmfMeeFJ9QNZsiNeulLl/ZDOmtVvPgwLgL8rwSbWV9NlR5Rya+87y/AZD0Pzil9A1vnaErLJw
- RlOQqO9tBmpxRPwnQtRxvYldn+IXM9VSdVrIj5C/VdNWhA46oZKGbbaSC2jtx19QqcRclH9js9I
- 2hJl9Q4cPpm6ET87gO+l2rFDwac9eevcQLOn0EXkRa+IHhi+ieuYn/uHiNyUJ8cRQHNnuinPXLX
- OTO5HVJWtfC76eULSuA==
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=uMHxBK8JrORPa0cVsrYA:9 a=QEXdDO2ut3YA:10 a=XD7yVLdPMpWraOa8Un9W:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-06_02,2026-05-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 suspectscore=0 bulkscore=0 priorityscore=1501
- adultscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0 phishscore=0
+ impostorscore=0 suspectscore=0 spamscore=0 adultscore=0 malwarescore=0
+ lowpriorityscore=0 clxscore=1015 phishscore=0 priorityscore=1501 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605070088
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605070089
 
 On 5/6/26 8:33 PM, Val Packett wrote:
-> These port clocks were never being turned off, leading to increased
-> power consumption after a sound was played through any of these ports
-> for the first time. Use enable counters to disable the clocks in the
-> shutdown callback, similar to how it's done for sdm845.
+> With MI2S and TDM interfaces, multiple codecs typically share one bus.
+> All codecs on the bus should receive the same format configuration, so
+> apply the codec_fmt to all of them.
 > 
 > Signed-off-by: Val Packett <val@packett.cool>
 > ---
->  sound/soc/qcom/sm8250.c | 150 +++++++++++++++++++++++++++++++---------
->  1 file changed, 119 insertions(+), 31 deletions(-)
+>  sound/soc/qcom/sm8250.c | 33 ++++++++++++++++++++++-----------
+>  1 file changed, 22 insertions(+), 11 deletions(-)
 > 
 > diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-> index b64fd3970ba1..9f0f846a14bb 100644
+> index 9f0f846a14bb..7bfe6d282231 100644
 > --- a/sound/soc/qcom/sm8250.c
 > +++ b/sound/soc/qcom/sm8250.c
-> @@ -24,6 +24,7 @@ static unsigned int tdm_slot_offset[8] = {0, 4, 8, 12, 16, 20, 24, 28};
->  
->  struct sm8250_snd_data {
->  	bool stream_prepared[AFE_PORT_MAX];
-> +	uint32_t clk_count[AFE_PORT_MAX];
-
-In your setup are you sharing BE dais to multiple FE?
-
-if not you would really not need the count, startup and shutdown are
-paired for single PCM stream.
-
-If yes, then you need some protection against these counters.
-
-
-
->  	struct snd_soc_card *card;
->  	struct snd_soc_jack jack;
->  	struct snd_soc_jack usb_offload_jack;
-> @@ -163,83 +164,95 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
->  	unsigned int fmt = SND_SOC_DAIFMT_BP_FP;
->  	unsigned int codec_dai_fmt = SND_SOC_DAIFMT_BC_FC;
->  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-> +	struct snd_soc_card *card = rtd->card;
-> +	struct sm8250_snd_data *data = snd_soc_card_get_drvdata(card);
+> @@ -167,7 +167,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+>  	struct snd_soc_card *card = rtd->card;
+>  	struct sm8250_snd_data *data = snd_soc_card_get_drvdata(card);
 >  	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
->  	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
+> -	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
+> +	struct snd_soc_dai *codec_dai;
+> +	int j;
 >  
 >  	switch (cpu_dai->id) {
 >  	case PRIMARY_MI2S_RX:
->  		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
-> -		snd_soc_dai_set_sysclk(cpu_dai,
-> -			Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT,
-> -			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-> +		if (++(data->clk_count[PRIMARY_MI2S_RX]) == 1)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT,
-> +				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+> @@ -177,7 +178,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+>  				Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT,
+>  				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
 >  		snd_soc_dai_set_fmt(cpu_dai, fmt);
->  		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> -		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> +		for_each_rtd_codec_dais(rtd, j, codec_dai)
+> +			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+
+failures ignored,
+
+Can we add a helper function would be nice here.
+
+--srini
+
 >  		break;
 >  	case SECONDARY_MI2S_RX:
 >  		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
-> -		snd_soc_dai_set_sysclk(cpu_dai,
-> -			Q6AFE_LPASS_CLK_ID_SEC_MI2S_IBIT,
-> -			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-> +		if (++(data->clk_count[SECONDARY_MI2S_RX]) == 1)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_SEC_MI2S_IBIT,
-> +				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+> @@ -186,7 +188,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+>  				Q6AFE_LPASS_CLK_ID_SEC_MI2S_IBIT,
+>  				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
 >  		snd_soc_dai_set_fmt(cpu_dai, fmt);
->  		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> -		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> +		for_each_rtd_codec_dais(rtd, j, codec_dai)
+> +			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
 >  		break;
 >  	case TERTIARY_MI2S_RX:
 >  		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
-> -		snd_soc_dai_set_sysclk(cpu_dai,
-> -			Q6AFE_LPASS_CLK_ID_TER_MI2S_IBIT,
-> -			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-> +		if (++(data->clk_count[TERTIARY_MI2S_RX]) == 1)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_TER_MI2S_IBIT,
-> +				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+> @@ -195,7 +198,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+>  				Q6AFE_LPASS_CLK_ID_TER_MI2S_IBIT,
+>  				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
 >  		snd_soc_dai_set_fmt(cpu_dai, fmt);
->  		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> -		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> +		for_each_rtd_codec_dais(rtd, j, codec_dai)
+> +			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
 >  		break;
 >  	case QUINARY_MI2S_RX:
 >  		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
-> -		snd_soc_dai_set_sysclk(cpu_dai,
-> -			Q6AFE_LPASS_CLK_ID_QUI_MI2S_IBIT,
-> -			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-> +		if (++(data->clk_count[QUINARY_MI2S_RX]) == 1)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_QUI_MI2S_IBIT,
-> +				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+> @@ -204,7 +208,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+>  				Q6AFE_LPASS_CLK_ID_QUI_MI2S_IBIT,
+>  				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
 >  		snd_soc_dai_set_fmt(cpu_dai, fmt);
->  		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> -		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> +		for_each_rtd_codec_dais(rtd, j, codec_dai)
+> +			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
 >  		break;
 >  	case SENARY_MI2S_RX:
 >  		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
-> -		snd_soc_dai_set_sysclk(cpu_dai,
-> -			Q6AFE_LPASS_CLK_ID_SEN_MI2S_IBIT,
-> -			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-> +		if (++(data->clk_count[SENARY_MI2S_RX]) == 1)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_SEN_MI2S_IBIT,
-> +				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+> @@ -213,7 +218,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+>  				Q6AFE_LPASS_CLK_ID_SEN_MI2S_IBIT,
+>  				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
 >  		snd_soc_dai_set_fmt(cpu_dai, fmt);
->  		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> -		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> +		for_each_rtd_codec_dais(rtd, j, codec_dai)
+> +			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
 >  		break;
 >  	case PRIMARY_TDM_RX_0:
 >  		codec_dai_fmt |= SND_SOC_DAIFMT_IB_NF | SND_SOC_DAIFMT_DSP_B;
-> -		snd_soc_dai_set_sysclk(cpu_dai,
-> -			Q6AFE_LPASS_CLK_ID_PRI_TDM_IBIT,
-> -			TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-> +		if (++(data->clk_count[PRIMARY_TDM_RX_0]) == 1)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_PRI_TDM_IBIT,
-> +				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
->  		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> @@ -221,7 +227,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+>  			snd_soc_dai_set_sysclk(cpu_dai,
+>  				Q6AFE_LPASS_CLK_ID_PRI_TDM_IBIT,
+>  				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+> -		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> +		for_each_rtd_codec_dais(rtd, j, codec_dai)
+> +			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
 >  		break;
 >  	case SECONDARY_TDM_RX_0:
 >  		codec_dai_fmt |= SND_SOC_DAIFMT_IB_NF | SND_SOC_DAIFMT_DSP_B;
-> -		snd_soc_dai_set_sysclk(cpu_dai,
-> -			Q6AFE_LPASS_CLK_ID_SEC_TDM_IBIT,
-> -			TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-> +		if (++(data->clk_count[SECONDARY_TDM_RX_0]) == 1)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_SEC_TDM_IBIT,
-> +				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
->  		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> @@ -229,7 +236,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+>  			snd_soc_dai_set_sysclk(cpu_dai,
+>  				Q6AFE_LPASS_CLK_ID_SEC_TDM_IBIT,
+>  				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+> -		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> +		for_each_rtd_codec_dais(rtd, j, codec_dai)
+> +			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
 >  		break;
 >  	case TERTIARY_TDM_RX_0:
 >  		codec_dai_fmt |= SND_SOC_DAIFMT_IB_NF | SND_SOC_DAIFMT_DSP_B;
-> -		snd_soc_dai_set_sysclk(cpu_dai,
-> -			Q6AFE_LPASS_CLK_ID_TER_TDM_IBIT,
-> -			TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-> +		if (++(data->clk_count[TERTIARY_TDM_RX_0]) == 1)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_TER_TDM_IBIT,
-> +				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
->  		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> @@ -237,7 +245,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+>  			snd_soc_dai_set_sysclk(cpu_dai,
+>  				Q6AFE_LPASS_CLK_ID_TER_TDM_IBIT,
+>  				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+> -		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> +		for_each_rtd_codec_dais(rtd, j, codec_dai)
+> +			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
 >  		break;
 >  	case QUATERNARY_TDM_RX_0:
 >  		codec_dai_fmt |= SND_SOC_DAIFMT_IB_NF | SND_SOC_DAIFMT_DSP_B;
-> -		snd_soc_dai_set_sysclk(cpu_dai,
-> -			Q6AFE_LPASS_CLK_ID_QUAD_TDM_IBIT,
-> -			TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-> +		if (++(data->clk_count[QUATERNARY_TDM_RX_0]) == 1)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_QUAD_TDM_IBIT,
-> +				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
->  		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> @@ -245,7 +254,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+>  			snd_soc_dai_set_sysclk(cpu_dai,
+>  				Q6AFE_LPASS_CLK_ID_QUAD_TDM_IBIT,
+>  				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+> -		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> +		for_each_rtd_codec_dais(rtd, j, codec_dai)
+> +			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
 >  		break;
 >  	case QUINARY_TDM_RX_0:
 >  		codec_dai_fmt |= SND_SOC_DAIFMT_IB_NF | SND_SOC_DAIFMT_DSP_B;
-> -		snd_soc_dai_set_sysclk(cpu_dai,
-> -			Q6AFE_LPASS_CLK_ID_QUIN_TDM_IBIT,
-> -			TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
-> +		if (++(data->clk_count[QUINARY_TDM_RX_0]) == 1)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_QUIN_TDM_IBIT,
-> +				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
->  		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> @@ -253,7 +263,8 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
+>  			snd_soc_dai_set_sysclk(cpu_dai,
+>  				Q6AFE_LPASS_CLK_ID_QUIN_TDM_IBIT,
+>  				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
+> -		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+> +		for_each_rtd_codec_dais(rtd, j, codec_dai)
+> +			snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
 >  		break;
 >  	default:
-> @@ -249,6 +262,81 @@ static int sm8250_snd_startup(struct snd_pcm_substream *substream)
->  	return qcom_snd_sdw_startup(substream);
->  }
->  
-> +static void sm8250_snd_shutdown(struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-> +	struct snd_soc_card *card = rtd->card;
-> +	struct sm8250_snd_data *data = snd_soc_card_get_drvdata(card);
-> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-> +
-> +	switch (cpu_dai->id) {
-> +	case PRIMARY_MI2S_RX:
-> +		if (--(data->clk_count[PRIMARY_MI2S_RX]) == 0)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_PRI_MI2S_IBIT,
-> +				0, SNDRV_PCM_STREAM_PLAYBACK);
-> +		break;
-> +	case SECONDARY_MI2S_RX:
-> +		if (--(data->clk_count[SECONDARY_MI2S_RX]) == 0)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_SEC_MI2S_IBIT,
-> +				0, SNDRV_PCM_STREAM_PLAYBACK);
-> +		break;
-> +	case TERTIARY_MI2S_RX:
-> +		if (--(data->clk_count[TERTIARY_MI2S_RX]) == 0)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_TER_MI2S_IBIT,
-> +				0, SNDRV_PCM_STREAM_PLAYBACK);
-> +		break;
-> +	case QUINARY_MI2S_RX:
-> +		if (--(data->clk_count[QUINARY_MI2S_RX]) == 0)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_QUI_MI2S_IBIT,
-> +				0, SNDRV_PCM_STREAM_PLAYBACK);
-> +		break;
-> +	case SENARY_MI2S_RX:
-> +		if (--(data->clk_count[SENARY_MI2S_RX]) == 0)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_SEN_MI2S_IBIT,
-> +				0, SNDRV_PCM_STREAM_PLAYBACK);
-> +		break;
-> +	case PRIMARY_TDM_RX_0:
-> +		if (--(data->clk_count[PRIMARY_TDM_RX_0]) == 0)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_PRI_TDM_IBIT,
-> +				0, SNDRV_PCM_STREAM_PLAYBACK);
-> +		break;
-> +	case SECONDARY_TDM_RX_0:
-> +		if (--(data->clk_count[SECONDARY_TDM_RX_0]) == 0)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_SEC_TDM_IBIT,
-> +				0, SNDRV_PCM_STREAM_PLAYBACK);
-> +		break;
-> +	case TERTIARY_TDM_RX_0:
-> +		if (--(data->clk_count[TERTIARY_TDM_RX_0]) == 0)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_TER_TDM_IBIT,
-> +				0, SNDRV_PCM_STREAM_PLAYBACK);
-> +		break;
-> +	case QUATERNARY_TDM_RX_0:
-> +		if (--(data->clk_count[QUATERNARY_TDM_RX_0]) == 0)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_QUAD_TDM_IBIT,
-> +				0, SNDRV_PCM_STREAM_PLAYBACK);
-> +		break;
-> +	case QUINARY_TDM_RX_0:
-> +		if (--(data->clk_count[QUINARY_TDM_RX_0]) == 0)
-> +			snd_soc_dai_set_sysclk(cpu_dai,
-> +				Q6AFE_LPASS_CLK_ID_QUIN_TDM_IBIT,
-> +				0, SNDRV_PCM_STREAM_PLAYBACK);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	qcom_snd_sdw_shutdown(substream);
-> +}
-> +
->  static int sm8250_snd_prepare(struct snd_pcm_substream *substream)
->  {
->  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-> @@ -287,7 +375,7 @@ static int sm8250_snd_hw_params(struct snd_pcm_substream *substream,
->  
->  static const struct snd_soc_ops sm8250_be_ops = {
->  	.startup = sm8250_snd_startup,
-> -	.shutdown = qcom_snd_sdw_shutdown,
-> +	.shutdown = sm8250_snd_shutdown,
->  	.hw_free = sm8250_snd_hw_free,
->  	.hw_params = sm8250_snd_hw_params,
->  	.prepare = sm8250_snd_prepare,
+>  		break;
 
