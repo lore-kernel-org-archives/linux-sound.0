@@ -1,108 +1,135 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B9B30E84E
-	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 20:44:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D1530EF88;
+	Thu,  7 May 2026 21:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778186693; cv=none; b=dCvCmk+llCsHmH0Eo4Fz1NuPO/jsBT9bMMg7ht7jVTdbHlrRdFrxFDbvMxzR13qYmfyfD/ZFTCLDckCY3M85O3r6wGSqzv8f4KxUGwmymw1BYSg4VCM+iETf8PbqMs1Dad8xsPOyEge7ihherYNCQiZ4hqVfomPMRS7tLU5O6rE=
+	t=1778189428; cv=none; b=NuOvzp7frk3GgNeRdJNT8Xq6LkUeynhIh0hFKAckeXTdCHEmfs2fwq40KCuN5y5WMziK5AIoSjjgw5IqkAS2Oc7F1ZE1eRcMulYOPhmiP+jv8cQ8JX8LYG5OZ3EVWABcPISvFHWx/BDM+XbhyKByZzGt7oEaXFx0jhWTuLCNCL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778186693; c=relaxed/simple;
-	bh=09Aq1uVfs1H7/4/akJOJ3NmTfKUNp/uebi+dNe1y5vA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cSE7TLdmbiHzVCJbCSPyvnhEwGaPgh2GUSivI+Cqr5r2ZIdiKmVm6Cu3rC0CBRK2dSNkgD1wZfZb9TNrCDPtHfnTDrizbDw5LNKmh47TsxqpRpToSyZrQ4+sKfIJ7uqJrC5ZqoEU/IPcQsQkDxtTJtZc0SeQfI06X7/51iIK794=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=Tlzldz5X; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
+	s=arc-20240116; t=1778189428; c=relaxed/simple;
+	bh=7E4rp+S4dqE0OVdstaoROQZLQNR9BomvZCyTiVcToKw=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=tD8iW099RBtNn81zRqNKVobqbtKCfUIxFyljkOWb3sfYMPgeD3WyyHgxY7othUJsIcCJzuRyd/njvBobxn7uMUytAy2pPk9yLtsKF9453iUXFsgj9QAf8IMuiEMmxwadWZv/5IU7Fu3YZkB/zWgolamdfClht7ALzLhJM4kbhp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JP+tRaG2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="Tlzldz5X"
-Message-ID: <f090337e-e817-41d3-8fc6-0c64cd71fba4@packett.cool>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
-	s=key1; t=1778186679;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wa8K+5rTItWcTVDBbLLE/2qTJHrvU6zWsUoEX3dVoso=;
-	b=Tlzldz5XDNEJQRBdbA7OLVz9qxlLn8iEs/vdnf9mlLHSq+rpP+T/07g1zmLnhKQKu0tTYf
-	XnMXftFWxMEImm5mpgzQYaCRWwnMOLVtvyYJuTR1VH4+gc0chjvFqD1cKMrO7EQA7YboGX
-	f6El9SYFKR3AFAKne1OHh62l9aWxSqfhe9fGtEHx89yDwYkQX9TJhb4WQ6onR+PvJIYSan
-	YHXbqlKXNhfE1QunuWg39zn2TGakBV43/KcX34qwKKQpWwuZSknegsksmVw1sw0/2ulAYH
-	h/xjjNzvWs93gfV69hWYDMPimIz92RlXSuCy5+jX1nzUtZ5TA9POuS+jlzNmFg==
-Date: Thu, 7 May 2026 17:44:17 -0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JP+tRaG2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FD30C2BCB2;
+	Thu,  7 May 2026 21:30:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778189427;
+	bh=7E4rp+S4dqE0OVdstaoROQZLQNR9BomvZCyTiVcToKw=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=JP+tRaG2NL8qdE5D6PVSpQ5I6vDQosXt9S2m2W0CXsjlSr61fgsBw3lRkOY6nwgdb
+	 lAhuVEpOL9n+h7bqzbfWCW0GUj4vReohE2r1IoVRn/vZvx6lgxIV/+hd8+HfKTujre
+	 hLmsHYSk0vbcj2jqokpp8rUQ2w7UZprVGEN4ONUcJBIAjb+pWB4efRRM93IjwNMS8D
+	 8SeYJgiqBdZIF4vbGYROv1EahDoxf1wJlCJUlA6LMxJoh52W6DTcjLuv4QmDl2H7xo
+	 IfHOwegNi9DrpP8JSPFkQx44XYkneIdfHWzf5WRgH+GudQdILoxHaNytMrBgR00J+D
+	 4i4mqR6bL8tow==
+Date: Thu, 07 May 2026 16:30:25 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 5/6] ASoC: qcom: sm8250: shut down MI2S/TDM AFE port
- clocks
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: Bhushan Shah <bhushan.shah@machinesoul.in>,
- Luca Weiss <luca.weiss@fairphone.com>, Antoine Bernard <zalnir@proton.me>,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260506204142.659778-1-val@packett.cool>
- <20260506204142.659778-6-val@packett.cool>
- <dd0e22ed-e464-4d61-b354-b396f9694976@oss.qualcomm.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Val Packett <val@packett.cool>
-In-Reply-To: <dd0e22ed-e464-4d61-b354-b396f9694976@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, linux-kernel@vger.kernel.org, 
+ linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, Johannes Berg <johannes@sipsolutions.net>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ linux-arm-kernel@lists.infradead.org, Jeff Johnson <jjohnson@kernel.org>, 
+ linux-pci@vger.kernel.org, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ linux-usb@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ ath11k@lists.infradead.org, linux-spi@vger.kernel.org, 
+ linux-remoteproc@vger.kernel.org, Ulf Hansson <ulfh@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Andi Shyti <andi.shyti@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, linux-wireless@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>, 
+ netdev@vger.kernel.org, ath10k@lists.infradead.org, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+In-Reply-To: <20260507201749.2605365-1-robh@kernel.org>
+References: <20260507201749.2605365-1-robh@kernel.org>
+Message-Id: <177818942584.2803269.2192622854542354589.robh@kernel.org>
+Subject: Re: [PATCH v2] dt-bindings: Fix phandle-array constraints, again
 
 
-On 5/7/26 5:57 AM, Srinivas Kandagatla wrote:
-> On 5/6/26 8:33 PM, Val Packett wrote:
->> These port clocks were never being turned off, leading to increased
->> power consumption after a sound was played through any of these ports
->> for the first time. Use enable counters to disable the clocks in the
->> shutdown callback, similar to how it's done for sdm845.
->>
->> Signed-off-by: Val Packett <val@packett.cool>
->> ---
->>   sound/soc/qcom/sm8250.c | 150 +++++++++++++++++++++++++++++++---------
->>   1 file changed, 119 insertions(+), 31 deletions(-)
->>
->> diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
->> index b64fd3970ba1..9f0f846a14bb 100644
->> --- a/sound/soc/qcom/sm8250.c
->> +++ b/sound/soc/qcom/sm8250.c
->> @@ -24,6 +24,7 @@ static unsigned int tdm_slot_offset[8] = {0, 4, 8, 12, 16, 20, 24, 28};
->>   
->>   struct sm8250_snd_data {
->>   	bool stream_prepared[AFE_PORT_MAX];
->> +	uint32_t clk_count[AFE_PORT_MAX];
-> In your setup are you sharing BE dais to multiple FE?
->
-> if not you would really not need the count, startup and shutdown are
-> paired for single PCM stream.
->
-> If yes, then you need some protection against these counters.
+On Thu, 07 May 2026 15:16:00 -0500, Rob Herring (Arm) wrote:
+> The unfortunately named 'phandle-array' property type is really a matrix
+> with phandle and fixed arg cells entries. A matrix property should have 2
+> levels of items constraints.
+> 
+> Acked-by: Mark Brown <broonie@kernel.org>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+> v2:
+>  - Add proper descriptions for 'qcom,smem-states'. Thanks Krzysztof!
+>  - Fix i2c-parent warning
+>  - Fix extra blank lines
+> ---
+>  .../rockchip/rockchip,rk3399-cdn-dp.yaml       |  2 ++
+>  .../bindings/i2c/i2c-demux-pinctrl.yaml        |  1 +
+>  .../mmc/hisilicon,hi3798cv200-dw-mshc.yaml     |  7 ++++---
+>  .../devicetree/bindings/net/qcom,bam-dmux.yaml | 12 ++++++++++++
+>  .../devicetree/bindings/net/qcom,ipa.yaml      | 12 ++++++++++++
+>  .../bindings/net/wireless/qcom,ath10k.yaml     |  8 +++++++-
+>  .../bindings/net/wireless/qcom,ath11k.yaml     |  8 +++++++-
+>  .../net/wireless/qcom,ipq5332-wifi.yaml        | 18 ++++++++++++++++++
+>  .../bindings/pci/toshiba,tc9563.yaml           |  5 +++--
+>  .../remoteproc/qcom,msm8916-mss-pil.yaml       |  6 ++++++
+>  .../remoteproc/qcom,msm8996-mss-pil.yaml       |  7 +++++++
+>  .../bindings/remoteproc/qcom,pas-common.yaml   |  6 ++++++
+>  .../remoteproc/qcom,qcs404-cdsp-pil.yaml       |  6 ++++++
+>  .../remoteproc/qcom,sc7180-mss-pil.yaml        |  6 ++++++
+>  .../remoteproc/qcom,sc7280-adsp-pil.yaml       |  6 ++++++
+>  .../remoteproc/qcom,sc7280-mss-pil.yaml        |  6 ++++++
+>  .../remoteproc/qcom,sc7280-wpss-pil.yaml       |  6 ++++++
+>  .../remoteproc/qcom,sdm845-adsp-pil.yaml       |  6 ++++++
+>  .../bindings/remoteproc/qcom,wcnss-pil.yaml    |  6 ++++++
+>  .../devicetree/bindings/sound/samsung,tm2.yaml |  8 ++++++--
+>  .../bindings/spi/st,stm32mp25-ospi.yaml        |  5 +++--
+>  .../bindings/usb/chipidea,usb2-common.yaml     |  2 ++
+>  .../devicetree/bindings/usb/ci-hdrc-usb2.yaml  |  7 ++++---
+>  23 files changed, 142 insertions(+), 14 deletions(-)
+> 
 
-Hmm, possibly not? I don't entirely understand how the q6 hardware 
-works, sorry.. Who's the BE in this situation?
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Basically what we have is e.g.:
+yamllint warnings/errors:
 
-- a dai-link between speakers (<&aw88261_l>, <&aw88261_r>) and the 
-digital interface they're connected to (<&q6afedai SENARY_MI2S_RX>) 
-defined in the device tree
-- one q6asmdai frontend (MultiMedia1) connected to it in the mixer, i.e. 
-cset name='QUIN_MI2S_RX Audio Mixer MultiMedia1' 1
-- VoiceMMode1 (currently only via an out-of-tree hacky patchset but 
-someone's reworking that) also connected to it like that during voice 
-calls, but we can definitely "unplug" the MultiMedia when that happens
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/i2c/i2c-demux-pinctrl.example.dtb: i2c-mux3 (i2c-demux-pinctrl): i2c-parent:0: [2, 3, 4] is too long
+	from schema $id: http://devicetree.org/schemas/i2c/i2c-demux-pinctrl.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/i2c/i2c-demux-pinctrl.example.dtb: i2c-mux3 (i2c-demux-pinctrl): i2c-parent: [[2, 3, 4]] is too short
+	from schema $id: http://devicetree.org/schemas/i2c/i2c-demux-pinctrl.yaml
 
-> [..]
+doc reference errors (make refcheckdocs):
 
-Thanks,
-~val
+See https://patchwork.kernel.org/project/devicetree/patch/20260507201749.2605365-1-robh@kernel.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
