@@ -1,116 +1,154 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+Received: from smtp.smtpout.orange.fr (smtp-12.smtpout.orange.fr [80.12.242.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E542F532F;
-	Thu,  7 May 2026 16:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75172C21C5
+	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 17:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778172841; cv=none; b=hoaYGvYP2gGB8x96jrGvKNFnIZvQSggr5OXgwTfN3pe8NEQX7UOlI86aNpOGW+IOdeDRi29N2WNFXoRKMVNaMKEjacL0ud9RnKYoGCsginEAAKwyKqrvqdTcrL2Nofk6k7uiF7ODfA2BzncfHMkDBtgFwm7WxwqfZrLcbI/mvbA=
+	t=1778173539; cv=none; b=ujyf1RpU92Wz+QacKX+DiZkIFTWx2JfiltviV8isCACFCfx7QKxNUdFys7k//tJfD5yMN7ZjSUiagWDtERCXuqSmOmklB0R/WswiPorRCVoLmMPKzrXqGBsFBRKTBZRAza4HKajRa1eKk1ByT+H0DzzQCp+e/HUOp6ogPwafWlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778172841; c=relaxed/simple;
-	bh=6HH/sXmrehflOPWBNfR+fOiBJdd68A5+qeK+SEGMDzc=;
+	s=arc-20240116; t=1778173539; c=relaxed/simple;
+	bh=LgrmyCXF9pBHH24NUWUDbO0zMsnNJGKur+oP3lTdoBY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CWbnlHYNHll866fljkwuifn3ajKJM1aXmwIv+LsUhp9xvQZJ0p7T4EIND0PcPmaiyVsuM//zcz8v2KEK3Z7jp6HeOvjy9Owd4HmZOle8wlQEWsir1mRjn4xvguzPWqiS1bQXBfdSmDjxlcS83JLyEfaMFOpy7VSatEPc6og7ggo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=RLbO+SSB; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	 In-Reply-To:Content-Type; b=pO1AaPj2NzL5oJWz0waYkRg74a0me/2UOVUbEuiw+8SPJKeoQ3wVjlLLLV/1RizDvHJfkiv7B0dHPrtDI3mEohTNq1tdVwYDbx5RzzX/zvr4fM0o5nl0IEF6bCGdO3i5lLGEFNNEee+Br1x+wVZhdqs6e6GXqNTSge+7dQ+we8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=sO4k7w3A; arc=none smtp.client-ip=80.12.242.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="RLbO+SSB"
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 6B8C3266FA;
-	Thu,  7 May 2026 18:53:57 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id yTVy4VpmB9OI; Thu,  7 May 2026 18:53:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1778172836; bh=6HH/sXmrehflOPWBNfR+fOiBJdd68A5+qeK+SEGMDzc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=RLbO+SSBq/IKqZAzi8KugWK/R+kdHCf3vWRtz59k3BiKiQ0OzaYMaVrQT56FEgqh0
-	 FEhrmLGU9EOOq0Yak3y7kyA6kkbTseESqcyWbaMEaVqt+XdQAuOTQu928ROnmI3xyO
-	 2ic5Gm35GIhYJ+qUDLjcuI9SiIMcSu2Um8RDLRrr3C9jF3ULREyhC4RY3xMHu/S6T7
-	 Lv9akGPvUpAJ7xWDt8OXdU5y4UmHBqbnGj1YWwUCqQoxPVeOP6GYweDJi1ld2DstLA
-	 Ex5G1wsh9v2zA1wAfV9JzVRZaUmzIbULqODOyPVDnEjXI4c2OL4FzcmQ1ebqF4euIl
-	 FLwzxJc0k0vig==
-Message-ID: <c022442f-111e-4022-bbf5-d084d9ec4f95@disroot.org>
-Date: Thu, 7 May 2026 18:53:56 +0200
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="sO4k7w3A"
+Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662] ([10.64.95.113])
+	by smtp.orange.fr with ESMTP
+	id L29CwCSDZYKcaL29Cw9XwS; Thu, 07 May 2026 19:04:26 +0200
+Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+ ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
+	by smtp.orange.fr with ESMTPSA
+	id L294wE2ZFKQy3L294wbFbC; Thu, 07 May 2026 19:04:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1778173459;
+	bh=Xfj6xOAAVZsg96hKQbKbMUlMmwM7NkOunH7IYAxcliU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=sO4k7w3ATzggScDJT1oTCKQf7IfMrjQoejXmKtHVBuvoVS2HnVKN//P9o6bJ9OFAp
+	 cirhXCxgIdfn2uAuAeOOqIlAMNbspuDqg5IWD4huBct8jkJszabVNDEoDy4PalVhZJ
+	 BTnj8LSdETbNAfTaUjAnNe1SFOZGbWOwPDsMXWsMBKBD5jS/huWUxXB0I/Bc9zpiQn
+	 BdY8vRkgR3ggzntm1N75YrNM+FpQYS6eNv6ZtYZpmt+YTVqlQkwPDtANjOIBv9XWhk
+	 btMXnMcxkr3eOCys5xIGv2fDmlUULSB+yU1u3Ry1wni8XSOTenVhLxWqitJIdMd3l3
+	 xomIqMjG86q9A==
+X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 07 May 2026 19:04:19 +0200
+X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
+Message-ID: <87657a15-0087-48f2-b700-8e21a5ad2e30@wanadoo.fr>
+Date: Thu, 7 May 2026 19:04:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Linux)
-Subject: Re: [PATCH] ALSA: hda: cs35l41: Support HP OmniBook 7 Laptop
- 16-bh0xxx
-To: Stefan Binding <sbinding@opensource.cirrus.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- linux-kernel@vger.kernel.org
-References: <20260506181807.22547-1-skbotnl@disroot.org>
- <ee73ae76-4caa-4151-ac87-1a2061cd17a5@opensource.cirrus.com>
-Content-Language: en-US
-From: SKBotNL <skbotnl@disroot.org>
-In-Reply-To: <ee73ae76-4caa-4151-ac87-1a2061cd17a5@opensource.cirrus.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ASoC: cs35l56: Use devres to destroy workqueue
+To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@opensource.cirrus.com
+References: <20260504151006.3374934-1-rf@opensource.cirrus.com>
+ <e322b673-0eda-4342-bebe-2a444b004bc0@wanadoo.fr>
+ <c376b094-9724-4605-aaf4-0b4592b74a48@opensource.cirrus.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <c376b094-9724-4605-aaf4-0b4592b74a48@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hello,
-I have created a bugzilla ticket.
-
-I do think most values are correct with the ACPI dump I looked at, the 
-only one that could be incorrect is the boost type, but I haven't had 
-any issues while playing audio using INTERNAL, even at max volume.
-
-Regards,
-Sven
-
-On 07/05/2026 18:28, Stefan Binding wrote:
-> Hi,
-> 
-> On 06/05/2026 19:17, Sven Jans wrote:
->> The laptop has _DSD but the cirrus,dev-index property fails to
->> parse, so it needs to be supported using the configuration table.
-> 
-> This is quite odd. As far as I am aware, this laptop should have valid _DSD.
-> 
-> I don't think some of the values in the table are correct either.
-> 
-> Please create a bugzilla ticket at the below address and CC Cirrus Patches (patches@opensource.cirrus.com <mailto:patches@opensource.cirrus.com>) to it, we will investigate the issue as soon as we can.
-> 
-> https://bugzilla.kernel.org/ <https://bugzilla.kernel.org/>
-> 
-> Please attach an acpi dump and dmesg to the ticket.
-> 
-> Thanks,
-> 
-> Stefan
-> 
->> Signed-off-by: Sven Jans <skbotnl@disroot.org>
->> ---
->>   sound/hda/codecs/side-codecs/cs35l41_hda_property.c | 2 ++
->>   1 file changed, 2 insertions(+)
+Le 05/05/2026 à 11:46, Richard Fitzgerald a écrit :
+> On 4/5/26 17:46, Christophe JAILLET wrote:
+>> Le 04/05/2026 à 17:10, Richard Fitzgerald a écrit :
+>>> In cs35l56_dsp_init() use devm_add_action_or_reset() to add a devres
+>>> cleanup function that flushes and destroys the workqueue. This replaces
+>>> manually calling destroy_workqueue().
+>>>
+>>> The error path in cs35l56_common_probe() did not call 
+>>> destroy_workqueue().
+>>> Using devres keeps the destroy_workqueue() automatically ordered 
+>>> relative
+>>> to all the other devres-managed cleanup.
+>>>
+>>> The call to destroy_workqueue() in cs35l56_remove() has been changed to
+>>> flush_workqueue(), as pointed out by Sashiko:
+>>> https://sashiko.dev/#/patchset/20260504110743.3341869-1- 
+>>> rf%40opensource.cirrus.com
+>>>
+>>> The use of devres cleanup was suggested by https://sashiko.dev to 
+>>> avoid a
+>>> small cleanup inversion window if destroy_workqueue() is called in the
+>>> error path of cs35l56_common_probe().
+>>>
+>>> Fixes: e49611252900 ("ASoC: cs35l56: Add driver for Cirrus Logic 
+>>> CS35L56")
+>>> Closes: https://sashiko.dev/#/patchset/20260501103002.2843735-1- 
+>>> rf%40opensource.cirrus.com
+>>> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+>>> ---
+>>> Change in V2:
+>>> - Call flush_workqueue() in cs35l56_remove().
+>>>
+>>>   sound/soc/codecs/cs35l56.c | 16 +++++++++++++++-
+>>>   1 file changed, 15 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+>>> index 378017fcea10..26fa94c98775 100644
+>>> --- a/sound/soc/codecs/cs35l56.c
+>>> +++ b/sound/soc/codecs/cs35l56.c
+>>> @@ -1627,6 +1627,14 @@ static int cs35l56_control_add_nop(struct 
+>>> wm_adsp *dsp, struct cs_dsp_coeff_ctl
+>>>       return 0;
+>>>   }
+>>> +static void cs35l56_dsp_workqueue_destroy(void *data)
+>>> +{
+>>> +    struct workqueue_struct *wq = data;
+>>> +
+>>> +    flush_workqueue(wq);
 >>
->> diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
->> index 732ae534db36..a972da0ae4e1 100644
->> --- a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
->> +++ b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
->> @@ -85,6 +85,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
->>   	{ "103C8C51", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
->>   	{ "103C8CDD", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
->>   	{ "103C8CDE", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 3900, 24 },
->> +	{ "103C8E60", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
->>   	{ "104312AF", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
->>   	{ "10431433", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
->>   	{ "10431463", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
->> @@ -510,6 +511,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
->>   	{ "CSC3551", "103C8C6A", hp_i2c_int_2amp_dual_spkid },
->>   	{ "CSC3551", "103C8CDD", generic_dsd_config },
->>   	{ "CSC3551", "103C8CDE", generic_dsd_config },
->> +	{ "CSC3551", "103C8E60", generic_dsd_config },
->>   	{ "CSC3551", "104312AF", generic_dsd_config },
->>   	{ "CSC3551", "10431433", generic_dsd_config },
->>   	{ "CSC3551", "10431463", generic_dsd_config },
+>> I don't think that an explicit flush_workqueue() is needed here.
+>>
+>> destroy_workqueue() already does the job ( destroy_workqueue() --> 
+>> drain_workqueue() --> __flush_workqueue())
+>>
+>>> +    destroy_workqueue(wq);
+>>> +}
+>>> +
+>>>   static int cs35l56_dsp_init(struct cs35l56_private *cs35l56)
+>>>   {
+>>>       struct wm_adsp *dsp;
+>>> @@ -1636,6 +1644,12 @@ static int cs35l56_dsp_init(struct 
+>>> cs35l56_private *cs35l56)
+>>>       if (!cs35l56->dsp_wq)
+>>>           return -ENOMEM;
+>>> +    ret = devm_add_action_or_reset(cs35l56->base.dev,
+>>> +                       cs35l56_dsp_workqueue_destroy,
+>>
+>> so, I guess that destroy_workqueue() could even be called directly 
+>> without the need of cs35l56_dsp_workqueue_destroy(). Not sure it is 
+>> cleaner.
+>>
+>> CJ
+> 
+> Ok, I will change to manually destroying the ASoC component in the
+> driver remove(), instead of using devm_snd_soc_register_component().
+> That would make it safe to directly call destroy_workqueue() from
+> driver remove().
+> 
+> 
+
+Hi,
+
+That's not my point.
+Using devm_add_action_or_reset() here looks safe to me.
+
+What I mean is that maybe using:
+	ret = devm_add_action_or_reset(cs35l56->base.dev,
+				       destroy_workqueue,
+
+*if* it compiles, could save some extra lines of code, if desired.
+
+CJ
 
