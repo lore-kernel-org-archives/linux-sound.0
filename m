@@ -1,431 +1,173 @@
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5383F0756
-	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 15:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5DA36AB53
+	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 15:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778166736; cv=pass; b=jt+YFtws2jJm4jwrRPmDul6OpVkt/g2/ByWjGMqfObaenPz8249td8KVL/7Xi14+6L0pVgcQnxH0yyANFFX5mPzvt+orG8XEA+kH5p7t9KaiuMxS3kN/qZ2+auVVJ2LPj8cEBurtbSguHFiIpFxZQLL5i2KJc4TxXqC6eDSiJl0=
+	t=1778168185; cv=fail; b=LCs1CWdunSxF4b55OiyP4YaoKpEku7YHPmr8yxwkP+eVp87FRXftsV/O6e6mAaDKAPRvRkNQAD2sdIkGWcfAoUd80WJkytU4xvUTrxZ8gaX1kDxrJlHe96+daV5bBF/RCznNhrgIg8cdxnsIG5AVwpVd22gCw+t/jXHdfI/w2ec=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778166736; c=relaxed/simple;
-	bh=FMGp6xzLBkx7/5vGEFaCjf4ntdkXBMBI0+62GMYunmY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P9oNwGgNDcaRhviYM6hDGcCyitPvbU6JRVRlz7abB+uudFtC7JvT4suumn3raw7AdMPHHtI4OEkvC3LItIFIAq40xP8nOPoKNvuhk0cIvd2jqr8Ln/QPY7j2fTLg/lRTCM6n7Hm9cu/mtKYjT2o6+VemaOyG+28qBx+4UoGuAtc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dPr7P6zQ; arc=pass smtp.client-ip=209.85.161.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778168185; c=relaxed/simple;
+	bh=Q329+aEnAHnyYI9xgPbGRDgD6SVV/W8jIn0rt1yzlkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X9HmcxYxVwwV8xQ3QSGn3nXINk3VplFpwLfy/SYLYs2xHvk4eDDXkFDxWLzdfPEzX/6+TYkuDbH1EnzPC3x7AnllJgoMAwoj0+Tq7lJEzMDkD5RfJpOY5LNTjsh4o3a0bOEfsD44jImllTLZvks93V2n1eP0JzLhsAz5DNOjOPQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=SIjJ9ZjY; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=NjGyIHQX; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dPr7P6zQ"
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-6948fb494a0so529480eaf.2
-        for <linux-sound@vger.kernel.org>; Thu, 07 May 2026 08:12:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778166733; cv=none;
-        d=google.com; s=arc-20240605;
-        b=exsFbXA30cMTQahfZ7qj7/PXzWdoQxCYztrYV2eCIKI7iKQS8FFHY8SUB6S/+3IoXH
-         iH0vN85AgLAJx5uBrajz+fruqqKetlrElgmyQYVydBgeI0u3MSec8bFvIuNalyfcJlRM
-         3tWeSQbMFvgha5fR0Oglln6ZBt3ORG49opkuxdfNS4kn2M+SPUSNRskkI5MhakB9rULM
-         W/ExYBthLXzSf+egM2S/xrep2GBiC5YiUncOnMeIGsaLCu5m2fw4rd95h4mp/kp/RPa/
-         d+2af/UFeo7UGyyRZ/fhdF3nm+zQdsVo3G66zjYy5ELzchNjtIu+JyHAKrlrNASNKpHN
-         2O0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=elKrUuP084xmSYoDMk/AYEh0e7keDQdHlAGJidfmCPA=;
-        fh=KkkebCQI2HdCuc3+2HUBivG8xXWAdRfNeFVlVBh6urc=;
-        b=IoMptO1vOwFzhysIy3dWj2Dg33TiBRTedR2hp8/rG9s7Z/rCzkVe9+QY47y345YzMy
-         zBEIhWbZO/BKLaw7LV3TgODCszuUw6EAGZA8EW1T91S+FFJWRE7Wnxwd4L2O35teV+x+
-         R2OBxIHv1ui/AvlHQANWL3n/woshXSXCOtzqdaY3pRQ6A183dBxuVtsyThQoST+11vgY
-         RXHTf3Yz4q/WLUY9alBLSoTn72C02WXS3rigXqxRf2UshNY4tgX/3PUGBm7zrQBUavfC
-         asL2cDeA7QTfyJbDQ0UhLep1wY2po/HTrzIbOZ4Ouh/4Zi4/zBjlHIWF44PmfPg6Ff7l
-         eZ/A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="SIjJ9ZjY";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="NjGyIHQX"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 647An5i01753361;
+	Thu, 7 May 2026 10:36:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=O2HAM1GNsblCotS4+X
+	6hh2r1FWDgi10Mxc1Vo5p1Nvo=; b=SIjJ9ZjYnDJBAjgHepZwK7kdxJmMc6AHyi
+	VlyodoxoLYei5aAnJ5wvN1oCVOGlGvMLDgEEX1Cdm8Ofp/GnztuynCXR9KpWJLn5
+	lsLLJxsz662Ma1K0r2NJxOHoVQaT1qVrM4PChxoE6YVvAiJylcOebKsTR/svtIf9
+	F16rSg/65wQWJg8VpG/EMGYHbFhmmSwGQOsg6sF6KRAcPE7h79n5Qflhfpu5MFin
+	yi1jLPmmkpTzLc0cq/Ux3xwWawJaHXhPXexDMzLWmiBQVqxjm5NRT6XB6yOfqD2H
+	chf/xVhiEDCwpApKmHw2oOXxoDiWhhPRnHn8YctmrRfslKWib+dA==
+Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11020101.outbound.protection.outlook.com [52.101.193.101])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4dwdpk7c10-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 07 May 2026 10:36:00 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rdWAoNgMIS0tRmcnh/wf2nn6B9JvpBv6J5EMh67nuuznKVXVxrcKU2Pi0oSCd2rPaB/KkTCDXt4DrWfvkHVeecWKDoDIaQ7fJh1BR3DocVg9JOGu3IUsSsF4SnVXZBZ6GaRi7X7FNKFoo/hPrvT53gyum4pXEOdLzQlESqI72jUzp2TT+Rd4E8QsWP2jBLmVbXWIGU0PAab8F7OAjlKE2XenRDLzvuS+hztZ/CcC7p+agKMR2+6w+iksiqbX2tfAkR/NYogLLWZYY+QcfycGIqogy/c5wvEhCCtSh84INYX43VsO8rks/taSAc8n9lRVnTGf+1tP//491bFzuOsKDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=O2HAM1GNsblCotS4+X6hh2r1FWDgi10Mxc1Vo5p1Nvo=;
+ b=EOJ+i/3AApv3Ujh/pBf4d7Hvu248wTHQJc/iysBzVvh12lpOGU1mg+TCTQXiXqWpyRgrtM4kiXR1QYFHFyuVpg2Plw8xADBljnZLd7LSXs4V3V3FuxlHLR82TRmHCgdt/XHNxG2QCGnCck4v9tIb00SFNY1K4M6g06E6D99PrmjAcdDBcJgKnr2PE/ee0vQ4WoSs80b9dFYJCzvyJjVtrBWuKLWAfcf9qeMlA4Fo7KRI+qoZ7E1o+ipFy6sWVtHr1vzOUyiBPwATgMKaQZu8hDus5HjKo9h0uZTK6M1FL3+C9p2bpZJ0w6Yx6/sd44vfwKFUx8zEJO1lWvvJbnj++Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778166733; x=1778771533; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=elKrUuP084xmSYoDMk/AYEh0e7keDQdHlAGJidfmCPA=;
-        b=dPr7P6zQcECR+tdtz46RhtUj1jH3tvavcfv0TWk92jcvujMLgOPxLALeZekQXpDYTJ
-         hW1RFWBY7EbjoKu62mmvRG5f/iwmL2m/+qQUFiF7ydPT97lkz2ZiQbOHFHCQC6fh9YIn
-         1JZBefyWAxufCwSbBvdNm8GLfYgIfza1C+KURHnuGsUOFRBOJruQaVQXSu340CbtkwYS
-         GcdIiSMbe4jYc82f9GLJxVIHOj/kUvK74vYdtHGABNxLt0hSghlHLesutW2xdXL9xoBE
-         TVCSb2qH685pINtWo2SAQE4aI4vmxr8hhuZ/InsUkGr6N33Z/CmEVS0Arr4RytZf6h/7
-         Kx0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778166733; x=1778771533;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=elKrUuP084xmSYoDMk/AYEh0e7keDQdHlAGJidfmCPA=;
-        b=Rf6l7Uyus0obhZaM6Y1Ynp07tQSsq3W0hR+D4H9OdT7jPvlc+22GkMFVzAQ/Ho1uco
-         yE5fR4eatWuLipxsBti+X6euZjB6S5W/xg7wV5Lt7ZWZJ9cxPg7dqlgtUwLjhVqQFDUZ
-         Tct6Qxls8C68K68B/GhHB17dekUBFjPkTq3/+pyE+SvLiVBFyf0FGz5JiGM/GjLPxmb+
-         Oh3e83dtIBtpMwCwJixzdYQZhZS7DSUfUi0lJRz37oWvcRh/bUmo+CEyYSPTvJ21wc2j
-         9maNglJqRd2hcxlZiTi9EIN9qdAiaWI/aGTtwQNhTSAQO9lgh7Q4WcPe5RK3A64NOaiu
-         ecLg==
-X-Forwarded-Encrypted: i=1; AFNElJ+NAqN80+SneaX6bcY1a4B/8gn978usV/sv6DTOuCNCf9beSst7nDU82TPp9WB0843H7K5BxJC4EzWXWg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywoliac6p1y9xcx6UWfRhCKZpsgvmGyBYnOX25n9Z/vZ/oEWa9U
-	wExKof9O7iw74GSW8ZnsvCjMrtWfswS/8Zl3l/kS5Ba+rMOtN5cy0D2zAUQQJ/HdKjMuCzTK8uD
-	S3X3s5DHvWO3qqItge80POPuAIORYGa4=
-X-Gm-Gg: AeBDies2o3z3wfL1kDvFkGFxBkUnpsfxRfTIvbvDaFZLWCaPUgSoBgeuZYvCw9zbq0y
-	04X7b1zFTvgyXMrZaGYo/867+e6RKTzJcFJPlBJxr4MpJ3IajjGltnz6RpYYWxYULMuNZ5dlJLn
-	I3c0zsQDLlaECX51Z6kA9p9Jv1FeUtp5qh35CMhwSRJUmewiPPS2OX67Ysa+23tu1K+CMwGJ2xI
-	jMzjcf+cH3JoglkWQTagwy8YEbCWVDJSz0s1IE0rA9ZUw2gnNWpusF0m3upb4XYLagbKP/AFBtS
-	byKF66R+bN8cyk+1
-X-Received: by 2002:a05:6820:4ccb:b0:693:428:bd2a with SMTP id
- 006d021491bc7-69998c9fa64mr5047713eaf.2.1778166733504; Thu, 07 May 2026
- 08:12:13 -0700 (PDT)
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O2HAM1GNsblCotS4+X6hh2r1FWDgi10Mxc1Vo5p1Nvo=;
+ b=NjGyIHQXPafdGPwpEL289Jrnl7nOLhhGOfedR91QtOPoUlvQ5y4v8ja4+TNCvVYK+XKmr+N+Ja0zAa3YC6PjnFoKa4dffFRWSzuePVWhWL30gXqk2XimMzlvAWWLOfG/x41crU8akKlCMcvdnjFgXw3aS0J/CpK88xhL62a9lXU=
+Received: from CH2PR02CA0020.namprd02.prod.outlook.com (2603:10b6:610:4e::30)
+ by DS2PR19MB9460.namprd19.prod.outlook.com (2603:10b6:8:2d2::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Thu, 7 May
+ 2026 15:35:58 +0000
+Received: from CH2PEPF0000013D.namprd02.prod.outlook.com
+ (2603:10b6:610:4e:cafe::11) by CH2PR02CA0020.outlook.office365.com
+ (2603:10b6:610:4e::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.17 via Frontend Transport; Thu,
+ 7 May 2026 15:35:58 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH2PEPF0000013D.mail.protection.outlook.com (10.167.244.69) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.9
+ via Frontend Transport; Thu, 7 May 2026 15:35:57 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 0D20C40654F;
+	Thu,  7 May 2026 15:35:56 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id DE2A582024A;
+	Thu,  7 May 2026 15:35:55 +0000 (UTC)
+Date: Thu, 7 May 2026 16:35:54 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Tobias Bachmann <tobac@mailbox.org>
+Cc: linux-sound@vger.kernel.org, Richard Fitzgerald <rf@opensource.cirrus.com>,
+        David Rhodes <david.rhodes@cirrus.com>, patches@opensource.cirrus.com,
+        Mark Brown <broonie@kernel.org>
+Subject: Re: ASoC: cs42l43: SDCA reattach timeout on Dell XPS 14 Panther
+ Lake; chip stuck across distros and kernels; worked initially; still working
+ at hardware level
+Message-ID: <afyxWuMCcawIE2+v@opensource.cirrus.com>
+References: <cLVwl4lrR76pLtv8VxMSaA@mailbox.org>
+ <afxZdCOyzzwocQON@opensource.cirrus.com>
+ <y6AZlQCPSdCp46upW40QCA@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <36875d66-f601-4d18-9654-bd86b60918e8@leemhuis.info>
- <87bjett3ud.wl-tiwai@suse.de> <7929c116-ff2e-413b-ae73-e7d19e846e0f@harin.net>
- <87v7czrasg.wl-tiwai@suse.de> <trinity-c85da660-f130-434c-a64c-a076180ce5c0-1778158023623@3c-app-mailcom-bs03>
- <87qznnpd2p.wl-tiwai@suse.de> <CAFTm+6Bj_dWdSifUoS7hZ3kfVambXK_=7jyGuHp33RZoSEGVUA@mail.gmail.com>
- <87cxz7p8b3.wl-tiwai@suse.de>
-In-Reply-To: <87cxz7p8b3.wl-tiwai@suse.de>
-From: Matt DeVillier <matt.devillier@gmail.com>
-Date: Thu, 7 May 2026 10:12:00 -0500
-X-Gm-Features: AVHnY4KoM__qBAlwXU-NVqbc1xYT9cd538UDdfYgaoMAC9hj-QAhu4sK2YQEPDo
-Message-ID: <CAFTm+6AfeXKf=b2frG4xC5yC4jjM9TkD6c8+dOWWFw6BDjDESw@mail.gmail.com>
-Subject: Re: [regression] ctxfi: no speaker output when headphones connected
- on >=7.0.x
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Dutch Ingraham <stoa@gmx.us>, Harin Lee <me@harin.net>, 
-	Thorsten Leemhuis <regressions@leemhuis.info>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, 
-	Linux kernel regressions list <regressions@lists.linux.dev>, 
-	Linux Sound System <linux-sound@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="000000000000809dd306513bb418"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <y6AZlQCPSdCp46upW40QCA@mailbox.org>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF0000013D:EE_|DS2PR19MB9460:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2aaf8c2-fdc9-40d1-24d4-08deac4e559d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|61400799027|36860700016|376014|82310400026|16102099003|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	lldcypk+FzQ8dT9pIW3snCYvynASZa4Lo0LFB0sJnqguCadgyTqSZe6pk0A4NMv4Y9zhQc8la5k7aIBpyMuRGKLZUo1sHQGSnSuSecq4foTGCuIQd503L7jR83HvnHCJPZsgj1vA+Ms+gDN0XzMNLOBOrKTqoZpC+6Oj0z1Bto57XzRSVWrY9k6ELkxLONFKl6oXQYAPuumvE5vlelaaNrgo9v7y+H/7nT+yW8cAX8XBTH9jBuYDAiLE7wvLgTvqU6NxDXFZ/3U2meO7cXMRzgcJ8AGrhoIeZJ/dxMQVycPHk5GI/rsFekPlVRGPq/w23+cgojxpzprtM39TWZ8ZkWJBetcGp8C0ACVhEjl8c/fOxvHGJwODASiromIyb9nOiKSlJNDthdHWd3LpwzKjwxSykn8vecXUWXvu7V3w2UwcFkUcxc1sey27NtLJoAZFAGGOqte/TEoHgC33DDA+9g+l6pJEfxWHTBVezosJ8wNu+bI3Z037OmHmsv1EWd26qCU63L1IJM3QbT8vPUFF4F7fsVZnfcQ8iJdv1XGo/VkXp0jDuDqZIXoFQcPIuigDVZzcUmqM9v4k0WnRs7tfbCQSXPn+vOECUFM2US2wM1dR6nRSMt73SkqNXrzzXg0abYm2NqHnyfeP1q7cCOs0FzXqhOychAqZWOJtASjvGyejf7W3InhUzYH9yqRpQpjFJtSBXfDa+faC/nritX7UTsmtUGzcrQn402VdzwohJoc=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(36860700016)(376014)(82310400026)(16102099003)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	VOCr+J1WGstDAo73u4uO4qzlRCd5olXemEJOk7vIl4dmwcvaXbu4i8qH7FE7hdHWXi8O4y2Cm5v+4kVWQOfThWG4vXCgo/uSknWQZ4ItfJ+QVF0NJ1E27ireCyvUruqHLHSmseMRmpYe4u1nkTxZ/i7ZnNCnPdLKlVOlZTtFXEStNMk7ri2ennh4l1GjguE9zfFyvhqUs8mO25/3svhOklb5WTOa0ZPRNKprR+tGOuwbh4UYOinN4y7+cPV7NWP+78vtapuSNGAAHUTLU3SvSSLu5m/+KhJzuWgLaQ5/2NOBJwNREDtI4TeWH1V87R1fILXDOABuDM3GBsvLpGGLHSMZHKXyx95NaOiPw3ehxdnN+VzwveNIgOt1JXr3ttC5vJ2kbOpJpIHNyHTEroGaN9RlVRX4DwrgEgOu6KkWs8G2d2Ei73OvA/VjPNkXpqkZ
+X-Exchange-RoutingPolicyChecked:
+	v81jyTbla2iPj5T+MSaQZf6Z3AyLdxnLRy9+6Yvtv7HenV/V1vQmtC2NKJ+mjLpGruBHQ6UiiIkRyraRA/wP7uMd4SMQfKM3zGOOBFi51j46FehyVcchRxYxf5AJ9q8BljgzJr8LQelpBthGVaggagoAlcSkiKzLzG87dUGoGHGkOXyN0I+Q40kNJe2DpAZ9j6meSEKNUQXkQCeZ+a7VWettVuMaH+TavgNIn/Vm/QRrposriPS1RWmoJXOhlJE/FC8LOO+jiuoDSishd+V+tJcfW+LWySNiVt5i4zp2rAQAgvhRx4UIQdt+n734bXwzWLEPtIJgeQcrimjhGSkc8Q==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 15:35:57.4619
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2aaf8c2-fdc9-40d1-24d4-08deac4e559d
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH2PEPF0000013D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR19MB9460
+X-Proofpoint-GUID: GER6dT4NZEf71CaJhZJjzitO8nLuBeD3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA3MDE1NiBTYWx0ZWRfX6g23gpcfUL3q
+ 5d5TIOqmYW3FbWTbFx6GWI5koRG5iYddcYIq0nmuGxOwzLsJ7UZiWAwlEReVqdUnFO5UndnGmri
+ iJXnxS2n3D+DC43iIU/Fm/EzaHJMwGWON4wq6oFUibhUPvgSFYGw9bHh5NK0p5vHXFAj7HndYnT
+ Fc5JTi6lucx6g+5CUyYajWTqkBVTZalDlDIUGqoG+iFKtI2bl5pfjDR8YJfdwiK744I2gqPXdnm
+ ELI6SX72hEQePr7u6bZxHmDs9tW87MtiTDAtfwBvUph92F/8o8TYg8O9sO23ORRA5CLRCqSKfn2
+ /z49ottJrcEz9sgMpIXuPVU45z+OH/AhwOw+TpMegCS7uRuyJkqcq+RCHw4cnoonJH3yMhm7vn7
+ 7lfeJcwzMVa+P80u+R24d07I+vwGWxlqE9Ld4U1kANAGAc6Msp+xwlzx9pI/YoItKt61ZW+fi8f
+ KVcDjEUW0fMCYPKPoAA==
+X-Proofpoint-ORIG-GUID: GER6dT4NZEf71CaJhZJjzitO8nLuBeD3
+X-Authority-Analysis: v=2.4 cv=LZcMLDfi c=1 sm=1 tr=0 ts=69fcb160 cx=c_pps
+ a=IAlGFxvWO5AZskdmYTP3vQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=6AsUN9F6HgPPI4PLLN4A:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Reason: safe
 
---000000000000809dd306513bb418
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, May 07, 2026 at 02:32:21PM +0200, Tobias Bachmann wrote:
+> thank you for picking this up so quickly, much appreciated.
 
-On Thu, May 7, 2026 at 10:07=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wrote:
->
-> On Thu, 07 May 2026 17:02:14 +0200,
-> Matt DeVillier wrote:
-> >
-> >
-> > On Thu, May 7, 2026 at 8:24=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wro=
-te:
-> >
-> >     On Thu, 07 May 2026 14:47:03 +0200,
-> >     Dutch Ingraham wrote:
-> >     >
-> >     > > Sent: Thursday, May 07, 2026 at 1:30 AM
-> >     > > From: "Takashi Iwai" <tiwai@suse.de>
-> >     > > To: "Harin Lee" <me@harin.net>
-> >     > > Cc: "Takashi Iwai" <tiwai@suse.de>, "Thorsten Leemhuis" <
-> >     regressions@leemhuis.info>, "Jaroslav Kysela" <perex@perex.cz>, "Ta=
-kashi
-> >     Iwai" <tiwai@suse.com>, "Linux kernel regressions list" <
-> >     regressions@lists.linux.dev>, "Linux Sound System" <
-> >     linux-sound@vger.kernel.org>, "LKML" <linux-kernel@vger.kernel.org>=
-,
-> >     stoa@gmx.us
-> >     > > Subject: Re: [regression] ctxfi: no speaker output when headpho=
-nes
-> >     connected on >=3D7.0.x
-> >     > >
-> >     > > On Thu, 07 May 2026 00:06:11 +0200,
-> >     > > Harin Lee wrote:
-> >     > > >
-> >     > > > On 5/6/26 4:05 PM, Takashi Iwai wrote:
-> >     > > > > On Wed, 06 May 2026 08:24:36 +0200,
-> >     > > > > Thorsten Leemhuis wrote:
-> >     > > > >>
-> >     > > > >> Hi! Just FYI, I noticed a regression report in bugzilla:
-> >     > > > >>
-> >     > > > >> https://bugzilla.kernel.org/show_bug.cgi?id=3D221461
-> >     > > > >>
-> >     > > > >> To quote:
-> >     > > > >>
-> >     > > > >>> Dutch Ingraham 2026-05-03 18:12:49 UTC
-> >     > > > >>>
-> >     > > > >>> Kernels >=3D7.0.1 contain a regression as to Creative Sou=
-nd
-> >     Blaster Z SE
-> >     > > > >>> discrete pci sound card, but not integrated. Kernels 7.0.=
-1,
-> >     7.0.2, and
-> >     > > > >>> 7.0.3 tested; 7.0.0 not tested. Reverting to any 6.18.x o=
-r
-> >     6.12.x does
-> >     > > > >>> not present the issue.
-> >     > > > >>>
-> >     > > > >>> Specifically, using pipewire managed by pavucontrol, on b=
-oth
-> >     Gentoo and
-> >     > > > >>> Arch Linux, when both external speakers and headphones ar=
-e
-> >     connected,
-> >     > > > >>> all sound is routed through the headphones regardless of
-> >     whether settings
-> >     > > > >>> are set to Line Out/Speaker or Line Out/Headphones; there=
- is no
-> >     speaker
-> >     > > > >>> output. If headphones are disconnected, without reboot,
-> >     speakers work;
-> >     > > > >>> reconnect headphones, without reboot, sound reverts to
-> >     headphones.
-> >     > > > >>>
-> >     > > > >>> Kernel: 7.0.3, Gentoo compiled from source using olddefco=
-nfig
-> >     on 6.18.24
-> >     > > > >>>               .config; Arch standard release
-> >     > > > >>> 'lspci -nnk | grep -i audio' attached
-> >     > > > >>> 'dmesg | grep -i audio' for 7.0.3 and 6.18.24 attached
-> >     > > > >>> pipewire-1.6.4 on both Gentoo and Arch Linux
-> >     > > > >>> alsa-firmware-1.2.4 on both Gentoo and Arch Linux
-> >     > > > >>> 'cat /proc/sys/kernel/tainted' returns 0 for both Gentoo =
-and
-> >     Arch Linux
-> >     > > > >>>
-> >     > > > >>> Processor             :       AMD Ryzen7 5700G
-> >     > > > >>> Motherboard           :       Asus Prime X570-Pro
-> >     > > > >>> RAM                           :       Patriot Viper Steel=
- DDR-4
-> >     @3200mHz
-> >     > > > >>> Graphics        :   ASRock AMD Radeon RX 7600 Challenger =
-8GB OC
-> >     > > > >>> Sound Card      :   Creative Sound Blaster Z SE
-> >     > > > >>>
-> >     > > > >>>
-> >     > > > >>> Expected outcome: ability to choose output to either spea=
-kers
-> >     or head-
-> >     > > > >>> phones while both are plugged-in to sound card.
-> >     > > > >>>
-> >     > > > >>> Workaround: none known.
-> >     > > > >>
-> >     > > > >> See the ticket for more details. One of them: 7.1-rc2 is
-> >     affected as
-> >     > > > >> well. Reporter is CCed. Forwarded this to ensure this repo=
-rt
-> >     makes it to
-> >     > > > >> the interested parties, as bugzilla might not have forward=
-ed
-> >     this.
-> >     > > > >>
-> >     > > > >> Dutch Ingraham: if nobody within a few days has an idea wh=
-y this
-> >     > > > >> happens, you will likely have to use a git bisection to ge=
-t this
-> >     resolved.
-> >     > > > >
-> >     > > > > As there have been many significant changes in ctxfi since =
-6.18,
-> >     it's
-> >     > > > > hard to tell what broke.  Please go git bisect.
-> >     > > > >
-> >     > > > >
-> >     > > > > thanks,
-> >     > > > >
-> >     > > > > Takashi
-> >     > > > >
-> >     > > >
-> >     > > > Creative Sound Blaster Z-series uses the snd_hda_codec_ca0132
-> >     driver,
-> >     > > > not snd_ctxfi. The dmesg logs in the bugzilla shows only ca01=
-32
-> >     > > > entries.
-> >     > >
-> >     > > Ah, sorry, then it's easier.  The only major change is the
-> >     > > commit 778031e1658d206a52bf9491c91ae5d4f4a2509d
-> >     > >     ALSA: hda/ca0132: Set HP/Speaker auto-detect default from
-> >     headphone pin verb
-> >     > >
-> >     > > Try to revert this one.
-> >     > >
-> >     > >
-> >     > > thanks,
-> >     > >
-> >     > > Takashi
-> >     > >
-> >     >
-> >     > I can confirm this seems like a good candidate. I built and teste=
-d
-> >     6.19.14
-> >     > and 7.0. On 6.19.14, speakers work as expected; on 7.0, speakers =
-are
-> >     not
-> >     > working as expected and the offending patch is included in the 7.=
-0
-> >     patchset.
-> >     >
-> >     > Thank you all for your work on this issue.
-> >
-> >     OK, then let's put Matt to the party.
-> >     Matt, could you help for debugging the regression?
-> >
-> >     Takashi
-> >
-> > I can confirm the regression here on my 2013 Chromebook Pixel w/CA0132.
-> >
-> > Looking more closely, the issue is that tVNID_HP_ASEL and VNID_HP_SEL a=
-re
-> > mutually exclusive selection sources in ca0132_select_out() /
-> > ca0132_alt_select_out(),
-> > and auto-detect always "wins." So, enabling auto-detect effectively dis=
-abled
-> > user
-> > override.
-> >
-> > While reverting would fix this problem, it would reintroduce the proble=
-m of
-> > jack-detect being
-> > ignored completely. A better solution would be to default to auto-detec=
-t, but
-> > allow manual selection
-> > to override. Here's a quick patch I whipped up that should resolve the =
-issue
-> > (untested though):
-> > ---
-> > From: Matt DeVillier <matt.devillier@gmail.com>
-> > Date: Thu, 7 May 2026 09:58:41 -0500
-> > Subject: [PATCH] ALSA: hda/ca0132: Disable auto-detect on manual output
-> > select
-> >
-> > Commit 778031e1658d ("ALSA: hda/ca0132: Set HP/Speaker
-> > auto-detect default from headphone pin verb") enables HP/Speaker
-> > auto-detect by default when the headphone pin supports presence detect.
-> >
-> > With auto-detect enabled, ca0132_select_out() and ca0132_alt_select_out=
-()
-> > choose the output from jack presence instead of the manual HP/Speaker
-> > selection. This means selecting speaker output while headphones are
-> > plugged in updates the control state, but audio still routes to the
-> > headphones.
-> >
-> > Treat an explicit manual output selection as a request to leave
-> > auto-detect mode. Clear the HP/Speaker auto-detect switch before applyi=
-ng
-> > the manual selection, and notify userspace so the auto-detect control
-> > state is updated in mixers. Do this for both the normal HP/Speaker
-> > Playback Switch and the alternate Output Select control used by desktop
-> > cards.
-> >
-> > This keeps auto-detect enabled by default for devices with jack presenc=
-e
-> > detection, while preserving the expected behavior that a manual output
-> > choice takes effect immediately.
-> >
-> > Fixes: 778031e1658d ("ALSA: hda/ca0132: Set HP/Speaker auto-detect defa=
-ult
-> > from headphone pin verb")
-> > Signed-off-by: Matt DeVillier <matt.devillier@gmail.com>
-> > ---
-> >  sound/hda/codecs/ca0132.c | 44 +++++++++++++++++++++++++++++++--------=
------
-> >  1 file changed, 31 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/sound/hda/codecs/ca0132.c b/sound/hda/codecs/ca0132.c
-> > index ad533b04ab29..be565ffaade0 100644
-> > --- a/sound/hda/codecs/ca0132.c
-> > +++ b/sound/hda/codecs/ca0132.c
-> > @@ -5498,6 +5498,30 @@ static int zxr_headphone_gain_set(struct hda_cod=
-ec
-> > *codec, long val)
-> >   return 0;
-> >  }
-> (snip)
->
-> It looks like that the patch is malformed by your mailer.
-> For avoiding unneeded troubles, please fix the setup or give an
-> attachment, too.
->
->
-> thanks,
->
-> Takashi
+No problem :-)
 
-My apologies, forgot to ensure text-mode sending when I replied.
-Hopefully better this time.
+> On Thur, May 07, 2026, 11:20:52 CEST, Charles Keepax wrote:
+> Does this mean faulty hardware is the most likely option? This laptop
+> is barely a week old. Or is it possible the driver left the chip in a non-
+> working (but potentially recoverable) state?
 
-regards,
-Matt
+Yeah I am afraid this looks like a hardware problem, enumerating
+on the SoundWire bus is pretty much only dependant on power
+rails.
 
---000000000000809dd306513bb418
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-ALSA-hda-ca0132-Disable-auto-detect-on-manual-outpu.patch"
-Content-Disposition: attachment; 
-	filename="0001-ALSA-hda-ca0132-Disable-auto-detect-on-manual-outpu.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_movmgxrg0>
-X-Attachment-Id: f_movmgxrg0
+As you say there is a tiny hope the device has got into a weird
+state but isn't reset on a reboot. However, given it looks from
+the log like the amps were reset:
 
-RnJvbSAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXR0IERlVmlsbGllciA8bWF0dC5kZXZpbGxpZXJAZ21haWwu
-Y29tPgpEYXRlOiBUaHUsIDcgTWF5IDIwMjYgMDk6NTg6NDEgLTA1MDAKU3ViamVjdDogW1BBVENI
-XSBBTFNBOiBoZGEvY2EwMTMyOiBEaXNhYmxlIGF1dG8tZGV0ZWN0IG9uIG1hbnVhbCBvdXRwdXQg
-c2VsZWN0CgpDb21taXQgNzc4MDMxZTE2NThkICgiQUxTQTogaGRhL2NhMDEzMjogU2V0IEhQL1Nw
-ZWFrZXIKYXV0by1kZXRlY3QgZGVmYXVsdCBmcm9tIGhlYWRwaG9uZSBwaW4gdmVyYiIpIGVuYWJs
-ZXMgSFAvU3BlYWtlcgphdXRvLWRldGVjdCBieSBkZWZhdWx0IHdoZW4gdGhlIGhlYWRwaG9uZSBw
-aW4gc3VwcG9ydHMgcHJlc2VuY2UgZGV0ZWN0LgoKV2l0aCBhdXRvLWRldGVjdCBlbmFibGVkLCBj
-YTAxMzJfc2VsZWN0X291dCgpIGFuZCBjYTAxMzJfYWx0X3NlbGVjdF9vdXQoKQpjaG9vc2UgdGhl
-IG91dHB1dCBmcm9tIGphY2sgcHJlc2VuY2UgaW5zdGVhZCBvZiB0aGUgbWFudWFsIEhQL1NwZWFr
-ZXIKc2VsZWN0aW9uLiBUaGlzIG1lYW5zIHNlbGVjdGluZyBzcGVha2VyIG91dHB1dCB3aGlsZSBo
-ZWFkcGhvbmVzIGFyZQpwbHVnZ2VkIGluIHVwZGF0ZXMgdGhlIGNvbnRyb2wgc3RhdGUsIGJ1dCBh
-dWRpbyBzdGlsbCByb3V0ZXMgdG8gdGhlCmhlYWRwaG9uZXMuCgpUcmVhdCBhbiBleHBsaWNpdCBt
-YW51YWwgb3V0cHV0IHNlbGVjdGlvbiBhcyBhIHJlcXVlc3QgdG8gbGVhdmUKYXV0by1kZXRlY3Qg
-bW9kZS4gQ2xlYXIgdGhlIEhQL1NwZWFrZXIgYXV0by1kZXRlY3Qgc3dpdGNoIGJlZm9yZSBhcHBs
-eWluZwp0aGUgbWFudWFsIHNlbGVjdGlvbiwgYW5kIG5vdGlmeSB1c2Vyc3BhY2Ugc28gdGhlIGF1
-dG8tZGV0ZWN0IGNvbnRyb2wKc3RhdGUgaXMgdXBkYXRlZCBpbiBtaXhlcnMuIERvIHRoaXMgZm9y
-IGJvdGggdGhlIG5vcm1hbCBIUC9TcGVha2VyClBsYXliYWNrIFN3aXRjaCBhbmQgdGhlIGFsdGVy
-bmF0ZSBPdXRwdXQgU2VsZWN0IGNvbnRyb2wgdXNlZCBieSBkZXNrdG9wCmNhcmRzLgoKVGhpcyBr
-ZWVwcyBhdXRvLWRldGVjdCBlbmFibGVkIGJ5IGRlZmF1bHQgZm9yIGRldmljZXMgd2l0aCBqYWNr
-IHByZXNlbmNlCmRldGVjdGlvbiwgd2hpbGUgcHJlc2VydmluZyB0aGUgZXhwZWN0ZWQgYmVoYXZp
-b3IgdGhhdCBhIG1hbnVhbCBvdXRwdXQKY2hvaWNlIHRha2VzIGVmZmVjdCBpbW1lZGlhdGVseS4K
-CkZpeGVzOiA3NzgwMzFlMTY1OGQgKCJBTFNBOiBoZGEvY2EwMTMyOiBTZXQgSFAvU3BlYWtlciBh
-dXRvLWRldGVjdCBkZWZhdWx0IGZyb20gaGVhZHBob25lIHBpbiB2ZXJiIikKU2lnbmVkLW9mZi1i
-eTogTWF0dCBEZVZpbGxpZXIgPG1hdHQuZGV2aWxsaWVyQGdtYWlsLmNvbT4KLS0tCiBzb3VuZC9o
-ZGEvY29kZWNzL2NhMDEzMi5jIHwgNDQgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0t
-LS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAzMSBpbnNlcnRpb25zKCspLCAxMyBkZWxldGlv
-bnMoLSkKCmRpZmYgLS1naXQgYS9zb3VuZC9oZGEvY29kZWNzL2NhMDEzMi5jIGIvc291bmQvaGRh
-L2NvZGVjcy9jYTAxMzIuYwppbmRleCBhZDUzM2IwNGFiMjkuLmJlNTY1ZmZhYWRlMCAxMDA2NDQK
-LS0tIGEvc291bmQvaGRhL2NvZGVjcy9jYTAxMzIuYworKysgYi9zb3VuZC9oZGEvY29kZWNzL2Nh
-MDEzMi5jCkBAIC01NDk4LDYgKzU0OTgsMzAgQEAgc3RhdGljIGludCB6eHJfaGVhZHBob25lX2dh
-aW5fc2V0KHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjLCBsb25nIHZhbCkKIAlyZXR1cm4gMDsKIH0K
-IAorLyoKKyAqIE1hbnVhbCBvdXRwdXQgc2VsZWN0aW9uIChIUC9TcGVha2VyIFBsYXliYWNrIFN3
-aXRjaCBvciBhbHQgT3V0cHV0IFNlbGVjdCkKKyAqIGlzIG1lYW5pbmdmdWwgb25seSB3aGVuIEhQ
-L1NwZWFrZXIgYXV0by1kZXRlY3QgaXMgZGlzYWJsZWQsIHNpbmNlIHRoZQorICogc2VsZWN0X291
-dCBwYXRoIGFsd2F5cyBwcmVmZXJzIGphY2sgcHJlc2VuY2Ugd2hlbiBhdXRvLWRldGVjdCBpcyBv
-bi4gV2hlbgorICogdGhlIHVzZXIgZXhwbGljaXRseSBjaG9vc2VzIGFuIG91dHB1dCwgdHVybiBh
-dXRvLWRldGVjdCBvZmYgc28gdGhlIG1hbnVhbAorICogY2hvaWNlIGFjdHVhbGx5IHRha2VzIGVm
-ZmVjdCwgYW5kIG5vdGlmeSB1c2Vyc3BhY2Ugc28gdGhlIGF1dG8tZGV0ZWN0CisgKiBjb250cm9s
-IHJlZmxlY3RzIHRoZSBuZXcgc3RhdGUuCisgKi8KK3N0YXRpYyB2b2lkIGNhMDEzMl9kaXNhYmxl
-X2hwX2F1dG9fZGV0ZWN0KHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQoreworCXN0cnVjdCBjYTAx
-MzJfc3BlYyAqc3BlYyA9IGNvZGVjLT5zcGVjOworCXN0cnVjdCBzbmRfa2NvbnRyb2wgKmtjdGw7
-CisKKwlpZiAoIXNwZWMtPnZub2RlX2xzd2l0Y2hbVk5JRF9IUF9BU0VMIC0gVk5PREVfU1RBUlRf
-TklEXSkKKwkJcmV0dXJuOworCisJc3BlYy0+dm5vZGVfbHN3aXRjaFtWTklEX0hQX0FTRUwgLSBW
-Tk9ERV9TVEFSVF9OSURdID0gMDsKKwlrY3RsID0gc25kX2hkYV9maW5kX21peGVyX2N0bChjb2Rl
-YywKKwkJCQkgICAgICAiSFAvU3BlYWtlciBBdXRvIERldGVjdCBQbGF5YmFjayBTd2l0Y2giKTsK
-KwlpZiAoa2N0bCkKKwkJc25kX2N0bF9ub3RpZnkoY29kZWMtPmNhcmQsIFNORFJWX0NUTF9FVkVO
-VF9NQVNLX1ZBTFVFLAorCQkJICAgICAgICZrY3RsLT5pZCk7Cit9CisKIHN0YXRpYyBpbnQgY2Ew
-MTMyX3Zub2RlX3N3aXRjaF9zZXQoc3RydWN0IHNuZF9rY29udHJvbCAqa2NvbnRyb2wsCiAJCQkJ
-c3RydWN0IHNuZF9jdGxfZWxlbV92YWx1ZSAqdWNvbnRyb2wpCiB7CkBAIC01NTEwLDE0ICs1NTM0
-LDExIEBAIHN0YXRpYyBpbnQgY2EwMTMyX3Zub2RlX3N3aXRjaF9zZXQoc3RydWN0IHNuZF9rY29u
-dHJvbCAqa2NvbnRyb2wsCiAJaW50IGF1dG9famFjazsKIAogCWlmIChuaWQgPT0gVk5JRF9IUF9T
-RUwpIHsKLQkJYXV0b19qYWNrID0KLQkJCXNwZWMtPnZub2RlX2xzd2l0Y2hbVk5JRF9IUF9BU0VM
-IC0gVk5PREVfU1RBUlRfTklEXTsKLQkJaWYgKCFhdXRvX2phY2spIHsKLQkJCWlmIChjYTAxMzJf
-dXNlX2FsdF9mdW5jdGlvbnMoc3BlYykpCi0JCQkJY2EwMTMyX2FsdF9zZWxlY3Rfb3V0KGNvZGVj
-KTsKLQkJCWVsc2UKLQkJCQljYTAxMzJfc2VsZWN0X291dChjb2RlYyk7Ci0JCX0KKwkJY2EwMTMy
-X2Rpc2FibGVfaHBfYXV0b19kZXRlY3QoY29kZWMpOworCQlpZiAoY2EwMTMyX3VzZV9hbHRfZnVu
-Y3Rpb25zKHNwZWMpKQorCQkJY2EwMTMyX2FsdF9zZWxlY3Rfb3V0KGNvZGVjKTsKKwkJZWxzZQor
-CQkJY2EwMTMyX3NlbGVjdF9vdXQoY29kZWMpOwogCQlyZXR1cm4gMTsKIAl9CiAKQEAgLTU5Nzgs
-NyArNTk5OSw2IEBAIHN0YXRpYyBpbnQgY2EwMTMyX2FsdF9vdXRwdXRfc2VsZWN0X3B1dChzdHJ1
-Y3Qgc25kX2tjb250cm9sICprY29udHJvbCwKIAlzdHJ1Y3QgY2EwMTMyX3NwZWMgKnNwZWMgPSBj
-b2RlYy0+c3BlYzsKIAlpbnQgc2VsID0gdWNvbnRyb2wtPnZhbHVlLmVudW1lcmF0ZWQuaXRlbVsw
-XTsKIAl1bnNpZ25lZCBpbnQgaXRlbXMgPSBOVU1fT0ZfT1VUUFVUUzsKLQl1bnNpZ25lZCBpbnQg
-YXV0b19qYWNrOwogCiAJaWYgKHNlbCA+PSBpdGVtcykKIAkJcmV0dXJuIDA7CkBAIC01OTg4LDEw
-ICs2MDA4LDggQEAgc3RhdGljIGludCBjYTAxMzJfYWx0X291dHB1dF9zZWxlY3RfcHV0KHN0cnVj
-dCBzbmRfa2NvbnRyb2wgKmtjb250cm9sLAogCiAJc3BlYy0+b3V0X2VudW1fdmFsID0gc2VsOwog
-Ci0JYXV0b19qYWNrID0gc3BlYy0+dm5vZGVfbHN3aXRjaFtWTklEX0hQX0FTRUwgLSBWTk9ERV9T
-VEFSVF9OSURdOwotCi0JaWYgKCFhdXRvX2phY2spCi0JCWNhMDEzMl9hbHRfc2VsZWN0X291dChj
-b2RlYyk7CisJY2EwMTMyX2Rpc2FibGVfaHBfYXV0b19kZXRlY3QoY29kZWMpOworCWNhMDEzMl9h
-bHRfc2VsZWN0X291dChjb2RlYyk7CiAKIAlyZXR1cm4gMTsKIH0KLS0gCjIuNTEuMAoK
---000000000000809dd306513bb418--
+[   14.603448] cs35l56 sdw:0:2:01fa:3557:01:2: Cirrus Logic CS35L57 Rev B2 OTP1 fw:4.2.1 (patched=0)
+
+That patched=0 means the firmware has been wiped and that only
+happens on a reset and as far as I know the resets are tied
+together on this model. The very very long shot would be to let
+the battery run down and leave the device for a bit to try and
+super make sure the power rails went down which would also fully
+reset the device. But it is definitely a long shot.
+
+Thanks,
+Charles
