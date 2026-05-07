@@ -1,135 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D1530EF88;
-	Thu,  7 May 2026 21:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B91B2F60CC
+	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 23:21:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778189428; cv=none; b=NuOvzp7frk3GgNeRdJNT8Xq6LkUeynhIh0hFKAckeXTdCHEmfs2fwq40KCuN5y5WMziK5AIoSjjgw5IqkAS2Oc7F1ZE1eRcMulYOPhmiP+jv8cQ8JX8LYG5OZ3EVWABcPISvFHWx/BDM+XbhyKByZzGt7oEaXFx0jhWTuLCNCL4=
+	t=1778196112; cv=none; b=PfMAI0zU47PaP/Qm0Qv0y3Ev2rGn0pYv0GUXMx2XFqxExGFLbBKJEK979jvYAKgch9zLqdtsSMHRvHyaLYrqXt1P+FN4u6fNmV0eo1MA9esN2rNaTGbzMx6zOXa1vBgt/hq4H/g2ZKTBkdeCZ2LwONWIMGk3uGqPJ2Goh/Bkl0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778189428; c=relaxed/simple;
-	bh=7E4rp+S4dqE0OVdstaoROQZLQNR9BomvZCyTiVcToKw=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=tD8iW099RBtNn81zRqNKVobqbtKCfUIxFyljkOWb3sfYMPgeD3WyyHgxY7othUJsIcCJzuRyd/njvBobxn7uMUytAy2pPk9yLtsKF9453iUXFsgj9QAf8IMuiEMmxwadWZv/5IU7Fu3YZkB/zWgolamdfClht7ALzLhJM4kbhp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JP+tRaG2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778196112; c=relaxed/simple;
+	bh=/7jMOqiqfS5E2Aa8V7nTqrJGxlbfE7BVeWQEGpFRgbQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gX7tg7IXVjG1Ln3NpbRYXctmXg4kFBcWspNCkEHDnje+GCD6YckkPJOxvoMe1sCZNFLGTzpT5t8ILnmeKX9XQ72oig0dxM/dXiZzYP8XvgszMCCuspm1VD4151BlGzCIhQ2AUS3z9O3So+ojPUROGh/fid+ZRAjcaZ5mmDNR1ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SrnPzTG5; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JP+tRaG2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FD30C2BCB2;
-	Thu,  7 May 2026 21:30:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778189427;
-	bh=7E4rp+S4dqE0OVdstaoROQZLQNR9BomvZCyTiVcToKw=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=JP+tRaG2NL8qdE5D6PVSpQ5I6vDQosXt9S2m2W0CXsjlSr61fgsBw3lRkOY6nwgdb
-	 lAhuVEpOL9n+h7bqzbfWCW0GUj4vReohE2r1IoVRn/vZvx6lgxIV/+hd8+HfKTujre
-	 hLmsHYSk0vbcj2jqokpp8rUQ2w7UZprVGEN4ONUcJBIAjb+pWB4efRRM93IjwNMS8D
-	 8SeYJgiqBdZIF4vbGYROv1EahDoxf1wJlCJUlA6LMxJoh52W6DTcjLuv4QmDl2H7xo
-	 IfHOwegNi9DrpP8JSPFkQx44XYkneIdfHWzf5WRgH+GudQdILoxHaNytMrBgR00J+D
-	 4i4mqR6bL8tow==
-Date: Thu, 07 May 2026 16:30:25 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SrnPzTG5"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2b458ca2296so9130355ad.0
+        for <linux-sound@vger.kernel.org>; Thu, 07 May 2026 16:21:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778196110; x=1778800910; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gqk0bhbr2l3f7IDwzLFxsnylMpESKM7ghHU7R8b35rk=;
+        b=SrnPzTG5VFnRWN4mRIqwVcHhGsjR0ckwWyua02g53JMbIUvuRNY/u2uwb3AKINzyau
+         l6Cq6KmZxjpvBPc0lCOByPxy9RaTSWXkQ7MNCF+wube/k/w/j6ntAHZM89guh/jPcblg
+         UhmYfOtp/jBl+l4NW9n5f4j9mcZyI151SrwiGcZE/VneODIC1VR+jQAaVppdADM2gD6K
+         dnQdRM3z6osmyKRmvZoEk4I4AMs6u0SLME3lyX8l9uQgl0jQbAi8a2Ba2Dk9OeqxMLmo
+         PJu7dWlITAQQxMoc1PoZmlbsA8EBLUiJeAwav+rZHRix1/Xq+Xl/5nwAJzLegZby2Xo0
+         CwyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778196110; x=1778800910;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gqk0bhbr2l3f7IDwzLFxsnylMpESKM7ghHU7R8b35rk=;
+        b=hYi9d+TeE/cWiPYkVD0iWLsy7FtiolNWBt3ucVY8WY+xZym9igEjwvfzkmmjpOv/vX
+         UusEwTF+Nu918L4lNpNTJ96IRvRE37y93LZwQeb0rZZgjt7UAXnURzjCRHj/Z3EpNyVR
+         2l1lP1HFUpyi6S0C1W6vF1fuwGB1UzIhlqTSKTY4MsvyIC869P4Lx4msZqaFdYfliRN1
+         bQHgq0W+JvyPBiUu/Fl6z281C9IoIPFbtPuq/fOcJopfEmnB+kIT+0EMxZfOIUtRWR5o
+         87Q9TJQ/gOCG3lzIK5EQj15Ic08SnkyvZ28URvjKWsYSYTbRm0mxywpSKPr0OU9T+Dq9
+         or+g==
+X-Gm-Message-State: AOJu0Yz4SdYta9tJskrUuzMBqisvPT60/ZYuzlXbOdrZWh8x6tLlZTe3
+	3GBwYi9opaQwjoJ2Q8rH5tYZwfYWDcZ3cOsdEWybihabuP8pc4bu4UVmZ+YZQ3Aw
+X-Gm-Gg: Acq92OHoOV57htSs9PL1WjFJhDYgJgisXOU1P5fZrMuNgoqOCBaGs/Pyil6vcNvtcZm
+	uehnShtFs7aIHyUU4i7V5WNoVdUndokP7haDS89YzEThcnVoq/VPT+3bKSx8qu8TY2R7jMzjAJD
+	2iNEV4g3tsbatFfG7L/qSSSIYkvxGp8nz5EOUeUUC0+9slvhh8BC+fXaU1kgYVnHw+dWkkPvZfO
+	IpnfH24WckbAvWJ4VhVUGGTdfNkkf8co3rdQonstxqz9wNaYmuNtjehR8W7s2sHHfIiBTc/Qy+a
+	bHgpe+VhX80w7RYMA25CThdLTBHYyqXjnpcwWHaSypjtTvHK71ig18VcBLkPgxzt0JkC9aLS7ZQ
+	qY53vS/yYPz4P32H43ShYpOP46qObfks9AonLUP8KusUFJKr4BJjqwjB2kLBxaMAAFu/mbC+rsi
+	+gjTyyXkISABQdHIdUwzrhmDSzEscrj5VVHSYfIrkmv7jYhXTiVVPuRYJbPJMKYmSp6a67nuY4K
+	8YTeZxzD+oQMo+CsH4h+LKGm21siQbnyVA=
+X-Received: by 2002:a17:903:28c:b0:2b2:45b7:306e with SMTP id d9443c01a7336-2baf0cf2c98mr2125795ad.3.1778196110299;
+        Thu, 07 May 2026 16:21:50 -0700 (PDT)
+Received: from ryzen ([2601:644:8000:5b5d:7285:c2ff:fe45:8a32])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bae752f766sm9064475ad.2.2026.05.07.16.21.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2026 16:21:49 -0700 (PDT)
+From: Rosen Penev <rosenp@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-tegra@vger.kernel.org (open list:TEGRA ARCHITECTURE SUPPORT),
+	linux-kernel@vger.kernel.org (open list),
+	llvm@lists.linux.dev (open list:CLANG/LLVM BUILD SUPPORT:Keyword:\b(?i:clang|llvm)\b)
+Subject: [PATCH] ASoC: tegra: tegra210-mixer: Use div_u64() for 64-bit division
+Date: Thu,  7 May 2026 16:21:31 -0700
+Message-ID: <20260507232131.438589-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>, 
- Paolo Abeni <pabeni@redhat.com>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, linux-kernel@vger.kernel.org, 
- linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, Johannes Berg <johannes@sipsolutions.net>, 
- Bjorn Andersson <andersson@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- linux-arm-kernel@lists.infradead.org, Jeff Johnson <jjohnson@kernel.org>, 
- linux-pci@vger.kernel.org, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- linux-usb@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- ath11k@lists.infradead.org, linux-spi@vger.kernel.org, 
- linux-remoteproc@vger.kernel.org, Ulf Hansson <ulfh@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Andi Shyti <andi.shyti@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
- "David S. Miller" <davem@davemloft.net>, 
- Mathieu Poirier <mathieu.poirier@linaro.org>, 
- Maxime Ripard <mripard@kernel.org>, 
- Sylwester Nawrocki <s.nawrocki@samsung.com>, linux-wireless@vger.kernel.org, 
- Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org, 
- linux-i2c@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>, 
- netdev@vger.kernel.org, ath10k@lists.infradead.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-In-Reply-To: <20260507201749.2605365-1-robh@kernel.org>
-References: <20260507201749.2605365-1-robh@kernel.org>
-Message-Id: <177818942584.2803269.2192622854542354589.robh@kernel.org>
-Subject: Re: [PATCH v2] dt-bindings: Fix phandle-array constraints, again
+Content-Transfer-Encoding: 8bit
 
+A MIPS allmodconfig build with LLVM fails during modpost:
 
-On Thu, 07 May 2026 15:16:00 -0500, Rob Herring (Arm) wrote:
-> The unfortunately named 'phandle-array' property type is really a matrix
-> with phandle and fixed arg cells entries. A matrix property should have 2
-> levels of items constraints.
-> 
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
-> v2:
->  - Add proper descriptions for 'qcom,smem-states'. Thanks Krzysztof!
->  - Fix i2c-parent warning
->  - Fix extra blank lines
-> ---
->  .../rockchip/rockchip,rk3399-cdn-dp.yaml       |  2 ++
->  .../bindings/i2c/i2c-demux-pinctrl.yaml        |  1 +
->  .../mmc/hisilicon,hi3798cv200-dw-mshc.yaml     |  7 ++++---
->  .../devicetree/bindings/net/qcom,bam-dmux.yaml | 12 ++++++++++++
->  .../devicetree/bindings/net/qcom,ipa.yaml      | 12 ++++++++++++
->  .../bindings/net/wireless/qcom,ath10k.yaml     |  8 +++++++-
->  .../bindings/net/wireless/qcom,ath11k.yaml     |  8 +++++++-
->  .../net/wireless/qcom,ipq5332-wifi.yaml        | 18 ++++++++++++++++++
->  .../bindings/pci/toshiba,tc9563.yaml           |  5 +++--
->  .../remoteproc/qcom,msm8916-mss-pil.yaml       |  6 ++++++
->  .../remoteproc/qcom,msm8996-mss-pil.yaml       |  7 +++++++
->  .../bindings/remoteproc/qcom,pas-common.yaml   |  6 ++++++
->  .../remoteproc/qcom,qcs404-cdsp-pil.yaml       |  6 ++++++
->  .../remoteproc/qcom,sc7180-mss-pil.yaml        |  6 ++++++
->  .../remoteproc/qcom,sc7280-adsp-pil.yaml       |  6 ++++++
->  .../remoteproc/qcom,sc7280-mss-pil.yaml        |  6 ++++++
->  .../remoteproc/qcom,sc7280-wpss-pil.yaml       |  6 ++++++
->  .../remoteproc/qcom,sdm845-adsp-pil.yaml       |  6 ++++++
->  .../bindings/remoteproc/qcom,wcnss-pil.yaml    |  6 ++++++
->  .../devicetree/bindings/sound/samsung,tm2.yaml |  8 ++++++--
->  .../bindings/spi/st,stm32mp25-ospi.yaml        |  5 +++--
->  .../bindings/usb/chipidea,usb2-common.yaml     |  2 ++
->  .../devicetree/bindings/usb/ci-hdrc-usb2.yaml  |  7 ++++---
->  23 files changed, 142 insertions(+), 14 deletions(-)
-> 
+  ERROR: modpost: "__udivdi3"
+  [sound/soc/tegra/snd-soc-tegra210-mixer.ko] undefined!
 
-My bot found errors running 'make dt_binding_check' on your patch:
+tegra210_mixer_configure_gain() divides a 64-bit BIT_ULL() value by the
+fade duration. On 32-bit MIPS, clang emits a call to __udivdi3 for that
+plain C division, but that compiler helper is not exported to modules.
 
-yamllint warnings/errors:
+Use div_u64() for the inverse duration calculation so the driver uses the
+kernel's 64-bit division helper instead of emitting a compiler runtime
+call.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/i2c/i2c-demux-pinctrl.example.dtb: i2c-mux3 (i2c-demux-pinctrl): i2c-parent:0: [2, 3, 4] is too long
-	from schema $id: http://devicetree.org/schemas/i2c/i2c-demux-pinctrl.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/i2c/i2c-demux-pinctrl.example.dtb: i2c-mux3 (i2c-demux-pinctrl): i2c-parent: [[2, 3, 4]] is too short
-	from schema $id: http://devicetree.org/schemas/i2c/i2c-demux-pinctrl.yaml
+Assisted-by: Codex:GPT-5.5
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+---
+ sound/soc/tegra/tegra210_mixer.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.kernel.org/project/devicetree/patch/20260507201749.2605365-1-robh@kernel.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/sound/soc/tegra/tegra210_mixer.c b/sound/soc/tegra/tegra210_mixer.c
+index f05617b5f433..bfdd457f740c 100644
+--- a/sound/soc/tegra/tegra210_mixer.c
++++ b/sound/soc/tegra/tegra210_mixer.c
+@@ -7,6 +7,7 @@
+ #include <linux/clk.h>
+ #include <linux/device.h>
+ #include <linux/io.h>
++#include <linux/math64.h>
+ #include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+@@ -157,8 +158,8 @@ static int tegra210_mixer_configure_gain(struct snd_soc_component *cmpnt,
+ 			if (i == DURATION_N3_ID)
+ 				val = mixer->duration[id];
+ 			else if (i == DURATION_INV_N3_ID)
+-				val = (u32)(BIT_ULL(31 + TEGRA210_MIXER_PRESCALAR) /
+-					    mixer->duration[id]);
++				val = div_u64(BIT_ULL(31 + TEGRA210_MIXER_PRESCALAR),
++					      mixer->duration[id]);
+ 			else
+ 				val = gain_params.duration[i];
+ 		}
+-- 
+2.54.0
 
