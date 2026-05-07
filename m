@@ -1,198 +1,155 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01D832D7F8
-	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 06:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887853542F4;
+	Thu,  7 May 2026 07:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778135460; cv=none; b=jPTxAnflAGNe5KbwsNO5k4nO8IxqmR31UUE+gGQ6DpOaITld5gT/0g0+v3WQEnpYbY0r0m/EDUMnGjUFCK6qKUtYd3L1BnQ+MYPMfGVp8r+N0zNRlY7kT2EvqjADH87VQA+Kxd/6TINjpl4/vs9IOCNZR/BZhTSZAX+dqW1vkJ4=
+	t=1778138639; cv=none; b=JrTOhAAnGdDsi8Opd8P/yjwdxPwA7G8sfZfpaChoGQtA3uzWCvVdiMaMAH0gminnHZDjoJRnLm4xjviFGdN6FeC2uyWVbAzJab884XQhihjBPbVyoZiPdWYj/l9Pu+8UyfRl99jWUXpBS9qIQTCvRSwzZ46HwjIjiTCC/1cfqbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778135460; c=relaxed/simple;
-	bh=zvRBYWCH+40kkk25vA0pRR1NNoZOpRUEbQ7rluml4dU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bqZe1K6z7BLdb3JfRQ+G1wSzHEPhrnjfkqddIgRU5Zj8g890L8vXouo8pG49ZqTjcD+DrGmeNlpWcE26OUbNk3Np9BZtulsbzjWOFVCBKuu/liZHt8hIl5GAFxiWhrYCRt7jflTeVVQ9mGLqrFUmXOtXpKEVhdErNfQk3uR2o2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eWHbUhh2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s4Tundeo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oIxRsprf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=t88P4H7R; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1778138639; c=relaxed/simple;
+	bh=ag2e4rubDHljcUbsB2BC/MHj9ZFXFOBLhTjLy6JSlhk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KL894vP18vVJKUpyKrcz39CEnf18I9lVSCvvsnIfaoGXEaSZ6JiPFTtdT0w9BDzXzOBPxoFFmrFObB+DOwo4+Z1MU3IUZNi4F7Sci2wzpmrMsV6Xo/1Bwigy4bN2vfNn8E+a+kP89WzI0EPnCTlutgcEJ/YeUopDnox5lyNpa+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZLJf7HFo; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eWHbUhh2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s4Tundeo";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oIxRsprf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="t88P4H7R"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2E6AD6C0EF;
-	Thu,  7 May 2026 06:30:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778135457; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KIqkZZ/pvJuXyh6+01SchqSmGEsFf1BU4zPkUR94J9s=;
-	b=eWHbUhh2Ogl06IOckRyQqJrs+fN+cFaTdy6HiwNDZ5iYju/cKc4FSaYmG9QA/sbrmhAD4U
-	9j00Q0I7q4CYKq9ZZSz7g1wLiO+O0wbiQm8SCyvgo9bEZ/tfuG2UvsKebMkkmGurW+R6Rk
-	gYbUb8PyQ1jhzqOSglZte/46V6VR0WI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778135457;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KIqkZZ/pvJuXyh6+01SchqSmGEsFf1BU4zPkUR94J9s=;
-	b=s4Tundeoa9oNp5oPHoAMtWW8bfe6tfyODWXkXSQh14fDQvDc38j3y6ZBlG8coITFIQiOS/
-	DxqacFcOhW1StTDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778135456; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KIqkZZ/pvJuXyh6+01SchqSmGEsFf1BU4zPkUR94J9s=;
-	b=oIxRsprfRC7hZBlnyZGKp6ky5R6gdN2UFcPZgVzNplWZzSig1PQ1lbtYFORKcj3LyZs/Wp
-	1332TEuaHZKGEEPNNSRqNdfzcVJ8QDe9UJqBt3rAgfKcehcVKUdfgAYATQhpqlei/YDU12
-	yWJKdtzZ4IFyugOXsWWEzSVyIpGDCwQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778135456;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KIqkZZ/pvJuXyh6+01SchqSmGEsFf1BU4zPkUR94J9s=;
-	b=t88P4H7R8fFdJ2HQnDbncwA40dc4UX4xQTtDfq2VeqBqrFIhS3of1mMTx3gV/maJj5PpmK
-	2vtfm5Zz4902uiBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DB9C6593A7;
-	Thu,  7 May 2026 06:30:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KBctNJ8x/GlgTgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 07 May 2026 06:30:55 +0000
-Date: Thu, 07 May 2026 08:30:55 +0200
-Message-ID: <87v7czrasg.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Harin Lee <me@harin.net>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Thorsten Leemhuis <regressions@leemhuis.info>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Linux kernel regressions list <regressions@lists.linux.dev>,
-	Linux Sound System <linux-sound@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	stoa@gmx.us
-Subject: Re: [regression] ctxfi: no speaker output when headphones connected on >=7.0.x
-In-Reply-To: <7929c116-ff2e-413b-ae73-e7d19e846e0f@harin.net>
-References: <36875d66-f601-4d18-9654-bd86b60918e8@leemhuis.info>
-	<87bjett3ud.wl-tiwai@suse.de>
-	<7929c116-ff2e-413b-ae73-e7d19e846e0f@harin.net>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZLJf7HFo"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id C71671A355C;
+	Thu,  7 May 2026 07:23:53 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 90CF6605D0;
+	Thu,  7 May 2026 07:23:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4F651107F1B9F;
+	Thu,  7 May 2026 09:23:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1778138630; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=KuHg3bpGpRy0j8zZGsR4xMbCeq+40KQNwSqwL73wrxg=;
+	b=ZLJf7HFoaWrA+QvjHT5Gh6TZeRPeQK7D9TRFNzAxGhp0EWNliZg4AwN/3MS8qxZ+WzAXXq
+	T6wrHBfmoxlIOCE0LR6qB6nNclEBnM62oa0qHR1b3eIxeSfrgMTMIlcTQI7nqZge15D0l+
+	sLj9R0qfJuv9VoGTvaYtmVXHcV/7jHrAKRNpo7q2YNgBW2BMI67agx51RlZqky+pM/DE/w
+	2FWDjIij6E4LO6ldmdu10VRhQ1jdNnY1LWBRw2nfeTqWN3+DsPlyj7HsjlEMWCYQvoebbU
+	LgYPnGZiAHv/HKhw9qbr3lFn7WqvriiVxW4qqE4OwbN85ifqMP1iikrTMszpLg==
+Date: Thu, 7 May 2026 09:23:26 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Kalle Niemi <kaleposti@gmail.com>,
+ Matti Vaittinen <mazziesaccount@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Michael
+ Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi
+ Shyti <andi.shyti@kernel.org>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, Arnd
+ Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@kernel.org>, Bjorn
+ Helgaas <bhelgaas@google.com>, Charles Keepax
+ <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
+ <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Ulf
+ Hansson <ulf.hansson@linaro.org>, Mark Brown <broonie@kernel.org>, Len
+ Brown <lenb@kernel.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>, Dave Jiang
+ <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>, Shawn Guo <shawnguo@kernel.org>,
+ Wolfram Sang <wsa@kernel.org>, linux-kernel@vger.kernel.org,
+ driver-core@lists.linux.dev, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
+ <allan.nielsen@microchip.com>, Horatiu Vultur
+ <horatiu.vultur@microchip.com>, Steen Hegelund
+ <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v6 20/27] misc: lan966x_pci: Fix dtso nodes ordering
+Message-ID: <20260507092326.2f8e3b47@bootlin.com>
+In-Reply-To: <CAD++jLkFu+Z22QBFiaa9S+Epeh=RJZOYX8BOLVDFw4bhEoYF1Q@mail.gmail.com>
+References: <20260325143555.451852-1-herve.codina@bootlin.com>
+	<20260325143555.451852-21-herve.codina@bootlin.com>
+	<CAD++jLkFu+Z22QBFiaa9S+Epeh=RJZOYX8BOLVDFw4bhEoYF1Q@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmx.us];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,leemhuis.info,perex.cz,suse.com,lists.linux.dev,vger.kernel.org,gmx.us];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Thu, 07 May 2026 00:06:11 +0200,
-Harin Lee wrote:
+Hi Linus,
+
+On Thu, 26 Mar 2026 11:33:19 +0100
+Linus Walleij <linusw@kernel.org> wrote:
+
+> Hi Herve,
 > 
-> On 5/6/26 4:05 PM, Takashi Iwai wrote:
-> > On Wed, 06 May 2026 08:24:36 +0200,
-> > Thorsten Leemhuis wrote:
-> >> 
-> >> Hi! Just FYI, I noticed a regression report in bugzilla:
-> >> 
-> >> https://bugzilla.kernel.org/show_bug.cgi?id=221461
-> >> 
-> >> To quote:
-> >> 
-> >>> Dutch Ingraham 2026-05-03 18:12:49 UTC
-> >>> 
-> >>> Kernels >=7.0.1 contain a regression as to Creative Sound Blaster Z SE
-> >>> discrete pci sound card, but not integrated. Kernels 7.0.1, 7.0.2, and
-> >>> 7.0.3 tested; 7.0.0 not tested. Reverting to any 6.18.x or 6.12.x does
-> >>> not present the issue.
-> >>> 
-> >>> Specifically, using pipewire managed by pavucontrol, on both Gentoo and
-> >>> Arch Linux, when both external speakers and headphones are connected,
-> >>> all sound is routed through the headphones regardless of whether settings
-> >>> are set to Line Out/Speaker or Line Out/Headphones; there is no speaker
-> >>> output. If headphones are disconnected, without reboot, speakers work;
-> >>> reconnect headphones, without reboot, sound reverts to headphones.
-> >>> 
-> >>> Kernel: 7.0.3, Gentoo compiled from source using olddefconfig on 6.18.24
-> >>> 		.config; Arch standard release
-> >>> 'lspci -nnk | grep -i audio' attached
-> >>> 'dmesg | grep -i audio' for 7.0.3 and 6.18.24 attached
-> >>> pipewire-1.6.4 on both Gentoo and Arch Linux
-> >>> alsa-firmware-1.2.4 on both Gentoo and Arch Linux
-> >>> 'cat /proc/sys/kernel/tainted' returns 0 for both Gentoo and Arch Linux
-> >>> 
-> >>> Processor		:	AMD Ryzen7 5700G
-> >>> Motherboard		:	Asus Prime X570-Pro
-> >>> RAM				:	Patriot Viper Steel DDR-4 @3200mHz
-> >>> Graphics        :   ASRock AMD Radeon RX 7600 Challenger 8GB OC
-> >>> Sound Card      :   Creative Sound Blaster Z SE
-> >>> 
-> >>> 
-> >>> Expected outcome: ability to choose output to either speakers or head-
-> >>> phones while both are plugged-in to sound card.
-> >>> 
-> >>> Workaround: none known.
-> >> 
-> >> See the ticket for more details. One of them: 7.1-rc2 is affected as
-> >> well. Reporter is CCed. Forwarded this to ensure this report makes it to
-> >> the interested parties, as bugzilla might not have forwarded this.
-> >> 
-> >> Dutch Ingraham: if nobody within a few days has an idea why this
-> >> happens, you will likely have to use a git bisection to get this resolved.
-> > 
-> > As there have been many significant changes in ctxfi since 6.18, it's
-> > hard to tell what broke.  Please go git bisect.
-> > 
-> > 
-> > thanks,
-> > 
-> > Takashi
-> > 
+> this is nitpicking, but if you respin the series consider the following:
 > 
-> Creative Sound Blaster Z-series uses the snd_hda_codec_ca0132 driver,
-> not snd_ctxfi. The dmesg logs in the bugzilla shows only ca0132
-> entries.
+> On Wed, Mar 25, 2026 at 3:42 PM Herve Codina <herve.codina@bootlin.com> wrote:
+> >
+> > Nodes available in the dtso are not ordered by their unit address.
+> >
+> > Fix that re-ordering them according to their unit address.
+> >
+> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>  
+> (...)
+> > +                               switch: switch@e0000000 {  
+> 
+> Recommended practice is:
+> 
+> ethernet-switch@...
+> 
+> > +                                       compatible = "microchip,lan966x-switch";
+> > +                                       reg = <0xe0000000 0x0100000>,
+> > +                                             <0xe2000000 0x0800000>;
+> > +                                       reg-names = "cpu", "gcb";
+> > +
+> > +                                       interrupt-parent = <&oic>;
+> > +                                       interrupts = <12 IRQ_TYPE_LEVEL_HIGH>,
+> > +                                                    <9 IRQ_TYPE_LEVEL_HIGH>;
+> > +                                       interrupt-names = "xtr", "ana";
+> > +
+> > +                                       resets = <&reset 0>;
+> > +                                       reset-names = "switch";
+> > +
+> > +                                       pinctrl-names = "default";
+> > +                                       pinctrl-0 = <&tod_pins>;
+> > +
+> > +                                       ethernet-ports {
+> > +                                               #address-cells = <1>;
+> > +                                               #size-cells = <0>;
+> > +
+> > +                                               port0: port@0 {  
+> 
+> Recommended practice is:
+> ethernet-port@...
+> 
 
-Ah, sorry, then it's easier.  The only major change is the
-commit 778031e1658d206a52bf9491c91ae5d4f4a2509d
-    ALSA: hda/ca0132: Set HP/Speaker auto-detect default from headphone pin verb
+Yes, it should be but the DT binding [0] says "switch" and "port".
 
-Try to revert this one.
+Those node names have to follow the DT binding even if this binding doesn't
+follow recommended practice.
 
+[0] https://elixir.bootlin.com/linux/v7.0/source/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
 
-thanks,
+Best regards,
+Hervé
 
-Takashi
+-- 
+Hervé Codina, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
