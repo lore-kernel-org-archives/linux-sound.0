@@ -1,175 +1,145 @@
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB5B346FCA;
-	Thu,  7 May 2026 10:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0E53EBF3D
+	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 10:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778150097; cv=none; b=C/Ocv24fewM0EyMYUgBj4WrU5lxduZ3fUh7viRJvUHKF7sTLur1EjLZh8No1T1Dmvno93te+tkZMbctU+Ri7xn7cUMz1qME7XrAT7z2fQAzw8rPkpRrDPSdUnar6RSAxn5Xw1spTRKurBoTahGVCJOuezJNMlrby1mPHQA+YZk0=
+	t=1778151012; cv=none; b=W2eqht315KXlDtn69R8G+b+200/NHg0nSB3lw9MkDhuMxm0eJFKw/APvLioYahI0zkDcVwls0zyEIFWl8URllxPSWPnYn2vVfH8+TqZKiWJ5F87tlzzt/fzS49bXb/OLNcwcbrdVRs9Ymfq+UDUlE00ZG5q5JV7gNYwJ5iNDKfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778150097; c=relaxed/simple;
-	bh=HevkQyYoy3kiO1VrBKioDTilzos+sth9T5xZNgNnIUQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uriS+EwIBzd0oRgfBhPtsmH32uXbppXp0uNc/OiiZDmYr8UFQdDhViLk05fgf93GabZ2PDw2r8eOsHAN48LKjphln5aMCidfQCgLh6CZz0V/hvs+1Afei/PDGwbaHwPB0/V4i1AiUWxi7zYJ+bj93uabZwa2cQsUc9kJ6Ob2oFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=mKz9LIST; arc=none smtp.client-ip=54.204.34.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1778151012; c=relaxed/simple;
+	bh=R/bOe6GRUw3HKwAMrMd0f6ho9ZRiHRqS0NwsI0hEn6M=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=f138di90oEMq/3z9yZKHHVUOxMmcLchJ0kw/0k87GOnbVQRP/PW1oZBZpYa5fhPKH9cCpNvPQI7Xo20MbL0QTuk6oqps8Pyll5RCl3ORw7XemWZEGXcV2D6ZLPZsjozD03T2eq7oz4VAaRRCWeDZ+VinJD9mYYNftttnlgjLAIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qsya+5FS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JQ6rzE0S; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DkKIlvUJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eHbkZq26; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="mKz9LIST"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1778150091;
-	bh=AA/l8RpNRgQWhJKMhQO6AtegRn3p6g7Rx5XU5wAB/G8=;
-	h=From:Date:Subject:MIME-Version:Message-Id:To;
-	b=mKz9LISTxdOMjqAdw9/ysuTNUdNBJvPGHgdbyJbjQVeYjOIn5huQeN3d0qLv6bjQf
-	 akIFrETVUeB0PwePeJiBbBOn/MTMdTe4q1XFi6FsDnfNkqUTuIYLQRb45tEnoPa/bA
-	 0F/HcnDfz28asZcCADwA+i710fewYN9rKEJ5rjdM=
-X-QQ-mid: zesmtpgz1t1778149914t5eb95826
-X-QQ-Originating-IP: q0iU5z36pYpAszH2oFPO8xEGSgQLaSK2gKm4e5W7naI=
-Received: from = ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 07 May 2026 18:31:52 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 5667795704540246135
-EX-QQ-RecipientCnt: 11
-From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Date: Thu, 07 May 2026 18:31:42 +0800
-Subject: [PATCH v2 1/3] ASoC: soc-dai: add shared BCLK clock for cross-DAI
- rate constraints
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qsya+5FS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JQ6rzE0S";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DkKIlvUJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eHbkZq26"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C965A5D65F;
+	Thu,  7 May 2026 10:50:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778151001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZNJvW1ccmC/eSovonjwfDKjh+zgxNdXw6AiBXkutHh4=;
+	b=qsya+5FSZGa4SqL6Vyhsqr6EdwCKB2Uep5ibLcBGEhMnCW3Z2gRPYSfCF8ydDBQKsb2PXh
+	O3Bg7Hprp/O4xGIBUckMeqseUHph+5M7Zc7VuRbaBIfgGaCNlKg/vtqBWsYIo2ArsJRY4i
+	W2BaIeazYeJC53RFwSOBReWipsjxvRE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778151001;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZNJvW1ccmC/eSovonjwfDKjh+zgxNdXw6AiBXkutHh4=;
+	b=JQ6rzE0SoEziPEL9zxTBmYcUJ4odyGdpDsvjql45Xw+7LtXkGP9v4K85UC4yWNgje7htAQ
+	DniGBgsRxsQZkzAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DkKIlvUJ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=eHbkZq26
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778151000; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZNJvW1ccmC/eSovonjwfDKjh+zgxNdXw6AiBXkutHh4=;
+	b=DkKIlvUJYzjJ5CuHe2QF/5ciCiHvGy5/FZG6s4KALjgtPFwirD39PlYfnt4Oco/BZpZ5Xs
+	l1wVaC7hGLDXN96MMIsN6x4SW7DwCFtn9L2PdNr2dFxsi3OeuHs4ef2NRcMKcd1DTzbYZ2
+	MdXX80sB4KEztwMOQNNsxye6ceuvMgQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778151000;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZNJvW1ccmC/eSovonjwfDKjh+zgxNdXw6AiBXkutHh4=;
+	b=eHbkZq269tBafhZYQDyEZEHhTGPzT3dJ9ijOmAm0DDPQJr4ZWxmhoS8aEkx/GoTKLXcasa
+	2uDuGB/bH6UvXfCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA924593A7;
+	Thu,  7 May 2026 10:50:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id iV9hKFhu/GnSVQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 07 May 2026 10:50:00 +0000
+Date: Thu, 07 May 2026 12:50:00 +0200
+Message-ID: <878q9vqysn.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?R=E1mon?= van Raaij <ramon@vanraaij.eu>
+Cc: linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add codec SSID quirk for Lenovo Yoga Pro 9 16IMH9 (17aa:38d5)
+In-Reply-To: <20260506183118.patch1-ramon@vanraaij.eu>
+References: <20260506183118.patch1-ramon@vanraaij.eu>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260507-i2s-same-blk-v2-1-ede05a22f732@linux.spacemit.com>
-References: <20260507-i2s-same-blk-v2-0-ede05a22f732@linux.spacemit.com>
-In-Reply-To: <20260507-i2s-same-blk-v2-0-ede05a22f732@linux.spacemit.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Yixun Lan <dlan@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
- jinmei.wei@spacemit.com, Troy Mitchell <troy.mitchell@linux.spacemit.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778149908; l=3103;
- i=troy.mitchell@linux.spacemit.com; s=20250710; h=from:subject:message-id;
- bh=HevkQyYoy3kiO1VrBKioDTilzos+sth9T5xZNgNnIUQ=;
- b=1wBfk5r93og4rl4TtfoXHWvQGYLKZnrhFvSIKzGC1ey5HGqMKcv7LK7VfR0vrHYQZCaGTkoyK
- Wbc0o53lQPQDdzDPTZEDHUk3FMXDaSVGgmHrvxWQmT9XMc4oMxyeXgU
-X-Developer-Key: i=troy.mitchell@linux.spacemit.com; a=ed25519;
- pk=lQa7BzLrq8DfZnChqmwJ5qQk8fP2USmY/4xZ2/MSsXc=
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: MHUne8CZIF193QyIEvKJroptxb4SosU2ca499hiPrYv0kIW9Rg4s/TeT
-	IlcJrVec84QLjoM6RUeMELWtpzWDOMz9EfxckLTmWQ1w1S/qxPT28TEKKDl2o/k4+BDr3pn
-	Llrj/iO9Nc8p2+kvFj2KWXFprjbqpKUfdmLUJsHDCOonuDvYrNSZLFrPrSsWk3YroZyLQhn
-	aqhvo/o81wO2jML4sZtGx+2hbs7cXkAGmV4PmEEhutaEXOuZba8/z+4AbkdH5tWOKXabydN
-	3HXCE6B/jWsMTyXzoDwxCSEUXJa5pFPb1Hd06YlpqLO3NZ6vUUczNzUMVzzKNkG501L0WWL
-	naBrqK63GPSmtd7ilUp4VPpcl2Dc4jFwLZysnLsX+IhzUFS2wZNDtambeAuyeEeBtht+rLc
-	gIXz/OAE9hiqRCFXpGqTwY7LcnJ9wcsLTRs2PcWfJxHa9wMcN2fwM+uk6MulaN/Hadq7ffg
-	pj1LegkDL/PL/5NsO7r6yEHsEuiUlqwqXkLSq7iQ3heWELD3H0wqc30Lj9q4bG1IyUVCLin
-	mwmev7C41z4I3lHctn/boLfBKw7KdTXp9s0Mq6tmI0O+IJRYb+Sf5MgA3zrnLP4qoPG6YHN
-	TULHIJbqROielcVVQgpTeaGs3bWVfIgiXdP2SNUKeDPfdvuvmRgQRLrOpe5yIxPn1ILjxXw
-	Zq0ORXA0LE5swrTkUiSZr7kW4vrM0c7thAWxJfubUMdYV0pyAZLFlGUn/Gj2C2EkoNp+ARe
-	BuXJPbHAWd9I9HK9PEHVr49T4R3PdRrJg6jKy6JzumkovRPjsieUHAJLLlOixD0SAdPP2cx
-	HxE5FXw5jlqagl27pKSuISZtDwz9+3GorOUbfNH8JQMpRUgt8p+ARtfDKUG81i3OuvP1anF
-	/Gis3hFBnepM5TDuK/x8ox3TTOGo1nU9WyJLFm1inet4pOxBz4tGoe40XkImDfCCupVwgaZ
-	aa7D6cyAhd/o01TBSVp+MoI6WQ8xfSQZKvViIeC+r6XpG+054u9gKvYxWZNZJCHz8TDeOLv
-	yVbyexUhqkA6spGqUtfFegi9muQ6JBJ5mffIiXL1wfVuJ1VERTwYrgivmBKgO8Z4tvCHJnE
-	sZ72Gse2LkAb20IYN6Z4FWao1VqJfPgRlN8txT+AYL7ojQw+1MeprIt0CwvOt0uYu/PjdW1
-	HnGi
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-X-QQ-RECHKSPAM: 0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: C965A5D65F
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
 
-Add a bclk field to struct snd_soc_dai and a helper function
-snd_soc_dai_set_bclk_clk() that platform drivers can use to declare
-which clock is their BCLK.
+On Wed, 06 May 2026 20:31:18 +0200,
+Rámon van Raaij wrote:
+> 
+> Some Lenovo Yoga Pro 9 16IMH9 units carry codec SSID 17aa:38d5 instead
+> of 17aa:38d6, which was added in commit 56722cfbb78d ("ALSA: hda/realtek:
+> Add codec SSID quirk for Lenovo Yoga Pro 9 16IMH9"). The corresponding
+> firmware blob TAS2XXX38D5.bin already ships in linux-firmware, and the
+> hardware is otherwise identical: same PCI subsystem ID 17aa:3811 shared
+> with the Legion S7 15IMH05, same TI TAS2781 amplifiers behind ACPI HID
+> TIAS2781, same ALC287_FIXUP_TAS2781_I2C requirement.
+> 
+> Add a second HDA_CODEC_QUIRK entry directly above the existing 17aa:38d6
+> entry so both variants resolve to the correct fixup. Reported and
+> verified on hardware by GitHub user 0xEthamin.
+> 
+> Link: https://github.com/ramonvanraaij/yoga9-tas2781-hda/issues/1
+> Signed-off-by: Rámon van Raaij <ramon@vanraaij.eu>
 
-Also cache the bclk_ratio in snd_soc_dai_set_bclk_ratio() so that
-the framework can use it later in hw_rule evaluation for TDM
-configurations where BCLK = rate * slots * slot_width.
+Applied now.  Thanks.
 
-When multiple DAIs on the same card share the same physical BCLK
-(detected via clk_is_match()), the ASoC core can automatically
-constrain their hw_params so that the resulting BCLK rates are
-compatible. This commit adds the data structure support; the actual
-constraint logic follows in the next patch.
 
-Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
----
- include/sound/soc-dai.h |  7 +++++++
- sound/soc/soc-dai.c     | 18 ++++++++++++++++++
- 2 files changed, 25 insertions(+)
-
-diff --git a/include/sound/soc-dai.h b/include/sound/soc-dai.h
-index 6a42812bba8c..df010a91b350 100644
---- a/include/sound/soc-dai.h
-+++ b/include/sound/soc-dai.h
-@@ -17,6 +17,7 @@
- struct snd_pcm_substream;
- struct snd_soc_dapm_widget;
- struct snd_compr_stream;
-+struct clk;
- 
- /*
-  * DAI hardware audio formats.
-@@ -188,6 +189,8 @@ int snd_soc_dai_set_pll(struct snd_soc_dai *dai,
- 
- int snd_soc_dai_set_bclk_ratio(struct snd_soc_dai *dai, unsigned int ratio);
- 
-+void snd_soc_dai_set_bclk_clk(struct snd_soc_dai *dai, struct clk *bclk);
-+
- /* Digital Audio interface formatting */
- int snd_soc_dai_get_fmt_max_priority(const struct snd_soc_pcm_runtime *rtd);
- u64 snd_soc_dai_get_fmt(const struct snd_soc_dai *dai, int priority);
-@@ -473,6 +476,10 @@ struct snd_soc_dai {
- 	unsigned int symmetric_channels;
- 	unsigned int symmetric_sample_bits;
- 
-+	/* shared BCLK clock for cross-DAI rate constraints */
-+	struct clk *bclk;
-+	unsigned int bclk_ratio; /* BCLK = rate * bclk_ratio (0 = use channels * sample_bits) */
-+
- 	/* parent platform/codec */
- 	struct snd_soc_component *component;
- 
-diff --git a/sound/soc/soc-dai.c b/sound/soc/soc-dai.c
-index 2f370fda1266..1719ddcefa4b 100644
---- a/sound/soc/soc-dai.c
-+++ b/sound/soc/soc-dai.c
-@@ -116,10 +116,28 @@ int snd_soc_dai_set_bclk_ratio(struct snd_soc_dai *dai, unsigned int ratio)
- 	    dai->driver->ops->set_bclk_ratio)
- 		ret = dai->driver->ops->set_bclk_ratio(dai, ratio);
- 
-+	if (!ret)
-+		dai->bclk_ratio = ratio;
-+
- 	return soc_dai_ret(dai, ret);
- }
- EXPORT_SYMBOL_GPL(snd_soc_dai_set_bclk_ratio);
- 
-+/**
-+ * snd_soc_dai_set_bclk_clk - set the BCLK clock for shared clock detection
-+ * @dai: DAI
-+ * @bclk: BCLK clock pointer (or NULL to clear)
-+ *
-+ * When multiple DAIs share the same physical BCLK (detected via
-+ * clk_is_match()), the ASoC core will automatically constrain their
-+ * hw_params so that the resulting BCLK rates are compatible.
-+ */
-+void snd_soc_dai_set_bclk_clk(struct snd_soc_dai *dai, struct clk *bclk)
-+{
-+	dai->bclk = bclk;
-+}
-+EXPORT_SYMBOL_GPL(snd_soc_dai_set_bclk_clk);
-+
- int snd_soc_dai_get_fmt_max_priority(const struct snd_soc_pcm_runtime *rtd)
- {
- 	struct snd_soc_dai *dai;
-
--- 
-2.54.0
-
+Takashi
