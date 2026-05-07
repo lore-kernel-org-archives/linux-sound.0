@@ -1,155 +1,77 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887853542F4;
-	Thu,  7 May 2026 07:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55978311C35;
+	Thu,  7 May 2026 07:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778138639; cv=none; b=JrTOhAAnGdDsi8Opd8P/yjwdxPwA7G8sfZfpaChoGQtA3uzWCvVdiMaMAH0gminnHZDjoJRnLm4xjviFGdN6FeC2uyWVbAzJab884XQhihjBPbVyoZiPdWYj/l9Pu+8UyfRl99jWUXpBS9qIQTCvRSwzZ46HwjIjiTCC/1cfqbo=
+	t=1778139014; cv=none; b=EFQtqwC9i6jHiMPf61Qmd5J6hpXOc3ieiDEt1GigT5j/Y8o2/2+OuiCFpTlCP/F1L9fdE2m5Ko412qdLrcz5+Z3US4CCca6VjN3OGwXmqQp1erl2Ak8LFDlZbZWqsrvDnIIYFXt9o0m2O5iRWQpb4lnKeE6bU+Cd+yUmlgCBwd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778138639; c=relaxed/simple;
-	bh=ag2e4rubDHljcUbsB2BC/MHj9ZFXFOBLhTjLy6JSlhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KL894vP18vVJKUpyKrcz39CEnf18I9lVSCvvsnIfaoGXEaSZ6JiPFTtdT0w9BDzXzOBPxoFFmrFObB+DOwo4+Z1MU3IUZNi4F7Sci2wzpmrMsV6Xo/1Bwigy4bN2vfNn8E+a+kP89WzI0EPnCTlutgcEJ/YeUopDnox5lyNpa+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZLJf7HFo; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1778139014; c=relaxed/simple;
+	bh=ef+FgAkilPCbc/VfW9S1n2E/ykFCOoK1nO2629q4Q3o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n7HTq4VWZ6KisIVsluU+/GIa2DmoQ+EIBzzEIb30MtOYMaSHkP6saQj6RHZKTVvK4DF+tsXo5o4Ut7Houdout6aC++kMyJh3Y8UE+jaPVZyOKQ84+Ue+9XR+wrndsupZtUBMFFhESmgR0+D8H4f6Ulw4isYtOtMpfau1e8Qsh/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DoYL47Xf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZLJf7HFo"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id C71671A355C;
-	Thu,  7 May 2026 07:23:53 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 90CF6605D0;
-	Thu,  7 May 2026 07:23:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4F651107F1B9F;
-	Thu,  7 May 2026 09:23:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778138630; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=KuHg3bpGpRy0j8zZGsR4xMbCeq+40KQNwSqwL73wrxg=;
-	b=ZLJf7HFoaWrA+QvjHT5Gh6TZeRPeQK7D9TRFNzAxGhp0EWNliZg4AwN/3MS8qxZ+WzAXXq
-	T6wrHBfmoxlIOCE0LR6qB6nNclEBnM62oa0qHR1b3eIxeSfrgMTMIlcTQI7nqZge15D0l+
-	sLj9R0qfJuv9VoGTvaYtmVXHcV/7jHrAKRNpo7q2YNgBW2BMI67agx51RlZqky+pM/DE/w
-	2FWDjIij6E4LO6ldmdu10VRhQ1jdNnY1LWBRw2nfeTqWN3+DsPlyj7HsjlEMWCYQvoebbU
-	LgYPnGZiAHv/HKhw9qbr3lFn7WqvriiVxW4qqE4OwbN85ifqMP1iikrTMszpLg==
-Date: Thu, 7 May 2026 09:23:26 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Linus Walleij <linusw@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Kalle Niemi <kaleposti@gmail.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Frank Li <Frank.Li@nxp.com>, Sascha
- Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Andi
- Shyti <andi.shyti@kernel.org>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>, Peter Rosin <peda@axentia.se>, Arnd
- Bergmann <arnd@arndb.de>, Saravana Kannan <saravanak@kernel.org>, Bjorn
- Helgaas <bhelgaas@google.com>, Charles Keepax
- <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Ulf
- Hansson <ulf.hansson@linaro.org>, Mark Brown <broonie@kernel.org>, Len
- Brown <lenb@kernel.org>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>, Dave Jiang
- <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, Shawn Guo <shawnguo@kernel.org>,
- Wolfram Sang <wsa@kernel.org>, linux-kernel@vger.kernel.org,
- driver-core@lists.linux.dev, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
- <allan.nielsen@microchip.com>, Horatiu Vultur
- <horatiu.vultur@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v6 20/27] misc: lan966x_pci: Fix dtso nodes ordering
-Message-ID: <20260507092326.2f8e3b47@bootlin.com>
-In-Reply-To: <CAD++jLkFu+Z22QBFiaa9S+Epeh=RJZOYX8BOLVDFw4bhEoYF1Q@mail.gmail.com>
-References: <20260325143555.451852-1-herve.codina@bootlin.com>
-	<20260325143555.451852-21-herve.codina@bootlin.com>
-	<CAD++jLkFu+Z22QBFiaa9S+Epeh=RJZOYX8BOLVDFw4bhEoYF1Q@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DoYL47Xf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E297C2BCB8;
+	Thu,  7 May 2026 07:30:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778139013;
+	bh=ef+FgAkilPCbc/VfW9S1n2E/ykFCOoK1nO2629q4Q3o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DoYL47Xf7B5DEmeMcPqr1GFYXx+hQwfm+LV2DQBaDZEuO+wuvN3rinFuMPthR+9Ef
+	 3JTtwuh7XEqzjG5rf6QVpnPch2nRRnbkscl3JFVUnEZBIUA2abIDz/044D+cDGZSUC
+	 XWw4MfuuILa3uPYGhOnBTmlZZUQJHXQ97xagrdik7e+cCD6QGHjGZognIOjjSp4rBR
+	 yEmhLF916IzvEFku1AyMokwmvislAXpVNxzkLm3uXWyiqXghK+8eZeOkPGKr5iQIuj
+	 yrCCNTEV+ZkEVJHy9F+btdeBObjcLq779P9nPnHHSQ8DUvr8rKRRzOVx+bcyv0EHw3
+	 KoBp59cAdrorQ==
+Date: Thu, 7 May 2026 13:00:10 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com,
+	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+	peter.ujfalusi@linux.intel.com, oder_chiou@realtek.com,
+	jack.yu@realtek.com, shumingf@realtek.com, shenghao-ding@ti.com,
+	niranjan.hy@ti.com, kevin-lu@ti.com, baojun.xu@ti.com, sen@ti.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH 01/17] soundwire: Add a helper function to wait for
+ device initialisation
+Message-ID: <afw_gkXbl3Wvp2xk@vaman>
+References: <20260505164807.4108684-1-ckeepax@opensource.cirrus.com>
+ <20260505164807.4108684-2-ckeepax@opensource.cirrus.com>
+ <afohYUQLPLjRXjd4@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <afohYUQLPLjRXjd4@opensource.cirrus.com>
 
-Hi Linus,
+On 05-05-26, 17:57, Charles Keepax wrote:
+> On Tue, May 05, 2026 at 05:47:51PM +0100, Charles Keepax wrote:
+> > Add a new helper function to wait for the device to enumerate
+> > and be initialised by the SoundWire core. Most of the SoundWire
+> > drivers have very similar boiler plate code in their runtime
+> > resume, and that boiler plate tends to access various internals
+> > of the SoundWire structs which is a mild layering violation.
+> > 
+> > Adding a new core helper function greatly eases both of these
+> > issues.
+> > 
+> > Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> > ---
+> 
+> Sorry Vinod, it appears I somehow completely forgot to CC you on
+> this series. Let me know if you got it through the mailing list,
+> and if not I will do a resend.
 
-On Thu, 26 Mar 2026 11:33:19 +0100
-Linus Walleij <linusw@kernel.org> wrote:
-
-> Hi Herve,
-> 
-> this is nitpicking, but if you respin the series consider the following:
-> 
-> On Wed, Mar 25, 2026 at 3:42 PM Herve Codina <herve.codina@bootlin.com> wrote:
-> >
-> > Nodes available in the dtso are not ordered by their unit address.
-> >
-> > Fix that re-ordering them according to their unit address.
-> >
-> > Signed-off-by: Herve Codina <herve.codina@bootlin.com>  
-> (...)
-> > +                               switch: switch@e0000000 {  
-> 
-> Recommended practice is:
-> 
-> ethernet-switch@...
-> 
-> > +                                       compatible = "microchip,lan966x-switch";
-> > +                                       reg = <0xe0000000 0x0100000>,
-> > +                                             <0xe2000000 0x0800000>;
-> > +                                       reg-names = "cpu", "gcb";
-> > +
-> > +                                       interrupt-parent = <&oic>;
-> > +                                       interrupts = <12 IRQ_TYPE_LEVEL_HIGH>,
-> > +                                                    <9 IRQ_TYPE_LEVEL_HIGH>;
-> > +                                       interrupt-names = "xtr", "ana";
-> > +
-> > +                                       resets = <&reset 0>;
-> > +                                       reset-names = "switch";
-> > +
-> > +                                       pinctrl-names = "default";
-> > +                                       pinctrl-0 = <&tod_pins>;
-> > +
-> > +                                       ethernet-ports {
-> > +                                               #address-cells = <1>;
-> > +                                               #size-cells = <0>;
-> > +
-> > +                                               port0: port@0 {  
-> 
-> Recommended practice is:
-> ethernet-port@...
-> 
-
-Yes, it should be but the DT binding [0] says "switch" and "port".
-
-Those node names have to follow the DT binding even if this binding doesn't
-follow recommended practice.
-
-[0] https://elixir.bootlin.com/linux/v7.0/source/Documentation/devicetree/bindings/net/microchip,lan966x-switch.yaml
-
-Best regards,
-Hervé
+Thanks, I was able to get the series. lgtm with only change required to
+add stub as you already noted
 
 -- 
-Hervé Codina, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+~Vinod
