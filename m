@@ -1,140 +1,198 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8657F2E7635
-	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 03:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01D832D7F8
+	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 06:30:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778125271; cv=none; b=gVz3j0LRSeXs1Jq5nmi46OSGkUkvBAlEjd6ykQPKcgiQTZaeexHhXxPb5g8t7EHVBKE1x6EPX6rNhYAa7zLtbEuvAP1/cW9Mul1ulYU3Kgo3AwTBTcBBU0bD/0bzeCq1+yXBlD06Qwy5v1UpJ8+hUFKaNGRMFnDAyvpipQSJvy4=
+	t=1778135460; cv=none; b=jPTxAnflAGNe5KbwsNO5k4nO8IxqmR31UUE+gGQ6DpOaITld5gT/0g0+v3WQEnpYbY0r0m/EDUMnGjUFCK6qKUtYd3L1BnQ+MYPMfGVp8r+N0zNRlY7kT2EvqjADH87VQA+Kxd/6TINjpl4/vs9IOCNZR/BZhTSZAX+dqW1vkJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778125271; c=relaxed/simple;
-	bh=5ZxZyVybouA1Mduqbo3hKVa/J06PZ5yuIW+r71ae+mc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=NSBqbwJj4X9Koy2x2H3FiH1j/G39SzNe7xpKp/zHmJWtKar3ru4RZ192dSzBMBXFBGSoLqBTMNm67OKVWMU66UOVBn4ryGYVA6SeFvQ8SQ+PB/bp3JDvU5ozZsgeMdJVSI+VnP/v2AvLbbQc+LbYpRkYQ77jBLoY/7PAdSmv+z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ckc78MDN; arc=none smtp.client-ip=74.125.82.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778135460; c=relaxed/simple;
+	bh=zvRBYWCH+40kkk25vA0pRR1NNoZOpRUEbQ7rluml4dU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bqZe1K6z7BLdb3JfRQ+G1wSzHEPhrnjfkqddIgRU5Zj8g890L8vXouo8pG49ZqTjcD+DrGmeNlpWcE26OUbNk3Np9BZtulsbzjWOFVCBKuu/liZHt8hIl5GAFxiWhrYCRt7jflTeVVQ9mGLqrFUmXOtXpKEVhdErNfQk3uR2o2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eWHbUhh2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s4Tundeo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oIxRsprf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=t88P4H7R; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ckc78MDN"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-130c653cce4so1169128c88.1
-        for <linux-sound@vger.kernel.org>; Wed, 06 May 2026 20:41:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778125267; x=1778730067; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nleLAQUlrvdfXv9QhDg66/S/1PB+xB3gu8412xW8j5s=;
-        b=Ckc78MDNLJRna3a8udTpjqtPB7GgSb1Lfr1P23wEVvk41m7O4hLedsnRb2qsi86Yiu
-         qAvh/24esl/egLk4+HMw2W76QZDiYVc9qTAS4lwIqutjYvkOudK/xM8ub5DDI892rQ0E
-         hQD6x2xgbCiiwUTrBU4vk9WHY5UvzbyWn4p0cN3Gt4VxqV6zg2nk3qyY5EWROXfvyhv0
-         E3C604/vyZPVWxoAsKb9aFk8FJwd8mqGAOIsxS/2DsAtO0hKxXlVmzZdUdygb9SvVbz/
-         AhGQRhTvM9Gc8h0iM2Fue3g2l3+Wz+j7+wGAP3PlWbFpT/s1LjrKzEOkLn9cKQLAG3Q5
-         7rDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778125267; x=1778730067;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=nleLAQUlrvdfXv9QhDg66/S/1PB+xB3gu8412xW8j5s=;
-        b=GIQSyYJvnekMq8szYKxLu03YF8NSK9gRi4mvsUNANGJk91nZ63vFIrxZr6lAplqdMF
-         M0Gp1L9yyfSQ+nKw9zNgr9wcGZaEChSyYV82+It3pJhjlRSlqz/+8UqBcwQMxxZzpuYb
-         uFLkYan6T9iXZSH1fT72Azi6fJAI2Be9J7GLyNr1JHEyUxvCtgr/JYDSf3n18vvfy24K
-         DFEXou+8PYCT7QA4wJjyjs62yV9oauOkPQKjmcuBSgfwIPYNDXucWnY+QGqQJ5FtL/af
-         k69NiWZaUm2LCenm3ESLr9jqX4Cob0/pcPz3+irInLyNDJj+bXG84kRl5kusneDeBrAm
-         5Y/A==
-X-Gm-Message-State: AOJu0Yxigfw78RTA1DaXLf8xBnUi+SWBWjRoaLrbRTfzAljUC7jlCRM1
-	jhhVRAo8Vxt8OWUPnskFaHBCuimt1iebvMreucKJgpayptOE5A6DhnKe
-X-Gm-Gg: AeBDies7MsMAYs2ZoggRkca6C5qfJCltpnCyWnqs+2habhzSLNLqVMpdD4L4vMJDu8S
-	a8fTgiqOUkRKL3ToM4rMTq/ThfXA33RmUzbBnj0eoZpT6TS4G0cfvoMzdeIaYKQQXDogSFo4b2s
-	gPT3Mv5yaVPSbvsh6oUTO8SIYt0znI/0yUZStxRV1EvbQfAcQXjr/oUI4L32+Pjo6hIzx2gGn/e
-	nkW/Ce/fLYJqiXpE9CvYcRID3nTQXeKlqd7zwVL+0YDxBdBgxtvY++DWOV2lOayJN3+6pzH//Kt
-	DVbRmDpmtHwhL4fNy7SUNFAWQL25REQg2dYmq+UC5RsolekEllEXPcPmONQbNyj73Gq6cqvjoct
-	hZJBdGDW4ihbRtg9q2PxNhMWFHxVwg0EyRn++whq4HZPnNJz5QNfSWD+CHbM5v3eaA1G7GNtP71
-	IO7rnIWGhfTHBMRCePEhxAizc3/lwa+zaIy5YEDchag9VVEqhnzszGXJE781CKzPRnsPznOQVvm
-	fqAMjUujPq0
-X-Received: by 2002:a05:7022:61a:b0:12d:de3f:d847 with SMTP id a92af1059eb24-1319cf558acmr3091983c88.42.1778125266546;
-        Wed, 06 May 2026 20:41:06 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f570384e46sm6882677eec.26.2026.05.06.20.41.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2026 20:41:06 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Thu, 07 May 2026 00:40:52 -0300
-Subject: [PATCH 2/2] ALSA: usb-audio: Bound MIDI 2.0 endpoint descriptor
- scans
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eWHbUhh2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s4Tundeo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oIxRsprf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="t88P4H7R"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2E6AD6C0EF;
+	Thu,  7 May 2026 06:30:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778135457; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KIqkZZ/pvJuXyh6+01SchqSmGEsFf1BU4zPkUR94J9s=;
+	b=eWHbUhh2Ogl06IOckRyQqJrs+fN+cFaTdy6HiwNDZ5iYju/cKc4FSaYmG9QA/sbrmhAD4U
+	9j00Q0I7q4CYKq9ZZSz7g1wLiO+O0wbiQm8SCyvgo9bEZ/tfuG2UvsKebMkkmGurW+R6Rk
+	gYbUb8PyQ1jhzqOSglZte/46V6VR0WI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778135457;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KIqkZZ/pvJuXyh6+01SchqSmGEsFf1BU4zPkUR94J9s=;
+	b=s4Tundeoa9oNp5oPHoAMtWW8bfe6tfyODWXkXSQh14fDQvDc38j3y6ZBlG8coITFIQiOS/
+	DxqacFcOhW1StTDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778135456; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KIqkZZ/pvJuXyh6+01SchqSmGEsFf1BU4zPkUR94J9s=;
+	b=oIxRsprfRC7hZBlnyZGKp6ky5R6gdN2UFcPZgVzNplWZzSig1PQ1lbtYFORKcj3LyZs/Wp
+	1332TEuaHZKGEEPNNSRqNdfzcVJ8QDe9UJqBt3rAgfKcehcVKUdfgAYATQhpqlei/YDU12
+	yWJKdtzZ4IFyugOXsWWEzSVyIpGDCwQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778135456;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KIqkZZ/pvJuXyh6+01SchqSmGEsFf1BU4zPkUR94J9s=;
+	b=t88P4H7R8fFdJ2HQnDbncwA40dc4UX4xQTtDfq2VeqBqrFIhS3of1mMTx3gV/maJj5PpmK
+	2vtfm5Zz4902uiBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DB9C6593A7;
+	Thu,  7 May 2026 06:30:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id KBctNJ8x/GlgTgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 07 May 2026 06:30:55 +0000
+Date: Thu, 07 May 2026 08:30:55 +0200
+Message-ID: <87v7czrasg.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Harin Lee <me@harin.net>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Thorsten Leemhuis <regressions@leemhuis.info>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Linux kernel regressions list <regressions@lists.linux.dev>,
+	Linux Sound System <linux-sound@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	stoa@gmx.us
+Subject: Re: [regression] ctxfi: no speaker output when headphones connected on >=7.0.x
+In-Reply-To: <7929c116-ff2e-413b-ae73-e7d19e846e0f@harin.net>
+References: <36875d66-f601-4d18-9654-bd86b60918e8@leemhuis.info>
+	<87bjett3ud.wl-tiwai@suse.de>
+	<7929c116-ff2e-413b-ae73-e7d19e846e0f@harin.net>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260507-usb-midi-endpoint-scan-bounds-v1-2-329d7348160e@gmail.com>
-References: <20260507-usb-midi-endpoint-scan-bounds-v1-0-329d7348160e@gmail.com>
-In-Reply-To: <20260507-usb-midi-endpoint-scan-bounds-v1-0-329d7348160e@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>, Andreas Steinmetz <ast@domdv.de>, 
- Clemens Ladisch <clemens@ladisch.de>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>, 
- stable@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1495;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=5ZxZyVybouA1Mduqbo3hKVa/J06PZ5yuIW+r71ae+mc=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDJl/OE9d/lZ7Veedv5TJ87eHvH3Tz4mtsXwY3DxPYZ1t0
- MkgpcPtHaUsDGJcDLJiiiyrkxZZ7ul6cLU+boUHzBxWJpAhDFycAjAR22CG/+7Kj/U3ygWn/ZAJ
- CX+5+8S12x8sVnKpyqh4yd+YtWfexA0M/xQ41nlzGR9nTzx+5uTzNSmii1p2tjfIGUxf/XBb/I/
- vPlwA
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmx.us];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,leemhuis.info,perex.cz,suse.com,lists.linux.dev,vger.kernel.org,gmx.us];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
-The USB MIDI 2.0 endpoint parser has the same descriptor walking
-pattern as the legacy MIDI parser. It validates bLength against
-bNumGrpTrmBlock before reading baAssoGrpTrmBlkID[], but not against the
-remaining bytes in the endpoint-extra scan.
+On Thu, 07 May 2026 00:06:11 +0200,
+Harin Lee wrote:
+> 
+> On 5/6/26 4:05 PM, Takashi Iwai wrote:
+> > On Wed, 06 May 2026 08:24:36 +0200,
+> > Thorsten Leemhuis wrote:
+> >> 
+> >> Hi! Just FYI, I noticed a regression report in bugzilla:
+> >> 
+> >> https://bugzilla.kernel.org/show_bug.cgi?id=221461
+> >> 
+> >> To quote:
+> >> 
+> >>> Dutch Ingraham 2026-05-03 18:12:49 UTC
+> >>> 
+> >>> Kernels >=7.0.1 contain a regression as to Creative Sound Blaster Z SE
+> >>> discrete pci sound card, but not integrated. Kernels 7.0.1, 7.0.2, and
+> >>> 7.0.3 tested; 7.0.0 not tested. Reverting to any 6.18.x or 6.12.x does
+> >>> not present the issue.
+> >>> 
+> >>> Specifically, using pipewire managed by pavucontrol, on both Gentoo and
+> >>> Arch Linux, when both external speakers and headphones are connected,
+> >>> all sound is routed through the headphones regardless of whether settings
+> >>> are set to Line Out/Speaker or Line Out/Headphones; there is no speaker
+> >>> output. If headphones are disconnected, without reboot, speakers work;
+> >>> reconnect headphones, without reboot, sound reverts to headphones.
+> >>> 
+> >>> Kernel: 7.0.3, Gentoo compiled from source using olddefconfig on 6.18.24
+> >>> 		.config; Arch standard release
+> >>> 'lspci -nnk | grep -i audio' attached
+> >>> 'dmesg | grep -i audio' for 7.0.3 and 6.18.24 attached
+> >>> pipewire-1.6.4 on both Gentoo and Arch Linux
+> >>> alsa-firmware-1.2.4 on both Gentoo and Arch Linux
+> >>> 'cat /proc/sys/kernel/tainted' returns 0 for both Gentoo and Arch Linux
+> >>> 
+> >>> Processor		:	AMD Ryzen7 5700G
+> >>> Motherboard		:	Asus Prime X570-Pro
+> >>> RAM				:	Patriot Viper Steel DDR-4 @3200mHz
+> >>> Graphics        :   ASRock AMD Radeon RX 7600 Challenger 8GB OC
+> >>> Sound Card      :   Creative Sound Blaster Z SE
+> >>> 
+> >>> 
+> >>> Expected outcome: ability to choose output to either speakers or head-
+> >>> phones while both are plugged-in to sound card.
+> >>> 
+> >>> Workaround: none known.
+> >> 
+> >> See the ticket for more details. One of them: 7.1-rc2 is affected as
+> >> well. Reporter is CCed. Forwarded this to ensure this report makes it to
+> >> the interested parties, as bugzilla might not have forwarded this.
+> >> 
+> >> Dutch Ingraham: if nobody within a few days has an idea why this
+> >> happens, you will likely have to use a git bisection to get this resolved.
+> > 
+> > As there have been many significant changes in ctxfi since 6.18, it's
+> > hard to tell what broke.  Please go git bisect.
+> > 
+> > 
+> > thanks,
+> > 
+> > Takashi
+> > 
+> 
+> Creative Sound Blaster Z-series uses the snd_hda_codec_ca0132 driver,
+> not snd_ctxfi. The dmesg logs in the bugzilla shows only ca0132
+> entries.
 
-A malformed device can therefore make later baAssoGrpTrmBlkID[] reads
-consume bytes past the walked descriptor.
+Ah, sorry, then it's easier.  The only major change is the
+commit 778031e1658d206a52bf9491c91ae5d4f4a2509d
+    ALSA: hda/ca0132: Set HP/Speaker auto-detect default from headphone pin verb
 
-Reject zero-length and overlong descriptors while walking endpoint
-extras.
+Try to revert this one.
 
-Fixes: ff49d1df79ae ("ALSA: usb-audio: USB MIDI 2.0 UMP support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/usb/midi2.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/sound/usb/midi2.c b/sound/usb/midi2.c
-index 2785600d2312..04aeb9052f13 100644
---- a/sound/usb/midi2.c
-+++ b/sound/usb/midi2.c
-@@ -496,15 +496,17 @@ static void *find_usb_ms_endpoint_descriptor(struct usb_host_endpoint *hostep,
- 	while (extralen > 3) {
- 		struct usb_ms_endpoint_descriptor *ms_ep =
- 			(struct usb_ms_endpoint_descriptor *)extra;
-+		int length = ms_ep->bLength;
- 
--		if (ms_ep->bLength > 3 &&
-+		if (!length || length > extralen)
-+			break;
-+
-+		if (length > 3 &&
- 		    ms_ep->bDescriptorType == USB_DT_CS_ENDPOINT &&
- 		    ms_ep->bDescriptorSubtype == subtype)
- 			return ms_ep;
--		if (!extra[0])
--			break;
--		extralen -= extra[0];
--		extra += extra[0];
-+		extralen -= length;
-+		extra += length;
- 	}
- 	return NULL;
- }
+thanks,
 
--- 
-2.54.0
-
+Takashi
