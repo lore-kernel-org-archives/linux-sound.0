@@ -1,238 +1,199 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B77B3F23D8
-	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 13:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFF0315D3B
+	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 14:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778160278; cv=none; b=UKDMqwdSj1oMyo63LHg2NoaZnszVGyKiXta+zCwT0TBA1DDfCMhaiKID3qv6eyIq3Ko02JyhQncLPgFl6P3NOirk9vtLXWLvHVNQGNN1s3wWlFDWXhnsWykBft7Y2upup7+OHtcCu/5o2YdwEBTsS4PIu5EBF6LnDy9zh+76luY=
+	t=1778164125; cv=none; b=fywprdoyMiGvB0/HEixNSC17AqODLKFGfF3ZvKpe1o0iiRVtz2QAJ4YnC7yOLiJU/LsBfAj3iDJoJpok2v/uIi+NP+aTRWWRHgS6JJ4R6po5ofUgzTWS5gJkRGwbVccTzy3KUEbULZ4ZkY7rXSnRaMWznN+KM8ueWlI+hD3rRlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778160278; c=relaxed/simple;
-	bh=jEJY9P21gNV4Tkvx/gB+23ZX6SpU6eVNb4s/rwb2nTQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Rs9aaUej5xSbIivdrA1GwCIpM4O0u+TNMtiRpl/lSpJhwhAcaWYUcN1Hltgh+w7saAG1J0A+VVAZZPbMMXePELT0QH/+Q5EKlkPFB2qTssTxa9tPLC6mwGBRlkrl4glnPtG1d8u1XoRgwDGM1CJUos6iZZ2PxzJZq6Ow+lVJ584=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VNuMgdaw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=26RN7Q3b; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VNuMgdaw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=26RN7Q3b; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1778164125; c=relaxed/simple;
+	bh=PCbwbQNt4FGuy1Mx/UEcWlVmDbt9jGbh+cLIMf+sZ+o=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Ff6AP0evBmxPMXqGsPHJOBrfCCsHOZGJ7neNEh2b10I8Q/E88pJ2ovz9XqHrKZVgsYkKLX8zeBCIZrQrTnPMcIlbyuABk9VGNcZwL6lDM5qfAJemL9m1exqtnxKsRYvzy8K2i5tbnPJA5buhXZumcqDFVSJ/mURvXjQMEsmQbeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WZAYt23c; arc=none smtp.client-ip=74.125.82.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VNuMgdaw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="26RN7Q3b";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VNuMgdaw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="26RN7Q3b"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7408766D2F;
-	Thu,  7 May 2026 13:24:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778160271; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMh8pnMsfMs24o4kg2uEJRLF/FMF2DHddoTt+5thtY8=;
-	b=VNuMgdaww1enlFoVMkXQ2itV/hqGy93eaExkT69dCr7Ltx0sjQaM3wilF5e261qpCHbQDt
-	nkF0w4ceqpQXHz/dVG9I9dT9cSBZs7f2rUgk94sT4Ca8daT8Ez8ZgRxtk/i1yiqfNb2reR
-	S4lP4HIPItLX2cwq7SL4TkzHeRO/yq8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778160271;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMh8pnMsfMs24o4kg2uEJRLF/FMF2DHddoTt+5thtY8=;
-	b=26RN7Q3bPeguIJDUIEMT1iREnac/uOxiAXdE4HIgnVWpO5My5UIl0HYAyF1OXJsVX5ncSJ
-	+kbgZLoHcMNALADA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VNuMgdaw;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=26RN7Q3b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778160271; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMh8pnMsfMs24o4kg2uEJRLF/FMF2DHddoTt+5thtY8=;
-	b=VNuMgdaww1enlFoVMkXQ2itV/hqGy93eaExkT69dCr7Ltx0sjQaM3wilF5e261qpCHbQDt
-	nkF0w4ceqpQXHz/dVG9I9dT9cSBZs7f2rUgk94sT4Ca8daT8Ez8ZgRxtk/i1yiqfNb2reR
-	S4lP4HIPItLX2cwq7SL4TkzHeRO/yq8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778160271;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMh8pnMsfMs24o4kg2uEJRLF/FMF2DHddoTt+5thtY8=;
-	b=26RN7Q3bPeguIJDUIEMT1iREnac/uOxiAXdE4HIgnVWpO5My5UIl0HYAyF1OXJsVX5ncSJ
-	+kbgZLoHcMNALADA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 27095593A7;
-	Thu,  7 May 2026 13:24:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aHmVB4+S/GntcQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 07 May 2026 13:24:31 +0000
-Date: Thu, 07 May 2026 15:24:30 +0200
-Message-ID: <87qznnpd2p.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Matt DeVillier <matt.devillier@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-    Dutch Ingraham <stoa@gmx.us>,
-	Harin Lee <me@harin.net>,
-	Thorsten
- Leemhuis <regressions@leemhuis.info>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Linux kernel regressions list
- <regressions@lists.linux.dev>,
-	Linux Sound System
- <linux-sound@vger.kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [regression] ctxfi: no speaker output when headphones connected on >=7.0.x
-In-Reply-To: <trinity-c85da660-f130-434c-a64c-a076180ce5c0-1778158023623@3c-app-mailcom-bs03>
-References: <36875d66-f601-4d18-9654-bd86b60918e8@leemhuis.info>
-	<87bjett3ud.wl-tiwai@suse.de>
-	<7929c116-ff2e-413b-ae73-e7d19e846e0f@harin.net>
-	<87v7czrasg.wl-tiwai@suse.de>
-	<trinity-c85da660-f130-434c-a64c-a076180ce5c0-1778158023623@3c-app-mailcom-bs03>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WZAYt23c"
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12c19d23b19so1683395c88.0
+        for <linux-sound@vger.kernel.org>; Thu, 07 May 2026 07:28:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778164122; x=1778768922; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=m52C9FnSjkJyGIM2Iz6ci+a0fVJqmhLXSC8+wk7x+s0=;
+        b=WZAYt23c09uQluW0pEeorWwjbt46T0T1/VnA/6zpoXOGRFwJYL7Kuaq8OueoNrhFwo
+         J3M+67Kc53GZQyuj/ODocfIe8VbpdhE4i6swpU+f2o4oEeK8e4ltSXdpcw++2vdkvZI7
+         nHBusH6AUXVgrRS53PE0XVBbXPmIVKXMGRVusCg1AhyCex+/kI1nYadhnUxZT3YDCSzj
+         NAQ8SAZdUDWVgeq9TQWgjvXDxIRmonvroAIVrsECx6VbLai4Xnd68i7EHpsGLThlD3CG
+         NK+i5htGe/By8YKIfc8cPUsBYXmjdlfpmIDJ0asA145ZS3kTVJJy+rBDb9RXi6Zeydv+
+         iRMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778164122; x=1778768922;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m52C9FnSjkJyGIM2Iz6ci+a0fVJqmhLXSC8+wk7x+s0=;
+        b=KI0Rv/9JcXOw3PA0weihVDcz2Ssdn80PQizyFf3ZplteI/sgz/KJn8hphe08s9OBpz
+         Flfu192mNRhmVBIJ9zAuMufMpgqDVqLmnQjJAVNRFYvT217cLO1JVLnfI+fqODe7NDUH
+         BbtILR7C/AfErchmiXegk9wMNk8oz2RuL5+isGakQJjTjNJrzUgVlBPDU+Gbj2eLH7pG
+         nabxQ0kaXHuQKGBr9VFvRqHVlIztnEnbH/2yQMeOmyXtwQuZ4EWTtMs0H0gmTUvRJ7sD
+         lrat+yE74FVy5p3rsoBbnQS3L7dbwaO6prQI6VMD5ZsH59vYzVNHhgi3oHtZiZWm7lUD
+         3O/g==
+X-Forwarded-Encrypted: i=1; AFNElJ+eo5ttmiH84B8+Lu+R5tN8zdEu5ff77QsSp9NLxMg7aTrPGLScpK7sDtJcPSzrek51e962h9nXgLHCRg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMuO/oKis33qSuakzD4nvyyVNmgLr3aO2cSJgbsY98uBo9UxNV
+	hhckYKDWNBPGp9HwLJh/HIjXhEMD0K679JAtwbFKJzwOCSm6seh6RiUV
+X-Gm-Gg: AeBDieuJEzTuj4AMJoitBFdiNMLdTNPNEHtXH7vHjMDFC3yH2qK1+9JPSQNKCsJ7EWp
+	y2ziSKtesuz4nxzANQyJuC/E8K059UlvLjLpqBXYqzq9aX3FmQBBvAUQmQrkV4X2oEOMmjEr5Wy
+	4pYDkXPGGFTScVFztOJACxtiw4keT7+PHT9ml4sWN3qhwbN8kAeNaNzQGPtwFl9+ahwbloc42yq
+	6F6vYcL1gHamM44dleBDfzwd7/VewFrvkSYnxOPWLiwCH92BW39SwhovmGpnbbdxyAEbd8eU430
+	Zn2NFb3zi/BHZRUU4l5zlpxiCEz2xFHYQSBaWAlQqPF1q9YzGma3lWrDiLlFo9dzMCXOws7ltAv
+	uDPWQf9kSPR+atLx8LoznopT5Nw+Fj4/xO5MwA6YHMY0d4rYGKzlk8R7i9QSOj3pgTvzio6+bP+
+	AYH11cTvnt+PBjl+X4E4J7wXiNgKSDLuoeKPqOpHg2R+CfUTH5hQ268ZbcDvmRm1ilz3D/YSKag
+	/B2mXZaAkKF
+X-Received: by 2002:a05:7022:6899:b0:132:5e72:43d3 with SMTP id a92af1059eb24-1325e724784mr399692c88.29.1778164121302;
+        Thu, 07 May 2026 07:28:41 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f570384e46sm8829554eec.26.2026.05.07.07.28.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2026 07:28:40 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Thu, 07 May 2026 11:28:30 -0300
+Subject: [PATCH] ALSA: virtio: Validate control metadata from the device
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.us];
-	FREEMAIL_CC(0.00)[suse.de,gmx.us,harin.net,leemhuis.info,perex.cz,suse.com,lists.linux.dev,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[leemhuis.info:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,suse.de:mid,suse.com:email]
-X-Rspamd-Queue-Id: 7408766D2F
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260507-alsa-virtio-validate-kctl-info-v1-1-7404fb12ec37@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNQQ7CIBBA0as0s3aSiqULr2JcDDDVUQKGocSk6
+ d1FXb7N/xsoF2GF87BB4SYqOXUcDwP4O6Ubo4RuMKOZx8lMSFEJm5QqGRtFCVQZn75GlLRkNM7
+ xydlgw2yhR16FF3n/Bpfr37q6B/v6rcK+fwDp1AvdggAAAA==
+X-Change-ID: 20260424-alsa-virtio-validate-kctl-info-2bbe3b5d5d65
+To: Takashi Iwai <tiwai@suse.com>, 
+ Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Aiswarya Cyriac <aiswarya.cyriac@opensynergy.com>, 
+ Jaroslav Kysela <perex@perex.cz>
+Cc: virtualization@lists.linux.dev, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3816;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=PCbwbQNt4FGuy1Mx/UEcWlVmDbt9jGbh+cLIMf+sZ+o=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDJl/Fk7cXbMuuOnqBrbkK5Ix27yez6pyilfSjmraorb7I
+ N/70/t8O0pZGMS4GGTFFFlWJy2y3NP14Gp93AoPmDmsTCBDGLg4BWAiS7oYGc6kRSboX3+SH/6F
+ oS2pb88fnj+h641Oul1etjx0/azE2MeMDEun6J4L0D14TXz53ZuvshrnLWZaalcjymqbkbdmRnp
+ wGgsA
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-On Thu, 07 May 2026 14:47:03 +0200,
-Dutch Ingraham wrote:
-> 
-> > Sent: Thursday, May 07, 2026 at 1:30 AM
-> > From: "Takashi Iwai" <tiwai@suse.de>
-> > To: "Harin Lee" <me@harin.net>
-> > Cc: "Takashi Iwai" <tiwai@suse.de>, "Thorsten Leemhuis" <regressions@leemhuis.info>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Linux kernel regressions list" <regressions@lists.linux.dev>, "Linux Sound System" <linux-sound@vger.kernel.org>, "LKML" <linux-kernel@vger.kernel.org>, stoa@gmx.us
-> > Subject: Re: [regression] ctxfi: no speaker output when headphones connected on >=7.0.x
-> >
-> > On Thu, 07 May 2026 00:06:11 +0200,
-> > Harin Lee wrote:
-> > > 
-> > > On 5/6/26 4:05 PM, Takashi Iwai wrote:
-> > > > On Wed, 06 May 2026 08:24:36 +0200,
-> > > > Thorsten Leemhuis wrote:
-> > > >> 
-> > > >> Hi! Just FYI, I noticed a regression report in bugzilla:
-> > > >> 
-> > > >> https://bugzilla.kernel.org/show_bug.cgi?id=221461
-> > > >> 
-> > > >> To quote:
-> > > >> 
-> > > >>> Dutch Ingraham 2026-05-03 18:12:49 UTC
-> > > >>> 
-> > > >>> Kernels >=7.0.1 contain a regression as to Creative Sound Blaster Z SE
-> > > >>> discrete pci sound card, but not integrated. Kernels 7.0.1, 7.0.2, and
-> > > >>> 7.0.3 tested; 7.0.0 not tested. Reverting to any 6.18.x or 6.12.x does
-> > > >>> not present the issue.
-> > > >>> 
-> > > >>> Specifically, using pipewire managed by pavucontrol, on both Gentoo and
-> > > >>> Arch Linux, when both external speakers and headphones are connected,
-> > > >>> all sound is routed through the headphones regardless of whether settings
-> > > >>> are set to Line Out/Speaker or Line Out/Headphones; there is no speaker
-> > > >>> output. If headphones are disconnected, without reboot, speakers work;
-> > > >>> reconnect headphones, without reboot, sound reverts to headphones.
-> > > >>> 
-> > > >>> Kernel: 7.0.3, Gentoo compiled from source using olddefconfig on 6.18.24
-> > > >>> 		.config; Arch standard release
-> > > >>> 'lspci -nnk | grep -i audio' attached
-> > > >>> 'dmesg | grep -i audio' for 7.0.3 and 6.18.24 attached
-> > > >>> pipewire-1.6.4 on both Gentoo and Arch Linux
-> > > >>> alsa-firmware-1.2.4 on both Gentoo and Arch Linux
-> > > >>> 'cat /proc/sys/kernel/tainted' returns 0 for both Gentoo and Arch Linux
-> > > >>> 
-> > > >>> Processor		:	AMD Ryzen7 5700G
-> > > >>> Motherboard		:	Asus Prime X570-Pro
-> > > >>> RAM				:	Patriot Viper Steel DDR-4 @3200mHz
-> > > >>> Graphics        :   ASRock AMD Radeon RX 7600 Challenger 8GB OC
-> > > >>> Sound Card      :   Creative Sound Blaster Z SE
-> > > >>> 
-> > > >>> 
-> > > >>> Expected outcome: ability to choose output to either speakers or head-
-> > > >>> phones while both are plugged-in to sound card.
-> > > >>> 
-> > > >>> Workaround: none known.
-> > > >> 
-> > > >> See the ticket for more details. One of them: 7.1-rc2 is affected as
-> > > >> well. Reporter is CCed. Forwarded this to ensure this report makes it to
-> > > >> the interested parties, as bugzilla might not have forwarded this.
-> > > >> 
-> > > >> Dutch Ingraham: if nobody within a few days has an idea why this
-> > > >> happens, you will likely have to use a git bisection to get this resolved.
-> > > > 
-> > > > As there have been many significant changes in ctxfi since 6.18, it's
-> > > > hard to tell what broke.  Please go git bisect.
-> > > > 
-> > > > 
-> > > > thanks,
-> > > > 
-> > > > Takashi
-> > > > 
-> > > 
-> > > Creative Sound Blaster Z-series uses the snd_hda_codec_ca0132 driver,
-> > > not snd_ctxfi. The dmesg logs in the bugzilla shows only ca0132
-> > > entries.
-> > 
-> > Ah, sorry, then it's easier.  The only major change is the
-> > commit 778031e1658d206a52bf9491c91ae5d4f4a2509d
-> >     ALSA: hda/ca0132: Set HP/Speaker auto-detect default from headphone pin verb
-> > 
-> > Try to revert this one.
-> > 
-> > 
-> > thanks,
-> > 
-> > Takashi
-> > 
-> 
-> I can confirm this seems like a good candidate. I built and tested 6.19.14
-> and 7.0. On 6.19.14, speakers work as expected; on 7.0, speakers are not
-> working as expected and the offending patch is included in the 7.0 patchset.
-> 
-> Thank you all for your work on this issue.
+virtio-snd control handling trusts the device-provided control type and
+value count returned by the device.
 
-OK, then let's put Matt to the party.
-Matt, could you help for debugging the regression?
+That metadata is then used directly to index g_v2a_type_map[] in
+virtsnd_kctl_info(), and to size loops and memcpy() operations in
+virtsnd_kctl_get() and virtsnd_kctl_put() against fixed-size
+virtio_snd_ctl_value and snd_ctl_elem_value arrays.
 
+A buggy or malicious device can therefore trigger out-of-bounds access by
+advertising an invalid control type or an oversized value count.
 
-Takashi
+Validate control type and count once in virtsnd_kctl_parse_cfg(), before
+querying enumerated items or exposing the control to ALSA.
+
+Fixes: d6568e3de42d ("ALSA: virtio: add support for audio controls")
+Cc: stable@vger.kernel.org
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+---
+ sound/virtio/virtio_kctl.c | 50 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
+
+diff --git a/sound/virtio/virtio_kctl.c b/sound/virtio/virtio_kctl.c
+index ffb903d56297..45f7b6a5b308 100644
+--- a/sound/virtio/virtio_kctl.c
++++ b/sound/virtio/virtio_kctl.c
+@@ -18,6 +18,21 @@ static const snd_ctl_elem_type_t g_v2a_type_map[] = {
+ 	[VIRTIO_SND_CTL_TYPE_IEC958] = SNDRV_CTL_ELEM_TYPE_IEC958
+ };
+ 
++/* Map for converting VirtIO types to maximum value counts. */
++static const unsigned int g_v2a_count_map[] = {
++	[VIRTIO_SND_CTL_TYPE_BOOLEAN] =
++		ARRAY_SIZE(((struct virtio_snd_ctl_value *)0)->value.integer),
++	[VIRTIO_SND_CTL_TYPE_INTEGER] =
++		ARRAY_SIZE(((struct virtio_snd_ctl_value *)0)->value.integer),
++	[VIRTIO_SND_CTL_TYPE_INTEGER64] =
++		ARRAY_SIZE(((struct virtio_snd_ctl_value *)0)->value.integer64),
++	[VIRTIO_SND_CTL_TYPE_ENUMERATED] =
++		ARRAY_SIZE(((struct virtio_snd_ctl_value *)0)->value.enumerated),
++	[VIRTIO_SND_CTL_TYPE_BYTES] =
++		ARRAY_SIZE(((struct virtio_snd_ctl_value *)0)->value.bytes),
++	[VIRTIO_SND_CTL_TYPE_IEC958] = 1
++};
++
+ /* Map for converting VirtIO access rights to ALSA access rights. */
+ static const unsigned int g_v2a_access_map[] = {
+ 	[VIRTIO_SND_CTL_ACCESS_READ] = SNDRV_CTL_ELEM_ACCESS_READ,
+@@ -36,6 +51,37 @@ static const unsigned int g_v2a_mask_map[] = {
+ 	[VIRTIO_SND_CTL_EVT_MASK_TLV] = SNDRV_CTL_EVENT_MASK_TLV
+ };
+ 
++static int virtsnd_kctl_validate_info(struct virtio_snd *snd, u32 cid,
++				      struct virtio_snd_ctl_info *kinfo)
++{
++	struct virtio_device *vdev = snd->vdev;
++	unsigned int type = le32_to_cpu(kinfo->type);
++	unsigned int count = le32_to_cpu(kinfo->count);
++
++	if (type >= ARRAY_SIZE(g_v2a_type_map)) {
++		dev_err(&vdev->dev, "control #%u: unknown type %u\n",
++			cid, type);
++		return -EINVAL;
++	}
++
++	if (count > g_v2a_count_map[type] ||
++	    (type == VIRTIO_SND_CTL_TYPE_IEC958 && count != 1)) {
++		dev_err(&vdev->dev, "control #%u: invalid count %u for type %u\n",
++			cid, count, type);
++		return -EINVAL;
++	}
++
++	if (type == VIRTIO_SND_CTL_TYPE_ENUMERATED &&
++	    !le32_to_cpu(kinfo->value.enumerated.items)) {
++		dev_err(&vdev->dev,
++			"control #%u: no items for enumerated control\n",
++			cid);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ /**
+  * virtsnd_kctl_info() - Returns information about the control.
+  * @kcontrol: ALSA control element.
+@@ -385,6 +431,10 @@ int virtsnd_kctl_parse_cfg(struct virtio_snd *snd)
+ 		struct virtio_snd_ctl_info *kinfo = &snd->kctl_infos[i];
+ 		unsigned int type = le32_to_cpu(kinfo->type);
+ 
++		rc = virtsnd_kctl_validate_info(snd, i, kinfo);
++		if (rc)
++			return rc;
++
+ 		if (type == VIRTIO_SND_CTL_TYPE_ENUMERATED) {
+ 			rc = virtsnd_kctl_get_enum_items(snd, i);
+ 			if (rc)
+
+---
+base-commit: 5bddc5123566e6431fff826fe76a8e378ae9db78
+change-id: 20260424-alsa-virtio-validate-kctl-info-2bbe3b5d5d65
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
+
