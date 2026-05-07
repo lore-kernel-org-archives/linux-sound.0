@@ -1,91 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489A9DF6C;
-	Thu,  7 May 2026 00:03:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF4C19ADA4
+	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 01:20:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778112180; cv=none; b=WMswApptLKoWobsNFMQ8VG/7Y2q/A4k/4XyTv2UVhJ2KQsYMaZAPBykyq5WZSYhSo/bsUWzl6lL2ptBan7ia5Ey1jxF1bCnK34Eix2CS50bz0xicRKKek72Qr4iK542m9sM02M2ROizS3fvmWX3k1IdEOn6ST0znf82N34hFJxg=
+	t=1778116803; cv=none; b=qLyoFQD+20866YzZVFIJbKjL0JsMeXPjdwL9wlVA3KhEYIM8qe7HSrct/XP8OBPI8V/Iry2GU3BSIK5MAxBNWmGhSXA3gRouHsNhu3NDxK1HAzPxxyFaHeWUvDcbUJG8ImFtPmW58Dwu1SmzuQXO03KHcTa/Cytq9yOhkO/cEe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778112180; c=relaxed/simple;
-	bh=2QKygJs5Bc+od5SrnKqbgqEKFReI/NphVpSq50RT8iI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jJOIm381ByzWlYLPnigwtJvOjV6i/2EHxvCsCY58Duv+XYCiI4O5FmNwxKD98mg2YdDdEs1FleL5ypS+93V70NyImpeteggwJVMT8O+PEjHnV4LgNPCLB+LHTTFeULSlb9B1isnqu+CzPBSmY/HyUE2qj2VTFx75fDn+FEZhhMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ph3QBBok; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778116803; c=relaxed/simple;
+	bh=Z9kl4I2mfB/w+jPxVnqdY3FShwBp79BxtLp7QNIriks=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=vDpO+Eub01oFnLAAhXVyG5NL9OsHxmQ6WMWrIPMh9viNnAKdT2b85kLv+CRfQdC3pw4tVHLVDrPViqkKH0nnr/Gmwlhui/9R3wxM2QlkcqCAfQqYbgFUnNbfgjwcN1LZXd2te0CjepXVVPP7/F8s/46HnA48Gfrfiqwnazw+rUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XPMFNBg3; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ph3QBBok"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0B99C2BCB2;
-	Thu,  7 May 2026 00:02:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778112179;
-	bh=2QKygJs5Bc+od5SrnKqbgqEKFReI/NphVpSq50RT8iI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ph3QBBokjvE8IhdL4GKVb0z7EI30y8c7A+X/0UCtg+/W4iP/bmg12FFTfySMuzKKT
-	 /UB7clHMam98HhIk5HvauIF2r50B5xm9osZmNAUmkvIplYobBlpx4v4a8j3V/vpFRa
-	 bKuf7VT6LCRE+0PAKeCMFOzApniHpWAjhkcMtN1xYtJDbPPqzWdJZP8fk4IKeNKXjO
-	 /jttDRmfHYScg1hFM56rtAUGAH5xFxZq1E7MQIaq5JiCG0g2E/sAk7GIOEZ7iBKUW+
-	 s5bdexMbm06exo79vIBlzGg7iL64ZVLG7q/Nml5TAHv/IHgf1Ed+pXxRRwFEVYWxin
-	 EgOd3hc3NTV8w==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 2763E1AC587F; Thu, 07 May 2026 01:02:57 +0100 (BST)
-Date: Thu, 7 May 2026 09:02:57 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Val Packett <val@packett.cool>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	Bhushan Shah <bhushan.shah@machinesoul.in>,
-	Luca Weiss <luca.weiss@fairphone.com>,
-	Antoine Bernard <zalnir@proton.me>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/6] ASoC: qcom: qdsp6: q6afe: fix clk vote response
- type mismatch
-Message-ID: <afvWsfgIz9Q-_cjH@sirena.co.uk>
-References: <20260506204142.659778-1-val@packett.cool>
- <20260506204142.659778-2-val@packett.cool>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XPMFNBg3"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ba3e3c4f87so2573695ad.3
+        for <linux-sound@vger.kernel.org>; Wed, 06 May 2026 18:20:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778116801; x=1778721601; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jUGQTAHwt1uQui9BCrjh8OlUKlhXS2NSOCMtKyNZUew=;
+        b=XPMFNBg33o2GBseD7gPQtmVRLYjUd+xg7QmhYkDCdh3bc4ZOdkCpfQenZeiKCM4lhs
+         YGlgOAbvp52aHBW9Ytny3kvRr0qFPKexs1kcefLh0wb7Y2O6jJzAKfnlYDtcDsOS2Rjf
+         hy7mAAX1mVdMMyiPBD8KxXpI+dncT1RxLf87zk8ju+cSWxqB/FuBtdONo+v2eHprQkOj
+         Pdr4dvM3/RRP3LfUIYLZDwIh4NJ5WqBF2vLnH2lOpDzR1YCmx2zemAL68akzTZAhFUUB
+         tpl9/Zcv8DMdQcJBEWSfUhUxhZYD/6LFvFlAYG+CpGWBwS5WCHhTAZenNp4AUi1Wd9Ut
+         EVXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778116801; x=1778721601;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jUGQTAHwt1uQui9BCrjh8OlUKlhXS2NSOCMtKyNZUew=;
+        b=WZUcJ9zdZzfrXBTdcr8ik/qfkWDwqHiqHSYxGX1dcnYw+JoOswCl6nIoFZZ8GC/vr1
+         Gpscmtdet4ZozzhzR+xglOmZmy9EG5xdzRkPa/aYj9dL0AJT4Aw2k56ejBelNvcc9ytO
+         3lV6I+8K68CPZaO1Jd2iP6CD6TIE9qsGQQVofWr4lS2yUngli03Og2r/QM5I6TwMi1Tf
+         PZ252faz+j17qR5PCTmdQd3x7UQkSwSgIBjCta2nlN9Yu8lSAp90o1xAGO7R68cLEkVA
+         ssCfv0IVAmBMA3a78bYZtoz5jpHcjQxeQ+BM5NfboUUBjYC2EUIDyYNSNiiE9+8NVzb+
+         MrHw==
+X-Forwarded-Encrypted: i=1; AFNElJ9SPvpkIV1qzMIU49sGwj4sMeP+i/sqK4HB9hysPi4TWMmUCpvYkTTRaooM1MJ1NukYbl9ZioaSiRvZQQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNVa+hChd0/17gKAr09pzQY4UDAfeCHw/WZjpektLvpJruYuF/
+	HTB1rqP/yKz4+Gz/shjXyrLgaBhquMQoHE337xfm4uC2U8Qdj7MQlZTC
+X-Gm-Gg: AeBDieuJ2eilg/gL7cL7vfgnOT5HOlqHTz0IIg+3EClBTdTOKaD+Nypk9LDA6EsgsBn
+	MTTN0ORr+dXPNZUPKgeZj8E6m3ldZhw/r+0jv9105PXwbfFfcytFmjf0jipDoyMBcl4U/HedN5b
+	jg803WwyBU/IWNicKBfYoiEG0YR8zuK6vf7iAZ1HsAJe33rKhXM4Uhd33tjuTATVDOqzMyG/2Np
+	E4WP9EsfZWUzlmYd7UMnSa1rxLxVRCMkunqkOnfaYD25LJNIRJzxVJ5nYnsDGUzmzw5K0rOvKck
+	cgJg83ntERpwJIHGM6NvI5UQenr+PH7KZDBNYN4n4HLz16YF8ehrjbLiBZEz3Md0KUA8SORosB6
+	2QmAkqsHUuVeVbAJ8AlBYKPiciI64l+9KxkoMp3mC1dD+17AzN5RiWdzEhoUIlskdLbhNKedWKy
+	4giK0n/pc1gcynm6j6n/E3Y1wX/1W1SzbUIPLTLx8=
+X-Received: by 2002:a17:903:280e:b0:2b2:50e1:f104 with SMTP id d9443c01a7336-2ba78f63defmr42518355ad.3.1778116800937;
+        Wed, 06 May 2026 18:20:00 -0700 (PDT)
+Received: from localhost ([111.228.63.84])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2babadef85esm4761775ad.62.2026.05.06.18.19.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 May 2026 18:20:00 -0700 (PDT)
+From: Cen Zhang <zzzccc427@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: gregkh@linuxfoundation.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	Cen Zhang <zzzccc427@gmail.com>
+Subject: [PATCH] ALSA: pcm: use snd_pcm_get_state() in remaining ioctl checks
+Date: Thu,  7 May 2026 09:19:44 +0800
+Message-Id: <20260507011944.2897240-1-zzzccc427@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HNMYbKs3xz29VMcr"
-Content-Disposition: inline
-In-Reply-To: <20260506204142.659778-2-val@packett.cool>
-X-Cookie: Truckers welcome.
+Content-Transfer-Encoding: 8bit
 
+The recent OSS runtime->state locking cleanup converted the OSS I/O
+paths to use snd_pcm_get_state(), but a few ioctl-side checks in
+pcm_native.c still sample runtime->state directly: the prepare
+pre-checks, the early drain open-state check, and the common
+snd_pcm_kernel_ioctl() disconnected check.
 
---HNMYbKs3xz29VMcr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Use snd_pcm_get_state() for those remaining samples. In
+snd_pcm_pre_prepare(), keep a single state snapshot and reuse it for
+both the OPEN/DISCONNECTED check and the running-state test.
 
-On Wed, May 06, 2026 at 05:33:02PM -0300, Val Packett wrote:
-> The response sent by the firmware when requesting a clock vote (opcode
-> AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST) does not actually have
-> the same opcode + status payload as APR_BASIC_RSP_RESULT. Rather, it
-> returns one single u32 which is the client_handle that must be used in
-> future unvote requests for the same clock.
+Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+---
+ sound/core/pcm_native.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-Please send cover letters for your serieses, it helps tooling.  Please
-also supply inter version changelogs.
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index a541bb2..50da38b 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -1973,13 +1973,15 @@ static int snd_pcm_reset(struct snd_pcm_substream *substream)
+ static int snd_pcm_pre_prepare(struct snd_pcm_substream *substream,
+ 			       snd_pcm_state_t state)
+ {
+-	struct snd_pcm_runtime *runtime = substream->runtime;
++	snd_pcm_state_t cur_state = snd_pcm_get_state(substream);
+ 	int f_flags = (__force int)state;
+ 
+-	if (runtime->state == SNDRV_PCM_STATE_OPEN ||
+-	    runtime->state == SNDRV_PCM_STATE_DISCONNECTED)
++	if (cur_state == SNDRV_PCM_STATE_OPEN ||
++	    cur_state == SNDRV_PCM_STATE_DISCONNECTED)
+ 		return -EBADFD;
+-	if (snd_pcm_running(substream))
++	if (cur_state == SNDRV_PCM_STATE_RUNNING ||
++	    (cur_state == SNDRV_PCM_STATE_DRAINING &&
++	     substream->stream == SNDRV_PCM_STREAM_PLAYBACK))
+ 		return -EBUSY;
+ 	substream->f_flags = f_flags;
+ 	return 0;
+@@ -2139,7 +2141,7 @@ static int snd_pcm_drain(struct snd_pcm_substream *substream,
+ 	card = substream->pcm->card;
+ 	runtime = substream->runtime;
+ 
+-	if (runtime->state == SNDRV_PCM_STATE_OPEN)
++	if (snd_pcm_get_state(substream) == SNDRV_PCM_STATE_OPEN)
+ 		return -EBADFD;
+ 
+ 	if (file) {
+@@ -3524,7 +3526,7 @@ int snd_pcm_kernel_ioctl(struct snd_pcm_substream *substream,
+ 	snd_pcm_uframes_t *frames = arg;
+ 	snd_pcm_sframes_t result;
+ 	
+-	if (substream->runtime->state == SNDRV_PCM_STATE_DISCONNECTED)
++	if (snd_pcm_get_state(substream) == SNDRV_PCM_STATE_DISCONNECTED)
+ 		return -EBADFD;
+ 
+ 	switch (cmd) {
+-- 
+2.43.0
 
---HNMYbKs3xz29VMcr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn71rAACgkQJNaLcl1U
-h9Anzgf9FNOOJE3kohhLSXALdDcFC+1Fx4LVrxUPlnTEy6hgIs+7+tjX4CnC7Q33
-1WHxuGpzCwc14KIOANfZGOWAxZ1uumrkkoKBzp2HEIK70EP71xQjBSJH+ICh+0Hp
-Tj9D+Q5rxP6Wedm+fHuusJZ897TgvXkInBkcG4uRjc6Nfzdotlx8SUjXkpjodyJe
-4RtEv1qGxqI0Mt1GyLv4XldJuoyxufTy5xIMp5YQ8wTaPYDD1oXjYeUnz1gqrInn
-nFT8rs9soUwLJvI3fhxpYGm+uG7CJvWj4ETVWVDiE9lLdK5Ilq+jFw/+7MX2c/8D
-aThHNceQTsCWPf0JQxKdXSLXwMV0Pg==
-=RlbE
------END PGP SIGNATURE-----
-
---HNMYbKs3xz29VMcr--
