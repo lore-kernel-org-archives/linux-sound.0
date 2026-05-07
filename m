@@ -1,204 +1,83 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013042.outbound.protection.outlook.com [40.107.162.42])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E716272816;
-	Thu,  7 May 2026 01:38:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778117913; cv=fail; b=H+bRCU5Em+QLJhWn2uA/X30x62/qspp5x2GPAnMAE87ma4ze+nOMJlDUoJ8Yaj9UztWBXFPIoVvXtNCsRo7pNQXYByoNfqKo1TUzJNWvFVV7B7IMLie5RpfIA/ubhdSB49DBMTASFKDqSvcF6/y8k0wC577EChevfXZ9xe0aeqE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778117913; c=relaxed/simple;
-	bh=/LY8GhXWq7+6mLWWC9OZrTcpgEgYsV8mM6lSLIfcvac=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=U8VDs9Y89Cl7lmFxNXazuXerpNRcbcn8U4Ugy/qoxnletKWJv+xZt09DcWNqp4ZEaQ18gZZqDiyQEkNMcH7oTaxKUVvNTCHS3XOusNX85GuRJTcSAr0njYXvLuGQgoqUh4kWXeMUeHOXDOy5tTIr2QvUDjJuDatBZQKSiiXMPNA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=jYmC2/3l; arc=fail smtp.client-ip=40.107.162.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE72194C98
+	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 01:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778118414; cv=none; b=P02Cc1j0JrZCL3jqLQE8ktSryWrKbl1Hc+wW2ORvXyniNoRhYMofHP+8i4P3pVQH+X1lORIseJ15BhmKtMz8vYPkriSk2tJrKMeV7iCoMZn8xJRs/y0jXOo+fUBGqX0buwe6RVxzSESc0pNv3zzD8vLyVTXKwkzkANTpv24vrmc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778118414; c=relaxed/simple;
+	bh=ptahMHxAwcMzgJUkdJAwL9Np/nYEs8gByqgKb70ZGU4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jJWGnlD5I+Sxkj3RDOVeYIFfjo+49w5c+043Cy7DZk2doBSAqDXVdhQBc8BNbVzwEshyygjYg/dzTu/PIzNEIZ/ru1IAxUq40cvLOIdrBm0xrrbFPQKZ++e0fo91AaVy+onwF7wTOTyT8MdvRw3olA1+T/CKp+Tyl53sQ3lQ/s4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=e/t0Bw0e; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="jYmC2/3l"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LOwqTSCr6TiIVaxuiMBb4jgRYTQ46RTrj96cANikRKvuWcfTEHeo7YDwpP0TbnJGJdZyqhPI3mhbuWn4CkUhsDpOciqFYxGU+1Gr2MBXIQKOo3rizai1EdEI7R/Ub/y4kytJKCvpjR967h6yePwuLLxJYwfhI3cfGW0AzGXP2r38OSPc3kg72l6KfJnxECDNop/oJXDCw3r31uQQChCx2RET4+EdGHhxDLTJzMNsKytiCJsBPvqn9JVmNl7LfDiTwn8DDNvaGJPl1ML2+vOVbL1gTlCPTF5eXJVXQ4adVKF0dFbrJC0/Z5trQ7blvFo8TxEEBFOvGfOM5DQA9mahAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iHJ6nXuQ4SshV/oziQ5Gh1tJp9/USsj3RYqxbBv4csQ=;
- b=ZB6Uvs4eFgXvYOaEgnVuJ1J5mxnyJYQ4Gybbl+wlNpv8j9yplBuRVoea7RYkTgTp3mLCh/ErN+AffnbGba5yxQ7LvWvVH9x77LnYstmoE7+8OhrTXlcywr8UHjV/0yLyYNpq0HJt9mjIs6E3dhKkbk/LvNKI49zkFuzDyodwrviQuNxqTk++pK9k1kF0Nx3FIz/FyGZg9givh8ApAk9EBHDD/DeXtySIRFqaMc9aezH3DbzTq5r2YC0jH5wFHvrFN+lCbs0TXcmh+MTgGp9nanmppKb/TtJi9FqGk+y1fmhKR1VhL/FEsMsApoqTC2+oA4IN4b75ke/LCmqCWrDcAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iHJ6nXuQ4SshV/oziQ5Gh1tJp9/USsj3RYqxbBv4csQ=;
- b=jYmC2/3l0ODeiwx9VBl/SZs0lrP3mA8FcGAs6oFv0jV7fmS7lNIR3TIHgvzTrMBsJJHrdsxQWV8N7I5hKBzWlU4yHclaxdkMpgiWk/IrGUh6KuNGb3TNNxsl3ivJjgd1SywxztNHxQd6d61YvgbV3GQYrrbyG/yRNH2MRkWveTHyHPN/as9DU+3oaHIEE5KHUaQUJs3f+WWvaKko20YPlMT9sK6AL7vyFTANzZv+6UQCotI1TauxOSsP5GUCSW7CjCmLFUlG6J+cRYp8LKiwlFQppZ1M4/zxAljJ/KMufN94VtTiLff5ADrhZPcsLaISBWbtFMT30rQnEBsXM09ppw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8353.eurprd04.prod.outlook.com (2603:10a6:20b:3ef::22)
- by PA2PR04MB10514.eurprd04.prod.outlook.com (2603:10a6:102:41e::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Thu, 7 May
- 2026 01:38:29 +0000
-Received: from AM9PR04MB8353.eurprd04.prod.outlook.com
- ([fe80::46ae:f774:f04c:a1bc]) by AM9PR04MB8353.eurprd04.prod.outlook.com
- ([fe80::46ae:f774:f04c:a1bc%5]) with mapi id 15.20.9870.023; Thu, 7 May 2026
- 01:38:29 +0000
-From: Chancel Liu <chancel.liu@nxp.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	Frank.Li@nxp.com,
-	s.hauer@pengutronix.de
-Cc: kernel@pengutronix.de,
-	shumingf@realtek.com,
-	pierre-louis.bossart@linux.dev,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v4 3/3] ASoC: fsl: imx-rpmsg: Switch to core ignore-suspend-widgets support
-Date: Thu,  7 May 2026 10:36:54 +0900
-Message-ID: <20260507013654.2945915-4-chancel.liu@nxp.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260507013654.2945915-1-chancel.liu@nxp.com>
-References: <20260507013654.2945915-1-chancel.liu@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SEWP216CA0087.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:2bf::14) To AM9PR04MB8353.eurprd04.prod.outlook.com
- (2603:10a6:20b:3ef::22)
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="e/t0Bw0e"
+Message-ID: <35b45fd0-fffb-455b-b19d-5c29cc955563@packett.cool>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
+	s=key1; t=1778118408;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2lk0xUHftJD0rJZhHZIYmoYd2dWXW26635MabL0+A0s=;
+	b=e/t0Bw0eH/FG81UNZB8PXX5CTv8G5YfwI473WJ6VQD5RryLVhi1MV/jgZAWcoWxlvxF8G7
+	jTnsQzrJqpZwoMpyUabou0hxvPpdvwwXinacY0Eqgv/KGVsvG459eUmpjGgrcpsJpbbxqb
+	UynFV0PS4+j+bHPupsbc2OQX8Whlaixhr9Ba8FfhA+8lS1rOJ45tqjJnHhvDEKH87dtc8w
+	ID3vI7O5T29NVDel+rmtmVeIYbtjMmJmDVVwM0uczjeeYiNH7yVguVW7hNSm8PPUjqlt1p
+	nqZbtFz/AVb6go4LZDV2aUwyV9TUqI3jCDw+/VaPqOq7di2UcNzbMG8lMomlVw==
+Date: Wed, 6 May 2026 22:46:33 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8353:EE_|PA2PR04MB10514:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6be9ff3b-10a5-456b-f000-08deabd95757
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|19092799006|52116014|366016|921020|38350700014|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	kBM/xioG2eXmITrpsbKsJQ53HnYUhLaRkiunnMdf+2phRFbOItiTT39wP5G2rpP18YkiN3scE7qzv2TCuNJOsLxMIO8lkzxD4jGMEIVGpsKQVf/faRMo09d0EHrtW4pSt1/xd8Yiio9qGkPhDEqKY5Cm7OFuGlK3bY/URFT8FNlecQKeiCLe86TYV2iIwQVPjnfcX4M9V2SrDoHXxJcrAORYb+AZIfYRB8lSvGjLSF6h93X1ceyXuYHdVKhDzppzLnHFMQUbp43pFIs+R7l1Si69eZ5IUmKKIO0it8PpK9GNtnkoIKYedbDDloOfJjy4nF3xm4VNg2pdeSNw1LgnxtYSPfRLM8Y2ctYJEySPu5g2dztE6N8nP3ZN2aRO07E/1YXKB9kPxDBuuuQ+QrOKMBP+UkM8UMcgJzMgo0rRzHNgKABhOaghIuJquVbgoncwPTUPrXtZOPd43YY4NchTPpc5Wh1us7oQyCobXTZjgLI6RVUzaFDCqOfaQGJT0Nm+J9KkyeFFh4G6/1rFV3+UBwDgLXbvHw67GGSR3SBTdoan3bk2bYbpeQVzyogO4Q8m8IMzKnQRiMt4hw3rrToe0F884Af/kysXfSRAuqqZ4C3Q4w4IrSCspbUGWTqv5qdhDo5+durLGv/yZqy05RwQQC5dkZAH7w166yGbFVtcGlbB1afOV6pZ3UKygrkU6d6TXNmSW3K5cjBfk+ysxMBlmPgwN/eCBpz4npiVLcLdRd8yOAgJfSHLj5BE6LBThIgSB1yd2xq6knnyYknNaI9K2A==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8353.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(19092799006)(52116014)(366016)(921020)(38350700014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?F4rW0XztjmeV5j2nSEUTXZctRzYpZo5I+rdXf47FPjohYCIEMOVQDuaOCBap?=
- =?us-ascii?Q?c7Igox4VPgqzq8Fhp9KMb9Z/pA1E2o0LzK0ClPzxlnx/mQgsIMr5r1VPS8zC?=
- =?us-ascii?Q?2KgKVhd6nn4TXwRJXJjkvewsp+TIHwzCaP6v9eSdM1mnJAUVrmkhV2m94H8b?=
- =?us-ascii?Q?uD3MwzPHvzOOu2y8woZbGKmzyCnccOft/vRMhaexRGOv30pQalI7F9DspkM8?=
- =?us-ascii?Q?TyzPjC87gYLT9Kt8O0e2M1ZiXaN/q15WYXjing+QagAbpprzz7Tr1wut1TZc?=
- =?us-ascii?Q?3OCQaI7UkM6cXQ0Z1EKxUZajfwdAjbYm8V0mEh44gbztFWQEdNyheUHrJR9X?=
- =?us-ascii?Q?XOmFU5HLeSzljrS9cBMRAblantXMCkoaC/tlEvlVgz1i3ed7s5tSQLaFtSWb?=
- =?us-ascii?Q?rqNmSaAth8f5EkjROMB11Jek3F2RLlKc4cjv79EPANAXQJ3XTB6wg+dHBpD5?=
- =?us-ascii?Q?KL3w84vq0/IEHFtrwF96dBwgG/J8VdxfhPG8qfmDLkyDGWVmfJGwFNWqmwpK?=
- =?us-ascii?Q?t6mazQjR27I+JME7EVxyhPBRVDvoKS4I006KXZpv35jfqhCZytpOWw45zxMq?=
- =?us-ascii?Q?QIejZHX80Wuu2sycQAC8F7qFnaiLE3AhuqUiqqRIt3CHdCxWFLvfJeUjfgB/?=
- =?us-ascii?Q?Odvp8vFdE4bJemWfwKfWCWVX/mLzdnh7stc7CyPXFuVm6pXbvwQzJD/CYKKz?=
- =?us-ascii?Q?QUDq0K1KC7TyQrt4Lit7xL9qBCGXZ7xF/Vqb6sKZnJbYgc6vyZO4Gik2oJ1G?=
- =?us-ascii?Q?CfoJbchC0Wieu9PI/Sg5P7+zlpFKap+qJsSQZcfQPZyUiHeAb+K7ewVG3GMC?=
- =?us-ascii?Q?9A74qcDd4k2ySh78f4V0PTpntb+z9skkw50doW0/k8ImIc/7tPY4fZkATMp4?=
- =?us-ascii?Q?mgpueGwnTEocw5+TpwYm0U0KUaF68y4ByP+ipvd8AL2pCOn2I86Ad5q3jyBl?=
- =?us-ascii?Q?qWARXnaPSluqA7bkx/ftIDUO44rv5gdagMcqspv1DaT/cyAqNH2Yr8r2uxqy?=
- =?us-ascii?Q?tfsXzWm3DuL/0EypvjlnkPdFaIprxpHHxFX97bsxAXoRtwCjFtv2i4WW3LWl?=
- =?us-ascii?Q?Lkdqf+D4aiG+nQbH1T/OWgd88EO4N3lap0N3tH3pYTWRFNZUZ/Kb5FgJNAb9?=
- =?us-ascii?Q?sHFiOiKmTpG0+miGSfUNKfT8zW+3Ja49PD292iKokeF7Wmn6ufpym9Ib1VQ0?=
- =?us-ascii?Q?nQwNCJxkk/CQqAWsZckCC+TBAFg3GUx0A/vEIyUe7VARY489tvkmlB5S/T7D?=
- =?us-ascii?Q?FaoJwPf35QC29wmk4ZrzG2DwB1VxSfBPPg9prLOx4bmD3t5BJRXiGhiPub7Z?=
- =?us-ascii?Q?6lF/JCRLPpoQIKGaVG7ktX/q4yLfTTQXZtY6BXl6HauikBAGQadVYFYKYyMl?=
- =?us-ascii?Q?YyeezGKSjS1tCqEWig2r+WPhi+paeJYjW2VPVFda5lyxFSrRG8Wrt0VmFOJR?=
- =?us-ascii?Q?kQhWIrHAV0oox47n7/ruE8JWgYwGwTGLWUKRmsS8T7nPhcYBrAjQ5EVdTWQ7?=
- =?us-ascii?Q?adG3UQ5QtNgQO3Ct8TVQDHATU5vTmoaIC03aAVxpK8fCMT4FaA++nGNCYOk+?=
- =?us-ascii?Q?rnpYaB0J+eNNU0SKNYn9iQZykKQ/PRZacB+GijcQusM6XRckok8B1RFMPwjY?=
- =?us-ascii?Q?X8mmGYIp422wrVKZxvPxsdpj1kCVLQtYXfzgqRTVZPyJxUKQk2Fo6NxJQpGM?=
- =?us-ascii?Q?MvZK3jQ+gA62UhBmmcSkv0Hbsn+EAteEOp5UQ6W+116ML6ZRxl0MCVzPsZG5?=
- =?us-ascii?Q?/BHgwt74dg=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6be9ff3b-10a5-456b-f000-08deabd95757
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8353.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 01:38:29.5903
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZICdXlvn+k1q21DgoRTk36eMN3Llwl5/9vtLh0j93ILRZ5L5B3yoI3vVpd6XIjVT8aC82sDGbKl8ZjoFUgsgUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR04MB10514
+Subject: Re: [PATCH v2 1/6] ASoC: qcom: qdsp6: q6afe: fix clk vote response
+ type mismatch
+To: Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ Bhushan Shah <bhushan.shah@machinesoul.in>,
+ Luca Weiss <luca.weiss@fairphone.com>, Antoine Bernard <zalnir@proton.me>,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260506204142.659778-1-val@packett.cool>
+ <20260506204142.659778-2-val@packett.cool> <afvWsfgIz9Q-_cjH@sirena.co.uk>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Val Packett <val@packett.cool>
+In-Reply-To: <afvWsfgIz9Q-_cjH@sirena.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-The imx-rpmsg machine driver currently implements its own logic to
-parse ignore-suspend-widgets from Device Tree and manually traverse
-DAPM widgets to mark them as ignore_suspend.
 
-It also has a potential issue that some widgets listed in the property
-(e.g. "Headphone Jack") belong to card or CPU DAI DAPM context.
+On 5/6/26 9:02 PM, Mark Brown wrote:
+> On Wed, May 06, 2026 at 05:33:02PM -0300, Val Packett wrote:
+>> The response sent by the firmware when requesting a clock vote (opcode
+>> AFE_CMD_RSP_REMOTE_LPASS_CORE_HW_VOTE_REQUEST) does not actually have
+>> the same opcode + status payload as APR_BASIC_RSP_RESULT. Rather, it
+>> returns one single u32 which is the client_handle that must be used in
+>> future unvote requests for the same clock.
+> Please send cover letters for your serieses, it helps tooling.  Please
+> also supply inter version changelogs.
 
-Switch to use snd_soc_of_parse_ignore_suspend_widgets() with the
-introduction of a generic ignore-suspend-widgets mechanism in the ASoC
-core.
+ummm:
 
-Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
----
- sound/soc/fsl/imx-rpmsg.c | 26 +++++++++-----------------
- 1 file changed, 9 insertions(+), 17 deletions(-)
+https://lore.kernel.org/all/20260506204142.659778-1-val@packett.cool/
 
-diff --git a/sound/soc/fsl/imx-rpmsg.c b/sound/soc/fsl/imx-rpmsg.c
-index 40e0043cfe15..fd4624786b62 100644
---- a/sound/soc/fsl/imx-rpmsg.c
-+++ b/sound/soc/fsl/imx-rpmsg.c
-@@ -87,7 +87,6 @@ static int imx_rpmsg_late_probe(struct snd_soc_card *card)
- 	int ret;
- 
- 	if (data->lpa) {
--		struct snd_soc_component *codec_comp;
- 		struct device_node *codec_np;
- 		struct device_driver *codec_drv;
- 		struct device *codec_dev = NULL;
-@@ -107,22 +106,6 @@ static int imx_rpmsg_late_probe(struct snd_soc_card *card)
- 			}
- 		}
- 		if (codec_dev) {
--			codec_comp = snd_soc_lookup_component_nolocked(codec_dev, NULL);
--			if (codec_comp) {
--				int i, num_widgets;
--				const char *widgets;
--				struct snd_soc_dapm_context *dapm;
--
--				num_widgets = of_property_count_strings(data->card.dev->of_node,
--									"ignore-suspend-widgets");
--				for (i = 0; i < num_widgets; i++) {
--					of_property_read_string_index(data->card.dev->of_node,
--								      "ignore-suspend-widgets",
--								      i, &widgets);
--					dapm = snd_soc_component_to_dapm(codec_comp);
--					snd_soc_dapm_ignore_suspend(dapm, widgets);
--				}
--			}
- 			codec_drv = codec_dev->driver;
- 			if (codec_drv->pm) {
- 				memcpy(&lpa_pm, codec_drv->pm, sizeof(lpa_pm));
-@@ -274,6 +257,15 @@ static int imx_rpmsg_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	if (data->lpa && of_property_present(np, "ignore-suspend-widgets")) {
-+		ret = snd_soc_of_parse_ignore_suspend_widgets(&data->card,
-+							      "ignore-suspend-widgets");
-+		if (ret) {
-+			dev_err(&pdev->dev, "failed to parse ignore-suspend-widgets: %d\n", ret);
-+			goto fail;
-+		}
-+	}
-+
- 	platform_set_drvdata(pdev, &data->card);
- 	snd_soc_card_set_drvdata(&data->card, data);
- 	ret = devm_snd_soc_register_card(&pdev->dev, &data->card);
--- 
-2.50.1
+I even Cc'd all(?) the lists, as usual.. Oh, sorry- not stable@ I guess.
+
+I didn't even realize the Cc from the sign-off section would actually 
+immediately be used by git send-email, I thought it would only get sent 
+to stable when merged.
+
+~val
 
