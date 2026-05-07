@@ -1,294 +1,326 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012000.outbound.protection.outlook.com [40.93.195.0])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62329480DDD;
-	Thu,  7 May 2026 19:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.0
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778182436; cv=fail; b=t4OXE+aX8iV7QXawUJCffoGFTuQy03L9mQXY+cwyLSHYVYIGCvMCH0m/E+a8kYslkHVfqG5MndMvwM6NLzlDEHFb0taKl7qhkmgRoirGhjFmiGYB9xLhePU3wMXSbKB9UjetS0hn1WrRQ/sOfCmbnvqXL7g56eabJhPKHUoYtWE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778182436; c=relaxed/simple;
-	bh=l3Ab7XyBHgYgdVUYvnIxOK1iLTlvrFfToU8aQQgN/KE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=rDuUgSVTS+jpiBKbYyAfm8Zp9HfPLGMXmFT14dKIMKY8pHA+BRXH5xZje+WEVaWGbUmEatQvqCn+nzo7+MVkaHdmm+JEIAL/uealf2uZPpHBOmhbgu0Mf67GzftwezdpmvJAe3vORUEbnywUaWyaTbmQisTCqYc2q4vWOJi8bbQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QAUvULD2; arc=fail smtp.client-ip=40.93.195.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85572701CB;
+	Thu,  7 May 2026 19:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778182485; cv=none; b=mhUYAzWduzYFnDck9RVgkcDaDxoIMRXD7hFKePw6fllBkzBzHq8gSemZ9iywN8FwEIBzohAH5xIQff5vFp5/sKworD6DdxXwL517fGiWQEhhuQOgnGVU2XK+gwtZZLia9RDpWJBRQ/XpFuDyKTmf0VfR665Bk7s22QaqdMfJBQk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778182485; c=relaxed/simple;
+	bh=oNdusZkwgqwJI2KQMDw1olIVuO2PU9mOwfxBIKkwmlE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BUSmuYLCjiWMviOlUKGPQ5mKuvOu5T4TPbTHbX3C1amErp4Cdbl2MG+4xtM1vTHP2HCtZXL5VBrukIhgQkP/VP7Ba+3ouQBuhgCHzvtMFaimBx5eKKY0vvtpz1zMv5/PO3hPZvzu2jYhKjfmsFk4cF9gEpCaGlUJORj0K+boj/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G0x4ziH6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QAUvULD2"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Nn2IuTjL8jvdML2svC2Y/uw8o4JNrU7to2XEI9DDm9ZpLM2BzJhwFXZDWr+yHny9AkTK7iP9cj1bB8M++kV0qZwa9pIPrWyfemroVzJpeBfVzU7MVu6TtnDDrLFptWTG7IqQOP2A2tmialHvI0E6rG9S262yWDhRuCiuBG3pvetfvoPP6P4M2l38soIP6SJgqz5U14JIZsm3Qq396SBEkTdJkOSJlYN9Q8byZhGRfN4XcEybKq+n4Lau6ad7+DtY6vq97DhxLtJsgT3L/oWBi+vVfRbWKtLSTt0bTPie0uLMsg4WNg7CRd2h7nQ2WAnP9lshQp9IhSh4TMIlFcKD1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uBnK3LOegx/g/JFrClnK88/roawC96Y8Z/Nty9vJdTM=;
- b=r+Zf4aETuMF2nId69g3gyri56HKBOf0nUEsIBB0lXXwzv2P+MXbZVqrAVJ6e6kQQ8jkxZktm5pDhuMe0H4CoAJn0/S0A1FvJUU+fUbH2rRn7FcJUzfhm4TumAo1Mtp4lIxlh8+O2WTnrNslDaRH4WzKGA5+1TT4Hfi4pdiKLGR4Z27alEmm3GnBWRsafB+rBU1/WogZPSz8V+APHgnOoelm0DzL+rwIbTjGIAw5AyMH9JIEWAfFx2nEaMi3rSJOnF4Xg68z0F74Fsb4PAa4KqbuK+fMa4BAqlts0GwWrVbsZKirvctIKJblvjTo1D8Wgma/vlsl6AgLvuK9cYzm6sQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uBnK3LOegx/g/JFrClnK88/roawC96Y8Z/Nty9vJdTM=;
- b=QAUvULD2xeKJhyPPh9PuCEmvVsXJKAAyrwY3gbTAB8h02DLNBHNFyzf4PKtRYnu+fNcWFzb5iM7KUjuM2p9JrWjMBIMcq8OlqunjlQ53TmbRTcEi9zS8wp9Z7abyebw3IzW1dClxKQD9QJSoKbYcOAsorc2tJiZ2odt0HPg7mVY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SA0PR12MB4557.namprd12.prod.outlook.com (2603:10b6:806:9d::10)
- by PH7PR12MB6540.namprd12.prod.outlook.com (2603:10b6:510:213::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Thu, 7 May
- 2026 19:33:51 +0000
-Received: from SA0PR12MB4557.namprd12.prod.outlook.com
- ([fe80::885a:79b3:8288:287]) by SA0PR12MB4557.namprd12.prod.outlook.com
- ([fe80::885a:79b3:8288:287%5]) with mapi id 15.20.9891.017; Thu, 7 May 2026
- 19:33:51 +0000
-Message-ID: <905bfeff-ab78-4299-a2a4-45fb8f05e716@amd.com>
-Date: Thu, 7 May 2026 14:33:47 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] ASoC: amd: acp7x: add system and runtime PM ops
-Content-Language: en-US
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260507181251.20594-1-Vijendar.Mukunda@amd.com>
- <20260507181251.20594-6-Vijendar.Mukunda@amd.com>
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20260507181251.20594-6-Vijendar.Mukunda@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR20CA0013.namprd20.prod.outlook.com
- (2603:10b6:610:58::23) To SA0PR12MB4557.namprd12.prod.outlook.com
- (2603:10b6:806:9d::10)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G0x4ziH6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D61CFC2BCC4;
+	Thu,  7 May 2026 19:34:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778182485;
+	bh=oNdusZkwgqwJI2KQMDw1olIVuO2PU9mOwfxBIKkwmlE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=G0x4ziH6+yIDAioHArGTa6yIALsbxvxFTc7iTUma6uyX/ZJqzEt5NBnH5ntBPan1X
+	 na+z5LL0Wf9e7BkJtgINujyb6WENI+HZzSEXAfXxFXJ+aB1HWhwrSMQfbH4J17nE4E
+	 AtKWNTqOhJugyxaFHz0Gx1RZI9P0qJAJ/ace4QNcU6pT6lcM8Tovu1DbanJQFJAUkT
+	 vvCtH0I5lGoRNs0qdZLdYpiVMDSccokdk8MT7P4nl4iwqV+rmA9wfBWMv9YY6Lg0do
+	 fQAE54i2KGmXlRs9oQtu4xZfLuZtYvDfUk5ZuXERI2qlirYfbswxQHNfF21J9Elga6
+	 83u3ZIOQN8Cqg==
+Message-ID: <5e5be9a3-9220-4da1-b672-4285acf013b8@kernel.org>
+Date: Thu, 7 May 2026 14:34:43 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4557:EE_|PH7PR12MB6540:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8505c16e-6402-4ce3-0787-08deac6f913a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	WqEQleZfblum0glpVXTKQyge9ppfZtQlcGt8Sb/Mqy3Jwpfvg8+24A0bC4zkyonKxuvcFdPS70wBEiibOacP7KKYwgtAZcvLwVDCnwohAxOuUX+5WjKJeB/yiSsY2wn9LJJExwMar4Ou6Brw/wRqMJ8h+2IPg21bvNI7kk/zCwezIt6Wg2OL26B5DpZlkLi8CLFeq1ks3QtRJybsOW4V8/QezOpSv+qPEY8c/ZpQJfkB67P9GJcr3EZkmUwmZYkqGYvEkKc7nE81anJH/ROJkSJ66OD5tqtJE3RTKsDs0fSB5+GmJaT1MxOpMs38PwBsraQmvgapXrFWKwXRjHRdtUZf6+72CAGprN9TcaWD4xJ+B4byvHGj2jzBkIoid1tWVnGqef7ZpzXHogwzTKVk4/MfkV+7G16lf8LaN/NB1oGFkpGyZTLlD5SsqBjH0OKfTTrJUNOBI01shI8DbO99iKVWKW1AfpfS9cjTnjpJ0A9OKpA1D9fTrEeoIDhovHsyVos4zPAaOtX+D0rZauzDXfDVIEvLqWQMlvh6wqXh8tFH2BXO0e8KlGDBGaYpJpYQLioNHkl9ZmZg8f9BVuIkiUAPGXOtGoaZEhZp51U8wUKvaR0fsBZoGzOfyeZB7xadCvqeHRf+qxG0Hj3WorUn4Ha4BOKgd1ED7KEdxzCAZw9vXE6iyfsRtpRaMA0I3tl6
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4557.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OXVMSWFSVGt1NFRzSzRib3Z1bTUva3ExL3cyeHhrbnZEWFJkUi9FVlBtemxE?=
- =?utf-8?B?T2VjcUVZZnpFcHZvdXN3UFZUZ0YzZTc3b0dTbUwvQ3R6UFp1eUd0YVNIb3hO?=
- =?utf-8?B?THFPVkR1QUJKTTdITUN6djZ5cDlUTTRTeTgzWThoTzVmNWppdVIzV2JzRk1x?=
- =?utf-8?B?YStXSFdsY0hnUXBMQWgvZHpZVitmRU0zdzVvNFRVL29lNHZoQmwwRnlpVnVk?=
- =?utf-8?B?VVFiUERnS29tT0ZmSWNkV3pObDlLbk1ZaFJ1UnZMa2htcjR3VFRLR0VuNWRl?=
- =?utf-8?B?THFGU0YwZTIyaEN1WTdpczFyRnVWaG01eldSV21nRXNzc1ZQUktDZ2dVc0dT?=
- =?utf-8?B?YU44MVkreXVwNHRDYk03NThqUDZaaUpaN2IyL01qNnNDWEZYcmNoNXl5cmxj?=
- =?utf-8?B?bzZBVWRwQit3dU14TzdqN2tRRGVRNzhpS3hhamVSQm9VOXJ6K1RScmgrekJE?=
- =?utf-8?B?ZWpJWER1TTd5TWNDWFZicWtjYmpCMEhQL0I5aE84UzBFSkNwMDJnZzBPNjNF?=
- =?utf-8?B?UXdjaDFWTjU4dlZ6d2tHODdFcUpQZXo2NEJrY0lObjBHWEhhOXZXZU9hWUti?=
- =?utf-8?B?T0NNaXJ5U2Jjd0lJRE8xY2lHYUg3THJmTWROQjhLcTcrbzlLZnJBb1VZM1lS?=
- =?utf-8?B?SkJZREJ6am5vZGFWVFl5K0Ntc3J6SE41dUY1QVM0RHlsOHI2RHZaNWdtRThs?=
- =?utf-8?B?YTRFbExFZkxTbGF1cGlyK25uSzAybHc4aXU3anE4NmFoWW1BN0lNb3paTjlv?=
- =?utf-8?B?Q2diVExvc2pwUEY3cTM3M3JaUWhQYW40MFpCZU9OYWlpQ1dmQkNzaVY4U0ZV?=
- =?utf-8?B?czlGcDg5RUhaQ0NWeld3TVZSQ3drRjR6YjJhMDhmUmJsQ1QwblV1MmRHVWtn?=
- =?utf-8?B?Y2ZuUHA5bVZJYkNxY3d2NUdSdmlvS1pVaVY3MWlyKzdiamF3ZjE4bXRBUjdl?=
- =?utf-8?B?SU5NOWlsYU5wN3hNYTFzdFo2eU5vT0xZVm01QVZYdjNhQmMzK2JSdHcrc0pt?=
- =?utf-8?B?aExSTjRTMWg5dGw0SU1WaHIxMUtxOEM4ek1WMlVqKzB6cDJGcWZuWGtEMDEr?=
- =?utf-8?B?QVdpOTVaT1E3a3h3cHduWDRaQW1uaDdOTXlyZ3hCSU1mVkdUTmdDcE1ZOWVa?=
- =?utf-8?B?elZjK1dZeWRzZHFMMzF1QXdKeUtINHZENkVQNHlZRmFDSURwT0FlWDJFMU9O?=
- =?utf-8?B?cVlFaUN4akgxYlZscTBXQkNxTTZCYmdrcG5OMllZUTdpVUhwR0RJSXhveUlZ?=
- =?utf-8?B?dUZUc2phTVVpeXM5eVZ3SEhOM0RkZUt4dmlXMW9qUmhUZUZYTnduYitEak5i?=
- =?utf-8?B?WkpBVFI5eVJLY1FqWm1CeVgwN3VGSndrbnYzV1BMOTdoazdaL2FkY3dreUEv?=
- =?utf-8?B?bHg1YVExZWJrcmxNWXhWUEEydlRYZkUxd1RFaHM5UUtEWDRFNGNrYlZCbG9R?=
- =?utf-8?B?cTZNaS95cG9PdEk5SVowdkxRTHB5cGZzeWtjNFdzRkFzcHRsaGtWQlk0UVIw?=
- =?utf-8?B?aDdvbmNYa3lKYkllam45Ny8raU1zd2dpK1hSNENVSnJmY1F3dVp3VEQ2aTRS?=
- =?utf-8?B?RzNMZFlxQkNDMTJGTmNNSTdUT2xWZEs4L1RRbWdQRm04UE5YamFHaHgwUEs3?=
- =?utf-8?B?aXBqblV6ZC80WmtiQmlBZVRZNjFDNkhmZlQ4ZlhLSW5YSDNRRmZJTVE3QjI0?=
- =?utf-8?B?QW9aRC9tblR5SWJKMVBDZnAyYmdFcG0wU29HUjUyZ1prazUwZFV4c29NVGU2?=
- =?utf-8?B?VXpwUXJ3Z2V1RHIxNjgwMW1UcE1lNlBKVk1pSisxd2M5eGpjS09TZzNFQnk5?=
- =?utf-8?B?aWFzZlFqdjVpZWVmVGF5c09heitvSTZFZ1RKWmYzWWlKL0YzWlF2RGY4R3Y2?=
- =?utf-8?B?T081NS95TVkzMGM3TDBHb1hoVjRoZ0tCbXU0bEpuRWlWZVR1SXVoSWkwMUkw?=
- =?utf-8?B?SmF1N3FiTXo4UGhQeWpyc24zcjNLcG5iRGN6TmhuSjVRV2gvdkY1OWFIMVBC?=
- =?utf-8?B?bm9MZ3NqMDk0Rk5uNDVCNEJkV2hBR2twdnFtOVZtQlN5MGc0RzFyamN0TGlz?=
- =?utf-8?B?cDV0bkw3MnliOEdWU1lTUkJwVytNYzBXV0VvUWgwcVpLTDIyM1p6U1BpQzVr?=
- =?utf-8?B?MUZaekZNSkhFdTlldFl2dUVnck5uZk94MXA1VHBPcmU3bFFxdUZtcjJYcWdU?=
- =?utf-8?B?U2RDbzVtN2JrZzZwZ1ZzT3NDbkZRVkZ4Z01NWlZmMDlKbzBONU5uck11T0pa?=
- =?utf-8?B?TEtYKytESTlIc1YxelZxTVR0bUhoNElCYysyY2Z3bFBicmxkUGVxc0pTdWd2?=
- =?utf-8?Q?SN4RcSrs5dyfJ3s8St?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8505c16e-6402-4ce3-0787-08deac6f913a
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4557.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2026 19:33:51.4549
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zz6BLMshFQBhSSSBSadBHPqeWNKFd/BALhWQYhZjiDIFdAvqYV6k0F8mrS+BqpJ4qWFMV4KCrUOSCCBcO1jBcQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6540
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] ASoC: amd: acp7x: add helper functions and hw ops
+Content-Language: en-US
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, broonie@kernel.org
+Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
+ tiwai@suse.com, Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260507181251.20594-1-Vijendar.Mukunda@amd.com>
+ <20260507181251.20594-4-Vijendar.Mukunda@amd.com>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20260507181251.20594-4-Vijendar.Mukunda@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
 On 5/7/26 13:11, Vijendar Mukunda wrote:
-> Add ACP7.x PM callbacks and hook up system sleep and runtime PM ops for
-> the PCI driver.
+> Add ACP7.x init/deinit helper routines and wire up PCI hw ops for
+> ACP7.D/7.E/7.F variants.
 > 
 > Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 > ---
->   sound/soc/amd/acp7x/acp7x-common.c | 43 ++++++++++++++++++++++++++++++
->   sound/soc/amd/acp7x/acp7x.h        |  3 +++
->   sound/soc/amd/acp7x/pci-acp7x.c    | 31 +++++++++++++++++++++
->   3 files changed, 77 insertions(+)
+>   sound/soc/amd/acp7x/acp7x-common.c | 82 ++++++++++++++++++++++++++++++
+>   sound/soc/amd/acp7x/acp7x.h        | 78 +++++++++++++++++++++++++++-
+>   sound/soc/amd/acp7x/pci-acp7x.c    | 39 +++++++++++++-
+>   3 files changed, 197 insertions(+), 2 deletions(-)
+>   create mode 100644 sound/soc/amd/acp7x/acp7x-common.c
 > 
 > diff --git a/sound/soc/amd/acp7x/acp7x-common.c b/sound/soc/amd/acp7x/acp7x-common.c
-> index 68f9b47766c4..df94864a1693 100644
-> --- a/sound/soc/amd/acp7x/acp7x-common.c
+> new file mode 100644
+> index 000000000000..68f9b47766c4
+> --- /dev/null
 > +++ b/sound/soc/amd/acp7x/acp7x-common.c
-> @@ -75,8 +75,51 @@ static int acp7x_deinit(void __iomem *acp_base, struct device *dev)
->   	return 0;
->   }
->   
-> +static int __maybe_unused snd_acp7x_suspend(struct device *dev)
-> +{
-> +	struct acp7x_dev_data *adata;
-> +	int ret;
+> @@ -0,0 +1,82 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * AMD ACP PCI driver callback routines for ACP7.x
+> + * platforms.
+> + *
+> + * Copyright 2026 Advanced Micro Devices, Inc.
+> + */
 > +
-> +	adata = dev_get_drvdata(dev);
-> +	ret = acp_hw_deinit(adata, dev);
-> +	if (ret)
-> +		dev_err(dev, "ACP de-init failed\n");
-> +	return ret;
+> +#include <linux/device.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/types.h>
+> +
+> +#include "acp7x.h"
+> +
+> +static int acp7x_power_on(void __iomem *acp_base)
+> +{
+> +	u32 val = 0;
+> +
+> +	val = readl(acp_base + ACP_PGFSM_STATUS);
+> +	if (!(val & ACP7X_PGFSM_STATUS_MASK))
+> +		return 0;
+> +
+> +	writel(ACP7X_PGFSM_CNTL_POWER_ON_MASK, acp_base + ACP_PGFSM_CONTROL);
+> +	val = readl(acp_base + ACP_PGFSM_CONTROL);
+> +	return readl_poll_timeout(acp_base + ACP_PGFSM_STATUS, val,
+> +				  ((val & ACP7X_PGFSM_STATUS_MASK) == 0), DELAY_US, ACP7X_TIMEOUT);
 > +}
 > +
-> +static int __maybe_unused snd_acp7x_runtime_resume(struct device *dev)
+> +static int acp7x_reset(void __iomem *acp_base)
 > +{
-> +	struct acp7x_dev_data *adata;
+> +	u32 val;
 > +	int ret;
 > +
-> +	adata = dev_get_drvdata(dev);
-> +	ret = acp_hw_init(adata, dev);
-> +	if (ret) {
-> +		dev_err(dev, "ACP init failed\n");
+> +	writel(1, acp_base + ACP_SOFT_RESET);
+> +	ret = readl_poll_timeout(acp_base + ACP_SOFT_RESET, val,
+> +				 val & ACP_SOFT_RESET_SOFTRESET_AUDDONE_MASK,
+> +				 DELAY_US, ACP7X_TIMEOUT);
+> +	if (ret)
 > +		return ret;
+> +
+> +	writel(0, acp_base + ACP_SOFT_RESET);
+> +	return readl_poll_timeout(acp_base + ACP_SOFT_RESET, val, !val, DELAY_US, ACP7X_TIMEOUT);
+> +}
+> +
+> +static int acp7x_init(void __iomem *acp_base, struct device *dev)
+> +{
+> +	int ret;
+> +
+> +	ret = acp7x_power_on(acp_base);
+> +	if (ret) {
+> +		dev_err(dev, "ACP power on failed\n");
+> +		return ret;
+> +	}
+> +	writel(0x01, acp_base + ACP_CONTROL);
+> +	ret = acp7x_reset(acp_base);
+> +	if (ret) {
+> +		dev_err(dev, "ACP reset failed\n");
+> +		return ret;
+> +	}
+> +	writel(0, acp_base + ACP_ZSC_DSP_CTRL);
+> +	return 0;
+> +}
+> +
+> +static int acp7x_deinit(void __iomem *acp_base, struct device *dev)
+> +{
+> +	int ret;
+> +
+> +	ret = acp7x_reset(acp_base);
+> +	if (ret) {
+> +		dev_err(dev, "ACP reset failed\n");
+> +		return ret;
+> +	}
+> +	writel(0x01, acp_base + ACP_ZSC_DSP_CTRL);
+> +	return 0;
+> +}
+> +
+> +void acp7x_hw_init_ops(struct acp_hw_ops *hw_ops)
+> +{
+> +	hw_ops->acp_init = acp7x_init;
+> +	hw_ops->acp_deinit = acp7x_deinit;
+> +}
+> diff --git a/sound/soc/amd/acp7x/acp7x.h b/sound/soc/amd/acp7x/acp7x.h
+> index b4586a2afae4..d3a57705385a 100644
+> --- a/sound/soc/amd/acp7x/acp7x.h
+> +++ b/sound/soc/amd/acp7x/acp7x.h
+> @@ -8,6 +8,8 @@
+>   #ifndef __SOUND_SOC_AMD_ACP7X_H
+>   #define __SOUND_SOC_AMD_ACP7X_H
+>   
+> +#include <linux/device.h>
+> +#include <linux/errno.h>
+>   #include <linux/io.h>
+>   #include <linux/pci.h>
+>   #include <linux/types.h>
+> @@ -22,10 +24,84 @@
+>   #define ACP7E_PCI_REV		0x7E
+>   #define ACP7F_PCI_REV		0x7F
+>   
+> -int snd_amd_acp_find_config(struct pci_dev *pci);
+> +/* Common register helper bits used by acp7x-common.c */
+> +#define ACP_SOFT_RESET_SOFTRESET_AUDDONE_MASK	0x00010001
+> +
+> +#define DELAY_US				5
+> +#define ACP7X_TIMEOUT				5000
+> +
+> +#define ACP7X_PGFSM_CNTL_POWER_ON_MASK		7
+> +#define ACP7X_PGFSM_STATUS_MASK			0x3F
+> +
+> +struct acp_hw_ops {
+> +	int (*acp_init)(void __iomem *acp_base, struct device *dev);
+> +	int (*acp_deinit)(void __iomem *acp_base, struct device *dev);
+> +	int (*acp_suspend)(struct device *dev);
+> +	int (*acp_resume)(struct device *dev);
+> +	int (*acp_suspend_runtime)(struct device *dev);
+> +	int (*acp_resume_runtime)(struct device *dev);
+> +};
+>   
+>   struct acp7x_dev_data {
+>   	void __iomem *acp7x_base;
+> +	struct acp_hw_ops *hw_ops;
+> +	u32 addr;
+> +	u32 reg_range;
+> +	u32 acp_rev;
+>   };
+>   
+> +void acp7x_hw_init_ops(struct acp_hw_ops *hw_ops);
+> +
+> +static inline int acp_hw_init(struct acp7x_dev_data *adata, struct device *dev)
+> +{
+> +	if (adata && adata->hw_ops && adata->hw_ops->acp_init)
+> +		return adata->hw_ops->acp_init(adata->acp7x_base, dev);
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static inline int acp_hw_deinit(struct acp7x_dev_data *adata, struct device *dev)
+> +{
+> +	if (adata && adata->hw_ops && adata->hw_ops->acp_deinit)
+> +		return adata->hw_ops->acp_deinit(adata->acp7x_base, dev);
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static inline int acp_hw_suspend(struct device *dev)
+> +{
+> +	struct acp7x_dev_data *adata = dev_get_drvdata(dev);
+> +
+> +	if (adata && adata->hw_ops && adata->hw_ops->acp_suspend)
+> +		return adata->hw_ops->acp_suspend(dev);
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static inline int acp_hw_resume(struct device *dev)
+> +{
+> +	struct acp7x_dev_data *adata = dev_get_drvdata(dev);
+> +
+> +	if (adata && adata->hw_ops && adata->hw_ops->acp_resume)
+> +		return adata->hw_ops->acp_resume(dev);
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static inline int acp_hw_suspend_runtime(struct device *dev)
+> +{
+> +	struct acp7x_dev_data *adata = dev_get_drvdata(dev);
+> +
+> +	if (adata && adata->hw_ops && adata->hw_ops->acp_suspend_runtime)
+> +		return adata->hw_ops->acp_suspend_runtime(dev);
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static inline int acp_hw_runtime_resume(struct device *dev)
+> +{
+> +	struct acp7x_dev_data *adata = dev_get_drvdata(dev);
+> +
+> +	if (adata && adata->hw_ops && adata->hw_ops->acp_resume_runtime)
+> +		return adata->hw_ops->acp_resume_runtime(dev);
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +int snd_amd_acp_find_config(struct pci_dev *pci);
+> +
+>   #endif /* __SOUND_SOC_AMD_ACP7X_H */
+> diff --git a/sound/soc/amd/acp7x/pci-acp7x.c b/sound/soc/amd/acp7x/pci-acp7x.c
+> index 476b3ae52634..237eb06e3cad 100644
+> --- a/sound/soc/amd/acp7x/pci-acp7x.c
+> +++ b/sound/soc/amd/acp7x/pci-acp7x.c
+> @@ -16,6 +16,26 @@
+>   
+>   #include "acp7x.h"
+>   
+> +static int acp_hw_init_ops(struct acp7x_dev_data *adata, struct pci_dev *pci)
+> +{
+> +	adata->hw_ops = devm_kzalloc(&pci->dev, sizeof(struct acp_hw_ops),
+> +				     GFP_KERNEL);
+> +	if (!adata->hw_ops)
+> +		return -ENOMEM;
+> +
+> +	switch (adata->acp_rev) {
+> +	case ACP7D_PCI_REV:
+> +	case ACP7E_PCI_REV:
+> +	case ACP7F_PCI_REV:
+> +		acp7x_hw_init_ops(adata->hw_ops);
+> +		break;
+> +	default:
+> +		dev_err(&pci->dev, "ACP device not found\n");
+> +		return -ENODEV;
 > +	}
 > +	return 0;
 > +}
 > +
-> +static int __maybe_unused snd_acp7x_resume(struct device *dev)
-> +{
-> +	struct acp7x_dev_data *adata;
-> +	int ret;
-> +
-> +	adata = dev_get_drvdata(dev);
-> +	ret = acp_hw_init(adata, dev);
-> +	if (ret)
-> +		dev_err(dev, "ACP init failed\n");
-> +
-> +	return ret;
-> +}
-
-Both of snd_acp7x_runtime_resume and snd_acp7x_resume look identical. 
-Will there be later code (when machine driver and IO enablement come) 
-that makes them different?
-
-If not; then I think you can drop snd_acp7x_runtime_resume().
-
-If so; this makes sense to keep separately.
-
-> +
->   void acp7x_hw_init_ops(struct acp_hw_ops *hw_ops)
+>   static int snd_acp7x_probe(struct pci_dev *pci,
+>   			   const struct pci_device_id *pci_id)
 >   {
->   	hw_ops->acp_init = acp7x_init;
->   	hw_ops->acp_deinit = acp7x_deinit;
-> +	hw_ops->acp_suspend = snd_acp7x_suspend;
-> +	hw_ops->acp_resume = snd_acp7x_resume;
-> +	hw_ops->acp_suspend_runtime = snd_acp7x_suspend;
-> +	hw_ops->acp_resume_runtime = snd_acp7x_runtime_resume;
->   }
-> diff --git a/sound/soc/amd/acp7x/acp7x.h b/sound/soc/amd/acp7x/acp7x.h
-> index d3a57705385a..ddb5eabf6828 100644
-> --- a/sound/soc/amd/acp7x/acp7x.h
-> +++ b/sound/soc/amd/acp7x/acp7x.h
-> @@ -33,6 +33,9 @@
->   #define ACP7X_PGFSM_CNTL_POWER_ON_MASK		7
->   #define ACP7X_PGFSM_STATUS_MASK			0x3F
->   
-> +/* time in ms for runtime suspend delay */
-> +#define ACP_SUSPEND_DELAY_MS			2000
-> +
->   struct acp_hw_ops {
->   	int (*acp_init)(void __iomem *acp_base, struct device *dev);
->   	int (*acp_deinit)(void __iomem *acp_base, struct device *dev);
-> diff --git a/sound/soc/amd/acp7x/pci-acp7x.c b/sound/soc/amd/acp7x/pci-acp7x.c
-> index 237eb06e3cad..d29a149cf175 100644
-> --- a/sound/soc/amd/acp7x/pci-acp7x.c
-> +++ b/sound/soc/amd/acp7x/pci-acp7x.c
-> @@ -11,6 +11,7 @@
->   #include <linux/io.h>
->   #include <linux/module.h>
->   #include <linux/pci.h>
-> +#include <linux/pm_runtime.h>
->   #include <linux/slab.h>
->   #include <linux/types.h>
->   
-> @@ -92,6 +93,11 @@ static int snd_acp7x_probe(struct pci_dev *pci,
->   	ret = acp_hw_init(adata, &pci->dev);
->   	if (ret)
+> @@ -27,7 +47,6 @@ static int snd_acp7x_probe(struct pci_dev *pci,
+>   	flag = snd_amd_acp_find_config(pci);
+>   	if (flag)
+>   		return -ENODEV;
+> -
+>   	/* ACP PCI revision id check for ACP7.x platforms */
+>   	switch (pci->revision) {
+>   	case ACP7D_PCI_REV:
+> @@ -60,8 +79,19 @@ static int snd_acp7x_probe(struct pci_dev *pci,
+>   		ret = -ENOMEM;
 >   		goto release_regions;
-> +
-> +	pm_runtime_set_autosuspend_delay(&pci->dev, ACP_SUSPEND_DELAY_MS);
-> +	pm_runtime_use_autosuspend(&pci->dev);
-> +	pm_runtime_put_noidle(&pci->dev);
-> +	pm_runtime_allow(&pci->dev);
+>   	}
+> +	adata->addr = addr;
+> +	adata->reg_range = ACP7X_REG_END - ACP7X_REG_START;
+> +	adata->acp_rev = pci->revision;
+>   	pci_set_master(pci);
+>   	pci_set_drvdata(pci, adata);
+> +	ret = acp_hw_init_ops(adata, pci);
+> +	if (ret) {
+> +		dev_err(&pci->dev, "ACP hw ops init failed\n");
+> +		goto release_regions;
+> +	}
+> +	ret = acp_hw_init(adata, &pci->dev);
+> +	if (ret)
+> +		goto release_regions;
 >   	return 0;
 >   
 >   release_regions:
-> @@ -102,6 +108,26 @@ static int snd_acp7x_probe(struct pci_dev *pci,
->   	return ret;
->   }
+> @@ -74,6 +104,13 @@ static int snd_acp7x_probe(struct pci_dev *pci,
 >   
-> +static int __maybe_unused snd_acp_suspend(struct device *dev)
-> +{
-> +	return acp_hw_suspend(dev);
-> +}
-> +
-> +static int __maybe_unused snd_acp_runtime_resume(struct device *dev)
-> +{
-> +	return acp_hw_runtime_resume(dev);
-> +}
-> +
-> +static int __maybe_unused snd_acp_resume(struct device *dev)
-> +{
-> +	return acp_hw_resume(dev);
-> +}
-> +
-> +static const struct dev_pm_ops acp7x_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(snd_acp_suspend, snd_acp_runtime_resume, NULL)
-> +	SET_SYSTEM_SLEEP_PM_OPS(snd_acp_suspend, snd_acp_resume)
-> +};
-> +
 >   static void snd_acp7x_remove(struct pci_dev *pci)
 >   {
->   	struct acp7x_dev_data *adata;
-> @@ -111,6 +137,8 @@ static void snd_acp7x_remove(struct pci_dev *pci)
->   	ret = acp_hw_deinit(adata, &pci->dev);
->   	if (ret)
->   		dev_err(&pci->dev, "ACP de-init failed\n");
-> +	pm_runtime_forbid(&pci->dev);
-> +	pm_runtime_get_noresume(&pci->dev);
+> +	struct acp7x_dev_data *adata;
+> +	int ret;
+> +
+> +	adata = pci_get_drvdata(pci);
+> +	ret = acp_hw_deinit(adata, &pci->dev);
+> +	if (ret)
+> +		dev_err(&pci->dev, "ACP de-init failed\n");
 >   	pci_release_regions(pci);
 >   	pci_disable_device(pci);
 >   }
-> @@ -128,6 +156,9 @@ static struct pci_driver acp7x_pci_driver  = {
->   	.id_table = snd_acp7x_ids,
->   	.probe = snd_acp7x_probe,
->   	.remove = snd_acp7x_remove,
-> +	.driver = {
-> +		.pm = &acp7x_pm_ops,
-> +	}
->   };
->   
->   module_pci_driver(acp7x_pci_driver);
 
