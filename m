@@ -1,76 +1,75 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD8D37FF5C
-	for <linux-sound@vger.kernel.org>; Fri,  8 May 2026 13:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487853AC00
+	for <linux-sound@vger.kernel.org>; Fri,  8 May 2026 13:23:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778246566; cv=none; b=HiT4cpN+9XbRArUrKJFCGPPtiNxWYwd7ALvQiFYzxovInMeRBudY/84FeSrSymWVZxv8eoqkI03CBZcsekU3i4GqRJUWOIm0/SFn2X8+imH3RufLRNW/Ds9vVBveQ6wOov0U3lloDWp/9nvA8GmzCUqZvQCUAaZVMXMpHJxAsvE=
+	t=1778246589; cv=none; b=EXFvnpQSz/2rsC8JVw4ASRYJv79DLZrdWJnV+IVU/6Wk1Ru1/sHAeJ24mMm5aLtKvkENmG5/9P5538YQCiuRBbtE6c2SsL3n7/yPnVxP8g7ubQnroSYF13p49/SrbRrIEpxw8imxLm2QZlhLpiBL2kxEQ8sqwPAMiguXR9Mdz2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778246566; c=relaxed/simple;
-	bh=fnk2WYtspGKK05+6RhoArWdO2sbLJKdVZlrbd2erSBA=;
+	s=arc-20240116; t=1778246589; c=relaxed/simple;
+	bh=pQGCzRlQrkfkEgpxdgTufrDmEoOJUM4jF7iGXLAtU58=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ngBCTiodkZLRtQQcGnB4Ed/f3Dy8hbbnKEboEJ2ZArrDJYph5I33YzPdwPQhYspMRNRfJTGFxOykdisFzEKp++3KvcbukehJIL85POSzcufh6XBvU0IerTEmeXjOmgpKLDlIB9Ks9G6awvC2COGbEGdUEbjWYORNMKcv8SSfX6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dOGsviu4; arc=none smtp.client-ip=209.85.167.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=A51AP9qyiesgrLL9hCdcAhs/iZKxRFG3xYBJxs7XXbR/ErEf4F9vqSNCEmplb2mJMbpMsilx3a7+vJeGB4j1XlA9MhhO1aC30vlwHPJE1NtfGp1cTi1LBR6wIgIF5HbZCbl2F/I1LkeuaUijKwRltWoE88NlwG7ZOYgYT94Kp8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H0rV0oIJ; arc=none smtp.client-ip=74.125.82.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dOGsviu4"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a283c44478so2715086e87.3
-        for <linux-sound@vger.kernel.org>; Fri, 08 May 2026 06:22:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H0rV0oIJ"
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2ee990e8597so3478971eec.1
+        for <linux-sound@vger.kernel.org>; Fri, 08 May 2026 06:23:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778246563; x=1778851363; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778246587; x=1778851387; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z1gbUobD+K/QE4KT+ICDeIySBZSA03dYWML/JHPIkeU=;
-        b=dOGsviu4aCNrl2Yu6zXrYQjADBLVS207CfBKc+8aYuSeusLdUSK8hijh4AJpxLmHmH
-         EAHKCxc6uWYlMOcwoYR1EH8W62msHgVfNZRabHb5Qf7Bdiuh6BxMq0cCs141k2KuBGz1
-         HbZT8xoxSDO1GoYh/etCGdCvcYe61N0nCdLH6/HEDZFXFk4UcrqgC5VszEBU5K7yGh9j
-         Ox6IbIelF2wXuOcWp2YI6TtNCnC2j78SRx1A0BDLSYmSI+56e9dVv8DTIGAkb5k6gerY
-         XSs52ImH1dthaAm660q+weQFUqriDx0zI3hx8Sd3jg4mDFcoK17vWKS8KBzNyGVhXVh9
-         COIA==
+        bh=pQGCzRlQrkfkEgpxdgTufrDmEoOJUM4jF7iGXLAtU58=;
+        b=H0rV0oIJDhI99YTezNdUliwkTh5+Ia5s4rbBIDFGuLjliL8AnFo3AVxB8YkClCbKRW
+         XsviocdbiqHrN2mBNBzSF6yHQ74Wv4wJYPE8ZHAia9SOjL9V8huUnJGsWHi1K4QyVJjp
+         O5WvQ15f/YbPSbtWu41kF6cr61oULELCTn0zB5rYZdt7+Nnu6FrUTBk540CHT6hRb+jk
+         xwVdKFbXj43cMrJ5kZkO7Z4dTxxOFP/8fBu6DinPcsbwIXkoQDK+elsNaVEWzE8kOmNi
+         M34k3fxrFTmJMv6drnoe70WasN8r2a7frIpimxZrwu0Qka6rsX79sUY1hUSTpzzXKlwK
+         hJPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778246563; x=1778851363;
+        d=1e100.net; s=20251104; t=1778246587; x=1778851387;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Z1gbUobD+K/QE4KT+ICDeIySBZSA03dYWML/JHPIkeU=;
-        b=IASyW9pE8DV6KuOznqNYYAYehXLxTrydzH34EoZEB+niP189/7uxozPuiczFG2+RVT
-         4kNv4o5Ecj5FPz10TX8SeJ2xN8GiLghV7RzvZOyDsoyXDQdbbZOHL6iBrrqCMijlJoQ6
-         jo6fBftfOJJp40MOo0z5IfdUxcF9PkcZyrzCrxLBzO3qoG7DrNSS0Vz3ySNPzxPzGsn8
-         GpWuRC37tpJRQAJMxH/uATy1ixxi6sviPtoFEWS3L2Kbmmwa3pgqeYr25EMf2rhV+s08
-         E1m7UsS57v8apRibheAhbtk0D2NqM6NCohpHy4bbZNopZ7RdR2qXCHL8JX73M4DnV56D
-         TA6A==
-X-Gm-Message-State: AOJu0Yz1rh2ls5sf7gEdOI/zsT+A/fu0xO32lFDkBLLOdmGFRqPhechh
-	psXNgL7WbxpW9nq1p3iRfMoV1O78PF9te7Mp2bTwVWG031fV9QIoJbHo
-X-Gm-Gg: Acq92OFYr0rMH9Ps8y0JLO917pelXwPhqOdVkYohD1KVfmrbNCmNEWos8baNlk/R1CX
-	aexiohV6lQLY5PkHU6cCdYpsM5ACix3h3HXw/pjElR5b+qt5Xg0B8r0mvxpZ4NpPQ2Yts0muTlh
-	NBow1k6D9+0O+tzydylhhHbKfc4jlnWaCAU2EqAzXTewTyGsW7OZM8AiWL7aoKfRDokFUMCNq/A
-	R1GRedwzPLq+jXjoWfoc2S8gqhyKCTELtI3hH8Cu6Q6FoV2h3qU2+8sQ8hJAKIlCfuyWzD4eLg3
-	sa4qgDUH7CZWXHu76+yXdqSjGLIQ+3Z9fEyaDD8hrclqeoLcJ/0yT90cEkBRExSDhUuTQqfGfJA
-	+aw3Vy/7XzyL8L/1HZJzXCLLvkrOKk0Bmu05iHz5NbY1PmcBc4H/ZItp5NwSEVeYbZEuJdN6pII
-	qmbFHiUNTSh6ajpy/as6UuDFHuoZlkKLP5Mk8pV2jlnLZi5zscDVlrt6t4PkFEbzahAju8EBr9+
-	zT8XWDWErSc4w==
-X-Received: by 2002:a05:6512:3195:b0:5a2:c4f1:2635 with SMTP id 2adb3069b0e04-5a887cec51cmr5030150e87.41.1778246562820;
-        Fri, 08 May 2026 06:22:42 -0700 (PDT)
+        bh=pQGCzRlQrkfkEgpxdgTufrDmEoOJUM4jF7iGXLAtU58=;
+        b=MY+SqDGHY3od5dtp9734QJdFdCLMUL+R2ptxOTYW7Eix91WYi2ZOj0an0/sb0lj4RA
+         GwMFkIaWPEih5lu/XOuP6voXurzY6+DmJh1GmH4mSTKTYqLAkpWHOoUSFAmgb5jk/QM7
+         WsRsj3AqwQ+PMwW19OAP83rrOorqpQInkroGc7WyWgGOKbwYTBkuDvjt7J6qc91XotKL
+         fS4BLwckoV5h6cUS6THuUQV8WbDKAwGxV5Nak6GK+88JNiUCrhvruCi1pDuo0/fsRCY/
+         M05NVBB4d8Hip0yQXq0kGqnszbDkL/zs5a2zwkyguP9bRZfm5pORKNWSBn0pbawecrY4
+         ieig==
+X-Forwarded-Encrypted: i=1; AFNElJ85npKZ7rf+ROB9tpBMdk24u/ldZkip7ETjiqiU0w2GoMKwCe5wLH6EgfSi389e3KH1R16zZcaBCQbQ6Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGGFoGoerj67UtWMgmkgCayEJ4mPYKLHRZ3hNWiISX5MxfRdgI
+	6OkST0lXS+6bh8aFrecEgqnqK8Ox3RmOSGIBgkRzCsluLckqF2UPxfqX
+X-Gm-Gg: Acq92OGUQxLLRxNxrALqU6RvuVTxzmNH3UrX6UFPu679CGe6uGkn1cvgvDko6wKQ4Lb
+	wh7xO+FsXXpGUOC2bZbR7Go7I+aCyHRQ+Zb65IVpn+68FS7k4T/Hzl4lFC7L5+Np/n8VPCDQFAk
+	pIXF8klb6Xjjgy7/qSlBH+Dv4NxsRiA3sTEvWldB1ROt7eVrxEctXDYADj67Hb/QkdDArqb9+TK
+	rJiFqo7KKX0x3XQ0nVagh/u+fsHT9sDrwwYhW8wjnHHNuwORKhS7YffYb10dYEOREOumQpjPKBO
+	tB5IkNqh7MypXsUNzkid5UBK8Jks4OejCZgRENpNejzRXu0aGcNzoQfV46gTHMqDpi7voULu7BQ
+	0f6//ztF5UnGo+LwohwtzsnWmruVLKeJvxVQNVqLha9jBz1yueiAhQgYAhjeb0f3ZP8B+6d64GC
+	vBmvf1SlkcE2BcYSrTgsT4aRoMkccWlPoMmHFv9nkaK6VOvTl/miESJ/syoEPDSeLJLxWvUBzer
+	W3cCWAsRpeJOA==
+X-Received: by 2002:a05:7300:dc04:b0:2c0:e404:8b08 with SMTP id 5a478bee46e88-2f54b79a394mr6742776eec.29.1778246587236;
+        Fri, 08 May 2026 06:23:07 -0700 (PDT)
 Received: from orome (p200300e41f291e00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f29:1e00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a9565401sm503421e87.57.2026.05.08.06.22.40
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f8859e8389sm2162307eec.3.2026.05.08.06.23.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 06:22:41 -0700 (PDT)
-Date: Fri, 8 May 2026 15:22:38 +0200
+        Fri, 08 May 2026 06:23:05 -0700 (PDT)
+Date: Fri, 8 May 2026 15:23:00 +0200
 From: Thierry Reding <thierry.reding@gmail.com>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+To: Mark Brown <broonie@kernel.org>
+Cc: Arnd Bergmann <arnd@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
 	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	"open list:CLANG/LLVM BUILD SUPPORT:Keyword:b(?i:clang|llvm)b" <llvm@lists.linux.dev>
-Subject: Re: [PATCH] ASoC: tegra: tegra210-mixer: Use div_u64() for 64-bit
- division
-Message-ID: <af3jjg4z77TIpFeV@orome>
-References: <20260507232131.438589-1-rosenp@gmail.com>
+	Sheetal <sheetal@nvidia.com>, Arnd Bergmann <arnd@arndb.de>, linux-sound@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: tegra: fix build regression 32 bit kernels
+Message-ID: <af3jqFYgesIHY-J5@orome>
+References: <20260508080031.4064272-1-arnd@kernel.org>
+ <af3cT4GSj5rxyLaM@sirena.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -78,59 +77,52 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6e4xp2knzxedgfuf"
+	protocol="application/pgp-signature"; boundary="kefzjommscjjvan7"
 Content-Disposition: inline
-In-Reply-To: <20260507232131.438589-1-rosenp@gmail.com>
+In-Reply-To: <af3cT4GSj5rxyLaM@sirena.co.uk>
 
 
---6e4xp2knzxedgfuf
+--kefzjommscjjvan7
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] ASoC: tegra: tegra210-mixer: Use div_u64() for 64-bit
- division
+Subject: Re: [PATCH] ASoC: tegra: fix build regression 32 bit kernels
 MIME-Version: 1.0
 
-On Thu, May 07, 2026 at 04:21:31PM -0700, Rosen Penev wrote:
-> A MIPS allmodconfig build with LLVM fails during modpost:
+On Fri, May 08, 2026 at 09:51:27PM +0900, Mark Brown wrote:
+> On Fri, May 08, 2026 at 10:00:25AM +0200, Arnd Bergmann wrote:
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >=20
+> > Compile-testing this driver for 32-bit causes a build failure:
+> >=20
+> > x86_64-linux-ld: sound/soc/tegra/tegra210_mixer.o: in function `tegra21=
+0_mixer_configure_gain':
+> > tegra210_mixer.c:(.text+0x709): undefined reference to `__udivdi3'
 >=20
->   ERROR: modpost: "__udivdi3"
->   [sound/soc/tegra/snd-soc-tegra210-mixer.ko] undefined!
->=20
-> tegra210_mixer_configure_gain() divides a 64-bit BIT_ULL() value by the
-> fade duration. On 32-bit MIPS, clang emits a call to __udivdi3 for that
-> plain C division, but that compiler helper is not exported to modules.
->=20
-> Use div_u64() for the inverse duration calculation so the driver uses the
-> kernel's 64-bit division helper instead of emitting a compiler runtime
-> call.
->=20
-> Assisted-by: Codex:GPT-5.5
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> ---
->  sound/soc/tegra/tegra210_mixer.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+> Someone already sent this.
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+Indeed. Acked that one too.
 
---6e4xp2knzxedgfuf
+Thierry
+
+--kefzjommscjjvan7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmn9454ACgkQ3SOs138+
-s6G3sQ//eW7jTS8DwLqJPErEu/uNx+44KbrkCa6KCZ1CuzzSJGgTtCgkI/TqPto2
-sBta/eSpFQWwWl8w6SDvdgtpZK4Dy+0cB9C9yfwLH0UcvcG//rA3znW8SmjclGMu
-T3zD7HwyNtJfSMxbLBc1oEw6PkvNMuDVXD8L5X+PR0Yj9mUVNIEzyY2Tp0EDl8ra
-u1nwej+8rDpXokACkmNLnnTOfRUQT/gbVwpIpl7+ekcf0GGdAJtfxCYA35BteE/F
-fws6hCqz4i1Bjp6PWuHvhGuNqAP7yMlY+L7HOAOykKJAs7vOF6GTYyiJJKXQMQRh
-u1o3BVQJsrrNY3gpXc5xcoXuDYmL35q+7spqMaYHlAvbzi1uDcmXS0ZOnM1NnQod
-9S0DOZejxA2dIO94sSrelz49K0MkJpBxRWW+YAStC86OwfEjetcoitDbJzrCLIhB
-uKGfKQe/8kfdY9An8BipfIt/B+jussJ1x73KsuTjACqiAWnC846iACtEUlyE8tu5
-Jv5MJKGpE/sJS78MKigEGdg5Y4Dako0Dq1bkM/QV1v2JoCR5NUPASNBfz4cBXx0r
-NQD3++YOCtD0onHPk8NNZ8/c3p7bDWBWB3VgUeVPUrngLDuuh74FrP0cfRDnWe3R
-+WQF2Il5x9IjK0LbghmnCD7hx+uMvg7MCaWlL+Pricc1yTOqMLo=
-=dCDE
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmn947QACgkQ3SOs138+
+s6F7vw//aNn7q0sS0rQdV6RN53xy2gcr/pnepFLOgTvSLlYeN0dRWc4Ku5eW4gbJ
+fzv3E3/pA241F1Jn2khoI7AIqxRkCzYJ+XbZT18b62dOgp0wqfDJHbXrvCMnry5o
+Giw9XH4jK1RfcL0wKd3rjGu/ZdfYomwRlMyZlJZnvlJK59ylAYNVzTdJTvyxGgHF
+jRnJWaxrkNJtXbBB/Y85emezP3tXfg50qQQo/oK1FSE97up/8XNh0vU3FKU0/NjF
+yBt4Kw88TrimljQJXkuVmDssy/ZtOQAftnjN3umyfBctr5cWS7r7YXqnJM29wkX1
+RTD2ZqQzp4dtuXR4luupihzmB5DCMTTAignKpm/26u5eMYz5dX2snrFlAtgNHuX7
+Taua4pF9USK2R8vzCB+5qltVcYYVI0AwnhXhqnyQoUHFMwBH6xkIFnMt6HCH/iJp
+LcYixQ5Eu/XPpElLndG7gipIv+0e35JH8EJ2xh9LpuXgX1kzoYffH8wxtycuZdg0
+0extbuAkZx/eINaKA2hJII8o6cmS6pbvI67Fzpk+mMyCS8YvDKTt1dxMfBgygZSb
+8R+SVU9e1etfitf/uB7pOQl411G1ZjKocWp5GAi10Y2sjV9isR7AbiHcmP8G9Ydv
+xf1NgQlN6uIydnrYdA3f8IbRz/4pHq16prfgogRQa0FeoJhZmLU=
+=5aZL
 -----END PGP SIGNATURE-----
 
---6e4xp2knzxedgfuf--
+--kefzjommscjjvan7--
