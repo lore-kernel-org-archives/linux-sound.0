@@ -1,106 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFEB1390212
-	for <linux-sound@vger.kernel.org>; Fri,  8 May 2026 09:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3AD3A6B84;
+	Fri,  8 May 2026 10:02:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778233684; cv=none; b=CtLr2zGOK3LbZr3kFza9D+hG1jxARa3Xa6udbCBdS17vbFetHWTUb/yHJ43NHBSNv9sd1iJhGS+d+rA98Jk7LkhD3CJ69jhsOn7jWCbmOccvg9+xYwYq49Yt4+eXaJjPALFP37zwpR1+69UWEqS4Uz7+nWipgEY+6ZtLemgAkxw=
+	t=1778234547; cv=none; b=lK0JeWfEI6suQxMGg2FjBf3HP4adabGR5AWlVAMEA8vTTAYbzMZW2s4K4dB0RE5NAyuoHxsWDLcsf+nMBTxkQNSQ/CUAEqeUZlBcHwNIDe0Rr/Fjm2ZSuHk3fcTT9JRpsj11wOuCQ1UenYHGbERsrkLUWhi51ZzXSXm8PNCqpQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778233684; c=relaxed/simple;
-	bh=IyX/70NgQ7RFLUfUwHyHb5kZw5OSTUCjBeWmwhgC2u8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=smoL+8nvhKF5MXgBhGI5eLrqMSzbZrLbzfqaBMqcpYmkF5z8F8YCMNHvbUwaqjtXvHoQqP63UJGvt3wCdObNUonlspMUzsH2YwWVgiT6J7tjNLpDxpSz2wyETCY+BSMGnpMKC6VMnejrSdtSAb22ifZOK2Liip5np7wR5gRLz3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TIVLw7oK; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1778234547; c=relaxed/simple;
+	bh=ZsB1u5QYgUd0o+x/1KXATQ2gf12Q6xH0bcuw7azMiA4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nqWZ2cBSng3e1okDuDkfn+7BuKo3DeZHmYb24pc/d30zrU0idQ+TeRqL30W8k/4hjphW+MaoO0JL5bwNHO51wuLMakrfJze6UNKWIHUrDJS85sT4gBDnZk6Bt7d3L3rmn1vLjGG7emQReG+OSB6N3KMmACu/X882VmpOGEFp7HI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UGKFQige; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TIVLw7oK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778233683; x=1809769683;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=IyX/70NgQ7RFLUfUwHyHb5kZw5OSTUCjBeWmwhgC2u8=;
-  b=TIVLw7oKR786faayFDbfP4d5U9IcmRsF32tgh9EmWQqFjYk9eDErjeaR
-   g6WBPlbCxmQQd8n2bW7sZm2o5aVWGzyBQXIzapt9zTSocYdcXHbNJjlT+
-   MJeXPokAH2Lxe4osktlG8PieIkfwVoWRzhwCAkTV9zCrPyD70P6+5MrHX
-   +x8d4UKQEDxwJNcevNZre/PeMXaC9YBgpBh5hOS25hgfpX1HUxdn7lMi3
-   IJWmWb+vRpUV1x9Nx28/MA+ruZaO7lSUqGLSfOBP9SeZizXrQMQjQeQ0h
-   rI2isT9OdAIpXE6VcCMm7S+/YRiqwbQwolT4iGnS4lHpwGyQ3s4p7EyHI
-   Q==;
-X-CSE-ConnectionGUID: Q4CkSAsCSGWUDoKqcBYjPw==
-X-CSE-MsgGUID: WUtdRv/8QEuYXhGplUrqFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11779"; a="78221315"
-X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="78221315"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 02:48:02 -0700
-X-CSE-ConnectionGUID: a+Y7v9ucSj+HPGwja+KYdA==
-X-CSE-MsgGUID: oOQcNN4DSmGCjoohcfKJXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,223,1770624000"; 
-   d="scan'208";a="232380720"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 02:48:01 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	bard.liao@intel.com,
-	peter.ujfalusi@linux.intel.com
-Subject: [PATCH 2/2] ASoC: soc_sdw_utils: Change comment into proper kernel doc
-Date: Fri,  8 May 2026 17:47:50 +0800
-Message-ID: <20260508094750.1246796-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260508094750.1246796-1-yung-chuan.liao@linux.intel.com>
-References: <20260508094750.1246796-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UGKFQige"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AFDAC2BCB0;
+	Fri,  8 May 2026 10:02:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778234545;
+	bh=ZsB1u5QYgUd0o+x/1KXATQ2gf12Q6xH0bcuw7azMiA4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UGKFQigeFTyuG+IGL2bkdFytYFvJqICWLnn6l7I4ZEWLgHRte1+K7Nd+mPYdr/VjF
+	 aTF9I5jhDzOl8gwJ34EpgUD9tpi97upHFypkyrY2Qw188Tn5Fm85shnEObCnXLvh3O
+	 ZitbwClhSOHntDc35rvYDBh2QdQicDqckL8WonG6i2Bkrnvjz8AjxkdwjahmhyicoX
+	 5d68y/gwGeDT6ZzOEAMGMWl26XlfDm/invYZZNdJtfrrS5NZ3H7nbIuyOiDeOa2C2P
+	 06U7HZFNamFhdGUVbkPr14B57fl4gedw1FeXvPWWPBbS0s3ahw/sKuU0RtLiI9ukaI
+	 mjqGrEtBeRoEw==
+Date: Fri, 8 May 2026 12:02:23 +0200
+From: Thierry Reding <thierry.reding@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Sheetal <sheetal@nvidia.com>, Arnd Bergmann <arnd@arndb.de>, 
+	linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: tegra: fix build regression 32 bit kernels
+Message-ID: <af20SU12MTdIKhEp@orome>
+References: <20260508080031.4064272-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tzod3ryqakonmh7i"
+Content-Disposition: inline
+In-Reply-To: <20260508080031.4064272-1-arnd@kernel.org>
 
-From: Maciej Strozek <mstrozek@opensource.cirrus.com>
 
-Update the comment above is_sdca_endpoint_present().
+--tzod3ryqakonmh7i
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] ASoC: tegra: fix build regression 32 bit kernels
+MIME-Version: 1.0
 
-Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/soc/sdw_utils/soc_sdw_utils.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+On Fri, May 08, 2026 at 10:00:25AM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> Compile-testing this driver for 32-bit causes a build failure:
+>=20
+> x86_64-linux-ld: sound/soc/tegra/tegra210_mixer.o: in function `tegra210_=
+mixer_configure_gain':
+> tegra210_mixer.c:(.text+0x709): undefined reference to `__udivdi3'
+>=20
+> As the driver is only actually used on 64-bit Tegra210, rework the
+> division to use the div_u64() helper that avoids the libgcc call.
 
-diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index da626969a657..d8378d1b435e 100644
---- a/sound/soc/sdw_utils/soc_sdw_utils.c
-+++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -1843,20 +1843,16 @@ int asoc_sdw_get_dai_type(u32 type)
- }
- EXPORT_SYMBOL_NS(asoc_sdw_get_dai_type, "SND_SOC_SDW_UTILS");
- 
--/*
-- * Check if the SDCA endpoint is present by the SDW peripheral
-- *
-+/**
-+ * is_sdca_endpoint_present - Check if an SDCA endpoint is present on the SDW peripheral
-  * @dev: Device pointer
-  * @codec_info: Codec info pointer
-  * @adr_link: ACPI link address
-  * @adr_index: Index of the ACPI link address
-  * @end_index: Index of the endpoint
-  *
-- * Return: 1 if the endpoint is present,
-- *	   0 if the endpoint is not present,
-- *	   negative error code.
-+ * Return: 1 if the endpoint is present, 0 if the endpoint is not present, or negative error code.
-  */
--
- static int is_sdca_endpoint_present(struct device *dev,
- 				    struct asoc_sdw_codec_info *codec_info,
- 				    const struct snd_soc_acpi_link_adr *adr_link,
--- 
-2.43.0
+To be pedantic: the driver is also used on subsequent generations, but
+your argument of it only ever being used on 64-bit systems is correct,
+so:
 
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--tzod3ryqakonmh7i
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmn9tK8ACgkQ3SOs138+
+s6H0Ug/9EDI9eqWBQB6M5DqsYF1J4GeqVfPk96USDkicSNRY2NKbg+D1SKKUYNaR
+Lja98lL7Lp4QOJmn5HowvZkM02XasJ+PvxWcAc5Kuewh5MghhBvJIgeDEHDbd7TT
+I1/f3KjYFLyGTHbSgWwWXuys8QybHXk264FsD+/jh7I1310fu8DhCcccardQ++on
+4n1Ilsza9dvqaehmhNVz+tnHmJ0/k8AOrXZmUtID44KggQBdjJYCRRctGXzCTwRD
+WJ1B0q4EEPci9j+qCgmsEu8ZhdiUrO4ywzDUZEP23fSz6OtNYyyq4/IXKcV1rJdD
+fbpw2O/OqdjqPtlBEs+tFXAA+CmHxWq16DnG8Ix40BKiecOsazkoRyf5wTE8NEOk
+KIcBYWdTBniR/4cf7Nn9pDyduBqe1KgQ+MFDB+tTE2TE7RSDFZsc15i+ptgfXltd
+HFQz9+OoQMEoXAKHiJRSx102uY183LlpqFJt3ojLU33yEvN1j0QQ0QmjCzM3gpKQ
+FxM1Rh57HLn9fqRpLA5ZPWGRBRQsTBEsRLeEQPaOVMX1zAMymzBDTnLG5O6YwVZA
+uEoPkzWMB/4wlkTsw9CoGwBua0THehXS4nB8dnoMpiMn0jHLVvD8XSUGHficJ/11
+MOEMJ50xVHxprwU6B6p+xFXqRTAJYzHbA/s2GxxZG0SStGMi+tw=
+=Yigm
+-----END PGP SIGNATURE-----
+
+--tzod3ryqakonmh7i--
