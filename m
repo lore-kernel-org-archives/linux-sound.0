@@ -1,63 +1,64 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792C83D301E
-	for <linux-sound@vger.kernel.org>; Fri,  8 May 2026 10:39:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A243D1CD5
+	for <linux-sound@vger.kernel.org>; Fri,  8 May 2026 10:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778236756; cv=none; b=J41aaWGECv3UI7zhMjUzTEQxB2uLfsIZzga4XwfL1GJefOEWqeVuARWvjKrvykLZeKgo8bi3MN60pAzHEwN4+Is2MoJtM/3OWH2VebWIdmqstAAz/JLUprIPwFwWYuI+I6yBdCs/1j2vVyiY76FOisuqW8XO8KvGyJO//dg58+0=
+	t=1778236761; cv=none; b=XY20aHXiYN6pFLhffXsMuYwSfaKNEoCg9zc5SI9lc98IBbqpYJJJqgZqCQCoxebe1ArqK+94AIwRl6YQbtwNag1MXtmN3jJEltW3TpDd/4uWpLh3rQ+VtdiQskasWnA1rPziDevTOsotacQyNxxxtbVoSWXVTk2m5BapTybjsbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778236756; c=relaxed/simple;
-	bh=28cWvZt5+LjVRFYTpiBD7lWC/PI7kpR5cnKEpuPnDeQ=;
+	s=arc-20240116; t=1778236761; c=relaxed/simple;
+	bh=hgD0CGh4ly4OvpPUJGHRau/Dkr3Aayaonu/8yfXXpu0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TGEJ3Rc747juM0mRWofa2vDL+hA/GsEuInh543zPbkMQsZfJtcm9/Xc/GHR6iDtsez/gi6SIDv437pO0ywtq3ttN35cvLiSqBwLOfW6Z2s6XaoAbOXInT5y5c9zXx19PS38AGgvkUxNaa3w5G+HFDcNFrWMob711tVgkk52VKPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V19QTynV; arc=none smtp.client-ip=209.85.214.180
+	 MIME-Version; b=DSXhT4dPnlPime5+5UdxW6d9YcY6A7Pq+6Y3JsK2KMHI9m12o5Yjl5rPuB+W146tEsIPiiv8CpYNBuDrgYsKx7OTJVQ7H4rudGulKo+S+pRYHLakyfFyTcB/Ba+dfx+aPifbGTfaUF5UGglQVGN7uJRhx9vp88TBFBKHMsa1tAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FUn7Xotu; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V19QTynV"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2ba0714574fso10771055ad.2
-        for <linux-sound@vger.kernel.org>; Fri, 08 May 2026 03:39:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FUn7Xotu"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2b4650d5f5cso6929985ad.0
+        for <linux-sound@vger.kernel.org>; Fri, 08 May 2026 03:39:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778236755; x=1778841555; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778236759; x=1778841559; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VtY4fEpkcKI43PjOB3u+OACOnE6yg3XP27IxAIRobhU=;
-        b=V19QTynVeUXGSbFe+O7PxceLr/8yFzhRaI9E/+g/caoKcIUP9syDHEtl1jAsqu37v4
-         R0hYO8et/WL/u/bfW9XLXLfbVPPMO2hOSN3QeYuGD+enOf6sbTVmcEYXmfgPj9x9XRgI
-         96ei9MzmnkZ2zbT/XMGYVxQwfT8D26bEZFiWYNFPPgZ41yPwfqM5dxRd41O4ijUFuZ2y
-         TvCNKf3znkCW38BJn0DYWD8CTroWH8EjdB3AbLeb3voXC9wr27kLNJzDQUEzLKCKkdW3
-         aY4xg1lRr1AiMK6rVAv5OFiNZU6JoPthiZ7jJGuXOXzrSXaCmSkm5/TseviWSNthVj8U
-         1jPQ==
+        bh=lLQoiR5rrh3hqy6OvnSB4BV7IM1W5VVe7Onht99maeg=;
+        b=FUn7XotuHqFNnpQ9zw0pzeSC83ZT3HShmDlCmAxYj9GRlpB9iqhYD0BvIjv0eO7i0X
+         XNt9rz/yBdcijOTmjsZz8oX41xRcHQVwbmu+c8LT/KWUPZVa7eo5arxo2TBqEKxAT92H
+         NScPQ0OmpP7G2MOGQCa6eeVbh7c1u9xWMcy4PXfPhAD5/JxGqmpEtLpiCaFFnCol+KyU
+         qumjrUbtZO5bXkD5CQSYLvFq/f3RBX/GoeP47wO5LR8zA4i2fbgWSfUGhRTxu1kQVv02
+         Pal5CW0NPB2cyWsQg8YK45mzd8QDqaT2f/+YXqXrnz54otA/L7sC/J2aezs1cbIpPAFt
+         3zaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778236755; x=1778841555;
+        d=1e100.net; s=20251104; t=1778236759; x=1778841559;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=VtY4fEpkcKI43PjOB3u+OACOnE6yg3XP27IxAIRobhU=;
-        b=qnI6WzKrnDaN01K+I6/ygX79K6rlGg/bL2TjiuFwCYqoG0MFVWbkgF4LJBccdmnzfM
-         qg8nZozTkAKJI5go/tZdvJmMT3yEStNLQiBMywC/gbN3gy4L5XfXWG0kjpIhiTexl7tL
-         ETth+yXsiuRske3TlrZcagckO88N8v+p0W4mwudbFklS5vuUFISVw/1EvOs0R5wJb7qT
-         RUNtOuGv+22jECqcsa7I3qCFIdMve1fYQkfl0wAI2rmAspfQ23q2o/zFkaovZdzDagnD
-         WZ7uB0cEEy++u2Speyg8sOWaWi5b7nPMKHFpj87YjVovbP7ht2wn7SOF+0rxagG3+MfT
-         KjWw==
-X-Forwarded-Encrypted: i=1; AFNElJ8D7HIiAFdJQ4CTi3ZRmVRgbEHNGTM132N9pVx2YjlJ4z7YP5HJEyg5tZ4BttdK6qKMW59ZSpx02KSp5Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnZh8TcCz6I+a4WVFORVbKWcUoQE6w0atldzxRn7YSIXNqHyIv
-	HWGPbFsb2K0jEVsJGKexJQYUHi1H7S8tT+zTFlj7b/bw8SKdl5OUYlP3
-X-Gm-Gg: Acq92OE/t1GjBoRgpPe1tart7NHeLYmIeQ7JBKaF4mt9v+N8+rxZmyZqRvx0BlROPb1
-	PiUwbDftKezgk2pwcZGmsZ3AmyXqgd0Ks3kOuz/w+74GjnIOjSMZEALtv/kRa4cb9BsvqAXlbfk
-	rFsWZEz3Ci4B1t4QOKRoQInzMO9SIEpzKIUpzEONMhowWeAJWVL/BmhczblnSGoaysgpzLQrMn2
-	vHGn9bKoOUlc710MPhCfb212CS5R17tHF6xALGRB+0XBeeLkkD3QnHEASIyRAbjcuCp8sMBMgby
-	vRbnNSrwRu8Q4hqMR2PJYRVXvI8X894XuoxIZ4CHFUfUmspd0XxAvm8qLtVvIfzIs5nrcPTcdPc
-	YeFsp774fmZUu85KdiAMcnqvkyNVGYmqu/8Xh2ZQJDvGoU59uBjyKghZHu22cacW9DpInp48WEn
-	PVyBgsLC3pXYQWcdSsvHN6rDmSuk5A8IGJ9sXS32rd3dUNq6sKx9QtyFFHKgZZYR7cOz+h
-X-Received: by 2002:a17:903:2ecb:b0:2ba:2581:36bd with SMTP id d9443c01a7336-2ba798c26f5mr125067205ad.21.1778236754856;
-        Fri, 08 May 2026 03:39:14 -0700 (PDT)
+        bh=lLQoiR5rrh3hqy6OvnSB4BV7IM1W5VVe7Onht99maeg=;
+        b=g7klxNPMc+vGgzBPANWr+Ahn2ileyJCSHlD/5uQL7xoD9EDSSEw8Kxvh5PwqVyjUge
+         +g36son02GtaC5aQqoVGcrJKAW9t53ubBDIsi8ojBUAcIW7nyqgMJZV4mH9cuqPrm3hg
+         NcHV3T7tH0Ag7GEMXGTb9qlqOcLyGB4Pa7BojAsVKOAt53gp+QV+N3CnxvjCG2rUW+YV
+         Sx+5On4WCIxPRzR6633XcEyDNL3fWwCPGVtP4NERYZKu1IWPiIQqLKnhKaWCwH6e4Y6I
+         1jZZB5eDsWs9m+s5qMOSoFqIk6kc2aOf7dEg4bYthgKvYkutGtR+9tmLmOrom9RwC8tn
+         3uYg==
+X-Forwarded-Encrypted: i=1; AFNElJ/MEwoli0nMEXxPW3bgsXktWe/4cXqFkujfpfjROzwTC2gADVKNeeKKLE3zP0xwjo4meheuudwMvLbboA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwF+DAEfsU+M5SHESTeAWbCMQKOOzB/uAt6sG0Ln77VajjkTPtJ
+	ri3KJo7gJZNXKuC7BQ3wWUOBX1gjsoEnoSmfhjwEJ/lDRo3gzy6Pdd0F
+X-Gm-Gg: Acq92OE0tHtR+2YL00ybYoIkfkDWNbJzR9K6CuY07lc5BFowBk7jb9TshBLYDOZYYJ+
+	JHaVLKHcX1xKGSPYoe7ax9Wx/CQwMifZNqKW4MpR+aOf+BuPlL8Rg8x7AvEi2CpYJx0yDybOhtl
+	UHKaA9pSMyS3zi3vzf7oPUeSG+htSIgtnme9U6Qm8gtxNPGF0e1oEeNgpzhlA+S5SV0uCmo7TAY
+	dnvJnQiPgnvnIO7b1oofDB3wukO3ksRq3EKxKgwKWYpXvx+cLSvSMgQBQHJS9wsaZdrfXOb4+XM
+	GSz0kxarWDWPL0N6I8J9aK/gyBA+mF69KJ5EZi8JAO0bnewePxhUtkMgM7ZC2KAO6CQvwZ9HovU
+	kln90Zwbl3o0SnYtiI0Zz88F73z+oFrK0e+7CmXkA1KvDhws00MslKozpur41AcnxqwdjDz/jU8
+	Tse/y5LEAxcaD93pG8JdGRjrwWlaepBnhbt4KmAEh9ngAP/MQry1G2dlnv9wOC7jPIjVEr+2kM9
+	XjVx3A=
+X-Received: by 2002:a17:903:1d2:b0:2b0:663f:6b53 with SMTP id d9443c01a7336-2ba7908bfb1mr124730905ad.13.1778236758762;
+        Fri, 08 May 2026 03:39:18 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1d27109sm18309345ad.1.2026.05.08.03.39.12
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1d27109sm18309345ad.1.2026.05.08.03.39.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 03:39:14 -0700 (PDT)
+        Fri, 08 May 2026 03:39:18 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: peter.ujfalusi@gmail.com,
 	broonie@kernel.org
@@ -69,9 +70,9 @@ Cc: lgirdwood@gmail.com,
 	linux-kernel@vger.kernel.org,
 	linux-omap@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 4/7] ASoC: ti: omap-mcpdm: Use guard() for mutex locks
-Date: Fri,  8 May 2026 17:38:34 +0700
-Message-ID: <20260508103837.138142-5-phucduc.bui@gmail.com>
+Subject: [PATCH 5/7] ASoC: ti: ams-delta: Use guard() for spin locks
+Date: Fri,  8 May 2026 17:38:35 +0700
+Message-ID: <20260508103837.138142-6-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260508103837.138142-1-phucduc.bui@gmail.com>
 References: <20260508103837.138142-1-phucduc.bui@gmail.com>
@@ -85,51 +86,65 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Clean up the code using guard() for mutex locks.
+Clean up the code using guard() for spin locks.
 Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/ti/omap-mcpdm.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ sound/soc/ti/ams-delta.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/sound/soc/ti/omap-mcpdm.c b/sound/soc/ti/omap-mcpdm.c
-index 1a5d19937c64..c7d7b502f120 100644
---- a/sound/soc/ti/omap-mcpdm.c
-+++ b/sound/soc/ti/omap-mcpdm.c
-@@ -251,13 +251,11 @@ static int omap_mcpdm_dai_startup(struct snd_pcm_substream *substream,
+diff --git a/sound/soc/ti/ams-delta.c b/sound/soc/ti/ams-delta.c
+index ba173d9fcba9..6dd0d051a757 100644
+--- a/sound/soc/ti/ams-delta.c
++++ b/sound/soc/ti/ams-delta.c
+@@ -264,10 +264,10 @@ static void cx81801_timeout(struct timer_list *unused)
  {
- 	struct omap_mcpdm *mcpdm = snd_soc_dai_get_drvdata(dai);
+ 	int muted;
  
--	mutex_lock(&mcpdm->mutex);
-+	guard(mutex)(&mcpdm->mutex);
+-	spin_lock(&ams_delta_lock);
+-	cx81801_cmd_pending = 0;
+-	muted = ams_delta_muted;
+-	spin_unlock(&ams_delta_lock);
++	scoped_guard(spinlock, &ams_delta_lock) {
++		cx81801_cmd_pending = 0;
++		muted = ams_delta_muted;
++	}
  
- 	if (!snd_soc_dai_active(dai))
- 		omap_mcpdm_open_streams(mcpdm);
+ 	/* Reconnect the codec DAI back from the modem to the CPU DAI
+ 	 * only if digital mute still off */
+@@ -373,11 +373,11 @@ static void cx81801_receive(struct tty_struct *tty, const u8 *cp, const u8 *fp,
+ 			continue;
+ 		/* Complete modem response received, apply config to codec */
  
--	mutex_unlock(&mcpdm->mutex);
--
- 	return 0;
- }
+-		spin_lock_bh(&ams_delta_lock);
+-		mod_timer(&cx81801_timer, jiffies + msecs_to_jiffies(150));
+-		apply = !ams_delta_muted && !cx81801_cmd_pending;
+-		cx81801_cmd_pending = 1;
+-		spin_unlock_bh(&ams_delta_lock);
++		scoped_guard(spinlock_bh, &ams_delta_lock) {
++			mod_timer(&cx81801_timer, jiffies + msecs_to_jiffies(150));
++			apply = !ams_delta_muted && !cx81801_cmd_pending;
++			cx81801_cmd_pending = 1;
++		}
  
-@@ -269,7 +267,7 @@ static void omap_mcpdm_dai_shutdown(struct snd_pcm_substream *substream,
- 	int stream1 = tx ? SNDRV_PCM_STREAM_PLAYBACK : SNDRV_PCM_STREAM_CAPTURE;
- 	int stream2 = tx ? SNDRV_PCM_STREAM_CAPTURE : SNDRV_PCM_STREAM_PLAYBACK;
+ 		/* Apply config pulse by connecting the codec to the modem
+ 		 * if not already done */
+@@ -426,10 +426,10 @@ static int ams_delta_mute(struct snd_soc_dai *dai, int mute, int direction)
+ 	if (ams_delta_muted == mute)
+ 		return 0;
  
--	mutex_lock(&mcpdm->mutex);
-+	guard(mutex)(&mcpdm->mutex);
+-	spin_lock_bh(&ams_delta_lock);
+-	ams_delta_muted = mute;
+-	apply = !cx81801_cmd_pending;
+-	spin_unlock_bh(&ams_delta_lock);
++	scoped_guard(spinlock_bh, &ams_delta_lock) {
++		ams_delta_muted = mute;
++		apply = !cx81801_cmd_pending;
++	}
  
- 	if (!snd_soc_dai_active(dai)) {
- 		if (omap_mcpdm_active(mcpdm)) {
-@@ -287,8 +285,6 @@ static void omap_mcpdm_dai_shutdown(struct snd_pcm_substream *substream,
- 		cpu_latency_qos_remove_request(&mcpdm->pm_qos_req);
- 
- 	mcpdm->latency[stream1] = 0;
--
--	mutex_unlock(&mcpdm->mutex);
- }
- 
- static int omap_mcpdm_dai_hw_params(struct snd_pcm_substream *substream,
+ 	if (apply)
+ 		gpiod_set_value(gpiod_modem_codec, !!mute);
 -- 
 2.43.0
 
