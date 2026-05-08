@@ -1,130 +1,141 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B91B2F60CC
-	for <linux-sound@vger.kernel.org>; Thu,  7 May 2026 23:21:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF732F8EBB;
+	Fri,  8 May 2026 02:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778196112; cv=none; b=PfMAI0zU47PaP/Qm0Qv0y3Ev2rGn0pYv0GUXMx2XFqxExGFLbBKJEK979jvYAKgch9zLqdtsSMHRvHyaLYrqXt1P+FN4u6fNmV0eo1MA9esN2rNaTGbzMx6zOXa1vBgt/hq4H/g2ZKTBkdeCZ2LwONWIMGk3uGqPJ2Goh/Bkl0c=
+	t=1778206974; cv=none; b=fOeR2KxKTfcvEzKutXlP34Mw3EKBa6Ab3/AluTKttzfPM33r9gf5SVPjePe+3d7Lb2SzzLyMYRbVYMfp7qjHi4dL1QMBYFMSmCyYpt6691ACn0awW3X4J4Mcip7kNCbnEJW3Y4BEhYV+iYAvK7SBrYsiBikRmW9P7H5SfSapAng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778196112; c=relaxed/simple;
-	bh=/7jMOqiqfS5E2Aa8V7nTqrJGxlbfE7BVeWQEGpFRgbQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gX7tg7IXVjG1Ln3NpbRYXctmXg4kFBcWspNCkEHDnje+GCD6YckkPJOxvoMe1sCZNFLGTzpT5t8ILnmeKX9XQ72oig0dxM/dXiZzYP8XvgszMCCuspm1VD4151BlGzCIhQ2AUS3z9O3So+ojPUROGh/fid+ZRAjcaZ5mmDNR1ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SrnPzTG5; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SrnPzTG5"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2b458ca2296so9130355ad.0
-        for <linux-sound@vger.kernel.org>; Thu, 07 May 2026 16:21:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778196110; x=1778800910; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gqk0bhbr2l3f7IDwzLFxsnylMpESKM7ghHU7R8b35rk=;
-        b=SrnPzTG5VFnRWN4mRIqwVcHhGsjR0ckwWyua02g53JMbIUvuRNY/u2uwb3AKINzyau
-         l6Cq6KmZxjpvBPc0lCOByPxy9RaTSWXkQ7MNCF+wube/k/w/j6ntAHZM89guh/jPcblg
-         UhmYfOtp/jBl+l4NW9n5f4j9mcZyI151SrwiGcZE/VneODIC1VR+jQAaVppdADM2gD6K
-         dnQdRM3z6osmyKRmvZoEk4I4AMs6u0SLME3lyX8l9uQgl0jQbAi8a2Ba2Dk9OeqxMLmo
-         PJu7dWlITAQQxMoc1PoZmlbsA8EBLUiJeAwav+rZHRix1/Xq+Xl/5nwAJzLegZby2Xo0
-         CwyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778196110; x=1778800910;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gqk0bhbr2l3f7IDwzLFxsnylMpESKM7ghHU7R8b35rk=;
-        b=hYi9d+TeE/cWiPYkVD0iWLsy7FtiolNWBt3ucVY8WY+xZym9igEjwvfzkmmjpOv/vX
-         UusEwTF+Nu918L4lNpNTJ96IRvRE37y93LZwQeb0rZZgjt7UAXnURzjCRHj/Z3EpNyVR
-         2l1lP1HFUpyi6S0C1W6vF1fuwGB1UzIhlqTSKTY4MsvyIC869P4Lx4msZqaFdYfliRN1
-         bQHgq0W+JvyPBiUu/Fl6z281C9IoIPFbtPuq/fOcJopfEmnB+kIT+0EMxZfOIUtRWR5o
-         87Q9TJQ/gOCG3lzIK5EQj15Ic08SnkyvZ28URvjKWsYSYTbRm0mxywpSKPr0OU9T+Dq9
-         or+g==
-X-Gm-Message-State: AOJu0Yz4SdYta9tJskrUuzMBqisvPT60/ZYuzlXbOdrZWh8x6tLlZTe3
-	3GBwYi9opaQwjoJ2Q8rH5tYZwfYWDcZ3cOsdEWybihabuP8pc4bu4UVmZ+YZQ3Aw
-X-Gm-Gg: Acq92OHoOV57htSs9PL1WjFJhDYgJgisXOU1P5fZrMuNgoqOCBaGs/Pyil6vcNvtcZm
-	uehnShtFs7aIHyUU4i7V5WNoVdUndokP7haDS89YzEThcnVoq/VPT+3bKSx8qu8TY2R7jMzjAJD
-	2iNEV4g3tsbatFfG7L/qSSSIYkvxGp8nz5EOUeUUC0+9slvhh8BC+fXaU1kgYVnHw+dWkkPvZfO
-	IpnfH24WckbAvWJ4VhVUGGTdfNkkf8co3rdQonstxqz9wNaYmuNtjehR8W7s2sHHfIiBTc/Qy+a
-	bHgpe+VhX80w7RYMA25CThdLTBHYyqXjnpcwWHaSypjtTvHK71ig18VcBLkPgxzt0JkC9aLS7ZQ
-	qY53vS/yYPz4P32H43ShYpOP46qObfks9AonLUP8KusUFJKr4BJjqwjB2kLBxaMAAFu/mbC+rsi
-	+gjTyyXkISABQdHIdUwzrhmDSzEscrj5VVHSYfIrkmv7jYhXTiVVPuRYJbPJMKYmSp6a67nuY4K
-	8YTeZxzD+oQMo+CsH4h+LKGm21siQbnyVA=
-X-Received: by 2002:a17:903:28c:b0:2b2:45b7:306e with SMTP id d9443c01a7336-2baf0cf2c98mr2125795ad.3.1778196110299;
-        Thu, 07 May 2026 16:21:50 -0700 (PDT)
-Received: from ryzen ([2601:644:8000:5b5d:7285:c2ff:fe45:8a32])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bae752f766sm9064475ad.2.2026.05.07.16.21.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 16:21:49 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	linux-tegra@vger.kernel.org (open list:TEGRA ARCHITECTURE SUPPORT),
-	linux-kernel@vger.kernel.org (open list),
-	llvm@lists.linux.dev (open list:CLANG/LLVM BUILD SUPPORT:Keyword:\b(?i:clang|llvm)\b)
-Subject: [PATCH] ASoC: tegra: tegra210-mixer: Use div_u64() for 64-bit division
-Date: Thu,  7 May 2026 16:21:31 -0700
-Message-ID: <20260507232131.438589-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	s=arc-20240116; t=1778206974; c=relaxed/simple;
+	bh=aM+YEjFbS2MynoVSl2khWK5iOJtrW7dt7hrlItZn/zY=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To; b=WBswXtZiV6lt2XMzew28JgWhHrsFzjlq8XTG2CArp4/19qafu7J4vDRxnmzcwimZWsXNlHebu4Prx3gSGvKg1zc+35Zu+83RFLfc1Za+1Vcr8AOo+8FG0o+u1XXKaz2KcIYmJwfu3Q0WwT9shRCgC8F6nLliCIQMUQMozsHFVsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: cc5768a24a8411f1aa26b74ffac11d73-20260508
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:4b182d05-7c24-45c8-bf0a-1e60c43e6cc7,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:e31c48a74c1a95a0a0a19ac8571852c1,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|817|898,TC:nil,Content:-10|
+	-8|-5|14|50,EDM:-3,IP:nil,URL:0,File:127,RT:nil,Bulk:nil,QS:nil,BEC:nil,CO
+	L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: cc5768a24a8411f1aa26b74ffac11d73-20260508
+X-User: zhangheng@kylinos.cn
+Received: from [172.25.120.77] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 669407938; Fri, 08 May 2026 10:22:44 +0800
+Content-Type: multipart/mixed; boundary="------------S8dwKSupmBKGYzS0EQhKXCDv"
+Message-ID: <7493b4e0-2b8c-435f-8421-ed397593356a@kylinos.cn>
+Date: Fri, 8 May 2026 10:21:57 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: Fwd: [PATCH] ALSA: hda/generic: Add mic autoswitch support for
+ dyn_adc_switch mode
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <5b215802-4c94-4f94-9cee-f8e497b31337@kylinos.cn>
+ <a7daf8a3-559b-4532-a2ee-a211a7e0e0b0@kylinos.cn>
+ <87ecjnp8dx.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Zhang Heng <zhangheng@kylinos.cn>
+In-Reply-To: <87ecjnp8dx.wl-tiwai@suse.de>
 
-A MIPS allmodconfig build with LLVM fails during modpost:
+This is a multi-part message in MIME format.
+--------------S8dwKSupmBKGYzS0EQhKXCDv
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-  ERROR: modpost: "__udivdi3"
-  [sound/soc/tegra/snd-soc-tegra210-mixer.ko] undefined!
 
-tegra210_mixer_configure_gain() divides a 64-bit BIT_ULL() value by the
-fade duration. On 32-bit MIPS, clang emits a call to __udivdi3 for that
-plain C division, but that compiler helper is not exported to modules.
+--------------S8dwKSupmBKGYzS0EQhKXCDv
+Content-Type: text/plain; charset=UTF-8; name="reply.txt"
+Content-Disposition: attachment; filename="reply.txt"
+Content-Transfer-Encoding: base64
 
-Use div_u64() for the inverse duration calculation so the driver uses the
-kernel's 64-bit division helper instead of emitting a compiler runtime
-call.
+TXkgaWRlYSBpcyB0byBkeW5hbWljYWxseSBzd2l0Y2ggQURDIGNvbm5lY3Rpb25zIHRvIGRp
+ZmZlcmVudCBpbnB1dCBwaW5zLgpGb3IgZGVza3RvcCBkZXNpZ25zLCBzb21ldGltZXMgdGhl
+cmUgaXMgb25seSBvbmUgQURDIG9yIG5vIEFEQyB0aGF0IGNhbgpjb25uZWN0IHRvIGFsbCBp
+bnB1dCBwaW5zLiBGb3IgZXhhbXBsZSwgbXkgU042MTg2OgoKTm9kZSAweDEzIFtBdWRpbyBJ
+bnB1dF0gd2NhcHMgMHgxMDA1MWI6IFN0ZXJlbyBBbXAtSW4KICBDb250cm9sOiBuYW1lPSJD
+YXB0dXJlIFZvbHVtZSIsIGluZGV4PTAsIGRldmljZT0wCiAgICBDb250cm9sQW1wOiBjaHM9
+MywgZGlyPUluLCBpZHg9MSwgb2ZzPTAKICBDb250cm9sOiBuYW1lPSJDYXB0dXJlIFN3aXRj
+aCIsIGluZGV4PTAsIGRldmljZT0wCiAgICBDb250cm9sQW1wOiBjaHM9MywgZGlyPUluLCBp
+ZHg9MSwgb2ZzPTAKICBEZXZpY2U6IG5hbWU9IlNONjE4NiBBbmFsb2ciLCB0eXBlPSJBdWRp
+byIsIGRldmljZT0wCiAgQW1wLUluIGNhcHM6IG9mcz0weDRhLCBuc3RlcHM9MHg1MCwgc3Rl
+cHNpemU9MHgwMywgbXV0ZT0xCiAgQW1wLUluIHZhbHM6ICBbMHg4MCAweDgwXSBbMHg1MCAw
+eDUwXSBbMHg1MCAweDUwXSBbMHg4MCAweDgwXSBbMHg4MCAweDgwXQogIENvbnZlcnRlcjog
+c3RyZWFtPTEsIGNoYW5uZWw9MAogIFNESS1TZWxlY3Q6IDAKICBQQ006CiAgICByYXRlcyBb
+MHg1NDBdOiA0ODAwMCA5NjAwMCAxOTIwMDAKICAgIGJpdHMgWzB4ZV06IDE2IDIwIDI0CiAg
+ICBmb3JtYXRzIFsweDFdOiBQQ00KICBQb3dlciBzdGF0ZXM6ICBEMCBEMSBEMiBEMyBFUFNT
+CiAgUG93ZXI6IHNldHRpbmc9RDAsIGFjdHVhbD1EMAogIENvbm5lY3Rpb246IDUKICAgICAw
+eDE4IDB4MjQgMHgxOSogMHgyNSAweDFmCgpOb2RlIDB4MTQgW0F1ZGlvIElucHV0XSB3Y2Fw
+cyAweDEwMDUxYjogU3RlcmVvIEFtcC1JbgogIEFtcC1JbiBjYXBzOiBvZnM9MHg0YSwgbnN0
+ZXBzPTB4NTAsIHN0ZXBzaXplPTB4MDMsIG11dGU9MQogIEFtcC1JbiB2YWxzOiAgWzB4ODAg
+MHg4MF0gWzB4NTAgMHg1MF0gWzB4ODAgMHg4MF0gWzB4ODAgMHg4MF0gWzB4ODAgMHg4MF0K
+ICBDb252ZXJ0ZXI6IHN0cmVhbT0wLCBjaGFubmVsPTAKICBTREktU2VsZWN0OiAwCiAgUENN
+OgogICAgcmF0ZXMgWzB4NTQwXTogNDgwMDAgOTYwMDAgMTkyMDAwCiAgICBiaXRzIFsweGVd
+OiAxNiAyMCAyNAogICAgZm9ybWF0cyBbMHgxXTogUENNCiAgUG93ZXIgc3RhdGVzOiAgRDAg
+RDEgRDIgRDMgRVBTUwogIFBvd2VyOiBzZXR0aW5nPUQwLCBhY3R1YWw9RDAKICBDb25uZWN0
+aW9uOiA1CiAgICAgMHgxOCogMHgxYSAweDI0IDB4MjUgMHgxZgoKT24gdGhpcyBtYWNoaW5l
+LCAweDFhIGlzIExJTkUgSU4sIDB4MTkgaXMgTWljLCAweDI0IGlzIFJlYXIgTWljLgpUaGVy
+ZWZvcmUsIGEgIkNhcHR1cmUgU291cmNlIiBjb250cm9sIGlzIGdlbmVyYXRlZC4KCkFmdGVy
+IGRlbGV0aW5nIHRoZSBjdXJyZW50IHVzZXIgY29uZmlnIGFuZCByZWJvb3RpbmcgKHJtIC1y
+ZiB+Ly5jb25maWcvcHVsc2UvKgp+Ly5jb25maWcvYXVkaW8uanNvbiwgVWJ1bnR1IDIwLjA0
+IGRvZXMgbm90IG5lZWQgdG8gZGVsZXRlIHVzZXIgY29uZmlnCnRvIHJlcHJvZHVjZSB0aGlz
+IGlzc3VlKSwgdGhpcyBzaXR1YXRpb24gb2NjdXJzOiBldmVuIGFmdGVyIGluc2VydGluZwp0
+aGUgcmVhciBtaWMgb3IgTElORSwgbmVpdGhlciBhbHNhbWl4ZXIgbm9yIHRoZSBjb2RlYyBz
+d2l0Y2hlcyB0byB0aGUKY29ycmVzcG9uZGluZyBpbnB1dCBwYXRoLgoKTm9kZSAweDE5IFtQ
+aW4gQ29tcGxleF0gd2NhcHMgMHg0MDA0OGI6IFN0ZXJlbyBBbXAtSW4KICBBbXAtSW4gY2Fw
+czogb2ZzPTB4MDAsIG5zdGVwcz0weDA3LCBzdGVwc2l6ZT0weDE3LCBtdXRlPTEKICBBbXAt
+SW4gdmFsczogIFsweDA2IDB4MDZdCiAgUGluY2FwIDB4MDAwMDMzMjQ6IElOIERldGVjdAog
+ICAgVnJlZiBjYXBzOiBISVogNTAgODAgMTAwCiAgUGluIERlZmF1bHQgMHgwMmExMTA0ZTog
+W0phY2tdIE1pYyBhdCBFeHQgRnJvbnQKICAgIENvbm4gPSAxLzgsIENvbG9yID0gQmxhY2sK
+ICAgIERlZkFzc29jaWF0aW9uID0gMHg0LCBTZXF1ZW5jZSA9IDB4ZQogIFBpbi1jdGxzOiAw
+eDI1OiBJTiBWUkVGXzEwMAogIFVuc29saWNpdGVkOiB0YWc9MDMsIGVuYWJsZWQ9MQogIFBv
+d2VyIHN0YXRlczogIEQwIEQxIEQyIEQzIEVQU1MKICBQb3dlcjogc2V0dGluZz1EMCwgYWN0
+dWFsPUQwCgpOb2RlIDB4MjQgW1BpbiBDb21wbGV4XSB3Y2FwcyAweDQwMDU4YjogU3RlcmVv
+IEFtcC1JbgogIEFtcC1JbiBjYXBzOiBvZnM9MHgwMCwgbnN0ZXBzPTB4MDcsIHN0ZXBzaXpl
+PTB4MTcsIG11dGU9MQogIEFtcC1JbiB2YWxzOiAgWzB4ODAgMHg4MF0KICBQaW5jYXAgMHgw
+MDAxMzMzNDogSU4gT1VUIEVBUEQgRGV0ZWN0CiAgICBWcmVmIGNhcHM6IEhJWiA1MCA4MCAx
+MDAKICBFQVBEIDB4MDoKICBQaW4gRGVmYXVsdCAweDAxYTE5MDQwOiBbSmFja10gTWljIGF0
+IEV4dCBSZWFyCiAgICBDb25uID0gMS84LCBDb2xvciA9IFBpbmsKICAgIERlZkFzc29jaWF0
+aW9uID0gMHg0LCBTZXF1ZW5jZSA9IDB4MAogIFBpbi1jdGxzOiAweDI0OiBJTiBWUkVGXzgw
+CiAgVW5zb2xpY2l0ZWQ6IHRhZz0wNCwgZW5hYmxlZD0xCiAgUG93ZXIgc3RhdGVzOiAgRDAg
+RDEgRDIgRDMgRVBTUwogIFBvd2VyOiBzZXR0aW5nPUQwLCBhY3R1YWw9RDAKICBDb25uZWN0
+aW9uOiAzCiAgICAgMHgxMCogMHgxMSAweDIzCgpUaGUgaW5mb3JtYXRpb24gYmVsb3cgd2ls
+bCBhbHdheXMgYmUgcHJlc2VydmVkLiBFdmVuIGFmdGVyIGluc2VydGluZwp0aGUgcmVhciBt
+aWMgYW5kIHJlY2hlY2tpbmcgdGhlIGNvZGVjIGluZm8sIGl0IHJlbWFpbnMgdGhlIHNhbWUu
+CgpUaGlzIGlzIHJlbGF0ZWQgdG8gdXBwZXItbGF5ZXIgZGVzaWduLCBidXQgSSBoYXZlIG5v
+IHJlc2VhcmNoIGluIHRoaXMKYXJlYSwgc28gSSBhbSB2ZXJ5IGNvbmZ1c2VkLiBNeSBvcGlu
+aW9uIGlzIHRoYXQgdGhlIGtlcm5lbCBzaG91bGQgYXQKbGVhc3Qgc3VwcG9ydCBkeW5hbWlj
+IHN3aXRjaGluZyBvZiBBREMgYW5kIHBhdGhzLiBJZiB1c2VyLXNwYWNlIGhhbmRsZXMKdGhp
+cywgY291bGQgeW91IHBsZWFzZSBsZXQgbWUga25vdyB3aGljaCBjb21wb25lbnQ/CgpJbiBj
+cmVhdGVfY2FwdHVyZV9taXhlcnM6CgotIGlmIChzcGVjLT5keW5fYWRjX3N3aXRjaCkKLSAg
+ICAgICAgIG51bXMgPSAxOwotIGVsc2UKICAgICAgICBudW1zID0gc3BlYy0+bnVtX2FkY19u
+aWRzOwoKQWZ0ZXIgdGhpcywgZHluYW1pYyBzd2l0Y2hpbmcgd29ya3MuIEFsdGhvdWdoIHRo
+ZSBnZW5lcmF0ZWQgY29udHJvbCBpcwpmb3JjZWQgdG8gIklucHV0IFNvdXJjZSIsIGF0IGxl
+YXN0IGl0IGlzIHVzYWJsZS4gU28gdGhlIG5leHQgc3RlcCBpcwp0byBsb29rIGF0IHRoaXMg
+cGFydCBvZiB0aGUgY29kZS4KCkkgaGF2ZSBhbm90aGVyIGRlc2t0b3Agd2l0aCBTTjYxODYg
+dGhhdCBoYXMgb25seSBvbmUgQURDIGNhcGFibGUgb2YKY29ubmVjdGluZyB0byBhbGwgaW5w
+dXQgcGlucywgd2hpY2ggcmVzdWx0cyBpbiBudW1zPTEsIHNvIHRoZSBnZW5lcmF0ZWQKY29u
+dHJvbCBpcyBzdGlsbCAiQ2FwdHVyZSBTb3VyY2UiLi4uCgpEdWUgdG8gbXkgbGFjayBvZiB1
+bmRlcnN0YW5kaW5nIG9mIHRoZSB1cHBlciBsYXllciwgSSByZWFsbHkgZG8gbm90Cmtub3cg
+d2hldGhlciB0aGlzIHNob3VsZCBiZSBoYW5kbGVkIGJ5IHRoZSBrZXJuZWwgb3IgdXNlci1z
+cGFjZS4gQnV0Ckkgd2lsbCBmaXJzdCBleGFtaW5lIHRoZSBrZXJuZWwncyBoYW5kbGluZyBv
+ZiB0aGlzIHdpdGggYSBjcml0aWNhbCBleWUuCg==
 
-Assisted-by: Codex:GPT-5.5
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- sound/soc/tegra/tegra210_mixer.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/tegra/tegra210_mixer.c b/sound/soc/tegra/tegra210_mixer.c
-index f05617b5f433..bfdd457f740c 100644
---- a/sound/soc/tegra/tegra210_mixer.c
-+++ b/sound/soc/tegra/tegra210_mixer.c
-@@ -7,6 +7,7 @@
- #include <linux/clk.h>
- #include <linux/device.h>
- #include <linux/io.h>
-+#include <linux/math64.h>
- #include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-@@ -157,8 +158,8 @@ static int tegra210_mixer_configure_gain(struct snd_soc_component *cmpnt,
- 			if (i == DURATION_N3_ID)
- 				val = mixer->duration[id];
- 			else if (i == DURATION_INV_N3_ID)
--				val = (u32)(BIT_ULL(31 + TEGRA210_MIXER_PRESCALAR) /
--					    mixer->duration[id]);
-+				val = div_u64(BIT_ULL(31 + TEGRA210_MIXER_PRESCALAR),
-+					      mixer->duration[id]);
- 			else
- 				val = gain_params.duration[i];
- 		}
--- 
-2.54.0
-
+--------------S8dwKSupmBKGYzS0EQhKXCDv--
