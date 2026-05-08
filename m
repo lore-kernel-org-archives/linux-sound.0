@@ -1,63 +1,63 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F49C3FB7DD
-	for <linux-sound@vger.kernel.org>; Fri,  8 May 2026 15:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07783FFABC
+	for <linux-sound@vger.kernel.org>; Fri,  8 May 2026 15:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778252624; cv=none; b=Jo1KJGtnjl3PWRGSKTk7B5uHgvjqB2pvuUOG3r0uzHAfHAnkHx8x6zKFMsJuHkOktbEV/1QUUsLT1BhOiaiNXckUDw/KLaiWfEPCwvN2mcbtHXUES328Ds7I/qNrp5adsFQpJETEqsZyDyFTF5yGF0guUFRkrLXzZ2DbLngoTCU=
+	t=1778252626; cv=none; b=cj2AR35XNmtM5Q5LVaIiTefuYKwg7aTim3au58Ht8Joi6fjgpt6OAlosuYjLY35yey9R7Bf7gjw+Stm4yAiNceWLf3pTM8FfPKq7TqORXZXcJDfHTRlDq2GReXsd9n/pVdzEVxs7JPKxK1IaCEW1O2dupgaYkdrQWS47T2c/xX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778252624; c=relaxed/simple;
-	bh=dEFEWz3grYsJ3xFfPv2w0LqS/B3a113eXpTHuU1Bfow=;
+	s=arc-20240116; t=1778252626; c=relaxed/simple;
+	bh=TH9dczhTjQEhar2KYDg+eYkeLByvqUVPgRCcViqkALc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UfrEuoZQtoeKMw0I3lYw6AoRF+WON9o+AVmOfFefkg9dL5xKDtyTwI02pcsOAkPvNQkAWmXiDgvb5L3oCTzOvRoe59vuSCZyuO4BmDDpIP32hfYllmVu48MMszl2SnKmx7/fRX5siAqMAyRAWGhgqyUr1xGhBGuPvEI+Lh6Fdto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=NVwdU1qQ; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version:Content-Type; b=I3FrNq00T7vHof0c7rQ513U1iFh0JTrU+UDsdxS84b52S3RHLJ1F68JMUaO6VRTHLWhOa/LCwQR3Jgovu7DN9bQVtKZjhnYGsbgAgFhuW9r0K8Q0ejXAMbDSMdWkjg+ruXCsGfLPrJmWL8ekdI91QxNw3XIhMsW/q0DWOoVgZGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DYEJr3xh; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="NVwdU1qQ"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488ab2db91aso23383215e9.3
-        for <linux-sound@vger.kernel.org>; Fri, 08 May 2026 08:03:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DYEJr3xh"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43eb05b1875so1300190f8f.3
+        for <linux-sound@vger.kernel.org>; Fri, 08 May 2026 08:03:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1778252621; x=1778857421; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1778252623; x=1778857423; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=K1nwqrFtqGULq78/Os8+Xaynrz1dC0zWHqq0+EOjT34=;
-        b=NVwdU1qQDwvhRjbVAQOxOq9NWbBJdSE6hoSKzmHC3zYc5MPloLUXZTfcSPq1YirXwh
-         banFrouyoYJ2IJfDlJCOwkQ9tZTcFgz+hfNm3tqiuvixavb8yf+X61QxGGVn2VGSOSiQ
-         A2UyT57iKU77l0bY+auErPxj6K4r21GJ77UMF7ORvB6SeyovoBWF7OLdHd64wzfLy3H0
-         hgMaPKF+GWFm98RNALbuj1IdafyHMh5DKGnLQKLvIY9QNRimxYeZf4rMiWwoZPVvml3B
-         aHuFMkb+w0DODbjqgMeogCfwsjoEn61HKWrY5F5typWUtCUTeIS8Wp5c0gVMEcUXPuPr
-         fCBw==
+        bh=f2MMTl7quIO4DRgo4Wy71sfQT6nifE8diEZsX0WUHk8=;
+        b=DYEJr3xhtUsumG8YhZCKjV6Jq5o8wwqsXuXoaje4cx26f4s/UiREaDcsrRoaH7Fyls
+         k1f5XPbAJwblGtGUHNX/wjqr2i/ywHe5uBSd9RYPHwewp/IdJJ8tXGidrnKYiYrk4hRp
+         kSEWlmxtRymftfpMoyWFQ3F4bvKowMZF4DXsgNx2veA2sKUjm4fLsPMBjruw+5JVwdQx
+         QWmjgY3e1EBf2lmLetk26PqBZWvyabozCVxqlYnjqIm/Hq6FOUqzov4zgzm6SsI8IuPF
+         SuQHeFHaWa4s/tfHIQ+cDEQfEEgUdgY6EcXqg5TYEyraQ3VOdWdr8Hc890PIfJcnu518
+         teJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778252621; x=1778857421;
+        d=1e100.net; s=20251104; t=1778252623; x=1778857423;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=K1nwqrFtqGULq78/Os8+Xaynrz1dC0zWHqq0+EOjT34=;
-        b=eWsXCg8QuaGbiV5mOismhxmONdQPuONRIbSalQprfmvJAcR+htev+Sv30MWSm6eVqx
-         0EgviPfJ//L4XF3UcGRpj2tXoR3XE75KztPywUywREs+loGsuJw5jVtFIUzsf/AYwRrw
-         bwHk5j825U8tcDJwrKic1EmIBLxqqeL5GtlDv8xBxtop7+REFEit/Cdx5yT12IxT7y14
-         rVLbA0GeTJ4I8Y7dwKTUQEzTW32w1mlJPMauMV/AIhji7RXoyvanKem80hKufklbasLi
-         BSoNW9oFVP3gu6C1ceS0lJYyKztPja0ESAMYxRh8UZ3KoUuucvzJDEVxQn7qUatuV1jC
-         hSHg==
-X-Forwarded-Encrypted: i=1; AFNElJ/r9B8FEK2F1QuRGRFA1Ag26h3AsjqEfzA/sOE2AT+zLlXmNHWO4rpbnUCDUqyFCz2Zk9qj89blaQZcCA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+O441QWFBNtU+bYQ76HVVEgPZqWilJouB3JFaoFSWHpEOn5Vr
-	O++ML/iqpdX2mCQvEeuKKElZlNXyEavW0RbNDpEqsinf/YGZLXJ6uC+SATS0tZ1G6mk=
-X-Gm-Gg: AeBDieuVI70Sc3veRpFJrHokFdRW/ae+u/ZjJbZJgZLIniRTEcAgjVVUKB7sKDIc+eo
-	uYFh9C6q9G344RTfKV/pK8TflkGRDinEAs2DyVvIc9A+1o7p2O4U5GYkyQfio4ekrDg5BvxN6GX
-	7CM+fuSUezYOMZctWN2LzAM9T/QBkEMlec9WXO+k4bOWK9S+ruzCn/NoQbm/TLKUWDu3rUATpAC
-	l6U/ylhi9O90DIyXMzXDJ1qdt1xdcAZuOSmo+zFrXV7GcJoxarZhi9mOB/aAbDeLdcOtGBawqF9
-	GxFRxoEF+QDirZM4GVLWzpf0A7ftOoqR0Jysa+ZhTphURzouoT8j+jaFKlQzsoDKoPuIK+pJXia
-	po61+ZzxaaErj476VWh9Upc3coAMObNpKu1Dvp4FDZFoMrUPgvz9wZqc6BBm9nz69gbMg06n9Jx
-	mc9SfFMMK4M+VRnc+s+D2iV0Mn7nMNS7j9+eJuJ2cnujoHckc=
-X-Received: by 2002:a05:600c:3151:b0:48a:7605:751e with SMTP id 5b1f17b1804b1-48e51e0837amr199168805e9.4.1778252621369;
-        Fri, 08 May 2026 08:03:41 -0700 (PDT)
+        bh=f2MMTl7quIO4DRgo4Wy71sfQT6nifE8diEZsX0WUHk8=;
+        b=SVTmRc3D7cxnCaAOmxkVNwQGiSZSWmg7v+C/D6uwa3+veoWt22zvU2FbwRikpcWcam
+         4oKJN2ZKuOepfXtmMIZzR5LpkYjfwL53Z/XIeQbkTvr9tiUo2s/bRrd18Yyx1xou32wF
+         gXd2RMdGCD600tnGx1QA/wX3+XlVrQIb1eGcUS3lpAh1DD1EBTVTgaQuORqxgVY3zxYk
+         dk4jFLNulGK8YXKAFl5yIMqkTO1P7puSLPUBkM2uRDOO92VmVP+isNwShZ34nFdt4a3q
+         6ETXdcuvKRdnISBRDLWXiJbICnjpbfVfsDyLozjRJPnewjyaFGQfKm0eYs7M4UOt+7fv
+         dKqw==
+X-Forwarded-Encrypted: i=1; AFNElJ9hUQIkHhgwMruB36rfrsvEdjA7hrHMpAl16w9IcPoILkjf8Jt9YybucfHbDHx9g72oNtlWZPpGlXztIw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0LnORhplY3bVSglaDZA2WT485fvQk/8kKbM8G7qN+X9qIeXtO
+	3RKhEK4V7ib/Xhxh16r98EvFsmPDmzFYOuS34S/pu7MZykRKV/foSjI/iDMPM+PqewQ=
+X-Gm-Gg: Acq92OFz4GGmxYyYAyVWss8xcnt0NZhSK4+8gM7JodvrzIlHBSqJESV9X4AiofYFjkZ
+	y2UQ76ZRbKavCSZeczQsRAFYB0QfSykWGRhhcoyiWscbGvbALN97v5BdZSUvEOuTlwBJVwzOOST
+	ST5/Ogwr4CCIwX3RXG6KHlga6+uwhx1Sk06+fOXFovEF4rCqbwA43LgzJJ1TjDPMG84F+NAR/lY
+	Fq8kW5WduMrSZX9PyKuwBqDVzUxjl+Xh2I3idtv1XEjeKK1aJrwBriFf1lEv1tRHEoKAwygubJ5
+	795dpfDfsV5NnOE30mEsh0rs3cwnz5WG5iqjt95GB+0SdigbjH1OS/kiuHW5PLOWe24kNMK5h56
+	FmAagsXO2URwZAv7tz6UtYNH82saUAqV2rrN3n01CL8jYrtcV0hovdd7cPvF+alIZwebMLvWoDd
+	wWwdEfNuNIP3t8FP82XmNo3shMWpC/XyAl/0HHnQZKjCBbpps82YFgYh+WUg==
+X-Received: by 2002:a5d:5d02:0:b0:43e:aa88:f1a1 with SMTP id ffacd0b85a97d-4515d4d1107mr20288394f8f.30.1778252622785;
+        Fri, 08 May 2026 08:03:42 -0700 (PDT)
 Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45491ca2fd6sm5262918f8f.30.2026.05.08.08.03.39
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45491ca2fd6sm5262918f8f.30.2026.05.08.08.03.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 08:03:40 -0700 (PDT)
+        Fri, 08 May 2026 08:03:42 -0700 (PDT)
 From: Marco Crivellari <marco.crivellari@suse.com>
 To: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org
@@ -71,12 +71,10 @@ Cc: Tejun Heo <tj@kernel.org>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	patches@opensource.cirrus.com
-Subject: [RFC PATCH 1/2] ASoC: cs42l43: Move long delayed work on system_dfl_long_wq
-Date: Fri,  8 May 2026 17:03:18 +0200
-Message-ID: <20260508150327.351779-2-marco.crivellari@suse.com>
+	Oder Chiou <oder_chiou@realtek.com>
+Subject: [RFC PATCH 2/2] ASoC: codecs: rt5640: Move long delayed work on system_dfl_long_wq
+Date: Fri,  8 May 2026 17:03:19 +0200
+Message-ID: <20260508150327.351779-3-marco.crivellari@suse.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260508150327.351779-1-marco.crivellari@suse.com>
 References: <20260508150327.351779-1-marco.crivellari@suse.com>
@@ -88,8 +86,6 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-
-Move long delayed work on system_dfl_long_wq
 
 Currently the code enqueue work items using {queue|mod}_delayed_work(),
 using system_long_wq. This workqueue should be used when long works are
@@ -112,37 +108,71 @@ obvious reason that justify the use of a per-cpu workqueue. So change
 system_long_wq with system_dfl_long_wq so that the work may benefit from
 scheduler task placement.
 
-Cc: David Rhodes <david.rhodes@cirrus.com>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: <patches@opensource.cirrus.com>
+Cc: Oder Chiou <oder_chiou@realtek.com>
 Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
 ---
- sound/soc/codecs/cs42l43-jack.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ sound/soc/codecs/rt5640.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/codecs/cs42l43-jack.c b/sound/soc/codecs/cs42l43-jack.c
-index 3e04e6897b14..934666295ee3 100644
---- a/sound/soc/codecs/cs42l43-jack.c
-+++ b/sound/soc/codecs/cs42l43-jack.c
-@@ -805,7 +805,7 @@ irqreturn_t cs42l43_tip_sense(int irq, void *data)
- 	if (priv->suspend_jack_debounce)
- 		db_delay += priv->tip_fall_db_ms + priv->tip_rise_db_ms;
+diff --git a/sound/soc/codecs/rt5640.c b/sound/soc/codecs/rt5640.c
+index f6c6294e1588..1a5bb72b7d03 100644
+--- a/sound/soc/codecs/rt5640.c
++++ b/sound/soc/codecs/rt5640.c
+@@ -2397,7 +2397,7 @@ static void rt5640_jack_work(struct work_struct *work)
+ 		 * disabled the OVCD IRQ, the IRQ pin will stay high and as
+ 		 * we react to edges, we miss the unplug event -> recheck.
+ 		 */
+-		queue_delayed_work(system_long_wq, &rt5640->jack_work, 0);
++		queue_delayed_work(system_dfl_long_wq, &rt5640->jack_work, 0);
+ 	}
+ }
  
--	queue_delayed_work(system_long_wq, &priv->tip_sense_work,
-+	queue_delayed_work(system_dfl_long_wq, &priv->tip_sense_work,
- 			   msecs_to_jiffies(db_delay));
+@@ -2410,7 +2410,8 @@ static irqreturn_t rt5640_irq(int irq, void *data)
+ 		delay = 100;
+ 
+ 	if (rt5640->jack)
+-		mod_delayed_work(system_long_wq, &rt5640->jack_work, delay);
++		mod_delayed_work(system_dfl_long_wq, &rt5640->jack_work,
++				 delay);
  
  	return IRQ_HANDLED;
-@@ -932,7 +932,8 @@ int cs42l43_jack_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *u
- 	snd_soc_jack_report(priv->jack_hp, 0, 0xFFFF);
+ }
+@@ -2419,7 +2420,7 @@ static irqreturn_t rt5640_jd_gpio_irq(int irq, void *data)
+ {
+ 	struct rt5640_priv *rt5640 = data;
  
- 	if (!override) {
--		queue_delayed_work(system_long_wq, &priv->tip_sense_work, 0);
-+		queue_delayed_work(system_dfl_long_wq, &priv->tip_sense_work,
-+				   0);
- 	} else {
- 		override--;
+-	queue_delayed_work(system_long_wq, &rt5640->jack_work,
++	queue_delayed_work(system_dfl_long_wq, &rt5640->jack_work,
+ 			   msecs_to_jiffies(JACK_SETTLE_TIME));
  
+ 	return IRQ_HANDLED;
+@@ -2579,7 +2580,7 @@ static void rt5640_enable_jack_detect(struct snd_soc_component *component,
+ 	rt5640->irq_requested = true;
+ 
+ 	/* sync initial jack state */
+-	queue_delayed_work(system_long_wq, &rt5640->jack_work, 0);
++	queue_delayed_work(system_dfl_long_wq, &rt5640->jack_work, 0);
+ }
+ 
+ static const struct snd_soc_dapm_route rt5640_hda_jack_dapm_routes[] = {
+@@ -2632,7 +2633,7 @@ static void rt5640_enable_hda_jack_detect(
+ 	rt5640->irq_requested = true;
+ 
+ 	/* sync initial jack state */
+-	queue_delayed_work(system_long_wq, &rt5640->jack_work, 0);
++	queue_delayed_work(system_dfl_long_wq, &rt5640->jack_work, 0);
+ 
+ 	snd_soc_dapm_add_routes(dapm, rt5640_hda_jack_dapm_routes,
+ 		ARRAY_SIZE(rt5640_hda_jack_dapm_routes));
+@@ -2860,7 +2861,7 @@ static int rt5640_resume(struct snd_soc_component *component)
+ 		}
+ 
+ 		enable_irq(rt5640->irq);
+-		queue_delayed_work(system_long_wq, &rt5640->jack_work, 0);
++		queue_delayed_work(system_dfl_long_wq, &rt5640->jack_work, 0);
+ 	}
+ 
+ 	return 0;
 -- 
 2.53.0
 
