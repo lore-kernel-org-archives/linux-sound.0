@@ -1,22 +1,23 @@
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF732F8EBB;
-	Fri,  8 May 2026 02:22:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D099E26A1AF;
+	Fri,  8 May 2026 02:50:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778206974; cv=none; b=fOeR2KxKTfcvEzKutXlP34Mw3EKBa6Ab3/AluTKttzfPM33r9gf5SVPjePe+3d7Lb2SzzLyMYRbVYMfp7qjHi4dL1QMBYFMSmCyYpt6691ACn0awW3X4J4Mcip7kNCbnEJW3Y4BEhYV+iYAvK7SBrYsiBikRmW9P7H5SfSapAng=
+	t=1778208632; cv=none; b=f2UWxKQWBuKZHHiTxhakldBAvct1/hBBpNShaQ5aP4xmo4OXW0oEOUAGwjH5ox1bmmm4U4uY3ZsIY8Hf3e60u1Buup8nSVoRCPEI12NdZn93RG/eV+ZMA+opSBZaEK5MYKkkF7bgr/jsR6XqerqSX77PiIdkN6JwIMwxEUiuxro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778206974; c=relaxed/simple;
-	bh=aM+YEjFbS2MynoVSl2khWK5iOJtrW7dt7hrlItZn/zY=;
-	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To; b=WBswXtZiV6lt2XMzew28JgWhHrsFzjlq8XTG2CArp4/19qafu7J4vDRxnmzcwimZWsXNlHebu4Prx3gSGvKg1zc+35Zu+83RFLfc1Za+1Vcr8AOo+8FG0o+u1XXKaz2KcIYmJwfu3Q0WwT9shRCgC8F6nLliCIQMUQMozsHFVsI=
+	s=arc-20240116; t=1778208632; c=relaxed/simple;
+	bh=GaZr+ZiJ2IPWs4DvkQUwFLyZ5Q1qOuDAtUqyvQGXBoY=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=jch86G12Gqpr4cWCIe1qLqG5cUyOtAMoCqqxqS9SRHLi652DvRZcobv4KThGMiP6yPyyvy50R6xbn2KB9aNfHw4KsTzLBHR1CXY8NMTx8xDKFeNDyTbLuAA9UbdPaqnEzUxgtcXWdmFIHVKl3/+JEmNHOx7Vys66OJF8p9smnsE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: cc5768a24a8411f1aa26b74ffac11d73-20260508
+X-UUID: a9ed6e984a8811f1aa26b74ffac11d73-20260508
+X-CID-CACHE: Type:Local,Time:202605081022+08,HitQuantity:1
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:4b182d05-7c24-45c8-bf0a-1e60c43e6cc7,IP:0,U
+X-CID-O-INFO: VERSION:1.3.12,REQID:d25b4bdf-5b9a-408e-be25-1cc101c90b72,IP:0,U
 	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
 	release,TS:0
 X-CID-META: VersionHash:e7bac3a,CLOUDID:e31c48a74c1a95a0a0a19ac8571852c1,BulkI
@@ -27,15 +28,14 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: cc5768a24a8411f1aa26b74ffac11d73-20260508
+X-UUID: a9ed6e984a8811f1aa26b74ffac11d73-20260508
 X-User: zhangheng@kylinos.cn
 Received: from [172.25.120.77] [(10.44.16.150)] by mailgw.kylinos.cn
 	(envelope-from <zhangheng@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 669407938; Fri, 08 May 2026 10:22:44 +0800
-Content-Type: multipart/mixed; boundary="------------S8dwKSupmBKGYzS0EQhKXCDv"
-Message-ID: <7493b4e0-2b8c-435f-8421-ed397593356a@kylinos.cn>
-Date: Fri, 8 May 2026 10:21:57 +0800
+	with ESMTP id 2030398074; Fri, 08 May 2026 10:50:25 +0800
+Message-ID: <be6ddfdc-7cd2-460f-be75-c30f90a1bceb@kylinos.cn>
+Date: Fri, 8 May 2026 10:50:22 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,97 +45,26 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: Fwd: [PATCH] ALSA: hda/generic: Add mic autoswitch support for
  dyn_adc_switch mode
+From: Zhang Heng <zhangheng@kylinos.cn>
 To: Takashi Iwai <tiwai@suse.de>
 Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <5b215802-4c94-4f94-9cee-f8e497b31337@kylinos.cn>
  <a7daf8a3-559b-4532-a2ee-a211a7e0e0b0@kylinos.cn>
  <87ecjnp8dx.wl-tiwai@suse.de>
+ <7493b4e0-2b8c-435f-8421-ed397593356a@kylinos.cn>
 Content-Language: en-US
-From: Zhang Heng <zhangheng@kylinos.cn>
-In-Reply-To: <87ecjnp8dx.wl-tiwai@suse.de>
-
-This is a multi-part message in MIME format.
---------------S8dwKSupmBKGYzS0EQhKXCDv
+In-Reply-To: <7493b4e0-2b8c-435f-8421-ed397593356a@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
+I tested this change:
 
---------------S8dwKSupmBKGYzS0EQhKXCDv
-Content-Type: text/plain; charset=UTF-8; name="reply.txt"
-Content-Disposition: attachment; filename="reply.txt"
-Content-Transfer-Encoding: base64
+In create_capture_mixers in generic.c:
 
-TXkgaWRlYSBpcyB0byBkeW5hbWljYWxseSBzd2l0Y2ggQURDIGNvbm5lY3Rpb25zIHRvIGRp
-ZmZlcmVudCBpbnB1dCBwaW5zLgpGb3IgZGVza3RvcCBkZXNpZ25zLCBzb21ldGltZXMgdGhl
-cmUgaXMgb25seSBvbmUgQURDIG9yIG5vIEFEQyB0aGF0IGNhbgpjb25uZWN0IHRvIGFsbCBp
-bnB1dCBwaW5zLiBGb3IgZXhhbXBsZSwgbXkgU042MTg2OgoKTm9kZSAweDEzIFtBdWRpbyBJ
-bnB1dF0gd2NhcHMgMHgxMDA1MWI6IFN0ZXJlbyBBbXAtSW4KICBDb250cm9sOiBuYW1lPSJD
-YXB0dXJlIFZvbHVtZSIsIGluZGV4PTAsIGRldmljZT0wCiAgICBDb250cm9sQW1wOiBjaHM9
-MywgZGlyPUluLCBpZHg9MSwgb2ZzPTAKICBDb250cm9sOiBuYW1lPSJDYXB0dXJlIFN3aXRj
-aCIsIGluZGV4PTAsIGRldmljZT0wCiAgICBDb250cm9sQW1wOiBjaHM9MywgZGlyPUluLCBp
-ZHg9MSwgb2ZzPTAKICBEZXZpY2U6IG5hbWU9IlNONjE4NiBBbmFsb2ciLCB0eXBlPSJBdWRp
-byIsIGRldmljZT0wCiAgQW1wLUluIGNhcHM6IG9mcz0weDRhLCBuc3RlcHM9MHg1MCwgc3Rl
-cHNpemU9MHgwMywgbXV0ZT0xCiAgQW1wLUluIHZhbHM6ICBbMHg4MCAweDgwXSBbMHg1MCAw
-eDUwXSBbMHg1MCAweDUwXSBbMHg4MCAweDgwXSBbMHg4MCAweDgwXQogIENvbnZlcnRlcjog
-c3RyZWFtPTEsIGNoYW5uZWw9MAogIFNESS1TZWxlY3Q6IDAKICBQQ006CiAgICByYXRlcyBb
-MHg1NDBdOiA0ODAwMCA5NjAwMCAxOTIwMDAKICAgIGJpdHMgWzB4ZV06IDE2IDIwIDI0CiAg
-ICBmb3JtYXRzIFsweDFdOiBQQ00KICBQb3dlciBzdGF0ZXM6ICBEMCBEMSBEMiBEMyBFUFNT
-CiAgUG93ZXI6IHNldHRpbmc9RDAsIGFjdHVhbD1EMAogIENvbm5lY3Rpb246IDUKICAgICAw
-eDE4IDB4MjQgMHgxOSogMHgyNSAweDFmCgpOb2RlIDB4MTQgW0F1ZGlvIElucHV0XSB3Y2Fw
-cyAweDEwMDUxYjogU3RlcmVvIEFtcC1JbgogIEFtcC1JbiBjYXBzOiBvZnM9MHg0YSwgbnN0
-ZXBzPTB4NTAsIHN0ZXBzaXplPTB4MDMsIG11dGU9MQogIEFtcC1JbiB2YWxzOiAgWzB4ODAg
-MHg4MF0gWzB4NTAgMHg1MF0gWzB4ODAgMHg4MF0gWzB4ODAgMHg4MF0gWzB4ODAgMHg4MF0K
-ICBDb252ZXJ0ZXI6IHN0cmVhbT0wLCBjaGFubmVsPTAKICBTREktU2VsZWN0OiAwCiAgUENN
-OgogICAgcmF0ZXMgWzB4NTQwXTogNDgwMDAgOTYwMDAgMTkyMDAwCiAgICBiaXRzIFsweGVd
-OiAxNiAyMCAyNAogICAgZm9ybWF0cyBbMHgxXTogUENNCiAgUG93ZXIgc3RhdGVzOiAgRDAg
-RDEgRDIgRDMgRVBTUwogIFBvd2VyOiBzZXR0aW5nPUQwLCBhY3R1YWw9RDAKICBDb25uZWN0
-aW9uOiA1CiAgICAgMHgxOCogMHgxYSAweDI0IDB4MjUgMHgxZgoKT24gdGhpcyBtYWNoaW5l
-LCAweDFhIGlzIExJTkUgSU4sIDB4MTkgaXMgTWljLCAweDI0IGlzIFJlYXIgTWljLgpUaGVy
-ZWZvcmUsIGEgIkNhcHR1cmUgU291cmNlIiBjb250cm9sIGlzIGdlbmVyYXRlZC4KCkFmdGVy
-IGRlbGV0aW5nIHRoZSBjdXJyZW50IHVzZXIgY29uZmlnIGFuZCByZWJvb3RpbmcgKHJtIC1y
-ZiB+Ly5jb25maWcvcHVsc2UvKgp+Ly5jb25maWcvYXVkaW8uanNvbiwgVWJ1bnR1IDIwLjA0
-IGRvZXMgbm90IG5lZWQgdG8gZGVsZXRlIHVzZXIgY29uZmlnCnRvIHJlcHJvZHVjZSB0aGlz
-IGlzc3VlKSwgdGhpcyBzaXR1YXRpb24gb2NjdXJzOiBldmVuIGFmdGVyIGluc2VydGluZwp0
-aGUgcmVhciBtaWMgb3IgTElORSwgbmVpdGhlciBhbHNhbWl4ZXIgbm9yIHRoZSBjb2RlYyBz
-d2l0Y2hlcyB0byB0aGUKY29ycmVzcG9uZGluZyBpbnB1dCBwYXRoLgoKTm9kZSAweDE5IFtQ
-aW4gQ29tcGxleF0gd2NhcHMgMHg0MDA0OGI6IFN0ZXJlbyBBbXAtSW4KICBBbXAtSW4gY2Fw
-czogb2ZzPTB4MDAsIG5zdGVwcz0weDA3LCBzdGVwc2l6ZT0weDE3LCBtdXRlPTEKICBBbXAt
-SW4gdmFsczogIFsweDA2IDB4MDZdCiAgUGluY2FwIDB4MDAwMDMzMjQ6IElOIERldGVjdAog
-ICAgVnJlZiBjYXBzOiBISVogNTAgODAgMTAwCiAgUGluIERlZmF1bHQgMHgwMmExMTA0ZTog
-W0phY2tdIE1pYyBhdCBFeHQgRnJvbnQKICAgIENvbm4gPSAxLzgsIENvbG9yID0gQmxhY2sK
-ICAgIERlZkFzc29jaWF0aW9uID0gMHg0LCBTZXF1ZW5jZSA9IDB4ZQogIFBpbi1jdGxzOiAw
-eDI1OiBJTiBWUkVGXzEwMAogIFVuc29saWNpdGVkOiB0YWc9MDMsIGVuYWJsZWQ9MQogIFBv
-d2VyIHN0YXRlczogIEQwIEQxIEQyIEQzIEVQU1MKICBQb3dlcjogc2V0dGluZz1EMCwgYWN0
-dWFsPUQwCgpOb2RlIDB4MjQgW1BpbiBDb21wbGV4XSB3Y2FwcyAweDQwMDU4YjogU3RlcmVv
-IEFtcC1JbgogIEFtcC1JbiBjYXBzOiBvZnM9MHgwMCwgbnN0ZXBzPTB4MDcsIHN0ZXBzaXpl
-PTB4MTcsIG11dGU9MQogIEFtcC1JbiB2YWxzOiAgWzB4ODAgMHg4MF0KICBQaW5jYXAgMHgw
-MDAxMzMzNDogSU4gT1VUIEVBUEQgRGV0ZWN0CiAgICBWcmVmIGNhcHM6IEhJWiA1MCA4MCAx
-MDAKICBFQVBEIDB4MDoKICBQaW4gRGVmYXVsdCAweDAxYTE5MDQwOiBbSmFja10gTWljIGF0
-IEV4dCBSZWFyCiAgICBDb25uID0gMS84LCBDb2xvciA9IFBpbmsKICAgIERlZkFzc29jaWF0
-aW9uID0gMHg0LCBTZXF1ZW5jZSA9IDB4MAogIFBpbi1jdGxzOiAweDI0OiBJTiBWUkVGXzgw
-CiAgVW5zb2xpY2l0ZWQ6IHRhZz0wNCwgZW5hYmxlZD0xCiAgUG93ZXIgc3RhdGVzOiAgRDAg
-RDEgRDIgRDMgRVBTUwogIFBvd2VyOiBzZXR0aW5nPUQwLCBhY3R1YWw9RDAKICBDb25uZWN0
-aW9uOiAzCiAgICAgMHgxMCogMHgxMSAweDIzCgpUaGUgaW5mb3JtYXRpb24gYmVsb3cgd2ls
-bCBhbHdheXMgYmUgcHJlc2VydmVkLiBFdmVuIGFmdGVyIGluc2VydGluZwp0aGUgcmVhciBt
-aWMgYW5kIHJlY2hlY2tpbmcgdGhlIGNvZGVjIGluZm8sIGl0IHJlbWFpbnMgdGhlIHNhbWUu
-CgpUaGlzIGlzIHJlbGF0ZWQgdG8gdXBwZXItbGF5ZXIgZGVzaWduLCBidXQgSSBoYXZlIG5v
-IHJlc2VhcmNoIGluIHRoaXMKYXJlYSwgc28gSSBhbSB2ZXJ5IGNvbmZ1c2VkLiBNeSBvcGlu
-aW9uIGlzIHRoYXQgdGhlIGtlcm5lbCBzaG91bGQgYXQKbGVhc3Qgc3VwcG9ydCBkeW5hbWlj
-IHN3aXRjaGluZyBvZiBBREMgYW5kIHBhdGhzLiBJZiB1c2VyLXNwYWNlIGhhbmRsZXMKdGhp
-cywgY291bGQgeW91IHBsZWFzZSBsZXQgbWUga25vdyB3aGljaCBjb21wb25lbnQ/CgpJbiBj
-cmVhdGVfY2FwdHVyZV9taXhlcnM6CgotIGlmIChzcGVjLT5keW5fYWRjX3N3aXRjaCkKLSAg
-ICAgICAgIG51bXMgPSAxOwotIGVsc2UKICAgICAgICBudW1zID0gc3BlYy0+bnVtX2FkY19u
-aWRzOwoKQWZ0ZXIgdGhpcywgZHluYW1pYyBzd2l0Y2hpbmcgd29ya3MuIEFsdGhvdWdoIHRo
-ZSBnZW5lcmF0ZWQgY29udHJvbCBpcwpmb3JjZWQgdG8gIklucHV0IFNvdXJjZSIsIGF0IGxl
-YXN0IGl0IGlzIHVzYWJsZS4gU28gdGhlIG5leHQgc3RlcCBpcwp0byBsb29rIGF0IHRoaXMg
-cGFydCBvZiB0aGUgY29kZS4KCkkgaGF2ZSBhbm90aGVyIGRlc2t0b3Agd2l0aCBTTjYxODYg
-dGhhdCBoYXMgb25seSBvbmUgQURDIGNhcGFibGUgb2YKY29ubmVjdGluZyB0byBhbGwgaW5w
-dXQgcGlucywgd2hpY2ggcmVzdWx0cyBpbiBudW1zPTEsIHNvIHRoZSBnZW5lcmF0ZWQKY29u
-dHJvbCBpcyBzdGlsbCAiQ2FwdHVyZSBTb3VyY2UiLi4uCgpEdWUgdG8gbXkgbGFjayBvZiB1
-bmRlcnN0YW5kaW5nIG9mIHRoZSB1cHBlciBsYXllciwgSSByZWFsbHkgZG8gbm90Cmtub3cg
-d2hldGhlciB0aGlzIHNob3VsZCBiZSBoYW5kbGVkIGJ5IHRoZSBrZXJuZWwgb3IgdXNlci1z
-cGFjZS4gQnV0Ckkgd2lsbCBmaXJzdCBleGFtaW5lIHRoZSBrZXJuZWwncyBoYW5kbGluZyBv
-ZiB0aGlzIHdpdGggYSBjcml0aWNhbCBleWUuCg==
+- name = nums > 1 ? "Input Source" : "Capture Source";
++ name = "Input Source";
 
---------------S8dwKSupmBKGYzS0EQhKXCDv--
+And it also works normally. It seems that user-space does not handle
+"Capture Source" very well. So should we just remove "Capture Source"?
+
