@@ -1,96 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f196.google.com (mail-dy1-f196.google.com [74.125.82.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00A83BB48;
-	Sat,  9 May 2026 00:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29D8243376
+	for <linux-sound@vger.kernel.org>; Sat,  9 May 2026 01:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778285624; cv=none; b=uoSjIGvet38wGLR6NefYHdhK+3/AugiuA8KynhU1efar9pLwYNAU/NC/DYxpSVGqWgy+t6+gPCEwH6R8rNHfkChVSpsEeI4iAfmfGPKwE8QH/ufwvHgZq67Y0AgHwWxANWEen/+9t61dzEzh29kUfd/eBCD8JHrUZ3l29lEYP8o=
+	t=1778289777; cv=none; b=cB1zp0MuMOa3cdZQWrO6+1+Zrp15EwFeAcoQHU0iFBlYWLmCODifnUk9q7PI9DW31SRcUIGsAARmiJw0yOa4V7VzR6+/IhwrDLF1V9rug4gxHUFZUsc1PdpMXl1bLfnN77Oq/kRvFQ8noqPdxVwJg2cV60eQnTzhpsLLpa+J/p0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778285624; c=relaxed/simple;
-	bh=/ecytL0oAx5Ld6PTkFmYbXYxh2xyc5JcmTqjqxsjMik=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Hmu17YfhvHSQbhfMOJGzv/2LvamAThgl8nlvcLOIGGaBCRHRY0+JuOu7TofTKe9s6OrP+hFtAMDqJz2fz278jS9r5opFf7bzXOpXAEYeAIZMCpVQw+qXvcpG3rptWNdCUwp9YoFt79PvrXXb4TgIcihXWBa5qLVMylX/ynstrfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TSFeZg5B; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778289777; c=relaxed/simple;
+	bh=wdkxV+TyQvL0uyh201nZr6hlEdrLsEZvNEemWHe8Wnw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FHuI+Y+F429nYL8COEQcr1Tz3MTMQALk3QCyE0VVB15RFyo1XPV5qeoOAyyv+lTxk+QmNDYaisw524eQStH0LlFGsGQajpEBdbgmCZFiFcdCHwOlerZM5YvKCxwhRRaahKRsuB7zNFYUhlZ6pRIEcW+ZhireRJ5QJ2IBvz4zxVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=If+5QXsq; arc=none smtp.client-ip=74.125.82.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TSFeZg5B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6C09C2BCB0;
-	Sat,  9 May 2026 00:13:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778285624;
-	bh=/ecytL0oAx5Ld6PTkFmYbXYxh2xyc5JcmTqjqxsjMik=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=TSFeZg5BvwFcbzHvLdipCuAa8qoC5gj0XT2Mdz9hxcS0t1ljMUxTHYkpA7j+CL6oE
-	 q79nxhzYdQatXOlp3fgd2mtRGCfiJEL9G2kpGJwx5IuBA5hwE8SF0vvYvYsLhZPV/n
-	 Q0ccVBP+gRPYT2HHJviOtIoRjsxPCItqNV5QLA20X8EhRC0mbllvGhfk5QDOKC7KEW
-	 Y872LI9y3sbdiIep0CI+g++L0qAv/DR1cGgHRrU+GVubxVYTm0QaduMnsrc2oDmJQ8
-	 0p28xf60d6VYB3CyyTBjq2ube7S5vz5VbzsAlA4s9ch5/KIbNPx10PoiGRxxAnzZzK
-	 mh/pVbjQsFoSA==
-From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Rosen Penev <rosenp@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev
-In-Reply-To: <20260507232131.438589-1-rosenp@gmail.com>
-References: <20260507232131.438589-1-rosenp@gmail.com>
-Subject: Re: [PATCH] ASoC: tegra: tegra210-mixer: Use div_u64() for 64-bit
- division
-Message-Id: <177820154024.916152.3561938548534364041.b4-ty@b4>
-Date: Fri, 08 May 2026 09:52:20 +0900
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="If+5QXsq"
+Received: by mail-dy1-f196.google.com with SMTP id 5a478bee46e88-2f36da5c8fbso2644046eec.0
+        for <linux-sound@vger.kernel.org>; Fri, 08 May 2026 18:22:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778289775; x=1778894575; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=G0cHu/AZOFkLjDuxm2JV8SwCnwjEcedfmgM9JUvSLnc=;
+        b=If+5QXsqUIqOwVjciTZoKJ3dop7rqS7YxhvLjngRqEL7lit23rK691sMmugEUgoZ+7
+         wS960rcRT34LkrfWduiiAHeaE7mBV4ulTkMBptZU/6ieC3zWQf5snbPt8LoZoGwQI+G3
+         85XeGqZdQaQ0JzRMJ/6LCp4jm1ap6CG06WyEfRbYWWRzDft5Xn3VgXkylYrUsl9QNoH+
+         X85JAAvBVpnBKDuL3RA8oeo/vCKjGfyZy5Ugt7CY2rCVV69PIjktpR2l8TWBMmpMTcQL
+         laBfLhjfui+GowosRk2ycATQSrfbDbjA8D/K98rn0owwwyhl+stMEpv9RZMsfIDyBFfG
+         kG2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778289775; x=1778894575;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G0cHu/AZOFkLjDuxm2JV8SwCnwjEcedfmgM9JUvSLnc=;
+        b=NzOyIAs+ATMrNp1riE7gStOPXnzqxnkxLgHibCpkw3OSki5mo9sKd8Iq3qj/QITE3l
+         twkqd04arkRA5/NvnCEYST0WW6vAR22J1JSpFaZm/lXcdTW4A9zupD/U6S5gZx66F+RC
+         kVNIEsNjfnaYZ35SG7lADnwas/L3w2DjLL0j6JhK2HbL5TE4r3/GgJZMHlMotiNI18gv
+         Rm7Bn7xMPghxHt0ut8JIOv9uGv2UnhvB7ZPPE80g3ZdjCHDXN+sU2NsNIfs44vymwaF8
+         1SqNJWnWu1TEUab/sv3FMyQmSOBDYmE3/drLvIC71lpkwCeRcHwhKXuxvXCTHWijQN55
+         588g==
+X-Forwarded-Encrypted: i=1; AFNElJ9t1a5axnbpuDctWGCeNO00+62F3E/T6Rtcv43O9YjL5qH4+CPVvDXe71Rcmx0Dihrf+5Ahsie1swhqgg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxi/0rj30t/ddRF66E8t09rmfBIeZR7rHLcqRuOwWRx6SS7oLyQ
+	VAhP090/BnOVhCDzuEFwPXIiClaissAYOtv/WwqaNoCcdjr1rcjcxzsx
+X-Gm-Gg: Acq92OEz6orh25B3jkhuDRSbYy1rO49o87Ku4Zw9WEWP0mCdAUpV4iQlkPF2hMH1FMb
+	1XL8fKq/t3eHvh8CJSi/9r9wT2bGUBz/BPRB+qu2yZkFq8/l/6ki52Q6cZ3SefPl97uUPW1HQ7M
+	0PgtIenSrb9GFRely547UDxQjqn1OU+RJ55xHijaIIyi4mDxyTr/7tbkYsvsa0Z8E0DkN1PAQYT
+	dlIvNy07jCwei6GLaoX8Ktx3GLM96yGg/rQnl9aVv72CuHGDRgoW2uoz/caKZ2Fh6VDdtUmyr3w
+	mVjzlG+UDKuMilSQ/AV/DvWOoots4xatVQhU/vCBP4lVJzjr00AKvQYLb6245f20mRMkVJngCNQ
+	L2yAA2XvxXugve/0t3EmwUGENOh20Q8dlZxmAbWSU12GKdpAOw0eAHO/+dCYMTb+Wd2J1Bnq6/w
+	Z/O9jb7K3prQW9ZokyLwK4I+cUrnMWZi7fHiwRP8jBXfADMgVoWmxg3zjkGr7Lctb9vaawa2isk
+	sUYvwahWKvLqYJaB61fhmHSvWmNyLJTxC2U4io1UzfB1AUIaaFSxsxeCgpjQicgNxwsI9c3xFma
+	c8g0WiwfL3d22+BTww==
+X-Received: by 2002:a05:7300:a508:b0:2d0:239a:23cb with SMTP id 5a478bee46e88-2fb4d68f9f1mr209442eec.16.1778289774801;
+        Fri, 08 May 2026 18:22:54 -0700 (PDT)
+Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f88914523csm4457310eec.29.2026.05.08.18.22.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2026 18:22:54 -0700 (PDT)
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+To: linux-arm-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org,
+	linux-omap@vger.kernel.org
+Cc: Russell King <linux@armlinux.org.uk>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Jarkko Nikula <jarkko.nikula@bitmer.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH] sound: soc: ti: rx51: remove stale reference to machine_is_nokia_rx51()
+Date: Fri,  8 May 2026 18:22:46 -0700
+Message-ID: <20260509012247.14990-1-enelsonmoore@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1141; i=broonie@kernel.org;
- h=from:subject:message-id; bh=/ecytL0oAx5Ld6PTkFmYbXYxh2xyc5JcmTqjqxsjMik=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBp/nwvSLAZh/1jMiuKH1AOYXdSE8Wb+OoBCdOYQ
- LE3nQlXPByJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaf58LwAKCRAk1otyXVSH
- 0JjbB/9lmEoXmnJS2o2tSyfaNxH+R7UCa1oCU5UaOKAVdoqYQsOPQTSuMOUmc5ilqPsXF7T/cx3
- +C/EDwU1c6DE25HmZoJPXel61wUh/G9lGCYoJ8LNur+90w+6rsUyOwH1lRk5pls9nxYyV31TkF+
- s0WCkQh6rM1kxXlPf+jyvQ81XfzNA0wCqsJb/hPqjidYiDo2K0bxfb5tKWyFBkU+LD3aldcvk7Z
- PuqNrFyPZgIjEI1limpojzvrdqWBUaGOmaNn4MVsYxw8gg2DsvRbrwUkppvwfM2pn/7NNDx4HsQ
- levtHctid7d8n62VjOFe/QtgIuK0fmFhTAeSiwUHphk9Q2p1
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Thu, 07 May 2026 16:21:31 -0700, Rosen Penev wrote:
-> ASoC: tegra: tegra210-mixer: Use div_u64() for 64-bit division
+The rx51 driver relies on the machine_is_nokia_rx51() macro, which is
+always false since commit 9b7141d01a76 ("ARM: OMAP2+: Drop legacy board
+file for n900"). Its presence prevents the removal of boards no longer
+present in the kernel from arch/arm/tools/mach-types, because the
+machine_is_*() macros are generated from mach-types. Drop this unused
+code.
 
-Applied to
+Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+---
+ sound/soc/ti/rx51.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
-
-Thanks!
-
-[1/1] ASoC: tegra: tegra210-mixer: Use div_u64() for 64-bit division
-      https://git.kernel.org/broonie/sound/c/04b8f96b1088
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/ti/rx51.c b/sound/soc/ti/rx51.c
+index 7eeb12e5066c..cfc23e0838c2 100644
+--- a/sound/soc/ti/rx51.c
++++ b/sound/soc/ti/rx51.c
+@@ -19,8 +19,6 @@
+ #include <sound/soc.h>
+ #include <linux/platform_data/asoc-ti-mcbsp.h>
+ 
+-#include <asm/mach-types.h>
+-
+ #include "omap-mcbsp.h"
+ 
+ enum {
+@@ -364,7 +362,7 @@ static int rx51_soc_probe(struct platform_device *pdev)
+ 	struct snd_soc_card *card = &rx51_sound_card;
+ 	int err;
+ 
+-	if (!machine_is_nokia_rx51() && !of_machine_is_compatible("nokia,omap3-n900"))
++	if (!of_machine_is_compatible("nokia,omap3-n900"))
+ 		return -ENODEV;
+ 
+ 	card->dev = &pdev->dev;
+-- 
+2.43.0
 
