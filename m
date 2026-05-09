@@ -1,126 +1,138 @@
-Received: from dmail-prod-ay-skadi07.mail.kakao.com (dmail-prod-ay-skadi07.mail.kakao.com [220.64.111.157])
+Received: from r3-90.sinamail.sina.com.cn (r3-90.sinamail.sina.com.cn [202.108.3.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CEE7382365
-	for <linux-sound@vger.kernel.org>; Sat,  9 May 2026 09:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.64.111.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9712282F26
+	for <linux-sound@vger.kernel.org>; Sat,  9 May 2026 10:11:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778318763; cv=none; b=Zuvx8U5ETCv1FRtVmTH/zWvSe6j9+OcZZc1X/sUDLlY05KpwwOvc5P8Oz16mXLRI4N6btE9Y1HP2awFxsy81mB1TBJvU/cTEOk2gFsNQaJu5cxkep30M48LCl8Tf/MLOMAbC+loUc5U/DRlL/Z3L16Gvazijo2HjNxoS3qqbTV0=
+	t=1778321513; cv=none; b=bgU/y07bBywdRoY6ZWMvzftEX2CQTQqSkSzsx3RPvr2lyGD6eiiDf18m2k757G3FN6No1dxZ3wMUrLUSRmQ4kuFhRTxIeY+HzRoFmQRk9Gu+739CPIcVtdzrjccGcdPtOstvk2cOcTEjU6P9ABhtrLGFysnQ4pIRG3ph894z/nU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778318763; c=relaxed/simple;
-	bh=w721HSLkco9vsYCxqL6EWHaCRct9mzzbHS35G2+SjOI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EY3Ts2erIRTysLbTVBjnE0qSkpaUDC7jdr/aA5Su+p29ItYLiUXe7/h/AmdZr0UqnJvycrqOpq6I1mNuCpkD8FVThqaPaLT2J8Oa88MuMHEgNKKiCFOh5bDpHJheiFxHcYWpYnIN6ClxEDOsSxGND8aJINcDGhw7fW6HgOVUzeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=daum.net; spf=pass smtp.mailfrom=daum.net; dkim=pass (1024-bit key) header.d=daum.net header.i=@daum.net header.b=tm7aMu9m; arc=none smtp.client-ip=220.64.111.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=daum.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daum.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=daum.net header.i=@daum.net header.b="tm7aMu9m"
-Received: from 220.64.108.54 ([14.7.27.9]) by skadi-sender of skadi-sender-normal-prod-deployment-7f9cb46c58-bs5d7 (10.240.18.165) with HTTP id 20260509175317.DnhjxHczQay7kkp5z6t4lg@vhgksl.daum.net for <linux-sound@vger.kernel.org>; Sat, 09 May 2026 18:26:00 +0900 (KST)
-Received: from pyohwan-16Z90U-KU7BK (HELO vhgksl) (14.7.27.9) by skadi-relay with ESMTPA; Sat, 09 May 2026 17:53:17 +0900 (KST)
-From: Jang Pyohwan <vhgksl@daum.net>
-To: linux-sound@vger.kernel.org
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: Intel: soc-acpi: add LG Gram 16Z90U RT713 + single RT1320 quirk
-Date: Sat,  9 May 2026 17:53:10 +0900
-Message-ID: <20260509175317.DnhjxHczQay7kkp5z6t4lg@vhgksl.daum.net>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1778321513; c=relaxed/simple;
+	bh=T3XSNk5zp+1hW1rsupayzyVD6psi2kWH+ZG9dsP86QI=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=r+hQJrxdBiTGu1zgif3sMCFLG3xsgayp8x2K2PkqX2B2XMd/icxufilCFahtkCFwAWJ0CTyZnqBN1x9yFPIH55ErIXWLN4J3OuASvC1GU3P8m2L+HVp45rAvJu9tZJknhGGGUUeUUhwYxXHmc+nmjk7KHU+Ab7a4GzF3GXMvzI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
+	by sina.net (10.54.253.36) with ESMTP
+	id 69FF08380000082F; Sat, 9 May 2026 18:11:05 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 8FC5E9198D7C4702B2C020050736BC28
+X-SMAIL-UIID: 8FC5E9198D7C4702B2C020050736BC28-20260509-181105
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Cc: peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ckeepax@opensource.cirrus.com,
+	vkoul@kernel.org,
+	Zhang Yi <zhangyi@everest-semi.com>
+Subject: [PATCH v12 0/6] Add es9356 focused SoundWire CODEC
+Date: Sat,  9 May 2026 18:10:56 +0800
+Message-Id: <20260509101102.10286-1-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Errors-To: vhgksl@daum.net
-X-Kakaomail-MID: 20260509175317.DnhjxHczQay7kkp5z6t4lg@vhgksl.daum.net
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; t=1778316790;
-	s=1439968795.daum; d=daum.net;
-	h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:To:From;
-	bh=w721HSLkco9vsYCxqL6EWHaCRct9mzzbHS35G2+SjOI=;
-	b=tm7aMu9mGEFATlJRtWVJ89njD+L/AMGFHdKLoOOtwR4WMiyiolNbrLT5Hcc8Q1wZ
-	gcpXCDExRHifVtFaSkR3vCx91STCClFBdj3KBK15k6x+hM4n9UREPYsnYd/GDA0QImo
-	gS2NX2KPaVzOUfaeFOutFPnmk33UArPXRNUtP84I=
 
-Add a SoundWire machine table entry for the LG Gram Pro 2026
-(16Z90U-KU7BK), which has an unusual configuration:
+This patch chain adds support for the ES9356 PC focused
+SoundWire CODEC.
 
-  sdw:0:1:025d:1320:01   single stereo RT1320 SmartAmp on link 1
-  sdw:0:3:025d:0713:01   RT713 jack/headset codec on link 3
+v12 -> v11:
+	-Fix a helper function to `hw_params` and `hw_free`
+	-Move pm_runtime initializations to probe
+	-Add es9356 to wake_capable_list
 
-Existing rt713-rt1320 boards have two RT1320 amps on different links
-("link_mask = BIT(1) | BIT(2) | BIT(3)"). The LG Gram uses a single
-stereo RT1320 chip, so the new entry uses "link_mask = BIT(1) |
-BIT(3)" with the existing rt1320_1_group2_adr structure, leaving the
-two-channel routing to the topology.
+v11 -> v10:
+	-Add some comment for lock
+	-Add a helper function to `hw_params` and `hw_free`
 
-The RT713 on this board does not expose a SMART_MIC function in
-ACPI, so the .machine_check callback used by the existing entries
-(snd_soc_acpi_intel_sdca_is_device_rt712_vb) would reject this
-board. Drop machine_check for the new entry; speaker output and
-the headset jack do not depend on the SMART_MIC presence check.
+v10 -> v9:
+	-Add some comment at codec driver
+	-Fixed the jack_lock issue during suspend
 
-The corresponding topology source has been submitted to the SOF
-project at https://github.com/thesofproject/sof/pull/10760 . The
-generated sof-ptl-rt713-l3-rt1320-l1-2ch.tplg and
-nhlt-sof-ptl-rt713-l3-rt1320-l1.bin will follow in linux-firmware
-once that lands.
+v9 -> v8:
+	-Fix some formatting issues in es9356.c
+	-Removed regmap_write(SDW_SCP_SYSTEMCTRL) from the codec driver
 
-Tested on Ubuntu 26.04 with kernel 7.0.0-15: speaker (RT1320
-stereo), headphone jack with auto-routing, headset mic, and the
-internal NHLT DMIC array all work via the UCM HiFi profile.
+v8 -> v7:
+	-When the device status is UNATTACHED,
+	 set regmap to cache-only and cancel any delay work already in the queue.
 
-Signed-off-by: Jang Pyohwan <vhgksl@daum.net>
----
- .../intel/common/soc-acpi-intel-ptl-match.c   | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
+v7 -> v6:
+	-Provide comments for some parameters
+	-Rename `jack_detect_work` to `interrupt_handle_work`
+	-Add a jack_lock when handling disable_irq in suspend
+	-Adjust the handling procedure when a jack register
+	 is incorrectly identified
+	-Replace the custom SOC_SINGLE_Q78_TLV with SDCA_SINGLE_Q78_TLV
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-index 3b7818355..ad3af8834 100644
---- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-@@ -493,6 +493,20 @@ static const struct snd_soc_acpi_link_adr ptl_sdw_rt713_vb_l3_rt1320_l12[] = {
- 	{}
- };
- 
-+static const struct snd_soc_acpi_link_adr ptl_sdw_rt713_vb_l3_rt1320_l1[] = {
-+	{
-+		.mask = BIT(3),
-+		.num_adr = ARRAY_SIZE(rt713_vb_3_adr),
-+		.adr_d = rt713_vb_3_adr,
-+	},
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(rt1320_1_group2_adr),
-+		.adr_d = rt1320_1_group2_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr ptl_sdw_rt712_vb_l2_rt1320_l1[] = {
- 	{
- 		.mask = BIT(2),
-@@ -578,6 +592,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
- 		.sof_tplg_filename = "sof-ptl-rt713-l3-rt1320-l12.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
-+	{
-+		.link_mask = BIT(1) | BIT(3),
-+		.links = ptl_sdw_rt713_vb_l3_rt1320_l1,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-ptl-rt713-l3-rt1320-l1.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
-+	},
- 	{
- 		.link_mask = BIT(1) | BIT(2) | BIT(3),
- 		.links = ptl_cs42l43_l2_cs35l56x6_l13,
+v6 -> v5:
+	-Handling default values in `button_detect` and `jack_detect`
+	-Add the member `disable_irq` so that interrupts are
+	 no longer processed after suspend.
+	-Move the PDE processing to `hw_params` and `hw_free`
+	-Separate JACK_OUT and JACK_IN in hw_params
+	-Simplify reading and writing to SDW_SCP_SDCA_INT1 in the callback
+	-Adjust the scope of `regcache_sync` in the resume
+
+v5 -> v4:
+	-Merge patch1 and patch3
+	-Add vendor_id in codec_info
+	-Use q78_get and q78_set to create Kcontrol
+	-Set mbq_size and use regmap_mbq
+	-An additional helper function to implement DAPM
+
+v4 -> v3:
+	-Updated some KControl names
+	-add copyright in soc_sdw_es9356
+
+v3 -> v2:
+	-Removed unnecessary section in soc_sdw_es9356.c
+	-Add `pm_runtime_put_noidle` to `es9356.c` to
+	 reduce device incremented count
+	-Updated some KControl names
+	-Fix the error related to jack_report in the codec driver
+
+v2 -> v1:
+	-Adjusted mutexes in the ES9356 driver
+	-Use macros to replace certain values
+	-Adjusted some ordering issues in Kconfig.
+
+v1 -> v0:
+	-Modified snd_soc_dapm_add_routes in soc_sdw_es9356
+
+Zhang Yi (6):
+  ASoC: sdw_utils: add soc_sdw_es9356
+  ASoC: sdw_utils: add ES9356 in codec_info_list
+  ASoC: es9356-sdca: Add ES9356 SDCA driver
+  ASoC: Intel: soc-acpi: arl: Add es9356 support
+  ASoC: Intel: sof_sdw: add es9356 support
+  soundwire: intel_auxdevice: Add es9356 to wake_capable_list
+
+ drivers/soundwire/intel_auxdevice.c           |    1 +
+ include/sound/soc_sdw_utils.h                 |   14 +
+ sound/soc/codecs/Kconfig                      |    7 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/es9356.c                     | 1153 +++++++++++++++++
+ sound/soc/codecs/es9356.h                     |  208 +++
+ sound/soc/intel/boards/Kconfig                |    1 +
+ .../intel/common/soc-acpi-intel-arl-match.c   |   52 +
+ sound/soc/sdw_utils/soc_sdw_utils.c           |   50 +
+ 9 files changed, 1488 insertions(+)
+ create mode 100644 sound/soc/codecs/es9356.c
+ create mode 100644 sound/soc/codecs/es9356.h
+
 -- 
-2.53.0
+2.17.1
 
