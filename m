@@ -1,144 +1,152 @@
-Received: from r3-73.sinamail.sina.com.cn (r3-73.sinamail.sina.com.cn [202.108.3.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4097D31B838
-	for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 13:25:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CB137E308
+	for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 14:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778419561; cv=none; b=WY21SDw/GiD7lQXiCnPbzJtW0NeR5/NuxmLyD6DUCmS8QaUy+pFyoMjfT1fTCzb/VSmbuKHw3er6cZhjaIqcKwwW05GKept41LinM047hDsR/lY8Kwut0PxuT7w1DCiG5TbaPmgGRXiVBI8mrFJ57LZOK/Vonftcdo3boHG3UVM=
+	t=1778422683; cv=none; b=O2QOHSGijrbCqiYuaV5gYSlA/76oHhEXm6tF9ZkDZ8CAULJvJLq3WrjeowC0r0uZ3bvp1MnfSVJf8EcZnRgHCGUbALkZiOFVqYxLQGdg80LSWW8QLOQjO5QC6HepR7dc6Z9CRq8b788mb3v584jMWBZO92VUjXzsONUkF0YoJkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778419561; c=relaxed/simple;
-	bh=7yd4M8tlUIY43tqlCFmfiqUVNSY19018D9blEk42lpc=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=Q0gvnBK/Ll8k+w4dLxamgAn6v75m2bBeCQ9CAM0sy2LRVABGzar3RJfMOo+TGnhI8WoUxalGBVtyhwTiH1EQGSPRlEvKb3d84jWHXls2GDB2vkONGvheBcCCSRgxjHUWl+TYqipLdEPtJez5beU75S//hw1jKnBUOrv0blhZEZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
-	by sina.net (10.54.253.39) with ESMTP
-	id 6A0086CE00005B48; Sun, 10 May 2026 21:23:27 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 3F3BDBC3885A45E9973A7346FBE01D29
-X-SMAIL-UIID: 3F3BDBC3885A45E9973A7346FBE01D29-20260510-212327
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: broonie@kernel.org,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Cc: peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	ckeepax@opensource.cirrus.com,
-	vkoul@kernel.org,
-	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v13 0/6] Add es9356 focused SoundWire CODEC
-Date: Sun, 10 May 2026 21:23:15 +0800
-Message-Id: <20260510132321.14687-1-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
+	s=arc-20240116; t=1778422683; c=relaxed/simple;
+	bh=eVqgC1xA9M2bklT63Dl+KVIS57bFXdLPYg7dEU4JZVY=;
+	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=E/IT2DH9od4ZXSSBvxCqePBES3Vw00XE3+p4RxaT8gEsMTSSYAyVAGcf8KDssn1AWkg8DYq3f6BgbfAKJr+bT9C/GEY13iu29yup7EdOhGNXigdlgrX0o+yKnA+PF0GxKYZy/nPZSTbHgO/rzogfd+mvAbpy1tmajDhEvwvNBn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MvAu5fmO; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MvAu5fmO"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488d2079582so37407475e9.2
+        for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 07:18:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778422681; x=1779027481; darn=vger.kernel.org;
+        h=to:cc:date:message-id:subject:mime-version:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=c1v7P9bXIEtU6HTLEaCLE37lPXfLvX4qrIzZK/pCBls=;
+        b=MvAu5fmOjS01m6SpsEBS/b1541phLffy8fE2n+qrYXLjRoEGh4Tqbgj6oko3g0xdoG
+         R5QyiOuYJCAzmzDAEe/9XGbUgcFhMp0wQTvQoYmDsxRMgxIKXNxA/6Tsc4czJsNzGcnq
+         emH4L+7uVne75rge1V30UI12sGVd3wnV1sYD1+2mda2l9fffGIgnC6Dv5lX/B+DlLBXj
+         0ltWABqtPvH3qLvaB4uyTHPSX5PAm0Al/8HZ+TzadZRuMgknumvQ/NGdu7MSq5la0Kdq
+         6tT0IUiLxpBfEcKvFfzRLCN7dSs3kKLt42DNsusxfhowHj9J5FU6ceKomOmzt9u9vY70
+         nU3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778422681; x=1779027481;
+        h=to:cc:date:message-id:subject:mime-version:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=c1v7P9bXIEtU6HTLEaCLE37lPXfLvX4qrIzZK/pCBls=;
+        b=k/LWLYPQTL0QWC40krewWxOZTmeyHC4EtXd4ycSJu35ojOFLFv7+jsNkC6JpxoDBGg
+         8VtyIfaNT6qa+urnBW5q2Arw682yXsETLOzfFvW/k2K7/eKFI4O26Ff/Bw0sBLvaOBYK
+         x5QlFjt2Rw9AJxSR30USJzT7AokBsRKTakXLSgGSqV0VHosc5+yPb+s85jLUTVsPz9u9
+         z9GsQ4d1p4YEmU0LIrkVb+NjGdJbgW5sTfivIcVIetb5RuMlPzyooKcjcgABK9rAJEkz
+         m00o+ZNVhNp0ODkGPfodCpzRJbj+MEEWaCdSzmCYfUe0nyFIB+31UnRTMXkldcpD0+lZ
+         6rIQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/QJMBt5HIJXA1myGo+2Q5QkddaaJ7zCnC87iGwoyabEaIn57yXrzzg/koK/eZg+PVSBLsaZPIkCWuUdA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YydjR1TzFOIDCDKXrq8ulVq3A0ygIlPfMBl5yCP4z+mOb6GsFJq
+	Gvii2vzDtH4XWW7AMf3fdxqxC8A1N+aDhexdZVK/Y78D3FAprP7+9iGka8XZ
+X-Gm-Gg: Acq92OHk7WhD7XKCEJDqJcfMQqvgOBArilQrCPZhrFnmiPmOpo1j3yL371eByxyVzSN
+	8i1GOZNplVf9NM7A+5fqpBmnC20Y5pcfk/1Iu4ZpairfZCauOodV7sb/Cwa/m4PKEg993JL0c/M
+	PGyyVW1fOFrIai6kP8cV+mPP5cYO8XMEF3CCqMfnQyq/oOSXtihOhXga/AOxL5TrSNQ2zT1Rnqi
+	lOgXNJYK63VfAJjc+J6ACTG/e1C7FodgJzUUb8UmHuJLPCE2sSRccPNWzmdd9G/Ee1D1APoM1Ua
+	68ygl3ELgBV1/fts6wvzo7bZbeGDpejg0CoGRIu2Z7ESUQOfxGe1dcaomr2mYik8KT+RJsPYn+k
+	jb0qgftxU736QCRhFQ2FSvBOOilg6ys2NYtmjegEK6QmZkHmPmnTYaJIf5gdtYFExELnWdVYEOd
+	5Z7oaqW8mrCbnrIOVN2PzVFePcH581iY80tDs2k0zMZeLV1hKH1aCG1k7pVFxmUQjZ/5HWcIUEf
+	Qp4R1u3TGpdobxrrvE=
+X-Received: by 2002:a05:600c:8011:b0:488:8840:e5ae with SMTP id 5b1f17b1804b1-48e51f3b589mr313409985e9.24.1778422680581;
+        Sun, 10 May 2026 07:18:00 -0700 (PDT)
+Received: from smtpclient.apple ([151.43.111.228])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e702f4042sm127081015e9.14.2026.05.10.07.17.58
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 10 May 2026 07:17:59 -0700 (PDT)
+From: Francesco Saverio Pavone <pavone.lawyer@gmail.com>
+Content-Type: multipart/mixed;
+	boundary="Apple-Mail=_F5FE587A-12D7-475B-AC16-577BDBC51A0C"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.500.181\))
+Subject: [PATCH] ALSA: pcm_drm_eld: rate-limit ELD parsing errors
+Message-Id: <8104462D-BF7C-4C66-9442-0F3874A128E3@gmail.com>
+Date: Sun, 10 May 2026 16:17:47 +0200
+Cc: broonie@kernel.org,
+ linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+To: perex@perex.cz,
+ tiwai@suse.com
+X-Mailer: Apple Mail (2.3864.500.181)
 
-This patch chain adds support for the ES9356 PC focused
-SoundWire CODEC.
 
-v13 -> v12:
-	-Fixed an issue where soc_sdw_es9356.c was missing
+--Apple-Mail=_F5FE587A-12D7-475B-AC16-577BDBC51A0C
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset=us-ascii
 
-v12 -> v11:
-	-Fix a helper function to `hw_params` and `hw_free`
-	-Move pm_runtime initializations to probe
-	-Add es9356 to wake_capable_list
+Hi all,
 
-v11 -> v10:
-	-Add some comment for lock
-	-Add a helper function to `hw_params` and `hw_free`
+Sending this via attachment because my Postfix relay setup wasn't usable.
+Patch is straightforward: rate-limit two dev_info() calls in
+snd_parse_eld() that get triggered on every PCM open against an
+HDMI codec with no sink attached.
 
-v10 -> v9:
-	-Add some comment at codec driver
-	-Fixed the jack_lock issue during suspend
+Equivalent fix to the one Mark Brown did for hdac_hdmi in June 2025
+(lkml.kernel.org/lkml/2025/6/13/1380), just for the generic helper used
+by ASoC hdmi-codec.
 
-v9 -> v8:
-	-Fix some formatting issues in es9356.c
-	-Removed regmap_write(SDW_SCP_SYSTEMCTRL) from the codec driver
+Tested on Rock 5B+ (RK3588): two HDMI outputs, only one cable plugged
+in. Before: ~30 "HDMI: Unknown ELD version 0" lines per probe burst.
+After: 0.
 
-v8 -> v7:
-	-When the device status is UNATTACHED,
-	 set regmap to cache-only and cancel any delay work already in the queue.
+Let me know if anything needs adjusting.
 
-v7 -> v6:
-	-Provide comments for some parameters
-	-Rename `jack_detect_work` to `interrupt_handle_work`
-	-Add a jack_lock when handling disable_irq in suspend
-	-Adjust the handling procedure when a jack register
-	 is incorrectly identified
-	-Replace the custom SOC_SINGLE_Q78_TLV with SDCA_SINGLE_Q78_TLV
+Thanks,
+Sav
+--Apple-Mail=_F5FE587A-12D7-475B-AC16-577BDBC51A0C
+Content-Disposition: attachment;
+	filename=0001-ALSA-pcm_drm_eld-rate-limit-ELD-parsing-errors.patch
+Content-Type: application/octet-stream;
+	x-unix-mode=0644;
+	name="0001-ALSA-pcm_drm_eld-rate-limit-ELD-parsing-errors.patch"
+Content-Transfer-Encoding: quoted-printable
 
-v6 -> v5:
-	-Handling default values in `button_detect` and `jack_detect`
-	-Add the member `disable_irq` so that interrupts are
-	 no longer processed after suspend.
-	-Move the PDE processing to `hw_params` and `hw_free`
-	-Separate JACK_OUT and JACK_IN in hw_params
-	-Simplify reading and writing to SDW_SCP_SDCA_INT1 in the callback
-	-Adjust the scope of `regcache_sync` in the resume
+=46rom=205c740f52f5bc1629125588cc7e5a2731baf91e8b=20Mon=20Sep=2017=20=
+00:00:00=202001=0AFrom:=20Sav=20=
+<62543096+dongioia@users.noreply.github.com>=0ADate:=20Sun,=2010=20May=20=
+2026=2010:54:00=20+0000=0ASubject:=20[PATCH]=20ALSA:=20pcm_drm_eld:=20=
+rate-limit=20ELD=20parsing=20errors=0A=0Asnd_parse_eld()=20is=20the=20=
+generic=20helper=20used=20by=20ASoC=20hdmi-codec,=20equivalent=0Ato=20=
+the=20hdac_hdmi=20parse=20path=20Mark=20Brown=20rate-limited=20in=0A=
+lkml.kernel.org/lkml/2025/6/13/1380.=20The=20same=20spam=20shows=20up=20=
+here=20for=20the=0Asame=20reason.=0A=0AWhen=20a=20HDMI=20sink=20is=20not=20=
+connected=20(for=20example=20a=20board=20with=20two=20HDMI=0Aoutputs=20=
+and=20a=20cable=20in=20only=20one=20of=20them),=20userspace=20audio=20=
+servers=20like=0APipeWire=20keep=20opening=20the=20empty=20card.=20=
+snd_parse_eld()=20then=20logs=0A=0A=20=20=20=20HDMI:=20Unknown=20ELD=20=
+version=200=0A=0Aon=20every=20retry.=20On=20rk3588=20that=20easily=20=
+produces=2030+=20messages=20per=20burst.=0AA=20malformed=20ELD=20(MNL=20=
+out=20of=20range)=20hits=20the=20same=20code=20path.=20Neither=20is=0A=
+worth=20a=20separate=20dev_info()=20per=20occurrence;=20switch=20both=20=
+to=0Adev_info_ratelimited().=0A=0ASigned-off-by:=20Sav=20=
+<62543096+dongioia@users.noreply.github.com>=0A---=0A=20=
+sound/core/pcm_drm_eld.c=20|=204=20++--=0A=201=20file=20changed,=202=20=
+insertions(+),=202=20deletions(-)=0A=0Adiff=20--git=20=
+a/sound/core/pcm_drm_eld.c=20b/sound/core/pcm_drm_eld.c=0Aindex=20=
+cb2eebaac85f..1941ee520063=20100644=0A---=20a/sound/core/pcm_drm_eld.c=0A=
++++=20b/sound/core/pcm_drm_eld.c=0A@@=20-334,7=20+334,7=20@@=20int=20=
+snd_parse_eld(struct=20device=20*dev,=20struct=20snd_parsed_hdmi_eld=20=
+*e,=0A=20=09e->eld_ver=20=3D=20GRAB_BITS(buf,=200,=203,=205);=0A=20=09if=20=
+(e->eld_ver=20!=3D=20ELD_VER_CEA_861D=20&&=0A=20=09=20=20=20=20=
+e->eld_ver=20!=3D=20ELD_VER_PARTIAL)=20{=0A-=09=09dev_info(dev,=20"HDMI:=20=
+Unknown=20ELD=20version=20%d\n",=20e->eld_ver);=0A+=09=09=
+dev_info_ratelimited(dev,=20"HDMI:=20Unknown=20ELD=20version=20%d\n",=20=
+e->eld_ver);=0A=20=09=09goto=20out_fail;=0A=20=09}=0A=20=0A@@=20-357,7=20=
++357,7=20@@=20int=20snd_parse_eld(struct=20device=20*dev,=20struct=20=
+snd_parsed_hdmi_eld=20*e,=0A=20=09e->product_id=09=20=20=3D=20=
+get_unaligned_le16(buf=20+=2018);=0A=20=0A=20=09if=20(mnl=20>=20=
+ELD_MAX_MNL)=20{=0A-=09=09dev_info(dev,=20"HDMI:=20MNL=20is=20reserved=20=
+value=20%d\n",=20mnl);=0A+=09=09dev_info_ratelimited(dev,=20"HDMI:=20MNL=20=
+is=20reserved=20value=20%d\n",=20mnl);=0A=20=09=09goto=20out_fail;=0A=20=09=
+}=20else=20if=20(ELD_FIXED_BYTES=20+=20mnl=20>=20size)=20{=0A=20=09=09=
+dev_info(dev,=20"HDMI:=20out=20of=20range=20MNL=20%d\n",=20mnl);=0A--=20=0A=
+2.54.0=0A=0A=
 
-v5 -> v4:
-	-Merge patch1 and patch3
-	-Add vendor_id in codec_info
-	-Use q78_get and q78_set to create Kcontrol
-	-Set mbq_size and use regmap_mbq
-	-An additional helper function to implement DAPM
-
-v4 -> v3:
-	-Updated some KControl names
-	-add copyright in soc_sdw_es9356
-
-v3 -> v2:
-	-Removed unnecessary section in soc_sdw_es9356.c
-	-Add `pm_runtime_put_noidle` to `es9356.c` to
-	 reduce device incremented count
-	-Updated some KControl names
-	-Fix the error related to jack_report in the codec driver
-
-v2 -> v1:
-	-Adjusted mutexes in the ES9356 driver
-	-Use macros to replace certain values
-	-Adjusted some ordering issues in Kconfig.
-
-v1 -> v0:
-	-Modified snd_soc_dapm_add_routes in soc_sdw_es9356
-
-Zhang Yi (6):
-  ASoC: sdw_utils: add soc_sdw_es9356
-  ASoC: sdw_utils: add ES9356 in codec_info_list
-  ASoC: es9356-sdca: Add ES9356 SDCA driver
-  ASoC: Intel: soc-acpi: arl: Add es9356 support
-  ASoC: Intel: sof_sdw: add es9356 support
-  soundwire: intel_auxdevice: Add es9356 to wake_capable_list
-
- drivers/soundwire/intel_auxdevice.c           |    1 +
- include/sound/soc_sdw_utils.h                 |   14 +
- sound/soc/codecs/Kconfig                      |    7 +
- sound/soc/codecs/Makefile                     |    2 +
- sound/soc/codecs/es9356.c                     | 1153 +++++++++++++++++
- sound/soc/codecs/es9356.h                     |  208 +++
- sound/soc/intel/boards/Kconfig                |    1 +
- .../intel/common/soc-acpi-intel-arl-match.c   |   52 +
- sound/soc/sdw_utils/Makefile                  |    1 +
- sound/soc/sdw_utils/soc_sdw_es9356.c          |  230 ++++
- sound/soc/sdw_utils/soc_sdw_utils.c           |   50 +
- 11 files changed, 1719 insertions(+)
- create mode 100644 sound/soc/codecs/es9356.c
- create mode 100644 sound/soc/codecs/es9356.h
- create mode 100644 sound/soc/sdw_utils/soc_sdw_es9356.c
-
--- 
-2.17.1
-
+--Apple-Mail=_F5FE587A-12D7-475B-AC16-577BDBC51A0C--
