@@ -1,85 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wp23.hostingpalvelu.fi (wp23.hostingpalvelu.fi [31.217.193.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4512328C869
-	for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 11:44:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6631607A4;
+	Sun, 10 May 2026 12:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=31.217.193.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778413487; cv=none; b=j5QrxWpNh0yqd/GVpN7o2BTchcoj9PXJvwO5h5XAXIMHlGZWaB9Xm/Mxvx7RdyYg0Nj1zNe8XgecXlEMe0WKtmjIv5yTLrIAlipWCmURfuokciXWhDu2SQLBP+iGSBAqxgbU9LqrmPV3e7pXIIcvZpaLP3MDNupB3aHc0N3fkDw=
+	t=1778415787; cv=none; b=LhdgfubSiKN9Ez1MF2nRpc3Xo3hlz3NfmMxQThFHu8lNhHrZF650wP9vUJ7bYbP4IivpWT4hZmhf1uwBaYkUSXTMv/BHFZ6Y9F8S5ha7WFCrb1WPGrXIB9esiD8KP+RDahcNUzboI7ehKmhUYrtFouSorEeN4LgAD/asrBw1H0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778413487; c=relaxed/simple;
-	bh=6CryNRjECli8e+1OJcSOE4FvC/A/tD00g74n7hSbcq0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dcdq9wjJ4J3Px63n4gB+i3LxYOMVKta2o/KpRR89pYIh5vUnm35EwNRA4OR6JpKO/t7GxlvSZpHtUyRwdPADTYvsBWiyXsEVfw1vYQCVvj4sXPJOk+rWBHDWNEO2BQ5b0JKBkuRjvyik32m2t7nlvxe9zceFyYehxZC10AbMG1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yx28OPnH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778415787; c=relaxed/simple;
+	bh=zTCJgTDzEXu0sroV4l+yJsQqCZc1ZoKUbQADpfXWdbA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t3LHPTOkSjjFRGCKWOSdvbtFJIr5V+zyst25u8vU472HFNElQTIRaod8oMKuCb7A57BRj2AmMCQVRXn7dKtGroQhUB5p8QygQ3rFxlBNo73fOU7HJHEFvxaXXTY7mXHYwCK2XdsL1np8bWtet7+hdj1me4f0no9KFgxIQzSbIwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bitmer.com; spf=pass smtp.mailfrom=bitmer.com; dkim=pass (2048-bit key) header.d=bitmer.com header.i=@bitmer.com header.b=rpa7/K9K; arc=none smtp.client-ip=31.217.193.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bitmer.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bitmer.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yx28OPnH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AECBEC2BCB8;
-	Sun, 10 May 2026 11:44:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778413486;
-	bh=6CryNRjECli8e+1OJcSOE4FvC/A/tD00g74n7hSbcq0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yx28OPnH/oChpyHMpsUw3zeB6sIW2MKZteOXcGEFKDWf8hJsEpnGciyzprtbCiZXk
-	 DBowcx817YGCBIyFhTSTYYU+U71rSgYZAXiaOboqJZSvipXuECuXEDkYB2Q9c8rLp7
-	 CpUcDoDe031qguRdHOTh1OUqQOH0SrNXcUL2f7+5/QoVAmSkzgyhf9Y/9j24OX+YK3
-	 DdUP6MkA9Qn4wNpQAuhBMi7BuVOrE2m4KpX9R4VJr/oJZD8fVUNh37QX1okFunvclJ
-	 B2rP64BR6Ztxq9NrhrKzGbD0zwT8oK2Pj5K4ywLEpsyb7+xO6r5sxL1NADeqgfWx6/
-	 9NC6vAVko9Q+g==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 387491AC5898; Sun, 10 May 2026 12:44:44 +0100 (BST)
-Date: Sun, 10 May 2026 20:44:44 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Zhang Yi <zhangyi@everest-semi.com>
-Cc: tiwai@suse.com, linux-sound@vger.kernel.org,
-	peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
-	ckeepax@opensource.cirrus.com, vkoul@kernel.org
-Subject: Re: [PATCH v12 1/6] ASoC: sdw_utils: add soc_sdw_es9356
-Message-ID: <agBvrGo2H6RG1siz@sirena.co.uk>
-References: <20260509101102.10286-1-zhangyi@everest-semi.com>
- <20260509101102.10286-2-zhangyi@everest-semi.com>
+	dkim=pass (2048-bit key) header.d=bitmer.com header.i=@bitmer.com header.b="rpa7/K9K"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bitmer.com;
+	s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=zTCJgTDzEXu0sroV4l+yJsQqCZc1ZoKUbQADpfXWdbA=; b=rpa7/K9KNLv9OLof0kW8gILZi/
+	MRlomIE0KDqfwSWeR57RwtVGV3XLYrBysJcYZQCtatGXjhILOR1M8NWj6ZbDBtze9gIZn0LAqsdfX
+	GZFvrCQW9GRGaRj0t3HaRfFhJZQUfV/yjJWGv9PxG6t7izuDnWTGoMSVqNXNCDQ/rozwZnN7hQagb
+	H/AQeRkvVYaDqATcWZhxvRKTLb8ZZXP9q3n01DGvfN2N35ea3U400r63REFuVVIwVC3e1Erx6Iqbt
+	ZwaSlow2yKTG0blm3aAX+IYjwYJrmdSeK6zwq5pFmavevAtYmyDSId6Ei8SBu5ugc7PSBKOJ6pqRM
+	rPHN0mZQ==;
+Received: from 91-158-0-77.elisa-laajakaista.fi ([91.158.0.77]:36542 helo=[192.168.0.12])
+	by wp23.hostingpalvelu.fi with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
+	(Exim 4.99.2)
+	(envelope-from <jarkko.nikula@bitmer.com>)
+	id 1wM3BV-000000074fG-1ogD;
+	Sun, 10 May 2026 15:23:01 +0300
+Message-ID: <08f59a1e-76bd-4847-a0f8-c8690246e6f5@bitmer.com>
+Date: Sun, 10 May 2026 15:23:01 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="PXIEOyE3rLFuFkxa"
-Content-Disposition: inline
-In-Reply-To: <20260509101102.10286-2-zhangyi@everest-semi.com>
-X-Cookie: Truckers welcome.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ASoC: ti: omap3pandora: update board check to use DT
+ compatible
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>, linux-sound@vger.kernel.org,
+ linux-omap@vger.kernel.org
+Cc: Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+References: <20260510053939.564314-1-enelsonmoore@gmail.com>
+ <20260510053939.564314-3-enelsonmoore@gmail.com>
+ <CADkSEUi0U1oKsxZ9YmgG6wh8rc=RK37wUgq-bmA5XUn3aYSuAA@mail.gmail.com>
+Content-Language: en-US
+From: Jarkko Nikula <jarkko.nikula@bitmer.com>
+In-Reply-To: <CADkSEUi0U1oKsxZ9YmgG6wh8rc=RK37wUgq-bmA5XUn3aYSuAA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - wp23.hostingpalvelu.fi
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - bitmer.com
+X-Get-Message-Sender-Via: wp23.hostingpalvelu.fi: authenticated_id: jarkko.nikula@bitmer.com
+X-Authenticated-Sender: wp23.hostingpalvelu.fi: jarkko.nikula@bitmer.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
+On 10/05/2026 8:47 am, Ethan Nelson-Moore wrote:
+> On Sat, May 9, 2026 at 10:40 PM Ethan Nelson-Moore
+> <enelsonmoore@gmail.com> wrote:
+>> ---
+>> Changes from v1: Fix mistake in commit message and remove Fixes tags -
+>> machine ID checks still work with DT booting if the bootloader passes
+>> the ID
+>>
+>> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+>> ---
+> I forgot to move my changelog below the --- generated by git
+> format-patch. Sorry. Could whoever merges this fix that, or should I
+> resend this patch tomorrow?
 
---PXIEOyE3rLFuFkxa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+You may add if plan to resend:
 
-On Sat, May 09, 2026 at 06:10:57PM +0800, Zhang Yi wrote:
-
-> +int asoc_sdw_es9356_init(struct snd_soc_card *card,
-> +			       struct snd_soc_dai_link *dai_links,
-> +			       struct asoc_sdw_codec_info *info,
-> +			       bool playback);
-
-Is this defined somewhere?  I don't seem to see it, the changelog
-references updates to soc_sdw_es9356 but I don't see it in the diffstat
-or the patches.
-
---PXIEOyE3rLFuFkxa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoAb4IACgkQJNaLcl1U
-h9CjAgf+IzgMjMbe2TVDhyRoV9RSjqabuYOFvpdQi/ULsknwRKFQTAh1torOZuDI
-4skhiVmtJakHsx8EwUa0nRSyUmx3iLSxKJ9b1O0LDsJSmIV9kydnEnB+Q3Yk180r
-livXgGk360B5ClLYHepTKXucYwinBfUg1vVJMbcV0IVnLcXvrKcEsX8h8tzStVG1
-n6ZmwAbi69iBHM2TuvzdRieyMJ0OjHM+AIbe+GDtpme4XtDm30af+X0pavHSs2uE
-5/t0mF5j/B+PYHNseyoWsRBazqpshsHLE/DBPiKpASqW1NjIcG6esSV7jFlq17hx
-bedhOLe3JU9NuhQzD3DDj/Efmomveg==
-=rBkB
------END PGP SIGNATURE-----
-
---PXIEOyE3rLFuFkxa--
+Acked-by: Jarkko Nikula <jarkko.nikula@bitmer.com>
