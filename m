@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD6C2F8E81
-	for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 01:25:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF2813B7A3;
+	Sun, 10 May 2026 01:27:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778376324; cv=none; b=rWivOSnpiNjVC40kUrRqUMNklythxsu8RnvffCjuOMF3AkFLEX3xVhioRRpu0VfWWZJYCA5+O9oO6pqTtPvNLst6Ihc3ma+YnFFJDy0lH5k3ubhdrrfA3P1MU6yVbK569LujThvHZKKAZf38Jw/5Pdvymz8N8CTIK1K/7r3X8Cg=
+	t=1778376434; cv=none; b=Pi958WiLU72OgpaGCvTSZM/g94Ul3NYYc4y76vezDUklYD9q6YyRq8+9XjibLtba/M7uQ7ED8Ksy4L3Sn0PjlyA8daaWNZZ8Dtk4gCu9XOaFIBt0TlHY84NJU7WnpYnjX94HGTWLlC0wka2gcOREqjxnRaFhhNYdg095HmOWF0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778376324; c=relaxed/simple;
-	bh=+fSTWzSgvZHZRTkQMtfK8BXd/rdqxNY7xJPVCHohYaA=;
+	s=arc-20240116; t=1778376434; c=relaxed/simple;
+	bh=+4q03Cm6mQYjy5IHtdfh4Wm3Vh6orU1GKZEoE6lLEas=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PaJwEd77xBG31mFsI9qiqt45Vl4j3Ebu8b+fVWar9QMHHDanjvaD/xqi4EKh7yynYU2ekkgy8maG85FoPgPCvv/8acNw0H0UqH5iz6t0WjfjUYb7Ds9NjmWXDPTQ+zNm8oDzjuQDsOMqmJT3zC9q8eTuLWQ0hQ+j6qfgrMEwWpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NVHtxyvZ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=e4W/p4lbkwrkO6b/Wgb4KRGQevw4y7ddxd+iVMUl9BS01NX98JKbQe+PiqaPplPmOziV06Fjfrn8znmM0dppWKJ3LN6Jgm3GEDJufH8xkHsb7G5prkiaq2DlkUCFhfqlcuSCy/5yo4vWT/hMddQpHtEzZTUbcoOYDeUUw4W60nE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S63z8H7Y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NVHtxyvZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BD42C2BCB2;
-	Sun, 10 May 2026 01:25:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S63z8H7Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6A5EC2BCB2;
+	Sun, 10 May 2026 01:27:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778376324;
-	bh=+fSTWzSgvZHZRTkQMtfK8BXd/rdqxNY7xJPVCHohYaA=;
+	s=k20201202; t=1778376433;
+	bh=+4q03Cm6mQYjy5IHtdfh4Wm3Vh6orU1GKZEoE6lLEas=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NVHtxyvZZN/lPxtzS89qAvrTwsrWkagV0UXsIHOWpQLcdIUya6YyCss6wRwSSgRH4
-	 CBkcYf2MWg2ej+QBnMseCQH2ctpB4Vw01WpjOeMiHiaSPMeMEt4LLdounV5Y/MOKtS
-	 2AAvJMxHw69r3+uq58ISBONcnUdctz4z5cbH8R0LtuxOc8ru6g8JraNg+q8PlD3IKp
-	 HzZZY89u2dB6BmcqZOJZ44ecvtdsB7in2IqbekC2Z4aeqF8j5Ykd8ElF+j9cagOHRq
-	 YZ8EENDGJ/oqEWY6Fazl3h5cKE3W9+ktM8XUJDo8d6TTj9Wrt2xqL/pnhyDDxrtqm/
-	 LI84R6/1Ti+/w==
+	b=S63z8H7Y3gdPglkenRIF626iU92Fpp/vBdLMWwqQUio9Lj1cjbO/+kzuHfQxh3blJ
+	 +XeciszZjoMNjZRCOyH7ehCe8chhyTG4WF8BM4xMd8z4WOLqBvnup0zoiNo1yHPN49
+	 fabSFppkJUqu6XtNkmTLvhd7F4Zvrw1YhlwV4bTHfZ7M7K07JVk/BzwiMJ30QgnaAY
+	 tclnotadbI0duB5X3Q/X0cXg+eGoT9hH0KqfNTYQ1OKSvm66ad8bgMCDQJX25r07r2
+	 Cum7jXnGUDfoale0xOYyBNA7cFobMjyfEZWPrBnWMUnBSu76fZTElgUAST/x3y7KvY
+	 GySLKAHZZy82g==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 375C81AC5897; Sun, 10 May 2026 02:25:22 +0100 (BST)
-Date: Sun, 10 May 2026 10:25:22 +0900
+	id 8D2021AC5897; Sun, 10 May 2026 02:27:11 +0100 (BST)
+Date: Sun, 10 May 2026 10:27:11 +0900
 From: Mark Brown <broonie@kernel.org>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
-	Russell King <linux@armlinux.org.uk>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH] sound: soc: fsl: eukrea-tlv320: update board checks to
- use the DT
-Message-ID: <af_egt2d3xwOJg8G@sirena.co.uk>
-References: <20260509214622.38319-1-enelsonmoore@gmail.com>
+To: =?utf-8?B?5p2o5byL?= <yangyi@moonshot.ai>
+Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: tas2781: reject too-short writes to acoustic_ctl
+ debugfs
+Message-ID: <af_e702o0i96rIMT@sirena.co.uk>
+References: <97bd47532c39bf4406842528adc5883ce43bdb25.b9dfca8f.30b3.4f6f.ab3f.1a908222cdea@feishu.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,40 +47,46 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wQR79ERn67QPs7uj"
+	protocol="application/pgp-signature"; boundary="wloWqfsrof1Gk2Vz"
 Content-Disposition: inline
-In-Reply-To: <20260509214622.38319-1-enelsonmoore@gmail.com>
+In-Reply-To: <97bd47532c39bf4406842528adc5883ce43bdb25.b9dfca8f.30b3.4f6f.ab3f.1a908222cdea@feishu.cn>
 X-Cookie: Truckers welcome.
 
 
---wQR79ERn67QPs7uj
-Content-Type: text/plain; charset=us-ascii
+--wloWqfsrof1Gk2Vz
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 09, 2026 at 02:46:19PM -0700, Ethan Nelson-Moore wrote:
-> The eukrea-tlv320 driver contains checks for ARM machine IDs via
-> machine_is_*() macros. The boards concerned now support only FDT
-> booting, which does not use machine IDs, and therefore the code should
-> be updated to check the DT compatible property instead.
+On Sun, May 10, 2026 at 01:51:54AM +0800, =E6=9D=A8=E5=BC=8B wrote:
+> The acoustic_ctl_write debugfs handler allocates a buffer via=C2=A0
+> memdup_user(from, count) but only validates that count is not too=C2=A0
+> large. It then accesses src[0] through src[6] without ensuring
+> count >=3D 7.
+>=20
+> Add a minimum-size check of 7 bytes.
+>=20
+> Signed-off-by: Yi Yang <yangyi@msh.team>
+> Assisted-by: kimi-cli:kimi-k2.6
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
+You haven't provided a good signoff here, the name and email you're
+using here don't obviously correspond to those used in the email body.
+Please see Documentation/process/submitting-patches.rst for details
+on what this is and why it's important.
 
---wQR79ERn67QPs7uj
+--wloWqfsrof1Gk2Vz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn/3oEACgkQJNaLcl1U
-h9C6Ngf/VgpL6/dY6oe9kbIkiwzw7zZb5+n21tUveYgzPidX0a4toLehfaAR+hTS
-4FJcIwVvXbleEDcEIkLVZQCUQV1FvUCz7HVW5wubSRGSRtd7UsQ5WANT95sjdBwe
-xrrXCQuF4HEcQnVuyEI2Rt1CSqfwqPvMVje+aMVwm0I2F9/4rzMwSYbyNrC1i0Oa
-ODWObnHyeFqscnD4awYCTj1LpwwMZ6Cu2NwbO5Ub4W9nAijkDJYQ9cHDw5t0SZYE
-sXsDdxCz47BiTeLIFvgwmQZ3WFy5kce54ceig/KpYkFDaFDyYltxO5DNaLn+PvSy
-am3YpHjAz2qx0CGRSWdpXdoHmLNp4g==
-=c9YV
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmn/3u4ACgkQJNaLcl1U
+h9AO9QgAgy7wl3ZIGctcaa6Sat1H13QqO+brLZKAYE1T/pyNkMeJk2jCKNr+Mpge
+e53gHDAnDruj2c8ONgLk5qtrULrMcJBktJldnVz8CyoYN00WMjcBMZni7CeKroJR
+HBm0i1GJ/diQ/B5qS4Eb3+tQqu4VOJHu0wCmPoqN2Qo6CRsxzbho840kcrzPllDO
++sSVEzo3iImZCPQ6ZRJY5qL2nLGVuNzHfLnI3DVwzVEYSa8XZykpLvehH6q9cKj6
+2zkjO7+Pshg+CX4+WzG6TLtIlx9buytcs//B8WM2bv+O2iCvk6GJm6rBmLsybYAq
+mp7D4rZ3CwLl/TBCyAPIZXxST2WQ8A==
+=kMfk
 -----END PGP SIGNATURE-----
 
---wQR79ERn67QPs7uj--
+--wloWqfsrof1Gk2Vz--
