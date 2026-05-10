@@ -1,87 +1,102 @@
-Received: from wp23.hostingpalvelu.fi (wp23.hostingpalvelu.fi [31.217.193.162])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B601607A4;
-	Sun, 10 May 2026 12:23:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=31.217.193.162
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49776DDCD;
+	Sun, 10 May 2026 12:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778415795; cv=none; b=bCWMLwdYIbJURiWBneok0SV6UHyfNcq4iB/z+kLQVO00z8eHg9ylFQB1d0lgBgWvyoKdwJZLv7i+zx9okFfJLpuwrV86/zkf7e7iFrJi2r7JZhEdmLe9gmlNYmYaL2cbL1JCHHcppf1733rpl24jUpy6SM2lmFwGi8vyKjPE43s=
+	t=1778416249; cv=none; b=c/rOk7JTf8ZmKEX/WRvGdPnBI3AJ5c8yp7cRBumyZgXctfmFC7bddrtTZlDuUzI96haacAT08QksCCYIcI6qca7nDpm2RQV8iSgg6pUbodmgQ+C/IQKKBbAj91hk9150LbdFcRleVVugoqHp4X7lKUH+aBKEP1BQ4/xqKR0Oj9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778415795; c=relaxed/simple;
-	bh=tyEWJ4A3IvcI4MHUF3EGIdSbxUnffM/VUaiQmwIg3I8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S+cdL2OERI1DyCIOp3yI5QIqIV/QPHXDOyBOsB/lyOTFuV6ie/wMrBDyWra45Ml2G/icpWYO/TIbQDG5Yu+MgUuqM6GzMEnQ0hjTB6HTVUE6i1rBfQJez/oX3rNLJgqu62ObXwg1oE3OxTYrHaf7wjXAsd5hqeEjGghB1BtvS+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bitmer.com; spf=pass smtp.mailfrom=bitmer.com; dkim=pass (2048-bit key) header.d=bitmer.com header.i=@bitmer.com header.b=cmfnR8js; arc=none smtp.client-ip=31.217.193.162
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bitmer.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bitmer.com
+	s=arc-20240116; t=1778416249; c=relaxed/simple;
+	bh=bS8CsNCfeO9lmLqY8ZDyezLOZxaysM6e72tDqpzG8+k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XBxEVv2UkhG1JvX7TrwaLvF+lelP6+VQMNBY3EWJaOmCc+IIU9FrIYLeApJCwX8t0b5rwz46y/epYyke9tFwMDX4voeYdL9SmZfOXAgGVNEjpofkwP1FFOE9LNKhotcgZCfpkym/pZ37ZrQ05l/a7advl/3B5LiHvUoJ6FhHIAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A+mug5RP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bitmer.com header.i=@bitmer.com header.b="cmfnR8js"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bitmer.com;
-	s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=uuSB8y8BQGXRiaO33RKYN8hc1+aqn3ltMhU/ueaUSvI=; b=cmfnR8jsxaxC3vqE/V/+HqfAkK
-	Fis8ikPlXAbH0/g9IdpV4fQhLDMSSLGQBpitlHFp+6Ax7sZpcMnReMsbW/yrK8wuACx5i+AKbTpyu
-	Iz+3+FTzns0VumloFymTJXlt76LDkDXVoCneV+rRD/nz9PMBghjkh0CWG8d6HnfXWI0V4XOmtSt5S
-	2cBWoxsXRpacYYz5SNPSD9EQfAM3SSMAcScr1rrklPckMPd/kL1NQ0UC2lR96V8c85L6eHpv+QcqO
-	UlAaNtSYgO7fYCDyQnpkS/E3h2k6AuxxDKpU+f5OwHL+ySMJwmuAnR2/4/4UWzCztR9PgMnpDgo/C
-	FDVIWjwA==;
-Received: from 91-158-0-77.elisa-laajakaista.fi ([91.158.0.77]:36542 helo=[192.168.0.12])
-	by wp23.hostingpalvelu.fi with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
-	(Exim 4.99.2)
-	(envelope-from <jarkko.nikula@bitmer.com>)
-	id 1wM3BQ-000000074fG-3FZp;
-	Sun, 10 May 2026 15:22:56 +0300
-Message-ID: <0cc395ef-0b8d-4905-8186-e9e3ba129662@bitmer.com>
-Date: Sun, 10 May 2026 15:22:52 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A+mug5RP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40F24C2BCB8;
+	Sun, 10 May 2026 12:30:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778416248;
+	bh=bS8CsNCfeO9lmLqY8ZDyezLOZxaysM6e72tDqpzG8+k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=A+mug5RPrwHvFuPbGkPZ9c3goZKJ/GFedUTjYpAfzhxNs5LwDmdLRDvMHhBuwCc94
+	 OOUWmZvxDk8fQpDT+0iPUSyC6g2yz0VbOYPGoiauHfUDdUMIZg297NOx3MXV3dZI1c
+	 Z5uJeccVDqHeaH8Xbv0RYxm6C9Qvz1989Em/fT22zLLf9TEdcSLKxbuPJlyYhr+dgk
+	 dEHSFtoa0/If4rCjO/7li1fp75a6usnbVGsqdSFX01Miv2u66RpsdKSdzRANUrHlX8
+	 BeOXIsRlfhEH6is7zO/awDr7vn2r3n4D4gCcZ72uISRTeFCwscoxGa0+HxRK4uqXJF
+	 sCoeT/aCRJ/tA==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id A1D681AC5898; Sun, 10 May 2026 13:30:43 +0100 (BST)
+Date: Sun, 10 May 2026 21:30:43 +0900
+From: Mark Brown <broonie@kernel.org>
+To: phucduc.bui@gmail.com
+Cc: kuninori.morimoto.gx@renesas.com, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, geert+renesas@glider.be,
+	krzk+dt@kernel.org, lgirdwood@gmail.com,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-sound@vger.kernel.org, magnus.damm@gmail.com, perex@perex.cz,
+	robh@kernel.org, tiwai@suse.com
+Subject: Re: [PATCH v3 07/10] ASoC: renesas: fsi: refactor clock
+ initialization
+Message-ID: <agB6cystBNT4-V3L@sirena.co.uk>
+References: <20260510084303.122426-1-phucduc.bui@gmail.com>
+ <20260510084303.122426-8-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: ti: rx51: remove stale reference to
- machine_is_nokia_rx51()
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>, linux-sound@vger.kernel.org,
- linux-omap@vger.kernel.org
-Cc: Peter Ujfalusi <peter.ujfalusi@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-References: <20260510054214.564950-1-enelsonmoore@gmail.com>
-Content-Language: en-US
-From: Jarkko Nikula <jarkko.nikula@bitmer.com>
-In-Reply-To: <20260510054214.564950-1-enelsonmoore@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - wp23.hostingpalvelu.fi
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - bitmer.com
-X-Get-Message-Sender-Via: wp23.hostingpalvelu.fi: authenticated_id: jarkko.nikula@bitmer.com
-X-Authenticated-Sender: wp23.hostingpalvelu.fi: jarkko.nikula@bitmer.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bHrwpyzAOaCuqHrH"
+Content-Disposition: inline
+In-Reply-To: <20260510084303.122426-8-phucduc.bui@gmail.com>
+X-Cookie: Truckers welcome.
 
-On 10/05/2026 8:42 am, Ethan Nelson-Moore wrote:
-> The rx51 driver relies on the machine_is_nokia_rx51() macro, which was
-> used with the legacy board file dropped in commit 9b7141d01a76 ("ARM:
-> OMAP2+: Drop legacy board file for n900"). The use of this macro
-> prevents the removal of machine IDs no longer used by the kernel from
-> arch/arm/tools/mach-types, because the machine_is_*() macros are
-> generated from mach-types. Drop this unused code.
->
-> Tested-by: Jarkko Nikula <jarkko.nikula@bitmer.com> # v1
-> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-> ---
-> Changes from v1: Fix mistake in commit message - machine ID checks
-> still work with DT booting if the bootloader passes the ID
->
->  sound/soc/ti/rx51.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
 
-Acked-by: Jarkko Nikula <jarkko.nikula@bitmer.com>
+--bHrwpyzAOaCuqHrH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Sun, May 10, 2026 at 03:43:00PM +0700, phucduc.bui@gmail.com wrote:
+
+> Move fsi_clk_init() to probe and use devm_clk_get_optional() for optional
+> clocks. This allows probe to succeed even when some optional clocks are
+> missing, while set_rate() performs strict validation to ensure all required
+> clocks are available for hardware configuration during audio setup.
+
+> +static int fsi_clk_init(struct device *dev, struct fsi_priv *fsi)
+
+> +	if (!master->clk_spu) {
+> +		master->clk_spu = devm_clk_get_optional(dev, "spu");
+> +		if (IS_ERR(master->clk_spu))
+> +			return PTR_ERR(master->clk_spu);
+> +	}
+> +
+
+> @@ -1997,6 +2001,7 @@ static int fsi_probe(struct platform_device *pdev)
+>  	fsi->running_streams = 0;
+>  	fsi_port_info_init(fsi, &info.port_a);
+>  	fsi_handler_init(fsi, &info.port_a);
+> +	fsi_clk_init(&pdev->dev, fsi);
+
+We ignore the return value from fsi_clk_init() which means deferred
+probe won't work (as well as fatal errors).
+
+--bHrwpyzAOaCuqHrH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoAenIACgkQJNaLcl1U
+h9ByYAf/fHWslAnAD6OjJOrt0pI7DgsCAvesTy6vKZiNBw08XoHo0u3Y7Rik3HbP
+NiDKgGP//kkSuDDSjd4hVhHdzdaWtPrHCgkqoNpLO294mVhHLKrsZxIZDSWshK+z
+GTYmHHLdz/iIZObg0ZT95jTzjSHvneVqR9zU9MxOgNRtV3Mn7EXL66XY3hAmMxYF
+QPqQP++mOFdqt26Pj5lW4Y5n56j7LzywiyKPYcmZhTVg12A1p5VJpPrFmUgLmyfp
+yQbzi13VBFh4pNshpe5HDFLsY1F6S0wOpn6BhFxILRmOay45vynh7CvUjBMKOu/e
+J2nUpRYIheDSwgjEr0ijYZo8p20b+g==
+=Yt/V
+-----END PGP SIGNATURE-----
+
+--bHrwpyzAOaCuqHrH--
