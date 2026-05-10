@@ -1,152 +1,117 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mta.al2klimov.de (mta.al2klimov.de [162.55.223.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CB137E308
-	for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 14:18:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C675F30CD95;
+	Sun, 10 May 2026 19:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.55.223.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778422683; cv=none; b=O2QOHSGijrbCqiYuaV5gYSlA/76oHhEXm6tF9ZkDZ8CAULJvJLq3WrjeowC0r0uZ3bvp1MnfSVJf8EcZnRgHCGUbALkZiOFVqYxLQGdg80LSWW8QLOQjO5QC6HepR7dc6Z9CRq8b788mb3v584jMWBZO92VUjXzsONUkF0YoJkE=
+	t=1778440741; cv=none; b=Iwl+6lyGc6HNeQKAw+WPwITyv4qkDCaBpRkhFxIh5kACr+gSfZYD3X7iofPstNN6xlGxDODIZ90e4UEWOOmyO2tkHKl5kdt4D7tirIX0SaN4iwhdWCBiOA94qOBGoe+bWsmgttTvc8CQXWUAu3KYzxl33XAP/QtFQ4kutau9VWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778422683; c=relaxed/simple;
-	bh=eVqgC1xA9M2bklT63Dl+KVIS57bFXdLPYg7dEU4JZVY=;
-	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=E/IT2DH9od4ZXSSBvxCqePBES3Vw00XE3+p4RxaT8gEsMTSSYAyVAGcf8KDssn1AWkg8DYq3f6BgbfAKJr+bT9C/GEY13iu29yup7EdOhGNXigdlgrX0o+yKnA+PF0GxKYZy/nPZSTbHgO/rzogfd+mvAbpy1tmajDhEvwvNBn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MvAu5fmO; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778440741; c=relaxed/simple;
+	bh=ri0jMPWj5UxjM3+Ak2a5znYN4OqYmkiaJstRF8ZSpDE=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=SknSvXX9FK+x0siG6CRg7iImOSxwVE9edeoq0OUX7I3xkCzFKKATowO8GVm89QVWLeDoWDOmSW4nb0UhbYoHQIriKEby5WBS4sS/NuKS5C0zjiLt7qjr7GLrA6i3fPNgdcS9F+9X+xoOeLGpKX9uX9Yx1rjyuB5Ay7dIwIKBe58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=al2klimov.de; spf=pass smtp.mailfrom=al2klimov.de; dkim=pass (2048-bit key) header.d=al2klimov.de header.i=@al2klimov.de header.b=T4JoXWN3; arc=none smtp.client-ip=162.55.223.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=al2klimov.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=al2klimov.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MvAu5fmO"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488d2079582so37407475e9.2
-        for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 07:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778422681; x=1779027481; darn=vger.kernel.org;
-        h=to:cc:date:message-id:subject:mime-version:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=c1v7P9bXIEtU6HTLEaCLE37lPXfLvX4qrIzZK/pCBls=;
-        b=MvAu5fmOjS01m6SpsEBS/b1541phLffy8fE2n+qrYXLjRoEGh4Tqbgj6oko3g0xdoG
-         R5QyiOuYJCAzmzDAEe/9XGbUgcFhMp0wQTvQoYmDsxRMgxIKXNxA/6Tsc4czJsNzGcnq
-         emH4L+7uVne75rge1V30UI12sGVd3wnV1sYD1+2mda2l9fffGIgnC6Dv5lX/B+DlLBXj
-         0ltWABqtPvH3qLvaB4uyTHPSX5PAm0Al/8HZ+TzadZRuMgknumvQ/NGdu7MSq5la0Kdq
-         6tT0IUiLxpBfEcKvFfzRLCN7dSs3kKLt42DNsusxfhowHj9J5FU6ceKomOmzt9u9vY70
-         nU3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778422681; x=1779027481;
-        h=to:cc:date:message-id:subject:mime-version:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c1v7P9bXIEtU6HTLEaCLE37lPXfLvX4qrIzZK/pCBls=;
-        b=k/LWLYPQTL0QWC40krewWxOZTmeyHC4EtXd4ycSJu35ojOFLFv7+jsNkC6JpxoDBGg
-         8VtyIfaNT6qa+urnBW5q2Arw682yXsETLOzfFvW/k2K7/eKFI4O26Ff/Bw0sBLvaOBYK
-         x5QlFjt2Rw9AJxSR30USJzT7AokBsRKTakXLSgGSqV0VHosc5+yPb+s85jLUTVsPz9u9
-         z9GsQ4d1p4YEmU0LIrkVb+NjGdJbgW5sTfivIcVIetb5RuMlPzyooKcjcgABK9rAJEkz
-         m00o+ZNVhNp0ODkGPfodCpzRJbj+MEEWaCdSzmCYfUe0nyFIB+31UnRTMXkldcpD0+lZ
-         6rIQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/QJMBt5HIJXA1myGo+2Q5QkddaaJ7zCnC87iGwoyabEaIn57yXrzzg/koK/eZg+PVSBLsaZPIkCWuUdA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YydjR1TzFOIDCDKXrq8ulVq3A0ygIlPfMBl5yCP4z+mOb6GsFJq
-	Gvii2vzDtH4XWW7AMf3fdxqxC8A1N+aDhexdZVK/Y78D3FAprP7+9iGka8XZ
-X-Gm-Gg: Acq92OHk7WhD7XKCEJDqJcfMQqvgOBArilQrCPZhrFnmiPmOpo1j3yL371eByxyVzSN
-	8i1GOZNplVf9NM7A+5fqpBmnC20Y5pcfk/1Iu4ZpairfZCauOodV7sb/Cwa/m4PKEg993JL0c/M
-	PGyyVW1fOFrIai6kP8cV+mPP5cYO8XMEF3CCqMfnQyq/oOSXtihOhXga/AOxL5TrSNQ2zT1Rnqi
-	lOgXNJYK63VfAJjc+J6ACTG/e1C7FodgJzUUb8UmHuJLPCE2sSRccPNWzmdd9G/Ee1D1APoM1Ua
-	68ygl3ELgBV1/fts6wvzo7bZbeGDpejg0CoGRIu2Z7ESUQOfxGe1dcaomr2mYik8KT+RJsPYn+k
-	jb0qgftxU736QCRhFQ2FSvBOOilg6ys2NYtmjegEK6QmZkHmPmnTYaJIf5gdtYFExELnWdVYEOd
-	5Z7oaqW8mrCbnrIOVN2PzVFePcH581iY80tDs2k0zMZeLV1hKH1aCG1k7pVFxmUQjZ/5HWcIUEf
-	Qp4R1u3TGpdobxrrvE=
-X-Received: by 2002:a05:600c:8011:b0:488:8840:e5ae with SMTP id 5b1f17b1804b1-48e51f3b589mr313409985e9.24.1778422680581;
-        Sun, 10 May 2026 07:18:00 -0700 (PDT)
-Received: from smtpclient.apple ([151.43.111.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e702f4042sm127081015e9.14.2026.05.10.07.17.58
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 10 May 2026 07:17:59 -0700 (PDT)
-From: Francesco Saverio Pavone <pavone.lawyer@gmail.com>
-Content-Type: multipart/mixed;
-	boundary="Apple-Mail=_F5FE587A-12D7-475B-AC16-577BDBC51A0C"
+	dkim=pass (2048-bit key) header.d=al2klimov.de header.i=@al2klimov.de header.b="T4JoXWN3"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=default; bh=ri0jMPWj5Uxj
+	M3+Ak2a5znYN4OqYmkiaJstRF8ZSpDE=; h=subject:from:cc:to:date;
+	d=al2klimov.de; b=T4JoXWN3vyhqtNXMS1TZJr/Y0GamWCzeiJQygsqtONHeWpmBkpsi
+	JDLGXhJvnQBzCS13MavnOcwyRIZjfMyvCCvcdG86m86rlnTluc5LePeTlA4vWsq95x6RRg
+	gFzHn0Z7hy9EU0pl6A++vzSAviI7pFB1gYYJFVtgUNCM+Km161pGhSo0FF8qVjV+u7T1jp
+	D9X4+7HeMBpI0i6IcpFfzrxyd7HSFAZyD1XqCTrzWRbXRIRgvAUU5vFS6U4nMY9cxEVzBK
+	tsObJ+IYtImqAU0RqNZ/iquhBEGvEik+U9MyLjeFPybLfBMXx+6mtRBkEa/BUU+UXb6UG6
+	w5BUJlJj9g==
+Received: from [IPV6:2a02:2455:18e9:e011:4d8a:aad2:c25c:50e5] (2a02-2455-18e9-e011-4d8a-aad2-c25c-50e5.dyn6.pyur.net [2a02:2455:18e9:e011:4d8a:aad2:c25c:50e5])
+	by mta.al2klimov.de (OpenSMTPD) with ESMTPSA id 1846d556 (TLSv1.3:TLS_CHACHA20_POLY1305_SHA256:256:NO);
+	Sun, 10 May 2026 18:52:14 +0000 (UTC)
+Message-ID: <7cb7d771-5bf1-4d26-ac0f-c8968372bfba@al2klimov.de>
+Date: Sun, 10 May 2026 20:24:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.500.181\))
-Subject: [PATCH] ALSA: pcm_drm_eld: rate-limit ELD parsing errors
-Message-Id: <8104462D-BF7C-4C66-9442-0F3874A128E3@gmail.com>
-Date: Sun, 10 May 2026 16:17:47 +0200
-Cc: broonie@kernel.org,
- linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-To: perex@perex.cz,
- tiwai@suse.com
-X-Mailer: Apple Mail (2.3864.500.181)
-
-
---Apple-Mail=_F5FE587A-12D7-475B-AC16-577BDBC51A0C
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>,
+ Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
+ Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nick Li <nick.li@foursemi.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-edac@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-sound@vger.kernel.org
+From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH] Fix possible strscpy() buffer overflows
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain;
-	charset=us-ascii
 
-Hi all,
+In the changed files, strings were copied like this:
 
-Sending this via attachment because my Postfix relay setup wasn't usable.
-Patch is straightforward: rate-limit two dev_info() calls in
-snd_parse_eld() that get triggered on every PCM open against an
-HDMI codec with no sink attached.
+     strscpy(DST, SRC, strlen(SRC));
 
-Equivalent fix to the one Mark Brown did for hdac_hdmi in June 2025
-(lkml.kernel.org/lkml/2025/6/13/1380), just for the generic helper used
-by ASoC hdmi-codec.
+A buffer overflow would happen if strlen(SRC) > sizeof(DST).
+Actually, strscpy() must be used this way:
 
-Tested on Rock 5B+ (RK3588): two HDMI outputs, only one cable plugged
-in. Before: ~30 "HDMI: Unknown ELD version 0" lines per probe burst.
-After: 0.
+     strscpy(DST, SRC, sizeof(DST));
+     strscpy(DST, SRC); // defaults to sizeof(DST)
 
-Let me know if anything needs adjusting.
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+---
+  drivers/edac/versalnet_edac.c | 3 +--
+  drivers/misc/lkdtm/fortify.c  | 6 +-----
+  sound/soc/codecs/fs210x.c     | 2 +-
+  3 files changed, 3 insertions(+), 8 deletions(-)
 
-Thanks,
-Sav
---Apple-Mail=_F5FE587A-12D7-475B-AC16-577BDBC51A0C
-Content-Disposition: attachment;
-	filename=0001-ALSA-pcm_drm_eld-rate-limit-ELD-parsing-errors.patch
-Content-Type: application/octet-stream;
-	x-unix-mode=0644;
-	name="0001-ALSA-pcm_drm_eld-rate-limit-ELD-parsing-errors.patch"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/drivers/edac/versalnet_edac.c b/drivers/edac/versalnet_edac.c
+index ec13155824..daa140f4db 100644
+--- a/drivers/edac/versalnet_edac.c
++++ b/drivers/edac/versalnet_edac.c
+@@ -728,8 +728,7 @@ static int rpmsg_probe(struct rpmsg_device *rpdev)
+  	pg = (struct mc_priv *)amd_rpmsg_id_table[0].driver_data;
+  	chinfo.src = RPMSG_ADDR_ANY;
+  	chinfo.dst = rpdev->dst;
+-	strscpy(chinfo.name, amd_rpmsg_id_table[0].name,
+-		strlen(amd_rpmsg_id_table[0].name));
++	strscpy(chinfo.name, amd_rpmsg_id_table[0].name);
 
-=46rom=205c740f52f5bc1629125588cc7e5a2731baf91e8b=20Mon=20Sep=2017=20=
-00:00:00=202001=0AFrom:=20Sav=20=
-<62543096+dongioia@users.noreply.github.com>=0ADate:=20Sun,=2010=20May=20=
-2026=2010:54:00=20+0000=0ASubject:=20[PATCH]=20ALSA:=20pcm_drm_eld:=20=
-rate-limit=20ELD=20parsing=20errors=0A=0Asnd_parse_eld()=20is=20the=20=
-generic=20helper=20used=20by=20ASoC=20hdmi-codec,=20equivalent=0Ato=20=
-the=20hdac_hdmi=20parse=20path=20Mark=20Brown=20rate-limited=20in=0A=
-lkml.kernel.org/lkml/2025/6/13/1380.=20The=20same=20spam=20shows=20up=20=
-here=20for=20the=0Asame=20reason.=0A=0AWhen=20a=20HDMI=20sink=20is=20not=20=
-connected=20(for=20example=20a=20board=20with=20two=20HDMI=0Aoutputs=20=
-and=20a=20cable=20in=20only=20one=20of=20them),=20userspace=20audio=20=
-servers=20like=0APipeWire=20keep=20opening=20the=20empty=20card.=20=
-snd_parse_eld()=20then=20logs=0A=0A=20=20=20=20HDMI:=20Unknown=20ELD=20=
-version=200=0A=0Aon=20every=20retry.=20On=20rk3588=20that=20easily=20=
-produces=2030+=20messages=20per=20burst.=0AA=20malformed=20ELD=20(MNL=20=
-out=20of=20range)=20hits=20the=20same=20code=20path.=20Neither=20is=0A=
-worth=20a=20separate=20dev_info()=20per=20occurrence;=20switch=20both=20=
-to=0Adev_info_ratelimited().=0A=0ASigned-off-by:=20Sav=20=
-<62543096+dongioia@users.noreply.github.com>=0A---=0A=20=
-sound/core/pcm_drm_eld.c=20|=204=20++--=0A=201=20file=20changed,=202=20=
-insertions(+),=202=20deletions(-)=0A=0Adiff=20--git=20=
-a/sound/core/pcm_drm_eld.c=20b/sound/core/pcm_drm_eld.c=0Aindex=20=
-cb2eebaac85f..1941ee520063=20100644=0A---=20a/sound/core/pcm_drm_eld.c=0A=
-+++=20b/sound/core/pcm_drm_eld.c=0A@@=20-334,7=20+334,7=20@@=20int=20=
-snd_parse_eld(struct=20device=20*dev,=20struct=20snd_parsed_hdmi_eld=20=
-*e,=0A=20=09e->eld_ver=20=3D=20GRAB_BITS(buf,=200,=203,=205);=0A=20=09if=20=
-(e->eld_ver=20!=3D=20ELD_VER_CEA_861D=20&&=0A=20=09=20=20=20=20=
-e->eld_ver=20!=3D=20ELD_VER_PARTIAL)=20{=0A-=09=09dev_info(dev,=20"HDMI:=20=
-Unknown=20ELD=20version=20%d\n",=20e->eld_ver);=0A+=09=09=
-dev_info_ratelimited(dev,=20"HDMI:=20Unknown=20ELD=20version=20%d\n",=20=
-e->eld_ver);=0A=20=09=09goto=20out_fail;=0A=20=09}=0A=20=0A@@=20-357,7=20=
-+357,7=20@@=20int=20snd_parse_eld(struct=20device=20*dev,=20struct=20=
-snd_parsed_hdmi_eld=20*e,=0A=20=09e->product_id=09=20=20=3D=20=
-get_unaligned_le16(buf=20+=2018);=0A=20=0A=20=09if=20(mnl=20>=20=
-ELD_MAX_MNL)=20{=0A-=09=09dev_info(dev,=20"HDMI:=20MNL=20is=20reserved=20=
-value=20%d\n",=20mnl);=0A+=09=09dev_info_ratelimited(dev,=20"HDMI:=20MNL=20=
-is=20reserved=20value=20%d\n",=20mnl);=0A=20=09=09goto=20out_fail;=0A=20=09=
-}=20else=20if=20(ELD_FIXED_BYTES=20+=20mnl=20>=20size)=20{=0A=20=09=09=
-dev_info(dev,=20"HDMI:=20out=20of=20range=20MNL=20%d\n",=20mnl);=0A--=20=0A=
-2.54.0=0A=0A=
+  	pg->ept = rpmsg_create_ept(rpdev, rpmsg_cb, NULL, chinfo);
+  	if (!pg->ept)
+diff --git a/drivers/misc/lkdtm/fortify.c b/drivers/misc/lkdtm/fortify.c
+index 7615a02dfc..9a9159a120 100644
+--- a/drivers/misc/lkdtm/fortify.c
++++ b/drivers/misc/lkdtm/fortify.c
+@@ -174,11 +174,7 @@ static void lkdtm_FORTIFY_STRSCPY(void)
+  	/* Restore src to its initial value. */
+  	src[3] = 'b';
 
---Apple-Mail=_F5FE587A-12D7-475B-AC16-577BDBC51A0C--
+-	/*
+-	 * Use strlen here so size cannot be known at compile time and there is
+-	 * a runtime write overflow.
+-	 */
+-	strscpy(dst, src, strlen(src));
++	strscpy(dst, src);
+
+  	pr_err("FAIL: strscpy() overflow not detected!\n");
+  	pr_expected_config(CONFIG_FORTIFY_SOURCE);
+diff --git a/sound/soc/codecs/fs210x.c b/sound/soc/codecs/fs210x.c
+index e6195b71ad..eda716f817 100644
+--- a/sound/soc/codecs/fs210x.c
++++ b/sound/soc/codecs/fs210x.c
+@@ -968,7 +968,7 @@ static int fs210x_effect_scene_info(struct snd_kcontrol *kcontrol,
+  	if (scene->name)
+  		name = scene->name;
+
+-	strscpy(uinfo->value.enumerated.name, name, strlen(name) + 1);
++	strscpy(uinfo->value.enumerated.name, name);
+
+  	return 0;
+  }
+-- 
+2.54.0
+
