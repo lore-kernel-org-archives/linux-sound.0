@@ -1,144 +1,111 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEAA21CFE0
-	for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 06:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778392843; cv=none; b=LAbDi3eeJa+CYIvqfXYwztPnhH0ZKhm4vBhunSsGnjic+2jPOR5XVzEuQtuEsS6mxgC1J8vzdcP7z7F/dbMESw2WyZpPr4leSNjkqwIIXNdJRtNKHXzPB8SuLdvpKZYsIgDxSzQ47ZqVkZ1CBnFM30DYyXLsy20svdjeLTEInkY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778392843; c=relaxed/simple;
-	bh=Ma5w/TUA8dq/jjUv5tENklFVDStHiQFHbyXHUvawrf8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sPy6QimrcBWufvhGFyTc5ENPlKTZiCHOLRegJEEgqFe5dbz2mOkfq0wx8MPZyFci/3d3x5rwhlIjUG1J7ZKyqyuEseAFUPirSCpJkHoWSwIjQX2l6Pfx1dHazFOrdkdwTLfQn1xCuLc5kF3ZF2nsPFp3jkTey+qgU1A7oT2kXaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JBjHx/sc; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C615308F32
+	for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 08:34:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778402092; cv=pass; b=NVBxTFLRoNkJOgbS/LQeKMGd2EqvvNEvnE7/8v5abfgkDQsfky950mahzviUtQhOw7sQZSdbaeLz94SSWzcaj2qq+q1tCnCms0XpJn55xkO4fMK3mNrur6WG3tzMYTKNXwoWfXtDBKqnllDkV0XQeRFpSZ898cFI+BTiVN6/JLA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778402092; c=relaxed/simple;
+	bh=02l/NBVcMEYBtBRSG2GVWGs5GL3pWUdRLnFNE/9StO4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XbGmlcm71K95ROAynadwWptz2RAswHM7twF24IpCR7VrfVhrGD0WIkpRZ77UTiqeTH/mfLlPOvvmqsJ/T0LOnh2Q8yiF3hlNM5vsd2iKoMtRwfUtoZy7THTHUaXRyjNk/zcL6eqFubbbHovEVInKW/S/yUqMCRToeYBR4O+76Bc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C1sX+HyD; arc=pass smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JBjHx/sc"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-365f36d7b88so458283a91.0
-        for <linux-sound@vger.kernel.org>; Sat, 09 May 2026 23:00:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C1sX+HyD"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2bc85eda6b6so2923105ad.1
+        for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 01:34:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778402091; cv=none;
+        d=google.com; s=arc-20240605;
+        b=HmFedQuCVv88W2bbP2lP5BKZeAZAvOS2OJfE4MMylazogkuQvyr5ahhQFlBRfEiGzi
+         COGe+ExfXXq/e/W9yvhUg4sh5BEXbsBtrKX8iUYUpNfvGexVuhbtiHUXl8NKyE/NL8N6
+         44btlvCB6PnTmFZzbAEsUINkR5mgkru4B4IEVSGemWGo1UnxoOy3CsxFJVa18dgh8+wH
+         Kwks+W8O6iOkb6xLcjx9REmXMvwzQ6oV61HXPt5wqrWD6RH/4hINNLyhNT3qxdaQRIWd
+         Wzecj89Bo5XVuND0o5kcaBYdo5Jg792c+vb9C7unm6F5AyNRzBj7v4p3lruw2DKVka/N
+         ywEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=02l/NBVcMEYBtBRSG2GVWGs5GL3pWUdRLnFNE/9StO4=;
+        fh=YARl9BIkjaiujOYw+iEmrD4vnXaRgFeYvDZDm1bihHo=;
+        b=VFOVAnl3CRg/BfFLnxp/s+cnEFL1WBliUDOd0ZK1aLRPsVCMbL5dl4Akzye/kEqzuO
+         Gl6XlSxMb5piqXPNqwxXx1MvAbRURtr1mapujICPCB6uJG5r6+ic3ThSNKIz/3kLlOA0
+         X1jZKFDi439jDQ30CvrMEMrVPDrITaf3A50di/Iu/dbVBh+m7et/Pu6KXR3uefjiZM8W
+         cMRlC1vVxrHUxTdHzdqKMPI8AR7FNuro0ukppeX0BEld3XfBJ7vNol6EksGsnsWBO8Cj
+         hB14DpEgMsTWGQ2cvB5GFKdmIE6RTEqrR9fHdrJ/506hHSvW4x+4TznwPKNCSX4LdPyp
+         gEdA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778392841; x=1778997641; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SEfBXkMY/OX6F8yuaTV+n34HVpydN7B7v+xFBeTDoKk=;
-        b=JBjHx/scbnZQ3NC9aH4QlNYJczHiEUHcDMv0HtmSuT0BT/5eGqglUc+LOP2rkHzj0h
-         OY1At9ZqJdEdkTRw028kfn4H1aKfkxk9om9e5t5GJQ+ptEPL3tvwA/whMzotI07gOjkK
-         qDtU7Jbs5l0oxUvjdBcepxoa+yx6CIFdXgYfA1QuiIiGEMe3HAqkd5O4ctigKDuMBMEk
-         77CPUiTEkZkSdpVqSk1u5wl4utWR4RavR14BfhqpQUwrolDkNZms5TmOtyg1zVAaheha
-         59V16yarcmgeQo13uUbR4LAlz1inJ2aF5Vd1Ki6XAjIbzQxE0lY1JsZPwLA0wWkuSlHv
-         V5wQ==
+        d=gmail.com; s=20251104; t=1778402091; x=1779006891; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=02l/NBVcMEYBtBRSG2GVWGs5GL3pWUdRLnFNE/9StO4=;
+        b=C1sX+HyDQAgmMdNHjY3sIz4GOi7WJ2B4jFhkkVU1shNs2RfqrfDUgtJTTn5QX5BnD3
+         NexD3QBMcE3ITVD0DHdDj14tufdA2K3nZUu3ljoHkLoObZvQctgbLOJimlvAzRnmRknY
+         cFUeMS0+rZxMC5P2FvyqKykCJjO0Q8aiWxkYYEvXvwhEIkKq2TsfpCnRH96aQig94L6k
+         oAqCKQyS02BMnTzxHZwfbsgTyQvOFwmlpsGEUODFDvpP7Auw0Yx8oiAEPn4KzBevBll+
+         iyInjt0H2+PWUEdn2cVEA3qBbRrtdiC94x5kpuofPaDJbn0V+iITSwxnSWoggGGdB62k
+         HslA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778392841; x=1778997641;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1778402091; x=1779006891;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SEfBXkMY/OX6F8yuaTV+n34HVpydN7B7v+xFBeTDoKk=;
-        b=Ec7Y/+xNbWdU3l/dousRfBmIJlTuL2oKVtXA9J/EwWs5ZcToeY5ysFfplskcwKYz1g
-         Kd4pnBbcqD7h/H2x05snlgNdoDtpKynFZYdbe7d9dWnBnDZSp2h0T3tkJku1p+F/4rZi
-         StaONzhVqn/NAjyXeZVjiirB6aBXijSUBxoM0DCostPYbBs+nGTKE7PaHLA9sXqX71O8
-         21gH9S5qWNscrJxI1q2hBQg+knTIydE7HbyhjOrjwAfF/rSYAPQmZeEtb0txc78ZKdOY
-         uKMOjPaEHIJX3wkXN/kWsdj4XAYP2Aceaymxx+XDUdtwRx1bnvaqv7ppHQ3aJhg4PoTA
-         RT2g==
-X-Gm-Message-State: AOJu0YyAVSLmIOb8W1lmV1LaM0/GgMPowSMP38+B502MZfNlb6PA6Kyq
-	431IIJQ4OYPn1rMnFr+YMKxpTe2Wl9kzC0E0zsWvwNAtJGKIPtm8KNMA
-X-Gm-Gg: Acq92OFgljreIJIrTaSVb9NjicMq7XvFV5g9OGoM9kPTW98gE++hcVlTe/vfHwrA0jn
-	60Y7vEOaZO336rnm8HGkrWOV1tP76sg8CvQWnuuwT/xxxeEOVe++QXf8wY7AiIsE5T2q9OctCDl
-	mOCTbO+ge897tNzvPxvafD8kIAJulVflxAVIV+Bsj6y+4ebsjd7GZnH5ney9mmEz6fc80VhoaQR
-	EjdMpptYrlTzFtSG1sKx8zZL0lrlp0yzkww0Pq4Mqr1y4OCnMMjDmaGM9wiKDJ0Za6zicuRh58z
-	x2ORTR5elWeGOkdTDtDbnziom6sHrfm3CyqWniRfKlV7q5uiZPXnvBPxDwY04LgtzA/OU8VScG3
-	SR/fRRanCU2qELuhTQ3+IiGxvtQ7LXsKkCfyKjKlZbzKH7/lUb4PH9FJ8ZJbEbnVoAUbonmCoWj
-	8UrRsU06v7mFbilMDsHldZ1IfxmDA/S5h6Cf5QhpZ/
-X-Received: by 2002:a05:6a00:3e0e:b0:837:42a6:58a8 with SMTP id d2e1a72fcca58-83a928fd137mr9538815b3a.2.1778392840982;
-        Sat, 09 May 2026 23:00:40 -0700 (PDT)
-Received: from localhost.localdomain ([103.80.236.160])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83965d36c10sm20350561b3a.25.2026.05.09.23.00.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 May 2026 23:00:40 -0700 (PDT)
-From: Dirga Yuza <dirgayuza123@gmail.com>
-To: Jaroslav Kysela <perez@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Zhang Heng <zhangheng@kylinos.cn>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Kailang Yang <kailang@realtek.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dirga Yuza <dirgayuza123@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Add micmute quirk to Acer Nitro AN515-58
-Date: Sun, 10 May 2026 12:58:01 +0700
-Message-ID: <20260510055951.9035-1-dirgayuza123@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        bh=02l/NBVcMEYBtBRSG2GVWGs5GL3pWUdRLnFNE/9StO4=;
+        b=o1LPdRzqVJwUZ5lSEHcKcHTUWr8HtpTevc1PQ2tEVNQyXlXYdV3CY7+i3vMTCrqY4o
+         2KGNFaPwUdwj/nJCHXE4cNaxNYMx0NCKC0YsfD4Oh/ZmjHMz9nqxmFeF6oavAgwhPIY+
+         hZfiqfzvRX97pitHlR9+HJClMZiEpmQFQ1/M7EOSs+u0EHRGO7qg1RATiPrKeDkx+pPK
+         FVu+DROLIV32EmIOj2cJCZoHAaMnJ4HJsbPDq22NZkIZmmoCs5VvOTJVXY8YaOiD+mX6
+         24Dn+l3ItmirJEGwAUNZGBr0VHca5HqSGpQ9TYRtR8Y2MsE9dOy3kX9DaKUoHddyNm3T
+         Oufg==
+X-Forwarded-Encrypted: i=1; AFNElJ+cCsihM819IInPB1xldOolQI/oNrWS13r5Xf5+KxGoEhznf34sHbDX/lf5tUAbILILQQys/L1jjc3VJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzg1X8sPT43l13L2UhF4mhr9eg83ityTf3ndb4DtRfuzwwihV5l
+	22ooKBxDYlgzU/4wm1ms/ZugvT42fBa8aKXQhtH8zlwC4mfankgNbDA5RhoUf8KluDLpc559KCa
+	PY5LAnvs4jgzA46iyJozi0a4wyycU1dw=
+X-Gm-Gg: Acq92OFgGAb8ZiGjH59P/Y0Js9jutIDFofaA7Ysp7roc3HQ3n5LBmq+CalffAq6flq6
+	pBDpDC65nVp5PYgV2wED/vDgb+xo8nUzCyrdx1NxBjkiBW2mEobfMSz8Ca87PwbKy91f3ViDYIh
+	dwh4oEMG3ry9aw3qvr4qIspE7PU+IhhE7evIi8/B+SfCtSfnpkNJMLI7y7CNYgxKPLCSbs5XGZX
+	u54NzAecKDcWpegACTP4ylpo54RXfEvejBF40iB3Z0JMkJB4qP4KzxRLcTDEBMbNLRrx0NSnil+
+	JgLdRp/w9/lz4Fqv3zmS6yZLNur8Dgv6Up4acQ==
+X-Received: by 2002:a17:902:e547:b0:2b2:b117:1d5d with SMTP id
+ d9443c01a7336-2baf0e4fedcmr101160115ad.33.1778402090680; Sun, 10 May 2026
+ 01:34:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260413100700.30995-1-phucduc.bui@gmail.com> <20260413100700.30995-4-phucduc.bui@gmail.com>
+ <87se8ypeq1.wl-kuninori.morimoto.gx@renesas.com> <CAABR9nGB0u-Y7ddGtu0DmZXUiEWTVrXQy7DhTkLgkSBvFjNyJA@mail.gmail.com>
+ <CAABR9nHiSxH60ULks7_jZCC5rE+YVu-u+nm3TnO7oKcFoQduhQ@mail.gmail.com> <CAABR9nHiaw_3E3=id8d5GW3t9XBR7c2WrYU8Hsto=F0siVa-KA@mail.gmail.com>
+In-Reply-To: <CAABR9nHiaw_3E3=id8d5GW3t9XBR7c2WrYU8Hsto=F0siVa-KA@mail.gmail.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Sun, 10 May 2026 15:34:39 +0700
+X-Gm-Features: AVHnY4JtIFjXEfpi29lPaktBvsTRJzvsyk6zoeOhoHMm2kGF0XKoWYVx8WWmEro
+Message-ID: <CAABR9nFw8RL8_emWR3qNLmoG-hmkHAgoEBP+4odN2kSyTSmtug@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] ASoC: renesas: fsi: Fix trigger stop ordering
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, geert+renesas@glider.be, 
+	magnus.damm@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The Acer Nitro AN515-58 uses GPIO 4 in active-low configuration to
-control the mic-mute LED. This patch adds a fixup to register the LED
-classdev and associate it with the mic-mute trigger, while chaining to
-the existing headset mic fixup.
+Hi Morimoto-san,
 
-Signed-off-by: Dirga Yuza <dirgayuza123@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+Since there are quite a few related patches, I will send v3 directly.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index d720565db4aa..3f7698b28b97 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -3323,6 +3323,18 @@ static void alc256_fixup_acer_sfg16_micmute_led(struct hda_codec *codec,
- 	alc_fixup_hp_gpio_led(codec, action, 0, 0x04);
- }
- 
-+static void alc287_fixup_acer_micmute_led(struct hda_codec *codec,
-+	const struct hda_fixup *fix, int action)
-+{
-+	struct alc_spec *spec = codec->spec;
-+
-+	alc_fixup_hp_gpio_led(codec, action, 0, 0x10);
-+	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
-+		spec->micmute_led_polarity = 1;
-+		spec->gpio_mask |= 0x10;
-+		spec->gpio_dir |= 0x10;
-+	}
-+}
- 
- /* for alc295_fixup_hp_top_speakers */
- #include "../helpers/hp_x360.c"
-@@ -4112,6 +4124,7 @@ enum {
- 	ALC245_FIXUP_CS35L41_I2C_2_MUTE_LED,
- 	ALC236_FIXUP_HP_DMIC,
- 	ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO,
-+	ALC287_FIXUP_ACER_MICMUTE_LED,
- };
- 
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -6664,6 +6677,12 @@ static const struct hda_fixup alc269_fixups[] = {
- 			{ 0x1b, 0x90170110 },
- 			{ }
- 		}
-+	},
-+	[ALC287_FIXUP_ACER_MICMUTE_LED] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc287_fixup_acer_micmute_led,
-+		.chained = true,
-+		.chain_id = ALC2XX_FIXUP_HEADSET_MIC,
- 	}
- };
- 
-@@ -6714,7 +6733,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1025, 0x1466, "Acer Aspire A515-56", ALC255_FIXUP_ACER_HEADPHONE_AND_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x1534, "Acer Predator PH315-54", ALC255_FIXUP_ACER_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1025, 0x1539, "Acer Nitro 5 AN515-57", ALC2XX_FIXUP_HEADSET_MIC),
--	SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC2XX_FIXUP_HEADSET_MIC),
-+	SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC287_FIXUP_ACER_MICMUTE_LED),
- 	SND_PCI_QUIRK(0x1025, 0x1597, "Acer Nitro 5 AN517-55", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x160e, "Acer PT316-51S", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x1679, "Acer Nitro 16 AN16-41", ALC2XX_FIXUP_HEADSET_MIC),
--- 
-2.54.0
+Regarding the optimization approach for in-flight IRQ handlers, please
+feel free to provide your feedback on the v3 patch series.
 
+I will make further adjustments in the next versions if needed.
+
+Best Regards,
+
+Phuc,
