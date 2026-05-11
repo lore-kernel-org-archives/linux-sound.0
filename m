@@ -1,144 +1,182 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4792423152;
-	Mon, 11 May 2026 16:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C4B426D17;
+	Mon, 11 May 2026 16:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778515244; cv=none; b=l04RkVhyZIAIoPi0gvk2w7DpPpEBAcua7A1L6p9/of9yGM1DXcqF1oqYcfZeHqvn5PL4nSxoilElStJ7SW+Z5SsjmIK/gfs172IN+yr0cu705W2DFCqv85b4AzmIWq7p1gLlBf0vz4E5z7cHXLyog+t2WAed43uOdecm6n0r020=
+	t=1778515897; cv=none; b=la1cUMtF+BKtY5P4as4LJJ5vwU85DdjdxDtMBr7Q+pk1SVKTCWH+dNC6Xr35D1/+UZKvWl6/R/D1cY59y7Q+H8ZW6y3tUu5x/qWw5csOAWl9JNhPxGw9y7uVop9bEbBo4y4n5q45hzO+cjsqiL/Y6sxFYXCxOhkQlvoRp63CjIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778515244; c=relaxed/simple;
-	bh=4TP647h6bUcWpLakNWuVEPNBqVaigqPU6a5rJXnvNrM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jRxpf8LkFOTdDQGWpNG0kj0bK+JFac03/gjfQ4cBAwuAcOMMJnzIzRkf3HJS2G4HZmL8+pjtNcTI/BZlZdeCWzZGE63++XlfSXt+jUXdWKFxMO1zbAIdHOgLSv9W2W0rjEaClz2uLx/pKqGCMmNgN29iGVzUhsWlHg37t39XtVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Vj95Q6ZP; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1778515897; c=relaxed/simple;
+	bh=TXzIw50Ubej2grT0J9j5w81loy36TIzYfxvj4Vt5Kao=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DqD/8/JxP4YFRfHpg4h/W76WHxcIg8a8ZL18xsYkyrYCB0nZ4Fy8p3n+rWUiGOJODLmsMHZ5KDe4rdxPidRknOK9a94OTT8KZY6CI4rHZYGRsqWeEsTgXF10ZNLRNRv2b8Yt8+IZfG9RFjcVZf0AiyX5o9PiuGYrxN0sqkMKnTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tOYaqRnM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Vj95Q6ZP"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id AAC621A1DD5;
-	Mon, 11 May 2026 16:00:41 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7D27B60646;
-	Mon, 11 May 2026 16:00:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C4D7E11AF9F2D;
-	Mon, 11 May 2026 18:00:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778515239; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=bKqIe7WRSBpcbkduycfdUius+fdoa8lS+ROf87HCzsw=;
-	b=Vj95Q6ZPshNanZOcR9ZKav90YIJrBT58CHMzeCV960whdbMmwRonhTR4DxYcbPkZDcIsUt
-	8Lo8LoH8LmUo6wLiqD2rMkT00ApFiamXjMMaoEmK5xSr7jHfeZwSws2M9Iutz9nHB8ev6U
-	K8zBaH+9GrYqtaXUqkjWsB3gz6gH79p+3FnbQIXgs9oEOEEVP2jv7BXCsPzy8CbNmyjbVy
-	tLbE2ssOjgosNUQC+Vzy69fiOvMOE42T1gnbo+/p9Lj4tr76+BB6/qijyXvrvZfzKPlPBg
-	3juJBPm6aCd8ozPqyt9ssknX7Xv8QcOjm6Ec5+EsvnwJW2BQ9jWrcB7bgHgQrQ==
-From: Herve Codina <herve.codina@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <djbw@kernel.org>,
-	Lizhi Hou <lizhi.hou@amd.com>,
-	Herve Codina <herve.codina@bootlin.com>
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	Allan Nielsen <allan.nielsen@microchip.com>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v7 8/8] PCI: of: Remove fwnode_dev_initialized() call for a PCI root bridge node
-Date: Mon, 11 May 2026 17:59:28 +0200
-Message-ID: <20260511155930.34604-9-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260511155930.34604-1-herve.codina@bootlin.com>
-References: <20260511155930.34604-1-herve.codina@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tOYaqRnM"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 84D22C2BCB0;
+	Mon, 11 May 2026 16:11:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778515897;
+	bh=TXzIw50Ubej2grT0J9j5w81loy36TIzYfxvj4Vt5Kao=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=tOYaqRnMnZpjApGIDeLX1I6OtZ/M3eYipRCKu+y2mWPrZOWlGmgd+jt9oOGjqKVTq
+	 rI8kTcCp8T/il25A3nYDKauYN6GcJg6fgqNBU04vkQJx7lAX0ziQgV/mLSw2Tt7+vf
+	 mzFghg6KrozNo2G748JUaTwvIAG4mXohoW7dJ5QBhp/pLeHwcYUTZJAfBPCohDDg0p
+	 TdTi49vbdZ2r58h/uChLGfAHLozvyuXhCPTBVGyay++zJdZJlXyjSD6ARrKDfk7spE
+	 oG5L+pOlLHyU319RxTKgLiZ0IkWmfPSk8uNd01u3XAXabGVbIPVaQyeM3w3u3owile
+	 jTLfZPDSule2g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CB09CD4840;
+	Mon, 11 May 2026 16:11:37 +0000 (UTC)
+From: Frank Li via B4 Relay <devnull+Frank.Li.nxp.com@kernel.org>
+Date: Mon, 11 May 2026 12:11:32 -0400
+Subject: [PATCH v2] ASoC: dt-bindings: Convert eukrea-tlv320.txt to yaml
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260511-eukrea-v2-1-cac317290978@nxp.com>
+X-B4-Tracking: v=1; b=H4sIALP/AWoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
+ vPSU3UzU4B8JSMDIzMDU0ND3dTS7KLURN1Uw1STFLOUNAtTg2QloOKCotS0zAqwQdGxtbUAvv0
+ jIlgAAAA=
+X-Change-ID: 20260511-eukrea-e1e4d6df850c
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778515897; l=3623;
+ i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
+ bh=Rwk/LOK0vxBQRx6CqkcwOGhaMlXZZ3H+Gmi3nQ8Ktjk=;
+ b=yfLg9ZvkAKOdqtkLmmxjVBHQDEJoPg6f4s9MKabAOeMpcMsz63Modt+sltRQVkvuMojoNyw6/
+ 6y9bKqbFnHnCLkSVeziMmnJYU6xtSUMaxat65v2JW5HoDTBNuduF9sW
+X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
+ pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
+X-Endpoint-Received: by B4 Relay for Frank.Li@nxp.com/20240130 with
+ auth_id=121
+X-Original-From: Frank Li <Frank.Li@nxp.com>
+Reply-To: Frank.Li@nxp.com
 
-During the instantiation of devices described by a device-tree overlay
-applied on a PCI device, devlink displays the following kind of debug
-messages instead of creating the expected links:
-   'Not linking xxxx - might never become dev'
+From: Frank Li <Frank.Li@nxp.com>
 
-Without those expected links, the device removal order cannot be
-correct.
+Convert eukrea-tlv320.txt to yaml format.
 
-Those debug traces are printed by fw_devlink_create_devlink(). In our
-use case, they are all printed because the supplier of the link has at
-least one of its ancestor with its fwnode flag FWNODE_FLAG_INITIALIZED
-set.
-
-The culprit ancestor is the PCI root bridge.
-
-The fwnode related to the PCI root bridge is created dynamically by the
-of_pci_make_host_bridge_node() function. During this creation
-fwnode_dev_initialized() is called which set the FWNODE_FLAG_INITIALIZED
-flag.
-
-Calling fwnode_dev_initialized() tells devlink that the device related
-to this node is handled out of the driver core. This is not correct in
-our case. Indeed the device related to this firmware node is handled
-using driver core mechanisms and is fully compliant devlink
-expectations.
-
-Simply remove the fwnode_dev_initialized() call. With that done, the
-devlink debug messages are no more displayed and links that were missing
-are correctly created.
-
-Fixes: 1f340724419e ("PCI: of: Create device tree PCI host bridge node")
-Cc: stable@vger.kernel.org
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
- drivers/pci/of.c | 1 -
- 1 file changed, 1 deletion(-)
+change in v2
+- Add comments about "The AUDMUX port numbering should start at 1"
+  v1: https://lore.kernel.org/linux-devicetree/CAEnQRZACes8EptdEgg0i0vzdcxgUJwZAfQHU0DEhMnXtA-g01Q@mail.gmail.com/
+---
+ .../bindings/sound/eukrea,asoc-tlv320.yaml         | 55 ++++++++++++++++++++++
+ .../devicetree/bindings/sound/eukrea-tlv320.txt    | 26 ----------
+ 2 files changed, 55 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-index 25fb02c3dc72..53a8a4f30eb6 100644
---- a/drivers/pci/of.c
-+++ b/drivers/pci/of.c
-@@ -811,7 +811,6 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
- 	 */
- 	of_node_set_flag(np, OF_POPULATED);
- 	fw_devlink_set_device(&np->fwnode, &bridge->dev);
--	fwnode_dev_initialized(&np->fwnode, true);
- 
- 	ret = of_changeset_apply(cset);
- 	if (ret)
--- 
-2.54.0
+diff --git a/Documentation/devicetree/bindings/sound/eukrea,asoc-tlv320.yaml b/Documentation/devicetree/bindings/sound/eukrea,asoc-tlv320.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..a95cd0323f6e489765deb8c1d1eee966750ac7aa
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/eukrea,asoc-tlv320.yaml
+@@ -0,0 +1,55 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/eukrea,asoc-tlv320.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Audio complex for Eukrea boards with tlv320aic23 codec.
++
++maintainers:
++  - Frank Li <Frank.Li@nxp.com>
++
++properties:
++  compatible:
++    const: eukrea,asoc-tlv320
++
++  eukrea,model:
++    $ref: /schemas/types.yaml#/definitions/string
++    description:
++      The user-visible name of this sound complex.
++
++  ssi-controller:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      The phandle of the SSI controller.
++
++  fsl,mux-int-port:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      The internal port of the i.MX audio muxer (AUDMUX).
++      Note: The AUDMUX port numbering should start at 1, which is consistent with
++      hardware manual.
++
++  fsl,mux-ext-port:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      The external port of the i.MX audio muxer.
++      Note: The AUDMUX port numbering should start at 1, which is consistent with
++      hardware manual.
++
++required:
++  - compatible
++  - eukrea,model
++  - ssi-controller
++
++additionalProperties: false
++
++examples:
++  - |
++    sound {
++        compatible = "eukrea,asoc-tlv320";
++        eukrea,model = "imx51-eukrea-tlv320aic23";
++        ssi-controller = <&ssi2>;
++        fsl,mux-int-port = <2>;
++        fsl,mux-ext-port = <3>;
++    };
+diff --git a/Documentation/devicetree/bindings/sound/eukrea-tlv320.txt b/Documentation/devicetree/bindings/sound/eukrea-tlv320.txt
+deleted file mode 100644
+index 6dfa88c4dc1e8b3aea1e39b79eaa62185e64c240..0000000000000000000000000000000000000000
+--- a/Documentation/devicetree/bindings/sound/eukrea-tlv320.txt
++++ /dev/null
+@@ -1,26 +0,0 @@
+-Audio complex for Eukrea boards with tlv320aic23 codec.
+-
+-Required properties:
+-
+-  - compatible		: "eukrea,asoc-tlv320"
+-
+-  - eukrea,model	: The user-visible name of this sound complex.
+-
+-  - ssi-controller	: The phandle of the SSI controller.
+-
+-  - fsl,mux-int-port	: The internal port of the i.MX audio muxer (AUDMUX).
+-
+-  - fsl,mux-ext-port	: The external port of the i.MX audio muxer.
+-
+-Note: The AUDMUX port numbering should start at 1, which is consistent with
+-hardware manual.
+-
+-Example:
+-
+-	sound {
+-		compatible = "eukrea,asoc-tlv320";
+-		eukrea,model = "imx51-eukrea-tlv320aic23";
+-		ssi-controller = <&ssi2>;
+-		fsl,mux-int-port = <2>;
+-		fsl,mux-ext-port = <3>;
+-	};
+
+---
+base-commit: b7719f5647f279b131c888e70c77dd9287b322d8
+change-id: 20260511-eukrea-e1e4d6df850c
+
+Best regards,
+--
+Frank Li <Frank.Li@nxp.com>
+
 
