@@ -1,64 +1,65 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E131E98FF
-	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 04:29:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 883261DF73A
+	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 04:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778473795; cv=none; b=lvRwzTv4VJvfcj+87d0ZyHHz/oxO6y9KFd/MdxOKaxtm4YWzydIgdSypad1GAZ3R8+SMpqNH6W4n9mKw6668WFp+cHSmn0FDvPc9YjkdkitrnBie8F80X56IuEpL+0mcAPCJNGz8u98g2gUm37NWdjE3b7AncZkrMdHY5jxcbRA=
+	t=1778474208; cv=none; b=f8jaYz7+k9QnNM5OvdPy63GzJASdraL3GT143AM5nwZwq8J7lnu4+wS/+uSXsGTXzy03YYuWIY9hUQuLs+VtPAEXT1s1joI1y2yFIDGm5D/Y73DrDElfPyuyCiYWMmVA5IKbhH7fvpnZQ5V6YNj3rjBYNUX/xqUOl9zX4VyHsis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778473795; c=relaxed/simple;
-	bh=Fs0OJQxWXkrUkceQIIh8xUwlumLQ4eJxzykdIOR4reI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=pgHH6Nqv0Vh5m526ewcS446qFKxTGW+m0gwy+5G1dLFqLj8iIovU+Ol0Ud/vUnDSkPTH0+/C6IkYCu3IDg1snY8tofonMDbhl2PiiOr0ykKwq108uOl8M+w1luyvP+rTNRxNEEQMo1vY33ieUNzeI1AHq9OdxLIpQfw4ByJFM8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lk3aR6Ju; arc=none smtp.client-ip=74.125.82.179
+	s=arc-20240116; t=1778474208; c=relaxed/simple;
+	bh=xz4Q2/bvZnl47FmwyqOLbYEmF0mtTjZCnGvYrSSP7PI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=q+LRK2WqA2Cip0LoAGdAB354O17a3GSRmDO8OC6MV9hJRS0igOiIZd0NTYda0zJZ3lC1Q4Jd+7GF7eSmCL/CBa8ba38aTOTbebz40ftY4Xn7cQ+vIq3W1CPfeZ0uGCaf1tF+EtB+2Qa+HnQyc246WGGGiewt21lf2Vwho0bY0Uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pgciqqKi; arc=none smtp.client-ip=74.125.82.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lk3aR6Ju"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2bdcf5970cdso2728882eec.0
-        for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 21:29:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pgciqqKi"
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-130b2295ed0so10833537c88.0
+        for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 21:36:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778473792; x=1779078592; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778474207; x=1779079007; darn=vger.kernel.org;
         h=cc:to:message-id:content-transfer-encoding:mime-version:subject
          :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Nn7+K5hKPTTZ9BGRsS3kwvWBcEqqW1Azh+i+IcZJ/Q=;
-        b=Lk3aR6Ju/6g1Psr6gki748DjPaZiAMV7WJEw7kWHjkimwtOuqyI/G67S0lRUfQkhLm
-         4oyOhrBDMugogjrQs5gtPbKQEKzN9AYn5pr2JiUGggVGCRexKho5O3waSElRPxvPNWkn
-         nIOTBvKGbjFnztV1a1w/N+ZF2QtIRVE4gpfbqzZimTbYhPvzUDEGeViGzom7W3jDf77/
-         0KHh+C0IDEI7ze7Qd9px7quTQbm4sSJ4NqmUZlaKFs3GhpB+c6N4sUJeLFqWcexCEHhk
-         gIhLKErOvhgsQB/LCz4mOyb3JPh4fi4yV4zUsoFzZOqtDSmdaowaGfH9yeyC/4hTI0cW
-         0OFA==
+        bh=ZNmK8eiOPDvhAT6YZbtLUE/AFt3/E5twms2XcUfuzaE=;
+        b=pgciqqKin6UtQWqck1Jh7ycyPoC+R+U+xeFNYyvVYotk2JBrrbz9Vr7S5Vz0tjsLcN
+         Tp13d8BnHNs4WhFVW5vmnG1ogCxgb6BLbbZdlpmbu72GhPLg9O5P+1ktFwbFGQoaA53q
+         IDTLn4rEcSkBqp31E2Ek749Pvmdogq5aZPVKHnN8rCARFThJGOcJZrxmNOQdoZipz3Yu
+         /LxFzLkV5hjD4NOkl7CAY9uNico4hmLnpNUBSekiQ+n/STXP8/vBMPvK9NZyIZwjmN7+
+         XG4QOO3Y1iq2+y8MkdAdAZh0YMUg04M9lV6VGjI+/UMXH1XmcJY5EpF6mZ9znYCh7KdO
+         N4Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778473792; x=1779078592;
+        d=1e100.net; s=20251104; t=1778474207; x=1779079007;
         h=cc:to:message-id:content-transfer-encoding:mime-version:subject
          :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3Nn7+K5hKPTTZ9BGRsS3kwvWBcEqqW1Azh+i+IcZJ/Q=;
-        b=ZXrMO/6kpFPqmyHIEOZiTTrhxBxu7rJixxKFMLrIt1ppRFJEB5air/dG4F6Nm6WVbI
-         U93/42pSdg3oxRTICTbWkeA1k9vljjQSLVRPCSvKFj1oPw8751601x/r8Rlo+PGXEBkU
-         tQ4T+Ndj6mI8EXzBOIVt5BD0/jVc2NRJ1/4r7l8toXyiAeVr+aljA+gtdn2dsHNwJSOU
-         AZbDuq922KBZQDAPZW4bkShgZJpVf0/GDuGGYPi4jl8prObORmCfL0Jadk5w0uPg40lI
-         SoNfVR0dXqRWWK0Vw+Ntw60QZdbvpabX68oluJKhYKTBMiVJQziz1heERLVNEkT38+2k
-         nGyQ==
-X-Gm-Message-State: AOJu0Yzw17XkpOPPVbAG9Wtxc2j8RcA53dIEcLTWkLEUDr+NO7yrvcWq
-	heTKLg9vDhmWdpieOXjRNNF7LZHFBUNQ8AvRbJSmqdsHFODGVxHDPDew
-X-Gm-Gg: Acq92OGQRmSGSc6SAeMwUj8ndsJRihN8VLpKa4zBDmTnNE/qE10eO8Zsok6B2Wg7QuO
-	RjZzO9H/muz7IH+E3r84QQ9M/DwQ0tEE3kwtY4/8MPFEHgBKAMbln3/0AlhUoMZrR4hbAF90FiA
-	1AueUGmQBcDQqI/JcFUop4u2CNKEhE9lApdbY9wnfvNmo/ocn7m8c+C2D0R4iRVAiZoDPRfb7mL
-	cLLerf2NKMy4+F4k4Bv1uk16n0VUcvIvbep3eaHyOEzaH9jV3kVtbMSu5k8jzvWlhmJ/D8eqDYa
-	Tzonfq5c0xq3wFkGYbK7w8dGOWcHvXKtK505stzYZRAcP6NmZAeYP025OlgttZ1TPlSIDJ6T9tg
-	jn/eKZUZMmW5jRhNXwPJtLHneOZNVdXtYQT1BdeuYZhqD876BfpRTPGH1CEu41mtGB8JGRq0Gtn
-	9EkaE4W+n77DC24HKNSZ8lEqqM+nYGHVtfgss4kSAkrKLxySy/DFeJ6AdEOmvbkszLis+lO7+KX
-	vsd9pjN2cFg
-X-Received: by 2002:a05:7300:2d07:b0:2d3:9c91:6c45 with SMTP id 5a478bee46e88-2f6e24f93acmr7143307eec.6.1778473792018;
-        Sun, 10 May 2026 21:29:52 -0700 (PDT)
+        bh=ZNmK8eiOPDvhAT6YZbtLUE/AFt3/E5twms2XcUfuzaE=;
+        b=fvArzUoH8MqX0kzMnPrIJjBUYAC5krj0E33RqrZi9i52tjdNJMVrbtqyOB1FTeZF56
+         KDLzmEy7NzlOQ36mYjf3nnOL3O7jahP+ww1ov/FbA2LXyuKi1VmxgnpA1ctRr8Ojun2j
+         RlUDFCeHzHmdJq1TaiKydKxUjFbQr5lZdLFjMqYHonMUl1fFAa9vpMLaTtP5hnEwoC7u
+         DPGCFHo/+BWEJHUkWXIjqA6P54sikVj2DzOceTC6yoPEQHiBO4UgrDPgEUSiP8UR7P9/
+         6KF01CQnvVm2AZnQS4VfNJq0envavhflKrhRzsLtomAmZgPY6eMYpm+bhOnnxG0lTYQT
+         y1RQ==
+X-Gm-Message-State: AOJu0YzSEpv/mDOYM8a2Ng/0yGSP5AZr1LgaJArXiuo1LfyVcm65Ma2Y
+	O0bErhEihiEK3TshBYy3WB+1/oTcgByUQuCsBDIFDZSS2CGkPtQLz9tT
+X-Gm-Gg: Acq92OG6u2W1icKZf31QMzoLxCdVAw5Fr4uXkIK4E6Q9/0wIvBbwcYpsSWckzwyHPbv
+	IqvxCPYfsn4m7auJwS1vePzBSf/GPzCjO2tV0d+4BSKyFUWHp3uC9yTuaqnhId5yYn9eTwmn4Yh
+	Za7smg47CxS8Kav6/UQS3sgfcbg0kTgLM9Wa87+apD1Srft70OYWXUMGQ9+cfZTkD5Cso60Y5QJ
+	27GQxA4Rd4hxNHIOSVHr/LQx0cjHx0RxRktpjcN8FjSgXG1sCseJKNJrahsITIx4MJi0nd9Ljjh
+	jbQWV/k9DmMj4S1267pcMemssDk+CkuHWgyIsXwOnFo3pHozhBAi2WR4ua16p1UdakG3YR0KVmE
+	bwlqZBss+RxaCAJitUD81Nt4pJeb/MLKsz5L7QNyAQDXHbN1QvjzsxG09xVXoYTWave7+5t4Gki
+	6OZhFs1SL/fmyZtUrTO/HM4jcKENsc9CUtByxXbCejnpVLLV8xeyR9FJqUpmnB/2M9H2aoMVhIj
+	w==
+X-Received: by 2002:a05:7022:3d05:b0:11a:4016:44a5 with SMTP id a92af1059eb24-1318e917705mr10856939c88.24.1778474206475;
+        Sun, 10 May 2026 21:36:46 -0700 (PDT)
 Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f88885b87dsm14492043eec.21.2026.05.10.21.29.47
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1327865700asm12975784c88.9.2026.05.10.21.36.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 May 2026 21:29:51 -0700 (PDT)
+        Sun, 10 May 2026 21:36:45 -0700 (PDT)
 From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Mon, 11 May 2026 01:29:34 -0300
-Subject: [PATCH RESEND] ALSA: hda/cs35l41: Fix firmware load work teardown
+Date: Mon, 11 May 2026 01:36:37 -0300
+Subject: [PATCH RESEND] ALSA: usb-audio: qcom: Check offload mapping
+ failures
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,193 +68,124 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260511-alsa-hda-cs35l41-fw-work-teardown-v1-1-1184e9bc4f25@gmail.com>
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Takashi Iwai <tiwai@suse.com>, 
- Stefan Binding <sbinding@opensource.cirrus.com>, 
- Vitaly Rodionov <vitalyr@opensource.cirrus.com>, 
- Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+Message-Id: <20260511-alsa-usb-qcom-offload-map-errors-v1-1-6502695e58bc@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Mark Brown <broonie@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, 
  =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6027;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3654;
  i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=Fs0OJQxWXkrUkceQIIh8xUwlumLQ4eJxzykdIOR4reI=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDFmM0dY8Ed07Xu0S+LLN8cbtLSEC/aoNXK+flJzUz+U6/
- E476ppsRykLgxgXg6yYIsvqpEWWe7oeXK2PW+EBM4eVCWQIAxenAExEvomRYcXCoPjplRPS/Nf9
- +XpTOYhZYav0hYiTSysfvjp93rf74xJGhulnnuvM4lhU9PfK9N3cGgenz73IP+OPX9N+pkuRyrb
- vrvMBAA==
+ bh=xz4Q2/bvZnl47FmwyqOLbYEmF0mtTjZCnGvYrSSP7PI=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDFmMMbe8jqiunxW+xvtLrMf7O23v5Kw3BdZIFxsm77+0b
+ aLxwtbOjlIWBjEuBlkxRZbVSYss93Q9uFoft8IDZg4rE8gQBi5OAZjIZCFGhtuX84Vj9kRL8Bd8
+ LxDb5Sv6bumK9celLG0CVW7fbylVVmX475r18NtVoaBph2qcd6g03Wi7YBG3/+KiuTPfGb39z5K
+ 0iw0A
 X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
  fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-cs35l41_hda creates ALSA controls whose private data points at the
-cs35l41_hda object. The firmware load control can also queue
-fw_load_work.
+uaudio_transfer_buffer_setup() calls dma_get_sgtable() and then passes
+the sg_table to uaudio_iommu_map_xfer_buf() without checking whether sg
+table construction succeeded. If dma_get_sgtable() fails, the sg_table
+contents are not valid.
 
-Those controls are not removed on component unbind, and device remove
-only cancels fw_load_work through cs35l41_remove_dsp(). That helper is
-skipped when halo_initialized is false. With firmware_autostart
-disabled, a firmware load can be requested before the DSP has been
-initialized. If the component or device is removed before the queued
-work runs, the worker can run after teardown and dereference driver
-state that is no longer valid.
+uaudio_iommu_map_pa() also ignores iommu_map() failures for the event and
+transfer rings and still returns the allocated IOVA to the QMI response.
+That can expose an unmapped IOVA to the audio DSP. For transfer rings,
+the failed mapping also leaves the IOVA allocator state marked in use.
 
-Track the created controls and remove them on unbind so no new control
-callback can reach the driver data or queue more work. Then cancel
-fw_load_work to drain any request that was already queued. Also cancel
-the work unconditionally during device remove before runtime PM teardown.
+Check both operations. Free the coherent transfer buffer when sg table
+construction fails, free the sg table when transfer-buffer IOMMU mapping
+fails, and release the transfer-ring IOVA if iommu_map() fails. Also
+return the existing event-ring IOVA when the event ring is already mapped,
+matching the pre-split helper behavior.
 
-Fixes: 47ceabd99a28 ("ALSA: hda: cs35l41: Support Firmware switching and reloading")
-Fixes: 4c870513fbb0 ("ALSA: hda: cs35l41: Add read-only ALSA control for forced mute")
+Fixes: 326bbc348298 ("ALSA: usb-audio: qcom: Introduce QC USB SND offloading support")
+Fixes: 44499ecb4f28 ("ALSA: usb: qcom: Fix false-positive address space check")
 Cc: stable@vger.kernel.org
 Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
- sound/hda/codecs/side-codecs/cs35l41_hda.c | 77 +++++++++++++++++++++---------
- sound/hda/codecs/side-codecs/cs35l41_hda.h |  5 ++
- 2 files changed, 60 insertions(+), 22 deletions(-)
+ sound/usb/qcom/qc_audio_offload.c | 31 +++++++++++++++++++++++++------
+ 1 file changed, 25 insertions(+), 6 deletions(-)
 
-diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.c b/sound/hda/codecs/side-codecs/cs35l41_hda.c
-index b64890006bb7..7f18be0ccf5a 100644
---- a/sound/hda/codecs/side-codecs/cs35l41_hda.c
-+++ b/sound/hda/codecs/side-codecs/cs35l41_hda.c
-@@ -1325,6 +1325,43 @@ static int cs35l41_fw_type_ctl_info(struct snd_kcontrol *kcontrol, struct snd_ct
- 	return snd_ctl_enum_info(uinfo, 1, ARRAY_SIZE(cs35l41_hda_fw_ids), cs35l41_hda_fw_ids);
- }
- 
-+static void cs35l41_remove_controls(struct cs35l41_hda *cs35l41)
-+{
-+	if (!cs35l41->codec)
-+		return;
-+
-+	snd_ctl_remove(cs35l41->codec->card, cs35l41->mute_override_ctl);
-+	cs35l41->mute_override_ctl = NULL;
-+
-+	snd_ctl_remove(cs35l41->codec->card, cs35l41->fw_load_ctl);
-+	cs35l41->fw_load_ctl = NULL;
-+
-+	snd_ctl_remove(cs35l41->codec->card, cs35l41->fw_type_ctl);
-+	cs35l41->fw_type_ctl = NULL;
-+}
-+
-+static int cs35l41_add_control(struct cs35l41_hda *cs35l41,
-+			       struct snd_kcontrol_new *ctl,
-+			       struct snd_kcontrol **kctl)
-+{
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index 5f993b88448c..a0009503b2c5 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -565,6 +565,7 @@ static unsigned long uaudio_iommu_map_pa(enum mem_type mtype, bool dma_coherent,
+ 	unsigned long iova = 0;
+ 	bool map = true;
+ 	int prot = uaudio_iommu_map_prot(dma_coherent);
 +	int ret;
+ 
+ 	switch (mtype) {
+ 	case MEM_EVENT_RING:
+@@ -582,10 +583,24 @@ static unsigned long uaudio_iommu_map_pa(enum mem_type mtype, bool dma_coherent,
+ 		dev_err(uaudio_qdev->data->dev, "unknown mem type %d\n", mtype);
+ 	}
+ 
+-	if (!iova || !map)
++	if (!iova)
+ 		return 0;
+ 
+-	iommu_map(uaudio_qdev->data->domain, iova, pa, size, prot, GFP_KERNEL);
++	if (!map)
++		return iova;
 +
-+	*kctl = snd_ctl_new1(ctl, cs35l41);
-+	if (!*kctl)
-+		return -ENOMEM;
-+
-+	ret = snd_ctl_add(cs35l41->codec->card, *kctl);
++	ret = iommu_map(uaudio_qdev->data->domain, iova, pa, size, prot,
++			GFP_KERNEL);
 +	if (ret) {
-+		dev_err(cs35l41->dev, "Failed to add KControl %s = %d\n", ctl->name, ret);
-+		*kctl = NULL;
-+		return ret;
++		dev_err(uaudio_qdev->data->dev,
++			"failed to map %zu bytes at iova 0x%08lx: %d\n",
++			size, iova, ret);
++		if (mtype == MEM_XFER_RING)
++			uaudio_put_iova(iova, size,
++					&uaudio_qdev->xfer_ring_list,
++					&uaudio_qdev->xfer_ring_iova_size);
++		return 0;
 +	}
-+
-+	dev_dbg(cs35l41->dev, "Added Control %s\n", ctl->name);
-+
-+	return 0;
-+}
-+
- static int cs35l41_create_controls(struct cs35l41_hda *cs35l41)
- {
- 	char fw_type_ctl_name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
-@@ -1360,32 +1397,23 @@ static int cs35l41_create_controls(struct cs35l41_hda *cs35l41)
- 	scnprintf(mute_override_ctl_name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN, "%s Forced Mute Status",
- 		  cs35l41->amp_name);
  
--	ret = snd_ctl_add(cs35l41->codec->card, snd_ctl_new1(&fw_type_ctl, cs35l41));
--	if (ret) {
--		dev_err(cs35l41->dev, "Failed to add KControl %s = %d\n", fw_type_ctl.name, ret);
--		return ret;
--	}
--
--	dev_dbg(cs35l41->dev, "Added Control %s\n", fw_type_ctl.name);
--
--	ret = snd_ctl_add(cs35l41->codec->card, snd_ctl_new1(&fw_load_ctl, cs35l41));
--	if (ret) {
--		dev_err(cs35l41->dev, "Failed to add KControl %s = %d\n", fw_load_ctl.name, ret);
--		return ret;
--	}
--
--	dev_dbg(cs35l41->dev, "Added Control %s\n", fw_load_ctl.name);
-+	ret = cs35l41_add_control(cs35l41, &fw_type_ctl, &cs35l41->fw_type_ctl);
-+	if (ret)
-+		goto err;
+ 	return iova;
+ }
+@@ -1054,15 +1069,17 @@ static int uaudio_transfer_buffer_setup(struct snd_usb_substream *subs,
+ 	if (!xfer_buf)
+ 		return -ENOMEM;
  
--	ret = snd_ctl_add(cs35l41->codec->card, snd_ctl_new1(&mute_override_ctl, cs35l41));
--	if (ret) {
--		dev_err(cs35l41->dev, "Failed to add KControl %s = %d\n", mute_override_ctl.name,
--			ret);
--		return ret;
--	}
-+	ret = cs35l41_add_control(cs35l41, &fw_load_ctl, &cs35l41->fw_load_ctl);
+-	dma_get_sgtable(subs->dev->bus->sysdev, &xfer_buf_sgt, xfer_buf,
+-			xfer_buf_dma, len);
++	ret = dma_get_sgtable(subs->dev->bus->sysdev, &xfer_buf_sgt, xfer_buf,
++			      xfer_buf_dma, len);
 +	if (ret)
-+		goto err;
++		goto free_xfer_buf;
  
--	dev_dbg(cs35l41->dev, "Added Control %s\n", mute_override_ctl.name);
-+	ret = cs35l41_add_control(cs35l41, &mute_override_ctl, &cs35l41->mute_override_ctl);
-+	if (ret)
-+		goto err;
+ 	/* map the physical buffer into sysdev as well */
+ 	xfer_buf_dma_sysdev = uaudio_iommu_map_xfer_buf(dma_coherent,
+ 							len, &xfer_buf_sgt);
+ 	if (!xfer_buf_dma_sysdev) {
+ 		ret = -ENOMEM;
+-		goto unmap_sync;
++		goto free_sgt;
+ 	}
+ 
+ 	mem_info->dma = xfer_buf_dma;
+@@ -1073,7 +1090,9 @@ static int uaudio_transfer_buffer_setup(struct snd_usb_substream *subs,
  
  	return 0;
-+
-+err:
-+	cs35l41_remove_controls(cs35l41);
-+	return ret;
- }
  
- static bool cs35l41_dsm_supported(acpi_handle handle, unsigned int commands)
-@@ -1522,6 +1550,10 @@ static void cs35l41_hda_unbind(struct device *dev, struct device *master, void *
- 		device_link_remove(&cs35l41->codec->core.dev, cs35l41->dev);
- 		unlock_system_sleep(sleep_flags);
- 		memset(comp, 0, sizeof(*comp));
-+
-+		cs35l41_remove_controls(cs35l41);
-+		cancel_work_sync(&cs35l41->fw_load_work);
-+		cs35l41->codec = NULL;
- 	}
- }
+-unmap_sync:
++free_sgt:
++	sg_free_table(&xfer_buf_sgt);
++free_xfer_buf:
+ 	usb_free_coherent(subs->dev, len, xfer_buf, xfer_buf_dma);
  
-@@ -2058,6 +2090,7 @@ void cs35l41_hda_remove(struct device *dev)
- 	struct cs35l41_hda *cs35l41 = dev_get_drvdata(dev);
- 
- 	component_del(cs35l41->dev, &cs35l41_hda_comp_ops);
-+	cancel_work_sync(&cs35l41->fw_load_work);
- 
- 	pm_runtime_get_sync(cs35l41->dev);
- 	pm_runtime_dont_use_autosuspend(cs35l41->dev);
-diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.h b/sound/hda/codecs/side-codecs/cs35l41_hda.h
-index 7d003c598e93..56ec07c0bb74 100644
---- a/sound/hda/codecs/side-codecs/cs35l41_hda.h
-+++ b/sound/hda/codecs/side-codecs/cs35l41_hda.h
-@@ -57,6 +57,8 @@ enum control_bus {
- 	SPI
- };
- 
-+struct snd_kcontrol;
-+
- struct cs35l41_hda {
- 	struct device *dev;
- 	struct regmap *regmap;
-@@ -75,6 +77,9 @@ struct cs35l41_hda {
- 	int speaker_id;
- 	struct mutex fw_mutex;
- 	struct work_struct fw_load_work;
-+	struct snd_kcontrol *fw_type_ctl;
-+	struct snd_kcontrol *fw_load_ctl;
-+	struct snd_kcontrol *mute_override_ctl;
- 
- 	struct regmap_irq_chip_data *irq_data;
- 	bool firmware_running;
+ 	return ret;
 
 ---
-base-commit: 1bc46462f4c09f8d429ae8ec17f92886d604659f
-change-id: 20260421-alsa-hda-cs35l41-fw-work-teardown-48cdba14a9cd
+base-commit: ab4a88fdef2813446e3af179a708d024622ff4fa
+change-id: 20260422-alsa-usb-qcom-offload-map-errors-ddbb6dbf758a
 
 Best regards,
 --
