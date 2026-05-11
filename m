@@ -1,129 +1,103 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C87A3FFAB2
-	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 16:42:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD67401A01
+	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 18:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778517734; cv=none; b=XnoCjqFVVa2Avc4NXnBRG8bAYDClMOtiLHZ5R1fFnjaMhjtQktujKRhLxLdYk1xrYF0a4DzZf1UoMPA3nqt45dzHfUkga/w9ZFrHMLld/KEqimzplQQqZozELGqw/rMY2B3DzmqtVxJ/fazv7ojmKa5e6rgCShkce0mC4KwJVjI=
+	t=1778523382; cv=none; b=PLpKah0FEqSXaYt4/wVH0NKdYQRS0Y6TXdgeT7OCAFI1V9trOYC3xyI1Pqbxz3VcYhblg73w5GyLtzN4S9dr2ovORUYmVF+QqPq/ZRlC8k4/JgW9qokt02A0aajj156WG9szyZhw67JGnQvWjYyXBE/nfhyQztUVPKuXBU1qON8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778517734; c=relaxed/simple;
-	bh=Z4Eg+1wZW+YhfJjhKCtqxBMh1iW5Hf3SO+g9BfSdFxM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=W0mcOYdBH+2KG0RkbIxzntqinf2+Bcg+05gEcxzF0aEJWycTSHU/XtgQq4HsgerZHXDlV/IXIHqbNmWrOx99PKPGgPQgsyuzQsPMjIQcpj6USnXPabmc7mFFjeQj7m/urmY+QUxh7SA6VwyvgR1RvXpGh4/eRcc1XRWrteHz5AQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=evmfBpoz; arc=none smtp.client-ip=74.125.82.181
+	s=arc-20240116; t=1778523382; c=relaxed/simple;
+	bh=saF/ztnF3I0uu6WLuZsCpySX/zmFGeLWwFVFO/stZ/I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MZN2B9UpzbeGCErmt1+x8GG2H694LSq9tRVP/1xAuBdDqH2e8hOGGOROE6s0nI5eIL+7CUCqI8HLP9g0wvttX9MVOzk90Fp1qt72q8zLApW0vtQPrYKGnJoSd2RLsoYfUjpHHTda6NA5ohp/Ln9LjP06nssxm83Re1CbGgjGIGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XLmBJJZh; arc=none smtp.client-ip=74.125.82.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="evmfBpoz"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2f36da5c8fbso4399237eec.0
-        for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 09:42:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XLmBJJZh"
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1330d6bb78dso1064553c88.1
+        for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 11:16:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778517732; x=1779122532; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2w5CvJDRNz9gD8edH36LDfD3QBbVxdVLhU6PUPP1w/U=;
-        b=evmfBpozyDqmQnplf1KdBdUtGY95JD1DwW/gKNqf1xFGZWbhryCcBtnF0D/sAiPaPt
-         ZJGKTQSFBwzoMPpzZoY35o5lZkW14Jx2XJoU/4niinxxnguOcyIGJ7dWXtjUDGgzAfld
-         AO1Y6yGW7qR5V5liMO44KojcNl5/mgXqnq8HMDoCFnK13gfrkUeRJMJKag8zKv1qyKyv
-         4X8wn5AGrywCNj//hOKDncHHxtSvPVotuqXZmeoRN6INj4uSzrM1RpDhNJQyIavJ3ZGm
-         hzhMWFMY5aU8Hd44oL+UazpZ7qTHEqH4X5MJnlMOAaOxccUErDvdjQbZ6RE9sJmw32+D
-         ymkQ==
+        d=gmail.com; s=20251104; t=1778523381; x=1779128181; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qEHErrfp8JXn90qUsedQ6RU7H/9pFO+b1+Lx8BQlQz0=;
+        b=XLmBJJZh/FPYtuDUNrnhzxXv1ves0++yIDC3LNuk1vCIs5HJ2/7GI3arwEPiJ6W/YT
+         RVZuKS40skZYZLwvDFvdAvVLLpUukP86F+8kvTmWAj25k/bnSyb8S0TjLao3ZVyI368u
+         C1kgRTJK2aG5/iRGm/GoCWs2nQOtqE8W0wImh5K/ve4LiJL2pDvHU5r9YGGAp66dUmhl
+         wCkN4IpZ4TsD2CzvX8ks0KNka3bgPLkbWqzDChDHvXUj+98y/LzKCtf/lgqa18K/7gVe
+         p4bm5gox41Eh9R4P0dxdgAPjzWFDcUZIf0solWBZl20q0twE/ETfEoAf9Kup4WFnXsCP
+         tEDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778517732; x=1779122532;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1778523381; x=1779128181;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2w5CvJDRNz9gD8edH36LDfD3QBbVxdVLhU6PUPP1w/U=;
-        b=MFLFpYFdsfo/gEhHgtK/loNG/CKqhuLk8h5QykQaEW3MNBQgDcDk7FlcVcxOjsg8VG
-         UwvEeGUv/fn7LzXvSwfgTwS02bNUIx6J0Znwkg+B6aKjaE1+VFg2fvbG/ZzHAkwdsdyi
-         fzFPqO8kGedcuaHnd73fsE/eApzF27IjekwFRa78qV9v6WagTC4+efNT4WPyd0YCEvLL
-         k6rlwWCcllcKyFUnyk7YK8q56B7ZdydXGioDOD3xS0AcD4KLngB2AbghMbR47M2475Rm
-         QLnm3JNq0A4n5pYbQqjGxq5QTtDmO1oSgfuKNtnD1iFHuK+N6byFX6b6j45J2N56/cP/
-         ab2Q==
-X-Gm-Message-State: AOJu0Yxv0svWtyVL3ZxT/vwdtXiFleKxeUZVn7b7Tol+VFc12NVqVLja
-	8uSSbkO+qCelmZoQsk4AvjlimQ7MyZdssRVXk6rZ/Hqr1QOKPS98nbwB
-X-Gm-Gg: Acq92OFbcvrZjy7h/Q0M2T802kvEHstMxUEYeOA2+X2LrQ+43Abc/wm6Dc39HZEGCc6
-	4+w/ZVILN1NnN8ajjvFRPhla58sc8bx1Y1PQ/eAWwseJPMutd55MxsB9WVZa6FLBaiVYtz5Ddl/
-	xpH7DuimfmAjgOTts3HDaqX0/OWBRENA23pOtwQyUxh5z/Dy+EGK/6Ww5H1IHv+QSYBbQIPPrUA
-	O29/eGw/yD3R2a1YjovLfMXOkTOgjQ/OgbspGdXYayX0STJ1IPCfV3xDR+N8966l3Ok1GN2VsSo
-	pxLZwtEI21U3dNmpZr7PCKmnh5vcjqTERkK3uSGtntI8g3IgdxzKntv3WOHkmhPJcH08gqQueD3
-	SflwzbnGVWd2+6IWP7Su7I8b/6EvZZbwDLzcJ4THnFKUzA3MeCUZfPQkfVCimObkk3cm+S8gnCX
-	8dj39J7ytBwuvO6klatHLcG43Ui+nS5qiZTTuBFKhjtS4Ay+iWCLFge5xrAGqjquaBvF9zjMTCw
-	w==
-X-Received: by 2002:a05:7301:9f0a:b0:2da:44ac:6d17 with SMTP id 5a478bee46e88-2fb4d68f9dbmr5092185eec.17.1778517732046;
-        Mon, 11 May 2026 09:42:12 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f888d3af4esm14249595eec.25.2026.05.11.09.42.08
+        bh=qEHErrfp8JXn90qUsedQ6RU7H/9pFO+b1+Lx8BQlQz0=;
+        b=k4EibuHE9Gnv4NWc9phVnsNNlzJRQYxTkps70bpKWA+UTaZC91djcZT50S8pCYdr+v
+         K5L6NN/9i0YoTKYpQGW5ZL8JbZNd9lIXVvEKx5EhmwE8hh7crKFjgTSe3LUu64GgUIip
+         jzJuwCO4ekj5QgvWNa6V1hou1g9h8GjsR5vmIjVH9TUynxGNv/mHPsV1myJj4QdXNjRo
+         DaM3ae1ZQiveik+MX3fKoK9biEQwXmMrDtfhKj1HJrFGZR8XLR2+7bbQu9bVPfus9Khk
+         1yj9mQUbM8Cr4u/8Sh4fIcasWYLjNNlT2XWBFwsD2ukQD1oLFqPw6Vt2sxDecVTIB3KZ
+         y47w==
+X-Forwarded-Encrypted: i=1; AFNElJ8cqEQL9bRu6yUngt7p27HIjNna6zUKgr6GV9iSzcxAX0rETOUgTExXLMyZjGxcqAxeWia0JGCJp9FIcQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDtpxctY3WINRBUar58BgZYfO/cQ/PiaNYHZgRa/g2+pZoS7ue
+	zXEvvLchgXMYmGnYEU0TFR2T+auRDlsIccUq/ifotgURHANq5Ew84u0Us68kD5tN
+X-Gm-Gg: Acq92OHC7wlrmgQIb9F0sBdz2aGo9supM7id44NKLAVr2gxyvH231gfiNBJq8p4wsnf
+	ffxznbhNGjgRea0TLVQSVxUPAakJrifqTkMx2pv1xRxrRLXLKxA5JYk8MV8YdufIbKyTkUnxTsz
+	LG9ECe94Xbv/W25iW1xmfwlXspdMVvqpNCWA+wxGkpNGLxIAYlAL9TTStdKhYwrwnp51FEsA3Jn
+	ZsPc27uPkcYV0/fbb/kilblBI3KjPcZW3FeLIa0Tweea0TOV0cssJMeY2+WNEvNtUtmRkGm3tpF
+	753dQa1kfL32rVwT4tvHs8HnTigmETIhMSa3++jknyLHEkUdbezhyI4aULowmG/9+rmrVE37I9y
+	KmhFgr7yD610kSUThc38/xP11qYzlrV4brJ2k7CO1mjB7N+pDgLNITv6D4XH0BXGiyDw9MeoGJY
+	Z448f1ymsT4WrDkrf0cf1CsQqKsSxui5tDEDtmLUI=
+X-Received: by 2002:a05:7022:699d:b0:133:39a6:2b8b with SMTP id a92af1059eb24-13339a62ddamr618346c88.44.1778523380710;
+        Mon, 11 May 2026 11:16:20 -0700 (PDT)
+Received: from localhost.localdomain ([187.17.229.4])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1327810ff4dsm15249265c88.3.2026.05.11.11.16.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 09:42:11 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Mon, 11 May 2026 13:42:02 -0300
-Subject: [PATCH] ASoC: amd: acp-sdw-legacy: check CPU DAI name before
- logging
+        Mon, 11 May 2026 11:16:20 -0700 (PDT)
+From: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	zhangheng@kylinos.cn,
+	sbinding@opensource.cirrus.com,
+	kailang@realtek.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	edson.drosdeck@gmail.com
+Subject: [PATCH] ALSA: hda/realtek: Limit mic boost on Positivo DN50E
+Date: Mon, 11 May 2026 15:15:58 -0300
+Message-ID: <20260511181558.670563-1-edson.drosdeck@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260511-asoc-amd-acp-sdw-legacy-dai-name-null-v1-1-dc6151b6da8a@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNTQ6CQAxA4auQrm0yMxElXsW4qNOCNcNAKPgTw
- t0ddflt3lvBZFIxOFUrTPJQ0yEX+F0F8Ua5E1QuhuDCwdWuQbIhIvWMFEc0fmKSjuIbmRQz9YJ
- 5SQlpf6ybIK1n9lBa4yStvn6f8+VvW653ifM3Dtv2AYHNkEOJAAAA
-X-Change-ID: 20260508-asoc-amd-acp-sdw-legacy-dai-name-null-a47582ef1dd1
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1453;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=Z4Eg+1wZW+YhfJjhKCtqxBMh1iW5Hf3SO+g9BfSdFxM=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDFlMbA9cVPVmbRV7c13vzoKaiQIKDZt+SvoLRvFXF16Me
- KHIaba5o5SFQYyLQVZMkWV10iLLPV0PrtbHrfCAmcPKBDKEgYtTACbS6cHIcGuXz0u1KsO9bLNP
- /9l4/lu75tv/1qdbfnI+X3HryWSfCUsY/nAVXYnb1hZ69LfYKpNa7eed7++Giy13OC9zXHDekmM
- duZwA
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-devm_kasprintf() can fail and return NULL. The legacy AMD SoundWire
-machine driver logs cpus->dai_name before checking the allocation result.
+The internal mic boost on the Positivo DN50E is too high.
+Fix this by applying the ALC269_FIXUP_LIMIT_INT_MIC_BOOST fixup to the machine
+to limit the gain.
 
-Move the debug print after the NULL check, matching the ordering used by
-the SOF AMD SoundWire path after commit 5726b68473f7 ("ASoC: amd/sdw_utils:
-avoid NULL deref when devm_kasprintf() fails").
-
-Fixes: 2981d9b0789c ("ASoC: amd: acp: add soundwire machine driver for legacy stack")
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
 ---
- sound/soc/amd/acp/acp-sdw-legacy-mach.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/amd/acp/acp-sdw-legacy-mach.c b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-index 0f21e5f64531..09b475c83c49 100644
---- a/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-+++ b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-@@ -260,9 +260,9 @@ static int create_sdw_dailink(struct snd_soc_card *card,
- 			cpus->dai_name = devm_kasprintf(dev, GFP_KERNEL,
- 							"SDW%d Pin%d",
- 							link_num, cpu_pin_id);
--			dev_dbg(dev, "cpu->dai_name:%s\n", cpus->dai_name);
- 			if (!cpus->dai_name)
- 				return -ENOMEM;
-+			dev_dbg(dev, "cpu->dai_name:%s\n", cpus->dai_name);
- 
- 			codec_maps[j].cpu = 0;
- 			codec_maps[j].codec = j;
-
----
-base-commit: 812fa09e67e198a7001e3b2c963be312c18fe3ad
-change-id: 20260508-asoc-amd-acp-sdw-legacy-dai-name-null-a47582ef1dd1
-
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 11d0ea8ed859..4810d8ba43d3 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7828,6 +7828,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1e39, 0xca14, "MEDION NM14LNL", ALC233_FIXUP_MEDION_MTL_SPK),
++	SND_PCI_QUIRK(0x1e50, 0x7007, "Positivo DN50E", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x1ee7, 0x2078, "HONOR BRB-X M1010", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1ee7, 0x2081, "HONOR MRB-XXX M1020", ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO),
+ 	SND_PCI_QUIRK(0x1f4c, 0xe001, "Minisforum V3 (SE)", ALC245_FIXUP_BASS_HP_DAC),
+-- 
+2.47.3
 
