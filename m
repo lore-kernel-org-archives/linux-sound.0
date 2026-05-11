@@ -1,79 +1,79 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3803D4138
-	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 10:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33683AA50B
+	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 10:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778494896; cv=pass; b=Ln5Ma9WzXRMEeY1jgVsX+4wU7zglJSX5OKNRKBKibZTT7dbGQ8SJ21w7Ts/z8zSjSGAcTjQh8H2t1GblQ49fnnGwTMxAX2OjwCIaqeQzBhPZQ+XueSM471c9dyeBuuNd75DSTMWySP4PH9hSsXeZx10cHjnvLwjABBXD9Y5Zkfo=
+	t=1778494986; cv=pass; b=gtXUyxhN5ISZOu3QjA8mH4Sd8f8fHn/OfJkrMYeNHDhgeW03WgUFIbUicPOj5sGuP9iUsoan1iNHOdb6S87cSnUtgEk8Ir+avjC1H57umoR/tSFv+dtZJDJcGVsJTVh5eEQkj4Fa3xm7ArHIn1F3MZcjuBguev98wmiUJbupgkw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778494896; c=relaxed/simple;
-	bh=dkEb+Wt3jNZ7JLdXZ5Wg/1bN5QqwrP516+C9eqWt/hA=;
+	s=arc-20240116; t=1778494986; c=relaxed/simple;
+	bh=xXjo6IWfCz/xy4VI8+IePoDrGofTt+dOYDT8TY3Agwg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kI32wzDQK2h0bPUvj/qLCRONMiEaDKzVq39K/e0AbFchXu2qQDZbyV6OQE7n5pPUnGw7MZoyk/aSPe3CqLXTi5hYYNcqCXOfwPgCGwenIywG87S48bVT3RUpFpI9nJiakVETPfraDwQvX4uU/ow+C4MhoZBvh3daOR0XWb3DxKI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TKlubvpx; arc=pass smtp.client-ip=209.85.214.174
+	 To:Cc:Content-Type; b=Bx7SVxAWzq/WMeV9cfuDNvb2lSHZqedkWuGpzzZeAzdQr+H4sTzuBev3vRDZ8qB335/TeNHaXMeSfpnnw/4gtV+bAUqRXL4VfdOyqE8A3YypvI52sGqD4eL+XhqpVkl3hSCa6mbME0NWUvp0HX1vxVxJYybjklWVlbmQa0j6fjA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ffeeMbcB; arc=pass smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TKlubvpx"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ba0714574fso22332675ad.2
-        for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 03:21:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778494889; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ffeeMbcB"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-367c26471f5so1397059a91.1
+        for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 03:23:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778494984; cv=none;
         d=google.com; s=arc-20240605;
-        b=Eok8N1yQ0z78Y8FtCF8Bpt+vB7RhFpVWmS9208Geumcxi/w0EHzRH17azb0uNPzOlL
-         9LbhNeGVKJEr0Otki6Ex+gaxFXh7He+MjgkdD9o7p1z5G9y8Vh+kbJ1NpOWJE/935MQE
-         kCgwfU+AEQrH0FRnCUXjmI42X7rsB66ysoCLM7V2CUjJBVS9rUtHbo7y3P7qOQ35GpYP
-         WbP29mhznnkfg2yixA8/46dDSC2hZbLBNAwx6y285+ClpXd/Zw8YCzFxLDH1NWI8cGcQ
-         /cdYqUobpd3ZsZcBEvwglGhxO0axZImQw8Cyz50JYMwc2I99F7n3kaA3QqerHtiTp2Pe
-         vGcQ==
+        b=kYN6YPfatFHJNQ4lZ9VQzl8RdWwUq7izGWFQCYi6ZtNNtAM/D6cBFQVr8FDXw/FnRY
+         fAE7vpXz+nyrsaKRfhCKpN4ttsbCqvwnb5lAc8Ob0C579TrAvgqDQzhAxmIXwtXBI6Oj
+         96G9rwE0WQGksBIIcwRmJIsrz+NTUpBNWiWhD38JaTlLWpJz3M2vgPlgDBJREUckAQTI
+         dgV6Nytj/6DQ7BRaKDQpD0EVFCvW0fmEyNZ2Nd9eStMtH0sVtwH2W1CtbmeJSoaftVRM
+         0Gqk2jLoEnaYj/mMzwu2Iw2aWwYAFcI6aMfNl0RjLgcLgwGBqed0kfJMFHm/FE5gcFe2
+         5T/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=WSLz63MUrqkuJwhVPfOGrb+NpbYDw8jzgq+4u8aoMKg=;
-        fh=17x3tHblP6rVeExCTA5jjWdrhM0PIz/pgjahvouBtpY=;
-        b=TYaJDZAehr8xdIK7dxkqIPAY6XkwCTaZgEr71HbGEzQOBVzID0l30UMesa4fKXGjYt
-         HuWi0np+fftQOchpFXaOE9zBfsV+FQtkSje+Gyzs8ZPu6pIFsnH5TIEXDxYO4OjXZykg
-         Wg+aarkxRKzMSptOrUf5HODk0et+D28XfZRvX35JtjcDwWRsUR9qmNyrelmwIoqsCnMs
-         xid8fkKhCPam3zl9MbtAW/zQ8SGubNPDBR6xk+6m/BzzM9OGlnoQ6tlub1Yn821BZWkk
-         pqPscyAZULV7vVyzL+scHetaYnLNTMm9tx0uE18gVVRpJ8V4Unft4mcPz3T8+k6F7rTI
-         760w==;
+        bh=HPX1tgQdYajA8sGK8tGlT/Biu6abj/wZDamRkoAL5J0=;
+        fh=PndK7HEgwLW1GE5dtps70T9hFoW98A82NRDJ+CDSN84=;
+        b=XMoaPT52bnxJaA33vA/ubIpl9ANBZw1qBWN0ASNjiXvO8iPITc6bfM04XsrSKl02PP
+         4UUFUWHDtXW9efPPmf4p1Nk2Xl7s7gb/voPojUqbmik7wkv6cYCWL/P9AjB1z3myYvdv
+         QtKQiYgV5veR6h//InYkmiHlJzaHW5iQYEl3PUnWrX58CykkhLnnkkG9YWWp087RT0Zv
+         CF2Oy6TZN1jRdEK12u7lbxNt1eGpcCnLtc8jQjoSOA3M2Geo+AF6LBKxz5Df8REqKG5W
+         fBzGTvXiANlaEuFU0QriqLzoh8pmmvgRI1PniBD71RyljUex7bEw//nFMp8Tec4rFVbX
+         N8VA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778494889; x=1779099689; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778494984; x=1779099784; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WSLz63MUrqkuJwhVPfOGrb+NpbYDw8jzgq+4u8aoMKg=;
-        b=TKlubvpxaacU4fCHJVBKa3ddo/C14LWWPTkXz0YQ1WZv0ZfDtbn1Nzl2OG9reivtVy
-         NQe90vTscyd+Mai28pboELuuGMc33sGakLDnItGb8JNi8r9RU5ISHpKZwGFZNR2wzoB9
-         yMfPu0CMMTZTn+eN36JC+T+Y+O4VrD0pnYl/ivXE+qxOCqXnUxiF5coTp4KmGKKfBBT5
-         Z0j7giizMjPtvDi0NaCK7E1NQH4yRFIjfv8dnkrpZexAlgGpN8bSVp9LnKSS5RlzVDMn
-         K5YbUhSrWUubD3lrBziMvQ+0O+beKBCJEoo25BccFP1CyoKd1IZOoCObfP7ZKYghitqa
-         WRow==
+        bh=HPX1tgQdYajA8sGK8tGlT/Biu6abj/wZDamRkoAL5J0=;
+        b=ffeeMbcBye+XbIdAqackXrlwO3lnbT5Nw4xtXd4rRWKnFfRK/AO9bJvKYlpvZ9eE1D
+         ozO8LcXfY30TijrXbiz9P4AD77OZZGK+t6Ig2EL1+gnZBJK09wBtbxQc+899bb3jK0NL
+         gWa0sgK2+egOsycEs+1bxtKd+1aIbEVxqLSt0PwtgbPBTOq89ETyrD42xw3szoZq8iJe
+         Y784dP4fYbebecbLTYLjBGvxrItNseXOGnf7nAoRjHskklV/I2ZhpEc1a/TA/JLaKXfn
+         HVu4AdQWQpJPkTioMqH9BuEe7LqEwzPqk2kNIbA8BavYoDxZotfoUysT7QKPeacQ1jx9
+         ZqUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778494889; x=1779099689;
+        d=1e100.net; s=20251104; t=1778494984; x=1779099784;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WSLz63MUrqkuJwhVPfOGrb+NpbYDw8jzgq+4u8aoMKg=;
-        b=WzYCGmK2v4TrMQneSTHXk60t64Lqcm3+RjjCxkcByWOnByEN8HMqlPSooHPPcrlabp
-         ZVv687mTYfrZBB7F5fRZmYNFXnfsa13vEQjFkn8Shuldr4e5WkodqEFqeiieFafrxSlC
-         0D+ZZc4v1v34E62OFNIJePFZeWNT65VVzH6QILrIa9vQAfZomn3Vz4dhCSmtazWUJ+vu
-         8ajxH2E5bZEZIcY5thPkt+ac4eXRFV42G8HOQqOsE3xrj/JWxYlnMywB40pfuJzl6Re/
-         M+kW8jBGaA7qQXaksRowzbiG/qB//gqUVIXozZv8SHBTC+NQ6MC9NaAi4lEso7ewqIuV
-         BNHg==
-X-Forwarded-Encrypted: i=1; AFNElJ8vykRCQQaUb9iwGdrvktCXgWwNvpy2BZyNTaoicF29tPLa7gTZMMy3BU9+x/vXA2N4+r8teEpTy/2JOw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6qDfQmHG2xaUnlOqzYLqwMd0FDBkdj0LRQqof8qbZSeQ1aOAm
-	NzJ7MAoqKHjahuM0n/knnyFwD6W1BgBtVdSJfyrB8yPM8RItsCt0+gUXq/szERvhvSCMupQ1Qmu
-	QTk2zcLBubOOAeOKoLMgTDQ1B1g9OmMw=
-X-Gm-Gg: Acq92OHDHKvt7D5qAFoKzvirR+5hod04SrAg7ChVA0xF8eoIWC79eac2KC3aA77VFTE
-	EeyXchY3pcGHdqZkJZfefwg/9ERj5n++tGy6/Ejz/JwT7+wLvnTk85Q2FaNxlBgX3c85sOZO+QT
-	3YuZGlEty2r0iud7k9eUu7TZgMaXNo9svyS05vk/eeaVm3UwoXntwt5dE6UoYTg97fBxzk+6j84
-	1AcTPONcAJJoJPcXid7etGWyjSbd0pXEdYtRCkXGpeVZp90gpN7cz85+r+qTakRNJ5Faim1rPQT
-	zpbT1CDJE+qCs5W4l6uVr8goVqH9+mjJgQd12A==
-X-Received: by 2002:a17:902:ef06:b0:2bc:8634:c35c with SMTP id
- d9443c01a7336-2bc8634c747mr87342615ad.21.1778494889207; Mon, 11 May 2026
- 03:21:29 -0700 (PDT)
+        bh=HPX1tgQdYajA8sGK8tGlT/Biu6abj/wZDamRkoAL5J0=;
+        b=RIH9hbYyX2UycwIoS8KTEi80j87vQWlxqh4WWDJF5CjuPeWV3tlmUiPVYftrcpXy+4
+         ZAtXSRYMcTi12Tgn0dE7A1tJf5pcR0cgzmkbxZkjWRkNQStppqZVNHyoXgolr0F8wY8i
+         eXQxe2VGd5wL6HtOaSNLBCQ3PXEibZ27PzDKUCH+/QwVUekwtmDrGXeeiQKhswjR6sGR
+         ZPLNt61g2TyXrGHLR5kOF2R9z19OW4TwmVXuAclWJ85NxlOOEsv+oh7/JK9o9wCFNTrp
+         OqyGe3VDwBNEN8NYhtQjwrv14dJpmgi7KbUxOBy7cP6BHMb9y0Q35w7OhcoOeMfNXs/0
+         2rBw==
+X-Forwarded-Encrypted: i=1; AFNElJ8mfpsDqucrYeG3Jk/1vxTfcEM4tFtrLDY5Egvc8ZyUbbbTONzzkCpIJOLIgCJoiXDNRr/GKs+/NDB0xA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfcMjuydQhEIepjE1b4/4Kz7/XYUTrGvROW8//xhzGutqSi6D9
+	dWS6fJCD0BdvnpCZk0VQwfKQibiFHOaoUpRH1wlkazZaq9YZkoO5V/z55pIckL+VR/tNPaX6u6o
+	X5Es6TFsWuMJMJJAjzb8ENxC+h1oGjqQ=
+X-Gm-Gg: Acq92OEBTHPIAOB22sHJ67d0L5XYxKLl3tDH61l/ZuZcuW9wypQXTOSazDnexikpjvj
+	XzZor6TjuGaSPuH49ydkMIogh36DNRJn6MhPUCGRiC5UjczYMF5u2l6BS4aSfbnGhHexu132mkl
+	8xy6wZKJJGtSj7I2evEQcv2zAXi2dE59vvDagewNdG/sdfBz/eABk6spUwGrYZTlePMXVvGBDVx
+	KDYZmNRm7BcwJ79Df6s5ci6Psjm7WU/zGWpViO9WHZ6BGcrtcr/la+giIOdR8WqnCNJaH+Omjnw
+	20JZFXuaYpFtIH+k2T58QoZ+UFWziB5W0MzOhCM63aKeptFX
+X-Received: by 2002:a17:90b:5484:b0:35e:3afb:a3ff with SMTP id
+ 98e67ed59e1d1-365ab9b8beemr23214081a91.3.1778494984218; Mon, 11 May 2026
+ 03:23:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -81,13 +81,14 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260510084303.122426-1-phucduc.bui@gmail.com>
- <20260510084303.122426-8-phucduc.bui@gmail.com> <87a4u6n1tg.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87a4u6n1tg.wl-kuninori.morimoto.gx@renesas.com>
+ <20260510084303.122426-10-phucduc.bui@gmail.com> <877bpan1l6.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <877bpan1l6.wl-kuninori.morimoto.gx@renesas.com>
 From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Mon, 11 May 2026 17:21:17 +0700
-X-Gm-Features: AVHnY4J2_VlHnQNv7lKiPmK0Inw9w8zGI63uUFFjO1owsEGryveB0MVa3vPjntE
-Message-ID: <CAABR9nGx0gSfL7itmG5WYiqUq_SN0GoVp85NerZ=MrbYncq76Q@mail.gmail.com>
-Subject: Re: [PATCH v3 07/10] ASoC: renesas: fsi: refactor clock initialization
+Date: Mon, 11 May 2026 17:22:52 +0700
+X-Gm-Features: AVHnY4KeZdeHiYzmKMhvfxrwvLSvsF523Nansp1muFCl-srjK4towjDma_7cf9k
+Message-ID: <CAABR9nGTnDQHceDT5=Q49WwLf9EPc52TQSKe=PrF7B2jxsrTSQ@mail.gmail.com>
+Subject: Re: [PATCH v3 09/10] ASoC: renesas: fsi: Use clock prepare handling
+ in startup/shutdown
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: broonie@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, 
 	geert+renesas@glider.be, krzk+dt@kernel.org, lgirdwood@gmail.com, 
@@ -96,41 +97,17 @@ Cc: broonie@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
 	robh@kernel.org, tiwai@suse.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Mark, Morimoto-san,
+Hi,
 
-Thank you both for the review.
+> fsi->clock.count check can be done on fsi_clk_[un]prepare() ?
 
->We ignore the return value from fsi_clk_init() which means deferred
->probe won't work (as well as fatal errors).
+Thank you. I will move:
 
-I will update the fsi_clk_init() side as follows:
+  if (clock->count != 0)
+      return 0;
 
-if (!master->clk_spu) {
-    master->clk_spu = devm_clk_get_optional(dev, "spu");
-    if (IS_ERR(master->clk_spu))
-        return dev_err_probe(dev, PTR_ERR(master->clk_spu),
-                     "Can't get spu clock\n");
-}
-
-The probe function will also be updated as follows:
-
-ret = fsi_clk_init();
-if (ret)
-    return ret;
-
-Do you think this approach looks okay?
-
->Below parts are clock->xxx cleanup code, not refactor clocks initialization ?
->Please separate it into cleanup part and refactor part.
-
-Understood. I will split the current patch into two separate patches:
-
-cleanup patch: includes the changes converting to devm_clk_get_optional()
-
-refactor patch: includes the remaining changes such as updating
-function arguments,
-moving the function call locations, and adding handling in the
-set_rate() functions, etc.
+to the beginning of the fsi_clk_[un]prepare() functions to make the
+code cleaner and more compact.
 
 Best regards,
 Phuc
