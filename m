@@ -1,50 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D945B30100D;
-	Mon, 11 May 2026 12:02:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335812F549C;
+	Mon, 11 May 2026 12:02:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778500954; cv=none; b=QAko4OF8fsXdbwZ3Rot+NewDNh3EtBI9uP4vq/ITjpYHm7CbUv7E9Xx1MTw0nNGd7Q8mdDZaotxHfHDDOm3QnMlkz198JO7J20Garr2QwA3+fwA2CLQsXskweBsbytNoE4jA8xp+w+La7wIMaibXU7T2cqK5v2QwIBiFwE7fjAM=
+	t=1778500961; cv=none; b=k15LrdtWW5hDyXkPPue38BtIRFOb1zle9R5CWFDIS7X7sUrHJZMIb0okSCXlVfOtd2JeSMS9EVrh92aQVyvhjtaAht2QQwyShSbDqxFySRwK4Qpa5QC9L6fPNDwf1goADLA/AkajPLowUSny6P9bkQPSdSciM4oB4fQ7P40ynXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778500954; c=relaxed/simple;
-	bh=pZJkZbNMWuYB15AGPaBjM3k6a1sz9Bd5UejwtZhb6ew=;
+	s=arc-20240116; t=1778500961; c=relaxed/simple;
+	bh=BQK8j9J43FkM0+J57yXeLk8IzY7cAqbFG4vJy4Hhq1Y=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DgrNbkXn0hbxcuZ7TqLpYmTnE598s16g6ODVWygj+kqwIC5FZbvKpSRGXo+x0JU97UjIWi27NnT5xfUz3BNAe6GG092sL+l5GvgQUVYdbWPXuXaj9ImkxfDugcHy7IhSJSnHf3fc/sCbBWbNnOwam4FtGRPhVGV+b8BqyB3aiYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JEwReGmh; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=NviFyXXoCx/WFLX0/NyU4+UaPrUkeaSX0oNE4V+MAtvDNjryCsMl+sFFDhBQOPCdLFg2gkxDHlpqgbHaGylahFTqA07hqYM1SI5Q99SccmhLCWDF+OEV+8F8pSmunABTpMlz31ep9cCCUAi6R9NBSuBl9uqILl//s4z10B1VyyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FhA0fY/q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JEwReGmh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5470C2BCC9;
-	Mon, 11 May 2026 12:02:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FhA0fY/q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D04D4C2BCB0;
+	Mon, 11 May 2026 12:02:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778500954;
-	bh=pZJkZbNMWuYB15AGPaBjM3k6a1sz9Bd5UejwtZhb6ew=;
+	s=k20201202; t=1778500961;
+	bh=BQK8j9J43FkM0+J57yXeLk8IzY7cAqbFG4vJy4Hhq1Y=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=JEwReGmhxpqf6HDQRgFFNB5nq9yOJCVYhGlkmSDcEYS+OMs+T/6815hNcFTruppbm
-	 Vg7zhaBqwNBIhIj+WmRy1AY/cucWaLpvSd5M/1G6y3gT3bKtLGZxpE14+PMvzH4Ex7
-	 sIruH+bHOmbhSAfHoPw2YOthRUTc7+tYLfii7FdHfR/3tH0t5Fn0/oeTbNq9uWouhi
-	 XhwrqPbu1nB5cGg2EhFY0V+KcBfyXVhQFhAh+IUkEFb3R6OmTGijw6o/51qJ6OsRE7
-	 1oh4eh+CUPdnYxFk+FErqpwMWHw2tNo8y11FSf15DYvdwRjEB4cvcrbLJIlTn8xvh3
-	 5yHVAv9vKuqDA==
+	b=FhA0fY/qnEUetUFg6pUf4Ad6IM09WfObH5e7W2FcIwdV2Dtj4rUVVbl2bTlwo6jzY
+	 b61ujzPePk7JV3sC8DNqE93rBgnBBM54giIGJB+CURqCFl/iHdOlZV/33ccuVSD5Iv
+	 eyP3SvqtPfNOp9R0K9fN9MVqhNN/Ix9lovUvQa1LAdPyWvCX2x/RsZ8hy5j8ixpw60
+	 NNSlJE1xIysYcg8fdgpF4pJ72ijQyRKPnV+osIpuk9TGEfiuRFApz67kpgevCW/sqV
+	 ryX4+uYGkHNoOr3GWKA7gnFg+Pj18oULEXwyo871BZ+qge9ucYM1oGTkdC6rNKYlTQ
+	 8tVi9qG5KZgpw==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Koro Chen <koro.chen@mediatek.com>, 
- Khushal Chitturi <khushalchitturi@gmail.com>, 
- "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org
-In-Reply-To: <20260508182438.1757394-1-robh@kernel.org>
-References: <20260508182438.1757394-1-robh@kernel.org>
-Subject: Re: [PATCH] ASoC; dt-bindings: mediatek,mt8173-rt5650-rt5514: Fix
- mediatek,audio-codec constraints
-Message-Id: <177845931313.986162.9763116539859860272.b4-ty@b4>
-Date: Mon, 11 May 2026 09:28:33 +0900
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ Marco Crivellari <marco.crivellari@suse.com>
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Frederic Weisbecker <frederic@kernel.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Michal Hocko <mhocko@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ David Rhodes <david.rhodes@cirrus.com>, Oder Chiou <oder_chiou@realtek.com>, 
+ patches@opensource.cirrus.com, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20260508150327.351779-1-marco.crivellari@suse.com>
+References: <20260508150327.351779-1-marco.crivellari@suse.com>
+Subject: Re: [RFC PATCH 0/2] ASoC: Move system_long_wq to
+ system_dfl_long_wq
+Message-Id: <177846077642.988959.10334055002931155522.b4-ty@b4>
+Date: Mon, 11 May 2026 09:52:56 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,29 +52,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1195; i=broonie@kernel.org;
- h=from:subject:message-id; bh=pZJkZbNMWuYB15AGPaBjM3k6a1sz9Bd5UejwtZhb6ew=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqAcVWJI8vRFzFPLcZrIWWYdMOiEminb0Csii3j
- XUrPgL/QpSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCagHFVgAKCRAk1otyXVSH
- 0Id2B/9kPH6WFHX0ONVLwiRtWJrub0jsomL+jc1hu1AhMnPLLzpNzW7b3sujof0AACRgmYYnJxU
- Qpt+6KfOODojZgJzPZ3LAdYA9oVSmnyOFbrkgV55zhDDOzH/39//f8HJkGovJLA2WEP1AcCLQ72
- hN6puascRiRwbXkaps3Szpr1T/Rj0UBH6YI0gmPqBZCGjcnOz4P83Egm4g+vt2e0vdjMKWvzStv
- huP0JdoA30zP7GNqujWmDw0ubKCgRwPdQNzfx+obEKC7u0v5uCI99T/0m0s7cm6VmTxE/apCERp
- nBVspPnZxzvJdx8qIZqELYKTfG/+/Rqh++hADPECM7S4H1bQ
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1391; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=BQK8j9J43FkM0+J57yXeLk8IzY7cAqbFG4vJy4Hhq1Y=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqAcVcEpoYFzpIxDYBxGPHpcN9KNdP5Sq2nP3Q0
+ 2hbBOigkvOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCagHFXAAKCRAk1otyXVSH
+ 0Dn/B/97U3zZuCpSbinTQu7xXvYdxapuuPiA9j9D5Hjozv/jp2cyGur1ih/z895lQoE4euiQD+a
+ tkfFPsb93R5aQ8KAwhPkyt0TMgU8KDkJATicxIg+4s5ohaPLaUu8AP9OqQgU+glf9/WKn/e/oiA
+ MXVTg/csZQLk2nYhgmYtx4hrC3Eo76/n4s41dXQh6QrfhxSGN7MbYVhOAoQA79jL/pEW7Yt5+G8
+ pAPa1GwE3vj7EhBg1NV05i5d9Je76N3mkX3ntzIQdjt8zj+01hCBCggkDwhowcgm5DRia12dKhX
+ 0MSh35xmHNK/xavqbIqAENO0VJXp6MJi7lMJzYL2KyENMc7b
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 08 May 2026 13:24:37 -0500, Rob Herring (Arm) wrote:
-> ASoC; dt-bindings: mediatek,mt8173-rt5650-rt5514: Fix mediatek,audio-codec constraints
+On Fri, 08 May 2026 17:03:17 +0200, Marco Crivellari wrote:
+> ASoC: Move system_long_wq to system_dfl_long_wq
+> 
+> Hello,
+> 
+> Currently the code uses the per-cpu workqueue system_long_wq to schedule
+> long running works.
+> 
+> [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
 Thanks!
 
-[1/1] ASoC; dt-bindings: mediatek,mt8173-rt5650-rt5514: Fix mediatek,audio-codec constraints
-      https://git.kernel.org/broonie/sound/c/cb196d50a78d
+[1/2] ASoC: cs42l43: Move long delayed work on system_dfl_long_wq
+      https://git.kernel.org/broonie/sound/c/45f7d7af0eeb
+[2/2] ASoC: codecs: rt5640: Move long delayed work on system_dfl_long_wq
+      https://git.kernel.org/broonie/sound/c/11b92ac8df44
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
