@@ -1,67 +1,67 @@
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFB829B78D
-	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 06:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0A53803C3
+	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 07:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778482209; cv=none; b=Ouw01rVmpi5llvABV5wzzFQUJEpZdN1zN1FOdS2pcMg7nGuyu78fpXR9YAGirdyb/UZcR4HLuZf7t8q8Vmd7SjaIX3QNi8Indg5Ei/+4I0evj1uf1BdCEluXQOraRJuvbvHf576GzzCaYUjICkXF3fcyLeeNoljCIGI3rRZBLNw=
+	t=1778484309; cv=none; b=luApY/rce06oWxkwIbjOrTwD9jxEkGU/fPqJhmt46wyfdc+sIq0GdxAOtGqmGPe4cQWU41erJKfpa0IMk3i1NF7ClpRFjHxN4K6zEe6+Zrfa5Cd5s1b923bAnBrTVhZsv5g/fZsl15r19m+3fbCts8+rBFmSH7LgF6+Wp1CSnIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778482209; c=relaxed/simple;
-	bh=fXlDiYGjLg6saC+nl3nCrMfMmSmKcRG4KkQ8zTTFH7Y=;
+	s=arc-20240116; t=1778484309; c=relaxed/simple;
+	bh=sXzVNjqKx+odNTCZna3/rChmqdCTQoc6QPrywDlMSCI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h6FrJjXu+4NuZ55qwslmsWA9tLsgY2hJHjmShpI/mreOm9lbXjTrmznatKntpsa2XMA+WnNVz38msVoGnGH65gJBbPyoVTcVJrQzLf2H5526QEz7Cws2cLiIjNLoziD5WTftYSBIKM4+uA35KMjpR8pxfRMthzjmXUjCGt8XLNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o/jZYX+F; arc=none smtp.client-ip=209.85.221.175
+	 Content-Disposition; b=MU+lG8hhtxGBwDPlSsm/aAIwrBEQbdphr8EVpoZPRWjasUf1G5ixg4cyWlst1zJX6HPOTH/E9tfb2vPijtK/fyozzG42dCNU7WcsxL/2K9GUpWbFQhA+wTHhmHnluQAeQ+6/RAODJJlWqfIbSzvxzFnTbS+x3AOAC9iVLeeiDc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cNA6kWNO; arc=none smtp.client-ip=209.85.221.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o/jZYX+F"
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-57516e08474so2517066e0c.3
-        for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 23:50:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cNA6kWNO"
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-56a86f0a23bso3773262e0c.0
+        for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 00:25:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778482207; x=1779087007; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778484305; x=1779089105; darn=vger.kernel.org;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=lHCA4m/88VRKLEOixji4UKeMEx/F2Qqeb8DQm3PaHK0=;
-        b=o/jZYX+FlB31Egsto7f7tRgl2zr3cd/dQTnxcrCrBGwqWoLxsWg+Uq7468rwwfoiOF
-         wEojyrP2fBkuXWvrwKWVqQQG4KnnO1Mn+INVLpR6Zi5Rf98qPYoUbzumGDySftmFiQn+
-         Fgnwn+1wK97JEZo2e+Uz1c3Oij5yp3u3zFzK9Sp8n+15yj4ZdgZab4QSvcBSYfOVY+dK
-         y3swPDnUX3MUYIjMqXzBV3cjLw83b2igSQ7ZpOZy0dxt5XO0n3Xu0qjt/YM2IRFtBD/4
-         Pl3TWUZEAodwXwI/W/PqvOwxEi4skwxz3eQvnENWE3HCoEAdr1Hbpfl3ULYdq6eay8Un
-         iSxA==
+        bh=czL+AIKiPa3zxBWmGlbiYtIZwrkwsGMMp/SoH4pGWS8=;
+        b=cNA6kWNOuCz1fuH3dSX+HswbnXtCO+hUz/ZwqMKU1jTT+Ox5E6C+mRtg859+XtX1k6
+         pob6tP/gA1UV6PpTSJvKp0xQrkxdoa0clyfeyO1LUedepXh53VHLAWpXAawEtWlm79d9
+         aXKack2ztNBfYG/eG+a3wUqgkyNH3MbG+EnoDBgSLnVX2fbY4P6UhdXWchloUiY/IhjP
+         3BACM4AJNDmTVE83V+IxuxWd4jUv12cfYSfz8VGKe5qMRX91yefywWVbIZSEPzeRZMFh
+         qitumZREcZrvrIg7+1veccpjOtOmLQgphxgFEzO70SjuzNFDaqMT0unkc7M8lUS3cM7f
+         SBvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778482207; x=1779087007;
+        d=1e100.net; s=20251104; t=1778484305; x=1779089105;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lHCA4m/88VRKLEOixji4UKeMEx/F2Qqeb8DQm3PaHK0=;
-        b=bi4ViKHG0kyAH4TUzZYSaXcoh5WvTMFt85pWPyN2jfR90/MhN9SViGAGeP+7p+akpI
-         lKzW62Rji+SLTsr6eeYlL5fER2surC/MNgJNyXYbrWs5zWapaDUz6JvtxD80dS4VntVc
-         JJ39IRLehTfzxm99fTX50M87ucdD/KB5V8SomfOSAdV9xbytFRsF3r58xBeYSGLR+d3q
-         jo4GOvL8AP2kHx54gqEl9Q+wl4l4w5sj7sdGC+tZomVPgQIi+kOy7qGKf5zd6nZEvdSU
-         /Dyp3/ROSDw9QRA13YKzcz54GYEQNuM60iZAk3u7rDJHhS2X9O4+bhO51BAKaNDaiiyJ
-         Sm6A==
-X-Gm-Message-State: AOJu0YyulxcSkCKbf1iO1wLrWCnJIHabbRLmn13WMSFz+Sl6pDmABOnb
-	0jodyXWizfHWzoX9/o8jRE8ElbJwol3OLIdt6+12XeXXlEuYpv5flyjV
-X-Gm-Gg: Acq92OHbreIzfAqAvgoRwctDdPXwBLU/7ksvGBZave6hXpIlz5DWEiwkFCG04n3QPLf
-	5EO8yo6cUivM4Z+I4DnsXc/C9sGztMjXUFN4xkG/+YYbNQjA8YN59uRFr/ksRsRlj3fGcfnG+HJ
-	FvP7MWXXUyKtL4GSJT2z/GvEjZPlYrIyHNiIRc3R0i/+5CoL3vfEBBfcML3FWebG6z5a7WHdJon
-	QCioGuYsVI7tnKWcwEEmssS6n4UcqO6waoFK/QD46/ZHZkVftqsnm2w1w/85H8djYiU5GOHDPBw
-	nKbBi/QH7ucEZy+ZUlQbXwEOwGsXxsVmPCWrLVAbp+fJ63WRZKRzG/FE9DyfwTJ+O3jgYLB/8GE
-	3idMFg1AqvcHtPmFHld+CHVu7dBHsy2b8dDvawSkU89+RtJW112aOYh5slh4TfakuSJI2Nz8Alf
-	3kgXWyoiYdK4tfEfT5imHiWJTzBrKk
-X-Received: by 2002:a05:6122:3d01:b0:56f:a329:6859 with SMTP id 71dfb90a1353d-575595d0e52mr12020601e0c.7.1778482206964;
-        Sun, 10 May 2026 23:50:06 -0700 (PDT)
+        bh=czL+AIKiPa3zxBWmGlbiYtIZwrkwsGMMp/SoH4pGWS8=;
+        b=ChX/zhGE/qPrFYh0Op4V3illwhp+pwx4/oF5dwA4FFTwYgua898HZCveIzuiyY5wuj
+         Ga28wRJ7aNV7VZXWXyQZ8vNcpt7wKNXGdOmf/ThNawW20frWh0bKjk1Jlb/9DA2gwXwj
+         ZkIV2GPg4sYw1xuYpZWiRXLFZ/jjYX0f4l6SguCw6D9U8KdghjczJ71M1sfcRCCjgETY
+         DQUtPozdhmtRMByJSdZtq+iC0RDnMMilsgl3wfY/naZpiFGUhQoflk0rI7j9ByVqbgh9
+         br+Wx3595Qst5c8uS5sxk6gylRhHlCO4hwFsWIo9Jxc3b+zRkwhFV0y7cUZkf4BvmASz
+         PlPQ==
+X-Gm-Message-State: AOJu0YybD7sowIXs4PDBmfPEtDnJRWclG2aSDfVZ+qmDyXlT2vlVAuga
+	3dP4nQyvRbsGI9N7ltDrAceeiW0neN5LypAe85c4V7k+Af50GK2k3HUg
+X-Gm-Gg: Acq92OGHjycPWiSfEKdwpx/uH3I0mrE0IX1K0IatFWCfcqSD4AJKoXTx/i63zigMN2J
+	aSPFI07Lqay8qhEDLmGAA+xWxhXUqxvdAWNMYymC39R+bpfRNe1f+X3xLqnqOTlz0geDHxXEXXy
+	g7gR7rVJUgKUYydQGwxMBD24qXSvmnhIY2kjxQeN6qewtHtcrYOOcwxNxFLXGr4Zrz3rU9bkdVu
+	Iyq3Q0hMyYzsCkqsBX24IY6nSmVQBtVrDQJFc91vKmEEmK0fOMqp9nqiohhuHZnn1hgLjKGoVlO
+	qOfajTeYi58zSHJidIlS0UtMsWD7HXvrjhGG4SEa7cwtx0sVOBPIhbLH6gc1BGpZMdiSyQ0o4wt
+	8ah0mcl2y22W8TAuEbVykfyf8+8Ux16ACv6xIE1zGZnQ80lcpbZ48cIPO+zMIuhl/YzbstvD4cU
+	DwqE8KMJYOuY+s6kZE1Q==
+X-Received: by 2002:a05:6122:4d09:b0:56f:7c7e:f33a with SMTP id 71dfb90a1353d-57559269776mr12808985e0c.0.1778484305453;
+        Mon, 11 May 2026 00:25:05 -0700 (PDT)
 Received: from localhost ([185.141.119.51])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-575585f72c1sm10813155e0c.12.2026.05.10.23.50.04
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-574a6c6c582sm19490031e0c.9.2026.05.11.00.25.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 May 2026 23:50:05 -0700 (PDT)
-Date: Mon, 11 May 2026 09:50:00 +0300
+        Mon, 11 May 2026 00:25:03 -0700 (PDT)
+Date: Mon, 11 May 2026 10:24:59 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Niranjan H Y <niranjan.hy@ti.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
 Cc: linux-sound@vger.kernel.org
-Subject: [bug report] ASoC: sdw_utils: TI amp utility for tac5xx2 family
-Message-ID: <agF8GBcHYUaGJbXY@stanley.mountain>
+Subject: [bug report] ASoC: SOF: amd: Use AMD_NODE
+Message-ID: <agGES8vWrLOrBu28@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -71,51 +71,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hello Niranjan H Y,
+Hello Mario Limonciello,
 
-Commit e812de61e9a0 ("ASoC: sdw_utils: TI amp utility for tac5xx2
-family") from May 5, 2026 (linux-next), leads to the following Smatch
-static checker warning:
+Commit f120cf33d232 ("ASoC: SOF: amd: Use AMD_NODE") from Feb 17,
+2025 (linux-next), leads to the following Smatch static checker
+warning:
 
-	sound/soc/sdw_utils/soc_sdw_ti_amp.c:114 asoc_sdw_ti_add_tac5xx2_routes()
-	warn: why check scnprintf return value?
+	sound/soc/sof/amd/acp.c:232 psp_send_cmd()
+	warn: kernel error codes cast to unsigned 'data'
 
-sound/soc/sdw_utils/soc_sdw_ti_amp.c
-    102 static int asoc_sdw_ti_add_tac5xx2_routes(struct snd_soc_dapm_context *dapm,
-    103                                           const char *name_prefix)
-    104 {
-    105         struct snd_soc_dapm_route routes[2];
-    106         char left_widget[TAC5XX2_WIDGET_NAME_MAX];
-    107         char right_widget[TAC5XX2_WIDGET_NAME_MAX];
-    108         int ret;
-    109 
-    110         if (strlen(name_prefix) > (TAC5XX2_WIDGET_NAME_MAX - 7))
-    111                 return -ENAMETOOLONG;
-    112 
-    113         ret = scnprintf(left_widget, sizeof(left_widget), "%s SPK_L", name_prefix);
---> 114         if (ret <= 0)
-    115                 return -EINVAL;
-                ^^^^^^^^^^^^^^^^^^^^^^^
+sound/soc/sof/amd/acp.c
+    222 static int psp_send_cmd(struct acp_dev_data *adata, int cmd)
+    223 {
+    224         struct snd_sof_dev *sdev = adata->dev;
+    225         int ret;
+    226         u32 data;
+    227 
+    228         if (!cmd)
+    229                 return -EINVAL;
+    230 
+    231         /* Get a non-zero Doorbell value from PSP */
+--> 232         ret = read_poll_timeout(smn_read_register, data, data > 0, MBOX_DELAY_US,
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The smn_read_register() returns negative error codes or positive
+values on success.  We're storing the return in data and testing data > 0
+to see if it succeeds.  But since data is unsigned then negative error
+codes are treated as success.
 
-scnprintf() returns the number of bytes it was able to fit into
-TAC5XX2_WIDGET_NAME_MAX, not counting the NUL character.  It
-never returns negatives and it's not going to return zero either.
-
-This is just dead code.
-
-    116 
-    117         ret = scnprintf(right_widget, sizeof(right_widget), "%s SPK_R", name_prefix);
-    118         if (ret <= 0)
-    119                 return -EINVAL;
-                ^^^^^^^^^^^^^^^^^^^^^^^
-Same.
-
-    120 
-    121         routes[0] = (struct snd_soc_dapm_route){"Left Spk", NULL, left_widget};
-    122         routes[1] = (struct snd_soc_dapm_route){"Right Spk", NULL, right_widget};
-    123 
-    124         return snd_soc_dapm_add_routes(dapm, routes, ARRAY_SIZE(routes));
-    125 }
+    233                                 ACP_PSP_TIMEOUT_US, false, MP0_C2PMSG_73_REG);
+    234 
+    235         if (ret) {
+    236                 dev_err(sdev->dev, "Failed to get Doorbell from MBOX %x\n", MP0_C2PMSG_73_REG);
+    237                 return ret;
+    238         }
+    239 
+    240         /* Check if PSP is ready for new command */
+    241         ret = psp_mbox_ready(adata, 0);
+    242         if (ret)
+    243                 return ret;
+    244 
 
 This email is a free service from the Smatch-CI project [smatch.sf.net].
 
