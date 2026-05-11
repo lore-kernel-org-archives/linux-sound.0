@@ -1,47 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5529437A481;
-	Mon, 11 May 2026 12:03:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CED337997E
+	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 12:03:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778500989; cv=none; b=XXpHoT/N6rPnAvFnXErRvVof5bSZ8Q0sfFZzmiTykIWOeZb3u7Sbp1PFXOvPR3LNevciJPQpjr1zwlooFuEm9AssQeY3d/yQda09J+JRSSn8pRRCOjmDaV8RRoa/4b0JwnNU2kMr3AQv2RdEZkVOEd6oigtYcQwlSXcWdSKB6zE=
+	t=1778500993; cv=none; b=LXUadb6PVm1N6+JQIw9XrUD4DiTauQlMvdAHm91Ym3Tj4+r/JmGo+jSivN4plycR913pgj7xy5H14Dt81A4U9xrKU3T69KEjc6aBovgXuvlg1WYVm/Xm5lWlIdG2r7M5cozxy6SJ2jkhcZEsJodYpXnh56FnrJcFR1ByBiYRzgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778500989; c=relaxed/simple;
-	bh=W/DUuqwAIUSN1pr/bEsWE0X/T0jwEXAT4jGNdQIDahY=;
+	s=arc-20240116; t=1778500993; c=relaxed/simple;
+	bh=18vMvczYxiSe6MX3Yp1bCrP2TgCgb/kbHOn+mWdpdyY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CTSgIkf3tfPPe5CQgGaEvzrnMffbWQEklJPiaCw46mq880SV/4lkKVLO0wywVypAj/3pDgDPV/H3ol3G64Ttat2XtwKcBzZjCUsiCyr8EnmnNB2ENfJRTQOfjY2PKrgBCQckYn9ppsB4nIc4oWEVHFohSB6jaFcfe8x/ZijyR3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wu2V7mxt; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=OCTz5yt3qMOPbP2q/J7OUaW5kdGjY6Wne8TUZ025WCtauZpad/mjFDQ7lJczORC1PaNz1x75w5oB8KgD/3eGiwoARjjnSJ+spsz9zTP+6g8j3Bt0fSuRuYCM/TBZPjyJh+ReynG/ox+Z7xP7bd5C1wg+KR3TQ3S/j9aDvaO1njA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tWW+r0ZR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wu2V7mxt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE9EAC2BCC9;
-	Mon, 11 May 2026 12:03:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tWW+r0ZR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7832C2BCB0;
+	Mon, 11 May 2026 12:03:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778500989;
-	bh=W/DUuqwAIUSN1pr/bEsWE0X/T0jwEXAT4jGNdQIDahY=;
+	s=k20201202; t=1778500993;
+	bh=18vMvczYxiSe6MX3Yp1bCrP2TgCgb/kbHOn+mWdpdyY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Wu2V7mxtNyNk5X4jvfVwVr+qgsJEDBCqi9ocCnw5xYbOrNVBcV6HnvwDd4XV+obQZ
-	 Y9vhNMgc6fXK+6fsXGFigDyrGN2dyvDJHQp/GAB8ZGHpW1bofRlqVur1cogOkEXTJ5
-	 T3X/kooue7e3Pc2sLyHN7dc9yFp3iUlmWces6ULAZmX04JMpYoDx1jWuS6OC8nSMgp
-	 4LcfQRa/MregtGGxJAe8ntOiVHDmJmxXJki7/3Mirid3FFnzjJXsNkUt5fcc3+Z/C8
-	 8pfNBOMQ3vyTHym/DyFf/YfVtMRqMmPlZOp0xIhZSWe/AnnX9ndNcEOdFW2VtNFRIc
-	 GRKsRv/d6qKkw==
+	b=tWW+r0ZRl99dw3xifKv+77JOB82bPSRYPdHopWMx3e1YK08hHpHoLZZ3m2cBhqsNc
+	 nXaZCyumhZ8LCooFWnhLH9ZSGwX5VGzgW+RZYUmTfJpOzqQ0S+fDyAxEMPbWcWoe7V
+	 W+DUf8BjVnzMVqJvEPQ9CTixc+GzTC8DDPAcGMnx7kP9cILnoPiW9ky1y/dt0z/3S3
+	 m5VK7YLnKXJwIXe9u07HXzL/4bt5A4274mDiklj/h0gw+tWkkEPcoevDnyjtF1STQC
+	 lwSyPGqnQrfBVrhv98tUVTCUSRJLpqO9txbwxKhJ1NTjh+S/qpWW40vq9qnKxJZKG7
+	 kYCDZxP9eeseg==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Jang Pyohwan <vhgksl@daum.net>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
- Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260509175317.DnhjxHczQay7kkp5z6t4lg@vhgksl.daum.net>
-References: <20260509175317.DnhjxHczQay7kkp5z6t4lg@vhgksl.daum.net>
-Subject: Re: [PATCH] ASoC: Intel: soc-acpi: add LG Gram 16Z90U RT713 +
- single RT1320 quirk
-Message-Id: <177846138664.988959.1699136183770895583.b4-ty@b4>
-Date: Mon, 11 May 2026 10:03:06 +0900
+To: linux-sound@vger.kernel.org, 
+ Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+In-Reply-To: <20260510221403.11283-1-enelsonmoore@gmail.com>
+References: <20260510221403.11283-1-enelsonmoore@gmail.com>
+Subject: Re: [PATCH v2] ASoC: fsl: eukrea-tlv320: update board checks to
+ use the DT
+Message-Id: <177846056071.986162.11979413088190657380.b4-ty@b4>
+Date: Mon, 11 May 2026 09:49:20 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,29 +46,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1156; i=broonie@kernel.org;
- h=from:subject:message-id; bh=W/DUuqwAIUSN1pr/bEsWE0X/T0jwEXAT4jGNdQIDahY=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqAcV5EaopP5f7BHXeBEt/lRwM5X5HdaLJKViKx
- /eMLfsaZcaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCagHFeQAKCRAk1otyXVSH
- 0MzbB/wNmmJLlaOXFCrDiBSLSIF5jD6ettEe8ER1BquX4K2RJhe3M4bF+CeDVzbcNbMd90ff1oW
- u/EH9ZOCAJ9zx/+pXX1Y+6l7AEGSiukxruTN5O9AfaO/4x4YGFMCAF4hQc1amCMAPaXNzL49Ycq
- 9sp+9B5oF1vOScIqcYFDxxIwmO2p46sJpKZDtSx8RhwDgZEyyjgx6UPNygbxHXbtsxnkUZGeO8O
- QWpUvlV41WU0eGH2XLPfA3opBcaoCeXdJkZ7GnOHIrz0w0ivF6mBrweg3163cqi3vZ1l3JZrl5K
- +N7n8CL1UW8v6ckcVsYF4sH/7qIE+00jsxN+QS+dkzLla2Tl
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1142; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=18vMvczYxiSe6MX3Yp1bCrP2TgCgb/kbHOn+mWdpdyY=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqAcV+eo5sfYFPjcZKXK4/IAh1Ub7bduWnC2lDu
+ 6/Sa6oICCeJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCagHFfgAKCRAk1otyXVSH
+ 0Cg8B/4sIUhSvQsiOmPYEe4VZKreOMnpkyxF6AHYdFk1oEyCxeDksRLA7xAPGnBu8v8H2YO6lBV
+ S/UhQSEWQ/LkN0QoT/rYn/Y3vnQOMvbe56/p7xc+QYKkzx1f5zeGPU9l5zhD5lJTYxO18uIxbVD
+ RklO07NSrSOdPMbq/9+bnjHMPs+uivdZ8bGNMQfI4YZ3G7rCgbXgfyQKh4kXTJaVUweV4w3QWID
+ 5bA6XpX2kbGsM00o08qgB5YbU1reXuPaKYfyD8rDG8jHwFGcBpgsdODTBJyKwesFhFpmwYBa/1H
+ badyXh2S/6eDbTpS3V/SA3ddtPUj++vHIxynF0aGOVTvTDj4
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sat, 09 May 2026 17:53:10 +0900, Jang Pyohwan wrote:
-> ASoC: Intel: soc-acpi: add LG Gram 16Z90U RT713 + single RT1320 quirk
+On Sun, 10 May 2026 15:14:00 -0700, Ethan Nelson-Moore wrote:
+> ASoC: fsl: eukrea-tlv320: update board checks to use the DT
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
 Thanks!
 
-[1/1] ASoC: Intel: soc-acpi: add LG Gram 16Z90U RT713 + single RT1320 quirk
-      https://git.kernel.org/broonie/sound/c/d714913b61d5
+[1/1] ASoC: fsl: eukrea-tlv320: update board checks to use the DT
+      https://git.kernel.org/broonie/sound/c/3760befa5c08
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
