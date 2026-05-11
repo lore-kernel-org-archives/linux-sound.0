@@ -1,127 +1,158 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FAC01B7910
-	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 03:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161B92D8DD6
+	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 04:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.170
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778471807; cv=pass; b=EGg2ZaTI7J3k8vDxKxoAZh+oDF4o9TiyMVv2Afg+xedQ96qguM/AFUZYG2qugw+GA1B9Just3FRrebFoXzKj10qRz5PBaKSsShdD+4RwAzH8f9A4nwqPtEg9nlZlzQL/Rb5efwp+mzTWgzMscBRUY1WX419O4T1iIIc/0F8V6zM=
+	t=1778473336; cv=pass; b=Bd+ZKJIDPlqKbymJPsnoBTvM5E6+uYujUqIpsF4POSWriXxpfGgb6mnJGACGpJkn/ZiNeUcTPmVOjMLRctvcoooXNOG9/QbmyTGM6O06wqZ0aSuTirZmpXAUAAuaJVYkUAsJUXVU1OSGB9rKV+J6Xiu4wtwPNuAadU15ZuJ+kpk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778471807; c=relaxed/simple;
-	bh=DWa3RJXdWc9Atm6EDVPY72eN/QjOT3zL1UoLi5Yy5L8=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=fFKMRUb/YFXiT6SCpEInTQVqgsm8nArjwBxjmqrYO/F1BK1lwW2IsqeEaLpEsrjcqiquxMyMGHr1q11KmUkWqdFq62hScjMDYGzAbBuSo+4nzaBTKFh7KPfUO7S9GGa9tVpi4mAMxeIeDwEuVCTgJ4LbgexcWjJ9khjTIwAFHSo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fpj2fNSq; arc=pass smtp.client-ip=209.85.210.42
+	s=arc-20240116; t=1778473336; c=relaxed/simple;
+	bh=OeHacbZXrsMU4ngrgTltuf0nP+fevY8eP/EXHUfGj+Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OW6GH7QPF2mQdTKk5145C69lgrlhABC2Iw25smRosZzk86C0Qnj3HszObJ+iBLv19ovHlEHFFaPoy3NBg9LgNMQCIvsQkK/INyrRHAgyvlpVjHyNws4V+EqT9xYDtkn5DXg/o8Fl5mUBswIU9hBTk6ThR4QJCxpTc1YX1IKXL+k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a6u+AOg6; arc=pass smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fpj2fNSq"
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7de46b8e432so3717211a34.1
-        for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 20:56:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778471805; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a6u+AOg6"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ad9a9be502so23397045ad.0
+        for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 21:22:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778473334; cv=none;
         d=google.com; s=arc-20240605;
-        b=dFAcB3apP6rg7QsG/uH85TaxhjSNPTf+xnnjPcyNLVEKwwgIbdaI1Dprig9hCDrpGv
-         hkFTZu3pTNBISRu8ihr+WjsqgpeaS+qclwT/Yzu/W2lksItiw7hKlTeuvAvNbi6Vpehm
-         GIurdOGodm14qCv4oaESV4gGL7Qb3TXAKLWVYpIoJkaI419PGUb8y/mDNsYOstJwD5MB
-         wZZ88iPqDiBmnVX9H8Z56qXyLDWKFqnFdidOVq0ypAst0UpLFPw7rmN9Qrcm7Gz2wxJ/
-         bmAGlusq7Il/4XW9TKTHztTeJuKFo6NbwzCGhCSv2SdfJcF6zLzoUBGIYQyY2ELtUlT4
-         EbJA==
+        b=gCGOi7DxCyGs/n9AHe0SvCqyzaDGhe4qwrScOCAlbLOMxplhMbfOLstj7o/OXj5yQA
+         uKzlkv4ZWSkeDrciVAkR6KpBLjNUx81qSPUWzWsAQdXGn6GtWTqx53xXuxEm5l8vQCDR
+         08diDOEoSNWp/A8z2PvuSQl8ugNjypkGkYpkUsvxiF+wsIrCPJ8sykD3aaKCV77GiHFr
+         4NEUjp7sYUkPheu1FyM5x93lVBJqsypQSvaAGzge2S61mR+FLiuPXJjkH0fUkE53oRdM
+         2MJhAPdmMhK6cd8PIb+hIA1qxlRfMk6jpb1IkYM2xZ6UTugozReXo5EY2RFZNOiTJNPS
+         RGDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=/cWL1LsbjH+Ya5TeZhjyeEkCoO7Z8HNTJv+hTIAYITA=;
-        fh=wFxegsZFqs4yr7YJ47c/wRe02GgCW4lrmzNI8hVFYPI=;
-        b=avRNW/n/jji5kgcbone0N9h7VckRN1v3D/VfYIGLHfe60dHGslLfRURW31nW4yPAYI
-         aeFmptchvGJq4sNP0FnSluBXjJC7lbEGLI/3AmQbXlDasSelj9InzUAaGrxMK9WLax4D
-         lwA8qz2DyrmCAJQSehn4SUxN1MTBgXvpYfan+0t58INKRijcplWbYA7pShIXYhkcZJ9C
-         xTdW5OFQPUY4bHaF3NmKKYrzo4s2RPpGSclhVlxW/HWD+7uURyWvYetHeQVpGepifeI2
-         +A3IxazK8L/HNp+0omTnjIw0nHGwQ3LMPINaMtgX/9qBFj6EKtr9EEK2c7LsQtHSV5X4
-         SZWA==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=OeHacbZXrsMU4ngrgTltuf0nP+fevY8eP/EXHUfGj+Q=;
+        fh=ZkkPrdjkixGQCZ9gwN3RekZJjPc6qVMBBBtSUCHsCZE=;
+        b=Ef7vhqlAXjWqYRduK1ut39goLDOxAOm38Zc54ehiwbTn6ikuqou/H+2KGQ7/NHq1d5
+         5FZ9/UooksEshgEQUI6Foiq3R5bvRqyw/t6ODF5CPGJnW3UArDJAO9gVEfMnSPQ8P7zx
+         5zzgt3VLM1Ypz6Yo5rUJ3GMgkS8r0UYLpK79Mu/gEe/EtxkZXScC+zeht3VIhlYXnxzv
+         PWZKo6uVX3NBFeL7w5fiOSb+vIyYQbIePKONyl10B31jiyaeU8M9DqwpHlPYW8X0oThb
+         Tnn9I3e55uq+9sx97YJdsrA727uX/ZFMi2yi2FAiqhvQPCzvI3vj4gwczLfohzuTFSZ1
+         JArw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778471805; x=1779076605; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/cWL1LsbjH+Ya5TeZhjyeEkCoO7Z8HNTJv+hTIAYITA=;
-        b=Fpj2fNSqZ+WK2eKrTCttjuVlroNLshKr4SJn5bMbQrCE4rUFhZYxpFnMZe4tGxdDfi
-         f9WtP3G8HddekSCvwjvRR8hHhwcTXJI2OhBexVLN3+GkyQTMKpG6sUzxaQ8eSpxO1b2T
-         oH9/L6Srm1isCiFrRDy3N6gVjHg8ZLTl6nJt2KfOPt11H/Falizv4zakXtPGkDZsipdM
-         6hgeYdjx48GROMqOA8lVIgvRObRLwNM01EnVcNyXoEgwCKp4kyAexrmzGoIR/1ZbAM5S
-         WrWLCdHs/BeY07kytz+w3Ybv96REQq0n5UP6ny3LIdZNvFg+vE8SasIBl9syVbZbtt4b
-         rGbA==
+        d=gmail.com; s=20251104; t=1778473334; x=1779078134; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OeHacbZXrsMU4ngrgTltuf0nP+fevY8eP/EXHUfGj+Q=;
+        b=a6u+AOg6ryqMldY2LRUux9/1qorKERpjRkIZxjg7rDFY4GhXDD51OXd7JzVJ3/J93F
+         5dw4Rjo6rBMa5KJH77oYlXuwpdYt7xsSF2LO9MddUZKzr9roG4P+t1FdDyB7+EnwkhX5
+         xQVU9ON5K5SFgBQYueY8596R1H2+b/K3l3vWeUQx9kPaTsMIInFYxY0g4DxNKlImBFOA
+         6uEVPdFTyQA9jHnnuNthxXC5GjXijtRbn5ScBm1TkUt6og68eFukiAb03B2TBkTwTvlN
+         wsxaYz2ZLuUB+8MNgPPVEjpyUieNhQJylhexe2GPVBagqODc3zChPMKxGM9xkrQtcSbq
+         ERAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778471805; x=1779076605;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/cWL1LsbjH+Ya5TeZhjyeEkCoO7Z8HNTJv+hTIAYITA=;
-        b=LAWLBli3oJ+DouFe/f1z2d0C1RIHUsEztx12QWWR2/S1yDNWDiN/kKhgavAFbKIL0D
-         /g/vwUVUl1XEWRhMFH3dsn/5bgLXWhu/Pq1O5P0lMvmZCDnIp3oU5rtkUyJ5a62pgESH
-         LbB29eajTF2SB8s+T+xgFGZDokvPsggCouIFGMNm2ZiUr0bOnHEGjV23JMcABHBZc06c
-         i2uLuiXxLlZfcc6vW9OBR09qEkFxnth6CGUfx/sSzgAXCAHOJA01ukraOYKHyCC80H2W
-         dIQXHgUlYAMtIyOJvLvbDJ75r7W06Jzi3zlz4VMaOCa9KOP6a4BcQIQWT3tpOVUnR9QQ
-         a84g==
-X-Gm-Message-State: AOJu0Yz14nyBWssLOyuucmZ0AVwsu+Ya0EqOMrDNBVS6kbaZMclNqEVQ
-	Sew1ArtwJVbz/SmtlQ9ag9YwmjEGZfNRyvMbNANlrp/ydkjsIXilj7rBcTlsXb0s3pTxsw19/Rt
-	zKjqqNEsOLzkHY8nQqYQ3uFRVic/zue3KCvHg
-X-Gm-Gg: Acq92OG6PAuXsGwup8kR8+W5oRttdw+JADzuiOOMSLgy3V+3DG6lqejXgbJRadF4qqg
-	Z8N7IHKvZh9jilQeBjwGYWhwVI/rmWJx8YiOkSjn+YjYNF8n+wKw/aE9UbnO5KBH1/QDCtcKAf0
-	AwAXZUD0+kGVdkShl7tv/jfIyxEMzhDCeJo+FJfWnb5quY2WLSyBwBHia76xkg8SqvGD1+KwSNs
-	ElkTFLM5lHiDATsWsNoTaxdzijm1jkb4VuDYJ+PxuctjirTtxiCkAxup57/lPA9Aeb5smyGBlRV
-	IeJW856lzULQKqDl6hdXBzXt6vcZ3uq94YH3
-X-Received: by 2002:a05:6820:16a6:b0:696:7780:477a with SMTP id
- 006d021491bc7-69998d22e20mr12301759eaf.46.1778471805439; Sun, 10 May 2026
- 20:56:45 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778473334; x=1779078134;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=OeHacbZXrsMU4ngrgTltuf0nP+fevY8eP/EXHUfGj+Q=;
+        b=eF2cByliuNP/oE9WCX/J1UbQA000gd2Fpq31tXFy8IMvAluaMdcOxgAXQ4bxaJYqyT
+         D37PlsNEE4qy9CaN+Vgio1mu5M2bzwNIprMTjWdT+C8zEcfplSnhepTwbQAt0KdhgZvK
+         3vD0pv1qTCH5t3uKRlHp8H72jWgP8H6Dg5P+vodJvhu2opaHgYeb3N/l0DTnR09qfRuY
+         7Cdc8mBoUXCtDyT17kEvwbxbD7DutzgdiHaZxRSFYtQkKqjM5ipTcb1YOgkC5xUCVQ8w
+         bkNwmBW81T0V5oxiKFBaUjc5hWZFsS709rO/aEsjpeBtheUSSfLMJHgHAHc+kSNw0mhh
+         6qHQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8bGaIYZ8lRo/eVa/e2tJZU8B8lXdD1F9VIT5I1KNIUQPeUn7CMsYOV8igOxEap4wXlT/Cg4mXuFMi04A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBXaMuGL7VYK6t1oU/l3NWfAB+CAPXv847hQMJyCdjGafiPsdk
+	cl2jpGio0cCqvFWqNk0vP/09YXoK/0nwW1rQ3+9Nabg3V2agWN26ERzajBQUljrwmw+dapp/nXl
+	VWFTTp+XO3qRxX1bPlzfHO+pd7Mq3mbw=
+X-Gm-Gg: Acq92OFEozHtg9LqSeuDbgMWPSt1BTpIWJ8GMyxrd/J6+hlVYpORxeNwiFafObf7TLf
+	7w7n8Z3ATd63KYwlZqtHNV0F5ztvtMms1kY7fT4P0RlkxmNI02qJmhYTQdUrNuMFri1b5eMpthm
+	hDQG0W+BmfSkwkzao9UwiCgjHRKiR6QMj84WPZUdjvnuZPjwgoHUGD6xRXFvmONfP7hIR+tYo5l
+	WgzqHi356mqz+bHkmSXUb5Rn4oaRuWuJxJabic+/EaTsHMxnWl+3Bjgaab4D+3JsBIAwHPGEizp
+	Hg+2/ow0wrR6tgxMkMjk+vhXW0+VKMlIpkN6IWxxHEGhby+0u0Cpgazd2AI=
+X-Received: by 2002:a17:903:13ce:b0:2b4:62bd:ee3 with SMTP id
+ d9443c01a7336-2ba79c2cfffmr234513675ad.33.1778473334534; Sun, 10 May 2026
+ 21:22:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: SirDoctorGentleman <amagicalfishy@gmail.com>
-Date: Sun, 10 May 2026 23:56:34 -0400
-X-Gm-Features: AVHnY4I0En4PYky4Bi9tee9WPEyuCJmkcfDAlzqZKvV9DLS_ZgE4HJNsScJvvJw
-Message-ID: <CANXUdNb=dWnECdFe6dQWdqcOKjzHEZO2BizPv5QCX3c0SnCpUg@mail.gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Add codec SSID quirk for Lenovo Legion 7 16ITHg6
-To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260423042831.21114-1-phucduc.bui@gmail.com> <20260423042831.21114-2-phucduc.bui@gmail.com>
+ <20260423-ingenious-psychedelic-jaybird-40bb4d@quoll> <CAABR9nGH4yZcgyzm=wNYVHB2vLhojZJSHKOC6dSeQPm0rbh4KQ@mail.gmail.com>
+ <ce219aa2-0bb1-4a74-b40d-bd753f1a22dd@kernel.org> <CAABR9nHaGBU9KAWJZrnBy8HO0Waccp8CCGmBdKJ3QOEb8WZsXA@mail.gmail.com>
+ <20260505211006.GA3875657-robh@kernel.org>
+In-Reply-To: <20260505211006.GA3875657-robh@kernel.org>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Mon, 11 May 2026 11:22:00 +0700
+X-Gm-Features: AVHnY4Ilmsly8mVMu2VKK2pF9rv7AIJO9kq9XO5ctET-fhRje978uj2nKP4vMgU
+Message-ID: <CAABR9nHEVsS_Tf6Y7AXnLJwsDahwn+o1vS5dd27m4QLQAixL_A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ASoC: dt-bindings: drop redundant wakeup-source definitions
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Joseph Chen <chenjh@rock-chips.com>, Chris Zhong <zyw@rock-chips.com>, 
+	Zhang Qing <zhangqing@rock-chips.com>, David Rau <David.Rau.opensource@dm.renesas.com>, 
+	Animesh Agarwal <animeshagarwal28@gmail.com>, devicetree@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-PCI SSID 17aa:3811 is shared by the Legion S7 15IMH05 and the Legion 7
-16ITHg6 (codec SSID 17aa:3855). The existing PCI quirk applies the S7
-15IMH05 fixup to both, so the 16ITHg6's CS35L41 i2c amps never bind
-and internal speakers stay silent.
+Hi Rob, Krzysztof,
 
-Add an HDA_CODEC_QUIRK matching the codec SSID, routing the 16ITHg6 to
-ALC287_FIXUP_LEGION_16ITHG6. Mirrors the existing Yoga Pro 9 16IMH9
-entry on the same shared PCI SSID.
+On Wed, May 6, 2026 at 4:10=E2=80=AFAM Rob Herring <robh@kernel.org> wrote:
+>
+> If this was a problem, then it probably would have been fixed already
+> because it generates a warning. An I2C device probably isn't all that
+> coupled to SoC power states, so boolean is probably always going to be
+> used here. But maybe not.
+>
+> If we do any cleanup here, I think that should have exactly 1 location
+> that reads this property instead of 77. Perhaps the driver core can just
+> handle everything and drivers don't have to deal with it.
+>
 
-Signed-off-by: javi <amagicalfishy@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Yes, the I2C core already handles the 'wakeup-source' property centrally;
+therefore, individual device drivers do not need to implement their
+own handling.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c
-b/sound/hda/codecs/realtek/alc269.c
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7675,10 +7675,11 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
-      SND_PCI_QUIRK(0x17aa, 0x3801, "Lenovo Yoga9 14IAP7",
-ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
-      HDA_CODEC_QUIRK(0x17aa, 0x3802, "DuetITL 2021",
-ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
-      SND_PCI_QUIRK(0x17aa, 0x3802, "Lenovo Yoga Pro 9 14IRP8",
-ALC287_FIXUP_TAS2781_I2C),
--     /* Yoga Pro 9 16IMH9 shares PCI SSID 17aa:3811 with Legion S7 15IMH05;
--      * use codec SSID to distinguish them
-+     /* Yoga Pro 9 16IMH9 and Legion 7 16ITHg6 share PCI SSID 17aa:3811
-+      * with Legion S7 15IMH05; use codec SSID to distinguish them
-       */
-      HDA_CODEC_QUIRK(0x17aa, 0x38d6, "Lenovo Yoga Pro 9 16IMH9",
-ALC287_FIXUP_TAS2781_I2C),
-+     HDA_CODEC_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHg6",
-ALC287_FIXUP_LEGION_16ITHG6),
-      SND_PCI_QUIRK(0x17aa, 0x3811, "Legion S7 15IMH05",
-ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS),
-      SND_PCI_QUIRK(0x17aa, 0x3813, "Legion 7i 15IMHG05",
-ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS),
-      SND_PCI_QUIRK(0x17aa, 0x3818, "Lenovo C940 / Yoga Duet 7",
-ALC298_FIXUP_LENOVO_C940_DUET7),
+While no I2C devices currently utilize the 'phandle-array' type for
+this property,
+we should ensure the infrastructure is future-proof. In cases where a
+phandle is used,
+additional firmware-level handling might be required depending on the
+SoC architecture,
+similar to how the m_can driver operates on TI SoCs.
+
+References for that implementation can be found here:
+Firmware: https://elixir.bootlin.com/linux/v7.1-rc2/source/drivers/firmware=
+/ti_sci.c
+DTS: https://elixir.bootlin.com/linux/v7.1-rc2/source/arch/arm64/boot/dts/t=
+i/k3-am62a7-sk.dts
+
+To address this and align the code with the core schema, I have
+previously submitted patches
+to transition the I2C core and clean up the m_can driver:
+
+I2C core patch:
+https://lore.kernel.org/all/20260505043145.33284-1-phucduc.bui@gmail.com/
+m_can patch: https://lore.kernel.org/all/20260504050702.34013-1-phucduc.bui=
+@gmail.com/
+
+
+> It's really outside the scope of a device binding what is used for
+> wakeup-source as that depends on the platform. So I think just
+> 'wakeup-source: true' in device bindings is fine. I don't think we have
+> to change all the existing cases either, but the patches are already
+> written so I don't have an issue applying them.
+
+Understood. I will update the commit message wording in the next
+version.
+
+Best regards,
+Phuc
