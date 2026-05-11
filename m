@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BFA2F549C
-	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 12:02:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D3B30100D
+	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 12:02:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778500966; cv=none; b=gCCekAqIuv6Ygf+DQVummoIZ0KXJfpUDt/1n/SiIEuV+/bYt2s8+6YOsxqhhnP9qyQMStt+kLxgaMPdgxjzqJ+iaOMmaqT28X8lM8CTnqO5c3upKE8lgqtJGnV26P2h+UBvquk7sc+7w6qFn+G8uDFg16oOMik3naWVX3tu4NXc=
+	t=1778500970; cv=none; b=cIk52x2WSgS8l/V7GRBv1ep4e+HMAjqw+XtgOnbIsvBqIrkG0iyHj5tz93V0jOf8SOhJzkotOsoPEm+4hfv5uxtXeSHoJa8OqSG4jodo53MS5LhwhHAchr17WQ616q1DT/YlF5n+6B0Sshiv+eI2z1UfjoOqvDx63AkYmIABCxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778500966; c=relaxed/simple;
-	bh=TnxTo6O4Xzr6iXj2gzdZkgCLcc8pwgEwtnVYV/5PSts=;
+	s=arc-20240116; t=1778500970; c=relaxed/simple;
+	bh=MUMVGL6BijfBS4Zy3vIkJc8DCB6CU0b3nOM8m0HqICE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=S9uIJRZYczH7SUr0fLlxZaWaiGg2kqCJ/dwz9rV5oCECuZ6A3ZG8R/+orDDsv3mHtdS18JhwIz+vnQoKJHyw0lJD4UFpwv+jBjzuK8syZgMLfcbZfMhWK2JwMoKB0yrdQI+0VNWhVQpZBTz8fjYNolHyMmYKvX9cAk8//XW/4jE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ztmn84ji; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=nsnYMSK13s/+RvsB5c0/A1BWs4xCRqUYvqiNy5xi5KQOMzNR/qJxSdxZBPaYIhwsuKOOoU83oPs9AkjL4D/BW7ejwo+7oJNIOLAHT+B6hBjhLpiot4aKFZujxwkjYfTid5G2iDjPn5ocjHSKkZJu0xLw0AHjcFDKPOdI6io7MoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AK0CbNtq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ztmn84ji"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A5F2C2BCF7;
-	Mon, 11 May 2026 12:02:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AK0CbNtq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03D22C2BCB0;
+	Mon, 11 May 2026 12:02:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778500965;
-	bh=TnxTo6O4Xzr6iXj2gzdZkgCLcc8pwgEwtnVYV/5PSts=;
+	s=k20201202; t=1778500970;
+	bh=MUMVGL6BijfBS4Zy3vIkJc8DCB6CU0b3nOM8m0HqICE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Ztmn84jiUELmq+71IwvklZ6rnfC4BOuDHlvKbF4NU4cWvCDw376wf8oCpYSr8WigA
-	 wG8WlmiU7nthlieNZANA950qUIZo0Ao8nybYt5H04+DL+y9FpQ/NSnZ4dZuF91x9r6
-	 MpDHQxtElu9RJbs8N+5sNUZL6CUrw257lYV/ZMh3E3ODR0xKbVxw6tAPG3BW6wLe+J
-	 cg7t6TzjvL/WG5wjLcN1NQm7knwpgontTVGl9FofAdkg1Bb0ciFk17de5MrBXiEeTq
-	 uNXwC8hdpAMoUSnk87MBTvv5pL/B7G99nvd8WTn0dNoUuxSPJV6HxStY0Vj8UZPrf0
-	 VM/aDBjWqWTPg==
+	b=AK0CbNtq7U/r0XvHqPltK/vTr8zwtPhnmrwhTvvDIrFvVjT1ElqQWfB03lxQoLJcQ
+	 2+1YN7nAYvEQ0QwWbjiP0eaHIStLez+HEsnTp+BoAdy2+9ex/ysfa9ZglutPna0+wG
+	 QfsCnU83nOXybfcl+LHpaAOWcwIBxRQo6voVjkjlAZBBAldxw9lJjyb3zoqZIX4LEi
+	 vUmt5q8NCAMAuYQCQsbx6pkJXTHBR7KmiWWN5SA6O+DoPniAOdHluLkQNEaS+iyngn
+	 rQnqASOnlkGvr/Lw8aqm+6QBCTBwRCVl9UHyhHQlh2VkkbJ5nlYFskfdyllz0Of9zt
+	 pOaFu/dC57hTA==
 From: Mark Brown <broonie@kernel.org>
 To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
 Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, 
  peter.ujfalusi@linux.intel.com, mac.chiang@intel.com
-In-Reply-To: <20260508093224.1246282-1-yung-chuan.liao@linux.intel.com>
-References: <20260508093224.1246282-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 0/2] ASoC: sdw_utils: make RT712/RT721 CODEC_MIC be
- optional
-Message-Id: <177846145399.988959.16413936913320319561.b4-ty@b4>
-Date: Mon, 11 May 2026 10:04:13 +0900
+In-Reply-To: <20260508104239.1247525-1-yung-chuan.liao@linux.intel.com>
+References: <20260508104239.1247525-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/2] ASoC: soc-acpi-intel-arl-match: add
+ rt712_l0_rt1320_l3 support
+Message-Id: <177846135222.988959.14896629537870590498.b4-ty@b4>
+Date: Mon, 11 May 2026 10:02:32 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,28 +45,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1582; i=broonie@kernel.org;
- h=from:subject:message-id; bh=TnxTo6O4Xzr6iXj2gzdZkgCLcc8pwgEwtnVYV/5PSts=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqAcVjhIP2Z3tBgwfn0XsmVmooho4VxMQ2rRPVI
- I+lY7QYmdOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCagHFYwAKCRAk1otyXVSH
- 0GnIB/4oovArXlrjeLTNH4gBEjJVuWnkluqR98UuSFR6CpMsLzILUZi5HLJHxJQ5OlzgSQJaO4b
- rs7ZI0mR0T6cPoqp4leKIMW0cGk5HZwVX7Dt7s5ObCNzyl4xj6gIKxbhdswqPDIcAIoWYnNb76j
- 6WTe8AV18/wz5O8ctGRlyBrOqYaNOdGN3rruG8z6PP5JmaEXE1oRG8Ux1I+nm+udqd+vKIw0uKy
- 3Zfm94kY14NyaOhOU5dJmoiEgsYozYjdQpYB3XGlUuv0BwCKK8d3wVDof6oYGFd81LxZeHQhGUp
- +lfL+ai21bvTyEzgQFrSpRo8Nd1Q5XhhwSZD2KxJG4eFbWSB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1424; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=MUMVGL6BijfBS4Zy3vIkJc8DCB6CU0b3nOM8m0HqICE=;
+ b=owGbwMvMwMWocq27KDak/QLjabUkhizGo+m9/mJtzMdMTVQ3n71W8OAYh+Iytefm1QppS42Db
+ ExTxWZ1MhqzMDByMciKKbKsfZaxKj1cYuv8R/NfwQxiZQKZwsDFKQATEddm/19fr/qvP3d+aPzk
+ Ocy/tfXNbyzRiKli8S4VE2VsunH1f02gfARn4s2rZ1pX2bRcVf/hulppxbT1Attkjmq0yT9r7nq
+ YufkZr2T6qVh/jdlzr1c/qvi2pijmgNsy/8V+iuFuepuTLdgt139j8fL5+ed9SVbfW8/FcqKmTe
+ Fq3jtWLu6O4X1jvzDreqeYxd/C5yWLz5TO+7k15a1ivvI9mUdNq676pfWUigpO3yfZ9TCfj9GNs
+ +zQGfZFrs7VepEfbzPYKqzQTn8fEmRW9FbvyWSBYMeiQxzL3s90fdWmWW696paX2oq2Qk9TrWXr
+ lsvWV577cLL6mxLDwaa2kGrWjXt+vSjlSQgJLgvu/lQIAA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 08 May 2026 17:32:22 +0800, Bard Liao wrote:
-> ASoC: sdw_utils: make RT712/RT721 CODEC_MIC be optional
+On Fri, 08 May 2026 18:42:36 +0800, Bard Liao wrote:
+> ASoC: soc-acpi-intel-arl-match: add rt712_l0_rt1320_l3 support
 > 
-> The RT712 and RT721 codec mic are optional and are not used on some
-> products. Add a quirk to make it optional and skip the codec mic DAI
-> when it is not present in DisCo table.
+> Add rt712_l0_rt1320_l3 support for ARL.
 > 
-> Mac Chiang (2):
->   ASoC: sdw_utils: Add quirk to ignore RT712 CODEC_MIC
->   ASoC: sdw_utils: Add quirk to ignore RT721 CODEC_MIC
+> Gary C Wang (1):
+>   ASoC: soc-acpi-intel-arl-match: add rt712_l0_rt1320_l3 support
 > 
 > [...]
 
@@ -76,10 +73,10 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: sdw_utils: Add quirk to ignore RT712 CODEC_MIC
-      https://git.kernel.org/broonie/sound/c/9c37daee7c17
-[2/2] ASoC: sdw_utils: Add quirk to ignore RT721 CODEC_MIC
-      https://git.kernel.org/broonie/sound/c/fa749a77bdc5
+[1/2] ASoC: Intel: soc-acpi-intel-arl-match: Reorder ACPI machine tables
+      https://git.kernel.org/broonie/sound/c/ac2f21ceddee
+[2/2] ASoC: soc-acpi-intel-arl-match: add rt712_l0_rt1320_l3 support
+      https://git.kernel.org/broonie/sound/c/242200c29703
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
