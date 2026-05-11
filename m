@@ -1,62 +1,64 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319DE3DA5A9
-	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 10:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6543DA5AC
+	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 10:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778496327; cv=none; b=ZZZQicvN4ZtocOiHfKlLBOOjEq8PKJHZqBHFZXvLMdmmaJSnxttpTqza6+yJZaflMDZe/6HLUI8GhHVaAS10+62yGzlXoAh51Tewfr+knLm4rKNczpi6amG91Polc/oi0ZZF7iXVb5sInRRfdviS3DKLm+lFTWsvMeln6H8fqng=
+	t=1778496330; cv=none; b=dTVww+sXVmOCr3RZLKj+DBHewlgAttsTuaMEVbkxl9C2duNAPBS+UQcLisRBarwakXM4tkW8iZok366E/D3mwjnQ8PiSsjPhCAx/YtkyY+Hhxx/qQtwhJlncA5OBjhB1LbQywLSg34I6OTlGThb3SUmOQprsPDCGCbFCGZzR6lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778496327; c=relaxed/simple;
-	bh=7x1TqayG/2++eQSlPW5R3QUNdJcDCcG0pfAFx+4Iue0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=m8KxCvYxskAQK6nA74BjdgaYl1JchLSqyR+MGx9atzqo9o26O5ygGQGc8wIZoXLH4hWAfYkdrNNI28k0QtDDzjwF0h5Kcv5mSbEsZFIy9ntv+CCdRAaBQAskRTT/RyrmHgtQAlN8qr1FA3+8ImtdGr4wny4BPMQZPVva+fbG13E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=zYoZ/V0c; arc=none smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1778496330; c=relaxed/simple;
+	bh=7Fb7gRlK9+DQznhHXVa9Lj5oly00fA+a3//pDOX4BMM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HZ8nndsOLXiJUMQrMMzh31zBbHTPHQNmB7rOMPoLpo7SaemkV9cB/oBY5fQB12Pxe+FGdvgtAdHI7RnqzA6k2LBhZLwiBOJwc7yb88fzHKpUE3K0RZrvRJPv5uelxklM1xh1O/41rWsiW6Rdsj/TF+d9zy4N0KR3/BWHfJ4pnr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=0W5Mfm88; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="zYoZ/V0c"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43fe62837baso2096088f8f.3
-        for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 03:45:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="0W5Mfm88"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48e8132c6d0so7983795e9.1
+        for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 03:45:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778496322; x=1779101122; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wOVlaLbxyWEmDAGsS4rP7zIxUVqa6gm43xH+775xGEk=;
-        b=zYoZ/V0cJfTTatQytEkBdkGIaMooMLLwXstGzmVb2nfC3dbqSKDYDyeY747lC853fz
-         ghiGd34wLok1V0NLhZluoGFXQtFYDdb8z/jZpLyVWI6JApnCuBLXdqVHOOOXG+0raRf6
-         3EGLdgRettH7RqNl/8WaBQXyGCi0fF2InYbKJZNhI1AF5tevzt8kXON6BNfxyeEI6Kvt
-         bFMHA2kV77gMGVBl5s+9AI4U0Q/oj79RebgjQZa3nm8bk3VVZ2NZAurrGNL3xOz8liMw
-         DNW2rF7WBe6tXos+RNNqLGz5GPTOIqMZfk9cPp2VBq8M9HBOQYgl2J3Wr+I/dJh6t5rA
-         pOgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778496322; x=1779101122;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778496326; x=1779101126; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wOVlaLbxyWEmDAGsS4rP7zIxUVqa6gm43xH+775xGEk=;
-        b=hh/ynhNPv9u6M7GQtVyFetjAuvzFjUWgEpXR9Pm0PD20JjrrZC5iAuEvBCj+nFlewZ
-         oW1y7pZWrn8oBW6vvTvBALT/UAgNiSguzGW3X50MF9owGPyyaKz1Can8Fq0ci+bKVjxT
-         KpPObOd/Eo9huISXihjeb4tWlgC0CYWBwJ/fHJEu0aO6P+0MMVnAIyOzzqcJGdYcL0Lx
-         GUwuYm2AMZK525lSbMhwTl46LwHE+HLTYm04UBOSFk2vs2Cn7cebhoSS45oS6eoBn37X
-         aST+AslvBGIk+fPpP/lpzbqJzPKXAXm0gKlDRxDDvBDiEsa5i5pktuHwcJ+7z+I8wZmX
-         CObg==
-X-Forwarded-Encrypted: i=1; AFNElJ9Zi9x9ixqUxZvKgWZIKOltO6YLwW3W7k2MBuFZuUzeXXTF+zunwYJza6FZYzdtri+Is/jtd94RUSecdg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqtnQyGeZGCPdKxp9UIukfBczujxznV0X2bCb77ehPqbRfBL1v
-	xtISg2wUBHgdeEFVSFLPDCfs4ZI/x497ZGce556ZvDn3m8lB7AeKqPtVXuevQTXD8DY=
-X-Gm-Gg: Acq92OHyNTareOC3cBTzMMLMOTew1JRRs4/bgN7Nsvd+NDLwR4y3a1P45EWNdJWV2q1
-	SQmUJtW78B9OGggOPBMSxbBkoh6WjZEhY0LlSydzd+v6K0afqc+WA1/Kq2MFa7He5qhiCJwrlku
-	uK32JOGhY5uOdRpv/OLmbJ+5ROFdRNY797+Ry2DbFdGStFkpEuFdCv3lcWFL4S36RRrp5xqXLmV
-	iTlPy6vPCh8/nuN3QtNQPnaQBdYHFXue6F02F//p0iIeLAZxa55KsjeqPmgfOx+J+eCv5jQ9PyH
-	r2HvVKXFyduoCwXoGnoXT+ZskdXaZvcw8MOsk8P0E58StI00QseazcBRRWogCO2He8zRzjQPguE
-	rLQmr5mJZDGaoqZLUuKtHfUV7BT9Fy1ubJz6/mD878tnYAlIMLsF+sfVme5bjX3ImWvAwovzfg9
-	lbHb0fnGN5vuREicnFW8hqRcbCHw6I3B+32dh1L2ynoU/ghJbH1evXGOIWLbIop2gZhVp3XW/UJ
-	yLSJwNTV/Rb6bo=
-X-Received: by 2002:a05:600d:1:b0:48e:7f1c:8760 with SMTP id 5b1f17b1804b1-48e7f1c87bdmr73299395e9.27.1778496322187;
-        Mon, 11 May 2026 03:45:22 -0700 (PDT)
+        bh=gM6sTJtkORo6AhXXjWIf/WzX0WlvY9Be6RoWfTLlcx0=;
+        b=0W5Mfm88xDGAVbDI5YvvwQ/vpyv+XiG8Va+2kO9LFOGbvJ1RJ1gNLcuMp/bM524Xm/
+         NJ9EdxAfemd7l5rG2pUv+RKGlYuUQNwjP/McZ0nCuggVOoXGVjXV6lPJuMBw0hunf+Ma
+         qYNAq/g1bad+uB86ca+8xwkVmjJvWwIf9lAlAycCiZaugzRpqdSfO6RGYxJlJfh05kzc
+         mAJeilPlCYyF6VFPuu1yjzQcX2KpFQ//1qIJWYC2t/nxV701HANAhghB0FHlp3I64ugA
+         KDZ/idYaT8z09ZwTPZAfg55rvdVuL1ZgrFgysh5NxrJJkTabFUb6DF+zN6LN+5NVlH72
+         W3Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778496326; x=1779101126;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gM6sTJtkORo6AhXXjWIf/WzX0WlvY9Be6RoWfTLlcx0=;
+        b=nvPM72qPI2WMp30QvjPLKvQDQKlIlDzyGWPIwnEtf60uufzJxlPtw4OqapEaF936hf
+         5ApAnkF1E4OjY2PRdMIpDgVll162CcMsXbMaQ/dk2ZLwxaA71XKRIIbuYDNZRWvcm9JE
+         FbcWoMZzR5POVtlVC/lttG/LU1wjAEXrgf3xCj+EL/VWeM5o6Cyizi9TXkCdM8zRLLMh
+         y3x3F1eOnGjDDMLHMTqERMIMJ8zoH23Q2NmcC1odzBlkz55Vgcv5j60jmQOfh9okBxl/
+         w34VI+klDlkgOF6jR+ciIEMcEBGBL1uFi+QCta+F2gmpP/pXxDy2IOEKoK706XO970Bt
+         DTTw==
+X-Forwarded-Encrypted: i=1; AFNElJ/3SWItNHGmspt6IgPzTDKeWlo8y6ckvjUl5GqRvUIyWUV8CFnuOTG+RC155l+4wE3MYhJvznSDM6EINg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKW0sS9bIlxzHyZr+phoBNtLq2kxOOaJJjYIBqJLdfWV5n3e4K
+	zHS1pHf8RSF4kWEqohsqnapFf0F+InFLZbTLJNe6mDXOB0h1FkwDuwS+N0iipktYRQw=
+X-Gm-Gg: Acq92OHpXZrpNkHYr++Bk89wa7g2ta9T0MyPKLkNMhFVnMAOY2VEHg/N1JwCAfca8dU
+	sYcijkA75zQwBnqXchRTmfCnEAwQsFNiRKSUIG+1uLan5Qzt2OW6HA7O6O94fUjvbS7OVpYd6D8
+	QOkPDuOTIVzcLoBY9zPWctHjedO8XkjwJX/pMns7sw/NLyWxsZ4BjcU+b1tDUd3V5StOqiynM9u
+	HDp8/VH7uiwHjlVvjT8yRAtZQvMsTw6lSbre8ot3Dr3dTMST3uMVLwYOBShUISSTZGHYXACONFr
+	GIH1355oYgUkDm31k4nqI2mFdMfXISlVCoPt43ikCT21867kKv5pxMpHRUAvcWsC1x9sOGVJJ35
+	tk/wWuKu3tO+XCHpivDsGj2eewxXJGPLqOKffbCNPjKT1q2Nvaaonge1ZCMvTHsrY76brHZafWu
+	3B8WKTnOxHjhmCgQjdkyiFtoIgdcqIB8GcZLmp8IT+8Xp+NwbxFyh6m9xJGsNdGW4PLa3Pzxyyv
+	YYdY0B0eqGCpYCtH3qPNjKxLJ4wqaX97fZe
+X-Received: by 2002:a05:600c:6290:b0:485:3f30:6250 with SMTP id 5b1f17b1804b1-48e51f3fd58mr414101285e9.20.1778496325795;
+        Mon, 11 May 2026 03:45:25 -0700 (PDT)
 Received: from localhost (p200300f65f114e0841c796eda31a14b3.dip0.t-ipconnect.de. [2003:f6:5f11:4e08:41c7:96ed:a31a:14b3])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-48e701e9585sm173619515e9.5.2026.05.11.03.45.21
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-48e702e5630sm163631495e9.8.2026.05.11.03.45.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 03:45:21 -0700 (PDT)
+        Mon, 11 May 2026 03:45:25 -0700 (PDT)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
 To: Clemens Ladisch <clemens@ladisch.de>,
 	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
@@ -69,10 +71,12 @@ Cc: "Christian A. Ehrhardt" <lk@c--e.de>,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	"Christian A. Ehrhardt" <christian.ehrhardt@codasip.com>
-Subject: [PATCH v2 0/2] firewire: Simplify storing pointers in device id struct
-Date: Mon, 11 May 2026 12:45:01 +0200
-Message-ID: <cover.1778494203.git.u.kleine-koenig@baylibre.com>
+Subject: [PATCH v2 1/2] firewire: Simplify storing pointers in device id struct
+Date: Mon, 11 May 2026 12:45:02 +0200
+Message-ID:  <e5ba45a7e386461c0b1a5001635aa008b01c2164.1778494204.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1778494203.git.u.kleine-koenig@baylibre.com>
+References: <cover.1778494203.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -80,53 +84,48 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1867; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=7x1TqayG/2++eQSlPW5R3QUNdJcDCcG0pfAFx+4Iue0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqAbMtSfQJB+urLDepKUOwM3XGsGi4ClkgxuWT4 2Wr3Hym83mJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCagGzLQAKCRCPgPtYfRL+ ThuQB/4wOy1YCl/M/aHwWWEuL8QM3jQGotj7NpV+8wO+U+ai0N0cIfdgg9JAvL5oqGN71mlXM55 J0J60e4XZDlWwg4WVhuKSnnUkwAmUE9lYhfUR5oQxjXsu1WFTFB8w0qcRhSRFiLcD5rupeVQvg/ FErN96K2QNBFdDLNCy7ZnWOQXFR06+0pku101huDNXH1WWoCMn6UT0X8RhbUjrxI5ivQMKV5XMM GLUc1e4OyKRHATsD42BdEssQHQTjHjRYuWGGchGvwWhayOUYvDYL+QGesoziRxmv1LAMJkv+cFt 4CLoxcvo1u/1+9d1Pm1Vz02mQqiaFePn2Y5cXja+w/ZLJHpr
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1499; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=7Fb7gRlK9+DQznhHXVa9Lj5oly00fA+a3//pDOX4BMM=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqAbMv1GRmnyfPztMd4yCbTsXjR2mNz8M/CKkfv k4zoMx6GrWJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCagGzLwAKCRCPgPtYfRL+ ThftB/9oZr27bQL9JfJLRl4dli6fUh9iQBPVO1QP0cDtJf3navjMpohr/qc6ykBuvlx1iMQCqzZ 7WWnzntxofusFSilQ5iDYW1EatKxqbFvz8ZGsk5PsMQNwKFKHDXIeOSC67mnauk3voX1j7KSztS w9EefO3c+9UZ2wv719o6L38x0Xs+BNK2B/eNlKFd2JESFsyy42kxbEAF1/IJ5Rw7Qsj9x0fj+cw M8IWa7Al4bBg3uccx2l/NqQZ3td2MySR/mcr9vpPGXy+2yJaUUtx0Srfz+iU8Dc0KEosGpIOtff srCKNUUCslKktmLV8q3WuPFUriUKyaqBg0JK/W4qttUpfmG4
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-Hello,
+Technically it is fine (on all current Linux architectures) to store a
+pointer in an unsigned long variable. However this needs explicit
+casting which is an easy source for type mismatches.
 
-v1 of this series can be found at
-https://lore.kernel.org/all/cover.1776579304.git.u.kleine-koenig@baylibre.com
-.
+By replacing the plain unsigned long .driver_data in struct
+ieee1394_device_id by an anonymous union, most of the casting can be
+dropped. There is still some implicit casting involved (between a void *
+and a driver specific pointer type), but that's better than the approach
+to store a pointer in an unsigned long variable as this doesn't lose the
+information that the data being pointed to is const.
 
-The changes introduced here are the same as before, but the commit log
-of the first patch is (hopefully) improved to better point out the
-advantage of the approach for mainline. The second patch demonstrates
-the explicit casts can be dropped after the first patch.
+This also helps the porting effort to let Linux support CHERI where an
+unsigned long is unsuitable to hold a pointer.
 
-The patch series intends to not change the runtime behaviour, however
-the 2nd patch introduces a few changes to the generated code. Looking at
-these for an arm64 build they only affected register allocation (so
-where x0 was used before it's x1 after the patch). I'm not proficient in
-x86 assembly enough to understand the changes there, but I guess they
-also don't affect the runtime behaviour.
+All users of struct ieee1394_device_id are initialized in a way that is
+compatible with the new definition, so no adaptions are needed there.
 
-My motivation for this patch set is to reduce the patch stack for Linux
-CHERI support. This affects firewire because with CHERI you cannot store
-a pointer in an unsigned long variable. But I hope these changes qualify
-as cleanup worth to be applied even without considering CHERI.
+Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+---
+ include/linux/mod_devicetable.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-For merging I suggest to take the whole series via the ALSA tree during
-the next merge window, as there are no modified files that are specific
-to firewire only and the second patch depends on the first.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (The Capable Hub) (2):
-  firewire: Simplify storing pointers in device id struct
-  ALSA: firewire: Make use of ieee1394's .driver_data_ptr
-
- include/linux/mod_devicetable.h |  5 ++++-
- sound/firewire/dice/dice.c      | 34 ++++++++++++++++-----------------
- sound/firewire/fireface/ff.c    | 12 ++++++------
- sound/firewire/motu/motu.c      |  6 +++---
- sound/firewire/oxfw/oxfw.c      |  4 ++--
- 5 files changed, 32 insertions(+), 29 deletions(-)
-
-
-base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+index 23ff24080dfd..3b0c9a251a2e 100644
+--- a/include/linux/mod_devicetable.h
++++ b/include/linux/mod_devicetable.h
+@@ -61,7 +61,10 @@ struct ieee1394_device_id {
+ 	__u32 model_id;
+ 	__u32 specifier_id;
+ 	__u32 version;
+-	kernel_ulong_t driver_data;
++	union {
++		kernel_ulong_t driver_data;
++		const void *driver_data_ptr;
++	};
+ };
+ 
+ 
 -- 
 2.47.3
 
