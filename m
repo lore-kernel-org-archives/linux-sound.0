@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B3E30100D
-	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 12:02:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E499E379971;
+	Mon, 11 May 2026 12:02:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778500975; cv=none; b=DzvUjYjVtPHf0LVT5MeD6YyxGRYoUA+yNyWo50210gp0KeN+McHfojPlMV86MovHNgBKmHeCc3XBScJ8ch84gZkVbRJyxTHzFSUASPpGs5e6a7rEPkIMGd+B/pRgpKzEdzMigt4WGY+j1BaIdsVPnEFgrva9Kdm2EDHUzBhFYiY=
+	t=1778500980; cv=none; b=g8VXg8FODJE4a+jhZsnWCQSLKXuI3e4cQ6gJRyd/7xinCgwZX0RUWUTZTebk1Bz/nVsN65NxA2s1KaZ/RWBSH/Jt5UR1CcdlC/n8ztOstJRasC9INMkS/qT4Dzg90JfwhWD/7qASaqqfWf/pbLIUqW7rVatjI6mKw1WnBAp8Ufs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778500975; c=relaxed/simple;
-	bh=4mzuvkJCdD+2UIfnS/GWR8pt9M3h6/s8+5KCVK/Hf/M=;
+	s=arc-20240116; t=1778500980; c=relaxed/simple;
+	bh=bEg2Oc42Jc1YTiUa6rw6CIPcwQmL+oHe4mTQX0c+a28=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=j9EhnPxsUdLW/k5zmRqfE3iVuML+w5EWqC8EyTdw6ch0NZwQN7E9g799/hzU6AQLtImJ8jMzuIxr67BOS6t3bUZiSHlhG8Ym6zfINCw9f3FohJu/QFLu6ei9V7h/P35q8/9vpPpshNIPMJu1JqzAw232dd9nUE0dLWpF1Hd1wKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oaYFusdA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=RRobU50ryIFu7tCoarnVJotEJVNU1ntY+12DJ39b2K+RifUWtc6kDwIiM77x08DYYM6CgwFeJfHq3gSoVs/swMOXCR+Ou/gufJ6Wl9L2yk7uAGrqeWmsHZfYWtXH6O3dVD+pIJ9KvYSF1Ch3QB3RZl34ftmVnFPb5cOlylPslOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=db86Lt37; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oaYFusdA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E607C2BCFA;
-	Mon, 11 May 2026 12:02:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="db86Lt37"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C87A7C2BCFA;
+	Mon, 11 May 2026 12:02:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778500974;
-	bh=4mzuvkJCdD+2UIfnS/GWR8pt9M3h6/s8+5KCVK/Hf/M=;
+	s=k20201202; t=1778500979;
+	bh=bEg2Oc42Jc1YTiUa6rw6CIPcwQmL+oHe4mTQX0c+a28=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oaYFusdAiwYLjcnMiveb0qY0wMpnJawsX14LhfcbvuxNPenCSeK+a7AMhrYMz/vS8
-	 CulfDXaFTXW8bEAkC7ZfCvW8FJ7GeZ3SVnQ104bql2P8AQB/5YqjLlgVnEZDNzmSPb
-	 kPmgkZ45OnYsBoCZHvLaMnK2CXbw2mOABNB0rsvlg/WiIffzYHOMadnntmKWgyZqEU
-	 QFk0hu+UzYq81BJyUMEhRDREiQT/7GW9HKjVRHXXh4lgVvmP0L9IyQPHxLnFsWm4c9
-	 /shoacf3QJC5MuglEaF5+cnjyKtv9Y1zo42O43RANlkMQ5SYwRBJ1by+rplmBib5MJ
-	 yDwez6Szf36ZA==
+	b=db86Lt378y9R8RXR2snODXaYcOnBIjXKaAG3zaMPjW8VBneDp3zXnYMivY7dxf8c9
+	 rYJBt4F2xk7PeaYWevVR33LNpbtsAStWG9tGdJ0S2K3Obi10jF+Lj19rkceSzSNaJZ
+	 d71UcWzanMRvSnIen0Va2JtcNvMMQpDxffJ9Sh7YJFP9yzNek5wA8sYjBxO9F4UXq7
+	 KG3FQ0ATkSiUa5rDHEYQoEqoEzRSAB8kr0Oe22d9VdQbtv9NDPYMNPBtjbykS1175d
+	 fO/yOy20D6b8SPIuPHGE9aqpMRqi2dkMiCUDc0cIkznE7OtUxqWc8OjZDIGErLDaQl
+	 78fbgVU4u/yNw==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, 
- peter.ujfalusi@linux.intel.com
-In-Reply-To: <20260508094750.1246796-1-yung-chuan.liao@linux.intel.com>
-References: <20260508094750.1246796-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 0/2] ASoC: soc_sdw_utils: skip aux device if it is not
- present
-Message-Id: <177846153955.988959.13564365690973884915.b4-ty@b4>
-Date: Mon, 11 May 2026 10:05:39 +0900
+To: peter.ujfalusi@gmail.com, phucduc.bui@gmail.com
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ jarkko.nikula@bitmer.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org
+In-Reply-To: <20260508103837.138142-1-phucduc.bui@gmail.com>
+References: <20260508103837.138142-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH 0/7] ASoC: ti: Cleanup locking code using guard()
+ helpers
+Message-Id: <177846113679.988959.549301226983834069.b4-ty@b4>
+Date: Mon, 11 May 2026 09:58:56 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,25 +46,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1488; i=broonie@kernel.org;
- h=from:subject:message-id; bh=4mzuvkJCdD+2UIfnS/GWR8pt9M3h6/s8+5KCVK/Hf/M=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqAcVsx4M4bfbIGzephDhC2NIde1DojQfyZOcQi
- TSr0PLC1UyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCagHFbAAKCRAk1otyXVSH
- 0OGUB/45AbEsyrnUn9LdEdWtUrXxbTHZUe3u0ZD1MtUwmlBWT0coLOzHt5eDvXccoI0GyZSk5mP
- M2J+E4eO7UhHw0A3xNuPyq8lixWSmfUOxTWbvnINXDZkTHFoedL9XogR/gfIqFWslZx1RzXEg8r
- MaNI9wzjJZb+FQG3uxP1Prr+Si4Iz/kMRA528Rd1UMazyftE4ilRHQbG9n8rakzdxMS3/WqZEXF
- 2+IJq3yqeiZOcwRNmOKgxOrk64YqVlB104HR5SqOYmJUpVq+6hA2/sJDZ+PPrLzlXi50ofHi8+N
- 4XsAiWbL9wMxqKc2iSdrkFEbOf4pgqpN7zTTfLKVpXB8mgR+
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2009; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=bEg2Oc42Jc1YTiUa6rw6CIPcwQmL+oHe4mTQX0c+a28=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqAcVwRUcuGoablk5B0LXmYra1XeG2Two6IgYxP
+ 5iSVT/qNsmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCagHFcAAKCRAk1otyXVSH
+ 0BMtB/9G8zJo+/JROGbvYdtwR0VOhgiMll9INUOP8ZuZFMHIy3sUj/0snGKWrfvmHylx2m7Dm2Y
+ bBYzNuQIfTKoiiyzPCOk4v08xFDLSFPbenBi/6Bu65MjDD2ESYW3jj9T3nt3+2c2QFd8p+c02f2
+ Ur18L2egqrwHqz7eOOlTIEWzFOhbeaASeYBGXfjsBo2edIiYG5xQgHBwNlnwrOaY5ELZAnaBRB3
+ pFKtocGMsuQyjpV8aSocP/9+0urSuM2no+lVLftHpWGZdYX4CO0U3zmkpPGsB9NX9OwlmTpNqsD
+ nN4r33S2qDiGDtOaedXFVKu+WX4Za48zYur8AIiEfmQ+9ypv
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 08 May 2026 17:47:48 +0800, Bard Liao wrote:
-> ASoC: soc_sdw_utils: skip aux device if it is not present
+On Fri, 08 May 2026 17:38:30 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: ti: Cleanup locking code using guard() helpers
 > 
-> ASoC: soc_sdw_utils: skip aux device if it is not present
+> From: bui duc phuc <phucduc.bui@gmail.com>
 > 
-> Similarly to codec endpoints that may not be used [1], aux devices (like
-> HID) also may not be used. Hence skip aux devices which are not present.
+> Hi all,
+> 
+> This series converts mutex and spinlock handling in TI ASoC drivers
+> to use guard() helpers.
 > 
 > [...]
 
@@ -73,10 +76,20 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: soc_sdw_utils: skip aux device if it is not present
-      https://git.kernel.org/broonie/sound/c/954222bb686d
-[2/2] ASoC: soc_sdw_utils: Change comment into proper kernel doc
-      https://git.kernel.org/broonie/sound/c/21bcd34e70af
+[1/7] ASoC: ti: j721e-evm: Use guard() for mutex locks
+      https://git.kernel.org/broonie/sound/c/6f4cf77320ae
+[2/7] ASoC: ti: omap-dmic: Use guard() for mutex locks
+      https://git.kernel.org/broonie/sound/c/bc59728f9349
+[3/7] ASoC: ti: omap-hdmi: Use guard() for mutex locks
+      https://git.kernel.org/broonie/sound/c/59115f79acd2
+[4/7] ASoC: ti: omap-mcpdm: Use guard() for mutex locks
+      https://git.kernel.org/broonie/sound/c/70031e9ad601
+[5/7] ASoC: ti: ams-delta: Use guard() for spin locks
+      https://git.kernel.org/broonie/sound/c/a8217778be47
+[6/7] ASoC: ti: omap-mcbsp-st: Use guard() for spin locks
+      https://git.kernel.org/broonie/sound/c/d94e794e8294
+[7/7] ASoC: ti: omap-mcbsp: Simplify lock and resource handling
+      https://git.kernel.org/broonie/sound/c/822f67bc269d
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
