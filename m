@@ -1,103 +1,143 @@
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD67401A01
-	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 18:16:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0703659FD
+	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 19:16:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778523382; cv=none; b=PLpKah0FEqSXaYt4/wVH0NKdYQRS0Y6TXdgeT7OCAFI1V9trOYC3xyI1Pqbxz3VcYhblg73w5GyLtzN4S9dr2ovORUYmVF+QqPq/ZRlC8k4/JgW9qokt02A0aajj156WG9szyZhw67JGnQvWjYyXBE/nfhyQztUVPKuXBU1qON8=
+	t=1778526964; cv=none; b=TfnxYFNE0ujn0qwQeVWqvWhi6cec0FaUDzNOTrLdbzyfmdIPzErvpCG0yaNUWLDJRTw7u5qru4J+rr7uNnr9+EN88H1psGgRXpG8xP9BRmMp+exjnUkgux02CyQy3LUqZQ5iB2RfgbkwYFtwHD5WKr6X/1Ptwafub1w3PuFgX3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778523382; c=relaxed/simple;
-	bh=saF/ztnF3I0uu6WLuZsCpySX/zmFGeLWwFVFO/stZ/I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MZN2B9UpzbeGCErmt1+x8GG2H694LSq9tRVP/1xAuBdDqH2e8hOGGOROE6s0nI5eIL+7CUCqI8HLP9g0wvttX9MVOzk90Fp1qt72q8zLApW0vtQPrYKGnJoSd2RLsoYfUjpHHTda6NA5ohp/Ln9LjP06nssxm83Re1CbGgjGIGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XLmBJJZh; arc=none smtp.client-ip=74.125.82.46
+	s=arc-20240116; t=1778526964; c=relaxed/simple;
+	bh=DqWKsXdNwI+6DvTJwGOHRu+xKSgk9VjMV1EF/5XovQc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OHn83Q1ddzInCvuK5qEPGKKcAVx4oHeDBFQtzOLrm77Dg8unnQYiSJTe4/e1dr4bO1JxpT6KUA2T5WaNCjeBCyr351k0QaLHUKTSN/kRRpcsFDRg1Fyn3UdcXEoCxtFaWjWMkn/FrK8XqcjwjG7EEGSOoWfzntx2WWB3NhYbm98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CXiMprZd; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XLmBJJZh"
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1330d6bb78dso1064553c88.1
-        for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 11:16:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CXiMprZd"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so79952665e9.2
+        for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 12:16:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778523381; x=1779128181; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qEHErrfp8JXn90qUsedQ6RU7H/9pFO+b1+Lx8BQlQz0=;
-        b=XLmBJJZh/FPYtuDUNrnhzxXv1ves0++yIDC3LNuk1vCIs5HJ2/7GI3arwEPiJ6W/YT
-         RVZuKS40skZYZLwvDFvdAvVLLpUukP86F+8kvTmWAj25k/bnSyb8S0TjLao3ZVyI368u
-         C1kgRTJK2aG5/iRGm/GoCWs2nQOtqE8W0wImh5K/ve4LiJL2pDvHU5r9YGGAp66dUmhl
-         wCkN4IpZ4TsD2CzvX8ks0KNka3bgPLkbWqzDChDHvXUj+98y/LzKCtf/lgqa18K/7gVe
-         p4bm5gox41Eh9R4P0dxdgAPjzWFDcUZIf0solWBZl20q0twE/ETfEoAf9Kup4WFnXsCP
-         tEDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778523381; x=1779128181;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778526962; x=1779131762; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qEHErrfp8JXn90qUsedQ6RU7H/9pFO+b1+Lx8BQlQz0=;
-        b=k4EibuHE9Gnv4NWc9phVnsNNlzJRQYxTkps70bpKWA+UTaZC91djcZT50S8pCYdr+v
-         K5L6NN/9i0YoTKYpQGW5ZL8JbZNd9lIXVvEKx5EhmwE8hh7crKFjgTSe3LUu64GgUIip
-         jzJuwCO4ekj5QgvWNa6V1hou1g9h8GjsR5vmIjVH9TUynxGNv/mHPsV1myJj4QdXNjRo
-         DaM3ae1ZQiveik+MX3fKoK9biEQwXmMrDtfhKj1HJrFGZR8XLR2+7bbQu9bVPfus9Khk
-         1yj9mQUbM8Cr4u/8Sh4fIcasWYLjNNlT2XWBFwsD2ukQD1oLFqPw6Vt2sxDecVTIB3KZ
-         y47w==
-X-Forwarded-Encrypted: i=1; AFNElJ8cqEQL9bRu6yUngt7p27HIjNna6zUKgr6GV9iSzcxAX0rETOUgTExXLMyZjGxcqAxeWia0JGCJp9FIcQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDtpxctY3WINRBUar58BgZYfO/cQ/PiaNYHZgRa/g2+pZoS7ue
-	zXEvvLchgXMYmGnYEU0TFR2T+auRDlsIccUq/ifotgURHANq5Ew84u0Us68kD5tN
-X-Gm-Gg: Acq92OHC7wlrmgQIb9F0sBdz2aGo9supM7id44NKLAVr2gxyvH231gfiNBJq8p4wsnf
-	ffxznbhNGjgRea0TLVQSVxUPAakJrifqTkMx2pv1xRxrRLXLKxA5JYk8MV8YdufIbKyTkUnxTsz
-	LG9ECe94Xbv/W25iW1xmfwlXspdMVvqpNCWA+wxGkpNGLxIAYlAL9TTStdKhYwrwnp51FEsA3Jn
-	ZsPc27uPkcYV0/fbb/kilblBI3KjPcZW3FeLIa0Tweea0TOV0cssJMeY2+WNEvNtUtmRkGm3tpF
-	753dQa1kfL32rVwT4tvHs8HnTigmETIhMSa3++jknyLHEkUdbezhyI4aULowmG/9+rmrVE37I9y
-	KmhFgr7yD610kSUThc38/xP11qYzlrV4brJ2k7CO1mjB7N+pDgLNITv6D4XH0BXGiyDw9MeoGJY
-	Z448f1ymsT4WrDkrf0cf1CsQqKsSxui5tDEDtmLUI=
-X-Received: by 2002:a05:7022:699d:b0:133:39a6:2b8b with SMTP id a92af1059eb24-13339a62ddamr618346c88.44.1778523380710;
-        Mon, 11 May 2026 11:16:20 -0700 (PDT)
-Received: from localhost.localdomain ([187.17.229.4])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1327810ff4dsm15249265c88.3.2026.05.11.11.16.16
+        bh=hfMtmCT2x1dJSsSaie8YscBU2lbIVtCJp8bSnMzPXUM=;
+        b=CXiMprZdzYDdk1O+IgGN67vhwp3rwCU5MpD/gB2SxJwJoK8yEtnGRCyIc9nJMQUzQO
+         dWVv9xXHquF1YsVkM0kIi3vi5GdqMOTPf65BhxNjqWyVY77GuPSrUDetKIDfvtPHK6tS
+         /RvyGR+gp2cvilDjGQKi/bCvjvkyv/MyV4tPmTWqrKW5YObvMnknpV3d5DS6+Accv63p
+         9TYo8vG7RWdrxTPbOv2dqOG5F3gJtIMsuDw3/xIp1+N+0s3Lc2PBJnZEuFwqOhcu4mBx
+         ZgjxTVmoUPB19OGsDRtiqR2cXF0GwRsa/94nOkvV2Q3C8hD818Hi1aaFC1KiSkZi0wLQ
+         Sppw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778526962; x=1779131762;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hfMtmCT2x1dJSsSaie8YscBU2lbIVtCJp8bSnMzPXUM=;
+        b=XMZ4xcREKz1sBqQy7yfRKpwqN+2EvmhH12aDyBHMRhrOoK03QikK4d0xuDjXjuhZAu
+         CiU1+rNxbD9zT9bVTSHMve2MIu2hlY2Ob1QFpJ0iOX/RtoLjtV7JskVgGbqX+Ax06dsq
+         b41VXXGEh428em3KNk9OtOVPDUWhk7SVKoG5+x/iPZOZUIPjVHiju+79i+4/26pvbBGT
+         sw9WLGzgO11tU1ywSjsFvopBj5k3or4A9/h2OxcubiEYUa/vaD94F0VrIT3Aa6pOc6Ik
+         eYlhs0HfjrrUkUK9h8zo6HX/TvD2/Ic3FwERfadCsBAtKOEpJV5ttmxn2aAVUwyEtBd7
+         8Xbg==
+X-Forwarded-Encrypted: i=1; AFNElJ9q6ea4mNVSrKkX+YBsyw5oB5SdJ+FmijO7Z2T/hhEcKU2/Td/X34Gr3SZLqqAOngJFi7KRF88R6KstTA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBhwflwlhjOGhRR+geoJWMNDyLnisvt+w5klhlqs0nQbXZrxi8
+	uTrlNGIQeS8x6StmCqeTWgUqjAtfTAtlpo74Gk9LHa2EeSw/JioUocaI
+X-Gm-Gg: Acq92OEGYHg8LpaD4YIPkENscgQlkdY5RSEnFPNTEcE1/okbBenD8W8msTPrbyaA9Ay
+	Iy0zn2GZPFIjMs20WWXg60Ii4O9WKiQhjuw/+TtVnWkDa/Uk/oG7f/MvPhj9Iq8p48DFiXIYapq
+	1Gbq+yT9zPVdpoF8X/Lt1XNwPtkWwsApuL0977TC40cBswT78xO5S7HaDt02ZTUQXVBDNXYMs6l
+	B+B1/S4jOrgV+FlvTnqztxQ9WVpLv3SwMOi2ePTt4o6dWmi4GnwpCym0TmwQvmtsCTl4doo/9zZ
+	BgDw5GjURZvYsl1iyafLP7qi6Tonpx+9gtzXH/4b2DBaSTqWGMeAi22JvVujIDkY6znSRWfptYe
+	c69NdpGXO+c2ha0QcTLb8+nhACJLh+eEtjIcOzYON4qKghJCaV2lINDNMIo4VRSMmBMcx0xFL83
+	FC7ZlZX/+uBkboMiuY1Jf+wkBBjLGK8UI4QM5AglL9C9g2bNLMD5H+cWiQ2lEU
+X-Received: by 2002:a05:600c:c094:b0:488:b14f:b8ed with SMTP id 5b1f17b1804b1-48e51dd89ffmr294515085e9.0.1778526961570;
+        Mon, 11 May 2026 12:16:01 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4549120ec0asm27086942f8f.17.2026.05.11.12.16.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 11:16:20 -0700 (PDT)
-From: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-	zhangheng@kylinos.cn,
-	sbinding@opensource.cirrus.com,
-	kailang@realtek.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	edson.drosdeck@gmail.com
-Subject: [PATCH] ALSA: hda/realtek: Limit mic boost on Positivo DN50E
-Date: Mon, 11 May 2026 15:15:58 -0300
-Message-ID: <20260511181558.670563-1-edson.drosdeck@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        Mon, 11 May 2026 12:16:01 -0700 (PDT)
+Date: Mon, 11 May 2026 20:15:59 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Andrei Purdea <andrei@purdea.ro>, Shubhrajyoti Datta
+ <shubhrajyoti.datta@amd.com>, Geraldo Nascimento
+ <geraldogabriel@gmail.com>, "Alexander A. Klimov"
+ <grandmaster@al2klimov.de>, Tony Luck <tony.luck@intel.com>, Kees Cook
+ <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Nick Li <nick.li@foursemi.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-edac@vger.kernel.org, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] Fix possible strscpy() buffer overflows
+Message-ID: <20260511201559.2a9fc8e8@pumpkin>
+In-Reply-To: <20260511125137.GEagHQ2exHlDch_hMA@fat_crate.local>
+References: <7cb7d771-5bf1-4d26-ac0f-c8968372bfba@al2klimov.de>
+	<20260510230853.154050a2@pumpkin>
+	<agExLK2GR0w0Z_N2@geday>
+	<CA+mMEgdbDLZS01WFrquyv4NecVwVOB8a=5Bio2VxFFpwmKc7AA@mail.gmail.com>
+	<20260511103854.GCagGxvmZvHL8sV_8e@fat_crate.local>
+	<CA+mMEgcng1bt=ZysgofrGAMA0oMO-9DxSALXdcT9tK4YgE_dhA@mail.gmail.com>
+	<20260511125137.GEagHQ2exHlDch_hMA@fat_crate.local>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The internal mic boost on the Positivo DN50E is too high.
-Fix this by applying the ALC269_FIXUP_LIMIT_INT_MIC_BOOST fixup to the machine
-to limit the gain.
+On Mon, 11 May 2026 14:51:37 +0200
+Borislav Petkov <bp@alien8.de> wrote:
 
-Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+> On Mon, May 11, 2026 at 11:59:34AM +0000, Andrei Purdea wrote:
+> > No, the current code copies "error_ip" with null termination, and it
+> > drops the "c" suffix.  
+> 
+> Pfff, that wasn't really clear to me from the explanation of strscpy...
+> 
+> > And that seems buggy. And that's what I requested to explain the effects of.  
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 11d0ea8ed859..4810d8ba43d3 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7828,6 +7828,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1e39, 0xca14, "MEDION NM14LNL", ALC233_FIXUP_MEDION_MTL_SPK),
-+	SND_PCI_QUIRK(0x1e50, 0x7007, "Positivo DN50E", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x1ee7, 0x2078, "HONOR BRB-X M1010", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1ee7, 0x2081, "HONOR MRB-XXX M1020", ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO),
- 	SND_PCI_QUIRK(0x1f4c, 0xe001, "Minisforum V3 (SE)", ALC245_FIXUP_BASS_HP_DAC),
--- 
-2.47.3
+It is a new(ish) driver.
+It looks like just a bug.
+Although the name itself looks strange.
+
+> 
+> Shubhrajyoti, does that have any visible effects when using the driver?
+> 
+> > strscpy_pad(chinfo.name, amd_rpmsg_id_table[0].name);  
+> 
+> No, as said "[h]owever, just to make this safer, we should min the size".
+> 
+> IOW:
+> 
+>          strscpy_pad(chinfo.name,
+>                      amd_rpmsg_id_table[0].name,
+>                      min_t(size_t, strlen(amd_rpmsg_id_table[0].name) + 1, RPMSG_NAME_SIZE));
+
+That is just pure crap.
+	strscpy(chinfo.name, amd_rpmsg_id_table[0].name);
+will DTRT pretty much regardless of any obscurities - including the case where the
+source array isn't '\0' terminated (although you might get a nasty run-time
+error message if it is shorter than the destination).
+
+Note that the inlined 'mess' generated for strscpy() in fortify_string.h isn't
+ideal for all sorts of reasons.
+(Not least because the 'hard' cases should be out of line.)
+But that is an unrelated issue.
+
+It would be better if amd_rpmsg_id_table[] were 'const' - in that case the strscpy()
+call should 'degenerate' into a memcpy().
+
+-- David
+
+
+> 
+> In case someone goes and changes that amd_rpmsg_id_table[0].name in the
+> future.
+> 
 
