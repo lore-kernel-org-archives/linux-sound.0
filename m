@@ -1,182 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C4B426D17;
-	Mon, 11 May 2026 16:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632D43A4F23;
+	Mon, 11 May 2026 16:21:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778515897; cv=none; b=la1cUMtF+BKtY5P4as4LJJ5vwU85DdjdxDtMBr7Q+pk1SVKTCWH+dNC6Xr35D1/+UZKvWl6/R/D1cY59y7Q+H8ZW6y3tUu5x/qWw5csOAWl9JNhPxGw9y7uVop9bEbBo4y4n5q45hzO+cjsqiL/Y6sxFYXCxOhkQlvoRp63CjIg=
+	t=1778516508; cv=none; b=VMKNAolH8L8KXxySkdlq5DXGqK+8pzoqPvw0/8HQGgt77hfMxOOSXXbGBZX0eGHP95TzNK9rsXi6a1Pi9lMOjO05KftXe/kVd0eoAdGOzFCIyNw9/BoOGH5skWhQKz5eqJYKfVi/40EK0lSAnYfZWb8bP6M5vrYqN93cFLYCOHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778515897; c=relaxed/simple;
-	bh=TXzIw50Ubej2grT0J9j5w81loy36TIzYfxvj4Vt5Kao=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DqD/8/JxP4YFRfHpg4h/W76WHxcIg8a8ZL18xsYkyrYCB0nZ4Fy8p3n+rWUiGOJODLmsMHZ5KDe4rdxPidRknOK9a94OTT8KZY6CI4rHZYGRsqWeEsTgXF10ZNLRNRv2b8Yt8+IZfG9RFjcVZf0AiyX5o9PiuGYrxN0sqkMKnTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tOYaqRnM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778516508; c=relaxed/simple;
+	bh=r23m9WLsBRtPtkCtOHBtWu9d8MmLFZBzvvBPwzsyGcw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bpTOh8NRFyNAng/GQ308cjdjMeMY15atZLt0h9iNWI5go605ZqAAKvDCuBgY6G7ApcVLpLgA7FM9gfli9DFe6+I5e7cK7/OJJTrUQllu3e8iQi8pGmvfBkkWJL/OLnJiMU1MryciFPJQaI1B7E6KaA/QZ+AnlbkJP33SfqmZKK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RP/oMK6q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tOYaqRnM"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 84D22C2BCB0;
-	Mon, 11 May 2026 16:11:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RP/oMK6q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17005C2BCC9;
+	Mon, 11 May 2026 16:21:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778515897;
-	bh=TXzIw50Ubej2grT0J9j5w81loy36TIzYfxvj4Vt5Kao=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=tOYaqRnMnZpjApGIDeLX1I6OtZ/M3eYipRCKu+y2mWPrZOWlGmgd+jt9oOGjqKVTq
-	 rI8kTcCp8T/il25A3nYDKauYN6GcJg6fgqNBU04vkQJx7lAX0ziQgV/mLSw2Tt7+vf
-	 mzFghg6KrozNo2G748JUaTwvIAG4mXohoW7dJ5QBhp/pLeHwcYUTZJAfBPCohDDg0p
-	 TdTi49vbdZ2r58h/uChLGfAHLozvyuXhCPTBVGyay++zJdZJlXyjSD6ARrKDfk7spE
-	 oG5L+pOlLHyU319RxTKgLiZ0IkWmfPSk8uNd01u3XAXabGVbIPVaQyeM3w3u3owile
-	 jTLfZPDSule2g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CB09CD4840;
-	Mon, 11 May 2026 16:11:37 +0000 (UTC)
-From: Frank Li via B4 Relay <devnull+Frank.Li.nxp.com@kernel.org>
-Date: Mon, 11 May 2026 12:11:32 -0400
-Subject: [PATCH v2] ASoC: dt-bindings: Convert eukrea-tlv320.txt to yaml
+	s=k20201202; t=1778516507;
+	bh=r23m9WLsBRtPtkCtOHBtWu9d8MmLFZBzvvBPwzsyGcw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RP/oMK6q2wRru882Wpljh/TgGUIgbZvXLTSB09ndEF4Rja0gJra8Ti2Y3RLWfFATP
+	 fFlNoVLYJpY/L6AmK4jaWs+Hxl0JBcoaNq5NlgCe0/hDvy9VRepQVSN920YKOkqbU5
+	 oqgy/oBO8M/tBCQ6r607Qh6SaGpI8yWNtfBlSdOjLF4AbxKycmeJfPOZ6yDclVXNP1
+	 jCQr9aeHZv3/Aj7iLmAfkjw7VOdsHljCm1n/jhkZjeX6zjIQIeIhA4HSm2bI86cjeX
+	 qjfdEhNy58BEy4Al4P3+QU9zKnkdq+vYOhW2kfh9o3NntcEdhMXjJlfTS/LsHewzcf
+	 tvPGDbdA70tSw==
+Date: Mon, 11 May 2026 21:51:44 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, pierre-louis.bossart@linux.dev,
+	yung-chuan.liao@linux.intel.com, peter.ujfalusi@linux.intel.com,
+	oder_chiou@realtek.com, jack.yu@realtek.com, shumingf@realtek.com,
+	niranjan.hy@ti.com, shenghao-ding@ti.com, kevin-lu@ti.com,
+	baojun.xu@ti.com, sen@ti.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH v2 01/18] soundwire: Add a helper function to wait for
+ device initialisation
+Message-ID: <agICGFaDZCpu_Nym@vaman>
+References: <20260511141029.851125-1-ckeepax@opensource.cirrus.com>
+ <20260511141029.851125-2-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260511-eukrea-v2-1-cac317290978@nxp.com>
-X-B4-Tracking: v=1; b=H4sIALP/AWoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
- vPSU3UzU4B8JSMDIzMDU0ND3dTS7KLURN1Uw1STFLOUNAtTg2QloOKCotS0zAqwQdGxtbUAvv0
- jIlgAAAA=
-X-Change-ID: 20260511-eukrea-e1e4d6df850c
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
- Frank Li <Frank.Li@nxp.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778515897; l=3623;
- i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=Rwk/LOK0vxBQRx6CqkcwOGhaMlXZZ3H+Gmi3nQ8Ktjk=;
- b=yfLg9ZvkAKOdqtkLmmxjVBHQDEJoPg6f4s9MKabAOeMpcMsz63Modt+sltRQVkvuMojoNyw6/
- 6y9bKqbFnHnCLkSVeziMmnJYU6xtSUMaxat65v2JW5HoDTBNuduF9sW
-X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
- pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
-X-Endpoint-Received: by B4 Relay for Frank.Li@nxp.com/20240130 with
- auth_id=121
-X-Original-From: Frank Li <Frank.Li@nxp.com>
-Reply-To: Frank.Li@nxp.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260511141029.851125-2-ckeepax@opensource.cirrus.com>
 
-From: Frank Li <Frank.Li@nxp.com>
+On 11-05-26, 15:10, Charles Keepax wrote:
+> Add a new helper function to wait for the device to enumerate
+> and be initialised by the SoundWire core. Most of the SoundWire
+> drivers have very similar boiler plate code in their runtime
+> resume, and that boiler plate tends to access various internals
+> of the SoundWire structs which is a mild layering violation.
+> 
+> Adding a new core helper function greatly eases both of these
+> issues.
 
-Convert eukrea-tlv320.txt to yaml format.
+Acked-by: Vinod Koul <vkoul@kernel.org>
 
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
-change in v2
-- Add comments about "The AUDMUX port numbering should start at 1"
-  v1: https://lore.kernel.org/linux-devicetree/CAEnQRZACes8EptdEgg0i0vzdcxgUJwZAfQHU0DEhMnXtA-g01Q@mail.gmail.com/
----
- .../bindings/sound/eukrea,asoc-tlv320.yaml         | 55 ++++++++++++++++++++++
- .../devicetree/bindings/sound/eukrea-tlv320.txt    | 26 ----------
- 2 files changed, 55 insertions(+), 26 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/sound/eukrea,asoc-tlv320.yaml b/Documentation/devicetree/bindings/sound/eukrea,asoc-tlv320.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..a95cd0323f6e489765deb8c1d1eee966750ac7aa
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/eukrea,asoc-tlv320.yaml
-@@ -0,0 +1,55 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/eukrea,asoc-tlv320.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Audio complex for Eukrea boards with tlv320aic23 codec.
-+
-+maintainers:
-+  - Frank Li <Frank.Li@nxp.com>
-+
-+properties:
-+  compatible:
-+    const: eukrea,asoc-tlv320
-+
-+  eukrea,model:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description:
-+      The user-visible name of this sound complex.
-+
-+  ssi-controller:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      The phandle of the SSI controller.
-+
-+  fsl,mux-int-port:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: |
-+      The internal port of the i.MX audio muxer (AUDMUX).
-+      Note: The AUDMUX port numbering should start at 1, which is consistent with
-+      hardware manual.
-+
-+  fsl,mux-ext-port:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: |
-+      The external port of the i.MX audio muxer.
-+      Note: The AUDMUX port numbering should start at 1, which is consistent with
-+      hardware manual.
-+
-+required:
-+  - compatible
-+  - eukrea,model
-+  - ssi-controller
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sound {
-+        compatible = "eukrea,asoc-tlv320";
-+        eukrea,model = "imx51-eukrea-tlv320aic23";
-+        ssi-controller = <&ssi2>;
-+        fsl,mux-int-port = <2>;
-+        fsl,mux-ext-port = <3>;
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/eukrea-tlv320.txt b/Documentation/devicetree/bindings/sound/eukrea-tlv320.txt
-deleted file mode 100644
-index 6dfa88c4dc1e8b3aea1e39b79eaa62185e64c240..0000000000000000000000000000000000000000
---- a/Documentation/devicetree/bindings/sound/eukrea-tlv320.txt
-+++ /dev/null
-@@ -1,26 +0,0 @@
--Audio complex for Eukrea boards with tlv320aic23 codec.
--
--Required properties:
--
--  - compatible		: "eukrea,asoc-tlv320"
--
--  - eukrea,model	: The user-visible name of this sound complex.
--
--  - ssi-controller	: The phandle of the SSI controller.
--
--  - fsl,mux-int-port	: The internal port of the i.MX audio muxer (AUDMUX).
--
--  - fsl,mux-ext-port	: The external port of the i.MX audio muxer.
--
--Note: The AUDMUX port numbering should start at 1, which is consistent with
--hardware manual.
--
--Example:
--
--	sound {
--		compatible = "eukrea,asoc-tlv320";
--		eukrea,model = "imx51-eukrea-tlv320aic23";
--		ssi-controller = <&ssi2>;
--		fsl,mux-int-port = <2>;
--		fsl,mux-ext-port = <3>;
--	};
-
----
-base-commit: b7719f5647f279b131c888e70c77dd9287b322d8
-change-id: 20260511-eukrea-e1e4d6df850c
-
-Best regards,
---
-Frank Li <Frank.Li@nxp.com>
-
-
+-- 
+~Vinod
