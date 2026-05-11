@@ -1,156 +1,123 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF9A29B78D
-	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 06:47:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778482030; cv=pass; b=jqEqey7nC0cudUnPrWJ+lnYgLl1Q9rf2sg5njVEtQv624fBql+OXtePk2os5yX1a6QU87m1qdMZC18HOKj+zsNcgPQuVo3khUnE4PbHRazA0MAsObD5Mec26dcdSCXrXaqh3t2XU56aSiqWbstUHQQWbZUMg5PXPeGoNLNdbspM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778482030; c=relaxed/simple;
-	bh=KApMdkmNrz+muMUCWMkMoZkgrXloXX4+14GYMZwV35E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kgKtV36Iu5VGMFgJ2kgrKvnR3xvBiCDRQBNowKcQ9ckCpZfldsxa/tGgbj/PxNnV8KBJAARdQub9iIBLLhcvfY42XAe5/MdlcX/8uOzETdpfDvLu37ovNtSvBIZXIS57Uqu3F+RnqYPIpkSEgooJnpyNbon7HKuGSmLipXNJIyQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=purdea.ro; spf=pass smtp.mailfrom=purdea.ro; dkim=pass (1024-bit key) header.d=purdea.ro header.i=@purdea.ro header.b=Oze5VPN2; arc=pass smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=purdea.ro
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purdea.ro
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFB829B78D
+	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 06:50:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778482209; cv=none; b=Ouw01rVmpi5llvABV5wzzFQUJEpZdN1zN1FOdS2pcMg7nGuyu78fpXR9YAGirdyb/UZcR4HLuZf7t8q8Vmd7SjaIX3QNi8Indg5Ei/+4I0evj1uf1BdCEluXQOraRJuvbvHf576GzzCaYUjICkXF3fcyLeeNoljCIGI3rRZBLNw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778482209; c=relaxed/simple;
+	bh=fXlDiYGjLg6saC+nl3nCrMfMmSmKcRG4KkQ8zTTFH7Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=h6FrJjXu+4NuZ55qwslmsWA9tLsgY2hJHjmShpI/mreOm9lbXjTrmznatKntpsa2XMA+WnNVz38msVoGnGH65gJBbPyoVTcVJrQzLf2H5526QEz7Cws2cLiIjNLoziD5WTftYSBIKM4+uA35KMjpR8pxfRMthzjmXUjCGt8XLNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o/jZYX+F; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=purdea.ro header.i=@purdea.ro header.b="Oze5VPN2"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a748d5ece4so3750222e87.2
-        for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 23:47:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778482027; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MW4CpfrpMv7MfRLvDq4C0fHN6LmYQ9GxQ/mThgwfslvL2dGJ7Wy/WATw4Ij2rotqQ0
-         9jlxqI1+Gwv0TJpPT0seCSkyBrj/9ne90LEZS+2+9a3xuko+yKTRiPOuyp6xTcimxucQ
-         sJNTUdjhb9X7bpz7b+CGqaJ+/iEGucxpo9ab2Yu1VOVsuRjbam8gS6F2IHEv6hX9X6rx
-         RnqRCwR3YVUnRAnBdcI7q7MqEQBQF4PRX/s7alazHYfOOJWlgavP8XaB359MQx12OnNm
-         sQe2NN3HBNIpcKh223/RKsUHMucNkOU0UeRxDbzm0gOdKWUFN9CGvznP9IJbVqy+AVkr
-         Uwkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DT9NqVOrfLa6VbVk/3z+RVBjrJ+tKBjBV48nqurYZl0=;
-        fh=SuHytUDezw6vBvHPATjfWEdQo18tLQ9kVLcT0i7mp5Y=;
-        b=PDlpg5kuGzcFBC83GcpXBZM+p5NV6v19nVaAwByqRSUDBDN/SFbLJCa9zmiINddMmU
-         cQkvtuac0Q+7w8yulSpjzqRSGq0BAO4h1akz/VukzvG3W4hyklW6E+86ikuznz65QBWQ
-         WB78ZD/okr7ZTBzTpD6CJDttrYjcfPsSlip1oUELIms2s2qcKi0+r30TBG9bgLZOdF6H
-         hE94Pi8LMs5oh8xSyXTHK31Virz4L5wlwOOeUYHEEzmVxlw5YJMotoAe1k+WOYWhL62F
-         ffJup3Gd8UcGX7ST+S/EOOrwlJw6ZoA3MIs0Nt4sCR1M+xDZ1toHrCw8Za5qo6k0j/rD
-         K5zQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o/jZYX+F"
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-57516e08474so2517066e0c.3
+        for <linux-sound@vger.kernel.org>; Sun, 10 May 2026 23:50:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purdea.ro; s=google; t=1778482027; x=1779086827; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DT9NqVOrfLa6VbVk/3z+RVBjrJ+tKBjBV48nqurYZl0=;
-        b=Oze5VPN2W9W573yaa+9R2AGpgeRRKb6uBN+e0onXzNpXYMHOMBloeH2LbWru5ypZyx
-         /BOMW8mvQ78l9ZeWxzEBWRAcdx+hLhXVryD+ux40BHtzg+RqSg5P2fXI7GmZXx+86Z+s
-         WUvCSd6iHK3HMykCHbjH4170Q7Yd7+V6UfhRQ=
+        d=gmail.com; s=20251104; t=1778482207; x=1779087007; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lHCA4m/88VRKLEOixji4UKeMEx/F2Qqeb8DQm3PaHK0=;
+        b=o/jZYX+FlB31Egsto7f7tRgl2zr3cd/dQTnxcrCrBGwqWoLxsWg+Uq7468rwwfoiOF
+         wEojyrP2fBkuXWvrwKWVqQQG4KnnO1Mn+INVLpR6Zi5Rf98qPYoUbzumGDySftmFiQn+
+         Fgnwn+1wK97JEZo2e+Uz1c3Oij5yp3u3zFzK9Sp8n+15yj4ZdgZab4QSvcBSYfOVY+dK
+         y3swPDnUX3MUYIjMqXzBV3cjLw83b2igSQ7ZpOZy0dxt5XO0n3Xu0qjt/YM2IRFtBD/4
+         Pl3TWUZEAodwXwI/W/PqvOwxEi4skwxz3eQvnENWE3HCoEAdr1Hbpfl3ULYdq6eay8Un
+         iSxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778482027; x=1779086827;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DT9NqVOrfLa6VbVk/3z+RVBjrJ+tKBjBV48nqurYZl0=;
-        b=e/TGKuvevv+fyiErJyvROvMOYPZW8MwHkx9PCLmEg4nJfrFFola4na7ys5H6l4WG4j
-         arxuQk1b5FX09VTYiFFAACv2Ska51jscqIPm4nGFN6DKU5tN+L/j/vhZfJUBzvkb4nyS
-         8TcQE64fsrplNe6kU+898HQi9dXg0748bgn3yUT7nJ0GzJNR9EvQ7mnp34R7NJeP6ZPj
-         Kb5e5cCeRFHg1TA5ST7ii8/mJLA++GRupwtUGigYUkKBYz/BBT6YRiqeURIvnt7Aqvx1
-         /q/YNstwFGSb6OHKlkFLjRAyucEPhytxcW/4XeXNk+DXYxCg2MlyZ1UhLMby+DistvOM
-         nxoQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8zu+ItoBpOid/f6JHCtGNeK9sYArUlLMFlWLyeLIboBPvRaI7o7T8Ld/gUnLRdyPuXa6oz0Jxwcvpydw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkJQU6MsRTDUSfkbitX7vqGB8vLxPXZDMkPGbtcGVMyCDMx0lJ
-	tsgISVisgc8qExDf9OBMIflrH/KjtMGtoR9Elpuaj/nmFtkaZs4vhS3obn6EPPlrFnXOQzsxDPI
-	DJB+Y81hQFTKrtwd9WyCWww4UrTFreWL/h8ADIN78
-X-Gm-Gg: Acq92OH8Q4L9jCcPscVAiwFMewvB8lSB+iMyrvFrYAex1kwP8F8dUvnqeszD50DdbvR
-	UqiNpxwnByf8/cm7R/kQbgiZoTXQIaFLljMddZ+wI3SU0N2GNYc8+TQvgwpErKxQ7g4XbJdEvBL
-	vWaWfUz7ofd7ZeL5aDCXedo076oYISSFyTjZy1qU8R/qYJa0bsPCPrqbRdsBRu715KUSD/uPrY9
-	vyE2Iq1tweW4porBqMvaEhnAgixQM8nHye0pSb6+xK11oAzGT9YmhN9ElHQ4M00x45XAQqNKLx7
-	RYxzSRzgyZ/74DlOjoPh9/PN7GycXmwBIiOaK3SXKWQ9se5d/A==
-X-Received: by 2002:a05:6512:3f29:b0:5a8:80c0:8e0e with SMTP id
- 2adb3069b0e04-5a887cde872mr7723832e87.20.1778482026866; Sun, 10 May 2026
- 23:47:06 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778482207; x=1779087007;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lHCA4m/88VRKLEOixji4UKeMEx/F2Qqeb8DQm3PaHK0=;
+        b=bi4ViKHG0kyAH4TUzZYSaXcoh5WvTMFt85pWPyN2jfR90/MhN9SViGAGeP+7p+akpI
+         lKzW62Rji+SLTsr6eeYlL5fER2surC/MNgJNyXYbrWs5zWapaDUz6JvtxD80dS4VntVc
+         JJ39IRLehTfzxm99fTX50M87ucdD/KB5V8SomfOSAdV9xbytFRsF3r58xBeYSGLR+d3q
+         jo4GOvL8AP2kHx54gqEl9Q+wl4l4w5sj7sdGC+tZomVPgQIi+kOy7qGKf5zd6nZEvdSU
+         /Dyp3/ROSDw9QRA13YKzcz54GYEQNuM60iZAk3u7rDJHhS2X9O4+bhO51BAKaNDaiiyJ
+         Sm6A==
+X-Gm-Message-State: AOJu0YyulxcSkCKbf1iO1wLrWCnJIHabbRLmn13WMSFz+Sl6pDmABOnb
+	0jodyXWizfHWzoX9/o8jRE8ElbJwol3OLIdt6+12XeXXlEuYpv5flyjV
+X-Gm-Gg: Acq92OHbreIzfAqAvgoRwctDdPXwBLU/7ksvGBZave6hXpIlz5DWEiwkFCG04n3QPLf
+	5EO8yo6cUivM4Z+I4DnsXc/C9sGztMjXUFN4xkG/+YYbNQjA8YN59uRFr/ksRsRlj3fGcfnG+HJ
+	FvP7MWXXUyKtL4GSJT2z/GvEjZPlYrIyHNiIRc3R0i/+5CoL3vfEBBfcML3FWebG6z5a7WHdJon
+	QCioGuYsVI7tnKWcwEEmssS6n4UcqO6waoFK/QD46/ZHZkVftqsnm2w1w/85H8djYiU5GOHDPBw
+	nKbBi/QH7ucEZy+ZUlQbXwEOwGsXxsVmPCWrLVAbp+fJ63WRZKRzG/FE9DyfwTJ+O3jgYLB/8GE
+	3idMFg1AqvcHtPmFHld+CHVu7dBHsy2b8dDvawSkU89+RtJW112aOYh5slh4TfakuSJI2Nz8Alf
+	3kgXWyoiYdK4tfEfT5imHiWJTzBrKk
+X-Received: by 2002:a05:6122:3d01:b0:56f:a329:6859 with SMTP id 71dfb90a1353d-575595d0e52mr12020601e0c.7.1778482206964;
+        Sun, 10 May 2026 23:50:06 -0700 (PDT)
+Received: from localhost ([185.141.119.51])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-575585f72c1sm10813155e0c.12.2026.05.10.23.50.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 May 2026 23:50:05 -0700 (PDT)
+Date: Mon, 11 May 2026 09:50:00 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Niranjan H Y <niranjan.hy@ti.com>
+Cc: linux-sound@vger.kernel.org
+Subject: [bug report] ASoC: sdw_utils: TI amp utility for tac5xx2 family
+Message-ID: <agF8GBcHYUaGJbXY@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <7cb7d771-5bf1-4d26-ac0f-c8968372bfba@al2klimov.de>
- <20260510230853.154050a2@pumpkin> <agExLK2GR0w0Z_N2@geday>
-In-Reply-To: <agExLK2GR0w0Z_N2@geday>
-From: Andrei Purdea <andrei@purdea.ro>
-Date: Mon, 11 May 2026 09:46:53 +0300
-X-Gm-Features: AVHnY4J53lmTtBaTv0FQGgtHKCM9AIui4wGYptEFMYJ-hrRFcL7X3qOVd2fPOUg
-Message-ID: <CA+mMEgdbDLZS01WFrquyv4NecVwVOB8a=5Bio2VxFFpwmKc7AA@mail.gmail.com>
-Subject: Re: [PATCH] Fix possible strscpy() buffer overflows
-To: Geraldo Nascimento <geraldogabriel@gmail.com>
-Cc: david.laight.linux@gmail.com, 
-	"Alexander A. Klimov" <grandmaster@al2klimov.de>, Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, 
-	Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>, Kees Cook <kees@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Nick Li <nick.li@foursemi.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-edac@vger.kernel.org, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi all,
+Hello Niranjan H Y,
 
-Furthermore the one in versalnet_edac.c looks like beyond fixing a
-buffer overflow risk and code smell, it also introduces a behavior
-change (bugfix?), because the old code I believe cuts off the last
-character from the copied string. (Because it was using just strlen()
-and not using strlen() + 1)
+Commit e812de61e9a0 ("ASoC: sdw_utils: TI amp utility for tac5xx2
+family") from May 5, 2026 (linux-next), leads to the following Smatch
+static checker warning:
 
-So I think the effects of this behavioral change should be documented
-in the commit message. (I.e. where did the incorrect string end up
-being visible, and could there be side effects from fixing this? e.g.
-Could some userspace scripts/applications start breaking that were
-expecting the incorrect shorter string? Etc...)
+	sound/soc/sdw_utils/soc_sdw_ti_amp.c:114 asoc_sdw_ti_add_tac5xx2_routes()
+	warn: why check scnprintf return value?
 
-Andrei.
+sound/soc/sdw_utils/soc_sdw_ti_amp.c
+    102 static int asoc_sdw_ti_add_tac5xx2_routes(struct snd_soc_dapm_context *dapm,
+    103                                           const char *name_prefix)
+    104 {
+    105         struct snd_soc_dapm_route routes[2];
+    106         char left_widget[TAC5XX2_WIDGET_NAME_MAX];
+    107         char right_widget[TAC5XX2_WIDGET_NAME_MAX];
+    108         int ret;
+    109 
+    110         if (strlen(name_prefix) > (TAC5XX2_WIDGET_NAME_MAX - 7))
+    111                 return -ENAMETOOLONG;
+    112 
+    113         ret = scnprintf(left_widget, sizeof(left_widget), "%s SPK_L", name_prefix);
+--> 114         if (ret <= 0)
+    115                 return -EINVAL;
+                ^^^^^^^^^^^^^^^^^^^^^^^
 
+scnprintf() returns the number of bytes it was able to fit into
+TAC5XX2_WIDGET_NAME_MAX, not counting the NUL character.  It
+never returns negatives and it's not going to return zero either.
 
-On Mon, May 11, 2026 at 4:30=E2=80=AFAM Geraldo Nascimento
-<geraldogabriel@gmail.com> wrote:
->
-> Hi David,
->
-> On Sun, May 10, 2026 at 11:08:53PM +0100, David Laight wrote:
-> > On Sun, 10 May 2026 20:24:41 +0200
-> > "Alexander A. Klimov" <grandmaster@al2klimov.de> wrote:
-> >
-> > > In the changed files, strings were copied like this:
-> > >
-> > >      strscpy(DST, SRC, strlen(SRC));
-> > >
-> > > A buffer overflow would happen if strlen(SRC) > sizeof(DST).
-> > > Actually, strscpy() must be used this way:
-> > >
-> > >      strscpy(DST, SRC, sizeof(DST));
-> > >      strscpy(DST, SRC); // defaults to sizeof(DST)
-> >
-> > Nak.
-> >
-> > This is test code and deliberately doing things 'wrong'.
-> >
-> > -- David
->
-> while the change to fortify.c is what you described, the other two look
-> like good catches to me.
->
-> Thanks,
-> Geraldo Nascimento
-> >
-> > >
-> > > Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-> > > ---
-> > >   drivers/edac/versalnet_edac.c | 3 +--
-> > >   drivers/misc/lkdtm/fortify.c  | 6 +-----
-> > >   sound/soc/codecs/fs210x.c     | 2 +-
-> > >   3 files changed, 3 insertions(+), 8 deletions(-)
->
+This is just dead code.
+
+    116 
+    117         ret = scnprintf(right_widget, sizeof(right_widget), "%s SPK_R", name_prefix);
+    118         if (ret <= 0)
+    119                 return -EINVAL;
+                ^^^^^^^^^^^^^^^^^^^^^^^
+Same.
+
+    120 
+    121         routes[0] = (struct snd_soc_dapm_route){"Left Spk", NULL, left_widget};
+    122         routes[1] = (struct snd_soc_dapm_route){"Right Spk", NULL, right_widget};
+    123 
+    124         return snd_soc_dapm_add_routes(dapm, routes, ARRAY_SIZE(routes));
+    125 }
+
+This email is a free service from the Smatch-CI project [smatch.sf.net].
+
+regards,
+dan carpenter
