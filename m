@@ -1,183 +1,140 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010017.outbound.protection.outlook.com [52.101.56.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E84F307492
-	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 15:06:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F50F39F17E
+	for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 15:37:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.17
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778511982; cv=pass; b=H+kWndOuyThME8/Pm0YhjU+qyntROZdZyTX1DRdvZ+r/b1tm9SyYAunn+bDQQ7Opgo4ZDtCAJQ/gEfk4FdLHNtBNljvD80TNjykTFL7v7OKGCdfG3TcAEyZGo3nNXgVU5AQlauFGbne9eokP9+QaIXfNWowUNF6DcUmXSCaf9Fo=
+	t=1778513824; cv=fail; b=ZkPsJ85Wqx2vfOqc+qGAc7VfVKQGMUnWtCSKzxiz0uMwa3LovUvifMVoKCKCaeRY/zG5msSVkczKdGTIGGEiLxye+7omMSlt5S9kf0Q1tRAe6h9wtK0sgU3lnSgBY3vfiCNEKw4+aeNkCrJWWhBmzRPS9hqyk44TsEYln+H4Tok=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778511982; c=relaxed/simple;
-	bh=RaGaAymRyU/t9TmJsO45ZGr/kZlXSwPSz5XWnP+718A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i0n/Gp27vuIFvyYefACyrToHW8CoPalp6h4FHtpdZOPk/84x7tCrn4VZfkln6j7sA/ugmymEB24uBEV6Wxr5xN5F0DpzjOTRck1dBAQ5WSex7ePBQq1RmRg1tFOJeyRzmXhhetuU/XNTx0qwewopuwm2bmxg/7DuCEPs4KiiITI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=purdea.ro; spf=pass smtp.mailfrom=purdea.ro; dkim=pass (1024-bit key) header.d=purdea.ro header.i=@purdea.ro header.b=SQi66xO2; arc=pass smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=purdea.ro
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purdea.ro
+	s=arc-20240116; t=1778513824; c=relaxed/simple;
+	bh=2MyNRPTHlAU34aHpQmplQeWNGfg49QKuewfmO3UsArg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rMEg0z6JrTgTEjxTnVP700uoUtk2geD3F5zj88bMhg7AtwOwBPy0+a5qMVuzqFncwepsf+IwcfupfuaWxKoqp/o3dj8srXctgRe9pQhZcs28EszX2Au5ZjurPrxKboyxdOdkx31X7sjjJv6QgHWXGKaEHbFREG8pX0kPUNl8u4s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5sg58OYE; arc=fail smtp.client-ip=52.101.56.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=purdea.ro header.i=@purdea.ro header.b="SQi66xO2"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a86bfa2a4eso5032696e87.1
-        for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 08:06:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778511978; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TG3IYwf6xdI+SYkmhZbFfFCFxMWgYyx6lFw8/Tx95ASMmfSKhvcqPkTmz8RIIwXr9c
-         t9gV0nVbgsCVgUmiZUoOxw8OHW/0Wh1Eg20/2yHKZQClkzMb1bE0U7pXfZ/GIa7bN8gN
-         zltvzdj/YmgXs2CdHo9I0GURDOcyKeTmWteiGeFmnFHr06D1oEx6Zrlr7qq56egxBBwD
-         hTXae+CVB8FN9ohqJm72ra1iO4E3Poubfx0usvQpGJ6CEhNjl2lmKNxXQiLrjsoc5Bsg
-         oiGjW6AyXPk/J8Fr44tzSBGZPc1OiUfdHVxAqN9dKPRhch781clzIbe3EQdiFiCtjn3m
-         KVng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=fXxnCXndDingcNWqvMokM0B1++Jk8Ke7ANISsDo1ZKQ=;
-        fh=Le67GMYVDtf1VeINkMtwKz6Lk9abPdjcHlL0Sk7aDJQ=;
-        b=D+gUjEOJyRNwUpmvbOOnBj5KkdLoa32Ee5R5Hq/1rdZNOjbSprWAkIrvf/+7WjHyCL
-         5EBhmIzu1NlVPnf0nlyv60/Qb7UdC0nY5tex/GKBexDSerDg8bXZf0uzmKYdFhOWyazT
-         Q7ObIvY3m3yLO3ekez6gb2LNL73SjEyg2H1U0CuepqNBDYyUxvSDd1OZDC0kSG9q8YSd
-         wob70KZG8rOU+HJm9wjuP5IQF5+lencn4vLrKuqgrjrjJMQSLWjDt+oQAU92tVLPRqJQ
-         cql9bSe6u28PkU6KTe5FF2sgzFnZkd4wXHp9rPKgS+EoFhyHKPkPhUZ7XZudO/qRpu+t
-         Oihg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purdea.ro; s=google; t=1778511978; x=1779116778; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fXxnCXndDingcNWqvMokM0B1++Jk8Ke7ANISsDo1ZKQ=;
-        b=SQi66xO2E2WfwEE+/ohSCNOwk00DojqtqMHtokCr8kNbI62Hkonv8VhdilZKOcjsQG
-         /8+kTsr5smiClncvmCqEv6PChfs5e9P3Z99csdRyen9ebyu37PWdg0/ES831J4im8oNI
-         sy52Hj7I04VDAR09V8o95eM3KQ/7vDAHNVsTw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778511978; x=1779116778;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fXxnCXndDingcNWqvMokM0B1++Jk8Ke7ANISsDo1ZKQ=;
-        b=RYUiQQ/I1vILggpZ0pAgBobGNxX2V2lz/tFEfLXoGV5RuZGxL608WkqZwEp8fs8luw
-         61fawf+lIdAEKLrof9wZvIwbIVEdv0lkATnLT8CtBlpTH+4oEOBRqvUJ/Pah1NsQQQfl
-         mBK1TGBsHhBjifyOAsHMoAQztMUQ2fYUHQCGzl6OP1o/qEBPtjzGXhJe1DIVWCb+6OpV
-         Jjc5hdXxSLOk1x+ypYyrEQoocqnWCN4MiT7fLSFPod4f+++dfjLP/qokH9whNfY76QpK
-         V9nVqymAPXrg7LoZINf3UqR0R6gghERrKSD2Z45wqMaLjQyaK/zwFJE9gzeFBKdsJv7T
-         8JZg==
-X-Forwarded-Encrypted: i=1; AFNElJ9bBNUF/90M+jJAekkIe+NXpjr+JN9D7BbXPmkVcQmQuv6vSfGaMVxdC0M8+tJ+UzQkArXBNIBCU9fQ8Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwFkwZNTQDOe7XrArE93MvEFv6OKOvRH4Rfyqr4pHd4hQrHswn
-	JNApfUXGZaNIePjv9MREBA4toU1woCOUCtiAKTmhXRS8WPaqIIpz9M3WLpK356Hex9dilcyb3nL
-	U8LysvPiJHi/Nfw8/8RqEXArAPEcrIStChMUhdtBA
-X-Gm-Gg: Acq92OERBMjFg1M69iOD6tIqyzFOHCRvEbm9hY+ynrgbINubpYHWM2C8D3gwXU2w34s
-	8Eqr7sKMzW0lDIh8GeBhB6n5pVgZZIJ3DCSmpod19cSVZpqodS5R1zmwnMwAZf2uux5xnrqDN3e
-	QKfzCwviaiVUsZqAvZvL7Tf+/L0HsVNdPAP9a1w79f+n/ufiDfVUrynKTciP+qNw2vvB60LGE17
-	3OvV2lmu0Pa89xPReFnrOGYrp5iAqxy+9Wzr6sP43RzXUtApzU/DbdSsb4OkVvsESNDWPQqQzv2
-	z5egwKaZejSQOaOVFJCHNSRx+65XqTmhO1W18UL26jl1fK4+tA==
-X-Received: by 2002:a05:6512:ace:b0:5a8:8f72:de76 with SMTP id
- 2adb3069b0e04-5a88f72e0d5mr6980547e87.19.1778511977921; Mon, 11 May 2026
- 08:06:17 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5sg58OYE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TU/axiZhQdmrb0kpvwAtMa1r+AaCx6MbbbTypIurlsS3fmlqdcz6PTF89uu29teZcY+VMgvzmYoNugy1tRi6DJQKVV+yPxKIjMu/7yGme5RRHhJhfL0lm4Vpq4vRSWS6Uo4aByiGeZh3OAxeoXl5ZCpR862J6e6BZzYKMsOZWB9RIJhiw0a1xV5r+JbU1Itgs1oojRXNPmSBJ6LNsJIP5DLKIytFFziYdveWjH0iWrsRg/wF0MjoC1iWF2d0rqUFkVj7yvyn6UF8SjqksxXiq0vQMCvQxpiWnFweOfZ2BvlT5SY32AnHEuumEUyAkimsLIq2P995hMH7M0l7ERRSZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a5d4osKjLuHBh5EB5zalHKRSzx9Uw2ebZeGc9dhTmMU=;
+ b=ow3hR0kOOPbOU/HtqhFiPUGTwgdZz4pxBNTgYyIDeGr4SLLD3Cecy9UJHrhmypQyRyuA0D6Co19e+uf8V2DB5iPgPh4HQSaUPZ8jaehNltySdzyNfaP4eE/mgYsjoaq47enLjrHwUqPf3Op4wdlbX11SpGp9mjHjf032V9TUNQKrFuuoE/4Hq8E7ESrsdNzO4ZpbUZUClp+oHSoHg6oEThIj32WijoiUbRhHDRyzxqgRsw+Yl1nJCNsk89C48BvZmkTR3Q3GHRLBin150BdGeuuyjz/2FYQ9i5PI1AasKGhHRqGv/KcVUAhWNVREjBqqClFTUFpWOmvmaccXybqnHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a5d4osKjLuHBh5EB5zalHKRSzx9Uw2ebZeGc9dhTmMU=;
+ b=5sg58OYE3f6690iZrlsLdMjGtfZ5HkRqf1gl3WYNXrGxA5++crdCurzpRDklvfwXJx90v1I8qaLMQhET5F+v6ojZkUJprijHVxJcloPWq/drCOyLaPqvbY9kWVinhELJaatJXuKcuMV5SOog0GtfyKkWgIgR5s8Sa3SbI3jhJJc=
+Received: from CY5PR17CA0045.namprd17.prod.outlook.com (2603:10b6:930:12::17)
+ by LV2PR12MB5989.namprd12.prod.outlook.com (2603:10b6:408:171::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.23; Mon, 11 May
+ 2026 15:36:56 +0000
+Received: from CY4PEPF0000E9CE.namprd03.prod.outlook.com
+ (2603:10b6:930:12:cafe::d) by CY5PR17CA0045.outlook.office365.com
+ (2603:10b6:930:12::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9891.23 via Frontend Transport; Mon,
+ 11 May 2026 15:36:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CY4PEPF0000E9CE.mail.protection.outlook.com (10.167.241.133) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.25.13 via Frontend Transport; Mon, 11 May 2026 15:36:55 +0000
+Received: from ausmlimonci-lx1.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Mon, 11 May
+ 2026 10:36:53 -0500
+From: Mario Limonciello <mario.limonciello@amd.com>
+To: <lgirdwood@gmail.com>, <peter.ujfalusi@linux.intel.com>,
+	<yung-chuan.liao@linux.intel.com>, <ranjani.sridharan@linux.intel.com>,
+	<daniel.baluta@nxp.com>, <kai.vehmanen@linux.intel.com>,
+	<pierre-louis.bossart@linux.dev>, <broonie@kernel.org>, <perex@perex.cz>,
+	<tiwai@suse.com>, <mario.limonciello@amd.com>
+CC: Dan Carpenter <error27@gmail.com>, <sound-open-firmware@alsa-project.org>,
+	<linux-sound@vger.kernel.org>
+Subject: [PATCH] ASoC: SOF: amd: Fix error code handling in psp_send_cmd()
+Date: Mon, 11 May 2026 10:36:36 -0500
+Message-ID: <20260511153638.724810-1-mario.limonciello@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <7cb7d771-5bf1-4d26-ac0f-c8968372bfba@al2klimov.de>
- <20260510230853.154050a2@pumpkin> <agExLK2GR0w0Z_N2@geday>
- <CA+mMEgdbDLZS01WFrquyv4NecVwVOB8a=5Bio2VxFFpwmKc7AA@mail.gmail.com>
- <20260511103854.GCagGxvmZvHL8sV_8e@fat_crate.local> <CA+mMEgcng1bt=ZysgofrGAMA0oMO-9DxSALXdcT9tK4YgE_dhA@mail.gmail.com>
- <20260511125137.GEagHQ2exHlDch_hMA@fat_crate.local> <CA+mMEgepR=5P0TxfW8wQ5rtr4u+1uAO6F-1dvxktTaRFDjUVPQ@mail.gmail.com>
- <20260511133923.GFagHcC_nLmT8k2iD2@fat_crate.local>
-In-Reply-To: <20260511133923.GFagHcC_nLmT8k2iD2@fat_crate.local>
-From: Andrei Purdea <andrei@purdea.ro>
-Date: Mon, 11 May 2026 15:06:06 +0000
-X-Gm-Features: AVHnY4IReNoiPR_OkEBRvPeipGhbF2iT93iUNAzdOYHLBTJ7R65SZq_P-NC0M-I
-Message-ID: <CA+mMEgfgFvT0ccv6QFyH6wXQ-DfKCfDzo_gPfS8YYMhTyZTQOA@mail.gmail.com>
-Subject: Re: [PATCH] Fix possible strscpy() buffer overflows
-To: Borislav Petkov <bp@alien8.de>
-Cc: Shubhrajyoti Datta <shubhrajyoti.datta@amd.com>, 
-	Geraldo Nascimento <geraldogabriel@gmail.com>, david.laight.linux@gmail.com, 
-	"Alexander A. Klimov" <grandmaster@al2klimov.de>, Tony Luck <tony.luck@intel.com>, 
-	Kees Cook <kees@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nick Li <nick.li@foursemi.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-edac@vger.kernel.org, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9CE:EE_|LV2PR12MB5989:EE_
+X-MS-Office365-Filtering-Correlation-Id: 00a167c0-3219-4c0c-87db-08deaf73218d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700016|1800799024|18002099003|11063799003|921020|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	3O4EkPRILfbZqnziO/qW0PP4xBCIUbezVSlOdv5U7T+vSwrAycl6i20vlS6eYkOUTiFQ2dEPzjEqYupzGjI2NzqDtpnF8hFbS78kYhCxArgxq+xY0/nxVXDligx7g5yE9DfgOZnZn773eRV0aT5K2d4+x/AdTLnvb34asSRjp6w/gCGIYApoHoVYwslPGUEe5AZWyMfTdWfXY04gomvRlkRm88hENB8zMs8+yLLEXW5VoBa3FX1DH6dJ1ZsSQ/ZYV9gok0+oG5FYDA+NpCN4u/m3ZFTnUIKW2vI+uGB6uymLqFrn7ZX5hsoRqqYx8o+W1/GL7kTO2aHKZVYObwOcimbGD3PG06voP79ZYVx7AwxgZ6HKMi69stCTHJPmTBrt0hYZHQgpwl7rDY9I5ngW9fP4reWJGL2vUUyByPXpTU1DSKAmJw+FgMTAs3nEtNbb7T5/yIShu1CTfAvtP6Bcq8BUKBvRfqdLj0DN/YvsUyWODfP0PsOZ+wqq/onXKLvWwI1faLbyZksvbajfAR9bvqTugtNRp/ag9MUW+cCluKg9VKMja8k+D/LqGu4mPMzhqPpqcwnJT5vrFKQvgY8wf+nEOxCsTNvSEv1FeOgKt9dzXhPpLdqGTSNpj0IEPPHn8R6DHJl1qQvv/Cb6bugF0o+8mtkWZWmnR2tBm9nc+xQ2EQ2fuOUcCkgypTdxVkXPSAjMbLIOJY/LUdw2ZM4x3/iPOqd76IrvCjvc3S5A1GFHCUNV/mYTeE4jzLJ7DQsNbEsbeQxsXglrAOStdhKTrqBU5DDVEI2C4vOF2yfeOdo=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700016)(1800799024)(18002099003)(11063799003)(921020)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	JY1G7pRtssk6NYNfw2P3pj6cSua9BH9HOkPrLMNA7vY0U7QP9ZxNR9eQKwwkEmNZvCxgFQjoqJi3lrgy+sLbg1II7clCAPwU0WdSo7aPcZ1h+RroczXAsVdoKf7J31ZOVXOLOa6lwAT3rQCsrjf5jl4oMK1YtXxSC9mIzD7vF7CSRFmtWecOgQiUwRatxZoxCffweP77Cv19OM7qTIy9Ib9umc4S7QgHPY2+zM/OLce0oT6JQdNsWiHvyN5ZRRENYdlQVEVsu+emPsiYPA0ybbY0aDWJ6DhM4pZiCuhi+BvOjKRTjYjT5B9ecrfUmbTma/iRo+VLPpa84ioCH22QH561KzZRlIYJDpfqoeSeKh9OYqdPvGCXxPWOEUGVcacEVTM3sVK/ijrIqwY+IEh57Bf8NWOzogxnH5D3mUm9HQvfr7Gcqd6ee2fWfVZ2Tep7
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2026 15:36:55.1326
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00a167c0-3219-4c0c-87db-08deaf73218d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000E9CE.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5989
 
-On Mon, May 11, 2026 at 1:39=E2=80=AFPM Borislav Petkov <bp@alien8.de> wrot=
-e:
->
-> On Mon, May 11, 2026 at 01:13:05PM +0000, Andrei Purdea wrote:
-> > But this wasn't spelled out explicitly in the doc, because you're not
-> > really supposed to use strlen() to specify the destination buffer
-> > size.
->
-> Why am I not supposed to? Says who?
+The smn_read_register() helper returns negative error codes on failure
+or the register value on success. When used with read_poll_timeout(),
+the return value is stored in the 'data' variable.
 
-Maybe I was a little too vague in my statement, obviously there are
-situations in which strlen() could be useful, for example:
-If you want to append something to an existing string you could do
-something like x =3D strlen(dst); strscpy(dst + x, src, sizeof(dst) -
-x); (untested code)
-Or if you want to explicitly truncate strings, say you want to copy
-everything except the last 3 letters from the end of a string, you
-could do something like strscpy(dst, src, min_t(size_t, sizeof(dst),
-max_t(size_t, strlen(src) + 1 - 3, 1))); (untested code)
+Currently 'data' is declared as u32, which causes negative error codes
+to be cast to large positive values. This makes the condition 'data > 0'
+incorrectly treat errors as success.
 
-But in this case using plain strlen(src)+1 in strscpy() is redundant.
-And using it in strscpy_pad() will make the padding functionality of
-strscpy_pad() not function. Since you're the one who bought up padding
-the rest of the buffer, I assumed you'd care that the buffer actually
-gets padded.
+Fix by changing 'data' from u32 to int, matching the pattern used in
+psp_mbox_ready() which correctly handles the same helper function.
 
-> > Why would that be safer? There's already a strlen() call inside
-> > strscpy.
->
-> Do you mean this thing:
->
->         sized_strscpy(dst, src, sizeof(dst) + __must_be_array(dst) +    \
->                                 ^^^^^^^^^^
->                                 __must_be_cstr(dst) + __must_be_cstr(src)=
-)
->
-> ?
+Reported-by: Dan Carpenter <error27@gmail.com>
+Closes: https://lore.kernel.org/linux-sound/agGES8vWrLOrBu28@stanley.mountain/
+Fixes: f120cf33d232 ("ASoC: SOF: amd: Use AMD_NODE")
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+ sound/soc/sof/amd/acp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-No, I meant inside sized_strscpy (which is called by both strscpy and
-strscpy_pad):
-ssize_t sized_strscpy(char *dst, const char *src, size_t count)
-{
-    size_t len;
+diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
+index 71a18f156de23..f615b8d1c8020 100644
+--- a/sound/soc/sof/amd/acp.c
++++ b/sound/soc/sof/amd/acp.c
+@@ -223,7 +223,7 @@ static int psp_send_cmd(struct acp_dev_data *adata, int cmd)
+ {
+ 	struct snd_sof_dev *sdev = adata->dev;
+ 	int ret;
+-	u32 data;
++	int data;
+ 
+ 	if (!cmd)
+ 		return -EINVAL;
+-- 
+2.43.0
 
-    if (count =3D=3D 0)
-        return -E2BIG;
-    len =3D strnlen(src, count - 1);
-            ^^^^^^^^^
-
-In fact this is somewhat safer then plain strlen(), because it will be
-somewhat bounded even if the source doesn't have a null terminator.
-(although with the 2-argument strscpy() call the bound would be set by
-the destination only)
-
-If the source can be missing a null terminator, and you want to be
-robust against a missing null-terminator, then you might want to do
-something like strscpy(dst, src, min_t(size_t, sizeof(dst),
-sizeof(src) + 1)), which would actually make things safer, and no need
-to use strlen() explicitly in the call, because strscpy already takes
-care of it.
-
-> In this particular case, it would be better to avoid this silly string co=
-py
-> altogether.
-
-Perhaps yes, IF the "error_ipc" string can not change at runtime, then
-one could initialize it directly on the stack like:
-
-struct rpmsg_channel_info chinfo =3D { .name =3D "error_ipc" };
-
-And avoid all explicit calls to string copy functions. (Which I'm not
-sure, but could compile to the same machine code as David Laight's
-strcpy() suggestion, I would expect gcc to be smart enough to optimize
-that)
-But there's always gonna be some form of implicit string copy behind
-the scenes, as long as the structure you're building has a string
-array and lives on the stack.
-
-Andrei
