@@ -1,137 +1,156 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF973911C3;
-	Tue, 12 May 2026 13:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.126.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D843A59AD
+	for <linux-sound@vger.kernel.org>; Tue, 12 May 2026 14:04:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778591251; cv=none; b=I5uqZ6JRJOGpa92Gk5r9jyZffR/SHcm2pOEL5ltS0TCvf2QnzrX9AAyXg+meik5fPn4Tg7hoWeadjiLaNFEDHv2Pbq6xsgSoVkj1kb/ovZid/LQZth5Z1qcyOADLXQNDLVZblU3lq6CtFYMXIu6lKrJfTxAcHo+xuO1asopWAGY=
+	t=1778594656; cv=none; b=b7/bo1fXQ5J6LixS3uHTVQPEwoh+0XlJWv76dXPTiTpjgSpEr5sTqfLPrFc9D04TYmea/skxecX8znLa+EMU260UEQcgJqezIVE3slPsVsBreKIaFda1v+jUzgW/hY3prFI6/8lOXudJr9+BdQfxaqZQvwfgDOmwPmzxbr95YGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778591251; c=relaxed/simple;
-	bh=wJV7N9XcmK+hpy7gFvZh6QXw4dYmdOo3zik0+hIVWbY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QPyMISXkvWyZ7bR+hL5XC5lpLDfNRop/nr1gJLneiZdDaHBOZoA3zlIcc+byf8vXb2VPMB32wFU48cenzHpH43Dy2ELKsnp2Wk4zz4Y3wHTD8enrYWjXSllx76wzFZCK5PcHTISrTGC2whtNejnySUu0JKfHKCnZOUMNprjCclo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oldschoolsolutions.biz; spf=pass smtp.mailfrom=oldschoolsolutions.biz; dkim=pass (2048-bit key) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b=h6jPvYQS; arc=none smtp.client-ip=212.227.126.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oldschoolsolutions.biz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oldschoolsolutions.biz
+	s=arc-20240116; t=1778594656; c=relaxed/simple;
+	bh=8I6fi74loWUHKZ3hiYLi1xwooOugxFYoYK70kIaZpOM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=m3TDEoU4ck/fVnsfmt1O9B57XuN/5lKD7VKWm8BhwH58Y6Em1NxguZoZoSvRrp942udnofmhtivddByUxKU82B0PpbfgTMjFvg1onQb/zgUi48exc2xfbCAy7UPx0xj+DKG+2Xu8+39v7Yo2x93jIvy6nifrQ2V8tIt9eNgXI7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jcRJt5mF; arc=none smtp.client-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b="h6jPvYQS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jcRJt5mF"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2b4520f6b32so9627084eec.0
+        for <linux-sound@vger.kernel.org>; Tue, 12 May 2026 07:04:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oldschoolsolutions.biz; s=s1-ionos; t=1778591241; x=1779196041;
-	i=jens.glathe@oldschoolsolutions.biz;
-	bh=D0s/KD2IpRb95uwf73OOnkeaU0LfJKqUCJ83jNwY8QY=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=h6jPvYQS2g9oratxEjUtaTYagjqowZRCQRP1JvyiQebJ4SIOGOZe3swbtr8HDowm
-	 aClegaCmKsxhSH/itbA+CqWNUmWGTtdlAUg2FWd403OoI5u++4k9DvmiIEMrhxLON
-	 YvD9Oaj8/ERZclHBRVI/msU7MnKUnyk4E6QoqPXKtwReHYqfzgyYp09mMz5dCXIiI
-	 lLD/vFhfdyopTvbhReVFA0GHP4Vy4YBL/ulvCVjOxUaX1OqoLBQMzhZqtXDGuTnFh
-	 7IYLPUcovZ3Vt2F2PVcfiAKLIHJDUcH0baK2TsVNkJyEs7IFqsdeJj1tCISxkKyWa
-	 QZbdkPMFvbZTZeGZ2A==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from client.hidden.invalid by mrelayeu.kundenserver.de (mreue009
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MJm8H-1wgOB61OKP-00NDwF; Tue, 12
- May 2026 15:07:21 +0200
-Message-ID: <4795570b-407d-4daa-859c-61ad0b76a091@oldschoolsolutions.biz>
-Date: Tue, 12 May 2026 15:07:19 +0200
+        d=gmail.com; s=20251104; t=1778594653; x=1779199453; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cIylp4OsOSrKcmib632OACEJsu5UwQnidt2a4e2Vgok=;
+        b=jcRJt5mFp8TRmYRWrHZVs92SYPLGliVqgoNmVxGPvNRJd4a5ISXMcjIV9h1QPg1YDj
+         4vxFO48D54J9FT4t4r7PXKPFR7H5Q34AtZTZXoVJ7K3DbRgwN8S9UvYYmfiNDNJkGzsf
+         KrtUVKFoGnha/2EQ6t173eEZ9Uox60rUxVT3YC/YWb5tH8bDEO0sBfIVZX6EYMtAOGh3
+         qoJ6nMyF4AhGpOV0HOIX80JsmDZmiM/LlQiq8SKmVYjIkZVNTS2UyUzno/19cVh4Pzp2
+         s92Ffa0vfzhgVH7167S3NibzWlT0CwdVGhImCECi3mfBz6aTSB0KBwE313zuFHDvgbU1
+         Oh9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778594653; x=1779199453;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cIylp4OsOSrKcmib632OACEJsu5UwQnidt2a4e2Vgok=;
+        b=n3OkKmrdtz/V6wKI6wbTqIr6A3xgWhKhYDaEjNn05V6SBXMrbqIFQbiU8fyGhmzKAP
+         0LygwCWitBE5nvIrA016ZdblmW4GV5918gJ6fGRhpH+57yfcIp7rksEc21A03MAlnUmR
+         3xxYLVzYyUtJgLTED9ywr7giJ7+t+Ok87DS4gZ0mdOTJlekZx2fCu8t4Vf8EC/41MDn4
+         xH78a0bUusmqz3TNWXTksMZtOvkaSTqES2FEk1VfD5CTu/lxO8JViq2GSnBI5ZAiHZ2u
+         TPZGfu0A70VKmZWXwiSJz746zfcXeC41KeiCSspdOytFQfTXee5WFl/t7L58lRt/xzwR
+         /DtA==
+X-Gm-Message-State: AOJu0YxpTwpNa6SwGU6pUBqUb1lIBd38JVT2DRz7bEPZoAVNgzHte0dQ
+	cTS0izO1745pvMiyyNq7QDAIocHRfx/YJ/GXLhlMxXZ3ah4a4ujKGNoZGJrYffu3
+X-Gm-Gg: Acq92OH9NdvNozBRQ/EEbfTjec7vDp7eLMxmkCaCQSKIe9qryMePsWXKmo8fuThmo8+
+	RMK1M0iH3p+dPWb/YTV0gHdkGZZjreK1DV/eQzzirBLWxBBwRCf3edgrwbxJSBKRDYMm3xvfnWq
+	pSWWH8CyE5Gu4M2LOb3c2qYvA1hK34LEBxQ+N+APLpxbmal6OS6VJVJ5/XxOSBlEX57Ub8LqLTU
+	LvxMOYUoIe6QDSKNPyIHUWx9J18x347XbWLvJYVw5vUbI8uZPplcBJ8bXP84kvRiuHhjcDqbOwI
+	PWzE58y5uOsiBPk+BRPNm05ol5MKc0u9CqB7XJQwzNjyC6RsMCw846KVIdzty90Ihj1UC+uM0wS
+	3P+X4xT7O6ZImu7rEIITpy4Bmf6dRl4vX6QEnnj2ydWFhikVXEbkWZpsMQluiTvx4IxWm+qt07T
+	Pn3N567Nf6fB+Hw2mhRJZbp+hRbCGgFItw6nfnX7FOljiFd/c0u3JiVf2lGvP24mdNYGZXnEnXW
+	A==
+X-Received: by 2002:a05:7300:a987:b0:2d8:7302:d3d with SMTP id 5a478bee46e88-2f54dc8c2b0mr13570569eec.8.1778594652981;
+        Tue, 12 May 2026 07:04:12 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f88885be8esm18203043eec.22.2026.05.12.07.04.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 07:04:12 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Tue, 12 May 2026 11:03:53 -0300
+Subject: [PATCH] ASoC: sdw_utils: Check speaker component string allocation
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH v9 13/13] ASoC: qcom: q6apm: Add support for early buffer
- mapping on DSP
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: mohammad.rafi.shaik@oss.qualcomm.com, linux-sound@vger.kernel.org,
- lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, johan@kernel.org,
- dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, srini@kernel.org, val@packett.cool,
- mailingradian@gmail.com
-References: <20260402081118.348071-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260402081118.348071-14-srinivas.kandagatla@oss.qualcomm.com>
- <7f10abbd-fb78-4c3a-ab90-7ca78239891a@oldschoolsolutions.biz>
- <0c6c8db9-b54f-4df0-ae1f-306b7feb6d67@oss.qualcomm.com>
-Content-Language: en-US
-From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-In-Reply-To: <0c6c8db9-b54f-4df0-ae1f-306b7feb6d67@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:BzuHNzZYmgo1U4aSwPbqw2bB0UJPHCnSLaDxy+LP2kkUaO58kS1
- iGb1BDJ5Y7agMruGrnJyecU2cICdm82RrdXccxaWl0r/mzPE8mzkbgBNIG0xdufxAaK3Eq1
- TVUoEcyf7OzSEFbL9lvYwx8NNp/QAEngGw2SsB6QIDgxDpArMgkgRIZRv2DJoP8vviCAOrH
- lfTQ8BtDP+m/fA4eBMRHg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:05O+k9Aoqqs=;10jXEh7FlVg25lOMng/8/RXHNrc
- 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
- oTsmk6s8MgkVtF4BRk2rV7vStEnGQ=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260512-asoc-sdw-utils-spk-components-alloc-v1-1-c9bbd6d2e123@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNQQrCMBCF4auUWTuQRirGq4iLOJ3qaExCJlWh9
+ O5GXX48+N8CykVY4dAtUPgpKik29JsO6OrjhVHGZrDG7sxgHHpNhDq+cK4SFDXfkdIjp8ixKvo
+ Q2jxsHfduMntvCVopF57k/Xs5nv7W+Xxjqt80rOsH2hQNh4cAAAA=
+X-Change-ID: 20260509-asoc-sdw-utils-spk-components-alloc-539e19f08a2c
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Shuming Fan <shumingf@realtek.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2281;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=8I6fi74loWUHKZ3hiYLi1xwooOugxFYoYK70kIaZpOM=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDFnMxpFc2ye5n7NmKA5SLHQ8lzi9X+a76f9VM0v4jolJt
+ mS0L/HoKGVhEONikBVTZFmdtMhyT9eDq/VxKzxg5rAygQxh4OIUgIl8YmP47/HvIcu1Y6/XxvwP
+ XunrK7S77UTVDaM5EyYt1y+/rhzRuJvhr8z/Dvbj1rarrDfW86/L2b1dLlN5mk7UhskPJ+Ytvnd
+ mCR8A
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-On 5/12/26 13:43, Srinivas Kandagatla wrote:
-> Could you please test this change on your setup and let me know if it
-> helps? If so, I=E2=80=99ll send out a proper fix.
-> This is a workaround for a known issue, I will add more details in the
-> patch that I will send once we know if it fixes the issue.
->
-> ------------------------>cut<----------------------------
->
-> diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c
-> b/sound/soc/qcom/qdsp6/q6apm-dai.c
-> index ede19fdea6e9..8a1a3d8a3398 100644
-> --- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-> +++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-> @@ -497,7 +497,7 @@ static int q6apm_dai_pcm_new(struct
-> snd_soc_component *component, struct snd_soc
->   {
->          struct snd_soc_dai *cpu_dai =3D snd_soc_rtd_to_cpu(rtd, 0);
->          struct snd_pcm *pcm =3D rtd->pcm;
-> -       int size =3D BUFFER_BYTES_MAX;
-> +       int size =3D BUFFER_BYTES_MAX + 4096;
->          int graph_id, ret;
->          struct snd_pcm_substream *substream;
-> ------------------------>cut<----------------------------
->
->
-> --srini
+devm_kasprintf() can fail while building the temporary speaker
+component string. If that happens, spk_components is set to NULL, but
+the current code can still pass it to strlen() on a later loop iteration
+or after the loop when appending the speaker component list to
+card->components.
 
-Hi Srini,
+Use NULL to represent the initial "no speaker components" state, and
+return -ENOMEM immediately if building spk_components fails.
 
-thank you for the fast patch. Tested on x13s with the original (full=20
-series applied) and this patch added. Original breaks as reported, with=20
-this patch it works normally.
+Fixes: 0f60ecffbfe3 ("ASoC: sdw_utils: generate combined spk components string")
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+---
+ sound/soc/sdw_utils/soc_sdw_utils.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-with best regards
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index d8378d1b435e..5f4cfb2aa9d4 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -1265,7 +1265,7 @@ int asoc_sdw_rtd_init(struct snd_soc_pcm_runtime *rtd)
+ 	struct asoc_sdw_codec_info *codec_info;
+ 	struct snd_soc_dai *dai;
+ 	struct sdw_slave *sdw_peripheral;
+-	const char *spk_components="";
++	const char *spk_components = NULL;
+ 	int dai_index;
+ 	int ret;
+ 	int i;
+@@ -1348,7 +1348,7 @@ int asoc_sdw_rtd_init(struct snd_soc_pcm_runtime *rtd)
+ 			else
+ 				component = codec_info->dais[dai_index].component_name;
+ 
+-			if (strlen (spk_components) == 0)
++			if (!spk_components)
+ 				spk_components =
+ 					devm_kasprintf(card->dev, GFP_KERNEL, "%s", component);
+ 			else
+@@ -1356,13 +1356,15 @@ int asoc_sdw_rtd_init(struct snd_soc_pcm_runtime *rtd)
+ 				spk_components =
+ 					devm_kasprintf(card->dev, GFP_KERNEL,
+ 						       "%s+%s", spk_components, component);
++
++			if (!spk_components)
++				return -ENOMEM;
+ 		}
+ 
+ 		codec_info->dais[dai_index].rtd_init_done = true;
+-
+ 	}
+ 
+-	if (strlen (spk_components) > 0) {
++	if (spk_components) {
+ 		/* Update card components for speaker components */
+ 		card->components = devm_kasprintf(card->dev, GFP_KERNEL, "%s spk:%s",
+ 						  card->components, spk_components);
 
-Jens
+---
+base-commit: b69796b4e3f78b1c41c0e6f558e882ec095469fc
+change-id: 20260509-asoc-sdw-utils-spk-components-alloc-539e19f08a2c
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
