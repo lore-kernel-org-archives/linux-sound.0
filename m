@@ -1,50 +1,50 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010013.outbound.protection.outlook.com [52.101.228.13])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010016.outbound.protection.outlook.com [52.101.228.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9816221FCD
-	for <linux-sound@vger.kernel.org>; Tue, 12 May 2026 00:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926A51367
+	for <linux-sound@vger.kernel.org>; Tue, 12 May 2026 00:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.16
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778546867; cv=fail; b=Ta286vRMvcoYrRtqvF8OJcMUS8pEKk6vD7XEBTEnhzE2+/26WTBff3jr+yPfBprQ/yxG/TbpYlcFYm2NF3ctsonmZ0N7O8gMQISzQPNNqE2rk2Som2L6C+AKSVvBICMhwl8DJXU4EtvjN5SqSRe61zsR2fw4Q8kQPAtQ5jrz4xY=
+	t=1778546874; cv=fail; b=L5OJdK4MdlsOg/G4prs599WSJZ/Ra8QN159b+LQqRFPlyVDcFkqhm1j7xp56lHAzRDWclwGncxo7AigOFjwBoCJ8BZ2F1W6X2s5NpZTbrSFEE6L7y/RLyYrO/dqrbAswpo0rUVSnlpXXOpAOD1Y5NvbvJZUoy6O9dJXaMJyPm7E=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778546867; c=relaxed/simple;
-	bh=RLZog/JziZNdZdXf9xcLOM9ygiTPwMK0WCS3jV7f7L0=;
+	s=arc-20240116; t=1778546874; c=relaxed/simple;
+	bh=WOqf541HXurJFrJOceF4Vl/YBI7jJay6X9rS5fWwsfY=;
 	h=Message-ID:From:Subject:To:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=ayhy1W01/GYVEoyrh3V92Ro+1NHkca5cg1oKC3wHbEej6AOpdDaYogCzwvWaN/RjxvXmLWrH3HFIVk4k5VbXmZcxksS9MQB5z+0G6+ZBJR3oNXOrdJPNW2Xu4K/kQCwDZRfivmygQQ8J55eR2309kTL0vPAkn+/cioH1c2+ex+I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=oFFxtjQw; arc=fail smtp.client-ip=52.101.228.13
+	 Date:MIME-Version; b=s68iJgKXOGhGsQXYyPuKSu6X2+JaB9aVCieGl8WkuxjxeplQ6qP8q8Vrgm5R3uNxjOEBJInyt6hCqC5tLXijGpu3hXEnmwGdtY2cKmDu4I1CQiYNbzKMVfqkExVvVUMudV9qdXXS0dznHoTs8DtTLKO79Cg1KGfxMbsBMXQ8lKw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Q/BOPdxu; arc=fail smtp.client-ip=52.101.228.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="oFFxtjQw"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Q/BOPdxu"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=guOHKTu6Ts0VOkPKUhYML1pNSuBr9FUHbv8pmgPfoLCdNTYnHSQl2j+2ZckGQwqoPXj0IUvOAcWA4nGsKfqPC59jnOAinJ0nDIOTxa83vKrCqLHaY8PDRWDkcKtc0lbeCouqONjwca75OJqboDan7+CoOCL69kAjX2awrDWQb4Q4D9z6pr9XvPKio56S8QK8/SALUB6YcHLD1WDoFu/tKdCLRHxPh6vv1rCBD1mccCB5mSHLpijOooK33kNK87rLVS3ObF+7UkJbmXTPd19Bs1uGY2w4dbFVe64A5wXFQupaYZx2M/kqbyx46vMelnecfdDF5IxUjRAQ2/UimMVv8g==
+ b=cT7WNWNEDstRgLWS8qCJLhGH9OchdiYn+9ixqvEbRwSVeZu3SzQIBja9eXEw15vv2mA2ZW6NJeKoedBrVYJ6RT39kyrimUpmkCYdXcpXCIGlIVsSLJmVfP8s6O37TUfg3nPtZKjK3gjLUsDkmeQlalaNQCEmqn29dfqhA8L7t/MeiDoV5a4j2fodYc9/jdZ63p64hbWmq9/NUy4t8aSrFK3rhVmzzTKV0kddKogQ6JWFJ9fJh+cM/jhhgcNFNav4w86ubqlhymHBqrGECu7TAs5tUvtetAxJ/oOm8My8eHMa+t6pd3dORHF+6FvMxXz5u9b0JBJsqTzhgHYPWOnUlw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R5Q4XVgb8pZh2sg0WnssdyozqNocRlTwBuKl52jRqZg=;
- b=ketFm/fFAKpC9n6JvDaxKL9NnkPEho2Rm0pwZOLZe+IlmZkYYZDmlgTAHlP8VvUqIG8IVpMQVmhD0bfZaXZcpkX7ItmWmzfjVCUvf4L5VtqSRJ/y2LWcFDdpEimSxpzqoIZxyLd3enT85y7VeMoN7qqo7eubS9I/5GSLYI8KRBdVXmDnbdhvdb/e5v3sEgYzuxqE9tDxcf+rzyIdf+VYgAFQ2xGUFnHE03vCHy/OpJDcwqWrIM4+tpD0eDYxRQ7+DnXsy5ALSWUOAr1sg6H6OeT7ZFL3PztTjL9QFitcEBsbSp/PerVR04tVyswGxcot7Aq5llmDsggA9Dc8Y54dPA==
+ bh=q4OEV8c8Bw2cuF+x7JncIpEJXxJljEkkj0CIZmFgvao=;
+ b=Wh0gs+k/R1Bz+6a4Ryk/t4v8IegimS4MDjeXEgL7E1AEnw/BfRt07c0WeEfelnGDJh6Aq1FGCJ8yuRxuMTgFprA5QID1myoKtexGlgBZblgDdR57iHJeaTIG18FgYuKtxKVXgqJ/jAbhGE5jDRi6H62QfzOZfzMqZW72Bp+YLNRKDiYnXWM+hsAHiFRgAnW/FG+Ft+23kklxbubQSvbvfcTQwxC78OngdZKey7hesc25Z19shbmESCRHRv/sDjyFb0BNR/0PyDxWweLDugZEFgIVfjdQXSYu3emgZqPWPUywgI8ftx9S9D97/Xo2i0k5qg9ZSaI45cOTGTAxpdA5XQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R5Q4XVgb8pZh2sg0WnssdyozqNocRlTwBuKl52jRqZg=;
- b=oFFxtjQwu3DCTykHPYNrkA3GmFfXU/74s8/Lgdmizug8UIU7cgvVQfXEsAc9eK+DT4tD+eFdaqBiPbpwPbNMaJfXC4NQzLtsw95D4W0lZd5zPoELTpNqbLmoE9ICrVm2r87PVXNHZESz7c8J4awU805NFlzP6gnicWVXLBfzZKk=
+ bh=q4OEV8c8Bw2cuF+x7JncIpEJXxJljEkkj0CIZmFgvao=;
+ b=Q/BOPdxuu2sW/mS5T+iuT0Tw0CXc766rEg5Fv0pjJTGUQlcQi5K6Obelaibbs8TcAF0jBhruQ8n4jaglmZiF8+9TRKfp6TJ+gy34s4CQih39Baa3UjGrfE8gRY9Fi2Kc/apO/y15iMcDb54shkhc9tOnYtTsn5e/XXh+5opKkFQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
  by TY7PR01MB14421.jpnprd01.prod.outlook.com (2603:1096:405:245::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Tue, 12 May
- 2026 00:47:43 +0000
+ 2026 00:47:50 +0000
 Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
  ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
  ([fe80::1868:c915:c230:a383%5]) with mapi id 15.20.9891.021; Tue, 12 May 2026
- 00:47:43 +0000
-Message-ID: <87v7ctwj0w.wl-kuninori.morimoto.gx@renesas.com>
+ 00:47:50 +0000
+Message-ID: <87tssdwj0p.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH RFC v3 1/2] ASoC: ti: ams-delta: Stop (ab)using card->pop_time
+Subject: [PATCH RFC v3 2/2] ASoC: soc-dapm: move card->pop_time to soc-dapm.c
 User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
 To: Janusz Krzysztofik <jmkrzyszt@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>,
@@ -56,9 +56,9 @@ To: Janusz Krzysztofik <jmkrzyszt@gmail.com>,
 In-Reply-To: <87wlx9wj1h.wl-kuninori.morimoto.gx@renesas.com>
 References: <87wlx9wj1h.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 12 May 2026 00:47:43 +0000
-X-ClientProxiedBy: TY4P286CA0050.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:36e::19) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+Date: Tue, 12 May 2026 00:47:50 +0000
+X-ClientProxiedBy: TY4PR01CA0044.jpnprd01.prod.outlook.com
+ (2603:1096:405:372::17) To TY3PR01MB11797.jpnprd01.prod.outlook.com
  (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -68,212 +68,242 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TY7PR01MB14421:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5db52532-0823-4f02-0f6c-08deafc013e3
+X-MS-Office365-Filtering-Correlation-Id: 2a5aee8d-1ceb-4d93-7d92-08deafc017f7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|56012099003|38350700014|3023799003|11063799003|22082099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|56012099003|38350700014|11063799003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	jnI4sM6kGGsyWA4lINJhTL6QveiI7mvcbLRDGakK07Tc/QqZMDDvDHdjyHbQLr4Kz+BCdnsiXUMX3LH39ki1K5OUbNqiMaWg7/FLj78eCB3ORFAdFrM46zhCse+9IZ3UUyFGUcUnzFNrRlftxtJYyPP/hsXiWdMz2lGG/6Omko+Ft+KpcDuZ2IEpwouP+5yKUkDLr5WBCRGQujCFcBiEDwBlRaBvAcfgxWRunJrMdCULXuomd9bcEqV9tD92LbTBQb/r23qPK430+yAQWYel+KJV8i+Phl272VEV/rJ5W2Ttuj+Fk1AskIOIH6oBb2t01EQXS4DxMCIP3Nf40VzlV6eNo9eDHAfdxPuETmENZV69X97zE3qMZ2L9PFzpjvBKMUtoiTnb6Hmh/xSx+0qbMqSwp1x9pShdn70+3yDrpqKD6UxsotxosFgjpMMV6RD1fSybEVuz4TRwZj7orRlmtBKu96zChFn2PRW99irfdNH/VzhSyEtoSnrK5rSk6qtlVFk1xQlx3MQYnHieYHEvhA40JEPIG49zcEI8F9sIY+P4ge1SQGD1MBIpvS5yhNxxB5EyTU0TVlII3jnwfhYXFNyb+t6L+loU2Mwg/eeeapnWEC7IyGD/oDoQwJeQVDv2HAj7RhN2aCfXN7EB/8kPSkI/uIox4SJMp+VfWGlUINO8OECQCrwfV3h4M5upOJQFpQVjBAoLBRBfA5SlhGuzqL/cnlUcPk65R/m5WqkloZd1C/1gNOGSbQFxQgA239/G
+	t+X7FwB0UsHJ3pUTuRsrBYCRfLPJ1Y6xycn3dFO42QN/rhJPBqOZwub9Dw1zOxwFsQzgHGWgGP+h9pCjn/QpxCh6aU0yAs+Kl5YlNqn3/E71uKHwHn6QEbl+WVxHWO0ka36JX320nE8TXRJ8y2HdchkFSfcCaCqGObFhmzeRg6BfcLeUcMdU8q0eLTp1W1gh+l6stYOH5Vr0+vlkZQ4NJPgwRemFTNkYfeGicS5tLldBJ/lfE+PQf74M4R19l45em/SA+4uxrxBLS4ZwjRc8BYQWD/JpOhIrafeksW70vgK0O/vXBaqojgrTIVHX+q/GzTsZcwy3X6vataFl96/mqvS55tGtnBOYi3u4n1WLOFr/HVLapi0a9PY3bXh6Z+s47LVL/b1OvIK/1EEE6ugYYg68TQ55POcJt0kdZ+1WxiS3wmRrMMrT+9wjzrSPZhesry5wc8NZd3kqtEhFBmwNP8ObkVHulbMhIKbVD730drP63OeTAoNQmS1YKD6Ep4x06DlhQwoho6e47+kJt+Vh/uvHsk2qfaWpTpPOz6t7By7CFMho240+KnZ/LkJyAXHI3YgZ/IUzC9GJuAWTKtSqv3GImJ5qnR8Zj4bAwlWR/ZraunnZQgVpYsHDg+AfjG1NwXCTEN09bB3z4uN624z+cZTRTOUMdn9WUmI+5xAjs2W62wnb62eSNmO5Fpc1abSQBA3b/hErEuAK+uZ1csJj5v6C+2vhNmR5JYyMUDlfILIYUYhqXS/ns+3ZgMPxWfbB
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(56012099003)(38350700014)(3023799003)(11063799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(56012099003)(38350700014)(11063799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?o2HQ9RW+pQjOIKdptsPkPFMYzY5tS8Jpds61bucnq3dVK93QZ//9SNCo9Lhq?=
- =?us-ascii?Q?V13zqKN55ddl9qpNAv0f03to/nmc86NLoe8OKTY2i++2aUKI0NYAmllKmSlF?=
- =?us-ascii?Q?ItKNaWe7mtfQdJ+Rlg3g24sINJ4Qr+y+oW+Pbrlb3PPCjcNFyE0olnisVMeG?=
- =?us-ascii?Q?s8Ca0uj/9BPlsgvEcuZS+w98aViEfxnPXmPd7GFeUYbEd81nvYXg4B36oWzg?=
- =?us-ascii?Q?BomopPXmLnlAUSp/nGhKe7Z28G+L9e5QelmK4+R1SpL5vH5iTXOLbnPglnU7?=
- =?us-ascii?Q?09TPxJg3bROn2DJKnGIK3FKrViAk4rTS7fsNLAgqhIon5imEoNgl3VtSxKbq?=
- =?us-ascii?Q?UrTbzFcTeHXxw4grngyxJE0c8J5/ZuVwp/vuPscEVWlXh90a12mF3RDrVhxI?=
- =?us-ascii?Q?alsYEHMNfIXtGMeUlWQoejygbMp9d8ePL33Z8q6xOKuMoUATfeztpLvVRxmp?=
- =?us-ascii?Q?RQ61xrjvTxBW7Mp61nX62iSg5UWPKgBd2k0h9Wx54mPQ9AbJAI4u9rNsBM9U?=
- =?us-ascii?Q?xWtHI1TK5yCNMpYdPiwh6+1cl8ALAzvudcdCN+Mt74EifJU5KsPQmYn+2KpJ?=
- =?us-ascii?Q?TIrw1Znj3xeVI8+d2Xpjp2iB9/bWLBdOWSwpdwMvD6NFZH+XntwLMvvdCBxJ?=
- =?us-ascii?Q?o0km197SvhOnJBNIlBdnDmfSXgnmhKYJ0WmlFuRQsiLtOEj4rIDnrBTFM922?=
- =?us-ascii?Q?RuDwgEQXfCAS32wPL0qPRXIf169KX0YmPzTYbelkhe44NXdZXIPkjAGrK7Vz?=
- =?us-ascii?Q?V9FbhIfmQmgi8iHsDMp097HedoQ7uxslavLiMgJrXU00a/YKfViqX+DK4F+T?=
- =?us-ascii?Q?DGq/TAYNf8NdmBJVTGoElA74gAHwJJq5ul+ikc6B/U5DHDNgA0QXt1X1mZX+?=
- =?us-ascii?Q?p+kMjYnp6QrZicH+6cZ6cwha/cuMtstYm8DmNS1bMRWa4jHrN186BuepgXT2?=
- =?us-ascii?Q?iHWAKpJf/0CC2u7Jd/SGczEnIQqYHwcVFxZ8zo40LXTrNhIT0GYZVZK8jcJV?=
- =?us-ascii?Q?wG6R1kS0Vf2mxlsIAtXn7JAk4MKOjftEcVWtZME/9PrgAukXAdK8SeHHrIW3?=
- =?us-ascii?Q?P1qUcEaoofpvnuBh0VQ5bcboBSDswp1K0oswWZ9iS+Vx6ReL0m983dSUL+Z2?=
- =?us-ascii?Q?tleZkPmGN9QMS7L+7zTbno7bi2S79zeQslL2gNQ9viOFJIbK6+3zuB5vUN0D?=
- =?us-ascii?Q?c+MGU5RlNCh2zwsOc4e3lIeVy/DJSAM1/O9pBzW62I1xoxzng7W5LgDQ9UD8?=
- =?us-ascii?Q?9xtTmi5tOJA5tcpcjlZb92XFpNWL0BKbJeLFv76pl2qv78/Y9S7L2Dgn6B4t?=
- =?us-ascii?Q?KlF1xacN4xZLsHJgBHSQYlvmG6qVcHQWmkL3UV8k2YGGb3nQlzGpt9cgyTbn?=
- =?us-ascii?Q?o6DkqAc99KvlbfR9/D2bs4CduaPxsX7qcxPQJxdtiQxptuANDnywYeq8w06V?=
- =?us-ascii?Q?D6ch9ieKBOeD5aj6pETjXKQtHYLy0ZBefeUQ2Ph5AcD9G0OeQKEorEhv89Aq?=
- =?us-ascii?Q?LMAHvzjahF+OmmrEXBkWy8dJ65WYEvSxp8LlEdNPb6behG/Hls77Z3UVM+KR?=
- =?us-ascii?Q?00WcDzVlPMJ6Aw/1miaD3FZRqfCERf2W+LcER4UELUQhyfKpD6WnW7QrhyP4?=
- =?us-ascii?Q?U21lVjkFlGFaVgpNAN8wR1tNGqH320R6emkJJxXPhyfZgrZpTFhd+9u56jTm?=
- =?us-ascii?Q?+61oMsc+25tH5NbGyHmdmorYOwni/LWL/skaLskEKo92or65ItWHr7k8hrEC?=
- =?us-ascii?Q?acobWJQdEn1k7ki9VgqKqELe+yvtLxQHN6OtuLr9gVecmgLzCpOr?=
+	=?us-ascii?Q?sdkeESgV9ePhPEqa9NUyJgH4T93g45iwTcjrkkbt0DfotEcEoRf+0qJvboPW?=
+ =?us-ascii?Q?3/vDKK2EdCv/iB8rSdqArUvsdqbc6XJ07GR0oYMJM4OlhqSduGEyiPrOgwSI?=
+ =?us-ascii?Q?kYx/vm+DIPwpJa7uvH1mWjCLO7gft8XegBejtKRguiJMoh37cvGyU7SvAiCP?=
+ =?us-ascii?Q?veLYDqV9l4NMNL7zOakyUyCV4E9UWVSErhuS7ZhHoUOQ7vUAsoYsYGAap0ov?=
+ =?us-ascii?Q?YFlcAJgo1kiN7j9X4BjJCD8cHRrc0PAMkxCK+RlbDm+vMJQlxVVWNg4Qxm9y?=
+ =?us-ascii?Q?g8qc1cFnHK2/+oY2RqSJMTDhnwy0ERG7dIb462DTG1+QNnXkSatOJ1LcIlPo?=
+ =?us-ascii?Q?uSTj6SaInIuIcadf9+PX+Tph6xlFZcrwbO/S027Q3PbDBOV3lJehGubBzdcW?=
+ =?us-ascii?Q?cGJpH8cLH7szjhH8HTbNhKldW6flQE+1itwLEyosYX0sMjjxvZeqxcETdw/A?=
+ =?us-ascii?Q?+89qtziEHcy4R2/wfeCmJTyYHT3/8orCbpWsnydERR6QE9OFx/3eZIa6QLu5?=
+ =?us-ascii?Q?yYn8hrTdxmadtb4sJBbaAJrcZI8gMTT3Ax4ABGOQVqNGfOyejX5p6f5mmR05?=
+ =?us-ascii?Q?PKEwEgB3+t7TvnALe3mrh5cZ5CVGSJ/Xf/bLuCkJNpmae3sr05O/so7mcrWH?=
+ =?us-ascii?Q?U0+qd6cAwKaWPtj1Uf7PhESV2oWDiJ624gI0j5cDc2KAwGgnUF9/0IAf16aO?=
+ =?us-ascii?Q?D7pbtqHBJo+ajwGKaYn+pfvYAXdR+BakrrIxEKK5mNhkbgp0MCRGe5esNe7y?=
+ =?us-ascii?Q?a2L29GzpTOKQs2t2UP0t6DQJ3jBhLmCqkSaafabXtgbex83jApu2H1GmNMNt?=
+ =?us-ascii?Q?rjc7/9f7C4uRE4XOKgOzaQYMoOUGpCZ5iJ6gbSf7KYyEjH+tfIIEn4pq2VEA?=
+ =?us-ascii?Q?4QTR8d3X0MYer/n9Xb/lUdIUZW5Y3VHPoC7c5WvEr/8+5Cm3GhNpytn8u6Wp?=
+ =?us-ascii?Q?lS9zzujAskCsLeUS3yMrrhPbZjOQFssfP3t5/Wbe4UOIm0E9rECJ+4EsamWS?=
+ =?us-ascii?Q?nwrQzO09vGpCLPSNDABDwL8VzUJnfREtXJibYBL5xcrt3tW26xG62f/sVYTN?=
+ =?us-ascii?Q?ixxgvJDzhU40UR3DOjbideooP2xV0Jqj3yIwod0ozrGhosynvw0nQ7eLxOg+?=
+ =?us-ascii?Q?ixb8Hjg5A1yyipm7QWSCydyg1pn/Lzs6lIYQsX97+Pa8SyfchIFrwfElcmAV?=
+ =?us-ascii?Q?QXcFm1mPgoCpjMFMyhG5M2huuP0iDSGhrYj4JRMAtwhjnv5psb8i/UGhT63Q?=
+ =?us-ascii?Q?q/+bIWI3Ikl6On/DPEETMkrQgsaSkSshlAjM1zCM6UfhYIHz/fvEjAhApfTW?=
+ =?us-ascii?Q?VwoA10QZY/58j6tymj+x8OTVc17KLCIbldzqc1ba8zN6a0lU8w0gadk8FvOZ?=
+ =?us-ascii?Q?NSKc8Y2GxymO/3CGldR+lQ2Yfq+qnS/fkhD8D6Ie/8is2wZRc0t0a/6w/k51?=
+ =?us-ascii?Q?iS3ZE28QtaRaYrimj755/ey+6dsM6JHCTYTqa4Y0DzBome3Av582MPypbmqU?=
+ =?us-ascii?Q?2mTOfHByZDJEkeQQVnaXPFCr2NrE8Uc5Q/AEvidjjmXolYyPVdEiwW7mQ+Vg?=
+ =?us-ascii?Q?esGYtqjabS4dXJH8RCpaoPFWW5Lntobw2S0vJG2MrBwJ+K5bSwnG4gePeTIS?=
+ =?us-ascii?Q?AFD7ewhtBjlANTMtb9nCdZTacuk05TxTzvodZbhrJto11W4ESxEfbUVw63I6?=
+ =?us-ascii?Q?RBthA/Q8E7+R/8Va0nmUaCFqsZVMyIjo5gDT0/d+4FoRBJ/BKPghqqFbjXsw?=
+ =?us-ascii?Q?piq04o+G1nAEEzEyeV4QTlKzOYOWr3iMdV7pqVK5Ua6ZJwA/CXBk?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5db52532-0823-4f02-0f6c-08deafc013e3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a5aee8d-1ceb-4d93-7d92-08deafc017f7
 X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2026 00:47:43.6695
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2026 00:47:50.5412
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iH9hIb3dajIXBKWAidUusQJgNj5+wmkc2YFCynGR7rNjhQ4upFvO6b9rEaQkO9kSLu3PUD1h9g6EQoMwBvX6V09rmRzuWykph2iBL79knbDb95BiSGng4//9nZ6OJxkL
+X-MS-Exchange-CrossTenant-UserPrincipalName: qekvRR9S1BE46Szt3/OJiQAU+gdQv3W5pwgSswoqzxutlaDtVVLsgZiX3PgMlbr65bL0DPDgXKdjxd4RA6ZF3EQScUNKRqZkwy6Qy2dPKZp9RXkgINpW6w9DvFJ0yrNj
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB14421
 
-From: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Card has pop_time which have used only from TI, and it is now stop using
+it. This pop_time is used for debug, and can be access from debugfs.
+Let's move it from Card to soc-dapm.c local.
+This patch renames it as asoc/${card}/pop_time to asoc/dapm_pop_time.
 
-A flag is needed that tells the card driver if the codec has been
-initialized successfully over the modem's line discipline.  Initially,
-codec->hw_write was used as the flag, but it was then dropped and the
-flag function associated with card->pop_time, already managed by the
-codec driver for diagnostic purposes.  Since now the card->pop_time is
-going to be killed, stop abusing foreign fields in favor of an own one.
+This patch moves it from Card to soc-dapm.c, tidyup soc-dapm.c
+accordingly, and remove card->pop_time from cx20442.c which is no longer
+needed.
 
-Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/codecs/cx20442.c |  8 ++++++--
- sound/soc/codecs/cx20442.h |  5 +++++
- sound/soc/ti/ams-delta.c   | 21 ++++++++++++---------
- 3 files changed, 23 insertions(+), 11 deletions(-)
+ include/sound/soc-dapm.h   |  1 +
+ include/sound/soc.h        |  2 --
+ sound/soc/codecs/cx20442.c |  3 ---
+ sound/soc/soc-core.c       |  5 ++---
+ sound/soc/soc-dapm.c       | 30 ++++++++++++++++++------------
+ 5 files changed, 21 insertions(+), 20 deletions(-)
 
+diff --git a/include/sound/soc-dapm.h b/include/sound/soc-dapm.h
+index 4f8fb7622a139..f24eafefbdff2 100644
+--- a/include/sound/soc-dapm.h
++++ b/include/sound/soc-dapm.h
+@@ -673,6 +673,7 @@ int snd_soc_dapm_mux_update_power(struct snd_soc_dapm_context *dapm,
+ /* dapm sys fs - used by the core */
+ extern struct attribute *snd_soc_dapm_dev_attrs[];
+ void snd_soc_dapm_debugfs_init(struct snd_soc_dapm_context *dapm, struct dentry *parent);
++void snd_soc_dapm_debugfs_pop_time(struct dentry *parent);
+ 
+ /* dapm audio pin control and status */
+ int snd_soc_dapm_enable_pin(struct snd_soc_dapm_context *dapm, const char *pin);
+diff --git a/include/sound/soc.h b/include/sound/soc.h
+index 50d1fd110a4ab..967b68d4d142c 100644
+--- a/include/sound/soc.h
++++ b/include/sound/soc.h
+@@ -1081,8 +1081,6 @@ struct snd_soc_card {
+ #ifdef CONFIG_PM_SLEEP
+ 	struct work_struct deferred_resume_work;
+ #endif
+-	u32 pop_time;
+-
+ 	/* bit field */
+ 	unsigned int instantiated:1;
+ 	unsigned int topology_shortname_created:1;
 diff --git a/sound/soc/codecs/cx20442.c b/sound/soc/codecs/cx20442.c
-index c0dc69ce4d0e7..3a1455b79cd32 100644
+index 3a1455b79cd32..0dea84cd8ef2d 100644
 --- a/sound/soc/codecs/cx20442.c
 +++ b/sound/soc/codecs/cx20442.c
-@@ -236,7 +236,8 @@ static int v253_open(struct tty_struct *tty)
- /* Line discipline .close() */
- static void v253_close(struct tty_struct *tty)
- {
--	struct snd_soc_component *component = tty->disc_data;
-+	struct cx20442_codec *codec = tty->disc_data;
-+	struct snd_soc_component *component = codec->component;
- 	struct cx20442_priv *cx20442;
- 
- 	tty->disc_data = NULL;
-@@ -248,6 +249,7 @@ static void v253_close(struct tty_struct *tty)
- 
+@@ -250,7 +250,6 @@ static void v253_close(struct tty_struct *tty)
  	/* Prevent the codec driver from further accessing the modem */
  	cx20442->tty = NULL;
-+	codec->ready = false;
- 	component->card->pop_time = 0;
+ 	codec->ready = false;
+-	component->card->pop_time = 0;
  }
  
-@@ -261,7 +263,8 @@ static void v253_hangup(struct tty_struct *tty)
- static void v253_receive(struct tty_struct *tty, const u8 *cp, const u8 *fp,
- 			 size_t count)
- {
--	struct snd_soc_component *component = tty->disc_data;
-+	struct cx20442_codec *codec = tty->disc_data;
-+	struct snd_soc_component *component = codec->component;
- 	struct cx20442_priv *cx20442;
- 
- 	if (!component)
-@@ -274,6 +277,7 @@ static void v253_receive(struct tty_struct *tty, const u8 *cp, const u8 *fp,
- 
+ /* Line discipline .hangup() */
+@@ -278,7 +277,6 @@ static void v253_receive(struct tty_struct *tty, const u8 *cp, const u8 *fp,
  		/* Set up codec driver access to modem controls */
  		cx20442->tty = tty;
-+		codec->ready = true;
- 		component->card->pop_time = 1;
+ 		codec->ready = true;
+-		component->card->pop_time = 1;
  	}
  }
-diff --git a/sound/soc/codecs/cx20442.h b/sound/soc/codecs/cx20442.h
-index bb897bcb24869..78ab1eab083e7 100644
---- a/sound/soc/codecs/cx20442.h
-+++ b/sound/soc/codecs/cx20442.h
-@@ -8,6 +8,11 @@
- #ifndef _CX20442_CODEC_H
- #define _CX20442_CODEC_H
  
-+struct cx20442_codec {
-+	struct snd_soc_component *component;
-+	bool ready;
-+};
+@@ -379,7 +377,6 @@ static int cx20442_component_probe(struct snd_soc_component *component)
+ 	cx20442->tty = NULL;
+ 
+ 	snd_soc_component_set_drvdata(component, cx20442);
+-	component->card->pop_time = 0;
+ 
+ 	return 0;
+ }
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 1d9099595a88e..2c05299604b33 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -194,9 +194,6 @@ static void soc_init_card_debugfs(struct snd_soc_card *card)
+ 	card->debugfs_card_root = debugfs_create_dir(card->name,
+ 						     snd_soc_debugfs_root);
+ 
+-	debugfs_create_u32("dapm_pop_time", 0644, card->debugfs_card_root,
+-			   &card->pop_time);
+-
+ 	snd_soc_dapm_debugfs_init(snd_soc_card_to_dapm(card), card->debugfs_card_root);
+ }
+ 
+@@ -215,6 +212,8 @@ static void snd_soc_debugfs_init(void)
+ 
+ 	debugfs_create_file("components", 0444, snd_soc_debugfs_root, NULL,
+ 			    &component_list_fops);
 +
- extern struct tty_ldisc_ops v253_ops;
++	snd_soc_dapm_debugfs_pop_time(snd_soc_debugfs_root);
+ }
  
- #endif
-diff --git a/sound/soc/ti/ams-delta.c b/sound/soc/ti/ams-delta.c
-index 6dd0d051a757e..61252359d5cb2 100644
---- a/sound/soc/ti/ams-delta.c
-+++ b/sound/soc/ti/ams-delta.c
-@@ -93,7 +93,7 @@ static unsigned short ams_delta_audio_agc;
-  * Used for passing a codec structure pointer
-  * from the board initialization code to the tty line discipline.
-  */
--static struct snd_soc_component *cx20442_codec;
-+static struct cx20442_codec cx20442_codec;
+ static void snd_soc_debugfs_exit(void)
+diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
+index d6192204e613d..10f5fb771e301 100644
+--- a/sound/soc/soc-dapm.c
++++ b/sound/soc/soc-dapm.c
+@@ -40,6 +40,8 @@
  
- static int ams_delta_set_audio_mode(struct snd_kcontrol *kcontrol,
- 					struct snd_ctl_elem_value *ucontrol)
-@@ -105,7 +105,7 @@ static int ams_delta_set_audio_mode(struct snd_kcontrol *kcontrol,
- 	int pin, changed = 0;
+ #include <trace/events/asoc.h>
  
- 	/* Refuse any mode changes if we are not able to control the codec. */
--	if (!cx20442_codec->card->pop_time)
-+	if (!cx20442_codec.ready)
- 		return -EUNATCH;
- 
- 	if (ucontrol->value.enumerated.item[0] >= control->items)
-@@ -280,14 +280,14 @@ static int cx81801_open(struct tty_struct *tty)
- {
- 	int ret;
- 
--	if (!cx20442_codec)
-+	if (!cx20442_codec.component)
- 		return -ENODEV;
- 
- 	/*
- 	 * Pass the codec structure pointer for use by other ldisc callbacks,
- 	 * both the card and the codec specific parts.
- 	 */
--	tty->disc_data = cx20442_codec;
-+	tty->disc_data = &cx20442_codec;
- 
- 	ret = v253_ops.open(tty);
- 
-@@ -300,9 +300,12 @@ static int cx81801_open(struct tty_struct *tty)
- /* Line discipline .close() */
- static void cx81801_close(struct tty_struct *tty)
- {
--	struct snd_soc_component *component = tty->disc_data;
-+	struct snd_soc_component *component = cx20442_codec.component;
- 	struct snd_soc_dapm_context *dapm;
- 
-+	if (WARN_ON(tty->disc_data != &cx20442_codec))
-+		return;
++static u32 pop_time;
 +
- 	timer_delete_sync(&cx81801_timer);
+ /* DAPM context */
+ struct snd_soc_dapm_context {
+ 	enum snd_soc_bias_level bias_level;
+@@ -161,14 +163,14 @@ static void dapm_assert_locked(struct snd_soc_dapm_context *dapm)
+ 		snd_soc_dapm_mutex_assert_held(dapm);
+ }
  
- 	/* Prevent the hook switch from further changing the DAPM pins */
-@@ -339,14 +342,14 @@ static void cx81801_hangup(struct tty_struct *tty)
- static void cx81801_receive(struct tty_struct *tty, const u8 *cp, const u8 *fp,
- 			    size_t count)
+-static void dapm_pop_wait(u32 pop_time)
++static void dapm_pop_wait(void)
  {
--	struct snd_soc_component *component = tty->disc_data;
-+	struct snd_soc_component *component = cx20442_codec.component;
- 	const unsigned char *c;
- 	int apply, ret;
+ 	if (pop_time)
+ 		schedule_timeout_uninterruptible(msecs_to_jiffies(pop_time));
+ }
  
--	if (!component)
-+	if (WARN_ON(tty->disc_data != &cx20442_codec))
- 		return;
+-__printf(3, 4)
+-static void dapm_pop_dbg(struct device *dev, u32 pop_time, const char *fmt, ...)
++__printf(2, 3)
++static void dapm_pop_dbg(struct device *dev, const char *fmt, ...)
+ {
+ 	va_list args;
+ 	char *buf;
+@@ -1872,8 +1874,7 @@ static void dapm_seq_check_event(struct snd_soc_card *card,
+ 	if (w->event && (w->event_flags & event)) {
+ 		int ret;
  
--	if (!component->card->pop_time) {
-+	if (!cx20442_codec.ready) {
- 		/* First modem response, complete setup procedure */
+-		dapm_pop_dbg(dev, card->pop_time, "pop test : %s %s\n",
+-			w->name, ev_name);
++		dapm_pop_dbg(dev, "pop test : %s %s\n", w->name, ev_name);
+ 		dapm_async_complete(w->dapm);
+ 		trace_snd_soc_dapm_widget_event_start(w, event);
+ 		ret = w->event(w, NULL, event);
+@@ -1909,7 +1910,7 @@ static void dapm_seq_run_coalesced(struct snd_soc_card *card,
+ 		else
+ 			value |= w->off_val << w->shift;
  
- 		/* Initialize timer used for config pulse generation */
-@@ -467,7 +470,7 @@ static int ams_delta_cx20442_init(struct snd_soc_pcm_runtime *rtd)
- 	/* Codec is ready, now add/activate board specific controls */
+-		dapm_pop_dbg(dev, card->pop_time,
++		dapm_pop_dbg(dev,
+ 			"pop test : Queue %s: reg=0x%x, 0x%x/0x%x\n",
+ 			w->name, reg, value, mask);
  
- 	/* Store a pointer to the codec structure for tty ldisc use */
--	cx20442_codec = snd_soc_rtd_to_codec(rtd, 0)->component;
-+	cx20442_codec.component = snd_soc_rtd_to_codec(rtd, 0)->component;
+@@ -1923,10 +1924,10 @@ static void dapm_seq_run_coalesced(struct snd_soc_card *card,
+ 		 * same register.
+ 		 */
  
- 	/* Add hook switch - can be used to control the codec from userspace
- 	 * even if line discipline fails */
+-		dapm_pop_dbg(dev, card->pop_time,
++		dapm_pop_dbg(dev,
+ 			"pop test : Applying 0x%x/0x%x to %x in %dms\n",
+-			value, mask, reg, card->pop_time);
+-		dapm_pop_wait(card->pop_time);
++			value, mask, reg, pop_time);
++		dapm_pop_wait();
+ 		dapm_update_bits(dapm, reg, mask, value);
+ 	}
+ 
+@@ -2392,9 +2393,9 @@ static int dapm_power_widgets(struct snd_soc_card *card, int event,
+ 			return ret;
+ 	}
+ 
+-	dapm_pop_dbg(card->dev, card->pop_time,
+-		"DAPM sequencing finished, waiting %dms\n", card->pop_time);
+-	dapm_pop_wait(card->pop_time);
++	dapm_pop_dbg(card->dev,
++		"DAPM sequencing finished, waiting %dms\n", pop_time);
++	dapm_pop_wait();
+ 
+ 	trace_snd_soc_dapm_done(card, event);
+ 
+@@ -2561,6 +2562,11 @@ static const struct file_operations dapm_bias_fops = {
+ 	.llseek = default_llseek,
+ };
+ 
++void snd_soc_dapm_debugfs_pop_time(struct dentry *parent)
++{
++	debugfs_create_u32("dapm_pop_time", 0644, parent, &pop_time);
++}
++
+ void snd_soc_dapm_debugfs_init(struct snd_soc_dapm_context *dapm,
+ 	struct dentry *parent)
+ {
 -- 
 2.43.0
 
