@@ -1,79 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B29917557E
-	for <linux-sound@vger.kernel.org>; Tue, 12 May 2026 01:15:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C02727BF79;
+	Tue, 12 May 2026 02:07:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778548553; cv=none; b=FenbBqemMT06UzLDusZwaij6YLNaTEBQMdYdnpiP3ZWSaVbtiDJw6qHI9bRl1Iazu62wqlSBjfpdBEUbqkLxZaP3e92HyGcBmJf7Yb7lJOxiKREIPoueHrDTmRn2tsR488GPqyoVMbb8uneuc4igsHd9zEFYEsjK4V3H75WnpJ8=
+	t=1778551653; cv=none; b=KgIfx6YDY1r8DUggQculuG+1/6em/IrY2Nw7S1bkZDGrA0c5+GfhFw/qiL9E/U2/ga/SCApZPPmuzy+oC2w7N2kzeQC32U9u7ueE4qvsT7tn3y/LzxZ5oWtREe8yT/i8FX6S8kDLsXcOB1LqQmTFNeoskEMkhE0EnrAMflMA2nM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778548553; c=relaxed/simple;
-	bh=GVBnifAlVXSppIoy1/5SIHLfqTxnkXtgNOXlgBcA53s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YU2JmsCC/xWUNZzMqCTxh9CGTS7SBJ+IRVzOOGpt2HMF1rhlm9VPmSFHt3xgy7WohKw225ZK6CxPYbC/+pON7aNsliuEs4orluJqkMxi9PRSdiVTTXpD9IufuxPIHfajouo3lZuoEvDOsnoUq69F0NWR7uLYEQDNpYVrUMSnWDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fIb+u+eq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778551653; c=relaxed/simple;
+	bh=EDOw3NmpYC++icqil2BhkDVR8ZmUiDSeXNvKDdJNynA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=aWAiM48Tyhqf7BMfY3pNjkH/baIAm50IsPGLXgpVFiymUgiDQUj4cbqbwe07ItTxrLeCZgBD7GbpjdOmWFxqXfGNONA4yshgacj5rOl8/LDLJ16aDX1AlOgPvWqQa+DhhhIqIWEXw3fFmjwiDzF0n4yv6cEBy3a7hvBOmUtaccM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kbsg7fRr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fIb+u+eq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79C68C2BCB0;
-	Tue, 12 May 2026 01:15:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kbsg7fRr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27FBCC2BCF5;
+	Tue, 12 May 2026 02:07:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778548552;
-	bh=GVBnifAlVXSppIoy1/5SIHLfqTxnkXtgNOXlgBcA53s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fIb+u+eqdzK1KEzMH3ocKg3vy9XgH+g/fFNSoOfUf9mdQLwb7XtOs55cdeKqU/xqd
-	 ahM/kS5VwsZpZT/WTcN58CO58jw1emzMF/P2Y9grR2XsYSiY0bPbTA2e4h7AIOR5kp
-	 rpdfkmBfOeIsmwYpkGFOvbc0ufWkCI6BySIjVqlWtxCq1tpoQR6gSOjh1InZwxvFAN
-	 qO+FwZrmuXuQeHMbO7Se0jxcXVieueMoGGJoDq1z8JIYYTMpUBirIe4ze2fKeW2tQI
-	 3P5A/hctMoKMeLjUVUKOxYR7zeYO2cC3E6isf3F55+9QFvZfGJWOuAJzXXhk6Ui2+d
-	 4noJDUGOibqlQ==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 2C9E91AC58C2; Tue, 12 May 2026 02:15:50 +0100 (BST)
-Date: Tue, 12 May 2026 10:15:50 +0900
+	s=k20201202; t=1778551653;
+	bh=EDOw3NmpYC++icqil2BhkDVR8ZmUiDSeXNvKDdJNynA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Kbsg7fRr2ixGY3enULcWqbUGQzdAEEfd3RQf6+BfXob3z6HU+66caywBvXntEXLgb
+	 ATIdsRayZ7X7/LzzPSGDeU0HMSagFSFN31Qmzpy16hYPaHXbeEEo0pVfNlgdN2CwN5
+	 DP0MBPjhBmzi2zKHJ16bP309aroMUrW1SokuVe/JxLl17cqDTdx1o4bZULQIEvnyJ3
+	 6YM8PNZkYMdx+AnLtjsAAjBoAVgj4y7l0HxgO9+H/ah08FENNQ13FaMGs/SJxvtOFd
+	 jQC7WNcPJQG+mG4tc38X4wIwtKolSbzL412r/KC7PZelVOWFthFaPBYEfFz2h8IbwI
+	 znYuAqQs2V8Vw==
 From: Mark Brown <broonie@kernel.org>
-To: Zhang Yi <zhangyi@everest-semi.com>
-Cc: tiwai@suse.com, linux-sound@vger.kernel.org,
-	peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
-	ckeepax@opensource.cirrus.com, vkoul@kernel.org
-Subject: Re: [PATCH v13 0/6] Add es9356 focused SoundWire CODEC
-Message-ID: <agJ_RuRxHIEgF0tg@sirena.co.uk>
-References: <20260510132321.14687-1-zhangyi@everest-semi.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260511114239.44970-1-rf@opensource.cirrus.com>
+References: <20260511114239.44970-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs35l56: Check for successful runtime-resume in
+ cs35l56_dsp_work()
+Message-Id: <177854893920.988959.8407685509190053166.b4-ty@b4>
+Date: Tue, 12 May 2026 10:22:19 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lgllY2gxRriK1YSg"
-Content-Disposition: inline
-In-Reply-To: <20260510132321.14687-1-zhangyi@everest-semi.com>
-X-Cookie: Truckers welcome.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1168; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=EDOw3NmpYC++icqil2BhkDVR8ZmUiDSeXNvKDdJNynA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqAotj01Uy4fehtbm/m0YRC/rCLNeupkwpu/FG9
+ gWgMmntkGKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCagKLYwAKCRAk1otyXVSH
+ 0GJWB/4ltNRk9fNR65NYYFs6q3274uvehtT7Hm8D1Al6HMsUYN26zNwzgTKk41WuWkVdjDvrRsK
+ xDl3ovr+dmFaF8qwBvj1CaydwH/XRiWuwLtooCU4NOODzKnSmYiNhlJwtGD1v5Rf+Qw7E9zPwQb
+ 3vQPa8/kYbQ1JIQXvgTParRGrCgb2u3fUK63d4dH+zMWhqWMhH0ZDqj6IsY0kvQFZPGZwgnmwW1
+ 294ZFwT4s/eZpRDftICyDbYRFJ+/Z2un0DkeUH5/2nGpz2u7l/hnSJHhtt63krmrhCb75QZPTJk
+ lNN9wHKLzEh1rlLabAd4uoND6axAMcLrHlrJD3651Jr9dkHe
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Mon, 11 May 2026 12:42:39 +0100, Richard Fitzgerald wrote:
+> ASoC: cs35l56: Check for successful runtime-resume in cs35l56_dsp_work()
 
---lgllY2gxRriK1YSg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Sun, May 10, 2026 at 09:23:15PM +0800, Zhang Yi wrote:
-> This patch chain adds support for the ES9356 PC focused
-> SoundWire CODEC.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
-This doesn't apply against for-7.2 (or for-next), please rebase.
+Thanks!
 
---lgllY2gxRriK1YSg
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] ASoC: cs35l56: Check for successful runtime-resume in cs35l56_dsp_work()
+      https://git.kernel.org/broonie/sound/c/8b7c5cc7f6e6
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoCf0UACgkQJNaLcl1U
-h9D4RQf/dIUSlzcSqCVwNecWht85HlIexTLCI6wX44DJ1bLWA6tEw1Ef/bO/lt2n
-D8oCCzLn8kQiO49BeXgbEC+5wl1jnJae5DHuzQpMrBXvUZuntLAZcE1ruJPJrW/M
-q2dYEwT+0mFKlMI3PPeF2gjrvLo1UIpU2llZ9GmL8/eySuSRrELIiSF6KlHqcOIG
-Bn8AmsfoTRQyJ92PJN6V0RFnYIEVSO5XKbP5kyRYBzoibS3mqZSUx5mFjZZ1c0aC
-00ksSYkd5k3LeL6HFhgNzW6WRXIhcRF2PSjbd2sptZdVR/3/412fNmx8QIYjIdE1
-hPzcsSrVayvdjZcXmLKKIGJDr+nXdg==
-=9sSl
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---lgllY2gxRriK1YSg--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
