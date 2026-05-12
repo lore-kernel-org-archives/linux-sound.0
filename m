@@ -1,94 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152B52F6918
-	for <linux-sound@vger.kernel.org>; Tue, 12 May 2026 02:07:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778551659; cv=none; b=nWEkxifJgebVX2kOrlqJLxBRQ40Z5AohApeCXkt9oOZzkhGPg9PSpaVp6I6N5f2LayDcbRKxHUsGaIYvvUCIz/9H+RBHTWU6QPilwYYTp5pVOg4IQ8O+pN1JjgNRO6RXT06x/X8CNc3gBMo+DMPFLnVniSZI5+U4QHpx6NaN93Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778551659; c=relaxed/simple;
-	bh=e53LJnA8kD1zt9vLrLA0R6kLUIRqoN0QJQH4h9woG20=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=IqsGKxvFGT9X1k7Jj85DhCm8U86StNRGgZ4MMHIL04gptgz6R4eaoSovbe4CJy3W5yEmfPMTwOuYlHiVOsustSQ+dHGRrmYamjy/pVYYfAJBvB96IvpNAanYcqek+hJj/qgxocbGp8WDWXx68gNFndeOYbgg6039Eu1D9T5xIwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E+/4upQz; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31893175A92
+	for <linux-sound@vger.kernel.org>; Tue, 12 May 2026 03:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778555365; cv=pass; b=LU2ws5e3G57o/hjRaeWy1XRk5RfWmKwC6mFdmJAw1KdlYzxzSsb0Puktd7p3DfEcjjpto33ZXi7uEgL552YooDWVJeHk0NfDr0Ji+3ft/DnxJ/vQkSEqVbFmXq2D8TfWooYO3Lr7Dl3phR6OwLDBzluL2pbTHR35z/uJEvB7/m0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778555365; c=relaxed/simple;
+	bh=9QKYX+S6lwwCw+mTheY9a+AJP8+EDfhOnBM9LIQmtAw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=vFNWf9JVXSUxXDF8KviARaJMfSp+2ihTV9DwzTor6gffi+9E1HycofEPjK0yIE89qa8QhzwLmVDDAR1doKtqdboCpLOeEYetgRaUYizf+sLy/+PbKhpFgakpDrWwq0LJUJTjKzKgEn7pdegU3jE51m+c9uLIS3Tlb9YXH+5c394=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ddnheo1k; arc=pass smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E+/4upQz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08A4AC2BCFA;
-	Tue, 12 May 2026 02:07:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778551658;
-	bh=e53LJnA8kD1zt9vLrLA0R6kLUIRqoN0QJQH4h9woG20=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=E+/4upQzBs0plqKTfh2Lz9nZSGgYFF0YHk/VEFXIfoWu39IVutzqr44Fm7kJMTfIE
-	 jtspW6ekiaXV7biJcpRRyHB536fqq5iCClbKd4ahrf4IjbL4Na49hJwSldTSQb/RPP
-	 +cHgI2vU5jw6XkDenI8RNj9kPfTQzj2ZeNNZqEjx7lRe4Bgzv+WNETGQmLh2a3eRwZ
-	 RKReufFJoyDpPuOv2lGqSxO+HbRu7Zw0j1M9k73widnnhDET41s+E3zT9dp9iYgXdV
-	 EiePiqG9c4pyEwXK5M1FmnkGCKO6WahZZtzp/0gPQlXwapZSAwGSEVmN20jUw7XJEd
-	 5+vBh5emWz/pg==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com, 
- daniel.baluta@nxp.com, kai.vehmanen@linux.intel.com, 
- pierre-louis.bossart@linux.dev, perex@perex.cz, tiwai@suse.com, 
- Mario Limonciello <mario.limonciello@amd.com>
-Cc: Dan Carpenter <error27@gmail.com>, sound-open-firmware@alsa-project.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20260511153638.724810-1-mario.limonciello@amd.com>
-References: <20260511153638.724810-1-mario.limonciello@amd.com>
-Subject: Re: [PATCH] ASoC: SOF: amd: Fix error code handling in
- psp_send_cmd()
-Message-Id: <177854847771.988959.3443940599299711090.b4-ty@b4>
-Date: Tue, 12 May 2026 10:14:37 +0900
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ddnheo1k"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3660ab73adbso3133129a91.1
+        for <linux-sound@vger.kernel.org>; Mon, 11 May 2026 20:09:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778555364; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Es3nrzSxwWEZnDcgwDZuTmDYBaSXfc6GLPmquRvdQ4DPo8UK0Mg4kv8Ff6l8LaiHml
+         Simxjs9Tdc9VJe5J+GsiOow9l0eWF7MxoRn8z7oxa+LB/oynMbNbjawG1+l9fgOpLtPa
+         xca4gWkLKBwUhIYapVtZszbiKn+Dobn9Rq3BPfuuDoMsCbA+tLSl2mpgZJrThG0w4BYt
+         JLpqRrZOcMlchrbnKq1BBBEdS+fE2tCEMfIKFQpINsuRk2P2uZlxjg+ID2q0ol+lAz3S
+         YLyYJ7NajBcm2oN0vaunOYbfvuVSI+V7AccK8fBKfMS7A+fKX87LKLpr7B39lmb16g3H
+         A/sQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=EVqJBMgrgpMjKXDoG3OlirV/gMnvN8dDwKNZrZpdCCc=;
+        fh=H+/n9g4t0C5yuwlBkQ5pXmOy8pzvPSZt+UCH6xQyPCo=;
+        b=NI8DC2oLZxiPtgZbWuY86upGgVF7HXfbtBgJHhKDhWwZT9RfqyyYVLTi8R+oS34f6U
+         JcsN/kr6k3+0C2F8kcHcqbo03dUDfQfZVpOsFSrYcvnsbUX2LOXsfNZzdHDkD2p5rHc9
+         /8DBYiKoNyImGAXasym86KYNH6AhGmXHrqgcxfyrVu40s5D30hNH7x4QR4KfkYDmm5yC
+         UrXUvw0UzPPBMtipSJWuNE8FVFOFEks4zm2ajZF7w9QAyRsIf/bbS4U/g/X752TXIwZv
+         IWjklAe9BBDbGYrMcq+fsWMfIUF8w26ysExAGZVsNd21WRicXhp2bNPYOH0Ra8R237R9
+         81uw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778555364; x=1779160164; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EVqJBMgrgpMjKXDoG3OlirV/gMnvN8dDwKNZrZpdCCc=;
+        b=Ddnheo1kcPdtHY7nXGvQ1mOQTIIxk2Pegk6HQEOWV7GNaDBnpppFUqAvZ6IE1DcvZN
+         FFkPSQYJLXiTTYLV212K37Wo2R3LWY7+d4rON3tWs2LV4CpZ8Pz9X4lFnwkYp4v1bZoh
+         oLJjuUEPaF45YPueJF0/eu4ZXn1S2XYVEeBa6EBzlqOhGkGqRFsizOr1rdDTk6ThnqRT
+         DE4xkUMrxErQjhPEniJxM4qhap8qRyaY4mixq2wlGE1MToVDaQ6bILfWhhOkg46dETQ4
+         Rf8wN0cLtXKDxxOBoT5q57Xnl6w/ny/OnIpTwY5a2I2feU0abYWn9fewpeQRQQjdoVE4
+         Taow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778555364; x=1779160164;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EVqJBMgrgpMjKXDoG3OlirV/gMnvN8dDwKNZrZpdCCc=;
+        b=WMhfbWzz7odR1nfb0Ybwdvvdue+nK+gRgn/lOOFHEuqE9koxgr3Rn7HPSle1ViwRWS
+         NJABNiRBfFnJLaxEvSrwwDpvU1Lr6Me3NgcjFClguVQ1CXpoHQme2WylXdof/n8kNO4E
+         iFeI7j1C0DAB46Acq9D7HqzWK1VEwwIU7q1xzICpOXoZ4mubf9EHFW5MO3J6+z2rZjLO
+         WFTMuTb6SH4YM4q2LFvwRV5oqlqEoRGzLmhGpGDhYGled0gs2AW4i8mNy++huZcbN3lm
+         EyMWlNHQxRKB+NGP8D0JTsjJC+XItVSCuyROskWy6dFGihoOi7Gg3H8VyNoAxd6jJaen
+         NY7A==
+X-Forwarded-Encrypted: i=1; AFNElJ/1tUAb1mFoUWVV809k032zJmQX7U4Yo0LoZ7lXJKwvYp3vxQ0B7gJYAB+tnVeJQx1tKD7a14BaA0kTuA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQy73josdmC9xkVhpOGt22wKE81aGcuNPLukSskp9zAtEvLx/o
+	Vmb4E4dKPO3oJ+cRKPpztfQcxaQw9USktvlxV3vVe3IiyHWwmDYeZtMuKUoie9JmDa9zfOVoCdE
+	Qj0mTgOfasTJgmD/pRbfVFnWDbL2K9hA=
+X-Gm-Gg: Acq92OHTXtVGJMnr3QhpgPjWT9wEaNr8PRQdVEAbe1MhvON0Bo/ZRe/Bg4wbDPful3/
+	HHW/q2ZaWoa/Ls91KcsgtwvjtWfP7lz19kcLHNQF8f8ZQMv4cGi0m31qc+vDpJv3D+/X8ENrmMu
+	k3xJ5jH6XcTtXBOowdjEqJsYG2UwfFFoA+18NHNrGnaCWb8sIOdzzgx1eIU/3xLvlYApKhQb2Pl
+	A94lkJlKcbjYOBI1VCnCZ9KFHj1QVIBuk868gK3KhFWbA5DoUVxkQVEOzHfCg2UbIwky9zuH2af
+	R8kYPA9K+zzXnzHf/Eh9bjifrHOKG02PlenX+g==
+X-Received: by 2002:a17:90b:5344:b0:35b:d795:cf5d with SMTP id
+ 98e67ed59e1d1-368ab8638d2mr1858065a91.5.1778555363550; Mon, 11 May 2026
+ 20:09:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1137; i=broonie@kernel.org;
- h=from:subject:message-id; bh=e53LJnA8kD1zt9vLrLA0R6kLUIRqoN0QJQH4h9woG20=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqAotnqLAlOVkQuoA55huZ15bhQ97nbQDntEJzY
- 6HXw0fkMhSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCagKLZwAKCRAk1otyXVSH
- 0FVKB/wIdsKK7npoUkqfDFovQopxwtLVWfrtg8+jTV0COsUN07QMc5tpFxvu0Z6yHOLRjkPOZwW
- RX16meiOo43h3yg+CBcRwfxsBMbLurKTU0Rc6oi4nB2O2xovjJCw1L4WJh2JsbroZT6u5lgcc5b
- XWuTLqrjn2XrHxj06VGO4ZQlHCMn2+Amkb7U24g2XQcN79TWoIXGTI0yMFYRQ/JIz93kwVoMNHB
- gby1jp/oVTcJS00w4Rnmnvsm/WFuONhSbD3UU2L4xGe3MPomvInplUg/E9nI2yjpXPbJ5LNxY4R
- rx0+vwFCHoBhsTjtxbScBYBZcx+CQtn83jynFu5YHe6Z3T5P
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+References: <20260510084303.122426-1-phucduc.bui@gmail.com>
+ <20260510084303.122426-7-phucduc.bui@gmail.com> <87bjemn1yv.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87bjemn1yv.wl-kuninori.morimoto.gx@renesas.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Tue, 12 May 2026 10:09:12 +0700
+X-Gm-Features: AVHnY4IsmAqqmxNkupkaRxtbCeEPAZIEnld7T-VRBsXE0b6nsq7nw4VOw_WWfjU
+Message-ID: <CAABR9nG4cxwX_fjF3yihRbDP-qb4AxAeZdSww2ENY4eE5ecHyQ@mail.gmail.com>
+Subject: Re: [PATCH v3 06/10] ASoC: renesas: fsi: Add shared SPU clock support
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: broonie@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, 
+	geert+renesas@glider.be, krzk+dt@kernel.org, lgirdwood@gmail.com, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-sound@vger.kernel.org, magnus.damm@gmail.com, perex@perex.cz, 
+	robh@kernel.org, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 11 May 2026 10:36:36 -0500, Mario Limonciello wrote:
-> ASoC: SOF: amd: Fix error code handling in psp_send_cmd()
+Hi
 
-Applied to
+> Am I suggested this ?
+> clk_spu   should be merged into [07/10], and
+> spu_count should be merged into [08/10]
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+Thank you for the suggestion!
 
-Thanks!
+I will move clk_spu into [07/10] and
+spu_count into [08/10] in the next revision.
 
-[1/1] ASoC: SOF: amd: Fix error code handling in psp_send_cmd()
-      https://git.kernel.org/broonie/sound/c/2c7b1227e582
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best regards,
+Phuc
