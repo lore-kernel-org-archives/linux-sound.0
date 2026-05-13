@@ -1,159 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mta.al2klimov.de (mta.al2klimov.de [162.55.223.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6B821D596;
-	Wed, 13 May 2026 19:01:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3163876CD;
+	Wed, 13 May 2026 19:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.55.223.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778698860; cv=none; b=o4JUWx6eYkE8fVT5sOIY/I0l4L2MiJbUE4S+YPKjW2oM+QHO74AVMn+LvkRl9vCHyGaaXQVnkIMpcD5EFxhlD7ioJXGT1ACWXW5yips4XOQCf/bcHJCxEpl0yFFrw13/1uObkhhtJsYhKJKVH1XCDg1LhITTv94InyWorawoDqg=
+	t=1778699481; cv=none; b=IdO0cvh0fvX7IawLoU0Go1PSDEzuq9aZAaUkfirzTROnj6MBgAwnd1Fd44pXGyXbHLWQvFLvy+D9gVOxUwcV0xMCmF8O2ZdUxg8UDkKO0MEPRAap5lcAZHSQvdCElEjvcNBC3TAFGIPBWotKPWXVJ8g35yHPmt3Ou0vLnzPNDiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778698860; c=relaxed/simple;
-	bh=XOehGBgidKfU6vI12ZqEdcnFg/iDrDomxlDH4nK7ilk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TgYIeE5ZCSqSEpnj1X6+fojMeMBtSzunbs1b2aGFIFjqLCkpiUs685rbwROV7thl9nfHeEyP3jR2jmC0kwKo9MUTACV2gPxtDSF/+dxCsUnLVZ46K5Gm++2oKxLeUiiXXrnIW6Eg4cuPfwyANPM4ta2M+jHC6UrgPEUJQLFo7y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kZMt9uV+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778699481; c=relaxed/simple;
+	bh=otezwja3pJ9CpuZuvlI1rTLNWPvPWY7Zqc2puWCaVZI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pYbr4TDvR/9IBZoo8oCIJtbXqiZlttjAbE7v+k7gdR4T4rUD3KP29+aYSdR4USjr2H+NU4Pnf3PaSGb/pcQwrCzhl7HdMZ87zcsl0QF8SjVHJbkyq16MRHjIv8Qgj5igdYQ0EqrrKc3gYL37jXIl5jhSddoZvDqx0rJAbaMDtX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=al2klimov.de; spf=pass smtp.mailfrom=al2klimov.de; dkim=pass (2048-bit key) header.d=al2klimov.de header.i=@al2klimov.de header.b=n4hII/kT; arc=none smtp.client-ip=162.55.223.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=al2klimov.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=al2klimov.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kZMt9uV+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CE55C19425;
-	Wed, 13 May 2026 19:00:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778698860;
-	bh=XOehGBgidKfU6vI12ZqEdcnFg/iDrDomxlDH4nK7ilk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kZMt9uV+ChB2jbCqvHzbWwFlzmFPz+FEDmee3x4GjrHdXgHnIKHZzpaRkg8EF4rhl
-	 P0COar+Nkok+/eL159J+iA4VHWUKlu2H2DU64e4Inz9ugtyl7FDJ3YBPGu2m0vALXu
-	 F6Du75vef06EEFZBbLjXJEMKNL2m5dPba2owbtsHbewWaSkY/YZNZ5FKpQ5M/SdNqb
-	 KdGbZi2RWk0e4KO0EHqI2/JIOGJ8gdejK3WE2ziVDVza0P9pK2IUfx1nGMEk/AfJmj
-	 1k1AvBJcp7TbnxoG2GsVOvExTQXZ7Do/qzwtlEMzO1v3s0S98ni4NqUVzblFzoBLmz
-	 oed43+SOb/PJw==
-Message-ID: <65f6da30-eb20-4020-b13a-ac7d4c823dfc@kernel.org>
-Date: Wed, 13 May 2026 21:00:44 +0200
+	dkim=pass (2048-bit key) header.d=al2klimov.de header.i=@al2klimov.de header.b="n4hII/kT"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=default; bh=otezwja3pJ9C
+	puZuvlI1rTLNWPvPWY7Zqc2puWCaVZI=; h=date:subject:cc:to:from;
+	d=al2klimov.de; b=n4hII/kTOUfro1XGOmLLebfw2o38o9EL7GayYQcoa/qCVLqmL65y
+	bKoiEEwAB6AqIs2AUILJsEYqKAd6VUesoJrdRTkVRTfM487HPQpkh+OcGAe5am+Chb5rJS
+	k4NkKEOIGpCsJsXLlrR9svPL5dnw88lVPD1pS+z3WnHwIJjkAIOcB/86e95vKfQ2upPoB+
+	P8DeN+LfwQc/6iAB/3u9eWrpIr32p6EzAE9NI3/jD+dfZVBHTw4bTMmAmSV6eL/zR9u1g1
+	yjfvATgY22PjLufUvTG9J6Lv2l7Pg8+lEemLLopn/12B7QwBpJP122lKtLuKDU6DiaLTvP
+	SdLBiWbaMg==
+Received: from cachy-ak (2a02-2455-18e9-e011-4d8a-aad2-c25c-50e5.dyn6.pyur.net [2a02:2455:18e9:e011:4d8a:aad2:c25c:50e5])
+	by mta.al2klimov.de (OpenSMTPD) with ESMTPSA id f1896d0c (TLSv1.3:TLS_CHACHA20_POLY1305_SHA256:256:NO);
+	Wed, 13 May 2026 19:11:10 +0000 (UTC)
+From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To: Nick Li <nick.li@foursemi.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org (open list:FOURSEMI AUDIO AMPLIFIER DRIVER),
+	linux-kernel@vger.kernel.org (open list)
+Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH v3] ASoC: codecs: fs210x: fix possible buffer overflow
+Date: Wed, 13 May 2026 21:08:52 +0200
+Message-ID: <20260513190852.196723-2-grandmaster@al2klimov.de>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] ASoC: Use named initializers for arrays of
- i2c_device_data
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
- <u.kleine-koenig@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Lars-Peter Clausen <lars@metafoo.de>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
- Support Opensource <support.opensource@diasemi.com>,
- Nick Li <nick.li@foursemi.com>, M R Swami Reddy <mr.swami.reddy@ti.com>,
- Vishwas A Deshpande <vishwas.a.deshpande@ti.com>,
- Peter Rosin <peda@axentia.se>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Oder Chiou <oder_chiou@realtek.com>, Fabio Estevam <festevam@gmail.com>,
- Kiseok Jo <kiseok.jo@irondevice.com>, Kevin Cernekee
- <cernekee@chromium.org>, Steven Eckhoff
- <steven.eckhoff.opensource@gmail.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Thorsten Blum <thorsten.blum@linux.dev>,
- Chris Morgan <macromorgan@hotmail.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Marco Crivellari <marco.crivellari@suse.com>,
- Weidong Wang <wangweidong.a@awinic.com>, Aaron Kling
- <webgeek1234@gmail.com>, Teguh Sobirin <teguh@sobir.in>,
- Luca Weiss <luca.weiss@fairphone.com>,
- Bharadwaj Raju <bharadwaj.raju@machinesoul.in>,
- Hsieh Hung-En <hungen3108@gmail.com>, Binbin Zhou <zhoubinbin@loongson.cn>,
- Shimrra Shai <shimrrashai@gmail.com>, Zhang Yi <zhangyi@everest-semi.com>,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Qasim Ijaz <qasdev00@gmail.com>, Sharique Mohammad <sharq0406@gmail.com>,
- Chen Ni <nichen@iscas.ac.cn>, Neo Chang <YLCHANG2@nuvoton.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Kees Cook <kees@kernel.org>, Qianfeng Rong <rongqianfeng@vivo.com>,
- Tim Bird <tim.bird@sony.com>,
- Bram Vlerick <bram.vlerick@openpixelsystems.org>,
- Peter Korsgaard <peter@korsgaard.com>, Linus Walleij <linusw@kernel.org>,
- Wenyuan Li <2063309626@qq.com>, Bartosz Golaszewski <brgl@kernel.org>,
- Shengjiu Wang <shengjiu.wang@nxp.com>,
- Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
- Xichao Zhao <zhao.xichao@vivo.com>, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org,
- Markus Schneider-Pargmann <msp@baylibre.com>
-References: <cover.1778692164.git.u.kleine-koenig@baylibre.com>
- <ae2ff4898eb340bd8bcafb7b75443eb4a0ce3e76.1778692164.git.u.kleine-koenig@baylibre.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <ae2ff4898eb340bd8bcafb7b75443eb4a0ce3e76.1778692164.git.u.kleine-koenig@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 13/05/2026 19:23, Uwe Kleine-König (The Capable Hub) wrote:
->  MODULE_DEVICE_TABLE(i2c, adau1372_i2c_ids);
-> diff --git a/sound/soc/codecs/adau1373.c b/sound/soc/codecs/adau1373.c
-> index 16b9b2658341..5dd961b233ce 100644
-> --- a/sound/soc/codecs/adau1373.c
-> +++ b/sound/soc/codecs/adau1373.c
-> @@ -1599,7 +1599,7 @@ static int adau1373_i2c_probe(struct i2c_client *client)
->  }
->  
->  static const struct i2c_device_id adau1373_i2c_id[] = {
-> -	{ "adau1373" },
-> +	{ .name = "adau1373" },
->  	{ }
->  };
+In fs210x_effect_scene_info(), a string was copied like this:
 
-This is inconsistent with most (or all?) of other xx_device_id table
-usages and, IIUC, is not even necessary to achieve your goal (which
-itself is good).
+    strscpy(DST, SRC, strlen(SRC) + 1);
 
-Best regards,
-Krzysztof
+A buffer overflow would happen if strlen(SRC) >= sizeof(DST).
+Actually, strscpy() must be used this way:
+
+    strscpy(DST, SRC, sizeof(DST));
+    strscpy(DST, SRC); // defaults to sizeof(DST)
+
+Fixes: 756117701779 ("ASoC: codecs: Add FourSemi FS2104/5S audio amplifier driver")
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+---
+ v2: fixed off-by-one in pseudo code in commit message
+ v3: switched my mail client, so that the diff should apply now (fucking Thunderbird fucking trims fucking whitespace from my fucking patches so I had to fucking switch to fucking git-send-email(1))
+
+ sound/soc/codecs/fs210x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/codecs/fs210x.c b/sound/soc/codecs/fs210x.c
+index e6195b71adad..eda716f817b5 100644
+--- a/sound/soc/codecs/fs210x.c
++++ b/sound/soc/codecs/fs210x.c
+@@ -968,7 +968,7 @@ static int fs210x_effect_scene_info(struct snd_kcontrol *kcontrol,
+ 	if (scene->name)
+ 		name = scene->name;
+ 
+-	strscpy(uinfo->value.enumerated.name, name, strlen(name) + 1);
++	strscpy(uinfo->value.enumerated.name, name);
+ 
+ 	return 0;
+ }
+-- 
+2.54.0
+
