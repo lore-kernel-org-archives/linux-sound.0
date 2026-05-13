@@ -1,29 +1,29 @@
-Received: from r3-51.sinamail.sina.com.cn (r3-51.sinamail.sina.com.cn [202.108.3.51])
+Received: from r3-81.sinamail.sina.com.cn (r3-81.sinamail.sina.com.cn [202.108.3.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2802E31B10B
-	for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 03:16:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A281B30674E
+	for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 03:16:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778642175; cv=none; b=CRPDpT7TdmaNzxOq6+wzprOBpp7Au2G2jU+nO+A2GgaBaPiUQpK6MPKZWPCI5IO5oG12zM+uyi4T3Mdcz0w2m1NCujRpqn6R2f/yU5uoZeF4a8peDsXNweCgoZRq7xsc/5UE4XuU+v2ccvpBXt3aAjtsUrDEz6EjzuSQ8/ygus4=
+	t=1778642175; cv=none; b=do6YKqJMGjXN2tVLZwkuiAzrsp9vE0JNIZI953zqUSkCK4sbA3eUqCK+tIjuGVXkrjxhCs9KIWuWbzHpk9SEboAIDqY/htKWbLksexQbE3gjzEudIctS5rriXMkoqB/27+LfrBCqt5RoPb01gHJsmhx21xBDlJXY07ddwE9JT5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778642175; c=relaxed/simple;
-	bh=eASR8qUNS9LJGV1WoHPO8eMe98Z7VIIKBbpdTGHgCcE=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=PKGyVkkadDfkPbB7Y/qjA6pOCX3OuOUznrIHSXyJKlYYiNosLVR6HSZr1DmrxPJOTb8n7AwilWksPBbNXet+HFSy9jjSduun4T3vuDtxsT/Avpk0hlsr+2JxIyMRqtAi15Bc3XgeHQ1ARsEKgLJxVn2YtIst2bdncw21J/NUmFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.51
+	bh=c3qB6n24yF0GGWk3JhnztkerQuG8WCyBP/bsu4j26e8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=S6o03GlW2+ZYb59AyND+3/M8IjjR8Xbbzh+X1l2pvx8NsVQJc0emVtYsTVcrEHgtYPRE0MXKzA/yEvY5yM0TyRyEty45d44xdnNalvP1TKzkK0gTqlFyDuLZH8GA2mqFzb12GON1wJE8yHPAOYs7lQJqBYoML/lvreFMVgVP0xY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
 Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
 	by sina.net (10.54.253.37) with ESMTP
-	id 6A03ECEF00004B68; Wed, 13 May 2026 11:15:59 +0800 (CST)
+	id 6A03ECEF00004B68; Wed, 13 May 2026 11:16:04 +0800 (CST)
 X-Sender: zhangyi@everest-semi.com
 X-Auth-ID: zhangyi@everest-semi.com
 Authentication-Results: sina.net;
 	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
 	 dkim=none header.i=none;
 	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 89185E27A674493A928FE70F9B4B1452
-X-SMAIL-UIID: 89185E27A674493A928FE70F9B4B1452-20260513-111559
+X-SMAIL-MID: 96615509CD3846B48CE20177837B28E0
+X-SMAIL-UIID: 96615509CD3846B48CE20177837B28E0-20260513-111604
 From: Zhang Yi <zhangyi@everest-semi.com>
 To: broonie@kernel.org,
 	tiwai@suse.com,
@@ -35,113 +35,102 @@ Cc: peter.ujfalusi@linux.intel.com,
 	ckeepax@opensource.cirrus.com,
 	vkoul@kernel.org,
 	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v14 0/6] Add es9356 focused SoundWire CODEC
-Date: Wed, 13 May 2026 11:15:48 +0800
-Message-Id: <20260513031554.5422-1-zhangyi@everest-semi.com>
+Subject: [PATCH v14 4/6] ASoC: Intel: soc-acpi: arl: Add es9356 support
+Date: Wed, 13 May 2026 11:15:52 +0800
+Message-Id: <20260513031554.5422-5-zhangyi@everest-semi.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260513031554.5422-1-zhangyi@everest-semi.com>
+References: <20260513031554.5422-1-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-This patch chain adds support for the ES9356 PC focused
-SoundWire CODEC.
+Add support for the es9356 codec in the ARL board configuration.
 
-v14 -> v13:
-	-Rebase onto latest linux-next for-next branch
+Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+---
+ .../intel/common/soc-acpi-intel-arl-match.c   | 52 +++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-v13 -> v12:
-	-Fixed an issue where soc_sdw_es9356.c was missing
-
-v12 -> v11:
-	-Fix a helper function to `hw_params` and `hw_free`
-	-Move pm_runtime initializations to probe
-	-Add es9356 to wake_capable_list
-
-v11 -> v10:
-	-Add some comment for lock
-	-Add a helper function to `hw_params` and `hw_free`
-
-v10 -> v9:
-	-Add some comment at codec driver
-	-Fixed the jack_lock issue during suspend
-
-v9 -> v8:
-	-Fix some formatting issues in es9356.c
-	-Removed regmap_write(SDW_SCP_SYSTEMCTRL) from the codec driver
-
-v8 -> v7:
-	-When the device status is UNATTACHED,
-	 set regmap to cache-only and cancel any delay work already in the queue.
-
-v7 -> v6:
-	-Provide comments for some parameters
-	-Rename `jack_detect_work` to `interrupt_handle_work`
-	-Add a jack_lock when handling disable_irq in suspend
-	-Adjust the handling procedure when a jack register
-	 is incorrectly identified
-	-Replace the custom SOC_SINGLE_Q78_TLV with SDCA_SINGLE_Q78_TLV
-
-v6 -> v5:
-	-Handling default values in `button_detect` and `jack_detect`
-	-Add the member `disable_irq` so that interrupts are
-	 no longer processed after suspend.
-	-Move the PDE processing to `hw_params` and `hw_free`
-	-Separate JACK_OUT and JACK_IN in hw_params
-	-Simplify reading and writing to SDW_SCP_SDCA_INT1 in the callback
-	-Adjust the scope of `regcache_sync` in the resume
-
-v5 -> v4:
-	-Merge patch1 and patch3
-	-Add vendor_id in codec_info
-	-Use q78_get and q78_set to create Kcontrol
-	-Set mbq_size and use regmap_mbq
-	-An additional helper function to implement DAPM
-
-v4 -> v3:
-	-Updated some KControl names
-	-add copyright in soc_sdw_es9356
-
-v3 -> v2:
-	-Removed unnecessary section in soc_sdw_es9356.c
-	-Add `pm_runtime_put_noidle` to `es9356.c` to
-	 reduce device incremented count
-	-Updated some KControl names
-	-Fix the error related to jack_report in the codec driver
-
-v2 -> v1:
-	-Adjusted mutexes in the ES9356 driver
-	-Use macros to replace certain values
-	-Adjusted some ordering issues in Kconfig.
-
-v1 -> v0:
-	-Modified snd_soc_dapm_add_routes in soc_sdw_es9356
-
-Zhang Yi (6):
-  ASoC: sdw_utils: add soc_sdw_es9356
-  ASoC: sdw_utils: add ES9356 in codec_info_list
-  ASoC: es9356-sdca: Add ES9356 SDCA driver
-  ASoC: Intel: soc-acpi: arl: Add es9356 support
-  ASoC: Intel: sof_sdw: add es9356 support
-  soundwire: intel_auxdevice: Add es9356 to wake_capable_list
-
- drivers/soundwire/intel_auxdevice.c           |    1 +
- include/sound/soc_sdw_utils.h                 |   14 +
- sound/soc/codecs/Kconfig                      |    7 +
- sound/soc/codecs/Makefile                     |    2 +
- sound/soc/codecs/es9356.c                     | 1153 +++++++++++++++++
- sound/soc/codecs/es9356.h                     |  208 +++
- sound/soc/intel/boards/Kconfig                |    1 +
- .../intel/common/soc-acpi-intel-arl-match.c   |   52 +
- sound/soc/sdw_utils/Makefile                  |    1 +
- sound/soc/sdw_utils/soc_sdw_es9356.c          |  230 ++++
- sound/soc/sdw_utils/soc_sdw_utils.c           |   50 +
- 11 files changed, 1719 insertions(+)
- create mode 100644 sound/soc/codecs/es9356.c
- create mode 100644 sound/soc/codecs/es9356.h
- create mode 100644 sound/soc/sdw_utils/soc_sdw_es9356.c
-
+diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+index c952f7d2b..9782825dd 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+@@ -192,6 +192,42 @@ static const struct snd_soc_acpi_endpoint cs42l43_endpoints[] = {
+ 	},
+ };
+ 
++static const struct snd_soc_acpi_endpoint es9356_endpoints[] = {
++	{ /* Jack Playback Endpoint */
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* DMIC Capture Endpoint */
++		.num = 1,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* Jack Capture Endpoint */
++		.num = 2,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /* Speaker Playback Endpoint */
++		.num = 3,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++};
++
++static const struct snd_soc_acpi_adr_device es9356_adr[] = {
++	{
++		.adr = 0x00013004b3935601ull,
++		.num_endpoints = ARRAY_SIZE(es9356_endpoints),
++		.endpoints = es9356_endpoints,
++		.name_prefix = "es9356"
++	}
++};
++
+ static const struct snd_soc_acpi_adr_device cs42l43_0_adr[] = {
+ 	{
+ 		.adr = 0x00003001FA424301ull,
+@@ -255,6 +291,15 @@ static const struct snd_soc_acpi_adr_device rt1320_2_single_adr[] = {
+ 	}
+ };
+ 
++static const struct snd_soc_acpi_link_adr arl_n_mrd_es9356_link1[] = {
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(es9356_adr),
++		.adr_d = es9356_adr,
++	},
++	{}
++};
++
+ static const struct snd_soc_acpi_link_adr arl_cs42l43_l0[] = {
+ 	{
+ 		.mask = BIT(0),
+@@ -528,6 +573,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
+ 		.sof_tplg_filename = "sof-arl-rt722-l0_rt1320-l2.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
++	{
++		.link_mask = BIT(1),
++		.links = arl_n_mrd_es9356_link1,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-arl-es9356.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
+ 	{},
+ };
+ EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_arl_sdw_machines);
 -- 
 2.17.1
 
