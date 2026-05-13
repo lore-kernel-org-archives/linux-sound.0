@@ -1,63 +1,63 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030983F211A
-	for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 10:44:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269943FBEC2
+	for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 10:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778669048; cv=none; b=be2+5dx1+/95kkX//NeyFxfZlySrrFmjpuCFKuQbftXQqfTC6FEjXGfCa5NFeF26HSAAd5uPIdnq/jGGqn3hGAnYxk+3dYuhMn/pgo4wkiwFq7Zo48JBWheKXPeOLdoJki2uzPelQRgKZ38c3scADkqq0jUnN8N6A/NBBo3JyhM=
+	t=1778669053; cv=none; b=dIamxtUTESI6JfUdCKPZyWGgabAZ35xvTVl30g3xCSudDT0KDzC9W4hl5Vz8FIS8sFCLjZX5wLdMep2f730o3qmjC3nV2YQpCLx49SZw5xSx1EkKs7omAkY0UotonAcNpJDVUAuIXzKT1K2nU9SIsmdFE8vUL1oXYXCVvzjUMCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778669048; c=relaxed/simple;
-	bh=9X50H0I+x7I976Wzew0r+L0k3lHvMtlfL5mk+JUjdSM=;
+	s=arc-20240116; t=1778669053; c=relaxed/simple;
+	bh=iO/fPS1u+WSDfI9ZJLJOThXlGnmZiGdD5849oKxjuFo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O0SE930qEHKwUO02saQhtY9VaBdGZtcrvK4r57beJnjkK52DZI1oqgpQrJdYSTfLMzuyo6A9e+TLhmkWaWPkkU3OL+hKPrNlhjSk/Jn1UrNlxKR4xeOZkv/DY7nB2PGQ1uQRfsRjjcEenmOQXtg/y0xEJ6jO2GoQQIYUh3c43kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XYNx756L; arc=none smtp.client-ip=209.85.214.172
+	 MIME-Version; b=gpmXcFGOS9PGoLkzAV5DX75iekbRUb7dMDwvLIdPqJcLC1fFz2RaPDCYpyLlMKlO090COR3XqKstNJkovrvYbYnNunBKe1gIHhsR7TaKbL7FtgpVdIVCKy3rysnKFrUIG1jLBu2O1F/tYgNbed2kro8IRsr6ctCgXcxCsGthadQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MfWtFtPY; arc=none smtp.client-ip=209.85.215.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XYNx756L"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2bab2548e8bso30836925ad.0
-        for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 03:44:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MfWtFtPY"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c70ea5e9e9dso2725816a12.1
+        for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 03:44:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778669046; x=1779273846; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778669051; x=1779273851; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8VLjZ5HRUHB7pc8eNKnSNbRiReFzaEooAwXWvAuxy2w=;
-        b=XYNx756Lh159wN91tytiBD4euWzr0DG7vFLLDtOtvNm1au8eyE3a+sf77M10ONLMg+
-         gNQrOPYwml8Z7CBnmtnj1jMTEsTQ+upa9QyweWGXiAzbWuriHRS1EWRdeRBuX3t+y/+U
-         Va1Kmcfub/7nPoggf2BYOPQDrDZ9mroBjQCTKK3E/qcPysSAGYytjrjLUWiviap3EmhS
-         soSLOvPoVAeEWuL3/7EpvRbfyHKKHsfjZpVcXkAy8KHVP7H20pBSEpptbvsWgJMPvBlT
-         SZTrvJcSAEiGaOzZITMcVl+30KGhQxtNq2Ra1mgY2ga3RVvaq3JB4lGeRmqG9I9YuOLt
-         6eqw==
+        bh=Eh0yf1lgtPbRzrPbuzjigiZ2dhg3uZqppPUNeSjlJCQ=;
+        b=MfWtFtPYMVwqbRoYQ3KPwiOcgqgRPYedaJrridbed/KwfbvJCL4LuXqLR3jwHzFUaj
+         jjD9VXhwIoUbcUZx59+yn5JSYO0VwGIpm0LTNN5MXIfEFAzLc6jMLlZ0x1JqvG9DulNx
+         IOY79voBIjtOi9ITdBh+L27ceFrDHq1dFdyP6tFZawLG9vpk8qcOvfOiUo/EBAKl9y2r
+         TXvdFT/iNvGE1lWBUIjDYJrPe9U1soi4Tu06nN6+Jp21oxSaN3ji3ArHVqFBE+hG3UyA
+         CXqAK7Er7KDlJqU21TpBxkiAjtcvtlK9OLaHx95l/u5oeE5cvVNj/Iwd0AJI+jCJ3Nyx
+         xeYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778669046; x=1779273846;
+        d=1e100.net; s=20251104; t=1778669051; x=1779273851;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=8VLjZ5HRUHB7pc8eNKnSNbRiReFzaEooAwXWvAuxy2w=;
-        b=cvtytWQeZX938Hy2Q83tgPmwA4LLb7VBm+IGVfiJnZp9ca0ppxcX4LKLWmf/rLG+Az
-         z7wfbHb9r9XGIZg2XYQf1ZmnZt36NOxK2HMCq0PYNDA6shZcEmzrG2LJ6LNKuXPIiVyH
-         /UTn4tpTm2krUlWizQQns3vPLXmjgOSQZ8cT9cAUPqoBrKctKQQ+AGHmkXKiqaEWOIiZ
-         Kxpb2hIdYgb4iRQj7mAe+5tyPeDxAJwGD8Qya1sBkWd5bisBYn+R628fROWwOB217ssr
-         unBKTIANR3stXstpiv8VnLK0CCC0fwVls2ZIPrv/u1pvuhZnuYQXfgZ9WeS8ljSwUEC0
-         gcbA==
-X-Forwarded-Encrypted: i=1; AFNElJ+Wt6DKtVpTfmYodHJ21cQk/LgdbuHfAMzSJjvqZ7VDT6ocAD3PF6a82WUmV4tKdQB8X8DKQA06egwwaQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMssS9n3VP3xreEyN5lSWc9YpekKQXPVTGpU00jm7cMSAV8uKl
-	fnHOxDzDSXY48aWXhcScCh7QVp8pEoXA60JNuQ548FBXhyQGmDWaROP0
-X-Gm-Gg: Acq92OFMnqkn7GVWtfGSQK0fXN3ROIv4uWbExmxK8+zqoC1P315Ecgpl7npoyq7mZYr
-	ZUnrfc1xyOY6QiOjKYMEFt8KhxuNyBli5GbiTQPbptTs9Xbs5GbHsA/QlwIDGhnwOpAhaYbLEO0
-	+/t04bGmoRekFcseV4KKdR/PyFqBOx1nCK3VwdgrawiIrf+PXWizxF9ew9ZYeEFmJNG7oJnUftr
-	Ex/vqDMw5j4oSbkZg0e48miN88GfhdTemCJpgn7B03pme3VV08+UATO2sOSrDEMfPKtECpEWpO+
-	aiKw2I34FNbyqAfiAexQKVcSlfqCC248nxU4x/x49G5tHb1G4Qjq3eF/1q5J9u4uj84/c2aHj3H
-	OwdoUVhep1psqzdrv97jmY2TlWy5p0kVbAlU+lSurffaOBWYI9NdxQiaBDxXPmJvUgYRiISt/aV
-	wipBBtpl1bXSrU9h8RIXTkAU4fVR6QG1tkD4Lna/RFafTrknvaj1yOEtOPWA==
-X-Received: by 2002:a17:902:c40f:b0:2ba:bfc:76b5 with SMTP id d9443c01a7336-2bd2f4dba62mr24128275ad.4.1778669046222;
-        Wed, 13 May 2026 03:44:06 -0700 (PDT)
+        bh=Eh0yf1lgtPbRzrPbuzjigiZ2dhg3uZqppPUNeSjlJCQ=;
+        b=k3rKINRr03F9wPxni5qXmfC8eJaUZ7StUuNx9sMbyc6cUGBmcvePtomT0j5Njs0b3b
+         ZiCsx962gSNl/mS5xyOgm3p4ueDLdIijsJgEgboC+QmLFMZOxaRNAYAJmnimfQNOHHPp
+         nrw7R9BRQFnXKF5fZA84Sd5vjqKFqNmXyFLnwEXRG78A3v1RMNnF5oJalpzT3W0pDqN5
+         nBl9FMR7Etc62UK5oHLcSovCYfdFSa7evhYYk3zB8BMfMaym1z0V/tTtEcUeRtGVzzN/
+         7b9aVeccKgLKUoMfpwp4L0s9hiOtMHmXbEz2KIcIIcGhcOOpOqzmVVO02MHs2VCTo9lf
+         XmYQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+2+1z5GrmRg5Fc5OUPk8qCho1+h6+gKF21/Z9H71p5pWABl+u4WHwE2Eu0Mt7f+O4TVSyOAaJk7VJqOQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFxCwG1kWiy06W45zvbvX8j78wAkvLG2mGNH+l8FmQlIkI6fS5
+	sc0fJYxB0GdluiofSPirAh/+PjQjbOZ4wukd7/VbZN5ff+FqjDAKV87F
+X-Gm-Gg: Acq92OGhDszNr62dT75b+0sf9z0LuQlfJESp+FYjNlKQuAJXzoEJJZcSdMUFmzA6bsa
+	Xtp7imkXAWFSyrEhp+6NMXtdPbNpmpYxsA9nRVs4SQpEVUc1yO3Z4apz2gxW8tfaqmTllEX+kvT
+	U5ynVJQBuRfks8rdg6/oyIdZNKpKTMxnwSO1Wf+x37NI6wCXxPBIb6f4KGuvirNOqLeIXJ9sf7+
+	Lh54FXRn0fzsWe1l1aiqmPsvj1Ok6j1EWMwBjVplIoiqbRykMfjtKjsIJorVWR+Ducg/KMDLlNs
+	skIQXKW1HjaIpUvYNSdWoMY182vpmAJgXKgNmgF8/i/WlH0FnnJiGWxbuav4edNHwpVIl9ntnIL
+	DS1pQAZEs7sDmXI+99hy7FMl84d817Rx+Nbf4chz43LZUIjiWHNYuJohxPCIiSDqpIE9zNKFOqX
+	yXHDm+1TatbODK3asm3Cb7c7XRJP3efbIytOGTzJUtwlgwZgzef6dW6KRICQ==
+X-Received: by 2002:a17:903:3843:b0:2b2:4260:109 with SMTP id d9443c01a7336-2bd275c6580mr30109575ad.23.1778669051359;
+        Wed, 13 May 2026 03:44:11 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e35e9dsm170479535ad.39.2026.05.13.03.44.03
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e35e9dsm170479535ad.39.2026.05.13.03.44.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 03:44:06 -0700 (PDT)
+        Wed, 13 May 2026 03:44:11 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Olivier Moysan <olivier.moysan@foss.st.com>,
 	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
@@ -72,9 +72,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 3/4] ASoC: stm: stm32_sai_sub: Use guard() for mutex & spin locks
-Date: Wed, 13 May 2026 17:43:28 +0700
-Message-ID: <20260513104329.81592-4-phucduc.bui@gmail.com>
+Subject: [PATCH 4/4] ASoC: stm: stm32_spdifrx: Use guard() for spin locks
+Date: Wed, 13 May 2026 17:43:29 +0700
+Message-ID: <20260513104329.81592-5-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260513104329.81592-1-phucduc.bui@gmail.com>
 References: <20260513104329.81592-1-phucduc.bui@gmail.com>
@@ -88,106 +88,127 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Clean up the code using guard() for mutex & spin locks.
+Clean up the code using guard() for spin locks.
 Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/stm/stm32_sai_sub.c | 29 +++++++++++------------------
- 1 file changed, 11 insertions(+), 18 deletions(-)
+ sound/soc/stm/stm32_spdifrx.c | 44 +++++++++++++----------------------
+ 1 file changed, 16 insertions(+), 28 deletions(-)
 
-diff --git a/sound/soc/stm/stm32_sai_sub.c b/sound/soc/stm/stm32_sai_sub.c
-index 3e82fa90e719..ea9e8bddd63f 100644
---- a/sound/soc/stm/stm32_sai_sub.c
-+++ b/sound/soc/stm/stm32_sai_sub.c
-@@ -280,9 +280,8 @@ static int snd_pcm_iec958_get(struct snd_kcontrol *kcontrol,
+diff --git a/sound/soc/stm/stm32_spdifrx.c b/sound/soc/stm/stm32_spdifrx.c
+index 57b711c44278..2f83ca989e68 100644
+--- a/sound/soc/stm/stm32_spdifrx.c
++++ b/sound/soc/stm/stm32_spdifrx.c
+@@ -322,7 +322,6 @@ static void stm32_spdifrx_dma_ctrl_stop(struct stm32_spdifrx_data *spdifrx)
+ static int stm32_spdifrx_start_sync(struct stm32_spdifrx_data *spdifrx)
  {
- 	struct stm32_sai_sub_data *sai = snd_kcontrol_chip(kcontrol);
+ 	int cr, cr_mask, imr, ret;
+-	unsigned long flags;
  
--	mutex_lock(&sai->ctrl_lock);
-+	guard(mutex)(&sai->ctrl_lock);
- 	memcpy(uctl->value.iec958.status, sai->iec958.status, 4);
--	mutex_unlock(&sai->ctrl_lock);
+ 	/* Enable IRQs */
+ 	imr = SPDIFRX_IMR_IFEIE | SPDIFRX_IMR_SYNCDIE | SPDIFRX_IMR_PERRIE;
+@@ -330,7 +329,7 @@ static int stm32_spdifrx_start_sync(struct stm32_spdifrx_data *spdifrx)
+ 	if (ret)
+ 		return ret;
  
- 	return 0;
- }
-@@ -292,9 +291,8 @@ static int snd_pcm_iec958_put(struct snd_kcontrol *kcontrol,
- {
- 	struct stm32_sai_sub_data *sai = snd_kcontrol_chip(kcontrol);
+-	spin_lock_irqsave(&spdifrx->lock, flags);
++	guard(spinlock_irqsave)(&spdifrx->lock);
  
--	mutex_lock(&sai->ctrl_lock);
-+	guard(mutex)(&sai->ctrl_lock);
- 	memcpy(sai->iec958.status, uctl->value.iec958.status, 4);
--	mutex_unlock(&sai->ctrl_lock);
+ 	spdifrx->refcount++;
  
- 	return 0;
- }
-@@ -658,10 +656,10 @@ static irqreturn_t stm32_sai_isr(int irq, void *devid)
- 		status = SNDRV_PCM_STATE_XRUN;
+@@ -365,22 +364,17 @@ static int stm32_spdifrx_start_sync(struct stm32_spdifrx_data *spdifrx)
+ 				"Failed to start synchronization\n");
  	}
  
--	spin_lock(&sai->irq_lock);
--	if (status != SNDRV_PCM_STATE_RUNNING && sai->substream)
--		snd_pcm_stop_xrun(sai->substream);
--	spin_unlock(&sai->irq_lock);
-+	scoped_guard(spinlock, &sai->irq_lock) {
-+		if (status != SNDRV_PCM_STATE_RUNNING && sai->substream)
-+			snd_pcm_stop_xrun(sai->substream);
+-	spin_unlock_irqrestore(&spdifrx->lock, flags);
+-
+ 	return ret;
+ }
+ 
+ static void stm32_spdifrx_stop(struct stm32_spdifrx_data *spdifrx)
+ {
+ 	int cr, cr_mask, reg;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&spdifrx->lock, flags);
++	guard(spinlock_irqsave)(&spdifrx->lock);
+ 
+-	if (--spdifrx->refcount) {
+-		spin_unlock_irqrestore(&spdifrx->lock, flags);
++	if (--spdifrx->refcount)
+ 		return;
+-	}
+ 
+ 	cr = SPDIFRX_CR_SPDIFENSET(SPDIFRX_SPDIFEN_DISABLE);
+ 	cr_mask = SPDIFRX_CR_SPDIFEN_MASK | SPDIFRX_CR_RXDMAEN;
+@@ -396,8 +390,6 @@ static void stm32_spdifrx_stop(struct stm32_spdifrx_data *spdifrx)
+ 	/* dummy read to clear CSRNE and RXNE in status register */
+ 	regmap_read(spdifrx->regmap, STM32_SPDIFRX_DR, &reg);
+ 	regmap_read(spdifrx->regmap, STM32_SPDIFRX_CSR, &reg);
+-
+-	spin_unlock_irqrestore(&spdifrx->lock, flags);
+ }
+ 
+ static int stm32_spdifrx_dma_ctrl_register(struct device *dev,
+@@ -744,19 +736,19 @@ static irqreturn_t stm32_spdifrx_isr(int irq, void *devid)
+ 			return IRQ_HANDLED;
+ 		}
+ 
+-		spin_lock(&spdifrx->irq_lock);
+-		if (spdifrx->substream)
+-			snd_pcm_stop(spdifrx->substream,
+-				     SNDRV_PCM_STATE_DISCONNECTED);
+-		spin_unlock(&spdifrx->irq_lock);
++		scoped_guard(spinlock, &spdifrx->irq_lock) {
++			if (spdifrx->substream)
++				snd_pcm_stop(spdifrx->substream,
++					     SNDRV_PCM_STATE_DISCONNECTED);
++		}
+ 
+ 		return IRQ_HANDLED;
+ 	}
+ 
+-	spin_lock(&spdifrx->irq_lock);
+-	if (err_xrun && spdifrx->substream)
+-		snd_pcm_stop_xrun(spdifrx->substream);
+-	spin_unlock(&spdifrx->irq_lock);
++	scoped_guard(spinlock, &spdifrx->irq_lock) {
++		if (err_xrun && spdifrx->substream)
++			snd_pcm_stop_xrun(spdifrx->substream);
 +	}
  
  	return IRQ_HANDLED;
  }
-@@ -894,11 +892,9 @@ static int stm32_sai_startup(struct snd_pcm_substream *substream,
+@@ -765,12 +757,10 @@ static int stm32_spdifrx_startup(struct snd_pcm_substream *substream,
+ 				 struct snd_soc_dai *cpu_dai)
  {
- 	struct stm32_sai_sub_data *sai = snd_soc_dai_get_drvdata(cpu_dai);
- 	int imr, cr2, ret;
+ 	struct stm32_spdifrx_data *spdifrx = snd_soc_dai_get_drvdata(cpu_dai);
+-	unsigned long flags;
+ 	int ret;
+ 
+-	spin_lock_irqsave(&spdifrx->irq_lock, flags);
+-	spdifrx->substream = substream;
+-	spin_unlock_irqrestore(&spdifrx->irq_lock, flags);
++	scoped_guard(spinlock_irqsave, &spdifrx->irq_lock)
++		spdifrx->substream = substream;
+ 
+ 	ret = clk_prepare_enable(spdifrx->kclk);
+ 	if (ret)
+@@ -846,11 +836,9 @@ static void stm32_spdifrx_shutdown(struct snd_pcm_substream *substream,
+ 				   struct snd_soc_dai *cpu_dai)
+ {
+ 	struct stm32_spdifrx_data *spdifrx = snd_soc_dai_get_drvdata(cpu_dai);
 -	unsigned long flags;
  
--	spin_lock_irqsave(&sai->irq_lock, flags);
--	sai->substream = substream;
--	spin_unlock_irqrestore(&sai->irq_lock, flags);
-+	scoped_guard(spinlock_irqsave, &sai->irq_lock)
-+		sai->substream = substream;
+-	spin_lock_irqsave(&spdifrx->irq_lock, flags);
+-	spdifrx->substream = NULL;
+-	spin_unlock_irqrestore(&spdifrx->irq_lock, flags);
++	scoped_guard(spinlock_irqsave, &spdifrx->irq_lock)
++		spdifrx->substream = NULL;
  
- 	if (STM_SAI_PROTOCOL_IS_SPDIF(sai)) {
- 		snd_pcm_hw_constraint_mask64(substream->runtime,
-@@ -1083,7 +1079,7 @@ static void stm32_sai_set_iec958_status(struct stm32_sai_sub_data *sai,
- 		return;
- 
- 	/* Force the sample rate according to runtime rate */
--	mutex_lock(&sai->ctrl_lock);
-+	guard(mutex)(&sai->ctrl_lock);
- 	switch (runtime->rate) {
- 	case 22050:
- 		sai->iec958.status[3] = IEC958_AES3_CON_FS_22050;
-@@ -1116,7 +1112,6 @@ static void stm32_sai_set_iec958_status(struct stm32_sai_sub_data *sai,
- 		sai->iec958.status[3] = IEC958_AES3_CON_FS_NOTID;
- 		break;
- 	}
--	mutex_unlock(&sai->ctrl_lock);
+ 	clk_disable_unprepare(spdifrx->kclk);
  }
- 
- static int stm32_sai_configure_clock(struct snd_soc_dai *cpu_dai,
-@@ -1284,7 +1279,6 @@ static void stm32_sai_shutdown(struct snd_pcm_substream *substream,
- 			       struct snd_soc_dai *cpu_dai)
- {
- 	struct stm32_sai_sub_data *sai = snd_soc_dai_get_drvdata(cpu_dai);
--	unsigned long flags;
- 
- 	stm32_sai_sub_reg_up(sai, STM_SAI_IMR_REGX, SAI_XIMR_MASK, 0);
- 
-@@ -1298,9 +1292,8 @@ static void stm32_sai_shutdown(struct snd_pcm_substream *substream,
- 	if (!sai->sai_mclk && sai->put_sai_ck_rate)
- 		sai->put_sai_ck_rate(sai);
- 
--	spin_lock_irqsave(&sai->irq_lock, flags);
--	sai->substream = NULL;
--	spin_unlock_irqrestore(&sai->irq_lock, flags);
-+	scoped_guard(spinlock_irqsave, &sai->irq_lock)
-+		sai->substream = NULL;
- }
- 
- static int stm32_sai_pcm_new(struct snd_soc_pcm_runtime *rtd,
 -- 
 2.43.0
 
