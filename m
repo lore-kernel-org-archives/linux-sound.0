@@ -1,214 +1,118 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011006.outbound.protection.outlook.com [40.107.74.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0998F12D1F1;
-	Wed, 13 May 2026 05:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.6
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778649463; cv=fail; b=Hq8/akinBSS5Dwai2cZDTnTjMx/+L5s3hUWdDV0MTdVdO6bVD66zjNHo3VY3TlqrzRAztfwRFvgLVEbaaN0fmChi4cEcfxe5vafC5WLTCSpRpP6D7NDkmOBUCz2ufFPRmr6ma1affTctLKlY+RpgdgOK2m7MpkxEBE5Bywvt9ic=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778649463; c=relaxed/simple;
-	bh=JQhDt5aeKf/BmDpntwEcnPJzhdMVsJ0JmkuDYUzF8WA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=d1BCzPi8LEQYXl8bpbIPHzmFCVueK29Y6yqiodr218AOmMLSfWg7c89++M8tsGsSe3QtelYcUqVbB0Iiv5jpwJNv83nbNyyU02idFhbvDGl62+si3YdeHx+2HDGLnf3U3mmeFtr5jiYYDhIjVUx+Qryp4tuKat3TyWma2zrtOdI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=oqAFUD3D; arc=fail smtp.client-ip=40.107.74.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EAB63A3E8C
+	for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 05:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778649710; cv=none; b=NSgMILwHTEEaLnqAn44b1GOwhXOZRzf32+lTWwIKlEVFf19u69AShFYHRN+sdOB6FFYC59pH6A6T/8jVYxejPdQIgZszR2JdwfJlVTuqprYH+u4m0rX5I7poxaXMbWOq2at8b7WCQQdoeNY7HlCJpqbIshpm1OCMEtLOCA7DakM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778649710; c=relaxed/simple;
+	bh=NFSga8ecoEnHrZa4bR1DBRQkaR+JysHTX+yZ7cpW34Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gao9WBX7cMYp9/ZVxuFXB78nkHKyiE1xVuOWvM9xXsMOBim6iAlA17oom/V58mwryjxYQcXxSt+dhtORDkxH/2pOuG8RF7vB2Fw8UNkV+e3HDHuTvJ9GIuAYA87Y0DD4ISTUJIx6fF31yrDZcW6Eu3QdkvqlZO/JJO+xf997By0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mofqL8qk; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="oqAFUD3D"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pgtigmeYZoNUa96AvZvkyec1oPdzdxr9UFVZGxh5J4INNbtwycg25Pyys+UMToC2v65c7PXOtCvdEnFcSZKmY/tYO0q6LqDZKqp8D3tBAEi9Ec/HYRptYQXPfekkZg1jO8qQO+RLz0E4CWuUD/eyUD0Y3Zr5pdGTWt2VkOpo/dbdLmPp/CTCUAW7TrBrw3XcPmLWIuce6lgQmQ3wRHg8y8E0n3cENutZP0ztUGDUeFvcXtRVPRVyb3luX92efnuBgwEbaK6yDCmyi2qqER7cBS5gjzhc2S+jsXD67g2tictc+iL2qf4vL+qtQRev8Wr3k232noC+1GzwFc9R0pgL9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hhoCUPJh3kjqXSPr9wrhSl4beUEhpjvQRGT9tCi72ww=;
- b=a4rixGvwg+KSWiFpbVbFozo7gcIUfAt8tfsIiZ9t7K56VFZMnjFi7ReuzpNJXHUtk11jTV4J9l6uslQ9CbobrXSonr8nk7cJN2DTX7255jMdLDIIQ1Gvu6P+8qrXmjczQJblTS5VswEIYTIhJK9H/BoFJ7s6oHm6T4BxHHKYIHUHEEmW7JbtKuxZGv9Yd3kOUEu0JpzpA54utvjpCBmR4Dl1a7ghSdmXsXr5FTn+rjtnXMz0GA0c+OqflahOJgVmMOBh2YYXRPLvmy6HtaEca0cQPdxvGjYs6wp15hqWsACC24GfReAy3g+kPtGSPECxE1+bRwQRiKnHl8xOfKwwDQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hhoCUPJh3kjqXSPr9wrhSl4beUEhpjvQRGT9tCi72ww=;
- b=oqAFUD3D8kJkZbomdVBiIehcQkVANQQldY9IGPdlu7D4tmSAlEjK2yyqjprDs6pPzk7UCP5Pua7CNW4tXr0RwtshkfVUuKb+Hfvpkho5zKvV4Z0yHQAvSH63cqh80uvTq5txywupkYlwGpWvqGarlyN+mG1oYU3wZhBslOmiG3k=
-Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com (2603:1096:405:35b::6)
- by TYWPR01MB10933.jpnprd01.prod.outlook.com (2603:1096:400:38f::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Wed, 13 May
- 2026 05:17:37 +0000
-Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com
- ([fe80::f373:26d6:86c4:6aa3]) by TY6PR01MB17377.jpnprd01.prod.outlook.com
- ([fe80::f373:26d6:86c4:6aa3%6]) with mapi id 15.20.9891.021; Wed, 13 May 2026
- 05:17:37 +0000
-From: John Madieu <john.madieu.xa@bp.renesas.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-CC: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, Geert Uytterhoeven <geert+renesas@glider.be>, magnus.damm
-	<magnus.damm@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
-	Claudiu.Beznea <claudiu.beznea@tuxon.dev>, Biju Das
-	<biju.das.jz@bp.renesas.com>, "john.madieu@gmail.com"
-	<john.madieu@gmail.com>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v6 14/16] ASoC: rsnd: src: Add SRC reset and clock support
- for RZ/G3E
-Thread-Topic: [PATCH v6 14/16] ASoC: rsnd: src: Add SRC reset and clock
- support for RZ/G3E
-Thread-Index: AQHc4j08eobqidsIDEiVEE4+07blV7YLHtyAgABItoA=
-Date: Wed, 13 May 2026 05:17:37 +0000
-Message-ID:
- <TY6PR01MB173774BCC299A07D4A7AC5C2FFF062@TY6PR01MB17377.jpnprd01.prod.outlook.com>
-References: <20260512182631.3842065-1-john.madieu.xa@bp.renesas.com>
-	<20260512182631.3842065-15-john.madieu.xa@bp.renesas.com>
- <8733zw6suk.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <8733zw6suk.wl-kuninori.morimoto.gx@renesas.com>
-Accept-Language: en-US, en-GB
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY6PR01MB17377:EE_|TYWPR01MB10933:EE_
-x-ms-office365-filtering-correlation-id: 6845d04f-8ff6-4232-4a89-08deb0aef285
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|1800799024|7416014|366016|22082099003|56012099003|18002099003|11063799003|38070700021;
-x-microsoft-antispam-message-info:
- PpgGgNMWyKnSVam8XmtoBnoo9ADKw9uo/KLjDQK0MmeggaRQ4rZOXPpo81FtzpFyS1PZeGn4613uaTZOCT20c9RFbeQBQtzfDN+kR9kyV+lSuatJeLcsKZP3l4t+BBl+pe+l/YmuvB4qFdB/Pem58eSkyBPIpmhpTQfUY0LPth6pRzVpEMZDQgJoCpN9jPIZcB0JPYgF9mDYIGTbln2tT86jtgdO+kSeyBb/x07sFU9PA2MjG7FAHIS6XnSpHGXaeAMTDrD0uG9fpoNqTyTn0HEtHhqSpBNaJ/j6x4UNIOpVBc816oNTgcDDLmFNzpeVnXkGmPi6i6SO2LYCq1xeTH3igM4+ft6a2HJ8IsTmgCaG1xO3zVtBevMyboQAY8onYKdYiAGAloFegFeJxaYCEo5mEEtCOY67DAflwv89/yu2JywZ3td+6Q8c5+WERt7Ho7TmWGIUPB6WmlmoKPaAgTEyVNai+/upfw9nW1PA2kMDDi/CkaLjvLCP7BMn2uZS04rqaAKhJr9pAFIeCQpc0d2s7mJlCPTXvWSdlB7W2yzqK/y981bNZHYgWNns+y0dPkYuFT8G5o3JwrWUSTzrfDokxk9s+w0JYTXrm7FJl9LNphiuR9D+/koV5h3cPn1VKgPL8g+W3PEQurkkD4Hp8rkd1YHSmO/e2hbdzXLA+7AfnxKuPTtqrXQFUPEsrzUICotyf4uTnXuPEbHZstbJ/9Ha2oEYADk0oocNo2TMgMD4pdOsbWv5sHIl295fdDqi
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY6PR01MB17377.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(22082099003)(56012099003)(18002099003)(11063799003)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?Lv3fuw4JQwNcnGKNkZ6m5SL5riLHeQEFYde/qXwZAsp2/YZgEVDawEbZCOMt?=
- =?us-ascii?Q?qYY1weUJojglQoJw2hnUuFUWVuHaGM3aAr4y/7hcisnp0fQikGOBm3wMdRDa?=
- =?us-ascii?Q?xSgdLqAfkEl4veBSp4Y5bG0g9Ef6ymJFoT5rcF/54dEjFfmCu78DDGQdgthx?=
- =?us-ascii?Q?0xvsidSTNQirti61OxZBKJuRoqs/qPoN2ADCrjpV9k4Q/8ejPNXhHgHyVdO9?=
- =?us-ascii?Q?Hh7wfpd5HaMr7tQ3CIf1pQkZAk+Cm0svdYiDHjrKfG1L7WBOOkH+bKHPfaRP?=
- =?us-ascii?Q?8tnqrARJHEJ0QyiH8K7eQyk/jLxdkcBgoYUwkdlUq2KRohGUHqZSKvR9Mu6r?=
- =?us-ascii?Q?eOpItaKCTb4Ud7VlH3BMYQFBwHz1x6yV/Xe9rzgn/ZxsFKoXq1WPMbP63GNz?=
- =?us-ascii?Q?NgpFdB8Tft6blOIcnh/qb+mIevVpgVMPomwAw2oV5chJcpGSju6f+uaKlhec?=
- =?us-ascii?Q?oqwaf3rfaUKcldSDr7TDVQvO7CvBc/7WncyhCz5YJPlPJcX1yQzHUEb/AQE4?=
- =?us-ascii?Q?BpvMC6LMBgFGmK6HNWHGG6hignnBy5gKU0RwSmh1i6Ks0GpCjbgT5Q0BTOTe?=
- =?us-ascii?Q?NLEcRY850rV/du0Rlp0UWGbshihun0Zzr7va2U7QSBaSm6lQfgRypWZ4DjJN?=
- =?us-ascii?Q?HZlfp+O3C+DiOqN35uyu6XhqSJEnsVjpUX8AwJZeoVMbeyp0cdf6l2bdH4CH?=
- =?us-ascii?Q?0+97FxE57/uOjXHFlTMhAL6MztwRbfHmE5wgo+2kdN5kM9/dN713knmA4fqb?=
- =?us-ascii?Q?ORpMcLLIoCFsFQGrQOMInFHyHoQ/v6rQwkKZcXq2Fl7ex7zBFG3G3EtC5VCw?=
- =?us-ascii?Q?tqGg361jdpJ9CGgKomSFEKM1kAcPaySLJQ4H/TGHXJpgoZtTQUrLfK9uoEid?=
- =?us-ascii?Q?/zZCpepxoBCtNm1Egfboj00yq2GC1gMdUW8lyI2e6rIQgTKsAqaLfU1HN1Jb?=
- =?us-ascii?Q?wxIoffw/DXzjPYraimvFPnYXdnUoJTDnqJwvNWD+wd/pf6100TnNk597ft0E?=
- =?us-ascii?Q?SpXfxM0P3uul2m7ZuwJvqDe3gBuY0XbXSau5Kl7zXMeHb9gOG73TBVDufrja?=
- =?us-ascii?Q?2bdrUjh/UeWnvi2A1yhJvpLwmVdbEjOmZrh7RXQ6DqqY3un6XQnuwpL/s3Za?=
- =?us-ascii?Q?s+JnOLAEcPpxrQp+C0pqd97GVHHhxGmg2DYVuYkHnYgqGJXo+JhCXJRNDs0F?=
- =?us-ascii?Q?njMxMlhzKYIHlE3pPwzIna8+zkh5SLCy3RSDwWWkqgP56jfXib3Ku0Uai3Nt?=
- =?us-ascii?Q?R5OXfmkCfTSnYvPZWDOnCkZ2anAiIsKAeuPjxf1yU2FrSGNkDWHZtCcuA4Ql?=
- =?us-ascii?Q?v/F6CBbMqPhakqAxjBxs6AHQh9QjKV67eLfEy699TdxjoGkmcEnRpXus3Zq9?=
- =?us-ascii?Q?B9daueN0M4Cri1jxUmdHNoBoBsPAHOmNAXN7qcS8Ng+nRNdtUbjDPWKNpwPR?=
- =?us-ascii?Q?TWCmaYSSntL42rAdkpVTsR8QwB6AeTZD3iUBc2vvOoryhfI4BZy93A/SXRGk?=
- =?us-ascii?Q?g+uxt3BPZFWqX92bqLzuGFOoa+iTdL7j1nXMcEvEf5ye9940qR6LPvIaCrtE?=
- =?us-ascii?Q?SyH1Xh//nc7/olU45s0urQidDB1LIJYORilqoKXAdKzuyiKqgR3E9VjoD8qG?=
- =?us-ascii?Q?jNvzUsCoC2jdfBZZNRvLfdWMY1v8RI20BR/YUURA6+xh0zQnn0h9ZT3PYINy?=
- =?us-ascii?Q?a/W06rQudO3zV4LiZBYRAEmKf0TsBOjE2mypS80cusS2ENwdJPOvDOYI2y5l?=
- =?us-ascii?Q?F0ukhGbLUVftCihrHCX/BwgPBNkFCM4=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mofqL8qk"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488a88aeec9so70187185e9.2
+        for <linux-sound@vger.kernel.org>; Tue, 12 May 2026 22:21:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778649707; x=1779254507; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BgSx1IAlA93JFWxwaWFMw+AnvzeYexKax3i0EBGl93Y=;
+        b=mofqL8qkISKAPj95JRMmBE7JbTJ7kXvKlOkkBOkTBn72ibq1QAhkO661RgGh4XODVs
+         d5Hwzo47l1bK/VC6ORMF91omVPME0aQvIOLg7URDmfWYwtyoWpSbDwGnE4mTG8C+P7TW
+         SOSBOv+15k/yjunrtUlAzQFIRQs8oufzsuX2m0XcQW3kQa8HUPJeEcgGNc17r6l0rt3X
+         A1q9ArvVSNmwfW3D7qj7pt5sGEQbgptN8nuhgjEeloIbhh5ucqiNthWZZfE0F6iN7DTf
+         D2sfHOxKx1C3IkHgDLZT4Xekm5AyoM5YKcZpkj2l9seUoN84YL6yBXp47y3R9x4V9BEO
+         /Qrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778649707; x=1779254507;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BgSx1IAlA93JFWxwaWFMw+AnvzeYexKax3i0EBGl93Y=;
+        b=EqkGeHVGVTkHOqnlgbhAWvoy8oaynjbyisFusgEiU3RBvKMihm1g/CyklUACPUYg6e
+         9zSeJzr89RFuP3n/owm/t31/U6rySnrIxrjYxQv0VbkEDBMN8pSDOU23NOVcHq+x+9D2
+         9LL/KOCvrldjGSLcMP7bbrDPWTgAXypYuGSdKPXtxNkqT4bpmVkYjEZsK/PPWi5wSHOK
+         PapgYm7/2lfQTxitEYGawJ06V3fHeUfvvobzItdiZU1pCN1WUs0QNf7rD7dIolcgyMOw
+         aN67cxBTBXtoAXHtBIY99Ly97F4eu9vqVT4PjuodA3SeH+vwdQQlFTQDJe83qdF7eb4u
+         V/+g==
+X-Forwarded-Encrypted: i=1; AFNElJ+1kMzCupZMep0e2E6iaUxaDtgI1XxAi5a8jSkCEC0DXumFs0+KTMXGPjtxAidiw/Vtt6cktoTC5PZsiQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJCSbUhu0r9mNWM9oulnb4WbpC1EYhnvj/k8xqW8RwiDaZauH8
+	85IJCvb5VDDtCyby/jFXeiT0aJdntHMQ/4qPzDOx0ceLxiNN7ASq3mxj
+X-Gm-Gg: Acq92OGfmk0cfk2HjxPqJCf32PcrPALbzJQD8wDFSyxhmZAMshInWsh5ykufQxyZK3o
+	OnLWWtNERXFY/7l0/lSw9qYVhN35/USbJ33vv+8SdTKL3sDwpw/RLpNYgo1NImT+DJkrjdPcZ1i
+	ipKz5UCfNKqWoj8+T0G8EL3BMkeWvnn6P2RnJKwXhE0MRqgAD+0qEhbAjOIJTngEPM2K0iw6qzn
+	ckUqz3+xzRQzLE/y1xHyt7O55yZJjwhQc9V7GOIVk+gTzwBr9QJ/Ob/bCiybuVAea1lBPHZP/1e
+	CssedNMz52+YeAxMGMi6FjgHzQ57Nyi5WjUcejwLxZjZwaDiwHn2xE2Yl4+DTpsQfa81fUU3VYg
+	53/iH7dSquV4kqWXDvh6RfjHGpgVPAAdMo1tJ4ZyYa1+F+pfUghmrG5Yd743HoVtw0CH5GWjY2O
+	RGDzOdUqaAypi1lbkgXdO7wHIv1ukerJ5DKOHLmTXFafISLicIwEvLtZ9S
+X-Received: by 2002:a05:600c:198a:b0:48a:97b6:7420 with SMTP id 5b1f17b1804b1-48fc9a4d99fmr21367475e9.24.1778649706571;
+        Tue, 12 May 2026 22:21:46 -0700 (PDT)
+Received: from josbeir-zenbook ([94.110.189.27])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fcdf63f05sm24472205e9.1.2026.05.12.22.21.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 22:21:46 -0700 (PDT)
+From: Jasper Smet <josbeir@gmail.com>
+To: Vijendar.Mukunda@amd.com
+Cc: venkataprasad.potturu@amd.com,
+	broonie@kernel.org,
+	lgirdwood@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jasper Smet <josbeir@gmail.com>
+Subject: [PATCH] ASoC: amd: acp: Add DMI quirk for ASUS Zenbook S16 UM5606GA
+Date: Wed, 13 May 2026 07:21:37 +0200
+Message-ID: <20260513052137.56703-1-josbeir@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY6PR01MB17377.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6845d04f-8ff6-4232-4a89-08deb0aef285
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2026 05:17:37.2188
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aHErvG2ivtBGs1nrPS/24908YzfS6xEhxiyL+KLYnJzHZQwtE9So7o+2VO7c1AXoKJutUoTG+7e1zr7+YqVbFNN+eoYZ1FOyzr9kNZmsGdM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10933
+Content-Transfer-Encoding: 8bit
 
-Hi Kuninori,
+The ASUS Zenbook S16 (UM5606GA) with AMD Ryzen AI 9 465 (Strix Point,
+ACP 7.0) has a BIOS that incorrectly sets the ACPI property
+'acp-audio-config-flag' to 0x10 (FLAG_AMD_LEGACY_ONLY_DMIC) for the ACP
+device. This prevents snd_pci_ps from probing the SoundWire bus, resulting
+in no internal audio (dummy output only).
 
-Thanks fort he review.
+The hardware uses a Cirrus Logic CS42L43 (headphone/jack) and four CS35L56
+smart amplifiers (speakers), all on SoundWire link 1. The corresponding
+machine table entry (acp70_cs42l43_l1u0_cs35l56x4_l1u0123) already exists
+in amd-acp70-acpi-match.c and correctly describes this topology.
 
-> -----Original Message-----
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Sent: Mittwoch, 13. Mai 2026 02:45
-> To: John Madieu <john.madieu.xa@bp.renesas.com>
-> Subject: Re: [PATCH v6 14/16] ASoC: rsnd: src: Add SRC reset and clock
-> support for RZ/G3E
->=20
->=20
-> Hi John
->=20
-> Thank you for the patch
->=20
-> > The RZ/G3E SoC requires explicit SCU (Sampling Rate Converter Unit)
-> > reset and clock management unlike previous R-Car generations:
-> >
-> >  - scu: SCU top-level module clock (CPG_CLKON_15.CLK6_ON)
-> >  - scu_x2: SCU top-level double-rate clock (CPG_CLKON_15.CLK7_ON)
-> >  - scu_supply: SCU register-access / housekeeping clock
-> >    (CPG_CLKON_23.CLK14_ON, described by the HW manual as the system
-> >    clock for "function modules excluding SRC0-9, DVC0-1, CTU0-1 and
-> >    MIX0-1 (including the setting registers, etc.)")
-> >
-> > Without every one of them enabled, no SCU register is reachable.
-> > Add support for the shared SCU reset controller used by all SRC
-> > modules on the RZ/G3E SoC and manage scu_supply with the same lifetime
-> > as scu and scu_x2. This matches the hardware description and avoids
-> > unnecessary clock toggling.
-> >
-> > Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> > ---
->=20
-> I guess this patch has 2 features.
->=20
-> 	(A) add rsnd_src_ctrl
-> 	(B) add rstc
->=20
-> These are independent ?
+Add a DMI quirk to override the flag to 0, consistent with the existing
+entry for the HN7306EA.
 
-Yes, fully independent. I will split:
+Signed-off-by: Jasper Smet <josbeir@gmail.com>
+---
+ sound/soc/amd/acp-config.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-  14a/N: ASoC: rsnd: src: Acquire shared SCU clocks for RZ/G3E
-         - introduces struct rsnd_src_ctrl with scu/scu_x2/scu_supply.
-         - uses devm_clk_get_optional_enabled(), so non-RZ/G3E DTs are
-           unaffected.
+diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
+index 1604ed679..309dc9ed6 100644
+--- a/sound/soc/amd/acp-config.c
++++ b/sound/soc/amd/acp-config.c
+@@ -30,6 +30,13 @@ static const struct dmi_system_id acp70_acpi_flag_override_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "HN7306EA"),
+ 		},
+ 	},
++	{
++		/* ASUS Zenbook S16 UM5606GA (Strix Point, ACP 7.0) */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Zenbook S16 UM5606GA"),
++		},
++	},
+ 	{}
+ };
+ 
+-- 
+2.54.0
 
-  14b/N: ASoC: rsnd: src: Add SRC reset support for RZ/G3E
-         - per-SRC devm_reset_control_get_optional_shared("scu") and
-           rsnd_mod_init() plumbing only.
-
->=20
-> And in (A), I guess no one is using scu_supply ?
-> If it is just for lifetime, and is necessary, could you please add such
-> comment ?
-
-Correct, scu_supply is only acquired for its devm-managed enabled
-lifetime; nothing reads src_ctrl->scu_supply after probe. Per the HW
-manual scu_supply is the SCU register-access / housekeeping clock, so it
-must stay enabled while the device is bound, including across system
-suspend, otherwise no SCU register is reachable. The suspend path
-deliberately gates only scu and scu_x2 for the same reason. I will add
-this comment next to the acquisition in 14a/N.
-
->=20
-> (A) can be merged into [16/16] ? or be as "prepare patch".
-
-I will make (A) a preparation patch (14a/N above). Folding it into 16/16
-would mix clock acquisition into the PM patch, and the SCU clocks need
-to be enabled at probe so SCU registers are reachable before any
-suspend/resume cycle.
-
-Regards,
-John
