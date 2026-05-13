@@ -1,72 +1,57 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EAB63A3E8C
-	for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 05:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E11F36F8F1;
+	Wed, 13 May 2026 08:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778649710; cv=none; b=NSgMILwHTEEaLnqAn44b1GOwhXOZRzf32+lTWwIKlEVFf19u69AShFYHRN+sdOB6FFYC59pH6A6T/8jVYxejPdQIgZszR2JdwfJlVTuqprYH+u4m0rX5I7poxaXMbWOq2at8b7WCQQdoeNY7HlCJpqbIshpm1OCMEtLOCA7DakM=
+	t=1778660245; cv=none; b=cE0h7zsD7riftX2kUuBrgaMCzr/5ttKdyDXbk/x6AUszHrBaBPZf0TDM2k3vOqVtc4d5HOSuTtQcXRYo9qVVQQb/i5Ds94oM4ooLI7EHLjbSH/taz8yLsNiCiv87sR6f/4wLaZUOEVaOSRFUlSf2b64b84VEwKGWMtEltuK1xEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778649710; c=relaxed/simple;
-	bh=NFSga8ecoEnHrZa4bR1DBRQkaR+JysHTX+yZ7cpW34Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gao9WBX7cMYp9/ZVxuFXB78nkHKyiE1xVuOWvM9xXsMOBim6iAlA17oom/V58mwryjxYQcXxSt+dhtORDkxH/2pOuG8RF7vB2Fw8UNkV+e3HDHuTvJ9GIuAYA87Y0DD4ISTUJIx6fF31yrDZcW6Eu3QdkvqlZO/JJO+xf997By0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mofqL8qk; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778660245; c=relaxed/simple;
+	bh=M8yMpSM7XjzbpOUAk/VXiEKzUTMHC2FDMGzb6F+x5hA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PFmKHhE6+67AqT91nt2uBNmky8yTYKvxUcgGPN1iujwTEBSfPSD+SUfpc2eIuzJBF+wqfL/Eq3XAqmpNesbfnp001OZj+kZr2GLtQmHal4WYl+hYYYzexdbrdXURxGA87bY4URl54ecA7aMbIIxBTPY13naM5uL+E0bi5+NFcQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=rUfSPnzr; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mofqL8qk"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488a88aeec9so70187185e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 12 May 2026 22:21:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778649707; x=1779254507; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BgSx1IAlA93JFWxwaWFMw+AnvzeYexKax3i0EBGl93Y=;
-        b=mofqL8qkISKAPj95JRMmBE7JbTJ7kXvKlOkkBOkTBn72ibq1QAhkO661RgGh4XODVs
-         d5Hwzo47l1bK/VC6ORMF91omVPME0aQvIOLg7URDmfWYwtyoWpSbDwGnE4mTG8C+P7TW
-         SOSBOv+15k/yjunrtUlAzQFIRQs8oufzsuX2m0XcQW3kQa8HUPJeEcgGNc17r6l0rt3X
-         A1q9ArvVSNmwfW3D7qj7pt5sGEQbgptN8nuhgjEeloIbhh5ucqiNthWZZfE0F6iN7DTf
-         D2sfHOxKx1C3IkHgDLZT4Xekm5AyoM5YKcZpkj2l9seUoN84YL6yBXp47y3R9x4V9BEO
-         /Qrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778649707; x=1779254507;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BgSx1IAlA93JFWxwaWFMw+AnvzeYexKax3i0EBGl93Y=;
-        b=EqkGeHVGVTkHOqnlgbhAWvoy8oaynjbyisFusgEiU3RBvKMihm1g/CyklUACPUYg6e
-         9zSeJzr89RFuP3n/owm/t31/U6rySnrIxrjYxQv0VbkEDBMN8pSDOU23NOVcHq+x+9D2
-         9LL/KOCvrldjGSLcMP7bbrDPWTgAXypYuGSdKPXtxNkqT4bpmVkYjEZsK/PPWi5wSHOK
-         PapgYm7/2lfQTxitEYGawJ06V3fHeUfvvobzItdiZU1pCN1WUs0QNf7rD7dIolcgyMOw
-         aN67cxBTBXtoAXHtBIY99Ly97F4eu9vqVT4PjuodA3SeH+vwdQQlFTQDJe83qdF7eb4u
-         V/+g==
-X-Forwarded-Encrypted: i=1; AFNElJ+1kMzCupZMep0e2E6iaUxaDtgI1XxAi5a8jSkCEC0DXumFs0+KTMXGPjtxAidiw/Vtt6cktoTC5PZsiQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJCSbUhu0r9mNWM9oulnb4WbpC1EYhnvj/k8xqW8RwiDaZauH8
-	85IJCvb5VDDtCyby/jFXeiT0aJdntHMQ/4qPzDOx0ceLxiNN7ASq3mxj
-X-Gm-Gg: Acq92OGfmk0cfk2HjxPqJCf32PcrPALbzJQD8wDFSyxhmZAMshInWsh5ykufQxyZK3o
-	OnLWWtNERXFY/7l0/lSw9qYVhN35/USbJ33vv+8SdTKL3sDwpw/RLpNYgo1NImT+DJkrjdPcZ1i
-	ipKz5UCfNKqWoj8+T0G8EL3BMkeWvnn6P2RnJKwXhE0MRqgAD+0qEhbAjOIJTngEPM2K0iw6qzn
-	ckUqz3+xzRQzLE/y1xHyt7O55yZJjwhQc9V7GOIVk+gTzwBr9QJ/Ob/bCiybuVAea1lBPHZP/1e
-	CssedNMz52+YeAxMGMi6FjgHzQ57Nyi5WjUcejwLxZjZwaDiwHn2xE2Yl4+DTpsQfa81fUU3VYg
-	53/iH7dSquV4kqWXDvh6RfjHGpgVPAAdMo1tJ4ZyYa1+F+pfUghmrG5Yd743HoVtw0CH5GWjY2O
-	RGDzOdUqaAypi1lbkgXdO7wHIv1ukerJ5DKOHLmTXFafISLicIwEvLtZ9S
-X-Received: by 2002:a05:600c:198a:b0:48a:97b6:7420 with SMTP id 5b1f17b1804b1-48fc9a4d99fmr21367475e9.24.1778649706571;
-        Tue, 12 May 2026 22:21:46 -0700 (PDT)
-Received: from josbeir-zenbook ([94.110.189.27])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fcdf63f05sm24472205e9.1.2026.05.12.22.21.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 22:21:46 -0700 (PDT)
-From: Jasper Smet <josbeir@gmail.com>
-To: Vijendar.Mukunda@amd.com
-Cc: venkataprasad.potturu@amd.com,
-	broonie@kernel.org,
-	lgirdwood@gmail.com,
-	linux-sound@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="rUfSPnzr"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 4F05A4E42C8F;
+	Wed, 13 May 2026 08:17:20 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 15F2D606CE;
+	Wed, 13 May 2026 08:17:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 621E011AF874F;
+	Wed, 13 May 2026 10:17:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1778660239; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=poGw4kA3VMk0CdToUIWaWE8waPchBLM+U1QHUpsaDXg=;
+	b=rUfSPnzrip5Yg0SC47U38h7u3cen5+rYwGClo2RigQb6HfzUuZebaYv/x5euaskAvC4Uo+
+	HMPixW9bLggbjl3gL4o+rRW2BqFUBg+qg5UfutFBu6234+MuI+yq7Sd4rYf9HyIOoA9niH
+	+ZgGrE1ody2OBTJuF7N3WNnPqMaEECYVT5YbP/e9kWoTMyOqhtm5oipNaoJ/N9RveSAfpQ
+	RcGPV/7QUdes9qZtdkGXuhnpQ0qs3mjOm517m9Y+952lZfO24j3ZLXpR/CgJosPVE6lQ0R
+	orZuS7g1vGPrLhnv3sBdDNRGXbayXJ7irFYt/YA60ThABF8WbIWcm9Pj47OGUg==
+From: Herve Codina <herve.codina@bootlin.com>
+To: Herve Codina <herve.codina@bootlin.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Jasper Smet <josbeir@gmail.com>
-Subject: [PATCH] ASoC: amd: acp: Add DMI quirk for ASUS Zenbook S16 UM5606GA
-Date: Wed, 13 May 2026 07:21:37 +0200
-Message-ID: <20260513052137.56703-1-josbeir@gmail.com>
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v3 00/17] ASoC: Add support for GPIOs driven amplifiers
+Date: Wed, 13 May 2026 10:16:44 +0200
+Message-ID: <20260513081702.317117-1-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -74,45 +59,127 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-The ASUS Zenbook S16 (UM5606GA) with AMD Ryzen AI 9 465 (Strix Point,
-ACP 7.0) has a BIOS that incorrectly sets the ACPI property
-'acp-audio-config-flag' to 0x10 (FLAG_AMD_LEGACY_ONLY_DMIC) for the ACP
-device. This prevents snd_pci_ps from probing the SoundWire bus, resulting
-in no internal audio (dummy output only).
+On some embedded system boards, audio amplifiers are designed using
+discrete components such as op-amp, several resistors and switches to
+either adjust the gain (switching resistors) or fully switch the
+audio signal path (mute and/or bypass features).
 
-The hardware uses a Cirrus Logic CS42L43 (headphone/jack) and four CS35L56
-smart amplifiers (speakers), all on SoundWire link 1. The corresponding
-machine table entry (acp70_cs42l43_l1u0_cs35l56x4_l1u0123) already exists
-in amd-acp70-acpi-match.c and correctly describes this topology.
+Those switches are usually driven by simple GPIOs.
 
-Add a DMI quirk to override the flag to 0, consistent with the existing
-entry for the HN7306EA.
+This kind of amplifiers are not handled in ASoC and the fallback is to
+let the user-space handle those GPIOs out of the ALSA world.
 
-Signed-off-by: Jasper Smet <josbeir@gmail.com>
+In order to have those kind of amplifiers fully integrated in the audio
+stack, this series introduces the audio-gpio-amp to handle them.
+
+This new ASoC component allows to have the amplifiers seen as ASoC
+auxiliarty devices and so it allows to control them through audio mixer
+controls.
+
+Compared to previous iteration, this v3 series takes into account
+feedback received from Mark and also some comments from Shashiko.
+
+In order to ease the review, I choose to split modifications related
+to the merge of the gpio-audio-amp part into the simple-amplfier driver
+in several commits.
+
+Best regards,
+Hervé
+
 ---
- sound/soc/amd/acp-config.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Changes v2 -> v3
+  v2: https://lore.kernel.org/all/20260429074356.118420-1-herve.codina@bootlin.com/
 
-diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
-index 1604ed679..309dc9ed6 100644
---- a/sound/soc/amd/acp-config.c
-+++ b/sound/soc/amd/acp-config.c
-@@ -30,6 +30,13 @@ static const struct dmi_system_id acp70_acpi_flag_override_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "HN7306EA"),
- 		},
- 	},
-+	{
-+		/* ASUS Zenbook S16 UM5606GA (Strix Point, ACP 7.0) */
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Zenbook S16 UM5606GA"),
-+		},
-+	},
- 	{}
- };
- 
+  Patch 2:
+  - Fix a typo s/rignt/right/ (Sashiko)
+  - Use the 'int32-matrix' type for gain-ranges property. Indeed the
+    gain value can be a negative value (Sashiko).
+  - Add 'Reviewed-by: Rob Herring'
+
+  Patch 8:
+  - Fix error message
+
+  Patch 11:
+  - Clamp the value received in simple_amp_single_kctrl_put() in order
+    to have a more robust code (Sashiko)
+
+  Patch 14:
+  - Return 'unsigned int *' in simple_amp_alloc_tlv_ranges()
+  - Check for existing ranges entirely inside the new one in
+    simple_amp_check_new_range().
+  - Don't allow an empty ranges array. nb_ranges cannot be set to 0
+    anymore (Sahiko).
+
+  Patch 15:
+  - Don't allow an empty labels array. nb_labels cannot be set to 0
+    anymore (Sahiko).
+
+  Other patches:
+    No changes
+
+Changes v1 -> v2
+  v1: https://lore.kernel.org/all/20260330101610.57942-1-herve.codina@bootlin.com/
+
+  Rebase on top of v7.1-rc1.
+
+  Patch 1:
+  - Add 'Acked-by: Rob Herring'
+
+  Patch 2:
+  - Use gpio-audio-amp-* instead of audio-gpio-amp
+  - Introduce mono/stereo channel distinction with gpio-audio-amp-mono
+    and gpio-audio-amp-stereo compatible strings (needed if the
+    "simple-amplifier" compatible string is deprecated in the near
+    future).
+  - Reduce the maximum numbers of gpios used for gain setting to 16.
+  - Use amplifier-N instead of amplifierN in examples
+  - Introduce gpio-ranges property and remove the no more needed
+    gpio-points and gpio-range properties
+
+  Other patches (full rework):
+  - Merge the new audio-gpio-amp driver provided in v1 into the
+    existing simple-amplifier driver.
+  - Slit modification in several commits.
+  - Reduce the maximum number of gpios used for gain setting to 16.
+  - Fix a memory leak in case of error in simple_amp_multi_add_kcontrol()
+    (Reported by Shahiko).
+  - Handle the new gpio-ranges property and drop the support for the no
+    more needed properties (gpio-points and gpio-range).
+  - Update author and copyright.
+
+Herve Codina (17):
+  of: Introduce of_property_read_s32_index()
+  ASoC: dt-bindings: Add support for the GPIOs driven amplifier
+  ASoC: simple-amplifier: Remove DRV_NAME defined value
+  ASoC: simple-amplifier: Add missing headers
+  ASoC: simple-amplifier: Remove CONFIG_OF flag and of_match_ptr()
+  ASoC: simple-amplifier: Rename drv_event() function
+  ASoC: simple-amplifier: Use 'simple_amp' variable name instead of
+    'priv'
+  ASoC: simple-amplifier: Remove DAPM widgets and routes from the ASoC
+    component driver
+  ASoC: simple-amplifier: Introduce support for gpio-audio-amp
+  ASoC: simple-amplifier: gpio-audio-amp: Add support for extra power
+    supplies
+  ASoC: simple-amplifier: gpio-audio-amp: Add support for mute gpio
+  ASoC: simple-amplifier: gpio-audio-amp: Add support for bypass gpio
+  ASoC: simple-amplifier: gpio-audio-amp: Add support for basic gain
+  ASoC: simple-amplifier: gpio-audio-amp: Add support for gain-ranges
+  ASoC: simple-amplifier: gpio-audio-amp: Add support for gain-labels
+  ASoC: simple-amplifier: Update author and copyright
+  MAINTAINERS: Add the ASoC gpio audio amplifier entry
+
+ .../bindings/sound/gpio-audio-amp.yaml        | 270 ++++++
+ MAINTAINERS                                   |   7 +
+ include/linux/of.h                            |   7 +
+ sound/soc/codecs/simple-amplifier.c           | 918 +++++++++++++++++-
+ 4 files changed, 1176 insertions(+), 26 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/gpio-audio-amp.yaml
+
 -- 
 2.54.0
 
