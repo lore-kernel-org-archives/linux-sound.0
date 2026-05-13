@@ -1,94 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401D04A13A1;
-	Wed, 13 May 2026 17:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6B821D596;
+	Wed, 13 May 2026 19:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778693057; cv=none; b=LUkdH/WmVznviPXvvpjkr4qlVdETx4hp7a1+ywSIdDmTsVxRYYUvCdn6/8o9hMLIiQ31ZKpBFVt5nlUMG/lSbgDel13le3Cdkz7kE2KHniz19LRaoAL80/jMczb0c9EBU8cJqCRmK9x3zqOlCbTUUdPAQ9x5+mzQaG52PZ6LwDY=
+	t=1778698860; cv=none; b=o4JUWx6eYkE8fVT5sOIY/I0l4L2MiJbUE4S+YPKjW2oM+QHO74AVMn+LvkRl9vCHyGaaXQVnkIMpcD5EFxhlD7ioJXGT1ACWXW5yips4XOQCf/bcHJCxEpl0yFFrw13/1uObkhhtJsYhKJKVH1XCDg1LhITTv94InyWorawoDqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778693057; c=relaxed/simple;
-	bh=0+15F8/N4iASyPv+juUa45quizQPBTSIncpyZwpj+6U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bo9SggzyagK7BAyb3Jkqq3qxFl4ZBMdyiZCYtbKm11cURexvHWPwBKjYmNeIXEMhsywL4YaZkScpffW1odF4LRWszmnPN29vsMpcJtqP4rTcm/tTyrkErsonH8AY54WTydWwqdu4opxRiTQdtKoomgTpAIe/J1pKGtHLFQqiMAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g+YtkJpX; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1778698860; c=relaxed/simple;
+	bh=XOehGBgidKfU6vI12ZqEdcnFg/iDrDomxlDH4nK7ilk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TgYIeE5ZCSqSEpnj1X6+fojMeMBtSzunbs1b2aGFIFjqLCkpiUs685rbwROV7thl9nfHeEyP3jR2jmC0kwKo9MUTACV2gPxtDSF/+dxCsUnLVZ46K5Gm++2oKxLeUiiXXrnIW6Eg4cuPfwyANPM4ta2M+jHC6UrgPEUJQLFo7y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kZMt9uV+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g+YtkJpX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778693055; x=1810229055;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0+15F8/N4iASyPv+juUa45quizQPBTSIncpyZwpj+6U=;
-  b=g+YtkJpXsnoozAChcrGDGg8W1gqo5y1wmaCHYRphjubmUzg1pkKKfDmr
-   Pu/qda3vARTqr4G0b3L75EzB981AinPbh5uHxXeMTjNZG4+fRzLpSTBlv
-   +gJ0Fz2yt/8VuQeIqVAevmNjzBPEU8N+7f2Ok8nWWzGfNG65dKamtRnA4
-   /GtA/3sGhASbT1HaJp5sFeENWY3kqKtDH18Dddo0PP1tENE2WEKXzsk3U
-   4Ow8jNzBwKp0zKagyxB3sJIXHCzKZTLNxqx5aywOlOATAYDDmpO66/Nbg
-   Lx2r/SM5H/jq/FnKIlWvK595KnZj7yZraVIBIcmaV01L9aJ0w6rG8A2Mr
-   g==;
-X-CSE-ConnectionGUID: hWBu9px4Q2Kr6d9QaHeDNg==
-X-CSE-MsgGUID: hP+kBRUPTFqtuwS6Pz2i6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="102296469"
-X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="102296469"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 10:24:13 -0700
-X-CSE-ConnectionGUID: Avf8sdQMQhOgeEVmiJ85pA==
-X-CSE-MsgGUID: iBIe0/ExSWuyK/HG2gZs8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,233,1770624000"; 
-   d="scan'208";a="238032201"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.106])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 10:24:11 -0700
-Date: Wed, 13 May 2026 20:24:09 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH v1 1/1] ALSA: hda/cs35l56: Drop malformed default N from
- Kconfig
-Message-ID: <agSzuYtJxIKp8-TQ@ashevche-desk.local>
-References: <20260513162758.365972-1-andriy.shevchenko@linux.intel.com>
- <48cf7f5c-4135-4111-8222-659c07cd44bd@opensource.cirrus.com>
- <agSzS1rdEOm_QeLM@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kZMt9uV+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CE55C19425;
+	Wed, 13 May 2026 19:00:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778698860;
+	bh=XOehGBgidKfU6vI12ZqEdcnFg/iDrDomxlDH4nK7ilk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kZMt9uV+ChB2jbCqvHzbWwFlzmFPz+FEDmee3x4GjrHdXgHnIKHZzpaRkg8EF4rhl
+	 P0COar+Nkok+/eL159J+iA4VHWUKlu2H2DU64e4Inz9ugtyl7FDJ3YBPGu2m0vALXu
+	 F6Du75vef06EEFZBbLjXJEMKNL2m5dPba2owbtsHbewWaSkY/YZNZ5FKpQ5M/SdNqb
+	 KdGbZi2RWk0e4KO0EHqI2/JIOGJ8gdejK3WE2ziVDVza0P9pK2IUfx1nGMEk/AfJmj
+	 1k1AvBJcp7TbnxoG2GsVOvExTQXZ7Do/qzwtlEMzO1v3s0S98ni4NqUVzblFzoBLmz
+	 oed43+SOb/PJw==
+Message-ID: <65f6da30-eb20-4020-b13a-ac7d4c823dfc@kernel.org>
+Date: Wed, 13 May 2026 21:00:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <agSzS1rdEOm_QeLM@ashevche-desk.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/2] ASoC: Use named initializers for arrays of
+ i2c_device_data
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
+ <u.kleine-koenig@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Lars-Peter Clausen <lars@metafoo.de>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Nick Li <nick.li@foursemi.com>, M R Swami Reddy <mr.swami.reddy@ti.com>,
+ Vishwas A Deshpande <vishwas.a.deshpande@ti.com>,
+ Peter Rosin <peda@axentia.se>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Oder Chiou <oder_chiou@realtek.com>, Fabio Estevam <festevam@gmail.com>,
+ Kiseok Jo <kiseok.jo@irondevice.com>, Kevin Cernekee
+ <cernekee@chromium.org>, Steven Eckhoff
+ <steven.eckhoff.opensource@gmail.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Thorsten Blum <thorsten.blum@linux.dev>,
+ Chris Morgan <macromorgan@hotmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Marco Crivellari <marco.crivellari@suse.com>,
+ Weidong Wang <wangweidong.a@awinic.com>, Aaron Kling
+ <webgeek1234@gmail.com>, Teguh Sobirin <teguh@sobir.in>,
+ Luca Weiss <luca.weiss@fairphone.com>,
+ Bharadwaj Raju <bharadwaj.raju@machinesoul.in>,
+ Hsieh Hung-En <hungen3108@gmail.com>, Binbin Zhou <zhoubinbin@loongson.cn>,
+ Shimrra Shai <shimrrashai@gmail.com>, Zhang Yi <zhangyi@everest-semi.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ Qasim Ijaz <qasdev00@gmail.com>, Sharique Mohammad <sharq0406@gmail.com>,
+ Chen Ni <nichen@iscas.ac.cn>, Neo Chang <YLCHANG2@nuvoton.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Kees Cook <kees@kernel.org>, Qianfeng Rong <rongqianfeng@vivo.com>,
+ Tim Bird <tim.bird@sony.com>,
+ Bram Vlerick <bram.vlerick@openpixelsystems.org>,
+ Peter Korsgaard <peter@korsgaard.com>, Linus Walleij <linusw@kernel.org>,
+ Wenyuan Li <2063309626@qq.com>, Bartosz Golaszewski <brgl@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@nxp.com>,
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+ Xichao Zhao <zhao.xichao@vivo.com>, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ Markus Schneider-Pargmann <msp@baylibre.com>
+References: <cover.1778692164.git.u.kleine-koenig@baylibre.com>
+ <ae2ff4898eb340bd8bcafb7b75443eb4a0ce3e76.1778692164.git.u.kleine-koenig@baylibre.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <ae2ff4898eb340bd8bcafb7b75443eb4a0ce3e76.1778692164.git.u.kleine-koenig@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 13, 2026 at 08:22:23PM +0300, Andy Shevchenko wrote:
-> On Wed, May 13, 2026 at 05:46:03PM +0100, Richard Fitzgerald wrote:
-> > On 13/05/2026 5:27 pm, Andy Shevchenko wrote:
-> > > First of all, it has to be 'default n' (small letter n), otherwise
-> > > it looks for CONFIG_N which is absent and in case of appearance
-> > > will enable something unrelated. Second and most important is that
-> > > 'n' *is* the default 'default' already. Hence just drop malformed
-> > > line.
-> > 
-> > The redundant default was added intentionally to be explicit that the
-> > default really must be "no". But if that sort of thing is forbidden you
-> > can drop the line.
-> 
-> Torvalds gave his opinion on the Subject a few years ago, here is what he would
-> do.
-> 
-> 0192f17529fa ("clean up x86 platform driver default values")
+On 13/05/2026 19:23, Uwe Kleine-König (The Capable Hub) wrote:
+>  MODULE_DEVICE_TABLE(i2c, adau1372_i2c_ids);
+> diff --git a/sound/soc/codecs/adau1373.c b/sound/soc/codecs/adau1373.c
+> index 16b9b2658341..5dd961b233ce 100644
+> --- a/sound/soc/codecs/adau1373.c
+> +++ b/sound/soc/codecs/adau1373.c
+> @@ -1599,7 +1599,7 @@ static int adau1373_i2c_probe(struct i2c_client *client)
+>  }
+>  
+>  static const struct i2c_device_id adau1373_i2c_id[] = {
+> -	{ "adau1373" },
+> +	{ .name = "adau1373" },
+>  	{ }
+>  };
 
-Based on that, can you give your tag, please? (Also for ASoC case.)
+This is inconsistent with most (or all?) of other xx_device_id table
+usages and, IIUC, is not even necessary to achieve your goal (which
+itself is good).
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Best regards,
+Krzysztof
