@@ -1,64 +1,62 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201B9389DF0
-	for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 17:23:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968A23A3E86
+	for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 17:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778693006; cv=none; b=Di9gLRiMqbulTjNqA6ynisrUy9AZWir5zUp+hLSF/pfDZbNlCpeNi91q2qXbJLg6oUt7tCs50OAVQM04yTPeeygbOmn6/Fc3pxiMv8huE2MZk5KN4+tiWr8p7TUCzIjHWTcx9CVruL/cweRLcjfD+9+PvzK9tr5evz/f5qGsadg=
+	t=1778693007; cv=none; b=Hyas++J1t6UqWP8g6hrebGLz7iF2EJKVRF2V9A3E+b6z4m2B5XlbNVGS40txoreAyIWt6rpc68iSarBX2e+J9KD1YptUcjh2/SaDJ39tHTdRphLJQEypzJRMoimMhDXPW76zMwEj28suXfmd/6Foy+VdfOl3famlrFeGXY6Dflo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778693006; c=relaxed/simple;
-	bh=3whdUSXsR7bOtEa5+tfHBQ0vuV6PGw0ny/dcbsiEnLc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fY68SzITYcO8Br66ZxQ5Nstwqegn0LWgY1IH+EYqvOzHwWsN5JedSEsOcxIkiXohmww/CvwELpu5xjy/OuMrHMVIgTi7A5GNkgLWLyAfTmq6uikeknkUzyoh1wqw+A+RD96GkUutQAwhulkiWADdfqjfKLXekOZxAHxYROPaJcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=ACl2osXd; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1778693007; c=relaxed/simple;
+	bh=0kx9nXHgcrCeA+wtwjRfMNhh1Ea6m6Da/DfM7P1VOcA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rrXI95+zBS2Sm7+cLy3PjL4N1B5K9tTNeiQ8wfDcHaWbKybpmEyIK1v6XvxvRi81yRcXqetn2QMxvyoyWWg+tdE202wVtXivMH0GlhaTgkzvxOjnnWAAKQhlgyaE/LjMjDUf6UTii/3u89A+rRnXLSAgcK8nM1ro0yhwjBcX98U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=NoEx3ssd; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="ACl2osXd"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-488ad135063so57105845e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 10:23:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="NoEx3ssd"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488ab2db91aso76055825e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 10:23:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778692999; x=1779297799; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nZD8nO7pNlMZEHnU1E6t1waIWO4n2rvrSSUaxBRmJYA=;
-        b=ACl2osXdhfo+usZuScTIL9vk65tLDduuz9FfBCJAsEVs6ZQpdYOPqQtjU4xjhmVUC5
-         reibqx66OBMQ7DvXSQOoqs/Wne1ZN8htG3cCD22+ix+Zm/bUE38k/LrBpma318ho73lA
-         EuMrDvWVbCrK8XdFlqgnjvG1YFOzWLOkR0yTic5RMjX8ebBXgKGlzYwGYvLL7a54oUeh
-         OHoNf2mnWbQKmAPtKznLpsTwOb6LpmxyXFd2NTAeHsPPHqcIvi++komCmQzcGBPqNwrs
-         +hOoyHx+20s/STh2TvjPdFW/d3+70N8ZPEl7I8uLwqz98h3JpqBo3rLPnPbqmdxOZCL6
-         rOzQ==
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778692997; x=1779297797; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WBiwKaJQY0yLoEZVoPD+i2CuAdzYgrrUN0KXkB5SBzk=;
+        b=NoEx3ssdLdl5D9YlyDsL2WePL3b0eo/f7OUl8HhSVEfHzSpBrPrCi0jCs5Yk3J0/op
+         ts5nbAQpRMX0TUAZSkx4lNx4Go1mlCfSx3b/4olVOeM0b1MVe88N9aHnOd+Zl8+t0ZgD
+         3F1xl6KobTq5es8v4EA+WydOiQnSGuEd5WMFqAd++uut/DlCjLv+7rPrGLN9CchpiCXT
+         uYZFCaAZJpy/r41WBBjveVn7LhZzoxXSQj4G6FTAoKTOKjR1lsEDdWMVQp6TJtL/OJac
+         i1PLOn5Iu2CypvoKiPo4vtuV1SbRieDoBrJ7zvindFyNZz25QZv9whUNbaeliU4QMEVy
+         6cog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778692999; x=1779297799;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nZD8nO7pNlMZEHnU1E6t1waIWO4n2rvrSSUaxBRmJYA=;
-        b=dtuhfTQ9urwqLbo5IPZlxasrOyNUE+z12Ijh3f3yJACBQU3cUFCdcB6cBi3K3pO1wI
-         iupUZzLGP/Bp8hglE7ou+yJiq7s6B6hdd+TxH+eySGJwBVq6ayTm/37Z3oK3jtdHpxQQ
-         JddphGoWU6/OtZvbb9ZVSdseTpqGQCMiV0GVmRqX3tGPGs41AE+6ScbdtvW6N0eD5Ut6
-         VkP+9GZ95+t61JV8y7t60sUmtGTLsu7GcWKR3nV+rFDIFzduXrTUgXY2mxAlTjpwUllB
-         MbXTOMLw1oO5hXkZpk+Awk+40SR3PO5Ddj+bT5uHvAZ4fE3ZnBet3TdT8wLqp8bverCf
-         D5vg==
-X-Forwarded-Encrypted: i=1; AFNElJ/4tNZ1LgUAdvYTU2pdRJtK5Oj1NhxTdPGtzTmUoLaCvlFiGbSGdQs3nYTPeecevskqUvrS8cjPZz5Rfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOSzYTaSWDuY7ET672Whj8oMo7EzTyelPmmY9Tvt3f9pNgdmgM
-	cSBvohtBrjCj1LjsDMbxZsms8IYFkcGKyo5GS1cXlaxM3uQLSxQssYZQIjLQ1yFWzzw=
-X-Gm-Gg: Acq92OG6F9b9Vd44y9yeXs2CDuBbtd02p1qyQnwjrgqhaVBd5I9Pb2smH/5E8T+9JaJ
-	2RGOjkZVWwE6GJ8cjhfKL6Vk1FUAWyJxcly1z852+U1YrAxYFG82jcSElG4jFth/mCpZ7A2re5J
-	MnW5HHCpjrlpYdPKUmLEugzArn1oQmRvbVIdxIlEPcEgzCtW8VkSY9pcCRqH5U74uTY4/oGbiy+
-	3XAT2dhnYp4EgFNF1N+mr3ms+GmNz7vpmQpTiYqRPSELP+8QvcdHsZNtRXCkLy99JkW47IXLoEz
-	EToFxwg+v11v5iaM8lloPS3S9a4oueoZDTc7U8lGjwTa5BbsDTY5hKTYqkFqesV3kA+zQWaGfAi
-	REhb8tbABOX5s3S6LGAZyVBFjGAolOEMnsRvDbTLg73yjygK2MgLuhM6n2d4Sif9HiQ31kUN8/l
-	+3MBUPOREL7HHA8BvHzqauT1YXiX5J4aniUfi6tSPWY7KFRYCsO0B1nTl/v7uQJrczl2HOhwPqG
-	Y5jyQM9ZldhKHo=
-X-Received: by 2002:a05:600c:5d2:b0:48f:d612:3c74 with SMTP id 5b1f17b1804b1-48fd612403emr6514065e9.27.1778692998746;
-        Wed, 13 May 2026 10:23:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778692997; x=1779297797;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WBiwKaJQY0yLoEZVoPD+i2CuAdzYgrrUN0KXkB5SBzk=;
+        b=XcHHYU2vP9neA11NmvUIEX5jVWpInlMhhgL7Ue/wcnzqSWETXRyOVMl1KmuFGiz8XT
+         7m57oJTU1v33NjD56Lpryljda1JCDWBPtHqkw3/k5QCXS9dufyzoTm1wQlxuW7ZfHzsL
+         jCp4zCQK+8Uz9to7eVpfF1uMFnYDwxKVWqZSRbzUW4qq6o2UJfE9gu+Op0QjLlNgVTze
+         jvXGFzyXmkKXvBGxQF1/Kok6j57KFGaPZb7W0Yj37yco2RQJOYfTsikWid/N9JH2onS+
+         VzluEdBp1VUPn24TpR3DDoCNtsDmlfTnpp8lY5L6viXYGFYYUMxE3+aE+1+u8ZiEbEev
+         ND2w==
+X-Forwarded-Encrypted: i=1; AFNElJ+nlP4FBpeF1NIelmphSkx3yNx98hBT6DC5mSh3S0+BMMJ5GNe2lFT5tQox04SWe3HFQzfY+vxAPS+BDQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQd0QSj/QvJWt5k23EtAI4v7c/kEUGZ/spsPCbo1r27RLObpQQ
+	kFssgq95USQ89VkFUmdU5zafxJUvpjkJ3KiJh6m0zeT+ydohop38ZX+4Ld+LHYCfQAI=
+X-Gm-Gg: Acq92OGeeURGs66hE28QODBCX7Ecjx4lToVtZWadd1kl1bOAc2ZnmoK1iOKT5rYpeH/
+	Mzmd7r3I3fWp66VLONDlvmg81DfQfs49NnPjEWhZkqCdJ9YbpDpF83MlaNZDSDMNVB6hwvV/kw3
+	zu4cjdCATyAVpggyYNC+/1DNX9SfPUGzdFHImja4PAdww16BhT83BJdOupD3jqLP+DGiSuLdut1
+	dnNo+M02cOnCMh7J7XeMZxq2p2FFubfHnDBcuWVQw4NvBaFgT55j81eTyDNh/3y+2jJu6wsLum7
+	NO2ERHskZhsXqYd2ewSPnIZnLqUKiheQpTR6BMEbwomHbyoCASNEu17iBWl70u5MPPjWI8fFL/r
+	hjjutSsDnbUSus79wROweLETY90DYpDHpT2vdQwdVe5tKbfeOjS7aGFzBepwd/qn2R1+ywYci6p
+	4YswERU5cx6j/oA8uWMTU3q70io64GPfg2bU5KKi2S5K+PuM+FgoNHP6Vt0m1aOuZaibbQrBJdn
+	/gkhHvZH2uJl8vacSsIMlaHRQ==
+X-Received: by 2002:a05:600c:1792:b0:488:b811:51c4 with SMTP id 5b1f17b1804b1-48fcff534edmr31119785e9.25.1778692996712;
+        Wed, 13 May 2026 10:23:16 -0700 (PDT)
 Received: from localhost (p200300f65f47db04379dbd4376e53036.dip0.t-ipconnect.de. [2003:f6:5f47:db04:379d:bd43:76e5:3036])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-48e8f447166sm45608735e9.30.2026.05.13.10.23.17
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-48fd648a6casm5365505e9.4.2026.05.13.10.23.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 10:23:18 -0700 (PDT)
+        Wed, 13 May 2026 10:23:16 -0700 (PDT)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>
@@ -70,13 +68,65 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	patches@opensource.cirrus.com,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	=?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+	=?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Nick Li <nick.li@foursemi.com>,
+	M R Swami Reddy <mr.swami.reddy@ti.com>,
+	Vishwas A Deshpande <vishwas.a.deshpande@ti.com>,
+	Peter Rosin <peda@axentia.se>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Kiseok Jo <kiseok.jo@irondevice.com>,
+	Kevin Cernekee <cernekee@chromium.org>,
+	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Aaron Kling <webgeek1234@gmail.com>,
+	Teguh Sobirin <teguh@sobir.in>,
+	Luca Weiss <luca.weiss@fairphone.com>,
+	Bharadwaj Raju <bharadwaj.raju@machinesoul.in>,
+	Hsieh Hung-En <hungen3108@gmail.com>,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Shimrra Shai <shimrrashai@gmail.com>,
+	Zhang Yi <zhangyi@everest-semi.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+	Qasim Ijaz <qasdev00@gmail.com>,
+	Sharique Mohammad <sharq0406@gmail.com>,
+	Chen Ni <nichen@iscas.ac.cn>,
+	Neo Chang <YLCHANG2@nuvoton.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Kees Cook <kees@kernel.org>,
+	Qianfeng Rong <rongqianfeng@vivo.com>,
+	Tim Bird <tim.bird@sony.com>,
+	Bram Vlerick <bram.vlerick@openpixelsystems.org>,
+	Peter Korsgaard <peter@korsgaard.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Wenyuan Li <2063309626@qq.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+	Xichao Zhao <zhao.xichao@vivo.com>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
 	Markus Schneider-Pargmann <msp@baylibre.com>
-Subject: [PATCH v1 1/2] ASoC: Drop empty i2c remove callbacks
-Date: Wed, 13 May 2026 19:23:03 +0200
-Message-ID:  <3afd8230634dd68ac7c1885ee2b01da377349f89.1778692164.git.u.kleine-koenig@baylibre.com>
+Subject: [PATCH v1 0/2] ASoC: Rework initialization of i2c_device_ids
+Date: Wed, 13 May 2026 19:23:02 +0200
+Message-ID: <cover.1778692164.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1778692164.git.u.kleine-koenig@baylibre.com>
-References: <cover.1778692164.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -84,197 +134,293 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5652; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=3whdUSXsR7bOtEa5+tfHBQ0vuV6PGw0ny/dcbsiEnLc=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqBLN4O8OL0Zly+4uNNccl6qIAZPHLyUDrmVhI3 DpweV62KweJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCagSzeAAKCRCPgPtYfRL+ ThjZCACMdmoD5OYnF2KT/NF6hbJyLG/u9GjIemd7rvGOXL7OLGbHddkr6ZW28463g1Vvx67Bs8/ AGFNixOOLZcejcG5CRzhb0Ro7ZcGl2vfSGdj9B/gl3U2SYBPs+H8BO7VZXcc34l+bqICXnJ5n6o EkHcJwpJ1CiubaeHi511xqZ6JPIOBhG/jTyi46zD8BZXSBL9juh4xLMzk7b2Da28q5urZbLVINX RMqKVFdpS4TIpo2N/rYN1pgj6JtRwzRwWPfrZX/3uI/GwppCvRqU7zcxmTRFaz99CvoOYEN6JLc +At9aNzSCYjhTuseGa/Iv7R8NZzCtQRrPzURleYr3LAFxJNM
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14547; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=0kx9nXHgcrCeA+wtwjRfMNhh1Ea6m6Da/DfM7P1VOcA=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqBLN2Nm3PEL/Sz0K+vQWH1XxUY//RfwT4gR/sc PXjrKxV01qJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCagSzdgAKCRCPgPtYfRL+ TgCzB/4tkpOYSSUU/IdtpZiBaOH7zqSllHElRHgZ1q63Ume5K5IygtuZyROolQNaDGgbpgbZ4gg XSsljcYTDD7ygjhXMQWNyxRTbZze+Lj/s6ylX+dvjfHC9HUtF1eSH4TyJ6UkZ2s98tYeEvIS7LC KziMrzweb2xnIV4GphNtOPHXkjovnRINC6OEdTZULV1gWXZSwoQxHXFiHafrIu65aCSu3GVVeUs HwDduA1gaUGTfb3+LBKl+ftiRBy7hJC6Gnkf6TCOAT+qoZLXuGvU1wGavrnK8nkbUpOM3NLSFue sBfbX8HfmrZzYHDGGydvMPlB/ziJWpA1SBX5QA5pav1Oof+2
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-A remove callback that does nothing has the same semantic (apart from a
-debug output) as no such callback at all as i2c_device_remove() just does:
+Hello,
 
-        if (driver->remove) {
-                dev_dbg(dev, "remove\n");
+this series is a preparation for
 
-                driver->remove(client);
-        }
+	diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+	index 23ff24080dfd..aebd3a5e90af 100644
+	--- a/include/linux/mod_devicetable.h
+	+++ b/include/linux/mod_devicetable.h
+	@@ -477,7 +477,11 @@ struct rpmsg_device_id {
+	 
+	 struct i2c_device_id {
+		char name[I2C_NAME_SIZE];
+	-	kernel_ulong_t driver_data;	/* Data private to the driver */
+	+	union {
+	+		/* Data private to the driver */
+	+		kernel_ulong_t driver_data;
+	+		const void *driver_data_ptr;
+	+	};
+	 };
+	 
+	 /* pci_epf */
 
-Remove these useless callbacks.
+and this requires that .driver_data is assigned via a named initializer
+for static data. This requirement isn't a bad one because named
+initializers are also much better readable than list initializers.
 
-While touching the driver structs, unify indention.
+The union added to struct i2c_device_id enables further cleanups like:
 
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
----
- sound/soc/codecs/nau8825.c |  4 ----
- sound/soc/codecs/rt5616.c  |  4 ----
- sound/soc/codecs/rt5631.c  |  6 +-----
- sound/soc/codecs/sta350.c  |  6 +-----
- sound/soc/codecs/tas5086.c | 10 +++-------
- sound/soc/codecs/wm8900.c  |  6 +-----
- sound/soc/codecs/wm9081.c  |  6 +-----
- 7 files changed, 7 insertions(+), 35 deletions(-)
+        diff --git a/drivers/iio/accel/kxcjk-1013.c b/drivers/iio/accel/kxcjk-1013.c
+        index 8a082ff034dd..b2aac7348d22 100644
+        --- a/drivers/iio/accel/kxcjk-1013.c
+        +++ b/drivers/iio/accel/kxcjk-1013.c
+	@@ -1429,7 +1429,7 @@ static int kxcjk1013_probe(struct i2c_client *client)
+	 
+		if (id) {
+			name = id->name;
+	-		data->info = (const struct kx_chipset_info *)(id->driver_data);
+	+		data->info = id->driver_data_ptr;
+		} else {
+			name = iio_get_acpi_device_name_and_data(&client->dev, &ddata);
+			data->info = ddata;
+	@@ -1630,11 +1630,11 @@ static const struct dev_pm_ops kxcjk1013_pm_ops = {
+	 };
+	 
+	 static const struct i2c_device_id kxcjk1013_id[] = {
+	-	{ .name = "kxcjk1013", .driver_data = (kernel_ulong_t)&kxcjk1013_info },
+	-	{ .name = "kxcj91008", .driver_data = (kernel_ulong_t)&kxcj91008_info },
+	-	{ .name = "kxtj21009", .driver_data = (kernel_ulong_t)&kxtj21009_info },
+	-	{ .name = "kxtf9", .driver_data = (kernel_ulong_t)&kxtf9_info },
+	-	{ .name = "kx023-1025", .driver_data = (kernel_ulong_t)&kx0231025_info },
+	+	{ .name = "kxcjk1013", .driver_data_ptr = &kxcjk1013_info },
+	+	{ .name = "kxcj91008", .driver_data_ptr = &kxcj91008_info },
+	+	{ .name = "kxtj21009", .driver_data_ptr = &kxtj21009_info },
+	+	{ .name = "kxtf9", .driver_data_ptr = &kxtf9_info },
+	+	{ .name = "kx023-1025", .driver_data_ptr = &kx0231025_info },
+		{ }
+	 };
+	 MODULE_DEVICE_TABLE(i2c, kxcjk1013_id);
 
-diff --git a/sound/soc/codecs/nau8825.c b/sound/soc/codecs/nau8825.c
-index dd3528537ae4..c6df21b91e36 100644
---- a/sound/soc/codecs/nau8825.c
-+++ b/sound/soc/codecs/nau8825.c
-@@ -2930,9 +2930,6 @@ static int nau8825_i2c_probe(struct i2c_client *i2c)
- 		&nau8825_dai, 1);
- }
- 
--static void nau8825_i2c_remove(struct i2c_client *client)
--{}
--
- static const struct i2c_device_id nau8825_i2c_ids[] = {
- 	{ "nau8825" },
- 	{ }
-@@ -2962,7 +2959,6 @@ static struct i2c_driver nau8825_driver = {
- 		.acpi_match_table = ACPI_PTR(nau8825_acpi_match),
- 	},
- 	.probe = nau8825_i2c_probe,
--	.remove = nau8825_i2c_remove,
- 	.id_table = nau8825_i2c_ids,
- };
- module_i2c_driver(nau8825_driver);
-diff --git a/sound/soc/codecs/rt5616.c b/sound/soc/codecs/rt5616.c
-index fb9cf127e3ff..005a2ffe90ae 100644
---- a/sound/soc/codecs/rt5616.c
-+++ b/sound/soc/codecs/rt5616.c
-@@ -1386,9 +1386,6 @@ static int rt5616_i2c_probe(struct i2c_client *i2c)
- 				      rt5616_dai, ARRAY_SIZE(rt5616_dai));
- }
- 
--static void rt5616_i2c_remove(struct i2c_client *i2c)
--{}
--
- static void rt5616_i2c_shutdown(struct i2c_client *client)
- {
- 	struct rt5616_priv *rt5616 = i2c_get_clientdata(client);
-@@ -1403,7 +1400,6 @@ static struct i2c_driver rt5616_i2c_driver = {
- 		.of_match_table = of_match_ptr(rt5616_of_match),
- 	},
- 	.probe = rt5616_i2c_probe,
--	.remove = rt5616_i2c_remove,
- 	.shutdown = rt5616_i2c_shutdown,
- 	.id_table = rt5616_i2c_id,
- };
-diff --git a/sound/soc/codecs/rt5631.c b/sound/soc/codecs/rt5631.c
-index 19c6d8f760d9..2c404a50b120 100644
---- a/sound/soc/codecs/rt5631.c
-+++ b/sound/soc/codecs/rt5631.c
-@@ -1722,16 +1722,12 @@ static int rt5631_i2c_probe(struct i2c_client *i2c)
- 	return ret;
- }
- 
--static void rt5631_i2c_remove(struct i2c_client *client)
--{}
--
- static struct i2c_driver rt5631_i2c_driver = {
- 	.driver = {
- 		.name = "rt5631",
- 		.of_match_table = of_match_ptr(rt5631_i2c_dt_ids),
- 	},
--	.probe    = rt5631_i2c_probe,
--	.remove   = rt5631_i2c_remove,
-+	.probe = rt5631_i2c_probe,
- 	.id_table = rt5631_i2c_id,
- };
- 
-diff --git a/sound/soc/codecs/sta350.c b/sound/soc/codecs/sta350.c
-index 71af82b099c0..0d36cb06dced 100644
---- a/sound/soc/codecs/sta350.c
-+++ b/sound/soc/codecs/sta350.c
-@@ -1236,9 +1236,6 @@ static int sta350_i2c_probe(struct i2c_client *i2c)
- 	return ret;
- }
- 
--static void sta350_i2c_remove(struct i2c_client *client)
--{}
--
- static const struct i2c_device_id sta350_i2c_id[] = {
- 	{ "sta350" },
- 	{ }
-@@ -1250,8 +1247,7 @@ static struct i2c_driver sta350_i2c_driver = {
- 		.name = "sta350",
- 		.of_match_table = of_match_ptr(st350_dt_ids),
- 	},
--	.probe =    sta350_i2c_probe,
--	.remove =   sta350_i2c_remove,
-+	.probe = sta350_i2c_probe,
- 	.id_table = sta350_i2c_id,
- };
- 
-diff --git a/sound/soc/codecs/tas5086.c b/sound/soc/codecs/tas5086.c
-index 12bf6a89dbd8..36596b00ca69 100644
---- a/sound/soc/codecs/tas5086.c
-+++ b/sound/soc/codecs/tas5086.c
-@@ -975,17 +975,13 @@ static int tas5086_i2c_probe(struct i2c_client *i2c)
- 	return ret;
- }
- 
--static void tas5086_i2c_remove(struct i2c_client *i2c)
--{}
--
- static struct i2c_driver tas5086_i2c_driver = {
- 	.driver = {
--		.name	= "tas5086",
-+		.name = "tas5086",
- 		.of_match_table = of_match_ptr(tas5086_dt_ids),
- 	},
--	.id_table	= tas5086_i2c_id,
--	.probe		= tas5086_i2c_probe,
--	.remove		= tas5086_i2c_remove,
-+	.id_table = tas5086_i2c_id,
-+	.probe = tas5086_i2c_probe,
- };
- 
- module_i2c_driver(tas5086_i2c_driver);
-diff --git a/sound/soc/codecs/wm8900.c b/sound/soc/codecs/wm8900.c
-index fea629541acd..5312eb70dd29 100644
---- a/sound/soc/codecs/wm8900.c
-+++ b/sound/soc/codecs/wm8900.c
-@@ -1286,9 +1286,6 @@ static int wm8900_i2c_probe(struct i2c_client *i2c)
- 	return ret;
- }
- 
--static void wm8900_i2c_remove(struct i2c_client *client)
--{}
--
- static const struct i2c_device_id wm8900_i2c_id[] = {
- 	{ "wm8900" },
- 	{ }
-@@ -1299,8 +1296,7 @@ static struct i2c_driver wm8900_i2c_driver = {
- 	.driver = {
- 		.name = "wm8900",
- 	},
--	.probe =    wm8900_i2c_probe,
--	.remove =   wm8900_i2c_remove,
-+	.probe = wm8900_i2c_probe,
- 	.id_table = wm8900_i2c_id,
- };
- #endif
-diff --git a/sound/soc/codecs/wm9081.c b/sound/soc/codecs/wm9081.c
-index 5bfe43c6c1f4..521c55280f07 100644
---- a/sound/soc/codecs/wm9081.c
-+++ b/sound/soc/codecs/wm9081.c
-@@ -1357,9 +1357,6 @@ static int wm9081_i2c_probe(struct i2c_client *i2c)
- 	return 0;
- }
- 
--static void wm9081_i2c_remove(struct i2c_client *client)
--{}
--
- static const struct i2c_device_id wm9081_i2c_id[] = {
- 	{ "wm9081" },
- 	{ }
-@@ -1370,8 +1367,7 @@ static struct i2c_driver wm9081_i2c_driver = {
- 	.driver = {
- 		.name = "wm9081",
- 	},
--	.probe =    wm9081_i2c_probe,
--	.remove =   wm9081_i2c_remove,
-+	.probe = wm9081_i2c_probe,
- 	.id_table = wm9081_i2c_id,
- };
- 
+that are an improvement for readability (again!) and it keeps some
+properties of the pointers (here: being const) without having to pay
+attention for that. (I didn't find a good example in sound/soc, so an
+iio driver was used to demonstrate the gain.)
+
+My additional motivation for this effort is CHERI[1]. This is a hardware
+extension that uses 128 bit pointers but unsigned long is still 64 bit.
+So with CHERI you cannot store pointers in unsigned long variables.
+
+The first patch drops a few empty remove callbacks that I found while
+working on patch #2. The second converts all hwmon drivers to use named
+initializers.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (The Capable Hub) (2):
+  ASoC: Drop empty i2c remove callbacks
+  ASoC: Use named initializers for arrays of i2c_device_data
+
+ .../hda/codecs/side-codecs/cs35l41_hda_i2c.c  |  4 +-
+ .../hda/codecs/side-codecs/cs35l56_hda_i2c.c  |  8 ++--
+ .../hda/codecs/side-codecs/tas2781_hda_i2c.c  |  4 +-
+ sound/soc/codecs/ad193x-i2c.c                 |  4 +-
+ sound/soc/codecs/adau1372-i2c.c               |  2 +-
+ sound/soc/codecs/adau1373.c                   |  2 +-
+ sound/soc/codecs/adau1701.c                   |  8 ++--
+ sound/soc/codecs/adau1761-i2c.c               |  8 ++--
+ sound/soc/codecs/adau1781-i2c.c               |  4 +-
+ sound/soc/codecs/adau1977-i2c.c               |  6 +--
+ sound/soc/codecs/adau7118-i2c.c               |  4 +-
+ sound/soc/codecs/adav803.c                    |  2 +-
+ sound/soc/codecs/ak4118.c                     |  4 +-
+ sound/soc/codecs/ak4535.c                     |  2 +-
+ sound/soc/codecs/ak4613.c                     |  2 +-
+ sound/soc/codecs/ak4619.c                     |  2 +-
+ sound/soc/codecs/ak4642.c                     |  8 ++--
+ sound/soc/codecs/ak4671.c                     |  2 +-
+ sound/soc/codecs/alc5623.c                    |  8 ++--
+ sound/soc/codecs/alc5632.c                    |  4 +-
+ sound/soc/codecs/aw87390.c                    |  4 +-
+ sound/soc/codecs/aw88081.c                    |  4 +-
+ sound/soc/codecs/aw88166.c                    |  2 +-
+ sound/soc/codecs/aw88261.c                    |  2 +-
+ sound/soc/codecs/aw88395/aw88395.c            |  2 +-
+ sound/soc/codecs/aw88399.c                    |  2 +-
+ sound/soc/codecs/cs35l32.c                    |  4 +-
+ sound/soc/codecs/cs35l33.c                    |  4 +-
+ sound/soc/codecs/cs35l34.c                    |  4 +-
+ sound/soc/codecs/cs35l35.c                    |  4 +-
+ sound/soc/codecs/cs35l36.c                    |  4 +-
+ sound/soc/codecs/cs35l41-i2c.c                | 10 ++---
+ sound/soc/codecs/cs35l45-i2c.c                |  4 +-
+ sound/soc/codecs/cs35l56-i2c.c                |  6 +--
+ sound/soc/codecs/cs4265.c                     |  2 +-
+ sound/soc/codecs/cs4270.c                     |  4 +-
+ sound/soc/codecs/cs4271-i2c.c                 |  2 +-
+ sound/soc/codecs/cs42l42-i2c.c                |  4 +-
+ sound/soc/codecs/cs42l51-i2c.c                |  2 +-
+ sound/soc/codecs/cs42l52.c                    |  2 +-
+ sound/soc/codecs/cs42l56.c                    |  2 +-
+ sound/soc/codecs/cs42l73.c                    |  4 +-
+ sound/soc/codecs/cs42l84.c                    |  4 +-
+ sound/soc/codecs/cs42xx8-i2c.c                |  6 +--
+ sound/soc/codecs/cs43130.c                    | 10 ++---
+ sound/soc/codecs/cs4341.c                     |  2 +-
+ sound/soc/codecs/cs4349.c                     |  4 +-
+ sound/soc/codecs/cs530x-i2c.c                 | 14 +++---
+ sound/soc/codecs/cs53l30.c                    |  4 +-
+ sound/soc/codecs/cx2072x.c                    |  6 +--
+ sound/soc/codecs/da7210.c                     |  2 +-
+ sound/soc/codecs/da7213.c                     |  2 +-
+ sound/soc/codecs/da7218.c                     |  4 +-
+ sound/soc/codecs/da7219.c                     |  2 +-
+ sound/soc/codecs/da732x.c                     |  2 +-
+ sound/soc/codecs/da9055.c                     |  2 +-
+ sound/soc/codecs/es8311.c                     |  2 +-
+ sound/soc/codecs/es8316.c                     |  4 +-
+ sound/soc/codecs/es8323.c                     |  2 +-
+ sound/soc/codecs/es8326.c                     |  4 +-
+ sound/soc/codecs/es8328-i2c.c                 |  4 +-
+ sound/soc/codecs/es8375.c                     |  2 +-
+ sound/soc/codecs/es8389.c                     |  2 +-
+ sound/soc/codecs/fs210x.c                     |  6 +--
+ sound/soc/codecs/isabelle.c                   |  2 +-
+ sound/soc/codecs/lm4857.c                     |  2 +-
+ sound/soc/codecs/lm49453.c                    |  2 +-
+ sound/soc/codecs/max9768.c                    |  2 +-
+ sound/soc/codecs/max98088.c                   |  4 +-
+ sound/soc/codecs/max98090.c                   |  4 +-
+ sound/soc/codecs/max98095.c                   |  2 +-
+ sound/soc/codecs/max98371.c                   |  2 +-
+ sound/soc/codecs/max98373-i2c.c               |  4 +-
+ sound/soc/codecs/max98388.c                   |  4 +-
+ sound/soc/codecs/max98390.c                   |  4 +-
+ sound/soc/codecs/max98396.c                   |  6 +--
+ sound/soc/codecs/max9850.c                    |  2 +-
+ sound/soc/codecs/max98504.c                   |  2 +-
+ sound/soc/codecs/max98520.c                   |  4 +-
+ sound/soc/codecs/max9860.c                    |  2 +-
+ sound/soc/codecs/max9867.c                    |  2 +-
+ sound/soc/codecs/max9877.c                    |  2 +-
+ sound/soc/codecs/max98925.c                   |  2 +-
+ sound/soc/codecs/max98926.c                   |  2 +-
+ sound/soc/codecs/max98927.c                   |  4 +-
+ sound/soc/codecs/ml26124.c                    |  2 +-
+ sound/soc/codecs/mt6660.c                     |  4 +-
+ sound/soc/codecs/nau8325.c                    |  2 +-
+ sound/soc/codecs/nau8540.c                    |  2 +-
+ sound/soc/codecs/nau8810.c                    |  6 +--
+ sound/soc/codecs/nau8821.c                    |  2 +-
+ sound/soc/codecs/nau8822.c                    |  2 +-
+ sound/soc/codecs/nau8824.c                    |  2 +-
+ sound/soc/codecs/nau8825.c                    |  6 +--
+ sound/soc/codecs/ntp8835.c                    |  4 +-
+ sound/soc/codecs/ntp8918.c                    |  4 +-
+ sound/soc/codecs/pcm1681.c                    |  4 +-
+ sound/soc/codecs/pcm1789-i2c.c                |  2 +-
+ sound/soc/codecs/pcm179x-i2c.c                |  2 +-
+ sound/soc/codecs/pcm186x-i2c.c                |  8 ++--
+ sound/soc/codecs/pcm3168a-i2c.c               |  2 +-
+ sound/soc/codecs/pcm512x-i2c.c                | 14 +++---
+ sound/soc/codecs/pcm6240.c                    | 44 +++++++++----------
+ sound/soc/codecs/rt1011.c                     |  2 +-
+ sound/soc/codecs/rt1015.c                     |  2 +-
+ sound/soc/codecs/rt1016.c                     |  2 +-
+ sound/soc/codecs/rt1019.c                     |  2 +-
+ sound/soc/codecs/rt1305.c                     |  4 +-
+ sound/soc/codecs/rt1308.c                     |  2 +-
+ sound/soc/codecs/rt1318.c                     |  2 +-
+ sound/soc/codecs/rt274.c                      |  4 +-
+ sound/soc/codecs/rt286.c                      |  6 +--
+ sound/soc/codecs/rt298.c                      |  4 +-
+ sound/soc/codecs/rt5514.c                     |  2 +-
+ sound/soc/codecs/rt5575.c                     |  2 +-
+ sound/soc/codecs/rt5616.c                     |  6 +--
+ sound/soc/codecs/rt5631.c                     | 10 ++---
+ sound/soc/codecs/rt5640.c                     |  6 +--
+ sound/soc/codecs/rt5645.c                     |  4 +-
+ sound/soc/codecs/rt5651.c                     |  2 +-
+ sound/soc/codecs/rt5659.c                     |  4 +-
+ sound/soc/codecs/rt5660.c                     |  2 +-
+ sound/soc/codecs/rt5663.c                     |  4 +-
+ sound/soc/codecs/rt5665.c                     |  4 +-
+ sound/soc/codecs/rt5668.c                     |  4 +-
+ sound/soc/codecs/rt5670.c                     |  6 +--
+ sound/soc/codecs/rt5677.c                     |  2 +-
+ sound/soc/codecs/rt5682-i2c.c                 |  4 +-
+ sound/soc/codecs/rt5682s.c                    |  4 +-
+ sound/soc/codecs/sgtl5000.c                   |  4 +-
+ sound/soc/codecs/sma1303.c                    |  4 +-
+ sound/soc/codecs/sma1307.c                    |  4 +-
+ sound/soc/codecs/src4xxx-i2c.c                |  2 +-
+ sound/soc/codecs/ssm2518.c                    |  2 +-
+ sound/soc/codecs/ssm2602-i2c.c                |  6 +--
+ sound/soc/codecs/ssm4567.c                    |  2 +-
+ sound/soc/codecs/sta32x.c                     |  6 +--
+ sound/soc/codecs/sta350.c                     |  8 +---
+ sound/soc/codecs/sta529.c                     |  2 +-
+ sound/soc/codecs/tas2552.c                    |  2 +-
+ sound/soc/codecs/tas2562.c                    |  6 +--
+ sound/soc/codecs/tas2764.c                    |  2 +-
+ sound/soc/codecs/tas2770.c                    |  2 +-
+ sound/soc/codecs/tas2780.c                    |  2 +-
+ sound/soc/codecs/tas2781-i2c.c                | 42 +++++++++---------
+ sound/soc/codecs/tas5086.c                    | 12 ++---
+ sound/soc/codecs/tas571x.c                    | 14 +++---
+ sound/soc/codecs/tas5720.c                    |  6 +--
+ sound/soc/codecs/tas5805m.c                   |  2 +-
+ sound/soc/codecs/tas6424.c                    |  2 +-
+ sound/soc/codecs/tda7419.c                    |  2 +-
+ sound/soc/codecs/tfa9879.c                    |  2 +-
+ sound/soc/codecs/tlv320adc3xxx.c              |  6 +--
+ sound/soc/codecs/tlv320adcx140.c              |  8 ++--
+ sound/soc/codecs/tlv320aic23-i2c.c            |  4 +-
+ sound/soc/codecs/tlv320aic31xx.c              | 16 +++----
+ sound/soc/codecs/tlv320aic32x4-i2c.c          |  6 +--
+ sound/soc/codecs/tlv320aic3x-i2c.c            | 10 ++---
+ sound/soc/codecs/ts3a227e.c                   |  2 +-
+ sound/soc/codecs/tscs42xx.c                   |  4 +-
+ sound/soc/codecs/tscs454.c                    |  2 +-
+ sound/soc/codecs/uda1342.c                    |  2 +-
+ sound/soc/codecs/uda1380.c                    |  2 +-
+ sound/soc/codecs/wm1250-ev1.c                 |  2 +-
+ sound/soc/codecs/wm2000.c                     |  2 +-
+ sound/soc/codecs/wm2200.c                     |  2 +-
+ sound/soc/codecs/wm5100.c                     |  2 +-
+ sound/soc/codecs/wm8510.c                     |  2 +-
+ sound/soc/codecs/wm8523.c                     |  2 +-
+ sound/soc/codecs/wm8580.c                     |  4 +-
+ sound/soc/codecs/wm8711.c                     |  2 +-
+ sound/soc/codecs/wm8728.c                     |  2 +-
+ sound/soc/codecs/wm8731-i2c.c                 |  2 +-
+ sound/soc/codecs/wm8737.c                     |  2 +-
+ sound/soc/codecs/wm8741.c                     |  2 +-
+ sound/soc/codecs/wm8750.c                     |  4 +-
+ sound/soc/codecs/wm8753.c                     |  2 +-
+ sound/soc/codecs/wm8776.c                     |  4 +-
+ sound/soc/codecs/wm8804-i2c.c                 |  2 +-
+ sound/soc/codecs/wm8900.c                     |  8 +---
+ sound/soc/codecs/wm8903.c                     |  2 +-
+ sound/soc/codecs/wm8904.c                     |  6 +--
+ sound/soc/codecs/wm8940.c                     |  2 +-
+ sound/soc/codecs/wm8955.c                     |  2 +-
+ sound/soc/codecs/wm8960.c                     |  2 +-
+ sound/soc/codecs/wm8961.c                     |  2 +-
+ sound/soc/codecs/wm8962.c                     |  2 +-
+ sound/soc/codecs/wm8971.c                     |  2 +-
+ sound/soc/codecs/wm8974.c                     |  2 +-
+ sound/soc/codecs/wm8978.c                     |  2 +-
+ sound/soc/codecs/wm8983.c                     |  2 +-
+ sound/soc/codecs/wm8985.c                     |  4 +-
+ sound/soc/codecs/wm8988.c                     |  2 +-
+ sound/soc/codecs/wm8990.c                     |  2 +-
+ sound/soc/codecs/wm8991.c                     |  2 +-
+ sound/soc/codecs/wm8993.c                     |  2 +-
+ sound/soc/codecs/wm8995.c                     |  4 +-
+ sound/soc/codecs/wm8996.c                     |  2 +-
+ sound/soc/codecs/wm9081.c                     |  8 +---
+ sound/soc/codecs/wm9090.c                     |  4 +-
+ 200 files changed, 398 insertions(+), 426 deletions(-)
+
+
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
 -- 
 2.47.3
 
