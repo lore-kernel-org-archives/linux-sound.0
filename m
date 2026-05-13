@@ -1,111 +1,134 @@
-Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB0F3C276F;
-	Wed, 13 May 2026 09:26:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992F33A8724
+	for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 09:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778664419; cv=none; b=RuDmFcAO/rY45x6pLsr7TpLMdv6+kjLy9EpuwwmJchEANAW6J1TwnLSn0EYC9tRsDTPakngD5ALDHTN1nF7R99lh2WgDUTAsJFFKGImwHYJKK0X0LZcapMD4JqRUuMNwUOBbYhESISDG4Z0gl+IPraatWVTjadTnVoY4wbnkcNM=
+	t=1778665333; cv=none; b=SgbMOow7/txyQzCzCOp110++VLdUH//U46ISbXzCkTMPLAMpHqwrFmqOnBx/TJkgL6GYQk22kgoOcijo5If+vssraJkJM0sYTw+zXbGXV0A4IxGPzVqstErhBDpHsbTnhnH9iOSHNnT76mIgL/LlEl66+hWnflRyRfNHHXcYt4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778664419; c=relaxed/simple;
-	bh=zQa5gqqpFm710+Ixa+a4CQZ7LaEGyB+ZyPR8jBqYxi0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fw5Y22glhB+un853WUkugHhgtOm0eXDD3maeLwbQ1jVld1wdOZYF+Wa6iCcQYDWLE2+wFWXKuhoB2ZZThVReCotkmyPsOutrBpfZyP9GWtEOaAka6eai4bdcAOiO9OVkbPYjC3Zh6NaGDjaaQf/0fLG/4NQBcc4BBMsfeVcNlko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=M1qlllNT; arc=none smtp.client-ip=202.61.224.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cachyos.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="M1qlllNT"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B5FF828171D;
-	Wed, 13 May 2026 11:26:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
-	t=1778664409; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=bcdzzO0MiRGhVsokH/gznJ943ymeZUTjk85Au+buLt0=;
-	b=M1qlllNTDV+AoVwRIqLdczp9VAEkyoL6e7uTTvP2YOxUdcqo7/6fHPHUzv0l6kSWjF5UqL
-	BWNWDXu/WjLoERQ5kg9fRN0MhVfT/7FVlSZEZ6dAsHpyF23FjTsLZ97tkf3IE+8ZKkL1yd
-	IhAJdRuFpgX3Ulo/FxIl3UNHegEZ0hRGFkXXVyuME5vGfUZnblMwqQ3hvos7L+5EvqmIWX
-	OfI99NINC54reQUYBB4vJ9TlIEgZwKk2Hx3rUKWPMxT2q+L92Afd4QVnm8X+O5cSdg/+lw
-	XkJFdtlwhkdZ39mJSAz+by/paT9T5Rzcdc6WbAqbjIJRAHn4Zxk/D/Rc5Sz6HA==
-Message-ID: <541669a6-879c-454b-98c4-3a58c8d2d76b@cachyos.org>
-Date: Wed, 13 May 2026 09:26:00 +0000
+	s=arc-20240116; t=1778665333; c=relaxed/simple;
+	bh=uVYsoxVIXinsrUNO2qPk1Z0E1qtPCaft8XkhDwMRN48=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R5mzHoJgplWyRG0f2MrrcNLOOypfmUYgGYbVuytfzGeZLQnNE3f/HDuHed4+H/4+1IVLh8wqEOZQ8o2FDpmKK8iprq5QxzPyava/SvExSNRWSUWt9mLQvEFaDeKdERcoK1pEuJNd4QvheqfcwAKuSFs1asTjNEMHgp82EpZMY8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-56a86f0a23bso6082770e0c.0
+        for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 02:42:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778665326; x=1779270126;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=imrv8gGof0CUbxurFPeQ8Hwv6N5BbSJLpDwNoIBJTok=;
+        b=hzA6Ivkw1bYy5pLwJV1Y8QfBtgT4ZPqSUah6G6XopHEZ+nUsAAkfJo/NYUyUtvZYh0
+         RkaCoTIgElqxzIK4awrH6Z9d3gWQYjgNOr1ZLxwURJOAD/TVpLk6TFC4Yt1IxW5KWHyw
+         7rP2GXTrUapNEJIFWf8zucJur4De+YRtgCGshXfuMfMx9R/nuC3fAAvvGHAmzCCvz8w4
+         r3nY9xKYRohGiENrYC9CBzX4WJG90yCukndq7kMzgT0Cf8+MMEU3XuTrSPW0lFOEPeh+
+         0Mxdy2tAtNZl2v6j5WzSiCz23DxBQy+wybgqYkB71TlXEKK3yB2Pq8itZNgGoGAXsJ1J
+         G1Rg==
+X-Forwarded-Encrypted: i=1; AFNElJ8RvCy2I5c2pBjJNHJuLWFGIQPv1yk2B7P1B9mg0sIjrlxAafNkg3ddOQuUkKrjo/I9BUTMymYraPcljA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyl2rUm1Z/nf34BbW8bXf64UHnwHBMvlYZfLuQlg6GpR58zW85S
+	Pf82xDVYswiMKn+yyAa1lQKikUNFV2boAXNju9Ioc2NwLluehppstFMgI4730N6r
+X-Gm-Gg: Acq92OEE7zlaWpED/428ev6yJqSvfdfe7QpjPP4g1d6oM/fozpUH/McLot8hlPZvhkC
+	0vXaROFEqyFoheLinodWH+BhGhAQXWk9c6hzpwhLxkXfpQbK08CO2JTy6C1Z1kWDeBTTVe5jqAn
+	2r3DjC577udMRPzEEtWBet/vzsW9uW1gAxAv4kdiwTzHC0t8hVfgtXV4NzPl16//HmfrNuOPNOt
+	HfXOBvGsWpKGbZ8d7L5d5YVDJUulYU00W3pX0rJOQPiv1XnQROjxcuV5iJjsOMeS4R4IcuzY3i0
+	nPBv82aMS+Uy6E/WF6JPxphpQ2jPqfhscFvkv5H+aOYM/Rvg0fICWjZLUjVuWZHNCdLL1JD9UuI
+	KTgMgwfcUKvcIpeZ2opZbpWz33w2ddgtKfNhyR/+EqfPUAurKF8zjaa1G2A5yKuYIfrGCoTi5b4
+	XrLIY8oU0bE/+eYHBf+hbmT+vfVaWXR0geDFkxuHMuM0Y27Tc5FXyI4wHL04ik+2sv
+X-Received: by 2002:a05:6123:4b:b0:575:2072:54d1 with SMTP id 71dfb90a1353d-575e6fa8eecmr978776e0c.8.1778665325682;
+        Wed, 13 May 2026 02:42:05 -0700 (PDT)
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-57576d13773sm10933249e0c.16.2026.05.13.02.42.03
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 May 2026 02:42:04 -0700 (PDT)
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-56a86f0a23bso6082733e0c.0
+        for <linux-sound@vger.kernel.org>; Wed, 13 May 2026 02:42:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9jN0qFgTfbkSKIEvyuWgkGOou/99/Pu4F+axvFNnqlaJzrgCWAeYV9EemNERzJvOQxPHcEKR6u8JYV+g==@vger.kernel.org
+X-Received: by 2002:a05:6122:4d04:b0:56f:a329:6859 with SMTP id
+ 71dfb90a1353d-575e6f9a7d3mr1048517e0c.7.1778665323607; Wed, 13 May 2026
+ 02:42:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] ALSA:hda/realtek: ALC269 fixup for Lenovo Yoga Pro 7
- 15ASH111 audio
-To: Jackie Dong <xy-jackie@139.com>, perex@perex.cz, tiwai@suse.com,
- sbinding@opensource.cirrus.com, zhangheng@kylinos.cn, kailang@realtek.com,
- edip@medip.dev
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260513091256.97584-1-xy-jackie@139.com>
-From: Eric Naim <dnaim@cachyos.org>
-In-Reply-To: <20260513091256.97584-1-xy-jackie@139.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20260512182631.3842065-1-john.madieu.xa@bp.renesas.com> <20260512182631.3842065-10-john.madieu.xa@bp.renesas.com>
+In-Reply-To: <20260512182631.3842065-10-john.madieu.xa@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 13 May 2026 11:41:52 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWx84+=UMB_zPgRgqAWWO4qmTkOkUEQLzhJ8UD4zLFx7Q@mail.gmail.com>
+X-Gm-Features: AVHnY4Kr-XCAHViwq5wXvuNDFdIDqB9sk9joGebrZRK91CK4SGoxuuFnaauWCrs
+Message-ID: <CAMuHMdWx84+=UMB_zPgRgqAWWO4qmTkOkUEQLzhJ8UD4zLFx7Q@mail.gmail.com>
+Subject: Re: [PATCH v6 09/16] ASoC: rsnd: ssui: Add RZ/G3E SSIU BUSIF support
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, john.madieu@gmail.com, 
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 5/13/26 5:12 PM, Jackie Dong wrote:
-> ALSA:hda/realtek: ALC269 fixup for Lenovo Yoga Pro 7 15ASH111 audio
-> 
-> The amp/speakers on the Lenovo Yoga Pro 7 15ASH11 laptop aren't be
-> adjusted by Speaker Volume. Reuse the DAC routing selected for ThinkPad
-> X1 Gen7 function to fix it.
-> 
-> Signed-off-by: Jackie Dong <xy-jackie@139.com>
-> ---
->  sound/hda/codecs/realtek/alc269.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-> index 11d0ea8ed859..84aa1d4e7410 100644
-> --- a/sound/hda/codecs/realtek/alc269.c
-> +++ b/sound/hda/codecs/realtek/alc269.c
-> @@ -4076,6 +4076,7 @@ enum {
->  	ALC287_FIXUP_YOGA7_14ITL_SPEAKERS,
->  	ALC298_FIXUP_LENOVO_C940_DUET7,
->  	ALC287_FIXUP_LENOVO_YOGA_BOOK_9I,
-> +	ALC287_FIXUP_LENOVO_YOGA_PRO7,
->  	ALC287_FIXUP_13S_GEN2_SPEAKERS,
->  	ALC256_FIXUP_SET_COEF_DEFAULTS,
->  	ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE,
-> @@ -6100,6 +6101,11 @@ static const struct hda_fixup alc269_fixups[] = {
->  		.chained = true,
->  		.chain_id = ALC285_FIXUP_THINKPAD_HEADSET_JACK,
->  	},
-> +	[ALC287_FIXUP_LENOVO_YOGA_PRO7] = {
-> +		.type = HDA_FIXUP_FUNC,
-> +		/* Reuse the DAC routing selected for ThinkPad X1 Gen7 */
-> +		.v.func = alc285_fixup_thinkpad_x1_gen7,
-> +	},
+Hi John,
 
-Hi Jackie, an identical quirk exists for this. See ALC245_FIXUP_BASS_HP_DAC. I
-think you should use that instead of creating a new quirk that is identical.
+On Tue, 12 May 2026 at 20:28, John Madieu <john.madieu.xa@bp.renesas.com> wrote:
+> Add support for the SSIU found on the Renesas RZ/G3E SoC, which
+> provides a different BUSIF layout compared to earlier generations:
+>
+>  - SSI0-SSI4: 4 BUSIF instances each (BUSIF0-3)
+>  - SSI5-SSI8: 1 BUSIF instance each (BUSIF0 only)
+>  - SSI9: 4 BUSIF instances (BUSIF0-3)
+>  - Total: 28 BUSIFs
+>
+> RZ/G3E also differs from Gen2/Gen3 implementations in that only two
+> pairs of BUSIF error-status registers are available instead of four,
+> and the SSI always operates in BUSIF mode with no PIO fallback.
+>
+> Rather than scattering SoC-specific checks across functional code,
+> introduce an extra capability flags in the match data:
+>
+>  - RSND_SSIU_BUSIF_STATUS_COUNT_2: only two BUSIF error-status
+>    register pairs are present. Used in rsnd_ssiu_busif_err_irq_ctrl()
+>    and rsnd_ssiu_busif_err_status_clear() to limit register iteration.
+>
+> Future SoCs sharing these constraints can set the flags without
+> requiring code changes.
+>
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
 
->  	[ALC623_FIXUP_LENOVO_THINKSTATION_P340] = {
->  		.type = HDA_FIXUP_FUNC,
->  		.v.func = alc_fixup_no_shutup,
-> @@ -7752,6 +7758,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x17aa, 0x38df, "Y990 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
->  	SND_PCI_QUIRK(0x17aa, 0x38f9, "Thinkbook 16P Gen5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
->  	SND_PCI_QUIRK(0x17aa, 0x38fa, "Thinkbook 16P Gen5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
-> +	SND_PCI_QUIRK(0x17aa, 0x38fc, "Lenovo Yoga Pro 7 15ASH11", ALC287_FIXUP_LENOVO_YOGA_PRO7),
->  	SND_PCI_QUIRK(0x17aa, 0x38fd, "ThinkBook plus Gen5 Hybrid", ALC287_FIXUP_TAS2781_I2C),
->  	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
->  	SND_PCI_QUIRK(0x17aa, 0x390d, "Lenovo Yoga Pro 7 14ASP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
-> @@ -8043,6 +8050,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
->  	{.id = ALC285_FIXUP_HP_SPECTRE_X360_DF1, .name = "alc285-hp-spectre-x360-df1"},
->  	{.id = ALC285_FIXUP_HP_ENVY_X360, .name = "alc285-hp-envy-x360"},
->  	{.id = ALC287_FIXUP_IDEAPAD_BASS_SPK_AMP, .name = "alc287-ideapad-bass-spk-amp"},
-> +	{.id = ALC287_FIXUP_LENOVO_YOGA_PRO7, .name = "alc287-lenovo-yoga-pro7"},
->  	{.id = ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN, .name = "alc287-yoga9-bass-spk-pin"},
->  	{.id = ALC623_FIXUP_LENOVO_THINKSTATION_P340, .name = "alc623-lenovo-thinkstation-p340"},
->  	{.id = ALC255_FIXUP_ACER_HEADPHONE_AND_MIC, .name = "alc255-acer-headphone-and-mic"},
+Thanks for your patch!
 
+> --- a/sound/soc/renesas/rcar/core.c
+> +++ b/sound/soc/renesas/rcar/core.c
+> @@ -107,7 +107,8 @@ static const struct of_device_id rsnd_of_match[] = {
+>         { .compatible = "renesas,rcar_sound-gen4", .data = (void *)RSND_GEN4 },
+>         /* Special Handling */
+>         { .compatible = "renesas,rcar_sound-r8a77990", .data = (void *)(RSND_GEN3 | RSND_SOC_E) },
+> -       { .compatible = "renesas,r9a09g047-sound", .data = (void *)(RSND_RZ3 | RSND_RZG3E) },
+> +       { .compatible = "renesas,r9a09g047-sound", .data = (void *)(RSND_RZ3 | RSND_RZG3E |
+> +                                                               RSND_SSIU_BUSIF_STATUS_COUNT_2) },
+
+Nit: please split the line after the comma instead of after the pipe character.
+
+>         {},
+>  };
+>  MODULE_DEVICE_TABLE(of, rsnd_of_match);
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
-  Eric
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
