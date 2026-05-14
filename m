@@ -1,29 +1,29 @@
-Received: from smtp153-177.sina.com.cn (smtp153-177.sina.com.cn [61.135.153.177])
+Received: from smtp153-182.sina.com.cn (smtp153-182.sina.com.cn [61.135.153.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D797F3B5E15
-	for <linux-sound@vger.kernel.org>; Thu, 14 May 2026 07:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C7E37F73E
+	for <linux-sound@vger.kernel.org>; Thu, 14 May 2026 07:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778745185; cv=none; b=feRPvOrIJl2PCKwAb8oStc5CSsrcgigXBvIvpxMUAKl3jD3hfll0TWsOSENFjzEDO3wFNRf2MqRINTXdNls+iC6FYXf6yTivcHXtVp7+Aa5xF63yNK+iDLzpoxF1CYyp4oJoLGjFVvrRxJMnfLwmvQ3dNQyd8S79BmMZpdbztLc=
+	t=1778745286; cv=none; b=JCEZXt2oIiUFXjX2TNKnpYWNCPP9SUG1vIUtpb+/yMasjZdxVhIKXkTPS7RJXpLtxr8dfkfhuwzVq3/XuUBKorm2mxYQ/NXyjds7VFUh1xs6j/HAgJkyRd6IJX5zLEqIu63Wq1Nn+EDEjBNsm6PBWFrjdy59BcFA2kDLa7evEtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778745185; c=relaxed/simple;
-	bh=S7GOzoP22V4fUePfUyODwG13YbzI+sJAACT3XTgdPIU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=euQnIEhMlHgHYistAo0j+vaGaYeBMAwrl6PhiP7LpObiyeLYbRXMp0enY0503YqKpUNAGyZDnlLAUka1t4MxFGIFLN8rlPgl98A/1zLGlTE+NGxdNRk1C6tzfTdjWyGjgEooLAoEClQT5L8nq8Kpy3Kh+w+lhyXS8os5JKFi+xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=61.135.153.177
+	s=arc-20240116; t=1778745286; c=relaxed/simple;
+	bh=pC9dRhCHQzM6rYwxSqsVOsb3vcIzv+kBL5rWegnBKYw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=YNERpzPpLC1teEbIpe4oXAB2leI8/LGbC2ZRd5Ty+Uca4s/MT8lpNGqK/LYy9a0cP7W+lob8MI/izYMujDNBR6aKw1GBeJnlmek86eVuHekpQr3TgF3HEaE4fQ97VwkFneERQfzy8wk0JsPNr+RV+ro0QWkXhMyMgj/14ojvgbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=61.135.153.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
 Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
 	by sina.net (10.54.253.38) with ESMTP
-	id 6A057F2A0000134F; Thu, 14 May 2026 15:52:13 +0800 (CST)
+	id 6A057F2A0000134F; Thu, 14 May 2026 15:52:11 +0800 (CST)
 X-Sender: zhangyi@everest-semi.com
 X-Auth-ID: zhangyi@everest-semi.com
 Authentication-Results: sina.net;
 	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
 	 dkim=none header.i=none;
 	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 6FB07AF0ACFD436186A08E8DD677888E
-X-SMAIL-UIID: 6FB07AF0ACFD436186A08E8DD677888E-20260514-155213
+X-SMAIL-MID: DEF17524EA2B46B2BFC9D175ABC641A7
+X-SMAIL-UIID: DEF17524EA2B46B2BFC9D175ABC641A7-20260514-155211
 From: Zhang Yi <zhangyi@everest-semi.com>
 To: broonie@kernel.org,
 	tiwai@suse.com,
@@ -35,9 +35,9 @@ Cc: peter.ujfalusi@linux.intel.com,
 	ckeepax@opensource.cirrus.com,
 	vkoul@kernel.org,
 	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v15 3/6] ASoC: es9356-sdca: Add ES9356 SDCA driver
-Date: Thu, 14 May 2026 15:52:03 +0800
-Message-Id: <20260514075206.3483-4-zhangyi@everest-semi.com>
+Subject: [PATCH v15 1/6] ASoC: sdw_utils: add soc_sdw_es9356
+Date: Thu, 14 May 2026 15:52:01 +0800
+Message-Id: <20260514075206.3483-2-zhangyi@everest-semi.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20260514075206.3483-1-zhangyi@everest-semi.com>
 References: <20260514075206.3483-1-zhangyi@everest-semi.com>
@@ -47,1434 +47,295 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-This is the codec driver for es9356-sdca.
+Add a utility program for handling ES9356 in the universal machine driver
 
 Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
 ---
- sound/soc/codecs/Kconfig  |    7 +
- sound/soc/codecs/Makefile |    2 +
- sound/soc/codecs/es9356.c | 1151 +++++++++++++++++++++++++++++++++++++
- sound/soc/codecs/es9356.h |  208 +++++++
- 4 files changed, 1368 insertions(+)
- create mode 100644 sound/soc/codecs/es9356.c
- create mode 100644 sound/soc/codecs/es9356.h
+ include/sound/soc_sdw_utils.h        |  14 ++
+ sound/soc/sdw_utils/Makefile         |   1 +
+ sound/soc/sdw_utils/soc_sdw_es9356.c | 230 +++++++++++++++++++++++++++
+ 3 files changed, 245 insertions(+)
+ create mode 100644 sound/soc/sdw_utils/soc_sdw_es9356.c
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 069ec05e4..f2e62c2b7 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -122,6 +122,7 @@ config SND_SOC_ALL_CODECS
- 	imply SND_SOC_ES8328_I2C
- 	imply SND_SOC_ES8375
- 	imply SND_SOC_ES8389
-+	imply SND_SOC_ES9356
- 	imply SND_SOC_ES7134
- 	imply SND_SOC_ES7241
- 	imply SND_SOC_FRAMER
-@@ -1302,6 +1303,12 @@ config SND_SOC_ES8389
- 	tristate "Everest Semi ES8389 CODEC"
- 	depends on I2C
+diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
+index d713ab2f6..79c219662 100644
+--- a/include/sound/soc_sdw_utils.h
++++ b/include/sound/soc_sdw_utils.h
+@@ -223,6 +223,17 @@ int asoc_sdw_cs42l43_spk_init(struct snd_soc_card *card,
+ 			      struct asoc_sdw_codec_info *info,
+ 			      bool playback);
  
-+config SND_SOC_ES9356
-+        tristate "Everest Semi ES9356 CODEC SDW"
-+        depends on SOUNDWIRE
-+        select REGMAP_SOUNDWIRE
-+        select REGMAP_SOUNDWIRE_MBQ
++/* es9356 codec support */
++int asoc_sdw_es9356_init(struct snd_soc_card *card,
++			       struct snd_soc_dai_link *dai_links,
++			       struct asoc_sdw_codec_info *info,
++			       bool playback);
++int asoc_sdw_es9356_amp_init(struct snd_soc_card *card,
++			       struct snd_soc_dai_link *dai_links,
++			       struct asoc_sdw_codec_info *info,
++			       bool playback);
++int asoc_sdw_es9356_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link);
 +
- config SND_SOC_FRAMER
- 	tristate "Framer codec"
- 	depends on GENERIC_FRAMER
-diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
-index 2c2d0553f..73315d017 100644
---- a/sound/soc/codecs/Makefile
-+++ b/sound/soc/codecs/Makefile
-@@ -138,6 +138,7 @@ snd-soc-es8328-i2c-y := es8328-i2c.o
- snd-soc-es8328-spi-y := es8328-spi.o
- snd-soc-es8375-y := es8375.o
- snd-soc-es8389-y := es8389.o
-+snd-soc-es9356-y := es9356.o
- snd-soc-framer-y := framer-codec.o
- snd-soc-fs-amp-lib-y := fs-amp-lib.o
- snd-soc-fs210x-y := fs210x.o
-@@ -577,6 +578,7 @@ obj-$(CONFIG_SND_SOC_ES8328_I2C)+= snd-soc-es8328-i2c.o
- obj-$(CONFIG_SND_SOC_ES8328_SPI)+= snd-soc-es8328-spi.o
- obj-$(CONFIG_SND_SOC_ES8375)    += snd-soc-es8375.o
- obj-$(CONFIG_SND_SOC_ES8389)    += snd-soc-es8389.o
-+obj-$(CONFIG_SND_SOC_ES9356)    += snd-soc-es9356.o
- obj-$(CONFIG_SND_SOC_FRAMER)	+= snd-soc-framer.o
- obj-$(CONFIG_SND_SOC_FS_AMP_LIB)+= snd-soc-fs-amp-lib.o
- obj-$(CONFIG_SND_SOC_FS210X)	+= snd-soc-fs210x.o
-diff --git a/sound/soc/codecs/es9356.c b/sound/soc/codecs/es9356.c
+ /* CS AMP support */
+ int asoc_sdw_bridge_cs35l56_count_sidecar(struct snd_soc_card *card,
+ 					  int *num_dais, int *num_devs);
+@@ -278,5 +289,8 @@ int asoc_sdw_ti_amp_initial_settings(struct snd_soc_card *card,
+ 				     const char *name_prefix);
+ int asoc_sdw_ti_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ int asoc_sdw_ti_sdca_jack_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
++int asoc_sdw_es9356_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
++int asoc_sdw_es9356_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
++int asoc_sdw_es9356_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ 
+ #endif
+diff --git a/sound/soc/sdw_utils/Makefile b/sound/soc/sdw_utils/Makefile
+index a8d091fd3..5ae8c69b8 100644
+--- a/sound/soc/sdw_utils/Makefile
++++ b/sound/soc/sdw_utils/Makefile
+@@ -8,6 +8,7 @@ snd-soc-sdw-utils-y := soc_sdw_utils.o soc_sdw_dmic.o soc_sdw_rt_dmic.o \
+ 		       soc_sdw_cs42l45.o				\
+ 		       soc_sdw_cs47l47.o				\
+ 		       soc_sdw_cs_amp.o					\
++		       soc_sdw_es9356.o					\
+ 		       soc_sdw_maxim.o \
+ 		       soc_sdw_ti_amp.o
+ obj-$(CONFIG_SND_SOC_SDW_UTILS) += snd-soc-sdw-utils.o
+diff --git a/sound/soc/sdw_utils/soc_sdw_es9356.c b/sound/soc/sdw_utils/soc_sdw_es9356.c
 new file mode 100644
-index 000000000..78fddd9d0
+index 000000000..aa405e7da
 --- /dev/null
-+++ b/sound/soc/codecs/es9356.c
-@@ -0,0 +1,1151 @@
++++ b/sound/soc/sdw_utils/soc_sdw_es9356.c
+@@ -0,0 +1,230 @@
 +// SPDX-License-Identifier: GPL-2.0-only
-+//
-+// es9356.c -- SoundWire codec driver
-+//
-+// Copyright(c) 2025 Everest Semiconductor Co., Ltd
-+//
-+//
++// Based on sof_sdw_rt5682.c
++// This file incorporates work covered by the following copyright notice:
++// Copyright (c) 2023 Intel Corporation
++// Copyright (c) 2024 Advanced Micro Devices, Inc.
++// Copyright (c) 2025 Everest Semiconductor Co., Ltd
++
++/*
++ *  soc_sdw_es9356 - Helpers to handle ES9356 from generic machine driver
++ */
 +
 +#include <linux/device.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
++#include <linux/errno.h>
++#include <linux/input.h>
 +#include <linux/soundwire/sdw.h>
 +#include <linux/soundwire/sdw_type.h>
-+#include <linux/soundwire/sdw_registers.h>
-+#include <sound/core.h>
-+#include <sound/pcm.h>
-+#include <sound/pcm_params.h>
-+#include <linux/pm_runtime.h>
-+#include <sound/sdw.h>
++#include <sound/control.h>
 +#include <sound/soc.h>
++#include <sound/soc-acpi.h>
 +#include <sound/soc-dapm.h>
-+#include <sound/tlv.h>
-+#include <sound/sdca_function.h>
-+#include <sound/sdca_regmap.h>
-+#include <linux/interrupt.h>
-+#include <linux/irq.h>
 +#include <sound/jack.h>
-+#include <sound/sdca_asoc.h>
-+#include "es9356.h"
++#include <sound/soc_sdw_utils.h>
 +
-+struct  es9356_sdw_priv {
-+	struct sdw_slave *slave;
-+	struct device *dev;
-+	struct regmap *regmap;
++/*
++ * Note this MUST be called before snd_soc_register_card(), so that the props
++ * are in place before the codec component driver's probe function parses them.
++ */
++static int es9356_add_codec_device_props(struct device *sdw_dev, unsigned long quirk)
++{
++	struct property_entry props[SOC_SDW_MAX_NO_PROPS] = {};
++	struct fwnode_handle *fwnode;
++	int ret;
++
++	if (!SOC_SDW_JACK_JDSRC(quirk))
++		return 0;
++	props[0] = PROPERTY_ENTRY_U32("everest,jd-src", SOC_SDW_JACK_JDSRC(quirk));
++
++	fwnode = fwnode_create_software_node(props, NULL);
++	if (IS_ERR(fwnode))
++		return PTR_ERR(fwnode);
++
++	ret = device_add_software_node(sdw_dev, to_software_node(fwnode));
++
++	fwnode_handle_put(fwnode);
++
++	return ret;
++}
++
++static const struct snd_soc_dapm_route es9356_map[] = {
++	/* Headphones */
++	{ "Headphone", NULL, "es9356 HP" },
++	{ "es9356 MIC1", NULL, "Headset Mic" },
++};
++
++static const struct snd_soc_dapm_route es9356_spk_map[] = {
++	/* Speaker */
++	{ "Speaker", NULL, "es9356 SPK" },
++};
++
++static const struct snd_soc_dapm_route es9356_dmic_map[] = {
++	/* DMIC */
++	{ "es9356 PDM_DIN", NULL, "DMIC" },
++};
++
++static struct snd_soc_jack_pin es9356_jack_pins[] = {
++	{
++		.pin    = "Headphone",
++		.mask   = SND_JACK_HEADPHONE,
++	},
++	{
++		.pin    = "Headset Mic",
++		.mask   = SND_JACK_MICROPHONE,
++	},
++};
++
++int asoc_sdw_es9356_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
++{
++	struct snd_soc_card *card = rtd->card;
++	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
++	int ret;
++
++	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
++					  "%s spk:es9356-spk",
++					  card->components);
++	if (!card->components)
++		return -ENOMEM;
++
++	ret = snd_soc_dapm_add_routes(dapm, es9356_spk_map,
++				      ARRAY_SIZE(es9356_spk_map));
++	if (ret)
++		dev_err(card->dev, "es9356 map addition failed: %d\n", ret);
++
++	return ret;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_es9356_spk_rtd_init, "SND_SOC_SDW_UTILS");
++
++int asoc_sdw_es9356_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
++{
++	struct snd_soc_card *card = rtd->card;
++	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
++	int ret;
++
++	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
++					  "%s mic:es9356-dmic",
++					  card->components);
++	if (!card->components)
++		return -ENOMEM;
++
++	ret = snd_soc_dapm_add_routes(dapm, es9356_dmic_map,
++				      ARRAY_SIZE(es9356_dmic_map));
++	if (ret)
++		dev_err(card->dev, "es9356 map addition failed: %d\n", ret);
++
++	return ret;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_es9356_dmic_rtd_init, "SND_SOC_SDW_UTILS");
++
++int asoc_sdw_es9356_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
++{
++	struct snd_soc_card *card = rtd->card;
++	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
++	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
 +	struct snd_soc_component *component;
-+	struct snd_soc_jack *hs_jack;
-+
-+	/* lock for irq*/
-+	struct mutex disable_irq_lock;
-+
-+	/* lock for pde*/
-+	struct mutex pde_lock;
-+
-+	bool hw_init;
-+	bool first_hw_init;
-+	int jack_type;
-+	bool disable_irq;
-+
-+	struct delayed_work interrupt_handle_work;
-+	struct delayed_work button_detect_work;
-+	unsigned int sdca_status;
-+};
-+
-+static int es9356_sdw_component_probe(struct snd_soc_component *component)
-+{
-+	struct es9356_sdw_priv *es9356 = snd_soc_component_get_drvdata(component);
-+
-+	es9356->component = component;
-+
-+	return 0;
-+}
-+
-+static const DECLARE_TLV_DB_SCALE(out_vol_tlv, -9600, 12, 0);
-+static const DECLARE_TLV_DB_SCALE(amic_gain_tlv, 0, 3, 0);
-+static const DECLARE_TLV_DB_SCALE(dmic_gain_tlv, 0, 6, 0);
-+
-+static const struct snd_kcontrol_new es9356_sdca_controls[] = {
-+	SDCA_SINGLE_Q78_TLV("FU41 Left Playback Volume",
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_L),
-+		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
-+	SDCA_SINGLE_Q78_TLV("FU41 Right Playback Volume",
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_R),
-+		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
-+	SDCA_SINGLE_Q78_TLV("FU36 Left Capture Volume",
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_L),
-+		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
-+	SDCA_SINGLE_Q78_TLV("FU36 Right Capture Volume",
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_R),
-+		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
-+	SDCA_SINGLE_Q78_TLV("FU33 Capture Volume",
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU33, ES9356_SDCA_CTL_FU_CH_GAIN, 0),
-+		ES9356_GAIN_MIN, ES9356_AMIC_GAIN_MAX, ES9356_AMIC_GAIN_STEP, amic_gain_tlv),
-+	SDCA_SINGLE_Q78_TLV("FU21 Left Playback Volume",
-+		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_L),
-+		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
-+	SDCA_SINGLE_Q78_TLV("FU21 Right Playback Volume",
-+		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_R),
-+		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
-+	SDCA_SINGLE_Q78_TLV("FU113 Left Capture Volume",
-+		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_L),
-+		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
-+	SDCA_SINGLE_Q78_TLV("FU113 Right Capture Volume",
-+		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_R),
-+		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
-+	SDCA_SINGLE_Q78_TLV("FU11 Capture Volume",
-+		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU11, ES9356_SDCA_CTL_FU_CH_GAIN, 0),
-+		ES9356_GAIN_MIN, ES9356_DMIC_GAIN_MAX, ES9356_DMIC_GAIN_STEP, dmic_gain_tlv),
-+};
-+
-+static const char *const es9356_left_mux_txt[] = {
-+	"Left",
-+	"Right",
-+};
-+
-+static const char *const es9356_right_mux_txt[] = {
-+	"Right",
-+	"Left",
-+};
-+
-+static const struct soc_enum es9356_left_mux_enum =
-+	SOC_ENUM_SINGLE(ES9356_DAC_SWAP, 1,
-+			ARRAY_SIZE(es9356_left_mux_txt), es9356_left_mux_txt);
-+static const struct soc_enum es9356_right_mux_enum =
-+	SOC_ENUM_SINGLE(ES9356_DAC_SWAP, 0,
-+			ARRAY_SIZE(es9356_right_mux_txt), es9356_right_mux_txt);
-+
-+static const struct snd_kcontrol_new es9356_left_mux_controls =
-+	SOC_DAPM_ENUM("Channel MUX", es9356_left_mux_enum);
-+static const struct snd_kcontrol_new es9356_right_mux_controls =
-+	SOC_DAPM_ENUM("Channel MUX", es9356_right_mux_enum);
-+
-+static const struct snd_soc_dapm_widget es9356_dapm_widgets[] = {
-+	SND_SOC_DAPM_OUTPUT("HP"),
-+	SND_SOC_DAPM_OUTPUT("SPK"),
-+	SND_SOC_DAPM_INPUT("MIC1"),
-+	SND_SOC_DAPM_INPUT("PDM_DIN"),
-+
-+	SND_SOC_DAPM_SUPPLY("DMIC Clock", ES9356_DMIC_GPIO, 1, 1, NULL, 0),
-+
-+	SND_SOC_DAPM_AIF_IN("DP4RX", "DP4 Playback", 0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_IN("DP3RX", "DP3 Playback", 0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("DP1TX", "DP1 Capture", 0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("DP2TX", "DP2 Capture", 0, SND_SOC_NOPM, 0, 0),
-+
-+	SND_SOC_DAPM_PGA("IF DP3RXL", SND_SOC_NOPM, 0, 0, NULL, 0),
-+	SND_SOC_DAPM_PGA("IF DP3RXR", SND_SOC_NOPM, 0, 0, NULL, 0),
-+
-+	SND_SOC_DAPM_MUX("Left Channel MUX", SND_SOC_NOPM, 0, 0, &es9356_left_mux_controls),
-+	SND_SOC_DAPM_MUX("Right Channel MUX", SND_SOC_NOPM, 0, 0, &es9356_right_mux_controls),
-+
-+	SND_SOC_DAPM_DAC("FU 21 Left", NULL,
-+		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_MUTE, CH_L), 0, 1),
-+	SND_SOC_DAPM_DAC("FU 21 Right", NULL,
-+		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_MUTE, CH_R), 0, 1),
-+	SND_SOC_DAPM_DAC("FU 41 Left", NULL,
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_MUTE, CH_L), 0, 1),
-+	SND_SOC_DAPM_DAC("FU 41 Right", NULL,
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_MUTE, CH_R), 0, 1),
-+	SND_SOC_DAPM_DAC("FU 113 Left", NULL,
-+		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_MUTE, CH_L), 0, 1),
-+	SND_SOC_DAPM_DAC("FU 113 Right", NULL,
-+		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_MUTE, CH_R), 0, 1),
-+	SND_SOC_DAPM_DAC("FU 36 Left", NULL,
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_MUTE, CH_L), 0, 1),
-+	SND_SOC_DAPM_DAC("FU 36 Right", NULL,
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_MUTE, CH_R), 0, 1),
-+};
-+
-+static const struct snd_soc_dapm_route es9356_audio_map[] = {
-+	{"FU 36 Left", NULL, "MIC1"},
-+	{"FU 36 Right", NULL, "MIC1"},
-+	{"DP2TX", NULL, "FU 36 Left"},
-+	{"DP2TX", NULL, "FU 36 Right"},
-+
-+	{"PDM_DIN", NULL, "DMIC Clock"},
-+	{"FU 113 Left", NULL, "PDM_DIN"},
-+	{"FU 113 Right", NULL, "PDM_DIN"},
-+	{"DP1TX", NULL, "FU 113 Left"},
-+	{"DP1TX", NULL, "FU 113 Right"},
-+
-+	{"FU 41 Left", NULL, "DP4RX"},
-+	{"FU 41 Right", NULL, "DP4RX"},
-+
-+	{"IF DP3RXL", NULL, "DP3RX"},
-+	{"IF DP3RXR", NULL, "DP3RX"},
-+
-+	{"Left Channel MUX", "Left", "IF DP3RXL"},
-+	{"Left Channel MUX", "Right", "IF DP3RXR"},
-+	{"Right Channel MUX", "Left", "IF DP3RXL"},
-+	{"Right Channel MUX", "Right", "IF DP3RXR"},
-+
-+	{"FU 21 Left", NULL, "Left Channel MUX"},
-+	{"FU 21 Right", NULL, "Right Channel MUX"},
-+
-+	{"SPK", NULL, "FU 21 Left"},
-+	{"SPK", NULL, "FU 21 Right"},
-+
-+	{"HP", NULL, "FU 41 Left"},
-+	{"HP", NULL, "FU 41 Right"},
-+};
-+
-+static int es9356_set_jack_detect(struct snd_soc_component *component,
-+	struct snd_soc_jack *hs_jack, void *data)
-+{
-+	struct es9356_sdw_priv *es9356 = snd_soc_component_get_drvdata(component);
++	struct snd_soc_jack *jack;
 +	int ret;
 +
-+	es9356->hs_jack = hs_jack;
-+
-+	/* we can only resume if the device was initialized at least once */
-+	if (!es9356->first_hw_init)
-+		return 0;
-+
-+	ret = pm_runtime_resume_and_get(component->dev);
-+	if (ret < 0) {
-+		if (ret != -EACCES) {
-+			dev_err(component->dev, "%s: failed to resume %d\n", __func__, ret);
-+			return ret;
-+		}
-+		/* pm_runtime not enabled yet */
-+		dev_info(component->dev, "%s: skipping jack init for now\n", __func__);
-+		return 0;
-+	}
-+
-+	if (es9356->hs_jack)
-+		sdw_write_no_pm(es9356->slave, SDW_SCP_SDCA_INTMASK1,
-+			(SDW_SCP_SDCA_INTMASK_SDCA_7 | SDW_SCP_SDCA_INTMASK_SDCA_5 | SDW_SCP_SDCA_INTMASK_SDCA_1));
-+
-+	pm_runtime_mark_last_busy(component->dev);
-+	pm_runtime_put_autosuspend(component->dev);
-+
-+	return 0;
-+}
-+static const struct snd_soc_component_driver snd_soc_es9356_sdw_component = {
-+	.probe = es9356_sdw_component_probe,
-+	.controls = es9356_sdca_controls,
-+	.num_controls = ARRAY_SIZE(es9356_sdca_controls),
-+	.dapm_widgets = es9356_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(es9356_dapm_widgets),
-+	.dapm_routes = es9356_audio_map,
-+	.num_dapm_routes = ARRAY_SIZE(es9356_audio_map),
-+	.set_jack = es9356_set_jack_detect,
-+	.endianness = 1,
-+};
-+
-+static int es9356_sdw_set_sdw_stream(struct snd_soc_dai *dai, void *sdw_stream,
-+				     int direction)
-+{
-+	snd_soc_dai_dma_data_set(dai, direction, sdw_stream);
-+
-+	return 0;
-+}
-+
-+static void es9356_sdw_shutdown(struct snd_pcm_substream *substream,
-+				struct snd_soc_dai *dai)
-+{
-+	snd_soc_dai_set_dma_data(dai, substream, NULL);
-+}
-+
-+static int es9356_sdca_button(unsigned int *buffer)
-+{
-+	int cur_button = -1;
-+
-+	if (*(buffer + 1) | *(buffer + 2))
-+		return -EINVAL;
-+	switch (*buffer) {
-+	case 0x00:
-+		cur_button = 0;
-+		break;
-+	case 0x20:
-+		cur_button = SND_JACK_BTN_4;
-+		break;
-+	case 0x10:
-+		cur_button = SND_JACK_BTN_2;
-+		break;
-+	case 0x08:
-+		cur_button = SND_JACK_BTN_1;
-+		break;
-+	case 0x02:
-+		cur_button = SND_JACK_BTN_3;
-+		break;
-+	case 0x01:
-+		cur_button = SND_JACK_BTN_0;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return cur_button;
-+}
-+
-+static int es9356_sdca_button_detect(struct es9356_sdw_priv *es9356)
-+{
-+	unsigned int btn_type = 0, offset, idx, val, owner;
-+	unsigned int button[3];
-+	int ret;
-+
-+	ret = regmap_read(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_HID, ES9356_SDCA_ENT_HID01, ES9356_SDCA_CTL_HIDTX_CURRENT_OWNER, 0), &owner);
-+	if (ret < 0 || owner == 0x01)
-+		return 0;
-+
-+	ret = regmap_read(es9356->regmap, ES9356_BUF_ADDR_HID, &offset);
-+	if (ret < 0)
-+		goto button_det_end;
-+
-+	for (idx = 0; idx < ARRAY_SIZE(button); idx++) {
-+		ret = regmap_read(es9356->regmap, ES9356_BUF_ADDR_HID + offset + idx, &val);
-+		if (ret < 0)
-+			goto button_det_end;
-+		button[idx] = val;
-+	}
-+
-+	btn_type = es9356_sdca_button(&button[0]);
-+
-+button_det_end:
-+	if (owner == 0x00)
-+		regmap_write(es9356->regmap,
-+			SDW_SDCA_CTL(FUNC_NUM_HID, ES9356_SDCA_ENT_HID01, ES9356_SDCA_CTL_HIDTX_CURRENT_OWNER, 0), 0x01);
-+
-+	return btn_type;
-+}
-+
-+static int es9356_sdca_headset_detect(struct es9356_sdw_priv *es9356)
-+{
-+	unsigned int reg;
-+	int ret;
-+
-+	ret = regmap_read(es9356->regmap,
-+			SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_GE35, ES9356_SDCA_CTL_DETECTED_MODE, 0), &reg);
-+
-+	if (ret < 0)
-+		goto io_error;
-+
-+	switch (reg) {
-+	case 0x00:
-+		es9356->jack_type = 0;
-+		break;
-+	case 0x03:
-+		es9356->jack_type = SND_JACK_HEADPHONE;
-+		break;
-+	case 0x04:
-+		es9356->jack_type = SND_JACK_HEADSET;
-+		break;
-+	default:
-+		es9356->jack_type = 0;
-+		return -1;
-+	}
-+
-+	if (reg) {
-+		regmap_write(es9356->regmap,
-+			SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_GE35, ES9356_SDCA_CTL_SELECTED_MODE, 0), reg);
-+		regmap_write(es9356->regmap, ES9356_HP_DETECTTIME, 0x75);
-+	} else {
-+		regmap_write(es9356->regmap, ES9356_HP_DETECTTIME, 0xa4);
-+	}
-+
-+	return 0;
-+
-+io_error:
-+	pr_err_ratelimited("IO error in %s, ret %d\n", __func__, ret);
-+	return ret;
-+}
-+
-+static void es9356_interrupt_handler(struct work_struct *work)
-+{
-+	struct es9356_sdw_priv *es9356 =
-+		container_of(work, struct es9356_sdw_priv, interrupt_handle_work.work);
-+	int ret, btn_type = 0;
-+
-+	if (!es9356->hs_jack)
-+		return;
-+
-+	if (!es9356->component->card || !es9356->component->card->instantiated)
-+		return;
-+
-+	/* Handling different types of interrupts based on the mask bit */
-+	if (es9356->sdca_status & SDW_SCP_SDCA_INT_SDCA_7) {
-+		btn_type = es9356_sdca_button_detect(es9356);
-+		if (btn_type < 0)
-+			return;
-+	} else {
-+		ret = es9356_sdca_headset_detect(es9356);
-+		if (ret < 0)
-+			return;
-+	}
-+
-+	if (es9356->jack_type != SND_JACK_HEADSET)
-+		btn_type = 0;
-+
-+	snd_soc_jack_report(es9356->hs_jack, es9356->jack_type | btn_type,
-+			SND_JACK_HEADSET |
-+			SND_JACK_BTN_0 | SND_JACK_BTN_1 |
-+			SND_JACK_BTN_2 | SND_JACK_BTN_3 |
-+			SND_JACK_BTN_4);
-+
-+	if (btn_type) {
-+		snd_soc_jack_report(es9356->hs_jack, es9356->jack_type,
-+			SND_JACK_HEADSET |
-+			SND_JACK_BTN_0 | SND_JACK_BTN_1 |
-+			SND_JACK_BTN_2 | SND_JACK_BTN_3 |
-+			SND_JACK_BTN_4);
-+		mod_delayed_work(system_power_efficient_wq,
-+			&es9356->button_detect_work, msecs_to_jiffies(280));
-+	}
-+}
-+
-+static void es9356_button_detect_handler(struct work_struct *work)
-+{
-+	struct es9356_sdw_priv *es9356 =
-+		container_of(work, struct es9356_sdw_priv, button_detect_work.work);
-+	int ret, idx, btn_type = 0;
-+	unsigned int reg, offset;
-+	unsigned int button[3];
-+
-+	/* Check headset */
-+	ret = regmap_read(es9356->regmap,
-+			SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_GE35, ES9356_SDCA_CTL_DETECTED_MODE, 0), &reg);
-+
-+	if (ret < 0)
-+		goto io_error;
-+
-+	if (reg == 0x04) {
-+		ret = regmap_read(es9356->regmap, ES9356_BUF_ADDR_HID, &offset);
-+		if (ret < 0)
-+			goto io_error;
-+		for (idx = 0; idx < ARRAY_SIZE(button); idx++) {
-+			ret = regmap_read(es9356->regmap, ES9356_BUF_ADDR_HID + offset + idx, &reg);
-+			if (ret < 0)
-+				goto io_error;
-+			button[idx] = reg;
-+		}
-+		btn_type = es9356_sdca_button(&button[0]);
-+		if (btn_type < 0)
-+			return;
-+	}
-+
-+	snd_soc_jack_report(es9356->hs_jack, es9356->jack_type | btn_type,
-+			SND_JACK_HEADSET |
-+			SND_JACK_BTN_0 | SND_JACK_BTN_1 |
-+			SND_JACK_BTN_2 | SND_JACK_BTN_3 |
-+			SND_JACK_BTN_4);
-+
-+	if (btn_type) {
-+		snd_soc_jack_report(es9356->hs_jack, es9356->jack_type,
-+			SND_JACK_HEADSET |
-+			SND_JACK_BTN_0 | SND_JACK_BTN_1 |
-+			SND_JACK_BTN_2 | SND_JACK_BTN_3 |
-+			SND_JACK_BTN_4);
-+		mod_delayed_work(system_power_efficient_wq,
-+			&es9356->button_detect_work, msecs_to_jiffies(280));
-+	}
-+
-+	return;
-+io_error:
-+	pr_err_ratelimited("IO error in %s, ret %d\n", __func__, ret);
-+}
-+
-+static int es9356_pde_transition_delay(struct es9356_sdw_priv *es9356, unsigned char func,
-+	unsigned char entity, unsigned char ps)
-+{
-+	unsigned int retries = 10, val;
-+
-+	/* waiting for Actual PDE becomes to PS0/PS3 */
-+	while (retries) {
-+		regmap_read(es9356->regmap,
-+			SDW_SDCA_CTL(func, entity, ES9356_SDCA_CTL_ACTUAL_POWER_STATE, 0), &val);
-+		if (val == ps)
-+			return 1;
-+
-+		usleep_range(1000, 1500);
-+		retries--;
-+	}
-+	if (!retries) {
-+		dev_dbg(&es9356->slave->dev, "%s PDE is NOT %s", __func__, ps?"PS3":"PS0");
-+	}
-+	return 0;
-+}
-+
-+static int es9356_power_state(struct snd_soc_dai *dai, unsigned char ps, unsigned int *rate)
-+{
-+	struct snd_soc_component *component = dai->component;
-+	struct es9356_sdw_priv *es9356 = snd_soc_component_get_drvdata(component);
-+	unsigned char ps0 = 0x0, ps3 = 0x3;
-+	unsigned char func, cs_entity, pde_entity;
-+	int ret;
-+
-+	switch (dai->id) {
-+	case ES9356_DMIC:
-+		func = FUNC_NUM_MIC;
-+		cs_entity = ES9356_SDCA_ENT_CS113;
-+		pde_entity = ES9356_SDCA_ENT_PDE11;
-+		break;
-+	case ES9356_AMP:
-+		func = FUNC_NUM_AMP;
-+		cs_entity = ES9356_SDCA_ENT_CS21;
-+		pde_entity = ES9356_SDCA_ENT_PDE23;
-+		break;
-+	case ES9356_JACK_IN:
-+		func = FUNC_NUM_UAJ;
-+		cs_entity = ES9356_SDCA_ENT_CS36;
-+		pde_entity = ES9356_SDCA_ENT_PDE34;
-+		break;
-+	case ES9356_JACK_OUT:
-+		func = FUNC_NUM_UAJ;
-+		cs_entity = ES9356_SDCA_ENT_CS41;
-+		pde_entity = ES9356_SDCA_ENT_PDE47;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	/* power state changes are not independent across functions */
-+	mutex_lock(&es9356->pde_lock);
-+	ret = es9356_pde_transition_delay(es9356, func, pde_entity, ps?ps0:ps3);
-+	if (ret) {
-+		regmap_write(es9356->regmap,
-+			SDW_SDCA_CTL(func, pde_entity, ES9356_SDCA_CTL_REQ_POWER_STATE, 0), ps?ps3:ps0);
-+		es9356_pde_transition_delay(es9356, func, pde_entity, ps?ps3:ps0);
-+	} else
-+		dev_dbg(component->dev, "%s PDE is already %d\n", __func__, ps?ps0:ps3);
-+
-+	mutex_unlock(&es9356->pde_lock);
-+
-+	if (rate)
-+		regmap_write(es9356->regmap,
-+			SDW_SDCA_CTL(func, cs_entity, ES9356_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), *rate);
-+
-+	return 0;
-+}
-+
-+static int es9356_sdw_pcm_hw_params(struct snd_pcm_substream *substream,
-+				    struct snd_pcm_hw_params *params,
-+				    struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_component *component = dai->component;
-+	struct es9356_sdw_priv *es9356 = snd_soc_component_get_drvdata(component);
-+	struct sdw_stream_config stream_config = {0};
-+	struct sdw_port_config port_config = {0};
-+	struct sdw_stream_runtime *sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
-+	unsigned char ps0 = 0x0;
-+	unsigned int rate;
-+	int ret;
-+
-+	if (!sdw_stream)
-+		return -EINVAL;
-+
-+	if (!es9356->slave)
-+		return -EINVAL;
-+
-+	/* SoundWire specific configuration */
-+	snd_sdw_params_to_config(substream, params, &stream_config, &port_config);
-+
-+	port_config.num = dai->id;
-+
-+	ret = sdw_stream_add_slave(es9356->slave, &stream_config,
-+				   &port_config, 1, sdw_stream);
-+	if (ret) {
-+		dev_err(dai->dev, "Unable to configure port\n");
-+		return -EINVAL;
-+	}
-+
-+	switch (params_rate(params)) {
-+	case 16000:
-+		rate = ES9356_SDCA_RATE_16000HZ;
-+		break;
-+	case 44100:
-+		rate = ES9356_SDCA_RATE_44100HZ;
-+		break;
-+	case 48000:
-+		rate = ES9356_SDCA_RATE_48000HZ;
-+		break;
-+	case 96000:
-+		rate = ES9356_SDCA_RATE_96000HZ;
-+		break;
-+	default:
-+		dev_err(component->dev, "%s: Rate %d is not supported\n",
-+			__func__, params_rate(params));
-+		return -EINVAL;
-+	}
-+
-+	ret = es9356_power_state(dai, ps0, &rate);
-+	if (ret) {
-+		dev_err(component->dev, "%s: Invalid dai id: %d\n",
-+			__func__, dai->id);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int es9356_sdw_pcm_hw_free(struct snd_pcm_substream *substream,
-+				  struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_component *component = dai->component;
-+	struct es9356_sdw_priv *es9356 = snd_soc_component_get_drvdata(component);
-+	struct sdw_stream_runtime *sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
-+	unsigned char ps3 = 0x3;
-+	int ret;
-+
-+	if (!es9356->slave)
-+		return -EINVAL;
-+
-+	sdw_stream_remove_slave(es9356->slave, sdw_stream);
-+
-+	ret = es9356_power_state(dai, ps3, NULL);
-+	if (ret) {
-+		dev_err(component->dev, "%s: Invalid dai id: %d\n",
-+			__func__, dai->id);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct snd_soc_dai_ops es9356_sdw_ops = {
-+	.hw_params	= es9356_sdw_pcm_hw_params,
-+	.hw_free	= es9356_sdw_pcm_hw_free,
-+	.set_stream	= es9356_sdw_set_sdw_stream,
-+	.shutdown	= es9356_sdw_shutdown,
-+};
-+
-+static struct snd_soc_dai_driver es9356_sdw_dai[] = {
-+	{
-+		.name = "es9356-sdp-aif4",
-+		.id = ES9356_DMIC,
-+		.capture = {
-+			.stream_name = "DP1 Capture",
-+			.channels_min = 1,
-+			.channels_max = 2,
-+		},
-+		.ops = &es9356_sdw_ops,
-+	},
-+	{
-+		.name = "es9356-sdp-aif2",
-+		.id = ES9356_JACK_IN,
-+		.capture = {
-+			.stream_name = "DP2 Capture",
-+			.channels_min = 1,
-+			.channels_max = 2,
-+		},
-+		.ops = &es9356_sdw_ops,
-+	},
-+	{
-+		.name = "es9356-sdp-aif3",
-+		.id = ES9356_AMP,
-+		.playback = {
-+			.stream_name = "DP3 Playback",
-+			.channels_min = 1,
-+			.channels_max = 2,
-+		},
-+		.ops = &es9356_sdw_ops,
-+	},
-+	{
-+		.name = "es9356-sdp-aif1",
-+		.id = ES9356_JACK_OUT,
-+		.playback = {
-+			.stream_name = "DP4 Playback",
-+			.channels_min = 1,
-+			.channels_max = 2,
-+		},
-+		.ops = &es9356_sdw_ops,
-+	},
-+};
-+
-+static int es9356_sdca_mbq_size(struct device *dev, unsigned int reg)
-+{
-+	switch (reg) {
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_L):
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_R):
-+	case SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_L):
-+	case SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_R):
-+	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_L):
-+	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_R):
-+	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_L):
-+	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_R):
-+	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU33, ES9356_SDCA_CTL_FU_CH_GAIN, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU11, ES9356_SDCA_CTL_FU_CH_GAIN, 0):
-+		return 2;
-+	default:
-+		return 1;
-+	}
-+}
-+
-+static struct regmap_sdw_mbq_cfg es9356_mbq_config = {
-+	.mbq_size = es9356_sdca_mbq_size,
-+};
-+
-+static bool es9356_sdca_volatile_register(struct device *dev, unsigned int reg)
-+{
-+	switch (reg) {
-+	case ES9356_BUF_ADDR_HID:
-+	case ES9356_HID_BYTE2:
-+	case ES9356_HID_BYTE3:
-+	case ES9356_HID_BYTE4:
-+	case SDW_SDCA_CTL(FUNC_NUM_HID, ES9356_SDCA_ENT_HID01, ES9356_SDCA_CTL_HIDTX_CURRENT_OWNER, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_GE35, ES9356_SDCA_CTL_DETECTED_MODE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_GE35, ES9356_SDCA_CTL_SELECTED_MODE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_PDE23, ES9356_SDCA_CTL_REQ_POWER_STATE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_PDE23, ES9356_SDCA_CTL_ACTUAL_POWER_STATE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_PDE11, ES9356_SDCA_CTL_REQ_POWER_STATE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_PDE11, ES9356_SDCA_CTL_ACTUAL_POWER_STATE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_PDE47, ES9356_SDCA_CTL_REQ_POWER_STATE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_PDE47, ES9356_SDCA_CTL_ACTUAL_POWER_STATE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_PDE34, ES9356_SDCA_CTL_REQ_POWER_STATE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_PDE34, ES9356_SDCA_CTL_ACTUAL_POWER_STATE, 0):
-+	case ES9356_FLAGS_HP:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static const struct regmap_config es9356_sdca_regmap = {
-+	.reg_bits = 32,
-+	.val_bits = 16,
-+	.volatile_reg = es9356_sdca_volatile_register,
-+	.max_register = 0x45ffffff,
-+	.cache_type = REGCACHE_MAPLE,
-+	.use_single_read = true,
-+	.use_single_write = true,
-+};
-+
-+static void es9356_register_init(struct es9356_sdw_priv *es9356)
-+{
-+	regmap_write(es9356->regmap, ES9356_STATE, 0x02);
-+	regmap_write(es9356->regmap, ES9356_ENDPOINT_MODE, 0x24);
-+	regmap_write(es9356->regmap, ES9356_PRE_DIV_CTL, 0x00);
-+	regmap_write(es9356->regmap, ES9356_ADC_OSR, 0x18);
-+	regmap_write(es9356->regmap, ES9356_ADC_OSRGAIN, 0x13);
-+	regmap_write(es9356->regmap, ES9356_DAC_OSR, 0x16);
-+	regmap_write(es9356->regmap, ES9356_CLK_CTL, 0x0f);
-+	regmap_write(es9356->regmap, ES9356_CSM_RESET, 0x01);
-+	regmap_write(es9356->regmap, ES9356_CLK_SEL, 0x30);
-+
-+	regmap_write(es9356->regmap, ES9356_DETCLK_CTL, 0x51);
-+	regmap_write(es9356->regmap, ES9356_HP_TYPE, 0x10);
-+	regmap_write(es9356->regmap, ES9356_MICBIAS_CTL, 0x10);
-+	regmap_write(es9356->regmap, ES9356_HPDETECT_CTL, 0x07);
-+	regmap_write(es9356->regmap, ES9356_ADC_ANA, 0x30);
-+	regmap_write(es9356->regmap, ES9356_PGA_CTL, 0xa8);
-+	regmap_write(es9356->regmap, ES9356_ADC_INT, 0xaa);
-+	regmap_write(es9356->regmap, ES9356_ADC_LP, 0x19);
-+	regmap_write(es9356->regmap, ES9356_VMID1SEL, 0xbc);
-+	regmap_write(es9356->regmap, ES9356_VMID_TIME, 0x0b);
-+	regmap_write(es9356->regmap, ES9356_STATE_TIME, 0xbb);
-+	regmap_write(es9356->regmap, ES9356_HP_SPK_TIME, 0x77);
-+	regmap_write(es9356->regmap, ES9356_HP_DETECTTIME, 0xa4);
-+	regmap_write(es9356->regmap, ES9356_MICBIAS_SEL, 0x15);
-+	regmap_write(es9356->regmap, ES9356_KEY_PRESS_TIME, 0xff);
-+	regmap_write(es9356->regmap, ES9356_KEY_RELEASE_TIME, 0xff);
-+	regmap_write(es9356->regmap, ES9356_KEY_HOLD_TIME, 0x0f);
-+	regmap_write(es9356->regmap, ES9356_BTSEL_REF, 0x00);
-+	regmap_write(es9356->regmap, ES9356_KEYD_DETECT, 0x18);
-+	regmap_write(es9356->regmap, ES9356_MICBIAS_RES, 0x03);
-+	regmap_write(es9356->regmap, ES9356_BUTTON_CHARGE, 0x00);
-+	regmap_write(es9356->regmap, ES9356_CALIBRATION_TIME, 0x13);
-+	regmap_write(es9356->regmap, ES9356_CALIBRATION_SETTING, 0xf4);
-+
-+	regmap_write(es9356->regmap, ES9356_SPK_VOLUME, 0x33);
-+	regmap_write(es9356->regmap, ES9356_DAC_VROI, 0x01);
-+	regmap_write(es9356->regmap, ES9356_DAC_LP, 0x00);
-+	regmap_write(es9356->regmap, ES9356_HP_IBIAS, 0x04);
-+	regmap_write(es9356->regmap, ES9356_HP_LP, 0x03);
-+	regmap_write(es9356->regmap, ES9356_SPKLDO_CTL, 0x65);
-+	regmap_write(es9356->regmap, ES9356_SPKBIAS_COMP, 0x09);
-+	regmap_write(es9356->regmap, ES9356_VMID1STL, 0x00);
-+	regmap_write(es9356->regmap, ES9356_VMID2STL, 0x00);
-+	regmap_write(es9356->regmap, ES9356_VSEL, 0xfc);
-+
-+	regmap_write(es9356->regmap, ES9356_IBIASGEN, 0x10);
-+	regmap_write(es9356->regmap, ES9356_ADC_AMIC_CTL, 0x0d);
-+	regmap_write(es9356->regmap, ES9356_STATE, 0x0e);
-+	regmap_write(es9356->regmap, ES9356_CSM_RESET, 0x00);
-+	regmap_write(es9356->regmap, ES9356_HP_TYPE, 0x08);
-+
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_L), ES9356_DEFAULT_VOLUME);
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_R), ES9356_DEFAULT_VOLUME);
-+
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_L), ES9356_DEFAULT_VOLUME);
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_R), ES9356_DEFAULT_VOLUME);
-+
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_L), ES9356_DEFAULT_VOLUME);
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_R), ES9356_DEFAULT_VOLUME);
-+
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_L), ES9356_DEFAULT_VOLUME);
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_R), ES9356_DEFAULT_VOLUME);
-+}
-+
-+static int es9356_sdca_io_init(struct device *dev, struct sdw_slave *slave)
-+{
-+	struct es9356_sdw_priv *es9356 = dev_get_drvdata(&slave->dev);
-+
-+	if (es9356->hw_init)
-+		return 0;
-+
-+	es9356->disable_irq = false;
-+
-+	regcache_cache_only(es9356->regmap, false);
-+
-+	if (es9356->first_hw_init) {
-+		regcache_cache_bypass(es9356->regmap, true);
-+	} else {
-+		/* update count of parent 'active' children */
-+		pm_runtime_set_active(&slave->dev);
-+
-+		es9356_register_init(es9356);
-+	}
-+	pm_runtime_get_noresume(&slave->dev);
-+
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_XU12, ES9356_SDCA_CTL_SELECTED_MODE, 0), 0x01);
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT0, ES9356_SDCA_CTL_FUNC_STATUS, 0), 0x40);
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_XU22, ES9356_SDCA_CTL_SELECTED_MODE, 0), 0x01);
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT0, ES9356_SDCA_CTL_FUNC_STATUS, 0), 0x40);
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_XU42, ES9356_SDCA_CTL_SELECTED_MODE, 0), 0x01);
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_XU36, ES9356_SDCA_CTL_SELECTED_MODE, 0), 0x01);
-+	regmap_write(es9356->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT0, ES9356_SDCA_CTL_FUNC_STATUS, 0), 0x40);
-+
-+	if (es9356->first_hw_init) {
-+		regcache_cache_bypass(es9356->regmap, false);
-+		regcache_mark_dirty(es9356->regmap);
-+	} else
-+		es9356->first_hw_init = true;
-+
-+	es9356->hw_init = true;
-+
-+	pm_runtime_mark_last_busy(&slave->dev);
-+	pm_runtime_put_autosuspend(&slave->dev);
-+
-+	return 0;
-+}
-+
-+static int es9356_sdw_update_status(struct sdw_slave *slave,
-+				    enum sdw_slave_status status)
-+{
-+	struct es9356_sdw_priv *es9356 = dev_get_drvdata(&slave->dev);
-+
-+	if (status == SDW_SLAVE_UNATTACHED) {
-+		es9356->hw_init = false;
-+		cancel_delayed_work_sync(&es9356->interrupt_handle_work);
-+		cancel_delayed_work_sync(&es9356->button_detect_work);
-+		regcache_cache_only(es9356->regmap, true);
-+	}
-+
-+	if (status == SDW_SLAVE_ATTACHED) {
-+		if (es9356->hs_jack)
-+			sdw_write_no_pm(es9356->slave, SDW_SCP_SDCA_INTMASK1,
-+			(SDW_SCP_SDCA_INTMASK_SDCA_7 | SDW_SCP_SDCA_INTMASK_SDCA_5 | SDW_SCP_SDCA_INTMASK_SDCA_1));
-+	}
-+
-+	if (es9356->hw_init || status != SDW_SLAVE_ATTACHED)
-+		return 0;
-+
-+	return es9356_sdca_io_init(&slave->dev, slave);
-+}
-+
-+static int es9356_sdw_read_prop(struct sdw_slave *slave)
-+{
-+	struct sdw_slave_prop *prop = &slave->prop;
-+	int nval;
-+	int i, j;
-+	u32 bit;
-+	unsigned long addr;
-+	struct sdw_dpn_prop *dpn;
-+
-+	prop->paging_support = true;
-+
-+	/*
-+	 * first we need to allocate memory for set bits in port lists
-+	 * the port allocation is completely arbitrary:
-+	 * DP0 is not supported
-+	 * DP3 and DP4 is sink
-+	 * DP1 and DP2 is source
-+	 */
-+	prop->source_ports = BIT(1) | BIT(2);
-+	prop->sink_ports = BIT(3) | BIT(4);
-+
-+	nval = hweight32(prop->source_ports);
-+	prop->src_dpn_prop = devm_kcalloc(&slave->dev, nval,
-+					  sizeof(*prop->src_dpn_prop),
-+					  GFP_KERNEL);
-+	if (!prop->src_dpn_prop)
++	component = dai->component;
++	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
++					  "%s hs:es9356",
++					  card->components);
++	if (!card->components)
 +		return -ENOMEM;
 +
-+	i = 0;
-+	dpn = prop->src_dpn_prop;
-+	addr = prop->source_ports;
-+	for_each_set_bit(bit, &addr, 32) {
-+		dpn[i].num = bit;
-+		dpn[i].type = SDW_DPN_FULL;
-+		dpn[i].simple_ch_prep_sm = true;
-+		i++;
-+	}
++	ret = snd_soc_dapm_add_routes(dapm, es9356_map,
++				      ARRAY_SIZE(es9356_map));
 +
-+	/* do this again for sink now */
-+	nval = hweight32(prop->sink_ports);
-+	prop->sink_dpn_prop = devm_kcalloc(&slave->dev, nval,
-+					   sizeof(*prop->sink_dpn_prop),
-+					   GFP_KERNEL);
-+	if (!prop->sink_dpn_prop)
-+		return -ENOMEM;
-+
-+	j = 0;
-+	dpn = prop->sink_dpn_prop;
-+	addr = prop->sink_ports;
-+	for_each_set_bit(bit, &addr, 32) {
-+		dpn[j].num = bit;
-+		dpn[j].type = SDW_DPN_FULL;
-+		dpn[j].simple_ch_prep_sm = true;
-+		j++;
-+	}
-+
-+	/* wake-up event */
-+	prop->wake_capable = 1;
-+
-+	return 0;
-+}
-+
-+static int es9356_sdw_interrupt_callback(struct sdw_slave *slave,
-+					 struct sdw_slave_intr_status *status)
-+{
-+	struct es9356_sdw_priv *es9356 = dev_get_drvdata(&slave->dev);
-+	unsigned int sdca_cascade, scp_sdca_stat1 = 0;
-+	int count = 0, retry = 3;
-+	int ret, stat, reg;
-+
-+	mutex_lock(&es9356->disable_irq_lock);
-+
-+	ret = sdw_read_no_pm(es9356->slave, SDW_SCP_SDCA_INT1);
-+	if (ret < 0)
-+		goto io_error;
-+	es9356->sdca_status = ret;
-+
-+	do {
-+		reg = sdw_read_no_pm(es9356->slave, SDW_SCP_SDCA_INT1);
-+		if (reg < 0)
-+			goto io_error;
-+		if (reg & SDW_SCP_SDCA_INTMASK_SDCA_1) {
-+			ret = sdw_update_no_pm(es9356->slave, SDW_SCP_SDCA_INT1,
-+				SDW_SCP_SDCA_INT_SDCA_1, SDW_SCP_SDCA_INT_SDCA_1);
-+			if (ret < 0)
-+				goto io_error;
-+		}
-+
-+		if (reg & SDW_SCP_SDCA_INTMASK_SDCA_5) {
-+			ret = sdw_update_no_pm(es9356->slave, SDW_SCP_SDCA_INT1,
-+				SDW_SCP_SDCA_INT_SDCA_5, SDW_SCP_SDCA_INT_SDCA_5);
-+			if (ret < 0)
-+				goto io_error;
-+		}
-+
-+		if (reg & SDW_SCP_SDCA_INTMASK_SDCA_7) {
-+			ret = sdw_update_no_pm(es9356->slave, SDW_SCP_SDCA_INT1,
-+				SDW_SCP_SDCA_INT_SDCA_7, SDW_SCP_SDCA_INT_SDCA_7);
-+			if (ret < 0)
-+				goto io_error;
-+		}
-+
-+		ret = sdw_read_no_pm(es9356->slave, SDW_DP0_INT);
-+		if (ret < 0)
-+			goto io_error;
-+		sdca_cascade = ret & SDW_DP0_SDCA_CASCADE;
-+
-+		ret = sdw_read_no_pm(es9356->slave, SDW_SCP_SDCA_INT1);
-+		if (ret < 0)
-+			goto io_error;
-+		scp_sdca_stat1 = ret &
-+			(SDW_SCP_SDCA_INTMASK_SDCA_1 | SDW_SCP_SDCA_INTMASK_SDCA_5 | SDW_SCP_SDCA_INTMASK_SDCA_7);
-+
-+		stat = scp_sdca_stat1 || sdca_cascade;
-+
-+		count++;
-+	} while (stat != 0 && count < retry);
-+
-+	/* The 280 ms figure was determined through testing */
-+	if (status->sdca_cascade && !es9356->disable_irq)
-+		mod_delayed_work(system_power_efficient_wq,
-+			&es9356->interrupt_handle_work, msecs_to_jiffies(280));
-+
-+	mutex_unlock(&es9356->disable_irq_lock);
-+	return 0;
-+
-+io_error:
-+	mutex_unlock(&es9356->disable_irq_lock);
-+	pr_err_ratelimited("IO error in %s, ret %d\n", __func__, ret);
-+	return ret;
-+}
-+
-+static const struct sdw_slave_ops es9356_sdw_slave_ops = {
-+	.read_prop = es9356_sdw_read_prop,
-+	.interrupt_callback = es9356_sdw_interrupt_callback,
-+	.update_status = es9356_sdw_update_status,
-+};
-+
-+static int es9356_sdca_init(struct device *dev, struct regmap *regmap, struct sdw_slave *slave)
-+{
-+	struct es9356_sdw_priv *es9356;
-+	int ret;
-+
-+	es9356 = devm_kzalloc(dev, sizeof(*es9356), GFP_KERNEL);
-+	if (!es9356)
-+		return -ENOMEM;
-+
-+	dev_set_drvdata(dev, es9356);
-+
-+	es9356->slave = slave;
-+	es9356->regmap = regmap;
-+	mutex_init(&es9356->disable_irq_lock);
-+	mutex_init(&es9356->pde_lock);
-+
-+	regcache_cache_only(es9356->regmap, true);
-+
-+	es9356->hw_init = false;
-+	es9356->first_hw_init = false;
-+
-+	INIT_DELAYED_WORK(&es9356->interrupt_handle_work,
-+			  es9356_interrupt_handler);
-+	INIT_DELAYED_WORK(&es9356->button_detect_work,
-+			  es9356_button_detect_handler);
-+
-+	ret = devm_snd_soc_register_component(dev,
-+					       &snd_soc_es9356_sdw_component,
-+					       es9356_sdw_dai,
-+					       ARRAY_SIZE(es9356_sdw_dai));
 +	if (ret) {
-+		dev_err_probe(dev, ret, "Failed to register component\n");
++		dev_err(card->dev, "es9356 map addition failed: %d\n", ret);
 +		return ret;
 +	}
-+	/* set autosuspend parameters */
-+	pm_runtime_set_autosuspend_delay(dev, 3000);
-+	pm_runtime_use_autosuspend(dev);
-+	/* make sure the device does not suspend immediately */
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_enable(dev);
++
++	ret = snd_soc_card_jack_new_pins(rtd->card, "Headset Jack",
++					 SND_JACK_HEADSET | SND_JACK_BTN_0 |
++					 SND_JACK_BTN_1 | SND_JACK_BTN_2 |
++					 SND_JACK_BTN_3 | SND_JACK_BTN_4,
++					 &ctx->sdw_headset,
++					 es9356_jack_pins,
++					 ARRAY_SIZE(es9356_jack_pins));
++	if (ret) {
++		dev_err(rtd->card->dev, "Headset Jack creation failed: %d\n",
++			ret);
++		return ret;
++	}
++
++	jack = &ctx->sdw_headset;
++
++	snd_jack_set_key(jack->jack, SND_JACK_BTN_0, KEY_PLAYPAUSE);
++	snd_jack_set_key(jack->jack, SND_JACK_BTN_1, KEY_VOLUMEUP);
++	snd_jack_set_key(jack->jack, SND_JACK_BTN_2, KEY_VOLUMEDOWN);
++	snd_jack_set_key(jack->jack, SND_JACK_BTN_3, KEY_NEXTSONG);
++	snd_jack_set_key(jack->jack, SND_JACK_BTN_4, KEY_PREVIOUSSONG);
++
++	ret = snd_soc_component_set_jack(component, jack, NULL);
++
++	if (ret)
++		dev_err(rtd->card->dev, "Headset Jack call-back failed: %d\n",
++			ret);
++
++	return ret;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_es9356_rtd_init, "SND_SOC_SDW_UTILS");
++
++int asoc_sdw_es9356_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link)
++{
++	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
++
++	if (!ctx->headset_codec_dev)
++		return 0;
++
++	device_remove_software_node(ctx->headset_codec_dev);
++	put_device(ctx->headset_codec_dev);
 +
 +	return 0;
 +}
++EXPORT_SYMBOL_NS(asoc_sdw_es9356_exit, "SND_SOC_SDW_UTILS");
 +
-+static int es9356_sdw_probe(struct sdw_slave *slave,
-+				const struct sdw_device_id *id)
++int asoc_sdw_es9356_init(struct snd_soc_card *card,
++		       struct snd_soc_dai_link *dai_links,
++		       struct asoc_sdw_codec_info *info,
++		       bool playback)
 +{
-+	struct regmap *regmap;
++	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
++	struct device *sdw_dev;
++	int ret;
 +
-+	regmap = devm_regmap_init_sdw_mbq_cfg(&slave->dev, slave, &es9356_sdca_regmap, &es9356_mbq_config);
-+	if (IS_ERR(regmap))
-+		return PTR_ERR(regmap);
++	/*
++	 * headset should be initialized once.
++	 * Do it with dai link for playback.
++	 */
++	if (!playback)
++		return 0;
 +
-+	return es9356_sdca_init(&slave->dev, regmap, slave);
-+}
++	sdw_dev = bus_find_device_by_name(&sdw_bus_type, NULL, dai_links->codecs[0].name);
++	if (!sdw_dev)
++		return -EPROBE_DEFER;
 +
-+static void es9356_sdw_remove(struct sdw_slave *slave)
-+{
-+	struct es9356_sdw_priv *es9356 = dev_get_drvdata(&slave->dev);
-+
-+	if (es9356->hw_init) {
-+		cancel_delayed_work_sync(&es9356->interrupt_handle_work);
-+		cancel_delayed_work_sync(&es9356->button_detect_work);
++	ret = es9356_add_codec_device_props(sdw_dev, ctx->mc_quirk);
++	if (ret < 0) {
++		put_device(sdw_dev);
++		return ret;
 +	}
-+
-+	if (es9356->first_hw_init)
-+		pm_runtime_disable(&slave->dev);
-+
-+	mutex_destroy(&es9356->disable_irq_lock);
-+	mutex_destroy(&es9356->pde_lock);
-+}
-+
-+static const struct sdw_device_id es9356_sdw_id[] = {
-+	SDW_SLAVE_ENTRY_EXT(0x04b3, 0x9356, 0x02, 0, 0),
-+	SDW_SLAVE_ENTRY_EXT(0x04b3, 0x9356, 0x03, 0, 0),
-+	{},
-+};
-+MODULE_DEVICE_TABLE(sdw, es9356_sdw_id);
-+
-+static int es9356_sdca_dev_suspend(struct device *dev)
-+{
-+	struct es9356_sdw_priv *es9356 = dev_get_drvdata(dev);
-+
-+	cancel_delayed_work_sync(&es9356->interrupt_handle_work);
-+	cancel_delayed_work_sync(&es9356->button_detect_work);
-+
-+	regcache_cache_only(es9356->regmap, true);
++	ctx->headset_codec_dev = sdw_dev;
 +
 +	return 0;
 +}
++EXPORT_SYMBOL_NS(asoc_sdw_es9356_init, "SND_SOC_SDW_UTILS");
 +
-+static int es9356_sdca_dev_system_suspend(struct device *dev)
++int asoc_sdw_es9356_amp_init(struct snd_soc_card *card,
++		       struct snd_soc_dai_link *dai_links,
++		       struct asoc_sdw_codec_info *info,
++		       bool playback)
 +{
-+	struct es9356_sdw_priv *es9356 = dev_get_drvdata(dev);
++	if (!playback)
++		return 0;
 +
-+	mutex_lock(&es9356->disable_irq_lock);
-+	es9356->disable_irq = true;
-+	mutex_unlock(&es9356->disable_irq_lock);
++	info->amp_num++;
 +
-+	return es9356_sdca_dev_suspend(dev);
-+}
-+
-+#define es9356_PROBE_TIMEOUT 2000
-+
-+static int es9356_sdca_dev_resume(struct device *dev)
-+{
-+	struct sdw_slave *slave = dev_to_sdw_dev(dev);
-+	struct es9356_sdw_priv *es9356 = dev_get_drvdata(dev);
-+	unsigned long time;
-+
-+	if (!slave->unattach_request) {
-+		es9356->disable_irq = false;
-+		goto regmap_sync;
-+	}
-+
-+	time = wait_for_completion_timeout(&slave->initialization_complete,
-+				msecs_to_jiffies(es9356_PROBE_TIMEOUT));
-+	if (!time) {
-+		dev_err(&slave->dev, "Initialization not complete, timed out\n");
-+		sdw_show_ping_status(slave->bus, true);
-+
-+		return -ETIMEDOUT;
-+	}
-+
-+regmap_sync:
-+	slave->unattach_request = 0;
-+	regcache_cache_only(es9356->regmap, false);
-+	regcache_sync(es9356->regmap);
 +	return 0;
 +}
-+
-+static const struct dev_pm_ops es9356_sdca_pm = {
-+	SYSTEM_SLEEP_PM_OPS(es9356_sdca_dev_system_suspend, es9356_sdca_dev_resume)
-+	RUNTIME_PM_OPS(es9356_sdca_dev_suspend, es9356_sdca_dev_resume, NULL)
-+};
-+
-+static struct sdw_driver es9356_sdw_driver = {
-+	.driver = {
-+		.name = "es9356",
-+		.pm = pm_ptr(&es9356_sdca_pm),
-+	},
-+	.probe = es9356_sdw_probe,
-+	.remove = es9356_sdw_remove,
-+	.ops = &es9356_sdw_slave_ops,
-+	.id_table = es9356_sdw_id,
-+};
-+module_sdw_driver(es9356_sdw_driver);
-+
-+MODULE_IMPORT_NS("SND_SOC_SDCA");
-+MODULE_DESCRIPTION("ASoC ES9356 SDCA SDW codec driver");
-+MODULE_AUTHOR("Michael Zhang <zhangyi@everest-semi.com>");
-+MODULE_LICENSE("GPL");
-diff --git a/sound/soc/codecs/es9356.h b/sound/soc/codecs/es9356.h
-new file mode 100644
-index 000000000..2a676f365
---- /dev/null
-+++ b/sound/soc/codecs/es9356.h
-@@ -0,0 +1,208 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef __ES9356_H__
-+#define __ES9356_H__
-+
-+/*ES9356 Implementation-define*/
-+#define ES9356_FLAGS_HP                         0x2003
-+#define ES9356_CSM_RESET                        0x2020
-+#define ES9356_FUC_RESET                        0x2021
-+#define ES9356_STATE                            0x2022
-+#define ES9356_VMID_TIME                        0x2023
-+#define ES9356_STATE_TIME                       0x2024
-+#define ES9356_HP_SPK_TIME                      0x2025
-+#define ES9356_WP_ENABLE                        0x2026
-+#define ES9356_DMIC_GPIO                        0x2027
-+#define ES9356_ENDPOINT_MODE                    0x2028
-+
-+/*HP DETECT*/
-+#define ES9356_HP_TYPE                          0x2029
-+#define ES9356_HP_DETECTTIME                    0x202A
-+#define ES9356_MICBIAS_SEL                      0x202B
-+#define ES9356_KEY_PRESS_TIME                   0x202C
-+#define ES9356_KEY_RELEASE_TIME                 0x202D
-+#define ES9356_KEY_HOLD_TIME                    0x202E
-+#define ES9356_BTSEL_REF                        0x202F
-+#define ES9356_BUTTON_CHARGE                    0x2030
-+
-+#define ES9356_KEYD_DETECT                      0x2031
-+#define ES9356_DPEN_TIME                        0x2032
-+#define ES9356_TIMER_CHECK                      0x2033
-+#define ES9356_IBIASGEN                         0x2041
-+#define ES9356_VMID1SEL                         0x2042
-+#define ES9356_VMID1STL                         0x2043
-+#define ES9356_VMID2SEL                         0x2044
-+#define ES9356_VMID2STL                         0x2045
-+#define ES9356_VSEL                             0x2046
-+#define ES9356_MICBIAS_CTL                      0x2047
-+#define ES9356_HPDETECT_CTL                     0x2048
-+#define ES9356_MICBIAS_RES                      0x2049
-+
-+/*CLK*/
-+#define ES9356_CLK_SEL                          0x2050
-+#define ES9356_CLK_CTL                          0x2051
-+#define ES9356_DETCLK_CTL                       0x2052
-+#define ES9356_CPCLK_CTL                        0x2053
-+#define ES9356_SPKCLK_CTL                       0x2054
-+#define ES9356_PRE_DIV_CTL                      0x2055
-+#define ES9356_DLL_MODE                         0x2056
-+#define ES9356_ANACLK_SEL                       0x2057
-+#define ES9356_OSRCLK_SEL                       0x2058
-+#define ES9356_DSPCLK_SEL                       0x2059
-+#define ES9356_SPK9M_MODE                       0x205a
-+
-+/*ADC DIG CTL*/
-+#define ES9356_DMIC_POL                         0x2061
-+#define ES9356_ADC_SWAP                         0x2062
-+#define ES9356_ADC_OSR                          0x2063
-+#define ES9356_ADC_OSRGAIN                      0x2064
-+#define ES9356_ADC_CLEARRAM                     0x2065
-+#define ES9356_ADC_RAMP                         0x2066
-+#define ES9356_ADC_HPF1                         0x2067
-+#define ES9356_ADC_HPF2                         0x2068
-+#define ES9356_ADC_ALC                          0x206C
-+#define ES9356_ALC_LEVEL                        0x206D
-+#define ES9356_ALC_RAMP_WINSIZE                 0x206E
-+
-+/*ADC ANA CTL*/
-+#define ES9356_ADC_REF_EN                       0x2080
-+#define ES9356_ADC_AMIC_CTL                     0x2081
-+#define ES9356_ADC_ANA                          0x2082
-+#define ES9356_PGA_CTL                          0x2083
-+#define ES9356_ADC_INT                          0x2084
-+#define ES9356_ADC_VCM                          0x2085
-+#define ES9356_ADC_VRPBIAS                      0x2086
-+#define ES9356_ADC_LP                           0x2087
-+
-+/*DAC DIG CTL*/
-+#define ES9356_DAC_FSMODE                       0x2090
-+#define ES9356_DAC_OSR                          0x2091
-+#define ES9356_DAC_INV                          0x2092
-+#define ES9356_DAC_RAMP                         0x2093
-+#define ES9356_DAC_VPPSCALE                     0x2094
-+#define ES9356_DAC_SWAP                         0x2097
-+#define ES9356_SPKCMP_VPPSC                     0x20A0
-+#define ES9356_CALIBRATION_TIME                 0x20A1
-+#define ES9356_CALIBRATION_SETTING              0x20A2
-+#define ES9356_DAC_OFFSET_LH                    0x20A3
-+#define ES9356_DAC_OFFSET_LL                    0x20A4
-+#define ES9356_DAC_OFFSET_RH                    0x20A5
-+#define ES9356_DAC_OFFSET_RL                    0x20A6
-+
-+/*DAC ANA CTL*/
-+#define ES9356_DAC_REF_EN                       0x20B0
-+#define ES9356_DAC_ENABLE                       0x20B1
-+#define ES9356_DAC_VROI                         0x20B2
-+#define ES9356_DAC_LP                           0x20B3
-+
-+/*HP CTL*/
-+#define ES9356_CHARGEPUMP_CTL                   0x20C0
-+#define ES9356_CPLDO_CTL                        0x20C1
-+#define ES9356_HP_REF_CTL                       0x20C2
-+#define ES9356_HP_IBIAS                         0x20C3
-+#define ES9356_HP_EN                            0x20C4
-+#define ES9356_HP_VOLUME                        0x20C5
-+#define ES9356_HP_LP                            0x20C6
-+
-+/*SPK CTL*/
-+#define ES9356_SPKLDO_CTL                       0x20D0
-+#define ES9356_CLASSD_CTL                       0x20D1
-+#define ES9356_SPK_HBDG                         0x20D5
-+#define ES9356_SPK_VOLUME                       0x20D7
-+#define ES9356_SPK_SCP                          0x20D8
-+#define ES9356_SPK_DT                           0x20D9
-+#define ES9356_SPK_OTP                          0x20DA
-+#define ES9356_SPKBIAS_COMP                     0x20DB
-+
-+/* ES9356 SDCA Control - function number */
-+#define FUNC_NUM_UAJ                            0x01
-+#define FUNC_NUM_MIC                            0x02
-+#define FUNC_NUM_AMP                            0x03
-+#define FUNC_NUM_HID                            0x04
-+
-+/* ES9356 SDCA entity */
-+#define ES9356_SDCA_ENT0                        0x00
-+#define ES9356_SDCA_ENT_PDE11                   0x03
-+#define ES9356_SDCA_ENT_FU11                    0x04
-+#define ES9356_SDCA_ENT_XU12                    0x05
-+#define ES9356_SDCA_ENT_FU113                   0x07
-+#define ES9356_SDCA_ENT_CS113                   0x09
-+#define ES9356_SDCA_ENT_PPU11                   0x0C
-+
-+#define ES9356_SDCA_ENT_CS21                    0x02
-+#define ES9356_SDCA_ENT_PPU21                   0x03
-+#define ES9356_SDCA_ENT_FU21                    0X04
-+#define ES9356_SDCA_ENT_XU22                    0x06
-+#define ES9356_SDCA_ENT_SAPU29                  0x03
-+#define ES9356_SDCA_ENT_PDE23                   0x0B
-+#define ES9356_SDCA_ENT_HID01                   0x01
-+
-+#define ES9356_SDCA_ENT_CS41                    0x02
-+#define ES9356_SDCA_ENT_FU35                    0x04
-+#define ES9356_SDCA_ENT_XU42                    0x06
-+#define ES9356_SDCA_ENT_FU41                    0x07
-+#define ES9356_SDCA_ENT_PDE47                   0x0E
-+#define ES9356_SDCA_ENT_IT33                    0x0F
-+#define ES9356_SDCA_ENT_PDE34                   0x10
-+#define ES9356_SDCA_ENT_FU33                    0x11
-+#define ES9356_SDCA_ENT_XU36                    0x13
-+#define ES9356_SDCA_ENT_FU36                    0x15
-+#define ES9356_SDCA_ENT_CS36                    0x17
-+#define ES9356_SDCA_ENT_GE35                    0x18
-+
-+/* ES9356 SDCA control */
-+#define ES9356_SDCA_CTL_SAMPLE_FREQ_INDEX       0x10
-+#define ES9356_SDCA_CTL_FU_MUTE                 0x01
-+#define ES9356_SDCA_CTL_FU_VOLUME               0x02
-+#define ES9356_SDCA_CTL_HIDTX_CURRENT_OWNER     0x10
-+#define ES9356_SDCA_CTL_SELECTED_MODE           0x01
-+#define ES9356_SDCA_CTL_DETECTED_MODE           0x02
-+#define ES9356_SDCA_CTL_REQ_POWER_STATE         0x01
-+#define ES9356_SDCA_CTL_FU_CH_GAIN              0x0b
-+#define ES9356_SDCA_CTL_FUNC_STATUS             0x10
-+#define ES9356_SDCA_CTL_ACTUAL_POWER_STATE      0x10
-+#define ES9356_SDCA_CTL_POSTURE_NUMBER          0x00
-+
-+/* ES9356 SDCA channel */
-+#define CH_L	0x01
-+#define CH_R	0x02
-+#define MBQ	0x2000
-+
-+/* ES9356 HID*/
-+#define ES9356_BUF_ADDR_HID     0x44000000
-+#define ES9356_HID_BYTE2        0x44000001
-+#define ES9356_HID_BYTE3        0x44000002
-+#define ES9356_HID_BYTE4        0x44000003
-+
-+/* ES9356 Volume Setting*/
-+#define ES9356_VU_BASE          768
-+#define ES9356_OFFSET_HIGH      0x07F8
-+#define ES9356_OFFSET_LOW       0x0007
-+#define ES9356_DEFAULT_VOLUME   0x00
-+#define	ES9356_VOLUME_STEP      32
-+#define ES9356_VOLUME_MIN       -768
-+#define	ES9356_VOLUME_MAX       285
-+#define	ES9356_AMIC_GAIN_STEP   768
-+#define	ES9356_DMIC_GAIN_STEP   1536
-+#define ES9356_GAIN_MIN         0
-+#define	ES9356_AMIC_GAIN_MAX    10
-+#define	ES9356_DMIC_GAIN_MAX    3
-+
-+enum {
-+	ES9356_DMIC = 1, /* For dmic */
-+	ES9356_JACK_IN, /* For headset mic */
-+	ES9356_AMP, /* For speaker */
-+	ES9356_JACK_OUT, /* For headphone */
-+};
-+
-+enum {
-+	ES9356_SDCA_RATE_16000HZ,
-+	ES9356_SDCA_RATE_24000HZ,
-+	ES9356_SDCA_RATE_32000HZ,
-+	ES9356_SDCA_RATE_44100HZ,
-+	ES9356_SDCA_RATE_48000HZ,
-+	ES9356_SDCA_RATE_88200HZ,
-+	ES9356_SDCA_RATE_96000HZ,
-+};
-+
-+#endif
++EXPORT_SYMBOL_NS(asoc_sdw_es9356_amp_init, "SND_SOC_SDW_UTILS");
 -- 
 2.17.1
 
