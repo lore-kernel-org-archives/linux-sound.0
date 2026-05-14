@@ -1,93 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from r3-212.sinamail.sina.com.cn (r3-212.sinamail.sina.com.cn [202.108.3.212])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21AB738F929
-	for <linux-sound@vger.kernel.org>; Thu, 14 May 2026 07:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194003A9851
+	for <linux-sound@vger.kernel.org>; Thu, 14 May 2026 07:52:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.212
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778742665; cv=none; b=DhEAoYesFgZxjIbEoQG15XsDdsolcHZX6UMoIPiQ0pxv3n7PvfKtGv/tS/TYAggYmSapf7AazfyRAfP5unikrrm+FTH8xG5XOX2uhx+nyB0cJQDCJAkrmY7FCzNmIx6NAy1E+x56mAYG6JWXrK0NZ8Twn4R45dyubed+yBnQylY=
+	t=1778745179; cv=none; b=QivJt3tXi1SkfqOxY8F2MsNflBS9igyzE5xkD8uCVPwn17wfxL261gnLEevpma2hwoyeEKUJT9W4IB59rse0SLMMkSvDVjysbe3CRt5tc27aPvhasWb50iZbjoFhCKBrht4fCjCQiZ4+WZ68V3XDsN10gaGcLMYmLw7bUGGCLbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778742665; c=relaxed/simple;
-	bh=05wDEadtXxgS288pmxKhrK+uFtixLGYDIo1T18Y8OqI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TQj44ffuKcfTgHoQk6Xccv2wQeGv3TtexAHllqSyF2G6iLX36gM4AfExeWkc0TL+IRuq0E80p9PUL/lhb3RpZt9i2ut13SG25hCTrAygctMBg7KPVR5d9VyETbqlSYbUX3pWtKLDyp9BmY9+R8hQxTX7FFkfea/b+egZacEe/sI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aY/7WFff; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aY/7WFff"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0114C2BCC6;
-	Thu, 14 May 2026 07:11:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778742664;
-	bh=05wDEadtXxgS288pmxKhrK+uFtixLGYDIo1T18Y8OqI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aY/7WFffqIpUfXQPaRd52eXanx3jSSUAtuVO1BlaNAaU6kxvyDbB1dmh/1Xn/Zkk4
-	 N28cYc/j7T8wZPXhqXW4DYtrG4fZFYfOba2k7f8BivNtFPfIo0lxYs5jf5fc/bHQAH
-	 /jNnL++SLMlU4e/ib6tAWDdLfp42lEp7k8Ht4kshO3GnU85V2DjgYcfBTmv3a31Df5
-	 TVSF0hpYXFF7uKhH0efxUXpDCSO2B3+sW1BIchKiWBBPtj/2DYy9bZ9rReHUWdqgy4
-	 tpx3NMOvXj+IScGXAwOpehDx7M3HVXSGC2NvF4nZa7arSVyneUogAnc0vMTbcV+yHz
-	 FB510+EP9d3rQ==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 23C281AC58D3; Thu, 14 May 2026 08:11:02 +0100 (BST)
-Date: Thu, 14 May 2026 16:11:02 +0900
-From: Mark Brown <broonie@kernel.org>
-To: Zhang Yi <zhangyi@everest-semi.com>
-Cc: tiwai@suse.com, linux-sound@vger.kernel.org,
-	peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
-	ckeepax@opensource.cirrus.com, vkoul@kernel.org
-Subject: Re: [PATCH v14 3/6] ASoC: es9356-sdca: Add ES9356 SDCA driver
-Message-ID: <agV1hrh3bY-RdT9q@sirena.co.uk>
-References: <20260513031554.5422-1-zhangyi@everest-semi.com>
- <20260513031554.5422-4-zhangyi@everest-semi.com>
+	s=arc-20240116; t=1778745179; c=relaxed/simple;
+	bh=Ou+u/9K7bnUYC8P8x50Ah1dx4NID2IYDDEaFgtYdf9U=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=HGQKwn9MK6o9fbIh5iycXUwCpVzacvZfXWR29ZoGPJD1Jb8fEJBU3l6mj+AcntFWwVkpauUKB6rh9cfIcMC2vnOmhwwreQH3yuzk+YM9bMBUrK5IkK/Oq/k896vvvcRt8hffiTsbGhEA4VyrQtKJ0iYQpFKNANmY9zds7eSLv0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.212
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
+	by sina.net (10.54.253.38) with ESMTP
+	id 6A057F2A0000134F; Thu, 14 May 2026 15:52:15 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 6751F5109CEE43149D73DEFF2176D429
+X-SMAIL-UIID: 6751F5109CEE43149D73DEFF2176D429-20260514-155215
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Cc: peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
+	ckeepax@opensource.cirrus.com,
+	vkoul@kernel.org,
+	Zhang Yi <zhangyi@everest-semi.com>
+Subject: [PATCH v15 5/6] ASoC: Intel: sof_sdw: add es9356 support
+Date: Thu, 14 May 2026 15:52:05 +0800
+Message-Id: <20260514075206.3483-6-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260514075206.3483-1-zhangyi@everest-semi.com>
+References: <20260514075206.3483-1-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="koRjedHCL9cc6yWW"
-Content-Disposition: inline
-In-Reply-To: <20260513031554.5422-4-zhangyi@everest-semi.com>
-X-Cookie: Truckers welcome.
 
+add Everest-semi ES9356 support
 
---koRjedHCL9cc6yWW
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+---
+ sound/soc/intel/boards/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-On Wed, May 13, 2026 at 11:15:51AM +0800, Zhang Yi wrote:
-> This is the codec driver for es9356-sdca.
->=20
-> Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
+index d53af8f7e..cddbd2aa4 100644
+--- a/sound/soc/intel/boards/Kconfig
++++ b/sound/soc/intel/boards/Kconfig
+@@ -532,6 +532,7 @@ config SND_SOC_INTEL_SOUNDWIRE_SOF_MACH
+ 	select MFD_CS42L43_SDW
+ 	select SND_SOC_CS35L56_SPI
+ 	select SND_SOC_CS35L56_SDW
++	select SND_SOC_ES9356
+ 	select SND_SOC_DMIC
+ 	select SND_SOC_INTEL_HDA_DSP_COMMON
+ 	imply SND_SOC_SDW_MOCKUP
+-- 
+2.17.1
 
-This breaks a build with -Werror like allmodconfig:
-
-/build/stage/linux/sound/soc/codecs/es9356.c:1144:19: error: initialization=
- of =E2=80=98
-void (*)(struct sdw_slave *)=E2=80=99 from incompatible pointer type =E2=80=
-=98int (*)(struct sdw
-_slave *)=E2=80=99 [-Wincompatible-pointer-types]
- 1144 |         .remove =3D es9356_sdw_remove,
-      |                   ^~~~~~~~~~~~~~~~~
-/build/stage/linux/sound/soc/codecs/es9356.c:1144:19: note: (near initializ=
-ation
- for =E2=80=98es9356_sdw_driver.remove=E2=80=99)
-
---koRjedHCL9cc6yWW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoFdYUACgkQJNaLcl1U
-h9A0vAf9GybDMdGeAQnik4/W8xuk/q9FEfUmk8zS9zktaeVKhxML/Tit1j8phbfK
-BuCTJSF9lfJ6HbT1P+F8AaQ9j/ngnFW2XuEj9AKuk97goI/rwW5iP1ICepRi/mPc
-kFKapekb76DPfuVTc2jg0f8XU/xTx5k2IW2jakdvIxP48K4mESenxzSrctVREUUu
-JuHl0V+OSP4ap9aBqSHRfKslwEBDXWg1d7AiLZd+gT4Mq6x1t8QmptwlNk1XBgyy
-is38N3p3QuWY044ruxEXsSiJthPRjebM9mAFuem2QUy5Ypq3QF24HLsA7qivWdx0
-BUeUTVE+/5lhxv58wrz1TRBjxEI+KA==
-=grAU
------END PGP SIGNATURE-----
-
---koRjedHCL9cc6yWW--
