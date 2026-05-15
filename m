@@ -1,260 +1,162 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516B948B397
-	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 15:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778857888; cv=none; b=PBq3ZCgHWmF/6ByM2ymYRv4gy+hPbOTC/JNfRG9twZjECFCsC+oO9XsR4+GmAq6o9XX4ntVH18AK1PENEGphhkjJAY4pLNr+/ZBtKFPFK4zyENiSdAfWw0qF+QfkfnTBmBPurNxh3VlEyEbxo6bY8w5mqLcCYpl27kQZTiqbA4M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778857888; c=relaxed/simple;
-	bh=QAXbc3wWqSC9H0GdnYojichQpjbJWMTmLX6rrahyWPc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=coCZsMcKYYUOn+3b7dUZT5SoUgIPyT4pQhxDlmo9LCFd+lLY54UN4iTasUWg1X62u9+xu69YOtHUMG6PhqVEok/N4UXpV+u0eaIV1D8c1GS6xwOepSUHsd4GkqltccO0HzgUWgg0X01h/JqFUChq+RP3xN5EuYS3r/CIAS5oDrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=oQW+A0sK; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFB83FF1DF;
+	Fri, 15 May 2026 15:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778860199; cv=fail; b=JlOXhy675LpJzNrcMvbsExpeHn3Cx+g4+Vto6SzYVWzwezNpvHRouAmaarsQ0yAUVVpoHL7tF9hQabOoA4rry4TRUZ1Tc8OZR98tF9Qi5LnlkCvmTg7cK+ZD+b08+qU/U+2t/ofbw0b2AboVIvFIQFa6TgYMKFrn317W0YAwlzM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778860199; c=relaxed/simple;
+	bh=71OQJZDE6G53sSeo76s2edeh/r69/8V6WfnAZAVwyXU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qTtZmBV5gWuCEJGtiFiUR91gbio4sGJSc862z3chj6iRKpMLVJlvGSDLPVuOu6AnJ4Tl9VKAk+kUw+R1xKLV8rBLLppUhgrfUrMM+To2x+xZe2nN21SS5Uqc9v5gx2uS9QY53A9xuFXSTKg0Y28OIyDEq5SiiOgYwoT4TMmi96Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Ia+HyvV9; dkim=fail (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=kJXQambL reason="signature verification failed"; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="oQW+A0sK"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4891c00e7aeso76304045e9.2
-        for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 08:11:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Ia+HyvV9";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="kJXQambL"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64F3mk8A371296;
+	Fri, 15 May 2026 10:49:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=OPDRWg7WC2E83xxk3l9om4wNblrGqkc+zEf7dsqQy74=; b=
+	Ia+HyvV9T2xKmcBNj6zHvYsX1vT7vr992Cj3cA7YyBtnsXvs30CX4YGO0EmDy3EA
+	N8EGsZEXor3Y4ydiZmC537OhQfoeyFsxg0YdaJg1/UOjFOutLStNQZTspLPv8xBw
+	qJ0O0i25weRpOxAMdzSUsBPTRi2X6jjGjKlZUaDFxSIABEa7jh3kzOGA6zR3Dxfr
+	tYa8GS2WMpBpfGFxUTnzti5NVvvWZ20eAabFopNuT7XDHRQ3LbuPosz8iQlhbfge
+	GVgRzTR0eWCLd3Oa+EmLHq64K9P9QH7+8zo73z6oMPj8s/hjuA3+U/V0avkmRJA9
+	DeTjvtXtqpeF4oUxymOsLw==
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11023142.outbound.protection.outlook.com [40.107.201.142])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4e5m2ps46u-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 15 May 2026 10:49:50 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=v/sJZ8BcQX9XXhg7u1+Jful5a3IR1vs9fqEzIfTS0qyW9ISPGmJiDp0DMsWegFp8QCl46Y/bDfVIvcEIerisNcEk1R81qg/aUpInDdHY1JGIiOi2v6Q8NeiPC+cfooc1TnmCazX295AaNLzdAcA1tI+GJI+7KWjS8m8hDxsvLOJ6l3c4z8oGJm5F+/OLrF23rK/L+iTuXNLl53Q6GWJRaYTzn7XmLCAH7BUkCq/wjd01T2bfjhED6h1dwO6+FqlGF/fLvA2yV3b+xlSX79c5i43SQx9IPrzTvxhKMZdP2sMDLB4SE7/5w3wZM77OVrINNOY+lhPcHb6jZqMJlWt9Ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TvIw3Rh9OwesiLMBrvfrPdPgGydpTG6FaMf33f/sx0Y=;
+ b=lmZHUgWVfLdr+6A1GZtbYQhMJ6+UGGKXbNAhFzFjYDNgyuRN5UWXtwJzrUoC5/8W9g3X5RSYC0PYuEbYpp20288TLGbUW3OTh5JS6cE4oHNx69GP+wKPvc/8qLag3jPMlhrrCwyKEWKv1IUka88wnm5IRBmvRIbEbIinPLR5jaQTfFsJbll57gDuAwrTjw6YpKgY6KcTXgCSViClYaKwSt8H7PR81+HDHA/6I6yIVKeA/7U2GVbj7RQ2Oft/5Q2x8dVF46mRxzt5Nz3DplpLWeOariH9tCNGJJcCb1p6wQEmets84xCBVf9/OVHReR4OJqxaTLYKGjI2/A3CNb1Q0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778857880; x=1779462680; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C6mWlulhIjJ+KVaCp0+AQJ0i2SOXLwY0ch+ls2yqanI=;
-        b=oQW+A0sK4SrCM/mh8pHP3toTvCgWgMMfGoZqD2qBH71UkbtimNHmwjk9U2K/VE8wLv
-         hUoMO72gl4y8DUjNVR0zHnsznAWMHJyKU9SvwatSVF4gnqlj+KpodRDE7xjlxniIdSym
-         NGN1jZOA9peLoLM8FfQEl/PwRS7gy/NOqBw9O9P2WRtflIWSD3ghqAZW+AJv80wHvnS0
-         o4+U+jVByKDCY8TD7GOCmxXHEgP4Ojd9iJ8JO0qwDZiPio/M6QmvccXLrA5y0aYPsY40
-         VHBugzDfvU9JiQx+qUtaq3F6zadQcioKeYA0X6KGX3apW/w/egzE8tp4CfegblaLjoAt
-         33zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778857880; x=1779462680;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=C6mWlulhIjJ+KVaCp0+AQJ0i2SOXLwY0ch+ls2yqanI=;
-        b=lcg120CSMmdmBp+OLBDejPZco23YrRaishQbbX9nBnT3CcYdzjZomi3QsBqaKqunG4
-         iWI6ytSgksVmFllqeIQvLNQHcJ2VNYB5j4prhRoTsXfQFiiaT0awY2qemhicZzUyOqkm
-         FgGtn5J+i7wiuW5OPxw7Z8YZiR5o/QiII29mtDC6cCKSi9QLxEfkqf5AePAmURTesMfk
-         U+RMUDimdpKp85dORBlxzb2PWtvvejHuXzuESaEpgS0b6iPBvIiU7ele3g9LZGrsyKZv
-         FFzdvSxcL3w65zs5NxxtTpMhDGLmHUJQmIDFrCjd0QsvtGAe7bhbIw/VXsVPkj7oszq8
-         mvew==
-X-Forwarded-Encrypted: i=1; AFNElJ+cmBVMRTwFA7ruUFmdeD1lelldQYZXt0QpcHMwopBOVemaCiciDqPykMotJoo06ehxSFgJCi7sybOXTw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVSoYrilLbHe3OsNHQGZWdbq9FSiH3ZOhOZevb6oDQWgIh2mA8
-	HHuNdLt04sE8Lozf/NWl19wWTEvY7pcZ66nZB09uWBMKXcVWDs+l+GB+6YT9IOEEtik=
-X-Gm-Gg: Acq92OGCHZihOaGujyUFUjsqlu3lLppJv4twACZbb1Y5GPAQwaeiztl9T793e07JAjA
-	lVp6//waFI6hFxB+N57CUeuSLCuwuG0Fb54bCXPwX8y32c/dysW4gN2Q3rNMciUaHC7+1oNchl9
-	bD/p4DNobc/z72+rtywENLwwq4b4o4RQ+UjwQ9wFSkCi2eJA0m6IWN3hRHj8lbe54FfhrhAijdw
-	LALMaNvd729p53hPQtdxv9+yamdWpa6/Hy2crkDNUFlPvRThUKvznHOwhlLOgBDW4mZNXw4BLT3
-	gToEJpDjmLPsiT3Li3qvC/0F0i3B4uEDOMnf4YmcXvWAiihRVA4JOJbvjnL0OaV3Q6Vo5s3vyte
-	XQWMo+Soegb/AZ2Ot0exdTBlh+D0Y+GuHUo2LeMkr2xTg3tyCbQboosZ8AaJ4mR4iNqPYA+1A//
-	0GvGYqXiY2i7Hbo626faDVOy4hKYH8ikY=
-X-Received: by 2002:a05:600c:6992:b0:48e:6f39:f7be with SMTP id 5b1f17b1804b1-48fe60ea533mr59171235e9.10.1778857879891;
-        Fri, 15 May 2026 08:11:19 -0700 (PDT)
-Received: from [127.0.1.1] ([151.41.223.93])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0a19c2dsm15262062f8f.21.2026.05.15.08.11.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 08:11:18 -0700 (PDT)
-From: Valerio Setti <vsetti@baylibre.com>
-Date: Fri, 15 May 2026 17:10:40 +0200
-Subject: [PATCH 4/4] ASoC: meson: aiu: use aiu-formatter-i2s to format I2S
- output data
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TvIw3Rh9OwesiLMBrvfrPdPgGydpTG6FaMf33f/sx0Y=;
+ b=kJXQambLQaRQWe95hJoTy2adwka9WKrZHngDdDzSVI9vdyiJtGLUWBVt01zs8rMev5L5s1yzV1GHqTwYo+/tluZTHhQNwy1CH8eX0TgPHG5wwprFyRmcoXPB0H8OLpoWBwq2TKsZ1oEBWciKHJMzRFPUkTBs8NS8sxIijQrNz4g=
+Received: from CH0PR03CA0387.namprd03.prod.outlook.com (2603:10b6:610:119::21)
+ by CY8PR19MB7107.namprd19.prod.outlook.com (2603:10b6:930:54::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.13; Fri, 15 May
+ 2026 15:49:45 +0000
+Received: from CH2PEPF0000014A.namprd02.prod.outlook.com
+ (2603:10b6:610:119:cafe::ce) by CH0PR03CA0387.outlook.office365.com
+ (2603:10b6:610:119::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9913.14 via Frontend Transport; Fri,
+ 15 May 2026 15:49:43 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH2PEPF0000014A.mail.protection.outlook.com (10.167.244.107) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.25.13
+ via Frontend Transport; Fri, 15 May 2026 15:49:43 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 374DE406540;
+	Fri, 15 May 2026 15:49:42 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 1D85982024A;
+	Fri, 15 May 2026 15:49:42 +0000 (UTC)
+Date: Fri, 15 May 2026 16:49:40 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: "Stefan Binding (Opensource)" <sbinding@opensource.cirrus.com>
+Cc: =?iso-8859-1?Q?'C=E1ssio?= Gabriel' <cassiogabrielcontato@gmail.com>,
+        'David Rhodes' <david.rhodes@cirrus.com>,
+        'Richard Fitzgerald' <rf@opensource.cirrus.com>,
+        'Takashi Iwai' <tiwai@suse.com>,
+        'Vitaly Rodionov' <vitalyr@opensource.cirrus.com>,
+        'Jaroslav Kysela' <perex@perex.cz>, linux-sound@vger.kernel.org,
+        patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: Re: [PATCH RESEND] ALSA: hda/cs35l41: Fix firmware load work teardown
+Message-ID: <agdAlJek88n6K53H@opensource.cirrus.com>
+References: <20260511-alsa-hda-cs35l41-fw-work-teardown-v1-1-1184e9bc4f25@gmail.com>
+ <agbxffucE1h67TRI@opensource.cirrus.com>
+ <002f01dce47c$a7859760$f690c620$@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260515-reshape-aiu-as-axg-v1-4-53b457784ff3@baylibre.com>
-References: <20260515-reshape-aiu-as-axg-v1-0-53b457784ff3@baylibre.com>
-In-Reply-To: <20260515-reshape-aiu-as-axg-v1-0-53b457784ff3@baylibre.com>
-To: Jerome Brunet <jbrunet@baylibre.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- Valerio Setti <vsetti@baylibre.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6060; i=vsetti@baylibre.com;
- h=from:subject:message-id; bh=QAXbc3wWqSC9H0GdnYojichQpjbJWMTmLX6rrahyWPc=;
- b=owGbwMvMwCF2z3ty7kUrRgbG02pJDFns5hO+L3dLkz56L3furj2Jsw65ZDWbeb8TihIUiDF6n
- TT3bf2pjlIWBjEOBlkxRRaW6fd+F5SqPTROOFkAM4eVCWQIAxenAExEUpLhr1i2b8Ud/8nHa6Qe
- pel9PSH3erOa49tdG7a4r3pygP39BhuGv+Lldy7t2Hp9pv5+Ri/mzxrxuq6eOjfv1rK+ETu4+dr
- KNdwA
-X-Developer-Key: i=vsetti@baylibre.com; a=openpgp;
- fpr=0497DEFB707526E13360C970DE4B936DD13A0100
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <002f01dce47c$a7859760$f690c620$@opensource.cirrus.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF0000014A:EE_|CY8PR19MB7107:EE_
+X-MS-Office365-Filtering-Correlation-Id: 86230336-65ef-4150-0cf8-08deb2999520
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|61400799027|82310400026|376014|36860700016|16102099003|18002099003|22082099003|56012099003|4143699003|11063799003;
+X-Microsoft-Antispam-Message-Info:
+	RVWkqGlf4AVvcfrcytOW/kpftyG1JDOywiUPuUxYue9M6lsHVPTVCo9PJbnB+LKlO9yWzN8sUXoEMjdIEC+FtRO13EYV/QaDvLVEhIQtQ7u4PXw7z9woFsjUnFm67Hx8ZiwxJyFDQa2KlNLg7LawtZoFlbyzm2ke+Rnucglh7zG/dpPg5lEQ+n0pmmwbXYhX88qd7WGH0YVLLpv5XePu/lOWs4yavxcpR9AecnzDilu5qIwGWqvO9PpYSEpUppxZwZrMd9c/zUKLpRqvE83CNOPNut5ZW3mbFmjyJKoI8TUPaAjv0U9EAFlq+QpWO+0Ohj5hySzg1ij57uN0KGi+F/lbLM9B9Dy9w0+8JwcVj3CQSMm8oBD0ppmdtsN9Xl+H28P/V5EZ25gZrGJRn0lvdY0eiCF1NYW1WN9UxInA4x4vlUoYNG5zIKJalf+E/7Xy6zgmy9IEF3eF+xryXX4+IKb3OuHwWH3oo1ZL+92MpkRC5MZG4gv5w9Pcj7VILXRrwaoKOg3/Ka5jNPb5wfmcenf2kC1JITIC58pPB5lrOxHxQGLsBvvHphEQaZ5jkQf5lXJBdD7U+W0KBypbMi1H8sOfJmqbf82jhu5b0bv3PjR1r3HeB91H/PvndaNn2DckxCWzXuEI3Ro0wVip35lILRXxJS17efiaJNRSXR5eQfvX2TMmoqN850+2aKw1WcAMidAE8h35xBR8dUNY9E/XH8Fu2gDdP8O7jbGa43lEB8g=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(82310400026)(376014)(36860700016)(16102099003)(18002099003)(22082099003)(56012099003)(4143699003)(11063799003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	DAQ1vK6jAJX3UaA4FSeQFqf0su78DX97S+AhXfSOomKbC9UEik7+U7/nan/eY7itlFmq48Ud8yTGbUxso2zJsnDC7zyNa6dH9GOr2T00hea3jSGSfDWu8XR7nvwvxH06wLVeSctUhYUg4pYipPRPNlGmjh3GppGGH606ivh4MQnr3LD87nRnNyF97bjd8zA6deWYYeHXR+6xPTRe973reCEVvUbzbphnBxIYjiGkftFcLYLWn10xui2tYJ55iknlSzRAUwx7HksVpCVomXL0UhjP6SqWOrdw9jQ8z03hagbwKHj0JGAYJYl7xLDJgdaXJ3m+m2dorAmjZ1LXL5h0JC+lvLId0ED+K4lFGo4VdsIWCrSLuSUQ72fq9HZNYiv+gMakk56O/fFknYopU0o9u0uNvZsrXEoopOTzpwZswUExHGWPDoVzpVlDu4/Jn6OO
+X-Exchange-RoutingPolicyChecked:
+	Q3YgHGQhHCCrkoZSbsMQeaZ1is8d5DsU5J3WQo7M8/N86py/R9P5cT+mZaPNPzwo6MZl8uvTdhaR94M3Jp0VfRGzskgoodta48M2GnhZDK+EjWcr35URuODEu0HHW41UzoGyHzduamWv+bO8Uo2/BhNC4rGNLi/dPiAH6hneplKJ7pf0Dp6LnWMh3s1Inzj3bz7R+IkqgyYbRQjdQKDJ+YSCeOhyidNi9ZgPJm4DaHKC1JovMGItrSnoL9sNEap/zCPfnuOuyiwGhcjvRC9yG53z+UKXxsfuAH/RJtT6GPIM2OPjWSrqKcpCjn/GijA78dWGgIpzIpP6lEPpXfVV9g==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2026 15:49:43.2524
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86230336-65ef-4150-0cf8-08deb2999520
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH2PEPF0000014A.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR19MB7107
+X-Proofpoint-GUID: d5YSJwVcPK0AUTubUlFcrMdU9d66io4Q
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE1MDE2MSBTYWx0ZWRfXyksjpoHTgpPz
+ M1uWTKjsFO6Mv4jjnfh75ExGM6sAX8xXQzQ2XcffjYEPa8noyu4opMs7Dzak/a1KoVhUdpDAofn
+ LHeMHK2NGQsXHwD6xZ5V5F3Wi+ReB9HfvhGjajPyWLHja/5EtwrrCKthc8gtwabs8iI7OEFMeQc
+ ThaH5pCW9zd9Nbo93Heg4FO2FGvI7uNdXqz/DyCNCizY+tucri+tBtmDLcIPmApZUD3Fjm6AYkY
+ ovRLg9AuVukxia39HWbh+Rg5hLssfuonbVCMPgyBW16BFYRy+Mfkde9fXXXLaTTXXW0fpV/7biN
+ A6+0g4eIvP8GyjZlsPxqNNlpEiuOT5T55tQJCpXpjSdY3dgRIZIn8E/A8lG4uw6Bv/uxWBhqQbp
+ GBP1jCumw96ubE0DFQ2wFGDQxJApMhWP7NFYnzeNK4qMZZ5yaVda937pgtiAXGeKJ96nM7kwE4K
+ kh9I0oHO259CRXs3stw==
+X-Proofpoint-ORIG-GUID: d5YSJwVcPK0AUTubUlFcrMdU9d66io4Q
+X-Authority-Analysis: v=2.4 cv=aMHAb79m c=1 sm=1 tr=0 ts=6a07409e cx=c_pps
+ a=nzP3m+/CqRdBhj8fzGTHBQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=8nJEP1OIZ-IA:10 a=NGcC8JguVDcA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=w1d2syhTAAAA:8 a=aeQL6Ji8ouG2p6O6iOQA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+X-Proofpoint-Spam-Reason: safe
 
-Create a new DAPM widget for "I2S formatter" and place it on the path
-between FIFO and output DAI interface. Remove I2S output formatting code
-from aiu-encoder-i2s since it's now implemented from aiu-formatter-i2s.
+On Fri, May 15, 2026 at 04:08:14PM +0100, Stefan Binding (Opensource) wrote:
+> > -----Original Message-----
+> > 
+> > @Stefan, could you also please have a look.
+> 
+> I think this is fine to do, and I did some tests to make sure it doesn’t
+> break anything.
+> Reviewed-by: Stefan Binding <sbinding@opensource.cirrus.com>
 
-Signed-off-by: Valerio Setti <vsetti@baylibre.com>
----
- sound/soc/meson/aiu-encoder-i2s.c | 56 ---------------------------------------
- sound/soc/meson/aiu.c             | 30 ++++++++++++++++++---
- sound/soc/meson/aiu.h             |  1 +
- 3 files changed, 27 insertions(+), 60 deletions(-)
+If Stefan is happy so I am :-)
 
-diff --git a/sound/soc/meson/aiu-encoder-i2s.c b/sound/soc/meson/aiu-encoder-i2s.c
-index 39accd396affb8beb49fa7cca394244730b24574..9f935a93aeab7a27f880fbde2d29041a4802e3a3 100644
---- a/sound/soc/meson/aiu-encoder-i2s.c
-+++ b/sound/soc/meson/aiu-encoder-i2s.c
-@@ -13,13 +13,6 @@
- #include "gx-formatter.h"
- #include "gx-interface.h"
- 
--#define AIU_I2S_SOURCE_DESC_MODE_8CH	BIT(0)
--#define AIU_I2S_SOURCE_DESC_MODE_24BIT	BIT(5)
--#define AIU_I2S_SOURCE_DESC_MODE_32BIT	BIT(9)
--#define AIU_I2S_SOURCE_DESC_MODE_SPLIT	BIT(11)
--#define AIU_RST_SOFT_I2S_FAST		BIT(0)
--
--#define AIU_I2S_DAC_CFG_MSB_FIRST	BIT(2)
- #define AIU_CLK_CTRL_I2S_DIV_EN		BIT(0)
- #define AIU_CLK_CTRL_I2S_DIV		GENMASK(3, 2)
- #define AIU_CLK_CTRL_AOCLK_INVERT	BIT(6)
-@@ -37,49 +30,6 @@ static void aiu_encoder_i2s_divider_enable(struct snd_soc_component *component,
- 				      enable ? AIU_CLK_CTRL_I2S_DIV_EN : 0);
- }
- 
--static int aiu_encoder_i2s_setup_desc(struct snd_soc_component *component,
--				      struct snd_pcm_hw_params *params)
--{
--	/* Always operate in split (classic interleaved) mode */
--	unsigned int desc = AIU_I2S_SOURCE_DESC_MODE_SPLIT;
--
--	/* Reset required to update the pipeline */
--	snd_soc_component_write(component, AIU_RST_SOFT, AIU_RST_SOFT_I2S_FAST);
--	snd_soc_component_read(component, AIU_I2S_SYNC);
--
--	switch (params_physical_width(params)) {
--	case 16: /* Nothing to do */
--		break;
--
--	case 32:
--		desc |= (AIU_I2S_SOURCE_DESC_MODE_24BIT |
--			 AIU_I2S_SOURCE_DESC_MODE_32BIT);
--		break;
--
--	default:
--		return -EINVAL;
--	}
--
--	switch (params_channels(params)) {
--	case 2: /* Nothing to do */
--		break;
--	case 8:
--		desc |= AIU_I2S_SOURCE_DESC_MODE_8CH;
--		break;
--	default:
--		return -EINVAL;
--	}
--
--	snd_soc_component_update_bits(component, AIU_I2S_SOURCE_DESC,
--				      AIU_I2S_SOURCE_DESC_MODE_8CH |
--				      AIU_I2S_SOURCE_DESC_MODE_24BIT |
--				      AIU_I2S_SOURCE_DESC_MODE_32BIT |
--				      AIU_I2S_SOURCE_DESC_MODE_SPLIT,
--				      desc);
--
--	return 0;
--}
--
- static int aiu_encoder_i2s_set_legacy_div(struct snd_soc_component *component,
- 					  struct gx_stream *ts,
- 					  unsigned int bs)
-@@ -201,12 +151,6 @@ static int aiu_encoder_i2s_hw_params(struct snd_pcm_substream *substream,
- 	ts->width = params_width(params);
- 	ts->channels = params_channels(params);
- 
--	ret = aiu_encoder_i2s_setup_desc(component, params);
--	if (ret) {
--		dev_err(dai->dev, "setting i2s desc failed: %d\n", ret);
--		return ret;
--	}
--
- 	ret = aiu_encoder_i2s_set_clocks(component, ts);
- 	if (ret) {
- 		dev_err(dai->dev, "setting i2s clocks failed: %d\n", ret);
-diff --git a/sound/soc/meson/aiu.c b/sound/soc/meson/aiu.c
-index f2890111c1d2cfa2213bf01849957a796744b9ae..b09c2058eacaf2998d0d3cd6682910f94ec89912 100644
---- a/sound/soc/meson/aiu.c
-+++ b/sound/soc/meson/aiu.c
-@@ -29,13 +29,22 @@ static SOC_ENUM_SINGLE_DECL(aiu_spdif_encode_sel_enum, AIU_I2S_MISC,
- static const struct snd_kcontrol_new aiu_spdif_encode_mux =
- 	SOC_DAPM_ENUM("SPDIF Buffer Src", aiu_spdif_encode_sel_enum);
- 
--static const struct snd_soc_dapm_widget aiu_cpu_dapm_widgets[] = {
--	SND_SOC_DAPM_MUX("SPDIF SRC SEL", SND_SOC_NOPM, 0, 0,
--			 &aiu_spdif_encode_mux),
-+#define AIU_WIDGET_SPDIF_SRC_SEL	0
-+#define AIU_WIDGET_I2S_FORMATTER	1
-+
-+static struct snd_soc_dapm_widget aiu_cpu_dapm_widgets[] = {
-+	[AIU_WIDGET_SPDIF_SRC_SEL] =
-+		SND_SOC_DAPM_MUX("SPDIF SRC SEL", SND_SOC_NOPM, 0, 0,
-+				 &aiu_spdif_encode_mux),
-+	[AIU_WIDGET_I2S_FORMATTER] =
-+		SND_SOC_DAPM_PGA_E("I2S Formatter", SND_SOC_NOPM, 0, 0, NULL, 0,
-+				   gx_formatter_event,
-+				   (SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_PRE_PMD)),
- };
- 
- static const struct snd_soc_dapm_route aiu_cpu_dapm_routes[] = {
--	{ "I2S Encoder Playback", NULL, "I2S FIFO Playback" },
-+	{ "I2S Formatter", NULL, "I2S FIFO Playback" },
-+	{ "I2S Encoder Playback", NULL, "I2S Formatter" },
- 	{ "SPDIF SRC SEL", "SPDIF", "SPDIF FIFO Playback" },
- 	{ "SPDIF SRC SEL", "I2S", "I2S FIFO Playback" },
- 	{ "SPDIF Encoder Playback", NULL, "SPDIF SRC SEL" },
-@@ -172,6 +181,11 @@ static const struct regmap_config aiu_regmap_cfg = {
- 	.max_register	= 0x2ac,
- };
- 
-+const struct gx_formatter_driver aiu_formatter_i2s_drv = {
-+	.regmap_cfg	= &aiu_regmap_cfg,
-+	.ops		= &aiu_formatter_i2s_ops,
-+};
-+
- static int aiu_clk_bulk_get(struct device *dev,
- 			    const char * const *ids,
- 			    unsigned int num,
-@@ -291,6 +305,14 @@ static int aiu_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	/* Allocate the aiu-formatter into its widget */
-+	ret = gx_formatter_create(dev, &aiu_cpu_dapm_widgets[AIU_WIDGET_I2S_FORMATTER],
-+				  &aiu_formatter_i2s_drv, map);
-+	if (ret) {
-+		dev_err(dev, "Failed to allocate aiu formatter\n");
-+		goto err;
-+	}
-+
- 	/* Register the hdmi codec control component */
- 	ret = aiu_hdmi_ctrl_register_component(dev);
- 	if (ret) {
-diff --git a/sound/soc/meson/aiu.h b/sound/soc/meson/aiu.h
-index 68310de0bdf7a97d8de2ff306c159248ee9b0ede..7d0b98c1f351b3c526ca06c43a4c04ee5f4b6dfa 100644
---- a/sound/soc/meson/aiu.h
-+++ b/sound/soc/meson/aiu.h
-@@ -61,6 +61,7 @@ extern const struct snd_soc_dai_ops aiu_fifo_i2s_dai_ops;
- extern const struct snd_soc_dai_ops aiu_fifo_spdif_dai_ops;
- extern const struct snd_soc_dai_ops aiu_encoder_i2s_dai_ops;
- extern const struct snd_soc_dai_ops aiu_encoder_spdif_dai_ops;
-+extern const struct gx_formatter_ops aiu_formatter_i2s_ops;
- 
- #define AIU_IEC958_BPF			0x000
- #define AIU_958_MISC			0x010
-
--- 
-2.39.5
-
+Thanks,
+Charles
