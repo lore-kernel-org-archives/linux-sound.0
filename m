@@ -1,85 +1,93 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1DF43CEC6
-	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 09:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5BBC42883B
+	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 09:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778835819; cv=none; b=tFgH+nYM6qSYvHoksCnmKpji3EUaYnM9VvKtrbTCGSTNpeoeplaPHG5UD4THad09BXvn+E0TKwEEM45T3HXd/8sc007lGOH8kaEW0ODj/3w5p+LBTWA/vjlVU7ooD4xjAD0QaosINRr0BBhVFItwH9/DapRkdjuXjmoLM4LK7M4=
+	t=1778836038; cv=none; b=TmJOJT2kVeyt7LSXDz+j4G6uTe9TqM7rNhkMln3oH+XJA8PcGdwO905H4FuhhT0i6xdVYq2A3eEme9rlhSXMOuj+ltvjuNPEQ71GLDMofzhI+V4e3bJafJw0ovY74ruU8LhSmkRqQK9ztLDCT3+fIrhp0Ut3TNUCPBVYFQvh5Xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778835819; c=relaxed/simple;
-	bh=I9M5TjNQVSrCiz7rfGlVCTIWFbHfDRUZ6uAFeiWEdeE=;
+	s=arc-20240116; t=1778836038; c=relaxed/simple;
+	bh=DrqXsdqp2Vd8spFl6O+WtPgMPTIpADhVfhi31z/1iS4=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hGGCyDxkl8RAX60kacTSK00ttxECeathp9mVflzOZCiaal0npVN+WQOjXRzszfdBIEzwsokHPXQe0sUDrjElnxjq/bAPwznsx0+kFcyBHlt20FHYeyocjnKU1MgSN2bVCriZGZXVtG+fS7uxFHm16mJ8Z9IQof46ns9xCFhoJDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=F2inIiYS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ecK/OcwD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=F2inIiYS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ecK/OcwD; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=MhxlpkfFlgd+Z437EV147KPQsTOjkPLxm2Tcn/t4vgmkRoR3b0n0b5wnzKpcdQLESkx60WREUxBvQGl99b5WYLZ3L+3NTEmSurTsdqUwYMTP1o0M+lie0BFj7+W+EUc6/5xL35bCJz6ZvKQN7FoGS97KIkqaASS+PWj2S/CdT2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rhC/CPXb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UmaRIA08; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nk2pKARl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qF3q43IE; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="F2inIiYS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ecK/OcwD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="F2inIiYS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ecK/OcwD"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rhC/CPXb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UmaRIA08";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nk2pKARl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qF3q43IE"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 54D155D330;
-	Fri, 15 May 2026 09:03:36 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E724261F54;
+	Fri, 15 May 2026 09:07:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778835816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1778836035; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1Uey3YS3x5w1FG/K2nXV4SIzwpRK0rVBNPtxPRsj0Fs=;
-	b=F2inIiYS9n3F2Fd3KAB3Xxjac6IPSEUMj1N5Aqk3ehSH0E6IwT6Vm9wXu5MeGvcdCIHDZz
-	68XN8zTf3Vjz7Odh4AZe+9yA/Yt5gdyXPBmdAPWIR8qf2ByoAWd2VfAICjcXYkq5fkJ3+o
-	kaf0ve978WdV0MG0OR573SPvU0yTKPw=
+	bh=8IQAcAzoKTIOjOz2aGlg5r/suVgpvoeOQg+9QcsRjnQ=;
+	b=rhC/CPXbzjd4nzG4bpOUlVSraSgtHUBI18MplhV7XzoM+/n2wvLABFNOVMiaSD4oc2O4E/
+	dvlfCPVc9XY6Pc9MIXGRLQqy9QrvU2TNUNe5cvpYbThVgQ4b5Mxo8r9lbIcbVIz5PctoOp
+	zx4bdDhxNmlO+wvnhVOeBh70k1jQ1KE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778835816;
+	s=susede2_ed25519; t=1778836035;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1Uey3YS3x5w1FG/K2nXV4SIzwpRK0rVBNPtxPRsj0Fs=;
-	b=ecK/OcwDXqzLc8szerJe/BUTeHcoykExBX3YujIT2Z1k7MqroeCXJ44QrD2ZqXdhc8DluB
-	kWvPCEd5xyVLCYDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=F2inIiYS;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="ecK/OcwD"
+	bh=8IQAcAzoKTIOjOz2aGlg5r/suVgpvoeOQg+9QcsRjnQ=;
+	b=UmaRIA08H+z03HzdttiOZe56vhhh4nR19eFGwElCNJvTevRh90wc2TWOeEkxwRb5lqxqVF
+	yeRi4eM5mHXxYUBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nk2pKARl;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qF3q43IE
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778835816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1778836034; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1Uey3YS3x5w1FG/K2nXV4SIzwpRK0rVBNPtxPRsj0Fs=;
-	b=F2inIiYS9n3F2Fd3KAB3Xxjac6IPSEUMj1N5Aqk3ehSH0E6IwT6Vm9wXu5MeGvcdCIHDZz
-	68XN8zTf3Vjz7Odh4AZe+9yA/Yt5gdyXPBmdAPWIR8qf2ByoAWd2VfAICjcXYkq5fkJ3+o
-	kaf0ve978WdV0MG0OR573SPvU0yTKPw=
+	bh=8IQAcAzoKTIOjOz2aGlg5r/suVgpvoeOQg+9QcsRjnQ=;
+	b=nk2pKARl8R+sG5TTim0jseDA2cO1JD/NyUG/Ie3CJuiRfhon6jeE1jvaxnmWUkdqPxjeGA
+	9cmWeaCUYDPRpChj0+sxWh71rgaBcBp6DZYyqM0JEuWaW1B/Q48eYHOj/dknq86NPuSXPD
+	c7Rk79LllomnlS8jgHioSgLPOOGDoS8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778835816;
+	s=susede2_ed25519; t=1778836034;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1Uey3YS3x5w1FG/K2nXV4SIzwpRK0rVBNPtxPRsj0Fs=;
-	b=ecK/OcwDXqzLc8szerJe/BUTeHcoykExBX3YujIT2Z1k7MqroeCXJ44QrD2ZqXdhc8DluB
-	kWvPCEd5xyVLCYDw==
+	bh=8IQAcAzoKTIOjOz2aGlg5r/suVgpvoeOQg+9QcsRjnQ=;
+	b=qF3q43IEfl6tVA/L/JIaTvjJtrN7h015jgjUKtueuUPKLKWHsJkd3fsbcsVgr4dDspRVKh
+	xCqVHxIZ/WfTdNAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2FF0F593A9;
-	Fri, 15 May 2026 09:03:36 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96A38593A9;
+	Fri, 15 May 2026 09:07:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6V+FCmjhBmouVQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 15 May 2026 09:03:36 +0000
-Date: Fri, 15 May 2026 11:03:35 +0200
-Message-ID: <87pl2xt57c.wl-tiwai@suse.de>
+	id d3E/I0LiBmpfWQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 15 May 2026 09:07:14 +0000
+Date: Fri, 15 May 2026 11:07:14 +0200
+Message-ID: <87mry1t519.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Heiko Schmid <heiko@future-machines.org>
-Cc: linux-sound@vger.kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz
-Subject: Re: [PATCH] ALSA: hda: Fix SSID detection for HP Dragonfly Folio G3
-In-Reply-To: <20260514133110.12302-1-heiko@future-machines.org>
-References: <20260514133110.12302-1-heiko@future-machines.org>
+To: David Rhodes <david.rhodes@cirrus.com>,
+    Richard Fitzgerald <rf@opensource.cirrus.com>,
+    Stefan Binding <sbinding@opensource.cirrus.com>,
+    Vitaly Rodionov <vitalyr@opensource.cirrus.com>
+Cc: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org,	stable@vger.kernel.org
+Subject: Re: [PATCH RESEND] ALSA: hda/cs35l41: Fix firmware load work teardown
+In-Reply-To: <20260511-alsa-hda-cs35l41-fw-work-teardown-v1-1-1184e9bc4f25@gmail.com>
+References: <20260511-alsa-hda-cs35l41-fw-work-teardown-v1-1-1184e9bc4f25@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -87,125 +95,222 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,suse.com,perex.cz,vger.kernel.org,opensource.cirrus.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mute_override_ctl.name:url,suse.de:dkim,suse.de:mid,fw_load_ctl.name:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,fw_type_ctl.name:url];
+	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 54D155D330
+X-Rspamd-Queue-Id: E724261F54
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spam-Flag: NO
 X-Spam-Score: -3.51
 
-On Thu, 14 May 2026 15:31:10 +0200,
-Heiko Schmid wrote:
+On Mon, 11 May 2026 06:29:34 +0200,
+Cássio Gabriel wrote:
 > 
-> The HP Dragonfly Folio 13.5 inch G3 (PCI SSID 103c:8a05/8a06) BIOS does
-> not program the PCI subsystem ID correctly when the SOF audio driver is
-> used. This causes the codec fixup lookup to fail as the PCI SSID reads
-> as 0x0000:0x0000 instead of the correct 103c:8a06.
+> cs35l41_hda creates ALSA controls whose private data points at the
+> cs35l41_hda object. The firmware load control can also queue
+> fw_load_work.
 > 
-> Fix this by falling back to the codec SSID when the PCI SSID is zero,
-> and add the device-specific quirk entry for the HP Dragonfly Folio G3.
+> Those controls are not removed on component unbind, and device remove
+> only cancels fw_load_work through cs35l41_remove_dsp(). That helper is
+> skipped when halo_initialized is false. With firmware_autostart
+> disabled, a firmware load can be requested before the DSP has been
+> initialized. If the component or device is removed before the queued
+> work runs, the worker can run after teardown and dereference driver
+> state that is no longer valid.
 > 
-> Signed-off-by: Heiko Schmid <heiko@future-machines.org>
-
-I think the idea is good, but we don't have to restrict to both PCI
-vendor and device being 0; PCI device 0 is used for wildcard, and
-can't work in anyway.
-
-About the patch:
-
-> ---
->  sound/hda/codecs/realtek/alc269.c |  2 ++
->  sound/hda/common/auto_parser.c    | 10 ++++++++++
->  2 files changed, 12 insertions(+)
+> Track the created controls and remove them on unbind so no new control
+> callback can reach the driver data or queue more work. Then cancel
+> fw_load_work to drain any request that was already queued. Also cancel
+> the work unconditionally during device remove before runtime PM teardown.
 > 
-> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-> index 22b2f67..494dd0a 100644
-> --- a/sound/hda/codecs/realtek/alc269.c
-> +++ b/sound/hda/codecs/realtek/alc269.c
-> @@ -6990,6 +6990,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x103c, 0x89ae, "HP EliteBook 650 G9", ALC236_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x89c0, "HP ZBook Power 15.6 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8a06, "HP Dragonfly Folio 13.5 G3", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
-> +	SND_PCI_QUIRK(0x103c, 0x8a06, "HP Dragonfly Folio 13.5 G3", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
-> +	SND_PCI_QUIRK(0x103c, 0x8a06, "HP Dragonfly Folio 13.5 G3", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
+> Fixes: 47ceabd99a28 ("ALSA: hda: cs35l41: Support Firmware switching and reloading")
+> Fixes: 4c870513fbb0 ("ALSA: hda: cs35l41: Add read-only ALSA control for forced mute")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
-Those additions are simply superfluous, no?  Also...
+Cirrus people, could you take a look?  I'd like to let this better
+reviewed since it's non-trivial changes.
 
-> diff --git a/sound/hda/common/auto_parser.c b/sound/hda/common/auto_parser.c
-> index 8923813..e876378 100644
-> --- a/sound/hda/common/auto_parser.c
-> +++ b/sound/hda/common/auto_parser.c
-> @@ -1048,6 +1048,16 @@ void snd_hda_pick_fixup(struct hda_codec *codec,
->  	if (codec->bus->pci) {
->  		pci_vendor = codec->bus->pci->subsystem_vendor;
->  		pci_device = codec->bus->pci->subsystem_device;
-> +		/* Fallback: use codec SSID if PCI SSID is zero (e.g. HP Dragonfly Folio G3 with SOF) */
-> +		if (!pci_vendor && !pci_device) {
-> +			pci_vendor = codec->core.subsystem_id >> 16;
-> +			pci_device = codec->core.subsystem_id & 0xffff;
-> +		}
-> +		/* Fallback: use codec SSID if PCI SSID is zero (e.g. HP Dragonfly Folio G3 with SOF) */
-> +		if (!pci_vendor && !pci_device) {
-> +			pci_vendor = codec->core.subsystem_id >> 16;
-> +			pci_device = codec->core.subsystem_id & 0xffff;
-> +		}
 
-... here checking twice?  The patch looks somehow odd-merged.
-
-And, I think we can just skip the PCI matching when either vendor or
-device is 0.  So, something like below instead.
-
-Could you verify whether it works?
-
+thanks,
 
 Takashi
 
-diff --git a/sound/hda/common/auto_parser.c b/sound/hda/common/auto_parser.c
-index 8923813ce424..5bc95d3116ff 100644
---- a/sound/hda/common/auto_parser.c
-+++ b/sound/hda/common/auto_parser.c
-@@ -1013,7 +1013,7 @@ void snd_hda_pick_fixup(struct hda_codec *codec,
- 	const char *name = NULL;
- 	const char *type = NULL;
- 	unsigned int vendor, device;
--	u16 pci_vendor, pci_device;
-+	u16 pci_vendor = 0, pci_device = 0;
- 	u16 codec_vendor, codec_device;
- 
- 	if (codec->fixup_id != HDA_FIXUP_ID_NOT_SET)
-@@ -1066,7 +1066,7 @@ void snd_hda_pick_fixup(struct hda_codec *codec,
- 	/* match primarily with the PCI SSID */
- 	for (q = quirk; q->subvendor || q->subdevice; q++) {
- 		/* if the entry is specific to codec SSID, check with it */
--		if (!codec->bus->pci || q->match_codec_ssid) {
-+		if (!pci_vendor || !pci_device || q->match_codec_ssid) {
- 			if (hda_quirk_match(codec_vendor, codec_device, q)) {
- 				type = "codec SSID";
- 				goto found_device;
+> ---
+>  sound/hda/codecs/side-codecs/cs35l41_hda.c | 77 +++++++++++++++++++++---------
+>  sound/hda/codecs/side-codecs/cs35l41_hda.h |  5 ++
+>  2 files changed, 60 insertions(+), 22 deletions(-)
+> 
+> diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.c b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+> index b64890006bb7..7f18be0ccf5a 100644
+> --- a/sound/hda/codecs/side-codecs/cs35l41_hda.c
+> +++ b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+> @@ -1325,6 +1325,43 @@ static int cs35l41_fw_type_ctl_info(struct snd_kcontrol *kcontrol, struct snd_ct
+>  	return snd_ctl_enum_info(uinfo, 1, ARRAY_SIZE(cs35l41_hda_fw_ids), cs35l41_hda_fw_ids);
+>  }
+>  
+> +static void cs35l41_remove_controls(struct cs35l41_hda *cs35l41)
+> +{
+> +	if (!cs35l41->codec)
+> +		return;
+> +
+> +	snd_ctl_remove(cs35l41->codec->card, cs35l41->mute_override_ctl);
+> +	cs35l41->mute_override_ctl = NULL;
+> +
+> +	snd_ctl_remove(cs35l41->codec->card, cs35l41->fw_load_ctl);
+> +	cs35l41->fw_load_ctl = NULL;
+> +
+> +	snd_ctl_remove(cs35l41->codec->card, cs35l41->fw_type_ctl);
+> +	cs35l41->fw_type_ctl = NULL;
+> +}
+> +
+> +static int cs35l41_add_control(struct cs35l41_hda *cs35l41,
+> +			       struct snd_kcontrol_new *ctl,
+> +			       struct snd_kcontrol **kctl)
+> +{
+> +	int ret;
+> +
+> +	*kctl = snd_ctl_new1(ctl, cs35l41);
+> +	if (!*kctl)
+> +		return -ENOMEM;
+> +
+> +	ret = snd_ctl_add(cs35l41->codec->card, *kctl);
+> +	if (ret) {
+> +		dev_err(cs35l41->dev, "Failed to add KControl %s = %d\n", ctl->name, ret);
+> +		*kctl = NULL;
+> +		return ret;
+> +	}
+> +
+> +	dev_dbg(cs35l41->dev, "Added Control %s\n", ctl->name);
+> +
+> +	return 0;
+> +}
+> +
+>  static int cs35l41_create_controls(struct cs35l41_hda *cs35l41)
+>  {
+>  	char fw_type_ctl_name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
+> @@ -1360,32 +1397,23 @@ static int cs35l41_create_controls(struct cs35l41_hda *cs35l41)
+>  	scnprintf(mute_override_ctl_name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN, "%s Forced Mute Status",
+>  		  cs35l41->amp_name);
+>  
+> -	ret = snd_ctl_add(cs35l41->codec->card, snd_ctl_new1(&fw_type_ctl, cs35l41));
+> -	if (ret) {
+> -		dev_err(cs35l41->dev, "Failed to add KControl %s = %d\n", fw_type_ctl.name, ret);
+> -		return ret;
+> -	}
+> -
+> -	dev_dbg(cs35l41->dev, "Added Control %s\n", fw_type_ctl.name);
+> -
+> -	ret = snd_ctl_add(cs35l41->codec->card, snd_ctl_new1(&fw_load_ctl, cs35l41));
+> -	if (ret) {
+> -		dev_err(cs35l41->dev, "Failed to add KControl %s = %d\n", fw_load_ctl.name, ret);
+> -		return ret;
+> -	}
+> -
+> -	dev_dbg(cs35l41->dev, "Added Control %s\n", fw_load_ctl.name);
+> +	ret = cs35l41_add_control(cs35l41, &fw_type_ctl, &cs35l41->fw_type_ctl);
+> +	if (ret)
+> +		goto err;
+>  
+> -	ret = snd_ctl_add(cs35l41->codec->card, snd_ctl_new1(&mute_override_ctl, cs35l41));
+> -	if (ret) {
+> -		dev_err(cs35l41->dev, "Failed to add KControl %s = %d\n", mute_override_ctl.name,
+> -			ret);
+> -		return ret;
+> -	}
+> +	ret = cs35l41_add_control(cs35l41, &fw_load_ctl, &cs35l41->fw_load_ctl);
+> +	if (ret)
+> +		goto err;
+>  
+> -	dev_dbg(cs35l41->dev, "Added Control %s\n", mute_override_ctl.name);
+> +	ret = cs35l41_add_control(cs35l41, &mute_override_ctl, &cs35l41->mute_override_ctl);
+> +	if (ret)
+> +		goto err;
+>  
+>  	return 0;
+> +
+> +err:
+> +	cs35l41_remove_controls(cs35l41);
+> +	return ret;
+>  }
+>  
+>  static bool cs35l41_dsm_supported(acpi_handle handle, unsigned int commands)
+> @@ -1522,6 +1550,10 @@ static void cs35l41_hda_unbind(struct device *dev, struct device *master, void *
+>  		device_link_remove(&cs35l41->codec->core.dev, cs35l41->dev);
+>  		unlock_system_sleep(sleep_flags);
+>  		memset(comp, 0, sizeof(*comp));
+> +
+> +		cs35l41_remove_controls(cs35l41);
+> +		cancel_work_sync(&cs35l41->fw_load_work);
+> +		cs35l41->codec = NULL;
+>  	}
+>  }
+>  
+> @@ -2058,6 +2090,7 @@ void cs35l41_hda_remove(struct device *dev)
+>  	struct cs35l41_hda *cs35l41 = dev_get_drvdata(dev);
+>  
+>  	component_del(cs35l41->dev, &cs35l41_hda_comp_ops);
+> +	cancel_work_sync(&cs35l41->fw_load_work);
+>  
+>  	pm_runtime_get_sync(cs35l41->dev);
+>  	pm_runtime_dont_use_autosuspend(cs35l41->dev);
+> diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.h b/sound/hda/codecs/side-codecs/cs35l41_hda.h
+> index 7d003c598e93..56ec07c0bb74 100644
+> --- a/sound/hda/codecs/side-codecs/cs35l41_hda.h
+> +++ b/sound/hda/codecs/side-codecs/cs35l41_hda.h
+> @@ -57,6 +57,8 @@ enum control_bus {
+>  	SPI
+>  };
+>  
+> +struct snd_kcontrol;
+> +
+>  struct cs35l41_hda {
+>  	struct device *dev;
+>  	struct regmap *regmap;
+> @@ -75,6 +77,9 @@ struct cs35l41_hda {
+>  	int speaker_id;
+>  	struct mutex fw_mutex;
+>  	struct work_struct fw_load_work;
+> +	struct snd_kcontrol *fw_type_ctl;
+> +	struct snd_kcontrol *fw_load_ctl;
+> +	struct snd_kcontrol *mute_override_ctl;
+>  
+>  	struct regmap_irq_chip_data *irq_data;
+>  	bool firmware_running;
+> 
+> ---
+> base-commit: 1bc46462f4c09f8d429ae8ec17f92886d604659f
+> change-id: 20260421-alsa-hda-cs35l41-fw-work-teardown-48cdba14a9cd
+> 
+> Best regards,
+> --
+> Cássio Gabriel <cassiogabrielcontato@gmail.com>
+> -- 
+> Cássio Gabriel <cassiogabrielcontato@gmail.com>
+> 
