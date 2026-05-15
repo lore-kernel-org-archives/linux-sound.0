@@ -1,143 +1,122 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFFB3016F7
-	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 06:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8451535F185;
+	Fri, 15 May 2026 06:46:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778827211; cv=none; b=LGm8dKj5CskGRq5JVRP4ybDPStbQfqxMl7cmApSjlZoCDZty51w1vQ6hEN388gMjkoomxxLBnWLEFpc3FyvwhRLSaUh5XdQx+79rzd+AKcFG5Z1O3ByYrR7dF1si3as3VYvN54OyCghcur4IMRr1/WXmvlmq9xZ0Fjtrb0IUXHk=
+	t=1778827600; cv=none; b=lQ2HwoIxjo2YanY10GZmh3WDIrIPVbi/JMyL514gKWUZEaLaJaOw6+rOAsf8579nQ/mmUwENqU76uecm+5UsGclSb6q0iHY+3BWfstRvKGrkR614naOHqvuGJgT/cwkgS8B3Sj3rqAZANlPwKldOjt3gIL7l/yAvCD0ScxPCN+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778827211; c=relaxed/simple;
-	bh=vA6owbPed6gzzAQUjuNKzHN1TnKAPG03b8GblY5oYHs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cOUc6CngHMu0RnqxSL+IigxdJJmn9dcB5YH8v+WNAIWd/gHY9xBodddZH660PAHV6EvCOpbIWu4pZan2jbZVJytHe+pKCNykgSkU5MOMf8c54YRkUDKbV767ByCrL5na6d7GRiLlHEOCWG7DUvkegKqCLaZJg0ARUfu1Zo1tneI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Vbkf/uCF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HLYPVQ+T; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Vbkf/uCF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HLYPVQ+T; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1778827600; c=relaxed/simple;
+	bh=F3jdHxGiGdei4iwTLiITYa/NO2f+4a70KPCGxhnfEas=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kAYodkT+/W2Te25U5u06MsHkvoIznirmoRfPFCuq/o/l9XfbG8412mz/KKnnAv7hn68QFCPG3Wj5195+h6neZHG6+RF3SELFtH0/sQ/ezcwStndavejpRrgtFtcEpxHWC9aDEVAVAHxLU5+Q9hATDQ1sb8sh7jffu79iWNbdM+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TWv/pDGQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Vbkf/uCF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HLYPVQ+T";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Vbkf/uCF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HLYPVQ+T"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 21A4B67660;
-	Fri, 15 May 2026 06:40:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778827208; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gUDnTWEwVTYdVbzIDrQKxgU/oAZbaYARi0F0+cAbMAA=;
-	b=Vbkf/uCFDzj10z4AVauCB2edB2tdxX8xH++TlnDgpBu6mYeED23ucjb45cHt7vCcN1Pcdh
-	IqYe9O/ZSi0/J7+Lgx/DYF4WiIqd+jdvTvewDx2Tm18bvXypzQzRyhfzLQTf6z/1njbYTg
-	P4ix9HutXwWJ0Ru9nho6wzhQCcw5F6I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778827208;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gUDnTWEwVTYdVbzIDrQKxgU/oAZbaYARi0F0+cAbMAA=;
-	b=HLYPVQ+TzIHkxDijS1KIXylGRPX9q+Jffs0fUZFJnJKU3w4pLy2/MsPX7lvVpPVI4IYMEZ
-	CANGm7ns1ruBu3Dw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Vbkf/uCF";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HLYPVQ+T
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778827208; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gUDnTWEwVTYdVbzIDrQKxgU/oAZbaYARi0F0+cAbMAA=;
-	b=Vbkf/uCFDzj10z4AVauCB2edB2tdxX8xH++TlnDgpBu6mYeED23ucjb45cHt7vCcN1Pcdh
-	IqYe9O/ZSi0/J7+Lgx/DYF4WiIqd+jdvTvewDx2Tm18bvXypzQzRyhfzLQTf6z/1njbYTg
-	P4ix9HutXwWJ0Ru9nho6wzhQCcw5F6I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778827208;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gUDnTWEwVTYdVbzIDrQKxgU/oAZbaYARi0F0+cAbMAA=;
-	b=HLYPVQ+TzIHkxDijS1KIXylGRPX9q+Jffs0fUZFJnJKU3w4pLy2/MsPX7lvVpPVI4IYMEZ
-	CANGm7ns1ruBu3Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D8A7C593A9;
-	Fri, 15 May 2026 06:40:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iI6XM8e/BmovRAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 15 May 2026 06:40:07 +0000
-Date: Fri, 15 May 2026 08:40:07 +0200
-Message-ID: <87ik8puqew.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Dirga Yuza <dirgayuza123@gmail.com>
-Cc: Jaroslav Kysela <perez@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Zhang Heng <zhangheng@kylinos.cn>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Kailang Yang <kailang@realtek.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add micmute quirk to Acer Nitro AN515-58
-In-Reply-To: <20260510055951.9035-1-dirgayuza123@gmail.com>
-References: <20260510055951.9035-1-dirgayuza123@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TWv/pDGQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9757EC2BCB0;
+	Fri, 15 May 2026 06:46:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778827600;
+	bh=F3jdHxGiGdei4iwTLiITYa/NO2f+4a70KPCGxhnfEas=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TWv/pDGQF3Bwy3w6hJWe/smogcaMqjfEdTnTbzhJ+Z6u4xSaUb89LPQZt/gJ9WN/J
+	 4jRdYAc8UXFRPzImfVYKdVTS2xCW4VItleScARA6FMYB/2h5AKzTzeb8QD1Vsb6jPM
+	 REOTAIW0oteBPUYY8Youa0Fdhh1XHwgZjKMOQGKUlpOLkR+ta3VyszAFMSvfI80sfR
+	 bP9acFwHvLfMxgnRkqKpJ+SCiDUVxviRAvWDN86pkcFOQDQrHmvnbZ8cqawk4RenKw
+	 zvQbAbxZM7gNSviUFvuQ2eRRfPowKFFKTBcqlrefp/rZ3YcB91Kmf12J/Y9rRFwPB5
+	 gnjYwAXFKU+EA==
+Date: Fri, 15 May 2026 08:46:37 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: phucduc.bui@gmail.com
+Cc: kuninori.morimoto.gx@renesas.com, broonie@kernel.org, 
+	conor+dt@kernel.org, devicetree@vger.kernel.org, geert+renesas@glider.be, 
+	krzk+dt@kernel.org, lgirdwood@gmail.com, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org, magnus.damm@gmail.com, 
+	perex@perex.cz, robh@kernel.org, tiwai@suse.com, 
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v3 01/10] ASoC: dt-bindings: renesas,fsi: add support
+ multiple clocks
+Message-ID: <20260515-transparent-calculating-ocelot-bdec04@quoll>
+References: <20260510084303.122426-1-phucduc.bui@gmail.com>
+ <20260510084303.122426-2-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 21A4B67660
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260510084303.122426-2-phucduc.bui@gmail.com>
 
-On Sun, 10 May 2026 07:58:01 +0200,
-Dirga Yuza wrote:
+On Sun, May 10, 2026 at 03:42:54PM +0700, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
 > 
-> The Acer Nitro AN515-58 uses GPIO 4 in active-low configuration to
-> control the mic-mute LED. This patch adds a fixup to register the LED
-> classdev and associate it with the mic-mute trigger, while chaining to
-> the existing headset mic fixup.
+> The FSI on r8a7740 requires the SPU bus/bridge clock to be enabled before
+> accessing its registers. Without this clock, any register access leads to
+
+But why are you adding all these clocks to sh73a0 as well?
+
+> a system hang as the FSI block sits behind the SPU bus.
+> Update the binding to support multiple clocks to properly describe the
+> hardware clock tree, including:
+>   - SPU bus/bridge clock (spu) for register access.
+>   - CPG DIV6 clocks (icka/b) as functional clock parents.
+
+You do not need to add parents of clocks.
+
+>   - FSI internal dividers (diva/b) for audio clock generation.
+
+Internal dividers do not have representation. They are internal.
+
+>   - External clock inputs (xcka/b) provided by the board.
 > 
-> Signed-off-by: Dirga Yuza <dirgayuza123@gmail.com>
+> Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> ---
+>  .../bindings/sound/renesas,fsi.yaml           | 27 ++++++++++++++++++-
+>  1 file changed, 26 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
+> index df91991699a7..c50e7115b21a 100644
+> --- a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
+> +++ b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
+> @@ -38,7 +38,32 @@ properties:
+>      maxItems: 1
+>  
+>    clocks:
+> -    maxItems: 1
+> +    minItems: 1
+> +    items:
+> +      - description: Main FSI module clock
+> +      - description: |
+> +          SPU bus/bridge clock. On R8A7740, this clock must be enabled to allow
+> +          register access as the FSI block is connected behind the SPU bus.
+> +      - description: CPG DIV6 functional clocks for FSI port A
+> +      - description: CPG DIV6 functional clocks for FSI port B
+> +      - description: Internal FSI dividers for port A used for audio clock generation
+> +      - description: Internal FSI dividers for port B used for audio clock generation
+> +      - description: External clock inputs for FSI port A provided by the board
+> +      - description: External clock inputs for FSI port B provided by the board
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 8
+> +    items:
+> +      enum:
 
-Applied to for-next branch now.  Thanks.
+This cannot be flexible.
 
+> +        - fck  # Main FSI module clock
+> +        - spu  # optional SPU bus/bridge clock
+> +        - icka # optional CPG DIV6 functional clocks for FSI port A
+> +        - ickb # optional CPG DIV6 functional clocks for FSI port B
+> +        - diva # optional Internal FSI dividers for port A used for audio clock generation
+> +        - divb # optional Internal FSI dividers for port B used for audio clock generation
+> +        - xcka # optional External clock inputs for FSI port A provided by the board
+> +        - xckb # optional External clock inputs for FSI port B provided by the board
 
-Takashi
+Best regards,
+Krzysztof
+
