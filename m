@@ -1,86 +1,89 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1445377EAB
-	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 06:37:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFFB3016F7
+	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 06:40:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778827080; cv=none; b=MH68ve7iml5zhuLppi7B6JfK3S6ZUHNx+xrlpNeO1p6rlgbCRtZKYVtg/Xr0V/UDOKybyOpL6TVmDc7eLph3E7H2PcKqwK4SRgROJvIH/fDKsGuSIs5WTGcknLje5RTi6fOq7A77bbcoZE9y8GNIVPAANN5IzBjBU+r2xgiWUlw=
+	t=1778827211; cv=none; b=LGm8dKj5CskGRq5JVRP4ybDPStbQfqxMl7cmApSjlZoCDZty51w1vQ6hEN388gMjkoomxxLBnWLEFpc3FyvwhRLSaUh5XdQx+79rzd+AKcFG5Z1O3ByYrR7dF1si3as3VYvN54OyCghcur4IMRr1/WXmvlmq9xZ0Fjtrb0IUXHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778827080; c=relaxed/simple;
-	bh=lE4JxQ8pBD5o67gV3ksYbhmL/Eh9D679zsjdlRaHsKg=;
+	s=arc-20240116; t=1778827211; c=relaxed/simple;
+	bh=vA6owbPed6gzzAQUjuNKzHN1TnKAPG03b8GblY5oYHs=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gwEi4r4CmFPXdV+FZ5E6Y+374aRGLlg1+p8Asog+d5GgJwptMBImcx35KVliBmk3cQ6vJhJa1rkPNfcmHVZJ+khMsib6FDAkT44C0onjnpw9Gi1bS2kyxSlqFXaZUZp3bda6km39JijbSnBa9Iy1m2u6SMnmvDIEVTN93Q5yDQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0Cdu+ZcF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kbWiMCDZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0Cdu+ZcF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kbWiMCDZ; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=cOUc6CngHMu0RnqxSL+IigxdJJmn9dcB5YH8v+WNAIWd/gHY9xBodddZH660PAHV6EvCOpbIWu4pZan2jbZVJytHe+pKCNykgSkU5MOMf8c54YRkUDKbV767ByCrL5na6d7GRiLlHEOCWG7DUvkegKqCLaZJg0ARUfu1Zo1tneI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Vbkf/uCF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HLYPVQ+T; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Vbkf/uCF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HLYPVQ+T; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0Cdu+ZcF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kbWiMCDZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0Cdu+ZcF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kbWiMCDZ"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Vbkf/uCF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HLYPVQ+T";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Vbkf/uCF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HLYPVQ+T"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 71ADF67660;
-	Fri, 15 May 2026 06:37:57 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 21A4B67660;
+	Fri, 15 May 2026 06:40:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778827077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1778827208; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PRfPXjsAfYWPDCQfhr0/a057u3yl234uz3/SKwfbglg=;
-	b=0Cdu+ZcFiNHbM7k77z8ew2xigcN68hhSJmcpbMl8ARTtrbHfSNqCbN6R9ibfC+Wf7rrFQi
-	NrmQTDWs168Nyv0do+bWrCiH7eIT/JzEU2Gz29J4VOkSkKHZCUqfBOebZkpfcnJtDu1hdj
-	x8HUWzbFDIzzmdfDRq0t0EP7NZKbl7k=
+	bh=gUDnTWEwVTYdVbzIDrQKxgU/oAZbaYARi0F0+cAbMAA=;
+	b=Vbkf/uCFDzj10z4AVauCB2edB2tdxX8xH++TlnDgpBu6mYeED23ucjb45cHt7vCcN1Pcdh
+	IqYe9O/ZSi0/J7+Lgx/DYF4WiIqd+jdvTvewDx2Tm18bvXypzQzRyhfzLQTf6z/1njbYTg
+	P4ix9HutXwWJ0Ru9nho6wzhQCcw5F6I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778827077;
+	s=susede2_ed25519; t=1778827208;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PRfPXjsAfYWPDCQfhr0/a057u3yl234uz3/SKwfbglg=;
-	b=kbWiMCDZtwUmzT9M5h1uoeMW6negJws9vH27MXPbegbUFjUi1eCy+8+On2tPgpIfu00VVp
-	nicg2dXvaJOgu4AQ==
+	bh=gUDnTWEwVTYdVbzIDrQKxgU/oAZbaYARi0F0+cAbMAA=;
+	b=HLYPVQ+TzIHkxDijS1KIXylGRPX9q+Jffs0fUZFJnJKU3w4pLy2/MsPX7lvVpPVI4IYMEZ
+	CANGm7ns1ruBu3Dw==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Vbkf/uCF";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HLYPVQ+T
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778827077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1778827208; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PRfPXjsAfYWPDCQfhr0/a057u3yl234uz3/SKwfbglg=;
-	b=0Cdu+ZcFiNHbM7k77z8ew2xigcN68hhSJmcpbMl8ARTtrbHfSNqCbN6R9ibfC+Wf7rrFQi
-	NrmQTDWs168Nyv0do+bWrCiH7eIT/JzEU2Gz29J4VOkSkKHZCUqfBOebZkpfcnJtDu1hdj
-	x8HUWzbFDIzzmdfDRq0t0EP7NZKbl7k=
+	bh=gUDnTWEwVTYdVbzIDrQKxgU/oAZbaYARi0F0+cAbMAA=;
+	b=Vbkf/uCFDzj10z4AVauCB2edB2tdxX8xH++TlnDgpBu6mYeED23ucjb45cHt7vCcN1Pcdh
+	IqYe9O/ZSi0/J7+Lgx/DYF4WiIqd+jdvTvewDx2Tm18bvXypzQzRyhfzLQTf6z/1njbYTg
+	P4ix9HutXwWJ0Ru9nho6wzhQCcw5F6I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778827077;
+	s=susede2_ed25519; t=1778827208;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PRfPXjsAfYWPDCQfhr0/a057u3yl234uz3/SKwfbglg=;
-	b=kbWiMCDZtwUmzT9M5h1uoeMW6negJws9vH27MXPbegbUFjUi1eCy+8+On2tPgpIfu00VVp
-	nicg2dXvaJOgu4AQ==
+	bh=gUDnTWEwVTYdVbzIDrQKxgU/oAZbaYARi0F0+cAbMAA=;
+	b=HLYPVQ+TzIHkxDijS1KIXylGRPX9q+Jffs0fUZFJnJKU3w4pLy2/MsPX7lvVpPVI4IYMEZ
+	CANGm7ns1ruBu3Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C745593A9;
-	Fri, 15 May 2026 06:37:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D8A7C593A9;
+	Fri, 15 May 2026 06:40:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IGlsDUW/BmorQgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 15 May 2026 06:37:57 +0000
-Date: Fri, 15 May 2026 08:37:56 +0200
-Message-ID: <87jyt5uqij.wl-tiwai@suse.de>
+	id iI6XM8e/BmovRAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 15 May 2026 06:40:07 +0000
+Date: Fri, 15 May 2026 08:40:07 +0200
+Message-ID: <87ik8puqew.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Nicholas Bonello <hadobedo@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
+To: Dirga Yuza <dirgayuza123@gmail.com>
+Cc: Jaroslav Kysela <perez@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Zhang Heng <zhangheng@kylinos.cn>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Kailang Yang <kailang@realtek.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix Legion 7 16ITHG6 speaker amp binding
-In-Reply-To: <20260508225507.47667-1-hadobedo@gmail.com>
-References: <20260508225507.47667-1-hadobedo@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add micmute quirk to Acer Nitro AN515-58
+In-Reply-To: <20260510055951.9035-1-dirgayuza123@gmail.com>
+References: <20260510055951.9035-1-dirgayuza123@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,54 +93,51 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MX_GOOD(-0.01)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 21A4B67660
 X-Spam-Level: 
 
-On Sat, 09 May 2026 00:55:07 +0200,
-Nicholas Bonello wrote:
+On Sun, 10 May 2026 07:58:01 +0200,
+Dirga Yuza wrote:
 > 
-> The Lenovo Legion 7 16ITHG6 uses codec SSID 17aa:3855, but its PCI
-> SSID is 17aa:3811.  The latter is now also used by the Legion S7 15IMH05
-> quirk, which is matched before codec SSID fallback and incorrectly
-> routes Legion 7 16ITHG6 machines to ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS.
+> The Acer Nitro AN515-58 uses GPIO 4 in active-low configuration to
+> control the mic-mute LED. This patch adds a fixup to register the LED
+> classdev and associate it with the mic-mute trigger, while chaining to
+> the existing headset mic fixup.
 > 
-> That fixup does not bind the CLSA0101 CS35L41 companion amplifiers,
-> making the built-in speakers silent even though playback appears to be
-> active.
-> 
-> Add a codec SSID quirk for 17aa:3855 before the conflicting PCI SSID
-> quirk so that the Legion 7 16ITHG6 uses ALC287_FIXUP_LEGION_16ITHG6.
-> This restores CS35L41 firmware loading and binds both speaker
-> amplifiers.
-> 
-> Fixes: 67f4c61a73e9 ("ALSA: hda/realtek: Add quirk for Legion S7 15IMH")
-> Cc: stable@vger.kernel.org
-> Tested-by: Nicholas Bonello <hadobedo@gmail.com>
-> Assisted-by: Codex:GPT-5
-> Signed-off-by: Nicholas Bonello <hadobedo@gmail.com>
+> Signed-off-by: Dirga Yuza <dirgayuza123@gmail.com>
 
-Thanks, applied now.
+Applied to for-next branch now.  Thanks.
 
 
 Takashi
