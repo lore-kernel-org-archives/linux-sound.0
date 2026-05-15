@@ -1,136 +1,98 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCEE3D45D0
-	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 04:49:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778820549; cv=pass; b=qsH/Y0Cb0J3xINugj4Eu7q3f8r/Aog42FbAuhxtW+R4TU0mbAWKn4RssFP1BxpyyNl/xef9bYE4CWBQRm/P7XXOr4ndyCyPYzXuj7oUkZQ6F1nJ6ZHoTGm9zFvCfnDI60PFAKVRSE9398wcfHu16HuywF2Km0SspPNrK0aSD4WY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778820549; c=relaxed/simple;
-	bh=7Ze77vbekY63STpWUt0uP8LUCQHGr3bsiE2SLku80DU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AAWpz3/FTLEwG0yAkc+AQYuE7zWi9KMzWQQTxg9zYE8L0yY77OVBjzHZWTyM5prhfYWxj7TFaKZuS+NTw6vdjna5vCvTnzfDmS0jzYxg5Sf6U9SwpE4+DtLMDdZHyAhX5aKhyqPYSSdjfGMvKSJvWs9tKWw6bVC0vyhwcJVu2eQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bKsSOqb1; arc=pass smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bKsSOqb1"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-368763a1bdfso3684284a91.2
-        for <linux-sound@vger.kernel.org>; Thu, 14 May 2026 21:49:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778820546; cv=none;
-        d=google.com; s=arc-20240605;
-        b=SaP0QUPTOH/Fkj+OAYrH/8lvpSChTjiCnJ6rzpzV7t42iA+5OPjCmUIctyEK85FWvY
-         6v83BzFFXejo5B3mH9c1PJajeqfhf5mZRVDEroECbr7McA9AETgRQPmOCkSUCZfkfkBc
-         pl8ajRKHhKhce+YdHa0PRWLD25xpoAcbhkyau5s2S6M5HmpEQXNiUaUJWSjnrHiGJdAQ
-         Ynimp1592uDdNET5CgQHc+yCbyji9nHW5M3c5nJRQQ7NKq0/umMl9oycEfo8/0RlnG99
-         RckMx3fXUHyngb38HUFTO15ox1wvPPzhstNzuUQ0QHOTrQmdsXxxl5bdvGm6p+Y9EQq9
-         sFCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=7Ze77vbekY63STpWUt0uP8LUCQHGr3bsiE2SLku80DU=;
-        fh=IzB99cGUgF+inh8TZWj/IzmYXHT3g5WPiKft0lUgAPU=;
-        b=lP7K821Ou+YYgc+40YKfA09WpzrNyHuEh0PFJ73CKicDupMD494QAGLMRfn5v6CLFa
-         BMObwk4JahFgPpB150QijSnZmZVpVcUQE+LtshUpYXxWB5IO3rPN6Mdxs4lq9NRpLboS
-         BMY8gDc2oo1BtIJxxJPkyqBsGSBoF5Qk0I8Nx8ec6ToLEdqn/nYLQiAIUkjPEGUfypGa
-         d0FoXNnsMREMmcyHzfbZ6aDQzWw+AReKjVMT0+VZ7ZVoISUR6YeqjGd2mlKsDiwD7WK9
-         +r+sG045QrIl4q6/TcOy6TeT1t7Sdr1jE97RQPd3h/ejKG8gyzhntJ2dbdM6txF7Otk7
-         o2Gw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778820546; x=1779425346; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7Ze77vbekY63STpWUt0uP8LUCQHGr3bsiE2SLku80DU=;
-        b=bKsSOqb1eJQpQAHPHcHlhjkzWsIXDGT9F+4gNw9ZQFqZlavy3gN3c9HVmtKWWhcyZT
-         y/TVXcic4dNFKPyifF43Epu7+hjq89CDy5KNyviPon7jrWqGB/BUow6pDG+4CXexLnnD
-         sFUAzjls7PS/0A0SCuNnVsm9CEGzz4S6syom/uu7MA26Cun/fO8W/ilbLTWjkk73Kxop
-         wqJpA5BqJeGKHmw4VjzAUjCztBJZG+tLh8Wo6PvLPSERoMseFAD01z6QncO4nqjd+jIF
-         dyYlmBjyId81/Xk95zJ38G2I9lqfsyvjdbqSws2TskhholTFdGAVa8vPAXBIpKj6AtKi
-         qTkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778820546; x=1779425346;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7Ze77vbekY63STpWUt0uP8LUCQHGr3bsiE2SLku80DU=;
-        b=sPSldAOKjyQZ07nadoa03SbprOWWn2Us5m4QLRnA2Y3YuVje9GzKFJR5cykWOHIZED
-         9FcjtMyMtVorUbafOpCNu7agEl/VkTE30IYN1vcrZB6rWpEQdXenb2NvaG5Wf+H9U3NQ
-         nDtWQIELRsRynT4I91ka88i0KMtBm/lWv+dnLbSH1CIk3R5Wyr0eNQL7WLaFy4BplZPq
-         HPgMknANIddDgl0OYT9Ltq5lIOEeTfP7e9mc3opBJcX3Y5BrsL3GxVJSpBVVeImR7xbK
-         ER7iHgszap3Alcccy+gRoIcPY7/R7lZyMo4xqvpIW3H+mLOVRO0gmkNYU3UvOFz0sd6z
-         o8Uw==
-X-Forwarded-Encrypted: i=1; AFNElJ+pFRRRGa4B1+oF/bzqjRmudI4OAsAs2CSRIzq+ZB75hjlFDmp/9Q9pkYj61GHHLxIjcMiyEhY2vlYqrA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKMBdWi7TBZYLknmD+8j8AP1cDBhIdYIk3NpA1WVVDpGRLnGmc
-	C1XHgHOyqabOunLTwCNaGIwfuS2dIUSbhAUneE2J2n0e5gg+ck4abYIYeXoM2WETaRG5RHrhMTf
-	RMX6SwAtYz45myu4pfMSPQFOfGsLfrK0=
-X-Gm-Gg: Acq92OFn17b97Z27r6O+w8nJqy77bQPcfYAF6TDJ8ExsX0k/h/Z0VacqY9q1tJ1+dX6
-	vgF5cRWOc9TZl32wlUwrcWuJOjlUm6/y2ZhcHH1VOtSQsxTN4gpvbkI5/gcn4OaRRSk/DZeIVah
-	D8CRpQN2WDPMvKjnQ668O0sbfABRkgPwtMFiDGPmj5maqIkhB+vFSc2iG1sM770ryk06AbrlA2f
-	TF3B9WoMj+6T6qTP6mcJfGHXCRonCvOWjAQ+4CcDVoZ3TcrBejoxMRNVOVhdUi3CkZ0pbrrnTrt
-	ZsGq96Nu6Ku1jUkSeZxkYVEiN70jOe31Lt+crO+1HILuMN06
-X-Received: by 2002:a17:90b:57c7:b0:369:2e00:1ff0 with SMTP id
- 98e67ed59e1d1-369519c6663mr2379277a91.6.1778820546309; Thu, 14 May 2026
- 21:49:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208711A2C04;
+	Fri, 15 May 2026 05:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778822147; cv=none; b=TPvBsZMmQt55fDgm5HIu4H2CzpORUOylVWhFC/NXkaw5ZW55O/faTevbin2t9r2yisWBiwmj4iMcT4VH2eC0JL8lPbPKS4wswvapcLkanmhQYW86TkR1kvsYLDiqNpGf53UV10WNyNLnH+32RPcYWp0rIIIpl3ANB2rRbJwN+Xg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778822147; c=relaxed/simple;
+	bh=be5ptxubEjUk0N7NR53ZBEfB4rhP8Aa4a9n7LY1XoMs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ErAq5sOrEaVvlHN0pxC54Il9MtpRAcfZ3UtJidPqpcTkftzMyf34kSYT5ABZNDknGuv7H4144chCugncq/JL6IPtmh3cz3wYqXHAqccoe5J6vH6rqeeV8xNgxn4mZJYsGL7L/7jVOmbKexl9KrG8Mo6ro2RN3PGTrKnvb1M2+jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mails.ucas.ac.cn; spf=pass smtp.mailfrom=mails.ucas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mails.ucas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mails.ucas.ac.cn
+Received: from fric.. (unknown [36.110.52.2])
+	by APP-03 (Coremail) with SMTP id rQCowABXctnmqwZqjWoOEQ--.9826S2;
+	Fri, 15 May 2026 13:15:18 +0800 (CST)
+From: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
+To: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Cc: Cen Zhang <zzzccc427@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jiakai Xu <xujiakai24@mails.ucas.ac.cn>,
+	Kees Cook <kees@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Subject: [PATCH] ALSA: pcm: oss: Use snd_pcm_kernel_write() in snd_pcm_oss_sync()
+Date: Fri, 15 May 2026 05:15:16 +0000
+Message-Id: <20260515051516.3103036-1-xujiakai24@mails.ucas.ac.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260513104329.81592-1-phucduc.bui@gmail.com> <20260513104329.81592-3-phucduc.bui@gmail.com>
- <agUknFcDIfwrOCld@sirena.co.uk> <CAABR9nHfXi5G4+sVnLbWWJctQHkWASTzTwiV424bO6BXZDqX+Q@mail.gmail.com>
- <agZ92TVjcYpEv_eH@sirena.co.uk>
-In-Reply-To: <agZ92TVjcYpEv_eH@sirena.co.uk>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 15 May 2026 11:48:55 +0700
-X-Gm-Features: AVHnY4LSRW3rAmjavn6_eDy_Qm1nhNiehY-HxiVuY8qyBRTItYTFMQaIPdHoTM4
-Message-ID: <CAABR9nHR13e3d46_Z7Q8ZkjQzKbkcPs2Er4sAvq6G1EEj-xoXw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] ASoC: stm: stm32_i2s: Use guard() for spin locks
-To: Mark Brown <broonie@kernel.org>
-Cc: Olivier Moysan <olivier.moysan@foss.st.com>, 
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowABXctnmqwZqjWoOEQ--.9826S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ur1UtFWUZFWkCFykWFW5GFg_yoW8CFyDpr
+	yYkr4I9r97tFWkA3WDJF1FvF1rJwn0yFyYk34DC34Fvws09r1jqFWq9ry2vF4DCFZ7Kws0
+	qr4vya4rJa45JaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+	0_GcWlnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+	F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F
+	4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I
+	648v4I1lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+	v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+	1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+	AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
+	42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxh
+	VjvjDU0xZFpf9x0JU-zVUUUUUU=
+X-CM-SenderInfo: 50xmxthndljko6pdxz3voxutnvoduhdfq/
 
-Hi,
+During a process exit, do_exit() calls exit_mm() before exit_files(),
+so current->mm is already NULL when __fput() triggers
+snd_pcm_oss_release() -> snd_pcm_oss_sync(). The latter calls
+snd_pcm_lib_write() with a NULL buffer to fill the remaining ALSA
+period with silence. snd_pcm_lib_write() passes in_kernel=false to
+__snd_pcm_lib_xfer(), causing do_transfer() to call
+import_ubuf(ITER_SOURCE, NULL, ...) which invokes access_ok(NULL, ...).
+On RISC-V, untagged_addr() in access_ok() dereferences
+current->mm->context.pmlen, crashing with a NULL pointer dereference.
 
+Fix by using snd_pcm_kernel_write() and snd_pcm_kernel_writev() instead,
+which pass in_kernel=true and use iov_iter_kvec() to bypass user-space
+address validation entirely. Since the buffer is NULL and the transfer
+function fill_silence() ignores the iterator and writes directly to the
+DMA buffer, this is safe.
 
-> > I'll send a v2 of the whole series with this fix.
-> > Would that work for you?
->
-> Yes.
+Fixes: 13f72c8c28fc ("ALSA: pcm: Kill set_fs() in PCM OSS layer")
+Signed-off-by: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
+---
+ sound/core/oss/pcm_oss.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thank you for the confirmation.
-By the way, I have an architectural question that came up during my cleanup...
+diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
+index 33fd34f0d615..4f81002e4b96 100644
+--- a/sound/core/oss/pcm_oss.c
++++ b/sound/core/oss/pcm_oss.c
+@@ -1710,9 +1710,9 @@ static int snd_pcm_oss_sync(struct snd_pcm_oss_file *pcm_oss_file)
+ 		if (size > 0) {
+ 			size = runtime->period_size - size;
+ 			if (runtime->access == SNDRV_PCM_ACCESS_RW_INTERLEAVED)
+-				snd_pcm_lib_write(substream, NULL, size);
++				snd_pcm_kernel_write(substream, NULL, size);
+ 			else if (runtime->access == SNDRV_PCM_ACCESS_RW_NONINTERLEAVED)
+-				snd_pcm_lib_writev(substream, NULL, size);
++				snd_pcm_kernel_writev(substream, NULL, size);
+ 		}
+ unlock:
+ 		mutex_unlock(&runtime->oss.params_lock);
+-- 
+2.34.1
 
-I noticed that the STM drivers currently manage clk_prepare_enable()/
-clk_disable_unprepare() directly from the dai_startup()/shutdown() paths.
-
-After looking through various vendor audio drivers, I noticed that
-PM/clock handling styles still vary quite a lot between implementations.
-
-For example:
-
-some Intel drivers enable clocks during dai_link init.
-
-Samsung separates bus/interface clocks and operational clocks,
-enabling them in different paths such as probe() and set_sysclk()
-
-UX500 and STM enable clocks during DAI startup()/shutdown()
-
-Tegra, Sunxi, and Rockchip often manage clocks through runtime
-PM callbacks
-
-From a maintainer perspective, is there generally interest in gradually
-converging these drivers toward more modern/common PM patterns,
-or is preserving existing hardware-specific sequencing usually preferred
-unless there is a concrete issue to solve?
-
-Best regard,
-Phuc
