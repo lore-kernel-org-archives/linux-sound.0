@@ -1,172 +1,121 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F433F0AA7
-	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 08:01:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8763AA1AE
+	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 08:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778832079; cv=none; b=FUbHzoJaT5m/d5vMfqjclqjS9QWWcKJhAioc+iE20xd4C9YRh57C3w+0h21qu/9iy1ifx+CY1qgMddC03fbkNES+iczxtxHn9VBli5ubW4tk+2T4DLuPHVj4ohmbpkyoKz79HI0UN6a9XO7FsOu2uzJ2C/InSCNAiiijm2UN9TI=
+	t=1778833856; cv=none; b=j9ZBiWcFt3TJX5cKpANE3EOo/mAlEDdxxrP8qGnwJNzer65HOv1at8697LyLXfQkM/lrn2IBKprEh39tv89DQRWFqlzMAVeB1/7gPwbkv4jkjDTNSVkNLb74sSWPiu7Fd6Nx56vbs2mOO7YNywraqXeYU2hG1SO5KCVzB0KnvIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778832079; c=relaxed/simple;
-	bh=4YqKPZB36GRjtgQ/J+idZN71Uu7BJa5RnVwq5I8Rh28=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SdR0FDMrQg+D2DVIoOvpQGZJyJOzNi10zupHdGRBFsNzUxocfydT/y1i4AAGndomFCEy2tikxjkaGYvAHFlsBP84+0st5pf7ol3j2cFDOsYSxrCMHEBgBnHKbSiY4uq59aaxLiZ9kMq6YlUAjbFcbM+h1j6Mn/Ej1bK/gYLJWbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y7xI2UGL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=okyd9f+d; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hWJu0BM7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZgQk0k78; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1778833856; c=relaxed/simple;
+	bh=pB57aRtitwDSWpWZ/93h/exberHdIMJluzqF5V1KBPM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qcjCqs2qeuely3g7FBv6OI1HY6prYSS8gl+MYUnUzojgrphC0gQ1uWmnjHxygvMBBGZxexuP0FzWpMgAUcAUzolN8RpXLUo4rgyyG1/5Nfu32OiGRwsrvizJi3HwfJ7h6rTnRLm8SZJ3wrE/nSCL4fODgLIiy/469dGvWhB5qJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aOlB9nVA; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y7xI2UGL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="okyd9f+d";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hWJu0BM7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZgQk0k78"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 47D725E89F;
-	Fri, 15 May 2026 08:01:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778832075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yn1lhGyXSfgmdtTu3D1GjqLfnhkwMJNsJlKnGPsmWNg=;
-	b=y7xI2UGLDAqef+mTB4A8F5zcuTDrJp/dlSGUnDRN1ZI+kehiCxI3WXVGbWuAvgXErUUJ8J
-	wKwdEhpj2So0GcEzXHTcfxjRvksytj6RtPWdN200PmdueREa2A2570WnIhOWrmnIIdcAYT
-	psQNG+E9r2v+UDbGrMsiReMuW3bwOTo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778832075;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yn1lhGyXSfgmdtTu3D1GjqLfnhkwMJNsJlKnGPsmWNg=;
-	b=okyd9f+dnIkGY+EEeY13BU9fmavQRkBQp3RyZ5bmhgc5Krb6dk2kDjCrtwrCww7qEvou5o
-	qV/dptMLCeMMAzDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hWJu0BM7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ZgQk0k78
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778832073; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yn1lhGyXSfgmdtTu3D1GjqLfnhkwMJNsJlKnGPsmWNg=;
-	b=hWJu0BM7ImJFgcrfElMVVeMvt0zNToP6puLK9dcXZtC4WSwjyflzYP+j2rh0cSy56/cdbT
-	usjIwQfB7tylJNJHw1c7iM2aR4w1hiOo305S7Ldq4ph4F9Ypd+gi1WmpYWQodl2tftv6nP
-	g2xqUwoJmdsMEcGSXTsqB5Z0Sk8Yhh0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778832073;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yn1lhGyXSfgmdtTu3D1GjqLfnhkwMJNsJlKnGPsmWNg=;
-	b=ZgQk0k786TPZfJRF3IAUmErRl7EqOyRcFLxhS+Ku0+Yl716ofPJfi7+HnTdpcC4uuFjsSb
-	BUPXpPDazmxYiwCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0C610593AA;
-	Fri, 15 May 2026 08:01:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qhW8AcjSBmq5FQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 15 May 2026 08:01:12 +0000
-Date: Fri, 15 May 2026 10:01:11 +0200
-Message-ID: <87tss9t83c.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Cen Zhang <zzzccc427@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Kees Cook <kees@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Subject: Re: [PATCH] ALSA: pcm: oss: Use snd_pcm_kernel_write() in snd_pcm_oss_sync()
-In-Reply-To: <20260515051516.3103036-1-xujiakai24@mails.ucas.ac.cn>
-References: <20260515051516.3103036-1-xujiakai24@mails.ucas.ac.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aOlB9nVA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778833854; x=1810369854;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pB57aRtitwDSWpWZ/93h/exberHdIMJluzqF5V1KBPM=;
+  b=aOlB9nVAqlD5ZbFFMLJGMp9S6N0bQMnFDbKqdUT+I/w+4fKkhLDPK34s
+   shmFXUoEYZIF2UVeKFaE3rLyeMvZydQ/eaCaqRQnEcOc+vD6ArGfEyEbQ
+   7EkOni/JtTvNtZamkLhQi6AImKRrdPmPox1eGBpU9UEFLgLuuO0MGDOep
+   5x+Y2GSgKJlkG7c+NqMdbfxJQmb2KyMiBGSkmgTNRuiDUcJdGrFJLr5OK
+   7UYUcBZ/AG5L4Z8g3cAkr5vZmq2u86NyxPKfRBSRwPkKafIvKm3B8p8Mg
+   PEdJpn5+OCtTXrmJFhZpiFjdf0W4459jTbEGXBIUtF3uC0VRHFtnsI7Kf
+   Q==;
+X-CSE-ConnectionGUID: R9Gg+GjYRvqGC68ZJd1FBg==
+X-CSE-MsgGUID: c+jrh+e7RYKdRk+mG0awuA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="79644864"
+X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
+   d="scan'208";a="79644864"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 01:30:52 -0700
+X-CSE-ConnectionGUID: 8/jUAZWeTD+3CyuoCqriqw==
+X-CSE-MsgGUID: lKo2brFJQQ6fPFaeNfABTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
+   d="scan'208";a="243610366"
+Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 01:30:51 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	bard.liao@intel.com,
+	peter.ujfalusi@linux.intel.com,
+	Deep.Harsora@Dell.com
+Subject: [PATCH] ASoC: Intel: sof_sdw: append dai type to dai link name unconditionally
+Date: Fri, 15 May 2026 16:30:43 +0800
+Message-ID: <20260515083043.1864426-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,perex.cz,kernel.org,suse.com,sakamocchi.jp];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 47D725E89F
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 15 May 2026 07:15:16 +0200,
-Jiakai Xu wrote:
-> 
-> During a process exit, do_exit() calls exit_mm() before exit_files(),
-> so current->mm is already NULL when __fput() triggers
-> snd_pcm_oss_release() -> snd_pcm_oss_sync(). The latter calls
-> snd_pcm_lib_write() with a NULL buffer to fill the remaining ALSA
-> period with silence. snd_pcm_lib_write() passes in_kernel=false to
-> __snd_pcm_lib_xfer(), causing do_transfer() to call
-> import_ubuf(ITER_SOURCE, NULL, ...) which invokes access_ok(NULL, ...).
-> On RISC-V, untagged_addr() in access_ok() dereferences
-> current->mm->context.pmlen, crashing with a NULL pointer dereference.
-> 
-> Fix by using snd_pcm_kernel_write() and snd_pcm_kernel_writev() instead,
-> which pass in_kernel=true and use iov_iter_kvec() to bypass user-space
-> address validation entirely. Since the buffer is NULL and the transfer
-> function fill_silence() ignores the iterator and writes directly to the
-> DMA buffer, this is safe.
-> 
-> Fixes: 13f72c8c28fc ("ALSA: pcm: Kill set_fs() in PCM OSS layer")
-> Signed-off-by: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
+The dai_type is used to select function topologies. Since the topology
+stream name and DAI link name use partial matching, unconditionally
+appending the dai_type provides necessary selection metadata
+without breaking existing topologies.
 
-Thanks for the patch.  I believe the problem is rather in
-do_transfer() setting up a bogus iter for silencing unnecessarily.
-So it's a bug introduced in the commit cf393babb37a ("ALSA: pcm: Add
-copy ops with iov_iter").
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+---
+ sound/soc/intel/boards/sof_sdw.c | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-Could you verify whether the change below works instead?
-noninterleaved_copy() has already the handling of NULL data.
-
-
-Takashi
-
---- a/sound/core/pcm_lib.c
-+++ b/sound/core/pcm_lib.c
-@@ -2138,6 +2138,9 @@ static int interleaved_copy(struct snd_pcm_substream *substream,
- 	off = frames_to_bytes(runtime, off);
- 	frames = frames_to_bytes(runtime, frames);
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index c18ec607e029..5c4682f9f7c9 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -901,10 +901,16 @@ static int create_sdw_dailink(struct snd_soc_card *card,
+ 		}
+ 	}
  
-+	if (!data)
-+		return fill_silence(substream, 0, hwoff, NULL, frames);
-+
- 	return do_transfer(substream, 0, hwoff, data + off, frames, transfer,
- 			   in_kernel);
- }
++	/*
++	 * The dai_type is used to select function topologies. Since the topology stream name
++	 * and DAI link name use partial matching, unconditionally appending the dai_type provides
++	 * necessary selection metadata without breaking existing topologies. Although
++	 * ctx->append_dai_type is not checked here, we overwrite it to ensure consistency in case
++	 * it is referenced elsewhere.
++	 */
++	ctx->append_dai_type = true;
+ 	for_each_pcm_streams(stream) {
+ 		static const char * const sdw_stream_name[] = {
+-			"SDW%d-Playback",
+-			"SDW%d-Capture",
+ 			"SDW%d-Playback-%s",
+ 			"SDW%d-Capture-%s",
+ 		};
+@@ -932,15 +938,10 @@ static int create_sdw_dailink(struct snd_soc_card *card,
+ 		}
+ 
+ 		/* create stream name according to first link id */
+-		if (ctx->append_dai_type)
+-			name = devm_kasprintf(dev, GFP_KERNEL,
+-					      sdw_stream_name[stream + 2],
+-					      ffs(sof_end->link_mask) - 1,
+-					      type_strings[sof_end->dai_info->dai_type]);
+-		else
+-			name = devm_kasprintf(dev, GFP_KERNEL,
+-					      sdw_stream_name[stream],
+-					      ffs(sof_end->link_mask) - 1);
++		name = devm_kasprintf(dev, GFP_KERNEL,
++				      sdw_stream_name[stream],
++				      ffs(sof_end->link_mask) - 1,
++				      type_strings[sof_end->dai_info->dai_type]);
+ 		if (!name)
+ 			return -ENOMEM;
+ 
+-- 
+2.43.0
+
