@@ -1,207 +1,130 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012053.outbound.protection.outlook.com [40.107.200.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00C03E0095
-	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 16:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778860963; cv=none; b=u+LxMjpP7GEkUUuER3ahiAM29dTQpTIs/9dLSoQ/odFWoi1xUIWbW4oDSt5tBpjhW2avSrp4mWqdhaT8ZxHzQsmfRm9WNDlFB/MOj+admPNd4deH/JYCrPaCN3pb7rviFQtlXgSitecSgbqQ5sTS0QYNiyTTyw4j596/OAWrwc8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778860963; c=relaxed/simple;
-	bh=JyGv54D5TTESaZtgZUvwiPYuZSMf0GHqQPQ8V5zwCeo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GnqqhHyNTUZUZ0hjvrYYducMkZeFGkO6e6rhPHo8nOgkmxfI6nsYrXKMUspAjiNbN0GQXCTGewyy4S0h7hLq0SQNU8xupfb82tHBfEYacKrJHvArNbRD15hIAUXL5GoRmmlUA7hvYcmfbzqu6xDuGbYM+LBe+Zsz4E+S98YD18E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tKqiCYSA; arc=none smtp.client-ip=74.125.82.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CB03E008D;
+	Fri, 15 May 2026 16:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778861698; cv=fail; b=itZkyehdPVMRkxOoWJ3CG8N7EuruQW9s63IJEKl2PAXqyPGPFsPMwk0Wfh50D6hIkYUu6VZvCEHeoNVYbGJ2Q+C1H+BLQt6nH4mhxIPROYLAgdN3PLZno3POnId9oP2+mYdIvJpS2wO7Ysz3c0D2x6yCTZcnEk/KNx4qWx9DkDc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778861698; c=relaxed/simple;
+	bh=ooApIbW2C3Hp097nyAruDRRAHb7Q8tjFgAlprofNe4o=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=K1jXw4gBFbGppD0yy5aACUXUzoK+sNsimwu8JgpoK4bXwUqSuMLPolzgRKlSkMixdlUdDRL3srkOIBSyV2PBx5sb8ZGPMXnJG90UNumYbzMTWqZmmiwAya2HZkJ1xn3GtnaE/umGpr2bRG688gbPD8PUMi0ftg5G/NLiJrYbsKQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=gn6ebXhw; arc=fail smtp.client-ip=40.107.200.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tKqiCYSA"
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2f68f3b075fso14298326eec.0
-        for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 09:02:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778860961; x=1779465761; darn=vger.kernel.org;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JyGv54D5TTESaZtgZUvwiPYuZSMf0GHqQPQ8V5zwCeo=;
-        b=tKqiCYSArxoqB0leUiy3xqrd+elE9TjNy+cP34/1gL1leWRUZhEBVsO+uh0MW19Y3w
-         Yp7g7h5FkQiAT+LXTFCaWtX2UJNX/I6XKpmCR09GnyCYIaLjT6kkGFScBV5jQ6bIyh3R
-         IC0oUsJ6fYLOnmYPNUCB0T0ME1VJPYoOmI/RsVVFfhvvS17PE4qp19i6LfUmQPwytQ+/
-         lyOJYhNrtdZ4TZrvP6jnFxCdLXMLChIbxdCSKF2We7yJKUc4RE7GhKbekOuHDDkv530m
-         KkhGK3sVbJsEIYATysWhSVi9ZoH80w81cKDflOXb1rZQHqI3e4r7YHkH4kDrEssCjMlk
-         bW0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778860961; x=1779465761;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JyGv54D5TTESaZtgZUvwiPYuZSMf0GHqQPQ8V5zwCeo=;
-        b=LU7lj94N5nREIA6YoyGnquPpbsHc9jQMh8jWVMJRPCPI1KU58IfEaLKACeGzhBS8UB
-         BhOWhIcJXf/+js7AAtPqjuFUJMvAFdSdnl/Ah31MyICDo3/UBg2SjlxKE1yNPUSwiTxl
-         p9Oi+Udc6XJd7xjrtSuDOACfrTKUPKswgZXQQ9Ds/YLYvemuzqJYyu+j8XMtnvIqW0vi
-         o4SYT9YVtiCgET6ItjwMQp96IwiHHJd7B33UhKNUV75L00opyEYOl33gX6s9qdBrE/ya
-         HaXsO6zT0a8NOZ/aIGbdQK1Gtc56pugULPWdNa6vk7oi++GeV2ZWBrG1eAkeGNQBcbQo
-         SG3w==
-X-Forwarded-Encrypted: i=1; AFNElJ9VlJBMLSPuvF8ooF/BCz+MU/fvwIcC39DQqrl84d4I0RO5muGSNUll6FVUC4V+B1UJSPAfqFJQK57Wyw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAuRkK/+ogpgdtCMVCw7wL47tcIIHxzUl4oVzGfELD7UdRQydR
-	NctAztU1FAddlEYdMoNjCkWrWg0O63LfcCyMjxKj4URZIK9Z3L3Qayd5
-X-Gm-Gg: Acq92OHYvqC0TWza63AaK3QNIy8167r54iW5o/UZBemNjMUBj6iiDafSHX6Pz/iGzdq
-	4QRnIq9TOZru3hs+jqpp0aUFLQzjHe6RkPb95kv6mvIvqzvNyaL6E6slN9nevUYRxzdEccJ6yG0
-	604cZCB4Zjb3hUP3VL16ACQAYQnM/e11ZfyQd51vfzgtcA1w042SWr9+JR7inn1/mKH2o3aE30Z
-	fX1bt8NlOc/e3Dpyksx3KPb0lTFit4GadruF6jn8Ng7l5v5cNaXmQ2DvY+/F5bPB3vTcnUl8/h8
-	BPRmCr2bBZCxtbdV0OVMk+peR8qYwVPyyzJdNkAOOR+mbHElpv7mPegeny6QdlmIAs/pSl7v8vE
-	kWbz5TboAUHfYVinE6RJyHVGIK9d4nZNoeH7AkzUQ/jJAfR3qVtSyHn+ERN7NpVSMnkw9Lo8tUc
-	yBeivAXmdK+TkUjCUhIyGU1xvIe+KZyiA2F9dNggdV2fy/02+dCj9orDdX1zSObHFyDDmeU++wP
-	w==
-X-Received: by 2002:a05:7300:a145:b0:2d9:6373:ad22 with SMTP id 5a478bee46e88-30398172c1emr2498954eec.12.1778860960345;
-        Fri, 15 May 2026 09:02:40 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30296dcc458sm8803477eec.18.2026.05.15.09.02.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 May 2026 09:02:39 -0700 (PDT)
-Message-ID: <3761688d-4964-42cd-a1a7-72fb95154efa@gmail.com>
-Date: Fri, 15 May 2026 13:02:34 -0300
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="gn6ebXhw"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qmK+lGWEvyptCEo3AcIOZY6WqDiBYMaaEoDGZusCAgpaiew25soHuT8pP+L0u0vSaJkd5ObKFWnikQEvchOk+PL4jy3AH53v2qGYIfguAvg45GMtkN9AtTeBGtzyo6mEQ5pvVjXLZshXMq9SPiVr2+VVmjk5OntDy9bpWcThCUiKxPGrUxFYbsT83MH9evx9XElp+ZUXM+4qD6uEUK5YviNuHbc9zrAKzUZVEeHOnGcIi6dtNN/5pPrg1CcZaqv9QEXhJ2Mpi48Ju77YhbDlnTSw5LgCqBxN7C+7KZwYJkdZiBMz11eQ9/Efft4yQR9vN6nJ+Hh5uoQ/G7Xf1nGQPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ejyZlKoAQZjWbo6p1Y/WK3kqZuY29/BLs8aqDJCETak=;
+ b=oDGpbCFhbo8t9Ve+xD9tpOajIP8mXJ5NdjL3UzHSphP1648n7QMTwXUd9bDAyr4RoFOT307RP/GazobL7ctMiVT5x0QSrdkq6zXVW8E8VreGbs7ybkBjIA8/8kIRJkUZFZjWXs8xNFYsJiEjFSjwWwvy9b5rRU2dAew6tsi7CQC3ODDNeZnW3zlNWmB0NdmSqFEMBR+zrFqagYfR5V+fBY4AsduCCyxBGUzrFrb+ZWE85SswTmt0hRO7n20zyjFkxOoTv+Bu8oxqYXPw0dojm0Q59/XvE7RMg1qoXXG3zbQrGLtTVwSm5LPV1H5Ja5ZMUbNWt1IBEZSS21bFnxnl/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ejyZlKoAQZjWbo6p1Y/WK3kqZuY29/BLs8aqDJCETak=;
+ b=gn6ebXhwiJNRgE+aRtV8InQpz32c4g3mSHNpzzwMHX1+rTdCT0n79I5xW1Um2zkUbRcpYMLTvDwLVE47Nj9o7EBEVnVg+4MZo2cO1RaBiq05UW26frylMpPKHuryoXzg76VML/4K5QJ8ikEKnjNoQ75N3TgpLtvaipTqRg+Lraw=
+Received: from PH7P223CA0013.NAMP223.PROD.OUTLOOK.COM (2603:10b6:510:338::13)
+ by IA0PR10MB7546.namprd10.prod.outlook.com (2603:10b6:208:483::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Fri, 15 May
+ 2026 16:14:54 +0000
+Received: from SN1PEPF000397B1.namprd05.prod.outlook.com
+ (2603:10b6:510:338:cafe::3f) by PH7P223CA0013.outlook.office365.com
+ (2603:10b6:510:338::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.25.20 via Frontend Transport; Fri, 15
+ May 2026 16:14:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ SN1PEPF000397B1.mail.protection.outlook.com (10.167.248.55) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.25.13 via Frontend Transport; Fri, 15 May 2026 16:14:53 +0000
+Received: from DLEE205.ent.ti.com (157.170.170.85) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Fri, 15 May
+ 2026 11:14:53 -0500
+Received: from DLEE211.ent.ti.com (157.170.170.113) by DLEE205.ent.ti.com
+ (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Fri, 15 May
+ 2026 11:14:53 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE211.ent.ti.com
+ (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
+ Transport; Fri, 15 May 2026 11:14:53 -0500
+Received: from localhost (mz02jj9v.dhcp.ti.com [128.247.81.246])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 64FGEroA023480;
+	Fri, 15 May 2026 11:14:53 -0500
+From: Sen Wang <sen@ti.com>
+To: Mark Brown <broonie@kernel.org>, Kuninori Morimoto
+	<kuninori.morimoto.gx@renesas.com>, Liam Girdwood <lgirdwood@gmail.com>, "Rob
+ Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Sen Wang <sen@ti.com>
+Subject: [PATCH v2 0/2] ASoC: simple-card-utils: support system-clock-id DT property
+Date: Fri, 15 May 2026 11:13:56 -0500
+Message-ID: <20260515161358.1462453-1-sen@ti.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] ALSA: hda/cs35l41: Fix firmware load work teardown
-To: Takashi Iwai <tiwai@suse.de>,
- Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: "Stefan Binding (Opensource)" <sbinding@opensource.cirrus.com>,
- 'David Rhodes' <david.rhodes@cirrus.com>,
- 'Richard Fitzgerald' <rf@opensource.cirrus.com>,
- 'Takashi Iwai' <tiwai@suse.com>,
- 'Vitaly Rodionov' <vitalyr@opensource.cirrus.com>,
- 'Jaroslav Kysela' <perex@perex.cz>, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20260511-alsa-hda-cs35l41-fw-work-teardown-v1-1-1184e9bc4f25@gmail.com>
- <agbxffucE1h67TRI@opensource.cirrus.com>
- <002f01dce47c$a7859760$f690c620$@opensource.cirrus.com>
- <agdAlJek88n6K53H@opensource.cirrus.com> <878q9ksm37.wl-tiwai@suse.de>
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-Content-Language: en-US
-In-Reply-To: <878q9ksm37.wl-tiwai@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------P03C5TJIek002OBwqw9pmNXh"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000397B1:EE_|IA0PR10MB7546:EE_
+X-MS-Office365-Filtering-Correlation-Id: f12cc27f-a9bb-4301-d311-08deb29d1955
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700016|1800799024|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	BZIaYs1t32qPMckPPWtrgsmLFmsOAFrrKGHGMtsFZ9ouNijlahusEdttKFbjh56Ye4X+ECd6hbeYZll9MCXEFHi6EDAlmiXVYn17INZ7k9UAfLUOoWUg6ilVAs/HUhI5USOoSzpMVvm5n0UnvC5gPrvTE7TEAxtg6VBys7rvV7Y+UUw2VKOERLxs+flfd9a9YYYiSvauDdRL6WJcLN9gLsZFbHy1+Yr1BIrgVyRqKiFN3twuNwBZwLPCDugFhaaiZhuxMJXv1dcPQklzJP8WK9KjBvmzGD24nA+gbXpSZpmrbBcyCcl1veZ1B6NVb7y0vi2/8yCeyHztYA0Ug42QApSZBQ7s8eEWNPEexgEICzxj0TRVPwRobVXe8hHiiVt4hwb8OJVQPL4iyCaBVQijsmzz+yQiLZ0BWK8FaVYJShMdt/cjYyeSTgmFBRRgDDDckWLMZXbtmROEYCRWXcaB9smH1kSnofb1JwKhlae7hFrXw2hJkJw7JN5n/2+INzhMlimPl9XLdqjcQMYXQkg8UjL2RmVjoK5XO4vHXSIBT9ydIltZ5l63gebgeJCbUWFRMl6txCjhpHVlhYbJwHQdvm9RaYkfj5OCAboJY04vs6zTB3aRCCZnegiI6VeMvmZhEWfOYdcFXto+p2ErlNmBE63i37AJz6p8yzJKsZG7NN3f8ZI1a1tpjZfNcc0+w480Fs+svM8mR57rxeM1no8unqsnnS0Z4fMp7J1mCcNmnlA=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700016)(1800799024)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	/FTomsJ7a1l1GLiO4eyISfU0AIHs+TnmGDM6uZEAI+GGxZRp9n32fSt8go24pP8xvTIP8N1ArUkAiIQStKofqGtAqj9NJXtoR8NbE0ewr4zyl9mcqvD4NdvxVr10agVF1TQnS53cZuSkFWr04c1yp4c/AX4tByssfWC0b1Qvlo9kpVRZl7v7NzgpH+7cq/aJhYjIkZhOxENsUuOosoUhiasXLFhAK4yQkCkw2ja98QskJi725FbsjIPe7GfFpeAC0KcPQQvkes6/jEuFUf2lfr1NcqweEDyrM+vl6GX/Ky3+WdMfWZltxAc2sqCVAXBKdcdbphgYtCt5r7EBidQxh4Zijd/FI/iegJci9LicNBdSeDPSlnMVIj9D0eQ+RKFvzULM+1lhjq0ALLUkvEeb0Y9zNo+zUZWFkYoTzXf6Dir8NeLWeKZAtCzLsBC/1cYm
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2026 16:14:53.7498
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f12cc27f-a9bb-4301-d311-08deb29d1955
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF000397B1.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB7546
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------P03C5TJIek002OBwqw9pmNXh
-Content-Type: multipart/mixed; boundary="------------AW6hUK2TkIG00rSxRSt4nzC0";
- protected-headers="v1"
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel_Monteiro_Pires?=
- <cassiogabrielcontato@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>,
- Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: "Stefan Binding (Opensource)" <sbinding@opensource.cirrus.com>,
- 'David Rhodes' <david.rhodes@cirrus.com>,
- 'Richard Fitzgerald' <rf@opensource.cirrus.com>,
- 'Takashi Iwai' <tiwai@suse.com>,
- 'Vitaly Rodionov' <vitalyr@opensource.cirrus.com>,
- 'Jaroslav Kysela' <perex@perex.cz>, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Message-ID: <3761688d-4964-42cd-a1a7-72fb95154efa@gmail.com>
-Subject: Re: [PATCH RESEND] ALSA: hda/cs35l41: Fix firmware load work teardown
-References: <20260511-alsa-hda-cs35l41-fw-work-teardown-v1-1-1184e9bc4f25@gmail.com>
- <agbxffucE1h67TRI@opensource.cirrus.com>
- <002f01dce47c$a7859760$f690c620$@opensource.cirrus.com>
- <agdAlJek88n6K53H@opensource.cirrus.com> <878q9ksm37.wl-tiwai@suse.de>
-In-Reply-To: <878q9ksm37.wl-tiwai@suse.de>
-Autocrypt-Gossip: addr=perex@perex.cz; keydata=
- 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
+Adding an optional, u32 system-clock-id DT property into the generic machine
+driver so clocking topology info can be exposed in DT.
 
---------------AW6hUK2TkIG00rSxRSt4nzC0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Sen Wang (2):
+  dt-bindings: sound: simple-card: add system-clock-id property
+  ASoC: simple-card-utils: support system-clock-id DT property
 
-On 5/15/26 12:56, Takashi Iwai wrote:
-> On Fri, 15 May 2026 17:49:40 +0200,
-> Charles Keepax wrote:
->>
->> On Fri, May 15, 2026 at 04:08:14PM +0100, Stefan Binding (Opensource) =
-wrote:
->>>> -----Original Message-----
->>>>
->>>> @Stefan, could you also please have a look.
->>>
->>> I think this is fine to do, and I did some tests to make sure it does=
-n=C2=92t
->>> break anything.
->>> Reviewed-by: Stefan Binding <sbinding@opensource.cirrus.com>
->>
->> If Stefan is happy so I am :-)
->=20
-> OK, let's take it and see whether everything works.
->=20
-> As this doesn't look like a particularly urgent fix, I apply to
-> for-next branch for 7.2.
+ Documentation/devicetree/bindings/sound/audio-graph-port.yaml |  2 +
+ Documentation/devicetree/bindings/sound/simple-card.yaml      | 10 +++++++
+ include/sound/simple_card_utils.h                              |  1 +
+ sound/soc/generic/simple-card-utils.c                         | 13 +++++----
+ 4 files changed, 21 insertions(+), 5 deletions(-)
 
-I appreciate everyone=E2=80=99s time and effort in reviewing this patch.
-
-Thanks,
-C=C3=A1ssio
-
---------------AW6hUK2TkIG00rSxRSt4nzC0--
-
---------------P03C5TJIek002OBwqw9pmNXh
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSrYqI5vIrg1X9eqEjQXT8aWv/ugwUCagdDmwUDAAAAAAAKCRDQXT8aWv/ug5N3
-AP94a3w5lzGrPeqsrtOEnUEZn5AKIEOqGjeJCYyiGv+IGgD6A4ZDKN3UYdjFbK7eNCLyNvas/DaZ
-GHT/hzxjWAwTywM=
-=05mg
------END PGP SIGNATURE-----
-
---------------P03C5TJIek002OBwqw9pmNXh--
+---
+base-commit: f5ffe03e0678 (linux-next)
