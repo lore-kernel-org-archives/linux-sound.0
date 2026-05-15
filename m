@@ -1,214 +1,132 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58F247DFA5
-	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 11:25:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73573CF680;
+	Fri, 15 May 2026 11:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778844336; cv=none; b=Z7axC/6I5au1Vqvt+dEL245mYFz/d2GzaDqNVRCXrDEBjIPs8sd5YHhEmDuUNZ6MgVWBYqDFp0AIQIQO5/yhUllEgf9peVCRjH2keLsIMbLCftW68wxcjrTAng7CusFz0ccOK9W7S315yRogPJPMp6up1KRR7RfC0Bc0ylIcBcs=
+	t=1778844364; cv=none; b=HWFG6k+CqxHmqpmlHHDUezXC8F7ubhqRI83KRQhaCcLZRS+GAT34Hqb6yglpK9NXj0Qf+KJBZiz01mRcMybEkQmDsgjNJyAY7sHerYkXpz8I1T4QGsnzdCd3K2qWYU5uLvAkSay9Z/j1jMYqqlp1Gn1O6MipHl8AumhWSUUODEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778844336; c=relaxed/simple;
-	bh=iO/fPS1u+WSDfI9ZJLJOThXlGnmZiGdD5849oKxjuFo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ejG1T+XfRdIkfR4/3a6n2/AwpTYdx+oArHZiNgbPrlLkmAzuZ3lR8q2i+kca6Sre9E02/XMdlGrW4JXJwqhUymoqbcQV3wO6nxx+VsNT83sEbSYWz3M+ZK3IiOT6EW6f42OA/cBQCWuQbN+7PReIVJOEAG3/wSkEuyaNcISlCzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jdrXt7jf; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778844364; c=relaxed/simple;
+	bh=1Au4HASnLIP9tfFYyVC3BpZnZn6tFjmwZP0jv63U7Kw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ISAj6uL94G3J1b/UCk0SRhH3zzJxzlehpiC7DhWkfub52P3k9Ur4uIKIxoWG2Vqhr57MiXKvyhL3C4XmQz4C7iGhyQ2vUBKWpo06v1j7PAqin1ozWsVRyriv5V7HEYn/vMfzFMdnTrsnGBUALVXr9u41KEZwx/S2wxLJNDZ6FwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=u3jKzNhv; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jdrXt7jf"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ba3e3c4f87so84479995ad.3
-        for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 04:25:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778844334; x=1779449134; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Eh0yf1lgtPbRzrPbuzjigiZ2dhg3uZqppPUNeSjlJCQ=;
-        b=jdrXt7jfgXMTbMTssl/3CDwdxRsKn9NYjvDtWNdUHJ+4LhA4qvnpQ2Ju2nViYmW0aX
-         +xhXKBCk5MBI3MPQb2SV7ezKQUwogaSTXi9pFMr6Uiio7LSSCLjRazghNJjBZy4Xbhow
-         7nluiIUkSpti49+8REXZ7HPexCYG56ZMcGIHnoSbbSEAL19Vuljrmw2/tRC7rIbhXGDL
-         spwOVgOK1zzPJ9j7lA9g3PhXwLyFbFjz6s9Fo7hx+U9tDgHtp8aoSwg/HvrT4gMwytvS
-         AzchH2JOSl0ceQ0lzy2nevyO1KD90O82xclOr4OK5sh/UKXFIhQ8qVnBNKJFLTz1d9xv
-         VbEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778844334; x=1779449134;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Eh0yf1lgtPbRzrPbuzjigiZ2dhg3uZqppPUNeSjlJCQ=;
-        b=L9JQg5oLXc0kklMAYjWMRI7TYOstnE/zwb3nY/Xm2LPTeS9OR3awNN+ymMGs8/zbmY
-         g7I7yflUE2cfpCew29W6+RBxtFerZKsIsQrilZAJSHDv6QFMEccCpokMeBEs6X+5E7/J
-         R8cAM6YeddsfXKduIDA8RmTtmAvOBkVvKWElBQFw4CW9fqs0JmpnsR/vBd1rUZFNcqfm
-         qiNKamkkw9DvSDXV8AwA+jjuYfzi79cPQkZeV8oS5REqhNh/2vk5cg//YgTITsnuodHJ
-         R13qWVW3yOZdUcmMU3sUcdUzQuNVdHlUJBzmFN7Luqa7m8xOJFD97yyDiG2NsBgaV2w2
-         3cHw==
-X-Forwarded-Encrypted: i=1; AFNElJ9qmUZH6qWEiuN10iViQ1NBq56dmsFVpxyTJ/j42gidVQ5a/4EQF23Zcf0iHvyJDLDaju0YK4xknXAlwg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVyayH77v51dC/Vor8PIYNB/+uooDHQ+MF+VVrn3wdFWSZ4Xf2
-	aoiOtVLnYwxxasZz77vEQmg4rEAQkaBPSSKngqxountwb1l88YqxIxsd
-X-Gm-Gg: Acq92OEJm4KI8/wrKz1ctiABMnVrQx8CEy20C24xMw+3Qd0A43zr5xuIZLmInjK+knG
-	Zsgj6Y+7OwRYLdkXfqgSuaZCDLoh98VvefJUgkoljA/R5Y4rh449AIAoRUq4ICgq5fRxzEqluLw
-	Q/c22LLd6k2JVUfiQs/Nc1LoDTJrUmGsF4UaRjv+fRNVML7aMhKWhjoqex0VCBbGPLhxdM8F6lj
-	SqrOvfg2fk9AlFX1AW3f8+piRgjS7DdSqvjNrRX5uQFhKvyGNVIZfShrB1uWkuLrZr4NykMCRQI
-	3blBGvMbUlAXsuhqqwesJWW4dgcKbNt/rAEngKc0mPm9IFto0xCCYqbBEuu2Zt9KGuyxbnA27Nr
-	JkNwr9z1pQ2GKSx2QXhEhfpHnbn3/TGEwGYLB74jqjZqpvOxLhoTFmJpRDhYbb1tM16gp8YbJG7
-	qgATd4sIk5B+p7fjaDvkbmum3SWJ05PYqO7ynXg3amAe8p5n60169Y9hkmFZiQrOAIzMxq
-X-Received: by 2002:a17:903:1250:b0:2bd:7bec:f0d8 with SMTP id d9443c01a7336-2bd7e8386dbmr42166865ad.13.1778844334085;
-        Fri, 15 May 2026 04:25:34 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5d0fd856sm54530385ad.66.2026.05.15.04.25.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 04:25:33 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: olivier.moysan@foss.st.com,
-	arnaud.pouliquen@foss.st.com,
-	broonie@kernel.org
-Cc: lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com,
-	linux-sound@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 4/4] ASoC: stm: stm32_spdifrx: Use guard() for spin locks
-Date: Fri, 15 May 2026 18:24:58 +0700
-Message-ID: <20260515112458.34378-5-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260515112458.34378-1-phucduc.bui@gmail.com>
-References: <20260515112458.34378-1-phucduc.bui@gmail.com>
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="u3jKzNhv"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id E0F2A3D17E;
+	Fri, 15 May 2026 13:20:03 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz E0F2A3D17E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1778844004; bh=KbI5QRPHioFK9tXyS68lFpbWL5xZCZmCDbBOyeSdKAc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=u3jKzNhvJJgD01LEhQcXQ+g3A1o2rVuFLY6AnLT10sR2j69asg2vRbPbrFFHDt4tc
+	 G2aSlz3ZSWPaCvvw0NrBP7B1GyfZSkaavVsn+AMW4RiJgs4KLjTVz7gNkzMNe4dlV9
+	 3T2xE5LGHq1I4dYRzAARg5M2p8jdMeNAYx/HMa2Y=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Fri, 15 May 2026 13:19:58 +0200 (CEST)
+Message-ID: <7698e8ba-974b-4bdd-a2ce-21a32e50c1de@perex.cz>
+Date: Fri, 15 May 2026 13:19:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: Fwd: [PATCH] ALSA: hda/generic: Add mic autoswitch support for
+ dyn_adc_switch mode
+To: Takashi Iwai <tiwai@suse.de>, Zhang Heng <zhangheng@kylinos.cn>
+Cc: tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <5b215802-4c94-4f94-9cee-f8e497b31337@kylinos.cn>
+ <a7daf8a3-559b-4532-a2ee-a211a7e0e0b0@kylinos.cn>
+ <87ecjnp8dx.wl-tiwai@suse.de>
+ <7493b4e0-2b8c-435f-8421-ed397593356a@kylinos.cn>
+ <be6ddfdc-7cd2-460f-be75-c30f90a1bceb@kylinos.cn>
+ <87ecjdt487.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Jaroslav Kysela <perex@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <87ecjdt487.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On 5/15/26 11:24, Takashi Iwai wrote:
+> On Fri, 08 May 2026 04:50:22 +0200,
+> Zhang Heng wrote:
+>>
+>> I tested this change:
+>>
+>> In create_capture_mixers in generic.c:
+>>
+>> - name = nums > 1 ? "Input Source" : "Capture Source";
+>> + name = "Input Source";
+>>
+>> And it also works normally. It seems that user-space does not handle
+>> "Capture Source" very well. So should we just remove "Capture Source"?
+> 
+> If this really works, it is rather a question to user-space behavior,
+> specifically alsa-lib's interpretation.
 
-Clean up the code using guard() for spin locks.
-Merely code refactoring, and no behavior change.
+It's more likely the app interpretation (PA/PW) rather than alsa-lib. The 
+"Input Source" means that there are more capture PCM devices and those 
+controls distinguish the input sources for them.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/stm/stm32_spdifrx.c | 44 +++++++++++++----------------------
- 1 file changed, 16 insertions(+), 28 deletions(-)
+It would be nice to see the 'amixer controls' output to see more details what 
+the driver exposes to the user space.
 
-diff --git a/sound/soc/stm/stm32_spdifrx.c b/sound/soc/stm/stm32_spdifrx.c
-index 57b711c44278..2f83ca989e68 100644
---- a/sound/soc/stm/stm32_spdifrx.c
-+++ b/sound/soc/stm/stm32_spdifrx.c
-@@ -322,7 +322,6 @@ static void stm32_spdifrx_dma_ctrl_stop(struct stm32_spdifrx_data *spdifrx)
- static int stm32_spdifrx_start_sync(struct stm32_spdifrx_data *spdifrx)
- {
- 	int cr, cr_mask, imr, ret;
--	unsigned long flags;
- 
- 	/* Enable IRQs */
- 	imr = SPDIFRX_IMR_IFEIE | SPDIFRX_IMR_SYNCDIE | SPDIFRX_IMR_PERRIE;
-@@ -330,7 +329,7 @@ static int stm32_spdifrx_start_sync(struct stm32_spdifrx_data *spdifrx)
- 	if (ret)
- 		return ret;
- 
--	spin_lock_irqsave(&spdifrx->lock, flags);
-+	guard(spinlock_irqsave)(&spdifrx->lock);
- 
- 	spdifrx->refcount++;
- 
-@@ -365,22 +364,17 @@ static int stm32_spdifrx_start_sync(struct stm32_spdifrx_data *spdifrx)
- 				"Failed to start synchronization\n");
- 	}
- 
--	spin_unlock_irqrestore(&spdifrx->lock, flags);
--
- 	return ret;
- }
- 
- static void stm32_spdifrx_stop(struct stm32_spdifrx_data *spdifrx)
- {
- 	int cr, cr_mask, reg;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&spdifrx->lock, flags);
-+	guard(spinlock_irqsave)(&spdifrx->lock);
- 
--	if (--spdifrx->refcount) {
--		spin_unlock_irqrestore(&spdifrx->lock, flags);
-+	if (--spdifrx->refcount)
- 		return;
--	}
- 
- 	cr = SPDIFRX_CR_SPDIFENSET(SPDIFRX_SPDIFEN_DISABLE);
- 	cr_mask = SPDIFRX_CR_SPDIFEN_MASK | SPDIFRX_CR_RXDMAEN;
-@@ -396,8 +390,6 @@ static void stm32_spdifrx_stop(struct stm32_spdifrx_data *spdifrx)
- 	/* dummy read to clear CSRNE and RXNE in status register */
- 	regmap_read(spdifrx->regmap, STM32_SPDIFRX_DR, &reg);
- 	regmap_read(spdifrx->regmap, STM32_SPDIFRX_CSR, &reg);
--
--	spin_unlock_irqrestore(&spdifrx->lock, flags);
- }
- 
- static int stm32_spdifrx_dma_ctrl_register(struct device *dev,
-@@ -744,19 +736,19 @@ static irqreturn_t stm32_spdifrx_isr(int irq, void *devid)
- 			return IRQ_HANDLED;
- 		}
- 
--		spin_lock(&spdifrx->irq_lock);
--		if (spdifrx->substream)
--			snd_pcm_stop(spdifrx->substream,
--				     SNDRV_PCM_STATE_DISCONNECTED);
--		spin_unlock(&spdifrx->irq_lock);
-+		scoped_guard(spinlock, &spdifrx->irq_lock) {
-+			if (spdifrx->substream)
-+				snd_pcm_stop(spdifrx->substream,
-+					     SNDRV_PCM_STATE_DISCONNECTED);
-+		}
- 
- 		return IRQ_HANDLED;
- 	}
- 
--	spin_lock(&spdifrx->irq_lock);
--	if (err_xrun && spdifrx->substream)
--		snd_pcm_stop_xrun(spdifrx->substream);
--	spin_unlock(&spdifrx->irq_lock);
-+	scoped_guard(spinlock, &spdifrx->irq_lock) {
-+		if (err_xrun && spdifrx->substream)
-+			snd_pcm_stop_xrun(spdifrx->substream);
-+	}
- 
- 	return IRQ_HANDLED;
- }
-@@ -765,12 +757,10 @@ static int stm32_spdifrx_startup(struct snd_pcm_substream *substream,
- 				 struct snd_soc_dai *cpu_dai)
- {
- 	struct stm32_spdifrx_data *spdifrx = snd_soc_dai_get_drvdata(cpu_dai);
--	unsigned long flags;
- 	int ret;
- 
--	spin_lock_irqsave(&spdifrx->irq_lock, flags);
--	spdifrx->substream = substream;
--	spin_unlock_irqrestore(&spdifrx->irq_lock, flags);
-+	scoped_guard(spinlock_irqsave, &spdifrx->irq_lock)
-+		spdifrx->substream = substream;
- 
- 	ret = clk_prepare_enable(spdifrx->kclk);
- 	if (ret)
-@@ -846,11 +836,9 @@ static void stm32_spdifrx_shutdown(struct snd_pcm_substream *substream,
- 				   struct snd_soc_dai *cpu_dai)
- {
- 	struct stm32_spdifrx_data *spdifrx = snd_soc_dai_get_drvdata(cpu_dai);
--	unsigned long flags;
- 
--	spin_lock_irqsave(&spdifrx->irq_lock, flags);
--	spdifrx->substream = NULL;
--	spin_unlock_irqrestore(&spdifrx->irq_lock, flags);
-+	scoped_guard(spinlock_irqsave, &spdifrx->irq_lock)
-+		spdifrx->substream = NULL;
- 
- 	clk_disable_unprepare(spdifrx->kclk);
- }
+					Jaroslav
+
 -- 
-2.43.0
-
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
