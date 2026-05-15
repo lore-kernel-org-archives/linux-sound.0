@@ -1,231 +1,153 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D176D292B54;
-	Fri, 15 May 2026 15:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778857711; cv=fail; b=KavFJLg/nWpySLkD0iR2r8dIcEQo3q0e3ns62qw8qUeuez5rKcFdTfO0O0biKrzGtgIQm4Tah6PTdpuPeUS2gyQ0W2JsVRCg/mG3VgppR2sBYXz4DK1VwVY15t0JIkKXDGCSPNuh8fiERC15ktcyS64H+b56AfdJinjZgm5XgWc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778857711; c=relaxed/simple;
-	bh=lAuXU9V3ja7nNS2z6gGWZn2KHKWTpTu5wtMNmY8hrNs=;
-	h=From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qE+YsmSmU08wE2u5Z5jIrRVYrznwpMaYPHuSwsShvLzSxmlrLeoQeJgTJMJXUOC8wub2Dt90krzPUJWcPO83q8z4D83HOWMmsutgK3ehLkp4kNLuXsiUfEnByC5K5O+urMt2vz9HmSdcBOs6GP8cCmzixldAEbeqDaL/pdMc7zQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=brT4QPvY; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=NIXHRuWr; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27E147ECD7
+	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 15:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778857877; cv=none; b=DCCgM1hR6RD8MQ8ayOPlBfhmm5ebJc2bLUP7aUaBMCG+1ItjdwmvKqrES5PnTJH87dEAJUabr7po9sWv0OpttAdGjH6UOh2iCk8nEgmd3KwSthgoB855xKJXwHj+yMAQHf6EIOa8qX8h+QqkV7MQMpEQKQmjd7dcGTHo8CEJXIM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778857877; c=relaxed/simple;
+	bh=5ZZPJ3XMPQ41fzz63UvCOXZMzSqThcABEgMu/nPg1ZQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=b1EBwAnHINpnpxuMqF7sYQ4PuDR3RwMDJaXlqi/ivpS0OBWD3Lhkb7fLwIttKMmdvRVUN3qqhrA5rP9Qa/SxGSR5qo9PubMlQLTgVJFlQA4jEPdsnEybvTUObXUwE/6nMlzkISG6cq7w+NIGBf9BZnkZFOLz+grJYMKFb9SFqSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=mhxTWDYP; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="brT4QPvY";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="NIXHRuWr"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64F3mk5j371296;
-	Fri, 15 May 2026 10:08:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=YtnnDUTAW0E/xEP/23qBpTgjutyzbYaZzMX+opl/R/o=; b=
-	brT4QPvYCxPTAk8zHaY4mBjj/NGa0URtC3f1No0w77eXBvdobaB7VK6+4ZZvKwRy
-	Bt7RYRnM1rpZIcrT0k+Rm6cU0r7NxNaA5mKpiZqKu4caa8jHT0ppuLrkbftSDMz7
-	EydwebhJNlQGkNBavu2yCNPbxeRiXVZBDLGN40nbqwcJ9q+HeBwLfYg5kIY16Prp
-	VSd7/37JILTV/JChJMNb6pkSrY8+c7quycHA01P7xLZXZ9MD2vtYSmst/p5bNFrO
-	y63iJuFf3J13Qaa8AZxg6u3BfCH7lwtSu6tPrKYYLKjBbi0HkZVJOp+eH2kDC9Tt
-	YtimuWC0kbVeEKwXXp7Rgg==
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11020091.outbound.protection.outlook.com [52.101.56.91])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4e5m2ps2k3-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 15 May 2026 10:08:20 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oRjEBsqyMOmYqznUKkH9KPDIwfCQi1Dzs5+Gt/q+MwdWMQxVEITMOl/pYvv+xcbmmhPZOQFph+gfBALlaHLMLC9OtMIQmn1eo7YewI0tf7M6N6vlzs6Rp9gIBh/Uq0bpLEj75jN5Mpjk0ysPE8obMi3wIm7SFjk57dNIWNBFMCcYRB/czLzIBCtcmy7WTnP80iSNH6ZsCRoOqOVwCZIhYU0mduYq4wmb9BC2CxWlKDB1hvwnG9F1JVdnyOGRoWOZdCyTOnn5oTaJWi0OPVBifORgSWoTniUKAaCZxxOtdBG532VYHY2z+wcnZLhnKGchQmhZAcXXxhgDpfqOwkMGdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YtnnDUTAW0E/xEP/23qBpTgjutyzbYaZzMX+opl/R/o=;
- b=c/wpr2HESQDIUtY6Sryl0yvyRd7Mgkcb7D+8xWlP2WFDZb4ifgIaW6V7vnQzfPMDrUeQ3MJRtmI05i9dYaJ8RY3X4uYAheBwOMbi+YiVAauiEOl2zRZdP/MAawOpD4z2578uYkoAY1eF2n72uX3D5VDL3qhlxXkzCh4aM6BHMhboBXJVuu09LnG1af8LupUbALxgQYB3qNR84zcepfnu18xoiLLShK0PXHmO9BwcTzM/bE2RGlaPOS+5vCs2dB/KOI3v2Q3vfkSGchyLZKenTGYXlhP/qORbasHHLp2rtC0kCmEZuSBLdI+K2j4xAAzh7xTOpdX/FN7seedS4DXF/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="mhxTWDYP"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-448528f4e69so5345714f8f.3
+        for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 08:11:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YtnnDUTAW0E/xEP/23qBpTgjutyzbYaZzMX+opl/R/o=;
- b=NIXHRuWrahp/V7q5Cshd63MlfxSEWk2wXVUzpXqZeqEnKTF2sMNFRDngKQBuUlt4Q3IR2V8VF1pgFgc+QvgXWmx7Ws4zqpMP7WGvbo1xM6moQ3uXoByZ0n6S9qQm2UvDfQ98ktuaPmXjyO1cgsDvfjDmYNPlidpezvU7ozZLjY0=
-Received: from PH8P220CA0046.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:2d9::22)
- by LV9PR19MB9038.namprd19.prod.outlook.com (2603:10b6:408:2e9::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Fri, 15 May
- 2026 15:08:17 +0000
-Received: from MW1PEPF0001615B.namprd21.prod.outlook.com
- (2603:10b6:510:2d9:cafe::52) by PH8P220CA0046.outlook.office365.com
- (2603:10b6:510:2d9::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.25.18 via Frontend Transport; Fri, 15
- May 2026 15:08:17 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- MW1PEPF0001615B.mail.protection.outlook.com (10.167.249.86) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.0 via
- Frontend Transport; Fri, 15 May 2026 15:08:16 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 49206406540;
-	Fri, 15 May 2026 15:08:15 +0000 (UTC)
-Received: from LONNCK4V044 (unknown [198.90.188.46])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id E803E82024A;
-	Fri, 15 May 2026 15:08:14 +0000 (UTC)
-From: "Stefan Binding \(Opensource\)" <sbinding@opensource.cirrus.com>
-To: "'Charles Keepax'" <ckeepax@opensource.cirrus.com>,
-        =?iso-8859-1?Q?'C=E1ssio_Gabriel'?= <cassiogabrielcontato@gmail.com>
-Cc: "'David Rhodes'" <david.rhodes@cirrus.com>,
-        "'Richard Fitzgerald'" <rf@opensource.cirrus.com>,
-        "'Takashi Iwai'" <tiwai@suse.com>,
-        "'Vitaly Rodionov'" <vitalyr@opensource.cirrus.com>,
-        "'Jaroslav Kysela'" <perex@perex.cz>, <linux-sound@vger.kernel.org>,
-        <patches@opensource.cirrus.com>, <linux-kernel@vger.kernel.org>,
-        <stable@vger.kernel.org>
-References: <20260511-alsa-hda-cs35l41-fw-work-teardown-v1-1-1184e9bc4f25@gmail.com> <agbxffucE1h67TRI@opensource.cirrus.com>
-In-Reply-To: <agbxffucE1h67TRI@opensource.cirrus.com>
-Subject: RE: [PATCH RESEND] ALSA: hda/cs35l41: Fix firmware load work teardown
-Date: Fri, 15 May 2026 16:08:14 +0100
-Message-ID: <002f01dce47c$a7859760$f690c620$@opensource.cirrus.com>
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778857874; x=1779462674; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iCaqo1MKwSw4Wk2AfYX46XSUhbdW1Kp79bGu2CD4qM8=;
+        b=mhxTWDYPaKSF4So/hkXeKyqszyMyDt+CFfK3vqBd9lffL83RfIFlRuea6hoQuLEF+e
+         WJF8oaDhB5FThMcHJmeKpjHOW5R+0lTCZbL6pjwaFY/ow05wh/Hh9577xJH1wbPGAHNz
+         cuwldekPRqtnxg1b1TOdd4+nfO4Xe/7nhdzg7yEWeFcQvcL2OVdm3bHTowXlX00GWf1T
+         RtJGAGNNkzKpJjS9f59Tpq5fZJwA5Z+GH+9Pq5Il2tEc5PTkoe5JQbBk/rjuSseq2r6M
+         zDXdt+tYnpaTLt4g84RQ/0M4kmrJIO3EAhaS2ESxRaCeQLIJL5dX5nvMZ+ZON919jsaR
+         szUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778857874; x=1779462674;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iCaqo1MKwSw4Wk2AfYX46XSUhbdW1Kp79bGu2CD4qM8=;
+        b=G4I+1RidRrmEtgvUYINWtirAlaQk1n46+j33JUHLGhJKb2XV85sE6Uhy2H8f/mrcTO
+         I2M+9NEqKJ5NOvoIPDFc8LAdQ4ndiv1Fg24mGdlvSA2DVolsOFw3z0ZxnHNX5jwykSI7
+         SNv2bbhA7+PlqMn/qzZEmCXibh8c2ZyR+LedN05SAJz+g7CbY46LaDojmEYMxJtLl11I
+         skiPShsCfU3sVL5sxHCi9B4j5PdklAf5025+dYutYns/txfCOy4neTc2KN45D/GjtY3F
+         x1gjFPW9KSyi4bu5XI+4H11MvYOM5+ppDYAi0i89rM/brOgKIqZLyDkz2mjAKrH11znG
+         DgUw==
+X-Forwarded-Encrypted: i=1; AFNElJ90u3i9X47IZx7ejCJA8F3NmOER2y68wIn1+KMTMgofze1pwkjL0xq2gFz/w9QVzHxW8XWgKDIQ0EbqAg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1m6NrJiKltPCUPI2QkkePK9nD2iOWFwqFe0aLADMULvvBXkOH
+	SpkOZhGVLN712wKc8Ck+nlLnutEZSDsKMHWjh94GefLooaRyKMtrG6ldx8OM5Wl1CyI=
+X-Gm-Gg: Acq92OHki2jKiwsJzDYAKcJ03eaq9xpLNJKQw3RFVIOInhkVI+2K5R446hxCcBYrztd
+	GoJVWxRi1ctoMFOK5g0Nn10/XbZ57WBUPFPmTonA+QZn76afKaGA1SBTuGCMSGd9yluzILJ8ci8
+	tX/P3ef7coYlTO3SsoQaQtqwYiMtAttzpiEBMhBEL5YrZ1nDWtGP6fKn9Xr2Zn2gYD5lOr0as9S
+	+GA9Zo5QrwVdI6/FRBGEBf9spOj2i5L97jRrIsPKSBqRWUwnfulPqoK3U61H1sKgGJrt3JXBHg5
+	yxe7tSpySYj7N/dwO4pbM3J9QP2V374fm1VR7nhOTWo7uoruHtP9HXNga8RdRcWvJt6wM2qU0a3
+	qDBuhLso9YBnL2sSx0pA1JFXmyGkzzt2yYPlfbSfV3hQ8HQyyfGgfpPMgbbGNGK8B7ZCD4mnWNY
+	kn9ILxQIrQhAfTRYVt0Ij6
+X-Received: by 2002:a05:6000:2011:b0:45a:d2b0:7be8 with SMTP id ffacd0b85a97d-45e5c589e5amr5705520f8f.14.1778857874048;
+        Fri, 15 May 2026 08:11:14 -0700 (PDT)
+Received: from [127.0.1.1] ([151.41.223.93])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0a19c2dsm15262062f8f.21.2026.05.15.08.11.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2026 08:11:13 -0700 (PDT)
+From: Valerio Setti <vsetti@baylibre.com>
+Subject: [PATCH 0/4] ASoC: meson: aiu: align I2S design to the AXG one
+Date: Fri, 15 May 2026 17:10:36 +0200
+Message-Id: <20260515-reshape-aiu-as-axg-v1-0-53b457784ff3@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQJVru1H1X8DEkodQ2gKbnitDjJPjwKXuRFZtQjc8mA=
-Content-Language: en-gb
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW1PEPF0001615B:EE_|LV9PR19MB9038:EE_
-X-MS-Office365-Filtering-Correlation-Id: dbd83dff-3210-48c2-1fa1-08deb293cb0d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|82310400026|61400799027|11063799003|3023799003|22082099003|56012099003|16102099003|18002099003|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	7dV45Nez6gAQUpFAViUfLe6u9LiYMEEdDVK2u6NnLv/YnR45Qpc4ziXCeBoSHF3reu7Y+0YsnFSPOx2YvCYazgArUOw/UJg+VPiuJ3d0tZtpkLSQPGjI7pPukuUForzHQ1e0g05tSJgSAttBbnV3lPeXerFGl8oaaz+TR89uDsg1A5+FrhWdLMWxnNkhh6NsWAa0qM1vbKsusPLrnCC2bwkujdFQgGv7syJZ21uQfVtnQLSwqKRbWxqY7r2AUYeyFJJN+k8fUVSTfzXP39IHX85Pl5HLX18k9dKGTMysWh6rRtCFd8FXTx8PrFIeZ5P/Z6fsKCf7qrXuzcT4nWb8y/Tzn91Cut/2iVTs8anZXbcIPFb2+udEp9YWmJG20S/1sI5Jzs2AbsF5Pp7VG9sY+5w2vD124IgLk/S3Z+B9vyrsZNq+liWVyMnxyVSfcW10arCDbjzBnSyEodL2W7qq1DYcFiTDQ0OWGL09nv88WlKZylvChUIOM94OJVYICHUqF8Dot7hNjow+BFwjB6MgJUNLohBfFgehcQTJvUXiju0EYj4hPTTD3UiIXsQAfq4atmwQNaSKW5OA+0/3xF3TUqXzFyYtcEQ+C/dJmSFH3Uq/bYe6elzMvPS/d2G5IsQ2+4Lsu81D2SZGmi7nbfUxnyKnIh/uIqaRJQHKS2IG8ND6chR+p1+TFh5tNOY9mw5u
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(82310400026)(61400799027)(11063799003)(3023799003)(22082099003)(56012099003)(16102099003)(18002099003)(4143699003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	RMLM32lOyxIGeigicS5EB68isQ/jARLWlrd1AU2CB08X2B92MvpBhHQWEc+CTScCkvhaACBdbik/pw1h+tdAQ1UMagCsV9Ho2Bz7bc2sjH+IA2ncELJIoenca4czx0DlvhMBGHuwSHvI2whEVqVbf2SESQjY3l7tEiXjWyetNcOMJIQ1cVtO7Ahx/+nC1QTO03s+PzDTj7z2Aq2JrxMHJ7fyI8v8p7mcz1uqDiJTV8v6rUK8jJiT/9Z6NFXkmON6neamj4rjdq+bhZVnjLIUpH9HEql1qHd655XTKLANwQ/TQgSoBMNLQOdE5pSuhiYcyHO9EmyXIyzl+myDt0QymlbL9hTbbWdGDsrD5sAv35TKRDOK8dPw51x5NsyhVaWjD3PAELEXmGi1iXUYg8EV2zw5DKepY4tAbVeA5LxaOaMbIqB0qq0s73g8zW/5N/+k
-X-Exchange-RoutingPolicyChecked:
-	uZEwXzalt57IUrep31P6/Uxz06hUh7SnqqyEzXWlvsmx6sCN6gGQhu7GUiWqq7VSPbzRliC8b/7ZMb0roROORzlGf+ONYVhYUnkcOuwJ3+GxqVK1e2GaWw7CKGpCIlwNuFAgA2DCkkQF5FbSYt8bVUyngX7ikz3+34OtiAf7W+cO3Lzo4DXpD8dz0AlsOMKum8bDLHBqD37czuOBzcwajZ7PmzsWWva/2CGj1KAFnEYo2O3zzBtHP2h6MYOngw1Gu4Zch69RC80hxQw0VMnou9NneVfT4acuEym7drs6dS78raDW+shCNVQLeCylCjSqZJjk7Ksmw5/ZQwkYFALtDA==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2026 15:08:16.6510
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dbd83dff-3210-48c2-1fa1-08deb293cb0d
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MW1PEPF0001615B.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV9PR19MB9038
-X-Proofpoint-GUID: 6Hus2Jrie2wjp2ObnFF6fqLwhaTpquTb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE1MDE1NCBTYWx0ZWRfXwIqnwP4fEpb7
- u61HtNMVq2OHuV9fgzqzxjCp5PBNdX6h2AsmeA5FYTbRWk0cm5I4QsB56E0JSuXWBNsc84ShQap
- Wy+cyXrxha1+gkeJeVG4+WJbeHizmZIeNoSe+QHoDvon/97CFJbDLit5oyG6TczhSTBfMFfLfyB
- Wb5KUDBTn87bxd7NpzDyZCzkHlOhTpF5bPl4YIVIQHrB+KKOmbnihmtJCzBNSHva6fz5Px/I/Dn
- GDHKO8H1E6mPFsVfglbcldD2nge6/N5/SNw2SYWUdlLlqy7gFfBw3jlBDvKk/EoZth0kDmoLkNE
- iwYfptjMJKhJjxCxGDOAfqUpIg599nVerRZ8e1+hxH8SoEousgCFmYfQYv+LgGvUgZzWst7uOpA
- Qa/QtA6Z0+hIgRsIjXaeBk0vej/zCm42e7zlr2TcKG4jvmwHS3Jqu1gCS76b1PXuU+C4jW10j1r
- e8lWGANxRMRc/L2F8NQ==
-X-Proofpoint-ORIG-GUID: 6Hus2Jrie2wjp2ObnFF6fqLwhaTpquTb
-X-Authority-Analysis: v=2.4 cv=aMHAb79m c=1 sm=1 tr=0 ts=6a0736e4 cx=c_pps
- a=DCeSEX+nBJmE/I7rcEuDsA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=8nJEP1OIZ-IA:10 a=NGcC8JguVDcA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=w1d2syhTAAAA:8 a=pGLkceISAAAA:8 a=iox4zFpeAAAA:8 a=VwQbUJbxAAAA:8
- a=h9f2Ul_0yR8z15jnxVAA:9 a=wPNLvfGTeEIA:10 a=WzC6qhA0u3u7Ye7llzcV:22
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGw3B2oC/x3MMQqAMAxA0atIZgOtRUWvIg6hjZpFJUERpHe3O
+ L7h/xeMVdhgrF5QvsXk2At8XUHcaF8ZJRVD45rOtb5FZdvoZCS5kAzpWdEnioMLfaQUoISn8iL
+ PP53mnD/RI4BOZAAAAA==
+X-Change-ID: 20260515-reshape-aiu-as-axg-1dac9037cad3
+To: Jerome Brunet <jbrunet@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ Valerio Setti <vsetti@baylibre.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2819; i=vsetti@baylibre.com;
+ h=from:subject:message-id; bh=5ZZPJ3XMPQ41fzz63UvCOXZMzSqThcABEgMu/nPg1ZQ=;
+ b=owGbwMvMwCF2z3ty7kUrRgbG02pJDFns5v1LBWvmv26e6jLPpy80UFxITrX0sV6CC/Mb7Sxt5
+ iuZRas7SlkYxDgYZMUUWVim3/tdUKr20DjhZAHMHFYmkCEMXJwCMJHocwx/OC9MNJZefL9qC6f5
+ 5FbRTzfm6OzqXXlCozL3w6N0qbSms4wM3QopiZEr9tTVHzrBLqPxK/X3UvsDny8aB/itWa0puPs
+ zIwA=
+X-Developer-Key: i=vsetti@baylibre.com; a=openpgp;
+ fpr=0497DEFB707526E13360C970DE4B936DD13A0100
 
-Hi,
+This is the first follow-up patch series based on RFC [1]. The goal here
+is simply to reshape Amlogic GX's AIU implementation for I2S to follow
+the same design as in AXG's TDM. Keeping the same design allows for
+unifying the two platform implementations in the future.
 
-> -----Original Message-----
-> From: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Sent: Friday, May 15, 2026 11:12 AM
-> To: C=E1ssio Gabriel <cassiogabrielcontato@gmail.com>
-> Cc: David Rhodes <david.rhodes@cirrus.com>; Richard Fitzgerald
-> <rf@opensource.cirrus.com>; Takashi Iwai <tiwai@suse.com>; Stefan =
-Binding
-> <sbinding@opensource.cirrus.com>; Vitaly Rodionov
-> <vitalyr@opensource.cirrus.com>; Jaroslav Kysela <perex@perex.cz>; =
-linux-
-> sound@vger.kernel.org; patches@opensource.cirrus.com; linux-
-> kernel@vger.kernel.org; stable@vger.kernel.org
-> Subject: Re: [PATCH RESEND] ALSA: hda/cs35l41: Fix firmware load work
-> teardown
->=20
-> On Mon, May 11, 2026 at 01:29:34AM -0300, C=E1ssio Gabriel wrote:
-> > cs35l41_hda creates ALSA controls whose private data points at the
-> > cs35l41_hda object. The firmware load control can also queue
-> > fw_load_work.
-> >
-> > Those controls are not removed on component unbind, and device =
-remove
-> > only cancels fw_load_work through cs35l41_remove_dsp(). That helper =
-is
-> > skipped when halo_initialized is false. With firmware_autostart
-> > disabled, a firmware load can be requested before the DSP has been
-> > initialized. If the component or device is removed before the queued
-> > work runs, the worker can run after teardown and dereference driver
-> > state that is no longer valid.
-> >
-> > Track the created controls and remove them on unbind so no new =
-control
-> > callback can reach the driver data or queue more work. Then cancel
-> > fw_load_work to drain any request that was already queued. Also =
-cancel
-> > the work unconditionally during device remove before runtime PM
-teardown.
-> >
-> > Fixes: 47ceabd99a28 ("ALSA: hda: cs35l41: Support Firmware switching
-> > and reloading")
-> > Fixes: 4c870513fbb0 ("ALSA: hda: cs35l41: Add read-only ALSA control
-> > for forced mute")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: C=E1ssio Gabriel <cassiogabrielcontato@gmail.com>
-> > ---
-> >  static bool cs35l41_dsm_supported(acpi_handle handle, unsigned int
-> > commands) @@ -1522,6 +1550,10 @@ static void =
-cs35l41_hda_unbind(struct
-> device *dev, struct device *master, void *
-> >  		device_link_remove(&cs35l41->codec->core.dev, cs35l41->dev);
-> >  		unlock_system_sleep(sleep_flags);
-> >  		memset(comp, 0, sizeof(*comp));
-> > +
-> > +		cs35l41_remove_controls(cs35l41);
-> > +		cancel_work_sync(&cs35l41->fw_load_work);
-> > +		cs35l41->codec =3D NULL;
->=20
-> Hmm... are we sure the controls are actually still accessible from
-user-space
-> here? Feels like generally it would make more sense to make all the =
-cards
-> controls inaccessible before we start tearing the card down as a core
-feature.
->=20
-> Adding the cancel works looks very sensible.
->=20
-> @Stefan, could you also please have a look.
+The first commit introduces gx-formatter as the basic block which takes
+care of properly formatting audio data. Formatters are DAPM widgets
+(c.f. axg-tdm-formatter in AXG) which are dynamically attached/detached
+to the streams when the latters starts/stop, respectively.
+aiu-formatter-i2s is introduced as formatter implementation for the i2s
+output.
 
-I think this is fine to do, and I did some tests to make sure it =
-doesn=92t
-break anything.
-Reviewed-by: Stefan Binding <sbinding@opensource.cirrus.com>
+By the end aiu-encoder-i2s will only need to handle interface clocks and
+enforce interface wide rate symmetry (c.f axg-tdm-interface on the AXG
+platform). Right now rate symmetry is not relevant because only i2s output
+is supported, but it will become useful when following patch series will
+introduce the i2s input part.
 
->=20
-> Thanks,
-> Charles
+This series was tested on an OdroidC2 board (Amlogic S905 SOC) with an
+NXP SGTL5000 codec connected to its I2S input port.
 
+Changes from RFC:
+- Use devm_ variant of snd_soc_register_component in gx_formatte_probe.
+- Return on failures in aiu_encoder_i2s_set_sysclk.
+- MCLK and i2s_divider clocks enablement moved from hw_params() to
+  prepare(). Stream's "clk_enabled" is used as simple refcounting to
+  prevent multiple enable/disable.
+- Improved the mechanism to ensure rate symmetry on the interface.
+  Previous implementation had issues with alsaloop when both capture and
+  playback streams are opened before any hw_params is set on any of them.
+
+Thanks to Mark Brown and Jerome Brunet for the review of the RFC.
+
+[1]: https://lore.kernel.org/linux-sound/20260411-audin-rfc-v2-0-4c8a6ec5fcab@baylibre.com/
+
+Signed-off-by: Valerio Setti <vsetti@baylibre.com>
+---
+Valerio Setti (4):
+      ASoC: meson: gx: add gx-formatter and gx-interface
+      ASoC: meson: aiu-encoder-i2s: use gx_iface and gx_stream structures
+      ASoC: meson: aiu: introduce I2S output formatter
+      ASoC: meson: aiu: use aiu-formatter-i2s to format I2S output data
+
+ sound/soc/meson/Makefile            |   2 +
+ sound/soc/meson/aiu-encoder-i2s.c   | 250 +++++++++++++++++++++-----------
+ sound/soc/meson/aiu-formatter-i2s.c | 106 ++++++++++++++
+ sound/soc/meson/aiu.c               |  30 +++-
+ sound/soc/meson/aiu.h               |   4 +
+ sound/soc/meson/gx-formatter.c      | 277 ++++++++++++++++++++++++++++++++++++
+ sound/soc/meson/gx-formatter.h      |  47 ++++++
+ sound/soc/meson/gx-interface.h      |  45 ++++++
+ 8 files changed, 675 insertions(+), 86 deletions(-)
+---
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+change-id: 20260515-reshape-aiu-as-axg-1dac9037cad3
+
+Best regards,
+-- 
+Valerio Setti <vsetti@baylibre.com>
 
