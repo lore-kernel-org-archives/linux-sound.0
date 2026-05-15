@@ -1,78 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B0E3E7179;
-	Fri, 15 May 2026 07:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F433F0AA7
+	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 08:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778830007; cv=none; b=CQ97SZUCgZGfDeatWyLWFQFHUe1bboDw5aseVqLhAf7LG7VWXbFv/fjDGjxz+g95YoGWhZ3SNnYoaFxlrwK0wybYrkbGGyddPK9iwcevsG/iBGWH13n4TnXd/5vEuu/8aHLbf3MFOXw2uCC94YneZ0fVHomWcI5/TrvIiwcoyXo=
+	t=1778832079; cv=none; b=FUbHzoJaT5m/d5vMfqjclqjS9QWWcKJhAioc+iE20xd4C9YRh57C3w+0h21qu/9iy1ifx+CY1qgMddC03fbkNES+iczxtxHn9VBli5ubW4tk+2T4DLuPHVj4ohmbpkyoKz79HI0UN6a9XO7FsOu2uzJ2C/InSCNAiiijm2UN9TI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778830007; c=relaxed/simple;
-	bh=S9FSpb5pKnWHX1eaw0nIPQK4r4f31V1oUh588SRp4P4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pGsBjTN3r0sxT8wL2sp7j2eQ1zaO900nkcDthA8IVBaai7snqf+oQoB3JniYFqbzw0yWqRhEk3/lDJZgTMO9lsFawB+p29CRNCoHXBAVcBd1QWJAFupY891h3guqJu43a2KsjpKwhR+19S3Y9YamVtQe7zwl6BBIwq9PmUiv5EU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oHugPB0H; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1778832079; c=relaxed/simple;
+	bh=4YqKPZB36GRjtgQ/J+idZN71Uu7BJa5RnVwq5I8Rh28=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SdR0FDMrQg+D2DVIoOvpQGZJyJOzNi10zupHdGRBFsNzUxocfydT/y1i4AAGndomFCEy2tikxjkaGYvAHFlsBP84+0st5pf7ol3j2cFDOsYSxrCMHEBgBnHKbSiY4uq59aaxLiZ9kMq6YlUAjbFcbM+h1j6Mn/Ej1bK/gYLJWbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y7xI2UGL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=okyd9f+d; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hWJu0BM7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZgQk0k78; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oHugPB0H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778830006; x=1810366006;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=S9FSpb5pKnWHX1eaw0nIPQK4r4f31V1oUh588SRp4P4=;
-  b=oHugPB0HExOVosGsGSBjli/BralOKBaNwGx0FLzhZeEwq+U8/myLj9RN
-   4jNQwBNDCUVncQVHA4DbmLKxM5YmRaHSzkws8nLp/yPqgtT+k0ek+3xlq
-   L7HXmCVWsUdBKSgM6ue2f8hu6thTr1NuBva/2SWlM/BdB32vIRqimIOeq
-   tg7Sqnz+CqB6Tmjd8EnKw4F/B4EwxTaXkbjG5k6KYn5riBUabc/BVTzl0
-   +YvB81Saox42m6DESbGWCBVGfLCszt2VAvykXrdixqMi+TTStZDuEUOI1
-   HXuWdmBGXh9GIhtQDyQp1ndeaFDRXmWH+k4WMs7E2f2fJCvEThjfn167n
-   A==;
-X-CSE-ConnectionGUID: Q6v1hr72SMK26xwVO4Lffw==
-X-CSE-MsgGUID: rh6kmFyTSZanW9/JGZoIPA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="79823956"
-X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
-   d="scan'208";a="79823956"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 00:26:46 -0700
-X-CSE-ConnectionGUID: InwWtiOMSJmCSvypo7xbFA==
-X-CSE-MsgGUID: U79ow2+wRradIoaWZ+YHNg==
-X-ExtLoop1: 1
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.33])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 00:26:44 -0700
-Date: Fri, 15 May 2026 10:26:41 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH v1 1/1] ALSA: hda/cs35l56: Drop malformed default N from
- Kconfig
-Message-ID: <agbKsYLJOCw8dXNP@ashevche-desk.local>
-References: <20260513162758.365972-1-andriy.shevchenko@linux.intel.com>
- <73f69782-2758-495f-8086-e971483133a0@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y7xI2UGL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="okyd9f+d";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hWJu0BM7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZgQk0k78"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 47D725E89F;
+	Fri, 15 May 2026 08:01:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778832075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yn1lhGyXSfgmdtTu3D1GjqLfnhkwMJNsJlKnGPsmWNg=;
+	b=y7xI2UGLDAqef+mTB4A8F5zcuTDrJp/dlSGUnDRN1ZI+kehiCxI3WXVGbWuAvgXErUUJ8J
+	wKwdEhpj2So0GcEzXHTcfxjRvksytj6RtPWdN200PmdueREa2A2570WnIhOWrmnIIdcAYT
+	psQNG+E9r2v+UDbGrMsiReMuW3bwOTo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778832075;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yn1lhGyXSfgmdtTu3D1GjqLfnhkwMJNsJlKnGPsmWNg=;
+	b=okyd9f+dnIkGY+EEeY13BU9fmavQRkBQp3RyZ5bmhgc5Krb6dk2kDjCrtwrCww7qEvou5o
+	qV/dptMLCeMMAzDg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hWJu0BM7;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ZgQk0k78
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1778832073; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yn1lhGyXSfgmdtTu3D1GjqLfnhkwMJNsJlKnGPsmWNg=;
+	b=hWJu0BM7ImJFgcrfElMVVeMvt0zNToP6puLK9dcXZtC4WSwjyflzYP+j2rh0cSy56/cdbT
+	usjIwQfB7tylJNJHw1c7iM2aR4w1hiOo305S7Ldq4ph4F9Ypd+gi1WmpYWQodl2tftv6nP
+	g2xqUwoJmdsMEcGSXTsqB5Z0Sk8Yhh0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1778832073;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yn1lhGyXSfgmdtTu3D1GjqLfnhkwMJNsJlKnGPsmWNg=;
+	b=ZgQk0k786TPZfJRF3IAUmErRl7EqOyRcFLxhS+Ku0+Yl716ofPJfi7+HnTdpcC4uuFjsSb
+	BUPXpPDazmxYiwCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0C610593AA;
+	Fri, 15 May 2026 08:01:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qhW8AcjSBmq5FQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 15 May 2026 08:01:12 +0000
+Date: Fri, 15 May 2026 10:01:11 +0200
+Message-ID: <87tss9t83c.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Cen Zhang <zzzccc427@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Kees Cook <kees@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Subject: Re: [PATCH] ALSA: pcm: oss: Use snd_pcm_kernel_write() in snd_pcm_oss_sync()
+In-Reply-To: <20260515051516.3103036-1-xujiakai24@mails.ucas.ac.cn>
+References: <20260515051516.3103036-1-xujiakai24@mails.ucas.ac.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <73f69782-2758-495f-8086-e971483133a0@opensource.cirrus.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,perex.cz,kernel.org,suse.com,sakamocchi.jp];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 47D725E89F
+X-Spam-Level: 
 
-On Thu, May 14, 2026 at 04:04:00PM +0100, Richard Fitzgerald wrote:
-> On 13/05/2026 5:27 pm, Andy Shevchenko wrote:
+On Fri, 15 May 2026 07:15:16 +0200,
+Jiakai Xu wrote:
+> 
+> During a process exit, do_exit() calls exit_mm() before exit_files(),
+> so current->mm is already NULL when __fput() triggers
+> snd_pcm_oss_release() -> snd_pcm_oss_sync(). The latter calls
+> snd_pcm_lib_write() with a NULL buffer to fill the remaining ALSA
+> period with silence. snd_pcm_lib_write() passes in_kernel=false to
+> __snd_pcm_lib_xfer(), causing do_transfer() to call
+> import_ubuf(ITER_SOURCE, NULL, ...) which invokes access_ok(NULL, ...).
+> On RISC-V, untagged_addr() in access_ok() dereferences
+> current->mm->context.pmlen, crashing with a NULL pointer dereference.
+> 
+> Fix by using snd_pcm_kernel_write() and snd_pcm_kernel_writev() instead,
+> which pass in_kernel=true and use iov_iter_kvec() to bypass user-space
+> address validation entirely. Since the buffer is NULL and the transfer
+> function fill_silence() ignores the iterator and writes directly to the
+> DMA buffer, this is safe.
+> 
+> Fixes: 13f72c8c28fc ("ALSA: pcm: Kill set_fs() in PCM OSS layer")
+> Signed-off-by: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
 
-> Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Thanks for the patch.  I believe the problem is rather in
+do_transfer() setting up a bogus iter for silencing unnecessarily.
+So it's a bug introduced in the commit cf393babb37a ("ALSA: pcm: Add
+copy ops with iov_iter").
 
-Thank you!
-
--- 
-With Best Regards,
-Andy Shevchenko
+Could you verify whether the change below works instead?
+noninterleaved_copy() has already the handling of NULL data.
 
 
+Takashi
+
+--- a/sound/core/pcm_lib.c
++++ b/sound/core/pcm_lib.c
+@@ -2138,6 +2138,9 @@ static int interleaved_copy(struct snd_pcm_substream *substream,
+ 	off = frames_to_bytes(runtime, off);
+ 	frames = frames_to_bytes(runtime, frames);
+ 
++	if (!data)
++		return fill_silence(substream, 0, hwoff, NULL, frames);
++
+ 	return do_transfer(substream, 0, hwoff, data + off, frames, transfer,
+ 			   in_kernel);
+ }
