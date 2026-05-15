@@ -1,98 +1,153 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208711A2C04;
-	Fri, 15 May 2026 05:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10F4357CE4
+	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 05:59:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778822147; cv=none; b=TPvBsZMmQt55fDgm5HIu4H2CzpORUOylVWhFC/NXkaw5ZW55O/faTevbin2t9r2yisWBiwmj4iMcT4VH2eC0JL8lPbPKS4wswvapcLkanmhQYW86TkR1kvsYLDiqNpGf53UV10WNyNLnH+32RPcYWp0rIIIpl3ANB2rRbJwN+Xg=
+	t=1778824757; cv=none; b=U42F8k23sc5ThS0U2mLB4T/FrXNtA+VxOT021eIGnfx+JzOgHjnJ6La0KPlUYOZlmgaiG4Dp4IKS2Gv8UvkO6ivNbms8ZW1gUAJKn4pM1LPV1PUQZXwDncBXXlq75bf4zpelzhqJMDInOq219LJvUFXis2lWjr0tlYi/74CpHgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778822147; c=relaxed/simple;
-	bh=be5ptxubEjUk0N7NR53ZBEfB4rhP8Aa4a9n7LY1XoMs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ErAq5sOrEaVvlHN0pxC54Il9MtpRAcfZ3UtJidPqpcTkftzMyf34kSYT5ABZNDknGuv7H4144chCugncq/JL6IPtmh3cz3wYqXHAqccoe5J6vH6rqeeV8xNgxn4mZJYsGL7L/7jVOmbKexl9KrG8Mo6ro2RN3PGTrKnvb1M2+jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mails.ucas.ac.cn; spf=pass smtp.mailfrom=mails.ucas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mails.ucas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mails.ucas.ac.cn
-Received: from fric.. (unknown [36.110.52.2])
-	by APP-03 (Coremail) with SMTP id rQCowABXctnmqwZqjWoOEQ--.9826S2;
-	Fri, 15 May 2026 13:15:18 +0800 (CST)
-From: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
-To: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Cc: Cen Zhang <zzzccc427@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jiakai Xu <xujiakai24@mails.ucas.ac.cn>,
-	Kees Cook <kees@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Subject: [PATCH] ALSA: pcm: oss: Use snd_pcm_kernel_write() in snd_pcm_oss_sync()
-Date: Fri, 15 May 2026 05:15:16 +0000
-Message-Id: <20260515051516.3103036-1-xujiakai24@mails.ucas.ac.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1778824757; c=relaxed/simple;
+	bh=P8XxsSG4PrQQTgL9KXKqHBOZNK5vJeXztxFNcKrFCjE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Aj48F+V86qf+KqUJm5ss7zsmuztr8Tz0IbzwddJ5CqO1l7gJCIqAdWn/ljGlSie+ZZ7kzvdJZmNS3MCwl6KSfq2jLt/JtkGsIy94ByilkxJvMI2ELqrzeqoKey4ixo6gT259FlkAkaP+wFalYsSVmrofk4SsKg17stobzNyi/k8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=m+3tdlNB; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="m+3tdlNB"
+Message-ID: <553e6031-9705-48d3-8831-da49b3c67d01@packett.cool>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
+	s=key1; t=1778824752;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EcbbKAauqLHrwrsU21xAHlDi007yjCzKPdqp77G5WUk=;
+	b=m+3tdlNBtnlGSfs2YX760LbYaAibrXgh0Sbn8aN8vPsVOieI5jrX0Dcl7syVR3+St+BO0n
+	h2dsHvr6YtsCr46eyJ0BfN1OTwZEf1gIbaEomRo+mtANggCqn6o5lRilX4kYeGj73VV9ji
+	QmHbuwfYHub+T7blg2qTxYc9GnYPZcDCJ6ZyjPZpv6ZF+MuXNPWRHuQAYjdRVLPnbWrmVw
+	sXW/sQkj1yNd5qMcC3Jx4qzRVsx8GI6mpklnE8/d7c9fRzoMkTS2n/uQ0sgQjAeLGRo/of
+	drlo0jxNiafIlT8zXXwLjhYtjD+m+JiOoM5JAxFEvcyL9SIx7QxI8qGsSGJJ6Q==
+Date: Fri, 15 May 2026 02:59:03 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: ASoC q6asm race condition when stopping and preparing the stream
+To: Richard Acayan <mailingradian@gmail.com>,
+ Alexey Klimov <alexey.klimov@linaro.org>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kees Cook
+ <kees@kernel.org>, Joris Verhaegen <verhaegen@google.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <afS7rTHdc9TyIeLx@rdacayan>
+ <DI7G2SF71B39.22LPDZWBG87O9@linaro.org> <afU9FQnWKgRtV6mW@rdacayan>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Val Packett <val@packett.cool>
+In-Reply-To: <afU9FQnWKgRtV6mW@rdacayan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowABXctnmqwZqjWoOEQ--.9826S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ur1UtFWUZFWkCFykWFW5GFg_yoW8CFyDpr
-	yYkr4I9r97tFWkA3WDJF1FvF1rJwn0yFyYk34DC34Fvws09r1jqFWq9ry2vF4DCFZ7Kws0
-	qr4vya4rJa45JaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-	0_GcWlnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
-	F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F
-	4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I
-	648v4I1lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
-	v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
-	1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
-	AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
-	42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxh
-	VjvjDU0xZFpf9x0JU-zVUUUUUU=
-X-CM-SenderInfo: 50xmxthndljko6pdxz3voxutnvoduhdfq/
+X-Migadu-Flow: FLOW_OUT
 
-During a process exit, do_exit() calls exit_mm() before exit_files(),
-so current->mm is already NULL when __fput() triggers
-snd_pcm_oss_release() -> snd_pcm_oss_sync(). The latter calls
-snd_pcm_lib_write() with a NULL buffer to fill the remaining ALSA
-period with silence. snd_pcm_lib_write() passes in_kernel=false to
-__snd_pcm_lib_xfer(), causing do_transfer() to call
-import_ubuf(ITER_SOURCE, NULL, ...) which invokes access_ok(NULL, ...).
-On RISC-V, untagged_addr() in access_ok() dereferences
-current->mm->context.pmlen, crashing with a NULL pointer dereference.
+Hi,
 
-Fix by using snd_pcm_kernel_write() and snd_pcm_kernel_writev() instead,
-which pass in_kernel=true and use iov_iter_kvec() to bypass user-space
-address validation entirely. Since the buffer is NULL and the transfer
-function fill_silence() ignores the iterator and writes directly to the
-DMA buffer, this is safe.
+On 5/1/26 8:53 PM, Richard Acayan wrote:
+> On Fri, May 01, 2026 at 04:27:57PM +0100, Alexey Klimov wrote:
+>> On Fri May 1, 2026 at 3:41 PM BST, Richard Acayan wrote:
+>>> Hi,
+>>>
+>>> There seems to be a race condition in q6asm when stopping the stream
+>>> (with uncompressed PCM). When receiving SNDRV_PCM_TRIGGER_STOP, the
+>>> driver sets the state to Q6ASM_STREAM_STOPPED and sends CMD_EOS to the
+>>> ADSP. If userspace decides to prepare the stream again in
+>>> q6asm_dai_prepare before receiving ASM_CLIENT_EVENT_CMD_EOS_DONE, the
+>>> memory-mapped region appears to still be in use and fails to map again.
+>>>
+>>> I believe this race was observed since commit 81c53b52de21 ("ASoC: qcom:
+>>> qdsp6: q6asm-dai: set 10 ms period and buffer alignment."), but would
+>>> need to verify. On sdm670, we are coping downstream by keeping the state
+>>> as Q6ASM_STREAM_RUNNING until receiving CMD_EOS_DONE.
+Are we sure that's only a workaround and not the correct solution?
+Thank you for mentioning it, in any case!
+>> Do you have a reproducer or specific steps to test/reproduce the issue?
+> I don't really have an easy way to reproduce. On a device with a
+> Qualcomm SoC and q6asm, running postmarketOS with Phosh and without the
+> workaround, waiting a few hours usually reproduces it.
 
-Fixes: 13f72c8c28fc ("ALSA: pcm: Kill set_fs() in PCM OSS layer")
-Signed-off-by: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
----
- sound/core/oss/pcm_oss.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I haven't seen this happen "randomly".. at least not with PulseAudio, 
+but after switching to PipeWire and properly configuring phone calls(*) 
+on my phone (sm7325-motorola-dubai) I have encountered what I think is 
+the exact same issue many times while doing this simple sequence:
 
-diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
-index 33fd34f0d615..4f81002e4b96 100644
---- a/sound/core/oss/pcm_oss.c
-+++ b/sound/core/oss/pcm_oss.c
-@@ -1710,9 +1710,9 @@ static int snd_pcm_oss_sync(struct snd_pcm_oss_file *pcm_oss_file)
- 		if (size > 0) {
- 			size = runtime->period_size - size;
- 			if (runtime->access == SNDRV_PCM_ACCESS_RW_INTERLEAVED)
--				snd_pcm_lib_write(substream, NULL, size);
-+				snd_pcm_kernel_write(substream, NULL, size);
- 			else if (runtime->access == SNDRV_PCM_ACCESS_RW_NONINTERLEAVED)
--				snd_pcm_lib_writev(substream, NULL, size);
-+				snd_pcm_kernel_writev(substream, NULL, size);
- 		}
- unlock:
- 		mutex_unlock(&runtime->oss.params_lock);
--- 
-2.34.1
+- boot phone, playback and recording work fine
+- start a phone call, cancel when hearing dial tone (Wireplumber has 
+switched UCM profile to VoiceCall and then back to HiFi)
+- try to record mic sound (using the GNOME sound recorder app or 
+whatever else)
+
+Actually just now I managed to hit this right after reboot, without any 
+calls..!
+
+So it might just be "try to record audio through PipeWire and you'll hit 
+it quickly enough".
+
+
+(*) using the current infamous q6voice patchset, Wireplumber's script to 
+switch between HiFi/VoiceCall, and a better setup for starting the dummy 
+streams exposed by q6voice: 
+https://gitlab.postmarketos.org/postmarketOS/q6voiced/-/work_items/3#note_553107
+
+The log is usually something like this:
+
+kernel: q6asm-dai 3700000.remoteproc:glink-edge:apr:service@7:dais: 
+Buffer already allocated
+kernel: q6asm-dai 3700000.remoteproc:glink-edge:apr:service@7:dais: cmd 
+= 0x10db4 returned error = 0x9
+kernel: q6asm-dai 3700000.remoteproc:glink-edge:apr:service@7:dais: DSP 
+returned error[9]
+pipewire[5347]: [E][02:30:35.781627] spa.alsa     | [ alsa-pcm.c: 2722 
+do_prepare()] hw:Motoroladubai,2c: snd_pcm_prepare error: Invalid argument
+pipewire[5347]: [W][02:30:35.781714] spa.alsa     | [ alsa-pcm.c: 2885 
+get_avail()] hw:Motoroladubai,2c: (0 suppressed) snd_pcm_avail after 
+recover: File desc>
+pipewire[5347]: [E][02:30:35.781771] spa.alsa     | [ alsa-pcm.c: 2832 
+alsa_recover()] hw:Motoroladubai,2c: recover from error state SETUP
+pipewire[5347]: [E][02:30:35.781801] spa.alsa     | [ alsa-pcm.c: 2722 
+do_prepare()] hw:Motoroladubai,2c: snd_pcm_prepare error: Invalid argument
+pipewire[5347]: [E][02:30:35.781821] spa.alsa     | [ alsa-pcm.c: 2832 
+alsa_recover()] hw:Motoroladubai,2c: recover from error state SETUP
+pipewire[5347]: [E][02:30:35.781837] spa.alsa     | [ alsa-pcm.c: 2722 
+do_prepare()] hw:Motoroladubai,2c: snd_pcm_prepare error: Invalid argument
+pipewire[5347]: [E][02:30:35.786869] spa.alsa     | [ alsa-pcm.c: 2832 
+alsa_recover()] hw:Motoroladubai,2c: recover from error state SETUP
+pipewire[5347]: [E][02:30:35.786949] spa.alsa     | [ alsa-pcm.c: 2722 
+do_prepare()] hw:Motoroladubai,2c: snd_pcm_prepare error: Invalid argument
+kernel: q6asm-dai 3700000.remoteproc:glink-edge:apr:service@7:dais: 
+q6asm_dai_prepare: q6asm_open_write failed
+kernel: q6asm-dai 3700000.remoteproc:glink-edge:apr:service@7:dais: ASoC 
+error (-22): at snd_soc_pcm_component_prepare() on 
+3700000.remoteproc:glink-edge:apr:servi>
+kernel: q6asm-dai 3700000.remoteproc:glink-edge:apr:service@7:dais: 
+q6asm_dai_prepare: private data null or audio client freed
+kernel: q6asm-dai 3700000.remoteproc:glink-edge:apr:service@7:dais: ASoC 
+error (-22): at snd_soc_pcm_component_prepare() on 
+3700000.remoteproc:glink-edge:apr:servi>
+kernel: q6asm-dai 3700000.remoteproc:glink-edge:apr:service@7:dais: 
+q6asm_dai_prepare: private data null or audio client freed
+…
+
+"Buffer already allocated", error 9 which is ADSP_EALREADY, so the state 
+is desynchronized.
+
+
+Thanks,
+~val
 
