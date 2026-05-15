@@ -1,147 +1,246 @@
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013063.outbound.protection.outlook.com [40.107.162.63])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4BA39A061
-	for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 13:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778851963; cv=none; b=b+mUprDuG648Qyg5VKtf9RaRoHAcG+NAS5Y1tZMCSvUkAnnjJejV2FNnsthwmaX5JcHJODCd1Eyy9aK2xBKY+Vp6taZY6L8c6AnfVVNRjg/foVXwxQdelm7aVhiUQFYvY6tKw/rlhUAUsg4CYKmtSHl+ySyRYa777OmK2AYTYOA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778851963; c=relaxed/simple;
-	bh=ou1StnidYf6G/yTiPb1Jyr10n23l4lsfoChEA55hU/0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=LRokpEIAOUmtMkE3dO8fBuDNgb1KnNIhR5/bq+WUrcJA/wqIzaSp1ac7dDwiluayNImfPSbJ/a0qdgIXk58DIuquPRYJsVaRMqUBat7FWJQUdwCLjhQM3YaUK5KKyJi+ViizZTMROQkqDnOKb33aGTZ7YKZtO9fmlz3pPBlCX6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dKYXsXr8; arc=none smtp.client-ip=74.125.82.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36D2318EF4;
+	Fri, 15 May 2026 14:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778856744; cv=fail; b=DrFQfqd970gECJPy+eUJcWYDgBAmczIPjYOBh/HZcXifs2+6HtWC2iCiiZGuANLoS1kfNknlmPAdgRaF4XtFGoX/yI6QgEJHgaAZ9/8W8p51MMauBiPQ5edtxl8RNDpwyxDhoTQ88XdV3bimc+bwCF40s1pMqrw1AXYKekHx28c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778856744; c=relaxed/simple;
+	bh=OY7wuodj85PDNZox5JfCfuleGN3jyhtKd3kZCwhyp2A=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=G/z0kuQq9y9LsjT7jj3+jWbaQ3Fuoa1g+Fy6qjt5guaQD+y1ScLnSwNmq/Nuuc/13hAkpWHpyENaRA7vqHlrAo0uk8tLHXFozQmAFfWcDoJdy2T2wGZ0gSWlddzNgOL/bRkAwIKI8sLADsdNJl2XD9pbGP3TbWkkOwxGhMNdApQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=EAWYO+cn; arc=fail smtp.client-ip=40.107.162.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dKYXsXr8"
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2c156c4a9efso12728164eec.1
-        for <linux-sound@vger.kernel.org>; Fri, 15 May 2026 06:32:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778851961; x=1779456761; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=d8duf5TvyhmY/rcIc+GeiPIXbLWq3N+o607ETTSlKvE=;
-        b=dKYXsXr8ONhvtSB5m1MRU4zqzaLNRlPYwxl5ZpKPZPtfkOhbX7ki+vFrqxb+0arIl0
-         zG9OZN7EA88SuiHkilwq7e0M6FH+14e2Xvy3FBesU/JPl5cRmjFbfvADc9mMkL91jAuf
-         zQHXjqA5iS4z3rRB6LZ0cLXPp6yrw/55xuarkgs/sKED16D+d5GM9unRDi9Uv4KrTZUL
-         NKCrG2hEIJCJwtYwq6NZtaeksZ2MItLOLucY8BM/GNlehgFefqxjHJVVlTn0i9hbAliR
-         /XC0tvJreCQYxd0OdUx4lQXDtRDH2TvfTFLJkZBzbqd4stkQZh04c7CBlEEDZlCY4rV9
-         nWrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778851961; x=1779456761;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d8duf5TvyhmY/rcIc+GeiPIXbLWq3N+o607ETTSlKvE=;
-        b=EK8Ufzxt5arLSRTT3VWJUR+Z4vILu9/l17VLXLiaFRaQ7UDvZoghOalN/2ZP1GSVi5
-         c0iR6Ed85sJ0K12H4hVTrR2wMkHbgOwtUvrBuDRKp9G0dW/Or3Y/j+vl/BSBx6xP18DN
-         XTojXyAAFhW+dL8I1ZGiQ7RxXWbskNXNFeXi45Yk5Ab/qi+dRjanMphOSTYL+7jAVN3y
-         0/n1WJ2b1ayzFsDFerFdfEvTzm4XawUggFH2MHKhJt0w6p2HZdGGzOWYLsfuceXqAxPC
-         soQf08jSY33fgiHBWVrWwbdakTIGY0JMJQqXfpo6xECyOzRvK7iAKYcGpB/WaH6D4a8u
-         EVCA==
-X-Forwarded-Encrypted: i=1; AFNElJ/pqO8+6muCwXJ9vBfZQZTHMoErFAwAfLq3ThTneF79KrbxITxnZQ4rmgJB07VDwpXphYnLnyHIHCUOog==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzD2Et1GshRSkvAOUpZt8ccvwttusYKQjNCksDsxpFVR9qyp83s
-	rT/AlyiA8o+GIo0Sxlp5ThRO0LY1ROYKhFs6hoMEoQUsrilbAFkwfZ2T
-X-Gm-Gg: Acq92OFj4bCEYa1hdAdtUlrpl8UQTu+HvgzhB+e/NnMIwDbvUKWhskd/+g4bFIxBpqg
-	04olMi364i9jE5HV05609i43EBMT+5Q/TWRFcqkTrsOndlsHKEmQfwy8wDBkIYRM4cGsXrbOMby
-	2TRzTQ752eKEX0ukq1410RT5hVP/n1jPpPNg5zHR9i/4eRPos6SoQQggoqgSefUkEQ0D7hd/oX4
-	8/F0qQZ1BLZQnf6QsFclpvAJ6iadKfn//k3q5fbKfL/iAE3439u6WJ5RoVs9moS+HHz3WO2OoQn
-	X2QmalEAXz2EXBeJOJe+mykxTdlcSBjTcx4Etv0X6eZaq8oIV7pW0B+AVSBrB+EcP3sdDZsXGFv
-	o/lIacOk1PQU80v+hXgZiL4D1nGV1vocrhIaw1+dLX7wQ/vsVaPMHWHU8OrvA+PNfT43+LT9ZxU
-	uwchfDI4qy9dhc+ViTkbM0EBen4qYOmtWc3XVj9xNJocrgtoV0KNilQRl2jkhRDGT84WuNfmIrB
-	zSag0yrGSxOHOP3TC8St+U=
-X-Received: by 2002:a05:7300:641b:b0:2d9:6373:ad24 with SMTP id 5a478bee46e88-30398652478mr1931599eec.26.1778851960947;
-        Fri, 15 May 2026 06:32:40 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-87.user3p.v-tal.net.br. [177.4.161.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-302973bcd0csm7114643eec.24.2026.05.15.06.32.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 06:32:40 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Fri, 15 May 2026 10:32:25 -0300
-Subject: [PATCH RESEND] ALSA: virtio: Add missing 384 kHz PCM rate mapping
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="EAWYO+cn"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OPXLemDYDJA9/LsRVnxf6kPFs26+5XMLLIX/jxB1Y6yHqYXE7iyZNzWBY4MLA328oyxj33R9/Ra/4FFHOQdnI88fQsSFM+T3ZeOk71X+vwzTZ28cfwHTJIsXE1eux1dtB7U/eBHXx8ahG8tklpDk6b5S0b6xmbAbHFuxuLAMyEV4IlC22usGxbLIod/b5+xEkBCRcCzNv8Yd2dsSntMQi3M8fHNHXtHWvPAetpiONEE9hvsKcajL8FV9b7EM/NskwXHwbrtrZ5G/csUsiEVrj8bs2GXg4c5E8nkI1ruNrCsM6l/OdZSrwxRD72gkA2ELTL7Zu7AWevouuUkDSyCYdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oeki5v86GUXOt1phRY5JmI6qGi9qy5KEusHP+V/RARI=;
+ b=I25kgxTpT1fqgbh4X+NjRqYhmLoJJPrdJLkhzufuNF8TwhDHAv/wIUCrQQ4qULvbvpcH8rIH+tu1llIlZxqnxDRHCgdnwsKZe3xH4r4FbYrdABUnQFz06OMdaDGQXo78cC/hcwiE56IbZnQwZCxYW4EeAiQPidtj1sA7t3ol3sPtf3r7mOnDGTuFJCVKx5sGQpBU5uuL39/+LRnajWB7VfBd7EIG/9rpo2wR0hfaWG+LI4ZD6My5hFWk0ep1Y2nuUILVP7u1j3MscB6ZOZS83BZPvvuWbZhLD8S+SXECEN0RRKE2rN+8nblx5NejrQiIgkf1UCjOa2HC2Bjp4nQvsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oeki5v86GUXOt1phRY5JmI6qGi9qy5KEusHP+V/RARI=;
+ b=EAWYO+cnS95XHWc3MHQoCrrKPitqMIJSPgajiI2qsGWZr/NDnAdBBPTcJKlFWoVH+uiGEusoSTTD810BBXBuxc7w0+MglCJt7QN8hdxL+u+ZghBp5hW/jnNFbXH7de+jIAJiWMAHEBahziEqqOPfnFEvJzcGEI3RVKP04+9Lav6zepxBA8BfkDkQ2/1bOs3XStv0EMBBlTseJzPR920vqVYA2M4BZBZMmFHqOdLCkV/3otmvQz7eQGLxUp7aT4YdNiwoo9MViHZuE6V3MU/q19GYQOlN8zoga0D8FoU2/qf7g/RFpWJsEfGktQy/hE4vL4XN2LQWyWEn/H210xUsfQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by GV1PR04MB11016.eurprd04.prod.outlook.com (2603:10a6:150:206::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Fri, 15 May
+ 2026 14:52:11 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.20.9913.009; Fri, 15 May 2026
+ 14:52:11 +0000
+From: Frank.Li@oss.nxp.com
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	linux-sound@vger.kernel.org (open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...),
+	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
+	linux-kernel@vger.kernel.org (open list)
+Cc: imx@lists.linux.dev
+Subject: [PATCH v4 1/1] ASoC: dt-bindings: Convert eukrea-tlv320.txt to yaml
+Date: Fri, 15 May 2026 10:52:03 -0400
+Message-ID: <20260515145205.1696584-1-Frank.Li@oss.nxp.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SA1PR05CA0016.namprd05.prod.outlook.com
+ (2603:10b6:806:2d2::25) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260515-alsa-virtio-384k-rate-v1-1-35ecb5df835c@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>, 
- Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: virtualization@lists.linux.dev, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2404;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=ou1StnidYf6G/yTiPb1Jyr10n23l4lsfoChEA55hU/0=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDFnsCqWHmmc4HlFaGTmvdaXOz8pl2o75E6fGT7wy++jn/
- 1OjcpP7OkpZGMS4GGTFFFlWJy2y3NP14Gp93AoPmDmsTCBDGLg4BWAiDzYy/E+0yGg8uf9H4MPr
- 4td580LOLazidggyb0zJYXboqzi4r4iR4dSBSPd5N084vVKzFFDNeHwmQZ3/w/L524xf5c5lX+H
- /mQsA
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|GV1PR04MB11016:EE_
+X-MS-Office365-Filtering-Correlation-Id: 12391271-d2d1-47f6-1006-08deb2918b3e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|366016|19092799006|11063799003|56012099003|18002099003|4133799003|3023799003;
+X-Microsoft-Antispam-Message-Info:
+	YRmFmXwWVUpnMOjvYqjChs8u4OPg3zdgFREmlevFqdmPtAUxD3Z6lB7k/XTo3Dxx9vlUjwkFYli/Xr7F2JWVUAsjswft161SGe2F9lzv+tHFQlLwVjyDJcLT3HL8Z9nMbEDItTF8tjN40m2M+DvKOqtioe/ODrsIbcbUxdVq5moeUrpOK8fFe6TUgJp9nL9URihyPBdXKiq5qvnmQAwk94hzE1JI9cNnnyglbhyUEXHgKnPtZdvuA1QYeeR6xLS+rI55VL+0vTIvIfHVodq9aWXz+BCzuvXkVzWsLaVV18EEFGgwGErdM6ZRew28ecoNPujdlR+6GjCA8gexYN6Pp5DJgs7xh/IBvrSk1yemu1g+wbn3Tik87S0vdNhKjt1sIDDgNFnfr+E5wXOLMD3Z9mZhVmhx4wSopB0nMEopF9sLJUNweMOCRjNKRPiA1xlLUHvXQgF6cy9+RozNHBcFHmLIB6xD/TbGZOdvUYUHsslXme9iEsbshFjoBnyzaKABer1nq/PPpTKWHvMt/56ERKwKRaLa22N9hA3uz4iwUtWq6OwZVuWLNsEtyZgDGx1s2so0wLZK4q28opnNjZDv/+FCBDr250UdbwHyQgueetyfrTqjMLY8rfy6oHkwi5mq+Ah/rUY8+vsXzhCZHRDzkw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(19092799006)(11063799003)(56012099003)(18002099003)(4133799003)(3023799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?czDnQOmqA9GQi7fJobLAOLwimq23d8ssgFb7Gx9ZZTuRKPUz0IE4LhD94ZNg?=
+ =?us-ascii?Q?vSqziJyRHxfwU/N4y/e9qi430yDeX6va8QcjfogB90ZMPEOcOjdwx+/fwujH?=
+ =?us-ascii?Q?WBsIQF41NSfg4fXv7j27IUvWvAOSVs4z5/vzxyHgZtuEfUBaarluLZXCurVX?=
+ =?us-ascii?Q?MnNsI8ks05hdJWupdPl022HLsf1/N3JLT/qRTKmOEr73K/hEMfN1VcnNFv7E?=
+ =?us-ascii?Q?bMK+TyRpTM6QjlXzsCkY1U70mHcK4Ub+7A2f3oqQXfzE99qISqtn9ifJnvor?=
+ =?us-ascii?Q?hRPMXoCdl8VaWFyD97cGcTmPtqrTynqk+DfyYVUUOuf+c/X/oXGeXAMszCHr?=
+ =?us-ascii?Q?WfuzpxJmCif42nFGVnGoSPshInUitJ1aULTNNWIU0PvrRRSAB3fy/pa24tBQ?=
+ =?us-ascii?Q?k2o02x6k86maD5ILServ0WoDnJcA9puim1lmi+jFgggNJ3h2vn3YS/35tT/Q?=
+ =?us-ascii?Q?X6ikaIxU1YWc6Stq1IMLTmMNo2rvASvSJwCCKopm0ZTEvRPvYHmCr/UbnzLZ?=
+ =?us-ascii?Q?Qk6LgJNOo1P5nVqQy/e778zffR0tGLn6tpXTFbqahNvZRiTZeffFSt21Fkxw?=
+ =?us-ascii?Q?o/7YJS9LVreemP/BMdmmBh9s4mpbF4PXviszmjcZAyUqc0grxV2ZnuGZFyem?=
+ =?us-ascii?Q?4r84wjOvJ85i40XPRiTjIuxfrIDC+fCDaCUv329PCJ0DbBCldWTA8+bXzRSl?=
+ =?us-ascii?Q?8W+cpY46BSxkiLWj4llNrECcUCIX/IeG+MulL4P4MjlUGCiXXNrmI1l1mgt9?=
+ =?us-ascii?Q?nijP9c83FyEjFJcvClJNFlV/3YmlHipDlHY4Qnj2Wc+eHA/HQGoATsI+fv9b?=
+ =?us-ascii?Q?8oY1UHyDZmfW3WGgFN7Hl5+lcmlv/jaKZRchP5kNxHP///8nIOhNBW8QWGB1?=
+ =?us-ascii?Q?0gOJDnbDkqyzfn5H3hkk1k4Fv2/+uGonxKJlSHwK4kBk3RlyYELEfIqxBW+v?=
+ =?us-ascii?Q?MNoVBIKdjhMxr7buGSSRwDuZ8ZN6+Tknctuacj7E8YS6WW/5WA+hVsy2mQWx?=
+ =?us-ascii?Q?1G9YmOcFZLBj9gF7Zd2M74wtyD9Xf7e6dr8H+pqbp3Cq5Rc6uxAyocBsp4wK?=
+ =?us-ascii?Q?UDjjmbBVtyq+pZ/bWEjWZGZaT8/bYDF+VG3gqpnURsUPJcsAN02QQi5AbP9S?=
+ =?us-ascii?Q?hQ2eo8ra8HdLP6bTFA9XfJJuv/R2W/pdVx1tPjftXWALBoNhVh3GEJysgkZU?=
+ =?us-ascii?Q?gavZSFPu1DTRwA3bFXy9QXBmtKh/J37e9ziuQQWvfQ4gSrkni73hBc/TUMIc?=
+ =?us-ascii?Q?XEkjeEMPrsk7aFpNuJCOC61kvG0B8FwXhUZyXa0PcmbywwxReo/c/VCnLLqD?=
+ =?us-ascii?Q?Ywj4HAXsE8cTG9Q+zhEj9RUBZyIiB4ceSLMPspmD++0/lsHo+bdzNB0cQacE?=
+ =?us-ascii?Q?ocVoxZPWvaUEEyYxj6xevAmfxoH+RIF0A1+NV1tCJ938DjK20aewLeW0gy/v?=
+ =?us-ascii?Q?Nlw5lrkZYQ+j64ALTMGAviWWypdL+4EL80Ba3gWL9Kx4PFYy4dBr/QvWNntR?=
+ =?us-ascii?Q?j+qES3AYcWi9lltucIc/a0f/il7mpdDu3V1wR5tW1lFn//IfKd/0BKxkuTAk?=
+ =?us-ascii?Q?wuKZw5/WUGuwqZPgSCRhMBGytPmunnEe3FfipTLo45foYTjGCZl+VbDCoN+8?=
+ =?us-ascii?Q?LLF+gFRbulBxjpy05xsFnB+yaVnUSpSCu76ppbtvcjhG1i0LXFN8Ru41ZWYO?=
+ =?us-ascii?Q?IT+YkQj8avH/H4sP5fZz8OJTMhU/nfnnqKUG32I+W9eTsmgxVM0GdkE8f25A?=
+ =?us-ascii?Q?C73H24Wh8y/9hwylcqwfQ6xVcZ29/rI=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12391271-d2d1-47f6-1006-08deb2918b3e
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2026 14:52:11.2813
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UO700xdtSPQRD7D3O+FhOtfb9HsIJGfmaFX844xh8ck01DgMYV0luN7l6/u55SjBHjawFeI1aSzqZpqWkLAWGWbtafTbzWGTtrRJKISiWtYjwT0nczk2bvwx/oxbaPCr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB11016
 
-The VirtIO sound UAPI defines VIRTIO_SND_PCM_RATE_384000, and ALSA
-has SNDRV_PCM_RATE_384000. However, virtio-snd's rate conversion
-tables stop at 192 kHz.
+From: Frank Li <Frank.Li@nxp.com>
 
-A device advertising only 384 kHz is rejected as having no supported
-PCM frame rates. A device advertising 384 kHz together with lower rates
-does not expose 384 kHz through the ALSA hardware constraints. The
-selected ALSA rate also needs a reverse mapping for SET_PARAMS.
+Convert eukrea-tlv320.txt to yaml format.
 
-Add the missing 384 kHz entries to both conversion tables.
-
-Fixes: 29b96bf50ba9 ("ALSA: virtio: build PCM devices and substream hardware descriptors")
-Fixes: da76e9f3e43a ("ALSA: virtio: PCM substream operators")
-Cc: stable@vger.kernel.org
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
- sound/virtio/virtio_pcm.c     | 3 ++-
- sound/virtio/virtio_pcm_ops.c | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/sound/virtio/virtio_pcm.c b/sound/virtio/virtio_pcm.c
-index eb9cc8131905..be3893de40a5 100644
---- a/sound/virtio/virtio_pcm.c
-+++ b/sound/virtio/virtio_pcm.c
-@@ -77,7 +77,8 @@ static const struct virtsnd_v2a_rate g_v2a_rate_map[] = {
- 	[VIRTIO_SND_PCM_RATE_88200] = { SNDRV_PCM_RATE_88200, 88200 },
- 	[VIRTIO_SND_PCM_RATE_96000] = { SNDRV_PCM_RATE_96000, 96000 },
- 	[VIRTIO_SND_PCM_RATE_176400] = { SNDRV_PCM_RATE_176400, 176400 },
--	[VIRTIO_SND_PCM_RATE_192000] = { SNDRV_PCM_RATE_192000, 192000 }
-+	[VIRTIO_SND_PCM_RATE_192000] = { SNDRV_PCM_RATE_192000, 192000 },
-+	[VIRTIO_SND_PCM_RATE_384000] = { SNDRV_PCM_RATE_384000, 384000 }
- };
- 
- /**
-diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
-index 6297a9c61e70..1105e7ff3523 100644
---- a/sound/virtio/virtio_pcm_ops.c
-+++ b/sound/virtio/virtio_pcm_ops.c
-@@ -90,7 +90,8 @@ static const struct virtsnd_a2v_rate g_a2v_rate_map[] = {
- 	{ 88200, VIRTIO_SND_PCM_RATE_88200 },
- 	{ 96000, VIRTIO_SND_PCM_RATE_96000 },
- 	{ 176400, VIRTIO_SND_PCM_RATE_176400 },
--	{ 192000, VIRTIO_SND_PCM_RATE_192000 }
-+	{ 192000, VIRTIO_SND_PCM_RATE_192000 },
-+	{ 384000, VIRTIO_SND_PCM_RATE_384000 }
- };
- 
- static int virtsnd_pcm_sync_stop(struct snd_pcm_substream *substream);
-
+Change in v4
+- add minimum and maximum for fsl,mux-int-port and fsl,mux-out-port.
+change in v3
+- add fsl,mux-int-port and fsl,mux-out-port to required
+change in v2
+- Add comments about "The AUDMUX port numbering should start at 1"
+  v1: https://lore.kernel.org/linux-devicetree/CAEnQRZACes8EptdEgg0i0vzdcxgUJwZAfQHU0DEhMnXtA-g01Q@mail.gmail.com/
 ---
-base-commit: fac9a31701803e4e41fdb7b5c71582c65cf47176
-change-id: 20260422-alsa-virtio-384k-rate-723fe9772fa6
+ .../bindings/sound/eukrea,asoc-tlv320.yaml    | 61 +++++++++++++++++++
+ .../bindings/sound/eukrea-tlv320.txt          | 26 --------
+ 2 files changed, 61 insertions(+), 26 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/eukrea,asoc-tlv320.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/eukrea-tlv320.txt
 
-Best regards,
---
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+diff --git a/Documentation/devicetree/bindings/sound/eukrea,asoc-tlv320.yaml b/Documentation/devicetree/bindings/sound/eukrea,asoc-tlv320.yaml
+new file mode 100644
+index 0000000000000..24b793feb02df
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/eukrea,asoc-tlv320.yaml
+@@ -0,0 +1,61 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/eukrea,asoc-tlv320.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Audio complex for Eukrea boards with tlv320aic23 codec.
++
++maintainers:
++  - Frank Li <Frank.Li@nxp.com>
++
++properties:
++  compatible:
++    const: eukrea,asoc-tlv320
++
++  eukrea,model:
++    $ref: /schemas/types.yaml#/definitions/string
++    description:
++      The user-visible name of this sound complex.
++
++  ssi-controller:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      The phandle of the SSI controller.
++
++  fsl,mux-int-port:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      The internal port of the i.MX audio muxer (AUDMUX).
++      Note: The AUDMUX port numbering should start at 1, which is consistent with
++      hardware manual.
++    minimum: 1
++    maximum: 8
++
++  fsl,mux-ext-port:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      The external port of the i.MX audio muxer.
++      Note: The AUDMUX port numbering should start at 1, which is consistent with
++      hardware manual.
++    minimum: 1
++    maximum: 8
++
++required:
++  - compatible
++  - eukrea,model
++  - ssi-controller
++  - fsl,mux-int-port
++  - fsl,mux-ext-port
++
++additionalProperties: false
++
++examples:
++  - |
++    sound {
++        compatible = "eukrea,asoc-tlv320";
++        eukrea,model = "imx51-eukrea-tlv320aic23";
++        ssi-controller = <&ssi2>;
++        fsl,mux-int-port = <2>;
++        fsl,mux-ext-port = <3>;
++    };
+diff --git a/Documentation/devicetree/bindings/sound/eukrea-tlv320.txt b/Documentation/devicetree/bindings/sound/eukrea-tlv320.txt
+deleted file mode 100644
+index 6dfa88c4dc1e8..0000000000000
+--- a/Documentation/devicetree/bindings/sound/eukrea-tlv320.txt
++++ /dev/null
+@@ -1,26 +0,0 @@
+-Audio complex for Eukrea boards with tlv320aic23 codec.
+-
+-Required properties:
+-
+-  - compatible		: "eukrea,asoc-tlv320"
+-
+-  - eukrea,model	: The user-visible name of this sound complex.
+-
+-  - ssi-controller	: The phandle of the SSI controller.
+-
+-  - fsl,mux-int-port	: The internal port of the i.MX audio muxer (AUDMUX).
+-
+-  - fsl,mux-ext-port	: The external port of the i.MX audio muxer.
+-
+-Note: The AUDMUX port numbering should start at 1, which is consistent with
+-hardware manual.
+-
+-Example:
+-
+-	sound {
+-		compatible = "eukrea,asoc-tlv320";
+-		eukrea,model = "imx51-eukrea-tlv320aic23";
+-		ssi-controller = <&ssi2>;
+-		fsl,mux-int-port = <2>;
+-		fsl,mux-ext-port = <3>;
+-	};
 -- 
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+2.43.0
 
