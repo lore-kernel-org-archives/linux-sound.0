@@ -1,190 +1,99 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A6126158B
-	for <linux-sound@vger.kernel.org>; Sat, 16 May 2026 12:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5789258EE0
+	for <linux-sound@vger.kernel.org>; Sat, 16 May 2026 13:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778934286; cv=none; b=vD9kVdnh2i6JQijzQ4k/4SVm2OtCJIzmuPtGeZmU+FtOwyDRnignkd5NhnjVEllJl5iNJC+mT6DFi67a1z++gs1Mr6ABZyKPe8dskV283pDp5wT9OdHGlRlxK0ksNc5OHfpFs1804JqCQ/pU1dm6Gmh6Du//I5o05yPW1tgGKBg=
+	t=1778937425; cv=none; b=l+GXXt7CUwb2J2oQ7LhzgaK/07e68GXJf9aKP0AnHkuzysWwMMWxfXeToJNMksBnGzApCum6rWXGPS4dtk/xlbKZuUR4HCMagNy/soeCP5WWFls18ZplJN/Cbdv9x7mBYQcZqmFb4UbK78aqQzeoKzR5Fz5ExLwelQlhfRrZqO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778934286; c=relaxed/simple;
-	bh=CWErFH1Hz5K/iVV80JrqHb5WRgYIX54PMeOPUmyqUJc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Iq9mJpg5vYzqs9lnkzSCVK4LY7qICrRJxHr64CyAyJMtJ4X+exafsX/MrdGHfATEOuK4wIzO/2YqiQS9RyhN3J+5XTBpeTx2FEtW0mu6bypUmy6BYAALXTHTKvRsoNKpJQ3NAAHMhhwO/mGhMuK4Xw8tCrB11alB4GV57MBCVdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NGcnFDCL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7azXWeLn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ptFudi5h; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qeNzBNy3; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1778937425; c=relaxed/simple;
+	bh=pyzDA1spdtkDsnUqb1pzd4IA1kD84PLcswbD58Ir/TI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rMgd43DHAh/ZrLsqXCKE+C+lnWDFjj1/PyEYFrbjWNUU830M+VQJ7mIpeu/PY3ZQoQwNm+6LhE8Di/SX/HcLI02i5MWEETkg+zx/ibi2ow7pp2hu0mkwbzqtjcuONbTtAQIFBzSvjhrIrsMDmr1G5RoGgKGWzRictcuWV8Bi+gE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s9wKre62; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NGcnFDCL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7azXWeLn";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ptFudi5h";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qeNzBNy3"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 615185C5C4;
-	Sat, 16 May 2026 12:24:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778934283; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vL4YJoYZlRv+rQ8BEqn8rpyVnGOVE7tQf6ecrdfqCJc=;
-	b=NGcnFDCLo47xYOEmlNHerXpESaXFqugaG9ioPDhQuXHu5o/RlvzsZQkBVgCdoEbzUNVsKM
-	X/nwvEzFjs/22fFUoAphdiVYOGXQWFmaaCUmw+8vODZLnj15LiCW8t9IYVn60PJFh1envC
-	NpSoiyGuXY8juaatxZvSbsFgq2wi0ek=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778934283;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vL4YJoYZlRv+rQ8BEqn8rpyVnGOVE7tQf6ecrdfqCJc=;
-	b=7azXWeLn+vnAUB54EztQ0ItjLVdBjZCJchPXi4utPeNIw8oWst9iMXkeqDwhDxkRUYHrzG
-	/edy4qwl0SLYzCDg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ptFudi5h;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qeNzBNy3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1778934282; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vL4YJoYZlRv+rQ8BEqn8rpyVnGOVE7tQf6ecrdfqCJc=;
-	b=ptFudi5htWjwKvcrWcpZuACMhJq5O0WXjWHgsjZOCi9BMjPLGBg98Fisg0AdKkN/dE05JR
-	hlCtmzumA3qGuPZk61XzyIpQjMrvKQUDBBVB5ttFO7vqOglS4ZZsJBzOetDRpcJ90YqI/4
-	vjYLqZbV9orTTZvC/zYSbrtYr2B5fQw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1778934282;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vL4YJoYZlRv+rQ8BEqn8rpyVnGOVE7tQf6ecrdfqCJc=;
-	b=qeNzBNy3Y/fya04SD74pnWJeeYIl4j/uv+z07UiOVCUw+rrNmOuRX0L7dMuoF5LZw78JNG
-	m/zJt5VxE95H4vDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2F423593A8;
-	Sat, 16 May 2026 12:24:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9sc+CgpiCGrIFwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 16 May 2026 12:24:42 +0000
-Date: Sat, 16 May 2026 14:24:41 +0200
-Message-ID: <87zf1zy22e.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Sav <pavone.lawyer@gmail.com>
-Cc: tiwai@suse.de,
-	perex@perex.cz,
-	broonie@kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s9wKre62"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-50fb4a7d704so9189221cf.1
+        for <linux-sound@vger.kernel.org>; Sat, 16 May 2026 06:17:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778937423; x=1779542223; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=w1iiLMTnXZ3HRKof5m2IvmmuWm9G3cxep98kuAE+4wA=;
+        b=s9wKre62gwIT/EknWBKZXMv0XrSQNViG7y4V6LXKjzcyDUGKAwDcMAn8ng/onjbwu6
+         fDofDAjBsURWfJUoF3sxdXblQVPYRhhO2eMcmi50PAVHC6CuLFu3C41ETendpMXAuYB1
+         M4cOOFGnYip32/bglAwe8ubKRELirdqj/YsOBkEIGTNuIrv9NAteuWp02mpJGAkl3BLV
+         RlehJir3I6VKIJzwZJ8l14r6yYd65kQaRg4eN8tWy2MdEWtkUkqmG94rM9v4u637pOec
+         s+D1lCx7A+olGy2vBwrCgFdYSYmRlQs8b5Vyz13dT//jDp4brca4GJIzxgsiuu2jMVcO
+         4ePA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778937423; x=1779542223;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w1iiLMTnXZ3HRKof5m2IvmmuWm9G3cxep98kuAE+4wA=;
+        b=jvBvqTnwZENZAdqYbavN97I8j4v3d5hw8Egac8Z3Ezn65mexTIddgZJTk8YfBkfcKY
+         hnCycA2xAt1BVt/zoO5cjNXCD7moQlfQl2ZOwGZd2fuxmzZfVyr4RS6D8GE7/WuUBP4y
+         aGBk4T+36n8DFiqIJuzabhgU++VmU58ckIk1mGiYBm6c5WNgg/E73j/2nMszz6OA9eKC
+         wG8TIV7+iG/Dcp/XLflQIGrL7gQfqe5o9jLE05+nnAP7o+hcGM6kmd68DClf996H6exa
+         DmirGcIMIfCbhZc1Q7iNTuiJro4faPSTvMdnwu9M+Jm3XEvyEceA45EwGekUy6rhjzgV
+         BSAQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9IKtD4rfoBjKH0860ibFF13C5wrUyPbG66+X928GOCijFEu67k7SL3vGmaAMlcfyU7QyfO44U4MrR+qg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+hQ2NPdIYyTLpjHm3VCTSKwhYDyu1NKouWSFG1C7OqLTdP/a8
+	O+VO7eUNtMbpflPNmTLDRHefj6JPLpZE0V6Re0cOVZZLXuK+yQOHD+oX
+X-Gm-Gg: Acq92OH4FyGCJqs5Gm6bRcnDJdzG8uwfavGiXxagdZuYsWP4zvv3lHlkEzP7FWHXsnF
+	4eDEmIHigTnHn+PcJiiA0XwPLLSUb9m0fYdMJ0h7DB8QV7XO7fNTeek5QJRXYITx5EF/x4awqEV
+	AV7aoeJB/yqjmBXLm3Z5brrRm/NtArUagl4vCvB3djB7JU9Wye3iNPSCL0wFAR266LTQWJjRNY8
+	dadAzq/mGp9kwVyVDxk4TOD/TOU//z8A/6crudq26A5Yf379AxA1JHfvov8UrZPV6rkqsGvGtdR
+	xNhBTpF+owfGbF0MjoDJg5K7UBzJJyML0OCkM7n4tWaVSFxc2JU4oavRKas9ubBtvwMnIUsInO0
+	LBlgRVi4zsll2cngDQomUpqUiwh+z+hhtq/SKCEzFb/Q9YTMG7DSoFhc+0OsOArtEZi57Gh8IP/
+	fbhAKQyIrFF8RZ3Yc0hl5c2DHZYr0d3FHIeiRufxJxY5ttpzQ4qLlVm0t3N4DJECjOC1KgpDf+v
+	idbszyH14xIdQKgqbDy9WwpGy3DSi8QwAiYup1DdQTxFhRI6RfTN4by
+X-Received: by 2002:ac8:7d94:0:b0:50d:abc3:eed5 with SMTP id d75a77b69052e-5165a1db10amr108120681cf.29.1778937422824;
+        Sat, 16 May 2026 06:17:02 -0700 (PDT)
+Received: from sergio-HP-250-15-6-inch-G10-Notebook-PC.. ([2803:9800:988c:831c:3ae9:178e:aa0e:2efb])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51645856d10sm71755171cf.26.2026.05.16.06.17.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 May 2026 06:17:02 -0700 (PDT)
+From: Sergio Boglione <sboglione@gmail.com>
+To: tiwai@suse.de
+Cc: alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sav <62543096+dongioia@users.noreply.github.com>
-Subject: Re: [PATCH] ALSA: pcm_drm_eld: rate-limit ELD parsing errors
-In-Reply-To: <20260515155836.58993-1-pavone.lawyer@gmail.com>
-References: <MSG-ID-Takashi>
-	<20260515155836.58993-1-pavone.lawyer@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	Sergio Boglione <sboglione@gmail.com>
+Subject: [PATCH v2] ALSA: hda/realtek: Add quirk for HP 250 G10 (103c:8b34)
+Date: Sat, 16 May 2026 10:16:50 -0300
+Message-ID: <20260516131651.143109-1-sboglione@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	TAGGED_RCPT(0.00)[dongioia];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 615185C5C4
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 15 May 2026 17:58:36 +0200,
-Sav wrote:
-> 
-> From: Sav <62543096+dongioia@users.noreply.github.com>
-> 
-> snd_parse_eld() is the generic helper used by ASoC hdmi-codec, equivalent
-> to the hdac_hdmi parse path Mark Brown rate-limited in
-> lkml.kernel.org/lkml/2025/6/13/1380. The same spam shows up here for the
-> same reason.
-> 
-> When a HDMI sink is not connected (for example a board with two HDMI
-> outputs and a cable in only one of them), userspace audio servers like
-> PipeWire keep opening the empty card. snd_parse_eld() then logs
-> 
->     HDMI: Unknown ELD version 0
-> 
-> on every retry. On rk3588 that easily produces 30+ messages per burst.
-> A malformed ELD (MNL out of range) hits the same code path. Neither is
-> worth a separate dev_info() per occurrence; switch both to
-> dev_info_ratelimited().
-> 
-> Signed-off-by: Sav <62543096+dongioia@users.noreply.github.com>
+HP 250 15.6 inch G10 Notebook PC uses the same ALC236 codec
+as the HP 255 15.6 inch G10 (103c:8b2f) and requires the same
+fixup to enable the internal speaker EAPD and microphone routing.
 
-Could you use the proper name (a real name or a known identity) and
-the mail address for Signed-off-by and From, and resubmit?  It's a
-legal requirement for the upstreaming.
+Signed-off-by: Sergio Boglione <sboglione@gmail.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-thanks,
-
-Takashi
-
-> ---
->  sound/core/pcm_drm_eld.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/core/pcm_drm_eld.c b/sound/core/pcm_drm_eld.c
-> index cb2eebaac85f..1941ee520063 100644
-> --- a/sound/core/pcm_drm_eld.c
-> +++ b/sound/core/pcm_drm_eld.c
-> @@ -334,7 +334,7 @@ int snd_parse_eld(struct device *dev, struct snd_parsed_hdmi_eld *e,
->  	e->eld_ver = GRAB_BITS(buf, 0, 3, 5);
->  	if (e->eld_ver != ELD_VER_CEA_861D &&
->  	    e->eld_ver != ELD_VER_PARTIAL) {
-> -		dev_info(dev, "HDMI: Unknown ELD version %d\n", e->eld_ver);
-> +		dev_info_ratelimited(dev, "HDMI: Unknown ELD version %d\n", e->eld_ver);
->  		goto out_fail;
->  	}
->  
-> @@ -357,7 +357,7 @@ int snd_parse_eld(struct device *dev, struct snd_parsed_hdmi_eld *e,
->  	e->product_id	  = get_unaligned_le16(buf + 18);
->  
->  	if (mnl > ELD_MAX_MNL) {
-> -		dev_info(dev, "HDMI: MNL is reserved value %d\n", mnl);
-> +		dev_info_ratelimited(dev, "HDMI: MNL is reserved value %d\n", mnl);
->  		goto out_fail;
->  	} else if (ELD_FIXED_BYTES + mnl > size) {
->  		dev_info(dev, "HDMI: out of range MNL %d\n", mnl);
-> -- 
-> 2.54.0
-> 
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index a9cd03bb7..11bcc2ef8 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7050,6 +7050,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8ad8, "HP 800 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8b0f, "HP Elite mt645 G7 Mobile Thin Client U81", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x8b2f, "HP 255 15.6 inch G10 Notebook PC", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
++	SND_PCI_QUIRK(0x103c, 0x8b34, "HP 250 15.6 inch G10 Notebook PC", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x8b3a, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8b3f, "HP mt440 Mobile Thin Client U91", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8b42, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+-- 
+2.43.0
