@@ -1,116 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627C83E1CE7
-	for <linux-sound@vger.kernel.org>; Sat, 16 May 2026 15:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BFF405C31
+	for <linux-sound@vger.kernel.org>; Sat, 16 May 2026 19:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778943754; cv=none; b=ApoLa1DD8QsBw7rZ8zxztg/y97PkJF+79CmiKg8NMWWiH5SLQ1NTJZDMpS4j+T0FSLCYBwr7+nlZu9cQFNL9ofQvmWOgSI1QXbRvPlir9XhUbALdgGpBLySO4i2jiisExHaT99QfkuJ+AvbJZ0ZAOplGGtln9X8V1rL+QujI5NY=
+	t=1778958480; cv=none; b=kdE1VVtPdweiXZbBGK67BqB59BIAjCg5FTLaMVm7sg3zzyKnN1nROJks0OK40KK/iN33MMo3Zy7X3+fYeOpL/QzKPOQvsSfvuxBMSzi7cgpg14WLbrfaqL/IMSCqy8enfNj9Ou1VOUJZaJp8EZRLNDHEaErkbRq6I/84mTaek2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778943754; c=relaxed/simple;
-	bh=fhRmHI3gE7o85B5IehRC0zbKRLMe1rUp+E277EsuYZM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ed2e9pHOz2LZaAYPG1Qi+1m4VcGkxm/vEzFqFKWme0TkCHzlcGku8CMm8WQ4E9u3FMUydVb4JW9jiC5vSSEB2l8nyB6sm6lCiDJdKcu3dmJ2b5iQ3CqAWnriOSa67lUK3CEbMkI59uIzBk4obZ9+CFLa3+KATeZG5nxgYiqeo5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TNRfxJ0M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778958480; c=relaxed/simple;
+	bh=XrzaJo4HWQdFxlW5p7D3E7trnt7CsF9FzaadFtFx7H0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NssHqF33aSSvN2FfBndl/enxR/ZHGFWOBbYUyvv2f53kgviS73Ltu5QMVTdSHpff7BlnbYrHZeCNyF0uZlwZDH9MuW5gnM9H+srnKKSJAEoazr3D6eUUFfqRPR9aGoafQhed0Du51GJ2BjNIQhRd6vvCUyuiKU0VB5Y6Rd0yKJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dZ9xjZiE; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TNRfxJ0M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A175C2BCFA
-	for <linux-sound@vger.kernel.org>; Sat, 16 May 2026 15:02:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778943754;
-	bh=fhRmHI3gE7o85B5IehRC0zbKRLMe1rUp+E277EsuYZM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=TNRfxJ0MjhJVOYNjHQoBmIEmaI/ZXek/+zecaLwE7Lpj4c6gwx1NSsDP8p5CM/lR6
-	 yljtIuK1uKntoKhcOErGSkgnRJAWcSfaIO43Sy+2XMCuhu2gFiIGCqANWtMDBwbJkE
-	 fsZSDW1eYVl5U5VRv54sMrooCp3YOig7xhcyZ6kQZRCQ8sPij5SUrHVfXhEpURf6L5
-	 oy5am63So1CsTOgiCSmmwLzJ4UwtN9lHQ+uD86yCWVDsh+X4lPCMFGo9d7wJyiI/Us
-	 Om5j/fnLc28XYOVF8YCI5k/mMdHVnqp1dAal/1CJQrtIzis0TFgk+3LwCkTSHA1ybB
-	 ClUP85jLQskuw==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a887ebb416so1010837e87.2
-        for <linux-sound@vger.kernel.org>; Sat, 16 May 2026 08:02:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9qxVNRAjsWLlI1VULjIm0ayVF9DeNF+2oEZa9WCvNMxEv41ot7jG7XczVgkAdV9OeAO769YnVMIQrFsw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw53ik4mhxL59yKE53B0PnV53AYV12iy0GyfmMOoI5C6QRn6C6f
-	EjgKqUugc2+RaKB4+BFLhxRUbmw+ETbnycawQywfc5nLbQ3J1i55R9TrtganiHAc+BWbKSkdaIO
-	f3AlX5lop24PXnUtF8Fl3xrM4J8NOk0k=
-X-Received: by 2002:a05:6512:3c8c:b0:5a8:84a5:bffa with SMTP id
- 2adb3069b0e04-5aa0e6191a0mr2385235e87.5.1778943751745; Sat, 16 May 2026
- 08:02:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dZ9xjZiE"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-36643b96b99so893336a91.0
+        for <linux-sound@vger.kernel.org>; Sat, 16 May 2026 12:07:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778958478; x=1779563278; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rJEppFNhUS0Xaa2w3V2HP8neaFUhqRuk85p9iAO9Rts=;
+        b=dZ9xjZiEKNiKZGxAC4HXT/38mAcJtNyyD708y/02yD/5XNWtV5QQwzezz+kLSkP37A
+         eQ8NyGYb2d6dUdGOA0JHCIEutTnoV7XN1XRadiwKvBgYu4S9Tt3Lj1lumpqTTLaqVDu9
+         Vfp8xpLc8vCtBenNO6KgZG5Y00FpNRyQhpcjqr1huH2ddiqC5WYetRpKLLQ39ZJA32rI
+         CTnwUKpVimUr8Y+wtmS0gQ98ZkFZ3IYX4FoHciZtbl8SYLGnSC3v7QxMTcpwT+ouNN00
+         ydWKKJLcs5TThWy/KAdTkGjZCR+mm/g4+VL8eMyWigoNVwzFc8eCBHTVbtLWJOwRmDFL
+         IWzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778958478; x=1779563278;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rJEppFNhUS0Xaa2w3V2HP8neaFUhqRuk85p9iAO9Rts=;
+        b=pYmDylBe4cK6bdYS9g5nAeqy4Um+PjRJzZXaHuY7924RuqI8J4SBn1v0LqTN3GV0xM
+         ZIAYDybZkeC0Bt1I8WRd2tUZTb5lc5t+ptg0MOKgOL3U88cmcFvI050bxRPzHN40/oM8
+         zDIFZm97xmvdXd1O1424pZrygrcLVe9OM3c7M7ESBXMGrmyfww6/S3dnZbxAM+pheOAj
+         TVeGitlPbmER/v2qquZv/HTSV8PFNNFO10bQBfwpJSOZWoiNYcyaI647gAE4GTL+mtVl
+         UYxX2rfbwgQyaozkKmRvFaxwVf02v/RjfrwyngHRmVbhyBa2SVvocNFtcmobBE/rxJzl
+         xzXA==
+X-Gm-Message-State: AOJu0YyLlX1xLcAOAYDPIigBuC1+KwHNh4YsKM4hjLPxfC0PYOzHbbKZ
+	bC/f2JT82ZcTqOd/KYBSzNTEgEFI6euunfISLORTDKkV6Y03Ax6aomev
+X-Gm-Gg: Acq92OGeQBEfxIV5qeZsK6kIIgMCaW7elemEOT5+nG05B5Pb2fKuwvlB8x/nNLmeiCm
+	8oxAa/KIrmKxuW9xo4QMm9qeAx5hUDfj+n6WgrIiP1zRZF+GRvLWuYOdoQQktLJlqG58/kupreq
+	2knMA7M5U01aeZbOceBdKAvVmNgcl3bYTiQpXVr6xM0lKAPHY+RWQ1/k7ZVDvBrTboecnibrQoA
+	kC83iUmpEOPHOZUz1EfEdSuRm6cbBibs3ES3O0Q7MhSXS9z3ANUZACRwPvE4yQjW3x70xa8V2cX
+	kieBBjakDdcWlTk0ZmXBVpAnXe/iMkmQeD82h5lVo/42XZ7StUWL0N5wWrev/4s1v4ldAGBdhm/
+	S23jzjs6woL+SBYOeMNt2EPDf4b1gVm8E2KXoGW6M057vWvew0myk9YKiq6y6xTXexGS9yz2Voq
+	gl98RDotjzkj5CJvMtP+I9Jf6PwQH+Vw==
+X-Received: by 2002:a17:90b:544c:b0:369:7ef6:2874 with SMTP id 98e67ed59e1d1-3697ef62f88mr2681528a91.4.1778958478279;
+        Sat, 16 May 2026 12:07:58 -0700 (PDT)
+Received: from localhost ([188.253.121.112])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-369515895d2sm6145557a91.8.2026.05.16.12.07.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 16 May 2026 12:07:57 -0700 (PDT)
+From: grxp <grxp323@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	grxp <grxp323@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Add HP OMEN 16-n0000 mute LED quirk
+Date: Sun, 17 May 2026 03:07:34 +0800
+Message-ID: <20260516190734.34721-1-grxp323@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1778692164.git.u.kleine-koenig@baylibre.com> <ae2ff4898eb340bd8bcafb7b75443eb4a0ce3e76.1778692164.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <ae2ff4898eb340bd8bcafb7b75443eb4a0ce3e76.1778692164.git.u.kleine-koenig@baylibre.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Sat, 16 May 2026 17:02:18 +0200
-X-Gmail-Original-Message-ID: <CAD++jL=XR1XMdGoLGYdbK8DYc52BidWDhV35auyGJo2FRK+nog@mail.gmail.com>
-X-Gm-Features: AVHnY4J_BRpuyVIajVUy2Bk72DemUmM0wrxlDP6FCrL_F3X-aoIfjJho3-JZTYQ
-Message-ID: <CAD++jL=XR1XMdGoLGYdbK8DYc52BidWDhV35auyGJo2FRK+nog@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] ASoC: Use named initializers for arrays of i2c_device_data
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
-	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Lars-Peter Clausen <lars@metafoo.de>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	=?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Support Opensource <support.opensource@diasemi.com>, Nick Li <nick.li@foursemi.com>, 
-	M R Swami Reddy <mr.swami.reddy@ti.com>, Vishwas A Deshpande <vishwas.a.deshpande@ti.com>, 
-	Peter Rosin <peda@axentia.se>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Oder Chiou <oder_chiou@realtek.com>, Fabio Estevam <festevam@gmail.com>, 
-	Kiseok Jo <kiseok.jo@irondevice.com>, Kevin Cernekee <cernekee@chromium.org>, 
-	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Thorsten Blum <thorsten.blum@linux.dev>, 
-	Chris Morgan <macromorgan@hotmail.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	Marco Crivellari <marco.crivellari@suse.com>, Weidong Wang <wangweidong.a@awinic.com>, 
-	Aaron Kling <webgeek1234@gmail.com>, Teguh Sobirin <teguh@sobir.in>, 
-	Luca Weiss <luca.weiss@fairphone.com>, Bharadwaj Raju <bharadwaj.raju@machinesoul.in>, 
-	Hsieh Hung-En <hungen3108@gmail.com>, Binbin Zhou <zhoubinbin@loongson.cn>, 
-	Shimrra Shai <shimrrashai@gmail.com>, Zhang Yi <zhangyi@everest-semi.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, 
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, Qasim Ijaz <qasdev00@gmail.com>, 
-	Sharique Mohammad <sharq0406@gmail.com>, Chen Ni <nichen@iscas.ac.cn>, 
-	Neo Chang <YLCHANG2@nuvoton.com>, Cezary Rojewski <cezary.rojewski@intel.com>, 
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Kees Cook <kees@kernel.org>, 
-	Qianfeng Rong <rongqianfeng@vivo.com>, Tim Bird <tim.bird@sony.com>, 
-	Bram Vlerick <bram.vlerick@openpixelsystems.org>, Peter Korsgaard <peter@korsgaard.com>, 
-	Wenyuan Li <2063309626@qq.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Shengjiu Wang <shengjiu.wang@nxp.com>, 
-	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, Xichao Zhao <zhao.xichao@vivo.com>, 
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Markus Schneider-Pargmann <msp@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 13, 2026 at 7:23=E2=80=AFPM Uwe Kleine-K=C3=B6nig (The Capable =
-Hub)
-<u.kleine-koenig@baylibre.com> wrote:
+The HP OMEN 16-n0000 laptop uses an 
+ALC245 codec with a mute LED controlled by a coef register.
+Add the corresponding quirk to enable the mute LED.
+After testing, the LED brightness is consistent with Windows.
 
-> While being less compact, using named initializers allows to more easily
-> see which members of the structs are assigned which value without having
-> to lookup the declaration of the struct. And it's also more robust
-> against changes to the struct definition.
->
-> The mentioned robustness is relevant for a planned change to struct
-> i2c_device_id that replaces .driver_data by an anonymous union.
->
-> While touching all these arrays, unify indention and usage of commas.
->
-> This patch doesn't modify the compiled arrays, only their representation
-> in source form benefits. The former was confirmed with x86 and arm64
-> builds.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
-aylibre.com>
+Signed-off-by: grxp <grxp323@gmail.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-This is generally sound, so:
-Reviewed-by: Linus Walleij <linusw@kernel.org>
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 11d0ea8ed..2ac400353 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7079,6 +7079,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8a34, "HP Pavilion x360 2-in-1 Laptop 14-ek0xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8a3d, "HP Victus 15-fb0xxx (MB 8A3D)", ALC245_FIXUP_HP_MUTE_LED_V2_COEFBIT),
++	SND_PCI_QUIRK(0x103c, 0x8a43, "HP OMEN 16-n0000", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8a4f, "HP Victus 15-fa0xxx (MB 8A4F)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8a6e, "HP EDNA 360", ALC287_FIXUP_CS35L41_I2C_4),
+ 	SND_PCI_QUIRK(0x103c, 0x8a74, "HP ProBook 440 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8a75, "HP ProBook 450 G8 Notebook PC", ALC236_FIXUP_HP_GPIO_LED),
+-- 
+2.53.0
 
-Yours,
-Linus Walleij
