@@ -1,162 +1,118 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7261E7C23
-	for <linux-sound@vger.kernel.org>; Sat, 16 May 2026 23:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA9A405C46
+	for <linux-sound@vger.kernel.org>; Sun, 17 May 2026 00:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.171
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778975426; cv=pass; b=Zn8zmzJs1UIq/FEVTXE/9jU42zuLCmB2DvYgK9kN6Xkf2yuIzsXa5iVRiugZRqp3K3tKlXw0N0YFwaAJtjUlGLWfyrooARzwbn/WrJlR14vkRFb7rsUvVPIl6TMah8WVLp5a6FEde4Ti1Q4UBU7wjHINtulHNN/0DkH1uYEiPyU=
+	t=1778977117; cv=pass; b=Wfgl1dbpvi1y7xti4ZnEIq1zjwvz2Q50XpAj1Anqvr1vMjHJWwuv9To1MH2qPAXhw5QI6jWHgjXFxCjUNdz+G2eH6Un5DUwx4bcM6pJGtWcsTY1B8FOqLSisRckoNq3F9k9+X/xkMe/m2FFsq6uhut4X2kqmYEp9JI3pf8MI8m8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778975426; c=relaxed/simple;
-	bh=Ls8MgqgcsH4l0RhCEuS7VvenDTm2U2W/j/zfAviF4qw=;
+	s=arc-20240116; t=1778977117; c=relaxed/simple;
+	bh=LlKaBj7SO8MV2Kb6ua1zCe7p+43tNvCE8OLKsyLueEo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tuviai4UNgSMUqREVmMeitHyhRpdEOJcL7go3HRT983mqFheIrpNrIfRZCTDpyU3zSfcsac5ecucEWoYD+xGJj6AJD0LOSn51XQGnS3cUlKVQwV+pufukSpeV1PiXXiZE0FxofFezdhfxbk/ChtNIJtP3zgdsA0RFJK6qC0b18U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=blZ51ey4; arc=pass smtp.client-ip=209.85.215.172
+	 To:Cc:Content-Type; b=t280mqyhHbwYBqMGrHrjoXXuM6sitBuZoAlfLI61tODf0uahN3iFQkL7QrOYotAXdwlFxicJa511IaTTRF8Q+0P/qVubB4zDrwUjDl3SDEbIlloUeLzRBZm4H1HzdIQZytiBA/FYE/WQVUXXhBT7EfBTxj1Lx7OErUzy1+8/TOM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EtNoQebK; arc=pass smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="blZ51ey4"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c7980c060cfso391666a12.2
-        for <linux-sound@vger.kernel.org>; Sat, 16 May 2026 16:50:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778975424; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EtNoQebK"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2b45cb89f7eso6762915ad.0
+        for <linux-sound@vger.kernel.org>; Sat, 16 May 2026 17:18:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778977116; cv=none;
         d=google.com; s=arc-20240605;
-        b=K6mE6QttRR3lA80Zdo4sge0M9dlPKIRuVkPtmBXThc9qNc5P47bVgTWFI3OJGgHJ36
-         k1HnfMQnMNaB9N+gQEPtilbDI4ImMjOsA5JMRdkLMYo/GSyOXX9Ia731XRERimMOK4g8
-         Jey6XJou2YU6wRrnQvS7ZsOdXlIemDbF79XYiJGR9FxHkF9XUK+1U6vGSD8LxQcB/gyj
-         tbtU/AMSQILgdHKG5SjTq/xdOvLiTCj2yp/StNSENmfdep3aawYkg/XlyAUQ/+b/DjA0
-         A+Tkqd8B3Y60lpoxeIRA7TVX4DFB+aSNf4wBrRxR7/MgEhdZYJ9DCkyaF2xGoZklJhV0
-         fhiw==
+        b=ghzDadXZ1ZuyHTu+RPrQRlnVqvczqELEcGhSQLPNTZD5wBNT47YHyu73BW6ydE3Xz/
+         oI5PIl3w0mIGc1HsAKf6OutFhHnX/kpFjyi5/gNnmszHVoVJuhSYgieePPQhlcJHH8RB
+         DO3WYBqyITBM3Za4nkq14uaiA7NGfc29yfhdkSCs7bvivkWoFfAeD8i8BA+LwVGYX1vl
+         6gxlWxc6MKtrLNVi0PrhIbM4WvzMLA73Q7RikS8e5oIY0GJPablfSmRPbGmt7N53nPVQ
+         OoGxjbLNnvUHKNsHWlx2VkCTIyz8aNGySVDHY8Zan/vUACWgjp2jiQZAv3e/9Y1EDRUD
+         PywA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=aaUVd+PrR+MWOhU16AHCI1f+AVuqzEpKha/ErWOe6+g=;
-        fh=kVxfE7bAnIhm0E0Umeb4AgusPDvdG2z9bMqs0h8NKQA=;
-        b=ERVZBLojaCMca/ZA+aNxJz+QEwhWn/M4hiOXU2hBQwI0Sc+OBELU9k+EWqsig6RDL+
-         2QTv1nZC8SrD/PBqaiYc9t9P0QXS9sF1guFWFcuiaC4kbzynAH4RNpHq0AOtykIrmYf3
-         880T9DjuitfkAfF0YNtCUqeVBwMSrHCHQxxD3o6w5i8jqr0+/cZpocXHpf1WBfMlSQEk
-         RDDaEDFmOKGikrTOv9zZ/MmYGpaRVe+yJuu3uxYZaTjV1BjOhMHrIxDxOInn4TlSR9Mn
-         o1faHTkhs6h22AhUEtNCVFfyrg5FZtH78K3IAxN33R7pZJx4QzNpBJzN7lRHCO3eWnbJ
-         0s7g==;
+        bh=mwlQ5BpuuzTZAL1LxPwbMkdpasTg6SIqMpf1zg1uo5Q=;
+        fh=wT97OTxrsL6HksTv/ScKDpvOdWSKVIkxaOzHL7grn0E=;
+        b=SH+9hWXeKyeUpm5foYxi4m856HMBM9ZWpx1wVd/wTna988JEL2A+4bhrLeqM7TUQjX
+         kU+W47WnJ8MIhOGvE6N5AOZRAaJHjEmBUTTQrashqzSH/YfoijjlCAWs1ceJZ/lzh8Y3
+         yxKR6EvSJ6WCIcdFmabY2ahCxBmnN8dJ1qPhxHiq1e2HKCNkFg8RXz9v3Rbbmwuxx9iu
+         pIFotJJ9CWSXMi13RPEVfUOABwOJdWaVpruWOKw6VoHthW4ULRRfeRrVVtciQtLAY4/O
+         WO8rnfHlV4kiYmJfQQ7iaAnRv/pnodGpPDONQmGJTBbMq+Al0gZCocpJHCScuDdaBfB6
+         3T+w==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778975424; x=1779580224; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778977116; x=1779581916; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=aaUVd+PrR+MWOhU16AHCI1f+AVuqzEpKha/ErWOe6+g=;
-        b=blZ51ey41foYop8cuhUOqMwS7vc/U3NOwBEHyJoiJZiC+lWaVORHZN0QloWdgtfVTb
-         D/7bKUQKeH4Jieh6LZSjWsG/i6crcoqr39WaP6J9XnqKoHL/pcY3ubCaDjqlTg3btV4W
-         aNSVWu+32QpaWqHqvbWyCDBD0jL83UCqDqaHOyChRsxi6pHFPTaevQsj1mLDkSSlrr4i
-         3X+B8kJ2Atrr2AN4EgtkXbuuSmRyOiz+o5hgcKnX7kldqzcYS7R8KgRVCOymmcHFzrD7
-         ta2r5WHziwoTIN6bmkOtZITxz2qrQz+YOwN5gVsGF4HOEVD/6+Ad80jfBLWvqp1Yv9A5
-         MyTA==
+        bh=mwlQ5BpuuzTZAL1LxPwbMkdpasTg6SIqMpf1zg1uo5Q=;
+        b=EtNoQebKyCKh3o5/k/pkWCsPSpRDL6Qpny1m8T8LbyR+LutgpsthNMPmy09SbxaLyx
+         jozm1UCJvq6z6v/xyGJD/5+zPJJ4Rk/G3gCJeuJuUOcB/8FVgj6TyKuV6q2fEHf9xZMW
+         6vXlWov3itefYAdaToBltlP/zyfXviS0fquNMt/U1hno1XplkI1m81hgRMYZ9I9Fqc3s
+         XpqIhT3tyQQJyKU30u4Noa+cs81uuYlE4PWolqXzvVCyWSseLOmz4HF3+rkQoUIhJk0T
+         idLkSxqSkmAGEvN/YzdLcXtFYu9o6xXkB3K0Yml6cAJ5jVOeMFOx/ktrXNH+09En6Uod
+         ZeWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778975424; x=1779580224;
+        d=1e100.net; s=20251104; t=1778977116; x=1779581916;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aaUVd+PrR+MWOhU16AHCI1f+AVuqzEpKha/ErWOe6+g=;
-        b=f8qOhDL1eioHkUpk9vVPohfqmU7I4KIUtu/Asin8QiNST3a9u9tAyTqyqbHktmazAe
-         mwW9qF5RCAIT5sCvXsGkfzrzP6YQwTN4PECvRXIeJZbd17J7jXcleigF7MKKzXXivq9J
-         CHIRqkK9I8plZLDzHGmKVRxOw1YgL5hX8CRqEnXE7FdHUISqCi5uI2UGwlhHN2UqCph0
-         m9GwwdmhZrTOTfl+H/bkNSV11IVP0mNB+YU0NCuIPbHdJLk/i0kwGWYFy7IWz2xmsZyk
-         jiYdZa/sU1shS28h3N7qIVDETuDXKnAXSKorEpoy15ggpUihk2bj9y4iQl/DcppQeWMh
-         Fj4A==
-X-Forwarded-Encrypted: i=1; AFNElJ+xvIOnkBP1maImONGstgnPq++byj72fynv6R11DbTMu+IUNxHDDVvKdydOUcNrKE3VmJfayvLYPWRJpA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZ4+TlnhggHmMEiPd37khZsGBz4J06lODJbrnBcTx/P8ds1W4L
-	KgZWbfai57cTmArMTxWLr834bgYLdTzVFl+deKRXXj5dTI6XwdKctFjj0yynSEVpQ0svjwY7ipY
-	FXSFIYkHubejeQxrJ9BIiDhgZl1fr05U=
-X-Gm-Gg: Acq92OH2yX3tCwh6fWzLfmQXqsVJSeclXjmhSjP0CBKT5ux8jll4enR+WkKZfEHAO+g
-	sZkgzEjH6ZusNXL2yTCS3FyZGWEgIjQzWpQAHkJvDU69RbJw/eYzOU86B04SwDtrp8lcU/3TFIc
-	fi0ctamqhDLw2y8Udot63dfYAHG64nVvG9U4K8zUwLrPhZoAbd+CTpxvNDmhOXybP8wy60Vgc1f
-	ju6QWFsz1iTp1erZSggoypPm1a1C2nVJU4UITG2IDNwDV4Oc2sWPaavAC1FjkMntggfRHTmV1MJ
-	88t89LjyNTcrhdDjYPGx9pevmMGZdSob8dG0EAEy
-X-Received: by 2002:a05:6a00:3928:b0:837:fe75:104e with SMTP id
- d2e1a72fcca58-83f33bae7d8mr10282417b3a.5.1778975424205; Sat, 16 May 2026
- 16:50:24 -0700 (PDT)
+        bh=mwlQ5BpuuzTZAL1LxPwbMkdpasTg6SIqMpf1zg1uo5Q=;
+        b=O9E4vfPZa7DHY8uZnVntDk+Nb7+cjA4wLlwmyAVCW7I0M0tjKLXPB0j0tKHSSgw9U0
+         wl0xZsVr7UZAywRAyOzy6MtF/SkU3gzQBpZXFfx3QoQ6aY97reazC0vDvdcvFpBCoLTU
+         6jwIHzMqg4Of2us56D5wi715hCbK76G61I4TslLxo28iYMo9/rQdsFZqUMye7Lgpgide
+         2B+RosjMC3899rXf3V3N5dkTBBbNecIA113IjzJXIcdZ3Y30TaP8YJ+2XJR/6/buDVdx
+         W0zT+394de5WGDor+j2ZslE8WLN8dNtsxX0vYlALTWjUfpDBsebLg3TNfNKpTF1htDFc
+         oOOQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8CmIGPKfH0IIWZjk5bC2+YZbC5IkILKM+Mb0Lm1e1rFGN3Q1A1NQgCoVnq0v9j7g68y6WE/H1+Yh45Tw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxgXP+xdUH9uRGMpC6olyVXD3/kvTJLsd9wTpqBVQ+DHxwjIE7
+	OOnJkrVaDFKgaz+vgJny06tc7gqfJrTC2jSw2Z8nvdvlI45/RYY+LapKS7Y6gW+imd+DxqiYc9d
+	hZzDt3EJyolVAeAiYxXWcWbNkq35dykY=
+X-Gm-Gg: Acq92OHDDHSNbLVq3DvF1x9pC3ZWycu9pU6NFHwlkc9njALBGV8UZOxLJksvR7qLwTo
+	a1gB5DfhNcFXluQcjVB1KVcvaedHXUCSD7L+mLGa+s/EjJbxXdSQTEwQt/x1XSjTEErRjPrSW+R
+	3oQibO3ZOWR4BsWHI6l/FCaqynyTtgZ+FTSkTWe0qYBtGY0BnC9hsL4yFwzXRrJHQZcwtI67Nj1
+	Y2eD1rK9NkejC8enwCnyS7CFa63sNtAUHWcQyXlcRf/hBCJ2IpWCoXTSl9SgLwNsInu5gn1weR+
+	KZsexpRW3Q85Cu7ZPi/e9cbDDGNFqdOO80+p1yToDJaL16Z1aqw=
+X-Received: by 2002:a17:903:3c30:b0:2bd:7ff4:ab0b with SMTP id
+ d9443c01a7336-2bd7ff4b216mr106672755ad.39.1778977115676; Sat, 16 May 2026
+ 17:18:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260513105003.81880-1-phucduc.bui@gmail.com> <20260514043314.62222C2BCB7@smtp.kernel.org>
- <CAABR9nGhwtBu9Yhbn-BTD1Scykp2h6eQbtQtT13DcnekUdum1A@mail.gmail.com> <CAABR9nGZM3Bnb3DnObdp2nOJmW6ezmXqRSBtgS00Ps2ve4zsbg@mail.gmail.com>
-In-Reply-To: <CAABR9nGZM3Bnb3DnObdp2nOJmW6ezmXqRSBtgS00Ps2ve4zsbg@mail.gmail.com>
+References: <20260513104329.81592-1-phucduc.bui@gmail.com> <20260513104329.81592-3-phucduc.bui@gmail.com>
+ <agUknFcDIfwrOCld@sirena.co.uk> <CAABR9nHfXi5G4+sVnLbWWJctQHkWASTzTwiV424bO6BXZDqX+Q@mail.gmail.com>
+ <agZ92TVjcYpEv_eH@sirena.co.uk> <CAABR9nHR13e3d46_Z7Q8ZkjQzKbkcPs2Er4sAvq6G1EEj-xoXw@mail.gmail.com>
+ <agfd4gvQ_m3Zt8GP@sirena.co.uk>
+In-Reply-To: <agfd4gvQ_m3Zt8GP@sirena.co.uk>
 From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Sun, 17 May 2026 06:50:13 +0700
-X-Gm-Features: AVHnY4IsUkQfn46YMLJeefxvMG0oEQBhPAdzpdl8m066r_PvU5WUFTx-_5lbq4I
-Message-ID: <CAABR9nGsb_zvH1w6GFDqGFNCYjThCGuQ+RC91Bpkwu=h9ypcJg@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: sun4i-spdif: Use guard() for spin locks
-To: sashiko-reviews@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Cc: linux-sunxi@lists.linux.dev, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Marcus Cooper <codekipper@gmail.com>, Chen Ni <nichen@iscas.ac.cn>, linux-sound@vger.kernel.org, 
+Date: Sun, 17 May 2026 07:18:24 +0700
+X-Gm-Features: AVHnY4JFQ_P1OHVLxDYOkHcfJiy2AJrIGhHUyvcIGLB3nM-OzzVXfHcxNMGpPaI
+Message-ID: <CAABR9nF2GePScGzjbPs3Fzj_qiiWcP0D0+SciyPw1J9kTR4GUw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] ASoC: stm: stm32_i2s: Use guard() for spin locks
+To: Mark Brown <broonie@kernel.org>
+Cc: Olivier Moysan <olivier.moysan@foss.st.com>, 
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	linux-sound@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi all
+Hi Mark,
 
-I would like to make a small correction to my previous email, and
-also confirm one additional point before preparing another patch.
 
-Correction:
+> There are likely to be different considerations for different drivers,
+> on some systems the power savings from managing the clocks may not be
+> meaingful or we may need the clocks for register access.  In general
+> it's nicer to actively manage the clocks but it's not super urgent to do
+> so from a framework point of view, it's more a how much work the people
+> working on the individual drivers want to do and if there's a use case
+> for specific hardware.
 
-> However, I also looked at a similar case in the
-> micfil_rate_set() function from the fsl_micfil driver:
-> https://elixir.bootlin.com/linux/v7.1-rc3/source/sound/soc/fsl/fsl_micfil.c
-
-In my previous email, I referred to the function as
-micfil_rate_set(), but the correct name is
-micfil_range_set().
-
-Additional point for confirmation:
-
-Currently, in sun4i_spdif_runtime_suspend(), the clocks are
-disabled in the following order:
-
-clk_disable_unprepare(host->spdif_clk);
-clk_disable_unprepare(host->apb_clk);
-
-Meanwhile, in sun4i_spdif_runtime_resume(), the clocks are
-enabled in this order:
-
-clk_prepare_enable(host->spdif_clk);
-ret = clk_prepare_enable(host->apb_clk);
-
-I checked the binding documentation here:
-
-https://elixir.bootlin.com/linux/v7.1-rc3/source/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-spdif.yaml
-
-It describes the clocks as:
-
-properties:
-  clocks:
-    items:
-      - description: Bus Clock
-      - description: Module Clock
-
-  clock-names:
-    items:
-      - const: apb
-      - const: spdif
-
-From my understanding, apb_clk is the bus clock, while
-spdif_clk is the module clock.
-
-If that understanding is correct, then the suspend path seems
-reasonable since the module clock is disabled before the bus
-clock.
-
-However, in the resume path, the module clock is currently
-enabled before the bus clock. It may make more sense to enable
-the bus clock first, followed by the module clock.
-
-If my understanding is correct, I would like to prepare an
-additional patch to reorder the clock enable sequence.
-
-Please let me know if this interpretation makes sense.
+Understood, and thank you for the clarification.
+That gives me a better understanding of the considerations around PM/clock
+handling in these drivers.
 
 Best Regard,
 Phuc
