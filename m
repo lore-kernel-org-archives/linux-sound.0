@@ -1,76 +1,75 @@
-Received: from mail-dy1-f194.google.com (mail-dy1-f194.google.com [74.125.82.194])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A9C327204
-	for <linux-sound@vger.kernel.org>; Sun, 17 May 2026 02:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70FA234D3B9
+	for <linux-sound@vger.kernel.org>; Sun, 17 May 2026 08:53:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778985460; cv=none; b=boT19atABob4N7Li0vxd3vcAV+BQ28qyEnjghSR5FN48OzSUTlfID9ooNLdRC7wNgOdqt6m040c5nFa1LbrTS/KY54NmaXOY5i1kf0f4jeQ2AFHFKCmkcsGThFdmD5E6+8jgHEy/C4PkxO/w2XINtMxLRB8ztuWsE8HMjrtBXPY=
+	t=1779008020; cv=none; b=qXe7nxlWVJ4/kh43BGS7wbz/1cbTJHf0KapSDaFuvAcUrsvUq06fKXJ9PQLsV1tl49UZqV8VBC3B2E4Ul0uD3LGNIE8czBD7QfejmGX0rUuqzuf0EP/r3VG3FVNh2WlJxCAXshcd010U1L5NKlWOPQruIYbxG4M7f1CcKlAZTfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778985460; c=relaxed/simple;
-	bh=nkr8/NF0Epi/NaFan8Kk2N3mFZHQBA8PazqHLbcxLsA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ivDGa8/hd0935QwXMf0YUlFDp4HGFt9rLHNT+m4E6qgtzXOhl2H6wt4Q5eUJdV1pF5anN9eApRZWOP6vmrj1VoGrO36eehhsZGjcL4JxejB56Um4RKnGKmRTfWfIWLzpf5xsbc6/eDF5sS0mY7/rDgY3wTr44D5dOTsNY+5pzCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZYWDxxbN; arc=none smtp.client-ip=74.125.82.194
+	s=arc-20240116; t=1779008020; c=relaxed/simple;
+	bh=5HtuVgaiY0YvcIv/uLoN/3sTJCwrQF8ruRChvqh129c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JSP030arPb2zLdS0e6Y3HPUcRVj1cSAql5WpLVoto8l3yLXhQjuW08WyoxVgsAuhXKSHoG7houKDgH2Cdy1AmIJ7LtoSVt9yJL4NS4qAyTjLzRQItrb1EmVnXQYD6liGEpR9mKdoqS5D5Gaev1jyXCuLfjzGpqzQKDngZ7Eel4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mZUIAXDn; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZYWDxxbN"
-Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-2f7020a928eso1504663eec.1
-        for <linux-sound@vger.kernel.org>; Sat, 16 May 2026 19:37:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mZUIAXDn"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2b95a78a11dso2970515ad.0
+        for <linux-sound@vger.kernel.org>; Sun, 17 May 2026 01:53:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778985457; x=1779590257; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779008019; x=1779612819; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=64N9mxUmbn95xk3hRi+FhhFjawkaA9BLaMqdL0SOqL0=;
-        b=ZYWDxxbNH78fpsHmWy4jfQP+Z7FN2qLNCL85kFGHbz9vy7cp9lagEwi1ucK4qrnKd8
-         MZ3LwIBpjxkV9OVbo41buzWERVMupXHW/XE4SkBBmARTnVoXufwwegJDZQCzsl0+Ry8x
-         +k602T7iT4LcoIuNhtaT1ODLPLHu00rSkfRR33TRXCELN+t7ivve2DTlylKpzxX6U1bM
-         siOqcp0Om6FIG3Dnc9Swtub5ATUJ3Gs48dkS4dHybRFqxUF1IwnWRwxkYDfmu/gs2R+H
-         FmGURDQCoK+YiHM5A13huCfJ/QfnlbZjG+heY2thShE4tSoqmv2VsK6FNZNVzA2hD0ul
-         LxOQ==
+        bh=ANUCFNHeQjHjR+ZPRwbIJN1ptVHRpArx0eEvrWvlZZ8=;
+        b=mZUIAXDnEwU8UcPJCP7jSUNQm5txo5OG5F4KKziCiwVDA7qPDYn+Zcw1G3BhxYFa++
+         ZXXcHmWs94QDVeY8j0cFF6a0q+KgujhjEt+oXQerzUEI/BZB8SVyCsXA1euLP7QTXrW4
+         BJiSZ7juEwS1EmYgPHCKCPFCOB2KsOdlUJaNSLNd/Hfl9bMPTPEzBQaKs3MVH/pzMkrU
+         cJSq26haDBjhraVD/hwCg4L6ta5vukDq5KziEiEBJHcbkVxWpp/cSYErDlprrBitlhia
+         owV6ttS1B+5DnCZyTuqsSlMBvH3b0nbtG2tH+ve05DOsugm5Nc54djlkPlKxfTI8pgzC
+         oEmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778985457; x=1779590257;
+        d=1e100.net; s=20251104; t=1779008019; x=1779612819;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=64N9mxUmbn95xk3hRi+FhhFjawkaA9BLaMqdL0SOqL0=;
-        b=jsY8k2IQWlMssIfG7CnAEveB1qh2aI77Ir1qWU7JtQrhxLovz3YyXMhB8kCmFYWRmg
-         ifabjzk10QBq+AmiQ4YpxRb/+oF6fTK6NjzMXw/Cv8u+iXZDMZd+yYOAsq/vw2TbGkgz
-         IqLQW6KfCgbL/xiaSJLZC8Jm0WC72D8i4RPklK2DPsFnYl0hmAHfAmom6lLw7jAu7M/Y
-         xwqg3RtnIuTZQcsn5cLRWM18IIOZ4zM+pZ0dIAdnPZYMO3hD5k6bsFHd2KCokMXbtxfp
-         FyssG3A3LG7WSgnS0iSyotVh+wUl5qMLPjeBhHugAqApeVcO30MHDp08BJrOuHXW4udP
-         Hlvw==
-X-Gm-Message-State: AOJu0Ywm2jF7rirc9sk/D7juTVXp2V7AKD6Isdo4klDGMCsWLewpGZ6A
-	398ZXXCm75uqKTW7j4MhimPProoLLe+sPQ/suxgbZHaPeRGsHtSaeiyTpkKTnOcSubg=
-X-Gm-Gg: Acq92OE9f+MxwJCsU89sOPabJ2WNiSTypBOHPbnUKWLwPc+8bdQl7QQABx3FEk2KJWx
-	B/ISRqDFTnkWvJ9wNQe+/y/LW/AkxAZ6ODjSz283NRjv2aIB8g1K7fsVr/fW5Bqn+Y9ovlXnCzM
-	ShT1dgzvDeXzpaJdKi0XxbqlEAdIoNpVfz8vyvM6bdZFlct35Cjbf6zQDJSOuyRQFjq5L3uLXNk
-	QmixmHDGZk1xnJGzekGEIHmS15ogEVmsnrhZV7iGnVujlL+p+PI8Lmtd5EMoFjr34fMEKkCIjX7
-	o3vlEB+mW4OoTQ/envjf237G+B/63doCSHUMRydQoHIWuLvV+TxLsoyJsK/HOxnn85F2TFix8cB
-	mbZEGHyDFSp6zHF1XzMMc61IRuyMJytMVEDYqT9EK4Tl3pYoRcucd8gX08NmzDMPKXntDy/2nA0
-	vI5Y6twi6+uleXxKf2YXOKHekLEdXUzxI3PC4eBruQ865lrYc5JQW6awtgvAHZnt2YQ7lSqTtNm
-	wX/lg97m0Gi2orNMpOsziyk+SDEtsNn/0ajfNrG8rkv96OtgXGjS3KE6Zt0lAlUTXJONcwxo6Q6
-	j6d+8t1QFbnZQmurB8VuM7yIdqhd
-X-Received: by 2002:a05:7300:5708:b0:2c7:3a7:c792 with SMTP id 5a478bee46e88-3039867717emr4432185eec.20.1778985457292;
-        Sat, 16 May 2026 19:37:37 -0700 (PDT)
-Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-302978b1a79sm10850097eec.28.2026.05.16.19.37.36
+        bh=ANUCFNHeQjHjR+ZPRwbIJN1ptVHRpArx0eEvrWvlZZ8=;
+        b=kLSA5XfBVN0x60SEpu0EJ4KLav2Ike4EK6aaY65RkWkXDVX0PnP5RzVZreAM6rCMeJ
+         WfBPK1D4ULzj2wNgEECVWep+Fca2NNBvMVxBSW78ZmxxC4nXjORlnBcJuKwfGQoR3RYB
+         8uYV0prMXOujB+RJRhIZxmLkF+pIfb+mlBLPLDtQXeWfbShO8I+I19tjJRod/gGkl9J0
+         vTiXJHw4ucEh1jEvaE6ZB5/SpzocdP01K74McJ8/G6CZq5FC50cuBqI7hjPjgD9Weqzc
+         DSBhl95HpHKkZDWEyaGDhzBdsAokhEvMwZUxQ79HGq8tDgS6OvJd+6rCHVWetncVWW0g
+         knsA==
+X-Forwarded-Encrypted: i=1; AFNElJ/DnRRsrgIFqlbNErw8MbrXPiCFD+7oHeMXCqyOWBBKsmho4ayOBC64hUAdm5A+O76/hLo9CTBaW7m6gg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKV6iRogzvvVBcOpF1w+UBfOTzWN8eNsGBx7npgZ0ueKEH7j9i
+	vokh968onSESeMOmQgJq7o8ABh/itWf9KAVcqu7gRsQu3WqQHcde0csV
+X-Gm-Gg: Acq92OHeVVHK7jyLT1tqO0KGcRSvYEVnwHPUrJ4y8JQUZUkiYazPFxDavVXvEnl/xwP
+	TFZPb1bkFhWbhK40ncJuVFYNjdIp26IhNt+utG+GzVF5G31r4E4FQglfnxhZsXku1UKU0OA0bB8
+	IrOhb6JBS5QpY+FM8OJ1ux+ljXBkWmi4ZcMSK+LO5+9ZmvxvT6jGQAgjHkFl9EyVAxXct1xzm+4
+	sFk4AyBggncuM9WcS+yauJQg+zQzp6garL+XOO5hOmfKbQxy8/+KD/KWRw1kIZ5+e/ZQ3ur9quw
+	MGRLrLLFS4uYUCc/DmSlxe6cAK3T2rKaxtHRnhsD11+Jm21VQa322/2EWYVwzosFA1GVYKxxk97
+	jE0uG0VECNPdUpJG3DL4GRNLUYzdUqNrUyTmVEc6ysQjltaLccEjB42xAMl9AmXQXlcFSj1PkIo
+	V+NDfq3Bimdnbgxcg7rb0NYirWNdJAFd+PGfDTQ523BlqdQaKSs6Rx5kg=
+X-Received: by 2002:a17:90a:c883:b0:369:a719:6747 with SMTP id 98e67ed59e1d1-369a7196e42mr1004072a91.3.1779008018693;
+        Sun, 17 May 2026 01:53:38 -0700 (PDT)
+Received: from nixos.golden-musical.ts.net ([122.161.241.87])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c82bb1156absm10194919a12.27.2026.05.17.01.53.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 May 2026 19:37:37 -0700 (PDT)
-From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-To: linux-sound@vger.kernel.org,
-	linux-omap@vger.kernel.org
-Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Jarkko Nikula <jarkko.nikula@bitmer.com>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v3] ASoC: ti: omap3pandora: update board check to use DT compatible
-Date: Sat, 16 May 2026 19:37:22 -0700
-Message-ID: <20260517023723.92731-3-enelsonmoore@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sun, 17 May 2026 01:53:37 -0700 (PDT)
+From: Sidharth Sharma <wednisegit@gmail.com>
+To: Vijendar.Mukunda@amd.com,
+	venkataprasad.potturu@amd.com,
+	broonie@kernel.org
+Cc: lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sidharth Sharma <wednisegit@gmail.com>
+Subject: [PATCH] ASoC: amd: ps: Add support for MSI Crosshair A16 HX
+Date: Sun, 17 May 2026 14:23:23 +0530
+Message-ID: <20260517085323.2565039-1-wednisegit@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -79,57 +78,73 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The omap3pandora driver contains a check for the ARM machine ID via the
-machine_is_omap3_pandora() macro. The board concerned now supports
-only FDT booting, which does not use machine IDs, and therefore the
-code should be updated to check the DT compatible property instead. The
-legacy board file for this machine was removed in commit 7fcf7e061edd
-("ARM: OMAP2+: Remove legacy booting support for Pandora").
-The presence of this machine ID check prevents the removal of machine
-IDs no longer used by the kernel from arch/arm/tools/mach-types,
-because the machine_is_*() macros are generated from mach-types. To
-resolve this issue, use of_machine_is_compatible() instead.
+The MSI Crosshair A16 HX (D8WFKG) uses a Ryzen 9 8940HX processor,
+which identifies with ACP PCI revision 0x62. This revision is currently
+unlisted in the Pink Sardine driver, causing the probe to return -ENODEV.
 
-Acked-by: Jarkko Nikula <jarkko.nikula@bitmer.com> # v2
-Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Furthermore, the MSI BIOS lacks the necessary 'acp-audio-device-type'
+and '_WOV' ACPI entries required to automatically route the internal
+digital microphone array.
+
+Add the 0x62 revision to the PCI validation switch block, and introduce
+a DMI quirk table to manually force the PDM configuration flag for this
+specific board, allowing the acp63-dmic-capture node to map correctly.
+
+Signed-off-by: Sidharth Sharma <wednisegit@gmail.com>
 ---
-Changes from v1: Fix mistake in commit message and remove Fixes tags -
-machine ID checks still work with DT booting if the bootloader passes
-the ID
-Changes from v2: Correct changelog formatting (there were two ---
-sections in v2)
+ sound/soc/amd/ps/pci-ps.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
- sound/soc/ti/omap3pandora.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/ti/omap3pandora.c b/sound/soc/ti/omap3pandora.c
-index f11b1d8a1306..6c9c184cd9d6 100644
---- a/sound/soc/ti/omap3pandora.c
-+++ b/sound/soc/ti/omap3pandora.c
-@@ -11,12 +11,12 @@
- #include <linux/delay.h>
- #include <linux/regulator/consumer.h>
- #include <linux/module.h>
-+#include <linux/of.h>
+diff --git a/sound/soc/amd/ps/pci-ps.c b/sound/soc/amd/ps/pci-ps.c
+index 9751cf078..b9758a7b5 100644
+--- a/sound/soc/amd/ps/pci-ps.c
++++ b/sound/soc/amd/ps/pci-ps.c
+@@ -17,10 +17,24 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/iopoll.h>
+ #include <linux/soundwire/sdw_amd.h>
++#include <linux/dmi.h>
+ #include "../mach-config.h"
  
- #include <sound/core.h>
- #include <sound/pcm.h>
- #include <sound/soc.h>
+ #include "acp63.h"
  
--#include <asm/mach-types.h>
- #include <linux/platform_data/asoc-ti-mcbsp.h>
- 
- #include "omap-mcbsp.h"
-@@ -225,7 +225,8 @@ static int __init omap3pandora_soc_init(void)
++#define ACP62_PCI_REV 0x62
++
++static const struct dmi_system_id acp63_dmic_quirk_table[] = {
++	{
++		.ident = "MSI Crosshair A16 HX",
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Crosshair A16 HX D8WFKG"),
++		}
++	},
++	{}
++};
++
+ static void handle_acp70_sdw_wake_event(struct acp63_dev_data *adata)
  {
- 	int ret;
+ 	struct amd_sdw_manager *amd_manager;
+@@ -436,6 +450,12 @@ static int get_acp63_device_config(struct pci_dev *pci, struct acp63_dev_data *a
+ 	if (dmic_en && wov_en)
+ 		is_dmic_dev = true;
  
--	if (!machine_is_omap3_pandora())
-+	if (!of_machine_is_compatible("openpandora,omap3-pandora-600mhz") &&
-+		!of_machine_is_compatible("openpandora,omap3-pandora-1ghz"))
- 		return -ENODEV;
++	/* fallback for msi firmware lacking standard acpi audio routing flags */
++	if (dmi_check_system(acp63_dmic_quirk_table)) {
++		is_dmic_dev = true;
++		acp_data->is_pdm_config = true;
++	}
++
+ 	if (acp_data->is_sdw_config) {
+ 		ret = acp_scan_sdw_devices(&pci->dev, ACP63_SDW_ADDR);
+ 		if (!ret && acp_data->info.link_mask)
+@@ -587,6 +607,7 @@ static int snd_acp63_probe(struct pci_dev *pci,
  
- 	pr_info("OMAP3 Pandora SoC init\n");
+ 	/* ACP PCI revision id check for ACP6.3, ACP7.0 & ACP7.1 platforms */
+ 	switch (pci->revision) {
++	case ACP62_PCI_REV:
+ 	case ACP63_PCI_REV:
+ 	case ACP70_PCI_REV:
+ 	case ACP71_PCI_REV:
 -- 
-2.43.0
+2.53.0
 
