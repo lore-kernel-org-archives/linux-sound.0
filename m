@@ -1,80 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDBE1B808;
-	Sun, 17 May 2026 16:19:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C5B1B808;
+	Sun, 17 May 2026 16:20:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779034748; cv=none; b=DfpaSv+c5YwQg24jXUU3lR+i5cM/xn7CkNYRQIVXns25U8ugeT5V8B24QSVNklDIzdB0bUReg1olrrP4vKxaH49/szy1U+YcyE9koOWL5wqLethSOEvIWXyfzGiXYy8et4MNrqfBcWXrNwncSH420JwX2MzWUTEBsJsO7n+Pafs=
+	t=1779034814; cv=none; b=WgsI5o78Wk4XSHfjCLm0ib73kEB0yYg2zinR2bcxk8wuBOwik0pcxJ0cIEnNkmetRV8qaym7bIe9O+TDvI5tJeNm4p6QqXBjKyURWR2EUcCpaAcstPOSNlV03MQhZvz+lTloMcizvtIMSkyrdbNeQt9Ug43UTKl4fStkK1sXY+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779034748; c=relaxed/simple;
-	bh=/ei5SGT6Zh/13qQKCMhGdk/NpF6IwfMoUdXncf1icq8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Aw7um0191oxSPUpV+SeP5IeGk+8iOjy4YgH8gWDyYE0BAigkVtQ0L3dKZpDYPUaaba4CrSvBDsO/W/XrJnvs1k29UDWBZK80Fs41uVd+0Q6wTsmY221UN0VzbJ61YHOtFFVRgUk61twTMHF4Db3Zt+xcymwaWzcqvqO1jLjqc64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jjM1YuNx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779034814; c=relaxed/simple;
+	bh=KH1mYRGQuryVzI4h0Dh6Rn/OjjkxNKL3dj8KlyyWRF0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=rmkRzb5EEo3hZgnn9aFJOsnBqW1QNE/ZYwd7JF5OOX1SowaqKwVZE+rrNdmZldnOwcsBXQkOIjAgpQJS2IaiQjm2vJdskJJSyZNedOjU2ii/Yax4cXZ/v4VnZg8WREqr2ZQhLfWJ8a6KzIqYfhuKOIvkfufeA6rEFfUJyZzgX7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hAh+j7tM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jjM1YuNx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75E70C2BCB0;
-	Sun, 17 May 2026 16:19:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hAh+j7tM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC332C2BCB0;
+	Sun, 17 May 2026 16:20:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779034748;
-	bh=/ei5SGT6Zh/13qQKCMhGdk/NpF6IwfMoUdXncf1icq8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jjM1YuNxqGSO8ZjG+/Udq2iYhQyQLHFLT1nlagatKvyQhpd5Km1ProUnaCHq2wDCD
-	 MJ1Fn5Vq9tQZuZlwWiTBB5vGlpJn7OCsCvLBU2YA1UNj0RCc6AvqFe6dhzjd/QMfZw
-	 sSAE7vK+s9o4trQUbI49sVx71q0oZn4pTPAKdtKwh/0dDx25xwI7dDJBt+AecWDYqo
-	 IXNhkWczQGk38dzMPppgHcBMOXqFshIupRlOHY7bxP8rjpSaPFR5XaaShyDmv6IdEe
-	 XnI/blgXlZvnxPZxHaMHrRoBlDV8bpatDBAy9SlAXdd0tKljt9Ue4kaC8qwRPzeMo4
-	 AEbaQPNPd9reg==
-Date: Sun, 17 May 2026 21:49:03 +0530
+	s=k20201202; t=1779034814;
+	bh=KH1mYRGQuryVzI4h0Dh6Rn/OjjkxNKL3dj8KlyyWRF0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=hAh+j7tMPue/NRW53t0Y4v3wlgyJiuQvJ6bNRGNPJj46ha0wk6lcMne1bEkb6Y9d7
+	 xhKXF0AXqIIILKVn7vsCkoO7vFFw9iZo04HBmybECd3VAyCfsRmLEq0Tx8JyHNS8sb
+	 y48A3E7xZxNsRiA8he+fmxbnsRgvFWCLEulusXZn89XEftwo9aUj7/xRVdl1GqNyyP
+	 lfILEpvMt/k1S+q+P/Innq+w+AMbPwCxMcUOlu7CbPSZKaZ2b4txGlY8dIDYup1B9w
+	 7p6XJxm9ZRBYeOPt9lOSvo1OqnbOtwcubs4DjyoKQRyW5wgP3U/PeabJ0+r5AhYj7X
+	 ssagVnh5nVKHA==
 From: Vinod Koul <vkoul@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
-	bard.liao@intel.com
+To: linux-sound@vger.kernel.org, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
+ pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com, 
+ bard.liao@intel.com
+In-Reply-To: <20260514141625.1834216-1-yung-chuan.liao@linux.intel.com>
+References: <20260514141625.1834216-1-yung-chuan.liao@linux.intel.com>
 Subject: Re: [PATCH RESEND] soundwire: intel_ace2x: release bpt_stream when
  close it
-Message-ID: <agnqdyt12rh5OAlM@vaman>
-References: <20260514141625.1834216-1-yung-chuan.liao@linux.intel.com>
+Message-Id: <177903481158.39935.3686849536391381410.b4-ty@kernel.org>
+Date: Sun, 17 May 2026 21:50:11 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260514141625.1834216-1-yung-chuan.liao@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On 14-05-26, 22:16, Bard Liao wrote:
+
+On Thu, 14 May 2026 22:16:25 +0800, Bard Liao wrote:
 > The BPT stream was allocated in intel_ace2x_bpt_open_stream(), we need
 > to free it in intel_ace2x_bpt_close_stream().
 > 
 > Fixes: 4c1ce9f37d8a8 ("soundwire: intel_ace2x: add BPT send_async/wait callbacks")
 > 
-No blank line here please, I have fixed it up while applying
-
-> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Reviewed-by: Simon Trimmer <simont@opensource.cirrus.com>
-> Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-> ---
->  drivers/soundwire/intel_ace2x.c | 1 +
->  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
-> index 0a97253fe0c2..b37933efac5d 100644
-> --- a/drivers/soundwire/intel_ace2x.c
-> +++ b/drivers/soundwire/intel_ace2x.c
-> @@ -317,6 +317,7 @@ static void intel_ace2x_bpt_close_stream(struct sdw_intel *sdw, struct sdw_slave
->  		dev_err(cdns->dev, "%s: remove slave failed: %d\n",
->  			__func__, ret);
->  
-> +	sdw_release_stream(cdns->bus.bpt_stream);
->  	cdns->bus.bpt_stream = NULL;
->  }
->  
-> -- 
-> 2.43.0
 
+Applied, thanks!
+
+[1/1] soundwire: intel_ace2x: release bpt_stream when close it
+      commit: 8a7fe10eec64bfb7cf4091bca540de4c55d56bfa
+
+Best regards,
 -- 
 ~Vinod
+
+
