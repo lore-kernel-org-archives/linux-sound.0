@@ -1,73 +1,74 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CD83890F0
-	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 19:40:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B283890F0
+	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 19:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779133230; cv=none; b=ayMeaUe0uHKyvcpjwLgQ/XRMdO2iaX2mt6mL+7rxumvLWZX6jGM4OUx20TAIPoNRbSDWVnxanbYpnVfy8EivROH8Q6UCUOGmhXdJGb2Hyr8gISi+aVNdnPUsAkXcAGBC7+GlejwunS41Zd21QF3JS3NqIqFp3DDbb7g3U7HCJxo=
+	t=1779133235; cv=none; b=iKV99xgyhj1ZgQKfl3Gk250FLBORpa8SWGAqZ/XlmC3VGbpXibywlsu+FeQL2vPDae1EVKkTBtvlp6kNQmthsKgYZItDzRfCkVRJJ0iH5q84zyATBDRicmbkA5OFkAmFujS1LSJX1Sgzbj5Ca1yu4Sm4hnQblGpuKQ43TmKYkSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779133230; c=relaxed/simple;
-	bh=BuEk7fSX8V17vakuWtMqTXWlzRacwBDKMVQLZec0LYA=;
+	s=arc-20240116; t=1779133235; c=relaxed/simple;
+	bh=wKXl8y8wUe+rJNJmHqOBxEz0hRo+ZGkdSMCkKFWiIbE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=t4VBP02YoOJt869iuJUCAQTxHJtetJBO7L2C8zFfybs9g5mEn5Wks/+FGBOHBO/zguNtdHSnZbvRsrtwg8K88zD0qyP3BOspl8gTFYSlX/Kmy1FMj+ZtlAbg5ZfZjkAJ5N45f7EixqJcB2AWxBerA+Fh/ZT3qB+oCIl13/z/z/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NMlK3BhI; arc=none smtp.client-ip=209.85.215.170
+	 MIME-Version; b=Gk3NkCAHWyl3NcqrxKNdxtFUnXuS72MPGymBTG5LsiNgQVKeTwwJmMpgy+5y5WAvHFooqjio46UKFTNtkNslYz4yTxyGgV84yLOXgiJEtNF+KjU0IXCy+UjBy9AWCRS6g4vuVWNwwStmP90pfoJBsA591zGXwxxGXlPZVZb+G6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iov1aCj1; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NMlK3BhI"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c798fc1a28cso1113461a12.3
-        for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 12:40:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iov1aCj1"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c8027e876fcso1115717a12.1
+        for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 12:40:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779133228; x=1779738028; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779133230; x=1779738030; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=icbuaBQYuTdOy7kk8RS3OZKCGtT//Fk4igqsQXH55QI=;
-        b=NMlK3BhIHrfFcjAD+ejoiRKq5ldA8vHfDngPf26cdTbaHxHXVU4tNlNVqTbdcE4HzC
-         e3edSdOpwhLH9p7FPxTZGTyZNq7o6/c+JumUJaBp+Kf9BFmFhhSoZsw77BDKjFum5iGR
-         dFfQv0YYjAhcyHkOLB1HJgttj6XCXEtZIqaCvghh+tVv68ba15nmqaH+2rokglch2G0B
-         joj7OHF6D8oNRcg46zM1CPd7TsOhPzrEhZKa1B7c1BUivSW+j7Gyaxz8YLGuuqSJiI6w
-         pJB8gPROvjzh2yV4LOivLCAt9j3wGnYAh+i9Sq+R5s+V4YhYWSWWMNvA2yp0scsQ81o7
-         X9ag==
+        bh=JwhsmHK7kOuOjmpUhw7nH/iDxBwlkv7cOTMO53PauZM=;
+        b=iov1aCj1B5kLO/CyqR41fCrLiXy/x4ERvlbv7EIJNLRkYN3MaG66fcMV43zPJhDSUd
+         iyqZA3gMNcReelt+zhTwHwXY7xPnfG1rIEraltoUzzDrwXuupnYjo+Ri4DGgCJ8BEHsW
+         gOU5CpCTKF+xc3bVix5X7tAF8DcHwegE8TGOAH4ynn893m5SPJPtD9RJjL9D/4Bk36bX
+         zXkhvKlby+DoquapRurYImVZmmF2s4++Thrfz3KA/8i7WVvMAjDXO563xdUUDtXWEHTX
+         dYt06aeGd+TJHZoo3/OHYUSe+t2zWhTCWKKr9j9UPqNJbgdaPl+fLYXg4eLEZRA6A0bs
+         HGYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779133228; x=1779738028;
+        d=1e100.net; s=20251104; t=1779133230; x=1779738030;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=icbuaBQYuTdOy7kk8RS3OZKCGtT//Fk4igqsQXH55QI=;
-        b=EK53OIPep3IP4mwDlu36wNjssYssBRbUaODIvH3zyO8T6mXCcHxa1vV3mtVr1XWick
-         Kf29+guTfCDOTvDM4rXVITfcWW1j0GY1TN8SCrnJiHBkQQ25ISRqK26WwoDzkZi0eYeM
-         vVpZVBGeo35afcWRbw4DMA9MCuKIJpQcr0gNdENK3XliBxz1pS85yDQwyK7VrYwkpnNN
-         yrI8ZLEXOVrRtH2p2uudRPkPeZJDunIP3dbBhwM4ZuvQsrlpzRcTHz5NjkUITUDxfBlV
-         qrmyK3V7oENYHSbgqWP45gz151+NB8cliAUQLVWqdqxGZ6x/qCjflKkhTIwTiThJV3Vs
-         ZiZg==
-X-Gm-Message-State: AOJu0YyzyPc9DtVf4+L1AkopqCuCvJj8vHhaSqi/sZHXQ1tR9Xymnve9
-	tvpWUtMUMQHzfY6bcR7jWh/jzTBGMXLsJJK63wh7gzPh5zb1XcXh/nQthr/H9w==
-X-Gm-Gg: Acq92OFPO+Ut0DG+wLhJ+mUObgH3xrHsrrk17Om26uhf+7Mp4D0zb6urMCQB7E34rwt
-	rUgNxhlPjYw1Djh4e0ySk8VSkSrlY7ED87KH2kcnE2o7oUP7ExilPRErhCgd8iptCMfRe7Lr6J0
-	f36GIDjrbelEJ1CSD1TvPKG0tBNtYhGoiH+G76u/pQzA6iTBugleZUy3WuPe4CFJb+bOmDOcSYP
-	jGdn6kQOWmTanbyj16ApYW7C6asTDnplzYi9PyMgRKPPcNCJtt/WFgZL7urF+r+FhA9cM3P0q1m
-	UJ7PHoDW9oF/NZzTN4vVHh9LjXFNOaveqQou3n9iw8hJleob3ipPsi8ABtoNNivJZCOlnkWr25w
-	EmqtfNRzodyHpvF3t2OUNv/kt124Dvm+BC1kjEf6Q2Tjmc8wwCPNg/O1sVV8bUOFJzwoLIeNSmq
-	6QFCyhx2XoOqA7CqS6HRDFeoyCOUAPrALqmHuMSrI1xWt/efOwSTljbe6xIb9dWW2NeD/eUg==
-X-Received: by 2002:a05:6a20:7f9a:b0:39f:94cb:1bc with SMTP id adf61e73a8af0-3b22e7c24admr19330410637.1.1779133228150;
-        Mon, 18 May 2026 12:40:28 -0700 (PDT)
+        bh=JwhsmHK7kOuOjmpUhw7nH/iDxBwlkv7cOTMO53PauZM=;
+        b=Zmss8rHyGkFlLmfXp+JeQnA0jj+4CMp4DnR7PuMXJBcmTmC60EfL8qMypJrfOVAxI2
+         DgDJtOsAKTfxXvfxoBL67VQRmu43gFYp4BiEuoJBUVPMilU12j5mpNd2e123qLs+EK3A
+         6Mv3BnLrm2yOetCryUljF3E54B9S4c9D0pQzlgRsthb7HSQLXuydE4owQseh05vQnsT6
+         huI8NtPyRVfPRCnwRLRCvFHY2ojD9MG6SSikC4O0yksvc2bxrhXy3TkYVKlAul0IHub4
+         WWKlhGRLdNJeQfwf9NWSeoTUhaI+ZkjKZA+Vlmlx04ufj8cXg4hIJIx+9R+S4bLHVU4n
+         uScA==
+X-Gm-Message-State: AOJu0YyZCOIcL7/n5tXWDYmFr5WC5RQ3C/2ooJ4qMxhHCQzsrYjIychG
+	oiYq06zbZRBHBUQ+tOxSIkpw2d7Qk+ZqqOkCFUj1EEDDyqxW+UKXXVPfmDFX7Q==
+X-Gm-Gg: Acq92OGrDS9OJIuvFnAWQiUKLTGy6c7Rsr7tv6YjYyjnU3kQdRwYtIMSF5nirVUbL8E
+	4eHtB4lGHz0rXUssnZajtyt/lklbggA4ZdN2HwxnWcwre8cf9m+0ECt3Pq9egaeCZHMdj9OsCWY
+	bHcKfGqWcZheug4AJqZSlZ/kV/WPwMYk/cTjtcvbD0NNvUh8t2xdeeuWWwYE4SERpAyZi45JSmi
+	thnTbmtAwYI5DUkjQfZxtP/ZJliac/Ou1tXNJQt72SHRhYoBQdb3N8cBboIZhOmU1zJWoXeDne/
+	3kmfoxPXFktIlmRHzGDNH0jXsNYx2FO+Xdl3CthXpI63oG2g4PwrOiq//6cajqN6VI0UTJ4FKeR
+	HVtLY6TRnJAM5/mYiU5/6rDzb/Y4TuGR9sagvVfOaFZh8UFYqK9dA0GGNCu1gfuLghcZuEWjAkd
+	LMCzLpBR12SSxDyszC3XeJVAyU6sgTge7670wCEDaHimaNiiWP2sQHtihKUm8=
+X-Received: by 2002:a05:6a20:7f93:b0:3aa:60e0:b2ed with SMTP id adf61e73a8af0-3b22ebc68ddmr18073852637.27.1779133230087;
+        Mon, 18 May 2026 12:40:30 -0700 (PDT)
 Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c82bb07d2fesm14237808a12.9.2026.05.18.12.40.26
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c82bb07d2fesm14237808a12.9.2026.05.18.12.40.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 12:40:27 -0700 (PDT)
+        Mon, 18 May 2026 12:40:29 -0700 (PDT)
 From: Maoyi Xie <maoyixie.tju@gmail.com>
 To: Takashi Iwai <tiwai@suse.de>,
 	Jaroslav Kysela <perex@perex.cz>
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] ALSA: avoid past-the-end iterators in timer/seq port registration
-Date: Tue, 19 May 2026 03:40:21 +0800
-Message-Id: <20260518194023.1667857-1-maoyixie.tju@gmail.com>
+Subject: [PATCH 1/2] ALSA: timer: avoid past-the-end iterator in snd_timer_dev_register()
+Date: Tue, 19 May 2026 03:40:22 +0800
+Message-Id: <20260518194023.1667857-2-maoyixie.tju@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <87o6ic4izy.wl-tiwai@suse.de>
+In-Reply-To: <20260518194023.1667857-1-maoyixie.tju@gmail.com>
 References: <87o6ic4izy.wl-tiwai@suse.de>
+ <20260518194023.1667857-1-maoyixie.tju@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -76,40 +77,84 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Two fixes in sound/core that remove past-the-end iterator
-use of the shape
+snd_timer_dev_register() walks snd_timer_list looking for the
+ordered insertion point and on loop fall-through passes
+&timer1->device_list to list_add_tail():
 
-    list_for_each_entry(iter, head, member) {
-        if (...) break;
+    list_for_each_entry(timer1, &snd_timer_list, device_list) {
+            ...
+            break;        /* on found-position */
+            ...
     }
-    list_add_tail(&new, &iter->member);
+    list_add_tail(&timer->device_list, &timer1->device_list);
 
-When the loop walks all entries without break, iter is past
-the end and &iter->member aliases the list head via
-container_of offset cancellation. The insert lands at the
-list tail, which is the intended behaviour, but the access
-is undefined per C11.
+When the loop walks all entries without break, timer1 is
+past-the-end. &timer1->device_list aliases &snd_timer_list (the
+list head) via container_of offset cancellation, so the insert
+lands at the list tail. That is the intended behaviour, but the
+access is undefined per C11 even though it works in practice.
 
-Takashi Iwai confirmed on the inquiry thread that both sites
-are bugs introduced by commit 9244b2c3079f ("[ALSA] alsa core:
-convert to list_for_each_entry*"). The original list_for_each()
-loop terminated at the list head; the conversion to
-list_for_each_entry() left the post-loop access using the
-container struct, which aliases the head via offset
-cancellation.
+Track an explicit insert_before pointer initialised to the list
+head and overwritten to &timer1->device_list only when the loop
+breaks early. The observable behaviour is unchanged.
 
-The patched code tracks an explicit insert_before pointer
-initialised to the list head and overwritten to &iter->member
-only when the loop breaks early. Observable behaviour is
-unchanged.
+Fixes: 9244b2c3079f ("[ALSA] alsa core: convert to list_for_each_entry*")
+Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
+---
+ sound/core/timer.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-Inquiry thread:
-https://lore.kernel.org/linux-sound/?q=iterator+used+after+loop+end+in+timer
-
-Maoyi Xie (2):
-  ALSA: timer: avoid past-the-end iterator in snd_timer_dev_register()
-  ALSA: seq: avoid past-the-end iterator in snd_seq_create_port()
-
- sound/core/seq/seq_ports.c |  7 +++++--
- sound/core/timer.c         | 19 ++++++++++++++-----
- 2 files changed, 19 insertions(+), 7 deletions(-)
+--- a/sound/core/timer.c	2026-05-18 19:17:08.274971549 +0800
++++ b/sound/core/timer.c	2026-05-18 19:17:46.598676455 +0800
+@@ -1007,6 +1007,7 @@
+ {
+ 	struct snd_timer *timer = dev->device_data;
+ 	struct snd_timer *timer1;
++	struct list_head *insert_before = &snd_timer_list;
+ 
+ 	if (snd_BUG_ON(!timer || !timer->hw.start || !timer->hw.stop))
+ 		return -ENXIO;
+@@ -1016,28 +1017,36 @@
+ 
+ 	guard(mutex)(&register_mutex);
+ 	list_for_each_entry(timer1, &snd_timer_list, device_list) {
+-		if (timer1->tmr_class > timer->tmr_class)
++		if (timer1->tmr_class > timer->tmr_class) {
++			insert_before = &timer1->device_list;
+ 			break;
++		}
+ 		if (timer1->tmr_class < timer->tmr_class)
+ 			continue;
+ 		if (timer1->card && timer->card) {
+-			if (timer1->card->number > timer->card->number)
++			if (timer1->card->number > timer->card->number) {
++				insert_before = &timer1->device_list;
+ 				break;
++			}
+ 			if (timer1->card->number < timer->card->number)
+ 				continue;
+ 		}
+-		if (timer1->tmr_device > timer->tmr_device)
++		if (timer1->tmr_device > timer->tmr_device) {
++			insert_before = &timer1->device_list;
+ 			break;
++		}
+ 		if (timer1->tmr_device < timer->tmr_device)
+ 			continue;
+-		if (timer1->tmr_subdevice > timer->tmr_subdevice)
++		if (timer1->tmr_subdevice > timer->tmr_subdevice) {
++			insert_before = &timer1->device_list;
+ 			break;
++		}
+ 		if (timer1->tmr_subdevice < timer->tmr_subdevice)
+ 			continue;
+ 		/* conflicts.. */
+ 		return -EBUSY;
+ 	}
+-	list_add_tail(&timer->device_list, &timer1->device_list);
++	list_add_tail(&timer->device_list, insert_before);
+ 	return 0;
+ }
+ 
+-- 
+2.34.1
