@@ -1,126 +1,135 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BA73F0ABA
-	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 09:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404303EFFC2;
+	Tue, 19 May 2026 09:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779181660; cv=none; b=sVBmpXnUY23biQ/k8Duk/oqxOAHJ6JZpOyw5yKeXIRlNPO22EVk0MOglwp279flELzZxPdsN6ds8dT40ftzcJs6yTsmQdwxQETSPSLfXnB3zPDZV/DDGuFEekPUKusAih+T7aV/XxOa2L4kiWCvV4vlH0aq78A5BIZlH3y1/38A=
+	t=1779182717; cv=none; b=eAzsjPBnzqsCC5t5tubNxBWq/zitFaT+ET7we6fEapoqbo+nEoj9VUcFQlGbJVMhVKEdglU8ZP3X+Lmjr9EgXxew+CNSAyvsCTwfaOdL/PwlGieVbNkJQ6xZd4SBSP0FJp3keSxKQJBa3BGfIryEzkQdTObpUdIRIWe7b1JzeD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779181660; c=relaxed/simple;
-	bh=lAlepF2p1K4D0pPz8yCGKVbyHkktCBku7Z9+HtLuaps=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=lyf3TfQtwr2WS+VpDF5vTQdq6XW2VlrSSog/aqSVtnM2P/3IJ36TWixnMad3fWGJ2d8wETn3kYo3B4zyOV8La+Rjt4dgGFMa7cyguvObkCjQDDZpwzcyfEoQfyCwK6SosHq7Us7i50uQk6vWxoGjjEmpjWPoEqLXlh1/oShoDfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NWAHwY2j; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1779182717; c=relaxed/simple;
+	bh=LY4j+awKez8uEwIL98fiH+gRN9x2qY9yTM+7byFWkT8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=XCSl0BY8V4bYQ3ZfJUW8JzCjdyVSVA1JdAMye6F9RT09/6ZVi4tqCYNzKtbJVQ0hrvJPfvEaN6ihBi7UVxpl1sYsrEtFqfw2or4R+ivLaggUrtopJu1xMqBFYJ/D+rXuOyT3R1PDVN50+nIFUwf9C5lggQ8nMtkk+DUR8f8vsso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qvFv9gRo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NWAHwY2j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779181653;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=CBYz/NrZc+Vq3hNBdRWZOxUhNWZcSq3yq7VxD6rnqac=;
-	b=NWAHwY2j2rhLYp6hfzi9RdCL6gUNqZ+ZFZAWe3k3lbXr3WVFigG0uyc1PYpyhwJ1RmrWbh
-	CtgXoaFuF+t2MMwIcEIsOxCKVkXzeOUikyOR44vUA3Ft34M4RQjM3HixmoBRIQ0Fe1AfBO
-	1+ZisaZBqBai+iuar/pq7YcUGLCi2HA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-389-6QFxhJJCM6uOmZhEOhPD9w-1; Tue, 19 May 2026 05:07:25 -0400
-X-MC-Unique: 6QFxhJJCM6uOmZhEOhPD9w-1
-X-Mimecast-MFC-AGG-ID: 6QFxhJJCM6uOmZhEOhPD9w_1779181644
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-48fe24773c8so16602805e9.3
-        for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 02:07:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779181644; x=1779786444;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CBYz/NrZc+Vq3hNBdRWZOxUhNWZcSq3yq7VxD6rnqac=;
-        b=pP72pehI9xz/EmMD8NqLFwX4pbNOLMIMe2OmJyEoLQmhM6caKx/totv+D+fUFL6DPv
-         gXwmz0Gz3hASa7usoGHi1I7++mst8ihfoDnrRxZbQtVuVgqMix7LHgi30DFqoNSpICdE
-         YKNW1/Tv5Cu4gVgp+eLTN0YKFpdRlOddT4c5+cCve6IW9DYZWaGMEMbH7d7xCC2tDTR2
-         TlxdQxBXGh7E9F4tHv3uaZrf5u8Yfv76z7UKa8g/jRWF3m35at6+PsPWC+5JfOwMVy9r
-         kLK6O3aJN3VvMZJppHsqZ63QuDEVt8aFFLYKnDSZdu1QYeEnZk6yFq6vhD9yLDKmknuT
-         D5pA==
-X-Forwarded-Encrypted: i=1; AFNElJ/YpsJ194AqdwD7pkBJ928qccY8X63jUHvlntmVenRuAlFTpS5j7LwKHPxtAimE9p/XUQHeNjvKRsJiXw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuZE09RnRAgz8sdNnad+Ns05d3JUBAr68yhFj486mYlCft9bk6
-	ZYXrO4lsmP8d2k5Jj3vxsbqbXmZEAmNfXnDOhcOcrzbY+1BtmhL6PJPEa9akDhL93SiREremU2J
-	ObGs2XJcgt+ibxHBeExiZ9ilElDYXAKcTQR0cRbBG4thuZBBigEcos6IInzL7gJ3Q
-X-Gm-Gg: Acq92OES1oSMeX2s22mt/GfCOgNRpmgvjAie4CfAryyJtYf5uTaW9IW/8nEzimEPz+l
-	b5UA/b1X71JlGIxazCllHLPGZwZyeCeyAhqqTP7Lx0dRFlTDY6xg+lRQROsJW80955jk+owrMGE
-	UXSaG7IsS22WTmfoVeBtW8+GWLwO+wizOy2kltzKfY1TxgqvPxF5ZNpDXORe35mZTTvOny47+C9
-	pEmnOPVHyA7Fro9DACme+14GEwYm/ry0I60UN/PEMzjUhA9MV9+LfRnFmMfEcE12nKLubnJNuG9
-	yx09EScR3342S+xJDsU4aM1SjgdrNpumHEIEM9VCSWC9l7+0hEdW55VRyOSCrHqchCa9klao18k
-	dky63mYADsIEvLJoUewHUFPfwrwcFK8UPuDPzkLYLm8HGluzOliU2azdCFWR0cWuPy6ld0Lc=
-X-Received: by 2002:a05:600c:310f:b0:48f:d346:e646 with SMTP id 5b1f17b1804b1-48fe60d5693mr269970575e9.10.1779181644009;
-        Tue, 19 May 2026 02:07:24 -0700 (PDT)
-X-Received: by 2002:a05:600c:310f:b0:48f:d346:e646 with SMTP id 5b1f17b1804b1-48fe60d5693mr269970105e9.10.1779181643625;
-        Tue, 19 May 2026 02:07:23 -0700 (PDT)
-Received: from lbulwahn-thinkpadx1carbongen12.rmtde.csb ([2a02:810d:7e01:ef00:ff56:9b88:c93b:ed43])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ec3b18fsm40747270f8f.11.2026.05.19.02.07.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 02:07:23 -0700 (PDT)
-From: Lukas Bulwahn <lbulwahn@redhat.com>
-X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-To: Arnd Bergmann <arnd@arndb.de>,
-	Mark Brown <broonie@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org
-Cc: Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@redhat.com>
-Subject: [PATCH] MAINTAINERS: drop obsolete file entry in PXA2xx/PXA3xx SUPPORT
-Date: Tue, 19 May 2026 11:07:20 +0200
-Message-ID: <20260519090720.301782-1-lukas.bulwahn@redhat.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qvFv9gRo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7643C2BCB3;
+	Tue, 19 May 2026 09:25:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779182717;
+	bh=LY4j+awKez8uEwIL98fiH+gRN9x2qY9yTM+7byFWkT8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=qvFv9gRojvXoDWo7++gx8YgEHwBhplYpFEZMoqsGTigFypLqJomaA0Z0B4o7GyCD2
+	 utPNm/g4AFtD8Y7osfFHEYhQ3pWI6+0kjRAfmW368l2B6/pLxfQvSdAMdSG8N0Z9vt
+	 vLlAbg/xv3ZInCD10jp2pPWut9YR+mIacjErV0fi0z9yNgLgCcUk4Jazp8+t60gbMK
+	 pXyX1UiEbIlUFHQVH1p6hTHUWdBcRJK0/64QTtKcjqu4DGTXkXmMCJhyoh33xgIOn+
+	 DKfC6+YYc0X5FS5IIEO1Gm1D7hZA/PvNbHs0GsnFsFRzKBq0RNR8/Lg7alnQpqZyF7
+	 H1QbEGEsNJILg==
+From: Mark Brown <broonie@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>, 
+ Linus Walleij <linusw@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Herve Codina <herve.codina@bootlin.com>
+Cc: linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Christophe Leroy <chleroy@kernel.org>
+In-Reply-To: <20260513081702.317117-1-herve.codina@bootlin.com>
+References: <20260513081702.317117-1-herve.codina@bootlin.com>
+Subject: Re: [PATCH v3 00/17] ASoC: Add support for GPIOs driven amplifiers
+Message-Id: <177912269514.352391.10184061127272991864.b4-ty@b4>
+Date: Mon, 18 May 2026 17:44:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: MWh_5otcXFNEMrTBWmiH90GOED2wlzUNzHa0vD6eVg8_1779181644
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3526; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=LY4j+awKez8uEwIL98fiH+gRN9x2qY9yTM+7byFWkT8=;
+ b=kA0DAAoBJNaLcl1Uh9AByyZiAGoMLHijtKhg2bzH9vN5cJeX23ssUzW9D4fCBT4nDr/XZaEGz
+ YkBMwQAAQoAHRYhBK3maKpnVxi1n+Kf6iTWi3JdVIfQBQJqDCx4AAoJECTWi3JdVIfQA98H/A0n
+ 6RYuh8WJgFqu9o0qrpi6xiTm+AFuikj7qx/QqA1NaYOX+V4TqaAfjOy4wmLTL4eNR1ItCGX8AQb
+ Mi599fXxb/Ru2fPh5glNkYVHs/DC1kRZ2ABo/79uxr58dhNy+GkY4Ce7AEgqsKgHNI0RS1A93a8
+ YIbXkgXwzhv7dM7SSXB4KO5Kfl3DYoBCYnwK/AfxglmtzcaNtOW3S7HPsc9DtDzRktXvMlFvp+0
+ VmCpGf5rOgWUlseQyN9hPShB7VVoUr66TG1WGmOFytXEujNiS00h9i7lEUdEGchh9BOSEarUB1U
+ VVKMk9FtEsbzTNQ4klCx1Rd+G/QhLEx2TsYpwKI=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+On Wed, 13 May 2026 10:16:44 +0200, Herve Codina wrote:
+> ASoC: Add support for GPIOs driven amplifiers
+> 
+> On some embedded system boards, audio amplifiers are designed using
+> discrete components such as op-amp, several resistors and switches to
+> either adjust the gain (switching resistors) or fully switch the
+> audio signal path (mute and/or bypass features).
+> 
+> [...]
 
-Commit 42f67e1d1cba ("ASoC: pxa: integrate sound/arm/pxa2xx into
-sound/soc/pxa2xx") moves all files matching sound/arm/pxa* into
-sound/soc/pxa/. Hence, the file entry in referring to sound/arm/pxa* does
-not match any file in the repository anymore. As the PXA2xx/PXA3xx SUPPORT
-section already contains a file entry referring to sound/soc/pxa/, the
-moved files are already matched by the existing file entries.
+Applied to
 
-Simply drop the obsolete file entry in PXA2xx/PXA3xx SUPPORT.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
----
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+Thanks!
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f986eb688ae4..e541617ac448 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21774,7 +21774,6 @@ F:	drivers/pinctrl/pxa/
- F:	drivers/spi/spi-pxa2xx*
- F:	drivers/usb/gadget/udc/pxa2*
- F:	include/sound/pxa2xx-lib.h
--F:	sound/arm/pxa*
- F:	sound/soc/pxa/
- 
- QAT DRIVER
--- 
-2.54.0
+[01/17] of: Introduce of_property_read_s32_index()
+        https://git.kernel.org/broonie/sound/c/37dba38ac8d0
+[02/17] ASoC: dt-bindings: Add support for the GPIOs driven amplifier
+        https://git.kernel.org/broonie/sound/c/04a1fe8e6582
+[03/17] ASoC: simple-amplifier: Remove DRV_NAME defined value
+        https://git.kernel.org/broonie/sound/c/28188a6d8869
+[04/17] ASoC: simple-amplifier: Add missing headers
+        https://git.kernel.org/broonie/sound/c/23cf9e3ca498
+[05/17] ASoC: simple-amplifier: Remove CONFIG_OF flag and of_match_ptr()
+        https://git.kernel.org/broonie/sound/c/2c562adb159e
+[06/17] ASoC: simple-amplifier: Rename drv_event() function
+        https://git.kernel.org/broonie/sound/c/dc8beaad2926
+[07/17] ASoC: simple-amplifier: Use 'simple_amp' variable name instead of 'priv'
+        https://git.kernel.org/broonie/sound/c/34ddd2d368c3
+[08/17] ASoC: simple-amplifier: Remove DAPM widgets and routes from the ASoC component driver
+        https://git.kernel.org/broonie/sound/c/4d84b75e5eec
+[09/17] ASoC: simple-amplifier: Introduce support for gpio-audio-amp
+        https://git.kernel.org/broonie/sound/c/41e3ebbfcab1
+[10/17] ASoC: simple-amplifier: gpio-audio-amp: Add support for extra power supplies
+        https://git.kernel.org/broonie/sound/c/f68933d0eb67
+[11/17] ASoC: simple-amplifier: gpio-audio-amp: Add support for mute gpio
+        https://git.kernel.org/broonie/sound/c/432331970eca
+[12/17] ASoC: simple-amplifier: gpio-audio-amp: Add support for bypass gpio
+        https://git.kernel.org/broonie/sound/c/46c21e55c3bf
+[13/17] ASoC: simple-amplifier: gpio-audio-amp: Add support for basic gain
+        https://git.kernel.org/broonie/sound/c/5796026b8e90
+[14/17] ASoC: simple-amplifier: gpio-audio-amp: Add support for gain-ranges
+        https://git.kernel.org/broonie/sound/c/d25e00ecd5c5
+[15/17] ASoC: simple-amplifier: gpio-audio-amp: Add support for gain-labels
+        https://git.kernel.org/broonie/sound/c/fb757dfa039f
+[16/17] ASoC: simple-amplifier: Update author and copyright
+        https://git.kernel.org/broonie/sound/c/7b295a6fc632
+[17/17] MAINTAINERS: Add the ASoC gpio audio amplifier entry
+        https://git.kernel.org/broonie/sound/c/5bd8c4b7d3bb
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
