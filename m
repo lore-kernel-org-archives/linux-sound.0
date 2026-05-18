@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4A43644CF
-	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 15:08:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C4C36DA1B
+	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 15:08:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779116924; cv=none; b=LIBL60+vD5zEfIj9J9c5pA9PVFuASRBUzYo+vNaJ45McgDm75hnPtP9edXOwwfoPlsCzgfMCIXZNFIEXQnvncfzapYC6/IVlCT1T2DruDW93taGBn+S282oYoqK6T8F40Nq8hc4Ggt/lRlHyxnUGjCp1Ayk+JttgtHnwkYWEhEY=
+	t=1779116925; cv=none; b=hrsyIir9+HYkycKimJGY9N50IGZaZXcy3268LAQ53YOS8GcOu5dzWjzQWYsQPPpf3MVF8WWC1AFprZ0VI1qgcPfwGb9swOQycggUd12UdecgPY3GOabH7jJvsZyJm8HRUOjNKpvgGuvb+yYG0hYzqy/icLgv1z/dBxeAVxzD9UE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779116924; c=relaxed/simple;
-	bh=WP+sHSZ87+nPObAEvr2bwdKEV08t1+X9ojONE8MM9r0=;
+	s=arc-20240116; t=1779116925; c=relaxed/simple;
+	bh=VoY2F98Ja47w/lzXBH/qmAGmR8ha6wjHoj1/4jZebFQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Xq1VV+522A0iob82rgbZR0hhUzgIRvxF9rIiMSlMaS7iW4m46NLWYnlkymTalS1D3z8v/kr7JWw4OxfBGkZx0VvRswtPWKKJTN5MFWaP9ERuBjBlIBRRNyhhNcA5CJ/TT9m0c+ZVCEz4wtkgwAfvpe+kXT7R2xzDTAxxryelGSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oc/iELJ6; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=cH7Y58edtHJIZAkBmg8iKhpcmV15JD+cW2uKAPiLD4D3pr+Q6v57+D6UoDXFM0gWaJCAqMR9xq3xBbexlVOG5kTtktuROxvoqFVviqZTOchWDwsjUbgYcKjJYZys4usd0pqcN2QaHS47EEDZgg1eroGtyiGbqZ19pWZpYCr+Xpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RdEHmA3E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oc/iELJ6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C200C2BCC6;
-	Mon, 18 May 2026 15:08:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RdEHmA3E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 254F8C2BCC7;
+	Mon, 18 May 2026 15:08:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779116923;
-	bh=WP+sHSZ87+nPObAEvr2bwdKEV08t1+X9ojONE8MM9r0=;
+	s=k20201202; t=1779116925;
+	bh=VoY2F98Ja47w/lzXBH/qmAGmR8ha6wjHoj1/4jZebFQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oc/iELJ68JlWWXHxGQd+ZcDCvi8DFZNV+kY3AiSBoHzWdxgT+kQ5GVTE8DykCQO/l
-	 vM5oEn946VmLaRhiWsUGYubCh1QNEd1sVh9WrFCDaDTEPxKRsQh9vgIDHGl1h5pc+0
-	 CX3VN61OCQrC7a5lYK/OtMyTtH0MX+gOLok+hzZpCziHep89CYnn4rzdLkGZzLXRMe
-	 O1duiCVeGw0uk1z4efJiz49zzK5hCmobbwrSjJ3aHKnh7HTP5BB6+vXjAcJTiWBauC
-	 hymLmlvQs2N1CjNDmz6dkPENAXaVRreBkOJtKz/4ks3JHnFNyQPzTE2kGLc5+q11NH
-	 hgHathH9WdbUA==
+	b=RdEHmA3EVrovYK5R9kTUNhPh6cv/YfY8hjQeMXUSQrCScYsAEAaD+kjW3THG+Flyb
+	 3+FB/zhqDEAmKL+9ojXjP282IXM2adabwCJN25uFDdPvnwiexKirpczjMIDC7JVAgE
+	 eBjR8S5Wog61Hfrw/ORXuWUIzgBXDu4+r1F05qbVD3hcL78mQgbFxFmpoA27T+psYC
+	 8JUMh9OP2YS/gZy5bqkx629ZPM2Uk6cqB/Ii2m0fa99+dPqSYyQOgR0aVSuZJmlqJC
+	 4nXBclyxS/9WueaAygTmCnQiq4Z9o6jBMfd2o/7+GWHzsULA5YDsx0R/cODqq3jm/I
+	 ZkxaVVRMcf1Yg==
 From: Mark Brown <broonie@kernel.org>
 To: tiwai@suse.com, linux-sound@vger.kernel.org, 
  Zhang Yi <zhangyi@everest-semi.com>
 Cc: peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
  ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com
-In-Reply-To: <20260204094452.33289-1-zhangyi@everest-semi.com>
-References: <20260204094452.33289-1-zhangyi@everest-semi.com>
-Subject: Re: [PATCH v1 0/6] Add es9356 focused SoundWire CODEC
-Message-Id: <177911692211.295433.12727663393011380645.b4-ty@b4>
-Date: Mon, 18 May 2026 16:08:42 +0100
+In-Reply-To: <20260226073534.3347-1-zhangyi@everest-semi.com>
+References: <20260226073534.3347-1-zhangyi@everest-semi.com>
+Subject: Re: [PATCH v2 0/6] Add es9356 focused SoundWire CODEC
+Message-Id: <177911692389.295433.2232158303889570346.b4-ty@b4>
+Date: Mon, 18 May 2026 16:08:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,20 +46,14 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
 
-On Wed, 04 Feb 2026 17:44:46 +0800, Zhang Yi wrote:
+On Thu, 26 Feb 2026 15:35:28 +0800, Zhang Yi wrote:
 > This patch chain adds support for the ES9356 PC focused
 > SoundWire CODEC.
 > 
-> v1 -> v0:
-> 	-Modified snd_soc_dapm_add_routes in soc_sdw_es9356
-> 
-> Zhang Yi (6):
->   ASoC: sdw_utils: Add ES9356 support functions
->   ASoC: sdw_utils: add ES9356 in codec_info_list
->   ASoC: sdw_utils: add soc_sdw_es9356
->   ASoC: es9356-sdca: Add ES9356 SDCA driver
->   ASoC: Intel: soc-acpi: arl: Add es9356 support
->   ASoC: Intel: sof_sdw: add es9356 support
+> v2 -> v1:
+> 	-Adjusted mutexes in the ES9356 driver
+> 	-Use macros to replace certain values
+> 	-Adjusted some ordering issues in Kconfig.
 > 
 > [...]
 
