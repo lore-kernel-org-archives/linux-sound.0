@@ -1,151 +1,329 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010063.outbound.protection.outlook.com [52.101.201.63])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD32849659;
-	Mon, 18 May 2026 08:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779094322; cv=fail; b=g7Jl5Hg1a1+AHzE+ECS/Lushzc74XgIaGQ+ZT4r57xW2O+2yhOdHQyTbZy6TlLCgHSB2s/azfiBxvoTjNxMxM8mLOzNByaPJzyB1+PeYhA1JyF7KhgwaSJ/wVgBHofntIKm+lWOY4UkEYJFV8bP1s7rHmgzYaS8IiqgVqaLWWWw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779094322; c=relaxed/simple;
-	bh=cGGBGv+kcSSh7QR/RTIc4AVif8twKsZ9Oven5R5a0WE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=codWpJb/UN6OmdSzCEIrBnr5IImxZ0WiWDzIxJStPdozzEegVxkpXA1zz6yM+q9yPsu1FH+GO7HPgWvAL8txb3pdBoQJvdgC0TLSDjBpMql5jbM8MFPw9l4zZ8lxqr0XLQIIK0csNDuPDE4s8WKucDQljBTa3xgZzP0SPgZSTZA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4q6xbPcX; arc=fail smtp.client-ip=52.101.201.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A01F3B3C0A
+	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 09:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779095952; cv=none; b=TCaFbf6zPAoxP/djPhT+Ii5CLEdCHEFjiVzbuLXoeBlD2AfZE9vjiRZSa59Flzkgr0IgwaBjWBCjQHONdHR/eABxoA571PwHNsw3GzxrPUoaQHOXgIQ9rDcj4S0R/lE9rln/LsJkzzRh06yJFc1KAcSYuS8PR3VzKGVgchRWmDc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779095952; c=relaxed/simple;
+	bh=aX1Ge3b6X4pMuxGtErm8H2BEydPy/Y+VYmMgcIUVsGs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XC4WfumYXA/0lvCGfGA8yz7clt5QLIC3gdxZt9ZEmCbeGtOfIBLAOUfbqpycRMdHVa6KqMp4KWpiSU3ZOadzjmn8DVAZuAGHCqffKjxCOJIcLbszoWX828azld+Hrs9cpFwtP7UVl2Acgp0uhXOe55d/kGj9XXfqAw7N/JCslfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JgLSo09V; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4q6xbPcX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=g/WaInGbPGNM51aoMMDhkSCOi0J0XZLD19mrtlumggyQHQqh7nht2iaVPUW+PlMsJQnia3r5nXJuliFZt1Hpnyty9f3og4F0AujQv7E4bcFTfE8wpGkS7Fjo8g6eLTVCDREUyj7Ph9MrC+fh4C4KSZwA1oWIY+Mgbu+N0ckH7Mvvhq1w7OG+KPBZcB2zfITSXm5HLEuf038cVzCspallxgO7/XIUkAZzZY0QJX61zKRC0CF+g4gbV+BQSvxSD2CxhKzp3+TQeI7/QjHxbsTA5Ab8g7EhrCjB5fNWCb5PLhs4Ix4sFLDR9lkCt3loAiwbak90Ut4LAMsfZx1vCoO+/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pxPoZdBn3Chf8MiwNYAcWaQG7trWmMuQmycXFoN3M1I=;
- b=XJsirwO9lt8fcPKJWJ90YmBJ7iIXjKNfCO+zr+wDXdKujLRJ7MgJI972CFNbQQccYQoLT7sxr4/YCdb/S6RSMGWa7zh1yut5Epb751I616waJZmZFsSGqs7dszgMeOGWeEQtIPXyICwvbp4LXF0vM9fI/nrMzEDC/XeNPw5T/y3usd5JXlQrvG5NRrSSm/LcYPE2WwPdZVTHA0A8xzC2Yge6YilZc7Nv6e1CjnsiCHCbjpi3HGoP9n3yoMzu3sAeWMXdFXE/cLj0WX+L+gHCijnGHeHAYc6afrlgeeWkW+1YAajA7eg08E7GSQFq78WpVjTreKsbIK7REJWGehm6Hw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pxPoZdBn3Chf8MiwNYAcWaQG7trWmMuQmycXFoN3M1I=;
- b=4q6xbPcXtKJmy9fNDgNCUgHHYKSE0dy0keqbZeBChC+Am7vzTpLtlS0Yh9AL4kGM6iYEt+K13L/ZWXiPhTUC5Ha+pL6nhkAYMqD+5wcXbwcH6+haiIzssG3XzswWQwgBtPTdRZ7fKhq4f6Be1hG2mIR7YeSX4R/ZidPbQX0N9cw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
- PH0PR12MB5680.namprd12.prod.outlook.com (2603:10b6:510:146::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.25.23; Mon, 18 May 2026 08:51:58 +0000
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5%2]) with mapi id 15.21.0025.022; Mon, 18 May 2026
- 08:51:58 +0000
-Message-ID: <7b1501cd-081b-44b7-82f7-41d4584a4fe6@amd.com>
-Date: Mon, 18 May 2026 14:21:51 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: amd: ps: Add support for MSI Crosshair A16 HX
-To: Mark Brown <broonie@kernel.org>, Sidharth Sharma <wednisegit@gmail.com>
-Cc: venkataprasad.potturu@amd.com, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mario.Limonciello@amd.com, "Dommati, Sunil-kumar"
- <Sunil-kumar.Dommati@amd.com>
-References: <20260517203955.42490-1-wednisegit@gmail.com>
- <d6776836-9a1c-4663-b435-8d5b05b8b956@sirena.org.uk>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <d6776836-9a1c-4663-b435-8d5b05b8b956@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN0PR01CA0010.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:4f::15) To DS2PR12MB9567.namprd12.prod.outlook.com
- (2603:10b6:8:27c::8)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JgLSo09V"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43d7e23defbso1027505f8f.0
+        for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 02:19:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779095949; x=1779700749; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CIxQ+Yspo/kff7nqH7vPza1AWSJyB0L37cRLebW+FyM=;
+        b=JgLSo09VRmzCEBHxtjHrk5tyEhRBh9ChqLVdY83SY0dXMZxFC/hLd5ctxqFoz23RoZ
+         Ft0Wuav2WiSwmz/gao4f5sYJFOU0MnU1fqry0sBm+R7EwBRCryFuHhit94zINRrRd3jN
+         CvGfG6vy188PzE6KHoenW6/9rYfsHLLj5nmUr1QAQiXz1V7HUqyUd7fuw7A4PpbwNL3t
+         vrIwm1HbtzDhrQox5wGLhmUJoC8SjEdAlh4iKwYopd3UD3/R6k3m3KXevA6uP3qwjuVf
+         MltZ1Ok/BfRPm/cjC+xlb1OvF93qB059OIGcSZSn9sw9g8ZgbztNK7VwfAvWKfOaCDyv
+         bRQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779095949; x=1779700749;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CIxQ+Yspo/kff7nqH7vPza1AWSJyB0L37cRLebW+FyM=;
+        b=IEbzePHE7iWsuxfS0WyMWAXx8PMR2oPhIecjM3/BgSwfX9WVvBy11f0GahhcsjGdB6
+         Eawx++nPUSj9KU6Xh9zPysFjclK2qQWi4qY3KJtblhNLEmenDcGkustl2Wjj40AAjNIb
+         ZbNLMawUujNDycRUreNIf0aC+axS9EFB2Z5EGHYij1fdMu4XxZFaakX5DneO+Wi8mWmh
+         Gzh7uJrT6dyaDyMxXjqAjltP79CsCR3CkGXlJ60sBRlSDOJLx7OjJsezwB+PW1E9FSL4
+         HkcHLajE5GPl5QXSmEfKVegPO8tIeGmxFZIh9QCWs1KgZfC/plm41ojtC+y2M8Q7Pl3/
+         2Kmg==
+X-Forwarded-Encrypted: i=1; AFNElJ/3qMdjgGmZfKrxd7Aqb9MHhz7b/qR3N5PXNNXFe3e6Ddh1XS2Rqw1/86q177918xX6YB7LFhkEWfpn8Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyb5xxejPD68neY8NZIWprUkMC2G12ANFXtLj+B5wo4+2sVigBL
+	8j1P/39Whx3Uf9wxmgfKqKYa/CUXSGKmFvCVHNrwnHpI8kmeTQFQLqIN
+X-Gm-Gg: Acq92OHORFay4mBDHLWCA9nvc0+q4W6gA2p2YshldafXywoG14NRC22PdX/gZrUL/Li
+	IPNY52WalWWqOUmNhS+WIvOS6AMwaK2qCTY4nHe3nqhhvBUJ7aB9YF2+hlfagjNymjqDq+9hMPO
+	E89e8R8c/4PrmkIa8vorA9naGrHW4+CxTRZNt5NV7cIBvJ491H8cH4MLA30RFJYbf7+wqiUG6or
+	2rNGwETE/nEqfimzBWmje82Uu5tCk9U8YARaqi1N76JhU9nkfVwW9FHbVKx0atv5oNogXi8MCg1
+	nm3jS8gSfWDyOCfgAhyiOOXcT6iqBBdbUpqATBwcarI3WvgmJj9/V2b4px1GxUUduaGxsfXY++P
+	EiZO8YzU9AS+f4PHQcjq7gsYous+QcQdiqlf2E+3Iuy9QBDIKEu8T/prLupQY9QxLlQj7VsNatY
+	Ey/B3BBe5CryO3nJEj/w==
+X-Received: by 2002:a5d:5f90:0:b0:43d:300b:2285 with SMTP id ffacd0b85a97d-45e5c5be273mr21756208f8f.11.1779095948761;
+        Mon, 18 May 2026 02:19:08 -0700 (PDT)
+Received: from [0.0.0.0] ([151.67.112.59])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0a1aeafsm37421215f8f.23.2026.05.18.02.19.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 May 2026 02:19:08 -0700 (PDT)
+Message-ID: <e8048031-ac1c-43dd-b0ff-733bbffccbf8@gmail.com>
+Date: Mon, 18 May 2026 11:19:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|PH0PR12MB5680:EE_
-X-MS-Office365-Filtering-Correlation-Id: a14930df-28ab-4858-ed74-08deb4bab81a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|366016|11063799003|4143699003|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	CDqBWWmtMq3u+OeDcq6ZfhQWs0FtvbvncTUD+VXRBl/WKhJuAK69/pZYUZ6BU87a0IznXe9/eUOBlrPOVQcV86P6wUkV3zLPvBdV5ozikee92l1+wXQXff9xvVYl9MAyK9cEfQF0rJeabArbmpyLK2hw7eD8dU/SES4mfanrwfspW6oXIp7XX/LUsWuvj8BDzQP9VLgwQev+0IYVYo1uyyCvSx2wsfdWoGx32/H26sNBgHN9pSBtDblJbqXPAI4JI+ShYmMNW0t+ZElh98X2MGosIBp02fuWp7q8IY8ZQsEccVeuWoA0Tqp6LEyR7W3+AFPFjwD2dsY43gHc/hgYWEafMqyY/d4KQXCxf3p44cwaVQi3gYKmGaKtWIkVnGRTSxwuHODQnsBbllrBMDdC+8R7o+nqeLu22u0grbfL1k89R/hJB1glljYA9J9ou+Y488OXDbtpa51TSYgOHPEovS9W8z3a1pMd2aS9xvfNgzMuoUnP84hewxS0HyHbNpdtMxDOc03hHCF7itd72q6cky8IrFKxgkSFmsVgLR418Q4tVsTaNp5VP/h30VkJMUPPyj44ALlJUhinUx3/rFZLSRElzHTeu7UdnN+utXRTqU7TQzTwCv8cNu614sci0eLw0xGUgj+6x/zryiruOffrUVT654UjPgAUENuGbT9AhfxZodRMK8D5I9GrKlW08HFq
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(11063799003)(4143699003)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bWIrVlJYeGNuOGZ3Y0Z0SUluWVVvR2JOcWo5bTdJd3IrdkdXTVVLd243TklE?=
- =?utf-8?B?Q011N3BTb0QyeEdwRWlSVWtGUTZsMTNvVmppZGxTM2h5enZqa1VuQ1BBUlJz?=
- =?utf-8?B?V3FDbzlneWFJdjFkc0YzeXJuYWl0OVJIRjZoM2FER0JlaGVrUkJjN2NIOGRH?=
- =?utf-8?B?Y2NCNUhZeGQrZ0tuUFNxdkJGeHBIYURKK0JoazUvMlN6SWhJa24vRDFORVNq?=
- =?utf-8?B?K1YwMlg4OXVreWNUbFJRUkhLbGlBQ3ZMckVPVEkzSW82bWpwTlZvR1JsQVJv?=
- =?utf-8?B?SWJIbVkrSVFycEkyamhxNHc2ckV2cGkxdmRFWmRlbElhMU4wWTlBcWJLWGs1?=
- =?utf-8?B?WU1hMmptMVhaejFUWDR3WmxFV25NWU83bDF0OFliV00xWHkwV1RXbzQzN3NP?=
- =?utf-8?B?RHVVNk9LcE5YMGF0Z3JxUE9wb3dlL25FL1RjWm1RNVphT001Qmdpd0I2K0hn?=
- =?utf-8?B?bUE0UGRYN216RU92bG9ydlJMUjNwTE85QUNxYUM1VmZWYUUrc0tIU2RYTjdX?=
- =?utf-8?B?dmg1RU1xemM2dzdmemJFQ2FIek56T2tiN01lL0JkNzZCMXhYNkVEbG1SOFZT?=
- =?utf-8?B?YnRQRHRzZEpUbTJkRmQ3ZjJIVlh0ZnRINloxYzI4MDNNNHF6NWdvVkpKUDNx?=
- =?utf-8?B?cVV5RGJOc0pMSFVuc3pmQzIraklBblljY0daUGhxVmVtSkJKVjhITDBnNlcv?=
- =?utf-8?B?NDhXUFBWSFFDSDJlNkx6SVJjR2dIN2Iyc3Z0cHdrMkNacW9WVGZxU3llL2h3?=
- =?utf-8?B?ZEIvdGtmZzBNQTM2UEFtRWN3OS9sM3Y1S2M5aHJ4RmNDRXFrRXRRYU5GVjBT?=
- =?utf-8?B?TnIrZi9TeXdHVmJnS3JiVGs1d3hkdkRnOTlIaDJ2bVlVd2VWbGJ5OG12Y1BU?=
- =?utf-8?B?WTVUU1FxL3BIdmxXVkg1b0NCYWxweFBXaTdrUnBJVXNOTnpLUU91aEk1VmdZ?=
- =?utf-8?B?NFVxRjFzLzl4YkdEZWp6NEowR2h2YVY2L2dVY1lpdFkzZk5jdFNMbGxReGlr?=
- =?utf-8?B?M1ZKUjRqT3ZxZW9hbEJ5K3BqdVhEM0JUSjk2dnoxbGtKYWtldDl4NjlUaFZH?=
- =?utf-8?B?cCt3OHE1azdIOXlDdUxNZUk2VzR4aktKMkYxSTcxQUI5YzlrS0R4NFY1WnZR?=
- =?utf-8?B?TGpLdndwTkphVm53bUtYOHJ4TXJEYmZCT3YxNzFnY2lUdHAvalVTL21tT3lJ?=
- =?utf-8?B?R212akRCRWoxZndrajJtVHNyRzRSQ3BYN1JzY2lzb29zUHZsN2ZTM1dKUDdR?=
- =?utf-8?B?WTgwcUVuTHY5OUxIYVpQRTRlQXcxT3JiQTJ6QWxnRWZlUVZJcUZWbURUb1FR?=
- =?utf-8?B?YzI5bTFEZXlvUjUyYWkrQTVvbk9lNXNsbWFodllLNEdEV2VPMzRQaG8rb29G?=
- =?utf-8?B?VDh4cXBnUUhrVUJaUVBpSVJsbk5kREc2Nit0d21rQ3M3WThkOUpkWFc0Kytl?=
- =?utf-8?B?Zno1VmhwOEZPZDY2OWo1N21jcnhVb1VIY1BLeU1MbEt4clVnL0Z3ZlZYRjdm?=
- =?utf-8?B?MXZ1TmpDdHkvM2hOKzh6WG5sNGpXdU5URGFiTDNuYm1PNjU3T1Rkd2JBT21x?=
- =?utf-8?B?bVQxN1lDWFI2eUJ2RW05TE1zcHNQTUhSVGRYZlhOVWZpZzkvWlpCTmhNa1Uy?=
- =?utf-8?B?L3ZORWdIclI0RzltUzdRTFREQzQ2ZXdRaW9Ib3ZIaDN2eFh6Q093YWpMcDhR?=
- =?utf-8?B?VFhIbzZXdE9hcmZGOWhsblZORmdubkkzb3hocU5OL3lOaUJRSm5pd29iZEJu?=
- =?utf-8?B?MFkrZTVWSWhNQ1BOOTVoVXhnclM0MENLQ1dYZWpaMFhYT1NiM2NYdzVHWlky?=
- =?utf-8?B?bEZEMnh1dDl6Yno3NDVnSkZxRmp3MjZyOHZ3c28zZTk5YlpRcW1OUXFMOHBp?=
- =?utf-8?B?ME1vbnpjaEM4aW14K3FhWW5mQ0Nsb0wwdkhLRzZDdVNYeWFFdklkRTVPQUpn?=
- =?utf-8?B?RDVQNUxOK09KMm5kNm1namVRMTdBVjFFTVZxWWpLSit2ejFHSFM3RkNhSkIv?=
- =?utf-8?B?ZkhjUjN0M3ZvNWpKOXd3Zm1qN3Rpa3ZEdElTL2VUQThFdFBvNUtweDB0dVVK?=
- =?utf-8?B?aWgrZnQvcVI2V0hXQ2ViREpqWVdOcnJlR0ZvUGM5ZE9QeGNPRVpCY1RyeC9U?=
- =?utf-8?B?RDJIVndzYytQa0x0UEFRdjlyQ3ZRUFN5ZVdVRzJZS3lIK1RwYXE4SFJzWGN5?=
- =?utf-8?B?YlVaMk1zKzliTXRmYURqS0JDb3dVUjdVUnZ1Uk1mc1RMbFZiNU1IKzFGck5p?=
- =?utf-8?B?aDlDTXN3TVlRQ1l0SWNwSUtsUkV3TFFObHd3TjYwRUx3bFZkWk1qV1owcnZW?=
- =?utf-8?B?M1JLUVRGYmhEdVpyUkVrbTNSeHB5TjFna29zcjM1OGpRZUV3clBFdz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a14930df-28ab-4858-ed74-08deb4bab81a
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 08:51:58.1932
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QSi1+T4EJUZPxiSp/AeNtCJ206Ze/5qsG3EQUs3zz7RoIKAf2aROKVfGaT1cH3gCPXHGMrdC9KdRQS6IiZoBbA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5680
+User-Agent: Mozilla Thunderbird
+Subject: [PATCH] ALSA: hda/ca0132: add QUIRK_GENERIC path for Gigabyte,
+ GA-Z170X-Gaming G1
+Content-Language: it
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela ` <perex@perex.cz>, linux-sound@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <a1dd5dfd-8678-4dd9-b6af-68a1e078168a@gmail.com>
+ <87tss7xyj5.wl-tiwai@suse.de>
+ <2f45fd6e-0a5b-4f47-9f2b-75d8b323ced8@gmail.com>
+ <87h5o5ersn.wl-tiwai@suse.de>
+From: "eziogale@gmail.com" <eziogale@gmail.com>
+In-Reply-To: <87h5o5ersn.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+Some CA0132 implementations (e.g. Gigabyte GA-Z170X-Gaming G1) produce 
+white noise when using the DSP firmware path. Add a QUIRK_GENERIC path 
+that uses the standard HDA generic parser instead, with custom pin configs.
+This patch applies against v6.18.24.
 
+Signed-off-by: Ezio Galeazzi <eziogale@gmail.com>
 
-On 5/18/26 14:09, Mark Brown wrote:
-> On Mon, May 18, 2026 at 02:09:55AM +0530, Sidharth Sharma wrote:
->> The MSI Crosshair A16 HX (D8WFKG) uses a Ryzen 9 8940HX processor,
->> which identifies with ACP PCI revision 0x62. This revision is currently
->> unlisted in the Pink Sardine driver, causing the probe to return -ENODEV.
->> @@ -587,6 +605,7 @@ static int snd_acp63_probe(struct pci_dev *pci,
->>   
->>   	/* ACP PCI revision id check for ACP6.3, ACP7.0 & ACP7.1 platforms */
->>   	switch (pci->revision) {
->> +	case ACP62_PCI_REV:
->>   	case ACP63_PCI_REV:
->>   	case ACP70_PCI_REV:
->>   	case ACP71_PCI_REV:
-> Don't we also need an update to acp_hw_init_ops()?
-This patch should be dropped. ACP PCI rev id:0x62 support is included
-in sound/soc/amd/yc folder.  Code changes related to any new platform
-addition for ACP PCI rev id 0x62 should be included in yc folder.
+---
+  sound/hda/codecs/Kconfig  |   1 +
+  sound/hda/codecs/ca0132.c | 111 +++++++++++++++++++++++++++++++++-----
+  2 files changed, 99 insertions(+), 13 deletions(-)
 
+diff --git a/sound/hda/codecs/Kconfig b/sound/hda/codecs/Kconfig
+index addbc94..dcf340e 100644
+--- a/sound/hda/codecs/Kconfig
++++ b/sound/hda/codecs/Kconfig
+@@ -69,6 +69,7 @@ comment "Set to Y if you want auto-loading the codec 
+driver"
+
+  config SND_HDA_CODEC_CA0132
+  	tristate "Build Creative CA0132 codec support"
++	select SND_HDA_GENERIC
+  	help
+  	  Say Y or M here to include Creative CA0132 codec support in
+  	  snd-hda-intel driver.
+diff --git a/sound/hda/codecs/ca0132.c b/sound/hda/codecs/ca0132.c
+index dd054ae..92fc93f 100644
+--- a/sound/hda/codecs/ca0132.c
++++ b/sound/hda/codecs/ca0132.c
+@@ -24,6 +24,7 @@
+  #include "hda_local.h"
+  #include "hda_auto_parser.h"
+  #include "hda_jack.h"
++#include "generic.h"
+
+  #include "ca0132_regs.h"
+
+@@ -1060,6 +1061,8 @@ enum dsp_download_state {
+   */
+
+  struct ca0132_spec {
++	struct hda_gen_spec gen;
++
+  	const struct snd_kcontrol_new *mixers[5];
+  	unsigned int num_mixers;
+  	const struct hda_verb *base_init_verbs;
+@@ -1174,6 +1177,7 @@ enum {
+  	QUIRK_R3D,
+  	QUIRK_AE5,
+  	QUIRK_AE7,
++	QUIRK_GENERIC,
+  	QUIRK_NONE = HDA_FIXUP_ID_NOT_SET,
+  };
+
+@@ -1292,6 +1296,20 @@ static const struct hda_pintbl ae7_pincfgs[] = {
+  	{}
+  };
+
++static const struct hda_pintbl ca0132_generic_pincfgs[] = {
++	{ 0x0b, 0x41014111 },
++	{ 0x0c, 0x414520f0 }, /* SPDIF out */
++	{ 0x0d, 0x01014010 }, /* lineout */
++	{ 0x0e, 0x41c501f0 },
++	{ 0x0f, 0x411111f0 }, /* disabled */
++	{ 0x10, 0x411111f0 }, /* disabled */
++	{ 0x11, 0x41012014 },
++	{ 0x12, 0x37a790f0 }, /* mic */
++	{ 0x13, 0x77a701f0 },
++	{ 0x18, 0x500000f0 },
++	{}
++};
++
+  static const struct hda_quirk ca0132_quirks[] = {
+  	SND_PCI_QUIRK(0x1028, 0x057b, "Alienware M17x R4", 
+QUIRK_ALIENWARE_M17XR4),
+  	SND_PCI_QUIRK(0x1028, 0x0685, "Alienware 15 2015", QUIRK_ALIENWARE),
+@@ -1304,6 +1322,7 @@ static const struct hda_quirk ca0132_quirks[] = {
+  	SND_PCI_QUIRK(0x1458, 0xA016, "Recon3Di", QUIRK_R3DI),
+  	SND_PCI_QUIRK(0x1458, 0xA026, "Gigabyte G1.Sniper Z97", QUIRK_R3DI),
+  	SND_PCI_QUIRK(0x1458, 0xA036, "Gigabyte GA-Z170X-Gaming 7", QUIRK_R3DI),
++	SND_PCI_QUIRK(0x1458, 0xA046, "Gigabyte GA-Z170X-Gaming G1", 
+QUIRK_GENERIC),
+  	SND_PCI_QUIRK(0x3842, 0x1038, "EVGA X99 Classified", QUIRK_R3DI),
+  	SND_PCI_QUIRK(0x3842, 0x104b, "EVGA X299 Dark", QUIRK_R3DI),
+  	SND_PCI_QUIRK(0x3842, 0x1055, "EVGA Z390 DARK", QUIRK_R3DI),
+@@ -1325,6 +1344,7 @@ static const struct hda_model_fixup 
+ca0132_quirk_models[] = {
+  	{ .id = QUIRK_R3D, .name = "r3d" },
+  	{ .id = QUIRK_AE5, .name = "ae5" },
+  	{ .id = QUIRK_AE7, .name = "ae7" },
++	{ .id = QUIRK_GENERIC, .name = "generic" },
+  	{}
+  };
+
+@@ -9882,14 +9902,57 @@ static void sbz_detect_quirk(struct hda_codec 
+*codec)
+  	}
+  }
+
++static void ca0132_generic_init_hook(struct hda_codec *codec)
++{
++	struct ca0132_spec *spec = codec->spec;
++
++	snd_hda_sequence_write(codec, spec->spec_init_verbs);
++}
++
++static int ca0132_generic_probe(struct hda_codec *codec)
++{
++	struct ca0132_spec *spec = codec->spec;
++	struct auto_pin_cfg *cfg = &spec->gen.autocfg;
++	int err;
++
++	snd_hda_gen_spec_init(&spec->gen);
++
++	snd_hda_apply_pincfgs(codec, ca0132_generic_pincfgs);
++
++	ca0132_init_chip(codec);
++
++	err = ca0132_prepare_verbs(codec);
++	if (err < 0)
++		return err;
++
++	err = snd_hda_parse_pin_def_config(codec, cfg, NULL);
++	if (err < 0)
++		return err;
++	err = snd_hda_gen_parse_auto_config(codec, cfg);
++	if (err < 0)
++		return err;
++
++	spec->gen.init_hook = ca0132_generic_init_hook;
++	spec->gen.automute_speaker = 0;
++	spec->gen.automute_lo = 0;
++
++	snd_hda_sequence_write(codec, spec->spec_init_verbs);
++	return 0;
++}
++
+  static void ca0132_codec_remove(struct hda_codec *codec)
+  {
+  	struct ca0132_spec *spec = codec->spec;
+
+-	if (ca0132_quirk(spec) == QUIRK_ZXR_DBPRO)
++	switch (ca0132_quirk(spec)) {
++	case QUIRK_GENERIC:
++		snd_hda_gen_remove(codec);
++		return;
++	case QUIRK_ZXR_DBPRO:
+  		return dbpro_free(codec);
+-	else
++	default:
+  		return ca0132_free(codec);
++	}
+  }
+
+  static int ca0132_codec_probe(struct hda_codec *codec,
+@@ -9906,14 +9969,21 @@ static int ca0132_codec_probe(struct hda_codec 
+*codec,
+  	codec->spec = spec;
+  	spec->codec = codec;
+
+-	/* Detect codec quirk */
+-	snd_hda_pick_fixup(codec, ca0132_quirk_models, ca0132_quirks, NULL);
+-	if (ca0132_quirk(spec) == QUIRK_SBZ)
+-		sbz_detect_quirk(codec);
+-
++	/* These must be set before any path is taken */
+  	codec->pcm_format_first = 1;
+  	codec->no_sticky_stream = 1;
+
++	/* Detect codec quirk */
++	snd_hda_pick_fixup(codec, ca0132_quirk_models, ca0132_quirks, NULL);
++	switch (ca0132_quirk(spec)) {
++	case QUIRK_SBZ:
++		sbz_detect_quirk(codec);
++		break;
++	case QUIRK_GENERIC:
++		return ca0132_generic_probe(codec);
++	default:
++		break;
++	}
+
+  	spec->dsp_state = DSP_DOWNLOAD_INIT;
+  	spec->num_mixers = 1;
+@@ -10014,36 +10084,51 @@ static int ca0132_codec_build_controls(struct 
+hda_codec *codec)
+  {
+  	struct ca0132_spec *spec = codec->spec;
+
+-	if (ca0132_quirk(spec) == QUIRK_ZXR_DBPRO)
++	switch (ca0132_quirk(spec)) {
++	case QUIRK_GENERIC:
++		return snd_hda_gen_build_controls(codec);
++	case QUIRK_ZXR_DBPRO:
+  		return dbpro_build_controls(codec);
+-	else
++	default:
+  		return ca0132_build_controls(codec);
++	}
+  }
+
+  static int ca0132_codec_build_pcms(struct hda_codec *codec)
+  {
+  	struct ca0132_spec *spec = codec->spec;
+
+-	if (ca0132_quirk(spec) == QUIRK_ZXR_DBPRO)
++	switch (ca0132_quirk(spec)) {
++	case QUIRK_GENERIC:
++		return snd_hda_gen_build_pcms(codec);
++	case QUIRK_ZXR_DBPRO:
+  		return dbpro_build_pcms(codec);
+-	else
++	default:
+  		return ca0132_build_pcms(codec);
++	}
+  }
+
+  static int ca0132_codec_init(struct hda_codec *codec)
+  {
+  	struct ca0132_spec *spec = codec->spec;
+
+-	if (ca0132_quirk(spec) == QUIRK_ZXR_DBPRO)
++	switch (ca0132_quirk(spec)) {
++	case QUIRK_GENERIC:
++		return snd_hda_gen_init(codec);
++	case QUIRK_ZXR_DBPRO:
+  		return dbpro_init(codec);
+-	else
++	default:
+  		return ca0132_init(codec);
++	}
+  }
+
+  static int ca0132_codec_suspend(struct hda_codec *codec)
+  {
+  	struct ca0132_spec *spec = codec->spec;
+
++	if (ca0132_quirk(spec) == QUIRK_GENERIC)
++		return 0;
++
+  	cancel_delayed_work_sync(&spec->unsol_hp_work);
+  	return 0;
+  }
+-- 
+2.54.0
