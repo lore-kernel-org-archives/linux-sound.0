@@ -1,66 +1,66 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A01F3B3C0A
-	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 09:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980B62EC571
+	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 09:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779095952; cv=none; b=TCaFbf6zPAoxP/djPhT+Ii5CLEdCHEFjiVzbuLXoeBlD2AfZE9vjiRZSa59Flzkgr0IgwaBjWBCjQHONdHR/eABxoA571PwHNsw3GzxrPUoaQHOXgIQ9rDcj4S0R/lE9rln/LsJkzzRh06yJFc1KAcSYuS8PR3VzKGVgchRWmDc=
+	t=1779096210; cv=none; b=JIMOGYl2XGEiA8h/N74F4q1XJet9DmFtMVTAnoXb+URwXc8bQ2sUEN2W0dr8LmGodPESxykpazfhdJMQ1kmUDr/Blw3MyPSGaHcme5Jaeh1OAUOgyNKe+swlogPzECPAoCOwUJO6bofiJCvfkbakSUadEoxb9btffhbGVxAkl/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779095952; c=relaxed/simple;
-	bh=aX1Ge3b6X4pMuxGtErm8H2BEydPy/Y+VYmMgcIUVsGs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XC4WfumYXA/0lvCGfGA8yz7clt5QLIC3gdxZt9ZEmCbeGtOfIBLAOUfbqpycRMdHVa6KqMp4KWpiSU3ZOadzjmn8DVAZuAGHCqffKjxCOJIcLbszoWX828azld+Hrs9cpFwtP7UVl2Acgp0uhXOe55d/kGj9XXfqAw7N/JCslfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JgLSo09V; arc=none smtp.client-ip=209.85.221.53
+	s=arc-20240116; t=1779096210; c=relaxed/simple;
+	bh=Bu4zUzk3v0EQyzxUXRpp34IqCulmSe+OHHxCD3WKhN4=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To; b=nnJ6krXwwFVYv2AUeuAWON+iALLueJ0zqMqL1jKNT1aKDYicGe2whWjirZt7RJis90MMw3hiXuhcsLWih/LZDZBWp4jiVD6i2SSbhfRYMUxC/hPAY+dnknkzH/IEXGIFilYCMYbfPtVQOr6vf1fRWzR6c7V/Ae08zl8Y6xtlntU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K+TqIjtf; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JgLSo09V"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43d7e23defbso1027505f8f.0
-        for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 02:19:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K+TqIjtf"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-44dd5cb0f81so1934145f8f.0
+        for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 02:23:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779095949; x=1779700749; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CIxQ+Yspo/kff7nqH7vPza1AWSJyB0L37cRLebW+FyM=;
-        b=JgLSo09VRmzCEBHxtjHrk5tyEhRBh9ChqLVdY83SY0dXMZxFC/hLd5ctxqFoz23RoZ
-         Ft0Wuav2WiSwmz/gao4f5sYJFOU0MnU1fqry0sBm+R7EwBRCryFuHhit94zINRrRd3jN
-         CvGfG6vy188PzE6KHoenW6/9rYfsHLLj5nmUr1QAQiXz1V7HUqyUd7fuw7A4PpbwNL3t
-         vrIwm1HbtzDhrQox5wGLhmUJoC8SjEdAlh4iKwYopd3UD3/R6k3m3KXevA6uP3qwjuVf
-         MltZ1Ok/BfRPm/cjC+xlb1OvF93qB059OIGcSZSn9sw9g8ZgbztNK7VwfAvWKfOaCDyv
-         bRQA==
+        d=gmail.com; s=20251104; t=1779096207; x=1779701007; darn=vger.kernel.org;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M0hsr+KlAbSUcD5ADOjmOJgDc+od8XWr1gxN0Ixp5PY=;
+        b=K+TqIjtfRB793yr6SGfOg9pmYDMxbiaNHXwdDmIoADb/2tsr8qiv6rHp51upIMUkzx
+         3e/ld+S32x2x9FjsIrokYjwn2oX0nazqMu/ZIDQNnf1UyavfNkUJK7XHJY9mWrrMUDQg
+         pvSYa/VwJEf/a74c+y5bjzJPdw2NDAAh9xCaoav/ADvX/7ZjRtmcmgIbTZUAAdo4oScN
+         KZLHtcevhSuF5QRZou4VcwU36jcE5mLnWQ7qEKG+YJrp9b1pGX5UOft0zRg7k+Z/iDKg
+         5M4UJILaMmrQK2GetJyg2p1r7yCUtmbb02E3+49mmIS97cE6rr5hy3bU6IBxBdizDasH
+         XleQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779095949; x=1779700749;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CIxQ+Yspo/kff7nqH7vPza1AWSJyB0L37cRLebW+FyM=;
-        b=IEbzePHE7iWsuxfS0WyMWAXx8PMR2oPhIecjM3/BgSwfX9WVvBy11f0GahhcsjGdB6
-         Eawx++nPUSj9KU6Xh9zPysFjclK2qQWi4qY3KJtblhNLEmenDcGkustl2Wjj40AAjNIb
-         ZbNLMawUujNDycRUreNIf0aC+axS9EFB2Z5EGHYij1fdMu4XxZFaakX5DneO+Wi8mWmh
-         Gzh7uJrT6dyaDyMxXjqAjltP79CsCR3CkGXlJ60sBRlSDOJLx7OjJsezwB+PW1E9FSL4
-         HkcHLajE5GPl5QXSmEfKVegPO8tIeGmxFZIh9QCWs1KgZfC/plm41ojtC+y2M8Q7Pl3/
-         2Kmg==
-X-Forwarded-Encrypted: i=1; AFNElJ/3qMdjgGmZfKrxd7Aqb9MHhz7b/qR3N5PXNNXFe3e6Ddh1XS2Rqw1/86q177918xX6YB7LFhkEWfpn8Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyb5xxejPD68neY8NZIWprUkMC2G12ANFXtLj+B5wo4+2sVigBL
-	8j1P/39Whx3Uf9wxmgfKqKYa/CUXSGKmFvCVHNrwnHpI8kmeTQFQLqIN
-X-Gm-Gg: Acq92OHORFay4mBDHLWCA9nvc0+q4W6gA2p2YshldafXywoG14NRC22PdX/gZrUL/Li
-	IPNY52WalWWqOUmNhS+WIvOS6AMwaK2qCTY4nHe3nqhhvBUJ7aB9YF2+hlfagjNymjqDq+9hMPO
-	E89e8R8c/4PrmkIa8vorA9naGrHW4+CxTRZNt5NV7cIBvJ491H8cH4MLA30RFJYbf7+wqiUG6or
-	2rNGwETE/nEqfimzBWmje82Uu5tCk9U8YARaqi1N76JhU9nkfVwW9FHbVKx0atv5oNogXi8MCg1
-	nm3jS8gSfWDyOCfgAhyiOOXcT6iqBBdbUpqATBwcarI3WvgmJj9/V2b4px1GxUUduaGxsfXY++P
-	EiZO8YzU9AS+f4PHQcjq7gsYous+QcQdiqlf2E+3Iuy9QBDIKEu8T/prLupQY9QxLlQj7VsNatY
-	Ey/B3BBe5CryO3nJEj/w==
-X-Received: by 2002:a5d:5f90:0:b0:43d:300b:2285 with SMTP id ffacd0b85a97d-45e5c5be273mr21756208f8f.11.1779095948761;
-        Mon, 18 May 2026 02:19:08 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779096207; x=1779701007;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M0hsr+KlAbSUcD5ADOjmOJgDc+od8XWr1gxN0Ixp5PY=;
+        b=DQrMgG5NFe8e1XWPRx1hz8u40CE9YP/JV3Y6liE89l+fwiAoEmS8Gwgu74OE5VsUk0
+         yGS9lJEjq3ziQ7VGOhgA4FbovgyksoOgN4De+jKMOn6yZyLbDGwt/wtFUiEj2YR2P/kq
+         wV7p/RSwQiu7vwFflHRqLffqXOe8QU4ZbBl+glOWe7kq8AJMmntwblUkr45vNzIw1bEQ
+         mdbh8Za1H4IrHg+Oc5YRUrvyWch2qZLwqgJqRyoeXiiYvDAAU9mru2kkIIZEp2dvBzvr
+         YkJi47Y+ISA2IeFTdfZZ43sNbVjzYx8fsfSivlDpkrJ1oLrVBFmlcXpMqpwDGLvsJG8Z
+         bnrg==
+X-Forwarded-Encrypted: i=1; AFNElJ9t3hrUKBZiM2NrhIXz8pU02fXEoLC74xH9BMyFY0Opwa6vnqDtj9Ieg6gwj7Lpyjc+5KePNeUQD2t2mQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1P9UGFw7m3idEWD2y64GW2n3lGEcZP+ljGuVKjO3gu9a3C1I7
+	IGpKB2aaQcS3FmEsGGVXJEYeZ+n1herYB4XZDZtzvFRPQqlU4Mw/BA15
+X-Gm-Gg: Acq92OHgTieIm9dBxWdsmwk0nLbi0gns48UgqOw6l41P2mnvfC5/6DbTAigg9Zm7eGD
+	eW5S/GM7pCS280aajV8smM7MWELZI7ngRVBUbhI4vdeL+QDykGQueLgBQ9Kk2kXrLP12EnFI7DE
+	Z3ibXUgZYaOuVU9DHsMEa2LeAsAAJFpiAVjJRHOCe6Jusztx350s24skfrJUCzdYkLN+Kf4DmbY
+	aCoIbKJlpLppjLreD95YkytwabfLcIKv7DyoJjvoFq1nWxL1SaEh5n6TVreDz/eWfPqg21hsJyn
+	iyyaWejK1WrKnCtY4EZIYTYx3C+pLh+A12qU6kX4XJW69kC6k4AwSQ+tMqkWg0DNX8XO6z33cff
+	fXYoy+H1gtZTqhvcQLPKlEm06ivc8kljo8u+MhB1Z4PKeS9Vx3b5M+q5FGZ0LmC2le3YPxZgV9i
+	BQsAzx9g9gBbBAKW4CvQ==
+X-Received: by 2002:a05:6000:410d:b0:451:73c8:9101 with SMTP id ffacd0b85a97d-45d92797006mr20880171f8f.18.1779096206896;
+        Mon, 18 May 2026 02:23:26 -0700 (PDT)
 Received: from [0.0.0.0] ([151.67.112.59])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0a1aeafsm37421215f8f.23.2026.05.18.02.19.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0a1a22csm34859813f8f.19.2026.05.18.02.23.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2026 02:19:08 -0700 (PDT)
-Message-ID: <e8048031-ac1c-43dd-b0ff-733bbffccbf8@gmail.com>
-Date: Mon, 18 May 2026 11:19:07 +0200
+        Mon, 18 May 2026 02:23:25 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="------------1w32X7pBgFU0IWMGvWGgPZ7i"
+Message-ID: <0c0b781f-1595-4595-921a-66d83cf5930b@gmail.com>
+Date: Mon, 18 May 2026 11:23:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH] ALSA: hda/ca0132: add QUIRK_GENERIC path for Gigabyte,
+Subject: Re: [PATCH] ALSA: hda/ca0132: add QUIRK_GENERIC path for Gigabyte,
  GA-Z170X-Gaming G1
 Content-Language: it
 To: Takashi Iwai <tiwai@suse.de>
@@ -80,250 +80,150 @@ References: <a1dd5dfd-8678-4dd9-b6af-68a1e078168a@gmail.com>
  <87h5o5ersn.wl-tiwai@suse.de>
 From: "eziogale@gmail.com" <eziogale@gmail.com>
 In-Reply-To: <87h5o5ersn.wl-tiwai@suse.de>
+
+This is a multi-part message in MIME format.
+--------------1w32X7pBgFU0IWMGvWGgPZ7i
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Some CA0132 implementations (e.g. Gigabyte GA-Z170X-Gaming G1) produce 
-white noise when using the DSP firmware path. Add a QUIRK_GENERIC path 
-that uses the standard HDA generic parser instead, with custom pin configs.
-This patch applies against v6.18.24.
+Sorry, with gmail and OAUTH2 it's a bit complicated. I'v to make an 
+attachmant.
+Tanks for the patience.
 
-Signed-off-by: Ezio Galeazzi <eziogale@gmail.com>
 
----
-  sound/hda/codecs/Kconfig  |   1 +
-  sound/hda/codecs/ca0132.c | 111 +++++++++++++++++++++++++++++++++-----
-  2 files changed, 99 insertions(+), 13 deletions(-)
+--------------1w32X7pBgFU0IWMGvWGgPZ7i
+Content-Type: text/plain; charset=UTF-8;
+ name="0001-ALSA-hda-ca0132-add-QUIRK_GENERIC-path-for-Gigabyte-GA-Z170X-Gaming-G1-2.patch"
+Content-Disposition: attachment;
+ filename*0="0001-ALSA-hda-ca0132-add-QUIRK_GENERIC-path-for-Gigabyte-GA-";
+ filename*1="Z170X-Gaming-G1-2.patch"
+Content-Transfer-Encoding: base64
 
-diff --git a/sound/hda/codecs/Kconfig b/sound/hda/codecs/Kconfig
-index addbc94..dcf340e 100644
---- a/sound/hda/codecs/Kconfig
-+++ b/sound/hda/codecs/Kconfig
-@@ -69,6 +69,7 @@ comment "Set to Y if you want auto-loading the codec 
-driver"
+RnJvbSA2NDExYmU2NTM0MDQyNDZlNjYxZDZiY2Y0MTgzNDVhYmY4NjZlMDk4IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBFemlvIEdhbGVhenppIDxlemlvZ2FsZUBnbWFpbC5j
+b20+CkRhdGU6IFN1biwgMTcgTWF5IDIwMjYgMTc6NDI6MzYgKzAyMDAKU3ViamVjdDogW1BB
+VENIXSBBTFNBOiBoZGEvY2EwMTMyOiBhZGQgUVVJUktfR0VORVJJQyBwYXRoIGZvciBHaWdh
+Ynl0ZQogR0EtWjE3MFgtR2FtaW5nIEcxCgpTb21lIENBMDEzMiBpbXBsZW1lbnRhdGlvbnMg
+KGUuZy4gR2lnYWJ5dGUgR0EtWjE3MFgtR2FtaW5nIEcxKSBwcm9kdWNlIHdoaXRlIG5vaXNl
+IHdoZW4gdXNpbmcgdGhlIERTUCBmaXJtd2FyZSBwYXRoLiBBZGQgYSBRVUlSS19HRU5FUklD
+IHBhdGggdGhhdCB1c2VzIHRoZSBzdGFuZGFyZCBIREEgZ2VuZXJpYyBwYXJzZXIgaW5zdGVh
+ZCwgd2l0aCBjdXN0b20gcGluIGNvbmZpZ3MuClRoaXMgcGF0Y2ggYXBwbGllcyBhZ2FpbnN0
+IHY2LjE4LjI0LgoKU2lnbmVkLW9mZi1ieTogRXppbyBHYWxlYXp6aSA8ZXppb2dhbGVAZ21h
+aWwuY29tPgoKLS0tCiBzb3VuZC9oZGEvY29kZWNzL0tjb25maWcgIHwgICAxICsKIHNvdW5k
+L2hkYS9jb2RlY3MvY2EwMTMyLmMgfCAxMTEgKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrLS0tLS0KIDIgZmlsZXMgY2hhbmdlZCwgOTkgaW5zZXJ0aW9ucygrKSwgMTMgZGVs
+ZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvc291bmQvaGRhL2NvZGVjcy9LY29uZmlnIGIvc291
+bmQvaGRhL2NvZGVjcy9LY29uZmlnCmluZGV4IGFkZGJjOTQuLmRjZjM0MGUgMTAwNjQ0Ci0t
+LSBhL3NvdW5kL2hkYS9jb2RlY3MvS2NvbmZpZworKysgYi9zb3VuZC9oZGEvY29kZWNzL0tj
+b25maWcKQEAgLTY5LDYgKzY5LDcgQEAgY29tbWVudCAiU2V0IHRvIFkgaWYgeW91IHdhbnQg
+YXV0by1sb2FkaW5nIHRoZSBjb2RlYyBkcml2ZXIiCiAKIGNvbmZpZyBTTkRfSERBX0NPREVD
+X0NBMDEzMgogCXRyaXN0YXRlICJCdWlsZCBDcmVhdGl2ZSBDQTAxMzIgY29kZWMgc3VwcG9y
+dCIKKwlzZWxlY3QgU05EX0hEQV9HRU5FUklDCiAJaGVscAogCSAgU2F5IFkgb3IgTSBoZXJl
+IHRvIGluY2x1ZGUgQ3JlYXRpdmUgQ0EwMTMyIGNvZGVjIHN1cHBvcnQgaW4KIAkgIHNuZC1o
+ZGEtaW50ZWwgZHJpdmVyLgpkaWZmIC0tZ2l0IGEvc291bmQvaGRhL2NvZGVjcy9jYTAxMzIu
+YyBiL3NvdW5kL2hkYS9jb2RlY3MvY2EwMTMyLmMKaW5kZXggZGQwNTRhZS4uOTJmYzkzZiAx
+MDA2NDQKLS0tIGEvc291bmQvaGRhL2NvZGVjcy9jYTAxMzIuYworKysgYi9zb3VuZC9oZGEv
+Y29kZWNzL2NhMDEzMi5jCkBAIC0yNCw2ICsyNCw3IEBACiAjaW5jbHVkZSAiaGRhX2xvY2Fs
+LmgiCiAjaW5jbHVkZSAiaGRhX2F1dG9fcGFyc2VyLmgiCiAjaW5jbHVkZSAiaGRhX2phY2su
+aCIKKyNpbmNsdWRlICJnZW5lcmljLmgiCiAKICNpbmNsdWRlICJjYTAxMzJfcmVncy5oIgog
+CkBAIC0xMDYwLDYgKzEwNjEsOCBAQCBlbnVtIGRzcF9kb3dubG9hZF9zdGF0ZSB7CiAgKi8K
+IAogc3RydWN0IGNhMDEzMl9zcGVjIHsKKwlzdHJ1Y3QgaGRhX2dlbl9zcGVjIGdlbjsKKwog
+CWNvbnN0IHN0cnVjdCBzbmRfa2NvbnRyb2xfbmV3ICptaXhlcnNbNV07CiAJdW5zaWduZWQg
+aW50IG51bV9taXhlcnM7CiAJY29uc3Qgc3RydWN0IGhkYV92ZXJiICpiYXNlX2luaXRfdmVy
+YnM7CkBAIC0xMTc0LDYgKzExNzcsNyBAQCBlbnVtIHsKIAlRVUlSS19SM0QsCiAJUVVJUktf
+QUU1LAogCVFVSVJLX0FFNywKKwlRVUlSS19HRU5FUklDLAogCVFVSVJLX05PTkUgPSBIREFf
+RklYVVBfSURfTk9UX1NFVCwKIH07CiAKQEAgLTEyOTIsNiArMTI5NiwyMCBAQCBzdGF0aWMg
+Y29uc3Qgc3RydWN0IGhkYV9waW50YmwgYWU3X3BpbmNmZ3NbXSA9IHsKIAl7fQogfTsKIAor
+c3RhdGljIGNvbnN0IHN0cnVjdCBoZGFfcGludGJsIGNhMDEzMl9nZW5lcmljX3BpbmNmZ3Nb
+XSA9IHsKKwl7IDB4MGIsIDB4NDEwMTQxMTEgfSwKKwl7IDB4MGMsIDB4NDE0NTIwZjAgfSwg
+LyogU1BESUYgb3V0ICovCisJeyAweDBkLCAweDAxMDE0MDEwIH0sIC8qIGxpbmVvdXQgKi8K
+Kwl7IDB4MGUsIDB4NDFjNTAxZjAgfSwKKwl7IDB4MGYsIDB4NDExMTExZjAgfSwgLyogZGlz
+YWJsZWQgKi8KKwl7IDB4MTAsIDB4NDExMTExZjAgfSwgLyogZGlzYWJsZWQgKi8KKwl7IDB4
+MTEsIDB4NDEwMTIwMTQgfSwKKwl7IDB4MTIsIDB4MzdhNzkwZjAgfSwgLyogbWljICovCisJ
+eyAweDEzLCAweDc3YTcwMWYwIH0sCisJeyAweDE4LCAweDUwMDAwMGYwIH0sCisJe30KK307
+CisKIHN0YXRpYyBjb25zdCBzdHJ1Y3QgaGRhX3F1aXJrIGNhMDEzMl9xdWlya3NbXSA9IHsK
+IAlTTkRfUENJX1FVSVJLKDB4MTAyOCwgMHgwNTdiLCAiQWxpZW53YXJlIE0xN3ggUjQiLCBR
+VUlSS19BTElFTldBUkVfTTE3WFI0KSwKIAlTTkRfUENJX1FVSVJLKDB4MTAyOCwgMHgwNjg1
+LCAiQWxpZW53YXJlIDE1IDIwMTUiLCBRVUlSS19BTElFTldBUkUpLApAQCAtMTMwNCw2ICsx
+MzIyLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBoZGFfcXVpcmsgY2EwMTMyX3F1aXJrc1td
+ID0gewogCVNORF9QQ0lfUVVJUksoMHgxNDU4LCAweEEwMTYsICJSZWNvbjNEaSIsIFFVSVJL
+X1IzREkpLAogCVNORF9QQ0lfUVVJUksoMHgxNDU4LCAweEEwMjYsICJHaWdhYnl0ZSBHMS5T
+bmlwZXIgWjk3IiwgUVVJUktfUjNESSksCiAJU05EX1BDSV9RVUlSSygweDE0NTgsIDB4QTAz
+NiwgIkdpZ2FieXRlIEdBLVoxNzBYLUdhbWluZyA3IiwgUVVJUktfUjNESSksCisJU05EX1BD
+SV9RVUlSSygweDE0NTgsIDB4QTA0NiwgIkdpZ2FieXRlIEdBLVoxNzBYLUdhbWluZyBHMSIs
+IFFVSVJLX0dFTkVSSUMpLAogCVNORF9QQ0lfUVVJUksoMHgzODQyLCAweDEwMzgsICJFVkdB
+IFg5OSBDbGFzc2lmaWVkIiwgUVVJUktfUjNESSksCiAJU05EX1BDSV9RVUlSSygweDM4NDIs
+IDB4MTA0YiwgIkVWR0EgWDI5OSBEYXJrIiwgUVVJUktfUjNESSksCiAJU05EX1BDSV9RVUlS
+SygweDM4NDIsIDB4MTA1NSwgIkVWR0EgWjM5MCBEQVJLIiwgUVVJUktfUjNESSksCkBAIC0x
+MzI1LDYgKzEzNDQsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGhkYV9tb2RlbF9maXh1cCBj
+YTAxMzJfcXVpcmtfbW9kZWxzW10gPSB7CiAJeyAuaWQgPSBRVUlSS19SM0QsIC5uYW1lID0g
+InIzZCIgfSwKIAl7IC5pZCA9IFFVSVJLX0FFNSwgLm5hbWUgPSAiYWU1IiB9LAogCXsgLmlk
+ID0gUVVJUktfQUU3LCAubmFtZSA9ICJhZTciIH0sCisJeyAuaWQgPSBRVUlSS19HRU5FUklD
+LCAubmFtZSA9ICJnZW5lcmljIiB9LAogCXt9CiB9OwogCkBAIC05ODgyLDE0ICs5OTAyLDU3
+IEBAIHN0YXRpYyB2b2lkIHNiel9kZXRlY3RfcXVpcmsoc3RydWN0IGhkYV9jb2RlYyAqY29k
+ZWMpCiAJfQogfQogCitzdGF0aWMgdm9pZCBjYTAxMzJfZ2VuZXJpY19pbml0X2hvb2soc3Ry
+dWN0IGhkYV9jb2RlYyAqY29kZWMpCit7CisJc3RydWN0IGNhMDEzMl9zcGVjICpzcGVjID0g
+Y29kZWMtPnNwZWM7CisKKwlzbmRfaGRhX3NlcXVlbmNlX3dyaXRlKGNvZGVjLCBzcGVjLT5z
+cGVjX2luaXRfdmVyYnMpOworfQorCitzdGF0aWMgaW50IGNhMDEzMl9nZW5lcmljX3Byb2Jl
+KHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQoreworCXN0cnVjdCBjYTAxMzJfc3BlYyAqc3Bl
+YyA9IGNvZGVjLT5zcGVjOworCXN0cnVjdCBhdXRvX3Bpbl9jZmcgKmNmZyA9ICZzcGVjLT5n
+ZW4uYXV0b2NmZzsKKwlpbnQgZXJyOworCisJc25kX2hkYV9nZW5fc3BlY19pbml0KCZzcGVj
+LT5nZW4pOworCisJc25kX2hkYV9hcHBseV9waW5jZmdzKGNvZGVjLCBjYTAxMzJfZ2VuZXJp
+Y19waW5jZmdzKTsKKworCWNhMDEzMl9pbml0X2NoaXAoY29kZWMpOworCisJZXJyID0gY2Ew
+MTMyX3ByZXBhcmVfdmVyYnMoY29kZWMpOworCWlmIChlcnIgPCAwKQorCQlyZXR1cm4gZXJy
+OworCisJZXJyID0gc25kX2hkYV9wYXJzZV9waW5fZGVmX2NvbmZpZyhjb2RlYywgY2ZnLCBO
+VUxMKTsKKwlpZiAoZXJyIDwgMCkKKwkJcmV0dXJuIGVycjsKKwllcnIgPSBzbmRfaGRhX2dl
+bl9wYXJzZV9hdXRvX2NvbmZpZyhjb2RlYywgY2ZnKTsKKwlpZiAoZXJyIDwgMCkKKwkJcmV0
+dXJuIGVycjsKKworCXNwZWMtPmdlbi5pbml0X2hvb2sgPSBjYTAxMzJfZ2VuZXJpY19pbml0
+X2hvb2s7CisJc3BlYy0+Z2VuLmF1dG9tdXRlX3NwZWFrZXIgPSAwOworCXNwZWMtPmdlbi5h
+dXRvbXV0ZV9sbyA9IDA7CisKKwlzbmRfaGRhX3NlcXVlbmNlX3dyaXRlKGNvZGVjLCBzcGVj
+LT5zcGVjX2luaXRfdmVyYnMpOworCXJldHVybiAwOworfQorCiBzdGF0aWMgdm9pZCBjYTAx
+MzJfY29kZWNfcmVtb3ZlKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQogewogCXN0cnVjdCBj
+YTAxMzJfc3BlYyAqc3BlYyA9IGNvZGVjLT5zcGVjOwogCi0JaWYgKGNhMDEzMl9xdWlyayhz
+cGVjKSA9PSBRVUlSS19aWFJfREJQUk8pCisJc3dpdGNoIChjYTAxMzJfcXVpcmsoc3BlYykp
+IHsKKwljYXNlIFFVSVJLX0dFTkVSSUM6CisJCXNuZF9oZGFfZ2VuX3JlbW92ZShjb2RlYyk7
+CisJCXJldHVybjsKKwljYXNlIFFVSVJLX1pYUl9EQlBSTzoKIAkJcmV0dXJuIGRicHJvX2Zy
+ZWUoY29kZWMpOwotCWVsc2UKKwlkZWZhdWx0OgogCQlyZXR1cm4gY2EwMTMyX2ZyZWUoY29k
+ZWMpOworCX0KIH0KIAogc3RhdGljIGludCBjYTAxMzJfY29kZWNfcHJvYmUoc3RydWN0IGhk
+YV9jb2RlYyAqY29kZWMsCkBAIC05OTA2LDE0ICs5OTY5LDIxIEBAIHN0YXRpYyBpbnQgY2Ew
+MTMyX2NvZGVjX3Byb2JlKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjLAogCWNvZGVjLT5zcGVj
+ID0gc3BlYzsKIAlzcGVjLT5jb2RlYyA9IGNvZGVjOwogCi0JLyogRGV0ZWN0IGNvZGVjIHF1
+aXJrICovCi0Jc25kX2hkYV9waWNrX2ZpeHVwKGNvZGVjLCBjYTAxMzJfcXVpcmtfbW9kZWxz
+LCBjYTAxMzJfcXVpcmtzLCBOVUxMKTsKLQlpZiAoY2EwMTMyX3F1aXJrKHNwZWMpID09IFFV
+SVJLX1NCWikKLQkJc2J6X2RldGVjdF9xdWlyayhjb2RlYyk7Ci0KKwkvKiBUaGVzZSBtdXN0
+IGJlIHNldCBiZWZvcmUgYW55IHBhdGggaXMgdGFrZW4gKi8KIAljb2RlYy0+cGNtX2Zvcm1h
+dF9maXJzdCA9IDE7CiAJY29kZWMtPm5vX3N0aWNreV9zdHJlYW0gPSAxOwogCisJLyogRGV0
+ZWN0IGNvZGVjIHF1aXJrICovCisJc25kX2hkYV9waWNrX2ZpeHVwKGNvZGVjLCBjYTAxMzJf
+cXVpcmtfbW9kZWxzLCBjYTAxMzJfcXVpcmtzLCBOVUxMKTsKKwlzd2l0Y2ggKGNhMDEzMl9x
+dWlyayhzcGVjKSkgeworCWNhc2UgUVVJUktfU0JaOgorCQlzYnpfZGV0ZWN0X3F1aXJrKGNv
+ZGVjKTsKKwkJYnJlYWs7CisJY2FzZSBRVUlSS19HRU5FUklDOgorCQlyZXR1cm4gY2EwMTMy
+X2dlbmVyaWNfcHJvYmUoY29kZWMpOworCWRlZmF1bHQ6CisJCWJyZWFrOworCX0KIAogCXNw
+ZWMtPmRzcF9zdGF0ZSA9IERTUF9ET1dOTE9BRF9JTklUOwogCXNwZWMtPm51bV9taXhlcnMg
+PSAxOwpAQCAtMTAwMTQsMzYgKzEwMDg0LDUxIEBAIHN0YXRpYyBpbnQgY2EwMTMyX2NvZGVj
+X2J1aWxkX2NvbnRyb2xzKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQogewogCXN0cnVjdCBj
+YTAxMzJfc3BlYyAqc3BlYyA9IGNvZGVjLT5zcGVjOwogCi0JaWYgKGNhMDEzMl9xdWlyayhz
+cGVjKSA9PSBRVUlSS19aWFJfREJQUk8pCisJc3dpdGNoIChjYTAxMzJfcXVpcmsoc3BlYykp
+IHsKKwljYXNlIFFVSVJLX0dFTkVSSUM6CisJCXJldHVybiBzbmRfaGRhX2dlbl9idWlsZF9j
+b250cm9scyhjb2RlYyk7CisJY2FzZSBRVUlSS19aWFJfREJQUk86CiAJCXJldHVybiBkYnBy
+b19idWlsZF9jb250cm9scyhjb2RlYyk7Ci0JZWxzZQorCWRlZmF1bHQ6CiAJCXJldHVybiBj
+YTAxMzJfYnVpbGRfY29udHJvbHMoY29kZWMpOworCX0KIH0KIAogc3RhdGljIGludCBjYTAx
+MzJfY29kZWNfYnVpbGRfcGNtcyhzdHJ1Y3QgaGRhX2NvZGVjICpjb2RlYykKIHsKIAlzdHJ1
+Y3QgY2EwMTMyX3NwZWMgKnNwZWMgPSBjb2RlYy0+c3BlYzsKIAotCWlmIChjYTAxMzJfcXVp
+cmsoc3BlYykgPT0gUVVJUktfWlhSX0RCUFJPKQorCXN3aXRjaCAoY2EwMTMyX3F1aXJrKHNw
+ZWMpKSB7CisJY2FzZSBRVUlSS19HRU5FUklDOgorCQlyZXR1cm4gc25kX2hkYV9nZW5fYnVp
+bGRfcGNtcyhjb2RlYyk7CisJY2FzZSBRVUlSS19aWFJfREJQUk86CiAJCXJldHVybiBkYnBy
+b19idWlsZF9wY21zKGNvZGVjKTsKLQllbHNlCisJZGVmYXVsdDoKIAkJcmV0dXJuIGNhMDEz
+Ml9idWlsZF9wY21zKGNvZGVjKTsKKwl9CiB9CiAKIHN0YXRpYyBpbnQgY2EwMTMyX2NvZGVj
+X2luaXQoc3RydWN0IGhkYV9jb2RlYyAqY29kZWMpCiB7CiAJc3RydWN0IGNhMDEzMl9zcGVj
+ICpzcGVjID0gY29kZWMtPnNwZWM7CiAKLQlpZiAoY2EwMTMyX3F1aXJrKHNwZWMpID09IFFV
+SVJLX1pYUl9EQlBSTykKKwlzd2l0Y2ggKGNhMDEzMl9xdWlyayhzcGVjKSkgeworCWNhc2Ug
+UVVJUktfR0VORVJJQzoKKwkJcmV0dXJuIHNuZF9oZGFfZ2VuX2luaXQoY29kZWMpOworCWNh
+c2UgUVVJUktfWlhSX0RCUFJPOgogCQlyZXR1cm4gZGJwcm9faW5pdChjb2RlYyk7Ci0JZWxz
+ZQorCWRlZmF1bHQ6CiAJCXJldHVybiBjYTAxMzJfaW5pdChjb2RlYyk7CisJfQogfQogCiBz
+dGF0aWMgaW50IGNhMDEzMl9jb2RlY19zdXNwZW5kKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVj
+KQogewogCXN0cnVjdCBjYTAxMzJfc3BlYyAqc3BlYyA9IGNvZGVjLT5zcGVjOwogCisJaWYg
+KGNhMDEzMl9xdWlyayhzcGVjKSA9PSBRVUlSS19HRU5FUklDKQorCQlyZXR1cm4gMDsKKwog
+CWNhbmNlbF9kZWxheWVkX3dvcmtfc3luYygmc3BlYy0+dW5zb2xfaHBfd29yayk7CiAJcmV0
+dXJuIDA7CiB9Ci0tIAoyLjU0LjAK
 
-  config SND_HDA_CODEC_CA0132
-  	tristate "Build Creative CA0132 codec support"
-+	select SND_HDA_GENERIC
-  	help
-  	  Say Y or M here to include Creative CA0132 codec support in
-  	  snd-hda-intel driver.
-diff --git a/sound/hda/codecs/ca0132.c b/sound/hda/codecs/ca0132.c
-index dd054ae..92fc93f 100644
---- a/sound/hda/codecs/ca0132.c
-+++ b/sound/hda/codecs/ca0132.c
-@@ -24,6 +24,7 @@
-  #include "hda_local.h"
-  #include "hda_auto_parser.h"
-  #include "hda_jack.h"
-+#include "generic.h"
-
-  #include "ca0132_regs.h"
-
-@@ -1060,6 +1061,8 @@ enum dsp_download_state {
-   */
-
-  struct ca0132_spec {
-+	struct hda_gen_spec gen;
-+
-  	const struct snd_kcontrol_new *mixers[5];
-  	unsigned int num_mixers;
-  	const struct hda_verb *base_init_verbs;
-@@ -1174,6 +1177,7 @@ enum {
-  	QUIRK_R3D,
-  	QUIRK_AE5,
-  	QUIRK_AE7,
-+	QUIRK_GENERIC,
-  	QUIRK_NONE = HDA_FIXUP_ID_NOT_SET,
-  };
-
-@@ -1292,6 +1296,20 @@ static const struct hda_pintbl ae7_pincfgs[] = {
-  	{}
-  };
-
-+static const struct hda_pintbl ca0132_generic_pincfgs[] = {
-+	{ 0x0b, 0x41014111 },
-+	{ 0x0c, 0x414520f0 }, /* SPDIF out */
-+	{ 0x0d, 0x01014010 }, /* lineout */
-+	{ 0x0e, 0x41c501f0 },
-+	{ 0x0f, 0x411111f0 }, /* disabled */
-+	{ 0x10, 0x411111f0 }, /* disabled */
-+	{ 0x11, 0x41012014 },
-+	{ 0x12, 0x37a790f0 }, /* mic */
-+	{ 0x13, 0x77a701f0 },
-+	{ 0x18, 0x500000f0 },
-+	{}
-+};
-+
-  static const struct hda_quirk ca0132_quirks[] = {
-  	SND_PCI_QUIRK(0x1028, 0x057b, "Alienware M17x R4", 
-QUIRK_ALIENWARE_M17XR4),
-  	SND_PCI_QUIRK(0x1028, 0x0685, "Alienware 15 2015", QUIRK_ALIENWARE),
-@@ -1304,6 +1322,7 @@ static const struct hda_quirk ca0132_quirks[] = {
-  	SND_PCI_QUIRK(0x1458, 0xA016, "Recon3Di", QUIRK_R3DI),
-  	SND_PCI_QUIRK(0x1458, 0xA026, "Gigabyte G1.Sniper Z97", QUIRK_R3DI),
-  	SND_PCI_QUIRK(0x1458, 0xA036, "Gigabyte GA-Z170X-Gaming 7", QUIRK_R3DI),
-+	SND_PCI_QUIRK(0x1458, 0xA046, "Gigabyte GA-Z170X-Gaming G1", 
-QUIRK_GENERIC),
-  	SND_PCI_QUIRK(0x3842, 0x1038, "EVGA X99 Classified", QUIRK_R3DI),
-  	SND_PCI_QUIRK(0x3842, 0x104b, "EVGA X299 Dark", QUIRK_R3DI),
-  	SND_PCI_QUIRK(0x3842, 0x1055, "EVGA Z390 DARK", QUIRK_R3DI),
-@@ -1325,6 +1344,7 @@ static const struct hda_model_fixup 
-ca0132_quirk_models[] = {
-  	{ .id = QUIRK_R3D, .name = "r3d" },
-  	{ .id = QUIRK_AE5, .name = "ae5" },
-  	{ .id = QUIRK_AE7, .name = "ae7" },
-+	{ .id = QUIRK_GENERIC, .name = "generic" },
-  	{}
-  };
-
-@@ -9882,14 +9902,57 @@ static void sbz_detect_quirk(struct hda_codec 
-*codec)
-  	}
-  }
-
-+static void ca0132_generic_init_hook(struct hda_codec *codec)
-+{
-+	struct ca0132_spec *spec = codec->spec;
-+
-+	snd_hda_sequence_write(codec, spec->spec_init_verbs);
-+}
-+
-+static int ca0132_generic_probe(struct hda_codec *codec)
-+{
-+	struct ca0132_spec *spec = codec->spec;
-+	struct auto_pin_cfg *cfg = &spec->gen.autocfg;
-+	int err;
-+
-+	snd_hda_gen_spec_init(&spec->gen);
-+
-+	snd_hda_apply_pincfgs(codec, ca0132_generic_pincfgs);
-+
-+	ca0132_init_chip(codec);
-+
-+	err = ca0132_prepare_verbs(codec);
-+	if (err < 0)
-+		return err;
-+
-+	err = snd_hda_parse_pin_def_config(codec, cfg, NULL);
-+	if (err < 0)
-+		return err;
-+	err = snd_hda_gen_parse_auto_config(codec, cfg);
-+	if (err < 0)
-+		return err;
-+
-+	spec->gen.init_hook = ca0132_generic_init_hook;
-+	spec->gen.automute_speaker = 0;
-+	spec->gen.automute_lo = 0;
-+
-+	snd_hda_sequence_write(codec, spec->spec_init_verbs);
-+	return 0;
-+}
-+
-  static void ca0132_codec_remove(struct hda_codec *codec)
-  {
-  	struct ca0132_spec *spec = codec->spec;
-
--	if (ca0132_quirk(spec) == QUIRK_ZXR_DBPRO)
-+	switch (ca0132_quirk(spec)) {
-+	case QUIRK_GENERIC:
-+		snd_hda_gen_remove(codec);
-+		return;
-+	case QUIRK_ZXR_DBPRO:
-  		return dbpro_free(codec);
--	else
-+	default:
-  		return ca0132_free(codec);
-+	}
-  }
-
-  static int ca0132_codec_probe(struct hda_codec *codec,
-@@ -9906,14 +9969,21 @@ static int ca0132_codec_probe(struct hda_codec 
-*codec,
-  	codec->spec = spec;
-  	spec->codec = codec;
-
--	/* Detect codec quirk */
--	snd_hda_pick_fixup(codec, ca0132_quirk_models, ca0132_quirks, NULL);
--	if (ca0132_quirk(spec) == QUIRK_SBZ)
--		sbz_detect_quirk(codec);
--
-+	/* These must be set before any path is taken */
-  	codec->pcm_format_first = 1;
-  	codec->no_sticky_stream = 1;
-
-+	/* Detect codec quirk */
-+	snd_hda_pick_fixup(codec, ca0132_quirk_models, ca0132_quirks, NULL);
-+	switch (ca0132_quirk(spec)) {
-+	case QUIRK_SBZ:
-+		sbz_detect_quirk(codec);
-+		break;
-+	case QUIRK_GENERIC:
-+		return ca0132_generic_probe(codec);
-+	default:
-+		break;
-+	}
-
-  	spec->dsp_state = DSP_DOWNLOAD_INIT;
-  	spec->num_mixers = 1;
-@@ -10014,36 +10084,51 @@ static int ca0132_codec_build_controls(struct 
-hda_codec *codec)
-  {
-  	struct ca0132_spec *spec = codec->spec;
-
--	if (ca0132_quirk(spec) == QUIRK_ZXR_DBPRO)
-+	switch (ca0132_quirk(spec)) {
-+	case QUIRK_GENERIC:
-+		return snd_hda_gen_build_controls(codec);
-+	case QUIRK_ZXR_DBPRO:
-  		return dbpro_build_controls(codec);
--	else
-+	default:
-  		return ca0132_build_controls(codec);
-+	}
-  }
-
-  static int ca0132_codec_build_pcms(struct hda_codec *codec)
-  {
-  	struct ca0132_spec *spec = codec->spec;
-
--	if (ca0132_quirk(spec) == QUIRK_ZXR_DBPRO)
-+	switch (ca0132_quirk(spec)) {
-+	case QUIRK_GENERIC:
-+		return snd_hda_gen_build_pcms(codec);
-+	case QUIRK_ZXR_DBPRO:
-  		return dbpro_build_pcms(codec);
--	else
-+	default:
-  		return ca0132_build_pcms(codec);
-+	}
-  }
-
-  static int ca0132_codec_init(struct hda_codec *codec)
-  {
-  	struct ca0132_spec *spec = codec->spec;
-
--	if (ca0132_quirk(spec) == QUIRK_ZXR_DBPRO)
-+	switch (ca0132_quirk(spec)) {
-+	case QUIRK_GENERIC:
-+		return snd_hda_gen_init(codec);
-+	case QUIRK_ZXR_DBPRO:
-  		return dbpro_init(codec);
--	else
-+	default:
-  		return ca0132_init(codec);
-+	}
-  }
-
-  static int ca0132_codec_suspend(struct hda_codec *codec)
-  {
-  	struct ca0132_spec *spec = codec->spec;
-
-+	if (ca0132_quirk(spec) == QUIRK_GENERIC)
-+		return 0;
-+
-  	cancel_delayed_work_sync(&spec->unsol_hp_work);
-  	return 0;
-  }
--- 
-2.54.0
+--------------1w32X7pBgFU0IWMGvWGgPZ7i--
