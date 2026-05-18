@@ -1,97 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C4C36DA1B
-	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 15:08:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E323FAE1D
+	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 16:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779116925; cv=none; b=hrsyIir9+HYkycKimJGY9N50IGZaZXcy3268LAQ53YOS8GcOu5dzWjzQWYsQPPpf3MVF8WWC1AFprZ0VI1qgcPfwGb9swOQycggUd12UdecgPY3GOabH7jJvsZyJm8HRUOjNKpvgGuvb+yYG0hYzqy/icLgv1z/dBxeAVxzD9UE=
+	t=1779120053; cv=none; b=jslI9m4izSnZclRdeO5LQcbTpFJK0YVZmuoLSYgOC4lZJfrq/1n69n6rnF0ar2RONL33o0GRIrqMRBkFxMUjQYQHyZFhpumTg+V9UjpsAQHVYrDhazgRe1cut3GDOVYdNUviQT1JDCrGzuZMST/ga0eyaI/u4ZbDYo7ZNPrRcvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779116925; c=relaxed/simple;
-	bh=VoY2F98Ja47w/lzXBH/qmAGmR8ha6wjHoj1/4jZebFQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=cH7Y58edtHJIZAkBmg8iKhpcmV15JD+cW2uKAPiLD4D3pr+Q6v57+D6UoDXFM0gWaJCAqMR9xq3xBbexlVOG5kTtktuROxvoqFVviqZTOchWDwsjUbgYcKjJYZys4usd0pqcN2QaHS47EEDZgg1eroGtyiGbqZ19pWZpYCr+Xpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RdEHmA3E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779120053; c=relaxed/simple;
+	bh=ieOV+o8gPZkNv6bcagFTRTdIXtS08vega1cz4HTnRyg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Z6akMBarXvMK3fBQqeFHZTg3uYc8WYq6TlvoDy+OOku7VzpnO3zO/xBv/zUfxrmTagqWXh/6Smm+3q5wtHibYTDfNaVRGWDu1G3E5MmxOvWq0Y8iKj6f5xp3NUuYwmpjeUZ60kqN5EeHG1/5E6KX+OBuEuNL77BzoyPVGHVmCw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e5BpZ1PQ; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RdEHmA3E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 254F8C2BCC7;
-	Mon, 18 May 2026 15:08:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779116925;
-	bh=VoY2F98Ja47w/lzXBH/qmAGmR8ha6wjHoj1/4jZebFQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=RdEHmA3EVrovYK5R9kTUNhPh6cv/YfY8hjQeMXUSQrCScYsAEAaD+kjW3THG+Flyb
-	 3+FB/zhqDEAmKL+9ojXjP282IXM2adabwCJN25uFDdPvnwiexKirpczjMIDC7JVAgE
-	 eBjR8S5Wog61Hfrw/ORXuWUIzgBXDu4+r1F05qbVD3hcL78mQgbFxFmpoA27T+psYC
-	 8JUMh9OP2YS/gZy5bqkx629ZPM2Uk6cqB/Ii2m0fa99+dPqSYyQOgR0aVSuZJmlqJC
-	 4nXBclyxS/9WueaAygTmCnQiq4Z9o6jBMfd2o/7+GWHzsULA5YDsx0R/cODqq3jm/I
-	 ZkxaVVRMcf1Yg==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.com, linux-sound@vger.kernel.org, 
- Zhang Yi <zhangyi@everest-semi.com>
-Cc: peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com
-In-Reply-To: <20260226073534.3347-1-zhangyi@everest-semi.com>
-References: <20260226073534.3347-1-zhangyi@everest-semi.com>
-Subject: Re: [PATCH v2 0/6] Add es9356 focused SoundWire CODEC
-Message-Id: <177911692389.295433.2232158303889570346.b4-ty@b4>
-Date: Mon, 18 May 2026 16:08:43 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e5BpZ1PQ"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-369742178f8so1356099a91.0
+        for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 09:00:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779120036; x=1779724836; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1P9Pumhzo4xFId6dhvQoSs/K6cq6qzesEQoaX9OecWM=;
+        b=e5BpZ1PQOf1Ye9+Ml7Xlr1LlhZkZq3/cEi7gx5sxHhVs3Lrn5GT1cZ/l5t31YSFFgb
+         DicfjqCu3aR/W+LQ7+WGNQEwjc98M/a7ccY8eTjeU1cFolcDS6FFpMIi5bs7wI4USWbG
+         tg0Bxvw7fl5CnOcLAES1lC89eimLwiw88YLyk9/H/pEkrVca5jGpd9bzatOmDu5aZ7sk
+         ugCHDD3qDuTe8VGLfcChsnXOVokI9zbxMV/98oAzRL7JCLPYurIa3zuK2C3c0chCR2FA
+         MseLwMh6nadLUm89//LtUpbkWUFmpzB6aq9X/P16CmjQ80m7j3E/kZTzps77vJ5khj06
+         16Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779120036; x=1779724836;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1P9Pumhzo4xFId6dhvQoSs/K6cq6qzesEQoaX9OecWM=;
+        b=QSgO0lrqT79A+5S4WHX76wWkJmEXOvB0sGxHMd0pz4NGLQAl4P32Q5CfEPZPwKrSEk
+         3Tg4Nv+QEmj7quejtFPb7hEaplK+Zgmva56a7GFDwXv3dwobPFgM5d8WLP1sfcfkDOr8
+         RrvWXPofqZQWS9ysOXcJVuG7RQYBFlR/SbrNlE23OSsIwB6n56hE2XpfnUEzF6Y+I5fM
+         FEODOkdAM5VaM+cFwGJdj5Io4ZzdWVZaVdiPn+3uZaBLbMXDOB+hnbiQ7N3S9ttkcyKK
+         8dXR8ZTHxKEr+CMKcgJn35cV6QB6atcy8ZKqaMmOgS17diIZ+p9Lzjbv81GwXHuIgtID
+         jqYw==
+X-Gm-Message-State: AOJu0YyLJOO9hxse+/05Br9HAXQRgLvVtu+iyJ9GJwz39dj4SpKF8/VU
+	NbqDLqUNRzDiZQzp6BcN0ckWg89wQQ7rc5lVm1tgvLFge9QNLjVKhUV7SvXBkA==
+X-Gm-Gg: Acq92OGap0NJztUewQsZXP7tHY2hjj4ds6Bbz8+emSwCwiVQiLaVOcV5JYSiOKq+xLI
+	u8W4tDTA2BniWDDWqHdYQFeo7HpM5R0sKG1cEzoNEKC4+sNgevxgA6EKOAKfrI5PEfefOAqRPTE
+	INcuLmmgQPSdp26WeyH+r46XBv2kzQO2jFx5BMQ+prPt22WmksB4yH0TXApp9m2KjHh7FP6CjMC
+	BOa5cALPu75kPEwBxAsokfhQA+C2Kw/FbtB+wC3efm1vmBY/AhlflEZtFBzYAoJexSXYHrLzPOD
+	zIv7ZUh74IjYf6LqTfXXMkR0JvayTdVNrGHu/EDNrdStfEEVDYkUiKKQBQAco01hd+kkcLgMTIc
+	iGv+nB3iOzmKmn1Dv7TBb8UI5mlkZOt6umkKZl8JWLlsj+Wu1pAVvr47D25eq1w0CyCbmCdvwTu
+	k0ibTBPzO9TffDM8m7/5O6bldP9NYa76p7X8D3QpqvSDjIYnI4
+X-Received: by 2002:a17:90b:270d:b0:368:1064:62f2 with SMTP id 98e67ed59e1d1-369518b205fmr15020093a91.3.1779120034444;
+        Mon, 18 May 2026 09:00:34 -0700 (PDT)
+Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5cfe64a9sm155831905ad.53.2026.05.18.09.00.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 09:00:33 -0700 (PDT)
+From: Maoyi Xie <maoyixie.tju@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: ALSA: iterator used after loop end in timer/seq port registration?
+Date: Tue, 19 May 2026 00:00:29 +0800
+Message-Id: <20260518160029.1529836-1-maoyixie.tju@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
+Content-Transfer-Encoding: 8bit
 
-On Thu, 26 Feb 2026 15:35:28 +0800, Zhang Yi wrote:
-> This patch chain adds support for the ES9356 PC focused
-> SoundWire CODEC.
-> 
-> v2 -> v1:
-> 	-Adjusted mutexes in the ES9356 driver
-> 	-Use macros to replace certain values
-> 	-Adjusted some ordering issues in Kconfig.
-> 
-> [...]
+Hi all,
 
-Applied to
+While reading sound/core/ I noticed two places where the list
+iterator is used after the loop has walked past the end of the
+list. I would appreciate it if you could take a look and let me
+know whether these are real issues, and whether they are worth
+fixing.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+The first is snd_timer_dev_register() in sound/core/timer.c
+(linux-7.1-rc1, around line 1018):
 
-Thanks!
+    list_for_each_entry(timer1, &snd_timer_list, device_list) {
+            if (timer1->tmr_class > timer->tmr_class)
+                    break;
+            ...
+            return -EBUSY;
+    }
+    list_add_tail(&timer->device_list, &timer1->device_list);
 
-[1/6] ASoC: sdw_utils: Add ES9356 support functions
-      (no commit info)
-[2/6] ASoC: sdw_utils: add ES9356 in codec_info_list
-      https://git.kernel.org/broonie/misc/c/4ff4fc6fea57
-[3/6] ASoC: sdw_utils: add soc_sdw_es9356
-      https://git.kernel.org/broonie/misc/c/5d03a4f35710
-[4/6] ASoC: es9356-sdca: Add ES9356 SDCA driver
-      https://git.kernel.org/broonie/misc/c/5d9cb740cd38
-[5/6] ASoC: Intel: soc-acpi: arl: Add es9356 support
-      https://git.kernel.org/broonie/misc/c/25b905940832
-[6/6] ASoC: Intel: sof_sdw: add es9356 support
-      https://git.kernel.org/broonie/misc/c/f1e35606d618
+The second is snd_seq_create_port() in sound/core/seq/seq_ports.c
+(linux-7.1-rc1, around line 147):
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+    list_for_each_entry(p, &client->ports_list_head, list) {
+            ...
+            if (p->addr.port > num)
+                    break;
+            ...
+    }
+    list_add_tail(&new_port->list, &p->list);
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+In both cases, when the loop walks all entries without break, the
+iterator has gone one step past the last entry. &iter->member
+then aliases the list head via container_of offset cancellation,
+so the insert lands at the list tail. That is the intended
+behaviour, but the access is undefined per C11.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+Jakob Koschel cleaned up many such sites in 2022, for example
+commits 99d8ae4ec8a (tracing: Remove usage of list iterator
+variable after the loop), 2966a9918df (clockevents: Use dedicated
+list iterator variable) and dc1acd5c946 (dlm: replace usage of
+found with dedicated list iterator variable). The two sites in
+sound/core/ were not covered.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+A candidate fix would track an explicit insert_before pointer
+initialised to the list head and overwritten to &iter->member only
+when the loop breaks early. The observable behaviour is unchanged.
+
+If this is intentional or already known, please disregard.
+Otherwise, I am happy to send a [PATCH] or to leave the fix to
+you. Thank you for your time, and sorry for the noise if this is
+not actually worth fixing or has already been spotted.
 
 Thanks,
-Mark
-
+Maoyi Xie
+https://maoyixie.com/
