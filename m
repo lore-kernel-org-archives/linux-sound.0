@@ -1,129 +1,185 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E323FAE1D
-	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 16:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93262F90C5
+	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 19:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779120053; cv=none; b=jslI9m4izSnZclRdeO5LQcbTpFJK0YVZmuoLSYgOC4lZJfrq/1n69n6rnF0ar2RONL33o0GRIrqMRBkFxMUjQYQHyZFhpumTg+V9UjpsAQHVYrDhazgRe1cut3GDOVYdNUviQT1JDCrGzuZMST/ga0eyaI/u4ZbDYo7ZNPrRcvE=
+	t=1779132373; cv=none; b=XNg8xdzjFA5NedhtHML9n6TenzGKCwC913wZSkuSCvbPAthsHOSmWPc2HlrgfTJ5t+xdONegAaAE46MOZ8tMU99KRKwxM97CGjXr3TUEk7uNY9YXQHhT1V3T5Bm+sDebN+7ibcRCXpxyGf+NU3iF2dR46j85K0p04pvPMG9hATg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779120053; c=relaxed/simple;
-	bh=ieOV+o8gPZkNv6bcagFTRTdIXtS08vega1cz4HTnRyg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Z6akMBarXvMK3fBQqeFHZTg3uYc8WYq6TlvoDy+OOku7VzpnO3zO/xBv/zUfxrmTagqWXh/6Smm+3q5wtHibYTDfNaVRGWDu1G3E5MmxOvWq0Y8iKj6f5xp3NUuYwmpjeUZ60kqN5EeHG1/5E6KX+OBuEuNL77BzoyPVGHVmCw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e5BpZ1PQ; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779132373; c=relaxed/simple;
+	bh=C7f5sZf8ry8VJEOOf0O5p2yxBBHZ7Ya2MuMEHhQ1XFQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=F2ldxEoR08TtZYCsHwomPpTcU1cwD8+eILNHmoQumru/KS7s2cDYmdBoB4X9rO4VJLVEiylh+CfZtGnRtWZB2YpGnMq3YxVGu4ZHrkdt2jmu8x74lf1/LzXzIP1sEcvL7TxF3KPIZ929vQzfzkfHihdtrqmImJhlEkhw6C+Tnw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HzIFG1Fp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xXo7zCC2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HzIFG1Fp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xXo7zCC2; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e5BpZ1PQ"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-369742178f8so1356099a91.0
-        for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 09:00:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779120036; x=1779724836; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1P9Pumhzo4xFId6dhvQoSs/K6cq6qzesEQoaX9OecWM=;
-        b=e5BpZ1PQOf1Ye9+Ml7Xlr1LlhZkZq3/cEi7gx5sxHhVs3Lrn5GT1cZ/l5t31YSFFgb
-         DicfjqCu3aR/W+LQ7+WGNQEwjc98M/a7ccY8eTjeU1cFolcDS6FFpMIi5bs7wI4USWbG
-         tg0Bxvw7fl5CnOcLAES1lC89eimLwiw88YLyk9/H/pEkrVca5jGpd9bzatOmDu5aZ7sk
-         ugCHDD3qDuTe8VGLfcChsnXOVokI9zbxMV/98oAzRL7JCLPYurIa3zuK2C3c0chCR2FA
-         MseLwMh6nadLUm89//LtUpbkWUFmpzB6aq9X/P16CmjQ80m7j3E/kZTzps77vJ5khj06
-         16Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779120036; x=1779724836;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1P9Pumhzo4xFId6dhvQoSs/K6cq6qzesEQoaX9OecWM=;
-        b=QSgO0lrqT79A+5S4WHX76wWkJmEXOvB0sGxHMd0pz4NGLQAl4P32Q5CfEPZPwKrSEk
-         3Tg4Nv+QEmj7quejtFPb7hEaplK+Zgmva56a7GFDwXv3dwobPFgM5d8WLP1sfcfkDOr8
-         RrvWXPofqZQWS9ysOXcJVuG7RQYBFlR/SbrNlE23OSsIwB6n56hE2XpfnUEzF6Y+I5fM
-         FEODOkdAM5VaM+cFwGJdj5Io4ZzdWVZaVdiPn+3uZaBLbMXDOB+hnbiQ7N3S9ttkcyKK
-         8dXR8ZTHxKEr+CMKcgJn35cV6QB6atcy8ZKqaMmOgS17diIZ+p9Lzjbv81GwXHuIgtID
-         jqYw==
-X-Gm-Message-State: AOJu0YyLJOO9hxse+/05Br9HAXQRgLvVtu+iyJ9GJwz39dj4SpKF8/VU
-	NbqDLqUNRzDiZQzp6BcN0ckWg89wQQ7rc5lVm1tgvLFge9QNLjVKhUV7SvXBkA==
-X-Gm-Gg: Acq92OGap0NJztUewQsZXP7tHY2hjj4ds6Bbz8+emSwCwiVQiLaVOcV5JYSiOKq+xLI
-	u8W4tDTA2BniWDDWqHdYQFeo7HpM5R0sKG1cEzoNEKC4+sNgevxgA6EKOAKfrI5PEfefOAqRPTE
-	INcuLmmgQPSdp26WeyH+r46XBv2kzQO2jFx5BMQ+prPt22WmksB4yH0TXApp9m2KjHh7FP6CjMC
-	BOa5cALPu75kPEwBxAsokfhQA+C2Kw/FbtB+wC3efm1vmBY/AhlflEZtFBzYAoJexSXYHrLzPOD
-	zIv7ZUh74IjYf6LqTfXXMkR0JvayTdVNrGHu/EDNrdStfEEVDYkUiKKQBQAco01hd+kkcLgMTIc
-	iGv+nB3iOzmKmn1Dv7TBb8UI5mlkZOt6umkKZl8JWLlsj+Wu1pAVvr47D25eq1w0CyCbmCdvwTu
-	k0ibTBPzO9TffDM8m7/5O6bldP9NYa76p7X8D3QpqvSDjIYnI4
-X-Received: by 2002:a17:90b:270d:b0:368:1064:62f2 with SMTP id 98e67ed59e1d1-369518b205fmr15020093a91.3.1779120034444;
-        Mon, 18 May 2026 09:00:34 -0700 (PDT)
-Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5cfe64a9sm155831905ad.53.2026.05.18.09.00.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 09:00:33 -0700 (PDT)
-From: Maoyi Xie <maoyixie.tju@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HzIFG1Fp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xXo7zCC2";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HzIFG1Fp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xXo7zCC2"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 299525CFA1;
+	Mon, 18 May 2026 19:26:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779132370; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Oc5biI5HiHU+ABT0kPCfi1SQHi9aQp4Yt37MOcSuQSw=;
+	b=HzIFG1Fp4NdoPLpuD4cQrx4AlDK4y22Q6vRhGCenOUIkrG58q56LyOumpZg29OUk5TbXeh
+	EDw8vKk7jJbg8v3nWErGiYjBysTr5qs6HFKlcLfOw4w9JkBeRIT2qTJcgzkAM75eeODqKT
+	eLnY/fVamzoGor6f/UuOTpsG010CXuk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779132370;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Oc5biI5HiHU+ABT0kPCfi1SQHi9aQp4Yt37MOcSuQSw=;
+	b=xXo7zCC2i0BiUf9K0CKD95FXo5LIJIQd7ePQYZmbpbALZ5GLfM1Ka1zkfTjIPoH2se+/MU
+	wakNsmPVe52WwyBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779132370; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Oc5biI5HiHU+ABT0kPCfi1SQHi9aQp4Yt37MOcSuQSw=;
+	b=HzIFG1Fp4NdoPLpuD4cQrx4AlDK4y22Q6vRhGCenOUIkrG58q56LyOumpZg29OUk5TbXeh
+	EDw8vKk7jJbg8v3nWErGiYjBysTr5qs6HFKlcLfOw4w9JkBeRIT2qTJcgzkAM75eeODqKT
+	eLnY/fVamzoGor6f/UuOTpsG010CXuk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779132370;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Oc5biI5HiHU+ABT0kPCfi1SQHi9aQp4Yt37MOcSuQSw=;
+	b=xXo7zCC2i0BiUf9K0CKD95FXo5LIJIQd7ePQYZmbpbALZ5GLfM1Ka1zkfTjIPoH2se+/MU
+	wakNsmPVe52WwyBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0E149593A8;
+	Mon, 18 May 2026 19:26:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id EKFFAtJnC2oAJgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 18 May 2026 19:26:10 +0000
+Date: Mon, 18 May 2026 21:26:09 +0200
+Message-ID: <87o6ic4izy.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Maoyi Xie <maoyixie.tju@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: ALSA: iterator used after loop end in timer/seq port registration?
-Date: Tue, 19 May 2026 00:00:29 +0800
-Message-Id: <20260518160029.1529836-1-maoyixie.tju@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: ALSA: iterator used after loop end in timer/seq port registration?
+In-Reply-To: <20260518160029.1529836-1-maoyixie.tju@gmail.com>
+References: <20260518160029.1529836-1-maoyixie.tju@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-0.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TAGGED_RCPT(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -0.80
 
-Hi all,
+On Mon, 18 May 2026 18:00:29 +0200,
+Maoyi Xie wrote:
+> 
+> Hi all,
+> 
+> While reading sound/core/ I noticed two places where the list
+> iterator is used after the loop has walked past the end of the
+> list. I would appreciate it if you could take a look and let me
+> know whether these are real issues, and whether they are worth
+> fixing.
+> 
+> The first is snd_timer_dev_register() in sound/core/timer.c
+> (linux-7.1-rc1, around line 1018):
+> 
+>     list_for_each_entry(timer1, &snd_timer_list, device_list) {
+>             if (timer1->tmr_class > timer->tmr_class)
+>                     break;
+>             ...
+>             return -EBUSY;
+>     }
+>     list_add_tail(&timer->device_list, &timer1->device_list);
+> 
+> The second is snd_seq_create_port() in sound/core/seq/seq_ports.c
+> (linux-7.1-rc1, around line 147):
+> 
+>     list_for_each_entry(p, &client->ports_list_head, list) {
+>             ...
+>             if (p->addr.port > num)
+>                     break;
+>             ...
+>     }
+>     list_add_tail(&new_port->list, &p->list);
+> 
+> In both cases, when the loop walks all entries without break, the
+> iterator has gone one step past the last entry. &iter->member
+> then aliases the list head via container_of offset cancellation,
+> so the insert lands at the list tail. That is the intended
+> behaviour, but the access is undefined per C11.
+> 
+> Jakob Koschel cleaned up many such sites in 2022, for example
+> commits 99d8ae4ec8a (tracing: Remove usage of list iterator
+> variable after the loop), 2966a9918df (clockevents: Use dedicated
+> list iterator variable) and dc1acd5c946 (dlm: replace usage of
+> found with dedicated list iterator variable). The two sites in
+> sound/core/ were not covered.
+> 
+> A candidate fix would track an explicit insert_before pointer
+> initialised to the list head and overwritten to &iter->member only
+> when the loop breaks early. The observable behaviour is unchanged.
+> 
+> If this is intentional or already known, please disregard.
+> Otherwise, I am happy to send a [PATCH] or to leave the fix to
+> you. Thank you for your time, and sorry for the noise if this is
+> not actually worth fixing or has already been spotted.
 
-While reading sound/core/ I noticed two places where the list
-iterator is used after the loop has walked past the end of the
-list. I would appreciate it if you could take a look and let me
-know whether these are real issues, and whether they are worth
-fixing.
+Thanks for the report.  I believe those two are actually bugs,
+likely introduced by the early commit 9244b2c3079f
+    [ALSA] alsa core: convert to list_for_each_entry*
 
-The first is snd_timer_dev_register() in sound/core/timer.c
-(linux-7.1-rc1, around line 1018):
+The original code were with list_for_each(), and at the end of the
+loop, it was supposed to go back to the list head.
 
-    list_for_each_entry(timer1, &snd_timer_list, device_list) {
-            if (timer1->tmr_class > timer->tmr_class)
-                    break;
-            ...
-            return -EBUSY;
-    }
-    list_add_tail(&timer->device_list, &timer1->device_list);
+If you have already fix patches ready for submission, it'd be
+appreciated.  Otherwise I'll fix them up quickly, too.
 
-The second is snd_seq_create_port() in sound/core/seq/seq_ports.c
-(linux-7.1-rc1, around line 147):
 
-    list_for_each_entry(p, &client->ports_list_head, list) {
-            ...
-            if (p->addr.port > num)
-                    break;
-            ...
-    }
-    list_add_tail(&new_port->list, &p->list);
-
-In both cases, when the loop walks all entries without break, the
-iterator has gone one step past the last entry. &iter->member
-then aliases the list head via container_of offset cancellation,
-so the insert lands at the list tail. That is the intended
-behaviour, but the access is undefined per C11.
-
-Jakob Koschel cleaned up many such sites in 2022, for example
-commits 99d8ae4ec8a (tracing: Remove usage of list iterator
-variable after the loop), 2966a9918df (clockevents: Use dedicated
-list iterator variable) and dc1acd5c946 (dlm: replace usage of
-found with dedicated list iterator variable). The two sites in
-sound/core/ were not covered.
-
-A candidate fix would track an explicit insert_before pointer
-initialised to the list head and overwritten to &iter->member only
-when the loop breaks early. The observable behaviour is unchanged.
-
-If this is intentional or already known, please disregard.
-Otherwise, I am happy to send a [PATCH] or to leave the fix to
-you. Thank you for your time, and sorry for the noise if this is
-not actually worth fixing or has already been spotted.
-
-Thanks,
-Maoyi Xie
-https://maoyixie.com/
+Takashi
