@@ -1,143 +1,124 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FEDB3815C6
-	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 05:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF7238947D
+	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 05:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779080970; cv=none; b=T8olXIn5UFxDoAuKHl8AfcPmVpMGHyEhYgL35JoEkpaIOUw/8aUuN6ThSJLpJg8pVAeUz+fgj2wWhyQlWSl3DyTVssl92UmPSCUdTI8f01BOR8pweuEZglEKvDIgylX1519XdTJsfaYFhpHRwQg4wjdr9JFnK6iRWy658qRBaGY=
+	t=1779081451; cv=none; b=d3jGnn7zQD7WfWvBIasvTwwSO9SlJ1XcQgFDxViPx+6KMJCOXPi+2BrTSrBeVHUEUOvdeOICzxGWePk6M2MpWBT5yPlqo/q5SfhfReDsvpHrkgPfViZ6QWjV74KcbiwCpxSozQfYRWlDX1hmXk5er9hLNMr6sSDEQ2E1Y+q6Avo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779080970; c=relaxed/simple;
-	bh=Br/20oIpb9EE56nrHFTk46tND2/8PBACVaPw+/MmSqE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GX3oiehiLiJEjhjKkTNusWaN2lR38/PHgcVbq4RgkR2SFzaVwFRwx2oFqsS5YVVFrM2YBK+uLJQd9r6EsTIqdM2Tzm+NBdY+ab/3O3QFNthRlK/yLdX08hQI7qGGm3VGH+Y0my1Rzty0wMaqxdfyQABuIQ3IPQKopT/qSaKWJTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=a5KJjQCV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JvNKx9OK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=a5KJjQCV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JvNKx9OK; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1779081451; c=relaxed/simple;
+	bh=n82PU5SZcNT1/DcPUR5OiVh5/cP7L5oMB82xVCdpLF8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iKfZIFeUL8bBnwc3mAC8WU/FOkY3SFNgMuddOk8clW4WRbLupe+MnsxmypOJsSwg7svGO4Yn94I22hWBw1YDSA7f0u3ABlFiXwRPv6oo45Z4glCTOJHrzddIkJUxVOYMojuVWdj6jhQUjXrAQ17Tcs7ochRwAW97U4bh8HJUfiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IVvgfDlM; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a5KJjQCV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JvNKx9OK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a5KJjQCV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JvNKx9OK"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 27A2D67CB5;
-	Mon, 18 May 2026 05:09:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779080967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G/9wpWYTHx8WRZr24PW8eNzvgDzAVlmK+MRDvrcJFUk=;
-	b=a5KJjQCVTAsYvaUUCNe5iDgkeW0rLYabrGbZUuK7bY9nt7ucXZ55hFZqxzc7hZL7udrdTJ
-	ljGAdKEw8GMEjigx+X5NZkbPmxABgytRN4jBx5htUjzPeQHchIl3ANS/xIERxgCZO6dic3
-	CyLt/ICPkp8mFl8l16xRy8Se9mRtTGA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779080967;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G/9wpWYTHx8WRZr24PW8eNzvgDzAVlmK+MRDvrcJFUk=;
-	b=JvNKx9OK2ZkpahyGaukBYNnVLH1dud5G+WZ49QCI3k5wCZ4OzRMXm26SwCPkT9Uwob3BDd
-	dQbSlVxJkCJrQXAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=a5KJjQCV;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=JvNKx9OK
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779080967; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G/9wpWYTHx8WRZr24PW8eNzvgDzAVlmK+MRDvrcJFUk=;
-	b=a5KJjQCVTAsYvaUUCNe5iDgkeW0rLYabrGbZUuK7bY9nt7ucXZ55hFZqxzc7hZL7udrdTJ
-	ljGAdKEw8GMEjigx+X5NZkbPmxABgytRN4jBx5htUjzPeQHchIl3ANS/xIERxgCZO6dic3
-	CyLt/ICPkp8mFl8l16xRy8Se9mRtTGA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779080967;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G/9wpWYTHx8WRZr24PW8eNzvgDzAVlmK+MRDvrcJFUk=;
-	b=JvNKx9OK2ZkpahyGaukBYNnVLH1dud5G+WZ49QCI3k5wCZ4OzRMXm26SwCPkT9Uwob3BDd
-	dQbSlVxJkCJrQXAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0CCE6593A8;
-	Mon, 18 May 2026 05:09:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Pj2cAgefCmqAYAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 18 May 2026 05:09:27 +0000
-Date: Mon, 18 May 2026 07:09:26 +0200
-Message-ID: <877bp1e22h.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Minxi Hou <houminxi@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IVvgfDlM"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-911449d9d03so238663485a.1
+        for <linux-sound@vger.kernel.org>; Sun, 17 May 2026 22:17:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779081446; x=1779686246; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pCdqGYm1PuK8LVmDiOhY2SbE7T6sMcRFoTv9yLJUAss=;
+        b=IVvgfDlMpApXBXLKD/UjSEPTo1skHZZkdMIPlJ0UG/+7JthsBIhm3A82nVGNWzOeL/
+         o6CA/XzYdqbsMoTDCQDFfFysuoaV32QWrkHf1PocIE6MHoQEr+TLv+uPpbLo9c3M07dE
+         EQwkF1IdaEmyEs2oyoSo+pl2skXPEXSlJXDJzdApWK1vi+lzV6CeZWEiqbPdyj7fDET+
+         I9cxb/Gzw2JK4041SvldUolfdv9Bf1cR4O1AAops9fO+i1T1CBugWHAusP8AiX3JY+jr
+         RPfNBBECoUi71MJVVtt/it9ER+jRHplPWDEHu6hdZA+YUWov36/vDOfGjtAeE5jjCXI1
+         pCmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779081446; x=1779686246;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pCdqGYm1PuK8LVmDiOhY2SbE7T6sMcRFoTv9yLJUAss=;
+        b=eAsKkVbkbB0clOrQCoP/zscM1bPY6UeRpsXtExk/bMjZXr1xoCi0vSEdZs46frDIA+
+         jqmTC3V/TIKNDsELBoFfQii4oG1nbor1PWYFpAi1RM1Nk/kkTSehMS+CfD31CwEJ3MBT
+         0CnbIToxdaY4tw6uGDYDxkdwOo5A5RiyGcnx562VB3DtwPlYym1L8KwQPPrEH9sJBXif
+         cNJuf6rTaPqJrOW6tYBEIyVszTB++FEoBYDtiIObWAjFEOEeq/O8+sUKsNfrryBNGDzk
+         JtI8kncpkG057bJrzOJeNJA1R0ys65DlxaQbPh6N16QSrJ+nyTKkXDJeQLxdB9poukt6
+         RarA==
+X-Gm-Message-State: AOJu0YzIQn4nmzFxqKHlv64bFmIBrvhKcwekuC5jjKcNDS3ty2iH4r1/
+	/E1RJgDxbYleEjVOecybgLT5Vt0mtPZVnaeV9zLTS1IG7CnC+qXyUoCzlPjbFPJO
+X-Gm-Gg: Acq92OGIXIhm61/3Dor6fG3ILfdARdv95KWaMbKb9LeBJ8QT2JFCl9inwsyI/ZRjK27
+	Hz9g9YgdV5kUMyMpJajVBVbT8hBW3IgblhPa4eJDpTpfgyeMr/eYi2VsfYFwLbWqORFFyXtuVpn
+	+5OBUBgX8J1klBICfSJVs7k8/76JzUgXICtVPkFNJ3H47FblRXHTRIwvqFB3eRxVdGT57h6D1PE
+	Il1YD2Qz7DVucu9Na5Yz5NdvRvAuPFbch2DaZoxlxrX/ciOHht8og4F4ZSJXiiEXi7nRuKj60vz
+	83mP1GHcLCvq4a7XO2hD2cXfnK9dmFMvCZYCBHU0ijNQXWBq+mfgmVtkUsQftLbjh5ZkcRcveLx
+	jx6TAT9/38mVZdvKxjRS86QUcBgpL+TumNsO9QnvJTCCbzm/3rmtTy5UYmQJJSqnanXBQMcpxdz
+	EPXmLoYQZd1p3USFiDboxpZEUlUVXMH3nAJrKoT/bUCrLIeK98iD1CL79PmCs1n360peVUfbTMA
+	LxaP+gP7R+Uqs/9jXI5LhnotFWGfEaKqvX2ruNFVatz7g==
+X-Received: by 2002:a05:620a:4090:b0:8f8:82a8:a31e with SMTP id af79cd13be357-911d0f4c1a6mr2100915585a.60.1779081445661;
+        Sun, 17 May 2026 22:17:25 -0700 (PDT)
+Received: from ryzen ([2601:644:8000:5b5d:7285:c2ff:fe45:8a32])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-910ba943761sm1394532185a.11.2026.05.17.22.17.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 May 2026 22:17:25 -0700 (PDT)
+From: Rosen Penev <rosenp@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for HP Z66 G6 14 laptop
-In-Reply-To: <20260518031542.2899188-1-houminxi@gmail.com>
-References: <20260518031542.2899188-1-houminxi@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] ASoC: fsl: Allow MPC5200 PSC audio compile testing
+Date: Sun, 17 May 2026 22:17:06 -0700
+Message-ID: <20260518051706.1027500-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 27A2D67CB5
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, 18 May 2026 05:15:42 +0200,
-Minxi Hou wrote:
-> 
-> The HP Z66 G6 14 inch laptop uses the ALC236 codec with subsystem ID
-> 0x103c:8df7. Without a quirk entry, the PCI SSID falls back to the
-> generic 0x103c:0000 fixup, which does not configure the mute/micmute
-> LED GPIOs correctly.
-> 
-> Add the SND_PCI_QUIRK entry for this model using
-> ALC236_FIXUP_HP_GPIO_LED, matching the surrounding HP EliteBook G12
-> entries (0x8dec-0x8dfe) which share the same ALC236 codec and GPIO LED
-> layout.
-> 
-> Signed-off-by: Minxi Hou <houminxi@gmail.com>
+They require a PPC platform to compile but that's it.
 
-Applied now.  Thanks.
+Allow the Freescale PowerPC ASoC menu in PowerPC compile-test builds
+and let the MPC5200 PSC I2S and AC97 drivers depend on PPC_BESTCOMM
+directly.  This keeps native platform builds unchanged while extending
+compile-test coverage.
 
+Assisted-by: Codex:GPT-5.5
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+---
+ sound/soc/fsl/Kconfig | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Takashi
+diff --git a/sound/soc/fsl/Kconfig b/sound/soc/fsl/Kconfig
+index 828524c90f17..ae8774e11873 100644
+--- a/sound/soc/fsl/Kconfig
++++ b/sound/soc/fsl/Kconfig
+@@ -165,7 +165,7 @@ config SND_SOC_IMX_AUDMUX
+ 
+ config SND_POWERPC_SOC
+ 	tristate "SoC Audio for Freescale PowerPC CPUs"
+-	depends on FSL_SOC || PPC_MPC52xx
++	depends on FSL_SOC || PPC_MPC52xx || (PPC && COMPILE_TEST)
+ 	help
+ 	  Say Y or M if you want to add support for codecs attached to
+ 	  the PowerPC CPUs.
+@@ -226,7 +226,7 @@ config SND_SOC_P1022_RDK
+ 
+ config SND_SOC_MPC5200_I2S
+ 	tristate "Freescale MPC5200 PSC in I2S mode driver"
+-	depends on PPC_MPC52xx && PPC_BESTCOMM
++	depends on PPC_BESTCOMM
+ 	select SND_MPC52xx_DMA
+ 	select PPC_BESTCOMM_GEN_BD
+ 	help
+@@ -234,7 +234,7 @@ config SND_SOC_MPC5200_I2S
+ 
+ config SND_SOC_MPC5200_AC97
+ 	tristate "Freescale MPC5200 PSC in AC97 mode driver"
+-	depends on PPC_MPC52xx && PPC_BESTCOMM
++	depends on PPC_BESTCOMM
+ 	select SND_SOC_AC97_BUS
+ 	select SND_MPC52xx_DMA
+ 	select PPC_BESTCOMM_GEN_BD
+-- 
+2.54.0
+
