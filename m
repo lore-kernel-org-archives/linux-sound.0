@@ -1,47 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404303EFFC2;
-	Tue, 19 May 2026 09:25:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1D03F5BFA;
+	Tue, 19 May 2026 09:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779182717; cv=none; b=eAzsjPBnzqsCC5t5tubNxBWq/zitFaT+ET7we6fEapoqbo+nEoj9VUcFQlGbJVMhVKEdglU8ZP3X+Lmjr9EgXxew+CNSAyvsCTwfaOdL/PwlGieVbNkJQ6xZd4SBSP0FJp3keSxKQJBa3BGfIryEzkQdTObpUdIRIWe7b1JzeD0=
+	t=1779182723; cv=none; b=XcVZk3b8VB2jJyIL7uKY2MI9j0P01+YhIg2kb3m+TEtPk17d+LXYpZeZWf7aoaX7cAzDz+Odx5520AUdP+7hkwWV+piEbFJ3PRRv8Wtijc6slolS29vUGaUjykPkSSSiS1KycQtSOqJVd0K1g0Qx16UUbodmvhVrzCIX2khz4+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779182717; c=relaxed/simple;
-	bh=LY4j+awKez8uEwIL98fiH+gRN9x2qY9yTM+7byFWkT8=;
+	s=arc-20240116; t=1779182723; c=relaxed/simple;
+	bh=iFOBQrSNZ2nMXqB6+u+Z7u9D0GpUYhiWHSHlDRAvya8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=XCSl0BY8V4bYQ3ZfJUW8JzCjdyVSVA1JdAMye6F9RT09/6ZVi4tqCYNzKtbJVQ0hrvJPfvEaN6ihBi7UVxpl1sYsrEtFqfw2or4R+ivLaggUrtopJu1xMqBFYJ/D+rXuOyT3R1PDVN50+nIFUwf9C5lggQ8nMtkk+DUR8f8vsso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qvFv9gRo; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Oc/K/3e2UufERehfebSpUwYmFQ46QjtQtZ0txCN6ibrce0m2kFDwt30l7Wd0DVJLw2BuBpUYMIlwbQrcHxCJqCZtkZwR2A9uLhbiOilO/a8dl7ABz7vTNFLTr8otj/tczLuVvKS8LSWL07eVaxdgCm3GxX+gTYy/RYbi0thtx8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PtiU1HzI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qvFv9gRo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7643C2BCB3;
-	Tue, 19 May 2026 09:25:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PtiU1HzI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CE13C2BCB3;
+	Tue, 19 May 2026 09:25:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779182717;
-	bh=LY4j+awKez8uEwIL98fiH+gRN9x2qY9yTM+7byFWkT8=;
+	s=k20201202; t=1779182722;
+	bh=iFOBQrSNZ2nMXqB6+u+Z7u9D0GpUYhiWHSHlDRAvya8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=qvFv9gRojvXoDWo7++gx8YgEHwBhplYpFEZMoqsGTigFypLqJomaA0Z0B4o7GyCD2
-	 utPNm/g4AFtD8Y7osfFHEYhQ3pWI6+0kjRAfmW368l2B6/pLxfQvSdAMdSG8N0Z9vt
-	 vLlAbg/xv3ZInCD10jp2pPWut9YR+mIacjErV0fi0z9yNgLgCcUk4Jazp8+t60gbMK
-	 pXyX1UiEbIlUFHQVH1p6hTHUWdBcRJK0/64QTtKcjqu4DGTXkXmMCJhyoh33xgIOn+
-	 DKfC6+YYc0X5FS5IIEO1Gm1D7hZA/PvNbHs0GsnFsFRzKBq0RNR8/Lg7alnQpqZyF7
-	 H1QbEGEsNJILg==
+	b=PtiU1HzIPX56xJHRFwwtmKL97cZVTvmXImLcoWFP1yBckScaevop25n4pTqesy64/
+	 selgm52QCcN2EPKHzP0lwO88Qt8LnFsFXU8lGMg5x6JERsETeVLAv5Dp1hkNiWRvys
+	 5k0LIHV7dNyu+D1DQbOQXchnm87Zl5hVrOr9tjGU/vUfYNVR7c4LjkkU1BkjL4Fx4b
+	 3GC3ysia3+L86UjsM2P/2qB5L6PfeNdUQegN1VkzjbJHPZ1bStPgytyrOscaGgGqHh
+	 NVebStCNg4LOcsqGPFdhEA5/YlyXEi0fdtlQIvtRD/17yrJrSTFCgTg9V1UWb+3GLE
+	 FFSoCc7bWG+Lg==
 From: Mark Brown <broonie@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>, 
- Linus Walleij <linusw@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Herve Codina <herve.codina@bootlin.com>
-Cc: linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Christophe Leroy <chleroy@kernel.org>
-In-Reply-To: <20260513081702.317117-1-herve.codina@bootlin.com>
-References: <20260513081702.317117-1-herve.codina@bootlin.com>
-Subject: Re: [PATCH v3 00/17] ASoC: Add support for GPIOs driven amplifiers
-Message-Id: <177912269514.352391.10184061127272991864.b4-ty@b4>
-Date: Mon, 18 May 2026 17:44:55 +0100
+To: Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Darren Ye <darren.ye@mediatek.com>, Cyril Chao <Cyril.Chao@mediatek.com>, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+In-Reply-To: <20260517-asoc-mt8196-probe-cleanup-v1-1-a5d26949d7fe@gmail.com>
+References: <20260517-asoc-mt8196-probe-cleanup-v1-1-a5d26949d7fe@gmail.com>
+Subject: Re: [PATCH] ASoC: mediatek: mt8196: Fix probe resource cleanup
+Message-Id: <177912152253.31945.3862884738428622527.b4-ty@b4>
+Date: Mon, 18 May 2026 17:25:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,29 +46,22 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3526; i=broonie@kernel.org;
- h=from:subject:message-id; bh=LY4j+awKez8uEwIL98fiH+gRN9x2qY9yTM+7byFWkT8=;
- b=kA0DAAoBJNaLcl1Uh9AByyZiAGoMLHijtKhg2bzH9vN5cJeX23ssUzW9D4fCBT4nDr/XZaEGz
- YkBMwQAAQoAHRYhBK3maKpnVxi1n+Kf6iTWi3JdVIfQBQJqDCx4AAoJECTWi3JdVIfQA98H/A0n
- 6RYuh8WJgFqu9o0qrpi6xiTm+AFuikj7qx/QqA1NaYOX+V4TqaAfjOy4wmLTL4eNR1ItCGX8AQb
- Mi599fXxb/Ru2fPh5glNkYVHs/DC1kRZ2ABo/79uxr58dhNy+GkY4Ce7AEgqsKgHNI0RS1A93a8
- YIbXkgXwzhv7dM7SSXB4KO5Kfl3DYoBCYnwK/AfxglmtzcaNtOW3S7HPsc9DtDzRktXvMlFvp+0
- VmCpGf5rOgWUlseQyN9hPShB7VVoUr66TG1WGmOFytXEujNiS00h9i7lEUdEGchh9BOSEarUB1U
- VVKMk9FtEsbzTNQ4klCx1Rd+G/QhLEx2TsYpwKI=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1121; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=iFOBQrSNZ2nMXqB6+u+Z7u9D0GpUYhiWHSHlDRAvya8=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqDCx/ax2u9yF4K5DNV8lZ1HlfFlyY1FliDAHiO
+ N41z+FGNIuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCagwsfwAKCRAk1otyXVSH
+ 0No3B/sErmVf4EA1gqpVz6orSuSFtNRKz5nrNCdol8y9MjDvM/dQIllkshc0W9DuTaCeCm3ptFS
+ +Tx3dsy9M3kZgWOBQldAzsDWDSh0exUzGFKPj7HDH30wiLbmPLwK0KCJBOc5HFA90DnmULlg14l
+ ch7m8+I3P/ixjqtc2H2C6pVtA3Zas2X0G04pCRxFWrppBnVNTOpFUyTEBJ/bwHF55AlwkAKdDFU
+ dpq+NZ5yHXJUOkpPBQpFIkBkuH6IG9xkJITNGoUwNKPhD6UaelcdcCe3miccB+X/CI+i0hgtbwg
+ 1h0C8mrtqJ8T/QNG3oAghlSORygv/mXS9BUy5tGeLRaTaEA7
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 13 May 2026 10:16:44 +0200, Herve Codina wrote:
-> ASoC: Add support for GPIOs driven amplifiers
-> 
-> On some embedded system boards, audio amplifiers are designed using
-> discrete components such as op-amp, several resistors and switches to
-> either adjust the gain (switching resistors) or fully switch the
-> audio signal path (mute and/or bypass features).
-> 
-> [...]
+On Sun, 17 May 2026 23:41:07 -0300, Cássio Gabriel wrote:
+> ASoC: mediatek: mt8196: Fix probe resource cleanup
 
 Applied to
 
@@ -79,40 +69,8 @@ Applied to
 
 Thanks!
 
-[01/17] of: Introduce of_property_read_s32_index()
-        https://git.kernel.org/broonie/sound/c/37dba38ac8d0
-[02/17] ASoC: dt-bindings: Add support for the GPIOs driven amplifier
-        https://git.kernel.org/broonie/sound/c/04a1fe8e6582
-[03/17] ASoC: simple-amplifier: Remove DRV_NAME defined value
-        https://git.kernel.org/broonie/sound/c/28188a6d8869
-[04/17] ASoC: simple-amplifier: Add missing headers
-        https://git.kernel.org/broonie/sound/c/23cf9e3ca498
-[05/17] ASoC: simple-amplifier: Remove CONFIG_OF flag and of_match_ptr()
-        https://git.kernel.org/broonie/sound/c/2c562adb159e
-[06/17] ASoC: simple-amplifier: Rename drv_event() function
-        https://git.kernel.org/broonie/sound/c/dc8beaad2926
-[07/17] ASoC: simple-amplifier: Use 'simple_amp' variable name instead of 'priv'
-        https://git.kernel.org/broonie/sound/c/34ddd2d368c3
-[08/17] ASoC: simple-amplifier: Remove DAPM widgets and routes from the ASoC component driver
-        https://git.kernel.org/broonie/sound/c/4d84b75e5eec
-[09/17] ASoC: simple-amplifier: Introduce support for gpio-audio-amp
-        https://git.kernel.org/broonie/sound/c/41e3ebbfcab1
-[10/17] ASoC: simple-amplifier: gpio-audio-amp: Add support for extra power supplies
-        https://git.kernel.org/broonie/sound/c/f68933d0eb67
-[11/17] ASoC: simple-amplifier: gpio-audio-amp: Add support for mute gpio
-        https://git.kernel.org/broonie/sound/c/432331970eca
-[12/17] ASoC: simple-amplifier: gpio-audio-amp: Add support for bypass gpio
-        https://git.kernel.org/broonie/sound/c/46c21e55c3bf
-[13/17] ASoC: simple-amplifier: gpio-audio-amp: Add support for basic gain
-        https://git.kernel.org/broonie/sound/c/5796026b8e90
-[14/17] ASoC: simple-amplifier: gpio-audio-amp: Add support for gain-ranges
-        https://git.kernel.org/broonie/sound/c/d25e00ecd5c5
-[15/17] ASoC: simple-amplifier: gpio-audio-amp: Add support for gain-labels
-        https://git.kernel.org/broonie/sound/c/fb757dfa039f
-[16/17] ASoC: simple-amplifier: Update author and copyright
-        https://git.kernel.org/broonie/sound/c/7b295a6fc632
-[17/17] MAINTAINERS: Add the ASoC gpio audio amplifier entry
-        https://git.kernel.org/broonie/sound/c/5bd8c4b7d3bb
+[1/1] ASoC: mediatek: mt8196: Fix probe resource cleanup
+      https://git.kernel.org/broonie/sound/c/e38353138a09
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
