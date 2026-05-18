@@ -1,147 +1,175 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530CD3E5EC6
-	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 09:24:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8DE3F54A2;
+	Mon, 18 May 2026 11:35:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779096245; cv=none; b=tBCb45KpjmQx3TJ34Ho18TxlrZ1PmRyZ+KNy+VTF5fmZDBGIj6NbuQNDG3oRK35pPJxE1CBgwLRctXfD4qRaUD3gKtCFOZyHtHfi6yEF2vYIRSsAx5+wx6GYia+MX1QmBwD8OU0ZgI2FviYz0rMkNf4833TGSOFGbPZuASdxNlA=
+	t=1779104152; cv=none; b=fZbSVv1vc1FDd8yOBMyX5osqZ95gi0TnDeW6q+mIg12DaLHndar62X4gETNomsVURu0R87JatkpK9NH92r35JG5iv4nTcpr0Tw2xr7cNWnwLNugZP9Skm+Y5/TmxLnds4yyRQ1A3mvUq+kbE1pzi9GhSZMzZrKhhw0JY+eWIUWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779096245; c=relaxed/simple;
-	bh=yQnj7TVBLDmn2Qy5AALoRYVF8NDQjV3Fde9VEu7Oq1I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pDNhdTV1eGfxC25iTkdQIQLzt5Mz+N87YsKQ8K8qfSwrwyFelAfZSOw+a8iJCiYN9gvLVG60yRAqPsR/ThkfbltfGuLTMJFBf5Fudhs8w1YE4bI8LmMZn5ueXWzEaErpWNRhNKaD6VbgY4YfvEB3zGzoAEzn6Dy5jalKsDnaWSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kgxHecbt; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=M+LNBGjh; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1779104152; c=relaxed/simple;
+	bh=DUt3eBS5gIFT83qNHuIFS6ges/Dm2qldEZJiOcVs2FY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V5vxPqs3/iD9ASlK5XWAyNAxhfg+BVkcpRYCU0zE86uIMDIMPK3q0D7bJ9+scGpifhkiQMejNDLWFc/csMMgukqaoPH2GPgs1dQ+9zGvBEIYUmtDoy/WkWo0wVFaVFvW7awRHoI3uXSL6BSEyKGNUOWviqGalKbTvH6iDtKx2WQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G/5OXYgS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kgxHecbt";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="M+LNBGjh"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64I7qAO72219041
-	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 09:23:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=LE2VOebIUqd
-	tVT8e2EHlDsCGbbYuRW4p5TNYl9S0wKY=; b=kgxHecbtnCluImfLYNf3hMtcMj6
-	PRwuIwFQdp/Cg2skHd8ggwRrve79d0Ep1htRbJ4SXeJZeVP6IftMYlgegY9OFA6f
-	8giW5bw1SComsQbgW4MlbBHJhaHSrA6I5luu1R+QTyFIdGFKIFHzx5lBGJ9aWUbq
-	oMfWPBldDZWFZOjIedLIkzs8TEJB9enb2/U/kYIWg+IqrORScAScIOGIU/RyB3t8
-	6202SSo+iB4bv6/bWRH8I0BPzxWvUQFicYdRV+NF+7zxRkoGy3YDMpojzEL1Y4t0
-	KmsrmCGpwmhfW00mP4PjgJcMPBgnV9L+ALtOTnUoqL9W/d46KX9s4n0roOQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e6tvcmja1-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 09:23:59 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50faf575af4so60834561cf.0
-        for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 02:23:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779096238; x=1779701038; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LE2VOebIUqdtVT8e2EHlDsCGbbYuRW4p5TNYl9S0wKY=;
-        b=M+LNBGjhS45hWvWWcRcWs1zgeB3LzsVy7H5z1ZFClq6OS9iMeTBhr8RPz006EoqG2R
-         s9bapZYoVbpyNj7IjZVTD6uqlKBid25iRgcHFDMS/AChBYZiW2k9D779aBGUX2kw1KSF
-         MsSThfRsl3RB0vlipNgAQoWv74ARJRg5bzClu/7alNnTiPj8mMVHVuaX/J77WvxeJeCl
-         dRuehalW4Xr9YyJ5R0oi8ZpPM35Zysq6sWdPEG3XMW0NF/bE0fkvL4jlKoj9U0iTHdA1
-         hQnRIeNMwTlgJvjSpGVJrjoghb4IyujudXicZ2C1FYrwOEctsYNumsCIhjjO4Age9kys
-         Dclg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779096238; x=1779701038;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LE2VOebIUqdtVT8e2EHlDsCGbbYuRW4p5TNYl9S0wKY=;
-        b=ca8KesKL6JHl9kVrIydyycJDIJJQiL59OvF4+bueTYKXSvUs4iW51fh8xZmHQfiucy
-         xFEkWW83pUgfwFDUTgaqt0+dKw0+s4xEH4T17wGXLjPq4Nve7g52wocYa7bmHf3CaEEO
-         oNxmukFDPxm4HJa17PymxcJ/E5sHEzHkrJl0E1P0ipBpAVrVzskmBbgLgvXrnh9F7IHR
-         jiMUh+fVipgKwJ5ZwoN2kC+MMqGGxkjlHM0KFcZqH83wkUrbpd5ymlq9TDAqXEL+5jD9
-         //2nEdR2cgcX94jg8s7x5AKXbTsT8vSeAwd3q0ROE/z9fpgihJdqRnSfLPVeh4WgZRzH
-         jQVQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/rGlzcL5U/t34MKyabdi9hRz0+T/rRyYcHdmKZUBzMwGiZGFCjpVN0uu2a6HKOI3OR373hvEj9BfJGGw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkrHNQRcI5rkzwYtMWu0iEIQBq4szKCBwTOR4XnpvjyeoZWV4G
-	aj/jtzy9Gi7XJgsv/5jjNwSbLoHi9439hjIKTFJA89x26ltDJq9SvontSTtkHJ6+JGf6BDFcGCz
-	OalvMAkSDSm/OTsWyz9wH3ld708qdP0HWHnGRyEkonoP33oYcLE0K7J9MvCJFUcx69A==
-X-Gm-Gg: Acq92OGW+3aPN+K5bgRuIRr9khbbGvWT/eyP50VL716JIAdmHeqMsOtAsmCbEABLar5
-	jZFzJ9MhZYUZBgizifOdk1sRg5zLrp2X5HqD+8m2SYSebRJ/BNy1chIo+7/VmntZbHn3NAt9rPE
-	44i0I+lNWTwCpknC2U2Tt5Q5dBw7RDVDo0IXC6rlks6V9IXPrxrkDE8ERtv0l0bQNWFRZ2mJ9Nr
-	09dJUa+stnMi1JGyqMcfnaIuYab8Ug2C+jyag1eb3qCSEEmyg1Md8GhqAMk++F8pM+oT43D96+A
-	5uS5B4BflKn7duKnQjPHJAsUecTKLnuDAU0evc5IoCw1B7u/TZeLaceOpd3ppKzQxs4pMYxLKps
-	pm19OKCHB7vk5/QU6/lhxEnETG7qTfOwUOrNJ+5k1PfkPQ7Q4f4aggTU=
-X-Received: by 2002:a05:622a:a911:b0:50d:a644:699d with SMTP id d75a77b69052e-5165a219a81mr162055691cf.46.1779096238613;
-        Mon, 18 May 2026 02:23:58 -0700 (PDT)
-X-Received: by 2002:a05:622a:a911:b0:50d:a644:699d with SMTP id d75a77b69052e-5165a219a81mr162055511cf.46.1779096238246;
-        Mon, 18 May 2026 02:23:58 -0700 (PDT)
-Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0fe0fecsm33265900f8f.26.2026.05.18.02.23.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 02:23:57 -0700 (PDT)
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-To: broonie@kernel.org
-Cc: jens.glathe@oldschoolsolutions.biz, linux-sound@vger.kernel.org,
-        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        val@packett.cool, mailingradian@gmail.com,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH 5/5] ASoC: qcom: q6asm-dai: use pointer type with kzalloc_obj()
-Date: Mon, 18 May 2026 09:23:47 +0000
-Message-ID: <20260518092347.3446946-6-srinivas.kandagatla@oss.qualcomm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260518092347.3446946-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20260518092347.3446946-1-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G/5OXYgS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5D82C2BCB7;
+	Mon, 18 May 2026 11:35:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779104152;
+	bh=DUt3eBS5gIFT83qNHuIFS6ges/Dm2qldEZJiOcVs2FY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G/5OXYgSVqrykg9/WYzqoeohCDtUEwtzN356dCwuQsg+Ym++6YF12kbDUvMTWJCIm
+	 mcMwV/6yO9VgyfjM6Ci489DFJHmNx963pxbmPiQNL6auLHOcurV6VFmhI69pK+Klrg
+	 jtfhOWWs5PkgeeZpPPqmkQf7SfwIc5RycEurj6BK8Su1InPXdLrkq9vZmXiQdPO1hp
+	 AOrc+66uvbROu3ACPPljyKJfJkd81sjMRce7p8gunMdC6Z4+MGPUkBaQRlbSHsadEW
+	 M0h2/Ez9gct2fTCXdMHoa4xrOxj5q1ASTK+53Dyq8x8qHg50p4SaNzV9q+Pis5rSt1
+	 2WNJ1mhS0RCAw==
+Date: Mon, 18 May 2026 12:35:46 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Neo Chang <YLCHANG2@nuvoton.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, robh@kernel.org,
+	krzk+dt@kernel.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+	neo.chang70@gmail.com, kchsu0@nuvoton.com, sjlin0@nuvoton.com
+Subject: Re: [PATCH v2 2/2] ASoC: codecs: nau8360: Add support for NAU83G60
+ amplifier
+Message-ID: <ce8d5ba7-22aa-47ac-90ab-026ed1ee3928@sirena.org.uk>
+References: <20260518024704.118613-1-YLCHANG2@nuvoton.com>
+ <20260518024704.118613-3-YLCHANG2@nuvoton.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: Dcq568ofyLmsidNQTc3qSopy6YtV8E2j
-X-Authority-Analysis: v=2.4 cv=UIDt2ify c=1 sm=1 tr=0 ts=6a0adaaf cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8
- a=Ka70VOZtGcZw4ZCj8HQA:9 a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-GUID: Dcq568ofyLmsidNQTc3qSopy6YtV8E2j
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE4MDA5MCBTYWx0ZWRfX3TsG662e4WkG
- 3xMdeH8RIE8SmeTQdxfetRTuh8xzbssCgL1D4DcKBRC6rE7rgZ03W8nA0Zoyvqru7eYvrSFY4mQ
- tFgj0Z3SXZgorkiZFbT4LHofqFV0Iojglnk/qzFoxwoAQKL2wuv5kCwA6fm7U4xH+a1TX8lBY4I
- 8ZnkOOba9N3JpLPoVHImHP2Mp1dConvm/s/tku1iX6mfPjv9nRN7K3r6wvFY/Xc+B8mu47zW3rD
- 8Vx0S3Tv9d0Rm0K4k8MMDO9u4/l2Q6tiflDZn1xM41y6J7IaHc7yASpvPgHwUz2rmfDTZ8VI+//
- uQGEsxv99wzcxwYSOFFK5YpVY4AWUMgaS4zlI9nkojD3ookyC+/5BJLKiwegQeys54Lg8yK/+AQ
- 5vP0ZQahDGDyn0vhuYH0NdfUNdyq0UNc4g8KE6AIRSFuGiZkUShDAmmoYOAsaExgO/iC/ONsrIQ
- C2F+aNc1/2r//0YuCTw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-18_02,2026-05-15_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 impostorscore=0 phishscore=0 priorityscore=1501
- bulkscore=0 suspectscore=0 malwarescore=0 spamscore=0 clxscore=1015
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
- definitions=main-2605180090
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pawrGPWhU6zsJTzn"
+Content-Disposition: inline
+In-Reply-To: <20260518024704.118613-3-YLCHANG2@nuvoton.com>
+X-Cookie: She sells cshs by the cshore.
 
-Use kzalloc_obj(*prtd) instead of explicitly naming the structure type.
 
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
----
- sound/soc/qcom/qdsp6/q6asm-dai.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--pawrGPWhU6zsJTzn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
-index 5774c2611197..4f09fdd40905 100644
---- a/sound/soc/qcom/qdsp6/q6asm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
-@@ -383,7 +383,7 @@ static int q6asm_dai_open(struct snd_soc_component *component,
- 		return -EINVAL;
- 	}
- 
--	prtd = kzalloc_obj(struct q6asm_dai_rtd);
-+	prtd = kzalloc_obj(*prtd);
- 	if (prtd == NULL)
- 		return -ENOMEM;
- 
--- 
-2.47.3
+On Mon, May 18, 2026 at 10:47:04AM +0800, Neo Chang wrote:
 
+> Add support for the Nuvoton NAU83G60 audio codec. The NAU83G60 is a
+> stereo 30W+30W smart amplifier with an integrated low-latency
+> Advanced Audio DSP.
+
+> ---
+>  sound/soc/codecs/nau8360-dsp.c |  704 ++++++++++
+>  sound/soc/codecs/nau8360-dsp.h |  117 ++
+>  sound/soc/codecs/nau8360.c     | 2334 ++++++++++++++++++++++++++++++++
+>  sound/soc/codecs/nau8360.h     |  904 +++++++++++++
+>  4 files changed, 4059 insertions(+)
+
+There's no update to the build system, this can't have been tested.
+
+> --- /dev/null
+> +++ b/sound/soc/codecs/nau8360-dsp.c
+> @@ -0,0 +1,704 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * The NAU83G60 Stereo Class-D Amplifier with DSP and I/V-sense driver.
+
+Please make the entire comment a C++ one so things look more
+intentional.
+
+> +static int nau8360_reply_from_dsp(struct snd_soc_component *component,
+> +	const struct nau8360_cmd_info *cmd_info, int data_size,
+> +	void *data, unsigned short dsp_addr)
+> +{
+> +	struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+> +	struct device *dev = component->dev;
+> +	unsigned int payload, *data_buf;
+> +	int i, j, ret, frag_len, frag_payload_len, data_count, len_pos, pad_len,
+> +		pad_len_exp;
+
+> +	frag_payload_len = frag_len - 1;
+> +	if (cmd_info->msg_param)
+> +		data_count = data_size;
+
+This is the only place where we initialise data_count.
+
+> +	/* check the reply length same as request */
+> +	if (data_count && (cmd_info->cmd_id == NAU8360_DSP_CMD_GET_KCS_RSLTS ||
+> +			cmd_info->cmd_id == NAU8360_DSP_CMD_GET_KCS_SETUP)) {
+> +		dev_warn(dev, "payload_len %d, expected %d",
+> +			data_size - data_count, data_size);
+> +	}
+
+but we use it unconditionally here.
+
+> +static bool nau8360_volatile_reg(struct device *dev, unsigned int reg)
+> +{
+> +	switch (reg) {
+> +	case NAU8360_R00_SOFTWARE_RST ... NAU8360_R02_I2C_ADDR:
+> +	case NAU8360_R06_INT_CLR_STATUS:
+> +	case NAU8360_R21_VBAT_READOUT ... NAU8360_R22_TEMP_READOUT:
+> +	case NAU8360_R41_CLK_CTL2:
+> +	case NAU8360_R46_I2C_DEVICE_ID:
+
+Are the I2C addresss and device ID volatile or do they just not have
+defaults?
+
+> +static int nau8360_set_tdm_slot(struct snd_soc_dai *dai, unsigned int tx_mask,
+> +	unsigned int rx_mask, int slots, int slot_width)
+> +{
+> +	struct snd_soc_component *cp = dai->component;
+> +	struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
+> +	unsigned int tx_slot_used = 0, rx_slot_used = 0;
+> +	int i, func_slot;
+> +
+> +	if (!rx_mask)
+> +		return -EINVAL;
+
+Specifying no slots should really be accepted as disabling TDM.
+
+> +	if (source == NAU8360_CLK_SRC_MCLK)
+> +		value = NAU8360_MCLK_SEL_MCLK;
+> +	else if (source == NAU8360_CLK_SRC_PLL)
+> +		value = NAU8360_MCLK_SEL_PLL;
+> +	else
+> +		goto err;
+
+This should be a switch statement rather than a cascade of if
+statements.  Thre's a number of other examples of this.
+
+> +	/* defalut disable Sense signal after booting */
+
+Typo of default.
+
+> +	/* Set HW2 default volume */
+> +	regmap_write(regmap, NAU8360_R97_HW2_CTL7, 0xbf66);
+> +	regmap_write(regmap, NAU8360_R98_HW2_CTL8, 0xbf66);
+
+Most user visible controls like volumes should be left at the hardware
+defaults, that avoids encoding some specific use case into the driver.
+
+> +	/* set GPIO3 MUX as Clock output */
+> +	regmap_write(regmap, NAU8360_R09_GP_CTRL1, 0x1e9e);
+
+This feels very platform specific and should be configured via DT or
+quirks.
+
+--pawrGPWhU6zsJTzn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoK+ZIACgkQJNaLcl1U
+h9DWlQf7BkoZVBAdZ7BLO/zhVK6vMFDAM0NMdLv6MmieTpo89Qng4dGDTNSSdyUd
+td98ug4vWi4lkk7fSdokTxF8aFjBlnL+W9lKNNGZshlR8i6+7vOg1vdOdNZa09M4
+LEj6Uw6OulIsuBnGAxqlBFmiyZ8MvRPO9g4CMNWzDZYgqtGHxD9Rlxmbx2ZTu+IB
+41V5fCn6c1i5ANdVNXDyjC9wII583mqlfiP23lb9eZiszv36wWuZb12s1LBbBGqn
+sVn+Q+YKUHMO6z+K3QMxpV2vIl+9qEMt3vpTZzexCm89QF9MIIvNCNcQ1/Nka/5A
+bVI7UQC5IInFBrJiTBIN9GP2l7282g==
+=PkKK
+-----END PGP SIGNATURE-----
+
+--pawrGPWhU6zsJTzn--
