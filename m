@@ -1,229 +1,179 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11013046.outbound.protection.outlook.com [52.101.127.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5829370D44
-	for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 02:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779072078; cv=none; b=mzdfiffss4SH7QJMh9W+5I3bD5MEeIQC0fWG36Trl1DQcRofPpH2xvvlEbhGF40aBBDcNISw5DsjOne+Up68pxwJAnUQHPXOfRN0imZDSwXGRWCoy7sdeCop7NeuUo1jZEEbdVg+zpthcTGiL77dPnhJtF8IPaWn0R1levfHOkE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779072078; c=relaxed/simple;
-	bh=NQY0kyeCTdDm7O2l5wtg6rcyOWbfpOIoGV+6BXsEjug=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=c5HWqxfbTBQ68dE5fvchu+A05+nyY/t3shIQ7TVkFnlgiNpVmK1TJdOMA5sW03FDI8YusFlEWI6J9ncUx1PlFIHtL9YwssRzK4DNiNFHvPOoTgD9MdrqWMNSBNDerkvucpqr7HdHRFNk3zRhp5svG+5k+V2hMFDzkXbNkXkn0nI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b76y2o3g; arc=none smtp.client-ip=74.125.82.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A594B218AB9;
+	Mon, 18 May 2026 02:47:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779072443; cv=fail; b=VROBwdZQM1M+kuiVVQTgCGw4rHmg3AfI43c266rlSoKePh5I9DQzqECrKVrU7QXpXtViILvP3VtnVeRU+EY3pSNMkeOz6+XRuaRxe4ydMVKZuqSHGWbLPFXyGxwHSYqxvjn4jvXhhHCcwSg4dvkzs2X0OcUS1yT8L7cNkzweQDk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779072443; c=relaxed/simple;
+	bh=d5yGhPnLvVidyilPRk2XwyeECp78GE0H7MqweQF7q9E=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TCZbtGVfImK/X9m4AsGV//EtMKqA0f24ofrLQS6JqaKdkS66yEK6e97ebxq0usS1Anc2O/4RGjWUfnGe1ABBAMX+PmWs8BGuFI7uTMUaw7BBBWLY0DGNYy4j3MHydCugEfoiLIoAYIJe76pU0Oibu1ue+CdCw8Ay/ANmnURtEEI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com; spf=pass smtp.mailfrom=nuvoton.com; dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b=oOW6+Ml8; arc=fail smtp.client-ip=52.101.127.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuvoton.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b76y2o3g"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2f33ae12f97so6942307eec.1
-        for <linux-sound@vger.kernel.org>; Sun, 17 May 2026 19:41:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779072075; x=1779676875; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uYfojg12w5muo1Y1nJcT6Yfje9fAPhcae6+0t2EB+gE=;
-        b=b76y2o3gj0w1Yq6RbmbbTkcS289oGpv0J5bGulpkcwm7TNp5SlyfNs20kSXqSLDxaY
-         qPSaBnsKGa4JspSo2I39GbdTC7XNBImn6CYHnD5lXkjxD06retrUmhgDt0k7qs8ZRMmW
-         NVCzShCOcz9HLOHted4gUpnoKjwLk5qc8illR/hV0P9AiPTHj5t1POOqmqmF6263Ig5C
-         ooddKypXXjvPJ60uEcrZnk08St79c6miKkhhRffxY7OsJt9MqPs1VHffZAM5CxgPKSe8
-         Lvw58I5UmQbZ221cKrwgNoRw+jr9aKioRQfIf4ivaKsdUVrPMyPDyTT9NwliJyEG5bcm
-         qN2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779072075; x=1779676875;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uYfojg12w5muo1Y1nJcT6Yfje9fAPhcae6+0t2EB+gE=;
-        b=fzpW6ekoOhB3G/RwXicYTOyVk7k3RS3dmfbFdTwdIAenYecnMdjXyftGxujkapp/Im
-         QLnjKt07dBYtRb8YDU5uBOYdkUlyaDUIhk6VhkUf+iM6ka5XaZFLFvKt5ou/BwbQvjf5
-         Xv+2UcWVicyHdRQIIJd0H3NELMMfw3fdHjrj5Z/+9nNkHDjA5p05pH94BNvmofJiphxX
-         ug7bF4s0RyRET64maVq+UXe4lWXDUlNLY1Wl8UFVTqrKribq4tqKiPyFq7eScvmg9SZw
-         iHKrI6ZQRns3RrEH/aJfcSgmwg1UaQWPi7+snbOHnk1sc84ltH8wFL9rlGWQ1FMIV/Ow
-         uIwQ==
-X-Gm-Message-State: AOJu0Yz+nnnuoJh4FvOEKVqgAzw/MFl9mnqJbGYua/DJ58xdC6NvYWTo
-	Lo5/f8HkgcybquNR447xDafNM0/UR8ghsueEyqkoYPkLZZgPg1Ttou7au2/n4D7X
-X-Gm-Gg: Acq92OFtDhNIGCBZefgNrCbUvwNs3ozOhObRDBfcKV+dfwsvHFJUYu1o3GwaKG8Yqhe
-	aMj0DI82cLbb/BInC1Or6MN9S5dAv4hyn4vzF+ZRhcx2B6XSsWKXqIRRz84R6joeS/6njrCAqSA
-	PEyoYSVa2mFfQVf37xhUGJpAWGn9LEvdtsJsbVGs8gSlb4DO0PaKxHkfq25e7Mx6vatgQgBieAo
-	Pi2s9am1qkRG72ZDH99IzdLdUdo03+qpT40KOjRRe+QrEyyukAilZLOUzyavM8ZY+876u1FjmSo
-	m+by2bpSAcpZ3faG7uge4G+F53l8O+o7/NZchquZJUf5vvZR2v+cF74RJyiqTH5NrnAU3v2s+1A
-	jCJp7hLZgTD8mJh8Sj15bvCBcboCXe9infFONLJhwzrS7kk4ekdNHTFwhhUq+Jg39947S2hTxxo
-	iSsCoNj1610L7C7jR28Rp9cO3sgLZpUt6YUUsK2hA+3Nh4BnRKjaH0U5lXgob9fC1uF0471n6Lb
-	g==
-X-Received: by 2002:a05:7301:6447:b0:2ed:6f94:9d9d with SMTP id 5a478bee46e88-3039816bacemr6250335eec.8.1779072075393;
-        Sun, 17 May 2026 19:41:15 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-162-74.user3p.v-tal.net.br. [177.4.162.74])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-302944ffdf0sm13394794eec.8.2026.05.17.19.41.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2026 19:41:15 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Sun, 17 May 2026 23:41:07 -0300
-Subject: [PATCH] ASoC: mediatek: mt8196: Fix probe resource cleanup
+	dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b="oOW6+Ml8"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DTu6a8yTQKebyhi+BRgtuRy9fQDptx8P7HbbVCt0jZzJU6FRRvgUGVZpC5TLNFWYDjWW7VWb+3tsTCm2Ffs4vImBkJuXDH1zPwMBNdJNHgU8CtkVTdFADTBnVp07WZBc4P2A0NgpRZ/r0mu4vj9861QyhzxxEITbwcnNTXH7b/oCRO/4Xn8RMajtGai/DEVLzLCzysjIPPIpiw0Lc8XHJd4J2Fg0q4BUk7ImfvHnth+L//80K554fIqkuZ5LBIkT3DAlBpzOi1qm+LCZkeIGfE/7cTf5Wtaa9ygCHkwbfrR4MSDNLdUd28dzcqy5NNWO67DbOeIDFlaC8mjV+w+4rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dYiEkg6Hqid8AjshCKGM1nBEI6HCekW52k20ISwnC10=;
+ b=CRKAgqEZLSaTTFovJvGki/kJFtwWJND6gO3SDni2rYPQoc0xcSBS2fxItY02q56f8bQPnBBu1JF06s9xF+cB3+Vs669pAmBx+BgfwCxC7PGXrgSEDxgAuDG7tjVgtgoWtItjABPftEr5M63sinCXPhJHM8lJwcB1JOT32wC6dM3UIs6ZNJdr09Ik/YgbSHzfkOtFzQRtacNQ5P6BOqqKgH7VBeTjh674V6EBivBzrWg/HS+AlfSERUwN8YvNuuVtTDimICDA+bYy5hTIk754pOjqjnODDV0AFcotYU0cG8sGeWLFjQjP+yi2bYqQ/kDxinaQ+UiOKm/w400HPpohkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 175.98.123.7) smtp.rcpttodomain=kernel.org smtp.mailfrom=nuvoton.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=nuvoton.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuvoton.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dYiEkg6Hqid8AjshCKGM1nBEI6HCekW52k20ISwnC10=;
+ b=oOW6+Ml8YlWrbyOgI5oziSN0VfwpGrp4CjLkkiOniJM19GbWlZar4WsAvxMWJjQyh89l5dz7v7eQuBmrQHyMhWHL8LPIy6ElXs7FrPF82b0iCPQ/0PdDWCKG60AmcsKggSTydAp3d30MujkKJoXDMnJbavHcVhwKrg4BI/QfPLlUC6kVxG/4/f/ds+XK5E2bNbsj80KeYm4Fhaq8pO5rESNGkPVfAz/6zH7imp4Jv4cqrtyXQXczkrxjZ/oe18OOQoqxxyMfDiECV2u2GXqUMyt0/pB5+xtWwz9Z7lGg2DxWsKLNlOCRABGIZwU/NsYB4YSJW+VgSMzRx6SuFVqA3Q==
+Received: from SG2P153CA0003.APCP153.PROD.OUTLOOK.COM (2603:1096::13) by
+ OSQPR03MB9372.apcprd03.prod.outlook.com (2603:1096:604:427::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.13; Mon, 18 May
+ 2026 02:47:13 +0000
+Received: from SG2PEPF000B66D0.apcprd03.prod.outlook.com
+ (2603:1096::cafe:0:0:89) by SG2P153CA0003.outlook.office365.com
+ (2603:1096::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.2 via Frontend Transport; Mon, 18
+ May 2026 02:47:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 175.98.123.7)
+ smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nuvoton.com;
+Received-SPF: Pass (protection.outlook.com: domain of nuvoton.com designates
+ 175.98.123.7 as permitted sender) receiver=protection.outlook.com;
+ client-ip=175.98.123.7; helo=NTHCCAS02.nuvoton.com; pr=C
+Received: from NTHCCAS02.nuvoton.com (175.98.123.7) by
+ SG2PEPF000B66D0.mail.protection.outlook.com (10.167.240.26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.48.11 via Frontend Transport; Mon, 18 May 2026 02:47:13 +0000
+Received: from NTHCML01B.nuvoton.com (10.1.8.178) by NTHCCAS02.nuvoton.com
+ (10.1.9.121) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.61; Mon, 18 May
+ 2026 10:47:12 +0800
+Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCML01B.nuvoton.com
+ (10.1.8.178) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.61; Mon, 18 May
+ 2026 10:47:11 +0800
+Received: from localhost.localdomain (10.11.36.27) by NTHCCAS01.nuvoton.com
+ (10.1.8.28) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
+ Transport; Mon, 18 May 2026 10:47:11 +0800
+From: Neo Chang <YLCHANG2@nuvoton.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
+	<robh@kernel.org>, <krzk+dt@kernel.org>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+	<neo.chang70@gmail.com>, <kchsu0@nuvoton.com>, <sjlin0@nuvoton.com>, "Neo
+ Chang" <YLCHANG2@nuvoton.com>
+Subject: [PATCH v2 0/2] ASoC: codecs: Add Nuvoton NAU83G60 audio codec driver
+Date: Mon, 18 May 2026 10:47:02 +0800
+Message-ID: <20260518024704.118613-1-YLCHANG2@nuvoton.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260517-asoc-mt8196-probe-cleanup-v1-1-a5d26949d7fe@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMSw7CMAwA0atUXmPJsaB8roK6SF0DQZBEcYuQq
- t69KSzfYmYG0xLU4NLMUPQTLKRY4XYNyMPHu2IYqoGJWzrQEb0lwfd4cucWc0m9orzUxykjM7s
- 9D46IBGqfi97C9/e+dn/b1D9Vxm0Iy7ICxn/9m30AAAA=
-X-Change-ID: 20260507-asoc-mt8196-probe-cleanup-222142d1000c
-To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Darren Ye <darren.ye@mediatek.com>, Cyril Chao <Cyril.Chao@mediatek.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4462;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=NQY0kyeCTdDm7O2l5wtg6rcyOWbfpOIoGV+6BXsEjug=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDFlcNe6JtUFtfgbVXazaLt8rss0LjIzi50y7e38R660Ds
- 6zfftPoKGVhEONikBVTZFmdtMhyT9eDq/VxKzxg5rAygQxh4OIUgImUH2JkuHxgTuuh4hOduRML
- b2ex+S46dcbM8f7Mmh3TmJccS/pRaMjwV3xax8suw2mTDQ/z2dZN8OC8M8+I/7dhosam3E97g/c
- mMwEA
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+Content-Type: text/plain
+X-NotSetDelaration: True
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG2PEPF000B66D0:EE_|OSQPR03MB9372:EE_
+X-MS-Office365-Filtering-Correlation-Id: b55d82a9-3d5a-4b84-2dc0-08deb487c3e6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|7416014|376014|36860700016|18002099003|56012099003|11063799003;
+X-Microsoft-Antispam-Message-Info:
+	L8VoHMy3nvUQc5cQPacG+8i6699mUUKTSMfs1iitPnl4meAxcqGR+d+tQwW/97LVrHDzNlDmz1fIZZMYqZzCYkw+NuFw6YilwcyfzK8bQGP7T4m4KROVIdayiS2M5ifp/hctMjbJEA8ncy6GvIps8xy+Dkech7juXa2TtT11LSU7Hmf4l2NJi1PHcV9X4jNS6lnnNoHWyqgiwrOUiVHu5RgpU7XKaC/uv7NVB+/B4/K4WsQ1FWux4cgdUqOhw+xRPWH/1gsQjKQ+FUMXsocIdvAQ/DnCZtHxa6EL3VJzqdQWBia440fPJL/khUHPueRmO7IZ92VYvdj0YAatsd2yhcMdtbjJK/nyRaoQW7DKthBpfC1MTSssYDN/UrdVI0r1A+MHY+ZbtPnCNOYmMOdXv+3u8+4jsiFiKD4HB23TisC0QqfDGn5loMuyfBkMYbMyZP3m3lKrFsolbX1hG0P1T6ojrF70WYO3lM7MVt5N6L2f2VIt6Ebp5Ud61LgDc4YLHxtrllkRHH03aC6o8OMeEn8kcu8O6bE8wUanWD7+JGXhotzOhVi6BLhOlPH74HvXU8XR/YwqUzsp2qCU1zwPx9viy7nImRvdpS76h9u4o4eIebX3HgKLVcv31o34btB3vbFTgQU5b5SuxvWzQJ67iQ9xxni9FyhW/LHbkEiBmjOYBfbUggK74lXgxsSMpv+azOpJvqz3YQ4AGU4DMMLCUaKEUUCUBQTlIkFPpUV8sRI=
+X-Forefront-Antispam-Report:
+	CIP:175.98.123.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS02.nuvoton.com;PTR:175-98-123-7.static.tfn.net.tw;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(36860700016)(18002099003)(56012099003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	IpQAg/7vN8086ugOO6LxAadXVAHwhRca6Z6BB4z4jqWVuAygc8Rrsas3gSynuIdcv4grzS44UV1uqK5NlKZkkbo3a4el9WsiU85v6M21zvg9pOHWtitD2SyHpn3hxiGQfwjQnKx7LG4vBXJSRYyglKcMgwc+PwJsLbUFZQyUix6gAAC9d/BL+yYZr7gT6NcmUaBV0/RM+c5y5fvrzoOw5uwkq+Ykz+QSpOIQpNHtiqWJgO4hSauWs9YVrpBDCGC2mkLqUyv8mHCx0tb8eQD8TLoMAsq1KAEB7KHUS15BG5BxEpmhH/OThICIADg/oiklbKOuTlfiCNxHUfwmVSPffCMFOcTyEccGzJkJwlUH/2yqGyq3pHXRDk/3CW/vZGN8g09ZMa2yhKzssFX4/II6ezNarUM+zDXAHPAwbxXHKJNy8oOB/Tczioyo2gmauQZb
+X-OriginatorOrg: nuvoton.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 02:47:13.2252
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b55d82a9-3d5a-4b84-2dc0-08deb487c3e6
+X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[175.98.123.7];Helo=[NTHCCAS02.nuvoton.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SG2PEPF000B66D0.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSQPR03MB9372
 
-The MT8196 AFE probe assigns reserved memory with
-of_reserved_mem_device_init(), but never releases it.
-This leaks the reserved memory assignment on driver
-removal and on later probe failures.
+This patch series adds support for the Nuvoton NAU83G60 audio codec.
 
-The same probe path also uses unchecked pm_runtime_get_sync() calls.
-A failure while resuming the device can leave the runtime PM usage
-count in an unexpected state.
+The NAU83G60 is a stereo Class-D amplifier with an integrated DSP and
+I/V-sense capabilities. The driver supports I2C register access through
+regmap, DAPM widgets and routes, TDM interface configuration, and DSP
+firmware loading.
 
-The regmap error path returns directly while the device is still
-runtime active, and the remove path drops a runtime PM reference even
-though successful probe has already released its temporary reference.
+The series is structured as follows:
+- Patch 1: Adds the YAML device tree bindings documentation.
+- Patch 2: Adds the ASoC codec driver implementation.
 
-Register a devm cleanup action for the reserved memory assignment,
-use pm_runtime_resume_and_get(), and only drop runtime PM references
-on paths where they are actually held.
+Changes in v2:
 
-Fixes: 57513aabfe5b ("ASoC: mediatek: mt8196: add platform driver")
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/soc/mediatek/mt8196/mt8196-afe-pcm.c | 44 ++++++++++++++++++++----------
- 1 file changed, 30 insertions(+), 14 deletions(-)
+[dt-bindings]
+- Dropped the word "driver" from the description.
+- Removed runtime/software configuration properties:
+  nuvoton,low-latency, nuvoton,anc-enable, nuvoton,aec-enable,
+  nuvoton,vbat-microvolt, and nuvoton,tdm-channel-length.
+- Added missing "nuvoton,dac-cur-enable" property for static speaker
+  impedance matching.
+- Removed unnecessary '|' formatting from single-line descriptions.
+- Fixed typo in firmware-name property.
 
-diff --git a/sound/soc/mediatek/mt8196/mt8196-afe-pcm.c b/sound/soc/mediatek/mt8196/mt8196-afe-pcm.c
-index 511e888567be..a1ae8322d8b6 100644
---- a/sound/soc/mediatek/mt8196/mt8196-afe-pcm.c
-+++ b/sound/soc/mediatek/mt8196/mt8196-afe-pcm.c
-@@ -2242,13 +2242,16 @@ static int mt8196_afe_runtime_resume(struct device *dev)
- static int mt8196_afe_component_probe(struct snd_soc_component *component)
- {
- 	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(component);
-+	int ret;
-+
-+	/* enable clock for regcache get default value from hw */
-+	ret = pm_runtime_resume_and_get(afe->dev);
-+	if (ret)
-+		return dev_err_probe(afe->dev, ret, "failed to resume device\n");
-+
-+	mtk_afe_add_sub_dai_control(component);
-+	pm_runtime_put_sync(afe->dev);
- 
--	if (component) {
--		/* enable clock for regcache get default value from hw */
--		pm_runtime_get_sync(afe->dev);
--		mtk_afe_add_sub_dai_control(component);
--		pm_runtime_put_sync(afe->dev);
--	}
- 	return 0;
- }
- 
-@@ -2306,6 +2309,11 @@ static const struct reg_sequence mt8196_cg_patch[] = {
- 	{ AUDIO_TOP_CON4, 0x361c },
- };
- 
-+static void mt8196_afe_release_reserved_mem(void *data)
-+{
-+	of_reserved_mem_device_release(data);
-+}
-+
- static int mt8196_afe_pcm_dev_probe(struct platform_device *pdev)
- {
- 	int ret, i;
-@@ -2320,8 +2328,13 @@ static int mt8196_afe_pcm_dev_probe(struct platform_device *pdev)
- 		return ret;
- 
- 	ret = of_reserved_mem_device_init(dev);
--	if (ret)
-+	if (ret) {
- 		dev_err(dev, "failed to assign memory region: %d\n", ret);
-+	} else {
-+		ret = devm_add_action_or_reset(dev, mt8196_afe_release_reserved_mem, dev);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	afe = devm_kzalloc(dev, sizeof(*afe), GFP_KERNEL);
- 	if (!afe)
-@@ -2422,18 +2435,22 @@ static int mt8196_afe_pcm_dev_probe(struct platform_device *pdev)
- 	dev_pm_syscore_device(dev, true);
- 
- 	/* enable clock for regcache get default value from hw */
--	pm_runtime_get_sync(dev);
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to resume device\n");
- 
- 	afe->regmap = devm_regmap_init_mmio(dev, afe->base_addr,
- 					    &mt8196_afe_regmap_config);
--	if (IS_ERR(afe->regmap))
--		return PTR_ERR(afe->regmap);
-+	if (IS_ERR(afe->regmap)) {
-+		ret = PTR_ERR(afe->regmap);
-+		goto err_pm_put;
-+	}
- 
- 	ret = regmap_register_patch(afe->regmap, mt8196_cg_patch,
- 				    ARRAY_SIZE(mt8196_cg_patch));
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to apply cg patch\n");
--		goto err_pm_disable;
-+		goto err_pm_put;
- 	}
- 
- 	regmap_read(afe->regmap, AFE_IRQ_MCU_EN, &tmp_reg);
-@@ -2452,12 +2469,12 @@ static int mt8196_afe_pcm_dev_probe(struct platform_device *pdev)
- 					      afe->num_dai_drivers);
- 	if (ret) {
- 		dev_err(dev, "afe component err\n");
--		goto err_pm_disable;
-+		return ret;
- 	}
- 
- 	return 0;
- 
--err_pm_disable:
-+err_pm_put:
- 	pm_runtime_put_sync(dev);
- 	return ret;
- }
-@@ -2467,7 +2484,6 @@ static void mt8196_afe_pcm_dev_remove(struct platform_device *pdev)
- 	struct mtk_base_afe *afe = platform_get_drvdata(pdev);
- 	struct device *dev = &pdev->dev;
- 
--	pm_runtime_put_sync(dev);
- 	if (!pm_runtime_status_suspended(dev))
- 		mt8196_afe_runtime_suspend(dev);
- 
+[codec driver]
+- Fixed nau8360_peq_coeff_put() to return 1 on value change.
+- Refactored TDM slot routing to use ALSA kcontrols instead of
+  custom masks in set_tdm_slot().
+- Switched regmap cache type to REGCACHE_MAPLE.
+- Dropped hardcoded DAC gain initialization to retain chip defaults.
+- Used devm_snd_soc_register_component() for safe unregistration.
+- Separated TDM TX/RX logic in shutdown() to safely support
+  full-duplex operation.
+- Refactored TDM enable/disable logic: moved RX enable from
+  startup to hw_params,
+  TX enable from startup to set_tdm_slot, and handled disable logic
+  in shutdown.
+- Moved software/runtime configurations from DT properties
+  to ALSA kcontrols (e.g., DSP bypass, low latency).
+- Corrected supported PDM data length from 24 to 32 bits per
+  datasheet specifications.
+- Updated firmware DT property parsing to use standard firmware-name.
+- Removed redundant VBAT bounds check in nau8360_sawtooth_params()
+  as it is already validated by the caller.
+- Read VBAT level dynamically via register instead of relying on
+  a DT property.
+- Cleaned up magic numbers by introducing PEQ band enumerations.
+- Set dsp_fws_num to 0 to use default firmware paths if
+  "firmware-name" is missing.
 
----
-base-commit: 2be19ed9535043fe6abd7ccfc9aac6b7ecaac842
-change-id: 20260507-asoc-mt8196-probe-cleanup-222142d1000c
+Neo Chang (2):
+  ASoC: dt-bindings: nuvoton,nau8360: Add NAU83G60
+  ASoC: codecs: nau8360: Add support for NAU83G60 amplifier
 
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+ .../bindings/sound/nuvoton,nau8360.yaml       |   86 +
+ sound/soc/codecs/nau8360-dsp.c                |  704 +++++
+ sound/soc/codecs/nau8360-dsp.h                |  117 +
+ sound/soc/codecs/nau8360.c                    | 2334 +++++++++++++++++
+ sound/soc/codecs/nau8360.h                    |  904 +++++++
+ 5 files changed, 4145 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml
+ create mode 100644 sound/soc/codecs/nau8360-dsp.c
+ create mode 100644 sound/soc/codecs/nau8360-dsp.h
+ create mode 100644 sound/soc/codecs/nau8360.c
+ create mode 100644 sound/soc/codecs/nau8360.h
+
+-- 
+2.25.1
 
