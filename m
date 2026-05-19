@@ -1,76 +1,48 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C20E229B12
-	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 01:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26BB2F7F06;
+	Tue, 19 May 2026 01:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779152700; cv=none; b=ujymM3tdOEupbTXIR6L3i29kkck7Ff1DImmw6roYhmyKaH3V4b1J1lFmFsvqKf8QTxahLNerfub6nIcAFSCclz1IqHqnOxNzEK4k1gE+OhKwMn1NXZeud0onY2EiIbmbPRWnktyd6N6YH4wkKsDhlmW2BpV92WaUFOuLC1MHJtM=
+	t=1779155748; cv=none; b=oTGirTK++RaAK0UnZrpa416aGMuk+DewHeK8+tFmEhsdVg/uIhTj9/ZphxFQKPe+FySSkBKkS44YxdFbfyrhNmv00R+N9WfcE+Pbs1GIwxm3/SZD3cM8BOq8cZIYQPWKT+Z2Eyv0da2z+Z4x/r07AcRySKASOqyap9OSi8jij64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779152700; c=relaxed/simple;
-	bh=IihrxKX+mGVVD8Vr+AaxkOwsMHjS95psdFHYHrsOWx0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LQ6Zgle6+FXSnzgnu14UYe9WiVv/yE8qOqUOaeJkxzI5b/Tlb2FJJBar8Nsfyg5IFvhDXKQ8z4jJecvAHNNdpjEJDOXdJzJGrM6RxHhvIGwvtWRHH9eC0M27eHxuBWyxpH22livVTxFaSNKy7AMJDubp736WrQmNMS+M2g0mj1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KV5k5GkJ; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KV5k5GkJ"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-366be8040a9so1134984a91.3
-        for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 18:04:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779152698; x=1779757498; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BU1E1ogi+Bq1jhmjqjfCvkZIxNYkDteN8QmCFhzbN+A=;
-        b=KV5k5GkJUa1Bo+HmXtW6Q9y3sMwQcOIuUYbukditQy7BtfgSiMnjyXvSDpYFpzO9M2
-         zNaaqsOvxRnogScAylxzxy9bm5Bwyx+O0gQLaX2crjLewce6os9Xodzro2P5juk8bHOu
-         kffK9lJh2KaJJHIniZFG5khod2yvdO6G18/38Kzz5M0B5m8yU4wHspl1l0X4L/FsdJ4h
-         B3Y+sWeXD3Payom2+Hl1OpGVTefqzvMlKcWypRH9RuCZIBx5uJbk8dr3Si2Qb307Mxje
-         145An/IUkJCQFHg0vnW+AMtF1i3b0CkQTG9+RuKVI9auvhxm8oQqJFT+QUQwWeu2Z4CK
-         RQCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779152698; x=1779757498;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BU1E1ogi+Bq1jhmjqjfCvkZIxNYkDteN8QmCFhzbN+A=;
-        b=Jy9B22ZZEznJQpg9oGpyHvBTp1uxZlE8CA5qyI9rKXeNwEO8fxpok2sE37V0RFWSWo
-         F/nuYtGGGR84NjziHTK46FISUAO5psa62ZG1ldXlosrZSNCMyQW89x0NaO7KS7OaHYuP
-         HsRtx9Vdof0ENMsulGGBkTMQVRM/OoPvE/aygWJFR0DfpMbXPupVwRZbQDn42EqMI3qM
-         rfZjx1+GQuJkUOqrNP5iq2E7Yqxb9ICpEUqUoDBtvEN4pgqMzH9ousGp5u57lgaXABUF
-         l560l2MeNiQE3xUEsrVIRLnkYPggrYVvKRPtblp/mtDCrV93i4jAUhsAXfIlfU9weena
-         RLJg==
-X-Gm-Message-State: AOJu0YwpKngaky7v3ov774iZNFubxyM3Rdk+zvD35XLbDjnxALiZ3oiI
-	hwus9Iru/Amya/wDbGjxTCbv+2EHEWc7Nqn8QNkwjMh3jaxl18ymZUxPDrPx2F40
-X-Gm-Gg: Acq92OHL1CxWrq1Xjm3M7XOCpAfoGu5R92PiVh/rrV6uJDebSpDI7+6zlZlDyKgXcyp
-	RgvILSitx1s0nkjDop/7G0Xtu8Yd0N2m+YPEnKyGO91OxtlOKExjAJC317MWGNETNQK+imqzMSx
-	3Y6yyzxf0HPCeFfD8pOPgoWU9ydutWvlzPV9MIm0CMlV5CDNGmYMWz/cJCBJpdTjvURp0IwUeqa
-	RrJ2pHqPJAp/PARKCCf9HagMom8zp4A4dTPoD7fEDVvGhdiWw2F4XDjrTGaJqsXaWkyz0nTh5OB
-	lq+zYXkbig42oUKPeIvNfnlHPjOM37QmA1PYiUdoGWupa+LTY8ynqQ5gAC+jIH/THJUjAb/j15h
-	U4YksbP+UdteG8yi1qawxfm9tTm9TACUJaOTopEOjnyNy8KXhp1gQlrhjJm3NsLkJ0GqlVa9B8U
-	9n8wxOjWLQzHW1JhShimTbaZbFXZus+cqdhbnvOWaSbp42EHr2qlrIbeGMXXiTCk6LGYjiuoB7q
-	hw9Hi9X6zKspOgBNE+tEWsfbNF28mUYkblgMzthMaO/DA==
-X-Received: by 2002:a17:90b:586f:b0:35f:bb33:d72c with SMTP id 98e67ed59e1d1-369518b00cdmr17164840a91.4.1779152698278;
-        Mon, 18 May 2026 18:04:58 -0700 (PDT)
-Received: from ryzen ([2601:644:8000:5b5d:7285:c2ff:fe45:8a32])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3695148d53asm12212912a91.15.2026.05.18.18.04.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 18:04:57 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-kernel@vger.kernel.org (open list:ARM/Mediatek SoC support),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Mediatek SoC support),
-	linux-mediatek@lists.infradead.org (moderated list:ARM/Mediatek SoC support)
-Subject: [PATCH] ASoC: mediatek: mt2701: fix snprintf bounds
-Date: Mon, 18 May 2026 18:04:40 -0700
-Message-ID: <20260519010440.629290-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	s=arc-20240116; t=1779155748; c=relaxed/simple;
+	bh=nf28pJ59nDhuZOr+0R/U1TAm+wzjP87fB2KYAmbySBM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oiUTSFYvv+EaqJwojETXRZWJgegTcMsar0hdbd6UOC7HAwleqWYKT4uGpfe72oh0yXek5fKFrKNgEjgSs1UsxjHlmiLKrFJDxjehnpmBzVeAzdp14qPF1NPZZbHGATbQf3g+DPO8JUyYB4YVYjGU174CvvIs9v2E9fj5uyH+aGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: d6698100532511f1aa26b74ffac11d73-20260519
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:7ff2886c-bac6-40f0-98b2-480c472d4a4c,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:a9200c13f5912a947860e68ca0c26465,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|865|898,TC:nil,Content:0|15|50,EDM:-
+	3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:
+	0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: d6698100532511f1aa26b74ffac11d73-20260519
+X-User: zhangheng@kylinos.cn
+Received: from thinksys.. [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1973911358; Tue, 19 May 2026 09:55:40 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: Fix mute and mic-mute LEDs for HP 16 Piston OmniBook X
+Date: Tue, 19 May 2026 09:55:35 +0800
+Message-Id: <20260519015535.891156-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -79,39 +51,29 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For whatever reason, GCC is unable to figure out that i2s_num is a
-single digit number, with MT2701_BASE_CLK_NUM being the maximum value it
-represents. Add a min() call to help it out and fix W=1 errors regarding
-snprintf bounds.
+The ALC245 sound card on this machine requires the quirk
+`ALC245_FIXUP_HP_ENVY_X360_15_FH0XXX` to fix the mic and mute LED.
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221509
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 ---
- sound/soc/mediatek/mt2701/mt2701-afe-clock-ctrl.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ sound/hda/codecs/realtek/alc269.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/mediatek/mt2701/mt2701-afe-clock-ctrl.c b/sound/soc/mediatek/mt2701/mt2701-afe-clock-ctrl.c
-index 5a2bcf027b4f..43157f218409 100644
---- a/sound/soc/mediatek/mt2701/mt2701-afe-clock-ctrl.c
-+++ b/sound/soc/mediatek/mt2701/mt2701-afe-clock-ctrl.c
-@@ -25,6 +25,7 @@ static const char *const base_clks[] = {
- int mt2701_init_clock(struct mtk_base_afe *afe)
- {
- 	struct mt2701_afe_private *afe_priv = afe->platform_priv;
-+	int i2s_num;
- 	int i;
- 
- 	for (i = 0; i < MT2701_BASE_CLK_NUM; i++) {
-@@ -35,8 +36,9 @@ int mt2701_init_clock(struct mtk_base_afe *afe)
- 		}
- 	}
- 
-+	i2s_num = min(MT2701_BASE_CLK_NUM, afe_priv->soc->i2s_num);
- 	/* Get I2S related clocks */
--	for (i = 0; i < afe_priv->soc->i2s_num; i++) {
-+	for (i = 0; i < i2s_num; i++) {
- 		struct mt2701_i2s_path *i2s_path = &afe_priv->i2s_path[i];
- 		struct clk *i2s_ck;
- 		char name[13];
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 55bb98e2e55a..9b6e7106d3ef 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7221,7 +7221,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8da0, "HP 16 Clipper OmniBook 7(X360)", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8da1, "HP 16 Clipper OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8da7, "HP 14 Enstrom OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
+-	SND_PCI_QUIRK(0x103c, 0x8da8, "HP 16 Piston OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x103c, 0x8da8, "HP 16 Piston OmniBook X", ALC245_FIXUP_HP_ENVY_X360_15_FH0XXX),
+ 	SND_PCI_QUIRK(0x103c, 0x8dc9, "HP Laptop 15-fc0xxx", ALC236_FIXUP_HP_DMIC),
+ 	SND_PCI_QUIRK(0x103c, 0x8dd4, "HP EliteStudio 8 AIO", ALC274_FIXUP_HP_AIO_BIND_DACS),
+ 	SND_PCI_QUIRK(0x103c, 0x8dd7, "HP Laptop 15-fd0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
 -- 
-2.54.0
+2.34.1
 
