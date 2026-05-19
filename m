@@ -1,70 +1,71 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8A214A4F0
-	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 00:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F313A1DFFB
+	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 01:03:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779151798; cv=none; b=P3HXDxuMsE4tuoD4GZRzX+a8Ji4rnlnZpNWvq393dCr7LJ6/NPobKjygd/f4YaH2haco1XqTXhOEI7DlL87UDR/rwAlRlXePuwXw/mLqlzRrmNF7/J+PojZrh27+i25gHJdgVOlavoSXT80HxCG1ge+qRa++6lhLGZcWqfJJVHs=
+	t=1779152637; cv=none; b=ONF7pNdN8ULpx20DPkhhz/mImwiNCuy8pNEzsnmmzSGcpBOIdOxMuGaAzJvcmsnGRoiv3LD3tGhSjgp4UdWxHegtu1ffC73spCQgAKWQOdCG96qSmSwLzt1U89bLCb6yQX8LzlEcXCdi+Wc8sHgQBjSY2fZ5P3sfXyHQBtv4SOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779151798; c=relaxed/simple;
-	bh=FmkOyThkrGl6lnh8Mje8lSgdK4yxrXuzLn4jSCDBUBM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=baMiOBHVBSemQ6b0PIrcS7VYIHOK81j0fGHuQHCPaBv+EhNJ8vEOFLpyu7uqezcbYMTKTmYdvic6UkjagZCwLvN2Q6PQDHH0S9VEJz6zYEXu1f3U/hdmiPsVB2m4Dx5OZOIbVDZeOI7f3u21IDIfKREkfKtHr/J7mFCY8gaHJeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CTonWlAA; arc=none smtp.client-ip=209.85.160.169
+	s=arc-20240116; t=1779152637; c=relaxed/simple;
+	bh=VyFdjWMRA/rwd3WGnfxqhX69a//8M/PilWiOZmRSGYs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eN/1QAhRhVUDCfGixtApLE0wjhalFdK2lqyLHLzNUOxnd5yvwqUSrYWTyS2D36d/uSzCpZ6FLxYCh7kcg9HolfgAu02xSDMb4zW3olsPGMDFQOQ79DZcyPBUFPX/mcW+p2JYJJ4y7I9r8ZSuToj8eDzUrH5i2EbteTMAlfbCzdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bn94mHd1; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CTonWlAA"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-50fc496c8baso38090741cf.3
-        for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 17:49:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bn94mHd1"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c8028fa6039so1996337a12.2
+        for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 18:03:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779151796; x=1779756596; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779152635; x=1779757435; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2Prd+4YAHvUFam2zSodu78Nl9ekYv+HPkYU5UZdRuUE=;
-        b=CTonWlAAXgmm3ldvYXRa3b0z65/1MECe+e1u+MFhN4f74FgyxMXapYQG5XVTfQnAEz
-         i3tUEwF38ELvYj4gyWFX615dyfpwG3hU0zIrCKLtNC+c9Sb5kiIhAfZafdFZWiAt3GgC
-         xcivEwsm4XAzcTuuntW5taQk9XZnZsBm3m+X37vEiWwwVC7TRquYpdiplZjZLGzIMRNP
-         hM/aO9sMxYV/K+Gypho1Vn62jPKgTZFVMqXgoFwBQVWNL3Xhem3wgU3L32RcnfkdKEkJ
-         3afDRNO1W2Peb8/Grs+GHtX9YYNuTXWs9raNhKCm7t4k5DlGc3JX3I6HzITDEu7LXjku
-         EsDg==
+        bh=foamIZYfrhpMFL5r8IvGdGAIs9H4gU/kPQLf5krYHzw=;
+        b=Bn94mHd14B2CEsiVyRKP9rWyXjwsx6ml2jC+VcZvXQnwNwwYMBAIufJiCxyG2N/Wb2
+         YvGJnn9ilPHYHrVq6d6Af+eDoTt+TZlv+LIM5krm9rZE6sNE/qjAq2uiStWxCnc/2op2
+         58PX/mCv37AZmyFA4XtgVwZCEDaGToJck6fEcwl3ItTGIA1ePVIaLIVRkGFPvyYl+owB
+         Hju1YwdYSatUP8a7m9TAv+c82lh5DvtjDKsYHi2Djig/UEWoEcqSsPO1g8zZ8VcDtPb7
+         TApEG/rg/+3ra7wYHb7+cqH0AAwe2yBPIIW1aLoVDMHGVLCslsehVO4eLUi5t9rjegUi
+         PNuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779151796; x=1779756596;
+        d=1e100.net; s=20251104; t=1779152635; x=1779757435;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2Prd+4YAHvUFam2zSodu78Nl9ekYv+HPkYU5UZdRuUE=;
-        b=rjuQglGUfqe8cCe+kbrOAZK+8Y/MDugEdwzKRXv8O+/DYl2GPO9KGh1fQbg8KB/JVu
-         3wd35x/B55gFW5ByMzYfW11FrxpM74e6pLERUPz7md4PncyobEan0SFytvTDZO+XqHlk
-         C/cFXrKu3l3gn4oY1FrNcICSJihvw4eVY5fNgjPO4+FhfopG8u/fQngcZiRz4DdbVM39
-         GQ/2OrSg+7x/7MNs+y8UCb5cSzLbpUN1HksBnBZW0pHjDd9jjYSIgqePwwua1Z7eBFHR
-         oLt5/VTbxOxXqWOOEALc8iq63et8W5fL+2eulxMVGpGE+4gpHu7yfuK2oGAsCUislI/5
-         3Mrw==
-X-Gm-Message-State: AOJu0YxlpLpW8g/mFZL5fW8fFHjRJiTo6hQQEXkE/T2SDoqbEAeLIQuc
-	4fGNmTkoDgiygQ5tR6RDOZC/RMlhFXXD5BS3sCll6kuNGrMe00K70UvfqcTyTrVn
-X-Gm-Gg: Acq92OFht6OFNDdueeKITmB9oDo58A0OaBW32GbuF/b1oPh3dnoGwQ3mcZdC0jEjSGo
-	DAnVJ7wGbcPHcKgWaqPB/3R5p5VMkrHMZ5gaiX1AoxLF+FjI1xr5AhYr2aE6vIbZwYNg5zCgKMJ
-	bsH95thLRMPpetW/khg4yI51KWJfRitDtaRvUDNHPSe71YHRH3aKeHdcaQSKql4zN0xlCPz/p1B
-	cXel3rn2ZZ+Dq3cxowwRQE6gRupbSEORHihc6LJC6oZbmdNakwQhJuJcvvbE3jWOkY5E+9ihhsC
-	jngKieJIDL0X+etBBUNBPkESKntlh+8ZDgqZieF6zl3MQfczLD9rs3W8oVHYi3W4/mODwKp72s2
-	oqmVkb+G9bmPks8kil78QlOJAL/a1+2UuXy4cvD/JV2jj8T5G7NdvHXsUjb9iBhn3dEvKaDC1YY
-	JCE6ZDp+rYYbaXfC/UJt0V2Ri+hrZLZ1EVhUmiQQLirLQCxIkTHSBpO9PXVdLLaRTd3KVDCrqGn
-	P3Z6kfIe1ykkRSvB3WuK0BMj7HkrQCjoQE=
-X-Received: by 2002:a05:622a:1a90:b0:50f:c2f8:4075 with SMTP id d75a77b69052e-51659fde983mr227579151cf.1.1779151795948;
-        Mon, 18 May 2026 17:49:55 -0700 (PDT)
+        bh=foamIZYfrhpMFL5r8IvGdGAIs9H4gU/kPQLf5krYHzw=;
+        b=pIAiiYaHKWCLovyaExP9btT+2L7brYtARjlr2NBz5HMZqIlM3n6y088i+B8jr5TJXN
+         nV2yZd7Ktp4yEdlu1wJElnoS+4bQveTakvzrtGCGHzirTE4ZWWo/fYivwAyk8p93J9CN
+         aUuaEVd9ADArqNcRZ3eXIoFF1BypxBWFJvBaIQ8P5JQIZ3QW9sD2EPn+ftIIuOX9feh5
+         +gY8BY/KN6p6k9ky8EcO284RQU7poPMq6pEpfJCE4J6PWplnSazoZGkOXrmcI5khBMr1
+         wVy/iGJqDCEgtMmV5wrZkSe0DtEZoBdUhZRMjwt2cD7s0wHIaNasE1EaU03L6TsklloN
+         bdtw==
+X-Gm-Message-State: AOJu0YzhvcYWgp9uc1n1HG+zDZRzSSR549C4gayCTgz2orz87/DykAyi
+	E4O4yJzqvzWWf0lHNX66FIl4WRvIxxudQEAx5jf8T2phGbcTo/RPeFiduIiQ96XN
+X-Gm-Gg: Acq92OFaFfOIuo/shzSv6ZkTovAI9obtdBu4631KaKdz+f4BIZTwxfwjlj5Bp7DfMUc
+	KvdLJN3Ixdx1VrkGg0TaX4IwXpB1zQL021Q/6UDvkXNY6gdfG0CnYxfQBFT+KlE8YN83ZMh5XCm
+	DNEd3/ZyP2jYiWCru8jwXQImChUR8FDw2c6IH5s6pBIUSxLSKO777j671efXa5aeNTzI3O8Ex2a
+	sGlJX0VXJ4n5p3hIO13OGIlHDFe4CYlxwCD+URSF8Myx6nCgnO1waPynpVDHYDjcqOcwE5880tr
+	cRETG6hybHZsHgbO/0KKIBnh+Pd2vzObjx7nbYCslUX2o5HYknHkQdY9QzAvkDKdvKDkMZ2DmRF
+	SqHDlBnjROb6tSsIKwMSZBdor9Ao252keDPKrsuQpLlBU8qvugp8LPHiv3UlB+CPp54VgFom7U6
+	WUOu7zimkOiYYIycyGHGMP8IQv+JG83UNQYDM0CJ5Jb9EiLioCCjzOdj3PjYz7steoEgnrN1+rz
+	FMTebBEY87GkW3VSio6o3Eil777M2WO1zA=
+X-Received: by 2002:a05:6a21:4ed8:10b0:3b2:846d:f388 with SMTP id adf61e73a8af0-3b2846df459mr6078176637.45.1779152635326;
+        Mon, 18 May 2026 18:03:55 -0700 (PDT)
 Received: from ryzen ([2601:644:8000:5b5d:7285:c2ff:fe45:8a32])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5164568a275sm148349551cf.5.2026.05.18.17.49.53
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c82bb121ccasm14524680a12.29.2026.05.18.18.03.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 17:49:54 -0700 (PDT)
+        Mon, 18 May 2026 18:03:54 -0700 (PDT)
 From: Rosen Penev <rosenp@gmail.com>
 To: linux-sound@vger.kernel.org
-Cc: "Geoffrey D. Bennett" <g@b4.vu>,
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] ALSA: usb-audio: Use flexible allocation for Scarlett2 packets
-Date: Mon, 18 May 2026 17:49:35 -0700
-Message-ID: <20260519004935.627797-1-rosenp@gmail.com>
+Subject: [PATCH] ASoC: uda1380: remove kmemdup_array
+Date: Mon, 18 May 2026 18:03:37 -0700
+Message-ID: <20260519010337.629127-1-rosenp@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -74,58 +75,56 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allocate Scarlett2 USB packets and request buffers with the flex
-allocation helpers for their trailing data arrays.
+Use a flexible array member to combine allocations.
 
-Keep the computed packet sizes where they are still needed for USB
-transfer lengths.
-
-Assisted-by: Codex:GPT-5.5
 Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- sound/usb/mixer_scarlett2.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ sound/soc/codecs/uda1380.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 7ab3c0dd4755..2bdeb537a983 100644
---- a/sound/usb/mixer_scarlett2.c
-+++ b/sound/usb/mixer_scarlett2.c
-@@ -2614,13 +2614,13 @@ static int scarlett2_usb(
+diff --git a/sound/soc/codecs/uda1380.c b/sound/soc/codecs/uda1380.c
+index 55c83d95bfba..4df2d01cd5fb 100644
+--- a/sound/soc/codecs/uda1380.c
++++ b/sound/soc/codecs/uda1380.c
+@@ -38,9 +38,9 @@ struct uda1380_priv {
+ 	unsigned int dac_clk;
+ 	struct work_struct work;
+ 	struct i2c_client *i2c;
+-	u16 *reg_cache;
+ 	struct gpio_desc *power;
+ 	struct gpio_desc *reset;
++	u16 reg_cache[];
+ };
  
- 	struct scarlett2_usb_packet *req __free(kfree) = NULL;
- 	size_t req_buf_size = struct_size(req, data, req_size);
--	req = kmalloc(req_buf_size, GFP_KERNEL);
-+	req = kmalloc_flex(*req, data, req_size);
- 	if (!req)
+ /*
+@@ -767,11 +767,15 @@ static int uda1380_i2c_probe(struct i2c_client *i2c)
+ 	struct uda1380_priv *uda1380;
+ 	int ret;
+ 
+-	uda1380 = devm_kzalloc(&i2c->dev, sizeof(struct uda1380_priv),
++	uda1380 = devm_kzalloc(&i2c->dev,
++			       struct_size(uda1380, reg_cache, ARRAY_SIZE(uda1380_reg)),
+ 			       GFP_KERNEL);
+ 	if (uda1380 == NULL)
  		return -ENOMEM;
  
- 	struct scarlett2_usb_packet *resp __free(kfree) = NULL;
- 	size_t resp_buf_size = struct_size(resp, data, resp_size);
--	resp = kmalloc(resp_buf_size, GFP_KERNEL);
-+	resp = kmalloc_flex(*resp, data, resp_size);
- 	if (!resp)
- 		return -ENOMEM;
++	memcpy(uda1380->reg_cache, uda1380_reg,
++	       ARRAY_SIZE(uda1380_reg) * sizeof(*uda1380->reg_cache));
++
+ 	uda1380->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+ 	if (IS_ERR(uda1380->reset))
+ 		return dev_err_probe(dev, PTR_ERR(uda1380->reset),
+@@ -789,11 +793,6 @@ static int uda1380_i2c_probe(struct i2c_client *i2c)
+ 	if (device_property_match_string(dev, "dac-clk", "wspll") >= 0)
+ 		uda1380->dac_clk = UDA1380_DAC_CLK_WSPLL;
  
-@@ -2830,9 +2830,9 @@ static int scarlett2_usb_set_data_buf(
- 		u8 data[];
- 	} __packed *req;
- 	int err;
--	int buf_size = struct_size(req, data, bytes);
-+	size_t buf_size = struct_size(req, data, bytes);
- 
--	req = kmalloc(buf_size, GFP_KERNEL);
-+	req = kmalloc_flex(*req, data, bytes);
- 	if (!req)
- 		return -ENOMEM;
- 
-@@ -9646,7 +9646,7 @@ static long scarlett2_hwdep_write(struct snd_hwdep *hw,
- 
- 	/* Create and send the request */
- 	len = struct_size(req, data, count);
--	req = kzalloc(len, GFP_KERNEL);
-+	req = kzalloc_flex(*req, data, count);
- 	if (!req)
- 		return -ENOMEM;
+-	uda1380->reg_cache = devm_kmemdup_array(&i2c->dev, uda1380_reg, ARRAY_SIZE(uda1380_reg),
+-						sizeof(uda1380_reg[0]), GFP_KERNEL);
+-	if (!uda1380->reg_cache)
+-		return -ENOMEM;
+-
+ 	i2c_set_clientdata(i2c, uda1380);
+ 	uda1380->i2c = i2c;
  
 -- 
 2.54.0
