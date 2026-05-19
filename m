@@ -1,89 +1,77 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DBBB4D2EFE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8924CA278
 	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 12:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779192722; cv=none; b=pRHS2rVgxMSbE4h5QhfPFeCSXk5awGqFdfOifSU/GKYJpG/kHCfvSKqYqatJqHC5VA3A4AokFes6XLMOnR3tT0DJ7i3jULekbWeQrz2gxdqJzgl9DJTcywUMxrY8/GpvVNgndyOk03vS5BaEUf4Lp2R3ddyWt3VWf3MbInonxVw=
+	t=1779192724; cv=none; b=TdrwiysqJgFQZYNuEb5h8RSp3EaMSDjisH7KUsuLZ4dVKR+jXbA2st7+QLrMkoGYd7nDIiAFje1if0zSFqBAvXgtsfIcWza2YhPP+kArG1byf1Q55gsZlhLIdFwOD4i0A47S6BRsyNK/tQZB8YFj6EewJPu6NUAWrdcDyCuKcVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779192722; c=relaxed/simple;
-	bh=sgHxSZBGatwbAHPbmt3UpumaR62O7OZ0oWEe7NBtLlk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GAzcN8MGKt2n5Ztv1Uop9+2EMgaD/qDJH0Xy3gBmb8po5qxVxDJ1tfuFin/6xz344CTXGFQWv9sKiGp8qS/VM3Slk5IpSi09Bc5/aVmoDwJIcwyHTms3/BeCHsDXlQwv52Ei28Drk1HNjMgvUT9WQJleN9VLrxB7qDBDIvmYz7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=momTeoVA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MNzxS6Bz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=momTeoVA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MNzxS6Bz; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1779192724; c=relaxed/simple;
+	bh=6elKY9A4W4DmGEhUTXH8w3CeG6y0eRYsDIdzvJnRCq4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I3Viq+fg//uHrAr54H6NsOjJiLAwJkpGYzBY8TYEW7c3TTWMHqXDX9jIMyp4/EEGzArzmWM83IQYJ2WmKWiEbOaWeqrW9XivBdRFTWHQhX0P5dsDkcWvwcvVVilbHkFdrcte4hsCQu2HgXvcMPJoQjZ0R2Nit7+C/EVTDWTcjwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xnDl5Mff; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DAhhSxYd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xnDl5Mff; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DAhhSxYd; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="momTeoVA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MNzxS6Bz";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="momTeoVA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MNzxS6Bz"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xnDl5Mff";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DAhhSxYd";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xnDl5Mff";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DAhhSxYd"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B097C6B458;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 94180680C3;
 	Tue, 19 May 2026 12:11:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1779192719; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MczN08BkLD5yxEuZcqlrDivqEa75GkUZ3qKsg/zkbD0=;
-	b=momTeoVArI0IXDBGIlBOS4uoJrhRwPH9++ftsqI4b6XhhCeiFnw8x31IrX37qgJB1PGqNl
-	lR9LCfwpUIbt5O7584sXRSX3S7hqxHO/HRqk9K2+FjmeekCBxN6nTssjq4qAz9XHgSytVh
-	FLI5h/2NjN/sRJq5pU6y1BOZ5dIlg44=
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=oBtIijnoQIHfGcEYaenvpfSFQbzuUrSgyj0wMFpecWA=;
+	b=xnDl5Mff5wdPGljW/p6oPUB5dHW4tVA1Pc3Nbodw9dsZokPo5wApXRuBnAI6nNdKyAMea6
+	N2das/ypCWqTTRXU0hkudLCNbxzkiYal1rZr3tdBWbpbpmmMHaxvW+Ho8ua//JVqFWa8q8
+	9kOod5AqP2O+O7r8R5IR13aqSPiLpyM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1779192719;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MczN08BkLD5yxEuZcqlrDivqEa75GkUZ3qKsg/zkbD0=;
-	b=MNzxS6BzZObmyH14NUZJLiD6mUu/TW4G88fXhz5LpPTK7+66fzkF64vCCGQdHc4Zuqh5Dl
-	Xccd0u4+D5WZuPBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=momTeoVA;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MNzxS6Bz
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=oBtIijnoQIHfGcEYaenvpfSFQbzuUrSgyj0wMFpecWA=;
+	b=DAhhSxYd7nxjM5eK88QN2ZQxcPtVertEtCJ6li225cwgLtaqhrUx9fb1mwOIFlhP9wJ8t3
+	uKbQ8P5U0/tAWsCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1779192719; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MczN08BkLD5yxEuZcqlrDivqEa75GkUZ3qKsg/zkbD0=;
-	b=momTeoVArI0IXDBGIlBOS4uoJrhRwPH9++ftsqI4b6XhhCeiFnw8x31IrX37qgJB1PGqNl
-	lR9LCfwpUIbt5O7584sXRSX3S7hqxHO/HRqk9K2+FjmeekCBxN6nTssjq4qAz9XHgSytVh
-	FLI5h/2NjN/sRJq5pU6y1BOZ5dIlg44=
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=oBtIijnoQIHfGcEYaenvpfSFQbzuUrSgyj0wMFpecWA=;
+	b=xnDl5Mff5wdPGljW/p6oPUB5dHW4tVA1Pc3Nbodw9dsZokPo5wApXRuBnAI6nNdKyAMea6
+	N2das/ypCWqTTRXU0hkudLCNbxzkiYal1rZr3tdBWbpbpmmMHaxvW+Ho8ua//JVqFWa8q8
+	9kOod5AqP2O+O7r8R5IR13aqSPiLpyM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1779192719;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MczN08BkLD5yxEuZcqlrDivqEa75GkUZ3qKsg/zkbD0=;
-	b=MNzxS6BzZObmyH14NUZJLiD6mUu/TW4G88fXhz5LpPTK7+66fzkF64vCCGQdHc4Zuqh5Dl
-	Xccd0u4+D5WZuPBA==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=oBtIijnoQIHfGcEYaenvpfSFQbzuUrSgyj0wMFpecWA=;
+	b=DAhhSxYd7nxjM5eK88QN2ZQxcPtVertEtCJ6li225cwgLtaqhrUx9fb1mwOIFlhP9wJ8t3
+	uKbQ8P5U0/tAWsCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96C6C593AA;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7A0C3593A8;
 	Tue, 19 May 2026 12:11:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sJ/SI49TDGp6agAAD6G6ig
+	id KPXRHI9TDGp6agAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Tue, 19 May 2026 12:11:59 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Jake Lamberson <lamberson.jake@gmail.com>
-Subject: [PATCH 2/2] ALSA: hda/intel: Make sure to cancel irq-pending work at closing PCM stream
-Date: Tue, 19 May 2026 14:11:53 +0200
-Message-ID: <20260519121157.28477-2-tiwai@suse.de>
+Subject: [PATCH 1/2] ALSA: hda: Move irq pending work into hda-intel stream
+Date: Tue, 19 May 2026 14:11:52 +0200
+Message-ID: <20260519121157.28477-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260519121157.28477-1-tiwai@suse.de>
-References: <20260519121157.28477-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -92,126 +80,340 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
 	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
 	RCPT_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Rspamd-Queue-Id: B097C6B458
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spam-Flag: NO
-X-Spam-Score: -3.01
+X-Spam-Score: -2.80
 
-The pending irq work might be still floating while the assigned stream
-has been already closed, which may lead to UAF, especially when
-another async work for fasync is involved.
+Currently, the delayed IRQ handling for PCM streams is managed in a
+single work embedded in hda_intel, but this is basically a per-stream
+thing.  Due to the single work, we can't cancel the work properly at
+closing each stream, for example.
 
-For addressing this, extend the hda_controller_ops for allowing the
-extra cleanup procedure that is specific to the controller driver, and
-make sure to cancel and sync the pending irq work at each PCM close
-before releasing the resources.
+For making the IRQ pending work to be stream-based, this patch changes
+the following:
 
-Reported-by: Jake Lamberson <lamberson.jake@gmail.com>
+- An extended version of azx_dev (i.e. the hd-audio stream object) is
+  defined for snd-hda-intel
+- The irq_pending flag and irq_pending_work are moved to
+  hda_intel_stream, so that they can be hda-intel stream specific
+- The stream creation and assignment are refactored so that
+  snd-hda-intel can handle individually;
+  the snd-hda-intel specific workaround for stream tags is also moved
+  to snd-hda-intel itself instead of the common code
+- The irq pending work is canceled properly at free / shutdown
+
+While we're at it, changed the bit field flag to bool, as the bit
+field doesn't help much in our case.
+
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/common/controller.c     |  2 ++
- sound/hda/common/hda_controller.h |  2 ++
- sound/hda/controllers/intel.c     | 20 ++++++++++++++++----
- 3 files changed, 20 insertions(+), 4 deletions(-)
+ sound/hda/common/controller.c     | 26 ++-------
+ sound/hda/common/hda_controller.h | 12 +++-
+ sound/hda/controllers/intel.c     | 92 +++++++++++++++++++++----------
+ sound/hda/controllers/intel.h     | 15 ++++-
+ 4 files changed, 89 insertions(+), 56 deletions(-)
 
 diff --git a/sound/hda/common/controller.c b/sound/hda/common/controller.c
-index 89e63a53d683..a847546753db 100644
+index 5934e5cdfdfd..89e63a53d683 100644
 --- a/sound/hda/common/controller.c
 +++ b/sound/hda/common/controller.c
-@@ -97,6 +97,8 @@ static int azx_pcm_close(struct snd_pcm_substream *substream)
+@@ -1264,19 +1264,17 @@ int azx_codec_configure(struct azx *chip)
+ }
+ EXPORT_SYMBOL_GPL(azx_codec_configure);
  
- 	trace_azx_pcm_close(chip, azx_dev);
- 	scoped_guard(mutex, &chip->open_mutex) {
-+		if (chip->ops->pcm_close)
-+			chip->ops->pcm_close(chip, azx_dev);
- 		azx_release_device(azx_dev);
- 		if (hinfo->ops.close)
- 			hinfo->ops.close(hinfo, apcm->codec, substream);
+-static int stream_direction(struct azx *chip, unsigned char index)
++void azx_add_stream(struct azx *chip, struct azx_dev *azx_dev, int idx, int tag)
+ {
+-	if (index >= chip->capture_index_offset &&
+-	    index < chip->capture_index_offset + chip->capture_streams)
+-		return SNDRV_PCM_STREAM_CAPTURE;
+-	return SNDRV_PCM_STREAM_PLAYBACK;
++	snd_hdac_stream_init(azx_bus(chip), azx_stream(azx_dev), idx,
++			     azx_stream_direction(chip, idx), tag);
+ }
++EXPORT_SYMBOL_GPL(azx_add_stream);
+ 
+ /* initialize SD streams */
+ int azx_init_streams(struct azx *chip)
+ {
+ 	int i;
+-	int stream_tags[2] = { 0, 0 };
+ 
+ 	/* initialize each stream (aka device)
+ 	 * assign the starting bdl address to each stream (device)
+@@ -1284,24 +1282,10 @@ int azx_init_streams(struct azx *chip)
+ 	 */
+ 	for (i = 0; i < chip->num_streams; i++) {
+ 		struct azx_dev *azx_dev = kzalloc_obj(*azx_dev);
+-		int dir, tag;
+ 
+ 		if (!azx_dev)
+ 			return -ENOMEM;
+-
+-		dir = stream_direction(chip, i);
+-		/* stream tag must be unique throughout
+-		 * the stream direction group,
+-		 * valid values 1...15
+-		 * use separate stream tag if the flag
+-		 * AZX_DCAPS_SEPARATE_STREAM_TAG is used
+-		 */
+-		if (chip->driver_caps & AZX_DCAPS_SEPARATE_STREAM_TAG)
+-			tag = ++stream_tags[dir];
+-		else
+-			tag = i + 1;
+-		snd_hdac_stream_init(azx_bus(chip), azx_stream(azx_dev),
+-				     i, dir, tag);
++		azx_add_stream(chip, azx_dev, i, i + 1);
+ 	}
+ 
+ 	return 0;
 diff --git a/sound/hda/common/hda_controller.h b/sound/hda/common/hda_controller.h
-index bc8ee4cc2401..38227f82e704 100644
+index 7434f38038a0..bc8ee4cc2401 100644
 --- a/sound/hda/common/hda_controller.h
 +++ b/sound/hda/common/hda_controller.h
-@@ -78,6 +78,8 @@ struct hda_controller_ops {
- 	int (*position_check)(struct azx *chip, struct azx_dev *azx_dev);
- 	/* enable/disable the link power */
- 	int (*link_power)(struct azx *chip, bool enable);
-+	/* additional hook for PCM */
-+	void (*pcm_close)(struct azx *chip, struct azx_dev *azx_dev);
+@@ -57,13 +57,12 @@ enum {
+ struct azx_dev {
+ 	struct hdac_stream core;
+ 
+-	unsigned int irq_pending:1;
+ 	/*
+ 	 * For VIA:
+ 	 *  A flag to ensure DMA position is 0
+ 	 *  when link position is not greater than FIFO size
+ 	 */
+-	unsigned int insufficient:1;
++	bool insufficient;
  };
  
- struct azx_pcm {
+ #define azx_stream(dev)		(&(dev)->core)
+@@ -206,6 +205,15 @@ int azx_bus_init(struct azx *chip, const char *model);
+ int azx_probe_codecs(struct azx *chip, unsigned int max_slots);
+ int azx_codec_configure(struct azx *chip);
+ int azx_init_streams(struct azx *chip);
++void azx_add_stream(struct azx *chip, struct azx_dev *s, int idx, int tag);
+ void azx_free_streams(struct azx *chip);
+ 
++static inline int azx_stream_direction(struct azx *chip, unsigned char index)
++{
++	if (index >= chip->capture_index_offset &&
++	    index < chip->capture_index_offset + chip->capture_streams)
++		return SNDRV_PCM_STREAM_CAPTURE;
++	return SNDRV_PCM_STREAM_PLAYBACK;
++}
++
+ #endif /* __SOUND_HDA_CONTROLLER_H */
 diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index 01477bd4fcb9..4b03c64e72ab 100644
+index c87d75dbd8aa..01477bd4fcb9 100644
 --- a/sound/hda/controllers/intel.c
 +++ b/sound/hda/controllers/intel.c
-@@ -761,16 +761,27 @@ static void azx_irq_pending_work(struct work_struct *work)
- }
- 
- /* clear irq_pending flags and assure no on-going workq */
-+static void hda_intel_stream_clear_irq_pending(struct azx_dev *azx_dev)
-+{
-+	struct hda_intel_stream *istream = azx_dev_to_istream(azx_dev);
-+
-+	istream->irq_pending = false;
-+	cancel_work_sync(&istream->irq_pending_work);
-+}
-+
-+/* called at PCM close */
-+static void hda_intel_pcm_close(struct azx *chip, struct azx_dev *azx_dev)
-+{
-+	hda_intel_stream_clear_irq_pending(azx_dev);
-+}
-+
- static void azx_clear_irq_pending(struct azx *chip)
+@@ -615,17 +615,17 @@ static int azx_position_ok(struct azx *chip, struct azx_dev *azx_dev);
+ /* called from IRQ */
+ static int azx_position_check(struct azx *chip, struct azx_dev *azx_dev)
  {
+-	struct hda_intel *hda = container_of(chip, struct hda_intel, chip);
++	struct hda_intel_stream *istream = azx_dev_to_istream(azx_dev);
+ 	int ok;
+ 
+ 	ok = azx_position_ok(chip, azx_dev);
+ 	if (ok == 1) {
+-		azx_dev->irq_pending = 0;
++		istream->irq_pending = false;
+ 		return ok;
+ 	} else if (ok == 0) {
+ 		/* bogus IRQ, process it later */
+-		azx_dev->irq_pending = 1;
+-		schedule_work(&hda->irq_pending_work);
++		istream->irq_pending = true;
++		schedule_work(&istream->irq_pending_work);
+ 	}
+ 	return 0;
+ }
+@@ -721,11 +721,13 @@ static int azx_position_ok(struct azx *chip, struct azx_dev *azx_dev)
+  */
+ static void azx_irq_pending_work(struct work_struct *work)
+ {
+-	struct hda_intel *hda = container_of(work, struct hda_intel, irq_pending_work);
++	struct hda_intel_stream *istream =
++		container_of(work, struct hda_intel_stream, irq_pending_work);
++	struct azx_dev *azx_dev = &istream->azx_dev;
++	struct hda_intel *hda = istream->hda;
+ 	struct azx *chip = &hda->chip;
+ 	struct hdac_bus *bus = azx_bus(chip);
+-	struct hdac_stream *s;
+-	int pending, ok;
++	int ok;
+ 
+ 	if (!hda->irq_pending_warned) {
+ 		dev_info(chip->card->dev,
+@@ -735,28 +737,25 @@ static void azx_irq_pending_work(struct work_struct *work)
+ 	}
+ 
+ 	for (;;) {
+-		pending = 0;
+-		spin_lock_irq(&bus->reg_lock);
+-		list_for_each_entry(s, &bus->stream_list, list) {
+-			struct azx_dev *azx_dev = stream_to_azx_dev(s);
+-			if (!azx_dev->irq_pending ||
+-			    !s->substream ||
+-			    !s->running)
+-				continue;
++		scoped_guard(spinlock_irq, &bus->reg_lock) {
++			if (!istream->irq_pending ||
++			    !azx_dev->core.substream ||
++			    !azx_dev->core.running) {
++				return;
++			}
++
+ 			ok = azx_position_ok(chip, azx_dev);
+-			if (ok > 0) {
+-				azx_dev->irq_pending = 0;
+-				spin_unlock(&bus->reg_lock);
+-				snd_pcm_period_elapsed(s->substream);
+-				spin_lock(&bus->reg_lock);
+-			} else if (ok < 0) {
+-				pending = 0;	/* too early */
+-			} else
+-				pending++;
++			if (ok < 0)
++				return; /* too early */
++			if (ok > 0)
++				istream->irq_pending = false;
+ 		}
+-		spin_unlock_irq(&bus->reg_lock);
+-		if (!pending)
++
++		if (ok) {
++			snd_pcm_period_elapsed(azx_dev->core.substream);
+ 			return;
++		}
++
+ 		msleep(1);
+ 	}
+ }
+@@ -767,10 +766,11 @@ static void azx_clear_irq_pending(struct azx *chip)
  	struct hdac_bus *bus = azx_bus(chip);
  	struct hdac_stream *s;
  
+-	guard(spinlock_irq)(&bus->reg_lock);
  	list_for_each_entry(s, &bus->stream_list, list) {
--		struct azx_dev *azx_dev = stream_to_azx_dev(s);
--		struct hda_intel_stream *istream = azx_dev_to_istream(azx_dev);
--		istream->irq_pending = false;
--		cancel_work_sync(&istream->irq_pending_work);
-+		hda_intel_stream_clear_irq_pending(stream_to_azx_dev(s));
+ 		struct azx_dev *azx_dev = stream_to_azx_dev(s);
+-		azx_dev->irq_pending = 0;
++		struct hda_intel_stream *istream = azx_dev_to_istream(azx_dev);
++		istream->irq_pending = false;
++		cancel_work_sync(&istream->irq_pending_work);
  	}
  }
  
-@@ -2131,6 +2142,7 @@ static const struct dmi_system_id driver_denylist_dmi[] = {
- static const struct hda_controller_ops pci_hda_ops = {
- 	.disable_msi_reset_irq = disable_msi_reset_irq,
- 	.position_check = azx_position_check,
-+	.pcm_close = hda_intel_pcm_close,
+@@ -1797,7 +1797,6 @@ static int azx_create(struct snd_card *card, struct pci_dev *pci,
+ 	if (jackpoll_ms[dev] >= 50 && jackpoll_ms[dev] <= 60000)
+ 		chip->jackpoll_interval = msecs_to_jiffies(jackpoll_ms[dev]);
+ 	INIT_LIST_HEAD(&chip->pcm_list);
+-	INIT_WORK(&hda->irq_pending_work, azx_irq_pending_work);
+ 	INIT_LIST_HEAD(&hda->list);
+ 	init_vga_switcheroo(chip);
+ 	init_completion(&hda->probe_wait);
+@@ -1846,6 +1845,39 @@ static int azx_create(struct snd_card *card, struct pci_dev *pci,
+ 	return 0;
+ }
+ 
++/* create and assign streams */
++static int hda_init_streams(struct azx *chip)
++{
++	int i;
++	int stream_tags[2] = { 0, 0 };
++
++	for (i = 0; i < chip->num_streams; i++) {
++		struct hda_intel_stream *s = kzalloc_obj(*s);
++		int tag, dir;
++
++		if (!s)
++			return -ENOMEM;
++
++		s->hda = container_of(chip, struct hda_intel, chip);
++		INIT_WORK(&s->irq_pending_work, azx_irq_pending_work);
++
++		/* stream tag must be unique throughout
++		 * the stream direction group,
++		 * valid values 1...15
++		 * use separate stream tag if the flag
++		 * AZX_DCAPS_SEPARATE_STREAM_TAG is used
++		 */
++		dir = azx_stream_direction(chip, i);
++		if (chip->driver_caps & AZX_DCAPS_SEPARATE_STREAM_TAG)
++			tag = ++stream_tags[dir];
++		else
++			tag = i + 1;
++		azx_add_stream(chip, &s->azx_dev, i, tag);
++	}
++
++	return 0;
++}
++
+ static int azx_first_init(struct azx *chip)
+ {
+ 	int dev = chip->dev_index;
+@@ -2000,7 +2032,7 @@ static int azx_first_init(struct azx *chip)
+ 	}
+ 
+ 	/* initialize streams */
+-	err = azx_init_streams(chip);
++	err = hda_init_streams(chip);
+ 	if (err < 0)
+ 		return err;
+ 
+diff --git a/sound/hda/controllers/intel.h b/sound/hda/controllers/intel.h
+index 2d1725f86ef1..4efb3b0fc2d8 100644
+--- a/sound/hda/controllers/intel.h
++++ b/sound/hda/controllers/intel.h
+@@ -9,9 +9,6 @@
+ struct hda_intel {
+ 	struct azx chip;
+ 
+-	/* for pending irqs */
+-	struct work_struct irq_pending_work;
+-
+ 	/* sync probing */
+ 	struct completion probe_wait;
+ 	struct delayed_work probe_work;
+@@ -35,4 +32,16 @@ struct hda_intel {
+ 	int probe_retry;	/* being probe-retry */
  };
  
- static DECLARE_BITMAP(probed_devs, SNDRV_CARDS);
++struct hda_intel_stream {
++	struct azx_dev azx_dev;
++
++	/* for pending irqs */
++	struct hda_intel *hda;
++	struct work_struct irq_pending_work;
++	bool irq_pending;
++};
++
++#define azx_dev_to_istream(azx_dev) \
++	container_of(azx_dev, struct hda_intel_stream, azx_dev)
++
+ #endif
 -- 
 2.54.0
 
