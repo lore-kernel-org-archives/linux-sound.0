@@ -1,148 +1,217 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD3F481FA2;
-	Tue, 19 May 2026 12:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DBBB4D2EFE
+	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 12:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779192273; cv=none; b=pgsq3mVnOm+EG+R2QBr1NXjpKbf7mkLI3DcHMbMdhd/5MhAxR5Tlzw2GcFM9Se8/RnnUl0NLkgdtp8X72tJZy01Ko/OtmYJEI0pUQWJWAAdhXJhm1LF0iDkDnC7vPsSZlSV9N6oF4jLZezdQETBzYsgvm1zfNT8FhBhEQEc2JeY=
+	t=1779192722; cv=none; b=pRHS2rVgxMSbE4h5QhfPFeCSXk5awGqFdfOifSU/GKYJpG/kHCfvSKqYqatJqHC5VA3A4AokFes6XLMOnR3tT0DJ7i3jULekbWeQrz2gxdqJzgl9DJTcywUMxrY8/GpvVNgndyOk03vS5BaEUf4Lp2R3ddyWt3VWf3MbInonxVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779192273; c=relaxed/simple;
-	bh=TaSRgb/sGjWgR1Luf1FYVU7mpj1M4W6Fsj/TXwhBr7w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o360Wq0g+NI95wHoIWNFDG38YhzrGr9nLLMuEzKp53s/vcJOYnYfnjs/aWP1Jdz5dbWlzKtPnlYUVQwVw5uFfmfhk2OQCVWflWerYvNooG5MOM6yFhWKRmcHndWNdyGWjcOCmqauWr+r/02OxbL0OQGOcEH82geX11KnO8Fc7R4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VJi5j0aa; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1779192722; c=relaxed/simple;
+	bh=sgHxSZBGatwbAHPbmt3UpumaR62O7OZ0oWEe7NBtLlk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GAzcN8MGKt2n5Ztv1Uop9+2EMgaD/qDJH0Xy3gBmb8po5qxVxDJ1tfuFin/6xz344CTXGFQWv9sKiGp8qS/VM3Slk5IpSi09Bc5/aVmoDwJIcwyHTms3/BeCHsDXlQwv52Ei28Drk1HNjMgvUT9WQJleN9VLrxB7qDBDIvmYz7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=momTeoVA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MNzxS6Bz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=momTeoVA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MNzxS6Bz; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VJi5j0aa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779192273; x=1810728273;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=TaSRgb/sGjWgR1Luf1FYVU7mpj1M4W6Fsj/TXwhBr7w=;
-  b=VJi5j0aaAcUDsiSHh082TKlzk+qVViYvw2rBUE065KTT7vG43t+3lXpu
-   NBugmkS5dpqnVx1hmESQgQq+Qu7uVLWS4mymJt515NgG0tT0kmQd2dUwq
-   3RzPsd3pAbUyN2vojehPrTlZPKdjXOmd/qFM1iFzdtwkNMjEFrQM/wYmm
-   JcW8TizEOJ0miyUM7DeVHhK2RoOhhbpoSyjdajP2zZuRo7MgHi/zpkbHH
-   21DIr54I2wLbwATq2dhr+riW1cmDaUvH7ZhTQqXz0nH5n7NOkpbpxmzE+
-   6T4htUkh2Comba538B6SNqtjeGBamtQnIr2VxviqnAvAH6BzonDFvyWi1
-   Q==;
-X-CSE-ConnectionGUID: 3k6qi4CWSsa4U1hnzPvEWQ==
-X-CSE-MsgGUID: zMp1o65aSQWL9Z771UMBWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="91172913"
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="91172913"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 05:04:32 -0700
-X-CSE-ConnectionGUID: QfbMbINgT2a4lxlXEXw9Ag==
-X-CSE-MsgGUID: HIMlsKDlSZKG3S7H4dTtbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="237135945"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO [10.245.244.163]) ([10.245.244.163])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 05:04:28 -0700
-Message-ID: <fbd56200-c854-4e6f-a6aa-d5ab7585403a@linux.intel.com>
-Date: Tue, 19 May 2026 15:04:38 +0300
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="momTeoVA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MNzxS6Bz";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="momTeoVA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MNzxS6Bz"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B097C6B458;
+	Tue, 19 May 2026 12:11:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779192719; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MczN08BkLD5yxEuZcqlrDivqEa75GkUZ3qKsg/zkbD0=;
+	b=momTeoVArI0IXDBGIlBOS4uoJrhRwPH9++ftsqI4b6XhhCeiFnw8x31IrX37qgJB1PGqNl
+	lR9LCfwpUIbt5O7584sXRSX3S7hqxHO/HRqk9K2+FjmeekCBxN6nTssjq4qAz9XHgSytVh
+	FLI5h/2NjN/sRJq5pU6y1BOZ5dIlg44=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779192719;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MczN08BkLD5yxEuZcqlrDivqEa75GkUZ3qKsg/zkbD0=;
+	b=MNzxS6BzZObmyH14NUZJLiD6mUu/TW4G88fXhz5LpPTK7+66fzkF64vCCGQdHc4Zuqh5Dl
+	Xccd0u4+D5WZuPBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=momTeoVA;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MNzxS6Bz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779192719; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MczN08BkLD5yxEuZcqlrDivqEa75GkUZ3qKsg/zkbD0=;
+	b=momTeoVArI0IXDBGIlBOS4uoJrhRwPH9++ftsqI4b6XhhCeiFnw8x31IrX37qgJB1PGqNl
+	lR9LCfwpUIbt5O7584sXRSX3S7hqxHO/HRqk9K2+FjmeekCBxN6nTssjq4qAz9XHgSytVh
+	FLI5h/2NjN/sRJq5pU6y1BOZ5dIlg44=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779192719;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MczN08BkLD5yxEuZcqlrDivqEa75GkUZ3qKsg/zkbD0=;
+	b=MNzxS6BzZObmyH14NUZJLiD6mUu/TW4G88fXhz5LpPTK7+66fzkF64vCCGQdHc4Zuqh5Dl
+	Xccd0u4+D5WZuPBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96C6C593AA;
+	Tue, 19 May 2026 12:11:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id sJ/SI49TDGp6agAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 19 May 2026 12:11:59 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Jake Lamberson <lamberson.jake@gmail.com>
+Subject: [PATCH 2/2] ALSA: hda/intel: Make sure to cancel irq-pending work at closing PCM stream
+Date: Tue, 19 May 2026 14:11:53 +0200
+Message-ID: <20260519121157.28477-2-tiwai@suse.de>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260519121157.28477-1-tiwai@suse.de>
+References: <20260519121157.28477-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: SOF: Use flexible allocation for control data
-To: Rosen Penev <rosenp@gmail.com>, linux-sound@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- "moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS"
- <sound-open-firmware@alsa-project.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20260519004749.627581-1-rosenp@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <20260519004749.627581-1-rosenp@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_THREE(0.00)[3];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Rspamd-Queue-Id: B097C6B458
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
 
+The pending irq work might be still floating while the assigned stream
+has been already closed, which may lead to UAF, especially when
+another async work for fasync is involved.
 
+For addressing this, extend the hda_controller_ops for allowing the
+extra cleanup procedure that is specific to the controller driver, and
+make sure to cancel and sync the pending irq work at each PCM close
+before releasing the resources.
 
-On 19/05/2026 03:47, Rosen Penev wrote:
-> Allocate IPC3 and IPC4 channel control data with kzalloc_flex()
-> for the trailing channel-value arrays instead of open-coding the
-> struct_size() allocation.
-> 
-> The existing scontrol size field continues to record the payload size
-> used by the control paths.
-> 
-> Assisted-by: Codex:GPT-5.5
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> ---
->  sound/soc/sof/ipc3-topology.c | 6 ++++--
->  sound/soc/sof/ipc4-topology.c | 6 ++++--
->  2 files changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/sound/soc/sof/ipc3-topology.c b/sound/soc/sof/ipc3-topology.c
-> index 8c37c0657315..9597f619fbe4 100644
-> --- a/sound/soc/sof/ipc3-topology.c
-> +++ b/sound/soc/sof/ipc3-topology.c
-> @@ -1826,7 +1826,8 @@ static int sof_ipc3_control_load_volume(struct snd_sof_dev *sdev, struct snd_sof
->  	/* init the volume get/put data */
->  	scontrol->size = struct_size(cdata, chanv, scontrol->num_channels);
->  
-> -	scontrol->ipc_control_data = kzalloc(scontrol->size, GFP_KERNEL);
-> +	scontrol->ipc_control_data = kzalloc_flex(*cdata, chanv,
-> +						  scontrol->num_channels);
+Reported-by: Jake Lamberson <lamberson.jake@gmail.com>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/hda/common/controller.c     |  2 ++
+ sound/hda/common/hda_controller.h |  2 ++
+ sound/hda/controllers/intel.c     | 20 ++++++++++++++++----
+ 3 files changed, 20 insertions(+), 4 deletions(-)
 
-I don't think this helps at all.
-We need to calculate the size anyways, so it is better to use that, no
-need to do double calculation.
-
->  	if (!scontrol->ipc_control_data)
->  		return -ENOMEM;
->  
-> @@ -1857,7 +1858,8 @@ static int sof_ipc3_control_load_enum(struct snd_sof_dev *sdev, struct snd_sof_c
->  	/* init the enum get/put data */
->  	scontrol->size = struct_size(cdata, chanv, scontrol->num_channels);
->  
-> -	scontrol->ipc_control_data = kzalloc(scontrol->size, GFP_KERNEL);
-> +	scontrol->ipc_control_data = kzalloc_flex(*cdata, chanv,
-> +						  scontrol->num_channels);
->  	if (!scontrol->ipc_control_data)
->  		return -ENOMEM;
->  
-> diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-> index 76812d8fb567..9fd04a7857f6 100644
-> --- a/sound/soc/sof/ipc4-topology.c
-> +++ b/sound/soc/sof/ipc4-topology.c
-> @@ -2863,7 +2863,8 @@ static int sof_ipc4_control_load_volume(struct snd_sof_dev *sdev, struct snd_sof
->  	scontrol->size = struct_size(control_data, chanv, scontrol->num_channels);
->  
->  	/* scontrol->ipc_control_data will be freed in sof_control_unload */
-> -	scontrol->ipc_control_data = kzalloc(scontrol->size, GFP_KERNEL);
-> +	scontrol->ipc_control_data = kzalloc_flex(*control_data, chanv,
-> +						  scontrol->num_channels);
->  	if (!scontrol->ipc_control_data)
->  		return -ENOMEM;
->  
-> @@ -2905,7 +2906,8 @@ static int sof_ipc4_control_load_enum(struct snd_sof_dev *sdev, struct snd_sof_c
->  	scontrol->size = struct_size(control_data, chanv, scontrol->num_channels);
->  
->  	/* scontrol->ipc_control_data will be freed in sof_control_unload */
-> -	scontrol->ipc_control_data = kzalloc(scontrol->size, GFP_KERNEL);
-> +	scontrol->ipc_control_data = kzalloc_flex(*control_data, chanv,
-> +						  scontrol->num_channels);
->  	if (!scontrol->ipc_control_data)
->  		return -ENOMEM;
->  
-
+diff --git a/sound/hda/common/controller.c b/sound/hda/common/controller.c
+index 89e63a53d683..a847546753db 100644
+--- a/sound/hda/common/controller.c
++++ b/sound/hda/common/controller.c
+@@ -97,6 +97,8 @@ static int azx_pcm_close(struct snd_pcm_substream *substream)
+ 
+ 	trace_azx_pcm_close(chip, azx_dev);
+ 	scoped_guard(mutex, &chip->open_mutex) {
++		if (chip->ops->pcm_close)
++			chip->ops->pcm_close(chip, azx_dev);
+ 		azx_release_device(azx_dev);
+ 		if (hinfo->ops.close)
+ 			hinfo->ops.close(hinfo, apcm->codec, substream);
+diff --git a/sound/hda/common/hda_controller.h b/sound/hda/common/hda_controller.h
+index bc8ee4cc2401..38227f82e704 100644
+--- a/sound/hda/common/hda_controller.h
++++ b/sound/hda/common/hda_controller.h
+@@ -78,6 +78,8 @@ struct hda_controller_ops {
+ 	int (*position_check)(struct azx *chip, struct azx_dev *azx_dev);
+ 	/* enable/disable the link power */
+ 	int (*link_power)(struct azx *chip, bool enable);
++	/* additional hook for PCM */
++	void (*pcm_close)(struct azx *chip, struct azx_dev *azx_dev);
+ };
+ 
+ struct azx_pcm {
+diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
+index 01477bd4fcb9..4b03c64e72ab 100644
+--- a/sound/hda/controllers/intel.c
++++ b/sound/hda/controllers/intel.c
+@@ -761,16 +761,27 @@ static void azx_irq_pending_work(struct work_struct *work)
+ }
+ 
+ /* clear irq_pending flags and assure no on-going workq */
++static void hda_intel_stream_clear_irq_pending(struct azx_dev *azx_dev)
++{
++	struct hda_intel_stream *istream = azx_dev_to_istream(azx_dev);
++
++	istream->irq_pending = false;
++	cancel_work_sync(&istream->irq_pending_work);
++}
++
++/* called at PCM close */
++static void hda_intel_pcm_close(struct azx *chip, struct azx_dev *azx_dev)
++{
++	hda_intel_stream_clear_irq_pending(azx_dev);
++}
++
+ static void azx_clear_irq_pending(struct azx *chip)
+ {
+ 	struct hdac_bus *bus = azx_bus(chip);
+ 	struct hdac_stream *s;
+ 
+ 	list_for_each_entry(s, &bus->stream_list, list) {
+-		struct azx_dev *azx_dev = stream_to_azx_dev(s);
+-		struct hda_intel_stream *istream = azx_dev_to_istream(azx_dev);
+-		istream->irq_pending = false;
+-		cancel_work_sync(&istream->irq_pending_work);
++		hda_intel_stream_clear_irq_pending(stream_to_azx_dev(s));
+ 	}
+ }
+ 
+@@ -2131,6 +2142,7 @@ static const struct dmi_system_id driver_denylist_dmi[] = {
+ static const struct hda_controller_ops pci_hda_ops = {
+ 	.disable_msi_reset_irq = disable_msi_reset_irq,
+ 	.position_check = azx_position_check,
++	.pcm_close = hda_intel_pcm_close,
+ };
+ 
+ static DECLARE_BITMAP(probed_devs, SNDRV_CARDS);
 -- 
-Péter
+2.54.0
 
