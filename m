@@ -1,82 +1,82 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D6C4A2E1E
-	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 13:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1AD4E3765
+	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 13:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779196541; cv=none; b=nB4uQ81iWPxu6vhhcgMLPOyw4uWkrAqLPouZJHuU/STlgUgONYtlwZRc/KPd4B5TqyEzIBr5w9woXBsEFnkH3RFHs4US9ztrhaeMrfph/UUWyd99OA/QHHDlbcvXF4J7J3ANpEc6BZ/x+oAOYTZLqQ3AsYogY0aCTxcO9aJVMbY=
+	t=1779196541; cv=none; b=dbr2MkV8Gl3fsELaMIbKS+n0CLqLw1PrNqVTqqeeuc9fsIY39uUBDvyFgxUxZOTz8i3nIFrNoH7NYJNqhbU0FCHp9PMOQQuZKDyzPDZSjCB610bcBgWyVnXC8yCyy4+Cq1AMAOzwMfyuHTe98r/eSPcC5BhbRaqzCq0vF5oI0Fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779196541; c=relaxed/simple;
-	bh=BTj2KL+dLb4ULPkUGDrOO4gjDvy9oKLU6oqhZSB3bqQ=;
+	bh=Eojsjq92nlo2AdgTwb8BLdVR/DF5UkFPWwvqnE41UZQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Bx8MJgDzCxIfTMfLIGDl00RsezctRd2b4SSHH5CTY1BBBi1GQFYKmkflhrZTRjN6Naw57RO1m00cg7SRNwwFanGNwk2RX32PkVJ+OSk+7UBYHIEjAJJrP6rr9J8UyidIVwL5lAUzNeqwPh45AsxS5UsDQRJWXgvIONJSQs96OQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FBxxob1d; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=M1ghoson; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version; b=UT8JVF8tqgiPB6WSEBrzjlYqcnJFVROzj1NYdvHXvAZpj09QRHJDQJJD1M4P1X3O1OsD0s1e88tQ0Vfv3nyKBvJsLLKuURIqAfJv9IT5mFkzbObfUH8YwbFHb5koppsANL2gT9aJmKr9io32v4JH0c2qmV25OYOVaHWXYtu+2RU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Rg81kQNV; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gMpEniO4; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FBxxob1d";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="M1ghoson"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64J9iEwf254021
-	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 13:15:37 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Rg81kQNV";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gMpEniO4"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64J7hFXD1146425
+	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 13:15:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=lumGDobfStR
-	XGabvnziVfxbEzSmJpltC0nS/hMOdM+k=; b=FBxxob1dyg8PzHlLChWpH0OBp1C
-	1YVB1Khdbnr3gdA1IGaSzDeZoGTm8ahca0/B9BTYFeZ29JeQEWLIIrxgvog9FheY
-	46u6EX7W+G52ShbWQ7kB7dBFjw5I1ytrpZGGFTtWRkvaJjbSfHkrBnKaYM/OZt4X
-	UQVWbzYqPWCqztQy9rJeUMTfMf+KwRLkFz2UZtYoJjVXM3zV/NOurMP6NSNo8k42
-	4B6NBCrxwrs+VwYFspW9EkMBmcdpOWWfyy2Yn8aAzAi1jNd4DfoobJC64VynA9fX
-	ftMYuUDIoLUID9NXCk2ksmelsc0/6DNTWMP4yWRWzO0otqQiEb5JAYw1HIw==
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e8h87t11n-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=O1fqH3pRoYY
+	kfZnh9hO2XreKl13dtCV/1mBNYELIMnM=; b=Rg81kQNVVa4d8SXwffeLB00IWLu
+	crCC9yfqYFerb6B3CG8naD4gUrju2bhuKUnNJho7qJGAPRR3/8Pmgm7mB4RSzO0z
+	JMDBlsJdGDw3nCGwS0/UDvzBN3vTY3CkpFi49LoD+UUvsyL0roLIKwWDFZ94YEDy
+	50lcfWUuTE2ZdDzV/7UsVU0j0Fhuhd5OUeBBVDje+o3/OYP2vi307oHkBDnJXO+i
+	p3fHLWOyvVf5814lI9xglz0yq3jPpYksKcVaWp99zwUn5bVRkczDL0tgmvjNFior
+	Ynw/vOWBogkPj8cJsP1tMa58KDquSLqk0ViyHJU+SVJizYZEfr6Ak6/BNUA==
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com [209.85.221.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e8e7ejmj9-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 13:15:36 +0000 (GMT)
-Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-95cf2f6a8d6so5679592241.1
-        for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 06:15:36 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 13:15:38 +0000 (GMT)
+Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-575958d4e01so9737368e0c.3
+        for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 06:15:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779196536; x=1779801336; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1779196537; x=1779801337; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lumGDobfStRXGabvnziVfxbEzSmJpltC0nS/hMOdM+k=;
-        b=M1ghosonigvvQL5zwf/GbKtsfQzS0wVSpW+L4ZH9mV3YqktUvUJF+rwt0P8rxz/4Hd
-         8pgyLotIu9DCATw/I9IFKBue+eKTe/HfQqp8ylwLA9Lhe+AWzwEI8JCq1BM0CWsd2zbn
-         e5rsiaETgrbRcrpcJdNNkHslxygJuxkXM47Wekco3diXt8wapDxc2vIilYKZqek0yRbY
-         su+j6Bd+yyN1GdUxKyfli1TF8BSZMAPHqBwIYOeOow3XBlPmhb4LEAgsqqePH9ltwV0w
-         D5ZsjSqTHLrlFYduRuT4u22Rg7eUERtsFuPA8+MXef4WAqyDDX+0XyERH2WsVwhBRbFJ
-         hEVA==
+        bh=O1fqH3pRoYYkfZnh9hO2XreKl13dtCV/1mBNYELIMnM=;
+        b=gMpEniO4V6n8Tuy62iY/U8AGzLKotorWeviI66v9eGeGv9G/WOjKNcCUXNG6rBdr+B
+         p5IAk94tzyC2m6BUfp54BuQGjCwQ4Bu+ioD+Hz/1u8begDnoNymfuJl/RfNUlmb5xdZi
+         OSHy9c387YG8s99WvutVkGz5OKxJyduA+EZsznM9A4w/75NzmWpfJhxOSbtYyP+3XIq/
+         Mrz5cETi7eKAKNa+LmfZvUsFxocQg/lu7mh3YnDgE5/nIni0tsBMvoCa/YNw3vhZueq1
+         kmaQKHHLVEQXdqtlnSGHgt7LMV2119QUWd81Wi+Z/H5XrshY1AILemnLYglw7LiskAsR
+         1yfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779196536; x=1779801336;
+        d=1e100.net; s=20251104; t=1779196537; x=1779801337;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=lumGDobfStRXGabvnziVfxbEzSmJpltC0nS/hMOdM+k=;
-        b=L24MzuKrbtBmvbgyfcZXclrFvHlv3bHdINxpP33U0y6fhU/nDVIV9agvqtN6wKR5JD
-         tDpTd02Y6q+kMVvTiZhuwgEGkudLqSbfKEv6QqVLXZlH9Fs5oJPmsMTLX5q2gzj2peUR
-         krv6I8NDa9rDgLoqVDmOmT1GSKZ6BdXA2ttecMRcoCFfkRDNV67bpJmHOWfJZ2sto/+Q
-         av7XPeisSe2iCcNrJIB1zVmck3Q6ebJdLnwNZfKU5Kt7ap7XlXtwDZY02TKgM1KN40OQ
-         HsdI/IYoJtiI4OyA6touv5N1H/rytcQ8JexpuftM6SEWAdiu8OFqTmCzG0BDKbOqmU9K
-         FjRw==
-X-Forwarded-Encrypted: i=1; AFNElJ8Oi8sC9EkBe0vdvw8Idy08WPgPAhCOAq+9SQlzmW182IU1Z0QCf/GD9n1Ub+LjteQGiG8UKWwTV7Ti9A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdSTsoM3myiwGQ+tFCxEyxUbZIauYolKZH5kzLYZnFdXP3xF/h
-	6GuBrdArEeYVcbqqWxUizo0xZtZhsuXq43U5Auz8KgjtHGoNbnEsVAK7KJCyzNsQriMZbUjd1XZ
-	QllHYc4wRz0h9lb90VOPrvo6F2eDbyiQBulQqiiKpCopfX4SIhyika+dwSThxKMhVyw==
-X-Gm-Gg: Acq92OFpj2txLJcJkRNvHclG4BrM4UovF01xxFBByQ9adgE0YF/hH+r3zmD0L1dyvt6
-	vUd/3i6+5fXYuLSC/VGIhRRkHSk9gm6JPaWCjAtcvJiDMrgd4eWOT1HghX6uqx7ze9m2iN0RdEt
-	j3PC6CFnCWjaQTvHw8+DwQTaqLyIJ0ouEAgBr7qsMP4H9ptOOKn9+K2HKCXyLqKXum6kyqirfr1
-	dR75Dq+g8GWk+2fbGmi7G2kYFQLpGZubsRhoekIEsWfjfWR17yFGIERhHGbuoxyp83Zo5s+c37n
-	V9rPqhf1rqrbtvVNBkyV1drsUNtlrajYfj26RcIV+tXo5uOn9hXoVzwXnPEaPl32YAEMjNsk26M
-	lXkvh42HT5cgTlOA/XRrRyEzUPqZfB2CwqV0c/wz9+B75DwfdlRcRVIdsR8rbBAkJpA==
-X-Received: by 2002:a05:6122:3384:b0:575:eaa3:2a95 with SMTP id 71dfb90a1353d-575f582411cmr9803019e0c.5.1779196535984;
-        Tue, 19 May 2026 06:15:35 -0700 (PDT)
-X-Received: by 2002:a05:6122:3384:b0:575:eaa3:2a95 with SMTP id 71dfb90a1353d-575f582411cmr9802963e0c.5.1779196535472;
-        Tue, 19 May 2026 06:15:35 -0700 (PDT)
+        bh=O1fqH3pRoYYkfZnh9hO2XreKl13dtCV/1mBNYELIMnM=;
+        b=auHqK4ocfKtrJi2WBUGs2OYOHTCYkBFFyyrsKP8CL2GjG7BrImWl7qQNEQ9oyPlgDg
+         nPhYONdtDHp+uvp1dgs5iZ4F2/P9RW3VUrJwgqhA5r8rWzr5+/Do0TD96421zxXDQimU
+         7Pzoge6UCCd52+fHX/wOg351yajrQR/SWpD3aEMOfQlzGs3GGEUEJTdk7LI+5UgbnhDP
+         5yMLkzSnDDqzlgg1+KRvxnf+iXJcEIZ/l9atmmxEbKHz5rW0DCwrm2yWyIo38Mrfnzdf
+         RLY72+SHj2U8GM8JObwVUqPGkMKkaofXkdEYYHgbrSjN/lBQtkOay5x2fhPpCmtlkCdY
+         ELzg==
+X-Forwarded-Encrypted: i=1; AFNElJ/AJL7+0NpG+huhZNLRazaDIDThF4gfIr3+2JZF4TxCphND8OaZcPbpF9tZZZl/fAXX7pd+EQTwJuOmlg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOwqVd8HlssKRzx1hCxGOtDbEfkdkoaRCZ1MKsOlGkF5LQzFu0
+	MQVsoP5bys4l0Wc4dPi+Jpspln8e2cHP5cV6IaycrQFw1s/8eEFNgvq3KLcuWgI7GJW/b6vIArT
+	wGfb2g1uRPQFdNHaVNaEGs1tJ23x062g05jmVuIeY0qebz8b48eyMCENwmBYMIqq/MA==
+X-Gm-Gg: Acq92OEEdT+I2GGKxbU0UyiT0xHO/v++qdKbHYWkzeBOOKXIf0RRvlEgam/1DcCUWT7
+	uhDArxS7KsW6wwCGxLss/7B+P0dQWq+qPu6vijjVZV40BtQ8FQioWQsBRDg0GoWEyj4X7qeB52q
+	3Iama1n7x63O5t442R1C8PeqTlydZKSPoQJTj/OmYgHijWvydZNB2oCQ33PwNWrL14Tmiw2tBzG
+	1Ht9rX5MO6R56A4orLolOVO/eNN4TRyyVzuo5TE0S9uiQ5NqZMcag+reQ62FoSqSmRcGJ3iIuru
+	508gmdEP1fGqgvTJudhrwu/xqBOvgbgyskL/xFvFtQ8rAp+BfKTPykV9B67+K/iI+vItYnqwojl
+	lvAL1nshvzI0QTSuASqKNxUA1ovhP1adiA8SkNZbKfOOXHEgj5cVACy8=
+X-Received: by 2002:a05:6122:4f9f:b0:56f:6add:9029 with SMTP id 71dfb90a1353d-5760be34e4amr10646320e0c.1.1779196537235;
+        Tue, 19 May 2026 06:15:37 -0700 (PDT)
+X-Received: by 2002:a05:6122:4f9f:b0:56f:6add:9029 with SMTP id 71dfb90a1353d-5760be34e4amr10646222e0c.1.1779196536748;
+        Tue, 19 May 2026 06:15:36 -0700 (PDT)
 Received: from localhost.localdomain ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0a1aeafsm48018609f8f.23.2026.05.19.06.15.34
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0a1aeafsm48018609f8f.23.2026.05.19.06.15.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 06:15:34 -0700 (PDT)
+        Tue, 19 May 2026 06:15:36 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 To: broonie@kernel.org
 Cc: srini@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
@@ -87,9 +87,9 @@ Cc: srini@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
         linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH 4/6] ASoC: qcom: audioreach: Add support for shared memory push/pull modules
-Date: Tue, 19 May 2026 13:15:25 +0000
-Message-ID: <20260519131527.4002526-5-srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH 5/6] ASoC: qcom: q6apm: add watermark event support
+Date: Tue, 19 May 2026 13:15:26 +0000
+Message-ID: <20260519131527.4002526-6-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260519131527.4002526-1-srinivas.kandagatla@oss.qualcomm.com>
 References: <20260519131527.4002526-1-srinivas.kandagatla@oss.qualcomm.com>
@@ -100,491 +100,230 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: gcJSdVZigjBWI9FsDfDyKhSERswDeX84
-X-Proofpoint-ORIG-GUID: gcJSdVZigjBWI9FsDfDyKhSERswDeX84
-X-Authority-Analysis: v=2.4 cv=a9sAM0SF c=1 sm=1 tr=0 ts=6a0c6278 cx=c_pps
- a=KB4UBwrhAZV1kjiGHFQexw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+X-Authority-Analysis: v=2.4 cv=Rt316imK c=1 sm=1 tr=0 ts=6a0c627a cx=c_pps
+ a=wuOIiItHwq1biOnFUQQHKA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
  a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8
- a=eJp2UY_-qWcN76HEE-cA:9 a=o1xkdb1NAhiiM49bd1HK:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE5MDEzMSBTYWx0ZWRfXyJ5hBHboBVwT
- K9EOomrpSE5IQ8C4xBOzJr+2wmDXdlIxzNOk+/qiOjf11NXrrxwilkFH/LkefRfndeDBYod7uZj
- U+8czu1TlWPsL3BerVdekBTi+9pnuQwkLMkg4WxKB0vgwLvrKSVQ6x3Ia9RXabEHn2RHdw3yYrd
- cSDyoy+SWE9hFDLIeddLnv+cfdEV8QA1/k4myBDY2B7W4wrIpbrGbRSEOYDZ4Ep+UJu+D4DKb6b
- H83XCGJXioTCtBclMcrjadTaQPNHYIpvEA01hehKHK7JWcKLXPl63s/n5rcxS4aZOXLCmw9ovSG
- yCExwde4SooSrM004fNlr398SioikkqjBASbimooCg2ZWDQgDrox+GUxBF9nmLzVMO+/RCF64u9
- P1cmdhVhORCphZ3YNdKvCTx9c6iWdKmaqXsB29Yus/ABoZAiq6AoCgrfH+B6Q36iwejhrzZw2AM
- riwwfb5TX7bWJ945/cw==
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8
+ a=cig4ayqGPX1rv0pnnd0A:9 a=XD7yVLdPMpWraOa8Un9W:22
+X-Proofpoint-ORIG-GUID: V4GuvZWxmvF_03UzOMXUQNr3p_SuRrVy
+X-Proofpoint-GUID: V4GuvZWxmvF_03UzOMXUQNr3p_SuRrVy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE5MDEzMSBTYWx0ZWRfX7iIJNxy2DLiR
+ duqzv2pD0HucqzuN2kR3sm62sVLFvJL2VVdtkjL7TTSJkTPqfeHMPsKmIB1jBEpBuq0cCMVJBtM
+ PqWekeW0n+B3kf5r0zXuIT4LbDY4LdEoqpYMISuIOLvRTapW/xTrfAQmsN2eE4yT71ENmWXTSyC
+ fsvOPGv1d7VXBksXetuMpduehpLYYsiREILntGHlccCWLS3TDYeZ9XhSaLD5QnV+sJYpqzqaXzP
+ ivHIG5dZ4asZ6ufjDp2i81Mmt3gq4jyImprLUdLc7xb7C0eJmjzFCNPuFxwOqqfUKl+qyP3AI0n
+ 0UOjPeByc17qw+zwP3vbpnQQdWu3+d3aYjkA4YmI2kEYa74AJ6kvzB9lFnzovqErnkXBOwDIjJt
+ yChlUVRJe00pz6OasEluIVZLMv/+L7SmD26iQg12QxP/inKvoQ4zXuQA5MUFNyhpG2HDqxqU8US
+ f986QXZSLA06v2V3b1g==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-05-19_03,2026-05-18_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 impostorscore=0 adultscore=0 clxscore=1015
- lowpriorityscore=0 bulkscore=0 suspectscore=0 spamscore=0 phishscore=0
+ priorityscore=1501 malwarescore=0 phishscore=0 spamscore=0 impostorscore=0
+ lowpriorityscore=0 clxscore=1015 suspectscore=0 adultscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605190131
 
-Push-pull graphs use MODULE_ID_SH_MEM_PULL_MODE for playback and
-MODULE_ID_SH_MEM_PUSH_MODE for capture instead of the legacy WR/RD shared
-memory endpoints. Detect these modules when opening the graph, cache their
-instance ID in graph->shm_iid, and use them for media format setup.
+Push-pull shared memory modules can report watermark events when the DSP
+read/write index reaches configured circular buffer levels.
 
-Also add support for mapping the position buffer required by push-pull mode
-and configuring the DSP with circular buffer and position buffer addresses.
+Add support for registering watermark levels with the shared memory module
+and route the resulting module event to q6apm clients using a new
+APM_CLIENT_EVENT_WATERMARK_EVENT event.
 
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 ---
- sound/soc/qcom/qdsp6/audioreach.c |  39 ++++++++
- sound/soc/qcom/qdsp6/audioreach.h |  48 +++++++++
- sound/soc/qcom/qdsp6/q6apm.c      | 158 +++++++++++++++++++++++++-----
- sound/soc/qcom/qdsp6/q6apm.h      |   9 ++
- 4 files changed, 228 insertions(+), 26 deletions(-)
+ sound/soc/qcom/qdsp6/audioreach.c | 36 ++++++++++++++++++++++
+ sound/soc/qcom/qdsp6/audioreach.h | 50 +++++++++++++++++++++++++++++++
+ sound/soc/qcom/qdsp6/q6apm.c      | 19 ++++++++++++
+ sound/soc/qcom/qdsp6/q6apm.h      |  2 ++
+ 4 files changed, 107 insertions(+)
 
 diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
-index 5b73f1d81c9b..c984b12409dd 100644
+index c984b12409dd..e6e9eb2e85aa 100644
 --- a/sound/soc/qcom/qdsp6/audioreach.c
 +++ b/sound/soc/qcom/qdsp6/audioreach.c
-@@ -1342,6 +1342,7 @@ int audioreach_set_media_format(struct q6apm_graph *graph,
- 		rc = audioreach_i2s_set_media_format(graph, module, cfg);
- 		break;
- 	case MODULE_ID_WR_SHARED_MEM_EP:
-+	case MODULE_ID_SH_MEM_PULL_MODE:
- 		rc = audioreach_shmem_set_media_format(graph, module, cfg);
- 		break;
- 	case MODULE_ID_GAIN:
-@@ -1401,6 +1402,44 @@ void audioreach_graph_free_buf(struct q6apm_graph *graph)
+@@ -1118,6 +1118,42 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
+ 	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
  }
- EXPORT_SYMBOL_GPL(audioreach_graph_free_buf);
  
-+int audioreach_setup_push_pull(struct q6apm_graph *graph, phys_addr_t bphys,
-+				phys_addr_t pphys, uint32_t mem_map_handle,
-+				uint32_t pos_buf_mem_map_handle, uint32_t size)
++int audioreach_shmem_register_event(struct q6apm_graph *graph, int bytes, int num_levels)
 +{
-+	struct param_id_sh_mem_pull_push_mode_cfg *cfg;
-+	struct apm_module_param_data *param_data;
-+	int payload_size;
++	struct apm_module_register_events *event;
++	struct event_cfg_sh_mem_pull_push_mode_watermark_t *level;
++	int i, payload_size;
 +	struct gpr_pkt *pkt __free(kfree) = NULL;
 +	void *p;
 +
-+	payload_size = sizeof(*cfg) + APM_MODULE_PARAM_DATA_SIZE;
-+	pkt = audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
++	if (num_levels <= 0 || bytes <= 0)
++		return -EINVAL;
++
++	payload_size = sizeof(*event) + sizeof(*level) + num_levels * sizeof(uint32_t);
++
++	pkt = audioreach_alloc_cmd_pkt(payload_size, APM_CMD_REGISTER_MODULE_EVENTS, 0,
++				     graph->port->id, graph->shm_iid);
 +	if (IS_ERR(pkt))
 +		return PTR_ERR(pkt);
 +
 +	p = (void *)pkt + GPR_HDR_SIZE + APM_CMD_HDR_SIZE;
 +
-+	param_data = p;
-+	param_data->module_instance_id = graph->shm_iid;
-+	param_data->error_code = 0;
-+	param_data->param_id = PARAM_ID_SH_MEM_PULL_PUSH_MODE_CFG;
-+	param_data->param_size = payload_size - APM_MODULE_PARAM_DATA_SIZE;
++	event = p;
++	event->module_instance_id = graph->shm_iid;
++	event->event_id = EVENT_ID_SH_MEM_PULL_PUSH_MODE_WATERMARK;
++	event->is_register = 1;
++	event->event_config_payload_size = sizeof(*level) + num_levels * sizeof(uint32_t);
++	p += sizeof(*event);
++	level = p;
++	level->num_water_mark_levels = num_levels;
 +
-+	p = p + APM_MODULE_PARAM_DATA_SIZE;
-+	cfg = p;
++	for (i = 0; i < num_levels; i++)
++		level->level[i] = (i + 1) * bytes;
 +
-+	cfg->shared_circ_buf_addr_lsw = lower_32_bits(bphys);
-+	cfg->shared_circ_buf_addr_msw = upper_32_bits(bphys);
-+	cfg->shared_circ_buf_size = size;
-+	cfg->circ_buf_mem_map_handle = mem_map_handle;
-+	cfg->shared_pos_buf_addr_lsw = lower_32_bits(pphys);
-+	cfg->shared_pos_buf_addr_msw = upper_32_bits(pphys);
-+	cfg->pos_buf_mem_map_handle = pos_buf_mem_map_handle;
-+
-+	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
++	return audioreach_graph_send_cmd_sync(graph, pkt, 0);
 +}
-+EXPORT_SYMBOL_GPL(audioreach_setup_push_pull);
++EXPORT_SYMBOL_GPL(audioreach_shmem_register_event);
 +
- int audioreach_shared_memory_send_eos(struct q6apm_graph *graph)
- {
- 	struct data_cmd_wr_sh_mem_ep_eos *eos;
+ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
+ 					     const struct audioreach_module *module,
+ 					     const struct audioreach_module_config *mcfg)
 diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
-index 6859770b38a6..0504e8abc8e2 100644
+index 0504e8abc8e2..50c7aa9a82aa 100644
 --- a/sound/soc/qcom/qdsp6/audioreach.h
 +++ b/sound/soc/qcom/qdsp6/audioreach.h
-@@ -16,6 +16,8 @@ struct q6apm_graph;
- #define MODULE_ID_PCM_CNV		0x07001003
- #define MODULE_ID_PCM_ENC		0x07001004
- #define MODULE_ID_PCM_DEC		0x07001005
-+#define MODULE_ID_SH_MEM_PULL_MODE	0x07001006
-+#define MODULE_ID_SH_MEM_PUSH_MODE	0x07001007
- #define MODULE_ID_PLACEHOLDER_ENCODER	0x07001008
- #define MODULE_ID_PLACEHOLDER_DECODER	0x07001009
- #define MODULE_ID_I2S_SINK		0x0700100A
-@@ -710,6 +712,46 @@ struct param_id_placeholder_real_module_id {
- 	uint32_t real_module_id;
- } __packed;
- 
+@@ -62,10 +62,59 @@ struct q6apm_graph;
+ #define APM_CMD_GET_CFG				0x01001007
+ #define APM_CMD_SHARED_MEM_MAP_REGIONS		0x0100100C
+ #define APM_CMD_SHARED_MEM_UNMAP_REGIONS	0x0100100D
++#define APM_CMD_REGISTER_MODULE_EVENTS		0x0100100E
++#define APM_EVENT_MODULE_TO_CLIENT              0x03001000
 +
-+#define PARAM_ID_SH_MEM_PULL_PUSH_MODE_CFG	0x0800100A
+ #define APM_CMD_RSP_SHARED_MEM_MAP_REGIONS	0x02001001
++#define APM_MMAP_TOKEN_GID_MASK			GENMASK(15, 0)
++#define APM_MMAP_TOKEN_MAP_TYPE_POS_BUF		BIT(16)
++#define APM_MMAP_TOKEN_MAP_TYPE_SHIFT		16
 +
-+/**
-+ * struct param_id_sh_mem_pull_push_mode_cfg - Shared memory push/pull config
-+ * @shared_circ_buf_addr_lsw: Lower 32 bits of the circular buffer address.
-+ * @shared_circ_buf_addr_msw: Upper 32 bits of the circular buffer address.
-+ * @shared_circ_buf_size: Circular buffer size in bytes.
-+ * @circ_buf_mem_map_handle: Circular buffer memory map handle.
-+ * @shared_pos_buf_addr_lsw: Lower 32 bits of the position buffer address.
-+ * @shared_pos_buf_addr_msw: Upper 32 bits of the position buffer address.
-+ * @pos_buf_mem_map_handle: Position buffer memory map handle.
-+ */
-+struct param_id_sh_mem_pull_push_mode_cfg {
-+	uint32_t shared_circ_buf_addr_lsw;
-+	uint32_t shared_circ_buf_addr_msw;
-+	uint32_t shared_circ_buf_size;
-+	uint32_t circ_buf_mem_map_handle;
-+	uint32_t shared_pos_buf_addr_lsw;
-+	uint32_t shared_pos_buf_addr_msw;
-+	uint32_t pos_buf_mem_map_handle;
-+} __packed;
+ #define APM_CMD_RSP_GET_CFG			0x02001000
+ #define APM_CMD_CLOSE_ALL			0x01001013
+ #define APM_CMD_REGISTER_SHARED_CFG		0x0100100A
++#define EVENT_ID_SH_MEM_PULL_PUSH_MODE_WATERMARK	0x0800101C
 +
 +/**
-+ * struct sh_mem_pull_push_mode_position_buffer - Shared position buffer
-+ * @frame_counter: Synchronization counter.
-+ * @index: Current read/write index in bytes.
-+ * @timestamp_us_lsw: Lower 32 bits of the timestamp in microseconds.
-+ * @timestamp_us_msw: Upper 32 bits of the timestamp in microseconds.
++ * struct event_cfg_sh_mem_pull_push_mode_watermark_t - Watermark config
++ * @num_water_mark_levels: Number of watermark levels.
++ * @level: Watermark levels.
 + *
-+ * The frame counter should be read before and after the other fields to
-+ * ensure the DSP did not update them while they were being read.
++ * If @num_water_mark_levels is zero, no watermark levels are specified
++ * and watermark events are not supported.
 + */
-+struct sh_mem_pull_push_mode_position_buffer {
-+	uint32_t frame_counter;
-+	uint32_t index;
-+	uint32_t timestamp_us_lsw;
-+	uint32_t timestamp_us_msw;
++struct event_cfg_sh_mem_pull_push_mode_watermark_t {
++	uint32_t num_water_mark_levels;
++	uint32_t level[];
 +} __packed;
 +
- /* Graph */
- struct audioreach_connection {
- 	/* Connections */
-@@ -723,8 +765,10 @@ struct audioreach_connection {
- struct audioreach_graph_info {
- 	int id;
- 	uint32_t mem_map_handle;
-+	uint32_t pos_buf_mem_map_handle;
- 	uint32_t num_sub_graphs;
- 	struct list_head sg_list;
-+	bool is_push_pull_mode;
- 	/* DPCM connection from FE Graph to BE graph */
- 	uint32_t src_mod_inst_id;
- 	uint32_t src_mod_op_port_id;
-@@ -855,5 +899,9 @@ int audioreach_send_u32_param(struct q6apm_graph *graph,
- 			      uint32_t param_id, uint32_t param_val);
- int audioreach_compr_set_param(struct q6apm_graph *graph,
- 			       const struct audioreach_module_config *mcfg);
-+int audioreach_setup_push_pull(struct q6apm_graph *graph, phys_addr_t bphys,
-+				phys_addr_t pphys, uint32_t mem_map_handle,
-+				uint32_t pos_buf_mem_map_handle, uint32_t size);
-+int audioreach_map_memory_position_buffer(struct q6apm_graph *graph, unsigned int dir);
++/**
++ * struct apm_module_register_events - Register or unregister module events
++ * @module_instance_id: Module instance identifier.
++ * @event_id: Module event identifier.
++ * @is_register: 1 to register the event, 0 to unregister it.
++ * @error_code: Error code for out-of-band command mode.
++ * @event_config_payload_size: Event configuration payload size in bytes.
++ * @reserved: Reserved for alignment; must be zero.
++ */
++struct apm_module_register_events {
++	uint32_t module_instance_id;
++	uint32_t event_id;
++	uint32_t is_register;
++	uint32_t error_code;
++	uint32_t event_config_payload_size;
++	uint32_t reserved;
++} __packed;
++
++/**
++ * struct apm_module_event - Module event descriptor
++ * @event_id: Module event identifier.
++ * @event_payload_size: Event payload size in bytes.
++ */
++struct apm_module_event {
++	uint32_t event_id;
++	uint32_t event_payload_size;
++} __packed;
  
+ #define APM_MEMORY_MAP_SHMEM8_4K_POOL		3
+ 
+@@ -904,4 +953,5 @@ int audioreach_setup_push_pull(struct q6apm_graph *graph, phys_addr_t bphys,
+ 				uint32_t pos_buf_mem_map_handle, uint32_t size);
+ int audioreach_map_memory_position_buffer(struct q6apm_graph *graph, unsigned int dir);
+ 
++int audioreach_shmem_register_event(struct q6apm_graph *graph, int bytes, int num_levels);
  #endif /* __AUDIOREACH_H__ */
 diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
-index 6ae7d1645dce..9235089c1b46 100644
+index 9235089c1b46..2e5b25b8d00f 100644
 --- a/sound/soc/qcom/qdsp6/q6apm.c
 +++ b/sound/soc/qcom/qdsp6/q6apm.c
-@@ -186,20 +186,27 @@ int q6apm_graph_media_format_shmem(struct q6apm_graph *graph,
+@@ -557,6 +557,7 @@ static int graph_callback(const struct gpr_resp_pkt *data, void *priv, int op)
  {
- 	struct audioreach_module *module;
+ 	struct data_cmd_rsp_rd_sh_mem_ep_data_buffer_done_v2 *rd_done;
+ 	struct data_cmd_rsp_wr_sh_mem_ep_data_buffer_done_v2 *done;
++	struct apm_module_event *event;
+ 	const struct gpr_ibasic_rsp_result_t *result;
+ 	struct q6apm_graph *graph = priv;
+ 	const struct gpr_hdr *hdr = &data->hdr;
+@@ -568,6 +569,16 @@ static int graph_callback(const struct gpr_resp_pkt *data, void *priv, int op)
+ 	result = data->payload;
  
--	if (cfg->direction == SNDRV_PCM_STREAM_CAPTURE)
--		module = q6apm_find_module_by_mid(graph, MODULE_ID_RD_SHARED_MEM_EP);
--	else
--		module = q6apm_find_module_by_mid(graph, MODULE_ID_WR_SHARED_MEM_EP);
-+	if (cfg->direction == SNDRV_PCM_STREAM_CAPTURE) {
-+		module = q6apm_find_module_by_mid(graph, MODULE_ID_SH_MEM_PUSH_MODE);
-+		if (!module)
-+			module = q6apm_find_module_by_mid(graph, MODULE_ID_RD_SHARED_MEM_EP);
-+	} else {
-+		module = q6apm_find_module_by_mid(graph, MODULE_ID_SH_MEM_PULL_MODE);
-+		if (!module)
-+			module = q6apm_find_module_by_mid(graph, MODULE_ID_WR_SHARED_MEM_EP);
-+	}
- 
--	if (!module)
-+	if (!module) {
-+		dev_err(graph->dev, "No SHMEM module found in graph\n");
- 		return -ENODEV;
-+	}
- 
- 	return audioreach_set_media_format(graph, module, cfg);
- }
- EXPORT_SYMBOL_GPL(q6apm_graph_media_format_shmem);
- 
--int q6apm_map_memory_fixed_region(struct device *dev, unsigned int graph_id, phys_addr_t phys,
--				  size_t sz)
-+static int __q6apm_map_memory_fixed_region(struct device *dev, unsigned int graph_id,
-+					   phys_addr_t phys, size_t sz, bool is_pos_buf)
- {
- 	struct audioreach_graph_info *info;
- 	struct q6apm *apm = dev_get_drvdata(dev->parent);
-@@ -208,8 +215,10 @@ int q6apm_map_memory_fixed_region(struct device *dev, unsigned int graph_id, phy
- 	int payload_size = sizeof(*cmd) + (sizeof(*mregions));
- 	uint32_t buf_sz;
- 	void *p;
-+	uint32_t pos_mask = is_pos_buf ? APM_MMAP_TOKEN_MAP_TYPE_POS_BUF : 0;
- 	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(payload_size,
--						APM_CMD_SHARED_MEM_MAP_REGIONS, graph_id);
-+					APM_CMD_SHARED_MEM_MAP_REGIONS, (graph_id | pos_mask));
+ 	switch (hdr->opcode) {
++	case APM_EVENT_MODULE_TO_CLIENT:
++		event = data->payload;
++		switch (event->event_id) {
++		case EVENT_ID_SH_MEM_PULL_PUSH_MODE_WATERMARK:
++			client_event = APM_CLIENT_EVENT_WATERMARK_EVENT;
++			graph->cb(client_event, hdr->token, data->payload, graph->priv);
++			break;
++		}
 +
- 	if (IS_ERR(pkt))
- 		return PTR_ERR(pkt);
- 
-@@ -217,8 +226,13 @@ int q6apm_map_memory_fixed_region(struct device *dev, unsigned int graph_id, phy
- 	if (!info)
- 		return -ENODEV;
- 
--	if (info->mem_map_handle)
--		return 0;
-+	if (is_pos_buf) {
-+		if (info->pos_buf_mem_map_handle)
-+			return 0;
-+	} else {
-+		if (info->mem_map_handle)
-+			return 0;
-+	}
- 
- 	/* DSP expects size should be aligned to 4K */
- 	buf_sz = ALIGN(sz, 4096);
-@@ -227,7 +241,10 @@ int q6apm_map_memory_fixed_region(struct device *dev, unsigned int graph_id, phy
- 	cmd = p;
- 	cmd->mem_pool_id = APM_MEMORY_MAP_SHMEM8_4K_POOL;
- 	cmd->num_regions = 1;
--	cmd->property_flag = 0x0;
-+	if (is_pos_buf)
-+		cmd->property_flag = 0x2;
-+	else
-+		cmd->property_flag = 0x0;
- 
- 	mregions = p + sizeof(*cmd);
- 
-@@ -237,6 +254,18 @@ int q6apm_map_memory_fixed_region(struct device *dev, unsigned int graph_id, phy
- 
- 	return q6apm_send_cmd_sync(apm, pkt, APM_CMD_RSP_SHARED_MEM_MAP_REGIONS);
- }
-+
-+int q6apm_map_pos_buffer(struct device *dev, unsigned int graph_id, phys_addr_t phys, size_t sz)
-+{
-+	return __q6apm_map_memory_fixed_region(dev, graph_id, phys, sz, true);
-+}
-+EXPORT_SYMBOL_GPL(q6apm_map_pos_buffer);
-+
-+int q6apm_map_memory_fixed_region(struct device *dev, unsigned int graph_id,
-+				  phys_addr_t phys, size_t sz)
-+{
-+	return __q6apm_map_memory_fixed_region(dev, graph_id, phys, sz, false);
-+}
- EXPORT_SYMBOL_GPL(q6apm_map_memory_fixed_region);
- 
- int q6apm_alloc_fragments(struct q6apm_graph *graph, unsigned int dir, phys_addr_t phys,
-@@ -290,11 +319,13 @@ int q6apm_alloc_fragments(struct q6apm_graph *graph, unsigned int dir, phys_addr
- }
- EXPORT_SYMBOL_GPL(q6apm_alloc_fragments);
- 
--int q6apm_unmap_memory_fixed_region(struct device *dev, unsigned int graph_id)
-+static int __q6apm_unmap_memory_fixed_region(struct device *dev, unsigned int graph_id,
-+					     bool is_pos_buf)
- {
- 	struct apm_cmd_shared_mem_unmap_regions *cmd;
- 	struct q6apm *apm = dev_get_drvdata(dev->parent);
- 	struct audioreach_graph_info *info;
-+	uint32_t mem_map_handle;
- 	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(sizeof(*cmd),
- 						APM_CMD_SHARED_MEM_UNMAP_REGIONS, graph_id);
- 	if (IS_ERR(pkt))
-@@ -304,16 +335,35 @@ int q6apm_unmap_memory_fixed_region(struct device *dev, unsigned int graph_id)
- 	if (!info)
- 		return -ENODEV;
- 
--	if (!info->mem_map_handle)
--		return 0;
-+	if (is_pos_buf) {
-+		if (!info->pos_buf_mem_map_handle)
-+			return 0;
-+		mem_map_handle = info->pos_buf_mem_map_handle;
-+	} else {
-+
-+		if (!info->mem_map_handle)
-+			return 0;
-+		mem_map_handle = info->mem_map_handle;
-+	}
- 
- 	cmd = (void *)pkt + GPR_HDR_SIZE;
--	cmd->mem_map_handle = info->mem_map_handle;
-+	cmd->mem_map_handle = mem_map_handle;
- 
- 	return q6apm_send_cmd_sync(apm, pkt, APM_CMD_SHARED_MEM_UNMAP_REGIONS);
- }
-+
-+int q6apm_unmap_memory_fixed_region(struct device *dev, unsigned int graph_id)
-+{
-+	return __q6apm_unmap_memory_fixed_region(dev, graph_id, false);
-+}
- EXPORT_SYMBOL_GPL(q6apm_unmap_memory_fixed_region);
- 
-+int q6apm_unmap_pos_buffer(struct device *dev, unsigned int graph_id)
-+{
-+	return __q6apm_unmap_memory_fixed_region(dev, graph_id, true);
-+}
-+EXPORT_SYMBOL_GPL(q6apm_unmap_pos_buffer);
-+
- int q6apm_free_fragments(struct q6apm_graph *graph, unsigned int dir)
- {
- 	audioreach_graph_free_buf(graph);
-@@ -402,7 +452,9 @@ int q6apm_graph_media_format_pcm(struct q6apm_graph *graph, struct audioreach_mo
- 		list_for_each_entry(container, &sgs->container_list, node) {
- 			list_for_each_entry(module, &container->modules_list, node) {
- 				if ((module->module_id == MODULE_ID_WR_SHARED_MEM_EP) ||
--					(module->module_id == MODULE_ID_RD_SHARED_MEM_EP))
-+					(module->module_id == MODULE_ID_RD_SHARED_MEM_EP) ||
-+					(module->module_id == MODULE_ID_SH_MEM_PULL_MODE) ||
-+					(module->module_id == MODULE_ID_SH_MEM_PUSH_MODE))
- 					continue;
- 
- 				ret = audioreach_set_media_format(graph, module, cfg);
-@@ -589,6 +641,42 @@ static int graph_callback(const struct gpr_resp_pkt *data, void *priv, int op)
++		break;
+ 	case DATA_CMD_RSP_WR_SH_MEM_EP_DATA_BUFFER_DONE_V2:
+ 		if (!graph->ar_graph)
+ 			break;
+@@ -623,6 +634,7 @@ static int graph_callback(const struct gpr_resp_pkt *data, void *priv, int op)
+ 		switch (result->opcode) {
+ 		case APM_CMD_SHARED_MEM_MAP_REGIONS:
+ 		case DATA_CMD_WR_SH_MEM_EP_MEDIA_FORMAT:
++		case APM_CMD_REGISTER_MODULE_EVENTS:
+ 		case APM_CMD_SET_CFG:
+ 			graph->result.opcode = result->opcode;
+ 			graph->result.status = result->status;
+@@ -641,6 +653,13 @@ static int graph_callback(const struct gpr_resp_pkt *data, void *priv, int op)
  	return 0;
  }
  
-+int q6apm_push_pull_config(struct q6apm_graph *graph, phys_addr_t bphys,
-+			   phys_addr_t pphys, uint32_t size)
++int q6apm_register_watermark_event(struct q6apm_graph *graph, int water_mark_level_bytes,
++				   int num_levels)
 +{
-+	struct audioreach_graph_info *info = graph->info;
-+
-+	return audioreach_setup_push_pull(graph, bphys, pphys, info->mem_map_handle,
-+					  info->pos_buf_mem_map_handle, size);
++	return audioreach_shmem_register_event(graph, water_mark_level_bytes, num_levels);
 +}
-+EXPORT_SYMBOL_GPL(q6apm_push_pull_config);
++EXPORT_SYMBOL_GPL(q6apm_register_watermark_event);
 +
-+bool q6apm_is_graph_in_push_pull_mode_from_id(struct device *dev, unsigned int graph_id, int dir)
-+{
-+	struct audioreach_graph_info *info;
-+	struct q6apm *apm = dev_get_drvdata(dev->parent);
-+	struct audioreach_module *module;
-+
-+	info = idr_find(&apm->graph_info_idr, graph_id);
-+	if (!info)
-+		return false;
-+
-+	if (dir == SNDRV_PCM_STREAM_PLAYBACK)
-+		module = __q6apm_find_module_by_mid(apm, info, MODULE_ID_SH_MEM_PULL_MODE);
-+	else
-+		module = __q6apm_find_module_by_mid(apm, info, MODULE_ID_SH_MEM_PUSH_MODE);
-+
-+	return !!module;
-+
-+}
-+EXPORT_SYMBOL_GPL(q6apm_is_graph_in_push_pull_mode_from_id);
-+
-+bool q6apm_is_graph_in_push_pull_mode(struct q6apm_graph *graph)
-+{
-+	return graph->info->is_push_pull_mode;
-+}
-+EXPORT_SYMBOL_GPL(q6apm_is_graph_in_push_pull_mode);
-+
- static int q6apm_graph_get_module_iid(struct q6apm_graph *graph, uint32_t mid)
+ int q6apm_push_pull_config(struct q6apm_graph *graph, phys_addr_t bphys,
+ 			   phys_addr_t pphys, uint32_t size)
  {
- 	struct audioreach_module *module;
-@@ -598,7 +686,6 @@ static int q6apm_graph_get_module_iid(struct q6apm_graph *graph, uint32_t mid)
- 		return -ENODEV;
- 
- 	return module->instance_id;
--
- }
- 
- struct q6apm_graph *q6apm_graph_open(struct device *dev, q6apm_cb cb,
-@@ -607,7 +694,7 @@ struct q6apm_graph *q6apm_graph_open(struct device *dev, q6apm_cb cb,
- 	struct q6apm *apm = dev_get_drvdata(dev->parent);
- 	struct audioreach_graph *ar_graph;
- 	struct q6apm_graph *graph;
--	int ret;
-+	int ret, iid = 0;
- 
- 	ar_graph = q6apm_get_audioreach_graph(apm, graph_id);
- 	if (IS_ERR(ar_graph)) {
-@@ -629,11 +716,23 @@ struct q6apm_graph *q6apm_graph_open(struct device *dev, q6apm_cb cb,
- 	graph->id = ar_graph->id;
- 	graph->dev = dev;
- 
--	if (dir == SNDRV_PCM_STREAM_PLAYBACK)
--		graph->shm_iid = q6apm_graph_get_module_iid(graph, MODULE_ID_WR_SHARED_MEM_EP);
--	else
--		graph->shm_iid = q6apm_graph_get_module_iid(graph, MODULE_ID_RD_SHARED_MEM_EP);
-+	if (dir == SNDRV_PCM_STREAM_PLAYBACK) {
-+		iid = q6apm_graph_get_module_iid(graph, MODULE_ID_SH_MEM_PULL_MODE);
-+		if (iid < 0)
-+			iid = q6apm_graph_get_module_iid(graph, MODULE_ID_WR_SHARED_MEM_EP);
-+		else
-+			graph->info->is_push_pull_mode = true;
- 
-+	} else {
-+		iid = q6apm_graph_get_module_iid(graph, MODULE_ID_SH_MEM_PUSH_MODE);
-+		if (iid < 0)
-+			iid = q6apm_graph_get_module_iid(graph, MODULE_ID_RD_SHARED_MEM_EP);
-+		else
-+			graph->info->is_push_pull_mode = true;
-+	}
-+
-+	if (iid > 0)
-+		graph->shm_iid = iid;
- 
- 	mutex_init(&graph->lock);
- 	init_waitqueue_head(&graph->cmd_wait);
-@@ -790,6 +889,7 @@ static int apm_callback(const struct gpr_resp_pkt *data, void *priv, int op)
- 	struct device *dev = &gdev->dev;
- 	struct gpr_ibasic_rsp_result_t *result;
- 	const struct gpr_hdr *hdr = &data->hdr;
-+	int graph_id, is_pos_buf;
- 
- 	result = data->payload;
- 
-@@ -840,13 +940,19 @@ static int apm_callback(const struct gpr_resp_pkt *data, void *priv, int op)
- 		apm->result.opcode = hdr->opcode;
- 		apm->result.status = 0;
- 		rsp = data->payload;
-+		graph_id = hdr->token & APM_MMAP_TOKEN_GID_MASK;
-+		is_pos_buf = hdr->token & APM_MMAP_TOKEN_MAP_TYPE_POS_BUF;
- 
--		info = idr_find(&apm->graph_info_idr, hdr->token);
--		if (info)
--			info->mem_map_handle = rsp->mem_map_handle;
--		else
-+		info = idr_find(&apm->graph_info_idr, graph_id);
-+		if (info) {
-+			if (is_pos_buf)
-+				info->pos_buf_mem_map_handle = rsp->mem_map_handle;
-+			else
-+				info->mem_map_handle = rsp->mem_map_handle;
-+		} else {
- 			dev_err(dev, "Error (%d) Processing 0x%08x cmd\n", result->status,
- 				result->opcode);
-+		}
- 
- 		wake_up(&apm->wait);
- 		break;
 diff --git a/sound/soc/qcom/qdsp6/q6apm.h b/sound/soc/qcom/qdsp6/q6apm.h
-index 8ea64085860f..780933ff17e9 100644
+index 780933ff17e9..5cb51ca491dc 100644
 --- a/sound/soc/qcom/qdsp6/q6apm.h
 +++ b/sound/soc/qcom/qdsp6/q6apm.h
-@@ -136,6 +136,10 @@ int q6apm_write_async(struct q6apm_graph *graph, uint32_t len, uint32_t msw_ts,
- int q6apm_map_memory_fixed_region(struct device *dev,
- 			     unsigned int graph_id, phys_addr_t phys,
- 			     size_t sz);
-+int q6apm_map_pos_buffer(struct device *dev,
-+			     unsigned int graph_id, phys_addr_t phys,
-+			     size_t sz);
-+int q6apm_unmap_pos_buffer(struct device *dev, unsigned int graph_id);
- int q6apm_alloc_fragments(struct q6apm_graph *graph,
- 			unsigned int dir, phys_addr_t phys,
- 			size_t period_sz, unsigned int periods);
-@@ -155,4 +159,9 @@ int q6apm_remove_initial_silence(struct device *dev, struct q6apm_graph *graph,
- int q6apm_remove_trailing_silence(struct device *dev, struct q6apm_graph *graph, uint32_t samples);
- int q6apm_set_real_module_id(struct device *dev, struct q6apm_graph *graph, uint32_t codec_id);
- int q6apm_get_hw_pointer(struct q6apm_graph *graph, int dir);
-+bool q6apm_is_graph_in_push_pull_mode(struct q6apm_graph *graph);
-+bool q6apm_is_graph_in_push_pull_mode_from_id(struct device *dev, unsigned int graph_id, int dir);
-+int q6apm_push_pull_config(struct q6apm_graph *graph, phys_addr_t bphys,
-+			   phys_addr_t pphys, uint32_t size);
-+
+@@ -41,6 +41,7 @@
+ #define APM_CLIENT_EVENT_CMD_RUN_DONE		0x1008
+ #define APM_CLIENT_EVENT_DATA_WRITE_DONE	0x1009
+ #define APM_CLIENT_EVENT_DATA_READ_DONE		0x100a
++#define APM_CLIENT_EVENT_WATERMARK_EVENT	0x100b
+ #define APM_WRITE_TOKEN_MASK                   GENMASK(15, 0)
+ #define APM_WRITE_TOKEN_LEN_MASK               GENMASK(31, 16)
+ #define APM_WRITE_TOKEN_LEN_SHIFT              16
+@@ -164,4 +165,5 @@ bool q6apm_is_graph_in_push_pull_mode_from_id(struct device *dev, unsigned int g
+ int q6apm_push_pull_config(struct q6apm_graph *graph, phys_addr_t bphys,
+ 			   phys_addr_t pphys, uint32_t size);
+ 
++int q6apm_register_watermark_event(struct q6apm_graph *graph, int watermark_bytes, int num_levels);
  #endif /* __APM_GRAPH_ */
 -- 
 2.47.3
