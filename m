@@ -1,131 +1,150 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52662258CD7
-	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 03:32:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE7825D527
+	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 05:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779161545; cv=none; b=X7sJl0bJjDq5dKjUgzopRDY4OaWeN2zWTWo2Pif2wbPwHKQ9SL9++j1MWl44QnNzwDYHB0ogJxxXKyIpBw65FT347jhX9yi6EK72s7M9afaNzpNsVQiO5vMqwedqG2Hds36zDl6MDuFeyAHKOLPVmcwexH0Csh+faQtkz6uQ8cE=
+	t=1779168950; cv=none; b=K4sbTqdbXYuw2eTD1c6bVR8TdhDV2EN6XUu939nk0672lHXEzerW1Nc/hqQZA3UeQqpeoQhJHfw2IYiDK2MvqbdQ2SDHH6vSORaFhwrlzM3l3QR+R6upfMzJ5b/KB63YWJ4iRALwZ/KuWaSLuKSTqyQQMluC+POtGKVL1B31B6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779161545; c=relaxed/simple;
-	bh=05iD/qAS6Hmb35Jwib5lGI7jVOda2cbtoKdufYvK23s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CV1p4j1BUOxVZhppiNAKJpZoCcU6raWo+3fccLoKJr71QK+odBlLCTiqIjimHOC2/ZGDE58RplLee5SZ3LrWkW0E7KQGMFLd3Ej2AK9cRC9RVAuqerxdK1ycYpLv52Vb3b1xdT/N1gkJnAlV/ETxJ6J2YMYhb1TBfwlsKxJS5+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cwXdAX75; arc=none smtp.client-ip=74.125.82.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779168950; c=relaxed/simple;
+	bh=iHK+3ABUT3A3XFgdlwIRt+WFjZ9Vh1AwfPQEKl7plEs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rXaehhmpz+MX49Z53GAtaYL8ReUQPvZa7pcPu9vZ5lAek+9jwvc+577eTWm0RCoaDdLjs5grNVV2HfMIu2YVD7lDY/XvC5q2G9WfCRtoWVwb2wT1WoC4YWcqcSbVE/szROzJg611mbd1LRkLwh44OdYwkzZf8pjZa7BuQ4ElHuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oeBu4Ovz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7oIlBDE5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oeBu4Ovz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7oIlBDE5; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cwXdAX75"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1329fc4bf77so8507659c88.1
-        for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 20:32:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779161542; x=1779766342; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KEhW2cv9pHxt/OV2GG0kUIG9UFFZnsrejYMLQtjg+Z0=;
-        b=cwXdAX75PkFoBwGahK/R6PqLYrAGEa2JfncP2DonvPyYqEaSF3Vir4RqXGXMQBokHg
-         ILFUklrXDNIw0yobRop9L7FixjBOTdtqme5joUirGfHtUQD3cBYpa/WAJT5eliF9AED2
-         TsfWjYXC0zR6k+wWPEWPxdCrzL9itauLZPMTeHFeCTSEk7Fb7TzfG/Ct4qjlS+ff4K2r
-         hvkkbqeKrlqcCpgy5v+WLX1C2xfbmYIoqSNVuX16jzlVhlg/xZFZ6086cPcsGosaoZ05
-         pehVaLsm6KiLMjm0sRXRrGhZtV50T8KhekByKj/ts0iLPYNsKilF4X1E06vbEsk4NAQp
-         N0EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779161542; x=1779766342;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KEhW2cv9pHxt/OV2GG0kUIG9UFFZnsrejYMLQtjg+Z0=;
-        b=Jxa9delpCDrlkdhUVaAo7fQCZ7ORrQFes5A8efBf0dzb1GrBf76B+IoKyHWxQvnrYS
-         0f1zoZoaQETawHMkcBmA8r93/yfEBjEjJDKaH2sd7U7c422Myn+XOHrS28WbkHw0J1V0
-         dngywxKfBqDRIRZYy7ORCGiMc8RXMO4Msr3rbOOM339RhxRqgYczyf7KHYdpUdqIL8up
-         ek71UOZvpTw0NRm3hVwiQs9uSwp1RLHZrfrykrPXsRJaNlvKLjFwSUK+IbdVVx0Jx38h
-         rG+ps3C0g7AKtPqvgB43pZ5zjADDvsrvriDA6k0DEAI8xgbcwyvWz5LhKxZWP10FJMF5
-         sWlQ==
-X-Gm-Message-State: AOJu0YxcCamWCpzVFrUJeuO7KTBm4yQOTL5QmGUXf42Y46T5AnGOQYra
-	gsseiah1CH/UqluKY3QiY52aVvCfCbzK52YQJ7zJNwzc/59t7Ot79xs/
-X-Gm-Gg: Acq92OERga0gE7+OX/vVrEwP7jLebvKvQ4rvmGyYDzwBgYA9C+eQwO+Ue6Rl5utZmxO
-	InCJyJKKKODksW/DnOylUoGtA3hJNlQQ5y96GjHVydOp1VKajVun7a5fA7aKf1tvcu95uoN908M
-	maWdEV4lJFIjIN3MeKHR6xqsiJ/8dUW4Bx5pkC/xs7hPqUUisFehaa6V9Dqm0oyT98KmeCbL3k1
-	Ziwn16UDMOyA6//zq3kew2Z5ZrLVCYZI9wbjdcfNQKuFwQaOckBORKBueWBSSpMSMwoDGSA7kQl
-	Mk9e29GlkoQApiMBylYl6ktbhHKsMEkhi9KN/eR6dE0rBNSRJIP9mLCJvKdUg5oes+eMitqxcq9
-	969EhU+sFb5dNvgAmV+wR9qSt+WnErQz+9ERGhvUZRhMnKCg6cmL9czSsmAojExKSdJxv7uqGhl
-	oIu4KjxfSvRd74rWpSyRxd0npLHXT7WZ5LXNOgSkqM1kB7TGqM1GEhaK9KBtOpLv9Fi7JlVdlFE
-	A==
-X-Received: by 2002:a05:7300:ad30:b0:2e7:5737:8364 with SMTP id 5a478bee46e88-303984e17ffmr8988389eec.15.1779161542347;
-        Mon, 18 May 2026 20:32:22 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-162-74.user3p.v-tal.net.br. [177.4.162.74])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-302973bc9d4sm14971444eec.23.2026.05.18.20.32.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 20:32:21 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Tue, 19 May 2026 00:32:15 -0300
-Subject: [PATCH] ALSA: ua101: Reject too-short USB descriptors
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oeBu4Ovz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7oIlBDE5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oeBu4Ovz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7oIlBDE5"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 16FFF6C0D2;
+	Tue, 19 May 2026 05:35:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779168947; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bKgFgz3u6T8iVfiWH6U4Rhca8YewnRRFOqnYTVC5PSo=;
+	b=oeBu4OvzOyfNhDlWt+b+GjXj+QX5nEsKVrCvwAN852gNYy5akfkVUAGIGtXMiOeVrRkhgH
+	P/cXzQcNaeDg7UR8jXLUHJyPtiOa8OlkIUBNIph7ecslT94h2k8rtDBPzzYCas4aAC8GqJ
+	NOUuRsKyBguwAAyhlwcnTVZXwr6DUCE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779168947;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bKgFgz3u6T8iVfiWH6U4Rhca8YewnRRFOqnYTVC5PSo=;
+	b=7oIlBDE56CQzKsP64fnz95Xt2vReCdYJQmYqPdZXe8DyuF4RUIv9reyWnpCH35pwyl66pN
+	3JqZYINWzf6NUdBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oeBu4Ovz;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7oIlBDE5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779168947; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bKgFgz3u6T8iVfiWH6U4Rhca8YewnRRFOqnYTVC5PSo=;
+	b=oeBu4OvzOyfNhDlWt+b+GjXj+QX5nEsKVrCvwAN852gNYy5akfkVUAGIGtXMiOeVrRkhgH
+	P/cXzQcNaeDg7UR8jXLUHJyPtiOa8OlkIUBNIph7ecslT94h2k8rtDBPzzYCas4aAC8GqJ
+	NOUuRsKyBguwAAyhlwcnTVZXwr6DUCE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779168947;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bKgFgz3u6T8iVfiWH6U4Rhca8YewnRRFOqnYTVC5PSo=;
+	b=7oIlBDE56CQzKsP64fnz95Xt2vReCdYJQmYqPdZXe8DyuF4RUIv9reyWnpCH35pwyl66pN
+	3JqZYINWzf6NUdBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 00DE6593A8;
+	Tue, 19 May 2026 05:35:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id KKwHO7L2C2qAYQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 19 May 2026 05:35:46 +0000
+Date: Tue, 19 May 2026 07:35:46 +0200
+Message-ID: <87h5o43qrx.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: "eziogale@gmail.com" <eziogale@gmail.com>
+Cc: Jaroslav Kysela ` <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH] ALSA: hda/ca0132: add QUIRK_GENERIC path for Gigabyte, GA-Z170X-Gaming G1
+In-Reply-To: <0c0b781f-1595-4595-921a-66d83cf5930b@gmail.com>
+References: <a1dd5dfd-8678-4dd9-b6af-68a1e078168a@gmail.com>
+	<87tss7xyj5.wl-tiwai@suse.de>
+	<2f45fd6e-0a5b-4f47-9f2b-75d8b323ced8@gmail.com>
+	<87h5o5ersn.wl-tiwai@suse.de>
+	<0c0b781f-1595-4595-921a-66d83cf5930b@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260519-alsa-ua101-desc-len-v1-1-4307d1a5e054@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBCF4avIrDuQhGDUq5QuYhx1RNKSMaUg3
- t1Ulx+89+8glJgEumqHRF8WfscC/aggzD5OhDwUg1GmVta06FfxmL1WGgeSgCtFdME61ThjywT
- K85No5N9Vfb5uS+4XCts/BcdxArjNHe13AAAA
-X-Change-ID: 20260429-alsa-ua101-desc-len-7c4708724604
-To: Takashi Iwai <tiwai@suse.com>, Clemens Ladisch <clemens@ladisch.de>, 
- Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1589;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=05iD/qAS6Hmb35Jwib5lGI7jVOda2cbtoKdufYvK23s=;
- b=kA0DAAoW0F0/Glr/7oMByyZiAGoL2cOiu2gVWhKEuAYFu/ViMKEXNP0uSWkmwH7pZD+tJnVa0
- Ih1BAAWCgAdFiEEq2KiObyK4NV/XqhI0F0/Glr/7oMFAmoL2cMACgkQ0F0/Glr/7oNY5gD/ee4/
- FtAmiZRV3dQIczdwTSmIRIXyFC6lgKFP/HrGiSMBAJYYo/5uTbkhQQ84R7IzfdeagWJO6RLuva0
- B6bhZUJoG
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 16FFF6C0D2
+X-Spam-Level: 
 
-find_format_descriptor() walks the class-specific interface extras by
-advancing with bLength. It rejects descriptors that extend past the
-remaining buffer, but it does not reject descriptor lengths smaller than
-a USB descriptor header.
+On Mon, 18 May 2026 11:23:25 +0200,
+eziogale@gmail.com wrote:
+> 
+> Sorry, with gmail and OAUTH2 it's a bit complicated. I'v to make an
+> attachmant.
+> Tanks for the patience.
+> 
+> From 6411be653404246e661d6bcf418345abf866e098 Mon Sep 17 00:00:00 2001
+> From: Ezio Galeazzi <eziogale@gmail.com>
+> Date: Sun, 17 May 2026 17:42:36 +0200
+> Subject: [PATCH] ALSA: hda/ca0132: add QUIRK_GENERIC path for Gigabyte
+>  GA-Z170X-Gaming G1
+> 
+> Some CA0132 implementations (e.g. Gigabyte GA-Z170X-Gaming G1) produce white noise when using the DSP firmware path. Add a QUIRK_GENERIC path that uses the standard HDA generic parser instead, with custom pin configs.
+> This patch applies against v6.18.24.
+> 
+> Signed-off-by: Ezio Galeazzi <eziogale@gmail.com>
 
-Reject too-short descriptors before using bLength to advance the local
-scan. This keeps the UA-101 parser robust against malformed descriptor
-data and matches the usual USB descriptor walking rules.
+Thanks, applied to for-next branch now.
 
-Fixes: 63978ab3e3e9 ("sound: add Edirol UA-101 support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/usb/misc/ua101.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/sound/usb/misc/ua101.c b/sound/usb/misc/ua101.c
-index d129b42eb979..b9a62e94e06c 100644
---- a/sound/usb/misc/ua101.c
-+++ b/sound/usb/misc/ua101.c
-@@ -894,8 +894,9 @@ find_format_descriptor(struct usb_interface *interface)
- 		struct uac_format_type_i_discrete_descriptor *desc;
- 
- 		desc = (struct uac_format_type_i_discrete_descriptor *)extra;
--		if (desc->bLength > extralen) {
--			dev_err(&interface->dev, "descriptor overflow\n");
-+		if (desc->bLength < sizeof(struct usb_descriptor_header) ||
-+		    desc->bLength > extralen) {
-+			dev_err(&interface->dev, "invalid descriptor length\n");
- 			return NULL;
- 		}
- 		if (desc->bLength == UAC_FORMAT_TYPE_I_DISCRETE_DESC_SIZE(1) &&
-
----
-base-commit: 7c94f5e77906abd7b9ba81875ae238c802a187cb
-change-id: 20260429-alsa-ua101-desc-len-7c4708724604
-
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
-
+Takashi
