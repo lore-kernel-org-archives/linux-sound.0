@@ -1,136 +1,169 @@
-Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6C74DBD67
-	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 12:42:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BF24A2E1E
+	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 13:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779194553; cv=none; b=gEx2DrhaBp5E1thRsOhCEnILUc5NVGTp9oRPWIOFTZn6rX0ftYu+t4quaYQYK1Ilp9G4QLwOE/04aRV6Xvdre4q8898gVAJ8OcuofwBIguGE24NkQsyWiWtDaCne6DlZQ7cL6FKoQ2O3GrWvB7Jp5bCcnAH1KVtH+CTKIK6cOIQ=
+	t=1779196533; cv=none; b=dyWcvyb8vFaNFwN8sQPprAr5oiZantCsjMH9qNexRj4XFpVvtxasnKl0+mXT2ckZXTD2mLCwz/a8vlCBmjsGVQUVV9KqevvGY/embkYDQonbRt8SWzEqMOMSEU7sXrlbAbIdWgByZ2CgjfVwPoWqnvncBqkEBOAFY8FsThmc0V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779194553; c=relaxed/simple;
-	bh=EIQdru2t2P7kMw7hW/xx+naY1oH+dPM+jGFBQ3JOh68=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rf56hGqXbPdejN10mZQP4si1CrYAPkNsJ4kj19Q3e1kjlfhcNDHTuWWBY0S/szq38IHmzm2ahOjIa62SqmNz5gF/dFAV/JY8AKujjuNPo+hFEJGVGC1Agzzw4gCHHMiNywxtWmGiWPvz10ahTosONLdi3K4kCop+RYkGMCx3NsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KaNG9BOL; arc=none smtp.client-ip=95.215.58.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1779196533; c=relaxed/simple;
+	bh=F9A5uHoE8wKanyYSLqjbHYE0CiEcbG3yokKwREAWEUA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kHyMw631CQUT800PbWC44dCYH3xEgyOZUROL/ZYUQ+ZJWrNqNKiySFfSwplgYQwPGyxyOmhcrIivjMLwYFtvXBZY44tnzxW1hwvPGabepkmDsGPeHzAeBdqZ+C3SECq8tYGf5JAvtm+3o/N/lFL199GbherhfFkwyVfderEAddg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Gzw9QqHc; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UhYefqz/; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KaNG9BOL"
-Message-ID: <22c7d187-b696-4411-99db-3af470f5fcab@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779194548;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O/UffwdBOgAGYGfRZLLw5Jsr65D5kqMWFuTYXKJprS4=;
-	b=KaNG9BOLsgrkZMJK2ukexjKh9if5oTzXNgTSoV9WfOcgD/AOBfGg2ToQJRH1XZFOb0kcrf
-	laS0vo/q4lQokkQjAC1MOM+L8OJCoIdlCt5devZ3M4hluqEkvvaq6SxJM++yvP0uOY//dV
-	OEYG5czDrjt4SvTUNpdnAg36x7+qLUg=
-Date: Tue, 19 May 2026 14:42:08 +0200
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Gzw9QqHc";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UhYefqz/"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64JA3Cik1393139
+	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 13:15:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=I/Mg2qHcqH5ooQaIbAmhiJn8WzcvuKijp6i
+	KyyQFDOk=; b=Gzw9QqHcxwKmhrZFoy/x7hS3f5XzLz67HkNdpWbz3fr8NIOZaxW
+	jLPMdGZkpEvCjiSeEYFhlmFepd1JCKen5JXMjFwNPWkn2U2Q+WkNB1Evh0ZJJPW7
+	42XZdlrfWbq3DIYpqT61fwYMUlqtPGiwtMSYPQrh1Fg9rczH54usyHJNyskgtING
+	I+uux3n32izVuLi/NxXQsiIoJqVndoFXQK2tYAWTfVfvHj7Jw7KS2vCmUeaRrdzR
+	tsle3+/6FAwxrz6go8W22LNzRyQYIvAU24sDfV1cu0HD8/cX3jYXiEyhjIQWtc4/
+	/ouppGw/61ongo4rdujYcBVv5V4ciQWT5Hw==
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com [209.85.222.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e8ns48pwq-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 13:15:31 +0000 (GMT)
+Received: by mail-ua1-f70.google.com with SMTP id a1e0cc1a2514c-95fd51d5c22so6983683241.2
+        for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 06:15:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1779196530; x=1779801330; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I/Mg2qHcqH5ooQaIbAmhiJn8WzcvuKijp6iKyyQFDOk=;
+        b=UhYefqz/2Carkg2kZ/rs0vkrVXMaw3+zk33F1hYCLocO644GU6oNKbRsi7acW1d8fz
+         mCcBO8e8+VLFFlk9D0JD8ZDJirMx6vGYOxdRPN8vJvpHeK/0G6IDckadlMNbzQNclFmC
+         qg0SWeivJws+9TJmeNNhd8E412xCnxfYlfvVZAmVPoj/swdcT8ZaluF3xdK0Oj+HHiEb
+         5nc86ew241MDWG/nN3D4jDWdgGy3Vcad9IWEpKNFXN3fhByjAqQNMIrDNo9FxM/C0xUR
+         sQsrjMkJs9LaHQwXBzQGcc9pocI/CaxNaTqqmBhubnVfvku2jH1La3gaHLGnADPSog+T
+         /0Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779196530; x=1779801330;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I/Mg2qHcqH5ooQaIbAmhiJn8WzcvuKijp6iKyyQFDOk=;
+        b=IQibjw59ZEedoq2B0Bo2q3EVTVr1H62k4oIWF9oncklPbeH+9hpy0u27B5ro3ASRHI
+         PCsyPeYj7Y4NTHwjwFCS+y61Uw4/Gk3oa2eLmY/NzBnozFhoCogNFNI3Kjq8U9ghU/In
+         ocZT/AqSeaGS/VhrKeek1bSA+Fwu3CLexQD0d5M0lUWgVE16chmTjWoEXV+pdLiTePuf
+         t8V4Eu9871oAg7eJOsIH/vTt7AdTOEh2um/Now3/TCjCBPNBfPGy2/FduPgMuD4/ZkbM
+         zKpPEcWgC9/CEMj3JqxmKi1wkY8NO0n7uzZ3+bWGoz4CmVlNOlyj5c21IfmP+ZXSWwGa
+         O/vQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/hI+fVvOz/PivDvufmU+QUGBlZcEPbJjQXZKhH41SGoPxx84KgbdAzQHNIbtvkse0rtqsOcDAOW6BqvA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEk1CCMoLXTPtm3cfhryfizHQOmXuOk6fYS89zx9J0l3vWH0ye
+	LWan8Ka7wnjmz65B4yEf5oCzz+nTsEH0Q6KNxYUJ6JvC8FsRT9aHaYRfV52jthgPo3pmKx0weMM
+	9IbsBqclw0fTaR9THoeGbNfS0JiW+X6FM8dTyn/6qW5Tb4v+hIo9hzSnwzFqODMnD+g==
+X-Gm-Gg: Acq92OESs//KyPuFbuUHY1fH+zdU2wmp8ta6V4p9A01iWcaaH0H0hc9v0DIyt+Q9BuL
+	DNIEaYk109ehE+Oc32m9MgbjEWlzPfkuNVTKiXI8nQov4Xj/fGUtQapv7ez93FcT1v4KepwoULR
+	XzDEF87C6yBYE04XWWoAZeUNiUJoDTmW7zMdLcjfU7R2xBd2bq7Sg+HuNcmeiGu++DpJFnK40n5
+	653R7GkXKcpXWyYnkd88N/ak94veZdPRqu7UtwUH9tNLdHtoubXi+pjVJV3HzVO2TzPVZOIlhC+
+	3w5q3hU475DBdFEc0u9O+S63UXj+tU9MG1qAE6JcRvm8IFi7tfoFUy2mUL5h4QXLZExfjuzPxQ6
+	kTtoVCCOS/a+XvcWnkA7J0mmUHpjkSpXpwgoSMyqzvFdpC8XdTCbpJGPEFC/AzJaWFg==
+X-Received: by 2002:a05:6122:2881:b0:575:634a:a604 with SMTP id 71dfb90a1353d-5760c00211bmr10925148e0c.6.1779196530589;
+        Tue, 19 May 2026 06:15:30 -0700 (PDT)
+X-Received: by 2002:a05:6122:2881:b0:575:634a:a604 with SMTP id 71dfb90a1353d-5760c00211bmr10925076e0c.6.1779196530178;
+        Tue, 19 May 2026 06:15:30 -0700 (PDT)
+Received: from localhost.localdomain ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0a1aeafsm48018609f8f.23.2026.05.19.06.15.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 06:15:29 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: broonie@kernel.org
+Cc: srini@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+        krzysztof.kozlowski@oss.qualcomm.com,
+        mohammad.rafi.shaik@oss.qualcomm.com, alexey.klimov@linaro.org,
+        ravi.hothi@oss.qualcomm.com, mathieu.poirier@linaro.org,
+        verhaegen@google.com, andersson@kernel.org,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH 0/6] ASoC: qcom: qdsp6: add push/pull module support
+Date: Tue, 19 May 2026 13:15:21 +0000
+Message-ID: <20260519131527.4002526-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v15 3/6] ASoC: es9356-sdca: Add ES9356 SDCA driver
-To: Nathan Chancellor <nathan@kernel.org>, Zhang Yi <zhangyi@everest-semi.com>
-Cc: broonie@kernel.org, tiwai@suse.com, linux-sound@vger.kernel.org,
- peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
- ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com,
- ckeepax@opensource.cirrus.com, vkoul@kernel.org
-References: <20260514075206.3483-1-zhangyi@everest-semi.com>
- <20260514075206.3483-4-zhangyi@everest-semi.com>
- <20260518224657.GA536765@ax162>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260518224657.GA536765@ax162>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE5MDEzMSBTYWx0ZWRfXyRghgHdR091c
+ GM2o3H+yiZcQTdmjap2Ie+8ePybbjYJBTy1Eh5SMxKxMwtnBdo/B7NaB6lWnt7sYp+x9WvjjtXn
+ OGp3sLsgqU1CmPxXjjT3JybRlHQBhSXLd8VOXmOylyVSIZavscXMmJtg2tl1gEHffwOIFqtLKhO
+ GUys4+KL/cEJAsxmv3VyBKkUVYw5WqpQ72XR/8+bDveZRIOVlq1bd66TjX3mxI4y0+meYHM0elc
+ NaF43PxLGwdxAgXpblaUPEeC/U19SEPZBYQ3A7vQSXqQYfZRndgVCRCDv+ew2VhE60pnG5SIUBg
+ aa1Eh6eMk/0Bg8dKzkiSoG3CF0zTWetaoKJxoS4u5Omnu++RV8jE2SpUqWQzW7U2VyEfL+ODaAw
+ cbH2GkT8iDzONhSy7K19dpsHQOQVtPArCEctU9XDCkpRUnMSYvucovmzWYNLZQ5gtD35vaXWlD8
+ stdKH17wX8YDVR4GUSw==
+X-Authority-Analysis: v=2.4 cv=F6dnsKhN c=1 sm=1 tr=0 ts=6a0c6273 cx=c_pps
+ a=R6oCqFB+Yf/t2GF8e0/dFg==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=NEAV23lmAAAA:8
+ a=0nXk2lb1qRGC1R-XhikA:9 a=TD8TdBvy0hsOASGTdmB-:22
+X-Proofpoint-GUID: UHPoBPylWi3DHO-iq82jJU32skLk1bSJ
+X-Proofpoint-ORIG-GUID: UHPoBPylWi3DHO-iq82jJU32skLk1bSJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-19_03,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 phishscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605190131
 
-On 5/19/26 00:46, Nathan Chancellor wrote:
-> Hi,
-> 
-> On Thu, May 14, 2026 at 03:52:03PM +0800, Zhang Yi wrote:
->> This is the codec driver for es9356-sdca.
->>
->> Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
-> ...
->> diff --git a/sound/soc/codecs/es9356.c b/sound/soc/codecs/es9356.c
->> new file mode 100644
->> index 000000000..78fddd9d0
->> --- /dev/null
->> +++ b/sound/soc/codecs/es9356.c
-> ...
->> +static const struct snd_kcontrol_new es9356_sdca_controls[] = {
->> +	SDCA_SINGLE_Q78_TLV("FU41 Left Playback Volume",
->> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_L),
->> +		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
->> +	SDCA_SINGLE_Q78_TLV("FU41 Right Playback Volume",
->> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU41, ES9356_SDCA_CTL_FU_VOLUME, CH_R),
->> +		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
->> +	SDCA_SINGLE_Q78_TLV("FU36 Left Capture Volume",
->> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_L),
->> +		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
->> +	SDCA_SINGLE_Q78_TLV("FU36 Right Capture Volume",
->> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU36, ES9356_SDCA_CTL_FU_VOLUME, CH_R),
->> +		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
->> +	SDCA_SINGLE_Q78_TLV("FU33 Capture Volume",
->> +		SDW_SDCA_CTL(FUNC_NUM_UAJ, ES9356_SDCA_ENT_FU33, ES9356_SDCA_CTL_FU_CH_GAIN, 0),
->> +		ES9356_GAIN_MIN, ES9356_AMIC_GAIN_MAX, ES9356_AMIC_GAIN_STEP, amic_gain_tlv),
->> +	SDCA_SINGLE_Q78_TLV("FU21 Left Playback Volume",
->> +		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_L),
->> +		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
->> +	SDCA_SINGLE_Q78_TLV("FU21 Right Playback Volume",
->> +		SDW_SDCA_CTL(FUNC_NUM_AMP, ES9356_SDCA_ENT_FU21, ES9356_SDCA_CTL_FU_VOLUME, CH_R),
->> +		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
->> +	SDCA_SINGLE_Q78_TLV("FU113 Left Capture Volume",
->> +		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_L),
->> +		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
->> +	SDCA_SINGLE_Q78_TLV("FU113 Right Capture Volume",
->> +		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU113, ES9356_SDCA_CTL_FU_VOLUME, CH_R),
->> +		ES9356_VOLUME_MIN, ES9356_VOLUME_MAX, ES9356_VOLUME_STEP, out_vol_tlv),
->> +	SDCA_SINGLE_Q78_TLV("FU11 Capture Volume",
->> +		SDW_SDCA_CTL(FUNC_NUM_MIC, ES9356_SDCA_ENT_FU11, ES9356_SDCA_CTL_FU_CH_GAIN, 0),
->> +		ES9356_GAIN_MIN, ES9356_DMIC_GAIN_MAX, ES9356_DMIC_GAIN_STEP, dmic_gain_tlv),
->> +};
-> 
-> The use of SDCA_SINGLE_Q78_TLV() can break the build for architectures
-> that do not support ACPI, as CONFIG_SND_SOC_SDCA depends on ACPI and
-> the driver does not actually select it, so it might not be enabled if
-> another driver that does select it is not enabled:
-> 
->   $ printf "CONFIG_%s=m\n" SOUNDWIRE SND_SOC_ES9356 >arch/arm/configs/repro.config
-> 
->   $ make -skj"$(nproc)" ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- mrproper defconfig repro.config all
->   ERROR: modpost: "sdca_asoc_q78_get_volsw" [sound/soc/codecs/snd-soc-es9356.ko] undefined!
->   ERROR: modpost: "sdca_asoc_q78_put_volsw" [sound/soc/codecs/snd-soc-es9356.ko] undefined!
->   ...
-> 
-> Maybe something like this is needed?
-> 
-> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-> index 5fdd0334c355..b9e8df5ddfd5 100644
-> --- a/sound/soc/codecs/Kconfig
-> +++ b/sound/soc/codecs/Kconfig
-> @@ -1302,7 +1302,9 @@ config SND_SOC_ES8389
->  
->  config SND_SOC_ES9356
->          tristate "Everest Semi ES9356 CODEC SDW"
-> +	depends on ACPI
->          depends on SOUNDWIRE
-> +	select SND_SOC_SDCA
->          select REGMAP_SOUNDWIRE
->          select REGMAP_SOUNDWIRE_MBQ
+This patchset adds support for Push/Pull mode modules.
+Push-pull mode uses dedicated shared-memory modules that allow the DSP
+to access the PCM circular buffer directly. In addition to reducing
+fragment queueing and ACK handling in the host driver, 
+This mode exposes a DSP-maintained position buffer that provides
+fine-grained hardware pointer updates. Unlike the Read/Write Shared
+Memory endpoitn modules, which are period based, where the reported
+pointer advances only at period boundaries, where as push-pull mode
+allows .pointer() to reflect sub-period progress, improving pointer
+accuracy.
+Also the driver now can queue buffers which are less than period size,
+which makes tests like alsa_conformance_test happy.
 
-Maybe this instead?
+Now the pointer update visibility is around 1ms, compared to min of
+10ms with read/write shared memory endpoints.
 
-depends on SOUNDWIRE
-depends on SND_SOC_SDCA
+Along with the circular buffer support, this patchset also adds
+watermark event support to provide a period level event from dsp to
+notify about period progress.
 
-  
+Tested this on T14s, Arduino VENTUNO-Q platforms.
 
+Tplg related changes are available at: 
+https://github.com/Srinivas-Kandagatla/audioreach-topology/tree/push/pull
+
+thanks,
+Srini
+
+Srinivas Kandagatla (6):
+  ASoC: qcom: audioreach: use cached shared memory module IID
+  ASoC: qcom: q6apm: return error code to consumers on failures
+  ASoC: qcom: q6apm: remove shared memory IID helpers
+  ASoC: qcom: audioreach: Add support for shared memory push/pull
+    modules
+  ASoC: qcom: q6apm: add watermark event support
+  ASoC: qcom: q6apm-dai: add push-pull and watermark event support
+
+ sound/soc/qcom/qdsp6/audioreach.c |  79 ++++++++++-
+ sound/soc/qcom/qdsp6/audioreach.h |  98 +++++++++++++
+ sound/soc/qcom/qdsp6/q6apm-dai.c  | 144 +++++++++++++++----
+ sound/soc/qcom/qdsp6/q6apm.c      | 222 ++++++++++++++++++++++--------
+ sound/soc/qcom/qdsp6/q6apm.h      |  13 +-
+ 5 files changed, 467 insertions(+), 89 deletions(-)
+
+-- 
+2.47.3
 
