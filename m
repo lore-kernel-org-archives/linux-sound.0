@@ -1,146 +1,89 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E8237C0FE
-	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 06:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B7B3E0C44;
+	Tue, 19 May 2026 08:33:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779171040; cv=none; b=AnbX/oetDFqftqDZy7OQmG/hDmhdDBi9M04CPqzRQ79XUfKxl7YFA4xnJgG1PbTgKBq93o1zTPYKRhsu3RZ58y2zZsSQNNqtcWNYkVlgUIUzoW9kLGupnm6CFEyk/BzlfevJhndv6Oe8dc2Rk7z7SFcvOdajV3XHj9IsHS5JhKo=
+	t=1779179586; cv=none; b=R68lhdvkC4TSZG3gCDIe+W5PLyY6yY9fnG7UYucmE5QJV5DBBqlk7/82n4WTCfmGAG5oOtPNxphfDH1SBpxD7FceIoGPh801ZD3eNUj1HnmDQO7RaLiRewW8DgkwfqbZeoMXsbtxCvTtMkVFzd2a/i0em+U8hBFyxUPQzMRryNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779171040; c=relaxed/simple;
-	bh=JvqxnIav7ntp8tJdgYjxwpdEHy4PTdC7dVyLYqZiyBM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Mp9r6HoxcDyFdlF2wT/icnd24XWy8jsokB7FzA+JhifBtPe2SpDQNYG6YC1XuVS5AbgzQSIdkicDFVVg2MvzFsG/mr2TvAECakv5eUBR1FD6ljjab339OY7jqca+ToUFjCLxsa2wIGqFkBVS5LZ1Pj5JNipKXcuU4nQTMp9j/2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=h+9MJhqI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5mi2LbCv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=h+9MJhqI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5mi2LbCv; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1779179586; c=relaxed/simple;
+	bh=6TGMMTE0u83WGBGyaqlbzGcDa5UQfun90gQgRnrOvk8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jd/qejjykX6Gv52SZkPZhBdSdxxitnQqhSQAHlAmjsV4zyQWLpqLdz1kjpJ2zvI8xZk711pFCLm/nQ9T+5jEFd78I+Mw90N9B3/GtYudZ4SjWLF3GpvkGMWQ0yO8mi9lxbw/Soht1Idl3TkRxeKh5WZoYzleLftKgabAp7LSyAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UpkB90Y3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="h+9MJhqI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5mi2LbCv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="h+9MJhqI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5mi2LbCv"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3AD2167E2A;
-	Tue, 19 May 2026 06:10:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779171037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k+luWZemAhCChKaWAN80rNgAiT1X7IpqRfWRAusPRdQ=;
-	b=h+9MJhqI/RJQp0yRMWGIy8z72BL2eEXExQ0oHGCchcO/LeL4eD1YSgvStSORxuFeFFQf1x
-	zxNzySmvenexKe6wmwNR0vi/YEe+6SO37sQfKh31tD6EMZO3DZkcOGWN7+KG96F/5e115Q
-	kiaz7Ht4XNHhsGL1NF/XEXZuarFScqY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779171037;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k+luWZemAhCChKaWAN80rNgAiT1X7IpqRfWRAusPRdQ=;
-	b=5mi2LbCvjqT8oPgZtvcTmDBMDaX0R9TVlMuU6Uab5dFDFv11w/P/y36AI2dGWnCsXmSFY8
-	cwm/gtCQvURlvXBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779171037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k+luWZemAhCChKaWAN80rNgAiT1X7IpqRfWRAusPRdQ=;
-	b=h+9MJhqI/RJQp0yRMWGIy8z72BL2eEXExQ0oHGCchcO/LeL4eD1YSgvStSORxuFeFFQf1x
-	zxNzySmvenexKe6wmwNR0vi/YEe+6SO37sQfKh31tD6EMZO3DZkcOGWN7+KG96F/5e115Q
-	kiaz7Ht4XNHhsGL1NF/XEXZuarFScqY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779171037;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=k+luWZemAhCChKaWAN80rNgAiT1X7IpqRfWRAusPRdQ=;
-	b=5mi2LbCvjqT8oPgZtvcTmDBMDaX0R9TVlMuU6Uab5dFDFv11w/P/y36AI2dGWnCsXmSFY8
-	cwm/gtCQvURlvXBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 207DD593A8;
-	Tue, 19 May 2026 06:10:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CBQsB93+C2qLAwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 19 May 2026 06:10:37 +0000
-Date: Tue, 19 May 2026 08:10:36 +0200
-Message-ID: <874ik43p5v.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usx2y: Drain pending US-428 pipe-4 output commands
-In-Reply-To: <20260519-alsa-usx2y-p4out-drain-v1-1-8f0a4550bae2@gmail.com>
-References: <20260519-alsa-usx2y-p4out-drain-v1-1-8f0a4550bae2@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UpkB90Y3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4B2BC2BCB3;
+	Tue, 19 May 2026 08:33:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779179585;
+	bh=6TGMMTE0u83WGBGyaqlbzGcDa5UQfun90gQgRnrOvk8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UpkB90Y3Oz6tTQ+vY8ZH4rWEgyk2v7mcacbSqK/O10gGaK8t5QuPKcqL0ogFiOHER
+	 F5BjUw/ZEFq9ECeSspnZM77VZKWP0zJ5BakuXhS8PvcczTDxxiGvEQ/LDMhiyESwrV
+	 gn0Ji5Xz3xjUdZI8DzvD0KZ6/fZB6iMg/yh0co2WfgPStjDT1CSiIwJtZq3P6UDKVB
+	 5kmJ+JYvU70no82Pn282yrqYwYEgaW1QgBCKhQCyHVxezo3qRRpvsY93T19h6d5Jli
+	 nwqLxZtcmD5V7pyKfFFvmvbozH8RB3xgFqIZpzhi+6ob4NRnmtnTB2ZNgEOaVB2LLL
+	 t/w0VUH0j1Ygw==
+Date: Tue, 19 May 2026 09:33:01 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	"open list:ARM/Mediatek SoC support" <linux-kernel@vger.kernel.org>,
+	"moderated list:ARM/Mediatek SoC support" <linux-arm-kernel@lists.infradead.org>,
+	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
+Subject: Re: [PATCH] ASoC: mediatek: mt2701: fix snprintf bounds
+Message-ID: <61fa661f-0281-4b58-8042-f3f60cdc3407@sirena.org.uk>
+References: <20260519010440.629290-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Level: 
-
-On Tue, 19 May 2026 05:20:41 +0200,
-Cássio Gabriel wrote:
-> 
-> The US-428 pipe-4 output path submits at most one pending p4out
-> entry from the shared-memory ring per input interrupt. If userspace
-> queues more than one command before the interrupt handler runs, later
-> commands remain pending until later input interrupts, even when async
-> pipe-4 URBs are available.
-> 
-> Drain pending entries while idle async URBs are available. Copy each
-> command into the existing per-URB async buffer before submission, so the
-> submitted transfer does not depend on a userspace-mapped ring slot
-> remaining unchanged after p4out_sent is advanced.
-> 
-> Also update p4out_sent only after usb_submit_urb() succeeds, so a
-> failed submission is not reported as sent.
-> 
-> This keeps the shared-memory ABI unchanged and fixes only the local
-> queue-draining behavior.
-> 
-> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
-
-Applied to for-next branch.  Thanks.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="bRbs8QHSgrH1Itrk"
+Content-Disposition: inline
+In-Reply-To: <20260519010440.629290-1-rosenp@gmail.com>
+X-Cookie: Huh?
 
 
-Takashi
+--bRbs8QHSgrH1Itrk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, May 18, 2026 at 06:04:40PM -0700, Rosen Penev wrote:
+> For whatever reason, GCC is unable to figure out that i2s_num is a
+> single digit number, with MT2701_BASE_CLK_NUM being the maximum value it
+> represents. Add a min() call to help it out and fix W=1 errors regarding
+> snprintf bounds.
+
+> +	i2s_num = min(MT2701_BASE_CLK_NUM, afe_priv->soc->i2s_num);
+>  	/* Get I2S related clocks */
+> -	for (i = 0; i < afe_priv->soc->i2s_num; i++) {
+> +	for (i = 0; i < i2s_num; i++) {
+
+This makes the code rather obscure and will start silently failing if we
+ever get more than 9 clocks, we should at least put a build time assert
+or a warn on in there.
+
+--bRbs8QHSgrH1Itrk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoMIDwACgkQJNaLcl1U
+h9ApDQf8CKbgltfBHlqjDjL8rukX2pWSsSamJye6jR/FaVEZcCEq1DGkd+gBUaTQ
+Wmeyqpn6s+OawHMTL1yuTrXcAApnXmWVeKrOhW7h7TnfHnJvyTEJZ69lkQXrk/yf
+V+DF2QZNJzwzp87cluUEvhDUgQFhLkZV8bxdmYIfPRPPlAsAar3brLsVNx5Vlp5/
+sEGYJ29q1Na6/DrqWuUv3JGMfNBwp73VSVC9SzQ4IZbaCqngsdUEdIMCxK0RWkVy
+YhXFQqA6/+tDc4L0WoKxsmgGsumRn3GfYlyTG9W4kpakrCklVTOgzoXXobAbhwDP
+fF/+U/Qc2VKq414MKCdyoAA9Fhoorg==
+=GZfX
+-----END PGP SIGNATURE-----
+
+--bRbs8QHSgrH1Itrk--
