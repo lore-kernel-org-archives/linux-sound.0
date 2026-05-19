@@ -1,110 +1,137 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E7833F5B1
-	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 05:40:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F160379EE1
+	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 06:05:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779169231; cv=none; b=rWaITCG+KO1PEdwl4wmU9LJ8KvdXYYpC2gEYuYZ/l3+mxPylhDgVxJJjiDdkxhag03qEj9rGV/ELkN/yTFS2NMl9pEz6CdvnBB6+MKipVf2Gl+u8K1TnjCQyl8LWGv2UOyv86jhqPu5MxauUZbg1Znq0N/qzjmS94viAQ4JY8yo=
+	t=1779170743; cv=none; b=oGEV3fGOiRdyXPLVLpAMDYD8k8CnDiJFONWSrzqbxagB4j62808KRbgqL5N7klEtGEhT9mZ8FIYeINqQMj0rH0AKAdmZi3N1L6WIDExzwL8zKJEZuVL1BumdZY1fJeXg1enQLAHm9DyvulbKIJLo1L2dXZgAh3rYVBkAxVA2yGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779169231; c=relaxed/simple;
-	bh=LGUOcBBjpLtj4Y1JYl5LcWsQBF7rLYN6gfKM8t/7vPs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hp50dCwoMiOQ5UXfXR+/Q0Bz0D7IrdUTxZzlE6+HmnOABDCRxgRnkyVru1m3hctaWQkpdFFPOPiYGseIMASc7YGUP7SL7zQQ0XiYmkTLhUBeV3qiNm6LCDiGTAE/n4Ot4E0xXzEKiY4pugXwhlmhGZyauNQ491qu7ko1S51pEnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FGO4BLbt; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779170743; c=relaxed/simple;
+	bh=7rFrH68U+/7/E7s6F01qt2imZUrGqT/Af7wJNtrBwog=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XCXBSIdl6OgAuinFJmQQinBitKL7JBD12WU+uDSc9f2SgvX3KgH1JgAZYOzjyj/pX4uZ2NjgxWSI96RIN9NNg1gijjKg1sGiDvr+LGuNlr26Nt66/KdW9Ov5Y4VkhvCbrK/N1ZS8Fwo6m08ACCqOcm0JvYNOlyiusCp8t1bKttU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bcSHh00h; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OJfd/LGN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zLmzUD+3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ccw5YveK; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FGO4BLbt"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2be1dd4af34so12900095ad.1
-        for <linux-sound@vger.kernel.org>; Mon, 18 May 2026 22:40:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779169229; x=1779774029; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kyasRdVNP43J/qdjOUHHjkFB5jEV1GwjVuC9P7OygY4=;
-        b=FGO4BLbtoMoiYMpLi2BosbQe4teyBWmjPLswLe4LXOdS8b1qxfa9Pem5vj8aVH6k4b
-         NpCmuuPstiCfoE1gqiOKKako8rYYozL5UpM7/ZhhlbWaFl+Ae41hNB0lsYZNon7GZRuT
-         K7Uz9+Hee+IxGv20K4trk2Q3djBcl+WjW30ONi8VW/X4ZYCiI7ze0bAI8az1p7L5/cZ1
-         secmxkZC03ThhzJBHwilZql5G0wfHZPVwcE9tAzpfqhrE0zn+kuBNyOYWqoN/IAUyVb9
-         xZBxoaYI2kUQO2rYHQ655WanGmuPmMz2wXsdtRPkYiuGbu2yjhDOOMeEUxlyf00ovnoW
-         yY3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779169229; x=1779774029;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kyasRdVNP43J/qdjOUHHjkFB5jEV1GwjVuC9P7OygY4=;
-        b=lXWdV5A0BohW053FxXjBc0aqsh/O+gQW+qzerkHuGs6qo3oXLX81CLLrenlSH+UCvD
-         TvAb13ZVOk6/rhCEr9DumD3el5sDJPrv3GqO67Y66WaboVTeE8U29ToyiHGa21RnItdi
-         PdrZAKJ5WwdJVKEIpn3QIiJnNUofKJfz5uC+8xdgb9BxC5Dhcnp7ivvaw8coq9HTooPH
-         FlTn3dq6PpWhDl1+i7456K1F3Oshyrms1QUvPeYt2p961l9fvmkopbVpMmI3CHEYt6BB
-         rMWnhVGu0Bjd0hQsJ3AQbLrLCkaMUKPr+VMQ8V3UhAP8ETvlflB+AvYHOw+zn2YB8dco
-         0AGA==
-X-Gm-Message-State: AOJu0YwqiuNFHEFT3M+g2MgQiyD9H5JXet8cOE2LHi0vzUzaDcnNQdt3
-	EdxYtGMrzXVxeg/BxcrwPQagS3StPnlDmrDlvIUzN1e7E7Whd3xsbuin
-X-Gm-Gg: Acq92OHdXihrl3mf2GAEIzhEOZ73oIYJnrcAUYJ6o+fMjVsiez1CtKPQf4ZKAWPonpG
-	Vp/6W/5lTrHNS2e1xELFC1YsJMHKcMO6zt6f/kX/c+6oqpS7gysg2+4CKKkEzixQo5lFTCPiLwT
-	kNRNn12T7TAIk867lk7wW9x4lXYsEUpJ03VgE7zW4KPQcca6VHAwnO3A3s8zAHzTujg/gvUprnn
-	mcChbfTbccyqgCZ6j6hTQ8/TrllEHagZf0sOUmt37kx14rWJkVJI6xaQ3gr+TqrW+Noy3602zAq
-	snjjykCxJE2gRmk+3yB+4uRzNgYo7uLgSH4fnTvUPsMO597Ib0+Gee3OOkiQFZMxQ1Nebq9Vl16
-	bL67ry3Qq9vh15pIOh84611WtMBDhq5Sw+2qXW4uiyzqvwUaruoZB+dugsJUzIz90C5pQwg/eQw
-	zEP5dUVx3Eb+Era83rXqCvDfu5nk3bAgyu9ixc4A==
-X-Received: by 2002:a17:902:f64c:b0:2ba:fed:7891 with SMTP id d9443c01a7336-2bd7e92c24amr206379245ad.30.1779169229167;
-        Mon, 18 May 2026 22:40:29 -0700 (PDT)
-Received: from soyboi ([2402:8780:1073:dc10:22f6:2ac0:a51b:5d77])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5d0fd384sm172858725ad.65.2026.05.18.22.40.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 22:40:28 -0700 (PDT)
-From: Robertus Diawan Chris <robertusdchris@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bcSHh00h";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OJfd/LGN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zLmzUD+3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ccw5YveK"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C373467D9C;
+	Tue, 19 May 2026 06:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779170740; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T7B7tfpN7KVnjD31fX/E5ws8Tf7vaiYQY6EaHkLHEFo=;
+	b=bcSHh00hMFIBIKry4HzlSJwEp77dhrjmRKeduyPZ+/hfWLdnMQVtEVAByb4NoEbQ8UIQGg
+	xDFgJLSID8smHxAC1U5ig2sJas0ptHkZEoN1UlyeMMltUrjs+BAHYupKjONZLq657sUYKS
+	BV+zmoym5gH4VIPVkptHPtd1cbET70I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779170740;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T7B7tfpN7KVnjD31fX/E5ws8Tf7vaiYQY6EaHkLHEFo=;
+	b=OJfd/LGNFhlkTXahnmAPf4F/BMi+9fO3+Gxta1g34KeLwPWcHgGcStkEsJukWb7bibhsq6
+	9AQp7OCqkSXdOHCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zLmzUD+3;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Ccw5YveK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779170736; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T7B7tfpN7KVnjD31fX/E5ws8Tf7vaiYQY6EaHkLHEFo=;
+	b=zLmzUD+38dBh+nkUdqsZWeqJEN+UgBK+s3BUcFZnEHJ2V3jacsX77bUmuHiV+4UIse2qhN
+	Xm1Uqim5En+O9nDseGNbhr8shVfzWRq19R/isGoUY0lJl0L3VK5wvFrQJ27pJtetaxTe/G
+	6mWEhTH/u6vqzL8SEIqgxkTLSnjI794=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779170736;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T7B7tfpN7KVnjD31fX/E5ws8Tf7vaiYQY6EaHkLHEFo=;
+	b=Ccw5YveKegF3GGkCc/mHaAQW48t0mmjsmbCUNtCzZF1uBb96DJI/wASVRQTXNXbd62jrNv
+	pOfVqF1k52gC38CA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A6BC4593A8;
+	Tue, 19 May 2026 06:05:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id eOfjJ7D9C2pxfQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 19 May 2026 06:05:36 +0000
+Date: Tue, 19 May 2026 08:05:28 +0200
+Message-ID: <87bjec3pef.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	me@brighamcampbell.com
-Subject: [PATCH] ASoC: soc-utils: Add missing va_end in snd_soc_ret()
-Date: Tue, 19 May 2026 12:40:24 +0700
-Message-ID: <20260519054024.274741-1-robertusdchris@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Fix mute and mic-mute LEDs for HP 16 Piston OmniBook X
+In-Reply-To: <20260519015535.891156-1-zhangheng@kylinos.cn>
+References: <20260519015535.891156-1-zhangheng@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: C373467D9C
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
 
-The default case in snd_soc_ret() use va_start without va_end to
-cleanup "args" object which can cause undefined behavior. So, add
-missing va_end to cleanup "args" object.
+On Tue, 19 May 2026 03:55:35 +0200,
+Zhang Heng wrote:
+> 
+> The ALC245 sound card on this machine requires the quirk
+> `ALC245_FIXUP_HP_ENVY_X360_15_FH0XXX` to fix the mic and mute LED.
+> 
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=221509
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 
-This is reported by Coverity Scan as "Missing varargs init or cleanup".
+Applied now.  Thanks.
 
-Fixes: 943116ba2a6a ("ASoC: add common snd_soc_ret() and use it")
-Signed-off-by: Robertus Diawan Chris <robertusdchris@gmail.com>
----
-I am still not sure how to test this change. Thank you.
 
- sound/soc/soc-utils.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/soc/soc-utils.c b/sound/soc/soc-utils.c
-index c8adfff826bd..9cb7567e263e 100644
---- a/sound/soc/soc-utils.c
-+++ b/sound/soc/soc-utils.c
-@@ -36,6 +36,7 @@ int snd_soc_ret(const struct device *dev, int ret, const char *fmt, ...)
- 		vaf.va = &args;
- 
- 		dev_err(dev, "ASoC error (%d): %pV", ret, &vaf);
-+		va_end(args);
- 	}
- 
- 	return ret;
-
-base-commit: 5200f5f493f79f14bbdc349e402a40dfb32f23c8
--- 
-2.54.0
-
+Takashi
