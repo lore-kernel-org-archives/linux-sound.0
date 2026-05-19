@@ -1,200 +1,112 @@
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B684EA395
-	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 16:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779209517; cv=none; b=Ktp43syk0mYQb8Rg29uD07OEyGTjZpvTrXS5LvJZSUWLob8AOKPOLd39iI3RGjLuwhySNL+r/djdaqdogumzFr15AHUcEZu91j5KbSLlf6oOqjSogCpifs3XuEJprMtd7veNZp67D4QhPEz+Yvz4PuwcdFlKVKBL3IAbN2BOHQs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779209517; c=relaxed/simple;
-	bh=xs6LB5hFZ20MJjoK7zKOeih3SSoTrt0ZWFA5mHOlqPA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SJfjdlTK0nBlZfutTKxM4gsfBeJG8U7mgFHVF4xnev4/qe+AQvwB1KRNEFN9QTxBCw5VbOl5BSawInzPIrwciUUsS0Tno8qaoLMAY+mzlxi5YVfWnplZDn26nzC6B2SGrXCZqXLXYPa7hys8bqkdrO2S0cEBOErVy4xev/391vA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SYFrJupk; arc=none smtp.client-ip=74.125.82.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5993B4E98
+	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 19:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.196
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779218021; cv=pass; b=b1Y8bpM3n+SNHJFt6jCbgLwTYmTRUsfmIXjzK8yZBttupvXOCy7eU02TE0RYG/YsQrXhkn7DV3DexvcE1k7a4VzKnQk7veeHMWS+B/m2bGNVMr7mYduEyvgUz0BsKZjUxz5ywqKlK4P4IOtqyb15wl6ybg4x7iBYxuc9hgLKMMc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779218021; c=relaxed/simple;
+	bh=TvTeZUpq26IRZS8BDum62nrvWawBVSt0lU+Pynl8zxQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V/kSZICrFSVIwuBer/5RESg8EE7o6yORvArABFfqLdZj3MUIe6FJOSJsoh7AkLQIOJFVYTuWODu8WQQ4z0eF3yVcmAmdcL4gz7JT9q5oSlzwHLLW7jsPHvgqqr0eaI3UjjtxtDdfVVIN8bq91eb0qhG3IBO+3gaTVJt2R+Q9Pos=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Olwyl7Px; arc=pass smtp.client-ip=209.85.160.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SYFrJupk"
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1309f4ee97fso4276883c88.1
-        for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 09:51:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Olwyl7Px"
+Received: by mail-qt1-f196.google.com with SMTP id d75a77b69052e-514ae601e01so41883301cf.1
+        for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 12:13:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779218019; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Iq1vdgAiP8DqA/YW366cxrTbNmpjaVvO/XZt5QKVrPV5eFEk3dP+SLlr+I7E+D3A6i
+         2O7iKynCybxFNwiUD8ChQuEsvt4+88iOUrgf1f4LlLLt4JYEsjFt+6WnNNyLLwXx/XSj
+         Q8Z67Ph6UfApJMX2q+mYpOHdsiBCjMni/3Ks92ZsRySyaacR0uXxQvmCekVoZBQ9wSEw
+         DC9UqNe1LWM2F0OaLtV2U8FMRUnog7yEG22hZx7NOOoA+j1WqplHoMLbZo6CuXOsWEqY
+         EYM2aaoTqCICipRXLW2fPDpryDLHWd4v1Yq0xqqjqAKg2VeLIm82NlUc2cVs1GlYc7RS
+         dLgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=wwdx7K8MgGQcUZ76dZ1xm1ruXQr6bDMCCuKQcB9ixn4=;
+        fh=K69IKseKOp56bMSz2pv9gO3JM15Cvvua9ISiuz7cy/s=;
+        b=MINosntL+gTdwTKLcLwHNWcSRN1/qQbq0YWi/sTG17cEp1EF1YUcQhVBuab6Ah4L0d
+         ODhy6L434TdVbppsThr9kuLSZfVijtVaHvR8XIqApLAKdg4HuI+o48UIJ2vj2toxwbhB
+         H5C0krn04tVDKvZ1Jd1+cYl1qoTzLhzaGWUjqAoPZJnpP2NyZfzmPA69Tg4334GhTAaN
+         TjAb2we0wHFVxBmIYcieuQLet3Jp+o1XjBuHtHhkI99K+o1ovtzfHM79UlwzMdzfiie9
+         uTBLoPZJTuZhf+FzS01Itv5rGKQuWlXT/DV8oMt71juRIuGiQ9CXlRRFkbqB9EFbvI7A
+         mI6Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779209515; x=1779814315; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5Jo+gSsn+SZYVigoskmViLe50pMEYHpvZm8JroYRhQA=;
-        b=SYFrJupkI71WGfLY1p9RFOEKLq4OstexAx5uLz9xb/k4OWKn3bahX2xQuMrGl2kmKB
-         k3McBOJRJ2dSIws+4yipcpZfmPchmzNlfrtCaoQrQJWilsZ4F62qau6urIB4zhUji9rH
-         G1jUJS0cFHq618C0PvuofZVzRIg0esTJqmMtAQc50baiTWHTqD1uorAknxe7Fls2MI0j
-         fdYG0daw1oiKpoEismMK0gQQJiuYq0Jc6qJLlE8oOsEt3uP3VzL3vOikHz4sX1NBLVS7
-         wKpddId4GFNau8cJGx3Uba/QRNOSagJ54+AFDdFX8nVpqP2BBrxwKHMOm7rpXHHpamDJ
-         oe2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779209515; x=1779814315;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779218019; x=1779822819; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5Jo+gSsn+SZYVigoskmViLe50pMEYHpvZm8JroYRhQA=;
-        b=U7xSQheaDrk6cmPRhxQbp2SER6NH4jLLmQbKvL/UwLawjt3wFHYyT1LjB4F/A+OeKL
-         qD8GbyafeuAZ0YlSGUj+m5DU+yOfFa1nFUfMkq6oZBriyGbvoU3BdbiU66pljXMDp4l8
-         dXaM3EQf2HoMmOv1+J1HdZzq9/gWRkGLVMm01TAQ5c/gb5PKIsG71KIFPwVIp/Vw5hT7
-         ltGdZRAKTF9lfsCnDbkF0sHlJ9AafSUIJf2/TheIrgJA5smRZlOXXQkbmOnBFi3VlEKh
-         Jq2P/PKXl8QNlZPNegjpz9QMW0UloJTAnSoRZCwQmMnTLRh10HNvmAMyx4oYmxFseqDj
-         x43A==
-X-Gm-Message-State: AOJu0Yx/5w40LI/s6GQ7Jc1VrLbwWt40DpbQc0D3c6REBJnbOaMN0Bjb
-	vw+q19tOWyxePKmWqeHZPNG+4sghc+xR3R7VkA+wzcJ7d92wQtCbdqaTH+8ZsJzs
-X-Gm-Gg: Acq92OEY7H9x3GxcKeztyEDyJxYrlWKuwT2X1/xtc7+Pmb+T+/FU0DDjpQ1oDBhkl6a
-	9Z3xmnO/HWJTOb9Vfh5kLthQIAqoym6konTFWK/wXQ43/jJfvNCS9UfjL1lCOTATUGIAghXB3Hy
-	jv+VuEVtBjeTQrHKpo0pBkqur9gZLWzFVpx5JxOzBCl1mAvBJ/KIZ6oSrPrURxmAOvaJt6be3Ih
-	ED8FIH3Wjsamb7oKRmzudtYl2DhL7KHIQTzX9qbH4otVyyr49ef5CoYXRHq88yRZbwnZZs17+5W
-	1a0M5pv1X3sISRmOWxnaEsgjuyFbsIr8DIf892OHvh9X1mgyMS3tVMESNPeAmj2et+H4Zci0EOp
-	ttjH+3rnOq8Mcngr/neSrlfFXNx6wFIw+ZrGj/cZEsNQXnoDM0O8hcY5xNaduLRP32V9Ix0axuE
-	+Mo1y200mT3Afkr5a0l2KReUAFkjiKHN8b+PW+sFj4xA9Vz7ojOBffAO0DaRAkRwlWnQZROtirW
-	w==
-X-Received: by 2002:a05:7300:fd16:b0:2f2:6dde:df66 with SMTP id 5a478bee46e88-3039868c86cmr10136905eec.22.1779209514761;
-        Tue, 19 May 2026 09:51:54 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-162-74.user3p.v-tal.net.br. [177.4.162.74])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-302973bbd50sm16378452eec.20.2026.05.19.09.51.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 09:51:54 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Tue, 19 May 2026 13:51:47 -0300
-Subject: [PATCH] ASoC: Intel: bytcht_es8316: Fix MCLK leak on init errors
+        bh=wwdx7K8MgGQcUZ76dZ1xm1ruXQr6bDMCCuKQcB9ixn4=;
+        b=Olwyl7PxR2qlw45XALYcq4MebmMn/K5sl8yhVlzavmbI+80/HTgP9BuYJNhDiu6dEh
+         xZTgSf+BtGp7btOh5i3MTYOJXX/loCgWaYu1w0QqlN9VASsMV9Od1kp/R4f+4fRd3Jpa
+         urvol4bj1lsyRRk6wTWgduk8Vuh3jW+NDXJeeCkv+Qvxp7PSLAvK6hrasOgLJO/fhsUd
+         RheHz18DSBC709RU2y04CTyFbSuMM2d0V5eBIwbQvfvFsGur206flgBg33/psQQ1TaQN
+         red1q+t7Bo2g0YBA/IcaeoH9KiD8K6gGTubrDJ6DChTU2te4ZQrCscttJy6gw38q0JJZ
+         U/9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779218019; x=1779822819;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wwdx7K8MgGQcUZ76dZ1xm1ruXQr6bDMCCuKQcB9ixn4=;
+        b=brNnzsocoB92G1ViGdOn04uXrI19G+HvVbpRmhUsTO1crZwJte2OQVX/tPhWIerjGp
+         rkyuyS5NHHpMNNTJlp7x2HoL9Hn+BC2ix7B+Tj436kNdtIC5Qxfu9ud6lscedIdoaM8G
+         xFXFkRkMgy1z+JjtFs9RZE0DMOI28V9k6iFPq07uXy/lQS1N7FhT8BoxVBj8Pd4ilkw2
+         aX5JMOYlZXHZEh1aVqv/bbdKJkBpLjk/BbzFXYFH2t+ZVpruwQ6urJdJezNWsRFBP3Ky
+         lftJAb0jxDlMByUIRnKKGwwu1fF0T8guQ9jI3Rtc12wvYA2jTkk0taYcdR2dXOb+PI+I
+         gijg==
+X-Gm-Message-State: AOJu0Yw2+CBNyrjGjt7BdldOKqpMi1NdK2JpzGYjOM+wRRFsKzDkGUxl
+	Gjir31X1j4wcZrvhr6hO7Aeo2qgXws4+mpnsb4tuCnLCVyA98NCxgV2K5CS011DI9XpARrfJTjI
+	MeJwvO5pRk+Fg+jTAT21fLQHWXivpSpI=
+X-Gm-Gg: Acq92OHQNYF0e+irinGhU1HjOCE/EfzQ65PVaGGJgFWKyni9myv1cSrUg0H8UmkVPJ8
+	iOvXe03qtAt9KpO9hAMMJdl9Vps3WT+mpM1MEVVQizvTuURs5Bsn0wu9xlSTx5w08EPK+xptYAs
+	A+BPqF6p3vBJf2ZPbazHi18D8iKg1lG9k94nb7o3wgKYTTEfTjbKNX0yrCXuoHc1enzesbODkhq
+	CEYKa4t2VXQt6L07SuPpnxxyGC93W5COMmp430g4F6LULwHO9oWwyoHUOFj4SSqiPXDAS0p3APV
+	DO8A0p5YIIh7kbJGL+EqdRriDkw+RDocEjxdEvwxN5TaieIuAJC9dyVKJqgAwkv/0T1O
+X-Received: by 2002:ac8:5f8b:0:b0:50d:5f34:9a with SMTP id d75a77b69052e-5165a0d064amr269060641cf.28.1779218019454;
+ Tue, 19 May 2026 12:13:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260519-asoc-bytcht-es8316-mclk-leak-v1-1-b4a11cdc2afd@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQ6CMAwA0F8hPduElYDTXzEeRqlSQSDrNBrCv
- zv1+C5vBZOoYnAsVojyVNN5ynC7ArgP01VQu2ygkpqydoTBZsb2nbhPKOYr1+CdxwFHCQNSV7P
- f+3CoiCAXS5SLvn796fy3PdqbcPqesG0f6wLQm4AAAAA=
-X-Change-ID: 20260512-asoc-bytcht-es8316-mclk-leak-2d5c878a9322
-To: Cezary Rojewski <cezary.rojewski@intel.com>, 
- Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
- Jaroslav Kysela <perex@perex.cz>, David Yang <yangxiaohua@everest-semi.com>, 
- Daniel Drake <drake@endlessm.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3431;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=xs6LB5hFZ20MJjoK7zKOeih3SSoTrt0ZWFA5mHOlqPA=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDFk8U9WY9G8cWZ+w9ikbY1jQuaDH12wqTSujjZNMkiquG
- PDVKZV2lLIwiHExyIopsqxOWmS5p+vB1fq4FR4wc1iZQIYwcHEKwESi3Bn+e7vsuNiQnxeVJcCq
- 3ygwI3qD++kXH58fcrr59vk+y/MchxkZ1ooneJryiLQlrbL/I+/iaxjqlnq777PH3dvaBY+r+LP
- 5AA==
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+References: <20260517023723.92731-3-enelsonmoore@gmail.com> <edc020fe-1615-4a11-b414-c6d4e8b7dd1f@sirena.org.uk>
+In-Reply-To: <edc020fe-1615-4a11-b414-c6d4e8b7dd1f@sirena.org.uk>
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Date: Tue, 19 May 2026 12:13:26 -0700
+X-Gm-Features: AVHnY4L4Iup_ZVRORpZbBblYTYWsYcH1V4IpW670HVxLxn8cA33PmOn3c7pnxUA
+Message-ID: <CADkSEUjhaU5FOmG4OSOnCQQXGbcPG46NBe=h3ZotA57E0MKTrw@mail.gmail.com>
+Subject: Re: [PATCH v3] ASoC: ti: omap3pandora: update board check to use DT compatible
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-omap@vger.kernel.org, 
+	Jarkko Nikula <jarkko.nikula@bitmer.com>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-byt_cht_es8316_init() enables MCLK before configuring the codec sysclk
-and creating the headset jack. If either of those later steps fails, the
-function returns without disabling MCLK, leaving the clock enabled after
-card registration fails.
+On Tue, May 19, 2026 at 2:02=E2=80=AFAM Mark Brown <broonie@kernel.org> wro=
+te:
+> On Sat, May 16, 2026 at 07:37:22PM -0700, Ethan Nelson-Moore wrote:
+> Please do not submit new versions of already applied patches, please
+> submit incremental updates to the existing code.  Modifying existing
+> commits creates problems for other users building on top of those
+> commits so it's best practice to only change pubished git commits if
+> absolutely essential.
 
-Track whether this driver enabled MCLK and disable it on the init error
-paths. Add the matching DAI link exit callback so the same clock enable
-is also balanced when ASoC cleans up a successfully initialized link.
+Hi, Mark,
 
-Fixes: a03bdaa565cb ("ASoC: Intel: add machine driver for BYT/CHT + ES8316")
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/soc/intel/boards/bytcht_es8316.c | 29 +++++++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
+I didn't intend to do that - I resent the patch because I hadn't
+gotten a response regarding whether it would be fixed up manually or I
+should resend it. Next time that happens, I'll check to make sure it
+wasn't applied first. Sorry for the confusion.
 
-diff --git a/sound/soc/intel/boards/bytcht_es8316.c b/sound/soc/intel/boards/bytcht_es8316.c
-index 192e2a394ff3..ea387dc74273 100644
---- a/sound/soc/intel/boards/bytcht_es8316.c
-+++ b/sound/soc/intel/boards/bytcht_es8316.c
-@@ -40,6 +40,7 @@ struct byt_cht_es8316_private {
- 	struct gpio_desc *speaker_en_gpio;
- 	struct device *codec_dev;
- 	bool speaker_en;
-+	bool mclk_enabled;
- };
- 
- enum {
-@@ -170,6 +171,15 @@ static struct snd_soc_jack_pin byt_cht_es8316_jack_pins[] = {
- 	},
- };
- 
-+static void byt_cht_es8316_disable_mclk(struct byt_cht_es8316_private *priv)
-+{
-+	if (!priv->mclk_enabled)
-+		return;
-+
-+	clk_disable_unprepare(priv->mclk);
-+	priv->mclk_enabled = false;
-+}
-+
- static int byt_cht_es8316_init(struct snd_soc_pcm_runtime *runtime)
- {
- 	struct snd_soc_component *codec = snd_soc_rtd_to_codec(runtime, 0)->component;
-@@ -227,12 +237,14 @@ static int byt_cht_es8316_init(struct snd_soc_pcm_runtime *runtime)
- 	ret = clk_prepare_enable(priv->mclk);
- 	if (ret)
- 		dev_err(card->dev, "unable to enable MCLK\n");
-+	else
-+		priv->mclk_enabled = true;
- 
- 	ret = snd_soc_dai_set_sysclk(snd_soc_rtd_to_codec(runtime, 0), 0, 19200000,
- 				     SND_SOC_CLOCK_IN);
- 	if (ret < 0) {
- 		dev_err(card->dev, "can't set codec clock %d\n", ret);
--		return ret;
-+		goto err_disable_mclk;
- 	}
- 
- 	ret = snd_soc_card_jack_new_pins(card, "Headset",
-@@ -241,13 +253,25 @@ static int byt_cht_es8316_init(struct snd_soc_pcm_runtime *runtime)
- 					 ARRAY_SIZE(byt_cht_es8316_jack_pins));
- 	if (ret) {
- 		dev_err(card->dev, "jack creation failed %d\n", ret);
--		return ret;
-+		goto err_disable_mclk;
- 	}
- 
- 	snd_jack_set_key(priv->jack.jack, SND_JACK_BTN_0, KEY_PLAYPAUSE);
- 	snd_soc_component_set_jack(codec, &priv->jack, NULL);
- 
- 	return 0;
-+
-+err_disable_mclk:
-+	byt_cht_es8316_disable_mclk(priv);
-+	return ret;
-+}
-+
-+static void byt_cht_es8316_exit(struct snd_soc_pcm_runtime *runtime)
-+{
-+	struct snd_soc_card *card = runtime->card;
-+	struct byt_cht_es8316_private *priv = snd_soc_card_get_drvdata(card);
-+
-+	byt_cht_es8316_disable_mclk(priv);
- }
- 
- static int byt_cht_es8316_codec_fixup(struct snd_soc_pcm_runtime *rtd,
-@@ -353,6 +377,7 @@ static struct snd_soc_dai_link byt_cht_es8316_dais[] = {
- 						| SND_SOC_DAIFMT_CBC_CFC,
- 		.be_hw_params_fixup = byt_cht_es8316_codec_fixup,
- 		.init = byt_cht_es8316_init,
-+		.exit = byt_cht_es8316_exit,
- 		SND_SOC_DAILINK_REG(ssp2_port, ssp2_codec, platform),
- 	},
- };
-
----
-base-commit: 4ad5b674ca5f0f0bb7db547acc2491fadcf8c51a
-change-id: 20260512-asoc-bytcht-es8316-mclk-leak-2d5c878a9322
-
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
-
+Ethan
