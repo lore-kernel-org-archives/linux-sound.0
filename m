@@ -1,119 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA25407CFD;
-	Tue, 19 May 2026 16:20:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12902DF153
+	for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 16:23:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779207649; cv=none; b=pI3Zv1/2TKCcVXad3l1sZj2iOM1drSRk97/PU5/H+WPVaEIOiPKjLp0PBci3VctkxL0aT+iioF4aK2ozpAhvz6tfkxHU9n7gEK37nzJ8leJT5WJINn0YFOI8xfmB7tAq1+85GibdG/o8iBj0/iePQupE7+0MJvJop3MoU+y+EXM=
+	t=1779207837; cv=none; b=tuGSBYD1vStdpHEuj0wIbztmlPHrOqWa2IHW+v9Nc6jVAWaDKsV81liz///Di2622XhcmHHqWzMExfL9iU99n7OsP3njrzk+GbjZ+KOFeSmVp9B0hxpORSJBkb3F9y1IBw3jjTWKWkR+5CBIO898PykVhv8GoJkbxCVFEDzKs50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779207649; c=relaxed/simple;
-	bh=ELoAf8oLF/+NoPxDFNwW00zqYHr58JG4kK7pV+yDj5M=;
+	s=arc-20240116; t=1779207837; c=relaxed/simple;
+	bh=sawSq5eXQjYiqQ9J4p/mTD8n9jgYdcmC7L1nxPoWhOc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eWwVPeajl59Ke0g6KOlVhKOwo8HeqlMe2K+3CB+Dk5HWD6zJ5/WWXMgOcXyH020/G1Cqnt3LAEsGvY9QYWf3dtxsHxNJHkByX0Ill46J8bK+RWE8vdTEk8Gtiod3aZ3ePQTEk2XrV+b69wwUIqP8wqec8lbsQVjkSpy54u6BijU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vdt84AEb; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=HTgiRPPdJySwBk+uzyp4vSUBe26TMWzeZ1oWkZIqZY0kKduhonXXiVpHpy0ERoxQVi3uc+Ugy9d8miaKca1jsjvJUCQ8a9i9Hu2+DQFmzfraGktkzSdpquCYU71AjJzONd4Y7DtK/ZDN27y4iKQKAGgqYJIIYn8/UOZRa2GQ8XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lDahEXqr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vdt84AEb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B92DC2BCC7;
-	Tue, 19 May 2026 16:20:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lDahEXqr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26C9DC2BCC6;
+	Tue, 19 May 2026 16:23:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779207649;
-	bh=ELoAf8oLF/+NoPxDFNwW00zqYHr58JG4kK7pV+yDj5M=;
+	s=k20201202; t=1779207837;
+	bh=sawSq5eXQjYiqQ9J4p/mTD8n9jgYdcmC7L1nxPoWhOc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vdt84AEbvA7WSgg16neBn3Uk4cyujH35sOYSfAkouVaVuVdhXEC7+BoEwzqntJiRH
-	 iju6Ro4mcVeapKycrKcWU5VmuFJTHSlXJBGSFpIgJorSq+E6EIrafpTqgnJ2HRruJn
-	 j1nBYcqetEX9ZX3NNOaQCchgYHsvTN1bT0mkVOoceHK7EjFOJu2i9KJxEeGIcSZfWn
-	 DuxvWUq9pBh7kx7umpXSmNZepppCYULuvBs08JHBVegL6lB5wD6d51ekZFeqx+jq27
-	 WMz0xNeugGBQjxpfBMbe41r+FapXaLLrWgkHNuTskUY6D8YWZnUq/nY9rtR5KB00oq
-	 Kq7zT1VONk/mA==
-Date: Tue, 19 May 2026 17:20:44 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Val Packett <val@packett.cool>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 7/7] ASoC: codecs: aw88261: make volume control usable
-Message-ID: <97775db6-b417-4e07-962a-f0228684d7e3@sirena.org.uk>
-References: <20260518220906.347958-1-val@packett.cool>
- <20260518220906.347958-8-val@packett.cool>
+	b=lDahEXqrqLXUa5phbwB8xR5fe5YnUtFNE63KbsZ113vDqjU1nXidwvIDTKncoR2tA
+	 9RrmZsdhbuKZx7+RWjjDLnPPfaCjLjQ/hwvyWZ6AauyXQVBbVYrTlZ1OYXcdyN7GkL
+	 9kPIueZkMzgCS3nJBiPzdPMLPebEREOT8cO8wDFo7wqEtlwUCaH3CfVoKXcqCn5JXo
+	 hXls28zr9ZjuUvRlCbSvhz15yc5M6/S7ucNPwWQ2EVXTcrG/rjgJ8zOIbJskRxQrvL
+	 p8ZPgPTXb0Q7LPoVNSX6cY7o7OVvyik8pvJRg1nWrfUr25TGwUAuAegeSxO4QswuSz
+	 Y57aKfHHBOVAg==
+Date: Tue, 19 May 2026 09:23:52 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: Zhang Yi <zhangyi@everest-semi.com>, broonie@kernel.org, tiwai@suse.com,
+	linux-sound@vger.kernel.org, peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com, ckeepax@opensource.cirrus.com,
+	vkoul@kernel.org
+Subject: Re: [PATCH v15 3/6] ASoC: es9356-sdca: Add ES9356 SDCA driver
+Message-ID: <20260519162352.GB3527449@ax162>
+References: <20260514075206.3483-1-zhangyi@everest-semi.com>
+ <20260514075206.3483-4-zhangyi@everest-semi.com>
+ <20260518224657.GA536765@ax162>
+ <22c7d187-b696-4411-99db-3af470f5fcab@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ReWHQlouYyeCao8a"
-Content-Disposition: inline
-In-Reply-To: <20260518220906.347958-8-val@packett.cool>
-X-Cookie: Huh?
-
-
---ReWHQlouYyeCao8a
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <22c7d187-b696-4411-99db-3af470f5fcab@linux.dev>
 
-On Mon, May 18, 2026 at 06:44:36PM -0300, Val Packett wrote:
+On Tue, May 19, 2026 at 02:42:08PM +0200, Pierre-Louis Bossart wrote:
+> On 5/19/26 00:46, Nathan Chancellor wrote:
+> > Maybe something like this is needed?
+> > 
+> > diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+> > index 5fdd0334c355..b9e8df5ddfd5 100644
+> > --- a/sound/soc/codecs/Kconfig
+> > +++ b/sound/soc/codecs/Kconfig
+> > @@ -1302,7 +1302,9 @@ config SND_SOC_ES8389
+> >  
+> >  config SND_SOC_ES9356
+> >          tristate "Everest Semi ES9356 CODEC SDW"
+> > +	depends on ACPI
+> >          depends on SOUNDWIRE
+> > +	select SND_SOC_SDCA
+> >          select REGMAP_SOUNDWIRE
+> >          select REGMAP_SOUNDWIRE_MBQ
+> 
+> Maybe this instead?
+> 
+> depends on SOUNDWIRE
+> depends on SND_SOC_SDCA
 
-> @@ -424,17 +415,7 @@ static int aw88261_dev_reg_update(struct aw88261 *aw=
-88261,
->  			break;
->  	}
-> =20
-> -	ret =3D aw88261_dev_set_vcalb(aw_dev);
-> -	if (ret)
-> -		return ret;
-> -
-> -	if (aw_dev->prof_cur !=3D aw_dev->prof_index)
-> -		vol_desc->ctl_volume =3D 0;
-> -
-> -	/* keep min volume */
-> -	aw88261_dev_set_volume(aw_dev, vol_desc->mute_volume);
-> -
-> -	return ret;
-> +	return aw88261_dev_set_vcalb(aw_dev);
->  }
+Yeah, I realized shortly after sending that suggestion through testing
+that it would error during the Kconfig stage due to a recursive
+dependency issue. However, CONFIG_SND_SOC_SDCA is not a user selectable
+symbol and I only see it selected through
 
-This looks like it was intentional in order to ensure that things are
-muted until we power up (there's an unmute in _dev_start())?
+  CONFIG_SND_SOC_ACPI_INTEL_MATCH -> CONFIG_SND_SOC_ACPI_INTEL_SDCA_QUIRKS
 
-> @@ -983,13 +965,13 @@ static int aw88261_volume_set(struct snd_kcontrol *=
-kcontrol,
->  	struct aw_volume_desc *vol_desc =3D &aw88261->aw_pa->volume_desc;
->  	struct soc_mixer_control *mc =3D
->  		(struct soc_mixer_control *)kcontrol->private_value;
-> -	int value;
-> -
-> -	value =3D ucontrol->value.integer.value[0];
-> +	int value =3D ucontrol->value.integer.value[0];
-> =20
->  	if (value < mc->min || value > mc->max)
->  		return -EINVAL;
-> =20
-> +	value =3D AW88261_MUTE_VOL - (value * 2);
-> +
+so is it expected that users have to enable a driver that selects
+CONFIG_SND_SOC_ACPI_INTEL_MATCH to get CONFIG_SND_SOC_SDCA?
 
-We're doing the invert of the value scale before we store it, currently
-the default value is defined as 0 in the header so we'll default to
-maximum volume which is likely to lead to some distress at some point.
-The default should be updated as well.
-
---ReWHQlouYyeCao8a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoMjdwACgkQJNaLcl1U
-h9DUVwf/XNn5pf4E2MfjoRLBrUye3qifzdbq6sD1E0/C4vuGjeCSwUFCGZOE0iDD
-ayRdQ8zyrRumVN5GNoguTaWmwPX1MDtpEeUJ4Uu+Fh7kMrbARHsTXWExo8oqc+UU
-cfWTPa9xNy58jBhbQAiiCXPnBSqENa8bPaEgjuI3llkOIMC01lT6smP/1NPNkeEq
-vPAoIG0/ZuYODIMMrG3xCEE0SDViJCAc4fChz+vcoHptRI+EGmEe0NjehoQiZo5b
-qEHcc7Ordy5INDiEL/LyEIzQnLGiHybPfVJYb7a1xhlcEeTttq/E5WGXvxTaNypL
-9u8ZUs9/yNgt6YdIXbVGr5bUrovqvA==
-=oZ6i
------END PGP SIGNATURE-----
-
---ReWHQlouYyeCao8a--
+-- 
+Cheers,
+Nathan
