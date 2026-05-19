@@ -1,42 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA9F3DCDAA;
-	Fri, 22 May 2026 10:22:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0A63C988F;
+	Fri, 22 May 2026 10:22:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779445355; cv=none; b=fBjBI9QTD8d/BgOtnNSplTtHSZOTxkKD+OeXVIBLgfFa66f/7BwTc/R++myc/KYLLnrBoLavndAnOvznS/1J+dZdtaPJNzwWnFj6gGsMzhJRJ4y9nP5oHgT6ongXgqR1RUsxgFTEsqna5UbOiw3vUa90I1meUlvTg3jOqfcnVdc=
+	t=1779445361; cv=none; b=oeR4SJ21W6cChxmiPstDbuHNGnMevzLOuPhjKV12MLVYRpXV50UvG7NmEhdoTPOln94eWuTdEJDrCpxdU9UdZ93mOyMlFlF+RTlM7+hmZTT6m280v/P7eSJCsePYR1rP64o4W9xFfqUEm8oq5EzgzXxO17LKhCuqyBX02cOkDO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779445355; c=relaxed/simple;
-	bh=2GaXRtOY7FZ6ZqZsVgo8+Z5yk75ps1TTX+Sse9+bkps=;
+	s=arc-20240116; t=1779445361; c=relaxed/simple;
+	bh=hIeZXSIZZkfKc9rj4LZ2qsEcjRiO4rkLrvgGPaY2XBY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DalwBBJSEXXcd0qdIJngTG75HTvs69/uqXfmkutQLmsLy7ddsJ5rXclRpYHSTjLmT1liUR7MrOYnuU2mnonrYc0xwiAq/kTSiO3ZU+y+45Egk2heMSWjGNCfFy/zWUEsoPB5ZZmbz6EMDENWn2hHri/ETxhNS2OhLlGCFi8w9bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XXti7G2K; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=eijlRnNOtmFZA1AGHo0eZ/uTrEkqgXTiUhs5OTPOTMJzYEJdOhmnnKiuMFmdM62uMpSwN5WcHu+4tI6n/2EznmTEWOB3XFDNgbRKP9qIrTgg8UC0fqGQr2rcBpmn0adhp+hkGqupdCuB/s5z/v557inJTtoF7rQkk9gU7PR/A9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c4Uz54eZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XXti7G2K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1919A1F000E9;
-	Fri, 22 May 2026 10:22:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c4Uz54eZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CF9D1F000E9;
+	Fri, 22 May 2026 10:22:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779445354;
-	bh=nisFIKF+tUtu++YSJ7NWbE+f+sXcw391IfeR0su27Dc=;
+	s=k20260515; t=1779445359;
+	bh=mdr+eJJQ1xD5Izla6bNFp0COZv5KOnGXBfoNjI7GR/U=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=XXti7G2KrktT61C44A2OiA3AqQSrOtaZGGiniavU67RwQYq5wKtOAkRMmgIMNDtHK
-	 mGZeFP/ZDsPuVyNk3iyFyfJHjKXFBSgRjSpIjGszZHwMESGNNQPwU5UUt0xGCNP3tn
-	 4YQeISQ+ERkfhsfbq4NztCcs/6disJhF6yoBqBi0pigpzq4dtx2wyr7rrjoOHp8COA
-	 QbhjuRb10XfOXMqfYIUzvz4kB/3uqml1txpx4DXcD2RXy5B1R9Rzx+uDFR0S7oDF2N
-	 qhn2h9/N5l5MsVjFzacIe646MlPJHLiHw/+CNvEvZEnrV2V+rRyjl6M8CZ42pteb81
-	 rZK/MrUDwxqQA==
+	b=c4Uz54eZyiQNUWMLB9yzZH1lEq/FZnEqu75WE9ppNPYLsddfeIREPgy+NHzS85jIl
+	 hVmPZ7Kwh2BQmN6drwidB1SsJAgdZbDp3+0oP9pMo1bmJZPbi5Jnzk4o+ua3uWMe7+
+	 nmXXEkSy4dzCiL0YS3ssBIquFpVKMz6BZO/0LDeT66Wp2RzfeWWx4Y7dsJFD7MwemG
+	 vVpu6u/sMLcC3WtBvsoyFIZTmXLrojNNF2ipE5kZJ3cheEuJvedhq6uFpzchXYm4EE
+	 oaqczBJLdwlqSt9J8FpYscx3j98asBR9PD1u+DIfKr7MydonZxY8SrcFtssltoor98
+	 +IJ6K4IgHwNdg==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- Robertus Diawan Chris <robertusdchris@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org, 
- me@brighamcampbell.com
-In-Reply-To: <20260519054024.274741-1-robertusdchris@gmail.com>
-References: <20260519054024.274741-1-robertusdchris@gmail.com>
-Subject: Re: [PATCH] ASoC: soc-utils: Add missing va_end in snd_soc_ret()
-Message-Id: <177920265231.6167.2169891389929995926.b4-ty@b4>
-Date: Tue, 19 May 2026 15:57:32 +0100
+To: Liam Girdwood <lgirdwood@gmail.com>, Sheetal <sheetal@nvidia.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Mohan Kumar <mkumard@nvidia.com>, 
+ Sameer Pujar <spujar@nvidia.com>, Rosen Penev <rosenp@gmail.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260519094858.1426057-1-sheetal@nvidia.com>
+References: <20260519094858.1426057-1-sheetal@nvidia.com>
+Subject: Re: [PATCH] ASoC: tegra: tegra210-mixer: Reject too-short fade
+ durations
+Message-Id: <177919749589.6167.8613168760190955242.b4-ty@b4>
+Date: Tue, 19 May 2026 14:31:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,29 +50,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1131; i=broonie@kernel.org;
- h=from:subject:message-id; bh=2GaXRtOY7FZ6ZqZsVgo8+Z5yk75ps1TTX+Sse9+bkps=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC5oWaBoC5/fg26tGV/4zFKTgqoOQMUpKbwc2
- zLqvA3ieKiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAuaAAKCRAk1otyXVSH
- 0J0LB/wO0p/bRbI2Ju0VAIZRliuu5OB1mwYCmntYs2NNdjBzxBvWIYENfYqGTE2/2D7Lp2I4aIK
- BKqvFduR4cHbO0yqxkIsmWEteMDpBbZPfXWIzmbS/okVN7ZoygK+16bJsVPYnTwVCtNYrPH8yei
- r5vD+D5WxsGKilRXnqKEyUxT7PP3bHfngPfszSGM4YPCDXpH1yD1QznQHNgd8xcaB+KzdRFjaYA
- H10/yfXJ7VNlFfglcrLOewgjYzbSJAauhhcPk3nvvjoXkaQUDJO5qYRRLO1K9hhUxJ/NMrTEWYc
- cq0Ol7FjsSZBvE8XiZETFbQ87ZEMl9gtupXG48JZgG1uFFTU
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1133; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=hIeZXSIZZkfKc9rj4LZ2qsEcjRiO4rkLrvgGPaY2XBY=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC5sTvXol5wenjsFqTk2dhQUNhtejZ1XxPNiP
+ IsK8lQZOTOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAubAAKCRAk1otyXVSH
+ 0K+XB/42TO3yjZd2AWawsjb5aKzQo76+6opnAVcXUNZNvwaZCSF11p2DZ4Kx/z5REgXQD39XGmf
+ TPLZOUDltDiZSxVXcoNUvpo7scoTYvqy9NW0BxqOGlgpzddNURVgicjziPwpXagXlZaAW201d92
+ q3FTkF8ttVtyJKiHv5wdfrN8Eh76MCZzWDVwxSkA3v/uLUzv9vc+glRAovyt2HdbXEtwLC3vPsF
+ COsrNXr/jb4enFveXoUqjeATNaaSQjeE0DUnbD1/b2HwJVbNQuCUAcppw/yqiu30kfvZxTEqX0p
+ opvVWaezKU3NVdIIpxFtEQFGQnhL1qhtpNHI8niJNnhoSCBP
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 19 May 2026 12:40:24 +0700, Robertus Diawan Chris wrote:
-> ASoC: soc-utils: Add missing va_end in snd_soc_ret()
+On Tue, 19 May 2026 09:48:58 +0000, Sheetal wrote:
+> ASoC: tegra: tegra210-mixer: Reject too-short fade durations
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
 Thanks!
 
-[1/1] ASoC: soc-utils: Add missing va_end in snd_soc_ret()
-      https://git.kernel.org/broonie/sound/c/298a43b54432
+[1/1] ASoC: tegra: tegra210-mixer: Reject too-short fade durations
+      https://git.kernel.org/broonie/sound/c/75a3e43339a2
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
