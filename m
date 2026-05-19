@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD6A3D410D;
-	Fri, 22 May 2026 10:21:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAAE3D47BB;
+	Fri, 22 May 2026 10:21:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779445301; cv=none; b=omOrxmkBTbNC3WAP/99owcH7OeSIdFNC0iiQzzM8tUnKv2Kcaumh+CPezHs/1e/vXHyeNyRmkM+6AIwWw3m4gNTD3UKIsxQYGdea49lk+tHeLNhSuIFpzcy8LcOxSUJDuylt/K1rF9p2Bd5YYGhj0ECwqzGEKKjSfhvp/iZ9UXY=
+	t=1779445307; cv=none; b=SS89nqKnpEDluUcA0kNtrAOLSg767xGnyFbTxmpd6u3oL15POfRBrKmtHgwRiTHpULlqh3dp5I2/071+rxGqGTep8kdhvQG/heROT2G8XNe9kWJG+Rmq1HYLN0roaK+e/PvfrQvZxjmOZiEtgsv2yIWbTkQ2irf64lUv+naS5Zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779445301; c=relaxed/simple;
-	bh=7YTj92kNqvTxGEe1cNNLW3RP34iYfpF+DoJGWlj3xwM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CKIWsGgQ8fbjEkl1y69nC4BZV/bdYEp+56yKXD58aTj4cvlvoNhe3vnlTgGL+zby7iuhnSipzeMM7dIwRk3V/PH4PTEZ+l+K43E0OqBzkWPgV3mdmwsgf1dQuVoCofCyZzIn9y52pbQaFybCbgzorJfHzYux9XOqvKK44B0Mha4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kYux4OQi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779445307; c=relaxed/simple;
+	bh=5ZVaWSjfDYV8xFEG2qHRcRpnpfYwZGaYOU2WyjAd3VA=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=N6MFXve9h3eyPG8w0+GPD+7L4JKiuxdx4CaF4fbFXaIFYIUYTUEQYHwFsuXavOKG+RiiGlyC9zWl54osAZwGXW0yPwmPr4KbXvh19vwmNxksj1cuVCo8WSWp61gMAZd7V/TR/9uGemKxyWFH3GVzylsP5B7NcrTcN+OK39wtHqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OJCAQjSj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kYux4OQi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22A7A1F00A3E;
-	Fri, 22 May 2026 10:21:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OJCAQjSj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C90C21F000E9;
+	Fri, 22 May 2026 10:21:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779445299;
-	bh=7gK2VR5gTI+UcAjSIhHUDW5Ykd1zlLoCN9jWLoSHkKU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=kYux4OQix/CpCPxP9dEwfqnQNKXaifyZl0h50jWsUy1ysSEkJeSh3SPepKhOB9zGc
-	 r0P4TYvILY6aT2MPkNHwlwTCes7dl7Xl6HnoIuoVlcfWpZOTOlRQsI53BAYh5xJgP1
-	 5MUrc3VDUIFYsiDxXDDv1RtKObhh3HT6NgzQjBZkGZX4nVEQeo1NwOQB3ZwytCRC+S
-	 bGy8H/YUU6VqtMZPs796782c5RBm8bPiBIoh+kGvI6bP2MrZD69fBUSQnMz7cL21ct
-	 QF0mT0ScagCvZF3mhfS0zI/qNvnWrTP1mhU3WcVNUFx0rvg7UESqyid6hWWDPxz+t+
-	 1NofCVM88rxtg==
+	s=k20260515; t=1779445303;
+	bh=v5hG5ljo2yEbas7N/t9jsu08GA8nFBFOwWsnzFp/4F0=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=OJCAQjSjVDyBLcKibt6kKzsl5FcdJH4CU24VcEGayWXiZn38GoqWQ5shUb36om2et
+	 23jvjnBn3A++Far23IJrsugZfZfesUnRrKW4UrrgkdZXBbgd3mYW403sfor+SQuH0b
+	 KmKI3960FzW0z4eu4o9s+2D0hh+RdmSqJn5zy+6HK09yA2e9qkiPLAZ8mAfcOddBON
+	 yz94YRigmmm29ROsTd5hnKHXkNWX0+yYWUeE8P+AhcK9x6qp/C2KFPgVNc7sAxmoUy
+	 LTyEVSz43hi6E+q8mdQGknAo0fJVYrmXaPOc5EKkxTjoj5ixebLWCsLL6v67xEE8Qs
+	 KMjXPmJWzkGfQ==
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com, 
- mario.limonciello@amd.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260507181251.20594-1-Vijendar.Mukunda@amd.com>
-References: <20260507181251.20594-1-Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH 0/5] ASoC: AMD: ACP7.x initial PCI driver bring-up
-Message-Id: <177940532272.58022.17604355383917647171.b4-ty@b4>
-Date: Fri, 22 May 2026 00:15:22 +0100
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20260512065252.75859-1-shengjiu.wang@nxp.com>
+References: <20260512065252.75859-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH] ASoC: fsl_sai: Eliminate possible interrupt storm
+ during probe
+Message-Id: <177918448823.6167.7164201834938027833.b4-ty@b4>
+Date: Tue, 19 May 2026 10:54:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,49 +46,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2080; i=broonie@kernel.org;
- h=from:subject:message-id; bh=7YTj92kNqvTxGEe1cNNLW3RP34iYfpF+DoJGWlj3xwM=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC4wMmoGSf2XUHjqPOumZ4DBeXxztDrvpEhDN
- lJKGEQtE8eJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAuMAAKCRAk1otyXVSH
- 0KIfB/98mpoWQjqPO8MFh0MMVef4sPG35/sZJwa+V6AATwLOP7N12NZGz3i7OMFwYRg1RWt/d+w
- 07401ZoTslhaTd+8fx0it2DZezQyY3RjGmXjquCX8M4/YWiAmXpDCBPo7Q2mEq4i4yrNuY7ghJ3
- t4/ra5QpVQEBw7QEe1cHrR8pJ5tNjeHCGl3kRTh8jJafJQcXM7uqT0+lzWTtdNQ41SSAPOZeoiB
- DYtyjP77/Bdzg6KZNuff6dlZ41GAr/sgvj7C3exv3Gpsv5xk/V/t3x0oH9An0kEdRvOP4qq7oy9
- RcKtAHARQVPz3+r5Hfc+IOqTBqtucmVMINUv568qfZFEuY48
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1143; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=5ZVaWSjfDYV8xFEG2qHRcRpnpfYwZGaYOU2WyjAd3VA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC40SrnHckZVbEky/P7ocAxP+K2BJW/i9tLmd
+ FCQ7nEsg4iJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAuNAAKCRAk1otyXVSH
+ 0Ep8CACFYtYjQfnZ/W701ctqn2f/S7gjAAUoclcQFx8vbu9CwZr+9XEFiAKl0CsoZYKCrY7eQUH
+ DwJnc3xGcchM4/Rpy2xRyT5dnfsZzU05F0hYj+Oy/KMYyMuS2v7k1/fuFgmVuVpQ6WfKmwkW2jq
+ J71bPc+9SqR9rnAHJuxlTSYaUC3aCe6rz68xxMek7bBtRJnoG6PyiL6JSXoEADpBAeoFJZSQBQq
+ 2Xzg7I58gExyEDm/ofVQkqITMqC6F98ToppFahOoI8fvAH+fmlANMUO9e5FlBCVjxuKF8Il/MO1
+ jza7u/eFEiKvaiMA4lSu/bqAD1GqwKC8nie7Zqn2lQlh8S5F
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 07 May 2026 23:41:28 +0530, Vijendar Mukunda wrote:
-> ASoC: AMD: ACP7.x initial PCI driver bring-up
-> 
-> This series adds initial AMD ACP 7.x support for ACP7.D / 7.E / 7.F
-> platforms.
-> 
-> Compared to earlier ACP generations, ACP7.x includes substantial design
-> changes, including an updated register set/layout. For that reason,
-> the ACP7.x implementation is placed under a separate sound/soc/amd/acp7x/
-> directory instead of extending older-generation code paths,
-> keeping ACP7.x-specific logic and register definitions cleanly separated
-> and easier to maintain.
-> 
-> [...]
+On Tue, 12 May 2026 14:52:52 +0800, Shengjiu Wang wrote:
+> ASoC: fsl_sai: Eliminate possible interrupt storm during probe
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
 Thanks!
 
-[1/5] include: sound: add register header file for acp7.x series
-      https://git.kernel.org/broonie/sound/c/44d16948af55
-[2/5] ASoC: amd: acp7x: add ACP PCI driver probe/remove sequence
-      https://git.kernel.org/broonie/sound/c/1da6f798eda8
-[3/5] ASoC: amd: acp7x: add helper functions and hw ops
-      https://git.kernel.org/broonie/sound/c/b5a2fdc5e7d2
-[4/5] ASoC: amd: enable acp7.x drivers build
-      https://git.kernel.org/broonie/sound/c/533308171bf2
-[5/5] ASoC: amd: acp7x: add system and runtime PM ops
-      https://git.kernel.org/broonie/sound/c/07d56a83ba70
+[1/1] ASoC: fsl_sai: Eliminate possible interrupt storm during probe
+      https://git.kernel.org/broonie/sound/c/fd3b95866d86
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
