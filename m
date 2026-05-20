@@ -1,166 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DBA20125F
-	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 14:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF933033C6
+	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 14:51:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779286973; cv=none; b=EHun8trTb3NhyYcExWHqXJGBG9SA3CBbdUSN9yA5CXkrf5yjROXi+IUO4GxWWM+x8zwwOWg8rWPaXqRV4PdTkh3GmSq5sryEggKIMFgajytn78tc0qDMKSNVwVXcLtvRdCocSb68IAj6zvD7W1G0bv3P4Wb0T4GUbFggPliHckg=
+	t=1779288665; cv=none; b=mLL+NVnky3yOydCUFTqU5vJ4VXQFzPpa13OEDqyLI3dcj1al/c3qONYhVROfcTc4ApsjQ0C9fJJ3t/2f5418rgKfRC+eKx9QXhxjQ3i0rG6O6WAoqcKqNDT0FZG3AwG78/JCJeEKlAgtyMNt5g+FXWU/jsQH6fWfeSsGy/8g1w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779286973; c=relaxed/simple;
-	bh=RjEW0E26npFQvVND54HIqs1EvRsm6pecYVu0PpOwzTk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EwZFIBONWFY13VC/kK66HNqCDBkiJqBTYM5UDNkm1gCVhDiZnUmFfnYfXGQownt2RvhBUz6KmfRvoPxbs6SRaQvrfiz3Pp+7G+xNlnrrsYRG/kEWPB05ona1wJ7NWhOpXQoOao9XNC+JBQVk26c92lPmALS6qRXTtUqjVV2WVVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EGQDyGmX; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1779288665; c=relaxed/simple;
+	bh=qat9PkBcrbY8prcgndKgZC13dso+54mnSw5Fj27uq/I=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fA7h7RxM2jDAY7NYn13PS8guQsqrgJtaNC0HepZsnG1cK48trVIXMJmmKXIc9O3Vh7OvWCrCY5ghRV2A97x++I206+DTzqnpCzmK3aI8qQZSxZpdQRyreyqL4dtnuFDEBADznh2qV3atIUGm2jsCFOnAuLmq6ksWFf52nXNkyoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lZjnOEJT; arc=none smtp.client-ip=74.125.82.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EGQDyGmX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779286972; x=1810822972;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=RjEW0E26npFQvVND54HIqs1EvRsm6pecYVu0PpOwzTk=;
-  b=EGQDyGmXLM7E8Cv3GrS7zc0r50Aq7sdWSolF2k4xd/7ClNOG/gRu5Hw1
-   S9VFuI+OoKAXYkLfHy+hYDZ+nVmkotuGtTrtU2WhWanGTAx10ZwdBvRRk
-   RdG70/fnaZv2+K+8f2C+tLGGZdNTaZS4OyfQW9cZeFfbBmcbAEiVeAmSw
-   7qaZ/AvJBGOL/pVGTejafPYeUlFr21FvgxWzp+96hyAGk9bwtZ6qDtIow
-   oC75Q2gPNapvb9AESKfYcAw6Nddrg5sLmpV282lawP8QS3VVfUtHtf60T
-   DghMfHMEdIUSwzRu5guquYv6+mkIqpD6lpGeLQZPK95H3qV2MN53U0wNb
-   A==;
-X-CSE-ConnectionGUID: GXV7Be9gTOK5iJTS+95LDQ==
-X-CSE-MsgGUID: FT90+q4mQ0qbwwAIl7Hl2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="84042288"
-X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="84042288"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 07:22:43 -0700
-X-CSE-ConnectionGUID: h7gXhCV3SkC1cDHfLy2VgA==
-X-CSE-MsgGUID: ynTLAPlASECN+tIv6uDuSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="270543416"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.85])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 07:22:40 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	seppo.ingalsuo@linux.intel.com
-Subject: [PATCH v2] ASoC: SOF: ipc4-topology: Enable deep buffer capture
-Date: Wed, 20 May 2026 17:22:50 +0300
-Message-ID: <20260520142250.13803-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lZjnOEJT"
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-132830d8281so2672756c88.1
+        for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 07:51:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779288662; x=1779893462; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bEoCqLzqLEnuOZc7fTDf50Ur/BN8CyPw/oIx6TWyOvs=;
+        b=lZjnOEJTSUzsvPkDZRX9N6dV2Kn81t2kIu2POPxpyTv8//Ncl4tFy4b59YuFSR9gQQ
+         O9lvJtOaipTKmoR5jbyI5bEorYrS12cE+JdZL0cfCso879rryrjNwERI0tmGB9P/+vxR
+         Q+O/IotZp3KNL6va8C+PrXHIwpsunuKVGhX9Fc5hAeZa+iWzKfmztPZdMMbkLosFmYzp
+         J9eW05gKTUr19xtiJfyJ8LSwADnrMhs7E/ToKmA2CMsMKLlhjOUufF+awFPIv3bi8OsW
+         FJZxNS49tlLyRWAaw+scKYJT+15kDwlyMO5Pid9+yDySnQsYqAmn5O+dBWa9hydzxHhj
+         +Hmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779288662; x=1779893462;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bEoCqLzqLEnuOZc7fTDf50Ur/BN8CyPw/oIx6TWyOvs=;
+        b=L4ZlIIS3qUYfp/frrWj2gkYmOZ7Wt4WC6Dr7wf8D9YghtcNqzyQvCJhOpX8sQA7tdh
+         WeX4hVZoCPnoiXJgU+crOdbrMUajejzeXFj6ekG+1GZ0CFpTU3SAPX8EJdCJTvAGBjiB
+         vPJdVHy7MggiYxDkUtEtFIRURXcho+WEAu9uUb/0RnOj30Amb4uJqGjiGgwUwvUthTD0
+         I00cLGuYW93Ql8wtaXCZRwK2DajIXhv6o+hwUPYlPGSd/BIDyL0nf+1J8qQuRRWlSJpE
+         2ANhiBPcqmYa7FbDK7SQkR+AW1Vc2ZEmj0E+Y5NpFAxiSJuJzR6v858o1tfwHVLEI9U0
+         njPQ==
+X-Gm-Message-State: AOJu0Yw3nhAfJLjJ/qxr48mFgdOAwGR2FrOTV6/BJGjEI2yUVP9bI/HF
+	rOjZk5cS/pAWwcFGpWmfgigcuWgycPV4FFcWkt2ci46wDsMuUokNmUDf
+X-Gm-Gg: Acq92OEpDC+8bK32xVc0+P952lICh+3uW+FZgVo+O3PTXUxTWnMXadMTXOooxQ5NsHV
+	c2WMQq28d8Q5jCF5pb6z1AVZQYNc4JRBTm4qgo0emmVVEpdpVc3c/LJWhJlbChDVVrzFG7Swav7
+	Uq08H+59Vb4LzKRC+yW+wtHfT0sUPQ005bxenegu8DAQZ3CjwZi4NIvI8s8faOcR281UzDWkuk6
+	tOQTj2ka9Wlj6MJx9gV1HjY/0V8vGDF0GTG3f3GFzMgPnTBG+UfxMmL+Ltb9/R0AlQ26TTtFpAM
+	LpY/T6R71Vgm+AX2G94ARXO204timJW/V4wT8uvXZG6fHPYEq0MgVjmd9Mek3RcppfIxc1Mm2yA
+	WAbU0qShAwvxp2+mDXYzl/9csMUm2V9AgWhLkY/yI79fjQD2vTCmx9WzTCdlK5slSt5KlDPhfGc
+	QYihw1WHXoL/b12k/Y+UMBR83iKYupDQgas69k+L56bjHuv5BS9Vv1A3p3fUA/QLxvFAfIA6ZeJ
+	A==
+X-Received: by 2002:a05:7023:b11:b0:12a:6ab7:3f73 with SMTP id a92af1059eb24-1350463608fmr11482634c88.0.1779288661463;
+        Wed, 20 May 2026 07:51:01 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-162-74.user3p.v-tal.net.br. [177.4.162.74])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cbcb93f3sm27334864c88.3.2026.05.20.07.50.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2026 07:51:01 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Subject: [PATCH v2 0/2] ALSA: hda: cs35l56: fix system name leaks
+Date: Wed, 20 May 2026 11:50:54 -0300
+Message-Id: <20260520-alsa-cs35l56-system-name-leak-v2-0-60f26c159023@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WOyw6CMBBFf8V07Zg+KIgr/8OwKGWAagumg0RC+
+ HcB3bs8yc05d2aE0SGxy2FmEUdHru9WkMcDs63pGgRXrcwklynXXIDxZMCS0l6nQBMNGKAzAcG
+ jeUBWV1mWo7EqF2x1PCPW7r37b8WX6VXe0Q6bdFu0joY+TvuBUWy7X0vyP61RAIdKqFIniVQiP
+ 1+bYJw/2T6wYlmWD5XmXV/cAAAA
+X-Change-ID: 20260501-alsa-cs35l56-system-name-leak-7fd779eac391
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Simon Trimmer <simont@opensource.cirrus.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1223;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=qat9PkBcrbY8prcgndKgZC13dso+54mnSw5Fj27uq/I=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDFm8pwIfTiqy9l+zYtKciQv2NxbxzXA0OLfBtCtfN4Ihf
+ M72rsPyHaUsDGJcDLJiiiyrkxZZ7ul6cLU+boUHzBxWJpAhDFycAjARpWmMDDMU1Mu4vnWcqna5
+ fUw3u+r9fW9BlsPaq1dO7pHe9ubU3kuMDFvrf1pX7PKccqKj747+2Uvc+9z2tH/a1yfJv9Vmq3r
+ XOz4A
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-From: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
+cs35l56_hda_read_acpi() reads an allocated ACPI _SUB string to build
+the firmware system name. Current error paths can return after _SUB has
+been allocated, or after it has been transferred to cs35l56->system_name,
+without releasing that memory.
 
-This patch lets a capture PCM to operate with deep buffer
-by taking dsp_max_burst_size_in_ms from topology if it is
-defined. Earlier the value from topology was omitted for
-capture.
+Fix the local read_acpi() unwind paths first, then release the stored
+system name from the common probe error path.
 
-If not defined, the maximum burst size for capture is set
-similarly as before to one millisecond.
-
-The dma_buffer_size is set similarly as for playback from
-largest of deep_buffer_dma_ms or SOF_IPC4_MIN_DMA_BUFFER_SIZE
-times OBS.
-
-Signed-off-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Signed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
-Changes since v1:
-- added my SoB tag, sorry
+Changes in v2:
+- Use __free(kfree) for the temporary ACPI _SUB string.
+- Keep the derived system name local until read_acpi() succeeds.
+- Transfer ownership with no_free_ptr() only on successful paths.
+- Link to v1: https://patch.msgid.link/20260520-alsa-cs35l56-system-name-leak-v1-0-d13b54423198@gmail.com
 
-Peter
+---
+Cássio Gabriel (2):
+      ALSA: hda: cs35l56: Free ACPI _SUB string on errors
+      ALSA: hda: cs35l56: Free system name on probe errors
 
- sound/soc/sof/ipc4-topology.c | 39 +++++++++++++++++++++--------------
- 1 file changed, 24 insertions(+), 15 deletions(-)
+ sound/hda/codecs/side-codecs/cs35l56_hda.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
+---
+base-commit: 38c607c673155d6335591cdbd9c785fb2b7550e5
+change-id: 20260501-alsa-cs35l56-system-name-leak-7fd779eac391
 
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 76812d8fb567..65756fe3a64f 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -624,6 +624,7 @@ static int sof_ipc4_widget_setup_pcm(struct snd_sof_widget *swidget)
- 	struct sof_ipc4_available_audio_format *available_fmt;
- 	struct snd_soc_component *scomp = swidget->scomp;
- 	struct sof_ipc4_copier *ipc4_copier;
-+	struct snd_sof_pcm_stream *sps;
- 	struct snd_sof_pcm *spcm;
- 	int node_type = 0;
- 	int ret, dir;
-@@ -668,24 +669,23 @@ static int sof_ipc4_widget_setup_pcm(struct snd_sof_widget *swidget)
- 	if (ret)
- 		goto free_available_fmt;
- 
--	if (dir == SNDRV_PCM_STREAM_PLAYBACK) {
--		struct snd_sof_pcm_stream *sps = &spcm->stream[dir];
-+	sps = &spcm->stream[dir];
-+	sof_update_ipc_object(scomp, &sps->dsp_max_burst_size_in_ms,
-+			      SOF_COPIER_DEEP_BUFFER_TOKENS,
-+			      swidget->tuples,
-+			      swidget->num_tuples, sizeof(u32), 1);
- 
--		sof_update_ipc_object(scomp, &sps->dsp_max_burst_size_in_ms,
--				      SOF_COPIER_DEEP_BUFFER_TOKENS,
--				      swidget->tuples,
--				      swidget->num_tuples, sizeof(u32), 1);
--		/* Set default DMA buffer size if it is not specified in topology */
--		if (!sps->dsp_max_burst_size_in_ms) {
--			struct snd_sof_widget *pipe_widget = swidget->spipe->pipe_widget;
--			struct sof_ipc4_pipeline *pipeline = pipe_widget->private;
-+	/* Set default DMA buffer size if it is not specified in topology */
-+	if (!sps->dsp_max_burst_size_in_ms) {
-+		struct snd_sof_widget *pipe_widget = swidget->spipe->pipe_widget;
-+		struct sof_ipc4_pipeline *pipeline = pipe_widget->private;
- 
-+		if (dir == SNDRV_PCM_STREAM_PLAYBACK)
- 			sps->dsp_max_burst_size_in_ms = pipeline->use_chain_dma ?
- 				SOF_IPC4_CHAIN_DMA_BUFFER_SIZE : SOF_IPC4_MIN_DMA_BUFFER_SIZE;
--		}
--	} else {
--		/* Capture data is copied from DSP to host in 1ms bursts */
--		spcm->stream[dir].dsp_max_burst_size_in_ms = 1;
-+		else
-+			/* Capture data is copied from DSP to host in 1ms bursts */
-+			sps->dsp_max_burst_size_in_ms = 1;
- 	}
- 
- skip_gtw_cfg:
-@@ -2430,10 +2430,19 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
- 			copier_data->gtw_cfg.dma_buffer_size);
- 		break;
- 	case snd_soc_dapm_dai_out:
--	case snd_soc_dapm_aif_out:
- 		copier_data->gtw_cfg.dma_buffer_size =
- 			SOF_IPC4_MIN_DMA_BUFFER_SIZE * copier_data->base_config.obs;
- 		break;
-+	case snd_soc_dapm_aif_out:
-+		copier_data->gtw_cfg.dma_buffer_size =
-+			max((u32)SOF_IPC4_MIN_DMA_BUFFER_SIZE, deep_buffer_dma_ms) *
-+				copier_data->base_config.obs;
-+		dev_dbg(sdev->dev, "copier %s, dma buffer%s: %u ms (%u bytes)",
-+			swidget->widget->name,
-+			deep_buffer_dma_ms ? " (using Deep Buffer)" : "",
-+			max((u32)SOF_IPC4_MIN_DMA_BUFFER_SIZE, deep_buffer_dma_ms),
-+			copier_data->gtw_cfg.dma_buffer_size);
-+		break;
- 	default:
- 		break;
- 	}
--- 
-2.54.0
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
