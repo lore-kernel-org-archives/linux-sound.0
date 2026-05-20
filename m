@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9733EC2E1
-	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 14:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DBA20125F
+	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 14:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779286834; cv=none; b=h9T228DT0EINwPe8CKb4osRmJXsfQKXRNFcfEDOSvkR5t3khCTHVEVn/5RJGGmesT2kdP9YveeXbimODOBEN0xDsgaMY4N0Mh9er7H73qROPe7IPmtbe3NN8L7oOX2mxfsbqmu4FX6RkXidXO4lq5halCtJCd1oxVWfssTtBBfo=
+	t=1779286973; cv=none; b=EHun8trTb3NhyYcExWHqXJGBG9SA3CBbdUSN9yA5CXkrf5yjROXi+IUO4GxWWM+x8zwwOWg8rWPaXqRV4PdTkh3GmSq5sryEggKIMFgajytn78tc0qDMKSNVwVXcLtvRdCocSb68IAj6zvD7W1G0bv3P4Wb0T4GUbFggPliHckg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779286834; c=relaxed/simple;
-	bh=Pmyr+HC4XEMvb7dHMZNcd533gM/H77FfShLlC23q8fY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l+rh6CChj3gZnU9pRV/fxrSyEGqWn9alWP+uFN2kej/ox5H+ZkePT7d+Yv33WrhErQWmucitPUxiZkWngDILUdOvt29XRo7EYUxblCoVobz3y6q7RVnG/rzBt6aIkjIrnNpwBJrr4tNN6unEuV9JRQFgZ4TtcgqkjgmxPjzqdPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dxn8KvZg; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1779286973; c=relaxed/simple;
+	bh=RjEW0E26npFQvVND54HIqs1EvRsm6pecYVu0PpOwzTk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EwZFIBONWFY13VC/kK66HNqCDBkiJqBTYM5UDNkm1gCVhDiZnUmFfnYfXGQownt2RvhBUz6KmfRvoPxbs6SRaQvrfiz3Pp+7G+xNlnrrsYRG/kEWPB05ona1wJ7NWhOpXQoOao9XNC+JBQVk26c92lPmALS6qRXTtUqjVV2WVVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EGQDyGmX; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dxn8KvZg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EGQDyGmX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779286831; x=1810822831;
+  t=1779286972; x=1810822972;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=Pmyr+HC4XEMvb7dHMZNcd533gM/H77FfShLlC23q8fY=;
-  b=dxn8KvZgLlXjqlwcxiO1Km4Lm88QB97DDo41gmUqBg1VWkzcC06tIHeR
-   iXQZvSdk/33Y7GKdZCxcFrkfhLtbroYTWrdFMvpvQFSnUU77dG5DYvuIl
-   qw1PzOK7nAEneQYHhN9GTD1YciS40XKGKQeH0+4/TVzG1aSbj7M1aBAsg
-   R9Hy93xfVqv5EivjIcrLhbsAiGGZN8xHGJtbeyBIpyZ+lINFlihw9eABa
-   Vd5WkgmLIpDS4JSHHZ1kwN22neSG73zYPW4AJjlP5taLaAN6/Ko1YZWGH
-   uhMHXZDsnGenHSNwz5djl4XZrBwnyc4BLPqY8HRyF0MiJm/Jvgsq3aZH1
-   Q==;
-X-CSE-ConnectionGUID: HSNY5//fRr68dRJ+cHNMOQ==
-X-CSE-MsgGUID: Wu2khUj+TpSMzH7ss4piVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="91578920"
+  bh=RjEW0E26npFQvVND54HIqs1EvRsm6pecYVu0PpOwzTk=;
+  b=EGQDyGmXLM7E8Cv3GrS7zc0r50Aq7sdWSolF2k4xd/7ClNOG/gRu5Hw1
+   S9VFuI+OoKAXYkLfHy+hYDZ+nVmkotuGtTrtU2WhWanGTAx10ZwdBvRRk
+   RdG70/fnaZv2+K+8f2C+tLGGZdNTaZS4OyfQW9cZeFfbBmcbAEiVeAmSw
+   7qaZ/AvJBGOL/pVGTejafPYeUlFr21FvgxWzp+96hyAGk9bwtZ6qDtIow
+   oC75Q2gPNapvb9AESKfYcAw6Nddrg5sLmpV282lawP8QS3VVfUtHtf60T
+   DghMfHMEdIUSwzRu5guquYv6+mkIqpD6lpGeLQZPK95H3qV2MN53U0wNb
+   A==;
+X-CSE-ConnectionGUID: GXV7Be9gTOK5iJTS+95LDQ==
+X-CSE-MsgGUID: FT90+q4mQ0qbwwAIl7Hl2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="84042288"
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="91578920"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 07:20:28 -0700
-X-CSE-ConnectionGUID: YNcB7z+eSUebzPFHCGVpfg==
-X-CSE-MsgGUID: wOUz75JwRbWCcx5n9lzIrw==
+   d="scan'208";a="84042288"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 07:22:43 -0700
+X-CSE-ConnectionGUID: h7gXhCV3SkC1cDHfLy2VgA==
+X-CSE-MsgGUID: ynTLAPlASECN+tIv6uDuSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="242004555"
+   d="scan'208";a="270543416"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.85])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 07:20:26 -0700
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 07:22:40 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -50,9 +50,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	seppo.ingalsuo@linux.intel.com
-Subject: [PATCH] ASoC: SOF: ipc4-topology: Enable deep buffer capture
-Date: Wed, 20 May 2026 17:20:37 +0300
-Message-ID: <20260520142037.13476-1-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH v2] ASoC: SOF: ipc4-topology: Enable deep buffer capture
+Date: Wed, 20 May 2026 17:22:50 +0300
+Message-ID: <20260520142250.13803-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -80,7 +80,13 @@ times OBS.
 Signed-off-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Signed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
+Changes since v1:
+- added my SoB tag, sorry
+
+Peter
+
  sound/soc/sof/ipc4-topology.c | 39 +++++++++++++++++++++--------------
  1 file changed, 24 insertions(+), 15 deletions(-)
 
