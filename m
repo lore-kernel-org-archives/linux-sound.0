@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CCD3E6385
-	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 14:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9733EC2E1
+	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 14:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779286423; cv=none; b=DmhgR5ZlqDu0oREgpSgMmxI+iRhSe7ZgEroNWbAYhP4ZsvYZF5ZetpZ4ZBe2raSkNSdWjcMhROIpyzjoRZpvW+FiLzcdCRzlIEB5hkbb2uShFQLci5ggUbzmHujQR5j2/7EiQy7gUuwa344Q0XxlLxHnITMCzXatq+n6xHN37XQ=
+	t=1779286834; cv=none; b=h9T228DT0EINwPe8CKb4osRmJXsfQKXRNFcfEDOSvkR5t3khCTHVEVn/5RJGGmesT2kdP9YveeXbimODOBEN0xDsgaMY4N0Mh9er7H73qROPe7IPmtbe3NN8L7oOX2mxfsbqmu4FX6RkXidXO4lq5halCtJCd1oxVWfssTtBBfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779286423; c=relaxed/simple;
-	bh=Zd9I8HH5J0AGcNALU9XEtIdg02v9TfqS9rU/B9sNb8Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D/RzJHLPNNHhGv4FGFIm23JSeMSJIiA5+xOdncGMIJLIpWEHTzatgbBqTJqLQNBKP5zuwMSeGDWhckHm3HSWyy4vUv2pIfNgiwqRoEnQy0AygYbX+eXmTwHSJ3jkynKjZBnYr3odLcF0ILoq6DUe9QDT9i5pilGCs4QSIMKNVmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MEvODh1n; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1779286834; c=relaxed/simple;
+	bh=Pmyr+HC4XEMvb7dHMZNcd533gM/H77FfShLlC23q8fY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l+rh6CChj3gZnU9pRV/fxrSyEGqWn9alWP+uFN2kej/ox5H+ZkePT7d+Yv33WrhErQWmucitPUxiZkWngDILUdOvt29XRo7EYUxblCoVobz3y6q7RVnG/rzBt6aIkjIrnNpwBJrr4tNN6unEuV9JRQFgZ4TtcgqkjgmxPjzqdPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dxn8KvZg; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MEvODh1n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dxn8KvZg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779286421; x=1810822421;
+  t=1779286831; x=1810822831;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=Zd9I8HH5J0AGcNALU9XEtIdg02v9TfqS9rU/B9sNb8Q=;
-  b=MEvODh1nGtdnPFUGBBFiIIgGHjSKrCR7a53htSBoZewmFdZMnzALvTma
-   QjFrUAR7oG75scDZjk9LqDrp8fVjbdCBJpSRPg4KzJtXkXtSHT/HbOlXe
-   7fkaC0vdG77Qn86b3Not4g2oDIxcibfcKpJprXPO1GbGBQ001Fe8XZWWw
-   7qxpNNt/zHXOa+ye4IkmXRQvGpk1TQManvJ1gYm/WER6hTHncvzuy2qJf
-   JEJFX4LD4NNcr4pOJtv+uEgMlwR2rmTaqFOY2gyzXW2LD5QVFW/ZxdPny
-   eTufmpKAKVfbpZpxcQbDeMVUF1n/0WBrvsXFF+TBWfoUeP9vcYkmcuHb5
-   A==;
-X-CSE-ConnectionGUID: J8B/bAzLRu60vXxk//FUvw==
-X-CSE-MsgGUID: wjZ1GJDVQyW5R52IUGbqtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="80167431"
+  bh=Pmyr+HC4XEMvb7dHMZNcd533gM/H77FfShLlC23q8fY=;
+  b=dxn8KvZgLlXjqlwcxiO1Km4Lm88QB97DDo41gmUqBg1VWkzcC06tIHeR
+   iXQZvSdk/33Y7GKdZCxcFrkfhLtbroYTWrdFMvpvQFSnUU77dG5DYvuIl
+   qw1PzOK7nAEneQYHhN9GTD1YciS40XKGKQeH0+4/TVzG1aSbj7M1aBAsg
+   R9Hy93xfVqv5EivjIcrLhbsAiGGZN8xHGJtbeyBIpyZ+lINFlihw9eABa
+   Vd5WkgmLIpDS4JSHHZ1kwN22neSG73zYPW4AJjlP5taLaAN6/Ko1YZWGH
+   uhMHXZDsnGenHSNwz5djl4XZrBwnyc4BLPqY8HRyF0MiJm/Jvgsq3aZH1
+   Q==;
+X-CSE-ConnectionGUID: HSNY5//fRr68dRJ+cHNMOQ==
+X-CSE-MsgGUID: Wu2khUj+TpSMzH7ss4piVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="91578920"
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="80167431"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 07:13:40 -0700
-X-CSE-ConnectionGUID: d6RAprr6RvCv94z+TR9VKg==
-X-CSE-MsgGUID: thFfMKofS8eLztOhWAWWPw==
+   d="scan'208";a="91578920"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 07:20:28 -0700
+X-CSE-ConnectionGUID: YNcB7z+eSUebzPFHCGVpfg==
+X-CSE-MsgGUID: wOUz75JwRbWCcx5n9lzIrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="235765384"
+   d="scan'208";a="242004555"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.85])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 07:13:38 -0700
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 07:20:26 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
 Cc: linux-sound@vger.kernel.org,
 	kai.vehmanen@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev
-Subject: [PATCH] ASoC: SOF: ipc4-control: Use local copy of IPC message for sending
-Date: Wed, 20 May 2026 17:13:49 +0300
-Message-ID: <20260520141349.9625-1-peter.ujfalusi@linux.intel.com>
+	pierre-louis.bossart@linux.dev,
+	seppo.ingalsuo@linux.intel.com
+Subject: [PATCH] ASoC: SOF: ipc4-topology: Enable deep buffer capture
+Date: Wed, 20 May 2026 17:20:37 +0300
+Message-ID: <20260520142037.13476-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -59,269 +60,101 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-If a kcontrol update comes to a control right at the same time when the
-PCM containing the control is started up then there is a small window when
-a race can happen:
-while the widget is set up the swidget->setup_mutex is taken in topology
-level and if the control update comes at this point, it will be stopped
-within sof_ipc4_set_get_kcontrol_data() with the mutex and it will be
-blocked until the swidget setup is done, which will clear the control's
-IPC message payload.
+From: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
 
-To avoid such race, use local copy of the template IPC message instead of
-the template directly. This will ensure data integrity in case of
-concurrent updates during initialization.
+This patch lets a capture PCM to operate with deep buffer
+by taking dsp_max_burst_size_in_ms from topology if it is
+defined. Earlier the value from topology was omitted for
+capture.
 
-Link: https://github.com/thesofproject/linux/issues/5734
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+If not defined, the maximum burst size for capture is set
+similarly as before to one millisecond.
+
+The dma_buffer_size is set similarly as for playback from
+largest of deep_buffer_dma_ms or SOF_IPC4_MIN_DMA_BUFFER_SIZE
+times OBS.
+
+Signed-off-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- sound/soc/sof/ipc4-control.c | 90 ++++++++++++++++--------------------
- 1 file changed, 41 insertions(+), 49 deletions(-)
+ sound/soc/sof/ipc4-topology.c | 39 +++++++++++++++++++++--------------
+ 1 file changed, 24 insertions(+), 15 deletions(-)
 
-diff --git a/sound/soc/sof/ipc4-control.c b/sound/soc/sof/ipc4-control.c
-index 596c3d77a34e..4ce821f96a91 100644
---- a/sound/soc/sof/ipc4-control.c
-+++ b/sound/soc/sof/ipc4-control.c
-@@ -13,13 +13,12 @@
- #include "ipc4-topology.h"
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index 76812d8fb567..65756fe3a64f 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -624,6 +624,7 @@ static int sof_ipc4_widget_setup_pcm(struct snd_sof_widget *swidget)
+ 	struct sof_ipc4_available_audio_format *available_fmt;
+ 	struct snd_soc_component *scomp = swidget->scomp;
+ 	struct sof_ipc4_copier *ipc4_copier;
++	struct snd_sof_pcm_stream *sps;
+ 	struct snd_sof_pcm *spcm;
+ 	int node_type = 0;
+ 	int ret, dir;
+@@ -668,24 +669,23 @@ static int sof_ipc4_widget_setup_pcm(struct snd_sof_widget *swidget)
+ 	if (ret)
+ 		goto free_available_fmt;
  
- static int sof_ipc4_set_get_kcontrol_data(struct snd_sof_control *scontrol,
-+					  struct sof_ipc4_msg *msg,
- 					  bool set, bool lock)
- {
--	struct sof_ipc4_control_data *cdata = scontrol->ipc_control_data;
- 	struct snd_soc_component *scomp = scontrol->scomp;
- 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
- 	const struct sof_ipc_ops *iops = sdev->ipc->ops;
--	struct sof_ipc4_msg *msg = &cdata->msg;
- 	struct snd_sof_widget *swidget;
- 	bool widget_found = false;
- 	int ret = 0;
-@@ -88,9 +87,9 @@ sof_ipc4_set_volume_data(struct snd_sof_dev *sdev, struct snd_sof_widget *swidge
- {
- 	struct sof_ipc4_control_data *cdata = scontrol->ipc_control_data;
- 	struct sof_ipc4_gain *gain = swidget->private;
--	struct sof_ipc4_msg *msg = &cdata->msg;
- 	struct sof_ipc4_gain_params params;
- 	bool all_channels_equal = true;
-+	struct sof_ipc4_msg msg;
- 	u32 value;
- 	int ret, i;
+-	if (dir == SNDRV_PCM_STREAM_PLAYBACK) {
+-		struct snd_sof_pcm_stream *sps = &spcm->stream[dir];
++	sps = &spcm->stream[dir];
++	sof_update_ipc_object(scomp, &sps->dsp_max_burst_size_in_ms,
++			      SOF_COPIER_DEEP_BUFFER_TOKENS,
++			      swidget->tuples,
++			      swidget->num_tuples, sizeof(u32), 1);
  
-@@ -107,6 +106,7 @@ sof_ipc4_set_volume_data(struct snd_sof_dev *sdev, struct snd_sof_widget *swidge
- 	 * notify DSP with a single IPC message if all channel values are equal. Otherwise send
- 	 * a separate IPC for each channel.
- 	 */
-+	memcpy(&msg, &cdata->msg, sizeof(msg));
- 	for (i = 0; i < scontrol->num_channels; i++) {
- 		if (all_channels_equal) {
- 			params.channels = SOF_IPC4_GAIN_ALL_CHANNELS_MASK;
-@@ -121,12 +121,10 @@ sof_ipc4_set_volume_data(struct snd_sof_dev *sdev, struct snd_sof_widget *swidge
- 		params.curve_duration_h = gain->data.params.curve_duration_h;
- 		params.curve_type = gain->data.params.curve_type;
+-		sof_update_ipc_object(scomp, &sps->dsp_max_burst_size_in_ms,
+-				      SOF_COPIER_DEEP_BUFFER_TOKENS,
+-				      swidget->tuples,
+-				      swidget->num_tuples, sizeof(u32), 1);
+-		/* Set default DMA buffer size if it is not specified in topology */
+-		if (!sps->dsp_max_burst_size_in_ms) {
+-			struct snd_sof_widget *pipe_widget = swidget->spipe->pipe_widget;
+-			struct sof_ipc4_pipeline *pipeline = pipe_widget->private;
++	/* Set default DMA buffer size if it is not specified in topology */
++	if (!sps->dsp_max_burst_size_in_ms) {
++		struct snd_sof_widget *pipe_widget = swidget->spipe->pipe_widget;
++		struct sof_ipc4_pipeline *pipeline = pipe_widget->private;
  
--		msg->data_ptr = &params;
--		msg->data_size = sizeof(params);
-+		msg.data_ptr = &params;
-+		msg.data_size = sizeof(params);
- 
--		ret = sof_ipc4_set_get_kcontrol_data(scontrol, true, lock);
--		msg->data_ptr = NULL;
--		msg->data_size = 0;
-+		ret = sof_ipc4_set_get_kcontrol_data(scontrol, &msg, true, lock);
- 		if (ret < 0) {
- 			dev_err(sdev->dev, "Failed to set volume update for %s\n",
- 				scontrol->name);
-@@ -208,7 +206,7 @@ sof_ipc4_set_generic_control_data(struct snd_sof_dev *sdev,
- {
- 	struct sof_ipc4_control_data *cdata = scontrol->ipc_control_data;
- 	struct sof_ipc4_control_msg_payload *data;
--	struct sof_ipc4_msg *msg = &cdata->msg;
-+	struct sof_ipc4_msg msg;
- 	size_t data_size;
- 	unsigned int i;
- 	int ret;
-@@ -225,12 +223,11 @@ sof_ipc4_set_generic_control_data(struct snd_sof_dev *sdev,
- 		data->chanv[i].value = cdata->chanv[i].value;
++		if (dir == SNDRV_PCM_STREAM_PLAYBACK)
+ 			sps->dsp_max_burst_size_in_ms = pipeline->use_chain_dma ?
+ 				SOF_IPC4_CHAIN_DMA_BUFFER_SIZE : SOF_IPC4_MIN_DMA_BUFFER_SIZE;
+-		}
+-	} else {
+-		/* Capture data is copied from DSP to host in 1ms bursts */
+-		spcm->stream[dir].dsp_max_burst_size_in_ms = 1;
++		else
++			/* Capture data is copied from DSP to host in 1ms bursts */
++			sps->dsp_max_burst_size_in_ms = 1;
  	}
  
--	msg->data_ptr = data;
--	msg->data_size = data_size;
-+	memcpy(&msg, &cdata->msg, sizeof(msg));
-+	msg.data_ptr = data;
-+	msg.data_size = data_size;
- 
--	ret = sof_ipc4_set_get_kcontrol_data(scontrol, true, lock);
--	msg->data_ptr = NULL;
--	msg->data_size = 0;
-+	ret = sof_ipc4_set_get_kcontrol_data(scontrol, &msg, true, lock);
- 	if (ret < 0)
- 		dev_err(sdev->dev, "Failed to set control update for %s\n",
- 			scontrol->name);
-@@ -245,7 +242,7 @@ static void sof_ipc4_refresh_generic_control(struct snd_sof_control *scontrol)
- 	struct sof_ipc4_control_data *cdata = scontrol->ipc_control_data;
- 	struct snd_soc_component *scomp = scontrol->scomp;
- 	struct sof_ipc4_control_msg_payload *data;
--	struct sof_ipc4_msg *msg = &cdata->msg;
-+	struct sof_ipc4_msg msg;
- 	size_t data_size;
- 	unsigned int i;
- 	int ret;
-@@ -263,13 +260,13 @@ static void sof_ipc4_refresh_generic_control(struct snd_sof_control *scontrol)
- 
- 	data->id = cdata->index;
- 	data->num_elems = scontrol->num_channels;
--	msg->data_ptr = data;
--	msg->data_size = data_size;
-+
-+	memcpy(&msg, &cdata->msg, sizeof(msg));
-+	msg.data_ptr = data;
-+	msg.data_size = data_size;
- 
- 	scontrol->comp_data_dirty = false;
--	ret = sof_ipc4_set_get_kcontrol_data(scontrol, false, true);
--	msg->data_ptr = NULL;
--	msg->data_size = 0;
-+	ret = sof_ipc4_set_get_kcontrol_data(scontrol, &msg, false, true);
- 	if (!ret) {
- 		for (i = 0; i < scontrol->num_channels; i++) {
- 			cdata->chanv[i].channel = data->chanv[i].channel;
-@@ -291,7 +288,7 @@ sof_ipc4_set_bytes_control_data(struct snd_sof_control *scontrol, bool lock)
- 	struct snd_soc_component *scomp = scontrol->scomp;
- 	struct sof_ipc4_control_msg_payload *msg_data;
- 	struct sof_abi_hdr *data = cdata->data;
--	struct sof_ipc4_msg *msg = &cdata->msg;
-+	struct sof_ipc4_msg msg;
- 	size_t data_size;
- 	int ret;
- 
-@@ -304,14 +301,13 @@ sof_ipc4_set_bytes_control_data(struct snd_sof_control *scontrol, bool lock)
- 	msg_data->num_elems = data->size;
- 	memcpy(msg_data->data, data->data, data->size);
- 
--	msg->extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(data->type);
-+	memcpy(&msg, &cdata->msg, sizeof(msg));
-+	msg.extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(data->type);
- 
--	msg->data_ptr = msg_data;
--	msg->data_size = data_size;
-+	msg.data_ptr = msg_data;
-+	msg.data_size = data_size;
- 
--	ret = sof_ipc4_set_get_kcontrol_data(scontrol, true, lock);
--	msg->data_ptr = NULL;
--	msg->data_size = 0;
-+	ret = sof_ipc4_set_get_kcontrol_data(scontrol, &msg, true, lock);
- 	if (ret < 0)
- 		dev_err(scomp->dev, "%s: Failed to set control update for %s\n",
- 			__func__, scontrol->name);
-@@ -328,7 +324,7 @@ sof_ipc4_refresh_bytes_control(struct snd_sof_control *scontrol, bool lock)
- 	struct snd_soc_component *scomp = scontrol->scomp;
- 	struct sof_ipc4_control_msg_payload *msg_data;
- 	struct sof_abi_hdr *data = cdata->data;
--	struct sof_ipc4_msg *msg = &cdata->msg;
-+	struct sof_ipc4_msg msg;
- 	size_t data_size;
- 	int ret = 0;
- 
-@@ -346,29 +342,30 @@ sof_ipc4_refresh_bytes_control(struct snd_sof_control *scontrol, bool lock)
- 	if (!msg_data)
- 		return -ENOMEM;
- 
--	msg->extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(data->type);
-+	memcpy(&msg, &cdata->msg, sizeof(msg));
-+	msg.extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(data->type);
- 
- 	msg_data->id = cdata->index;
- 	msg_data->num_elems = 0; /* ignored for bytes */
- 
--	msg->data_ptr = msg_data;
--	msg->data_size = data_size;
-+	msg.data_ptr = msg_data;
-+	msg.data_size = data_size;
- 
- 	scontrol->comp_data_dirty = false;
--	ret = sof_ipc4_set_get_kcontrol_data(scontrol, false, lock);
-+	ret = sof_ipc4_set_get_kcontrol_data(scontrol, &msg, false, lock);
- 	if (!ret) {
--		if (msg->data_size > scontrol->max_size - sizeof(*data)) {
-+		if (msg.data_size > scontrol->max_size - sizeof(*data)) {
- 			dev_err(scomp->dev,
- 				"%s: no space for data in %s (%zu, %zu)\n",
--				__func__, scontrol->name, msg->data_size,
-+				__func__, scontrol->name, msg.data_size,
- 				scontrol->max_size - sizeof(*data));
- 			ret = -EINVAL;
- 			goto out;
- 		}
- 
--		data->size = msg->data_size;
-+		data->size = msg.data_size;
- 		scontrol->size = sizeof(*cdata) + sizeof(*data) + data->size;
--		memcpy(data->data, msg->data_ptr, data->size);
-+		memcpy(data->data, msg.data_ptr, data->size);
- 	} else {
- 		dev_err(scomp->dev, "Failed to read control data for %s\n",
- 			scontrol->name);
-@@ -376,9 +373,6 @@ sof_ipc4_refresh_bytes_control(struct snd_sof_control *scontrol, bool lock)
+ skip_gtw_cfg:
+@@ -2430,10 +2430,19 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
+ 			copier_data->gtw_cfg.dma_buffer_size);
+ 		break;
+ 	case snd_soc_dapm_dai_out:
+-	case snd_soc_dapm_aif_out:
+ 		copier_data->gtw_cfg.dma_buffer_size =
+ 			SOF_IPC4_MIN_DMA_BUFFER_SIZE * copier_data->base_config.obs;
+ 		break;
++	case snd_soc_dapm_aif_out:
++		copier_data->gtw_cfg.dma_buffer_size =
++			max((u32)SOF_IPC4_MIN_DMA_BUFFER_SIZE, deep_buffer_dma_ms) *
++				copier_data->base_config.obs;
++		dev_dbg(sdev->dev, "copier %s, dma buffer%s: %u ms (%u bytes)",
++			swidget->widget->name,
++			deep_buffer_dma_ms ? " (using Deep Buffer)" : "",
++			max((u32)SOF_IPC4_MIN_DMA_BUFFER_SIZE, deep_buffer_dma_ms),
++			copier_data->gtw_cfg.dma_buffer_size);
++		break;
+ 	default:
+ 		break;
  	}
- 
- out:
--	msg->data_ptr = NULL;
--	msg->data_size = 0;
--
- 	kfree(msg_data);
- 
- 	return ret;
-@@ -508,7 +502,7 @@ static int sof_ipc4_set_get_bytes_data(struct snd_sof_dev *sdev,
- {
- 	struct sof_ipc4_control_data *cdata = scontrol->ipc_control_data;
- 	struct sof_abi_hdr *data = cdata->data;
--	struct sof_ipc4_msg *msg = &cdata->msg;
-+	struct sof_ipc4_msg msg;
- 	int ret = 0;
- 
- 	/* Send the new data to the firmware only if it is powered up */
-@@ -530,28 +524,26 @@ static int sof_ipc4_set_get_bytes_data(struct snd_sof_dev *sdev,
- 			return sof_ipc4_refresh_bytes_control(scontrol, lock);
- 	}
- 
--	msg->extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(data->type);
-+	memcpy(&msg, &cdata->msg, sizeof(msg));
-+	msg.extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(data->type);
- 
--	msg->data_ptr = data->data;
-+	msg.data_ptr = data->data;
- 	if (set)
--		msg->data_size = data->size;
-+		msg.data_size = data->size;
- 	else
--		msg->data_size = scontrol->max_size - sizeof(*data);
-+		msg.data_size = scontrol->max_size - sizeof(*data);
- 
--	ret = sof_ipc4_set_get_kcontrol_data(scontrol, set, lock);
-+	ret = sof_ipc4_set_get_kcontrol_data(scontrol, &msg, set, lock);
- 	if (ret < 0) {
- 		dev_err(sdev->dev, "Failed to %s for %s\n",
- 			set ? "set bytes update" : "get bytes",
- 			scontrol->name);
- 	} else if (!set) {
- 		/* Update the sizes according to the received payload data */
--		data->size = msg->data_size;
-+		data->size = msg.data_size;
- 		scontrol->size = sizeof(*cdata) + sizeof(*data) + data->size;
- 	}
- 
--	msg->data_ptr = NULL;
--	msg->data_size = 0;
--
- 	return ret;
- }
- 
 -- 
 2.54.0
 
