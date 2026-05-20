@@ -1,47 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7854C3F44CD;
-	Wed, 20 May 2026 11:20:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534F83DC85B;
+	Wed, 20 May 2026 11:21:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779276050; cv=none; b=nn1gl/WxNArQB7XjiH2+JtaAV/KpnQ0vgtPr1OUfL4zjfVEBVKUfieGyDQo/HHcx0FzAylOPwymS1oYMSph2jifKNWuSsBsm7qqQ/XH8ct2trIzV1gWjbecgiV2QLiltHByvlE5YeQD6JFS6GdHkm8O0jcSIkHkEs8P9dKBoc9I=
+	t=1779276072; cv=none; b=othaLFvrFDMqeZ5A+GUk3lRoQXIXHCJWJYMZGgUrsp/GeI8jiR3vR5zkMG5dxfUHXrKdxL8kMEknDXNGEAPfMu41MF2V2JxM3CZfOSPyV4q5rhO8rPzKIp/pSdIE9v6vLLKIlVt8Yt6URPAd5ww9FTeklOEcaX3D+YvjVxQwLDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779276050; c=relaxed/simple;
-	bh=DotTfYlnWGlDGzuOXR8CxwwZH5o6jTDJhvilNPWgClU=;
+	s=arc-20240116; t=1779276072; c=relaxed/simple;
+	bh=NGPS82dFju4rpw26IMrBXC1852ms9DsElWuvBCBev1Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rpW/JC1sQZc4s/d1nrVvsN5S1ChGV2xZgImp+8e7TCJyJn51gIpPbhfnQhsWiOI0WchVoNF7tz2xRPjausVUqqEkQXJ/UkDnERpIUpgKnod0JtH4o++qtR4EAmYyrpK5iGPKAVGyHNZ4K2goaPLhmlvw7o9HGw6DG2YG8R01G84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TMHgRdmg; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=AIFPE2aB9RT51e5+IR46zj3vjmYOUYphXRGa+eLFSiVyT7HdSAPMjLRXbjWFlrnysLTQLhiv7NxAvguOFw/FvfU4dsiGUCrCbe3/MM7+WxJF6VMj+JOpScl+foapZk1ulofRN9/DapHjByd6zIcU+zTTCZDJboCi8nQjeMeynM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ookCRnhx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TMHgRdmg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D69C81F00893;
-	Wed, 20 May 2026 11:20:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ookCRnhx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5462E1F00893;
+	Wed, 20 May 2026 11:21:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779276048;
-	bh=YPTzNFpjlVe5kcQOHv0NqMcIrPZdQr29o1Wc7/jrtEM=;
+	s=k20260515; t=1779276070;
+	bh=fhj6RDUQptPN2BSA6o1Q7exbdqnirrlDSGfUrC7qlDQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=TMHgRdmgP2VkCRi8QX+BayshQ9UnTEOiW1fZTvpjOeSCv56dOYf0e2XIBiitQ2X2J
-	 pWnH1ZHFz7sZh3PcBrvGQEHu8cLMm9y+P6erzSgTjHB7NK3mk6JRoLgBf1UpnDnT6O
-	 KyYX/NsC5p/JRROcJYEDfBqIPaiuxSNbQN3Q6vyUUVImMDjSegQdXbLiakYOn1JVGO
-	 iwPPkmh2WQQU2eCWgvfMzVgwtYEKBo1Q1b4nU/kUInF9LTsvcUAl90IFrsztKtC+/C
-	 LJ6c9B1LBk/i9uSw2hBupSfBKmjQEjH1Ab2FPsQz/kjvIgQvE1UlEObWUwsmaEYtG4
-	 XZWRgZq73AzjA==
+	b=ookCRnhxJQAnVLqbrSMOJweZcFoMTZBwp00rDO9Dxqqb2/FzDWfUBgIic2nHT+88l
+	 cVn4Q8H2pTli91LdeFm9MuSF5aP7Eq8N6szRS8lai1wHEvdlfye/VUpmxoPwpgJCUP
+	 6/23vsdkzGz2Z0UXdc+dxvV04TUd99pS0+QacSg3AE8mmiqVJUSviYIdcvvdPnp9FF
+	 SHRYb2dnQpw8zgz69t7rqvx0i94Rrm11o+brbARL/jUgxNY3pMQgGM40wcj6+b2qb9
+	 Jw7sbmiG5s2IKKLm1z69XVv4XFtOU39PJHS4mJp0QcMsg3ulGQjTcDymV2Oe8JqMcq
+	 4OnQlbS0UGTnQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Bob Song <songxiebing@kylinos.cn>,
-	gannovera <gannovera@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Nicola Lunghi <nick83ola@gmail.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	Vijendar.Mukunda@amd.com,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.6] ASoC: amd: yc: Add DMI quirk for MSI Bravo 15 C7VE
-Date: Wed, 20 May 2026 07:19:16 -0400
-Message-ID: <20260520111944.3424570-44-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-5.10] ALSA: usb-audio: add clock quirk for Motu 1248
+Date: Wed, 20 May 2026 07:19:32 -0400
+Message-ID: <20260520111944.3424570-60-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260520111944.3424570-1-sashal@kernel.org>
 References: <20260520111944.3424570-1-sashal@kernel.org>
@@ -57,240 +54,202 @@ X-stable-base: Linux 7.0.9
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Bob Song <songxiebing@kylinos.cn>
+From: Nicola Lunghi <nick83ola@gmail.com>
 
-[ Upstream commit 0e60d96616640ffcf51b81a87c71e30d92385a93 ]
+[ Upstream commit 320e55722ca466a7d40dd69e1aea982cb6189006 ]
 
-The laptop requires a quirk ID to enable its internal microphone. Add
-it to the DMI quirk table.
+The Motu 1248 (and probably other older Motu AVB interfaces) take more
+than 2 seconds to switch clock. During the clock switching process the
+device return that the clock is not valid. This is similar to what
+already implemented for the Microbook II interface. Add the Motu
+1248 usb id to the existing Motu quirk.
 
-Reported-by: gannovera <gannovera@gmail.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218402
-Signed-off-by: Bob Song <songxiebing@kylinos.cn>
-Link: https://patch.msgid.link/20260430014920.141276-1-songxiebing@kylinos.cn
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Nicola Lunghi <nick83ola@gmail.com>
+Link: https://patch.msgid.link/20260504144520.699522-2-nick83ola@gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Stable Backport Review
+## Phase Walkthrough
 
-### Phase 1: Commit Message Forensics
-Record 1.1: Subsystem is `ASoC: amd: yc`; action verb is `Add`; claimed
-intent is adding a DMI quirk for MSI Bravo 15 C7VE internal microphone
-enablement.
+Phase 1:
+- Record 1.1: Subsystem `ALSA: usb-audio`; action verb `add`; intent is
+  to add Motu 1248 USB ID `07fd:0005` to an existing clock-validity
+  delay quirk.
+- Record 1.2: Tags: `Signed-off-by: Nicola Lunghi`, `Link:
+  https://patch.msgid.link/20260504144520.699522-2-nick83ola@gmail.com`,
+  `Signed-off-by: Takashi Iwai`. No `Fixes:`, `Reported-by:`, `Tested-
+  by:`, `Reviewed-by:`, or `Cc: stable`.
+- Record 1.3: Commit body describes Motu 1248 returning clock-invalid
+  for more than 2 seconds while switching clock, causing the existing
+  ALSA clock validation to fail too early. No kernel-version range
+  given.
+- Record 1.4: This is a hardware quirk fix, not a hidden
+  memory/synchronization bug.
 
-Record 1.2: Tags found: `Reported-by: gannovera <gannovera@gmail.com>`,
-`Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218402`, `Signed-
-off-by: Bob Song <songxiebing@kylinos.cn>`, `Link: https://patch.msgid.l
-ink/20260430014920.141276-1-songxiebing@kylinos.cn`, `Signed-off-by:
-Mark Brown <broonie@kernel.org>`. No `Fixes:` tag and no explicit `Cc:
-stable`.
+Phase 2:
+- Record 2.1: One file changed: `sound/usb/clock.c`, `+11/-4`. Modified
+  function: `uac_clock_source_is_valid_quirk()`. Single-file surgical
+  hardware quirk.
+- Record 2.2: Before: the 5-second retry loop applied only to
+  `USB_ID(0x07fd, 0x0004)`. After: the same loop also applies to
+  `USB_ID(0x07fd, 0x0005)`, with comments expanded.
+- Record 2.3: Bug category is hardware workaround/device quirk.
+  Mechanism: ALSA rechecks clock validity up to 50 times with
+  `msleep(100)` instead of failing on the initial transient invalid
+  response.
+- Record 2.4: Fix quality is high: it reuses existing code and only
+  widens the device match. Regression risk is very low and limited to
+  MOTU product ID `0x0005`.
 
-Record 1.3: The message states the laptop requires a quirk ID to enable
-its internal microphone. Symptom is missing internal microphone support
-on MSI Bravo 15 C7VE. Version info is not stated. Root cause described
-is absence from `yc_acp_quirk_table`.
+Phase 3:
+- Record 3.1: `git blame` shows the existing MOTU retry quirk was
+  introduced by `2edb84e3047b9` in 2020. Later nearby changes came from
+  clock refactoring and multi-control-interface support, but the retry
+  logic remains the same.
+- Record 3.2: No `Fixes:` tag, so no introducing commit to follow.
+- Record 3.3: Recent `sound/usb/clock.c` history shows related clock
+  fixes/refactors, but this patch is standalone and only changes the
+  device match.
+- Record 3.4: Author has prior usb-audio quirk commits in local history;
+  Takashi Iwai applied the patch and is the ALSA maintainer/committer
+  for this area.
+- Record 3.5: No functional dependencies found. The patch applies
+  cleanly to checked pending stable branches.
 
-Record 1.4: This is a hardware quirk fix, not a hidden cleanup bug. It
-fits the stable exception category for DMI quirks/workarounds.
+Phase 4:
+- Record 4.1: `b4 dig -c 320e55722ca46` found the original submission at
+  the patch.msgid.link URL. `b4 dig -a` showed only `v1`; no newer
+  revision found.
+- Record 4.2: `b4 dig -w` showed Nicola Lunghi, Jaroslav Kysela, Takashi
+  Iwai, `linux-sound`, `linux-kernel`, and `linux-usb` were included.
+- Record 4.3: `b4 mbox` showed Takashi replied “Applied now. Thanks.” No
+  objections or review concerns appeared in the two-message thread.
+  WebFetch of lore was blocked by Anubis.
+- Record 4.4: No multi-patch series or related required patches found.
+- Record 4.5: Stable-list web search was blocked by Anubis; no stable-
+  specific discussion was found through the available local/b4 data.
 
-### Phase 2: Diff Analysis
-Record 2.1: One file changed: `sound/soc/amd/yc/acp6x-mach.c`, 7
-insertions, 0 deletions. Modified object is the static
-`yc_acp_quirk_table[]`. Scope is a single-file surgical quirk addition.
+Phase 5:
+- Record 5.1: Key function: `uac_clock_source_is_valid_quirk()`.
+- Record 5.2: Call path verified: `uac_clock_source_is_valid()` calls
+  the quirk when the device reports invalid clock;
+  `__uac_clock_find_source()` and `set_sample_rate_v2v3()` call clock
+  validation; setup is reached from format parsing, stream setup,
+  endpoint preparation, and sample-rate initialization.
+- Record 5.3: Key callees are `snd_usb_ctl_msg()`,
+  `snd_usb_find_ctrl_interface()`, `snd_usb_find_clock_source()`, and
+  `msleep(100)`.
+- Record 5.4: Reachability is real for users of affected USB audio
+  devices during sample-rate/clock setup and PCM endpoint preparation.
+- Record 5.5: Similar existing pattern is the MicroBook IIc quirk for
+  the same vendor and same delayed clock-validity behavior.
 
-Record 2.2: Before: the DMI table matched nearby MSI models such as
-`Bravo 15 B7ED` and `Bravo 15 C7VF`, but not `Bravo 15 C7VE`. After:
-exact vendor/product match for `Micro-Star International Co., Ltd.` and
-`Bravo 15 C7VE` maps to `&acp6x_card`. Affected path is platform probe
-hardware matching.
+Phase 6:
+- Record 6.1: The existing quirk code exists in checked pending stable
+  branches `pending-5.4`, `pending-5.10`, `pending-5.15`, `pending-6.1`,
+  `pending-6.6`, `pending-6.12`, and `pending-7.0`.
+- Record 6.2: Backport difficulty is clean: `git apply --check`
+  succeeded on all those pending branches.
+- Record 6.3: No alternative Motu 1248 fix was found in local
+  stable/current history.
 
-Record 2.3: Bug category is hardware workaround / DMI quirk. Mechanism:
-`acp6x_probe()` calls `dmi_first_match(yc_acp_quirk_table)` and, on
-match, sets platform driver data to `acp6x_card`; without a match, the
-driver can return `-ENODEV` if ACPI did not already enable the card.
+Phase 7:
+- Record 7.1: Subsystem is ALSA USB audio driver. Criticality: IMPORTANT
+  for users of affected MOTU hardware, not core-wide.
+- Record 7.2: Subsystem is active; recent history contains multiple usb-
+  audio fixes and quirks.
 
-Record 2.4: Fix quality is high: it adds only one exact DMI table entry
-using an existing pattern and no new logic. Regression risk is very low
-and limited to machines reporting that exact DMI product/vendor pair.
+Phase 8:
+- Record 8.1: Affected users are driver/hardware-specific: Motu 1248 and
+  likely related older MOTU AVB/hybrid devices with product ID `0x0005`.
+- Record 8.2: Trigger is changing sample rate or clock source, or
+  validation during device/audio setup. Unprivileged trigger depends on
+  local audio-device permissions; I did not verify distro policy.
+- Record 8.3: Failure mode is ALSA failing clock validation early,
+  returning errors such as `-ENXIO` from the code path and preventing
+  successful audio setup. Severity: MEDIUM for the kernel generally,
+  HIGH for affected hardware usability.
+- Record 8.4: Benefit is high for affected hardware; risk is very low
+  because this only enables an existing quirk for one USB product ID.
 
-### Phase 3: Git History Investigation
-Record 3.1: `git blame` around adjacent MSI entries in the checked-out
-7.0 tree traced those lines to the local merge base, not a useful
-original introducer. The “bug” is absence of this model entry, not a bad
-line introduced by a known commit. Verified file absent in `v5.15` and
-present in `v5.16`, `v6.1`, `v6.6`, and `v6.12`.
-
-Record 3.2: No `Fixes:` tag, so no introducing commit to follow.
-
-Record 3.3: Recent history of `sound/soc/amd/yc/acp6x-mach.c` contains
-many similar DMI quirk additions, including HP, ASUS, MSI Thin/Vector
-entries. No prerequisite refactor was identified for this specific
-7-line addition.
-
-Record 3.4: Author history in the fetched maintainer branch showed Bob
-Song’s related commits for this path consist of this patch. The patch
-was committed by Mark Brown, the ASoC maintainer.
-
-Record 3.5: Dependency check found the needed symbols and structure
-already exist in stable-relevant trees: `yc_acp_quirk_table`,
-`acp6x_card`, and `dmi_first_match()` are present in `v6.1`;
-`SND_SOC_AMD_YC_MACH` exists in `v6.1` and `v6.6`. The exact submitted
-hunk applies cleanly to the current 7.0 tree; older trees such as `v6.1`
-lack the nearby MSI `Bravo 15 B7ED` anchor and would need a simple
-context adjustment.
-
-### Phase 4: Mailing List And External Research
-Record 4.1: `b4 dig -c 0e60d96616640ffcf51b81a87c71e30d92385a93` found
-the lore thread at `https://patch.msgid.link/20260430014920.141276-1-
-songxiebing@kylinos.cn`. `b4 dig -a` found two same-subject submissions
-dated 2026-04-22 and 2026-04-30; the April 30 version is the applied
-one.
-
-Record 4.2: `b4 dig -w` showed the April 30 submission included Takashi
-Iwai, Jaroslav Kysela, Liam Girdwood, Mark Brown, Vijendar Mukunda,
-`linux-sound`, `linux-kernel`, and the reporter.
-
-Record 4.3: Direct `WebFetch` of Bugzilla was blocked by Anubis. Search
-results and the lore thread corroborate that Bugzilla #218402 is tied to
-this MSI Bravo 15 C7VE microphone issue.
-
-Record 4.4: Related pattern found: a similar MSI Bravo 17 C7VE quirk
-thread describes the same ACP6x DMIC not-enabled problem on a related
-MSI model. No dependency between that patch and this one was found.
-
-Record 4.5: Stable-list search found no stable-specific discussion for
-`Bravo 15 C7VE`.
-
-### Phase 5: Code Semantic Analysis
-Record 5.1: Modified object is `yc_acp_quirk_table[]`; key consuming
-function is `acp6x_probe()`.
-
-Record 5.2: `acp6x_probe()` is the `.probe` callback of platform driver
-`acp6x_mach_driver`. The platform device named `acp_yc_mach` is
-registered by `snd_acp6x_probe()` in `pci-acp6x.c` when ACP6x PDM mode
-is set.
-
-Record 5.3: Key callees in `acp6x_probe()` are ACPI property checks,
-`_WOV` evaluation, `dmi_first_match()`, `platform_set_drvdata()`,
-`platform_get_drvdata()`, and `devm_snd_soc_register_card()`.
-
-Record 5.4: Reachability is hardware enumeration/probe on AMD Yellow
-Carp ACP systems, not a syscall-triggered path. For the affected laptop,
-the issue is encountered at boot/device probe when the internal DMIC
-card is not registered.
-
-Record 5.5: Similar pattern is widespread in the same table: many
-laptop-specific entries all set `.driver_data = &acp6x_card`.
-
-### Phase 6: Stable Tree Analysis
-Record 6.1: `v5.15` lacks `sound/soc/amd/yc/acp6x-mach.c`; `v5.16`,
-`v6.1`, `v6.6`, and `v6.12` contain it. This is relevant to stable trees
-with the AMD YC machine driver, especially `v6.1+`.
-
-Record 6.2: Current 7.0 tree accepts the patch cleanly via `git apply
---check`. `v6.6`, `v6.12`, `v6.18`, `v6.19`, and HEAD have nearby MSI
-entries; `v6.1` has the quirk machinery but not the same adjacent MSI
-context, so it needs minor manual placement.
-
-Record 6.3: Searches found no existing `Bravo 15 C7VE` entry in current
-HEAD, `v6.6`, `v6.12`, `v6.18`, or `v6.19`.
-
-### Phase 7: Subsystem Context
-Record 7.1: Subsystem is ALSA SoC / AMD YC machine driver under
-`sound/`. Criticality is peripheral but user-visible: it affects audio
-capture on a specific laptop model.
-
-Record 7.2: The subsystem/file is actively receiving DMI quirk
-additions, verified by recent history listing multiple ASoC AMD YC quirk
-commits.
-
-### Phase 8: Impact And Risk
-Record 8.1: Affected users are MSI Bravo 15 C7VE owners using kernels
-with `CONFIG_SND_SOC_AMD_YC_MACH`.
-
-Record 8.2: Trigger condition is device probing on that hardware when
-firmware/ACPI does not otherwise enable the DMIC path. It is not an
-unprivileged-user-triggered security issue.
-
-Record 8.3: Failure mode is loss of internal microphone functionality,
-not crash, data corruption, or security impact. Severity is medium for
-affected users.
-
-Record 8.4: Benefit is high for affected hardware because it restores
-the internal microphone. Risk is very low because the patch is seven
-lines, exact-DMI-scoped, and uses existing driver data.
-
-### Phase 9: Final Synthesis
-Record 9.1: Evidence for backporting: real user report, Bugzilla closure
-tag, accepted by ASoC maintainer, exact hardware quirk, tiny scope, no
-API/behavior change outside the matching laptop, and stable rules
-explicitly allow hardware quirks. Evidence against: no explicit `Cc:
-stable`, no `Tested-by`, Bugzilla direct fetch blocked, and `v6.1` needs
-trivial context adjustment. None of these outweigh the quirk benefit.
-
-Record 9.2: Stable rules: obviously correct yes; fixes a real user-
-visible hardware bug yes; important enough for affected users yes,
-though not crash-level; small and contained yes; no new APIs/features
-yes; applies cleanly to current 7.0 and should be straightforward for
-stable trees containing the driver.
-
-Record 9.3: Exception category applies: hardware-specific DMI
-quirk/workaround in an existing driver.
-
-Record 9.4: Decision is to backport to stable trees that contain the AMD
-YC machine driver, with minor context adjustment where needed.
+Phase 9:
+- Record 9.1: Evidence for backporting: real hardware quirk, existing
+  stable-accepted mechanism, small single-file change, maintainer-
+  applied, cleanly applies to stable branches, external CCRMA
+  documentation corroborates MOTU 1248 Linux sample-rate failures that
+  succeed after waiting. Evidence against: no crash/security/data-
+  corruption, no explicit stable tag, and no direct reporter/tested-by
+  tag.
+- Record 9.2: Stable rules: obviously correct yes; fixes real user-
+  visible hardware failure yes; important enough under hardware-quirk
+  exception yes; small/contained yes; no new API/features yes; applies
+  cleanly yes.
+- Record 9.3: Exception category: hardware quirk/workaround for broken
+  device timing behavior.
+- Record 9.4: Decision: backport. This is exactly the kind of low-risk
+  device-specific quirk stable trees routinely take.
 
 ## Verification
-- [Phase 1] Parsed fetched commit
-  `0e60d96616640ffcf51b81a87c71e30d92385a93`: confirmed subject, tags,
-  author, committer, and 7-line stat.
-- [Phase 2] Read `sound/soc/amd/yc/acp6x-mach.c`: confirmed
-  `yc_acp_quirk_table[]` and `acp6x_probe()` DMI behavior.
-- [Phase 3] Ran local history/blame checks: nearby blame was not useful
-  for original introduction; verified file absent in `v5.15` and present
-  in `v5.16+`.
-- [Phase 4] Ran `b4 dig -c`, `-a`, `-w`, and saved/read mbox: confirmed
-  lore thread, two submissions, maintainer recipients, and Mark Brown
-  application to `for-7.1`.
-- [Phase 5] Read `pci-acp6x.c`: confirmed PCI probe registers
-  `acp_yc_mach`, which invokes the machine driver probe.
-- [Phase 6] Checked stable tags and entries: no `Bravo 15 C7VE` in
-  checked stable/current trees; patch applies cleanly to current 7.0
-  tree.
-- [Phase 7] Checked Kconfig/Makefile: confirmed `SND_SOC_AMD_YC_MACH` is
-  the relevant config and exists in `v6.1`/`v6.6`.
-- [Phase 8] Impact assessment is based on verified probe flow plus the
-  commit’s reported Bugzilla/user report.
-- UNVERIFIED: Direct Bugzilla contents could not be fetched due Anubis.
-  Exact original file introduction commit was not determined from local
-  history, but tag presence verifies stable relevance.
+
+- Phase 1: Parsed commit `320e55722ca46` with `git show
+  --format=fuller`; verified tags and message.
+- Phase 2: Verified diff with `git show --find-renames` and `--numstat`:
+  `sound/usb/clock.c`, `+11/-4`.
+- Phase 3: Ran `git blame -L 179,240 -- sound/usb/clock.c`; identified
+  existing quirk origin `2edb84e3047b9`.
+- Phase 3: Checked recent file history with `git log --oneline -20 --
+  sound/usb/clock.c`.
+- Phase 4: Ran `b4 dig -c 320e55722ca46`, `-a`, and `-w`; confirmed v1
+  patch, recipients, and lore URL.
+- Phase 4: Ran `b4 mbox`; confirmed Takashi’s “Applied now” reply and no
+  objections in the fetched thread.
+- Phase 5: Used `rg` and file reads to trace callers through `clock.c`,
+  `format.c`, `endpoint.c`, `stream.c`, and `quirks.c`.
+- Phase 6: Checked quirk presence in pending stable branches and
+  verified `git apply --check` cleanly on `pending-5.4`, `pending-5.10`,
+  `pending-5.15`, `pending-6.1`, `pending-6.6`, `pending-6.12`, and
+  `pending-7.0`.
+- Phase 8: Used WebFetch of CCRMA MOTU 1248 documentation; it reports
+  Linux output/sample-rate attempts may fail initially and succeed after
+  5-10 seconds.
+- UNVERIFIED: Exact USB ID mapping for every model listed in the new
+  comment beyond the commit’s own statement.
 
 **YES**
 
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ sound/usb/clock.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 2f7a51d7eb115..daa6b9a526565 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -479,6 +479,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 15 B7ED"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 15 C7VE"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+diff --git a/sound/usb/clock.c b/sound/usb/clock.c
+index 842ba5b801eae..2e0c18e352812 100644
+--- a/sound/usb/clock.c
++++ b/sound/usb/clock.c
+@@ -208,11 +208,18 @@ static bool uac_clock_source_is_valid_quirk(struct snd_usb_audio *chip,
+ 	}
+ 
+ 	/*
+-	 * MOTU MicroBook IIc
+-	 * Sample rate changes takes more than 2 seconds for this device. Clock
+-	 * validity request returns false during that period.
++	 * Quirk for older MOTU AVB / hybrid interfaces
++	 *
++	 * These devices take more than 2 seconds to switch sample rate or
++	 * clock source. During this period the clock validity request
++	 * returns false, causing ALSA to fail prematurely.
++	 *
++	 * Affected models (all use vendor 0x07fd):
++	 *   - MicroBook IIc          → 0x0004
++	 *   - 1248, 624, 8A, UltraLite AVB, 8M, 16A, ... → 0x0005
+ 	 */
+-	if (chip->usb_id == USB_ID(0x07fd, 0x0004)) {
++	if (chip->usb_id == USB_ID(0x07fd, 0x0004) ||  /* MicroBook IIc */
++	    chip->usb_id == USB_ID(0x07fd, 0x0005)) {  /* 1248 / 624 / 8A / UltraLite AVB / ... */
+ 		count = 0;
+ 
+ 		while ((!ret) && (count < 50)) {
 -- 
 2.53.0
 
