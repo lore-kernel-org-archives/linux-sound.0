@@ -1,117 +1,152 @@
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642CD32D0DE
-	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 03:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.196
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779248202; cv=pass; b=jbcdEifOX8uMYsnnc8HWlqdAKxnz4qva4M6k0N+QjqYWHvlU7Fo5S3qOVyB+x8do2km5R/ziqd9vWagSCw6hDRKxhomWo5cienustgIV3Kx/OsUDlBfoyx5t3XDKZRYvaqa6/xPGSAPf9EtlPHBWJbTAcobaYIv95vq93ABw+EQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779248202; c=relaxed/simple;
-	bh=3t/CWpCqZ7v3vfPsKjVdwBwWfqYP5NQK9eXP1u+XUms=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u9nEsclFbv38wAP2z96u7C99OrqfSn+T0M+sCYoZ/jZf1DDIupJ5uVuOrEgPmnZLwDTQigXujyphE+ZTy83jvDEShSnnoku31ds6LvT3CS0DP5DjwXgpMm9oddRQ9W3BoeVnboyquRnwGuCZ0pI2ELjP4QNhV9HQxISR9vN6MNg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OZAGtr0L; arc=pass smtp.client-ip=209.85.208.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2191367B77
+	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 05:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779256424; cv=none; b=ptGej2y2UW/kcPv6q0kAk3l0pvOaAyxNhEtnCAj/DOM9cfPMV26sxrQJDnM76uldy5Bo6myso0JxnrMCR3R+vj9PELwKbfvdaIA2sR1tCgte0G0r+XkDUv94nk6GqxIM/wYCHQJf7nJhOd7UR+6vJENVvzNH9ERNW6iTsgljmcw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779256424; c=relaxed/simple;
+	bh=v7sBCnZL4sVGAZKU78eZN9ltHBk7lZH0h1oFkbLuiU0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XYFS34e3/ThhTUJJLbj85xawgq1nRiAEIPh/7akCXvPdvPW6TgTYoc7VoNkVdiYcoMbSowJC/2MGFgoVh8eikMSm8QoGUKFpM03pA6puwo3moF/Io5jgIDGYerylyL9P2UNW/BNv22PjTBEVWrGLfJ/5uF4LZ/KNkLakUbObLNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XQq5CC8C; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KtE5YB48; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XQq5CC8C; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KtE5YB48; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OZAGtr0L"
-Received: by mail-lj1-f196.google.com with SMTP id 38308e7fff4ca-39396f873adso65905561fa.3
-        for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 20:36:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779248197; cv=none;
-        d=google.com; s=arc-20240605;
-        b=SjVHCg0y6M+xwIVv9UufX+SmCE3AvaLakcduQkH0DQZGEVLHI/Fam0WdqpgHfAJLGx
-         pGdVRcU2xLO+P3zdkW9WyFIs+YFPwcjb0Py1AnkygnwnW92lw/gStqUxDKa2xePTrbHm
-         3pCVetJic+hThxrbfnJER4S9RYl7vEhcOiKfQKhqRKgHiH60dHzuGsQNKYSGkllDNF/E
-         wKnQXiNZ+8voNAVPCK4XSz/UfeTxRgImas/PfoGNTIi65MiAHiYE6wxEr2KpuzOwlzC2
-         TE3gdOZOfg9G8PRiKdG7mLYFs6KDDbz6PQ+J8PE8cPKGTRiT2J3lr1jW4bJzVJEfmmnX
-         ORPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=w8+iVeLc2Pv1jKw67JD1mUH1zdt+C8bk1bl6yHhlC3k=;
-        fh=+c3cMUWtWRGDwURNdti4y2YeoXa7GIGS0o5TJcZgdtE=;
-        b=cVosR43RvEl6/zXpO5uvMnspgRtVvKlBufAfIXsunIBw9xQKhvfeXpKXajC7mhya4T
-         Tby7k1T09WGCQBOTFFCKG/xquTbulJluwAymUUjjlgrV59x1oLCpdKKYnNv6c10ARon5
-         NlCoJmPoKSXRT1P+5yfwz1MdxJNPtVc+7FRLQE5x4Aw8UDhbskSoR59CpwX02aHkWDgX
-         Q3bVyCPjUD6i3H0sY4+Nc2AgukFwM8X4x14/aTQ/8DuFHoW9X0JODG1HrASbOt4eW99J
-         7eXQtB+AuUOnHm8XghxFY6ALwZGDaRn2JqPnDiyuxzxX9yQhMD9Y2czoQClSlagLn/1g
-         PgRw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779248197; x=1779852997; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w8+iVeLc2Pv1jKw67JD1mUH1zdt+C8bk1bl6yHhlC3k=;
-        b=OZAGtr0LTMidBMeDwACsWf/0o7+SE+rv55uA58rzyJwsSUaY0epdnWi10Zv5wmPJr0
-         u24dRfTblVjI4IQKuzpOxL1CEM5/svKllRpF9SyH+L7YmefeRZwvoVVFD15ZJ0AFTdBm
-         Wb5ppbgHIw/cODXS4bQ+Jn7fgidSaeuKh/sJxiwf0ETjTUXU7zDJSqdM9ZzjiS15l3AC
-         5J82oJ1PYj7eoSdzhjOAVogSDgm1E7WCdKNwa/k9yjTti3t3ldvS1k8H1Lga49TECSJ3
-         6CyEybX5n2OXIGrOAqqNy/sO+BAhfFY5o20M+oA/CwXLU4o68nDy4vElpbwRPCAZNOtT
-         pbKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779248197; x=1779852997;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=w8+iVeLc2Pv1jKw67JD1mUH1zdt+C8bk1bl6yHhlC3k=;
-        b=NeEVHZ7s9sWx6IFzvPieE7PyBDZHnvN9cU4pZaHghD64Nttz4pd2AKQlCb2ig/jrmF
-         vQ+h/Gh01UMSVRIramMzS2ALKoD9V8h/RMWnHxm8qmtk19p2jNV+fUU29rcLdGjxlTA6
-         fDRJLbZXW6vtZUNI1hGSfB/5t/j0F8Pa4nwVrTYTqMnhUipLoF1+tnACDA3DI5wB7iv8
-         86/6vX3tQvxPxOTk+2D7E1cAUpE6QX8ygqA9CinHiOBPbUjvcyIFHyIpUH63kWb4rV5p
-         iSs3gTRxEM0XiwRpWUNuUGvlBpeYfmFcd002ugXhD8KFuoTAn30EAWdU9BABuappwgFy
-         Roug==
-X-Forwarded-Encrypted: i=1; AFNElJ+ZD9TG/vorQhb4KSBC0vOQIkFwpy7gBA49zQ6mCyyatm2j/ooz3SJo9gUebt+zjndIDprGqR4vT07XMg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YznyURR04hK0M9MyP35AmMG+gNg32NL5tJ5BJnipz9tqXz+gU5R
-	yXpkF+QOf02bkFWeSQY+jOJYfItbbpLDcnktAcxh1+15GgWImja5SCX/NVI2egY6puinqBNTMiu
-	Jk4AbhitwcX8TNnwnRrTn4jdVp0kTy5JO1XHn5/V/O7xpG0g=
-X-Gm-Gg: Acq92OGeAZwJxLp6Zw9sXQpfo+tIgnRhCWKUy/H/3r6OppzXfZT95vrfeCpeBPxq8PP
-	lquF5lYUGTIU6Q1mRxz5w1yng9onTx/EIQBA/QJbyXesl3xdeMzX1cC41sk3EhiKAAG3kOzDh9b
-	yX1wohYl24p1h0/w1y6bPIJtuDgJgnpSuA3Tg5c5pvGPikmAeMsJO8Ds12//7c7835bCb0btnun
-	a0JPhzxUU4YWx0mv2G15OuRZg6zJvwJZojX6NgVJxEwU/HtGy9x8l1I49noggdDRPiZ2ySYaYNo
-	JaQRQgEaKJBWqM4Ysos=
-X-Received: by 2002:a05:651c:b10:b0:394:3442:427e with SMTP id
- 38308e7fff4ca-39561dab890mr80221811fa.14.1779248196486; Tue, 19 May 2026
- 20:36:36 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XQq5CC8C";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KtE5YB48";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XQq5CC8C";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KtE5YB48"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5B367671BA;
+	Wed, 20 May 2026 05:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779256415; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bdcJJlaCcN/Saf92HvPEpleiM5+ffgmh+4eEopFjga0=;
+	b=XQq5CC8CQZaZlyn9rDi5u5Ub8DTKzN8oJwUxiEMrjwfOabrYP5XIC81bKGEj0DyljPO6G6
+	qGCT9gK11RL4hUXat5mGC4TZ4ZdbDclViaVkOze7ntqEZXyPk2bR9zwtX33Qqbt6z4He9O
+	5yb29H6hmQ49yiuRHI4ZtYnuGKvsFpc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779256415;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bdcJJlaCcN/Saf92HvPEpleiM5+ffgmh+4eEopFjga0=;
+	b=KtE5YB4891lu4e9N1UMVWO3pho8i2HJSG2x3rHJdHDwS7bB4eNjycrTVpGiGwUz2sa5irk
+	Qk72MWzMuckMm+Ag==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XQq5CC8C;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KtE5YB48
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779256415; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bdcJJlaCcN/Saf92HvPEpleiM5+ffgmh+4eEopFjga0=;
+	b=XQq5CC8CQZaZlyn9rDi5u5Ub8DTKzN8oJwUxiEMrjwfOabrYP5XIC81bKGEj0DyljPO6G6
+	qGCT9gK11RL4hUXat5mGC4TZ4ZdbDclViaVkOze7ntqEZXyPk2bR9zwtX33Qqbt6z4He9O
+	5yb29H6hmQ49yiuRHI4ZtYnuGKvsFpc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779256415;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bdcJJlaCcN/Saf92HvPEpleiM5+ffgmh+4eEopFjga0=;
+	b=KtE5YB4891lu4e9N1UMVWO3pho8i2HJSG2x3rHJdHDwS7bB4eNjycrTVpGiGwUz2sa5irk
+	Qk72MWzMuckMm+Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3935D593AA;
+	Wed, 20 May 2026 05:53:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pJDwDF9MDWoVcwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 20 May 2026 05:53:35 +0000
+Date: Wed, 20 May 2026 07:53:26 +0200
+Message-ID: <87fr3mlj8p.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	"Geoffrey D. Bennett" <g@b4.vu>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: scarlett2: Allow flash writes ending at segment boundary
+In-Reply-To: <20260519-alsa-scarlett2-flash-write-boundary-v1-1-b550480e92da@gmail.com>
+References: <20260519-alsa-scarlett2-flash-write-boundary-v1-1-b550480e92da@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260519150528.4193481-1-rollkingzzc@gmail.com> <87qzn7l5uj.wl-tiwai@suse.de>
-In-Reply-To: <87qzn7l5uj.wl-tiwai@suse.de>
-From: Cen Zhang <rollkingzzc@gmail.com>
-Date: Wed, 20 May 2026 11:36:23 +0800
-X-Gm-Features: AVHnY4LjOprfSFCQ3Zgsw-Dnzk763wV4rK1bO8_GSOPuGExWzoq_eG_8V_AON58
-Message-ID: <CAB7XQsFwRCeuBq+DXGHkCweViy18k4ihhvL8F0__Dss0uvhUjQ@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: seq: Serialize UMP output teardown with event_input
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	zerocling0077@gmail.com, 2045gemini@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 5B367671BA
+X-Spam-Level: 
 
-Hi Takashi,
+On Tue, 19 May 2026 16:46:19 +0200,
+Cássio Gabriel wrote:
+> 
+> scarlett2_hwdep_write() rejects writes when offset + count is greater than
+> or equal to the selected flash segment size. That incorrectly treats a
+> write ending exactly at the end of the segment as out of space, although
+> the last byte written is still within the segment.
+> 
+> Split invalid argument checks from the segment-space check, keep
+> zero-length writes as no-ops, and compare count against the remaining
+> segment size. This permits exact-end writes and avoids relying on
+> offset + count before deciding whether the request is in bounds.
+> 
+> Fixes: 1abfbd3c9527 ("ALSA: scarlett2: Add support for uploading new firmware")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
-Takashi Iwai <tiwai@suse.de> =E4=BA=8E2026=E5=B9=B45=E6=9C=8820=E6=97=A5=E5=
-=91=A8=E4=B8=89 00:30=E5=86=99=E9=81=93=EF=BC=9A
-> Thanks for the report and the patch.
->
-> Through a quick glance, I guess your analysis is right, but I also
-> wonder whether it could be simpler just wrap the whole
-> seq_ump_process_event() with lock.  (It could be spinlock, but rwlock
-> might be safer in this case as it might be called recursively.)
-> Then seq_ump_client_close() takes the (write) lock and reset
-> client->out_rfile.output to NULL, followed by the call of
-> snd_rawmidi_kernel_close() outside the lock.
+Applied now.  Thanks.
 
-Thanks, I looked at the lifetime rule again and I think the rwlock
-version is a better fit than my v1 ready/pending/waitqueue scheme.
 
-I'll send v2 with this approach.
-
-Best regards,
-Zhang Cen
+Takashi
