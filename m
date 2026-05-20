@@ -1,48 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337702F549C
-	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 13:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CCFE3E1CFB;
+	Wed, 20 May 2026 13:59:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779285312; cv=none; b=q1E5yS8KcWdrz+twVyyQUqLHtH49RQ3S+dsTEG/UEZWL5VElcBBaXrBRLIY1kyhjD/9prQNwE4y8PLDdS+szPXFGc2XlfTZj5KNIaWCkwdTWQFHIWyMM5Uzny2uddjboio3zyOdAKRQv+VNyHrusc9UVLUQJk7lUjcZbM/+pvww=
+	t=1779285597; cv=none; b=fSEYWbmhpVRF1JgUBFHdO9BVWqeX+EzLlCVUaPcYBSeAUz7pruwHLA0K2iDHWhWVnPIGvmNPC5S3g/n0T1nwFjIrp95qbUMUwKBfTA7EsQQWPkNuPYQ6Dp4FoNshdCwuonq8lRBN0Tn3AxIKtJyAPXt2AMdEldzyfKTcO9St0CI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779285312; c=relaxed/simple;
-	bh=NIPRY9ruN+wTeldCfrZYfaYY/2pQ/03Seoc0u5+J0OQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ox52Iw9gJPIXXY2C5v9sxMt/0x6M5dorrefL+og86KtpNQD31pqhMmKBeizkPXigvA41ZR6BXRjOL40lGG5touQKfJ4mER/itTKBphSE3W1q1JNvvRtKuVByz4JcewdFzq/Xi153UjFpPDipBGahEXvQTPHqoCImYgBr+XhUoPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cc3rxfn6; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1779285597; c=relaxed/simple;
+	bh=W7dRPreqSSjjSogL0LL+S4yDyyzdk28WwjHCEVZ56AU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HzQeV+wWe720+04WKbjRlK/UmpQHA1BMqWbkQdLaJ8zXj2eM64fifx/xObcDwhy+V2et/8j6VQI0Dbp9+y0/C3ieniOmnLU22CiJhsi27+XznEODjI69GHVKNTGPfimYoSiTeFZ4ylZ0WYViYP9bhF54Zb55yGQ/g8LtJA6Rgn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KWZGF1jX; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cc3rxfn6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KWZGF1jX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779285312; x=1810821312;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=NIPRY9ruN+wTeldCfrZYfaYY/2pQ/03Seoc0u5+J0OQ=;
-  b=Cc3rxfn6MfrOO5ZACh+9u4gLgmAWYTL+iYIwgP6MefAeNlnOhu6T61mZ
-   n+A/XuZiFganHp5eBpqdgvkOL0fVt+WDIkUrPQUDzNTo8gAvaJ7CpSEWs
-   2W8f7tR0+s76K33GtgC9qWmSZpybfRauNlY2OYSu/QF9dGWp8jw1vnMEt
-   GV9VsF82EAHeW/BHTy8tsL4tkEJ+vGWsMzR0y5y3ht6xkUuON2PFk9sBj
-   H3GBjK+nk/V/N/Zw4SaQrwUSCQmiks4jK4Ez2rFReSbhN6IRLT3Mh24Vk
-   wVKTKO2/0OJL9v9PUSp1lBKXS+hnAkXL7vrrUp490ugpvuZUSayV0iA98
-   A==;
-X-CSE-ConnectionGUID: cpggGbJ1SxOOZeue1L0JNw==
-X-CSE-MsgGUID: hfnLPH+4QiuQFjP1FpPwnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="83800403"
+  t=1779285595; x=1810821595;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=W7dRPreqSSjjSogL0LL+S4yDyyzdk28WwjHCEVZ56AU=;
+  b=KWZGF1jXTzHR422Gbv/b5NoMZZLyQfZUqQXcXdKNWfelsh8P8F5N8fll
+   w0wvTEgaZcD4IpEQgzQmcIcpF9wdKo5KFmcsohEynnbn7q2MWv+IFXODQ
+   fEGNy1wr2bQPTHEWz28rf2EWpYF/IWWpdWWYwCODztFpeW6+VNXOXISFk
+   15VAePclNiYHWXOhMoXIT89ICJqceDUFgz1A3rAgD8ugK+7x74vkSK8DF
+   G6DPYbRxdRFB6xiE9cQQ9iALgGcL+lbN0O7npv54jCPEPZP7rLMWgtqen
+   vwc8QbpuA88YBxqoYNCcIDDncH73S3GkV0IvPMwMm1Tl7G4V+LgEjIQtp
+   Q==;
+X-CSE-ConnectionGUID: 7fAg5a4QS0yljT7PiFV2IA==
+X-CSE-MsgGUID: cmwGGtsXTCivCT9R4E6b2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="80149509"
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="83800403"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 06:55:11 -0700
-X-CSE-ConnectionGUID: ZlKwV6JHS6uafxCjZaq6dg==
-X-CSE-MsgGUID: KVECpRpIQTmd5VFBMXpkDw==
+   d="scan'208";a="80149509"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 06:59:53 -0700
+X-CSE-ConnectionGUID: /St/5RycTo68Ke6rCrfK0g==
+X-CSE-MsgGUID: iUyFutxJQsmc3vfqQFwONg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="235757717"
+   d="scan'208";a="263702311"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.85])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 06:55:09 -0700
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 06:59:50 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -50,13 +49,14 @@ Cc: linux-sound@vger.kernel.org,
 	kai.vehmanen@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
-	liam.r.girdwood@intel.com
-Subject: [PATCH 2/2] ASoC: SOF: Validate and correct the core id against the number of cores of the DSP
-Date: Wed, 20 May 2026 16:55:14 +0300
-Message-ID: <20260520135514.32720-3-peter.ujfalusi@linux.intel.com>
+	liam.r.girdwood@intel.com,
+	linux-kernel@vger.kernel.org,
+	guennadi.liakhovetski@linux.intel.com,
+	jyri.sarha@linux.intel.com
+Subject: [PATCH] MAINTAINERS: ASoC: Intel/SOF: Remove Ranjani Sridharan as maintainer
+Date: Wed, 20 May 2026 17:00:01 +0300
+Message-ID: <20260520140001.1375-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260520135514.32720-1-peter.ujfalusi@linux.intel.com>
-References: <20260520135514.32720-1-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -65,105 +65,43 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Generic development topologies can reference core id outside of the range
-of the number of DSP cores the device might have.
-Product families have different number of cores, for example:
-Intel TGL has 4, TGL-H has 2, ADL has 4, ADL-S has 2, etc
-The development topologies are tuned for the higher end devices and in this
-case they will fail on DSP with less number of cores.
+Ranjani no longer works on Intel/SOF audio drivers and her email address
+now bounce due to her departure from Intel.
 
-Override the out of range core id from topology to primary core and inform
-the user about it.
+Unfortunately, she was not able to send the removal mail by herself.
+
+Thanks for the years of work and dedication, Ranjani!
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Reviewed-by: Jyri Sarha <jyri.sarha@linux.intel.com>
 ---
- sound/soc/sof/ipc3-topology.c | 10 +++++++++-
- sound/soc/sof/ipc4-topology.c | 10 +++++++++-
- sound/soc/sof/topology.c      |  9 ++++++++-
- 3 files changed, 26 insertions(+), 3 deletions(-)
+ MAINTAINERS | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/sound/soc/sof/ipc3-topology.c b/sound/soc/sof/ipc3-topology.c
-index 8006777f2f64..4e066bbded91 100644
---- a/sound/soc/sof/ipc3-topology.c
-+++ b/sound/soc/sof/ipc3-topology.c
-@@ -519,6 +519,7 @@ static int sof_ipc3_widget_setup_comp_mixer(struct snd_sof_widget *swidget)
- static int sof_ipc3_widget_setup_comp_pipeline(struct snd_sof_widget *swidget)
- {
- 	struct snd_soc_component *scomp = swidget->scomp;
-+	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
- 	struct snd_sof_pipeline *spipe = swidget->spipe;
- 	struct sof_ipc_pipe_new *pipeline;
- 	struct snd_sof_widget *comp_swidget;
-@@ -559,8 +560,15 @@ static int sof_ipc3_widget_setup_comp_pipeline(struct snd_sof_widget *swidget)
- 	if (ret < 0)
- 		goto err;
- 
--	if (sof_debug_check_flag(SOF_DBG_DISABLE_MULTICORE))
-+	if (sof_debug_check_flag(SOF_DBG_DISABLE_MULTICORE)) {
-+		pipeline->core = SOF_DSP_PRIMARY_CORE;
-+	} else if (pipeline->core > sdev->num_cores - 1) {
-+		dev_info(scomp->dev,
-+			 "out of range core id for %s, moving it %d -> %d\n",
-+			 swidget->widget->name, pipeline->core,
-+			 SOF_DSP_PRIMARY_CORE);
- 		pipeline->core = SOF_DSP_PRIMARY_CORE;
-+	}
- 
- 	if (sof_debug_check_flag(SOF_DBG_DYNAMIC_PIPELINES_OVERRIDE))
- 		swidget->dynamic_pipeline_widget =
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 94851ad809fc..e32cf4dee091 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -927,6 +927,7 @@ static void sof_ipc4_widget_free_comp_dai(struct snd_sof_widget *swidget)
- static int sof_ipc4_widget_setup_comp_pipeline(struct snd_sof_widget *swidget)
- {
- 	struct snd_soc_component *scomp = swidget->scomp;
-+	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
- 	struct sof_ipc4_pipeline *pipeline;
- 	struct snd_sof_pipeline *spipe = swidget->spipe;
- 	int ret;
-@@ -942,8 +943,15 @@ static int sof_ipc4_widget_setup_comp_pipeline(struct snd_sof_widget *swidget)
- 		goto err;
- 	}
- 
--	if (sof_debug_check_flag(SOF_DBG_DISABLE_MULTICORE))
-+	if (sof_debug_check_flag(SOF_DBG_DISABLE_MULTICORE)) {
-+		pipeline->core_id = SOF_DSP_PRIMARY_CORE;
-+	} else if (pipeline->core_id > sdev->num_cores - 1) {
-+		dev_info(scomp->dev,
-+			 "out of range core id for %s, moving it %d -> %d\n",
-+			 swidget->widget->name, pipeline->core_id,
-+			 SOF_DSP_PRIMARY_CORE);
- 		pipeline->core_id = SOF_DSP_PRIMARY_CORE;
-+	}
- 
- 	swidget->core = pipeline->core_id;
- 	spipe->core_mask |= BIT(pipeline->core_id);
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index 87b539916b4a..8fc7726aec29 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -1574,8 +1574,15 @@ static int sof_widget_ready(struct snd_soc_component *scomp, int index,
- 		int core = sof_get_token_value(SOF_TKN_COMP_CORE_ID, swidget->tuples,
- 					       swidget->num_tuples);
- 
--		if (core >= 0)
-+		if (core >= 0) {
-+			if (core > sdev->num_cores - 1) {
-+				dev_info(scomp->dev,
-+					 "out of range core id for %s, moving it %d -> %d\n",
-+					 swidget->widget->name, core, SOF_DSP_PRIMARY_CORE);
-+				core = SOF_DSP_PRIMARY_CORE;
-+			}
- 			swidget->core = core;
-+		}
- 	}
- 
- 	/* bind widget to external event */
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 42cc9d530714..32cd9660f1b8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12788,7 +12788,6 @@ M:	Cezary Rojewski <cezary.rojewski@intel.com>
+ M:	Liam Girdwood <liam.r.girdwood@linux.intel.com>
+ M:	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+ M:	Bard Liao <yung-chuan.liao@linux.intel.com>
+-M:	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+ M:	Kai Vehmanen <kai.vehmanen@linux.intel.com>
+ R:	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+ L:	linux-sound@vger.kernel.org
+@@ -25071,7 +25070,6 @@ SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS
+ M:	Liam Girdwood <lgirdwood@gmail.com>
+ M:	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+ M:	Bard Liao <yung-chuan.liao@linux.intel.com>
+-M:	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+ M:	Daniel Baluta <daniel.baluta@nxp.com>
+ R:	Kai Vehmanen <kai.vehmanen@linux.intel.com>
+ R:	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
 -- 
 2.54.0
 
