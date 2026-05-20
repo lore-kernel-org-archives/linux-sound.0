@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C713EE1CE
-	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 15:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235CE3D9DA4
+	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 15:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779289304; cv=none; b=FOUdKhy48aiKQskxc1lSWkC9E9dF/U4abGGaoKF9svLs57dYLZD67Qcze23NMHjuW4fUc8pILagnYn3YWTQHQaGzm3z8EPNaY0vW5hCJUFqnRqG0k0jo/TwPLt7F7VLPgf2fglAmp6Z2FQu/Rr9x1snd+b/p04Oi7G71exulXK0=
+	t=1779289317; cv=none; b=ShDcDa3bZFGR6oF4nd3SnSSyJ//0T+guIk4BsoaB3RL5YNZTK+hYD/0W3ImaylrjmbcUdXwspBldFmj2xfWiA8F9GTbnggY2E75iXWtxvaZlOYmcYCoRe5b7Okyj/2ec1C48XaY3yWsTGJpqfYwF8DXojHo7eVhckR3w4wMwjOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779289304; c=relaxed/simple;
-	bh=1g+cwvjd95JO5pvonrwqqS0iCEM9erYDCKADH5PAdjY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kVuJ9WIWlfD7ckz+hNQzlJ/jctrH4jJ9m17cHNxoUJFCMg60j0Islhq19CXFTUTuzJJ4t4dDm/fcHhff5uItZ6pTerFVK+f0C8rENMDlW4t/1vpx6qa8MxCXd5OCRZ1q0frVQ1McMyUMP93RZqWux5d2xoEjDii1BGqYfpLCycQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mK6G1rPW; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1779289317; c=relaxed/simple;
+	bh=MKthFsO2nVjAItcz/jIH2UhLhprLrCjrjZd/OduaNVI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nmW9pXWsxI71IF3suLjvvL7dcvkqIX62TmPZAHgDJC05+vIt0Y8laN13pRi6jA+XuIrilBHyoiE0ukDI2iz6iEv6WVixxAkxsA/AaE7hTf6MgVCCt9ppqpax6wk3LtHRIGbu/TLGAaVEhD9lYHOY64dXmb5cbqQTcInHvFMtFe8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SRAToCln; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mK6G1rPW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SRAToCln"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779289302; x=1810825302;
+  t=1779289316; x=1810825316;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=1g+cwvjd95JO5pvonrwqqS0iCEM9erYDCKADH5PAdjY=;
-  b=mK6G1rPWIJ1lMRCAngpxisoKQEnQ5AskSKdReZ/v8zszAVarX82w0aqT
-   v7BTMqHOiyGNNd7M2OsSW0bVggGFly3nu7uq1oLBuKXJ+clwN0HrJiNzf
-   AdEUZIFd2mCrN2uT8CF5o9Cpt0tibioH+Ji4lcnLfIhFIg8zp/QvA3Yza
-   rkuZUanBoEOa0a2o+3WW3LqY1ZZV/NgfrSLa+8NP2lJ9FD7VSiKjl4ww5
-   8B+D8dq3kT+J61WP8mQMeChD/3C8CJw/bM0WUxqw1SKAaG7X3OXTAXpHv
-   NudA7Qqh9OcWhTaHiEB/Yk++pp9nCuS7tFaTjzrZ358xE/PHy3skOEkON
-   w==;
-X-CSE-ConnectionGUID: 9ggtymXQTIe83AqmGp7nKw==
-X-CSE-MsgGUID: Xm+RoQvYRiafCJ23WfDSww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="80223786"
+  bh=MKthFsO2nVjAItcz/jIH2UhLhprLrCjrjZd/OduaNVI=;
+  b=SRAToClnXW0Wc3P1WuPvWcf1pk9zT+fKLBLWlwe2JcE/ej2YxI7Pfsst
+   YMBzO246wvW7AKOJ1uzLgWw8CG01Qo4noJMXx/HjIVOLkPAve4+f0TStM
+   pvj3l47pNAiePDZMN8Db5BOEFTDLMtUNQwmFcXBJOkjiOUJA9PZAl7iGs
+   bNjmBCvPQPCPd1ls81Y7uPo9djM4Q6FEbq/C7xneux+YJvRqhC+KvMUV1
+   wMn2IEcvdVPUUQSD3H+n+5tmhXNPM3/fZyf1o1Pf96RZYw8orNnQDpLyl
+   ZQ9X9GAnCaVFlZfO14URF8akJaBOiwPGRL0gaTYnSuHk/o+GpD1RJ0rMK
+   g==;
+X-CSE-ConnectionGUID: wMKFyWhERgqgUrLqnzcRaw==
+X-CSE-MsgGUID: YrS4rrZkTsuALfO6InhyrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="79919090"
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="80223786"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 08:01:41 -0700
-X-CSE-ConnectionGUID: Ss1RZWIkQxiXShj0/hHMzQ==
-X-CSE-MsgGUID: IUHYspUgQJWKj4VasRPDFw==
+   d="scan'208";a="79919090"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 08:01:55 -0700
+X-CSE-ConnectionGUID: 7Qpt66iYSxCaYmKOzhHW6w==
+X-CSE-MsgGUID: wLSwHr4IQtGXCy/KXL4+qA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="244206637"
+   d="scan'208";a="233855724"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.85])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 08:01:39 -0700
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 08:01:54 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
 Cc: linux-sound@vger.kernel.org,
 	kai.vehmanen@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	seppo.ingalsuo@linux.intel.com
-Subject: [PATCH] ASoC: SOF: ipc4-topology: Allow the use of multiple formats for src output
-Date: Wed, 20 May 2026 18:01:49 +0300
-Message-ID: <20260520150149.18250-1-peter.ujfalusi@linux.intel.com>
+	pierre-louis.bossart@linux.dev
+Subject: [PATCH] ASoC: SOF: ipc4-topology: Print for format type in dbg_audio_format
+Date: Wed, 20 May 2026 18:02:04 +0300
+Message-ID: <20260520150204.18303-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -62,88 +61,78 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The SRC module can only change the rate, it keeps the format and channels
-intact, but this does not mean the num_output_formats must be 0:
-The SRC module can support different formats/channels, we just need to
-check if the output format lists the correct combination of out rate and
-the input format/channels.
-
-Change the logic to prioritize the sink_rate of the module as target rate,
-then the rate of the FE in case of capture or in case of playback check the
-single rate specified in the output formats.
+8 and 32 bit formats can have different types, print them in debug
+information to have complete view of the supported formats.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 ---
- sound/soc/sof/ipc4-topology.c | 46 +++++++++++++++++++++++------------
- 1 file changed, 30 insertions(+), 16 deletions(-)
+ sound/soc/sof/ipc4-topology.c | 37 ++++++++++++++++++-----------------
+ 1 file changed, 19 insertions(+), 18 deletions(-)
 
 diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 984323f28106..b39e54b0c675 100644
+index 76812d8fb567..984323f28106 100644
 --- a/sound/soc/sof/ipc4-topology.c
 +++ b/sound/soc/sof/ipc4-topology.c
-@@ -2611,16 +2611,6 @@ static int sof_ipc4_prepare_src_module(struct snd_sof_widget *swidget,
- 	if (input_fmt_index < 0)
- 		return input_fmt_index;
+@@ -238,6 +238,23 @@ struct snd_sof_widget *sof_ipc4_find_swidget_by_ids(struct snd_sof_dev *sdev,
+ 	return NULL;
+ }
  
--	/*
--	 * For playback, the SRC sink rate will be configured based on the requested output
--	 * format, which is restricted to only deal with DAI's with a single format for now.
--	 */
--	if (dir == SNDRV_PCM_STREAM_PLAYBACK && available_fmt->num_output_formats > 1) {
--		dev_err(sdev->dev, "Invalid number of output formats: %d for SRC %s\n",
--			available_fmt->num_output_formats, swidget->widget->name);
--		return -EINVAL;
--	}
--
- 	/*
- 	 * SRC does not perform format conversion, so the output channels and valid bit depth must
- 	 * be the same as that of the input.
-@@ -2630,12 +2620,36 @@ static int sof_ipc4_prepare_src_module(struct snd_sof_widget *swidget,
- 	out_ref_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(in_audio_fmt->fmt_cfg);
- 	out_ref_type = sof_ipc4_fmt_cfg_to_type(in_audio_fmt->fmt_cfg);
- 
--	/*
--	 * For capture, the SRC module should convert the rate to match the rate requested by the
--	 * PCM hw_params. Set the reference params based on the fe_params unconditionally as it
--	 * will be ignored for playback anyway.
--	 */
--	out_ref_rate = params_rate(fe_params);
-+	if (src->data.sink_rate) {
-+		/* Use the sink rate as reference */
-+		out_ref_rate = src->data.sink_rate;
-+	} else if (dir == SNDRV_PCM_STREAM_CAPTURE) {
-+		/*
-+		 * Use the fe rate as reference for capture if the sink rate is
-+		 * not set since we need to convert to the rate the PCM device
-+		 * is openned with
-+		 */
-+		out_ref_rate = params_rate(fe_params);
-+	} else {
-+		/*
-+		 * Otherwise try to guess what the rate should be:
-+		 * The output formats must have single rate specified if the
-+		 * sink rate is not set for an SRC in playback path.
-+		 */
-+		int i;
++static u32 sof_ipc4_fmt_cfg_to_type(u32 fmt_cfg)
++{
++	/* Fetch the sample type from the fmt for 8 and 32 bit formats */
++	u32 __bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(fmt_cfg);
 +
-+		out_audio_fmt = &available_fmt->output_pin_fmts[0].audio_fmt;
-+		out_ref_rate = out_audio_fmt->sampling_frequency;
-+		for (i = 1; i < available_fmt->num_output_formats; i++) {
-+			out_audio_fmt = &available_fmt->output_pin_fmts[i].audio_fmt;
-+			if (out_ref_rate != out_audio_fmt->sampling_frequency) {
-+				dev_err(sdev->dev,
-+					"Cannot determine the output rate for SRC: %s\n",
-+					swidget->widget->name);
-+				return -EINVAL;
-+			}
-+		}
-+	}
++	if (__bits == 8 || __bits == 32)
++		return SOF_IPC4_AUDIO_FORMAT_CFG_SAMPLE_TYPE(fmt_cfg);
++
++	/*
++	 * Return LSB integer type for 16, 20 and 24 formats as the firmware is
++	 * handling the LSB/MSB alignment internally, for the kernel this
++	 * should not be taken into account, we treat them as LSB to match with
++	 * the format we support on the PCM side.
++	 */
++	return SOF_IPC4_TYPE_LSB_INTEGER;
++}
++
+ static void sof_ipc4_dbg_audio_format(struct device *dev, struct sof_ipc4_pin_format *pin_fmt,
+ 				      int num_formats)
+ {
+@@ -246,8 +263,9 @@ static void sof_ipc4_dbg_audio_format(struct device *dev, struct sof_ipc4_pin_fo
+ 	for (i = 0; i < num_formats; i++) {
+ 		struct sof_ipc4_audio_format *fmt = &pin_fmt[i].audio_fmt;
+ 		dev_dbg(dev,
+-			"Pin #%d: %uHz, %ubit, %luch (ch_map %#x ch_cfg %u interleaving_style %u fmt_cfg %#x) buffer size %d\n",
++			"Pin #%d: %uHz, %ubit (type: %u), %luch (ch_map %#x ch_cfg %u interleaving_style %u fmt_cfg %#x) buffer size %d\n",
+ 			pin_fmt[i].pin_index, fmt->sampling_frequency, fmt->bit_depth,
++			sof_ipc4_fmt_cfg_to_type(fmt->fmt_cfg),
+ 			SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(fmt->fmt_cfg),
+ 			fmt->ch_map, fmt->ch_cfg, fmt->interleaving_style, fmt->fmt_cfg,
+ 			pin_fmt[i].buffer_size);
+@@ -1353,23 +1371,6 @@ static int sof_ipc4_widget_assign_instance_id(struct snd_sof_dev *sdev,
+ 	return 0;
+ }
  
- 	output_fmt_index = sof_ipc4_init_output_audio_fmt(sdev, swidget,
- 							  &src->data.base_config,
+-static u32 sof_ipc4_fmt_cfg_to_type(u32 fmt_cfg)
+-{
+-	/* Fetch  the sample type from the fmt for 8 and 32 bit formats */
+-	u32 __bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(fmt_cfg);
+-
+-	if (__bits == 8 || __bits == 32)
+-		return SOF_IPC4_AUDIO_FORMAT_CFG_SAMPLE_TYPE(fmt_cfg);
+-
+-	/*
+-	 * Return LSB integer type for 20 and 24 formats as the firmware is
+-	 * handling the LSB/MSB alignment internally, for the kernel this
+-	 * should not be taken into account, we treat them as LSB to match with
+-	 * the format we support on the PCM side.
+-	 */
+-	return SOF_IPC4_TYPE_LSB_INTEGER;
+-}
+-
+ /* update hw_params based on the audio stream format */
+ static int sof_ipc4_update_hw_params(struct snd_sof_dev *sdev, struct snd_pcm_hw_params *params,
+ 				     struct sof_ipc4_audio_format *fmt, u32 param_to_update)
 -- 
 2.54.0
 
