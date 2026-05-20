@@ -1,330 +1,244 @@
-Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FE93C3458
-	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 09:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.3.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D873D7D82
+	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 10:33:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779270945; cv=none; b=q9xFpBkd2zNrulRK/TKlGTNteWKcLlTor/5H+MkOtLGppf+/01iUndhq6r3wOY7lyOEKnvtVp820H6D8LQPvOnYbfBEAiA7s375N1IixP70iYF9ZDm4qzL+3rziZDQvRZfAF53rLss7UWVhHwukB1n1hZo69QCedMx36OVoO8aA=
+	t=1779273189; cv=none; b=HpKTOas0vaIcyiobpVmV0/JmjVD9DBgBrYB8S8CpZVcDpxxdsTN+AvjlMEU4hEGjDtoQWg6S/2XxacCAMwUnBzif7/KTuFbg/EQ2Enn6yxeu5GKhybdnIbVD++tWVojbdhDcRkZndvs3krEpyKutYsjnjJQMt0LAeCDzYdwngC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779270945; c=relaxed/simple;
-	bh=3cYAqPZzzuzV42OjBeaT6KZaDZr2f/3JfI+gMFvfvE0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EgR0camqYCQeNaJdOoghlnFGPhKwCxvFysLFIDWFE2Vo3KJHK9G9tqT+828UffQ7FKPYRS0ODUBMGWYl+DkR64FJRfZI6ZNoU6Q0gZ0dHu1W9ryUL3ZoCBvdapdRaWn32EKgKom0WAY2K+zz0bIALjMkn4rgr0S1mqFKJSimrWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=h9N4+Q64; arc=none smtp.client-ip=188.40.3.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1779273189; c=relaxed/simple;
+	bh=32UuVXGjBAJfWzDbWV9ck1i2UnwZ09ZXuANYSaMBF6s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mm7lCljBowM9ex6DzkaQDFBUwDIrMK350NVSJaqVenb3zGTcpUuhb3wmsDyI1y5pZHmdRYJ8zvahkiWg6JMuBeB41As2QGQTrz8a8fNFuAOLbhOgcTEoIUUG/HESEOeS5oQ2T9ZDiZQQd65QEV66FlCiu06bV8KW7uoXnOMFhd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qDys9kYV; arc=none smtp.client-ip=209.85.214.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="h9N4+Q64"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=ew.tq-group.com; s=default2602; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=myxRvf5RQblbYQs6l8j2kCNiLwaAnbpSHzBk7M0CYc8=; b=h9N4+Q64+B267nsZP4xS7z8hIs
-	hDsO4WyprvaFpr+FkEiM6tRYLBfr4j+/zRhpoL+WSOEObL8JM7/mAqy57AeZYAyNzC+qSBNJLNFDH
-	ek5oBMLrin6NW6Cy1euey3+yDh9sGWy1/Srj/irrGE7vCIEVii+4dfTfx6B7wMHAp2dwcgo2EYs8J
-	ISKU/2tEQkgDHL+EuJspYzD5juc2esuF6U9Qp11fcmH/kYyD3hnrudaT5cprHbKFMGI1CB6zeLOuf
-	gcw2FO3Dqf6+imwe6I9ekSAWGwdGx3rJc6w5EnvDzQteitlZ/7vfQMlQTHBLwxUQm7tc4SFxpRV0o
-	EhkxrcHg==;
-Received: from sslproxy05.your-server.de ([78.46.172.2])
-	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <alexander.stein@ew.tq-group.com>)
-	id 1wPdeO-0005i2-0V;
-	Wed, 20 May 2026 11:55:40 +0200
-Received: from localhost ([127.0.0.1])
-	by sslproxy05.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <alexander.stein@ew.tq-group.com>)
-	id 1wPdeN-000FyP-18;
-	Wed, 20 May 2026 11:55:40 +0200
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: broonie@kernel.org, Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
- kuninori.morimoto.gx@renesas.com, linux-sound@vger.kernel.org,
- Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: Re: [PATCH] ASoC: core: Move all users to deferrable card binding
-Date: Wed, 20 May 2026 11:55:39 +0200
-Message-ID: <3045975.e9J7NaK4W3@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20260430140752.766130-1-cezary.rojewski@intel.com>
-References: <20260430140752.766130-1-cezary.rojewski@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qDys9kYV"
+Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-2ba4a1a0325so29215165ad.0
+        for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 03:33:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779273185; x=1779877985; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=df5ljnkT59VDilnps8QzbXNo3Qir3wTp0hwEjNvZKvs=;
+        b=qDys9kYVNqQ/Wi4uNkfyXzkoDKkxkmsyDEIPk0ODQesgVEk09r4ncedTkZPWB70CK/
+         3KnfMPA2QVh+Y7l+nbu37ngKVVi6YjKNNr9XtfdeGGbIumVXY8YoPFN1/g8zuh4fMEvF
+         4Qh0CZLjmXBEfLVxDBQmSnftygkk6nqOs3CrrrpLLAhmvKxR25CoyrxJi0AwBAjbURtW
+         ICLHOyzEjNYeem18qcw97rhybVIs8r9nFny02N3yNNToFWLLXG8PpI+ZJBlyGRYH6RKS
+         +By0VorQcSEsSC4ZSbmIxKihGzSw309EWQYKw3XazGfD16uwzBSdMS5jHsJMCoJDtyL3
+         OMkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779273185; x=1779877985;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=df5ljnkT59VDilnps8QzbXNo3Qir3wTp0hwEjNvZKvs=;
+        b=nwT9uKI32xSDSNWOJCuPAopgQD38N7kOigTSDV/c+el3tCVfDUzI4YQ8fsptrAUqyQ
+         qTOOEk/Zvql3JEkf2BJo5fXonZdLcZujFf+Hx+HYh+mtRzoHRo8F9Y2ikrmx7EI6j5cj
+         /4AgVhKzxQ69qJBCLByqmNuOeZAJj7gfaOcm8IFhkwDJBCiThQjRlwgLTsQuIrGJQ+27
+         0N+llRWWKSZLxS+HL8UL7FgxIu93ujQbyDz/7YwrN5auHGoSDe6tA/jX3gv2vYW+tRXU
+         Ld2sPgv9ScAXfv0BAhZqgy2J0zy6MMhfXcngpGrQMNBcYosmvjkmUn0xIa9JNc0sV0MS
+         WFeA==
+X-Gm-Message-State: AOJu0YwBeazIR2GB42fKqJ96vfT6wx7vh/WB5dl+/b/4uWPCmSJ9/L4Z
+	GZ3tThOUUt0K5SH8P9hS1IzhgN8nSNC7EdUXtNKBFcWUz6vW77Ldqy92
+X-Gm-Gg: Acq92OEKPJkoCgPRDEcZGsyDXLUGFdVzmTmoIuRPUm9RK+1iOhlnkJNLJ1Eu4tV+zfz
+	tVTRZtHCl+YxLBKNYDVh4ZvxwdXum3txKPtS4jV+TIsyhtjYPKV+45NxmuU2N11roEw+3StrbH9
+	I0NDfMWp7M82XTboZdYwIOZP0rxB8AdJlwjTOFyMdbX8CBKkzNMxolv+wxvXkWIl5tfHla9VEOU
+	FNqPqjz87tXw5NTsRDXwq4vaSKizrmnRQoNGuntzk9jjRmashQNxKkbhzB2QGeLIMuKRD8NbUST
+	R5zAWZNTcW0Ocuy9PJkRhxAS+nV/iMrp7kGvCPY5T26vK/xkfYOhzPL1R/8e3di3HW1tsWnZjdx
+	rkt4SAsymaBEEtupkgDG6d6uqq5pEDI7DImGSSoY0UFjPZ+YPraknznyQTSG1C5Y+lcimM1yO55
+	q5FG6rg95+vlcO4Fuy40tr4/8uKu+4xgw=
+X-Received: by 2002:a17:902:f38e:b0:2b2:4d36:7aa with SMTP id d9443c01a7336-2bd7e8cbc80mr196594415ad.35.1779273184745;
+        Wed, 20 May 2026 03:33:04 -0700 (PDT)
+Received: from localhost ([111.228.63.84])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5bd5fc47sm208405925ad.10.2026.05.20.03.32.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2026 03:33:04 -0700 (PDT)
+From: Zhang Cen <rollkingzzc@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>,
+	zerocling0077@gmail.com,
+	2045gemini@gmail.com,
+	Zhang Cen <rollkingzzc@gmail.com>
+Subject: [PATCH v2] ALSA: seq: Serialize UMP output teardown with event_input
+Date: Wed, 20 May 2026 18:32:49 +0800
+Message-Id: <20260520103249.3048345-1-rollkingzzc@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Virus-Scanned: Clear (ClamAV 1.4.3/28006/Wed May 20 08:25:19 2026)
+Content-Transfer-Encoding: 8bit
 
-Hi,
+seq_ump_process_event() borrows client->out_rfile.output without
+synchronizing with the first-open and last-close transition in
+seq_ump_client_open() and seq_ump_client_close().
 
-Am Donnerstag, 30. April 2026, 16:07:52 CEST schrieb Cezary Rojewski:
-> Commit a3375522bb5e2 ("ASoC: core: Complete support for card rebinding")
-> completed the feature and at the same time divided ASoC users into two
-> groups:
->=20
-> 1) cards that fail to enumerate the moment one of the components is
->    not available
-> 2) cards that succeed to enumerate even if some of their components
->    become available late
->=20
-> Given the component-based nature of ASoC, approach 2) is preferred and
-> can be used by all ASoC users.  By dropping 1) the card binding code can
-> also be simplified.
->=20
-> Flatten code that is currently conditional based on ->devres_dev and
-> convert snd_soc_rebind_card() to call_soc_bind_card().  The latter is a
-> selector between managed and unmanaged card-binding behaviour to keep
-> non-devm users happy.
->=20
-> With rebinding being the default, devm_snd_soc_register_card() takes
-> form of its deferrable friend - all the devm job is already done by
-> devm_snd_soc_bind_card().
->=20
-> Suggested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+The last output unuse can therefore drop opened[STR_OUT] to zero and
+release the rawmidi file while an in-flight event_input callback is still
+inside snd_rawmidi_kernel_write(). That leaves the rawmidi substream
+runtime exposed to teardown before the write path has taken its own
+buffer reference.
 
-This showed up in linux-next and causes a regression on my imx8mp-based
-platform (imx8mp-tqma8mpql-mba8mpxl.dts).=20
+Add a per-client rwlock for the event_input-visible output file. Publish
+a newly opened output file under the write side, and hold the read side
+from the output lookup through snd_rawmidi_kernel_write(). The last
+output close copies and clears the visible output file under the write
+side, then drops the lock and releases the saved rawmidi file. Use
+IRQ-safe rwlock guards because event_input can also be reached from
+atomic sequencer delivery.
 
-On 7.1.0-rc3-00101-g56ba969925ac eveythings works as expected and sound
-cards are registered.
+The buggy scenario involves two paths, with each column showing the
+order within that path:
 
-On 7.1.0-rc3-00102-g42d99857d6f0 I'm getting these messages/errors:
+path A label: event_input path         path B label: last unuse path
+1. seq_ump_process_event() reads       1. seq_ump_client_close()
+   client->out_rfile.output.              drops opened[STR_OUT] to zero.
+2. snd_rawmidi_kernel_write1()         2. snd_rawmidi_kernel_release()
+   has not yet pinned runtime.            closes the output file.
+3. The writer continues using          3. close_substream() frees
+   the borrowed substream.                substream->runtime.
 
-fsl-asoc-card sound: ASoC: CPU DAI (null) not registered
-tlv320aic32x4 1-0018: ASoC error (-22): at snd_soc_dai_set_sysclk() on tlv3=
-20aic32x4-hifi
-fsl-asoc-card sound: failed to set sysclk in fsl_asoc_card_late_probe
-fsl-asoc-card sound: ASoC error (-22): at snd_soc_card_late_probe() on tqm-=
-tlv320aic32
+This keeps the output substream and runtime alive for the full
+event_input write while keeping rawmidi release outside the rwlock.
 
-The clock tree looks like this:
-audio_pll1_ref_sel               0       0        0        24000000
-   audio_pll1                    0       0        0        393216000
-      audio_pll1_bypass          0       0        0        393216000
-         audio_pll1_out          0       0        0        393216000
-            sai3                 0       0        0        12288000
-               sai3_mclk1_sel    0       0        0        12288000
-                  sai3_mclk1_cg  0       0        0        12288000
-                     pll         0       0        0        49152000
-                        codec_clkin 0       0        0        49152000
-                           nadc  0       0        0        49152000
-                              madc 0       0        0        49152000
-                           ndac  0       0        0        49152000
-                              mdac 0       0        0        49152000
-                                 bdiv 0       0        0        49152000
+KASAN reproduced this as a slab-use-after-free in
+snd_rawmidi_kernel_write1(), with allocation through
+seq_ump_use()/snd_seq_port_connect() and free through
+seq_ump_unuse()/snd_seq_port_disconnect().
 
-Adding some debug output the offending call is
-tlv320aic32x4 1-0018: set sai3_mclk1_cg to freq: 24000000
+Suggested-by: Takashi Iwai <tiwai@suse.de>
 
-Apparently this was not happening before.
+Validation reproduced this kernel report:
+KASAN slab-use-after-free in snd_rawmidi_kernel_write1+0x9d/0x400
+RIP: 0033:0x7f5528af837f
+Read of size 8
+Call trace:
+  dump_stack_lvl+0x73/0xb0 (?:?)
+  print_report+0xd1/0x650 (?:?)
+  srso_alias_return_thunk+0x5/0xfbef5 (?:?)
+  __virt_addr_valid+0x1a7/0x340 (?:?)
+  kasan_complete_mode_report_info+0x64/0x200 (?:?)
+  kasan_report+0xf7/0x130 (?:?)
+  snd_rawmidi_kernel_write1+0x9d/0x400 (?:?)
+  __asan_load8+0x82/0xb0 (?:?)
+  update_stack_state+0x1ef/0x2d0 (?:?)
+  snd_rawmidi_kernel_write+0x1a/0x20 (?:?)
+  seq_ump_process_event+0xd4/0x120 (sound/core/seq/seq_ump_client.c:82)
+  __snd_seq_deliver_single_event+0x8a/0xe0 (?:?)
+  snd_seq_deliver_from_ump+0x2b2/0xd60 (?:?)
+  lock_acquire+0x14e/0x2e0 (?:?)
+  find_held_lock+0x31/0x90 (?:?)
+  snd_seq_port_use_ptr+0xa6/0xe0 (?:?)
+  __kasan_check_write+0x18/0x20 (?:?)
+  do_raw_read_unlock+0x32/0xa0 (?:?)
+  _raw_read_unlock+0x26/0x50 (?:?)
+  snd_seq_deliver_single_event+0x45c/0x4b0 (?:?)
+  snd_seq_deliver_event+0x10d/0x1b0 (?:?)
+  snd_seq_client_enqueue_event+0x192/0x240 (?:?)
+  snd_seq_write+0x2cd/0x450 (?:?)
+  apparmor_file_permission+0x20/0x30 (?:?)
+  security_file_permission+0x51/0x60 (?:?)
+  vfs_write+0x1ce/0x850 (?:?)
+  __fget_files+0x12b/0x220 (?:?)
+  lock_release+0xc8/0x2a0 (?:?)
+  __rcu_read_unlock+0x74/0x2d0 (?:?)
+  __fget_files+0x135/0x220 (?:?)
+  ksys_write+0x15a/0x180 (?:?)
+  rcu_is_watching+0x24/0x60 (?:?)
+  __x64_sys_write+0x46/0x60 (?:?)
+  x64_sys_call+0x7d/0x20d0 (?:?)
+  do_syscall_64+0xc1/0x360 (arch/x86/entry/syscall_64.c:87)
+  entry_SYSCALL_64_after_hwframe+0x77/0x7f (?:?)
 
-best regards,
-Alexander
-> ---
->=20
-> This is a direct continuation of subject [1] begun by Kuninori with goal
-> of simplifying the code related to card rebinding.
->=20
-> [1]: https://lore.kernel.org/linux-sound/87eck7k868.wl-kuninori.morimoto.=
-gx@renesas.com/
->=20
->  include/sound/soc.h    |  2 +-
->  sound/soc/soc-core.c   | 44 ++++++++++++++----------------------------
->  sound/soc/soc-devres.c | 28 +--------------------------
->  3 files changed, 17 insertions(+), 57 deletions(-)
->=20
-> diff --git a/include/sound/soc.h b/include/sound/soc.h
-> index a30f95ff7d86..f0935523c8df 100644
-> --- a/include/sound/soc.h
-> +++ b/include/sound/soc.h
-> @@ -425,7 +425,7 @@ struct snd_soc_jack_pin;
->  int snd_soc_register_card(struct snd_soc_card *card);
->  void snd_soc_unregister_card(struct snd_soc_card *card);
->  int devm_snd_soc_register_card(struct device *dev, struct snd_soc_card *=
-card);
-> -int devm_snd_soc_register_deferrable_card(struct device *dev, struct snd=
-_soc_card *card);
-> +#define devm_snd_soc_register_deferrable_card(d, c) devm_snd_soc_registe=
-r_card(d, c)
->  #ifdef CONFIG_PM_SLEEP
->  int snd_soc_suspend(struct device *dev);
->  int snd_soc_resume(struct device *dev);
-> diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-> index e70bf22db5c9..ec141b810b50 100644
-> --- a/sound/soc/soc-core.c
-> +++ b/sound/soc/soc-core.c
-> @@ -2165,6 +2165,7 @@ static int snd_soc_bind_card(struct snd_soc_card *c=
-ard)
->  	snd_soc_fill_dummy_dai(card);
-> =20
->  	snd_soc_dapm_init(dapm, card, NULL);
-> +	list_del_init(&card->list);
-> =20
->  	/* check whether any platform is ignore machine FE and using topology */
->  	soc_check_tplg_fes(card);
-> @@ -2308,6 +2309,10 @@ static int snd_soc_bind_card(struct snd_soc_card *=
-card)
->  probe_end:
->  	if (ret < 0)
->  		soc_cleanup_card_resources(card);
-> +	if (ret =3D=3D -EPROBE_DEFER) {
-> +		list_add(&card->list, &unbind_card_list);
-> +		ret =3D 0;
-> +	}
->  	snd_soc_card_mutex_unlock(card);
-> =20
->  	return ret;
-> @@ -2323,12 +2328,15 @@ static int devm_snd_soc_bind_card(struct device *=
-dev, struct snd_soc_card *card)
->  	struct snd_soc_card **ptr;
->  	int ret;
-> =20
-> +	/* The procedure may be called many times during the lifetime of the ca=
-rd. */
-> +	devres_destroy(dev, devm_card_bind_release, NULL, NULL);
-> +
->  	ptr =3D devres_alloc(devm_card_bind_release, sizeof(*ptr), GFP_KERNEL);
->  	if (!ptr)
->  		return -ENOMEM;
-> =20
->  	ret =3D snd_soc_bind_card(card);
-> -	if (ret =3D=3D 0 || ret =3D=3D -EPROBE_DEFER) {
-> +	if (ret =3D=3D 0) {
->  		*ptr =3D card;
->  		devres_add(dev, ptr);
->  	} else {
-> @@ -2338,21 +2346,11 @@ static int devm_snd_soc_bind_card(struct device *=
-dev, struct snd_soc_card *card)
->  	return ret;
->  }
-> =20
-> -static int snd_soc_rebind_card(struct snd_soc_card *card)
-> +static int call_soc_bind_card(struct snd_soc_card *card)
->  {
-> -	int ret;
-> -
-> -	if (card->devres_dev) {
-> -		devres_destroy(card->devres_dev, devm_card_bind_release, NULL, NULL);
-> -		ret =3D devm_snd_soc_bind_card(card->devres_dev, card);
-> -	} else {
-> -		ret =3D snd_soc_bind_card(card);
-> -	}
-> -
-> -	if (ret !=3D -EPROBE_DEFER)
-> -		list_del_init(&card->list);
-> -
-> -	return ret;
-> +	if (card->devres_dev)
-> +		return devm_snd_soc_bind_card(card->devres_dev, card);
-> +	return snd_soc_bind_card(card);
->  }
-> =20
->  /* probes a new socdev */
-> @@ -2550,8 +2548,6 @@ EXPORT_SYMBOL_GPL(snd_soc_add_dai_controls);
->   */
->  int snd_soc_register_card(struct snd_soc_card *card)
->  {
-> -	int ret;
-> -
->  	if (!card->name || !card->dev)
->  		return -EINVAL;
-> =20
-> @@ -2578,17 +2574,7 @@ int snd_soc_register_card(struct snd_soc_card *car=
-d)
-> =20
->  	guard(mutex)(&client_mutex);
-> =20
-> -	if (card->devres_dev) {
-> -		ret =3D devm_snd_soc_bind_card(card->devres_dev, card);
-> -		if (ret =3D=3D -EPROBE_DEFER) {
-> -			list_add(&card->list, &unbind_card_list);
-> -			ret =3D 0;
-> -		}
-> -	} else {
-> -		ret =3D snd_soc_bind_card(card);
-> -	}
-> -
-> -	return ret;
-> +	return call_soc_bind_card(card);
->  }
->  EXPORT_SYMBOL_GPL(snd_soc_register_card);
-> =20
-> @@ -2909,7 +2895,7 @@ int snd_soc_add_component(struct snd_soc_component =
-*component,
->  	list_add(&component->list, &component_list);
-> =20
->  	list_for_each_entry_safe(card, c, &unbind_card_list, list)
-> -		snd_soc_rebind_card(card);
-> +		call_soc_bind_card(card);
-> =20
->  err_cleanup:
->  	if (ret < 0)
-> diff --git a/sound/soc/soc-devres.c b/sound/soc/soc-devres.c
-> index d33f83ec24f2..718165ba84ac 100644
-> --- a/sound/soc/soc-devres.c
-> +++ b/sound/soc/soc-devres.c
-> @@ -49,11 +49,6 @@ int devm_snd_soc_register_component(struct device *dev,
->  }
->  EXPORT_SYMBOL_GPL(devm_snd_soc_register_component);
-> =20
-> -static void devm_card_release(struct device *dev, void *res)
-> -{
-> -	snd_soc_unregister_card(*(struct snd_soc_card **)res);
-> -}
-> -
->  /**
->   * devm_snd_soc_register_card - resource managed card registration
->   * @dev: Device used to manage card
-> @@ -63,32 +58,11 @@ static void devm_card_release(struct device *dev, voi=
-d *res)
->   * unregistered.
->   */
->  int devm_snd_soc_register_card(struct device *dev, struct snd_soc_card *=
-card)
-> -{
-> -	struct snd_soc_card **ptr;
-> -	int ret;
-> -
-> -	ptr =3D devres_alloc(devm_card_release, sizeof(*ptr), GFP_KERNEL);
-> -	if (!ptr)
-> -		return -ENOMEM;
-> -
-> -	ret =3D snd_soc_register_card(card);
-> -	if (ret =3D=3D 0) {
-> -		*ptr =3D card;
-> -		devres_add(dev, ptr);
-> -	} else {
-> -		devres_free(ptr);
-> -	}
-> -
-> -	return ret;
-> -}
-> -EXPORT_SYMBOL_GPL(devm_snd_soc_register_card);
-> -
-> -int devm_snd_soc_register_deferrable_card(struct device *dev, struct snd=
-_soc_card *card)
->  {
->  	card->devres_dev =3D dev;
->  	return snd_soc_register_card(card);
->  }
-> -EXPORT_SYMBOL_GPL(devm_snd_soc_register_deferrable_card);
-> +EXPORT_SYMBOL_GPL(devm_snd_soc_register_card);
-> =20
->  #ifdef CONFIG_SND_SOC_GENERIC_DMAENGINE_PCM
-> =20
->=20
+Fixes: 81fd444aa371 ("ALSA: seq: Bind UMP device")
+Signed-off-by: Zhang Cen <rollkingzzc@gmail.com>
+---
+v2:
+Use Takashi's suggested rwlock approach instead of the v1 ready/pending/wait-queue output gate.
+Make the rwlock acquisitions IRQ-safe because event_input can be reached from atomic sequencer delivery.
+Keep rawmidi release outside the rwlock by publishing and withdrawing a saved struct snd_rawmidi_file copy under the write lock.
 
+ sound/core/seq/seq_ump_client.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+diff --git a/sound/core/seq/seq_ump_client.c b/sound/core/seq/seq_ump_client.c
+index 9079ccfdc..ccd93599b 100644
+--- a/sound/core/seq/seq_ump_client.c
++++ b/sound/core/seq/seq_ump_client.c
+@@ -37,6 +37,7 @@ struct seq_ump_client {
+ 	struct snd_ump_endpoint *ump;	/* assigned endpoint */
+ 	int seq_client;			/* sequencer client id */
+ 	int opened[2];			/* current opens for each direction */
++	rwlock_t output_lock;		/* protects out_rfile output access */
+ 	struct snd_rawmidi_file out_rfile; /* rawmidi for output */
+ 	struct seq_ump_input_buffer input; /* input parser context */
+ 	void *ump_info[SNDRV_UMP_MAX_BLOCKS + 1]; /* shadow of seq client ump_info */
+@@ -88,6 +89,7 @@ static int seq_ump_process_event(struct snd_seq_event *ev, int direct,
+ 	unsigned char type;
+ 	int len;
+ 
++	guard(read_lock_irqsave)(&client->output_lock);
+ 	substream = client->out_rfile.output;
+ 	if (!substream)
+ 		return -ENODEV;
+@@ -106,6 +108,7 @@ static int seq_ump_process_event(struct snd_seq_event *ev, int direct,
+ static int seq_ump_client_open(struct seq_ump_client *client, int dir)
+ {
+ 	struct snd_ump_endpoint *ump = client->ump;
++	struct snd_rawmidi_file rfile = {};
+ 	int err;
+ 
+ 	guard(mutex)(&ump->open_mutex);
+@@ -113,9 +116,11 @@ static int seq_ump_client_open(struct seq_ump_client *client, int dir)
+ 		err = snd_rawmidi_kernel_open(&ump->core, 0,
+ 					      SNDRV_RAWMIDI_LFLG_OUTPUT |
+ 					      SNDRV_RAWMIDI_LFLG_APPEND,
+-					      &client->out_rfile);
++					      &rfile);
+ 		if (err < 0)
+ 			return err;
++		scoped_guard(write_lock_irqsave, &client->output_lock)
++			client->out_rfile = rfile;
+ 	}
+ 	client->opened[dir]++;
+ 	return 0;
+@@ -125,11 +130,19 @@ static int seq_ump_client_open(struct seq_ump_client *client, int dir)
+ static int seq_ump_client_close(struct seq_ump_client *client, int dir)
+ {
+ 	struct snd_ump_endpoint *ump = client->ump;
++	struct snd_rawmidi_file rfile = {};
+ 
+ 	guard(mutex)(&ump->open_mutex);
+-	if (!--client->opened[dir])
+-		if (dir == STR_OUT)
+-			snd_rawmidi_kernel_release(&client->out_rfile);
++	if (!--client->opened[dir]) {
++		if (dir == STR_OUT) {
++			scoped_guard(write_lock_irqsave, &client->output_lock) {
++				rfile = client->out_rfile;
++				client->out_rfile = (struct snd_rawmidi_file){};
++			}
++			if (rfile.rmidi)
++				snd_rawmidi_kernel_release(&rfile);
++		}
++	}
+ 	return 0;
+ }
+ 
+@@ -467,6 +480,7 @@ static int snd_seq_ump_probe(struct snd_seq_device *dev)
+ 
+ 	INIT_WORK(&client->group_notify_work, handle_group_notify);
+ 	client->ump = ump;
++	rwlock_init(&client->output_lock);
+ 
+ 	client->seq_client =
+ 		snd_seq_create_kernel_client(card, ump->core.device,
+-- 
+2.43.0
 
