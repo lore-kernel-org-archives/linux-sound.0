@@ -1,44 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397753ED101;
-	Wed, 20 May 2026 11:20:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355BE3EF0D7;
+	Wed, 20 May 2026 11:20:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779276031; cv=none; b=Jz/B8JDWif+LoUgld1JnUoFNqSm/To8IgztJ4Mf11KHvloDfN76nlnV66yLiwHvyMYKS+F5EeFghj21P+m//okCdGKoFkzw5/hAkK+CZuNiYaGymrmbwhH7xtN6qzDjD2Hx/GyLAG4hOYzyk4oNFvVH3pO02RoshmGeoJdM4Fsk=
+	t=1779276036; cv=none; b=YNSC2EPM02qOWhLXND/bQUGsFe+VqJHXOVn+CvIZrh2pzjFiCFxmByZCjokALsH/qqytzihWZACcXZxRRgjqdEiUAH68ecaI6wmtCJ5RxL1fxvZJff5jf/SQENFgAZLHloXekCgvrvGkph1prXJRry3yct7JqsjdtuRsbHmdcwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779276031; c=relaxed/simple;
-	bh=/f1dkoMOYh2RR1CObnbD2BmpdshIha+UVPZO2IBiPlY=;
+	s=arc-20240116; t=1779276036; c=relaxed/simple;
+	bh=n1kjMAH6n1QMvxL4tue2EW0MTKmqqXgsAPBhnmI6cDc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gDQfI22nloFEscwASYkcwje/5zbf7MurQPKhT0+wOkyt7hkUNXDCLxDjVPWMXgoknxVEKMb68FUmMbeLonPOHLQmtR2TCff9SiDCMc0Gqos+kfjkhRw2sQobTFd0z3Mfww7dCKr7KJWtaUY/pFXju9QEbgfLhwjBLSnN4TfL/88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BjJnj0Iu; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=dt87yVpMTSwCo3KwyHABYo6yas0egSaC1nV54f/kGcZohlHI2x353deCZmlsQXTgw7G4KD1tqPUhgXtJlxGxDMWKyPnv6hmwZBQHGq7NzAIpnDI4klOeWJAkI4ip1TUHI3UXHCRcGWZ64p3fjoumetpv0i5j0hqv35AlKzzBYHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g2yzupuq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BjJnj0Iu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B2151F00893;
-	Wed, 20 May 2026 11:20:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g2yzupuq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1F0B1F00893;
+	Wed, 20 May 2026 11:20:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779276029;
-	bh=Uh5pQeh7zolaDZ4VFIzk+6i9+Br/yH8uwlk6r6E+oBE=;
+	s=k20260515; t=1779276035;
+	bh=RHBeMpolU18H6R9xI+OllTBmCQa7/WTbYDEkch01KQY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=BjJnj0IuCsjdRVU+nzbLTEyfrYZzN0Co3TNTEtmyOEcjtxjk0gVV4GCnE6HsIRAOd
-	 qB3DYUV/LfjbOdQpNByhegAmxtwmeB2NWRX0C5/G47oGFit7U2HNSjrGcwMDyYWE/K
-	 PO/z8H6b+ZKZlvREyaSnL82fw0THPCuJMrreqj3qAIwKCNMoKlTSNe4qb6tmXOEBhk
-	 VZ8dPT0d2uY6nLCjZZC0utaoaBDwD14wfRCaP8NMM3k3wyaHDey5j+Qr9teNZePRm7
-	 ARhaCswPnfB22qugJJWEKj/bLqE7n5rAZkYzuIpaYl70OKFBLH68VOItu5ipH+SA3H
-	 hR8lmWMyWNsIQ==
+	b=g2yzupuqlhDYk0ELmJvw4WZiQAlQoU9Zkc5PzktTLANeyHydFOkXLoBdH6Jol/rKa
+	 qQvjJE1VaH62EXFiFNfJvuVGE1M6XwtNBqo3JKQPJFHZdXSt0I5fldJSQEiazG4cP/
+	 hYQRznDBUie9oJLZpI3Wuy+ucRkPkYG+tAYoS/iGKYF69f6GF8994um8CsX2q8hw9h
+	 hPMvO35tKo3JD4AWWLbU9ufhQohtj0WKvv9NmqF815dkj+lKfMT0zmXKm2Pm9koiAA
+	 JMkTSlNEamaF+HSPMgaDOxy1VAZ7dB0Tt7doe6Gk3+NDAP/4LdDl230rijkoJYuXhF
+	 Yj7673rEc0tjA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>,
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
+	david.rhodes@cirrus.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	corbet@lwn.net,
 	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.12] ALSA: hda/realtek: Limit mic boost on Positivo DN50E
-Date: Wed, 20 May 2026 07:19:03 -0400
-Message-ID: <20260520111944.3424570-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.18] ALSA: doc: cs35l56: Update path to HDA driver source
+Date: Wed, 20 May 2026 07:19:07 -0400
+Message-ID: <20260520111944.3424570-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260520111944.3424570-1-sashal@kernel.org>
 References: <20260520111944.3424570-1-sashal@kernel.org>
@@ -51,220 +55,224 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0.9
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-[ Upstream commit d02d2d51a50d1bbf44a50eda094aa2b10fecf023 ]
+[ Upstream commit 74e8409821ac8cda70bf23eb593f2c7f6e3b5a2f ]
 
-The internal mic boost on the Positivo DN50E is too high.
-Fix this by applying the ALC269_FIXUP_LIMIT_INT_MIC_BOOST fixup to the machine
-to limit the gain.
+The HDA drivers were moved to sound/hda/... so update a Documentation
+reference that still pointed to the old location.
 
-Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
-Link: https://patch.msgid.link/20260511181558.670563-1-edson.drosdeck@gmail.com
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Link: https://patch.msgid.link/20260511104148.36382-1-rf@opensource.cirrus.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Stable Backport Analysis
+## Phase 1: Commit Message Forensics
+Record 1.1: Subsystem `ALSA: doc: cs35l56`; action verb `Update`;
+intent: correct a stale documentation path to the HDA driver source.
 
-### Phase 1: Commit Message Forensics
-Record 1.1: Subsystem is `ALSA: hda/realtek`; action is “Limit” / “Fix”;
-claimed intent is to cap excessive internal microphone boost on Positivo
-DN50E.
+Record 1.2: Tags present in supplied message: `Signed-off-by: Richard
+Fitzgerald <rf@opensource.cirrus.com>`, `Link: https://patch.msgid.link/
+20260511104148.36382-1-rf@opensource.cirrus.com`, `Signed-off-by:
+Takashi Iwai <tiwai@suse.de>`. No `Fixes:`, `Reported-by:`, `Tested-
+by:`, `Reviewed-by:`, `Acked-by:`, or `Cc: stable`.
 
-Record 1.2: Tags present are `Signed-off-by: Edson Juliano Drosdeck`,
-`Link: https://patch.msgid.link/20260511181558.670563-1-
-edson.drosdeck@gmail.com`, and `Signed-off-by: Takashi Iwai`. No
-`Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-by:`, or
-`Cc: stable` tag was present.
+Record 1.3: The body says the HDA drivers moved to `sound/hda/...`,
+leaving this documentation reference pointing at the old
+`sound/pci/hda/...` location. Symptom is incorrect documentation only;
+no runtime failure, crash, data corruption, or security impact is
+described.
 
-Record 1.3: The described bug is excessive internal mic boost on this
-machine. The existing fixup comment verifies the mechanism: boost levels
-2 and 3 are “too noisy” on internal mic input, so the fixup limits boost
-to levels 0 or 1.
+Record 1.4: This is not a hidden runtime bug fix. It is a direct
+documentation correction.
 
-Record 1.4: This is not a hidden bug fix; it is an explicit hardware
-quirk for a user-visible audio problem.
+## Phase 2: Diff Analysis
+Record 2.1: One file changed: `Documentation/sound/codecs/cs35l56.rst`,
+1 insertion and 1 deletion. No functions modified. Scope: single-file
+documentation-only surgical change.
 
-### Phase 2: Diff Analysis
-Record 2.1: One file changes: `sound/hda/codecs/realtek/alc269.c`, 1
-insertion, no deletions. The modified object is the `alc269_fixup_tbl`
-quirk table. Scope is a single-line, single-driver hardware quirk.
+Record 2.2: Before: HDA users were pointed to
+`sound/pci/hda/cs35l56_hda.c`. After: they are pointed to
+`sound/hda/codecs/side-codecs/cs35l56_hda.c`.
 
-Record 2.2: Before the change, PCI SSID `0x1e50:0x7007` had no matching
-quirk. After the change, `snd_hda_pick_fixup()` can select
-`ALC269_FIXUP_LIMIT_INT_MIC_BOOST` for Positivo DN50E.
+Record 2.3: Bug category: documentation correctness fix. Verified
+current tree has `sound/hda/codecs/side-codecs/cs35l56_hda.c`;
+`sound/pci/hda` does not exist in this checkout.
 
-Record 2.3: Bug category is hardware quirk/workaround. The existing
-fixup runs at `HDA_FIXUP_ACT_PROBE`, finds internal mic pins, and calls
-`snd_hda_override_amp_caps()` to limit mic boost steps.
+Record 2.4: Fix quality is obvious and minimal. Regression risk is
+runtime zero, but backport targeting matters: applying it to older trees
+where the driver is still under `sound/pci/hda` would make the
+documentation wrong.
 
-Record 2.4: Fix quality is high: one table entry, no new logic, no API
-change. Regression risk is very low and limited to machines with that
-exact PCI SSID.
+## Phase 3: Git History Investigation
+Record 3.1: `git blame` shows the stale documentation line was
+introduced by `088fb4ee17fc4` (`ALSA: doc: cs35l56: Add information
+about Cirrus Logic CS35L54/56/57`). The line became stale when
+`6014e9021b28e` moved HDA codec drivers into `sound/hda/codecs`.
 
-### Phase 3: Git History Investigation
-Record 3.1: There is no buggy code line to blame; the bug is a missing
-quirk entry. I verified the existing `ALC269_FIXUP_LIMIT_INT_MIC_BOOST`
-machinery is present in checked stable tags including `v4.19`, `v5.4`,
-`v5.10`, `v5.15`, `v6.1`, `v6.6`, `v6.12`, `v6.19`, and `v7.0`.
+Record 3.2: No `Fixes:` tag is present, so there was no Fixes target to
+follow.
 
-Record 3.2: No `Fixes:` tag is present, so there was no introducing
-commit to follow.
+Record 3.3: Recent file history shows only CS35L56 documentation
+updates. Related source movement is `6014e9021b28e`, which renamed
+`sound/pci/hda/cs35l56_hda.c` to `sound/hda/codecs/side-
+codecs/cs35l56_hda.c`.
 
-Record 3.3: Recent history of this file shows frequent Realtek HDA quirk
-additions and fixes. No prerequisite commit was identified for this
-patch beyond the already-existing fixup.
+Record 3.4: Author Richard Fitzgerald has multiple recent CS35L56/HDA-
+related commits in this subsystem, including documentation and HDA
+driver fixes.
 
-Record 3.4: The author has multiple prior accepted Realtek HDA quirks
-for Positivo and VAIO systems, including Positivo ARN50, P15X, K116J,
-C6400, and SU C1400.
+Record 3.5: Dependency identified: this patch is correct only in trees
+that already contain the HDA move commit `6014e9021b28e`.
 
-Record 3.5: The patch is functionally standalone. Older stable trees
-before the 2025 file move use `sound/pci/hda/patch_realtek.c`, so those
-need a path/context backport. A direct `git apply --check` against the
-current checked-out 7.0 stable tree failed due context drift, not
-missing functionality.
+## Phase 4: Mailing List And External Research
+Record 4.1: `b4 am` using message ID
+`20260511104148.36382-1-rf@opensource.cirrus.com` found a single patch
+submission and reported no newer revision. Direct `WebFetch` to
+lore/patch.msgid.link was blocked by Anubis, but `b4` retrieved the
+mbox.
 
-### Phase 4: Mailing List And External Research
-Record 4.1: The exact standalone commit hash was not present in local
-history, so `b4 dig -c <commit>` could not be used as specified. `b4 am`
-by message-id found one patch and a two-message thread. The maintainer
-reply from Takashi Iwai says “Applied now. Thanks.” No NAKs or concerns
-were present.
+Record 4.2: `b4 dig -c` could not be run for the candidate commit
+because no candidate commit hash was supplied and the commit was not
+found on checked named branches searched. `b4 am` verified author DKIM
+signatures and the patch metadata. `b4 dig -c 6014e9021b28e -w` verified
+the prerequisite move patch was an ALSA HDA series sent to `linux-sound`
+and relevant HDA/Cirrus recipients.
 
-Record 4.2: The original recipients included Takashi Iwai, Jaroslav
-Kysela, Zhang Heng, Stefan Binding, Kailang Yang, `linux-
-sound@vger.kernel.org`, and `linux-kernel@vger.kernel.org`.
+Record 4.3: No bug report, syzbot report, crash report, or user report
+is linked.
 
-Record 4.3: No separate bug report was found. Web search confirmed
-public hardware data for Positivo DN50E and related Positivo mic-boost
-patches.
+Record 4.4: Candidate is standalone as a documentation update, but
+semantically depends on the prior source-tree move.
 
-Record 4.4: Related patches exist for the same fixup pattern, including
-Positivo ARN50 and N14AP7 in git history, plus a public Positivo DN50F
-patch using the same fixup.
+Record 4.5: Web searches and local pending branch searches found no
+stable-specific discussion for this exact documentation patch.
 
-Record 4.5: I found no stable-specific discussion or explicit stable
-nomination.
+## Phase 5: Code Semantic Analysis
+Record 5.1: No functions modified; documentation text only.
 
-### Phase 5: Code Semantic Analysis
-Record 5.1: No function body is modified. Affected code paths are
-`alc269_fixup_tbl`, `snd_hda_pick_fixup()`, `snd_hda_apply_fixup()`, and
-`alc269_fixup_limit_int_mic_boost()`.
+Record 5.2: No callers; this is not runtime code.
 
-Record 5.2: `alc269_probe()` calls `snd_hda_pick_fixup()` with
-`alc269_fixup_tbl`, then later calls `snd_hda_apply_fixup(codec,
-HDA_FIXUP_ACT_PROBE)`.
+Record 5.3: No callees; no allocations, locks, I/O, or side effects.
 
-Record 5.3: Key callees are `snd_hda_codec_get_pincfg()`,
-`snd_hda_get_input_pin_attr()`, and `snd_hda_override_amp_caps()`.
+Record 5.4: No userspace-triggerable kernel execution path. Impact is
+limited to readers of the documentation.
 
-Record 5.4: The path is reached automatically during HDA codec probe on
-matching hardware. The bad behavior affects internal mic capture; it is
-not a syscall-triggered crash/security issue.
+Record 5.5: Search found the old path only in
+`Documentation/sound/codecs/cs35l56.rst` among `.rst` files checked.
 
-Record 5.5: Similar uses of `ALC269_FIXUP_LIMIT_INT_MIC_BOOST` are
-already present for many laptops, including other Positivo systems.
+## Phase 6: Stable Tree Analysis
+Record 6.1: Tag containment shows the documentation exists from
+`v6.13+`; the HDA move exists from `v6.17+`. Therefore the stale-path
+documentation issue exists only in trees containing both, i.e.
+approximately `v6.17+` and later.
 
-### Phase 6: Stable Tree Analysis
-Record 6.1: The reusable fixup exists in all checked stable tags from
-`v4.19` through `v7.0`; the DN50E entry itself was absent in checked
-tags.
+Record 6.2: `git apply --check` confirms the patch applies cleanly to
+the current `7.0.y` tree. Backport difficulty is trivial for affected
+trees, but it must not be applied to trees where the HDA driver still
+lives under `sound/pci/hda`.
 
-Record 6.2: Backport difficulty is low but not always clean apply:
-`v6.19+` uses `sound/hda/codecs/realtek/alc269.c`, while older trees use
-`sound/pci/hda/patch_realtek.c`.
+Record 6.3: No related stable fix for this exact path correction was
+found in local pending branches.
 
-Record 6.3: I found no existing DN50E fix in checked stable tags or
-current local history.
+## Phase 7: Subsystem And Maintainer Context
+Record 7.1: Subsystem is ALSA sound documentation for Cirrus CS35L56
+HDA/SoundWire amplifiers. Criticality: peripheral/documentation, not
+runtime core.
 
-### Phase 7: Subsystem Context
-Record 7.1: Subsystem is ALSA HDA Realtek codec support. Criticality is
-driver-specific, but important for affected laptop audio users.
+Record 7.2: Sound documentation and HDA side-codec areas are actively
+maintained; recent logs show multiple CS35L56/HDA commits.
 
-Record 7.2: The subsystem is active, with many recent quirk additions in
-the same file. The pattern is mature and widely used.
+## Phase 8: Impact And Risk Assessment
+Record 8.1: Affected population: developers, maintainers, integrators,
+and users consulting this CS35L56 documentation in kernels where the HDA
+source has moved.
 
-### Phase 8: Impact And Risk
-Record 8.1: Affected population is users of Positivo DN50E systems with
-Realtek HDA audio.
+Record 8.2: Trigger condition: reading the documentation. Not
+triggerable as a kernel runtime fault.
 
-Record 8.2: Trigger is normal codec probe plus internal microphone use.
-It is not an unprivileged security trigger.
+Record 8.3: Failure mode: stale documentation path. Severity LOW, but
+documentation fixes are explicitly acceptable stable material due zero
+runtime risk.
 
-Record 8.3: Failure mode is user-visible broken audio quality from
-excessive internal mic gain/noise. Severity is medium for affected
-hardware, not crash-level.
+Record 8.4: Benefit is modest but real for affected trees; risk is very
+low if limited to trees with `6014e9021b28e`, but negative for older
+trees where the old path is still correct.
 
-Record 8.4: Benefit is high for affected hardware users. Risk is very
-low because this adds one exact-match PCI SSID quirk using existing
-code.
+## Phase 9: Final Synthesis
+Record 9.1: Evidence for backporting: fixes an objectively wrong
+documentation reference, one-line contained patch, no runtime regression
+risk, applies cleanly to current `7.0.y`, documentation/comment fixes
+are an accepted stable exception. Evidence against: no runtime bug, no
+important crash/security/corruption impact, and it must be branch-
+limited. Unresolved: exact upstream candidate commit hash was not
+available locally.
 
-### Phase 9: Final Synthesis
-Record 9.1: Evidence for backporting: hardware quirk exception, one-line
-targeted change, existing tested fixup machinery, maintainer applied it,
-related Positivo fixes use the same pattern. Evidence against: no
-separate bug report/test tag and direct apply may need context/path
-adjustment. Unresolved: exact upstream commit hash was not available
-locally, and no independent DN50E test report beyond the submitter’s
-patch text was found.
+Record 9.2: Stable rules: obviously correct: yes; tested: `b4` says
+applies cleanly and local `git apply --check` passed; fixes a real bug:
+yes, documentation bug; important runtime issue: no; small and
+contained: yes, 1 line; no new feature/API: yes; applies to affected
+stable trees: yes, for trees after the HDA move.
 
-Record 9.2: Stable rules: obviously correct: yes; fixes a real user-
-visible hardware bug: yes; important enough under hardware-quirk
-exception: yes; small and contained: yes; no new APIs/features: yes;
-stable apply: yes with likely minor path/context adjustment on older
-trees.
+Record 9.3: Exception category: documentation fix.
 
-Record 9.3: Exception category applies: hardware-specific
-quirk/workaround in an existing driver.
-
-Record 9.4: This should be backported. The patch is exactly the type of
-low-risk Realtek HDA laptop quirk that stable trees routinely carry.
+Record 9.4: Decision: backport is appropriate, but only to stable trees
+that already contain the HDA source move to `sound/hda/codecs/side-
+codecs`. Do not apply to older stable trees where
+`sound/pci/hda/cs35l56_hda.c` remains the correct path.
 
 ## Verification
-- Phase 1: Parsed the supplied commit message and b4 mbox; confirmed
-  tags and absence of `Fixes:` / stable / reporter tags.
-- Phase 2: Read the patch mbox; confirmed 1 insertion in
-  `alc269_fixup_tbl`.
-- Phase 3: Used `git grep` across stable tags to confirm
-  `ALC269_FIXUP_LIMIT_INT_MIC_BOOST` exists and DN50E is absent.
-- Phase 3: Checked author history; found multiple accepted Positivo/VAIO
-  Realtek HDA quirk commits.
-- Phase 4: `b4 am` found the patch and thread; full mbox showed Takashi
-  Iwai replied “Applied now.”
-- Phase 4: Web searches found related Positivo DN50F/ARN50 mic-boost
-  patches and a DN50E hardware listing.
-- Phase 5: Read `snd_hda_pick_fixup()`, `snd_hda_apply_fixup()`,
-  `alc269_probe()`, and `alc269_fixup_limit_int_mic_boost()` to verify
-  call flow and behavior.
-- Phase 6: Checked `v4.19`, `v5.4`, `v5.10`, `v5.15`, `v6.1`, `v6.6`,
-  `v6.12`, `v6.19`, and `v7.0` for fixup availability and file paths.
-- Unverified: exact final upstream commit hash was not available in
-  local history, and no separate user bug report was found.
+- [Phase 1] Parsed supplied commit message and downloaded mbox:
+  confirmed subject, author, message ID, and one-line documentation
+  rationale.
+- [Phase 2] Read `Documentation/sound/codecs/cs35l56.rst`: confirmed old
+  path is present.
+- [Phase 2] Checked filesystem: confirmed `sound/hda/codecs/side-
+  codecs/cs35l56_hda.c` exists and `sound/pci/hda` does not in current
+  tree.
+- [Phase 3] `git blame -L 35,45`: confirmed stale line came from
+  `088fb4ee17fc4`.
+- [Phase 3] `git show 6014e9021b28e`: confirmed HDA codecs, including
+  `cs35l56_hda.c`, were moved from `sound/pci/hda` to
+  `sound/hda/codecs/side-codecs`.
+- [Phase 4] `b4 am`: retrieved the patch, found one patch, no newer
+  revision, DKIM signed.
+- [Phase 4] `b4 dig -c <msgid>`: failed because `b4 dig` requires a
+  commit-ish, not a message ID.
+- [Phase 4] WebFetch to lore/patch.msgid.link: blocked by Anubis.
+- [Phase 6] `git tag --contains`: documentation starts at `v6.13+`; HDA
+  move starts at `v6.17+`.
+- [Phase 6] `git apply --check`: candidate patch applies cleanly to
+  current tree.
+- [Phase 6] `git ls-tree`: `v6.6`/`v6.12` have old HDA source path and
+  no affected doc; `v6.18` has both affected doc and new HDA source
+  path.
+- UNVERIFIED: Candidate final upstream commit hash, because it was not
+  found on searched local named branches and was not provided.
 
 **YES**
 
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/sound/codecs/cs35l56.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 4e0885c1fc496..b1fb5e1cf0078 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7799,6 +7799,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1e39, 0xca14, "MEDION NM14LNL", ALC233_FIXUP_MEDION_MTL_SPK),
-+	SND_PCI_QUIRK(0x1e50, 0x7007, "Positivo DN50E", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x1ee7, 0x2078, "HONOR BRB-X M1010", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1f4c, 0xe001, "Minisforum V3 (SE)", ALC245_FIXUP_BASS_HP_DAC),
- 	SND_PCI_QUIRK(0x1f66, 0x0105, "Ayaneo Portable Game Player", ALC287_FIXUP_CS35L41_I2C_2),
+diff --git a/Documentation/sound/codecs/cs35l56.rst b/Documentation/sound/codecs/cs35l56.rst
+index d5363b08f5152..b3f8c1c238518 100644
+--- a/Documentation/sound/codecs/cs35l56.rst
++++ b/Documentation/sound/codecs/cs35l56.rst
+@@ -40,7 +40,7 @@ There are two drivers in the kernel
+ 
+ *For systems using SoundWire*: sound/soc/codecs/cs35l56.c and associated files
+ 
+-*For systems using HDA*: sound/pci/hda/cs35l56_hda.c
++*For systems using HDA*: sound/hda/codecs/side-codecs/cs35l56_hda.c
+ 
+ Firmware
+ ========
 -- 
 2.53.0
 
