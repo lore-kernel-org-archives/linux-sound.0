@@ -1,111 +1,117 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8204734887C
-	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 03:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779247380; cv=none; b=eJlYAfgC7Xs0iDxP2nfMg8R5Mtx2EyRcTaZpDd6xh+cLCTyY8CFtXDbsXvbCcNi/gnBXD3tEHmzD8M19vaGH853ppoAPh8qqgod4H5/4OFKBQs6RlbqhasHK1OeVV8DMAa4vaJlhR3GIWaPhwitmA1HaEy2Sd9u+ybdxYWJTfm4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779247380; c=relaxed/simple;
-	bh=X/BHziO5NsoZbofxUX7RJFDD4dHeLgWXoG4PM+cupwI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iP8ACPjkmLi8IGlUUPLHaE3cJQeG/g+Seur9aWTaXtkYRleCDQX070ZH9vDDm+/VeJE+mN9l1GNLTpAznj9f0Rt3mpP7jMmFRJTNPF5G3BrdrjrRAhXCqfiV40E8ppH/Tehez6YXZEWd87PlwJKAvaORGDljnFaDgA4helP9Ubc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZR17ZWNu; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642CD32D0DE
+	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 03:36:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.196
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779248202; cv=pass; b=jbcdEifOX8uMYsnnc8HWlqdAKxnz4qva4M6k0N+QjqYWHvlU7Fo5S3qOVyB+x8do2km5R/ziqd9vWagSCw6hDRKxhomWo5cienustgIV3Kx/OsUDlBfoyx5t3XDKZRYvaqa6/xPGSAPf9EtlPHBWJbTAcobaYIv95vq93ABw+EQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779248202; c=relaxed/simple;
+	bh=3t/CWpCqZ7v3vfPsKjVdwBwWfqYP5NQK9eXP1u+XUms=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u9nEsclFbv38wAP2z96u7C99OrqfSn+T0M+sCYoZ/jZf1DDIupJ5uVuOrEgPmnZLwDTQigXujyphE+ZTy83jvDEShSnnoku31ds6LvT3CS0DP5DjwXgpMm9oddRQ9W3BoeVnboyquRnwGuCZ0pI2ELjP4QNhV9HQxISR9vN6MNg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OZAGtr0L; arc=pass smtp.client-ip=209.85.208.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZR17ZWNu"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c828daf83e2so1981031a12.2
-        for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 20:22:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OZAGtr0L"
+Received: by mail-lj1-f196.google.com with SMTP id 38308e7fff4ca-39396f873adso65905561fa.3
+        for <linux-sound@vger.kernel.org>; Tue, 19 May 2026 20:36:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779248197; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SjVHCg0y6M+xwIVv9UufX+SmCE3AvaLakcduQkH0DQZGEVLHI/Fam0WdqpgHfAJLGx
+         pGdVRcU2xLO+P3zdkW9WyFIs+YFPwcjb0Py1AnkygnwnW92lw/gStqUxDKa2xePTrbHm
+         3pCVetJic+hThxrbfnJER4S9RYl7vEhcOiKfQKhqRKgHiH60dHzuGsQNKYSGkllDNF/E
+         wKnQXiNZ+8voNAVPCK4XSz/UfeTxRgImas/PfoGNTIi65MiAHiYE6wxEr2KpuzOwlzC2
+         TE3gdOZOfg9G8PRiKdG7mLYFs6KDDbz6PQ+J8PE8cPKGTRiT2J3lr1jW4bJzVJEfmmnX
+         ORPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=w8+iVeLc2Pv1jKw67JD1mUH1zdt+C8bk1bl6yHhlC3k=;
+        fh=+c3cMUWtWRGDwURNdti4y2YeoXa7GIGS0o5TJcZgdtE=;
+        b=cVosR43RvEl6/zXpO5uvMnspgRtVvKlBufAfIXsunIBw9xQKhvfeXpKXajC7mhya4T
+         Tby7k1T09WGCQBOTFFCKG/xquTbulJluwAymUUjjlgrV59x1oLCpdKKYnNv6c10ARon5
+         NlCoJmPoKSXRT1P+5yfwz1MdxJNPtVc+7FRLQE5x4Aw8UDhbskSoR59CpwX02aHkWDgX
+         Q3bVyCPjUD6i3H0sY4+Nc2AgukFwM8X4x14/aTQ/8DuFHoW9X0JODG1HrASbOt4eW99J
+         7eXQtB+AuUOnHm8XghxFY6ALwZGDaRn2JqPnDiyuxzxX9yQhMD9Y2czoQClSlagLn/1g
+         PgRw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779247379; x=1779852179; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mQXnq6ff2CcEgG0fR35KaANgASFhf1ZCAbN7UJVtGlk=;
-        b=ZR17ZWNuUwB5ZtOelsvRUg3nujPG/FfLMBrp+fjxZBJeh0F83mAz9v/fy61P2tqBo1
-         llFHCnh8rBI6kkUDzNEh2uw0NKY3hSdQPLQ+ncbhi5ogp7OiHBQjuzHi+c6pCloQNRQa
-         f/u7rfM1ewsWZu/rFm37+mmt7H+JcpbWeIaDQAigQizMUfMTvGJC01E7VBdNlTEmLgki
-         pjruurEGonhCCgTOt69SP/nlHV/yrppfZ+ykglSam3PIRbihDrC0Plz8jEKegLaH5sPJ
-         eiLuUiRkkAVaFqh9QI5/qE1aH1sE6Tkyijk6akXpXg0EVVf6RHi7bhJvE85ufrHe7Lo2
-         rYnw==
+        d=gmail.com; s=20251104; t=1779248197; x=1779852997; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=w8+iVeLc2Pv1jKw67JD1mUH1zdt+C8bk1bl6yHhlC3k=;
+        b=OZAGtr0LTMidBMeDwACsWf/0o7+SE+rv55uA58rzyJwsSUaY0epdnWi10Zv5wmPJr0
+         u24dRfTblVjI4IQKuzpOxL1CEM5/svKllRpF9SyH+L7YmefeRZwvoVVFD15ZJ0AFTdBm
+         Wb5ppbgHIw/cODXS4bQ+Jn7fgidSaeuKh/sJxiwf0ETjTUXU7zDJSqdM9ZzjiS15l3AC
+         5J82oJ1PYj7eoSdzhjOAVogSDgm1E7WCdKNwa/k9yjTti3t3ldvS1k8H1Lga49TECSJ3
+         6CyEybX5n2OXIGrOAqqNy/sO+BAhfFY5o20M+oA/CwXLU4o68nDy4vElpbwRPCAZNOtT
+         pbKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779247379; x=1779852179;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mQXnq6ff2CcEgG0fR35KaANgASFhf1ZCAbN7UJVtGlk=;
-        b=Wkj5vfFgXRwzsGZ311xDOaqk9JYhj7VW4qQU4+SGXcSv8cG9XKUQJe01i4FZU7MWei
-         /zvb0NgtHQUOZiJGU5/n8017EPbR3qjwAgLZLIta1JZzvOq8c75AGbc2OTq8D/Dx1JAw
-         PCrvacajgvA/Y8KTGiuCgSAX4Av+dMm1ZI8V0MCm/in0BK5jZ5733lIPq+v4o6GYna3p
-         nf+KfwIJIy8yRTwPXFk6ndowgiCStyGq4A2EafSjVBr7iYp7nEthGibnKKj0XIA802pJ
-         t59bUlIXx0sV8Su/byPJ2qZ0ximyYvIHUDCz3Axs6IHcb5MDOJ0bJ6dJhNmF1HZjaPkp
-         4xDw==
-X-Forwarded-Encrypted: i=1; AFNElJ/ga9fF9fq4qZxvnFLT+5IUOI3hNYwTmR9BSJjgLW2v7413HdNI+37CQogJ/pLN7P1AEoqLUrIpLuJM7Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzu9VcEJVgOJNN9VpWwvlPci00V5gJRhy0QrzwSVtt0/BOUhMeM
-	QJy0YwTakFmVm86L2raBcp5L4TelJNT+4Y0KIH2CRAf73PNWPQPv/3jq
-X-Gm-Gg: Acq92OEVnHYbd2ofbvxqYNZVzsvSq15ndJL1GPNrHx7c3wCTD5nW+qYpa0DPoMzpcOh
-	BdkiNhdERIl0TYCwXjUd/hUYZYX7CwugTG66M4dJ1uLYJo992zT6qsKT2PDSR+q82kRgjPhQlDM
-	4VSLvpIvPVBLYKddPjxHyRoAseNM1Ql0w2Jsr5MHMxxaaQJ6QCUzJ00yailHuBr7OyGr1Df7HFr
-	5mgvl/2d3FoDLZ1eCG2wAE/6k0DmE7TbVJ2SwOmuLkCOQR6HIdHDOWWwALEoQ4Qw0sRfNjiMUO6
-	mMvibNITAQtWDOiG/Oh0IYxcqx2JcqwzmJqG46M/Xs8uRO3Pvh7EYpWeNVk3WWgeQpDdGSYYGae
-	pQgT/fxI1lP2et5HWq2iBq8OZnmX8ggbHj67T2mJwBq38igAGxKL13LAz1pONQzlGBWlVFy7uVj
-	NBJpkAm7ryfDxl/V+OfE9+AdTA88q0kiX/k1N9kx+YAkY+cBrzNdno4jgL3XO6/qM=
-X-Received: by 2002:a17:902:d512:b0:2b4:5f96:184d with SMTP id d9443c01a7336-2bd7e86c6a4mr251542375ad.5.1779247378893;
-        Tue, 19 May 2026 20:22:58 -0700 (PDT)
-Received: from [172.20.10.2] (114-137-66-169.emome-ip.hinet.net. [114.137.66.169])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5c0600b4sm203376265ad.28.2026.05.19.20.22.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 May 2026 20:22:58 -0700 (PDT)
-Message-ID: <204dd64c-414e-6f6a-e992-c1fdb1b398ce@gmail.com>
-Date: Wed, 20 May 2026 11:22:52 +0800
+        d=1e100.net; s=20251104; t=1779248197; x=1779852997;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=w8+iVeLc2Pv1jKw67JD1mUH1zdt+C8bk1bl6yHhlC3k=;
+        b=NeEVHZ7s9sWx6IFzvPieE7PyBDZHnvN9cU4pZaHghD64Nttz4pd2AKQlCb2ig/jrmF
+         vQ+h/Gh01UMSVRIramMzS2ALKoD9V8h/RMWnHxm8qmtk19p2jNV+fUU29rcLdGjxlTA6
+         fDRJLbZXW6vtZUNI1hGSfB/5t/j0F8Pa4nwVrTYTqMnhUipLoF1+tnACDA3DI5wB7iv8
+         86/6vX3tQvxPxOTk+2D7E1cAUpE6QX8ygqA9CinHiOBPbUjvcyIFHyIpUH63kWb4rV5p
+         iSs3gTRxEM0XiwRpWUNuUGvlBpeYfmFcd002ugXhD8KFuoTAn30EAWdU9BABuappwgFy
+         Roug==
+X-Forwarded-Encrypted: i=1; AFNElJ+ZD9TG/vorQhb4KSBC0vOQIkFwpy7gBA49zQ6mCyyatm2j/ooz3SJo9gUebt+zjndIDprGqR4vT07XMg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YznyURR04hK0M9MyP35AmMG+gNg32NL5tJ5BJnipz9tqXz+gU5R
+	yXpkF+QOf02bkFWeSQY+jOJYfItbbpLDcnktAcxh1+15GgWImja5SCX/NVI2egY6puinqBNTMiu
+	Jk4AbhitwcX8TNnwnRrTn4jdVp0kTy5JO1XHn5/V/O7xpG0g=
+X-Gm-Gg: Acq92OGeAZwJxLp6Zw9sXQpfo+tIgnRhCWKUy/H/3r6OppzXfZT95vrfeCpeBPxq8PP
+	lquF5lYUGTIU6Q1mRxz5w1yng9onTx/EIQBA/QJbyXesl3xdeMzX1cC41sk3EhiKAAG3kOzDh9b
+	yX1wohYl24p1h0/w1y6bPIJtuDgJgnpSuA3Tg5c5pvGPikmAeMsJO8Ds12//7c7835bCb0btnun
+	a0JPhzxUU4YWx0mv2G15OuRZg6zJvwJZojX6NgVJxEwU/HtGy9x8l1I49noggdDRPiZ2ySYaYNo
+	JaQRQgEaKJBWqM4Ysos=
+X-Received: by 2002:a05:651c:b10:b0:394:3442:427e with SMTP id
+ 38308e7fff4ca-39561dab890mr80221811fa.14.1779248196486; Tue, 19 May 2026
+ 20:36:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: nuvoton,nau8360: Add NAU83G60
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>, Neo Chang <YLCHANG2@nuvoton.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
- robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, alsa-devel@alsa-project.org, kchsu0@nuvoton.com,
- sjlin0@nuvoton.com
-References: <20260518024704.118613-1-YLCHANG2@nuvoton.com>
- <20260518024704.118613-2-YLCHANG2@nuvoton.com>
- <20260518-heavy-bear-of-camouflage-d7c89d@quoll>
-From: YLCHANG2 <neo.chang70@gmail.com>
-In-Reply-To: <20260518-heavy-bear-of-camouflage-d7c89d@quoll>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260519150528.4193481-1-rollkingzzc@gmail.com> <87qzn7l5uj.wl-tiwai@suse.de>
+In-Reply-To: <87qzn7l5uj.wl-tiwai@suse.de>
+From: Cen Zhang <rollkingzzc@gmail.com>
+Date: Wed, 20 May 2026 11:36:23 +0800
+X-Gm-Features: AVHnY4LjOprfSFCQ3Zgsw-Dnzk763wV4rK1bO8_GSOPuGExWzoq_eG_8V_AON58
+Message-ID: <CAB7XQsFwRCeuBq+DXGHkCweViy18k4ihhvL8F0__Dss0uvhUjQ@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: seq: Serialize UMP output teardown with event_input
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	zerocling0077@gmail.com, 2045gemini@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Takashi,
 
-On 5/18/26 20:02, Krzysztof Kozlowski wrote:
-> On Mon, May 18, 2026 at 10:47:03AM +0800, Neo Chang wrote:
->> Add device tree bindings documentation for the Nuvoton NAU83G60
->> audio amplifier.
->>
->> Signed-off-by: Neo Chang <YLCHANG2@nuvoton.com>
->> ---
->> Changes in v2:
->> - Dropped the word "driver" from the description.
->> - Removed runtime/software configuration properties:
->>    nuvoton,low-latency, nuvoton,anc-enable, nuvoton,aec-enable,
->>    nuvoton,vbat-microvolt, and nuvoton,tdm-channel-length.
->> - Added missing "nuvoton,dac-cur-enable" property for static speaker impedance matching.
->> - Removed unnecessary '|' formatting from single-line descriptions.
->> - Fixed typo in firmware-name property.
-> You didn't really...
+Takashi Iwai <tiwai@suse.de> =E4=BA=8E2026=E5=B9=B45=E6=9C=8820=E6=97=A5=E5=
+=91=A8=E4=B8=89 00:30=E5=86=99=E9=81=93=EF=BC=9A
+> Thanks for the report and the patch.
 >
-> git grep firmware-name
-Sorry for the oversight. I missed it in the final v2 patch. I will fix 
-it in v3.
->
-> Best regards,
-> Krzysztof
->
+> Through a quick glance, I guess your analysis is right, but I also
+> wonder whether it could be simpler just wrap the whole
+> seq_ump_process_event() with lock.  (It could be spinlock, but rwlock
+> might be safer in this case as it might be called recursively.)
+> Then seq_ump_client_close() takes the (write) lock and reset
+> client->out_rfile.output to NULL, followed by the call of
+> snd_rawmidi_kernel_close() outside the lock.
+
+Thanks, I looked at the lifetime rule again and I think the rwlock
+version is a better fit than my v1 ready/pending/waitqueue scheme.
+
+I'll send v2 with this approach.
+
+Best regards,
+Zhang Cen
