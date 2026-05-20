@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603543BCD04;
-	Wed, 20 May 2026 11:20:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397753ED101;
+	Wed, 20 May 2026 11:20:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779276021; cv=none; b=l91QemeMEVGytQN71uq8+POP1ARVFiNpKOsZk6xIhEaGZj/FVCtMQhAuVn/xPegWHc780yyJ2j6WTySTkyFqcXf52UTO/PcW+jKuhfoP3uOvbf7P40wmqanr9THRfF9yUYZXuaesCJPTyD/LeqgjyRQnFwnimLZJt37bNEga+wE=
+	t=1779276031; cv=none; b=Jz/B8JDWif+LoUgld1JnUoFNqSm/To8IgztJ4Mf11KHvloDfN76nlnV66yLiwHvyMYKS+F5EeFghj21P+m//okCdGKoFkzw5/hAkK+CZuNiYaGymrmbwhH7xtN6qzDjD2Hx/GyLAG4hOYzyk4oNFvVH3pO02RoshmGeoJdM4Fsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779276021; c=relaxed/simple;
-	bh=GJYylXcn2nsU8fJDFYpyDxNo2CMymQnw6UwK2SAQfhs=;
+	s=arc-20240116; t=1779276031; c=relaxed/simple;
+	bh=/f1dkoMOYh2RR1CObnbD2BmpdshIha+UVPZO2IBiPlY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dgb+ruyHIha2XI/30DAfXylsGvgSJFzCo/khmCZi6SZrHXfIjubCFhkMGk3xu9XDBhyw8nBznoTyj0TqiUP/2z/Gz0Uv/MkGoCPeJWymlfZ3LvKRmJcy3OY1zi5ouCaPqoWpd2rm+PO7UD02J1AvkKfSD/DvECd47uO/B1iMbss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wq0uEDSf; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=gDQfI22nloFEscwASYkcwje/5zbf7MurQPKhT0+wOkyt7hkUNXDCLxDjVPWMXgoknxVEKMb68FUmMbeLonPOHLQmtR2TCff9SiDCMc0Gqos+kfjkhRw2sQobTFd0z3Mfww7dCKr7KJWtaUY/pFXju9QEbgfLhwjBLSnN4TfL/88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BjJnj0Iu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wq0uEDSf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 042AB1F00897;
-	Wed, 20 May 2026 11:20:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BjJnj0Iu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B2151F00893;
+	Wed, 20 May 2026 11:20:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779276017;
-	bh=ZllhInPl3X19BGDDi+9GN535sfAEyUN6+8KBtVJVIxg=;
+	s=k20260515; t=1779276029;
+	bh=Uh5pQeh7zolaDZ4VFIzk+6i9+Br/yH8uwlk6r6E+oBE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Wq0uEDSfBkJt7M0xB8wQgvr80TDQOKyVVZC7GIcmweCBigc8VYolBogLYuFnjHDEy
-	 8naSUo0zrBfmttmvbHGyTjj4LhKc/hxvTn4tLubrDPEUEHIB9Qv3DmCxqobxgRN+Hs
-	 lPB2WnJgrrC6cv6tSHiRCSpP3VpwuU3lKhVO1wXjdJy/fkuOc3yAtPAlGxUEEH6WAz
-	 VVVK0huZ153L1Q7KrhFKyk8Q1xJZmVO/pi0eV43odFpILlSdaR/mQtuQz4CgM3b0Qd
-	 4tkj6pvy42JDkRwDxkFdHoE0QduorQ+YVUCb+8uTBm5uG3Dv0FM7ZUEXrQwsEp6E/r
-	 BC0rVcxWOMbNA==
+	b=BjJnj0IuCsjdRVU+nzbLTEyfrYZzN0Co3TNTEtmyOEcjtxjk0gVV4GCnE6HsIRAOd
+	 qB3DYUV/LfjbOdQpNByhegAmxtwmeB2NWRX0C5/G47oGFit7U2HNSjrGcwMDyYWE/K
+	 PO/z8H6b+ZKZlvREyaSnL82fw0THPCuJMrreqj3qAIwKCNMoKlTSNe4qb6tmXOEBhk
+	 VZ8dPT0d2uY6nLCjZZC0utaoaBDwD14wfRCaP8NMM3k3wyaHDey5j+Qr9teNZePRm7
+	 ARhaCswPnfB22qugJJWEKj/bLqE7n5rAZkYzuIpaYl70OKFBLH68VOItu5ipH+SA3H
+	 hR8lmWMyWNsIQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Pauli Virtanen <pav@iki.fi>,
+Cc: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.18] ALSA: usb-audio: add min_mute quirk for Razer Nommo V2 X
-Date: Wed, 20 May 2026 07:18:55 -0400
-Message-ID: <20260520111944.3424570-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.12] ALSA: hda/realtek: Limit mic boost on Positivo DN50E
+Date: Wed, 20 May 2026 07:19:03 -0400
+Message-ID: <20260520111944.3424570-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260520111944.3424570-1-sashal@kernel.org>
 References: <20260520111944.3424570-1-sashal@kernel.org>
@@ -54,221 +54,217 @@ X-stable-base: Linux 7.0.9
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Pauli Virtanen <pav@iki.fi>
+From: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
 
-[ Upstream commit ad39a189bfebb3de580f390bc000f9e121c6aca3 ]
+[ Upstream commit d02d2d51a50d1bbf44a50eda094aa2b10fecf023 ]
 
-ID 1532:055e Razer USA, Ltd Razer Nommo V2 X
-is tested to have muted min playback volume. Apply quirk for that.
+The internal mic boost on the Positivo DN50E is too high.
+Fix this by applying the ALC269_FIXUP_LIMIT_INT_MIC_BOOST fixup to the machine
+to limit the gain.
 
-Link: https://gitlab.freedesktop.org/pipewire/pipewire/-/work_items/5235
-Signed-off-by: Pauli Virtanen <pav@iki.fi>
-Link: https://patch.msgid.link/94449577332d14d7974864903825f27e5824ddbc.1777579951.git.pav@iki.fi
+Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+Link: https://patch.msgid.link/20260511181558.670563-1-edson.drosdeck@gmail.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Phase 1: Commit Message Forensics
-Step 1.1 Record: subsystem `ALSA: usb-audio`; action verb `add`; intent:
-add a playback-minimum-is-mute quirk for USB ID `1532:055e`, Razer Nommo
-V2 X.
+## Stable Backport Analysis
 
-Step 1.2 Record: tags in supplied message: `Link` to PipeWire work item,
-`Signed-off-by: Pauli Virtanen`, `Link` to patch msgid, `Signed-off-by:
-Takashi Iwai`. No `Fixes`, `Reported-by`, `Tested-by`, `Reviewed-by`,
-`Acked-by`, or `Cc: stable`. The lore patch mbox verifies the Pauli SOB
-and PipeWire link; Takashi replied “Applied now.”
+### Phase 1: Commit Message Forensics
+Record 1.1: Subsystem is `ALSA: hda/realtek`; action is “Limit” / “Fix”;
+claimed intent is to cap excessive internal microphone boost on Positivo
+DN50E.
 
-Step 1.3 Record: bug description is device-specific: Razer Nommo V2 X
-has muted minimum playback volume. Symptom: userspace may expose the
-minimum playback volume as a normal low audible volume even though
-hardware treats it as mute. Version info: none in commit message. Root
-cause: device has nonstandard mixer semantics.
+Record 1.2: Tags present are `Signed-off-by: Edson Juliano Drosdeck`,
+`Link: https://patch.msgid.link/20260511181558.670563-1-
+edson.drosdeck@gmail.com`, and `Signed-off-by: Takashi Iwai`. No
+`Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-by:`, or
+`Cc: stable` tag was present.
 
-Step 1.4 Record: yes, hidden bug/hardware workaround. It is a quirk for
-incorrect USB-audio volume semantics on real hardware.
+Record 1.3: The described bug is excessive internal mic boost on this
+machine. The existing fixup comment verifies the mechanism: boost levels
+2 and 3 are “too noisy” on internal mic input, so the fixup limits boost
+to levels 0 or 1.
 
-## Phase 2: Diff Analysis
-Step 2.1 Record: `sound/usb/quirks.c`, `+2/-0`, in
-`quirk_flags_table[]`. Scope: single-file surgical hardware quirk.
+Record 1.4: This is not a hidden bug fix; it is an explicit hardware
+quirk for a user-visible audio problem.
 
-Step 2.2 Record: before, USB ID `1532:055e` had no built-in quirk flag.
-After, matching that device sets `QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE`.
-Affected path is USB-audio device initialization and mixer control
-construction.
+### Phase 2: Diff Analysis
+Record 2.1: One file changes: `sound/hda/codecs/realtek/alc269.c`, 1
+insertion, no deletions. The modified object is the `alc269_fixup_tbl`
+quirk table. Scope is a single-line, single-driver hardware quirk.
 
-Step 2.3 Record: bug category is hardware workaround / quirk table
-entry. Mechanism: `snd_usb_init_quirk_flags_table()` ORs the flag into
-`chip->quirk_flags`; `snd_usb_mixer_fu_apply_quirk()` sees that flag on
-Playback controls and sets `cval->min_mute = 1`;
-`snd_usb_mixer_vol_tlv()` then reports `SNDRV_CTL_TLVT_DB_MINMAX_MUTE`.
+Record 2.2: Before the change, PCI SSID `0x1e50:0x7007` had no matching
+quirk. After the change, `snd_hda_pick_fixup()` can select
+`ALC269_FIXUP_LIMIT_INT_MIC_BOOST` for Positivo DN50E.
 
-Step 2.4 Record: fix is obviously correct for kernels with this quirk
-infrastructure: one ID-specific table entry, no public API, no locking
-or lifetime changes. Regression risk is very low and limited to this
-VID:PID.
+Record 2.3: Bug category is hardware quirk/workaround. The existing
+fixup runs at `HDA_FIXUP_ACT_PROBE`, finds internal mic pins, and calls
+`snd_hda_override_amp_caps()` to limit mic boost steps.
 
-## Phase 3: Git History Investigation
-Step 3.1 Record: blame around the insertion area shows the surrounding
-quirk table is longstanding, with the nearby `NeuralDSP Quad Cortex`
-exception from `bc5b4e5ae1a67` and Denon entries from older Takashi Iwai
-commits. The common min-mute quirk infrastructure comes from
-`2c3ca8cc55a3` and follow-ups.
+Record 2.4: Fix quality is high: one table entry, no new logic, no API
+change. Regression risk is very low and limited to machines with that
+exact PCI SSID.
 
-Step 3.2 Record: no `Fixes:` tag, so no introducing commit to follow.
+### Phase 3: Git History Investigation
+Record 3.1: There is no buggy code line to blame; the bug is a missing
+quirk entry. I verified the existing `ALC269_FIXUP_LIMIT_INT_MIC_BOOST`
+machinery is present in checked stable tags including `v4.19`, `v5.4`,
+`v5.10`, `v5.15`, `v6.1`, `v6.6`, `v6.12`, `v6.19`, and `v7.0`.
 
-Step 3.3 Record: recent `sound/usb/quirks.c` history contains many
-similar device-specific quirk fixes. Related min-mute commits include
-`2b929b6eec0c7` Logitech H390, `9af61fc91486c` MS LifeChat, and
-`b98b69c38512c` SteelSeries Arctis.
+Record 3.2: No `Fixes:` tag is present, so there was no introducing
+commit to follow.
 
-Step 3.4 Record: Pauli Virtanen has prior USB-audio quirk commits in
-this exact area, including Logitech H390, MS LifeChat, and SteelSeries
-Arctis min-mute quirks.
+Record 3.3: Recent history of this file shows frequent Realtek HDA quirk
+additions and fixes. No prerequisite commit was identified for this
+patch beyond the already-existing fixup.
 
-Step 3.5 Record: dependency is the min-mute quirk infrastructure.
-Present in current `7.0.y`; present in `v6.18` with
-`QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE`; `v6.17` has older
-`QUIRK_FLAG_MIXER_MIN_MUTE`; `v6.16`/`v6.12` did not show the generic
-flag.
+Record 3.4: The author has multiple prior accepted Realtek HDA quirks
+for Positivo and VAIO systems, including Positivo ARN50, P15X, K116J,
+C6400, and SU C1400.
 
-## Phase 4: Mailing List And External Research
-Step 4.1 Record: no local commit hash was found, so `b4 dig -c` could
-not be used successfully. `b4 am` and `b4 mbox` by message-id found a
-single-patch thread at the supplied msgid. Thread has patch plus Takashi
-Iwai reply: “Applied now.” No NAKs or concerns found in fetched thread.
+Record 3.5: The patch is functionally standalone. Older stable trees
+before the 2025 file move use `sound/pci/hda/patch_realtek.c`, so those
+need a path/context backport. A direct `git apply --check` against the
+current checked-out 7.0 stable tree failed due context drift, not
+missing functionality.
 
-Step 4.2 Record: original patch To/Cc from mbox: `linux-
-sound@vger.kernel.org`, Pauli Virtanen, Jaroslav Kysela, Takashi Iwai,
-`linux-kernel@vger.kernel.org`. Appropriate sound maintainers/lists were
-included.
+### Phase 4: Mailing List And External Research
+Record 4.1: The exact standalone commit hash was not present in local
+history, so `b4 dig -c <commit>` could not be used as specified. `b4 am`
+by message-id found one patch and a two-message thread. The maintainer
+reply from Takashi Iwai says “Applied now. Thanks.” No NAKs or concerns
+were present.
 
-Step 4.3 Record: PipeWire link was blocked by Anubis via WebFetch, so
-details could not be verified. GitHub OpenRazer issue independently
-verifies device name and VID:PID `1532:055E`, but it is not the PipeWire
-volume bug report.
+Record 4.2: The original recipients included Takashi Iwai, Jaroslav
+Kysela, Zhang Heng, Stefan Binding, Kailang Yang, `linux-
+sound@vger.kernel.org`, and `linux-kernel@vger.kernel.org`.
 
-Step 4.4 Record: thread is a standalone one-patch submission. Similar
-prior min-mute quirk patches exist, but this patch does not depend on a
-same-series patch.
+Record 4.3: No separate bug report was found. Web search confirmed
+public hardware data for Positivo DN50E and related Positivo mic-boost
+patches.
 
-Step 4.5 Record: lore stable search via WebFetch was blocked by Anubis;
-local stable branch searches found no existing Razer Nommo V2 X commit.
+Record 4.4: Related patches exist for the same fixup pattern, including
+Positivo ARN50 and N14AP7 in git history, plus a public Positivo DN50F
+patch using the same fixup.
 
-## Phase 5: Code Semantic Analysis
-Step 5.1 Record: modified data object is `quirk_flags_table[]`; affected
-functions are `snd_usb_init_quirk_flags_table()`,
-`snd_usb_init_quirk_flags()`, `snd_usb_audio_create()`,
-`snd_usb_mixer_fu_apply_quirk()`, and `snd_usb_mixer_vol_tlv()`.
+Record 4.5: I found no stable-specific discussion or explicit stable
+nomination.
 
-Step 5.2 Record: `snd_usb_audio_create()` calls
-`snd_usb_init_quirk_flags()` during USB audio card creation; that calls
-`snd_usb_init_quirk_flags_table()`. `build_feature_ctl()` calls
-`snd_usb_mixer_fu_apply_quirk()` while building mixer controls.
+### Phase 5: Code Semantic Analysis
+Record 5.1: No function body is modified. Affected code paths are
+`alc269_fixup_tbl`, `snd_hda_pick_fixup()`, `snd_hda_apply_fixup()`, and
+`alc269_fixup_limit_int_mic_boost()`.
 
-Step 5.3 Record: key callees/side effects are table lookup, setting
-`chip->quirk_flags`, setting `cval->min_mute`, and TLV reporting through
-`copy_to_user()`.
+Record 5.2: `alc269_probe()` calls `snd_hda_pick_fixup()` with
+`alc269_fixup_tbl`, then later calls `snd_hda_apply_fixup(codec,
+HDA_FIXUP_ACT_PROBE)`.
 
-Step 5.4 Record: reachable when the specific USB audio device is
-connected and its mixer controls are created. This is device-specific,
-not universal.
+Record 5.3: Key callees are `snd_hda_codec_get_pincfg()`,
+`snd_hda_get_input_pin_attr()`, and `snd_hda_override_amp_caps()`.
 
-Step 5.5 Record: many existing `QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE`
-entries exist for similar USB audio devices, confirming this is an
-established local pattern.
+Record 5.4: The path is reached automatically during HDA codec probe on
+matching hardware. The bad behavior affects internal mic capture; it is
+not a syscall-triggered crash/security issue.
 
-## Phase 6: Stable Tree Analysis
-Step 6.1 Record: current `7.0.y` lacks the Razer entry and contains the
-necessary infrastructure. `v6.18`/`v6.19` contain the named playback
-min-mute flag. `v6.17` has the older generic
-`QUIRK_FLAG_MIXER_MIN_MUTE`; `v6.16`/`v6.12` did not show the generic
-flag.
+Record 5.5: Similar uses of `ALC269_FIXUP_LIMIT_INT_MIC_BOOST` are
+already present for many laptops, including other Positivo systems.
 
-Step 6.2 Record: `git apply --check` succeeds on current `7.0.y`. Older
-trees may need minor contextual adjustment; `v6.17` would need the older
-flag name. Older LTS trees without the common quirk infrastructure would
-need a nontrivial backport or prerequisite series.
+### Phase 6: Stable Tree Analysis
+Record 6.1: The reusable fixup exists in all checked stable tags from
+`v4.19` through `v7.0`; the DN50E entry itself was absent in checked
+tags.
 
-Step 6.3 Record: no related Razer Nommo V2 X fix found in local
-`stable/linux-7.0.y`.
+Record 6.2: Backport difficulty is low but not always clean apply:
+`v6.19+` uses `sound/hda/codecs/realtek/alc269.c`, while older trees use
+`sound/pci/hda/patch_realtek.c`.
 
-## Phase 7: Subsystem Context
-Step 7.1 Record: subsystem is ALSA USB audio driver under `sound/usb`;
-criticality is driver-specific/peripheral, but real hardware user-
-visible behavior.
+Record 6.3: I found no existing DN50E fix in checked stable tags or
+current local history.
 
-Step 7.2 Record: USB-audio quirks are active, with recent commits
-adding/fixing device-specific quirks and min-mute behavior.
+### Phase 7: Subsystem Context
+Record 7.1: Subsystem is ALSA HDA Realtek codec support. Criticality is
+driver-specific, but important for affected laptop audio users.
 
-## Phase 8: Impact And Risk
-Step 8.1 Record: affected population is users of Razer Nommo V2 X using
-USB audio.
+Record 7.2: The subsystem is active, with many recent quirk additions in
+the same file. The pattern is mature and widely used.
 
-Step 8.2 Record: trigger is normal volume-control use on that device.
-Unprivileged audio clients can read/use ALSA mixer metadata, but no
-security impact was verified.
+### Phase 8: Impact And Risk
+Record 8.1: Affected population is users of Positivo DN50E systems with
+Realtek HDA audio.
 
-Step 8.3 Record: failure mode is functional audio control
-misrepresentation: minimum playback volume is mute. Severity: medium for
-affected hardware, not crash/corruption.
+Record 8.2: Trigger is normal codec probe plus internal microphone use.
+It is not an unprivileged security trigger.
 
-Step 8.4 Record: benefit is high for affected device users and low
-system-wide; risk is very low because the change is a two-line VID:PID-
-scoped quirk.
+Record 8.3: Failure mode is user-visible broken audio quality from
+excessive internal mic gain/noise. Severity is medium for affected
+hardware, not crash-level.
 
-## Phase 9: Final Synthesis
-Step 9.1 Record: evidence for backporting: real tested hardware quirk,
-established USB-audio pattern, two-line scoped change, maintainer
-applied, clean on `7.0.y`, no global behavior change. Evidence against:
-not a crash/security/data-corruption fix; older stable trees may need
-adjustment or prerequisites. Unresolved: PipeWire bug details
-unavailable due Anubis; no upstream commit hash found locally for `b4
-dig`.
+Record 8.4: Benefit is high for affected hardware users. Risk is very
+low because this adds one exact-match PCI SSID quirk using existing
+code.
 
-Step 9.2 Record: stable rules: obviously correct: yes for trees with
-infrastructure; fixes real user-visible hardware bug: yes; important
-enough: yes under hardware-quirk exception; small/contained: yes, 2
-lines; no new APIs/features: yes; applies to stable: clean on current
-`7.0.y`, minor/unknown adjustments for older trees.
+### Phase 9: Final Synthesis
+Record 9.1: Evidence for backporting: hardware quirk exception, one-line
+targeted change, existing tested fixup machinery, maintainer applied it,
+related Positivo fixes use the same pattern. Evidence against: no
+separate bug report/test tag and direct apply may need context/path
+adjustment. Unresolved: exact upstream commit hash was not available
+locally, and no independent DN50E test report beyond the submitter’s
+patch text was found.
 
-Step 9.3 Record: exception category applies: hardware quirk/workaround
-for an existing driver and existing quirk mechanism.
+Record 9.2: Stable rules: obviously correct: yes; fixes a real user-
+visible hardware bug: yes; important enough under hardware-quirk
+exception: yes; small and contained: yes; no new APIs/features: yes;
+stable apply: yes with likely minor path/context adjustment on older
+trees.
 
-Step 9.4 Record: decision is to backport to stable trees that contain
-the min-mute quirk infrastructure, especially `7.0.y`/`6.19.y`/`6.18.y`;
-older trees should only take it with the appropriate small backport
-adjustment or prerequisites.
+Record 9.3: Exception category applies: hardware-specific
+quirk/workaround in an existing driver.
 
-Verification: performed semantic search; inspected current HEAD and
-branch state; read `sound/usb/quirks.c`, `usbaudio.h`, `mixer_quirks.c`,
-`mixer.c`, and `card.c`; used `rg` for quirk usage/callers; used `git
-blame`, `git log`, `git show`, `git merge-base`, and `git apply
---check`; fetched lore thread with `b4 am`/`b4 mbox`; attempted `b4 dig`
-but no commit hash/local commit match was available; attempted WebFetch
-for PipeWire/lore search but Anubis blocked; verified device VID:PID via
-OpenRazer/WebSearch.
+Record 9.4: This should be backported. The patch is exactly the type of
+low-risk Realtek HDA laptop quirk that stable trees routinely carry.
+
+## Verification
+- Phase 1: Parsed the supplied commit message and b4 mbox; confirmed
+  tags and absence of `Fixes:` / stable / reporter tags.
+- Phase 2: Read the patch mbox; confirmed 1 insertion in
+  `alc269_fixup_tbl`.
+- Phase 3: Used `git grep` across stable tags to confirm
+  `ALC269_FIXUP_LIMIT_INT_MIC_BOOST` exists and DN50E is absent.
+- Phase 3: Checked author history; found multiple accepted Positivo/VAIO
+  Realtek HDA quirk commits.
+- Phase 4: `b4 am` found the patch and thread; full mbox showed Takashi
+  Iwai replied “Applied now.”
+- Phase 4: Web searches found related Positivo DN50F/ARN50 mic-boost
+  patches and a DN50E hardware listing.
+- Phase 5: Read `snd_hda_pick_fixup()`, `snd_hda_apply_fixup()`,
+  `alc269_probe()`, and `alc269_fixup_limit_int_mic_boost()` to verify
+  call flow and behavior.
+- Phase 6: Checked `v4.19`, `v5.4`, `v5.10`, `v5.15`, `v6.1`, `v6.6`,
+  `v6.12`, `v6.19`, and `v7.0` for fixup availability and file paths.
+- Unverified: exact final upstream commit hash was not available in
+  local history, and no separate user bug report was found.
 
 **YES**
 
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 4cfa24c06fcdf..148bf7e4e4d72 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2307,6 +2307,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
- 	DEVICE_FLG(0x152a, 0x880a, /* NeuralDSP Quad Cortex */
- 		   0), /* Doesn't have the vendor quirk which would otherwise apply */
-+	DEVICE_FLG(0x1532, 0x055e, /* Razer Nommo V2 X */
-+		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
- 	DEVICE_FLG(0x154e, 0x1002, /* Denon DCD-1500RE */
- 		   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
- 	DEVICE_FLG(0x154e, 0x1003, /* Denon DA-300USB */
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 4e0885c1fc496..b1fb5e1cf0078 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7799,6 +7799,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1e39, 0xca14, "MEDION NM14LNL", ALC233_FIXUP_MEDION_MTL_SPK),
++	SND_PCI_QUIRK(0x1e50, 0x7007, "Positivo DN50E", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x1ee7, 0x2078, "HONOR BRB-X M1010", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1f4c, 0xe001, "Minisforum V3 (SE)", ALC245_FIXUP_BASS_HP_DAC),
+ 	SND_PCI_QUIRK(0x1f66, 0x0105, "Ayaneo Portable Game Player", ALC287_FIXUP_CS35L41_I2C_2),
 -- 
 2.53.0
 
