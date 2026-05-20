@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40C5374E74;
-	Wed, 20 May 2026 11:19:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E661C3C3C1C;
+	Wed, 20 May 2026 11:19:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779275992; cv=none; b=clv30t7mUnAEwYYDHHjVsG6ulFuXe8CexhSoACQfWQL50Cn6iMPv2Aj7HHOppo+PTgDBuBEMuZNeO3ID4VQP+3jhAMHt0GTKpKsStQ5Oe/TceJnR3qkJA/vD26JJFCD83+QCITC6YgW4ipeVre3lqcva5rP90jg7mN3JjjR/3r8=
+	t=1779275998; cv=none; b=OjRR7nOCdfu2zc7BhVk6Qnw3JflON3wjfQgqj5l+lalFtsKJyzS8uic/iCNidDj8JSMBEi4JjOW9Zdr474C5OLOA3AEzvYPa1It221neFltWykxXaTU4+bI+a3zJt+pa/mKfNuOLGBZu5VSyO/mWKGXYOfFGcHVmOR4c58XYhOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779275992; c=relaxed/simple;
-	bh=v3FKuA5Z3gNVdXGKkVpFozfT5lnuMlMV+Rq5LvGtlrg=;
+	s=arc-20240116; t=1779275998; c=relaxed/simple;
+	bh=CnTY8TCe4XhDblSh7LHCw5vJCcGfjIK7cE3NRSFm09E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W1GI/7M1pJ069uT6q9416988i6Ec/Z//fGBh10Dkw0N4UE9Cgn6twZ/hJ6IdXtSfJOVyIJSDb2RQxGdNNJHba3uflxNDVlg8mY8lGpdgWdfZtkoEcZ+5PYEV3muSoa19ZLend5xzAxj0MFjxxdOzOrpfM/SmMR3HOjpLZs7DLo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=magWFse2; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=eunwtrglLPyfkRRB8E/kQO3D4EpNTkbw+kEeWCJpBSHWOLkxyI0B8shDq3Dzs96vAGhdBC7ov8igUhMVRlU2ZcIznWQdSVQ1aouRJPKB7zlDqj6K7vsEN4m4cps100kL/ji/x1AUUsMzixJT2d835dypbqjUqw6RC9dbJPK+l6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oz+1FkNV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="magWFse2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A1B1F000E9;
-	Wed, 20 May 2026 11:19:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oz+1FkNV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A07851F00897;
+	Wed, 20 May 2026 11:19:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779275989;
-	bh=8cvAvGj8neK6YyKsg+560fJiR2EQIke/vlr1cLGylZc=;
+	s=k20260515; t=1779275993;
+	bh=2EmGlUeCTz0s9sqrvcVXILR/f6rFvrw/kcITTMO5Niw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=magWFse2ozT+c84/kOOrDm9DfEFoP6DqrR4MWJj2f64AbVh+qaU1vEY+4jShuzArW
-	 t7MbCbCvRkiUoXylznSYD+lsH1v7gcFdWRfZicWIDn2/TF5I7+gfHqUrbH2lNxhehv
-	 YCxIYDe93sg+cmIDHHsI1I4ejFHq6gk1UcHIvDzxfiQkwWJhcHqXS1DvOh1026ZXc0
-	 W5DB8PBPPMqAh+MD4kIhuSlOeyBG/DLjDc3Pln2SB5k/CyLwn0o0Ti7MaHQcySlh6R
-	 YzwuVG8l9pSO/rZxzBQ2CUJhqNoe96FoTmgvlONSKSQIH9q8+Pi2YUD6/WczAtgLD6
-	 mD4OuweDCFm6w==
+	b=oz+1FkNVlgES5VGnWZEWoH1eaLZ6e3ERcEgsldtbq3iG4VBv/bzLn57BACjfG6Ybt
+	 tNwTDvWfkNfANItuZQZvjeSmLWW2jP3AQ7K8jO1d4SThPgCHvuON1VnPp+SHrf1DYa
+	 4xNt3CRLHqY8ApwnipoCNkiN5KFLDJAEG1/ej4937Ml/41eST+WE4drTWbTrgID/YU
+	 j5f1L6YhVRHUaE7+j3xuAhnv2GAuIgGMWmsXwgmOe572HphDCUln9MG83g+U1JmVbP
+	 m548sHZvPJu+a9vyZKeJQAmABOiaaTVEl8Esro32wFDu5/wUeyooNO5pJ8YyXWfGF+
+	 9lyF6Y8g62ltA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Rosen Penev <rosenp@gmail.com>,
+Cc: Lianqin Hu <hulianqin@vivo.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.10] ALSA: sparc/dbri: add missing fallthrough
-Date: Wed, 20 May 2026 07:18:35 -0400
-Message-ID: <20260520111944.3424570-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-6.6] ALSA: usb-audio: Add iface reset and delay quirk for TTGK Technology USB-C Audio
+Date: Wed, 20 May 2026 07:18:38 -0400
+Message-ID: <20260520111944.3424570-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260520111944.3424570-1-sashal@kernel.org>
 References: <20260520111944.3424570-1-sashal@kernel.org>
@@ -54,265 +54,234 @@ X-stable-base: Linux 7.0.9
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Rosen Penev <rosenp@gmail.com>
+From: Lianqin Hu <hulianqin@vivo.com>
 
-[ Upstream commit 2bcbb163162789d3488562073dbb99d9bd71a762 ]
+[ Upstream commit 2149c011510cbdcf183a13b26756e4a02071f0f2 ]
 
-Fixes compiler error with probably newer compilers:
+Setting up the interface when suspended/resumeing fail on this card.
+Adding a reset and delay quirk will eliminate this problem.
 
-sound/sparc/dbri.c:595:2: error: unannotated fall-through between switch labels [-Werror,-Wimplicit-fallthrough]
-  595 |         case 1:
-      |         ^
-sound/sparc/dbri.c:595:2: note: insert 'break;' to avoid fall-through
-  595 |         case 1:
-      |         ^
-      |         break;
+usb 1-1: new full-speed USB device number 2 using xhci-hcd
+usb 1-1: New USB device found, idVendor=3302, idProduct=17c2
+usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+usb 1-1: Product: USB-C Audio
+usb 1-1: Manufacturer: TTGK Technology
+usb 1-1: SerialNumber: 170120210706
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
-Link: https://patch.msgid.link/20260506031854.780411-1-rosenp@gmail.com
+Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Link: https://patch.msgid.link/TYUPR06MB621720E4E8F99A42E162FD51D23D2@TYUPR06MB6217.apcprd06.prod.outlook.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
 ## Phase 1: Commit Message Forensics
+Record: Subsystem is `ALSA: usb-audio`; action verb is `Add`; intent is
+adding an interface reset plus interface delay quirk for TTGK Technology
+USB-C Audio `3302:17c2`.
 
-Step 1.1 Record: Subsystem `ALSA: sparc/dbri`; action verb `add`; intent
-is to add a missing `fallthrough` annotation in `reverse_bytes()`.
+Record: Tags present in the provided commit/message: `Signed-off-by:
+Lianqin Hu <hulianqin@vivo.com>`, `Signed-off-by: Takashi Iwai
+<tiwai@suse.de>`, `Link: https://patch.msgid.link/TYUPR06MB621720E4E8F99
+A42E162FD51D23D2@TYUPR06MB6217.apcprd06.prod.outlook.com`. No `Fixes:`,
+`Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Cc: stable`.
 
-Step 1.2 Record: Tags present: `Signed-off-by: Rosen Penev
-<rosenp@gmail.com>`, `Link:
-https://patch.msgid.link/20260506031854.780411-1-rosenp@gmail.com`,
-`Signed-off-by: Takashi Iwai <tiwai@suse.de>`. No `Fixes:`, `Reported-
-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-by:`, or `Cc: stable`.
+Record: Commit body describes a real device-specific failure: interface
+setup fails when the card is suspended/resumed. The included USB
+enumeration log verifies the target device ID `3302:17c2`, product
+`USB-C Audio`, manufacturer `TTGK Technology`.
 
-Step 1.3 Record: The commit body reports a concrete compiler error:
-`-Werror,-Wimplicit-fallthrough` in `sound/sparc/dbri.c` at the
-fallthrough from `case 2` to `case 1`. Symptom is a build failure for
-this driver/config with a compiler that diagnoses this unannotated
-fallthrough as an error. No kernel version is named. Root cause is an
-intentional fallthrough lacking the kernel `fallthrough;` marker.
-
-Step 1.4 Record: This is not a hidden runtime bug fix; it is an explicit
-build fix. Build fixes are stable-acceptable when they repair
-compilation of existing code.
+Record: This is not a hidden cleanup fix; it is an explicit hardware
+workaround/quirk for a suspend/resume interface setup failure.
 
 ## Phase 2: Diff Analysis
+Record: One file changed: `sound/usb/quirks.c`, 2 insertions. Modified
+area: `quirk_flags_table[]`. Scope: single-file surgical hardware quirk.
 
-Step 2.1 Record: One file changed: `sound/sparc/dbri.c`, `+1/-0`. One
-function modified: `reverse_bytes()`. Scope is a single-file, one-line
-surgical build fix.
+Record: Before: device `3302:17c2` had no built-in quirk flags. After:
+it gets `QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY`.
 
-Step 2.2 Record: Before, `case 2` performed the final bit swap and
-implicitly fell into `case 1`/`case 0`, which then `break`s. After, the
-same fallthrough is explicitly annotated with `fallthrough;`. Runtime
-control flow is unchanged.
+Record: Bug category is hardware workaround. Verified semantics:
+`QUIRK_FLAG_IFACE_DELAY` adds 50 ms after `usb_set_interface()` in
+`endpoint_set_interface()`, and `QUIRK_FLAG_FORCE_IFACE_RESET` marks
+playback endpoints for re-prepare/interface setup after stop/restart.
 
-Step 2.3 Record: Bug category is build fix / compiler diagnostic fix.
-Specific mechanism: the kernel already annotates earlier intentional
-fallthroughs in the same switch, but the `case 2` to `case 1`
-fallthrough lacked the annotation, triggering `-Wimplicit-fallthrough`
-as an error.
-
-Step 2.4 Record: Fix quality is high: it is one line, uses the existing
-kernel `fallthrough` pseudo-keyword, matches nearby code style in
-current branches, and does not change APIs or runtime behavior.
-Regression risk is very low.
+Record: Fix quality is high: exact VID/PID match, existing flag
+mechanisms, no new API, no broad behavior change. Regression risk is
+very low and limited to this USB device ID.
 
 ## Phase 3: Git History Investigation
+Record: `git blame` around the insertion area shows the quirk table is
+established and contains many adjacent hardware-specific entries; nearby
+entries are from existing ALSA USB-audio quirk commits.
 
-Step 3.1 Record: `git blame` on `2bcbb16316278^` attributes this code to
-`c3c9a75ede23f`, but the repository is shallow/grafted there, so that is
-not a reliable true introduction point. I verified the same missing
-annotation exists in local stable-related branches `pending-5.4`,
-`pending-5.10`, `pending-5.15`, `pending-6.1`, `pending-6.6`,
-`pending-6.12`, `pending-6.19`, and `pending-7.0`.
+Record: No `Fixes:` tag, so no introducing commit to follow.
 
-Step 3.2 Record: No `Fixes:` tag is present, so there is no introducing
-commit to follow from the message.
+Record: Recent file history shows many similar stable-style quirks,
+including `ALSA: usb-audio: Add iface reset and delay quirk for AB17X
+USB Audio`, `SPACETOUCH USB Audio`, `AB13X USB Audio`, and `GHW-123P`.
 
-Step 3.3 Record: Recent `sound/sparc/dbri.c` history on `linux-
-next/master` shows this commit, then `ALSA: sparc/dbri: Use guard() for
-spin locks`, then the shallow boundary. The guard refactor is not a
-semantic prerequisite for adding this annotation, although older stable
-branches may have slightly different context.
+Record: Author history under `sound/usb` shows Lianqin Hu has submitted
+multiple similar USB-audio delay/reset quirk patches.
 
-Step 3.4 Record: Author Rosen Penev has this recent `sound/sparc` commit
-in the checked history. The commit was applied by Takashi Iwai, and
-`MAINTAINERS` lists Takashi Iwai and Jaroslav Kysela as SOUND
-maintainers.
-
-Step 3.5 Record: No dependent `reverse_bytes` commits were found by
-subject search. The change can be applied standalone as an annotation.
-For `pending-5.4`, context differs because earlier fallthroughs are
-comments rather than `fallthrough;`, so that tree may need a trivial
-backport adjustment.
+Record: Dependency check: `QUIRK_FLAG_IFACE_DELAY` exists since
+v5.15-era code, but `QUIRK_FLAG_FORCE_IFACE_RESET` appears from
+v6.2-rc1. Therefore v6.6+ style trees have the required infrastructure;
+v6.1/v5.15 do not have the reset flag without additional
+prerequisite/adaptation.
 
 ## Phase 4: Mailing List And External Research
+Record: No local commit hash was found on `master`, `sound-next`, or
+`all-next`, so `b4 dig -c <commit>` could not be used. I used the
+provided `Link:` with `b4 am`/`b4 mbox`.
 
-Step 4.1 Record: `b4 dig -c 2bcbb16316278` found the original submission
-at the provided lore/patch URL. `b4 dig -a` found only v1; no later
-revision. The saved mbox contains Takashi Iwai’s reply: “Applied now.
-Thanks.” No NAKs or concerns were present in the fetched thread.
+Record: `b4 am` found one patch and a two-message thread. `b4 am -c`
+checked for newer revisions and did not report a newer version.
 
-Step 4.2 Record: `b4 dig -w` shows recipients: Rosen Penev, `linux-
-sound@vger.kernel.org`, Jaroslav Kysela, Takashi Iwai, and `linux-
+Record: Full thread shows Takashi Iwai replied: “Applied now. Thanks.”
+No objections, NAKs, or risk concerns were present in the fetched
+thread.
+
+Record: Original recipients included ALSA maintainers/lists: Jaroslav
+Kysela, Takashi Iwai, `linux-sound@vger.kernel.org`, and `linux-
 kernel@vger.kernel.org`.
 
-Step 4.3 Record: No separate bug report or `Reported-by` tag. The
-reported failure is the compiler diagnostic included in the patch email
-and commit message.
-
-Step 4.4 Record: `b4 dig -a` shows this is a single-patch series, not
-part of a multi-patch dependency chain.
-
-Step 4.5 Record: WebFetch to lore/stable search was blocked by Anubis.
-Local stable branch log searches did not find this exact fix or a
-related `unannotated fall-through` fix already present in the checked
-stable branches.
+Record: Stable-specific web search did not find usable stable-list
+discussion; lore web pages were blocked by Anubis, and search results
+did not reveal a stable objection.
 
 ## Phase 5: Code Semantic Analysis
+Record: Key affected function/data is `quirk_flags_table[]`; consumers
+are `snd_usb_init_quirk_flags_table()`, `endpoint_set_interface()`,
+`snd_usb_endpoint_stop()`, and `snd_usb_endpoint_prepare()`.
 
-Step 5.1 Record: Modified function: `reverse_bytes()`.
+Record: Callers: `usb_audio_probe()` creates the USB audio card, calls
+`snd_usb_audio_create()`, which initializes quirk flags from the built-
+in table. PCM prepare paths call `snd_usb_endpoint_prepare()`, and PCM
+stop paths call `snd_usb_endpoint_stop()`.
 
-Step 5.2 Record: Callers found in `sound/sparc/dbri.c`: `xmit_fixed()`
-calls `reverse_bytes()` for MSB fixed-pipe transmit data;
-`dbri_process_one_interrupt()` calls it for fixed-data receive
-interrupts.
+Record: Callees/effects: `endpoint_set_interface()` calls
+`usb_set_interface()` and then delays if `QUIRK_FLAG_IFACE_DELAY` is
+set. `snd_usb_endpoint_stop()` sets `need_prepare`/`need_setup` for
+playback endpoints if `QUIRK_FLAG_FORCE_IFACE_RESET` is set.
 
-Step 5.3 Record: `reverse_bytes()` only performs bit manipulation and
-may print an error for unsupported lengths; it does not allocate memory,
-take locks, or call into external subsystems.
+Record: Reachability is verified through USB device probe and normal
+ALSA PCM suspend/resume/stream restart paths for this hardware.
 
-Step 5.4 Record: Runtime paths are reachable through DBRI/CS4215
-initialization/control and interrupt handling on supported SPARC SBus
-DBRI hardware. For this patch, runtime reachability is not the main
-issue because the fix targets compilation and preserves runtime flow.
-
-Step 5.5 Record: Nearby switch cases already had intentional fallthrough
-annotations; this patch fills the only missing annotation in that chain.
+Record: Similar patterns exist in the same table for several devices
+using the same two flags, so this follows established local practice.
 
 ## Phase 6: Stable Tree Analysis
+Record: The generic USB-audio quirk table exists in v5.15, v6.1, v6.6,
+v6.12, and v7.0 tags checked.
 
-Step 6.1 Record: The missing annotation exists in checked stable-related
-branches from `pending-5.4` through `pending-7.0`. Therefore the
-affected source is present in active stable-era trees available locally.
+Record: Required reset-flag infrastructure exists in v6.6, v6.12, and
+v7.0; it is absent in v6.1/v5.15 tags checked.
 
-Step 6.2 Record: Expected backport difficulty is clean or trivial for
-most branches. `pending-5.4` has older comment-style fallthrough context
-before `case 2`, so it may require a small context adjustment, but the
-same one-line semantic change applies.
+Record: Textual `git apply --check` failed on v6.6, v6.12, v6.1, and
+current 7.0 checkout because nearby table context differs. `git apply
+--check --3way` on current 7.0 succeeded cleanly; representative
+release-tag worktrees reported conflicts with three-way check, so older
+backports need minor context adjustment.
 
-Step 6.3 Record: No related fix with this subject or `unannotated fall-
-through` in `sound/sparc/dbri.c` was found in the checked stable-related
-branches.
+Record: No related `TTGK` or `3302:17c2` entry exists locally under
+`sound/usb`.
 
-## Phase 7: Subsystem And Maintainer Context
+## Phase 7: Subsystem Context
+Record: Subsystem is ALSA USB audio, an important driver subsystem for
+USB audio peripherals.
 
-Step 7.1 Record: Subsystem is ALSA SPARC sound driver, specifically Sun
-DBRI. Criticality is peripheral/platform-specific, not core kernel-wide.
+Record: Activity level is high: recent history in `sound/usb/quirks.c`
+contains multiple hardware quirk additions and USB-audio behavior fixes.
 
-Step 7.2 Record: Recent `sound/sparc` history is sparse and mostly
-maintenance/refactoring/build-style changes, indicating a mature low-
-churn driver area.
+## Phase 8: Impact And Risk
+Record: Affected users are owners of TTGK Technology USB-C Audio device
+`3302:17c2`.
 
-## Phase 8: Impact And Risk Assessment
+Record: Trigger condition is using this device across suspend/resume or
+stream restart/interface setup paths. The commit message explicitly
+reports interface setup failure in that scenario.
 
-Step 8.1 Record: Affected users are config/platform-specific: SPARC/SBus
-builds with `SND_SUN_DBRI`.
+Record: Failure mode is device malfunction after suspend/resume, not a
+kernel crash. Severity is medium for the kernel generally but high for
+affected hardware users because audio can fail after power-management
+transitions.
 
-Step 8.2 Record: Trigger is building this driver with a
-compiler/configuration that treats the unannotated fallthrough warning
-as an error. I did not independently reproduce the compiler failure
-locally.
-
-Step 8.3 Record: Failure mode is build failure, not runtime crash or
-data corruption. Severity is high for affected builders because the
-kernel/module cannot be built successfully under that toolchain/config.
-
-Step 8.4 Record: Benefit is meaningful for affected stable users because
-it restores buildability of an existing driver. Risk is very low: one
-annotation line, no feature, no API change, no runtime logic change.
-Risk-benefit ratio favors backporting.
+Record: Benefit is high for affected hardware and low-risk for everyone
+else. Risk is very low because the change is an exact VID/PID quirk
+using existing flags.
 
 ## Phase 9: Final Synthesis
+Record: Evidence for backporting: real hardware failure, exact device
+ID, standard quirk exception category, two-line contained patch,
+existing flag behavior, maintainer applied it, no API/feature expansion
+beyond a device-specific workaround.
 
-Step 9.1 Record: Evidence for backporting: concrete compiler error,
-existing driver code in stable branches, one-line obviously-correct fix,
-maintainer-applied patch, no runtime behavior change, and build fixes
-are valid stable material. Evidence against: platform-specific impact
-and no independent local build reproduction. Unresolved: exact true
-historical introduction predates the shallow boundary; lore stable
-search via WebFetch was blocked.
+Record: Evidence against: no external bug report or Tested-by tag found;
+exact mail patch needs context adjustment for stable trees; v6.1/v5.15
+lack `QUIRK_FLAG_FORCE_IFACE_RESET`, so those trees would need a
+deliberate adaptation or prerequisite decision.
 
-Step 9.2 Record: Stable rules checklist:
-1. Obviously correct and tested: yes for correctness by inspection;
-   maintainer applied it. No local build test performed.
-2. Fixes a real bug: yes, reported compiler error in existing code.
-3. Important issue: yes for affected stable builds, because it can stop
-   compilation.
-4. Small and contained: yes, one line in one function.
-5. No new features/APIs: yes.
-6. Can apply to stable trees: yes with at most trivial context
-   adjustment, especially for older comment-style fallthrough branches.
+Record: Stable rules: obviously correct: yes; fixes a real user-visible
+hardware bug: yes; important enough for affected users: yes; small and
+contained: yes; no new API/feature: yes; applies cleanly: not textually
+everywhere, but trivial/minor for v6.6+ style trees.
 
-Step 9.3 Record: Exception category applies: build fix.
-
-Step 9.4 Record: Decision is to backport. This is exactly the kind of
-low-risk build fix stable trees should carry.
+Record: Exception category: hardware quirk/workaround for a broken USB
+audio device. This is a standard stable-acceptable category.
 
 ## Verification
+- [Phase 1] Parsed provided subject, tags, commit body, and USB
+  enumeration log.
+- [Phase 2] Verified diff is two inserted lines in `sound/usb/quirks.c`.
+- [Phase 2/5] Verified `QUIRK_FLAG_IFACE_DELAY` and
+  `QUIRK_FLAG_FORCE_IFACE_RESET` definitions and consumers in
+  `sound/usb/usbaudio.h` and `sound/usb/endpoint.c`.
+- [Phase 3] Ran `git blame` around the table insertion area and recent
+  `git log` for `sound/usb/quirks.c`.
+- [Phase 3] Verified similar reset/delay quirk commits and Lianqin Hu’s
+  related ALSA USB-audio quirk history.
+- [Phase 4] `b4 am` fetched the patch from the provided message-id link;
+  `b4 mbox` fetched the two-message thread.
+- [Phase 4] Verified Takashi Iwai’s maintainer reply: “Applied now.
+  Thanks.”
+- [Phase 4] `b4 am -c` did not report newer revisions.
+- [Phase 5] Traced quirk flag initialization from `usb_audio_probe()` to
+  `snd_usb_audio_create()` to `snd_usb_init_quirk_flags_table()`.
+- [Phase 6] Checked v5.15, v6.1, v6.6, v6.12, and v7.0 tag contents for
+  flag availability.
+- [Phase 6] Verified `FORCE_IFACE_RESET` absent in v6.1/v5.15 and
+  present in v6.6+.
+- [Phase 6] Verified plain apply fails due context; current 7.0 three-
+  way apply check succeeds without modifying the worktree.
+- UNVERIFIED: exact upstream commit SHA, because the commit was not
+  present on checked local branches and web search did not find it.
 
-- [Phase 1] Parsed `git show --format=fuller --stat --patch
-  2bcbb16316278`: confirmed subject, tags, compiler-error body, and one-
-  line patch.
-- [Phase 2] Read `sound/sparc/dbri.c`: confirmed `reverse_bytes()` has
-  annotated fallthroughs except the candidate-added `case 2` annotation.
-- [Phase 3] Ran `git blame 2bcbb16316278^ -L 578,598 --
-  sound/sparc/dbri.c`: confirmed changed area, with shallow/grafted
-  limitation.
-- [Phase 3] Ran branch snippet checks on `pending-5.4` through
-  `pending-7.0`: confirmed the missing annotation exists in all checked
-  stable-related branches.
-- [Phase 3] Ran recent file history and author history checks: found
-  only related maintenance/refactor commits, no dependency series.
-- [Phase 4] Ran `b4 dig -c`, `-a`, `-w`, and saved the mbox: confirmed
-  single v1 patch, proper ALSA recipients, and maintainer “Applied now”
-  reply.
-- [Phase 5] Searched `reverse_bytes(` call sites: confirmed callers are
-  `xmit_fixed()` and `dbri_process_one_interrupt()`.
-- [Phase 6] Searched stable branch logs: no existing backport or
-  duplicate fix found locally.
-- [Phase 7] Checked `MAINTAINERS`: confirmed SOUND maintainers include
-  Jaroslav Kysela and Takashi Iwai.
-- [Phase 8] Checked `include/linux/compiler_attributes.h`: confirmed
-  `fallthrough` is the intended kernel pseudo-keyword and is available
-  in checked stable branches.
-- UNVERIFIED: I did not reproduce the compiler error with a local
-  SPARC/SBus DBRI build.
-- UNVERIFIED: The exact original introduction before the repository’s
-  shallow/grafted boundary could not be determined.
-- UNVERIFIED: WebFetch could not read lore/stable search results because
-  Anubis blocked the page.
+This should be backported to stable trees that already contain the
+quirk-flag infrastructure, especially v6.6+ style trees. For older
+v6.1/v5.15 trees, it should not be applied verbatim unless maintainers
+choose a small adapted backport or also carry the reset-flag
+infrastructure.
 
 **YES**
 
- sound/sparc/dbri.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/sparc/dbri.c b/sound/sparc/dbri.c
-index 75f82a92ff44f..2f5f62079fa4a 100644
---- a/sound/sparc/dbri.c
-+++ b/sound/sparc/dbri.c
-@@ -592,6 +592,7 @@ static __u32 reverse_bytes(__u32 b, int len)
- 		fallthrough;
- 	case 2:
- 		b = ((b & 0xaaaaaaaa) >> 1) | ((b & 0x55555555) << 1);
-+		fallthrough;
- 	case 1:
- 	case 0:
- 		break;
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 2ffc69b57ab49..1428a0b620d37 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2417,6 +2417,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
+ 	DEVICE_FLG(0x3255, 0x0000, /* Luxman D-10X */
+ 		   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
++	DEVICE_FLG(0x3302, 0x17c2, /* TTGK Technology USB-C Audio */
++		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
+ 	DEVICE_FLG(0x339b, 0x3a07, /* Synaptics HONOR USB-C HEADSET */
+ 		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
+ 	DEVICE_FLG(0x413c, 0xa506, /* Dell AE515 sound bar */
 -- 
 2.53.0
 
