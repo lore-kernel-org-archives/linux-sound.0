@@ -1,56 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2794367B9F
-	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 06:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8072B346A0A
+	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 06:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779257307; cv=none; b=fy70UP3JgnPTdUBE5Eumfq+xeb6/qJ4X1As3iF3ut5yqA83sef/R/rXCH65qKODJqKVAHHqSUr6zUHzJjT4rE95AoVP6bpWyl0ru2kCEyESuI+J+qfMV3Jt7BH7jEnBO6l3JAlN6im8J3Y5M2aVB9peTJrfJ/xdj6g8ypKVuc4o=
+	t=1779257514; cv=none; b=tJfbG2rhbKYuL9yJps/H0MjSESf4GZQlqa8lvENo+40IoGP9rqpo6uwsXUYaC0IcLNotIj4gU37O1eLx7G2lThbWa6CwDQKeYuB/MkBarRhWrl8eWOtZe4xrjlCaRB+3Um7X8gazeY9wuO98lz8NGXvZSCURYUTwHKU29N0ysOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779257307; c=relaxed/simple;
-	bh=QU6exWzEUApgSI/AiSAR5kCA0Qkkc0RdUthmv2HQaf8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=t1VXIb+RioluQAxSq5mI2OBePrl+jtDl8KxrnUGO11beRF2Gdw5jbSJ2ze7/uRo3y31YiS6GcWXsP+XUMhsRuRS0Lq38U7vfHIgpj/tUlkj/X3tnSpfVeL5qqQSng/v55RQSbjE0Cbw8H5kXLAvViI/Obkc39VIYfEfDadFbO8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WqMroLyT; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1779257514; c=relaxed/simple;
+	bh=9d7zgUQe30Pmb4TFaSaqsi1cer/kTOpI1XPMdf4W790=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r6uW/f+ltCFeog97z99F6G9njBnITR3QD8YJKeYmjmPuN/jbEms6KT0UY2QSdyrX1f6UboBTimbhzzoL9YPiwy05EmGvXnmeQoq27++eTezaJ0HRqMVY2NqtGKhcgV5syVOXmtYJfTg5HXGkxEM+OxzQbkhuhRVlSqA9Li3ZZJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lrs2DxXL; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WqMroLyT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lrs2DxXL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779257305; x=1810793305;
+  t=1779257513; x=1810793513;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=QU6exWzEUApgSI/AiSAR5kCA0Qkkc0RdUthmv2HQaf8=;
-  b=WqMroLyTo1tvkOwGYoH+mYFkYqO0x9/cYS3nxG0KO77PJ5ZYZ7uW1Wt3
-   xWteMKkRWP9z1MyTpUNqNvAaySdZa95kekX9agCE6qjQMIKcrfCK3joLW
-   pFo3491WuKj/KXyZM+kLUEzSyEiJAZYuKct/j7KNbYUyuoGlntw7nziVR
-   tCmKXu217/pKZRGT6phknk3t5ikSU38GdhI/JOt3aughu5d7OS7j2nOPg
-   IzOxbWe/FBFBNZAAdeMXlVDpWuvOYVm0BwyiojStV3F4PvqORrj+HeWYo
-   5ip3fMIokN1/PwoFh9xMNkHkLAQi/pGU/XD/GR7vogD52bebcgkEn6fa8
-   g==;
-X-CSE-ConnectionGUID: c1Yyw6UnR1mtDwwp8oKhCw==
-X-CSE-MsgGUID: U7MLQv6WRZS1e861TOFeVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="82717777"
+  bh=9d7zgUQe30Pmb4TFaSaqsi1cer/kTOpI1XPMdf4W790=;
+  b=Lrs2DxXLB2xDmte3ZLbkf5OQ8jOuglks1TkaPc7PcZNrHC89t7Kd4vTe
+   wvZTdn77YObAkDRHp6m/3v5GQLkdDnYNoxl7ln/HTGE2j0ALKGdkkMcO0
+   kGUnYp9iHU83jQN2FarjQS7uP5PWG+J1khrCG9sZoVDfEBXr4eYcUGer/
+   r0zs63JAYIBvPfqjcGfYtfyeupMzcGxfjKz1aey7NwvZEUANqM1Zbul5d
+   dMMGOwD8C/7zdf78+x8zXkyLt9GOwt1ca7/FYpIrj1h9TXHzU2kh5k3Xw
+   csBua4foeL+Gyid/FmlzunrvMvR4YuPxkeCRc+/EEwd/yC9jnXtTL/PKN
+   A==;
+X-CSE-ConnectionGUID: w+WfmriHQT2UtTOE30ziZw==
+X-CSE-MsgGUID: O9YZz4LfQomfwGj/Dc5LGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="105606164"
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="82717777"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 23:08:24 -0700
-X-CSE-ConnectionGUID: fpI8u7nyROaLRLF7UxtsCw==
-X-CSE-MsgGUID: t31AgJNgQZWI9Y/WsGlL8Q==
+   d="scan'208";a="105606164"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 23:11:53 -0700
+X-CSE-ConnectionGUID: KeWlnFqUTEeLhAS6IkGHOw==
+X-CSE-MsgGUID: xgiytHJIRjGY7ufZHf9asw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
-   d="scan'208";a="239199783"
+   d="scan'208";a="278145661"
 Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 23:08:22 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 23:11:51 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
 Cc: linux-sound@vger.kernel.org,
 	bard.liao@intel.com,
 	peter.ujfalusi@linux.intel.com
-Subject: [PATCH] ASoC: Intel: sof_sdw: Add support for nvlrvp in NVL platform
-Date: Wed, 20 May 2026 14:08:13 +0800
-Message-ID: <20260520060814.2024852-1-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH] ASoC: Intel: soc-acpi: Add entry for sof_es8336 in NVL match table.
+Date: Wed, 20 May 2026 14:11:43 +0800
+Message-ID: <20260520061143.2024963-1-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -58,41 +58,44 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Jairaj Arava <jairaj.arava@intel.com>
+From: Balamurugan C <balamurugan.c@intel.com>
 
-Add an entry in the soundwire quirk table for novalake boards to support
-NVL RVP
+Adding ES83x6 I2S codec support for NVL platforms and entry in match table.
 
-Signed-off-by: Jairaj Arava <jairaj.arava@intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Signed-off-by: Balamurugan C <balamurugan.c@intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_sdw.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ sound/soc/intel/common/soc-acpi-intel-nvl-match.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index 5c4682f9f7c9..d43daf9b025d 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -837,6 +837,14 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 					SOF_BT_OFFLOAD_SSP(2) |
- 					SOF_SSP_BT_OFFLOAD_PRESENT),
- 	},
-+	/* Novalake devices*/
-+	{
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_PRODUCT_FAMILY, "Intel_nvlrvp"),
-+		},
-+		.driver_data = (void *)(SOC_SDW_PCH_DMIC),
-+	},
- 	{}
- };
+diff --git a/sound/soc/intel/common/soc-acpi-intel-nvl-match.c b/sound/soc/intel/common/soc-acpi-intel-nvl-match.c
+index b8695d47e55b..217272260803 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-nvl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-nvl-match.c
+@@ -10,7 +10,20 @@
+ #include <sound/soc-acpi-intel-match.h>
+ #include "soc-acpi-intel-sdw-mockup-match.h"
  
++static const struct snd_soc_acpi_codecs nvl_essx_83x6 = {
++	.num_codecs = 3,
++	.codecs = { "ESSX8316", "ESSX8326", "ESSX8336"},
++};
++
+ struct snd_soc_acpi_mach snd_soc_acpi_intel_nvl_machines[] = {
++	{
++		.comp_ids = &nvl_essx_83x6,
++		.drv_name = "sof-essx8336",
++		.sof_tplg_filename = "sof-nvl-es8336", /* the tplg suffix is added at run time */
++		.tplg_quirk_mask = SND_SOC_ACPI_TPLG_INTEL_SSP_NUMBER |
++					SND_SOC_ACPI_TPLG_INTEL_SSP_MSB |
++					SND_SOC_ACPI_TPLG_INTEL_DMIC_NUMBER,
++	},
+ 	{},
+ };
+ EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_nvl_machines);
 -- 
 2.43.0
 
