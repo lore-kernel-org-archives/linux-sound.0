@@ -1,82 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA42241665;
-	Wed, 20 May 2026 13:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A30A7241665
+	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 13:55:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779284577; cv=none; b=l/OU0jtmpiKjayOlSQvkYvR4JKNN9pgjRitnGFU1LDeYII2scTuDmnOTKsPE17YIHPgqeHYqAyowMK33BfDUnTuFlOukPMj9sPyWjXfgqadBKXmvuefHWZ69SP53g9oZxPOw1AfCNKk15VXS4An0VFCAHt0OChSlIsUS4DLz5BM=
+	t=1779285308; cv=none; b=VVLTlpVVEpCdeSlNgS3XHHrg1gX9kQJmEVhSlBqAKLzdLRmer201b7IOHF118vSNCgh+mGJ2KG2Rd88loGuuAuBhMnZ3NPgaVzpSYRBJYNcLBsKJ6FqafuSifT5Rdzp31Hnh6/7GsAsCcoKwr4pkTma9nz1EJ1F1o8XhGItm82w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779284577; c=relaxed/simple;
-	bh=u5qGBegF2d0rfNnCblIf7e5GAakt66rinBSN7lJP+sA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HjlHyK8Zkwr3TC49zelV5WIqgPJGK/H+/SnllwJxT9htCGc78fTT3hZDpZIcX+fqAn8szkb8Kej7YlSR9hND+S6aNLsYhMC3ocd/Wtc4SJ7FNyWrSIskX9C/knCkXsqxy81GXoqCxjJxvdmf62CfzNK2LmokpuEd4oalphJ5mQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l4hK+Kr7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779285308; c=relaxed/simple;
+	bh=/IfwntrmFKIYgHe5Gzk/NVZPfpuj3zwJyi5WeoeJUgE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TaF225dvtA4/HIQQGf07W/k17ra3BbN0TgV0wOaUjEeeDEssY/nixxNPROqvIAZjtgYM1IdnA2LZIQP7kF+SGSLOE//gtudPnU66rvajtJN1coUaF1n8HcjQSNJ5J5OtdeEKFyIFoMO2IW2VOBFXXoyI8aYFbYxSlO+4Nb+MZqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ADoyOY4j; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l4hK+Kr7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9466A1F000E9;
-	Wed, 20 May 2026 13:42:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779284576;
-	bh=u5qGBegF2d0rfNnCblIf7e5GAakt66rinBSN7lJP+sA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=l4hK+Kr7ChSq6w3hiH+CTTU36JGDkfcLEx/ZrdW6ZcLoPPRqfLijP0mWoHJz+uU0t
-	 8FgJQEhH+89+v/bCec+WFTb+xjrWouY5DxWy+gCHeNek1kZaH2V7KStsyTVrVW09hh
-	 MWhtd1pBI4UcruR5S0dYS+u/7zA1s6W2q7r68xJoks9XkRfHACSg4F6gBaFARkAR1Z
-	 Ji6ehkxsSfGR8G6+/wlAVZzuGAAhnUZ/NibeKBaAroR49379cO6qlkIeEC9T5KXCzx
-	 G25OGpWq9YfxFAJbdMl+N912ULQy0ToxtxP7wfOnWarc+mRlteKCBa1BwUGe+wByhk
-	 1xVOSzWARgs5Q==
-Date: Wed, 20 May 2026 14:42:51 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	sharq0406@gmail.com, kuninori.morimoto.gx@renesas.com,
-	ckeepax@opensource.cirrus.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 2/2] ASoC: mt8173-max98090: use standard callback to set
- jack
-Message-ID: <5990fbb1-286f-482d-b02a-d0637494f435@sirena.org.uk>
-References: <20260520132930.54333-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260520132930.54333-3-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ADoyOY4j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779285307; x=1810821307;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/IfwntrmFKIYgHe5Gzk/NVZPfpuj3zwJyi5WeoeJUgE=;
+  b=ADoyOY4jIuKIE6NqqGr8JoUoAL6LftysjdOWuuoRQFjWCp9JVaI0+Xqp
+   mMQjVISSPlOEdUGNg/PZnqUJJ/u212bslG4nlFhiVE4NirDkyUki00Fq5
+   Mobtxis2RRgCaWRSFwkRqWZaIppB6bviL26/7vFhJ8QqioCflu6Xef8Nt
+   agRaLTBprTwSniQiLXqK2fveWZ5GT2UO5TsgXm2m2Pzhare+EmayNhCR8
+   OVaxiQPPgFOOx0E6tEMC5x9JbVs33dlAI2yBusH8d2jJBheAVgax+ZsO1
+   k80zDO6i2L3gdQ2PrecChFKk4OSW6eYyJg7ziY1pzwNdYjuL4ZvuIPI0K
+   g==;
+X-CSE-ConnectionGUID: J10Y7MAvRISfUMGSIwP+sg==
+X-CSE-MsgGUID: UJqGYyR/Q1S3ZFzNpHYWHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="83800392"
+X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
+   d="scan'208";a="83800392"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 06:55:06 -0700
+X-CSE-ConnectionGUID: VTpWpzXdQoOScm5P6T7fTg==
+X-CSE-MsgGUID: tm8AHPE1QJmJgfI/ZT7OAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
+   d="scan'208";a="235757624"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.85])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 06:55:04 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	liam.r.girdwood@intel.com
+Subject: [PATCH 0/2] ASoC: SOF: DSP core count handling updates
+Date: Wed, 20 May 2026 16:55:12 +0300
+Message-ID: <20260520135514.32720-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7i2xBcyZcHONdB8E"
-Content-Disposition: inline
-In-Reply-To: <20260520132930.54333-3-srinivas.kandagatla@oss.qualcomm.com>
-X-Cookie: Natural laws have no pity.
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
---7i2xBcyZcHONdB8E
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The series address developer facing issues regarding to how the DSP core
+count is handled:
+IPC4 code ignored the DISABLE_MULTICORE flag, fixed by the first patch.
+The second patch does a validation of the core index from topology
+against the number of DSP cores available on the booted device, which makes
+generic development topologies usable among different DSP variants without
+failure.
 
-On Wed, May 20, 2026 at 01:29:30PM +0000, Srinivas Kandagatla wrote:
-> use snd_soc_component_set_jack() instead of custom callback to
-> max98090 codec.
+Regards,
+Peter
+---
+Peter Ujfalusi (2):
+  ASoC: SOF: ipc4-topology: Handle SOF_DBG_DISABLE_MULTICORE flag for
+    pipelines
+  ASoC: SOF: Validate and correct the core id against the number of
+    cores of the DSP
 
-This needs to be squashed into the first commit, otherwise the first
-commit will cause a build break.
+ sound/soc/sof/ipc3-topology.c | 10 +++++++++-
+ sound/soc/sof/ipc4-topology.c | 11 +++++++++++
+ sound/soc/sof/topology.c      |  9 ++++++++-
+ 3 files changed, 28 insertions(+), 2 deletions(-)
 
---7i2xBcyZcHONdB8E
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.54.0
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoNuloACgkQJNaLcl1U
-h9B4Twf+JV6WN5hwidB7pRGuzELS5rSCHOwICTi0LQSUzc/WMRJr+Y8kiC3yRvN7
-amSj3E7W75Isd+JbMKquETUaR+JjBdE31iS5f6gVBQVqHkTt77bxZzxSALZL+AAc
-GlYYlopGaMw0VIhK6dD0NgdzCYUzB6YxFrAqh01DpGx05ekJhu9dE/iieDn69QJr
-vxHwxHpUY5eQ1KpggAQcKGhRSr7fuyr4KSyQPkFdH9UuDIQQLVOvvzQvgW6+FFt3
-zTY/mYxojOUUImPtjyIWB4Wuax3l52Rue+HvA9zZ1u68YaJDz06UsT+Gcvfkwi/N
-gTQvW+EDETQralTW0M+5urEBORKp7w==
-=9ozI
------END PGP SIGNATURE-----
-
---7i2xBcyZcHONdB8E--
