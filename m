@@ -1,103 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD8E3939DB;
-	Wed, 20 May 2026 12:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8FE3DCD9A
+	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 12:48:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779279506; cv=none; b=YVbREhtYXfhu7FjTOIALk4JZlEjhF1lWlw85VN0a3OsAfdjWDYpsH2C5xGtw49keYSTnFqSLQ7iIGIX1J3Mmxb1sY3dTx+4U0MUIh+Z9Er5OdUJ2TVZipk56w6O0q3r8rtLY8fwRcow8tWy5OJJFYLIPj5zsGlwncJRxqRmFxG0=
+	t=1779281297; cv=none; b=X64LP/88Se0xQWDxk+/tjdAdoNKeEhqgPb8EVnaaN+S50g6eAsavwdZBvhG4WNHt4g1hfJgkOALp4I2wYAqzfIOvvd4pZVgbPQArWcaA2eEczG9IeAhOl9rDp7kZiO3kXmdtjnj3QRojiaxb7Co4hfzMEOcwTj5kWaYyGH+X3g0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779279506; c=relaxed/simple;
-	bh=/wjwbl7a7VEtme9QBwgoYYtZlSHw4mHdcAoOc1Gt+W4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i7K81qIX6W42opnNE1B63ccJ4JahtecrxtgfirGG5e2QK3ZchBKO9Ic3yA/0k/f8fc8133JwsZTTHN6eOlxkBwFrWH2jTxKZkflCprdSi8M6Siu2sWaAxJytqhGLR/MyssbC8AGmitpGhAkKPksguF83MD5IDj4dLMY+KuDNtJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O/EV1LgR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779281297; c=relaxed/simple;
+	bh=/Cpye/85l5+5VoNE3PMGOJW8jg0H/AvFn+bL41MROzw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dCjioQAqpirmxLSx6GU3HxFXN6R4YRcEJMA/Mp493UrcIKaEHugoUiOzU9zTCmYruWqyMjmUbhkGMBr+m6vQwbu4/FKFst8wLYEKS7FUDBL7hlcdfhWiTjyq23izyuKVexjIusUhbkvOn9VpIuSruTEGu9W+n9jCBvALnYrJVWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PiO3yHAa; arc=none smtp.client-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O/EV1LgR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 241211F000E9;
-	Wed, 20 May 2026 12:18:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779279504;
-	bh=/wjwbl7a7VEtme9QBwgoYYtZlSHw4mHdcAoOc1Gt+W4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=O/EV1LgRtq4B3JjAnulTNt4FGoYxR9R8fW0VHtsgMMifg1j+Lg8uvJb0b9vXEScPb
-	 MxZUFDAH9PtO93JEAF8+amK7qnFkUpt0aI55PjYsOe+ZOlOWkXDSaVC4CAUFiZk1R2
-	 sp1o2shfxeDF7MwcwZ1etpXVIM66lMhWOsOKnNQs9mT4tFCx9btzZqNFW+Qv5WeUdd
-	 Ed8t9oQg6I8J93JjvYXpCROUXP7ZnjdPWHtKc/8ARsp0NFGL+LkyfXoTcIqkB2TdXm
-	 j0V1EFu8pmcCFRWQYZn9nC1DkRN2D62xDOooo/o2J9tKglfYzBxkdDVM21/8qoFYaI
-	 QSa2+phTT8l5w==
-Date: Wed, 20 May 2026 13:18:20 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Val Packett <val@packett.cool>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] ASoC: codecs: aw88261: add TDM support
-Message-ID: <f21f53b0-cb00-4e4f-ac5c-3998d0b4ab24@sirena.org.uk>
-References: <20260518220906.347958-1-val@packett.cool>
- <20260518220906.347958-3-val@packett.cool>
- <5085cba2-6066-46c6-96c5-aeddfdf3fb72@sirena.org.uk>
- <ea7594ae-e66d-4fa8-af8e-ac790956e61f@packett.cool>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PiO3yHAa"
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2f0ad52830cso6050039eec.1
+        for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 05:48:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779281295; x=1779886095; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IsPKxbuXp8bIHXw7mrMUt84IPLQf4nAluOd1bRhe8z0=;
+        b=PiO3yHAa5OSR9lAKYGYwGyzZwhACOqFINiimkduMh2VMoCaHm7eJhhVo5+U/oXGK0F
+         CofytsPHlkm7KRG+zbzDPOonqAxHJr/P6NRYg5rnj2JsJ3HzHf/eqfPkPbRsRZdX7oMK
+         Llb0g2ihKQ+KPlA0k5J7K4Njxz8Kj3dINUvQYSdVNe15oIm4lyzJIdG76XBHgppHF7Rg
+         /RpNrn/dNvZzLmq8baLyLVASs8ADAWrWPA+0UOGtvEZS9JoQ72YpX5G36OBuYfYza0fE
+         nhXFoe+uQEM1HkBhv/GxdjjLqXRqYxS3zSF4XBwB6CdYObMVlFKCS1/ohJPOf4JCB03z
+         XrNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779281295; x=1779886095;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IsPKxbuXp8bIHXw7mrMUt84IPLQf4nAluOd1bRhe8z0=;
+        b=dlz/hYzu1Yqe8Q6JI0DDDoME9e0LO4zMh3o+ZNuHyQM3W6Q/ha7sKK/voLtVBbD4yq
+         6TjzUBNBJo5Av3MU78mJT1l5/c+ly1t4JaeZz41GEmoXr15mRQmjjHsidHAKTaGa1jVJ
+         xgaVrgZakGtgbVWkvWUNpen9Z3hfQCYfm/any0CxNpxmQOCeM6nuiRyfCoiBpSdsx95f
+         HgsXZWXAhvbltCdhnYTsu4oT3EDvAdHCVOtF/sYYK8785xam4fzaDTkNdd+vWPxhA7Vw
+         Jrr6gHTwtTdrWud8xnrssCziVCWy3jVI0VGCpjqOqucq7WnA3rv7vQh11NLriYDQvMFe
+         auLg==
+X-Gm-Message-State: AOJu0Ywk7Ve46/wSAc/u/kMpz0wsJB2vxd4/HaOeg+FEjnIyfg/NV88X
+	S1USE7P9qj+jugC62SL3+7mbp2RsFbjYG1uQOdVLQbl2r/8iXFqAMZ35
+X-Gm-Gg: Acq92OFe3+RlraqkAfdxCHdXJD4m1ZrMr2Y8R6HbP/RvS3LkZPgnKo4Y3ojpBu+Ia94
+	vC2NSweOp0E5/3LcGlVCHUVKQxaOcV2Uw5kHlKFpA/zh6fE4oatnqq84SGtOdGhpa5FrtruCJgh
+	ixyJzndd5LA2UL9Rz1yTKYDvuNLLicaHnEjZ+soyKwX464y/6o+s+E7x+tCExtkDOwGhJbZPSo9
+	ydnytS8GO8Fhrkzc/ehxxJxzR4n9UfxcUAokVlVfkYzCfNZniCdPKgogLzVB/eMDtG50a/p0S2I
+	J64pBGO4g4J3FkpH/UAKQLHDw6s32hwMPMOFZijgzfaD0WfnMowPJ34FHnfTGmk6CVDkqYB1km1
+	pLXN2cuNxHaQ2AZI1bPqDE1FHjGFOW5q48OFePNUsKqzP58vPjPyfwmJL7yaJMR8EHzACN0eI5+
+	e4zmiCiI+Qdwv/K0FIZL4gvirZN+MLVB42NOSIplvqq/fkFgfMcKaAaeTae6toubhFsDmnx7hYK
+	w==
+X-Received: by 2002:a05:7301:644c:b0:2ed:e12:376b with SMTP id 5a478bee46e88-303986b14d3mr11733461eec.33.1779281294824;
+        Wed, 20 May 2026 05:48:14 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-162-74.user3p.v-tal.net.br. [177.4.162.74])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-302944ffb85sm19114045eec.7.2026.05.20.05.48.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2026 05:48:14 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Subject: [PATCH 0/2] ALSA: hda: cs35l56: fix system name leaks
+Date: Wed, 20 May 2026 09:47:59 -0300
+Message-Id: <20260520-alsa-cs35l56-system-name-leak-v1-0-d13b54423198@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="T5m/kT004NU4t3rm"
-Content-Disposition: inline
-In-Reply-To: <ea7594ae-e66d-4fa8-af8e-ac790956e61f@packett.cool>
-X-Cookie: Natural laws have no pity.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQ6CMAwA0F8hPdtkg4wFf8V4qKNodUyzgtEQ/
+ t0Jx3d5CyhnYYVjtUDmt6g8U4E9VBBulK6M0hdDberWOGORohIGbVx0LepXJx4x0cgYmR7oh97
+ 7jik0nYVyvDIP8tn+03m3zpc7h+mfwrr+AB0GUveBAAAA
+X-Change-ID: 20260501-alsa-cs35l56-system-name-leak-7fd779eac391
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Simon Trimmer <simont@opensource.cirrus.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=907;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=/Cpye/85l5+5VoNE3PMGOJW8jg0H/AvFn+bL41MROzw=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDFm8a1sf7dz+8VdLVKfSwWcz5CSP5ZTt5F63ZW/67LWb1
+ fe2L369p6OUhUGMi0FWTJFlddIiyz1dD67Wx63wgJnDygQyhIGLUwAmsvccI8OJjPOq9584KHlb
+ blo/4ZT7deGGtvWZXye1Ll7yublAVucUw/94v6OJjk+1uued22kaxh4pFf9wgeqOc5n/XERe9wl
+ P52ICAA==
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
+cs35l56_hda_read_acpi() reads an allocated ACPI _SUB string to build
+the firmware system name. Current error paths can return after _SUB has
+been allocated, or after it has been transferred to cs35l56->system_name,
+without releasing that memory.
 
---T5m/kT004NU4t3rm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Fix the local read_acpi() unwind paths first, then release the stored
+system name from the common probe error path.
 
-On Tue, May 19, 2026 at 07:32:33PM -0300, Val Packett wrote:
-> On 5/19/26 1:06 PM, Mark Brown wrote:
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+---
+Cássio Gabriel (2):
+      ALSA: hda: cs35l56: Free ACPI _SUB string on errors
+      ALSA: hda: cs35l56: Free system name on probe errors
 
-> > In spite of the changelog this doesn't actually seem to use slot_width?
-> > It should.
+ sound/hda/codecs/side-codecs/cs35l56_hda.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
+---
+base-commit: 38c607c673155d6335591cdbd9c785fb2b7550e5
+change-id: 20260501-alsa-cs35l56-system-name-leak-7fd779eac391
 
-> Right, I hadn't exactly figured out where that slots in (ha)..
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
-> The datasheet seems to say that I2SBCK is slot width, but there are only 3
-> options for it (32/48/64) and I currently select the one that matches
-> 2*physical_width.
-
-> Grepping the tree I'm seeing that slot_width is basically the same thing as
-> physical width. Should slot_width from set_tdm_slot take precedence over the
-> params_physical_width() from hw_params? Should I just have both callbacks
-> set the variable and whichever was called last "wins"?
-
-If TDM is configured then hw_params should not cause the number of bits
-on the bus to vary at all, the clocking of the bus is fixed by the TDM
-configuration.
-
-> > Note also that we should disable TDM if slots == 0.
-
-> This is pretty much already the case.. but I guess I should also reset the
-> masks specifically to the i2s default (2nd channel to R). Are masks also
-> zero when slots == 0?
-
-They should be.
-
---T5m/kT004NU4t3rm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoNposACgkQJNaLcl1U
-h9DuGgf+MDoWQjHIAaR4xZl4fbLRWJMeAA5LDyfvlh4HKl2hFn/ZwzNuENjHVpr1
-1zlsQxbL1cjSnT0ENtbv9cVEr5t3VLAvVyVyxYdRuwrddQz0nAkemdv+A+dpgauu
-7XQLiMVR47Emhq0rOlJJJbp8B9uLiCVCLYnXl+afVVJlSdLDnpB7NP5kpe8n+crS
-QYlAwSNn+95QrAoHYdPVxHa9dtkr2uXtH2SAWwTfP6KKUI8sBusKq1S8KJ2Z0V0l
-ADsMYvD3dkaZFdDv8irQrVpTYJjwRVhkg2/RbvROgzBUCD9Qc22eLCLPlzsKT1Xl
-3EAkLWdkLPSdweySWH4jHowO+fFCpg==
-=n95i
------END PGP SIGNATURE-----
-
---T5m/kT004NU4t3rm--
