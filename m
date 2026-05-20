@@ -1,48 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355BE3EF0D7;
-	Wed, 20 May 2026 11:20:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABA43EFFAD;
+	Wed, 20 May 2026 11:20:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779276036; cv=none; b=YNSC2EPM02qOWhLXND/bQUGsFe+VqJHXOVn+CvIZrh2pzjFiCFxmByZCjokALsH/qqytzihWZACcXZxRRgjqdEiUAH68ecaI6wmtCJ5RxL1fxvZJff5jf/SQENFgAZLHloXekCgvrvGkph1prXJRry3yct7JqsjdtuRsbHmdcwY=
+	t=1779276040; cv=none; b=URouRSqCl0D2JcVg8Or908up5PmlEQo8AzsYr3xNfcWuARIrECv3wWCP57htiJQSZQzZNfpqKBipNex2p4Q+Cu1+ySfwJQbFP1X7RUCCMhJmPwkL2AIP5SAa8By9jK13BdyKhc30xQbnters0GTX1rywtv3jiOBQVX6eALqOImA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779276036; c=relaxed/simple;
-	bh=n1kjMAH6n1QMvxL4tue2EW0MTKmqqXgsAPBhnmI6cDc=;
+	s=arc-20240116; t=1779276040; c=relaxed/simple;
+	bh=4fOVrUuTrav5pheYljQuSEd/aOqmHoT/0xyQx/qnjMk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dt87yVpMTSwCo3KwyHABYo6yas0egSaC1nV54f/kGcZohlHI2x353deCZmlsQXTgw7G4KD1tqPUhgXtJlxGxDMWKyPnv6hmwZBQHGq7NzAIpnDI4klOeWJAkI4ip1TUHI3UXHCRcGWZ64p3fjoumetpv0i5j0hqv35AlKzzBYHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g2yzupuq; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=msRp1MxLYYcLvLBSgvW9Sk/HiB1+/+WVeazhMS2j58z4ajbYBXcIJU46zWhZw1VMztrEUCSyVpHrsI5D+VBrc2ZuLJ733lJfsP1fQKHTDfazB2M5oSCRQ+3Fw10Jx85atpcezoY/tG2zX2TABoSiOfJ/tbGPCVhU+FIh3M5Emwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MctOf1Ir; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g2yzupuq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1F0B1F00893;
-	Wed, 20 May 2026 11:20:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MctOf1Ir"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 173991F00893;
+	Wed, 20 May 2026 11:20:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779276035;
-	bh=RHBeMpolU18H6R9xI+OllTBmCQa7/WTbYDEkch01KQY=;
+	s=k20260515; t=1779276038;
+	bh=nYf18S/il4tNpuIL0hg4+CsH4a4a6W2wR/OcVfeJQyI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=g2yzupuqlhDYk0ELmJvw4WZiQAlQoU9Zkc5PzktTLANeyHydFOkXLoBdH6Jol/rKa
-	 qQvjJE1VaH62EXFiFNfJvuVGE1M6XwtNBqo3JKQPJFHZdXSt0I5fldJSQEiazG4cP/
-	 hYQRznDBUie9oJLZpI3Wuy+ucRkPkYG+tAYoS/iGKYF69f6GF8994um8CsX2q8hw9h
-	 hPMvO35tKo3JD4AWWLbU9ufhQohtj0WKvv9NmqF815dkj+lKfMT0zmXKm2Pm9koiAA
-	 JMkTSlNEamaF+HSPMgaDOxy1VAZ7dB0Tt7doe6Gk3+NDAP/4LdDl230rijkoJYuXhF
-	 Yj7673rEc0tjA==
+	b=MctOf1IrG4PzetdC0X1d4Ndbpz/x2YoP43mhvRxBDD65EodWioiF10skzdc+gULvg
+	 09Ob/K2LpnHxbBmwbotA4rFXHXZqU7JgrPRqGytXcDChwLt3NeZpVPJZW+kFshU0cL
+	 iU/DXD1klwEAkQkkZcujmCDn6g7v6U4CuRtgTcGDf9Xr1+D7f2nN8ASK6dFvsFak1/
+	 quWcUUOxb6sR2EXPr+jzJfDGaF8Q2faa2MQA/vowKtLINlriMRdzUeWIaZCekYiSut
+	 c4giDwfIRhH0f3/Vo5YnF7OXpQJGb6vi0cBSTvTh/AYOqcItoCdCaZfd1U793L9p7E
+	 s6mcUDDD6UwJQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+Cc: Rodrigo Faria <rodrigofilipefaria@gmail.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	david.rhodes@cirrus.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	corbet@lwn.net,
 	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.18] ALSA: doc: cs35l56: Update path to HDA driver source
-Date: Wed, 20 May 2026 07:19:07 -0400
-Message-ID: <20260520111944.3424570-35-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0] ALSA: hda/realtek: Add mute LED fixup for HP Pavilion 15-cs1xxx
+Date: Wed, 20 May 2026 07:19:09 -0400
+Message-ID: <20260520111944.3424570-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260520111944.3424570-1-sashal@kernel.org>
 References: <20260520111944.3424570-1-sashal@kernel.org>
@@ -55,224 +51,293 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0.9
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
+From: Rodrigo Faria <rodrigofilipefaria@gmail.com>
 
-[ Upstream commit 74e8409821ac8cda70bf23eb593f2c7f6e3b5a2f ]
+[ Upstream commit 01801e20d69346e1e6cec0d908f1cea3a49e51b5 ]
 
-The HDA drivers were moved to sound/hda/... so update a Documentation
-reference that still pointed to the old location.
+Add a new fixup for the mute LED on the HP Pavilion 15-cs1xxx series
+using the VREF on NID 0x1b.
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Link: https://patch.msgid.link/20260511104148.36382-1-rf@opensource.cirrus.com
+The BIOS on these models (tested up to F.32) incorrectly reports
+the mute LED on NID 0x18 via DMI OEM strings, which lacks VREF
+capabilities. This fixup overrides the LED pin to the correct
+NID 0x1b.
+
+Signed-off-by: Rodrigo Faria <rodrigofilipefaria@gmail.com>
+Link: https://patch.msgid.link/20260505185518.23625-1-rodrigofilipefaria@gmail.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Phase 1: Commit Message Forensics
-Record 1.1: Subsystem `ALSA: doc: cs35l56`; action verb `Update`;
-intent: correct a stale documentation path to the HDA driver source.
+## Decision Summary
+This should be backported. It is a small, model-specific ALSA HDA
+Realtek hardware workaround for an HP Pavilion 15-cs1xxx BIOS quirk: the
+BIOS reports the mute LED on NID `0x18`, but that pin lacks VREF
+capability; the patch routes the existing HP VREF mute-LED handling to
+NID `0x1b`. It affects only systems matching PCI SSID `103c:856a`.
 
-Record 1.2: Tags present in supplied message: `Signed-off-by: Richard
-Fitzgerald <rf@opensource.cirrus.com>`, `Link: https://patch.msgid.link/
-20260511104148.36382-1-rf@opensource.cirrus.com`, `Signed-off-by:
-Takashi Iwai <tiwai@suse.de>`. No `Fixes:`, `Reported-by:`, `Tested-
-by:`, `Reviewed-by:`, `Acked-by:`, or `Cc: stable`.
+## Phase Walkthrough
+### Phase 1: Commit Message Forensics
+Record: Subsystem is `ALSA: hda/realtek`; action is `Add`; intent is
+adding a mute LED fixup for HP Pavilion 15-cs1xxx.
 
-Record 1.3: The body says the HDA drivers moved to `sound/hda/...`,
-leaving this documentation reference pointing at the old
-`sound/pci/hda/...` location. Symptom is incorrect documentation only;
-no runtime failure, crash, data corruption, or security impact is
-described.
+Record: Tags present: `Signed-off-by: Rodrigo Faria
+<rodrigofilipefaria@gmail.com>`, `Link: https://patch.msgid.link/2026050
+5185518.23625-1-rodrigofilipefaria@gmail.com`, `Signed-off-by: Takashi
+Iwai <tiwai@suse.de>`. No `Fixes:`, `Reported-by:`, `Tested-by:`,
+`Reviewed-by`, or `Cc: stable`.
 
-Record 1.4: This is not a hidden runtime bug fix. It is a direct
-documentation correction.
+Record: Bug described is incorrect BIOS/DMI OEM mute LED pin reporting.
+Symptom is mute LED control using the wrong NID, so the mute LED does
+not work correctly on this model. Version info: BIOS tested up to F.32.
+Root cause: reported NID `0x18` lacks VREF capability; correct NID is
+`0x1b`.
 
-## Phase 2: Diff Analysis
-Record 2.1: One file changed: `Documentation/sound/codecs/cs35l56.rst`,
-1 insertion and 1 deletion. No functions modified. Scope: single-file
-documentation-only surgical change.
+Record: This is a hardware quirk/fixup, not a hidden memory-safety bug.
+It fixes incorrect hardware description/firmware behavior.
 
-Record 2.2: Before: HDA users were pointed to
-`sound/pci/hda/cs35l56_hda.c`. After: they are pointed to
-`sound/hda/codecs/side-codecs/cs35l56_hda.c`.
+### Phase 2: Diff Analysis
+Record: One file changed: `sound/hda/codecs/realtek/alc269.c`, 21
+insertions, no removals. Modified areas: new helper
+`alc295_fixup_hp_pavilion_mute_led_1b`, enum entry, fixup table entry,
+PCI SSID quirk entry. Scope: single-file, surgical driver quirk.
 
-Record 2.3: Bug category: documentation correctness fix. Verified
-current tree has `sound/hda/codecs/side-codecs/cs35l56_hda.c`;
-`sound/pci/hda` does not exist in this checkout.
+Record: Before: HP vendor/DMI mute LED handling could derive the wrong
+LED NID from BIOS OEM string. After: for PCI SSID `103c:856a`, the
+driver selects a dedicated fixup that calls existing
+`alc269_fixup_hp_mute_led()` and then overrides `spec->mute_led_nid =
+0x1b`.
 
-Record 2.4: Fix quality is obvious and minimal. Regression risk is
-runtime zero, but backport targeting matters: applying it to older trees
-where the driver is still under `sound/pci/hda` would make the
-documentation wrong.
+Record: Bug category is hardware workaround / quirk. Specific mechanism:
+reuse existing VREF mute LED cdev setup, but force the pin to the
+verified VREF-capable NID.
 
-## Phase 3: Git History Investigation
-Record 3.1: `git blame` shows the stale documentation line was
-introduced by `088fb4ee17fc4` (`ALSA: doc: cs35l56: Add information
-about Cirrus Logic CS35L54/56/57`). The line became stale when
-`6014e9021b28e` moved HDA codec drivers into `sound/hda/codecs`.
+Record: Fix quality is good: small, contained, uses existing Realtek HDA
+LED infrastructure, only selected for one HP subsystem ID. Regression
+risk is very low and limited to that model.
 
-Record 3.2: No `Fixes:` tag is present, so there was no Fixes target to
-follow.
+### Phase 3: Git History Investigation
+Record: Local exact-subject `git log` found no commit hash in this
+checkout, so `b4 dig -c <hash>` could not be run against the target
+commit. The patch was analyzed by message-id instead.
 
-Record 3.3: Recent file history shows only CS35L56 documentation
-updates. Related source movement is `6014e9021b28e`, which renamed
-`sound/pci/hda/cs35l56_hda.c` to `sound/hda/codecs/side-
-codecs/cs35l56_hda.c`.
+Record: `git blame` on nearby current-tree lines shows this repository’s
+Realtek split file was imported through a grafted/snapshot-style commit,
+so blame was not useful for the original upstream introduction of the
+generic HP LED code.
 
-Record 3.4: Author Richard Fitzgerald has multiple recent CS35L56/HDA-
-related commits in this subsystem, including documentation and HDA
-driver fixes.
+Record: Related local history contains similar model-specific HP
+Pavilion mute LED quirk commits: `2f388b4e8fdd6`, `068641bc9dc3d`, and
+`ab2be3af8c4ea`, each one-line Pavilion mute LED quirk additions.
 
-Record 3.5: Dependency identified: this patch is correct only in trees
-that already contain the HDA move commit `6014e9021b28e`.
+Record: Author history for Rodrigo Faria in this file returned no local
+commits. Maintainer handling was verified from the mailing-list thread:
+Takashi Iwai replied “Applied now.”
 
-## Phase 4: Mailing List And External Research
-Record 4.1: `b4 am` using message ID
-`20260511104148.36382-1-rf@opensource.cirrus.com` found a single patch
-submission and reported no newer revision. Direct `WebFetch` to
-lore/patch.msgid.link was blocked by Anubis, but `b4` retrieved the
-mbox.
+Record: Dependencies: no hard functional dependency beyond existing
+Realtek HDA HP mute LED infrastructure. That infrastructure exists in
+checked stable tags, though older trees use
+`sound/pci/hda/patch_realtek.c` and may need manual path/context
+backporting.
 
-Record 4.2: `b4 dig -c` could not be run for the candidate commit
-because no candidate commit hash was supplied and the commit was not
-found on checked named branches searched. `b4 am` verified author DKIM
-signatures and the patch metadata. `b4 dig -c 6014e9021b28e -w` verified
-the prerequisite move patch was an ALSA HDA series sent to `linux-sound`
-and relevant HDA/Cirrus recipients.
+### Phase 4: Mailing List And External Research
+Record: `b4 am` by message-id found `[PATCH v3] ALSA: hda/realtek: Add
+mute LED fixup for HP Pavilion 15-cs1xxx`, 1 patch, 2 messages in
+thread, DKIM-signed.
 
-Record 4.3: No bug report, syzbot report, crash report, or user report
-is linked.
+Record: Full thread shows the patch was sent to Takashi Iwai, Jaroslav
+Kysela, `linux-sound`, and `linux-kernel`; Takashi replied “Applied
+now.” No NAKs, objections, or stable nomination were found in the
+fetched thread.
 
-Record 4.4: Candidate is standalone as a documentation update, but
-semantically depends on the prior source-tree move.
+Record: `b4 am -v 2` could not find revision 2 from this message-id; web
+searches also did not locate earlier cs1xxx revisions. The subject says
+v3, but earlier revision discussion remains unverified.
 
-Record 4.5: Web searches and local pending branch searches found no
-stable-specific discussion for this exact documentation patch.
+Record: External search found public evidence of HP Pavilion 15-cs-
+series systems using ALC295 audio, but no separate cs1xxx-specific bug
+report was found.
 
-## Phase 5: Code Semantic Analysis
-Record 5.1: No functions modified; documentation text only.
+Record: Stable-list searches found no cs1xxx-specific stable discussion,
+but did find similar ALSA Realtek HP Pavilion mute LED quirks appearing
+in stable discussion/results.
 
-Record 5.2: No callers; this is not runtime code.
+### Phase 5: Code Semantic Analysis
+Record: Modified/added key function:
+`alc295_fixup_hp_pavilion_mute_led_1b`.
 
-Record 5.3: No callees; no allocations, locks, I/O, or side effects.
+Record: Callers: the new function is referenced from `alc269_fixups[]`;
+that fixup is selected by `snd_hda_pick_fixup()` during Realtek codec
+probe, using the PCI SSID quirk table. This is device
+probe/configuration path, not a syscall hot path.
 
-Record 5.4: No userspace-triggerable kernel execution path. Impact is
-limited to readers of the documentation.
+Record: Callees: `alc269_fixup_hp_mute_led()` scans HP DMI OEM strings,
+sets LED polarity/NID, registers the mute LED cdev through
+`snd_hda_gen_add_mute_led_cdev()`, and installs `led_power_filter`. The
+new helper then overrides `spec->mute_led_nid`.
 
-Record 5.5: Search found the old path only in
-`Documentation/sound/codecs/cs35l56.rst` among `.rst` files checked.
+Record: Reachability: affected path is reachable during HDA codec probe
+on matching HP hardware and later through the LED audio mute
+trigger/cdev callback.
 
-## Phase 6: Stable Tree Analysis
-Record 6.1: Tag containment shows the documentation exists from
-`v6.13+`; the HDA move exists from `v6.17+`. Therefore the stale-path
-documentation issue exists only in trees containing both, i.e.
-approximately `v6.17+` and later.
+Record: Similar patterns: many existing HP Realtek quirks use
+`ALC269_FIXUP_HP_MUTE_LED_MIC3`, `ALC295_FIXUP_HP_MUTE_LED_COEFBIT11`,
+and related model-specific entries.
 
-Record 6.2: `git apply --check` confirms the patch applies cleanly to
-the current `7.0.y` tree. Backport difficulty is trivial for affected
-trees, but it must not be applied to trees where the HDA driver still
-lives under `sound/pci/hda`.
+### Phase 6: Stable Tree Analysis
+Record: Checked tags `v6.19`, `v6.18`, `v6.17`, `v6.16`, `v6.12`, and
+`v6.6` exist locally.
 
-Record 6.3: No related stable fix for this exact path correction was
-found in local pending branches.
+Record: `v6.19` and `v6.18` use `sound/hda/codecs/realtek/alc269.c`;
+`v6.6` uses older `sound/pci/hda/patch_realtek.c`.
 
-## Phase 7: Subsystem And Maintainer Context
-Record 7.1: Subsystem is ALSA sound documentation for Cirrus CS35L56
-HDA/SoundWire amplifiers. Criticality: peripheral/documentation, not
-runtime core.
+Record: Generic HP VREF mute LED infrastructure exists in `v6.6` and
+newer checked tags. `ALC295_FIXUP_HP_MUTE_LED_COEFBIT11` exists in
+`v6.16+`, but not in `v6.12`/`v6.6`; the new fixup itself does not
+depend on that helper, only on nearby placement/context.
 
-Record 7.2: Sound documentation and HDA side-codec areas are actively
-maintained; recent logs show multiple CS35L56/HDA commits.
+Record: `git apply --check` succeeds on current `7.0.5` checkout. It
+fails on a temporary `v6.18` worktree due to context drift, so stable
+backports likely need minor manual adjustment. Older stable trees need
+path adjustment to `sound/pci/hda/patch_realtek.c`.
 
-## Phase 8: Impact And Risk Assessment
-Record 8.1: Affected population: developers, maintainers, integrators,
-and users consulting this CS35L56 documentation in kernels where the HDA
-source has moved.
+### Phase 7: Subsystem And Maintainer Context
+Record: Subsystem is ALSA HDA Realtek codec driver under sound.
+Criticality: peripheral/driver-specific, affecting HP Pavilion 15-cs1xxx
+users.
 
-Record 8.2: Trigger condition: reading the documentation. Not
-triggerable as a kernel runtime fault.
+Record: The file is actively maintained and frequently receives model-
+specific quirks. Recent local history includes multiple ALSA Realtek
+HP/Lenovo/ASUS/Samsung quirk commits.
 
-Record 8.3: Failure mode: stale documentation path. Severity LOW, but
-documentation fixes are explicitly acceptable stable material due zero
-runtime risk.
+### Phase 8: Impact And Risk
+Record: Affected users are specific to HP Pavilion 15-cs1xxx / PCI SSID
+`103c:856a` with Realtek ALC295-class HDA audio.
 
-Record 8.4: Benefit is modest but real for affected trees; risk is very
-low if limited to trees with `6014e9021b28e`, but negative for older
-trees where the old path is still correct.
+Record: Trigger condition is normal codec probe and mute LED operation
+on that hardware. No evidence found that unprivileged users can trigger
+a crash or security issue; the user-visible effect is
+incorrect/nonfunctional mute LED.
 
-## Phase 9: Final Synthesis
-Record 9.1: Evidence for backporting: fixes an objectively wrong
-documentation reference, one-line contained patch, no runtime regression
-risk, applies cleanly to current `7.0.y`, documentation/comment fixes
-are an accepted stable exception. Evidence against: no runtime bug, no
-important crash/security/corruption impact, and it must be branch-
-limited. Unresolved: exact upstream candidate commit hash was not
-available locally.
+Record: Failure severity is LOW to MEDIUM: not a crash or data
+corruption issue, but a real hardware functionality regression/quirk.
 
-Record 9.2: Stable rules: obviously correct: yes; tested: `b4` says
-applies cleanly and local `git apply --check` passed; fixes a real bug:
-yes, documentation bug; important runtime issue: no; small and
-contained: yes, 1 line; no new feature/API: yes; applies to affected
-stable trees: yes, for trees after the HDA move.
+Record: Benefit is medium for affected users because it restores correct
+mute LED behavior. Risk is very low because the quirk is model-specific
+and uses existing LED control paths.
 
-Record 9.3: Exception category: documentation fix.
+### Phase 9: Final Synthesis
+Record: Evidence for backporting: hardware quirk category, fixes real
+BIOS misreporting, limited to one PCI SSID, small patch, uses
+established ALSA Realtek fixup patterns, accepted by ALSA maintainer,
+and similar HP mute LED quirks are common stable material.
 
-Record 9.4: Decision: backport is appropriate, but only to stable trees
-that already contain the HDA source move to `sound/hda/codecs/side-
-codecs`. Do not apply to older stable trees where
-`sound/pci/hda/cs35l56_hda.c` remains the correct path.
+Record: Evidence against backporting: no crash/security/data corruption;
+no explicit stable tag; current patch does not apply cleanly to at least
+`v6.18` without minor context adjustment; older trees need file-
+path/context adjustment.
+
+Record: Stable rules: obviously correct enough by inspection; fixes a
+real hardware bug; small and contained; no new public API; no new
+feature beyond hardware-specific workaround; stable application may
+require minor backport edits.
+
+Record: Exception category applies: hardware-specific quirk/workaround
+in an existing driver.
 
 ## Verification
-- [Phase 1] Parsed supplied commit message and downloaded mbox:
-  confirmed subject, author, message ID, and one-line documentation
-  rationale.
-- [Phase 2] Read `Documentation/sound/codecs/cs35l56.rst`: confirmed old
-  path is present.
-- [Phase 2] Checked filesystem: confirmed `sound/hda/codecs/side-
-  codecs/cs35l56_hda.c` exists and `sound/pci/hda` does not in current
-  tree.
-- [Phase 3] `git blame -L 35,45`: confirmed stale line came from
-  `088fb4ee17fc4`.
-- [Phase 3] `git show 6014e9021b28e`: confirmed HDA codecs, including
-  `cs35l56_hda.c`, were moved from `sound/pci/hda` to
-  `sound/hda/codecs/side-codecs`.
-- [Phase 4] `b4 am`: retrieved the patch, found one patch, no newer
-  revision, DKIM signed.
-- [Phase 4] `b4 dig -c <msgid>`: failed because `b4 dig` requires a
-  commit-ish, not a message ID.
-- [Phase 4] WebFetch to lore/patch.msgid.link: blocked by Anubis.
-- [Phase 6] `git tag --contains`: documentation starts at `v6.13+`; HDA
-  move starts at `v6.17+`.
-- [Phase 6] `git apply --check`: candidate patch applies cleanly to
-  current tree.
-- [Phase 6] `git ls-tree`: `v6.6`/`v6.12` have old HDA source path and
-  no affected doc; `v6.18` has both affected doc and new HDA source
-  path.
-- UNVERIFIED: Candidate final upstream commit hash, because it was not
-  found on searched local named branches and was not provided.
+- [Phase 1] Parsed subject, body, and tags from supplied commit message
+  and fetched mbox.
+- [Phase 2] Verified patch is 21 insertions in
+  `sound/hda/codecs/realtek/alc269.c`.
+- [Phase 3] Ran local `git log` by exact subject: no matching commit
+  hash found.
+- [Phase 3] Ran `git blame` around affected code: local history is
+  snapshot/grafted, limiting original-introduction analysis.
+- [Phase 4] Ran `b4 am` by message-id: found v3 patch, 2-message thread,
+  DKIM-signed.
+- [Phase 4] Read full mbox: Takashi Iwai replied “Applied now”; no
+  objections found.
+- [Phase 5] Traced quirk selection through `snd_hda_pick_fixup()` and
+  Realtek probe path.
+- [Phase 6] Checked stable tags and paths: `v6.18+` split path, `v6.6`
+  old `patch_realtek.c` path.
+- [Phase 6] Checked relevant symbols in stable tags: HP VREF LED
+  infrastructure exists in checked stable trees.
+- [Phase 6] Ran `git apply --check`: applies to current checkout, not
+  cleanly to `v6.18` due context drift.
+- [Phase 8] Verified failure mode from commit body and code: wrong LED
+  NID affects mute LED behavior, not memory safety.
+- UNVERIFIED: exact applied upstream commit SHA, because it was not
+  present in local `git log`.
+- UNVERIFIED: earlier v1/v2 review discussion, because `b4` and web
+  search did not locate those revisions.
+- UNVERIFIED: exact applicability to every active older LTS tree beyond
+  the checked tags.
 
 **YES**
 
- Documentation/sound/codecs/cs35l56.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/hda/codecs/realtek/alc269.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/Documentation/sound/codecs/cs35l56.rst b/Documentation/sound/codecs/cs35l56.rst
-index d5363b08f5152..b3f8c1c238518 100644
---- a/Documentation/sound/codecs/cs35l56.rst
-+++ b/Documentation/sound/codecs/cs35l56.rst
-@@ -40,7 +40,7 @@ There are two drivers in the kernel
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index a55b73ced81d6..7e0289a1a1ca7 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -1676,6 +1676,21 @@ static void alc295_fixup_hp_mute_led_coefbit11(struct hda_codec *codec,
+ 	}
+ }
  
- *For systems using SoundWire*: sound/soc/codecs/cs35l56.c and associated files
- 
--*For systems using HDA*: sound/pci/hda/cs35l56_hda.c
-+*For systems using HDA*: sound/hda/codecs/side-codecs/cs35l56_hda.c
- 
- Firmware
- ========
++/* Override wrong pin to NID 0x1b (F.32 BIOS reports 0x18 via DMI OEM string)
++ * on HP pavilion 15-cs1xxx laptops
++ */
++static void alc295_fixup_hp_pavilion_mute_led_1b(struct hda_codec *codec,
++						 const struct hda_fixup *fix,
++						 int action)
++{
++	struct alc_spec *spec = codec->spec;
++
++	alc269_fixup_hp_mute_led(codec, fix, action);
++
++	if (action == HDA_FIXUP_ACT_PRE_PROBE)
++		spec->mute_led_nid = 0x1b;
++}
++
+ static void alc233_fixup_lenovo_coef_micmute_led(struct hda_codec *codec,
+ 				const struct hda_fixup *fix, int action)
+ {
+@@ -3872,6 +3887,7 @@ enum {
+ 	ALC290_FIXUP_SUBWOOFER,
+ 	ALC290_FIXUP_SUBWOOFER_HSJACK,
+ 	ALC295_FIXUP_HP_MUTE_LED_COEFBIT11,
++	ALC295_FIXUP_HP_PAVILION_MUTE_LED_1B,
+ 	ALC269_FIXUP_THINKPAD_ACPI,
+ 	ALC269_FIXUP_LENOVO_XPAD_ACPI,
+ 	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
+@@ -5715,6 +5731,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc295_fixup_hp_mute_led_coefbit11,
+ 	},
++	[ALC295_FIXUP_HP_PAVILION_MUTE_LED_1B] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc295_fixup_hp_pavilion_mute_led_1b,
++	},
+ 	[ALC298_FIXUP_SAMSUNG_AMP] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc298_fixup_samsung_amp,
+@@ -6912,6 +6932,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8537, "HP ProBook 440 G6", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x8548, "HP EliteBook x360 830 G6", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x854a, "HP EliteBook 830 G6", ALC285_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x856a, "HP Pavilion 15-cs1xxx", ALC295_FIXUP_HP_PAVILION_MUTE_LED_1B),
+ 	SND_PCI_QUIRK(0x103c, 0x85c6, "HP Pavilion x360 Convertible 14-dy1xxx", ALC295_FIXUP_HP_MUTE_LED_COEFBIT11),
+ 	SND_PCI_QUIRK(0x103c, 0x85de, "HP Envy x360 13-ar0xxx", ALC285_FIXUP_HP_ENVY_X360),
+ 	SND_PCI_QUIRK(0x103c, 0x8603, "HP Omen 17-cb0xxx", ALC285_FIXUP_HP_MUTE_LED),
 -- 
 2.53.0
 
