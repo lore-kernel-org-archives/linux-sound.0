@@ -1,214 +1,318 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADD936E493
-	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 11:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40C5374E74;
+	Wed, 20 May 2026 11:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779275530; cv=none; b=bk4t9/6dd7nSctpJRH3ulfJAj8Q+WmWDaidaG0sBVffM5N3KtnWj/ifn2IO84S3HcxZS83d8kBdT+ml/AtriQfqGR74AFrkGoYj4V5cp4SjUCY/5fpa4CCH7BMm9J25c6Nf5R7l4WhoIdaCo1DEHo5WONb29CJxtQpWsWSPpy1M=
+	t=1779275992; cv=none; b=clv30t7mUnAEwYYDHHjVsG6ulFuXe8CexhSoACQfWQL50Cn6iMPv2Aj7HHOppo+PTgDBuBEMuZNeO3ID4VQP+3jhAMHt0GTKpKsStQ5Oe/TceJnR3qkJA/vD26JJFCD83+QCITC6YgW4ipeVre3lqcva5rP90jg7mN3JjjR/3r8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779275530; c=relaxed/simple;
-	bh=hNaug2oSmEVEb3ptvO5jG8/VZe2u2CA6uospsfWhOs4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W6Ix1FAxIJXMQ4vpXWPLxW1r5uGDJ8YTgqEvhmBf+6jWrJ+QEh8Hc6xb3264E7kuHRG6nkQl6ForxKDDUvZ2lCDHWeG0iNDWrwPvrckiVbwRIgPb2MeyhF88auj8Deem3OTwmf8cVuUSw/OyKbbBB3PCJ5MiWLTgD4bbFL/mY9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vcJ8DX/i; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XCTrJhQv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vcJ8DX/i; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XCTrJhQv; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1779275992; c=relaxed/simple;
+	bh=v3FKuA5Z3gNVdXGKkVpFozfT5lnuMlMV+Rq5LvGtlrg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W1GI/7M1pJ069uT6q9416988i6Ec/Z//fGBh10Dkw0N4UE9Cgn6twZ/hJ6IdXtSfJOVyIJSDb2RQxGdNNJHba3uflxNDVlg8mY8lGpdgWdfZtkoEcZ+5PYEV3muSoa19ZLend5xzAxj0MFjxxdOzOrpfM/SmMR3HOjpLZs7DLo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=magWFse2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vcJ8DX/i";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XCTrJhQv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vcJ8DX/i";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XCTrJhQv"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D3B916B195;
-	Wed, 20 May 2026 11:12:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779275526; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XA5CgYml5nFDDExbgg1DVg9Qu2lYEDN94bfftjzWcLs=;
-	b=vcJ8DX/i6aBuu3aNOVIhH6U6ljB0roHta/wY8SdLUHNFyCYKv9/yi0ZhBBB+XDeGJuQf7g
-	tOCOGfLRFxQ+9CaVSTaj8IoKS+4x2rZuGJuRug5a1Q3dI4Ph/3j9YEEOo/KS6nLPA8SQOT
-	ys5AlvMW+vExOtqBL7d/hND1O/osPPI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779275526;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XA5CgYml5nFDDExbgg1DVg9Qu2lYEDN94bfftjzWcLs=;
-	b=XCTrJhQv+gWISXdRwOSQ6B8Sqbav92MwQH5lGdTK/XsvS0ILAcn9GG9QS6jNGSCEPuo6gC
-	yh8o2HA+p2hK8XCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779275526; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XA5CgYml5nFDDExbgg1DVg9Qu2lYEDN94bfftjzWcLs=;
-	b=vcJ8DX/i6aBuu3aNOVIhH6U6ljB0roHta/wY8SdLUHNFyCYKv9/yi0ZhBBB+XDeGJuQf7g
-	tOCOGfLRFxQ+9CaVSTaj8IoKS+4x2rZuGJuRug5a1Q3dI4Ph/3j9YEEOo/KS6nLPA8SQOT
-	ys5AlvMW+vExOtqBL7d/hND1O/osPPI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779275526;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XA5CgYml5nFDDExbgg1DVg9Qu2lYEDN94bfftjzWcLs=;
-	b=XCTrJhQv+gWISXdRwOSQ6B8Sqbav92MwQH5lGdTK/XsvS0ILAcn9GG9QS6jNGSCEPuo6gC
-	yh8o2HA+p2hK8XCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA729593AA;
-	Wed, 20 May 2026 11:12:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id J9WRKAaXDWoxOwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 20 May 2026 11:12:06 +0000
-Date: Wed, 20 May 2026 13:12:02 +0200
-Message-ID: <874ik2l4hp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Zhang Cen <rollkingzzc@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="magWFse2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A1B1F000E9;
+	Wed, 20 May 2026 11:19:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779275989;
+	bh=8cvAvGj8neK6YyKsg+560fJiR2EQIke/vlr1cLGylZc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=magWFse2ozT+c84/kOOrDm9DfEFoP6DqrR4MWJj2f64AbVh+qaU1vEY+4jShuzArW
+	 t7MbCbCvRkiUoXylznSYD+lsH1v7gcFdWRfZicWIDn2/TF5I7+gfHqUrbH2lNxhehv
+	 YCxIYDe93sg+cmIDHHsI1I4ejFHq6gk1UcHIvDzxfiQkwWJhcHqXS1DvOh1026ZXc0
+	 W5DB8PBPPMqAh+MD4kIhuSlOeyBG/DLjDc3Pln2SB5k/CyLwn0o0Ti7MaHQcySlh6R
+	 YzwuVG8l9pSO/rZxzBQ2CUJhqNoe96FoTmgvlONSKSQIH9q8+Pi2YUD6/WczAtgLD6
+	 mD4OuweDCFm6w==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Rosen Penev <rosenp@gmail.com>,
 	Takashi Iwai <tiwai@suse.de>,
-	zerocling0077@gmail.com,
-	2045gemini@gmail.com
-Subject: Re: [PATCH v2] ALSA: seq: Serialize UMP output teardown with event_input
-In-Reply-To: <20260520103249.3048345-1-rollkingzzc@gmail.com>
-References: <20260520103249.3048345-1-rollkingzzc@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 7.0-5.10] ALSA: sparc/dbri: add missing fallthrough
+Date: Wed, 20 May 2026 07:18:35 -0400
+Message-ID: <20260520111944.3424570-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260520111944.3424570-1-sashal@kernel.org>
+References: <20260520111944.3424570-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,suse.de,gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
-X-Spam-Level: 
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 7.0.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 20 May 2026 12:32:49 +0200,
-Zhang Cen wrote:
-> 
-> seq_ump_process_event() borrows client->out_rfile.output without
-> synchronizing with the first-open and last-close transition in
-> seq_ump_client_open() and seq_ump_client_close().
-> 
-> The last output unuse can therefore drop opened[STR_OUT] to zero and
-> release the rawmidi file while an in-flight event_input callback is still
-> inside snd_rawmidi_kernel_write(). That leaves the rawmidi substream
-> runtime exposed to teardown before the write path has taken its own
-> buffer reference.
-> 
-> Add a per-client rwlock for the event_input-visible output file. Publish
-> a newly opened output file under the write side, and hold the read side
-> from the output lookup through snd_rawmidi_kernel_write(). The last
-> output close copies and clears the visible output file under the write
-> side, then drops the lock and releases the saved rawmidi file. Use
-> IRQ-safe rwlock guards because event_input can also be reached from
-> atomic sequencer delivery.
-> 
-> The buggy scenario involves two paths, with each column showing the
-> order within that path:
-> 
-> path A label: event_input path         path B label: last unuse path
-> 1. seq_ump_process_event() reads       1. seq_ump_client_close()
->    client->out_rfile.output.              drops opened[STR_OUT] to zero.
-> 2. snd_rawmidi_kernel_write1()         2. snd_rawmidi_kernel_release()
->    has not yet pinned runtime.            closes the output file.
-> 3. The writer continues using          3. close_substream() frees
->    the borrowed substream.                substream->runtime.
-> 
-> This keeps the output substream and runtime alive for the full
-> event_input write while keeping rawmidi release outside the rwlock.
-> 
-> KASAN reproduced this as a slab-use-after-free in
-> snd_rawmidi_kernel_write1(), with allocation through
-> seq_ump_use()/snd_seq_port_connect() and free through
-> seq_ump_unuse()/snd_seq_port_disconnect().
-> 
-> Suggested-by: Takashi Iwai <tiwai@suse.de>
-> 
-> Validation reproduced this kernel report:
-> KASAN slab-use-after-free in snd_rawmidi_kernel_write1+0x9d/0x400
-> RIP: 0033:0x7f5528af837f
-> Read of size 8
-> Call trace:
->   dump_stack_lvl+0x73/0xb0 (?:?)
->   print_report+0xd1/0x650 (?:?)
->   srso_alias_return_thunk+0x5/0xfbef5 (?:?)
->   __virt_addr_valid+0x1a7/0x340 (?:?)
->   kasan_complete_mode_report_info+0x64/0x200 (?:?)
->   kasan_report+0xf7/0x130 (?:?)
->   snd_rawmidi_kernel_write1+0x9d/0x400 (?:?)
->   __asan_load8+0x82/0xb0 (?:?)
->   update_stack_state+0x1ef/0x2d0 (?:?)
->   snd_rawmidi_kernel_write+0x1a/0x20 (?:?)
->   seq_ump_process_event+0xd4/0x120 (sound/core/seq/seq_ump_client.c:82)
->   __snd_seq_deliver_single_event+0x8a/0xe0 (?:?)
->   snd_seq_deliver_from_ump+0x2b2/0xd60 (?:?)
->   lock_acquire+0x14e/0x2e0 (?:?)
->   find_held_lock+0x31/0x90 (?:?)
->   snd_seq_port_use_ptr+0xa6/0xe0 (?:?)
->   __kasan_check_write+0x18/0x20 (?:?)
->   do_raw_read_unlock+0x32/0xa0 (?:?)
->   _raw_read_unlock+0x26/0x50 (?:?)
->   snd_seq_deliver_single_event+0x45c/0x4b0 (?:?)
->   snd_seq_deliver_event+0x10d/0x1b0 (?:?)
->   snd_seq_client_enqueue_event+0x192/0x240 (?:?)
->   snd_seq_write+0x2cd/0x450 (?:?)
->   apparmor_file_permission+0x20/0x30 (?:?)
->   security_file_permission+0x51/0x60 (?:?)
->   vfs_write+0x1ce/0x850 (?:?)
->   __fget_files+0x12b/0x220 (?:?)
->   lock_release+0xc8/0x2a0 (?:?)
->   __rcu_read_unlock+0x74/0x2d0 (?:?)
->   __fget_files+0x135/0x220 (?:?)
->   ksys_write+0x15a/0x180 (?:?)
->   rcu_is_watching+0x24/0x60 (?:?)
->   __x64_sys_write+0x46/0x60 (?:?)
->   x64_sys_call+0x7d/0x20d0 (?:?)
->   do_syscall_64+0xc1/0x360 (arch/x86/entry/syscall_64.c:87)
->   entry_SYSCALL_64_after_hwframe+0x77/0x7f (?:?)
-> 
-> Fixes: 81fd444aa371 ("ALSA: seq: Bind UMP device")
-> Signed-off-by: Zhang Cen <rollkingzzc@gmail.com>
-> ---
-> v2:
-> Use Takashi's suggested rwlock approach instead of the v1 ready/pending/wait-queue output gate.
-> Make the rwlock acquisitions IRQ-safe because event_input can be reached from atomic sequencer delivery.
-> Keep rawmidi release outside the rwlock by publishing and withdrawing a saved struct snd_rawmidi_file copy under the write lock.
+From: Rosen Penev <rosenp@gmail.com>
 
-Applied now.  Thanks.
+[ Upstream commit 2bcbb163162789d3488562073dbb99d9bd71a762 ]
 
+Fixes compiler error with probably newer compilers:
 
-Takashi
+sound/sparc/dbri.c:595:2: error: unannotated fall-through between switch labels [-Werror,-Wimplicit-fallthrough]
+  595 |         case 1:
+      |         ^
+sound/sparc/dbri.c:595:2: note: insert 'break;' to avoid fall-through
+  595 |         case 1:
+      |         ^
+      |         break;
+
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+Link: https://patch.msgid.link/20260506031854.780411-1-rosenp@gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+## Phase 1: Commit Message Forensics
+
+Step 1.1 Record: Subsystem `ALSA: sparc/dbri`; action verb `add`; intent
+is to add a missing `fallthrough` annotation in `reverse_bytes()`.
+
+Step 1.2 Record: Tags present: `Signed-off-by: Rosen Penev
+<rosenp@gmail.com>`, `Link:
+https://patch.msgid.link/20260506031854.780411-1-rosenp@gmail.com`,
+`Signed-off-by: Takashi Iwai <tiwai@suse.de>`. No `Fixes:`, `Reported-
+by:`, `Tested-by:`, `Reviewed-by:`, `Acked-by:`, or `Cc: stable`.
+
+Step 1.3 Record: The commit body reports a concrete compiler error:
+`-Werror,-Wimplicit-fallthrough` in `sound/sparc/dbri.c` at the
+fallthrough from `case 2` to `case 1`. Symptom is a build failure for
+this driver/config with a compiler that diagnoses this unannotated
+fallthrough as an error. No kernel version is named. Root cause is an
+intentional fallthrough lacking the kernel `fallthrough;` marker.
+
+Step 1.4 Record: This is not a hidden runtime bug fix; it is an explicit
+build fix. Build fixes are stable-acceptable when they repair
+compilation of existing code.
+
+## Phase 2: Diff Analysis
+
+Step 2.1 Record: One file changed: `sound/sparc/dbri.c`, `+1/-0`. One
+function modified: `reverse_bytes()`. Scope is a single-file, one-line
+surgical build fix.
+
+Step 2.2 Record: Before, `case 2` performed the final bit swap and
+implicitly fell into `case 1`/`case 0`, which then `break`s. After, the
+same fallthrough is explicitly annotated with `fallthrough;`. Runtime
+control flow is unchanged.
+
+Step 2.3 Record: Bug category is build fix / compiler diagnostic fix.
+Specific mechanism: the kernel already annotates earlier intentional
+fallthroughs in the same switch, but the `case 2` to `case 1`
+fallthrough lacked the annotation, triggering `-Wimplicit-fallthrough`
+as an error.
+
+Step 2.4 Record: Fix quality is high: it is one line, uses the existing
+kernel `fallthrough` pseudo-keyword, matches nearby code style in
+current branches, and does not change APIs or runtime behavior.
+Regression risk is very low.
+
+## Phase 3: Git History Investigation
+
+Step 3.1 Record: `git blame` on `2bcbb16316278^` attributes this code to
+`c3c9a75ede23f`, but the repository is shallow/grafted there, so that is
+not a reliable true introduction point. I verified the same missing
+annotation exists in local stable-related branches `pending-5.4`,
+`pending-5.10`, `pending-5.15`, `pending-6.1`, `pending-6.6`,
+`pending-6.12`, `pending-6.19`, and `pending-7.0`.
+
+Step 3.2 Record: No `Fixes:` tag is present, so there is no introducing
+commit to follow from the message.
+
+Step 3.3 Record: Recent `sound/sparc/dbri.c` history on `linux-
+next/master` shows this commit, then `ALSA: sparc/dbri: Use guard() for
+spin locks`, then the shallow boundary. The guard refactor is not a
+semantic prerequisite for adding this annotation, although older stable
+branches may have slightly different context.
+
+Step 3.4 Record: Author Rosen Penev has this recent `sound/sparc` commit
+in the checked history. The commit was applied by Takashi Iwai, and
+`MAINTAINERS` lists Takashi Iwai and Jaroslav Kysela as SOUND
+maintainers.
+
+Step 3.5 Record: No dependent `reverse_bytes` commits were found by
+subject search. The change can be applied standalone as an annotation.
+For `pending-5.4`, context differs because earlier fallthroughs are
+comments rather than `fallthrough;`, so that tree may need a trivial
+backport adjustment.
+
+## Phase 4: Mailing List And External Research
+
+Step 4.1 Record: `b4 dig -c 2bcbb16316278` found the original submission
+at the provided lore/patch URL. `b4 dig -a` found only v1; no later
+revision. The saved mbox contains Takashi Iwai’s reply: “Applied now.
+Thanks.” No NAKs or concerns were present in the fetched thread.
+
+Step 4.2 Record: `b4 dig -w` shows recipients: Rosen Penev, `linux-
+sound@vger.kernel.org`, Jaroslav Kysela, Takashi Iwai, and `linux-
+kernel@vger.kernel.org`.
+
+Step 4.3 Record: No separate bug report or `Reported-by` tag. The
+reported failure is the compiler diagnostic included in the patch email
+and commit message.
+
+Step 4.4 Record: `b4 dig -a` shows this is a single-patch series, not
+part of a multi-patch dependency chain.
+
+Step 4.5 Record: WebFetch to lore/stable search was blocked by Anubis.
+Local stable branch log searches did not find this exact fix or a
+related `unannotated fall-through` fix already present in the checked
+stable branches.
+
+## Phase 5: Code Semantic Analysis
+
+Step 5.1 Record: Modified function: `reverse_bytes()`.
+
+Step 5.2 Record: Callers found in `sound/sparc/dbri.c`: `xmit_fixed()`
+calls `reverse_bytes()` for MSB fixed-pipe transmit data;
+`dbri_process_one_interrupt()` calls it for fixed-data receive
+interrupts.
+
+Step 5.3 Record: `reverse_bytes()` only performs bit manipulation and
+may print an error for unsupported lengths; it does not allocate memory,
+take locks, or call into external subsystems.
+
+Step 5.4 Record: Runtime paths are reachable through DBRI/CS4215
+initialization/control and interrupt handling on supported SPARC SBus
+DBRI hardware. For this patch, runtime reachability is not the main
+issue because the fix targets compilation and preserves runtime flow.
+
+Step 5.5 Record: Nearby switch cases already had intentional fallthrough
+annotations; this patch fills the only missing annotation in that chain.
+
+## Phase 6: Stable Tree Analysis
+
+Step 6.1 Record: The missing annotation exists in checked stable-related
+branches from `pending-5.4` through `pending-7.0`. Therefore the
+affected source is present in active stable-era trees available locally.
+
+Step 6.2 Record: Expected backport difficulty is clean or trivial for
+most branches. `pending-5.4` has older comment-style fallthrough context
+before `case 2`, so it may require a small context adjustment, but the
+same one-line semantic change applies.
+
+Step 6.3 Record: No related fix with this subject or `unannotated fall-
+through` in `sound/sparc/dbri.c` was found in the checked stable-related
+branches.
+
+## Phase 7: Subsystem And Maintainer Context
+
+Step 7.1 Record: Subsystem is ALSA SPARC sound driver, specifically Sun
+DBRI. Criticality is peripheral/platform-specific, not core kernel-wide.
+
+Step 7.2 Record: Recent `sound/sparc` history is sparse and mostly
+maintenance/refactoring/build-style changes, indicating a mature low-
+churn driver area.
+
+## Phase 8: Impact And Risk Assessment
+
+Step 8.1 Record: Affected users are config/platform-specific: SPARC/SBus
+builds with `SND_SUN_DBRI`.
+
+Step 8.2 Record: Trigger is building this driver with a
+compiler/configuration that treats the unannotated fallthrough warning
+as an error. I did not independently reproduce the compiler failure
+locally.
+
+Step 8.3 Record: Failure mode is build failure, not runtime crash or
+data corruption. Severity is high for affected builders because the
+kernel/module cannot be built successfully under that toolchain/config.
+
+Step 8.4 Record: Benefit is meaningful for affected stable users because
+it restores buildability of an existing driver. Risk is very low: one
+annotation line, no feature, no API change, no runtime logic change.
+Risk-benefit ratio favors backporting.
+
+## Phase 9: Final Synthesis
+
+Step 9.1 Record: Evidence for backporting: concrete compiler error,
+existing driver code in stable branches, one-line obviously-correct fix,
+maintainer-applied patch, no runtime behavior change, and build fixes
+are valid stable material. Evidence against: platform-specific impact
+and no independent local build reproduction. Unresolved: exact true
+historical introduction predates the shallow boundary; lore stable
+search via WebFetch was blocked.
+
+Step 9.2 Record: Stable rules checklist:
+1. Obviously correct and tested: yes for correctness by inspection;
+   maintainer applied it. No local build test performed.
+2. Fixes a real bug: yes, reported compiler error in existing code.
+3. Important issue: yes for affected stable builds, because it can stop
+   compilation.
+4. Small and contained: yes, one line in one function.
+5. No new features/APIs: yes.
+6. Can apply to stable trees: yes with at most trivial context
+   adjustment, especially for older comment-style fallthrough branches.
+
+Step 9.3 Record: Exception category applies: build fix.
+
+Step 9.4 Record: Decision is to backport. This is exactly the kind of
+low-risk build fix stable trees should carry.
+
+## Verification
+
+- [Phase 1] Parsed `git show --format=fuller --stat --patch
+  2bcbb16316278`: confirmed subject, tags, compiler-error body, and one-
+  line patch.
+- [Phase 2] Read `sound/sparc/dbri.c`: confirmed `reverse_bytes()` has
+  annotated fallthroughs except the candidate-added `case 2` annotation.
+- [Phase 3] Ran `git blame 2bcbb16316278^ -L 578,598 --
+  sound/sparc/dbri.c`: confirmed changed area, with shallow/grafted
+  limitation.
+- [Phase 3] Ran branch snippet checks on `pending-5.4` through
+  `pending-7.0`: confirmed the missing annotation exists in all checked
+  stable-related branches.
+- [Phase 3] Ran recent file history and author history checks: found
+  only related maintenance/refactor commits, no dependency series.
+- [Phase 4] Ran `b4 dig -c`, `-a`, `-w`, and saved the mbox: confirmed
+  single v1 patch, proper ALSA recipients, and maintainer “Applied now”
+  reply.
+- [Phase 5] Searched `reverse_bytes(` call sites: confirmed callers are
+  `xmit_fixed()` and `dbri_process_one_interrupt()`.
+- [Phase 6] Searched stable branch logs: no existing backport or
+  duplicate fix found locally.
+- [Phase 7] Checked `MAINTAINERS`: confirmed SOUND maintainers include
+  Jaroslav Kysela and Takashi Iwai.
+- [Phase 8] Checked `include/linux/compiler_attributes.h`: confirmed
+  `fallthrough` is the intended kernel pseudo-keyword and is available
+  in checked stable branches.
+- UNVERIFIED: I did not reproduce the compiler error with a local
+  SPARC/SBus DBRI build.
+- UNVERIFIED: The exact original introduction before the repository’s
+  shallow/grafted boundary could not be determined.
+- UNVERIFIED: WebFetch could not read lore/stable search results because
+  Anubis blocked the page.
+
+**YES**
+
+ sound/sparc/dbri.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/sparc/dbri.c b/sound/sparc/dbri.c
+index 75f82a92ff44f..2f5f62079fa4a 100644
+--- a/sound/sparc/dbri.c
++++ b/sound/sparc/dbri.c
+@@ -592,6 +592,7 @@ static __u32 reverse_bytes(__u32 b, int len)
+ 		fallthrough;
+ 	case 2:
+ 		b = ((b & 0xaaaaaaaa) >> 1) | ((b & 0x55555555) << 1);
++		fallthrough;
+ 	case 1:
+ 	case 0:
+ 		break;
+-- 
+2.53.0
+
