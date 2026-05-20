@@ -1,67 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB0D21773D;
-	Wed, 20 May 2026 23:12:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187583043B2
+	for <linux-sound@vger.kernel.org>; Wed, 20 May 2026 23:14:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779318775; cv=none; b=FmmcbtPFPY8F6zWoPIVjb5SjfmY0hJF3wR1Ekqd7gAp7Cok5zaMRSrgtL5fgK6szqv4ad7XyK9Qocd6QwTwEJWt9M7mutnX5xjf+5IK98g/AZCEK6cGCbZ2SQ3X99mmXRxvOeNZO5Lsqktr4R7yta/BajvQZ9rzMZXZJmZ5o0t0=
+	t=1779318867; cv=none; b=tlt3GOSPU1EyGtdv2vDQoe8HMMk2QBY7T2U9nFD3hl1YBYx1UPzq1kY5yv7wmd/q2F+wplYP0su3UQf81s0pjL44s8YeSt4hLAZz+SHTTChmN2EhqnVO6NP8979O+aAgCTl5RixSMzGzrABfDq6hQV+jgSjiGwtxdxH8l9japH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779318775; c=relaxed/simple;
-	bh=Sxvvufs2Ec+0ep9xlt+slYUDEx/V5xfFBWwd9vLO+vs=;
+	s=arc-20240116; t=1779318867; c=relaxed/simple;
+	bh=VxNht73QnyASAppK78BzoiAEviCI7ndvCk3Qjm8xLLM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YmmuwmsYuGX9j2gkhlqGH/YrCKRHIKlzsmYcVPRy2VT4VMYhYDoGIi4azF7ETQFNmpVR9piQlCklBnXZO6bCeY+5fSMUY2ESE8e7lou7zbwjyG4UjoacopJPSMsxi6RpCN7sRK9qVa0kzqnZ/x2Kd8W09LkDEsCu8B6Ok49b0P0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lgGXFCm2; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=forBde0QU5MmGFR0v6qguSLwyLhx4Kf4IQQHjjQ/cJaY9kSMP5ChyDmGdYJxVkSAMVx9iQV7BGEAQmKhCW3tjYWsuoiIGiZ9sbTlRqO8faWxeTbQBXuTgY4umRKoKWBtVmmwMWOiERqgxGbw9vwpe9Luewi57H9QVts7JDVbIRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PKq817WW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lgGXFCm2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779318773; x=1810854773;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Sxvvufs2Ec+0ep9xlt+slYUDEx/V5xfFBWwd9vLO+vs=;
-  b=lgGXFCm21ywcyVXMrYn0RvDQLa2Y5+5ul2qGwUCaTSpZA2VxmL8Bkilx
-   ISdVHuuQ72EhveTR4us2IYHjlONTBO4fpbqQDxwStVPR+WsGrD6EgvQLV
-   PTNxlce5oCXiO8lg56zjJwcBxx8pN0NhEM+Qfb2X36zvC51XTA9KmSx3c
-   xnl9VV/Uc4Ik2JSN4TX9jacbi6rjQXiMQajqKo9pShMrvPLrPTIEQSAsH
-   UCY9S0D6p8b2Tu8QOk3kzSTsKtgIH6t3QU+pde78QKkMVBF7oLTAoM2FJ
-   Kfok+IFMJyc8Nh1himi7Js87LFbmKbicT9Vt3AaFx21kSfKqdBbutbYpe
-   w==;
-X-CSE-ConnectionGUID: STGzipVyRrqHMwpbojYyqg==
-X-CSE-MsgGUID: 4OjBbYGJSyK9qWofKrzsWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="91623227"
-X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="91623227"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 16:12:50 -0700
-X-CSE-ConnectionGUID: qwMb1zaLS0iVTfvtUG609g==
-X-CSE-MsgGUID: rEK3q4mgSRGwi38bI7S5Vg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,245,1770624000"; 
-   d="scan'208";a="270701254"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 20 May 2026 16:12:47 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wPq5i-00000000AfZ-2YHm;
-	Wed, 20 May 2026 23:12:42 +0000
-Date: Thu, 21 May 2026 01:12:04 +0200
-From: kernel test robot <lkp@intel.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	broonie@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, sharq0406@gmail.com,
-	kuninori.morimoto.gx@renesas.com, ckeepax@opensource.cirrus.com,
-	srinivas.kandagatla@oss.qualcomm.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 2/2] ASoC: mt8173-max98090: use standard callback to set
- jack
-Message-ID: <202605210132.USry3Haw-lkp@intel.com>
-References: <20260520132930.54333-3-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PKq817WW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59D281F000E9;
+	Wed, 20 May 2026 23:14:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779318865;
+	bh=Z5GF+BGPpdZTbPuC0CJ4bfKEFSzC0/P4Vp4Wh/3f1kQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PKq817WWpOwP5rj+Yepin8pEKwEAZJ8D5DU43Famy5zpvycWyxkdzfEwbycLRuNTC
+	 Pe6LQwqfs3uQU84tGQ6lQyVDQ+8MAoNiSMT8yTefxqmWDlycADwUjYCNQ5RWZUqWkj
+	 r1/Xtx1B69U5JwBYtuKufwX9wQR03sw0AdQedPm0OqTi6trYLcVIhmOsd+oRuUi3Gg
+	 V+aVWTI60d6BUqMImujA7mGTZIlo468tLp7mf8Cb3HLPnABCDPWti8TXvggCP0p2+u
+	 xhqnnn30WhHBpKBb651kKX8/EGM1lNIe00pqzh10B/0tS82MLIFB76iiWT5sjxmbVx
+	 uf6YK42t5w7BA==
+Date: Wed, 20 May 2026 16:14:20 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Zhang Yi <zhangyi@everest-semi.com>, tiwai@suse.com,
+	linux-sound@vger.kernel.org, peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com, ckeepax@opensource.cirrus.com,
+	vkoul@kernel.org
+Subject: Re: [PATCH v15 3/6] ASoC: es9356-sdca: Add ES9356 SDCA driver
+Message-ID: <20260520231420.GE1607511@ax162>
+References: <20260514075206.3483-1-zhangyi@everest-semi.com>
+ <20260514075206.3483-4-zhangyi@everest-semi.com>
+ <20260518224657.GA536765@ax162>
+ <22c7d187-b696-4411-99db-3af470f5fcab@linux.dev>
+ <20260519162352.GB3527449@ax162>
+ <b17f8125-89bf-4032-a166-725be94466d2@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,36 +51,50 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260520132930.54333-3-srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <b17f8125-89bf-4032-a166-725be94466d2@sirena.org.uk>
 
-Hi Srinivas,
+On Tue, May 19, 2026 at 05:30:41PM +0100, Mark Brown wrote:
+> On Tue, May 19, 2026 at 09:23:52AM -0700, Nathan Chancellor wrote:
+> 
+> > Yeah, I realized shortly after sending that suggestion through testing
+> > that it would error during the Kconfig stage due to a recursive
+> > dependency issue. However, CONFIG_SND_SOC_SDCA is not a user selectable
+> > symbol and I only see it selected through
+> 
+> >   CONFIG_SND_SOC_ACPI_INTEL_MATCH -> CONFIG_SND_SOC_ACPI_INTEL_SDCA_QUIRKS
+> 
+> > so is it expected that users have to enable a driver that selects
+> > CONFIG_SND_SOC_ACPI_INTEL_MATCH to get CONFIG_SND_SOC_SDCA?
+> 
+> That seems off, it's not like SoundWire is Intel or even x86 specific.
+> I would expect either it should be user selectable or the drivers using
+> it should select it.  Given that it's a class driver that probably means
+> user selectable I think, some devices might need no extra support?
 
-kernel test robot noticed the following build warnings:
+Yeah, just turning it into a user selectable symbol like
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v7.1-rc4 next-20260520]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Kandagatla/ASoC-codecs-max98090-use-component-set_jack-callback/20260520-213646
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20260520132930.54333-3-srinivas.kandagatla%40oss.qualcomm.com
-patch subject: [PATCH 2/2] ASoC: mt8173-max98090: use standard callback to set jack
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260521/202605210132.USry3Haw-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210132.USry3Haw-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605210132.USry3Haw-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: sound/soc/codecs/max98090.c:2353 function parameter 'data' not described in 'max98090_set_jack'
->> Warning: sound/soc/codecs/max98090.c:2353 function parameter 'data' not described in 'max98090_set_jack'
+diff --git a/sound/soc/sdca/Kconfig b/sound/soc/sdca/Kconfig
+index 87ab2895096c..4c0dcb9ff3b9 100644
+--- a/sound/soc/sdca/Kconfig
++++ b/sound/soc/sdca/Kconfig
+@@ -2,7 +2,7 @@
+ menu "SoundWire (SDCA)"
+ 
+ config SND_SOC_SDCA
+-	tristate
++	tristate "SDCA core support"
+ 	depends on ACPI
+ 	select AUXILIARY_BUS
+ 	help
 
 --
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+appears to work for me, in combination with adding
+
+  depends on SND_SOC_SDCA
+
+to the symbol for this driver.
+
+-- 
+Cheers,
+Nathan
