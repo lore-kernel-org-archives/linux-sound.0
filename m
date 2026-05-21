@@ -1,129 +1,161 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B4915665C;
-	Thu, 21 May 2026 23:15:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024131F936
+	for <linux-sound@vger.kernel.org>; Thu, 21 May 2026 23:22:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779405326; cv=none; b=G3XhJMG9xSUE46r/AZ44eBNlg6I4Bzvp2mFTiXtINVkl+UFaaxuTd/c3EQ1uSXW6Q1bxNAIQVu+IXn7jLs6Dmb6dvi8f3tuDBFRAbJ2Hj3Az2Rc5S6RJwW8vZiGm8nlASCTW0E2qldF6JCevJlSDd6t2GbIXx4o/Oh7C7FKtg5w=
+	t=1779405741; cv=none; b=hfGpfy0QjhshuR4Fmot301lK/8go1Jz9FiJ7G9RQPIgq6tk1sI1g0Zo93HLFTcQdJiOV7bE4tCwf52dyX+MTUVci0bmoIzYKRENmQCx2LSgE0y3F/rW0KwkHS+xDTWWcZKnvEN8ShP+I69wCLLuUcxTfndPbnxufxO8WbogGp/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779405326; c=relaxed/simple;
-	bh=2I16gwL6kadL1WGCA4ZH6p7U38ZViYwLqGkp11INnOY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ROnkensrD+JuWPLsMKDZ8D6FDnSan4v/1z/w75VLLuXbOP1fbh2eWz0X4JdMM+J4SkRBxXTAzLgy3iyc5Y5vDIq66ZNLfMb7iPCqCcwvZLBITs4+lKkqjSRLa2vtiX3UDDFCx48LNWxqmwKkNbZ9RRjr+p/sNdK3qcz5qG3/aSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DxhLHMYU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779405741; c=relaxed/simple;
+	bh=YqwSO/MQDWyaoQkaHdID6NQLU0sTUDpnPtqk3XxXZfc=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=q0EfR0lB0REc7SfiJmIsS/7nGoY6ytP+Lsyft6o1+kCND8XjrHDjAQq1igIWIKYX+5ITl1cCXrP/9ot1iN7l+Qp45DoLHScZA2pCBb6hBXHTfCSaNJLUGlERdfoDB0jCLYF4Zmq2JHmcxLRa19DCqCVNSMaxJRDlWAo778kS1QU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bk4dCSb8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DxhLHMYU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A99951F000E9;
-	Thu, 21 May 2026 23:15:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bk4dCSb8"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 3A5531F000E9;
+	Thu, 21 May 2026 23:22:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779405325;
-	bh=PuXgeCnji3vg9DTM+nKRuB/6/d26RWL0oGImlyNcPbw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DxhLHMYU6tWsxNh9zW97uFyxTP7/DurE9I8PIJvZLot2zke61AorZxPxFUSpYjoVe
-	 kO6WmZxmuBvE7vn9OVlCQTcto1d0HuCFhIhkhU+d6+V4zn2cZFFWYekylUEH5K3y+2
-	 EGdqpb96jpzE74ZxG0j+wbfglvBvps2+MSJ1rgM/sdeJIEJWe/zcXA8t0ZPmagvNpU
-	 9A1q3sD0rLXrOjhKRD5e/T068x7eUESObiyjgUDW8lObhNaEMab4v/lT1OFnnGOo8U
-	 jxL2nEifcCDUXATscqxKY2WYueXeYVNdRD+AZfoukgvEJA22ucfw9biKD6IaFroBrr
-	 D132M18RQ9tYg==
-Date: Fri, 22 May 2026 00:15:19 +0100
+	s=k20260515; t=1779405739;
+	bh=v3hcNsL54Fo5jmpIUL+/cFjwHOgQS2YcPjVL3GyRvXI=;
+	h=From:To:Cc:Subject:Date;
+	b=bk4dCSb8l0r3/9UX7qeFo7+XtbotiG0CwWCnk0eadOmcm1wlJfCtZrtwMwjrhQzGY
+	 49u43ni3wYOtDSjAzK/DbtmLJTRhB2EGne5dRGZ+rBOtARHUZfCB2u/6eAN6kt6OIv
+	 w3ZfihVl6qxdhl7OVo43N5gvX0+dbb3WF3NjoR0hQCZvwzcsnrjhCaX4Sbui1901lF
+	 tRSGXRoRu9QM/+nDa7V2fW9IESMaysP4OfR5Zsx318lCQlEi5eZKA3If7kWi0iGsfV
+	 ntweIGoIOzVx2vdMWHJc2fQGFg/buRlyuQD69xabRilctcdL2irzQ0MNmjnR60RzC8
+	 OKVOm/qO2dXQw==
+Message-ID: <330b62a00eb5358e06742f419308fa7e@kernel.org>
 From: Mark Brown <broonie@kernel.org>
-To: Valerio Setti <vsetti@baylibre.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org
-Subject: Re: [PATCH 4/4] ASoC: meson: aiu: use aiu-formatter-i2s to format
- I2S output data
-Message-ID: <758a4ef9-1a3e-475a-ae1e-83523330d006@sirena.org.uk>
-References: <20260515-reshape-aiu-as-axg-v1-0-53b457784ff3@baylibre.com>
- <20260515-reshape-aiu-as-axg-v1-4-53b457784ff3@baylibre.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v7.1-rc4
+Date: Fri, 22 May 2026 00:22:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kGRBy1aXTob5Y1K8"
-Content-Disposition: inline
-In-Reply-To: <20260515-reshape-aiu-as-axg-v1-4-53b457784ff3@baylibre.com>
-X-Cookie: No shirt, no shoes, no service.
 
+The following changes since commit 5200f5f493f79f14bbdc349e402a40dfb32f23c8:
 
---kGRBy1aXTob5Y1K8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+  Linux 7.1-rc4 (2026-05-17 13:59:58 -0700)
 
-On Fri, May 15, 2026 at 05:10:40PM +0200, Valerio Setti wrote:
-> Create a new DAPM widget for "I2S formatter" and place it on the path
-> between FIFO and output DAI interface. Remove I2S output formatting code
-> from aiu-encoder-i2s since it's now implemented from aiu-formatter-i2s.
+are available in the Git repository at:
 
-This series, it looks like this specific patch, is breaking pcm-test on
-my libretech Le Potato board, the clocking looks to be seriously messed
-up.  I'm getting:
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.1-rc4
 
-# selftests: alsa: pcm-test
-# TAP version 13
-# # Card 0/LIBRETECHCC - LIBRETECH-CC (LIBRETECH-CC)
-# # LIBRETECHCC.0 - fe.dai-link-0 (*)
-# 1..7
-# # default.time1.LIBRETECHCC.0.0.PLAYBACK - 8kHz mono large periods
-# ok 1 # SKIP default.time1.LIBRETECHCC.0.0.PLAYBACK
-# # snd_pcm_hw_params_set_channels 1: Invalid argument
-# # default.time2.LIBRETECHCC.0.0.PLAYBACK - 8kHz stereo large periods
-# # default.time2.LIBRETECHCC.0.0.PLAYBACK hw_params.RW_INTERLEAVED.S16_LE.8000.2.8000.32000 sw_params.32000
-# not ok 2 default.time2.LIBRETECHCC.0.0.PLAYBACK
-# # time mismatch: expected 2000ms got 4425
-# # default.time3.LIBRETECHCC.0.0.PLAYBACK - 44.1kHz stereo large periods
-# # default.time3.LIBRETECHCC.0.0.PLAYBACK hw_params.RW_INTERLEAVED.S16_LE.44100.2.22528.192000 sw_params.180224
-# not ok 3 default.time3.LIBRETECHCC.0.0.PLAYBACK
-# # time mismatch: expected 2000ms got 4852
-# # default.time4.LIBRETECHCC.0.0.PLAYBACK - 48kHz stereo small periods
-# # default.time4.LIBRETECHCC.0.0.PLAYBACK hw_params.RW_INTERLEAVED.S16_LE.48000.2.512.4096 sw_params.4096
-# not ok 4 default.time4.LIBRETECHCC.0.0.PLAYBACK
-# # expected 48000, wrote 4096
-# # default.time5.LIBRETECHCC.0.0.PLAYBACK - 48kHz stereo large periods
-# # default.time5.LIBRETECHCC.0.0.PLAYBACK hw_params.RW_INTERLEAVED.S16_LE.48000.2.24000.192000 sw_params.192000
-# not ok 5 default.time5.LIBRETECHCC.0.0.PLAYBACK
-# # time mismatch: expected 2000ms got 4489
-# # default.time6.LIBRETECHCC.0.0.PLAYBACK - 48kHz 6 channel large periods
-# # default.time6.LIBRETECHCC.0.0.PLAYBACK hw_params.RW_INTERLEAVED.S16_LE.48000.2.48000.262144 sw_params.240000
-# not ok 6 default.time6.LIBRETECHCC.0.0.PLAYBACK
-# # time mismatch: expected 2000ms got 6135
-# # default.time7.LIBRETECHCC.0.0.PLAYBACK - 96kHz stereo large periods
-# # default.time7.LIBRETECHCC.0.0.PLAYBACK hw_params.RW_INTERLEAVED.S16_LE.96000.2.48000.192000 sw_params.192000
-# not ok 7 default.time7.LIBRETECHCC.0.0.PLAYBACK
-# # time mismatch: expected 2000ms got 2287
-# # 1 skipped test(s) detected. Consider enabling relevant config options to improve coverage.
-# # Totals: pass:0 fail:6 xfail:0 xpass:0 skip:1 error:0
+for you to fetch changes up to 09e8f9a9aa19aa8c1b0cc7a0ebc68f6ecf86a660:
 
-Full log:
+  ASoC: codecs: pcm512x: fix null-ptr dereference in pcm512x_overclock_xxx_put() (2026-05-21 19:28:24 +0100)
 
-   https://lava.sirena.org.uk/scheduler/job/2786342#L1934
+----------------------------------------------------------------
+ASoC: Fixes for v7.1
 
-The prior patches seem to test fine, it's this one that seems to
-introduce the issue.
+A bigger batch of fixes than usual due to -next not happeing last week,
+this is mostly stuff for laptops - a lot of quirks and small fixes,
+mainly for x86 and SoundWire.  Nothing too big or exciting individually,
+just two week's worth.
 
---kGRBy1aXTob5Y1K8
-Content-Type: application/pgp-signature; name="signature.asc"
+----------------------------------------------------------------
+Alexander A. Klimov (1):
+      ASoC: codecs: fs210x: fix possible buffer overflow
 
------BEGIN PGP SIGNATURE-----
+Andy Shevchenko (1):
+      ASoC: cs35l56: Drop malformed default N from Kconfig
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoPkgcACgkQJNaLcl1U
-h9Cr9wf9GZVxQsEvIE5A3ipkHKDFMMS69vG4WyE+XAQvUUYD24bVJHKuASshuek5
-MPsHrOTy8LYEDCuVOLdMd0ilswgl3O/W1BSwdePwFon3Xec2T2UizWpdEk6d8Zsb
-EVFQcE3Lmzdcgq17uma30ijZhzLWJnG3ZeSeeMQIEGlrxowrfpvjIh48v2XQ5IB1
-kvkE0pcQYxWV27Blv3YSz7F4QzRPi0wpOgUDZitASb+bf1GJIyeNnBgp5d70s9kf
-gpTN5jw9FYrgnv03F8FT36d8+SCoLpiW8nVx1aWs1tyj/mEV1UPMJZMh1de3WCxt
-mMqEy1yvKUpQqO+oiEKrda1zNeYf9w==
-=witK
------END PGP SIGNATURE-----
+Balamurugan C (1):
+      ASoC: Intel: soc-acpi: Add entry for sof_es8336 in NVL match table.
 
---kGRBy1aXTob5Y1K8--
+Charles Keepax (2):
+      ASoC: soc-acpi-intel-ptl-match: Make Chrome matches conditional
+      ASoC: Intel: soc-acpi-intel-ptl-match: Remove unnecessary cs42l43 match
+
+Cássio Gabriel (2):
+      ASoC: sdw_utils: Check speaker component string allocation
+      ASoC: amd: acp-sdw-legacy: check CPU DAI name before logging
+
+Gary C Wang (1):
+      ASoC: soc-acpi-intel-arl-match: add rt712_l0_rt1320_l3 support
+
+Ingyu Jang (1):
+      ASoC: ti: omap-dmic: Fix IS_ERR() vs NULL check bug in omap_dmic_select_fclk()
+
+Jairaj Arava (1):
+      ASoC: Intel: sof_sdw: Add support for nvlrvp in NVL platform
+
+Jang Pyohwan (1):
+      ASoC: Intel: soc-acpi: add LG Gram 16Z90U RT713 + single RT1320 quirk
+
+Jasper Smet (1):
+      ASoC: amd: acp: Add DMI quirk for ASUS Zenbook S16 UM5606GA
+
+Jeongjun Park (1):
+      ASoC: codecs: pcm512x: fix null-ptr dereference in pcm512x_overclock_xxx_put()
+
+Krishnamoorthi M (1):
+      spi: amd: Set correct bus number in ACPI probe path
+
+Mac Chiang (3):
+      ASoC: Intel: soc-acpi-intel-arl-match: Reorder ACPI machine tables
+      ASoC: sdw_utils: Add quirk to ignore RT712 CODEC_MIC
+      ASoC: sdw_utils: Add quirk to ignore RT721 CODEC_MIC
+
+Mario Limonciello (1):
+      ASoC: SOF: amd: Fix error code handling in psp_send_cmd()
+
+Mark Brown (3):
+      ASoC: soc-acpi-intel-arl-match: add rt712_l0_rt1320_l3 support
+      ASoC: sdw_utils: make RT712/RT721 CODEC_MIC be optional
+      ASoC: cs-amp-lib: Some bug and typo fixes
+
+Peter Ujfalusi (2):
+      MAINTAINERS: ASoC/ti: Remove myself and add Sen Wang as maintainer
+      MAINTAINERS: ASoC: Intel/SOF: Remove Ranjani Sridharan as maintainer
+
+Richard Fitzgerald (5):
+      ASoC: cs35l56: Check for successful runtime-resume in cs35l56_dsp_work()
+      ASoC: cs35l56: Fix flushing of IRQ work in cs35l56_sdw_remove()
+      ASoC: cs-amp-lib: Fix wrong sizeof() in _cs_amp_set_efi_calibration_data()
+      ASoC: cs-amp-lib: Fix missing dput() after debugfs_lookup()
+      ASoC: cs-amp-lib: Fix typo in error message: write -> read
+
+Rob Herring (Arm) (1):
+      ASoC; dt-bindings: mediatek,mt8173-rt5650-rt5514: Fix mediatek,audio-codec constraints
+
+Robertus Diawan Chris (1):
+      ASoC: soc-utils: Add missing va_end in snd_soc_ret()
+
+Shengjiu Wang (1):
+      ASoC: fsl_sai: Eliminate possible interrupt storm during probe
+
+Simon Trimmer (1):
+      ASoC: cs35l56: Log SoundWire status updates only on changes
+
+Srinivas Kandagatla (1):
+      ASoC: qcom: q6apm-dai: Allocate an extra page for PCM buffers
+
+ .../sound/mediatek,mt8173-rt5650-rt5514.yaml       |   2 +
+ MAINTAINERS                                        |  11 +-
+ drivers/spi/spi-amd.c                              |   2 +-
+ sound/soc/amd/acp-config.c                         |   7 ++
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c            |   2 +-
+ sound/soc/codecs/Kconfig                           |   3 -
+ sound/soc/codecs/cs-amp-lib.c                      |  17 ++-
+ sound/soc/codecs/cs35l56-sdw.c                     |   8 +-
+ sound/soc/codecs/cs35l56.c                         |  13 +-
+ sound/soc/codecs/fs210x.c                          |   2 +-
+ sound/soc/codecs/pcm512x.c                         |   6 +-
+ sound/soc/fsl/fsl_sai.c                            |  43 +++++--
+ sound/soc/intel/boards/sof_sdw.c                   |   8 ++
+ sound/soc/intel/common/soc-acpi-intel-arl-match.c  |  71 ++++++++---
+ sound/soc/intel/common/soc-acpi-intel-nvl-match.c  |  13 ++
+ sound/soc/intel/common/soc-acpi-intel-ptl-match.c  | 134 +++------------------
+ .../soc/intel/common/soc-acpi-intel-sdca-quirks.c  |  16 +++
+ .../soc/intel/common/soc-acpi-intel-sdca-quirks.h  |   1 +
+ sound/soc/qcom/qdsp6/q6apm-dai.c                   |   7 +-
+ sound/soc/sdw_utils/soc_sdw_utils.c                |  14 ++-
+ sound/soc/soc-utils.c                              |   1 +
+ sound/soc/sof/amd/acp.c                            |   2 +-
+ sound/soc/ti/omap-dmic.c                           |   2 +-
+ 23 files changed, 209 insertions(+), 176 deletions(-)
