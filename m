@@ -1,174 +1,493 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1EF37C92B
-	for <linux-sound@vger.kernel.org>; Thu, 21 May 2026 09:46:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 615BF381B14
+	for <linux-sound@vger.kernel.org>; Thu, 21 May 2026 10:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.3.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779356765; cv=none; b=c3+AnR9d6hXzgANs9Z6IG3khjjm7OwkFhDRumKGbcok9XcuOwW8alsfCuCqZriSPtpwsksy5mdbbWLJENuJcAPJqux0hcszt/8jDWJPJ84zgCcVz0LgXUDkMyngK+zYnTf4MVlmjv6lSF+DkEMc2CXqgsugtfKQUowPvh2FqZ0g=
+	t=1779358324; cv=none; b=hFmfHN1CXUPyjLQW5cwnqGF1wuS9xtwbfrl06aXwgrLwSHfueY7H4jJEIc5+8piGBLhzONF0JzK92pLTrpc7LEC1LAI8elaO6D8aFHV8xyS21Mts2m/2cpDwhWf3XBMhFYxbmukJ3QO9X93rKWX8GXsHOtRnZzLijC819yeQdEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779356765; c=relaxed/simple;
-	bh=hGtbYwpPIlm5fk4l7eabC7OuZYdGNrVAZREmsNFz8l0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=db0NMt/yw8WutSS/J2bpOgwOxbA4UHYc/I1R07apzHkR0PVMaxDFuc/u65UpbB0NItJjQxH5XwvnsQcH1ZvhzUoRGA7NjajVWwBMkKnmz/OW788GNZksQYBRDFs+z3hxMDfXClw30VZd4+n6hIH6zrlhxzxsJSCzWMxS32t2N/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bCNT7r9N; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Dgvm0YLh; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1779358324; c=relaxed/simple;
+	bh=rrGDEbo1sVYzQXCzMv8CMyTVJvXHI2TtqATu+5v2nsk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tqFRiJXMz3inri6DD1uOxzu9u6Lu+npwdeTl1Mvk3wNLUX0KLIJlnaL5+lWEE/JwimojbWyEWyyC6IMT9ubMQ+lvFpwjo0g9jQl9kQSBy8/KdOIC2l0lx42dzRU40z103y3s9Y+yHW/95WoifdjTRR1O7k08GyXa/ymUWcyv4ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=k5g9sdwa; arc=none smtp.client-ip=188.40.3.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bCNT7r9N";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Dgvm0YLh"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64L99iEg3527261
-	for <linux-sound@vger.kernel.org>; Thu, 21 May 2026 09:46:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	XDNmhELg8EvsuYL9gAVqpBedxk2dH2CUpsHmIoks+ns=; b=bCNT7r9NExZr52M7
-	2Zo0HAtBKV9IT+aNbPBHUU33r7wZQWY4U+BGgMX+LwmnnrxadSiVyaJA9qkVU7Qh
-	vYo6uFBp082W5jWc67ehvuNCXEu6hmM0bdroY3xJ3kTFe6dZO887yKI4UvUQe1m/
-	4wYkbbdN/9J7oZs8snLXTyzsKVkOpdZBu/k6uLBXtE/fyXlH00l/9jegHhJoel8o
-	vzzhKTUTsxzzd1snfzeGUaV3LuitTgrrTgkLE0aLZkovMVAwCk+jjEE4sCGQvELb
-	2WPFz1EUFn5qEvs1fPgp46RKaA6ktZOnpRT0W2BrVk5MGEgvtYy7sk5UNQyizqOU
-	ffXP0w==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e9vhbgwm2-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 21 May 2026 09:46:03 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-8b7a066ea52so23405676d6.3
-        for <linux-sound@vger.kernel.org>; Thu, 21 May 2026 02:46:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779356762; x=1779961562; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XDNmhELg8EvsuYL9gAVqpBedxk2dH2CUpsHmIoks+ns=;
-        b=Dgvm0YLhdsv2t57qQGvPkKYbjb7Dtj2vLSLiYA5I+IF/hK0we/I/lWwDNaFzvxM0Dp
-         WWoIx4Gn9U8UseaZi8GCw9R9sh+AVA6ijE5AYVu0VhgZkKDBJ7DvHTQDMwis8pR8Fc0Y
-         8uefzV7TrUlqYp2Rx1tUYsJC2BU6exPJ++GMIkkqIUEi11OpMH/lkt5hrVx4QC/Y4A1X
-         r9L9xDp3Tpv9/pc1hanvgKVBUlCyaupK34jFJqxOK724VfYEWXqjgBSK1tD6aAlSNjlb
-         LNCSx0QS8hnizjU9kHdB4mZIpvNg1jdvcAmIg48mqUCfV07O4HFsKJQF9Qck6EnDMjye
-         imhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779356762; x=1779961562;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XDNmhELg8EvsuYL9gAVqpBedxk2dH2CUpsHmIoks+ns=;
-        b=XT05ulus2sDvC4FD89loI6bC4Wf7K7KlX0o2Q4oe81E8c0pjJwJcuUMmeI/itrhutG
-         tIpqwVe2CnTmGt18PrugEMsTfLggGOSFMbfTu4TYZUK2eEENz9pR+R3V6Cxr5OvZgvUd
-         8866duCjmjdZopO2gyZILqRcSx/O+hCRw4abBv/aqXw/e6xvSnEebXIdttADSDUepXPz
-         tdNzlpXQqxMq9F56ZOJpONBYIht+PrF+sJi357ES4hMS8RzxWShYsqpAJPL1MxPl/Mmh
-         4bzuWAd4bVSZ04296B3GN22yLGp7AEhxpHwg1mj4r3hxV/t6MdreAtakCnVR7n50KCN1
-         N62g==
-X-Forwarded-Encrypted: i=1; AFNElJ9GoXBNc0sKHRT3aHQtEkC9uWBqS1YpvFapS71RABlZIVgfSj2HPPGcxezGJCOcIYRcccTfMl3QEOSE3g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXhrzsZrrgNtshSYIQ8u6oItNp4aoFL+Dzz4c38MdDp+Yf5e6A
-	9381jU6rbjpSvAQXcpeXWYXWBao8XiEeXGDt/uVc3TZZXfZYEL8ktONRn3ak9UNnCvQRA+H0+zw
-	GchE3BSaa0ZUBwbr4fE7ztskPY/iFsm7n/bk1LrlOj2e4SI4p/z+BwkLhu2Y//8Wukg==
-X-Gm-Gg: Acq92OH1HNZqNXb8BDbsrH+YA81JwC8U0tEttc3OpgJ3lwLT7+YQtDCIzlv4y4mAlvA
-	0BvFhc4yZ/0h4IGdoZ+703tokF5mlOGWliRBeJXiZ8ADZxy/FPLt8lrTAHUoemqUm7VZ7TseER5
-	eObVLxlhPa1g50vF4it8i71ZBZ0wZmQRKqc7y5TC36E3unTDmrJzDLDj8oiam1WZNLqwKBXDW03
-	e+IdtKPfatoFzTuLwXzz9E+FaCd6OgHHgidGLA7rzMkip5s+561pGcs4natZ+XGYjlLklr7+tUh
-	M0GO8tBCRXzqq87JvCEVJRXVfcwiqbRZSQaFkYryeX7x67ow66g44ub6VdFWNCEib+fSGUYa+eM
-	4YBvbYirTCnJ3Fj7TpjX+enNtj7sBlwPpZMbPMLRCeCu+TRqjGYbhvxWsm7e0WGSl1tYpqHYtw+
-	kMm14=
-X-Received: by 2002:a05:622a:5909:b0:50e:6311:7380 with SMTP id d75a77b69052e-516c563252fmr18310521cf.6.1779356762438;
-        Thu, 21 May 2026 02:46:02 -0700 (PDT)
-X-Received: by 2002:a05:622a:5909:b0:50e:6311:7380 with SMTP id d75a77b69052e-516c563252fmr18310341cf.6.1779356761999;
-        Thu, 21 May 2026 02:46:01 -0700 (PDT)
-Received: from [192.168.119.254] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bdc8a40e102sm23330766b.40.2026.05.21.02.46.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 May 2026 02:46:01 -0700 (PDT)
-Message-ID: <3381259a-1deb-460c-bbde-a97263914e15@oss.qualcomm.com>
-Date: Thu, 21 May 2026 11:45:59 +0200
+	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="k5g9sdwa"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=ew.tq-group.com; s=default2602; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=W0lVCJ57lp8eSl4n++8tku/93R/AxgWm/Q68JK/mtuA=; b=k5g9sdwa+wZ/amnSCpVVf4gzzH
+	gVm3YBJZHR8P2KTP1wgkXpfA/s+FKE1PLHcoiuUNNwZ6RvgPCOEo3bhjkyRWWZ7fVqiR1FIXdcqWp
+	MopqAr11cz93s/skKiEl+5zGtq/l3+xjRrpXUrO0Ik4/gJPSFMu0Vj8RjJx4wQCyKdo5q7k723M1B
+	2bNRVd3Cfse/H8TrEesaQ/FL/n3cfpzJujm/op2CX5mwDCYYFuCQDHq1hSCVJMP53a1eGqYR+0G8j
+	iDtqKXJwfJCkjxHxZYDeMDy22Caef44AixoRrEqgeQfSozWYJ9krtIhRHEd/lzQHZSP5qNGnidf8o
+	TU6pJTEA==;
+Received: from sslproxy02.your-server.de ([78.47.166.47])
+	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1wQ0Nh-000DhX-2O;
+	Thu, 21 May 2026 12:11:58 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy02.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1wQ0Ni-000AjH-0T;
+	Thu, 21 May 2026 12:11:57 +0200
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
+ kuninori.morimoto.gx@renesas.com, linux-sound@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH] ASoC: core: Move all users to deferrable card binding
+Date: Thu, 21 May 2026 12:11:56 +0200
+Message-ID: <6456213.lOV4Wx5bFT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <77942519-5c7b-48ae-a709-6529d0577e98@intel.com>
+References:
+ <20260430140752.766130-1-cezary.rojewski@intel.com>
+ <3949821.kQq0lBPeGt@steina-w>
+ <77942519-5c7b-48ae-a709-6529d0577e98@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] soc: qcom: apr: Check response packet length by
- router type
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        andersson@kernel.org
-Cc: srini@kernel.org, konradybcio@kernel.org, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260514155051.2593354-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260514155051.2593354-3-srinivas.kandagatla@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260514155051.2593354-3-srinivas.kandagatla@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIxMDA5NiBTYWx0ZWRfX84q6fWhu2rrI
- fhzffjyS1Hz0jWDEgSZqwDC0Kx7wdGofrcOMnmhXuc0LkwNYmHoZ1lCbzpeKdeKfCfeiWT58UEE
- x4hhFeHsxFF8YJqJXCE3qD06J2j05yhvH8avGHsbfiH2wWaqIZnhlpwoUl9sle/eRfKaFYHjwwu
- wGyF+0cF+JzQH5c3K6pmyzqLjai6BRnfwwCUDinYYHN4rLwE+F1aWIatyV/5HfWF4CA33mj22FU
- IKrdpQfALbPoc6uNMRxVNVexl2SpqD/6Lk9a4saaHwLaJSAIUe7OHdofDbKcvlslIZmhkMtiEiN
- Dc0wItHkoododJnqyZt15nLdEGN125ePIE3LuGLxY+PL/pSMHpzzCH9QARz1p0AIuhUZSXRT6HB
- l13VDXz54Q+3VntRDqsmF4xD54zhb0kn3ErG6ayPHjnOWwTR6tEA50mvozlnWWcmNm/fN830vWV
- mkxbqXWLKE5vnPgl7sg==
-X-Authority-Analysis: v=2.4 cv=GYAnWwXL c=1 sm=1 tr=0 ts=6a0ed45b cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=EUspDBNiAAAA:8 a=LHNn7dHNAcYXqiuR6qgA:9 a=QEXdDO2ut3YA:10
- a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-GUID: zfFWYvCsR9FB521Wrzm-SrXvY75qb6pN
-X-Proofpoint-ORIG-GUID: zfFWYvCsR9FB521Wrzm-SrXvY75qb6pN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-21_01,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0 bulkscore=0
- priorityscore=1501 impostorscore=0 phishscore=0 adultscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605210096
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Virus-Scanned: Clear (ClamAV 1.4.3/28007/Thu May 21 08:26:28 2026)
 
-On 5/14/26 5:50 PM, Srinivas Kandagatla wrote:
-> apr_callback() currently validates all received packets against
-> APR_HDR_SIZE before queueing them for the RX worker. This is not correct
-> for GPR packets, which use a different header size.
-> 
-> Validate the received packet length against the header size matching the
-> packet router type before copying the packet.
-> 
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-> ---
->  drivers/soc/qcom/apr.c | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/soc/qcom/apr.c b/drivers/soc/qcom/apr.c
-> index 127204c195ea..68b357462438 100644
-> --- a/drivers/soc/qcom/apr.c
-> +++ b/drivers/soc/qcom/apr.c
-> @@ -165,9 +165,20 @@ static int apr_callback(struct rpmsg_device *rpdev, void *buf,
->  	struct apr_rx_buf *abuf;
->  	unsigned long flags;
->  
-> -	if (len <= APR_HDR_SIZE) {
-> -		dev_err(apr->dev, "APR: Improper apr pkt received:%p %d\n",
-> -			buf, len);
-> +	switch (apr->type) {
-> +	case PR_TYPE_APR:
-> +		if (len <= APR_HDR_SIZE) {
-> +			dev_err(apr->dev, "APR: Improper apr pkt received:%p %d\n", buf, len);
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	case PR_TYPE_GPR:
-> +		if (len <= GPR_HDR_SIZE) {
-> +			dev_err(apr->dev, "APR: Improper gpr pkt received:%p %d\n", buf, len);
+Am Donnerstag, 21. Mai 2026, 10:13:45 CEST schrieb Cezary Rojewski:
+> On 5/21/2026 8:42 AM, Alexander Stein wrote:
+> > Hi Cezary,
+> >=20
+> > thanks for the quick reply.
+>=20
+> ...
+>=20
+> >> Sorry to hear about the problem. To really see what's going on it would
+> >> be good to attach the entire dmesg with:
+> >>
+> >> options snd_soc_core dyndbg=3D=3Dpmf
+> >=20
+> > I disabled HDMI and xcvr audio, as these are separate sound devices, to=
+ not
+> > clobber dmesg. Here is the excerpt from dmesg including the first and l=
+ast
+> > snd_soc_core message:
+> > --8<--
+>=20
+> ...
+>=20
+> > snd_soc_core:snd_soc_dapm_link_dai_widgets: tlv320aic32x4 1-0018: Playb=
+ack -> Left DAC
+> > snd_soc_core:snd_soc_dapm_link_dai_widgets: tlv320aic32x4 1-0018: Playb=
+ack -> Right DAC
+> > snd_soc_core:snd_soc_dapm_link_dai_widgets: tlv320aic32x4 1-0018: Right=
+ ADC -> Capture
+> > snd_soc_core:snd_soc_dapm_link_dai_widgets: tlv320aic32x4 1-0018: Left =
+ADC -> Capture
+> > snd_soc_core:dapm_connect_dai_routes: fsl-asoc-card sound: connected DA=
+I link 30c30000.sai:CPU-Playback -> tlv320aic32x4.1-0018:Playback
+> > snd_soc_core:dapm_connect_dai_routes: fsl-asoc-card sound: connected DA=
+I link tlv320aic32x4.1-0018:Capture -> 30c30000.sai:CPU-Capture
+> > snd_soc_core:dapm_connect_dai_routes: fsl-asoc-card sound: connected DA=
+I link 30c30000.sai:CPU-Playback -> tlv320aic32x4.1-0018:Playback
+> > snd_soc_core:dapm_connect_dai_routes: fsl-asoc-card sound: connected DA=
+I link tlv320aic32x4.1-0018:Capture -> 30c30000.sai:CPU-Capture
+> > tlv320aic32x4 1-0018: ASoC error (-22): at snd_soc_dai_set_sysclk() on =
+tlv320aic32x4-hifi
+> > fsl-asoc-card sound: failed to set sysclk in fsl_asoc_card_late_probe
+> > fsl-asoc-card sound: ASoC error (-22): at snd_soc_card_late_probe() on =
+tqm-tlv320aic32
+> > snd_soc_core:snd_soc_register_dai: fsl-xcvr 30cc0000.xcvr: ASoC: Regist=
+ered DAI '30cc0000.xcvr'
+> > snd_soc_core:snd_soc_register_dai: hdmi-audio-codec hdmi-audio-codec.1:=
+ ASoC: Registered DAI 'i2s-hifi'
+> > --8<--
+> >=20
+> >=20
+> >> Now, listing the clocks won't help here unfortunately. The patch works
+> >> on the component-level, clock details do not interest it. Also, could
+> >> you specify the scenario? Is just a simple platform boot causing the
+> >> problem -or- do you perform some specific test steps to reproduce?
+> >=20
+> > There is no specific scenario, just booting the board causes this error
+> > during probe.
+> Thank you for the confirmation.
+>=20
+> I've forgotten to mention - please also attach the equivalnet but from=20
+> the system running the previous kernel (one that causes no trouble).
+> Now, would it be possible to receive the excerpts as attachments? The=20
+> timestamps are also welcome - in the above snapshop, all of them are cut=
+=20
+> off.
 
-It first says "APR:" and then "[ag]pr" later, please at least make the
-case consistent
+I stripped the timestamps deliberately, people told me it's just noise.
+But here we go
 
-> +			return -EINVAL;
-> +		}
-> +		break;
+7.1.0-rc3-00101-g56ba969925ac (works)
+[   14.960029] snd_soc_core:snd_soc_register_dai: faux_driver snd-soc-dummy=
+: ASoC: Registered DAI 'snd-soc-dummy-dai'
+[   14.961501] EDAC MC: ECC not enabled
+[   14.961521] EDAC DEBUG: edac_mc_free:=20
+[   15.064506] imx8mp-dw-hdmi-tx 32fd8000.hdmi: bound 32fc4800.audio-bridge=
+ (ops imx8mp_hdmi_pai_ops [imx8mp_hdmi_pai])
+[   15.064648] imx8mp-dw-hdmi-tx 32fd8000.hdmi: Detected HDMI TX controller=
+ v2.13a with HDCP (SAMSUNG HDMI TX PHY)
+[   15.072889] imx8mp-dw-hdmi-tx 32fd8000.hdmi: registered DesignWare HDMI =
+I2C bus driver
+[   15.121803] snd_soc_core:snd_soc_register_dai: tlv320aic32x4 1-0018: ASo=
+C: Registered DAI 'tlv320aic32x4-hifi'
+[   15.123446] dw100 32e30000.dwe: dw100 v4l2 m2m registered as /dev/video0
+[   15.128638] [drm] Initialized imx-lcdif 1.0.0 for 32fc6000.display-contr=
+oller on minor 1
+[   15.128724] imx-lcdif 32fc6000.display-controller: [drm] Cannot find any=
+ crtc or sizes
+[   15.166943] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   15.166979] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.167011] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   15.167024] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   15.217490] usb 1-1: new high-speed USB device number 2 using xhci-hcd
+[   15.339043] hantro-vpu 38300000.video-codec: registered nxp,imx8mm-vpu-g=
+1-dec as /dev/video1
+[   15.340841] hantro-vpu 38310000.video-codec: registered nxp,imx8mq-vpu-g=
+2-dec as /dev/video2
+[   15.341111] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   15.341140] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.341166] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   15.341203] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   15.342263] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   15.342309] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.342317] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   15.342330] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   15.404980] TI DP83867 30be0000.ethernet-1:00: attached PHY driver (mii_=
+bus:phy_addr=3D30be0000.ethernet-1:00, irq=3D131)
+[   15.412128] hub 1-1:1.0: USB hub found
+[   15.412227] hub 1-1:1.0: 4 ports detected
+[   15.474418] usb 2-1: new SuperSpeed USB device number 2 using xhci-hcd
+[   15.476172] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   15.476234] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.476259] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   15.476273] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   15.521980] hub 2-1:1.0: USB hub found
+[   15.522092] hub 2-1:1.0: 4 ports detected
+[   15.547396] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   15.547424] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.547432] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   15.547440] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   15.604694] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   15.604824] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.604857] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   15.604870] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   15.689691] snd_soc_core:snd_soc_register_dai: fsl-aud2htx 30cb0000.aud2=
+htx: ASoC: Registered DAI '30cb0000.aud2htx'
+[   15.690994] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   15.692745] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.697628] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   15.697739] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   15.710917] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   15.710951] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.710978] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   15.710992] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   15.715166] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   15.715388] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.715448] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   15.715471] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   15.843744] snd_soc_core:snd_soc_register_dai: fsl-sai 30c30000.sai: ASo=
+C: Registered DAI 'sai-tx-rx'
+[   15.843776] snd_soc_core:snd_soc_register_dai: fsl-sai 30c30000.sai: ASo=
+C: Registered DAI 'sai-tx'
+[   15.844754] snd_soc_core:snd_soc_register_dai: fsl-sai 30c30000.sai: ASo=
+C: Registered DAI 'sai-rx'
+[   15.847549] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   15.847589] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.847612] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   15.861445] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi-ASRC-FE
+[   15.861478] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.861617] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi-ASRC-FE
+[   15.861640] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi-ASRC-FE
+[   15.884578] snd_soc_core:snd_soc_register_dai: fsl-easrc 30c90000.easrc:=
+ ASoC: Registered DAI '30c90000.easrc'
+[   15.888542] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   15.888587] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.888612] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   15.888680] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi-ASRC-FE
+[   15.888692] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.888699] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi-ASRC-FE
+[   15.888739] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi-ASRC-BE
+[   15.888751] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.888763] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi-ASRC-BE
+[   15.888870] snd_soc_core:snd_soc_dapm_new_dai_widgets: fsl-sai 30c30000.=
+sai: ASoC: adding CPU-Playback widget
+[   15.888885] snd_soc_core:snd_soc_dapm_new_dai_widgets: fsl-sai 30c30000.=
+sai: ASoC: adding CPU-Capture widget
+[   15.888899] snd_soc_core:snd_soc_dapm_new_dai_widgets: fsl-sai 30c30000.=
+sai: ASoC: adding SAI-Playback widget
+[   15.888906] snd_soc_core:snd_soc_dapm_new_dai_widgets: fsl-sai 30c30000.=
+sai: ASoC: adding SAI-Capture widget
+[   15.889078] snd_soc_core:snd_soc_dapm_new_dai_widgets: tlv320aic32x4 1-0=
+018: ASoC: adding Playback widget
+[   15.889093] snd_soc_core:snd_soc_dapm_new_dai_widgets: tlv320aic32x4 1-0=
+018: ASoC: adding Capture widget
+[   15.997493] snd_soc_core:snd_soc_dapm_new_dai_widgets: fsl-easrc 30c9000=
+0.easrc: ASoC: adding ASRC-Playback widget
+[   15.997519] snd_soc_core:snd_soc_dapm_new_dai_widgets: fsl-easrc 30c9000=
+0.easrc: ASoC: adding ASRC-Capture widget
+[   16.002901] snd_soc_core:soc_create_pcm: fsl-asoc-card sound: ASoC: regi=
+stered pcm #0 HiFi tlv320aic32x4-hifi-0
+[   16.011059] snd_soc_core:soc_new_pcm: fsl-asoc-card sound: tlv320aic32x4=
+=2Dhifi <-> sai-tx-rx mapping ok
+[   16.011150] snd_soc_core:soc_create_pcm: fsl-asoc-card sound: ASoC: regi=
+stered pcm #1 HiFi-ASRC-FE (*)
+[   16.017612] snd_soc_core:soc_new_pcm: fsl-asoc-card sound: snd-soc-dummy=
+=2Ddai <-> 30c90000.easrc mapping ok
+[   16.020236] snd_soc_core:soc_create_pcm: fsl-asoc-card sound: ASoC: regi=
+stered pcm #2 (HiFi-ASRC-BE)
+[   16.020283] snd_soc_core:soc_new_pcm: fsl-asoc-card sound: tlv320aic32x4=
+=2Dhifi <-> sai-tx-rx mapping ok
+[   16.020306] snd_soc_core:snd_soc_dapm_link_dai_widgets: tlv320aic32x4 1-=
+0018: Playback -> Left DAC
+[   16.020318] snd_soc_core:snd_soc_dapm_link_dai_widgets: tlv320aic32x4 1-=
+0018: Playback -> Right DAC
+[   16.020329] snd_soc_core:snd_soc_dapm_link_dai_widgets: tlv320aic32x4 1-=
+0018: Right ADC -> Capture
+[   16.020338] snd_soc_core:snd_soc_dapm_link_dai_widgets: tlv320aic32x4 1-=
+0018: Left ADC -> Capture
+[   16.020349] snd_soc_core:dapm_connect_dai_routes: fsl-asoc-card sound: c=
+onnected DAI link 30c30000.sai:CPU-Playback -> tlv320aic32x4.1-0018:Playback
+[   16.020359] snd_soc_core:dapm_connect_dai_routes: fsl-asoc-card sound: c=
+onnected DAI link tlv320aic32x4.1-0018:Capture -> 30c30000.sai:CPU-Capture
+[   16.020369] snd_soc_core:dapm_connect_dai_routes: fsl-asoc-card sound: c=
+onnected DAI link 30c30000.sai:CPU-Playback -> tlv320aic32x4.1-0018:Playback
+[   16.020378] snd_soc_core:dapm_connect_dai_routes: fsl-asoc-card sound: c=
+onnected DAI link tlv320aic32x4.1-0018:Capture -> 30c30000.sai:CPU-Capture
+[   16.171201] snd_soc_core:snd_soc_register_dai: hdmi-audio-codec hdmi-aud=
+io-codec.1: ASoC: Registered DAI 'i2s-hifi'
 
-Switch seems a little far-fetched, unless there'll be more packet types
+7.1.0-rc3-00102-g42d99857d6f0 (broken)
+[   14.400390] snd_soc_core:snd_soc_register_dai: faux_driver snd-soc-dummy=
+: ASoC: Registered DAI 'snd-soc-dummy-dai'
+[   14.487096] hantro-vpu 38300000.video-codec: registered nxp,imx8mm-vpu-g=
+1-dec as /dev/video1
+[   14.488989] hantro-vpu 38310000.video-codec: registered nxp,imx8mq-vpu-g=
+2-dec as /dev/video2
+[   14.511119] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   14.511158] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   14.511184] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   14.511194] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   14.511210] snd_soc_core:snd_soc_register_dai: tlv320aic32x4 1-0018: ASo=
+C: Registered DAI 'tlv320aic32x4-hifi'
+[   14.511227] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   14.511235] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   14.511244] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   14.511252] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   14.550504] usb 1-1: new high-speed USB device number 2 using xhci-hcd
+[   14.636061] TI DP83867 30be0000.ethernet-1:00: attached PHY driver (mii_=
+bus:phy_addr=3D30be0000.ethernet-1:00, irq=3D131)
+[   14.743400] hub 1-1:1.0: USB hub found
+[   14.743503] hub 1-1:1.0: 4 ports detected
+[   14.807178] usb 2-1: new SuperSpeed USB device number 2 using xhci-hcd
+[   14.817480] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   14.817513] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   14.817542] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   14.817556] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   14.817577] snd_soc_core:snd_soc_register_dai: fsl-aud2htx 30cb0000.aud2=
+htx: ASoC: Registered DAI '30cb0000.aud2htx'
+[   14.817588] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   14.817596] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   14.817605] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   14.817612] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   14.858476] hub 2-1:1.0: USB hub found
+[   14.858592] hub 2-1:1.0: 4 ports detected
+[   14.926344] snd_soc_core:snd_soc_register_dai: fsl-easrc 30c90000.easrc:=
+ ASoC: Registered DAI '30c90000.easrc'
+[   14.926383] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   14.926389] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   14.926912] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   14.927047] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   14.927117] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   14.927202] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   14.927250] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   14.927294] snd_soc_core:soc_dai_link_sanity_check: fsl-asoc-card sound:=
+ ASoC: Component (null) not found for link HiFi
+[   15.073545] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   15.073683] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.073717] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   15.136499] fsl-asoc-card sound: ASoC: CPU DAI (null) not registered
+[   15.136614] snd_soc_core:snd_soc_register_dai: fsl-sai 30c30000.sai: ASo=
+C: Registered DAI 'sai-tx-rx'
+[   15.139874] snd_soc_core:snd_soc_register_dai: fsl-sai 30c30000.sai: ASo=
+C: Registered DAI 'sai-tx'
+[   15.139928] snd_soc_core:snd_soc_register_dai: fsl-sai 30c30000.sai: ASo=
+C: Registered DAI 'sai-rx'
+[   15.139954] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi
+[   15.139964] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.139976] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi
+[   15.140074] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi-ASRC-FE
+[   15.140085] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.140096] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi-ASRC-FE
+[   15.140134] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound: dai_link HiFi-ASRC-BE
+[   15.140147] snd_soc_core:snd_soc_compensate_channel_connection_map: fsl-=
+asoc-card sound:   [0] cpu0 <-> codec0
+[   15.140156] snd_soc_core:snd_soc_add_pcm_runtime: fsl-asoc-card sound: A=
+SoC: binding HiFi-ASRC-BE
+[   15.140318] snd_soc_core:snd_soc_dapm_new_dai_widgets: fsl-sai 30c30000.=
+sai: ASoC: adding CPU-Playback widget
+[   15.140337] snd_soc_core:snd_soc_dapm_new_dai_widgets: fsl-sai 30c30000.=
+sai: ASoC: adding CPU-Capture widget
+[   15.140346] snd_soc_core:snd_soc_dapm_new_dai_widgets: fsl-sai 30c30000.=
+sai: ASoC: adding SAI-Playback widget
+[   15.140356] snd_soc_core:snd_soc_dapm_new_dai_widgets: fsl-sai 30c30000.=
+sai: ASoC: adding SAI-Capture widget
+[   15.140596] snd_soc_core:snd_soc_dapm_new_dai_widgets: tlv320aic32x4 1-0=
+018: ASoC: adding Playback widget
+[   15.140622] snd_soc_core:snd_soc_dapm_new_dai_widgets: tlv320aic32x4 1-0=
+018: ASoC: adding Capture widget
+[   15.271414] Bluetooth: Core ver 2.22
+[   15.271545] NET: Registered PF_BLUETOOTH protocol family
+[   15.272201] Bluetooth: HCI device and connection manager initialized
+[   15.272255] Bluetooth: HCI socket layer initialized
+[   15.272268] Bluetooth: L2CAP socket layer initialized
+[   15.272293] Bluetooth: SCO socket layer initialized
+[   15.296872] snd_soc_core:snd_soc_dapm_new_dai_widgets: fsl-easrc 30c9000=
+0.easrc: ASoC: adding ASRC-Playback widget
+[   15.296900] snd_soc_core:snd_soc_dapm_new_dai_widgets: fsl-easrc 30c9000=
+0.easrc: ASoC: adding ASRC-Capture widget
+[   15.300069] snd_soc_core:soc_create_pcm: fsl-asoc-card sound: ASoC: regi=
+stered pcm #0 HiFi tlv320aic32x4-hifi-0
+[   15.317421] snd_soc_core:soc_new_pcm: fsl-asoc-card sound: tlv320aic32x4=
+=2Dhifi <-> sai-tx-rx mapping ok
+[   15.317583] snd_soc_core:soc_create_pcm: fsl-asoc-card sound: ASoC: regi=
+stered pcm #1 HiFi-ASRC-FE (*)
+[   15.331269] snd_soc_core:soc_new_pcm: fsl-asoc-card sound: snd-soc-dummy=
+=2Ddai <-> 30c90000.easrc mapping ok
+[   15.345851] snd_soc_core:soc_create_pcm: fsl-asoc-card sound: ASoC: regi=
+stered pcm #2 (HiFi-ASRC-BE)
+[   15.345882] snd_soc_core:soc_new_pcm: fsl-asoc-card sound: tlv320aic32x4=
+=2Dhifi <-> sai-tx-rx mapping ok
+[   15.346065] snd_soc_core:snd_soc_dapm_link_dai_widgets: tlv320aic32x4 1-=
+0018: Playback -> Left DAC
+[   15.346088] snd_soc_core:snd_soc_dapm_link_dai_widgets: tlv320aic32x4 1-=
+0018: Playback -> Right DAC
+[   15.346104] snd_soc_core:snd_soc_dapm_link_dai_widgets: tlv320aic32x4 1-=
+0018: Right ADC -> Capture
+[   15.346116] snd_soc_core:snd_soc_dapm_link_dai_widgets: tlv320aic32x4 1-=
+0018: Left ADC -> Capture
+[   15.346132] snd_soc_core:dapm_connect_dai_routes: fsl-asoc-card sound: c=
+onnected DAI link 30c30000.sai:CPU-Playback -> tlv320aic32x4.1-0018:Playback
+[   15.346222] snd_soc_core:dapm_connect_dai_routes: fsl-asoc-card sound: c=
+onnected DAI link tlv320aic32x4.1-0018:Capture -> 30c30000.sai:CPU-Capture
+[   15.346239] snd_soc_core:dapm_connect_dai_routes: fsl-asoc-card sound: c=
+onnected DAI link 30c30000.sai:CPU-Playback -> tlv320aic32x4.1-0018:Playback
+[   15.346251] snd_soc_core:dapm_connect_dai_routes: fsl-asoc-card sound: c=
+onnected DAI link tlv320aic32x4.1-0018:Capture -> 30c30000.sai:CPU-Capture
+[   15.360319] tlv320aic32x4 1-0018: ASoC error (-22): at snd_soc_dai_set_s=
+ysclk() on tlv320aic32x4-hifi
+[   15.360342] fsl-asoc-card sound: failed to set sysclk in fsl_asoc_card_l=
+ate_probe
+[   15.360360] fsl-asoc-card sound: ASoC error (-22): at snd_soc_card_late_=
+probe() on tqm-tlv320aic32
+[   15.558546] snd_soc_core:snd_soc_register_dai: hdmi-audio-codec hdmi-aud=
+io-codec.1: ASoC: Registered DAI 'i2s-hifi'
 
-Konrad
+Thanks and best regards
+Alexander
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
