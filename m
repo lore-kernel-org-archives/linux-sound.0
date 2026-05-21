@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BD53D3CEB;
-	Fri, 22 May 2026 10:22:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492333D9DD9;
+	Fri, 22 May 2026 10:22:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779445340; cv=none; b=jjRo1rs7bvbcX/hFE4rTTnv8Th4Ot+oO2xRaIMXy3RBd8f6t75LPJHIv9I8c9oOXCTDR4TMJf8hEQzxW/hXjlfIPPoMSDDR1lsxazYvfqPsa3Vj0n2oCGnhB4/QRCBHBsGmWBayiedf6JiOfUr+DKdv9pZMCXxx+q8ttkxFWiKk=
+	t=1779445344; cv=none; b=mWI+A1R0snJszZINqGp7RfgrVRSRfNWfY2RuhVywH9wBZ389RVOV7XnJnIHSYVl2N88ec8MvENKa9ax9PCD/tKHy8b3jbgnIAEjNWE2/r+gKV7jDffE7brGwnEpGe7GYDsuDjclwSlGTU/mKSd5E4K73RbUqNyFhjNSCdSArCIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779445340; c=relaxed/simple;
-	bh=q4oMhFi2f1iwKox9KA0fHI6u2Tdo3wDFVaevZGmLcOU=;
+	s=arc-20240116; t=1779445344; c=relaxed/simple;
+	bh=zX3ShmDTfsM0A1i9/P/2cHIGWRclCtddKYFoxk2798Q=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=SgvUH3RHZ3tcAOdSCV76vAo2pdaOHemw/DBzXLa6lhVL5lEpp35DMc4kGXMtqqbQsIt9ljqBkrjAyDc659XYwuWGCXzgffEPHm+X7O0aJphun1YP7l35XT86t/dShksu0ZELF+6y+RMa435OBzulnec/5bL3/Zg/PgXqlO0b9pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XaiLPrb7; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=md2S2Kb5xVaW9oIjVcSKIHgraqrzbWRgwZsVpYU9rHvIlRf4zefM6rlAaSD8DOSVaBniLNNfR3DZU8eyrWomVfAxE5+Sh59hpNWbv+6o7WdpiPfySzWRCL2mQq559k+uGNn4rqcfHV2sP8NfmsKVH/4CbIgK3dmxuE/UNhsVTL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a0ykYktX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XaiLPrb7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1F451F000E9;
-	Fri, 22 May 2026 10:22:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a0ykYktX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 285951F00A3D;
+	Fri, 22 May 2026 10:22:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779445339;
-	bh=BSoOuon4PTOnmxQJbEoLSJdXCBkP5uPG6+8udELf4vo=;
+	s=k20260515; t=1779445342;
+	bh=9mL3/ButVORp0nNHm8VkXoojxFZhmr5f0R8Kq2Umygo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=XaiLPrb7nCU2Xi0p8ieDXGtypc7BvlbwN0fm0hMQjtq8UUP5XwtSyFZIPqV6w3xIB
-	 B31bC6+9yWqz/E09EaSmi1BWWx8pQokzVCTqvde91rilXvPjufRSo5G5tp61zJnZ3h
-	 16rUrY6OoMgEkAebze0sjBMxwM3ANsoFMEHK/tcVEko+KKw868q4CdKApEVjjddVFK
-	 /Q5fSZ818dJnJsycpx0RBgECg/78/PpXtT4HpUa91/VZ2DAWZmQ8RJAcwfiszN2AFi
-	 9hT/k62B/jOJutorutoUT+ZJoeIj710KAPP42csrfrcA7eG4Q4+TFD47VKgPPt/NCI
-	 NgEgiLlmIRmgA==
+	b=a0ykYktXxT1GOcdtJWESW4F32jZIzCBCtlfAcK+2LeMRgyjk4ug+9llQDCascOBKv
+	 P05W3ObwaYUNdRnxfXtNqmWhLN3bvfsbEKtyZ/caZm50Ft+OtrxSkJhbYpj7rDYk5T
+	 qXVGB3wRiBfCYEB9/KhrRjrQEoZAcDKCPIa5n7ydQ4vmbktLE8Dl4BFKw/MjpvZRqf
+	 YxS6u+o+klQJgDVwGo656/PMeO+9myfRf+dBS1EziYs15+MWEIz64DBx101uX4w8aD
+	 zOakuvWriIRjSnDYxy3wct16Za4YmiXS5maygLc5DkMexWRBJCQqWuhsfm6XTvj/nk
+	 Ek5scrYlIgxIw==
 From: Mark Brown <broonie@kernel.org>
 To: Richard Fitzgerald <rf@opensource.cirrus.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  patches@opensource.cirrus.com
-In-Reply-To: <20260519135435.479949-1-rf@opensource.cirrus.com>
-References: <20260519135435.479949-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH v3 0/3] ASoC: cs35l56: Replace open-coded SoundWire
+In-Reply-To: <20260521115420.978616-1-rf@opensource.cirrus.com>
+References: <20260521115420.978616-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH v4 0/3] ASoC: cs35l56: Replace open-coded SoundWire
  regmap with generic regmap-sdw
-Message-Id: <177919920157.6167.5399085321373142517.b4-ty@b4>
-Date: Tue, 19 May 2026 15:00:01 +0100
+Message-Id: <177940544025.58022.5015598163203616370.b4-ty@b4>
+Date: Fri, 22 May 2026 00:17:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,18 +46,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
 X-Developer-Signature: v=1; a=openpgp-sha256; l=1686; i=broonie@kernel.org;
- h=from:subject:message-id; bh=q4oMhFi2f1iwKox9KA0fHI6u2Tdo3wDFVaevZGmLcOU=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC5ZYu1sDSvu5kF08HQlqeFORF39u+Aqa8Lzd
- 9oKC6ut+GWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAuWQAKCRAk1otyXVSH
- 0EU9B/0fvPcfCV7hbLTrcx7rkV+jkrIQANopfRa3JNafY/K8REO80CzkYbOzCE+AUaD97wfRYq9
- Pa4m9svXFSjw9dpwSOL9AMM+pSi+9NhOedamgfjHrr43DIK7U3lmmOsrQzEJ/JE9zKt+ZhLWDls
- k8aT419s6nDOjZ2gCcH8ZEinNHOZdCWv+tfWA0v7emiYRHAldW+cRB+vIfVzmpcVaEPP40ek/MA
- R0Ojh3R9hhNP1QPD552XDI9FFMZ0zkODEUI8VAUgLtVJOv9H3s7OZRhqGO0EY3YDNJiaLxnvHLU
- tu1S2jnu/F9Ft3KxSXxna5dOsA+EZpUNYqGC7A91oJFuGoTH
+ h=from:subject:message-id; bh=zX3ShmDTfsM0A1i9/P/2cHIGWRclCtddKYFoxk2798Q=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC5dLTtVntWVW/6KOAC4v/p3ZBIQfCKgjEmWh
+ F2731z5U7WJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAuXQAKCRAk1otyXVSH
+ 0Mm/B/4yQ/g444KpAU4b1ofRbwTtHxcJH+/CBK8hJbTnNQsBkS6CeZ59G0lfMQuvoaAPWuUYUZS
+ ZX17lltl2ycz3ztjGOIJ6CyXFRr461zgxa1hWfuBCTJtaPeXOpwWllkKybV3u1DE7IApaomwkmN
+ 1+Z0h14PCgmohHuICED1KkA12cVYSoSCr6U/S9wAEg15Ttf3AvILiY57n2UOdicIzyzvFJf+rpg
+ /a4h7aYfp2xPKgLYvp+eBU1k1xGCIMHs/jEqpW9RDV1FlDMfjH1w1TCNQkZEyBgXEJ/TgBry1Wk
+ 6opr+Xcxcg3Pp81OLRa2ZDjXhATru+Xk9X1JVY5XcfA7zmdI
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 19 May 2026 14:54:32 +0100, Richard Fitzgerald wrote:
+On Thu, 21 May 2026 12:54:17 +0100, Richard Fitzgerald wrote:
 > ASoC: cs35l56: Replace open-coded SoundWire regmap with generic regmap-sdw
 > 
 > This series replaces the entirely custom SoundWire regmap with the generic
@@ -76,11 +76,11 @@ Applied to
 Thanks!
 
 [1/3] ASoC: cs35l56-shared-test: Subtract reg_base offset in dummy regmap
-      https://git.kernel.org/broonie/sound/c/a6f7c21accb5
+      https://git.kernel.org/broonie/sound/c/cb9a52b3ab2b
 [2/3] ASoC: cs35l56: Use reg_base to offset addresses on SoundWire
-      https://git.kernel.org/broonie/sound/c/7f9ae6d20525
+      https://git.kernel.org/broonie/sound/c/371d1e3a01f3
 [3/3] ASoC: cs35l56: Use standard SoundWire regmap implementation
-      https://git.kernel.org/broonie/sound/c/eb65b5ad9324
+      https://git.kernel.org/broonie/sound/c/4e2310f14a43
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
