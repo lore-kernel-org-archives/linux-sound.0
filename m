@@ -1,45 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3ED3C8C7F;
-	Fri, 22 May 2026 10:23:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71AB63F2116;
+	Fri, 22 May 2026 10:23:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779445406; cv=none; b=D+PD+rSXt8cbzPrExyY2Ygu9mOXBHr+drkVEuC6bz3ipKtr4P0joAcIqmH9ZxPdeJWYqONvxVfFom6BYmaXje8J4YwFXzMHuxNYCNmxBIBwUrIKUEF7qmW1gw2nCthnmHJZPalFZPeMA0RTqozQwj+CRUOc5VIm+x47LBNkkN2I=
+	t=1779445414; cv=none; b=t81RSzgmF1f0diZW7Z6w10WzB2y9Bvkrwz/S6+ri0wVZE1g3m0BrlxLeh/JtkgQav5ov4UGJxLL7QNA+tunNcMlmgVJYxi8WTVVLIdOVhlk+nizHesjZzLDwVQH5hQ1kuz4joCrgOne2sH4j0Szov/0d4ocXXyLYgF89pn5eMS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779445406; c=relaxed/simple;
-	bh=ez9ZZ9cP6lXYiwnzCim8pGY/c8pMOgn8xVsWukhhPyk=;
+	s=arc-20240116; t=1779445414; c=relaxed/simple;
+	bh=iAK43T2+9azlrcebdl3BFQr9o7vfdTl/z07AtF1LsRU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dHvQyIAlgqAeMkYjggXN3oaqpxoZh5GdVLglEWj+q+0ANIoCiYgFkRyOmeqlsaIEhCwWgNBrxBnUUhmtlI5qpXbuv8kDrRLQaW8ykSTVnLY4p8GOec4ooShhSxbo9vzDYSGhgbaJZ1mCHXUdfukPRD2eEqlrS3CLWuYuVqHRjP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oow8DnvV; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=a9LURzOlB31r67kUit/DlXOJ3MicUfD6Wtd1C9IZ1sU8B7fOFCdPg5Xj3koxHm969eFFc8AKDyGaUZBgDOdKMsHozuRvMVQYMFccfv7Usj6+uYQTzpdEnL+rd5L12tsBbYBXRwkffNOI9JsxQGW2YCSVyNV9Kr9WTN94lqkO8hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZg9nCoi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oow8DnvV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 159241F000E9;
-	Fri, 22 May 2026 10:23:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZg9nCoi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C36B1F000E9;
+	Fri, 22 May 2026 10:23:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779445405;
-	bh=ki3KGM3o7K9A3t+1ArahkGMqq3S49+NnXZYGD1cyp90=;
+	s=k20260515; t=1779445408;
+	bh=8sZHNaz7QCeYVY2FRyo4xDc4GW0bbEy9iWr1A9O4ztE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Oow8DnvVAhkygSzeAUp8/aGoEs4mr09uu/2Pxh455s0sDqLIbo0LT503h+UoeGfW+
-	 P+TdlSW3QctsGJNBoJRr+kUK2tYbGPmJnsPQ7NGi/fa6HZmLmyhCnSlZh+8HASL/eg
-	 9MAdl22ejAm3Dfn0UPx0TGyqJRY6DPIq/EF8N8A1rswCMDDhUHF9bdatxbI794Ix7E
-	 2RLs8C8lD9FLqb3ixPa1/n8GlbNczQf4KBcNToqWQZeEBkwzNHkfeRW233GZoYU152
-	 84AwGIwS6smYbmLhHPQ3pToBLSBd00q+xLgbtPZbHxxhJiQq3sT0U5yocpLXwlI61J
-	 rXv7YJQnWN9+w==
+	b=FZg9nCoix+kazX7aKlH+p5kwntvjtFXQps5441f7IyZNBokS8WntUKz8ty4RRab8s
+	 X14HRkZwDjd7IrFJ4tPetidSsJMuLD1O22MWxkWF09XZbF8n0Dx4Ks2cciJRRQuW3E
+	 xIhhcP5JGTjht4wowFRy0ZkY1VEknWV72Dhq9aG2lyvSxFZcxO76QcXGy+Dpqs0q7s
+	 vkRAM3kgd0yg7gKPmqyw0M+E/7h1Xi+3HTUu9ygUThq48vMhLkfjAKi0T/vp2NgdBT
+	 Q4qVgHu+QQjzri4bkA/0oi0+5JIyIR1rfPUHy750eXDNbB7neWPTgkMW3MaJ3F30/R
+	 gB1vrkOdGKdtQ==
 From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jeongjun Park <aha310510@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@kernel.org
-In-Reply-To: <20260521113712.227438-1-aha310510@gmail.com>
-References: <20260521113712.227438-1-aha310510@gmail.com>
-Subject: Re: [PATCH] ASoC: codecs: pcm512x: fix null-ptr dereference in
- pcm512x_overclock_xxx_put()
-Message-Id: <177938810897.58022.82836103612098180.b4-ty@b4>
-Date: Thu, 21 May 2026 19:28:28 +0100
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260521122511.987322-1-rf@opensource.cirrus.com>
+References: <20260521122511.987322-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH 0/3] ASoC: cs-amp-lib: Some bug and typo fixes
+Message-Id: <177937283777.58022.11166232970674157370.b4-ty@b4>
+Date: Thu, 21 May 2026 15:13:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,20 +44,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1175; i=broonie@kernel.org;
- h=from:subject:message-id; bh=ez9ZZ9cP6lXYiwnzCim8pGY/c8pMOgn8xVsWukhhPyk=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC6aFn4sjQC9I/KGKX91LmGGiTozRY6BrDkJE
- GXXsERv5laJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAumgAKCRAk1otyXVSH
- 0H3pB/904yAOb6vvs1rp8qV54ovj1XZ2RqYMmvXrzJQq5womcEwA6l5Aj+Rd4YGeP/5wg2yNUYP
- zdXuJMsGyB0iT7FsMbpmJ0R2uA9eAHNeGCBb5nFam/wkO9xjhVU4RI/+JBny9gNyghB35b4k8lk
- X+tKI8aXaSjgDevI56OIP7Qsi/rEHXM+S/0oFmi/kdAGNP2e+cTah3rlkbh8cltoc7p07vVtybS
- l+hPe+ug8S6s68i8fmAEAeDheCMYWw/m+Gt7yyW4//Y4KyyAeEJo7b+OAqcUfkGgPjZNTd/O+lH
- Midir0kO/s9jCLzKmsr3/H2BXqcSwonE15QaJjBvye5OOyN2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1706; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=iAK43T2+9azlrcebdl3BFQr9o7vfdTl/z07AtF1LsRU=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC6fe+bKUDV2qUWRBBUwxBVtT2q4f6/eg2PJW
+ kgeEnVsPWiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAunwAKCRAk1otyXVSH
+ 0GRcB/9TrIRicNSbe3ayWhwxMHPN/f+90XfFVLdhFUKfC4agqtkUx/Sw+I7mAgz8ejHu/wcIwLc
+ MCuWqtscg6gYtm+6EhS2VTPRTqCipo/nXEYHHq+Hnh0xDC14h8QE6XBMSSY2J9plXRxy8+zLNka
+ kjrMOXgBqOBjbKk5Nv9Cg7zesX1JW+NQEtoRA89ckA9Xk0SZpiwOky5G6h/aWmoYlpPV056jnRt
+ Pqdjc1xX0nFuMZHV+mRXa1jfe0QRsF6yOr791/kV9wYQtn+768HsBGUQoyXUSfp3paM9ONbAedo
+ Jj2XjCYXlsK1NqIdYs+pZ+lx5ZLCOVnKerWGiR6It48Y7BqP
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 21 May 2026 20:37:12 +0900, Jeongjun Park wrote:
-> ASoC: codecs: pcm512x: fix null-ptr dereference in pcm512x_overclock_xxx_put()
+On Thu, 21 May 2026 13:25:08 +0100, Richard Fitzgerald wrote:
+> ASoC: cs-amp-lib: Some bug and typo fixes
+> 
+> This series fixes bugs and a typo in cs-amp-lib.
+> 
+> Richard Fitzgerald (3):
+>   ASoC: cs-amp-lib: Fix wrong sizeof() in
+>     _cs_amp_set_efi_calibration_data()
+>   ASoC: cs-amp-lib: Fix missing dput() after debugfs_lookup()
+>   ASoC: cs-amp-lib: Fix typo in error message: write -> read
+> 
+> [...]
 
 Applied to
 
@@ -70,8 +75,12 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: pcm512x: fix null-ptr dereference in pcm512x_overclock_xxx_put()
-      https://git.kernel.org/broonie/sound/c/09e8f9a9aa19
+[1/3] ASoC: cs-amp-lib: Fix wrong sizeof() in _cs_amp_set_efi_calibration_data()
+      https://git.kernel.org/broonie/sound/c/67a52d3ebb5a
+[2/3] ASoC: cs-amp-lib: Fix missing dput() after debugfs_lookup()
+      https://git.kernel.org/broonie/sound/c/ba28a07a9a0b
+[3/3] ASoC: cs-amp-lib: Fix typo in error message: write -> read
+      https://git.kernel.org/broonie/sound/c/a68525268685
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
