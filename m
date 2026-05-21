@@ -1,99 +1,190 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5763A25B0B3;
-	Thu, 21 May 2026 15:35:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D70383309
+	for <linux-sound@vger.kernel.org>; Thu, 21 May 2026 17:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779377745; cv=none; b=Q4RqDq4r7fPMUFQDB3pXg+wq+EW2UVWupaOHb77fakRuhB7qEzlOeRx5Wtw6F+bzGve2dTHPyijhBVhhuwxHir7IXSsVDK5jzZiI90g2aGCdDN23wi8K1eJ6wnC8B5r2SAyzFBz2htaHEoNiOG3i4G78bHpdw09BlzncHNcxkss=
+	t=1779383957; cv=none; b=kVDbIjMaFwK9mm2N7Bb2ndgKhpOSHwHjkyP5s7Bn/x/z6M/9wLRaK+JDX7AA/pw145mDeCqx+UWgaLPYMLdsjiBgx8qDvi5hREnCAOd1fEvX+Kyk9ij/dPtEpO+XeJPSJwGP4vYZogrtuXtGkGS7oJoAahZeGXVbo/eAw6K43rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779377745; c=relaxed/simple;
-	bh=oImRwjI+XSNpas5HABW8j0NwP849AjVk4QzoZ8axO3M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JYazgh10SszssM5wUegrDrnStLyOCqpBKzd9KpE+//VCtQnLJ+27q0nil0xuFJyQ3l6gojJJx6kAZRnG8leROAYsSdH/uIG0VsafuMXM32sht8HzHdJeVcDF7CKmwyBttPf7uY09SCqn4c7yKWLsiZnegJuT0+4iCBrhSvI4U9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WgIOVQ24; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779383957; c=relaxed/simple;
+	bh=lOsbTXyy6RN3zDEn9HQJqgmDm8wkXpcOOq9sn9xR5Cg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T4P9MTQ3Cwm4WFjqW5sk4Y9Lg8/8hCkoTjz7MbwiLClHG0lMkQA4rkjN4nSPf5Ix7AnYsWTjtV/wLDgKhGBss3VN7sC61SpCX/Aqt8BBvoCH+HJjt02B1fCPcXGckBOoMxZJtwlf8QiP4bTet4dCqRtuYsIhhVMFremBLbvBwbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cjeRRB+N; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=AB1ZP03M; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WgIOVQ24"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEB1D1F000E9;
-	Thu, 21 May 2026 15:35:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779377743;
-	bh=TQwSrXVYnpbCfJdtfPjLSghRrh3omoKn1DB2+rGBNjE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WgIOVQ24fSOQxyG4iGiLd0T3oOMQsbj1BC/sFOR9UkwhioDe7MhOPISoGe7bQweJ1
-	 E4IzCvBrBQmsxwuyT87jWxYliddNtjMx6Zi7iUgHkXoWXLwPRm2snsiTWNSvkM38Lf
-	 FBxiOdrm2SVUxF2l2KsRygGAmu7mNxlgwV6N9rgnbLAbjiY749XK/HmuChFRFfEc/4
-	 jJkvGrMQSD5HgBEcQUYrRwBamaJOSWdeGFM/u7LtU+ZSoRNi6VQIoEe1CwCFgkIESV
-	 9FsHq3NjbHUiXO7DM5sTA3mKiBno3JbQeCMt8Ei03tGAkHinbeBqRmepmXaq5Uaqs0
-	 ziTJdrplekOwg==
-Date: Thu, 21 May 2026 16:35:39 +0100
-From: Mark Brown <broonie@kernel.org>
-To: YLCHANG2 <neo.chang70@gmail.com>
-Cc: Neo Chang <YLCHANG2@nuvoton.com>, lgirdwood@gmail.com, perex@perex.cz,
-	robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
-	kchsu0@nuvoton.com, sjlin0@nuvoton.com
-Subject: Re: [PATCH v2 2/2] ASoC: codecs: nau8360: Add support for NAU83G60
- amplifier
-Message-ID: <934509a9-1347-4b02-a341-0db0d1db42e7@sirena.org.uk>
-References: <20260518024704.118613-1-YLCHANG2@nuvoton.com>
- <20260518024704.118613-3-YLCHANG2@nuvoton.com>
- <ce8d5ba7-22aa-47ac-90ab-026ed1ee3928@sirena.org.uk>
- <ddacfe50-072d-66fd-c760-c898bdab52f4@gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cjeRRB+N";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AB1ZP03M"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64LGk3Tb374078
+	for <linux-sound@vger.kernel.org>; Thu, 21 May 2026 17:19:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	NChGK1BaG/5O12ttfPi5g+d3i1i9KIbHQzRVIByizgI=; b=cjeRRB+NnFEldVki
+	Ddl0yyw4gBTS51youqMGfmAs3pY+11Gge3pcpBKDidGmZGq/U7ad+aaGqEImmLyF
+	lsHj12PMW+ilyuZ5DtvoO+FLmNZZeuh0zZcdxlIHzybY9P3rx/rm/k2eA30rVbUN
+	OD8SmuQptxGAvYAFsr+xf5lbMt5oi0Igv9+E+N67mCFmcu46AVIwwmLYligWNbIz
+	1ZvtMm2sLPHLjoNmDrWk68fxKo14pCa7940YUgMVARBik/0Req8thCz5qtp/7AYd
+	P478yAvwvEFq3AVyUx37aa/Da+tNgu5uhecwqlL10+r3/7T64rMhQ0OdTaboNDZY
+	DdBUcQ==
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com [209.85.217.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e9vhbjug0-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 21 May 2026 17:19:14 +0000 (GMT)
+Received: by mail-vs1-f71.google.com with SMTP id ada2fe7eead31-63144b84f14so9958217137.0
+        for <linux-sound@vger.kernel.org>; Thu, 21 May 2026 10:19:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1779383954; x=1779988754; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NChGK1BaG/5O12ttfPi5g+d3i1i9KIbHQzRVIByizgI=;
+        b=AB1ZP03Mzg2wMemMh5qGKsMd5GRFtJKOm76p+rg3pf1OIvuwgZul6RjK5ytoEfMtQn
+         vdyaGtVTb51tawfOKQ7XUrP1MrLvgxLxmCWWz/ZeaPOZSbEDs6zIv+yF4413DjDXORn7
+         ZeyDGmrwV0wUUHY18in6IJHpN3VlioNENqYRyuZJuokxAu+BTpCf+wmTHXmW+NXzOCWS
+         5C7CEsekaBcKCjiBH+FpY8piHI57irACm2Aei2mylhvn33OKcMxeAdax99LvX7jjcLfQ
+         0ghLR3g98lEKbLvPPxdLaGGNvNfZQ9yzpamfNEEEDrVuIORhjK7jcRG0zGqPsFMlkdZx
+         PN5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779383954; x=1779988754;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NChGK1BaG/5O12ttfPi5g+d3i1i9KIbHQzRVIByizgI=;
+        b=WNWizs2klxbpg88ZAvvzO3Pjr7UkxzS2+totJDTEy8UQwUEFkTmFTHkScEvQt4xfKN
+         mHl8NUUYaU9r0YzvGv2VWeaO7ZCRJCrWONtOs4qQ08/RWB3UAJm3GwoGSaPNmMrygUB2
+         04pwdyaNL8ZHmhJ2Mi3IXVHQQi2MbuCo8WO3ZAJJqXdhylCenGMqBNKpqwnpnHyQ6bVc
+         g7ecYXGzMlpoQk/wMWILhCjOwViLSV/FPCnNEVqJe2rWQVUolDEQoZxzX6URxpF2j0NI
+         d34WP40rUzbJNWlWI2EXeDAH309R67us/0PaCdIDze3cD1pdYgcsoFZEbYTzQCxNw6a3
+         JKVA==
+X-Forwarded-Encrypted: i=1; AFNElJ8/6NWyk2X4olxzUqmbeyC8pka5+E1vhDsKS9h8TL++OoXqHEjfYs8LOj5xBevPda1C0u1dlPgArJXV4g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZRGAeYCSKBZRkugEOe483oMGpN2toMpvaCzgPR5L9/yzKm6gj
+	GTkKYJkGfI/Sw1FvPZg5678w91YzfUx7ieuyqhk0uDiyHoY2oYYo53KoY6UnTO7DRQMRP5McVpl
+	d4D5Tr7iAjPmYzGH/SCqF6vmiHDhVbFH2BlIlcnBY+S8pjK50Oei4xoJeoiRfDtkaog==
+X-Gm-Gg: Acq92OEkOin8RBB9S77sHcvrUm8EKWNucmzUu55OVOx/6MwFZcsKV20i1eQmXbMPlrs
+	mGvLWr2Z7+XwdDaXBSIshHTguF3Al9SYSw1Q7PnNo9oLKezTzR9d5/WOFvihIzJ6inHeePQ5XSF
+	irpmTTYLWP3rASQheFeRBmjME6iJTxTl9EZlg74dSjAevRTNs4hFERgDwYCJbVJ3WQJdpKJ7rU2
+	bsiIfwLHqYyoCY82q0yux3ftituea+Zr70G6lwOrP+dkRJh9cVJ4EIJ4B/8IoQYsscMJLi9OA2L
+	2Qa2CnHz211JmaFcD3WfXDsWZ48pvsU4sYaQ53m+ilwYwKrfxQ8gvsa4TjMWnVl1Vl/j/PjHXZ3
+	DWZrC8GS5hm5YriEbIaet7MLAuN63x7jo7GrgpGLj65hfQTvv
+X-Received: by 2002:a05:6102:3e09:b0:636:984a:1e5d with SMTP id ada2fe7eead31-6738ef6cdf8mr2969450137.11.1779383952616;
+        Thu, 21 May 2026 10:19:12 -0700 (PDT)
+X-Received: by 2002:a05:6102:3e09:b0:636:984a:1e5d with SMTP id ada2fe7eead31-6738ef6cdf8mr2969377137.11.1779383951916;
+        Thu, 21 May 2026 10:19:11 -0700 (PDT)
+Received: from [192.168.68.112] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-45eaa7cf58fsm6207119f8f.3.2026.05.21.10.19.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 May 2026 10:19:11 -0700 (PDT)
+Message-ID: <1b56fe76-981f-4193-bd39-ceadb7b551e2@oss.qualcomm.com>
+Date: Thu, 21 May 2026 17:19:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UVs/AC80Z1SYC8M2"
-Content-Disposition: inline
-In-Reply-To: <ddacfe50-072d-66fd-c760-c898bdab52f4@gmail.com>
-X-Cookie: No shirt, no shoes, no service.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] soc: qcom: apr: Check response packet length by
+ router type
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        andersson@kernel.org
+Cc: srini@kernel.org, konradybcio@kernel.org, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260514155051.2593354-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260514155051.2593354-3-srinivas.kandagatla@oss.qualcomm.com>
+ <3381259a-1deb-460c-bbde-a97263914e15@oss.qualcomm.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <3381259a-1deb-460c-bbde-a97263914e15@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIxMDE3NCBTYWx0ZWRfXxerb5h25nWpn
+ xkWEeV9UFo7wIa+R5mY60RtBYq4FEVac/e4F0rxgYePC5fGOiSp+Vg5sT4mwFnxRpKX3G+BQEeD
+ 6QOINFgQVyPnKGsifHOIeHx7kvNvnmhKTr8XeM3KxUG6TCV7H8KPlWjvHXtDS+FUz97kdc3vOeD
+ VwfPBMUm8WeRZcBU0UgbSNeUfLpYy0f6jjF5icrsudIUN59O4kzu/t173EdjEiswz8MrUK7sTFE
+ myqJ7Obw0uz0aM0RkSZF1W1MX79sN2gPQlFAqc6h4fLXbpPaogEGbjfdd46kwyeZhzMaqdpEw7k
+ D0PKI4FAMbol0+ikxeTI8z4MC4uYLN95KL+0aLJFLE8ErPs66cox6tq9OQcRlbO4hIMR0q027Ac
+ 53IfDqJHhMdxL3qmvZ81xzRD8xPP+Fjur2BCKYV1kv7H6AWFrIOxMNppZhjkv+YTVG9ERUFV8E+
+ 8tutMWJSuBow8PyHW0A==
+X-Authority-Analysis: v=2.4 cv=GYAnWwXL c=1 sm=1 tr=0 ts=6a0f3e92 cx=c_pps
+ a=P2rfLEam3zuxRRdjJWA2cw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=EUspDBNiAAAA:8 a=QEoGycGYwv9BmkwOSYYA:9 a=QEXdDO2ut3YA:10
+ a=ODZdjJIeia2B_SHc_B0f:22
+X-Proofpoint-GUID: DNEGR03plGX-yFYR434D8S4FWflW36UD
+X-Proofpoint-ORIG-GUID: DNEGR03plGX-yFYR434D8S4FWflW36UD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-21_03,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 lowpriorityscore=0 malwarescore=0 spamscore=0 bulkscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 adultscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605210174
 
 
---UVs/AC80Z1SYC8M2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Wed, May 20, 2026 at 11:01:53AM +0800, YLCHANG2 wrote:
-> On 5/18/26 19:35, Mark Brown wrote:
+On 5/21/26 9:45 AM, Konrad Dybcio wrote:
+> On 5/14/26 5:50 PM, Srinivas Kandagatla wrote:
+>> apr_callback() currently validates all received packets against
+>> APR_HDR_SIZE before queueing them for the RX worker. This is not correct
+>> for GPR packets, which use a different header size.
+>>
+>> Validate the received packet length against the header size matching the
+>> packet router type before copying the packet.
+>>
+>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>> ---
+>>  drivers/soc/qcom/apr.c | 17 ++++++++++++++---
+>>  1 file changed, 14 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/soc/qcom/apr.c b/drivers/soc/qcom/apr.c
+>> index 127204c195ea..68b357462438 100644
+>> --- a/drivers/soc/qcom/apr.c
+>> +++ b/drivers/soc/qcom/apr.c
+>> @@ -165,9 +165,20 @@ static int apr_callback(struct rpmsg_device *rpdev, void *buf,
+>>  	struct apr_rx_buf *abuf;
+>>  	unsigned long flags;
+>>  
+>> -	if (len <= APR_HDR_SIZE) {
+>> -		dev_err(apr->dev, "APR: Improper apr pkt received:%p %d\n",
+>> -			buf, len);
+>> +	switch (apr->type) {
+>> +	case PR_TYPE_APR:
+>> +		if (len <= APR_HDR_SIZE) {
+>> +			dev_err(apr->dev, "APR: Improper apr pkt received:%p %d\n", buf, len);
+>> +			return -EINVAL;
+>> +		}
+>> +		break;
+>> +	case PR_TYPE_GPR:
+>> +		if (len <= GPR_HDR_SIZE) {
+>> +			dev_err(apr->dev, "APR: Improper gpr pkt received:%p %d\n", buf, len);
+> 
+> It first says "APR:" and then "[ag]pr" later, please at least make the
+> case consistent
 
-> > > +static bool nau8360_volatile_reg(struct device *dev, unsigned int reg)
-> > > +{
-> > > +	switch (reg) {
-> > > +	case NAU8360_R00_SOFTWARE_RST ... NAU8360_R02_I2C_ADDR:
-> > > +	case NAU8360_R06_INT_CLR_STATUS:
-> > > +	case NAU8360_R21_VBAT_READOUT ... NAU8360_R22_TEMP_READOUT:
-> > > +	case NAU8360_R41_CLK_CTL2:
-> > > +	case NAU8360_R46_I2C_DEVICE_ID:
+Ah, seems like an overlook, thanks for spotting it, will fix this in
+next spin.
 
-> > Are the I2C addresss and device ID volatile or do they just not have
-> > defaults?
 
-> For NAU8360_R02_I2C_ADDR, it requires a write operation to latch the I2C
-> device address.
-> For NAU8360_R46_I2C_DEVICE_ID, although it is read-only, its value is
-> determined by the hardware configuration
-> of the GPIO1 and GPIO2 pins at boot (e.g., 0x1a, 0x1b, 0x4a, or 0x4b).
+> 
+>> +			return -EINVAL;
+>> +		}
+>> +		break;
+> 
+> Switch seems a little far-fetched, unless there'll be more packet types
+never know...  we have similar checks in the driver, atleast its
+consistent with that.
 
-In that case they shouldn't be marked as volatile, just omitted from the
-defaults - they can be cached on first use.
 
---UVs/AC80Z1SYC8M2
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+--srini
+> 
+> Konrad
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoPJkoACgkQJNaLcl1U
-h9D6Dgf+MTFdSAqe+sVth1MJROGJFObulkedu9OA8uG35UgzyoNnZLCBJkQpVIZ4
-1px0piveEdCEof5YO8E36u8e6DnBz+J+muskMv1lTEoM0vi6PsNtkLUg8WzCHXdK
-uZyxdPv+/442PssImFrXj15dZgIVv4TU5yE5ILxY3HVWmYsIRu7SSTzKzNZxUfJM
-TBptlzzjjHTqfOO12fmq4m7JC9D2/HBGpGZ8MKSp3MwJogC5/a54Pb+R7Z5CxVez
-x914kR1dNsvlpgRFTLCC2CGXLZMXIaXSAQMaDsWAkpyhl5aVky111iJRQhmHsdYd
-aL9m3xbjCglFXQmN+Am3B+kL4DQ5+g==
-=ySQG
------END PGP SIGNATURE-----
-
---UVs/AC80Z1SYC8M2--
