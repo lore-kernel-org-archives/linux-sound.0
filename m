@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936FE3CAA51
-	for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 10:21:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD6A3D410D;
+	Fri, 22 May 2026 10:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779445291; cv=none; b=fvQmrq4ZInrTtuLVTkCAEZ+1k/UB5YDOlvi2+sJTFcRfPYjOs6HWSzbvADxQ2yL0KOkm7ryGOiEzr85gahvBVWz2illxziM+ZVa2NhWJ5MCeqNqEIw+kXJUvf7Gq0/hDl4Nn1Z8Zlr+RamQrDqhWrM7OsII0H/8ByC4rk90EuTk=
+	t=1779445301; cv=none; b=omOrxmkBTbNC3WAP/99owcH7OeSIdFNC0iiQzzM8tUnKv2Kcaumh+CPezHs/1e/vXHyeNyRmkM+6AIwWw3m4gNTD3UKIsxQYGdea49lk+tHeLNhSuIFpzcy8LcOxSUJDuylt/K1rF9p2Bd5YYGhj0ECwqzGEKKjSfhvp/iZ9UXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779445291; c=relaxed/simple;
-	bh=t36M0m7/mX8Q7cRX/L5e2FrudsgJfqS+bP1Sh8B5ZWI=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=QjEdnsD89EgK/urYQBUmEb25p6Br/j+N1LSIGBb2dWOqOmKhRmbvbrGEOxpkPm8pae5NDrXZ5iy+uXoDjrgMichsUwUdzJ4ZJzPAgpH35NxogK+tPbHSS+e+8FHvpzFAVTGikn7QLcIWCAwdpROecWzzM8oA9Sqv2rjUxTD0xYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kjUeyJfG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779445301; c=relaxed/simple;
+	bh=7YTj92kNqvTxGEe1cNNLW3RP34iYfpF+DoJGWlj3xwM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=CKIWsGgQ8fbjEkl1y69nC4BZV/bdYEp+56yKXD58aTj4cvlvoNhe3vnlTgGL+zby7iuhnSipzeMM7dIwRk3V/PH4PTEZ+l+K43E0OqBzkWPgV3mdmwsgf1dQuVoCofCyZzIn9y52pbQaFybCbgzorJfHzYux9XOqvKK44B0Mha4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kYux4OQi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kjUeyJfG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E88FD1F000E9;
-	Fri, 22 May 2026 10:21:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kYux4OQi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22A7A1F00A3E;
+	Fri, 22 May 2026 10:21:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779445289;
-	bh=HX/j0VdJFHvcdq1GnF66YN6iLiIpnq9+7BV8LD3vEN4=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=kjUeyJfGKXbqK3I3eWn5ZjOLx4LT2imG/sTFLe+bUinsY5NIsR0D5t2ZNrMQt8gbD
-	 H9NHcI0Oy2njDpFVIYUk+Bl+c55u3tN+rjxXgYAv6cRdqxihWI3h+SKrAzvYC68IL0
-	 XARzjpYkgIAC/7bO40vg3TYJ5CEatUizAdfPm0VhofzBRC2x/oeI8+Yb94aOPE14HF
-	 xfqBfOam6vl1sGLmUBOplTTWy66xyTaFoxmGbLYC5yIFO6NB0x2BvNLgyv4SpYNdXk
-	 z/WDXjlRtaAMq7HYdwUi/nqnuh/bgPOe5VGVMAi6CAspiE7OPEEQmX03kwrQRJO8yS
-	 A5G1y/n1vDovA==
+	s=k20260515; t=1779445299;
+	bh=7gK2VR5gTI+UcAjSIhHUDW5Ykd1zlLoCN9jWLoSHkKU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=kYux4OQix/CpCPxP9dEwfqnQNKXaifyZl0h50jWsUy1ysSEkJeSh3SPepKhOB9zGc
+	 r0P4TYvILY6aT2MPkNHwlwTCes7dl7Xl6HnoIuoVlcfWpZOTOlRQsI53BAYh5xJgP1
+	 5MUrc3VDUIFYsiDxXDDv1RtKObhh3HT6NgzQjBZkGZX4nVEQeo1NwOQB3ZwytCRC+S
+	 bGy8H/YUU6VqtMZPs796782c5RBm8bPiBIoh+kGvI6bP2MrZD69fBUSQnMz7cL21ct
+	 QF0mT0ScagCvZF3mhfS0zI/qNvnWrTP1mhU3WcVNUFx0rvg7UESqyid6hWWDPxz+t+
+	 1NofCVM88rxtg==
 From: Mark Brown <broonie@kernel.org>
-To: Janusz Krzysztofik <jmkrzyszt@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@gmail.com>, Takashi Iwai <tiwai@suse.com>, 
- linux-sound@vger.kernel.org, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87wlx9wj1h.wl-kuninori.morimoto.gx@renesas.com>
-References: <87wlx9wj1h.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH RFC v3 0/2] ASoC: move card->pop_time to soc-dapm
-Message-Id: <177928061709.56665.2501568701025122126.b4-ty@b4>
-Date: Wed, 20 May 2026 13:36:57 +0100
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com, 
+ mario.limonciello@amd.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260507181251.20594-1-Vijendar.Mukunda@amd.com>
+References: <20260507181251.20594-1-Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH 0/5] ASoC: AMD: ACP7.x initial PCI driver bring-up
+Message-Id: <177940532272.58022.17604355383917647171.b4-ty@b4>
+Date: Fri, 22 May 2026 00:15:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,26 +46,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1468; i=broonie@kernel.org;
- h=from:subject:message-id; bh=t36M0m7/mX8Q7cRX/L5e2FrudsgJfqS+bP1Sh8B5ZWI=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC4mmFaVzY+YsRacksk8ZR633Tfr3oigu0/t2
- wi9v6BPd4+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAuJgAKCRAk1otyXVSH
- 0CQYB/9PX5YkTaXdIji+yaMLb5WWl/MRVoJaAstSFiivQHx2/LPwAR5QfzdNfaFr78PPL5mPzD5
- DhnsMHdW1IWa7UjD6g9/k6Dtwbesa9s8sF1O3Ya1a3Pl6QA/2q3ICuYRblAZta98i+ARKfoj37c
- CdVgjewpzt6nM46WBRw5ktsvk5s2ak1v2TAFbT6bpugX2DIepHxjw9tzrJWQHJgJC/CpDlnoOiz
- c9LlTdY/ttCRwnWXcqo3GVkvyyhlQ4qmabcLajRsKjzmhzvqjSVs8pfilShgoKmlDfmS/vp34P+
- OgPI8SIuMdO5YWosQQ7R7/+SJZZGLq0Jh3vfF0A3jN0UBAYt
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2080; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=7YTj92kNqvTxGEe1cNNLW3RP34iYfpF+DoJGWlj3xwM=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEC4wMmoGSf2XUHjqPOumZ4DBeXxztDrvpEhDN
+ lJKGEQtE8eJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahAuMAAKCRAk1otyXVSH
+ 0KIfB/98mpoWQjqPO8MFh0MMVef4sPG35/sZJwa+V6AATwLOP7N12NZGz3i7OMFwYRg1RWt/d+w
+ 07401ZoTslhaTd+8fx0it2DZezQyY3RjGmXjquCX8M4/YWiAmXpDCBPo7Q2mEq4i4yrNuY7ghJ3
+ t4/ra5QpVQEBw7QEe1cHrR8pJ5tNjeHCGl3kRTh8jJafJQcXM7uqT0+lzWTtdNQ41SSAPOZeoiB
+ DYtyjP77/Bdzg6KZNuff6dlZ41GAr/sgvj7C3exv3Gpsv5xk/V/t3x0oH9An0kEdRvOP4qq7oy9
+ RcKtAHARQVPz3+r5Hfc+IOqTBqtucmVMINUv568qfZFEuY48
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 12 May 2026 00:47:22 +0000, Kuninori Morimoto wrote:
-> ASoC: move card->pop_time to soc-dapm
+On Thu, 07 May 2026 23:41:28 +0530, Vijendar Mukunda wrote:
+> ASoC: AMD: ACP7.x initial PCI driver bring-up
 > 
-> Hi Mark, Janusz, Peter.
+> This series adds initial AMD ACP 7.x support for ACP7.D / 7.E / 7.F
+> platforms.
 > 
-> This is v3 to move card->pop_time to soc-dapm.
-> card->pop_time is used only on TI, and Janusz posted patch which will stop
-> using it. It was posted at 12 Apr 2026, and [1/2] is it as-is.
+> Compared to earlier ACP generations, ACP7.x includes substantial design
+> changes, including an updated register set/layout. For that reason,
+> the ACP7.x implementation is placed under a separate sound/soc/amd/acp7x/
+> directory instead of extending older-generation code paths,
+> keeping ACP7.x-specific logic and register definitions cleanly separated
+> and easier to maintain.
 > 
 > [...]
 
@@ -75,10 +79,16 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: ti: ams-delta: Stop (ab)using card->pop_time
-      https://git.kernel.org/broonie/sound/c/446c921ecedc
-[2/2] ASoC: soc-dapm: move card->pop_time to soc-dapm.c
-      https://git.kernel.org/broonie/sound/c/9639a6875ea9
+[1/5] include: sound: add register header file for acp7.x series
+      https://git.kernel.org/broonie/sound/c/44d16948af55
+[2/5] ASoC: amd: acp7x: add ACP PCI driver probe/remove sequence
+      https://git.kernel.org/broonie/sound/c/1da6f798eda8
+[3/5] ASoC: amd: acp7x: add helper functions and hw ops
+      https://git.kernel.org/broonie/sound/c/b5a2fdc5e7d2
+[4/5] ASoC: amd: enable acp7.x drivers build
+      https://git.kernel.org/broonie/sound/c/533308171bf2
+[5/5] ASoC: amd: acp7x: add system and runtime PM ops
+      https://git.kernel.org/broonie/sound/c/07d56a83ba70
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
