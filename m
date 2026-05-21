@@ -1,100 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B869B33F584;
-	Thu, 21 May 2026 11:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AF23B1EE4
+	for <linux-sound@vger.kernel.org>; Thu, 21 May 2026 11:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779363267; cv=none; b=e3lqug9xCGxxIxXtbZ//rzoHnSIb2o3mJkG2BMIDLU+DMP8UyKMe1IMJs0Ip7aKUkzLoTFqX3qT1JbMItlYbs3k74ngbLvzxOgG8qxSQ0DTGJJ3yj0bvPhwqMFx3w7QzSvzO7f3vGuWxRtacRVLP+bEymEzUakKpIrMoLG64ZdI=
+	t=1779363441; cv=none; b=qt83fBY0wknx1v01URAUjMBP8QD1XCBFwtBm7ueaS8eAfJ5DXE+Ymy361JjlYrET/MjW+tQy/+W4WQVy6rkzS4jEMMaVlIJxSCPIDldcMPXLVV6ql1LO9QhWQTsDkTnX6IUuKlvhtzqk+qXV/iLILLz/ZEjrArYveIEPDBVdSUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779363267; c=relaxed/simple;
-	bh=tYouBRlDDxoBacqg61uRAmC24F+aU8P/+/zOo+fJ4/k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ns+YUlpG+OIELpph94EhSesUXV/iw0WGu6MKhUQcAWfUshsPZBvzpVuMhGmRqkQTmXH6giFCrxEwG6iZKJQiHGpwe/zk60bTm4votC0BVUUSu9ARvs8pbs+dcstxG6WBn5QgMmPR8EaRwK/GtVOVzRZVtZmGoq5kVcPJOIk0abM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aZPylxQ3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779363441; c=relaxed/simple;
+	bh=LgWxFixDPwbNrZmuomo2jW5rDbuQrIzIeNbv251Fgqw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qGr88AAV7I+OHnN8m84H3v2kYpGUc0r9oyuTiNGGMd5KDlkxnnpHs16Cm/TXYjnuxOeYQpeVl6KfOca9K1w6IblRIv8NZ3hxDWUq4U5HKvhMNWXlpX6rYeWXjeMGyoDomAZzeDaMimojjfwIhYVTXvYwaPUoSddtey1dGTmx6Wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nYZIkzXu; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aZPylxQ3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 401661F000E9;
-	Thu, 21 May 2026 11:34:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779363266;
-	bh=u4L0vkFGR060ckdfUCAcTgtv+O7QylwEkQhg2saZvEw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aZPylxQ3dPMAM3kKQPotMm4S2tnZpRpDN1hLXToDDyuVssYyCx0rv95yUAZGMFxv4
-	 I5o3XT+yBCuGNSXNU2cDLqL3Bb247k7JPI3X38630LmLTMevwaNhMGTnktwHcJ9/3q
-	 47smZ/93Sn8v5RLjPyc7ljJyeb2k6HEg36Xd6mh+ez+6Z9CVwYuXJZMiiA2PiJj1Gj
-	 ZQ1MkV0Egb6x2AGhQzyx4of23UOqySUEBMDoUvkFMizq4uLpeZUz+id26ATL0fvgT1
-	 dEGXNWydq/lhZE+Z3gjXwvwLPPHVjD1DNukehZUYEJYV25IFY1Lix+2ae88hwGIHbz
-	 KpS8Mea8XJV5A==
-Date: Thu, 21 May 2026 12:34:21 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, Sunil-kumar.Dommati@amd.com,
-	venkataprasad.potturu@amd.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] ASoC: amd: acp7x: add system and runtime PM ops
-Message-ID: <346949dc-d4f9-420b-b208-65a02c4657a1@sirena.org.uk>
-References: <20260507181251.20594-1-Vijendar.Mukunda@amd.com>
- <20260507181251.20594-6-Vijendar.Mukunda@amd.com>
- <905bfeff-ab78-4299-a2a4-45fb8f05e716@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nYZIkzXu"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c82471904fcso2625365a12.2
+        for <linux-sound@vger.kernel.org>; Thu, 21 May 2026 04:37:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779363440; x=1779968240; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N4V/zI/uDaBusVGWv8CyZy9v6gpCugV+8fpO+TgRX1I=;
+        b=nYZIkzXuu62bS7bcGLeDaP8g/h1uIpZZlz0o988Djc/PmouZup2vbm4Mo5mzZn2Xj8
+         589+ORlpHAluGEGc6WGn5vn74wVATBX/wsYCuAh6jbIOAq37ThmSwyxZZtkF3mKCB9eR
+         4a7JzpOgeE8xTAdLqSyfU43jJ3yxmjqfj/W1p8QrNDn4lYeKgN2ujscr5RkCVRkSuhkW
+         RyIFtqaVUvTBeDTjqCzedTE7ZF6/MfiLiC0K+pb4orrmVNRGCts+IPIv9TrkWLCAyyYj
+         TdNEORNzFLidsmlokTI8ABNzWFyeUfsy9YxXNGTp8vlk9+XkS6w5gIVK8tNtcxRbjdT4
+         BW5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779363440; x=1779968240;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N4V/zI/uDaBusVGWv8CyZy9v6gpCugV+8fpO+TgRX1I=;
+        b=rfhMir5KiK3t1UdFGtqaZalJb06OILwmhcidEAEy4i8OR4+otb/U7aoi4BmcXA6nhy
+         mdYRxveIlMteNDly+Lj787DXVXgqeFuM7GKO+TmPuxtJLwNOAhsUuzvOwmoaF/x2qbDz
+         lfn4xydYRjsBfzkoMZaZn6laIdATYtAJYgc2jS94poUuU/cg78Ew2kodtLOug3tro4yb
+         cGw88jh3O5PoX5aqTaH4mFtq9oWg6kM/lIA8Bxutmqr1SwMu2qZyiehyWvZo7PjEjBIL
+         r3tqHhSIUJHif3r+MdufWRLjeJAnsPh+DYWw1fk6qjeGqVIbg0IWkNM3/NdVIZigfj1I
+         ilVA==
+X-Forwarded-Encrypted: i=1; AFNElJ9ynsTfBgd9w+meHHWYMlKzeQhhxSgIn4UpPSHI2Du6iSu9rTnZOEnF2lidrX9y8YmpcyXUqRLR7qHIWQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxDRZboAadPJPqOSG8+D1yJC9Fb6yaaXovk215hvCZb5PlOjTu
+	Ma/2vOlxzzpq52P6r7tqSRyNOv8F3Xx+kC9vqUylGT8YRKKt+16HHM/s
+X-Gm-Gg: Acq92OGJlftwxVnigowejsvmLtE8qNbLTZKzJTKtOu9fLSjjCcIS8TU3PrbtnBsJJmW
+	KgCN3/KsH2o7oOExyT2WameDLHYX5CDMAj4gwLhbi1Oo8RbCP1VhsxgBemINqraI7Nzq6pBiA4s
+	QNojAwuioj79MF6KTIRUhzWi91eZfciEjAID+fbHhn9ExYuujJu+6xnA+GpKSlWF5I3ALPv9xqv
+	lNOIldNqHUOAhptEfFplzNKan2BnHVjW7JU7or2s72M3ybWFfQJ33f+a+HVZj0AEZuadQ+4wTbd
+	tQ7zIaL1zWnahfKGwMQDUgGPkiTL5ggHU5Fgs+0SaXYzzkEOH4p/b+Suy9eJ0EzrDUEncoNnt6A
+	wlVaFyhWn4R2sVQdEgx3xxl4Msu+EGMvOLp52m2Fl8e80hBkvyzdMf4Lipgw+/dpI90SFH7vULq
+	OPQJCuhpvSyBd4UJRHuswGy4TGo+W+9gFuYEey2KOmGaMGmukzWFYVnQ==
+X-Received: by 2002:a05:6a20:9148:b0:3b2:a8cd:ef4d with SMTP id adf61e73a8af0-3b30874de2fmr3156921637.29.1779363439795;
+        Thu, 21 May 2026 04:37:19 -0700 (PDT)
+Received: from name2965-Precision-7820-Tower.. ([14.48.8.61])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85198f508bsm131591a12.20.2026.05.21.04.37.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2026 04:37:19 -0700 (PDT)
+From: Jeongjun Park <aha310510@gmail.com>
+To: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@kernel.org,
+	Jeongjun Park <aha310510@gmail.com>
+Subject: [PATCH] ASoC: codecs: pcm512x: fix null-ptr dereference in pcm512x_overclock_xxx_put()
+Date: Thu, 21 May 2026 20:37:12 +0900
+Message-Id: <20260521113712.227438-1-aha310510@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="etEcZ4fPKLR4ZqCJ"
-Content-Disposition: inline
-In-Reply-To: <905bfeff-ab78-4299-a2a4-45fb8f05e716@amd.com>
-X-Cookie: Words are the voice of the heart.
+Content-Transfer-Encoding: 8bit
 
+In the pcm512x chipset driver, pcm512x_overclock_xxx_put() is defined as
+a general mixer kcontrol instead of a DAPM kcontrol, so struct
+snd_soc_dapm_context must not be accessed via
+snd_soc_dapm_kcontrol_to_dapm().
 
---etEcZ4fPKLR4ZqCJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This causes a NULL pointer dereference, so it must be modified to use
+snd_soc_component_to_dapm().
 
-On Thu, May 07, 2026 at 02:33:47PM -0500, Mario Limonciello wrote:
-> On 5/7/26 13:11, Vijendar Mukunda wrote:
+Cc: stable@kernel.org
+Closes: https://github.com/raspberrypi/linux/issues/7242
+Fixes: 02dbbb7e982a ("ASoC: codecs: pcm512x: convert to snd_soc_dapm_xxx()")
+Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+---
+ sound/soc/codecs/pcm512x.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> > +static int __maybe_unused snd_acp7x_resume(struct device *dev)
-> > +{
-> > +	struct acp7x_dev_data *adata;
-> > +	int ret;
-> > +
-> > +	adata = dev_get_drvdata(dev);
-> > +	ret = acp_hw_init(adata, dev);
-> > +	if (ret)
-> > +		dev_err(dev, "ACP init failed\n");
-> > +
-> > +	return ret;
-> > +}
+diff --git a/sound/soc/codecs/pcm512x.c b/sound/soc/codecs/pcm512x.c
+index d4c1d8d45af3..348752722bd6 100644
+--- a/sound/soc/codecs/pcm512x.c
++++ b/sound/soc/codecs/pcm512x.c
+@@ -235,7 +235,7 @@ static int pcm512x_overclock_pll_put(struct snd_kcontrol *kcontrol,
+ 				     struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+-	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_to_dapm(kcontrol);
++	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
+ 	struct pcm512x_priv *pcm512x = snd_soc_component_get_drvdata(component);
+ 
+ 	switch (snd_soc_dapm_get_bias_level(dapm)) {
+@@ -264,7 +264,7 @@ static int pcm512x_overclock_dsp_put(struct snd_kcontrol *kcontrol,
+ 				     struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+-	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_to_dapm(kcontrol);
++	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
+ 	struct pcm512x_priv *pcm512x = snd_soc_component_get_drvdata(component);
+ 
+ 	switch (snd_soc_dapm_get_bias_level(dapm)) {
+@@ -293,7 +293,7 @@ static int pcm512x_overclock_dac_put(struct snd_kcontrol *kcontrol,
+ 				     struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+-	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_to_dapm(kcontrol);
++	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
+ 	struct pcm512x_priv *pcm512x = snd_soc_component_get_drvdata(component);
+ 
+ 	switch (snd_soc_dapm_get_bias_level(dapm)) {
+--
 
-> Both of snd_acp7x_runtime_resume and snd_acp7x_resume look identical. Will
-> there be later code (when machine driver and IO enablement come) that makes
-> them different?
-
-> If not; then I think you can drop snd_acp7x_runtime_resume().
-
-> If so; this makes sense to keep separately.
-
-Not seeing any response to this question from Mario?
-
---etEcZ4fPKLR4ZqCJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoO7bwACgkQJNaLcl1U
-h9BJFwf/TgWuvQ/NFuu19UEQCRcFImz0ttnm4CtFkgiEfYTwIuwp+BnZ/yPUW5Vk
-ZSOnwFeKQ6X8AITokenw8Au7xhfYuz+2tsK0RDEO8qOgqEeaSCuIBB2B9frAkU1c
-VLasKfi2O4/IGjCsXosWwaIhtLG4ciZNb5xYWn/6pxw5Bvz58AXKs+asR+yoNOdG
-+zO0BebJy+BwIbifbcSBPl0Uue52eq1/us328JjNxEdqctTw2hYz3XjnpH5GMnxX
-eeo7odR4KyEETTXfUB0Mvv3kQ/NjJI2h5lBmX50BTAEAzBKRKqFGJp/ZG8kc7K8S
-uCdfJebvBsPeyei/Uln49JKc6m3etg==
-=/UjV
------END PGP SIGNATURE-----
-
---etEcZ4fPKLR4ZqCJ--
