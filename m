@@ -1,40 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAA1322DAF
-	for <linux-sound@vger.kernel.org>; Thu, 21 May 2026 14:56:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5763A25B0B3;
+	Thu, 21 May 2026 15:35:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779375410; cv=none; b=ixnXtNbtN2+74AbXvAGE93XRilvM5gJ3OKW6pD08zr/Qdlkt9ZnYI1D1JBsoRm1Gz4DDACECZH5Ah5MnWQ+0d5bfNdLj5y06vZYhda00myQQzUJDJzCIp9ehkgXQ3iSjSHleuQY1aM8mog146ffghJxntetbVHOlnexFD1gN2oc=
+	t=1779377745; cv=none; b=Q4RqDq4r7fPMUFQDB3pXg+wq+EW2UVWupaOHb77fakRuhB7qEzlOeRx5Wtw6F+bzGve2dTHPyijhBVhhuwxHir7IXSsVDK5jzZiI90g2aGCdDN23wi8K1eJ6wnC8B5r2SAyzFBz2htaHEoNiOG3i4G78bHpdw09BlzncHNcxkss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779375410; c=relaxed/simple;
-	bh=Gwz1+JKcWxkIuD8/RtmK71Ryyw7X/KUOxSclm2/w6qo=;
+	s=arc-20240116; t=1779377745; c=relaxed/simple;
+	bh=oImRwjI+XSNpas5HABW8j0NwP849AjVk4QzoZ8axO3M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TW11BSLUivK6BDHS3DvOmFrL9hebrt2845H3FDUDVhw/iHec244xD5xUR3CRzhoNpjkUF+u9xAkGZFUIqXtb7+iD4x8/yYMUCc2JM05cqm8hAaUN5OQN0i0XJr30bmxy2AuuTut07x7AV6JH1C0Vzf8oN7Uys9Ut5n66OlO6poY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mFmxB3TI; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=JYazgh10SszssM5wUegrDrnStLyOCqpBKzd9KpE+//VCtQnLJ+27q0nil0xuFJyQ3l6gojJJx6kAZRnG8leROAYsSdH/uIG0VsafuMXM32sht8HzHdJeVcDF7CKmwyBttPf7uY09SCqn4c7yKWLsiZnegJuT0+4iCBrhSvI4U9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WgIOVQ24; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mFmxB3TI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A3D71F00A3D;
-	Thu, 21 May 2026 14:56:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WgIOVQ24"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEB1D1F000E9;
+	Thu, 21 May 2026 15:35:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779375408;
-	bh=Gwz1+JKcWxkIuD8/RtmK71Ryyw7X/KUOxSclm2/w6qo=;
+	s=k20260515; t=1779377743;
+	bh=TQwSrXVYnpbCfJdtfPjLSghRrh3omoKn1DB2+rGBNjE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mFmxB3TI64vrQQhmJrscxv+P+R6r77mfhK76ugSVXaTh6BP4n4aEKnH+CKwuEpf9y
-	 8OE+eqWm6hNxRxNC2BHd/BLqPtPZ/ZSCawwOFGn9h/YmN5IcgQRCV83VJejz8b718t
-	 TISIb+J+1OGqNfwdgHCNULS/5MIwLz8RgisU1GQraVxlxSZTHbpUTjlnoHdy65DrHl
-	 sRCgVrw+e08LVCMEJqrQXTij9GET/8m8+jZEFdCfBzS18BLud2uP9qwNBNOFfogooG
-	 AB0SAU4iPz+quF4yF/H5R9a9g/+onfVHVN7Sl8sIqC2kI2dkNk9nBT0nLIKKjPS6Iu
-	 XZ24NfQj06I5A==
-Date: Thu, 21 May 2026 15:56:30 +0100
+	b=WgIOVQ24fSOQxyG4iGiLd0T3oOMQsbj1BC/sFOR9UkwhioDe7MhOPISoGe7bQweJ1
+	 E4IzCvBrBQmsxwuyT87jWxYliddNtjMx6Zi7iUgHkXoWXLwPRm2snsiTWNSvkM38Lf
+	 FBxiOdrm2SVUxF2l2KsRygGAmu7mNxlgwV6N9rgnbLAbjiY749XK/HmuChFRFfEc/4
+	 jJkvGrMQSD5HgBEcQUYrRwBamaJOSWdeGFM/u7LtU+ZSoRNi6VQIoEe1CwCFgkIESV
+	 9FsHq3NjbHUiXO7DM5sTA3mKiBno3JbQeCMt8Ei03tGAkHinbeBqRmepmXaq5Uaqs0
+	 ziTJdrplekOwg==
+Date: Thu, 21 May 2026 16:35:39 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev, seppo.ingalsuo@linux.intel.com
-Subject: Re: [PATCH v2] ASoC: SOF: ipc4-topology: Enable deep buffer capture
-Message-ID: <ae7db8e5-9446-4f47-b631-67c1fccecaa1@sirena.org.uk>
-References: <20260520142250.13803-1-peter.ujfalusi@linux.intel.com>
+To: YLCHANG2 <neo.chang70@gmail.com>
+Cc: Neo Chang <YLCHANG2@nuvoton.com>, lgirdwood@gmail.com, perex@perex.cz,
+	robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+	kchsu0@nuvoton.com, sjlin0@nuvoton.com
+Subject: Re: [PATCH v2 2/2] ASoC: codecs: nau8360: Add support for NAU83G60
+ amplifier
+Message-ID: <934509a9-1347-4b02-a341-0db0d1db42e7@sirena.org.uk>
+References: <20260518024704.118613-1-YLCHANG2@nuvoton.com>
+ <20260518024704.118613-3-YLCHANG2@nuvoton.com>
+ <ce8d5ba7-22aa-47ac-90ab-026ed1ee3928@sirena.org.uk>
+ <ddacfe50-072d-66fd-c760-c898bdab52f4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,42 +47,53 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jYsrOGOJqZce0k68"
+	protocol="application/pgp-signature"; boundary="UVs/AC80Z1SYC8M2"
 Content-Disposition: inline
-In-Reply-To: <20260520142250.13803-1-peter.ujfalusi@linux.intel.com>
+In-Reply-To: <ddacfe50-072d-66fd-c760-c898bdab52f4@gmail.com>
 X-Cookie: No shirt, no shoes, no service.
 
 
---jYsrOGOJqZce0k68
-Content-Type: text/plain; charset=iso-8859-1
+--UVs/AC80Z1SYC8M2
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 20, 2026 at 05:22:50PM +0300, Peter Ujfalusi wrote:
+On Wed, May 20, 2026 at 11:01:53AM +0800, YLCHANG2 wrote:
+> On 5/18/26 19:35, Mark Brown wrote:
 
-> Signed-off-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
-> Reviewed-by: P=E9ter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-> Signed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> ---
-> Changes since v1:
-> - added my SoB tag, sorry
+> > > +static bool nau8360_volatile_reg(struct device *dev, unsigned int reg)
+> > > +{
+> > > +	switch (reg) {
+> > > +	case NAU8360_R00_SOFTWARE_RST ... NAU8360_R02_I2C_ADDR:
+> > > +	case NAU8360_R06_INT_CLR_STATUS:
+> > > +	case NAU8360_R21_VBAT_READOUT ... NAU8360_R22_TEMP_READOUT:
+> > > +	case NAU8360_R41_CLK_CTL2:
+> > > +	case NAU8360_R46_I2C_DEVICE_ID:
 
-Not quite!
+> > Are the I2C addresss and device ID volatile or do they just not have
+> > defaults?
 
---jYsrOGOJqZce0k68
+> For NAU8360_R02_I2C_ADDR, it requires a write operation to latch the I2C
+> device address.
+> For NAU8360_R46_I2C_DEVICE_ID, although it is read-only, its value is
+> determined by the hardware configuration
+> of the GPIO1 and GPIO2 pins at boot (e.g., 0x1a, 0x1b, 0x4a, or 0x4b).
+
+In that case they shouldn't be marked as volatile, just omitted from the
+defaults - they can be cached on first use.
+
+--UVs/AC80Z1SYC8M2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoPHR4ACgkQJNaLcl1U
-h9A/Igf8DGUGTql/61PAfnMF9Oy/+Ulg1WkqeMWRLBiKm1TEq29tlEz036jaXvw3
-5FJQEbyVQNDzAFx1X4kbpj5OK+wTHBI/73d96I5p0q4oLGGFgIXQEedezljClgOy
-l9maq1hw+Rc5nug6jePYSAdGpACsTg2RiCBQAkR1yRgXsQqd5DV9oXTFcETiHptQ
-TPlneYkkt23lce9/kgBAh2be/OeyhEZ1+GUY4BcDO/vd6zSba5SyyAZA3Z8b3Pmt
-4AUPyedKLRu9dpdVyyXMYBsrv8QfHm8khfRV2M9KKzNvdBHYVURCmF+adHLHFmub
-aTuxL3JM2MTo9ZlfuAokIYcqVb9dxg==
-=G6Eo
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoPJkoACgkQJNaLcl1U
+h9D6Dgf+MTFdSAqe+sVth1MJROGJFObulkedu9OA8uG35UgzyoNnZLCBJkQpVIZ4
+1px0piveEdCEof5YO8E36u8e6DnBz+J+muskMv1lTEoM0vi6PsNtkLUg8WzCHXdK
+uZyxdPv+/442PssImFrXj15dZgIVv4TU5yE5ILxY3HVWmYsIRu7SSTzKzNZxUfJM
+TBptlzzjjHTqfOO12fmq4m7JC9D2/HBGpGZ8MKSp3MwJogC5/a54Pb+R7Z5CxVez
+x914kR1dNsvlpgRFTLCC2CGXLZMXIaXSAQMaDsWAkpyhl5aVky111iJRQhmHsdYd
+aL9m3xbjCglFXQmN+Am3B+kL4DQ5+g==
+=ySQG
 -----END PGP SIGNATURE-----
 
---jYsrOGOJqZce0k68--
+--UVs/AC80Z1SYC8M2--
