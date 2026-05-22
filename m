@@ -1,699 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA529388893
-	for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 13:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA1F397AEF
+	for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 13:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779454883; cv=none; b=OJAIJBrsrFRCOcTC1TlH0D4Bz+DdBIRtCev0cH8gLtCZKHa/rPhYlDHqzmHdDVNDAs5+pW+ZWMwYCiwmEsvkUi4iL1CdziD73+TH3ymPJ2f2+vLez7EeFZDvyANA/65FIf9xYgkB1/BzL9ITC+SPjrE8zzcEkZWrODBvVq/tBgA=
+	t=1779455102; cv=none; b=uiqATCXLx20OcUgT7B68Y0Wqq6gFO5sZ7dW7/9LIis1BXIwjWN17PL3rDyBdSbuVJpGQMM8a3P3AMNXwEbohM+sCLrM5b5k9aog6J+E6Jmuv0LMqg7AqpDw1K5nNCRbGL4wXjD/hZfzIoQz7gqhVUbMtfCLIAGSJoJERx4RlaBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779454883; c=relaxed/simple;
-	bh=n+jEYNQZoGNU/00B+OCCVs53IAZRKNiCjUbE8eV9Dm0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o8zXPAS/0zY4I+HORYD9fg5EYXFXR4nM6Sqf4GpeHyGwjByb28gF1K4ezZ5ljzRbSItc+Z+jWPMEpFFN2pfIsOcn3gNwsdKN+1JCDPVKHIJf1P+/Tk2z/YEhHd+pDkE2ViaW7kxyKH9c/bbodDSHXFjFCr9GU9r0GFZystO0kEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fmy7j1ju; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779455102; c=relaxed/simple;
+	bh=WO+NVaJ18uz3PmvgEahgw8uWHr29nAhUmZu/DB8hBXk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=r2CTAQIs7K6gRzicKq24Kxq4E2uqvElLxZyCEAt/rLW6SFUG1uni9rt2e2QBoWSLjQZn+VLV6WFgiAzvBRtRpRdIBp/DoDIPrE2AEHQKKOAj0AaHESznqn5Vs1h4xWJlrv8sOqrIgmU68RmHiM4uNsA3eoG378Iu1taIQBka/H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MnX3w96W; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fOUQTBgi; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fmy7j1ju"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 512ED1F000E9;
-	Fri, 22 May 2026 13:01:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779454881;
-	bh=3zsJLMaXTshqtgEyzR+DgI3rSwCYBOuWRbhutPrMydM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Fmy7j1juaTFR6jJw9baSkgIZTi+Z8eXL2dvaZmX6sUnR3aIUpO1xvWWMXTlyBSm03
-	 3YiFHuEeYZ4nD8BCvfSAVghlUSip/QrpG6rRCmDWPrZUkHV6KkTEnK+N7swDNhaZpS
-	 2nANsvivQirZDiz/y9S80dNgi6zB6jBYwj2dwOMO9PwXDCOl7IEWBDRGjufsCQ5vLl
-	 bon0/RzdtfodhdtlUg0Ylb4gnNhImNRW3Y93mV/55N+EWe8EVaz8Dteqk8vNDW2/OD
-	 DVHdqK4a5LhD4wdp4t8jaHIa9mpuxBMbyji/thDXdK+tFwDWaAVHT9kWQC2Slh3g73
-	 y3knO8jy5S8cw==
-Date: Fri, 22 May 2026 14:01:16 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Adnrey Golovko <andrey.golovko@gmail.com>
-Cc: Vijendar.Mukunda@amd.com, superm1@kernel.org,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.intel.com, tiwai@suse.de,
-	yung-chuan.liao@linux.intel.com,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>
-Subject: Re: [BUG] ASoC: amd: ps / soundwire: SDW peripherals unrecoverable
- after s0i3 on Strix Halo (ACP7.0)
-Message-ID: <9a017983-c4ce-4abb-a9cf-8e6c2bafac70@sirena.org.uk>
-References: <7328cdbf-10fb-46a1-a28c-2f7365fd767d@gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MnX3w96W";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fOUQTBgi"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64M8tQEi1816086
+	for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 13:05:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=fzhhXoNbvLrPQvIAEkuEUv
+	lBgp4KgxOpzH4SvVu1Ek4=; b=MnX3w96W/rRNyfVyEFtO1L/KzPxXF8KeMXJdZw
+	BRlLftUvJBB7hCGRMiZDf6HcoVbSzzFBk+NyiHQvMw5PO36QO7bSDyOq5XLZb4Dp
+	z2ODbkTBIS54bUKYf8y/Ra+fiWxNfNhJcL0NgquowJRJ2luiR8/3SQ9ZOh4XVcYm
+	XTbvbt5VKW8cLL09qrCJOu1qrpJV0nAcwGKwarXYpUEuF2i9GRhG/J6oZiHQ5u/E
+	rO8FBJBBJjECWpkPN/RfVSkoQYemqae9Ij2xB9o2YFBqBYgsWS+QSxVEzmyllzpp
+	UxWsVuSzlsQhMbusb2jfYkjoDl4Ia9dluonFEBkU8kTCansg==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eafrm21v7-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 13:05:00 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-368edd5fec4so8351517a91.0
+        for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 06:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1779455099; x=1780059899; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fzhhXoNbvLrPQvIAEkuEUvlBgp4KgxOpzH4SvVu1Ek4=;
+        b=fOUQTBgizqfHQ32JmgnYzaC1ppa3zBjSMVajZtK3tAKyH8TDgKu5pYSJPM3mPm9cjF
+         BlpP06ozssR10lZsRztDjNTU/1+/iT4vGxOLKnbQUtudzCQ8TBctjSfrKgrnju9xev/R
+         emw1ww5hZQHHWEncmKI/cX34U+7ox1WZhytu7P3CFI8s0JQjoaDAV71FkxXEgfVV6CBA
+         F8Tzo/8dct1NjR2Qt7pLj3d20eb3SKnvmUDOK69lOLytKXgU544ngqgngav3Xm3yFb2n
+         4RQ9483YyJNs4x65YSn4wiGEvOz1+VB6vQ3G2bGyLm+FmEU0c2PdfnCnEI2hG4xYxCXI
+         CJog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779455099; x=1780059899;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fzhhXoNbvLrPQvIAEkuEUvlBgp4KgxOpzH4SvVu1Ek4=;
+        b=JX2XyHisXbJDY4hFPo5Z924IgsYxBxStjSDTEIelrENx0NcHdc1vLY5GYRXS4hwE8M
+         biQHrIqMMRDSIs+GKuhxECl1aSZas2nMW7091wZowZyd/0IK5gI/4j9sxgO2OnlhLNug
+         YT7GWoo4TAbbdiSjokIvbdxV+dROO+bZhCbm8NfPVNgqn/Ic8O8v0wUYhBdmo1u5z8jf
+         V+13zpcZaVqFHYogVvJdfIeknN6gj/aLi+j0dDKxEvYgqnLWZRwObFBs21gxJ4Z10eJK
+         IZyL5lYRHGUw98c2MbCKZ+vFF0+WZrzAC7UvSI0sHyx08lchjbny22+Wst48iMvnGUeP
+         nNFA==
+X-Gm-Message-State: AOJu0YxibplmPMaF2m5xCjB3UaE6/0tZ5GF9fcz1RHhiHXWdD9JFf5zU
+	T6cHi7UQ/lLMdafZVq8vuKP0xJAniZFXVDEuTvt+OpE2xUlkbQ1VYu3MU5FmmENSXzT76bgJS7Y
+	M5jlH+0brC0O/kQmxSYuDhisiCQVDWuIV2agdVjON29sv8BYuKuuTAvLV68jA29jQAA==
+X-Gm-Gg: Acq92OFnbdFq3eBiPktYhJF3S2k4oezM3naDFp3lRpByF3VJ1YFGyqDb2CgGG3+QS18
+	UsIE6eyw2ZxvbdYpLYJHQELWgLkGn2feO1TP74SHTPSCW0obsdXYu3JAi8nK6OxB/HB9A4Kzmzp
+	4ltkpRoLlNarQWoSs7iPOF+yGgNu7ruI1bbO290KF5RoWO3OounR07qReY7aSCGqoqEKW0CGmqe
+	LIsDKIIabSAWwyZ/6HiGYIYbJ5NhY+otAbZso6ZkSG4tgE8PHUCO9IfknOk+dBvjumMRd0exwJj
+	diX+RV2HA2ZWXBPWyGD+3CyfAGmK/Y/osxCFmM6d8IP4N3wRgzoFyVr1e4Ptgc/WpepxSn59n/v
+	CjzcCrzLvk5Ozl7T2EqwC9+bw51KMMwxuOpFtd0uCH8ixW1kiLg==
+X-Received: by 2002:a17:90b:50d0:b0:369:f48a:f24b with SMTP id 98e67ed59e1d1-36a674b6931mr3485432a91.0.1779455099311;
+        Fri, 22 May 2026 06:04:59 -0700 (PDT)
+X-Received: by 2002:a17:90b:50d0:b0:369:f48a:f24b with SMTP id 98e67ed59e1d1-36a674b6931mr3485362a91.0.1779455098673;
+        Fri, 22 May 2026 06:04:58 -0700 (PDT)
+Received: from hu-nandam-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36a72c98b95sm2069980a91.16.2026.05.22.06.04.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 May 2026 06:04:58 -0700 (PDT)
+From: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Srinivas Kandagatla <srini@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, mohammad.rafi.shaik@oss.qualcomm.com,
+        ajay.nandam@oss.qualcomm.com
+Subject: [PATCH v5 0/3] ASoC: qcom: lpass: Switch VA/WSA macros to PM clock framework
+Date: Fri, 22 May 2026 18:34:39 +0530
+Message-Id: <20260522073324.e18bb240b6f6@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="G5ctiBjKCadam6UL"
-Content-Disposition: inline
-In-Reply-To: <7328cdbf-10fb-46a1-a28c-2f7365fd767d@gmail.com>
-X-Cookie: Celebrity voices impersonated.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: fKIpYDif1F0ZnA45_lhKxwOaTX4105p-
+X-Authority-Analysis: v=2.4 cv=Zekt8MVA c=1 sm=1 tr=0 ts=6a10547c cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=usA1xA7VnIIfQHlxnAQA:9 a=QEXdDO2ut3YA:10
+ a=iS9zxrgQBfv6-_F4QbHw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIyMDEzMCBTYWx0ZWRfX1IJhtqRIIV72
+ dXeaFL7auzMwhajk5MIudXPlWTJM56j+Mbm5GVaE3ssPoaCLU4qc3uQBSlnAUk+VR3KK1gpYERI
+ 0k2Xsz3ieERQuOQDimaDmRoU8/S+jnsmcm7PDZDBoSvoEhDWzEExYo+ymu2JG4xCCYIfuy2R37g
+ 3OhKc2/pT0H3agYjGgFXPpfdRBxaA1kK6otyKV75mcPMBiHY1LLBrq9GOELFbOljBb5OzU8+zvm
+ NRMggay1uI8fvNsmo1r3DMYTVqyZmH1z34VrKzKvZTqDDNNPScep4VT8vYVBBHdFaLEYwIXhHWU
+ oCKA9FFVXjKGYeZgAew5ksf9sdxgh0X9PHL4QTJ4nqh/PV5uXqDzmh/USEXbk+mbbe1Qp9moJMn
+ XBZQ8fcDKY39pdA1XuaAeoh4bcWwJbLf0OcnIOqVeL0vFMRCtfeybk1nvndNw9eHtFhNA/RuJHl
+ c05S1N04CUo3EpEEscA==
+X-Proofpoint-GUID: fKIpYDif1F0ZnA45_lhKxwOaTX4105p-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-22_03,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0 phishscore=0
+ suspectscore=0 spamscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605220130
+
+This series converts LPASS WSA and VA macro codec drivers to the PM
+clock framework for runtime PM clock handling.
+
+Clock enable/disable sequencing during runtime suspend/resume is moved
+to pm_clk helpers, while regcache state handling remains in the driver
+runtime PM callbacks. This aligns these codec drivers with common LPASS
+runtime PM patterns and reduces idle clock voting.
+
+Patch 3 switches WSA MCLK clock registration to devm-managed
+clk_hw registration.
+
+---
+v4: https://lore.kernel.org/r/20260518081738.2453957-1-ajay.nandam@oss.qualcomm.com
+Link: https://lore.kernel.org/r/20260518081738.2453957-1-ajay.nandam@oss.qualcomm.com
+
+Changes since v4:
+- Added `depends on PM` to `SND_SOC_LPASS_WSA_MACRO` and
+  `SND_SOC_LPASS_VA_MACRO` so PM clock helpers are available when these
+  drivers are built
+- Moved `sret` declaration in WSA/VA runtime_resume() from nested
+  error-path blocks to top-level `int ret, sret;` declarations for
+  kernel coding style compliance (no functional change)
+- In WSA/VA probe error-unwind (`err_rpm_put`), check
+  `pm_runtime_put_sync_suspend()` return values and emit `dev_warn()`
+  on failure so runtime-PM unwind failures are visible
+
+v3: https://lore.kernel.org/r/20260508113503.3550647-1-ajay.nandam@oss.qualcomm.com
+
+Changes since v3:
+- In WSA/VA runtime_resume() regcache_sync() failure unwind, capture
+  pm_clk_suspend() failures and emit dev_err() to make clock/cache
+  rollback failures observable
+
+- In WSA/VA runtime_resume(), mark regcache dirty when pm_clk_resume()
+  fails so a later resume attempt forces a full regcache_sync() even if
+  no prior runtime_suspend() has run
+
+- Added `depends on PM` to `SND_SOC_LPASS_WSA_MACRO` and
+  `SND_SOC_LPASS_VA_MACRO` because these drivers now require PM clock
+  helpers and must not build with `!PM_CLK` stubs
+
+- Converted runtime-PM enablement to devm_pm_runtime_enable() in both
+  PM-clock conversion patches; probe error unwind now uses
+  pm_runtime_put_sync_suspend(), with runtime-PM disable handled by devm
+
+- In WSA/VA runtime_suspend callbacks, moved regcache_mark_dirty() after
+  successful pm_clk_suspend() and restored regcache_cache_only(false) on
+  pm_clk_suspend() failures to avoid leaving dirty/cache-only state set
+  when clocks are not suspended
+
+- In va fsgen_gate_enable() error unwind, replaced
+  pm_runtime_put_noidle() with pm_runtime_put_autosuspend() and added
+  dev_warn() logging for put failures so failed-enable paths can
+  autosuspend and drop PM-clock votes
 
 
---G5ctiBjKCadam6UL
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ajay Kumar Nandam (3):
+  ASoC: codecs: lpass-wsa-macro: Switch to PM clock framework for
+    runtime PM
+  ASoC: codecs: lpass-va-macro: Switch to PM clock framework for runtime
+    PM
+  ASoC: codecs: lpass-wsa-macro: Use devm_clk_hw_register() for MCLK
+    output
 
-On Fri, May 22, 2026 at 03:54:06PM +0300, Adnrey Golovko wrote:
-> =C2=A0 SoundWire slaves lose firmware after s2idle on AMD ACP7.0 (Strix H=
-alo) =E2=80=94
-> =C2=A0 TAS2783 cannot resume
+ sound/soc/codecs/Kconfig           |   2 ++
+ sound/soc/codecs/lpass-va-macro.c  | 133 +++++++++++++++++----------------
+ sound/soc/codecs/lpass-wsa-macro.c | 121 +++++++++++-----------------
+ 3 files changed, 119 insertions(+), 137 deletions(-)
 
-Adding the TI people (not deleting context for their benefit), my first
-thought here is that this is the CODEC driver not redownloading firmware
-after power loss.
-
->=20
-> =C2=A0 ## Summary
->=20
-> =C2=A0 On ASUS ProArt PX13 HN7306EAC (AMD Ryzen AI MAX+ 395, Strix Halo) =
-with=C2=A0
-> ACP=C2=A0 PCI
-> =C2=A0 rev=C2=A0 0x70=C2=A0 (ACP7.0), entering=C2=A0 s2idle=C2=A0 for as =
-little as 3.8 seconds causes
-> the
-> =C2=A0 Realtek RT721 SDCA and TI TAS2783 SoundWire peripherals to enter an
-> =C2=A0 unrecoverable state. After resume,=C2=A0 Peripheral status =3D una=
-ttached=C2=A0 and
-> the
-> =C2=A0 TAS2783 driver reports=C2=A0 error playback without fw download . =
-No
-> software-only
-> =C2=A0 recovery is possible =E2=80=94 driver re-bind, PCI hot remove+resc=
-an, and module
-> reload
-> =C2=A0 all fail. Only a full machine reboot restores audio.
->=20
-> =C2=A0 Filed because all available fixes in current upstream/-next are al=
-ready
-> applied
-> =C2=A0 and do not address the root cause.
->=20
-> =C2=A0 ## Hardware
->=20
-> =C2=A0 =C2=A0 DMI:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-ASUS HN7306EAC, BIOS HN7306EAC.307 (2026-01-27)
-> =C2=A0 =C2=A0 CPU:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-AMD Ryzen AI MAX+ 395 w/ Radeon 8060S (Strix Halo)
-> =C2=A0 =C2=A0 ACP PCI ID:=C2=A0 =C2=A0 =C2=A0 =C2=A0 1022:15e2 rev 0x70=
-=C2=A0 (sysfs: 0000:c4:00.5)
-> =C2=A0 =C2=A0 ACP driver:=C2=A0 =C2=A0 =C2=A0 =C2=A0 snd_pci_ps
-> =C2=A0 =C2=A0 SoundWire link 1:=C2=A0 Realtek RT721 SDCA=C2=A0 (sdw:0:1:0=
-25d:0721:01)
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A02=C3=97 TI TAS2783=C2=A0 =C2=A0 =C2=A0 =C2=A0 (sdw:0:1:0102:0000:=
-01:8,
-> ...:01:b)
-> =C2=A0 =C2=A0 TAS2783 firmware:=C2=A0 /lib/firmware/1714-1-{8,B}.bin=C2=
-=A0 (extracted from
-> Windows
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0driver =E2=80=94 ASUS does not ship to linux-firmware as of
-> 2026-
-> =C2=A0 05)
-> =C2=A0 =C2=A0 ACPI path:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\_SB.PCI0.GPPA.=
-ACP.SDWC.SWM1
->=20
-> =C2=A0 ## Kernel
->=20
-> =C2=A0 =C2=A0 Linux 7.1.0-rc3 + 3 backports:
-> =C2=A0 =C2=A0 =C2=A0 c368dd5cbd61 soundwire: don't program SDW_SCP_BUSCLO=
-CK_SCALE on a
-> unattached
-> =C2=A0 Peripheral
-> =C2=A0 =C2=A0 =C2=A0 9a0afdd19a01 soundwire: stream: sdw_stream_remove_sl=
-ave(): Check
-> stream is
-> =C2=A0 valid
-> =C2=A0 =C2=A0 =C2=A0 e09bbf11b53f HID: input: delete hid_battery on disco=
-nnect (unrelated)
->=20
-> =C2=A0 =C2=A0git log v7.1-rc3..v7.1-rc4 -- sound/soc/amd drivers/soundwir=
-e/ is empty.
-> =C2=A0 =C2=A0broonie/sound#for-next=C2=A0 adds=C2=A0 sound/soc/amd/acp7x/=
-=C2=A0 (ACP7.D/E/F, rev
-> 0x7D-0x7F)
-> =C2=A0 =E2=80=94
-> =C2=A0 not applicable to ACP7.0.
->=20
-> =C2=A0 ## DSDT / ACPI properties
->=20
-> =C2=A0 SWM1 (active link) has:
->=20
-> =C2=A0 =C2=A0 amd-sdw-power-mode=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 0x02 =C2=A0(AMD_SDW_POWER_OFF_MODE)
-> =C2=A0 =C2=A0 amd-sdw-enable=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 1
-> =C2=A0 =C2=A0 amd-sdw-wakeup-enable=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0=3D 1
-> =C2=A0 =C2=A0 mipi-sdw-clock-stop-mode0-supported=C2=A0 =C2=A0=3D 1
-> =C2=A0 =C2=A0 mipi-sdw-clock-stop-mode1-supported=C2=A0 =C2=A0=3D 0
->=20
-> =C2=A0 No=C2=A0 _PS0 / _PS3 / _PR0 / _PR3=C2=A0 methods for \_SB.PCI0.GPP=
-A.ACP.SDWC=C2=A0 or its
-> =C2=A0 =C2=A0SWM0 / SWM1=C2=A0 children, no=C2=A0 _RST=C2=A0 method.
->=20
-> =C2=A0 With=C2=A0 power_mode_mask =3D AMD_SDW_POWER_OFF_MODE ,
-> =C2=A0 drivers/soundwire/amd_manager.c
-> =C2=A0 correctly takes the full deinit/init path: amd_deinit_sdw_manager(=
-)=C2=A0 on
-> =C2=A0 suspend,
-> =C2=A0 =C2=A0sdw_clear_slave_status(SDW_UNATTACH_REQUEST_MASTER_RESET) +
-> =C2=A0 amd_sdw_clk_init_ctrl +
-> =C2=A0 amd_init_sdw_manager + amd_enable_sdw_manager + amd_sdw_set_frames=
-hape=C2=A0 on
-> =C2=A0 resume.
-> =C2=A0 =C2=A0snd_acp70_resume()=C2=A0 in=C2=A0 sound/soc/amd/ps/ps-common=
-=2Ec=C2=A0 correctly takes the
-> slow
-> =C2=A0 path ( acp_hw_init=C2=A0 + pad-keeper restore) because=C2=A0 sdw_e=
-n_stat=C2=A0 is cleared
-> =C2=A0 during
-> =C2=A0 suspend by=C2=A0 amd_deinit_sdw_manager . So the driver-level resu=
-me code paths
-> are
-> =C2=A0 exercised correctly. The failure is at a lower level.
->=20
-> =C2=A0 ## Reproducer
->=20
-> =C2=A0 =C2=A0 # Cold boot, audio works.
-> =C2=A0 =C2=A0 $ aplay -l | grep amdsoundwire
-> =C2=A0 =C2=A0 card 1: amdsoundwire ... SDW1-PIN1-PLAYBACK-SmartAmp multic=
-odec-2 []
-> =C2=A0 =C2=A0 $ speaker-test -D plughw:1,2 -c2=C2=A0 # =E2=86=92 works
->=20
-> =C2=A0 =C2=A0 # One s2idle cycle:
-> =C2=A0 =C2=A0 $ systemctl suspend
-> =C2=A0 =C2=A0 # (3.8 sec residency in s0i3, /sys/kernel/debug/amd_pmc/s0i=
-x_stats
-> confirms)
-> =C2=A0 =C2=A0 # (woken by i2c-ASCF1A03:00 touchpad wake event, but issue =
-reproduces
-> with
-> =C2=A0 =C2=A0 #=C2=A0 any wake source including RTC alarm)
->=20
-> =C2=A0 =C2=A0 # After resume:
-> =C2=A0 =C2=A0 $ speaker-test -D plughw:1,2 -c2
-> =C2=A0 =C2=A0 Setting of hwparams failed: Invalid argument
->=20
-> =C2=A0 ## Evidence =E2=80=94 kernel trace
->=20
-> =C2=A0 =C2=A0/sys/power/suspend_stats :
->=20
-> =C2=A0 =C2=A0 last_failed_dev=C2=A0 =C2=A0 =3D sdw:0:1:0102:0000:01:b
-> =C2=A0 =C2=A0 last_failed_step=C2=A0 =C2=A0=3D resume
-> =C2=A0 =C2=A0 last_hw_sleep=C2=A0 =C2=A0 =C2=A0 =3D 3825561=C2=A0 =C2=A0(=
-=C2=B5s)
->=20
-> =C2=A0 =C2=A0journalctl -k=C2=A0 around suspend/resume:
->=20
-> =C2=A0 =C2=A0 PM: suspend entry (s2idle)
-> =C2=A0 =C2=A0 Freezing user space processes completed
-> =C2=A0 =C2=A0 printk: Suspending console(s)
-> =C2=A0 =C2=A0 ACPI: EC: interrupt blocked
-> =C2=A0 =C2=A0 ACPI: EC: interrupt unblocked
-> =C2=A0 =C2=A0 slave-tas2783 sdw:0:1:0102:0000:01:8: PM: dpm_run_callback(=
-):
-> =C2=A0 acpi_subsys_resume returns -110
-> =C2=A0 =C2=A0 slave-tas2783 sdw:0:1:0102:0000:01:8: PM: failed to resume:=
- error -110
-> =C2=A0 =C2=A0 slave-tas2783 sdw:0:1:0102:0000:01:b: PM: dpm_run_callback(=
-):
-> =C2=A0 acpi_subsys_resume returns -110
-> =C2=A0 =C2=A0 slave-tas2783 sdw:0:1:0102:0000:01:b: PM: failed to resume:=
- error -110
-> =C2=A0 =C2=A0 PM: suspend exit
-> =C2=A0 =C2=A0 snd_pci_ps 0000:c4:00.5: AMD-Vi: Event logged [IO_PAGE_FAULT
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0domain=3D0x0018 address=3D0xfffffffffffffffc f=
-lags=3D0x0030]
->=20
-> =C2=A0 The=C2=A0 0xfffffffffffffffc=C2=A0 IOMMU fault address is the sent=
-inel returned when
-> PCI
-> =C2=A0 config reads return=C2=A0 0xff..ff , i.e., ACP is in an inaccessib=
-le state at
-> the
-> =C2=A0 moment of DMA.
->=20
-> =C2=A0 Detailed resume-path trace (excerpts):
->=20
-> =C2=A0 =C2=A0 amd_sdw_manager amd_sdw_manager.1: SCP_addrpage ignored for=
- Slave 1
-> =C2=A0 =C2=A0 soundwire sdw-master-0-1: trf on Slave 1 failed:-5 write ad=
-dr 8089 count
-> 0
-> =C2=A0 =C2=A0 amd_sdw amd_sdw: ASoC: PRE_PMD: tas2783-2 FU21 event failed=
-: -5
-> =C2=A0 =C2=A0 amd_sdw_manager amd_sdw_manager.1: SCP_addrpage ignored for=
- Slave 2
-> =C2=A0 =C2=A0 soundwire sdw-master-0-1: trf on Slave 2 failed:-5 write ad=
-dr 8089 count
-> 0
-> =C2=A0 =C2=A0 rt721-sdca sdw:0:1:025d:0721:01: Initialization not complet=
-e, timed out
-> =C2=A0 =C2=A0 amd_sdw_manager amd_sdw_manager.1: slave_stat:0x1
-> =C2=A0 =C2=A0 soundwire sdw-master-0-1: PING status: 0x1
-> =C2=A0 =C2=A0 amd_sdw_manager amd_sdw_manager.1: SDW1 clock stop successf=
-ul
-> =C2=A0 =C2=A0 amd_sdw_manager amd_sdw_manager.1: AMD_SDW_DEVICE_STATE:0xc
-> =C2=A0 =C2=A0 amd_sdw_manager amd_sdw_manager.1: mclk 24000000 max 120000=
-00 row 50 col
-> 10
-> =C2=A0 frame_rate:48000
-> =C2=A0 =C2=A0 amd_sdw_manager amd_sdw_manager.1: AMD_SDW_DEVICE_STATE:0x0
-> =C2=A0 =C2=A0 snd_pci_ps 0000:c4:00.5: AMD-Vi: Event logged [IO_PAGE_FAUL=
-T ...
-> =C2=A0 0xfffffffffffffffc ...]
-> =C2=A0 =C2=A0 slave-tas2783 sdw:0:1:0102:0000:01:8: resume: initializatio=
-n timed out
-> =C2=A0 =C2=A0 soundwire sdw-master-0-1: PING status: 0x1
->=20
-> =C2=A0 Note=C2=A0 PING status: 0x1=C2=A0 =E2=80=94 the SoundWire PING-fra=
-me status returns the same
-> low
-> =C2=A0 value before and after the manager attempts to re-enumerate. Perip=
-herals
-> are
-> =C2=A0 not responding on the wire even though clock is running.
->=20
-> =C2=A0 Steady-state symptoms after the resume path completes (slave drive=
-rs
-> loaded,
-> =C2=A0 codec link tries to prepare PCM):
->=20
-> =C2=A0 =C2=A0 slave-tas2783 sdw:0:1:0102:0000:01:8: Peripheral status =3D=
- unattached
-> =C2=A0 =C2=A0 slave-tas2783 sdw:0:1:0102:0000:01:8: error playback withou=
-t fw download
-> =C2=A0 =C2=A0 slave-tas2783 sdw:0:1:0102:0000:01:8: ASoC error (-22): at
-> =C2=A0 snd_soc_dai_hw_params()
-> =C2=A0 =C2=A0 soundwire sdw-master-0-1: Program transport params failed: =
--61
-> =C2=A0 =C2=A0 amd_sdw_manager amd_sdw_manager.1: command is ignored for S=
-lave 2
->=20
-> =C2=A0 =C2=A0command is ignored for Slave N=C2=A0 from=C2=A0 amd_sdw_fill=
-_msg_resp() indicates
-> the
-> =C2=A0 SoundWire bus sees no ACK for any peripheral command =E2=80=94 the=
- peripherals are
-> not
-> =C2=A0 responding on the wire.
->=20
-> =C2=A0 The=C2=A0 error playback without fw download=C2=A0 from=C2=A0 tas2=
-783-sdw.c=C2=A0 is the
-> giveaway =E2=80=94
-> =C2=A0 the TAS2783 driver explicitly knows its firmware blob is no longer=
- loaded.
-> =C2=A0 During cold boot the firmware is downloaded after slave attach; af=
-ter
-> s0i3, the
-> =C2=A0 slave never reaches attached state, so the firmware download path =
-is never
-> =C2=A0 re-entered.
->=20
-> =C2=A0 ## Recovery attempts =E2=80=94 ALL FAIL
->=20
-> =C2=A0 Attempt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =E2=94=82Result
-> =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80
-> =C2=A0 Stop PipeWire,=C2=A0 rmmod snd_soc_tas2783_=E2=80=A6=E2=94=82 EBUS=
-Y=C2=A0 =E2=80=94 kernel ALSA-SOC retry
-> loop ho=E2=80=A6
-> =C2=A0 =C2=A0echo 0000:c4:00.5 > /sys/bus/pci/driv=E2=80=A6=E2=94=82Probe=
- replays cleanly ( probe
-> complete =E2=80=A6
-> =C2=A0 PCIe Function-Level Reset ( /sys/.../r=E2=80=A6=E2=94=82File does =
-not exist =E2=80=94 ACP does not
-> adve=E2=80=A6
-> =C2=A0 =C2=A0echo 1 > /sys/bus/pci/devices/0000:c4=E2=80=A6=E2=94=82Same =
-as unbind+bind =E2=80=94 slaves
-> enumerate =E2=80=A6
-> =C2=A0 pm-utils system-sleep hook running the=E2=80=A6=E2=94=82Same
-> =C2=A0 BIOS update 305 =E2=86=92 307=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =E2=94=82No change
->=20
-> =C2=A0 This is consistent with the underlying SMU behaviour on Strix Halo=
- s0i3:
-> =C2=A0 the ACP power island is power-gated, peripherals connected to the
-> SoundWire
-> =C2=A0 pads lose state including firmware. There is no software path from=
- the OS
-> =C2=A0 to re-power the slave chips short of a full machine reboot.
->=20
-> =C2=A0 ## What I think the bug is
->=20
-> =C2=A0 Either (a) the AMD SMU should hold the ACP power island powered du=
-ring
-> s0i3
-> =C2=A0 when SoundWire link is active and peripherals require firmware (BI=
-OS or
-> SMU
-> =C2=A0 firmware change), or (b) the kernel needs an explicit recovery pat=
-h that:
->=20
-> =C2=A0 1. Detects in=C2=A0 snd_acp70_resume()=C2=A0 that ACP was actually=
- power-gated (e.g.
-> =C2=A0 by reading a sentinel register that survives only across non-power=
--gated
-> =C2=A0 suspend).
-> =C2=A0 2. If power-gated, performs a full peripheral-chip reset (some
-> platform-specific
-> =C2=A0 GPIO toggle? secondary bus reset on the ACP's PCIe link?) before t=
-he SDW
-> =C2=A0 manager attempts to re-enumerate.
-> =C2=A0 3. Triggers each slave driver's firmware-download path on resume.
->=20
-> =C2=A0 I cannot find any GPIO under=C2=A0 \_SB.PCI0.GPPA.ACP=C2=A0 in DSD=
-T that would let
-> the
-> =C2=A0 kernel toggle slave chip power. Is there an SMU command available =
-via
-> =C2=A0 =C2=A0amd_pmc=C2=A0 that would force a re-power of the ACP island?=
- Or is this a BIOS
-> =C2=A0 deficiency on this specific HN7306EAC firmware?
->=20
-> =C2=A0 ## Workaround currently used
->=20
-> =C2=A0 =C2=A0suspend=C2=A0 is disabled in GNOME.=C2=A0 hibernate=C2=A0 (S=
-4) works because it goes
-> through
-> =C2=A0 a full cold-boot path.
->=20
-> =C2=A0 ## Asks
->=20
-> =C2=A0 1. Is there a known software path to recover SoundWire peripherals=
- after
-> =C2=A0 ACP power-gate that I missed?
-> =C2=A0 2. If not =E2=80=94 would AMD consider adding either a full ACP is=
-land re-power
-> =C2=A0 sequence in=C2=A0 snd_acp70_resume()=C2=A0 or a peripheral-reset h=
-ook that
-> =C2=A0 slave drivers can call from their resume path?
-> =C2=A0 3. Should ASUS BIOS be updated to either advertise=C2=A0 _RST=C2=
-=A0 for SDW nodes
-> =C2=A0 or prevent SMU from power-gating ACP during s0i3 when SDW is activ=
-e?
-> =C2=A0 (Happy to file with ASUS Linux team if you can confirm direction.)
->=20
-> =C2=A0 I have full DSDT/SSDT decode, complete dmesg traces, and a reprodu=
-cer
-> =C2=A0 environment if more data is helpful. Source tree with all backport=
-s at
-> =C2=A0 =C2=A0https://github.com/...=C2=A0 (will set up on request).
->=20
-> =C2=A0 Tested on=C2=A0 7.1.0-rc3=C2=A0 + backports above. Confirmed same =
-failure on stock
-> =C2=A0 =C2=A07.1.0-070100rc3-generic=C2=A0 from kernel.ubuntu.com/mainlin=
-e/v7.1-rc3/ .
->=20
-> =C2=A0 Thanks,
-> =C2=A0 Andrey Golovko
-
->         Device (SDWC)
->         {
->             Name (_ADR, 0x05)  // _ADR: Address
->             Name (_DSD, Package (0x04)  // _DSD: Device-Specific Data
->             {
->                 ToUUID ("daffd814-6eba-4d8c-8a91-bc9bbf4aa301") /* Device=
- Properties for _DSD */,=20
->                 Package (0x03)
->                 {
->                     Package (0x02)
->                     {
->                         "mipi-sdw-sw-interface-revision",=20
->                         0x00010000
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "mipi-sdw-manager-list",=20
->                         0x03
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "amd-sdw-aggregation-master-id",=20
->                         0xFFFF
->                     }
->                 },=20
->=20
->                 ToUUID ("dbb8e3e6-5886-4ba6-8795-1319f52a966b") /* Hierar=
-chical Data Extension */,=20
->                 Package (0x02)
->                 {
->                     Package (0x02)
->                     {
->                         "mipi-sdw-link-0-subproperties",=20
->                         "SWM0"
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "mipi-sdw-link-1-subproperties",=20
->                         "SWM1"
->                     }
->                 }
->             })
->             Name (SWM0, Package (0x02)
->             {
->                 ToUUID ("daffd814-6eba-4d8c-8a91-bc9bbf4aa301") /* Device=
- Properties for _DSD */,=20
->                 Package (0x0E)
->                 {
->                     Package (0x02)
->                     {
->=20
-> --- SWM1 properties (active link with RT721 + 2=C3=97 TAS2783) ---
->             Name (SWM1, Package (0x02)
->             {
->                 ToUUID ("daffd814-6eba-4d8c-8a91-bc9bbf4aa301") /* Device=
- Properties for _DSD */,=20
->                 Package (0x0E)
->                 {
->                     Package (0x02)
->                     {
->                         "mipi-sdw-sw-interface-revision",=20
->                         0x00010000
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "mipi-sdw-clock-stop-mode0-supported",=20
->                         One
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "mipi-sdw-clock-stop-mode1-supported",=20
->                         Zero
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "mipi-sdw-max-clock-frequency",=20
->                         0x00B71B00
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "mipi-sdw-supported-clock-scales",=20
->                         Zero
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "mipi-sdw-default-frame-rate",=20
->                         0xBB80
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "mipi-sdw-default-frame-row-size",=20
->                         0x32
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "mipi-sdw-default-frame-col-size",=20
->                         0x0A
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "mipi-sdw-dynamic-frame-shape",=20
->                         Zero
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "mipi-sdw-command-error-threshold",=20
->                         Zero
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "amd-sdw-enable",=20
->                         One
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "amd-sdw-wakeup-enable",=20
->                         One
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "amd-sdw-power-mode",=20
->                         0x02
->                     },=20
->=20
->                     Package (0x02)
->                     {
->                         "amd-sdw-multi-lane-enable",=20
->                         One
->                     }
->                 }
->             })
-
-> # System info
->=20
-> ## DMI
-> ASUS
-> ProArt PX13 HN7306EAC
-> ProArt PX13
-> BIOS: American Megatrends International, LLC. HN7306EAC.307 01/27/2026
->=20
-> ## CPU
-> model name	: AMD RYZEN AI MAX+ 395 w/ Radeon 8060S
->=20
-> ## Kernel
-> Linux asus-px 7.1.0-rc3-px13fix #2 SMP PREEMPT_DYNAMIC Thu May 14 20:38:5=
-7 MSK 2026 x86_64 GNU/Linux
->=20
-> ## ACP PCI
-> c4:00.5 Multimedia controller [0480]: Advanced Micro Devices, Inc. [AMD] =
-Audio Coprocessor [1022:15e2] (rev 70)
-> rev: 0x0x70
-> driver: snd_pci_ps
->=20
-> ## SoundWire devices
-> sdw-master-0-0
-> sdw-master-0-1
-> sdw:0:1:0102:0000:01:8
-> sdw:0:1:0102:0000:01:b
-> sdw:0:1:025d:0721:01
-
-> # Trace of one failing s2idle cycle (captured 2026-05-22)
->=20
-> ## PM events
-> May 22 15:10:43 asus-px kernel: PM: suspend entry (s2idle)
-> May 22 15:11:05 asus-px kernel: Freezing user space processes
-> May 22 15:11:05 asus-px kernel: Freezing user space processes completed (=
-elapsed 0.001 seconds)
-> May 22 15:11:05 asus-px kernel: Freezing remaining freezable tasks
-> May 22 15:11:05 asus-px kernel: Freezing remaining freezable tasks comple=
-ted (elapsed 0.000 seconds)
-> May 22 15:11:05 asus-px kernel: printk: Suspending console(s) (use no_con=
-sole_suspend to debug)
-> May 22 15:11:05 asus-px kernel: ACPI: EC: interrupt blocked
-> May 22 15:11:05 asus-px kernel: ACPI: EC: interrupt unblocked
-> May 22 15:11:05 asus-px kernel: snd_pci_ps 0000:c4:00.5: AMD-Vi: Event lo=
-gged [IO_PAGE_FAULT domain=3D0x0018 address=3D0xfffffffffffffffc flags=3D0x=
-0030]
-> May 22 15:11:05 asus-px kernel: slave-tas2783 sdw:0:1:0102:0000:01:8: PM:=
- dpm_run_callback(): acpi_subsys_resume returns -110
-> May 22 15:11:05 asus-px kernel: slave-tas2783 sdw:0:1:0102:0000:01:8: PM:=
- failed to resume: error -110
-> May 22 15:11:05 asus-px kernel: slave-tas2783 sdw:0:1:0102:0000:01:b: PM:=
- dpm_run_callback(): acpi_subsys_resume returns -110
-> May 22 15:11:05 asus-px kernel: slave-tas2783 sdw:0:1:0102:0000:01:b: PM:=
- failed to resume: error -110
-> May 22 15:11:05 asus-px kernel: PM: suspend exit
->=20
-> ## Steady-state symptoms after resume (first 20 lines)
-> May 22 15:11:05 asus-px kernel: amd_sdw_manager amd_sdw_manager.1: SCP_ad=
-drpage ignored for Slave 1
-> May 22 15:11:05 asus-px kernel: soundwire sdw-master-0-1: trf on Slave 1 =
-failed:-5 write addr 8089 count 0
-> May 22 15:11:05 asus-px kernel: amd_sdw amd_sdw: ASoC: PRE_PMD: tas2783-2=
- FU21 event failed: -5
-> May 22 15:11:05 asus-px kernel: amd_sdw_manager amd_sdw_manager.1: SCP_ad=
-drpage ignored for Slave 1
-> May 22 15:11:05 asus-px kernel: soundwire sdw-master-0-1: trf on Slave 1 =
-failed:-5 write addr 8109 count 0
-> May 22 15:11:05 asus-px kernel: amd_sdw amd_sdw: ASoC: PRE_PMD: tas2783-2=
- FU23 event failed: -5
-> May 22 15:11:05 asus-px kernel: amd_sdw_manager amd_sdw_manager.1: SCP_ad=
-drpage ignored for Slave 2
-> May 22 15:11:05 asus-px kernel: soundwire sdw-master-0-1: trf on Slave 2 =
-failed:-5 write addr 8089 count 0
-> May 22 15:11:05 asus-px kernel: amd_sdw amd_sdw: ASoC: PRE_PMD: tas2783-1=
- FU21 event failed: -5
-> May 22 15:11:05 asus-px kernel: amd_sdw_manager amd_sdw_manager.1: SCP_ad=
-drpage ignored for Slave 2
-> May 22 15:11:05 asus-px kernel: soundwire sdw-master-0-1: trf on Slave 2 =
-failed:-5 write addr 8109 count 0
-> May 22 15:11:05 asus-px kernel: amd_sdw amd_sdw: ASoC: PRE_PMD: tas2783-1=
- FU23 event failed: -5
-> May 22 15:11:05 asus-px kernel: rt721-sdca sdw:0:1:025d:0721:01: Initiali=
-zation not complete, timed out
-> May 22 15:11:05 asus-px kernel: amd_sdw_manager amd_sdw_manager.1: slave_=
-stat:0x1
-> May 22 15:11:05 asus-px kernel: soundwire sdw-master-0-1: PING status: 0x1
-> May 22 15:11:05 asus-px kernel: amd_sdw_manager amd_sdw_manager.1: SDW1 c=
-lock stop successful
-> May 22 15:11:05 asus-px kernel: amd_sdw_manager amd_sdw_manager.1: AMD_SD=
-W_DEVICE_STATE:0xc
-> May 22 15:11:05 asus-px kernel: amd_sdw_manager amd_sdw_manager.1: mclk 2=
-4000000 max 12000000 row 50 col 10 frame_rate:48000
-> May 22 15:11:05 asus-px kernel: amd_sdw_manager amd_sdw_manager.1: AMD_SD=
-W_DEVICE_STATE:0x0
-> May 22 15:11:05 asus-px kernel: snd_pci_ps 0000:c4:00.5: AMD-Vi: Event lo=
-gged [IO_PAGE_FAULT domain=3D0x0018 address=3D0xfffffffffffffffc flags=3D0x=
-0030]
-> May 22 15:11:05 asus-px kernel: slave-tas2783 sdw:0:1:0102:0000:01:8: res=
-ume: initialization timed out
-> May 22 15:11:05 asus-px kernel: amd_sdw_manager amd_sdw_manager.1: slave_=
-stat:0x1
-> May 22 15:11:05 asus-px kernel: soundwire sdw-master-0-1: PING status: 0x1
-> May 22 15:11:05 asus-px kernel: slave-tas2783 sdw:0:1:0102:0000:01:8: PM:=
- dpm_run_callback(): acpi_subsys_resume returns -110
-> May 22 15:11:05 asus-px kernel: slave-tas2783 sdw:0:1:0102:0000:01:8: PM:=
- failed to resume: error -110
->=20
-> ## suspend_stats after failure
-> last_failed_dev:  sdw:0:1:0102:0000:01:b
-> last_failed_step: resume
-> (captured 2026-05-22)
-
-
---G5ctiBjKCadam6UL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoQU5wACgkQJNaLcl1U
-h9D1Awf/ZrduY2Rfo/MG9LkGK8Y7c6joodGJekuh0J5pPsr+dbJ3HHlSXEV7saqq
-MkpTRdoWSEVa19iiE5uZ1jcOOQtNmSXqTUTtOqlfYv2EjacizAvLi07n398y7qXW
-QSdQoHvAqCG4fSpW1P6lRH8hi9S1NIzD60K1NOyy8bW/vMqLprG6iMZj2o3ZYK00
-3tRBR3qxKzecY60wpvP3sRqScY7BiBYWrduX6uIhFftK6LYEQME5xzqW0V1p58SR
-sF10tFs8tX96ATaCGSBAzhn4T+dCpfcCPymlCjV57CE5IqZaNyBqXwnzOcD8loM6
-R0u6z9SuwP9mjpNRC2w0xpEN3zSc6A==
-=Jj9A
------END PGP SIGNATURE-----
-
---G5ctiBjKCadam6UL--
+-- 
+2.34.1
