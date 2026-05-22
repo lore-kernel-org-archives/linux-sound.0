@@ -1,79 +1,169 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50228314D1F;
-	Fri, 22 May 2026 06:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7392B320CD3
+	for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 07:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779430078; cv=none; b=CDUMcI/fgLMIEDvECkoip5jCQB5cGzT1OP5YbiPtsixAh7GArwngz79a3/zEi6aAh/8THPQLeA1Nig8s5cAVUcSfBHxSOfScquIiAW4gI28Yf/Ft0Y+Q2q5LXtTIoubxyYMcH64gX0R7GHmz260Gj2r6lOZ2U9mDLz6jGv0kEJk=
+	t=1779436616; cv=none; b=OE7nWLAn2Tt1vsLAqHueC4r287gIesBk86Z86I/1jkmp0a6VAKrwrNSi4UFdJRwF+Zs/BRq7PUvTjDwDuc2WHZjS4j7zricjcXIzHL2/fyqbz/hNW2ylle9/Uzh18pyNt3fk74IaZK5d3qiYhBHa2oPkowZFe/rLFdNRJRgaFSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779430078; c=relaxed/simple;
-	bh=xEdqJGPGps7JZzTiB4JeTpD27Bao283is0x4oLsBwhg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lxpxBKn/UC2l4e6M5eyqQy95jePscds5xh9uU0WDBp5v1rzNWScaGIjqfiPVWA5xsrv+/oOpmRCtfj6RHq+gKdO3exy6+8vjkVefNn23OGy3jPp/0N3TEKVFHK0dcIrblM+gkT/WD4mSEvOL+CqWH6pFSLba3VGJ4+9S5G1KEfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 8e44276e55a411f1aa26b74ffac11d73-20260522
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:03a30970-0b9b-4af5-bf90-fc532da56669,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:352b1ff443d5c568983a536a5f04cc3e,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|865|898,TC:nil,Content:0|15|50,EDM:-
-	3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,A
-	V:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 8e44276e55a411f1aa26b74ffac11d73-20260522
-X-User: zhangheng@kylinos.cn
-Received: from thinksys.. [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 760036666; Fri, 22 May 2026 14:07:47 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: perex@perex.cz,
-	tiwai@suse.com
+	s=arc-20240116; t=1779436616; c=relaxed/simple;
+	bh=gyaKG3AWNtxZAQAKpMJSTBBNXIRLWlFbZAjNTfqCi1w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=blhI8VOzEt9qx5FtKQYJBBoMghgVCIG4EpOx9QpchMpGxC6lqE5J3f1YQ6uKA7DN1KRKcgD9Ani6tmaR3lEzAftGW1BVwCdDDCRg+T5Cilv+rBkwFC9gLySoZPrA7J2LPJQySSQ5pbjhsrFVKPbHgT5kw5zJZW83lQEjBhANwpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XLBzVMRN; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XLBzVMRN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779436614; x=1810972614;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=gyaKG3AWNtxZAQAKpMJSTBBNXIRLWlFbZAjNTfqCi1w=;
+  b=XLBzVMRNXKiMa6BxP2mI7k6SF4dor8xyGeaUHFV4Q9BTehcLZeW7AMJ1
+   DqXyabgeRKerAtkbliCy440GfKxjteoH4PU/jIC7aBBrrjq4hby0cdQ9z
+   fRKpXcxl4+jcPPWsT/ro4uuE9arzxK76YYUDsv1ssm/CSoPx1Keeiifl1
+   bL6m1de/z/H+W7N0Z6Vvg7dxZb1OiL/i8HmVKUtc3lrrJKA2GSvFMf7pf
+   ic07y9ppkKw5fAjaEWom0R6yNPgfw1sNvUYXSo9z0HMRsQHq5pwlUhJ76
+   DV71jXX/A2ALCz+4aOfKxTifxs6KmmNLedSej4ENoFmLv6eo8CGnt/pYU
+   w==;
+X-CSE-ConnectionGUID: 4WDr37tzREuvKW/mfqvMbw==
+X-CSE-MsgGUID: iPfGvbJHQOm8i63T9BISZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="79514253"
+X-IronPort-AV: E=Sophos;i="6.24,161,1774335600"; 
+   d="scan'208";a="79514253"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 00:56:54 -0700
+X-CSE-ConnectionGUID: 5HGfTyatQw+dLmuXTcJSVA==
+X-CSE-MsgGUID: d/+OMh6iQ8OqgWh8WNkjzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,161,1774335600"; 
+   d="scan'208";a="240011939"
+Received: from slindbla-desk.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.207])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 00:56:51 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
 Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>
-Subject: [PATCH] ALSA: hda/realtek: Fix incorrect comment for ALC299_FIXUP_PREDATOR_SPK
-Date: Fri, 22 May 2026 14:07:42 +0800
-Message-Id: <20260522060742.1384390-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	kai.vehmanen@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	seppo.ingalsuo@linux.intel.com
+Subject: [PATCH v3] ASoC: SOF: ipc4-topology: Enable deep buffer capture
+Date: Fri, 22 May 2026 10:56:59 +0300
+Message-ID: <20260522075659.2645-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The comment for the pin configuration 0x21 in the fixup
-ALC299_FIXUP_PREDATOR_SPK states "use as headset mic, without its own
-jack detect", but the fixup name and the actual usage indicate that the
-pin is meant to be used as internal speaker. Correct the comment to
-avoid confusion.
+From: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
 
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+This patch lets a capture PCM to operate with deep buffer
+by taking dsp_max_burst_size_in_ms from topology if it is
+defined. Earlier the value from topology was omitted for
+capture.
+
+If not defined, the maximum burst size for capture is set
+similarly as before to one millisecond.
+
+The dma_buffer_size is set similarly as for playback from
+largest of deep_buffer_dma_ms or SOF_IPC4_MIN_DMA_BUFFER_SIZE
+times OBS.
+
+Signed-off-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/hda/codecs/realtek/alc269.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes since v2:
+- fixed my SoB tag from SB...
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 2b150bb5c7a8..f617084da482 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -5471,7 +5471,7 @@ static const struct hda_fixup alc269_fixups[] = {
- 	[ALC299_FIXUP_PREDATOR_SPK] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
--			{ 0x21, 0x90170150 }, /* use as headset mic, without its own jack detect */
-+			{ 0x21, 0x90170150 }, /* use as internal speaker */
- 			{ }
- 		}
- 	},
+Changes since v1:
+- added my SoB tag, sorry
+
+Peter
+
+ sound/soc/sof/ipc4-topology.c | 39 +++++++++++++++++++++--------------
+ 1 file changed, 24 insertions(+), 15 deletions(-)
+
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index 76812d8fb567..65756fe3a64f 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -624,6 +624,7 @@ static int sof_ipc4_widget_setup_pcm(struct snd_sof_widget *swidget)
+ 	struct sof_ipc4_available_audio_format *available_fmt;
+ 	struct snd_soc_component *scomp = swidget->scomp;
+ 	struct sof_ipc4_copier *ipc4_copier;
++	struct snd_sof_pcm_stream *sps;
+ 	struct snd_sof_pcm *spcm;
+ 	int node_type = 0;
+ 	int ret, dir;
+@@ -668,24 +669,23 @@ static int sof_ipc4_widget_setup_pcm(struct snd_sof_widget *swidget)
+ 	if (ret)
+ 		goto free_available_fmt;
+ 
+-	if (dir == SNDRV_PCM_STREAM_PLAYBACK) {
+-		struct snd_sof_pcm_stream *sps = &spcm->stream[dir];
++	sps = &spcm->stream[dir];
++	sof_update_ipc_object(scomp, &sps->dsp_max_burst_size_in_ms,
++			      SOF_COPIER_DEEP_BUFFER_TOKENS,
++			      swidget->tuples,
++			      swidget->num_tuples, sizeof(u32), 1);
+ 
+-		sof_update_ipc_object(scomp, &sps->dsp_max_burst_size_in_ms,
+-				      SOF_COPIER_DEEP_BUFFER_TOKENS,
+-				      swidget->tuples,
+-				      swidget->num_tuples, sizeof(u32), 1);
+-		/* Set default DMA buffer size if it is not specified in topology */
+-		if (!sps->dsp_max_burst_size_in_ms) {
+-			struct snd_sof_widget *pipe_widget = swidget->spipe->pipe_widget;
+-			struct sof_ipc4_pipeline *pipeline = pipe_widget->private;
++	/* Set default DMA buffer size if it is not specified in topology */
++	if (!sps->dsp_max_burst_size_in_ms) {
++		struct snd_sof_widget *pipe_widget = swidget->spipe->pipe_widget;
++		struct sof_ipc4_pipeline *pipeline = pipe_widget->private;
+ 
++		if (dir == SNDRV_PCM_STREAM_PLAYBACK)
+ 			sps->dsp_max_burst_size_in_ms = pipeline->use_chain_dma ?
+ 				SOF_IPC4_CHAIN_DMA_BUFFER_SIZE : SOF_IPC4_MIN_DMA_BUFFER_SIZE;
+-		}
+-	} else {
+-		/* Capture data is copied from DSP to host in 1ms bursts */
+-		spcm->stream[dir].dsp_max_burst_size_in_ms = 1;
++		else
++			/* Capture data is copied from DSP to host in 1ms bursts */
++			sps->dsp_max_burst_size_in_ms = 1;
+ 	}
+ 
+ skip_gtw_cfg:
+@@ -2430,10 +2430,19 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
+ 			copier_data->gtw_cfg.dma_buffer_size);
+ 		break;
+ 	case snd_soc_dapm_dai_out:
+-	case snd_soc_dapm_aif_out:
+ 		copier_data->gtw_cfg.dma_buffer_size =
+ 			SOF_IPC4_MIN_DMA_BUFFER_SIZE * copier_data->base_config.obs;
+ 		break;
++	case snd_soc_dapm_aif_out:
++		copier_data->gtw_cfg.dma_buffer_size =
++			max((u32)SOF_IPC4_MIN_DMA_BUFFER_SIZE, deep_buffer_dma_ms) *
++				copier_data->base_config.obs;
++		dev_dbg(sdev->dev, "copier %s, dma buffer%s: %u ms (%u bytes)",
++			swidget->widget->name,
++			deep_buffer_dma_ms ? " (using Deep Buffer)" : "",
++			max((u32)SOF_IPC4_MIN_DMA_BUFFER_SIZE, deep_buffer_dma_ms),
++			copier_data->gtw_cfg.dma_buffer_size);
++		break;
+ 	default:
+ 		break;
+ 	}
 -- 
-2.34.1
+2.54.0
 
