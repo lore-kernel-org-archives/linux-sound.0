@@ -1,41 +1,40 @@
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D8B35675F;
-	Fri, 22 May 2026 13:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14DA3A1691;
+	Fri, 22 May 2026 13:12:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779455556; cv=none; b=uiq2i7yw3sfiJ9V+0FfN4e7az0ttYw89AonYAlY0BhLfxp3IDwQZQzq7lOx6/ykqDV+lrsKGUQgoljozceeLD5RamAHbHFJHo1TqsGqjIaoeD73g32UpnyK+jBLOehi3MPM8dHTjq50fPlzn8aFzJcG2GiIkVAcynICeib01NcU=
+	t=1779455563; cv=none; b=ovblzPuIwwt1zLv8uZlEDUA3zJBdVN2PJBpnsjtHtDwpuzY+7KC0sz6bPp5hZNciUpNsnTILvuH2cBQn3LYXQRru+C4f10/55LNw11XIh9JW2Zb9c89pWJrlIFbwn/5Aqn3u8z61axrXAwkB3YXZHQ0TMmQtunAW8h5RSwXmtpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779455556; c=relaxed/simple;
-	bh=JsTztEtOCXDQSlvZta39qdd0kWNPa/QXuRXyaf1EX7k=;
+	s=arc-20240116; t=1779455563; c=relaxed/simple;
+	bh=WCbZ8iopcLSLXkEHIgHHSSkd2u1qQfx30P4JpAz6ZKw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QevRXWox+cHDyAaHCEJFA6f6m5pZSjAjIOELDIWMcKSK+UeNsY3WzuMEzXvg4XkaoL8E/aMk/DWm78CoAcsZbvdQkXRr+ttWOU3NfqX83UouGSXvj3Ti+HstqNJVrRG0JfCKVnFM0qDa7PDtHXVEA3wvwG0BWkj8fAfMzQBFFAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=nboAmI/t; arc=none smtp.client-ip=54.206.34.216
+	 In-Reply-To:To:Cc; b=GOj2/x/+tF4fXUYIFuzFT6F8ATs9EqnXL0oRpB2oKijPXhNi8R6u0Dx/z8ANM1t1Y28DUZdv48sMc+EZwycEqzkiR56KGkYQFAxFSUoNVQ2zZvZg/jK24IwnrjNW35Qd9FxX0pSZPPbZJ7er4udkjAlA4jfUMdTAcof4x2JvxYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=YHnpkGvr; arc=none smtp.client-ip=54.207.22.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="nboAmI/t"
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="YHnpkGvr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1779455549;
-	bh=sNGKriiR40VmWfFFzwCnZIBf5B7xIayu130MyGqFNhk=;
+	s=mxsw2412; t=1779455546;
+	bh=TmI0UH8/e3iTldNLhwHi7B9I6Rl5C/JYONWEHU21eJ8=;
 	h=From:Date:Subject:MIME-Version:Message-Id:To;
-	b=nboAmI/tbwlhS9yKLDGmEbh8LUKlxDpowbr/9yhEHwG/Uuegyjal03022pc9g9nE8
-	 IufI6JbtUTTZLE+1Og2A4oS7Hn33WP/6Ll3tTRuJm6Yn7ZichjEYh94aDhr8okBVni
-	 ihlVPhHCoCAeunTeKr16jIebMoYjJWLhu4RmBU6s=
-X-QQ-mid: zesmtpgz7t1779455546t364b2750
-X-QQ-Originating-IP: cH+OXfIEeHuVZdMzFu6pI+Ce7vT+VIferESzO7hFrM0=
+	b=YHnpkGvrYJmtUysfQlrSPLBE8N+F2SlhF1tx3JOwFctCaSStRUzflkfEe/jgEV3kG
+	 Po9kqkqaTkqYiPbQfJjPI71juRYRM6yrdjkV8p2wbFK2mORSsj6t2y3K7KXeIU91Rz
+	 FZQH75xqPt964sDLIcbGIhVSTEM/LZHGGHl17QFg=
+X-QQ-mid: esmtpgz11t1779455541te29f3b0a
+X-QQ-Originating-IP: VzNX9YRWRqB5R6Dems1eB3rbkqjzRrFXa6EG+p46DKo=
 Received: from = ( [61.145.255.150])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 22 May 2026 21:12:22 +0800 (CST)
+	id ; Fri, 22 May 2026 21:12:18 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 8738155976280777522
+X-BIZMAIL-ID: 14195901067407488268
 EX-QQ-RecipientCnt: 15
 From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Date: Fri, 22 May 2026 21:12:15 +0800
-Subject: [PATCH v3 2/2] ASoC: spacemit: add K3 SoC support with additional
- clocks
+Date: Fri, 22 May 2026 21:12:14 +0800
+Subject: [PATCH v3 1/2] ASoC: dt-bindings: add SpacemiT K3 SoC compatible
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,7 +43,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260522-k3-i2s-v3-2-08e3eb811d93@linux.spacemit.com>
+Message-Id: <20260522-k3-i2s-v3-1-08e3eb811d93@linux.spacemit.com>
 References: <20260522-k3-i2s-v3-0-08e3eb811d93@linux.spacemit.com>
 In-Reply-To: <20260522-k3-i2s-v3-0-08e3eb811d93@linux.spacemit.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -57,137 +56,116 @@ Cc: linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org,
  devicetree@vger.kernel.org, 
  Troy Mitchell <troy.mitchell@linux.spacemit.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779455534; l=3766;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779455534; l=2349;
  i=troy.mitchell@linux.spacemit.com; s=20250710; h=from:subject:message-id;
- bh=JsTztEtOCXDQSlvZta39qdd0kWNPa/QXuRXyaf1EX7k=;
- b=hZhgyBa5r9WaBK6RB90JU4T4V6eX1l3KokC15CCQU7blElm1vNKU85QWeehz4Dx/RCd4MJWvS
- tMOXXzBkTHSDYMxzvvDWx1AQUMWHd/9N7WsZO2hUFjd1ATUcpO9Wn0K
+ bh=WCbZ8iopcLSLXkEHIgHHSSkd2u1qQfx30P4JpAz6ZKw=;
+ b=QQGi/9za3k+THqNYX5wU0DsXs1+iVxXoREo75GjalvipjhfOm0a5i8lVp1Da/Yokt0E9yMW6J
+ OEhPwxQkzo3BHTyDNudFOVH37fsHX9+5LkbI+1OfKW7Oinou3h/T7O2
 X-Developer-Key: i=troy.mitchell@linux.spacemit.com; a=ed25519;
  pk=lQa7BzLrq8DfZnChqmwJ5qQk8fP2USmY/4xZ2/MSsXc=
 X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: MXhM23rn16UwduSu4u3pTAA3okWr9Z4iLq7/tCqpbYbPSGkTB9YIb0D2
-	vtTwbwOsejiFInehAn067YhaqHK4I5E34odnMnWM7qk/eim6gsbjG5EhiV70Ft9PrYyYga8
-	Dj58Yzgz6wv8kaS7dKP52ctfxWmA5nhTpQ8xDoCVDfD93QyrRViTS/bEccLezO/4RAO5w3g
-	WrFU6vnLxk/AHlzRP9Y/9lJIUsAceZGsOp1KAn2tKbVQ/bXxJfjhKQn4C266jA8uxkQtpNE
-	BA9PSRSHfqmIuI5Cf6lRfL82E583yhaDqADMdCvuYw/oJ5QDnW1ZqV04lRt2yZblfdqYbV3
-	nFhxt9dv/qBsi0uLBTGZrvh0rhSUkoOCz5IiV+T8t75powRTt6QiosHIOCq44EEyaxz1ebc
-	Y0+8kX0rKvkbsmMzfAuUdCgxjpNRZ1ICiAztBhuqxo1BsZ/2U1xvx/NPrrVgV/2tHIPsV+w
-	8MHQkfcxVFkXvG9bSwPXPCHJTPPC5/SK+ZObcDaxTzX7cVDZ3fMyLx9JhSld7HktR/0bica
-	3QlREm1lbFQgZGb73MhzL/K71vO+Q2wTDfIV3maNlJJOwjKAFv9f2sa++/PDoSCHIzTctis
-	OVU/qDP5ao4tN3EyJPtxawxHdFPzvGFmQI8SrPSlCK5iNfgMpuD2RBjpbrvg25z20vgdh8+
-	B89sIyRX+1RooacSRAPW452xFP35Lj9xS815pGRFQK+QP8tEYVf4HfAf+4CJyDWxUbDmRBn
-	buLvLpEHHfWUy3XGSJfIr7gRi99igpk2dt7c3JyUBF7nwqAvppuzRYjoGMFQDBCztC+hy5k
-	tlRhrNlQHl4NC7XFnXzLZzpVq06Muop+89QJfYUGaUpJ80dTB+erVTSrN/snxn3hzs3dxmH
-	VIQMEGsaY7H+wFyxZmmkk9u+CjdWcyUKZE6Ir38hOYmv8YaRHbxBGjQwGRjm86qQzYNEl6t
-	j67y6vlnLW/PFv6DZboj0kq6SBj8t4xHkmlY+tE7q9ySeorUclCjoQ+CnHm5Eef20a+BO4M
-	a7c6wyocdLS7eaDOi6swXut/gNyY01khxIpXI4h7zqjnXMK5G5rIs2hXIknjvrcCNxRg8bV
-	ZjJVs8tXMoDkRZas5gMPYY8Gtk4LcscE5JRrxb/CH4/7jkRK+nPckaOLWFucvKlYp9MipIo
-	193np3Lpiw+2iHBu7O58P6Gk2Yq7f6UkdshTonvZZd9B1nWBeYbsOneilg==
+Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: MFpdny7R12c2KTyrW6VX2oziyXoN2tBs7SQV50pqPG3XB9QNrOhN6gWU
+	axGk2KBfTfNXTlJXGV5Buq7CK7PUcvQ/jyK8FVIYzoWNiAWCPaOYd692gaAfLWMIXNl3jDU
+	vFzyqhvTL1t7r6/qdi2Pvzv+BBSKWRvpBlhKB041HCTZEx+5w7/Xf1vO6VFUbMeBg96WwXu
+	htQGogzhd2oNh7F68XhMSbmFzwn0wsfb+jzjJ56cDEVMNzodk9WXgvD0klqFwk1n4CjapbN
+	fHCIq+icW1fJ2wUM3IpIeqOeXt581WZaQSUOxMUO7Xx5k/R+P5xl0oFdXYWFbkBUryleRBh
+	6D0h5vVbSptmdNZLm9D6+3P4H6oRHANBRvs7if959M2PKHgfOEq6V7bQrgWtRHqvFm5AZ5G
+	zIL3a1qCbUl2MaYWSwi1KE0TPCR5tBiwR8K6nE/Y2FUub1FE/8jlZd2NnDKbQc5pNfoaQ7E
+	Opv/oVeRYZiXdjEvGLP78aLPp91+k2N834+wVBpbw8zzB667vd0SFrngYnKQvg/rLL0BqVm
+	ldJ9R830rb+Kbqe+P0Rg0CQOkhXa3XvlTZyozpHahIxw3ZLp3kAd8GXDABhG8Wb9VsrtJFv
+	zjZeqSGoB+Cuk+HeY3acWWr0lK6L08FGzDNEjgghrDMCTT3otU3LFBBlxWdRJscmzSJ2rhc
+	/06Ys8KmgowGIGkmeyYl61lp7E3otshMzJDmyPmDmOnnm/rhcUJuFRzB9wR/yfqsi7N+EB2
+	ROaeUjo4qnmOc/Khu93MlrQye7FQTW8bW2mEU+sMcsERLxs6pjksRu7vQ742vX+VzF+RgQN
+	gqFpOYN7HGMUyil4O1pOucMFIXKqwnsOPd9bP7Z9ifV3bZqBP/oNZxD8H/8thXuCr4Z7ekb
+	kk3kypGMZ9fHF7EZPrkCY5ZFawodfXwUwdNdYBI9npzd/5ADJ2ToeceU5XjuuxRv5q/qvaM
+	QjIU2kY71+hobulX9HdViyXvnX9wBWJYktTwhXMmH/btAMdXwCSfo4EjBgG8qmMCBE6+riV
+	UnFZWX0gZaPDmp7iSNvy7P8x1xsUJpS6BYiJi5z045fdxsTEyIwZrRa5F0qqvv4gPChj9hM
+	zIR595hGNvutlMd7QseZMRSnumB4IIz1DnSXVSxfq8fNPTUnBPMO8Hf1Fqld4mJOeWQG7gv
+	k93FV2QqXuGbvXtZLxyF7xt8RfXVi2jKqTp5xTaN5UUfWtVWM8Njohoi3A==
 X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
 X-QQ-RECHKSPAM: 0
 
-Add support for the SpacemiT K3 SoC I2S controller, which shares the
-same IP as K1 but requires additional clocks: sysclk_div, c_sysclk,
-and c_bclk. These clocks only exist on K3 and are not present on K1.
-The sysclk_div clock is present on most K3 I2S controllers except I2S1.
-The c_sysclk and c_bclk clocks are shared across multiple I2S
-controllers on K3.
+Add the spacemit,k3-i2s compatible string for the K3 SoC I2S
+controller. The K3 I2S IP is the same as K1 but requires additional
+clocks: a dedicated sysclk_div clock, along with common_sysclk and
+common_bclk which are shared across multiple I2S controllers on K3.
 
-Use devm_clk_get_optional_enabled() to acquire these clocks so that
-the driver works on both K1 (where they are absent) and K3 without
-needing SoC-specific match data. For K3, the sysclk_div rate is set
-before sysclk in set_sysclk, and the common clock rates are configured
-in hw_params based on the sample rate.
-
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
 ---
- sound/soc/spacemit/k1_i2s.c | 36 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/sound/spacemit,k1-i2s.yaml | 31 ++++++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/spacemit/k1_i2s.c b/sound/soc/spacemit/k1_i2s.c
-index 1cb99f1abc7c..4e655d714623 100644
---- a/sound/soc/spacemit/k1_i2s.c
-+++ b/sound/soc/spacemit/k1_i2s.c
-@@ -53,6 +53,9 @@ struct spacemit_i2s_dev {
- 	struct clk *sysclk;
- 	struct clk *bclk;
- 	struct clk *sspa_clk;
-+	struct clk *sysclk_div;
-+	struct clk *c_sysclk;
-+	struct clk *c_bclk;
+diff --git a/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml b/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml
+index 55bd0b307d22..240d90402e4f 100644
+--- a/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml
++++ b/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml
+@@ -4,7 +4,7 @@
+ $id: http://devicetree.org/schemas/sound/spacemit,k1-i2s.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
  
- 	struct snd_dmaengine_dai_dma_data capture_dma_data;
- 	struct snd_dmaengine_dai_dma_data playback_dma_data;
-@@ -189,6 +192,14 @@ static int spacemit_i2s_hw_params(struct snd_pcm_substream *substream,
- 		    params_rate(params) *
- 		    data_bits;
+-title: K1 I2S controller
++title: SpacemiT K1/K3 I2S controller
  
-+	ret = clk_set_rate(i2s->c_sysclk, bclk_rate * 2);
-+	if (ret)
-+		return ret;
-+
-+	ret = clk_set_rate(i2s->c_bclk, bclk_rate);
-+	if (ret)
-+		return ret;
-+
- 	ret = clk_set_rate(i2s->bclk, bclk_rate);
- 	if (ret)
- 		return ret;
-@@ -200,10 +211,17 @@ static int spacemit_i2s_set_sysclk(struct snd_soc_dai *cpu_dai, int clk_id,
- 				   unsigned int freq, int dir)
- {
- 	struct spacemit_i2s_dev *i2s = dev_get_drvdata(cpu_dai->dev);
-+	int ret;
+ description:
+   The I2S bus (Inter-IC sound bus) is a serial link for digital
+@@ -15,27 +15,54 @@ maintainers:
  
- 	if (freq == 0)
- 		return 0;
+ allOf:
+   - $ref: dai-common.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: spacemit,k3-i2s
++    then:
++      properties:
++        clocks:
++          minItems: 7
++        clock-names:
++          minItems: 7
++    else:
++      properties:
++        clocks:
++          maxItems: 4
++        clock-names:
++          maxItems: 4
  
-+	if (i2s->sysclk_div) {
-+		ret = clk_set_rate(i2s->sysclk_div, freq);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	return clk_set_rate(i2s->sysclk, freq);
- }
+ properties:
+   compatible:
+-    const: spacemit,k1-i2s
++    enum:
++      - spacemit,k1-i2s
++      - spacemit,k3-i2s
  
-@@ -418,6 +436,21 @@ static int spacemit_i2s_probe(struct platform_device *pdev)
- 		return dev_err_probe(i2s->dev, PTR_ERR(i2s->sspa_clk),
- 				     "failed to enable sspa clock\n");
+   reg:
+     maxItems: 1
  
-+	i2s->sysclk_div = devm_clk_get_optional_enabled(i2s->dev, "sysclk_div");
-+	if (IS_ERR(i2s->sysclk_div))
-+		return dev_err_probe(i2s->dev, PTR_ERR(i2s->sysclk_div),
-+				     "failed to enable sysclk_div clock\n");
-+
-+	i2s->c_sysclk = devm_clk_get_optional_enabled(i2s->dev, "c_sysclk");
-+	if (IS_ERR(i2s->c_sysclk))
-+		return dev_err_probe(i2s->dev, PTR_ERR(i2s->c_sysclk),
-+				     "failed to enable c_sysclk clock\n");
-+
-+	i2s->c_bclk = devm_clk_get_optional_enabled(i2s->dev, "c_bclk");
-+	if (IS_ERR(i2s->c_bclk))
-+		return dev_err_probe(i2s->dev, PTR_ERR(i2s->c_bclk),
-+				     "failed to enable c_bclk clock\n");
-+
- 	i2s->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(i2s->base))
- 		return dev_err_probe(i2s->dev, PTR_ERR(i2s->base), "failed to map registers\n");
-@@ -444,6 +477,7 @@ static int spacemit_i2s_probe(struct platform_device *pdev)
+   clocks:
++    minItems: 4
+     items:
+       - description: clock for I2S sysclk
+       - description: clock for I2S bclk
+       - description: clock for I2S bus
+       - description: clock for I2S controller
++      - description: clock for I2S sysclk divider
++      - description: clock for I2S common sysclk
++      - description: clock for I2S common bclk
  
- static const struct of_device_id spacemit_i2s_of_match[] = {
- 	{ .compatible = "spacemit,k1-i2s", },
-+	{ .compatible = "spacemit,k3-i2s", },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, spacemit_i2s_of_match);
-@@ -458,4 +492,4 @@ static struct platform_driver spacemit_i2s_driver = {
- module_platform_driver(spacemit_i2s_driver);
+   clock-names:
++    minItems: 4
+     items:
+       - const: sysclk
+       - const: bclk
+       - const: bus
+       - const: func
++      - const: sysclk_div
++      - const: c_sysclk
++      - const: c_bclk
  
- MODULE_LICENSE("GPL");
--MODULE_DESCRIPTION("I2S bus driver for SpacemiT K1 SoC");
-+MODULE_DESCRIPTION("I2S bus driver for SpacemiT K1/K3 SoC");
+   dmas:
+     minItems: 1
 
 -- 
 2.54.0
