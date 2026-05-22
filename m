@@ -1,169 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7392B320CD3
-	for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 07:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E17392825
+	for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 08:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779436616; cv=none; b=OE7nWLAn2Tt1vsLAqHueC4r287gIesBk86Z86I/1jkmp0a6VAKrwrNSi4UFdJRwF+Zs/BRq7PUvTjDwDuc2WHZjS4j7zricjcXIzHL2/fyqbz/hNW2ylle9/Uzh18pyNt3fk74IaZK5d3qiYhBHa2oPkowZFe/rLFdNRJRgaFSY=
+	t=1779437023; cv=none; b=rUka0iix9vYdVsx8+Pm7Ob9IOUKOIKhdQcyz/8jL6bYPEk+HKfV7QE6+rzQBCQ7aG6n6VHXZewrTj4j4eVhc2c96e85vDaO9pIF9Ud7mTEpucRYU+32F9ttpZR14UGHKe5a0bnR7yoYpQiGSocH5SSJOPzDMAeQtIYMzCBq+EBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779436616; c=relaxed/simple;
-	bh=gyaKG3AWNtxZAQAKpMJSTBBNXIRLWlFbZAjNTfqCi1w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=blhI8VOzEt9qx5FtKQYJBBoMghgVCIG4EpOx9QpchMpGxC6lqE5J3f1YQ6uKA7DN1KRKcgD9Ani6tmaR3lEzAftGW1BVwCdDDCRg+T5Cilv+rBkwFC9gLySoZPrA7J2LPJQySSQ5pbjhsrFVKPbHgT5kw5zJZW83lQEjBhANwpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XLBzVMRN; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1779437023; c=relaxed/simple;
+	bh=FG36n5rI8ytB4pzPFcI60c/5FReybSIcQ8cI/amvm2U=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cBbsKL8ZKQKBNWnqpy57JK9ocJYjWeJu1QqdNWYuQNOih9ewUcxCSpcXdtZmu598aRSGD4iPhq3bNGD5UPfr16TjiqGJXWME+7YKJHaTQdIFVNLijR8L30kDtIZcdqw+JLxUHvvvOEaupRUvsorg5Dv/u2JbS5v8t17B3K0ltq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u9iQAyNC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CdO+KYKZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DVFvC7Z5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=V7DOtVEi; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XLBzVMRN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779436614; x=1810972614;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=gyaKG3AWNtxZAQAKpMJSTBBNXIRLWlFbZAjNTfqCi1w=;
-  b=XLBzVMRNXKiMa6BxP2mI7k6SF4dor8xyGeaUHFV4Q9BTehcLZeW7AMJ1
-   DqXyabgeRKerAtkbliCy440GfKxjteoH4PU/jIC7aBBrrjq4hby0cdQ9z
-   fRKpXcxl4+jcPPWsT/ro4uuE9arzxK76YYUDsv1ssm/CSoPx1Keeiifl1
-   bL6m1de/z/H+W7N0Z6Vvg7dxZb1OiL/i8HmVKUtc3lrrJKA2GSvFMf7pf
-   ic07y9ppkKw5fAjaEWom0R6yNPgfw1sNvUYXSo9z0HMRsQHq5pwlUhJ76
-   DV71jXX/A2ALCz+4aOfKxTifxs6KmmNLedSej4ENoFmLv6eo8CGnt/pYU
-   w==;
-X-CSE-ConnectionGUID: 4WDr37tzREuvKW/mfqvMbw==
-X-CSE-MsgGUID: iPfGvbJHQOm8i63T9BISZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="79514253"
-X-IronPort-AV: E=Sophos;i="6.24,161,1774335600"; 
-   d="scan'208";a="79514253"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 00:56:54 -0700
-X-CSE-ConnectionGUID: 5HGfTyatQw+dLmuXTcJSVA==
-X-CSE-MsgGUID: d/+OMh6iQ8OqgWh8WNkjzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,161,1774335600"; 
-   d="scan'208";a="240011939"
-Received: from slindbla-desk.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.207])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 00:56:51 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	seppo.ingalsuo@linux.intel.com
-Subject: [PATCH v3] ASoC: SOF: ipc4-topology: Enable deep buffer capture
-Date: Fri, 22 May 2026 10:56:59 +0300
-Message-ID: <20260522075659.2645-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u9iQAyNC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CdO+KYKZ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DVFvC7Z5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="V7DOtVEi"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9AFEC6794F;
+	Fri, 22 May 2026 08:03:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779437018; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=84cc6ARVjkJIeKL/WhtsX0tQyERjYN9aPbPG3YOx/I8=;
+	b=u9iQAyNCNqGVbFD7Zr/aoVdpW8aqDJ08pmBBr73S6OQIOOf+y5a4YLSGcWqZ3c+WYDsTLD
+	7FMUiZOeObsfTn/MKU22U3GVQy1U/p9SLFwRYRq3+uaXNhgGqpGnAB4aHGxlggYPp2YRJL
+	+kl/jAt4antX1DJT6/dGm1oYXxZ6K3s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779437018;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=84cc6ARVjkJIeKL/WhtsX0tQyERjYN9aPbPG3YOx/I8=;
+	b=CdO+KYKZj0pifFETQL50YeIQHkw1Py+gFBLJZpHMwNotRD4jxBv4cSiGIThERJiipKz/HC
+	jBuKstOnZK1I2IAQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779437017; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=84cc6ARVjkJIeKL/WhtsX0tQyERjYN9aPbPG3YOx/I8=;
+	b=DVFvC7Z5pZFgUwblwkm4d1woj4qnz5nlJreQDiX9AQGzXpn68hQwla9S9enSNnctMWGbBy
+	ugeGVXRWn7+UCx7oeq7j5HKEPTyEPhl9krTBfZ3Y6cHV2F/J9IahCwxi08ioyO5Oy9uGWy
+	fg738+BLyS10dT18tdskf6Ybh0lheFA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779437017;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=84cc6ARVjkJIeKL/WhtsX0tQyERjYN9aPbPG3YOx/I8=;
+	b=V7DOtVEiGsmW1Dt/6eHRE/4dMK1w+UBXgkF2jnScFyVfq1xNdixe7AoxF3TOc6x9M0j3dC
+	GUK3XTYr6MJJVICw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 76601593A8;
+	Fri, 22 May 2026 08:03:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id P0G7G9kNEGr2bQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 22 May 2026 08:03:37 +0000
+Date: Fri, 22 May 2026 10:03:37 +0200
+Message-ID: <87o6i7j2g6.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC fixes for v7.1-rc4
+In-Reply-To: <330b62a00eb5358e06742f419308fa7e@kernel.org>
+References: <330b62a00eb5358e06742f419308fa7e@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-From: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
+On Fri, 22 May 2026 01:22:11 +0200,
+Mark Brown wrote:
+> 
+> The following changes since commit 5200f5f493f79f14bbdc349e402a40dfb32f23c8:
+> 
+>   Linux 7.1-rc4 (2026-05-17 13:59:58 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.1-rc4
+> 
+> for you to fetch changes up to 09e8f9a9aa19aa8c1b0cc7a0ebc68f6ecf86a660:
+> 
+>   ASoC: codecs: pcm512x: fix null-ptr dereference in pcm512x_overclock_xxx_put() (2026-05-21 19:28:24 +0100)
+> 
+> ----------------------------------------------------------------
+> ASoC: Fixes for v7.1
+> 
+> A bigger batch of fixes than usual due to -next not happeing last week,
+> this is mostly stuff for laptops - a lot of quirks and small fixes,
+> mainly for x86 and SoundWire.  Nothing too big or exciting individually,
+> just two week's worth.
 
-This patch lets a capture PCM to operate with deep buffer
-by taking dsp_max_burst_size_in_ms from topology if it is
-defined. Earlier the value from topology was omitted for
-capture.
+Pulled now.  Thanks.
 
-If not defined, the maximum burst size for capture is set
-similarly as before to one millisecond.
 
-The dma_buffer_size is set similarly as for playback from
-largest of deep_buffer_dma_ms or SOF_IPC4_MIN_DMA_BUFFER_SIZE
-times OBS.
-
-Signed-off-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
-Changes since v2:
-- fixed my SoB tag from SB...
-
-Changes since v1:
-- added my SoB tag, sorry
-
-Peter
-
- sound/soc/sof/ipc4-topology.c | 39 +++++++++++++++++++++--------------
- 1 file changed, 24 insertions(+), 15 deletions(-)
-
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 76812d8fb567..65756fe3a64f 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -624,6 +624,7 @@ static int sof_ipc4_widget_setup_pcm(struct snd_sof_widget *swidget)
- 	struct sof_ipc4_available_audio_format *available_fmt;
- 	struct snd_soc_component *scomp = swidget->scomp;
- 	struct sof_ipc4_copier *ipc4_copier;
-+	struct snd_sof_pcm_stream *sps;
- 	struct snd_sof_pcm *spcm;
- 	int node_type = 0;
- 	int ret, dir;
-@@ -668,24 +669,23 @@ static int sof_ipc4_widget_setup_pcm(struct snd_sof_widget *swidget)
- 	if (ret)
- 		goto free_available_fmt;
+Takashi
  
--	if (dir == SNDRV_PCM_STREAM_PLAYBACK) {
--		struct snd_sof_pcm_stream *sps = &spcm->stream[dir];
-+	sps = &spcm->stream[dir];
-+	sof_update_ipc_object(scomp, &sps->dsp_max_burst_size_in_ms,
-+			      SOF_COPIER_DEEP_BUFFER_TOKENS,
-+			      swidget->tuples,
-+			      swidget->num_tuples, sizeof(u32), 1);
- 
--		sof_update_ipc_object(scomp, &sps->dsp_max_burst_size_in_ms,
--				      SOF_COPIER_DEEP_BUFFER_TOKENS,
--				      swidget->tuples,
--				      swidget->num_tuples, sizeof(u32), 1);
--		/* Set default DMA buffer size if it is not specified in topology */
--		if (!sps->dsp_max_burst_size_in_ms) {
--			struct snd_sof_widget *pipe_widget = swidget->spipe->pipe_widget;
--			struct sof_ipc4_pipeline *pipeline = pipe_widget->private;
-+	/* Set default DMA buffer size if it is not specified in topology */
-+	if (!sps->dsp_max_burst_size_in_ms) {
-+		struct snd_sof_widget *pipe_widget = swidget->spipe->pipe_widget;
-+		struct sof_ipc4_pipeline *pipeline = pipe_widget->private;
- 
-+		if (dir == SNDRV_PCM_STREAM_PLAYBACK)
- 			sps->dsp_max_burst_size_in_ms = pipeline->use_chain_dma ?
- 				SOF_IPC4_CHAIN_DMA_BUFFER_SIZE : SOF_IPC4_MIN_DMA_BUFFER_SIZE;
--		}
--	} else {
--		/* Capture data is copied from DSP to host in 1ms bursts */
--		spcm->stream[dir].dsp_max_burst_size_in_ms = 1;
-+		else
-+			/* Capture data is copied from DSP to host in 1ms bursts */
-+			sps->dsp_max_burst_size_in_ms = 1;
- 	}
- 
- skip_gtw_cfg:
-@@ -2430,10 +2430,19 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
- 			copier_data->gtw_cfg.dma_buffer_size);
- 		break;
- 	case snd_soc_dapm_dai_out:
--	case snd_soc_dapm_aif_out:
- 		copier_data->gtw_cfg.dma_buffer_size =
- 			SOF_IPC4_MIN_DMA_BUFFER_SIZE * copier_data->base_config.obs;
- 		break;
-+	case snd_soc_dapm_aif_out:
-+		copier_data->gtw_cfg.dma_buffer_size =
-+			max((u32)SOF_IPC4_MIN_DMA_BUFFER_SIZE, deep_buffer_dma_ms) *
-+				copier_data->base_config.obs;
-+		dev_dbg(sdev->dev, "copier %s, dma buffer%s: %u ms (%u bytes)",
-+			swidget->widget->name,
-+			deep_buffer_dma_ms ? " (using Deep Buffer)" : "",
-+			max((u32)SOF_IPC4_MIN_DMA_BUFFER_SIZE, deep_buffer_dma_ms),
-+			copier_data->gtw_cfg.dma_buffer_size);
-+		break;
- 	default:
- 		break;
- 	}
--- 
-2.54.0
-
