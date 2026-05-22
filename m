@@ -1,118 +1,93 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 199F035E940
-	for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 16:24:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15ADB282F36;
+	Fri, 22 May 2026 17:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779467061; cv=none; b=eP8hhYWgyALPqF0HUCBaIkjG0kqwDKeozxCt13BU7xQLJPELcEbiXQdozLEijG3rG9kevcYh79/CK/wy/7Kkxe50xe8kQPhd/c6MYEogo1BW/2Ssbv76b7nK+4Guxn6n4hrXcOsDW6ea2kzWKu/m5ITc/aZSvbfTOkyTyUYHPM0=
+	t=1779471838; cv=none; b=ouyogBmzcMRK3nEWRO3bPK/L8WbSAtPDk2hFbK3DgdH94PQdeBrrFCDIPoqcdwyYGfysKhxNZVf4XuBwwkkMevGgW9KQ0/CmuXsRL59x7NohtlE8Ntz5RMF4yHY8iHiD3v68Blo8i4wSCphhS/RcCNReHJgV+BdhUdXCn6Xo2eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779467061; c=relaxed/simple;
-	bh=dEBjiFnraXpZDoARS44T/1yx4GPXT7YfcKp0uo1xJZw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hzjj2yiQCkyuMK15Ht4Uq966x4YIfQchpTk2/UccUDUNbbu9ji8pJl82yuJX4HXqZbJF02fZTiwZdrM0XL08qOs3vKVyNc2lf2MI+vEG5IolDKlqbEHeKasTRRGXVOFD678RlcIRORoQPEAXZoihlN7jb5SEFVDkwqYTpvO92tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=cz4+33SO; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1779471838; c=relaxed/simple;
+	bh=G977wFYZeJL9dO4L5j8WuYlyScxupqnnDsErYn4S5fo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=mM/YUN6lMxzmD4VSlKrPsQIX/GfCNjsUUYg1qG/mUsJa9cZmsgSNSU7ghGaaw6UwB/DfsQ/+fq+DRWSZi+MDXI/N7ahw+Qgbg2c8zazLFwpQXQpd2S8zQ/hLDCSJBVRtvHljRQIR+e31nuitpC7LzCrl1vui79ACePO2TRzVGFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SUQjzqxL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="cz4+33SO"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43d75312379so6366018f8f.1
-        for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 09:24:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1779467057; x=1780071857; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TpTRVpTeX+hV9MNqRwUwe9uS8o/vhYTuVInOTNLeRpk=;
-        b=cz4+33SObdvz571vCaUifVzOhs/QTk3/pJZIBEGd+qJSBmgH/z2VkK52BVeVXhxFEn
-         a6wszBE2YAf5s3Pf6+QP8ecnUv+Q6iHHxXYJ//Y3tBHdB1Ngd+d8loNuD968a+bFOYyi
-         aTYIOHMPIwupB/83KIWrY6mOiBWOplTIjg5ufcMMhK8xtwvuJNGFqeiFQYKFeAGk/aC+
-         WQlCDShD8rIw9MJYbG84vNFx8hVpN4ryyYghbD3xlPr5s68X/yaW12XzQ4fS9PlaldaM
-         6KEWTjk4BE2het5bj/3HJ+RC+8IzgCPf7gBuHBmpH1brQmULiRYKM+WQkEkW21iCbkoF
-         y0MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779467057; x=1780071857;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TpTRVpTeX+hV9MNqRwUwe9uS8o/vhYTuVInOTNLeRpk=;
-        b=ohjy/jlMNzqEcvWnm6yknKW7VT3ucN0XTTWEKIgfVS90PcN4mK8fpmSU1V9EpUWCnq
-         YVFksoNgPxPZrvAu8RiomzniQnd6OzFfS74FL+elHs97vfFPSFjbjZkyfyclKkoT73BR
-         /FDRydyAymRBD1+Q94/mlvKF4crFjjnbAGEtzhBARBGO1Eph09QtWvZh8MCW4ebSgP8g
-         DkdMPyGo+ekrTuV1oVSN7hZLPa8Qu2PtwQ23xDtGIh9zyk1oCBzqPiKWexBMg3M797sL
-         vFdDYxLpqTqrUNcD/oScQk5Yfs1ny6M4HX5u/pMoNjkt5Yc3hBLxTu2vYF9K59iyec9a
-         lMuQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9NwdBI2zU1ocALVR9qoAS2sfGT1v2Wp/etZkbjSlxrLpmsTBrOFAaa78jQ7Gx92jjMeTxC3g/5Hcmnqg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvX85IyQME1wxopm7FowDG6RMPC5MHukpA9BfhwDyNODpJDXkx
-	oV+JkqpE8iUeKGTrhg36maC1/fS6PPa8UZQH0juykMq918U3sTURIS+7w/rNLLyHFtg=
-X-Gm-Gg: Acq92OG+fIlL6gKaysKlL+QEWKzFYIxNieNzTyJpDfSE94hmp+ZL9ieHWsHnc07pZMt
-	i6X+SmJhmtD6Fxv74Ac2skXWnKKdfuKgHvX0jMhqmVo8tS1WklUAX/erTtRwgdQ0fZyWHMc4nPF
-	cZrOCQ18VVWfb8a07HOeNI+/nxqNIOSgxrbcIhhrWdeKGfwnj1l7yGCCYe9tBSABdhdju4EJApv
-	gavVQNTvhUuMWUk4VnvYLYqb+RW0LiiqX8A6RetIcLw0V8uN0p3gC/8/URxBLUl251pwXPMrvZf
-	4FTtgObJmGnkZhqKSh61dHCdoZ1BMfsSKt25SkeJ7plOseoFsq2tf0tObtsBiMvefwDVgV7SQl6
-	x9ncwqMPueQ1tXkZKzD63iIudwyaIA26bWrAIwNC2NX3CqLbK2MFRpJpWRWuY3kdBa21gKp+uFm
-	xG2FAdrDA4n20pL4fDVmpfRNMkaA==
-X-Received: by 2002:a05:6000:1889:b0:45e:8edc:dacc with SMTP id ffacd0b85a97d-45ea31ce398mr13404994f8f.27.1779467057126;
-        Fri, 22 May 2026 09:24:17 -0700 (PDT)
-Received: from [192.168.3.100] ([151.41.223.93])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6c9dd03sm5868666f8f.7.2026.05.22.09.24.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 May 2026 09:24:16 -0700 (PDT)
-Message-ID: <891be10c-99f1-45b7-bd31-ec5080cfc780@baylibre.com>
-Date: Fri, 22 May 2026 18:24:16 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SUQjzqxL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E49FA1F000E9;
+	Fri, 22 May 2026 17:43:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779471836;
+	bh=ySlfzbET71+o57AlLLgDovA0KAs9eNpZmvNfNdCu2To=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=SUQjzqxLodwVv6RsVftw0JWcAkQQx8WM+k4K7y/ZxF/niGQniMBS9LM/OeiYezrLp
+	 ztbrAA8tG2Guq+oVRlMCa+HVcj67FqasJSYzRqHTisuKnOXXIUlQaqERQdGQxsZyLo
+	 TLKOjYeXMqMfDvx1yqxUauzj4ulmCWn7lu1X0KbSqMhDEhSq92/1Tc1uNohSixYw6U
+	 vZuTcGaN7T7LE/yMubgbGY3dhgwD3oi7iosonXBs6cLykUGdnbufKurMJsvacZl/sh
+	 AL9KIxVLMqVKHM9hXhjmgr6opK4xoCnLPVffMe3Ih0zAIb6jCREC6zXkbJTS7MXi+F
+	 n2rCnJ49la6ug==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Cyril Chao <Cyril.Chao@mediatek.com>, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+In-Reply-To: <20260514-asoc-mt8189-probe-cleanup-v1-1-ded733363281@gmail.com>
+References: <20260514-asoc-mt8189-probe-cleanup-v1-1-ded733363281@gmail.com>
+Subject: Re: [PATCH] ASoC: mediatek: mt8189: Fix probe resource cleanup
+Message-Id: <177945304031.6494.16316071935569067242.b4-ty@b4>
+Date: Fri, 22 May 2026 13:30:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] ASoC: meson: aiu: use aiu-formatter-i2s to format I2S
- output data
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org
-References: <20260515-reshape-aiu-as-axg-v1-0-53b457784ff3@baylibre.com>
- <20260515-reshape-aiu-as-axg-v1-4-53b457784ff3@baylibre.com>
- <758a4ef9-1a3e-475a-ae1e-83523330d006@sirena.org.uk>
-From: Valerio Setti <vsetti@baylibre.com>
-In-Reply-To: <758a4ef9-1a3e-475a-ae1e-83523330d006@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1121; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=G977wFYZeJL9dO4L5j8WuYlyScxupqnnDsErYn4S5fo=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqEJXZM99O+JagCIvgfofBdj+0iZOBzv3TpvVtX
+ hejW1q7mWiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahCV2QAKCRAk1otyXVSH
+ 0NWaB/4hlQtZDLSmrPFVXvyMx3wwK6bZBuXMBcC5yPQt1BwAAn1YcO/2a/CMfeETmmA6VJ4fvG/
+ 9FzEuSxYmEg7g1th+zFi52ErCj3a5ozkXpAlqpML8ZeFbSEPN7+KmknAMjNfPYkzm+KqcD8qo4v
+ wV9H5YKhEnmwJK+YcOKORUNF5dUjEIvmqxQ8SYo9R2WlQJmr7r2t03eWxENVbGpxxWgy8bKTk9b
+ CIe+DUKb0ZCDXUTKEYzMoyBwGvtttCbahvtd/Q8LSbXFgnt4Tapsu9G8zrvN/3+/+F/4+/NcZ5d
+ Yi7NipucE2iEKyvpienFGjRsbHbuTJuF5oodbBs39g7x3QU3
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Thu, 14 May 2026 10:52:35 -0300, Cássio Gabriel wrote:
+> ASoC: mediatek: mt8189: Fix probe resource cleanup
 
-On 5/22/26 01:15, Mark Brown wrote:
-> On Fri, May 15, 2026 at 05:10:40PM +0200, Valerio Setti wrote:
->> Create a new DAPM widget for "I2S formatter" and place it on the path
->> between FIFO and output DAI interface. Remove I2S output formatting code
->> from aiu-encoder-i2s since it's now implemented from aiu-formatter-i2s.
-> 
-> This series, it looks like this specific patch, is breaking pcm-test on
-> my libretech Le Potato board, the clocking looks to be seriously messed
-> up.  I'm getting:
-> 
-> [...]
-> 
-> Full log:
-> 
->     https://lava.sirena.org.uk/scheduler/job/2786342#L1934
-> 
-> The prior patches seem to test fine, it's this one that seems to
-> introduce the issue.
+Applied to
 
-Thanks a lot for the heads up and please apologize for the problem.
-I wasn't aware of these testing tools so I based my testing on playing 
-with userspace alsa tools on the physical board that I have.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
-I will take a look at it ASAP and send a properly tested v2.
+Thanks!
 
--- 
-Valerio
+[1/1] ASoC: mediatek: mt8189: Fix probe resource cleanup
+      https://git.kernel.org/broonie/sound/c/5404599c3292
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
