@@ -1,79 +1,79 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CDE3905E4
-	for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 09:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA133BED61
+	for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 10:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779443759; cv=none; b=Ygnkley8/6nZaXiJJw8f0EXe55Z/48ozkqz9WVIt/naiqA09iXSeiDUTBlesfb3O5JlvIRPmsOIIbqsnssx0a+6yEehDINw5hQ9Ht2qeBE2ZspwR4QKTLBup6YX3XOPQSnWQfnYYp2rcSD3yfxwRfqiw7E7VwU/3vkjycydC+o8=
+	t=1779444217; cv=none; b=E30Ls/jvSUuPctbX3g27SXfZ8GKUQj0A1y3nDVvJ/J4gRqoXXb1FlDbcPgEz92sfMwvjfFksG7L2ayRZMS9DX567Gg6n7I2Zvy5UWFrTiN3svip6vSIvt1LPESbgBEi6588QVUgI8ELsvVUfAZwKwt/sFl+iNweD1a+FkfWCZfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779443759; c=relaxed/simple;
-	bh=xUYDqpMUSiYjYknvlUc2DtVTu2MReCm/9zoyeeggXbk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qznam0iST0A0KcsFSx4AvTHpUITRclCEgjUql8L3wQipttuR/JCYF+auyB6tmGd/vizQKS9S8l4hg5EI3TM+0/FPjjnF5qb79mXVOUxoqkAdbiuJpqPTkie+ZSAWO60brBIxjl/SMS6DTOGIclGTC3gWaSHvgxVt5Gj8+sJzYKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V/G/NV9r; arc=none smtp.client-ip=209.85.210.176
+	s=arc-20240116; t=1779444217; c=relaxed/simple;
+	bh=XcEC9ecrdej77lQLA5Zn9CN66MJ4E6gOFshYSEz1t2M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jW+nhqyXim/JD6PvnoJd/peixY6HvvFHRRQnF/KRvqikAueBaM0L+y7EIE+6w7s3SxQb7HeNeLIRxuRljgMTew3twwDSlqhgRSWzRcqBt8rp9otDykVeg7VzRT+1Dp+QAWHv/utsHE5niHvuURl275i7rjfLf7bk8lrLTbZqSgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EdVZf8/m; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V/G/NV9r"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8367df48711so3094325b3a.1
-        for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 02:55:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EdVZf8/m"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2bc85eda6b6so35556325ad.1
+        for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 03:03:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779443757; x=1780048557; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779444215; x=1780049015; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vdspRS+hKmJQmW0Wsieo4FX+5eK/WlAigCd6WtBtyGk=;
-        b=V/G/NV9rODZs/93Zx5yu8IT60iJfX0nT27wrrdhKMlyg+V0d2Lw+DtEuioivKWRkHZ
-         5HAakQ9/uWoWoJQxqNjfAKQWuJWH+KNkOq+xVBOiryRckgXJ/J56iYYzbZGu8mVlXvOR
-         VSDs/8+BmNggCu+gjLIPX/3AzaKkFgF6G6oyRpIZOXXMdUdWfghCaU7YQ12GNCd4ofRX
-         zfpQ63VyVRX5WDqHrTP2+xSikiWTNnsh/VrSTME6gEzDU1UZRDq5kj+82WT+Tzr3lJ/H
-         cZPIFLGYSv1yM20tEnBxmQk8RIv0ahs9NXYMMqZVQefkaF44xxC5rVnzZbfkClxzg7zE
-         aVBw==
+        bh=eiBRTRZTJBLsm6cC7zO439AbTyaUXaT32zIuFaYd3eo=;
+        b=EdVZf8/mSqovV0tpDvJF6D2d2iMpTJvbv6tEl6BwwqNPM77hmR9QoZMMJXiWcYziWQ
+         4fFHKoprt+3OMclShS2lWPxGAy+KZSfos/vs+H9Xuf7J1HSDzTnbGRDjszm+85msf3A9
+         Yx1VjhmWwLQKWxWVoZ1ARkdBqrHzAGjyX6lutvt+BZUJvCSBMRQ7K3vXexjEiYedj39O
+         TI9XrMMf/ii/lJPQ3iGSXsGj3Tl7i+XsrMo1owkxFjDX//yoX/u5qo0itGPcp1mT2v45
+         6WdmxSMPpiY4zyDVwQ2PH50QD9OxAXXxVruD+ALbVtPQOA/oYLMYOQQ6juGn3sUb2lxG
+         d9Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779443757; x=1780048557;
+        d=1e100.net; s=20251104; t=1779444215; x=1780049015;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vdspRS+hKmJQmW0Wsieo4FX+5eK/WlAigCd6WtBtyGk=;
-        b=Pe6GWqKe+rsiBGNA2CVdTjztTF+MIrZzY0prbNjjQmgWNkKrk9iJkkZ/x7sKZ14Wlt
-         FwlcTFnHTWRGkm/4VhxBbapJLvZkayTq5mFTdKa8YSTaqKD5v59UYFZrj911O1yOcDTw
-         IhsEAjEad3+RrM/CII6ky4+n2arltf5Z7ZCClFKydXrL+pZaiKF+7+pxH0FaWHaFFzu/
-         LZzualZKvqEuWewXqydl7WeD3SYXpg4j/FHIhWr/ehu/6hS0bB1if3EKTNoJC1Nd7gNJ
-         USu58wHcsoZiCpmrJ3A24JXz1lUSdBgCcrMXm0WiPX+r/DCPHMOpizIGDpVVU6RbXcN2
-         GVjA==
-X-Forwarded-Encrypted: i=1; AFNElJ+l/5mJO10Av5jp/UcQR/nC/7nD3q+TvNQW5UKNxqdQPhHBNj/qJMKLVN/Uc84msex8mlv1jprj3Fn3Tw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMGzj00xRfwIkXA/dGdFfxXJpR3dAfj2djlp8gB/OLMKKLJ/Zg
-	y8y5vMHidnUtQngybSbxHSG0Sa5s1MCAf+j6104IaKqfC58/rfR++qit
-X-Gm-Gg: Acq92OHNzsX/o8gsMgDs/nlYa9lljiCovuzGVBH4+GhakYdR+8oxK6AigVOOQqTu9jR
-	linUxdKVvMH5F+gvmuwbMRFInpf/XkpHUhSgPIgNLUoHfCgtRimfFOPyQcLXaS7N3sWu0cNk3DQ
-	wgX+3OUjPOCh7i5vBdoG/3Q9sExRoUT9eendYOhiWRtubob+gMyK6y68eLThYVQWtGh3/zugECk
-	kHrwFitH87cpg4ufLALeGD7o7qzHhc7Kt9Zfu2Kgke5Ldn7Iz726FsVDGE/ZX3XFoNnXRlNDRR0
-	Dmo8MFVDnIT+/eGc2zU3tcSJNFJqDHAYL2gCK25bIt/7VngOSexgWu2TeCyEEvhNgvEAa4qlepa
-	Next9yshrJHGblH3Pelv1pDYy1r5Aa73mGqVx6gLs4pHUEBKZIkIynwbhvKGAT7ExJJ223atyy6
-	Pdi9YnhJrsRNKK0idIXC3z9DnAA//8pNHsRrgFICTq6+eJFBi60P1sitLVCcmR3itc3tN9
-X-Received: by 2002:a05:6a00:3020:b0:837:e9cc:d470 with SMTP id d2e1a72fcca58-8415f330e98mr3144147b3a.20.1779443757359;
-        Fri, 22 May 2026 02:55:57 -0700 (PDT)
+        bh=eiBRTRZTJBLsm6cC7zO439AbTyaUXaT32zIuFaYd3eo=;
+        b=l2+iP2/cBUMfJn7XlONVbpFi+ovVpz1G1wpdLOxAtWlyLUeTzit6viJbwRnlrtzyHw
+         31KtPwAcklGHYprF8skLkgD10ZRPnYf3OIbgjOZQ1DBEzG6CS0OVM4FA6wYupObpGK8p
+         rok1K6FP7wzz3Dacv+Q+O2zGVVLVWLMje9BqhcrFG8V+ElP36krH8e4bAzUkAhWPy26H
+         FToDSRcK3Nbhhi0looTGwHffg4rlp/irSQg3ht1eFdSGpJIL8ia4wpiiaYMz8uoB/3YU
+         fXFhmmqSrRTT5A6Ki8HCI1mTVN4tnevCLX3WUSFvQwjBpXqr16knZVfQVw/geQzYFpE4
+         V9rA==
+X-Forwarded-Encrypted: i=1; AFNElJ/wx6++8PwuEFDwbv1CwyNxc4Gw638cZ+aAZ30B8vsyyrnbaHOriekUEFbepg4rR4uF6QO++EnOMqG9kA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFCIihZ9LKIjJaCiM6OHxhLBDtOeFe6G2im/bDMrR1hBgqny3W
+	XoItVtmtAJBdATJWKxHIdaAbH3wlc+ccY4Z1FxmrucjJMrSNTVred2pt
+X-Gm-Gg: Acq92OFeG5NnJXK9u2eFb766KG7FR1Zr3TjjxMshHYqOboSEjUpyXjlq1z0zFKVLRpQ
+	7LtcvOZ1gRUmU+BuCpJGarwyn/jg+Uil8OrEhL0PVM/QDDw+5QY0tSu6XoF5eRRXywEajW7d4bw
+	qyA5QD0X2OJzFJzVXJxRnNPz29iKHJsuLPAGoG7pLrD5bCv635S0oDw89D+jYw4Q05d33EqAQkM
+	nRk4RmbJ3tUoYu5xIvzxRGQk6IzmjeC3iSQVxWrZzrzdguq0hZErjcaJZgIWvphsYDq2XDyZVge
+	+m/WRKsk4d30HWnYM7WpEpDvRIV7ymkY+RkWXE73EkSH1+Izthk8OiNEhJ1pLdK/Wo1ae/emrcu
+	pmutyDGVfciRpASzXZliA6fCXr4ExaZL4IfxnpYpCKjCXpHzdprEeL/gh1u1KIuujV1ftN+RI/9
+	4nEN2I8qnveTABHZ3JN4angnO1ZVm/B5oYXjHjzGlfXUDTCcWeRjbpd3CVsw==
+X-Received: by 2002:a17:902:fc48:b0:2b0:c45a:bc2 with SMTP id d9443c01a7336-2beb059cebcmr32443895ad.16.1779444214757;
+        Fri, 22 May 2026 03:03:34 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164fe0bb8sm1338786b3a.51.2026.05.22.02.55.53
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb56f4343sm18683455ad.36.2026.05.22.03.03.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2026 02:55:57 -0700 (PDT)
+        Fri, 22 May 2026 03:03:34 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: broonie@kernel.org
-Cc: codekipper@gmail.com,
-	jernej.skrabec@gmail.com,
-	lgirdwood@gmail.com,
+Cc: lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	heiko@sntech.de,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	nichen@iscas.ac.cn,
-	perex@perex.cz,
-	samuel@sholland.org,
-	tiwai@suse.com,
-	wens@kernel.org,
+	linux-rockchip@lists.infradead.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH] ASoC: sunxi: sun50i-dmic: Reorder clock enable sequence
-Date: Fri, 22 May 2026 16:55:39 +0700
-Message-ID: <20260522095539.73025-1-phucduc.bui@gmail.com>
+Subject: [PATCH 0/3] ASoC: rockchip: Reorder clock enable sequence
+Date: Fri, 22 May 2026 17:03:15 +0700
+Message-ID: <20260522100318.73474-1-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -85,41 +85,28 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Enable the bus clock before the DMIC module clock during
-runtime resume.
-The bus clock provides the register access interface and
-should be enabled before the module clock.
+Hi all,
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/sunxi/sun50i-dmic.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+This series reorders the runtime resume clock enable
+sequence in the Rockchip SPDIF and PDM drivers to enable
+the bus clock before the functional controller clock.
 
-diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
-index eddfebe16616..7aff1afdf265 100644
---- a/sound/soc/sunxi/sun50i-dmic.c
-+++ b/sound/soc/sunxi/sun50i-dmic.c
-@@ -323,16 +323,16 @@ static int sun50i_dmic_runtime_suspend(struct device *dev)
- 
- static int sun50i_dmic_runtime_resume(struct device *dev)
- {
--	struct sun50i_dmic_dev *host  = dev_get_drvdata(dev);
-+	struct sun50i_dmic_dev *host = dev_get_drvdata(dev);
- 	int ret;
- 
--	ret = clk_prepare_enable(host->dmic_clk);
-+	ret = clk_prepare_enable(host->bus_clk);
- 	if (ret)
- 		return ret;
- 
--	ret = clk_prepare_enable(host->bus_clk);
-+	ret = clk_prepare_enable(host->dmic_clk);
- 	if (ret) {
--		clk_disable_unprepare(host->dmic_clk);
-+		clk_disable_unprepare(host->bus_clk);
- 		return ret;
- 	}
- 
+It also updates the SPDIF DT binding clock descriptions to
+match the actual clock usage in the driver.
+
+Best Regards,
+Phuc
+
+bui duc phuc (3):
+  ASoC: dt-bindings: rockchip-spdif: Correct SPDIF clock descriptions
+  ASoC: rockchip: spdif: Reorder clock enable sequence
+  ASoC: rockchip: rockchip_pdm: Reorder clock enable sequence
+
+ .../devicetree/bindings/sound/rockchip-spdif.yaml      |  2 +-
+ sound/soc/rockchip/rockchip_pdm.c                      | 10 +++++-----
+ sound/soc/rockchip/rockchip_spdif.c                    | 10 +++++-----
+ 3 files changed, 11 insertions(+), 11 deletions(-)
+
 -- 
 2.43.0
 
