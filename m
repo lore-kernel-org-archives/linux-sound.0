@@ -1,103 +1,79 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A93DF37B028;
-	Fri, 22 May 2026 13:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E147E3B19B9;
+	Fri, 22 May 2026 13:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779455965; cv=none; b=J7gdMu8CTNrhmbo7nkkUr4ammSEx5oP7tYL/GgGjGM7sW/JRrfxbXU7oj6hGmB9gh6XAUwi38uORAgZVQxeoksSmSIC8BDYQe5vp4N9s04VJu7Jo2cGV0D6aeYj8VQ9Sm451xkrm9QNy+5ySIRFJKXuQoqS0x9nW5iGqSrN7I50=
+	t=1779456285; cv=none; b=rNWXIJ0oKAeKYANo2GrflhptvHHatoVMXvmWJJXI9mnSt3a3dhoBPMdy6f0Bf+HCT4sYeeakb7riLznZ9hKkNBi7hWEME218kIX5CWHRVUJKjkLu+GO+giuPsQEdzEzZfiwOWmQlbbNXCGwYQVWpPNp85Si7LmPiyppPnCc8VmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779455965; c=relaxed/simple;
-	bh=hoxYxDOo7QAuogJQa2VoEG51iVZc/JJgdD98O6Iq2Qk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=k0R4qUPsuaxDsPmfAYv0dydcIMpEFuJ5gTo/jExqViVwP+9YActGRXO0FbC9vufdjYD3fuZNg1qOnRnJKdbYWbPX0iid143fAu2t6rXXtKb5+i5bNziXsWMy2z5YvVlUb5J6+sp4aKf4U7Lyi1chEcTvUXNN/pgUbXuF+vVr3Qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=pIKIhg09; arc=none smtp.client-ip=54.207.22.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1779456285; c=relaxed/simple;
+	bh=NViGqmMehOu4Fdx2T+mDqdKwN1eY4uewYXT43w4woek=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uUEzB/0je8a5vXvZw64kmhrDD+vQsc4VR4aIRenLPBKBTxAX1oWTzOkk4f68Uydm+xxMZZPHpoii3HIjx/aLABgmZnzVhyv2r44r1LhFoHkCLgj+TQy5z05gWCqb1+1UBD6yQSa6vHL36RPQqCHbmyyikrHSuZS/hge1efH+5Yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ox3nWW0C; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="pIKIhg09"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1779455879;
-	bh=4RACIIvqwwKv5OCUQdl3TRRl83JS4BtgYtRCpIVcu3s=;
-	h=Mime-Version:Date:Message-Id:From:To:Subject;
-	b=pIKIhg09gROL4RrM6IF9QMiAOTuibpCjCOeDLpcmw/qk9+NlkEVtpXr1DVnpoxGk1
-	 d/TSAkY6lHswwupW1gYVxg8DHHM2hpr/orzJsnXx2qDmya3jF9vWhG7gIvYYlc0WGe
-	 Z9gsJa4wle7rRHHfFUWiYp3tU9XHrUZHgbv8o6t0=
-X-QQ-mid: esmtpgz12t1779455870t569a11c3
-X-QQ-Originating-IP: GqlVLBy8xuQxz5FB5yHZfEci69R+BINM8B+fRDdGZKQ=
-Received: from = ( [61.145.255.150])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 22 May 2026 21:17:49 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 3995857162579613603
-EX-QQ-RecipientCnt: 11
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ox3nWW0C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C99A81F00A3F;
+	Fri, 22 May 2026 13:24:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779456283;
+	bh=NViGqmMehOu4Fdx2T+mDqdKwN1eY4uewYXT43w4woek=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ox3nWW0CQhEaHLQweVaRpnw+nUlPnV2PczMabby5nzcJxZ6jZcYiuZHfAj+PzfkAf
+	 jHDA6K3ect8E3N1ztebsT/BB+R2UOhjLvim9xOYhJcrMXAYng0SH0hLyIjYCOYIi+s
+	 vBfbvk0E2qXmMlVHl7atlsB4HJFEgKlWSryGgO0TZm4up5EYlBn11PVO80kisWewm5
+	 zJQPodVDv7kTYcz+L4OhD/tNwoGkEK9nqjCTKeYMegVFiJsw+cPknmD5ZT4uLP6K91
+	 WSGVHffX6WMFxqYs9arrjz11ETP+5hKOTIHAB5x3H5w5eKpRL/3O/Qfl12+ZRxfMgb
+	 5duns4869JHsA==
+Date: Fri, 22 May 2026 14:24:39 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Srinivas Kandagatla <srini@kernel.org>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	mohammad.rafi.shaik@oss.qualcomm.com
+Subject: Re: [PATCH v5 0/3] ASoC: qcom: lpass: Switch VA/WSA macros to PM
+ clock framework
+Message-ID: <de8a82f6-d044-4d84-9266-c44a9288ad9e@sirena.org.uk>
+References: <20260522073324.e18bb240b6f6@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 22 May 2026 21:17:47 +0800
-Message-Id: <DIP8GKFQOKZL.9JA38OXBFMIA@linux.spacemit.com>
-From: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>
-To: "Mark Brown" <broonie@kernel.org>, "Troy Mitchell"
- <troy.mitchell@linux.spacemit.com>
-Cc: "Liam Girdwood" <lgirdwood@gmail.com>, "Jaroslav Kysela"
- <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Yixun Lan"
- <dlan@kernel.org>, <linux-sound@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
- <spacemit@lists.linux.dev>, <jinmei.wei@spacemit.com>
-Subject: Re: [PATCH v3 2/2] ASoC: soc-pcm: constrain hw_params when DAIs
- share the same BCLK
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260518-i2s-same-blk-v3-0-2ba1c4f41db9@linux.spacemit.com>
- <20260518-i2s-same-blk-v3-2-2ba1c4f41db9@linux.spacemit.com>
- <be91aacd-2e02-45d8-9293-e9551f688c68@sirena.org.uk>
-In-Reply-To: <be91aacd-2e02-45d8-9293-e9551f688c68@sirena.org.uk>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: Mi0NhBPPe/4RLI2RuIhAfkCN6237JtruPC1Y0HM8JNh081CTP6BFBOEL
-	B5EWbccDmtX38n7OWDfXe8sS0RUyC8XVsqq6GeuGIiHIW6BvjnchrXUAZ/icvRiyeeP5aGB
-	fjq248nWBYALBn51JlW/cQMJ1UWaFu93f3hKEoaUJ59plpj2u++hAu1N7rc3CsBQrIE9wYJ
-	yANDhlWsIR2BplIgfx3YMWvIMsGMdYThxc2EXS4gYZJPJJufPtGvnwErLOSnH/FZzYzs1R6
-	PqkS6Eg9oasO5fuDizzAu9YS+MK+Lv1UAoJiaGFfLz5xBHWhEIno5kDJ8c2ehY2IF9wu5OV
-	cwbPhgLkzHFawxtAzDYMc7UTW0wrHGEpGWEQc9uzfM5nxgUYPCv3yvz8mb0HKZN/AeVEyec
-	y2nlU5RgR7LreONWwux8/SunxpaeRikBBwehvo4+qhuetbbOW7tOXUcW7zistLXqy3zdwCP
-	R/PT+WDGBDj4nBUt8RRAMVC7xkZ9NEvhIW19ustPrC+ndhs0X8lqq1ud/y8ysvQrxId6SwA
-	npsi6JMnTcgH2j8Pxl9rlyasjyqbU4Qqh8YCOzO2R4cRhXlG2i4DCjKo70nd9X8dc6oIw/p
-	LKz8KIR2zhFoSGX8xT90m+ksjvnXUEfeswpi9OZScTKN7eO8ymFAdMSv6pINKVOtOU41hoD
-	MOjOF5dcRcCIkGZief3tIu65E61hoDuF8XH45nN2SfbvPp+sDcvs/AKDvYsGa5WbAcK6WJN
-	ej837wLU6yyz4whksGCa4wvn17wFZ+7w8T7dQjkD8Of6M2Rc1zjB/yH/ZxVKlYkcK4zUpAz
-	RV64P22cbjsorrDoWwGkdzl18O34MSvRaWfhOvijADX7/D+KwhXYbK5GG4m/KdMSZWx4jcr
-	r/YUuBgf9aR7SxxfzXVg20eTlHBKq0Dmmu6P+ZXBQ+mGnUFqxc595UGrREjJ1J1dpKHeURX
-	ObpCMf/cCAjXpQYHhovz6Wiu/vSDgo+lFu0aQLp0YoG2pRq1Ahjpqq1EFuvCmUTxOYZXhTR
-	vt0oIO5jLOs5XOYFSzqDDCcRkXur4TDOBry27nIRscYYSIT6HIqBAcgdtJAyIa7LniwZpeP
-	8HcjL+9xNlb
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-QQ-RECHKSPAM: 0
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hKnDXr9miPmVzypq"
+Content-Disposition: inline
+In-Reply-To: <20260522073324.e18bb240b6f6@oss.qualcomm.com>
+X-Cookie: Celebrity voices impersonated.
 
-On Fri May 22, 2026 at 8:58 PM CST, Mark Brown wrote:
-> On Mon, May 18, 2026 at 02:21:09PM +0800, Troy Mitchell wrote:
->> When multiple CPU DAIs on the same sound card share the same physical
->> BCLK, add a hw_rule during PCM open that constrains the sample rate so
->> the resulting BCLK rate stays consistent across all sharing DAIs.
->
->> +	/*
->> +	 * Protect the rtd list traversal.  No nesting: this callback runs
->> +	 * from snd_pcm_hw_refine() which does not hold card->mutex.
->> +	 */
->> +	guard(mutex)(&card->mutex);
->
-> We have helpers for acquiring these mutexes which deal with some lockdep
-> issues using subclasses.  Either use those or provide whatever's needed
-> to have the equivalent thing in a guard.
-Thanks for pointing that out. I've added a local DEFINE_GUARD wrapping
-snd_soc_card_mutex_lock()/snd_soc_card_mutex_unlock() so it picks up
-the SND_SOC_CARD_CLASS_RUNTIME subclass while still getting scope-based
-auto-release. Will be in v4.
 
-                                      - Troy
+--hKnDXr9miPmVzypq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Fri, May 22, 2026 at 06:34:39PM +0530, Ajay Kumar Nandam wrote:
+> This series converts LPASS WSA and VA macro codec drivers to the PM
+> clock framework for runtime PM clock handling.
+
+This doesn't apply against current code, please check and resend.
+
+--hKnDXr9miPmVzypq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoQWRYACgkQJNaLcl1U
+h9AYTQf/WLMqT2y5fq1zlLzi5XD5IBFLGRU/34otSPNOhx8KZxdq9uPLis1AMw7g
+/2LXvrLGfN0TmjklrqrBcaDj7qRvb6XkrdCANhaaHHyEZgQdisYbOXlt3ygXe8TX
+qdNAeZDe/V2qTrU26DpQkPRUEYCB5xGX/o/USiVwd4PvPp7twTR3I1R0JLzqxaf2
+xvgQeLo48hDUcGaGzpLMxRTagU10QXyx4olzCdNcyAmFGmtNVyPEr6Fct8Mcre3Y
+m2pZ5wqbitQ/rH95ceXtgjhljV3bK0GRpDbHOH5o76rm0x+Fx7gw0SGBCE4AfmKI
+4t04gHdAnoBDXTC8Nl7m0izk4narOA==
+=LK5G
+-----END PGP SIGNATURE-----
+
+--hKnDXr9miPmVzypq--
