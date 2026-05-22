@@ -1,177 +1,195 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2B938C2A5
-	for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 12:39:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7F2374E4E
+	for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 12:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779453570; cv=none; b=Y+3OTdH8eLEOtoOPijeqyynhe15JannsinMuNa0MaNqqCJIN3pYPEnsiV771ag53VKztEStsgGC8mUhhE2u8if2Wg1BhDbRoTxHD9kE1i4LlcmivNk/pPVQ8jqR6kRG3EarIcAC1BviBZ1ju5QjhrKr2/N+R6rqsmYJq1DZf57w=
+	t=1779454185; cv=none; b=l8ccVsXR2vOcVDzErCXJK8UZ5UJ+ZKwGdTj7I2a/zG0MCnVCxK6sP0keRZnA7jktABPPX3v6yJe2PpWUC7H3AWd1ynYV5UPYiwZr0c/NU5XWZjM9hMoorZ+e1aLeiN8cXAfDwLkOnS3J+rmzcLPTdMoGvv1C76HhRYCw7tOIVLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779453570; c=relaxed/simple;
-	bh=X2c824wWJD9rQLCo8MwloCnJtDCebs7SODLQL3X6JIo=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=MrDvvKJqzBSfKO6K07snLYkyufzTQjlXYPhZ2fq5gj0wBQ8R13KHTdGQnSY53Z2V/EFT1OG5pA0e6tazfau8xonD1CYdu7crt8xLuS0jdILBLE5ftZWA3sLAxtrsG18Qk0vGbHfRcw7t0F9JSljJGOAD6ACg+cU4lb8giuU3c/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=EYpB4rez; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1779454185; c=relaxed/simple;
+	bh=txvR/MSiTpf9NorbW6/gmSUwVrOklO38SeSFp2Hr+uM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=OvCo+/ph3LFRNPkE3G2UaxN+6Fg5ANKB6rVGcOUF3+WVyUlgXsBJ+f1utTavJ4PscVqE2Ka+CoH356K+iSeydz7gLJbsP1pcYJIJUvPPLGoHR7TWYiW/PjQLwUqEfk8CV4dRd3L4Vc2Tc5E8xc7mNLJRehjOGrvDG6Oc9KOu4+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d4Eep36w; arc=none smtp.client-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="EYpB4rez"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-bd2e8931915so1577671766b.1
-        for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 05:39:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d4Eep36w"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-3045c195251so21778eec.1
+        for <linux-sound@vger.kernel.org>; Fri, 22 May 2026 05:49:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1779453567; x=1780058367; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Re2dViRE9BcyRMcKZfNc8pfEgFE/vQ/nAcDbaRjEe/g=;
-        b=EYpB4rezUvYg18wCrdK46QJSgzB6ROmSEZ9SnDu5dtDfqb9r2k4XGN+harzxMcdEH7
-         9C9IDX/2lnX5aQ2EYAAyWtpYhIVpCwoDeCCZHja8kIun68sOiLpu9NaHg6fTfTSQPC+d
-         Q05mhQNAoqRad/Apk00Aw/bAQ/NIJDn3uqOU5YUfPdkzwSHGQQ0LfkTeYLcIG61G+cbO
-         lqeopBX22lem/ezyPhJbEdGWNdiqXuRSwnuvTGtoLI1Utj/GBpF14W6QJSctFLlljqE0
-         XFsGJKm4vCLNg6XrS3me8TVuFX4SwWfAbpDgsHiuvT/IjST+BLmht0RK//0d3LP1fCzv
-         ztaA==
+        d=gmail.com; s=20251104; t=1779454183; x=1780058983; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rZlYIto97MmzQySh5rb4+w1RJlukSriFG/8QM8SYO3c=;
+        b=d4Eep36wljA4e/X+bfnIG4Gfe7BeAl2c7kvNy4Bho+WsMaHOCq7B9iyCI6nFtimtjY
+         +RsBy7GMru5kbKIQkhsAfZWhiyunw/1bFpNPurwOr57bFfry8DJfaNCwyz27yhrHy3ow
+         AF/uCSQBD4jr5ujYnPDuNoZS7B38wVhVjyJZArVs2D4EaXUY4Q9KOct8GPTdM+7QB0Zj
+         q4QKmdZIJA0a5UCCWELY/82GBH95BOtuyg7iQ2BT5uje8PvSerXW6Ek5irOS9GG2vwFF
+         geG+ANahmyvaKYRVmtMug763xvcETxYesQxBIS/HhfZkgbaeayV1XmIx2o9U9wrNdMbz
+         ZiNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779453567; x=1780058367;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Re2dViRE9BcyRMcKZfNc8pfEgFE/vQ/nAcDbaRjEe/g=;
-        b=QHbqZoCEqbzfTLkDO+g99xGAqCOTK7v3TcnkfweoS0zF7ZiqCYMeO8gWQK+BIjGpXT
-         +SyEY9Eap6aMoL5Uzgsqx7hQ5WW5ZiLEGYT0n3uebX5oAreCTFsiJtQ9dj+igB23+ODS
-         CR1VCrUQExqb0byEHhqeW+ML6myrz5MVwtf2T+06Z3OMFkEzIIwuntD5JyX546KIBM+K
-         SDudvjCycLBlut6CJY3+g2YQbYke0qSe8unAer7VElBVL7rytIMdJsnMCdZ5Beh7eSMH
-         pyhxZaMhDS+QWzYZIxXtgufanlCmRnYqWq5+5mELW06NN5sFpcq4y0Xv28ZQ/IqL2ht+
-         pX+g==
-X-Forwarded-Encrypted: i=1; AFNElJ9yV5wIj33Gmp754s28gaB9K5EshRUdMm5yk7aeChIq6bSCqu7tkTX8vTp0lno9tyHc7toWk0Iqki1H6A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/t9Ff46zoirSq40kf4+xXgApCp1ajM2VXH+3XnuOYY7lZwCTj
-	Tw2TpCN+Enf9KJ+gavfucGabXaS55JZ+ImskN5ngRZZDmb1uYZuZ3IWC7pMgDyOaYGUvtgY5ZUi
-	wc9chPhk=
-X-Gm-Gg: Acq92OGhTny5/Q9omLUOJ39eqPpqMWBIZesUY511eLuZxzWXw1BoBhshr5TdInC7HRT
-	rXLF6Ov/+dJYSwoPScDKBgFOpVb9rp7d8h8y6IHykWWvse/cFSWb8a804F918sh1Nlsjb72GuxT
-	8xOMaauvdcik3gowkkimTPXKkagxzHe5p2IjAVyubKnXbFfIud6lk9de6P946Wnxto6TwvAV8q3
-	qVeuZtIkdUit7hCNhtIcixhc+vI9J8wfrKND9Elq3hKLh0dvs8t98niMd8z/hgYQ9y3s/0nwnCh
-	V72wnICLLRYFQ3M09l1CCa69a4SbZsKPDqjrln55b2a9Xfq9pMnf68/7F07mp6at5lopzXhWGJa
-	iaAzS7jTbg0i3tPyZYvqS8/RR6HI3QFAgNHQJLlPcSLvFcc0LixTPg5jS2n0cxWw3F6Jo6PjWTG
-	Sykrgjc5Sd4kw8vtG+YQdfrjeZKXGsmaC0zar66IkKjVzhyLtKFoyxxZPGtc76PGDZlUaL
-X-Received: by 2002:a17:907:25c8:b0:bdb:4372:b152 with SMTP id a640c23a62f3a-bdd4a3b1f6emr154177166b.16.1779453567245;
-        Fri, 22 May 2026 05:39:27 -0700 (PDT)
-Received: from localhost (144-178-202-142.static.ef-service.nl. [144.178.202.142])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bddc264d996sm53187666b.13.2026.05.22.05.39.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 May 2026 05:39:26 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779454183; x=1780058983;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rZlYIto97MmzQySh5rb4+w1RJlukSriFG/8QM8SYO3c=;
+        b=mIcDy2q4z/zKRn5TKsgf+oqCg/NOrn7NTZOXsFS6rKHWr4iDG4+bUTj8R45OxmOLtB
+         VchrHmLvJhiGYp6Q3okTY3Yf24n2iGDcaxBuaTPZ6Tb2ZZe46KJA/Mgif2tqm9aDV9Bk
+         O5YCWgh45do32gYLPVK5nUeCxAdPCtI94moyKYWkq03QU0Nk7H2KUyzgsAdSk6rHUmgf
+         d48P7s7TiFtOizTXuxQQ+/o8a7RqDdPsiQaIK5ZJdDx5WHizzwDzanFIBk/OKDk519fN
+         tbhfAGSnxbEDRGgjSGJwmWgi70/Q+f2x8X70L7jjJmdzQnBZDr//W/6Dc7v/hV/29Ikd
+         ULiA==
+X-Gm-Message-State: AOJu0Yy98eYwvOt0QJJmBVbp3RwiapkmpyWduhgxmGtfVU3FupMyq3ql
+	4NJ2yf4P1ehI3QHgdkorqFY0SUovlPaZsz2GaFZDqAtW9gqOSpD6Uv52
+X-Gm-Gg: Acq92OEiCc/cFVybbN/IFbq7EY7qG2Lpr2k5Eqd7JxaNPydfNdFU6/fudAGV26LXgzt
+	jRA+v+kGbQDwphjYPFigfElUpGr+E7GRxNCX07kDpClA1AA4/k/Oyi/sUoqGlAfYHzLjlZUF4IY
+	nhAaxZZA2covVtbjbT1d1Dqy5H3mqHhEn1w7u2lYsCnUXGv/eYEGGUrlxTv5FhE3cpeF2puus40
+	UuYp92C+kMUi4PXF62DW4iw8ZF4bCb8RT1go33xgpbbIsSBqRyHz+CYINX89LTY62rml3WEnQPs
+	ux6j4I8tQuoInXeLbMQUI9YLBF/4op4oLbEMqR2Fjmvg+6UHiczJ7le9GefvF+Dr/kupnjkZ06C
+	wLgYmDKjEYKqcK8rCpQ9KxkvNOCaokgJt3ISIhnmm31xF70BOoTtyrdWhabBBt7IQNBZcWtmT3S
+	ge/nekgWe66dD6Dp2dlAXQZFBPmpt+leXYU1F8qBoWLDjnSaixaFwhu71Ua2akwnQBoj5aa7+7D
+	Q==
+X-Received: by 2002:a05:7301:fa0a:b0:2ea:c085:44b1 with SMTP id 5a478bee46e88-304491037b5mr1762157eec.19.1779454182961;
+        Fri, 22 May 2026 05:49:42 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-162-74.user3p.v-tal.net.br. [177.4.162.74])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30452230f1bsm903987eec.14.2026.05.22.05.49.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 May 2026 05:49:41 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Fri, 22 May 2026 09:49:30 -0300
+Subject: [PATCH v4] ALSA: hda: cs35l56: Fix system name string leaks
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 22 May 2026 14:39:26 +0200
-Message-Id: <DIP7N749FQ7W.Q3PS2H2YAMKD@fairphone.com>
-Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 7/7] ASoC: codecs: aw88261: make volume control
- usable
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Val Packett" <val@packett.cool>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Mark Brown" <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>,
- "Takashi Iwai" <tiwai@suse.com>, "Weidong Wang" <wangweidong.a@awinic.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260518220906.347958-1-val@packett.cool>
- <20260518220906.347958-8-val@packett.cool>
-In-Reply-To: <20260518220906.347958-8-val@packett.cool>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260522-alsa-cs35l56-system-name-leak-v4-1-a6154dd09cd9@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5XQTW7CMBAF4Ksgr5nKHtsJZsU9qi4cewKG/KBMa
+ hWh3L0J7QLYIJZPevreaK6CaUjEYru6ioFy4tR3czDrlQgH3+0JUpyzQImFtFKBb9hDYG0bWwB
+ feKQWOt8SNORPUNaxLB35oJ0Ss3EeqE4/N//z6y/zd3WkMC7o0jgkHvvhcjsgq6X3v4XyxVZWI
+ CEqXVljUCu32e1bn5qP0Ldi2cr4loazVsgai6Csk6ifNX2vvfpD1qDAxWgIY6hM+aBN0/QLXwO
+ GDXgBAAA=
+X-Change-ID: 20260501-alsa-cs35l56-system-name-leak-7fd779eac391
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Simon Trimmer <simont@opensource.cirrus.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4116;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=txvR/MSiTpf9NorbW6/gmSUwVrOklO38SeSFp2Hr+uM=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDFkCAfc2dsTuXXZ8tlvc3fezpV8E/jvln6nzvqE5boL9p
+ x1P/t980FHKwiDGxSArpsiyOmmR5Z6uB1fr41Z4wMxhZQIZwsDFKQATmazG8IfriXJhwJm9b7ji
+ P0Wxa89gOBcfu2/N1Fn7OWabz78aw5rKyPBJ9vDmiZf/fNd5mtU94+nJaMkzGloybiZmW5WnS+x
+ fNo8HAA==
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-Hi Val,
+cs35l56_hda_read_acpi() gets an allocated ACPI _SUB string from
+acpi_get_subsystem_id(). On success, that string is used to create the
+firmware system name.
 
-On Mon May 18, 2026 at 11:44 PM CEST, Val Packett wrote:
-> - Invert the value to match userspace expectations (in the hardware,
->   positive numbers represent negative dB attenuation)
-> - Provide TLV metadata for the dB scale (and divide the raw values by 2
->   as the excessive precision used by HW is not representable in TLV)
-> - Do not unnecessarily reset the volume while switching profiles
-> - Simplify aw88261_dev_set_volume using regmap_update_bits
-> - Do not add the initial volume from the profile to the requested volume
->   as that would throw off the dB mapping (if a lower max limit is
->   desired, it can be set in the UCM profile in userspace)
->
-> With this change, it's actually possible to use this hardware volume
-> control as PlaybackVolume in an ALSA UCM profile.
->
-> Fixes: 028a2ae25691 ("ASoC: codecs: Add aw88261 amplifier driver")
-> Signed-off-by: Val Packett <val@packett.cool>
-> ---
->  sound/soc/codecs/aw88261.c | 52 +++++++++++++++-----------------------
->  sound/soc/codecs/aw88261.h |  1 -
->  2 files changed, 21 insertions(+), 32 deletions(-)
->
-> diff --git a/sound/soc/codecs/aw88261.c b/sound/soc/codecs/aw88261.c
-> index adc728e45f57..0e6b2dfe5db9 100644
-> --- a/sound/soc/codecs/aw88261.c
-> +++ b/sound/soc/codecs/aw88261.c
-> @@ -15,6 +15,7 @@
->  #include <linux/regulator/consumer.h>
->  #include <sound/soc.h>
->  #include <sound/pcm_params.h>
-> +#include <sound/tlv.h>
->  #include "aw88261.h"
->  #include "aw88395/aw88395_data_type.h"
->  #include "aw88395/aw88395_device.h"
-> @@ -29,20 +30,10 @@ static const struct regmap_config aw88261_remap_confi=
-g =3D {
-> =20
->  static void aw88261_dev_set_volume(struct aw_device *aw_dev, unsigned in=
-t value)
->  {
-> -	struct aw_volume_desc *vol_desc =3D &aw_dev->volume_desc;
-> -	unsigned int real_value, volume;
-> -	unsigned int reg_value;
-> +	unsigned int volume =3D min(value, (unsigned int)AW88261_MUTE_VOL);
-> =20
-> -	volume =3D min((value + vol_desc->init_volume), (unsigned int)AW88261_M=
-UTE_VOL);
-> -	real_value =3D DB_TO_REG_VAL(volume);
-> -
-> -	regmap_read(aw_dev->regmap, AW88261_SYSCTRL2_REG, &reg_value);
-> -
-> -	real_value =3D (real_value | (reg_value & AW88261_VOL_START_MASK));
-> -
-> -	dev_dbg(aw_dev->dev, "value 0x%x , real_value:0x%x", value, real_value)=
-;
-> -
-> -	regmap_write(aw_dev->regmap, AW88261_SYSCTRL2_REG, real_value);
-> +	regmap_update_bits(aw_dev->regmap, AW88261_SYSCTRL2_REG,
-> +		~AW88261_VOL_MASK, DB_TO_REG_VAL(volume));
->  }
-> =20
->  static void aw88261_dev_i2s_tx_enable(struct aw_device *aw_dev, bool fla=
-g)
-> @@ -424,17 +415,7 @@ static int aw88261_dev_reg_update(struct aw88261 *aw=
-88261,
->  			break;
->  	}
-> =20
-> -	ret =3D aw88261_dev_set_vcalb(aw_dev);
-> -	if (ret)
-> -		return ret;
-> -
-> -	if (aw_dev->prof_cur !=3D aw_dev->prof_index)
-> -		vol_desc->ctl_volume =3D 0;
-> -
-> -	/* keep min volume */
-> -	aw88261_dev_set_volume(aw_dev, vol_desc->mute_volume);
-> -
-> -	return ret;
-> +	return aw88261_dev_set_vcalb(aw_dev);
+Several error paths after the _SUB lookup can return without releasing
+the allocated string. This includes speaker ID lookup errors other than
+-ENOENT, and errors after a firmware system name has been allocated.
 
-These removals cause the following compile warning, when applied on
-linux-next:
+Use scoped cleanup for the temporary _SUB string and make
+cs35l56->system_name device-managed. This releases the temporary _SUB
+string on every error path and lets devres release the firmware system
+name on probe failure and device removal.
 
-sound/soc/codecs/aw88261.c: In function 'aw88261_dev_reg_update':
-sound/soc/codecs/aw88261.c:347:32: warning: unused variable 'vol_desc' [-Wu=
-nused-variable]
-  347 |         struct aw_volume_desc *vol_desc =3D &aw_dev->volume_desc;
-      |                                ^~~~~~~~
+Fixes: 6f03b446cbae ("ALSA: hda: cs35l56: Add support for speaker id")
+Fixes: 40b1c2f9b299 ("ALSA: hda/cs35l56: Workaround bad dev-index on Lenovo Yoga Book 9i GenX")
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+---
+Changes in v4:
+- Drop unrelated line-wrap change in reset GPIO error path.
+- Link to v3: https://patch.msgid.link/20260521-alsa-cs35l56-system-name-leak-v3-1-9dd4e2dcb473@gmail.com
 
-Regards
-Luca
+Changes in v3:
+- Make cs35l56->system_name devm-managed.
+- Keep __free(kfree) only for the temporary ACPI _SUB string.
+- Remove the local cleanup-managed system_name variable.
+- Drop the probe-error cleanup patch; devres now owns system_name.
+- Remove the manual remove-time kfree for system_name.
+- Link to v2: https://patch.msgid.link/20260520-alsa-cs35l56-system-name-leak-v2-0-60f26c159023@gmail.com
+
+Changes in v2:
+- Use __free(kfree) for the temporary ACPI _SUB string.
+- Keep the derived system name local until read_acpi() succeeds.
+- Transfer ownership with no_free_ptr() only on successful paths.
+- Link to v1: https://patch.msgid.link/20260520-alsa-cs35l56-system-name-leak-v1-0-d13b54423198@gmail.com
+---
+ sound/hda/codecs/side-codecs/cs35l56_hda.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/sound/hda/codecs/side-codecs/cs35l56_hda.c b/sound/hda/codecs/side-codecs/cs35l56_hda.c
+index cdbc576569ef..a0ea08eb96a9 100644
+--- a/sound/hda/codecs/side-codecs/cs35l56_hda.c
++++ b/sound/hda/codecs/side-codecs/cs35l56_hda.c
+@@ -1025,7 +1025,7 @@ static int cs35l56_hda_read_acpi(struct cs35l56_hda *cs35l56, int hid, int id)
+ 	u32 values[HDA_MAX_COMPONENTS];
+ 	char hid_string[8];
+ 	struct acpi_device *adev;
+-	const char *property, *sub;
++	const char *property;
+ 	int i, ret;
+ 
+ 	/*
+@@ -1047,7 +1047,8 @@ static int cs35l56_hda_read_acpi(struct cs35l56_hda *cs35l56, int hid, int id)
+ 	/* Initialize things that could be overwritten by a fixup */
+ 	cs35l56->index = -1;
+ 
+-	sub = acpi_get_subsystem_id(ACPI_HANDLE(cs35l56->base.dev));
++	const char *sub __free(kfree) = acpi_get_subsystem_id(ACPI_HANDLE(cs35l56->base.dev));
++
+ 	ret = cs35l56_hda_apply_platform_fixups(cs35l56, sub, &id);
+ 	if (ret)
+ 		return ret;
+@@ -1095,15 +1096,16 @@ static int cs35l56_hda_read_acpi(struct cs35l56_hda *cs35l56, int hid, int id)
+ 		ret = cirrus_scodec_get_speaker_id(cs35l56->base.dev, cs35l56->index,
+ 						   cs35l56->num_amps, -1);
+ 		if (ret == -ENOENT) {
+-			cs35l56->system_name = sub;
++			cs35l56->system_name = devm_kstrdup(cs35l56->base.dev, sub, GFP_KERNEL);
+ 		} else if (ret >= 0) {
+-			cs35l56->system_name = kasprintf(GFP_KERNEL, "%s-spkid%d", sub, ret);
+-			kfree(sub);
+-			if (!cs35l56->system_name)
+-				return -ENOMEM;
++			cs35l56->system_name = devm_kasprintf(cs35l56->base.dev, GFP_KERNEL,
++							      "%s-spkid%d", sub, ret);
+ 		} else {
+ 			return ret;
+ 		}
++
++		if (!cs35l56->system_name)
++			return -ENOMEM;
+ 	}
+ 
+ 	cs35l56->base.reset_gpio = devm_gpiod_get_index_optional(cs35l56->base.dev,
+@@ -1254,7 +1256,6 @@ void cs35l56_hda_remove(struct device *dev)
+ 
+ 	cs_dsp_remove(&cs35l56->cs_dsp);
+ 
+-	kfree(cs35l56->system_name);
+ 	pm_runtime_put_noidle(cs35l56->base.dev);
+ 
+ 	gpiod_set_value_cansleep(cs35l56->base.reset_gpio, 0);
+
+---
+base-commit: ef807cc07dec16edc7863d437e9250e20cb73741
+change-id: 20260501-alsa-cs35l56-system-name-leak-7fd779eac391
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
+
