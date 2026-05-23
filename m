@@ -1,123 +1,139 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A5818DB1F
-	for <linux-sound@vger.kernel.org>; Sat, 23 May 2026 20:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C98134388F
+	for <linux-sound@vger.kernel.org>; Sat, 23 May 2026 21:01:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779569918; cv=none; b=ROJnaSbqr2sFbdFvU5kZyqK21MPgb+qZ24CHuapf0ep9ASOUN5ZtMMzlxnb7HgMXtE2Bud4nmI2YBJ0jATMTsn5/gtxNwjU3hYpnNSqm0PtM1HUngGKUxQiFAG+RE7J1qrFXAGo0211rAYNXmBGXPQSEdbz6IDJOXvs8pyOGCiE=
+	t=1779570069; cv=none; b=SCC2fKs1lrkiP2rpu2JT57iIHJQd3wXf7ZiaKdbZRlJjMHmGxzq2+tfesMKNUlupTAFEuVKtCw2dLCCy/bDkhXHCe3sYNPpDiylY6/JRg8vdOC+jlExGC49dyHNiRRIddijWn4QShXqGLiZj0f6g2S04qCEmHgiWDoZJTQ/Rr8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779569918; c=relaxed/simple;
-	bh=J++FtPY4eIlPHScS+iuo04i9QahISmodTrX9YmBF3kg=;
+	s=arc-20240116; t=1779570069; c=relaxed/simple;
+	bh=6pp+nvKpZzkH+kGXBVunsGYLT6xDG9VJN0E321Vu0+4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QIgHk/TSmsSM/rJgKKNAIV3cbfRuUQXkQHbH3SNEEM5g+WPQeqwYVKipVoOu/ae85qFCOFWHSh2khw8sAiLJvT8N6i7yrp8wMztuT4FrYLj9MXi6MbE1GYXTkUbMQwEAnzHI8HXNIxvXEYo+9F9aVIS+yMDw9I9AqzeeDoZ69lY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NtMfn/LX; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=XX4XWn3/mdBhw9rH34HEfahi39CwQBdGMFCnPbmSnGNfwyfFvCRoLe3RX7nKHbQPDcfWcHTlY7jXoBrohcJIK2BoM7rrFPuEzxQmcGtDXLCQ/hJMf8aNtqKufZtgvMWJGu8F1gGHFQHKEojXF3AORE9S7isN8iP1c0r9SlkWBP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=ikIcgwYh; arc=none smtp.client-ip=203.16.231.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NtMfn/LX"
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-575320e6f2aso6818669e0c.0
-        for <linux-sound@vger.kernel.org>; Sat, 23 May 2026 13:58:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779569916; x=1780174716; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/QnsxPNfa/QU/x2TfZYW3mTlWPPyQH2Ds56kZ7L8H+k=;
-        b=NtMfn/LXlAI40oGu2/nOkFPwMBC7BSZrKvbDdPg4wZ8o5/WKJGWv7QdetPV851Ga5I
-         aV4ih1B7Mi714YHHrbHHRblAUAOvBfiTd+sMF3t0yo/DbNSepe7kM11NvoCosDavp1I1
-         BNGWeuk5K2g1usYGDkO+H3t/wgOPFEBsazzESUbpmlaVGRpSCZea1uTOVAVRhWw0auSB
-         LGVrDThxsfptkp83/gswrIsD83RQp3jnJBu+LtfEOV5JEZgS2tzasdr0DJup0ULCLK1x
-         A0Ho01SGCCtq5yKzTJAWaKio3I/tlDcxTwv1raLCbH4GeOY1k4t9E1m1Eydn3bC3XIXl
-         CQRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779569916; x=1780174716;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/QnsxPNfa/QU/x2TfZYW3mTlWPPyQH2Ds56kZ7L8H+k=;
-        b=j8A9czyGtqCuyBKzZP9BJu+KIdeXWQuNLuhhbnNvapWq4pPmPiQATxQcweCHIxnRVL
-         30TxH1ewxvIdHAmvPe5bwwi5K0DwIAARu0xbxuD3h3sertvAnusXLIkbCIZkLjsJ3j1Y
-         GJysDyGdukGStHWfSd0+b2uDkq4MtlYt2x08CRI0qJKG1A4MLZI2s9I71duHgphcO0Ho
-         y3CxiSuXTUH/BQ5M3MbM+n2uIPYnkmlCBBgRptvxdfBuz0UCcZpIMoihYPGX3XTyxYK1
-         u2rmAXqfytArbuyiGEJGWQK/46RGH/1Ee+pppPMJg1k0A3ezl9noHHxHAOWwpATgLLeh
-         AKpQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9QlOFKmNMP2obEXvsXazAW9fxgWcvkBG2rlPA3iF0OCPQyA4ym9o91LI0bohJFw/Y2MZKcv0ovDPQR3Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZ7EHPtApH4FoFuzVdKS5ENmTuZOtm4A7d02QIK98mNGYnV0Cw
-	rby21F65IWJrJFUQr7qzUXs+yfLpLIw/HsTdRM/J+4Fo2AxFveFuW8Ld
-X-Gm-Gg: Acq92OHF5AgtXx7BgieyRzQfN/0UEuLVn12tVidINE3qiwiP+tfi1O6KnLnjGgWkYg6
-	z3tUZNwDWvYLVvApqYjnxYprFHB0qNKwvxvDpS+X6zqG3HcMF2VUxRYUSCJsoIbx37jTaRQPgxL
-	uVRMxdJHCy9Dg7qW8xhHooLGHUmlExnEl8J8pDY11cJ4hm3ep1JETAi5Cn5+1MEEHVnUAFGtPKI
-	MARphdOoLWmAsopw0a1KGsbTTD6xhU0SLkljsMSBeITKrqIlbI78Z7TBY3VNggN64ZW1ESRs00+
-	6ZnYcEUlR4vlgXcsc+E039+tzmwlR1CF4hO06EFt4a8Da8yYW9nnIBoa7eVrjDQI4IVxPrVEgC6
-	1/kmx7LmBnpifxHJgKc2P0EmMpUUJE0HVn34HtXv/CbQbW0bz9QyMDcefwlNboBnalu1dU7yAV1
-	Mh9iXAKFCEmQ==
-X-Received: by 2002:a05:6122:1796:b0:577:48e1:8aff with SMTP id 71dfb90a1353d-5866347ff35mr5236375e0c.11.1779569916305;
-        Sat, 23 May 2026 13:58:36 -0700 (PDT)
-Received: from geday ([2804:7f2:800b:15c7::dead:c001])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-586f2f791d1sm6807030e0c.5.2026.05.23.13.58.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2026 13:58:35 -0700 (PDT)
-Date: Sat, 23 May 2026 17:58:29 -0300
-From: Geraldo Nascimento <geraldogabriel@gmail.com>
-To: =?utf-8?B?Sm/Do28=?= Miguel <jmiguel.ghp@gmail.com>
-Cc: Vijendar.Mukunda@amd.com, linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	=?utf-8?B?Sm/Do28=?= Miguel <joaomiguel.sapientia@gmail.com>
-Subject: Re: [PATCH] ASoC: amd: yc: Enable internal mic on MSI Bravo 17 C7VF
-Message-ID: <ahIU9X2DizdyQVR8@geday>
-References: <20260523163652.18499-1-jmiguel.ghp@gmail.com>
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="ikIcgwYh"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id 731E467D31AB; Sun, 24 May 2026 06:30:58 +0930 (ACST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 731E467D31AB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1779570058; bh=ThoeZggNtJAWGWxWl0PPoCO0qYjnY+LQcQeSTbZUi4A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ikIcgwYhRtWmR3g1sugVdWyRV9pd0g+YAXMA8IaN3mINx26ttq5izfSmCJ2mGgQoq
+	 J8v6vDNKUZLsQ2Dr93RJtpKTdE4ZYvRkoxt4ZzejI6yp1E1GB/GPEt8FGtRRXf6LCm
+	 eJZfG1x1zpyRNB/Lua5v8cm9RwZRp1vWDoM2nYtxDSdwx/vcMskaOky816PN36GO11
+	 kztnWOd94S8LPRTkY99NCqbfiR0VU9TD9Hmg/ac+zQOhoEORdlAuJ9W7suYQzLzwD8
+	 /uOHXEJAfmATYK+TsOC2EEI4cWcI7viY6ljUfNzZm1TRqFzE3CEQ+fTiA2FmWscAK/
+	 9eAoiy5SUcvAw==
+Date: Sun, 24 May 2026 06:30:58 +0930
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/3] ALSA: scarlett2: Fix 2i2 Gen 4 direct monitor on
+ firmware 2417
+Message-ID: <ahIVig0OIfW0rueS@m.b4.vu>
+References: <ae0tEsi8dKm1akJd@m.b4.vu>
+ <87cxzkzja7.wl-tiwai@suse.de>
+ <ag4ZKLl6t+7NBHyw@m.b4.vu>
+ <87ldddk87x.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260523163652.18499-1-jmiguel.ghp@gmail.com>
+In-Reply-To: <87ldddk87x.wl-tiwai@suse.de>
 
-Hi João Miguel,
-
-On Sat, May 23, 2026 at 05:36:52PM +0100, João Miguel wrote:
-> From: João Miguel <joaomiguel.sapientia@gmail.com>
+On Thu, May 21, 2026 at 12:49:06AM +0200, Takashi Iwai wrote:
+> On Wed, 20 May 2026 22:27:20 +0200,
+> Geoffrey D. Bennett wrote:
+> > 
+> > On Mon, Apr 27, 2026 at 02:20:48PM +0200, Takashi Iwai wrote:
+> > > On Sat, 25 Apr 2026 23:07:30 +0200,
+> > > Geoffrey D. Bennett wrote:
+> > > > 
+> > > > Hi Takashi,
+> > > > 
+> > > > Firmware 2417 for the Scarlett 4th Gen 2i2 moved the direct monitor
+> > > > gain parameters, breaking that control's functionality.
+> > > > 
+> > > > The driver already has per-device scarlett2_config_set tables
+> > > > describing each parameter's offset, but only one table per device, so
+> > > > there was no way to express "this offset changed at firmware version
+> > > > N". This series adds that capability and uses it to fix the 2i2 Gen 4.
+> > > > 
+> > > > Patches
+> > > > -------
+> > > > 
+> > > > 1/3: Replace the device info's single config_set pointer with a
+> > > > config_sets array of {from_firmware_version, config_set} entries, and
+> > > > resolve the running config_set at probe time once the firmware version
+> > > > has been read. Each device gets a single entry matching its previous
+> > > > min_firmware_version (or 0), so this is a no-op preparation step.
+> > > > 
+> > > > 2/3: Drop the now-redundant min_firmware_version field from
+> > > > scarlett2_device_info; config_sets[0].from_firmware_version carries
+> > > > the same meaning. No functional change.
+> > > > 
+> > > > 3/3: Add a second 2i2 Gen 4 config_set with DIRECT_MONITOR_GAIN at the
+> > > > new offset, gated on firmware >= 2417. All other offsets are
+> > > > unchanged.
+> > > > 
+> > > > Patch 1 is a prerequisite for patch 3. Patch 2 isn't a strict
+> > > > dependency, but it removes a now-redundant field, so patch 3's Cc:
+> > > > stable trailer names both 1 and 2 as prereqs by subject (please
+> > > > substitute SHAs at apply time). Patch 2 can be dropped from the stable
+> > > > backport if you'd prefer.
+> > > > 
+> > > > Tested
+> > > > ------
+> > > > 
+> > > > Verified on a Scarlett 2i2 4th Gen by writing to Monitor 1 Mix A Input
+> > > > 01 and observing with usbmon:
+> > > > 
+> > > > - Firmware 2128, patched driver:   write targets offset 0x2A0
+> > > > - Firmware 2417, patched driver:   write targets offset 0x2A4
+> > > > - Firmware 2417, unpatched driver: write targets offset 0x2A0 (bug)
+> > > > 
+> > > > Regards,
+> > > > Geoffrey
+> > > > 
+> > > > Geoffrey D. Bennett (3):
+> > > >   ALSA: scarlett2: Allow selecting config_set by firmware version
+> > > >   ALSA: scarlett2: Fold min_firmware_version into config_sets
+> > > >   ALSA: scarlett2: Update offsets for 2i2 Gen 4 firmware 2417
+> > > 
+> > > Applied all to for-next branch now.  Thanks.
+> > > 
+> > > 
+> > > Takashi
+> > 
+> > Hi Takashi,
+> > 
+> > This commit is currently queued for 7.2:
+> > 
+> >   3ca15754b561 ALSA: scarlett2: Update offsets for 2i2 Gen 4 firmware 2417
+> > 
+> > Users updating to firmware 2417 are hitting broken direct monitor gain
+> > controls, so I wanted to ask if there's any chance of it (and its two
+> > prerequisite commits) making 7.1 & stable now rather than waiting for
+> > the next merge window?
 > 
-> the board's internal DMIC is on the ACP6x and isn't detected without a DMI quirk entry; this adds it.
-> ---
->  sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
+> The changes are simply too large as a fix for *-rc.
+> If you can work on a reduced simpler fix, I can merge it for 7.1-rc,
+> though.
 
-While the patch itself looks OK, you're missing the required
-Signed-off-by tag, which should contain your legal name with surname
-(I'm assuming Miguel is not your surname, correct me if I'm wrong).
+Thanks, done. I will submit a reduced fix (+29/-4, single commit) in a
+moment.
 
-Also, please wrap the commit message at 72 characters. The way it is
-now makes a very long line hard to read in standard terminals.
+I'm not sure if anything needs to be done wrt the existing fix in
+for-next? Do I need to submit a revert of the reduced fix for 7.2? It
+doesn't look like it conflicts, but only one is needed.
 
-Thank you,
-Geraldo Nascimento
-
-> diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-> index 7a637d6b5..a93a7fd48 100644
-> --- a/sound/soc/amd/yc/acp6x-mach.c
-> +++ b/sound/soc/amd/yc/acp6x-mach.c
-> @@ -794,6 +794,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
->  			DMI_MATCH(DMI_PRODUCT_NAME, "M7601RM"),
->  		}
->  	},
-> +	{
-> +		.driver_data = &acp6x_card,
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
-> +			DMI_MATCH(DMI_BOARD_NAME, "MS-17LN"),
-> +		}
-> +	},
->  	{}
->  };
->  
-> -- 
-> 2.54.0
-> 
-> 
+Regards,
+Geoffrey.
