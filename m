@@ -1,136 +1,115 @@
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E273FF1;
-	Sun, 24 May 2026 02:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC3238839D
+	for <linux-sound@vger.kernel.org>; Sun, 24 May 2026 07:36:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779589405; cv=none; b=b4cQ++PiTEPHx4xNRbmLKSZSG4gGH4YG4SpihOKk+vbLljDXt3og5D2bjt3lTVqTIYht6SuqTkfH+11HO0RPcs5yyV3YuBQ8c9V89L9ojbo4ePF/xeENIZS0mUJcx+kmVew9ylr6MK39ohP3uUgeed/Q+qoRwBU/dCvwQ1AaMg8=
+	t=1779608204; cv=none; b=ghrDlMzTpIf7Umg277E4yXEUx8HAEUle42Hq4dISBysGTb4dOrejcYqb0cO93ISW2L9iW84Dd8Whbz853V/msh8b0IWUi9E1SRb6viF+0gD0tipXU7RNPiA9NsyV1dspsQZn/S889Oz7NTlPPrns2SQzmIo+rqB+QvEXC3Zq7+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779589405; c=relaxed/simple;
-	bh=4kO/1svI5rrdPJL3XX/sez+s0ZvgioqDygdCHvx7Bz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A3sH6WIEuJDE2DIm50pO3PMaF4IA8naTmaMvFnQQMkuN/BSlg/De85+fl4zkkk1FGN/KMOiu1fWS3t+jeLulN/8zWKYfDtaKlfHCT7ywtZkRJOkRG8ojih4hRzNPFAFT76jeFffTRpcm5S6WurCdSO9jDWniZV7UGKDzsxHl1o4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=ROCbU2yw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cQM+VSEn; arc=none smtp.client-ip=202.12.124.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1779608204; c=relaxed/simple;
+	bh=twvAWBRVO/ZJDAg0wUTAKAtiP6Qk//RmMjnsT8rN9kg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UKVuB64TRNjgdcAOpxKyfOnuGpTv0uJSbIxqQt4tN6sFBop5IpkAdHg+xDIt6sxQveTdIiFWFT+rZXMoMcc8u9tLrUxXcK4X9Jo6dER/BKEQ8lm3UrlaSqLrAeiTYhj9wtxgDNsu71R8W+fLZtz9PPIacnaHfaaCkUvMx3hfPYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H9gXRvfF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="ROCbU2yw";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cQM+VSEn"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id E3B4B1D00029;
-	Sat, 23 May 2026 22:23:21 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Sat, 23 May 2026 22:23:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1779589401; x=1779675801; bh=z2vsdnj9FNLADCBa/t7OXAVS9ilMlguE
-	9whs6tK9fKk=; b=ROCbU2ywD9Tx08gn7yyfi6BOgR38x+uVzznbEJvL5S+5W7gP
-	4M0SODANRXIOPmdsI5AJUdfnXdqgHkljYoSwECLlCfgwAQ4azPf5nT5EtDIXpgYu
-	JdFSM2R4LwbbqqqhbLc/1yo7So0yLicSQJgYBsjgtHOSc5aONbynHvyevL7xzFoc
-	dcgVl/4MwHMRT744j3gpSxFHPg8wyoKg2oKxWcxC3n/VnIK7vimWGHmY5U7tRu6N
-	g30pHgvxOjI1ZXy3P8oJZf9alF/MyJTiIIVr0w5kgScFZkPbq/jiw7YAY7FWcfCf
-	iGevsIUFmJb+zwlsagBcDlygZbXlmyD7CigIag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779589401; x=
-	1779675801; bh=z2vsdnj9FNLADCBa/t7OXAVS9ilMlguE9whs6tK9fKk=; b=c
-	QM+VSEnrYg8+9njCgdeDcTix94kQhixeHuBLRwOwXyPnRXLgSsATmMAiZW+2vzFR
-	b3/mzrXoqeRThiLKTh1rMDEA1j6/DhTG227ySNncwYN/dppVHO2Vw/uaGRN8rtcr
-	wwInJsDK8vtGNgVpVtC3VXSKn+7Ie967YaKH3mD3wRl4qbaSeS8ujmdICm641Gvx
-	UG2kbg8QJsD7WhvDdUQAEgzq1ChS+K6XrqwZcbu9aok2Mnwq3QzL2RWI8PpFk9eF
-	M0TagOeLfGQ+hG2lSRAycJFhGlsw41D+zDyGBK/PcBisxoZVwN4+8xwdpRKuPesa
-	oNXwpILn6d95of/Xld5mA==
-X-ME-Sender: <xms:GWESaiiC10vGUgn_ZIQSUd02xpaUzhlVhWzdvD1Wemy98yATkNbD4A>
-    <xme:GWESatG63-h2dbIIT6M9XJshc-zliJmrJwwR8ovHV2HFWNBEV9qPZkAvNiBeBUs_U
-    z2i-67mdF90pJyLTgp-fiOJHj8JiU7S5adw0-qFOQqa9kK9mzoXRx8>
-X-ME-Received: <xmr:GWESap-soBOdsVkasU2YPcd9h_3HtrPm8j7Kn9jMyVR3Z3C-RlflZHN5qqmAHGEQjUS-F1PbPPP0F55rORrM-nFYxST_SA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduheegjeefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefvrghkrghs
-    hhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjh
-    hpqeenucggtffrrghtthgvrhhnpedutdfhjefhfeekteekhfdufefgteeutefgvdffjedt
-    heethfduudefgefhgfdttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
-    grihhlfhhrohhmpehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhppdhnsggp
-    rhgtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegtrghsshhioh
-    hgrggsrhhivghltghonhhtrghtohesghhmrghilhdrtghomhdprhgtphhtthhopegtlhgv
-    mhgvnhhssehlrgguihhstghhrdguvgdprhgtphhtthhopehtihifrghisehsuhhsvgdrtg
-    homhdprhgtphhtthhopehpvghrvgigsehpvghrvgigrdgtiidprhgtphhtthhopehlihhn
-    uhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
-    hugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshht
-    rggslhgvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:GWESasxUfUmSAmQcZRRIWwojAkzmI7rd0vagGXdkMzE8-zppKJ3L2g>
-    <xmx:GWESatMgKYx1LjDFk69ztTj1ZF1kt4RFwDtWKTLYPsqGslcKtieEFw>
-    <xmx:GWESap-pbVJEo4apLdlynVvuv0pT3sRsaurrRdPUY4i5tpC7AbMyPA>
-    <xmx:GWESai6h6Aft1CxiSK8XCirXW-1_jOFZpUwFfSlIZSe8eKCNgleVxw>
-    <xmx:GWESamqJDSIaGs6Oly4QFQiPSWZ9JaVj08k-VqQX73o2CxZ5rN2-LCab>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 23 May 2026 22:23:19 -0400 (EDT)
-Date: Sun, 24 May 2026 11:23:16 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: =?iso-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Clemens Ladisch <clemens@ladisch.de>, Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: firewire-motu: Protect register DSP event queue
- positions
-Message-ID: <20260524022316.GA737850@sakamocchi.jp>
-Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	=?iso-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>,
-	Clemens Ladisch <clemens@ladisch.de>, Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260521-alsa-firewire-motu-event-locking-v1-1-708e1c2b5e56@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H9gXRvfF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 366721F00A3A
+	for <linux-sound@vger.kernel.org>; Sun, 24 May 2026 07:36:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779608203;
+	bh=twvAWBRVO/ZJDAg0wUTAKAtiP6Qk//RmMjnsT8rN9kg=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=H9gXRvfF3mxHZdTsJm+unrFd1m69BLLtil4NOpconGGR5ICzieoSxGgTwpLExqHT+
+	 pwahR7Col9y1qPdtkZmicrNMg5k6FOkzOTZs8PvWB5W5Nha0mcoIUIsUh99uEQU6Vv
+	 gSpzYGXOmLOmhOXA71F6WFxi4Iiqc25wFaJQJwZqjp/WGXcZYhOvhpbZer3R5rVhex
+	 2D/pf9cWaV7Dc/qwOTi/Edeab9Cb/Jo8QNxLBFYPJfm9Kk7wMueemQ8pFUd80HlMqi
+	 S00cTVJY4HF6+AtsAgn9mfQBVDo1cmc7fsQVw/xviOJldjo3sFSbc4pJ9F+FcNzrQ5
+	 KQAjCcCu4x5gw==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-39389398838so77290681fa.3
+        for <linux-sound@vger.kernel.org>; Sun, 24 May 2026 00:36:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+MflMi5GFoao9IxTylPz2vrPDruIKnxHFxTXCyDFYg49xkL052B1mwznh3MJrIOPia0EBrQssLs/1JNw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwY/ofZYsOxjSc9S6wm+HahoOCzSqzL1Rtb5t2mllQpAr9NO375
+	mMvQil/snqCBjQ7iT0uzYvb9gf7R91asD0HhwtPlC2YJyWQBNDidhZNe+TBRfJgJlw2Z7dbAz1i
+	09IdIrNAlXMoBRtfpQbTG4m5QnUgMees=
+X-Received: by 2002:a05:651c:1601:b0:38e:2fcc:78fe with SMTP id
+ 38308e7fff4ca-395d8bbc2famr38101571fa.3.1779608201708; Sun, 24 May 2026
+ 00:36:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260521-alsa-firewire-motu-event-locking-v1-1-708e1c2b5e56@gmail.com>
+References: <20260522095401.72915-1-phucduc.bui@gmail.com> <20260522095401.72915-3-phucduc.bui@gmail.com>
+ <CAGb2v67UmMmM7bQOSf3VxsN9D8s3N8nMMX079_kiMcPU=VszFg@mail.gmail.com> <CAABR9nEB8jizn+NrVgrjcOOJRtaU0u+TH705unMTh7HYO=8Wcg@mail.gmail.com>
+In-Reply-To: <CAABR9nEB8jizn+NrVgrjcOOJRtaU0u+TH705unMTh7HYO=8Wcg@mail.gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sun, 24 May 2026 10:36:29 +0300
+X-Gmail-Original-Message-ID: <CAGb2v65zK7iOce_UZ+_F=dWtKYFGZj-K4k45MewvDbhivXPH2A@mail.gmail.com>
+X-Gm-Features: AVHnY4KVGfaT4jHK_tEOETRqcTR3jPqtFPaTGTB9dpESZ_u5nKVSnneDOYxlkpk
+Message-ID: <CAGb2v65zK7iOce_UZ+_F=dWtKYFGZj-K4k45MewvDbhivXPH2A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] ASoC: sunxi: sun4i-spdif: Resume device before
+ kcontrol register access
+To: Bui Duc Phuc <phucduc.bui@gmail.com>
+Cc: broonie@kernel.org, codekipper@gmail.com, jernej.skrabec@gmail.com, 
+	lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, nichen@iscas.ac.cn, perex@perex.cz, 
+	samuel@sholland.org, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Sat, May 23, 2026 at 4:55=E2=80=AFPM Bui Duc Phuc <phucduc.bui@gmail.com=
+> wrote:
+>
+> Hi Chen-Yu,
+>
+> On Sat, May 23, 2026 at 2:19=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wr=
+ote:
+> > And when you do add patches due to Sashiko raising an issue, please
+> > do mention it in the commit message.
+> >
+>
+> As mentioned in the v1 discussion , this issue was originally reported
+> by Sashiko.
+> I'll add the Reported-by tag in the next revision.
+> v1 links:
+> https://lore.kernel.org/all/20260513105003.81880-1-phucduc.bui@gmail.com/
+>
+> > Did you actually reproduce the issue, or did you add the patch simply
+> > because Sashiko mentioned it?
+> >
+> Since I lack Sunxi hardware, I couldn't reproduce it or perform runtime t=
+esting.
+> But I did compile-test the patch.
+> The patch aims to fix unsafe register accesses that occur before ensuring=
+ the
+> device is runtime-resumed.
 
-On Thu, May 21, 2026 at 08:01:23AM -0300, Cássio Gabriel wrote:
-> The register DSP event queue is updated under parser->lock, but
-> snd_motu_register_dsp_message_parser_count_event() reads pull_pos and
-> push_pos without the lock.
-> snd_motu_register_dsp_message_parser_copy_event() also reads both queue
-> positions before taking the lock.
-> 
-> Protect these accesses with parser->lock as well. This keeps the hwdep
-> poll/read path consistent with the producer side and with the cached
-> meter/parameter accessors.
-> 
-> Fixes: 634ec0b2906e ("ALSA: firewire-motu: notify event for parameter change in register DSP model")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
-> ---
->  sound/firewire/motu/motu-register-dsp-message-parser.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+When you submit a patch, it is expected that you already tested it.
+If you only compile tested it, please remember to say so in the
+footer (or mark the patch as RFT) so that others can test for you
+and the maintainer knows the status.
 
-Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+And if possible, provide a scheme to test it.
 
-I remember that I was investigating whether to use the
-'snd_motu.hwdep_lock' spin lock when working for this code,
-especially for 'pull_pos'. The 'snd_hwdep.exclusive' is used to constraint
-the number of file descriptors to open it, and the spin lock would be
-protect the concurrent access, since the pull_pos is referred and updated
-by user process only.  However,
-snd_motu_register_dsp_message_parser_copy_event() is called outside of
-the spin lock. The suggested change is preferable.
+> > On sunxi, either it will hang the system because the bus transaction
+> > got ignored, or it won't as something else enabled the clock.
+> >
+>
+> If Sunxi's PM design already guarantees safe access here,
+> feel free to reject the patch.
+
+I can't say that it does. But since the only control that SPDIF gives
+is the IEC958 status, and that doesn't appear in the standard mixer apps,
+it's unlikely that a _user_ will trigger it. Plus the control was added
+after the basic structure of the driver was done, so there is definitely
+some possibility of a crash.
+
+But what you wrote in the commit message doesn't match the actual hardware
+behavior, like I wrote.
 
 
-Thanks
-
-Takashi Sakamoto
+ChenYu
