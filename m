@@ -1,109 +1,136 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F05145A1F
-	for <linux-sound@vger.kernel.org>; Sat, 23 May 2026 21:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E273FF1;
+	Sun, 24 May 2026 02:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779572189; cv=none; b=nnMceWCe4YWJ6INVCxkv1ZD7ZeHblP/hASRF+0FI8G/U2a39VR+9apBkDb1mt5JKcZBk+6NWniSB7eob2vicrDNkYP2JWdXVOUvERSv3dCNdNGgS4Z/mKbjq7JXTlwp4f/c8mIAGlk/vct/k9+yOChSnavN/dCLatvTJhvZapok=
+	t=1779589405; cv=none; b=b4cQ++PiTEPHx4xNRbmLKSZSG4gGH4YG4SpihOKk+vbLljDXt3og5D2bjt3lTVqTIYht6SuqTkfH+11HO0RPcs5yyV3YuBQ8c9V89L9ojbo4ePF/xeENIZS0mUJcx+kmVew9ylr6MK39ohP3uUgeed/Q+qoRwBU/dCvwQ1AaMg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779572189; c=relaxed/simple;
-	bh=VilKTMUODu88Eqm2Pw4VrVCsM/0NxA5+oGoozbxftRg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rGCNmC3+gyN4Lz9u9tNXPWjyZyqsdFEYz9P6MSNm5IMYmiQEP/0Ssq41i4PhhmMcjhul9c2Nx32ae5Kjg7pSE+cch0nqV5dso3HKWOwZjRD7AcLkCcDJ9Q865N8ID2D3EIt8pdvroGzhKBTrEYA8GUlTww9edAD2p5IFekN/xaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FNmu87lc; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779589405; c=relaxed/simple;
+	bh=4kO/1svI5rrdPJL3XX/sez+s0ZvgioqDygdCHvx7Bz4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A3sH6WIEuJDE2DIm50pO3PMaF4IA8naTmaMvFnQQMkuN/BSlg/De85+fl4zkkk1FGN/KMOiu1fWS3t+jeLulN/8zWKYfDtaKlfHCT7ywtZkRJOkRG8ojih4hRzNPFAFT76jeFffTRpcm5S6WurCdSO9jDWniZV7UGKDzsxHl1o4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=ROCbU2yw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cQM+VSEn; arc=none smtp.client-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FNmu87lc"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48ff4f8ef0dso88549095e9.3
-        for <linux-sound@vger.kernel.org>; Sat, 23 May 2026 14:36:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779572187; x=1780176987; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=n/dF/BREYgluq2yc7QavjflbN1wLiPqAZu2uhlcXNI8=;
-        b=FNmu87lcH/btjpSmaaezNQXSa9gTDxlKVQb5Qi3TtiFeAWDvZUbCM2ZOjZ314XQfby
-         5okNE1CwJb+4d+cGu4vx19AhKmLBXn0sIDoEwsEGODLPJ/imC7xKGQu0x5zfeB7VXcU2
-         S8Z2tkvmHPyZSzjy3UrVclxpiOPH1z1K9F6t/EE+6PIP7l2bQorbsBb8UihLO+OHmSdK
-         mGQ0ySQiGldkixbbXG4QrSZk9LbTz7nOo30Wlh1st24zkBJxCHGx+ErUK58htnevk9pY
-         FDUgaxto1G5X1BdN4fiDAbu4uwl18/XrfeCMeXwtH9gQl2G2iJqAG+LuKpz8q00LOcrU
-         3bnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779572187; x=1780176987;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n/dF/BREYgluq2yc7QavjflbN1wLiPqAZu2uhlcXNI8=;
-        b=gnBNzszKuWDstbCWgO0swswAqfeWIgvIOxtHY2T0mvBgXQSvfRVskdUn9pTGFW2lC+
-         ul8BuFWvA5gyoT95a9q+Yv0TUvKtUR1HHepWfea9Edc9qJTEcYMFmHAnQHrbhz0nKwMD
-         Xuz8dDw0uR3jhtsoKXXMVjSbuITXDt+sitFuWJXdU2jTp4TMR44L4/HhyGGgaVGCYtrb
-         pX8UTMcQ8CdX5yah3yJ4Y6qKAKcMGbjCDp8mQcu0lFaGLWC0bVJNYLQl//p2G1kgpeE8
-         RDLrsh8g4kXNbKP9yB/rwxnueWVhXTUlU+K4dCmRCvNKyizBZzPKIgm4E5U6dvezsXNu
-         tfTg==
-X-Gm-Message-State: AOJu0YwnZ5XYyEUTapCVB+mi5Tsobg1BCFzMIz6nd8u6wGUIfiy0KhCq
-	97x32x9y99yt6g6TS5gY6/3YhSVsX+l/bRLUFAbcW0rnJSKX4m1cUKd6
-X-Gm-Gg: Acq92OGUqpZ93jwvZvG9zdxdbrfHEAOmLDcNtMZOUJ4EBUPxeVY6me1hc7K7cKXLedl
-	iv2BnKNP9aa6Juw9g6Aeix+ajrYSBvymoxts1SyTsAEJtkLTVQ+qvcr3f94xBTtTlYWNf7IZkg1
-	xSAnkRlO/gZjtWlQi3gCub8An1f9kP/717tT+poc0qZXXeZlUOXtFIY7Mpt0/gIQKfFV3JToaPb
-	t9A9pvcR3DQ/8uMKJkDXxDJflyPSCGbWHsmo83xDJR3HN1J0hLxqDmA/anQSN3eGRSTbG+yI8ni
-	FThuXaiOyghDDe5/tkUNfGu9xTjMwqBEZjr7LtFWIJnUwbt8Lq/pkyI0bEnEXbVzHVEtzQXRrEU
-	MJA6gi0JNwePUd0JUxm9yqN8ufeLKiPXwP3QAuDS3hVT+tUe1IOFQjf5whHJ4wzyNU44YkzFCAi
-	mVtAIzyqaUH57j/8fTxdOHEujtbgumAGv4hpO1EzPURwBJOy0GUYEsc7GlMFNJ
-X-Received: by 2002:a05:600c:4fc9:b0:485:3cf3:1010 with SMTP id 5b1f17b1804b1-490424828aemr136469025e9.2.1779572186445;
-        Sat, 23 May 2026 14:36:26 -0700 (PDT)
-Received: from joaom-cachyos ([2a01:b340:65:3800:7f4c:52d5:740e:706e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490454b1ab3sm156419135e9.14.2026.05.23.14.36.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2026 14:36:26 -0700 (PDT)
-From: =?UTF-8?q?Jo=C3=A3o=20Miguel?= <jmiguel.ghp@gmail.com>
-To: Vijendar.Mukunda@amd.com
-Cc: linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	=?UTF-8?q?Jo=C3=A3o=20Miguel?= <jmiguel.ghp@gmail.com>
-Subject: [PATCH] ASoC: amd: yc: Enable internal mic on MSI Bravo 17 C7VF
-Date: Sat, 23 May 2026 22:35:48 +0100
-Message-ID: <20260523213548.5219-1-jmiguel.ghp@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="ROCbU2yw";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cQM+VSEn"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id E3B4B1D00029;
+	Sat, 23 May 2026 22:23:21 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Sat, 23 May 2026 22:23:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1779589401; x=1779675801; bh=z2vsdnj9FNLADCBa/t7OXAVS9ilMlguE
+	9whs6tK9fKk=; b=ROCbU2ywD9Tx08gn7yyfi6BOgR38x+uVzznbEJvL5S+5W7gP
+	4M0SODANRXIOPmdsI5AJUdfnXdqgHkljYoSwECLlCfgwAQ4azPf5nT5EtDIXpgYu
+	JdFSM2R4LwbbqqqhbLc/1yo7So0yLicSQJgYBsjgtHOSc5aONbynHvyevL7xzFoc
+	dcgVl/4MwHMRT744j3gpSxFHPg8wyoKg2oKxWcxC3n/VnIK7vimWGHmY5U7tRu6N
+	g30pHgvxOjI1ZXy3P8oJZf9alF/MyJTiIIVr0w5kgScFZkPbq/jiw7YAY7FWcfCf
+	iGevsIUFmJb+zwlsagBcDlygZbXlmyD7CigIag==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779589401; x=
+	1779675801; bh=z2vsdnj9FNLADCBa/t7OXAVS9ilMlguE9whs6tK9fKk=; b=c
+	QM+VSEnrYg8+9njCgdeDcTix94kQhixeHuBLRwOwXyPnRXLgSsATmMAiZW+2vzFR
+	b3/mzrXoqeRThiLKTh1rMDEA1j6/DhTG227ySNncwYN/dppVHO2Vw/uaGRN8rtcr
+	wwInJsDK8vtGNgVpVtC3VXSKn+7Ie967YaKH3mD3wRl4qbaSeS8ujmdICm641Gvx
+	UG2kbg8QJsD7WhvDdUQAEgzq1ChS+K6XrqwZcbu9aok2Mnwq3QzL2RWI8PpFk9eF
+	M0TagOeLfGQ+hG2lSRAycJFhGlsw41D+zDyGBK/PcBisxoZVwN4+8xwdpRKuPesa
+	oNXwpILn6d95of/Xld5mA==
+X-ME-Sender: <xms:GWESaiiC10vGUgn_ZIQSUd02xpaUzhlVhWzdvD1Wemy98yATkNbD4A>
+    <xme:GWESatG63-h2dbIIT6M9XJshc-zliJmrJwwR8ovHV2HFWNBEV9qPZkAvNiBeBUs_U
+    z2i-67mdF90pJyLTgp-fiOJHj8JiU7S5adw0-qFOQqa9kK9mzoXRx8>
+X-ME-Received: <xmr:GWESap-soBOdsVkasU2YPcd9h_3HtrPm8j7Kn9jMyVR3Z3C-RlflZHN5qqmAHGEQjUS-F1PbPPP0F55rORrM-nFYxST_SA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduheegjeefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefvrghkrghs
+    hhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjh
+    hpqeenucggtffrrghtthgvrhhnpedutdfhjefhfeekteekhfdufefgteeutefgvdffjedt
+    heethfduudefgefhgfdttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhppdhnsggp
+    rhgtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegtrghsshhioh
+    hgrggsrhhivghltghonhhtrghtohesghhmrghilhdrtghomhdprhgtphhtthhopegtlhgv
+    mhgvnhhssehlrgguihhstghhrdguvgdprhgtphhtthhopehtihifrghisehsuhhsvgdrtg
+    homhdprhgtphhtthhopehpvghrvgigsehpvghrvgigrdgtiidprhgtphhtthhopehlihhn
+    uhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinh
+    hugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshht
+    rggslhgvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:GWESasxUfUmSAmQcZRRIWwojAkzmI7rd0vagGXdkMzE8-zppKJ3L2g>
+    <xmx:GWESatMgKYx1LjDFk69ztTj1ZF1kt4RFwDtWKTLYPsqGslcKtieEFw>
+    <xmx:GWESap-pbVJEo4apLdlynVvuv0pT3sRsaurrRdPUY4i5tpC7AbMyPA>
+    <xmx:GWESai6h6Aft1CxiSK8XCirXW-1_jOFZpUwFfSlIZSe8eKCNgleVxw>
+    <xmx:GWESamqJDSIaGs6Oly4QFQiPSWZ9JaVj08k-VqQX73o2CxZ5rN2-LCab>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 23 May 2026 22:23:19 -0400 (EDT)
+Date: Sun, 24 May 2026 11:23:16 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: =?iso-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+Cc: Clemens Ladisch <clemens@ladisch.de>, Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: firewire-motu: Protect register DSP event queue
+ positions
+Message-ID: <20260524022316.GA737850@sakamocchi.jp>
+Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	=?iso-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>,
+	Clemens Ladisch <clemens@ladisch.de>, Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260521-alsa-firewire-motu-event-locking-v1-1-708e1c2b5e56@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260521-alsa-firewire-motu-event-locking-v1-1-708e1c2b5e56@gmail.com>
 
-The MSI Bravo 17 C7VF routes its internal digital microphone through
-the ACP6x. The machine driver only enables the DMIC for boards present
-in the DMI quirk table, so on this model the internal mic is never
-detected and no capture device is created.
+Hi,
 
-Add a quirk entry matching the board's DMI identifiers so the DMIC is
-enabled and the internal microphone works.
+On Thu, May 21, 2026 at 08:01:23AM -0300, C·ssio Gabriel wrote:
+> The register DSP event queue is updated under parser->lock, but
+> snd_motu_register_dsp_message_parser_count_event() reads pull_pos and
+> push_pos without the lock.
+> snd_motu_register_dsp_message_parser_copy_event() also reads both queue
+> positions before taking the lock.
+> 
+> Protect these accesses with parser->lock as well. This keeps the hwdep
+> poll/read path consistent with the producer side and with the cached
+> meter/parameter accessors.
+> 
+> Fixes: 634ec0b2906e ("ALSA: firewire-motu: notify event for parameter change in register DSP model")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: C·ssio Gabriel <cassiogabrielcontato@gmail.com>
+> ---
+>  sound/firewire/motu/motu-register-dsp-message-parser.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
 
-Signed-off-by: Jo√£o Miguel <jmiguel.ghp@gmail.com>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 7a637d6b5..a93a7fd48 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -794,6 +794,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "M7601RM"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
-+			DMI_MATCH(DMI_BOARD_NAME, "MS-17LN"),
-+		}
-+	},
- 	{}
- };
- 
--- 
-2.54.0
+I remember that I was investigating whether to use the
+'snd_motu.hwdep_lock' spin lock when working for this code,
+especially for 'pull_pos'. The 'snd_hwdep.exclusive' is used to constraint
+the number of file descriptors to open it, and the spin lock would be
+protect the concurrent access, since the pull_pos is referred and updated
+by user process only.  However,
+snd_motu_register_dsp_message_parser_copy_event() is called outside of
+the spin lock. The suggested change is preferable.
 
+
+Thanks
+
+Takashi Sakamoto
