@@ -1,46 +1,47 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D633A8737;
-	Sun, 24 May 2026 16:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89AF43A9DB2;
+	Sun, 24 May 2026 16:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779640203; cv=none; b=DQUJsQCBLUbKNZt2T2w8nTuLqOQJJSymM0j80dld4R3U7O9LPsfVyTxBbKaGV6udmZXoavqYy0jsFbEWbZMSNqau6+rDvnmFvrkWt1l4FTEuvUJVfVVWMhX6HjxAQMmPTxNw4ZohzSF3BDCPx7DH2bEvbbj1c6Bzl5z7S0Nc3BU=
+	t=1779641639; cv=none; b=X5zU3js7EFFtF2J55rwSB5Dfah8dY6xqYHojIAVd/LppiXLFmKwOzPzoCNstotilatgRYvVzRBVQhx4/+rux+WhsTSLiCTEo2Ze+r7gi80j/KSGa9Xqzou3Psb12vJYIaeyPPOx+5Hb9tTCI3lbDcNe9SEVjF86puNMXDcSt8ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779640203; c=relaxed/simple;
-	bh=Rs5KdNVHBk6uGezZx8p55bP/qBfeSjPBIhH9JxpmhJk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Av8fgSkRjKHMGGGX8Ib94E5xIH2PIW9K4PWdyVtdvHGtvKSGbhUz4SW021T4+OULBfSbBKYRBOQkrfnSQKh11S+H+BnK2l9RQNPOhBk/ewlAHcMOInzH5lH/kFS0NCJucVStktPLMVf8XlCSzEjOIx0VhVR2+VjWU4TEOvclMMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.us; spf=pass smtp.mailfrom=gmx.us; dkim=pass (2048-bit key) header.d=gmx.us header.i=len.bao@gmx.us header.b=Ss1KKpZr; arc=none smtp.client-ip=212.227.15.15
+	s=arc-20240116; t=1779641639; c=relaxed/simple;
+	bh=KTHpF5bJe6Jfdej78toqBd9g7kytJ1PMa3uVmAMc8xU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i1MZHUkxTO88Ndko1kkyVi4iHdEu2LgdvlHltQmYHUWFzvasGHqfLbEnos1wLI1m+WO3z+gxcvjNSJ/7ljDRtzOGBBsktHgu4o39z8QQLtv8dhgREbSvPDBegCCRPJF40Ir/dpcMRnOEWFJc3565c7D70NrudWDM6cmZLjEFAaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.us; spf=pass smtp.mailfrom=gmx.us; dkim=pass (2048-bit key) header.d=gmx.us header.i=len.bao@gmx.us header.b=SZPnNua+; arc=none smtp.client-ip=212.227.15.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.us
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.us header.i=len.bao@gmx.us header.b="Ss1KKpZr"
+	dkim=pass (2048-bit key) header.d=gmx.us header.i=len.bao@gmx.us header.b="SZPnNua+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.us;
-	s=s31663417; t=1779640194; x=1780244994; i=len.bao@gmx.us;
-	bh=8gVCEGGH8/y2ewgWhcKPkM+9aqjblJBBsq/b77s1z08=;
+	s=s31663417; t=1779641631; x=1780246431; i=len.bao@gmx.us;
+	bh=18onRjYpHFpRRRhSIIaUAssQZLSeSGdrsSj0i1VGrBo=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
 	 MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=Ss1KKpZr+F+zDcKF+lRk4THoDlt5KuDUmRvtm8gmxsisIzItbgRRVJfEzPRWQSuw
-	 JWNCWLORd+nVvM6dU6GqcQCBD/tn0mfY7XNYklbENJaWmVCeygX0PZSgVqmwnDPsd
-	 +t48iGenSCXjCyDU/7DEGmxNLzRiS7HOCfdQRPzMM9t84FSW/LC0JI/xpI1wvcqtb
-	 3NLb6BComVwLOOTJA0+1bluozKFb1xWXBRsaKllFmKJTthEYPZqXQWabBuF0T3d0s
-	 s0SBiZ1C1V+bRHJChMMDHJ6pbdXsVNFYGWb1zl60QWGRozdH6TqiO1srJf8LGHcFa
-	 Fh555fd/3n7of6uUNQ==
+	b=SZPnNua+dzDuY0zcL/QJCqajVgmsGEjqcsbHs5mZxZfLQ2TKzgbiuEXXWRGKeohp
+	 ziIEWdGazAsPRI5he3FffU3ruoIaplG9N/kOgJefn8ZS1cy7Jr+4PDkI/H0qHBvZv
+	 MPlla4PMEqWbmIdx8vSwrvm4x7tD/uUZUyhNZKiNwxdmMkSqADmG36lGL69BmZfJP
+	 lmS1WwF+UHIUw/nve7f5ltYNXyR2twML5m8dgh3TZzisQ13Wmas+ImgWH8sjOtmAs
+	 tv7+188Bud+WDVX91FhqOyk52eEGXU0wirKLlJoBeJwYh3Gzm10BNsu+CwE2sM+bg
+	 xLhDIysCduwoMECJvQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from client.hidden.invalid by mail.gmx.net (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MYeQr-1wmPVB0YnD-00SOdL; Sun, 24
- May 2026 18:29:54 +0200
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MBUqL-1wcQEK1Hax-00GFcn; Sun, 24
+ May 2026 18:53:51 +0200
 From: Len Bao <len.bao@gmx.us>
 To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
+	Takashi Iwai <tiwai@suse.com>,
+	Ivan Orlov <ivan.orlov0322@gmail.com>
 Cc: Len Bao <len.bao@gmx.us>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: core: Mark some variables as __ro_after_init
-Date: Sun, 24 May 2026 16:29:13 +0000
-Message-ID: <20260524162914.47764-1-len.bao@gmx.us>
+Subject: [PATCH] ALSA: drivers: Mark some variables as __ro_after_init
+Date: Sun, 24 May 2026 16:52:48 +0000
+Message-ID: <20260524165249.48941-1-len.bao@gmx.us>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -49,183 +50,138 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:U/VEAN6jQSornIgoW+eUa21Fdod+e8imJi3nconYbJEE9CDS09n
- MYptGy569SQbe0MWCt39LdizHm9MY6cKuYJsdMGiGygKwqIHOrbwbVUNvz/qrvVRrTO3Aq7
- VDomPiccXfgGPDesJutptNsMnYCoGIC0bz7dOih41kUzjPnGPrOPULqw89oaOTlUAvgXklx
- BYk5A/O15Nc62ivvB4wbA==
+X-Provags-ID: V03:K1:KNabKe9FnY+lIzKVG5Ym5XchKg1fVodXq/LBpSg1vmsLBn5psIs
+ S9ZptPE/0M5n/FQfbakGuS63zfmd9SZ/Mps2wsWT+Oirr1i+C9Bvwnp6ZFB7F2z/qGHzBeR
+ HFz+Mza1o5N8WKRY0sl1kKdK1T/blQeMAIRxPKrugE6VZ2OqWL2LlT6YesH3YHZ/hXXafIM
+ +eLFwbf1oEg2ERKR8dBWQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:M7SW40yEkhg=;DSXJpcf4N84YPpKM/ihiqwmHGJ7
- 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
- qzfYrZClk=
+UI-OutboundReport: notjunk:1;M01:P0:fdpUVKN5Z24=;HWNyKYlh2KOJcCxbM2q3AWlqWCT
+ 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
+ qOEOmrMyYuwlpHYhVz3el/fPoWEl/rygtZDqJEu
 
-Some variables in the 'ALSA/core' are initialized only during the init
-phase in the '__init' functions and never changed. So, mark them as
-__ro_after_init to reduce the attack surface.
+Some variables in the 'ALSA/drivers' are initialized only during the
+init phase in the '__init' functions and never changed. So, mark them
+as __ro_after_init to reduce the attack surface.
 
 Signed-off-by: Len Bao <len.bao@gmx.us>
 =2D--
- sound/core/hrtimer.c              | 2 +-
- sound/core/oss/pcm_oss.c          | 4 ++--
- sound/core/rawmidi.c              | 4 ++--
- sound/core/seq/oss/seq_oss_init.c | 4 ++--
- sound/core/seq/seq_dummy.c        | 2 +-
- 5 files changed, 8 insertions(+), 8 deletions(-)
+ sound/drivers/mpu401/mpu401.c | 2 +-
+ sound/drivers/pcmtest.c       | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/core/hrtimer.c b/sound/core/hrtimer.c
-index 9fcd1c03d..92c585f8e 100644
-=2D-- a/sound/core/hrtimer.c
-+++ b/sound/core/hrtimer.c
-@@ -20,7 +20,7 @@ MODULE_LICENSE("GPL");
- MODULE_ALIAS("snd-timer-" __stringify(SNDRV_TIMER_GLOBAL_HRTIMER));
+diff --git a/sound/drivers/mpu401/mpu401.c b/sound/drivers/mpu401/mpu401.c
+index d3f942408..b615a310c 100644
+=2D-- a/sound/drivers/mpu401/mpu401.c
++++ b/sound/drivers/mpu401/mpu401.c
+@@ -46,7 +46,7 @@ module_param_array(uart_enter, bool, NULL, 0444);
+ MODULE_PARM_DESC(uart_enter, "Issue UART_ENTER command at open.");
 =20
- #define NANO_SEC	1000000000UL	/* 10^9 in sec */
--static unsigned int resolution;
-+static unsigned int resolution __ro_after_init;
+ static struct platform_device *platform_devices[SNDRV_CARDS];
+-static int pnp_registered;
++static int pnp_registered __ro_after_init;
+ static unsigned int snd_mpu401_devices;
 =20
- struct snd_hrtimer {
- 	struct snd_timer *timer;
-diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
-index 33fd34f0d..402089e3f 100644
-=2D-- a/sound/core/oss/pcm_oss.c
-+++ b/sound/core/oss/pcm_oss.c
-@@ -32,8 +32,8 @@
-=20
- #define OSS_ALSAEMULVER		_SIOR ('M', 249, int)
-=20
--static int dsp_map[SNDRV_CARDS];
--static int adsp_map[SNDRV_CARDS] =3D {[0 ... (SNDRV_CARDS-1)] =3D 1};
-+static int dsp_map[SNDRV_CARDS] __ro_after_init;
-+static int adsp_map[SNDRV_CARDS] __ro_after_init =3D {[0 ... (SNDRV_CARDS=
--1)] =3D 1};
- static bool nonblock_open =3D 1;
-=20
- MODULE_AUTHOR("Jaroslav Kysela <perex@perex.cz>, Abramo Bagnara <abramo@a=
-lsa-project.org>");
-diff --git a/sound/core/rawmidi.c b/sound/core/rawmidi.c
-index 3b1034a44..4dfd9d53e 100644
-=2D-- a/sound/core/rawmidi.c
-+++ b/sound/core/rawmidi.c
-@@ -28,8 +28,8 @@ MODULE_DESCRIPTION("Midlevel RawMidi code for ALSA.");
- MODULE_LICENSE("GPL");
-=20
- #ifdef CONFIG_SND_OSSEMUL
--static int midi_map[SNDRV_CARDS];
--static int amidi_map[SNDRV_CARDS] =3D {[0 ... (SNDRV_CARDS-1)] =3D 1};
-+static int midi_map[SNDRV_CARDS] __ro_after_init;
-+static int amidi_map[SNDRV_CARDS] __ro_after_init =3D {[0 ... (SNDRV_CARD=
-S-1)] =3D 1};
- module_param_array(midi_map, int, NULL, 0444);
- MODULE_PARM_DESC(midi_map, "Raw MIDI device number assigned to 1st OSS de=
-vice.");
- module_param_array(amidi_map, int, NULL, 0444);
-diff --git a/sound/core/seq/oss/seq_oss_init.c b/sound/core/seq/oss/seq_os=
-s_init.c
-index d3e6a8a8d..1aece46c8 100644
-=2D-- a/sound/core/seq/oss/seq_oss_init.c
-+++ b/sound/core/seq/oss/seq_oss_init.c
-@@ -27,8 +27,8 @@ static int maxqlen =3D SNDRV_SEQ_OSS_MAX_QLEN;
- module_param(maxqlen, int, 0444);
- MODULE_PARM_DESC(maxqlen, "maximum queue length");
-=20
--static int system_client =3D -1; /* ALSA sequencer client number */
--static int system_port =3D -1;
-+static int system_client __ro_after_init =3D -1; /* ALSA sequencer client=
- number */
-+static int system_port __ro_after_init =3D -1;
-=20
- static int num_clients;
- static struct seq_oss_devinfo *client_table[SNDRV_SEQ_OSS_MAX_CLIENTS];
-diff --git a/sound/core/seq/seq_dummy.c b/sound/core/seq/seq_dummy.c
-index af45f328a..3fe0853aa 100644
-=2D-- a/sound/core/seq/seq_dummy.c
-+++ b/sound/core/seq/seq_dummy.c
-@@ -71,7 +71,7 @@ struct snd_seq_dummy_port {
- 	int connect;
+ static int snd_mpu401_create(struct device *devptr, int dev,
+diff --git a/sound/drivers/pcmtest.c b/sound/drivers/pcmtest.c
+index 7f93557b5..5d5281e4d 100644
+=2D-- a/sound/drivers/pcmtest.c
++++ b/sound/drivers/pcmtest.c
+@@ -113,7 +113,7 @@ struct pcmtst_buf_iter {
+ 	struct timer_list timer_instance;
  };
 =20
--static int my_client =3D -1;
-+static int my_client __ro_after_init =3D -1;
+-static struct snd_pcm_hardware snd_pcmtst_hw =3D {
++static struct snd_pcm_hardware snd_pcmtst_hw __ro_after_init =3D {
+ 	.info =3D (SNDRV_PCM_INFO_INTERLEAVED |
+ 		 SNDRV_PCM_INFO_BLOCK_TRANSFER |
+ 		 SNDRV_PCM_INFO_NONINTERLEAVED |
+@@ -137,7 +137,7 @@ struct pattern_buf {
+ 	u32 len;
+ };
 =20
- /*
-  * event input callback - just redirect events to subscribers
+-static int buf_allocated;
++static int buf_allocated __ro_after_init;
+ static struct pattern_buf patt_bufs[MAX_CHANNELS_NUM];
+=20
+ static inline void inc_buf_pos(struct pcmtst_buf_iter *v_iter, size_t by,=
+ size_t bytes)
 =2D-=20
 2.43.0
 
