@@ -1,206 +1,155 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C6030C159
-	for <linux-sound@vger.kernel.org>; Sun, 24 May 2026 19:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656D33D0C1C
+	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 07:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779652409; cv=none; b=k7873IiyURHESkhBTYcJ50hVAbzenkjX+pAAgfYVPJSt2HAhfCepz/HIPh6e9Axm3SSFDefEQbOkpDYaEIR5qK1pPLMd0Y+1IazNeCWhkkz52DKNdDK3m4arE+FujrDhPjoL6XoCkWUIVsV01btFFBLDuDa4Tm1JdZPe+RtL+EU=
+	t=1779693613; cv=none; b=Ub57ZbAcOB2VXXW4rdYP+9sP4sWlQBb/jVGI7Send0a2d1HFJgawZiB5mVB7LO/17911fym3mzlX1muMm8QCvOmelsWjlQERXhaIkCTOiXCqVw4vOsu36/lPNQEzDPjzG6aj78tWNnnhboUQ6HrvBCA1RX61wobj6KdUnoIrt3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779652409; c=relaxed/simple;
-	bh=7jRjmR7byF90I5z6f0XKYOOsZQ2tNGR1X41E9TzoQMo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VX0nuEI94pG1bX9PXJj5Z9HcPXINldyKpLBkmVHfGH6pwu5wof3v+YFGpEmGHnoovvOisXuhQD+tPAkIUEFnQ9EwRrqIwWN2cQC41bDiNd/OFk+4BSra6ggnPeHzaeNmkzPDllT9hciBi6lO+fXWRTLqNKg4v2Q7JakXOMYTlL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hp7zOXwn; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779693613; c=relaxed/simple;
+	bh=9HiCiNJUQw7ytkElmi5I76wQHA07UeLbOoHwAAVxbC8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CdyInSbvHomS7GGNpfIysued8He75W/bEn4x63OljgrQbuEccOD152K8B04y5iXlkktrxRCzMUQu9cRdwXxbcXX3uJS6QUNI2N5DTjbPwOiFeoZeIJ8g7HZshKikbFtetZvA1DCHH/6fq1+IYgpmNq1uR35icsOd1K9pP8nzL5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZCoQ6e2Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dy+SwNb/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZCoQ6e2Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dy+SwNb/; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hp7zOXwn"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-369002b26f4so5053604a91.3
-        for <linux-sound@vger.kernel.org>; Sun, 24 May 2026 12:53:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779652408; x=1780257208; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ETDhX6hQeHZ88Twc2vJV86bPqeNnna3Es2w6c/Lk7tM=;
-        b=Hp7zOXwnOOpcIrbOO+pfwvtVYXZtTpaLrb0Tezy2o4nFV3d0EXHytMFFJCl51cTFXi
-         rodi31U1kBpFAsjU7DZPM9xehjhIHfTGlNuL+xETsyDZuPS6LUsQARPGSiJjaSE9fOFo
-         cDpZXq1W8g7bpqWrYzXmLMcheAC4DMCCAb05ezkaFbmUgZpLuJcQoNAPh71iDwiOD2J9
-         ZHKqrcUjSb0vAwFW6QdYQbVZmxwcsai2hi+H7q+7fMwMyPEjKBZHj4t/sdOkTwL1YANx
-         hGauJIyNorWHwlt8JSA4d1aGkXj4zC4hJYfSixM2yqH4rn2etqwVfAaTR5U4ZgHs5gpm
-         RHDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779652408; x=1780257208;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ETDhX6hQeHZ88Twc2vJV86bPqeNnna3Es2w6c/Lk7tM=;
-        b=ifIPJ2Vl5zGGIQNQOk4AU6xVPMcB3+uGpN6mEq2jkECBD9iE7qX+B9trEO1tRUV/m7
-         STf4Zl8CUjx+yPpVrwCf2c850zfXQEQdNOAg8B7nmOu91xbcJ6k8fqb0RB8HL25eyJVv
-         uoUbGR03sHFeJwMQyHjlE7NEXCkfhHbPu3FaiK5azRDLXqgwMryx2TFG9Ua3RMrVTsQk
-         HHDWhMo0BHcRRRdhZPWgvINEFyD4GF8ctTSpctRJdXIHXWJRwhx+yjUn1yqHfyzDa1H9
-         7LRfeozwudtIZ7iFk5g70vbKyY3tzj+lgU38kytl+qGNJBpVo0AgjyC1y84NuoLOViDG
-         lkPA==
-X-Gm-Message-State: AOJu0YwCIEw1OVryXisgYzOGtwpuVjNwlAGeYqRy3p76iIVk5DSzyrds
-	5z37ym+DwTvrCXhe183Qim5mG7Iv/a9sDgj6u8eMaSvO1ByR0rD52rlz
-X-Gm-Gg: Acq92OHtZNMllGu0azZTkAYaE1HSo16jwOnKuReUQZHQVlwIA5svM1BgkB99YIgiaxG
-	LId/7TTcBLoj29ryYvR4vi2ypNW+ZghJJg41XGOjurryAtZl20WsM3Gsrbp/LGxx1SdNmOB59oJ
-	Eu3Yv8mNTlcFSB1oWv+pdkYo3LJwYxlDYUfS7FGKCJwCCdzaToWB1n3WGONNHkOPI/qwqo3/yb9
-	YPtXe+2lUnoYOBGL2e7LhTXllNrLcUBJuLfjQwC95FoCj5NOLuVnbA6Pv1iCjmCyOeN0tTeRK8N
-	3Q9IetODcym+S4IGPkkv31mh+SwTRoJBED26Z3n77RcjcYXawEca8BSwHVs6MK6lN3W6t8fKg55
-	z6s8lfXU/FyL/WeC8srKtFMhXBWidaWixGX2ovV/Y5LFmeyhw2E5GzUCFUr1Nq/C6EfKdOKUXAZ
-	UTM+afFIo73Dz3JKdLgUH8Svag94d7+Cz6AXB1fcD2RM8Stl7TDHGKQ+NBTUYjfFDSW4qAfttrf
-	IAbIg==
-X-Received: by 2002:a17:90b:2585:b0:366:3ac:f730 with SMTP id 98e67ed59e1d1-36a6788e0abmr10580647a91.25.1779652407646;
-        Sun, 24 May 2026 12:53:27 -0700 (PDT)
-Received: from Ubuntu.. ([49.37.169.210])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36a6d86daddsm3584575a91.11.2026.05.24.12.53.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 May 2026 12:53:27 -0700 (PDT)
-From: Manish Baing <manishbaing2789@gmail.com>
-To: claudiu.beznea@tuxon.dev,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	nicolas.ferre@microchip.com,
-	alexandre.belloni@bootlin.com
-Cc: linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZCoQ6e2Q";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dy+SwNb/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZCoQ6e2Q";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dy+SwNb/"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 816A76BB14;
+	Mon, 25 May 2026 07:20:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779693610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JhX0Hqo/kqPTOminzprm7myRu7OH7hLn+QItAL3qWeA=;
+	b=ZCoQ6e2Q11nEsXb07XrtOX2WUxs35dcXwecHgXpWQrqGZ8UT1eSqYe8zh1hEjkvdIxZnod
+	LDe3niC51g0ilIDV13EHv/NhEDeFdh6dTYCSQgmxDcEfcb+5f5dEaL/1S5baUqNQfe+/Fk
+	7nKsIqYZVHqgsUtsOr5fZ13kwpAN7B4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779693610;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JhX0Hqo/kqPTOminzprm7myRu7OH7hLn+QItAL3qWeA=;
+	b=dy+SwNb/zCPJDzOD57tmhJKCJiXcPKIijcp+8Qq2qVRCi715yfCdJx5OaVhq+DxvHZxLFM
+	TN5ZuiG5fuvQNCAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ZCoQ6e2Q;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="dy+SwNb/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779693610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JhX0Hqo/kqPTOminzprm7myRu7OH7hLn+QItAL3qWeA=;
+	b=ZCoQ6e2Q11nEsXb07XrtOX2WUxs35dcXwecHgXpWQrqGZ8UT1eSqYe8zh1hEjkvdIxZnod
+	LDe3niC51g0ilIDV13EHv/NhEDeFdh6dTYCSQgmxDcEfcb+5f5dEaL/1S5baUqNQfe+/Fk
+	7nKsIqYZVHqgsUtsOr5fZ13kwpAN7B4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779693610;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JhX0Hqo/kqPTOminzprm7myRu7OH7hLn+QItAL3qWeA=;
+	b=dy+SwNb/zCPJDzOD57tmhJKCJiXcPKIijcp+8Qq2qVRCi715yfCdJx5OaVhq+DxvHZxLFM
+	TN5ZuiG5fuvQNCAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3D5FB59B0D;
+	Mon, 25 May 2026 07:20:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id RgWjDSr4E2oFEAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 25 May 2026 07:20:10 +0000
+Date: Mon, 25 May 2026 09:20:09 +0200
+Message-ID: <87ik8cgdli.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Clemens Ladisch <clemens@ladisch.de>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	manishbaing2789@gmail.com
-Subject: [PATCH v2] ASoC: dt-bindings: sound: atmel_ac97c: Convert to DT schema
-Date: Sun, 24 May 2026 19:53:18 +0000
-Message-ID: <20260524195318.112398-1-manishbaing2789@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: firewire-motu: Protect register DSP event queue positions
+In-Reply-To: <20260521-alsa-firewire-motu-event-locking-v1-1-708e1c2b5e56@gmail.com>
+References: <20260521-alsa-firewire-motu-event-locking-v1-1-708e1c2b5e56@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 816A76BB14
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	internal_greylist_whitelist(0.00)[2a07:de40:b281:104:10:150:64:97];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-Convert the Atmel AC97 controller binding from text
-format to YAML schema.
+On Thu, 21 May 2026 13:01:23 +0200,
+Cássio Gabriel wrote:
+> 
+> The register DSP event queue is updated under parser->lock, but
+> snd_motu_register_dsp_message_parser_count_event() reads pull_pos and
+> push_pos without the lock.
+> snd_motu_register_dsp_message_parser_copy_event() also reads both queue
+> positions before taking the lock.
+> 
+> Protect these accesses with parser->lock as well. This keeps the hwdep
+> poll/read path consistent with the producer side and with the cached
+> meter/parameter accessors.
+> 
+> Fixes: 634ec0b2906e ("ALSA: firewire-motu: notify event for parameter change in register DSP model")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
-Signed-off-by: Manish Baing <manishbaing2789@gmail.com>
----
-Changes in v2:
-- Added undocumented 'clocks' and 'clock-names' properties which are
-  unconditionally required by the driver.
-- Removed 'ac97-gpios' from the required list, as the driver treats
-  it as optional, fixing validation for existing dtsi files.
- 
- .../sound/atmel,at91sam9263-ac97c.yaml        | 70 +++++++++++++++++++
- .../devicetree/bindings/sound/atmel_ac97c.txt | 20 ------
- 2 files changed, 70 insertions(+), 20 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/sound/atmel,at91sam9263-ac97c.yaml
- delete mode 100644 Documentation/devicetree/bindings/sound/atmel_ac97c.txt
+Applied now.  Thanks.
 
-diff --git a/Documentation/devicetree/bindings/sound/atmel,at91sam9263-ac97c.yaml b/Documentation/devicetree/bindings/sound/atmel,at91sam9263-ac97c.yaml
-new file mode 100644
-index 000000000000..5f4ebe81bf90
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/atmel,at91sam9263-ac97c.yaml
-@@ -0,0 +1,70 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/atmel,at91sam9263-ac97c.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Atmel AC97 Controller
-+
-+maintainers:
-+  - Nicolas Ferre <nicolas.ferre@microchip.com>
-+  - Alexandre Belloni <alexandre.belloni@bootlin.com>
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: atmel,at91sam9263-ac97c
-+
-+  reg:
-+    maxItems: 1
-+    description: Address and length of the register set for the device.
-+
-+  interrupts:
-+    maxItems: 1
-+    description: Should contain the AC97 interrupt.
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    const: ac97_clk
-+
-+  ac97-gpios:
-+    minItems: 3
-+    maxItems: 4
-+    description: |
-+      AC97 link GPIOs- sync, sdata_out, reset, and optional sdata_in.
-+      The driver primarily uses the reset pin.
-+
-+  pinctrl-0: true
-+
-+  pinctrl-names:
-+    const: default
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/clock/at91.h>
-+
-+    sound@fffa0000 {
-+        compatible = "atmel,at91sam9263-ac97c";
-+        reg = <0xfffa0000 0x4000>;
-+        interrupts = <18 IRQ_TYPE_LEVEL_HIGH 5>;
-+        clocks = <&pmc PMC_TYPE_PERIPHERAL 2>;
-+        clock-names = "ac97_clk";
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&pinctrl_ac97>;
-+        ac97-gpios = <&pioB 0 0>, <&pioB 2 0>, <&pioC 29 GPIO_ACTIVE_LOW>;
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/atmel_ac97c.txt b/Documentation/devicetree/bindings/sound/atmel_ac97c.txt
-deleted file mode 100644
-index b151bd902ce3..000000000000
---- a/Documentation/devicetree/bindings/sound/atmel_ac97c.txt
-+++ /dev/null
-@@ -1,20 +0,0 @@
--* Atmel AC97 controller
--
--Required properties:
--  - compatible: "atmel,at91sam9263-ac97c"
--  - reg: Address and length of the register set for the device
--  - interrupts: Should contain AC97 interrupt
--  - ac97-gpios: Please refer to soc-ac97link.txt, only ac97-reset is used
--Optional properties:
--  - pinctrl-names, pinctrl-0: Please refer to pinctrl-bindings.txt
--
--Example:
--sound@fffa0000 {
--       compatible = "atmel,at91sam9263-ac97c";
--       pinctrl-names = "default";
--       pinctrl-0 = <&pinctrl_ac97>;
--       reg = <0xfffa0000 0x4000>;
--       interrupts = <18 IRQ_TYPE_LEVEL_HIGH 5>;
--
--       ac97-gpios = <&pioB 0 0 &pioB 2 0 &pioC 29 GPIO_ACTIVE_LOW>;
--};
--- 
-2.43.0
 
+Takashi
