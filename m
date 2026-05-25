@@ -1,99 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7562D3727
-	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 15:06:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA532AE78;
+	Mon, 25 May 2026 15:38:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779721615; cv=none; b=aANcV3tSY/6EUhEHnRWHH6DG9hm69nfHmKUwaw1mtW/Q8Bf+CPqay2dSAacm6Z9/gQPfTL8DSVa/BQqueYL6CwSJuZNnaxuAV0QFCr9A9n+znotsdpfXwaGJaE6ESSjl6WfjfgadWTR69JqFS7kAoKuQCp0/O1hkW0fF/+qQLak=
+	t=1779723483; cv=none; b=ZAiR2mksU5h/4II0v6BgQPcoEzT1yP9kEwBbumspXtR1NAuWg4aaSeiB5BHTmV5TRvOy2y58UEQGyKq2+qTd2maNpr5jT4pPExilsoB+tg/XiTclkaA/cbu5QAuDgIIcJDwLZrTZuPSRzhQlt3NK74HPfKh22GyyM65WJL2ybhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779721615; c=relaxed/simple;
-	bh=qeczKcZp9UJib6rpfn/wasz5tVSRF8sIyHS/qEcF6ZM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VeyzOgnoZJ+6Z9+QTPOha9Pc6Vbqoz89wNa2JvXtHV2s3C8S6/cQCDnmzv9irqGJGzUbWqyWhV6pDqW5K7xRH66gH2CtL4taIiOkiPNCJ9zcS73YsMkT/TRyAikprIx9bOe82eih2QTtDMjUKdN72uyIKqEgVB8M7PX9WB6CdhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eRwcu5Yi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779723483; c=relaxed/simple;
+	bh=mfakf2KSCdA6oLTC+W7ozYHLNIjtRk6O1EZB6UlOvIQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=eZh5cCPeadvJApbKKzH5XCPH8rGoMSBd7bgwnGGwTF/TGRZlNpBkZEAYiZ5rB5Y63/D7fsj2bx5tP3CfY7O/i/k5sKWDs0dpTYqIxiqLMkuyp8P4T5peRflj/B+ystNm9KW4u+HT9NBKuqwVh/RGtGSq6E+leVJkc7HTLXrUer4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CPbQoCK8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eRwcu5Yi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B65CE1F000E9;
-	Mon, 25 May 2026 15:06:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CPbQoCK8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A1F51F000E9;
+	Mon, 25 May 2026 15:37:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779721613;
-	bh=tcP5CNUHaa9DenQ6M/06kdqfqeWgr70sg6ygecjR0W8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eRwcu5YiWb6A3th6Gth4vog/c87hzSAYGeB9yMP1GZ2DxbBXSxSZsmCYKlS3zZ5FD
-	 /srykjHTk9ARwsYDR0RLyutSSIl1kwPpQyxvGUxzzpn1PbwDUrdvnbzptLJxyF9Rsl
-	 TYHgJaeJsEoVha0j1P99ePW64whE2EockR5XtjkFnyrVobkfWs22cJGCdPvldS8ddg
-	 xoq/DZFJUgWF8akvb+bTh7xEglVtsSoKELgeQewF6NHoyQLXTZr+O2OI7Is+ZuahnP
-	 JcsUyEn6AGMIJ+wnAaNVIAmQKW95NSGrcmEwJ8GFAf1YtNFdUGVP/fo+wY+8PYdE7e
-	 /TINnB/JGkp/A==
-Date: Mon, 25 May 2026 16:06:49 +0100
+	s=k20260515; t=1779723482;
+	bh=Rlh+oYV+P/+1/m8THqzUSHnl6pvPwf9k2pk0kwC/skM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=CPbQoCK85r7KVUyfv4U3p2wcqp9owjOmyyO5fAqYM2oPq1FvX/QfiYrcOu+6W1AM6
+	 UFXIpvmpla6okI91+txKBJ71yoCQi1BdW2gPI873OlOou83eA/4uOJsY/6EUvIbMTe
+	 WyMJRvI5im7SPPs7bIx2eD6O4AHuYgB9Bczn7wN+LA52Fae4HIWthuD0huHKBMV24k
+	 bEncvArhH8VmdBHA6Qacw4ZsAvNHA3V+Mm1K8qTxLy/qFdt/8RETG5aGikb+aNinRs
+	 qoxwhCyF911HpF7YSpddwUDmZREhFaD+Ibsgpp/Gc/fAYbAEu9brD7RZ9XfUKSBmnl
+	 lwAXCSo8nnZKw==
 From: Mark Brown <broonie@kernel.org>
-To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>, tiwai@suse.com,
-	perex@perex.cz, amade@asmblr.net, kuninori.morimoto.gx@renesas.com,
-	linux-sound@vger.kernel.org, "Liao, Bard" <bard.liao@intel.com>,
-	"Vehmanen, Kai" <kai.vehmanen@intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>
-Subject: Re: [PATCH] ASoC: core: Move all users to deferrable card binding
-Message-ID: <d82fa24d-18f9-461d-8535-3266cc92fbb9@sirena.org.uk>
-References: <20260430140752.766130-1-cezary.rojewski@intel.com>
- <01d1d642-bf24-4ef4-a30d-56884300407f@linux.intel.com>
- <5d8cbbfb-3884-4c6b-aea8-0c9a76964b3b@intel.com>
- <85045e51-e09b-44c2-9266-3e7ee72c4eb0@sirena.org.uk>
- <b5e82c43-9da1-4a12-af0e-90d4b9feef49@linux.intel.com>
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, Frank.Li@nxp.com, s.hauer@pengutronix.de, 
+ Chancel Liu <chancel.liu@nxp.com>
+Cc: kernel@pengutronix.de, shumingf@realtek.com, 
+ pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20260507013654.2945915-1-chancel.liu@nxp.com>
+References: <20260507013654.2945915-1-chancel.liu@nxp.com>
+Subject: Re: [PATCH v4 0/3] ASoC: soc-core: Add core support for ignoring
+ suspend on selected DAPM widgets
+Message-Id: <177971268540.58460.7539013149269437135.b4-ty@b4>
+Date: Mon, 25 May 2026 13:38:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Qf/d6hxJ+jlelhqG"
-Content-Disposition: inline
-In-Reply-To: <b5e82c43-9da1-4a12-af0e-90d4b9feef49@linux.intel.com>
-X-Cookie: Prevent forest fires.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1812; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=mfakf2KSCdA6oLTC+W7ozYHLNIjtRk6O1EZB6UlOvIQ=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqFGzWus3H0DiqbvYsMNr6AhAn2YhKG9F0iSV+B
+ 32wu4npHTKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahRs1gAKCRAk1otyXVSH
+ 0KcuB/93oLl8Dd37RwlCi7zKXZ0udVgDD24fhItx7pWfOYBluGwUA3VTRlqk9uLajf0/rCnks2L
+ x9cGZE2Yc44RmIsPZH7pjx8YRINcTUTnPYeAZzZ11pKZbIyEXofmxlGuullQ943JHpvSPmAfpBO
+ pZzP/ksFkeSGl+hejU+Akib6DfjYbibr21CuVMf4aepOEfYIQeHub25jopsyAPWNIhSgdkfxqsg
+ OxlHe7xIKOqgpD37K6zXN/LcsDJdNn7aEl6/hFg7185XVZdRKT/7aeJbRxTEjmpeOWUmFDuXfX1
+ Q/Fu1mdF+RWX0wrtIVCNhCjnZxtgz52tMLU6dlP2rF4QRTFF
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Thu, 07 May 2026 10:36:51 +0900, Chancel Liu wrote:
+> ASoC: soc-core: Add core support for ignoring suspend on selected DAPM widgets
+> 
+> Some audio systems require specific DAPM widgets to remain powered
+> during system suspend. Introduce a generic and reusable mechanism in
+> the ASoC core to mark selected DAPM widgets as ignore_suspend.
+> 
+> The unified mechanism consists of two parts:
+> 1. Parse and store the name list of widgets to ignore suspend in
+> struct snd_soc_card
+> 
+> [...]
 
---Qf/d6hxJ+jlelhqG
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Mon, May 25, 2026 at 03:48:36PM +0300, P=E9ter Ujfalusi wrote:
-> On 22/05/2026 17:58, Mark Brown wrote:
-> > On Fri, May 22, 2026 at 04:32:03PM +0200, Cezary Rojewski wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
-> >> The question on the table:  Do we revert the change temporarily, fix t=
-he SOF
-> >> first and then re-apply the patch again?
+Thanks!
 
-> > Given that there's two drivers we managed to turn up bugs in already I'm
-> > inclined to leave the patch there so it's more likely that any other
-> > issues get found.  It's a bit annoying for SOF CI but I guess a revert
-> > can be merged locally there?
+[1/3] ASoC: dapm: Fix widget lookup with prefixed names across DAPM contexts
+      https://git.kernel.org/broonie/sound/c/8468c8aafe8b
+[2/3] ASoC: soc-core: Add core support for ignoring suspend on selected DAPM widgets
+      https://git.kernel.org/broonie/sound/c/51271184a06d
+[3/3] ASoC: fsl: imx-rpmsg: Switch to core ignore-suspend-widgets support
+      https://git.kernel.org/broonie/sound/c/68bb9a7f557a
 
-> It is not really the SOF CI but the users. it looks like all codecs
-> using SDCA infra is affected and will fail to probe audio on boot.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Hang on, are you saying you don't test -next or my ASoC branches at all?
-It sounded like this was the result of a merge with some out of tree
-stuff you have with Cezary's change but it sounds like you're saying
-there are issues independently of the merge.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---Qf/d6hxJ+jlelhqG
-Content-Type: application/pgp-signature; name="signature.asc"
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
------BEGIN PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoUZYgACgkQJNaLcl1U
-h9CR+AgAhT0WuB0L971y4pA7ROnOtYZjkm+l+f20Bsl+jFmLf/XPhwkpj0pTfWgL
-UALf6tgfXk+L+iRXRtuQs9Tq5tx5PigPOdF396goU8ilCkw4Y5VgUrW0qQk2OzW7
-iQuJVhrbbyMvAlfuL+zijdwVhtDhV0Tk9sLe53Wvd9FlRoTz0vQyS5mKLIE9yie6
-+f5j9IzVaxRQTGAvhwOKpRQvXn7qRV6fFocdomV8Z9aJokeWqBNJbLUYqiDnXNqt
-Tm/bYEhDYP4Rnjh51GKc0MUqZm1JEsB9ceb2voKbtIWnReOcUCCpKNGacdbUx8de
-YIiftJ8H5TZaYJ1yE66VK68OJbF7rw==
-=S08O
------END PGP SIGNATURE-----
+Thanks,
+Mark
 
---Qf/d6hxJ+jlelhqG--
