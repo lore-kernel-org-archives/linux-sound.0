@@ -1,153 +1,191 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5640B26B764
-	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 07:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36913D3007;
+	Mon, 25 May 2026 07:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779694122; cv=none; b=QTUJHlGZII92pB2lvlxEzNlUbVhjS2hyKyDxBZyyUuQ9fR2mzQ7O2CCtv3E7Ta9olOQ4rWa0oI9sWdRYpquwUzKMa4NuM2JbEtZSOhvUgwxAaq0oL0i4TtUdSzw+uHDjYkPyol/7vO1WET05AhRINdiH9cGjZei8HWrQ5a2cEaY=
+	t=1779694146; cv=none; b=Cs9qyUKPyYPD+Hq/8gN1vRYgjNUCBnEaiSkgW4L7hFAQ7GVBiOgEYA7E8Xj9BP34fSRcbP95dTwYF6eW/bYMYNI6kNUz43cnFnGPF3+TkrvdKVcDydIdwsRZdcL51Y9AlKOfL6+h4adBHT1TFL5gKbe6iRMya+t9Hp5ZkIfPh6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779694122; c=relaxed/simple;
-	bh=Z+ZD+v235Giz8Tj97lDfEZ+oSt88UX+xZb9SpOXQNcY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E0AwKLBdmNfLn3uTuug6VBtX863WQF5rGeCUhvCxm/t0BtxxFPecs63+lH7wG+9voqHZZkaV+BxJEuIWPPpm4q+oGf7J+CxTJJ4zKTBiLse7e8MzlTHkqlv/y9IH8nvUWXCeZZKzVRUj/xGhGik/1E2ogpTNVAG4D1bQfsLzIm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EsOH9QHE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sy/yue/T; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EsOH9QHE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sy/yue/T; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1779694146; c=relaxed/simple;
+	bh=FtBud6StqVU0PEtORZ6r+B/Ovm9bljKtIQhEPDRhdR0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pjLvNSFGpGcrQoCpcklx631ElXe+eYXVYA/JYReZjirEYozj7zt1GnV+7sL9n7iRwgh2TM2ctx1Fjl1Dv5zSQb36XAoeSJ9ePth7Ma2dxA2S69m4lvznv3IXAnpCLByQDo43w6JXGwKy62p7lBlrCR9Lq3jM8C8iQgZdx01fQVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHYV1lG9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EsOH9QHE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sy/yue/T";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EsOH9QHE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sy/yue/T"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6A04664AB4;
-	Mon, 25 May 2026 07:28:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779694119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YpwQB9IIhAjnqg+r5vKOLmvKWcuPCHzqaXIJw5+5Ky8=;
-	b=EsOH9QHEloONvn6IbpF83kWuwu9HN92QXhp+1QZreqy4qzJk8/RF0OjWLsEisRwdkhPmhX
-	nsG9zdac8WUUSh8tzzulcECOcHMUJmzGV8laSyNnvoWMi38TKoIKYeCHMQomMRWyPeB4nQ
-	Yr3gxktX+jd7oSWHjRAEFqDGh3f8ykM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779694119;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YpwQB9IIhAjnqg+r5vKOLmvKWcuPCHzqaXIJw5+5Ky8=;
-	b=sy/yue/TXb6BXGcWQHGApVmJv835wFrRXSt3JBO2ycwA08nkhELWPe5zYaJ3uUb0KedvWJ
-	Ltemgh2szYydysAQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EsOH9QHE;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="sy/yue/T"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779694119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YpwQB9IIhAjnqg+r5vKOLmvKWcuPCHzqaXIJw5+5Ky8=;
-	b=EsOH9QHEloONvn6IbpF83kWuwu9HN92QXhp+1QZreqy4qzJk8/RF0OjWLsEisRwdkhPmhX
-	nsG9zdac8WUUSh8tzzulcECOcHMUJmzGV8laSyNnvoWMi38TKoIKYeCHMQomMRWyPeB4nQ
-	Yr3gxktX+jd7oSWHjRAEFqDGh3f8ykM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779694119;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YpwQB9IIhAjnqg+r5vKOLmvKWcuPCHzqaXIJw5+5Ky8=;
-	b=sy/yue/TXb6BXGcWQHGApVmJv835wFrRXSt3JBO2ycwA08nkhELWPe5zYaJ3uUb0KedvWJ
-	Ltemgh2szYydysAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4542159B13;
-	Mon, 25 May 2026 07:28:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id W7GlDyf6E2rhFwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 25 May 2026 07:28:39 +0000
-Date: Mon, 25 May 2026 09:28:38 +0200
-Message-ID: <87a4togd7d.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Geoffrey D. Bennett" <g@b4.vu>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: scarlett2: Fix 2i2 Gen 4 direct monitor gain on firmware 2417
-In-Reply-To: <ahIWTueUlWA5xiV+@m.b4.vu>
-References: <ahIWTueUlWA5xiV+@m.b4.vu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHYV1lG9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A56D1F000E9;
+	Mon, 25 May 2026 07:28:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779694143;
+	bh=Px70UtyVdgOoJSvAo0JvpWSmr8DieerexvZusmbqnMo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=MHYV1lG9qMNGmv0kQ+kCcow2yah7RZoKW4ICXp6+vID7dY+LMv8eNR/rADWVKtc6W
+	 CFIUhojoEejGnyO0MK8cgvCJnRgqiuiWAZ54xyFHvDIEG+qraB81zU8Xyi0My6Pqzp
+	 QQJ/q8HWLrTpY8DF4Il1ngzqSnYQV/nJdGyMxhIVFGBKBwKij4WJnhg8aBBEfgMwuI
+	 X6LgzkRZbwWseRAsxnxCTlBuoroVfQauWQ+nZCTxOzjtUD+MVV0/jMZZdzcullblMY
+	 N7c3JAXX9GvjEvcQRmjhtvLSMZ1i8xyfPfx8cVVIPp0cLHLCgHOFOeLrNieHlZ9Jlv
+	 EQi7KG8lj6Psg==
+Message-ID: <f559ed50-6cde-415f-a9c2-a73387d67ebd@kernel.org>
+Date: Mon, 25 May 2026 10:28:57 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.51
-X-Rspamd-Queue-Id: 6A04664AB4
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,b4.vu:email];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: sashiko review (Re: [PATCH v5 12/17] dmaengine: sh: rz-dmac: Add
+ cyclic DMA support)
+To: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, vkoul@kernel.org,
+ Frank.Li@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
+ perex@perex.cz, tiwai@suse.com, biju.das.jz@bp.renesas.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, p.zabel@pengutronix.de,
+ geert+renesas@glider.be, fabrizio.castro.jz@renesas.com,
+ kuninori.morimoto.gx@renesas.com, long.luu.ur@renesas.com
+Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260512121219.216159-1-claudiu.beznea.uj@bp.renesas.com>
+ <20260512121219.216159-13-claudiu.beznea.uj@bp.renesas.com>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@kernel.org>
+In-Reply-To: <20260512121219.216159-13-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, 23 May 2026 23:04:14 +0200,
-Geoffrey D. Bennett wrote:
-> 
-> Firmware 2417 for the Scarlett 4th Gen 2i2 moved the direct monitor
-> gain parameter by 4 bytes, from offset 0x2a0 to 0x2a4, breaking the
-> "Direct Monitor X Mix Y" controls.
-> 
-> Special-case the offset in the get/set config helpers when the
-> running firmware is 2417 or later.
-> 
-> Fixes: 4e809a299677 ("ALSA: scarlett2: Add support for Solo, 2i2, and 4i4 Gen 4")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
-> ---
-> Tested on a Scarlett 2i2 4th Gen by writing to "Direct Monitor 1
-> Mix A Input 01" and observing the USB traffic with usbmon:
-> 
-> - Firmware 2417, unpatched driver: write targets offset 0x2A0 (bug)
-> - Firmware 2417, patched driver:   write targets offset 0x2A4
-> - Firmware 2128, patched driver:   write targets offset 0x2A0
+ >commit 206116040d966fa7859b2dc81e454bdbed7acd43
+ >Author: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+ >    dmaengine: sh: rz-dmac: Add cyclic DMA support
+ >This commit adds cyclic DMA support to the RZ DMAC driver. A per-channel
+ >status bit is introduced to mark cyclic channels and is set during the DMA
+ >prepare callback.
+ >> diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
+ >> index 2de519b581b60..d6ad070be705c 100644
+ >> --- a/drivers/dma/sh/rz-dmac.c
+ >> +++ b/drivers/dma/sh/rz-dmac.c
+ >[ ... ]
+ >> @@ -431,6 +435,57 @@ static void rz_dmac_prepare_descs_for_slave_sg(struct 
+rz_dmac_chan *channel)
+ >>      channel->chctrl = 0;
+ >>  }
+ >>
+ >> +static void rz_dmac_prepare_descs_for_cyclic(struct rz_dmac_chan *channel)
+ >> +{
+ >> +    struct dma_chan *chan = &channel->vc.chan;
+ >> +    struct rz_dmac *dmac = to_rz_dmac(chan->device);
+ >> +    struct rz_dmac_desc *d = channel->desc;
+ >> +    size_t period_len = d->sgcount;
+ >> +    struct rz_lmdesc *lmdesc;
+ >> +    size_t buf_len = d->len;
+ >> +    size_t periods = buf_len / period_len;
+ >> +
+ >> +    lockdep_assert_held(&channel->vc.lock);
+ >> +
+ >> +    channel->chcfg |= CHCFG_SEL(channel->index) | CHCFG_DMS;
+ >Are stale hardware configuration fields leaking from previous transfers here?
+ >If a channel was previously used for a memory-to-memory transfer,
+ >channel->chctrl might retain the CHCTRL_STG (Software Trigger Generation) bit.
+ >If it was used for slave_sg, channel->chcfg might retain the CHCFG_DEM
+ >(Descriptor End Mask) bit.
+ >Because channel->chcfg is modified via OR-assignment and channel->chctrl
+ >is not initialized to 0, could the stale CHCTRL_STG bit cause the peripheral
+ >transfer to continuously trigger via software rather than synchronizing with
+ >the hardware DREQ signal? Additionally, could a stale CHCFG_DEM bit mask
+ >every period interrupt and prevent vchan_cyclic_callback() from being invoked?
 
-Applied now to for-linus branch.
+It is expected the channel to be released before changing its mode (cyclic, sg, 
+mem-to-mem) and requested again. When the channel is requested the 
+channel->chcfg is properly reinitialized in rz_dmac_chan_filter() with the 
+device tree data.
 
-It seems that this can be merged without conflict to for-next that
-contains already your previous series.  Let me know if any adjustment
-is needed at merging this with the previous one.
+ >[ ... ]
+ >> @@ -586,6 +645,55 @@ rz_dmac_prep_slave_sg(struct dma_chan *chan, struct 
+scatterlist *sgl,
+ >>      return vchan_tx_prep(&channel->vc, &desc->vd, flags);
+ >>  }
+ >>
+ >> +static struct dma_async_tx_descriptor *
+ >> +rz_dmac_prep_dma_cyclic(struct dma_chan *chan, dma_addr_t buf_addr,
+ >> +                    size_t buf_len, size_t period_len,
+ >> +                    enum dma_transfer_direction direction,
+ >> +                    unsigned long flags)
+ >> +{
+ >> +    struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
+ >> +    struct rz_dmac_desc *desc;
+ >> +    size_t periods;
+ >> +
+ >> +    if (!is_slave_direction(direction))
+ >> +            return NULL;
+ >> +
+ >> +    if (!period_len || !buf_len)
+ >> +            return NULL;
+ >> +
+ >> +    periods = buf_len / period_len;
+ >> +    if (!periods || periods > DMAC_NR_LMDESC)
+ >> +            return NULL;
+ >> +
+ >> +    scoped_guard(spinlock_irqsave, &channel->vc.lock) {
+ >> +            if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC))
+ >> +                    return NULL;
+ >> +
+ >> +            desc = list_first_entry_or_null(&channel->ld_free, struct 
+rz_dmac_desc, node);
+ >> +            if (!desc)
+ >> +                    return NULL;
+ >> +
+ >> +            list_del(&desc->node);
+ >> +
+ >> +            channel->status |= BIT(RZ_DMAC_CHAN_STATUS_CYCLIC);
+ >Can this global channel state modification during descriptor preparation cause
+ >race conditions?
+ >The DMA engine API permits descriptors to be prepared concurrently with active
+ >transfers, or to be freed without being issued. If a slave_sg transfer is
+ >running when prep_dma_cyclic() is called, the global channel status immediately
+ >becomes CYCLIC.
+ >When the active slave_sg transfer triggers an interrupt, wouldn't
+ >rz_dmac_irq_handler_thread() see this flag and incorrectly execute the cyclic
+ >path (vchan_cyclic_callback) instead of vchan_cookie_complete()?
+ >Would it be safer to determine the execution mode by checking the currently
+ >active descriptor's type (e.g., desc->type == RZ_DMAC_DESC_CYCLIC) instead of
+ >updating a global channel flag during preparation?
 
+Once a channel has been configured as cyclic channel it can be used only as 
+cyclic channel. HW don't allow changing its usage like mentioned above.
 
-thanks,
+ >[ ... ]
+ >> @@ -733,9 +841,18 @@ static u32 rz_dmac_calculate_residue_bytes_in_vd(struct 
+rz_dmac_chan *channel,
+ >>      }
+ >>
+ >>      /* Calculate residue from next lmdesc to end of virtual desc */
+ >> -    while (lmdesc->chcfg & CHCFG_DEM) {
+ >> -            residue += lmdesc->tb;
+ >> -            lmdesc = rz_dmac_get_next_lmdesc(channel->lmdesc.base, lmdesc);
+ >> +    if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)) {
+ >> +            u32 start_lmdesc_addr = rz_dmac_lmdesc_addr(channel, 
+desc->start_lmdesc);
+ >> +
+ >> +            while (lmdesc->nxla != start_lmdesc_addr) {
+ >Does this omit the residue from the last descriptor in the cyclic ring?
+ >The last descriptor is configured such that its nxla field points to
+ >start_lmdesc_addr in order to loop back. Because the loop condition evaluates
+ >to false exactly when lmdesc reaches this last descriptor, it terminates
+ >before adding lmdesc->tb (the transfer byte count) to the residue.
+ >Could this cause the residue to be permanently under-reported by one full
+ >period length, affecting subsystems like ALSA that rely on strict monotonic
+ >residue reporting?
 
-Takashi
+I did a lot of audio testing with this code and never encountered issues with 
+the current form of this code.
+
+ >> +                    residue += lmdesc->tb;
+ >> +                    lmdesc = rz_dmac_get_next_lmdesc(channel->lmdesc.base, 
+lmdesc);
+ >> +            }
+ >> +    } else {
+ >> +            while (lmdesc->chcfg & CHCFG_DEM) {
+ >> +                    residue += lmdesc->tb;
+ >> +                    lmdesc = rz_dmac_get_next_lmdesc(channel->lmdesc.base, 
+lmdesc);
+ >> +            }
+ >>      }
