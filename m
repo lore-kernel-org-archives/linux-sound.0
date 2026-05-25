@@ -1,157 +1,99 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ACFB3B4E9A
-	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 14:16:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7562D3727
+	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 15:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779718580; cv=none; b=df7TkUo+RoBei/RaoJ9wj215+hKCdGLKHzV7h1eMyJgnJCqUgpCS62YmlkpLhJHzS/6CAAfIxBXkze+PrM4U1PTLThtAX3p+GJYT430zcgvceHiq/RIYWr2hzRTIjMxSRtNVL4oBRld/cO7Jxj2A8tfWujtg39jQfw1amD9ZbdU=
+	t=1779721615; cv=none; b=aANcV3tSY/6EUhEHnRWHH6DG9hm69nfHmKUwaw1mtW/Q8Bf+CPqay2dSAacm6Z9/gQPfTL8DSVa/BQqueYL6CwSJuZNnaxuAV0QFCr9A9n+znotsdpfXwaGJaE6ESSjl6WfjfgadWTR69JqFS7kAoKuQCp0/O1hkW0fF/+qQLak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779718580; c=relaxed/simple;
-	bh=MFdFeKm/G+G5nLzwp77/0tJ1+gU1siWkcfoiFBsseYo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DpUjsirIY5JxaEd77LW0jIezNuXq189vi2tauyCWetOPRr2zkvIkKIaZfAQiWgCRxcTsh2brOIbz7NxIXZCpO7pWQrYAsrWIV6a+b4n6joPFT2iEfwaRAfpYq+0Jy5ultaHVDlrSjhglST+pFR6+u7Ubi6mfDlAnL9Mfulc8vC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fLRHQwWV; arc=none smtp.client-ip=74.125.82.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779721615; c=relaxed/simple;
+	bh=qeczKcZp9UJib6rpfn/wasz5tVSRF8sIyHS/qEcF6ZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VeyzOgnoZJ+6Z9+QTPOha9Pc6Vbqoz89wNa2JvXtHV2s3C8S6/cQCDnmzv9irqGJGzUbWqyWhV6pDqW5K7xRH66gH2CtL4taIiOkiPNCJ9zcS73YsMkT/TRyAikprIx9bOe82eih2QTtDMjUKdN72uyIKqEgVB8M7PX9WB6CdhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eRwcu5Yi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fLRHQwWV"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2f03d6cf77bso9950742eec.0
-        for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 07:16:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779718577; x=1780323377; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8Jre4CbO6KyJQQsc94Q4J1OErqD+LNWqXxRPcx+UzN0=;
-        b=fLRHQwWVJaJ1pJlyg+U5/YKIStUM8L1WI3PoExPec8ipYDRVKk5bCHflPXHx/HFj9U
-         Uoj9lKauC+YoFq3RemHMn4Ny3vDskIq/pUoX3drz1vd6ibqGXplZNJECTM/5dHgDwgiF
-         jEUMnfyb6+17TNb2lDRO1V8YcwOouSVKhv90FZ2VQf5yJ8hhiWWCc668tmQhbeeJ5XKh
-         Eu4iJx1yKVV/DnS2I6CcNNPrvU6HzFGahpK9qnVIFHr6SksprWpEf5Fodpk1rMaJ/nkb
-         YOmPbTdMudT1cMpdy2ixgGqSgLGtRjEJ8P1/xxdvco0ql5xtdvSoU543vo7fkuTHDSK3
-         pMwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779718577; x=1780323377;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8Jre4CbO6KyJQQsc94Q4J1OErqD+LNWqXxRPcx+UzN0=;
-        b=COMC00lL0+AkIv2Upgfb2wtpvk2H5ay11uD07+KYI/Ipi5Hnhc/1wb4F3jOmT3X2s1
-         rmQU8CarCWe6cFedkr+zL1VyheI9Esgn0WaW5bWHT9jLEYt2gtWYA3G0GMdGUFJVm6w1
-         33ACw8XNJXMjxDQ00wOiYuA3HPhd8gQhDSvz50xj2DC9okPdf383f7BAM666guKvftom
-         BQhF52yCrPUz0j7iDLo2BkpQ8sPNhkMB/z6dOv1r4JL6ixpPpDoejwHxhNE8WJTGrtxK
-         N7wUKZwvxCmF+lvzV2Bj8yIF3K6WKNMtChYUQOHyvtUoaXzqMR1pijYOIWdzyQQm1WZA
-         5jLA==
-X-Gm-Message-State: AOJu0YxcINwy66SaAuXzdqIL/uUfyO9VBTarJK9BgnsIHb54KTqi+0J8
-	GHt2pxDHFV19QBMNU/X7NrpKIYEquDZrzp7WU9607Jll04J4L7fPtT7I40g+jw==
-X-Gm-Gg: Acq92OGIxGgUiT4p0eEmPL08oAPfQ1Ls8r6rMjViojb9zICGqWbyxIZ8QtHRLeVW+CF
-	csYLJeSgxDFF8D67gnp+hARSKLDIR+QlbBJ0rULyFBI/qaRyibqD57C5f0GBm0CxQX7qVC2mGeB
-	bUAwKG1yM8NDWRxB89I2Li+Uuih9ni07YMgHJ6oxRQquxJFZnuUv/p+LEY3CzpplEYR3qrYqiTJ
-	Hiys/6r6EiEZwxlgFo6WqRfmAiXRT5+esr8vCD4HJ3jIO8g1vn0NEF4Yvii3SPU0thEzZ3kbysD
-	Plxp4vsoss7sGLkThtY0a/2HcSIyeylV935ZKlkGXo5pykrrQwyl5ThXMIz2G293MZZrtg2o2Et
-	jwHYLGqcx5bwYNkP8Nigu1/1yx2jPtINcnAKY0NNVgpdP36aMCSbJOswxeZahDVSwdetqjpVHuQ
-	a543QQnCz2gvoxamvzk3EU61a0STPzCq83rU2TRkgPiDoaLm2+A9mBpYpqjyMkjx9XMcmzrAzzu
-	Py6EtMohGm5
-X-Received: by 2002:a05:7301:9bc8:b0:304:2eb0:2737 with SMTP id 5a478bee46e88-30449183b1cmr6971558eec.21.1779718576707;
-        Mon, 25 May 2026 07:16:16 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-162-74.user3p.v-tal.net.br. [177.4.162.74])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30451ef470dsm7994721eec.4.2026.05.25.07.16.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 07:16:16 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Mon, 25 May 2026 11:16:09 -0300
-Subject: [PATCH] ALSA: seq: Remove arbitrary prioq insertion limit
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eRwcu5Yi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B65CE1F000E9;
+	Mon, 25 May 2026 15:06:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779721613;
+	bh=tcP5CNUHaa9DenQ6M/06kdqfqeWgr70sg6ygecjR0W8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=eRwcu5YiWb6A3th6Gth4vog/c87hzSAYGeB9yMP1GZ2DxbBXSxSZsmCYKlS3zZ5FD
+	 /srykjHTk9ARwsYDR0RLyutSSIl1kwPpQyxvGUxzzpn1PbwDUrdvnbzptLJxyF9Rsl
+	 TYHgJaeJsEoVha0j1P99ePW64whE2EockR5XtjkFnyrVobkfWs22cJGCdPvldS8ddg
+	 xoq/DZFJUgWF8akvb+bTh7xEglVtsSoKELgeQewF6NHoyQLXTZr+O2OI7Is+ZuahnP
+	 JcsUyEn6AGMIJ+wnAaNVIAmQKW95NSGrcmEwJ8GFAf1YtNFdUGVP/fo+wY+8PYdE7e
+	 /TINnB/JGkp/A==
+Date: Mon, 25 May 2026 16:06:49 +0100
+From: Mark Brown <broonie@kernel.org>
+To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, tiwai@suse.com,
+	perex@perex.cz, amade@asmblr.net, kuninori.morimoto.gx@renesas.com,
+	linux-sound@vger.kernel.org, "Liao, Bard" <bard.liao@intel.com>,
+	"Vehmanen, Kai" <kai.vehmanen@intel.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>
+Subject: Re: [PATCH] ASoC: core: Move all users to deferrable card binding
+Message-ID: <d82fa24d-18f9-461d-8535-3266cc92fbb9@sirena.org.uk>
+References: <20260430140752.766130-1-cezary.rojewski@intel.com>
+ <01d1d642-bf24-4ef4-a30d-56884300407f@linux.intel.com>
+ <5d8cbbfb-3884-4c6b-aea8-0c9a76964b3b@intel.com>
+ <85045e51-e09b-44c2-9266-3e7ee72c4eb0@sirena.org.uk>
+ <b5e82c43-9da1-4a12-af0e-90d4b9feef49@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260525-alsa-seq-prioq-limit-v1-1-16c348df5ff7@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMSQqEQAxA0atI1h0o58arNC6iRk3jWFERxLtb6
- vIt/j9A2QorZN4BljdRGQcH/+NB2dLQMErlDIEJEhP7X6ROCZVnnKyMM3bSy4IUpmHEcW0oKsC
- lk+Va9mf7y1/rWvy5XO4XnOcFWsvc/HgAAAA=
-X-Change-ID: 20260518-alsa-seq-prioq-limit-a3734e5f0a4b
-To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2280;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=MFdFeKm/G+G5nLzwp77/0tJ1+gU1siWkcfoiFBsseYo=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDFkikesOufIr1WjzXonvF/tYrbzDYqf61MPnzuUckNr5Y
- U8YwzedjlIWBjEuBlkxRZbVSYss93Q9uFoft8IDZg4rE8gQBi5OAZiIWCwjwzS3lw9iD+9nlvC/
- vvujW+7PF2z9Mzcxt+r9ZT/Ltft0ZifD/7K0OkfWcofaostiDKeDpJcnZ8+SPXJu5suNJ28G7XB
- 25QcA
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Qf/d6hxJ+jlelhqG"
+Content-Disposition: inline
+In-Reply-To: <b5e82c43-9da1-4a12-af0e-90d4b9feef49@linux.intel.com>
+X-Cookie: Prevent forest fires.
 
-The sequencer priority queue insertion path uses a hardcoded traversal
-limit of 10000 entries.  The value is intended to catch a corrupted list,
-but it also becomes a real limit for valid queues.
 
-The event pool limit is per client, while a sequencer queue can be shared
-by multiple clients.  A queue can therefore legitimately contain more than
-10000 events.  In that case, inserting an event that has to be placed past
-the arbitrary limit fails with -EINVAL.
+--Qf/d6hxJ+jlelhqG
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Use the queue's own cell count as the traversal bound instead.  This keeps
-the protection against inconsistent list accounting or cyclic lists without
-rejecting valid large queues.
+On Mon, May 25, 2026 at 03:48:36PM +0300, P=E9ter Ujfalusi wrote:
+> On 22/05/2026 17:58, Mark Brown wrote:
+> > On Fri, May 22, 2026 at 04:32:03PM +0200, Cezary Rojewski wrote:
 
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/core/seq/seq_prioq.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+> >> The question on the table:  Do we revert the change temporarily, fix t=
+he SOF
+> >> first and then re-apply the patch again?
 
-diff --git a/sound/core/seq/seq_prioq.c b/sound/core/seq/seq_prioq.c
-index 25c0ed8f9f0f..d5bad1c585f6 100644
---- a/sound/core/seq/seq_prioq.c
-+++ b/sound/core/seq/seq_prioq.c
-@@ -132,7 +132,7 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
- 			  struct snd_seq_event_cell * cell)
- {
- 	struct snd_seq_event_cell *cur, *prev;
--	int count;
-+	int remaining;
- 	int prior;
- 
- 	if (snd_BUG_ON(!f || !cell))
-@@ -162,10 +162,16 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
- 	prev = NULL;		/* previous cell */
- 	cur = f->head;		/* cursor */
- 
--	count = 10000; /* FIXME: enough big, isn't it? */
-+	remaining = f->cells;
- 	while (cur != NULL) {
- 		/* compare timestamps */
- 		int rel = compare_timestamp_rel(&cell->event, &cur->event);
-+
-+		if (remaining-- <= 0) {
-+			pr_err("ALSA: seq: inconsistent prioq cell count\n");
-+			return -EINVAL;
-+		}
-+
- 		if (rel < 0)
- 			/* new cell has earlier schedule time, */
- 			break;
-@@ -176,10 +182,6 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
- 		/* move cursor to next cell */
- 		prev = cur;
- 		cur = cur->next;
--		if (! --count) {
--			pr_err("ALSA: seq: cannot find a pointer.. infinite loop?\n");
--			return -EINVAL;
--		}
- 	}
- 
- 	/* insert it before cursor */
+> > Given that there's two drivers we managed to turn up bugs in already I'm
+> > inclined to leave the patch there so it's more likely that any other
+> > issues get found.  It's a bit annoying for SOF CI but I guess a revert
+> > can be merged locally there?
 
----
-base-commit: fa16304d1c5086bb8b537dd05d36ea68032228c7
-change-id: 20260518-alsa-seq-prioq-limit-a3734e5f0a4b
+> It is not really the SOF CI but the users. it looks like all codecs
+> using SDCA infra is affected and will fail to probe audio on boot.
 
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+Hang on, are you saying you don't test -next or my ASoC branches at all?
+It sounded like this was the result of a merge with some out of tree
+stuff you have with Cezary's change but it sounds like you're saying
+there are issues independently of the merge.
 
+--Qf/d6hxJ+jlelhqG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoUZYgACgkQJNaLcl1U
+h9CR+AgAhT0WuB0L971y4pA7ROnOtYZjkm+l+f20Bsl+jFmLf/XPhwkpj0pTfWgL
+UALf6tgfXk+L+iRXRtuQs9Tq5tx5PigPOdF396goU8ilCkw4Y5VgUrW0qQk2OzW7
+iQuJVhrbbyMvAlfuL+zijdwVhtDhV0Tk9sLe53Wvd9FlRoTz0vQyS5mKLIE9yie6
++f5j9IzVaxRQTGAvhwOKpRQvXn7qRV6fFocdomV8Z9aJokeWqBNJbLUYqiDnXNqt
+Tm/bYEhDYP4Rnjh51GKc0MUqZm1JEsB9ceb2voKbtIWnReOcUCCpKNGacdbUx8de
+YIiftJ8H5TZaYJ1yE66VK68OJbF7rw==
+=S08O
+-----END PGP SIGNATURE-----
+
+--Qf/d6hxJ+jlelhqG--
