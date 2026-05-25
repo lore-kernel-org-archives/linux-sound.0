@@ -1,104 +1,87 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C8A376466
-	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 10:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29153603D1;
+	Mon, 25 May 2026 10:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779705915; cv=none; b=BG5XhTLNvM3lCU5M7TZM3tJTOLEq/kqXGuzewCg2xpQNbitvbqQbMTk66vJwuLmTRCOUd0Eb4vQgj3NGsizLF9cxVOGdAEH1pNVTC2/wyP+XXzyPGbb5XC1wY88WDt597WJEPK1GepwPjSDqyBY8KZrkUu3T6UVJNVb4bFh82qk=
+	t=1779705953; cv=none; b=mFP1ynpiVeLVHOsYXz5BxSuTif70KESPLej/BpvnbjB65/Ha3NNJ9yChwrGiUktzbtFbKeNe0joamfAIemhWORg4Y4WqMQS2elBNnIBBQrtdXSlrgJvlqXmcu18pCVR1T3ieT/29B5AUhYxu0ceW2DYouT98mz7yYg1Dxep7G+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779705915; c=relaxed/simple;
-	bh=MtCFqJbtHP9NgsaOVgO0Ix9ABP8fFX/ihUBykQvxWJc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ekPYRBdTYSXglv5zZ7COlwmnbewywe6tIVIrEiL3QwiGxSipkSsiBd728nUSxyMBRCjq6RLJTyYPla1D3JCskcKaPtV/wpBiM/QLNkCB5iefF9t1JLvdhUVyoGgaZBZd3XIMR1w5NESDDBhSNmXhDWniChjRKro8xt2thYZhiVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vsWkIcsq; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1779705953; c=relaxed/simple;
+	bh=bT46bqL02eEb1hsqiaDF0RkdFR3DT91vv53E+6lZDgY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eZE77lhQXqd/jEIuA+mC/9vZ0fxyRj/pIBYzvLTOQSpjMZm2nhB4kws5I9PVFXBiGC7aITYx4pm83ZAVO9LgqmmK5viBpk2OfXpRBhhNexApQh2Q5G4nZtFiGqSCp2UpeoM0zfgjERtnSqlaN5rJVKXt/QCVHsfCP6UDK7tQ4RE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lE11Y2cb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vsWkIcsq"
-Message-ID: <7c01439a-8edc-4aba-bd7b-0e19f4f470ae@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779705911;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MP9Fi/qJsb57xAKQwEkJyzpRKj97pIr9BYqc8X8Nvlo=;
-	b=vsWkIcsq4IsbjDlNxWrwlsPZxyIJzLqb/YbdZ4DG4aSJwHJLzfSOTcRmdXOlf88SM1YCrk
-	SfJEHYLDXA4CIQMElm1j29n9tN8iv3zvCrTjBtke+M+3nMQJpGu4eYsbJePc1HvqJLgkV+
-	e95QXWbWl3NV8UTz309RC57VUTNFUyU=
-Date: Mon, 25 May 2026 12:44:57 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lE11Y2cb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA5D41F000E9;
+	Mon, 25 May 2026 10:45:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779705952;
+	bh=bT46bqL02eEb1hsqiaDF0RkdFR3DT91vv53E+6lZDgY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lE11Y2cbBisUBW21RlOrCvvFhW1d0dThJhjs570rSRpFBUrVUJfqIMfn8RWZsTd3n
+	 kjdHenk1cbMSGaiAwEtVXhQoqpa/AX5+ysbrA77wnCMXTGZSgPo2VHVCNoZnqWICuZ
+	 qEiaoH24c6q4mueV8DG3gGnEABPwKWk7pnsLyCj6bJ/ziwXqMYv3CZ/ujDpql0UzHS
+	 sDKBpiYLR4hx9XE491UmFOUpdah4kvVRyMBTml/xfa2Mq7u31nsM+nNSPXYpaQpWXz
+	 5eTt9MFDUSwEbeXJOWH+wukSHbpACa+xYcAkG/LepqnyjE5/9KWZ1ST9rLmloBkZrT
+	 EcpWVFDzJy1Gg==
+Date: Mon, 25 May 2026 11:45:46 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: Ethan Tidmore <ethantidmore06@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: cs35l56-shared-test: Fix possible null pointer
+ dereference
+Message-ID: <f325ab56-d2af-443b-a9b0-174e3e55061b@sirena.org.uk>
+References: <20260523211522.522616-1-ethantidmore06@gmail.com>
+ <c0252afa-ad78-4e36-9a7d-8a8afb04e1d8@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] ASoC: core: Move all users to deferrable card binding
-To: Cezary Rojewski <cezary.rojewski@intel.com>, broonie@kernel.org
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
- kuninori.morimoto.gx@renesas.com, linux-sound@vger.kernel.org,
- "Liao, Bard" <bard.liao@intel.com>, "Vehmanen, Kai"
- <kai.vehmanen@intel.com>, =?UTF-8?Q?P=C3=A9ter_Ujfalusi?=
- <peter.ujfalusi@linux.intel.com>
-References: <20260430140752.766130-1-cezary.rojewski@intel.com>
- <01d1d642-bf24-4ef4-a30d-56884300407f@linux.intel.com>
- <5d8cbbfb-3884-4c6b-aea8-0c9a76964b3b@intel.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <5d8cbbfb-3884-4c6b-aea8-0c9a76964b3b@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8df3B3e7Uze84Mc+"
+Content-Disposition: inline
+In-Reply-To: <c0252afa-ad78-4e36-9a7d-8a8afb04e1d8@opensource.cirrus.com>
+X-Cookie: Prevent forest fires.
 
-On 5/22/26 16:32, Cezary Rojewski wrote:
-> On 5/22/2026 12:16 PM, Péter Ujfalusi wrote:
->> Hi Cezary,
-> 
-> ...
-> 
->> This patch showed up in sof-dev kernel after a recent upstream merge and
->> broke audio card probing on some devices.
->>
->> There are no errors in kernel log, the card just does not form.
->> Reverting only this patch fixes the card binding.
->>
->> The affected device have 2x sndw speaker amps,     1x headset codec and 3x
->> HDMI PCMs.
->>
->> It is likely that one of the codec's probe happens after the card
->> probed, the card is not created for some reason and nothing happens.
->>
->> rmmod snd_soc_sof_sdw
->> modprobe snd_soc_sof_sdw
->>
->> will create the card, so it is likely that going ahead without waiting
->> for all components can and might break audio on system boot.
-> Hi Mark,
-> 
-> I've had a debug session with Peter today (yes, right after one with Alexander) and the outcome is kind of an expected one - dependency issue, TLDR:
-> 
-> // working case:
-> 1) snd_soc_add_component(sdw_codec)
-> 2) snd_soc_add_compoenent(sof_platform)
-> 3) <sof card is probing just fine>
-> 
-> // failing case:
-> 1) snd_soc_add_component(sof_platform)
-> 2) snd_soc_add_component(sdw_codec)
-> 3) <sof card is MISSING dependencies i.e.: components>
 
-FWIW the SoundWire codec components are registered during the ACPI scanning phase - there is no dependency on an actual codec being present or bus started. It would be extremely surprising if the missing resources came from the SoundWire side. The probe is done early and returns a clear status.
+--8df3B3e7Uze84Mc+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Conversely, the SOF platform component is registered in a workqueue which doesn't go well with deferred binding. It's a known problem, there is *nothing* that will trigger the deferred probe list to be rescanned when the probe workqueue completes. If a component isn't available, the card creation will fail and nothing happens.
+On Mon, May 25, 2026 at 10:49:03AM +0100, Richard Fitzgerald wrote:
 
-You can test this theory with a simple Kconfig change, with SND_SOC_SOF_PROBE_WORK_QUEUE set to 'n'.
+> patch series. It turns out that V3 was already merged, but I didn't
+> receive a merge notificiation. V4 has then been merged on top so Mark's
+> for-7.2 and for-next contain the combination of V3 and V4 but this
+> fix commit doesn't make sense for either version, only the final
+> composite result.
 
-Alternatively you could try this patch from 2021 that will force the deferred probe to be reinspected.
-https://lore.kernel.org/alsa-devel/20210817190057.255264-2-pierre-louis.bossart@linux.intel.com/
+You'll only get a notification for the most current version with my
+current tooling (people complained about getting notifications on old
+versions...) and if you resend quickly things might already be in my CI.
 
-Note that the workqueue isn't an SOF concept, it's directly inspired by the plain HDAudio driver to make sure PCI probe of non-audio devices isn't delayed by the sound driver taking its time due to the use of request_module for HDaudio.
+--8df3B3e7Uze84Mc+
+Content-Type: application/pgp-signature; name="signature.asc"
 
-my 2 cents.
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoUKFoACgkQJNaLcl1U
+h9DhPQf+JsJwoFNgRuioSnjgDRhOCBl7kcE/2v9qCBWLDrZyldEfwWFCbqmevj/Z
+MXrKkaw3+8T8NPu1LZP4iHKC3bi26S3sjsjYivQoj/F6gwnW9mr90FqEn5O0M+2U
+ShEgSDFZuYxUO5LEuCpzEJpuF0mrNVVlJgn9W0+5DvW4uvfvb/OHtUcpsCrz2qyu
+fGn3TP5hJYg6Mo0hexxwVjvTPHT5ZhKzrFEKyxpPlH6VxwgqjIzw36/g+megARVH
+GAY2nFBCLRvZKqy7xWslhkYTSVf7Rsu+Vn7yIkHFgyGDYTQyYtYa9J02G6efRlI7
+pH/joXJ2j10LEGEzxnB108ktpMd+Qg==
+=Bfo/
+-----END PGP SIGNATURE-----
+
+--8df3B3e7Uze84Mc+--
