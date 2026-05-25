@@ -1,133 +1,247 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D406FC3
-	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 07:32:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB58A36E469;
+	Mon, 25 May 2026 07:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779694372; cv=none; b=lzNnS5NWAVt4nlNAguj0mBh0w+C3Y9PVJoshrvbs2Y/bN14ln0JV42BgJiH4pR+ggofOFbn5RQaChm3vrYghkcOd6koDfbebAI6doTpJTqh81wLnvKgbUUGHTQX7SYKrU6F48MEqBfYKJiq3eaedhUoNpmEyDFXoeBSCpuy01RM=
+	t=1779694423; cv=none; b=rbf5RP8GchNw8JRRu291uHlgjKnRS+EVTTvetatGXSWr+RNJjYB4cQs38LLr1STQ9ylVBwYqhmB/4uJ0cgqABemYSMQXN56eokFnAxycKA17P9RM2UldTB+40VUYeGAHRwQyZLvpWcQEF9bQeS0eyiJNKwFTfITl7KRXLzfcYWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779694372; c=relaxed/simple;
-	bh=TaD5d9pMNFWseyYkCybJP7z1a6lFydUTeeVXK5EdD34=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GrJy8/CttpAbHtL3vZfqBWQPGZGEsUlbfpsqB+23ytduMw1HdvQFo5lHNkMDY6Bnn0nbagfGp2AtFJdQKNeb7TKSUJFowfR8BPaAulIGHOWPkHzbG6MYejW8446jZjxWRrqxL4sqwkeltxtewX0L+mNyOj4hTypLWyp4PY8S1cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1LYQas8K; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HsCcoqCq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1LYQas8K; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HsCcoqCq; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1779694423; c=relaxed/simple;
+	bh=tSV7SQd0EWTymtLoyCIduOOv2+iAlufFcDJfxDL7yLs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JrWos+K0hCq3FhDmE7bbfOKcr2Buo85tNncTQBJ1onfAHak6mETp2v5WgpbPzr7/dCVn6g1kzUfRqNpwj3xCGObQBs3RDawKyFL0/Zri5v6FTrkWapXxBBqEoMk4Vdyf0hBww5Hvz865OgdJQFAOWufL6UzYXTL0kORCrvU7nFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FWjiqyPS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1LYQas8K";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HsCcoqCq";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1LYQas8K";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HsCcoqCq"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CA79268A33;
-	Mon, 25 May 2026 07:32:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779694369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BsoaSiEBlMKs1XgDIRoc1f/NCARh4Y4BAZHxX/92Jcc=;
-	b=1LYQas8Kt8aMqlNZ9uCsv/SjKP+dgQLvfWKALPs5+k2JG46jgVIqH2w9Kb52aB7r56shlS
-	BivJCjpNIanLN11QEjJsv/A0Rojm6yXuxiCTMIA9ipdlNi7EPCpJbELXQ4+C5RoDDi8HRb
-	FuGvCOSNQFKEJ45E4Nd83U30frKo1N8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779694369;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BsoaSiEBlMKs1XgDIRoc1f/NCARh4Y4BAZHxX/92Jcc=;
-	b=HsCcoqCqkY5ahCH1c7bzCgSSt/9MnOyf9qOw+L8j5CavzkV2KZxhDbH2IlxSHB8qtcdLkb
-	JtB46NJq69IBTRBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779694369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BsoaSiEBlMKs1XgDIRoc1f/NCARh4Y4BAZHxX/92Jcc=;
-	b=1LYQas8Kt8aMqlNZ9uCsv/SjKP+dgQLvfWKALPs5+k2JG46jgVIqH2w9Kb52aB7r56shlS
-	BivJCjpNIanLN11QEjJsv/A0Rojm6yXuxiCTMIA9ipdlNi7EPCpJbELXQ4+C5RoDDi8HRb
-	FuGvCOSNQFKEJ45E4Nd83U30frKo1N8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779694369;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BsoaSiEBlMKs1XgDIRoc1f/NCARh4Y4BAZHxX/92Jcc=;
-	b=HsCcoqCqkY5ahCH1c7bzCgSSt/9MnOyf9qOw+L8j5CavzkV2KZxhDbH2IlxSHB8qtcdLkb
-	JtB46NJq69IBTRBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 977A759B18;
-	Mon, 25 May 2026 07:32:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YIO4IyH7E2omHAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 25 May 2026 07:32:49 +0000
-Date: Mon, 25 May 2026 09:32:49 +0200
-Message-ID: <875x4cgd0e.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Len Bao <len.bao@gmx.us>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Ivan Orlov <ivan.orlov0322@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: drivers: Mark some variables as __ro_after_init
-In-Reply-To: <20260524165249.48941-1-len.bao@gmx.us>
-References: <20260524165249.48941-1-len.bao@gmx.us>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FWjiqyPS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79F0C1F000E9;
+	Mon, 25 May 2026 07:33:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779694421;
+	bh=pnmbkMl2xDu/8awN4SRZnDiwM/lHHq169JfBYgrjKUw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=FWjiqyPSYYs/HbFGyzFRa2Hmda3l8FU7O7Af8p9bBnQnwsqZNExHPdpjshjoXDaS3
+	 X2FulI7i2GXdbWAnXCestjSty/54UrrvOkAwllCGXQLv8N7l0jV3eRtxXoyPRz/Tsi
+	 D500A2TI9Q7vT1BeROuHEbxK489+rhgg+MJfzHAMrPTar+gcWEhPDI7mtEaLQpsJ76
+	 ewaa3Osuvc/IdKC2FG6pfo0v7K08PmcoPk1pyxPWSABXQxOnqU41GIpdus925vtgR8
+	 dTDA1azHkUJ04r9rUCd1PYdOgBv6QITQp0QCgwI22Ojw1JhtDa1ByKgFu4pgrMUPSk
+	 UNnFxzWSbNmUQ==
+Message-ID: <4c266a28-1d43-4453-a776-2c2f022f5c85@kernel.org>
+Date: Mon, 25 May 2026 10:33:34 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -1.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.us];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,vger.kernel.org];
-	FREEMAIL_TO(0.00)[gmx.us];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	internal_greylist_whitelist(0.00)[10.150.64.97];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,gmx.us:email,suse.de:mid]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: sashiko review (Re: [PATCH v5 14/17] dmaengine: sh: rz-dmac: Add
+ suspend to RAM support)
+To: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, vkoul@kernel.org,
+ Frank.Li@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
+ perex@perex.cz, tiwai@suse.com, biju.das.jz@bp.renesas.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, p.zabel@pengutronix.de,
+ geert+renesas@glider.be, fabrizio.castro.jz@renesas.com,
+ kuninori.morimoto.gx@renesas.com, long.luu.ur@renesas.com
+Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20260512121219.216159-1-claudiu.beznea.uj@bp.renesas.com>
+ <20260512121219.216159-15-claudiu.beznea.uj@bp.renesas.com>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@kernel.org>
+In-Reply-To: <20260512121219.216159-15-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, 24 May 2026 18:52:48 +0200,
-Len Bao wrote:
-> 
-> Some variables in the 'ALSA/drivers' are initialized only during the
-> init phase in the '__init' functions and never changed. So, mark them
-> as __ro_after_init to reduce the attack surface.
-> 
-> Signed-off-by: Len Bao <len.bao@gmx.us>
+ >commit 536ec6e9c07fa47423de7d20ebc829e45cbcedfb
+ >Author: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+ >Subject: dmaengine: sh: rz-dmac: Add suspend to RAM support
+ >This commit adds suspend to RAM support for the Renesas RZ/G3S SoC by
+ >saving and restoring the DMA IP registers. It adds specific suspend and
+ >resume handling for cyclic channels, and waits for non-cyclic channels
+ >to finish before suspending.
+ >> diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
+ >> index df91657fd5e3d..b0a8590f4a9da 100644
+ >> --- a/drivers/dma/sh/rz-dmac.c
+ >> +++ b/drivers/dma/sh/rz-dmac.c
+ >[ ... ]
+ >> @@ -1002,20 +1008,57 @@ static int rz_dmac_device_pause(struct dma_chan *chan)
+ >>      return rz_dmac_device_pause_set(channel, BIT(RZ_DMAC_CHAN_STATUS_PAUSED));
+ >>  }
+ >>
+ >[ ... ]
+ >>  static int rz_dmac_device_resume_set(struct rz_dmac_chan *channel,
+ >>                                   unsigned long clear_bitmask)
+ >>  {
+ >> -    int ret = 0;
+ >>      u32 val;
+ >> +    int ret;
+ >>
+ >>      lockdep_assert_held(&channel->vc.lock);
+ >>
+ >[ ... ]
+ >> +    rz_dmac_ch_writel(channel, CHCTRL_CLRSUS | CHCTRL_SETEN, CHCTRL, 1);
+ >>
+ >> -    rz_dmac_ch_writel(channel, CHCTRL_CLRSUS, CHCTRL, 1);
+ >>      ret = read_poll_timeout_atomic(rz_dmac_ch_readl, val,
+ >> -                                   !(val & CHSTAT_SUS), 1, 1024, false,
+ >> -                                   channel, CHSTAT, 1);
+ >> +                                   ((val & (CHSTAT_SUS | CHSTAT_EN)) == 
+CHSTAT_EN),
+ >> +                                   1, 1024, false, channel, CHSTAT, 1);
+ >Can this condition time out spuriously for short non-cyclic DMA transfers? If
+ >a transfer finishes successfully before the first poll read, the hardware
+ >would clear CHSTAT_EN to 0. The polling condition would then evaluate to
+ >false, causing the macro to incorrectly return -ETIMEDOUT.
 
-Applied to for-next branch.  Thanks.
+Yes, in theory that can happen.
+
+ >>
+ >>      channel->status &= ~clear_bitmask;
+ >>
+ >[ ... ]
+ >> @@ -1406,6 +1459,151 @@ static void rz_dmac_remove(struct platform_device *pdev)
+ >>      pm_runtime_disable(&pdev->dev);
+ >>  }
+ >>
+ >> +static int rz_dmac_suspend_prepare(struct device *dev)
+ >> +{
+ >> +    struct rz_dmac *dmac = dev_get_drvdata(dev);
+ >> +    int ret;
+ >> +
+ >> +    PM_RUNTIME_ACQUIRE_IF_ENABLED(dmac->dev, pm);
+ >> +    ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
+ >> +    if (ret)
+ >> +            return ret;
+ >> +
+ >> +    for (unsigned int i = 0; i < dmac->n_channels; i++) {
+ >> +            struct rz_dmac_chan *channel = &dmac->channels[i];
+ >> +
+ >> +            guard(spinlock_irqsave)(&channel->vc.lock);
+ >> +
+ >> +            /* Wait for transfer completion, except in cyclic case. */
+ >> +            if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC))
+ >> +                    continue;
+ >> +
+ >> +            if (rz_dmac_chan_is_enabled(channel))
+ >> +                    return -EAGAIN;
+ >Could returning -EAGAIN here cause a CPU livelock? In dpm_prepare(), an
+ >-EAGAIN error is cleared and retried continuously in a while
+ >(!list_empty(&dpm_list)) loop. Since the device is not advanced on error,
+ >the PM core might loop infinitely without any backoff until the transfer
+ >completes.
+ >Also, is there a race condition with non-cyclic channels after this callback
+ >returns 0? Since the DMA controller's prepare callback runs before consumer
+ >peripherals, an active consumer could immediately submit new non-cyclic
+ >transfers before the actual suspend phase begins.
+
+The expectation was to wait until all the transfers complete. But, indeed, there 
+might be some issues with this approach. E.g., the serial driver simulates 
+cyclic transfers for rx by enqueuing individual SG transfers, and, after each SG 
+is completed a new SG is enqueued. So, at any time, the channel is enabled. That 
+would lead to the suspend being blocked at this point. As I don't see a way to 
+go out of this, for the moment I will drop the prepare callback until the serial 
+RX DMA will be adjusted (maybe, to use the cyclic support).
 
 
-Takashi
+ >> +    }
+ >> +
+ >> +    return 0;
+ >> +}
+ >> +
+ >[ ... ]
+ >> +static int rz_dmac_suspend(struct device *dev)
+ >> +{
+ >> +    struct rz_dmac *dmac = dev_get_drvdata(dev);
+ >> +    int ret = 0;
+ >> +
+ >> +    for (unsigned int i = 0; i < dmac->n_channels; i++) {
+ >> +            struct rz_dmac_chan *channel = &dmac->channels[i];
+ >> +
+ >> +            guard(spinlock_irqsave)(&channel->vc.lock);
+ >This isn't a bug, but does this function mix scope-based guard() cleanup
+ >with goto-based error handling? The cleanup guidelines suggest that
+ >functions should either convert all resources to scope-based cleanup or
+ >convert none of them to avoid confusing ownership semantics.
+ >> +
+ >> +            if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)))
+ >> +                    continue;
+ >> +
+ >> +            ret = rz_dmac_device_pause_internal(channel);
+ >> +            if (ret) {
+ >> +                    dev_err(dev, "Failed to suspend channel %s\n",
+ >> +                            dma_chan_name(&channel->vc.chan));
+ >> +                    break;
+ >> +            }
+ >> +
+ >> +            channel->pm_state.nxla = rz_dmac_ch_readl(channel, NXLA, 1);
+ >Does saving only the NXLA register result in data loss for cyclic channels?
+ >When a cyclic channel is paused, it stops at its current descriptor. Without
+ >saving and restoring the Current Link Address and Current Transfer Byte
+ >count, resuming the channel might force it to skip the remaining bytes of the
+ >interrupted descriptor and start fetching the next one.
+
+This is something expected, hardware have no capability to overcome this issue.
+
+ >> +    }
+ >> +
+ >> +    if (ret)
+ >> +            goto suspend_recover;
+ >> +
+ >> +    ret = reset_control_assert(dmac->rstc);
+ >Since non-cyclic channels are unconditionally skipped in the loop above and
+ >the hardware reset is asserted here, could newly queued non-cyclic requests
+ >from consumers be violently interrupted mid-transfer?
+
+The expectation is that non-cyclic transfers have already been paused by the 
+time this code executes.
+
+ >> +    if (ret)
+ >> +            goto suspend_recover;
+ >> +
+ >> +    ret = pm_runtime_put_sync(dev);
+ >> +    if (ret < 0)
+ >> +            goto reset_deassert;
+ >> +
+ >> +    return 0;
+ >> +
+ >> +reset_deassert:
+ >> +    reset_control_deassert(dmac->rstc);
+ >> +suspend_recover:
+ >> +    rz_dmac_suspend_recover(dmac);
+ >> +    return ret;
+ >> +}
+ >> +
+ >[ ... ]
+ >> +static const struct dev_pm_ops rz_dmac_pm_ops = {
+ >> +    .prepare = rz_dmac_suspend_prepare,
+ >This isn't a bug, but should rz_dmac_suspend_prepare be wrapped in
+ >pm_sleep_ptr() here? The power management subsystem guidelines recommend
+ >using pm_sleep_ptr() for individual callbacks within the ops structure to
+ >prevent dead code and unused variable warnings when CONFIG_PM_SLEEP is
+ >disabled.
+
+I will drop this function here in the next version as I discovered some issues 
+with it and the serial RX DMA.
+
+ >> +    SYSTEM_SLEEP_PM_OPS(rz_dmac_suspend, rz_dmac_resume)
+ >> +};
+ >> +
+ >>  static const struct rz_dmac_info rz_dmac_v2h_info = {
+ >>      .icu_register_dma_req = rzv2h_icu_register_dma_req,
+ >>      .default_dma_req_no = RZV2H_ICU_DMAC_REQ_NO_DEFAULT,
+ >> @@ -1432,6 +1630,7 @@ static struct platform_driver rz_dmac_driver = {
+ >>      .driver         = {
+ >>              .name   = "rz-dmac",
+ >>              .of_match_table = of_rz_dmac_match,
+ >> +            .pm     = pm_sleep_ptr(&rz_dmac_pm_ops),
+ >This isn't a bug, but should pm_ptr() be used for the dev_pm_ops structure
+ >pointer instead of pm_sleep_ptr()? The power management guidelines recommend
+ >using pm_ptr() for the structure pointer, while reserving pm_sleep_ptr() for
+ >the individual sleep callbacks inside the structure.
+
+OK, will switch to pm_ptr()
+
+ >>      },
+ >>      .probe          = rz_dmac_probe,
+ >>      .remove         = rz_dmac_remove,
