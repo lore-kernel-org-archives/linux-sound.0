@@ -1,120 +1,122 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DA62BEC27
-	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 20:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779739842; cv=pass; b=G2380Fc7GWqLn62oYcvSmXiidWPpqjK/NPp3QsMwWtSR/spg2Avnib3v+nXRLqAKmAFNRlVkGRq6Ip/7LM5tfqag+LTppWT/tWxOZcEEs9DsvgjspHaqr1JqbCU/PAA+C2gs90FMdvxl3nYqBPqFf3GT5FnyIgwe3HdmGWrlBxc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779739842; c=relaxed/simple;
-	bh=x6Tj3NMAK5eXjLlzAsqyPWbLJ9Yd3AqNE7H9h4zAWHo=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=Ap4HQNeDWexCL7hrSmhTbWUycBORE1zd6+eZjw1tUVI2nAKznUVN1HBL6EPTBgsyBashb0Ckt+xbau8w0BhXtXroRY3daYkBaz3vI/IyF6sQwL828sZhWnBS76UWEmzwy/zkNFByK4/eOPJ6yyEZqn+vmpykwlh79BvpkvN8yl0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q79qQ41J; arc=pass smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093532032D
+	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 20:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779740193; cv=none; b=Fnaagv/mdCvMfz1jmNg8F6hy3DstQ6hRsKb4mDrGg+mtd54hT2fN+stfKFeMBJo1kSV5WQN09kgZQcOL+PptQorlRoAh9CgxUyGOPs39baikoqJZggPHM6NLpJTTUP2OHMm1O59x9Y19Tr2dkmoAsNeK5HXqVgNc6k0JzC28Mvo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779740193; c=relaxed/simple;
+	bh=XGbGjVFtiZtoTIh63m8GRVBgtmUdRtnGM33RrPeY0+4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VT0PqiJXqjmex1fSX94fYBOU5t9GkVbK5vO8NMY/eECsUqqMwsolsNCsimwFmFREQtIAy2m4C66w0pnsR2LWY3ceQP0AnvizlDjphEkOxLb0A8sbFSSkTE/q7Zi3kgwF9o52UGIEmX08WMWg5EedoEmVkEfTzdNhfYpVwDN+lLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NKCAe/7E; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q79qQ41J"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-7bd6f65c781so80489497b3.1
-        for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 13:10:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779739840; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AUxV29/yBjZFECJ2nanger/bJ7XiaLvvgdwWOyDdbwNejy/kLpcDBHpHYKkGAbGsDl
-         9ToClcxeFLWA73jEHc+rZ+lsZvMXAYCxb1hHYH5BRor1cCCkNWwPEp5YI/WUAiQnub/l
-         aZRJykOEzpvlp6+8F5qeqtuyRxTkOfg43s0nMpm347bqWDrlN1CMkoa7vqIHIe45GOM3
-         4YxYgdtCiQfjGE4vJkYzSO1aqZlWbloH98sUQhdR1Ay8pDEGmebG7w+s9Q++MD44RqIa
-         s2oCRNDGyQdBCHhhrj/RbcyJ1atHzSMqVaWNIEWl18x9OMvpH0rHdNUtw0LxZ4BOJOXe
-         HTUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=JNUkqSi6bvD073B++Dq46n6N+B22ce39C2hXDvivu8A=;
-        fh=kpr3ikDI9t/iP00V5GxYhsBExhJhFddqJGY75LSRDmw=;
-        b=XpF0jkxjq1XsPnPsjPsjFzHM0KnLTkAibfIkrlmUTKP7IebHiZ/S9S/8hVfk6Uul6I
-         36ij/3ErVx9LCYQ767lKehWab2pmMHr9D62amQ94ufduomnNBcpM8NOvMs8KfxNW9Qra
-         sOSrIUcBk2/MvleVkrYW8dtObBLbMD+U+bJ2rBlUV8+y4EkdLXhk70lmyswECJZrkDcp
-         wfweDivXiFKjFBnZ0GAxCkFjjD23Z4tJgLVeKgYD+plRdASmDrgPglwid1kFQpj+QhTN
-         73lp7C86LSBmCKbeQsflH3bEehwTFNC+dt6cne2qyjpapXuESIl/anXt+9lhA1ft7PuW
-         nRAg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779739840; x=1780344640; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JNUkqSi6bvD073B++Dq46n6N+B22ce39C2hXDvivu8A=;
-        b=q79qQ41J4ZiURhsR71fosDxwQ1EFsGnF5vBqI5JtGmDRCv6RETC85kgKcFKGrhgF6Z
-         fdzrdx+z5KcOJvbyviBs9DYzVBbu70pc28s+ekaXRdR9qrRLAr+nMmHXVD/lZlFD4dIh
-         aewvZvYKjr8/U6HtSEnxSi5qNQCSHoXBqOE7xxbmj8VBHPlqWOtQL2GGRvlotZCmj5lh
-         F146yo08YUcP/c9bGnwFR92tYyvitn6A2sTvAZx/auM/rDT0Hck1+LfXQjWyTKnUDjXI
-         JfQR2UL+Ub1P23dIuVJ4PxuDYfeGIy67ytIeo9BZIc+ddRHA/v7X7P7mvuU4wjUKGale
-         5Esw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779739840; x=1780344640;
-        h=to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JNUkqSi6bvD073B++Dq46n6N+B22ce39C2hXDvivu8A=;
-        b=gJu2awQe7lY+NtpF0hpQVJSTUPzLT/Nqb7gBtxhNT9weOXNXzXLK//9pauvXqKLXeC
-         vkYvGun2JMjLweKp3yD5tCeIw8Eyik86BWC1os/mwdkXNdScf5ZxDtEbR1KAkffWR0X6
-         /dR19LbSyGJuXBC4brbKyPfEBVXb/PQhHxcsxYcf07Q5wNLnlBaQM4Dr8/9qJyKOaDvl
-         DVy3wqV2yFPKQo3w6hqNrXIXg0STzMmJZVOM3U4tgjnVZ8DwMeY6T9mzSf1u41gWVz4Q
-         IUrIV3GYKAAjbozbqMMN6twmpRsJrVVSgj6ivdkVEMdVToY61AT2Jq+j7QZRjbYmKUs0
-         evEw==
-X-Gm-Message-State: AOJu0YyA5Y+osuMoD4LqRKIdMwbSyyJouYjznffEQeE+yzh8GrUeMBUd
-	bcR22RQ9kmTveX7YJZEUll+bCTacy6tdQHFlBDiWiCUTOOFKekFCoajt1vNedWK/aiql+pxXmW5
-	LhSO7B/UWYl3lxSoCWfwoptmI6lxLmfqku78kEyM=
-X-Gm-Gg: Acq92OFYjvdQh9crNv2lmQ5QHPin+k4D713Z4rcsehJgn9XuBMMOF5FXsFKNbCIH4D6
-	cSq8h8bP5FHP/yEmV4QXXaPQbQdIleFvnUaRixKKxbrDb7N7xpe2tAQF5sJVRi44TENcrAyZFMz
-	nA/S14OuQX3jenyvGCFByZN7bG3cerZWea1Nt4IEsp5AMlZxxPskRr7fhL+RBmvGn2K/e0/fv+n
-	IrJ1/4myL8K2hQ6xCIfY01IZNoaB94VZtbDP0B0K9hLipiGET/9wpKXO5WUZK/SlcRFDj5napkD
-	QQt+5A==
-X-Received: by 2002:a05:690c:397:b0:7bd:a6ea:c50c with SMTP id
- 00721157ae682-7d20c241306mr156268167b3.15.1779739840324; Mon, 25 May 2026
- 13:10:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NKCAe/7E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779740192; x=1811276192;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XGbGjVFtiZtoTIh63m8GRVBgtmUdRtnGM33RrPeY0+4=;
+  b=NKCAe/7Ec44H/JqysBuJe5aloEIhQKUd4ByPWSllIJDz4O5S/31C1zi9
+   Lot/eJ8/46vj/JXNS1vowtLplWyOd70xpI/m3RT3QRdWAHYe0mMF+qAMm
+   zENqkhxbVuR5dYX1Dnne9fHLSm19q4NTFeSYAHIKrh0xcd9DAeDR3nOA/
+   OcS5C71F+1Ojr5ZRJa9GgggfTtOCbQiO5SF7qQLekuD/jdAp7IbU4xaOF
+   it7GLvvH5YiF1rEIO1z665SgmSExK8Fg5SxWeRVfmVHcS226+IqnW31T2
+   b1GugQJpsyIL+GUsVHO5soemhxtKzwr2cNNl9ydKMFTN36GwYw+eyuWHm
+   w==;
+X-CSE-ConnectionGUID: NDQUJsQJSe+Z0EZ+rREJyQ==
+X-CSE-MsgGUID: 0mjoeeHVRGCyXNIh+hKDfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="80745432"
+X-IronPort-AV: E=Sophos;i="6.24,168,1774335600"; 
+   d="scan'208";a="80745432"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 13:16:31 -0700
+X-CSE-ConnectionGUID: IbnrndD/RBWQXdffU3dRAw==
+X-CSE-MsgGUID: KaKp6ZOcTSGsyiAu8vlnlw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,168,1774335600"; 
+   d="scan'208";a="245981179"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by orviesa004.jf.intel.com with ESMTP; 25 May 2026 13:16:29 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amade@asmblr.net,
+	jiada_wang@mentor.com,
+	linux-sound@vger.kernel.org,
+	peter.ujfalusi@linux.intel.com,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 0/3] ASoC: codecs: pcm3168a: Fix and updates for power management
+Date: Mon, 25 May 2026 22:17:58 +0200
+Message-Id: <20260525201801.1336936-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Damjan Georgievski <gdamjan@gmail.com>
-Date: Mon, 25 May 2026 22:10:28 +0200
-X-Gm-Features: AVHnY4J216SAyRMI3RRjmoRgWpB5fk3AVRwqqIIO4qDLlWU8gwhltMPZpdSwspE
-Message-ID: <CAEk1YH47VfFk3dtav3m1gEKJ-OkSu6MyyNcGufWR9fX6miEF3w@mail.gmail.com>
-Subject: SND_CTL_LED / SND_HDA_GENERIC_LEDS enablement
-To: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Currently SND_CTL_LED (on x86), enables the
-`/sys/class/sound/ctl-led/mic/mode` knob/feature, where one can set
-the "mic" led to either the "follow-route" or " follow-mute" (plus
-"on" and "off").
+Set of changes composed of one fix and two improvements.
 
-The way I understand is that:
-1) It's a tristate symbol with no prompt (not user-selectable)
-2) it's only enabled pulled when SND_HDA_GENERIC_LEDS is enabled
-3) When enabled, it pulls in NEW_LEDS and LEDS_TRIGGERS
+The fix leads the series and addresses "unbalanced disables" coming from
+the regulator core during S4 (hibernation) scenario.
 
-On the other hand, SND_HDA_GENERIC_LEDS is:
-4) is a bool with no prompt (not user-selectable)
-5) only enabled (pulled) by SND_HDA_CODEC_SIGMATEL,
-SND_HDA_CODEC_CONEXANT, SND_HDA_CODEC_SENARYTECH or
-SND_HDA_CODEC_REALTEK_LIB
+The SLEEP_PM_OPS are unset for the driver.  Hibernation (S4) causes no
+resume (skipped thanks to smart_suspend=true) yet still performs the
+suspend sequence unconditionally, see device_complete() in
+drivers/base/power/main.c.  In essence, we end up with double suspend
+(double disable) and thus the warning.  Exemplary stack:
 
-Now, at least in my experience, this knob works just fine on a
-Thinkpad X9-14 with the Cirrus cs42l43/cs35l56 soc/codec - *when
-enabled*.
-But, what I've noticed, while compiling my own kernel (for completely
-other reasons), suited to my hardware, with minimal config to fasten
-compile times - is that this knob is *not enabled* and I have to
-enable some of the above mentioned _HDA_CODEC_'s.
+unbalanced disables for regulator-dummy
+WARNING: drivers/regulator/core.c:3244 at _regulator_disable+0x161/0x270, CPU#6: kworker/u64:2/120
+(...)
+Workqueue: pm pm_runtime_work
+RIP: 0010:_regulator_disable+0x161/0x270
+(...)
+Call Trace:
+  <TASK>
+  regulator_bulk_disable+0xe4/0x220
+  ? __pfx_regulator_bulk_disable+0x10/0x10
+  ? pick_next_task_fair+0x36f/0x11f0
+  ? __pfx_regmap_unlock_mutex+0x10/0x10
+  ? regmap_unlock_mutex+0xe/0x20
+  pcm3168a_rt_suspend+0x57/0x90 [snd_soc_pcm3168a]
+  ? __pfx_pcm3168a_rt_suspend+0x10/0x10 [snd_soc_pcm3168a]
+  __rpm_callback+0x69/0x200
+  ? __pfx_pcm3168a_rt_suspend+0x10/0x10 [snd_soc_pcm3168a]
+  rpm_callback+0xbc/0xd0
+  rpm_suspend+0x225/0x960
+  ? __pfx_rpm_suspend+0x10/0x10
+  ? __kasan_check_write+0x14/0x20
+  ? _raw_spin_lock_irq+0x8d/0xe0
+  ? __pfx__raw_spin_lock_irq+0x10/0x10
+  ? pwq_dec_nr_in_flight+0x63/0x4f0
+  pm_runtime_work+0xd0/0xf0
 
 
-Now, *my question is*,
-should SND_CTL_LED and/or SND_HDA_GENERIC_LEDS be more generally
-available for _any_ hardware?
-Looking at the code I frankly could not understand how it's connected
-to the above mentioned codecs.
+In regard to the improvements, both aim to drop redundant operations.
+One targets pm_runtime_idle() - no need to fire it manually,
+device-driver core will do that for us - while the second replaces
+preprocessor directive with pm_runtime_status_suspended() check.
+No !CONFIG_PM dependency equals better code coverege with default
+kconfigs.
 
+
+Cezary Rojewski (3):
+  ASoC: codecs: pcm3168a: Prevent regulator double-disable in S4
+  ASoC: codecs: pcm3168a: Drop redundant pm_runtime_idle()
+  ASoC: codecs: pcm3168a: Drop CONFIG_PM-conditional preproc directive
+
+ sound/soc/codecs/pcm3168a.c | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
 
 -- 
-damjan
+2.34.1
+
