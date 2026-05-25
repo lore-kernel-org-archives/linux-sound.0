@@ -1,104 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C09C20FA81;
-	Mon, 25 May 2026 12:32:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA78437B03B
+	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 12:44:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779712380; cv=none; b=T2dzSnf/pGHQmroa+yX5EwgPVP75GWfbRiqF4xvijv65WeYunAKEv9o8qfNEQvRDxTk8xzkhK5Fj4oOpOhJYtGPIxZRiHUPNqnTjSFVGQuFROZr/6TszYh5ah5sabc+zsiUNM1mi8N9owFsFW111CVzv7qXXLAw95nY7cThTt2E=
+	t=1779713077; cv=none; b=QScbSHE1rPZRVmVdsrmgfoCFrXhrVbDwxdOmH8tqt2diTY9YfGc8yBxtTVgBfJdI55OVVBOo+nsI8DmIWbdVFcs0OqY0geS8gwgRkhK8ZSVToAyctAjhVQxWT8L3MVGRKvibJObJqiU9Ls+cFEK/d2S0ru0MZfT6yu5ybouqHK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779712380; c=relaxed/simple;
-	bh=Y62EjQrTI/wSasqd24Qm7vHOI5mLk5aLoaHjk20gWhs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=s5F/1/1tDvNdYdWDJRXClM/yFcqc7s0AFiRSky5IaFKkB+QDxDoBoyo5yjb/r/zp+Ry11TK7SyxEuwIwbcE5i1i89j+pstG9rKN9IHP/qXDGadYb4xLV7LsCTebM/czQYLK9PIdmqdI8gYgkaqqd4Bzk397rSvIWc+Ar4S7FcA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jdICNlEU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779713077; c=relaxed/simple;
+	bh=NapcNfaNbYpIRET68JUf9bulsaic+vQDxBwyHjMiZuc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YfH6yWCB4s0naJhhJ/oXGAiySAZGTYtE/ZJd1tggVdLBX9jirP2w49VaPlgWnAC1kUQS9sJbm6a5oxH/kmrdFSVsQH81BwjO+pNe8tVgMUG0v5xdsNurvjVnqReyaqV2wZ3qsSvyAxj5pxEV3hDigZI7W7rulpZhrquzDQqjkcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eEgG6p3t; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jdICNlEU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01F7B1F000E9;
-	Mon, 25 May 2026 12:32:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eEgG6p3t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFCF51F000E9;
+	Mon, 25 May 2026 12:44:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779712378;
-	bh=pcXHjhTpKtr1K6sv89ixblt4tmYGJwk9oE+oZa0GpaY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=jdICNlEULNzIr3Rk/p/u+/4YhqCEH/LuU26Nyaho9Acr7ozu2uMrx8ZNlfAgckhtF
-	 vYBZZb4nEBxaihsphGkX4UPGeqk6gpvHYn4kn/fSdeaDZUudGdY3rU3N+8CDYU0nY5
-	 +7SBY9rorJS8Nfdl/Sw4DFP/jsUQVufREJRwz+kRkxx5wasebV+zHH7Qsqw/RqMCzj
-	 x7Pz2iJVGrbVDFNXB0XkWc92wzKbOxfS+yqDMoN3W7uRTTog3y5uJaVyTTyakzNWa9
-	 jLlWRjAIwloYBm1Frkraku4hXOxHmjiJh8+qQPxMc0swG5gKjfSR8FXSKWo57y2eHI
-	 gb94xowLTdHVw==
+	s=k20260515; t=1779713076;
+	bh=cdgOyW8Ypsar0kN3pT3hbDR3sDlwACmVcPdS07ejctE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=eEgG6p3tJ4Ltto415o4vA14aloaC1nvDR9o7Q5bpZJy5HyDF9HVUmDD1Od1YZ31UO
+	 zbG3HGyVREnU72XLS8K7L1jWNp5O+SWukl1dpGpQr+anoUmXO2Tt7I2luxBw2ow7r9
+	 kYpA4qLSXcPTCarx5keW750BrHpePPkflxh/mZ6SF7ZyPp6HNyTnkx1pJzY4vdb/Qk
+	 tVaiYaLFZEybCkHk5yR67QT8V+vOA5mVv5MNnYlDfp/ecozwmYyMUNQ02jHsrhST9k
+	 qfIRQCgN6IXfRwZzizmc7F2Ddk1+NdyVus/oIRPoNHdKHuM+/3J4ucujWoBkdT5cer
+	 cmTJIcgkgA4tg==
+Date: Mon, 25 May 2026 13:44:32 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Yixun Lan <dlan@kernel.org>, 
- Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
- jinmei.wei@spacemit.com
-In-Reply-To: <20260522-i2s-same-blk-v4-0-a71a86faaa20@linux.spacemit.com>
-References: <20260522-i2s-same-blk-v4-0-a71a86faaa20@linux.spacemit.com>
-Subject: Re: [PATCH v4 0/3] ASoC: add shared BCLK rate constraint for
- cross-DAI coordination
-Message-Id: <177970577309.18223.13869981116408028929.b4-ty@b4>
-Date: Mon, 25 May 2026 11:42:53 +0100
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev, seppo.ingalsuo@linux.intel.com
+Subject: Re: [PATCH] ASoC: SOF: ipc4-topology: Allow the use of multiple
+ formats for src output
+Message-ID: <46d71e73-e491-4d3d-aaf5-e5586852abb7@sirena.org.uk>
+References: <20260520150149.18250-1-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1706; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Y62EjQrTI/wSasqd24Qm7vHOI5mLk5aLoaHjk20gWhs=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqFEF4pfhTzer6xrAFujII+cjOcHF5tb35E97n0
- 85zunBrPBCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahRBeAAKCRAk1otyXVSH
- 0O8RB/9u7miaMTfVs5fjqarX6UWjqaL4JDrbNfzhpUFwSXpRq4DkeHyuk/PqW82XZJ55hsSO5g6
- U+jQWfVrlwZ4eLuJL7F9EJxN/LfxVjgMlgJNd6Cm0Zoq5R0OnITTehRHXkCe/aj3hCtmbDexYQn
- IxRutkM7yocacbO8W3yYy7BbFkBDcM2YDgHszoivDsLMVBo+WYSW74vC/O7BzgTPy8jj27lNXsK
- MuSzf7PSK5cH5x5MLbClOgT9UyXOx6EPObnupIuf5oaYpK7Iu644wuSyFYCTz0MPTD+pbdw84+L
- q4SpwcGaRjM4UfwKnaGyev2g68X/avE5/Ls/6maiLWXcW1i3
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wOMrK7XFUC6IIETJ"
+Content-Disposition: inline
+In-Reply-To: <20260520150149.18250-1-peter.ujfalusi@linux.intel.com>
+X-Cookie: Prevent forest fires.
 
-On Fri, 22 May 2026 21:33:56 +0800, Troy Mitchell wrote:
-> ASoC: add shared BCLK rate constraint for cross-DAI coordination
-> 
-> On some SoCs (e.g. SpacemiT K3), multiple I2S controllers share the
-> same physical BCLK. When one controller is already streaming, the
-> others must use hw_params that result in the same BCLK rate, otherwise
-> the shared clock would be reconfigured and corrupt the active stream.
-> 
-> [...]
 
-Applied to
+--wOMrK7XFUC6IIETJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+On Wed, May 20, 2026 at 06:01:49PM +0300, Peter Ujfalusi wrote:
 
-Thanks!
+> +	if (src->data.sink_rate) {
+> +	} else if (dir == SNDRV_PCM_STREAM_CAPTURE) {
+> +	} else {
+> +		/*
+> +		 * Otherwise try to guess what the rate should be:
+> +		 * The output formats must have single rate specified if the
+> +		 * sink rate is not set for an SRC in playback path.
+> +		 */
+> +		int i;
+> +
+> +		out_audio_fmt = &available_fmt->output_pin_fmts[0].audio_fmt;
 
-[1/3] ASoC: soc-dai: add shared BCLK clock for cross-DAI rate constraints
-      https://git.kernel.org/broonie/sound/c/94bdfad3a665
-[2/3] ASoC: soc-pcm: add DEFINE_GUARD for snd_soc_card_mutex
-      https://git.kernel.org/broonie/sound/c/2555c62275a1
-[3/3] ASoC: soc-pcm: constrain hw_params when DAIs share the same BCLK
-      https://git.kernel.org/broonie/sound/c/c8c2ffd722a6
+Did we validate that there actually are output_pin_fmts[] here?  It's
+not a sensible topology, but you could trigger it with a suitable
+topology I think.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--wOMrK7XFUC6IIETJ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+-----BEGIN PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoURC8ACgkQJNaLcl1U
+h9CJugf+OD30J9tTXOHWJXN0PsMz/KdsJIVN8D4Hcb0uQmPcdjmfcjqAGRjumIZf
+rUkjnISmZrioyrdTAOksAjDnfsP0B5/2pyFxO1+n32WbGEPVJ0bDyrpe7HUHOPw9
+M3dxtMJYi3p8jrE0hx6xgVtd5jOMv18RRJlq3vPiNPZv66FSo+6z0i2XWezruryL
+H7K9Gl6RO8TQsyFqxjD0vfiw/Nky99wHE4n1eJ33MUNuPNC2GXPUi9BvP09IWLQ6
+kUPPAAVw5N2dIw8BascHfHddPiLt4m8fgyODiu9Pm7b678nqT6KwelyVsgHlzFLD
+my2lphpO+r8kDN6PEfwj5dt4Hs0ZfQ==
+=YN7z
+-----END PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--wOMrK7XFUC6IIETJ--
