@@ -1,168 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FF13AC0FD;
-	Mon, 25 May 2026 07:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0582FD665
+	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 07:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779694244; cv=none; b=iE9uws4tQKCxhd/BblUYQubJ+Dh4OMOXAV2Ix1edZ+hJvD4Rvb7ZrG7RsAuc8apReYUJdwjRJRk51+fh80CTPP8XKVFi5x5O/EVXE9kK7iyq1zhRb/CNLyytUaxVQyd4j9ONEgbmcIWdbNmyys9rqf/XVZM1f+3GWEXcUcW94Wk=
+	t=1779694339; cv=none; b=GOkdSFuKPUan2GwK1vKzClgkF4OTT4+wFfIXZ5u/+cIgmuCMzo81eAVxB1FZkTik7LIeHABDyzn7G1MkCczrTL2p949pk4wrGGsjbUGk//rmNVvMuHeZzPuKuKzFlFxuCoYLCYsMfrvKNbcJQdfrdWJ9ib9xfRvmMtiyVBmakZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779694244; c=relaxed/simple;
-	bh=It8iZuM6QP7I6MwV9Ai3AdUjJEiAZ1wpyqKVZaW76yE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A49XG+b1iKTHdzaB3LGbywl/8AHNw5OyrS09Q3ZkLh1ISmHfuj9PRYSwBdwX0zKVYqDHimhTgtvX4MLBX2u6TlQyxw7l30a9h+IFod/Aul+1zYpjm6p05rP23R7a5W/d2Pd117Z1YmzTwYuQ8lh4M/8GR/JYEAr2OITAYZoKGTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LxSTqck5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779694339; c=relaxed/simple;
+	bh=q0MY3vmY/rgUwoekGs7OKUNrJCgu5VnDU+DYDtMTvQo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pHXdWn2S7uNKyRFPt99bAM2uSPsq5hlf5M7HASlgbmJxBfXQokejfxi1WYlXMwYRWtNcFxO/AuqOYvg5Gbw8bElZjALCmsXfxE7ZpqAs59PxwuXUhYjy6Hi42qcFxtdhxs3tBs+qMb0zmMOf9TIJa/nqZPkXO1CTj4HbpneOWyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qO6ClztS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fVJngHY8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qO6ClztS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fVJngHY8; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LxSTqck5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD771F000E9;
-	Mon, 25 May 2026 07:30:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779694243;
-	bh=H/GJXMbIrHfp+EV5iYznnCqyd/ERlgXKCLBbiVMKu1k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=LxSTqck5DjG47msvzDgb4i41t/eYv5iLLU+QtWBGUSvR9/b552UO3PgIaxuO7p69N
-	 NnSUug6vsqjPFHKzSEx0iQnO6aspKfYT9Qa4Ht261lf8oCzaEl1d0eTAaZq+mtC6WT
-	 47pB+i+Y8tkp5AtnJUlELoYxPhQLEkPaonZRBz8CvFUnv+A8ws+1ncf40ZDZPm21k7
-	 Zqmyap6z60P5i+l6t9SrtPpijvKaG06M286Zzef83o7s73wdThGKBAe3OEzpdRbrK3
-	 uuxQ05/dWr5u0drqnN7+wOwQncxTiv+0Uw7FpZBNoxbvnsmLuTSU2zZBUxkwCLpKVl
-	 kvjME/eguSFhg==
-Message-ID: <cd75b429-3259-456d-9551-272fe32780c0@kernel.org>
-Date: Mon, 25 May 2026 10:30:37 +0300
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qO6ClztS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fVJngHY8";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qO6ClztS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fVJngHY8"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7B65A64AE0;
+	Mon, 25 May 2026 07:32:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779694336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bbslI724Te72fx+84XkJpKp59q0GrturJny0BOlJxfk=;
+	b=qO6ClztSWxsNchLezPLpf0YYosLZUotShAUvUDNg4PJ/Zo8aWVFL57dIIOQzI+P+92J6nK
+	ZdBBACUaBkYuBlhZKmkkH4MBqJHTlGB0vgckwQI0THhvzFimyrxSOqO6VOphUpn1v+wt4r
+	AnvxJw3WEPdocHYWeehvuifSHSb3nyU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779694336;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bbslI724Te72fx+84XkJpKp59q0GrturJny0BOlJxfk=;
+	b=fVJngHY8QsxUShXs1+WnThK/A/2/RELZs5WRQpi7u+yzxnXQluNSCRLXVb+Qnba2+4uTmZ
+	YMAql592XCdUE1Aw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qO6ClztS;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fVJngHY8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779694336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bbslI724Te72fx+84XkJpKp59q0GrturJny0BOlJxfk=;
+	b=qO6ClztSWxsNchLezPLpf0YYosLZUotShAUvUDNg4PJ/Zo8aWVFL57dIIOQzI+P+92J6nK
+	ZdBBACUaBkYuBlhZKmkkH4MBqJHTlGB0vgckwQI0THhvzFimyrxSOqO6VOphUpn1v+wt4r
+	AnvxJw3WEPdocHYWeehvuifSHSb3nyU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779694336;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bbslI724Te72fx+84XkJpKp59q0GrturJny0BOlJxfk=;
+	b=fVJngHY8QsxUShXs1+WnThK/A/2/RELZs5WRQpi7u+yzxnXQluNSCRLXVb+Qnba2+4uTmZ
+	YMAql592XCdUE1Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4DCEC59B17;
+	Mon, 25 May 2026 07:32:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qzS8EQD7E2psGwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 25 May 2026 07:32:16 +0000
+Date: Mon, 25 May 2026 09:32:15 +0200
+Message-ID: <878q98gd1c.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Len Bao <len.bao@gmx.us>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: isa: Mark '*_registered' variables as __ro_after_init
+In-Reply-To: <20260524154051.45258-1-len.bao@gmx.us>
+References: <20260524154051.45258-1-len.bao@gmx.us>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: sashiko review (Re: [PATCH v5 13/17] dmaengine: sh: rz-dmac: Add
- runtime PM support)
-To: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, vkoul@kernel.org,
- Frank.Li@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
- perex@perex.cz, tiwai@suse.com, biju.das.jz@bp.renesas.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, p.zabel@pengutronix.de,
- geert+renesas@glider.be, fabrizio.castro.jz@renesas.com,
- kuninori.morimoto.gx@renesas.com, long.luu.ur@renesas.com
-Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20260512121219.216159-1-claudiu.beznea.uj@bp.renesas.com>
- <20260512121219.216159-14-claudiu.beznea.uj@bp.renesas.com>
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@kernel.org>
-In-Reply-To: <20260512121219.216159-14-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: 7B65A64AE0
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,gmx.us:email];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmx.us];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmx.us];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
 
- >commit 537bc713380d43d1dfa0d61269accb53a834436d
- >Author: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
- >dmaengine: sh: rz-dmac: Add runtime PM support
- >This commit protects driver exposed APIs with runtime PM suspend/resume
- >calls before accessing HW registers. The changes avoid accessing HW
- >registers after a failed system suspend leaves the runtime PM state
- >improperly reinitialized, preparing the driver for suspend-to-RAM support.
- >> diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
- >> index d6ad070be705c..df91657fd5e3d 100644
- >> --- a/drivers/dma/sh/rz-dmac.c
- >> +++ b/drivers/dma/sh/rz-dmac.c
- >> @@ -488,7 +488,15 @@ static void rz_dmac_prepare_descs_for_cyclic(struct 
-rz_dmac_chan *channel)
- >>
- >>  static void rz_dmac_xfer_desc(struct rz_dmac_chan *chan)
- >>  {
- >> +    struct dma_chan *ch = &chan->vc.chan;
- >> +    struct rz_dmac *dmac = to_rz_dmac(ch->device);
- >>      struct virt_dma_desc *vd;
- >> +    int ret;
- >> +
- >> +    PM_RUNTIME_ACQUIRE_IF_ENABLED(dmac->dev, pm);
- >> +    ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
- >> +    if (ret)
- >> +            return;
- >Does this return early without pulling the descriptor from the queue? If PM
- >acquisition fails, it seems the descriptor is left permanently stranded on the
- >virtual channel's issued list, and the channel queue could silently stall.
+On Sun, 24 May 2026 17:40:49 +0200,
+Len Bao wrote:
+> 
+> The '*_registered' variables are initialized only during the init
+> phase in the '__init' functions and never changed. So, mark them as
+> __ro_after_init to reduce the attack surface.
+> 
+> Signed-off-by: Len Bao <len.bao@gmx.us>
 
-The rz_dmac_xfer_desc() is called dma_async_issue_pending() or after each 
-descriptor is completed. The documentation of dma_async_issue_pending states:
+Applied to for-next branch.  Thanks.
 
-/**
-  * dma_async_issue_pending - flush pending transactions to HW
-  * @chan: target DMA channel
-  *
-  * This allows drivers to push copies to HW in batches,
-  * reducing MMIO writes where possible.
-  */
 
-Thus, I'm not sure we should free the descriptors on this path. I think that's 
-the scope of ->device_terminate_all() and ->device_free_chan_resources()
-
- >[ ... ]
- >> @@ -549,6 +557,12 @@ static void rz_dmac_free_chan_resources(struct dma_chan 
-*chan)
- >>      struct rz_dmac *dmac = to_rz_dmac(chan->device);
- >>      struct rz_dmac_desc *desc, *_desc;
- >>      unsigned long flags;
- >> +    int ret;
- >> +
- >> +    PM_RUNTIME_ACQUIRE_IF_ENABLED(dmac->dev, pm);
- >> +    ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
- >> +    if (ret)
- >> +            return;
- >If the runtime PM acquisition fails, does returning early bypass all subsequent
- >software state cleanup like vchan_free_chan_resources() and freeing allocated
- >DMA descriptors? Even if the hardware cannot be accessed, shouldn't the
- >software-allocated resources still be freed to avoid memory leaks?
-
-I'll adjust it like this.
-
- >[ ... ]
- >> @@ -697,8 +711,15 @@ rz_dmac_prep_dma_cyclic(struct dma_chan *chan, 
-dma_addr_t buf_addr,
- >>  static int rz_dmac_terminate_all(struct dma_chan *chan)
- >>  {
- >>      struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
- >> +    struct rz_dmac *dmac = to_rz_dmac(chan->device);
- >>      unsigned long flags;
- >>      LIST_HEAD(head);
- >> +    int ret;
- >> +
- >> +    PM_RUNTIME_ACQUIRE_IF_ENABLED(dmac->dev, pm);
- >> +    ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
- >> +    if (ret)
- >> +            return ret;
- >Similarly, does returning early here skip clearing the virt-dma lists? Failing
- >to do so could leave orphaned descriptors active, which might lead to
- >use-after-free issues when the client subsequently frees its DMA buffers.
-
-I'll adjust it.
-
- >[ ... ]
- >> @@ -909,8 +935,15 @@ static enum dma_status rz_dmac_tx_status(struct 
-dma_chan *chan,
- >>                                       struct dma_tx_state *txstate)
- >>  {
- >>      struct rz_dmac_chan *channel = to_rz_dmac_chan(chan);
- >> +    struct rz_dmac *dmac = to_rz_dmac(chan->device);
- >>      enum dma_status status;
- >>      u32 residue;
- >> +    int ret;
- >> +
- >> +    PM_RUNTIME_ACQUIRE_IF_ENABLED(dmac->dev, pm);
- >> +    ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
- >> +    if (ret)
- >> +            return ret;
- >Is it valid to return a negative integer error code directly as an
- >enum dma_status? Client drivers might check the status against specific
- >enumeration constants like DMA_ERROR, and could fail to recognize this
- >raw error code.
-
-Indeed, I'll adjust it.
-
- >Also, does this add unnecessary PM locking overhead on the hot path for
- >software-only status queries? Since dma_cookie_status() might resolve the
- >status entirely in software, and hardware residue is only queried if the
- >status is DMA_IN_PROGRESS and txstate is not NULL, could the PM acquisition
- >be deferred until after verifying that reading the hardware residue is
- >actually necessary?
-
-This will be adjusted as well.
+Takashi
