@@ -1,95 +1,90 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72CA53D1AAA
-	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 07:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2483BED44
+	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 07:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779693764; cv=none; b=LoBOS2jnFwv4dUd8YAYeTuRWu68VsFNFOV4iy85GLo0CShzjHO4YaU4UwZIiyuwwCqGxDQptlCqgXH8xhUBLXk161zrv3PIvYIvjyURxlJ+WRrgaguXRoHzhGRfixteLNXjQaUn+rmSG1rhVhd7bQvCxIIZ5oa0V1drhVbAU1nY=
+	t=1779693808; cv=none; b=fWqG1BsMFpKYhMJZeKlxJeBe9C61W45wzSU2ZNlqpgjhHsWpg3ajK2nYFesVyEtAetb4lTUv8boiTc/m2DSB727BqT750mKssMtuA565WuRDrKUIDxvgnTn9IMImBEcn171aXSUAlaDla5m7FvGmsUHg+yMdfcY4y94lZN62btU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779693764; c=relaxed/simple;
-	bh=lYRkUQWhLmnqC62rr656QCQ4qB4tYFH6qZd1VNZaITk=;
+	s=arc-20240116; t=1779693808; c=relaxed/simple;
+	bh=16AzfyjkFGYPQLSiMvzRihkksc8m1m/DNzRYBjGi/Rc=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gYoDDbZ/MK9Ta2kYDFMUWElOmCvgExlrtEbInuey3+QhYPC5TK81xv2+mpJeSwzYond1G/rL1dBvfhcMbpxGgiyC2TgmwwhTjwqioep/mnMKMbyNY3TQGUulhrQe4MC0lku51TbmGbaa1KKhtiDpYXvxXROvHyDwxVO5uf3nzIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eWxbSwqK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KKDHi1WK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eWxbSwqK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KKDHi1WK; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=XiPNew1zsRjd77X9m5HmjoPk0zWTb+Kha4OHPrmImGW58cVI/VbKsMBuLa4Clpe3Ogy6Ka+EuGuag27KXqcJyfwMXggHpexNubFi1199hGVkDfzd6uXF6naleVjFKLcY4GVVZAHoME+vP5v6tylnPbDXyxN99TJXUPDl709GBa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=h6MVOI0T; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SsJqtrv8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=h6MVOI0T; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SsJqtrv8; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eWxbSwqK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KKDHi1WK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eWxbSwqK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KKDHi1WK"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="h6MVOI0T";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SsJqtrv8";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="h6MVOI0T";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SsJqtrv8"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A289364ACA;
-	Mon, 25 May 2026 07:22:40 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5D01F68A24;
+	Mon, 25 May 2026 07:23:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779693760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779693805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iRuTE4Fkb4Eiiu26ZCVFDxScodbGUCSJMZ7a//ZDDAU=;
-	b=eWxbSwqKYqAsTROlgzH/4dl5ZeHMD1zHCdU3jxQP9p8z997kuGINf8jpL8R47vFqHKSJ4a
-	aNIm+CED1DT4IgV1ZD7bB4Ivm/j+v8IG+HCFq5/9KW4E5PY03ZwUl97TleFYPm10b8Prxi
-	R4b6+2H1qlz3r8i8J1XwSvtV5ALs/7M=
+	bh=OwKAHCPufmcvwmVoubxbEP61XxbKOS+31Zsa7Rt93Ks=;
+	b=h6MVOI0TM6zdX0c7JNRu1a78H/NNU/CgH6z7NLaV/BxgGler1E5aIdEjKAPcMpGXC7qFLM
+	mQdqgpjrCkdfj9l+BF/Fgfkr2d7LWgqUabVFPcqU6ksd59J2va1BrKrWa8ScGVe0l/DKE5
+	KfIIA7X4w3zQy4b3OnPKQRN76lXgKPk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779693760;
+	s=susede2_ed25519; t=1779693805;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iRuTE4Fkb4Eiiu26ZCVFDxScodbGUCSJMZ7a//ZDDAU=;
-	b=KKDHi1WKz0B3f6bHgq4cKjBo10w5j9muuCypDPUUg3IUPgNWykdYnyKzOXQxmSX+5pnKEV
-	Mcrj48VTeK0adQBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eWxbSwqK;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KKDHi1WK
+	bh=OwKAHCPufmcvwmVoubxbEP61XxbKOS+31Zsa7Rt93Ks=;
+	b=SsJqtrv8yzohfaISo7DeLBXGiD8n/HaQl0SgqWu+DKWLTweJf3O9cSu36dWSalQkUkd2fJ
+	28zIktwc965LVnAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779693760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779693805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iRuTE4Fkb4Eiiu26ZCVFDxScodbGUCSJMZ7a//ZDDAU=;
-	b=eWxbSwqKYqAsTROlgzH/4dl5ZeHMD1zHCdU3jxQP9p8z997kuGINf8jpL8R47vFqHKSJ4a
-	aNIm+CED1DT4IgV1ZD7bB4Ivm/j+v8IG+HCFq5/9KW4E5PY03ZwUl97TleFYPm10b8Prxi
-	R4b6+2H1qlz3r8i8J1XwSvtV5ALs/7M=
+	bh=OwKAHCPufmcvwmVoubxbEP61XxbKOS+31Zsa7Rt93Ks=;
+	b=h6MVOI0TM6zdX0c7JNRu1a78H/NNU/CgH6z7NLaV/BxgGler1E5aIdEjKAPcMpGXC7qFLM
+	mQdqgpjrCkdfj9l+BF/Fgfkr2d7LWgqUabVFPcqU6ksd59J2va1BrKrWa8ScGVe0l/DKE5
+	KfIIA7X4w3zQy4b3OnPKQRN76lXgKPk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779693760;
+	s=susede2_ed25519; t=1779693805;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iRuTE4Fkb4Eiiu26ZCVFDxScodbGUCSJMZ7a//ZDDAU=;
-	b=KKDHi1WKz0B3f6bHgq4cKjBo10w5j9muuCypDPUUg3IUPgNWykdYnyKzOXQxmSX+5pnKEV
-	Mcrj48VTeK0adQBQ==
+	bh=OwKAHCPufmcvwmVoubxbEP61XxbKOS+31Zsa7Rt93Ks=;
+	b=SsJqtrv8yzohfaISo7DeLBXGiD8n/HaQl0SgqWu+DKWLTweJf3O9cSu36dWSalQkUkd2fJ
+	28zIktwc965LVnAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5F4E059B0E;
-	Mon, 25 May 2026 07:22:40 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2C57159B07;
+	Mon, 25 May 2026 07:23:25 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8HGOFcD4E2pHEgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 25 May 2026 07:22:40 +0000
-Date: Mon, 25 May 2026 09:22:40 +0200
-Message-ID: <87ecj0gdhb.wl-tiwai@suse.de>
+	id 5BZXCe34E2rxEgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 25 May 2026 07:23:25 +0000
+Date: Mon, 25 May 2026 09:23:24 +0200
+Message-ID: <87cxykgdg3.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Takashi Iwai <tiwai@suse.com>,
+Cc: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	Mark Brown <broonie@kernel.org>,
 	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] ALSA: hda: cs35l56: Fix system name string leaks
-In-Reply-To: <20260522-alsa-cs35l56-system-name-leak-v4-1-a6154dd09cd9@gmail.com>
-References: <20260522-alsa-cs35l56-system-name-leak-v4-1-a6154dd09cd9@gmail.com>
+	linux-kernel@vger.kernel.org,
+	syzbot+8e498074a794999eb41c@syzkaller.appspotmail.com
+Subject: Re: [PATCH] ALSA: pcm: oss: Fix setup list UAF on proc write error
+In-Reply-To: <20260522-alsa-pcm-oss-setup-uaf-v1-1-40bdcc4d17e8@gmail.com>
+References: <20260522-alsa-pcm-oss-setup-uaf-v1-1-40bdcc4d17e8@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -99,59 +94,53 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: A289364ACA
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spam-Score: -1.80
+X-Spamd-Result: default: False [-1.80 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	internal_greylist_whitelist(0.00)[2a07:de40:b281:104:10:150:64:97];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	TAGGED_RCPT(0.00)[8e498074a794999eb41c];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 X-Spam-Flag: NO
 
-On Fri, 22 May 2026 14:49:30 +0200,
+On Sat, 23 May 2026 03:09:40 +0200,
 Cássio Gabriel wrote:
 > 
-> cs35l56_hda_read_acpi() gets an allocated ACPI _SUB string from
-> acpi_get_subsystem_id(). On success, that string is used to create the
-> firmware system name.
+> snd_pcm_oss_proc_write() links a newly allocated setup entry into the
+> OSS setup list before duplicating the task name. If the task-name
+> allocation fails, the error path frees the already linked entry and
+> leaves setup_list pointing at freed memory.
 > 
-> Several error paths after the _SUB lookup can return without releasing
-> the allocated string. This includes speaker ID lookup errors other than
-> -ENOENT, and errors after a firmware system name has been allocated.
+> A later OSS device open can then walk the stale list entry in
+> snd_pcm_oss_look_for_setup() and dereference freed memory.
 > 
-> Use scoped cleanup for the temporary _SUB string and make
-> cs35l56->system_name device-managed. This releases the temporary _SUB
-> string on every error path and lets devres release the firmware system
-> name on probe failure and device removal.
+> Allocate the task name and initialize the setup entry before publishing
+> the entry on setup_list. Also fetch the initial proc read iterator only
+> after taking setup_mutex, so all setup_list traversal follows the same
+> list lifetime rules.
 > 
-> Fixes: 6f03b446cbae ("ALSA: hda: cs35l56: Add support for speaker id")
-> Fixes: 40b1c2f9b299 ("ALSA: hda/cs35l56: Workaround bad dev-index on Lenovo Yoga Book 9i GenX")
+> Reported-by: syzbot+8e498074a794999eb41c@syzkaller.appspotmail.com
+> Closes: https://lore.kernel.org/all/6a1062b7.170a0220.35b2b7.0003.GAE@google.com
+> Closes: https://syzkaller.appspot.com/bug?extid=8e498074a794999eb41c
+> Fixes: 060d77b9c04a ("[ALSA] Fix / clean up PCM-OSS setup hooks")
 > Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
 Applied now.  Thanks.
