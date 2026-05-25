@@ -1,212 +1,120 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93E1146588
-	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 17:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779729500; cv=none; b=i8QHavx+ZuEx1ZuU+MlNm6ntPHQf2NmYfhS8OOM7P4T5LrRr2RuYAgjBDzDR0ZtrohUi+oCXhyl+fHmxf/5m3+AcxFvt9HQ/0O9BwzkAkUttSESFkZ9MNmGJGjFJ40U+KkPNtPNZgp9+yJB5xTusfhe8W2njoRMpyN6R1kxIbUI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779729500; c=relaxed/simple;
-	bh=Y5ct2xe4700wkCZz6smFN4AilbfcF42fH7SEOXqP+bg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CGDt886ADAFn/EslAv6vhLHPazqBIs8LQxGmpKKn0YjZLXcdo4xiOdKvLRTuacCV+8L8bvsSwchEmWFKoFCEhP2MusxAMJ9rxfmihBNrDiAP69fLNnRwZuWr0V1TEiEdTtzECEPeZO65U2XtPAEljccKLjR1CdCHRW0efYNoc8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oGcwgZnt; arc=none smtp.client-ip=74.125.82.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DA62BEC27
+	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 20:10:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779739842; cv=pass; b=G2380Fc7GWqLn62oYcvSmXiidWPpqjK/NPp3QsMwWtSR/spg2Avnib3v+nXRLqAKmAFNRlVkGRq6Ip/7LM5tfqag+LTppWT/tWxOZcEEs9DsvgjspHaqr1JqbCU/PAA+C2gs90FMdvxl3nYqBPqFf3GT5FnyIgwe3HdmGWrlBxc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779739842; c=relaxed/simple;
+	bh=x6Tj3NMAK5eXjLlzAsqyPWbLJ9Yd3AqNE7H9h4zAWHo=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=Ap4HQNeDWexCL7hrSmhTbWUycBORE1zd6+eZjw1tUVI2nAKznUVN1HBL6EPTBgsyBashb0Ckt+xbau8w0BhXtXroRY3daYkBaz3vI/IyF6sQwL828sZhWnBS76UWEmzwy/zkNFByK4/eOPJ6yyEZqn+vmpykwlh79BvpkvN8yl0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q79qQ41J; arc=pass smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oGcwgZnt"
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-30246cfd41aso1579676eec.1
-        for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 10:18:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q79qQ41J"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-7bd6f65c781so80489497b3.1
+        for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 13:10:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779739840; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AUxV29/yBjZFECJ2nanger/bJ7XiaLvvgdwWOyDdbwNejy/kLpcDBHpHYKkGAbGsDl
+         9ToClcxeFLWA73jEHc+rZ+lsZvMXAYCxb1hHYH5BRor1cCCkNWwPEp5YI/WUAiQnub/l
+         aZRJykOEzpvlp6+8F5qeqtuyRxTkOfg43s0nMpm347bqWDrlN1CMkoa7vqIHIe45GOM3
+         4YxYgdtCiQfjGE4vJkYzSO1aqZlWbloH98sUQhdR1Ay8pDEGmebG7w+s9Q++MD44RqIa
+         s2oCRNDGyQdBCHhhrj/RbcyJ1atHzSMqVaWNIEWl18x9OMvpH0rHdNUtw0LxZ4BOJOXe
+         HTUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=JNUkqSi6bvD073B++Dq46n6N+B22ce39C2hXDvivu8A=;
+        fh=kpr3ikDI9t/iP00V5GxYhsBExhJhFddqJGY75LSRDmw=;
+        b=XpF0jkxjq1XsPnPsjPsjFzHM0KnLTkAibfIkrlmUTKP7IebHiZ/S9S/8hVfk6Uul6I
+         36ij/3ErVx9LCYQ767lKehWab2pmMHr9D62amQ94ufduomnNBcpM8NOvMs8KfxNW9Qra
+         sOSrIUcBk2/MvleVkrYW8dtObBLbMD+U+bJ2rBlUV8+y4EkdLXhk70lmyswECJZrkDcp
+         wfweDivXiFKjFBnZ0GAxCkFjjD23Z4tJgLVeKgYD+plRdASmDrgPglwid1kFQpj+QhTN
+         73lp7C86LSBmCKbeQsflH3bEehwTFNC+dt6cne2qyjpapXuESIl/anXt+9lhA1ft7PuW
+         nRAg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779729498; x=1780334298; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vt66IeI9nKEEWLlFAgUegYdGwX2EcKUI70hfZtYIxuc=;
-        b=oGcwgZnt1xrkzarj4cBgdxaDVC5gyGmfiQK1B6TZBXwOt5Rp0+UN9FyNEdUYcNnT3M
-         suNG0Z5fqJdj9OGADQEIJeZd7EMprVX6bU9oSWSxBSy2flm0r7vY4bvtil2Y/HwodfTC
-         1J+AUUcPZH/7nguUoAGfqD/Z7se3vuiyQMhuszguKUk8n0ZIwjj1EqNhDKQn8fag2qlV
-         WpCDLtL+dLlmZoWESdPY7WIR9QZxJfGinlPeIlgFOsjQQ89TmEMI96IefslYk8RUryZj
-         V+I9K39mu0DTFdZMDwbg7D1pTXymXY00eQVQpY1DGbL9JUT0fR4hiiNzpkd5Py17LiNn
-         ARqA==
+        d=gmail.com; s=20251104; t=1779739840; x=1780344640; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=JNUkqSi6bvD073B++Dq46n6N+B22ce39C2hXDvivu8A=;
+        b=q79qQ41J4ZiURhsR71fosDxwQ1EFsGnF5vBqI5JtGmDRCv6RETC85kgKcFKGrhgF6Z
+         fdzrdx+z5KcOJvbyviBs9DYzVBbu70pc28s+ekaXRdR9qrRLAr+nMmHXVD/lZlFD4dIh
+         aewvZvYKjr8/U6HtSEnxSi5qNQCSHoXBqOE7xxbmj8VBHPlqWOtQL2GGRvlotZCmj5lh
+         F146yo08YUcP/c9bGnwFR92tYyvitn6A2sTvAZx/auM/rDT0Hck1+LfXQjWyTKnUDjXI
+         JfQR2UL+Ub1P23dIuVJ4PxuDYfeGIy67ytIeo9BZIc+ddRHA/v7X7P7mvuU4wjUKGale
+         5Esw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779729498; x=1780334298;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vt66IeI9nKEEWLlFAgUegYdGwX2EcKUI70hfZtYIxuc=;
-        b=JEfjE/ca2dtLi963KGXd0E+zgO50SASar/Tlvat7cCvr5IhamXd+dPKXdDxIZ72M/0
-         9232G0fc3kwU4zpPBhqbRN2qo+3MCSoTAOTSZfJ2OTW8KZiqXJ3YmKRHaS1RMdSbpvlV
-         Wm67zIc4div4DgZ86eCh3C64DXerLwOWxvCQiSnp74X6+ekLbUmGalVI4nbxcXX7cEBi
-         40/axM9OYaoLkJpZ8eheaBgKvZ1g/4R8ZYQ0GHKTvuYuYUtXwCLKED/ICAMgqO4JUCIM
-         b0UIDiOwPHkEec1NaAkPnP/RrLwW31kygbgq456XdLXPPHpStSUtjsj/qr0vIwce+EMt
-         xmKw==
-X-Gm-Message-State: AOJu0Yx4zn7GHkeBSKvM+1j8NG5YukegpP1NEHkmUO5zDoeky7W4a+Uw
-	AttnF6YXp5uRyqhvjaNHtP1KE8XueC6A46eG7p4NblVfyAl9m4s5Y38Dda6QCg==
-X-Gm-Gg: Acq92OHJYRwtJfo11l5172/C7QOrM4bcD2Nki8coTfvNM27aDhy8XGrIfc+sDCDQ0+Z
-	UUn5TjqcRuFtqc9NsQ30kTvs/aBNQVfrBEPb6GygCQ0vMkJu2JQa1Ug9YbMw9Vx39hAVHprgqwa
-	vZiRcHhmiICZaZurx2vT3RjM6okcsvE1cAxq+BTMUBA6Bjqth9XQZKnPttYDKmHcLwAk+HgcSL/
-	JQprVTbxFrmAiJC2FXt9eYoakP8/L4FlDQ43A1o1UsaOZVYq86rV7eZkC5DPiRwr1ZYWYGk6N1U
-	d4fYc+onhzII3pNzhqyx8JKI7PFEB6qXctIehkZZpWLEeqc2WMSVgoXhqz5V5EPOJqAZbcmlCTc
-	KS+CjhcZKAGt5HjM1ejA2Z7Zasw14+x+ypFVf4khgj2e4VkHbOlKiH/5HwnRZu5ulfJwONXWNkp
-	1PE50K0jIeqEd/NwRs69n65k70uE/wTmsQgX3914dHy7kGtG0raKp/Tgu2x5Bqvv/UqLS1TYgEX
-	XA/9bX5Ivess4otUKCTF2Y=
-X-Received: by 2002:a05:7301:6589:b0:2ed:e12:3770 with SMTP id 5a478bee46e88-304491f622amr6819022eec.32.1779729497731;
-        Mon, 25 May 2026 10:18:17 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-162-74.user3p.v-tal.net.br. [177.4.162.74])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3045245d6aesm7842090eec.26.2026.05.25.10.18.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 10:18:17 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Mon, 25 May 2026 14:18:03 -0300
-Subject: [PATCH] ASoC: codecs: rk3328: Use managed GPIO and clock helpers
+        d=1e100.net; s=20251104; t=1779739840; x=1780344640;
+        h=to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JNUkqSi6bvD073B++Dq46n6N+B22ce39C2hXDvivu8A=;
+        b=gJu2awQe7lY+NtpF0hpQVJSTUPzLT/Nqb7gBtxhNT9weOXNXzXLK//9pauvXqKLXeC
+         vkYvGun2JMjLweKp3yD5tCeIw8Eyik86BWC1os/mwdkXNdScf5ZxDtEbR1KAkffWR0X6
+         /dR19LbSyGJuXBC4brbKyPfEBVXb/PQhHxcsxYcf07Q5wNLnlBaQM4Dr8/9qJyKOaDvl
+         DVy3wqV2yFPKQo3w6hqNrXIXg0STzMmJZVOM3U4tgjnVZ8DwMeY6T9mzSf1u41gWVz4Q
+         IUrIV3GYKAAjbozbqMMN6twmpRsJrVVSgj6ivdkVEMdVToY61AT2Jq+j7QZRjbYmKUs0
+         evEw==
+X-Gm-Message-State: AOJu0YyA5Y+osuMoD4LqRKIdMwbSyyJouYjznffEQeE+yzh8GrUeMBUd
+	bcR22RQ9kmTveX7YJZEUll+bCTacy6tdQHFlBDiWiCUTOOFKekFCoajt1vNedWK/aiql+pxXmW5
+	LhSO7B/UWYl3lxSoCWfwoptmI6lxLmfqku78kEyM=
+X-Gm-Gg: Acq92OFYjvdQh9crNv2lmQ5QHPin+k4D713Z4rcsehJgn9XuBMMOF5FXsFKNbCIH4D6
+	cSq8h8bP5FHP/yEmV4QXXaPQbQdIleFvnUaRixKKxbrDb7N7xpe2tAQF5sJVRi44TENcrAyZFMz
+	nA/S14OuQX3jenyvGCFByZN7bG3cerZWea1Nt4IEsp5AMlZxxPskRr7fhL+RBmvGn2K/e0/fv+n
+	IrJ1/4myL8K2hQ6xCIfY01IZNoaB94VZtbDP0B0K9hLipiGET/9wpKXO5WUZK/SlcRFDj5napkD
+	QQt+5A==
+X-Received: by 2002:a05:690c:397:b0:7bd:a6ea:c50c with SMTP id
+ 00721157ae682-7d20c241306mr156268167b3.15.1779739840324; Mon, 25 May 2026
+ 13:10:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260525-asoc-rk3328-devm-resources-v1-1-2abde0006f89@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQrCMBAF0KuUWTvQpE0RryIu4uRXo9jIjC1C6
- d2Nunybt5JBM4wOzUqKJVsuU4XbNSTXOF3AOVWTb/3QBtdztCKs967ze05YHqywMqvAOLiAmAa
- MkJ5q8FSM+f3Lj6e/bT7fIK/vSNv2AZSe0Z1+AAAA
-X-Change-ID: 20260514-asoc-rk3328-devm-resources-515ead6efec4
-To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4208;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=Y5ct2xe4700wkCZz6smFN4AilbfcF42fH7SEOXqP+bg=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDFkiLWHeN+JVQi0FDJbu2+S9Oym6xatgb4nPVysDNaV1b
- EUW8q86SlkYxLgYZMUUWVYnLbLc0/Xgan3cCg+YOaxMIEMYuDgFYCLhkQx/pW6WPGdz6XwVo37p
- 2bTzTLPzj62Jiqi5ffDYrw1x62qmKTIyXGH/uPDJXLl8C6cnBfzp1ao3tTcanZq+gWFG3beyjC2
- 7uAA=
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+From: Damjan Georgievski <gdamjan@gmail.com>
+Date: Mon, 25 May 2026 22:10:28 +0200
+X-Gm-Features: AVHnY4J216SAyRMI3RRjmoRgWpB5fk3AVRwqqIIO4qDLlWU8gwhltMPZpdSwspE
+Message-ID: <CAEk1YH47VfFk3dtav3m1gEKJ-OkSu6MyyNcGufWR9fX6miEF3w@mail.gmail.com>
+Subject: SND_CTL_LED / SND_HDA_GENERIC_LEDS enablement
+To: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-rk3328_platform_probe() acquires the mute GPIO with gpiod_get_optional()
-but never releases it. It also enables mclk and pclk manually while
-relying on probe error labels for unwind, and the driver has no platform
-remove callback to disable those clocks after a successful unbind.
+Currently SND_CTL_LED (on x86), enables the
+`/sys/class/sound/ctl-led/mic/mode` knob/feature, where one can set
+the "mic" led to either the "follow-route" or " follow-mute" (plus
+"on" and "off").
 
-This path has already needed fixes for missing clock unwinds on probe
-errors. Use devm_gpiod_get_optional() and devm_clk_get_enabled() so the
-GPIO and enabled clock lifetimes are tied to the device. This removes the
-manual error labels and makes both probe failure and driver unbind follow
-the normal devres cleanup path.
+The way I understand is that:
+1) It's a tristate symbol with no prompt (not user-selectable)
+2) it's only enabled pulled when SND_HDA_GENERIC_LEDS is enabled
+3) When enabled, it pulls in NEW_LEDS and LEDS_TRIGGERS
 
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/soc/codecs/rk3328_codec.c | 54 ++++++++++-------------------------------
- 1 file changed, 13 insertions(+), 41 deletions(-)
+On the other hand, SND_HDA_GENERIC_LEDS is:
+4) is a bool with no prompt (not user-selectable)
+5) only enabled (pulled) by SND_HDA_CODEC_SIGMATEL,
+SND_HDA_CODEC_CONEXANT, SND_HDA_CODEC_SENARYTECH or
+SND_HDA_CODEC_REALTEK_LIB
 
-diff --git a/sound/soc/codecs/rk3328_codec.c b/sound/soc/codecs/rk3328_codec.c
-index 9697aefc6e03..5871b5a81975 100644
---- a/sound/soc/codecs/rk3328_codec.c
-+++ b/sound/soc/codecs/rk3328_codec.c
-@@ -425,7 +425,6 @@ static int rk3328_platform_probe(struct platform_device *pdev)
- 	struct rk3328_codec_priv *rk3328;
- 	struct regmap *grf;
- 	void __iomem *base;
--	int ret = 0;
- 
- 	rk3328 = devm_kzalloc(&pdev->dev, sizeof(*rk3328), GFP_KERNEL);
- 	if (!rk3328)
-@@ -441,14 +440,13 @@ static int rk3328_platform_probe(struct platform_device *pdev)
- 	regmap_write(grf, RK3328_GRF_SOC_CON2,
- 		     (BIT(14) << 16 | BIT(14)));
- 
--	ret = of_property_read_u32(rk3328_np, "spk-depop-time-ms",
--				   &rk3328->spk_depop_time);
--	if (ret < 0) {
-+	if (of_property_read_u32(rk3328_np, "spk-depop-time-ms",
-+				 &rk3328->spk_depop_time)) {
- 		dev_info(&pdev->dev, "spk_depop_time use default value.\n");
- 		rk3328->spk_depop_time = 200;
- 	}
- 
--	rk3328->mute = gpiod_get_optional(&pdev->dev, "mute", GPIOD_OUT_HIGH);
-+	rk3328->mute = devm_gpiod_get_optional(&pdev->dev, "mute", GPIOD_OUT_HIGH);
- 	if (IS_ERR(rk3328->mute))
- 		return PTR_ERR(rk3328->mute);
- 	/*
-@@ -461,57 +459,31 @@ static int rk3328_platform_probe(struct platform_device *pdev)
- 		regmap_write(grf, RK3328_GRF_SOC_CON10, BIT(17) | BIT(1));
- 	}
- 
--	rk3328->mclk = devm_clk_get(&pdev->dev, "mclk");
-+	rk3328->mclk = devm_clk_get_enabled(&pdev->dev, "mclk");
- 	if (IS_ERR(rk3328->mclk))
- 		return PTR_ERR(rk3328->mclk);
- 
--	ret = clk_prepare_enable(rk3328->mclk);
--	if (ret)
--		return ret;
- 	clk_set_rate(rk3328->mclk, INITIAL_FREQ);
- 
--	rk3328->pclk = devm_clk_get(&pdev->dev, "pclk");
--	if (IS_ERR(rk3328->pclk)) {
--		dev_err(&pdev->dev, "can't get acodec pclk\n");
--		ret = PTR_ERR(rk3328->pclk);
--		goto err_unprepare_mclk;
--	}
--
--	ret = clk_prepare_enable(rk3328->pclk);
--	if (ret < 0) {
--		dev_err(&pdev->dev, "failed to enable acodec pclk\n");
--		goto err_unprepare_mclk;
--	}
-+	rk3328->pclk = devm_clk_get_enabled(&pdev->dev, "pclk");
-+	if (IS_ERR(rk3328->pclk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(rk3328->pclk),
-+				     "failed to get or enable acodec pclk\n");
- 
- 	base = devm_platform_ioremap_resource(pdev, 0);
--	if (IS_ERR(base)) {
--		ret = PTR_ERR(base);
--		goto err_unprepare_pclk;
--	}
-+	if (IS_ERR(base))
-+		return PTR_ERR(base);
- 
- 	rk3328->regmap = devm_regmap_init_mmio(&pdev->dev, base,
- 					       &rk3328_codec_regmap_config);
--	if (IS_ERR(rk3328->regmap)) {
--		ret = PTR_ERR(rk3328->regmap);
--		goto err_unprepare_pclk;
--	}
-+	if (IS_ERR(rk3328->regmap))
-+		return PTR_ERR(rk3328->regmap);
- 
- 	platform_set_drvdata(pdev, rk3328);
- 
--	ret = devm_snd_soc_register_component(&pdev->dev, &soc_codec_rk3328,
-+	return devm_snd_soc_register_component(&pdev->dev, &soc_codec_rk3328,
- 					       rk3328_dai,
- 					       ARRAY_SIZE(rk3328_dai));
--	if (ret)
--		goto err_unprepare_pclk;
--
--	return 0;
--
--err_unprepare_pclk:
--	clk_disable_unprepare(rk3328->pclk);
--
--err_unprepare_mclk:
--	clk_disable_unprepare(rk3328->mclk);
--	return ret;
- }
- 
- static const struct of_device_id rk3328_codec_of_match[] __maybe_unused = {
+Now, at least in my experience, this knob works just fine on a
+Thinkpad X9-14 with the Cirrus cs42l43/cs35l56 soc/codec - *when
+enabled*.
+But, what I've noticed, while compiling my own kernel (for completely
+other reasons), suited to my hardware, with minimal config to fasten
+compile times - is that this knob is *not enabled* and I have to
+enable some of the above mentioned _HDA_CODEC_'s.
 
----
-base-commit: 8cd773d4f8235aaf0b04927b3c9d2d0326def09b
-change-id: 20260514-asoc-rk3328-devm-resources-515ead6efec4
 
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+Now, *my question is*,
+should SND_CTL_LED and/or SND_HDA_GENERIC_LEDS be more generally
+available for _any_ hardware?
+Looking at the code I frankly could not understand how it's connected
+to the above mentioned codecs.
 
+
+-- 
+damjan
