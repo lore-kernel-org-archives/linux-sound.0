@@ -1,115 +1,104 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A327B3128CC;
-	Mon, 25 May 2026 11:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C09C20FA81;
+	Mon, 25 May 2026 12:32:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779709910; cv=none; b=jBhyTgNj8iiONGe6DXVQ3hhTpuVa9qDSDVRG6cHet0Fuhr1fvf+JwGIYXtgyD0QRjW9JibbQPWFRIP0WGmAiYFOT1TWktRkKGaLHFx6lGmwfcl0sBtD057xQPmncWzeNT9oVU1JieYAwtZIPSmZnM2pL+C62/8DJLg5Bllzy+x0=
+	t=1779712380; cv=none; b=T2dzSnf/pGHQmroa+yX5EwgPVP75GWfbRiqF4xvijv65WeYunAKEv9o8qfNEQvRDxTk8xzkhK5Fj4oOpOhJYtGPIxZRiHUPNqnTjSFVGQuFROZr/6TszYh5ah5sabc+zsiUNM1mi8N9owFsFW111CVzv7qXXLAw95nY7cThTt2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779709910; c=relaxed/simple;
-	bh=ix/HmgCwt3LlOUIIgp49Jv1ENXNdT1pCtpF3I2NB33E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ow9Q9esNgnUVWyXdAAqWzx8DvwydQv7OG6bZQcFTqu+WMZZeaR7TWz3ClepeNJJ4uLvgIbYwphtnnsOVephSnDp87bGiTxSmPcZeIsg3vZaZ7CrysGSHz0VrExC8rK7ep4F0+sL+Q7PDrkpeQSBqguiOX7He08kuhFQiB/VSnxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=CK5fGqle; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=5WPT95+m; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1779712380; c=relaxed/simple;
+	bh=Y62EjQrTI/wSasqd24Qm7vHOI5mLk5aLoaHjk20gWhs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=s5F/1/1tDvNdYdWDJRXClM/yFcqc7s0AFiRSky5IaFKkB+QDxDoBoyo5yjb/r/zp+Ry11TK7SyxEuwIwbcE5i1i89j+pstG9rKN9IHP/qXDGadYb4xLV7LsCTebM/czQYLK9PIdmqdI8gYgkaqqd4Bzk397rSvIWc+Ar4S7FcA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jdICNlEU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="CK5fGqle";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="5WPT95+m"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1779709887; bh=QTRYxDaTolkVrcRshuXeyNq
-	jRyNHMRkA6+Q2W7POAHY=; b=CK5fGqlezE5hBMZIUWtJSGx/O1boUOCJRqqakTzYkdUV2EETqt
-	+rYOyVVObD82QT2j8w+gIVSeCyGtLeU20sTSPyORZ1lyhWEbssBcOhkULqsW6SuaN0kF81Us2CW
-	4cAvCeqIvt2m101Pkr8e7leH+BuyTKJM+N3y2O700JpSOB/w8g3bxPp6tEw02CWEMglSmIf9McQ
-	nuBSgiJYWhWtY+BNfwoVzHUpCM3nuzQ2cWMDjD1zZxmrhVgXFfSDyQLJfTp6aZobKpPv1pN7Bvh
-	0OE71N78G6zgqZbhwEWJAHPhIV9R5/5GrjIvLhjdvpFMVgPyEJRMZn1Es5x0q3s2VkQ==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1779709887; bh=QTRYxDaTolkVrcRshuXeyNq
-	jRyNHMRkA6+Q2W7POAHY=; b=5WPT95+mzSdHL3wnfFkkLMLc+K8Wag3ZC4AG7Hg1vXKThjwtlR
-	DQizkY/utig1L3mH1/N414RzukVcuKY8FtDg==;
-Message-ID: <3fe41d7b-0e65-4937-afda-b9a9e470e638@mainlining.org>
-Date: Mon, 25 May 2026 14:51:25 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jdICNlEU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01F7B1F000E9;
+	Mon, 25 May 2026 12:32:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779712378;
+	bh=pcXHjhTpKtr1K6sv89ixblt4tmYGJwk9oE+oZa0GpaY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=jdICNlEULNzIr3Rk/p/u+/4YhqCEH/LuU26Nyaho9Acr7ozu2uMrx8ZNlfAgckhtF
+	 vYBZZb4nEBxaihsphGkX4UPGeqk6gpvHYn4kn/fSdeaDZUudGdY3rU3N+8CDYU0nY5
+	 +7SBY9rorJS8Nfdl/Sw4DFP/jsUQVufREJRwz+kRkxx5wasebV+zHH7Qsqw/RqMCzj
+	 x7Pz2iJVGrbVDFNXB0XkWc92wzKbOxfS+yqDMoN3W7uRTTog3y5uJaVyTTyakzNWa9
+	 jLlWRjAIwloYBm1Frkraku4hXOxHmjiJh8+qQPxMc0swG5gKjfSR8FXSKWo57y2eHI
+	 gb94xowLTdHVw==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Yixun Lan <dlan@kernel.org>, 
+ Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, spacemit@lists.linux.dev, 
+ jinmei.wei@spacemit.com
+In-Reply-To: <20260522-i2s-same-blk-v4-0-a71a86faaa20@linux.spacemit.com>
+References: <20260522-i2s-same-blk-v4-0-a71a86faaa20@linux.spacemit.com>
+Subject: Re: [PATCH v4 0/3] ASoC: add shared BCLK rate constraint for
+ cross-DAI coordination
+Message-Id: <177970577309.18223.13869981116408028929.b4-ty@b4>
+Date: Mon, 25 May 2026 11:42:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/15] ASoC: dt-bindings: qcom: q6dsp: add internal
- mi2s support
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Richard Acayan <mailingradian@gmail.com>,
- Srinivas Kandagatla <srini@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- Adam Skladowski <a39.skl@gmail.com>,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Wesley Cheng <quic_wcheng@quicinc.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-References: <20260501153128.8152-1-mailingradian@gmail.com>
- <20260501153128.8152-3-mailingradian@gmail.com>
- <20260503-devout-mamba-of-sorcery-d4ecb2@quoll> <afe8bQ3SIAu9rP1S@rdacayan>
- <98cf25d1-7dd8-408e-98db-c60f6e8b403b@kernel.org>
-Content-Language: ru-RU, en-US
-From: Nickolay Goppen <setotau@mainlining.org>
-In-Reply-To: <98cf25d1-7dd8-408e-98db-c60f6e8b403b@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1706; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Y62EjQrTI/wSasqd24Qm7vHOI5mLk5aLoaHjk20gWhs=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqFEF4pfhTzer6xrAFujII+cjOcHF5tb35E97n0
+ 85zunBrPBCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahRBeAAKCRAk1otyXVSH
+ 0O8RB/9u7miaMTfVs5fjqarX6UWjqaL4JDrbNfzhpUFwSXpRq4DkeHyuk/PqW82XZJ55hsSO5g6
+ U+jQWfVrlwZ4eLuJL7F9EJxN/LfxVjgMlgJNd6Cm0Zoq5R0OnITTehRHXkCe/aj3hCtmbDexYQn
+ IxRutkM7yocacbO8W3yYy7BbFkBDcM2YDgHszoivDsLMVBo+WYSW74vC/O7BzgTPy8jj27lNXsK
+ MuSzf7PSK5cH5x5MLbClOgT9UyXOx6EPObnupIuf5oaYpK7Iu644wuSyFYCTz0MPTD+pbdw84+L
+ q4SpwcGaRjM4UfwKnaGyev2g68X/avE5/Ls/6maiLWXcW1i3
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Fri, 22 May 2026 21:33:56 +0800, Troy Mitchell wrote:
+> ASoC: add shared BCLK rate constraint for cross-DAI coordination
+> 
+> On some SoCs (e.g. SpacemiT K3), multiple I2S controllers share the
+> same physical BCLK. When one controller is already streaming, the
+> others must use hw_params that result in the same BCLK rate, otherwise
+> the shared clock would be reconfigured and corrupt the active stream.
+> 
+> [...]
 
-14.05.2026 16:55, Krzysztof Kozlowski пишет:
-> On 03/05/2026 23:21, Richard Acayan wrote:
->> On Sun, May 03, 2026 at 02:11:31PM +0200, Krzysztof Kozlowski wrote:
->>> On Fri, May 01, 2026 at 11:31:15AM -0400, Richard Acayan wrote:
->>>> The internal MI2S ports are found on devices with the internal sound
->>>> card for Snapdragon 660. Add support for them.
->>>>
->>>> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
->>>> ---
->>>>   .../bindings/sound/qcom,q6dsp-lpass-ports.yaml     |  4 ++--
->>>>   include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h | 14 ++++++++++++++
->>>>   2 files changed, 16 insertions(+), 2 deletions(-)
->>> Same feedback as last time. DO NOT send next versions, untill you reply
->>> or address the feedback.
->> Ok, I believe this is about [1] and [2] with reference to the patches
->> already in v7.1-rc1 [3].
->>
->> My patches add INT0_MI2S_RX through INT6_MI2S_TX, which correspond to
->> q6afe port IDs 0x102e - 0x103b. Srini's patches add LPI_MI2S_RX_0
->> through LPI_MI2S_TX_4, but no q6afe port IDs.
->>
->> I asked if the LPI_MI2S ports have q6afe port IDs to check if we're
->> referring to the same ports, but apparently q6afe is too old to have it
->> [4]:
->>
->> 	> Is the LPI MI2S on Q6AFE? I don't see the AFE port ID.
->> 	I think the older SOCs did not have this I guess,
->>
->> Even if there's already an allocation of dt-bindings ports for LPI_MI2S,
->> they can't just be reused for INT_MI2S. There are allegedly INT5_MI2S
->> and INT6_MI2S (each RX and TX) but LPI_MI2S only counts to 4.
-> Then what is the difference between INT and LPI? People stuff here some
-> hardware names but this is SW ABI, so MI2S_RX_0 is only one. Just like
-> we have DISPLAY_PORT_RX_0, but no LPI_DISPLAY_PORT_RX_0 and
-> INT_DISPLAY_PORT_RX_0.
-Then do you mean that LPI_MI2S ports need to have port ID's assigned 
-like Richard done that for INT_MI2S? +Srini, Is this a good idea?
-> Best regards,
-> Krzysztof
+Applied to
 
--- 
-Best regards,
-Nickolay
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+
+Thanks!
+
+[1/3] ASoC: soc-dai: add shared BCLK clock for cross-DAI rate constraints
+      https://git.kernel.org/broonie/sound/c/94bdfad3a665
+[2/3] ASoC: soc-pcm: add DEFINE_GUARD for snd_soc_card_mutex
+      https://git.kernel.org/broonie/sound/c/2555c62275a1
+[3/3] ASoC: soc-pcm: constrain hw_params when DAIs share the same BCLK
+      https://git.kernel.org/broonie/sound/c/c8c2ffd722a6
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
