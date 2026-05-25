@@ -1,247 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB58A36E469;
-	Mon, 25 May 2026 07:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD7323E325
+	for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 09:21:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779694423; cv=none; b=rbf5RP8GchNw8JRRu291uHlgjKnRS+EVTTvetatGXSWr+RNJjYB4cQs38LLr1STQ9ylVBwYqhmB/4uJ0cgqABemYSMQXN56eokFnAxycKA17P9RM2UldTB+40VUYeGAHRwQyZLvpWcQEF9bQeS0eyiJNKwFTfITl7KRXLzfcYWU=
+	t=1779700867; cv=none; b=IPgFnICkUkjAXyVvf4WsJYvZcbgmYNaBcOFflyWdk5CeKbRgm8FyyfGlKvVkuvmIYnpxr6jTSl3E0rDf/a1gpsxUKFB1RT8tzDvl8EL4j6iGrjcOZ52QZpR7b2eZeMj0pUZd8axM7k7logYHds8nDXuc4fsJ4GjzgU9Dbaaq6gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779694423; c=relaxed/simple;
-	bh=tSV7SQd0EWTymtLoyCIduOOv2+iAlufFcDJfxDL7yLs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JrWos+K0hCq3FhDmE7bbfOKcr2Buo85tNncTQBJ1onfAHak6mETp2v5WgpbPzr7/dCVn6g1kzUfRqNpwj3xCGObQBs3RDawKyFL0/Zri5v6FTrkWapXxBBqEoMk4Vdyf0hBww5Hvz865OgdJQFAOWufL6UzYXTL0kORCrvU7nFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FWjiqyPS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779700867; c=relaxed/simple;
+	bh=oXqKGb+1PtWRWpEgixBmUR2HmjglMMAslNteJX0DZVU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XcXu6l1zuHvXn9DnJM0vykVFms7VmkCtvqGyav6O7smTOlDYJBjdXugqV9IH58zhdb1s8acWpQnbatXEraZ6DFyRG236RG/riF8LhW9YO+/YfLUWAY+488PL8OHyKi6Whk26cG4aquD7cqWX6m5ggsbf5XeE+sxMNoN+/xRTov8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net; spf=pass smtp.mailfrom=flipper.net; dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b=g9nGcRpm; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FWjiqyPS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79F0C1F000E9;
-	Mon, 25 May 2026 07:33:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779694421;
-	bh=pnmbkMl2xDu/8awN4SRZnDiwM/lHHq169JfBYgrjKUw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=FWjiqyPSYYs/HbFGyzFRa2Hmda3l8FU7O7Af8p9bBnQnwsqZNExHPdpjshjoXDaS3
-	 X2FulI7i2GXdbWAnXCestjSty/54UrrvOkAwllCGXQLv8N7l0jV3eRtxXoyPRz/Tsi
-	 D500A2TI9Q7vT1BeROuHEbxK489+rhgg+MJfzHAMrPTar+gcWEhPDI7mtEaLQpsJ76
-	 ewaa3Osuvc/IdKC2FG6pfo0v7K08PmcoPk1pyxPWSABXQxOnqU41GIpdus925vtgR8
-	 dTDA1azHkUJ04r9rUCd1PYdOgBv6QITQp0QCgwI22Ojw1JhtDa1ByKgFu4pgrMUPSk
-	 UNnFxzWSbNmUQ==
-Message-ID: <4c266a28-1d43-4453-a776-2c2f022f5c85@kernel.org>
-Date: Mon, 25 May 2026 10:33:34 +0300
+	dkim=pass (2048-bit key) header.d=flipper.net header.i=@flipper.net header.b="g9nGcRpm"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-449de065cb3so9068985f8f.2
+        for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 02:21:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=flipper.net; s=google; t=1779700860; x=1780305660; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SRUsp5/fssPeTOpCVfkJlRfBAwaroq/U91hxb4HJCnE=;
+        b=g9nGcRpmRn2x5PyqeafUtaNQjMTytcXJA7FvgftkKhfqITbETnMPIkFP/Y2aEi8emv
+         C2hVCStY9wsOo+FRV3rtIZ97/03i3zrVVwS0l5d+ngxJF7OjG6lTuSrfnKZCImrpMJOO
+         H4Et5e8eut2PPk7BT+6C013wZGCUomqqd+A1b6KqZ+Q+incLuO5D3smpB41PxODnfc6d
+         uOwEn+aLlQ27L2adqQg/rMGkGzR7pnzi47QGqeI8hBXfoHpyvtzcBXQvPITPcVVBreW8
+         /yooflQnyVa8HEpJ9FR7+btTMcQHq+20wPiSbnLA8cPrjcsMSR93DyFzKgJpnTfDkmTx
+         +H0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779700860; x=1780305660;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SRUsp5/fssPeTOpCVfkJlRfBAwaroq/U91hxb4HJCnE=;
+        b=sXdAwxBdpMCjFDPPo2mnKQWmlTKNjMe9fheBWy29CU8j7zJmMYtJDqmpBQ+nYBH5Be
+         OM03leroCqrxvQfagzuL8e/X8GIlToN+GCp3we60oxyatBqPTAwoR588todI5ERjGUGx
+         Tp0DNuaiGq3RspG1UqkTbIV07sAmo36P0HPKEyPHIuaWv3MEq6DYFsE4+LybOgP0JsKg
+         xyDnsGBsC4KDikOEcqCcfWFVRkxbYM+I8M5s73Fw0y3R23cVjzMK34p/GLJGZAnHcOdo
+         I1Wj3JM0EfHIWjLtQbPYs21o150R8crDl5E/7Tx9/HY01FCgbcYBvF7RWykURb1BaYqn
+         pjpg==
+X-Gm-Message-State: AOJu0YwL7RDGQEPy63E4jZnm5WehBLS1ORKAnr2XGNUlMP6W9/1C01w1
+	yk5qAtww57F8JB5AkM9OE0ijabtHitf5+sGNMeJeeRD2Gk/LQ3a0a7XULAU+gmfr6wvhZwsw1kr
+	yYos9+S8=
+X-Gm-Gg: Acq92OGGT/aYnEZBVX5SuBrK0jo/c4G/kEgCOoawFFpasGBXXI/BSlBIAxFuZyVkdL0
+	V3H2N5SHj9sHkTTAJQWnYU3DCTaV+z3KhTq6Ty5LdciH4aGwpbcshEdVTHUuf3kc8VbrFnjumTl
+	+Dzz2/Hjrw1OF0pWNxmq8BdVEWqmwcmErth1tBM/wmjvMwejgDMS+Gz4zvRC5/wI1WLsPHkvL21
+	qti2vAr534GXm6f5xZOdecQrMQnSw0wxwA8NFPyq7mUjU7lQ2ZvQlVzFe/qJiMhl0ut2Yyuqb1r
+	ZAHIjhaexVp5nfLbjv2Svf0ph/E9YX0I3FcZbE4bJiVV1nVhD2K5gcyJaeXUniJSXkh5m+NN2Bj
+	g+jqxOvmOxvVILH8ufcPjGAsgV2UAZDttZ0oNAUv8fShyx+8AwoJ+g3Af78cP67Q+pGQOKDUaBl
+	ebCAA4kc3dj5WVhK1LaFMGc7012CHrn0xLJWEUxtDX
+X-Received: by 2002:a05:6000:1ac7:b0:441:202e:3d2d with SMTP id ffacd0b85a97d-45eb3688844mr23666418f8f.19.1779700859989;
+        Mon, 25 May 2026 02:20:59 -0700 (PDT)
+Received: from alchark-surface.localdomain ([5.194.92.128])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6d4ca0dsm25399989f8f.18.2026.05.25.02.20.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 May 2026 02:20:59 -0700 (PDT)
+From: Alexey Charkov <alchark@flipper.net>
+Subject: [PATCH v2 0/2] ASoC: nau8822: add support for supply regulators
+Date: Mon, 25 May 2026 13:20:44 +0400
+Message-Id: <20260525-nau8822-reg-v2-0-7d37ae393e46@flipper.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: sashiko review (Re: [PATCH v5 14/17] dmaengine: sh: rz-dmac: Add
- suspend to RAM support)
-To: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, vkoul@kernel.org,
- Frank.Li@kernel.org, lgirdwood@gmail.com, broonie@kernel.org,
- perex@perex.cz, tiwai@suse.com, biju.das.jz@bp.renesas.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, p.zabel@pengutronix.de,
- geert+renesas@glider.be, fabrizio.castro.jz@renesas.com,
- kuninori.morimoto.gx@renesas.com, long.luu.ur@renesas.com
-Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20260512121219.216159-1-claudiu.beznea.uj@bp.renesas.com>
- <20260512121219.216159-15-claudiu.beznea.uj@bp.renesas.com>
-Content-Language: en-US
-From: Claudiu Beznea <claudiu.beznea@kernel.org>
-In-Reply-To: <20260512121219.216159-15-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGwUFGoC/23MQQ7CIBCF4as0sxYD04DoynuYLigM7SSGNlAbT
+ dO7i127/F/yvg0KZaYCt2aDTCsXnlINPDXgR5cGEhxqA0o0UqtWJPeyFlFkGkRPPur+YkywEup
+ jzhT5fWiPrvbIZZny58BX9Vv/O6sSUnjdIilLV3ThHp88z5TPiRbo9n3/AkhJ+JqoAAAA
+X-Change-ID: 20260513-nau8822-reg-becf5b766d80
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, David Lin <CTLIN0@nuvoton.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Alexey Charkov <alchark@flipper.net>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1612; i=alchark@flipper.net;
+ h=from:subject:message-id; bh=oXqKGb+1PtWRWpEgixBmUR2HmjglMMAslNteJX0DZVU=;
+ b=owGbwMvMwCW2adGNfoHIK0sZT6slMWSJiJRZvw9cs/f41NVHmgrMQxUzl9wMlLuleeZes2s4w
+ 6HHVqn3OiayMIhxMViKKbLM/bbEdqoR36xdHh5fYeawMoEMkRZpYAACFga+3MS8UiMdIz1TbUM9
+ QyMdYx0jBi5OAZjq4vcM/zNC/zJu+ahw4r/t9fDkG123Vdt3ldsdYROM63z4+9+6/1GMDGs+XdL
+ zesZVeyG6yyk7oOJN7srSr2+X39ixoLZn+dsnLhwA
+X-Developer-Key: i=alchark@flipper.net; a=openpgp;
+ fpr=9DF6A43D95320E9ABA4848F5B2A2D88F1059D4A5
 
- >commit 536ec6e9c07fa47423de7d20ebc829e45cbcedfb
- >Author: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
- >Subject: dmaengine: sh: rz-dmac: Add suspend to RAM support
- >This commit adds suspend to RAM support for the Renesas RZ/G3S SoC by
- >saving and restoring the DMA IP registers. It adds specific suspend and
- >resume handling for cyclic channels, and waits for non-cyclic channels
- >to finish before suspending.
- >> diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
- >> index df91657fd5e3d..b0a8590f4a9da 100644
- >> --- a/drivers/dma/sh/rz-dmac.c
- >> +++ b/drivers/dma/sh/rz-dmac.c
- >[ ... ]
- >> @@ -1002,20 +1008,57 @@ static int rz_dmac_device_pause(struct dma_chan *chan)
- >>      return rz_dmac_device_pause_set(channel, BIT(RZ_DMAC_CHAN_STATUS_PAUSED));
- >>  }
- >>
- >[ ... ]
- >>  static int rz_dmac_device_resume_set(struct rz_dmac_chan *channel,
- >>                                   unsigned long clear_bitmask)
- >>  {
- >> -    int ret = 0;
- >>      u32 val;
- >> +    int ret;
- >>
- >>      lockdep_assert_held(&channel->vc.lock);
- >>
- >[ ... ]
- >> +    rz_dmac_ch_writel(channel, CHCTRL_CLRSUS | CHCTRL_SETEN, CHCTRL, 1);
- >>
- >> -    rz_dmac_ch_writel(channel, CHCTRL_CLRSUS, CHCTRL, 1);
- >>      ret = read_poll_timeout_atomic(rz_dmac_ch_readl, val,
- >> -                                   !(val & CHSTAT_SUS), 1, 1024, false,
- >> -                                   channel, CHSTAT, 1);
- >> +                                   ((val & (CHSTAT_SUS | CHSTAT_EN)) == 
-CHSTAT_EN),
- >> +                                   1, 1024, false, channel, CHSTAT, 1);
- >Can this condition time out spuriously for short non-cyclic DMA transfers? If
- >a transfer finishes successfully before the first poll read, the hardware
- >would clear CHSTAT_EN to 0. The polling condition would then evaluate to
- >false, causing the macro to incorrectly return -ETIMEDOUT.
+The Nuvoton NAU8822 codec has four power supply pins: VDDA, VDDB, VDDC
+and VDDSPK, which must be online and stable before the device can be
+accessed over I2C. On boards where these rails are software-controlled,
+probing the codec before the regulators are up results in -ENXIO errors
+during register access.
 
-Yes, in theory that can happen.
+This short series adds optional regulator support to both the device
+tree binding and the driver, so platforms that need explicit power
+sequencing can describe and enforce it:
 
- >>
- >>      channel->status &= ~clear_bitmask;
- >>
- >[ ... ]
- >> @@ -1406,6 +1459,151 @@ static void rz_dmac_remove(struct platform_device *pdev)
- >>      pm_runtime_disable(&pdev->dev);
- >>  }
- >>
- >> +static int rz_dmac_suspend_prepare(struct device *dev)
- >> +{
- >> +    struct rz_dmac *dmac = dev_get_drvdata(dev);
- >> +    int ret;
- >> +
- >> +    PM_RUNTIME_ACQUIRE_IF_ENABLED(dmac->dev, pm);
- >> +    ret = PM_RUNTIME_ACQUIRE_ERR(&pm);
- >> +    if (ret)
- >> +            return ret;
- >> +
- >> +    for (unsigned int i = 0; i < dmac->n_channels; i++) {
- >> +            struct rz_dmac_chan *channel = &dmac->channels[i];
- >> +
- >> +            guard(spinlock_irqsave)(&channel->vc.lock);
- >> +
- >> +            /* Wait for transfer completion, except in cyclic case. */
- >> +            if (channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC))
- >> +                    continue;
- >> +
- >> +            if (rz_dmac_chan_is_enabled(channel))
- >> +                    return -EAGAIN;
- >Could returning -EAGAIN here cause a CPU livelock? In dpm_prepare(), an
- >-EAGAIN error is cleared and retried continuously in a while
- >(!list_empty(&dpm_list)) loop. Since the device is not advanced on error,
- >the PM core might loop infinitely without any backoff until the transfer
- >completes.
- >Also, is there a race condition with non-cyclic channels after this callback
- >returns 0? Since the DMA controller's prepare callback runs before consumer
- >peripherals, an active consumer could immediately submit new non-cyclic
- >transfers before the actual suspend phase begins.
+Signed-off-by: Alexey Charkov <alchark@flipper.net>
+---
+Changes in v2:
+- Added the regulators to the DT binding example (thanks Krzysztof)
+- Switch to regulator_bulk_* APIs instead of "optional" (thanks Mark)
+- Enable and disable the regulators at probe/remove and suspend/resume (thanks Sashiko)
+- Include the required regulator header (thanks Sashiko)
+- Add a power on reset stabilization delay before register access (thanks Sashiko)
+- Link to v1: https://lore.kernel.org/r/20260513-nau8822-reg-v1-0-c532e18e92ad@flipper.net
 
-The expectation was to wait until all the transfers complete. But, indeed, there 
-might be some issues with this approach. E.g., the serial driver simulates 
-cyclic transfers for rx by enqueuing individual SG transfers, and, after each SG 
-is completed a new SG is enqueued. So, at any time, the channel is enabled. That 
-would lead to the suspend being blocked at this point. As I don't see a way to 
-go out of this, for the moment I will drop the prepare callback until the serial 
-RX DMA will be adjusted (maybe, to use the cyclic support).
+---
+Alexey Charkov (2):
+      ASoC: dt-bindings: nau8822: Add supply regulators
+      ASoC: codecs: nau8822: add support for supply regulators
 
+ .../devicetree/bindings/sound/nuvoton,nau8822.yaml | 18 +++++++++
+ sound/soc/codecs/nau8822.c                         | 46 ++++++++++++++++++++--
+ sound/soc/codecs/nau8822.h                         |  3 ++
+ 3 files changed, 64 insertions(+), 3 deletions(-)
+---
+base-commit: c1ecb239fa3456529a32255359fc78b69eb9d847
+change-id: 20260513-nau8822-reg-becf5b766d80
 
- >> +    }
- >> +
- >> +    return 0;
- >> +}
- >> +
- >[ ... ]
- >> +static int rz_dmac_suspend(struct device *dev)
- >> +{
- >> +    struct rz_dmac *dmac = dev_get_drvdata(dev);
- >> +    int ret = 0;
- >> +
- >> +    for (unsigned int i = 0; i < dmac->n_channels; i++) {
- >> +            struct rz_dmac_chan *channel = &dmac->channels[i];
- >> +
- >> +            guard(spinlock_irqsave)(&channel->vc.lock);
- >This isn't a bug, but does this function mix scope-based guard() cleanup
- >with goto-based error handling? The cleanup guidelines suggest that
- >functions should either convert all resources to scope-based cleanup or
- >convert none of them to avoid confusing ownership semantics.
- >> +
- >> +            if (!(channel->status & BIT(RZ_DMAC_CHAN_STATUS_CYCLIC)))
- >> +                    continue;
- >> +
- >> +            ret = rz_dmac_device_pause_internal(channel);
- >> +            if (ret) {
- >> +                    dev_err(dev, "Failed to suspend channel %s\n",
- >> +                            dma_chan_name(&channel->vc.chan));
- >> +                    break;
- >> +            }
- >> +
- >> +            channel->pm_state.nxla = rz_dmac_ch_readl(channel, NXLA, 1);
- >Does saving only the NXLA register result in data loss for cyclic channels?
- >When a cyclic channel is paused, it stops at its current descriptor. Without
- >saving and restoring the Current Link Address and Current Transfer Byte
- >count, resuming the channel might force it to skip the remaining bytes of the
- >interrupted descriptor and start fetching the next one.
+Best regards,
+-- 
+Alexey Charkov <alchark@flipper.net>
 
-This is something expected, hardware have no capability to overcome this issue.
-
- >> +    }
- >> +
- >> +    if (ret)
- >> +            goto suspend_recover;
- >> +
- >> +    ret = reset_control_assert(dmac->rstc);
- >Since non-cyclic channels are unconditionally skipped in the loop above and
- >the hardware reset is asserted here, could newly queued non-cyclic requests
- >from consumers be violently interrupted mid-transfer?
-
-The expectation is that non-cyclic transfers have already been paused by the 
-time this code executes.
-
- >> +    if (ret)
- >> +            goto suspend_recover;
- >> +
- >> +    ret = pm_runtime_put_sync(dev);
- >> +    if (ret < 0)
- >> +            goto reset_deassert;
- >> +
- >> +    return 0;
- >> +
- >> +reset_deassert:
- >> +    reset_control_deassert(dmac->rstc);
- >> +suspend_recover:
- >> +    rz_dmac_suspend_recover(dmac);
- >> +    return ret;
- >> +}
- >> +
- >[ ... ]
- >> +static const struct dev_pm_ops rz_dmac_pm_ops = {
- >> +    .prepare = rz_dmac_suspend_prepare,
- >This isn't a bug, but should rz_dmac_suspend_prepare be wrapped in
- >pm_sleep_ptr() here? The power management subsystem guidelines recommend
- >using pm_sleep_ptr() for individual callbacks within the ops structure to
- >prevent dead code and unused variable warnings when CONFIG_PM_SLEEP is
- >disabled.
-
-I will drop this function here in the next version as I discovered some issues 
-with it and the serial RX DMA.
-
- >> +    SYSTEM_SLEEP_PM_OPS(rz_dmac_suspend, rz_dmac_resume)
- >> +};
- >> +
- >>  static const struct rz_dmac_info rz_dmac_v2h_info = {
- >>      .icu_register_dma_req = rzv2h_icu_register_dma_req,
- >>      .default_dma_req_no = RZV2H_ICU_DMAC_REQ_NO_DEFAULT,
- >> @@ -1432,6 +1630,7 @@ static struct platform_driver rz_dmac_driver = {
- >>      .driver         = {
- >>              .name   = "rz-dmac",
- >>              .of_match_table = of_rz_dmac_match,
- >> +            .pm     = pm_sleep_ptr(&rz_dmac_pm_ops),
- >This isn't a bug, but should pm_ptr() be used for the dev_pm_ops structure
- >pointer instead of pm_sleep_ptr()? The power management guidelines recommend
- >using pm_ptr() for the structure pointer, while reserving pm_sleep_ptr() for
- >the individual sleep callbacks inside the structure.
-
-OK, will switch to pm_ptr()
-
- >>      },
- >>      .probe          = rz_dmac_probe,
- >>      .remove         = rz_dmac_remove,
