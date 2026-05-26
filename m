@@ -1,269 +1,134 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24D533F5BE3
-	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 11:56:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779796602; cv=none; b=SPAe5aWmNlapygzZH4nInpwS3sZyE5w2hpphBNx5TAr/442OFgWM/wb4fjiUq29lBJRCYSbVg2x83+eg27efGDJiroaeySCmCwF6iMJfuDM+l4lLtqZBk2Kfcw3i1mEwlHM9wL3T2RntGsAVAS4jajRTg9iBRCB7nNATF98Dges=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779796602; c=relaxed/simple;
-	bh=o5u5qtKs/eVenBbT6xwqRX3EUkEN583HVIiD9vyCGu4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GvvU1dEpjN+Y6lnR1rb74881qMjZk6R4Uilohr7lucpsaXmeKHE/BeuaxBuYwY9GEuV6rfGfUpTJmANHcGFVj4bfZBDEzlh9N7NjsJzqTwSMZsY1RycrKWK+3MRDpKy+qCwGCvmD0FGpfd5SDtqT9U9Ms0df9jnrBvce/Cfum1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [223.64.68.59])
-	by gateway (Coremail) with SMTP id _____8CxRehzihVqw2MNAA--.32158S3;
-	Tue, 26 May 2026 19:56:35 +0800 (CST)
-Received: from kernelserver (unknown [223.64.68.59])
-	by front1 (Coremail) with SMTP id qMiowJCxGOBwihVq6I+RAA--.13381S2;
-	Tue, 26 May 2026 19:56:34 +0800 (CST)
-From: Binbin Zhou <zhoubinbin@loongson.cn>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
-	Xuerui Wang <kernel@xen0n.name>,
-	loongarch@lists.linux.dev,
-	linux-sound@vger.kernel.org,
-	Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH v2 4/5] ASoC: loongson: Separate external shared DMA from the platform interface
-Date: Tue, 26 May 2026 19:56:25 +0800
-Message-ID: <30612b6ec0212fe2fb6e387b1c7235cfef4e390a.1779796354.git.zhoubinbin@loongson.cn>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1779796354.git.zhoubinbin@loongson.cn>
-References: <cover.1779796354.git.zhoubinbin@loongson.cn>
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637743EDE7A
+	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 12:17:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779797823; cv=pass; b=sJoyoW6QQOmk21mqM4Vj7KMjuA7czB7ESl3tEM30Lw7JhhrQIZdhplc4sa6RFfArynYMK5VbH4jPCiMN1yMsGyvfbccah4ukqJe0ma/Ra2IEyme93745yx8E+rw50GTuT6rHsDJfGKOJmcMLxSVo7SmVJL8MqNtY97WDd12Zu7A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779797823; c=relaxed/simple;
+	bh=DtObxo9XE3EzIiwd27kjN9EEcOHxqFMVaH3d/+QZW9I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ahv0vzOHJK0g9Eh8wNRcI5mMmED6bgGE+JeV5MCP0Bfw3EXo4q81HNsK2IHCJ7k3CZB04D6dcqSa6/w2fgC7YMIAxSKVCiiShuNLjOkrkKWK8bRGWDbQ5qn1AhZ5yobgaL8FFznNR4yHu61Wduns0bBiTwUQBnmNUaxs0m0Ye4o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N6YypTA2; arc=pass smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N6YypTA2"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-366139223e4so6337953a91.0
+        for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 05:17:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779797822; cv=none;
+        d=google.com; s=arc-20240605;
+        b=R6RT4qc5+LS5YDjqWY1MbrJLz6tmQxEHLOOKZ0WrwqS8u/8pvxoYhAmwLBkURx4Je9
+         wSKHs/j/PCeVmpLjYsNEvtvVTa+q46GpZc7h6prIIXnf2gKdMJz2i0zTIZf6fj5tD9CT
+         GmretbT5DmpRoGkbQTp+zQ0RyDX1YS333KVDJ8RsJz8ErcSdL9zJgF9/NWQZWXOqkxm1
+         lZarxpUTf3TmeRhD8OQs6tYTPHJ4HXIztGcJ4BUJJsrg2M7qtQAGZ/A24zZf3VwbiKyE
+         n3igBORSMFDhBhzmkwmALBmu593Gwy4wKFPoS++qsAKpKg8cZBoD6RYANHtCk9aRwTol
+         vqkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DtObxo9XE3EzIiwd27kjN9EEcOHxqFMVaH3d/+QZW9I=;
+        fh=xTQswv+nGaen2jewAVTX2NiANzdgPqfghlfhZV0dkrM=;
+        b=lYzMe7PZpAA+9Q9KjM91ks1ORq4JlNAS0ji2GJIc1rPyAt6GtGB6OfJUn5A0Tsh1a1
+         eYYWPAB/CUc7SZWD687NL+KFBKGcZyNOFtoF7zqJ0hs+wHIVq4AEkOFvBis5YMAVUWzA
+         fFOqAy4AhMLAf3n5VU2xfRNUIqbrke08svUj603WM8H98wjw/kwWZAcD4aRgbiceR/fy
+         x13E8z8nql64ZZ2BDgMn+Bt76aFzl6OCB5OUNfMHGg/2qBL6kqThThlBKuji5vbAfIEE
+         ppDarpiD9vQbEhJgi+UY2/wbvibNtg2sw4GEfyzytJ/QeqBpWY/JOXcb+ZBfnFhs0UvH
+         0oUw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779797822; x=1780402622; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DtObxo9XE3EzIiwd27kjN9EEcOHxqFMVaH3d/+QZW9I=;
+        b=N6YypTA2Xl3kPI/kJWbCL9hP95myhGUBo34AytS74EQEeBmVoVlyZiXYZRxvWsC0o6
+         dpp+bcOc6aB0jJ/dYoRGseM77zeApktlLbkdVMOkTMUznhwknSF45k+zdXM/ari675I2
+         XrrBu1NQ2X/19vtKcijJhgQkBGRkP30pUrw+TKUiSOk714dOWbwlfBbHIu2wxp0SKGaj
+         zYRJASkroJnEEwFtFEmQU1AIkdu63dqdIckNOiQhQJ+NqxFHTQTy79c2auA6vHBlmfnE
+         jqCd1l5xnzZ68UaRtRxSfk73kvL6JXqGM8aLwux8iaeAhvwkACn6IoJO1/AsV7OVZfxl
+         +fvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779797822; x=1780402622;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=DtObxo9XE3EzIiwd27kjN9EEcOHxqFMVaH3d/+QZW9I=;
+        b=cVXFj4VZPzQi6R9NC/nPqAakRGnQd420QkKXbejJ/hzM6N+EIrlXup3t2zhIPCYs//
+         39PYruc+bLawXXdfOD4Wcn1hEe/zC9MsBvgGVadWBGMWyTtFwSekjTKThAXJkLuLAt9k
+         QdvTfoxGCOkBa3B46HlMtOzbpD6PpTDdsQQZAht6jkegL35VRcj3kf/9mi0S6Kpox6H8
+         cILkmDebGRYG5JvQhr9cAXKC8ccI/CXGTxqrEm17pC2ocwwdIveO5wzVEv+Fh7m9VXzT
+         GNsWK1bQUmSrXtdFs+hoSj7FAo19OmCl0l81xktgXjMUBzxTBrM0ae4SnC1UBaob9q+L
+         Nw3A==
+X-Forwarded-Encrypted: i=1; AFNElJ9ojfZFeMhkb/bp3lE4gjS5Ve1Jg9ZCgbM7cglfGYMd1ZaNFJ2aPyG1zcZ65ms7o74t/KCJdw3UAnd9CQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzP3ZmXKECYbjmYReIjfHPBghPM7W8iopQB6PnuPBOhhxwX/F7d
+	PSCbRuRiFUtCX2fHlLz4aQzACObxJcSgyyfs10TsZtgf4QSbA9XmC6TaeOQ3bVVQLYsVBFLvUWq
+	oj0scdMalOpWq5TNdCSC/nHcTb9XhOIQ=
+X-Gm-Gg: Acq92OHFTajwpZj6el47GiByMKgb/GQ5EanbbRG8spBVpm5+OGF+fp/Daeq+uNiuO+H
+	MzHJNil9TmtQG1ya5II2olk7yiphA4ok6vnsnqrdDNsfrB+Xud7ilFSrSDr3v/9H7HqQAW5IEtV
+	jqmdF1Q5afjgjcqb6jP8O1PeU1+B0/OtLRmGZFUgw1eeIpOH8k7vjPUu+JuVW4xVDW2IxX+02HJ
+	9IKnzsBL+2VW1i/8iqFL8WgM/VCZCc/RV+Up4Wu2ZtPLRc4tG7Axrk0oQ/Oysxt5UC0bJK25mAC
+	OM4wNWP3CbHYKTF9GqdV/JLWMLKfwMIkx/kpCkgYrlSS1KnwR2I/P2khEhts+hK/Vfim9k69
+X-Received: by 2002:a17:902:c948:b0:2bd:2de3:5181 with SMTP id
+ d9443c01a7336-2beb034603cmr207644055ad.9.1779797821644; Tue, 26 May 2026
+ 05:17:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJCxGOBwihVq6I+RAA--.13381S2
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAgETCGoVNiwIrgAAsb
-X-Coremail-Antispam: 1Uk129KBj93XoW3Gw48WrykKFy8AF13KFy8Zwc_yoW3Wr45pF
-	s3A3yxWrW5AF4avr98JrWrXr13ArySkFZrGay7G348Ar9rAw1ru34DtF1vvFW7CFWUWryk
-	XFWkC3yrCFn8GFbCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUBIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
-	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWr
-	XVW3AwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
-	AKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
-	6r1j6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
-	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
-	jxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
-	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
-	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUneRRtUUUUU==
+References: <20260522095401.72915-1-phucduc.bui@gmail.com> <20260522095401.72915-3-phucduc.bui@gmail.com>
+ <CAGb2v67UmMmM7bQOSf3VxsN9D8s3N8nMMX079_kiMcPU=VszFg@mail.gmail.com>
+ <CAABR9nEB8jizn+NrVgrjcOOJRtaU0u+TH705unMTh7HYO=8Wcg@mail.gmail.com> <CAGb2v65zK7iOce_UZ+_F=dWtKYFGZj-K4k45MewvDbhivXPH2A@mail.gmail.com>
+In-Reply-To: <CAGb2v65zK7iOce_UZ+_F=dWtKYFGZj-K4k45MewvDbhivXPH2A@mail.gmail.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Tue, 26 May 2026 19:16:50 +0700
+X-Gm-Features: AVHnY4L36KKu58qpYxsDJHrLwpA0fiNG3V0fNQatxdA3GV3-2n0FXUky_32u4G0
+Message-ID: <CAABR9nEsKjgErDB3jnHrx=dOUajvvN6GbP+6XUb5Ay3VYYjNJA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] ASoC: sunxi: sun4i-spdif: Resume device before
+ kcontrol register access
+To: wens@kernel.org
+Cc: broonie@kernel.org, codekipper@gmail.com, jernej.skrabec@gmail.com, 
+	lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, nichen@iscas.ac.cn, perex@perex.cz, 
+	samuel@sholland.org, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The Loongson I2S platform driver (used on LS2K1000, LS7A etc.) relies on
-an external DMA engine (e.g., dw_dmac) rather than the internal DMA.
-However, its DMA-related code was originally embedded in
-loongson_i2s_plat.c, duplicating logic that should be shared.
+Hi Chenyu,
 
-Extract the external DMA (eDMA) support from the platform driver and move
-it into loongson_dma.c alongside the existing internal DMA (iDMA) code.
+> When you submit a patch, it is expected that you already tested it.
+> If you only compile tested it, please remember to say so in the
+> footer (or mark the patch as RFT) so that others can test for you
+> and the maintainer knows the status.
+>
+> And if possible, provide a scheme to test it.
+>
 
-This change eliminates code duplication and prepares for future
-consolidation of DMA selection logic.
+Thanks for the guidance.
+I=E2=80=99ll clearly mention the test status next time.
 
-Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
----
- sound/soc/loongson/Makefile            |  4 +-
- sound/soc/loongson/loongson_dma.c      | 59 ++++++++++++++++++++++++++
- sound/soc/loongson/loongson_dma.h      |  2 +
- sound/soc/loongson/loongson_i2s_plat.c | 59 +-------------------------
- 4 files changed, 65 insertions(+), 59 deletions(-)
+>
+> I can't say that it does. But since the only control that SPDIF gives
+> is the IEC958 status, and that doesn't appear in the standard mixer apps,
+> it's unlikely that a _user_ will trigger it. Plus the control was added
+> after the basic structure of the driver was done, so there is definitely
+> some possibility of a crash.
+>
+> But what you wrote in the commit message doesn't match the actual hardwar=
+e
+> behavior, like I wrote.
 
-diff --git a/sound/soc/loongson/Makefile b/sound/soc/loongson/Makefile
-index 4c6d3130bcee..6e43672071fc 100644
---- a/sound/soc/loongson/Makefile
-+++ b/sound/soc/loongson/Makefile
-@@ -1,12 +1,12 @@
- # SPDX-License-Identifier: GPL-2.0
- #Platform Support
--snd-soc-loongson-i2s-pci-y := loongson_i2s_pci.o loongson_dma.o
-+snd-soc-loongson-i2s-pci-y := loongson_i2s_pci.o
- obj-$(CONFIG_SND_SOC_LOONGSON_I2S_PCI) += snd-soc-loongson-i2s-pci.o snd-soc-loongson-i2s.o
- 
- snd-soc-loongson-i2s-plat-y := loongson_i2s_plat.o
- obj-$(CONFIG_SND_SOC_LOONGSON_I2S_PLATFORM) += snd-soc-loongson-i2s-plat.o snd-soc-loongson-i2s.o
- 
--snd-soc-loongson-i2s-y := loongson_i2s.o
-+snd-soc-loongson-i2s-y := loongson_i2s.o loongson_dma.o
- 
- obj-$(CONFIG_SND_LOONGSON1_AC97) += loongson1_ac97.o
- 
-diff --git a/sound/soc/loongson/loongson_dma.c b/sound/soc/loongson/loongson_dma.c
-index f51b5b94e3ab..ed970343d283 100644
---- a/sound/soc/loongson/loongson_dma.c
-+++ b/sound/soc/loongson/loongson_dma.c
-@@ -344,3 +344,62 @@ const struct snd_soc_component_driver loongson_i2s_idma_component = {
- 	.mmap		= loongson_idma_pcm_mmap,
- 	.pcm_new	= loongson_idma_pcm_new,
- };
-+EXPORT_SYMBOL_GPL(loongson_i2s_idma_component);
-+
-+static const struct snd_pcm_hardware loongson_edma_hardware = {
-+	.info = SNDRV_PCM_INFO_MMAP |
-+		SNDRV_PCM_INFO_INTERLEAVED |
-+		SNDRV_PCM_INFO_MMAP_VALID |
-+		SNDRV_PCM_INFO_RESUME |
-+		SNDRV_PCM_INFO_PAUSE,
-+	.formats = SNDRV_PCM_FMTBIT_S16_LE |
-+		   SNDRV_PCM_FMTBIT_S20_3LE |
-+		   SNDRV_PCM_FMTBIT_S24_LE,
-+	.period_bytes_min = 128,
-+	.period_bytes_max = 128 * 1024,
-+	.periods_min = 1,
-+	.periods_max = 64,
-+	.buffer_bytes_max = 1024 * 1024,
-+};
-+
-+const struct snd_dmaengine_pcm_config loongson_dmaengine_pcm_config = {
-+	.pcm_hardware = &loongson_edma_hardware,
-+	.prepare_slave_config = snd_dmaengine_pcm_prepare_slave_config,
-+	.prealloc_buffer_size = 128 * 1024,
-+};
-+EXPORT_SYMBOL_GPL(loongson_dmaengine_pcm_config);
-+
-+/* External DMA component */
-+static int loongson_edma_pcm_open(struct snd_soc_component *component,
-+				  struct snd_pcm_substream *substream)
-+{
-+	struct snd_pcm_runtime *runtime = substream->runtime;
-+
-+	if (substream->pcm->device & 1) {
-+		runtime->hw.info &= ~SNDRV_PCM_INFO_INTERLEAVED;
-+		runtime->hw.info |= SNDRV_PCM_INFO_NONINTERLEAVED;
-+	}
-+
-+	if (substream->pcm->device & 2)
-+		runtime->hw.info &= ~(SNDRV_PCM_INFO_MMAP |
-+				      SNDRV_PCM_INFO_MMAP_VALID);
-+	/*
-+	 * For mysterious reasons (and despite what the manual says)
-+	 * playback samples are lost if the DMA count is not a multiple
-+	 * of the DMA burst size.  Let's add a rule to enforce that.
-+	 */
-+	snd_pcm_hw_constraint_step(runtime, 0,
-+				   SNDRV_PCM_HW_PARAM_PERIOD_BYTES, 128);
-+	snd_pcm_hw_constraint_step(runtime, 0,
-+				   SNDRV_PCM_HW_PARAM_BUFFER_BYTES, 128);
-+	snd_pcm_hw_constraint_integer(substream->runtime,
-+				      SNDRV_PCM_HW_PARAM_PERIODS);
-+
-+	return 0;
-+}
-+
-+const struct snd_soc_component_driver loongson_i2s_edma_component = {
-+	.name   = LS_I2S_DRVNAME,
-+	.open	= loongson_edma_pcm_open,
-+};
-+EXPORT_SYMBOL_GPL(loongson_i2s_edma_component);
-diff --git a/sound/soc/loongson/loongson_dma.h b/sound/soc/loongson/loongson_dma.h
-index 8a8fa8abd85a..a040681d2693 100644
---- a/sound/soc/loongson/loongson_dma.h
-+++ b/sound/soc/loongson/loongson_dma.h
-@@ -10,5 +10,7 @@
- #define _LOONGSON_DMA_H
- 
- extern const struct snd_soc_component_driver loongson_i2s_idma_component;
-+extern const struct snd_soc_component_driver loongson_i2s_edma_component;
-+extern const struct snd_dmaengine_pcm_config loongson_dmaengine_pcm_config;
- 
- #endif
-diff --git a/sound/soc/loongson/loongson_i2s_plat.c b/sound/soc/loongson/loongson_i2s_plat.c
-index f8d7aca8b903..ac054b6ce632 100644
---- a/sound/soc/loongson/loongson_i2s_plat.c
-+++ b/sound/soc/loongson/loongson_i2s_plat.c
-@@ -19,6 +19,7 @@
- #include <sound/soc.h>
- 
- #include "loongson_i2s.h"
-+#include "loongson_dma.h"
- 
- #define LOONGSON_I2S_RX_DMA_OFFSET	21
- #define LOONGSON_I2S_TX_DMA_OFFSET	18
-@@ -29,62 +30,6 @@
- #define LOONGSON_DMA3_CONF	0x3
- #define LOONGSON_DMA4_CONF	0x4
- 
--/* periods_max = PAGE_SIZE / sizeof(struct ls_dma_chan_reg) */
--static const struct snd_pcm_hardware loongson_pcm_hardware = {
--	.info = SNDRV_PCM_INFO_MMAP |
--		SNDRV_PCM_INFO_INTERLEAVED |
--		SNDRV_PCM_INFO_MMAP_VALID |
--		SNDRV_PCM_INFO_RESUME |
--		SNDRV_PCM_INFO_PAUSE,
--	.formats = SNDRV_PCM_FMTBIT_S16_LE |
--		   SNDRV_PCM_FMTBIT_S20_3LE |
--		   SNDRV_PCM_FMTBIT_S24_LE,
--	.period_bytes_min = 128,
--	.period_bytes_max = 128 * 1024,
--	.periods_min = 1,
--	.periods_max = 64,
--	.buffer_bytes_max = 1024 * 1024,
--};
--
--static const struct snd_dmaengine_pcm_config loongson_dmaengine_pcm_config = {
--	.pcm_hardware = &loongson_pcm_hardware,
--	.prepare_slave_config = snd_dmaengine_pcm_prepare_slave_config,
--	.prealloc_buffer_size = 128 * 1024,
--};
--
--static int loongson_pcm_open(struct snd_soc_component *component,
--			     struct snd_pcm_substream *substream)
--{
--	struct snd_pcm_runtime *runtime = substream->runtime;
--
--	if (substream->pcm->device & 1) {
--		runtime->hw.info &= ~SNDRV_PCM_INFO_INTERLEAVED;
--		runtime->hw.info |= SNDRV_PCM_INFO_NONINTERLEAVED;
--	}
--
--	if (substream->pcm->device & 2)
--		runtime->hw.info &= ~(SNDRV_PCM_INFO_MMAP |
--				      SNDRV_PCM_INFO_MMAP_VALID);
--	/*
--	 * For mysterious reasons (and despite what the manual says)
--	 * playback samples are lost if the DMA count is not a multiple
--	 * of the DMA burst size.  Let's add a rule to enforce that.
--	 */
--	snd_pcm_hw_constraint_step(runtime, 0,
--				   SNDRV_PCM_HW_PARAM_PERIOD_BYTES, 128);
--	snd_pcm_hw_constraint_step(runtime, 0,
--				   SNDRV_PCM_HW_PARAM_BUFFER_BYTES, 128);
--	snd_pcm_hw_constraint_integer(substream->runtime,
--				      SNDRV_PCM_HW_PARAM_PERIODS);
--
--	return 0;
--}
--
--static const struct snd_soc_component_driver loongson_i2s_component_driver = {
--	.name   = LS_I2S_DRVNAME,
--	.open	= loongson_pcm_open,
--};
--
- static int loongson_i2s_apbdma_config(struct platform_device *pdev)
- {
- 	int val;
-@@ -147,7 +92,7 @@ static int loongson_i2s_plat_probe(struct platform_device *pdev)
- 	dev_set_name(dev, LS_I2S_DRVNAME);
- 	dev_set_drvdata(dev, i2s);
- 
--	ret = devm_snd_soc_register_component(dev, &loongson_i2s_component_driver,
-+	ret = devm_snd_soc_register_component(dev, &loongson_i2s_edma_component,
- 					      &loongson_i2s_dai, 1);
- 	if (ret)
- 		return dev_err_probe(dev, ret, "failed to register DAI\n");
--- 
-2.52.0
+Thanks for the clarification.
+I'll update the commit message to something like:
+"The kcontrols may access hardware registers while the
+device is runtime-suspended.
+Ensure the device is resumed before touching the registers."
 
+Best Regards,
+Phuc
