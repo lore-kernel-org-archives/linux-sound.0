@@ -1,97 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3971B30F80C;
-	Tue, 26 May 2026 15:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3D07262E
+	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 15:46:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779809687; cv=none; b=YHOkSo/b/AUi6FuMXJQKZAlNtcIHAhodis7g63Q1GJ0FKX6UD2chK0M56bHZ+f7n4GI3GaeYHi8fUSbP/Xu5qNwSRowoaBCMIeicvxDFZATN81DAAXjBodyAbdQQ4CjAFUp0VN3FnjSoeTQVwNtAmlk/vBIClT0RVx6SP0v67o0=
+	t=1779810411; cv=none; b=fjHibxJfihiFEqiGGoI3ONlhYFiqltjl2LgSpBKrTSCkgBUfY1JXFjg8NIOV//rvHuFmB4g0nThjAThQd+JW5FNRl0Jo8dRfVZ8EKHZS+QUxMGdmJack/GWIODPofQ9W7gCu2BY4ZrNjE+Wi18gz86Pm92k9j82wKmaBOCWwlhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779809687; c=relaxed/simple;
-	bh=E79158MvxGreWA6gb3I3ClURfhJ6QZHv2Py6tZuQVOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gDZx27paq8BBJ/FfdLqGymD8xI5TvW7lv7ARvpAVN3qoFZyq2x1oxfSM9C+6N5ZI49ePlEduQTcyTArCpaXp2y1upG8cyT5mPoMGt5f97WyRHPTeFshbEGMOXaU5auz9D61HygSqVxgOnhTEFx3EX6nTp21vGqnr96WSH8aYhHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QXKpyi0T; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779810411; c=relaxed/simple;
+	bh=D8glnkD9J1TkjSLXewWmyd44wCW1pvtiZyeUVB3bLe8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=axnY2+YT4Uo3N6LyUbK3nSCEeYxA6YKpwmS0DH/UTGovXFq2EAIO1D8rajbQ+bYZLKL7DqH+Z3uzAjLtKjnpU3Ek0otEEqZOqvH0OPZ+ZHxiHTANM2yLfhY+LyhWj35jQ8rP2V/MYTMd1oHqKNHea0eZSi/LBYr/ZbZYho+s7nQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=apzpfdFj; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QXKpyi0T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A3091F000E9;
-	Tue, 26 May 2026 15:34:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779809685;
-	bh=NZL5JxJsiTCoCm2lKtnn2UECrdAHXWzTP8LDNGKPBMM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QXKpyi0TZD8Tcj6Q9+hRh1av4YyrjQoxXv7CHD4/qNsbUk/ZxWHo06eRo8VBF3JT1
-	 sMyvxnW7II4T8lcikr/B+TmGWjrzoYWgH2PMwi9iHP+FXQr4JhiHhm/DrfaP/7CbUH
-	 FA97D7ylMEgiY48ezmMEMtzNc8qbEjdjcIxzTutaM7eq+LCv2QK/Z3RW8o7n9hYmeX
-	 +XTqXY9WlIFVga7LWVXtH1NOED7HsaqI1KFOYUefmch6iQlQMiOWPnUlCJckR+6e0s
-	 82bc1ONsQn9M5lUdZEV5lfqDp2eRwsMk+DDsVtGnKhtwT/yZWn3LxcAG5Y6AuplxDC
-	 xKgafFy1tOf2A==
-Date: Tue, 26 May 2026 16:34:39 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Chancel Liu <chancel.liu@nxp.com>
-Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
-	festevam@gmail.com, nicoleotsuka@gmail.com, perex@perex.cz,
-	tiwai@suse.com, Frank.Li@nxp.com, s.hauer@pengutronix.de,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] ASoC: imx-rpmsg: Support headphone jack detection
-Message-ID: <1f4d888d-7c1d-4ea9-9357-e8424bf9ba40@sirena.org.uk>
-References: <20260526053815.140008-1-chancel.liu@nxp.com>
- <20260526053815.140008-3-chancel.liu@nxp.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="apzpfdFj"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4904fd4f6aeso31293765e9.2
+        for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 08:46:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779810408; x=1780415208; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U7NT6YcVKtNaapw4+qptkK4Cx3/s7zGymBKAWm3o+mY=;
+        b=apzpfdFjgFrjRAAjvJpbtB848h/1a1hSFCpRi1JKN5GM6ZJk7ADVdTRkyiO1Mhd3oj
+         PmNwfDZpZccSUo1PXfXeuH9xIISqptFdZZ8VzyEqPYznK3dKmdkiPzlr7rR5K+OC+K15
+         3k4Ti9CcJg+CRrScGp/BsaKFHUzDpbFPTXgRSGcjaPEjJyy9qSGJZJT7+ynEbwrw/Zkm
+         4C4cbiP7ao9RZXmwW4QiAYnzZpfL/i0aYg/Pgz/u3D6cH+fCUV44QLNOyq+74WKyDOx9
+         xJ6rua2f4+F0SiZg4myxfwIKssTX23j45ugS/x53hK9qFEsWTdZuEvOkTn+sUplfGgpU
+         zseA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779810408; x=1780415208;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=U7NT6YcVKtNaapw4+qptkK4Cx3/s7zGymBKAWm3o+mY=;
+        b=DdNYknnj6nR7XEL00yoUBk9d9tMpNCDeSpfmzI8sBCDyu9e+kuLplzZiQxVJaCEkK1
+         UQXWS3pHNHPekeL0ImtV7mplX0Vr4aRIgjQA/wibexncQxd1lbfaXnMCMvfYDp3h8znP
+         KbEqITWfTSAi5plZzxTHhsOZKNfI7NDGxL6XS8e7pwxqfRVPIn35C4Y6LbkteZv3DrRB
+         6WGybqux7Xs4s2zVFaV72uBOQ9Oeze/S+Q1HIp8NX8SiVcm0ad/GimI7Owxk45E0EsSB
+         QvE2SKcpNK2aEdhXp/a3Lu1XKKWWJ5hs1jxw5JlevzHTjP5X9TgYHaVYUx8++ZomJFRu
+         tLUw==
+X-Forwarded-Encrypted: i=1; AFNElJ/AEHixEGR679lOYBoRNtGePtspK+TIdGCrEzADnmvmr6YUDeXW2MBxMJn5F24VC66jOZqlYD4zsksIZA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YygOV23sYCaNaLYlaMm9NcP/cspmMbGgISqRAK86R2myFAdsgEU
+	qDAci2+WjxRJCd9CH0E++wiSrgWL3W7wMkfRHzxK03ttVgZlzQbVF/6e
+X-Gm-Gg: Acq92OG6dVaKAr8y97dmCzF/fleKlR+XBQEZSPw/KlVGhjybY3eUnHlQ3Ug3vOdZHFO
+	o9zr0jg7Q0pCDLi9vz2oMjr1wgRDzDc7gWyvw1mqfdF9WkR+XA6TjFkBPvhRNHIcZJ/afe9+9aF
+	BgDjY9BZT+ii5DBE6Zt9ZibY7Wc2Y8ZG/D/FANHIAaRg/fSV3Xp9znG/hQ3ioZu5Y+ZOUQQbJ+L
+	QlcyJS6Lr6N5yw5N2ftRVMVPw0JUqcPT7Zf+IlslrLUXe7m/yb2NmbVHSObnos1XTT7MxmtRhJJ
+	Yj7fySQoA4uEPkrTShWlCLkTBFk4r3jE21NKcRKoJcVfz7ZFXfzWNt2JJYJi5ZwmK4oa+JYOp7P
+	uAlVPb9ZQ72LeH2mI+ae68mx+hMs+VTAxBm6IE53t+YBq7CEWIH2pGZmRRwdsUlqcNsvOkdKV6J
+	OTIeRIziCp3nvK8zd7JnOERV8EHzHV67cIK0Ixm18H
+X-Received: by 2002:a05:600c:6094:b0:490:625e:bb68 with SMTP id 5b1f17b1804b1-490625ebc14mr160164165e9.3.1779810407792;
+        Tue, 26 May 2026 08:46:47 -0700 (PDT)
+Received: from th-heuss ([185.238.219.93])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49042487609sm176397465e9.3.2026.05.26.08.46.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2026 08:46:47 -0700 (PDT)
+From: Fabian Lippold <fabianlippold1184@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Fabian Lippold <fabianlippold1184@gmail.com>
+Subject: [PATCH] ALC269/Realtek: add quirk for HP Dragonfly Folio G3 2-in-1
+Date: Tue, 26 May 2026 17:41:01 +0200
+Message-ID: <20260526154418.1850568-3-fabianlippold1184@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <87ldd6zp8w.wl-tiwai@suse.de>
+References: <87ldd6zp8w.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NyFsfh5e6+CEA30G"
-Content-Disposition: inline
-In-Reply-To: <20260526053815.140008-3-chancel.liu@nxp.com>
-X-Cookie: You are fairminded, just and loving.
+Content-Transfer-Encoding: 8bit
+
+Add PCI quirk for HP Dragonfly Folio G3 (PCI ID 103c:8a06) to select the
+CS35L41 SPI4 & GPIO LED fixup variant.
+
+Signed-off-by: Fabian Lippold <fabianlippold1184@gmail.com>
+---
+Sorry for the inconvenience, this should work now.
 
 
---NyFsfh5e6+CEA30G
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-On Tue, May 26, 2026 at 02:38:14PM +0900, Chancel Liu wrote:
-> Add headphone jack detection support for i.MX RPMSG audio cards.
-> When the "hp-det-gpios" property is present in the device tree node,
-> use simple_util_init_jack() from the ASoC simple card utilities to
-> register a headphone jack with GPIO-based insertion detection.
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index f180d6a72..8ba9b2a07 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7070,6 +7070,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x89da, "HP Spectre x360 14t-ea100", ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
+ 	SND_PCI_QUIRK(0x103c, 0x89e7, "HP Elite x2 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8a06, "HP Dragonfly Folio G3 2-in-1", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8a1f, "HP Laptop 14s-dr5xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+-- 
+2.54.0
 
-> +#include <sound/simple_card_utils.h>
-
-We need to ensure that SND_SIMPLE_CARD_UTILS is selected.
-
-> +	if (of_property_present(np, "hp-det-gpios")) {
-> +		ret = simple_util_init_jack(&data->card, &data->hp_jack,
-> +					    1, NULL, "Headphone Jack");
-> +		if (ret)
-> +			goto fail;
-> +	}
->  fail:
-
-The interaction with deferred probe is a bit fun here, we're doing this
-after registering the card which might defer via unbind_card_list now.
-late_probe() might be safer, everything should be mostly up by then.
-
---NyFsfh5e6+CEA30G
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoVvY8ACgkQJNaLcl1U
-h9C4vwf/ajjHtHHhwPmt99KXLyiz8M117WQigkzPq5aOFos1o0Q2SFypW9w7t5mH
-PCYraLdPYViSdlibqfXT1fnGrZmvK4Q6xrIphv+FNZakAeEoU/Sm9yKjVMpP11l+
-bZrhqp6WDUMfgLsZOCmRCwsJDolW+ZN1OWHHk2vROMGve54/FzP9NXgU+BHkuw3n
-7uINB550fzB6XfEMNyifdUxVCfdolaOFmbTEp/NUbQ3pYC20prZQb2jDDmN/jvcq
-GHByGL7MqID2+G5snfxn5yjOhcgsw2S7kXHlSK+3LFxR4MP1VNAdEauzXD2gXv2e
-9jieq1ygWvOXB5BIqgsLjPS3zrVa4A==
-=4uBe
------END PGP SIGNATURE-----
-
---NyFsfh5e6+CEA30G--
