@@ -1,305 +1,155 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4366286425
-	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 15:28:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4133D313520
+	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 15:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779809332; cv=none; b=ZKym6TWdInaFMuAr+pR2BoKK4CDc2x9HhnMTBNVY9XOnokB86GPSbcHZYArQM/PD/iocpnCD3z3WUpeE0+dpSu4RNITZmxN9B4TO9OWSHhPss7iNwj+TlbUbqLOXvcWdiU6SZpTCvnrpKGA+857/NJugoKHlRe60cKymoObeI60=
+	t=1779809405; cv=none; b=CWmLX6jnAWOjr6ABWLvPsRsOGt8lAlb4xbsD9mfQtPSOs1mGdJNUScLejJ3vGu9FvzeepPmgGAx2QTgMZI21imVkQAtrMgpaNYJ1/Eq21ojsW6yBwwfAt97eROH6hPJ+GCZ63p4ZdNiVIQMPu0O/3B8FM42BcSY/+Xj8eQc/Mgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779809332; c=relaxed/simple;
-	bh=QwVaLgolcyijMn+iQhasq9mnU/0lJi5VZNV8SFWqugM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N15IjEiM+KnaSUaTkKyzWMpTSKzANz9J63298IdasdPioqiPw+CFzAPe/cyGWMASjOy1LXK3DT6UqSiduNOtR02rhn187+zX7d5LWyI5JR/bcqiE9ntOwvSvUrix7tZVVSIdE70steIlHtTz2BiFbLKkuICY6Xm933nAda4GiS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PgyFWLDR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/BMLWRJe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PgyFWLDR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/BMLWRJe; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1779809405; c=relaxed/simple;
+	bh=gtARaji0iedyihFboa4MiYFPXacfVkUajiysfN3oeaE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JexInoZXT9CIWS3dmtFdQuqdQQOg5+/r2UJwcozjLg/QNoLvbGNoPa+x/tWqFisgWPZHQt3iufgx0EADrYyvasgvJy7sgjzrOfGiTVkD8MDXHqqBLqmyPzK8Cfc3Tn4CjsYq1MpEq0FpkXNO2BDEE6o6mu+cogCbrcsm8GUflJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=tqufA+hu; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PgyFWLDR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/BMLWRJe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PgyFWLDR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/BMLWRJe"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1B441673B1;
-	Tue, 26 May 2026 15:28:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779809329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Axc24nyCqNF8sRnKa7o4PSO/qw0755mPtaneWr6A5N0=;
-	b=PgyFWLDRXMH3R7mn8WCes1l7GEO6eBw3aQy/15wCkjOZh75sCX/0KSyyntDz2ZqjuaPjLG
-	QFphbr3DpOdlnxeHoZGViD2iyr4/h4YaH8hb2T/0MRnQfEPyeEOqU56Zai7eeGCwg6kDbh
-	nAfhR8BavrJG8UyzxWzvw636WzJwz74=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779809329;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Axc24nyCqNF8sRnKa7o4PSO/qw0755mPtaneWr6A5N0=;
-	b=/BMLWRJe4kHzsXqTARBafvL16u38bO4E2YfQ8vuDH9deHlyx/dCQCMYf0he/PBCNByosaI
-	774GQG3wXnH6llBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779809329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Axc24nyCqNF8sRnKa7o4PSO/qw0755mPtaneWr6A5N0=;
-	b=PgyFWLDRXMH3R7mn8WCes1l7GEO6eBw3aQy/15wCkjOZh75sCX/0KSyyntDz2ZqjuaPjLG
-	QFphbr3DpOdlnxeHoZGViD2iyr4/h4YaH8hb2T/0MRnQfEPyeEOqU56Zai7eeGCwg6kDbh
-	nAfhR8BavrJG8UyzxWzvw636WzJwz74=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779809329;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Axc24nyCqNF8sRnKa7o4PSO/qw0755mPtaneWr6A5N0=;
-	b=/BMLWRJe4kHzsXqTARBafvL16u38bO4E2YfQ8vuDH9deHlyx/dCQCMYf0he/PBCNByosaI
-	774GQG3wXnH6llBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0736E5A293;
-	Tue, 26 May 2026 15:28:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EsEqATG8FWocagAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 26 May 2026 15:28:49 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Zhang Cen <rollkingzzc@gmail.com>
-Subject: [PATCH] ALSA: seq: oss: Fix UAF at handling events with embedded SysEx data
-Date: Tue, 26 May 2026 17:28:41 +0200
-Message-ID: <20260526152843.617503-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="tqufA+hu"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490426d72f7so40850495e9.3
+        for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 08:30:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1779809400; x=1780414200; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1nEjxAN1sA7rfDN69w2hPO+PESN8+FOGSXAcryFYRJQ=;
+        b=tqufA+hu7Jjx0aUFggOOVXILhIkGTmXFa4yMHxgyrvSua8x7kakM4oB0XE8XLbsdjT
+         ApZode0YGocW6+vUmyhHXrXGR6jD0jRCyl1GRaKDMkgP48R2nAjb7QmQ9LUSevpm5Ysl
+         cUmU0VAwqrqE+dLYAtDxMEl5XuYc5oqZuGjuNIlK9AWngGFtgX7N3Xgvx7a30V/aJaC1
+         /HqY0LYhRXwQefKefYqvPbvhSb4J3xruz0UyTBi5bX3rnCtzr7NH5phuwV5KXU4wrO2E
+         Fimly5dkHd5MWEUOrxUa878M9R/8MDCBJDceL7Sp7hfDzJvbUc7B6KCyTv9gwA+Mda63
+         lUvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779809400; x=1780414200;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1nEjxAN1sA7rfDN69w2hPO+PESN8+FOGSXAcryFYRJQ=;
+        b=Nadz79y7NP60srh0wHPDyRJm3I5tLgJykuja/ZHtl3MvMEg9Gs/+Y4X02U9N82t4Fr
+         4bMgM0kobNP2hWWLfBK+GkVlMiH3ynvaq1Dek+6URr22zfeIYkBBFxbpCJ8jRfGptIBv
+         SYjFcGhUqRImLk71ycl7eZOtPwHXBjg/ujeWkV++ZREcjeMfuTVhtCOOuqUBgtps7PER
+         oiUsqRIwiHx1GGwRVLIp7VoyzQqIJiiZr4fK8GfTyh/ssU8AKEbSLc59jTpUIo2Eg2yD
+         VznEHN7avRN3tpSCD79PyGoxtuTwO9uxWImIx+p/ftD/KnQjn94kkwy/VON8zJpTqOTM
+         pJZQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+6dreKNfoEq+L2OQvZ8mhBkUmxsJNR8F4KN8FIr45LdvZzA1s3h7rUWBFq2zZ92QhOj9HEBvLCLkDnPA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTG0b7PncJqB+Df5s0MBXzbg0LygJtXMEkFB2ws67rZfI5v+wi
+	JL5Gs1/Xo090dz8wcwL8g8cNUg/80I7H4gTMyZkOccDMIA3DjZDHuhFZPmSf2E1haws=
+X-Gm-Gg: Acq92OFPOt8qsGfJZygVcQLRAgMCSTfQkw5iP7T6u0h2C4+aJR6V5PYbXDkZ2igQIJq
+	qe+mXCn4ZSMkdaxLGDHmkB00kqHviqnivRbqxe3gVYNELTkU804tcwXLAnDDykl0og0TG98zqA3
+	LdGaDzMzSHd0IliMqSV3xJUlQal1TDkWYAVOQabUTPBNBtWavt0NLbXzLVg68AgQEM/ZVcN+D2h
+	yv+ur5qX68Y5hzknUPz3cHFma6VA5e//RdFOjl21NjPrUWEiyueXznYn5l3HkkTkdpd7MHkDLiC
+	ze1v7mzScUpB7rjwtVRj+ixpDU/HUQ9ujw+1+h442e3iweF4KsurkC2X3ulMsX3UhjbR12myhmQ
+	XykZD4B8WBKpuEjx3dPRXQkVRzpn4nDIqPq3V0FrfO7zEClre/p5q35vCHHAqshucspcTPkQgPI
+	ypEE824s5woN1DW1EFQviEPjT3ZlXz4aX+HIN4exTK9D4=
+X-Received: by 2002:a05:600c:4ecc:b0:48a:557e:6b4f with SMTP id 5b1f17b1804b1-490426d2805mr289300505e9.23.1779809400016;
+        Tue, 26 May 2026 08:30:00 -0700 (PDT)
+Received: from [10.107.1.102] ([212.133.41.39])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6d5caeesm37691140f8f.29.2026.05.26.08.29.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2026 08:29:59 -0700 (PDT)
+From: Luca Weiss <luca.weiss@fairphone.com>
+Subject: [PATCH RFC 0/2] Correctly use TX macro v9.4 for SC7280 / Kodiak
+Date: Tue, 26 May 2026 17:29:53 +0200
+Message-Id: <20260526-sc7280-tx-macro-v1-0-1aad6900fec0@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDUyMz3eJkcyMLA92SCt3cxOSifF1DQ3PLFHMLs8Q0wzQloK6CotS0zAq
+ widFKQW7OSrEQweLSpKzU5BKQWUq1tQBjjlraeAAAAA==
+X-Change-ID: 20260526-sc7280-tx-macro-1179d786af1f
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, cros-qcom-dts-watchers@chromium.org
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ Luca Weiss <luca.weiss@fairphone.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779809398; l=2723;
+ i=luca.weiss@fairphone.com; s=20250611; h=from:subject:message-id;
+ bh=gtARaji0iedyihFboa4MiYFPXacfVkUajiysfN3oeaE=;
+ b=DU6lEr7HK0FtWOqwqRd+8LMDKONgKKPlX25JlgyaJSwT3dFB77t/ULxjshQKkiEu45KTBKZwn
+ vUbIT0oHUXZDoL2/SiTL8lKQUWfJWAZDbv6gsdf3/VihGLLtWnKEmJG
+X-Developer-Key: i=luca.weiss@fairphone.com; a=ed25519;
+ pk=O1aw+AAust5lEmgrNJ1Bs7PTY0fEsJm+mdkjExA69q8=
 
-The OSS sequencer processes the input MIDI bytes into a sequencer
-event to be dispatched later (in snd_seq_oss_midi_putc() called from
-snd_seq_oss_process_event()).  When it's a SysEx data, the event
-record contains data.ext.ptr pointer to the original SysEx bytes, and
-the referred data is copied into the pool afterwards at dispatching.
-The problem is that, if the sequencer port gets closed concurrently
-before the dispatch, the OSS sequencer core also releases the
-resources (in snd_seq_oss_midi_check_exit_port()), while the pending
-event may hold a stale pointer, eventually leading to a UAF at a later
-dispatch.
+With the v9 data, that sc7280 is mistakenly using, the controls will
+have completely wrong names and using wrong code paths that do not apply
+to TX macro v9.4.
 
-Fortunately, there is already a refcounting mechanism (snd_use_lock_t)
-for the OSS MIDI device access, and for addressing the issue above, we
-just need to extend the refcount until the event gets dispatched.
+This is an RFC to get some feedback how to continue.
 
-This patch extends snd_seq_oss_process_event() to give back the
-refcount object, which is in turn released after calling the sequencer
-dispatcher with the given event in the caller side.
+1. We update the "qcom,sc7280-lpass-tx-macro" compatible to 9.4, break
+   unchanged dtbs (the sources are updated in this series) and break UCM
+   until it's updated.
 
-According to the original report, KASAN report as below:
+2. We add a new compatible "qcom,sc7280-lpass-tx-macro-fixed" - name is
+   just a suggestion ;) - and make sure existing boards with audio keep
+   using the old "broken" compatible. This should be completely
+   backwards compatible, since we keep the existing compatible working
+   as-is.
 
-KASAN slab-use-after-free in snd_seq_event_dup+0x40c/0x470
-RIP: 0033:0x7f2cb66a6340
-Read of size 6
-Call trace:
-  dump_stack_lvl+0x73/0xb0 (?:?)
-  print_report+0xd1/0x650 (?:?)
-  srso_alias_return_thunk+0x5/0xfbef5 (?:?)
-  __virt_addr_valid+0x1a7/0x340 (?:?)
-  kasan_complete_mode_report_info+0x64/0x200 (?:?)
-  kasan_report+0xf7/0x130 (?:?)
-  snd_seq_event_dup+0x40c/0x470 (?:?)
-  kasan_check_range+0x10c/0x1c0 (?:?)
-  __asan_memcpy+0x27/0x70 (?:?)
-  snd_seq_event_dup+0x9/0x470 (?:?)
-  snd_seq_client_enqueue_event+0x139/0x240 (?:?)
-  _raw_spin_unlock_irqrestore+0x4b/0x60 (?:?)
-  snd_seq_kernel_client_enqueue+0x102/0x120 (?:?)
-  snd_seq_oss_write+0x416/0x4e0 (?:?)
-  apparmor_file_permission+0x20/0x30 (?:?)
-  odev_write+0x3b/0x60 (?:?)
-  vfs_write+0x1ce/0x850 (?:?)
-  lock_release+0xc8/0x2a0 (?:?)
-  __kasan_check_write+0x18/0x20 (?:?)
-  __mutex_unlock_slowpath+0x129/0x510 (?:?)
-  ksys_write+0xe1/0x180 (?:?)
-  mutex_unlock+0x16/0x20 (?:?)
-  odev_ioctl+0x65/0xc0 (?:?)
-  __x64_sys_write+0x46/0x60 (?:?)
-  x64_sys_call+0x7d/0x20d0 (?:?)
-  do_syscall_64+0xc1/0x360 (arch/x86/entry/syscall_64.c:87)
-  entry_SYSCALL_64_after_hwframe+0x77/0x7f (?:?)
+3. We add some dt flag "qcom,use-correct-tx-macro-version;" and handle
+   the rest similar to option 2, by opting in boards to the updated
+   behavior.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Reported-and-tested-by: Zhang Cen <rollkingzzc@gmail.com>
-Closes: https://lore.kernel.org/20260521233900.478153-1-rollkingzzc@gmail.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+4. We keep everything the same. We know it's wrong, both the
+   audio-routing in dtb and the controls in UCM have incorrect names,
+   but it's working apparently.
+
+Please let me know your thoughts.
+
+As a bit of a note where I'm coming from, I'm working on microphone
+bringup for qcm6490-fairphone-fp5 where so far we've been using
+qcom,sm8450-lpass-tx-macro to get the correct control names. I've tried
+reverting to sc7280-lpass-tx-macro, updating audio-routing in dts and
+UCM to the v9.0 names and it does seem that microphone (AMIC1) is
+working with that, but I'm not particularly happy about leaving the
+wrong control names everywhere, so I'm happy to try and untangle this
+situation.
+
+I'm also not sure where this v9.x actually comes from, maybe I'm lacking
+some documentation, downstream kernel only refers to Bolero v1.x and
+v2.x so these seems to be a completely different versioning system.
+
+Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 ---
- sound/core/seq/oss/seq_oss_event.c | 6 ++++--
- sound/core/seq/oss/seq_oss_event.h | 3 ++-
- sound/core/seq/oss/seq_oss_ioctl.c | 5 ++++-
- sound/core/seq/oss/seq_oss_midi.c  | 6 +++++-
- sound/core/seq/oss/seq_oss_midi.h  | 2 +-
- sound/core/seq/oss/seq_oss_rw.c    | 5 ++++-
- 6 files changed, 20 insertions(+), 7 deletions(-)
+Luca Weiss (2):
+      ASoC: codecs: lpass-tx-macro: Use correct config for sc7280
+      arm64: dts: qcom: kodiak: Fix up LPASS TX macro v9.4 control names
 
-diff --git a/sound/core/seq/oss/seq_oss_event.c b/sound/core/seq/oss/seq_oss_event.c
-index 76fb81077eef..122735862044 100644
---- a/sound/core/seq/oss/seq_oss_event.c
-+++ b/sound/core/seq/oss/seq_oss_event.c
-@@ -39,8 +39,10 @@ static int set_echo_event(struct seq_oss_devinfo *dp, union evrec *rec, struct s
-  */
- 
- int
--snd_seq_oss_process_event(struct seq_oss_devinfo *dp, union evrec *q, struct snd_seq_event *ev)
-+snd_seq_oss_process_event(struct seq_oss_devinfo *dp, union evrec *q,
-+			  struct snd_seq_event *ev, snd_use_lock_t **lockp)
- {
-+	*lockp = NULL;
- 	switch (q->s.code) {
- 	case SEQ_EXTENDED:
- 		return extended_event(dp, q, ev);
-@@ -69,7 +71,7 @@ snd_seq_oss_process_event(struct seq_oss_devinfo *dp, union evrec *q, struct snd
- 		if (snd_seq_oss_midi_open(dp, q->s.dev, SNDRV_SEQ_OSS_FILE_WRITE))
- 			break;
- 		if (snd_seq_oss_midi_filemode(dp, q->s.dev) & SNDRV_SEQ_OSS_FILE_WRITE)
--			return snd_seq_oss_midi_putc(dp, q->s.dev, q->s.parm1, ev);
-+			return snd_seq_oss_midi_putc(dp, q->s.dev, q->s.parm1, ev, lockp);
- 		break;
- 
- 	case SEQ_ECHO:
-diff --git a/sound/core/seq/oss/seq_oss_event.h b/sound/core/seq/oss/seq_oss_event.h
-index b4f723949a17..a4524e51d0e9 100644
---- a/sound/core/seq/oss/seq_oss_event.h
-+++ b/sound/core/seq/oss/seq_oss_event.h
-@@ -91,7 +91,8 @@ union evrec {
- #define ev_is_long(ev) ((ev)->s.code >= 128)
- #define ev_length(ev) ((ev)->s.code >= 128 ? LONG_EVENT_SIZE : SHORT_EVENT_SIZE)
- 
--int snd_seq_oss_process_event(struct seq_oss_devinfo *dp, union evrec *q, struct snd_seq_event *ev);
-+int snd_seq_oss_process_event(struct seq_oss_devinfo *dp, union evrec *q,
-+			      struct snd_seq_event *ev, snd_use_lock_t **lockp);
- int snd_seq_oss_process_timer_event(struct seq_oss_timer *rec, union evrec *q);
- int snd_seq_oss_event_input(struct snd_seq_event *ev, int direct, void *private_data, int atomic, int hop);
- 
-diff --git a/sound/core/seq/oss/seq_oss_ioctl.c b/sound/core/seq/oss/seq_oss_ioctl.c
-index ccf682689ec9..ce7a69d52b30 100644
---- a/sound/core/seq/oss/seq_oss_ioctl.c
-+++ b/sound/core/seq/oss/seq_oss_ioctl.c
-@@ -45,14 +45,17 @@ static int snd_seq_oss_oob_user(struct seq_oss_devinfo *dp, void __user *arg)
- {
- 	unsigned char ev[8];
- 	struct snd_seq_event tmpev;
-+	snd_use_lock_t *lock = NULL;
- 
- 	if (copy_from_user(ev, arg, 8))
- 		return -EFAULT;
- 	memset(&tmpev, 0, sizeof(tmpev));
- 	snd_seq_oss_fill_addr(dp, &tmpev, dp->addr.client, dp->addr.port);
- 	tmpev.time.tick = 0;
--	if (! snd_seq_oss_process_event(dp, (union evrec *)ev, &tmpev)) {
-+	if (!snd_seq_oss_process_event(dp, (union evrec *)ev, &tmpev, &lock)) {
- 		snd_seq_oss_dispatch(dp, &tmpev, 0, 0);
-+		if (lock)
-+			snd_use_lock_free(lock);
- 	}
- 	return 0;
- }
-diff --git a/sound/core/seq/oss/seq_oss_midi.c b/sound/core/seq/oss/seq_oss_midi.c
-index b50a49ca42ff..70f94df65144 100644
---- a/sound/core/seq/oss/seq_oss_midi.c
-+++ b/sound/core/seq/oss/seq_oss_midi.c
-@@ -593,7 +593,8 @@ send_midi_event(struct seq_oss_devinfo *dp, struct snd_seq_event *ev, struct seq
-  *        non-zero : invalid - ignored
-  */
- int
--snd_seq_oss_midi_putc(struct seq_oss_devinfo *dp, int dev, unsigned char c, struct snd_seq_event *ev)
-+snd_seq_oss_midi_putc(struct seq_oss_devinfo *dp, int dev, unsigned char c,
-+		      struct snd_seq_event *ev, snd_use_lock_t **lockp)
- {
- 	struct seq_oss_midi *mdev __free(seq_oss_midi) =
- 		get_mididev(dp, dev);
-@@ -602,6 +603,9 @@ snd_seq_oss_midi_putc(struct seq_oss_devinfo *dp, int dev, unsigned char c, stru
- 		return -ENODEV;
- 	if (snd_midi_event_encode_byte(mdev->coder, c, ev)) {
- 		snd_seq_oss_fill_addr(dp, ev, mdev->client, mdev->port);
-+		/* the caller must release this later */
-+		*lockp = &mdev->use_lock;
-+		snd_use_lock_use(*lockp);
- 		return 0;
- 	}
- 	return -EINVAL;
-diff --git a/sound/core/seq/oss/seq_oss_midi.h b/sound/core/seq/oss/seq_oss_midi.h
-index bcc1683773df..4819d4170bf6 100644
---- a/sound/core/seq/oss/seq_oss_midi.h
-+++ b/sound/core/seq/oss/seq_oss_midi.h
-@@ -26,7 +26,7 @@ void snd_seq_oss_midi_open_all(struct seq_oss_devinfo *dp, int file_mode);
- int snd_seq_oss_midi_close(struct seq_oss_devinfo *dp, int dev);
- void snd_seq_oss_midi_reset(struct seq_oss_devinfo *dp, int dev);
- int snd_seq_oss_midi_putc(struct seq_oss_devinfo *dp, int dev, unsigned char c,
--			  struct snd_seq_event *ev);
-+			  struct snd_seq_event *ev, snd_use_lock_t **lockp);
- int snd_seq_oss_midi_input(struct snd_seq_event *ev, int direct, void *private);
- int snd_seq_oss_midi_filemode(struct seq_oss_devinfo *dp, int dev);
- int snd_seq_oss_midi_make_info(struct seq_oss_devinfo *dp, int dev, struct midi_info *inf);
-diff --git a/sound/core/seq/oss/seq_oss_rw.c b/sound/core/seq/oss/seq_oss_rw.c
-index 307ef98c44c7..111c792bc72c 100644
---- a/sound/core/seq/oss/seq_oss_rw.c
-+++ b/sound/core/seq/oss/seq_oss_rw.c
-@@ -153,6 +153,7 @@ insert_queue(struct seq_oss_devinfo *dp, union evrec *rec, struct file *opt)
- {
- 	int rc = 0;
- 	struct snd_seq_event event;
-+	snd_use_lock_t *lock = NULL;
- 
- 	/* if this is a timing event, process the current time */
- 	if (snd_seq_oss_process_timer_event(dp->timer, rec))
-@@ -164,7 +165,7 @@ insert_queue(struct seq_oss_devinfo *dp, union evrec *rec, struct file *opt)
- 	event.type = SNDRV_SEQ_EVENT_NOTEOFF;
- 	snd_seq_oss_fill_addr(dp, &event, dp->addr.client, dp->addr.port);
- 
--	if (snd_seq_oss_process_event(dp, rec, &event))
-+	if (snd_seq_oss_process_event(dp, rec, &event, &lock))
- 		return 0; /* invalid event - no need to insert queue */
- 
- 	event.time.tick = snd_seq_oss_timer_cur_tick(dp->timer);
-@@ -173,6 +174,8 @@ insert_queue(struct seq_oss_devinfo *dp, union evrec *rec, struct file *opt)
- 	else
- 		rc = snd_seq_kernel_client_enqueue(dp->cseq, &event, opt,
- 						   !is_nonblock_mode(dp->file_mode));
-+	if (lock)
-+		snd_use_lock_free(lock);
- 	return rc;
- }
- 		
--- 
-2.54.0
+ arch/arm64/boot/dts/qcom/qcm6490-idp.dts           |  2 +-
+ .../boot/dts/qcom/qcs6490-radxa-dragon-q6a.dts     |  2 +-
+ arch/arm64/boot/dts/qcom/sc7280-crd-r3.dts         | 22 +++++++++++-----------
+ .../dts/qcom/sc7280-herobrine-audio-wcd9385.dtsi   | 22 +++++++++++-----------
+ .../dts/qcom/sc7280-herobrine-villager-r1.dtsi     | 22 +++++++++++-----------
+ arch/arm64/boot/dts/qcom/sc7280-idp.dtsi           | 22 +++++++++++-----------
+ sound/soc/codecs/lpass-tx-macro.c                  |  9 ++-------
+ 7 files changed, 48 insertions(+), 53 deletions(-)
+---
+base-commit: 550604d6c9b9efc8d068aff94dc301694a7afdee
+change-id: 20260526-sc7280-tx-macro-1179d786af1f
+
+Best regards,
+--  
+Luca Weiss <luca.weiss@fairphone.com>
 
