@@ -1,62 +1,38 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAFC3D9DAB
-	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 10:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A500352018;
+	Tue, 26 May 2026 11:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779793065; cv=none; b=NjTsW5fAwoM5SIIpyy40HD/ztPt2y62y6fw91M4928XvvmE6yv+uIWSjDBXsAnStRqR+xR5gkdXt5es9/08Pop0w9APy02nQs60mt9CjjYIdGIq8N9wwESwu/sGOJKUqhvb0R3c3xZIG8I++8UtBESjDaHhhWmZXRLBM/WlXVIE=
+	t=1779794398; cv=none; b=ZcNM1qFDdC73p6FrEYgU/TA2clpx5xlGfYhC1J8j4gnNRiEX1AxlRGFwW5fT8PUsiOtXbz2CIytfcUkufCFdvpR4AWdeov6LT38Mh2MUJD7i9eeglYwY7Qo/1YkjeqItuFy0tbtiVoSHrmOWpKzPKqd/K+D6knOn8Jw24Jn7h2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779793065; c=relaxed/simple;
-	bh=YVtLqCTpqoMpogS8BpVTBChrhIymVzXuW49dFhEhJWQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hTtGHqkrMhpIqVVHS/Wh2JDxCEfN3JxTgt9DOz30+p4pHaJC6LKxhp5FWAqLDQMy69iaukAr13GwS1KV2WfYlTunZeMS2H/3yDWLmQ6Bx1PdmHF12eEiUwv+2JCLJktbAeuF6Th6+pOEGKuz4bOMVmQIcmhkCbqjjZi5yAbMWM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E58Om75F; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E58Om75F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779793064; x=1811329064;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=YVtLqCTpqoMpogS8BpVTBChrhIymVzXuW49dFhEhJWQ=;
-  b=E58Om75Ftw38rluJjqum6xEafahcKdGlFiDC0LlGDGn/8In3oOQCESsR
-   dPYJWpFFVRTI167YruReLJyj5NbnqSAhWIOfdaY9YWUpiFHVnn7L+mDz6
-   tFdzhB9w6B2utyXTHr//OwlRGT19r+QcHdGKtQ7PA8YTQicPd5xCbPaXL
-   btBhZlfUyTEZLyuu0mf8xb8FvSuIB6ekB7tEFnB9BCr3Xojsl3Nju77kh
-   FcN2Wu+28qeSEsEK+m4M3ksnnptGE+vFPI1QG0YsejUBmi6RhL++1idos
-   medpO7aSUpF+HAO+jPqTOeKlO7ZIdqjyi/zT25x8ES7ypN6y7vsZ97IaL
-   g==;
-X-CSE-ConnectionGUID: 5plkj0H2RrGW7i689xLN3Q==
-X-CSE-MsgGUID: cd54JmYaS8+WIMvHRQE4nA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="91709709"
-X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
-   d="scan'208";a="91709709"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 03:57:44 -0700
-X-CSE-ConnectionGUID: raX9A4YvQVSUNvdS+HO7+w==
-X-CSE-MsgGUID: 0Jaed5nQQjG6c1tqVnsJTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
-   d="scan'208";a="238869053"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.49])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 03:57:42 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
+	s=arc-20240116; t=1779794398; c=relaxed/simple;
+	bh=WQ4SdafjrpdwH5ugIfFTqVp5aZ5MRpu9oaEXrPEbYjk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CvyQOvPmG886tnC+dorbWwq2aBpxUb8+zrDrmXr8/G/4PTljxHgSP6+TVXcmzqZY01y3zr/PVYCVw/0yhVwKRVnD/FRSc+cW5KDtPjRJHbsAqEeSwTtZHaCJiO9eO+9dM8NCBDGMwCBIPk90hVJ8Zujh3h/WpDoCjj0w+n+d31g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.68.59])
+	by gateway (Coremail) with SMTP id _____8CxRXjYgRVqQGENAA--.13838S3;
+	Tue, 26 May 2026 19:19:52 +0800 (CST)
+Received: from kernelserver (unknown [223.64.68.59])
+	by front1 (Coremail) with SMTP id qMiowJBx58DTgRVqGomRAA--.57362S2;
+	Tue, 26 May 2026 19:19:51 +0800 (CST)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Huacai Chen <chenhuacai@kernel.org>
 Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	seppo.ingalsuo@linux.intel.com
-Subject: [PATCH v2 2/2] ASoC: SOF: ipc4-topology: Allow the use of multiple formats for src output
-Date: Tue, 26 May 2026 13:57:48 +0300
-Message-ID: <20260526105748.26149-3-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260526105748.26149-1-peter.ujfalusi@linux.intel.com>
-References: <20260526105748.26149-1-peter.ujfalusi@linux.intel.com>
+	linux-kernel@vger.kernel.org,
+	Xuerui Wang <kernel@xen0n.name>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	stable@vger.kernel.org,
+	Baoqi Zhang <zhangbaoqi@loongson.cn>,
+	Haowei Zheng <zhenghaowei@loongson.cn>
+Subject: [PATCH] ALSA: hda/hdmi: Use 'AC_PINSENSE_ELDV' to detect pinsense for Loongson
+Date: Tue, 26 May 2026 19:19:40 +0800
+Message-ID: <20260526111940.2347847-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -64,89 +40,102 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJBx58DTgRVqGomRAA--.57362S2
+X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoWxZr17Cw48tr43GryxAF1rZrc_yoW5Aw1xpF
+	n5urWxKrW3tr4Iyrs5ArykuF1SkayrC3W7K34xt34UZrs5KrWrXw1qqrWUXF4akr9IgFyx
+	Zry2gr95tay3JabCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Yb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+	XVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
+	AKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v2
+	6r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
+	CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
+	0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
+	AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIev
+	Ja73UjIFyTuYvjxU2MKZDUUUU
 
-The SRC module can only change the rate, it keeps the format and channels
-intact, but this does not mean the num_output_formats must be 0:
-The SRC module can support different formats/channels, we just need to
-check if the output format lists the correct combination of out rate and
-the input format/channels.
+Due to a hardware defect, for Loongson PCI HDMI devices with a reversion
+ID of 2, the pin sense status must be determined via the ELD.
 
-Change the logic to prioritize the sink_rate of the module as target rate,
-then the rate of the FE in case of capture or in case of playback check the
-single rate specified in the output formats.
+Add a codec flag, eld_jack_detect, to indicate this case, and do special
+handlings in read_pin_sense().
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Baoqi Zhang <zhangbaoqi@loongson.cn>
+Signed-off-by: Haowei Zheng <zhenghaowei@loongson.cn>
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 ---
- sound/soc/sof/ipc4-topology.c | 46 +++++++++++++++++++++++------------
- 1 file changed, 30 insertions(+), 16 deletions(-)
+ include/sound/hda_codec.h    | 1 +
+ sound/hda/codecs/hdmi/hdmi.c | 8 +++++++-
+ sound/hda/common/jack.c      | 4 ++++
+ 3 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index cefb7fdcfb5b..95ad5266b0c6 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -2649,16 +2649,6 @@ static int sof_ipc4_prepare_src_module(struct snd_sof_widget *swidget,
- 	if (input_fmt_index < 0)
- 		return input_fmt_index;
+diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
+index 24581080e26a..1a1fe7a904c3 100644
+--- a/include/sound/hda_codec.h
++++ b/include/sound/hda_codec.h
+@@ -259,6 +259,7 @@ struct hda_codec {
+ 	unsigned int forced_resume:1; /* forced resume for jack */
+ 	unsigned int no_stream_clean_at_suspend:1; /* do not clean streams at suspend */
+ 	unsigned int ctl_dev_id:1; /* old control element id build behaviour */
++	unsigned int eld_jack_detect:1;	/* Machine jack-detection by ELD */
  
--	/*
--	 * For playback, the SRC sink rate will be configured based on the requested output
--	 * format, which is restricted to only deal with DAI's with a single format for now.
--	 */
--	if (dir == SNDRV_PCM_STREAM_PLAYBACK && available_fmt->num_output_formats > 1) {
--		dev_err(sdev->dev, "Invalid number of output formats: %d for SRC %s\n",
--			available_fmt->num_output_formats, swidget->widget->name);
--		return -EINVAL;
--	}
--
- 	/*
- 	 * SRC does not perform format conversion, so the output channels and valid bit depth must
- 	 * be the same as that of the input.
-@@ -2668,12 +2658,36 @@ static int sof_ipc4_prepare_src_module(struct snd_sof_widget *swidget,
- 	out_ref_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(in_audio_fmt->fmt_cfg);
- 	out_ref_type = sof_ipc4_fmt_cfg_to_type(in_audio_fmt->fmt_cfg);
+ 	unsigned long power_on_acct;
+ 	unsigned long power_off_acct;
+diff --git a/sound/hda/codecs/hdmi/hdmi.c b/sound/hda/codecs/hdmi/hdmi.c
+index f20d1715da62..423cd9f683c6 100644
+--- a/sound/hda/codecs/hdmi/hdmi.c
++++ b/sound/hda/codecs/hdmi/hdmi.c
+@@ -2285,6 +2285,7 @@ EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_acomp_init, "SND_HDA_CODEC_HDMI");
+ enum {
+ 	MODEL_GENERIC,
+ 	MODEL_GF,
++	MODEL_LOONGSON,
+ };
  
--	/*
--	 * For capture, the SRC module should convert the rate to match the rate requested by the
--	 * PCM hw_params. Set the reference params based on the fe_params unconditionally as it
--	 * will be ignored for playback anyway.
--	 */
--	out_ref_rate = params_rate(fe_params);
-+	if (src->data.sink_rate) {
-+		/* Use the sink rate as reference */
-+		out_ref_rate = src->data.sink_rate;
-+	} else if (dir == SNDRV_PCM_STREAM_CAPTURE) {
-+		/*
-+		 * Use the fe rate as reference for capture if the sink rate is
-+		 * not set since we need to convert to the rate the PCM device
-+		 * is openned with
-+		 */
-+		out_ref_rate = params_rate(fe_params);
-+	} else {
-+		/*
-+		 * Otherwise try to guess what the rate should be:
-+		 * The output formats must have single rate specified if the
-+		 * sink rate is not set for an SRC in playback path.
-+		 */
-+		int i;
-+
-+		out_audio_fmt = &available_fmt->output_pin_fmts[0].audio_fmt;
-+		out_ref_rate = out_audio_fmt->sampling_frequency;
-+		for (i = 1; i < available_fmt->num_output_formats; i++) {
-+			out_audio_fmt = &available_fmt->output_pin_fmts[i].audio_fmt;
-+			if (out_ref_rate != out_audio_fmt->sampling_frequency) {
-+				dev_err(sdev->dev,
-+					"Cannot determine the output rate for SRC: %s\n",
-+					swidget->widget->name);
-+				return -EINVAL;
-+			}
-+		}
+ static int generichdmi_probe(struct hda_codec *codec,
+@@ -2302,6 +2303,11 @@ static int generichdmi_probe(struct hda_codec *codec,
+ 	if (id->driver_data == MODEL_GF)
+ 		codec->no_sticky_stream = 1;
+ 
++	if (id->driver_data == MODEL_LOONGSON) {
++		if (codec->bus && codec->bus->pci->revision == 0x2)
++			codec->eld_jack_detect = 1; /* Jack-detection by ELD */
 +	}
++
+ 	return 0;
+ }
  
- 	output_fmt_index = sof_ipc4_init_output_audio_fmt(sdev, swidget,
- 							  &src->data.base_config,
+@@ -2319,7 +2325,7 @@ static const struct hda_codec_ops generichdmi_codec_ops = {
+ /*
+  */
+ static const struct hda_device_id snd_hda_id_generichdmi[] = {
+-	HDA_CODEC_ID_MODEL(0x00147a47, "Loongson HDMI",		MODEL_GENERIC),
++	HDA_CODEC_ID_MODEL(0x00147a47, "Loongson HDMI",		MODEL_LOONGSON),
+ 	HDA_CODEC_ID_MODEL(0x10951390, "SiI1390 HDMI",		MODEL_GENERIC),
+ 	HDA_CODEC_ID_MODEL(0x10951392, "SiI1392 HDMI",		MODEL_GENERIC),
+ 	HDA_CODEC_ID_MODEL(0x11069f84, "VX11 HDMI/DP",		MODEL_GENERIC),
+diff --git a/sound/hda/common/jack.c b/sound/hda/common/jack.c
+index 98ba1c4d5ba4..1f0ebf9cd151 100644
+--- a/sound/hda/common/jack.c
++++ b/sound/hda/common/jack.c
+@@ -58,6 +58,10 @@ static u32 read_pin_sense(struct hda_codec *codec, hda_nid_t nid, int dev_id)
+ 				  AC_VERB_GET_PIN_SENSE, dev_id);
+ 	if (codec->inv_jack_detect)
+ 		val ^= AC_PINSENSE_PRESENCE;
++	if (codec->eld_jack_detect) {
++		val &= ~AC_PINSENSE_PRESENCE;
++		val |= !!(val & AC_PINSENSE_ELDV) << 31;
++	}
+ 	return val;
+ }
+ 
 -- 
-2.54.0
+2.52.0
 
