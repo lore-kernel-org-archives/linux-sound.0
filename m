@@ -1,76 +1,215 @@
-Received: from mxout0bln1.prossl.de (mxout0bln1.prossl.de [91.233.87.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8E518A6D4
-	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 16:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.233.87.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06193CC316
+	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 16:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779813006; cv=none; b=vB14PTgzV0jqFsE/jAQMJEAEWzQlef3qMlFbxeZ0vIFoycsytNdDWq3iXlCpITzMWq3cFmAaL63iJtCKe0blMXsOv/M1Ie/EZdZNpOEJdmlHTXa0Uf8hFv1LGhZ7TCG7G8XAhcC0bk2bkKIR7VoxJgpDQLodpfX4f0NvzE1+ODo=
+	t=1779813757; cv=none; b=pAKA4kn14cefLN6+/ulCi89UDnZpI2C2S1S9zY0AKqXLyEd6I+tzvt8BW7Nc5wBkouQDSUlYzyJie4OtkOv/p5tcsD77eS+Z7QYbNkeU0PTKwRMVmmKIle+3TROglcMc/ZaAM5W6xcajClj55G9UVZbk9e6dAbplRV8orCLK5/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779813006; c=relaxed/simple;
-	bh=o+lztccrPENBdk8NkGcm3q4+1BJwNxPxhT0Z7tlhsmg=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=cWIo9kt95A6WdPxsSItQd0WD9wUEph7FXgzWz/udYjPOpoYXhAa0bS8W6X6Ay7dvYTEHUyF5TD03Q4CMKfIw1ew9cR015ERg4ciZ9kfELsMxqpd/ZnsjN1VjP2pFTbhP0yvMW6KUMPjKOmRRarYq820u/dkbZeDvkW8Tly8J4RA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kuechler.org; spf=pass smtp.mailfrom=kuechler.org; dkim=pass (1024-bit key) header.d=prossl.de header.i=@prossl.de header.b=sS2T9uD7; arc=none smtp.client-ip=91.233.87.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kuechler.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kuechler.org
+	s=arc-20240116; t=1779813757; c=relaxed/simple;
+	bh=Hob40qwKvUWnDU1XH0U6FXT13Xi/0pKs2EI5aCqRit0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EtwFZCzW9xcZEnZ6U2mrOub1XEES8daG/z/ZDLP1/Ixf6CMIbmPpaJo7BpjZlCSeiyQTuf1RKYOmHeARNdR95Sh9H/JBiUqrQKyJGzuy4b8HQn0KuocLnVej8GGka3dJkNH90eUg1RUh0pxOGg/WrABTHqywa0MwU55vwyxcp1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2G34wOTo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Phng+Iuj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jVKokxCV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1twmVmzp; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=prossl.de header.i=@prossl.de header.b="sS2T9uD7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prossl.de; s=prho21;
-	t=1779810932; bh=heHX7C/LNO851SYljN9WKtDv5Pe6RGMZQ9j6HVGYs9s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sS2T9uD7rC5tfaJ6XN2+kyjsKSpGzePx0F5AKVq6UXFfNRg5cvNb3dY3tZY3HYjlw
-	 nc5rXwyJJIoqxIn1pePKQSIWFZBL6MHMbNUi0kuNput0/6x6NaA5FdCzYATK9rTgOF
-	 cJAMmB+ME8hFYoa2MTQnxGPPS9NpX7Bkwt+/9HfM=
-Received: from mx1bln1.prossl.de (localhost.localdomain [127.0.0.1])
-	(authenticated bits=0)
-	by localhost.localdomain (8.18.1/8.18.1) with ESMTPA id 64QFtWkZ085257;
-	Tue, 26 May 2026 17:55:32 +0200
-Received: from
- 8/DGk5CxK+Lqiu6Iv+usXxSA7uXF01jHYVfkl2IB0+fdnWZyzAnQNA+wKQJo1FY4
- (j2IyS5vYhfDvr6L9Oo2+SalL5DsXXTgDLbbnOAlPoEE=)
- by mx1bln1.prossl.de
- with HTTP (HTTP/2.0 POST); Tue, 26 May 2026 17:55:32 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2G34wOTo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Phng+Iuj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jVKokxCV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1twmVmzp"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 594E16B024;
+	Tue, 26 May 2026 16:42:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779813754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+eCAIvWr7aBkrXJc7ki1VVtMNpUSW/oiHZQLZvx7D3w=;
+	b=2G34wOToGbiowbnJxIjwRxBDGpIG1S3cSk7EA5UXqPoeM4Dr931CC+nsaZzV8jv4fQd7BO
+	wffkqdL9ShFFBtrlONRm6w0/1p++jKGnSg7wnFElVtjfOZzemAU66rglk9KH2uwpy5LuUi
+	QrjTBK7K2MhjYFVHIGYnO2ycyQqL5vQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779813754;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+eCAIvWr7aBkrXJc7ki1VVtMNpUSW/oiHZQLZvx7D3w=;
+	b=Phng+Iuj4dkDX5KUP/XXrco2qtKIL4v24lwNoCgOyNG1wFZCwxQtdP74Gu0WUFJB3KPt7O
+	DY205Z9/9kGe1lCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779813750; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+eCAIvWr7aBkrXJc7ki1VVtMNpUSW/oiHZQLZvx7D3w=;
+	b=jVKokxCVA917BrMcLhzDcqhNo/wmt7mJSB3/1qCq+FRmO4GJ3MK9sfeIIlvhxkyOabpbsW
+	oh4ESr3dPlpDeRAGHPbWCT2kApIod+BwzKRz6dSyKYbAuY5dmHqvQ8dh801dfvTqvGE2nT
+	2AJd7uLWwle8TNj3FzjXM8xlwqPqyAY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779813750;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+eCAIvWr7aBkrXJc7ki1VVtMNpUSW/oiHZQLZvx7D3w=;
+	b=1twmVmzpu/DAysSARcv+sooyBfpfD2Lnb6NV6Tt9AX1qaOjZsk/Vjy1w1fJUC9Y/VqdLio
+	N57di0VBYZNiPLBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 09ECE5A2DC;
+	Tue, 26 May 2026 16:42:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id uzlEAXbNFWrqNAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 26 May 2026 16:42:30 +0000
+Date: Tue, 26 May 2026 18:42:29 +0200
+Message-ID: <87cxyixgui.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Huacai Chen <chenhuacai@loongson.cn>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xuerui Wang <kernel@xen0n.name>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	stable@vger.kernel.org,
+	Baoqi Zhang <zhangbaoqi@loongson.cn>,
+	Haowei Zheng <zhenghaowei@loongson.cn>
+Subject: Re: [PATCH] ALSA: hda/hdmi: Use 'AC_PINSENSE_ELDV' to detect pinsense for Loongson
+In-Reply-To: <87pl2ixmxj.wl-tiwai@suse.de>
+References: <20260526111940.2347847-1-chenhuacai@loongson.cn>
+	<87pl2ixmxj.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Date: Tue, 26 May 2026 17:55:32 +0200
-From: =?UTF-8?Q?Uwe_K=C3=BCchler?= <uwe@kuechler.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, perex@perex.cz, tiwai@suse.com
-Subject: Re: [PATCH] ALSA: usb-audio: Add quirk for Novation Mininova
-In-Reply-To: <87mrxmxmq8.wl-tiwai@suse.de>
-References: <20260526133517.17485-1-uwe@kuechler.org>
- <87mrxmxmq8.wl-tiwai@suse.de>
-User-Agent: prohost webmail
-Message-ID: <e051f3bf3f9b23fdee72c78d49a97ddd@kuechler.org>
-X-Sender: uwe@kuechler.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Null-Tag: 1382cd895b5913366cd9c16e7cf16143
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[loongson.cn:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 
-
-
-On 26.05.2026 16:35, Takashi Iwai wrote:
-> On Tue, 26 May 2026 15:35:17 +0200,
-> Uwe Kuechler wrote:
->> 
->> Add a device-specific quirk for the Novation Mininova synthesizer
->> (USB ID 1235:001e) to enable proper recognition and functionality
->> as a MIDI device.
->> 
+On Tue, 26 May 2026 16:31:04 +0200,
+Takashi Iwai wrote:
 > 
-> A very slight optimization is to use QUIRK_DATA_RAW_BYTES(0) like
-> Novation Speedio or Nocturn (see the entries above yours).  Also, you
-> don't have to pass vendor_name and product_name fields unless the
-> firmware gives something bogus, too.
+> On Tue, 26 May 2026 13:19:40 +0200,
+> Huacai Chen wrote:
+> > 
+> > Due to a hardware defect, for Loongson PCI HDMI devices with a reversion
+> > ID of 2, the pin sense status must be determined via the ELD.
+> > 
+> > Add a codec flag, eld_jack_detect, to indicate this case, and do special
+> > handlings in read_pin_sense().
+> > 
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Baoqi Zhang <zhangbaoqi@loongson.cn>
+> > Signed-off-by: Haowei Zheng <zhenghaowei@loongson.cn>
+> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> > ---
+> >  include/sound/hda_codec.h    | 1 +
+> >  sound/hda/codecs/hdmi/hdmi.c | 8 +++++++-
+> >  sound/hda/common/jack.c      | 4 ++++
+> >  3 files changed, 12 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
+> > index 24581080e26a..1a1fe7a904c3 100644
+> > --- a/include/sound/hda_codec.h
+> > +++ b/include/sound/hda_codec.h
+> > @@ -259,6 +259,7 @@ struct hda_codec {
+> >  	unsigned int forced_resume:1; /* forced resume for jack */
+> >  	unsigned int no_stream_clean_at_suspend:1; /* do not clean streams at suspend */
+> >  	unsigned int ctl_dev_id:1; /* old control element id build behaviour */
+> > +	unsigned int eld_jack_detect:1;	/* Machine jack-detection by ELD */
+> >  
+> >  	unsigned long power_on_acct;
+> >  	unsigned long power_off_acct;
+> > diff --git a/sound/hda/codecs/hdmi/hdmi.c b/sound/hda/codecs/hdmi/hdmi.c
+> > index f20d1715da62..423cd9f683c6 100644
+> > --- a/sound/hda/codecs/hdmi/hdmi.c
+> > +++ b/sound/hda/codecs/hdmi/hdmi.c
+> > @@ -2285,6 +2285,7 @@ EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_acomp_init, "SND_HDA_CODEC_HDMI");
+> >  enum {
+> >  	MODEL_GENERIC,
+> >  	MODEL_GF,
+> > +	MODEL_LOONGSON,
+> >  };
+> >  
+> >  static int generichdmi_probe(struct hda_codec *codec,
+> > @@ -2302,6 +2303,11 @@ static int generichdmi_probe(struct hda_codec *codec,
+> >  	if (id->driver_data == MODEL_GF)
+> >  		codec->no_sticky_stream = 1;
+> >  
+> > +	if (id->driver_data == MODEL_LOONGSON) {
+> > +		if (codec->bus && codec->bus->pci->revision == 0x2)
+> > +			codec->eld_jack_detect = 1; /* Jack-detection by ELD */
+> > +	}
+> > +
+> >  	return 0;
+> >  }
+> >  
+> > @@ -2319,7 +2325,7 @@ static const struct hda_codec_ops generichdmi_codec_ops = {
+> >  /*
+> >   */
+> >  static const struct hda_device_id snd_hda_id_generichdmi[] = {
+> > -	HDA_CODEC_ID_MODEL(0x00147a47, "Loongson HDMI",		MODEL_GENERIC),
+> > +	HDA_CODEC_ID_MODEL(0x00147a47, "Loongson HDMI",		MODEL_LOONGSON),
+> >  	HDA_CODEC_ID_MODEL(0x10951390, "SiI1390 HDMI",		MODEL_GENERIC),
+> >  	HDA_CODEC_ID_MODEL(0x10951392, "SiI1392 HDMI",		MODEL_GENERIC),
+> >  	HDA_CODEC_ID_MODEL(0x11069f84, "VX11 HDMI/DP",		MODEL_GENERIC),
+> > diff --git a/sound/hda/common/jack.c b/sound/hda/common/jack.c
+> > index 98ba1c4d5ba4..1f0ebf9cd151 100644
+> > --- a/sound/hda/common/jack.c
+> > +++ b/sound/hda/common/jack.c
+> > @@ -58,6 +58,10 @@ static u32 read_pin_sense(struct hda_codec *codec, hda_nid_t nid, int dev_id)
+> >  				  AC_VERB_GET_PIN_SENSE, dev_id);
+> >  	if (codec->inv_jack_detect)
+> >  		val ^= AC_PINSENSE_PRESENCE;
+> > +	if (codec->eld_jack_detect) {
+> > +		val &= ~AC_PINSENSE_PRESENCE;
+> > +		val |= !!(val & AC_PINSENSE_ELDV) << 31;
+> > +	}
 > 
-OK, I tested your suggestions in a new build and everything (MIDI 
-in/out, Extra Data, identification) works as expected.
-Revised patch coming up in a minute.
+> IMO it's worth for a comment in the above; basically it's faking the
+> AC_PINSENSE_PRESENCE from AC_PINSENSE_ELDV bit, which explains the
+> magic shift number.
 
-Thanks, Uwe
+... or an idiomatic form would be even simpler & safer:
+
+		if (val & AC_PINSENSE_ELDV)
+			val |= AC_PINSENSE_PRESENCE;
+		else
+			val &= ~AC_PINSENSE_PRESENCE;
+
+
+thanks,
+
+Takashi
