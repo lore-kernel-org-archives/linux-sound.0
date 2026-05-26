@@ -1,219 +1,217 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011006.outbound.protection.outlook.com [52.101.125.6])
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11013022.outbound.protection.outlook.com [40.107.44.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F64D2D97BA;
-	Tue, 26 May 2026 01:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F5D2DF15C;
+	Tue, 26 May 2026 01:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.22
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779760737; cv=fail; b=u0dsWzLEb70D/o9w6q1vfW2bjAqMAPYoQSyn9oTedjAt+YRDiJLH8vA5nuy0XuJcSWtYPaJtdwQNO7lemCVIIjtMauLC+dT4i/KKHxpjU6VqrP+jMBzW7040u+0p9giJU2/BSeCoaSfDLh8cj65WneNlM+sMi8D/CEP215I1Ls4=
+	t=1779760740; cv=fail; b=o8OtKKitd+mcqFGO/ICR7G/hdxsV6hllp5CTI1Tj7FFqUirInDVNHkwOXDml6dakhTtEP6PFZxrNtz+qoTSn62m4/0TBtk3+GqZjZ2NMnVIYh8+BfJWjZsMytYnwPwmUYzF/ZH1ZNi7BNOVUvtVeCNRWM7o7LJsF03cNmrcO+ko=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779760737; c=relaxed/simple;
-	bh=eMAtPwbtMVUNazlyVhh6TN3UW73DM1mKqHA7hZgJoIE=;
-	h=Message-ID:To:From:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=RlkBr9bGvv3BVHrg6px/TcVmICTc7LXOvL8D9SGUiwKQ3oWnezVzjRjf+pwM2ukcACyz6yrwx79E/RQX17b09vW/1JEC4Doa7XYD//gjJFRwAk7lITg85N3H8+aN76IiTa4x8ONBLSY412l873Qv3i2oxwNOisPBAr2LJvVZwlA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=B8vkwXde; arc=fail smtp.client-ip=52.101.125.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	s=arc-20240116; t=1779760740; c=relaxed/simple;
+	bh=B+beyt6bp1/wSZYXzSSOVJZbRF6QR/i3P4CR5D92oDA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FvNQLMPZ3CPwlDIl4DWLBxnFVwlUIHxTeQQQ8isGUgq/DMnFTY0jGo0jPbJJKIJzuwoM+aF05KmMIri0Qq/8elxhzSU4s9NOTnZHCuyex/2ZpB8SKUioCTCzDqWU35Pp1B8JY3uiQRXW++xrxZesR8EuJuIo3HLAkUC08FsAnGw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com; spf=pass smtp.mailfrom=nuvoton.com; dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b=hxHeCgJL; arc=fail smtp.client-ip=40.107.44.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuvoton.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="B8vkwXde"
+	dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b="hxHeCgJL"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=divtqSIvQzvW7zwImk0MC1/lKeevg1ldWgI2gIrU7160mUjXn+ak/Tg1wmMFxtJVMgx6zliQvRNZmOXJCd4qdBi1PnYzpmK50o3kmSgJHpVn9XlQCFLUG99qBRN6XDVWwc/4607TJBp3ZB0xyyHRR+jjxYfzhxBUWfOtiQsCwVsqeEJttuDt/anuaepiyeMFV7Hl5aQqb8WzLymDSaHhWnYTq3rH1AUwaefw9LsHywTj5yLhsOzkJhzmwuC+Bvt1mAnoQ6bs4gadxpgjfH9a93lqIkv/2OcyHzlhf2L9Ux1Rr7Iort2z4UPj86ku/KlhM65yhjs0v0tlZOH+IbxubQ==
+ b=jucLbyTBXJjFacigzyFiTT12geBpYTTHObovHu/UhV79l8qNH9BIWp6IOdYmFGkhCjfdpo0W9nPVVW0giqeKEoW/nmWxeGEnDJTNWWJKLO82BQgDaYKjkXcv8N4KcQup6w1xzsGg5r20EzJUxOcjCN8+XlK0YEFrAYlpUNyJS1gnVgcx8hPi8Asl0hUePM85Ltzm+QiHNIMGi1mUl9hricGw4TdcUXeAkVOHmwvU3+XaS1IKBWiEGjHU8Uq5QazSlX4ckF3wChG1a/Exmt62K4F0LUsaZRV/Hgxhn14Q9vpO6HZLxLXr2zAtbia0OSsAKQJ3YgKHrvrVr9vxbbO1Ow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Fd7A+iiGXdIPZmRJyElvKJWQx8+0T/SavFGh2Ol9R00=;
- b=dQ1xfWqJxIcSgHL+BBVwWaQzc+TYujueBiShGjg0/t/nYIR14r1kAZjqEou8iG5V2g7jAq6xFjtlOd4qaj79PTooF9tfe0XbfS6cnztBztrI7pn7MqvN1be+Bz3JRZWshy1L6BZZDK5OmTJVQGipNYhOWqWLh90C6ZEqGusw0UM8193Rs2kp/N5a7RWX2o6xFPgpbIl27Me9tIo7fRrGr+7SLyjIFRnqJrZPCmkyP+phDmAs3R0uHuGK5tr77bxt/8o5gvB7VSJqzTCOrAB2lJEwdn8avfZpkjzlRs0G+plF+u3/1A2V2s+7vHwqUDlILIlJIUI6VN2eBkxZ0V1D8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ bh=dUhwDJEYLcrdiWWKN8kweVmx04Xk5P4rCV+9vl7mvA8=;
+ b=Xn2xbMzp19P63LGeQ0zLDRCjDkc7jetC58e26hw4m4w8ZXo6jFW/03t0JTX+GhHbPxPWeIOnFRDYcKINSH0zAY3qwmKZ79im6fDU4tZ4Oo/P7vCs1QTbXeifZcYlhSG5gktyt/brqMXA8e65tHCv2CyKMQ04tvSihGw5wYqJLa6SMfKvPcwIoJ5NXpE4sN8p5oBHGaPfQDrFLnBN6ukCbsHWsKRB/ZQznY2PAzYei7ja2VaOcTPtiwRiwp6VuMwLLBONqle1nQgwAiZYYjb5WIRYyNsnFjFsKD2eKzK9xn5TDemrjrPHvWRxvwMBW5AA9P1Xf00yspH/ghK9+ncfqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 175.98.123.7) smtp.rcpttodomain=kernel.org smtp.mailfrom=nuvoton.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=nuvoton.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuvoton.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fd7A+iiGXdIPZmRJyElvKJWQx8+0T/SavFGh2Ol9R00=;
- b=B8vkwXdeK1RSyc+rl5FXrNxIaVoAuqpcupBNIh/UNf9MYXsEjicMxH3qsJ/prsVb/Z9MOqYEzpCT1MbICtk6bE28oYiufjMv52i6/t356OROaYgYrulM+E59l1zCM0MZ0jHbnTmTGp7e4+uQau2/9WfQPyOyBB/XagxdxfmO+SU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by OSZPR01MB6599.jpnprd01.prod.outlook.com (2603:1096:604:112::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Tue, 26 May
- 2026 01:58:52 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0048.019; Tue, 26 May 2026
- 01:58:51 +0000
-Message-ID: <87zf1nhqxx.wl-kuninori.morimoto.gx@renesas.com>
-To: =?ISO-8859-2?Q?=22Alvin_=A9ipraga=22?= <alsi@bang-olufsen.dk>,
- "J.M.B. Downing" <jonathan.downing@nautel.com>, =?ISO-8859-2?Q?=22Martin_?=
- =?ISO-8859-2?Q?Povi=B9er=22?= <povik+lin@cutebit.org>,
- =?ISO-8859-1?Q?=22Nuno_S=E1=22?= <nuno.sa@analog.com>, =?ISO-8859-1?Q?=22?=
- =?ISO-8859-1?Q?Uwe_Kleine-K=F6nig_=28The_Capable_Hub=29=22?=
- <u.kleine-koenig@baylibre.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Arnaud Pouliquen
- <arnaud.pouliquen@foss.st.com>, Baojun Xu <baojun.xu@ti.com>, Bartosz
- Golaszewski <brgl@kernel.org>, Ben Bright <ben.bright@cirrus.com>, Benson
- Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Binbin
- Zhou <zhoubinbin@loongson.cn>, Bram Vlerick
- <bram.vlerick@openpixelsystems.org>, Charles Keepax
- <ckeepax@opensource.cirrus.com>, Chen-Yu Tsai <wens@kernel.org>, Cheng-Yi
- Chiang <cychiang@chromium.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Daniel Mack
- <daniel@zonque.org>, Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- David Rhodes <david.rhodes@cirrus.com>, Fabio Estevam <festevam@gmail.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Frank Li
- <Frank.Li@nxp.com>, Fred Treven <fred.treven@cirrus.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Guenter Roeck
- <groeck@chromium.org>, Guoqing Jiang <guoqing.jiang@canonical.com>, Haojian
- Zhuang <haojian.zhuang@gmail.com>, HariKrishna Sagala
- <hariconscious@gmail.com>, Heiko Stuebner <heiko@sntech.de>, Herve Codina
- <herve.codina@bootlin.com>, Hsieh Hung-En <hungen3108@gmail.com>, James
- Ogletree <jogletre@opensource.cirrus.com>, Jarkko Nikula
- <jarkko.nikula@bitmer.com>, Jaroslav Kysela <perex@perex.cz>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Jihed Chaibi <jihed.chaibi.dev@gmail.com>, Jonathan Hunter
- <jonathanh@nvidia.com>, Kevin Cernekee <cernekee@chromium.org>, Kevin
- Hilman <khilman@baylibre.com>, Kevin Lu <kevin-lu@ti.com>, Kirill
- Marinushkin <k.marinushkin@gmail.com>, Kiseok Jo
- <kiseok.jo@irondevice.com>, Krzysztof Kozlowski <krzk@kernel.org>, Kunihiko
- Hayashi <hayashi.kunihiko@socionext.com>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Liam Girdwood <lgirdwood@gmail.com>, Luca Ceresoli
- <luca.ceresoli@bootlin.com>, M R Swami Reddy <mr.swami.reddy@ti.com>, Mark
- Brown <broonie@kernel.org>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Masami Hiramatsu
- <mhiramat@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Max
- Filippov <jcmvbkbc@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Nicolas Frattaroli
- <frattaroli.nicolas@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, Oder
- Chiou <oder_chiou@realtek.com>, Olivier Moysan
- <olivier.moysan@foss.st.com>, Paul Cercueil <paul@crapouillou.net>, Peter
- Rosin <peda@lysator.liu.se>, Piotr Wojtaszczyk
- <piotr.wojtaszczyk@timesys.com>, Qianfeng Rong <rongqianfeng@vivo.com>, Ray
- Jui <rjui@broadcom.com>, Richard Fitzgerald <rf@opensource.cirrus.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Samuel Holland
- <samuel@sholland.org>, Sascha Hauer <s.hauer@pengutronix.de>, Scott Branden
- <sbranden@broadcom.com>, Sen Wang <sen@ti.com>, Sharique Mohammad
- <sharq0406@gmail.com>, Shenghao Ding <shenghao-ding@ti.com>, Shengjiu Wang
- <shengjiu.wang@gmail.com>, Steven Eckhoff
- <steven.eckhoff.opensource@gmail.com>, Support Opensource
- <support.opensource@diasemi.com>, Sylwester Nawrocki
- <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Thierry Reding
- <thierry.reding@kernel.org>, Tim Bird <tim.bird@sony.com>, Troy Mitchell
- <troy.mitchell@linux.spacemit.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Vijendar Mukunda
- <Vijendar.Mukunda@amd.com>, Vishwas A Deshpande
- <vishwas.a.deshpande@ti.com>, Vladimir Zapolskiy <vz@mleia.com>, Xiubo Li
- <Xiubo.Lee@gmail.com>, Yixun Lan <dlan@kernel.org>, Zhang Yi
- <zhangyi@everest-semi.com>, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-sound@vger.kernel.org,
- spacemit@lists.linux.dev
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 02/83] ASoC: codecs: framer-codec: don't use array if single pattarn
-In-Reply-To: <8733zfj5jj.wl-kuninori.morimoto.gx@renesas.com>
-References: <8733zfj5jj.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 26 May 2026 01:58:50 +0000
-X-ClientProxiedBy: TY4P286CA0086.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:369::16) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+ bh=dUhwDJEYLcrdiWWKN8kweVmx04Xk5P4rCV+9vl7mvA8=;
+ b=hxHeCgJLKpqG8GyG0f6Mk+X1TAPVX56Rc98CiOiT+5HPWHg7rC9v2VssLoCd7I9AfLlK9tVqToV0seLrkDxVLl/4OaPbLVf/Qu5TUqJ/Fd3FqJxEoG68xS2fWJa7DV4ufqFCpap6JqBaNdI5+UJSnyIFIwWijmpE8YC36zwFOIBXrdPidiWMHbkaZXJogxI26G4yA38KsYOQBqVdIlAOUtxZUCOWnyIkx9k8Y6huGWVnJP18/bu5O9Gf2vhwqkXeJ5go74ga2Pbz/hxel+TfIowUPQK2y3t/+ss7Kj2qLfJH8GaGyfchU2XXxlfZNOg7q/9g+ZYse5qPOuMaF7p2bw==
+Received: from SG2P153CA0023.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c7::10) by
+ TYZPR03MB6920.apcprd03.prod.outlook.com (2603:1096:400:28d::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.71.11; Tue, 26 May 2026 01:58:50 +0000
+Received: from OSA0EPF000000CC.apcprd02.prod.outlook.com
+ (2603:1096:4:c7:cafe::56) by SG2P153CA0023.outlook.office365.com
+ (2603:1096:4:c7::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.2 via Frontend Transport; Tue, 26
+ May 2026 01:58:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 175.98.123.7)
+ smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nuvoton.com;
+Received-SPF: Pass (protection.outlook.com: domain of nuvoton.com designates
+ 175.98.123.7 as permitted sender) receiver=protection.outlook.com;
+ client-ip=175.98.123.7; helo=NTHCCAS02.nuvoton.com; pr=C
+Received: from NTHCCAS02.nuvoton.com (175.98.123.7) by
+ OSA0EPF000000CC.mail.protection.outlook.com (10.167.240.58) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.71.7 via Frontend Transport; Tue, 26 May 2026 01:58:48 +0000
+Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCCAS02.nuvoton.com
+ (10.1.9.121) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.61; Tue, 26 May
+ 2026 09:58:46 +0800
+Received: from localhost.localdomain (10.11.36.27) by NTHCCAS01.nuvoton.com
+ (10.1.8.28) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
+ Transport; Tue, 26 May 2026 09:58:46 +0800
+From: Neo Chang <YLCHANG2@nuvoton.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <perex@perex.cz>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+	<neo.chang70@gmail.com>, <kchsu0@nuvoton.com>, <sjlin0@nuvoton.com>, "Neo
+ Chang" <YLCHANG2@nuvoton.com>
+Subject: [PATCH v3 1/2] ASoC: dt-bindings: nuvoton,nau8360: Add NAU83G60
+Date: Tue, 26 May 2026 09:58:25 +0800
+Message-ID: <20260526015826.440769-2-YLCHANG2@nuvoton.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260526015826.440769-1-YLCHANG2@nuvoton.com>
+References: <20260526015826.440769-1-YLCHANG2@nuvoton.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NotSetDelaration: True
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OSZPR01MB6599:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0ed41ed5-7e1e-49cb-e4f9-08debaca559d
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-TrafficTypeDiagnostic: OSA0EPF000000CC:EE_|TYZPR03MB6920:EE_
+X-MS-Office365-Filtering-Correlation-Id: af6e07b0-60d3-4442-1720-08debaca53a3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|52116014|7416014|376014|1800799024|38350700014|921020|18002099003|56012099003|22082099003|11063799006|41080700001;
+	BCL:0;ARA:13230040|1800799024|36860700016|82310400026|376014|13003099007|56012099003|18002099003|22082099003|11063799006|6133799003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	K2pkvHia0oiQvcOVq+FUcuYGPWGfuDjAtkEC/PX5wEA44GfG0HuILHlbSDHcxzobra0N2GDNp24kTnBhoxYbh7BWAONO3ojZdEwv0R5jYuzWKyOkpXchxX92qXVnysKgUsISiKewezYVw/NF4urTA2ugQSJjE103/CsUvQFnl2KIzzT4rh1alSfwa2hBvTrKBOM488wadvoQJqZ/tR3azCMTYEL6ffsaFyEBSOYZEk6WB19fQ/zqEm5lq10dEuuBzrhsoNC/0eEArT7ORl12d6fRWYghK+GqTkCPMcJkGtoeNXHm/Wt72GfxrZLgQfBzpgJu4h7w731DP0o97U+Aq71xl2AZW77WRw3WdXu2tUtbuCSNFE9m74FB10IbU4ZOAFEVUIcbyxkG+vzac9x13iROJF4fgAJlnIJLSSvfaIWtE0KUeMjsGE9qd1PCMJ+SnhY85rnzLI+QFZAtDw5pBOdGjTMMkXbzmEwiThuLojpnxa/ePm3olJHtunzOphmIzDn8VeCd27WsS9caPgmZmy3vboaIHfatodsAnITfkQnVv6pDM9tIDDuxop61UzixQarX0ZzPQIg5+EdeSz1/O5FYgT2nMMTbANXbBk/27lohJPC6Z0Ywcdx+FUyOiKQN5PcawCJg0vf20XB4hOKKQ2KaaNw13J+z1ux5b6cYdnsqfA5SVnr6rwOuL6/XakFz5ANY2ErFxBv087Oh7zgm1ItWPkfmKXZ/1cQ/PmgVbv8ddP/dy7AWXSS336t4gvZscr4KqcNJNRDTHdEuR8AG+hcBuNh1hwCopmyoYoM0SUI=
+	JMPSB2OCbg+YQ5mVKWuimkp38OGLjEuoHMD/xP8i4q/9LYrCGwibWk17HoCgVVsLrhgGar6KA36gNWWKZ8St9Fbm34mEn/2+CR1LGvCELDMAAYVenXGgkXDxfxJ/gdsdmb8pI5W+If4bOPUa2yxWCGGVtQjRdRS8bHKw/v9iYKwvx4oBaqHYhg66+YC5k4SUIUY73H5jS7m7CRnIA4Mu6J0itaYd7YsmewF4G//SytF9B29HDl6RusCexNrWL6GGyAngLn51Ni+eVnyQyFOu/8+xdnYpnv70WbBvEsgbgCtsmlYuohr3uDVvat9qXH3GJ3JNrgEUSDIZqhX6aDN24N4uI8nN6l8lkZPEPUbc1rUtDSVesrPqwMOZLXv4sRl7yB3/UFj9IPkGuZ4QvKfdjaiCJ45aRPLpZUC2hL+5ecbxCXwLySeCRRS1fvcieA0Bgx3TuvNm167cjmiG2RRx97qxk3a8d0zzgmLPZweS2x9fyizNrudi+PgXDp5kLjTo18F7bQW0s/OyaNIt+caKUBiiu/e2ciSlMi3xHe2EIPLjmeJZp7lePhNOW/ndXgwvcenyIcPy7pw/KBnofj9Sc6fJDJs0WJh+d8KAlZPDyyBmwhTIPBytFgsl60mn93kbDacjUbA+wtdYB5MQdeqXPu1idWERUf1NPKJA0/pmn+Njv0AnJ/i6Xpp55/G0QnlK
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(7416014)(376014)(1800799024)(38350700014)(921020)(18002099003)(56012099003)(22082099003)(11063799006)(41080700001);DIR:OUT;SFP:1101;
+	CIP:175.98.123.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS02.nuvoton.com;PTR:175-98-123-7.static.tfn.net.tw;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(82310400026)(376014)(13003099007)(56012099003)(18002099003)(22082099003)(11063799006)(6133799003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?FblC2kxNXtdvsApLjBRTFmvEG7BPGs7HMcyOszv5/1SHo6dObKTxRtGIHi4d?=
- =?us-ascii?Q?qJRmpXwdHHiVfXp73KiKGfqQpNSV8sDOf1eKGGU7ZTquMZA3FzyjUMMbt8KR?=
- =?us-ascii?Q?m6qu7rWqNMuhvV++Zo+7qlGgiyfKOTE/IS8moo6mMPEynHFUsUrQRUqPGcgc?=
- =?us-ascii?Q?C1Z2hnc9zdR8u30u01kYS6ASLyEwrrKPj2tTD7I54jiIahOP7vK0SenJbTfR?=
- =?us-ascii?Q?WDBw0QR7aJZva8RlH6PR9LQboEjZVmEY0AYq6XEtl4CdruvbxLQYyjHfN5Du?=
- =?us-ascii?Q?iUMKYr1yO6iNHYNA9aSkrxsipsBq3OiegvnfTLsu2qaXQij0MNvTbeGjO0SS?=
- =?us-ascii?Q?S3xytLus+q29rD7h3pffzYMZ8tpEKhhWYONRq5xaM4L0VK3g3SIjZH+AMdiS?=
- =?us-ascii?Q?MtqWDEi17uJOQmqOB+dBq9+yehl0ghoY5wwGYnXjuoURT0r048BTpSAyaSkK?=
- =?us-ascii?Q?xUIvaBwHKvdfdIGpgBySUbzTP47N3IkVSH/nWKeDrnQgGjfJH6GAloP0zA0V?=
- =?us-ascii?Q?YPeyUnG1EMjiIrNnzaWA/uQZmEGY3F1ytbpAW/C+wsGZv2KXASYccks2qWWx?=
- =?us-ascii?Q?3cQnhb9Hv5F75TVIkll62Ue5KztDY1HlxAuS0Oq/glLWu2XqyRlyKOhCo8kY?=
- =?us-ascii?Q?0rHwckwrQRDd7/X6XkQ27v0BJlNVEWnbIDIhJZrOwsl39IPQ/K5Xwlx78Hcs?=
- =?us-ascii?Q?rUbLUS2lOcGP4bxQ2FmM2Q8AGhjt/BAO597s4686kWsrRkKJMcWkj74TrlEd?=
- =?us-ascii?Q?x7Go8jMEmgbVP3/DJJ+G1AxUqRpMI7B1VTwAyYbxxHax9dxWXLE90pHduBnk?=
- =?us-ascii?Q?gJJd2Iwy6LlYYQU3HJeT4oQUFvwdeprwBCNYhjTP6uBcvlJ9k5O7MzdUH8wr?=
- =?us-ascii?Q?JvgwYB3D1gaIf2yQ5MocJXirD8b6zi8zkodUtGKoT32bCX7GzU6w8ZK/6X5P?=
- =?us-ascii?Q?1MzKVUmTBRXlsNVgV4f6NOWLYRFcWXMJVGClQ7DvnLufUGcfy6J2J8m/GDSM?=
- =?us-ascii?Q?/D7MozZhfuZdyMFSxLRem2tkxhlET93kNL9kEJm9ue94nU2uCvsBL02BQhAw?=
- =?us-ascii?Q?Z0ML8DOD1YZTRWZsXRtillcF/JsWbo+DAlQJLamzP/6yfPc5rcDClhmUtT+X?=
- =?us-ascii?Q?fyxEpv83dh46ClDu/B/w8Z3I+xPN8XROs2u4ABdnubVuNKpadbRC6PCm8xxH?=
- =?us-ascii?Q?zwbxQ+y2scQHEY52bP4IoLTV/issjnIuNksvg9jafJU6/sSe1fIMuJHKRuR+?=
- =?us-ascii?Q?BiblImXLPt8FZUyFsB5M09dxWQ+7nuZyzuIudYHcFx99G8wQPWdIRxzApjFn?=
- =?us-ascii?Q?S5VBTDR+tz4PElUWGBkyFk50J6qp8vkkLBfyVhOboMknX1jCUJe6ZaTeMWRG?=
- =?us-ascii?Q?qb4vUFrKjnK3C7v7CSYTHlDyt3UDsnylcqWIjkkwTVmvBXwFtlbTPpmyrytF?=
- =?us-ascii?Q?JJPEdPffDbmLyL36flVGzky5aNE2UDhB7K63qh9LboFy4WKGaQHKMYl8ffi3?=
- =?us-ascii?Q?V9JoB/ySVhXV6FAoYQnyvW9WIsCg69dR5hPfBsggTRuCFrm9YiRGJHgEDW5o?=
- =?us-ascii?Q?2VO/HhG37LDFrJf2J/fFFQ6zYREw/hqF9ysEqlMM7ibSulpb13wUQ7M0W43c?=
- =?us-ascii?Q?6n4HlodF56fNTY7glZrPmH6l2RPHG5EuxGyZR/MDdDrauU693Eq2ASFghlWS?=
- =?us-ascii?Q?BTms1RdlnW4+duVdrfPTAZCxiR4RWbeCNJ9URmqs3Zw/uy5yVDluWvUOuixF?=
- =?us-ascii?Q?91rysE8ZWDRhJsYX/qFV8USlIijcqqSj9oFfmf4cK/PnFkUsr3wA?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ed41ed5-7e1e-49cb-e4f9-08debaca559d
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 01:58:51.7743
+	XZnmkgwMEzA+WwIlO3wAadSlMRYvN3NR+j2uamRRML2hq9IbC4L7JJpqiuycOuJEJNs1Cmok5icHy2eaxqcrx91yX8o5xLXyzKuaVyhoWjKk9MDdLDQhYeJpEbNAsN/CwQ/BeU285nZI3voDpL7KUMdY1/3OFL3gCTimYMX4wHmTfpjuggzaXAFxz6RQzjav3bJ16EsYv4f29FerUCazX6tUPeciwxhYBPsNlqy1B7hFIRaJC3T0xy7vhDjvjfe0n7PSyoR54i+rrcImGpA2ibQm9BSSilB1q2lECbPZ75QE8VxVrkQB3M+qrYtmkcDNy5dp7Ga4tznQaN52O8J2UAK5JI77wSmXIQ3c/L1KN4fGklb0dwcHNMWpVCHD7hkDGnTXHPp8wqnBcrDyQZ/gNQvgoUqFNsbIAZW10V5d16DxOOhsXY8GSKuLoO4tAdXQ
+X-OriginatorOrg: nuvoton.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 01:58:48.1625
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gvTBbu28B3uiQGUCYu5H9pFVixGV58rFVlXzYDQqwITawqM6nsyy9HtdwmRs63Wv+C3y+F6IPDSMKAKm787dvnkJL7YSydPAyGcaSgJsDjVWg8QP6t3hbGWgCksOV9G5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6599
+X-MS-Exchange-CrossTenant-Network-Message-Id: af6e07b0-60d3-4442-1720-08debaca53a3
+X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[175.98.123.7];Helo=[NTHCCAS02.nuvoton.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	OSA0EPF000000CC.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB6920
 
-Because it is confusable during debugging ASoC FW update, tidyup
-auto format style not to use array if single pattern case.
+Add device tree bindings documentation for the Nuvoton NAU83G60
+audio amplifier.
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Signed-off-by: Neo Chang <YLCHANG2@nuvoton.com>
 ---
- sound/soc/codecs/framer-codec.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Changes in v3:
+Remove colon to resolve YAML build warnings.
+Fix 'firmware-name' property definition to comply with binding schemas
+---
+ .../bindings/sound/nuvoton,nau8360.yaml       | 86 +++++++++++++++++++
+ 1 file changed, 86 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml
 
-diff --git a/sound/soc/codecs/framer-codec.c b/sound/soc/codecs/framer-codec.c
-index 6f57a3aeecc89..a87a78390172d 100644
---- a/sound/soc/codecs/framer-codec.c
-+++ b/sound/soc/codecs/framer-codec.c
-@@ -238,15 +238,13 @@ static int framer_dai_startup(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
--static const u64 framer_dai_formats[] = {
--	SND_SOC_POSSIBLE_DAIFMT_DSP_B,
--};
-+static const u64 framer_dai_formats = SND_SOC_POSSIBLE_DAIFMT_DSP_B;
- 
- static const struct snd_soc_dai_ops framer_dai_ops = {
- 	.startup	= framer_dai_startup,
- 	.set_tdm_slot	= framer_dai_set_tdm_slot,
--	.auto_selectable_formats     = framer_dai_formats,
--	.num_auto_selectable_formats = ARRAY_SIZE(framer_dai_formats),
-+	.auto_selectable_formats     = &framer_dai_formats,
-+	.num_auto_selectable_formats = 1,
- };
- 
- static struct snd_soc_dai_driver framer_dai_driver = {
+diff --git a/Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml b/Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml
+new file mode 100644
+index 000000000000..906c3ae3b72a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml
+@@ -0,0 +1,86 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/nuvoton,nau8360.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Nuvoton NAU83G60 Stereo Class-D Amplifier with DSP
++
++description:
++  Stereo Class-D Amplifier with DSP and I/V-sense.
++  This device supports I2C.
++
++maintainers:
++  - Neo Chang <YLCHANG2@nuvoton.com>
++
++properties:
++  compatible:
++    enum:
++      - nuvoton,nau8360
++
++  reg:
++    maxItems: 1
++    description:
++      The I2C address of the device. The address is determined by the external
++      hardware configuration of GPIO1 and GPIO2 pins.
++       - 0x1a (GPIO2=Low, GPIO1=Low)
++       - 0x1b (GPIO2=Low, GPIO1=High)
++       - 0x4a (GPIO2=High, GPIO1=Low)
++       - 0x4b (GPIO2=High, GPIO1=High)
++
++  "#sound-dai-cells":
++    const: 0
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: mclk
++
++  nuvoton,dsp-bypass:
++    type: boolean
++    description:
++      Forcibly disable/bypass DSP path.
++
++  nuvoton,pbtl-enable:
++    type: boolean
++    description:
++      NAU83G60 supports PBTL mode for mono output.
++
++  nuvoton,dac-cur-enable:
++    type: boolean
++    description:
++      Adjust DAC output current to match speaker impedance and prevent
++      hardware damage. +3.2dB when present, 0dB by default.
++
++  firmware-name:
++    minItems: 2
++    maxItems: 2
++    description:
++      Assign firmware filenames for left and right DSP cores.
++
++required:
++  - compatible
++  - reg
++
++allOf:
++  - $ref: dai-common.yaml#
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@1a {
++            #sound-dai-cells = <0>;
++            compatible = "nuvoton,nau8360";
++            reg = <0x1a>;
++            nuvoton,dsp-bypass;
++            nuvoton,pbtl-enable;
++            nuvoton,dac-cur-enable;
++            firmware-name = "NAU83G60.kcs.bin.l" , "NAU83G60.kcs.bin.r";
++        };
++    };
 -- 
-2.43.0
+2.25.1
 
