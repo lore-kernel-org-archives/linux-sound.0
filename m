@@ -1,184 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868093B7B91
-	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 18:29:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9046C421EF3
+	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 18:37:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779820191; cv=none; b=lrNsEbmChWfgs6VUCgiMNv3X9jmINaFjCMad9weWDiFr7lWzGVCwY9EE2EfWr+7Q4AqUHm5QXak8xpBhaJqA9/c5SYgUlji99AssQ3wV0lfNUl2txv+WbQ36C9FMdzz+bJ5YCKGVsl8/4dw7dRtNUrNBypRtzShC0KsFsuWlZPs=
+	t=1779820653; cv=none; b=nOr7vk2RXAFrL63oUqQ2L1A5LbSYG3ogemq7zXtVheY0UWgN9BDkXtmqClB7ZqND3+K1zTB+zVc9//90stxc8N9RcW4C/dBjdEht4QCN/IMrQJvYddQ6prwW9oBUhbXhXqBDUv7wWaPd9lN+kh+C5fBN9QKrJfgUgbckIfJaHcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779820191; c=relaxed/simple;
-	bh=JBi2HK3+2QD2C6A6czIUfc7+B0/8tP9szO3tmargbo8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=loMpWP4gKn/MC/R879LcWUCPruhqDS/mdaXnvMRdDvCi7rS8738ykPBiVM8NE5ECFtbN56XQQJwmKyP/KLKWhxENP33Ms6tXDXD5M+bR4lRg62xlayeN5WQM+YqAPzKDnveq+wfgCbFW0S/LnRCZ4zxa+rMIkZEzBZCN6hBwOts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MICjcpQQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779820653; c=relaxed/simple;
+	bh=48+xPx0suENCrOhv9zrXpWaKBdQ3HQmiwe5S/vSjiqE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ug5dUQ/Sxug+9Cu+zSmTaoU71oXREcsYn3rWpqphw7TLtvamR58UjPYMq+pcgRjDIr39l/KIuWWxfVXUdLZe+iuljc3RFoc9gD0hO4d1KApCqXZMMNcucayslXd+cVt5G5vBW2/R/WEbIUq6EY9H1QAuiAUYT9Cpsf+c4Pcjqqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yvg9AXs3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MICjcpQQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43CEB1F000E9;
-	Tue, 26 May 2026 18:29:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yvg9AXs3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F341A1F00A3C;
+	Tue, 26 May 2026 18:37:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779820190;
-	bh=RXTmzJ+YS8oRkZKXEhssFv1OgBCHQJCN6xYpFIA+7/8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MICjcpQQqs7hmBQZRllbwbYnw+zfSHuoZHk1DDYWPRkXwJe/jLWFlvGggb/Uv4JtZ
-	 Q4qqgTP0ywtNjXThPzbz/h9/qC6bJJeeJBjmxMls59wnLbY7Ui4LbzHS7Dph1z40A9
-	 hwIjs+uB+4X3ykFr/0QSDu/fXl0rb2wJKqJUd3/gDQlspgDZRg+jLvLmmdERwmfnPO
-	 a4g5JU2ExQwg3vJ+oRmARqeH7X6Wzb5/nrkOZLBDtxg8vfagry1YbTiog33vrbmPgU
-	 9yBkfWrLCmUuBZkPggThg+fKRTYV2xDN08ctCP+APAMfxbQZoVbKXNU8sE5fNTBQKD
-	 DI2epxTmYTRyQ==
-Date: Tue, 26 May 2026 19:29:31 +0100
+	s=k20260515; t=1779820652;
+	bh=mLSYwTJIdNhtw8rqWD7Lh5hyIxm2yBtrLnFjV5602uU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Yvg9AXs3AHJ3iIz8v0h1l7nWNl0ABUI/HywTOlTtQH2OYKvdsUzHZ3fI+ZelrSiTG
+	 w8d7RQEhxskypGpD2yJ4xneCfn8vYGyvSewDGqvDFv8C6sAzUQlgy/mlEsaCIsK6U1
+	 sAFiAOYKviBsIylQiTb5fkwVfUazjQVoVwkyXU5i8K51pAy2ZOkDWDtSH8Y44zOy4A
+	 KwIDo6kunGPkTGYKjiboc+Atc1QIeX0ZXqJkHZe0wbDB+7DkXY5g7ddNOZ7l7fS2xB
+	 nOZtbt17CBxCdCm5jb4O3MWXompQdzhBot0Y1fXPJRspflrZDeHe2Z/+T0qG0PLDFt
+	 6y0aJjtOe7FPA==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: =?utf-8?Q?=22Alvin_=C5=A0ipraga=22?= <alsi@bang-olufsen.dk>,
-	"J.M.B. Downing" <jonathan.downing@nautel.com>,
-	=?utf-8?B?Ik1hcnRpbiBQb3ZpxaFlciI=?= <povik+lin@cutebit.org>,
-	=?iso-8859-1?B?Ik51bm8gU+Ei?= <nuno.sa@analog.com>,
-	=?iso-8859-1?Q?=22Uwe_Kleine-K=F6nig_=28The_Capable_Hub=29=22?= <u.kleine-koenig@baylibre.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Baojun Xu <baojun.xu@ti.com>, Bartosz Golaszewski <brgl@kernel.org>,
-	Ben Bright <ben.bright@cirrus.com>,
-	Benson Leung <bleung@chromium.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Bram Vlerick <bram.vlerick@openpixelsystems.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Daniel Mack <daniel@zonque.org>,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Frank Li <Frank.Li@nxp.com>, Fred Treven <fred.treven@cirrus.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Guenter Roeck <groeck@chromium.org>,
-	Guoqing Jiang <guoqing.jiang@canonical.com>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	HariKrishna Sagala <hariconscious@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Hsieh Hung-En <hungen3108@gmail.com>,
-	James Ogletree <jogletre@opensource.cirrus.com>,
-	Jarkko Nikula <jarkko.nikula@bitmer.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Jihed Chaibi <jihed.chaibi.dev@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kevin Cernekee <cernekee@chromium.org>,
-	Kevin Hilman <khilman@baylibre.com>, Kevin Lu <kevin-lu@ti.com>,
-	Kirill Marinushkin <k.marinushkin@gmail.com>,
-	Kiseok Jo <kiseok.jo@irondevice.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	M R Swami Reddy <mr.swami.reddy@ti.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Peter Rosin <peda@lysator.liu.se>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Qianfeng Rong <rongqianfeng@vivo.com>, Ray Jui <rjui@broadcom.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Samuel Holland <samuel@sholland.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Scott Branden <sbranden@broadcom.com>, Sen Wang <sen@ti.com>,
-	Sharique Mohammad <sharq0406@gmail.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Tim Bird <tim.bird@sony.com>,
-	Troy Mitchell <troy.mitchell@linux.spacemit.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Vishwas A Deshpande <vishwas.a.deshpande@ti.com>,
-	Vladimir Zapolskiy <vz@mleia.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
-	Yixun Lan <dlan@kernel.org>, Zhang Yi <zhangyi@everest-semi.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 59/83] ASoC: codecs: wm*: use .auto_selectable_formats
-Message-ID: <1bbeb467-cf1a-4403-9ef3-62bc9006f47c@sirena.org.uk>
-References: <8733zfj5jj.wl-kuninori.morimoto.gx@renesas.com>
- <87o6i2gb9h.wl-kuninori.morimoto.gx@renesas.com>
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
+ seppo.ingalsuo@linux.intel.com
+In-Reply-To: <20260526105748.26149-1-peter.ujfalusi@linux.intel.com>
+References: <20260526105748.26149-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH v2 0/2] ASoC: SOF: ipc4-topology: Support for multiple
+ src output formats
+Message-Id: <177981425750.88748.17149183408527981640.b4-ty@b4>
+Date: Tue, 26 May 2026 17:50:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QjV2cPvMkFZjoaeh"
-Content-Disposition: inline
-In-Reply-To: <87o6i2gb9h.wl-kuninori.morimoto.gx@renesas.com>
-X-Cookie: You are fairminded, just and loving.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1459; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=48+xPx0suENCrOhv9zrXpWaKBdQ3HQmiwe5S/vSjiqE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqFehpSAIKtjIjIh9rScBk9KGPVLZMe+syzHi70
+ mFQHMh9xm+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahXoaQAKCRAk1otyXVSH
+ 0C+OB/9O2JJixo4CiHBoz6G5I/1k43Y1h/+pKPNtAdxZ7zZVnOYylpaR9/rRHljGJeLQhmziA96
+ O7hsFBYL9/55JYqtpHRJJ2jutMyh/oDoiNP/DnzyfhhMqbIuKjUusz2hmd//PkGrzB6s1BT1YBa
+ lAccNf+8Fts7eZJHNTftwETFsOEftRnlXVjUY5hYwHQYM/Nwm2pVNpqnw8QM6gCWhDUYw8/tn8p
+ vnv0cJ+aRo49zpMJIWonEU+MQ1+Mp0HmlPPwmt07Bapq4p38Dd3DtJEJlzWceBTqGWv33/8HPSE
+ XKg27XQSDosPramtfnnWzKXWc7kX6UzAmBO8VVLVcf1mVxUq
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Tue, 26 May 2026 13:57:46 +0300, Peter Ujfalusi wrote:
+> ASoC: SOF: ipc4-topology: Support for multiple src output formats
+> 
+> Hi,
+> 
+> Changes since v1:
+> - new patch to validate the number of input/output formats to make sure
+>   that they are are least one
+> 
+> [...]
 
---QjV2cPvMkFZjoaeh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Tue, May 26, 2026 at 02:22:52AM +0000, Kuninori Morimoto wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
->  			SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S32_LE)
-> =20
-> +static const u64 wm8737_selectable_formats =3D
-> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
-> +	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
-> +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
-> +	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
-> +	SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
-> +	SND_SOC_POSSIBLE_DAIFMT_AC97	|
-> +	SND_SOC_POSSIBLE_DAIFMT_PDM	|
-> +	SND_SOC_POSSIBLE_DAIFMT_GATED	|
-> +	SND_SOC_POSSIBLE_DAIFMT_CONT	|
-> +	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
-> +
+Thanks!
 
-This is way more than the device supports, AC'97 and PDM both jump out:
+[1/2] ASoC: SOF: ipc4-topology: Validate the number of in/out formats for src/asrc
+      https://git.kernel.org/broonie/sound/c/21a5adffad46
+[2/2] ASoC: SOF: ipc4-topology: Allow the use of multiple formats for src output
+      https://git.kernel.org/broonie/sound/c/3c3ce66b65c4
 
-   https://www.mouser.com/datasheet/2/76/wm8737-519090.pdf
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Looks like we need a bit more checking of the formats.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---QjV2cPvMkFZjoaeh
-Content-Type: application/pgp-signature; name="signature.asc"
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
------BEGIN PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoV5osACgkQJNaLcl1U
-h9DkHwf6AkmhvynwHtdS4NWLE0cSM5NM0VPyQei3zoWkBQlhYH7kMvGc/jMGCwtK
-4Hw4EbtyTPlOWZdJpYIuKHZpBf9jyBG3IzJIVzsvIlKECIts2y/oNbGSkaebttO/
-fogowwlQ/O0VoJW8DJUf//qChgn5ycXBU+zrPOKl2QitLbB1mHEKkCAsP2VmsrFJ
-44xeiBdAKOro7/4zAkNFpfx5JEIeU2TZjgbWTb6vVS485lX5WxghklXnL/svZS0K
-Ai344IEVKTj+RbZeh2Hp/BS+DYl3cyb1Rk/5IvZ+x71EuLFpxSo9c9udcNBDwISr
-afudj9vWfLIsghcgzgHFhspAUv9fQQ==
-=SUv1
------END PGP SIGNATURE-----
+Thanks,
+Mark
 
---QjV2cPvMkFZjoaeh--
