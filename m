@@ -1,89 +1,85 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EC828A3FA
-	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 05:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33823B6376
+	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 05:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779774897; cv=none; b=mYaEj7PqHedGPTP1uEWY1t4uXCNEZrOJAHj4qa/HPv0pEbhlVObtM3lg6k/+lHWTmh85sk+dADWKY5tT+K3zkiUNfqLtrqxG8D3P5kb0l5NSvmzDR5HjNTrYmP+wNA7GtLOGJ54UqHudMjqE14OQNwZhqUgVvhP+8lR3zIObnvQ=
+	t=1779775091; cv=none; b=kAdd53h30VdOGufVDOgItAu+S01o0lNdIF8bnhZs7DbIyVVLenhXq1nQBgwkqKvQ/pmMVX7XRPuZrBrVxULQsCP/dXK2d+e9HsAHo4wKfHDfE/yjLGTYx1Lwpzve47FE3YduhbGkEVB8xj7ICL82J7GnkwIt0QVo+iI8r69ZjzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779774897; c=relaxed/simple;
-	bh=Y0Mhy2BCn/HUvzQKu2EmZDkRV0pFt0RBDiRdj0WiUlg=;
+	s=arc-20240116; t=1779775091; c=relaxed/simple;
+	bh=F3ApDkV14xgZPXYsYclSk1byLWVIbCx28MQoJWyH55Y=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qSm/uoU05FM2LsOhnawxMyOWribNx/uONMIrM2swkgvKf/+qVcknnHjybSseArMFFukO9qNTKuIFR5PyHrLd0/8C68oC5pyph7c/FJvT5RnT67MQVfOmalFdc7qIO2Poft4DzbTFsqXZw693YBlNYHNOYVsij+g208g9ZxWWMJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Iunk5Ad+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=v5c+J02m; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ysTBcVpl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rQD5v509; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=f4yru0oJ3frFcgJWmZrK3IuNR4j/pguEeEPkFClJurYCv0Esueh9nbe2tV9+V7TPxMFGXQIUb//eoZ2nwpY8tD8y0mtVB8vEObaILJZ0DHBdJG8vXnfJVR7eH7EvJtl8jHMNRTz5SBGhTqwQxjTkkTa79ec6JsCnA+Ehp/glxdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oeQd/fsJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6DbuFc3I; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oeQd/fsJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6DbuFc3I; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Iunk5Ad+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="v5c+J02m";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ysTBcVpl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rQD5v509"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oeQd/fsJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6DbuFc3I";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oeQd/fsJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6DbuFc3I"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C3CB175CAC;
-	Tue, 26 May 2026 05:54:53 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2B56665393;
+	Tue, 26 May 2026 05:58:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779774894; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779775088; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kTo7OxEfpMDfq2BI6RVZIjtdN0gsBFP9pFq9Jc553HY=;
-	b=Iunk5Ad+W1MYi3dOCo7EzaqWSr2DmupipOPfHuhGkc06b9xIYBTR/VyhlyPjb19cILhqIO
-	Oy1BSO7LBSlvNS7/rBGt+0hoZ1P/7i5tl9h2R1NTMoYyWr5DrIDUJARU47OCGulvx93WpL
-	c5nkIKlm/1NLvanq8S083+1j4dppPG8=
+	bh=38ZApKfvAN6HfIRcCWUy2kkwfHW4I25ZL82WVvHPCTY=;
+	b=oeQd/fsJ8EH1MdYzwfIYHU8hkIu70KNGDt1wGXyKZDNYY3vDleOICvgwZVsnTl7ouuZByw
+	qf9DBHYBJLAqTK9Ch/ESx5RwbgVxONScwfPSshg77awqYecdAkimwe83S5vGe8ud0o4u7j
+	GJpVO5swkaxTaMF/UiDF10XD5fKVTmY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779774894;
+	s=susede2_ed25519; t=1779775088;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kTo7OxEfpMDfq2BI6RVZIjtdN0gsBFP9pFq9Jc553HY=;
-	b=v5c+J02mjDJHODpZ5tWF1AcOO6sZWDqx4jxHn/eeEnhm4M2xmEgp7uIZtzBgaQZaMWZ00o
-	E5T3cdC6hnNB7XBw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=38ZApKfvAN6HfIRcCWUy2kkwfHW4I25ZL82WVvHPCTY=;
+	b=6DbuFc3I0Y6rSOSPkYHzSSlawv1a+16oNi31h527IMBO7Dbsp3lQhsn9zlH/doFnBL2WU/
+	1V32nnpIfz82QZCw==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779774893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779775088; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kTo7OxEfpMDfq2BI6RVZIjtdN0gsBFP9pFq9Jc553HY=;
-	b=ysTBcVpl1yyx0nMV91fScuDAlWYK8Rhz4inWRepjMz+cCk3zjXzgYV1Pu07VOMthwYdMfE
-	UsaKRO0OHJ2ELEjiDOgjA31CskrUOmvpZuGM0/zDyi5deddBNsVmKthL/h/Gl/JS6uDzr5
-	jdUwTkFjFONMbzz3UpLwtYENKsnVcmM=
+	bh=38ZApKfvAN6HfIRcCWUy2kkwfHW4I25ZL82WVvHPCTY=;
+	b=oeQd/fsJ8EH1MdYzwfIYHU8hkIu70KNGDt1wGXyKZDNYY3vDleOICvgwZVsnTl7ouuZByw
+	qf9DBHYBJLAqTK9Ch/ESx5RwbgVxONScwfPSshg77awqYecdAkimwe83S5vGe8ud0o4u7j
+	GJpVO5swkaxTaMF/UiDF10XD5fKVTmY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779774893;
+	s=susede2_ed25519; t=1779775088;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kTo7OxEfpMDfq2BI6RVZIjtdN0gsBFP9pFq9Jc553HY=;
-	b=rQD5v509DnFheVmKbpUfFt+SFTFssKOIMtSqTHrH369fCi1OtHbZduxGeLetwHjBLeZ7Ma
-	KhqjLV9eKiQ4DrAQ==
+	bh=38ZApKfvAN6HfIRcCWUy2kkwfHW4I25ZL82WVvHPCTY=;
+	b=6DbuFc3I0Y6rSOSPkYHzSSlawv1a+16oNi31h527IMBO7Dbsp3lQhsn9zlH/doFnBL2WU/
+	1V32nnpIfz82QZCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9025A5A055;
-	Tue, 26 May 2026 05:54:53 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EADA55A058;
+	Tue, 26 May 2026 05:58:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /Fv5IK01FWq2KAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 26 May 2026 05:54:53 +0000
-Date: Tue, 26 May 2026 07:54:53 +0200
-Message-ID: <87o6i2zpea.wl-tiwai@suse.de>
+	id MCwqOG82FWqGKwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 26 May 2026 05:58:07 +0000
+Date: Tue, 26 May 2026 07:58:07 +0200
+Message-ID: <87ldd6zp8w.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
+To: Fabian <fabianlippold1184@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: seq: Remove arbitrary prioq insertion limit
-In-Reply-To: <20260525-alsa-seq-prioq-limit-v1-1-16c348df5ff7@gmail.com>
-References: <20260525-alsa-seq-prioq-limit-v1-1-16c348df5ff7@gmail.com>
+Subject: Re: [PATCH] ALC269/Realtek: add quirk for HP Dragonfly Folio G3 2-in-1
+In-Reply-To: <CAKrjPiXUi=_ugS+Qa3aW3kM=wqZKT+ssEVTGmtAPqeT6XNDJNw@mail.gmail.com>
+References: <CAKrjPiXUi=_ugS+Qa3aW3kM=wqZKT+ssEVTGmtAPqeT6XNDJNw@mail.gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -91,12 +87,11 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Score: -3.30
 X-Spam-Level: 
 X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-0.997];
@@ -116,28 +111,52 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	RCVD_TLS_ALL(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
 X-Spam-Flag: NO
 
-On Mon, 25 May 2026 16:16:09 +0200,
-Cássio Gabriel wrote:
+On Fri, 22 May 2026 20:44:09 +0200,
+Fabian wrote:
 > 
-> The sequencer priority queue insertion path uses a hardcoded traversal
-> limit of 10000 entries.  The value is intended to catch a corrupted list,
-> but it also becomes a real limit for valid queues.
+> From 0039d23937f4c2783dcea11cc09b26a788d09872 Mon Sep 17 00:00:00 2001
+> From: Fabian Lippold <fabianlippold1184@gmail.com>
+> Date: Fri, 22 May 2026 20:36:10 +0200
+> Subject: [PATCH] ALC269/Realtek: add quirk for HP Dragonfly Folio G3 2-in-1
 > 
-> The event pool limit is per client, while a sequencer queue can be shared
-> by multiple clients.  A queue can therefore legitimately contain more than
-> 10000 events.  In that case, inserting an event that has to be placed past
-> the arbitrary limit fails with -EINVAL.
+> Add PCI quirk for HP Dragonfly Folio G3 (PCI ID 103c:8a06) to select the
+> CS35L41 SPI4 & GPIO LED fixup variant.
 > 
-> Use the queue's own cell count as the traversal bound instead.  This keeps
-> the protection against inconsistent list accounting or cyclic lists without
-> rejecting valid large queues.
+> Signed-off-by: Fabian Lippold <fabianlippold1184@gmail.com>
+> ---
+>  sound/hda/codecs/realtek/alc269.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+> diff --git a/sound/hda/codecs/realtek/alc269.c
+> b/sound/hda/codecs/realtek/alc269.c
+> index 2f5d13032..2c478d80c 100644
+> --- a/sound/hda/codecs/realtek/alc269.c
+> +++ b/sound/hda/codecs/realtek/alc269.c
+> @@ -7069,6 +7069,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+>   SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)",
+> ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+>   SND_PCI_QUIRK(0x103c, 0x89da, "HP Spectre x360 14t-ea100",
+> ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
+>   SND_PCI_QUIRK(0x103c, 0x89e7, "HP Elite x2 G9",
+> ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+> + SND_PCI_QUIRK(0x103c, 0x8a06, "HP Dragonfly Folio G3 2-in-1",
+> ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
+>   SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx",
+> ALC287_FIXUP_HP_GPIO_LED),
+>   SND_PCI_QUIRK(0x103c, 0x8a1f, "HP Laptop 14s-dr5xxx",
+> ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+>   SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx",
+> ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
 
-Applied to for-next.  Thanks.
+The patch can't be applied because your mailer broke tabs and spaces.
+Please fix your mailer setup and resubmit.  At best, try to send a
+patch to yourself and verify whether it can be applied via git-am
+beforehand.
 
+
+thanks,
 
 Takashi
