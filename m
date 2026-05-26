@@ -1,85 +1,83 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33823B6376
-	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 05:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19066282F31
+	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 06:15:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779775091; cv=none; b=kAdd53h30VdOGufVDOgItAu+S01o0lNdIF8bnhZs7DbIyVVLenhXq1nQBgwkqKvQ/pmMVX7XRPuZrBrVxULQsCP/dXK2d+e9HsAHo4wKfHDfE/yjLGTYx1Lwpzve47FE3YduhbGkEVB8xj7ICL82J7GnkwIt0QVo+iI8r69ZjzE=
+	t=1779776104; cv=none; b=F24Rx6YDm9dd3BkVf1yjnQotZQ9Fj+EI70WGSJVed9eWDxiYErcfwiM+5wYXxdAbFlEwoX4CYOrDgPKZ/5sdFdxqILcLBopsnGE9ZhnL/C/KoeeMb9UUBHc4LkDRryl+Yv72R+obio2NisHuUMFf3UZTAgGgYZ1+v5lS1cHdvTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779775091; c=relaxed/simple;
-	bh=F3ApDkV14xgZPXYsYclSk1byLWVIbCx28MQoJWyH55Y=;
+	s=arc-20240116; t=1779776104; c=relaxed/simple;
+	bh=tVMx8gt2MPRYv+jGzcJ56dU8xR/z9kwPYGqQ7xOtKR8=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f4yru0oJ3frFcgJWmZrK3IuNR4j/pguEeEPkFClJurYCv0Esueh9nbe2tV9+V7TPxMFGXQIUb//eoZ2nwpY8tD8y0mtVB8vEObaILJZ0DHBdJG8vXnfJVR7eH7EvJtl8jHMNRTz5SBGhTqwQxjTkkTa79ec6JsCnA+Ehp/glxdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oeQd/fsJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6DbuFc3I; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oeQd/fsJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6DbuFc3I; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=ieWjB6Ug/MqgQIgAYNGwJIuDNcENprfBLix7S0KB4Z7XZtI5odPOL+8rl6FyeGuR5oajspE/W8N5BLMLCCJ/T9MM7p+Apr2F3bYB91VzTYciLZ3zIal5UcbxMpI3k9Q5ShQ1kZGDhh9xBhor7ba8oOgN4KkJgzE8ZLLtkkfshv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Yv7JIx4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bE4rKl8F; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Yv7JIx4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bE4rKl8F; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oeQd/fsJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6DbuFc3I";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oeQd/fsJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6DbuFc3I"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Yv7JIx4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bE4rKl8F";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Yv7JIx4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bE4rKl8F"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2B56665393;
-	Tue, 26 May 2026 05:58:08 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 19798653D7;
+	Tue, 26 May 2026 06:15:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779775088; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779776101; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=38ZApKfvAN6HfIRcCWUy2kkwfHW4I25ZL82WVvHPCTY=;
-	b=oeQd/fsJ8EH1MdYzwfIYHU8hkIu70KNGDt1wGXyKZDNYY3vDleOICvgwZVsnTl7ouuZByw
-	qf9DBHYBJLAqTK9Ch/ESx5RwbgVxONScwfPSshg77awqYecdAkimwe83S5vGe8ud0o4u7j
-	GJpVO5swkaxTaMF/UiDF10XD5fKVTmY=
+	bh=ymXyXBbJoSToLMP68khLrd1PwV7J5/0LStL9S36Zdt4=;
+	b=1Yv7JIx41g5qXs2u3CEVSZwT0GAKrjWUnTOtmr0ILZUs4KXPFpPzHAbalUl8sFtMki6oYg
+	JDQkwr8s3QWwpSp2NUQCtA2fW6z7OwIAQu0JQXD+6eSy6FSOK8jwq4Srm6T4fP4vUyZBB4
+	p4pUJq2v2R8SysP4HsNMnWI3OpYkH4k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779775088;
+	s=susede2_ed25519; t=1779776101;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=38ZApKfvAN6HfIRcCWUy2kkwfHW4I25ZL82WVvHPCTY=;
-	b=6DbuFc3I0Y6rSOSPkYHzSSlawv1a+16oNi31h527IMBO7Dbsp3lQhsn9zlH/doFnBL2WU/
-	1V32nnpIfz82QZCw==
+	bh=ymXyXBbJoSToLMP68khLrd1PwV7J5/0LStL9S36Zdt4=;
+	b=bE4rKl8FgQJgsivxGBf4+FOrHjjvOH3EOz1x9CP0OnxEVRUxxZzRFKNHnSYzkrkv0d0pwE
+	JWboAW2y9pRKuKDA==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1Yv7JIx4;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bE4rKl8F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779775088; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779776101; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=38ZApKfvAN6HfIRcCWUy2kkwfHW4I25ZL82WVvHPCTY=;
-	b=oeQd/fsJ8EH1MdYzwfIYHU8hkIu70KNGDt1wGXyKZDNYY3vDleOICvgwZVsnTl7ouuZByw
-	qf9DBHYBJLAqTK9Ch/ESx5RwbgVxONScwfPSshg77awqYecdAkimwe83S5vGe8ud0o4u7j
-	GJpVO5swkaxTaMF/UiDF10XD5fKVTmY=
+	bh=ymXyXBbJoSToLMP68khLrd1PwV7J5/0LStL9S36Zdt4=;
+	b=1Yv7JIx41g5qXs2u3CEVSZwT0GAKrjWUnTOtmr0ILZUs4KXPFpPzHAbalUl8sFtMki6oYg
+	JDQkwr8s3QWwpSp2NUQCtA2fW6z7OwIAQu0JQXD+6eSy6FSOK8jwq4Srm6T4fP4vUyZBB4
+	p4pUJq2v2R8SysP4HsNMnWI3OpYkH4k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779775088;
+	s=susede2_ed25519; t=1779776101;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=38ZApKfvAN6HfIRcCWUy2kkwfHW4I25ZL82WVvHPCTY=;
-	b=6DbuFc3I0Y6rSOSPkYHzSSlawv1a+16oNi31h527IMBO7Dbsp3lQhsn9zlH/doFnBL2WU/
-	1V32nnpIfz82QZCw==
+	bh=ymXyXBbJoSToLMP68khLrd1PwV7J5/0LStL9S36Zdt4=;
+	b=bE4rKl8FgQJgsivxGBf4+FOrHjjvOH3EOz1x9CP0OnxEVRUxxZzRFKNHnSYzkrkv0d0pwE
+	JWboAW2y9pRKuKDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EADA55A058;
-	Tue, 26 May 2026 05:58:07 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F06DC5A069;
+	Tue, 26 May 2026 06:15:00 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MCwqOG82FWqGKwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 26 May 2026 05:58:07 +0000
-Date: Tue, 26 May 2026 07:58:07 +0200
-Message-ID: <87ldd6zp8w.wl-tiwai@suse.de>
+	id q70TOWQ6FWo9OwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 26 May 2026 06:15:00 +0000
+Date: Tue, 26 May 2026 08:15:00 +0200
+Message-ID: <87ik8azogr.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Fabian <fabianlippold1184@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALC269/Realtek: add quirk for HP Dragonfly Folio G3 2-in-1
-In-Reply-To: <CAKrjPiXUi=_ugS+Qa3aW3kM=wqZKT+ssEVTGmtAPqeT6XNDJNw@mail.gmail.com>
-References: <CAKrjPiXUi=_ugS+Qa3aW3kM=wqZKT+ssEVTGmtAPqeT6XNDJNw@mail.gmail.com>
+To: Damjan Georgievski <gdamjan@gmail.com>
+Cc: linux-sound@vger.kernel.org
+Subject: Re: SND_CTL_LED / SND_HDA_GENERIC_LEDS enablement
+In-Reply-To: <CAEk1YH47VfFk3dtav3m1gEKJ-OkSu6MyyNcGufWR9fX6miEF3w@mail.gmail.com>
+References: <CAEk1YH47VfFk3dtav3m1gEKJ-OkSu6MyyNcGufWR9fX6miEF3w@mail.gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -88,75 +86,79 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: 19798653D7
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	internal_greylist_whitelist(0.00)[10.150.64.97];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
 
-On Fri, 22 May 2026 20:44:09 +0200,
-Fabian wrote:
+On Mon, 25 May 2026 22:10:28 +0200,
+Damjan Georgievski wrote:
 > 
-> From 0039d23937f4c2783dcea11cc09b26a788d09872 Mon Sep 17 00:00:00 2001
-> From: Fabian Lippold <fabianlippold1184@gmail.com>
-> Date: Fri, 22 May 2026 20:36:10 +0200
-> Subject: [PATCH] ALC269/Realtek: add quirk for HP Dragonfly Folio G3 2-in-1
+> Currently SND_CTL_LED (on x86), enables the
+> `/sys/class/sound/ctl-led/mic/mode` knob/feature, where one can set
+> the "mic" led to either the "follow-route" or " follow-mute" (plus
+> "on" and "off").
 > 
-> Add PCI quirk for HP Dragonfly Folio G3 (PCI ID 103c:8a06) to select the
-> CS35L41 SPI4 & GPIO LED fixup variant.
+> The way I understand is that:
+> 1) It's a tristate symbol with no prompt (not user-selectable)
+> 2) it's only enabled pulled when SND_HDA_GENERIC_LEDS is enabled
+> 3) When enabled, it pulls in NEW_LEDS and LEDS_TRIGGERS
 > 
-> Signed-off-by: Fabian Lippold <fabianlippold1184@gmail.com>
-> ---
->  sound/hda/codecs/realtek/alc269.c | 1 +
->  1 file changed, 1 insertion(+)
+> On the other hand, SND_HDA_GENERIC_LEDS is:
+> 4) is a bool with no prompt (not user-selectable)
+> 5) only enabled (pulled) by SND_HDA_CODEC_SIGMATEL,
+> SND_HDA_CODEC_CONEXANT, SND_HDA_CODEC_SENARYTECH or
+> SND_HDA_CODEC_REALTEK_LIB
 > 
-> diff --git a/sound/hda/codecs/realtek/alc269.c
-> b/sound/hda/codecs/realtek/alc269.c
-> index 2f5d13032..2c478d80c 100644
-> --- a/sound/hda/codecs/realtek/alc269.c
-> +++ b/sound/hda/codecs/realtek/alc269.c
-> @@ -7069,6 +7069,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
->   SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)",
-> ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
->   SND_PCI_QUIRK(0x103c, 0x89da, "HP Spectre x360 14t-ea100",
-> ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
->   SND_PCI_QUIRK(0x103c, 0x89e7, "HP Elite x2 G9",
-> ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
-> + SND_PCI_QUIRK(0x103c, 0x8a06, "HP Dragonfly Folio G3 2-in-1",
-> ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
->   SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx",
-> ALC287_FIXUP_HP_GPIO_LED),
->   SND_PCI_QUIRK(0x103c, 0x8a1f, "HP Laptop 14s-dr5xxx",
-> ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
->   SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx",
-> ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+> Now, at least in my experience, this knob works just fine on a
+> Thinkpad X9-14 with the Cirrus cs42l43/cs35l56 soc/codec - *when
+> enabled*.
+> But, what I've noticed, while compiling my own kernel (for completely
+> other reasons), suited to my hardware, with minimal config to fasten
+> compile times - is that this knob is *not enabled* and I have to
+> enable some of the above mentioned _HDA_CODEC_'s.
+> 
+> 
+> Now, *my question is*,
+> should SND_CTL_LED and/or SND_HDA_GENERIC_LEDS be more generally
+> available for _any_ hardware?
 
-The patch can't be applied because your mailer broke tabs and spaces.
-Please fix your mailer setup and resubmit.  At best, try to send a
-patch to yourself and verify whether it can be applied via git-am
-beforehand.
+No, we don't want to prompt unnecessarily.  The driver that actually
+uses the stuff has to enable this.
 
+> Looking at the code I frankly could not understand how it's connected
+> to the above mentioned codecs.
 
-thanks,
+How about showing your hardware config details and what drivers are
+actually used as well as your kconfig?
+
 
 Takashi
