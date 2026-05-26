@@ -1,72 +1,77 @@
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67671D5CD1
-	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 15:26:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4366286425
+	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 15:28:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779809179; cv=none; b=cr4jaNC+kJm0AMQk3/6mAbiQVeYzJzJg7o9UsB23DdLr3lVpiegNL1XUqoKdvpCWV5dCaMwRnKKCZSeVsOL55EJlpd/ZM6IpaaNbjU0hkP/p+L4trELDO4VagoT558nynoMpoNrd16DRP4VScGFc5efdJLcBP2fq5Dj1lB/YvL8=
+	t=1779809332; cv=none; b=ZKym6TWdInaFMuAr+pR2BoKK4CDc2x9HhnMTBNVY9XOnokB86GPSbcHZYArQM/PD/iocpnCD3z3WUpeE0+dpSu4RNITZmxN9B4TO9OWSHhPss7iNwj+TlbUbqLOXvcWdiU6SZpTCvnrpKGA+857/NJugoKHlRe60cKymoObeI60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779809179; c=relaxed/simple;
-	bh=SRUrxk0jQMECROBCKrBkw3sSs5AFF/NDiJTbXObbw/o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rpIy2ifbDIHb9H3ZrfE9TiJ2XpD89hqEUoVmkjNWFgrclAOhR9lQnmwrJvUd2BXJ7j/I40M/xoIJLAjSeBVgvhrXmyzYBUFT34GGZPcd89i7DaokanZl2PN6mZ+YxmJvXmJE2JIWG1ublDlOyNSiCp5mPItq0bJ7DD6kI5hpZs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FQhd03R0; arc=none smtp.client-ip=209.85.215.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779809332; c=relaxed/simple;
+	bh=QwVaLgolcyijMn+iQhasq9mnU/0lJi5VZNV8SFWqugM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N15IjEiM+KnaSUaTkKyzWMpTSKzANz9J63298IdasdPioqiPw+CFzAPe/cyGWMASjOy1LXK3DT6UqSiduNOtR02rhn187+zX7d5LWyI5JR/bcqiE9ntOwvSvUrix7tZVVSIdE70steIlHtTz2BiFbLKkuICY6Xm933nAda4GiS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PgyFWLDR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/BMLWRJe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PgyFWLDR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/BMLWRJe; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FQhd03R0"
-Received: by mail-pg1-f195.google.com with SMTP id 41be03b00d2f7-c801912c903so4779869a12.0
-        for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 08:26:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779809176; x=1780413976; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QXhvDMTVMMUhsFNc2MO0bSQYrkXjyhTt35+Xy2fE/lg=;
-        b=FQhd03R0VNd+aWLL5M5UCqNNIWcQJeXJTSOGGikYbVkCmbK47Jmi5WDZFbyXCa4FiG
-         c9lNOyEPPqM5iy9vl94nKescp+Zhfp89toXf8SvAjNQdZuqkNmmbXPKyib+S+um33bQ9
-         jZXccQAkXGChd36Ie8vvRC5qmLhhtn/e4QkWVByxkgQu3txswmad60h93uL0LHKHrEk7
-         hYQjYpALT+BA4WOLTY1Yj/3Kn1b+Jh2KJZivCkSZi82sayadIMvevQ4T5rc0TbROvWTn
-         ZA+WeG9EqjmH+h0eN6f2kaTbUaLo6BRxnwuVXefIGomIIRVnhcB8f6ixBeoVTAQkOn+R
-         t3rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779809176; x=1780413976;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QXhvDMTVMMUhsFNc2MO0bSQYrkXjyhTt35+Xy2fE/lg=;
-        b=pqMK8ldHvHHaNAh0HWh3C1/6l87GXf1uAE0sl8j/UigdIrl2RcVLC1ZW/Ld2FT7t+r
-         nJsKm+4liT014AMgtPgt/SbF0wQ7T4mIbBheyyCWepzyHPXy3Pe/nFpDWgUZylT9LIQI
-         PB2qOUQritKYIsgYnWa1Eeay6XxaJ22OZxjETeHu6sl8aWg/AlwVx64fN6bdVxuox75I
-         lFSbxl2cnWrQRHNp+bfGLjSKYOJ2/PupRFC+pEROuBu6YNPkuJkFSadTJPouyHkq7oc4
-         /4vprAJIUoVrFk3W7aT+LqJgShnmyvpR5N1w+UQAu7GdJcnq4BteGKyzWFyLHH+Q2OWq
-         TXWA==
-X-Gm-Message-State: AOJu0Yx8V9wXZ4lq1Sgv2Upx2GPIrqwKsn1A+Et/IRM4qPsCL0HRZvVn
-	ER7zoHrTYifp/kAzCVjowaK0p/bUW8Mt2KV2VmpAHHRr7XDnzqywMg7h
-X-Gm-Gg: Acq92OF/Ds8/fhFSoO86oRCZzHOfNDtorS3OeUjKiU/HC16oXNRPHB24ZK4xNmHS22/
-	OCwVdXIBf17o5cOs10rNTiOrz5Copz7VDBcIB1dTSPRr1Oop4S9GA3H9TnolikXj3ORWOM9OfOy
-	otClsasavDjJfjgiJ0iB6EYkgSk7V0qhYYOmuFS5Q3P8SHsK/4msqABkcRPfeqZUnVEVySHnLSp
-	Ac1sg3fmvIiGYrDY6vg2eaILCBisQ+axi/kb0qIWODqpOpws8qZyow5sYXnfdFfAtYbGdVsDzTS
-	rlrwPTtNb9FFbGHq96nDWeQtC45PljuxtmCq7YnkSXzAdYeMmYCbB+c5f/auuOWW4aQi2o/Mefg
-	6a9ruLCV2a9UP23jBCLkgK8ODZ6nfq6avMSDNyyqw/t0z6P2HoNPGQH208vPEi8NzQR8NYiCmFi
-	/iq9IU4Jd4yoywEFEXnnEuBp2uUYPBKLE=
-X-Received: by 2002:a05:6a20:9f07:b0:3a0:b65a:5def with SMTP id adf61e73a8af0-3b328e9d0b6mr19968629637.33.1779809175676;
-        Tue, 26 May 2026 08:26:15 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c852056dfb1sm10082727a12.28.2026.05.26.08.26.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 08:26:15 -0700 (PDT)
-From: Zhang Cen <rollkingzzc@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zerocling0077@gmail.com,
-	2045gemini@gmail.com,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PgyFWLDR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/BMLWRJe";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PgyFWLDR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/BMLWRJe"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1B441673B1;
+	Tue, 26 May 2026 15:28:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779809329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Axc24nyCqNF8sRnKa7o4PSO/qw0755mPtaneWr6A5N0=;
+	b=PgyFWLDRXMH3R7mn8WCes1l7GEO6eBw3aQy/15wCkjOZh75sCX/0KSyyntDz2ZqjuaPjLG
+	QFphbr3DpOdlnxeHoZGViD2iyr4/h4YaH8hb2T/0MRnQfEPyeEOqU56Zai7eeGCwg6kDbh
+	nAfhR8BavrJG8UyzxWzvw636WzJwz74=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779809329;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Axc24nyCqNF8sRnKa7o4PSO/qw0755mPtaneWr6A5N0=;
+	b=/BMLWRJe4kHzsXqTARBafvL16u38bO4E2YfQ8vuDH9deHlyx/dCQCMYf0he/PBCNByosaI
+	774GQG3wXnH6llBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779809329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Axc24nyCqNF8sRnKa7o4PSO/qw0755mPtaneWr6A5N0=;
+	b=PgyFWLDRXMH3R7mn8WCes1l7GEO6eBw3aQy/15wCkjOZh75sCX/0KSyyntDz2ZqjuaPjLG
+	QFphbr3DpOdlnxeHoZGViD2iyr4/h4YaH8hb2T/0MRnQfEPyeEOqU56Zai7eeGCwg6kDbh
+	nAfhR8BavrJG8UyzxWzvw636WzJwz74=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779809329;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Axc24nyCqNF8sRnKa7o4PSO/qw0755mPtaneWr6A5N0=;
+	b=/BMLWRJe4kHzsXqTARBafvL16u38bO4E2YfQ8vuDH9deHlyx/dCQCMYf0he/PBCNByosaI
+	774GQG3wXnH6llBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0736E5A293;
+	Tue, 26 May 2026 15:28:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id EsEqATG8FWocagAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 26 May 2026 15:28:49 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
 	Zhang Cen <rollkingzzc@gmail.com>
-Subject: [PATCH] ALSA: seq: midi: Serialize output teardown with event_input
-Date: Tue, 26 May 2026 23:26:08 +0800
-Message-Id: <20260526152608.1250473-1-rollkingzzc@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH] ALSA: seq: oss: Fix UAF at handling events with embedded SysEx data
+Date: Tue, 26 May 2026 17:28:41 +0200
+Message-ID: <20260526152843.617503-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,227 +79,227 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
 
-event_process_midi() borrows msynth->output_rfile.output and then
-passes the substream to dump_midi() and snd_rawmidi_kernel_write()
-without synchronizing with the output open/close transition.
-midisynth_use() also publishes output_rfile before
-snd_rawmidi_output_params() has finished.
+The OSS sequencer processes the input MIDI bytes into a sequencer
+event to be dispatched later (in snd_seq_oss_midi_putc() called from
+snd_seq_oss_process_event()).  When it's a SysEx data, the event
+record contains data.ext.ptr pointer to the original SysEx bytes, and
+the referred data is copied into the pool afterwards at dispatching.
+The problem is that, if the sequencer port gets closed concurrently
+before the dispatch, the OSS sequencer core also releases the
+resources (in snd_seq_oss_midi_check_exit_port()), while the pending
+event may hold a stale pointer, eventually leading to a UAF at a later
+dispatch.
 
-The last midisynth_unuse() can therefore release the same rawmidi file
-and free substream->runtime before snd_rawmidi_kernel_write1() takes
-its runtime buffer reference. That leaves the event_input path using a
-stale substream or runtime and can end in a NULL-deref or use-after-free.
+Fortunately, there is already a refcounting mechanism (snd_use_lock_t)
+for the OSS MIDI device access, and for addressing the issue above, we
+just need to extend the refcount until the event gets dispatched.
 
-Fix this with two pieces of synchronization. Keep a short IRQ-safe
-spinlock only for publishing or clearing output_rfile and for pairing
-the output snapshot with an snd_use_lock_t reference. Once
-event_process_midi() has taken that in-flight reference, it drops the
-spinlock before calling snd_seq_dump_var_event(), dump_midi(), or
-snd_rawmidi_kernel_write(). midisynth_unuse() now detaches the visible
-rawmidi file under the same spinlock, waits for the in-flight writers
-to drain, and only then drains and releases the saved file.
-midisynth_use() likewise opens into a local snd_rawmidi_file and
-publishes it only after snd_rawmidi_output_params() succeeds.
+This patch extends snd_seq_oss_process_event() to give back the
+refcount object, which is in turn released after calling the sequencer
+dispatcher with the given event in the caller side.
 
-The buggy scenario involves two paths, with each column showing the
-order within that path:
+According to the original report, KASAN report as below:
 
-event_input path:                     last unuse path:
-1. event_process_midi() snapshots    1. midisynth_unuse() starts
-   output_rfile.output.                 tearing down output_rfile.
-2. dump_midi() reaches               2. snd_rawmidi_kernel_release()
-   snd_rawmidi_kernel_write()           closes the output file.
-   before runtime is pinned.         3. close_substream() frees
-3. The callback keeps using             substream->runtime.
-   the borrowed substream.
-
-Validation reproduced this kernel report:
-KASAN null-ptr-deref in snd_rawmidi_kernel_write1+0x56/0x360
-RIP: 0033:0x7fde7dd0837f
-RIP: 0010:snd_rawmidi_kernel_write1+0x56/0x360
-Read of size 8
+KASAN slab-use-after-free in snd_seq_event_dup+0x40c/0x470
+RIP: 0033:0x7f2cb66a6340
+Read of size 6
 Call trace:
   dump_stack_lvl+0x73/0xb0 (?:?)
-  print_report+0x43e/0x650 (?:?)
+  print_report+0xd1/0x650 (?:?)
   srso_alias_return_thunk+0x5/0xfbef5 (?:?)
-  rcu_is_watching+0x24/0x60 (?:?)
-  __virt_addr_valid+0x2f/0x340 (?:?)
-  kasan_addr_to_slab+0x11/0xa0 (?:?)
+  __virt_addr_valid+0x1a7/0x340 (?:?)
+  kasan_complete_mode_report_info+0x64/0x200 (?:?)
   kasan_report+0xf7/0x130 (?:?)
-  snd_rawmidi_kernel_write1+0x56/0x360 (?:?)
-  __asan_load8+0x82/0xb0 (?:?)
-  snd_rawmidi_kernel_write1+0x5/0x360 (?:?)
-  snd_rawmidi_kernel_write+0x1a/0x20 (?:?)
-  event_process_midi+0x125/0x220 (sound/core/seq/seq_midi.c:122)
-  __entry_text_end+0xfdeb5/0x101fb9 (?:?)
-  __kasan_check_write+0x18/0x20 (?:?)
-  __snd_seq_deliver_single_event+0x8a/0xe0 (?:?)
-  snd_seq_deliver_single_event+0x241/0x4b0 (?:?)
-  do_raw_read_unlock+0x32/0xa0 (?:?)
-  __deliver_to_subscribers+0x217/0x380 (?:?)
-  snd_seq_deliver_event+0x91/0x1b0 (?:?)
-  snd_seq_client_enqueue_event+0x192/0x240 (?:?)
-  snd_seq_write+0x2cd/0x450 (?:?)
+  snd_seq_event_dup+0x40c/0x470 (?:?)
+  kasan_check_range+0x10c/0x1c0 (?:?)
+  __asan_memcpy+0x27/0x70 (?:?)
+  snd_seq_event_dup+0x9/0x470 (?:?)
+  snd_seq_client_enqueue_event+0x139/0x240 (?:?)
+  _raw_spin_unlock_irqrestore+0x4b/0x60 (?:?)
+  snd_seq_kernel_client_enqueue+0x102/0x120 (?:?)
+  snd_seq_oss_write+0x416/0x4e0 (?:?)
   apparmor_file_permission+0x20/0x30 (?:?)
-  security_file_permission+0x51/0x60 (?:?)
+  odev_write+0x3b/0x60 (?:?)
   vfs_write+0x1ce/0x850 (?:?)
-  __fget_files+0x12b/0x220 (?:?)
   lock_release+0xc8/0x2a0 (?:?)
-  __rcu_read_unlock+0x74/0x2d0 (?:?)
-  __fget_files+0x135/0x220 (?:?)
-  ksys_write+0x15a/0x180 (?:?)
+  __kasan_check_write+0x18/0x20 (?:?)
+  __mutex_unlock_slowpath+0x129/0x510 (?:?)
+  ksys_write+0xe1/0x180 (?:?)
+  mutex_unlock+0x16/0x20 (?:?)
+  odev_ioctl+0x65/0xc0 (?:?)
   __x64_sys_write+0x46/0x60 (?:?)
   x64_sys_call+0x7d/0x20d0 (?:?)
   do_syscall_64+0xc1/0x360 (arch/x86/entry/syscall_64.c:87)
   entry_SYSCALL_64_after_hwframe+0x77/0x7f (?:?)
 
 Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Assisted-by: Codex:gpt-5.5
-Signed-off-by: Zhang Cen <rollkingzzc@gmail.com>
+Reported-and-tested-by: Zhang Cen <rollkingzzc@gmail.com>
+Closes: https://lore.kernel.org/20260521233900.478153-1-rollkingzzc@gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/seq/seq_midi.c | 56 ++++++++++++++++++++++++++++++---------
- 1 file changed, 44 insertions(+), 12 deletions(-)
+ sound/core/seq/oss/seq_oss_event.c | 6 ++++--
+ sound/core/seq/oss/seq_oss_event.h | 3 ++-
+ sound/core/seq/oss/seq_oss_ioctl.c | 5 ++++-
+ sound/core/seq/oss/seq_oss_midi.c  | 6 +++++-
+ sound/core/seq/oss/seq_oss_midi.h  | 2 +-
+ sound/core/seq/oss/seq_oss_rw.c    | 5 ++++-
+ 6 files changed, 20 insertions(+), 7 deletions(-)
 
-diff --git a/sound/core/seq/seq_midi.c b/sound/core/seq/seq_midi.c
-index ca3f5fc309927..f8520bd352253 100644
---- a/sound/core/seq/seq_midi.c
-+++ b/sound/core/seq/seq_midi.c
-@@ -24,6 +24,7 @@ Possible options for midisynth module:
- #include <sound/seq_device.h>
- #include <sound/seq_midi_event.h>
- #include <sound/initval.h>
-+#include "seq_lock.h"
+diff --git a/sound/core/seq/oss/seq_oss_event.c b/sound/core/seq/oss/seq_oss_event.c
+index 76fb81077eef..122735862044 100644
+--- a/sound/core/seq/oss/seq_oss_event.c
++++ b/sound/core/seq/oss/seq_oss_event.c
+@@ -39,8 +39,10 @@ static int set_echo_event(struct seq_oss_devinfo *dp, union evrec *rec, struct s
+  */
  
- MODULE_AUTHOR("Frank van de Pol <fvdpol@coil.demon.nl>, Jaroslav Kysela <perex@perex.cz>");
- MODULE_DESCRIPTION("Advanced Linux Sound Architecture sequencer MIDI synth.");
-@@ -42,6 +43,8 @@ struct seq_midisynth {
- 	int device;
- 	int subdevice;
- 	struct snd_rawmidi_file input_rfile;
-+	spinlock_t output_lock;		/* protects output_rfile publication */
-+	snd_use_lock_t output_use_lock;	/* in-flight event_input users */
- 	struct snd_rawmidi_file output_rfile;
- 	int seq_client;
- 	int seq_port;
-@@ -125,31 +128,44 @@ static int event_process_midi(struct snd_seq_event *ev, int direct,
- 	struct seq_midisynth *msynth = private_data;
- 	unsigned char msg[10];	/* buffer for constructing midi messages */
- 	struct snd_rawmidi_substream *substream;
-+	unsigned long flags;
-+	int err = 0;
- 	int len;
+ int
+-snd_seq_oss_process_event(struct seq_oss_devinfo *dp, union evrec *q, struct snd_seq_event *ev)
++snd_seq_oss_process_event(struct seq_oss_devinfo *dp, union evrec *q,
++			  struct snd_seq_event *ev, snd_use_lock_t **lockp)
+ {
++	*lockp = NULL;
+ 	switch (q->s.code) {
+ 	case SEQ_EXTENDED:
+ 		return extended_event(dp, q, ev);
+@@ -69,7 +71,7 @@ snd_seq_oss_process_event(struct seq_oss_devinfo *dp, union evrec *q, struct snd
+ 		if (snd_seq_oss_midi_open(dp, q->s.dev, SNDRV_SEQ_OSS_FILE_WRITE))
+ 			break;
+ 		if (snd_seq_oss_midi_filemode(dp, q->s.dev) & SNDRV_SEQ_OSS_FILE_WRITE)
+-			return snd_seq_oss_midi_putc(dp, q->s.dev, q->s.parm1, ev);
++			return snd_seq_oss_midi_putc(dp, q->s.dev, q->s.parm1, ev, lockp);
+ 		break;
  
- 	if (snd_BUG_ON(!msynth))
- 		return -EINVAL;
-+
-+	spin_lock_irqsave(&msynth->output_lock, flags);
- 	substream = msynth->output_rfile.output;
--	if (substream == NULL)
-+	if (substream)
-+		snd_use_lock_use(&msynth->output_use_lock);
-+	spin_unlock_irqrestore(&msynth->output_lock, flags);
-+
-+	if (!substream)
+ 	case SEQ_ECHO:
+diff --git a/sound/core/seq/oss/seq_oss_event.h b/sound/core/seq/oss/seq_oss_event.h
+index b4f723949a17..a4524e51d0e9 100644
+--- a/sound/core/seq/oss/seq_oss_event.h
++++ b/sound/core/seq/oss/seq_oss_event.h
+@@ -91,7 +91,8 @@ union evrec {
+ #define ev_is_long(ev) ((ev)->s.code >= 128)
+ #define ev_length(ev) ((ev)->s.code >= 128 ? LONG_EVENT_SIZE : SHORT_EVENT_SIZE)
+ 
+-int snd_seq_oss_process_event(struct seq_oss_devinfo *dp, union evrec *q, struct snd_seq_event *ev);
++int snd_seq_oss_process_event(struct seq_oss_devinfo *dp, union evrec *q,
++			      struct snd_seq_event *ev, snd_use_lock_t **lockp);
+ int snd_seq_oss_process_timer_event(struct seq_oss_timer *rec, union evrec *q);
+ int snd_seq_oss_event_input(struct snd_seq_event *ev, int direct, void *private_data, int atomic, int hop);
+ 
+diff --git a/sound/core/seq/oss/seq_oss_ioctl.c b/sound/core/seq/oss/seq_oss_ioctl.c
+index ccf682689ec9..ce7a69d52b30 100644
+--- a/sound/core/seq/oss/seq_oss_ioctl.c
++++ b/sound/core/seq/oss/seq_oss_ioctl.c
+@@ -45,14 +45,17 @@ static int snd_seq_oss_oob_user(struct seq_oss_devinfo *dp, void __user *arg)
+ {
+ 	unsigned char ev[8];
+ 	struct snd_seq_event tmpev;
++	snd_use_lock_t *lock = NULL;
+ 
+ 	if (copy_from_user(ev, arg, 8))
+ 		return -EFAULT;
+ 	memset(&tmpev, 0, sizeof(tmpev));
+ 	snd_seq_oss_fill_addr(dp, &tmpev, dp->addr.client, dp->addr.port);
+ 	tmpev.time.tick = 0;
+-	if (! snd_seq_oss_process_event(dp, (union evrec *)ev, &tmpev)) {
++	if (!snd_seq_oss_process_event(dp, (union evrec *)ev, &tmpev, &lock)) {
+ 		snd_seq_oss_dispatch(dp, &tmpev, 0, 0);
++		if (lock)
++			snd_use_lock_free(lock);
+ 	}
+ 	return 0;
+ }
+diff --git a/sound/core/seq/oss/seq_oss_midi.c b/sound/core/seq/oss/seq_oss_midi.c
+index b50a49ca42ff..70f94df65144 100644
+--- a/sound/core/seq/oss/seq_oss_midi.c
++++ b/sound/core/seq/oss/seq_oss_midi.c
+@@ -593,7 +593,8 @@ send_midi_event(struct seq_oss_devinfo *dp, struct snd_seq_event *ev, struct seq
+  *        non-zero : invalid - ignored
+  */
+ int
+-snd_seq_oss_midi_putc(struct seq_oss_devinfo *dp, int dev, unsigned char c, struct snd_seq_event *ev)
++snd_seq_oss_midi_putc(struct seq_oss_devinfo *dp, int dev, unsigned char c,
++		      struct snd_seq_event *ev, snd_use_lock_t **lockp)
+ {
+ 	struct seq_oss_midi *mdev __free(seq_oss_midi) =
+ 		get_mididev(dp, dev);
+@@ -602,6 +603,9 @@ snd_seq_oss_midi_putc(struct seq_oss_devinfo *dp, int dev, unsigned char c, stru
  		return -ENODEV;
- 	if (ev->type == SNDRV_SEQ_EVENT_SYSEX) {	/* special case, to save space */
- 		if ((ev->flags & SNDRV_SEQ_EVENT_LENGTH_MASK) != SNDRV_SEQ_EVENT_LENGTH_VARIABLE) {
- 			/* invalid event */
- 			pr_debug("ALSA: seq_midi: invalid sysex event flags = 0x%x\n", ev->flags);
--			return 0;
-+			goto out;
- 		}
- 		snd_seq_dump_var_event(ev, __dump_midi, substream);
- 		snd_midi_event_reset_decode(msynth->parser);
- 	} else {
--		if (msynth->parser == NULL)
--			return -EIO;
-+		if (!msynth->parser) {
-+			err = -EIO;
-+			goto out;
-+		}
- 		len = snd_midi_event_decode(msynth->parser, msg, sizeof(msg), ev);
- 		if (len < 0)
--			return 0;
-+			goto out;
- 		if (dump_midi(substream, msg, len) < 0)
- 			snd_midi_event_reset_decode(msynth->parser);
+ 	if (snd_midi_event_encode_byte(mdev->coder, c, ev)) {
+ 		snd_seq_oss_fill_addr(dp, ev, mdev->client, mdev->port);
++		/* the caller must release this later */
++		*lockp = &mdev->use_lock;
++		snd_use_lock_use(*lockp);
+ 		return 0;
  	}
--	return 0;
-+
-+out:
-+	snd_use_lock_free(&msynth->output_use_lock);
-+	return err;
- }
- 
- 
-@@ -163,6 +179,8 @@ static int snd_seq_midisynth_new(struct seq_midisynth *msynth,
- 	msynth->card = card;
- 	msynth->device = device;
- 	msynth->subdevice = subdevice;
-+	spin_lock_init(&msynth->output_lock);
-+	snd_use_lock_init(&msynth->output_use_lock);
- 	return 0;
- }
- 
-@@ -215,12 +233,14 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
+ 	return -EINVAL;
+diff --git a/sound/core/seq/oss/seq_oss_midi.h b/sound/core/seq/oss/seq_oss_midi.h
+index bcc1683773df..4819d4170bf6 100644
+--- a/sound/core/seq/oss/seq_oss_midi.h
++++ b/sound/core/seq/oss/seq_oss_midi.h
+@@ -26,7 +26,7 @@ void snd_seq_oss_midi_open_all(struct seq_oss_devinfo *dp, int file_mode);
+ int snd_seq_oss_midi_close(struct seq_oss_devinfo *dp, int dev);
+ void snd_seq_oss_midi_reset(struct seq_oss_devinfo *dp, int dev);
+ int snd_seq_oss_midi_putc(struct seq_oss_devinfo *dp, int dev, unsigned char c,
+-			  struct snd_seq_event *ev);
++			  struct snd_seq_event *ev, snd_use_lock_t **lockp);
+ int snd_seq_oss_midi_input(struct snd_seq_event *ev, int direct, void *private);
+ int snd_seq_oss_midi_filemode(struct seq_oss_devinfo *dp, int dev);
+ int snd_seq_oss_midi_make_info(struct seq_oss_devinfo *dp, int dev, struct midi_info *inf);
+diff --git a/sound/core/seq/oss/seq_oss_rw.c b/sound/core/seq/oss/seq_oss_rw.c
+index 307ef98c44c7..111c792bc72c 100644
+--- a/sound/core/seq/oss/seq_oss_rw.c
++++ b/sound/core/seq/oss/seq_oss_rw.c
+@@ -153,6 +153,7 @@ insert_queue(struct seq_oss_devinfo *dp, union evrec *rec, struct file *opt)
  {
- 	int err;
- 	struct seq_midisynth *msynth = private_data;
-+	struct snd_rawmidi_file rfile = {};
- 	struct snd_rawmidi_params params;
-+	unsigned long flags;
+ 	int rc = 0;
+ 	struct snd_seq_event event;
++	snd_use_lock_t *lock = NULL;
  
- 	/* open midi port */
- 	err = snd_rawmidi_kernel_open(msynth->rmidi, msynth->subdevice,
- 				      SNDRV_RAWMIDI_LFLG_OUTPUT,
--				      &msynth->output_rfile);
-+				      &rfile);
- 	if (err < 0) {
- 		pr_debug("ALSA: seq_midi: midi output open failed!!!\n");
- 		return err;
-@@ -229,12 +249,15 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
- 	params.avail_min = 1;
- 	params.buffer_size = output_buffer_size;
- 	params.no_active_sensing = 1;
--	err = snd_rawmidi_output_params(msynth->output_rfile.output, &params);
-+	err = snd_rawmidi_output_params(rfile.output, &params);
- 	if (err < 0) {
--		snd_rawmidi_kernel_release(&msynth->output_rfile);
-+		snd_rawmidi_kernel_release(&rfile);
- 		return err;
- 	}
- 	snd_midi_event_reset_decode(msynth->parser);
-+	spin_lock_irqsave(&msynth->output_lock, flags);
-+	msynth->output_rfile = rfile;
-+	spin_unlock_irqrestore(&msynth->output_lock, flags);
- 	return 0;
+ 	/* if this is a timing event, process the current time */
+ 	if (snd_seq_oss_process_timer_event(dp->timer, rec))
+@@ -164,7 +165,7 @@ insert_queue(struct seq_oss_devinfo *dp, union evrec *rec, struct file *opt)
+ 	event.type = SNDRV_SEQ_EVENT_NOTEOFF;
+ 	snd_seq_oss_fill_addr(dp, &event, dp->addr.client, dp->addr.port);
+ 
+-	if (snd_seq_oss_process_event(dp, rec, &event))
++	if (snd_seq_oss_process_event(dp, rec, &event, &lock))
+ 		return 0; /* invalid event - no need to insert queue */
+ 
+ 	event.time.tick = snd_seq_oss_timer_cur_tick(dp->timer);
+@@ -173,6 +174,8 @@ insert_queue(struct seq_oss_devinfo *dp, union evrec *rec, struct file *opt)
+ 	else
+ 		rc = snd_seq_kernel_client_enqueue(dp->cseq, &event, opt,
+ 						   !is_nonblock_mode(dp->file_mode));
++	if (lock)
++		snd_use_lock_free(lock);
+ 	return rc;
  }
- 
-@@ -242,11 +265,20 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
- static int midisynth_unuse(void *private_data, struct snd_seq_port_subscribe *info)
- {
- 	struct seq_midisynth *msynth = private_data;
-+	struct snd_rawmidi_file rfile = {};
-+	unsigned long flags;
- 
--	if (snd_BUG_ON(!msynth->output_rfile.output))
-+	spin_lock_irqsave(&msynth->output_lock, flags);
-+	rfile = msynth->output_rfile;
-+	msynth->output_rfile = (struct snd_rawmidi_file){};
-+	spin_unlock_irqrestore(&msynth->output_lock, flags);
-+
-+	if (snd_BUG_ON(!rfile.output))
- 		return -EINVAL;
--	snd_rawmidi_drain_output(msynth->output_rfile.output);
--	return snd_rawmidi_kernel_release(&msynth->output_rfile);
-+
-+	snd_use_lock_sync(&msynth->output_use_lock);
-+	snd_rawmidi_drain_output(rfile.output);
-+	return snd_rawmidi_kernel_release(&rfile);
- }
- 
- /* delete given midi synth port */
+ 		
 -- 
-2.43.0
+2.54.0
 
