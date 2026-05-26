@@ -1,110 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C513B0AFA;
-	Tue, 26 May 2026 17:36:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779816976; cv=none; b=YULpa5IsKfZS3UBTiqxiBacLzwn5EFgxPQoJa/HRtiuwLNOv2DcG4hkBG2Gc04NXJRngEzwaH6q9RpFlIxlufRPUaSjx3dCJOqrXpV0UzgB/Ct/tdTs88sS2YimCK4ju4IDwdWZrxixonlpIbMR7tavah+1eVip5FjaOAxC8v0s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779816976; c=relaxed/simple;
-	bh=PBr4DGwMUgDqxCqFEEu/8cc7jeIP2GXoSgHHG9KjuSc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f1ct6lYOxWUiefB+idxTtpx8GN9pi8qVKsZjUFNMEhCa/2vmjjUkzQzbpKBFiycI15Bnow+EZLA3WFT/f3Mek71rClvF1akJb1U7TlOxOL7FH6qmOAhTRaRnb+deLmWqS0jWkqSMQCYPYReA9Zj/GvGATP2fniOaMDb8B7tE/U0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eKYxgi2y; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D859E41C319;
+	Tue, 26 May 2026 17:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779817814; cv=pass; b=aosoA/c42Au/r+9uFjqKXysZCykuDbPnP/ZfKrvBezgMDzJRH7xVz7SxJ44CBtYZQ3oCyuJAJXbkmjtCH03gE24codvYVKTDZ/Re9VbDhc+J/zv4DPG+k+XRXnyT7CkflDLcgNWAfMhQ17FBC4OM0+6dWsvjbNY6rIirIG02pEA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779817814; c=relaxed/simple;
+	bh=DdD/pZ/nr15cbBsSL5kGBPgOLKWuqsf6ZPdeb/nYmEE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=eQcQIu6VVgnJbJRd1MzTej9xuOSRJ99Zdkh+ztrb/KpWgCzRPq9oaFwoC2qWCuIYo5UVF1JypjHvhNQBUaUj9Y5veR5ROwq4/Faras+MZjGMDrPL2dJEbaU8+cHhIOV8IVzGebyA4zhMe3rPWYJqJ1H/WKfgiBM6vbPTo+37fXQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=SSi/aDoI; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eKYxgi2y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62CD81F000E9;
-	Tue, 26 May 2026 17:36:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779816975;
-	bh=IvRL+r3Zx7UNMesELbYvDtOy9v2Dbg3TNLP7P8anjPk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eKYxgi2yrecV/KGkke/5U0XxHq+SP2CPrgy5+6/KmgCedfUqa9SbayK2/mFOlRx/L
-	 sr72RLoQVZPqe3uHse8JgG7ss8jR5kus09Kt/UMgxZncum1ne9NwSjt5o3nKoO6+p0
-	 hmdNUKGRDyNSEGnRCNAbspsHGCroJk2PyiNgj2YHCxy671hNW3zMxQfRN2whLNpuXt
-	 SdoeTImyNC2NG8iaZx5A74ewiMkQKuwrgtw91lQaQiKMe0rIQ9CWvuBNy6ZIrr/Fnf
-	 Uw4DSL+wGmFAb9LPqSxjSYolifmRdM/54fjdZH8h7twnoNZGMnqAIVVJexwH9f7ePG
-	 MAKON7diefNjQ==
-Date: Tue, 26 May 2026 18:36:10 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] ASoC: codecs: es8323: Adjust the initialization
- of certain registers
-Message-ID: <45a5b690-e7ff-454b-9120-1eb906bdd0a2@sirena.org.uk>
-References: <cover.1779796354.git.zhoubinbin@loongson.cn>
- <738268f7409fafdb65cd25214114fbde4d7e25c5.1779796354.git.zhoubinbin@loongson.cn>
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="SSi/aDoI"
+ARC-Seal: i=1; a=rsa-sha256; t=1779817799; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=cNQxDWIZMtjlShI/i3gdjnDxmAms46tzN6UedsgP7+onQKjBBc5qgQUqeWkoFA4eqI1AIILw3JrBJRcdawlqWgxILAkqjRsrgPrCiK0Zr9xPuatUQunLB+vEnIymfjjC1rSNHAxxr7GxSCnCkrpxLSo3KuWTCNJHQI6KrWNw/DU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1779817799; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=GHspFBKSVp6v+wlp5GmuX41RZNfc8goqrKH0LS7xmwo=; 
+	b=fXIkPlJIhUXQoSKNQrh5pmzYC8RVtaWB57HQJDQQ457ehE4TUHABFJacYcquP7co763vf84Owxe7I5V+9ZuFRUnRk1APIY0V08WHrSmqzQ9UeVOKBzLN8usbcAZKbyE3mVD9993huVPmVEcWMv0Uv8+q9BmAZz79Cpah2OAzTGE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779817799;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
+	bh=GHspFBKSVp6v+wlp5GmuX41RZNfc8goqrKH0LS7xmwo=;
+	b=SSi/aDoIVuGIJWuFhNd+XF/24vscn89CO6+tyHUW1v9uxSniUeqwaWGTLLT2dGXt
+	lKUIxUxtXWm0IzLmNZrtcFpgdDljoB0dp6A9eq7t/Ekh65zrTKfXsPpEpsi6IgIzV2E
+	kyCvpebv/xvSmnpDG2l1OSq8znTQ2X0SF1Sc1XxJU805foDoQFKBl5YT8iTXJBRvsfw
+	2oofj6YuGXf8sg6ISHaFMyp6iku9Ag4qBSTb1IwvQrSXBOiJgKrQSXwXCf5zUzju4rh
+	oXMfmbEFlk7FEt3/ECFCL8M4xFm8hDOqAFlbOcXyfJImOvSzrZHh9wI43TPiH9U4y1B
+	zjLBPUXMng==
+Received: by mx.zohomail.com with SMTPS id 1779817797328909.2614707255308;
+	Tue, 26 May 2026 10:49:57 -0700 (PDT)
+From: Rong Zhang <i@rong.moe>
+Date: Wed, 27 May 2026 01:49:23 +0800
+Subject: [PATCH 1/3] ALSA: doc: usb-audio: Add doc for
+ QUIRK_FLAG_IFB_SILENCE_ON_EMPTY
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="g4zeHAPmz0HSRMll"
-Content-Disposition: inline
-In-Reply-To: <738268f7409fafdb65cd25214114fbde4d7e25c5.1779796354.git.zhoubinbin@loongson.cn>
-X-Cookie: You are fairminded, just and loving.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260527-uac-quirk-get-cur-vol-v1-1-e9362b712e5e@rong.moe>
+References: <20260527-uac-quirk-get-cur-vol-v1-0-e9362b712e5e@rong.moe>
+In-Reply-To: <20260527-uac-quirk-get-cur-vol-v1-0-e9362b712e5e@rong.moe>
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Gordon Chen <chengordon326@gmail.com>, linux-sound@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Rong Zhang <i@rong.moe>
+X-Mailer: b4 0.16-dev-d5d98
+X-ZohoMailClient: External
 
+QUIRK_FLAG_IFB_SILENCE_ON_EMPTY was introduced into usb-audio before
+without appropriate documentation, so add it.
 
---g4zeHAPmz0HSRMll
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: a23812004228 ("ALSA: usb-audio: add IFB_SILENCE_ON_EMPTY quirk for Behringer Flow 8")
+Signed-off-by: Rong Zhang <i@rong.moe>
+---
+ Documentation/sound/alsa-configuration.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-On Tue, May 26, 2026 at 07:56:26PM +0800, Binbin Zhou wrote:
-> A few additional register initializations are required for proper
-> operation.
+diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
+index f75f08763941..4b30cd63c5a5 100644
+--- a/Documentation/sound/alsa-configuration.rst
++++ b/Documentation/sound/alsa-configuration.rst
+@@ -2383,6 +2383,12 @@ quirk_flags
+           ``V(x) = k * x``; ``dB(x) = 20 * log10(x)``. Overrides bit 24
+         * bit 28: ``mixer_capture_linear_vol``
+           Similar to bit 27 but for capture streams. Overrides bit 25
++        * bit 29: ``ifb_silence_on_empty``
++          In implicit feedback mode, when an entire capture URB returns with
++          all iso_frame_desc[i].status != 0 (bytes==0), do not silently return
++          from snd_usb_handle_sync_urb. Instead fall through and enqueue a
++          packet_info containing only size-0 packets, so the OUT ring keeps
++          moving (emits silence). Needed by Behringer Flow 8 (1397:050c).
+ 
+ This module supports multiple devices, autoprobe and hotplugging.
+ 
 
-> - During hw_params, write ES8323_DACPOWER (0x3c) to ensure DAC power
->   is correctly configured for the selected sample rate.
+-- 
+2.53.0
 
-Is it just a write that's needed (even if the DAC is already enabled),
-or is it that we need the DAC to be powered?  If it's the latter should
-this be managed using DAPM?  What does this write actually do?
-
-> - In the probe function, initialize DACCONTROL17, DACCONTROL20,
->   ADCCONTROL10, LOUT1_VOL, and ROUT1_VOL to improve analog output
->   stability and volume level.
-
-The volumes should be left at the chip defaults, users can adjust them
-via the existing Output 1 Playback Volume control and UCM can be used to
-provide defaults.  We don't configure this in the kernel because the
-settings needed for different boards can be very different and tweaking
-the configuration in the kernel causes them all to collide with each
-other.  The chip defaults might not always be helpful but at least
-they're a concrete thing that provides a fixed point for configuration.
-
-We also seem to already have volume controls exposed in at least
-DACCONTROL17 and DACCONTROL20.
-
-> - In set_bias_level, set CHIPPOWER to 0x00 when powering up and
->   to 0xff when powering off, fully controlling the chip's power
->   state.
-
-It looks like this register is managed by DAPM already, presumably
-there's some bug or missing configuration there but=20
-
---g4zeHAPmz0HSRMll
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoV2gkACgkQJNaLcl1U
-h9DlJgf+PBu9jNs6K2cEX1bBnkXmXB6gBCaYeU71UZyd4IoLDzX4oYDF6bB8FQXM
-CA7vNV1zSXsDa2mdkIOSFcs6aAIGwOCAQKtqYbwtOq0HQNuyyW7nfWOyGLamiKti
-q/qhPr9cmNqcOiK2xdZlzugdkZlm/8xjiwtSHH30A/b/dFFlmJAt/tI6HMnvxnTh
-Avims6hf8o0PKylzc2hdKdt3x5zMuiFpryDBBlEp7ZTZxbFkapKIgBorgqmDx1nj
-C4kOA4yOD1gmat07BSQ4A15Ywqde5SesxB5bKxy2BC0akUxFwKZ8fhfKHpybJTFj
-vRw2NgVG3wzxcCAlWCU1/SxiTC2Vbg==
-=PnrI
------END PGP SIGNATURE-----
-
---g4zeHAPmz0HSRMll--
