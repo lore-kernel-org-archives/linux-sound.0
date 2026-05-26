@@ -1,22 +1,23 @@
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C42B3F075A
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 258183E8339
 	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 11:56:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779796585; cv=none; b=tm6sWm7QPbfukpOW42jlOh6LvVTLBhDyTq/K6cuiMP+P5tQ2QMJIqbPy4r4aXqnhP1IBI3ga7TaczJFGuHt4Mu37sBmYTFs73j1Zc0cT9r+yIcktqMKeB0JezIyH5wa9F7xY4LMt/0rsen7AAHPHDGBa87YppNhOokY4sKvvRr4=
+	t=1779796586; cv=none; b=E4nGkOBpTM9/CQ+YD3/HuGibujjI12w6x8KM31ymce1VLkkhWYncllvu6YEo07T2zJc/Buw+qcmUlECy49fZuCFlE+Obu6ZbCcY4qeK9snH80LNZpxuVkS715s3BWKVrvVMamjulC4CfLgDDLxN8hfk246BGLO1GAYx4bNpbp5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779796585; c=relaxed/simple;
-	bh=oMGiyN7YCURX+bE3pjmtMneb0HTJgVp5gOSxCkPvf3Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CCq4/GygnA9SpZUESRu2cdLPdxZUIG9V43coSW9BU2iWu/+NfMWEm+N1ndtQAxtVvk2vOUCTbvGQDZC+UpQAfy/lR0ygtNlNSYDHwfzxlmWbROeqjvsAhBr1wCkV+r5Ft6IYibq9C0h3JEzEAA5XN6JIjvlHknuNZaDxRH5AJx8=
+	s=arc-20240116; t=1779796586; c=relaxed/simple;
+	bh=W6XFj8rwAv9tKzD94HdLIZr0D5x3g/T4/Xljmq6hc8M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qmu5mef6buB0I3hQZnB7D3duvCHTGPmATF6FsEYCC4B/E4hXZAm7L2V6t3HWFerHL+ZlpFr+Qzx0IgNyOYnIEIu7IKyaxZWsYKmAk7BLguaTeR2MRidZjTSYO+mjlqZQjU25VTzI5nBa5ySDNFqpuXOcdLZ6mrGHKxcC2fpmHuU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
 Received: from loongson.cn (unknown [223.64.68.59])
-	by gateway (Coremail) with SMTP id _____8AxZnheihVqlGMNAA--.13489S3;
-	Tue, 26 May 2026 19:56:14 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____8DxlnhhihVqomMNAA--.13579S3;
+	Tue, 26 May 2026 19:56:17 +0800 (CST)
 Received: from kernelserver (unknown [223.64.68.59])
-	by front1 (Coremail) with SMTP id qMiowJCxGOBYihVq04+RAA--.13379S2;
-	Tue, 26 May 2026 19:56:11 +0800 (CST)
+	by front1 (Coremail) with SMTP id qMiowJCxGOBYihVq04+RAA--.13379S4;
+	Tue, 26 May 2026 19:56:15 +0800 (CST)
 From: Binbin Zhou <zhoubinbin@loongson.cn>
 To: Binbin Zhou <zhoubb.aaron@gmail.com>,
 	Huacai Chen <chenhuacai@loongson.cn>,
@@ -29,10 +30,12 @@ Cc: Huacai Chen <chenhuacai@kernel.org>,
 	loongarch@lists.linux.dev,
 	linux-sound@vger.kernel.org,
 	Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH v2 0/5] ASoC: loongson: Refactor DMA handling and regmap
-Date: Tue, 26 May 2026 19:55:58 +0800
-Message-ID: <cover.1779796354.git.zhoubinbin@loongson.cn>
+Subject: [PATCH v2 2/5] ASoC: loongson: Combined regmap definitions
+Date: Tue, 26 May 2026 19:56:00 +0800
+Message-ID: <6fd63cc57c112218ae0873b73d8c3a4b24304b80.1779796354.git.zhoubinbin@loongson.cn>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1779796354.git.zhoubinbin@loongson.cn>
+References: <cover.1779796354.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -40,96 +43,227 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJCxGOBYihVq04+RAA--.13379S2
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAgETCGoVNiwIpwAAsS
-X-Coremail-Antispam: 1Uk129KBj93XoWxCF48XFW3CF1UWFyxCFykJFc_yoW5Jw15pa
-	n3C393Wr15trW2yrs3JayrJFy5ZryrWr9ruF47J34kWr9xuasFvw17tF18ZFW7Cry8GFy2
-	vry8KFW8uF13uacCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+X-CM-TRANSID:qMiowJCxGOBYihVq04+RAA--.13379S4
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAQETCGoVNlwIvQAAs7
+X-Coremail-Antispam: 1Uk129KBj93XoWxtr48tF48JF13Xw4rGw1xJFc_yoW7Kr45pr
+	nxAa97WrW5Jr4ay3ZIyrW8JFy5Cry3Cr93CF47Jw17W3srCw18uF15tF15Aa13uryDGFyI
+	vry8GrW8Ga4UGabCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
 	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Yb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	0xBIdaVrnRJUUUBIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
 	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
 	xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
 	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
-	XVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
-	AKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v2
-	6r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
-	CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
-	0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
-	AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIev
-	Ja73UjIFyTuYvjxU4s2-UUUUU
+	tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
+	AKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
+	6r1j6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
+	jxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
+	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
+	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0epB3UUUUU==
 
-Hi all:
+Previously, the regmap configuration for Loongson I2S controller was
+duplicated in both PCI and platform glue drivers. Move the common
+regmap configuration into the shared loongson_i2s.c to avoid code
+duplication and centralize register access handling.
 
-This series refactors the Loongson I2S ASoC drivers, reducing code
-duplication and improving DMA differentiation. It also adds an entry
-in MAINTAINERS and applies a few fixes to the es8323 codec driver.
+While moving, adjust the following:
+- Mark only RX_DATA and TX_DATA as volatile registers. The PCI version
+  incorrectly marked CFG/CTRL/CFG1 as volatile, which prevented proper
+  regcache synchronization.
+- Change cache type from REGCACHE_FLAT to REGCACHE_MAPLE. The register
+  map is sparse and the number of registers is small; MAPLE tree provides
+  better scalability and is the recommended cache type for modern
+  regmap users.
 
-Patch 1 adds a MAINTAINERS entry to track the Loongson audio drivers.
+Also, the following warning for the i2s_plat driver will be eliminated:
 
-Patch 2 consolidates duplicate regmap configurations from the PCI and
-platform glue drivers into the shared loongson_i2s.c. It also fixes
-volatile register marking and switches from REGCACHE_FLAT to
-REGCACHE_MAPLE.
+loongson-i2s-plat loongson-i2s: using zero-initialized flat cache, this may cause unexpected behavior.
 
-Patch 3 renames internal DMA structures and functions with an "idma"
-prefix to clearly distinguish them from external DMA (eDMA) support.
+Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+---
+ sound/soc/loongson/loongson_i2s.c      | 55 +++++++++++++++++++++++++-
+ sound/soc/loongson/loongson_i2s.h      |  1 +
+ sound/soc/loongson/loongson_i2s_pci.c  | 54 -------------------------
+ sound/soc/loongson/loongson_i2s_plat.c |  8 ----
+ 4 files changed, 55 insertions(+), 63 deletions(-)
 
-Patch 4 extracts the external DMA logic from the platform driver into
-loongson_dma.c, making it reusable and avoiding duplication with the
-internal DMA implementation.
-
-Patch 5 adjusts a few register values in the es8323 codec driver to
-improve power control and output volume on Loongson platforms.
-
-These changes have been tested on Loongson-2K0300 (platform, eDMA) and
-Loongson-3K2000 (PCI, iDMA) boards.
-
-Thanks.
-Binbin
-
-========
-V2:
-Patch (2/5):
-  - Fix volatile register handling, and switch from REGCACHE_FLAT to
-    REGCACHE_MAPLE;
-Patch (5/5):
-  - New patch for ES8323 coedc.
-
-Link to V1:
-https://lore.kernel.org/all/cover.1773821115.git.zhoubinbin@loongson.cn/
-
-Change from [1]:
-Patch (2/4):
-  - Reordered the `write` function to follow the `read` function;
-Patch (3/4)/(4/4):
-  - Use `idma` (internal dma) and `edma` (external dma) for short.
-
-[1]:
-https://lore.kernel.org/all/cover.1773107475.git.zhoubinbin@loongson.cn/
-
-Binbin Zhou (5):
-  MAINTAINERS: Add entry for Loongson ASoC driver
-  ASoC: loongson: Combined regmap definitions
-  ASoC: loongson: Use the `idma` identifier for internal DMA variables
-  ASoC: loongson: Separate external shared DMA from the platform
-    interface
-  ASoC: codecs: es8323: Adjust the initialization of certain registers
-
- MAINTAINERS                            |   9 ++
- sound/soc/codecs/es8323.c              |   9 ++
- sound/soc/loongson/Makefile            |   4 +-
- sound/soc/loongson/loongson_dma.c      | 148 +++++++++++++++++--------
- sound/soc/loongson/loongson_dma.h      |   6 +-
- sound/soc/loongson/loongson_i2s.c      |  55 ++++++++-
- sound/soc/loongson/loongson_i2s.h      |   7 +-
- sound/soc/loongson/loongson_i2s_pci.c  |  59 +---------
- sound/soc/loongson/loongson_i2s_plat.c |  67 +----------
- 9 files changed, 190 insertions(+), 174 deletions(-)
-
-
-base-commit: 8cd773d4f8235aaf0b04927b3c9d2d0326def09b
+diff --git a/sound/soc/loongson/loongson_i2s.c b/sound/soc/loongson/loongson_i2s.c
+index e336656e13eb..56bb6a85e58b 100644
+--- a/sound/soc/loongson/loongson_i2s.c
++++ b/sound/soc/loongson/loongson_i2s.c
+@@ -254,6 +254,7 @@ static int i2s_suspend(struct device *dev)
+ 	struct loongson_i2s *i2s = dev_get_drvdata(dev);
+ 
+ 	regcache_cache_only(i2s->regmap, true);
++	regcache_mark_dirty(i2s->regmap);
+ 
+ 	return 0;
+ }
+@@ -263,7 +264,7 @@ static int i2s_resume(struct device *dev)
+ 	struct loongson_i2s *i2s = dev_get_drvdata(dev);
+ 
+ 	regcache_cache_only(i2s->regmap, false);
+-	regcache_mark_dirty(i2s->regmap);
++
+ 	return regcache_sync(i2s->regmap);
+ }
+ 
+@@ -272,5 +273,57 @@ const struct dev_pm_ops loongson_i2s_pm = {
+ };
+ EXPORT_SYMBOL_GPL(loongson_i2s_pm);
+ 
++static bool loongson_i2s_rd_reg(struct device *dev, unsigned int reg)
++{
++	switch (reg) {
++	case LS_I2S_VER:
++	case LS_I2S_CFG:
++	case LS_I2S_CTRL:
++	case LS_I2S_RX_DATA:
++	case LS_I2S_TX_DATA:
++	case LS_I2S_CFG1:
++		return true;
++	default:
++		return false;
++	};
++}
++
++static bool loongson_i2s_wr_reg(struct device *dev, unsigned int reg)
++{
++	switch (reg) {
++	case LS_I2S_CFG:
++	case LS_I2S_CTRL:
++	case LS_I2S_RX_DATA:
++	case LS_I2S_TX_DATA:
++	case LS_I2S_CFG1:
++		return true;
++	default:
++		return false;
++	};
++}
++
++static bool loongson_i2s_volatile_reg(struct device *dev, unsigned int reg)
++{
++	switch (reg) {
++	case LS_I2S_RX_DATA:
++	case LS_I2S_TX_DATA:
++		return true;
++	default:
++		return false;
++	};
++}
++
++const struct regmap_config loongson_i2s_regmap_config = {
++	.reg_bits = 32,
++	.reg_stride = 4,
++	.val_bits = 32,
++	.max_register = LS_I2S_CFG1,
++	.readable_reg = loongson_i2s_rd_reg,
++	.writeable_reg = loongson_i2s_wr_reg,
++	.volatile_reg = loongson_i2s_volatile_reg,
++	.cache_type = REGCACHE_MAPLE,
++};
++EXPORT_SYMBOL_GPL(loongson_i2s_regmap_config);
++
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("Common functions for loongson I2S controller driver");
+diff --git a/sound/soc/loongson/loongson_i2s.h b/sound/soc/loongson/loongson_i2s.h
+index c8052a762c1b..e73ffa954ec9 100644
+--- a/sound/soc/loongson/loongson_i2s.h
++++ b/sound/soc/loongson/loongson_i2s.h
+@@ -65,6 +65,7 @@ struct loongson_i2s {
+ 	u32 sysclk;
+ };
+ 
++extern const struct regmap_config loongson_i2s_regmap_config;
+ extern const struct dev_pm_ops loongson_i2s_pm;
+ extern struct snd_soc_dai_driver loongson_i2s_dai;
+ 
+diff --git a/sound/soc/loongson/loongson_i2s_pci.c b/sound/soc/loongson/loongson_i2s_pci.c
+index 1ea5501a97f8..dea1e4ebee29 100644
+--- a/sound/soc/loongson/loongson_i2s_pci.c
++++ b/sound/soc/loongson/loongson_i2s_pci.c
+@@ -18,60 +18,6 @@
+ 
+ #define DRIVER_NAME "loongson-i2s-pci"
+ 
+-static bool loongson_i2s_wr_reg(struct device *dev, unsigned int reg)
+-{
+-	switch (reg) {
+-	case LS_I2S_CFG:
+-	case LS_I2S_CTRL:
+-	case LS_I2S_RX_DATA:
+-	case LS_I2S_TX_DATA:
+-	case LS_I2S_CFG1:
+-		return true;
+-	default:
+-		return false;
+-	};
+-}
+-
+-static bool loongson_i2s_rd_reg(struct device *dev, unsigned int reg)
+-{
+-	switch (reg) {
+-	case LS_I2S_VER:
+-	case LS_I2S_CFG:
+-	case LS_I2S_CTRL:
+-	case LS_I2S_RX_DATA:
+-	case LS_I2S_TX_DATA:
+-	case LS_I2S_CFG1:
+-		return true;
+-	default:
+-		return false;
+-	};
+-}
+-
+-static bool loongson_i2s_volatile_reg(struct device *dev, unsigned int reg)
+-{
+-	switch (reg) {
+-	case LS_I2S_CFG:
+-	case LS_I2S_CTRL:
+-	case LS_I2S_RX_DATA:
+-	case LS_I2S_TX_DATA:
+-	case LS_I2S_CFG1:
+-		return true;
+-	default:
+-		return false;
+-	};
+-}
+-
+-static const struct regmap_config loongson_i2s_regmap_config = {
+-	.reg_bits = 32,
+-	.reg_stride = 4,
+-	.val_bits = 32,
+-	.max_register = LS_I2S_CFG1,
+-	.writeable_reg = loongson_i2s_wr_reg,
+-	.readable_reg = loongson_i2s_rd_reg,
+-	.volatile_reg = loongson_i2s_volatile_reg,
+-	.cache_type = REGCACHE_FLAT,
+-};
+-
+ static int loongson_i2s_pci_probe(struct pci_dev *pdev,
+ 				  const struct pci_device_id *pid)
+ {
+diff --git a/sound/soc/loongson/loongson_i2s_plat.c b/sound/soc/loongson/loongson_i2s_plat.c
+index fa2e450ff618..f8d7aca8b903 100644
+--- a/sound/soc/loongson/loongson_i2s_plat.c
++++ b/sound/soc/loongson/loongson_i2s_plat.c
+@@ -85,14 +85,6 @@ static const struct snd_soc_component_driver loongson_i2s_component_driver = {
+ 	.open	= loongson_pcm_open,
+ };
+ 
+-static const struct regmap_config loongson_i2s_regmap_config = {
+-	.reg_bits = 32,
+-	.reg_stride = 4,
+-	.val_bits = 32,
+-	.max_register = 0x14,
+-	.cache_type = REGCACHE_FLAT,
+-};
+-
+ static int loongson_i2s_apbdma_config(struct platform_device *pdev)
+ {
+ 	int val;
 -- 
 2.52.0
 
