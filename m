@@ -1,253 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC99D41C2FB;
-	Tue, 26 May 2026 17:15:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C513B0AFA;
+	Tue, 26 May 2026 17:36:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779815732; cv=none; b=rW1i0n9iGhwgNiqOrhn6CPtjyuwjgXKzZGRnQ0gl+ftxt4VfisWMvV9SmPbQ6FEffN1a9WltDgfkPV+qwCFMPym6/IU/w9+PXzfxOu/+q8zxnmj6t2NNzl2ogSkoXif5FU1pDD8GqCqBM1FaFft+eTa9BPPUoWtLf/ZxjqGY0Cs=
+	t=1779816976; cv=none; b=YULpa5IsKfZS3UBTiqxiBacLzwn5EFgxPQoJa/HRtiuwLNOv2DcG4hkBG2Gc04NXJRngEzwaH6q9RpFlIxlufRPUaSjx3dCJOqrXpV0UzgB/Ct/tdTs88sS2YimCK4ju4IDwdWZrxixonlpIbMR7tavah+1eVip5FjaOAxC8v0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779815732; c=relaxed/simple;
-	bh=x+DEaPvKv7TQz/Zz8vDRySswulFxfroGrLWhxyBmfJM=;
-	h=Date:Message-ID:From:To:Cc:Subject:References:MIME-Version:
-	 Content-Type; b=ZAk6jwz9Q9OLmX3838kFRJhgC1TDpHpJOG8rOJp+fk64zsMgI86LBfKSYYlsEDcKvyEkBilfpizf19BysWfM2G+fFyluOTkQMfHIwSXBf8npwf7aEbLF3Oz29NpEdEP8RSjfWnMNCDz/WZ+l3zJf/vqG7FDSu0M4K78odAKL2ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ixngS4Sn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779816976; c=relaxed/simple;
+	bh=PBr4DGwMUgDqxCqFEEu/8cc7jeIP2GXoSgHHG9KjuSc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f1ct6lYOxWUiefB+idxTtpx8GN9pi8qVKsZjUFNMEhCa/2vmjjUkzQzbpKBFiycI15Bnow+EZLA3WFT/f3Mek71rClvF1akJb1U7TlOxOL7FH6qmOAhTRaRnb+deLmWqS0jWkqSMQCYPYReA9Zj/GvGATP2fniOaMDb8B7tE/U0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eKYxgi2y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ixngS4Sn"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A379E1F000E9;
-	Tue, 26 May 2026 17:15:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eKYxgi2y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62CD81F000E9;
+	Tue, 26 May 2026 17:36:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779815730;
-	bh=a4FYRpF1UYnCO8X4b7Ms8Ubqb9G1rX4iNVRYaeabgIQ=;
-	h=Date:From:To:Cc:Subject:References;
-	b=ixngS4SnkGLyqGeipEEwuirzm/HHZxpkH7kvwDyAyEK24rrwJT/ZQ101v2Cx4uWVn
-	 JgGTIBZ5UNi2TzcfUlL9RV/Fmon0QpUgY5LCPlPxe0EFOITmBrBDrfZOUwMBlKqcPh
-	 Qtx9WenveUCT9y9lpoQMVFRE5WRX02W6gtVRBQBOCQdxY50L15drAfLSX5puBpeeCf
-	 A+SuRtbTKPyWL3ur4a/SISfMATT1S9BwY2xZM9y/LU2qrzGExLZ05B08iEO58KdJHG
-	 gb3dwQX8Az1X5YalJgJXToi9tu7Gq4cWGAd3OmdRzY4rEuVGAWjQqSF3eUsWnJrf6i
-	 Jcs6AoAq3kAZg==
-Date: Tue, 26 May 2026 19:15:27 +0200
-Message-ID: <20260526171224.499777655@kernel.org>
-User-Agent: quilt/0.68
-From: Thomas Gleixner <tglx@kernel.org>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: David Woodhouse <dwmw2@infradead.org>,
- Miroslav Lichvar <mlichvar@redhat.com>,
- John Stultz <jstultz@google.com>,
- Stephen Boyd <sboyd@kernel.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- thomas.weissschuh@linutronix.de,
- Arthur Kiyanovski <akiyano@amazon.com>,
- Rodolfo Giometti <giometti@enneenne.com>,
- Vincent Donnefort <vdonnefort@google.com>,
- Marc Zyngier <maz@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>,
- kvmarm@lists.linux.dev,
- Oliver Upton <oupton@kernel.org>,
- Richard Cochran <richardcochran@gmail.com>,
- netdev@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>,
- Miri Korenblit <miriam.rachel.korenblit@intel.com>,
- Johannes Berg <johannes.berg@intel.com>,
- Jacob Keller <jacob.e.keller@intel.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Saeed Mahameed <saeedm@nvidia.com>,
- Peter Hilber <peter.hilber@oss.qualcomm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- virtualization@lists.linux.dev,
- linux-wireless@vger.kernel.org,
- linux-sound@vger.kernel.org
-Subject: [patch 24/24] ptp: Switch to ktime_get_snapshot_id() for pre/post
- timestamps
-References: <20260526165826.392227559@kernel.org>
+	s=k20260515; t=1779816975;
+	bh=IvRL+r3Zx7UNMesELbYvDtOy9v2Dbg3TNLP7P8anjPk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=eKYxgi2yrecV/KGkke/5U0XxHq+SP2CPrgy5+6/KmgCedfUqa9SbayK2/mFOlRx/L
+	 sr72RLoQVZPqe3uHse8JgG7ss8jR5kus09Kt/UMgxZncum1ne9NwSjt5o3nKoO6+p0
+	 hmdNUKGRDyNSEGnRCNAbspsHGCroJk2PyiNgj2YHCxy671hNW3zMxQfRN2whLNpuXt
+	 SdoeTImyNC2NG8iaZx5A74ewiMkQKuwrgtw91lQaQiKMe0rIQ9CWvuBNy6ZIrr/Fnf
+	 Uw4DSL+wGmFAb9LPqSxjSYolifmRdM/54fjdZH8h7twnoNZGMnqAIVVJexwH9f7ePG
+	 MAKON7diefNjQ==
+Date: Tue, 26 May 2026 18:36:10 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 5/5] ASoC: codecs: es8323: Adjust the initialization
+ of certain registers
+Message-ID: <45a5b690-e7ff-454b-9120-1eb906bdd0a2@sirena.org.uk>
+References: <cover.1779796354.git.zhoubinbin@loongson.cn>
+ <738268f7409fafdb65cd25214114fbde4d7e25c5.1779796354.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="g4zeHAPmz0HSRMll"
+Content-Disposition: inline
+In-Reply-To: <738268f7409fafdb65cd25214114fbde4d7e25c5.1779796354.git.zhoubinbin@loongson.cn>
+X-Cookie: You are fairminded, just and loving.
 
-To prepare for a new PTP IOCTL, which exposes the raw counter value along
-with the requested system time snapshot, switch the pre/post time stamp
-sampling over to use ktime_get_snapshot_id() and fix up all usage sites.
 
-No functional change intended.
+--g4zeHAPmz0HSRMll
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The ptp_vmclock conversion was simplified by David Woodhouse.
+On Tue, May 26, 2026 at 07:56:26PM +0800, Binbin Zhou wrote:
+> A few additional register initializations are required for proper
+> operation.
 
-Signed-off-by: Thomas Gleixner <tglx@kernel.org>
----
- drivers/net/dsa/sja1105/sja1105_main.c |    8 ++++----
- drivers/ptp/ptp_chardev.c              |   14 +++++++++-----
- drivers/ptp/ptp_ocp.c                  |   11 ++++-------
- drivers/ptp/ptp_vmclock.c              |   23 +++++++----------------
- include/linux/ptp_clock_kernel.h       |   15 ++++++++-------
- 5 files changed, 32 insertions(+), 39 deletions(-)
+> - During hw_params, write ES8323_DACPOWER (0x3c) to ensure DAC power
+>   is correctly configured for the selected sample rate.
 
---- a/drivers/net/dsa/sja1105/sja1105_main.c
-+++ b/drivers/net/dsa/sja1105/sja1105_main.c
-@@ -2310,10 +2310,10 @@ int sja1105_static_config_reload(struct
- 		goto out;
- 	}
- 
--	t1 = timespec64_to_ns(&ptp_sts_before.pre_ts);
--	t2 = timespec64_to_ns(&ptp_sts_before.post_ts);
--	t3 = timespec64_to_ns(&ptp_sts_after.pre_ts);
--	t4 = timespec64_to_ns(&ptp_sts_after.post_ts);
-+	t1 = ktime_to_ns(ptp_sts_before.pre_sts.sys);
-+	t2 = ktime_to_ns(ptp_sts_before.post_sts.sys);
-+	t3 = ktime_to_ns(ptp_sts_after.pre_sts.sys);
-+	t4 = ktime_to_ns(ptp_sts_after.post_sts.sys);
- 	/* Mid point, corresponds to pre-reset PTPCLKVAL */
- 	t12 = t1 + (t2 - t1) / 2;
- 	/* Mid point, corresponds to post-reset PTPCLKVAL, aka 0 */
---- a/drivers/ptp/ptp_chardev.c
-+++ b/drivers/ptp/ptp_chardev.c
-@@ -386,15 +386,19 @@ static long ptp_sys_offset_extended(stru
- 			return err;
- 
- 		/* Filter out disabled or unavailable clocks */
--		if (sts.pre_ts.tv_sec < 0 || sts.post_ts.tv_sec < 0)
-+		if (!sts.pre_sts.valid || !sts.post_sts.valid)
- 			return -EINVAL;
- 
--		extoff->ts[i][0].sec = sts.pre_ts.tv_sec;
--		extoff->ts[i][0].nsec = sts.pre_ts.tv_nsec;
- 		extoff->ts[i][1].sec = ts.tv_sec;
- 		extoff->ts[i][1].nsec = ts.tv_nsec;
--		extoff->ts[i][2].sec = sts.post_ts.tv_sec;
--		extoff->ts[i][2].nsec = sts.post_ts.tv_nsec;
-+
-+		ts = ktime_to_timespec64(sts.pre_sts.sys);
-+		extoff->ts[i][0].sec = ts.tv_sec;
-+		extoff->ts[i][0].nsec = ts.tv_nsec;
-+
-+		ts = ktime_to_timespec64(sts.post_sts.sys);
-+		extoff->ts[i][2].sec = ts.tv_sec;
-+		extoff->ts[i][2].nsec = ts.tv_nsec;
- 	}
- 
- 	return copy_to_user(arg, extoff, sizeof(*extoff)) ? -EFAULT : 0;
---- a/drivers/ptp/ptp_ocp.c
-+++ b/drivers/ptp/ptp_ocp.c
-@@ -1491,11 +1491,8 @@ static int
- 	}
- 	ptp_read_system_postts(sts);
- 
--	if (sts && bp->ts_window_adjust) {
--		s64 ns = timespec64_to_ns(&sts->post_ts);
--
--		sts->post_ts = ns_to_timespec64(ns - bp->ts_window_adjust);
--	}
-+	if (sts && bp->ts_window_adjust)
-+		sts->post_ts.sys -= bp->ts_window_adjust;
- 
- 	time_ns = ioread32(&bp->reg->time_ns);
- 	time_sec = ioread32(&bp->reg->time_sec);
-@@ -4595,8 +4592,8 @@ ptp_ocp_summary_show(struct seq_file *s,
- 		struct timespec64 sys_ts;
- 		s64 pre_ns, post_ns, ns;
- 
--		pre_ns = timespec64_to_ns(&sts.pre_ts);
--		post_ns = timespec64_to_ns(&sts.post_ts);
-+		pre_ns = ktime_to_ns(sts.pre_sts.sys);
-+		post_ns = ktime_to_ns(sts.post_sts.sys);
- 		ns = (pre_ns + post_ns) / 2;
- 		ns += (s64)bp->utc_tai_offset * NSEC_PER_SEC;
- 		sys_ts = ns_to_timespec64(ns);
---- a/drivers/ptp/ptp_vmclock.c
-+++ b/drivers/ptp/ptp_vmclock.c
-@@ -101,7 +101,6 @@ static int vmclock_get_crosststamp(struc
- 				   struct timespec64 *tspec)
- {
- 	ktime_t deadline = ktime_add(ktime_get(), VMCLOCK_MAX_WAIT);
--	struct system_time_snapshot systime_snapshot;
- 	uint64_t cycle, delta, seq, frac_sec;
- 
- #ifdef CONFIG_X86
-@@ -132,17 +131,15 @@ static int vmclock_get_crosststamp(struc
- 		 * will be derived from the *same* counter value.
- 		 *
- 		 * If the system isn't using the same counter, then the value
--		 * from ktime_get_snapshot_id() will still be used as pre_ts, and
--		 * ptp_read_system_postts() is called to populate postts after
--		 * calling get_cycles().
--		 *
--		 * The conversion to timespec64 happens further down, outside
--		 * the seq_count loop.
-+		 * from ptp_read_system_prets() will still be used as pre_ts,
-+		 * and ptp_read_system_postts() is called to populate postts
-+		 * after calling get_cycles().
- 		 */
- 		if (sts) {
--			ktime_get_snapshot_id(&systime_snapshot, CLOCK_REALTIME);
--			if (systime_snapshot.cs_id == st->cs_id) {
--				cycle = systime_snapshot.cycles;
-+			ptp_read_system_prets(sts);
-+			if (sts->pre_sts.cs_id == st->cs_id) {
-+				cycle = sts->pre_sts.cycles;
-+				sts->post_sts = sts->pre_sts;
- 			} else {
- 				cycle = get_cycles();
- 				ptp_read_system_postts(sts);
-@@ -180,12 +177,6 @@ static int vmclock_get_crosststamp(struc
- 		system_counter->cs_id = st->cs_id;
- 	}
- 
--	if (sts) {
--		sts->pre_ts = ktime_to_timespec64(systime_snapshot.sys);
--		if (systime_snapshot.cs_id == st->cs_id)
--			sts->post_ts = sts->pre_ts;
--	}
--
- 	return 0;
- }
- 
---- a/include/linux/ptp_clock_kernel.h
-+++ b/include/linux/ptp_clock_kernel.h
-@@ -12,6 +12,7 @@
- #include <linux/pps_kernel.h>
- #include <linux/ptp_clock.h>
- #include <linux/timecounter.h>
-+#include <linux/timekeeping.h>
- #include <linux/skbuff.h>
- 
- #define PTP_CLOCK_NAME_LEN	32
-@@ -45,13 +46,13 @@ struct system_device_crosststamp;
- 
- /**
-  * struct ptp_system_timestamp - system time corresponding to a PHC timestamp
-- * @pre_ts: system timestamp before capturing PHC
-- * @post_ts: system timestamp after capturing PHC
-- * @clockid: clock-base used for capturing the system timestamps
-+ * @pre_sts:	system time snapshot before capturing PHC
-+ * @post_sts:	system time snapshot after capturing PHC
-+ * @clockid:	clock-base used for capturing the system timestamps
-  */
- struct ptp_system_timestamp {
--	struct timespec64 pre_ts;
--	struct timespec64 post_ts;
-+	struct system_time_snapshot pre_sts;
-+	struct system_time_snapshot post_sts;
- 	clockid_t clockid;
- };
- 
-@@ -510,13 +511,13 @@ static inline ktime_t ptp_convert_timest
- static inline void ptp_read_system_prets(struct ptp_system_timestamp *sts)
- {
- 	if (sts)
--		ktime_get_clock_ts64(sts->clockid, &sts->pre_ts);
-+		ktime_get_snapshot_id(&sts->pre_sts, sts->clockid);
- }
- 
- static inline void ptp_read_system_postts(struct ptp_system_timestamp *sts)
- {
- 	if (sts)
--		ktime_get_clock_ts64(sts->clockid, &sts->post_ts);
-+		ktime_get_snapshot_id(&sts->post_sts, sts->clockid);
- }
- 
- #endif
+Is it just a write that's needed (even if the DAC is already enabled),
+or is it that we need the DAC to be powered?  If it's the latter should
+this be managed using DAPM?  What does this write actually do?
 
+> - In the probe function, initialize DACCONTROL17, DACCONTROL20,
+>   ADCCONTROL10, LOUT1_VOL, and ROUT1_VOL to improve analog output
+>   stability and volume level.
+
+The volumes should be left at the chip defaults, users can adjust them
+via the existing Output 1 Playback Volume control and UCM can be used to
+provide defaults.  We don't configure this in the kernel because the
+settings needed for different boards can be very different and tweaking
+the configuration in the kernel causes them all to collide with each
+other.  The chip defaults might not always be helpful but at least
+they're a concrete thing that provides a fixed point for configuration.
+
+We also seem to already have volume controls exposed in at least
+DACCONTROL17 and DACCONTROL20.
+
+> - In set_bias_level, set CHIPPOWER to 0x00 when powering up and
+>   to 0xff when powering off, fully controlling the chip's power
+>   state.
+
+It looks like this register is managed by DAPM already, presumably
+there's some bug or missing configuration there but=20
+
+--g4zeHAPmz0HSRMll
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoV2gkACgkQJNaLcl1U
+h9DlJgf+PBu9jNs6K2cEX1bBnkXmXB6gBCaYeU71UZyd4IoLDzX4oYDF6bB8FQXM
+CA7vNV1zSXsDa2mdkIOSFcs6aAIGwOCAQKtqYbwtOq0HQNuyyW7nfWOyGLamiKti
+q/qhPr9cmNqcOiK2xdZlzugdkZlm/8xjiwtSHH30A/b/dFFlmJAt/tI6HMnvxnTh
+Avims6hf8o0PKylzc2hdKdt3x5zMuiFpryDBBlEp7ZTZxbFkapKIgBorgqmDx1nj
+C4kOA4yOD1gmat07BSQ4A15Ywqde5SesxB5bKxy2BC0akUxFwKZ8fhfKHpybJTFj
+vRw2NgVG3wzxcCAlWCU1/SxiTC2Vbg==
+=PnrI
+-----END PGP SIGNATURE-----
+
+--g4zeHAPmz0HSRMll--
