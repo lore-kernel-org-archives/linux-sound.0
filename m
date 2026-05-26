@@ -1,150 +1,300 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4106E409603
-	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 15:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67671D5CD1
+	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 15:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779807795; cv=none; b=Bn7ZJfNVp8XtaYGHTDhQaxOkCAKYWJotO6w34rPzKJ61m3YMqfrhMp2NUwCgi6A2SJ8/1LKx3vlu9BmXNudzstxIwj05CItF04aHLf8euFutS7KWvZZDx/5EgHSWRuIYv9nUY6bO5UtpyPX3d4H/D/+5LGDgF43+W1MesxDx+wE=
+	t=1779809179; cv=none; b=cr4jaNC+kJm0AMQk3/6mAbiQVeYzJzJg7o9UsB23DdLr3lVpiegNL1XUqoKdvpCWV5dCaMwRnKKCZSeVsOL55EJlpd/ZM6IpaaNbjU0hkP/p+L4trELDO4VagoT558nynoMpoNrd16DRP4VScGFc5efdJLcBP2fq5Dj1lB/YvL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779807795; c=relaxed/simple;
-	bh=MdzDJMQisHkSOiLYvopwwr1v98FNTtU6w7SCFX6+GsU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gKPMev4LTAMDbspXpiDv2hwTwRV6brV2W2iPu6N904ain/WAKHbF9G1SF5zjhdYuosqapGXeQDDqsPKodbldbi66zLQrsm7PrTb7v0Memez7fa6SOJSY8JaXviDyfsrohxlkzBYkHlz0yQdqag4/OvdGjJLaOdBIGTcDHj8x0us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=F9c6yTQp; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1779809179; c=relaxed/simple;
+	bh=SRUrxk0jQMECROBCKrBkw3sSs5AFF/NDiJTbXObbw/o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rpIy2ifbDIHb9H3ZrfE9TiJ2XpD89hqEUoVmkjNWFgrclAOhR9lQnmwrJvUd2BXJ7j/I40M/xoIJLAjSeBVgvhrXmyzYBUFT34GGZPcd89i7DaokanZl2PN6mZ+YxmJvXmJE2JIWG1ublDlOyNSiCp5mPItq0bJ7DD6kI5hpZs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FQhd03R0; arc=none smtp.client-ip=209.85.215.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="F9c6yTQp"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5a877510541so11633138e87.2
-        for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 08:03:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FQhd03R0"
+Received: by mail-pg1-f195.google.com with SMTP id 41be03b00d2f7-c801912c903so4779869a12.0
+        for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 08:26:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1779807791; x=1780412591; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MDbuAa08BqGLwPFVUvrCU0ivDFLjKQA1mJKnc79aZhw=;
-        b=F9c6yTQp9UzQ/DAIpeEYTPwgT+IjVgoR/EiYo/n71jNBXx9e3aZPSaaX4pkL9ErUSZ
-         L2hLH/a/l9S3EoS558bL0pM2kxDOKFE+7WCTjfXEGn6hUWrJe+MmC5E9M8MfvAt4Ypgj
-         m6rd2lUJQP8F0in/zdP8A9E54lO3ehsENVAxZ0KJ0r8OXApPI7BfNLA9HaY2ecaVaO/3
-         1fAFtrwTIkGPV78Xe1/i0IUjbNBHPOun1HXnJSIJMDglbpgKB14taXFOqM1Zrl42EHvl
-         IGNIXpiUfMDd9He5bh/N2efHAM4qdFpBVyBb3bwbCFGYCnioUiDCyNzDvlUygj3sgAdi
-         wc+w==
+        d=gmail.com; s=20251104; t=1779809176; x=1780413976; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QXhvDMTVMMUhsFNc2MO0bSQYrkXjyhTt35+Xy2fE/lg=;
+        b=FQhd03R0VNd+aWLL5M5UCqNNIWcQJeXJTSOGGikYbVkCmbK47Jmi5WDZFbyXCa4FiG
+         c9lNOyEPPqM5iy9vl94nKescp+Zhfp89toXf8SvAjNQdZuqkNmmbXPKyib+S+um33bQ9
+         jZXccQAkXGChd36Ie8vvRC5qmLhhtn/e4QkWVByxkgQu3txswmad60h93uL0LHKHrEk7
+         hYQjYpALT+BA4WOLTY1Yj/3Kn1b+Jh2KJZivCkSZi82sayadIMvevQ4T5rc0TbROvWTn
+         ZA+WeG9EqjmH+h0eN6f2kaTbUaLo6BRxnwuVXefIGomIIRVnhcB8f6ixBeoVTAQkOn+R
+         t3rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779807791; x=1780412591;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1779809176; x=1780413976;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MDbuAa08BqGLwPFVUvrCU0ivDFLjKQA1mJKnc79aZhw=;
-        b=QOuSsRN9bFsLSpcBg3dCQUhwzb2RrLEGjech9Ct5uVAUAVnNgh8FvDboIZS0nZk4gG
-         qtw4LNEGRSmVrhLiShIlJ8eos1o07Rn77QVNhDsBOap6HwDbpsidfwkkWis6FQM4cbIE
-         beJeK4YxHXEqVZwhW2CXzDbt1qQzVm5yBdMGXLpokXP20ir/RHttvOybSVHRSQwEmZan
-         /hKL1On+9oIQGh8mtkPoQmId4RS5EJzRCAvj6n8800YjGzlaz0QEBTkXmEsOyBSKw4dm
-         oMSE6hA4fByoqE+B+val31nDKOHg7M05vM1wsa1ghe98hKLJD/a/3zdjx8QrOEzy8yDh
-         KWNg==
-X-Forwarded-Encrypted: i=1; AFNElJ/4cejsstUFsG9PaxM5hB+loKEXlbBaBQNlT2EJYmSAeBRe93vIuUWahY0usGs3GuTropCU6PKJAvtetQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTgy7+xzfBrYmMbuM42SVs3uF/OAbcEoLPAgKFEuOTJYS4JrRN
-	xNgvuNOpo24Xqt4V+1tmNGy/FpP/03UXtuCJYG6l42s6oikT/6PCXHWqEoJBapYuH6o=
-X-Gm-Gg: Acq92OFUJzkOBvId8brM6GdrfduaNqww09iXaYpcEZubmarf86RENUT4d3KmIO/occE
-	CQ/lcytA528ntKj+XFITySs3vt337ujM05OAMsV3/x63VDvNEoJrMGeIktbx4QcBtSkRjE6MUr7
-	4/9Jh0O7tRHRIEB5mB6IzCMOOpFtjbLcXXJts8QJR9KdOGjEzkTn0AA8E2irj485e1YXXptmGUX
-	GEXnkIHIVYcxA6Z2A/oW+LI8/RRZvQcS4zMfFVE4mLllOWE/iPQyWvNMVKjNXhnkp+Ay3wmBnaB
-	Q63387xDMCkqb4XNyCUWt3TTQN1oHWPZ4vjFU7+s+WUclVJ2NQo4a93HaY+ST5OqLDsBzvJj4Rj
-	4ut4W7j/qGD4P9mTFqFg0gqu2mLKx67VmDe9xehu6lajPUrF/nBTBjJUCjw6nx64bbxeOX0nsvx
-	/DNMCCRvyQ8zUVQ5hGEe3iH/ZRWOlWTe/H
-X-Received: by 2002:a19:5209:0:b0:5a8:6e50:b16a with SMTP id 2adb3069b0e04-5aa323c8140mr4045337e87.34.1779807791133;
-        Tue, 26 May 2026 08:03:11 -0700 (PDT)
-Received: from [10.107.1.102] ([212.133.41.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ec7fcd7f9sm22652026f8f.37.2026.05.26.08.03.08
+        bh=QXhvDMTVMMUhsFNc2MO0bSQYrkXjyhTt35+Xy2fE/lg=;
+        b=pqMK8ldHvHHaNAh0HWh3C1/6l87GXf1uAE0sl8j/UigdIrl2RcVLC1ZW/Ld2FT7t+r
+         nJsKm+4liT014AMgtPgt/SbF0wQ7T4mIbBheyyCWepzyHPXy3Pe/nFpDWgUZylT9LIQI
+         PB2qOUQritKYIsgYnWa1Eeay6XxaJ22OZxjETeHu6sl8aWg/AlwVx64fN6bdVxuox75I
+         lFSbxl2cnWrQRHNp+bfGLjSKYOJ2/PupRFC+pEROuBu6YNPkuJkFSadTJPouyHkq7oc4
+         /4vprAJIUoVrFk3W7aT+LqJgShnmyvpR5N1w+UQAu7GdJcnq4BteGKyzWFyLHH+Q2OWq
+         TXWA==
+X-Gm-Message-State: AOJu0Yx8V9wXZ4lq1Sgv2Upx2GPIrqwKsn1A+Et/IRM4qPsCL0HRZvVn
+	ER7zoHrTYifp/kAzCVjowaK0p/bUW8Mt2KV2VmpAHHRr7XDnzqywMg7h
+X-Gm-Gg: Acq92OF/Ds8/fhFSoO86oRCZzHOfNDtorS3OeUjKiU/HC16oXNRPHB24ZK4xNmHS22/
+	OCwVdXIBf17o5cOs10rNTiOrz5Copz7VDBcIB1dTSPRr1Oop4S9GA3H9TnolikXj3ORWOM9OfOy
+	otClsasavDjJfjgiJ0iB6EYkgSk7V0qhYYOmuFS5Q3P8SHsK/4msqABkcRPfeqZUnVEVySHnLSp
+	Ac1sg3fmvIiGYrDY6vg2eaILCBisQ+axi/kb0qIWODqpOpws8qZyow5sYXnfdFfAtYbGdVsDzTS
+	rlrwPTtNb9FFbGHq96nDWeQtC45PljuxtmCq7YnkSXzAdYeMmYCbB+c5f/auuOWW4aQi2o/Mefg
+	6a9ruLCV2a9UP23jBCLkgK8ODZ6nfq6avMSDNyyqw/t0z6P2HoNPGQH208vPEi8NzQR8NYiCmFi
+	/iq9IU4Jd4yoywEFEXnnEuBp2uUYPBKLE=
+X-Received: by 2002:a05:6a20:9f07:b0:3a0:b65a:5def with SMTP id adf61e73a8af0-3b328e9d0b6mr19968629637.33.1779809175676;
+        Tue, 26 May 2026 08:26:15 -0700 (PDT)
+Received: from localhost ([111.228.63.84])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c852056dfb1sm10082727a12.28.2026.05.26.08.26.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 08:03:10 -0700 (PDT)
-From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Tue, 26 May 2026 17:03:05 +0200
-Subject: [PATCH] ASoC: codecs: lpass-va-macro: Fix LPASS Codec Version for
- SC7280
+        Tue, 26 May 2026 08:26:15 -0700 (PDT)
+From: Zhang Cen <rollkingzzc@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	zerocling0077@gmail.com,
+	2045gemini@gmail.com,
+	Zhang Cen <rollkingzzc@gmail.com>
+Subject: [PATCH] ALSA: seq: midi: Serialize output teardown with event_input
+Date: Tue, 26 May 2026 23:26:08 +0800
+Message-Id: <20260526152608.1250473-1-rollkingzzc@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260526-sc7280-va-macro-2-0-v1-1-2c1b572fa388@fairphone.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQ6CQAxA4auQrm3SaWQQrmJcDEOBmvCTqRITw
- t0dZfkt3tvBJKkYNMUOSTY1XeYMdykgjmEeBLXLBib2VLJHixXfCLeAU4hpQUbCnrprWbvgnWs
- hl2uSXj//6/1x2t7tU+Lrt4Lj+ALBIQLwdwAAAA==
-X-Change-ID: 20260526-sc7280-va-macro-2-0-f0d4591a611b
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779807788; l=2090;
- i=luca.weiss@fairphone.com; s=20250611; h=from:subject:message-id;
- bh=MdzDJMQisHkSOiLYvopwwr1v98FNTtU6w7SCFX6+GsU=;
- b=klKyWck4OZBbzCMoyUDCxam5sjFW3KC80yR+prYicLm/iE1cPSctV+zhwZ4rs8aJa3bprNTa4
- fxviKyHu+zsA2WzHYi5LI1SkxwRBbanEyBLa6N7nmDgDYJr67B3ya3M
-X-Developer-Key: i=luca.weiss@fairphone.com; a=ed25519;
- pk=O1aw+AAust5lEmgrNJ1Bs7PTY0fEsJm+mdkjExA69q8=
+Content-Transfer-Encoding: 8bit
 
-According to both the static definition in downstream...
+event_process_midi() borrows msynth->output_rfile.output and then
+passes the substream to dump_midi() and snd_rawmidi_kernel_write()
+without synchronizing with the output open/close transition.
+midisynth_use() also publishes output_rfile before
+snd_rawmidi_output_params() has finished.
 
-  yupik-audio-overlay.dtsi: qcom,bolero-version = <4>;
-  #define BOLERO_VERSION_2_0 0x0004)
+The last midisynth_unuse() can therefore release the same rawmidi file
+and free substream->runtime before snd_rawmidi_kernel_write1() takes
+its runtime buffer reference. That leaves the event_input path using a
+stale substream or runtime and can end in a NULL-deref or use-after-free.
 
-and the runtime detection:
+Fix this with two pieces of synchronization. Keep a short IRQ-safe
+spinlock only for publishing or clearing output_rfile and for pairing
+the output snapshot with an snd_use_lock_t reference. Once
+event_process_midi() has taken that in-flight reference, it drops the
+spinlock before calling snd_seq_dump_var_event(), dump_midi(), or
+snd_rawmidi_kernel_write(). midisynth_unuse() now detaches the visible
+rawmidi file under the same spinlock, waits for the in-flight writers
+to drain, and only then drains and releases the saved file.
+midisynth_use() likewise opens into a local snd_rawmidi_file and
+publishes it only after snd_rawmidi_output_params() succeeds.
 
-  CDC_VA_TOP_CSR_CORE_ID_0=0x1
-  CDC_VA_TOP_CSR_CORE_ID_1=0xf
+The buggy scenario involves two paths, with each column showing the
+order within that path:
 
-SC7280 has LPASS Codec Version 2.0 and not, as declared with
-sm8250_va_data LPASS_CODEC_VERSION_1_0.
+event_input path:                     last unuse path:
+1. event_process_midi() snapshots    1. midisynth_unuse() starts
+   output_rfile.output.                 tearing down output_rfile.
+2. dump_midi() reaches               2. snd_rawmidi_kernel_release()
+   snd_rawmidi_kernel_write()           closes the output file.
+   before runtime is pinned.         3. close_substream() frees
+3. The callback keeps using             substream->runtime.
+   the borrowed substream.
 
-Create new va_macro_data with .version not set to use the runtime
-detection and correctly get .version = LPASS_CODEC_VERSION_2_0.
+Validation reproduced this kernel report:
+KASAN null-ptr-deref in snd_rawmidi_kernel_write1+0x56/0x360
+RIP: 0033:0x7fde7dd0837f
+RIP: 0010:snd_rawmidi_kernel_write1+0x56/0x360
+Read of size 8
+Call trace:
+  dump_stack_lvl+0x73/0xb0 (?:?)
+  print_report+0x43e/0x650 (?:?)
+  srso_alias_return_thunk+0x5/0xfbef5 (?:?)
+  rcu_is_watching+0x24/0x60 (?:?)
+  __virt_addr_valid+0x2f/0x340 (?:?)
+  kasan_addr_to_slab+0x11/0xa0 (?:?)
+  kasan_report+0xf7/0x130 (?:?)
+  snd_rawmidi_kernel_write1+0x56/0x360 (?:?)
+  __asan_load8+0x82/0xb0 (?:?)
+  snd_rawmidi_kernel_write1+0x5/0x360 (?:?)
+  snd_rawmidi_kernel_write+0x1a/0x20 (?:?)
+  event_process_midi+0x125/0x220 (sound/core/seq/seq_midi.c:122)
+  __entry_text_end+0xfdeb5/0x101fb9 (?:?)
+  __kasan_check_write+0x18/0x20 (?:?)
+  __snd_seq_deliver_single_event+0x8a/0xe0 (?:?)
+  snd_seq_deliver_single_event+0x241/0x4b0 (?:?)
+  do_raw_read_unlock+0x32/0xa0 (?:?)
+  __deliver_to_subscribers+0x217/0x380 (?:?)
+  snd_seq_deliver_event+0x91/0x1b0 (?:?)
+  snd_seq_client_enqueue_event+0x192/0x240 (?:?)
+  snd_seq_write+0x2cd/0x450 (?:?)
+  apparmor_file_permission+0x20/0x30 (?:?)
+  security_file_permission+0x51/0x60 (?:?)
+  vfs_write+0x1ce/0x850 (?:?)
+  __fget_files+0x12b/0x220 (?:?)
+  lock_release+0xc8/0x2a0 (?:?)
+  __rcu_read_unlock+0x74/0x2d0 (?:?)
+  __fget_files+0x135/0x220 (?:?)
+  ksys_write+0x15a/0x180 (?:?)
+  __x64_sys_write+0x46/0x60 (?:?)
+  x64_sys_call+0x7d/0x20d0 (?:?)
+  do_syscall_64+0xc1/0x360 (arch/x86/entry/syscall_64.c:87)
+  entry_SYSCALL_64_after_hwframe+0x77/0x7f (?:?)
 
-Fixes: 77212f300bfd ("ASoC: codecs: lpass-va-macro: set the default codec version for sm8250")
-Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Assisted-by: Codex:gpt-5.5
+Signed-off-by: Zhang Cen <rollkingzzc@gmail.com>
 ---
-I'm fairly confident this is correct, but please someone double check
-this if they can.
----
- sound/soc/codecs/lpass-va-macro.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ sound/core/seq/seq_midi.c | 56 ++++++++++++++++++++++++++++++---------
+ 1 file changed, 44 insertions(+), 12 deletions(-)
 
-diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
-index 528d5b167ecf..58a5798823d7 100644
---- a/sound/soc/codecs/lpass-va-macro.c
-+++ b/sound/soc/codecs/lpass-va-macro.c
-@@ -244,6 +244,11 @@ static const struct va_macro_data sm8250_va_data = {
- 	.version = LPASS_CODEC_VERSION_1_0,
- };
+diff --git a/sound/core/seq/seq_midi.c b/sound/core/seq/seq_midi.c
+index ca3f5fc309927..f8520bd352253 100644
+--- a/sound/core/seq/seq_midi.c
++++ b/sound/core/seq/seq_midi.c
+@@ -24,6 +24,7 @@ Possible options for midisynth module:
+ #include <sound/seq_device.h>
+ #include <sound/seq_midi_event.h>
+ #include <sound/initval.h>
++#include "seq_lock.h"
  
-+static const struct va_macro_data sc7280_va_data = {
-+	.has_swr_master = false,
-+	.has_npl_clk = false,
-+};
+ MODULE_AUTHOR("Frank van de Pol <fvdpol@coil.demon.nl>, Jaroslav Kysela <perex@perex.cz>");
+ MODULE_DESCRIPTION("Advanced Linux Sound Architecture sequencer MIDI synth.");
+@@ -42,6 +43,8 @@ struct seq_midisynth {
+ 	int device;
+ 	int subdevice;
+ 	struct snd_rawmidi_file input_rfile;
++	spinlock_t output_lock;		/* protects output_rfile publication */
++	snd_use_lock_t output_use_lock;	/* in-flight event_input users */
+ 	struct snd_rawmidi_file output_rfile;
+ 	int seq_client;
+ 	int seq_port;
+@@ -125,31 +128,44 @@ static int event_process_midi(struct snd_seq_event *ev, int direct,
+ 	struct seq_midisynth *msynth = private_data;
+ 	unsigned char msg[10];	/* buffer for constructing midi messages */
+ 	struct snd_rawmidi_substream *substream;
++	unsigned long flags;
++	int err = 0;
+ 	int len;
+ 
+ 	if (snd_BUG_ON(!msynth))
+ 		return -EINVAL;
 +
- static const struct va_macro_data sm8450_va_data = {
- 	.has_swr_master = true,
- 	.has_npl_clk = true,
-@@ -1755,7 +1760,7 @@ static const struct dev_pm_ops va_macro_pm_ops = {
- };
++	spin_lock_irqsave(&msynth->output_lock, flags);
+ 	substream = msynth->output_rfile.output;
+-	if (substream == NULL)
++	if (substream)
++		snd_use_lock_use(&msynth->output_use_lock);
++	spin_unlock_irqrestore(&msynth->output_lock, flags);
++
++	if (!substream)
+ 		return -ENODEV;
+ 	if (ev->type == SNDRV_SEQ_EVENT_SYSEX) {	/* special case, to save space */
+ 		if ((ev->flags & SNDRV_SEQ_EVENT_LENGTH_MASK) != SNDRV_SEQ_EVENT_LENGTH_VARIABLE) {
+ 			/* invalid event */
+ 			pr_debug("ALSA: seq_midi: invalid sysex event flags = 0x%x\n", ev->flags);
+-			return 0;
++			goto out;
+ 		}
+ 		snd_seq_dump_var_event(ev, __dump_midi, substream);
+ 		snd_midi_event_reset_decode(msynth->parser);
+ 	} else {
+-		if (msynth->parser == NULL)
+-			return -EIO;
++		if (!msynth->parser) {
++			err = -EIO;
++			goto out;
++		}
+ 		len = snd_midi_event_decode(msynth->parser, msg, sizeof(msg), ev);
+ 		if (len < 0)
+-			return 0;
++			goto out;
+ 		if (dump_midi(substream, msg, len) < 0)
+ 			snd_midi_event_reset_decode(msynth->parser);
+ 	}
+-	return 0;
++
++out:
++	snd_use_lock_free(&msynth->output_use_lock);
++	return err;
+ }
  
- static const struct of_device_id va_macro_dt_match[] = {
--	{ .compatible = "qcom,sc7280-lpass-va-macro", .data = &sm8250_va_data },
-+	{ .compatible = "qcom,sc7280-lpass-va-macro", .data = &sc7280_va_data },
- 	{ .compatible = "qcom,sm6115-lpass-va-macro", .data = &sm8450_va_data },
- 	{ .compatible = "qcom,sm8250-lpass-va-macro", .data = &sm8250_va_data },
- 	{ .compatible = "qcom,sm8450-lpass-va-macro", .data = &sm8450_va_data },
-
----
-base-commit: 550604d6c9b9efc8d068aff94dc301694a7afdee
-change-id: 20260526-sc7280-va-macro-2-0-f0d4591a611b
-
-Best regards,
---  
-Luca Weiss <luca.weiss@fairphone.com>
+ 
+@@ -163,6 +179,8 @@ static int snd_seq_midisynth_new(struct seq_midisynth *msynth,
+ 	msynth->card = card;
+ 	msynth->device = device;
+ 	msynth->subdevice = subdevice;
++	spin_lock_init(&msynth->output_lock);
++	snd_use_lock_init(&msynth->output_use_lock);
+ 	return 0;
+ }
+ 
+@@ -215,12 +233,14 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
+ {
+ 	int err;
+ 	struct seq_midisynth *msynth = private_data;
++	struct snd_rawmidi_file rfile = {};
+ 	struct snd_rawmidi_params params;
++	unsigned long flags;
+ 
+ 	/* open midi port */
+ 	err = snd_rawmidi_kernel_open(msynth->rmidi, msynth->subdevice,
+ 				      SNDRV_RAWMIDI_LFLG_OUTPUT,
+-				      &msynth->output_rfile);
++				      &rfile);
+ 	if (err < 0) {
+ 		pr_debug("ALSA: seq_midi: midi output open failed!!!\n");
+ 		return err;
+@@ -229,12 +249,15 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
+ 	params.avail_min = 1;
+ 	params.buffer_size = output_buffer_size;
+ 	params.no_active_sensing = 1;
+-	err = snd_rawmidi_output_params(msynth->output_rfile.output, &params);
++	err = snd_rawmidi_output_params(rfile.output, &params);
+ 	if (err < 0) {
+-		snd_rawmidi_kernel_release(&msynth->output_rfile);
++		snd_rawmidi_kernel_release(&rfile);
+ 		return err;
+ 	}
+ 	snd_midi_event_reset_decode(msynth->parser);
++	spin_lock_irqsave(&msynth->output_lock, flags);
++	msynth->output_rfile = rfile;
++	spin_unlock_irqrestore(&msynth->output_lock, flags);
+ 	return 0;
+ }
+ 
+@@ -242,11 +265,20 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
+ static int midisynth_unuse(void *private_data, struct snd_seq_port_subscribe *info)
+ {
+ 	struct seq_midisynth *msynth = private_data;
++	struct snd_rawmidi_file rfile = {};
++	unsigned long flags;
+ 
+-	if (snd_BUG_ON(!msynth->output_rfile.output))
++	spin_lock_irqsave(&msynth->output_lock, flags);
++	rfile = msynth->output_rfile;
++	msynth->output_rfile = (struct snd_rawmidi_file){};
++	spin_unlock_irqrestore(&msynth->output_lock, flags);
++
++	if (snd_BUG_ON(!rfile.output))
+ 		return -EINVAL;
+-	snd_rawmidi_drain_output(msynth->output_rfile.output);
+-	return snd_rawmidi_kernel_release(&msynth->output_rfile);
++
++	snd_use_lock_sync(&msynth->output_use_lock);
++	snd_rawmidi_drain_output(rfile.output);
++	return snd_rawmidi_kernel_release(&rfile);
+ }
+ 
+ /* delete given midi synth port */
+-- 
+2.43.0
 
