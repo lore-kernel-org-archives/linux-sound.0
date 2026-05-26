@@ -1,128 +1,139 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB1B50276
-	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 04:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779769063; cv=pass; b=rKqReu2ScEmaNw31er+7tsfA2vMI1VEwKjoj5jw9xBdL+2Kn2kHtKD1/o+S+D5sGA6GZEWcmXtkuFJYL+8wWrJKdJia6yWHcSDK2MwVEEjA2r+eSKZQhI9ej9ba/pFgDIzlP/y3ce2oatRQvdVvmReOD8nNwnAGYTZ8k+aWzHl0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779769063; c=relaxed/simple;
-	bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vfzu7WuP5M4Yg2epqYkb1GM0ElKjA5T9VGzI+goyBqvWnQ73+brpKvVq1aWrukQNsBj+LHl+cQenVtbr6zYLGJ79h32/c1+pvbBJAuOc8zer9qOcLTMWtPTNhupEUlmMLkgzmU3Ivbqstq0FDHSvjj+fEbkKY/nwNwt+P57dEuU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cS1GAGlX; arc=pass smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC401A9F96
+	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 05:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779773290; cv=none; b=GV2Qg/4mJ9f28qKI2GNQM66noNCbfOSevkr8kFUbQMmOUfoMo/slcF/4CDXrRPZ/R+nZJivEmqs3pWufArDNl3fMT22RACUllQaILXXZM2AAIIqGA9REtMjvV4+NAQxzPjVxdSF/liJMupgtrAPw42ndb0YH2th2xNiPv+wWO9k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779773290; c=relaxed/simple;
+	bh=gnUOTALvHHcl2nVOzsFzqLBfVZUwZ6juvqOZB2xuZ8Y=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZkwJLvc2FfYYkC3INkEpzXqgJiJ89injdwuRqcvY74mTu0aCLca6k9BuUDr3y0k9Jg0oRJ6hMjR9mWqruN5pSgdv8ftyTCoJVG1ZrPDjC0rUW/LfnaxFrA+tjbUf5PFBT2VWNL67q5CH9Bwg7a+UoCuW+j++yZDYbJSuCz6jKYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FeVGHtRq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Xt8Vuu3X; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FeVGHtRq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Xt8Vuu3X; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cS1GAGlX"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-36a8ee1e28cso2611857a91.0
-        for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 21:17:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779769058; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LUvcAOq73Ogln6dqGDGczG0lL8dRoDZFGHkAJ3lzOz9/IUMo4aBP2gnC0kwOeMBkP8
-         cIEl9CgEBPSrw8adj1eu55KjJ1ygmEinPrGTiPEEURO8uN0RA+T1zpmdtmx4Zesm01YE
-         UAkaFvBCcD0ZCRUn/1C2MI+GDJhZjwSEt1aG4dEwdGpIc7TZsEWPZF0MW3r02GRg/m29
-         W/vdslfW1mDMYnjxzU9n2T+HTJZgK2HyDO/IzPryz3B5GGukLNQC2i+HQ7oWImKKLy/8
-         NptjVRq2QM3iIpSbR4eQqg8l88j896HbMJQqrJu0Q5qJVEBchlwithfcHZrz3C+Okd0l
-         E4Nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
-        fh=quN1NLhTW21WWGf+3tRBCv/5Qx8/EUFMWDvRu9UasAo=;
-        b=M43CpLytufBYrZVMfUxrBc1Oo7S7d/8Z/air+1EZtWB4sYIz5yGLR37twv1zV8jcV+
-         Ruz3TZKUueYyq5vTPyp3inoa703qIG1yz5NEfGCZe/RKpubd1nEZ0lVzqKHePtvJ5kd2
-         hd8JocJVfvJ7WiBOttCuwK1A/yUOn3J3xWcESld2qomi6QD4PqFQB5SzL0v2+ILUCHlT
-         ky+YrKhdZdTngmiZ/1/3Iz6Eyk9uxqIcg8cxrafodC0ZQqEze9rwh5n+o1ooFpelGSMo
-         9nOuWN9WV005VwqqM5c+TT9l2JQTZ+aR+WssH8X/zK9dzy9XLkrUeCcGeN8m9NkM2Ao3
-         u/5w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779769058; x=1780373858; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
-        b=cS1GAGlX5j3k38WLJOZdmmMYA5DC1DrGMDIgxn8L4laSSlZGZQSzx+h3ofmQGPkK5Y
-         +tJMrMtl7Fx/2WLxZ0QSuY2JTY7QUoUfu5TJ+2ou/PLOJCA9pIvdu1GE+lXKX0AF3svT
-         FSKx93xBN1ygCF4SYvTW0V1SS0G00+fN4PZUIv2rNFuYlLKYibxSQinRShN26E5BYMKx
-         aeab6iEjkaMAmzEPLyv0NQtD47REmtYksLQoJ5ispOflRWQKQsk887id9cySMYMBiL03
-         SplWeazeQ5e6dRZmOJVtBM4fwHs8cUs39hBYyOQFR9RFWubaXGvoESA6mSoUKjmIFwv1
-         BUwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779769058; x=1780373858;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
-        b=ObLm0xetvEoOOFTf2vdhf3yLVLjSZAFIqDYVK3qX554Ram+Or5jQr+sPQmqQfDSFEG
-         TxfxMn/G5u23zMwcYuyxvMir/udTc4kpefzVG9F1Q61dcF26wpnct4jh3SBmuEKR18Z0
-         pCiB0HeGATILrxaXn2R2pB4P4hpRjxUA4pMrmMsst5vRxGdFgynSXiKEJ7iedGwYTcLF
-         VpjP8PfQuJWikaDA4cDInjBD8j5tGMxDJVzV9w3+A3EWyO7dEsALr1UxSneDSM/kiJiK
-         M1ZkJXOTwdDLh/5DZVhCE/DFNzJXg54QJoTIIULaN6525Nw2SUYt4EKznvUhHh5/C2DK
-         G/eA==
-X-Forwarded-Encrypted: i=1; AFNElJ+S9hUNB9ZngJXwOW0aP64HFBlbISgLcG8EJwCbVhcDs5hmcd3ga0ihQicc2C1o1jmxxoy6xmktUIoNLw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzU9bQ2RvTHPvgZnY6rxizRkt/5HLtTrS3w089C40TFRgIstsDd
-	qM3OOSVAiKuf5nzOdwqqk57TwqZaBhmWNCdOOdElnwgig+g4r7z8muQWbZ5njjhD+xDvpB7pkyt
-	VZ/k6ktGACNQ8Q57Eku+hq1CHp4dCNMw=
-X-Gm-Gg: Acq92OGA4MvQQ6xZab6rp7MJUPAIkSzDm3AeKkCu/giBLneKf/W327w5/lLzXCq3cF6
-	L9Ss6jPO0o/fDBTWmySPHsschPtk9JrZ3lEWHc/X7SUs8yCu5Hv0Q1+g5KlxmTNBzSTXKxuG0d6
-	olTnIPs4PgzIweP/F9V/JQlXCuE7bbhafI803odfGlcQMCIFtvu5mUIOeHP5+4U3htPrV2MrBh8
-	mCRf7HevFEwWwuoy9dp+fIxhp9GRW81oGHI+00Rmo/rMWd2+vYI5cyXGq48oBxSJz98vut6hGs7
-	JqKnnrortRf0oV70qOUJMxIUsQCI+r1NsxIVPlAK9aHT8UaI
-X-Received: by 2002:a17:902:ef11:b0:2bd:d7b5:83ed with SMTP id
- d9443c01a7336-2beb07001camr199500955ad.39.1779769058465; Mon, 25 May 2026
- 21:17:38 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FeVGHtRq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Xt8Vuu3X";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FeVGHtRq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Xt8Vuu3X"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5AB406536F;
+	Tue, 26 May 2026 05:28:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779773285; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IutryjVvvXGUHIVenFLcXh3fsiuFX+TplLql6uAxJzk=;
+	b=FeVGHtRqbMc5Heb++sYKULtTUduR3TghEmczJnaJeFGn4AqA3Ktun1txk/jzpCojAhdGgC
+	PV6BPRud7R7VmMTE4BmAiyKeYucjg4Rifoeo6hoOLWNxC07Ug+/hUv7q21DY5vxE6x7qjc
+	+p3DHWg9YctY8SHk1wnnwaMljHMG11w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779773285;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IutryjVvvXGUHIVenFLcXh3fsiuFX+TplLql6uAxJzk=;
+	b=Xt8Vuu3XFJEAdNzkG9Y9QxHuJHJt5iCYHBGdBHF4p8/kGOJ++Ef70gD9xY2t29aW9H4s+s
+	SSutsDrH1qluhOCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779773285; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IutryjVvvXGUHIVenFLcXh3fsiuFX+TplLql6uAxJzk=;
+	b=FeVGHtRqbMc5Heb++sYKULtTUduR3TghEmczJnaJeFGn4AqA3Ktun1txk/jzpCojAhdGgC
+	PV6BPRud7R7VmMTE4BmAiyKeYucjg4Rifoeo6hoOLWNxC07Ug+/hUv7q21DY5vxE6x7qjc
+	+p3DHWg9YctY8SHk1wnnwaMljHMG11w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779773285;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IutryjVvvXGUHIVenFLcXh3fsiuFX+TplLql6uAxJzk=;
+	b=Xt8Vuu3XFJEAdNzkG9Y9QxHuJHJt5iCYHBGdBHF4p8/kGOJ++Ef70gD9xY2t29aW9H4s+s
+	SSutsDrH1qluhOCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 278195A03C;
+	Tue, 26 May 2026 05:28:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id RbJPCGUvFWprDgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 26 May 2026 05:28:05 +0000
+Date: Tue, 26 May 2026 07:28:04 +0200
+Message-ID: <871pey210b.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Kees Cook <kees@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH] ALSA: pcm: Fix NULL dereference in import_ubuf() during exit
+In-Reply-To: <20260526013245.785435-1-xujiakai24@mails.ucas.ac.cn>
+References: <20260526013245.785435-1-xujiakai24@mails.ucas.ac.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260522095401.72915-1-phucduc.bui@gmail.com> <20260522095401.72915-4-phucduc.bui@gmail.com>
- <CAGb2v67aXgg8BmrtVVBi+_n32OBcQnQgEUe3XdRp6Jj=aEr8fg@mail.gmail.com>
- <CAABR9nEFGOX5GnQ9qpJY-T-92dA_kDcVS+qBz1ior590G_x6gw@mail.gmail.com>
- <CAGb2v66accoNhStHGhnoUM0cw3fyCxfuvS1a-brL9C-ZO07ChQ@mail.gmail.com> <CAGb2v644whCr6pRSfGMuQ=5afUMbfC2Y3W_kjdMdp9+5+kJhJA@mail.gmail.com>
-In-Reply-To: <CAGb2v644whCr6pRSfGMuQ=5afUMbfC2Y3W_kjdMdp9+5+kJhJA@mail.gmail.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 26 May 2026 11:17:27 +0700
-X-Gm-Features: AVHnY4KjIHp6k8PI6oQzPKSFMzC_yNK4NVye8enq3FNJPQ2UT-iy1gcG4S--peY
-Message-ID: <CAABR9nHbwNheKRSzevSBnD+YyLeYVDA4FLH9AN8Fo1uX596rSQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] ASoC: sunxi: sun4i-spdif: Reorder clock enable sequence
-To: wens@kernel.org
-Cc: broonie@kernel.org, codekipper@gmail.com, jernej.skrabec@gmail.com, 
-	lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, nichen@iscas.ac.cn, perex@perex.cz, 
-	samuel@sholland.org, tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo,ucas.ac.cn:email]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-Hi Chen-yu,
+On Tue, 26 May 2026 03:32:45 +0200,
+Jiakai Xu wrote:
+> 
+> snd_pcm_oss_sync() calls snd_pcm_lib_write(substream, NULL, size) to
+> fill silence.  The in_kernel flag is hard-coded to false by the wrapper,
+> so do_transfer() falls through to import_ubuf() with a garbage pointer
+> (NULL + frame_offset).  When the process is in do_exit() and current->mm
+> is already NULL, import_ubuf()'s access_ok() crashes dereferencing 
+> mm->context.pmlen.
+> 
+> Add a NULL guard in do_transfer() to use iov_iter_kvec() with a dummy
+> kvec for the fill_silence path, avoiding the import_ubuf() call.  The
+> fill_silence transfer function ignores the iov_iter, so the dummy kvec
+> is safe.
+> 
+> Fixes: cf393babb37a1 ("ALSA: pcm: Add copy ops with iov_iter")
+> Signed-off-by: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
 
-> Oh, and you could also add that the resume order should (normally) be
-> the reverse of the suspend order.
+This is already fixed by the upstream commit e4d3386b74fb ("ALSA: pcm:
+Don't setup bogus iov_iter for silencing").
 
-Thank you for the feedback and clarification.
 
-I can certainly rewrite the commit message around the idea that the
-resume ordering should normally mirror the suspend ordering.
+thanks,
 
-However, I am still slightly unsure about which ordering should be
-considered the preferred one in this case. If the reasoning is purely
-based on suspend/resume symmetry, I wonder if changing the suspend
-path itself to disable the APB clock before the SPDIF module clock
-would be an option, which would then naturally lead to enabling the
-SPDIF module clock first during resume.
-
-From the hardware perspective, I originally assumed the APB clock acts
-as the prerequisite for register access while the module clock mainly
-drives the functional audio logic, which is why the "bus before module"
-ordering initially seemed more intuitive to me.
-
-So I would like to better understand which ordering is considered the
-preferred model for the Sunxi audio blocks here: preserving the existing
-suspend/resume symmetry, or enforcing the bus/module dependency ordering.
-
-Thanks,
-Phuc
+Takashi
