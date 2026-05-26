@@ -1,165 +1,167 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011055.outbound.protection.outlook.com [52.101.125.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62061280335;
-	Mon, 25 May 2026 22:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779749168; cv=fail; b=Tjionnm5KcGaZWDHmpBKPN5v4XQ9t9/OG5brta32oKlc/LnPUWP4Qvbfj2zR5wvbpcXncpxmXZJ0UWafws0vPC1kpuMPtgOBjvUcaLhKfOp41gzxMVHOds6C0XNRWgdocKLQ7j8Q5VeDKWl3qCKt0HZG8F6XT+cjR7/pQGFCeC8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779749168; c=relaxed/simple;
-	bh=pAv6JHdwi5EUuiyDHcFdF76rVR22eK70gEmmHZEGPds=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=U/nnJ5fmP1E4UG8ciB8Eu8qoASazojb6sBREsQuApUcRQin+lrgyHas5OKkttxsidEzcpog4z6wLZ9Q6AZGCsQA9ftfx9uMFwDYj+SS6piUGXV3NwnkATkUNJv8NXwjYmS2+d8r4HG9w3PUd8RLqLnmzOXEk6nEmn/mVdDMz/K0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=EDKJyeD9; arc=fail smtp.client-ip=52.101.125.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="EDKJyeD9"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=j81ii3NZMYy1oTF/O4cqpYC+fIS2hj3q69H4kw+2SN6PAvUoTUIxYdfZgfQu3X/4WdcTMEsWsG+Kuzs4CVVP/d+kVGwUeo7UYffahg8Ta1EB9G6je/wfZ8lWK3ZELdHwa4NeWpYHpTU+4EsUNyheoeH53ok8ywPR63dFqVh/d5rYu6bxK1/nPdCtP/o8zHkFoaq4qoVxS5NnrMzyHgvyoAbUAFTVwn/T8KuNRXGF9I+vb1EZy8RxtTbB5ghqZFPbvVnGAWzFmgrSckq+gMIrdrai+CADg4Wpy9T/PfOw+X4OSzUfPHRk1H6yAzk+9wLlriEruG0kqWeK18vFuuL8xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CYKptlnMDIIaXXm0iM9UV1G04Jm/L9BWkOEPMrcDsxg=;
- b=jT5ngmKRum+irGqQ5UoydGsCUgqLe6mxeTUa1AWQeMmEBxPyq6Uc/2lHikhtC9UzMqD6J8EC+Nprtf9xTcGwwyBLJnBOJkAKxjohhYqD4nW4EJsOH2Q05HZXJwxk2AAiqhP/xm7v7klIKxOKLHkbA1Q0Aiiqp4xP0IORMf2wdzV5V8M5C8VOsWUMmMsNVWLBdHeIdkUnT4eRlZfpmqoIzuzD3U7vpdMO0jGOlXOOJilryXh2avWeZnFbNPey9g6XH3QuUHHvHPI+gn/ZpFxjCf2goZXf1unjpC8qLWbuz31N94w9qj720m5mNpKnB9darLZliP+FEWVM/C/JkKllzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CYKptlnMDIIaXXm0iM9UV1G04Jm/L9BWkOEPMrcDsxg=;
- b=EDKJyeD9gQ/GU8T6qboMm+Vo2y2iQRhrbd1wnF8w6zujcREDFZGC/PT5EljvxmeEdWKAzHse5Pp8KgqpAJhxb6Btfb68dvE5eizqKgcCgXOAzHXdAlz3Pyb5dPe9pp8sjSAHtXCHnO8FkfUysnso3sG0esUcHIMqeKyGX9j6ahA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by TYCPR01MB10085.jpnprd01.prod.outlook.com (2603:1096:400:1ea::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Mon, 25 May
- 2026 22:46:02 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0048.019; Mon, 25 May 2026
- 22:45:37 +0000
-Message-ID: <875x4bjegq.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Jaroslav Kysela <perex@perex.cz>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC4A242D72;
+	Tue, 26 May 2026 01:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779759183; cv=none; b=DQrcMQceKhQ+Vs7GYVnfdqceH8BmwGdENtBMB3W8TvVLFdV2Wt324QTbrk8LW37t4hFotUlQWPE9ftl2+Bg5pWG2DjnDLZ4HGRJoTkAZUa9pnvR2ItOVSNkzmv9eXSGXoK2AuNr3V1H6yGyjIxvwcSqAMaF4vCnhH80iO222j8I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779759183; c=relaxed/simple;
+	bh=ugRw1ctSP/Ut7noKQfc0aNqbHXKK/U9Lsd/cQRDXZOU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ub4WObkzO0m4jGBLAhJWMH74N1dwXO5lbSP2AAWOJBC9HYU74u4KZreQBQKSB5ezHtGH/Z97SWQUUyBTfXdaM5ZUlSEyI4d4RecGGAwdKr1v69Kl6jO2DNSnWQMLlyInDhJCWCgwQo+mmPJP6TfTt7jv9gTVSyBLAOXNSUzOQy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mails.ucas.ac.cn; spf=pass smtp.mailfrom=mails.ucas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mails.ucas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mails.ucas.ac.cn
+Received: from fric.. (unknown [36.110.52.2])
+	by APP-05 (Coremail) with SMTP id zQCowAAnf9JA+BRq_ZpzEQ--.4125S2;
+	Tue, 26 May 2026 09:32:48 +0800 (CST)
+From: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
+To: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Kees Cook <kees@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	john.madieu@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 00/18] ASoC: rsnd: Add RZ/G3E audio driver support
-In-Reply-To: <20260525110230.4014435-1-john.madieu.xa@bp.renesas.com>
-References: <20260525110230.4014435-1-john.madieu.xa@bp.renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 25 May 2026 22:45:31 +0000
-X-ClientProxiedBy: DM6PR17CA0010.namprd17.prod.outlook.com
- (2603:10b6:5:1b3::23) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
+Subject: [PATCH] ALSA: pcm: Fix NULL dereference in import_ubuf() during exit
+Date: Tue, 26 May 2026 01:32:45 +0000
+Message-Id: <20260526013245.785435-1-xujiakai24@mails.ucas.ac.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYCPR01MB10085:EE_
-X-MS-Office365-Filtering-Correlation-Id: f81f8516-0c78-46c6-dd43-08debaaf56f1
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|52116014|1800799024|18002099003|22082099003|56012099003|38350700014|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	zVF5uwC0BzgOBHX0qXo+y+yrCuDfj1cY1mz8Tp7PIasDBbg33Be+6bUw8vDjuLen6L8Lryy6ruly4Msq3CHC8Qr7RmAKfnUPZdKhb0vbOwwo7uciUEk0oyiuCEk1dknX2Z3g7wNLv6EQBlpTh3uEvmnt52CDnat4o0njkBeAeLI6eN7Pj3hxx5U04gQVfgez7t8Q/W8OYqwsOnY7m3x8p1cmu3KOHlkAOCSG8Qx38aNHC4/SfMYHDV7nBqprcVIA7rotERiXhk5BVMf1GdNoO/6aBvxCO9q1kG6hCtKm2fjlvYL4iOTozrOzFFzrpxUEDACexXSAfLWtqpjqgg4sqxY8YPAe+gExy9VeSjdtRmcnPgLUwC5XFoz+KTGWHkJ5StdL6cXumMni7jyWHJBPuhT69+Ff/KRkvJChr2/gUG2oFfSflnW2JtiYJkWYoL5NhGfgZfa9BVQFKGucdaKLd7tOTKguPk8d0InxjfozrY3LlqBbPI7LAoPycS+IUJ1Vjm5fnWOet/sR7gjsooj7O645A1Yi00j7eslh9trLrDxrv437o3vC749AF5J7CvI5/vuXHHyp67PhkZvdkkoiQkbvGbtn7FftnkfFJWeHfgQCSeKrISsT0FNOR8uxQH4zMp23tbCqfZt00ySP/hnrZIbnE+Nh/PbGzeT4f6QOKevXI0qqM/z9LC4nMoQIxKpjGyGqXrxAbEU8UebLU+leLWJGDaySfmPRypWLP34JOR+M3Uu3Cny/3eDKEeJUxvIs
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(52116014)(1800799024)(18002099003)(22082099003)(56012099003)(38350700014)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?fIUfKp/k0GjWfcXwNysITJWNztAro/40bmt6N1P2yRhUbJIZ2DITC0ZBlZAD?=
- =?us-ascii?Q?IFwzvQNbMNKTkz7eOoz4RK6GVxbs9pwuJ2WdGlFYmnzM5FF+C695oVBIUCmx?=
- =?us-ascii?Q?jdGOX3oFrISeEnMSrTq1ZovDZ9RQINu+Xp00xdSMpSv2ClmB5zVTkTb7Ni4T?=
- =?us-ascii?Q?nMCdQ2+mwjwqLdg1tDCwtA+3VaJwfUOApDqF5ztSEZXNDHQe40wpFlwyU+An?=
- =?us-ascii?Q?f+LrhE9UEWIBPomjtQiOpsi6CCBn4YDGnANxDefcLeaLcLsagRFrc4WqLf76?=
- =?us-ascii?Q?82TyP5t6uGs9ok69KZ/14QPx5j0hObK5t/PEWfAeGUqdihm0f6rz+juG8zwz?=
- =?us-ascii?Q?ukzoCL+SeM1mV1zmUbDbRZIRwPzdABUS69CyNiNYiXROlz5hwSgv6WjfKz1L?=
- =?us-ascii?Q?M+c4cGycCwSijCsMYux9RKoei/DS5kD1UkNAXcKqz9yYxPOH7hZTktDe/ruI?=
- =?us-ascii?Q?T2bvaoUm9t1JoMzwuI7nlYsA/OLfoxMHhiMSkfPoRBg8YG0Vrvuwb9jnoMbA?=
- =?us-ascii?Q?+u6x8TJEOF6YvTkn4yNq5E/IbJLqRreRL6Ko10KQJREfx2WX7ZxD8pIzxwBj?=
- =?us-ascii?Q?TGvUZWJUIEf0NdeEEURJj7A137Kz4OAqzkANz3IYyUPsvCk8WHkfM+H6XLyS?=
- =?us-ascii?Q?zOborJ3x5S/gaQgL5mBzXpWH1fcTZkI7NRkCIKlAfMBHJIVbLErAo0DtkRK5?=
- =?us-ascii?Q?0daytEzdpYxb7g77xWaiMgim1Ahv8wOkKQQImBZVhcUOP2DpDU2XNbj6T8Oj?=
- =?us-ascii?Q?zjHFsyiWE3C78qM795KfVqNXzn8a4tVTifVwIL0McLBxLcx467DUcDla6HnZ?=
- =?us-ascii?Q?K3f5nIu2CebnkcWWVhLdkHBY8WVZDvYGOjxUhcOGijbla6twoMrcE5U+5R/w?=
- =?us-ascii?Q?ifpbKT8bdBoD6sZaNOI6b4Ycdg3V1FT3u4Q7yNVPcKovQHBL6/XZEOP92lc5?=
- =?us-ascii?Q?J7qit99B2ZvvRVQ3qIi+VEDdoCsCTQhjiTLIXMbXU2FXBuwpXx3pA9KSj/PM?=
- =?us-ascii?Q?G96SNEnzvnI/ay9rkCT+iWYIRTo/z2I1xDBjP/oC/9ALlRvQ3OObfgWiSZA5?=
- =?us-ascii?Q?GHdUCopInY6K+0pbKhYQFTIZfCwtlUw4ObpcuT7u+rdSDghg/3IP26VlyVPu?=
- =?us-ascii?Q?t9tfeI61OJPUmP4sfsO8y7j93I6XukvJR9sDxeoVMdBkmTL969c/L5faM/6j?=
- =?us-ascii?Q?MdRH565+N/muuXxbIBRA6zokmBk6+7PTqPrr93sqyfMj4DM6X2YAlLNTy2dw?=
- =?us-ascii?Q?JQ/JLUAT69NsrhLZep7ePMNRgJKWzeWvzmgEGB/GW3g/kMF7tGbT6IQCoRY2?=
- =?us-ascii?Q?mgvRh87qfiC6CQD4A3dly4ve1drMJq6i8MdShnr33BspT22tDWMAe2gNh1WE?=
- =?us-ascii?Q?fvUHXNubc6JZLYzrsMSQG5tycE/KHrmHMRuZYpw/AYOhKZ8cElUcVfa98G1Z?=
- =?us-ascii?Q?UU7Zp6Zw4Q0BkHZ56TZbZxVA1628qHIhh/zdbs53T1C2NiwuvYmyJQywLJw1?=
- =?us-ascii?Q?OLpk7+TT9eGh3wyGz1cVcAFLiJmJbRMWT/FATIG/YnCzBPLKamGbRBPG1LAv?=
- =?us-ascii?Q?0ZHbzRNWLx8pGj7s9TpQWYzF71fdq8LyM0uVnesFkWBI8d/e84uzibpvf9Jt?=
- =?us-ascii?Q?XJ/GU3YHAXcngl1jqdZeU4xkdTbvh74yemzftZemzKzQNqCqh3KrDJBQRvJW?=
- =?us-ascii?Q?18gSHIvgJAWVnxiU8N9U92D1ZuobY7wp8PqGFYwp1MxETDBdJYOKMzS86FNA?=
- =?us-ascii?Q?z+U+flLRJKUsMmH4lRevjwNZ6vGZjjhZKHcQj0+6v7mblyA0ZnUJ?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f81f8516-0c78-46c6-dd43-08debaaf56f1
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2026 22:45:37.5249
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ohavghr0z3l1R+1nBNMxlAbzlYQYOlyH+OXIT/7QvBgNeQ1hl59VdZPZ/dUMYcSHRySnIskhoE9A5r2ORfZ6NOECjX497KGG4cTTAtCUXTrsFZh/cY2pCkBd6rIt65hm
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10085
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAAnf9JA+BRq_ZpzEQ--.4125S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3WFWxKr48XFWxJFykuFyxGrg_yoW7KFyUpr
+	15Wr1UGr48tF1xAr48JFy5tr18Jr15A3W3Wr4xGwn5AF1DWr1UJw1kKrW7WrWDAr4jqa47
+	KF4qy3y8KryUJaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9014x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+	1j6F4UJwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
+	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr
+	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8v
+	x2IErcIFxwCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
+	kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
+	67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
+	CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
+	MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
+	VFxhVjvjDU0xZFpf9x0JUvAp5UUUUU=
+X-CM-SenderInfo: 50xmxthndljko6pdxz3voxutnvoduhdfq/
 
+snd_pcm_oss_sync() calls snd_pcm_lib_write(substream, NULL, size) to
+fill silence.  The in_kernel flag is hard-coded to false by the wrapper,
+so do_transfer() falls through to import_ubuf() with a garbage pointer
+(NULL + frame_offset).  When the process is in do_exit() and current->mm
+is already NULL, import_ubuf()'s access_ok() crashes dereferencing 
+mm->context.pmlen.
 
-Hi John
+Add a NULL guard in do_transfer() to use iov_iter_kvec() with a dummy
+kvec for the fill_silence path, avoiding the import_ubuf() call.  The
+fill_silence transfer function ignores the iov_iter, so the dummy kvec
+is safe.
 
-> Add audio support for the Renesas RZ/G3E SoC to the R-Car Sound
-> driver. The RZ/G3E audio subsystem is based on R-Car Sound IP but
-> has several differences requiring dedicated handling:
-> 
->   - SSI operates exclusively in BUSIF mode (no PIO)
->   - 2-4 BUSIF channels per SSI (layout differs from R-Car)
->   - Separate register regions for SCU, ADG, SSIU, SSI accessed by name
->   - Per-SSI ADG and SSIF supply clocks
->   - Dedicated audmapp clock/reset for Audio DMAC peri-peri
->   - Per-SSI and per-module reset controllers via CPG
->   - Unprefixed DT sub-node names (ssi, ssiu, src, ...) instead of
->     rcar_sound,xxx
->   - Hyphenated indexed clock/reset names (ssi-0, src-0, adg-ssi-0,
->     audio-clka, ...) instead of the legacy dotted form
-
-Thank you for the patches.
-
-For all patches (except DT bindings)
-
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-
-
-Thank you for your help !!
-
-Best regards
+Fixes: cf393babb37a1 ("ALSA: pcm: Add copy ops with iov_iter")
+Signed-off-by: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
 ---
-Kuninori Morimoto
+ sound/core/pcm_lib.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
+index 09c421cd9319e..7429a33da0afa 100644
+--- a/sound/core/pcm_lib.c
++++ b/sound/core/pcm_lib.c
+@@ -2115,6 +2115,21 @@ static int do_transfer(struct snd_pcm_substream *substream, int c,
+ 		return transfer(substream, c, hwoff, &iter, bytes);
+ 	}
+ 
++	/*
++	 * When data is NULL (fill_silence path), import_ubuf() would
++	 * be called with a garbage userspace pointer that is neither a
++	 * valid kernel nor user address.  This can crash when current->mm
++	 * is NULL (e.g., during do_exit() -> exit_files() -> __fput()).
++	 * Since fill_silence ignores the iov_iter entirely, use a dummy
++	 * kvec to avoid the import_ubuf path.
++	 */
++	if (!data) {
++		struct kvec kvec = { NULL, 0 };
++
++		iov_iter_kvec(&iter, type, &kvec, 1, bytes);
++		return transfer(substream, c, hwoff, &iter, bytes);
++	}
++
+ 	err = import_ubuf(type, (__force void __user *)data, bytes, &iter);
+ 	if (err)
+ 		return err;
+-- 
+2.34.1
+
+Found by fuzzing. Here is the report:
+
+Unable to handle kernel paging request at virtual address dfffffff00000124
+Current syz.3.559 pgtable: 4K pagesize, 57-bit VAs, pgdp=0x000000008a70e000
+[dfffffff00000124] pgd=000000005fffe401, p4d=000000005fffe001, pud=0000000000000000
+Oops [#1]
+Modules linked in:
+CPU: 1 UID: 0 PID: 16564 Comm: syz.3.559 Tainted: G        W    L      7.1.0-rc1-gdb909bd7986c #1 PREEMPT 
+Tainted: [W]=WARN, [L]=SOFTLOCKUP
+Hardware name: riscv-virtio,qemu (DT)
+epc : __untagged_addr_remote arch/riscv/include/asm/uaccess.h:19 [inline]
+epc : __untagged_addr_remote arch/riscv/include/asm/uaccess.h:16 [inline]
+epc : import_ubuf+0x2a2/0x3a2 lib/iov_iter.c:1449
+ ra : import_ubuf+0x270/0x3a2 lib/iov_iter.c:1449
+epc : ffffffff818b2f64 ra : ffffffff818b2f32 sp : ff200000025072d0
+ gp : ffffffff8a395420 tp : ff600000b3628000 t0 : ff20000002507610
+ t1 : 000000000000f2f2 t2 : ffffffff8537e050 s0 : ff20000002507320
+ s1 : ff20000002507390 a0 : 0000000000000920 a1 : 0000000000000000
+ a2 : 0000000000000002 a3 : ffffffff818b2f32 a4 : 0000000000000124
+ a5 : dfffffff00000124 a6 : 0000000000000003 a7 : 0000000000000001
+ s2 : 0000000000000001 s3 : 0000000000001ed0 s4 : 0000000000000000
+ s5 : 0000000000000000 s6 : 1fe40000004a0e68 s7 : ffffffff850652f4
+ s8 : 0000000000000000 s9 : 0000000000002130 s10: ff20000002507390
+ s11: 0000000000000001 t3 : 000000000000f1f1 t4 : ffebffff1198b11f
+ t5 : ffebffff1198b120 t6 : 0000000000000002 ssp : 0000000000000000
+status: 0000000200000120 badaddr: dfffffff00000124 cause: 000000000000000d
+[<ffffffff818b2f64>] __untagged_addr_remote arch/riscv/include/asm/uaccess.h:19 [inline]
+[<ffffffff818b2f64>] __untagged_addr_remote arch/riscv/include/asm/uaccess.h:16 [inline]
+[<ffffffff818b2f64>] import_ubuf+0x2a2/0x3a2 lib/iov_iter.c:1449
+[<ffffffff85065670>] do_transfer+0x128/0x1dc sound/core/pcm_lib.c:2118
+[<ffffffff850657ce>] interleaved_copy+0xaa/0xd6 sound/core/pcm_lib.c:2141
+[<ffffffff85071c84>] __snd_pcm_lib_xfer+0xc98/0x1c3a sound/core/pcm_lib.c:2380
+[<ffffffff850b4376>] snd_pcm_lib_write include/sound/pcm.h:1194 [inline]
+[<ffffffff850b4376>] snd_pcm_oss_sync+0x5f2/0x6e8 sound/core/oss/pcm_oss.c:1713
+[<ffffffff850b469a>] snd_pcm_oss_release+0x22e/0x2aa sound/core/oss/pcm_oss.c:2584
+[<ffffffff80cf2748>] __fput+0x382/0xac6 fs/file_table.c:510
+[<ffffffff80cf2f3a>] ____fput+0x1c/0x26 fs/file_table.c:538
+[<ffffffff801f13b2>] task_work_run+0x16a/0x25e kernel/task_work.c:233
+[<ffffffff80169d02>] exit_task_work include/linux/task_work.h:40 [inline]
+[<ffffffff80169d02>] do_exit+0x8e4/0x2a6c kernel/exit.c:975
+[<ffffffff8016c3ea>] do_group_exit+0xd4/0x26c kernel/exit.c:1117
+[<ffffffff801a6fb0>] get_signal+0x2070/0x22aa kernel/signal.c:3037
+[<ffffffff80073690>] arch_do_signal_or_restart+0xc12/0x1d72 arch/riscv/kernel/signal.c:534
+[<ffffffff803eca40>] __exit_to_user_mode_loop kernel/entry/common.c:64 [inline]
+[<ffffffff803eca40>] exit_to_user_mode_loop+0x9c/0x7a4 kernel/entry/common.c:98
+[<ffffffff866faa3c>] __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+[<ffffffff866faa3c>] syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:238 [inline]
+[<ffffffff866faa3c>] syscall_exit_to_user_mode include/linux/entry-common.h:318 [inline]
+[<ffffffff866faa3c>] do_trap_ecall_u+0x490/0x5de arch/riscv/kernel/traps.c:345
+[<ffffffff867267f6>] handle_exception+0x15e/0x16a arch/riscv/kernel/entry.S:232
+Code: 0513 9205 07b7 e000 9556 17fd 5713 0035 1782 97ba (8783) 0007 
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	92050513          	addi	a0,a0,-1760
+   4:	e00007b7          	lui	a5,0xe0000
+   8:	9556                	add	a0,a0,s5
+   a:	17fd                	addi	a5,a5,-1 # 0xffffffffdfffffff
+   c:	00355713          	srli	a4,a0,0x3
+  10:	1782                	slli	a5,a5,0x20
+  12:	97ba                	add	a5,a5,a4
+* 14:	00078783          	lb	a5,0(a5) <-- trapping instruction
+
+<<<<<<<<<<<<<<< tail report >>>>>>>>>>>>>>>
+
