@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D66B34B1A5;
-	Wed, 27 May 2026 12:15:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC39C2ED872;
+	Wed, 27 May 2026 12:15:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779884115; cv=none; b=sjUKzvRCnSqRnedojHNXhBT6LmKiOR3oxZDn3O3HfhccOhp1wxn0RqNN8Y6fdKQoQ252WWMAFkwRlAB1d0TZ/AGRIhln4TBhW5ameNbkP7TrI1swzfbfkOBvMpIMjV52VFTuWVo2Acnm0RBzhOc09V/betCiBE1Jk7Yf0hl3BPk=
+	t=1779884119; cv=none; b=dnG+V4Xv0f/UOUfdla48Vh8AaabCtGueGSR7Rdkb2YoWwo6z2yyZLVmZ/ACsBCTJkq1PoWd/FnsHU+S+pgHxY2Z6uBi5kWqE/LCdyUQtgjQJ9j+N9MrS4w73WHftR74EhkzzVncSO8lfsjmVzgJoswnUB+Rj2VwMpqKkAgV1d1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779884115; c=relaxed/simple;
-	bh=GEJQ74VP+zDsUk4K7l8UoIfmlmd7AsGJBB8X3r9TPUM=;
+	s=arc-20240116; t=1779884119; c=relaxed/simple;
+	bh=Ir6ehQgZn9QGeAOiHOoQbnP0H1jPLY8aQgGNuXki+e4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=SeAtR82A3dMgskoI4uNj7e/SaJgsBK92fhccIh1ykm0NIl11eeu6dMvszsOibM72RzBbh6dzj9+MSubtlYDdNfh/hOiMnpo5G5fxWA1W+oP+7PCyvDrgqB8TFzbeNBiI1pEBg5uPhEx2HqIopMTecTKKE7nnVAp2sa1oY7rL6fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R16+bl7p; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=bJl35+t5OnbXun/0FWJjey9t7G0QX9vbBj7SaJbVkPV4mhYzfpH6cNFSqpr3m04OAy18Afw50AUd+fxPfGjiSXRXlTZcqX9s4r7W46cGaNYWJ9aOAmy1Xa8KzgKLLP3ltuYJ6De8DhPbEZpSIAEUNcoVe8P5VP7/tjoUx0yWDTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IZsTL6ap; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R16+bl7p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D2471F000E9;
-	Wed, 27 May 2026 12:15:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IZsTL6ap"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A38571F000E9;
+	Wed, 27 May 2026 12:15:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779884113;
-	bh=vA1rZLkXAAX0deJgLbaiD7Ggpc9NMMGcRExXvihSAhY=;
+	s=k20260515; t=1779884118;
+	bh=mB9xDjLb12x/4M8TukgH9WUFhnApCkvXilzqfFzUPjs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=R16+bl7pxvaUtXS6kBTKrtg1x7C4+06iji7wWiXYOQNX2KFsl5EGCz4rTSjCswlGI
-	 iQZ+1xIVT0du9EO6mmReIUWw+aEBXeMAZfZgRjzmZfz/kG00Qw5XHy4ui4Xsj3c6kc
-	 stEjZjzQJQdvYCUWBKFkzlbre4wamN/qFoDkemJFHn25RivVgBVqC2T8eWxgVv2yQW
-	 fDxVU4HFWAhfsIZIxv/gvijH2BNZNuG28Zx+QIdcE1+/Si6lRStQDkr5NloCuXurVY
-	 KZuAvxyBqi36fha73rLI5RQ5Z+v+UtyBUTSnsu2QRtSzuz5f1SXaJJokYHVH/83fq5
-	 tt/DDYcz2dHug==
+	b=IZsTL6apoSM4VjEZra853CCYg6OBLHxMAaqRu1A4D+qUoHPQXhCQJDoVZZOcD2pZO
+	 VIAm/bWqAjRH1hZQDS93oev+wffB4O/x2fGOgG3Kgaw4093BiPAYTq8jMCNpuX+TU+
+	 nNG5/8Ybj5UuWEwlX31fw2wayOYhzYRrraFEDBPcj5VK0jV/LR4S0NNTgzvsw0pYFy
+	 7JenP/Yf+7D7O/uU/QZk+I6VWuq5SdibhrzROW4z1/mBUDAmo5JtoUxoNOKj4e62UI
+	 6herdxnotAZ6HgbcEBjoI9HEixhj50sYxzgVOk1DXdlyQTcHfTq8RdhjdTYhxwWJr5
+	 TpJ4cGbwgQyhQ==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Rosen Penev <rosenp@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org
-In-Reply-To: <20260519010413.629214-1-rosenp@gmail.com>
-References: <20260519010413.629214-1-rosenp@gmail.com>
-Subject: Re: [PATCH] ASoC: mediatek: mt2701: allocate i2s_path with priv
-Message-Id: <177987681143.868420.277392491342387583.b4-ty@b4>
-Date: Wed, 27 May 2026 11:13:31 +0100
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Zhang Yi <zhangyi@everest-semi.com>, 
+ Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260519203815.1342154-1-arnd@kernel.org>
+References: <20260519203815.1342154-1-arnd@kernel.org>
+Subject: Re: [PATCH] ASoC: es9356-sdca: add SND_SOC_SDCA dependencies
+Message-Id: <177983009672.868420.3894022560537813503.b4-ty@b4>
+Date: Tue, 26 May 2026 22:14:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,20 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1119; i=broonie@kernel.org;
- h=from:subject:message-id; bh=GEJQ74VP+zDsUk4K7l8UoIfmlmd7AsGJBB8X3r9TPUM=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqFuBPQmpnL9F7Di0mzPQARB0JONWViTPk/pM10
- T9kunVwRbuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahbgTwAKCRAk1otyXVSH
- 0I3gB/sEVdabjNdhlOJyFPr0tlVBlRrpxxtpUlK8B7sUt0VoRA+3jXqFSJFNT62IwLG1MCUXcCP
- +YALgMzSqE7lwLe5OeWp6OZzxtcuLumzl5d3uoMmfsDy9voNWkyVq/L+1AOivbUFgNQwZSJTD72
- eDo+ZhkIi+UWIfnu4xAJhDKarQwtKRPVTSX5h4Kwwq7ptS66MtJx9iHZqbprTKVa+QvjkcRtinN
- Oygk4gRPqPNvGn+4RibqXpRTQZDIaY2RZ9tporOkIk3+YR2yqitLI46/BtKeAZLrILpcUtAYVaT
- rz3EWsamwXn2+ORk7JHfaAid09NuLVdkOVoWocujBWAJArxN
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1115; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Ir6ehQgZn9QGeAOiHOoQbnP0H1jPLY8aQgGNuXki+e4=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqFuBTDDoBiSc2QppMlcQWaOXHT9FiiFbXthDSA
+ 8oehmZVqGmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahbgUwAKCRAk1otyXVSH
+ 0LkFB/9tEqqzCOBEvT1aQwzofg9qh4KvPRcUMY7/aY9h4K9V8P9MZB1Vra38lMweqUIQOYj5MwM
+ 8f49zgypwFnKdPjDjA3CQdZiyi+zsaRt/y+iNJhEsgdGBGYPIsE3XMc2PdHIv+TPa+Cbk9FaWri
+ Yw6yelL/PlC4Qn4lg0sa5A2xCpamRp4Mhrztxv/XEiQk8snP5Y2luXxXQhPnm88fx1usQtnxqct
+ eTjPiJiL5pEhegqZV771ePVFDpRe3ZlBuRfX91UCPi7IfMRjU/4J1iE4Y+38FUlp7dnxluhv/S2
+ ZGKQm45vi5eQOtImRDPR9pYmn7Pv+dwzAh6TKiNzYt1qNL1L
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 18 May 2026 18:04:13 -0700, Rosen Penev wrote:
-> ASoC: mediatek: mt2701: allocate i2s_path with priv
+On Tue, 19 May 2026 22:37:55 +0200, Arnd Bergmann wrote:
+> ASoC: es9356-sdca: add SND_SOC_SDCA dependencies
 
 Applied to
 
@@ -68,8 +69,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: mediatek: mt2701: allocate i2s_path with priv
-      https://git.kernel.org/broonie/sound/c/344a4c96b292
+[1/1] ASoC: es9356-sdca: add SND_SOC_SDCA dependencies
+      https://git.kernel.org/broonie/sound/c/80cd9b010e37
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
