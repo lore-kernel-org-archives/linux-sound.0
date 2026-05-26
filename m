@@ -1,157 +1,133 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A596C3BFAD7
-	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 05:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6C9274670
+	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 05:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779774311; cv=none; b=D1Xr34EbVu31XkKHjHPk4kubvWaz+p7ztD4OFT/wa4ZORu1CnAVnL1tF/Djt3Tq/a/EnuGgK5yMMjAfleEoFHY2JhD5Mc/ewL0CpWmrwUeyAp6jqWCz8vkZS3bAs6yDgE3pe01ozEtOv6MX9unIDh8HWEAZycMUE5IujlJTkMio=
+	t=1779774343; cv=none; b=j73n8XEtWZdCEscbBrjZAFSX62h6LhRcXHclAsUHuu7ByLZHRdv6Z6Dh/rCHCfdH0pQxuVm7bYkXlJ6aZkUvYARYBYnjsxd+KhyEHdf7KJO0gPDO6T/tX1vUUCpK09yCo7UO4z8BI6PUp7so4y0wclawuhP5lwexc/0v4tV9acU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779774311; c=relaxed/simple;
-	bh=8BD/z0tEDsLiH5ZyWfcrvPOmjD/r3B9XK/QMfOjoeL4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OCBSCzl94UjiHnK9vk19O2cnIhwaXI+0yGcQtXVpOivwUzGxfiQrQd64dNOEpU1p+Acaag/f0H7xHd2iNvEhxlk8QNSkMgeR9M7j2TChtb7DWvdJjOfrm7JoGZ5UPeP6+5Paz2iDK0oGDLkVymwj5jd8KWV3kHvpwEgc80UbfRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SiJurFb6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=l9UwV8Uv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SiJurFb6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=l9UwV8Uv; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1779774343; c=relaxed/simple;
+	bh=BvVyl/xPR5P5ExPkDIL9htQkyxvhRUdBaeXMfVowqSI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UTMTbde4J3TjfD36RRkIFvAArpDXBunN8AmfgrviZMzZCxtlCZ1mEd7G4Xqd3pwxkY2mrRzyiCkS/u8cAtmYqbs2IMSE0oPH4DKSaYX/LfvR/9qD4GytzZXy0FwxmSMSc8Np/ZgEA1aodgLgqOaAtYUu30lp+YFe2EtQTxcKgls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TDUfGcgQ; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SiJurFb6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="l9UwV8Uv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SiJurFb6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="l9UwV8Uv"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6E17375AC2;
-	Tue, 26 May 2026 05:45:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779774307; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pXl8nPCpcDwmvaw2xW6p7murOipvoPiQsmmrPiGX7fA=;
-	b=SiJurFb60B4igbokxRPdDoXYUsWDUm5BlBS8PySl0qQG4Y74pERtGECzqyL3JaksLXIVxX
-	v7MxUdnnjc1+56GyZ6QnyIN9PudD9XIRkhIfKs9umSrjpT9EtrMUpjuQkE5Kf4X639l0Cx
-	ME5lThGOxJlvyl93d56Gd7uHNqSznw0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779774307;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pXl8nPCpcDwmvaw2xW6p7murOipvoPiQsmmrPiGX7fA=;
-	b=l9UwV8UvBvLpbREFi7GPOzc9E8w3yfmpenpXIQiyrGJCj2zoeZsEUEZjzSzjiGOh3GRV5U
-	zuo7cn1yeVNQkrDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779774307; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pXl8nPCpcDwmvaw2xW6p7murOipvoPiQsmmrPiGX7fA=;
-	b=SiJurFb60B4igbokxRPdDoXYUsWDUm5BlBS8PySl0qQG4Y74pERtGECzqyL3JaksLXIVxX
-	v7MxUdnnjc1+56GyZ6QnyIN9PudD9XIRkhIfKs9umSrjpT9EtrMUpjuQkE5Kf4X639l0Cx
-	ME5lThGOxJlvyl93d56Gd7uHNqSznw0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779774307;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pXl8nPCpcDwmvaw2xW6p7murOipvoPiQsmmrPiGX7fA=;
-	b=l9UwV8UvBvLpbREFi7GPOzc9E8w3yfmpenpXIQiyrGJCj2zoeZsEUEZjzSzjiGOh3GRV5U
-	zuo7cn1yeVNQkrDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44DBF5A04D;
-	Tue, 26 May 2026 05:45:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /mckDmMzFWrhHgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 26 May 2026 05:45:07 +0000
-Date: Tue, 26 May 2026 07:45:06 +0200
-Message-ID: <87wlwqzpul.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Geoffrey D. Bennett" <g@b4.vu>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: scarlett2: Fix 2i2 Gen 4 direct monitor gain on firmware 2417
-In-Reply-To: <ahUytAir51SvJjd7@m.b4.vu>
-References: <ahIWTueUlWA5xiV+@m.b4.vu>
-	<87a4togd7d.wl-tiwai@suse.de>
-	<ahUytAir51SvJjd7@m.b4.vu>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TDUfGcgQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779774341; x=1811310341;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=BvVyl/xPR5P5ExPkDIL9htQkyxvhRUdBaeXMfVowqSI=;
+  b=TDUfGcgQ8ehO3PugmSNVorekUqJXQDeQ8fDud0HlGgLzXTjuW72Yqgnh
+   /l9DM5GPDHGa4HPuRndx/AVbcjr7w7fz5y5bNO4r6DO9FITHtVjMBVTnE
+   A9sXVsS8fhDOoQi5Ul9B/RBNuSKdex3ErDi48p1ln7EK8cvUczTVRkNOV
+   0lKm7TRHx52E/ST1upM0Iug0EVzQGKyf9WGzkhx6hmfD/XriMBD3sWKb/
+   GVNbcPMVWH4FXfbgO8Qtnx1U9HmEd9xOfQGNQFfIU3SN7FrSkqvrKN0tt
+   g6j60VZfhmpKHaGZzghtVWaQtuGPPmT6H53847+Zsm0Doath6qKMTQLwb
+   Q==;
+X-CSE-ConnectionGUID: 5JmQCFigThm+37oDZubIKg==
+X-CSE-MsgGUID: 0d/5u/eZQ8yq9ecK3NxeRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="80765855"
+X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
+   d="scan'208";a="80765855"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 22:45:41 -0700
+X-CSE-ConnectionGUID: SLojk9DQTFymOSsQT7LTdA==
+X-CSE-MsgGUID: 9MYF/jYCSc6LaEUdWh6uSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
+   d="scan'208";a="237633174"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.244.49]) ([10.245.244.49])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 22:45:37 -0700
+Message-ID: <1daaad8d-8aee-4911-a24b-26db8b694cfd@linux.intel.com>
+Date: Tue, 26 May 2026 08:45:48 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.995];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: core: Move all users to deferrable card binding
+To: Mark Brown <broonie@kernel.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, tiwai@suse.com,
+ perex@perex.cz, amade@asmblr.net, kuninori.morimoto.gx@renesas.com,
+ linux-sound@vger.kernel.org, "Liao, Bard" <bard.liao@intel.com>,
+ "Vehmanen, Kai" <kai.vehmanen@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Simon Trimmer <simont@opensource.cirrus.com>
+References: <20260430140752.766130-1-cezary.rojewski@intel.com>
+ <01d1d642-bf24-4ef4-a30d-56884300407f@linux.intel.com>
+ <5d8cbbfb-3884-4c6b-aea8-0c9a76964b3b@intel.com>
+ <85045e51-e09b-44c2-9266-3e7ee72c4eb0@sirena.org.uk>
+ <b5e82c43-9da1-4a12-af0e-90d4b9feef49@linux.intel.com>
+ <d82fa24d-18f9-461d-8535-3266cc92fbb9@sirena.org.uk>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <d82fa24d-18f9-461d-8535-3266cc92fbb9@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 26 May 2026 07:42:12 +0200,
-Geoffrey D. Bennett wrote:
+
+
+On 25/05/2026 18:06, Mark Brown wrote:
+> On Mon, May 25, 2026 at 03:48:36PM +0300, Péter Ujfalusi wrote:
+>> On 22/05/2026 17:58, Mark Brown wrote:
+>>> On Fri, May 22, 2026 at 04:32:03PM +0200, Cezary Rojewski wrote:
 > 
-> On Mon, May 25, 2026 at 09:28:38AM +0200, Takashi Iwai wrote:
-> > On Sat, 23 May 2026 23:04:14 +0200,
-> > Geoffrey D. Bennett wrote:
-> > > 
-> > > Firmware 2417 for the Scarlett 4th Gen 2i2 moved the direct monitor
-> > > gain parameter by 4 bytes, from offset 0x2a0 to 0x2a4, breaking the
-> > > "Direct Monitor X Mix Y" controls.
-> > > 
-> > > Special-case the offset in the get/set config helpers when the
-> > > running firmware is 2417 or later.
-> > > 
-> > > Fixes: 4e809a299677 ("ALSA: scarlett2: Add support for Solo, 2i2, and 4i4 Gen 4")
-> > > Cc: <stable@vger.kernel.org>
-> > > Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
-> > > ---
-> > > Tested on a Scarlett 2i2 4th Gen by writing to "Direct Monitor 1
-> > > Mix A Input 01" and observing the USB traffic with usbmon:
-> > > 
-> > > - Firmware 2417, unpatched driver: write targets offset 0x2A0 (bug)
-> > > - Firmware 2417, patched driver:   write targets offset 0x2A4
-> > > - Firmware 2128, patched driver:   write targets offset 0x2A0
-> > 
-> > Applied now to for-linus branch.
-> > 
-> > It seems that this can be merged without conflict to for-next that
-> > contains already your previous series.  Let me know if any adjustment
-> > is needed at merging this with the previous one.
+>>>> The question on the table:  Do we revert the change temporarily, fix the SOF
+>>>> first and then re-apply the patch again?
 > 
-> Thanks. Although they don't conflict, they are equivalent, so no need
-> for both. I think my previous series is the better way long term, so
-> can you drop the new patch when you merge to for-next? Or should I
-> send a revert? Or do you have a different preference?
+>>> Given that there's two drivers we managed to turn up bugs in already I'm
+>>> inclined to leave the patch there so it's more likely that any other
+>>> issues get found.  It's a bit annoying for SOF CI but I guess a revert
+>>> can be merged locally there?
+> 
+>> It is not really the SOF CI but the users. it looks like all codecs
+>> using SDCA infra is affected and will fail to probe audio on boot.
+> 
+> Hang on, are you saying you don't test -next or my ASoC branches at all?
 
-It was already merged, so I'll revert it on for-next.
-Thanks for confirmation.
+We sort of test -next audio stuff in daily bases, but this would have
+not been caught if I did not happen to be debugging something on a PTL
+system with Cirrus codecs, using SDCA infra.
 
+We do approximately weekly merges of -next audio branches to our sof-dev
+working tree, our pending patch deficit usually pretty shallow to allow
+testing before sending them upstream (we have sof-dev-rebase branch as
+well to see them cleanly).
 
-thanks,
+> It sounded like this was the result of a merge with some out of tree
+> stuff you have with Cezary's change but it sounds like you're saying
+> there are issues independently of the merge.
 
-Takashi
+No, it is not out of tree stuff, it is upstream stuff already in use for
+SDCA proper codecs, but I think what really triggers this is
+c5ae3d8bc968 ("ASoC: soc_sdw_utils: partial match the codec name")
+which is in 7.1-rc1, so not next stuff either.
+
+I think the issue boils down to the fact that we don't know the exact
+name of the SDCA codec and DAI for the function before they have been
+created, thus the sof_sdw machine relies on deferring to 'see' the names
+they got.
+
+I think Bard and Charles are the best persons to comment, but atm Cirrus
+codecs are the ones pioneering the use of generic sdca codec class
+driver with Realtek and TI preparing to enable it.
+
+I also think that detaching from driver defer and use internal card
+defer is a much better approach, but when majority of new PTL designs
+will be broken with no patch in sight to prepare the SDCA class stack is
+a regression.
+
+Charles, Bard, Richard, Simon, any thoughts on this?
+
+-- 
+Péter
+
