@@ -1,196 +1,173 @@
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09CF33A9F5
-	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 07:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7273CB8E3
+	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 07:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779780555; cv=none; b=SgZfGUCicpOMfWwZG7qWiJf+SvlHGj3DLp9QL55YZZ4p5GAfa3udLberkHLhnnOD7RzdfpgkHJDHDfokhhLjzWuEjdHBQEVQ+p3Q53tYDauhC0Zm0W9hABQWM70OW66/nVWqUxugR4Of+cE8jmAm8rFHU5thm1K+dlFUJ21E56U=
+	t=1779780908; cv=none; b=uE5zJvrCjVo/gfMGCJUy8pIyWQHrRkN8rJLberkZoJGRMSHQxm7i5N0pRDpqcPErLDqTi5fxEaIiALLJ7B8myvskww75iNcWdUbiRKC46p80gN7AO/Xwqxm5IdFVobUVAJLIosw995a/dM1LshbyXQ5Z1s4D0pEUZvFs/4NKJ8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779780555; c=relaxed/simple;
-	bh=xvumc7IKqu8Qnwk8AWxZpI8AvAIPSVAsd+6YsJ+3Nfk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rcy3XD1aZpwxoIFeckLe4sm9AU19qvdauK0+G5CzOAkchYXcGOaiW42adc652Q4AnR6s7x+L26VM3cl7j1Ep0G3xjx8nSAY3hKPRNPfJXOU+daZ0Iaq12mxl4a1Itj1uoI5l7uhp6wyNskB6JzCttCe9P+VsPCcRLwH3FEQo97A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ss0lak6t; arc=none smtp.client-ip=74.125.82.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779780908; c=relaxed/simple;
+	bh=Ushy4Ylq5GNc8n8FXdKmtoYpGkXrC2FBgrzODvxj6tA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=j7PFUgaoUeI5qITLJMPmoUHYoygTUF7Pk3XkgbC4GxIcr5FggmZAQmUs+gFu3QCCQC4wdqtPwlMCM+OHM+Ufn9U6gk5K+40cju39NaoLL92DqojijSBa8dqqY51lMymxsHI2y0hhlOgwDLsdplVHTYuM+WVDREOKco4rheyvdzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=DPamDBm7; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ss0lak6t"
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-134fe980658so11798289c88.1
-        for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 00:29:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="DPamDBm7"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso86763075e9.0
+        for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 00:35:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779780553; x=1780385353; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=duOeqU2aHW72kUeDt2Zev5JrjKN42G9f1OMWDHaWfO0=;
-        b=ss0lak6tO23vFfIxatIIyGv4VH4oMqh8gHXODw/3c7oDlkrRyzLlvFO9KmM/m2Wf5M
-         nNWkehd1FtZk/VA9Kj1y7Wfef+J6uXtBtp3rh5fZMfJrZ+8NhSq2tylshWEc+g1M+B5w
-         GslWZkVPf16+UHWFz5utE4RXS5O4Oyg3HM2VADCHijfQWiX4IkkHZNsAjMO3kMKPzQ+B
-         bsZFHMcuuL43HFFgeAzVY5SXn+I14CBQRsNCv4XWNOhpU5KRty5/o82hgn5JNAtXl9yS
-         8ziSgHvMZsfjAl5oTcvhpmflXwBi2W1RPbJE08uoYA3/3Hw2SFV8GV9wP/die2sS3b9M
-         FFqw==
+        d=baylibre.com; s=google; t=1779780905; x=1780385705; darn=vger.kernel.org;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0fBI1nWTJFqqlwGF/lWAIDboXe2QMBGB7s+bipEyCmQ=;
+        b=DPamDBm7+EoG7kzyijAfEFVQG3zacOTq+LF+tpE/inBuMljtLMRY0yvg1dTBahc6LL
+         r6cSWxNNwNG3bxYON2bmEUNl9RcnEe286/u6Z5imccy1cvhw4NjNQu2rFjWCCGACdZeZ
+         N4ZGRUIEG4Bd7y1ffvGY1P3X9pW4bwI112rRhcohe8P5AMBZ9YaZiPz9I6kH6TjHtuDE
+         U01nFRoOTdCBpPBNo+FJlo9jkq3ad8dFeSrLcv2jGIuBLkKAbogtYPo+ySjcFeP2ZdCH
+         Br4A9SGoSN7Ih2CV+Y6+ztGj8nTmu2/CChmhBKL+JcTDTg9qVlsVCm1DVWrKohX6OisE
+         kQ4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779780553; x=1780385353;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=duOeqU2aHW72kUeDt2Zev5JrjKN42G9f1OMWDHaWfO0=;
-        b=K1yADMbXJklk2s2qUK4oCMvBrPtrQKmvFb+4GLZEAOlU5p4+M7dKuZ6FDEdlW/Ea+t
-         kDWY0Zn4oOsnTecP+al10bjKh8JV64vSBoX0r7fsofyjQ9br8udlweuSwjalFyrPIX/i
-         CMgAd6CHxHjRqcXdX6uAJOcEllR+Fjr8OQP23o4T/F64EtnFhvDc6eRscdqxD6ynrEwx
-         NIso3HT2f3Xo928o7Qhm/DMjKqLX6ULE/x1lT5qDpvgjzFhtlJYMOHDv1fLr+S8A7RoY
-         9ExVS151wfaEMNMI17k5QRxTI8VHdrgTFpTD/iILabbdKj6TP/SMaKBS3tPx3tgkCoh7
-         A9OQ==
-X-Gm-Message-State: AOJu0Ywdq9SrSxGUHRY2i5QC00jZyuEhygsq4XwiOvfCpH4Kp0DjPka/
-	t2M84I4G8XAb8Q5B4bB3w6CcOTdz7AW/gTe4rv/MlqPvOy9G0GBbujHFCAZ+Mq381sc=
-X-Gm-Gg: Acq92OFiiJKgO9LQGGd9SUMZdqH/3AwF+17RSHebyDk+bfjNJmlqvA0iwuGhIfuwSFy
-	+RXpSrjLAS3DtCv4sv9D2EOcqRqVrI8EXVe/jEAbYsJfcNK9m2Tw4lizH9uDnv6oJ6k/zNYQb1L
-	qDoSJa/kTQnBZQRLLtcU72Q2b/6Sp5fKYWMU+nXgdkm/i/Yg5BBJ018yoqAFqTBRevJvT//VZLE
-	PdSHQvZW/25RfU2ZHuXKQhyhH7vlX7HhRyxbJeb314fmYMviwFwlgQoqrUMwPKCqR/aYtYEmMvc
-	zxrGS0FARIt537H6lU4NfyBFI3kPID2LqZ733Zu7ogbIpfAPhcYPDl6Q/K2Ug3yQBIYWcxmPij6
-	n9eS/tIx6qSg7AqDaPmIOHiLglV/hKp1NN6ACCAIRLfiJIye7Ums1pGuhO+R2MpxrG5D94gaqyZ
-	mejGQ75ZroujPyPfLLgRpcP9Bam/lL312uI2SmBmbdiDt/d3ANx1Wkh6KzJujibLJ+a+Q=
-X-Received: by 2002:a05:7300:7fa6:b0:2ea:edc0:4fbe with SMTP id 5a478bee46e88-30449095631mr8456932eec.14.1779780552677;
-        Tue, 26 May 2026 00:29:12 -0700 (PDT)
-Received: from localhost.localdomain ([24.249.245.149])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3045245d6aesm9292001eec.26.2026.05.26.00.29.10
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 26 May 2026 00:29:12 -0700 (PDT)
-From: Gordon Chen <chengordon326@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-kernel@vger.kernel.org,
-	Gordon Chen <chengordon326@gmail.com>
-Subject: [PATCH] ALSA: usb-audio: add IFB_SILENCE_ON_EMPTY quirk for Behringer Flow 8
-Date: Tue, 26 May 2026 15:29:06 +0800
-Message-ID: <20260526072906.90106-1-chengordon326@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        d=1e100.net; s=20251104; t=1779780905; x=1780385705;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=0fBI1nWTJFqqlwGF/lWAIDboXe2QMBGB7s+bipEyCmQ=;
+        b=sv05EtB+EG+loAi/M2f8tW4PI1HA2vap6bDQxfOZgsZ01ixGTnRZdRUF5U9ZqOlPWW
+         Cq71MoLosR9IFVqbLeWtNwKtyJp3Hw3lNrW+8MrLW1S0babj04g4L/6dpCSMPYIKJIvD
+         /1JOx2scfi2u/poovNZ9yzopTiTEFckhRAx6qHaBFXsnu6SUeC+BNlqmyI5o1cBr8q5r
+         uuZq28A9qbRMLr3XFY9ihLgq/Zi6j9zZ6uXgyMhhpcAtFxmbqr3aX4RnUtDJ3MDnI6Sc
+         lSIDoZNSEXHMCbBbXmXuRYP6rs5sOaSFvklrW+q1IbrJOYk3k0FUebKHo/AER4I4+f2P
+         Fm8g==
+X-Forwarded-Encrypted: i=1; AFNElJ8esM0TmhA4R9cNh/ViL51m31YKnrGl2kW2VKeopVcyT5QZNUWARFLB/Z7hRQ7T70B2n3S4DBERuf7GYA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNdAnI87tCG/SkEGVzOA+YSL1xoqUmvzJJ6+boa8MsMdibdc4/
+	1f4g/XWhhX6KHYySri7lIBpjANFdukFyrBWKZZtt1X2u0r5fHd3IlrqJL6SQSctEZBg=
+X-Gm-Gg: Acq92OG5KDjz8T13+ZVlOHMib7fnjTPElibL+jWTszCxZHeneGnfSfDAt9DCZnbFk5d
+	aTUmFZU05MIK9B1/4fUR9KyeAvrB/FEE5f0NAvVYxApuXTZ7ITvBOrah38dMKKbK1wMsJwpFBgx
+	55M02EI4xNuaRD7636cWUF6Q06L3jwxeqKdVP3LdngwCZE2RHjKkp8Q35eF+kn5QVqkbZbuJnYB
+	DM99OCvUxroYTP4fZvzP7wG97OImeKJ0s8WnMR/rrglyzdMDhksMYk9BoqnMWoZTcSs//M66v3w
+	cCCYbJLG1Efe0DwXxcKJmGFpgaUeNuoyf9BTCR76+S4164cr8xCeP9N1491WEXNIvSCNIx6yy75
+	CDjwq0yt1wVquHy6m0IsHJgQbkLl36lf48SDTn6fdOrI6U34AwLxwMfxi7ezZwpXJjoLz85fYtz
+	mbhCV3RopIBwDXIbUcNEFElcfiaulMXrUj
+X-Received: by 2002:a05:600d:6450:20b0:48f:e245:394e with SMTP id 5b1f17b1804b1-490426dd0f7mr197920035e9.27.1779780905344;
+        Tue, 26 May 2026 00:35:05 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:4a0c:b15a:3467:f4ed])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4904561f2dfsm287872015e9.12.2026.05.26.00.35.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2026 00:35:04 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: =?utf-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,  "J.M.B. Downing"
+ <jonathan.downing@nautel.com>,  =?utf-8?Q?Martin_Povi=C5=A1er?=
+ <povik+lin@cutebit.org>,
+  =?utf-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,  =?utf-8?Q?Uwe_Kleine-K?=
+ =?utf-8?Q?=C3=B6nig_=28The_Capable_Hub=29?=
+ <u.kleine-koenig@baylibre.com>,  Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,  Alexandre Torgue
+ <alexandre.torgue@foss.st.com>,  AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>,  Arnaud Pouliquen
+ <arnaud.pouliquen@foss.st.com>,  Baojun Xu <baojun.xu@ti.com>,  Bartosz
+ Golaszewski <brgl@kernel.org>,  Ben Bright <ben.bright@cirrus.com>,
+  Benson Leung <bleung@chromium.org>,  Biju Das
+ <biju.das.jz@bp.renesas.com>,  Binbin Zhou <zhoubinbin@loongson.cn>,  Bram
+ Vlerick <bram.vlerick@openpixelsystems.org>,  Charles Keepax
+ <ckeepax@opensource.cirrus.com>,  Chen-Yu Tsai <wens@kernel.org>,
+  Cheng-Yi Chiang <cychiang@chromium.org>,  Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>,  Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>,  Daniel Mack <daniel@zonque.org>,
+  Dario Binacchi <dario.binacchi@amarulasolutions.com>,  David Rhodes
+ <david.rhodes@cirrus.com>,  Fabio Estevam <festevam@gmail.com>,  Florian
+ Fainelli <florian.fainelli@broadcom.com>,  Frank Li <Frank.Li@nxp.com>,
+  Fred Treven <fred.treven@cirrus.com>,  Geert Uytterhoeven
+ <geert+renesas@glider.be>,  Guenter Roeck <groeck@chromium.org>,  Guoqing
+ Jiang <guoqing.jiang@canonical.com>,  Haojian Zhuang
+ <haojian.zhuang@gmail.com>,  HariKrishna Sagala <hariconscious@gmail.com>,
+  Heiko Stuebner <heiko@sntech.de>,  Herve Codina
+ <herve.codina@bootlin.com>,  Hsieh Hung-En <hungen3108@gmail.com>,  James
+ Ogletree <jogletre@opensource.cirrus.com>,  Jarkko Nikula
+ <jarkko.nikula@bitmer.com>,  Jaroslav Kysela <perex@perex.cz>,  Jernej
+ Skrabec <jernej.skrabec@gmail.com>,  Jihed Chaibi
+ <jihed.chaibi.dev@gmail.com>,  Jonathan Hunter <jonathanh@nvidia.com>,
+  Kevin Cernekee <cernekee@chromium.org>,  Kevin Hilman
+ <khilman@baylibre.com>,  Kevin Lu <kevin-lu@ti.com>,  Kirill Marinushkin
+ <k.marinushkin@gmail.com>,  Kiseok Jo <kiseok.jo@irondevice.com>,
+  Krzysztof Kozlowski <krzk@kernel.org>,  Kunihiko Hayashi
+ <hayashi.kunihiko@socionext.com>,  Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>,  Lars-Peter Clausen
+ <lars@metafoo.de>,  Liam Girdwood <lgirdwood@gmail.com>,  Luca Ceresoli
+ <luca.ceresoli@bootlin.com>,  M R Swami Reddy <mr.swami.reddy@ti.com>,
+  Mark Brown <broonie@kernel.org>,  Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>,  Masami Hiramatsu
+ <mhiramat@kernel.org>,  Matthias Brugger <matthias.bgg@gmail.com>,  Max
+ Filippov <jcmvbkbc@gmail.com>,  Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>,  Neil Armstrong <neil.armstrong@linaro.org>,
+  Nicolas Ferre <nicolas.ferre@microchip.com>,  Nicolas Frattaroli
+ <frattaroli.nicolas@gmail.com>,  Nicolin Chen <nicoleotsuka@gmail.com>,
+  Oder Chiou <oder_chiou@realtek.com>,  Olivier Moysan
+ <olivier.moysan@foss.st.com>,  Paul Cercueil <paul@crapouillou.net>,
+  Peter Rosin <peda@lysator.liu.se>,  Piotr Wojtaszczyk
+ <piotr.wojtaszczyk@timesys.com>,  Qianfeng Rong <rongqianfeng@vivo.com>,
+  Ray Jui <rjui@broadcom.com>,  Richard Fitzgerald
+ <rf@opensource.cirrus.com>,  Robert Jarzmik <robert.jarzmik@free.fr>,
+  Samuel Holland <samuel@sholland.org>,  Sascha Hauer
+ <s.hauer@pengutronix.de>,  Scott Branden <sbranden@broadcom.com>,  Sen
+ Wang <sen@ti.com>,  Sharique Mohammad <sharq0406@gmail.com>,  Shenghao
+ Ding <shenghao-ding@ti.com>,  Shengjiu Wang <shengjiu.wang@gmail.com>,
+  Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,  Support Opensource
+ <support.opensource@diasemi.com>,  Sylwester Nawrocki
+ <s.nawrocki@samsung.com>,  Takashi Iwai <tiwai@suse.com>,  Thierry Reding
+ <thierry.reding@kernel.org>,  Tim Bird <tim.bird@sony.com>,  Troy Mitchell
+ <troy.mitchell@linux.spacemit.com>,  Tzung-Bi Shih <tzungbi@kernel.org>,
+  Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,  Vijendar Mukunda
+ <Vijendar.Mukunda@amd.com>,  Vishwas A Deshpande
+ <vishwas.a.deshpande@ti.com>,  Vladimir Zapolskiy <vz@mleia.com>,  Xiubo
+ Li <Xiubo.Lee@gmail.com>,  Yixun Lan <dlan@kernel.org>,  Zhang Yi
+ <zhangyi@everest-semi.com>,  linux-sound@vger.kernel.org
+Subject: Re: [PATCH 69/83] ASoC: meson: use .auto_selectable_formats
+In-Reply-To: <87a4tmgb4p.wl-kuninori.morimoto.gx@renesas.com> (Kuninori
+	Morimoto's message of "Tue, 26 May 2026 02:25:43 +0000")
+References: <8733zfj5jj.wl-kuninori.morimoto.gx@renesas.com>
+	<87a4tmgb4p.wl-kuninori.morimoto.gx@renesas.com>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Tue, 26 May 2026 09:35:03 +0200
+Message-ID: <1jfr3e62u0.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-The Behringer Flow 8 (1397:050c) is an 8-channel USB mixer that
-declares OUT EP 0x01 with implicit feedback from capture EP 0x81 via
-its UAC2 endpoint companion descriptor. After 5-35 minutes of
-continuous playback, the device occasionally returns a capture URB in
-which every iso_frame_desc has a non-zero status (-EXDEV bursts,
-visible as rate-limited "frame N active: -18" lines in dmesg from
-pcm.c).
+On mar. 26 mai 2026 at 02:25, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-In that case snd_usb_handle_sync_urb() at endpoint.c counts bytes==0
-and falls into the early "skip empty packets" return originally added
-for M-Audio Fast Track Ultra. As a result the playback EP loses its
-sole IFB-driven feeder and the OUT ring starves permanently: hw_ptr
-stops advancing while substream state remains RUNNING. Only USB
-re-enumeration recovers.
+> We can use .auto_selectable_formats. Let's adds it.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>  sound/soc/meson/t9015.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/sound/soc/meson/t9015.c b/sound/soc/meson/t9015.c
+> index da1a93946d679..085f771eb244f 100644
+> --- a/sound/soc/meson/t9015.c
+> +++ b/sound/soc/meson/t9015.c
+> @@ -78,8 +78,14 @@ static int t9015_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+>  	return 0;
+>  }
+>  
+> +static const u64 t9015_dai_selectable_formats =
+> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
+> +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J;
+> +
+>  static const struct snd_soc_dai_ops t9015_dai_ops = {
+>  	.set_fmt = t9015_dai_set_fmt,
+> +	.auto_selectable_formats = &t9015_dai_selectable_formats,
+> +	.num_auto_selectable_formats = 1,
+>  };
+>  
+>  static struct snd_soc_dai_driver t9015_dai = {
 
-Three independent ftrace captures (taken at the moment of stall via a
-userspace watchdog) consistently show:
-
-  - 60-70 capture URB completions in the 70ms window before the marker
-  - 0 retire_playback_urb / queue_pending_output_urbs /
-    snd_usb_endpoint_implicit_feedback_sink calls
-  - every usb_submit_urb in the window comes from
-    snd_complete_urb+0x64e (capture self-resubmit), none from the
-    queue_pending_output_urbs path
-
-Add a new opt-in quirk QUIRK_FLAG_IFB_SILENCE_ON_EMPTY: when set, the
-early return is skipped and we fall through to enqueue a packet_info
-whose packet_size[i] are all 0 (the existing loop already maps
-status!=0 packets to size 0). prepare_outbound_urb then emits a
-silence packet, the OUT ring keeps moving, and the device rides
-through the glitch.
-
-The default behaviour (early return) is preserved for all existing
-devices including M-Audio Fast Track Ultra. Only Flow 8 opts in here.
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Gordon Chen <chengordon326@gmail.com>
----
- sound/usb/endpoint.c | 10 +++++++++-
- sound/usb/quirks.c   |  3 +++
- sound/usb/usbaudio.h |  8 ++++++++
- 3 files changed, 20 insertions(+), 1 deletion(-)
-
-diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-index 6fbcb1175..24cd7692b 100644
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -1780,8 +1780,16 @@ static void snd_usb_handle_sync_urb(struct snd_usb_endpoint *ep,
- 		/*
- 		 * skip empty packets. At least M-Audio's Fast Track Ultra stops
- 		 * streaming once it received a 0-byte OUT URB
-+		 *
-+		 * However, on devices where bytes==0 means every sync-source
-+		 * packet errored (e.g. Behringer Flow 8 returning -EXDEV bursts
-+		 * for entire capture URBs), an unconditional return starves the
-+		 * IFB-fed OUT ring permanently. Such devices set
-+		 * QUIRK_FLAG_IFB_SILENCE_ON_EMPTY to fall through and enqueue a
-+		 * packet_info with size 0 packets, so playback emits silence
-+		 * and the OUT ring keeps moving.
- 		 */
--		if (bytes == 0)
-+		if (bytes == 0 && !(ep->chip->quirk_flags & QUIRK_FLAG_IFB_SILENCE_ON_EMPTY))
- 			return;
- 
- 		spin_lock_irqsave(&ep->lock, flags);
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 31cbe383a..e2c95be38 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2365,6 +2365,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
- 	DEVICE_FLG(0x1397, 0x0509, /* Behringer UMC404HD */
- 		   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-+	DEVICE_FLG(0x1397, 0x050c, /* Behringer Flow 8 */
-+		   QUIRK_FLAG_IFB_SILENCE_ON_EMPTY),
- 	DEVICE_FLG(0x13e5, 0x0001, /* Serato Phono */
- 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
- 	DEVICE_FLG(0x152a, 0x880a, /* NeuralDSP Quad Cortex */
-@@ -2602,6 +2604,7 @@ static const char *const snd_usb_audio_quirk_flag_names[] = {
- 	QUIRK_STRING_ENTRY(SKIP_IFACE_SETUP),
- 	QUIRK_STRING_ENTRY(MIXER_PLAYBACK_LINEAR_VOL),
- 	QUIRK_STRING_ENTRY(MIXER_CAPTURE_LINEAR_VOL),
-+	QUIRK_STRING_ENTRY(IFB_SILENCE_ON_EMPTY),
- 	NULL
- };
- 
-diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
-index 58fd07f8c..9afcad8f1 100644
---- a/sound/usb/usbaudio.h
-+++ b/sound/usb/usbaudio.h
-@@ -236,6 +236,12 @@ extern bool snd_usb_skip_validation;
-  * QUIRK_FLAG_MIXER_CAPTURE_LINEAR_VOL
-  *  Similar to QUIRK_FLAG_MIXER_PLAYBACK_LINEAR_VOL, but for capture streams.
-  *  Overrides QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE
-+ * QUIRK_FLAG_IFB_SILENCE_ON_EMPTY
-+ *  In implicit feedback mode, when an entire capture URB returns with
-+ *  all iso_frame_desc[i].status != 0 (bytes==0), do not silently return
-+ *  from snd_usb_handle_sync_urb. Instead fall through and enqueue a
-+ *  packet_info containing only size-0 packets, so the OUT ring keeps
-+ *  moving (emits silence). Needed by Behringer Flow 8 (1397:050c).
-  */
- 
- enum {
-@@ -268,6 +274,7 @@ enum {
- 	QUIRK_TYPE_SKIP_IFACE_SETUP		= 26,
- 	QUIRK_TYPE_MIXER_PLAYBACK_LINEAR_VOL	= 27,
- 	QUIRK_TYPE_MIXER_CAPTURE_LINEAR_VOL	= 28,
-+	QUIRK_TYPE_IFB_SILENCE_ON_EMPTY		= 29,
- /* Please also edit snd_usb_audio_quirk_flag_names */
- };
- 
-@@ -302,5 +309,6 @@ enum {
- #define QUIRK_FLAG_SKIP_IFACE_SETUP		QUIRK_FLAG(SKIP_IFACE_SETUP)
- #define QUIRK_FLAG_MIXER_PLAYBACK_LINEAR_VOL	QUIRK_FLAG(MIXER_PLAYBACK_LINEAR_VOL)
- #define QUIRK_FLAG_MIXER_CAPTURE_LINEAR_VOL	QUIRK_FLAG(MIXER_CAPTURE_LINEAR_VOL)
-+#define QUIRK_FLAG_IFB_SILENCE_ON_EMPTY		QUIRK_FLAG(IFB_SILENCE_ON_EMPTY)
- 
- #endif /* __USBAUDIO_H */
--- 
-2.54.0
-
+Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
