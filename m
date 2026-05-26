@@ -1,215 +1,128 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010053.outbound.protection.outlook.com [52.101.228.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F4D308F26
-	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 02:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB1B50276
+	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 04:17:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779762602; cv=fail; b=lwY5sSFITJEPYhGd1qkJrKxm7A7zlnkly7A5sYl9C+svju8zXNxl6eBooo+8/01WVSzWfIbBeCmH5pFzCKPnIbSJ0QE7Z1nw8CW5gzJyZnmT90RYWrY/41fRhnw71Fm9zNLB69fhHVnb5a1pHNw9z29D6g1WOvdvYNXo8Rsz8kg=
+	t=1779769063; cv=pass; b=rKqReu2ScEmaNw31er+7tsfA2vMI1VEwKjoj5jw9xBdL+2Kn2kHtKD1/o+S+D5sGA6GZEWcmXtkuFJYL+8wWrJKdJia6yWHcSDK2MwVEEjA2r+eSKZQhI9ej9ba/pFgDIzlP/y3ce2oatRQvdVvmReOD8nNwnAGYTZ8k+aWzHl0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779762602; c=relaxed/simple;
-	bh=REM2pXarlpfJ7S1OHQuB12GocOSRFa3ogIMVBY2tqsY=;
-	h=Message-ID:To:From:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=sjvz3lSDqo0XRWJtjYhebOlvTrKIonjwrEwuMdm3oR4lSBt5v8tjBi95ppR3Cb6mLm86XiprKvW9hetH+jKdxRMq4ZOnlJBfTCkYVx/TQMW3SsLrJKoljdiR0f5eIbSMZDorlMJrLc+UKXUhEISe4/5gRid45o8pXqFprOhp4oU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=GOdY6IFS; arc=fail smtp.client-ip=52.101.228.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	s=arc-20240116; t=1779769063; c=relaxed/simple;
+	bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Vfzu7WuP5M4Yg2epqYkb1GM0ElKjA5T9VGzI+goyBqvWnQ73+brpKvVq1aWrukQNsBj+LHl+cQenVtbr6zYLGJ79h32/c1+pvbBJAuOc8zer9qOcLTMWtPTNhupEUlmMLkgzmU3Ivbqstq0FDHSvjj+fEbkKY/nwNwt+P57dEuU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cS1GAGlX; arc=pass smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="GOdY6IFS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SvtZVxfOD7JbE2FICHQ8rTVjz0EuicFO7H9yRamcSIKBGW6DWfUvrtTU+WxxDclRPVbcsGBv437Mnz0yRL6EilSn+0XFVzYw2xZA3Pz7U3IwpBT6U9B2NTfDvjYe1/HXUecKD/FbTd2boGeG9fsOHS1A1Dr27YWrMvwpJR8oVlTimHqj2wvV6lDNO+xXr+P3KEh3hsH8OP60/M2LI6OM711/+uXH/0WTrRfmOtaChJ2zJEXEYTIs6H3gafaNFE47gnPC9lJ2pusWKn4OJ0D2PshfibCqvMxZ/FBYQc/4vCJdaC6mJjxQGZnYMGEjbdYF8JyE/SY90Nd22Acg6ksiog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p37NJcv7EO4g/R+H5XaJrshNvK4Mec0kiST+cjE6+2I=;
- b=hFIXtaXJVJAjA46WCPMV+GnqtaQMnWobjMjSWxxmRfySDJpAwqrcncYKraak/LezqKGf5FVrgLn37X5YOArSbZo5lMvQ8AeIOTQUgximAMu38uMBUBFyUtFWHcg2XPAAmPz6K2FMbmdB7A70De1mwLX4ktTvNpyzN4lErP8tPrO/u7xOItklcxgZpHmbGUS6/9FujVt6bbaV0l6l1L9/Ea0lzvr05cH0oNEXrn6kyS1wUxNWhi81FoJrV33r3EvduK4QRvEbh1M0SLuq8BYa8DZUb3s+BvlAGN1+hIvw0XmcYMVBUFmq4c6OAxXfmOkDE1ONWZ9jFFPvChd4h2suKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p37NJcv7EO4g/R+H5XaJrshNvK4Mec0kiST+cjE6+2I=;
- b=GOdY6IFSlryL9an5OIed5r+OWry83Hr0LX+2DNojPnh9JG4HWeDqUZPxwVo0PPg6zltErsr+RB3jGtnirC/D2hnXHgycEkSy62/MkYW7Ku0dLZPy/0FOANa9YMlUf7XGaRv3nY8Mt2ze9p4ihBkDBuM1EpCVwAmFBLJ3jOQmRFA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by TYCPR01MB11158.jpnprd01.prod.outlook.com (2603:1096:400:3df::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Tue, 26 May
- 2026 02:29:57 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0048.019; Tue, 26 May 2026
- 02:29:57 +0000
-Message-ID: <87pl2iewd7.wl-kuninori.morimoto.gx@renesas.com>
-To: =?ISO-8859-2?Q?=22Alvin_=A9ipraga=22?= <alsi@bang-olufsen.dk>,
- "J.M.B. Downing" <jonathan.downing@nautel.com>, =?ISO-8859-2?Q?=22Martin_?=
- =?ISO-8859-2?Q?Povi=B9er=22?= <povik+lin@cutebit.org>,
- =?ISO-8859-1?Q?=22Nuno_S=E1=22?= <nuno.sa@analog.com>, =?ISO-8859-1?Q?=22?=
- =?ISO-8859-1?Q?Uwe_Kleine-K=F6nig_=28The_Capable_Hub=29=22?=
- <u.kleine-koenig@baylibre.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Arnaud Pouliquen
- <arnaud.pouliquen@foss.st.com>, Baojun Xu <baojun.xu@ti.com>, Bartosz
- Golaszewski <brgl@kernel.org>, Ben Bright <ben.bright@cirrus.com>, Benson
- Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Binbin
- Zhou <zhoubinbin@loongson.cn>, Bram Vlerick
- <bram.vlerick@openpixelsystems.org>, Charles Keepax
- <ckeepax@opensource.cirrus.com>, Chen-Yu Tsai <wens@kernel.org>, Cheng-Yi
- Chiang <cychiang@chromium.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Daniel Mack
- <daniel@zonque.org>, Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- David Rhodes <david.rhodes@cirrus.com>, Fabio Estevam <festevam@gmail.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Frank Li
- <Frank.Li@nxp.com>, Fred Treven <fred.treven@cirrus.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Guenter Roeck
- <groeck@chromium.org>, Guoqing Jiang <guoqing.jiang@canonical.com>, Haojian
- Zhuang <haojian.zhuang@gmail.com>, HariKrishna Sagala
- <hariconscious@gmail.com>, Heiko Stuebner <heiko@sntech.de>, Herve Codina
- <herve.codina@bootlin.com>, Hsieh Hung-En <hungen3108@gmail.com>, James
- Ogletree <jogletre@opensource.cirrus.com>, Jarkko Nikula
- <jarkko.nikula@bitmer.com>, Jaroslav Kysela <perex@perex.cz>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Jihed Chaibi <jihed.chaibi.dev@gmail.com>, Jonathan Hunter
- <jonathanh@nvidia.com>, Kevin Cernekee <cernekee@chromium.org>, Kevin
- Hilman <khilman@baylibre.com>, Kevin Lu <kevin-lu@ti.com>, Kirill
- Marinushkin <k.marinushkin@gmail.com>, Kiseok Jo
- <kiseok.jo@irondevice.com>, Krzysztof Kozlowski <krzk@kernel.org>, Kunihiko
- Hayashi <hayashi.kunihiko@socionext.com>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Liam Girdwood <lgirdwood@gmail.com>, Luca Ceresoli
- <luca.ceresoli@bootlin.com>, M R Swami Reddy <mr.swami.reddy@ti.com>, Mark
- Brown <broonie@kernel.org>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Masami Hiramatsu
- <mhiramat@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Max
- Filippov <jcmvbkbc@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Nicolas Frattaroli
- <frattaroli.nicolas@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, Oder
- Chiou <oder_chiou@realtek.com>, Olivier Moysan
- <olivier.moysan@foss.st.com>, Paul Cercueil <paul@crapouillou.net>, Peter
- Rosin <peda@lysator.liu.se>, Piotr Wojtaszczyk
- <piotr.wojtaszczyk@timesys.com>, Qianfeng Rong <rongqianfeng@vivo.com>, Ray
- Jui <rjui@broadcom.com>, Richard Fitzgerald <rf@opensource.cirrus.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Samuel Holland
- <samuel@sholland.org>, Sascha Hauer <s.hauer@pengutronix.de>, Scott Branden
- <sbranden@broadcom.com>, Sen Wang <sen@ti.com>, Sharique Mohammad
- <sharq0406@gmail.com>, Shenghao Ding <shenghao-ding@ti.com>, Shengjiu Wang
- <shengjiu.wang@gmail.com>, Steven Eckhoff
- <steven.eckhoff.opensource@gmail.com>, Support Opensource
- <support.opensource@diasemi.com>, Sylwester Nawrocki
- <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Thierry Reding
- <thierry.reding@kernel.org>, Tim Bird <tim.bird@sony.com>, Troy Mitchell
- <troy.mitchell@linux.spacemit.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Vijendar Mukunda
- <Vijendar.Mukunda@amd.com>, Vishwas A Deshpande
- <vishwas.a.deshpande@ti.com>, Vladimir Zapolskiy <vz@mleia.com>, Xiubo Li
- <Xiubo.Lee@gmail.com>, Yixun Lan <dlan@kernel.org>, Zhang Yi
- <zhangyi@everest-semi.com>, linux-sound@vger.kernel.org
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 83/83] ASoC: xtensa: use .auto_selectable_formats
-In-Reply-To: <8733zfj5jj.wl-kuninori.morimoto.gx@renesas.com>
-References: <8733zfj5jj.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 26 May 2026 02:29:56 +0000
-X-ClientProxiedBy: TY6PR01CA0039.jpnprd01.prod.outlook.com
- (2603:1096:405:3bd::12) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cS1GAGlX"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-36a8ee1e28cso2611857a91.0
+        for <linux-sound@vger.kernel.org>; Mon, 25 May 2026 21:17:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779769058; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LUvcAOq73Ogln6dqGDGczG0lL8dRoDZFGHkAJ3lzOz9/IUMo4aBP2gnC0kwOeMBkP8
+         cIEl9CgEBPSrw8adj1eu55KjJ1ygmEinPrGTiPEEURO8uN0RA+T1zpmdtmx4Zesm01YE
+         UAkaFvBCcD0ZCRUn/1C2MI+GDJhZjwSEt1aG4dEwdGpIc7TZsEWPZF0MW3r02GRg/m29
+         W/vdslfW1mDMYnjxzU9n2T+HTJZgK2HyDO/IzPryz3B5GGukLNQC2i+HQ7oWImKKLy/8
+         NptjVRq2QM3iIpSbR4eQqg8l88j896HbMJQqrJu0Q5qJVEBchlwithfcHZrz3C+Okd0l
+         E4Nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
+        fh=quN1NLhTW21WWGf+3tRBCv/5Qx8/EUFMWDvRu9UasAo=;
+        b=M43CpLytufBYrZVMfUxrBc1Oo7S7d/8Z/air+1EZtWB4sYIz5yGLR37twv1zV8jcV+
+         Ruz3TZKUueYyq5vTPyp3inoa703qIG1yz5NEfGCZe/RKpubd1nEZ0lVzqKHePtvJ5kd2
+         hd8JocJVfvJ7WiBOttCuwK1A/yUOn3J3xWcESld2qomi6QD4PqFQB5SzL0v2+ILUCHlT
+         ky+YrKhdZdTngmiZ/1/3Iz6Eyk9uxqIcg8cxrafodC0ZQqEze9rwh5n+o1ooFpelGSMo
+         9nOuWN9WV005VwqqM5c+TT9l2JQTZ+aR+WssH8X/zK9dzy9XLkrUeCcGeN8m9NkM2Ao3
+         u/5w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779769058; x=1780373858; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
+        b=cS1GAGlX5j3k38WLJOZdmmMYA5DC1DrGMDIgxn8L4laSSlZGZQSzx+h3ofmQGPkK5Y
+         +tJMrMtl7Fx/2WLxZ0QSuY2JTY7QUoUfu5TJ+2ou/PLOJCA9pIvdu1GE+lXKX0AF3svT
+         FSKx93xBN1ygCF4SYvTW0V1SS0G00+fN4PZUIv2rNFuYlLKYibxSQinRShN26E5BYMKx
+         aeab6iEjkaMAmzEPLyv0NQtD47REmtYksLQoJ5ispOflRWQKQsk887id9cySMYMBiL03
+         SplWeazeQ5e6dRZmOJVtBM4fwHs8cUs39hBYyOQFR9RFWubaXGvoESA6mSoUKjmIFwv1
+         BUwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779769058; x=1780373858;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AjzT+YU+WzbbKcxJRdWZ4am57GNWqPjoWyeRr7PJJSQ=;
+        b=ObLm0xetvEoOOFTf2vdhf3yLVLjSZAFIqDYVK3qX554Ram+Or5jQr+sPQmqQfDSFEG
+         TxfxMn/G5u23zMwcYuyxvMir/udTc4kpefzVG9F1Q61dcF26wpnct4jh3SBmuEKR18Z0
+         pCiB0HeGATILrxaXn2R2pB4P4hpRjxUA4pMrmMsst5vRxGdFgynSXiKEJ7iedGwYTcLF
+         VpjP8PfQuJWikaDA4cDInjBD8j5tGMxDJVzV9w3+A3EWyO7dEsALr1UxSneDSM/kiJiK
+         M1ZkJXOTwdDLh/5DZVhCE/DFNzJXg54QJoTIIULaN6525Nw2SUYt4EKznvUhHh5/C2DK
+         G/eA==
+X-Forwarded-Encrypted: i=1; AFNElJ+S9hUNB9ZngJXwOW0aP64HFBlbISgLcG8EJwCbVhcDs5hmcd3ga0ihQicc2C1o1jmxxoy6xmktUIoNLw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzU9bQ2RvTHPvgZnY6rxizRkt/5HLtTrS3w089C40TFRgIstsDd
+	qM3OOSVAiKuf5nzOdwqqk57TwqZaBhmWNCdOOdElnwgig+g4r7z8muQWbZ5njjhD+xDvpB7pkyt
+	VZ/k6ktGACNQ8Q57Eku+hq1CHp4dCNMw=
+X-Gm-Gg: Acq92OGA4MvQQ6xZab6rp7MJUPAIkSzDm3AeKkCu/giBLneKf/W327w5/lLzXCq3cF6
+	L9Ss6jPO0o/fDBTWmySPHsschPtk9JrZ3lEWHc/X7SUs8yCu5Hv0Q1+g5KlxmTNBzSTXKxuG0d6
+	olTnIPs4PgzIweP/F9V/JQlXCuE7bbhafI803odfGlcQMCIFtvu5mUIOeHP5+4U3htPrV2MrBh8
+	mCRf7HevFEwWwuoy9dp+fIxhp9GRW81oGHI+00Rmo/rMWd2+vYI5cyXGq48oBxSJz98vut6hGs7
+	JqKnnrortRf0oV70qOUJMxIUsQCI+r1NsxIVPlAK9aHT8UaI
+X-Received: by 2002:a17:902:ef11:b0:2bd:d7b5:83ed with SMTP id
+ d9443c01a7336-2beb07001camr199500955ad.39.1779769058465; Mon, 25 May 2026
+ 21:17:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYCPR01MB11158:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3fa9521f-fcb7-4ae5-a40c-08debaceadd5
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|52116014|1800799024|366016|56012099003|22082099003|18002099003|921020|38350700014|11063799006|41080700001;
-X-Microsoft-Antispam-Message-Info:
-	1L1lVnmb3D8f/BiJGQmJIkS4EU1dFYiDNRzzeeNnO+zdXvRwRZQPAF1ogk9TnYHqTw0NRTLYInRkiZvs7O34npzs8kcGtE7wjCdXDgPn5wH1j+PPWQjDsFa2aQInpiWRlC5H66bImL000a+fVCqLivQ+OLHkN9EIyQSNdMe3eWZBj6mDjN6xVbXFv9lHM84IFjIao8Dd4z565Hk0B//VgvY9kZqMqTR6hIBs3cm82nd6nu7Dq27qSYiE+WM34PZ2T3vUwZt+jy+aebY+IPim9VFDHCRVB4wfMMfAGqJDWNmWOVdllBCoRdCJ8NVbsHDolwRdtoDqw7V+yB3ko7n5VAMfmUNslkYp3+bMsb+O14u+bIbG96291jKRrhYe9YQjCTcNzh5YZXWSzyGz7raMuUZx6pmVJExExqcQ5fY2tU+uCutgOGO5121niEscSP8GOYcGGl3sMm9aX7E+ai/oSH146oeMc5DhZbW0mnD23f+yaCN9Yun6lTpQTxZEgJT0d8sXNCY8jThZxcYCVpeKUlIFywqiPvpHY2dxWdL+UYhuRd+RRFB8VEKmKiFBkrtkipzXclsCfFu/jcfXKUcqy7sEOHNhA8WCf6Q/K1C335Ea0PgkauIu9nQyDo2qr3d23RMEoY8diGjk2eSXQAO1AuKw7jpaamcL/+mpspO4djOo2nlg9bDMCIl2mNnoot5i9kF0HTAVQLaVFJkN8aPS7mKAwS6VPpj7ucP6z0mOrySzqcrDJ5FGpD2CUe1fJNUYNgFIWmPV4QA3FTuBLe0mNfIhd4QFInTEPAGtsEXFO60=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(366016)(56012099003)(22082099003)(18002099003)(921020)(38350700014)(11063799006)(41080700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?xBExX5Fg7BpGCyxQWqX2O/mH0cj+QMbVVDY7SLguQTRaDDxngHpmsZxrarPq?=
- =?us-ascii?Q?dM1eX4EU6C0mRnkfJ0xl7n2fiKLJpqTT6vztT1CERI3/VorhryD/IuNaYkS1?=
- =?us-ascii?Q?xgXzWK1rg3oj4PZubdqAmDgunilMfnhy6qTM5XigRxZKB4pPuiJ5qOarNGQo?=
- =?us-ascii?Q?Qm7L6WwueXwbDDMADLZZc2b3EghRUQeKOdLfegKKG+hsQUukdO/cSP/6GjEa?=
- =?us-ascii?Q?bVTzz989aoH5nlZlDWZxpZyk+pLpPRsMVP9yQjLpOmX+6RI+HcBmt7yDghDP?=
- =?us-ascii?Q?5bZU4oeojdFKM8oA75D2zvXG+z8bDy3Y85gRonccNT4NhQ8ZRTCd1hyD9kPH?=
- =?us-ascii?Q?VLooC7dSH9NU6tMnSz8sGbVCClqDPNy9Ew8fK2Vn9D6FxQ4DydcjRiebF+0P?=
- =?us-ascii?Q?GlPaoJwYYrz7iKux3kxVGPEjEQsyGw7g/rGVu4PB1XoPXcWo+5OTtUJIbU55?=
- =?us-ascii?Q?MvcftadTJ9dTQTAZu7xZt3SxfWd+XoGrpndR+QFrohHVBef0pnnaJVCKmkQG?=
- =?us-ascii?Q?IiUnhiDceJYdDvNE7AdDfTxuch8pV8Y76PIHVbGmRb8aDi6jpX8OlFM2vjpU?=
- =?us-ascii?Q?+qEI711mXo1sMAp/+rEnS+9KL6bBb4mkkNum53YMr6iNiKF4Utj1/fXEipDa?=
- =?us-ascii?Q?YJloK/EPN5TShZJ+qknzJRV9hQITFPR2860vhDnqpJ8dhNT6/q17V9lSPU4l?=
- =?us-ascii?Q?PMyYT+TgLt7tXQ74KsizzrHtCyGn0tjZ0N5ODj9ChHj8ClAEQNyFS8jHVodr?=
- =?us-ascii?Q?rOTEH1rIXFJWg6/oWoBEkNktC7ctcHWCBCsf38Aji10quRA5CgKN+PTmL67X?=
- =?us-ascii?Q?aodYtaIC+RD+itrGOmFYK0qTI9vH6vuHdv0rIxJ4E2/uF8saZCxL7WPM3Hzb?=
- =?us-ascii?Q?Fx4sYpuwNeq9D8f6v0E774PnLwDV4jPUOkwhu9hyHzHuSvxNRismQwAJwDSB?=
- =?us-ascii?Q?pVCIP3h7WC05mEkEuVwNcamOxFaeY6N04xfoDzyFiufh4QGhGnGMYe1MjscK?=
- =?us-ascii?Q?Ci+6QUaSqWBx1ZpThUTMJW0gz9ChaCO9xJijhY4gW0+m8bANmEDmBwVy5479?=
- =?us-ascii?Q?6fco6P0dpXwhs8M39aWnmdCdw0xBtIsa8yJu2obowtivvtjK2wcgFkpPXk9n?=
- =?us-ascii?Q?XLn/3VBggIJ8KLmo7kihsY7lQL2i/BksrbafiN0sEwdB93yajHoIfcp9zTXB?=
- =?us-ascii?Q?/2iHw4bdOnc0dmzpT6YAbPAsWd7CKGjOzS/QdxIT0YrxUHFIBlqmNm9g0Vxj?=
- =?us-ascii?Q?hJKYjdNYXoKQuf2rpMw7gFbNN0VuFF+sITu5Lca0951SljjaEsDn2O/6dXMi?=
- =?us-ascii?Q?tXhtYbwDoBhbQYbbOvxfQtiUxmroq7BVNOwzirwJc0m7kz9AJHsrM4KfH3wx?=
- =?us-ascii?Q?PXqYWfLLElKGauzmsEN7X2ZWXsHQO18NCm0evhyu3ByD/k75jh//7LA3/iX8?=
- =?us-ascii?Q?IL0EliAju3DgvXd5CKlbIvQSOXiXvI3fnz0FoXU+Qp41Nfvf8Hg/BTx1rho5?=
- =?us-ascii?Q?Efp55f0CW4TWkX+y9A2f9hn66WtnCP2Pse39PUaGMGlwZxxo17s3amvOS/OV?=
- =?us-ascii?Q?RPUfB+7xdpKMO4BlAoeRsVCnJdxFAkYzrOmCAjeiddonroe8W1dZA33gxOme?=
- =?us-ascii?Q?LQZnqr7lqNfWFvqsbfK7gj4hnCRnb+DsHkn0lKkm9XmOhaejsjLYfS0PmrCk?=
- =?us-ascii?Q?ojuNdj/2C9IAEM61z4jmSM9Ml4AqJhES7sXwJi/1LmBHEwoHfzdQSQBVX5dw?=
- =?us-ascii?Q?KW6V2yd+Elq0Ql5gZ00VesVvY09GqvOFjLMpCs6R1q8eYQjKqY1M?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3fa9521f-fcb7-4ae5-a40c-08debaceadd5
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2026 02:29:57.6661
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yXcqTnK+zRT4rbu4i9eS6MgTV0w1nch6lvBkVDdgzXBKUUCc/Ib0iAOodVxTVcJRGsmKVSQlxWI/DNQL0z4MqAoXFnnCQTYjviwcA/lLocnOwfz4xjqsicKfsCAYlNHA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB11158
+References: <20260522095401.72915-1-phucduc.bui@gmail.com> <20260522095401.72915-4-phucduc.bui@gmail.com>
+ <CAGb2v67aXgg8BmrtVVBi+_n32OBcQnQgEUe3XdRp6Jj=aEr8fg@mail.gmail.com>
+ <CAABR9nEFGOX5GnQ9qpJY-T-92dA_kDcVS+qBz1ior590G_x6gw@mail.gmail.com>
+ <CAGb2v66accoNhStHGhnoUM0cw3fyCxfuvS1a-brL9C-ZO07ChQ@mail.gmail.com> <CAGb2v644whCr6pRSfGMuQ=5afUMbfC2Y3W_kjdMdp9+5+kJhJA@mail.gmail.com>
+In-Reply-To: <CAGb2v644whCr6pRSfGMuQ=5afUMbfC2Y3W_kjdMdp9+5+kJhJA@mail.gmail.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Tue, 26 May 2026 11:17:27 +0700
+X-Gm-Features: AVHnY4KjIHp6k8PI6oQzPKSFMzC_yNK4NVye8enq3FNJPQ2UT-iy1gcG4S--peY
+Message-ID: <CAABR9nHbwNheKRSzevSBnD+YyLeYVDA4FLH9AN8Fo1uX596rSQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] ASoC: sunxi: sun4i-spdif: Reorder clock enable sequence
+To: wens@kernel.org
+Cc: broonie@kernel.org, codekipper@gmail.com, jernej.skrabec@gmail.com, 
+	lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, nichen@iscas.ac.cn, perex@perex.cz, 
+	samuel@sholland.org, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-We can use .auto_selectable_formats. Let's adds it.
+Hi Chen-yu,
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
- sound/soc/xtensa/xtfpga-i2s.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+> Oh, and you could also add that the resume order should (normally) be
+> the reverse of the suspend order.
 
-diff --git a/sound/soc/xtensa/xtfpga-i2s.c b/sound/soc/xtensa/xtfpga-i2s.c
-index 9ad86c54e3ea1..00a0a3c740084 100644
---- a/sound/soc/xtensa/xtfpga-i2s.c
-+++ b/sound/soc/xtensa/xtfpga-i2s.c
-@@ -485,10 +485,16 @@ static const struct snd_soc_component_driver xtfpga_i2s_component = {
- 	.legacy_dai_naming	= 1,
- };
- 
-+static const u64 xtfpga_i2s_selectable_formats =
-+	SND_SOC_POSSIBLE_DAIFMT_I2S	|
-+	SND_SOC_POSSIBLE_DAIFMT_NB_NF;
-+
- static const struct snd_soc_dai_ops xtfpga_i2s_dai_ops = {
--	.startup	= xtfpga_i2s_startup,
--	.hw_params      = xtfpga_i2s_hw_params,
--	.set_fmt	= xtfpga_i2s_set_fmt,
-+	.startup			= xtfpga_i2s_startup,
-+	.hw_params			= xtfpga_i2s_hw_params,
-+	.set_fmt			= xtfpga_i2s_set_fmt,
-+	.auto_selectable_formats	= &xtfpga_i2s_selectable_formats,
-+	.num_auto_selectable_formats	= 1,
- };
- 
- static struct snd_soc_dai_driver xtfpga_i2s_dai[] = {
--- 
-2.43.0
+Thank you for the feedback and clarification.
 
+I can certainly rewrite the commit message around the idea that the
+resume ordering should normally mirror the suspend ordering.
+
+However, I am still slightly unsure about which ordering should be
+considered the preferred one in this case. If the reasoning is purely
+based on suspend/resume symmetry, I wonder if changing the suspend
+path itself to disable the APB clock before the SPDIF module clock
+would be an option, which would then naturally lead to enabling the
+SPDIF module clock first during resume.
+
+From the hardware perspective, I originally assumed the APB clock acts
+as the prerequisite for register access while the module clock mainly
+drives the functional audio logic, which is why the "bus before module"
+ordering initially seemed more intuitive to me.
+
+So I would like to better understand which ordering is considered the
+preferred model for the Sunxi audio blocks here: preserving the existing
+suspend/resume symmetry, or enforcing the bus/module dependency ordering.
+
+Thanks,
+Phuc
