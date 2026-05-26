@@ -1,141 +1,107 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A500352018;
-	Tue, 26 May 2026 11:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B468352018
+	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 11:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779794398; cv=none; b=ZcNM1qFDdC73p6FrEYgU/TA2clpx5xlGfYhC1J8j4gnNRiEX1AxlRGFwW5fT8PUsiOtXbz2CIytfcUkufCFdvpR4AWdeov6LT38Mh2MUJD7i9eeglYwY7Qo/1YkjeqItuFy0tbtiVoSHrmOWpKzPKqd/K+D6knOn8Jw24Jn7h2c=
+	t=1779794467; cv=none; b=qm5JOMazFq5Zpni5OgesBjjFdzJrHIxJq+5zT1MVvZPa+Nj+oIpcSDvjULJL8fVI/OpwTYGXaXu0zHt25lLTl4jr8RZtGzupQ7Iw671Z9xE2e4zfA6F7pQYD9DrHnq5krUV/SXGH0ZQqn3j9LYX/hH42uLgwsPoPb1huZW26ha0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779794398; c=relaxed/simple;
-	bh=WQ4SdafjrpdwH5ugIfFTqVp5aZ5MRpu9oaEXrPEbYjk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CvyQOvPmG886tnC+dorbWwq2aBpxUb8+zrDrmXr8/G/4PTljxHgSP6+TVXcmzqZY01y3zr/PVYCVw/0yhVwKRVnD/FRSc+cW5KDtPjRJHbsAqEeSwTtZHaCJiO9eO+9dM8NCBDGMwCBIPk90hVJ8Zujh3h/WpDoCjj0w+n+d31g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [223.64.68.59])
-	by gateway (Coremail) with SMTP id _____8CxRXjYgRVqQGENAA--.13838S3;
-	Tue, 26 May 2026 19:19:52 +0800 (CST)
-Received: from kernelserver (unknown [223.64.68.59])
-	by front1 (Coremail) with SMTP id qMiowJBx58DTgRVqGomRAA--.57362S2;
-	Tue, 26 May 2026 19:19:51 +0800 (CST)
-From: Huacai Chen <chenhuacai@loongson.cn>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Huacai Chen <chenhuacai@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Xuerui Wang <kernel@xen0n.name>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	stable@vger.kernel.org,
-	Baoqi Zhang <zhangbaoqi@loongson.cn>,
-	Haowei Zheng <zhenghaowei@loongson.cn>
-Subject: [PATCH] ALSA: hda/hdmi: Use 'AC_PINSENSE_ELDV' to detect pinsense for Loongson
-Date: Tue, 26 May 2026 19:19:40 +0800
-Message-ID: <20260526111940.2347847-1-chenhuacai@loongson.cn>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1779794467; c=relaxed/simple;
+	bh=2KAW1W7hRl7mNmr71FD7fzPUI06Z5BTc1slhV0PAmZg=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=dAUpbZQsCpZtlGxGMuWcgPA+BQIhD8jfnydKGV8kS3glvKO+cgQBb6ysdi7bQaWzRu/tInieM/2yt2sl2nTQ2K+nTjAxUXGRZut4FGnAoX/637szsNNMioOvi5ZM6iMR0PVEx0KjyYC+lLLlSmjqQN8EFitCGlcxY3cd1BT9UBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Du+lEWLI; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Du+lEWLI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779794466; x=1811330466;
+  h=message-id:date:mime-version:subject:from:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=2KAW1W7hRl7mNmr71FD7fzPUI06Z5BTc1slhV0PAmZg=;
+  b=Du+lEWLICJbAtKdcQKEg916g3tf7g4TBz9uMHrvpYNouQrFGDUKhGimD
+   Vwf8OfwaOlT+GR/AGf5l8pdz4FO58vqY0o56u+tHTxChxdYxCXHNFXzbb
+   F1B0vG0LAbg+YAVHcOYAZ6X4ojHqJsLEvtgP7GGpPPmDgDBscsXdOMNG3
+   ByLbOJVUCMwNPqXgG+6BaoP8lEadOa/Ckgphppk7EvtuAxnXAb9nrlUKA
+   VKeDrLd6T7wtOcHLknYrbdbJoDbTw7uQKl6w2OiadH5uaepnQFl+uJT1g
+   Bc3RcwzwCLb8foCmD8K0Ux5QWve0L/vKXR/+bYlsT0Svejvr0+wq2qjcm
+   A==;
+X-CSE-ConnectionGUID: YXHB8muAQNCnAeJIhVIRIg==
+X-CSE-MsgGUID: YtOgwUfgS+mtcI64z2SY/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11797"; a="90904774"
+X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
+   d="scan'208";a="90904774"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 04:20:58 -0700
+X-CSE-ConnectionGUID: SIEnFpSORku0dZFeIuYyJg==
+X-CSE-MsgGUID: CYW9IFtwS8OVGESUP88PQA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,169,1774335600"; 
+   d="scan'208";a="243722181"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.244.49]) ([10.245.244.49])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 04:20:54 -0700
+Message-ID: <e6c5e5e0-69f1-4fdc-b7be-f6372e507b37@linux.intel.com>
+Date: Tue, 26 May 2026 14:21:05 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: core: Move all users to deferrable card binding
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, tiwai@suse.com,
+ perex@perex.cz, amade@asmblr.net, kuninori.morimoto.gx@renesas.com,
+ linux-sound@vger.kernel.org, "Liao, Bard" <bard.liao@intel.com>,
+ "Vehmanen, Kai" <kai.vehmanen@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Simon Trimmer <simont@opensource.cirrus.com>
+References: <20260430140752.766130-1-cezary.rojewski@intel.com>
+ <01d1d642-bf24-4ef4-a30d-56884300407f@linux.intel.com>
+ <5d8cbbfb-3884-4c6b-aea8-0c9a76964b3b@intel.com>
+ <85045e51-e09b-44c2-9266-3e7ee72c4eb0@sirena.org.uk>
+ <b5e82c43-9da1-4a12-af0e-90d4b9feef49@linux.intel.com>
+ <d82fa24d-18f9-461d-8535-3266cc92fbb9@sirena.org.uk>
+ <1daaad8d-8aee-4911-a24b-26db8b694cfd@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <1daaad8d-8aee-4911-a24b-26db8b694cfd@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJBx58DTgRVqGomRAA--.57362S2
-X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxZr17Cw48tr43GryxAF1rZrc_yoW5Aw1xpF
-	n5urWxKrW3tr4Iyrs5ArykuF1SkayrC3W7K34xt34UZrs5KrWrXw1qqrWUXF4akr9IgFyx
-	Zry2gr95tay3JabCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Yb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
-	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
-	XVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
-	AKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v2
-	6r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
-	CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
-	0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
-	AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIev
-	Ja73UjIFyTuYvjxU2MKZDUUUU
 
-Due to a hardware defect, for Loongson PCI HDMI devices with a reversion
-ID of 2, the pin sense status must be determined via the ELD.
+On 26/05/2026 08:45, Péter Ujfalusi wrote:
+> I also think that detaching from driver defer and use internal card
+> defer is a much better approach, but when majority of new PTL designs
+> will be broken with no patch in sight to prepare the SDCA class stack is
+> a regression.
+> 
+> Charles, Bard, Richard, Simon, any thoughts on this?
 
-Add a codec flag, eld_jack_detect, to indicate this case, and do special
-handlings in read_pin_sense().
+I can force the sof_sdw driver to go back to driver defer queue if any of
+the expected (counted for) components yet to be registered, but I'm sure
+this has side-effects...
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Baoqi Zhang <zhangbaoqi@loongson.cn>
-Signed-off-by: Haowei Zheng <zhenghaowei@loongson.cn>
-Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
----
- include/sound/hda_codec.h    | 1 +
- sound/hda/codecs/hdmi/hdmi.c | 8 +++++++-
- sound/hda/common/jack.c      | 4 ++++
- 3 files changed, 12 insertions(+), 1 deletion(-)
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index 9d0768f21ba4..e80c3904bc37 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -2022,6 +2022,7 @@ int asoc_sdw_parse_sdw_endpoints(struct snd_soc_card *card,
+ 					soc_aux->dlc.name = component->name;
+ 				} else {
+ 					soc_aux->dlc.name = codec_info->auxs[j].codec_name;
++					return -EPROBE_DEFER;
+ 				}
+ 				soc_aux++;
+ 			}
 
-diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
-index 24581080e26a..1a1fe7a904c3 100644
---- a/include/sound/hda_codec.h
-+++ b/include/sound/hda_codec.h
-@@ -259,6 +259,7 @@ struct hda_codec {
- 	unsigned int forced_resume:1; /* forced resume for jack */
- 	unsigned int no_stream_clean_at_suspend:1; /* do not clean streams at suspend */
- 	unsigned int ctl_dev_id:1; /* old control element id build behaviour */
-+	unsigned int eld_jack_detect:1;	/* Machine jack-detection by ELD */
  
- 	unsigned long power_on_acct;
- 	unsigned long power_off_acct;
-diff --git a/sound/hda/codecs/hdmi/hdmi.c b/sound/hda/codecs/hdmi/hdmi.c
-index f20d1715da62..423cd9f683c6 100644
---- a/sound/hda/codecs/hdmi/hdmi.c
-+++ b/sound/hda/codecs/hdmi/hdmi.c
-@@ -2285,6 +2285,7 @@ EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_acomp_init, "SND_HDA_CODEC_HDMI");
- enum {
- 	MODEL_GENERIC,
- 	MODEL_GF,
-+	MODEL_LOONGSON,
- };
- 
- static int generichdmi_probe(struct hda_codec *codec,
-@@ -2302,6 +2303,11 @@ static int generichdmi_probe(struct hda_codec *codec,
- 	if (id->driver_data == MODEL_GF)
- 		codec->no_sticky_stream = 1;
- 
-+	if (id->driver_data == MODEL_LOONGSON) {
-+		if (codec->bus && codec->bus->pci->revision == 0x2)
-+			codec->eld_jack_detect = 1; /* Jack-detection by ELD */
-+	}
-+
- 	return 0;
- }
- 
-@@ -2319,7 +2325,7 @@ static const struct hda_codec_ops generichdmi_codec_ops = {
- /*
-  */
- static const struct hda_device_id snd_hda_id_generichdmi[] = {
--	HDA_CODEC_ID_MODEL(0x00147a47, "Loongson HDMI",		MODEL_GENERIC),
-+	HDA_CODEC_ID_MODEL(0x00147a47, "Loongson HDMI",		MODEL_LOONGSON),
- 	HDA_CODEC_ID_MODEL(0x10951390, "SiI1390 HDMI",		MODEL_GENERIC),
- 	HDA_CODEC_ID_MODEL(0x10951392, "SiI1392 HDMI",		MODEL_GENERIC),
- 	HDA_CODEC_ID_MODEL(0x11069f84, "VX11 HDMI/DP",		MODEL_GENERIC),
-diff --git a/sound/hda/common/jack.c b/sound/hda/common/jack.c
-index 98ba1c4d5ba4..1f0ebf9cd151 100644
---- a/sound/hda/common/jack.c
-+++ b/sound/hda/common/jack.c
-@@ -58,6 +58,10 @@ static u32 read_pin_sense(struct hda_codec *codec, hda_nid_t nid, int dev_id)
- 				  AC_VERB_GET_PIN_SENSE, dev_id);
- 	if (codec->inv_jack_detect)
- 		val ^= AC_PINSENSE_PRESENCE;
-+	if (codec->eld_jack_detect) {
-+		val &= ~AC_PINSENSE_PRESENCE;
-+		val |= !!(val & AC_PINSENSE_ELDV) << 31;
-+	}
- 	return val;
- }
- 
+
 -- 
-2.52.0
+Péter
 
