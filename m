@@ -1,173 +1,170 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7273CB8E3
-	for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 07:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F58313534;
+	Tue, 26 May 2026 08:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779780908; cv=none; b=uE5zJvrCjVo/gfMGCJUy8pIyWQHrRkN8rJLberkZoJGRMSHQxm7i5N0pRDpqcPErLDqTi5fxEaIiALLJ7B8myvskww75iNcWdUbiRKC46p80gN7AO/Xwqxm5IdFVobUVAJLIosw995a/dM1LshbyXQ5Z1s4D0pEUZvFs/4NKJ8Y=
+	t=1779785242; cv=none; b=fSl66UNIjeF+UvgLEnOEWmBKhDQW6w9dmvMJQy5ub5iULIzCWO8KvIteE9+EpiRVpe7tEP6h/Bk0c6fAFNfTzrpnn9oxmKqh7ZTV0/sNS9JiFJvfEvG2wnQh4x4dWTupLQaXks9p72X7PpjgPCk9I7Wh1utZiUQdUA15rv9pNzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779780908; c=relaxed/simple;
-	bh=Ushy4Ylq5GNc8n8FXdKmtoYpGkXrC2FBgrzODvxj6tA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=j7PFUgaoUeI5qITLJMPmoUHYoygTUF7Pk3XkgbC4GxIcr5FggmZAQmUs+gFu3QCCQC4wdqtPwlMCM+OHM+Ufn9U6gk5K+40cju39NaoLL92DqojijSBa8dqqY51lMymxsHI2y0hhlOgwDLsdplVHTYuM+WVDREOKco4rheyvdzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=DPamDBm7; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1779785242; c=relaxed/simple;
+	bh=dF/3Or/APAi8gUCGXHZjbUtWKpklMuylN8JgYPFaQzM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c/qJraPmpIA8pgO/k59QEriUnicRrtI2o49ZNBADye95+FrYmE1IKhPpmFmPuoW46tRvS0VFBgWgVERmJqNZWKxblli2APBZRKjNg6tLNtShAcZjof88LNjN4UbR6M85b6cqInxA7waSF4rpILcsiCRXVDJPp5J4lirBTQqJfwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BAvqGQyM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="DPamDBm7"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso86763075e9.0
-        for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 00:35:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1779780905; x=1780385705; darn=vger.kernel.org;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0fBI1nWTJFqqlwGF/lWAIDboXe2QMBGB7s+bipEyCmQ=;
-        b=DPamDBm7+EoG7kzyijAfEFVQG3zacOTq+LF+tpE/inBuMljtLMRY0yvg1dTBahc6LL
-         r6cSWxNNwNG3bxYON2bmEUNl9RcnEe286/u6Z5imccy1cvhw4NjNQu2rFjWCCGACdZeZ
-         N4ZGRUIEG4Bd7y1ffvGY1P3X9pW4bwI112rRhcohe8P5AMBZ9YaZiPz9I6kH6TjHtuDE
-         U01nFRoOTdCBpPBNo+FJlo9jkq3ad8dFeSrLcv2jGIuBLkKAbogtYPo+ySjcFeP2ZdCH
-         Br4A9SGoSN7Ih2CV+Y6+ztGj8nTmu2/CChmhBKL+JcTDTg9qVlsVCm1DVWrKohX6OisE
-         kQ4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779780905; x=1780385705;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0fBI1nWTJFqqlwGF/lWAIDboXe2QMBGB7s+bipEyCmQ=;
-        b=sv05EtB+EG+loAi/M2f8tW4PI1HA2vap6bDQxfOZgsZ01ixGTnRZdRUF5U9ZqOlPWW
-         Cq71MoLosR9IFVqbLeWtNwKtyJp3Hw3lNrW+8MrLW1S0babj04g4L/6dpCSMPYIKJIvD
-         /1JOx2scfi2u/poovNZ9yzopTiTEFckhRAx6qHaBFXsnu6SUeC+BNlqmyI5o1cBr8q5r
-         uuZq28A9qbRMLr3XFY9ihLgq/Zi6j9zZ6uXgyMhhpcAtFxmbqr3aX4RnUtDJ3MDnI6Sc
-         lSIDoZNSEXHMCbBbXmXuRYP6rs5sOaSFvklrW+q1IbrJOYk3k0FUebKHo/AER4I4+f2P
-         Fm8g==
-X-Forwarded-Encrypted: i=1; AFNElJ8esM0TmhA4R9cNh/ViL51m31YKnrGl2kW2VKeopVcyT5QZNUWARFLB/Z7hRQ7T70B2n3S4DBERuf7GYA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNdAnI87tCG/SkEGVzOA+YSL1xoqUmvzJJ6+boa8MsMdibdc4/
-	1f4g/XWhhX6KHYySri7lIBpjANFdukFyrBWKZZtt1X2u0r5fHd3IlrqJL6SQSctEZBg=
-X-Gm-Gg: Acq92OG5KDjz8T13+ZVlOHMib7fnjTPElibL+jWTszCxZHeneGnfSfDAt9DCZnbFk5d
-	aTUmFZU05MIK9B1/4fUR9KyeAvrB/FEE5f0NAvVYxApuXTZ7ITvBOrah38dMKKbK1wMsJwpFBgx
-	55M02EI4xNuaRD7636cWUF6Q06L3jwxeqKdVP3LdngwCZE2RHjKkp8Q35eF+kn5QVqkbZbuJnYB
-	DM99OCvUxroYTP4fZvzP7wG97OImeKJ0s8WnMR/rrglyzdMDhksMYk9BoqnMWoZTcSs//M66v3w
-	cCCYbJLG1Efe0DwXxcKJmGFpgaUeNuoyf9BTCR76+S4164cr8xCeP9N1491WEXNIvSCNIx6yy75
-	CDjwq0yt1wVquHy6m0IsHJgQbkLl36lf48SDTn6fdOrI6U34AwLxwMfxi7ezZwpXJjoLz85fYtz
-	mbhCV3RopIBwDXIbUcNEFElcfiaulMXrUj
-X-Received: by 2002:a05:600d:6450:20b0:48f:e245:394e with SMTP id 5b1f17b1804b1-490426dd0f7mr197920035e9.27.1779780905344;
-        Tue, 26 May 2026 00:35:05 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:4a0c:b15a:3467:f4ed])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4904561f2dfsm287872015e9.12.2026.05.26.00.35.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 00:35:04 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: =?utf-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,  "J.M.B. Downing"
- <jonathan.downing@nautel.com>,  =?utf-8?Q?Martin_Povi=C5=A1er?=
- <povik+lin@cutebit.org>,
-  =?utf-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,  =?utf-8?Q?Uwe_Kleine-K?=
- =?utf-8?Q?=C3=B6nig_=28The_Capable_Hub=29?=
- <u.kleine-koenig@baylibre.com>,  Alexandre Belloni
- <alexandre.belloni@bootlin.com>,  Alexandre Torgue
- <alexandre.torgue@foss.st.com>,  AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,  Arnaud Pouliquen
- <arnaud.pouliquen@foss.st.com>,  Baojun Xu <baojun.xu@ti.com>,  Bartosz
- Golaszewski <brgl@kernel.org>,  Ben Bright <ben.bright@cirrus.com>,
-  Benson Leung <bleung@chromium.org>,  Biju Das
- <biju.das.jz@bp.renesas.com>,  Binbin Zhou <zhoubinbin@loongson.cn>,  Bram
- Vlerick <bram.vlerick@openpixelsystems.org>,  Charles Keepax
- <ckeepax@opensource.cirrus.com>,  Chen-Yu Tsai <wens@kernel.org>,
-  Cheng-Yi Chiang <cychiang@chromium.org>,  Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,  Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>,  Daniel Mack <daniel@zonque.org>,
-  Dario Binacchi <dario.binacchi@amarulasolutions.com>,  David Rhodes
- <david.rhodes@cirrus.com>,  Fabio Estevam <festevam@gmail.com>,  Florian
- Fainelli <florian.fainelli@broadcom.com>,  Frank Li <Frank.Li@nxp.com>,
-  Fred Treven <fred.treven@cirrus.com>,  Geert Uytterhoeven
- <geert+renesas@glider.be>,  Guenter Roeck <groeck@chromium.org>,  Guoqing
- Jiang <guoqing.jiang@canonical.com>,  Haojian Zhuang
- <haojian.zhuang@gmail.com>,  HariKrishna Sagala <hariconscious@gmail.com>,
-  Heiko Stuebner <heiko@sntech.de>,  Herve Codina
- <herve.codina@bootlin.com>,  Hsieh Hung-En <hungen3108@gmail.com>,  James
- Ogletree <jogletre@opensource.cirrus.com>,  Jarkko Nikula
- <jarkko.nikula@bitmer.com>,  Jaroslav Kysela <perex@perex.cz>,  Jernej
- Skrabec <jernej.skrabec@gmail.com>,  Jihed Chaibi
- <jihed.chaibi.dev@gmail.com>,  Jonathan Hunter <jonathanh@nvidia.com>,
-  Kevin Cernekee <cernekee@chromium.org>,  Kevin Hilman
- <khilman@baylibre.com>,  Kevin Lu <kevin-lu@ti.com>,  Kirill Marinushkin
- <k.marinushkin@gmail.com>,  Kiseok Jo <kiseok.jo@irondevice.com>,
-  Krzysztof Kozlowski <krzk@kernel.org>,  Kunihiko Hayashi
- <hayashi.kunihiko@socionext.com>,  Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>,  Lars-Peter Clausen
- <lars@metafoo.de>,  Liam Girdwood <lgirdwood@gmail.com>,  Luca Ceresoli
- <luca.ceresoli@bootlin.com>,  M R Swami Reddy <mr.swami.reddy@ti.com>,
-  Mark Brown <broonie@kernel.org>,  Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>,  Masami Hiramatsu
- <mhiramat@kernel.org>,  Matthias Brugger <matthias.bgg@gmail.com>,  Max
- Filippov <jcmvbkbc@gmail.com>,  Maxime Coquelin
- <mcoquelin.stm32@gmail.com>,  Neil Armstrong <neil.armstrong@linaro.org>,
-  Nicolas Ferre <nicolas.ferre@microchip.com>,  Nicolas Frattaroli
- <frattaroli.nicolas@gmail.com>,  Nicolin Chen <nicoleotsuka@gmail.com>,
-  Oder Chiou <oder_chiou@realtek.com>,  Olivier Moysan
- <olivier.moysan@foss.st.com>,  Paul Cercueil <paul@crapouillou.net>,
-  Peter Rosin <peda@lysator.liu.se>,  Piotr Wojtaszczyk
- <piotr.wojtaszczyk@timesys.com>,  Qianfeng Rong <rongqianfeng@vivo.com>,
-  Ray Jui <rjui@broadcom.com>,  Richard Fitzgerald
- <rf@opensource.cirrus.com>,  Robert Jarzmik <robert.jarzmik@free.fr>,
-  Samuel Holland <samuel@sholland.org>,  Sascha Hauer
- <s.hauer@pengutronix.de>,  Scott Branden <sbranden@broadcom.com>,  Sen
- Wang <sen@ti.com>,  Sharique Mohammad <sharq0406@gmail.com>,  Shenghao
- Ding <shenghao-ding@ti.com>,  Shengjiu Wang <shengjiu.wang@gmail.com>,
-  Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,  Support Opensource
- <support.opensource@diasemi.com>,  Sylwester Nawrocki
- <s.nawrocki@samsung.com>,  Takashi Iwai <tiwai@suse.com>,  Thierry Reding
- <thierry.reding@kernel.org>,  Tim Bird <tim.bird@sony.com>,  Troy Mitchell
- <troy.mitchell@linux.spacemit.com>,  Tzung-Bi Shih <tzungbi@kernel.org>,
-  Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,  Vijendar Mukunda
- <Vijendar.Mukunda@amd.com>,  Vishwas A Deshpande
- <vishwas.a.deshpande@ti.com>,  Vladimir Zapolskiy <vz@mleia.com>,  Xiubo
- Li <Xiubo.Lee@gmail.com>,  Yixun Lan <dlan@kernel.org>,  Zhang Yi
- <zhangyi@everest-semi.com>,  linux-sound@vger.kernel.org
-Subject: Re: [PATCH 69/83] ASoC: meson: use .auto_selectable_formats
-In-Reply-To: <87a4tmgb4p.wl-kuninori.morimoto.gx@renesas.com> (Kuninori
-	Morimoto's message of "Tue, 26 May 2026 02:25:43 +0000")
-References: <8733zfj5jj.wl-kuninori.morimoto.gx@renesas.com>
-	<87a4tmgb4p.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Tue, 26 May 2026 09:35:03 +0200
-Message-ID: <1jfr3e62u0.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BAvqGQyM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 724351F000E9;
+	Tue, 26 May 2026 08:47:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779785240;
+	bh=eUuIco8b1SWZ0uBpopNB9iCNZoaxcawsnX5tKs/+FWc=;
+	h=From:To:Cc:Subject:Date;
+	b=BAvqGQyMsHmRs1zoOjzf87v5NNt8xxKzB1IoFRyvWjhGUKVljmoW2Qo2WvDMCZJak
+	 2D0Abq4mO7xInYXU1dDDCBKGJcjE6Ix75XMS6YnCKMAcGakMtu9QlRoK1dJ9UFRL4O
+	 ZRemp5wtpQKbjRIXq2o7rtsuurYrs6OEm5CEVnDGnmRc5m84CVVqG9VzmYsJlPmHLL
+	 kNstqvWJaULT6KpVviVBwpBF7N1jnUqXYJYJpI8juyz7/F557k8I+Z31GIQwPeso8g
+	 2G8QTtaxX4XsBCMBrwRPolm++RaIOZYVlpaYEcF5pWmONNxP6htHhnNaynJvhXP6Zm
+	 MCpcirfUY1Vtw==
+From: Claudiu Beznea <claudiu.beznea@kernel.org>
+To: vkoul@kernel.org,
+	Frank.Li@kernel.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	p.zabel@pengutronix.de,
+	geert+renesas@glider.be,
+	kuninori.morimoto.gx@renesas.com,
+	long.luu.ur@renesas.com
+Cc: claudiu.beznea@kernel.org,
+	claudiu.beznea@tuxon.dev,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v6 00/18] Renesas: dmaengine and ASoC fixes
+Date: Tue, 26 May 2026 11:46:52 +0300
+Message-ID: <20260526084710.3491480-1-claudiu.beznea@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-On mar. 26 mai 2026 at 02:25, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-> We can use .auto_selectable_formats. Let's adds it.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  sound/soc/meson/t9015.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/sound/soc/meson/t9015.c b/sound/soc/meson/t9015.c
-> index da1a93946d679..085f771eb244f 100644
-> --- a/sound/soc/meson/t9015.c
-> +++ b/sound/soc/meson/t9015.c
-> @@ -78,8 +78,14 @@ static int t9015_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
->  	return 0;
->  }
->  
-> +static const u64 t9015_dai_selectable_formats =
-> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
-> +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J;
-> +
->  static const struct snd_soc_dai_ops t9015_dai_ops = {
->  	.set_fmt = t9015_dai_set_fmt,
-> +	.auto_selectable_formats = &t9015_dai_selectable_formats,
-> +	.num_auto_selectable_formats = 1,
->  };
->  
->  static struct snd_soc_dai_driver t9015_dai = {
+Hi,
 
-Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
+This series addresses issues identified in the DMA engine and RZ SSI
+drivers.
+
+As described in the patch "dmaengine: sh: rz-dmac: Set the Link End (LE)
+bit on the last descriptor", stress testing on the Renesas RZ/G2L SoC
+showed that starting all available DMA channels could cause the system
+to stall after several hours of operation. This issue was resolved by
+setting the Link End bit on the last descriptor of a DMA transfer.
+
+However, after applying that fix, the SSI audio driver began to suffer
+from frequent overruns and underruns. This was caused by the way the SSI
+driver emulated cyclic DMA transfers: at the start of playback/capture
+it initially enqueued 4 DMA descriptors as single SG transfers, and upon
+completion of each descriptor, a new one was enqueued. Since there was
+no indication to the DMA hardware where the descriptor list ended
+(though the LE bit), the DMA engine continued transferring until the
+audio stream was stopped. From time to time, audio signal spikes were
+observed in the recorded file with this approach.
+
+To address these issue, cyclic DMA support was added to the DMA engine
+driver, and the SSI audio driver was reworked to use this support via
+the generic PCM dmaengine APIs.
+
+Due to the behavior described above, no Fixes tags were added to the
+patches in this series, and all patches should be merged through the
+same tree.
+
+In case this series will be merged this release cycle, as the audio
+patches are acked, best would be to go though the DMA tree.
+
+However, there might be merge conflict on the rz-ssi driver due to the
+recently posted patch at [1].
+
+Thank you,
+Claudiu
+
+[1] https://lore.kernel.org/all/875x4agb2x.wl-kuninori.morimoto.gx@renesas.com
+
+Changes in v6:
+- addressed sashiko review comments
+- addressed Frank's review comments
+- collected tags
+
+Changes in v5:
+- dropped patch "dmaengine: sh: rz-dmac: Do not disable the channel on error"
+- added patch "dmaengine: sh: rz-dmac: Add runtime PM support"
+
+Changes in v4:
+- collected tags
+- addressed review comments got from sashiko.dev. For this:
+- added patches:
+-- dmaengine: sh: rz-dmac: Move interrupt request after everything is set up
+-- dmaengine: sh: rz-dmac: Fix incorrect NULL check on list_first_entry()
+
+Changes in v3:
+- addressed review comments got from sashiko.dev. For this:
+- added patches 1-9
+- added patch "ASoC: renesas: rz-ssi: Add pause support"
+- dropped patches:
+-- dmaengine: sh: rz-dmac: Add enable status bit
+-- dmaengine: sh: rz-dmac: Add pause status bit
+
+Changes in v2:
+- fixed typos in patch descriptions and patch titles
+- updated "ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs"
+  to fix the PIO mode
+- in patch "dmaengine: sh: rz-dmac: Add suspend to RAM support"
+  clear the RZ_DMAC_CHAN_STATUS_SYS_SUSPENDED status bit for
+  channel w/o RZ_DMAC_CHAN_STATUS_PAUSED_INTERNAL
+- per-patch updates can be found in individual patches changelog 
+- rebased on top of next-20260319
+- updated the cover letter
+
+Claudiu Beznea (18):
+  dmaengine: sh: rz-dmac: Move interrupt request after everything is set
+    up
+  dmaengine: sh: rz-dmac: Fix incorrect NULL check for
+    list_first_entry()
+  dmaengine: sh: rz-dmac: Use list_first_entry_or_null()
+  dmaengine: sh: rz-dmac: Use rz_dmac_disable_hw()
+  dmaengine: sh: rz-dmac: Add helper to compute the lmdesc address
+  dmaengine: sh: rz-dmac: Save the start LM descriptor
+  dmaengine: sh: rz-dmac: Add helper to check if the channel is enabled
+  dmaengine: sh: rz-dmac: Add helper to check if the channel is paused
+  dmaengine: sh: rz-dmac: Use virt-dma APIs for channel descriptor
+    processing
+  dmaengine: sh: rz-dmac: Refactor pause/resume code
+  dmaengine: sh: rz-dmac: Drop the update of channel->chctrl with
+    CHCTRL_SETEN
+  dmaengine: sh: rz-dmac: Add cyclic DMA support
+  dmaengine: sh: rz-dmac: Adjust rz_dmac_chan_get_residue() to return
+    error codes
+  dmaengine: sh: rz-dmac: Add runtime PM support
+  dmaengine: sh: rz-dmac: Add suspend to RAM support
+  ASoC: renesas: rz-ssi: Add pause support
+  ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs
+  dmaengine: sh: rz-dmac: Set the Link End (LE) bit on the last
+    descriptor
+
+ drivers/dma/sh/rz-dmac.c   | 823 ++++++++++++++++++++++++++-----------
+ sound/soc/renesas/Kconfig  |   1 +
+ sound/soc/renesas/rz-ssi.c | 399 +++++++-----------
+ 3 files changed, 723 insertions(+), 500 deletions(-)
+
+-- 
+2.43.0
+
