@@ -1,136 +1,115 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EC426F289
-	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 05:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5279123BCF7
+	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 05:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779859263; cv=none; b=HVuwjovJ2+z0I+eRo7GBpZIVOL4NYgAfhsH3RnLEkbKid2GzT7KKlDIloIDsFQASkNmAb+7q6ixmHH3R9Z1aXY+EP2RAm0M02JKxwAGzRs7gXiYblT4h8A+hjSzMIfEVo8nJ0T3UGaD6/IWpDCc43MXBE8xKf8p2ZwLDeFchA5A=
+	t=1779859338; cv=none; b=RqaGwVpBiGMNUcylDQAB0YNV0WzWViZpVAd8jaicBCSy46upM2LsmEWQ6kA+8eOBlFK5pLUBxffS5g4R+G1xoji6C0xBuzSbBzK2dwrDSp34lkXSA9JH9zrNnlFfTfe4GLb+YFJG/YoMLvjONZTYqqEu8yS3rULZ1OhocAruv/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779859263; c=relaxed/simple;
-	bh=VaLYkT9kxTkK1H/NP6q2bXQB4SDODpALdpuu0SPK9ig=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=U4kbGz18dRBZQpUzH6izVdkxyX5wWorOFhdmifi6cP88zm2M5KrJ33qt1wozWMaCUNkGKj9xCIajNaSsvUvDxrgRfL0+C664Sw8ukWRW9QS/Vv05mXzlyfxUmXGZAOZ2uMxnaAMm4Z2bCKvCJDFa6sNYoUHjYxyxmN5e1/I7XU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NleIZP2X; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9Q90QXLB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0u86UegZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PkJq1GVg; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1779859338; c=relaxed/simple;
+	bh=cpfhREpSscSON1wP8rHFfXbu44DGxMPKCE88W1yMQRI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kyMR9IvQAhR6UeKTDeg2AWtTnKwj9oljnSuwKOMvLrZqY6apyltbcQSCg/QXA+bpkzGdGlcyy53ouu0JBPA9mQ2kkRjF68JcYnYvm/fYT4bJ6jheuIK91UA9ESLXg/sMCiniK1qj29FiUb3gqJNoDV0QvbE/urbUHc9jMYin16Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VMnVY/Rl; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NleIZP2X";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9Q90QXLB";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0u86UegZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PkJq1GVg"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E0F3366D0E;
-	Wed, 27 May 2026 05:20:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779859260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KunEnHy3Z23KH2avng618/6NNIeBgT7KgZb5Etnd3hY=;
-	b=NleIZP2XPusHx69yN4J/Gz3z/yLLpLgkvudPtfQegV7QwW+PIkTqn4vkki7fgyZvOtmrsk
-	QjpIzWktOdZ+6/7BD7ul+FIOPb7deWUKSJUY0F+k7TEDAXePHZlKGI39u/a300hvw9IMXZ
-	h0r96xXwt8MyOcWpdPN5Hw7HCyHCbfQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779859260;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KunEnHy3Z23KH2avng618/6NNIeBgT7KgZb5Etnd3hY=;
-	b=9Q90QXLB7hi+dOdQcSXPOmj7RzCtt4o9rVvYvZj0124ewvsmjo0zJXBmMJLBcUxZy+I883
-	sOMTrIPPr5BZAFAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0u86UegZ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PkJq1GVg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779859259; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KunEnHy3Z23KH2avng618/6NNIeBgT7KgZb5Etnd3hY=;
-	b=0u86UegZz23dNSPk0fl7SBSD/dbMxtvLgaFAKH5dKfWdO/8lxlBE4JIDRSh0okdAfez4yo
-	oT6r/wfLOOUcb0ri+8JL6Nx617Uiq5QnRvMBf2e2lRM32Y1TOOYR5TgH068mPIjKlShfQ3
-	Sf5UenCuie076bOOPuDajE0xfoNW7i0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779859259;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KunEnHy3Z23KH2avng618/6NNIeBgT7KgZb5Etnd3hY=;
-	b=PkJq1GVgnIbyO6oDXe+Qv6hJC/ypaDxkQNCrO+lXCSALuPCVTcXvKK+81NOE0o0NH2zZQf
-	rs8GSZk3YxEtMGCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B5FDC5A661;
-	Wed, 27 May 2026 05:20:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2ngUKzt/Fmq0EQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 27 May 2026 05:20:59 +0000
-Date: Wed, 27 May 2026 07:20:59 +0200
-Message-ID: <871pexxwas.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Fabian Lippold <fabianlippold1184@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALC269/Realtek: add quirk for HP Dragonfly Folio G3 2-in-1
-In-Reply-To: <20260526154418.1850568-3-fabianlippold1184@gmail.com>
-References: <87ldd6zp8w.wl-tiwai@suse.de>
-	<20260526154418.1850568-3-fabianlippold1184@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMnVY/Rl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779859337; x=1811395337;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=cpfhREpSscSON1wP8rHFfXbu44DGxMPKCE88W1yMQRI=;
+  b=VMnVY/RlG8VrU5kYeUEK3Noe8oSrgXkY5DLETKegbNaa5etVqf/Ai0/R
+   caxHkhZeiYL4AetJtl3+K9s/r1kDN5Ebf8DGLmxup3Npyh8zYu2QqyCnq
+   he1W5XwtKyvL9KzEKIj/LlGF+0oC74PnEMqoP7lMEhiWNrZLm2lRCfaQH
+   iQZmpbt23QWF9H0QYl4gJDsOtFeByxdcPIgaF0ATFj+Tt12mE17HcCUAg
+   JfxtPAMVg+1/IX5PqwnN0Au4iQbw7AN9tgxlXDZfDQGxEq31iZ3FTwT6r
+   okNcnAhMFeJa7cBbO3v5cAghdZqhp6gHRDaPvJAJAmQo5KvDcKFdi0xOt
+   A==;
+X-CSE-ConnectionGUID: Gq7SAeniQ4G8ivNShQS1Mw==
+X-CSE-MsgGUID: UjWFiVKKRteddOav6wgJ2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="80665441"
+X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
+   d="scan'208";a="80665441"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 22:22:16 -0700
+X-CSE-ConnectionGUID: qSY9UYiHSba/U05Fi5gGDw==
+X-CSE-MsgGUID: /P5fK3DOTuyftczKEYSmTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
+   d="scan'208";a="280252066"
+Received: from zzombora-mobl1 (HELO [10.245.244.223]) ([10.245.244.223])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 22:22:14 -0700
+Message-ID: <582f02ae-2171-4f21-b637-5fd8eeae4279@linux.intel.com>
+Date: Wed, 27 May 2026 08:22:23 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: E0F3366D0E
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: core: Move all users to deferrable card binding
+To: Mark Brown <broonie@kernel.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, tiwai@suse.com,
+ perex@perex.cz, amade@asmblr.net, kuninori.morimoto.gx@renesas.com,
+ linux-sound@vger.kernel.org, "Liao, Bard" <bard.liao@intel.com>,
+ "Vehmanen, Kai" <kai.vehmanen@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Simon Trimmer <simont@opensource.cirrus.com>
+References: <20260430140752.766130-1-cezary.rojewski@intel.com>
+ <01d1d642-bf24-4ef4-a30d-56884300407f@linux.intel.com>
+ <5d8cbbfb-3884-4c6b-aea8-0c9a76964b3b@intel.com>
+ <85045e51-e09b-44c2-9266-3e7ee72c4eb0@sirena.org.uk>
+ <b5e82c43-9da1-4a12-af0e-90d4b9feef49@linux.intel.com>
+ <d82fa24d-18f9-461d-8535-3266cc92fbb9@sirena.org.uk>
+ <1daaad8d-8aee-4911-a24b-26db8b694cfd@linux.intel.com>
+ <2497f30d-a14b-47d1-9b87-c892d21afdf3@sirena.org.uk>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <2497f30d-a14b-47d1-9b87-c892d21afdf3@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 26 May 2026 17:41:01 +0200,
-Fabian Lippold wrote:
+
+On 26/05/2026 19:02, Mark Brown wrote:
+>> I also think that detaching from driver defer and use internal card
+>> defer is a much better approach, but when majority of new PTL designs
+>> will be broken with no patch in sight to prepare the SDCA class stack is
+>> a regression.
 > 
-> Add PCI quirk for HP Dragonfly Folio G3 (PCI ID 103c:8a06) to select the
-> CS35L41 SPI4 & GPIO LED fixup variant.
-> 
-> Signed-off-by: Fabian Lippold <fabianlippold1184@gmail.com>
+> OK, sounds like a revert is needed for the time being.  Can you send a
+> patch with a changelog explaining the issue please?
 
-Applied now.  Thanks.
+Bard iterated on my idea with a proper patch which works so far in our
+testing:
+https://github.com/thesofproject/linux/pull/5788/commits/415b0daa4dc2ae30f54d51abc841a97defe97c42
 
+Basically the sof_sdw machine driver will defer if a component is
+missing, which was done by the soc card before the deferable card move.
+The sof_sdw needs to know the final name of the components, they don't
+have fixed names due to how SDCA stack probes things based ont he ACPI
+information.
 
-Takashi
+We do think that this will work for now until we can figure out a leaner
+way.
+I was thinking of adding an optional card callback to be called from
+snd_soc_bind_card() , probably called as .prepare_bind and sof_sdw could
+at this point count and prepare the names of the known components.
+Since the snd_soc_bind_card() is called for all component registration,
+it could work similarly as the driver defer, but in the machine driver
+we need to do much bigger changes to properly manage the devm_
+allocations since the driver will never defer.
+
+If you and Cezary are OK with the linked patch for now and the proposed
+.prepare_bind callback to cards, then I think we can keep this patch
+without fear of regressing users.
+
+-- 
+Péter
+
