@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB693DD848
-	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 09:45:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0453EEACE
+	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 09:45:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779875146; cv=none; b=HpWRfSZF5T1uIJBLXEi4s6Vbm83cEq8JflciQsnEc1W6VCNTLQWpjQGk1ojOR9kw3QMb3j6kRb3vx098C6eS1SfIOSimsm6ML1k64IDeQiCILV0KLP8wl96PdERfI7b5dzFACM/umkGnepdHFpyQOzEzcIJ62+j6NeP2zWtKTYk=
+	t=1779875148; cv=none; b=aFW3TXCuax+DJ4f75Zuxtvn0DIWfiuSL7CgyB7RAb2EaO2V2FEtnIxV0xQBCg5/pHSglFKgDg0/vOx2X4L51VDkc4e8vICetWRufeV5zhzcFF50RySbBg7qrYlpQxg/dAhkabVii3QCpBDZNZ+FONCKIvbwpdk4Zji3lBY2qLyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779875146; c=relaxed/simple;
-	bh=17Urt1h3/XqNKVfdRttFG19P+U5A6BBNe3+ylJH/n1g=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=N7XB+kxRft5f24jFyASsgN3azrAsUohUBWG3m+GLmWYs8bbLkofqYaLJL1ST1M1r5eAnMQhEHZFF/AL/Nn/MH2Yj3wzwnfbsM7fqYUvCtJ1HcabpkI57aQ+LDyq+eyh/pQ3+/K8ELtpt7TRt5Xwv04rjiG2QQLJzMHlx9329rEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fuy/xawK; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1779875148; c=relaxed/simple;
+	bh=N+Ygf8kS9sunfd4QZLfrfxTaoEPNsM9ZuY5NNfVFY0Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Whbc0v8U6C08oQjUaTAX+WX1IGwxE7+SDg9gU21F2g/L9m2CWAn3zg89IrUbOzsFsqzGM65mXboKogvXQK0Fek1Ju2zvK3it56Aa5w9p7qlaL7R60lag/Q0hhXpgBsfi4M1yPaoYUW59+7VkYcLyIuXG3YhHh0QO8LQ5dVNwJcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CuD6FUXP; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fuy/xawK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CuD6FUXP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779875145; x=1811411145;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=17Urt1h3/XqNKVfdRttFG19P+U5A6BBNe3+ylJH/n1g=;
-  b=Fuy/xawK8SNDvSyPx7b76O+yxY+0vNA7n+9KI5uh0MVGiN/tac/ihKn3
-   +YXJeWrYqUzJRyjz4oNxMW7K4pIiea6dEA32ZVwdARWtCKorhhEibJYR4
-   QlzFENijM61ZHomLcEfq3IVj/XHYsPCwiFzZw5s9hyqC9Hg0xx4VfJGoL
-   /NzN06nPiNajm3SS7WMcsB88KkV+Ix99Iydd5lGoUrHEONsQ/DDSxfpC+
-   +pFDC8hAUgXDJK7dLrNsDTQdteNgKKNb+3tWVGw2kNBEU5pMawNMqeTmm
-   fMGzl4MY5goGLQ+JGKhZHgLHgol775ga5bvm62bnuYjlQ1JMBLHKHWv3Q
+  t=1779875147; x=1811411147;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=N+Ygf8kS9sunfd4QZLfrfxTaoEPNsM9ZuY5NNfVFY0Y=;
+  b=CuD6FUXPOOvZq+4rzXamtYqmgqPq2Uhee8LDU7INVB/dK732r1gKAKX/
+   AYBkqH7gHRDbddxrKUCyDSmKEm0+awSkFN5ajJ529umsbcc5ln6BmQJD/
+   tY36g4dHKrCkYrCfBqyeK+mvA+0BZESF1UcKxPzFXxQJ2i/znbP+8zXLQ
+   1rV5sZnBBhdNsuSbHNntk5Ph14Vh5AfHV0Ym3Q8nnJULPHiveoBVwuPc0
+   ShjYUMxfcRGSq0Y9kPraz9xKixjEVLG2Ghyn8t8XI0Q61+/SS2Ul9kRut
+   zG901ZBEmki6+kHni3lW6GmCt0eAlagJIAT8u1jgCjf19juMMMJ9s8ZLQ
    g==;
-X-CSE-ConnectionGUID: w1vcP7zuRcal2LBUrSgwrg==
-X-CSE-MsgGUID: lpMAFeouRBiu+Pp+N9teWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="84592668"
+X-CSE-ConnectionGUID: cBaApgaPTfGnGCEHov5BXQ==
+X-CSE-MsgGUID: 0pqlP30QRj+G2hslVUudgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="84592681"
 X-IronPort-AV: E=Sophos;i="6.24,171,1774335600"; 
-   d="scan'208";a="84592668"
+   d="scan'208";a="84592681"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 02:45:45 -0700
-X-CSE-ConnectionGUID: ob9jU7KJS1qWPCl0cw9tkg==
-X-CSE-MsgGUID: z0zTcN+1R7GfZyoFOK65EQ==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 02:45:47 -0700
+X-CSE-ConnectionGUID: 0IeheZPoTqSCv9JTCDPTsA==
+X-CSE-MsgGUID: CugnxPqaQDux/1RwG8eDaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,171,1774335600"; 
-   d="scan'208";a="272519649"
+   d="scan'208";a="272519661"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa002.jf.intel.com with ESMTP; 27 May 2026 02:45:42 -0700
+  by orviesa002.jf.intel.com with ESMTP; 27 May 2026 02:45:44 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -49,10 +50,12 @@ Cc: tiwai@suse.com,
 	amade@asmblr.net,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 0/3] ASoC: Intel: catpt: Error handling and debug improvements
-Date: Wed, 27 May 2026 11:47:04 +0200
-Message-Id: <20260527094707.1432195-1-cezary.rojewski@intel.com>
+Subject: [PATCH 1/3] ASoC: Intel: catpt: Complete coredump handling
+Date: Wed, 27 May 2026 11:47:05 +0200
+Message-Id: <20260527094707.1432195-2-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260527094707.1432195-1-cezary.rojewski@intel.com>
+References: <20260527094707.1432195-1-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,40 +64,113 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Outcome of a long debug to solve one, long-standing bug ocurring very
-rarely on Haswell/Broadwell machines during the boot procedure of the
-AudioDSP firmware.  Clever/unfortunate user can increase the
-reproduction rare to 100%.
+An exception may occur during the firmware booting procedure.  In such
+case the firmware sends COREDYMP_REQUESTS and expects the driver to dump
+relevant information and finish with the COREDUMP_RELEASE write.
 
-The bug: an exception occurring early during FW boot (firmware side, not
-the software one) leaves the firmware hanging and the existing software
-code is incappable of recognizing such problem.  The only solution a
-user currently has is: rmmod and then modprobe the driver.
+To distinguish such situation from generic timeout, always signal
+fw_ready completion when a coredump request is received and translate
+it to -EREMOTEIO in catpt_boot_firmware().
 
-Recently, together with Krzysztof from the firmware team decided to take
-it up and clear the dashboard.
+The "FW READY" print makes the success clearly visible even when
+the event-traces are not enabled.
 
-The exception handling takes just a few lines of code (all part of the
-first patch), everything else that this patchset is composed of improves
-the debugability and logging.  If anything similar pops up, the
-developers can see what's going on.
-
-Cezary Rojewski (3):
-  ASoC: Intel: catpt: Complete coredump handling
-  ASoC: Intel: catpt: Add pretty-trace for large IPC payloads
-  ASoC: Intel: catpt: Print error code if board-registration fails
-
- sound/soc/intel/catpt/Makefile    |  3 ++-
- sound/soc/intel/catpt/device.c    |  5 +----
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+---
  sound/soc/intel/catpt/dsp.c       |  5 +++++
  sound/soc/intel/catpt/ipc.c       |  3 +++
  sound/soc/intel/catpt/loader.c    |  3 +++
  sound/soc/intel/catpt/registers.h | 12 ++++++++++++
- sound/soc/intel/catpt/trace.c     | 27 +++++++++++++++++++++++++++
- sound/soc/intel/catpt/trace.h     | 22 +++++++++++++++-------
- 8 files changed, 68 insertions(+), 12 deletions(-)
- create mode 100644 sound/soc/intel/catpt/trace.c
+ 4 files changed, 23 insertions(+)
 
+diff --git a/sound/soc/intel/catpt/dsp.c b/sound/soc/intel/catpt/dsp.c
+index 677f348909c8..e7c577510865 100644
+--- a/sound/soc/intel/catpt/dsp.c
++++ b/sound/soc/intel/catpt/dsp.c
+@@ -536,6 +536,11 @@ int catpt_coredump(struct catpt_dev *cdev)
+ 		pos += CATPT_DMA_REGS_SIZE;
+ 	}
+ 
++	if (catpt_readl_dram(cdev, COREDUMP) == CATPT_COREDUMP_REQUEST) {
++		dev_dbg(cdev->dev, "releasing firmware from the coredump state\n");
++		catpt_writel_dram(cdev, COREDUMP, CATPT_COREDUMP_RELEASE);
++	}
++
+ 	dev_coredumpv(cdev->dev, dump, dump_size, GFP_KERNEL);
+ 
+ 	return 0;
+diff --git a/sound/soc/intel/catpt/ipc.c b/sound/soc/intel/catpt/ipc.c
+index 2e3b7a5cbb9b..21ccec55923e 100644
+--- a/sound/soc/intel/catpt/ipc.c
++++ b/sound/soc/intel/catpt/ipc.c
+@@ -210,6 +210,7 @@ static void catpt_dsp_process_response(struct catpt_dev *cdev, u32 header)
+ 		memcpy_fromio(&config, cdev->lpe_ba + off, sizeof(config));
+ 		trace_catpt_ipc_payload((u8 *)&config, sizeof(config));
+ 
++		dev_dbg(cdev->dev, "FW READY 0x%08x\n", header);
+ 		catpt_ipc_arm(ipc, &config);
+ 		complete(&cdev->fw_ready);
+ 		return;
+@@ -220,6 +221,8 @@ static void catpt_dsp_process_response(struct catpt_dev *cdev, u32 header)
+ 		dev_err(cdev->dev, "ADSP device coredump received\n");
+ 		ipc->ready = false;
+ 		catpt_coredump(cdev);
++
++		complete(&cdev->fw_ready);
+ 		/* TODO: attempt recovery */
+ 		break;
+ 
+diff --git a/sound/soc/intel/catpt/loader.c b/sound/soc/intel/catpt/loader.c
+index 432cb1f0ab4e..75457187b614 100644
+--- a/sound/soc/intel/catpt/loader.c
++++ b/sound/soc/intel/catpt/loader.c
+@@ -624,6 +624,9 @@ int catpt_boot_firmware(struct catpt_dev *cdev, bool restore)
+ 	if (!ret) {
+ 		dev_err(cdev->dev, "firmware ready timeout\n");
+ 		return -ETIMEDOUT;
++	/* Wake up does not mean FW is ready, an exception could occur. */
++	} else if (!cdev->ipc.ready) {
++		return -EREMOTEIO;
+ 	}
+ 
+ 	/* update sram pg & clock once done booting */
+diff --git a/sound/soc/intel/catpt/registers.h b/sound/soc/intel/catpt/registers.h
+index 6c1ad28c6d69..64bd534a76ff 100644
+--- a/sound/soc/intel/catpt/registers.h
++++ b/sound/soc/intel/catpt/registers.h
+@@ -124,6 +124,11 @@
+ #define CATPT_SSCR2_DEFAULT		0x0
+ #define CATPT_SSPSP2_DEFAULT		0x0
+ 
++/* Coredump register and its states */
++#define CATPT_DRAM_COREDUMP		0x1F4
++#define CATPT_COREDUMP_REQUEST		UINT_MAX
++#define CATPT_COREDUMP_RELEASE		0
++
+ /* Physically the same block, access address differs between host and dsp */
+ #define CATPT_DSP_DRAM_OFFSET		0x400000
+ #define catpt_to_host_offset(offset)	((offset) & ~(CATPT_DSP_DRAM_OFFSET))
+@@ -137,6 +142,8 @@
+ 
+ /* registry I/O helpers */
+ 
++#define catpt_dram_addr(cdev) \
++	((cdev)->lpe_ba + (cdev)->spec->host_dram_offset)
+ #define catpt_shim_addr(cdev) \
+ 	((cdev)->lpe_ba + (cdev)->spec->host_shim_offset)
+ #define catpt_dma_addr(cdev, dma) \
+@@ -151,6 +158,11 @@
+ #define catpt_writel_ssp(cdev, ssp, reg, val) \
+ 	writel(val, catpt_ssp_addr(cdev, ssp) + (reg))
+ 
++#define catpt_readl_dram(cdev, reg) \
++	readl(catpt_dram_addr(cdev) + CATPT_DRAM_##reg)
++#define catpt_writel_dram(cdev, reg, val) \
++	writel(val, catpt_dram_addr(cdev) + CATPT_DRAM_##reg)
++
+ #define catpt_readl_shim(cdev, reg) \
+ 	readl(catpt_shim_addr(cdev) + CATPT_SHIM_##reg)
+ #define catpt_writel_shim(cdev, reg, val) \
 -- 
 2.34.1
 
