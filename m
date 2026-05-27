@@ -1,111 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59EA3E7BD4;
-	Wed, 27 May 2026 09:15:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986D53ED11B;
+	Wed, 27 May 2026 09:36:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779873337; cv=none; b=o12jJx3iKRvTHgfYxXMGxxfaSZj/1vuLtzIXPRqLqX+CrARlXt4hjmInknQlpTBdV5pgUjpK67pbgcM+TqumAKBeB+dgb85hMq6eYSWoelE3VW3tcHHgwwZ8kDVUQ/CTrypofCSgPKQI1gA18I4ZRGsOl1gONC9gdA2NCKd6Yyk=
+	t=1779874616; cv=none; b=cHKChcLTU+fPYsFaUV9Mv/2i975O4u7WxL+PkZZYOoLlXI/0PsAMlF1eb/1cpMckrjtNrAr9j5qYSxmAP0u+YUWWoOzeGq3EMZkfpqbeh1eVvOBBoaF4NuQrkCuyWR06TsYQXCDrkPASuaac33fa9XmbHxWMcigIC4AZyJb5Q+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779873337; c=relaxed/simple;
-	bh=LJDhMjAyGdsNfusdw02XmBuKhGs98ar0VqkbMUPglo8=;
+	s=arc-20240116; t=1779874616; c=relaxed/simple;
+	bh=LUXNmxSpR/amWsuk9GeJ0XJxJZMK81d9md/HMAJtStc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WrBfXBGyAtfJlf7BVbZhNPBZqkmKYfnNoU//SdDJnVo6jtW//rorbJ+LYUpWrv6Dr+ftESSWIESmD35Bq0t5eBRu4fejHwVbledeaOwOGoH1N682z6jpocQlxIhUzAovKouegAZS7S72Ti80UUDuyE+1p7upfZpP2wrwCNNEJH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aaOGlgQL; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=SOVuoDAEaIrfF2n1A+U83rmfi07b+eN9mRCgnPKjTGgZjqgErkmrKY8G6CGoh33esYq7uQxB5pRpNI/sS5vxpzkRupK+71ysc5aJPOxGazEtEgGfZas9vy2Kf7n8yphxvO0HQFOUSMmd6RC33lxtGNx8zZC+XGFEnDtuTb2/phw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jc0uvHsU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aaOGlgQL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5580E1F00A3C;
-	Wed, 27 May 2026 09:15:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jc0uvHsU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06A801F000E9;
+	Wed, 27 May 2026 09:36:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779873331;
-	bh=Pyb7fuKdkRm7mLit3bJvr6ITAg9LyTkELoSIdbnZo6U=;
+	s=k20260515; t=1779874611;
+	bh=hSn0APe8SR1UUgViq9+cqpZdVUS8xKWS9pp0z2n5dCU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aaOGlgQLIoeqy700pGTESUWPe7Kl2nO5W6wz9IjU4SAZTLp0SIlFqEL/GNNwjceiY
-	 /CjNIb01HlWUuaraM0v6GuwMxg1cOqaXyKvvLQ5f8qdXeHb7wsXllOmrVQ8RxKGI5K
-	 2bdaVit0YIqKW8Crctva4g7T6J6bn6TIXYuxnVKbn9s9F/EK70meQah8t3bDJV28qb
-	 LbusxtwXnbZqkviG8kQNlyinNH7a/sYepZX3IrAXmoBJdiKPN/hzlK0D2WjQkg9tAC
-	 MmsSLOeTNBs+g1VikO07S3u8anQ2qi+5Ix9XrkiHV6b7+z1KZL9XdKPh5g0wQGQyFo
-	 dIbiFqjWcOpgg==
-Date: Wed, 27 May 2026 11:15:27 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Neo Chang <YLCHANG2@nuvoton.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, 
-	robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, alsa-devel@alsa-project.org, neo.chang70@gmail.com, 
-	kchsu0@nuvoton.com, sjlin0@nuvoton.com
-Subject: Re: [PATCH v3 1/2] ASoC: dt-bindings: nuvoton,nau8360: Add NAU83G60
-Message-ID: <20260527-pink-cockatrice-of-expression-04b6e0@quoll>
-References: <20260526015826.440769-1-YLCHANG2@nuvoton.com>
- <20260526015826.440769-2-YLCHANG2@nuvoton.com>
+	b=jc0uvHsUTYfR/8uABurmjEHlvO9waNo8t2WkjUOr1AxJMeqnkbXUiyNtKbspYVgUP
+	 93AiX/SvWEhUHAvhXgJ2trbAXSE7Yl9BOrbxudmM2MmhYuKv7QVK5mQ9mK/3N8OWGa
+	 ZpdMzo6uWnQ6BVVJNuZINfxla+WV3jqSbC3KyplBLiDOu9h+tFJ8WzcMUTeKuGnFRd
+	 hEbvKZFFMwY9cF61/y3iZnUW54Af0+cL7ji4Y1jBjyT0I/LY/IAn6fWahYmp+TVJrp
+	 MG1YKkDtCKyAaFZETn8vy1+tJH6AjS7Iz6NVAksmNOB2x3ygEe86PCSnOAmzzow4E/
+	 GS4FYxjlSynKw==
+Date: Wed, 27 May 2026 10:36:46 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: srini@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	krzysztof.kozlowski@oss.qualcomm.com,
+	mohammad.rafi.shaik@oss.qualcomm.com, alexey.klimov@linaro.org,
+	ravi.hothi@oss.qualcomm.com, mathieu.poirier@linaro.org,
+	verhaegen@google.com, andersson@kernel.org,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/6] ASoC: qcom: audioreach: Add support for shared
+ memory push/pull modules
+Message-ID: <6d5776eb-c181-4ae0-886d-8d8dab7be7e7@sirena.org.uk>
+References: <20260519131527.4002526-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260519131527.4002526-5-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pZWqzjKFWfDNj8E2"
+Content-Disposition: inline
+In-Reply-To: <20260519131527.4002526-5-srinivas.kandagatla@oss.qualcomm.com>
+X-Cookie: You are fairminded, just and loving.
+
+
+--pZWqzjKFWfDNj8E2
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260526015826.440769-2-YLCHANG2@nuvoton.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 26, 2026 at 09:58:25AM +0800, Neo Chang wrote:
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: mclk
-> +
-> +  nuvoton,dsp-bypass:
-> +    type: boolean
-> +    description:
-> +      Forcibly disable/bypass DSP path.
+On Tue, May 19, 2026 at 01:15:25PM +0000, Srinivas Kandagatla wrote:
+> Push-pull graphs use MODULE_ID_SH_MEM_PULL_MODE for playback and
+> MODULE_ID_SH_MEM_PUSH_MODE for capture instead of the legacy WR/RD shared
+> memory endpoints. Detect these modules when opening the graph, cache their
+> instance ID in graph->shm_iid, and use them for media format setup.
 
-Same questions as v1. Properties are not to control your probe() in the
-driver, but to describe the hardware.
+This doesn't build:
 
-You have entire description or commit msg to convince that previously
-questioned property is still reasonable in terms of DT.
+/build/stage/linux/sound/soc/qcom/qdsp6/q6apm.c: In function =E2=80=98__q6a=
+pm_map_memory
+_fixed_region=E2=80=99:
+/build/stage/linux/sound/soc/qcom/qdsp6/q6apm.c:218:42: error: =E2=80=98APM=
+_MMAP_TOKEN_M
+AP_TYPE_POS_BUF=E2=80=99 undeclared (first use in this function)
+  218 |         uint32_t pos_mask =3D is_pos_buf ? APM_MMAP_TOKEN_MAP_TYPE_=
+POS_BUF
+ : 0;
+      |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6apm.c:218:42: note: each undeclar=
+ed id
+entifier is reported only once for each function it appears in
+/build/stage/linux/sound/soc/qcom/qdsp6/q6apm.c: In function =E2=80=98apm_c=
+allback=E2=80=99:
+/build/stage/linux/sound/soc/qcom/qdsp6/q6apm.c:943:41: error: =E2=80=98APM=
+_MMAP_TOKEN_G
+ID_MASK=E2=80=99 undeclared (first use in this function); did you mean =E2=
+=80=98APM_WRITE_TOKEN_
+LEN_MASK=E2=80=99?
+  943 |                 graph_id =3D hdr->token & APM_MMAP_TOKEN_GID_MASK;
+      |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+      |                                         APM_WRITE_TOKEN_LEN_MASK
+/build/stage/linux/sound/soc/qcom/qdsp6/q6apm.c:944:43: error: =E2=80=98APM=
+_MMAP_TOKEN_MAP_TYPE_POS_BUF=E2=80=99 undeclared (first use in this functio=
+n)
+  944 |                 is_pos_buf =3D hdr->token & APM_MMAP_TOKEN_MAP_TYPE=
+_POS_BUF;
+      |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
 
-OTOH, isn't lack of firmware binaries enough to deduce that DSP is not
-going to be used?
+It's defined later in the series.
 
-> +
-> +  nuvoton,pbtl-enable:
-> +    type: boolean
-> +    description:
-> +      NAU83G60 supports PBTL mode for mono output.
-> +
-> +  nuvoton,dac-cur-enable:
-> +    type: boolean
-> +    description:
-> +      Adjust DAC output current to match speaker impedance and prevent
-> +      hardware damage. +3.2dB when present, 0dB by default.
-> +
-> +  firmware-name:
-> +    minItems: 2
-> +    maxItems: 2
-> +    description:
-> +      Assign firmware filenames for left and right DSP cores.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        codec@1a {
-> +            #sound-dai-cells = <0>;
+--pZWqzjKFWfDNj8E2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Please follow DTS coding style.
+-----BEGIN PGP SIGNATURE-----
 
-Best regards,
-Krzysztof
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoWuy0ACgkQJNaLcl1U
+h9AmNQf/Z7lGtJZkA9cVFYlkzDM4qybHUDtJDWz5NJkCyb5TEj8AQPW4FH/Y2DfH
+EVrZxaX0WPzyaJiA2bR0qJ8oTfwIJEAw87ZNb+kvP//2j7vEWpoUkoOz6obBLQ74
+UqIQkoVxdBfmgWZZ2076w7tbK6tw1ULrBI6IZAhg8XR3fgtecurezFUw5LMbJo/H
+fLEoYBxqwxxoBVtF/O/u9TQEz88BBcM6nNWhRYH4vHTPDbjefBskCNv3pojX6QV3
+C6XnbP+5f87B8h8rWbt0OJnHN2cijt10KMQVf8L/xagTTGAK2JZPCb4lOUO3iEmd
+eoOhnadIlUrlA5gYjF0gZTMYC2q6pA==
+=4G7x
+-----END PGP SIGNATURE-----
 
+--pZWqzjKFWfDNj8E2--
