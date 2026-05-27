@@ -1,136 +1,93 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C3C3ED3C2
-	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 10:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908C03DD50F
+	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 10:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779878121; cv=none; b=JKUAPpAnrah+SU9+V1KrPTM6trbGIugNCDDzHabi7ho3BpPuACC0KUmvHBd8dTY3KYGWZ6qJO66lSlxo5JlzW4Stl6DgS3EAIg9WCiPJ9ebXzyiN7q6pzZxCcn259O36eyQBNxLCzA3OmArrvWFnGhw4jNt1NDopxHoLbpI/A2o=
+	t=1779878164; cv=none; b=Z1WebIMUTXxN0xlJdiXK/OrrTcF1xSZhr2G5oZsGLYj4uPdp1ZTNP6YHIANUa4zCCYI/OlIUXaudu9GByG5rQHuui+4P1v/mLMwASNqfRByzuPVen428AfOqWLlvS9Oxu/gbSLYSSl650JZigfj5Iv/8eM9oNDjovP4O0UXSbFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779878121; c=relaxed/simple;
-	bh=LB+5eGiR7TQZMlxG7o/1UWa3YqGvJPw2bGzdR6/VOUo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KVTi0xSqou00ocsbLTbwgUWA3O5QQroVAFv52/OgDgD1tcfWzOOq9hlSkmCDe0t/MxFisvzvFdKncQy4bzIBUTQLDsI88Y4XlBIbadKewfbBDjD04FOfgXIzefN7dNqB4V6fJSM7m8jeUBJ0EIpc4TsB/Sas8GDIKCHata0NMxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eTubr7is; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9CzXJLiP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ud1PsR7P; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vCqftJt4; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1779878164; c=relaxed/simple;
+	bh=OYesrFs1uyQvjvTRDjn2rLP3jjkgShlkHp0qRzMp3/4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rvSI+wOv7fHu1F3Rnudg45W/vrzYRV4riNsMZFNfSMsyedxk7IPsR+PYuH0C0+jHWgJ01drcpFWgGVMF6CYZOeJieDT2lejlUN8UOfr4jGc6S5a1zfnjyDUKqV2+mH8A+hJx0dbZaaTfwi0YNQAOJp5f/brj1ETbt+3qh7XFaHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VjFFKpvI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eTubr7is";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9CzXJLiP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ud1PsR7P";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vCqftJt4"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E82F266E24;
-	Wed, 27 May 2026 10:35:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779878119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hGoekyknkCSDvTeIAlTtqJOquMzvq2hEme0IWIUBcdo=;
-	b=eTubr7isLmE6Yp6D6essGXIRSerR/8e43xop6DnEVYvLwndN6ah9UgKt4i+By+p/QiRI1u
-	EUciM0660gK2JzM86rGkgXTAPAr1sOsfO19JWU8gEv9vdQZ/GionDCEe7MhgS61i/+MjeN
-	3oIpS5kcxjgYBR7GtZlXWPxk50MkE80=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779878119;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hGoekyknkCSDvTeIAlTtqJOquMzvq2hEme0IWIUBcdo=;
-	b=9CzXJLiPyknja2Npyl2fQlFJ2rgq2ZMWMsITVDb2hUhFl4yU4FosuvTwvL5G7bR4/kd+vU
-	vox/vs3/H0AFpyCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ud1PsR7P;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vCqftJt4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779878117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hGoekyknkCSDvTeIAlTtqJOquMzvq2hEme0IWIUBcdo=;
-	b=Ud1PsR7PhjLicI7h4naVmVdNcoLWql71caGLDwW+ZBcyLOBAf5JdbMlUabotCBCC5AU+nM
-	gJEDFBZo3cF16vnK+DLOq+XmCD+TK369YigzxR6YkezHHgEPysokFk2o6a5hdaYDdyE284
-	BkFnQWb8OyaOAXwF071+KbALD0S5KJ0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779878117;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hGoekyknkCSDvTeIAlTtqJOquMzvq2hEme0IWIUBcdo=;
-	b=vCqftJt4eED33R6v53iutdUHNNCQ233oIyAmbVZh8qy5ETTGyD70edYb9xTRl24VxNM30o
-	pnkljDMUImzlK8Dg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 755CB5A7AD;
-	Wed, 27 May 2026 10:35:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4ntpG+XIFmoIcwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 27 May 2026 10:35:17 +0000
-Date: Wed, 27 May 2026 12:35:17 +0200
-Message-ID: <87cxyhw36i.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Johny Lin <johnylin@google.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VjFFKpvI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A39741F000E9;
+	Wed, 27 May 2026 10:36:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779878163;
+	bh=OYesrFs1uyQvjvTRDjn2rLP3jjkgShlkHp0qRzMp3/4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VjFFKpvIl3DXlHuCx/9DcKG48ETp4o/8R4v6X1jrkxYmTm1mDh17RQz14C1thsNr5
+	 lNfD9s70OqgETakCuMEb0FthTAdGA8Oo+xLk76n/gmZsdOoBTGUbWW8+sTJ7g+gftZ
+	 da9k1gjyvOO3tH9nW6UgU9ffshhjaDM7O+SjfEX4P8Q/jPK6IdrfNVwB8xGb5gjAAi
+	 ZR8ueNpeH3TaegYpoXQS1NueG4jE17vPVJX72g1KVtfn4kpOxahlZiyoP+KsxIYONO
+	 qqn6/x5HVS1umVehNGlPQX+8a0WqEWqeGrFNXUmMQaxX5m/7cJSEk39G40nTwTPVmZ
+	 oo0PY4fLKlbYg==
+Date: Wed, 27 May 2026 11:35:58 +0100
+From: Mark Brown <broonie@kernel.org>
+To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, tiwai@suse.com,
+	perex@perex.cz, amade@asmblr.net, kuninori.morimoto.gx@renesas.com,
+	linux-sound@vger.kernel.org, "Liao, Bard" <bard.liao@intel.com>,
+	"Vehmanen, Kai" <kai.vehmanen@intel.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
 	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Mark Brown <broonie@kernel.org>,
-	Tim Bird <tim.bird@sony.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: cs35l41: imply SERIAL_MULTI_INSTANTIATE
-In-Reply-To: <20260527023350.3067547-1-johnylin@google.com>
-References: <20260527023350.3067547-1-johnylin@google.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	Simon Trimmer <simont@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: core: Move all users to deferrable card binding
+Message-ID: <e844a40a-59a8-404f-ad16-07088070f063@sirena.org.uk>
+References: <20260430140752.766130-1-cezary.rojewski@intel.com>
+ <01d1d642-bf24-4ef4-a30d-56884300407f@linux.intel.com>
+ <5d8cbbfb-3884-4c6b-aea8-0c9a76964b3b@intel.com>
+ <85045e51-e09b-44c2-9266-3e7ee72c4eb0@sirena.org.uk>
+ <b5e82c43-9da1-4a12-af0e-90d4b9feef49@linux.intel.com>
+ <d82fa24d-18f9-461d-8535-3266cc92fbb9@sirena.org.uk>
+ <1daaad8d-8aee-4911-a24b-26db8b694cfd@linux.intel.com>
+ <2497f30d-a14b-47d1-9b87-c892d21afdf3@sirena.org.uk>
+ <582f02ae-2171-4f21-b637-5fd8eeae4279@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: E82F266E24
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-
-On Wed, 27 May 2026 04:33:50 +0200,
-Johny Lin wrote:
-> 
-> Use a weak reverse selection to suggest the config
-> SERIAL_MULTI_INSTANTIATE just like cs35l56 did.
-> 
-> Signed-off-by: Johny Lin <johnylin@google.com>
-
-Applied to for-next branch.  Thanks.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="1DhfSnZrLE8NuZUC"
+Content-Disposition: inline
+In-Reply-To: <582f02ae-2171-4f21-b637-5fd8eeae4279@linux.intel.com>
+X-Cookie: You are fairminded, just and loving.
 
 
-Takashi
+--1DhfSnZrLE8NuZUC
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, May 27, 2026 at 08:22:23AM +0300, P=E9ter Ujfalusi wrote:
+
+> If you and Cezary are OK with the linked patch for now and the proposed
+> .prepare_bind callback to cards, then I think we can keep this patch
+> without fear of regressing users.
+
+That looks plausible to me at first look, if you'd rather send that than
+a revert that's also good.
+
+--1DhfSnZrLE8NuZUC
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoWyQ0ACgkQJNaLcl1U
+h9D5mwf+LZKCflIagGkeK2mVq3CGCehaCcIuAwV4SMsTY6QGzm8GahydQ3FooIdX
+OfHv9s0uv7hBlqsMOKEUQJSk/K/XPL0GR/cg8RNzG7gCJ/lSM7MkJPJrvXjMao/2
+i0oAWbzhRVlENXd0//QaxzzEDS3P7H5Oe9sX2Wbu/QyAKBhac286NAcsdDf7bacg
+QOCI5lnhicbwna+fs7XW7GAeVzJ9SYIiAxog97sp1nkqEjhaevvrKZOFwcJqpASP
+uyFL6fzu5vNYw1+S9kesf1ed74qOV5ZAwNgTpHnTx6j6IGktrk7Q921QsrZJqaCZ
+7/tm4RGeWoCwkHv6LcQi6/0Nnwm4Rw==
+=3xU8
+-----END PGP SIGNATURE-----
+
+--1DhfSnZrLE8NuZUC--
