@@ -1,129 +1,107 @@
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from n169-114.mail.139.com (n169-114.mail.139.com [120.232.169.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681873F39E5
-	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 12:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5C4407CDF;
+	Wed, 27 May 2026 13:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=120.232.169.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779884681; cv=none; b=tD9/APAq1KVwTg+WazjcC5SIqw4bgZO+eQujCDzyBqbqtfbah4Bqj6+BAsA5wiD6DL5mBevvnxFsPXT5Q/NdXdvA/MfLfgPH7FwdnDjT2xQU1GYeqSXaePj6QLvu8Gh6nM9MQwGwr7v5gb3/Yl4fGqjc6SSFzMdIvt30KXDZFSQ=
+	t=1779887064; cv=none; b=CYOY7o2bAmEwvYmqki/kQUnxxn/44G/2oRhixepKj1UJSc87KStvFZ0SeQ4Tt1hAxgKhuFLPBZK2ypRg91GxFHX/ig6uHozZyEg7cAV218kJtZKHnAlQyxeI55OIQEU1YT9WfBG5fKyaW8hu5VIV9x1L8T+EE1bOdNgicTk5AWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779884681; c=relaxed/simple;
-	bh=WmNLABokB3U7r4YTithj2V1LL7b1vuU96MEc5lB7hD8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Xg8f3NUVqJNcQJPZk0pkn1Rv/NxLmpbUJQFjfD4srz3R/qrFj9fACSqEaKZPL5y/6aECpRAnOaR0rlbcspZwyvfkODi0byYOYwArs1Kr35JNnvpeEF7haScyCCvAF/CjJ7eWeVtI3wDDu6mrznzwN3GzwwTZIVNvBs1t88cVaDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R7O8wgg8; arc=none smtp.client-ip=74.125.82.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779887064; c=relaxed/simple;
+	bh=ZqokV35wZ9E+6xbkodByqy8x8zL0CVBl+mrOaEScrPM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Lwly3blgFQb1D8eSyuCRBoKBbOjL0k26C4tcegPKok3cT6dnMtaSqz5RAwyyWuuPyaKohEDZHBsl6XPwtGEYnR5Gp/bxjAjx5n1JdvYZlsA4b7n6otz5bxrz4ng4r+tpqQDq2yiYOH51CEqww6qkPacYRmOmZ4dQFgoOo58SIXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com; spf=pass smtp.mailfrom=139.com; dkim=pass (1024-bit key) header.d=139.com header.i=@139.com header.b=dXSMAnVc; arc=none smtp.client-ip=120.232.169.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=139.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R7O8wgg8"
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1363e78746eso7280002c88.1
-        for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 05:24:38 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=139.com header.i=@139.com header.b="dXSMAnVc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779884677; x=1780489477; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dnLJl2Nz2UhH+yw0FVKpnTR9qS2A3Q99wYvN5nGDrB0=;
-        b=R7O8wgg8N+I8K7ylSsdLjoET99Kwtn8kKeA3jSiRymqbt2oGdIPLXOE+qH+UPmd8aJ
-         ZFXnkhf4p55YfYg5LmSr552FwtVrwKiQUEPf04CBiskSZ89EKj+W7Y3quvzRpyxR7m6y
-         UO2yKLLmK/IdI+iy9EFowoaTFLcLRLmg6hi88oOn1ht3Hh38uGv7o4B0w42AkFuVXE5B
-         84FmmuWWyBV0aUxOKOJcVMMnLFM/csLDtQPTVxsiBJZ1N3x4h9RuLwyu7nbkoJn+SB6V
-         /IBt/OUaJkP5JvGAVtWawCr6RIZYKBbNRLD7NPv6RLp8UnOfPVBAV+yHMPrzXmamXtiA
-         6POg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779884677; x=1780489477;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dnLJl2Nz2UhH+yw0FVKpnTR9qS2A3Q99wYvN5nGDrB0=;
-        b=iw91Lan7TYN/xVM3eErezOlBLeyUak8SZ9iZl0jEOLHNg/eTbaHTtvfanZnvVtez/1
-         h5IqceZ7zT0BjUyOwUP6mJVp+CImN3gTCs1w3FlOm5brSVEHB/OyE66MIoPgBgBZifCJ
-         mQORxJLtx6zc0quI3R07DlN5esyMBIyP7Rt57Jiko472ITYzHnrsPqou6Vz6uVcG8piA
-         Z5sEweMHrhGysxBzVIQsbmDAlr5CNZec05DmEw7IJSe37tOgzTj1q2p37M8D4CVg+dOH
-         wZtTWkscTCDnyUBxOqc7uCVPSAP042sa06x3Z85el+JgquomRYvmXOZBmHlf/czfqj+q
-         uPJQ==
-X-Gm-Message-State: AOJu0YyAXfwmpARd8vJ1GB7VGpDkBwgBq85j7oF298ezNvxeORNbbhVg
-	4U0mnStx4i/4+mc4JiKxd2ndIgRLaQKUvWxDVRcgNVCZX/W6oTPllJDMfVQHxQ==
-X-Gm-Gg: Acq92OGip6MYIS2UzemG66jUVQOPQwmjfX4kRkvfzcuG2Z/hHoNq4HOvuVyqRvDMJ+i
-	s1RVFtsLGrkPhBcGku5wtfl5BQ2a7rpsBTAkx7TZ6bYWajfLBRxOK8JPZcqeDysOt7dkrXOMO6y
-	zoQ8pNewoYvU8gbbF3DDmpCHafkR+lIFWXrWpAtaYZf7LbUa6bvgf9JSKcnGCipWa12m1FebEAV
-	iVibBDLsHKtXxP5fSE+NSmUQ0PCdczC33MrcAfoGK6lQYdvBCDQh7D9SkAivis4NOLHZHCulyA6
-	09jHJMLeJeCwu7Jq+ZHnCKNuzEfAA+LCByNBQhQ27VPzK/eAknZ3u7fU5wJOoRgJGBBPmeGZLry
-	HH8KxqgyEjkgjZYZVtRDogV9BiERwcts/FYs1c1SooNlMtDm7Nv2IQ9TE814GnBkxU9xn9aQNGK
-	Ht2RiYmJ0KONOLXz5F+rjXa0BOEYwD5E7spR6oKc4lBJW9b32/S7dVWUKg48zZcfV57K1hY069U
-	sRdJaCkAMvo
-X-Received: by 2002:a05:7022:60c:b0:12d:b329:987d with SMTP id a92af1059eb24-1365fa3828emr8497059c88.24.1779884677118;
-        Wed, 27 May 2026 05:24:37 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-162-74.user3p.v-tal.net.br. [177.4.162.74])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-136b3706ad6sm8539711c88.13.2026.05.27.05.24.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 05:24:36 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Wed, 27 May 2026 09:24:00 -0300
-Subject: [PATCH] ASoC: codecs: simple-mux: Fix enum control bounds check
+	d=139.com; s=dkim; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=dXSMAnVcwaNNsBy1D+M4oROfpMYzA77UzbNQu6EfqIdTd9Nk0tPUgn7VZqSm9FopmNOyCzTBxs5Lh
+	 dqS6Hc2CeND8drPLeFgiKnxvR0XoPSPWNLTvAovPycUA2MQck1iH45lnqfBDrbjuBaFy4tHdJnDKqo
+	 g+xLdcIwQtyQFhyw=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM:                                                                                        
+X-RM-SPAM-FLAG:00000000
+Received:from jackie-ThinkPad-X13-Gen-2a.. (unknown[240E:404:1921:11EF:B530:2D7D:C5C6:5661])
+	by rmsmtp-lg-appmail-42-12056 (RichMail) with SMTP id 2f186a16ebc13f2-0140c;
+	Wed, 27 May 2026 21:04:15 +0800 (CST)
+X-RM-TRANSID:2f186a16ebc13f2-0140c
+From: Jackie Dong <xy-jackie@139.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	sbinding@opensource.cirrus.com,
+	zhangheng@kylinos.cn
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jackie Dong <xy-jackie@139.com>
+Subject: [PATCH] ALSA:hda/realtek:ALC269 fixup for Yoga Pro 7 15ASH11 mic mute LED
+Date: Wed, 27 May 2026 21:03:53 +0800
+Message-ID: <20260527130353.5658-1-xy-jackie@139.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260527-asoc-simple-mux-enum-bounds-v1-1-3f805b9fc671@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQ6CMAwA0F8hPdukTofRXzEeYCtS4zayOkNC+
- HcHHt/lLaCchRVuzQKZv6KSYsXx0IAbu/hkFF8NhkxL1ljsNDlUCdObMZQZOZaAfSrRK55ouJA
- 3nuz1DHWYMg8y7/v98beW/sXus5Wwrj96BlASfwAAAA==
-X-Change-ID: 20260525-asoc-simple-mux-enum-bounds-30f70d2d0594
-To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- notify@kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1458;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=WmNLABokB3U7r4YTithj2V1LL7b1vuU96MEc5lB7hD8=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDFlij5qyGkwZ9rA57H8ZP3PpwoXM5f//M4ad8WQ+cTpS9
- fVXrwmHO0pZGMS4GGTFFFlWJy2y3NP14Gp93AoPmDmsTCBDGLg4BWAistsY/inv6WTewqsgfkvF
- 7Wtwgnu7c/Uco9Dfh57nrnjrYXxIVpvhn25kXkTit1vnr0yVU95y1+BVj02Dgp3HKd9cg/D+MDU
- 2LgA=
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-simple_mux_control_put() rejects values greater than e->items, but
-enum control values are zero based. For the two-entry mux used by this
-driver, valid values are 0 and 1, so value 2 must be rejected as well.
-
-Accepting e->items can store an invalid mux state, pass it to the GPIO
-setter, and pass it on to the DAPM mux update path where it is used as
-an index into the enum text array.
-
-Use the same >= e->items check used by the ASoC enum helpers.
-
-Fixes: 342fbb7578d1 ("ASoC: add simple-mux")
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/soc/codecs/simple-mux.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/simple-mux.c b/sound/soc/codecs/simple-mux.c
-index 069555f35f73..c2f906a3f074 100644
---- a/sound/soc/codecs/simple-mux.c
-+++ b/sound/soc/codecs/simple-mux.c
-@@ -51,7 +51,7 @@ static int simple_mux_control_put(struct snd_kcontrol *kcontrol,
- 	struct snd_soc_component *c = snd_soc_dapm_to_component(dapm);
- 	struct simple_mux *priv = snd_soc_component_get_drvdata(c);
+Lenovo Yoga Pro 7 15ASH11 with AMD RYZEN AI MAX+ 388 (Strix Halo, ACP
+7.0) uses Realtek ALC287 series codec. The ALC269_FIXUP_LENOVO_XPAD_ACPI
+in alc269_fixup_vendor_tbl[] can load lenovo_wmi_hotkey_utilities module
+by default in this laptop, but the driver doesn't control mic mute LED.
  
--	if (ucontrol->value.enumerated.item[0] > e->items)
-+	if (ucontrol->value.enumerated.item[0] >= e->items)
- 		return -EINVAL;
- 
- 	if (priv->mux == ucontrol->value.enumerated.item[0])
+If users run below command and the mic mute LED can work normally.
 
+$sudo echo 'Capture Switch' >/sys/class/sound/ctl-led/mic/card1/attach 
+
+After added the SND_PCI_QUIRK quirk special for Lenovo Yoga Pro 7
+15ASH11, the mic mute LED works well.
+
+Signed-off-by: Jackie Dong <xy-jackie@139.com>
 ---
-base-commit: 53eff7040f06ac4670b5d4f01980f9b2695e0a51
-change-id: 20260525-asoc-simple-mux-enum-bounds-30f70d2d0594
+ sound/hda/codecs/realtek/alc269.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index f180d6a72021..ea520cf20de8 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -4076,6 +4076,7 @@ enum {
+ 	ALC287_FIXUP_YOGA7_14ITL_SPEAKERS,
+ 	ALC298_FIXUP_LENOVO_C940_DUET7,
+ 	ALC287_FIXUP_LENOVO_YOGA_BOOK_9I,
++	ALC287_FIXUP_LENOVO_YOGA_PRO7,
+ 	ALC287_FIXUP_13S_GEN2_SPEAKERS,
+ 	ALC256_FIXUP_SET_COEF_DEFAULTS,
+ 	ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE,
+@@ -6101,6 +6102,13 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC285_FIXUP_THINKPAD_HEADSET_JACK,
+ 	},
++	[ALC287_FIXUP_LENOVO_YOGA_PRO7] = {
++		.type = HDA_FIXUP_FUNC,
++		/* Reuse the DAC routing selected for ThinkPad X1 Gen7 */
++		.v.func = alc285_fixup_thinkpad_x1_gen7,
++		.chained = true,
++		.chain_id = ALC269_FIXUP_LENOVO_XPAD_ACPI,
++	},
+ 	[ALC623_FIXUP_LENOVO_THINKSTATION_P340] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc_fixup_no_shutup,
+@@ -7767,7 +7775,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x38df, "Y990 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38f9, "Thinkbook 16P Gen5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+ 	SND_PCI_QUIRK(0x17aa, 0x38fa, "Thinkbook 16P Gen5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+-	SND_PCI_QUIRK(0x17aa, 0x38fc, "Lenovo Yoga Pro 7 15ASH11", ALC245_FIXUP_BASS_HP_DAC),
++	SND_PCI_QUIRK(0x17aa, 0x38fc, "Lenovo Yoga Pro 7 15ASH11", ALC287_FIXUP_LENOVO_YOGA_PRO7),
+ 	SND_PCI_QUIRK(0x17aa, 0x38fd, "ThinkBook plus Gen5 Hybrid", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
+ 	SND_PCI_QUIRK(0x17aa, 0x390d, "Lenovo Yoga Pro 7 14ASP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+-- 
+2.43.0
+
 
