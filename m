@@ -1,115 +1,92 @@
-Received: from out203-205-221-191.mail.qq.com (out203-205-221-191.mail.qq.com [203.205.221.191])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57B53CF047;
-	Wed, 27 May 2026 12:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D66B34B1A5;
+	Wed, 27 May 2026 12:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779883844; cv=none; b=jMXdexjW0S0+RfYgLxchIqpx5Y+X35JYAblH0y0AmLH0XRgC1Xr5y+6vD+A8c4yd8ySNauikotur0dNoZLZ4e6J7ZDUPLVt6LbOWqanf1yfMe0S5yaWeQ4TRQGwXL9coQ8rKj7UQVqV//Q8dpV+7w+fHOvm8M+LZPJyRef/mNkg=
+	t=1779884115; cv=none; b=sjUKzvRCnSqRnedojHNXhBT6LmKiOR3oxZDn3O3HfhccOhp1wxn0RqNN8Y6fdKQoQ252WWMAFkwRlAB1d0TZ/AGRIhln4TBhW5ameNbkP7TrI1swzfbfkOBvMpIMjV52VFTuWVo2Acnm0RBzhOc09V/betCiBE1Jk7Yf0hl3BPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779883844; c=relaxed/simple;
-	bh=DsyrqwH9z1wPy+iyN1XvW8sHgzFQ0mb94h3X51fopYM=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=cV6hkzOE7+pb+9AwwwR0QSRSO+YaWv6Ra45zsucBdeUP5iK5Pnn88JMGOv2tI5/d/gvHn21O1/nOS++fwi2YMAX/15ImQBZxYmSidV6Jnqou4ZPXYHjaZZKFPaFOqUDkWI9UQXTRqx7QnmSnk1Y0fwbke24bWd/7Kpha1nzXKPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=jIeCI3rb; arc=none smtp.client-ip=203.205.221.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	s=arc-20240116; t=1779884115; c=relaxed/simple;
+	bh=GEJQ74VP+zDsUk4K7l8UoIfmlmd7AsGJBB8X3r9TPUM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=SeAtR82A3dMgskoI4uNj7e/SaJgsBK92fhccIh1ykm0NIl11eeu6dMvszsOibM72RzBbh6dzj9+MSubtlYDdNfh/hOiMnpo5G5fxWA1W+oP+7PCyvDrgqB8TFzbeNBiI1pEBg5uPhEx2HqIopMTecTKKE7nnVAp2sa1oY7rL6fU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R16+bl7p; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="jIeCI3rb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1779883835;
-	bh=SdQzQQXDOvVTvDu89953WL14dsKKHE8EvVQ4hgHnk0I=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jIeCI3rb0nNYuSKqe6pyOCJTzicFAcGx6h9pVxI1NpP6tLZ7taL16hnlstpC2pS8v
-	 3YMkDODhrUpzn3Dp1RdZaGyri+rGvZPgLMIIVpgcHhxqKYcYsUMEtY45/UPMM5mMc6
-	 5CLDHqEsUqH3JIFckVXc7hwSGx/CxEf8qtoH1ZnQ=
-Received: from localhost.localdomain ([116.128.244.169])
-	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
-	id 2518B808; Wed, 27 May 2026 20:09:17 +0800
-X-QQ-mid: xmsmtpt1779883766th4pdboyc
-Message-ID: <tencent_964433DCD132125D5EDA79EE068A2D6EFA09@qq.com>
-X-QQ-XMAILINFO: MzFuFcyvqEECV4J1NXDv+jT8AE60QFYYhsT+4rm6MBOncxR8h5yNqWtgngiWTd
-	 frDhs29siCFgz0MQos4WhBKPWOq8VdG1VMKiDtCtgFquP0zm8PcAsgTeTaGBUzV1TI48uQI5Jgo3
-	 cC/cMIdNQ7daCHElve0Uw+YvRHSvkG26bgBA18o3EUJupMFzYBmkmTzG1dhrRd4icNXapOt75rUe
-	 YPaobwQnuCj7dmHeAEf5Pix9q9sD3nhbwXuzbJbVJawg70itGEHbSTj/YEZ0VO4yCV6AKgYK9hbM
-	 ki/mmfs2vtzTrOEevfIHXsipnDYySlSWFd2wRap3LxBYybXfjDoHz9QsZN02KwuokDd7jbIsntFn
-	 Gp95vwXvLuzL4RFQiJoQwhSA5hjQ1rgVrlqJn9tTfiAUiWlvtwqocyK0GoyuLL+qw6bLKb+xc1ja
-	 Rclx+/99vkSBD3uS92Pcnh0QsrOB3eY7VFMCqIz81rCEgoFyUJdo+wk3NM0wCt9wTtLXa+GeI7sJ
-	 skNAm1xc1Q20GL3+Gjhe788ksc2d19lEugGnvcWLZ86kGSj6P3tWFwnP5ZyArpL/Zagr+Khb3ntn
-	 XOYrldNVyEH7SxgZ0rpTAZMrhpURYglPQkfYP3bsUcYXNY4ptLLVWTeAoL7FQ7W33HZHI+WeIxO/
-	 iJzYMnsegr7eFzluARB6V8b5ogzrrHClMXHqxayo3R9VHGLVl6jTVZLS0ctX3eQaba5AJ8X9nCur
-	 CGYdB4lvUyDsVdR9wdXETBk7yXsqg9hZZGfExnNzOzg42psqYVYbz3xdd5SYkM5xdmOQ9nG4id4U
-	 z/jJvC7howpnebSDhsNEVYWRQffJhLIvCOvQKNoqWq3HJIrsu9o5tI8CvHGS+kyNB+7vndIP2dyx
-	 LkowQdeJaLYGqnG7kFpp6PaWbM/tFnSOsqefFP8XP68b5K9BkP5Uy7AaaMbvQ6cMpTEg3DdvRb7P
-	 eyJ8ZsrwCL6DogD2hJC0dDzu0WHfminz35xuBNSA1FsHWaNWIcFXOJYfmgar2yhXijhBGHQn2Dd1
-	 ysoTuNsemTsWo/2vIHDkYDTG+10/0UnrzRA0/VEoWrCh9GI6buEVsv/6rnDIGA322CPa/+TFSLai
-	 ssofszJkpHJ+zH7e+vvCzYweigVUV0p39x2N273bx2Y2x5E2s=
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-From: Zhao Dongdong <winter91@foxmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	Zhao Dongdong <zhaodongdong@kylinos.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH v3 5/6] ALSA: cmipci: check snd_ctl_new1() return value
-Date: Wed, 27 May 2026 20:09:13 +0800
-X-OQ-MSGID: <20260527120914.515037-6-winter91@foxmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260527120914.515037-1-winter91@foxmail.com>
-References: <20260527120914.515037-1-winter91@foxmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R16+bl7p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D2471F000E9;
+	Wed, 27 May 2026 12:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779884113;
+	bh=vA1rZLkXAAX0deJgLbaiD7Ggpc9NMMGcRExXvihSAhY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=R16+bl7pxvaUtXS6kBTKrtg1x7C4+06iji7wWiXYOQNX2KFsl5EGCz4rTSjCswlGI
+	 iQZ+1xIVT0du9EO6mmReIUWw+aEBXeMAZfZgRjzmZfz/kG00Qw5XHy4ui4Xsj3c6kc
+	 stEjZjzQJQdvYCUWBKFkzlbre4wamN/qFoDkemJFHn25RivVgBVqC2T8eWxgVv2yQW
+	 fDxVU4HFWAhfsIZIxv/gvijH2BNZNuG28Zx+QIdcE1+/Si6lRStQDkr5NloCuXurVY
+	 KZuAvxyBqi36fha73rLI5RQ5Z+v+UtyBUTSnsu2QRtSzuz5f1SXaJJokYHVH/83fq5
+	 tt/DDYcz2dHug==
+From: Mark Brown <broonie@kernel.org>
+To: linux-sound@vger.kernel.org, Rosen Penev <rosenp@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org
+In-Reply-To: <20260519010413.629214-1-rosenp@gmail.com>
+References: <20260519010413.629214-1-rosenp@gmail.com>
+Subject: Re: [PATCH] ASoC: mediatek: mt2701: allocate i2s_path with priv
+Message-Id: <177987681143.868420.277392491342387583.b4-ty@b4>
+Date: Wed, 27 May 2026 11:13:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1119; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=GEJQ74VP+zDsUk4K7l8UoIfmlmd7AsGJBB8X3r9TPUM=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqFuBPQmpnL9F7Di0mzPQARB0JONWViTPk/pM10
+ T9kunVwRbuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahbgTwAKCRAk1otyXVSH
+ 0I3gB/sEVdabjNdhlOJyFPr0tlVBlRrpxxtpUlK8B7sUt0VoRA+3jXqFSJFNT62IwLG1MCUXcCP
+ +YALgMzSqE7lwLe5OeWp6OZzxtcuLumzl5d3uoMmfsDy9voNWkyVq/L+1AOivbUFgNQwZSJTD72
+ eDo+ZhkIi+UWIfnu4xAJhDKarQwtKRPVTSX5h4Kwwq7ptS66MtJx9iHZqbprTKVa+QvjkcRtinN
+ Oygk4gRPqPNvGn+4RibqXpRTQZDIaY2RZ9tporOkIk3+YR2yqitLI46/BtKeAZLrILpcUtAYVaT
+ rz3EWsamwXn2+ORk7JHfaAid09NuLVdkOVoWocujBWAJArxN
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-From: Zhao Dongdong <zhaodongdong@kylinos.cn>
+On Mon, 18 May 2026 18:04:13 -0700, Rosen Penev wrote:
+> ASoC: mediatek: mt2701: allocate i2s_path with priv
 
-snd_ctl_new1() can return NULL when memory allocation fails.
-snd_cmipci_spdif_controls() does not check the return value before
-dereferencing kctl->id.device, which can lead to a NULL pointer
-dereference.
+Applied to
 
-Add NULL checks after snd_ctl_new1() calls and return -ENOMEM if any
-fails.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
-Assisted-by: Opencode:DeepSeek-V4-Flash
-Cc: stable@vger.kernel.org
-Fixes: f2f312ad88c6 ("ALSA: cmipci: Fix kctl->id initialization")
-Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
----
- sound/pci/cmipci.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Thanks!
 
-diff --git a/sound/pci/cmipci.c b/sound/pci/cmipci.c
-index cd73b6833639..ff4bfbf94b81 100644
---- a/sound/pci/cmipci.c
-+++ b/sound/pci/cmipci.c
-@@ -2637,16 +2637,22 @@ static int snd_cmipci_mixer_new(struct cmipci *cm, int pcm_spdif_device)
- 		}
- 		if (cm->can_ac3_hw) {
- 			kctl = snd_ctl_new1(&snd_cmipci_spdif_default, cm);
-+			if (!kctl)
-+				return -ENOMEM;
- 			kctl->id.device = pcm_spdif_device;
- 			err = snd_ctl_add(card, kctl);
- 			if (err < 0)
- 				return err;
- 			kctl = snd_ctl_new1(&snd_cmipci_spdif_mask, cm);
-+			if (!kctl)
-+				return -ENOMEM;
- 			kctl->id.device = pcm_spdif_device;
- 			err = snd_ctl_add(card, kctl);
- 			if (err < 0)
- 				return err;
- 			kctl = snd_ctl_new1(&snd_cmipci_spdif_stream, cm);
-+			if (!kctl)
-+				return -ENOMEM;
- 			kctl->id.device = pcm_spdif_device;
- 			err = snd_ctl_add(card, kctl);
- 			if (err < 0)
--- 
-2.25.1
+[1/1] ASoC: mediatek: mt2701: allocate i2s_path with priv
+      https://git.kernel.org/broonie/sound/c/344a4c96b292
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
