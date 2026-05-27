@@ -1,59 +1,59 @@
-Received: from out203-205-221-240.mail.qq.com (out203-205-221-240.mail.qq.com [203.205.221.240])
+Received: from out203-205-221-209.mail.qq.com (out203-205-221-209.mail.qq.com [203.205.221.209])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A39D3FF889;
-	Wed, 27 May 2026 11:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.240
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0347400E1A;
+	Wed, 27 May 2026 11:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.209
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779882530; cv=none; b=Zv1fPWtUIQ+5f6jig0zi+eg4JHmulGpuAoe6l3UVs/vatWHJdX+DBx3o4dNCgTMwfiFSm21SPtVCKMaym9o/Fu8GZzZvAJL11KTO9VMBWWTp5IkGQ0Ry+2LiTW1i6CEch8EHVQGD6z8kmOtYZlb6neb7u6ArhuqDVSP4AATlK0c=
+	t=1779882532; cv=none; b=GR3ZzCKacQTNPaWSVAJ+8zXk4Wb8iEOKX3dmr/IABgaV/am81ILi3j244Df39yLxODcHas2EU6YAue2NYlq73BTwUahfmVvAISh3WBNuXXzDUc5HS4BhZ84UbYkVN4Hkr/qPDUDyGHXDvHrR1Z6fiGZThwlQj0d/8y5OMav0vZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779882530; c=relaxed/simple;
-	bh=ntejZ8F2g+1h9d0gwDnkRm7MnzDDRK0VZ4p55Q40HXM=;
+	s=arc-20240116; t=1779882532; c=relaxed/simple;
+	bh=ebG19CGD8i38el6n6iJfCqzhkMyZzhHECSzFbqUlvD4=;
 	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=XxnjPBynq8kOsD7NFzqve6yTibDMc8C/LufC/3hJKBzzH3x+OpeHHTuSA1xBvQetw/8fBfBJ5MpdiEZJus6et0GBN77QNikLe6IGVxmPah3TUnS0+E4ibcKv1u9QpP5tuhLM+nQOm43a1kpwD0Jfsq/FD4DRiomro7T9kfW3mHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=SnONaVxY; arc=none smtp.client-ip=203.205.221.240
+	 MIME-Version; b=UHZZ++y3tmEFamiJxbXuU7Yb+ySGUEgOfOMBcctbqnqzO51H+cdM6HX9oNvPv5Rfkha0tjI78vMG7t3fv/LM9D0eHon/QG38MFk6idHp0WbWDrr+ix330TO3x5RdgSYQOe58pzXxI3sP4ZSdBO5/tgKV3y6sglOxRqOsGe2VkAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=kEKyjb5k; arc=none smtp.client-ip=203.205.221.209
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="SnONaVxY"
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="kEKyjb5k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1779882526;
-	bh=o+fF+CauGdRVwmpcniZzu/zZ4kvK8ZGLidripJ2JjkU=;
+	s=s201512; t=1779882529;
+	bh=jqSwK01aO8TmHZ7e+144rbX8qp9l8LQ+R9htw/wEdxM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=SnONaVxYaDby/nyMxCrvDzqht5/eFIXxuNy6OstWYzJEdL/znt1SZJc62NxVUnkq1
-	 djUGmEc2hM2l6LN6+dt1I+rg+QJIuMmYnkZWvDz5L+/63PJPqTm1MPnh6qGqCj5Qm7
-	 RPgBa3DDMOcvRuGzAAhGjpz5AyJUjPtlfW3w6GwQ=
+	b=kEKyjb5k8TDrX34YNXfV1L8h1WqWoRadK1J4SMKmtKFM3x4vTIUwoV3zJa617xJMy
+	 pBmtabpMShX5JD3Bj11cidPzLzzwrOX/NSLOLvpho/hwSRaJ1AIkl18J13wyQKCOj8
+	 wPDh3/G0oFAiNkkjlOOomafHPULOKmKinFxWua/c=
 Received: from localhost.localdomain ([116.128.244.169])
 	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
 	id C15A3CA3; Wed, 27 May 2026 19:48:21 +0800
-X-QQ-mid: xmsmtpt1779882523t6x0d9677
-Message-ID: <tencent_71E1C5E737E2A270EE4719712E6CED657708@qq.com>
-X-QQ-XMAILINFO: N/WmRbclY25GScwGGuFXysoHbWBwE5E7zDu5aB8oH5dRfR+zcxzijOrafkL8wY
-	 KKsuBx+iciEMPY25nH2OBaShs4HxxqEcwAupm6d654Mcmr2bX999N+GpbpeaFPqrWRaW3lSx3vI+
-	 vxmPyYvpiwGDh/ps8+EQG76UPwK/eR1Tnv8CGacmVltjcBQxbGe6Frx97/E2icbdGoZSAQyGX9U6
-	 gL5uJsTT3nfV4F+XvK+kn4cERd8egKnWQlzxVCILUswrIiYg55zSlUWawy4YNL9pvXtbVy442oaN
-	 XbGYj+Mgt5mNzqfaOu01TKLCo+MOIgMf779JiLTzk5I66nJvkABURV6pPrgszSqrk0Fbi8OYMISY
-	 iLwYf1zEHn5iHSxQp7FGDb38OFmVomeAfK6S96mV6rI3aGgphfyx14b/SBzjZacQGhkSJE/UZDMq
-	 6KjQE4Rh0dcacHzJ1nAM5+jiuKtvRySb3NfKLl2GQ12I4lfWzo9QBBH7f/cevWg0Q+vViSLPz8MJ
-	 Ct1NTXFdm+bUwD/FaIOX5crtf/7EK3+pzIngLsvXJtiardGKE5Cq7ZlMCyLx1ZHxafUqh6sUcYau
-	 /DncVdnz/q0NnaUroEKH4wgW8Pnff6AAz575eTjsDDipF43jmMjB3tAQgrU6DwOs11A75UxQrgeA
-	 PuIwJahPJGVSAJMeRu6rE+oF6SsneEC3Sdt/fW/RQtLmQKlUX56cc+MXaiIlLk6BXYlV+Aw6bGth
-	 xqgtT2J76QVLJcGAmO5hs3qybNsRgSrCHxEptqVS/OZIchOTAR5b/mIkx+sxvdCkZhBT2AQ3dxoT
-	 KX1vXaXbmpijU9H/qNtnyPxkCsCn+TsVUWf1ddu4JYgqbX8HwECJQPJCcG43oGmOtPyGABGGQQBm
-	 UYFga6nnARhZ3PQyX/relQVhp2mgQyBP/iJCIkrVnosxQCCLafKeIM4R2+xyr+5Con4yh3+udUIj
-	 0IXvnq15AX33+7GpEkXDp0Bfj2SsceFCoaZ9DOzmWe3vyp8f9oQYjn40X6h7fvrhwdPkw6Wwidws
-	 hWVdzvSbX8/OFgMThPED86vurUmPq6jzewEtpd/3VDo2u+s++Rr2xZax00pT7tZBKnlG06nMPlfc
-	 zjjnK4
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+X-QQ-mid: xmsmtpt1779882526tklv72pld
+Message-ID: <tencent_6688A8957B7286948B48BBF5DD4A71DA8D06@qq.com>
+X-QQ-XMAILINFO: MRMtjO3A6C9X0aVGPG4vgGPYLrmd2Ptq6+vwk0dYzpu3njS3kGE+qdxmmTmD1Q
+	 WwlNHdY8yd/FFjkuJj+WXpk80mChNdVwOMn11OBMwFNPoLEQVZHZJx8hU57u5EiPItQ2Idxaftb5
+	 zLe9sXiRWyBjzd/xjI+tOuv72J9vODB3op3REY06p2IksINLPVXnzlxf5H53MsM/AH9qFEPZtM/1
+	 3Gm98Q63eye5/5aVwmy/2I2rreNUOTszCvSivO+LlTlytE4TX3ZbMLKSsPHX7T6s+qzv1ZVwVTaI
+	 MiygXbFCcZ0V6eYx74YcpJc1CIuqjLbXIUeprILLBJ3mTQiJF9p5ffHl+vOZDmj2iJ4VOUIDsTpA
+	 fvEPfqVCy+3uxWHWRF7F+58KU/UNMChZlkfYNPmgMnmw0hkfo3Dr/X/AbSp7gvLC+sTblJ/wu23N
+	 GWWG3NucSkp9RqCeGA/1ou+pePURtWSBnH3oGTcANwlEUZhaW7FPI+88wXGayDfXW4PtS49lwRR+
+	 Kfq1SNn4XnaiS9KOfW7zrbAEoranwvyGz9OB6/lxErNCu+CeOvXrEn/593aFm+JgwUBqDcVREkv4
+	 kzGiKOZcpi3VCWQiswGQYivmvapW8eB7E2lVhcPgaG0Gw+WpmMQVjM+pfiJvR0oL+uYGmZ1DMBCo
+	 teP1oM9uUZWMgLcpjMWBb10/m9o0pqHt+nGyT0azZYRLW6bBwYtOgqroDj693OAmZMMZMovwmUb9
+	 k/ZW7g0WLdOMaFFGH5IYqAWAjIbjXoWC35DLA5zAsAZXvW9xtA6ezKSOYDxXqI2iyebWd7y9uGSe
+	 yu5TQaohei+EaHqKcQ2MDT1J0OHLwCqW+PLH+fr9m4RD0KlTGoMpAWEJ+2iJ8PVQHwv40zc8lrPM
+	 3MczpwPCGNxc0wU1fK/pAfre3bCbzMonA2xRuBwRXn7x6BNT3JZHi1eIeOCxBd/De4XxM1XDGr72
+	 mPAPSVYbQILEVWF9XoC0ngcwL4HkPrWAJzGjydRAyTWfLK5zCRX+d1LutP9dKROt7GfwfBRrxW7G
+	 ckd0SJFBWraIUa1MR8uCAHVakyemZxUgvy7BaIh61JnlBg0y2k7pTuNpRsUgR2AzYQWWrxYsAQmi
+	 2+ml4m2OARDjWmHy8z+ZznElRT9A==
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
 From: Zhao Dongdong <winter91@foxmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com
 Cc: linux-sound@vger.kernel.org,
 	Zhao Dongdong <zhaodongdong@kylinos.cn>,
 	stable@vger.kernel.org
-Subject: [PATCH v2 4/6] ALSA: ymfpci: check snd_ctl_new1() return value
-Date: Wed, 27 May 2026 19:48:17 +0800
-X-OQ-MSGID: <20260527114819.498119-5-winter91@foxmail.com>
+Subject: [PATCH v2 6/6] ALSA: aoa: check snd_ctl_new1() return value
+Date: Wed, 27 May 2026 19:48:19 +0800
+X-OQ-MSGID: <20260527114819.498119-7-winter91@foxmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260527114819.498119-1-winter91@foxmail.com>
 References: <20260527114819.498119-1-winter91@foxmail.com>
@@ -67,49 +67,52 @@ Content-Transfer-Encoding: 8bit
 
 From: Zhao Dongdong <zhaodongdong@kylinos.cn>
 
-snd_ctl_new1() can return NULL when memory allocation fails.
-snd_ymfpci_create_spdif_controls() does not check the return value
-before dereferencing kctl->id.device, which can lead to a NULL pointer
-dereference.
+snd_ctl_new1() can return NULL when memory allocation fails. In
+layout.c, the function does not check the return value before
+dereferencing ctl->id.name or passing to aoa_snd_ctl_add(), which can
+lead to a NULL pointer dereference.
 
-Add NULL checks after snd_ctl_new1() calls and return -ENOMEM if any
+Add NULL checks after snd_ctl_new1() calls and return early if any
 fails.
 
 Assisted-by: Opencode:DeepSeek-V4-Flash
 Cc: stable@vger.kernel.org
-Fixes: c9b83ae4a160 ("ALSA: ymfpci: Fix kctl->id initialization")
+Fixes: f3d9478b2ce4 ("[ALSA] snd-aoa: add snd-aoa")
 Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
 ---
- sound/pci/ymfpci/ymfpci_main.c | 6 ++++++
+ sound/aoa/fabrics/layout.c | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/sound/pci/ymfpci/ymfpci_main.c b/sound/pci/ymfpci/ymfpci_main.c
-index b9a09568afc9..2ccb976e68e0 100644
---- a/sound/pci/ymfpci/ymfpci_main.c
-+++ b/sound/pci/ymfpci/ymfpci_main.c
-@@ -1781,16 +1781,22 @@ int snd_ymfpci_mixer(struct snd_ymfpci *chip, int rear_switch)
- 	if (snd_BUG_ON(!chip->pcm_spdif))
- 		return -ENXIO;
- 	kctl = snd_ctl_new1(&snd_ymfpci_spdif_default, chip);
-+	if (!kctl)
-+		return -ENOMEM;
- 	kctl->id.device = chip->pcm_spdif->device;
- 	err = snd_ctl_add(chip->card, kctl);
- 	if (err < 0)
- 		return err;
- 	kctl = snd_ctl_new1(&snd_ymfpci_spdif_mask, chip);
-+	if (!kctl)
-+		return -ENOMEM;
- 	kctl->id.device = chip->pcm_spdif->device;
- 	err = snd_ctl_add(chip->card, kctl);
- 	if (err < 0)
- 		return err;
- 	kctl = snd_ctl_new1(&snd_ymfpci_spdif_stream, chip);
-+	if (!kctl)
-+		return -ENOMEM;
- 	kctl->id.device = chip->pcm_spdif->device;
- 	err = snd_ctl_add(chip->card, kctl);
- 	if (err < 0)
+diff --git a/sound/aoa/fabrics/layout.c b/sound/aoa/fabrics/layout.c
+index c3ebb6de4789..7bb541577a26 100644
+--- a/sound/aoa/fabrics/layout.c
++++ b/sound/aoa/fabrics/layout.c
+@@ -948,6 +948,8 @@ static void layout_attached_codec(struct aoa_codec *codec)
+ 			if (lineout == 1)
+ 				ldev->gpio.methods->set_lineout(codec->gpio, 1);
+ 			ctl = snd_ctl_new1(&lineout_ctl, codec->gpio);
++			if (!ctl)
++				return;
+ 			if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
+ 				strscpy(ctl->id.name, "Headphone Switch");
+ 			ldev->lineout_ctrl = ctl;
+@@ -961,12 +963,16 @@ static void layout_attached_codec(struct aoa_codec *codec)
+ 			if (ldev->have_lineout_detect) {
+ 				ctl = snd_ctl_new1(&lineout_detect_choice,
+ 						   ldev);
++				if (!ctl)
++					return;
+ 				if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
+ 					strscpy(ctl->id.name,
+ 						"Headphone Detect Autoswitch");
+ 				aoa_snd_ctl_add(ctl);
+ 				ctl = snd_ctl_new1(&lineout_detected,
+ 						   ldev);
++				if (!ctl)
++					return;
+ 				if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
+ 					strscpy(ctl->id.name,
+ 						"Headphone Detected");
 -- 
 2.25.1
 
