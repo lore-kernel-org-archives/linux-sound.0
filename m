@@ -1,107 +1,224 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292623D1AB5;
-	Wed, 27 May 2026 15:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9FC3D9DB2
+	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 15:43:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779896174; cv=none; b=j9XX/fvTI0gX1PzuGDBXPmh7aV0ahfxW0UB6Mmgl6NM+ksAqcrbY6xZA0lQ8hUt7V8BYnrRjJmXITegYBSbA8hCOdKYoPbLtSpbIDU0Qi4sQC3JV3TFyITH7K8ERl8ONDwgRhJo5xueMEW/C6/mVVKZTG9Qgfbuy9mgMgcGQbPw=
+	t=1779896595; cv=none; b=iyQmIBscIDnCj0rtCFmi3J3n6xjZDGWu+ti8NDc5UqEPgC0g+p8CtCOnBHgxBtPmkxiA+sk4u5yUMvVTMW5mLnI/PIgUuSgQ4dwN7qEP4yR9OehnrHw41EOBldovB/UiQAFiQ7O55y/m9tPet36JERY4OjQCrfvBnMhM1iSRbjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779896174; c=relaxed/simple;
-	bh=Ovp+K4FnIuO8i9CGXqYhA/YWXaEutFtXl4uEiD4jDVo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Ue8iK9Zzh52GhsOl0J+eHlvIY2lY4jPck17H65GG6vVxTgNlwbFpLaYJV6GWjWvMT8lAelD99yPrz4XEQiv+ernDbcJeq4NWxxCZI1KUPoDF7gSdldJEOXlScvKPqsFZvCx8nWegkd61b+G7dqhkrm+01dvEqOGVEknnZneW878=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CO7NzX0a; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779896595; c=relaxed/simple;
+	bh=zxufOePm3m/cQ1BwD/YssYqOfmlKAwWXvB70GTTrgYs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jcNB7nvmbku2hVDtnqZnMU+M+J+xbb894rtm7uA8CHR00s9vOHWoqwyxIdSAC26GmEDrvfIXVWlmao3ufeMT3FjTrYNZ0ru/7g+Qb9YoaFNmQS8rmMD4FTdJSQE7VjG8nlf/xgAh9rDFHM4ekg1YQ2dDvIEvj0ZMtgv0CH5mvI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=CqqXXxIq; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CO7NzX0a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 142B81F000E9;
-	Wed, 27 May 2026 15:36:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779896172;
-	bh=tyMTaumHRjBinJdhP3tD87rZtnu90BQDmn//aI/sKmo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=CO7NzX0aE0E+SHj+82S+F/U8cAQzuwA8hkUPUNhJLQ2phlY3RB4OcpfkpOC+dW4us
-	 qjbQuYT4T45deTaGv3FFA8SHPEUNFhx94kaWnwwyDuaie2bUyyAN0N5GPX9GmjjbT8
-	 yx2NyadlN03P0nR703Zi77z6eXdY9EVjHiC85zMb1twHn3rLnsS+bt/vbWFG2XZ5J/
-	 7fNu4YopxFJ1v2ZqzTS3CpuuX1QzQ6zn1hKuaz5vYmfBQaCyMiCiE685vOoS+B+oKi
-	 t8mW6mahwlddIi1E01MbB0ycvEVyQW350njEZzE+LYQZHRbCx9c6rKFsuimdasqz1e
-	 VM+dsl4Rrhleg==
-From: Lee Jones <lee@kernel.org>
-To: Lee Jones <lee@kernel.org>, 
- Mark Brown <broonie@opensource.wolfsonmicro.com>, 
- Thierry Reding <thierry.reding@avionic-design.de>, 
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Srinivas Kandagatla <srini@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
- Saravana Kannan <saravanak@kernel.org>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
- Andi Shyti <andi.shyti@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Matthew Brost <matthew.brost@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
- Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hansg@kernel.org>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
- iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
- linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
- stable@vger.kernel.org
-In-Reply-To: <20260521-pdev-fwnode-ref-v1-1-88c324a1b8d2@oss.qualcomm.com>
-References: <20260521-pdev-fwnode-ref-v1-1-88c324a1b8d2@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH 01/23] mfd: tps6586x: fix OF node refcount
-Message-Id: <177989616081.737612.15563215651036638106.b4-ty@b4>
-Date: Wed, 27 May 2026 16:36:00 +0100
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="CqqXXxIq"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-459bf19e87bso7144078f8f.1
+        for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 08:43:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1779896592; x=1780501392; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OCLmj3BbnBpGyiyDXMBpXkRGxE8TpMpj8vapNuYlif4=;
+        b=CqqXXxIqWKwLVSxTuGT/ihkckvXDmh/iRW+u8Rek0vMhWlySC+8xoY1KYzc2y5a8rK
+         JHrIBpI6hi5YOF6GLuv9wWt6QUJMI3k0fOULpdwRmnpYvuKx8GqGsPi2HSF6vYVr2lgH
+         K5RcFQcUbtnftkeKeexN4xzF9H2Km5Thj/FT9rNkSFi8/YVqkBvTo+7+CiD1ZX/nPmCB
+         FPSPKY478F5eEKxgvpon7bxHtUDWDRNnhGb3fBn303UNUlSPXmu+WmDviRmIwM3S+mvj
+         cgph/FrnqlkZbYtGL/NAs5kna2vMVeL1WXjnIA6+96aFg93OZiEdiMvgUnIUfQKvgRPo
+         NV+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779896592; x=1780501392;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=OCLmj3BbnBpGyiyDXMBpXkRGxE8TpMpj8vapNuYlif4=;
+        b=pUE3tbOlVj7Anxum3FL2yuZncwRbVOphBWtlpRVS0hWJhIycOcIFBSADUvIlic4MWP
+         /Ubf2tobJ5MUxlY1KcPW4w+vK+DsLvrIgKHNMIlwoeoU4nPq/9N/2EC9KEGqRL7XfL+K
+         cXjxKDqyeNusmbt0Ur3vDcRLb64+tu8QADPiObfEYrZSR9ACXKvvIH2agfu8D4onweiS
+         qbNkTqv/3A4xpo+JIk2Ddk5SxXgP5Mr17u3ImkZAJp2p0Pb42msuBvw+3LhgeKG6lxK8
+         1fWRZ7DDew/OmhABuTORi4PGIQXdAvi4Lff/O0RS/9HrNpcEkGkhpRTCzN0LZJBfsIg+
+         2+0Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8mYQjKZqpmKaFH99GmuyHrEOY8bsEOIjJH9lcG8u5IQfWXYpqZHK/MyKLOMfNFXxp/S6jhk7yuFOfbHw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEUY2kOiMBlhJCZiQU0XGwlfA77Bgfyg2UZXSFQBRQcTP+9UCW
+	SMvk1eMlsYyBjH3AcuqzQl8rscBaC0/nK15KO7tCmNWfICtFl1w6UCyDhbNnFgsU3ow=
+X-Gm-Gg: Acq92OH54pGGCL2IPwV71Rlx2oMkYuh+WILTRoy4r9jll6574nwQdv4jISwHZoEb8Rm
+	lJuMYhkAtVbvLPR/AbYoWapgrWqoN6C89wn+QDkkePVxB7lxUaCKLVMUVCB9FhGtAf8wJC8RlzM
+	sgo0etc7tMvNmQTihT+Bd1tESLcqWhVmOACjsRHuh1xGkvNV4w+iY3WriqD64QmZMCCRK3CiMby
+	1Kz536nSe4f7awBV2fPqFq6L+kgCrHEZp5V2qJsBuY7nq7+2e17jKnB91CIpxFs7qjUay/EOyh1
+	UNsdxWgFY1zAPLkZVHdXEmAcN0DZWSBKlmCCqjp3IbDuhX6qBG0+oJaJeyiC6Pfk21mn1D50Lf4
+	c1WBpVQe7uqkr3mPTScRr9CcSYRrcBFTdHPXQ5fJJuiS6CGezgFnJ//yDE/0zM+QVnIz8GE0vhT
+	2RNLisVQUXnGiQNgZvDbdoHAX7NsWkH2Rpi+zLLG0M+tYhzoBCmt8Vnelf+Z00iULCloxZTQ70j
+	gyjP08a9tA1aF8=
+X-Received: by 2002:a05:600c:6207:b0:490:538a:9c0b with SMTP id 5b1f17b1804b1-4907dae371fmr87011865e9.2.1779896591782;
+        Wed, 27 May 2026 08:43:11 -0700 (PDT)
+Received: from localhost (p200300f65f47db042b54ed4dbf2ca0b5.dip0.t-ipconnect.de. [2003:f6:5f47:db04:2b54:ed4d:bf2c:a0b5])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-490454ac6a6sm416474495e9.12.2026.05.27.08.43.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 08:43:11 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v1 1/2] pinctrl: Use named initializers for platform_device_id arrays
+Date: Wed, 27 May 2026 17:43:00 +0200
+Message-ID:  <fbe2d29f785798b3e0b7c1b5707e917035a0b442.1779896151.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1779896151.git.u.kleine-koenig@baylibre.com>
+References: <cover.1779896151.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5807; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=zxufOePm3m/cQ1BwD/YssYqOfmlKAwWXvB70GTTrgYs=; b=owGbwMvMwMXY3/A7olbonx/jabUkhixxQfaSLSfuKi1yjX10d+9BCe/OIwcscrl2G7mExPM5a VqqmnJ0MhqzMDByMciKKbLYN67JtKqSi+xc++8yzCBWJpApDFycAjCR24fZ/xdtXOD3eG/t4jcM 22W1NI7JKT0vfv9OUteufWnNm55oHovVx+bINetsqzF/83j19Zg83rt2h1LfV62L0tjz+DJbeHT b9elRa+JFn2Q3rL/DmvK68YNFr5II22EL/TKRw6H/fvq2sv1/xRcZbreXT8tr+RG2lcGmNkUctl eebf8bf3pRa50kd1IHS2Msc91WloehiyzkU+bN6ZAOb+It9MypbSpTSVQ67/Kb0zpPU8hoft/3s +faXxl6aPKXL9ix5XcV/8mI0qjZRVcvPos7t6rk+662vTevfphZupRbo0cxVWy5/v6fsU3PF3c7 BtSLnzkmnzqVmz9Ay/vgrsJPfvy17+vsV/XEzdxabnEUAA==
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.16-dev-ad80c
 
-On Thu, 21 May 2026 10:36:24 +0200, Bartosz Golaszewski wrote:
-> Platform devices created with platform_device_alloc() call
-> platform_device_release() when the last reference to the device's
-> kobject is dropped. This function calls of_node_put() unconditionally.
-> This works fine for devices created with platform_device_register_full()
-> but users of the split approach (platform_device_alloc() +
-> platform_device_add()) must bump the reference of the of_node they
-> assign manually. Add the missing call to of_node_get().
-> 
-> [...]
+Named initializers are better readable and more robust to changes of the
+struct definition. This robustness is relevant for a planned change to
+struct platform_device_id replacing .driver_data by an anonymous unit.
 
-Applied, thanks!
+While touching these arrays unify spacing and usage of commas.
 
-[01/23] mfd: tps6586x: fix OF node refcount
-        commit: 60a28e85ba5c0707b743857a3304107f2f9d0482
+Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+---
+ drivers/pinctrl/cirrus/pinctrl-cs42l43.c  |  4 ++--
+ drivers/pinctrl/intel/pinctrl-broxton.c   |  4 ++--
+ drivers/pinctrl/intel/pinctrl-denverton.c |  2 +-
+ drivers/pinctrl/pinctrl-tps6594.c         |  4 ++--
+ drivers/pinctrl/renesas/core.c            | 24 +++++++++++------------
+ 5 files changed, 19 insertions(+), 19 deletions(-)
 
---
-Lee Jones [李琼斯]
+diff --git a/drivers/pinctrl/cirrus/pinctrl-cs42l43.c b/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
+index 227c37c360e1..d9d3d1d3263d 100644
+--- a/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
++++ b/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
+@@ -604,8 +604,8 @@ static int cs42l43_pin_probe(struct platform_device *pdev)
+ }
+ 
+ static const struct platform_device_id cs42l43_pin_id_table[] = {
+-	{ "cs42l43-pinctrl", },
+-	{}
++	{ .name = "cs42l43-pinctrl" },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, cs42l43_pin_id_table);
+ 
+diff --git a/drivers/pinctrl/intel/pinctrl-broxton.c b/drivers/pinctrl/intel/pinctrl-broxton.c
+index 3d3c1706928a..a33100f28488 100644
+--- a/drivers/pinctrl/intel/pinctrl-broxton.c
++++ b/drivers/pinctrl/intel/pinctrl-broxton.c
+@@ -995,8 +995,8 @@ static const struct acpi_device_id bxt_pinctrl_acpi_match[] = {
+ MODULE_DEVICE_TABLE(acpi, bxt_pinctrl_acpi_match);
+ 
+ static const struct platform_device_id bxt_pinctrl_platform_ids[] = {
+-	{ "apollolake-pinctrl", (kernel_ulong_t)apl_pinctrl_soc_data },
+-	{ "broxton-pinctrl", (kernel_ulong_t)bxt_pinctrl_soc_data },
++	{ .name = "apollolake-pinctrl", .driver_data = (kernel_ulong_t)apl_pinctrl_soc_data },
++	{ .name = "broxton-pinctrl", .driver_data = (kernel_ulong_t)bxt_pinctrl_soc_data },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, bxt_pinctrl_platform_ids);
+diff --git a/drivers/pinctrl/intel/pinctrl-denverton.c b/drivers/pinctrl/intel/pinctrl-denverton.c
+index 4a1d346fb30c..09aee90dee82 100644
+--- a/drivers/pinctrl/intel/pinctrl-denverton.c
++++ b/drivers/pinctrl/intel/pinctrl-denverton.c
+@@ -250,7 +250,7 @@ static const struct acpi_device_id dnv_pinctrl_acpi_match[] = {
+ MODULE_DEVICE_TABLE(acpi, dnv_pinctrl_acpi_match);
+ 
+ static const struct platform_device_id dnv_pinctrl_platform_ids[] = {
+-	{ "denverton-pinctrl", (kernel_ulong_t)&dnv_soc_data },
++	{ .name = "denverton-pinctrl", .driver_data = (kernel_ulong_t)&dnv_soc_data },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, dnv_pinctrl_platform_ids);
+diff --git a/drivers/pinctrl/pinctrl-tps6594.c b/drivers/pinctrl/pinctrl-tps6594.c
+index 6726853110d1..55dfa843e35e 100644
+--- a/drivers/pinctrl/pinctrl-tps6594.c
++++ b/drivers/pinctrl/pinctrl-tps6594.c
+@@ -562,8 +562,8 @@ static int tps6594_pinctrl_probe(struct platform_device *pdev)
+ }
+ 
+ static const struct platform_device_id tps6594_pinctrl_id_table[] = {
+-	{ "tps6594-pinctrl", },
+-	{}
++	{ .name = "tps6594-pinctrl" },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(platform, tps6594_pinctrl_id_table);
+ 
+diff --git a/drivers/pinctrl/renesas/core.c b/drivers/pinctrl/renesas/core.c
+index 0840668638d9..a466ebf99593 100644
+--- a/drivers/pinctrl/renesas/core.c
++++ b/drivers/pinctrl/renesas/core.c
+@@ -1380,40 +1380,40 @@ static int sh_pfc_probe(struct platform_device *pdev)
+ 
+ static const struct platform_device_id sh_pfc_id_table[] = {
+ #ifdef CONFIG_PINCTRL_PFC_SH7203
+-	{ "pfc-sh7203", (kernel_ulong_t)&sh7203_pinmux_info },
++	{ .name = "pfc-sh7203", .driver_data = (kernel_ulong_t)&sh7203_pinmux_info },
+ #endif
+ #ifdef CONFIG_PINCTRL_PFC_SH7264
+-	{ "pfc-sh7264", (kernel_ulong_t)&sh7264_pinmux_info },
++	{ .name = "pfc-sh7264", .driver_data = (kernel_ulong_t)&sh7264_pinmux_info },
+ #endif
+ #ifdef CONFIG_PINCTRL_PFC_SH7269
+-	{ "pfc-sh7269", (kernel_ulong_t)&sh7269_pinmux_info },
++	{ .name = "pfc-sh7269", .driver_data = (kernel_ulong_t)&sh7269_pinmux_info },
+ #endif
+ #ifdef CONFIG_PINCTRL_PFC_SH7720
+-	{ "pfc-sh7720", (kernel_ulong_t)&sh7720_pinmux_info },
++	{ .name = "pfc-sh7720", .driver_data = (kernel_ulong_t)&sh7720_pinmux_info },
+ #endif
+ #ifdef CONFIG_PINCTRL_PFC_SH7722
+-	{ "pfc-sh7722", (kernel_ulong_t)&sh7722_pinmux_info },
++	{ .name = "pfc-sh7722", .driver_data = (kernel_ulong_t)&sh7722_pinmux_info },
+ #endif
+ #ifdef CONFIG_PINCTRL_PFC_SH7723
+-	{ "pfc-sh7723", (kernel_ulong_t)&sh7723_pinmux_info },
++	{ .name = "pfc-sh7723", .driver_data = (kernel_ulong_t)&sh7723_pinmux_info },
+ #endif
+ #ifdef CONFIG_PINCTRL_PFC_SH7724
+-	{ "pfc-sh7724", (kernel_ulong_t)&sh7724_pinmux_info },
++	{ .name = "pfc-sh7724", .driver_data = (kernel_ulong_t)&sh7724_pinmux_info },
+ #endif
+ #ifdef CONFIG_PINCTRL_PFC_SH7734
+-	{ "pfc-sh7734", (kernel_ulong_t)&sh7734_pinmux_info },
++	{ .name = "pfc-sh7734", .driver_data = (kernel_ulong_t)&sh7734_pinmux_info },
+ #endif
+ #ifdef CONFIG_PINCTRL_PFC_SH7757
+-	{ "pfc-sh7757", (kernel_ulong_t)&sh7757_pinmux_info },
++	{ .name = "pfc-sh7757", .driver_data = (kernel_ulong_t)&sh7757_pinmux_info },
+ #endif
+ #ifdef CONFIG_PINCTRL_PFC_SH7785
+-	{ "pfc-sh7785", (kernel_ulong_t)&sh7785_pinmux_info },
++	{ .name = "pfc-sh7785", .driver_data = (kernel_ulong_t)&sh7785_pinmux_info },
+ #endif
+ #ifdef CONFIG_PINCTRL_PFC_SH7786
+-	{ "pfc-sh7786", (kernel_ulong_t)&sh7786_pinmux_info },
++	{ .name = "pfc-sh7786", .driver_data = (kernel_ulong_t)&sh7786_pinmux_info },
+ #endif
+ #ifdef CONFIG_PINCTRL_PFC_SHX3
+-	{ "pfc-shx3", (kernel_ulong_t)&shx3_pinmux_info },
++	{ .name = "pfc-shx3", .driver_data = (kernel_ulong_t)&shx3_pinmux_info },
+ #endif
+ 	{ /* sentinel */ }
+ };
+-- 
+2.47.3
 
