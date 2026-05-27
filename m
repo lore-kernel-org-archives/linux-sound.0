@@ -1,266 +1,140 @@
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010035.outbound.protection.outlook.com [52.101.229.35])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB3733E358
-	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 06:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779863396; cv=none; b=pyTFOcOESLcgUJwr1dDEvWNq7DKK7Qn4+4oG3nzDoKJ/jxv/E3hgpB/LixrQv2+oEWwJ/XrfaJJgzNOcmHXSprP8tQVAnrLdmebHpEbCmy/2wlGuINGH3kbVqmYHqQs4ihQMPdjGjBxa0Fq9D3WKa51y23PwZOh5mqFLAJFeT9I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779863396; c=relaxed/simple;
-	bh=rzofBfo1GKzZPsVF1L9CG1k0p53/qJR94RGP8EWBfX4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KHOZ1UZQ/3hpn7e5w3wjURGSICkcJx8HkdrgwsKhMiT01gY+4qwwrfjVvp2d6Ac5ehVacUosrj3H5XFgDWldLnqyGBP9L3/tE6lMTa7kg9bP7oy1MTY+W9rRkkl+OVgPWu31oeaPipC39qg4niaL4auo1PTDdqQJj5NYq22stBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UInwuVg2; arc=none smtp.client-ip=209.85.210.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DEE53ACA6F;
+	Wed, 27 May 2026 06:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779864331; cv=fail; b=JTXqBWnAKmna+ryr/sbbfnet+2vVhcWrNtwE/gRF2bX3p1qZPVomcKZ0/H1Kw8ApYlJLWpW+YlpHN3V+PbITpPdMesCcpLl0scQBexPa/JWo6kgkI6fZZfaNc9WhieLyNwbTuA2yVMiQdT8FkxL9ZLUKCJrasE9/aKM180FNYcg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779864331; c=relaxed/simple;
+	bh=wJc+AgUdSoltVtd4qjdav1iK2tK4dCQLzfPeSmLxnuI=;
+	h=Message-ID:From:To:Subject:Content-Type:Date:MIME-Version; b=ToTtMRUrA3vFwNre4Ur/xGxzyOS5Uil+dUTHV+Ge7UlvxER8GTV1HW7lihxNpSaYHH7R7HEc0nnGSp6vic3QOLufZiRMWV6xIV4iPxw++LDemhtj/JbxkFsxBgw3URy1fLumGwAKkdXJ04gdCh6ZvUImdz7CcOUToQmVcVpu5WA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=FhYYLtuP; arc=fail smtp.client-ip=52.101.229.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UInwuVg2"
-Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-82fbf5d4dc2so7896904b3a.1
-        for <linux-sound@vger.kernel.org>; Tue, 26 May 2026 23:29:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779863394; x=1780468194; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BJBe3vwF2QrPs3DYcUmdSptzLr4CaPZGGU2RkazVWwQ=;
-        b=UInwuVg2m4E0qGy6qfc6PRMXQOnz4RQum2ffbmHJSjPSXkhOOxROi6MGAAt1Wxc3IG
-         A/golsqEKbjaijJ69ariph5Dbhwui5XihAjNmi5jdClCBs40cYGaYJNPzZL3+xyTuDc0
-         402y/odnEKFy4DVMfuYOqC+eDzYHtgydnilfmkiPapKC88xsV+tgyyalGVpjtTG2Yq6H
-         /eYUkpIlZ4rDeKcGI1GJW4pvGX4SVdyR4Mq6goNPYKxmTeAQsD7ObHjxBkRFxGm2jD8I
-         0058ErhICQ2whkmxi6JleW+FbXC9kkIwXN+sAvXN469Cqy4cP9gan6/Bsa6cem05PqMN
-         JV9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779863394; x=1780468194;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BJBe3vwF2QrPs3DYcUmdSptzLr4CaPZGGU2RkazVWwQ=;
-        b=JyJplO2FDfKn6Gr16jAhazBqS4lsLWv0CQHDdmSdVKuytpoAfvfiQiFWyeKz/psrNz
-         4MmbqmJ0buCjlCGnupbu8toOpSQ86ut/HL/x6xTFSqEbT3WltI9B681ZiSRPYMDSsYDU
-         MyX0g+bUqBqmsP+WlXWOmQtrsgRvdeQfGh4kMlKnxC4wA/GI1ENTK6Oah1ApbjwtyHvp
-         wbUQmz9ozazp0SklMWSOfOx0rv3kKcPe40z+xRWfDdEcMpGhwRrva30jF3UABJK4wuEO
-         N7m4/aDT5Ll0tzrrrpoRv3JavMwbR9Mv9w8eir5+Z4muB9SG5zvG6pIIGjTAequutoL2
-         t/lA==
-X-Gm-Message-State: AOJu0YxgTWIZAsCvs+032HhxXFQG+NcKGeIYxtjtnwvM9sAWTEG/Jl6c
-	rlblgQmUEaxazrzL+Ui2IhjcbIHxjbnoYnG3Mi26W8IA8J4QH8lVhstGSPiViGkfvxx6SA==
-X-Gm-Gg: Acq92OFiqRa7MHNxtIRdYcJJK0u/w2tavOjiETXgkSpaqJB0BMHTYt2pbj3ASBFCSQZ
-	9Xf30gwjysjhCkM/e4wb4+jRS03QICS9NxmlLl/s4IslYHUf3NNCSw02PGPJJ2gMptjYadB7qQY
-	UwArf8qwWGO+EJOYRKnmZN5N2S5nmmVJGBYQ7oFkkWLlENrlanfjbdX46g4jKWsa3ItFtxV6CMo
-	L/MveL47ZT8KEj9thM+jtcMVOpAfs3Y/8rjtpHR+wCV/w/qWDtFq5clJscu5aHsg20JJbdMXFrA
-	E4eimIzPaHrGGLI+HR6P9aTHOtHVMuItuubHe+NknkUAI2UPJTSBrisH8BkZOF0Uy+9/c1FXz59
-	qvm5lIZdoKPCpfCUC1Fl3HMuGZqit5zIq84g/xnO8MDmnE3kY27gFEUA1JxYtagwzCsTMdYpeAd
-	bYeAUzMkfQ8ag+haL5sJeXrIniq10LIxe/WTM8jVsGuA==
-X-Received: by 2002:a05:6a00:298f:b0:835:443e:4bc7 with SMTP id d2e1a72fcca58-8415f3fcafdmr19435866b3a.13.1779863394449;
-        Tue, 26 May 2026 23:29:54 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-841d70bbf31sm1430399b3a.28.2026.05.26.23.29.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 23:29:54 -0700 (PDT)
-From: Zhang Cen <rollkingzzc@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zerocling0077@gmail.com,
-	2045gemini@gmail.com,
-	Zhang Cen <rollkingzzc@gmail.com>
-Subject: [PATCH v2] ALSA: seq: midi: Serialize output teardown with event_input
-Date: Wed, 27 May 2026 14:29:48 +0800
-Message-Id: <20260527062948.3614025-1-rollkingzzc@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="FhYYLtuP"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BdwOchnNKq/LCPpLJ4IKO5JHh2CXv9UT/KdeDFMnATe1IMiRf9+3DjpElgbi4sAeVGYF4gaL1I/WXiqJvK12swEXXz/AcDPcLhh+s5o2bo9y9IL0n5R8VcLjSq9jL+Af21+OYrr7HlSjROlnVNBTmTWYkZ9IX55yJ3sP/vt9pYVwrPh48NJJSAkykRk52X6mynp0UeFNlyLPyLrEsdDUTCn7ZYGBd71Iu8FjS/VOvqgYWINt8WUsI1IMTu0EWn6Vqj3gblrM2OUKPuxYXCcfM/7FOxNy5C6M6H32jRbCIzzZOpxp5esRRbEAOz/cYn77In5CDFSIdjScflrFhUAy9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wnuFBzA28rW6AuSM+sNwH+dUXbiWY3g0dDat2hXTtes=;
+ b=rt1iWwsVfLfYfQKKNncoRjiLF6Ps/S48jIbOotzwLBvVUEa95MEMvndybDVsQna/XSSejp2KvQiMvuDDChmb6HtcePy2EESjFMI1kLQsKq1Mb3Z0N5aHsi0fQGznubJN8ZwmVJ35Obz0Y+Rqe93Md+BQ+iMaVzebgTMVr32viJ/ZzlYbXdJQJJHMErs/gCHXsl9U2Xhy/t5kMDCKzJRwaXR2j/nXPoiBNT/+W0bpuAyhLODyFvQMpd0AoLG2SNuetL7mSt4Johb4jcxphjjZUDwUfpzaWlXnaeDkq02+zWmhCwmg4UGV6QAp2d1knvhGl+NT1X+IlUysYx+YaWwaHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wnuFBzA28rW6AuSM+sNwH+dUXbiWY3g0dDat2hXTtes=;
+ b=FhYYLtuPiCgjomHkWupmDaF0c+H/EBjpI9QRhsXakaORQwPy1ceqgNVISCAdneOVgp6q/aADJf1WsgpXrbzsCBYbevl8kU8rBfgedOQFXDFs4cA0Prb//qM0LWqBOh3JraWEmq3N0qUXHPCy2GA1+R4Yk2dy6W70TF6NrwVwYH0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by TYRPR01MB15880.jpnprd01.prod.outlook.com (2603:1096:405:2d5::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.12; Wed, 27 May
+ 2026 06:45:26 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0071.010; Wed, 27 May 2026
+ 06:45:26 +0000
+Message-ID: <87zf1le4fu.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Bartosz Golaszewski <brgl@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Jaroslav Kysela <perex@perex.cz>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>, Mark Brown <broonie@kernel.org>, Rich Felker <dalias@libc.org>, Takashi Iwai <tiwai@suse.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: [PATCH 0/3] ASoC: simple-card: remove platform data style
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 27 May 2026 06:45:26 +0000
+X-ClientProxiedBy: TY4PR01CA0024.jpnprd01.prod.outlook.com
+ (2603:1096:405:2bf::18) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYRPR01MB15880:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0e559a79-02dd-4248-d340-08debbbb88ce
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|366016|1800799024|376014|7416014|921020|38350700014|18002099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	kHEPwXHwQTXJ2U6kBTresuuV2jhyMo+bJHOEQ/BO81eR63Ct48sC8NTrZjKf3erp/njyzTvPa2ajDLxrGbWeBjyPS93LNmCTB0a8Mq/XgCRyfHdPHYEnfnolSPT0soB0A5zClfWaZeuCViGhK6JXAmzYtuyBJ+O49lIaziO5+wiiO2MPFLGMXmNL3DfAfpF49JEslKyDorwQ08HPCzwxw40sHUiD+GOVVyp6Ll5WXmlHZFDRPJLmjb6CdvEVU/DQpLAHe+t4IIxGrZkdjDEYLl7d+d7Yw1jmu7+mjoQRiIbHD+cNjJruDjxRVtQUJsYpOymL/aPdEKhAnTpsrL1hiGQdH1rMrFNW7BO3bFntmhwYx3YyfjUWbK3F+hRCi9GboQOLJjM1R23efvcQo1My1xCe60acxqFIQI5JWXxMAISdVvXpHLHVB++d85+p01FunIt1OjPRhgxdkvOiaEoK6SSzJad68EZRFvx11spxKCtkuRlm/s6jzBZyrZj7GtfJ29bnxlv/ZO8uuHX7M+iururDb0Z4si2YN+PLpE7m3gBdDrch+zloOtAxsr5GnNO0CAhWosaF1bxQ6baVQhemABleQuagsaMJloxkVO+fdNblPqTS/bX+o0GYsWV8+T9yLbApSotHzB44WSC2UWvcKPLi5tufYGTVv5fm9tgZOwPHY09TCV8mah75SCPR1LM+AnIfQqApb0brmDSrfx8wdM0erqzEyrwVi44xPkFANN5UiymMz05UjlGxd6tMrK6hG41OEeLWe4Yk9eoFJ1IL0w==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(1800799024)(376014)(7416014)(921020)(38350700014)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?yZanzrUDcmsZTS6iUPy+hYuAcxP27lX1/hgNxKlyzR9hJsuIYlDy5doJ8wiv?=
+ =?us-ascii?Q?94U3pderNEOu08lCms6awA82TaQoJl9Vqrd3wsjx/rzI3YXQZPJXBN3FGPMl?=
+ =?us-ascii?Q?foDZV7XWjX4QuCeiytt9m0yKl8oK0jC/oTNHufa6T0SPSylrr4Ed/13reALP?=
+ =?us-ascii?Q?pu3TSCwMnYOtmvFC5MO/o/15exw3hdSQEh2POm3HBwyRDxXRAoSV1yvc8Tks?=
+ =?us-ascii?Q?tr2dHQ7DUnRXzfn8WIOd/sabLibo1mMMmgIaMVFKNFl4eaDk860wAFvFEn9j?=
+ =?us-ascii?Q?YAVLK39emkaCFEXrGIt5qfJxroZ5Jv4w7NEH0itDEnh+JjhZ14reZ94qOInM?=
+ =?us-ascii?Q?gOSKzXT2XymC8V3EwmWcSrDhGP69wOMcohwbJ8sUyyw1HhF2Y1IFvJ/9c38k?=
+ =?us-ascii?Q?Wl+nvQvTsl9fvKyflwO3aCEc8DQSSEKIYb/zAjSCLJSiSjyTAVo6ybUHjMLp?=
+ =?us-ascii?Q?3se8yrzdZZ0R1ZPcu5R0GTC82ps4zbqqbxpsJV50cgUfYCk9zYpcBh3kglSc?=
+ =?us-ascii?Q?FA/Vwl1WlhJ5uglJCY+d8pPjWHdLmgy++sUTmRJ2PFj7fRo+gbQ3Sv3hfQ7Z?=
+ =?us-ascii?Q?8zkupG81vLbS9lJL8bw0AsP20dE4FX2OGZV1SCMcZOoLgJMaKpa4vl9NTqid?=
+ =?us-ascii?Q?kLAW9zMK4zxOg+6ginXV07EhBMqtBi2a1Jd5rT+IIr95WvPnDEHaQsqSexew?=
+ =?us-ascii?Q?Qg9te+zgZSppsOKDGiCp8soIAxIzEcbTpnOSFMGqCPNAUvwWa8ZZUIf14y8M?=
+ =?us-ascii?Q?4TmwuzfcTtK37XS5ZXuatTKYBevkhWlg7v9LEYl6W0dsB0G43wcDeZf6nrmU?=
+ =?us-ascii?Q?1i1rH32V7yO7qJLmsW2t7ODFf2knA28M6xvYZSwa1tbJz8oz9tECv1a0jOek?=
+ =?us-ascii?Q?EHKiL76C508hQcYI4kLKbftQw9HmfywkxQjtxxqXGiM1KHk1aIXrRS0pzuO/?=
+ =?us-ascii?Q?jMl05HwHiofjr2cyM1OkKJ2pEmhaDrc7Y+G3MFcZCDe6//nfXWcbwZ2SDGVd?=
+ =?us-ascii?Q?WGQnaIgZdIwwvidm3nzkopKSact2tatyDGCogJ2iRudUPb+eh4rvJpEUdwhq?=
+ =?us-ascii?Q?JOLqtz4AeMTapoGKX7oC8sfX7jAEeHxErfjUreL3mJwD0iEbgxYvE/pla9hC?=
+ =?us-ascii?Q?Axb5ZGKumlVjnvr8/kbCQb+BZslyAbARxCgvvdsY7T8ZUTox+e1wTnDoTCnH?=
+ =?us-ascii?Q?ZK5RsEfdV2VtBFKnNTcN3ZtggZjKVwqfX4QCQbie7mg9LdBS1CTI0iUWgcx5?=
+ =?us-ascii?Q?xEFJztkJxQeuibmxf9CQ8Sh+Vq03qMB2fa44fbU+8MhFbTFkHPvpirR2CQE0?=
+ =?us-ascii?Q?zf0xtBxZDbk6K6iSly5OM8gjComWgFSuLG/Rw1907NJOPYz73E7YfHY1AySw?=
+ =?us-ascii?Q?zuAc+qATUT4wITf5MJkRVXygLUzFDEQAXVR5PufW3uc9yWbv5JDWYJzUucKt?=
+ =?us-ascii?Q?B/Cbp7eDqxxZgHWqQQMWsFeY1RqQcRUz4MiSCyq5RIeGAnHjLVogXC8V0cX+?=
+ =?us-ascii?Q?e5SrbKC/hTVqk/qnZYt2f04NKLzJO9BT7JIoSk2aFHjUXcID3xw1fnH6Yteh?=
+ =?us-ascii?Q?5I9B9qOfjImBCq+IkLfPdEhkzs04Imc11hIha33QZliJHSf8iz1Kd4/esX3s?=
+ =?us-ascii?Q?BOmJ3ouCrJC5lYwC0t0nd5weOx352Wu+SIKvUuvrMvoQCBmzDLRGPFSwJmhY?=
+ =?us-ascii?Q?RbxvuQ2p0KsVGDWtsdDkaM/qAdCQG81+xEMKasa0PmMpL4XZ+oP6RxsFDMwe?=
+ =?us-ascii?Q?lnLNUW1wMGdq7UW4vLBUd9Q3j0SEZ1Vv5TWwgpNqPfPQN/5rBk7G?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e559a79-02dd-4248-d340-08debbbb88ce
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 06:45:26.3500
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: owdmJLp3uNVynX5mG1U7Yx6Btwci4vYnuQ7syFQxvDaXAwdcDO5eCyFXcnmp8TGFjfuXKy+i/2RE6R2kAF/CZLp3NGsa6yPH9Cj3XLJo3II92XIMnNROGRs+xzfxChNM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB15880
 
-event_process_midi() borrows msynth->output_rfile.output and then
-passes the substream to dump_midi() and snd_rawmidi_kernel_write()
-without synchronizing with the output open/close transition.
-midisynth_use() also publishes output_rfile before
-snd_rawmidi_output_params() has finished.
 
-The last midisynth_unuse() can therefore release the same rawmidi file
-and free substream->runtime before snd_rawmidi_kernel_write1() takes
-its runtime buffer reference. That leaves the event_input path using a
-stale substream or runtime and can end in a NULL-deref or use-after-free.
+Hi
 
-Fix this with two pieces of synchronization. Keep a short IRQ-safe
-spinlock only for publishing or clearing output_rfile and for pairing
-the output snapshot with an snd_use_lock_t reference. Once
-event_process_midi() has taken that in-flight reference, it drops the
-spinlock before calling snd_seq_dump_var_event(), dump_midi(), or
-snd_rawmidi_kernel_write(). midisynth_unuse() now detaches the visible
-rawmidi file under the same spinlock, waits for the in-flight writers
-to drain, and only then drains and releases the saved file.
-midisynth_use() likewise opens into a local snd_rawmidi_file and
-publishes it only after snd_rawmidi_output_params() succeeds.
+SuperH ecovec24/7724se are the last user of Simple Audio Card as
+"platform data style". It is mainly supporting "DT style" in these days.
 
-The buggy scenario involves two paths, with each column showing the
-order within that path:
+Now, Simple Audio Card "platform data style" is no longer correctly working
+during almost this 10 years. but we have not get such report.
+Let's remove Sound support from SuperH ecovec24/7724se, and remove
+Simple Audio Card platform data style.
 
-event_input path:                     last unuse path:
-1. event_process_midi() snapshots    1. midisynth_unuse() starts
-   output_rfile.output.                 tearing down output_rfile.
-2. dump_midi() reaches               2. snd_rawmidi_kernel_release()
-   snd_rawmidi_kernel_write()           closes the output file.
-   before runtime is pinned.         3. close_substream() frees
-3. The callback keeps using             substream->runtime.
-   the borrowed substream.
+Kuninori Morimoto (3):
+  sh: ecovec24: remove FSI/DA7210/Simple-Audio-Card support
+  sh: 7724se: remove FSI/AK4642/Simple-Audio-Card support
+  ASoC: simple-card: remove platform data style
 
-Validation reproduced this kernel report:
-KASAN null-ptr-deref in snd_rawmidi_kernel_write1+0x56/0x360
-RIP: 0033:0x7fde7dd0837f
-RIP: 0010:snd_rawmidi_kernel_write1+0x56/0x360
+ arch/sh/boards/mach-ecovec24/setup.c |  90 ------------------------
+ arch/sh/boards/mach-se/7724/setup.c  | 101 ---------------------------
+ include/sound/simple_card.h          |  26 -------
+ sound/soc/generic/simple-card.c      |  61 ++--------------
+ 4 files changed, 6 insertions(+), 272 deletions(-)
+ delete mode 100644 include/sound/simple_card.h
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Assisted-by: Codex:gpt-5.5
-Signed-off-by: Zhang Cen <rollkingzzc@gmail.com>
----
-v2:
-Use scoped_guard() for the short output_lock sections and drop the explicit
-irq flags variable, as suggested by Takashi Iwai.
-
- sound/core/seq/seq_midi.c | 55 +++++++++++++++++++++++++++++----------
- 1 file changed, 41 insertions(+), 14 deletions(-)
-
-diff --git a/sound/core/seq/seq_midi.c b/sound/core/seq/seq_midi.c
-index ca3f5fc309927..2eb12199c92f9 100644
---- a/sound/core/seq/seq_midi.c
-+++ b/sound/core/seq/seq_midi.c
-@@ -24,6 +24,7 @@ Possible options for midisynth module:
- #include <sound/seq_device.h>
- #include <sound/seq_midi_event.h>
- #include <sound/initval.h>
-+#include "seq_lock.h"
- 
- MODULE_AUTHOR("Frank van de Pol <fvdpol@coil.demon.nl>, Jaroslav Kysela <perex@perex.cz>");
- MODULE_DESCRIPTION("Advanced Linux Sound Architecture sequencer MIDI synth.");
-@@ -42,6 +43,8 @@ struct seq_midisynth {
- 	int device;
- 	int subdevice;
- 	struct snd_rawmidi_file input_rfile;
-+	spinlock_t output_lock;		/* protects output_rfile publication */
-+	snd_use_lock_t output_use_lock;	/* in-flight event_input users */
- 	struct snd_rawmidi_file output_rfile;
- 	int seq_client;
- 	int seq_port;
-@@ -125,31 +128,42 @@ static int event_process_midi(struct snd_seq_event *ev, int direct,
- 	struct seq_midisynth *msynth = private_data;
- 	unsigned char msg[10];	/* buffer for constructing midi messages */
- 	struct snd_rawmidi_substream *substream;
-+	int err = 0;
- 	int len;
- 
- 	if (snd_BUG_ON(!msynth))
- 		return -EINVAL;
--	substream = msynth->output_rfile.output;
--	if (substream == NULL)
--		return -ENODEV;
-+
-+	scoped_guard(spinlock_irqsave, &msynth->output_lock) {
-+		substream = msynth->output_rfile.output;
-+		if (!substream)
-+			return -ENODEV;
-+		snd_use_lock_use(&msynth->output_use_lock);
-+	}
-+
- 	if (ev->type == SNDRV_SEQ_EVENT_SYSEX) {	/* special case, to save space */
- 		if ((ev->flags & SNDRV_SEQ_EVENT_LENGTH_MASK) != SNDRV_SEQ_EVENT_LENGTH_VARIABLE) {
- 			/* invalid event */
- 			pr_debug("ALSA: seq_midi: invalid sysex event flags = 0x%x\n", ev->flags);
--			return 0;
-+			goto out;
- 		}
- 		snd_seq_dump_var_event(ev, __dump_midi, substream);
- 		snd_midi_event_reset_decode(msynth->parser);
- 	} else {
--		if (msynth->parser == NULL)
--			return -EIO;
-+		if (!msynth->parser) {
-+			err = -EIO;
-+			goto out;
-+		}
- 		len = snd_midi_event_decode(msynth->parser, msg, sizeof(msg), ev);
- 		if (len < 0)
--			return 0;
-+			goto out;
- 		if (dump_midi(substream, msg, len) < 0)
- 			snd_midi_event_reset_decode(msynth->parser);
- 	}
--	return 0;
-+
-+out:
-+	snd_use_lock_free(&msynth->output_use_lock);
-+	return err;
- }
- 
- 
-@@ -163,6 +177,8 @@ static int snd_seq_midisynth_new(struct seq_midisynth *msynth,
- 	msynth->card = card;
- 	msynth->device = device;
- 	msynth->subdevice = subdevice;
-+	spin_lock_init(&msynth->output_lock);
-+	snd_use_lock_init(&msynth->output_use_lock);
- 	return 0;
- }
- 
-@@ -215,12 +231,13 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
- {
- 	int err;
- 	struct seq_midisynth *msynth = private_data;
-+	struct snd_rawmidi_file rfile = {};
- 	struct snd_rawmidi_params params;
- 
- 	/* open midi port */
- 	err = snd_rawmidi_kernel_open(msynth->rmidi, msynth->subdevice,
- 				      SNDRV_RAWMIDI_LFLG_OUTPUT,
--				      &msynth->output_rfile);
-+				      &rfile);
- 	if (err < 0) {
- 		pr_debug("ALSA: seq_midi: midi output open failed!!!\n");
- 		return err;
-@@ -229,12 +246,14 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
- 	params.avail_min = 1;
- 	params.buffer_size = output_buffer_size;
- 	params.no_active_sensing = 1;
--	err = snd_rawmidi_output_params(msynth->output_rfile.output, &params);
-+	err = snd_rawmidi_output_params(rfile.output, &params);
- 	if (err < 0) {
--		snd_rawmidi_kernel_release(&msynth->output_rfile);
-+		snd_rawmidi_kernel_release(&rfile);
- 		return err;
- 	}
- 	snd_midi_event_reset_decode(msynth->parser);
-+	scoped_guard(spinlock_irqsave, &msynth->output_lock)
-+		msynth->output_rfile = rfile;
- 	return 0;
- }
- 
-@@ -242,11 +261,19 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
- static int midisynth_unuse(void *private_data, struct snd_seq_port_subscribe *info)
- {
- 	struct seq_midisynth *msynth = private_data;
-+	struct snd_rawmidi_file rfile = {};
- 
--	if (snd_BUG_ON(!msynth->output_rfile.output))
-+	scoped_guard(spinlock_irqsave, &msynth->output_lock) {
-+		rfile = msynth->output_rfile;
-+		msynth->output_rfile = (struct snd_rawmidi_file){};
-+	}
-+
-+	if (snd_BUG_ON(!rfile.output))
- 		return -EINVAL;
--	snd_rawmidi_drain_output(msynth->output_rfile.output);
--	return snd_rawmidi_kernel_release(&msynth->output_rfile);
-+
-+	snd_use_lock_sync(&msynth->output_use_lock);
-+	snd_rawmidi_drain_output(rfile.output);
-+	return snd_rawmidi_kernel_release(&rfile);
- }
- 
- /* delete given midi synth port */
 -- 
 2.43.0
 
