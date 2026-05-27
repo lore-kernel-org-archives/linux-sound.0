@@ -1,181 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9263DF008
-	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 08:33:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE91C3C1966;
+	Wed, 27 May 2026 09:02:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779870836; cv=none; b=CEObxmE0c/DgexCuNullzz9qtZ7/vWLzyythEvGHFkw2NkEkfueGQTFAWUrRg/Xhr16u8PdQjQLCveE3ae2xWK0NhWm4DTYWWUjtVbvuZijZ4xqteJziK0c9cctLuM+LSO09+wyKlmqoHDfji0NiwtommUWmU7OD8rikgKaxEjo=
+	t=1779872554; cv=none; b=U+oIelv8LvP9A3yUbDK2XLLKn9YZKb7R42QxpB8vOS1xyrQ51RCG8100CX63ZQAr2sJ0bEDz+aiydzFEXUqh4L20jle92kTkYVlwVxMRqTQx3FKf2/im09qlb3woWdrnpUNMytZdMhtQi1uF+IUmedDgraeGPjWTZy4pB5eZqzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779870836; c=relaxed/simple;
-	bh=r7LHeyitT9uA5cFI/1Euud4qPTj4x7fs0D59pjrtCd4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WOLJ1nVH9vMxZOlV8ql4eS2F//YHybzeaDJE7fsD7YXive25oTOQ8vN1VFfrLnBg9b+nax3fYrXFnI/NGv4xhTyit9peq42DsTWyaEg6PYfRxSWejp1qkwyX1uBLv5fRjVLYpzlR/1oEp5I9a/dBunnNA91ebJO0HNMTl7UpmL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E4cv+DY8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779872554; c=relaxed/simple;
+	bh=lYTCTvgHVGcOtmEb6DtcZqY+WYkGeywCYM+ml7rXFjE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kjDrGQsxzQgW8rMH2xX6u94dkc4htlS1TNp4OZ19WwpfCaXTHiWiiBCrNQX7j5xv98YCfKcVar/Kz/ipe0mbwLkS5QjlHtm2PDSMt3+NZJ/DVyatVaIpWxMrj+aQ9+sRvj0xdfpseQJcUmwHRrghqNNThHanD2Qbmg9ZkwyRmQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YniFvG6k; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E4cv+DY8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB69F1F01563
-	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 08:33:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YniFvG6k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 834C21F000E9;
+	Wed, 27 May 2026 09:02:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779870832;
-	bh=aGfhix3sAC6HMvEiMkdh+KRyptLLFm29xcvjP5yNL60=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=E4cv+DY8au1ynXak65rTx7N2EL4fZTamFiP2QLaSDT7OryCk2Wr7WKWL/K6yKTdmZ
-	 Qq176f+Ca8i50lAfi9rvmFvXvfgk0OrOZFW1XtAYQ++hNUEhlTKhQbtdNYAqn264/S
-	 /Ob3B75SXREcyZyw/0U7YH5Wv9i8j+tbfyOFCNyDOljbKR2yaFX//OwDexQouVWPw1
-	 t0V4aTJpWRIRH4dRCehK/4ioH9IcIttXTeweZJH2A8jgjgdV0OY0+d57BasZ13o+is
-	 LCh022LOu/VW1rexAPL/uFPZfB+M/6xUOTPps88xiYcv6LDwuDNgMmDX6Y6YTUOEXu
-	 sSIFDWlZOErDg==
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-687d82dd690so5895413a12.2
-        for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 01:33:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ944nLXKsBGXGub58XfFNIVoOh8FaScacvoi+Ir5X/yFN9hev8Ue87vQacify9AughvwryoGhrdEz2LnA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1S2GZmiLKmR7/RwgL+6Hd8k6Vgt+HlEAO3aKxAXMkKiC3/HX+
-	qdryZQLRjT+2+wmzvyyI6mG1v4icd6l62OkLbTCUguKNTo6gKLcp5wNPs8FzBdKBCSoM+oeICv5
-	AnM1aME7h67/bFoCv9/HTxPPSuthMJ+s=
-X-Received: by 2002:a17:906:8474:b0:bda:8e57:5639 with SMTP id
- a640c23a62f3a-bdd25337f07mr991870566b.20.1779870830272; Wed, 27 May 2026
- 01:33:50 -0700 (PDT)
+	s=k20260515; t=1779872553;
+	bh=rGBmGJCMxMcgGStc79JIYyj7AKuKN8bicGaaCMmbyKY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=YniFvG6k5xKd0A6GeC8pPRc/reZCdHFtynazZq9U+gt0A9E0M5ORd9cEHzzrgdLeW
+	 5ceW3Vm2y9mgjnu3Ek9VCYr4cDz+19BF4pXMpio4m3yABRGeS7LygoAqnS47D2pjTa
+	 1dsm3Zerwgdhnp3RQvje6dzBK3XmUkftErkh558/WulLjoMynMURzF2IgczBrKO9PJ
+	 Bg6RljEryqlQL/KnDosOjzZtpBdG7rp7bn1CZbVKe+205Ov+7+pu2bn0HMTxaQGmre
+	 CqGS/T1ea9WMzyXz1l0TkA8QoNy5nzJkvJWwH/AXjjRzvy5tZfOGvysxMRxB4AFGgf
+	 075Ue+38WjJEg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1wSA9n-00000006bZj-19Do;
+	Wed, 27 May 2026 09:02:31 +0000
+Date: Wed, 27 May 2026 10:02:30 +0100
+Message-ID: <86qzmxuswp.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Miroslav Lichvar <mlichvar@redhat.com>,
+	John Stultz <jstultz@google.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	thomas.weissschuh@linutronix.de,
+	Arthur Kiyanovski <akiyano@amazon.com>,
+	Vincent Donnefort <vdonnefort@google.com>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	kvmarm@lists.linux.dev,
+	Rodolfo Giometti <giometti@enneenne.com>,
+	Oliver Upton <oupton@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>,
+	netdev@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Peter Hilber <peter.hilber@oss.qualcomm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	virtualization@lists.linux.dev,
+	linux-wireless@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [patch 05/24] KVM: arm64: Use ktime_get_snapshot_id() to retrieve CLOCK_BOOTTIME
+In-Reply-To: <20260526171223.070087856@kernel.org>
+References: <20260526165826.392227559@kernel.org>
+	<20260526171223.070087856@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260526111940.2347847-1-chenhuacai@loongson.cn>
- <87pl2ixmxj.wl-tiwai@suse.de> <87cxyixgui.wl-tiwai@suse.de>
-In-Reply-To: <87cxyixgui.wl-tiwai@suse.de>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Wed, 27 May 2026 16:34:11 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5szeU2Sxe5Yx67k7H8WSgq+e=+w715WtOP1wz=Oj4tuA@mail.gmail.com>
-X-Gm-Features: AVHnY4Ig9MazqpXAwlGtBrHTM8t1Ay3xgbEpxFVEv8Ku74ukeFIxrb-aI-5yW9s
-Message-ID: <CAAhV-H5szeU2Sxe5Yx67k7H8WSgq+e=+w715WtOP1wz=Oj4tuA@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: hda/hdmi: Use 'AC_PINSENSE_ELDV' to detect pinsense
- for Loongson
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Huacai Chen <chenhuacai@loongson.cn>, Takashi Iwai <tiwai@suse.com>, 
-	Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Xuerui Wang <kernel@xen0n.name>, Jiaxun Yang <jiaxun.yang@flygoat.com>, stable@vger.kernel.org, 
-	Baoqi Zhang <zhangbaoqi@loongson.cn>, Haowei Zheng <zhenghaowei@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: tglx@kernel.org, linux-kernel@vger.kernel.org, dwmw2@infradead.org, mlichvar@redhat.com, jstultz@google.com, sboyd@kernel.org, anna-maria@linutronix.de, frederic@kernel.org, thomas.weissschuh@linutronix.de, akiyano@amazon.com, vdonnefort@google.com, oliver.upton@linux.dev, kvmarm@lists.linux.dev, giometti@enneenne.com, oupton@kernel.org, richardcochran@gmail.com, netdev@vger.kernel.org, tiwai@suse.com, miriam.rachel.korenblit@intel.com, johannes.berg@intel.com, jacob.e.keller@intel.com, anthony.l.nguyen@intel.com, saeedm@nvidia.com, peter.hilber@oss.qualcomm.com, mst@redhat.com, virtualization@lists.linux.dev, linux-wireless@vger.kernel.org, linux-sound@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-Hi, Takashi,
+On Tue, 26 May 2026 18:13:53 +0100,
+Thomas Gleixner <tglx@kernel.org> wrote:
+> 
+> ktime_get_snapshot() is replaced by ktime_get_snapshot_id() which allows to
+> request a particular CLOCK ID to be captured along with the clocksource
+> counter.
+> 
+> Convert the tracing mechanism over and use the new
+> system_time_snapshot::sys field, which holds the system timestamp selected
+> by the CLOCK ID argument.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: Vincent Donnefort <vdonnefort@google.com>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Oliver Upton <oliver.upton@linux.dev>
+> Cc: kvmarm@lists.linux.dev
+> ---
+>  arch/arm64/kvm/hyp_trace.c |    8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 
-On Wed, May 27, 2026 at 12:42=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wrote=
-:
->
-> On Tue, 26 May 2026 16:31:04 +0200,
-> Takashi Iwai wrote:
-> >
-> > On Tue, 26 May 2026 13:19:40 +0200,
-> > Huacai Chen wrote:
-> > >
-> > > Due to a hardware defect, for Loongson PCI HDMI devices with a revers=
-ion
-> > > ID of 2, the pin sense status must be determined via the ELD.
-> > >
-> > > Add a codec flag, eld_jack_detect, to indicate this case, and do spec=
-ial
-> > > handlings in read_pin_sense().
-> > >
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Baoqi Zhang <zhangbaoqi@loongson.cn>
-> > > Signed-off-by: Haowei Zheng <zhenghaowei@loongson.cn>
-> > > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-> > > ---
-> > >  include/sound/hda_codec.h    | 1 +
-> > >  sound/hda/codecs/hdmi/hdmi.c | 8 +++++++-
-> > >  sound/hda/common/jack.c      | 4 ++++
-> > >  3 files changed, 12 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
-> > > index 24581080e26a..1a1fe7a904c3 100644
-> > > --- a/include/sound/hda_codec.h
-> > > +++ b/include/sound/hda_codec.h
-> > > @@ -259,6 +259,7 @@ struct hda_codec {
-> > >     unsigned int forced_resume:1; /* forced resume for jack */
-> > >     unsigned int no_stream_clean_at_suspend:1; /* do not clean stream=
-s at suspend */
-> > >     unsigned int ctl_dev_id:1; /* old control element id build behavi=
-our */
-> > > +   unsigned int eld_jack_detect:1; /* Machine jack-detection by ELD =
-*/
-> > >
-> > >     unsigned long power_on_acct;
-> > >     unsigned long power_off_acct;
-> > > diff --git a/sound/hda/codecs/hdmi/hdmi.c b/sound/hda/codecs/hdmi/hdm=
-i.c
-> > > index f20d1715da62..423cd9f683c6 100644
-> > > --- a/sound/hda/codecs/hdmi/hdmi.c
-> > > +++ b/sound/hda/codecs/hdmi/hdmi.c
-> > > @@ -2285,6 +2285,7 @@ EXPORT_SYMBOL_NS_GPL(snd_hda_hdmi_acomp_init, "=
-SND_HDA_CODEC_HDMI");
-> > >  enum {
-> > >     MODEL_GENERIC,
-> > >     MODEL_GF,
-> > > +   MODEL_LOONGSON,
-> > >  };
-> > >
-> > >  static int generichdmi_probe(struct hda_codec *codec,
-> > > @@ -2302,6 +2303,11 @@ static int generichdmi_probe(struct hda_codec =
-*codec,
-> > >     if (id->driver_data =3D=3D MODEL_GF)
-> > >             codec->no_sticky_stream =3D 1;
-> > >
-> > > +   if (id->driver_data =3D=3D MODEL_LOONGSON) {
-> > > +           if (codec->bus && codec->bus->pci->revision =3D=3D 0x2)
-> > > +                   codec->eld_jack_detect =3D 1; /* Jack-detection b=
-y ELD */
-> > > +   }
-> > > +
-> > >     return 0;
-> > >  }
-> > >
-> > > @@ -2319,7 +2325,7 @@ static const struct hda_codec_ops generichdmi_c=
-odec_ops =3D {
-> > >  /*
-> > >   */
-> > >  static const struct hda_device_id snd_hda_id_generichdmi[] =3D {
-> > > -   HDA_CODEC_ID_MODEL(0x00147a47, "Loongson HDMI",         MODEL_GEN=
-ERIC),
-> > > +   HDA_CODEC_ID_MODEL(0x00147a47, "Loongson HDMI",         MODEL_LOO=
-NGSON),
-> > >     HDA_CODEC_ID_MODEL(0x10951390, "SiI1390 HDMI",          MODEL_GEN=
-ERIC),
-> > >     HDA_CODEC_ID_MODEL(0x10951392, "SiI1392 HDMI",          MODEL_GEN=
-ERIC),
-> > >     HDA_CODEC_ID_MODEL(0x11069f84, "VX11 HDMI/DP",          MODEL_GEN=
-ERIC),
-> > > diff --git a/sound/hda/common/jack.c b/sound/hda/common/jack.c
-> > > index 98ba1c4d5ba4..1f0ebf9cd151 100644
-> > > --- a/sound/hda/common/jack.c
-> > > +++ b/sound/hda/common/jack.c
-> > > @@ -58,6 +58,10 @@ static u32 read_pin_sense(struct hda_codec *codec,=
- hda_nid_t nid, int dev_id)
-> > >                               AC_VERB_GET_PIN_SENSE, dev_id);
-> > >     if (codec->inv_jack_detect)
-> > >             val ^=3D AC_PINSENSE_PRESENCE;
-> > > +   if (codec->eld_jack_detect) {
-> > > +           val &=3D ~AC_PINSENSE_PRESENCE;
-> > > +           val |=3D !!(val & AC_PINSENSE_ELDV) << 31;
-> > > +   }
-> >
-> > IMO it's worth for a comment in the above; basically it's faking the
-> > AC_PINSENSE_PRESENCE from AC_PINSENSE_ELDV bit, which explains the
-> > magic shift number.
->
-> ... or an idiomatic form would be even simpler & safer:
->
->                 if (val & AC_PINSENSE_ELDV)
->                         val |=3D AC_PINSENSE_PRESENCE;
->                 else
->                         val &=3D ~AC_PINSENSE_PRESENCE;
->
-Yes, this is better.
+Acked-by: Marc Zyngier <maz@kernel.org>
 
-Huacai
+	M.
 
->
-> thanks,
->
-> Takashi
+-- 
+Without deviation from the norm, progress is not possible.
