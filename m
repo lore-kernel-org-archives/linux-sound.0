@@ -1,111 +1,276 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out203-205-221-236.mail.qq.com (out203-205-221-236.mail.qq.com [203.205.221.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B343CA490;
-	Wed, 27 May 2026 09:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9788F3E6392
+	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 09:12:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779872598; cv=none; b=HWONJl9VUp2ngLNvFAxtK/+kuFoNlGxrdA7LTZ2bcvEItr9uk7z0B75WYa6DcUo2DY6p723BZNRHG79K9vQYEJPLWcE58UNdfeln+AJIr94o6yXwc01y7aJWathmSDa8BSpysGbwbemw8wYKgcAFTZNBPUO5rmbTeZt4Bh457aA=
+	t=1779873174; cv=none; b=jnQcTQx0MBuACnfHT/dwzckxcNo6sz6HZI0VkFEtZVZhu4Njvplopwtm9jsuglhKo+QQ3B1cZhg/CF1M7ZVZQduzkcXU5c+ybbje2826TGxePjAav8DbikIQd2dg3igLud1tMahizWB8OOqL56Cjd61ff4d/O3ppv9bOqdbFgnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779872598; c=relaxed/simple;
-	bh=1QPGxVe2YVjIdUHB6ZQpNIFZJ/tNHjuloIjcC5WL6yk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K+h1sOIhVAW0vdBIQcaaaEJBGvUfTfXo7qDMxx7mkDfyfG59r2EBKeHKEszaAcAUB4udYq7cgs1w1WD9b+jt20+eKladFeSvHBVOf3LX4hYzFNTY3o/mmChwh6bD3soCBWhZ/XB7cEOoMgyX6WLv3WQlUc+NAt69qlN8ftd+5V4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSmOoBi5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779873174; c=relaxed/simple;
+	bh=paym5dqAn4exqwIUt7W1Hut0HPmviYsEgW+SIetfYIs=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=iDOzU7DiENLoSxTVeMEJ30ZmvjXzeXrUoHAoAs7u0RvAg9ZgVIpcjnIextf5GMyudYG4tfUVmo6EknRrwJwXanlDbxhu89d0W+MixW1ays8TrZYrq/HoQESXd9OdaFCNLJJzT7lwBp4uQRe+E9t6w6Fzvvev+XYod9gIw9grniM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=ByiK9034; arc=none smtp.client-ip=203.205.221.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSmOoBi5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78BE91F000E9;
-	Wed, 27 May 2026 09:03:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779872597;
-	bh=BLbsXnBlvM3iwIqe2tGZckughDYZqFaWG4pE/G8Jl5w=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=ZSmOoBi534c+Apdrr5BrPxD+73gSRd0jaT/awagOLp3NQC1vdv1yed9m7118mI8zW
-	 N40WhYoaFqbI/0ARxsfyAuno7PslZyegv5sBVoHcD7o5jBMUusY/wE0zWeN1U8oKBL
-	 T9wf0q2/4OrR1aBDayH8jsf8CwAeR9ozQx8Qoyjs2KEiTpAsUsNuf2w/Hcsv2F91zX
-	 T2Eb9ifBaCNZuTncW4sp44fcTY9YzI69o3BAR1tmddC3Z9zSyt26eVFsvo8J61yG/O
-	 s9EOf4W8b6kCQ3NL3qqqdCtXUuw4jf8IKfZRiCzelFdXkEf/W2/B8oy3HIPgbSjZST
-	 FGh6JaxjC8WQQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wSAAV-00000006bac-1rBt;
-	Wed, 27 May 2026 09:03:15 +0000
-Date: Wed, 27 May 2026 10:03:14 +0100
-Message-ID: <86pl2husvh.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Miroslav Lichvar <mlichvar@redhat.com>,
-	John Stultz <jstultz@google.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	thomas.weissschuh@linutronix.de,
-	Arthur Kiyanovski <akiyano@amazon.com>,
-	Oliver Upton <oupton@kernel.org>,
-	kvmarm@lists.linux.dev,
-	Rodolfo Giometti <giometti@enneenne.com>,
-	Vincent Donnefort <vdonnefort@google.com>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Richard Cochran <richardcochran@gmail.com>,
-	netdev@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.com>,
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Peter Hilber <peter.hilber@oss.qualcomm.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	virtualization@lists.linux.dev,
-	linux-wireless@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [patch 06/24] KVM: arm64: Use ktime_get_snapshot_id() to snapshot CLOCK_REALTIME
-In-Reply-To: <20260526171223.144327185@kernel.org>
-References: <20260526165826.392227559@kernel.org>
-	<20260526171223.144327185@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="ByiK9034"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1779873160;
+	bh=xW5RYqWhnhmmLXdMvoq21ERHuGDE7SoMb0NuQ7QKgbo=;
+	h=From:To:Cc:Subject:Date;
+	b=ByiK90342naIsCanMSCZKQWDsUsrTHHM1FPsthm45j+YB/27BYbYnJCDI0ykCMlli
+	 ACrTkI53PPwAgH2aCr6ogqytI0PjnqL/gKn8qDBvMIPka7fzHJJLNovQjQEUW53120
+	 iSLTEuGu1WpP+AZ27yaSMGZMy/wIDd3edNxdAWmY=
+Received: from localhost.localdomain ([116.128.244.169])
+	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
+	id 2DA2524B; Wed, 27 May 2026 17:11:26 +0800
+X-QQ-mid: xmsmtpt1779873086tybk5433r
+Message-ID: <tencent_4D2E7DEDD7773BC54C37A4A210EE3E194E08@qq.com>
+X-QQ-XMAILINFO: NnYhxYSyuBnL3kFUXqTCLxCUhcIWR04HV+1apDPP61wgkP5zmK4JE0/2lvNU4L
+	 vzzHlXC90QaoSXvEaIyE/98KTm1xpXv2nzQVksjjPzE99pWnTp37Ef2bSA6UX5NUzzDyNEYnLH6y
+	 qjNdZVcYv9ficPgNqFA5Qf7Ygw08tN/OscvFOAMa3K2/ZNtoAMqe31a6ezARQONwgysc5fVQhrH9
+	 XiVGgT3YpXcopWopP4rWxrMjNwAYChCSRVElVXzGBNFv1jjrnZkjj0ujPLj/RL66/wKwNlNBuK+h
+	 d6V0imaUYhpU0A+xWGZ3D+TNtGtdITxR3ottY+gDpWt54cZ4B0ab68mUfpl4dvU+3Kvwo6gxt+R4
+	 ZKk+B/x5veR+qH1+8wFNWFdL+RfJ0m/jUvX+q/ujXMVYAkRTYF+BgeMTo8ZYHwv/dK8U2IS2V4t1
+	 dtT4xDkPoiJU6E0FXFXK8Lpct0X526LiVXM1Zb5NS721MCbHDPzmcDXv/BogxJ0eBJ/4RJ0U9VdH
+	 yaJVrK8CJ1xXCWPxQk7qKNcpYpxT/NPM19ZCKfRJ2/lfsh34uWSa+QAjyOJh7af74+szbNLGYRAQ
+	 87PgnxARgLIJoyNGlEgOXKbhFwC/c5SdN0T6c7kTuPVnb5c3/WEm46SeIQ0ZEt0BiMafgIG1DIJq
+	 5Xdb/Aax2Pq/KK4zQXCe3Df8XFLzYyWQAWLdZA++KUTRA+Fv5OiI6VQyy9Mxqrg+Hhl25H+FyVc0
+	 lVLX043KylC9BlaEiKObf8qOplsmy/BQjCndhq4wiYMvGmNJjootNQL4hRofpGnotEFW7a9XHdCY
+	 PAYvgSUPKzges/WHNveLAsbvbiUuGs4m9sAq+WBRow+JKIaVi1seQwJ2w69KfLEPlDeWzXa/eefG
+	 qbag31o8MMQD+fUs/0M4n+p9sQpkP1NiyhU9TVm10PQHfvpLR8G/IDQ+JlmOIU6hK0s1DooRjgyL
+	 wTU+m/7a2k8tDx2lgj0Qq56jhbf+8aVLat7gUv0qbsdcEvXDHaYrFljuQvSsTwsD7RlU+glC2BA+
+	 sAVIYAjAiq3ihijdqmGyHSoN5YieYUvjO6CSeUbjMK79PMF/n/QyNg0SVRzZNjvy0YjHbgUIDu70
+	 SPPBPg8mOMeSLBavM=
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+From: Zhao Dongdong <winter91@foxmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	Zhao Dongdong <zhaodongdong@kylinos.cn>
+Subject: [PATCH] ALSA: check snd_ctl_new1() return value in multiple drivers
+Date: Wed, 27 May 2026 17:09:23 +0800
+X-OQ-MSGID: <20260527090923.379460-1-winter91@foxmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: tglx@kernel.org, linux-kernel@vger.kernel.org, dwmw2@infradead.org, mlichvar@redhat.com, jstultz@google.com, sboyd@kernel.org, anna-maria@linutronix.de, frederic@kernel.org, thomas.weissschuh@linutronix.de, akiyano@amazon.com, oupton@kernel.org, kvmarm@lists.linux.dev, giometti@enneenne.com, vdonnefort@google.com, oliver.upton@linux.dev, richardcochran@gmail.com, netdev@vger.kernel.org, tiwai@suse.com, miriam.rachel.korenblit@intel.com, johannes.berg@intel.com, jacob.e.keller@intel.com, anthony.l.nguyen@intel.com, saeedm@nvidia.com, peter.hilber@oss.qualcomm.com, mst@redhat.com, virtualization@lists.linux.dev, linux-wireless@vger.kernel.org, linux-sound@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 26 May 2026 18:13:58 +0100,
-Thomas Gleixner <tglx@kernel.org> wrote:
-> 
-> ktime_get_snapshot() is replaced by ktime_get_snapshot_id() which allows to
-> request a particular CLOCK ID to be captured along with the clocksource
-> counter.
-> 
-> Convert the usage in kvm_get_ptp_time() over and use the new
-> system_time_snapshot::sys field, which holds the system timestamp selected
-> by the CLOCK ID argument.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
-> Cc: Marc Zyngier <maz@kernel.org>
-> Cc: Oliver Upton <oupton@kernel.org>
-> Cc: kvmarm@lists.linux.dev
-> ---
->  arch/arm64/kvm/hypercalls.c |    6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+From: Zhao Dongdong <zhaodongdong@kylinos.cn>
 
-Acked-by: Marc Zyngier <maz@kernel.org>
+Check snd_ctl_new1() return value before dereferencing in:
+  - es1938
+  - cmipci
+  - ymfpci
+  - ice1712 (aureon, ice1712, ice1724)
+  - gus
+  - aoa (layout)
 
-	M.
+snd_ctl_new1() can return NULL when memory allocation fails.
+Add a NULL check and return -ENOMEM on failure.
 
+Assisted-by: Opencode:DeepSeek-V4-Flash
+Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
+---
+ sound/aoa/fabrics/layout.c     | 6 ++++++
+ sound/isa/gus/gus_pcm.c        | 2 ++
+ sound/pci/cmipci.c             | 6 ++++++
+ sound/pci/es1938.c             | 2 ++
+ sound/pci/ice1712/aureon.c     | 2 ++
+ sound/pci/ice1712/ice1712.c    | 8 ++++++++
+ sound/pci/ice1712/ice1724.c    | 6 ++++++
+ sound/pci/ymfpci/ymfpci_main.c | 6 ++++++
+ 8 files changed, 38 insertions(+)
+
+diff --git a/sound/aoa/fabrics/layout.c b/sound/aoa/fabrics/layout.c
+index c3ebb6de4789..7bb541577a26 100644
+--- a/sound/aoa/fabrics/layout.c
++++ b/sound/aoa/fabrics/layout.c
+@@ -948,6 +948,8 @@ static void layout_attached_codec(struct aoa_codec *codec)
+ 			if (lineout == 1)
+ 				ldev->gpio.methods->set_lineout(codec->gpio, 1);
+ 			ctl = snd_ctl_new1(&lineout_ctl, codec->gpio);
++			if (!ctl)
++				return;
+ 			if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
+ 				strscpy(ctl->id.name, "Headphone Switch");
+ 			ldev->lineout_ctrl = ctl;
+@@ -961,12 +963,16 @@ static void layout_attached_codec(struct aoa_codec *codec)
+ 			if (ldev->have_lineout_detect) {
+ 				ctl = snd_ctl_new1(&lineout_detect_choice,
+ 						   ldev);
++				if (!ctl)
++					return;
+ 				if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
+ 					strscpy(ctl->id.name,
+ 						"Headphone Detect Autoswitch");
+ 				aoa_snd_ctl_add(ctl);
+ 				ctl = snd_ctl_new1(&lineout_detected,
+ 						   ldev);
++				if (!ctl)
++					return;
+ 				if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
+ 					strscpy(ctl->id.name,
+ 						"Headphone Detected");
+diff --git a/sound/isa/gus/gus_pcm.c b/sound/isa/gus/gus_pcm.c
+index a0757e1ede46..08ccb4d80ade 100644
+--- a/sound/isa/gus/gus_pcm.c
++++ b/sound/isa/gus/gus_pcm.c
+@@ -851,6 +851,8 @@ int snd_gf1_pcm_new(struct snd_gus_card *gus, int pcm_dev, int control_index)
+ 		kctl = snd_ctl_new1(&snd_gf1_pcm_volume_control1, gus);
+ 	else
+ 		kctl = snd_ctl_new1(&snd_gf1_pcm_volume_control, gus);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.index = control_index;
+ 	err = snd_ctl_add(card, kctl);
+ 	if (err < 0)
+diff --git a/sound/pci/cmipci.c b/sound/pci/cmipci.c
+index cd73b6833639..ff4bfbf94b81 100644
+--- a/sound/pci/cmipci.c
++++ b/sound/pci/cmipci.c
+@@ -2637,16 +2637,22 @@ static int snd_cmipci_mixer_new(struct cmipci *cm, int pcm_spdif_device)
+ 		}
+ 		if (cm->can_ac3_hw) {
+ 			kctl = snd_ctl_new1(&snd_cmipci_spdif_default, cm);
++			if (!kctl)
++				return -ENOMEM;
+ 			kctl->id.device = pcm_spdif_device;
+ 			err = snd_ctl_add(card, kctl);
+ 			if (err < 0)
+ 				return err;
+ 			kctl = snd_ctl_new1(&snd_cmipci_spdif_mask, cm);
++			if (!kctl)
++				return -ENOMEM;
+ 			kctl->id.device = pcm_spdif_device;
+ 			err = snd_ctl_add(card, kctl);
+ 			if (err < 0)
+ 				return err;
+ 			kctl = snd_ctl_new1(&snd_cmipci_spdif_stream, cm);
++			if (!kctl)
++				return -ENOMEM;
+ 			kctl->id.device = pcm_spdif_device;
+ 			err = snd_ctl_add(card, kctl);
+ 			if (err < 0)
+diff --git a/sound/pci/es1938.c b/sound/pci/es1938.c
+index 280125eff362..b6dcb721fffc 100644
+--- a/sound/pci/es1938.c
++++ b/sound/pci/es1938.c
+@@ -1655,6 +1655,8 @@ static int snd_es1938_mixer(struct es1938 *chip)
+ 	for (idx = 0; idx < ARRAY_SIZE(snd_es1938_controls); idx++) {
+ 		struct snd_kcontrol *kctl;
+ 		kctl = snd_ctl_new1(&snd_es1938_controls[idx], chip);
++		if (!kctl)
++			return -ENOMEM;
+ 		switch (idx) {
+ 			case 0:
+ 				chip->master_volume = kctl;
+diff --git a/sound/pci/ice1712/aureon.c b/sound/pci/ice1712/aureon.c
+index 1191a2686dfd..d6abff2978f3 100644
+--- a/sound/pci/ice1712/aureon.c
++++ b/sound/pci/ice1712/aureon.c
+@@ -1891,6 +1891,8 @@ static int aureon_add_controls(struct snd_ice1712 *ice)
+ 			for (i = 0; i < ARRAY_SIZE(cs8415_controls); i++) {
+ 				struct snd_kcontrol *kctl;
+ 				kctl = snd_ctl_new1(&cs8415_controls[i], ice);
++				if (!kctl)
++					return -ENOMEM;
+ 				if (i > 1)
+ 					kctl->id.device = ice->pcm->device;
+ 				err = snd_ctl_add(ice->card, kctl);
+diff --git a/sound/pci/ice1712/ice1712.c b/sound/pci/ice1712/ice1712.c
+index 1e39b985bef2..4cec56769c0f 100644
+--- a/sound/pci/ice1712/ice1712.c
++++ b/sound/pci/ice1712/ice1712.c
+@@ -2346,21 +2346,29 @@ int snd_ice1712_spdif_build_controls(struct snd_ice1712 *ice)
+ 	if (snd_BUG_ON(!ice->pcm_pro))
+ 		return -EIO;
+ 	kctl = snd_ctl_new1(&snd_ice1712_spdif_default, ice);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = ice->pcm_pro->device;
+ 	err = snd_ctl_add(ice->card, kctl);
+ 	if (err < 0)
+ 		return err;
+ 	kctl = snd_ctl_new1(&snd_ice1712_spdif_maskc, ice);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = ice->pcm_pro->device;
+ 	err = snd_ctl_add(ice->card, kctl);
+ 	if (err < 0)
+ 		return err;
+ 	kctl = snd_ctl_new1(&snd_ice1712_spdif_maskp, ice);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = ice->pcm_pro->device;
+ 	err = snd_ctl_add(ice->card, kctl);
+ 	if (err < 0)
+ 		return err;
+ 	kctl = snd_ctl_new1(&snd_ice1712_spdif_stream, ice);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = ice->pcm_pro->device;
+ 	err = snd_ctl_add(ice->card, kctl);
+ 	if (err < 0)
+diff --git a/sound/pci/ice1712/ice1724.c b/sound/pci/ice1712/ice1724.c
+index 65bf48647d08..b16c84983b81 100644
+--- a/sound/pci/ice1712/ice1724.c
++++ b/sound/pci/ice1712/ice1724.c
+@@ -2379,16 +2379,22 @@ static int snd_vt1724_spdif_build_controls(struct snd_ice1712 *ice)
+ 		return err;
+ 
+ 	kctl = snd_ctl_new1(&snd_vt1724_spdif_default, ice);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = ice->pcm->device;
+ 	err = snd_ctl_add(ice->card, kctl);
+ 	if (err < 0)
+ 		return err;
+ 	kctl = snd_ctl_new1(&snd_vt1724_spdif_maskc, ice);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = ice->pcm->device;
+ 	err = snd_ctl_add(ice->card, kctl);
+ 	if (err < 0)
+ 		return err;
+ 	kctl = snd_ctl_new1(&snd_vt1724_spdif_maskp, ice);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = ice->pcm->device;
+ 	err = snd_ctl_add(ice->card, kctl);
+ 	if (err < 0)
+diff --git a/sound/pci/ymfpci/ymfpci_main.c b/sound/pci/ymfpci/ymfpci_main.c
+index b9a09568afc9..2ccb976e68e0 100644
+--- a/sound/pci/ymfpci/ymfpci_main.c
++++ b/sound/pci/ymfpci/ymfpci_main.c
+@@ -1781,16 +1781,22 @@ int snd_ymfpci_mixer(struct snd_ymfpci *chip, int rear_switch)
+ 	if (snd_BUG_ON(!chip->pcm_spdif))
+ 		return -ENXIO;
+ 	kctl = snd_ctl_new1(&snd_ymfpci_spdif_default, chip);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = chip->pcm_spdif->device;
+ 	err = snd_ctl_add(chip->card, kctl);
+ 	if (err < 0)
+ 		return err;
+ 	kctl = snd_ctl_new1(&snd_ymfpci_spdif_mask, chip);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = chip->pcm_spdif->device;
+ 	err = snd_ctl_add(chip->card, kctl);
+ 	if (err < 0)
+ 		return err;
+ 	kctl = snd_ctl_new1(&snd_ymfpci_spdif_stream, chip);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = chip->pcm_spdif->device;
+ 	err = snd_ctl_add(chip->card, kctl);
+ 	if (err < 0)
 -- 
-Without deviation from the norm, progress is not possible.
+2.25.1
+
