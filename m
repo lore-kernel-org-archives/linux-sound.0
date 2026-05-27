@@ -1,92 +1,87 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5073829BDBB
-	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 05:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D9F2BEFE8
+	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 05:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779859762; cv=none; b=g6skCW0FcE5hQ/oLXaVC4NpngKwx9wjW71t9yJ69Wr1SBlb3t+UxfaipUakbiWlHPz7NEcxU8bp0Mt3OaM3o1ML2AfG38HFevcz+8DFUQREAyIvmLoE8VBMMg38wr9dQmLvxpq019V4buG5BbTM4lCqhNJRz40NbzfVuRcpenM0=
+	t=1779860073; cv=none; b=egnW4cVrAh56ZfQuYayCgsDJYUc01cOMcD0JK+mGB4OiTNhFeYUTXqraYQGHyMmakUlkZQ1UbPcqi5lPgZERlH3LTSjlRKLxXT3eIDioaWSwN8015HUujkwrGyHZWDABoq9U6xe/a0F3g8mOTcwtFr1MxKZWK9qe8C8nH9ZAmJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779859762; c=relaxed/simple;
-	bh=PLHJJxmSkpDNFH43nZx6lAe8QfwvQbuzPnIQsQzUCfc=;
+	s=arc-20240116; t=1779860073; c=relaxed/simple;
+	bh=7Bc8qnatG4EHunZTj7qAuITmDEGC7WQMkpDIbUoMfAA=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MDzxsGC221rcAj64lrBJLCPpWi6xGLmua5Jiq2fGag07Xm3uTOvDO4NO4VBeQC965wzElae5MUUhXGcHwwl9pRtlqQ6uz7ZbPsSCHUZ3Ekb1wd9BHwyUjifIdcyl0r+tBin68/B2MxAEVJ6ZfyyhQKau40Tf9Qt3zAwSV/Ou9ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hWxMEwfm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/c9o9AeZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hWxMEwfm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/c9o9AeZ; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=AI/dFEqFk29TwqUWtuPI2c5J1UCiolklCJU+cE9rnM2GOBPauh0A+MEruHqSHu1X7MAQ6V/seCHffJot9WGGDGLTp5Yf9nUzOsNBf25xLXBRWF32+q1ZqHlpfjeDDO/zEbv41n7LYi67ML/BtHaarFR1RE48BWlWF0bb3EB3T/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AatbxTdr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pgo3jD44; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AatbxTdr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pgo3jD44; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hWxMEwfm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/c9o9AeZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hWxMEwfm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/c9o9AeZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AatbxTdr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pgo3jD44";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AatbxTdr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pgo3jD44"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 513BB6B16B;
-	Wed, 27 May 2026 05:29:19 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 733B166D38;
+	Wed, 27 May 2026 05:34:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779859759; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779860070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=svuX77SW8vnbvuY432YXCcgyEAAoT9OnatmzUJsU5Pk=;
-	b=hWxMEwfmpqMqKDMjXAi52ezDrZCFmGq8YvEz6dwU7w3z6No1nM0gIJpp8cNEwRmlPlz83r
-	y3SwZqzfiu74rXVgK4K7ae0pVwtLeXBwr/1bzfQ6qs1HPRMrKcqUbAO+roq8rIC/k6lIVO
-	nHfFonC9cV9Z5kM2yDmYlk70Iz1noJ4=
+	bh=huNET+gMtUSdlVZLys0+0OGm/SIVo/ISE10d093BUSE=;
+	b=AatbxTdrqSFfzZpNmy/kzRt8izzHlDgzdBrGripiL9QbbRlgDH7ts++AuvhjBg4GTAVtSJ
+	6T/QcPVfCzD2miz/yiAMzGEQc4b+Xt1EEGDlV0tVsORdJQX6ercddxfjNvKb0VIjhRIpA6
+	eRoallTLwe8XeM2xoH3bFUXQ5dPC7n8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779859759;
+	s=susede2_ed25519; t=1779860070;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=svuX77SW8vnbvuY432YXCcgyEAAoT9OnatmzUJsU5Pk=;
-	b=/c9o9AeZx/AgzOkNrdfyls5JuD0cV+Xo7TSwUxhCRyyZrMIKWJwdWkWqNfFDbC9nnWed+Y
-	Zk+hBmRZXb1sZ+Dg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hWxMEwfm;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/c9o9AeZ"
+	bh=huNET+gMtUSdlVZLys0+0OGm/SIVo/ISE10d093BUSE=;
+	b=pgo3jD44uqgTlYSVEsCkJKfx7vs46XvMDWEpvecQ8AKONS4SRCKcvdiO0MhyTPE8UBU94+
+	UgYKhbBJCHfRw4DQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779859759; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1779860070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=svuX77SW8vnbvuY432YXCcgyEAAoT9OnatmzUJsU5Pk=;
-	b=hWxMEwfmpqMqKDMjXAi52ezDrZCFmGq8YvEz6dwU7w3z6No1nM0gIJpp8cNEwRmlPlz83r
-	y3SwZqzfiu74rXVgK4K7ae0pVwtLeXBwr/1bzfQ6qs1HPRMrKcqUbAO+roq8rIC/k6lIVO
-	nHfFonC9cV9Z5kM2yDmYlk70Iz1noJ4=
+	bh=huNET+gMtUSdlVZLys0+0OGm/SIVo/ISE10d093BUSE=;
+	b=AatbxTdrqSFfzZpNmy/kzRt8izzHlDgzdBrGripiL9QbbRlgDH7ts++AuvhjBg4GTAVtSJ
+	6T/QcPVfCzD2miz/yiAMzGEQc4b+Xt1EEGDlV0tVsORdJQX6ercddxfjNvKb0VIjhRIpA6
+	eRoallTLwe8XeM2xoH3bFUXQ5dPC7n8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779859759;
+	s=susede2_ed25519; t=1779860070;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=svuX77SW8vnbvuY432YXCcgyEAAoT9OnatmzUJsU5Pk=;
-	b=/c9o9AeZx/AgzOkNrdfyls5JuD0cV+Xo7TSwUxhCRyyZrMIKWJwdWkWqNfFDbC9nnWed+Y
-	Zk+hBmRZXb1sZ+Dg==
+	bh=huNET+gMtUSdlVZLys0+0OGm/SIVo/ISE10d093BUSE=;
+	b=pgo3jD44uqgTlYSVEsCkJKfx7vs46XvMDWEpvecQ8AKONS4SRCKcvdiO0MhyTPE8UBU94+
+	UgYKhbBJCHfRw4DQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 18F825A669;
-	Wed, 27 May 2026 05:29:19 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3B13A5A66E;
+	Wed, 27 May 2026 05:34:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bW+UBC+BFmqDJAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 27 May 2026 05:29:19 +0000
-Date: Wed, 27 May 2026 07:29:18 +0200
-Message-ID: <87y0h5whch.wl-tiwai@suse.de>
+	id 1ipYCmaCFmqaNQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 27 May 2026 05:34:30 +0000
+Date: Wed, 27 May 2026 07:34:29 +0200
+Message-ID: <87wlwpwh3u.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	xen-devel@lists.xenproject.org,
+To: Zhang Cen <rollkingzzc@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.de>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] ALSA: xen-front: Fix event channel stream lifetime bugs
-In-Reply-To: <20260526-alsa-xen-event-channel-fixes-v1-0-91d3a6a50778@gmail.com>
-References: <20260526-alsa-xen-event-channel-fixes-v1-0-91d3a6a50778@gmail.com>
+	linux-kernel@vger.kernel.org,
+	zerocling0077@gmail.com,
+	2045gemini@gmail.com
+Subject: Re: [PATCH] ALSA: seq: midi: Serialize output teardown with event_input
+In-Reply-To: <20260526152608.1250473-1-rollkingzzc@gmail.com>
+References: <20260526152608.1250473-1-rollkingzzc@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -94,62 +89,97 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 513BB6B16B
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	RCVD_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.de,vger.kernel.org,gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
 
-On Tue, 26 May 2026 14:48:25 +0200,
-Cássio Gabriel wrote:
-> 
-> Fix two related event-channel issues in the Xen ALSA frontend.
-> 
-> The first patch resets the event channel's expected incoming event
-> id when a stream is cleared, and drops stale queued events from
-> the previous stream instance.
-> 
-> The second patch keeps the request channel connected from .open(),
-> where it is needed for hw-rule queries and stream open requests,
-> but delays the event channel until after a successful .prepare().
-> This prevents current-position events from reaching the ALSA position
-> handler before runtime buffer and period geometry are valid.
-> 
-> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
-> ---
-> Cássio Gabriel (2):
->       ALSA: xen-front: Reset event channel state on stream clear
->       ALSA: xen-front: Connect event channel after stream prepare
+On Tue, 26 May 2026 17:26:08 +0200,
+Zhang Cen wrote:
+> @@ -125,31 +128,44 @@ static int event_process_midi(struct snd_seq_event *ev, int direct,
+>  	struct seq_midisynth *msynth = private_data;
+>  	unsigned char msg[10];	/* buffer for constructing midi messages */
+>  	struct snd_rawmidi_substream *substream;
+> +	unsigned long flags;
+> +	int err = 0;
+>  	int len;
+>  
+>  	if (snd_BUG_ON(!msynth))
+>  		return -EINVAL;
+> +
+> +	spin_lock_irqsave(&msynth->output_lock, flags);
+>  	substream = msynth->output_rfile.output;
+> -	if (substream == NULL)
+> +	if (substream)
+> +		snd_use_lock_use(&msynth->output_use_lock);
+> +	spin_unlock_irqrestore(&msynth->output_lock, flags);
+> +
+> +	if (!substream)
+>  		return -ENODEV;
 
-Applied both patches now to for-next branch.  Thanks.
+Please use scoped_guard().  You can drop flags with it, and the return
+-ENODEV can be right after substream assignment.
 
+> @@ -229,12 +249,15 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
+>  	params.avail_min = 1;
+>  	params.buffer_size = output_buffer_size;
+>  	params.no_active_sensing = 1;
+> -	err = snd_rawmidi_output_params(msynth->output_rfile.output, &params);
+> +	err = snd_rawmidi_output_params(rfile.output, &params);
+>  	if (err < 0) {
+> -		snd_rawmidi_kernel_release(&msynth->output_rfile);
+> +		snd_rawmidi_kernel_release(&rfile);
+>  		return err;
+>  	}
+>  	snd_midi_event_reset_decode(msynth->parser);
+> +	spin_lock_irqsave(&msynth->output_lock, flags);
+> +	msynth->output_rfile = rfile;
+> +	spin_unlock_irqrestore(&msynth->output_lock, flags);
+>  	return 0;
+
+Ditto, use guard() or scoped_guard().
+
+> @@ -242,11 +265,20 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
+>  static int midisynth_unuse(void *private_data, struct snd_seq_port_subscribe *info)
+>  {
+>  	struct seq_midisynth *msynth = private_data;
+> +	struct snd_rawmidi_file rfile = {};
+> +	unsigned long flags;
+>  
+> -	if (snd_BUG_ON(!msynth->output_rfile.output))
+> +	spin_lock_irqsave(&msynth->output_lock, flags);
+> +	rfile = msynth->output_rfile;
+> +	msynth->output_rfile = (struct snd_rawmidi_file){};
+> +	spin_unlock_irqrestore(&msynth->output_lock, flags);
+> +
+> +	if (snd_BUG_ON(!rfile.output))
+>  		return -EINVAL;
+
+Same here, too.
+
+
+thanks,
 
 Takashi
