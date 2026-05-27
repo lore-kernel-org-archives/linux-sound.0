@@ -1,146 +1,124 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010013.outbound.protection.outlook.com [52.101.56.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 453F540DFDC;
-	Wed, 27 May 2026 13:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779888756; cv=fail; b=a3k0g33JzCg+4yxqLuM+VRbtk9wyWQbdoFs6zjkZkYEBkUmkya3zAPwOdMctYa/WubwbBO/4D9rYQXyWtKj9tGLSw1Ry7R1CwjB4PVtDOA2LUO8A65/sXSvtPB/P0PATehxdF0M+FqYYN5wMdUJoPgXPJFZ5Un93aVqbW+uNL2E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779888756; c=relaxed/simple;
-	bh=z08kt4RA7pdP7S+UMm9g6qokFP50TLxr4KrJHAFqCZk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NcFXKa9nB49NOVq8CuiOTBl1sI3yZRcEXe/kK6RbPCZu6N9Ki8+rANeJCb+XOf5EDSanoELYI5DlLCAhi5Phtkm/ZkZTFtwqceQRl4xOiJE2QQXkv9VKDJa9OVRHZxd/sBkwfElb+DHedGPsBnF9lGIefyhtz8JAgTO+jsUUWeY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xIvWLEMK; arc=fail smtp.client-ip=52.101.56.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC4A4218B5
+	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 13:42:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779889329; cv=none; b=kcTSLvJu4MKtsjvr9prtP1OEO0AFELZI/633FegAGSx4ckVxDO134GrhpSQhb++L309913XE/kOk615B3zCWwkaG4BDyBOUzpkIEK8j5A6HXMkIm94rIOcs1m7yvYtAjNbo4iQ/PYZdxQ/1D61gsXYWnq5RObTF3lTnIxK39ffM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779889329; c=relaxed/simple;
+	bh=2Q7+zlygQDiWGfxx9oKNM/G5wMI/KwIzH9dxAE1Eg+8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nvjfToe2lKqFeMW5C8HyTAKxFSch/sC4PGhzwTXPRH1QqXdbOgnp4x0pC6D6GiLmpCT+E8BPtApi82T0dUETaGLenb7F19LHRoYrJONL+B0zxwHLSCZ4aoTowkbABTBD6esblRi4M4KkG8Wl0Ea2NGhq14VKqiQkrSh+9sF8cNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qIuJ110U; arc=none smtp.client-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="xIvWLEMK"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bG/aIRHw5Eoe+7PFFTpeoJc+zBlAC5Valg9Owmf9EEjllsVQ6zEb90MrMtSR/rQQpgaIyd50c5YtygItrNsoax9ejZ5QvJlzxXZXy0qqh39tR+9lKU/BLRd1/x1ShFvtzq+Qe0FWtaM/k7Gh5wwDsZyFHPUwBhOYT9WtzALEnwD5T6FjdS/hNOSo2+t/6iVNht7krGnoQj60mDYAI8LLuM+Gi0j9BOPD9fslvGVd6NeaQEchvcSnX5stGaxCkhAb+rcEJOsWdropeEDWwcNZsYbnQ/T8C/vvYSGPNoQ1GwlZGLrdurDbPZ5oL5e04ws8fViNXPcCeW6JfBLAYGhEpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L4ZGhU2xvDVDU2eMcIJIRfdm8tOUWXnL2PgoweKkjGs=;
- b=Yyh5o6yUrn4bHdxdRj2Sv84ohvOGErRGK+A+wDK7+p/92gEm1b7DY4P8o+CxfYMMqFIE5UV1MxoLS7iLFAHWgslNFa+jRtJsOTi9uNrIKp+d+upDwB+wqhNNxeBjOXuQO2GUz3JVz00qIv82yV2GLi8FmWZbfhilS699DvlClsteTQQ9bidk6SBKLSGqXq0FC2ckETaNyqxXzg8HWDaDZPxXnJXxUSzCT6rp4uPQBLdIryNvJn79eu0VT1etne002VRI9RmMvuHIUPATmssvzaJedpVoOYNc+J0+z3Lbw+EnvW9pCVMQWTfYFD0KJwB/NR9U3WKiutZiKOd5VXbesQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L4ZGhU2xvDVDU2eMcIJIRfdm8tOUWXnL2PgoweKkjGs=;
- b=xIvWLEMKOF/Vri4xgcvCyQ1I3+0V3r14b+UUKv1hsRsGiqPtBDv3zG8lo3cJkiX8CpYi9DYcPP44RfKckDlJX+lmHk0IrW71zKl4yy14eHg7KyIZ7AjuuTX/mTRJ0UMjnCjr510o0cSOn2jJWtxoNV6RMqM0Xmvli4uh5lJvHF4=
-Received: from SA1P222CA0191.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:3c4::24)
- by CH3PR12MB7620.namprd12.prod.outlook.com (2603:10b6:610:150::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.12; Wed, 27 May
- 2026 13:32:23 +0000
-Received: from SA2PEPF00003AE8.namprd02.prod.outlook.com
- (2603:10b6:806:3c4:cafe::1c) by SA1P222CA0191.outlook.office365.com
- (2603:10b6:806:3c4::24) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.13 via Frontend Transport; Wed, 27
- May 2026 13:32:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- SA2PEPF00003AE8.mail.protection.outlook.com (10.167.248.8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.71.7 via Frontend Transport; Wed, 27 May 2026 13:32:23 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Wed, 27 May
- 2026 08:32:22 -0500
-Received: from amd-B550M-DS3H.amd.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
- Transport; Wed, 27 May 2026 08:32:09 -0500
-From: Syed Saba Kareem <syed.sabakareem@amd.com>
-To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
-CC: <vijendar.mukunda@amd.com>, <Sunil-kumar.Dommati@amd.com>, "Syed Saba
- Kareem" <Syed.SabaKareem@amd.com>, Vijendar Mukunda
-	<Vijendar.Mukunda@amd.com>, Venkata Prasad Potturu
-	<venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Syed Saba
- Kareem" <syed.sabakareem@amd.com>, "open list:AMD ASoC DRIVERS"
-	<linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Subject: [PATCH] ASoC: amd: acp: Use IS_REACHABLE() for SND_SOC_ACPI_AMD_SDCA_QUIRKS guard
-Date: Wed, 27 May 2026 19:02:00 +0530
-Message-ID: <20260527133208.3074614-1-syed.sabakareem@amd.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qIuJ110U"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2ef2a1cc06dso5086311eec.0
+        for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 06:42:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779889327; x=1780494127; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kkzyEKL9NR5CB1YGybIU9XChAPif6lvYie49X9D74OY=;
+        b=qIuJ110U0FgQ/UemqwDsvuky+Bi/ttQfZuEyvByVQrWHyOlay4P++QB/XDThNO0Ikf
+         d02wGTRHx8qZO7zPB3oAGppp86ryOcJKVUbfCsZ9vfuxvTJnD4L4CZ2WVL1z7ElB+z0Z
+         ZVspVNe5DdXTbOpXWtRrG29SpHB5pJ5j/ZBLSegfbv7MnzqViWjD90DCwnT1WXpOouV4
+         Rj/5uG0xSy8kLbVgrEaPEa0TtBRAjbk9QK0bbxbwwI3Vt01MZjJEg9czvk5BVoHR7ITK
+         jJGVCiDpRpO8fhjYasVAThrLzhX1j2np4sLODtWG3e+bixa5hlr9BJqA8E0+1w+F2E80
+         /U0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779889327; x=1780494127;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kkzyEKL9NR5CB1YGybIU9XChAPif6lvYie49X9D74OY=;
+        b=TAHynMspb4KpVPoJDK+zai4Xi1/0T+QJ0gWB9FQZ4NANKGXi99YrfsepijGQ0wbVd5
+         hHjfK24DkqBGILhgma/307VzFFQZ6NTHL3V2jeSyXMq6a25p5ubKJ2X9iqqrmEtUDkD+
+         lexLAMG0Don4OAdpSn5aOBpVxIvzXuQlWjfbw5dpJygciaGr+XgG0kzRrOuV21GsSBor
+         J5ZaYQIb8XV+H9vjpJK+g08Bnx5U5O/Nl4XShXuVguef559u9NA3rLxrZ8knepq1aFf7
+         QlzmyNHTAJfnF26uxTHWRHdjc5FfGM+GPe9kpksEYX4Ow4F4mD0LdVjukz2segyssqVG
+         KWQw==
+X-Gm-Message-State: AOJu0YyGU9IUKZeh4hahUvQwkE0n4lIY540tbCAfp20O8Drw/0GsPv7M
+	iK7v4lUfW4pvZliLeRbcUlI14OUCgastUxbLMY9paOo96R+roE7CBEF+
+X-Gm-Gg: Acq92OGKQwvJSNlIn0tySiUZE9z5PD1BkXwf9fbcsSU6tm32ahBhX5peCxWHcbos5zO
+	fO73olwQ5UQ1NMtFIocZYex7yOLWhDEsZFLyYahdXr2b1GaJynhWCvkFpP/0lb1ZqEzG6GxtyII
+	W+SrmNWkxYewhHydltBGRODhsqR04/Ol2FvFdVnzkyZRSlqQFRQR8QFdiLqGUM5FPfNsh3f2T9D
+	e/ib+0Va0HFLkVhFfU8huqg5izMM1ckeIRVZpl2Zfi+YGSd+ASmFiEeSwA+WuIX7kBbyBV7C3+c
+	w6LKVemDNyDWk65NKUNMukFkRriHrogN2sCgexDA0EMCrwBdttDuQZytIO3GBOHSyZQzH3FeEI6
+	K9WyCUG8eCWLkn06AGpXy7Iep/P/vC/lesEvzwY2MSNQjJwe5E7u3Xwr324oUgkohKHXEdS5aLE
+	711HFY9tWDidzqqhx7qz4k1ILcbkr4Ur+fP/VuDwF+qOo1d9305AqR7vUFR3I1Csbip7MhlNYfS
+	Vs3yam54xAo
+X-Received: by 2002:a05:7300:1489:b0:2dd:6937:79d1 with SMTP id 5a478bee46e88-304490c3717mr11002170eec.15.1779889326738;
+        Wed, 27 May 2026 06:42:06 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-162-74.user3p.v-tal.net.br. [177.4.162.74])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-304ccdaa124sm311702eec.11.2026.05.27.06.42.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 06:42:06 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Subject: [PATCH 0/2] ASoC: mediatek: mt8183: Fix probe resource cleanup
+Date: Wed, 27 May 2026 10:41:47 -0300
+Message-Id: <20260527-asoc-mt8183-probe-cleanup-v1-0-4f4f5593c8d1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE8:EE_|CH3PR12MB7620:EE_
-X-MS-Office365-Filtering-Correlation-Id: 524a7640-8b8e-43cf-4b8b-08debbf46271
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|376014|1800799024|11063799006|56012099006|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	URxEx9FBgZbxHocf49K/KiTgwad2VVLit/jjAP4Ul+aWK8VogMMMUMQoHn6NfAIjQdCjzFJX0KCZjgWdCt+AANSYeUqCWmEGX2EWHLLfzwZwgUMng6U7qlXtgX2+izIAXb0prsb1Hgy2MXZho1H3FbKLXTlCEKnkxTSEpsF4zd7wZxaIh/7C1oQdOil6i11hQ2ABhvLRh/pLlJbJIY7CSZ/KsyKMr1xRcc1BR70aQROy8BwwqJDh4QQH8fanSsWCN5fF9ucjbxR89bB6rIsk5Jnvc0/ge27gT0qgcGMqDWyUkK2iI+qtSMgAFaT/SZCZ/HRH0ykikYxEfyfO6LGes750NSVzCRNftSBR2IRq3aETYX0EHPzhM0ymx6PBcOKXmT1rFqfNRi1LCo9smPCs8S6jacHxVJWNTTqFike+isMIaI0JVIPhAA2Z3F4W99t0TRamDSKO2LjHvxpZuX7p+JtyJPtS73aYsrEkdY8WKAm7wbmbC7Pj8VSKO7jNHZPyisMtO8WamE/2LcjImX9LzSz6GDlJ+h4J3pcQ88UmKQNfWi6zb6Oxk7fqkk4zKk+H+vByl60VlWD9sUgfeQY0B8nake89NdQZl9jl7qupTcsqtY7RVvoIRefuoA8/gdMHGMFw/pGr7TWqZzs9mgSuky8AhE2SrXicwCtxGfOAoVGKmWGw322pDhPO5NM28LMm3zjsmgyUCFWD4znr1XMonzPvHoMZvjE0qwssUuta8Ro=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(376014)(1800799024)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	F+UBg/utE3DkevhSRcBgyq8yIo2fLeP5kfyikpC3Pp5RWg8af7QB6lGauRdgtLAcP415VZ7aDozKtbSo9UiXX3ImRCqhH2eRDgFmmSWsCcyqGvme2xkleqZCBpDX+y9J9ZFH5dujHj9/Cai9Jh2/udV9U++Bd2zSjHzabj5gWwRb3wCFsrGe/CoMJW6+lOtJpqhttUFu/wV5IzVi3XvC00qwCoFRcANZiOoSNbWbf9olQEjeXFlyZHVvciZOjQX+224fm4AgV+tR0CBl/hBneaRJBt620E6cNDcnM/ESxEPU24yZ2vs7d3/yYg+vEZR6xC1QCO+7lkKVrWy54YKn0c4OUpCMTAa3/Zgy9ZumMHfT8zCJ8AbEMxictDhIpMjJW28/fs/sz1kr0ABSDJ6SHo8Vdhcjr2woUlqCg+HWJw8MMYDQADoe1/43eS3jFcxz
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 13:32:23.0841
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 524a7640-8b8e-43cf-4b8b-08debbf46271
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00003AE8.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7620
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQrCMBBA0auUWTvQRKPBq0gX6XSiI5qETCtC6
+ d2NunyL/1dQrsIK526Fyi9RyanB7DqgW0hXRpmawfb22DvrMGgmfM7e+D2WmkdGenBIS0GO0Xm
+ y0+FkHLS+VI7y/r0vw9+6jHem+TuEbfsAiwD/V30AAAA=
+X-Change-ID: 20260525-asoc-mt8183-probe-cleanup-eff58c2d4715
+To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>, Shunli Wang <shunli.wang@mediatek.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ notify@kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1056;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=2Q7+zlygQDiWGfxx9oKNM/G5wMI/KwIzH9dxAE1Eg+8=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDFliX1Zej3nUwndl6QHG3JC4CezSWbm7z/btUjCI//CyX
+ HrFjumLO0pZGMS4GGTFFFlWJy2y3NP14Gp93AoPmDmsTCBDGLg4BWAi/7cyMqxtUwvPNtl567XI
+ 6ta1Anf9/LUY8tZdY1tqY/5/vYzfxxOMDL3B1oeixFaZbl5TmlPlpepdl3T8//N1M6P8cmQf/Hz
+ CwQEA
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-From: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+The MT8183 AFE probe has two cleanup gaps that match issues
+recently fixed in newer MediaTek AFE drivers.
 
-Fix a build failure when CONFIG_SND_SOC_ACPI_AMD_MATCH=y (built-in) and
-CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS=m (module):
+First, reserved memory assigned with of_reserved_mem_device_init()
+is never released on driver removal or later probe failures.
 
-  x86_64-linux-ld: sound/soc/amd/acp/amd-acp70-acpi-match.o:(.data+0xf00):
-    undefined reference to `snd_soc_acpi_amd_sdca_is_device_rt712_vb'
+Second, the probe-time runtime PM resume used before reinitializing
+the regmap cache is unchecked, and a regmap_reinit_cache() failure
+skips the temporary PM put.
 
-The header guard uses IS_ENABLED() which evaluates to true for both =y
-and =m configs. This causes the real function declaration to be used even
-when the symbol is only available in a loadable module, resulting in an
-undefined reference when the caller is built-in.
+Fix both issues with a devm reserved-memory release action and
+checked runtime PM resume handling.
 
-Replace IS_ENABLED() with IS_REACHABLE() which correctly evaluates to
-false when the dependency is a module but the caller is built-in, causing
-the static inline stub to be used instead.
-
-Fixes: 10d366a846be ("ASoC: amd: acp: Fix Kconfig dependencies for SND_SOC_ACPI_AMD_SDCA_QUIRKS")
-Signed-off-by: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
- sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cássio Gabriel (2):
+      ASoC: mediatek: mt8183: Release reserved memory on cleanup
+      ASoC: mediatek: mt8183: Check runtime resume during probe
 
-diff --git a/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h
-index 0e644e71e76f..66df37d29d84 100644
---- a/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h
-+++ b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h
-@@ -9,7 +9,7 @@
- #ifndef _SND_SOC_ACPI_AMD_SDCA_QUIRKS
- #define _SND_SOC_ACPI_AMD_SDCA_QUIRKS
- 
--#if IS_ENABLED(CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS)
-+#if IS_REACHABLE(CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS)
- 
- bool snd_soc_acpi_amd_sdca_is_device_rt712_vb(void *arg);
- 
--- 
-2.43.0
+ sound/soc/mediatek/mt8183/mt8183-afe-pcm.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
+---
+base-commit: 8cd773d4f8235aaf0b04927b3c9d2d0326def09b
+change-id: 20260525-asoc-mt8183-probe-cleanup-eff58c2d4715
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
