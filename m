@@ -1,85 +1,136 @@
-Received: from pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.1.125])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0D224677B;
-	Wed, 27 May 2026 03:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.1.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7EC426F289
+	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 05:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779854156; cv=none; b=fHMcU07eGYGVhDxnsGhPHxMaxUBR4HWXT+imEdbwwt2yY+F+shzRytzav4oC+THNTiLx8PJYpn0iSjQXgwOTSdFqI/9E+M5bzWAJlCciRukCWOVVQ5wII80QTdvuxhCpJprvpqom9v0OVqpuEGBGlsS3pJAZvf3Uj+kCgixGgTI=
+	t=1779859263; cv=none; b=HVuwjovJ2+z0I+eRo7GBpZIVOL4NYgAfhsH3RnLEkbKid2GzT7KKlDIloIDsFQASkNmAb+7q6ixmHH3R9Z1aXY+EP2RAm0M02JKxwAGzRs7gXiYblT4h8A+hjSzMIfEVo8nJ0T3UGaD6/IWpDCc43MXBE8xKf8p2ZwLDeFchA5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779854156; c=relaxed/simple;
-	bh=NSGUt19Oh3I/sxQLPBg67SQ1ekQb3lXS57l7omGjgfM=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uzNodySuMXpE90ULXeIY71HPZ7TiDNV6sdQscI6Nzw8cRcF09St8ZMHAIZWKyu4GKTHvujGnRLuee1yYC3W30tlD9S0xJ9sgBxaTF+GmpnGGfKIr4/2EWPDLf75fGarupWBTbJKpUeuw6/k2VdhlxFZBvGHvQZz1aopFla9+jbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=FkTn5Aiw; arc=none smtp.client-ip=44.246.1.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1779859263; c=relaxed/simple;
+	bh=VaLYkT9kxTkK1H/NP6q2bXQB4SDODpALdpuu0SPK9ig=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=U4kbGz18dRBZQpUzH6izVdkxyX5wWorOFhdmifi6cP88zm2M5KrJ33qt1wozWMaCUNkGKj9xCIajNaSsvUvDxrgRfL0+C664Sw8ukWRW9QS/Vv05mXzlyfxUmXGZAOZ2uMxnaAMm4Z2bCKvCJDFa6sNYoUHjYxyxmN5e1/I7XU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NleIZP2X; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9Q90QXLB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0u86UegZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PkJq1GVg; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="FkTn5Aiw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1779854155; x=1811390155;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=NSGUt19Oh3I/sxQLPBg67SQ1ekQb3lXS57l7omGjgfM=;
-  b=FkTn5AiwAcoHZgroUcQ6omKu/41PX5JHqqC8MSDT7+TAXaNDGnKxJJM+
-   BYPwgmEFT623Le3wMoUsHfaEgKQ254a6QDxounEDRc1hRMvHoXXEH/qYa
-   AoZa/S13QyBC4tihZYW/PIF00soy6bWlMNmf37Gke05HaT5E3q1J8j1/4
-   wVBMutuUXOVSwgNXPtpFFI5k8RejxuI5vw8k4CA9IICPs8iD8Cb5MP+ng
-   bB1pjNikR/yxQr3W/SaG84dAmE82q0rZjBDZOayp5gPHUcOpjSkvTLZGe
-   kN4wD06//J3e/ArLBz54zfFwvNlwzKCUllgbwCEMM7frQrgGGyZg4djDa
-   w==;
-X-CSE-ConnectionGUID: xnxwD3tESyiYSzGXWnie1A==
-X-CSE-MsgGUID: Wb6P6YM4R7qmjQq2/yUlXw==
-X-IronPort-AV: E=Sophos;i="6.24,170,1774310400"; 
-   d="scan'208";a="20533045"
-Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
-  by internal-pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 03:55:52 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:17930]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.62.206:2525] with esmtp (Farcaster)
- id 138d2833-e4a7-4721-ad89-22efbecfd132; Wed, 27 May 2026 03:55:51 +0000 (UTC)
-X-Farcaster-Flow-ID: 138d2833-e4a7-4721-ad89-22efbecfd132
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Wed, 27 May 2026 03:55:49 +0000
-Received: from dev-dsk-akiyano-1c-2138b29d.eu-west-1.amazon.com (172.19.83.6)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Wed, 27 May 2026 03:55:45 +0000
-From: Arthur Kiyanovski <akiyano@amazon.com>
-To: <tglx@kernel.org>
-CC: <akiyano@amazon.com>, <anna-maria@linutronix.de>,
-	<anthony.l.nguyen@intel.com>, <dwmw2@infradead.org>, <frederic@kernel.org>,
-	<giometti@enneenne.com>, <jacob.e.keller@intel.com>,
-	<johannes.berg@intel.com>, <jstultz@google.com>, <kvmarm@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-	<linux-wireless@vger.kernel.org>, <maz@kernel.org>,
-	<miriam.rachel.korenblit@intel.com>, <mlichvar@redhat.com>, <mst@redhat.com>,
-	<netdev@vger.kernel.org>, <oliver.upton@linux.dev>, <oupton@kernel.org>,
-	<peter.hilber@oss.qualcomm.com>, <richardcochran@gmail.com>,
-	<saeedm@nvidia.com>, <sboyd@kernel.org>, <thomas.weissschuh@linutronix.de>,
-	<tiwai@suse.com>, <vdonnefort@google.com>, <virtualization@lists.linux.dev>
-Subject: Re: [PATCH 0/24] timekeeping/ptp: Expand snapshot functionality
-Date: Wed, 27 May 2026 03:55:32 +0000
-Message-ID: <20260527035533.13791-1-akiyano@amazon.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260526165826.392227559@kernel.org>
-References: <20260526165826.392227559@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NleIZP2X";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9Q90QXLB";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0u86UegZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PkJq1GVg"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E0F3366D0E;
+	Wed, 27 May 2026 05:20:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779859260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KunEnHy3Z23KH2avng618/6NNIeBgT7KgZb5Etnd3hY=;
+	b=NleIZP2XPusHx69yN4J/Gz3z/yLLpLgkvudPtfQegV7QwW+PIkTqn4vkki7fgyZvOtmrsk
+	QjpIzWktOdZ+6/7BD7ul+FIOPb7deWUKSJUY0F+k7TEDAXePHZlKGI39u/a300hvw9IMXZ
+	h0r96xXwt8MyOcWpdPN5Hw7HCyHCbfQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779859260;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KunEnHy3Z23KH2avng618/6NNIeBgT7KgZb5Etnd3hY=;
+	b=9Q90QXLB7hi+dOdQcSXPOmj7RzCtt4o9rVvYvZj0124ewvsmjo0zJXBmMJLBcUxZy+I883
+	sOMTrIPPr5BZAFAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0u86UegZ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PkJq1GVg
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1779859259; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KunEnHy3Z23KH2avng618/6NNIeBgT7KgZb5Etnd3hY=;
+	b=0u86UegZz23dNSPk0fl7SBSD/dbMxtvLgaFAKH5dKfWdO/8lxlBE4JIDRSh0okdAfez4yo
+	oT6r/wfLOOUcb0ri+8JL6Nx617Uiq5QnRvMBf2e2lRM32Y1TOOYR5TgH068mPIjKlShfQ3
+	Sf5UenCuie076bOOPuDajE0xfoNW7i0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1779859259;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KunEnHy3Z23KH2avng618/6NNIeBgT7KgZb5Etnd3hY=;
+	b=PkJq1GVgnIbyO6oDXe+Qv6hJC/ypaDxkQNCrO+lXCSALuPCVTcXvKK+81NOE0o0NH2zZQf
+	rs8GSZk3YxEtMGCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B5FDC5A661;
+	Wed, 27 May 2026 05:20:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2ngUKzt/Fmq0EQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 27 May 2026 05:20:59 +0000
+Date: Wed, 27 May 2026 07:20:59 +0200
+Message-ID: <871pexxwas.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Fabian Lippold <fabianlippold1184@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALC269/Realtek: add quirk for HP Dragonfly Folio G3 2-in-1
+In-Reply-To: <20260526154418.1850568-3-fabianlippold1184@gmail.com>
+References: <87ldd6zp8w.wl-tiwai@suse.de>
+	<20260526154418.1850568-3-fabianlippold1184@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: EX19D035UWA003.ant.amazon.com (10.13.139.86) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: E0F3366D0E
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
 
-Tested with a locally rebased version of my PTP clock attributes series [1]
-on top — verified ENA PHC and ptp_vmclock attrs ioctls on x86_64.
+On Tue, 26 May 2026 17:41:01 +0200,
+Fabian Lippold wrote:
+> 
+> Add PCI quirk for HP Dragonfly Folio G3 (PCI ID 103c:8a06) to select the
+> CS35L41 SPI4 & GPIO LED fixup variant.
+> 
+> Signed-off-by: Fabian Lippold <fabianlippold1184@gmail.com>
 
-[1] https://lore.kernel.org/netdev/20260515164033.6403-1-akiyano@amazon.com/
+Applied now.  Thanks.
 
-Tested-by: Arthur Kiyanovski <akiyano@amazon.com>
+
+Takashi
