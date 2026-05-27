@@ -1,59 +1,59 @@
-Received: from out203-205-221-209.mail.qq.com (out203-205-221-209.mail.qq.com [203.205.221.209])
+Received: from out203-205-221-173.mail.qq.com (out203-205-221-173.mail.qq.com [203.205.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0347400E1A;
-	Wed, 27 May 2026 11:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9480540149B;
+	Wed, 27 May 2026 11:48:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779882532; cv=none; b=GR3ZzCKacQTNPaWSVAJ+8zXk4Wb8iEOKX3dmr/IABgaV/am81ILi3j244Df39yLxODcHas2EU6YAue2NYlq73BTwUahfmVvAISh3WBNuXXzDUc5HS4BhZ84UbYkVN4Hkr/qPDUDyGHXDvHrR1Z6fiGZThwlQj0d/8y5OMav0vZA=
+	t=1779882533; cv=none; b=NvO3Ad6Ee103p6hXZUSoU1eTntQX7l5GYT5oWu5crighV8WaEgkCySc27n8w5Xz83alwZ6t2028H+1T4DytheMjvkP+h6ZDGwDIGdZrnsxh0ps4IS5Z4Z15mPUjiCZwEslNKh/b5l9yI9piEw5rTqZ9TLu85LVEz0GuPvyf9TNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779882532; c=relaxed/simple;
-	bh=ebG19CGD8i38el6n6iJfCqzhkMyZzhHECSzFbqUlvD4=;
+	s=arc-20240116; t=1779882533; c=relaxed/simple;
+	bh=y8JM+pufb5jnYFreDbrky1DQdR2gaF4Z/oOHRZgIifM=;
 	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=UHZZ++y3tmEFamiJxbXuU7Yb+ySGUEgOfOMBcctbqnqzO51H+cdM6HX9oNvPv5Rfkha0tjI78vMG7t3fv/LM9D0eHon/QG38MFk6idHp0WbWDrr+ix330TO3x5RdgSYQOe58pzXxI3sP4ZSdBO5/tgKV3y6sglOxRqOsGe2VkAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=kEKyjb5k; arc=none smtp.client-ip=203.205.221.209
+	 MIME-Version; b=b6QSYLEPuIaIj0VJUeNA3/hF9+Bmj6yO0pTWYWVGF5rT1B4c3w812zMeQsb76sHkGXVKuT35KyoXJcEfZMsicsWmoJzQrMIh+EXzutUU0xi5cZ7OkMtc6tesjalT2hbf8sUDcocfPOq2Oy6VSJASZzib3cdDEQg/KPagbmrqd7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=ut9g5InD; arc=none smtp.client-ip=203.205.221.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="kEKyjb5k"
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="ut9g5InD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1779882529;
-	bh=jqSwK01aO8TmHZ7e+144rbX8qp9l8LQ+R9htw/wEdxM=;
+	s=s201512; t=1779882524;
+	bh=j1HJcfF1ZxYogMGF+2RVAp2LuWQpwxqJzxl34ZOTwfk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kEKyjb5k8TDrX34YNXfV1L8h1WqWoRadK1J4SMKmtKFM3x4vTIUwoV3zJa617xJMy
-	 pBmtabpMShX5JD3Bj11cidPzLzzwrOX/NSLOLvpho/hwSRaJ1AIkl18J13wyQKCOj8
-	 wPDh3/G0oFAiNkkjlOOomafHPULOKmKinFxWua/c=
+	b=ut9g5InDIspGb/TdOSRwPgizg1+LPwfWDhegIj9EX4iKCKsBod7tFB4JdgQUZsvE9
+	 PjTO3cUev8f7IP8t4oFFl8v4nQuA3SrCkVgSHa8banhoK00FN5x0UbSDR06xaL1PBl
+	 UcIvFVwCQuAP3PdB1lbHDwqdJ3FvvDD4A/TJ4QWk=
 Received: from localhost.localdomain ([116.128.244.169])
 	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
 	id C15A3CA3; Wed, 27 May 2026 19:48:21 +0800
-X-QQ-mid: xmsmtpt1779882526tklv72pld
-Message-ID: <tencent_6688A8957B7286948B48BBF5DD4A71DA8D06@qq.com>
-X-QQ-XMAILINFO: MRMtjO3A6C9X0aVGPG4vgGPYLrmd2Ptq6+vwk0dYzpu3njS3kGE+qdxmmTmD1Q
-	 WwlNHdY8yd/FFjkuJj+WXpk80mChNdVwOMn11OBMwFNPoLEQVZHZJx8hU57u5EiPItQ2Idxaftb5
-	 zLe9sXiRWyBjzd/xjI+tOuv72J9vODB3op3REY06p2IksINLPVXnzlxf5H53MsM/AH9qFEPZtM/1
-	 3Gm98Q63eye5/5aVwmy/2I2rreNUOTszCvSivO+LlTlytE4TX3ZbMLKSsPHX7T6s+qzv1ZVwVTaI
-	 MiygXbFCcZ0V6eYx74YcpJc1CIuqjLbXIUeprILLBJ3mTQiJF9p5ffHl+vOZDmj2iJ4VOUIDsTpA
-	 fvEPfqVCy+3uxWHWRF7F+58KU/UNMChZlkfYNPmgMnmw0hkfo3Dr/X/AbSp7gvLC+sTblJ/wu23N
-	 GWWG3NucSkp9RqCeGA/1ou+pePURtWSBnH3oGTcANwlEUZhaW7FPI+88wXGayDfXW4PtS49lwRR+
-	 Kfq1SNn4XnaiS9KOfW7zrbAEoranwvyGz9OB6/lxErNCu+CeOvXrEn/593aFm+JgwUBqDcVREkv4
-	 kzGiKOZcpi3VCWQiswGQYivmvapW8eB7E2lVhcPgaG0Gw+WpmMQVjM+pfiJvR0oL+uYGmZ1DMBCo
-	 teP1oM9uUZWMgLcpjMWBb10/m9o0pqHt+nGyT0azZYRLW6bBwYtOgqroDj693OAmZMMZMovwmUb9
-	 k/ZW7g0WLdOMaFFGH5IYqAWAjIbjXoWC35DLA5zAsAZXvW9xtA6ezKSOYDxXqI2iyebWd7y9uGSe
-	 yu5TQaohei+EaHqKcQ2MDT1J0OHLwCqW+PLH+fr9m4RD0KlTGoMpAWEJ+2iJ8PVQHwv40zc8lrPM
-	 3MczpwPCGNxc0wU1fK/pAfre3bCbzMonA2xRuBwRXn7x6BNT3JZHi1eIeOCxBd/De4XxM1XDGr72
-	 mPAPSVYbQILEVWF9XoC0ngcwL4HkPrWAJzGjydRAyTWfLK5zCRX+d1LutP9dKROt7GfwfBRrxW7G
-	 ckd0SJFBWraIUa1MR8uCAHVakyemZxUgvy7BaIh61JnlBg0y2k7pTuNpRsUgR2AzYQWWrxYsAQmi
-	 2+ml4m2OARDjWmHy8z+ZznElRT9A==
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+X-QQ-mid: xmsmtpt1779882521t0gnf1cqz
+Message-ID: <tencent_4A40C6868B7EFBC49D4C71CD0D9D6898FB06@qq.com>
+X-QQ-XMAILINFO: MllZffuBkEb5J+iumhW1t+l3OpEJuB0K03YTRCetEmb38Qndx6NCOmwEY99kGE
+	 BjggMXUuAp4DENVXm+zrzcmB3pTJzFKpHCTpKi66dKVoJIPnog7p0PMRwGWLWCRYInTbgZA1dDWs
+	 1tmhZOSFIZ2ud5+cQAtARw4e/e2evbb4+RSE1dGqtxI8StkdbLj4pZlcrL3fe4qB7l2s3xSJLISG
+	 FyRInydM2/4dlb4O7CCk3tSvL3PnA/Jykyr2G3Pqb7ngiFrEshULMM4OLR/Jt0SuhmZLUTmM/8/I
+	 0QOKt25eYRF58AA0zn+kTWczqaIVoPynRqz7+FlnfRHjz3TJV3l+dbFxw2Fb1kK40+YIOrqkCnX5
+	 V2pnwaMJBtL02PpMyRSur71YrdcxktyEJP+QuSsKFbTuspVFk8KDm2ceXjSqpFoOD6ZSi3MHqQa7
+	 kZOeoo0OmswbAJqwZ0geS99PTD/CMW73XpW3Hz16+PtyxqkcC7YEff5o1kcrDpgb8CKv6ku+GkgE
+	 qNuNLDRnR6lTbnv2wsx3Q8m3Q9qm56sBq+FcigLDt9YrkEE6zPyrCLza8bTH4oANfQWsoZWIZ03G
+	 /XJmTUt8gx8u2hfYW+Jq6A8VHLWAmH0/gQj4GKyaIJEtGyCZZSyfWYj8LDNjy4JojJY6egg8Vbjs
+	 dje8ra7iqYC712VFuP8sI1H3w9plN0MVfyoo95cbFiYMMH7DlndjKrowwoL9osYzC7HXknoVBPEB
+	 rqh0wYQAVk8PCsQiD9stEv5VvthPQVpl4Eop6OF9/7vU9xelKxgCNpMQ8HdCAtAemLNtlpbx0RUY
+	 3WHzjdygXvY5YMaCArhGWM3aBtJwk25YREKUHx0SIlyBk2xNzYiGTqQTrMdiTVaG5sE8u/1QDOon
+	 OORq2Y+shnEzkFXIDgl6UeTlSHiwWk/DSK1KszlvxbZQzfWw6hVXNXQJnKsoGkjSLLoci+N39M2B
+	 YXUfRN6lsyYknf8UvB0WUA+FHiIAaKdMgowV1TDMGM873Ch/S5T3U78622l1Hqy+l3gw+Q8NQ3ce
+	 I8WttEQ095st72fot9yiOHr4oHV3IMXz6e2IKknp8rQkNmsTfMBx9niGtnPrESI5EudeQoOh5Ehm
+	 wk9T7xNG65fN9ys0g=
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
 From: Zhao Dongdong <winter91@foxmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com
 Cc: linux-sound@vger.kernel.org,
 	Zhao Dongdong <zhaodongdong@kylinos.cn>,
 	stable@vger.kernel.org
-Subject: [PATCH v2 6/6] ALSA: aoa: check snd_ctl_new1() return value
-Date: Wed, 27 May 2026 19:48:19 +0800
-X-OQ-MSGID: <20260527114819.498119-7-winter91@foxmail.com>
+Subject: [PATCH v2 3/6] ALSA: ice1712: check snd_ctl_new1() return value
+Date: Wed, 27 May 2026 19:48:16 +0800
+X-OQ-MSGID: <20260527114819.498119-4-winter91@foxmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260527114819.498119-1-winter91@foxmail.com>
 References: <20260527114819.498119-1-winter91@foxmail.com>
@@ -67,52 +67,98 @@ Content-Transfer-Encoding: 8bit
 
 From: Zhao Dongdong <zhaodongdong@kylinos.cn>
 
-snd_ctl_new1() can return NULL when memory allocation fails. In
-layout.c, the function does not check the return value before
-dereferencing ctl->id.name or passing to aoa_snd_ctl_add(), which can
-lead to a NULL pointer dereference.
+snd_ctl_new1() can return NULL when memory allocation fails. The
+ice1712 driver calls snd_ctl_new1() without checking the return value
+before dereferencing the pointer in multiple places (ice1712.c,
+ice1724.c, aureon.c), which can lead to NULL pointer dereferences.
 
-Add NULL checks after snd_ctl_new1() calls and return early if any
+Add NULL checks after snd_ctl_new1() calls and return -ENOMEM if any
 fails.
 
 Assisted-by: Opencode:DeepSeek-V4-Flash
 Cc: stable@vger.kernel.org
-Fixes: f3d9478b2ce4 ("[ALSA] snd-aoa: add snd-aoa")
+Fixes: b9a4efd61b6b ("ALSA: ice1712,ice1724: fix the kcontrol->id initialization")
 Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
 ---
- sound/aoa/fabrics/layout.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ sound/pci/ice1712/aureon.c  | 2 ++
+ sound/pci/ice1712/ice1712.c | 8 ++++++++
+ sound/pci/ice1712/ice1724.c | 6 ++++++
+ 3 files changed, 16 insertions(+)
 
-diff --git a/sound/aoa/fabrics/layout.c b/sound/aoa/fabrics/layout.c
-index c3ebb6de4789..7bb541577a26 100644
---- a/sound/aoa/fabrics/layout.c
-+++ b/sound/aoa/fabrics/layout.c
-@@ -948,6 +948,8 @@ static void layout_attached_codec(struct aoa_codec *codec)
- 			if (lineout == 1)
- 				ldev->gpio.methods->set_lineout(codec->gpio, 1);
- 			ctl = snd_ctl_new1(&lineout_ctl, codec->gpio);
-+			if (!ctl)
-+				return;
- 			if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
- 				strscpy(ctl->id.name, "Headphone Switch");
- 			ldev->lineout_ctrl = ctl;
-@@ -961,12 +963,16 @@ static void layout_attached_codec(struct aoa_codec *codec)
- 			if (ldev->have_lineout_detect) {
- 				ctl = snd_ctl_new1(&lineout_detect_choice,
- 						   ldev);
-+				if (!ctl)
-+					return;
- 				if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
- 					strscpy(ctl->id.name,
- 						"Headphone Detect Autoswitch");
- 				aoa_snd_ctl_add(ctl);
- 				ctl = snd_ctl_new1(&lineout_detected,
- 						   ldev);
-+				if (!ctl)
-+					return;
- 				if (cc->connected & CC_LINEOUT_LABELLED_HEADPHONE)
- 					strscpy(ctl->id.name,
- 						"Headphone Detected");
+diff --git a/sound/pci/ice1712/aureon.c b/sound/pci/ice1712/aureon.c
+index 1191a2686dfd..d6abff2978f3 100644
+--- a/sound/pci/ice1712/aureon.c
++++ b/sound/pci/ice1712/aureon.c
+@@ -1891,6 +1891,8 @@ static int aureon_add_controls(struct snd_ice1712 *ice)
+ 			for (i = 0; i < ARRAY_SIZE(cs8415_controls); i++) {
+ 				struct snd_kcontrol *kctl;
+ 				kctl = snd_ctl_new1(&cs8415_controls[i], ice);
++				if (!kctl)
++					return -ENOMEM;
+ 				if (i > 1)
+ 					kctl->id.device = ice->pcm->device;
+ 				err = snd_ctl_add(ice->card, kctl);
+diff --git a/sound/pci/ice1712/ice1712.c b/sound/pci/ice1712/ice1712.c
+index 1e39b985bef2..4cec56769c0f 100644
+--- a/sound/pci/ice1712/ice1712.c
++++ b/sound/pci/ice1712/ice1712.c
+@@ -2346,21 +2346,29 @@ int snd_ice1712_spdif_build_controls(struct snd_ice1712 *ice)
+ 	if (snd_BUG_ON(!ice->pcm_pro))
+ 		return -EIO;
+ 	kctl = snd_ctl_new1(&snd_ice1712_spdif_default, ice);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = ice->pcm_pro->device;
+ 	err = snd_ctl_add(ice->card, kctl);
+ 	if (err < 0)
+ 		return err;
+ 	kctl = snd_ctl_new1(&snd_ice1712_spdif_maskc, ice);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = ice->pcm_pro->device;
+ 	err = snd_ctl_add(ice->card, kctl);
+ 	if (err < 0)
+ 		return err;
+ 	kctl = snd_ctl_new1(&snd_ice1712_spdif_maskp, ice);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = ice->pcm_pro->device;
+ 	err = snd_ctl_add(ice->card, kctl);
+ 	if (err < 0)
+ 		return err;
+ 	kctl = snd_ctl_new1(&snd_ice1712_spdif_stream, ice);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = ice->pcm_pro->device;
+ 	err = snd_ctl_add(ice->card, kctl);
+ 	if (err < 0)
+diff --git a/sound/pci/ice1712/ice1724.c b/sound/pci/ice1712/ice1724.c
+index 65bf48647d08..b16c84983b81 100644
+--- a/sound/pci/ice1712/ice1724.c
++++ b/sound/pci/ice1712/ice1724.c
+@@ -2379,16 +2379,22 @@ static int snd_vt1724_spdif_build_controls(struct snd_ice1712 *ice)
+ 		return err;
+ 
+ 	kctl = snd_ctl_new1(&snd_vt1724_spdif_default, ice);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = ice->pcm->device;
+ 	err = snd_ctl_add(ice->card, kctl);
+ 	if (err < 0)
+ 		return err;
+ 	kctl = snd_ctl_new1(&snd_vt1724_spdif_maskc, ice);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = ice->pcm->device;
+ 	err = snd_ctl_add(ice->card, kctl);
+ 	if (err < 0)
+ 		return err;
+ 	kctl = snd_ctl_new1(&snd_vt1724_spdif_maskp, ice);
++	if (!kctl)
++		return -ENOMEM;
+ 	kctl->id.device = ice->pcm->device;
+ 	err = snd_ctl_add(ice->card, kctl);
+ 	if (err < 0)
 -- 
 2.25.1
 
