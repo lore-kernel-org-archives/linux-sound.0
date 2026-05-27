@@ -1,107 +1,88 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C274037C0FD
-	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 15:51:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C46937757D;
+	Wed, 27 May 2026 15:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779897095; cv=none; b=oiP5GVyL5hwimGP5Xc0CVukVNSo7VXoSkiBe1//7zbFwyePfCKa79VMlTfvNZUrvvRVeR0SpbvwklK99xm8Erc0FW3NCDXB0J0EoP+ob+x0ZaaTlE7gnpX+c+0GUeZawy5C/VT6fdCDofDFLDBkxtZKC+S85kwLQFuMm1ZyYjPE=
+	t=1779897532; cv=none; b=abM4fMZzBW3Fbgi6Y2K3TD0kpB4TOvVTGYxzG/g9LUXkkXpv6B8PK35NvNsEo+q2phy3p+AzuqYw4mLX4Fc9cf4pPcNw+26yxDeCNGobdSeM+T6HFVk/HuTqOS4uUK2Y4c6F83IdnD+COeXFINSibN+6osPgvdOa4ruNhWe0zCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779897095; c=relaxed/simple;
-	bh=qKbkZMJtkt73q6MVdq9NtMxASPvqyv84AwgiiThd+7k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pwukxSUyM2/V1iBLGsh5KQz9vWU9M8SN7dCrkKTx0KSl2Pa2TffliaLQIi6Lv8JFYv8etwDt9JK4C3siPqC1Liv/1LFsX2lGmKdOBcBGPhdsSmrnG0Xa+V8g8XLv3p6+lUGNRMVtedlVt1suCvxA/FtXaqbSsByv9BnX/MhuCz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-57524e52a3dso9815486e0c.2
-        for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 08:51:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779897093; x=1780501893;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2bh+b2FSQ4S9tWiMljtZE1x8DvPABI/MvIYcGMABymU=;
-        b=oGrqcJPd3WGmkcC0qzInCOETP64x7BpGB678r9HvTLFasvHC1UdpmU8bIVopHXjKdX
-         C+iblorcoa/uJhEOiUTJh/zwMhAW0BYk6UdqaY3rjP0vB/WNla1DSfhZCPZb08iVqUn4
-         1BcsyTon2YYhp2rENIx/WJfTXrtXau8PEH42205ylDHzRZVbe9NcyAzRTfsVDdSd/JCg
-         +g2fGksmEjzkSkoHc6TJ00ysA/WvUQsGZgiX7/VYHCMbWmln9eqTd13XzYCi4MUqDqc8
-         MVehAbg0K1yyOLo1pkC/AKVXlUfUbRsK35314hOsayO1YE6GBdFCsmWcaUBP62Fzobbh
-         MnVA==
-X-Forwarded-Encrypted: i=1; AFNElJ9u1Xwsqyfa5PUv2Dp2f5RTRJkOzARrbWJNRWY7InyC20cb3Sr4QDssVDFYWQRjAscv1DzyIbLQ+mJGfQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyw+mhSR+wuMgikmoaHIhASV28avbx1atFc4+Gd5bDw3+BayrNi
-	63mgsOTR0TvYHPPQwpl3Ekm+hIslgiSsu2Pt5W6yUAG4XXK1TFZxP9Uh8JDancE8hR8=
-X-Gm-Gg: Acq92OHCbE5PUmQnE+1If/YxpmVXEsbaMW+t/yghIY8y3rdo25Q56i40xnnWQqs9AVY
-	8I0YjlbVcGjLpgEWoGE1GSLimecTAJ1G8hhr0MSofWRGeP6EvCPTon7nOVILsuWT2e05KaU0m7e
-	li2+hV1Svi2LhKQprZHL2pgR/dXvZROxO8IRjEiQpQbAp9Nub0GLs8HgXocMlLxuPhG4MGfmlbR
-	ftZMtNUAlWB7hy7x74H18YIcaX0Ab9iAAiGCH+3Lr173a+VOIHbGGUUppS8es87bVqh1991WjJ3
-	RgBGcUwJadVq3rUC1QvabbfQPwf5WEI0nIMKCn2ovYM9mF9M36g1pFE61lr9de74RDIbsL3fRCr
-	aHSXduMEir7tP5KXbSQZ3YV0jdAmdR9d6Ntj3q7sUzsjPtD4XOjA410R4Y98n0R4Gl0pdYyIA+p
-	10dB9dHMo6OTyd5eKIvBv3GC8hPLdJKP7bdZlCIVygBuyMC8nbbqCldXk6BxE+
-X-Received: by 2002:a05:6122:c93:b0:56b:579c:82e with SMTP id 71dfb90a1353d-586606b79a4mr12717085e0c.5.1779897092660;
-        Wed, 27 May 2026 08:51:32 -0700 (PDT)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-586ec46c8ddsm21345982e0c.0.2026.05.27.08.51.31
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 May 2026 08:51:31 -0700 (PDT)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-6313b7e3d03so7803466137.3
-        for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 08:51:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9BG4nMGTPoklYKSec+SbGK72n5oz9fzCQSZiD8+DCuBfHWqaC5MiJ8rDO8uc35+QPhNtO5T9Xvt+R1OA==@vger.kernel.org
-X-Received: by 2002:a05:6102:1494:b0:633:34c6:6ace with SMTP id
- ada2fe7eead31-67c8293fb73mr13015180137.26.1779897091174; Wed, 27 May 2026
- 08:51:31 -0700 (PDT)
+	s=arc-20240116; t=1779897532; c=relaxed/simple;
+	bh=P/q0FkPCbOqbUkrw+u8nkYD8bm9IFRA3W532/HwIFe8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=senNA22VjHmcauyrG5eyK2oc/GivUlWT0J7AYrLUO8Veh03wIbBzgGq8KnCDzAh7gMV4uWfgZoRo9fGc3WLLwX+15Clw1iu7tqLg21EeKxod1zr9p/lsCGfzv5fe52QJKbMrzXHC4YOWxjr0ijWPicsk0G8HqaMPaqDRWGgc0MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HI52qeAa; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HI52qeAa"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 46A771F000E9;
+	Wed, 27 May 2026 15:58:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779897528;
+	bh=qOiVUORxGHoXQHdIH/CnzYXWd5lz7K5U1INIbRfRKIg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=HI52qeAaRyO4Q6E0LSwfS3Av/xt9S4iwpw7+92v2eByeb1/+L10PUigEtdcxRbB2T
+	 YamtaviZWmfWO49VVYpBvsZfAQLf4EIQDIuCnYG206Ok8ubXohZhWnl4ooKkdSbZPX
+	 nq5OyQE2Cv2aFfDXQrhbVQ2piHDtY7tLnafJ5P/lgg6q3JmI+T2NjGEYRUTE780w8L
+	 ANFQ+NC2szcnuVHU9Z+XZSgz5mQX59RNQe0PkzPWiGCzdlNm6frITdN3acntNrp0rQ
+	 6ph4g1ryHdSYDHURey1Z734BfqKq7UHQI5R0mMZFypz+G8tSOzLnlTg0XMqsEEfjyX
+	 yhgW9ueoXM6yQ==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Jacob Keller <jacob.e.keller@intel.com>, LKML
+ <linux-kernel@vger.kernel.org>
+Cc: David Woodhouse <dwmw2@infradead.org>, Miroslav Lichvar
+ <mlichvar@redhat.com>, John Stultz <jstultz@google.com>, Stephen Boyd
+ <sboyd@kernel.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ Frederic
+ Weisbecker <frederic@kernel.org>, thomas.weissschuh@linutronix.de, Arthur
+ Kiyanovski <akiyano@amazon.com>, Rodolfo Giometti <giometti@enneenne.com>,
+ Vincent Donnefort <vdonnefort@google.com>, Marc Zyngier <maz@kernel.org>,
+ Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, Oliver
+ Upton <oupton@kernel.org>, Richard Cochran <richardcochran@gmail.com>,
+ netdev@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, Miri Korenblit
+ <miriam.rachel.korenblit@intel.com>, Johannes Berg
+ <johannes.berg@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, Saeed
+ Mahameed <saeedm@nvidia.com>, Peter Hilber
+ <peter.hilber@oss.qualcomm.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ virtualization@lists.linux.dev, linux-wireless@vger.kernel.org,
+ linux-sound@vger.kernel.org
+Subject: Re: [patch 01/24] timekeeping: Provide ktime_get_snapshot_id()
+In-Reply-To: <5b082d25-9a57-4612-a93e-a4591acd0ea6@intel.com>
+References: <20260526165826.392227559@kernel.org>
+ <20260526171222.769770418@kernel.org>
+ <5b082d25-9a57-4612-a93e-a4591acd0ea6@intel.com>
+Date: Wed, 27 May 2026 17:58:44 +0200
+Message-ID: <87ldd4lu8b.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1779896151.git.u.kleine-koenig@baylibre.com> <fbe2d29f785798b3e0b7c1b5707e917035a0b442.1779896151.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <fbe2d29f785798b3e0b7c1b5707e917035a0b442.1779896151.git.u.kleine-koenig@baylibre.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 27 May 2026 17:51:20 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWkYhoaN80b2xXvNLqwMdFgJV7cfPj_SPUea39Ft-AnqA@mail.gmail.com>
-X-Gm-Features: AVHnY4JpYSaPlViJEZLn2urWPttxXKooTYEBn-cJQAbGcaWZK9sJWm1CqYq_4bU
-Message-ID: <CAMuHMdWkYhoaN80b2xXvNLqwMdFgJV7cfPj_SPUea39Ft-AnqA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] pinctrl: Use named initializers for
- platform_device_id arrays
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Linus Walleij <linusw@kernel.org>, David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, 27 May 2026 at 17:43, Uwe Kleine-K=C3=B6nig (The Capable Hub)
-<u.kleine-koenig@baylibre.com> wrote:
-> Named initializers are better readable and more robust to changes of the
-> struct definition. This robustness is relevant for a planned change to
-> struct platform_device_id replacing .driver_data by an anonymous unit.
+On Tue, May 26 2026 at 14:41, Jacob Keller wrote:
+> On 5/26/2026 10:13 AM, Thomas Gleixner wrote:
+>> -void ktime_get_snapshot(struct system_time_snapshot *systime_snapshot)
+>> +bool ktime_get_snapshot_id(struct system_time_snapshot *systime_snapshot, clockid_t clock_id)
+>>  {
 >
-> While touching these arrays unify spacing and usage of commas.
+> Since this function now returns a bool would it make sense to add a
+> "Return:" comment to the kdoc to help explain what the return value means?
 >
-> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
-aylibre.com>
+> I saw that you have a WARN_ON with the ktime_get_snapshot wrapper. I
+> guess it returns false if timekeeping_suspended.
 
->  drivers/pinctrl/renesas/core.c            | 24 +++++++++++------------
+...
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
+> This warns here, and the wrapper ktime_get_snapshot also warns. Does
+> that make sense? I guess eventually the ktime_get_snapshot will be removed?
 
-Gr{oetje,eeting}s,
+No it does not and it's a leftover from an early version. I later
+switched to have a valid bit in the struct because otherwise I'd need to
+modify a gazillion call sites to propagate the return value through.
 
-                        Geert
+Let me remove it.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Thanks,
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+        tglx
