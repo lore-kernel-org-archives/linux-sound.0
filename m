@@ -1,93 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B6F43E4B4;
-	Wed, 27 May 2026 17:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779902467; cv=none; b=IRgH8J72vzyRPGOtUWV4PoVhct79FSJLvoLZOdXS0NtdzyuwGfeFY3DcoFPwPaD/bLod1kB9ra+xM8WHKYQQ0mrQ7el/eteOM344JoX4M8B1zO9XY8FRLEAdH3oNqtFxpmXRKgO2SX/+QIwQAHQPhzcqKupra9uriQ8htwKcLR0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779902467; c=relaxed/simple;
-	bh=AptR2TfNMyJEuvqUnO9wdbetw+zlmHZ5MXe3q1AP2s0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=aYR0R2rWbNe8ILc1zqN8xp8o8IkneAgCjPI22mg1QvVyBHBMvL0MOZ1o5a3FQMmFHjAgwqa39IabeeGomp1gJ3o77+p4eOUe5VZ2Odh3sddl0JPfYHGA8wTHfNJWe6j+AAxQVYj2pIeS94hr3Ro0eaZ2tS+4/PDgCHU9FAjv92s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bNvDVz4k; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C673EEAEE;
+	Wed, 27 May 2026 18:03:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779905035; cv=pass; b=WgWlju/yLNusWTepejhxOZIBYQUDdho15jDUyO8NLybIYM2C80M+HZ+RbURKEAGh7fy1HZrL/OMoco6NpHdVQl0t3LN1gcylXX0JqnoOS3+bTGpyaQ3oOOcwRoLQE4Bu/eVBKfxczVekH+uuNmOlbV6jnD3kOzjfMruBV692gug=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779905035; c=relaxed/simple;
+	bh=9NE1U5Y+LU+TJrHg0ZJQodmwW/H3SP7Y9HxyC95AnGE=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=gxww3ibSFySKLBfTKj0WUF2zd+/VOm0jhCcpgqTArqYmsgkLOKfeTw8loIXw/7BRvB5V9eLMtBqGcPFdLLIF2hetPRgxiOktSqvjsunueDRDNWVzOnuDlzS0jlEtdmHQnCcbGsnGEgJplWD91U4aMcQwHwG1vITC2ikf4hRflR8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=pYciJdN/; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bNvDVz4k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B75461F000E9;
-	Wed, 27 May 2026 17:21:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779902466;
-	bh=gGtx54a3XTzdXwkAQDlwrNCKEPvsNEOPWkD46OirlUs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=bNvDVz4k+NQlioQXgGv1oKQML57pdjekl344UI2brtbg4pMAuSFpHy5iRgYW7S7N0
-	 xT74K/zDwT+Kbq/GFJaVPb0uYetPWEmbYccYco/qCqCuOOT7I3p3Vm3MwmLv7xV/wO
-	 NpS+5gIKPt+ybshr0563cukSynVU1cqr070R228Rfu7Rxxuil1q3XRb0AnERTtOWMO
-	 6SS2rAstMpvkWDLs0mCsoyvnsRc83QBnZ6feljyJLv1ro/FqNf1dmNp1CsmuYlwUln
-	 w3+nJMzLjoYQsVB1wYgQSoUohK8lf2ELCWTFYedILX5YakiTda2UlcPa+ygoEb7qup
-	 qDNsT1Aj/t0oA==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>, 
- Jaroslav Kysela <perex@perex.cz>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- notify@kernel.org
-In-Reply-To: <20260527-asoc-simple-mux-enum-bounds-v1-1-3f805b9fc671@gmail.com>
-References: <20260527-asoc-simple-mux-enum-bounds-v1-1-3f805b9fc671@gmail.com>
-Subject: Re: [PATCH] ASoC: codecs: simple-mux: Fix enum control bounds
- check
-Message-Id: <177988610222.868420.15175045940781571169.b4-ty@b4>
-Date: Wed, 27 May 2026 13:48:22 +0100
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="pYciJdN/"
+ARC-Seal: i=1; a=rsa-sha256; t=1779905017; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=A2Zuf9c2qYWXtEQkLLvwlKxhjgO2kjFZzVN5K3YVGIQGgsOQld1M+EFmxRQzq0sDl8ZH+SDTqosNmwjNAQlC3bZym5MhR5yHcxxcTUt0XUKODUzj776plJgUQpUVx+XNGsvES+fWub81KbbT3odPqRHMx4+gq2En/HQZz7/5S6U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1779905017; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=xTRtxc5my+dZUuILLnX1aDJNMlVpiFAe1vA0Qh3Roxo=; 
+	b=BE3xChQxKKtzQyrgmsrKtszp65Igv9Cbgiyb/uk9Llk8SIqC3yTBqRm/4HIN83JSEx3mbIlQaRy2l1ifVJnYk1I9iF/NABIM6zftO0DHBHMCyMQg6V3Zbd5lRV8URQ4mjY0u35q//cU52as4Nd63I3f2EgR1Ng/hf+A9n20AXsc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779905017;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
+	bh=xTRtxc5my+dZUuILLnX1aDJNMlVpiFAe1vA0Qh3Roxo=;
+	b=pYciJdN/H7MzTFgpy8zS71Bq95Pjx21I6dmiCw7uU5mtcACltLq0I8Gtz9h549i8
+	BjK/YXC+pr5r0hBq7SGac9ciSiksGtcDkAizAZHIJqlePJFt4VOb2NFtwn12Q9RD7tB
+	+aW+iVFSlYho+h1TV9S7LPj5lYybHUcJkpJgbrtzFLgylVL2eAVDvas+9OD7hRXM04m
+	m2/FtTxz6jyu19bDRupEIvXBpTwrmIe49avgSE3qLcfJGa6S26RFp2JOYXLMcxqA0lU
+	08vblp50uyjSntGzRHtFEb2+y3bwQeQxoQfmU8uS57B71RDiSioTYYyI1UOgVTn731b
+	NBtitHLrEA==
+Received: by mx.zohomail.com with SMTPS id 1779905014735968.8590115968572;
+	Wed, 27 May 2026 11:03:34 -0700 (PDT)
+Message-ID: <744f0877b0b8099a7676cca92e820dfb84f8e3fa.camel@rong.moe>
+Subject: Re: [PATCH 2/3] ALSA: usb-audio: Add
+ QUIRK_FLAG_MIXER_SKIP_GET_CUR_VOL
+From: Rong Zhang <i@rong.moe>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Corbet
+	 <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Gordon Chen
+	 <chengordon326@gmail.com>, linux-sound@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <87tsrtwgyc.wl-tiwai@suse.de>
+References: <20260527-uac-quirk-get-cur-vol-v1-0-e9362b712e5e@rong.moe>
+		<20260527-uac-quirk-get-cur-vol-v1-2-e9362b712e5e@rong.moe>
+	 <87tsrtwgyc.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 28 May 2026 01:58:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1131; i=broonie@kernel.org;
- h=from:subject:message-id; bh=AptR2TfNMyJEuvqUnO9wdbetw+zlmHZ5MXe3q1AP2s0=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqFyf/iWsFolmMT91SZYqllXoV1syK8eiLLM6MN
- 7hb6TuusleJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahcn/wAKCRAk1otyXVSH
- 0GxpB/9dQ7ZUKj/clKcIwC9fBeRYLr6gqSsIQLw5ej9pcncwOJx0x9b3Iubp8umBWpgSmGe3g4J
- NI24RQKFpdgyKHUnN8KozyhRoB1DZCzMm6MuCKtB5hlvWZlLF/BcPLXS5PZEXo8FfSOKoIzo+DT
- +DCzeiKRfA/qnr+igArU3q9dmllmOevPJaD7BfQdFARgw5DtMLu6LlpkDDRZhjHp4VdPHLdDxhd
- wKRaNeCG+5loButk26kFa+UgNZ/VGqVi8s0QEvCh9gIdqL6NVDETsrax0sqnsj/y7Vqa5wRmEu6
- s5RmdFFBrjzYKHmnrf7P+1KeV2M5nMYrVnd1/kXDtbwfFuTL
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+User-Agent: Evolution 3.56.2-9 
+X-ZohoMailClient: External
 
-On Wed, 27 May 2026 09:24:00 -0300, Cássio Gabriel wrote:
-> ASoC: codecs: simple-mux: Fix enum control bounds check
+Hi Takashi,
 
-Applied to
+Thanks for your review.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+On Wed, 2026-05-27 at 07:37 +0200, Takashi Iwai wrote:
+> On Tue, 26 May 2026 19:49:24 +0200,
+> Rong Zhang wrote:
+> >=20
+> > Since commit 86aa1ea1f15c ("ALSA: usb-audio: Do not expose sticky
+> > mixers"), the UAC mixer core utilizes volume SET_CUR and GET_CUR to
+> > identify devices with sticky mixers. Unfortunately, even though most
+> > devices with sticky GET_CUR also have corresponding sticky SET_CUR,
+> > which I actually met more since the commit had been merged, there is
+> > also a rare case that some devices may have volume mixers that responds
+> > to SET_CUR properly but with its GET_CUR stubbed. This cause the sticky
+> > check to consider the mixer to be sticky and unnecessarily disable it.
+> >=20
+> > Add QUIRK_FLAG_MIXER_SKIP_GET_CUR_VOL to prevent sending GET_CUR to
+> > mixers by returning -ENXIO early. The error effectively skips the stick=
+y
+> > check as it's only meaningful when the mixer has some sort of self-
+> > awareness. Similar to QUIRK_FLAG_GET_SAMPLE_RATE, this should also help
+> > if some unmet devices can't tolerate volume GET_CUR in other ways.
+> >=20
+> > Signed-off-by: Rong Zhang <i@rong.moe>
+> > ---
+> >  Documentation/sound/alsa-configuration.rst | 4 ++++
+> >  sound/usb/mixer.c                          | 5 +++++
+> >  sound/usb/quirks.c                         | 1 +
+> >  sound/usb/usbaudio.h                       | 6 ++++++
+> >  4 files changed, 16 insertions(+)
+> >=20
+> > diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation=
+/sound/alsa-configuration.rst
+> > index 4b30cd63c5a5..bc3bc65c379a 100644
+> > --- a/Documentation/sound/alsa-configuration.rst
+> > +++ b/Documentation/sound/alsa-configuration.rst
+> > @@ -2389,6 +2389,10 @@ quirk_flags
+> >            from snd_usb_handle_sync_urb. Instead fall through and enque=
+ue a
+> >            packet_info containing only size-0 packets, so the OUT ring =
+keeps
+> >            moving (emits silence). Needed by Behringer Flow 8 (1397:050=
+c).
+> > +        * bit 30: ``mixer_skip_get_cur_vol``
+> > +          Skip reading current volume for mixers, as some devices retu=
+rn
+> > +          constant values or errors but otherwise works fine, i.e., se=
+tting
+> > +          volume takes desired effect.
+> > =20
+> >  This module supports multiple devices, autoprobe and hotplugging.
+> > =20
+> > diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+> > index d61bde654219..3b745aebb181 100644
+> > --- a/sound/usb/mixer.c
+> > +++ b/sound/usb/mixer.c
+> > @@ -420,6 +420,11 @@ static int get_cur_ctl_value(struct usb_mixer_elem=
+_info *cval,
+> >  static inline int get_cur_mix_raw(struct usb_mixer_elem_info *cval,
+> >  				  int channel, int *value)
+> >  {
+> > +	struct snd_usb_audio *chip =3D cval->head.mixer->chip;
+> > +
+> > +	if (chip->quirk_flags & QUIRK_FLAG_MIXER_SKIP_GET_CUR_VOL)
+> > +		return -ENXIO;
+>=20
+> So this workaround is applied to all mixer controls?
 
-Thanks!
+Hmm, it is indeed not very optimal. My initial idea was to prevent
+returning bogus values at all, so I gated GET_CUR here. But as you've
+said this could have a wide impact on other mixers...
 
-[1/1] ASoC: codecs: simple-mux: Fix enum control bounds check
-      https://git.kernel.org/broonie/sound/c/f63ad68e18d7
+>=20
+> We can put it as a common quirk as you've done, but the question is
+> how many devices need this, too...
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+While I am not sure if more devices need this (my intuition says yes),
+how about a less radical approach that still relies on the sticky check?
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+- Rename the quirk flag to QUIRK_FLAG_MIXER_GET_CUR_BROKEN.
+- Add a flag to struct usb_mixer_elem_info to gate GET_CUR.
+- When the sticky check fails, check quirk flags. Gate further GET_CUR
+if the quirk flag is set, otherwise disable the mixer as usual.
+- A mixer with GET_CUR gated will solely relies on the internal cache of
+last set volume.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+The quirk flag still applies to all mixers, but as long as a mixer makes
+the sticky check happy, it won't be affected at all. Only those mixers
+with constant GET_CUR values will have their GET_CUR gated. I assume the
+impact is minimal, since it's very unlikely a device would have sticky
+mixers (broken SET_CUR) along with mixers with working SET_CUR but
+broken GET_CUR at the same time.
 
 Thanks,
-Mark
+Rong
 
+>=20
+>=20
+> thanks,
+>=20
+> Takashi
