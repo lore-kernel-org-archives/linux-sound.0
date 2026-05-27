@@ -1,137 +1,150 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F1C3E3DA4
-	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 16:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52DE42EEC5
+	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 16:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779898050; cv=none; b=LC9zQ0L1nVbJbRnT9PNtAf0lDQWgLq87w7BJCbpooSXL3RqL1m5XxuI0SmXvEBa8aE5zY2e1z+ScD2PPlvSSFxYr1PNRfhcoy2LKx/VfUkWHG34WHjF3puFRMlx25QCmlWjBMFGQmndiWrNAvtec9rGpGIGJ6/YVduKg6Qk7v/E=
+	t=1779899353; cv=none; b=th8BuTwYSj3soNUwvggN+9WB6kXepA04Pi08u4XI6dfLD1P6GMmgBZxQmtS5Qg0FpQJ7Rj4uge3FzsdLVXKkM8pqU4XlYXOosHqrdnLQXZbu+ss4BQ0yqa9zeODCz9K3Mbyy+7uVhDCuaDRjVXDiZArOPgLguwFC9iojd2QFfiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779898050; c=relaxed/simple;
-	bh=8UaDU8tyq6fJreIIDw7WaUsoLWd4eersEx+DqAjXry0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HEW36wnvlCzRORkUx5ycg8x49viBO36u9I0i68M/Y0Mwby/RAkFg3052CUY8SVzrgfKNV4HIYB/UbstO4vmX30sM8qKeJIgyMKkEYOJ4w/KBfaH7FAXRENyaJAeAhnBsqoaUVuyFIdHexn8KKIFDkjdjPDLMGPEi5Ub+g1lpy74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kdLsC7lG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3JsilUno; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kdLsC7lG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3JsilUno; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1779899353; c=relaxed/simple;
+	bh=MARgWSB2JRyHiWTRwBhBMqTryJPPS2jchIS4w1LrmWc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CBJyneCQgy5tmb1FSvvYrcPhDeAlZedIYJgky54yXFgCYtf2WYO3y9a7Mrk2NWgooM362hwj/AIZK/hVduBB/dqmxbsC/NsLY03lhfQDR1t7lgaenxQzO/aooyU5BfsET+QZhDwKv85XIZ5YgLQ8X2mo7vGyT9b0yyDRbvd1bZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=g89DOoBA; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kdLsC7lG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3JsilUno";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kdLsC7lG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3JsilUno"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 63FCA6ABA1;
-	Wed, 27 May 2026 16:07:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779898046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7CstPdIeDAGKSLVe4RiHjZcwVi7sRkfjmCSJZnv3MS8=;
-	b=kdLsC7lGaahiPCECVRXhd1Ddg5G24B/hhlXynF9KyBq6Xnlhougn9PqFmssm97fvfnJExH
-	dZiwkICfPRl0eBEH9bom1S44IVZ0kDRW0haVnsQuUB/ZU0vAD/KLSkvqiHVcoNUG2Pok9G
-	eYuNRtwG57MMNmCZsx8QLLjPWVsJK6c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779898046;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7CstPdIeDAGKSLVe4RiHjZcwVi7sRkfjmCSJZnv3MS8=;
-	b=3JsilUnoVF/G8ra+AArOMi+Ef5rip21MIhMZ0z8/FHof4efNIfwkmm3FD+rdMIN1bEMArr
-	C/IuBFWIn7UCLcBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779898046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7CstPdIeDAGKSLVe4RiHjZcwVi7sRkfjmCSJZnv3MS8=;
-	b=kdLsC7lGaahiPCECVRXhd1Ddg5G24B/hhlXynF9KyBq6Xnlhougn9PqFmssm97fvfnJExH
-	dZiwkICfPRl0eBEH9bom1S44IVZ0kDRW0haVnsQuUB/ZU0vAD/KLSkvqiHVcoNUG2Pok9G
-	eYuNRtwG57MMNmCZsx8QLLjPWVsJK6c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779898046;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7CstPdIeDAGKSLVe4RiHjZcwVi7sRkfjmCSJZnv3MS8=;
-	b=3JsilUnoVF/G8ra+AArOMi+Ef5rip21MIhMZ0z8/FHof4efNIfwkmm3FD+rdMIN1bEMArr
-	C/IuBFWIn7UCLcBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1849A5A902;
-	Wed, 27 May 2026 16:07:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rE3ABL4WF2r4SAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 27 May 2026 16:07:26 +0000
-Date: Wed, 27 May 2026 18:07:25 +0200
-Message-ID: <87o6i0vnsy.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Xuerui Wang <kernel@xen0n.name>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	stable@vger.kernel.org,
-	Baoqi Zhang <zhangbaoqi@loongson.cn>,
-	Haowei Zheng <zhenghaowei@loongson.cn>
-Subject: Re: [PATCH V2] ALSA: hda/hdmi: Use 'AC_PINSENSE_ELDV' to detect pinsense for Loongson
-In-Reply-To: <20260527140841.3407183-1-chenhuacai@loongson.cn>
-References: <20260527140841.3407183-1-chenhuacai@loongson.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g89DOoBA"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4891e86fabeso24857985e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 09:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779899344; x=1780504144; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lp8EUEG6k+uQx75sbagyQs35jMaojHEjO5L3ntgLVNA=;
+        b=g89DOoBAuI83xqPWszuqhCTddZx0ONETKVoZcKFdcASpTkVpc7A18DmvjXbkukKjp3
+         jCzHh6oa0O2O60ft1uy4iEi3QrFypdTqA3bXE63RDDuojo2QkvpTLC4QvG0P5OSzsocv
+         fEU4i5WODBfJsI4QSgvSCYAGpHQwvBou62wMJHBx4Ogc0QB+VeM8xYq14VPYB6aroWft
+         GIJ3NGD/4re4dH4cAL6MU74xJCB/GqsPxFIqXwUz3hgODjcwYrWdL+rCF/7XwdcTaNc6
+         qcAMLG3NeHvmXmJQ2AkRTxH83svDmpqoDBjLEPvCKlLfJwHNtyKbeO75s5nLFLuBMXVh
+         MUhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779899344; x=1780504144;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Lp8EUEG6k+uQx75sbagyQs35jMaojHEjO5L3ntgLVNA=;
+        b=cZ9frQJSlddfsJbKOLBl/ucHCbR1I0w+LWWeuENBoSOJqiSp35okdMli9YsVNVwZW/
+         o/8wlhoxjsPGsJt8r9ztsuPV8wojpiXI7a7GCgE5ZNDZsFdpYzkkaZgTGyQL/ev0vSM2
+         mF+NPcvx/RPBDyveCevtq3qVe0ut95kFF3NiynkxnTsoXiSCdagQi4mIrbCjb58hoPhj
+         bblKgouEoBPYAcu8PFtF3RNB6KQ5muhLZkL6YPcZQGvOEMLeZudQn07XzrgULcrkxsrd
+         25JispiIRFiZNQXRWgE9MD1mW3RAnxHm/dJTK2eIL90rGa4/Ir856JxfVgPMMZsubveh
+         Qq4Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+sol2fIWnAaPrtEpMH+52gZH5DMA6FBqbaBhsdxtDu+q6Xu1eGE0BsfgqOb+TaqsCRRSMPcVzp7PgL6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+++VdQJAaMJoT+Pm5Q8TFnfdlc4MPCewkzNKuPwo6ve80jMdx
+	RvKTSakG5VIK54ZK3K8oLkcFeRUEE+bCJTN9Dr0AEUxkCuiUGTOXySzmEMV28TEU0w==
+X-Gm-Gg: Acq92OFGU+1L2b5vclbtLJTFjeq/sCMAmlhivgGJsHB8oLNEK6bCGZusi+LCW8ZxcPt
+	4lgfzx1kbaVXNh6PrSur4JbvHHaplW7nY7IDAlP3wG3ZQ0JovBCAHngSV1chBS6vmCaIN+7tTMP
+	8JgZqWv2gz7z2Z0TDjL5OyqhlYsHxAkJUsUZomq+NEAK3kgbX40srekFBcL+m+FCgVFfJRpPf45
+	uEDYUSKnfDYvNo/xTpX+x1bi/3BZcJe8jJSZN5svKvKzZMYIQb5bqpgj17jYpe8eJ2mwQ2s2P2e
+	JXruZejsjN34OI0ZPmKjNoO6Z+vnmp2IsOxZXgu8DlIVqlJvC74gqg5mI2iqD8EXpM+NReCy0nm
+	sL+TBrPydbHIpSBOTgdC4yKa1TDutTeLCQKNLct8VuMmD6g1VFYRShHhnZDX/MBDH/byyB+lIlN
+	iVfGy1yzluFIojz/xRcddti7mU1j12KTvMN3D7i9PVyiqNWURLXnVBaZ1ITumAaffsoKNuuBa7U
+	AKCkA==
+X-Received: by 2002:a05:600c:45ce:b0:490:5cd8:d213 with SMTP id 5b1f17b1804b1-4905cd8d33emr244688485e9.15.1779899343733;
+        Wed, 27 May 2026 09:29:03 -0700 (PDT)
+Received: from google.com (135.91.155.104.bc.googleusercontent.com. [104.155.91.135])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4904561a160sm466125765e9.9.2026.05.27.09.29.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 09:29:03 -0700 (PDT)
+Date: Wed, 27 May 2026 17:28:59 +0100
+From: Vincent Donnefort <vdonnefort@google.com>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Miroslav Lichvar <mlichvar@redhat.com>,
+	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	thomas.weissschuh@linutronix.de,
+	Arthur Kiyanovski <akiyano@amazon.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev,
+	Rodolfo Giometti <giometti@enneenne.com>,
+	Oliver Upton <oupton@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Peter Hilber <peter.hilber@oss.qualcomm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	virtualization@lists.linux.dev, linux-wireless@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [patch 05/24] KVM: arm64: Use ktime_get_snapshot_id() to
+ retrieve CLOCK_BOOTTIME
+Message-ID: <ahcby8senHsmpOBm@google.com>
+References: <20260526165826.392227559@kernel.org>
+ <20260526171223.070087856@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260526171223.070087856@kernel.org>
 
-On Wed, 27 May 2026 16:08:41 +0200,
-Huacai Chen wrote:
+On Tue, May 26, 2026 at 07:13:53PM +0200, Thomas Gleixner wrote:
+> ktime_get_snapshot() is replaced by ktime_get_snapshot_id() which allows to
+> request a particular CLOCK ID to be captured along with the clocksource
+> counter.
 > 
-> Due to a hardware defect, for Loongson PCI HDMI devices with a reversion
-> ID of 2, the pin sense status must be determined via the ELD.
+> Convert the tracing mechanism over and use the new
+> system_time_snapshot::sys field, which holds the system timestamp selected
+> by the CLOCK ID argument.
 > 
-> Add a codec flag, eld_jack_detect, to indicate this case, and do special
-> handlings in read_pin_sense().
+> No functional change intended.
 > 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Baoqi Zhang <zhangbaoqi@loongson.cn>
-> Signed-off-by: Haowei Zheng <zhenghaowei@loongson.cn>
-> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+> Cc: Vincent Donnefort <vdonnefort@google.com>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Oliver Upton <oliver.upton@linux.dev>
+> Cc: kvmarm@lists.linux.dev
 
-Applied to for-next branch now.  Thanks.
+Acked-by: Vincent Donnefort <vdonnefort@google.com>
 
-
-Takashi
+> ---
+>  arch/arm64/kvm/hyp_trace.c |    8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> --- a/arch/arm64/kvm/hyp_trace.c
+> +++ b/arch/arm64/kvm/hyp_trace.c
+> @@ -51,8 +51,8 @@ static void __hyp_clock_work(struct work
+>  
+>  	hyp_clock = container_of(dwork, struct hyp_trace_clock, work);
+>  
+> -	ktime_get_snapshot(&snap);
+> -	boot = ktime_to_ns(snap.boot);
+> +	ktime_get_snapshot_id(&snap, CLOCK_BOOTTIME);
+> +	boot = ktime_to_ns(snap.sys);
+>  
+>  	delta_boot = boot - hyp_clock->boot;
+>  	delta_cycles = snap.cycles - hyp_clock->cycles;
+> @@ -118,9 +118,9 @@ static void hyp_trace_clock_enable(struc
+>  		hyp_clock->running = false;
+>  	}
+>  
+> -	ktime_get_snapshot(&snap);
+> +	ktime_get_snapshot_id(&snap, CLOCK_BOOTTIME);
+>  
+> -	hyp_clock->boot = ktime_to_ns(snap.boot);
+> +	hyp_clock->boot = ktime_to_ns(snap.sys);
+>  	hyp_clock->cycles = snap.cycles;
+>  	hyp_clock->mult = 0;
+>  
+> 
