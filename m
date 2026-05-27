@@ -1,146 +1,139 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562CC403158
-	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 13:42:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A193AE1BD;
+	Wed, 27 May 2026 13:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779889338; cv=none; b=Q/aR5MKoqpZjABqqzch3vvqOmGXf3+Qh9qMCb97wSa/vj38j+eML0OT5/hXlRqj8JUOFmp0uAJnPGM6Vh/fq7dnj9YdbJ1GFi87FVVkCYiwkLXA6gVwnEyksP8PjpZ9xUlW2lR5taRziC5k0f+aDJQLGmMH8vBD8mKeYz5+MI/A=
+	t=1779889446; cv=none; b=WMJEVKWQp0YeqcsGXVeYqXtCOdq63O5FQ99Kxh40hzIYxdJXbANPA0CTQd3EVPeD8buoCJ5HXeOlpRHC2kY+5NWlOHOqGzqYtVQOcvSQUtnj1CviNbewSoa/c5fN0/SV/fJ4MLHF4fMMVUvYxt1fJzDfuxMepiiDWl6ts3SyEoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779889338; c=relaxed/simple;
-	bh=InHqJ2PNAaclYU6DB/4BCMiDFr1sW1hmcux0hzUPPiE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FK2pNAi9oKHliLbp7CdUcJaK9zdWbdQeEkAdgjkN1WkjUYNkRrLYSbk9cRIURV4DGzJJBzhMK7VNDZzUkP1padlFg3/MmCkYJsRhJLOntrQFzBqVHDqSb5U0I5AA6xTrb6zpv6NyWTSmp1/wBkqAp4OkNHvyzCCnRc46ouhRcl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=so8ndgTR; arc=none smtp.client-ip=74.125.82.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779889446; c=relaxed/simple;
+	bh=B9uKDCmuE+HIELsxBmZ3MrYYA+QztaM8DICspZlqOKE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cFR8fqqU+RZAShy3SxJ8n4EINIPaM3kMXwETLnISxhz+QWmEkJGSRfREVPnAdMa4re0OBF8rDlWGsKI4E6LCezM+e6cXlziRU1q+q4SKkvLtzE9QF3K6wQ94v85VfcdMr2j1CcRfIMOIzo6ZtJBKYhd91jO1btFpZEysZUnWCHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ys+Ks2OR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="so8ndgTR"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-303dbfbec77so13902573eec.0
-        for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 06:42:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779889336; x=1780494136; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LPQMUeKZPxsEa24h/tMGbugrrlbgcKdXRN5CjzvNfg0=;
-        b=so8ndgTRV6zGfnA3zRCb15rFM7brydNusYaTRlXwOKsnXN9a1GzOgTnJK3A3+v3qen
-         ico02iMeoSh5piHA5MKQ1TBDZc7CO4yZqrSOSNqZptqqy4DPMwI1sNNKQOXmHU7DcCH1
-         ri7vftJwG85+pW0fV3xHZ13f+FThghEr/9ON4mzFCyhXwGX5sZQ2Xtt9/mjAihYdE/X+
-         rLzHCsjfjl9ETDpSCga25x0EMMbEfLbLYDLgBNnyBmJzG7MJcP4ljIN4ZQOYLmTRkGAw
-         kIpjFHNzZUmfQPs6UiUv5RKWI10wJlvi/uKfEUZr5nVSux/5PBMZXKpTzozJgFhRqilj
-         MjjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779889336; x=1780494136;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LPQMUeKZPxsEa24h/tMGbugrrlbgcKdXRN5CjzvNfg0=;
-        b=fhA9oNYLHZrJLtailQBg7jUJ+o07BP3OMuJa+BakeYpVWyYB5GuYOTrsGmNuNbMbrd
-         RwV80lHmO4v1vq4H3eGQgCqczLVbqYgIUOGdj03T5IyRN412NyLk9GfHWALXcN+5W34V
-         nL8jyv/L8EvSis7wEJv1tP975CVqMkBT9bPlyVn2r3j7rU2mtj85hymyqDn25UBREH2I
-         YayCNDPZN1nDqRHDcy84yrU98I1A5sh7BeX/CXJUpWN9CwhQwzyBsOpjZCo+VkXOg+zh
-         zOdKnL7fCq+snKlh++UQbxLoWIpiAzhrHhnYpJzjfh9mhN0a1/17TGmwDG8eEZkWPM2y
-         3KEQ==
-X-Gm-Message-State: AOJu0Yyqgn9X2T1/yit/YP4IuHEzpIElIBHOQqLbz+AeaPf9A4X6dsjb
-	bvPppnIRwQ8OcwxCXqC3oddu6gyL6y6wGvKp+MlYj6C8L4rPf15r+btG
-X-Gm-Gg: Acq92OGC/hSiGVvbMNMUzhdPhMrmBZ2DHkrWaEgtovVP8kLyyOxs6tCr7AUaGZtKy7s
-	S34aq2AvZQQa2f1z68u7+CsS4sySsAdbiGQoaDrRhGtFyvxspD3Jqa4k8ikDGDl4TKTjWZcTUH1
-	PyVJncgjC86PCBMrP/VFfULwhdKgEgqknLt/SjjeoKvGSDTGW5wcLBDVFTiXEmn7eG40eVtTXlT
-	5WCUCcO5dVY1+WruecrQuva7dndfFgamzD6QV/PTlQW9BT3xHXX+5fXD6teyqgFdo46JiiJkVk1
-	2kNTEey+9xUlJGbeWyZaj+y8K0x7sKg8IS10V8QIJqWpV56mIzs5cJGqdXrvH9WtZo+Em7lDdwY
-	anYL76r4XHzP7fmvpjLyDq/WCY33Mu0eXKsG6GV1qD8w41hojs5LrC4m4j1BUFGu3Mh67Eo5kr/
-	dK3kbRTfsnWhJVCJAsfVFl6EZzMWoIT/BRyf6NkUvwjmntpnfbjuvmThSB/UUlplKO7egM5KkdY
-	AnpxOHMkfyQ
-X-Received: by 2002:a05:7301:a84:b0:303:f2fc:c483 with SMTP id 5a478bee46e88-30448f30872mr10369074eec.1.1779889336443;
-        Wed, 27 May 2026 06:42:16 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-162-74.user3p.v-tal.net.br. [177.4.162.74])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-304ccdaa124sm311702eec.11.2026.05.27.06.42.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 06:42:16 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Wed, 27 May 2026 10:41:49 -0300
-Subject: [PATCH 2/2] ASoC: mediatek: mt8183: Check runtime resume during
- probe
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ys+Ks2OR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E34E1F000E9;
+	Wed, 27 May 2026 13:43:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779889438;
+	bh=ManTLR8cnSqPRzXSHvGGL9dszH+Gg40OZ2hHPnTSUFw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ys+Ks2OREIDkyVb/ydbR35kFybCJlsdSwM5yTaq8bGwg26wBLGRsnay09YHYNqcVs
+	 trcDxvICwyrtJ36NdlKlfZls3xBp0Dcxo8h4TkD32zQbSI4b0v8tLEtc9Bdx6WAUEn
+	 PrMFymT9kF+3D5rtPw/4oOKZ05YvaSV6UtDahcs+nhllzC9I7fijiENsfC5Vkd2JKi
+	 If0ghTVjA9gvk61zq2ghhxZpgtr+7QXh5FELs0SyvQJ075rhK0j5EPr3qibRS8Zknl
+	 j+3Rv+hZeYqJVMzFc70wa3QiaOFapfAxC8TUdEAJ3M1f7z68ZvAC/i651bxg8ElIuW
+	 9EgPq5K9OQvJw==
+Date: Wed, 27 May 2026 14:43:53 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Neo Chang <YLCHANG2@nuvoton.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org,
+	krzk+dt@kernel.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+	neo.chang70@gmail.com, kchsu0@nuvoton.com, sjlin0@nuvoton.com
+Subject: Re: [PATCH v3 2/2] ASoC: codecs: nau8360: Add support for NAU83G60
+ amplifier
+Message-ID: <d4cf4ad9-82fb-4beb-be5b-b3687f822fcf@sirena.org.uk>
+References: <20260526015826.440769-1-YLCHANG2@nuvoton.com>
+ <20260526015826.440769-3-YLCHANG2@nuvoton.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260527-asoc-mt8183-probe-cleanup-v1-2-4f4f5593c8d1@gmail.com>
-References: <20260527-asoc-mt8183-probe-cleanup-v1-0-4f4f5593c8d1@gmail.com>
-In-Reply-To: <20260527-asoc-mt8183-probe-cleanup-v1-0-4f4f5593c8d1@gmail.com>
-To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Chen-Yu Tsai <wenst@chromium.org>, Shunli Wang <shunli.wang@mediatek.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- notify@kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>, 
- stable@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1813;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=InHqJ2PNAaclYU6DB/4BCMiDFr1sW1hmcux0hzUPPiE=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDFliX1YZNC5ZftYw1+3/caOwl8IefBtEl/fymm+WYIh0t
- VtzMUaso5SFQYyLQVZMkWV10iLLPV0PrtbHrfCAmcPKBDKEgYtTACaS/oiRYaI35zZxrdy1CmEm
- DqssLOu3sKvesLk43WZ6wGIT1fwCe4afjEW/dq9n3H5PYsbpJ0KVHS++HFYIfaoRmLz5eE3/+xk
- 2/AA=
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="VqmZj1l8twwgh5fH"
+Content-Disposition: inline
+In-Reply-To: <20260526015826.440769-3-YLCHANG2@nuvoton.com>
+X-Cookie: You are fairminded, just and loving.
 
-The MT8183 AFE probe uses pm_runtime_get_sync() before reading hardware
-defaults into the regmap cache, but does not check whether runtime resume
-failed. If regmap_reinit_cache() then fails, the temporary runtime PM
-usage count is also not released.
 
-Use pm_runtime_resume_and_get() so resume failures abort probe without
-leaking a usage count, and release the temporary reference before
-handling the regmap cache result.
+--VqmZj1l8twwgh5fH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: a94aec035a12 ("ASoC: mediatek: mt8183: add platform driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/soc/mediatek/mt8183/mt8183-afe-pcm.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+On Tue, May 26, 2026 at 09:58:26AM +0800, Neo Chang wrote:
+> Add support for the Nuvoton NAU83G60 audio codec. The NAU83G60 is a
+> stereo 30W+30W smart amplifier with an integrated low-latency
+> Advanced Audio DSP.
 
-diff --git a/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c b/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c
-index 49a69728fd72..2634699534db 100644
---- a/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c
-+++ b/sound/soc/mediatek/mt8183/mt8183-afe-pcm.c
-@@ -844,17 +844,21 @@ static int mt8183_afe_pcm_dev_probe(struct platform_device *pdev)
- 
- 	/* enable clock for regcache get default value from hw */
- 	afe_priv->pm_runtime_bypass_reg_ctl = true;
--	pm_runtime_get_sync(dev);
--
--	ret = regmap_reinit_cache(afe->regmap, &mt8183_afe_regmap_config);
-+	ret = pm_runtime_resume_and_get(dev);
- 	if (ret) {
--		dev_err(dev, "regmap_reinit_cache fail, ret %d\n", ret);
-+		afe_priv->pm_runtime_bypass_reg_ctl = false;
- 		goto err_pm_disable;
- 	}
- 
-+	ret = regmap_reinit_cache(afe->regmap, &mt8183_afe_regmap_config);
- 	pm_runtime_put_sync(dev);
- 	afe_priv->pm_runtime_bypass_reg_ctl = false;
- 
-+	if (ret) {
-+		dev_err(dev, "regmap_reinit_cache fail, ret %d\n", ret);
-+		goto err_pm_disable;
-+	}
-+
- 	regcache_cache_only(afe->regmap, true);
- 	regcache_mark_dirty(afe->regmap);
- 
+A few things below, you also have a bunch of what look like legitimate
+issues picked up by sashiko (some of which overlap with what I've got
+below):
 
--- 
-2.54.0
+   https://sashiko.dev/#/patchset/20260526015826.440769-1-YLCHANG2%40nuvoto=
+n.com
 
+> +static int nau8360_peq_coeff_get(struct snd_kcontrol *kcontrol,
+> +	struct snd_ctl_elem_value *ucontrol)
+> +{
+
+=2E..
+
+> +	snd_soc_component_update_bits(cp, NAU8360_R9D_PEQ_CTL, NAU8360_HW1_MEM_=
+TEST,
+> +		NAU8360_HW1_MEM_TEST);
+> +	for (i =3D 0; i < params->max / sizeof(u16); i++) {
+> +		value =3D snd_soc_component_read(cp, reg + i);
+> +		*(val + i) =3D cpu_to_be16(value);
+> +	}
+> +	snd_soc_component_update_bits(cp, NAU8360_R9D_PEQ_CTL, NAU8360_HW1_MEM_=
+TEST, 0);
+> +
+> +	return 0;
+> +}
+
+
+> +static int nau8360_peq_coeff_put(struct snd_kcontrol *kcontrol,
+> +	struct snd_ctl_elem_value *ucontrol)
+> +{
+
+> +	snd_soc_component_update_bits(cp, NAU8360_R9D_PEQ_CTL, NAU8360_HW1_MEM_=
+TEST,
+> +		NAU8360_HW1_MEM_TEST);
+
+=2E..
+
+> +	snd_soc_component_update_bits(cp, NAU8360_R9D_PEQ_CTL, NAU8360_HW1_MEM_=
+TEST, 0);
+
+We use an rwsem to protect the controls from userspace so we could get
+more than one caller in these, you need some driver local locking.
+
+> +static int nau8360_set_tdm_slot(struct snd_soc_dai *dai, unsigned int tx=
+_mask,
+> +	unsigned int rx_mask, int slots, int slot_width)
+> +{
+> +	struct snd_soc_component *cp =3D dai->component;
+> +	struct nau8360 *nau8360 =3D snd_soc_component_get_drvdata(cp);
+> +	unsigned int tx_slot_used =3D 0, rx_slot_used =3D 0;
+> +	int ret =3D 0;
+> +
+> +	if (slot_width !=3D 16 && slot_width !=3D 24 && slot_width !=3D 32) {
+> +		dev_err(cp->dev, "Invalid TDM channel length: %d", slot_width);
+> +		return -EINVAL;
+> +	}
+
+This stops the support for disabling TDM from working, a slot_width is
+required here. =20
+
+--VqmZj1l8twwgh5fH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoW9RkACgkQJNaLcl1U
+h9AOAwf/XCpGenqAsg5VdLiNBYcT/3lty5A1czozWimgLpuXdu6a8xLeqFCYlOfQ
+ECzRk/arz8HxuonhicRhMQ45lzA3O56D67Y1X1ajLIQLkaiqlmSILTesbQ9xFRyQ
+y3LSIqCcZA15FWDEHjFI9y9OpkIiht5PSSzoxEl27991Do8FkGrcizSgU/DTlfiD
+Y5D7Wp5Zbx4BIxwWsxtkG54n207YmMUBETfsaLbmn6rijv9OISrfXFAAdP4YNMmM
+aCF3r7e+lpamW5PAaiUdQp8cKntSu36zHGeY0SmkhAhMU/ClR6TB0ZdnI6YT+DPT
+2axvsMhw+oCPaBVr3+Pb4eQFgzyX+w==
+=IE9q
+-----END PGP SIGNATURE-----
+
+--VqmZj1l8twwgh5fH--
