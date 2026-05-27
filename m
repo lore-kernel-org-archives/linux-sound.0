@@ -1,121 +1,143 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B943BB9ED
-	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 07:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779866132; cv=pass; b=JbzWcDpXdZeqjPtN3lqO/Xx9it/vlnA/+AYbdzkiAzKPQfJW5ezntGj93LrsJTZ2Wfz5etGjO4NR3eKW86FN46pomz6/0ECFtRhJSyLoTJvptoSYs/ixJyES0wWJnUYXLC6mUQFZuxTPamok4yauXz2UlpH9ZwQbZDB1ZY+CRbA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779866132; c=relaxed/simple;
-	bh=Hj3otYEBw5ZoFUlZ10nDzRDWKgiD9biTbeBS8Z9Xy7c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ujcoAJBL+VxeJicZsXfW8+VimVEwPYGekMdC7ftMt/zFdjPqkOpK8ARm4fECpuwD8tm2NAHI4rpSBxwL8OPh8fFJJEMhgL8FbPSOr5TIXouOdXl2PBa/zPD8XvRLMgvgIqYlj+xUx5on3WRNwN+J/C4ahj0wKfPObGSWvIxrpOk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a3kMMEa0; arc=pass smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2437C2D5922;
+	Wed, 27 May 2026 07:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779866268; cv=none; b=juZe1Z7vNiJWnGXOBbNEGsH8USYN6dcAJHY5OUKjNirE0Ix9Yh07wpLOBkB4Ay9nPWxsn+AJAxRfRRHpI50BCXxRBzzTPcf1AXJ5RNeHQuFlNCP+SCPNSNwsQt3GAgK3AKsS4SOeR0KPuOMqhAGdMUO8HLDesSl0BR6ANMA+FmA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779866268; c=relaxed/simple;
+	bh=AFJMzq35BBn2pDEbMpAVLvuiISX6fYg9yam4Yh1eLxs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XGbUhUKa+asywedSKrk9gCnFXrP91G1GOPbN/JvdNJzToJCa9kWjSvmAnLA4uQcSMlCdKNC+V0WqOgoB/j9O9o5bUPf74sqyep/dq1/LcHe2Nr38IYH68gjsCtaX8WVavwE635YpTyWUaLECuDVl5T+xs5lHz1I9DkJrALcisi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=iY8vDK4h; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HLGc4QqC; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a3kMMEa0"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-bd5047a2a4cso1736730566b.3
-        for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 00:15:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779866129; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MYKb9S3P7vVLrsz0e5sb8laGNy9FuvlUy6URGTu+ynIYfoV6I5hZFBB3Hm3SXNVQ64
-         HCY+j+sEsCiJgWmdACstE80UuouFP42ljyIf4o/XJxa+5rVXgMnIbAa1yjTJ9X9oTnOo
-         Xw2v1x17vqxz/REfq2Swlts8y1P0KLtL+HbsB5aRe0CPznGR17xUJitwkVQCXvyQC23Z
-         F2rQdnzxIO013Cu9nQ1cMy/7hhBSAWM9Bag6O/+Gc2kJA3FRkFTRvatkBCAwWgWOgdY0
-         j0LI0gUQrVHJLj9pvdNfIGTc/B7mBiZBV4nglh7KqGEiiCJW7Ar1vtsMafK1hAa3fQsn
-         XIVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=sVVcPZ33nAnNko0KyS/478Q9ZYoZ+Vm0Rdqky5x9NgQ=;
-        fh=q6DKe8gU3DwZUgQo9qxPCXIn8RJ2uj8oJYJRnq+7fi4=;
-        b=SftFmNANtjoYY5lYwHv5ZgGh7k+ygLMH34DQuFog5JpFJpsBFV/eQ0t+Akcl0n4ol2
-         SlLU8kM9q2Al2lfJKsqiYPK1FpjbA1o8mu0ga9eTfgcgCP1xv7JAbi+4Q0X3i8iIEzUr
-         bh8jJUC3PFkSeOs8iSrfawOHgcWKk5a1RsONL6BOHhMJNMy7qHDupIxrpRQ7zx56xCK/
-         IuzE1c8pZq+QGcjlu05CYQ9tLRJmaapbkIwsLitPOt23sl77QDnZFQSUlZcBjV8InM4t
-         CiALXfB+jm7B6VWga1Yqh+R77u20VTsGu0YZfTLVf7/mSaiIifVWLGoFLFxoMaoUnOes
-         Fg0g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779866129; x=1780470929; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sVVcPZ33nAnNko0KyS/478Q9ZYoZ+Vm0Rdqky5x9NgQ=;
-        b=a3kMMEa00JeNecJ7rMgo7WxCtAom1dVyEQbCkPUnLOHIhxpB5463LorpFNZVZMrM8I
-         f4kQJ04pTGzFlcpcCgGkFst8T2rSZEQGe0CbCJzKNnV4X5tg4PE2zdUBx78knZdbt6y/
-         kZosn29re1XFLf1BCvlSdiQ3FXvJQryIHcsM+lQcnXCK+I0gCmPgcAaFIQz5M9Tt8qzC
-         K3Y3lzWsnhDkHJ5AkjxTiYWkBDdUj/8q6EeuP/F12XjuZ55kEVUIJthAXf6lOjEp+PPN
-         SzZdLTVPx91e69jRv2aJbfceA9s7blaLVf1BUPb79jQnitg8f588cB9R0tSaQuIaQRpL
-         00Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779866129; x=1780470929;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=sVVcPZ33nAnNko0KyS/478Q9ZYoZ+Vm0Rdqky5x9NgQ=;
-        b=AVm25RVp7nXnuWcO7gsuN2hJ7T4RF7u/4bHyBsBSkeKQj4aiBwChSE9hJp5H7F/Cn/
-         cpq4yH2p1whab1XyKvQWpWkGAiUFtR2u75Nv+ZsqLcJYxKoCOHOJeU4mUefZadG4/TBj
-         iSXesxzkvbuGA6ZY+qKOMq4tpP+q/54cA5S6O39qQPF99450xF/yt6tJPFopIAi17/V+
-         DI4RMj94VfPU81yOfoi553ynV54pkkWQMUIo1rVvpcB6P85/1VfjysHwR2NtFjX9w+ZW
-         gKBtheP9rc7bBgR23BOLELYNOmkli3EGsTkPddEJeZRWVSQFDvn+247kU8SoBDOEo/Wt
-         WvMA==
-X-Forwarded-Encrypted: i=1; AFNElJ9h53JX97KSSAxaQrprz5Qm2T4C9sB8Ofdu4/AEJhoa/Gq63LtIhNfxr7ZuFHoB77Eu5kYPZqyXQPjHPg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWHj+0J+yiWLp+Cgw/g+3ueljkCxswGNDfJMJRsuon8chORgjt
-	7tHfO/t6COR37rFS6Ir37trBF8mjPoONLt/8PA/7wZ6pF4kV2hczg/7GOO/OQOrXsLC91tffn3C
-	bI6Tupz7oG2Ke7OA0OHA9zWpiCpaMxVk=
-X-Gm-Gg: Acq92OGyIo/VTaOjd27RyzvNhwI0t200rZMTxp784tJS/RvayttB4+xV+M13AVCzZl6
-	2Bp2xyy+9XkOmMfGD77SFfi8z6L8KZvx4nA2RPAK3aGVSeCbyADrVrBv2NMZ0b+rijWpTmnD68H
-	inDYTdpqPuxTy6/QFKfsNJIjp+GNgJVpm65IR66A3KrBajvZQasaETR4q3oiGVVbF4qv7BnOKg5
-	igs3IMqGzxvM8Bppx1/nwmzgEw9pj2J5jR7cMWFxbOBdyrFR8rC3m7aNY8dB704+pBwPpmm864e
-	To49ZkbrHpKRXWNH
-X-Received: by 2002:a17:907:2d29:b0:bd8:f776:6980 with SMTP id
- a640c23a62f3a-bdd25138390mr1297409366b.10.1779866128212; Wed, 27 May 2026
- 00:15:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iY8vDK4h";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HLGc4QqC"
+Date: Wed, 27 May 2026 09:17:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1779866265;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W1BPJhdVONtxEx+G7id6fIP50+kppGwHFjUZqalv13I=;
+	b=iY8vDK4hGfgyTSLtF67ODXu/6z3rjO8D/svDCIX/RZ97wpWRowarzbOFqtQkIV10Al08NC
+	OYG8lIEc5V4weFsWKoZ+3myW+m6kRGodDsSRydhlHD2GlXMZfmm2nKRzhyJuwfjWN3ssfx
+	wW2FLQ8N0Dl/WXiiWRM4CZMg54qmX3MxZY9FhVY+YQkVvIOYCsYcQo+++OzYhFNfXPc2To
+	MONPmNqq9VC/S4aDdQhHlPrbxEr+jl3d9NfcbZYpgXdbh4Xg2YwOdDsBRXUJbDp7cxd6HI
+	GMZ9Mnj9q1lS0/WgWg0IASeOtx2wmouV75dTHepaCX22/e/3ZQX9FNARTBqrUQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1779866265;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W1BPJhdVONtxEx+G7id6fIP50+kppGwHFjUZqalv13I=;
+	b=HLGc4QqCviwtA3izBUhv0VBA9kSbQo6x2i5HaIW7skaA4Qoxh/9oCoLIfEHCCbWorfv/Gt
+	bL3e+R0CDbmXzhCQ==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, 
+	David Woodhouse <dwmw2@infradead.org>, Miroslav Lichvar <mlichvar@redhat.com>, 
+	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
+	Arthur Kiyanovski <akiyano@amazon.com>, Rodolfo Giometti <giometti@enneenne.com>, 
+	Vincent Donnefort <vdonnefort@google.com>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, Oliver Upton <oupton@kernel.org>, 
+	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>, Johannes Berg <johannes.berg@intel.com>, 
+	Jacob Keller <jacob.e.keller@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Peter Hilber <peter.hilber@oss.qualcomm.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, virtualization@lists.linux.dev, linux-wireless@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+Subject: Re: [patch 08/24] timekeeping: Remove system_time_snapshot::real/boot
+Message-ID: <20260527091206-40b8750f-92b9-425c-9cb7-516251b7d350@linutronix.de>
+References: <20260526165826.392227559@kernel.org>
+ <20260526171223.300914258@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1779796354.git.zhoubinbin@loongson.cn> <6fd63cc57c112218ae0873b73d8c3a4b24304b80.1779796354.git.zhoubinbin@loongson.cn>
- <e45ea3e7-515e-45db-b969-cccdd3f432b5@sirena.org.uk>
-In-Reply-To: <e45ea3e7-515e-45db-b969-cccdd3f432b5@sirena.org.uk>
-From: Binbin Zhou <zhoubb.aaron@gmail.com>
-Date: Wed, 27 May 2026 15:15:14 +0800
-X-Gm-Features: AVHnY4JeCZyvZbusebCy_cAtVLuLbZpxOZ7qVDFa0k8SAH8AQmm88OJAlLvHVks
-Message-ID: <CAMpQs4Kv_Yk5zpn-L+EbkDJwaJNJ0Mwhffo0VvcLU_tv2v9poQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] ASoC: loongson: Combined regmap definitions
-To: Mark Brown <broonie@kernel.org>
-Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260526171223.300914258@kernel.org>
 
-Hi Mark:
+On Tue, May 26, 2026 at 07:14:08PM +0200, Thomas Gleixner wrote:
+> All users are converted over to ktime_get_snapshot_id() and
+> system_time_snapshot::sys.
+> 
+> Remove the leftovers.
+> 
+> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
 
-On Wed, May 27, 2026 at 1:59=E2=80=AFAM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Tue, May 26, 2026 at 07:56:00PM +0800, Binbin Zhou wrote:
->
-> > While moving, adjust the following:
-> > - Mark only RX_DATA and TX_DATA as volatile registers. The PCI version
-> >   incorrectly marked CFG/CTRL/CFG1 as volatile, which prevented proper
-> >   regcache synchronization.
->
-> The driver also polls LS_I2S_CTRL for MCLK_READY and CLK_READY, either
-> we need to bypass the cache when doing that or that register needs to be
-> volatile too.
+Reviewed-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
 
-Yes, the LS_I2S_CTRL should be volatile, otherwise, a timeout error may occ=
-ur.
+> ---
+>  include/linux/timekeeping.h |    4 ----
+>  kernel/time/timekeeping.c   |    8 --------
+>  2 files changed, 12 deletions(-)
+> 
+> --- a/include/linux/timekeeping.h
+> +++ b/include/linux/timekeeping.h
+> @@ -280,8 +280,6 @@ static inline bool ktime_get_aux_ts64(cl
+>   *				 a selected CLOCK_* and the clocksource counter value
+>   * @cycles:		Clocksource counter value to produce the system times
+>   * @sys:		The system time of the selected CLOCK ID
+> - * @real:		Realtime system time
+> - * @boot:		Boot time
+>   * @raw:		Monotonic raw system time
+>   * @cs_id:		Clocksource ID
+>   * @clock_was_set_seq:	The sequence number of clock-was-set events
+> @@ -291,8 +289,6 @@ static inline bool ktime_get_aux_ts64(cl
+>  struct system_time_snapshot {
+>  	u64			cycles;
+>  	ktime_t			sys;
+> -	ktime_t			real;
+> -	ktime_t			boot;
+>  	ktime_t			raw;
+>  	enum clocksource_ids	cs_id;
+>  	unsigned int		clock_was_set_seq;
+> --- a/kernel/time/timekeeping.c
+> +++ b/kernel/time/timekeeping.c
+> @@ -1196,8 +1196,6 @@ bool ktime_get_snapshot_id(struct system
+>  	struct timekeeper *tk;
+>  	struct tk_data *tkd;
+>  	unsigned int seq;
+> -	ktime_t base_real;
+> -	ktime_t base_boot;
+>  
+>  	/* Invalidate the snapshot for all failure cases */
+>  	systime_snapshot->valid = false;
+> @@ -1239,18 +1237,12 @@ bool ktime_get_snapshot_id(struct system
+>  		offs_sys = *offs;
+>  		base_raw = tk->tkr_raw.base;
+>  
+> -		/* Kept around until the callers are fixed up */
+> -		base_real = ktime_add(base_sys, tk_core.timekeeper.offs_real);
+> -		base_boot = ktime_add(base_sys, tk_core.timekeeper.offs_boot);
+> -
 
---=20
-Thanks.
-Binbin
+In patch 1 I was confused slightly why only these two lines use tk_core,
+while everything else uses tk->, even base_sys.
+Functionally it doesn't make a difference, but for clarity this could be more
+consistent.
+
+>  		nsec_sys = timekeeping_cycles_to_ns(&tk->tkr_mono, now);
+>  		nsec_raw = timekeeping_cycles_to_ns(&tk->tkr_raw, now);
+>  	} while (read_seqcount_retry(&tkd->seq, seq));
+>  
+>  	systime_snapshot->cycles = now;
+>  	systime_snapshot->sys = ktime_add_ns(base_sys, offs_sys + nsec_sys);
+> -	systime_snapshot->real = ktime_add_ns(base_real, nsec_sys);
+> -	systime_snapshot->boot = ktime_add_ns(base_boot, nsec_sys);
+>  	systime_snapshot->raw = ktime_add_ns(base_raw, nsec_raw);
+>  
+>  	/*
+> 
