@@ -1,174 +1,121 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566E63ACEFB
-	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 07:13:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B943BB9ED
+	for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 07:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779866021; cv=pass; b=hJ7oaR1hE32fwD6BVMH2qPtMd8E8GxtOVfalhdC8cf2P8XeQ4YYhETbf/cwczTohJJMrGuCBCweTq47lXEx2QgW4AYqcNSknkuuLrnu3YSoy4cNmqSGUbZN6Kn5JUi1GxjBb1qIlLNiYjoKghQMWtSy5Gi1WbYPYQpVieI2gnTc=
+	t=1779866132; cv=pass; b=JbzWcDpXdZeqjPtN3lqO/Xx9it/vlnA/+AYbdzkiAzKPQfJW5ezntGj93LrsJTZ2Wfz5etGjO4NR3eKW86FN46pomz6/0ECFtRhJSyLoTJvptoSYs/ixJyES0wWJnUYXLC6mUQFZuxTPamok4yauXz2UlpH9ZwQbZDB1ZY+CRbA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779866021; c=relaxed/simple;
-	bh=TidELZ202z8VEX557DyBLbabOjBpspQL3YcKMb2p7d4=;
+	s=arc-20240116; t=1779866132; c=relaxed/simple;
+	bh=Hj3otYEBw5ZoFUlZ10nDzRDWKgiD9biTbeBS8Z9Xy7c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JQxc+/Gs+VkFzVJ6J6IVZD7V4dsJIbN5Cvf+ErRkOGz+bLoD78lRlSOIqlIMk7i9c5umiyp2KEDhLPdA+iaG8HOiAQhqsOY7ZvZyZECBe5IzgahXXl4j3E9Uhf27NyqUbz79DoreeJ6raY9ghP596H5Go65dz8EglWCn4784bWM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=on/8rGqI; arc=pass smtp.client-ip=209.85.210.172
+	 To:Cc:Content-Type; b=ujcoAJBL+VxeJicZsXfW8+VimVEwPYGekMdC7ftMt/zFdjPqkOpK8ARm4fECpuwD8tm2NAHI4rpSBxwL8OPh8fFJJEMhgL8FbPSOr5TIXouOdXl2PBa/zPD8XvRLMgvgIqYlj+xUx5on3WRNwN+J/C4ahj0wKfPObGSWvIxrpOk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a3kMMEa0; arc=pass smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="on/8rGqI"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-83ea84df1d0so3866364b3a.2
-        for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 00:13:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779866019; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a3kMMEa0"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-bd5047a2a4cso1736730566b.3
+        for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 00:15:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779866129; cv=none;
         d=google.com; s=arc-20240605;
-        b=NbnYq7vSkX/JpuskW2rDgPenbxQuMRcNUMyR2KSES5exMVVoHKfsxPpcNizU5dZpZX
-         sW7xWx5eYavzoabYuNUql8pMeqFlKKsUjJR1iXJFdk+fOcwz8ybfsyCFxP+K9Tm+zwkm
-         b2BrW39sOwIScvIJHV5A5sW5PZ5kwxVhytWM0wIYj3Y0BLkKX+HQW9j7pvrNx/8e3U3i
-         pmwyfYrII4k5uQ0OtSloyo7UVpsqSt3tVWz3Ncgnr9O+vpbFqHgaAfhT1dkio0F7p13V
-         GtFcaW9L4N8TGeO2fgHV4Q3AC1zzQ1uSjvWehA+yCe6lZSrwenXl+0hck5GXbpoQSQsi
-         TjIg==
+        b=MYKb9S3P7vVLrsz0e5sb8laGNy9FuvlUy6URGTu+ynIYfoV6I5hZFBB3Hm3SXNVQ64
+         HCY+j+sEsCiJgWmdACstE80UuouFP42ljyIf4o/XJxa+5rVXgMnIbAa1yjTJ9X9oTnOo
+         Xw2v1x17vqxz/REfq2Swlts8y1P0KLtL+HbsB5aRe0CPznGR17xUJitwkVQCXvyQC23Z
+         F2rQdnzxIO013Cu9nQ1cMy/7hhBSAWM9Bag6O/+Gc2kJA3FRkFTRvatkBCAwWgWOgdY0
+         j0LI0gUQrVHJLj9pvdNfIGTc/B7mBiZBV4nglh7KqGEiiCJW7Ar1vtsMafK1hAa3fQsn
+         XIVQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Zaef/OUhxDQlU4bIcdlBeRXSMnGS13rIzxYDC71/Mgk=;
-        fh=W89k4+CWP6KHUCgsQVWpNYMFCg/mwcYbbNxZ9hlN/MU=;
-        b=BlatmSF3zvojdx9+Ixr5tTHtHawetQBV+MbMzXRqXKH7ySc74vN+GLuPkJRndULFse
-         8LojKtYz8/bKa15vRPE4YShc47Z7Swp2pZa6oC9miSc4NYY/aW34ja+kYyZG6IHtuBwt
-         919oaUD4a9LGO/9IeGieejpgorvqtaYqwtOPvNmFjN7QLbbqyF2RbKZDSvLM/IVlQ/PB
-         hYF1H+KByHStCq99W61/t7EZZBs7ltsD1rYgL8dwYcChI7/o2MGzolym9oyJUL8gZ8mz
-         3BRBN3Kjbs0/MKiAPB8W5OvT6iFAAnvJLN5S5yDoI88fC9l7kF9AqRjc9ypG1K2axuOh
-         THUg==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=sVVcPZ33nAnNko0KyS/478Q9ZYoZ+Vm0Rdqky5x9NgQ=;
+        fh=q6DKe8gU3DwZUgQo9qxPCXIn8RJ2uj8oJYJRnq+7fi4=;
+        b=SftFmNANtjoYY5lYwHv5ZgGh7k+ygLMH34DQuFog5JpFJpsBFV/eQ0t+Akcl0n4ol2
+         SlLU8kM9q2Al2lfJKsqiYPK1FpjbA1o8mu0ga9eTfgcgCP1xv7JAbi+4Q0X3i8iIEzUr
+         bh8jJUC3PFkSeOs8iSrfawOHgcWKk5a1RsONL6BOHhMJNMy7qHDupIxrpRQ7zx56xCK/
+         IuzE1c8pZq+QGcjlu05CYQ9tLRJmaapbkIwsLitPOt23sl77QDnZFQSUlZcBjV8InM4t
+         CiALXfB+jm7B6VWga1Yqh+R77u20VTsGu0YZfTLVf7/mSaiIifVWLGoFLFxoMaoUnOes
+         Fg0g==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779866019; x=1780470819; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zaef/OUhxDQlU4bIcdlBeRXSMnGS13rIzxYDC71/Mgk=;
-        b=on/8rGqInKqdUndgB+A2DT/IxFpakrpUGjo5vps1HeUuJRTaPiHVATN7Bs1o8bN5xv
-         XDNRytr1qG5K8GHuPQyE00Qi7u14RNg37b2871fBUm8bZbxwkTi1fDo7jV37MVdDmWXx
-         xO/tWfIFPcM/wbrjtrdz+gIenpHaD9u9vInbDbIyImIinnhuGBd9/PjVG6ctwq4jCX5a
-         n2cqeC7257B9+q+jF7GADBfpdhL/XnFAVMmzyckkIF0PgPDTR544imoQPEi8CgjuBR0K
-         TPHvosGXoSoO8hCsIcDM5HERAQo3EXiNOQSjXzJXIk0wbS1iuQLfSYXHv5nbiXvzd8s3
-         QFww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779866019; x=1780470819;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779866129; x=1780470929; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Zaef/OUhxDQlU4bIcdlBeRXSMnGS13rIzxYDC71/Mgk=;
-        b=pKpxPowk5dCYLirUolza0FNUcGC3xSocqiak/q1HFG/lEgZfOBsVP8yTEVZTdMQLBk
-         jjA51AwErs7Dkju0wOv31CHnFriZ2TlQKdSgbqroaSnLF1Z5ZDXxrDaXwSF55QwUGVoC
-         lcJVEU83XrIfgBIy79egTh4ieL65BcnwJabIgeJjQ11Nm7QgUk08amtW+V6A1TAw1z7v
-         ejMXDrb+zDcPqlSNV4gtL5E3kK6NgkdKLSZrMMvIi5fJMlVhlu446J+RS3rWoyVoYrYT
-         qunY7uZNdGMiNzsCvIsy+sB5sMtiSxD8c8MzW+xs4dnr0kMUibWqTxVqB6zTJO19D8pW
-         yirw==
-X-Forwarded-Encrypted: i=1; AFNElJ/l+oQ55QwtVBGFMO3Kd+sIkiBw9+T6cd/ioVeJh+ZENnn0KEU2IJaoVtLY34CGQ9kPfS1YZU+ZSmZRNw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yze1zIe3QG738po5+tikRJtcpYF8vcPE+Jb+O5WLgJ50iulKHXa
-	bEbSOUeOZKM6jCjoyNWzvepUfarDdAA1IAuutKbwKd9WVRlFyPwSsNu90W3Wa0jrTkMhPxiNPQv
-	yYcrkHeSt0TqQGQ3h9yVtEvHXQhbf/X0=
-X-Gm-Gg: Acq92OHHq1FJNHIRa4BwBP9IVfZsFJHa3CZMQa4Q55Oy6fGcu2D4fxoLkOGxhmYGsh/
-	NqngsuG+EB2ZVT3ei1T20ZGw3npGLhL6O8O7VwgIP0d8LDUVDLfEpcOiirQoGfSQYqxtzFwawZj
-	UCeWM8aP/sFhbg3MiiI8h2Wcye9d9x7B25zkXAxVsg+/GMz3u7j3ZIXmz0xqq1CWGA9pxq6RIGq
-	DFnUEp84vuqHs03zhdpovjA5yJ5r9zu84Dd4+BYweYEbyu1ky3gdlbvq+Cx76g6jiL48bnsIYhm
-	kU4/+hUKNQ4+Xq7avBU5fQpydJcLphk5UIwtow==
-X-Received: by 2002:a05:6a00:298f:b0:83f:638d:1e64 with SMTP id
- d2e1a72fcca58-8415f580e40mr19675360b3a.8.1779866018607; Wed, 27 May 2026
- 00:13:38 -0700 (PDT)
+        bh=sVVcPZ33nAnNko0KyS/478Q9ZYoZ+Vm0Rdqky5x9NgQ=;
+        b=a3kMMEa00JeNecJ7rMgo7WxCtAom1dVyEQbCkPUnLOHIhxpB5463LorpFNZVZMrM8I
+         f4kQJ04pTGzFlcpcCgGkFst8T2rSZEQGe0CbCJzKNnV4X5tg4PE2zdUBx78knZdbt6y/
+         kZosn29re1XFLf1BCvlSdiQ3FXvJQryIHcsM+lQcnXCK+I0gCmPgcAaFIQz5M9Tt8qzC
+         K3Y3lzWsnhDkHJ5AkjxTiYWkBDdUj/8q6EeuP/F12XjuZ55kEVUIJthAXf6lOjEp+PPN
+         SzZdLTVPx91e69jRv2aJbfceA9s7blaLVf1BUPb79jQnitg8f588cB9R0tSaQuIaQRpL
+         00Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779866129; x=1780470929;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sVVcPZ33nAnNko0KyS/478Q9ZYoZ+Vm0Rdqky5x9NgQ=;
+        b=AVm25RVp7nXnuWcO7gsuN2hJ7T4RF7u/4bHyBsBSkeKQj4aiBwChSE9hJp5H7F/Cn/
+         cpq4yH2p1whab1XyKvQWpWkGAiUFtR2u75Nv+ZsqLcJYxKoCOHOJeU4mUefZadG4/TBj
+         iSXesxzkvbuGA6ZY+qKOMq4tpP+q/54cA5S6O39qQPF99450xF/yt6tJPFopIAi17/V+
+         DI4RMj94VfPU81yOfoi553ynV54pkkWQMUIo1rVvpcB6P85/1VfjysHwR2NtFjX9w+ZW
+         gKBtheP9rc7bBgR23BOLELYNOmkli3EGsTkPddEJeZRWVSQFDvn+247kU8SoBDOEo/Wt
+         WvMA==
+X-Forwarded-Encrypted: i=1; AFNElJ9h53JX97KSSAxaQrprz5Qm2T4C9sB8Ofdu4/AEJhoa/Gq63LtIhNfxr7ZuFHoB77Eu5kYPZqyXQPjHPg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWHj+0J+yiWLp+Cgw/g+3ueljkCxswGNDfJMJRsuon8chORgjt
+	7tHfO/t6COR37rFS6Ir37trBF8mjPoONLt/8PA/7wZ6pF4kV2hczg/7GOO/OQOrXsLC91tffn3C
+	bI6Tupz7oG2Ke7OA0OHA9zWpiCpaMxVk=
+X-Gm-Gg: Acq92OGyIo/VTaOjd27RyzvNhwI0t200rZMTxp784tJS/RvayttB4+xV+M13AVCzZl6
+	2Bp2xyy+9XkOmMfGD77SFfi8z6L8KZvx4nA2RPAK3aGVSeCbyADrVrBv2NMZ0b+rijWpTmnD68H
+	inDYTdpqPuxTy6/QFKfsNJIjp+GNgJVpm65IR66A3KrBajvZQasaETR4q3oiGVVbF4qv7BnOKg5
+	igs3IMqGzxvM8Bppx1/nwmzgEw9pj2J5jR7cMWFxbOBdyrFR8rC3m7aNY8dB704+pBwPpmm864e
+	To49ZkbrHpKRXWNH
+X-Received: by 2002:a17:907:2d29:b0:bd8:f776:6980 with SMTP id
+ a640c23a62f3a-bdd25138390mr1297409366b.10.1779866128212; Wed, 27 May 2026
+ 00:15:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260522095401.72915-1-phucduc.bui@gmail.com> <20260522095401.72915-3-phucduc.bui@gmail.com>
- <CAGb2v67UmMmM7bQOSf3VxsN9D8s3N8nMMX079_kiMcPU=VszFg@mail.gmail.com>
- <CAABR9nEB8jizn+NrVgrjcOOJRtaU0u+TH705unMTh7HYO=8Wcg@mail.gmail.com>
- <CAGb2v65zK7iOce_UZ+_F=dWtKYFGZj-K4k45MewvDbhivXPH2A@mail.gmail.com> <CAABR9nEsKjgErDB3jnHrx=dOUajvvN6GbP+6XUb5Ay3VYYjNJA@mail.gmail.com>
-In-Reply-To: <CAABR9nEsKjgErDB3jnHrx=dOUajvvN6GbP+6XUb5Ay3VYYjNJA@mail.gmail.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Wed, 27 May 2026 14:13:27 +0700
-X-Gm-Features: AVHnY4KYe_20mrf-YgFfeTtowuhQHlFA44ow40h-fRG4arohRfrD4-uu8diiShU
-Message-ID: <CAABR9nFdvh9nfa03oxFLgD2WUj4LyHP8T77xKno9wjiQZ48h+Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] ASoC: sunxi: sun4i-spdif: Resume device before
- kcontrol register access
-To: wens@kernel.org
-Cc: broonie@kernel.org, codekipper@gmail.com, jernej.skrabec@gmail.com, 
-	lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, nichen@iscas.ac.cn, perex@perex.cz, 
-	samuel@sholland.org, tiwai@suse.com
+References: <cover.1779796354.git.zhoubinbin@loongson.cn> <6fd63cc57c112218ae0873b73d8c3a4b24304b80.1779796354.git.zhoubinbin@loongson.cn>
+ <e45ea3e7-515e-45db-b969-cccdd3f432b5@sirena.org.uk>
+In-Reply-To: <e45ea3e7-515e-45db-b969-cccdd3f432b5@sirena.org.uk>
+From: Binbin Zhou <zhoubb.aaron@gmail.com>
+Date: Wed, 27 May 2026 15:15:14 +0800
+X-Gm-Features: AVHnY4JeCZyvZbusebCy_cAtVLuLbZpxOZ7qVDFa0k8SAH8AQmm88OJAlLvHVks
+Message-ID: <CAMpQs4Kv_Yk5zpn-L+EbkDJwaJNJ0Mwhffo0VvcLU_tv2v9poQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] ASoC: loongson: Combined regmap definitions
+To: Mark Brown <broonie@kernel.org>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Huacai Chen <chenhuacai@kernel.org>, Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev, 
+	linux-sound@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi ,
+Hi Mark:
 
-I did some additional investigation into the regmap core functions
-currently used by this driver, such as _regmap_update_bits():
+On Wed, May 27, 2026 at 1:59=E2=80=AFAM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> On Tue, May 26, 2026 at 07:56:00PM +0800, Binbin Zhou wrote:
+>
+> > While moving, adjust the following:
+> > - Mark only RX_DATA and TX_DATA as volatile registers. The PCI version
+> >   incorrectly marked CFG/CTRL/CFG1 as volatile, which prevented proper
+> >   regcache synchronization.
+>
+> The driver also polls LS_I2S_CTRL for MCLK_READY and CLK_READY, either
+> we need to bypass the cache when doing that or that register needs to be
+> volatile too.
 
-https://elixir.bootlin.com/linux/v7.1-rc5/source/drivers/base/regmap/regmap.c#L3249
+Yes, the LS_I2S_CTRL should be volatile, otherwise, a timeout error may occ=
+ur.
 
-and _regmap_read():
-https://elixir.bootlin.com/linux/v7.1-rc5/source/drivers/base/regmap/regmap.c#L2822
-
-as well as the current sun4i_spdif_regmap_config definition:
-https://elixir.bootlin.com/linux/v7.1-rc5/source/sound/soc/sunxi/sun4i-spdif.c#L526
-
-Based on the current regmap core implementation, I think it might be
-cleaner to leverage the existing regmap suspend protection mechanism:
-
-if (map->cache_only)
-return -EBUSY;
-
-This would inherently prevent direct hardware register access and help
-avoid potential crashes during suspend. To support this properly, we would
-likely also need to enable a basic cache type (e.g. REGCACHE_FLAT) in
-sun4i_spdif_regmap_config, since the driver currently
-does not define a .cache_type.
-
-A patch in this direction would look roughly like this:
-
-static int sun4i_spdif_runtime_suspend(struct device *dev)
-{
-  struct sun4i_spdif_dev *host = dev_get_drvdata(dev);
-
-  clk_disable_unprepare(host->spdif_clk);
-+regcache_cache_only(host->regmap, true);
- clk_disable_unprepare(host->apb_clk);
-
-}
-
-static int sun4i_spdif_runtime_resume(struct device *dev)
-{
-   struct sun4i_spdif_dev *host = dev_get_drvdata(dev);
-
-   clk_prepare_enable(host->apb_clk);
-+ regcache_cache_only(host->regmap, false);
-
-   clk_prepare_enable(host->spdif_clk);
-}
-
-This approach would not only address the current kcontrol-related issue,
-but could also provide a more generic safeguard against other runtime
-suspend race conditions that we may not have considered yet.
-
-However, one downside is that this solution depends on the current internal
-behavior of the regmap core. In addition, if this driver starts using
-.volatile_reg in the future, the current regmap implementation may no
-longer provide sufficient protection during suspend.
-
-For example, in the first branch of _regmap_update_bits(),
-volatile register accesses bypass the cache_only check entirely and can
-still hit the hardware bus directly, which could still lead to system crashes.
-
-Because of that, the explicit pm_runtime resume handling proposed
-in the current patch may still be the more robust solution in the long term.
-
-Given our previous discussion about making the pm_runtime handling
-more consistent between I2S and SPDIF:
-
-https://lore.kernel.org/all/CAABR9nEFGOX5GnQ9qpJY-T-92dA_kDcVS+qBz1ior590G_x6gw@mail.gmail.com/
-
-What are your thoughts on this direction?
-Or would it be safer and simpler to keep the current patch as-is?
-
-Best Regards,
-Phuc
+--=20
+Thanks.
+Binbin
