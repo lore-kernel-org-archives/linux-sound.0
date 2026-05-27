@@ -1,159 +1,177 @@
-Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch [79.135.106.28])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012051.outbound.protection.outlook.com [52.101.48.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45DC2580CF;
-	Wed, 27 May 2026 14:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.28
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779891939; cv=none; b=dEI6iqE8jFNGPhkcBKwmU6sJgHeYg4uywFk5UnkREwjpSCV5w8Od8LdX7a/lxYhfEJsFKYfioiiqQCY9/uBLVFX0T51S0Rkuy/jpSUiNSUkZ5CJXeyITioIJ9QBlxY3k6E+9lF1XzlULC4m+cx+wq5KAN/Lv95kvNat3kgYovIk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779891939; c=relaxed/simple;
-	bh=IlgOu6xrPBhYrYI23sQNAMauo+PA/NjtRQd/dG2lkTs=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=NC2byxSQNm4mtbRIrYpywpdmXM36cZhfjmmK6Dk1KS+hn5OAOeabm32JLVGOkLcfW7K6+3K7TjLjZgx8zY5pS2s+NPBhpXvK7nr3MCbOpmVLVvpWGoc8EYokGBG693HO6SBS/ebfwXvhNtUPNXwPymREGMox80dTY/6wGI64b+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=e91tYMgM; arc=none smtp.client-ip=79.135.106.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7D4425CC0;
+	Wed, 27 May 2026 14:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779891950; cv=fail; b=jX1n5rCWWYMxU9+yLWrm1jHQXlCJ3JzdfYtgbopiJkOpNVSMSMhbwfUYLbt71MrZ/EOy2E69u+DaypyYgHF2im2Lq5W5sp8Y5BoLh3pClkLhFH4jVqffYcttIz2gzaveiw5JMpdYYXatU20yQtWMasjROMJwRhPzWvEaAG4tpQM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779891950; c=relaxed/simple;
+	bh=eDLEUCcZI43KD5hsmRjjHImSbC//vtESOACoZvldY88=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=O84+mDQFlDy/p5BWFoFpGLQUkB2RVws2GgFrcTMHIvq8j8Nh5bdS9Mgf6zVxChTaWqucVe9IoyKD8dqXMFdyo8POtjCGmgm97fToRlFCK6dZcoS5QbAj6zGZNCnCqEnmtOUUgF+wr+L+9BVLVnsaoU1WzKNrFT/zDjoe9g6hI6c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vVWK9It8; arc=fail smtp.client-ip=52.101.48.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="e91tYMgM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1779891926; x=1780151126;
-	bh=GyV73PTYgpNpcT481vcJDYNK3HIZIfi/Inhd+Iv0V6w=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=e91tYMgMaAKxQKH3RZV3KLy7feofz6Hj51cNEe4x3XsctcJpj/S/TDGt2M8ZZ0+sr
-	 LyMzxsbclOChgAGQ0OsT1+PeQLoPhRpHS9BD6dqKR77zFYqeY8W/YtrIexiLGwzaZX
-	 WIOc82nsjojUi/yC5eOS0jADp1190Vjp9Z+dmSdPwuD+ntoF9CvkCIG84WD7skOWVv
-	 iGPiftjIYNVziuLaExAe4ZuAfAoK7gAVtaxYTsIgZyj1PeXY0GFqvYGLI1eYvhlz29
-	 TgjrppCD72xc2wLGLpyyjd9NqniwDeuW+/QVeJ+FwxKXteCEtQSIwvc8R+BUgA/3iK
-	 kN15ZAMsxXnrg==
-Date: Wed, 27 May 2026 14:25:22 +0000
-To: "stable@vger.kernel.org" <stable@vger.kernel.org>
-From: Mike Karcic <mikekarcic@protonmail.com>
-Cc: "regressions@lists.linux.dev" <regressions@lists.linux.dev>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tiwai@suse.de" <tiwai@suse.de>, "sean@starlabs.systems" <sean@starlabs.systems>
-Subject: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287 (17aa:231e) -- 6.12.73 to 6.12.85
-Message-ID: <O6pYAi7yf23du9ivLsL0QqrnTmodj2lDTL7Wviv7I_nhjVtvllO7Y5Ban0TeTqrastb1RWhJtlkqrM3quLMWSriai-YjjGy312MTcEhxyWs=@protonmail.com>
-Feedback-ID: 22946815:user:proton
-X-Pm-Message-ID: ac78335ef8d0016c6d3ca9ce8e876c7b91f605c8
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vVWK9It8"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VtJUgm2KOL9b1Wpc2VhGGoAGXbNToYF0Bfx7niahAn2A4cJXvwbNDUHjf3SuKfLpEdL8lJWu5G8fJK08M/h5vGUmmsET0XRNG+BuBX1flUIPmsUcYYRE8K9+hAUADjxrF0qtRvr/+cpohYtpb3BHKODlWwUFxnZz68E+Lk7HXuJvEbaPfLebpMgBMjYz/Ba1iPKv2Yw5Y6bNaCdKML/z2jAAf0C7XJIiJccne2CJeJPxU1nltO3HRvMsLQ7jlbadilrKZI3idsbQCW6n/Wb8+qtZzJyG0Fv0+EtTBKnRTaMDV6TPxjEzJ9yPBoEUZX9is4gTHFn0hWN0ksWStJ3yRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=d9PYrP9fSZQPAAwe444zW0pf9SBkuFuO2S0rR8tdh+g=;
+ b=aoJjRglaNjD4j1thLAUmqYGuPvGUX32mbXYrIZdx+ENsSPTNW7zmpBVbx8tPdlMzZpgY8fUSccc+jcU+G5cG/0kK/0q9BSf5LZcQbCt5KOli2Zi3uvLaZm0TIQLTodWSS96DV36rVmBBFHUV7GOmelYeDkV725eWxiKf4td5xdZhYef3OfGvuTSxWZejb2RCNV6XY/8TdCM8E3PaY10MA8IOiftKQN5bUcfAKBmTNYVT++M9AKx+t8Ah9XAin6zIaGydH3Al8RygSeAx8BoWwmRM3fRNNwQiQw74qaAmIoRB9W0JaIvCdvLvgFmDexWCWze5ydgJgZm66xfZODoJyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d9PYrP9fSZQPAAwe444zW0pf9SBkuFuO2S0rR8tdh+g=;
+ b=vVWK9It8GpPZeE++2v812BoqS3tJ71dy58mgoaKfMXFlynnJhnWHP3oZrc1LXmLO1RV8a/IBFv5F49qXBJDGvh/Y1W/jGGuhuCrpCAsN9hIRLlS6z9cImA4fuCcqZFPBTcHZETjqs7F+5uhHziKZEls4K/jMiQn8MjiSS8VdpKQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5356.namprd12.prod.outlook.com (2603:10b6:408:105::23)
+ by DS0PR12MB6534.namprd12.prod.outlook.com (2603:10b6:8:c1::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.11; Wed, 27 May
+ 2026 14:25:38 +0000
+Received: from BN9PR12MB5356.namprd12.prod.outlook.com
+ ([fe80::8e9c:2f3d:9679:942e]) by BN9PR12MB5356.namprd12.prod.outlook.com
+ ([fe80::8e9c:2f3d:9679:942e%6]) with mapi id 15.21.0071.011; Wed, 27 May 2026
+ 14:25:38 +0000
+Message-ID: <f239dec5-8c1a-430d-885f-a3a85863e55b@amd.com>
+Date: Wed, 27 May 2026 19:55:31 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: amd: acp: Use IS_REACHABLE() for
+ SND_SOC_ACPI_AMD_SDCA_QUIRKS guard
+To: broonie@kernel.org, alsa-devel@alsa-project.org
+Cc: vijendar.mukunda@amd.com, Sunil-kumar.Dommati@amd.com,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ "open list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>
+References: <20260527133208.3074614-1-syed.sabakareem@amd.com>
+Content-Language: en-US
+From: Syed Saba Kareem <syed.sabakareem@amd.com>
+In-Reply-To: <20260527133208.3074614-1-syed.sabakareem@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0192.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:e8::17) To BN9PR12MB5356.namprd12.prod.outlook.com
+ (2603:10b6:408:105::23)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5356:EE_|DS0PR12MB6534:EE_
+X-MS-Office365-Filtering-Correlation-Id: c3ff9326-dc24-4024-b694-08debbfbd2c4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|18002099003|22082099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	jxWy4xwGdb1Q8C7gRHvdKrz/W8H3KYqPjhe2565IXvDghwQ+Mms8DSYZIHzqr+pTDY6/ZLUF92AwEt2y37aVcC8SuBPm7W86Ksm70RMIX+AAnxSBuR+IvBoAHH/y6wNOhVOghWuGZd+f4F/OUPmnBXWCJTEzaFb1YintyJm1ZbSjeQkZLbULmK7IdKBYoSu0o2Mg6pBkRSUi5FS8o8Lx8k7E4EYq6H3bLF0u9a8Ur+bHdG5lWCoZ4TEdpUyX6KKisydIAtdXjLvR1C7bEkiRUotOm0rZkfhkW/9aDsz1vLtRBWhY14I/0uLyg4SMKUP0EjRG+reJylIbT3fEMMLKa7pX74rQj6c8Xz/LqhhEKnKNQ6rpJ7JJe5WkP2qNxJCXW9UQFmooZrouKfwl6IhOQel+ncqGmFyrB6B30pULAkTGHXDshHFO3jZ+Sp9WKijM1PsZywhJo0WxVEiUp/Q6dUgP90M2v5SWX+1BGVFRcCUxo+JU25NcWqhf8otitlCvcsfR9wPudTFsM5OmTYn9nv+ScLRXfULvTy1v/TmvGgCqTEMVUO9jLM9ikrJyEt95PZOEcFiqRrZxs5ApaRpqyK+KIXJqm03z9MUCml584d22+9oVMQczjGdJFLUJBhCW0EVJxYKJ8fHxJQ6fpxLxpwtgVWRYC8wlK/pkWlRJrKXnQ0nrLJ18js/TWub4BUnm
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(18002099003)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cDZORGlnSWtrWTNZMlhGdFF3cU42L0JsZEZjOWJhV3ZKMjNRd1NBMnpuOXhp?=
+ =?utf-8?B?OFVPOWMrNnlCTHdsdkdOS1E2anVqbDRtblY2OTNrdVBoQksxVTZZVndDMTQ0?=
+ =?utf-8?B?cG5rMjBWSDZaZkIxdjVQa1V3Y0VrdnBoRys1VVEyUEJEWWlZdG4zS2NhVERy?=
+ =?utf-8?B?RmRJdUVwOSs2b2tEeHpuUzlsY3lnL3NWLzhrY2tiY3BIMFNDZGdQTmdXSVFV?=
+ =?utf-8?B?S0JuL3NVTEZLRmgvM0hVYlh2MkJLZTNwT1EzbHRLcHdoOUg5MENEbWJBQTlm?=
+ =?utf-8?B?a1JLVVRjNmY1ZVZMUkhPR3psNi9lL3pjVjVoMjQ1UjZaU1JjQXdGWk9UZUts?=
+ =?utf-8?B?MFVkR3MxOFBqZlZaYkhlck9wMncwV29laE1hbGZKWnk1TCtjZVgrOCtnM3ZD?=
+ =?utf-8?B?bGNtcXk5RWpVODE0RnJPVGkrbHlGZGtNbnVGaXVhS01DUUNUQzVBTStxd1pH?=
+ =?utf-8?B?VEVwbjk5dFlPMWFwMjNoZ2xyT2xHdFZ0a2pORzlJdk9YbjhrZ2tRTTRURmhS?=
+ =?utf-8?B?OHM3R0hBbzN5d3NNaVg5Q3hOVXg2ZENPbUhYVmtuUUw0eHJMdTdZclFrZlk3?=
+ =?utf-8?B?dVBvWGpyamlybVhqSHBUd25nZUVpNXMrMDNvbG0zQjdWS0JUNEVIMkZUaXZ5?=
+ =?utf-8?B?a1hyWEhpQjRPOWl6amprRGZ0dlpKZk9TWWJpVVBVU3hWSTBxUlk3cFgrVzdu?=
+ =?utf-8?B?RTcrZDNadGo4YkdWaHdRd3VkVGVkakpqWUFTL0pSSFVab01ZYkhZSFdPVUhp?=
+ =?utf-8?B?MUROeC9MbGFoYkFNcUZyMjFNRTdSejhoU2t0dlVsSzV3WGZ1aThrVnVGSEZt?=
+ =?utf-8?B?Z3U0SngrVE92U21md0plQ055bTlPTDNDb1hxeFFYclNwMWpqNlp2MWtESk0r?=
+ =?utf-8?B?Y25peDN2d2NrcStzNlZqdXVkK2xpbnZMZ0Mzd2YyZDAvMHdMaDZxSDRaRzF2?=
+ =?utf-8?B?dW94K3dGS25YU05vd21nMnI0RVZPMXR5NFJCMXludEUrYVhMUFFpb2NzWCth?=
+ =?utf-8?B?Mnh2d2ZXTURtZ0h2Mk9vZC9xalZaTnp0cDltK293aGtSaFkxek8rNERTZTFK?=
+ =?utf-8?B?TmdhSTMzMlZrbjNoemY2N1NFdXJ2Z3dodTVLaWpaWGZHWW53VGMxSFNsSEZF?=
+ =?utf-8?B?RGQrMll4Q0hmcnVMOVV3dnZJUStlYnN3ZThZa2FsRnBZNng4QkN6dHpsQ2tp?=
+ =?utf-8?B?MkdtendNZ21Cd0xJWDVKSS9yR2tGS0VraWRnQXhzOWc3VFRHRHV1OS9GQW45?=
+ =?utf-8?B?SlFHQ2lzUzRZbzBuRUZKTU5JQXhOMElVVlhlVitzRVhISlhrUElPMDRZVW00?=
+ =?utf-8?B?T3Q1RDRxTmtzOXdnSTFsNEs2R1JheUJZR0dCNFk5bkx2VFZ4ZGV2anBmMjZv?=
+ =?utf-8?B?d0ZPWml4b2FlNVRpT2pIRGtNZERXWUVkQ1RNUm1SNHFEanVVOXhWVTMzZFRl?=
+ =?utf-8?B?YTBhaW1yUWJmMTZDNWhrMGRUeXdHRnRPZExFYkkrcUhnVndNN05BaDRmNjhx?=
+ =?utf-8?B?dmF2alp0RmZaV1FSQ1VlVHFLdnFZRVZTOUR0VUt6SFUxTnc5Skg0NTRBMDFm?=
+ =?utf-8?B?UTF4VGJiUitnQUhnL2VHV09GcnBGb1hseHJmQmhqVmlhM2lyeXpjdjZseCtT?=
+ =?utf-8?B?T3A1clhRVzNjWTkyOXk4VzdGQy9aTFdqeHdreVRadldxWTRVbFpNR29pR1JG?=
+ =?utf-8?B?T2lZME5teEZuVUlCZCtmbTlqM1BKQW5pQ1FFOTNFZEJaNzVMRzRQOXFmMG5Q?=
+ =?utf-8?B?L0xnblFSYTNWWG1PTzlycUhPMGpZMkUzbjdSVHdUT2ZtQjk2YTI4aUU3OUpD?=
+ =?utf-8?B?K3JZQTZaMjdUbm53d1VWVVIwUlMrNmw2N2J6Nm9ieUhSaU14Yjk4ZUZZYnYz?=
+ =?utf-8?B?VnBKNWY0YWZKdWFSSW1IUFQ0R3JFcnY5UW5HRXVuU1ZmWlZFMnFPV3A2WG43?=
+ =?utf-8?B?Ukt5ekxZNmVSL1VsMUtlU2VtREtyQ3VSK1Y5RHY0eHlOYmNyd0VZTnFrQmdT?=
+ =?utf-8?B?ZVBocENHTFhmMGE5MTJVdDZPaWFWYnJkdGFIbUlPMldJVXBPRG9QVnd3K0RN?=
+ =?utf-8?B?dGdCZVhSYU1qbDJRdGlsM3AzU3MwK2lRdlpVMjIrNmdTeEFTZkxvNitqZFZr?=
+ =?utf-8?B?OVc0a29tRTVzdWQ0b0VZaXgrNHlSZlNrVW5kZkRYMUoyM3FrL1hvVS9sRStJ?=
+ =?utf-8?B?eTV1V1JhS2h6ZnBZSU56ZHcwd0JWZHloTFlQWWtjM0poVzExYXQzQmN1WEdz?=
+ =?utf-8?B?Y2xtV29KK3I5TEtvOTBKaVc2V0d0QVlhcWhSWkRhOE1tUGliSmMwdndMVTNJ?=
+ =?utf-8?B?d3dLMzRhTzIzSEJNR3hmSEszNkIwL3EzUFhiVTVCelJaZ3dCQTI4UT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3ff9326-dc24-4024-b694-08debbfbd2c4
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2026 14:25:38.1876
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2xDtn2A0AYJljB3aFktNLlIWqzCnJlzSg6HYBcI7oqvsweSZxbFg6iSxv638Q/7KcZ6sd0U3eg5IyqMSKBUT5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6534
 
-Speaker pop/chirp regression on a Lenovo ThinkPad with Meteor Lake and
-Realtek ALC287 (subsystem ID 17aa:231e). The chirp occurs on speaker
-power state transitions when audio starts or stops. It is not present
-on kernel 6.12.73 and is present on 6.12.85. A desktop with ALC897
-(subsystem ID 1f660202) on kernel 6.19.14 is unaffected, so this is
-codec/fixup-specific.
 
-Tested on the same LMDE (Debian 13) installation with multiple kernels
-selectable from GRUB. All userspace, firmware, and configuration are
-identical between tests. Cold boot between kernel switches is required,
-as warm reboot can carry codec register state forward. The kernel is
-not tainted on any tested version.
+On 5/27/26 19:02, Syed Saba Kareem wrote:
+> From: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+>
+> Fix a build failure when CONFIG_SND_SOC_ACPI_AMD_MATCH=y (built-in) and
+> CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS=m (module):
+>
+>    x86_64-linux-ld: sound/soc/amd/acp/amd-acp70-acpi-match.o:(.data+0xf00):
+>      undefined reference to `snd_soc_acpi_amd_sdca_is_device_rt712_vb'
+>
+> The header guard uses IS_ENABLED() which evaluates to true for both =y
+> and =m configs. This causes the real function declaration to be used even
+> when the symbol is only available in a loadable module, resulting in an
+> undefined reference when the caller is built-in.
+>
+> Replace IS_ENABLED() with IS_REACHABLE() which correctly evaluates to
+> false when the dependency is a module but the caller is built-in, causing
+> the static inline stub to be used instead.
+>
+> Fixes: 10d366a846be ("ASoC: amd: acp: Fix Kconfig dependencies for SND_SOC_ACPI_AMD_SDCA_QUIRKS")
+> Signed-off-by: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+> ---
+>   sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h
+> index 0e644e71e76f..66df37d29d84 100644
+> --- a/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h
+> +++ b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.h
+> @@ -9,7 +9,7 @@
+>   #ifndef _SND_SOC_ACPI_AMD_SDCA_QUIRKS
+>   #define _SND_SOC_ACPI_AMD_SDCA_QUIRKS
+>   
+> -#if IS_ENABLED(CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS)
+> +#if IS_REACHABLE(CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS)
+>   
+>   bool snd_soc_acpi_amd_sdca_is_device_rt712_vb(void *arg);
+>   
 
-Bisection results (Debian package versions):
-  6.12.48  -- no chirp
-  6.12.73  -- no chirp
-  6.12.85  -- chirp present
-  6.12.86  -- chirp present
-  6.12.90  -- chirp present
+As per Arnd Bergmann offline comments this fix wont work , will send a 
+another patch with proper fix.
+Please discard this patch.
 
-Also broken: 6.19.14-101.fc44.x86_64 (Fedora/Aurora 44)
-
-The regression window (6.12.73 to 6.12.85) includes two commits
-targeting speaker pop on the Star Labs StarFighter (ALC233, SSID
-7017:2014) that touch patch_realtek.c:
-
-  1cb3c20688fc ("ALSA: hda/realtek: Fix speaker pop on Star Labs StarFighte=
-r")
-  Fixes commit ("ALSA: hda/realtek: Sequence GPIO2 on Star Labs StarFighter=
-")
-
-These are quirk-gated to SSID 7017:2014 and should not run on
-17aa:231e, but they are the most prominent sound changes in the
-regression window. The actual culprit may be a different commit
-in the 6.12.74-6.12.85 range. I was unable to narrow further as
-Debian does not publish intermediate point-release packages.
-
-I can build and test vanilla kernels for a proper bisection if
-guided, and I can test proposed fixes.
-
-Hardware:
-  Lenovo ThinkPad, Meteor Lake
-  Codec: Realtek ALC287
-  Subsystem ID: 17aa:231e
-  PCI: 0000:00:1f.3
-  Machine driver: skl_hda_dsp_generic
-  Codec fixup: "ALC287: picked fixup for PCI SSID 17aa:231e"
-
-Unaffected hardware (same 6.19.14 kernel, no chirp):
-  Desktop, Realtek ALC897, Subsystem ID: 1f660202
-
-Controlled variables (identical across all tested 6.12 kernels):
-  SOF firmware: 2.12.0.1 (firmware-sof-signed 2025.01-1)
-  Topology: intel/sof-ace-tplg/sof-hda-generic-2ch.tplg
-  Topology ABI: 3:29:1 (Kernel ABI: 3:23:1 on all tested)
-  ALSA UCM: alsa-ucm-conf 1.2.14-1
-  PipeWire: 1.4.2, WirePlumber: 0.5.8
-  power_save: 10, hda_model: (null)
-  Desktop: KDE Plasma 6 (Wayland)
-
-Eliminated causes:
-  - Topology files in sof-ipc4-tplg/ and sof-ace-tplg/ are
-    byte-identical (confirmed via binary diff). Path irrelevant.
-  - SOF firmware version (same 2.12.0.1 on all tested kernels).
-  - Topology ABI mismatch (3:29:1 vs 3:23:1 present on working
-    kernel too).
-  - power_save (10 on all kernels).
-  - PipeWire/WirePlumber (identical versions on all kernels).
-  - Desktop environment (KDE on all; a KDE install triggered a
-    kernel update which was the actual cause of the regression
-    appearing).
-
-dmesg (6.12.48, working):
-  sof-audio-pci-intel-mtl 0000:00:1f.3: Firmware paths/files for ipc type 1=
-:
-  sof-audio-pci-intel-mtl 0000:00:1f.3:  Firmware file:     intel/sof-ipc4/=
-mtl/sof-mtl.ri
-  sof-audio-pci-intel-mtl 0000:00:1f.3:  Firmware lib path: intel/sof-ipc4-=
-lib/mtl
-  sof-audio-pci-intel-mtl 0000:00:1f.3:  Topology file:     intel/sof-ace-t=
-plg/sof-hda-generic-2ch.tplg
-  sof-audio-pci-intel-mtl 0000:00:1f.3: Booted firmware version: 2.12.0.1
-  sof-audio-pci-intel-mtl 0000:00:1f.3: Topology: ABI 3:29:1 Kernel ABI 3:2=
-3:1
-  snd_hda_codec_alc269 ehdaudio0D0: ALC287: picked fixup for PCI SSID 17aa:=
-231e
-  snd_hda_codec_alc269 ehdaudio0D0: autoconfig for ALC287: line_outs=3D1 (0=
-x17/0x0/0x0/0x0/0x0) type:speaker
-
-dmesg (6.19.14, affected):
-  sof-audio-pci-intel-mtl 0000:00:1f.3: Digital mics found on Skylake+ plat=
-form, using SOF driver
-  sof-audio-pci-intel-mtl 0000:00:1f.3: DSP detected with PCI class/subclas=
-s/prog-if 0x040380
-  sof-audio-pci-intel-mtl 0000:00:1f.3: hda codecs found, mask 5
-  sof-audio-pci-intel-mtl 0000:00:1f.3: using HDA machine driver skl_hda_ds=
-p_generic now
-  sof-audio-pci-intel-mtl 0000:00:1f.3: Firmware paths/files for ipc type 1=
-:
-  sof-audio-pci-intel-mtl 0000:00:1f.3:  Firmware file:     intel/sof-ipc4/=
-mtl/sof-mtl.ri
-  sof-audio-pci-intel-mtl 0000:00:1f.3:  Firmware lib path: intel/sof-ipc4-=
-lib/mtl
-  sof-audio-pci-intel-mtl 0000:00:1f.3:  Topology file:     intel/sof-ipc4-=
-tplg/sof-hda-generic-2ch.tplg
-  sof-audio-pci-intel-mtl 0000:00:1f.3: Booted firmware version: 2.14.1.1
-  sof-audio-pci-intel-mtl 0000:00:1f.3: Topology: ABI 3:29:1 Kernel ABI 3:2=
-3:1
-  snd_hda_codec_alc269 ehdaudio0D0: ALC287: picked fixup for PCI SSID 17aa:=
-231e
-  snd_hda_codec_alc269 ehdaudio0D0: autoconfig for ALC287: line_outs=3D1 (0=
-x17/0x0/0x0/0x0/0x0) type:speaker
-
-Note: The kernel is not tainted on any tested version.
