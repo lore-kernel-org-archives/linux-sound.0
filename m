@@ -1,62 +1,64 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4729A2D94AB
-	for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 17:48:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1CDA3FF1D6
+	for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 17:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779990533; cv=none; b=iNwvDdruQywIIfJWky6Y1ihToc0VvVZp4yBCg09mZ97sps1PvuaaWP5LluayhXRruZsA1kwEG7HjQ3FYrc3mxKJ1yQtbSqCBKH+PFtaF4QHPFyShdc96BbuFTgLLCdb3oAFj7T44+q6sSJUxMhMGu2Pn8lEeaiyLMYQ0BF3SXnQ=
+	t=1779990535; cv=none; b=tGR0kDtLDyZnu4kprFoHMWS5TW8FO2sI7iCHLZhEat7b4Tc3eZCCo9c8mTB8+iJFiPqSU6NsLBx3pMq9C2W4274DtegOSvIOEg5qSYuY0xg2l6CdM4nFHe8bhB+kl90Txg48JaA5O6PmxTWvjurFbWAXH7+K9mYNboi2w2bywzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779990533; c=relaxed/simple;
-	bh=oQ7Hpkxdi7o1OAw57CCpb+Au53scJEAlsV5FWRttpUI=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=KyQxVld/3Ph+p53+N71MNFyMMlpNcsuYYZ4gAC0MyVPdGiQ0BH0oFc/rL3Jux4Do1UxIplRGAaqFJo9ahBEMth0FOdykiE5mYHakuY+hFBAc97z6pc81KuQD06C6JyKRH5d/iEPeDfXTT562O26JhcOD1v4gQfPyktnTmxPZF+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tHI5NGrV; arc=none smtp.client-ip=209.85.128.52
+	s=arc-20240116; t=1779990535; c=relaxed/simple;
+	bh=YI4vRVfoyG++FhywIajci3sPlgdT2C+SUKhn0kUxzt4=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HkUfSkoEyeQUvczBSu/Ym5l5QKXhwsvJLVzXDKc1t6WyxaqprBYapv3E6X06fJA0V9Jx+BAmcAc6I+THeQBtEGjDX/qPj1WF42UZnnu+GZLdQer2YoNA80PyAlzce7n8seVvKrMGE1KVsM/VCRCzMNekPQBtAZggl5ntpt0qJXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rU3/UK7J; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tHI5NGrV"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490388fd0dbso74346075e9.0
-        for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 10:48:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rU3/UK7J"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4903f7a90d1so60483025e9.2
+        for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 10:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779990531; x=1780595331; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RIzWyKMXWGotWIEyO41ggWsKGrt3q5HiBatwgBfE//8=;
-        b=tHI5NGrVuwVKO61IQOv0ntvMaN50Ji42MBtQsXOKuxrnP/CPvSXc8bwITuj2A8Iklo
-         mjMmSzyqbJe17ppFHzokISC55eNegE0NR48LgKjQKJgQ4Tij/q3WvAhvk1lluAj84L8+
-         DddChQy61YlNTW0VtouxCo3ioXDrdhtyrQCtHw4ZaPoBRg8SKZMxRJW+qeqU5zU6/me3
-         qtuQ8WtgyerTGlYX0DeqB+MUf4OvJCLkbUF0KGYQPc+Utpx5FfQDkYpXAXbwsDK2EkHq
-         0JX/m4t1fazB42dOWmtnzvzf+bSEuQEPEidLtKP8c+trwtfgwS+nb9p0+0Ve5wuKMjz2
-         IAdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779990531; x=1780595331;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20251104; t=1779990532; x=1780595332; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RIzWyKMXWGotWIEyO41ggWsKGrt3q5HiBatwgBfE//8=;
-        b=NjgQvHO5W+jTolnbRRSDay6lirzZTCYW2MAplD02bnoHoHPdCqh8V/uLNphxWB+qNB
-         ZZUz2u6B5nglOemHkk8h8qYii/jMhgMs51GldnHFg7cB6dBzQ2wPWd/70E6ubygeQSsd
-         HqDhErqor729ZC+khMPzj0VuwwTOtd7FLsgBL4vn2npKHa4shEl44PNEdzGl0mxbPQ8Z
-         Hq+5NTSbb0eZmBHDFW6n+QxQX81t/brTeClUDUMQigMWUmE+BXkkFFFOJTQuDdWAu1Py
-         rH9z6mWBJHalSMjzjgPUZyCKdsRoR47hL2f3HblpWQnvBdGxkqZFic8sRtzOnxGAnYOJ
-         HyVg==
-X-Forwarded-Encrypted: i=1; AFNElJ/jM04rtO1zJA2pmbY4eljxOfeMWne8s6b/i5f93ROWnFSpMxVSa/iRqWvm/ndlQFaUD7+i9N0UBWnzXQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpxazdbanmcNI9oWhA+z+xBWGGEQ1rmUm0sYLnALUYQ1qKHp4k
-	9cKIM9wX6vO2lKCVRd5IYood30dQsO7aLoqBLocJEG3oRNfF78e5IyJs
-X-Gm-Gg: Acq92OFTi0Gr/ds53Bf6MnC+oysdthinCPVIvQ4JVbLH+T8MbwDMBNaMAYk8oDZYquR
-	3CaTgRXBAXHz3wJs/guMM4geOqVG2cEPc1q8k8e0cc2EnI2QKnCou0QCS1aOdfqE3UKaQMNsn1r
-	t5feZmsA0G9Fj+7xlR9ub6kOdjH2g6EzitjIMPYNa6GpWQXL+lXufnSOYBiaHOR+2NqrV0g/Zn1
-	KOMnkQeo72Bt0/eGeIbdLhVKgyM/8C43G5ifhRfQUC4Nk8soEaNaLFY8w5qGMZsbbUeg+nHFbBh
-	9VQkEjC06huY5uvBzI8PoSwaLU/eUscdYMT/3q9sEtg39vGDQXFpYZ719OJ3BLxl3mlpuGiFrgt
-	lxZD4xgXTYe1tCWDXzyCwbMknf271AEMsxCcJo0Jf6aMBE58nHhvsZTP324kRZG8F3fAwZzjP8g
-	oKD+qUFzwVjClZNgoAic/BCYVDijekdWFGgs0qzPYhiQxiWafd79Whm4ulfAOZK6hzkw1afr96A
-	twB0Pb+dVv4F9D6Aw==
-X-Received: by 2002:a05:600c:1f8b:b0:490:6869:9601 with SMTP id 5b1f17b1804b1-490686997b7mr266156675e9.6.1779990530436;
-        Thu, 28 May 2026 10:48:50 -0700 (PDT)
+        bh=2NONFqO3/HG3G/0TaORQaOsqfGhIfs93AQaWtPW/Hy0=;
+        b=rU3/UK7J8FUQq4JAD1SOhdC5D1AhwlaVMbr7Eczu8KBOsS5KbR4S7PfaVZFZhmmzyg
+         xtuL8d6ZnSXymo4AcPJh4DVf6ISGozthhdZ30iT3CA/mwwyptG5Vv8TiHuRyFV+5QULI
+         fWmkwdxqQdhRp8VMPlOSFFQ4opXuTOCmH6/l2qJOmKa8Sbzg/zb4S2a1a92k6200Okl2
+         lx3xdxlOmHhSvRuk7xprwq8hCRJnZuQcgwZW2zmbIGScDA/LqmvF3AW+WHbi4wUI7bWr
+         MG9dISb6Y2nVoASgaS0l8JfLtNqfQe7bqnWXv5Fb+JnsNMrfBZG0bvTxUHELGNPIermm
+         hISQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779990532; x=1780595332;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=2NONFqO3/HG3G/0TaORQaOsqfGhIfs93AQaWtPW/Hy0=;
+        b=njdZdZexzc+6l8cotmv6HDgtoiD0vB3Pz7CxNZutq9WNuLHkcUldFKtJuUK6up5Rty
+         eGzATBZVtJxYL21LaUZ9a6C9OyVNRhl/KIRYJQ/Fa0jgnnMAH/YyaVHtDMIss/VSpn1p
+         GE0GMPHpnbNd6MNQI0E+FYe8ak66KcrvbOJjZBHezl/QbbxI8e7V1d1VyDwXMGzM7e+7
+         wWgo97lI4lBmguyA7laDnMVIwL/6gZpXqu4WZLMbiMsvfFuoHD1WVBWWW4FAbpenSR9e
+         Pn484MrbvCFUDT2TKXEiZ6q3DcUTynUVZZ8VCwpIhHaBVyzbpLlJjFgFBqwZx2y/499z
+         HcMg==
+X-Forwarded-Encrypted: i=1; AFNElJ8tO+0T1SNyacjZpGEsVbObNH7HyWCHvntRshPKycLJg8tQzdmrcQ7Y8cdK9fbq7JZlUlOX3WauhL0Vaw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLyltPGwhUrnfhKYPDKs2hcgTwh+NYahgXX5MnVpa9VIQ2fly5
+	Iv2FXjR7VbgmBFXqC6QPcDvtf4JkTusCtijqqbphU78NsremUKgQdTYz
+X-Gm-Gg: Acq92OFzIVisCrUxPZAhKHOBSTwqmzWPyCIPTfBBB1PqYzRWTwbVHfM7Pi3y4tyWjSi
+	FeaFF1co9Hrox07yuTQ8hmRuwdqinKR3CMUY+dP9q5S3eXycjtMCTcnrNnRueLflvARcKfRXRgN
+	RD7oPQ/gUc9waTS8Dkn8X6N1NCk22DeuZUaSaBvyj2THDCn6RWvNcHnvDCSWJ3qFcQ5LUYrw43j
+	noHpSrwwH7uf/tayFuq9ahtTKDULKBJ4fJcp54mdffGmY+XGRy8ZNiPOKqv/yBQXXUnXFIx0NZN
+	NRHiZ0XI7CccGsmFcyBw68+eiHCiuo+7Wtlh6KXlHqZi0VhKuNgRPKtBvNhe94EkZJVWD29Ehyi
+	34E7cqO+Kk4CkOwgSY+DvEb3LRHnGa4+ajH0ztE4gosPstdrXZUBnbOkweJ7vbFLDfuPRszp3UH
+	6+LIDePWw9DkKfgPSpePmjpEWlNR59ZeStjsdqKferPx0TOMnhHwwGiqjkc5aGYahiSzH6UqcZB
+	FaQezQ=
+X-Received: by 2002:a05:600c:4fc1:b0:490:7227:100 with SMTP id 5b1f17b1804b1-49072aa14b3mr221993685e9.18.1779990532172;
+        Thu, 28 May 2026 10:48:52 -0700 (PDT)
 Received: from Ansuel-XPS24 (host-79-42-252-49.retail.telecomitalia.it. [79.42.252.49])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4909235d4e5sm75342625e9.2.2026.05.28.10.48.48
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4909235d4e5sm75342625e9.2.2026.05.28.10.48.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 10:48:50 -0700 (PDT)
+        Thu, 28 May 2026 10:48:51 -0700 (PDT)
 From: Christian Marangi <ansuelsmth@gmail.com>
 To: Christian Marangi <ansuelsmth@gmail.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -77,10 +79,12 @@ To: Christian Marangi <ansuelsmth@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: [PATCH v3 0/4] ASoC: Add support for Airoha AN7581
-Date: Thu, 28 May 2026 19:48:28 +0200
-Message-ID: <20260528174840.28644-1-ansuelsmth@gmail.com>
+Subject: [PATCH v3 1/4] ASoC: dt-bindings: Add Airoha AN7581 AFE Sound card.
+Date: Thu, 28 May 2026 19:48:29 +0200
+Message-ID: <20260528174840.28644-2-ansuelsmth@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260528174840.28644-1-ansuelsmth@gmail.com>
+References: <20260528174840.28644-1-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,50 +93,61 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add all the patch and documentation to support Airoha AN7581
-sound driver.
+Add YAML schema for Airoha AN7581 AFE SoC sound card.
 
-The card follows similar implementation with Mediatek with
-the codec present on i2c but with a simplified implementation
-register wise and additional frequency supported.
-
-Changes v3:
-- Major fix to the ETDM code
-- Add duplex support
-- Improve Kconfig setup
-- Rework and improve YAML schema
-Changes v2:
-- Fix wrong edit in MAINTAINERS file
-
-Christian Marangi (4):
-  ASoC: dt-bindings: Add Airoha AN7581 AFE Sound card.
-  ASoC: dt-bindings: Add Airoha AN7581 AFE with WM8960 Codec schema
-  ASoC: mediatek: common: permit to provide dedicated regmap for irq
-  ASoC: airoha: Add AFE and machine driver for Airoha AN7581
-
- .../bindings/sound/airoha,an7581-afe.yaml     |  41 ++
- .../bindings/sound/airoha,an7581-wm8960.yaml  |  71 +++
- MAINTAINERS                                   |   8 +
- sound/soc/mediatek/Kconfig                    |  27 +-
- sound/soc/mediatek/Makefile                   |   1 +
- sound/soc/mediatek/an7581/Makefile            |   9 +
- sound/soc/mediatek/an7581/an7581-afe-common.h |  48 ++
- sound/soc/mediatek/an7581/an7581-afe-pcm.c    | 529 ++++++++++++++++++
- sound/soc/mediatek/an7581/an7581-dai-etdm.c   | 453 +++++++++++++++
- sound/soc/mediatek/an7581/an7581-reg.h        | 114 ++++
- sound/soc/mediatek/an7581/an7581-wm8960.c     | 156 ++++++
- sound/soc/mediatek/common/mtk-afe-fe-dai.c    |  14 +-
- sound/soc/mediatek/common/mtk-base-afe.h      |   2 +
- 13 files changed, 1467 insertions(+), 6 deletions(-)
+Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+---
+ .../bindings/sound/airoha,an7581-afe.yaml     | 41 +++++++++++++++++++
+ 1 file changed, 41 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/sound/airoha,an7581-afe.yaml
- create mode 100644 Documentation/devicetree/bindings/sound/airoha,an7581-wm8960.yaml
- create mode 100644 sound/soc/mediatek/an7581/Makefile
- create mode 100644 sound/soc/mediatek/an7581/an7581-afe-common.h
- create mode 100644 sound/soc/mediatek/an7581/an7581-afe-pcm.c
- create mode 100644 sound/soc/mediatek/an7581/an7581-dai-etdm.c
- create mode 100644 sound/soc/mediatek/an7581/an7581-reg.h
- create mode 100644 sound/soc/mediatek/an7581/an7581-wm8960.c
 
+diff --git a/Documentation/devicetree/bindings/sound/airoha,an7581-afe.yaml b/Documentation/devicetree/bindings/sound/airoha,an7581-afe.yaml
+new file mode 100644
+index 000000000000..80d9e87f1470
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/airoha,an7581-afe.yaml
+@@ -0,0 +1,41 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/airoha,an7581-afe.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Airoha AFE PCM controller for AN7581
++
++maintainers:
++  - Christian Marangi <ansuelsmth@gmail.com>
++
++properties:
++  compatible:
++    const: airoha,an7581-afe
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    afe@1fbe2200 {
++        compatible = "airoha,an7581-afe";
++        reg = <0x1fbe2200 0x9000>;
++
++        interrupts = <GIC_SPI 48 IRQ_TYPE_LEVEL_HIGH>;
++    };
++
++...
 -- 
 2.53.0
 
