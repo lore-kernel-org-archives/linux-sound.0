@@ -1,50 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1960367297
-	for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 14:42:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EFCC3DD537;
+	Fri, 29 May 2026 14:42:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780065734; cv=none; b=JZqZz1StkVqXOJwIOswIiyEGqy+1PcTt8iPA14BGyX4KeH4uFW9Wtx7i5oXO2vxj8KoxMNWKFfipyQ7kb5Whp93h662KIacMbBpZ0Nq0w6wH9uRzbxvRMlSfJyY52GkKf1IgOB7ZOyhmiFC+gXo71Z03vQbgnfGUtyazQ23WpP8=
+	t=1780065746; cv=none; b=h6rQVGKhzZej8EqiRCXdaxA4D4pnb3uj9qu4Al7bou5dqTqbtrnTuRMuQsO9dIaYpF1xmXd7w3ALnp0nOAWMahfmwZoVbDDg1xrBJbQdle0uuiivLw9d1LVX31KCodHsHBnWociscIkkiB5VBXSDRRqjCRAgj1iwLvqnw1ExjUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780065734; c=relaxed/simple;
-	bh=KW64H8qcj+BI/trQntXPk7bJYYrLZACRng6FgUd666Y=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uUu78E1+bFrDxwK+I5n5CMATUSLddipbTmVzF9AaTkJ7gASRIj5lV2BTQkcHRX3YoBcPjgG1paFL+Mdueq7M31fFR5qcN6++4+xupEd9sd0c80kYyChyS+A1aCYoJyIuKq7Sc0offrEfjK/pNUx9wdwTj3zuN6NXDIPIDFL6PXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mn5SpiNc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780065746; c=relaxed/simple;
+	bh=dlUjtbyKmT92cXFG08PTJX3bDjROwOwna4j+I2r49Ro=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Hwgs2wBUmns+saWRAPZ5Cm+bcQqbTlA5D1aCWl/GDOeB4aqZACVLXfQRox4zM13Am1mnXdQ6tmQQ3IBHfOWe7SKzMMfpbpLzqRAZWAM2/iPg9ViX4JCcomw4ukcoE+R0FJ+yFzi8W06ZH1lXY9KrXkVVbZjAGvxb49oBYHSzHsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k4YibmjC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mn5SpiNc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F25871F00893;
-	Fri, 29 May 2026 14:42:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k4YibmjC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33B581F00899;
+	Fri, 29 May 2026 14:42:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780065733;
-	bh=zYIYIOb0xNPiHQPY3klF2TjCpn0LMUpmB3GaKKWcY7E=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=Mn5SpiNc/GRxlhmvQM5FPIBW3DshGhg0TwzTd8cBJ4GUIhi1FnKwPyVxszBfQ+64A
-	 dusUUWs+O6y01GZ3EhrRQzkI3iaDNSE2oEqeSUHdMfRUzezjvA8dIcNXYKKT+l936Z
-	 jwAwuVgqdSeBE8qleuzZmVoA8QDhpmgKKWdlJFMYSqLJu3WqQukDR/e1AJl7f1YYhl
-	 fLzqchjaGRIsGDLwCJDElKY8ADq9uG8R41Jur9fR5El8Li8pZL3Kff731YQZoYvcwR
-	 vVZOiKdGADNZanc8JR23iitPYWpX99AaY1mXrg6WnkDPbfl/Mx3EcZ+WBFa1KD1D3Y
-	 sFpxX7BlGwt5w==
+	s=k20260515; t=1780065745;
+	bh=a8uTzGfAUe47bZ/TAA3Wp5YtW2yhsIjyZhHT/ZoGwgQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=k4YibmjCiV1QZZwqJWsYhdE9xETpTnd9PzgulF2bUEk/OIwFCtJ/jtv9mk8W9rBPQ
+	 49LXqZDCMA0LQS5Gl4Wg3DLTvnWKb2JKVqSftdH/Y05EfsT0zyTsgO2f+DeMWzVF8Q
+	 2e8RqTb6ASoIon2WI9oyMr8BXiNv1cvvc8GOvnPJU8FK+Hiy5Hjzpy/7RV4j5pqUD3
+	 OaMaIceq0GEh0bJ0Jazrwfepflzy7EDpoK34p9Gy84keY4EuX3RXdxr2AaCibK24T5
+	 FkWKAudn7yW7YZs0MdAc+si0t1/tIdNKmcHsOAUqNUx0de1bykrSh64My2pLQBH5DU
+	 14a6etDRWzf2w==
 From: Mark Brown <broonie@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Chen-Yu Tsai <wenst@chromium.org>, Daniel Baluta <daniel.baluta@nxp.com>, 
- Jaroslav Kysela <perex@perex.cz>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Takashi Iwai <tiwai@suse.com>, linux-arm-kernel@lists.infradead.org, 
- linux-sound@vger.kernel.org, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <878q942wce.wl-kuninori.morimoto.gx@renesas.com>
-References: <878q942wce.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2] ASoC: soc-card: add
- snd_soc_card_set_topology_name()
-Message-Id: <177996722359.8579.3270107698198416645.b4-ty@b4>
-Date: Thu, 28 May 2026 12:20:23 +0100
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260528144632.130197-1-rf@opensource.cirrus.com>
+References: <20260528144632.130197-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs-amp-lib: Simplify overcomplicated error
+ return
+Message-Id: <177998252436.8579.10192612568050122137.b4-ty@b4>
+Date: Thu, 28 May 2026 16:35:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,20 +45,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1127; i=broonie@kernel.org;
- h=from:subject:message-id; bh=KW64H8qcj+BI/trQntXPk7bJYYrLZACRng6FgUd666Y=;
- b=owGbwMvMwMWocq27KDak/QLjabUkhizJpQc1u/056zzb2uxdPy9m7jG+PUX5HYeHdFJxTgdzm
- n5l0NZORmMWBkYuBlkxRZa1zzJWpYdLbJ3/aP4rmEGsTCBTGLg4BWAiTLXsf3idWrx31bGkBLdL
- il2clsVrN3nFd2dW1WUbAv/fEDDgPZWrYbSyoLNj33+GPyq5AdmvxPfVRjGG6ea5hQm36DkeNjC
- ISrHN+f+Z5/t0XcMz0cZq6dZCz9hDFi+95rvVVXuna0zYLf1pT1jcPkZKvDPI0lgk3x3Fm7ht2n
- +OwmWVtjz6p37NiPDaIsP2+dbz5w3bn67a9fLnnjY5swOPLbcd5mrfrf5iboPqQynBz9nb7lRxz
- Y9kXxsbG6TDFcmiw260QKbsA2NYBEOXr+aRxCtrziz3dQ4q+5hiKGdi11R++q9g37WeK9e/LOvP
- sfk6zWViNJPran2u6bnyuXXz5Z2VP8t4nvOOUI0/kAUA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1134; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=dlUjtbyKmT92cXFG08PTJX3bDjROwOwna4j+I2r49Ro=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqGaXP1t39ht2Lupm03q/tWUbzmGOpgmnzu9q8U
+ ZeBX/vYQsGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahmlzwAKCRAk1otyXVSH
+ 0Al7B/4y5PWPFvQeaPSWfQwRvZNYgmCUsJdNoL+yyFklSttsPwT6ON5skPKyIv3RZkD1sqy9v7s
+ widYVWHnjWay1u+407xHs+Xqdv2ZursJSkKXAa/z27Y8SFz4YJQPuUZ5jaLPfFrhXAjaqXQSIRL
+ BOdzZjF8Z2ju1vN2kyqdCmWzqNwkOI5JxdZf1sFjzKl9dUt3pzm/LFCCKBGN3vFICaYHooqXFRR
+ s57vAam2j/OT/hSU2iopkX5gYXjwN7ewN2cY2b7e3XsnywxTbqdPZPK33x7vM8xk5r0jUsdUnEG
+ KQuFuoR0xRWj2uf8GWJ8BHAQsXGZQFX/nQ01CIs9Nd2tcS+2
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 28 May 2026 00:48:01 +0000, Kuninori Morimoto wrote:
-> ASoC: soc-card: add snd_soc_card_set_topology_name()
+On Thu, 28 May 2026 15:46:32 +0100, Richard Fitzgerald wrote:
+> ASoC: cs-amp-lib: Simplify overcomplicated error return
 
 Applied to
 
@@ -75,8 +66,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: soc-card: add snd_soc_card_set_topology_name()
-      https://git.kernel.org/broonie/sound/c/ec4489c43efe
+[1/1] ASoC: cs-amp-lib: Simplify overcomplicated error return
+      https://git.kernel.org/broonie/sound/c/3b28b14b794c
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
