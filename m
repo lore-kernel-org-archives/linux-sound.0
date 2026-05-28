@@ -1,64 +1,42 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E573AC0C4
-	for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 14:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928EE3DD537
+	for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 14:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780063918; cv=none; b=gArFFwQo5jTfbhaOxlWdDtrG50mVZLo4IYc45Mi3xQ3A91oeBlpgJBQFGrF83nw6QrXwQdYBYtrpCrw6f+1PK+BP6rRFXKOXhP5YY1Wgm2baIDB95PzBnP2Aejq8x0CeysEA9qkOPJdw01m0am/Jd6ejKNkeVbHftBTJZq2H6Tc=
+	t=1780065729; cv=none; b=X5Rv/ns+AT9O7ieMBIFYPnnr3tckMQAZYOBeKAULajThphNhrllKe1ODfZ8A7XaLCH+Vo5wY8BG8SvQGRdox05ZutO/QSneKPmeVqHVzovbXqdcIqAJAxXw8vMD/gDqCQDB000F/xBNHB3SmEf6Vh6365oX9iznCw1WxMC9Kk88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780063918; c=relaxed/simple;
-	bh=voMnBWS8cEwfefp8PCxJqjZI5qwsBJ+SwoKj9MSHzzM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YdxyzQZYOUjPy8IVXKGihYSyuNqiGzmzVqV6fkCiSPlGKvXNlIdRVIduaHv16pa/A5JotJ4aRaslQdm46I6oBKGxw0wBRvYjFx0mVtJqw9JhyUMo53R1s2Rb8QlSPkIRfKO5x/gK7SbG56umHhO7T6v+txImqn3qZBdKEB7mtGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QC9Q1Gb6; arc=none smtp.client-ip=74.125.82.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780065729; c=relaxed/simple;
+	bh=2gS8XfkusJFfIAIxl+hvS7jeOyiTzzWPkRzYzKPZwIw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nSDlNv9wyt9mg2ne0jDyfnedN8ngeo6+VrYMEFgCyCmKDjbwzoofBkjWylxMfWbZU+5aKUru1BhtUQ6yIJCWwbN8ppxxpPzdCfb5K1t6YZSb/u6gD6erroORIERAtY/gAkiKbKtiHLFIXJaTqNt80SFi3uSZWc6x1rjyxtlCzhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nhVChKyS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QC9Q1Gb6"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-12ddbe104ccso10236897c88.0
-        for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 07:11:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780063912; x=1780668712; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Im9EwLlskN6tLRrDssrI4Txz2shPxQYbcfE75EYkiHM=;
-        b=QC9Q1Gb6HwWBnBAb+vU5G+e4Dk3zz6LyUoV47WbTb6nx/72uG0atjJCRXLiV9Fy4PU
-         bUNq8JzFwkST+RV12UpKAG5Q1P3s8ALjjP1nM7dwhQAg9UxvL2EgqgH1OGrt3Q3R8JsF
-         plbTO8PmBGVwmplaeND31FXqWMPaPHdnMX2NLlBSM6b5LPN6IP+JjxJblJRfY+BYvAH9
-         WHexXuqebwe/Tol8dmlRgA/lClIgWI6g1d0FPAO3kc3JiMOL1l82BbR9Tqc6MW3QMobx
-         OXyUAXTKNXqXQNucBqtg+lh9PSZ2DIpo6JJsyqZSuSS9y2klcEOkQkdTTxyxrP2A/KqG
-         RK2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780063912; x=1780668712;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Im9EwLlskN6tLRrDssrI4Txz2shPxQYbcfE75EYkiHM=;
-        b=WlS5LFwO83wGum32wUBdsnIQELE1ywsnHqWx/nfCXINVUwaqyLghXdZ/sn+8ieIyDN
-         fhhY7oP4w4x/9V0K/lToZMXkiHj+RHSt2AX45MjWjC3HRJ+RxvZXWU6RSAi2b2MauwCs
-         5dzpYrx2Tocwr9IMNZhIgmlltrzDqevtD1KKdaXG1pWlp0KmZ/wL/bKf+XsNV07T5pos
-         vE7LHTt2EtB9nwOD+TMBJHT6gP7Yb8F104gk0Y6VZMQ5W7M+TPdhxtzet7BcTxIxgLgx
-         ap0kI1jcdpqUOwBssx3vJwE9blxscLAEJBKGqZHDJqVB8/wicTD4Tevq4lxprDO6pTGm
-         qidw==
-X-Gm-Message-State: AOJu0YxmbZ5nhyaW/ElMKAp21nDWbvE735xWkrdtYFiP7vP01O9c3Gz8
-	NSVRuXLom0KuJalrA6QVNYFQK7rLT3bN6bUI95bh5+voWZAxwDDfiQgQ
-X-Gm-Gg: Acq92OHCuOOtiuNs3ZNAoeSmYV/Sz+1L4Arh5HizthMN8SqghyuF5nZMyLIdmOLb4e8
-	4W1z3G2v/SKt1HOXUozyb5mKzpGARlI53BdsDIQSY9bCFq5MSW6Qg1FWn3SCMUzZEmHwup8DdwW
-	XxsbcfDS3D7Tv3IDvcdYDWaaG8xIdw0H9KS1IXyS64oLQYyHbEnF0UP4amaEFmoVc7wnj5lyXoa
-	t8o5oo9oD0PYWWGpKEMj1WRnIzKAREkXGtISHpWdl1J8Sg4apbo+xPKiimShqvSbj6Uwix+vX0e
-	S9/ZPdr0MwgjTj8PalmmVNkISFUr2iHWGxHoAI/apwsDNZ3DLptNiZuGes/hPXODhItNzm+KTyV
-	Ri2sZxJCTmy7P/y5LQuWyuXqh1BWfj409ng3ATd+jBG3+C4hRbLm3sniEIWEsRST8KPGL5mjo2y
-	WFJaPyj5gUrfnSOzfrWEV3Wp/a19FmyTFktaDX8+gbeqfZcFNs325u/prBAfUUwJfJx9shsiyle
-	UyUIyCWZIqLpoTBSngyaqY=
-X-Received: by 2002:a05:7022:62a2:b0:137:6781:7dbb with SMTP id a92af1059eb24-137aedca82bmr1146585c88.27.1780063911838;
-        Fri, 29 May 2026 07:11:51 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-23.user3p.v-tal.net.br. [177.4.161.23])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137b3c69bcfsm1172473c88.10.2026.05.29.07.11.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 07:11:51 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Fri, 29 May 2026 11:11:45 -0300
-Subject: [PATCH] ALSA: core: Use flexible array for card private data
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nhVChKyS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E35AA1F00898;
+	Fri, 29 May 2026 14:42:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780065728;
+	bh=HhZoZAr2pF2fTUiJqVrj2murSsl6nzRUYuqbfzAabfE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=nhVChKySr8wOOSPMBADn5djebqB9gYaSyMRiOStgZu2DR7he10Odpmqx606RMUX97
+	 JSe/TedOGvzJGHlGq/vobRTvJMKmMPP1tTqwbZ+nfQxKD1AR4ORWev9QmRnUcfESNk
+	 wtCs9/jQsLow9zzikyqp1oaZZA7zVpHnhP5DCMJr811D6vcffaEUvkr03hD7jHH87E
+	 +tcf4so78KUE/kjzBaeRoSkOQHDK8GtYaqe2ERRj09qhHb1p3s62QS9RU2sykwtEMc
+	 PK6td6QXotg3ERKkIRcCPS1RYFCITSebf5UcoCDcIkJ2SBsRn/ybgd+dJbiJ8rT8vp
+	 aGQ54pDAOkYhA==
+From: Mark Brown <broonie@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, 
+ linux-sound@vger.kernel.org, andriy.shevchenko@linux.intel.com, 
+ krzysztof.hejmowski@intel.com
+In-Reply-To: <20260528083444.1439233-1-cezary.rojewski@intel.com>
+References: <20260528083444.1439233-1-cezary.rojewski@intel.com>
+Subject: Re: [PATCH v2 0/3] ASoC: Intel: catpt: Error handling and debug
+ improvements
+Message-Id: <177999197688.110239.12996121345217539599.b4-ty@b4>
+Date: Thu, 28 May 2026 19:12:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,99 +44,59 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260529-alsa-card-private-flex-array-v1-1-370eb58e251a@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CQAwAwK+Qnm2CK3DwK8ZDd7fVGoKkBYIh/
- J1Vj3OZDZxN2eFabWC8qOt7KDifKkhPGh6Mmosh1KGr29Ah9U6YyDKOpgtNjNLzimRGH2ylyRJ
- TFAkXKMVoLLr++tv9b5/ji9P0PWHfD5eZjGSAAAAA
-X-Change-ID: 20260526-alsa-card-private-flex-array-5f4dfbcbff23
-To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- notify@kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2634;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=voMnBWS8cEwfefp8PCxJqjZI5qwsBJ+SwoKj9MSHzzM=;
- b=kA0DAAoW0F0/Glr/7oMByyZiAGoZnqWi68AFg0fguHvbXC0oTiAMeGaEKadjoio/Bc+Xh+aXe
- 4h1BAAWCgAdFiEEq2KiObyK4NV/XqhI0F0/Glr/7oMFAmoZnqUACgkQ0F0/Glr/7oP8AgEA2GHz
- Yen4o7ZFzjYKqBB8QlSGODUT/IQ/IcSDimleRG0BAIMD7hKg66lJ7WzMtFhYqme96ESl59RpFVg
- u/xa+/0UL
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1638; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=2gS8XfkusJFfIAIxl+hvS7jeOyiTzzWPkRzYzKPZwIw=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqGaW9TdAu83w9orHJy/8BfmyF9uknXNQexkfHN
+ Mr7GeuH03OJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahmlvQAKCRAk1otyXVSH
+ 0JXSB/9bZj2Y3gvNK1qX3vhuyafXXDiuuSnUvaiyN1fPw2YRU7Z896kdzUwrbKTwBbX1fPO9cYv
+ fBc2oot33MwmhhHpxikHuoSQADR50ZE0gvos/VPUeogRIx8WMpVZ0pUljnbjshoeOUjGMQT0oHC
+ L+xNhWg+fqDCXpEKk37hFMLVZPYxhZmQUU/xPlFBRMR4c7Vz3oj2oshh1w93Nx+uoMgYgXScw/B
+ Z5FzTE+nuVBqj1yAyEqcyoEbCYhWxNEmCp8V4/sw85yGSorf1Ynmvu4iEr/Q3v06FQnfajTAUVc
+ GV0WPf18sgWy/bYGqMtIPnC7w3/Ayrj5Rb3VQoVKifXp3HhG
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-snd_card_new() and snd_devm_card_new() allocate struct snd_card
-together with optional driver-private storage. The storage is currently
-described only by open-coded sizeof(*card) + extra_size arithmetic, and
-snd_card_init() reaches it by manually adding sizeof(struct snd_card) to
-the card pointer.
+On Thu, 28 May 2026 10:34:41 +0200, Cezary Rojewski wrote:
+> ASoC: Intel: catpt: Error handling and debug improvements
+> 
+> Outcome of a long debug to solve one, long-standing bug ocurring very
+> rarely on Haswell/Broadwell machines during the boot procedure of the
+> AudioDSP firmware.  Clever/unfortunate user can increase the
+> reproduction rare to 100%.
+> 
+> [...]
 
-Make the trailing storage explicit with a flexible array member and use
-struct_size() for the allocation size. This documents the layout and
-avoids open-coded variable-size object arithmetic.
+Applied to
 
-Align the flexible array to unsigned long long so the driver-private area
-does not become less aligned than the old sizeof(struct snd_card) tail
-address on 32-bit ABIs.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- include/sound/core.h | 2 ++
- sound/core/init.c    | 8 +++++---
- 2 files changed, 7 insertions(+), 3 deletions(-)
+Thanks!
 
-diff --git a/include/sound/core.h b/include/sound/core.h
-index 4093ec82a0a1..4bb76c21c956 100644
---- a/include/sound/core.h
-+++ b/include/sound/core.h
-@@ -148,6 +148,8 @@ struct snd_card {
- 	struct snd_mixer_oss *mixer_oss;
- 	int mixer_oss_change_count;
- #endif
-+
-+	unsigned char private_data_area[] __aligned(__alignof__(unsigned long long));
- };
- 
- #define dev_to_snd_card(p)	container_of(p, struct snd_card, card_dev)
-diff --git a/sound/core/init.c b/sound/core/init.c
-index 0c316189e947..98e702ffa856 100644
---- a/sound/core/init.c
-+++ b/sound/core/init.c
-@@ -181,7 +181,8 @@ int snd_card_new(struct device *parent, int idx, const char *xid,
- 
- 	if (extra_size < 0)
- 		extra_size = 0;
--	card = kzalloc(sizeof(*card) + extra_size, GFP_KERNEL);
-+	card = kzalloc(struct_size(card, private_data_area, extra_size),
-+		       GFP_KERNEL);
- 	if (!card)
- 		return -ENOMEM;
- 
-@@ -232,7 +233,8 @@ int snd_devm_card_new(struct device *parent, int idx, const char *xid,
- 	int err;
- 
- 	*card_ret = NULL;
--	card = devres_alloc(__snd_card_release, sizeof(*card) + extra_size,
-+	card = devres_alloc(__snd_card_release,
-+			    struct_size(card, private_data_area, extra_size),
- 			    GFP_KERNEL);
- 	if (!card)
- 		return -ENOMEM;
-@@ -280,7 +282,7 @@ static int snd_card_init(struct snd_card *card, struct device *parent,
- 	int err;
- 
- 	if (extra_size > 0)
--		card->private_data = (char *)card + sizeof(struct snd_card);
-+		card->private_data = card->private_data_area;
- 	if (xid)
- 		strscpy(card->id, xid, sizeof(card->id));
- 	err = 0;
+[1/3] ASoC: Intel: catpt: Complete coredump handling
+      https://git.kernel.org/broonie/sound/c/7e5d59f407bc
+[2/3] ASoC: Intel: catpt: Add pretty-trace for large IPC payloads
+      https://git.kernel.org/broonie/sound/c/0ee392ea75c7
+[3/3] ASoC: Intel: catpt: Print error code if board-registration fails
+      https://git.kernel.org/broonie/sound/c/45cf3e0cb4ca
 
----
-base-commit: c784d0e6a62abbd2af58bbbe2d20f88dd550e3eb
-change-id: 20260526-alsa-card-private-flex-array-5f4dfbcbff23
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
