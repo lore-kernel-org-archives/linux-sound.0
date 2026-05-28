@@ -1,101 +1,60 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD8C1E1DE5
-	for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 08:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4B330C15E
+	for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 08:33:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779956524; cv=none; b=XOWZZ/d7PBbM0elV2dVzXZdjNqy4CUjbYmtYB3/65kU7mmlWJ2XIA7E6CICbjnKSvKVDHwtfyEwun0e/VgH+nyDt/0OmSJb7hCW/R1GcVVi2IIYoy432ACKv5RbW7AVNdziGKxzbYLqWSKxTR3yk7HrN5HU9A/Ea3tsatkzA9fE=
+	t=1779957193; cv=none; b=ERQ65mWmmSM0+8AntbSG2y84OTSb49Rf12Yj6IeavKqCbpkjJoYDe4RxvySOgZRXoZG/YcdLc4YVvRi6nqEKEvcq1iWI3h0cnvNT/eAw4XDKkqaWu2IRSmloMl13d+DXprBqYj7Pkicf8XtULpJU+ZQuoHrcGFMwwquBhbQkcuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779956524; c=relaxed/simple;
-	bh=fvj9ewGZjm9n7aBmJJ762YtuEVTNsjnkrzhk+PiVYzM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FUV8CBR8JPGSO1SLqxQjPEqloLOBE/UeN6vVWxkAjwUAm/ZAUusogQyj143N43DInzm3PuSByFvUioHhCtEPTpThAafIoqyjFpY2ULnpCRYToTXXw2rfUu6Ay+3woRBy4WbbJbcUNwDpnuV97VheU0SP0bU41Zq6RU+krMA+ekA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=DAtFUYTu; arc=none smtp.client-ip=185.125.188.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1779957193; c=relaxed/simple;
+	bh=XJDbasH0eLjL8Mvv9AXPQdAUBGW3jRd/UulhcjCJhes=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KKfnSFOiHlpnvLgnOkbT4kYor0PM5MKVCiZ7Xfksslk9K0XsJNT+sL5C34XXFAmN+a3+HizJYO94E1Kpcq5WAF39RRDqN7xUvAfYX4C/1XqmeB4dgMcs+bpZIw50BWSR5jrXWgHAq2220tLVWe9nAx4/+HBbN0tG5h30O5pl28A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ITiv5few; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="DAtFUYTu"
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id B4FF93F9B5
-	for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 08:22:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1779956520;
-	bh=YjssOyZAjkfDJZNpMAdpNGPZCAwIg5gZnjT4sc3lUEU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version;
-	b=DAtFUYTusMqzIXkCUHbuK04f2in8qieGKO8v9LwzqotjuwMGPytNtq1AR1nQEVK0A
-	 X6Dgf6+o/Bscs5W31PbRKSajVIEBxbuxn2+fHk547Lu7HrOZB/iV3XZ9j6woX/TcOP
-	 zKASqn5uGmxxL40R4cZHmrodmWArqDwIKACXEYhaRBRXk6B/SI0LZK03nCF9F3a2PI
-	 y/Nw9BJhtO9C5be9URu02slHm2f0zSDoQCP3ylFnDgqHW953eIlTjr11OlWFKgZQuW
-	 EIF3g4PfxldAFSQ0mATGZA0G6Eug7a7bKggfPnUOw+INHrjQ+b9qkry41cKfYv6Yq3
-	 VNw3DMgWPzaTCEHivGOOIf6dwa1jw/ZX1a+q15qbkmU6dTPbuCgG4T9/+3N2auD0Zf
-	 A0/DU475+eElbH0Ib+vhKEgYi63+HfxO3tcR8GRrxrzXo9TsGKMSZpfIY7ZHtj2VmF
-	 WWmHmOa/iXUeb+ShlXbwEQD6pzH3lgQbPQoTLByI8Bg8ZeBppm7xsjfctAaso4lyDx
-	 vVSDkClTbt1Gkt1Bq3Ha+4xj/6STk15cnss/oX04/Ed+AUxaA9nobIHBUHYLZOETqv
-	 OcrB+NsGjl1HLOfo+qn0DUSWoGNRCeGoZ/wHdGrkuaeAVZxV0OvjUdHY/0EYDvJILX
-	 5cuiGFwRgx93m6+vr4Av/9+Y=
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-49058295985so31915815e9.2
-        for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 01:22:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779956520; x=1780561320;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=YjssOyZAjkfDJZNpMAdpNGPZCAwIg5gZnjT4sc3lUEU=;
-        b=FR55lkW9r4/pikidp62sccKzs+C+Ls3HEBcuMmxWcsoZdZQMRerN5sR0zErYYyLNTF
-         XP92y78yKYqfvikXmYLyxiula7IWSFbG//zfYjnB6v5ONjlQQI+VelwyhgbdCZFxwIv7
-         uOrDQPpngguzvBt7EPgJ8EwG18Dx9d6BHCavxM17PUA0547oH6aJBkOhA85fKi0uEI9Q
-         2Shp8Hs2idvOS1R5VnXeGBBLHzbuMbe4n7gPY1lWnhm8YwxVuoDacVnbwTB+FyVUJNhY
-         tmxfLAihcTJMk5csZ6S+ANTemqbbQKLs6J1WheVraAVNCl2lUz9gTXAlAKzcv0C7ZnUe
-         snBg==
-X-Forwarded-Encrypted: i=1; AFNElJ+mwClRv0MEUjBQn1j7NQtfybh4W03/shuKxnOq/GqNO/bKsmFTbIqbg4J/ag/yAqpQ+KUSu7GrYFg4Nw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXnDaLZWh8XjQydBWbzMvJenqNRWkL18/2YvyWzudX3yO78AYV
-	oEchEVGhvrfq6ACTS2MYuL+F+ToxpxYPAJ5/wtA0Pox0UAzdQ4FnV3UK3BVK4VwamuEIaApg6qr
-	ydbG1pGgh/pLEwQXUgaBbxjhHDIHNsvJP7uymB8wKtx6J4mJVbTroD/XZZNs1aC4NH1EqSTwwbT
-	rk1XR9
-X-Gm-Gg: Acq92OHvKHqeecb9DAx1ssGzgDNMJlhwcMtRK1CwztlZ6U1IzlwIrEd6mOHAmaOv6TY
-	TdBD/1TIVw/iCaLOkP1TO/DXYgy/0xltGlPYA8n1NNmsTW8vUkbYo1I9ZM+/8sEP2hR3DD2D5jw
-	BkNFSUOohfIGE7WU5XBkRB8YwYNAJQr1D3sAzTEpoI1Az7pwaWAhHQa6gMXrEc6wajstACUJLNK
-	taJ58ubDuaFxpwkJReRIB5S0J0WjNVYaa8xkNQVwo7TYnsbD2jVMY0hAOqFNqqiLpbFUjLChp8f
-	rObq73ejBIbkw2YFZLlAC0gkfPENvvEm4e9G7VCwY12H2Ahv6cqKps5cK9299DiKg5HDyuYnJ9D
-	Jl/OCiedbdlROknYGplFf4tDmGhwQv2pEt+Fr3qZv8L6bbctq2wFzKIB1Eopg/hW5Lr+IBHZOD2
-	LA67LkYzcVWQnC2muJAkBoriSX/hgYYQ==
-X-Received: by 2002:a05:600d:644d:20b0:490:3cb4:f1b3 with SMTP id 5b1f17b1804b1-490426c5a3dmr314932855e9.16.1779956520289;
-        Thu, 28 May 2026 01:22:00 -0700 (PDT)
-X-Received: by 2002:a05:600d:644d:20b0:490:3cb4:f1b3 with SMTP id 5b1f17b1804b1-490426c5a3dmr314932565e9.16.1779956519966;
-        Thu, 28 May 2026 01:21:59 -0700 (PDT)
-Received: from localhost.localdomain ([103.155.100.10])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49092a902bfsm42284605e9.12.2026.05.28.01.21.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 01:21:59 -0700 (PDT)
-From: Aaron Ma <aaron.ma@canonical.com>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ITiv5few"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779957191; x=1811493191;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XJDbasH0eLjL8Mvv9AXPQdAUBGW3jRd/UulhcjCJhes=;
+  b=ITiv5fewAula296NSkV5ushMN7eTBGUnZgbQF3/UL4hWoGbmLwJWM2eC
+   KEry+KxUr26D4P1nViDjfMleOnSZRXbqFWuJXNjIdDDfnaIdKmDtqWfw8
+   9PeivWmc2V3sN+Xm0U1DZ16ajBKT2SLeJMsJKEuySbh902YDfq1tfrqmc
+   MX/J9vl9sUaBfin8hsNj/Nx9/BJeGJEgJnvPBGuhv7C5Ir8cwvSPIHCOA
+   XCQbyy0mftRKVGXpHanX1XaPgD/h3H+a3FK19G0EEtgCL7vAnzOmosCGn
+   NbCzF9ZPt1eIX8p1xrHXJdtpUJ7AwkYNv1SI6cwfX/iRki1lj+VutfOaE
+   A==;
+X-CSE-ConnectionGUID: y1QGWxsCQ4SUIreGmJygzg==
+X-CSE-MsgGUID: t6rPKM6iQKau4LgL4D2ybA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="79828670"
+X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
+   d="scan'208";a="79828670"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 01:33:11 -0700
+X-CSE-ConnectionGUID: Fap57inuTwSuBfZ6wypmCw==
+X-CSE-MsgGUID: gu/HnLALTnG2WG+I6IaqYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
+   d="scan'208";a="266390212"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by fmviesa001.fm.intel.com with ESMTP; 28 May 2026 01:33:08 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amade@asmblr.net,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	"Mario Limonciello (AMD)" <superm1@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Hasun Park <hasunpark@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	Li Qiang <liqiang01@kylinos.cn>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>
-Subject: [PATCH 2/2] ASoC: amd: acp-sdw-sof: Bound DAI link iteration
-Date: Thu, 28 May 2026 16:21:10 +0800
-Message-ID: <20260528082110.915549-2-aaron.ma@canonical.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260528082110.915549-1-aaron.ma@canonical.com>
-References: <20260528082110.915549-1-aaron.ma@canonical.com>
+	andriy.shevchenko@linux.intel.com,
+	krzysztof.hejmowski@intel.com,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH v2 0/3] ASoC: Intel: catpt: Error handling and debug improvements
+Date: Thu, 28 May 2026 10:34:41 +0200
+Message-Id: <20260528083444.1439233-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -104,50 +63,48 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-create_sdw_dailinks() walks sof_dais until it finds an entry with
-initialised cleared, but sof_dais is allocated with exactly num_ends
-entries. If all entries are initialised, the loop reads past the end of
-the array.
+Outcome of a long debug to solve one, long-standing bug ocurring very
+rarely on Haswell/Broadwell machines during the boot procedure of the
+AudioDSP firmware.  Clever/unfortunate user can increase the
+reproduction rare to 100%.
 
-Pass the allocated entry count to create_sdw_dailinks() and stop before
-reading past the array.
+The bug: an exception occurring early during FW boot (firmware side, not
+the software one) leaves the firmware hanging and the existing software
+code is incappable of recognizing such problem.  The only solution a
+user currently has is: rmmod and then modprobe the driver.
 
-Fixes: 6d8348ddc56e ("ASoC: amd: acp: refactor SoundWire machine driver code")
-Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
----
- sound/soc/amd/acp/acp-sdw-sof-mach.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Recently, together with Krzysztof from the firmware team decided to take
+it up and clear the dashboard.
 
-diff --git a/sound/soc/amd/acp/acp-sdw-sof-mach.c b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-index a0fd8a6f99708..a423853f3a97d 100644
---- a/sound/soc/amd/acp/acp-sdw-sof-mach.c
-+++ b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-@@ -220,13 +220,14 @@ static int create_sdw_dailink(struct snd_soc_card *card,
- 
- static int create_sdw_dailinks(struct snd_soc_card *card,
- 			       struct snd_soc_dai_link **dai_links, int *be_id,
--			       struct asoc_sdw_dailink *sof_dais,
-+			       struct asoc_sdw_dailink *sof_dais, int num_dais,
- 			       struct snd_soc_codec_conf **codec_conf)
- {
-+	int i;
- 	int ret;
- 
- 	/* generate DAI links by each sdw link */
--	while (sof_dais->initialised) {
-+	for (i = 0; i < num_dais && sof_dais->initialised; i++) {
- 		int current_be_id = 0;
- 
- 		ret = create_sdw_dailink(card, sof_dais, dai_links,
-@@ -334,7 +335,7 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
- 	/* SDW */
- 	if (sdw_be_num) {
- 		ret = create_sdw_dailinks(card, &dai_links, &be_id,
--					  sof_dais, &codec_conf);
-+					  sof_dais, num_ends, &codec_conf);
- 		if (ret)
- 			return ret;
- 	}
+The exception handling takes just a few lines of code (all part of the
+first patch), everything else that this patchset is composed of improves
+the debugability and logging.  If anything similar pops up, the
+developers can see what's going on.
+
+
+Changes in v2:
+
+- moved the COREDUMP_RELEASE operation from dsp.c to ipc.c, right after
+  catpt_coredump() to ensure it's always executed, even if the dump
+  itself is not written due to -ENOMEM, suggested by Mark
+- spelling fixes in the patch 1/3 message, s/COREDYMP/COREDUMP/
+
+
+Cezary Rojewski (3):
+  ASoC: Intel: catpt: Complete coredump handling
+  ASoC: Intel: catpt: Add pretty-trace for large IPC payloads
+  ASoC: Intel: catpt: Print error code if board-registration fails
+
+ sound/soc/intel/catpt/Makefile    |  3 ++-
+ sound/soc/intel/catpt/device.c    |  5 +----
+ sound/soc/intel/catpt/ipc.c       |  8 ++++++++
+ sound/soc/intel/catpt/loader.c    |  3 +++
+ sound/soc/intel/catpt/registers.h | 12 ++++++++++++
+ sound/soc/intel/catpt/trace.c     | 27 +++++++++++++++++++++++++++
+ sound/soc/intel/catpt/trace.h     | 22 +++++++++++++++-------
+ 7 files changed, 68 insertions(+), 12 deletions(-)
+ create mode 100644 sound/soc/intel/catpt/trace.c
+
 -- 
-2.43.0
+2.34.1
 
