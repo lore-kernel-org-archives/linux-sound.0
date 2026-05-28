@@ -1,596 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011071.outbound.protection.outlook.com [40.107.74.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A31C282F25;
-	Thu, 28 May 2026 13:50:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779976229; cv=none; b=p4ReepU26JN+Ps5jmrBdp8wmULN1jM7iuZY4rxYjSigOr9DeS4UkHTaDxkcWr4ylJQiAUBg3YJlWeJ1dsuodggibggc995tTgrPtDzMT9ukj+5tJjLF+gQb8W3Icr3Z1h7zevhOBagzWypTCG8WxRj5jtv1YV2aKP778mg5hLWg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779976229; c=relaxed/simple;
-	bh=weaZdaCnIvQQO2iWtnJYG90sWonh1QB5GfDUnoFtzT4=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=UDjjEUUpcoPyFh7nwSEW2m1RYCLl6CQb/Co2sT0BhEYswg28TCzOPusZaNVQWSfvalI6TKHsoJBmUyKV9Ypq+V0elMEcQ4LusBBBb1ZERzYGTbm3pG3pP+q5dm7ySWHE7LFPNG9JXvZLGCbl4VfWGO09zq2o+YTRGw73V6IndPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D+fSYxCy; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A885B5AB;
+	Thu, 28 May 2026 13:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779976257; cv=fail; b=oY0vT6sm5mJWe/jPG6XrxeuQhHYSn+cn+QB1m5gczeBYikurbkXvLdJfdr0q1EJoEeXC6XxDZbDK+u5ocor4SL8WzY7PLL3MijfrwX5YchlX9Am5Ml3LQdrv6WAmXAYYcgePdJymdTkoz4Ue69Gz4O/lhhZhresZfK0H0E3VKzc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779976257; c=relaxed/simple;
+	bh=4PjT2npNBJe8ObGdUXpYMwN72qwUC5+aPWLJT0R+H6k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=KfTDa+MuyxKTr/MbUEK+OEKoi1f3BtXcGLEgbQJ3IMLAJcu8qOhJqaWqYB89G8zNs+7vULRJIMejHodGE+OalNvhulS6z0EfHDS+lLxs07Vzkps8Qldn0lfE9xWokzCgxYbUKdd43IdUe2wkkcFeYyWL4RlB3X21E3M53X0TSkk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=sTk6IrT5; arc=fail smtp.client-ip=40.107.74.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D+fSYxCy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4DB41F00A3C;
-	Thu, 28 May 2026 13:50:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779976226;
-	bh=qpQbVznKBuxkvfvnF3ZtK/OpN/xy5/tFgCckXzQ+K+Y=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=D+fSYxCy6hT8b2xJbtko7ISFnD/+pCxWvZPioGSF7Olg7AHPHvNwX4JBkFjITE76h
-	 oB1kMyjpjzlG+OJ0laAHpFIzaHK9skvzkBKdFNfy74wzAHzLKhsiJkLJRwRz8UO0z9
-	 8SaP8G/5awhGBzDi5GoOqpe1w6xNihU10a3/OAtcEiwQ/3L/olQ9Vx0PNbUSTso6qs
-	 pykRezpflmWSWHrYyPypzUYoNT3zCVrNsg7crvDNKl/h2j2ulP/BE7ufIM5ZUlgUkE
-	 1W+1b5Ar61Xy+izFoYrIZvQj9b/4uTuRJEw+zownu9nNo+NyJzX5ZkCpD1hmMwep3K
-	 XNgSlHPZdB2mg==
-Message-ID: <97ae0e55-ca17-42d7-a013-a3c3bd686bdf@kernel.org>
-Date: Thu, 28 May 2026 14:50:23 +0100
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="sTk6IrT5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kmZKB0+28/8L+YEbzN7PaU0VVK81tK1esGShmL4H9kkkz86vOBobol7CSymj5iQZuhoNysj61GliBy0vx3QBzqomi+TWPYEYdRAgXFpPJny+55pwU06HZzrqXE747/3GId8r+lAsWQggnBAKKQZSYJT/RW/n7pNh25JoqyZon86Ql2YqlIaH5wP7HiDFHy0Sk9xFY++OlrjvBRchOlhVNF7cm8woop8ZlQpVVP/WTuSeLxwGfB8nY0VnytldAdm6Nn3NfaX/8uVShnAIHLn7XpzTWhPWMucwpg0edELD03lUq1xldN1q6bcfH8Ybkac4AHCxHCa2uxzJz5G+FKeO/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4ICX6SWaysZ8zw8Ehhm7MFmQFlBpAi/AxISfe/N2Xwc=;
+ b=t03Hnrcbu5EgE2EXdw0tC1aE63xdemhlDmbwZ+u7pb9zAN1KCGzOvyNaz7/lHcA51ZlF+ix0f2+hHBFs9pCg71uKZbbGWrEgWLKEt1kc8jsvroSbz1VjHXIYlrsdGs7r4CYxQ+iikOpqYZ4dJoM3anhIgPgX5SN1ijJx/NcVj9W5vjuHnp67Qi8WyU0/AIAUluLpuwWaHcmYJaopKmt68ANKaKUQBssas2NQ+D7qOPEzCsdhbhR+38Tmdei60uZzLkDKuVrTnqnt8JNCrzEkwi1yYxrx0if+OT0mcZKE/L776LViVRmfsecsBC7kuaQE73GU5ZLaGaZC9IHy44e5rA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4ICX6SWaysZ8zw8Ehhm7MFmQFlBpAi/AxISfe/N2Xwc=;
+ b=sTk6IrT5tk+5HCfgdW4DuL9qaeARPQPlS1QIIHwSiX87nTN7tKFqzhGD1n+XHjiB1AMDv0iS9DcK1gxpBS/HYEzN5aKG6tRHRlRCHoGruLg7jqDH/8LDdhOGsHQnFCgaC2lFPt8GazNFjM57jgUfWkT0q6x+vkxbNJ3gUjAI80c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com (2603:1096:400:3e1::6)
+ by OSRPR01MB11420.jpnprd01.prod.outlook.com (2603:1096:604:234::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.13; Thu, 28 May
+ 2026 13:50:53 +0000
+Received: from TYCPR01MB11947.jpnprd01.prod.outlook.com
+ ([fe80::33f1:f7cd:46be:e4d8]) by TYCPR01MB11947.jpnprd01.prod.outlook.com
+ ([fe80::33f1:f7cd:46be:e4d8%5]) with mapi id 15.21.0071.011; Thu, 28 May 2026
+ 13:50:53 +0000
+Date: Thu, 28 May 2026 15:50:39 +0200
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: Claudiu Beznea <claudiu.beznea@kernel.org>
+Cc: vkoul@kernel.org, Frank.Li@kernel.org, lgirdwood@gmail.com,
+	broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+	p.zabel@pengutronix.de, geert+renesas@glider.be,
+	kuninori.morimoto.gx@renesas.com, long.luu.ur@renesas.com,
+	claudiu.beznea@tuxon.dev, dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	John Madieu <john.madieu.xa@bp.renesas.com>
+Subject: Re: [PATCH v6 11/18] dmaengine: sh: rz-dmac: Drop the update of
+ channel->chctrl with CHCTRL_SETEN
+Message-ID: <ahhIL5FxD1qGZJAC@tom-desktop>
+References: <20260526084710.3491480-1-claudiu.beznea@kernel.org>
+ <20260526084710.3491480-12-claudiu.beznea@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260526084710.3491480-12-claudiu.beznea@kernel.org>
+X-ClientProxiedBy: FR4P281CA0170.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b7::11) To TYCPR01MB11947.jpnprd01.prod.outlook.com
+ (2603:1096:400:3e1::6)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Srinivas Kandagatla <srini@kernel.org>
-Subject: Re: [PATCH 3/3] soc: qcom: apr: Process RX messages using per-service
- work items
-To: Bjorn Andersson <andersson@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: srini@kernel.org, konradybcio@kernel.org, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260514155051.2593354-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260514155051.2593354-4-srinivas.kandagatla@oss.qualcomm.com>
- <ag-GpRMF3KQ8I1YN@baldur>
-Content-Language: en-US
-In-Reply-To: <ag-GpRMF3KQ8I1YN@baldur>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB11947:EE_|OSRPR01MB11420:EE_
+X-MS-Office365-Filtering-Correlation-Id: 732d4ac7-2574-4516-ee54-08debcc02238
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|52116014|1800799024|38350700014|18002099003|22082099003|4143699003|6133799003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	yjkRQpn9pYTOPiX6DFhmmLAvTtSBIBScS1p1twPFTicDqiOeKMkaeHhy8lhwKDIAaZzq7MyBFomVbwSmovgegRJsL/MUMBsVdMbAzND/H7VgxZu7xZ6huNQEjx0p8gpnN4Hoy5Obo8+QippY/UNteQxOh4goacUaL0H6kGmoS6Hc9VKr5wEw+Q3r4xDjcgb+O/ILLs6hzE1Rm7+Ttcdj8J9U2fh0WShR/ti3yNybFXxLfos6T7JvZh6briqJq88fPGY5fLmRHSApMexslMTtXPuMg6IW7sddyrITMBS6c+HAedfZVR7pbqH2L/G3l3sOnLsWx4744iuZaND747GoQTZUEQ/nGYYi8sZ9D0vdVRBI5k5aJXcZUIgcptazvmdiP+NvWrCG4+LfIdT1Z7yOeezBYnDq5/g3w6fC+4S7Mp9p6+EVra+0tWNnZl9iFcEwtOSaQw3xKYP2IOosHtRrJF3EeF7xruJAnCNSg5aaBlP/4/D9oS+sG6xUE/MS9+QAo1pObxro9FqMXtuT9DGX4YiSVeqe4BvquyFr9y7mOR+wp8pwzhE7h/vplMsyxrHY2ie300mMPSb3z3XomC5nLuY8BA5+lPawl92b3DK00HtoD3ymv7s0GBqcgo/M4hqKiJ98dyTzRauWc8I3nXxf1d0ywPLeL5mSI4sl51IMg8fuWOfhA3QRUlok+kkFejcHjr2kITKGEN6XUYGQRc8v9zm4vRlz5Hvs46bjcViJQcKWZAzJjucmbBNDFzFPL+Rv
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11947.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(52116014)(1800799024)(38350700014)(18002099003)(22082099003)(4143699003)(6133799003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?JjaZnZFBWUoOwI63f/Cmb25qIWCq/VmJKXLr97YXbO90m1mxRk05W24GrV9o?=
+ =?us-ascii?Q?s4HatNMPI3WEFcV3b+GdQRxLJHUmgQsC5ALghntxEO4JcM4iYvoUUvQ30Ffq?=
+ =?us-ascii?Q?0Z+/o2BLh13nsUTdQcfRH7A7ML3ryqqswBbacl8P7wsU1y4FPSFOMIUu4cPe?=
+ =?us-ascii?Q?WbgWiZhgnX8lPrLh4QrvzhsU73dQ7WLairkQfTsEW2fInabHUo6C9pic1WHj?=
+ =?us-ascii?Q?s5fOEsEX+YLj4N7AbY5XwM4U48LtHflSGgEz9pnf+ifFCY+AxHvFzrzWw3ZQ?=
+ =?us-ascii?Q?MtYKFwM1Xu2J5tFZZVilyLn+Vp0Q1nMmbl6GFGJYkCww7KgVw+FPT5TQJTFE?=
+ =?us-ascii?Q?OR6q405/IhmjMjqMQiMc0qnBqmC0TRxF5pFB1EqDIWYbuqK+6RAOqJVj8lLz?=
+ =?us-ascii?Q?sHTw5IKfttc8WsexNd3KBfT49Pkv+6ICoAL7NEW/irflszpAoCqbhpVG/274?=
+ =?us-ascii?Q?Tz06uwFqNsixlWRMEPFRPU7x6IjMC/xLo0Jsv7x8vAFbXT32PvS8Yd1b8PSZ?=
+ =?us-ascii?Q?0FOksVp/bCnvget2aZhZPLk5LAvGiB6+SMAiOALzmCZDuSDU8VTLFPJsj+mJ?=
+ =?us-ascii?Q?J/tMlzGQipL/jEDlJJHashhDxQIWCM7/mkCYF/B7I4nWqN9egNgNQdx/g7qZ?=
+ =?us-ascii?Q?LKXVSP3x2HLIom05gsOOlvVVM0lPnHFlvNS6iICLQQbWqBctxhO71kRRHgjI?=
+ =?us-ascii?Q?kQY/EyEEgJ/mYaDNCuvIFsBWLyEzGM0Td0sMm6V4MyneQAG4PylNcCn/WNVi?=
+ =?us-ascii?Q?M/e6qsBdisp8fUsDUD7InschpmjXgD9wi1RH1mvphMg40CKfVmZ76UdyVjG7?=
+ =?us-ascii?Q?bFgf4AjrjcD6tCV4+8VD/4zORiZC2TvJJHB6ztODgjo2NEt3jjmcC29uTbH0?=
+ =?us-ascii?Q?ITNxF4NZ2AB3zNANgJMqucbPFewcQ8S8XMpS9th733TgtX8/5JRBqFDagSyo?=
+ =?us-ascii?Q?aYhyqiswTbhVcAG4fcmLTvmNy3L5q8Spp054bCuYx8+dBYN6ZGrFzhuILykQ?=
+ =?us-ascii?Q?dojExCS4C3ZE74rO4iijBn5e1JqPKcUhPHV90Mb5uME+wS9c3OXM4CkyLi/x?=
+ =?us-ascii?Q?RZG/iJY+iUCuo1oXBQz+KdjKm7qKSG7ZS2m1eZh/ERZTPRKgQmhzepmlF5XI?=
+ =?us-ascii?Q?G0gCpvONzX+c/kYLcicpy04r9TO6RduRnc5mWrQ0/VaWQz83aPz/KlqTMLXy?=
+ =?us-ascii?Q?y6hTzjOnPRE/9qJ5EzvhGUKMYnSUMVppB+LKEMFBBNAE6Sg6uR5Z3xPEe3T5?=
+ =?us-ascii?Q?LOyCuxhq3eE5Ydl4A2erI9WMHp2Faex0b5hXZdER/wGL5SmL9G4uRdGPCDmH?=
+ =?us-ascii?Q?DcEK5Cx7e70bsLDnpu4BMUcPp6IeVROodGnOAzIVB3Nqg9QOkU+P5uySgIk7?=
+ =?us-ascii?Q?0W3IfOq53Er9g52ojjfChscU+r/DkNrPrQt4H8weaCOWLftUPwaLOOo7SZk0?=
+ =?us-ascii?Q?Xu6Qb1N89EzHL/1oHlRVxcqT88YeeIiwwdKLflaERmux55hWM3K/6mdnTzf8?=
+ =?us-ascii?Q?QUi8dl2mCKCxVe0DER6B3371uWJGYDCoyt8pJqnCEMZuaCEKUqR8lNb6unbX?=
+ =?us-ascii?Q?xH7MgjKDd3Lfy/PxEOCk3Nf6tkkCbGYzgLapJ2Fh6GDLqzcAVCGQfTuvl+pU?=
+ =?us-ascii?Q?jXsFxFj4yGNkmSL6+B3bTuNOVRmNJbYyC0Zf+2EgdqhJx7wNngKrci50iBk/?=
+ =?us-ascii?Q?U81/4JwMGkItdz7qJQtYtuOlGbzn0kF7qUyDYkxWndPgWEq2mGTl0ekKuj+v?=
+ =?us-ascii?Q?D5WNZfC+IOqIzf1QkCoUBheF3gL26jvnZQSr8xTq9j0bDgXolCEs?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 732d4ac7-2574-4516-ee54-08debcc02238
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11947.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 13:50:53.0571
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8BR73Ly8wRHXwNq0Y/YDyaGZncK22gEIvlLPj07+IlMNlWhVCSyZTrqRXMqVV55rawJhrFe1/tCcidDOk1bBrU8lfBzAbQEFZH2FVf4Wr13a5/+aWPPu5dVCAoIHMcb/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSRPR01MB11420
 
-
-
-On 5/21/26 11:28 PM, Bjorn Andersson wrote:
-> On Thu, May 14, 2026 at 03:50:51PM +0000, Srinivas Kandagatla wrote:
->> The APR transport currently serializes all incoming packets through a
->> single work item and a global RX queue. If one service callback blocks
->> or takes a long time to complete, packet processing for all other
->> services is delayed.
->>
+On Tue, May 26, 2026 at 11:47:03AM +0300, Claudiu Beznea wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > 
-> Can you please elaborate on why that's bad? Also, can you confirm that
-
-We started to notice that some of the commands are timing out mainly
-commands that are sent while streaming is in progress, example, graph
-stop/start. The underlying reason for this timeout is that there are
-read/write acks that are in the queue.
-
-And other potential issue could be when we have both playback and
-capture or multiple streaming in progress, we do not want to delay dsp
-events to particular stream because other stream events are in queue.
-
-Events for each stream or service are independent of each other, I will
-be really surprised if there is a inter dependency of this.
-
-
-> there are no issues downstream of this with the packets now potentially
-> being handled out-of-order?
-When you mean downstream, you mean adsp or downstream kernel?
-
+> The CHCTRL_SETEN bit is explicitly set in rz_dmac_enable_hw(). Updating
+> struct rz_dmac_chan::chctrl with this bit in
+> rz_dmac_prepare_desc_for_memcpy() and rz_dmac_prepare_descs_for_slave_sg()
+> is unnecessary in the current code base. Moreover, it conflicts with the
+> configuration sequence that will be used for cyclic DMA channels during
+> suspend to RAM. Cyclic DMA support will be introduced in subsequent
+> commits.
 > 
-> Regards,
-> Bjorn
-> 
->> Move RX buffering and work items from the packet router to each
->> individual service. Incoming packets are queued on a per-service list
->> and processed by that service's work item, allowing unrelated services
->> to make progress independently while preserving message ordering within
->> each service.
->>
->> Since queued packets may outlive service removal, add a reference count
->> to keep the service object alive until all queued packets have been
->> processed, and reject new packets once the service begins shutting down.
->>
->> Switch the shared APR workqueue to an unbound reclaim workqueue so that
->> multiple services can process packets in parallel.
->>
->> This also addresses the random CMD timeouts seen with audio commands
->> that are sent to DSP which timeout on the response as they are waiting in
->> the queue for other commands to finish.
->>
->> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
->> ---
->>  drivers/soc/qcom/apr.c       | 265 +++++++++++++++++++++++------------
->>  include/linux/soc/qcom/apr.h |   6 +
->>  2 files changed, 185 insertions(+), 86 deletions(-)
->>
->> diff --git a/drivers/soc/qcom/apr.c b/drivers/soc/qcom/apr.c
->> index 68b357462438..f25219b48cdc 100644
->> --- a/drivers/soc/qcom/apr.c
->> +++ b/drivers/soc/qcom/apr.c
->> @@ -28,14 +28,11 @@ struct packet_router {
->>  	struct rpmsg_endpoint *ch;
->>  	struct device *dev;
->>  	spinlock_t svcs_lock;
->> -	spinlock_t rx_lock;
->>  	struct idr svcs_idr;
->>  	int dest_domain_id;
->>  	int type;
->>  	struct pdr_handle *pdr;
->>  	struct workqueue_struct *rxwq;
->> -	struct work_struct rx_work;
->> -	struct list_head rx_list;
->>  };
->>  
->>  struct apr_rx_buf {
->> @@ -74,54 +71,58 @@ int apr_send_pkt(struct apr_device *adev, struct apr_pkt *pkt)
->>  }
->>  EXPORT_SYMBOL_GPL(apr_send_pkt);
->>  
->> -void gpr_free_port(gpr_port_t *port)
->> +static void apr_svc_release(struct kref *ref)
->>  {
->> -	struct packet_router *gpr = port->pr;
->> -	unsigned long flags;
->> +	struct pkt_router_svc *svc;
->>  
->> -	spin_lock_irqsave(&gpr->svcs_lock, flags);
->> -	idr_remove(&gpr->svcs_idr, port->id);
->> -	spin_unlock_irqrestore(&gpr->svcs_lock, flags);
->> +	svc = container_of(ref, struct pkt_router_svc, refcount);
->>  
->> -	kfree(port);
->> +	if (svc->dynamic_svc)
->> +		kfree(svc);
->>  }
->> -EXPORT_SYMBOL_GPL(gpr_free_port);
->>  
->> -gpr_port_t *gpr_alloc_port(struct apr_device *gdev, struct device *dev,
->> -				gpr_port_cb cb,	void *priv)
->> +static void apr_svc_get(struct pkt_router_svc *svc)
->>  {
->> -	struct packet_router *pr = dev_get_drvdata(gdev->dev.parent);
->> -	gpr_port_t *port;
->> -	struct pkt_router_svc *svc;
->> -	int id;
->> +	kref_get(&svc->refcount);
->> +}
->>  
->> -	port = kzalloc_obj(*port);
->> -	if (!port)
->> -		return ERR_PTR(-ENOMEM);
->> +static void apr_svc_put(struct pkt_router_svc *svc)
->> +{
->> +	kref_put(&svc->refcount, apr_svc_release);
->> +}
->>  
->> -	svc = port;
->> -	svc->callback = cb;
->> -	svc->pr = pr;
->> -	svc->priv = priv;
->> -	svc->dev = dev;
->> -	spin_lock_init(&svc->lock);
->> +static void apr_svc_purge_rx(struct pkt_router_svc *svc)
->> +{
->> +	struct apr_rx_buf *abuf, *tmp;
->> +	unsigned long flags;
->>  
->> -	spin_lock(&pr->svcs_lock);
->> -	id = idr_alloc_cyclic(&pr->svcs_idr, svc, GPR_DYNAMIC_PORT_START,
->> -			      GPR_DYNAMIC_PORT_END, GFP_ATOMIC);
->> -	if (id < 0) {
->> -		dev_err(dev, "Unable to allocate dynamic GPR src port\n");
->> -		kfree(port);
->> -		spin_unlock(&pr->svcs_lock);
->> -		return ERR_PTR(id);
->> +	spin_lock_irqsave(&svc->lock, flags);
->> +	list_for_each_entry_safe(abuf, tmp, &svc->rx_list, node) {
->> +		list_del(&abuf->node);
->> +		kfree(abuf);
->> +		apr_svc_put(svc);
->>  	}
->> +	spin_unlock_irqrestore(&svc->lock, flags);
->> +}
->>  
->> -	svc->id = id;
->> -	spin_unlock(&pr->svcs_lock);
->> +void gpr_free_port(gpr_port_t *port)
->> +{
->> +	struct packet_router *gpr = port->pr;
->> +	unsigned long flags;
->>  
->> -	return port;
->> +	spin_lock_irqsave(&port->lock, flags);
->> +	port->dying = true;
->> +	spin_unlock_irqrestore(&port->lock, flags);
->> +
->> +	spin_lock_irqsave(&gpr->svcs_lock, flags);
->> +	idr_remove(&gpr->svcs_idr, port->id);
->> +	spin_unlock_irqrestore(&gpr->svcs_lock, flags);
->> +
->> +	cancel_work_sync(&port->rx_work);
->> +	apr_svc_purge_rx(port);
->> +	apr_svc_put(port);
->>  }
->> -EXPORT_SYMBOL_GPL(gpr_alloc_port);
->> +EXPORT_SYMBOL_GPL(gpr_free_port);
->>  
->>  static int pkt_router_send_svc_pkt(struct pkt_router_svc *svc, const struct gpr_pkt *pkt)
->>  {
->> @@ -155,15 +156,53 @@ static void apr_dev_release(struct device *dev)
->>  {
->>  	struct apr_device *adev = to_apr_device(dev);
->>  
->> +	cancel_work_sync(&adev->svc.rx_work);
->> +	apr_svc_purge_rx(&adev->svc);
->> +	apr_svc_put(&adev->svc);
->>  	kfree(adev);
->>  }
->>  
->> +static struct pkt_router_svc *apr_find_svc(struct packet_router *apr, void *buf)
->> +{
->> +	struct pkt_router_svc *svc;
->> +	unsigned long flags;
->> +	uint32_t svc_id;
->> +	struct apr_hdr *ahdr;
->> +	struct gpr_hdr *ghdr;
->> +
->> +	switch (apr->type) {
->> +	case PR_TYPE_APR:
->> +		ahdr = buf;
->> +		svc_id = ahdr->dest_svc;
->> +		break;
->> +	case PR_TYPE_GPR:
->> +		ghdr = buf;
->> +		svc_id = ghdr->dest_port;
->> +		break;
->> +	default:
->> +		dev_err(apr->dev, "Invalid Packet Router\n");
->> +		return NULL;
->> +	}
->> +
->> +	spin_lock_irqsave(&apr->svcs_lock, flags);
->> +	svc = idr_find(&apr->svcs_idr, svc_id);
->> +	if (svc)
->> +		apr_svc_get(svc);
->> +	spin_unlock_irqrestore(&apr->svcs_lock, flags);
->> +
->> +	if (!svc)
->> +		dev_err(apr->dev, "APR: service is not registered (%d)\n", svc_id);
->> +
->> +	return svc;
->> +}
->> +
->>  static int apr_callback(struct rpmsg_device *rpdev, void *buf,
->>  				  int len, void *priv, u32 addr)
->>  {
->>  	struct packet_router *apr = dev_get_drvdata(&rpdev->dev);
->>  	struct apr_rx_buf *abuf;
->>  	unsigned long flags;
->> +	struct pkt_router_svc *svc;
->>  
->>  	switch (apr->type) {
->>  	case PR_TYPE_APR:
->> @@ -189,24 +228,35 @@ static int apr_callback(struct rpmsg_device *rpdev, void *buf,
->>  	abuf->len = len;
->>  	memcpy(abuf->buf, buf, len);
->>  
->> -	spin_lock_irqsave(&apr->rx_lock, flags);
->> -	list_add_tail(&abuf->node, &apr->rx_list);
->> -	spin_unlock_irqrestore(&apr->rx_lock, flags);
->> +	svc = apr_find_svc(apr, buf);
->> +	if (!svc) {
->> +		kfree(abuf);
->> +		return 0;
->> +	}
->> +
->> +	spin_lock_irqsave(&svc->lock, flags);
->> +	if (svc->dying) {
->> +		spin_unlock_irqrestore(&svc->lock, flags);
->> +		kfree(abuf);
->> +		apr_svc_put(svc);
->> +		return 0;
->> +	}
->> +
->> +	list_add_tail(&abuf->node, &svc->rx_list);
->> +	spin_unlock_irqrestore(&svc->lock, flags);
->>  
->> -	queue_work(apr->rxwq, &apr->rx_work);
->> +	queue_work(apr->rxwq, &svc->rx_work);
->>  
->>  	return 0;
->>  }
->>  
->> -static int apr_do_rx_callback(struct packet_router *apr, struct apr_rx_buf *abuf)
->> +static int apr_do_rx_callback(struct pkt_router_svc *svc, struct apr_rx_buf *abuf)
->>  {
->> -	uint16_t hdr_size, msg_type, ver, svc_id;
->> -	struct pkt_router_svc *svc;
->> -	struct apr_device *adev;
->> +	uint16_t hdr_size, msg_type, ver;
->> +	struct apr_device *adev = NULL;
->>  	struct apr_driver *adrv = NULL;
->>  	struct apr_resp_pkt resp;
->>  	struct apr_hdr *hdr;
->> -	unsigned long flags;
->>  	void *buf = abuf->buf;
->>  	int len = abuf->len;
->>  
->> @@ -217,18 +267,18 @@ static int apr_do_rx_callback(struct packet_router *apr, struct apr_rx_buf *abuf
->>  
->>  	hdr_size = APR_HDR_FIELD_SIZE_BYTES(hdr->hdr_field);
->>  	if (hdr_size < APR_HDR_SIZE) {
->> -		dev_err(apr->dev, "APR: Wrong hdr size:%d\n", hdr_size);
->> +		dev_err(svc->dev, "APR: Wrong hdr size:%d\n", hdr_size);
->>  		return -EINVAL;
->>  	}
->>  
->>  	if (hdr->pkt_size < APR_HDR_SIZE || hdr->pkt_size != len) {
->> -		dev_err(apr->dev, "APR: Wrong packet size\n");
->> +		dev_err(svc->dev, "APR: Wrong packet size\n");
->>  		return -EINVAL;
->>  	}
->>  
->>  	msg_type = APR_HDR_FIELD_MT(hdr->hdr_field);
->>  	if (msg_type >= APR_MSG_TYPE_MAX) {
->> -		dev_err(apr->dev, "APR: Wrong message type: %d\n", msg_type);
->> +		dev_err(svc->dev, "APR: Wrong message type: %d\n", msg_type);
->>  		return -EINVAL;
->>  	}
->>  
->> @@ -236,22 +286,17 @@ static int apr_do_rx_callback(struct packet_router *apr, struct apr_rx_buf *abuf
->>  			hdr->dest_domain >= APR_DOMAIN_MAX ||
->>  			hdr->src_svc >= APR_SVC_MAX ||
->>  			hdr->dest_svc >= APR_SVC_MAX) {
->> -		dev_err(apr->dev, "APR: Wrong APR header\n");
->> +		dev_err(svc->dev, "APR: Wrong APR header\n");
->>  		return -EINVAL;
->>  	}
->>  
->> -	svc_id = hdr->dest_svc;
->> -	spin_lock_irqsave(&apr->svcs_lock, flags);
->> -	svc = idr_find(&apr->svcs_idr, svc_id);
->>  	if (svc && svc->dev->driver) {
->>  		adev = svc_to_apr_device(svc);
->>  		adrv = to_apr_driver(adev->dev.driver);
->>  	}
->> -	spin_unlock_irqrestore(&apr->svcs_lock, flags);
->>  
->>  	if (!adrv || !adev) {
->> -		dev_err(apr->dev, "APR: service is not registered (%d)\n",
->> -			svc_id);
->> +		dev_err(svc->dev, "APR: service device not found\n");
->>  		return -EINVAL;
->>  	}
->>  
->> @@ -270,13 +315,11 @@ static int apr_do_rx_callback(struct packet_router *apr, struct apr_rx_buf *abuf
->>  	return 0;
->>  }
->>  
->> -static int gpr_do_rx_callback(struct packet_router *gpr, struct apr_rx_buf *abuf)
->> +static int gpr_do_rx_callback(struct pkt_router_svc *svc, struct apr_rx_buf *abuf)
->>  {
->>  	uint16_t hdr_size, ver;
->> -	struct pkt_router_svc *svc = NULL;
->>  	struct gpr_resp_pkt resp;
->>  	struct gpr_hdr *hdr;
->> -	unsigned long flags;
->>  	void *buf = abuf->buf;
->>  	int len = abuf->len;
->>  
->> @@ -287,12 +330,12 @@ static int gpr_do_rx_callback(struct packet_router *gpr, struct apr_rx_buf *abuf
->>  
->>  	hdr_size = hdr->hdr_size;
->>  	if (hdr_size < GPR_PKT_HEADER_WORD_SIZE) {
->> -		dev_err(gpr->dev, "GPR: Wrong hdr size:%d\n", hdr_size);
->> +		dev_err(svc->dev, "GPR: Wrong hdr size:%d\n", hdr_size);
->>  		return -EINVAL;
->>  	}
->>  
->>  	if (hdr->pkt_size < GPR_PKT_HEADER_BYTE_SIZE || hdr->pkt_size != len) {
->> -		dev_err(gpr->dev, "GPR: Wrong packet size\n");
->> +		dev_err(svc->dev, "GPR: Wrong packet size\n");
->>  		return -EINVAL;
->>  	}
->>  
->> @@ -306,49 +349,91 @@ static int gpr_do_rx_callback(struct packet_router *gpr, struct apr_rx_buf *abuf
->>  	if (resp.payload_size > 0)
->>  		resp.payload = buf + (hdr_size *  4);
->>  
->> -
->> -	spin_lock_irqsave(&gpr->svcs_lock, flags);
->> -	svc = idr_find(&gpr->svcs_idr, hdr->dest_port);
->> -	spin_unlock_irqrestore(&gpr->svcs_lock, flags);
->> -
->> -	if (!svc) {
->> -		dev_err(gpr->dev, "GPR: Port(%x) is not registered\n",
->> -			hdr->dest_port);
->> -		return -EINVAL;
->> -	}
->> -
->>  	if (svc->callback)
->>  		svc->callback(&resp, svc->priv, 0);
->>  
->>  	return 0;
->>  }
->>  
->> -static void apr_rxwq(struct work_struct *work)
->> +static void apr_service_rxwq(struct work_struct *work)
->>  {
->> -	struct packet_router *apr = container_of(work, struct packet_router, rx_work);
->> +	struct pkt_router_svc *svc = container_of(work, struct pkt_router_svc, rx_work);
->> +	struct packet_router *apr = svc->pr;
->>  	struct apr_rx_buf *abuf, *b;
->>  	unsigned long flags;
->>  
->> -	if (!list_empty(&apr->rx_list)) {
->> -		list_for_each_entry_safe(abuf, b, &apr->rx_list, node) {
->> +	for (;;) {
->> +		LIST_HEAD(local);
->> +
->> +		spin_lock_irqsave(&svc->lock, flags);
->> +		if (list_empty(&svc->rx_list)) {
->> +			spin_unlock_irqrestore(&svc->lock, flags);
->> +			break;
->> +		}
->> +
->> +		list_splice_init(&svc->rx_list, &local);
->> +		spin_unlock_irqrestore(&svc->lock, flags);
->> +
->> +		list_for_each_entry_safe(abuf, b, &local, node) {
->>  			switch (apr->type) {
->>  			case PR_TYPE_APR:
->> -				apr_do_rx_callback(apr, abuf);
->> +				apr_do_rx_callback(svc, abuf);
->>  				break;
->>  			case PR_TYPE_GPR:
->> -				gpr_do_rx_callback(apr, abuf);
->> +				gpr_do_rx_callback(svc, abuf);
->>  				break;
->>  			default:
->>  				break;
->>  			}
->> -			spin_lock_irqsave(&apr->rx_lock, flags);
->> +			apr_svc_put(svc);
->>  			list_del(&abuf->node);
->> -			spin_unlock_irqrestore(&apr->rx_lock, flags);
->>  			kfree(abuf);
->>  		}
->>  	}
->>  }
->>  
->> +gpr_port_t *gpr_alloc_port(struct apr_device *gdev, struct device *dev,
->> +				gpr_port_cb cb,	void *priv)
->> +{
->> +	struct packet_router *pr = dev_get_drvdata(gdev->dev.parent);
->> +	gpr_port_t *port;
->> +	struct pkt_router_svc *svc;
->> +	int id;
->> +
->> +	port = kzalloc_obj(*port);
->> +	if (!port)
->> +		return ERR_PTR(-ENOMEM);
->> +
->> +	svc = port;
->> +	svc->callback = cb;
->> +	svc->pr = pr;
->> +	svc->priv = priv;
->> +	svc->dying = false;
->> +	svc->dynamic_svc = true;
->> +	svc->dev = dev;
->> +	spin_lock_init(&svc->lock);
->> +
->> +	INIT_WORK(&svc->rx_work, apr_service_rxwq);
->> +	INIT_LIST_HEAD(&svc->rx_list);
->> +	kref_init(&svc->refcount);
->> +
->> +	spin_lock(&pr->svcs_lock);
->> +	id = idr_alloc_cyclic(&pr->svcs_idr, svc, GPR_DYNAMIC_PORT_START,
->> +			      GPR_DYNAMIC_PORT_END, GFP_ATOMIC);
->> +	if (id < 0) {
->> +		dev_err(dev, "Unable to allocate dynamic GPR src port\n");
->> +		kfree(port);
->> +		spin_unlock(&pr->svcs_lock);
->> +		return ERR_PTR(id);
->> +	}
->> +
->> +	svc->id = id;
->> +	spin_unlock(&pr->svcs_lock);
->> +
->> +	return port;
->> +}
->> +EXPORT_SYMBOL_GPL(gpr_alloc_port);
->> +
->>  static int apr_device_match(struct device *dev, const struct device_driver *drv)
->>  {
->>  	struct apr_device *adev = to_apr_device(dev);
->> @@ -390,6 +475,11 @@ static void apr_device_remove(struct device *dev)
->>  	struct apr_device *adev = to_apr_device(dev);
->>  	struct apr_driver *adrv = to_apr_driver(dev->driver);
->>  	struct packet_router *apr = dev_get_drvdata(adev->dev.parent);
->> +	unsigned long flags;
->> +
->> +	spin_lock_irqsave(&adev->svc.lock, flags);
->> +	adev->svc.dying = true;
->> +	spin_unlock_irqrestore(&adev->svc.lock, flags);
->>  
->>  	if (adrv->remove)
->>  		adrv->remove(adev);
->> @@ -437,9 +527,15 @@ static int apr_add_device(struct device *dev, struct device_node *np,
->>  	svc->id = svc_id;
->>  	svc->pr = apr;
->>  	svc->priv = adev;
->> +	svc->dying = false;
->>  	svc->dev = dev;
->> +	svc->dynamic_svc = false;
->>  	spin_lock_init(&svc->lock);
->>  
->> +	INIT_WORK(&svc->rx_work, apr_service_rxwq);
->> +	INIT_LIST_HEAD(&svc->rx_list);
->> +	kref_init(&svc->refcount);
->> +
->>  	adev->domain_id = domain_id;
->>  
->>  	if (np)
->> @@ -488,7 +584,6 @@ static int apr_add_device(struct device *dev, struct device_node *np,
->>  		dev_err(dev, "device_register failed: %d\n", ret);
->>  		put_device(&adev->dev);
->>  	}
->> -
->>  out:
->>  	return ret;
->>  }
->> @@ -629,12 +724,12 @@ static int apr_probe(struct rpmsg_device *rpdev)
->>  	dev_set_drvdata(dev, apr);
->>  	apr->ch = rpdev->ept;
->>  	apr->dev = dev;
->> -	apr->rxwq = create_singlethread_workqueue("qcom_apr_rx");
->> +
->> +	apr->rxwq = alloc_workqueue("qcom_apr_rx", WQ_UNBOUND | WQ_MEM_RECLAIM, 0);
->>  	if (!apr->rxwq) {
->>  		dev_err(apr->dev, "Failed to start Rx WQ\n");
->>  		return -ENOMEM;
->>  	}
->> -	INIT_WORK(&apr->rx_work, apr_rxwq);
->>  
->>  	apr->pdr = pdr_handle_alloc(apr_pd_status, apr);
->>  	if (IS_ERR(apr->pdr)) {
->> @@ -643,8 +738,6 @@ static int apr_probe(struct rpmsg_device *rpdev)
->>  		goto destroy_wq;
->>  	}
->>  
->> -	INIT_LIST_HEAD(&apr->rx_list);
->> -	spin_lock_init(&apr->rx_lock);
->>  	spin_lock_init(&apr->svcs_lock);
->>  	idr_init(&apr->svcs_idr);
->>  
->> diff --git a/include/linux/soc/qcom/apr.h b/include/linux/soc/qcom/apr.h
->> index 58fa1df96347..f5bc55c3d025 100644
->> --- a/include/linux/soc/qcom/apr.h
->> +++ b/include/linux/soc/qcom/apr.h
->> @@ -3,6 +3,7 @@
->>  #ifndef __QCOM_APR_H_
->>  #define __QCOM_APR_H_
->>  
->> +#include <linux/kref.h>
->>  #include <linux/spinlock.h>
->>  #include <linux/device.h>
->>  #include <linux/mod_devicetable.h>
->> @@ -129,6 +130,11 @@ struct pkt_router_svc {
->>  	gpr_port_cb callback;
->>  	struct packet_router *pr;
->>  	spinlock_t lock;
->> +	struct work_struct rx_work;
->> +	struct list_head rx_list;
->> +	struct kref refcount;
->> +	bool dying;
->> +	bool dynamic_svc;
->>  	int id;
->>  	void *priv;
->>  };
->> -- 
->> 2.47.3
->>
+> This is a preparatory commit for cyclic DMA suspend to RAM support.
+>
 
+Tested-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> Tested-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+> 
+> Changes in v6:
+> - collected tags
+> 
+> Changes in v5:
+> - none
+> 
+> Changes in v4:
+> - set channel->chctrl = 0 in rz_dmac_prepare_descs_for_slave_sg()
+> 
+> Changes in v3:
+> - none
+> 
+> Changes in v2:
+> - fixed typos in patch title and patch description
+> 
+>  drivers/dma/sh/rz-dmac.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/dma/sh/rz-dmac.c b/drivers/dma/sh/rz-dmac.c
+> index 557364443a5f..c9c00650ddd5 100644
+> --- a/drivers/dma/sh/rz-dmac.c
+> +++ b/drivers/dma/sh/rz-dmac.c
+> @@ -377,7 +377,7 @@ static void rz_dmac_prepare_desc_for_memcpy(struct rz_dmac_chan *channel)
+>  	rz_dmac_set_dma_req_no(dmac, channel->index, dmac->info->default_dma_req_no);
+>  
+>  	channel->chcfg = chcfg;
+> -	channel->chctrl = CHCTRL_STG | CHCTRL_SETEN;
+> +	channel->chctrl = CHCTRL_STG;
+>  }
+>  
+>  static void rz_dmac_prepare_descs_for_slave_sg(struct rz_dmac_chan *channel)
+> @@ -428,7 +428,7 @@ static void rz_dmac_prepare_descs_for_slave_sg(struct rz_dmac_chan *channel)
+>  
+>  	rz_dmac_set_dma_req_no(dmac, channel->index, channel->mid_rid);
+>  
+> -	channel->chctrl = CHCTRL_SETEN;
+> +	channel->chctrl = 0;
+>  }
+>  
+>  static void rz_dmac_xfer_desc(struct rz_dmac_chan *chan)
+> -- 
+> 2.43.0
+> 
