@@ -1,253 +1,142 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A2832548B
-	for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 06:08:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1330632AADE
+	for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 06:41:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779948485; cv=none; b=rsdD4N0m19b85taxprcZeBP+pBc8M7MwlBfqSpUq1vZnQy7NKJ6kSRAdCaY5LlO8Qa8hDfhZDbl++LGDyK66FpN/jlGHbuMtv1g18YfxYhb4himq9prztQyXti5wsKuqXN0dfmbh3GQ8vnQ0BcuHzb4GpYQh5+ZkjIUBrlT9IL8=
+	t=1779950514; cv=none; b=HPXIk2w9HubV4Yp4ChaZOOmnpzXE0VC8SyHz68Myu9ot1qQ9tqXCxmlCbqwaKhjAulL/xGKp8j+aRO0REwlQRdp+uB2Dmhzg7qiVGaNNH39hn40Ojo1s0e7/QHuYJR/1C+GG+d2LKLaEVX7m3zkRPTjOaDUud3rdvIZbT1jEZbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779948485; c=relaxed/simple;
-	bh=EDYxvZ6pr8pUS+Jy7TWnHj0bHaMGEIyNztk3TcXM1Hk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XQyYPTRGkobXDbrAgRoCV4+NLAaPhD1ztfA7KwrraxGhbl0SO7UTJ+3Ujx+yCiCfH4zVYF8UJTr1RNgiMZ8T1IiN5VH6ej+NyzieuzMSY0krCxF/kV4vGAAB3X5P4PhuQhvo+lrhwMeD2fRecDZl912c71mmx2ZCmpTzID+xNBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q6EIsiRI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GE3jylvc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q6EIsiRI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GE3jylvc; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1779950514; c=relaxed/simple;
+	bh=qKlJOVQ8CeguRlCMIV6TL5JFjOuni3FW2zUBP4TnhuE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MKprgTh19S+fdEWr6A/SZF1k5P57dEUuor8w+I2oAksGyG9hXd7ihzZ3vIWJuR6IwGut4jU8uaTq5dI3PbFoYedNMv7sDOf6xtpnSDp2ILo47GGFaeqS0LIV4WLrTKx/EoR9zNl+IoB5ErfUNOAH4hxnSwWWvpKQY5P6+fVZKeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VfH9qze1; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q6EIsiRI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GE3jylvc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q6EIsiRI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GE3jylvc"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5609467129;
-	Thu, 28 May 2026 06:08:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779948482; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=phFDLr8sYCyOLR/3TBquNKZIZoYYJRcuAIL5ETpAHhg=;
-	b=q6EIsiRIO3HookMTzynOUdM4MRMfgVWSuXTQFGxDeg8jFnQ2FK9xt6QKzDuzPwE2GVrlqJ
-	rofnZmWmS604mTjSQBlLjJuRLJW1wTkAoHQAjb9AX06YRa5wvkFrjKse3NC4ddw+AvxnVz
-	mxmie7NEDywe0tgBKVbzyQMd9HtlnCk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779948482;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=phFDLr8sYCyOLR/3TBquNKZIZoYYJRcuAIL5ETpAHhg=;
-	b=GE3jylvc6kX4r5qYDmy7FuOv0pC8rPlojqm76WB9u4SEmQAqQZf/pb4sxYJjah/V9nKFxh
-	9EzTRTDckOogbSBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=q6EIsiRI;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=GE3jylvc
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779948482; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=phFDLr8sYCyOLR/3TBquNKZIZoYYJRcuAIL5ETpAHhg=;
-	b=q6EIsiRIO3HookMTzynOUdM4MRMfgVWSuXTQFGxDeg8jFnQ2FK9xt6QKzDuzPwE2GVrlqJ
-	rofnZmWmS604mTjSQBlLjJuRLJW1wTkAoHQAjb9AX06YRa5wvkFrjKse3NC4ddw+AvxnVz
-	mxmie7NEDywe0tgBKVbzyQMd9HtlnCk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779948482;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=phFDLr8sYCyOLR/3TBquNKZIZoYYJRcuAIL5ETpAHhg=;
-	b=GE3jylvc6kX4r5qYDmy7FuOv0pC8rPlojqm76WB9u4SEmQAqQZf/pb4sxYJjah/V9nKFxh
-	9EzTRTDckOogbSBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 138AE5AC2F;
-	Thu, 28 May 2026 06:08:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ieBIA8LbF2oxfAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 28 May 2026 06:08:02 +0000
-Date: Thu, 28 May 2026 08:08:01 +0200
-Message-ID: <87eciwukvy.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mike Karcic <mikekarcic@protonmail.com>
-Cc: Sean Rhodes <sean@starlabs.systems>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>,
-	"regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"tiwai@suse.de" <tiwai@suse.de>
-Subject: Re: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287 (17aa:231e) -- 6.12.73 to 6.12.85
-In-Reply-To: <wZmYozyav1sNx53nFr4ShKmcdLFVJp5bdUOJgUq1I57MX6kgyq7n8XvH-MWG9Fi4q2x4CQqjEQ3Q8ok5MClut8hNixnhVmVtXkhcOzH1sw8=@protonmail.com>
-References: <O6pYAi7yf23du9ivLsL0QqrnTmodj2lDTL7Wviv7I_nhjVtvllO7Y5Ban0TeTqrastb1RWhJtlkqrM3quLMWSriai-YjjGy312MTcEhxyWs=@protonmail.com>
-	<CABtds-3GOyBr1H=c5aFV1uzfkhO3d1NHMPuon_cWDq0V=pFwUA@mail.gmail.com>
-	<wZmYozyav1sNx53nFr4ShKmcdLFVJp5bdUOJgUq1I57MX6kgyq7n8XvH-MWG9Fi4q2x4CQqjEQ3Q8ok5MClut8hNixnhVmVtXkhcOzH1sw8=@protonmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VfH9qze1"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c798fc1a28cso5341280a12.3
+        for <linux-sound@vger.kernel.org>; Wed, 27 May 2026 23:41:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779950512; x=1780555312; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eyGymNqbhiXLlzQIXinZjQ2T/+xHy6TN3+8MZhwVUx4=;
+        b=VfH9qze1UMaQlmwBWAQjxIPBZ8clMOgWZ35Yhz8pabY411Ak89d8IACWxlk22Bjdoj
+         rZTn9xJiFmnobRhjQwgZDWjQ6Iz/GPZN4YsN6NWMjnYC6s4k4NlG4gxSKM8c7OpEJdI7
+         iKFN902UgS5ZAcWAKqrRKKUqSDxwOg071DS5aiqQN3OemzZPy+0Sx8bCoWRRuMDeSugH
+         WGSdJtM/q6UJcslaaZ6LEMfw+fM67sPl5EE3vgkX7yCM9TRpqQPJV3NwsudblGfe9Wc9
+         2XxSi3nSaTmIgrnwa37c+ozJ3cmb+xxKABPX5XatnRBGLVJxikxIwcKK6G5LiMThQRPq
+         D5BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779950512; x=1780555312;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eyGymNqbhiXLlzQIXinZjQ2T/+xHy6TN3+8MZhwVUx4=;
+        b=N5xHdTDGngc+yonSy1zbESdNg/hTQeN8okdg7/jWBVdQSYrLxwc0/vETc+Zt8Ap4pb
+         P8n8QS1USPFkB1hcLjnJ98y6Hq/I9+yYr8pYxjaOccevA+pOMRZG9+8QgUB7ReyKrUCR
+         DEYQRAyjBcNOJl0xA4q1VeVuy/p15RpjmcA3I+RA56J2yvNj7fDt67VLwQz0Fs2z/BIr
+         GSNKRQJJUMjSV3F0ek+Hhk6kuBgaT2R+ElVErynamt8EUltyJlCeJQMPMKQgCS1YX9ci
+         QgAJuoe6ZfOFYIJOaRcly3KUJq0sVIHcPqMnju+4IXR9L4+tjJGSGbNTgOWXvaIgLsPZ
+         HAVw==
+X-Gm-Message-State: AOJu0Ywmu4UMQrSD9JsXiXcCOTvm5MUqcXQWZKgnK0/j+zx9jtSBzivA
+	Ma/8SF3pJu3FWDc7X96hNAFsupNEcPf2BosXVs2HqF/PQ3yO6Rc0lrHK
+X-Gm-Gg: Acq92OEDsC6FW8MHjcs1EKjomkgJ8KJ5yGFLc6C3oIlEOVq4DX9QoIw/JJ8m/Hqa2Dw
+	cXBoVjbaLbdiOPEK3RFoJ4L6d1azB1fVwXiMTZZkd7tRcknK/2Z5vTLok6nHV7SCKNapssVlbHs
+	SdueD6R6ycv3pYeI/dU7sEP96KMcRewSMo0iN0PNY2avAzqxqIZZvrKm7AmlEm5/hqg55Bs49W5
+	fc45+FOhJHTRUnhB2VhbfHZnn5gGH13sEyxzUHFn+eBjywyZUhaL1vKaeaVvflO88M/XEaVZGxO
+	wIn2fpDnfeYvdb99GG6s6gAIalrUOoMExaYoLiE/QAgzYOVpOgCJzyGQShWsv000oyudoNwWrlk
+	sJUg5aGNv/ggGyZTAgLrt3zkaJXNo6PoJQ95qrBRwcmvwpsAE7Z3I5tWuemRbmjnMxZV3KyT4id
+	u25xW+KXieg1WwCPuyr4q1oWVZO8UvPlAmtDux52uY9xAMg8ubv8+EyT/AR1j9dDp1+w==
+X-Received: by 2002:a05:6a21:9d91:b0:39f:9eb3:1d09 with SMTP id adf61e73a8af0-3b328ee2e52mr27362688637.37.1779950512300;
+        Wed, 27 May 2026 23:41:52 -0700 (PDT)
+Received: from oslab.. (n058152075021.netvigator.com. [58.152.75.21])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c852056db34sm14417515a12.27.2026.05.27.23.41.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 23:41:51 -0700 (PDT)
+From: Tuo Li <islituo@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	kuninori.morimoto.gx@renesas.com,
+	ckeepax@opensource.cirrus.com,
+	vulab@iscas.ac.cn
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Tuo Li <islituo@gmail.com>
+Subject: [PATCH] ASoC: mediatek: mt8365-afe-pcm: fix possible NULL-pointer dereferences in mt8365_afe_suspend()
+Date: Thu, 28 May 2026 14:41:06 +0800
+Message-ID: <20260528064107.470824-1-islituo@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 5609467129
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[protonmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FREEMAIL_ENVRCPT(0.00)[protonmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 28 May 2026 01:18:31 +0200,
-Mike Karcic wrote:
-> 
-> I tested both setups on top of Debian's 6.12.90 source tree. 
-> 
-> 1. I applied the 46c862f5419e patch, but the chirp was still there on every audio transition.
-> 2. I did a full revert of 630fbc6e870e, and the chirp is completely gone.
+mt8365_afe_suspend() allocates the register backup buffer with
+devm_kcalloc(), but does not check for allocation failure before using the
+returned pointer. This may lead to a NULL pointer dereference when
+accessing afe->reg_back_up[i].
 
-There is a follow-up fix in the upstream, try to apply the commit
-46c862f5419e ("ALSA: hda/realtek - fixed speaker no sound update").
+Add the missing NULL check and return -ENOMEM on allocation failure after
+disabling the main clock.
 
+Also propagate the return value of mt8365_afe_suspend() in
+mt8365_afe_dev_runtime_suspend() so that the suspended state is not updated
+when suspend fails.
 
-thanks,
+Signed-off-by: Tuo Li <islituo@gmail.com>
+---
+ sound/soc/mediatek/mt8365/mt8365-afe-pcm.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-Takashi
+diff --git a/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c b/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
+index d01793394f22..5966ca18c7c9 100644
+--- a/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
++++ b/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
+@@ -1974,10 +1974,15 @@ static int mt8365_afe_suspend(struct device *dev)
+ 
+ 	mt8365_afe_enable_main_clk(afe);
+ 
+-	if (!afe->reg_back_up)
++	if (!afe->reg_back_up) {
+ 		afe->reg_back_up =
+ 			devm_kcalloc(dev, afe->reg_back_up_list_num,
+ 				     sizeof(unsigned int), GFP_KERNEL);
++		if (!afe->reg_back_up) {
++			mt8365_afe_disable_main_clk(afe);
++			return -ENOMEM;
++		}
++	}
+ 
+ 	for (i = 0; i < afe->reg_back_up_list_num; i++)
+ 		regmap_read(regmap, afe->reg_back_up_list[i],
+@@ -2011,11 +2016,15 @@ static int mt8365_afe_resume(struct device *dev)
+ static int mt8365_afe_dev_runtime_suspend(struct device *dev)
+ {
+ 	struct mtk_base_afe *afe = dev_get_drvdata(dev);
++	int ret;
+ 
+ 	if (pm_runtime_status_suspended(dev) || afe->suspended)
+ 		return 0;
+ 
+-	mt8365_afe_suspend(dev);
++	ret = mt8365_afe_suspend(dev);
++	if (ret)
++		return ret;
++
+ 	afe->suspended = true;
+ 	return 0;
+ }
+-- 
+2.43.0
 
-
-> 
-> My hardware is a Lenovo ThinkPad (Meteor Lake), ALC287, subsystem 17aa:231e.
-> 
-> 
-> 
-> Sent with Proton Mail secure email.
-> 
-> On Wednesday, May 27th, 2026 at 3:44 PM, Sean Rhodes <sean@starlabs.systems> wrote:
-> 
-> > What about 630fbc6e870e? If so, 46c862f5419e looks relevant.
-> > 
-> > On Wed, 27 May 2026 at 15:25, Mike Karcic <mikekarcic@protonmail.com> wrote:
-> > >
-> > > Speaker pop/chirp regression on a Lenovo ThinkPad with Meteor Lake and
-> > > Realtek ALC287 (subsystem ID 17aa:231e). The chirp occurs on speaker
-> > > power state transitions when audio starts or stops. It is not present
-> > > on kernel 6.12.73 and is present on 6.12.85. A desktop with ALC897
-> > > (subsystem ID 1f660202) on kernel 6.19.14 is unaffected, so this is
-> > > codec/fixup-specific.
-> > >
-> > > Tested on the same LMDE (Debian 13) installation with multiple kernels
-> > > selectable from GRUB. All userspace, firmware, and configuration are
-> > > identical between tests. Cold boot between kernel switches is required,
-> > > as warm reboot can carry codec register state forward. The kernel is
-> > > not tainted on any tested version.
-> > >
-> > > Bisection results (Debian package versions):
-> > >   6.12.48  -- no chirp
-> > >   6.12.73  -- no chirp
-> > >   6.12.85  -- chirp present
-> > >   6.12.86  -- chirp present
-> > >   6.12.90  -- chirp present
-> > >
-> > > Also broken: 6.19.14-101.fc44.x86_64 (Fedora/Aurora 44)
-> > >
-> > > The regression window (6.12.73 to 6.12.85) includes two commits
-> > > targeting speaker pop on the Star Labs StarFighter (ALC233, SSID
-> > > 7017:2014) that touch patch_realtek.c:
-> > >
-> > >   1cb3c20688fc ("ALSA: hda/realtek: Fix speaker pop on Star Labs StarFighter")
-> > >   Fixes commit ("ALSA: hda/realtek: Sequence GPIO2 on Star Labs StarFighter")
-> > >
-> > > These are quirk-gated to SSID 7017:2014 and should not run on
-> > > 17aa:231e, but they are the most prominent sound changes in the
-> > > regression window. The actual culprit may be a different commit
-> > > in the 6.12.74-6.12.85 range. I was unable to narrow further as
-> > > Debian does not publish intermediate point-release packages.
-> > >
-> > > I can build and test vanilla kernels for a proper bisection if
-> > > guided, and I can test proposed fixes.
-> > >
-> > > Hardware:
-> > >   Lenovo ThinkPad, Meteor Lake
-> > >   Codec: Realtek ALC287
-> > >   Subsystem ID: 17aa:231e
-> > >   PCI: 0000:00:1f.3
-> > >   Machine driver: skl_hda_dsp_generic
-> > >   Codec fixup: "ALC287: picked fixup for PCI SSID 17aa:231e"
-> > >
-> > > Unaffected hardware (same 6.19.14 kernel, no chirp):
-> > >   Desktop, Realtek ALC897, Subsystem ID: 1f660202
-> > >
-> > > Controlled variables (identical across all tested 6.12 kernels):
-> > >   SOF firmware: 2.12.0.1 (firmware-sof-signed 2025.01-1)
-> > >   Topology: intel/sof-ace-tplg/sof-hda-generic-2ch.tplg
-> > >   Topology ABI: 3:29:1 (Kernel ABI: 3:23:1 on all tested)
-> > >   ALSA UCM: alsa-ucm-conf 1.2.14-1
-> > >   PipeWire: 1.4.2, WirePlumber: 0.5.8
-> > >   power_save: 10, hda_model: (null)
-> > >   Desktop: KDE Plasma 6 (Wayland)
-> > >
-> > > Eliminated causes:
-> > >   - Topology files in sof-ipc4-tplg/ and sof-ace-tplg/ are
-> > >     byte-identical (confirmed via binary diff). Path irrelevant.
-> > >   - SOF firmware version (same 2.12.0.1 on all tested kernels).
-> > >   - Topology ABI mismatch (3:29:1 vs 3:23:1 present on working
-> > >     kernel too).
-> > >   - power_save (10 on all kernels).
-> > >   - PipeWire/WirePlumber (identical versions on all kernels).
-> > >   - Desktop environment (KDE on all; a KDE install triggered a
-> > >     kernel update which was the actual cause of the regression
-> > >     appearing).
-> > >
-> > > dmesg (6.12.48, working):
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3: Firmware paths/files for ipc type 1:
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3:  Firmware file:     intel/sof-ipc4/mtl/sof-mtl.ri
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3:  Firmware lib path: intel/sof-ipc4-lib/mtl
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3:  Topology file:     intel/sof-ace-tplg/sof-hda-generic-2ch.tplg
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3: Booted firmware version: 2.12.0.1
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3: Topology: ABI 3:29:1 Kernel ABI 3:23:1
-> > >   snd_hda_codec_alc269 ehdaudio0D0: ALC287: picked fixup for PCI SSID 17aa:231e
-> > >   snd_hda_codec_alc269 ehdaudio0D0: autoconfig for ALC287: line_outs=1 (0x17/0x0/0x0/0x0/0x0) type:speaker
-> > >
-> > > dmesg (6.19.14, affected):
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3: Digital mics found on Skylake+ platform, using SOF driver
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3: DSP detected with PCI class/subclass/prog-if 0x040380
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3: hda codecs found, mask 5
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3: using HDA machine driver skl_hda_dsp_generic now
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3: Firmware paths/files for ipc type 1:
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3:  Firmware file:     intel/sof-ipc4/mtl/sof-mtl.ri
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3:  Firmware lib path: intel/sof-ipc4-lib/mtl
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3:  Topology file:     intel/sof-ipc4-tplg/sof-hda-generic-2ch.tplg
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3: Booted firmware version: 2.14.1.1
-> > >   sof-audio-pci-intel-mtl 0000:00:1f.3: Topology: ABI 3:29:1 Kernel ABI 3:23:1
-> > >   snd_hda_codec_alc269 ehdaudio0D0: ALC287: picked fixup for PCI SSID 17aa:231e
-> > >   snd_hda_codec_alc269 ehdaudio0D0: autoconfig for ALC287: line_outs=1 (0x17/0x0/0x0/0x0/0x0) type:speaker
-> > >
-> > > Note: The kernel is not tainted on any tested version.
-> >
