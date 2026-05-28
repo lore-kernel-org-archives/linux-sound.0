@@ -1,223 +1,121 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4348F2C11F9
-	for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 20:20:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314B833987F;
+	Thu, 28 May 2026 20:35:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779999601; cv=none; b=gZeL+nVNDIRsWPr1YO76qIs4S17gIkWNmQLk7OEKSrG0imX9aayPuE/mKbj8H7UOzwQRe+WBGDRODJxha5BVDupj9swHT/1OM/0umMgg8qNgBF4CRsqA82gJwsjidWaqivxQPEW/N9S/YhF6vBtObKqaxI4OiHgMtxt9nqm2TL4=
+	t=1780000553; cv=none; b=YraGRd/mgref2EuoEjV34Y9DQcmhEECJavKw6taXQJ+TH4BsjZeEXduw18tku44izfMgTF1/4RAKT0pqf9XkIB9KjkJc5zMPJl7/C0Gv8OUnfWhsnpCyjsr8iKdhWMpzhhY++PSgKVTWWrFiMds9tCDNsd/hOVA58J83oQGptNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779999601; c=relaxed/simple;
-	bh=EyaF5sza5IMpxxJN0yXgScztt2GHZPfz3Y5a8lhsI7Q=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jWQYq8leyVj2MmR08hDXVEcDMoniG4C33bAN4d9mWffIbc9prse9gQ7v6W3taggbnZRyG6gGWFWNRwa5F7EEbXhR4RXc+aqsTp2BYt9Ab7N40jSxjgURPFGJDtf8L5DDePZ+jsoCg6cuxHVA7bCvdoRCyRJcblxRGRLrwwEIVwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bgFkNz3Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lHqh/w/V; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bgFkNz3Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lHqh/w/V; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1780000553; c=relaxed/simple;
+	bh=nu4gY42f9WvL23xt+G1j+UScq+b6uIYtpmR4Gn/43js=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kdMXRXw9MKqcXy1byWhweWDPCP/FUTK6DCldCHpzvPU6MQA5qevqcOFiP5MO/kFQwZyonOccAG2JUPrzYeHpVoA1S3jibSvaSbmR5SY0bq24iJ5tmv1W6cLTrlq1z3sLukprf3JhqD9l0mg5M/+nSOlCeCu1aFpVhAHzuDDVj1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hsC7Z19q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bgFkNz3Q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lHqh/w/V";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bgFkNz3Q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lHqh/w/V"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 764876AA02;
-	Thu, 28 May 2026 20:19:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779999598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I5GrZ1dC2WN36VrGiN+f99vKFGciKlAxwcEXaNXFk6g=;
-	b=bgFkNz3QCcRD5LWgNWQOuBfDoA/W0BcNp86FV+F40uTLk6BM+DeWqxl3Gr+LNnoAjjyjQI
-	j+QV2hk8azHZ7+0hK4SyHBn7GwLg0svMTR2skBrpmgWv78rV32riqeHSjAKeX9gIT6MhvE
-	jDnAfPuNEpyhd2Ws76g2F5XNpej1nyQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779999598;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I5GrZ1dC2WN36VrGiN+f99vKFGciKlAxwcEXaNXFk6g=;
-	b=lHqh/w/VJcHyyr8A642eJhNJyoI8heQFmxZ6azwIk/lFqvUGNkuSXYfnSnU3/c4mmCnyL3
-	ZlvamLy2AqvtklDA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bgFkNz3Q;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="lHqh/w/V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1779999598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I5GrZ1dC2WN36VrGiN+f99vKFGciKlAxwcEXaNXFk6g=;
-	b=bgFkNz3QCcRD5LWgNWQOuBfDoA/W0BcNp86FV+F40uTLk6BM+DeWqxl3Gr+LNnoAjjyjQI
-	j+QV2hk8azHZ7+0hK4SyHBn7GwLg0svMTR2skBrpmgWv78rV32riqeHSjAKeX9gIT6MhvE
-	jDnAfPuNEpyhd2Ws76g2F5XNpej1nyQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1779999598;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I5GrZ1dC2WN36VrGiN+f99vKFGciKlAxwcEXaNXFk6g=;
-	b=lHqh/w/VJcHyyr8A642eJhNJyoI8heQFmxZ6azwIk/lFqvUGNkuSXYfnSnU3/c4mmCnyL3
-	ZlvamLy2AqvtklDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 358DB5AF83;
-	Thu, 28 May 2026 20:19:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id r1xZC26jGGrKWwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 28 May 2026 20:19:58 +0000
-Date: Thu, 28 May 2026 22:19:57 +0200
-Message-ID: <87cxyfs2vm.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mike Karcic <mikekarcic@protonmail.com>
-Cc: Kailang Yang <kailang@realtek.com>,
-    Takashi Iwai <tiwai@suse.de>,
-	Sean Rhodes <sean@starlabs.systems>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>,
-	"regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287 (17aa:231e) -- 6.12.73 to 6.12.85
-In-Reply-To: <bibLdgyll9YOEDANdCBy8WOqeOeJry1SnahLR-EhoGkttJ6BE2srDZ9jv0gjkt0bA19aKivruQs3nkMQWbdEXPaOrLT80xjzF4KJvDcB-IU=@protonmail.com>
-References: <O6pYAi7yf23du9ivLsL0QqrnTmodj2lDTL7Wviv7I_nhjVtvllO7Y5Ban0TeTqrastb1RWhJtlkqrM3quLMWSriai-YjjGy312MTcEhxyWs=@protonmail.com>
-	<CABtds-3GOyBr1H=c5aFV1uzfkhO3d1NHMPuon_cWDq0V=pFwUA@mail.gmail.com>
-	<wZmYozyav1sNx53nFr4ShKmcdLFVJp5bdUOJgUq1I57MX6kgyq7n8XvH-MWG9Fi4q2x4CQqjEQ3Q8ok5MClut8hNixnhVmVtXkhcOzH1sw8=@protonmail.com>
-	<87eciwukvy.wl-tiwai@suse.de>
-	<RfzfjlzeaeMgNNWNST_Zzx1v49rYjM63MvAV6O5_fFIoZJ73GcN69FDLJcwhJ3s6fl9TVD2l45YBh2n3hy95LM7rhLhoVt8dU9stMkuVJvE=@protonmail.com>
-	<87mrxjsk52.wl-tiwai@suse.de>
-	<bibLdgyll9YOEDANdCBy8WOqeOeJry1SnahLR-EhoGkttJ6BE2srDZ9jv0gjkt0bA19aKivruQs3nkMQWbdEXPaOrLT80xjzF4KJvDcB-IU=@protonmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hsC7Z19q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F61D1F000E9;
+	Thu, 28 May 2026 20:35:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780000551;
+	bh=mQaGf16bgYRKo91sugyq1/OoaNKI7prP7jm6z0VAgNE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hsC7Z19qiON/JbuKIcHEjn834FNrOSf26L6zxjqAC8JE/wblXvfckPMXH87iIr4Eo
+	 dqA9He8DoOCt2Dvusa6XBh2JEHNmcSRTapjtVkPargc6URHg+iLf+njll+HHXdCTYR
+	 z0uQ/sHjUyHhtt3hDc/W2miBrwWg77O70p35sBDbxzvVxq6M18KTG438Mu9/Mgb+x4
+	 HomxiFEWXKdPTkqeGWOS9MecpOEuttL1VBmTbVBI1QN9fThtrBapUw7vB9hSG24XcJ
+	 JyZyq1z7SNZ8squsHUwvikG5riiD1U+r4X46VlOKVtlwBpDE+OWZdKNyjXjZLeZqyS
+	 tkSfn7q7+5+tA==
+Date: Thu, 28 May 2026 22:35:49 +0200
+From: Thierry Reding <thierry.reding@kernel.org>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, 
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: tegra: ADX: use of_device_get_match_data
+Message-ID: <ahimtheMu3fjdTf6@orome>
+References: <20260522015856.741656-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 764876AA02
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[protonmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[protonmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,suse.de:mid]
-
-On Thu, 28 May 2026 20:27:30 +0200,
-Mike Karcic wrote:
-> 
-> Yes, I can confirm the patched kernel is running, and commenting out that line fixes the problem completely.
-> 
-> Below is output with the added debug lines as requested:
-> 
-> $ uname -r
-> 6.12.90-debug-no-discoefs
-> 
-> $ sudo dmesg | grep -i "alc287_alc1318"
-> [  453.823528] snd_hda_codec_realtek ehdaudio0D0: alc287_alc1318_playback_pcm_hook called action=0
-> [  453.871577] snd_hda_codec_realtek ehdaudio0D0: alc287_alc1318_playback_pcm_hook called action=1
-> [  459.605379] snd_hda_codec_realtek ehdaudio0D0: alc287_alc1318_playback_pcm_hook called action=2
-> [  459.605497] snd_hda_codec_realtek ehdaudio0D0: alc287_alc1318_playback_pcm_hook called action=3
-> 
-> $ grep -n -A5 -B2 "alc_process_coef_fw.*dis_coefs" sound/pci/hda/patch_realtek.c
-> 7918-           return;
-> 7919-   alc_update_coef_idx(codec, 0x10, 1<<11, 1<<11);
-> 7920:   /* alc_process_coef_fw(codec, dis_coefs); */ /* commented out for testing */
-> 7921-   alc_process_coef_fw(codec, coefs);
-> 7922-   spec->power_hook = alc287_s4_power_gpio3_default;
-> 7923-   spec->gen.pcm_playback_hook = alc287_alc1318_playback_pcm_hook;
-> 7924-}
-
-Hm, then the previous fix doesn't seem working, obviously.
-Kailang, could you check this in your side?
-
-Maybe we should apply the AMP-silence-detection disablement
-conditionally to certain models?
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3wq26z4hjl5q27jf"
+Content-Disposition: inline
+In-Reply-To: <20260522015856.741656-1-rosenp@gmail.com>
 
 
-thanks,
+--3wq26z4hjl5q27jf
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] ASoC: tegra: ADX: use of_device_get_match_data
+MIME-Version: 1.0
 
-Takashi
+On Thu, May 21, 2026 at 06:58:56PM -0700, Rosen Penev wrote:
+> Remove open coding of the function to simplify the code.
+>=20
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> ---
+>  sound/soc/tegra/tegra210_adx.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/sound/soc/tegra/tegra210_adx.c b/sound/soc/tegra/tegra210_ad=
+x.c
+> index 12371f895234..a2c28369fbc8 100644
+> --- a/sound/soc/tegra/tegra210_adx.c
+> +++ b/sound/soc/tegra/tegra210_adx.c
+> @@ -677,17 +677,16 @@ static int tegra210_adx_platform_probe(struct platf=
+orm_device *pdev)
+>  {
+>  	struct device *dev =3D &pdev->dev;
+>  	struct tegra210_adx *adx;
+> -	const struct of_device_id *match;
+> -	struct tegra210_adx_soc_data *soc_data;
+> +	const struct tegra210_adx_soc_data *soc_data;
+>  	void __iomem *regs;
+>  	int err, i;
+> =20
+> +	soc_data =3D of_device_get_match_data(dev);
+> +
+>  	adx =3D devm_kzalloc(dev, sizeof(*adx), GFP_KERNEL);
+>  	if (!adx)
+>  		return -ENOMEM;
+> =20
+> -	match =3D of_match_device(tegra210_adx_of_match, dev);
+> -	soc_data =3D (struct tegra210_adx_soc_data *)match->data;
+>  	adx->soc_data =3D soc_data;
 
-> 
-> 
-> 
-> Sent with Proton Mail secure email.
-> 
-> On Thursday, May 28th, 2026 at 10:07 AM, Takashi Iwai <tiwai@suse.de> wrote:
-> 
-> > On Thu, 28 May 2026 15:38:54 +0200,
-> > Mike Karcic wrote:
-> > >
-> > > I did test 46c862f5419e on 6.12.90. Chirp still present.
-> > >
-> > > I'm also on a ThinkPad X1 Carbon Gen 12 with ALC287 (17aa:231e),
-> > > same as the original reporter. The fix resolved it for them but
-> > > not for me.
-> > >
-> > > Only a full revert of 630fbc6e870e resolves the issue.
-> > >
-> > > Verification on the running kernel:
-> > >
-> > >   $ grep -c "dis_coefs" sound/pci/hda/patch_realtek.c
-> > >   2
-> > >
-> > >   $ grep -c "en_coefs" sound/pci/hda/patch_realtek.c
-> > >   0
-> > >
-> > >   $ sed -n '/alc287_alc1318_playback_pcm_hook/,/^}/p' sound/pci/hda/patch_realtek.c
-> > >   static void alc287_alc1318_playback_pcm_hook(struct hda_pcm_stream *hinfo,
-> > >                                      struct hda_codec *codec,
-> > >                                      struct snd_pcm_substream *substream,
-> > >                                      int action)
-> > >   {
-> > >           switch (action) {
-> > >           case HDA_GEN_PCM_ACT_OPEN:
-> > >                   alc_write_coefex_idx(codec, 0x5a, 0x00, 0x954f);
-> > >                   break;
-> > >           case HDA_GEN_PCM_ACT_CLOSE:
-> > >                   alc_write_coefex_idx(codec, 0x5a, 0x00, 0x554f);
-> > >                   break;
-> > >           }
-> > >   }
-> > >
-> > > Happy to test further patches.
-> > 
-> > Just to be sure, could you verify that you've tested really the
-> > patched kernel, e.g. by adding a debug print, etc?
-> > If yes and the problem is seen even with the patch, try to comment out
-> >   alc_process_coef_fw(codec, dis_coefs);
-> > and confirm that this fixes the problem.
-> > 
-> > 
-> > Takashi
-> >
+Why not just:
+
+	adx->soc_data =3D of_device_get_match_data(dev);
+
+? That saves you a few temporary variables and since you're not moving
+around the assignment needlessly, you get a much simpler diff, too.
+
+Thierry
+
+--3wq26z4hjl5q27jf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmoYpyUACgkQ3SOs138+
+s6FKfg/9E1TF89kvtA13sxmUrAdneHQRJJbxBN/PgVa5uxRP+h5EJvVUQFL0LqE9
+cN11dmZIOIPAibD9WiFc4PLIYWl0QpRX1rv8Il3GHw2UCbkYmilcZJbYnziiZlu2
+TFMsD0CDxgdoXHI9dgal6DBe7SBJpP9uF7E8Jeq5QbHQD0Z0hEwdB6Wsj0NdINof
+dfQP4NtXtm1ABvNSDVaTDNo2Axd1q175mNhSHmC0dvCndb+bZmYakA4wItkuhEqV
+YfU60Ch368aVdhCvqhvP1pqQMnXXYRmuKWWdBXE7gPokRTUWxbmUv2pN0q+3UGCT
+Jc4BMwKYEeGcx6GSMlh9Il7P4oDaacYba9ZoDn/XsTD33gC4ybP2AIzDswE+Cx6/
+o0UiUt86siH+O9MT6SGYk08Gq+cRNiQlcg8CxdW86bUBGm8CysyW2WLSfM+fDRX2
+HLC0UVCxxuCxq0CxP9NAfc33Ha7uZzYNrGUYWJ8mhM2yYy5t8wFKZi+ONcNVPuGW
+01jVv5Lbkdtjp6JtLovpMUXz1O8ngXgVFBYsKtQOtPIXR9iDEfxuSaB0xVtKsqfu
+ZY81lxEv62nqKvpm/gOjnX/hM0NfU2sM9FHIPU6FihGmnF/w4DroJLCtVBJgHN8m
+NhDj+25G93N9XEFsW3WKzn8FGrBz0OZGED6eT4ip3jxKlCVR9Ow=
+=vWrp
+-----END PGP SIGNATURE-----
+
+--3wq26z4hjl5q27jf--
