@@ -1,62 +1,64 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C615339C019
-	for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 09:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2311D39FCC5
+	for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 09:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779959186; cv=none; b=WkTTQQa2zGoEvaNVyzY+Jiw/pXx7h0xf8XORmMp+nOceIezOTmJXBvjsy4S9S4PLGmk2DEFlzA2V5ajri1P096wKAHtdAEaRWHkVJ1fE8DaWef5Mu62D4B95J5rrwvpr4zujbINzwfQEhpzZCBhTp9blGkW9u59UU2RSZumeU08=
+	t=1779959187; cv=none; b=duMUTjCbNthvltYnw6CkCnrQBr2FZanat/Eemjuc9jlW3wISXAv/R+oDireVY6W37POlU7U8kcH7niH4NlEuLR7+KNcpBLJcbd43TYU0xphKJowu9VJoRUt9VTQa+IS3ieEBZDqMGvAE4y4bmMGFOykEnep/7KCJnwB4D48seD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779959186; c=relaxed/simple;
-	bh=pePpbntnwnsj7EYGTYln0S0Z1fUMMahUgMDQxO5w1uU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=m0Ue7RDffvLNp88QQnKsXvtfGyEaffeHUi7eFVbfpc2CTqiEHaYojMlv/hlzghHKdzQBpcaxLxcoNdGWBiwu5pA949U7cP02b2WG9QCjzBtRJ+lsNpxmUOWIiPq0DJabUiuaeacmezO3ieCB4DVubPbU+UnE8xAw5DaadjOR91E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=Tv3W1+un; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1779959187; c=relaxed/simple;
+	bh=j6jOumpq5gAt03JpOtXtKkMmLQ9/IfPUPKwsJ+irT0M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NM+3mfgKQgbUvs0AX0YSrz6g8bt6NGvRw/HRcb3w6164fQjvIL4YBAESOhuJ0Mb5ymBe3/Axc8daS9tcME6yTq8irVHGhYYkpzLwJ24OOZvJph4afJSP54q8+P9dzsJ/dmCim74RYdihjDzDKTjZnlAhizpigi19IWkXP0vpvDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=RGcKKiQY; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="Tv3W1+un"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4903d5c67bfso37692625e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 02:06:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="RGcKKiQY"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4903d5c67bfso37692885e9.1
+        for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 02:06:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1779959182; x=1780563982; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NCpVC/B+fK7iJncp3doDyeYOwNSb+lqrnGIijdp/R+8=;
-        b=Tv3W1+unErPZI61reAybS1V/bYvqFOlMWOiABauoKx7v6A9wwt42V8f+FWjnpsmWSL
-         31SOA0f14puPUwBpNrUN7FQ1Qz8NPp8O4cwZT2KBHFndrKUyna6LBthvJ8gZjoXLwOfE
-         A0II/Sgt+8HRPnRwJl9noZZDXeYod8kPY3vk7YruzPmQWMHTgGk3XrKlkX6eBNbgI53Z
-         IaHk9U/GXRuGaLZo7gdL1rZELjqDh4mm3ij3S/QCXWhqqyt9lIdeLJwr5lR0qzHwx7nU
-         ycvcrPa4BzwLRAvhImwivIXDBWOW6VBV6GamBq1aTMWdwvR8l7Mm5QdikhjUzSXrWi/l
-         DuqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779959182; x=1780563982;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=baylibre.com; s=google; t=1779959184; x=1780563984; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NCpVC/B+fK7iJncp3doDyeYOwNSb+lqrnGIijdp/R+8=;
-        b=d85FiF/ha/8QCR+niLjSGU9+29jJDM4x5TgRuYC903MGGJfoZ8Cc1Xw5bUsA+xkOfg
-         NzYFSeE+Htb8lZtRDp6fjXskDE4Vm1epmres7JdnhtskED2nhFsPzHznlGrGkz6LNfT8
-         kpv5mePSq9i7eQaW6dcdCN9EnPhVHTZjY9rAFvREgrJAabZ1q+pPDZd2a3Yr5/4MFVhh
-         CTJt4rPZShgq0wLpc083/Mti1xDjIa5eZHXkqGZrf6dR9MwgraBxoPkQaYdq4F4aa7qk
-         26syGT9p2+yorOl4yGEDKlwZgFERkVa+g25vPG8V7avlpO9rn0jmpdCBDugB5CIgwTG9
-         5YKA==
-X-Forwarded-Encrypted: i=1; AFNElJ8Cn/wgzsIzFZDJpOLNv2y/1Jvy84VxLWigE4Pq+OiMLGUmtSTOO952J0PqV8Imxki2AkQUR0x6fTnyCQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMoxwJzkdUltz31P9akeQBs4x0y698ceb9fe/M/lhnPE3QB9Q4
-	hvSvHkAfL3URsxbDsBfoAZ8qMRH8JPWgpv84DlbkQE6yrLXD7SWsyhIzEE1rPFtYO+w=
-X-Gm-Gg: Acq92OGmoFHvXKJPRw338+s1wPIAbh6/az0e9frvKO7953Siz9saXFxgYX+K2AMfdH7
-	l7JnZDFeUQNPc9emkPNwTGa2S+IhZipF57TFOTGrXDSQzCcoijTrnHIW2E6YdEmSUOZG43o2iHU
-	aTkS0UBEpSpaVthy7gbFvcIXo7CDMNvS8dOa8ufofyGbhosfUPdnLJW+GGA1TJncEL759SDeDMc
-	+uAdEG1CwcuZu0ON+z0iOaXqg8mXtcuuu2zch2FBE5deL2BV9hN2tPcnIJIlXqDV8Mj5n8zur7g
-	pAsiUPrzvDVgczDirFr2FBunKlvWzlXF6iO4kCJgo0WIKj71YrzWmYLzP4cAsZ6o/BGmcAzW7hL
-	pLn2VZcO6oQidslbyfReVuuDMqbPQPiHNwEmH3qqv3ZysAPqUBz7UOZacOaVayG4W9G9qZApGCZ
-	0MW5OTrIYpMx7iuUn/sxiONyjJJ+2Gk5QGaSCkd6fFwrE6Yd0cKi3eYnRKVPsct+k6cV2BJj09l
-	IHfIs2eH+ZkULl1xNGq1mcImA==
-X-Received: by 2002:a05:600c:35c8:b0:490:44eb:c1e7 with SMTP id 5b1f17b1804b1-49044ebc2d5mr480016505e9.30.1779959181935;
-        Thu, 28 May 2026 02:06:21 -0700 (PDT)
+        bh=HXwHjuQDu8ibUYMF90MOYbBP5MlSflxyRi1EYtgFSNE=;
+        b=RGcKKiQYyTos6iDFAbPDXsHRP1NbC8eKogXuzPQnFSOkoq43ZuUT+5oSSJs23XghUi
+         GLxh3wLIAGocoV0AzOtx4yAXeL3fDl5pQmuKuxyuN7I3KsCN2OUlLT1JH8GU25BQC0Aj
+         15PhbEi8Co/ZGsOh7iOh3bYkF9JGfdaJ1SjPTlQ35ZyHSCcZoB6gsCq6c2nLPDLdeSIp
+         lkKzhkckXrCURbbmYxRM7aitt8C+2ugbrcNTDYugjgUkwqNf86GeJREwrBRvp6AZVXzC
+         qx3U7K16fMlFvaEPAV61C/DjdQBgCbR2oSKAOSoVCyfuHF4D/gOxi46O2FC2STXLptOf
+         18Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779959184; x=1780563984;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HXwHjuQDu8ibUYMF90MOYbBP5MlSflxyRi1EYtgFSNE=;
+        b=TR8gw1x8CbdYVyanzPDg05yNo4ouyhAtND+BKdHhyX7wGVe/zvoaEd4GbimNnesMcn
+         zc9Hp/IMbs7W+WErU8wh5M8OGAyRoO4WEFNkjhtDqwAOAEbxs2pn/yhcecdlVexTfsev
+         dE9G49Tubi8SJvn/+oeKDMMNSZsC9RJtoFnqvS9z1Pcui17KSBaMnlO8SfsJo9bWcqqt
+         beHLbnHC7MpLANwTTAdkomX2hzQMxKiaWkW1mOIsQWD3gTZPsip73fk6tJCAx/BbAFCP
+         McaflAqEqpmvkDOg5TfCVLRSLXiC5kLx1qi8Xjk7Gw68L591cgrUy69sqxgcTcYkzCaE
+         2G1g==
+X-Forwarded-Encrypted: i=1; AFNElJ8gVpHpy8NBeO5xrAPcLSyuJovRQ/5pCrmfGrW91VFJLqpSIKRrtqmMi34Ezg2X52YrmSQkfXg43/JT1w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVtJ7BIDi4XFcYywV7MhVqgEzIwctIEQqjsVRq44/1Skhof+Rv
+	m4wJdrQkZ0SeEoi3I4h/CbPsCXYdgfcQIsKZMGUwj4ovIfjUbCEBTFkS2IUEMyWznho=
+X-Gm-Gg: Acq92OHq5yLH6v2AA900PBBXlYo0PG/UGQNN6/qmVZoH+YvE+PkxUu0m7VUH3gGdaad
+	pQQL5JZa1IZqAkLc3Lx9+WNYsddkk7zv67HdBx3YrhQNN5YgbdKoZHQlUAb6d2I0s9FXfvU2mkm
+	uOf62D9/n8x7OIRp5Ay7y6mMEOHr4SzNdjh71kixRgdsUfB+CmojZHpQjowy06dtzknP+9naUfe
+	OHvKcVP0CNOsIKy3K0G286TQzBf6j/hKAcb11Pw2bGBXo6It3fEjraMB0rqfUg70lXU6T8LT3yv
+	DKQ4xu5yglI1A+0O4vYKNdrpGOwtn3rvEMY7oFbCC5VezE46nbXAW0WC21VscmBm+2r2wmS+IWR
+	0WiC5zWZuQ3yIc/64or14a8fy1OG8P6Xw69m5TKXjsP8QYwjfsphO2lCk84+2/v7iHhglNJs5b8
+	JBZ5kUBN82vs7up/oJAzEu90X4K5gY5DFJ5elW8rqSi+rWL1Q6dh4Z9W3Kk6r8DdjhVfrXv2iBx
+	hW/UHwz/sbMeR6Fhbfw9ikHZOUocxUo4ktf
+X-Received: by 2002:a05:600d:644d:20b0:490:3cb4:f1b3 with SMTP id 5b1f17b1804b1-490426c5a3dmr316858035e9.16.1779959183906;
+        Thu, 28 May 2026 02:06:23 -0700 (PDT)
 Received: from localhost (p200300f65f47db04e95e43453a0d1648.dip0.t-ipconnect.de. [2003:f6:5f47:db04:e95e:4345:3a0d:1648])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49091d57c0dsm45855525e9.0.2026.05.28.02.06.21
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49092a92594sm25459615e9.13.2026.05.28.02.06.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 02:06:21 -0700 (PDT)
+        Thu, 28 May 2026 02:06:23 -0700 (PDT)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>
@@ -69,52 +71,13 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	James Ogletree <jogletre@opensource.cirrus.com>,
-	Fred Treven <fred.treven@cirrus.com>,
-	Ben Bright <ben.bright@cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Syed Saba Kareem <Syed.SabaKareem@amd.com>,
-	"Mario Limonciello (AMD)" <superm1@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Hasun Park <hasunpark@gmail.com>,
-	Li Qiang <liqiang01@kylinos.cn>,
-	Kees Cook <kees@kernel.org>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Mac Chiang <mac.chiang@intel.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	patches@opensource.cirrus.com,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	=?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	=?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
-	linux-arm-msm@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev
-Subject: [PATCH v1 0/4] ASoC: Use named initializers for platform_device_id arrays
-Date: Thu, 28 May 2026 11:05:59 +0200
-Message-ID: <cover.1779958164.git.u.kleine-koenig@baylibre.com>
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH v1 1/4] ASoC: codecs: mt6357: Drop unused assignment of platform_device_id driver data
+Date: Thu, 28 May 2026 11:06:00 +0200
+Message-ID:  <11da50a7e2ab846fa5f008a07d0fe55c7f9ae2a2.1779958164.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1779958164.git.u.kleine-koenig@baylibre.com>
+References: <cover.1779958164.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -122,76 +85,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2760; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=pePpbntnwnsj7EYGTYln0S0Z1fUMMahUgMDQxO5w1uU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqGAV3A/XGhyTdPC2Sbsk19+exJrBTv8hN9EsT0 GAAjGOFfiyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCahgFdwAKCRCPgPtYfRL+ Tgg8B/9D5gNT6QFkJSSGOnZq876EyBKdLt05krj7I+eM9aYvKsGkdCLHcG7QZHsH64DDJCElr0r rkkvYPqCAgT0nB7gOzo9U0qtyp69Vifs5eRYtlUzz+MYNPrOw1HZyPhMUokS9DH1Pp+kkk1fj3S pf2IkbuFyVhLCrKlKWuXJYjCf8Go8i/nKubc2wg6igcHvdnyTzxT+83dJT/P31ERPelDR9wXr3g NwuRB3IaDbFvfetwIRZGEvJ38cIqOwdZWALeex3CzgiNZyJVzlnyX0/cb63x8sz08tUXTRpK9XZ iQM3C8HjSEsS1U3+EfHXzpVCPMgXHp9ra49eC3vLgqNt/Qh1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=979; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=j6jOumpq5gAt03JpOtXtKkMmLQ9/IfPUPKwsJ+irT0M=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqGAV6JWW05p9YMuTnCUN+tAfzN5KlSlBte2zuO Fe1Vyee5uCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCahgFegAKCRCPgPtYfRL+ Tmv5B/9QxmexYBMfr9rLI+7CIDpTjP/vYDNsSTrpVxW9VUTCBqpRAepHU/7+5jnlEOMw3i2QBr1 bpY3pgGiB2hzS1a9rHS6aBewtcB+AHs+QT+il1Ddcdxe3XxMyZ0ysDXnbstnK5rrCZOpHtSY2BV A0Tg83dKjiZpl65ycXph+21NMIgxARJPosjLKsJBU5DWkuubT1nSlKsSqRtb2c5NEXOPkYNX8SU H2GmPWthgRl6Z30z+dQ1A7+AS7mTXllZnT8M+9m2OH5k3TO88Ui3cYju7+wltsJ6wAa9HAGfMES M4nXnd2xR5w7av8C+pvvGsa5mnZwoS0L1W96hJnZXlsyYUph
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-Hello,
+The driver explicitly set the .driver_data member of struct
+platform_device_id to zero without relying on that value. Drop this
+unused assignments.
 
-this series targets to use named initializers for platform_device_id
-arrays. In general these are better readable for humans and more robust
-to changes in the respective struct definition.
+While touching this array unify spacing, use a named initializer for
+.name and drop a trailing comma after the list terminator.
 
-This robustness is needed as I want to do
+Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+---
+ sound/soc/codecs/mt6357.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-	diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-	--- a/include/linux/mod_devicetable.h
-	+++ b/include/linux/mod_devicetable.h
-	@@ -610,4 +610,7 @@ struct dmi_system_id {
-	 struct platform_device_id {
-		char name[PLATFORM_NAME_SIZE];
-	-	kernel_ulong_t driver_data;
-	+	union {
-	+		kernel_ulong_t driver_data;
-	+		const void *driver_data_ptr;
-	+	};
-	 };
-
-which allows dropping several casts and eases porting CHERI to mainline
-linux. When adapting e.g. sound/soc/amd/acp/acp-legacy-mach.c to that
-and make use of driver_data_ptr, the added const makes it obvious that
-acp_asoc_probe() modifies the structs linked in the id_table resulting
-in issues if more than one device is probed using the same platform id.
-sound/soc/amd/acp/acp-sof-mach.c has the same issue.
-
-If you consider the last patch mostly churn, just drop it.
-
-Best regards
-Uwe
-
-Uwe Kleine-König (The Capable Hub) (4):
-  ASoC: codecs: mt6357: Drop unused assignment of platform_device_id
-    driver data
-  ASoC: renesas: fsi: Simplify driver_data handling
-  ASoC: Use named initializers for platform_device_id arrays
-  ASOC: Unify code style for platform_device_id arrays
-
- sound/soc/amd/acp/acp-sdw-legacy-mach.c |  4 ++--
- sound/soc/amd/acp/acp-sdw-sof-mach.c    |  4 ++--
- sound/soc/amd/acp/acp-sof-mach.c        | 14 +++++++-------
- sound/soc/codecs/adau7118-hw.c          |  2 +-
- sound/soc/codecs/bt-sco.c               | 10 +++-------
- sound/soc/codecs/cs40l50-codec.c        |  4 ++--
- sound/soc/codecs/cs42l43.c              |  4 ++--
- sound/soc/codecs/mt6357.c               |  4 ++--
- sound/soc/codecs/wcd934x.c              |  6 ++----
- sound/soc/fsl/imx-pcm-rpmsg.c           |  6 +++---
- sound/soc/intel/avs/boards/da7219.c     |  6 ++----
- sound/soc/intel/avs/boards/dmic.c       |  6 ++----
- sound/soc/intel/avs/boards/es8336.c     |  6 ++----
- sound/soc/intel/avs/boards/hdaudio.c    |  6 ++----
- sound/soc/intel/avs/boards/i2s_test.c   |  6 ++----
- sound/soc/intel/avs/boards/max98357a.c  |  6 ++----
- sound/soc/intel/avs/boards/max98373.c   |  6 ++----
- sound/soc/intel/avs/boards/max98927.c   |  6 ++----
- sound/soc/intel/avs/boards/nau8825.c    |  6 ++----
- sound/soc/intel/avs/boards/pcm3168a.c   |  6 ++----
- sound/soc/intel/boards/sof_sdw.c        |  4 ++--
- sound/soc/renesas/fsi.c                 |  8 +++-----
- 22 files changed, 51 insertions(+), 79 deletions(-)
-
-
-base-commit: e7d700e14934e68f86338c5610cf2ae76798b663
+diff --git a/sound/soc/codecs/mt6357.c b/sound/soc/codecs/mt6357.c
+index 674cf7df9df4..3b07087e1cab 100644
+--- a/sound/soc/codecs/mt6357.c
++++ b/sound/soc/codecs/mt6357.c
+@@ -1834,8 +1834,8 @@ static int mt6357_platform_driver_probe(struct platform_device *pdev)
+ }
+ 
+ static const struct platform_device_id mt6357_platform_ids[] = {
+-	{"mt6357-sound", 0},
+-	{ /* sentinel */ },
++	{ .name = "mt6357-sound" },
++	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(platform, mt6357_platform_ids);
+ 
 -- 
 2.47.3
 
