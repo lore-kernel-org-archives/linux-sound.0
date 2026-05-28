@@ -1,134 +1,140 @@
-Received: from mail-106121.protonmail.ch (mail-106121.protonmail.ch [79.135.106.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9508E3BB68B;
-	Thu, 28 May 2026 18:27:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.121
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779992860; cv=none; b=Y6btigMQHmqxJqpj/fUemi7jwcoMyyNOA0r4LB2Y7lMZRfbd3YDPI9ojqlrvJfn2xocefRvxs3SmK8yRTn18wQIzJxBcFIMH9zDBomgvIRO3HT/8a7TgKY5TG1xRdHoDXVvhRMGnkxCpHoWqVan54syLEq4yGG2RWUrMET+5PXA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779992860; c=relaxed/simple;
-	bh=35vlO/li2m5ji7uyijtwGKL1X4FBfkjyHmTboXJgc70=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pQleFQZK6IYBPG5c+/5esfjrTmORntaZcdADx5H+hv0ZovkdHpWTCLII7qhF5zBLXFuR2S/7X2eZaDwpXW+cUiz2Is6KWhLcOJ06hx/BIfdVVEai30JhYoV3ScClRqXNOD/qTajKFLoj2HU9lE/XkjtISG531iMFvbqG83HZTS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=PACAlLdM; arc=none smtp.client-ip=79.135.106.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF5E32B127
+	for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 18:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779993264; cv=pass; b=Mp515yXGe4XS3RWt9Q/ozBIjfwTBNPw8V4MMV6jOXLbY8j3edFXprHuqzLhPEzE9Y+rOrHFXO3xv54+kCwxpAdNtwb+LiUKtczDtEFx6DXu5wEKUfzs84EYEOgiMR7hZvY52hQPqwv4zEUmrlVF5TIeUh0SCl6uzJOanwYT5MCs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779993264; c=relaxed/simple;
+	bh=RvYJkPej8kvuJr33nbRsyphgqNU0YetKiUL1T9mpyNY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gyEXfyK/nRqf54LqEzNj+awi/OF2rTeEz95dxBpYfpSnpHpLc/f8cyD2o3fN9oM43ozAu0SEW19TYP7GIkTVVmZj6/+qRcVuzXSFH3VSjgwKqOV+12txB1JHgegYjDBhPWTJqaY1ZD3pMBQc320kXcWqtDQruTQn+dad2RLuiRw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gCDWH/Mp; arc=pass smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="PACAlLdM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1779992856; x=1780252056;
-	bh=+pUflfRGv1ueockabyn+TCgvNLDD1SJth6rKb3rh+sQ=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=PACAlLdMKEugfoWH1X7smsAeCzoCDPJTw2FJ3sefk86eYRwKwnYuMBcjS9f5V4eAW
-	 z0kbryqt7MH78eDBEfmsFaIJgyHQ9xXVHHO/WyDZppGhQvkgppgwYo8rGKew04VzDg
-	 z+rqnhD8eJVta1Q79hcqR2qrKvooWIFR4xYinS8iecrjG7By7Aw8V6NxsCHF2YMjcH
-	 vKNmI6fOHLpD3Jc5xjXVnkQfnX5gFkBLKDwSLkB2FN+EfRjO9g7tBzbAxOuj+3XKUv
-	 ZcfsZ5SVuXYG43IvZGQyS/OBEZpTR6phrTtoI/jXx+SmeKIOAY2WK/KGSrEgmnsam8
-	 JSwMlCii5GTlw==
-Date: Thu, 28 May 2026 18:27:30 +0000
-To: Takashi Iwai <tiwai@suse.de>
-From: Mike Karcic <mikekarcic@protonmail.com>
-Cc: Sean Rhodes <sean@starlabs.systems>, "stable@vger.kernel.org" <stable@vger.kernel.org>, "regressions@lists.linux.dev" <regressions@lists.linux.dev>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287 (17aa:231e) -- 6.12.73 to 6.12.85
-Message-ID: <bibLdgyll9YOEDANdCBy8WOqeOeJry1SnahLR-EhoGkttJ6BE2srDZ9jv0gjkt0bA19aKivruQs3nkMQWbdEXPaOrLT80xjzF4KJvDcB-IU=@protonmail.com>
-In-Reply-To: <87mrxjsk52.wl-tiwai@suse.de>
-References: <O6pYAi7yf23du9ivLsL0QqrnTmodj2lDTL7Wviv7I_nhjVtvllO7Y5Ban0TeTqrastb1RWhJtlkqrM3quLMWSriai-YjjGy312MTcEhxyWs=@protonmail.com> <CABtds-3GOyBr1H=c5aFV1uzfkhO3d1NHMPuon_cWDq0V=pFwUA@mail.gmail.com> <wZmYozyav1sNx53nFr4ShKmcdLFVJp5bdUOJgUq1I57MX6kgyq7n8XvH-MWG9Fi4q2x4CQqjEQ3Q8ok5MClut8hNixnhVmVtXkhcOzH1sw8=@protonmail.com> <87eciwukvy.wl-tiwai@suse.de> <RfzfjlzeaeMgNNWNST_Zzx1v49rYjM63MvAV6O5_fFIoZJ73GcN69FDLJcwhJ3s6fl9TVD2l45YBh2n3hy95LM7rhLhoVt8dU9stMkuVJvE=@protonmail.com> <87mrxjsk52.wl-tiwai@suse.de>
-Feedback-ID: 22946815:user:proton
-X-Pm-Message-ID: d0933fc08046c310953c0d471acf6570fb912ad3
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gCDWH/Mp"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a858881ad2so16229880e87.3
+        for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 11:34:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779993261; cv=none;
+        d=google.com; s=arc-20240605;
+        b=F1wbolNQsrfNICKgZfAq6cXttProoEY1m7nQeaA38Av33HmraiQfiMb1+q2RAdkV5u
+         91xCnN1GazqPGpmW2QEA1ShZzCnASc1DrCM4jq7+gil9aTLb5TknwocoI+X4HaJRiUkM
+         RqkGS8TezVTqcGQfu2uB/ZZNqx2cYgPR5qSrxiu5CY1xf1dCt+rfQv9Mpt8pCBMgbqPx
+         HnuTUs3Pz3Pl/3Pb5Ja9gzoGqS338delOEhJ+6fVUr9hrNz/qedCWpojPsUupHvGojpZ
+         zhfmSnm5AGMbzhNzjah1Wa+yhbesdJNApe12nqp//1qA/4k01K5d+YJ8lKdNYhVUdX4o
+         m7NA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dtYa4ePwYbBQJ91c8j++TGUt6F41suH+/FHOvZqTF5Y=;
+        fh=2wwbskFqdvkN9p7DzqxAuhwTkCOzj6CKqJ5KKuAnb1U=;
+        b=CAZTNtJE8Eh12P6/b/6tRiGkVggPZPnx6u28s00JRsFClZgM+wnEk47cxv7nN7PHVx
+         ru6DLOwMqlQ2STRqwIjDOuss2u9FasYqY/z7qn1QV74Ado2U+4ywhcesNU/RAM5Mbq00
+         9SK8QO1G8CFP6WXDYBWsRDYSxMk7hEKHN3qJKiUVhxhW+8/AhjPHRsfvKea0WvNge+dI
+         ACIpFBkhke4Hzv06AzaR9wtB+7/9VXg3RjWG8XRuNYwv+yUCuUBhYiJZKoEokL9irUY/
+         0B0Aubu8ataZ0kuArvfQm9xXFs1+Rds6F/nBZvizAVgf/x71qH+eP56JYBdVdHjaPdvA
+         tOGQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779993261; x=1780598061; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dtYa4ePwYbBQJ91c8j++TGUt6F41suH+/FHOvZqTF5Y=;
+        b=gCDWH/MpMZW14y2TP2X4nJvjrEQdKPSOujjArrTi5fgG7TEScyzRgyC8sMqa4RzCBp
+         sPSExA0Zov6By/OZCvsg967R+QhRBPYw97R1Q8L4fS5taTAZTWk0basUC5qg9pWIPxr3
+         0q5qDVCdjuHfJ6ZWSriJ/J3ELo6LHsn/9OVDF931A5rBey4BmSkwQ3c6hk0a48f76JBY
+         TtBJSnbLdrE13x0nONf6km9fygfSORdGB3bEx74xHcvCwCVkZbENQlcKqosj5/9Lu2Rc
+         k1EJThrhrLOJJxULQSE900L1wLWE/dtyPcd8OS3m4K4GmntCYlz5Z9b7mhN4QZQQOGDh
+         g3zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779993261; x=1780598061;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dtYa4ePwYbBQJ91c8j++TGUt6F41suH+/FHOvZqTF5Y=;
+        b=aPdSDImHQVtG0x1KaX96ROHa1kVSnZ/ep6inNL8nXZ1+zOTgbl6MZClaeIKLqsZOy9
+         goUTQSnQMpy42xsYUkbKaryIA64+8oUYLSbjMbw/3c4T7aopLqlIUC8AYAl3tK3ISwx0
+         kTlX7N5AXuGpsy9HJaGn83obhMmrd+mXrz7ZivWWwQKwiKNwOitR5xfVnf4NTZCEHtVg
+         H+tWYMBFM/XhC/ebV4TphzPvTokbkxExafZB4KANm8DBdte+s76t4Z9hxJ4zjHo3Vv+J
+         CE3A/wMna7R5fLh6MJ1ASY5B6JUInKHblUa+rBE/4wGipZa6yRWU1dgoTj9ykfXMoP3y
+         Pj0w==
+X-Forwarded-Encrypted: i=1; AFNElJ8aG3/Yo5CNLAfo0ho6YaSuBN9EwM0AGNLNird7r4nJODHf+A+reVeh7pTvY60YoxxGCB2gjgkD/7WTLA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7Yriw4ta5XzUr8A53zhhdft6kaaA+wZYX7X07AE9hVdEoPLsh
+	t1tLy34SSVpda+HPWqKnsVj2KmFzOeRXe0qTLV6aTq+QtqDXxITwVv8q4rMtHpN9eVlcdAUmBFo
+	fXufo9OnNIuyLtFURXCXAiZavzXAceFg=
+X-Gm-Gg: Acq92OGYiVOLyC6cr8jf2yu9z/jMuWXGNGQ6EcHXgeMddQmsxo/jPhxAIABlyGeN+1f
+	4NRG/lDDq7fRbi4GNqz1DlALNIujWPCGgW4dUDLKg7I7wfwWUoj7c/9LCXEt/Cski3B8au59NUu
+	a0JLTirNdCB0eRtVK1cjJyDFGAD8M3IUTe5I+Y5Ln40vY7ma1Qyd4hs1zEqKuQy7go2H0GROiCt
+	9Z+fNPSEtVlg0m3QdJeHAApQFBK+2baN6C4Y1xeYNsyrGlMtm5I46hQ1LLoo+3Y13iU4KM8mNde
+	51SNd1D7SFflYpzx0oU=
+X-Received: by 2002:a05:6512:66cd:10b0:5a8:74ac:cf7e with SMTP id
+ 2adb3069b0e04-5aa57e16a58mr73920e87.24.1779993261168; Thu, 28 May 2026
+ 11:34:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20260523213548.5219-1-jmiguel.ghp@gmail.com>
+In-Reply-To: <20260523213548.5219-1-jmiguel.ghp@gmail.com>
+From: Geraldo Nascimento <geraldogabriel@gmail.com>
+Date: Thu, 28 May 2026 15:34:08 -0300
+X-Gm-Features: AVHnY4JiGd59qJmKiIKuzURLZZfw6lKLiY9gn0QPxySHLRCQ-J8Smr0Q8aXsz5A
+Message-ID: <CAEsQvcsYnjBK1vor3MFKs3GNzn_wAvOP4rGthpW3vYkcnwMxgQ@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: amd: yc: Enable internal mic on MSI Bravo 17 C7VF
+To: =?UTF-8?B?Sm/Do28gTWlndWVs?= <jmiguel.ghp@gmail.com>, 
+	Mark Brown <broonie@kernel.org>
+Cc: Vijendar.Mukunda@amd.com, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Yes, I can confirm the patched kernel is running, and commenting out that l=
-ine fixes the problem completely.
+On Sat, May 23, 2026 at 6:36=E2=80=AFPM Jo=C3=A3o Miguel <jmiguel.ghp@gmail=
+.com> wrote:
+>
+> The MSI Bravo 17 C7VF routes its internal digital microphone through
+> the ACP6x. The machine driver only enables the DMIC for boards present
+> in the DMI quirk table, so on this model the internal mic is never
+> detected and no capture device is created.
+>
+> Add a quirk entry matching the board's DMI identifiers so the DMIC is
+> enabled and the internal microphone works.
+>
+> Signed-off-by: Jo=C3=A3o Miguel <jmiguel.ghp@gmail.com>
 
-Below is output with the added debug lines as requested:
+Cc: Mark Brown
 
-$ uname -r
-6.12.90-debug-no-discoefs
-
-$ sudo dmesg | grep -i "alc287_alc1318"
-[  453.823528] snd_hda_codec_realtek ehdaudio0D0: alc287_alc1318_playback_p=
-cm_hook called action=3D0
-[  453.871577] snd_hda_codec_realtek ehdaudio0D0: alc287_alc1318_playback_p=
-cm_hook called action=3D1
-[  459.605379] snd_hda_codec_realtek ehdaudio0D0: alc287_alc1318_playback_p=
-cm_hook called action=3D2
-[  459.605497] snd_hda_codec_realtek ehdaudio0D0: alc287_alc1318_playback_p=
-cm_hook called action=3D3
-
-$ grep -n -A5 -B2 "alc_process_coef_fw.*dis_coefs" sound/pci/hda/patch_real=
-tek.c
-7918-           return;
-7919-   alc_update_coef_idx(codec, 0x10, 1<<11, 1<<11);
-7920:   /* alc_process_coef_fw(codec, dis_coefs); */ /* commented out for t=
-esting */
-7921-   alc_process_coef_fw(codec, coefs);
-7922-   spec->power_hook =3D alc287_s4_power_gpio3_default;
-7923-   spec->gen.pcm_playback_hook =3D alc287_alc1318_playback_pcm_hook;
-7924-}
-
-
-
-Sent with Proton Mail secure email.
-
-On Thursday, May 28th, 2026 at 10:07 AM, Takashi Iwai <tiwai@suse.de> wrote=
-:
-
-> On Thu, 28 May 2026 15:38:54 +0200,
-> Mike Karcic wrote:
-> >
-> > I did test 46c862f5419e on 6.12.90. Chirp still present.
-> >
-> > I'm also on a ThinkPad X1 Carbon Gen 12 with ALC287 (17aa:231e),
-> > same as the original reporter. The fix resolved it for them but
-> > not for me.
-> >
-> > Only a full revert of 630fbc6e870e resolves the issue.
-> >
-> > Verification on the running kernel:
-> >
-> >   $ grep -c "dis_coefs" sound/pci/hda/patch_realtek.c
-> >   2
-> >
-> >   $ grep -c "en_coefs" sound/pci/hda/patch_realtek.c
-> >   0
-> >
-> >   $ sed -n '/alc287_alc1318_playback_pcm_hook/,/^}/p' sound/pci/hda/pat=
-ch_realtek.c
-> >   static void alc287_alc1318_playback_pcm_hook(struct hda_pcm_stream *h=
-info,
-> >                                      struct hda_codec *codec,
-> >                                      struct snd_pcm_substream *substrea=
-m,
-> >                                      int action)
-> >   {
-> >           switch (action) {
-> >           case HDA_GEN_PCM_ACT_OPEN:
-> >                   alc_write_coefex_idx(codec, 0x5a, 0x00, 0x954f);
-> >                   break;
-> >           case HDA_GEN_PCM_ACT_CLOSE:
-> >                   alc_write_coefex_idx(codec, 0x5a, 0x00, 0x554f);
-> >                   break;
-> >           }
-> >   }
-> >
-> > Happy to test further patches.
->=20
-> Just to be sure, could you verify that you've tested really the
-> patched kernel, e.g. by adding a debug print, etc?
-> If yes and the problem is seen even with the patch, try to comment out
->   alc_process_coef_fw(codec, dis_coefs);
-> and confirm that this fixes the problem.
->=20
->=20
-> Takashi
-> 
+> ---
+>  sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.=
+c
+> index 7a637d6b5..a93a7fd48 100644
+> --- a/sound/soc/amd/yc/acp6x-mach.c
+> +++ b/sound/soc/amd/yc/acp6x-mach.c
+> @@ -794,6 +794,13 @@ static const struct dmi_system_id yc_acp_quirk_table=
+[] =3D {
+>                         DMI_MATCH(DMI_PRODUCT_NAME, "M7601RM"),
+>                 }
+>         },
+> +       {
+> +               .driver_data =3D &acp6x_card,
+> +               .matches =3D {
+> +                       DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star Internati=
+onal Co., Ltd."),
+> +                       DMI_MATCH(DMI_BOARD_NAME, "MS-17LN"),
+> +               }
+> +       },
+>         {}
+>  };
+>
+> --
+> 2.54.0
+>
+>
