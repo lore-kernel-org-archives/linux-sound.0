@@ -1,64 +1,64 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DFDC403138
-	for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 17:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0E43FFAB4
+	for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 17:48:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779990541; cv=none; b=Ucr1p0PznljYZDuc2fHLkAwEJ9kz2PScSDs9J7++Giic12gQDUmLXtvP/9gq5WO1VEQup6nDM/pxOCcdMcAZrBjYHZIXWrZ+UEDKc8be+UbTodjB6ZwksS5F50BdW0QcZrVjkPY3+mlcIwy6fV6M8RjsVjh/5QeEZqEfcbj61D0=
+	t=1779990544; cv=none; b=VKhKMCnSE9sGi8i1+vo746Xe9jKyKqouK26uS7GDm1GCPLgJOd6FS5qulpsla4rhxMrU7IzRhi6k/v3D7mTSA/3zbG+8Y/z+YhqygguA+yemYBFLakJbus1s6nhHF3WERYyV7M3G/iZuTQX1Mg6hlspTtwQ4G1BPf6nwzf/VLVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779990541; c=relaxed/simple;
-	bh=SC2mZnDsiwRhE1VAHS/s0aXYO5xOgQW8rsM0NY9nRGA=;
+	s=arc-20240116; t=1779990544; c=relaxed/simple;
+	bh=UGhl3kI+fFVrBhWMUwLUxp+PhfWl7mfkW2fYjRCg4Fs=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kposf6bh8qNi72LRbdIBv/l2y7BAMb/Z3o/fTvSBnd3rCoIJWR2n8E6Nk+dMjA9MS0CPJybCgdtMZm16CCv1M/6ocToQPe1asoJsvQGRc/fDBGlU3OHG2mE77RKPPuSG9CedOVucKmm5nneFpF88Hed1Afr4kqhiG58qPKbdbKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YKuSWQ0C; arc=none smtp.client-ip=209.85.128.47
+	 MIME-Version; b=D0IWULL+G6Z8AKTJ/b+ES5hq/4JQ39XVbB6QskTIsqKWq3Hy0M7nfq9xdQp24A83SrwRSYhTV5NQTyRHvIF0wuDP+bBipyC+IJImwNXzIuh1xv7Dlv8TcbRrTF3xIAr2jJQp4iXGFSxseJWzYsNdj2RtgNkQWgbarsp0RIDwaaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qNCgrkTz; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YKuSWQ0C"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48984d29fe3so136485865e9.0
-        for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 10:48:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qNCgrkTz"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48984d29fe3so136486075e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 10:48:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779990536; x=1780595336; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779990538; x=1780595338; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=90iZe+Vt3FO3EhRu8PaahonsZT35J6uAqMQ+RMLFCOI=;
-        b=YKuSWQ0C1BYy7HCgg5kG+4kVUkMubSRbCn1J7j/3cUX76dncZwqekcO8Ts6fTx4Hi5
-         D8Ih3B4xJYsLRAv8bcUobhaJtlcryFjoR+PZdJxEcVpqHrG3L0tp3iHdQt4ipv9dJLzG
-         uF6UEoduy5vJcccBQgBEIU37TzdQDFJproJcQkkptzOwwwh6Nf3svqRHkB3Hv9q400Cq
-         VMA1hfj6hlJQoNOa9ExBMo7AW+yVD5spxJxijuhNvkBJ0pKcSiZttsAfin5oqEAD9PGR
-         kqafDukLineJ11zDMzyRGrRu09MOpGc9NHaaHmNk+oUzhukwLwnNsF01qIgVKkiq51Mh
-         pGgg==
+        bh=wl4g3rpDvpDovIByCyEg9mAcW7yzg7g5YfbXcYX2n3M=;
+        b=qNCgrkTzQ66KY/iVhB5Koz7zPMXqa5wt/o9sqvR8VwR1izYBAlXz8Q0+tGLZ96SSdR
+         INJZI+GV6Hun7B+LdRMZb2LgU+w/go7QTijQZiAxfV0DB0LaWZv7X+MXCu4piN3P/qNJ
+         p0UdGW+YWZVP8+TaTkzn4hXT13suXQvjR141AQUw4yOXJ/h8QwsAO/U+JvhbjJAXaN3q
+         /m4MPGph6fA7nuTHz0hXHvRPaM9rI+ilCeIYM4/iMJ+YLzTmYicKSNajbs4PCuKclPzU
+         DZ+T4VLxGzvwJbo8B6tmtUv1X78wY9TDRVlv7BbfDsIqxmS+rFndn+FMKkLJBAWG/xlY
+         CraA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779990536; x=1780595336;
+        d=1e100.net; s=20251104; t=1779990538; x=1780595338;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=90iZe+Vt3FO3EhRu8PaahonsZT35J6uAqMQ+RMLFCOI=;
-        b=Q1Hz4FW8Pci+lyiIEha7EXSTQJ+2LFU/phnzxhrGW8AxkvDlieXHDHem512S8pDCYO
-         ummEUA82Pmt7e5dMpiVgvKEvuMggLbIbF3hMMb2S4bBTuV3aqOozpkoRe8XYn9Hfj5+S
-         kSiCNkrgPRS828eFZf3XOumPG2UzvVgtFbbR5lv5ckUSIG+iawU4JiiHr8Q2QWUHSp9L
-         6jrbI2HKhII/xgj3d1XdCJM1bVstO8Gsvj0e1SRTnYaAqANtYl2day3VTZMk79BdY9WM
-         sHPw06vbP9E1TJARdJ3llth/W58G4Dq8UyOy8pe599XfZSFuxcRP3cjWCd1vSdNRuR/n
-         0s3w==
-X-Forwarded-Encrypted: i=1; AFNElJ94kc3n3ZJ7TM1gs2EeVHv05oHjw3O+8bMPtcGnJAXSysGxNZfF7GRvfHs/lCsbBHPeO3u1Xq54gEAppw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2nJS841osmSTw/fETEA5e2w7MoS5shvQbBHIJEaVDtqsJn0pC
-	2DPjbKXtfZkeWXDbp14CxE1pxNHtPKKnWpfrdbJrF/LPXrH7yH6AzIAq
-X-Gm-Gg: Acq92OF8psRTz+18rNnL/rDeUrpHkyrOmJTdv21IkpM6ZbkMyRG4iUP6YJXLgWzLrxp
-	gvsV3K7wkv8Y24rvBA01zXrvqRQGj3tPKas6qTOM1sVfHBJUvInqMeNSTOdswW1nRopaZblUTWf
-	h3rZt/le5CDAsmKYieYpA26JkihRErUgCUyvEPx/AdLmF8M7e4lzWPIhW72+BvdjATQUILTybQA
-	ksRU8snME34EY2c3z/kq9Txtu5I1XCC2t3S0H2CLI4n/7+CJJaTN8L62NPHNndOFxjQ2wb/6xgj
-	UJJ6G3IvZCFJmHtBElME2xyuNBXMV93BCG+E0YRCK499pVQmii+j+im331Fy1MGQ1xVjaBOmnU3
-	yqJwysvJ3h6C3gTnlTbMhsIk9hM7NsfBEgrHOIVEOQ2CO3MaQC+ggTbfG0YyTqpd4SJrbTWEK7j
-	kvg3nyfvcSQQ1IWnPkUsQRChthvxZvK9CtR8/5r8JZ3t2ikH9v7RIciHdzOqPUp0Ocz6IiRnLgL
-	3d8UYs=
-X-Received: by 2002:a05:600c:8692:b0:490:3fa2:1b93 with SMTP id 5b1f17b1804b1-490424b0e35mr303367145e9.13.1779990535640;
-        Thu, 28 May 2026 10:48:55 -0700 (PDT)
+        bh=wl4g3rpDvpDovIByCyEg9mAcW7yzg7g5YfbXcYX2n3M=;
+        b=Sci62KyUliJlY8riMCcdONd5vPWMouR/9DcZjRs7ffhRxdueHIpcJLAv6KIqlumx1+
+         OzDDFURlKFPolfygxecDawt2N8Y1PwivcHQMmF6VZGdBZdrP9gMxhC13lltucfpJ3bvT
+         +40St1heABW6KOENiqE7wzt3tiyHVrMZLovPt6UeUpCf7uUq15GgbGCQuimaxPih+UQU
+         ZdM/oQ5eVxYRvvreSZ6Ie6bV326gTUt6vlgYJoy5gTv/kOWWQxR19fyQRiRX6EiQGjk9
+         UXz2fYbOhRRlqmL02io6fV+nCS2MjCsCkVf1drdVZ1cDrNdia8XLrxsLMrVZN8yy4cYb
+         n8MQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+tUHr4zp4/5f1dj134zZhLCsM+PG/5EFf9K96U2D+rvV1qm9YPTqBkkYoBn2wW2F/AFtM1ItfSl+kOsg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7d7M9uLKTtjm1KbQN/tvneA/kZkMNt/PMa6cdPuRWuk+TZkFM
+	zUqiwe6FsuVR2NXMF7+PwrvLnWGYVor1sJHgmygQEGDhSyWWRpd2pKuJ
+X-Gm-Gg: Acq92OFYsBPCkOoSh1XhJF0uvRl+He6fzbtw0sacl6e6S6nGk60Vvk3YHS27N9BILgX
+	qG6MNzDMRs1ua87pm3eolRSdk0k3IE6o7B23jJj4IV5I5OeEXiWSMbvaxpV4fU2RPiL/SeKuGnF
+	3ZbIFOOPIXJtexSlz0plCf8LpPZf9SF0CXGWsZ60U31hwJglKE9ywLx4mI9QEY/BlfJuA/tAHLp
+	a5AeurIL2XaVoa/OafSrKnldPjm1e9X4zd/llA1UiV54prQATVDXtPl5pwRsgp2rBKTBx2B8Q4j
+	TYrF2gZsJ+ZV0o6X6DVMEsqdEtsZxYFxQL0dFXD3IGztOAp4fDTAUcWVahpaJTHIw/mVrpZEkdT
+	RwrxjFOtX8Jh6FNqpVC1ioJ/7DBlWt+I1WyuNMvR25M8XDX4BmbDX00zes5hogRAEdbkrlO0NyE
+	tSniDAa4NPiyz3MyXk+4XvZIAeyXXWvLJDt6GYAFOqLKHV4QdZelFvgdt5ris96fnE2bOOesXAL
+	bB8mes=
+X-Received: by 2002:a05:600d:6450:10b0:48a:7a10:4f17 with SMTP id 5b1f17b1804b1-4904249d125mr339862535e9.6.1779990537544;
+        Thu, 28 May 2026 10:48:57 -0700 (PDT)
 Received: from Ansuel-XPS24 (host-79-42-252-49.retail.telecomitalia.it. [79.42.252.49])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4909235d4e5sm75342625e9.2.2026.05.28.10.48.54
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4909235d4e5sm75342625e9.2.2026.05.28.10.48.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 10:48:55 -0700 (PDT)
+        Thu, 28 May 2026 10:48:57 -0700 (PDT)
 From: Christian Marangi <ansuelsmth@gmail.com>
 To: Christian Marangi <ansuelsmth@gmail.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -79,9 +79,9 @@ To: Christian Marangi <ansuelsmth@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org
-Subject: [PATCH v3 3/4] ASoC: mediatek: common: permit to provide dedicated regmap for irq
-Date: Thu, 28 May 2026 19:48:31 +0200
-Message-ID: <20260528174840.28644-4-ansuelsmth@gmail.com>
+Subject: [PATCH v3 4/4] ASoC: airoha: Add AFE and machine driver for Airoha AN7581
+Date: Thu, 28 May 2026 19:48:32 +0200
+Message-ID: <20260528174840.28644-5-ansuelsmth@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260528174840.28644-1-ansuelsmth@gmail.com>
 References: <20260528174840.28644-1-ansuelsmth@gmail.com>
@@ -93,90 +93,1446 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some SoC might require dedicated regmap to configure some specific IRQ
-register.
+Add support for the Sound system present on Airoha AN7581 SoC. This is
+based on the mediatek AFE drivers.
 
-Add an extra entry in the irq_data struct and use the specific regmap if
-defined.
-
-If not defined then the global AFE regmap is used instead.
+Also add the machine driver to create an actual sound card for the AFE.
 
 Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
 ---
- sound/soc/mediatek/common/mtk-afe-fe-dai.c | 14 +++++++++-----
- sound/soc/mediatek/common/mtk-base-afe.h   |  2 ++
- 2 files changed, 11 insertions(+), 5 deletions(-)
+ MAINTAINERS                                   |   8 +
+ sound/soc/mediatek/Kconfig                    |  27 +-
+ sound/soc/mediatek/Makefile                   |   1 +
+ sound/soc/mediatek/an7581/Makefile            |   9 +
+ sound/soc/mediatek/an7581/an7581-afe-common.h |  48 ++
+ sound/soc/mediatek/an7581/an7581-afe-pcm.c    | 529 ++++++++++++++++++
+ sound/soc/mediatek/an7581/an7581-dai-etdm.c   | 453 +++++++++++++++
+ sound/soc/mediatek/an7581/an7581-reg.h        | 114 ++++
+ sound/soc/mediatek/an7581/an7581-wm8960.c     | 156 ++++++
+ 9 files changed, 1344 insertions(+), 1 deletion(-)
+ create mode 100644 sound/soc/mediatek/an7581/Makefile
+ create mode 100644 sound/soc/mediatek/an7581/an7581-afe-common.h
+ create mode 100644 sound/soc/mediatek/an7581/an7581-afe-pcm.c
+ create mode 100644 sound/soc/mediatek/an7581/an7581-dai-etdm.c
+ create mode 100644 sound/soc/mediatek/an7581/an7581-reg.h
+ create mode 100644 sound/soc/mediatek/an7581/an7581-wm8960.c
 
-diff --git a/sound/soc/mediatek/common/mtk-afe-fe-dai.c b/sound/soc/mediatek/common/mtk-afe-fe-dai.c
-index 3809068f5620..a8f4e70c8213 100644
---- a/sound/soc/mediatek/common/mtk-afe-fe-dai.c
-+++ b/sound/soc/mediatek/common/mtk-afe-fe-dai.c
-@@ -204,11 +204,15 @@ int mtk_afe_fe_trigger(struct snd_pcm_substream *substream, int cmd,
- 	struct mtk_base_afe_irq *irqs = &afe->irqs[memif->irq_usage];
- 	const struct mtk_base_irq_data *irq_data = irqs->irq_data;
- 	unsigned int counter = runtime->period_size;
-+	struct regmap *regmap = afe->regmap;
- 	int fs;
- 	int ret;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 21c0ef0b9ce5..fe29a940209a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -762,6 +762,14 @@ F:	Documentation/devicetree/bindings/phy/airoha,en7581-pcie-phy.yaml
+ F:	drivers/phy/phy-airoha-pcie-regs.h
+ F:	drivers/phy/phy-airoha-pcie.c
  
- 	dev_dbg(afe->dev, "%s %s cmd=%d\n", __func__, memif->data->name, cmd);
- 
-+	if (irq_data->regmap)
-+		regmap = irq_data->regmap;
++AIROHA SOUND DRIVER
++M:	Christian Marangi <ansuelsmth@gmail.com>
++L:	linux-sound@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/sound/airoha,an7581-afe.yaml
++F:	Documentation/devicetree/bindings/sound/airoha,an7581-wm8960.yaml
++F:	sound/soc/mediatek/an7581/*
 +
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 	case SNDRV_PCM_TRIGGER_RESUME:
-@@ -220,7 +224,7 @@ int mtk_afe_fe_trigger(struct snd_pcm_substream *substream, int cmd,
- 		}
+ AIROHA SPI SNFI DRIVER
+ M:	Lorenzo Bianconi <lorenzo@kernel.org>
+ M:	Ray Liu <ray.liu@airoha.com>
+diff --git a/sound/soc/mediatek/Kconfig b/sound/soc/mediatek/Kconfig
+index 3a1e1fa3fe5c..c138f00f2efb 100644
+--- a/sound/soc/mediatek/Kconfig
++++ b/sound/soc/mediatek/Kconfig
+@@ -1,10 +1,35 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-menu "Mediatek"
  
- 		/* set irq counter */
--		mtk_regmap_update_bits(afe->regmap, irq_data->irq_cnt_reg,
-+		mtk_regmap_update_bits(regmap, irq_data->irq_cnt_reg,
- 				       irq_data->irq_cnt_maskbit, counter,
- 				       irq_data->irq_cnt_shift);
+ config SND_SOC_MEDIATEK
+ 	tristate
+ 	select REGMAP_MMIO
  
-@@ -230,12 +234,12 @@ int mtk_afe_fe_trigger(struct snd_pcm_substream *substream, int cmd,
- 		if (fs < 0)
- 			return -EINVAL;
- 
--		mtk_regmap_update_bits(afe->regmap, irq_data->irq_fs_reg,
-+		mtk_regmap_update_bits(regmap, irq_data->irq_fs_reg,
- 				       irq_data->irq_fs_maskbit, fs,
- 				       irq_data->irq_fs_shift);
- 
- 		/* enable interrupt */
--		mtk_regmap_update_bits(afe->regmap, irq_data->irq_en_reg,
-+		mtk_regmap_update_bits(regmap, irq_data->irq_en_reg,
- 				       1, 1, irq_data->irq_en_shift);
- 
- 		return 0;
-@@ -248,10 +252,10 @@ int mtk_afe_fe_trigger(struct snd_pcm_substream *substream, int cmd,
- 		}
- 
- 		/* disable interrupt */
--		mtk_regmap_update_bits(afe->regmap, irq_data->irq_en_reg,
-+		mtk_regmap_update_bits(regmap, irq_data->irq_en_reg,
- 				       1, 0, irq_data->irq_en_shift);
- 		/* and clear pending IRQ */
--		mtk_regmap_write(afe->regmap, irq_data->irq_clr_reg,
-+		mtk_regmap_write(regmap, irq_data->irq_clr_reg,
- 				 1 << irq_data->irq_clr_shift);
- 		return ret;
- 	default:
-diff --git a/sound/soc/mediatek/common/mtk-base-afe.h b/sound/soc/mediatek/common/mtk-base-afe.h
-index a406f2e3e7a8..76d010f853f4 100644
---- a/sound/soc/mediatek/common/mtk-base-afe.h
-+++ b/sound/soc/mediatek/common/mtk-base-afe.h
-@@ -87,6 +87,8 @@ struct mtk_base_irq_data {
- 	int irq_clr_reg;
- 	int irq_clr_shift;
- 	int irq_status_shift;
++menu "Airoha"
 +
-+	struct regmap *regmap;
- };
- 
- struct device;
++config SND_SOC_AN7581
++	tristate "ASoC support for Airoha AN7581 chip"
++	depends on ARCH_AIROHA || COMPILE_TEST
++	select SND_SOC_MEDIATEK
++	help
++	  This adds ASoC platform driver support for Airoha AN7581 chip
++	  that can be used with other codecs.
++	  Select Y if you have such device.
++	  If unsure select "N".
++
++config SND_SOC_AN7581_WM8960
++	tristate "ASoc Audio driver for Airoha AN7581 with WM8960 codec"
++	depends on SND_SOC_AN7581 && I2C
++	select SND_SOC_WM8960
++	help
++	  This adds support for ASoC machine driver for Airoha AN7581
++	  boards with the WM8960 codecs.
++	  Select Y if you have such device.
++	  If unsure select "N".
++
++endmenu
++
++menu "Mediatek"
++
+ config SND_SOC_MT2701
+ 	tristate "ASoC support for Mediatek MT2701 chip"
+ 	depends on ARCH_MEDIATEK
+diff --git a/sound/soc/mediatek/Makefile b/sound/soc/mediatek/Makefile
+index 7cd67bce92e9..692d7a472ecc 100644
+--- a/sound/soc/mediatek/Makefile
++++ b/sound/soc/mediatek/Makefile
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-$(CONFIG_SND_SOC_MEDIATEK) += common/
++obj-$(CONFIG_SND_SOC_AN7581) += an7581/
+ obj-$(CONFIG_SND_SOC_MT2701) += mt2701/
+ obj-$(CONFIG_SND_SOC_MT6797) += mt6797/
+ obj-$(CONFIG_SND_SOC_MT7986) += mt7986/
+diff --git a/sound/soc/mediatek/an7581/Makefile b/sound/soc/mediatek/an7581/Makefile
+new file mode 100644
+index 000000000000..f48cd0269bea
+--- /dev/null
++++ b/sound/soc/mediatek/an7581/Makefile
+@@ -0,0 +1,9 @@
++# SPDX-License-Identifier: GPL-2.0
++
++# platform driver
++snd-soc-an7581-afe-y := \
++	an7581-afe-pcm.o \
++	an7581-dai-etdm.o
++
++obj-$(CONFIG_SND_SOC_AN7581) += snd-soc-an7581-afe.o
++obj-$(CONFIG_SND_SOC_AN7581_WM8960) += an7581-wm8960.o
+diff --git a/sound/soc/mediatek/an7581/an7581-afe-common.h b/sound/soc/mediatek/an7581/an7581-afe-common.h
+new file mode 100644
+index 000000000000..7bd67ff4010b
+--- /dev/null
++++ b/sound/soc/mediatek/an7581/an7581-afe-common.h
+@@ -0,0 +1,48 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * an7581-afe-common.h  --  Airoha AN7581 audio driver definitions
++ */
++
++#ifndef _AN7581_AFE_COMMON_H_
++#define _AN7581_AFE_COMMON_H_
++
++#include <linux/atomic.h>
++#include <sound/soc.h>
++#include <linux/list.h>
++#include <linux/regmap.h>
++#include "../../mediatek/common/mtk-base-afe.h"
++
++enum {
++	AN7581_MEMIF_DL1,
++	AN7581_MEMIF_UL1,
++	AN7581_MEMIF_NUM,
++	AN7581_DAI_ETDM = AN7581_MEMIF_NUM,
++	AN7581_DAI_NUM,
++};
++
++enum {
++	AN7581_IRQ_0,
++	AN7581_IRQ_1,
++	AN7581_IRQ_NUM,
++};
++
++struct an7581_memif_irq_desc {
++	u8 irq;
++	u32 status_bit;
++	u32 clear_reg;
++};
++
++struct an7581_afe_private {
++	atomic_t users;
++
++	/* dai */
++	void *dai_priv[AN7581_DAI_NUM];
++};
++
++unsigned int an7581_afe_rate_transform(struct device *dev,
++				       unsigned int rate);
++
++/* dai register */
++int an7581_dai_etdm_register(struct mtk_base_afe *afe);
++
++#endif
+diff --git a/sound/soc/mediatek/an7581/an7581-afe-pcm.c b/sound/soc/mediatek/an7581/an7581-afe-pcm.c
+new file mode 100644
+index 000000000000..d6c3fc09951c
+--- /dev/null
++++ b/sound/soc/mediatek/an7581/an7581-afe-pcm.c
+@@ -0,0 +1,529 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Airoha ALSA SoC AFE platform driver for AN7581
++ *
++ */
++
++#include <linux/clk.h>
++#include <linux/delay.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_address.h>
++#include <linux/pm_runtime.h>
++#include <linux/reset.h>
++
++#include "an7581-afe-common.h"
++#include "an7581-reg.h"
++#include "../common/mtk-afe-platform-driver.h"
++#include "../common/mtk-afe-fe-dai.h"
++
++enum {
++	ARH_AFE_RATE_8K = 0,
++	ARH_AFE_RATE_12K = 1,
++	ARH_AFE_RATE_16K = 2,
++	ARH_AFE_RATE_24K = 3,
++	ARH_AFE_RATE_32K = 4,
++	ARH_AFE_RATE_48K = 5,
++	ARH_AFE_RATE_96K = 6,
++	ARH_AFE_RATE_192K = 7,
++	ARH_AFE_RATE_384K = 8,
++	ARH_AFE_RATE_7K = 16,
++	ARH_AFE_RATE_11K = 17,
++	ARH_AFE_RATE_14K = 18,
++	ARH_AFE_RATE_22K = 19,
++	ARH_AFE_RATE_29K = 20,
++	ARH_AFE_RATE_44K = 21,
++	ARH_AFE_RATE_88K = 22,
++	ARH_AFE_RATE_176K = 23,
++	ARH_AFE_RATE_352K = 24,
++};
++
++unsigned int an7581_afe_rate_transform(struct device *dev, unsigned int rate)
++{
++	switch (rate) {
++	case 7350:
++		return ARH_AFE_RATE_7K;
++	case 8000:
++		return ARH_AFE_RATE_8K;
++	case 11025:
++		return ARH_AFE_RATE_11K;
++	case 12000:
++		return ARH_AFE_RATE_12K;
++	case 14700:
++		return ARH_AFE_RATE_14K;
++	case 16000:
++		return ARH_AFE_RATE_16K;
++	case 22050:
++		return ARH_AFE_RATE_22K;
++	case 24000:
++		return ARH_AFE_RATE_24K;
++	case 29400:
++		return ARH_AFE_RATE_29K;
++	case 32000:
++		return ARH_AFE_RATE_32K;
++	case 44100:
++		return ARH_AFE_RATE_44K;
++	case 48000:
++		return ARH_AFE_RATE_48K;
++	case 88200:
++		return ARH_AFE_RATE_88K;
++	case 96000:
++		return ARH_AFE_RATE_96K;
++	case 176400:
++		return ARH_AFE_RATE_176K;
++	case 192000:
++		return ARH_AFE_RATE_192K;
++	case 352800:
++		return ARH_AFE_RATE_352K;
++	case 384000:
++		return ARH_AFE_RATE_384K;
++	default:
++		dev_warn(dev, "%s(), rate %u invalid, using %d!!!\n",
++			 __func__, rate, ARH_AFE_RATE_48K);
++		return ARH_AFE_RATE_48K;
++	}
++}
++
++static const struct an7581_memif_irq_desc an7581_memif_irq_descs[AN7581_MEMIF_NUM] = {
++	[AN7581_MEMIF_DL1] = {
++		.irq = AN7581_IRQ_0,
++		.status_bit = AFE_IRQ_STS_PLAY,
++		.clear_reg = AFE_IRQ_CON0,
++	},
++	[AN7581_MEMIF_UL1] = {
++		.irq = AN7581_IRQ_1,
++		.status_bit = AFE_IRQ_STS_RECORD,
++		.clear_reg = AFE_IRQ1_CON0,
++	},
++};
++
++static const struct snd_pcm_hardware an7581_afe_hardware = {
++	.info = SNDRV_PCM_INFO_MMAP |
++		SNDRV_PCM_INFO_INTERLEAVED |
++		SNDRV_PCM_INFO_MMAP_VALID,
++	.formats = SNDRV_PCM_FMTBIT_S16_LE |
++		   SNDRV_PCM_FMTBIT_S24_LE |
++		   SNDRV_PCM_FMTBIT_S32_LE,
++	.period_bytes_min = 512,
++	.period_bytes_max = 128 * 1024,
++	.periods_min = 2,
++	.periods_max = 256,
++	.buffer_bytes_max = 256 * 1024,
++	.fifo_size = 0,
++};
++
++static int an7581_memif_fs(struct snd_pcm_substream *substream,
++			   unsigned int rate)
++{
++	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
++	struct snd_soc_component *component = snd_soc_rtdcom_lookup(rtd, AFE_PCM_NAME);
++	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(component);
++
++	return an7581_afe_rate_transform(afe->dev, rate);
++}
++
++static int an7581_irq_fs(struct snd_pcm_substream *substream,
++			 unsigned int rate)
++{
++	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
++	struct snd_soc_component *component = snd_soc_rtdcom_lookup(rtd, AFE_PCM_NAME);
++	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(component);
++
++	return an7581_afe_rate_transform(afe->dev, rate);
++}
++
++static int an7581_afe_fe_startup(struct snd_pcm_substream *substream,
++				 struct snd_soc_dai *dai)
++{
++	struct snd_pcm_runtime *runtime = substream->runtime;
++	struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
++	int ret;
++
++	ret = mtk_afe_fe_startup(substream, dai);
++	if (ret < 0)
++		return ret;
++
++	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
++		ret = snd_pcm_hw_constraint_minmax(runtime,
++						   SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
++						   0x2000, UINT_MAX);
++		if (ret < 0)
++			dev_err(afe->dev, "hw_constraint_minmax failed\n");
++	}
++
++	return ret;
++}
++
++const struct snd_soc_dai_ops an7581_afe_fe_ops = {
++	.startup	= an7581_afe_fe_startup,
++	.shutdown	= mtk_afe_fe_shutdown,
++	.hw_params	= mtk_afe_fe_hw_params,
++	.hw_free	= mtk_afe_fe_hw_free,
++	.prepare	= mtk_afe_fe_prepare,
++	.trigger	= mtk_afe_fe_trigger,
++};
++
++#define ARH_PCM_FORMATS (SNDRV_PCM_FMTBIT_S16_LE |\
++			 SNDRV_PCM_FMTBIT_S32_LE)
++
++static struct snd_soc_dai_driver an7581_memif_dai_driver[] = {
++	/* FE DAIs: memory intefaces to CPU */
++	{
++		.name = "DL1",
++		.id = AN7581_MEMIF_DL1,
++		.playback = {
++			.stream_name = "DL1",
++			.channels_min = 1,
++			.channels_max = 8,
++			.rates = SNDRV_PCM_RATE_8000_192000,
++			.formats = ARH_PCM_FORMATS,
++		},
++		.ops = &an7581_afe_fe_ops,
++	},
++	{
++		.name = "UL1",
++		.id = AN7581_MEMIF_UL1,
++		.capture = {
++			.stream_name = "UL1",
++			.channels_min = 1,
++			.channels_max = 8,
++			.rates = SNDRV_PCM_RATE_8000_192000,
++			.formats = ARH_PCM_FORMATS,
++		},
++		.ops = &an7581_afe_fe_ops,
++	},
++};
++
++static const struct snd_soc_dapm_widget an7581_memif_widgets[] = {
++	/* DL */
++	SND_SOC_DAPM_MIXER("I032", SND_SOC_NOPM, 0, 0, NULL, 0),
++	SND_SOC_DAPM_MIXER("I033", SND_SOC_NOPM, 0, 0, NULL, 0),
++
++	/* UL */
++	SND_SOC_DAPM_MIXER("O018", SND_SOC_NOPM, 0, 0, NULL, 0),
++	SND_SOC_DAPM_MIXER("O019", SND_SOC_NOPM, 0, 0, NULL, 0),
++};
++
++static const struct snd_soc_dapm_route an7581_memif_routes[] = {
++	{"I032", NULL, "DL1"},
++	{"I033", NULL, "DL1"},
++	{"UL1", NULL, "O018"},
++	{"UL1", NULL, "O019"},
++	{"O018", NULL, "I150"},
++	{"O019", NULL, "I151"},
++};
++
++static const struct snd_soc_component_driver an7581_afe_pcm_dai_component = {
++	.name = "an7581-afe-pcm-dai",
++};
++
++static const struct mtk_base_memif_data memif_data[AN7581_MEMIF_NUM] = {
++	[AN7581_MEMIF_DL1] = {
++		.name = "DL1",
++		.id = AN7581_MEMIF_DL1,
++		.reg_ofs_base = AFE_DL1_BASE,
++		.reg_ofs_cur = AFE_DL1_CUR,
++		.reg_ofs_end = AFE_DL1_END,
++		.fs_reg = -1,
++		.fs_shift = -1,
++		.fs_maskbit = -1,
++		.mono_reg = -1,
++		.mono_shift = -1,
++		.hd_reg = AFE_DL1_CON0,
++		.hd_shift = AFE_HD_SHIFT,
++		.hd_align_reg = -1,
++		.hd_align_mshift = -1,
++		.enable_reg = AFE_DAC_CON0,
++		.enable_shift = AFE_DL1_ENABLE_SHIFT,
++		.msb_reg = -1,
++		.msb_shift = -1,
++		.agent_disable_reg = -1,
++		.agent_disable_shift = -1,
++	},
++	[AN7581_MEMIF_UL1] = {
++		.name = "UL1",
++		.id = AN7581_MEMIF_UL1,
++		.reg_ofs_base = AFE_UL1_BASE,
++		.reg_ofs_cur = AFE_UL1_CUR,
++		.reg_ofs_end = AFE_UL1_END,
++		.fs_reg = -1,
++		.fs_shift = -1,
++		.fs_maskbit = -1,
++		.mono_reg = -1,
++		.mono_shift = -1,
++		.hd_reg = AFE_UL1_CON0,
++		.hd_shift = AFE_HD_SHIFT,
++		.hd_align_reg = AFE_UL1_CON0,
++		.hd_align_mshift = AFE_HD_ALIGN_SHIFT,
++		.enable_reg = AFE_DAC_CON0,
++		.enable_shift = AFE_UL1_ENABLE_SHIFT,
++		.msb_reg = -1,
++		.msb_shift = -1,
++		.agent_disable_reg = -1,
++		.agent_disable_shift = -1,
++	},
++};
++
++static struct mtk_base_irq_data irq_data[AN7581_IRQ_NUM] = {
++	[AN7581_IRQ_0] = {
++		.id = AN7581_IRQ_0,
++		.irq_cnt_reg = AFE_IRQ_CNT,
++		.irq_cnt_shift = AFE_IRQ_CNT_SHIFT,
++		.irq_cnt_maskbit = AFE_IRQ_CNT_MASK,
++		.irq_en_reg = AFE_IRQ_CON0,
++		.irq_en_shift = AFE_IRQ_ON_SHIFT,
++		.irq_fs_reg = -1,
++		.irq_fs_shift = -1,
++		.irq_fs_maskbit = -1,
++		.irq_clr_reg = -1,
++		.irq_clr_shift = -1,
++	},
++	[AN7581_IRQ_1] = {
++		.id = AN7581_IRQ_1,
++		.irq_cnt_reg = AFE_IRQ1_CNT,
++		.irq_cnt_shift = AFE_IRQ_CNT_SHIFT,
++		.irq_cnt_maskbit = AFE_IRQ_CNT_MASK,
++		.irq_en_reg = AFE_IRQ1_CON0,
++		.irq_en_shift = AFE_IRQ_ON_SHIFT,
++		.irq_fs_reg = -1,
++		.irq_fs_shift = -1,
++		.irq_fs_maskbit = -1,
++		.irq_clr_reg = -1,
++		.irq_clr_shift = -1,
++	},
++};
++
++static const struct regmap_config an7581_afe_regmap_config = {
++	.name = "afe",
++	.reg_bits = 32,
++	.reg_stride = 4,
++	.val_bits = 32,
++	.max_register = AFE_MAX_REGISTER,
++};
++
++static const struct regmap_config an7581_afe_irq1_regmap_config = {
++	.name = "afe_irq1",
++	.reg_bits = 32,
++	.reg_stride = 4,
++	.val_bits = 32,
++	.max_register = AFE_IRQ1_MAX_REGISTER,
++};
++
++static irqreturn_t an7581_afe_irq_handler(int irq_id, void *dev)
++{
++	const struct an7581_memif_irq_desc *irq_desc;
++	struct mtk_base_afe *afe = dev;
++	struct regmap *irq_regmap;
++	u32 clear_reg, status;
++	int substream, i;
++
++	regmap_read(afe->regmap, AFE_IRQ_STS, &status);
++	if (status & AFE_IRQ_STS_PLAY)
++		substream = AN7581_MEMIF_DL1;
++	else
++		substream = AN7581_MEMIF_UL1;
++
++	irq_desc = &an7581_memif_irq_descs[substream];
++	irq_regmap = irq_data[irq_desc->irq].regmap;
++	clear_reg = irq_desc->clear_reg;
++
++	for (i = 0; i < AN7581_MEMIF_NUM; i++) {
++		struct mtk_base_afe_memif *memif = &afe->memif[i];
++
++		if (!memif->substream)
++			continue;
++
++		if (memif->irq_usage < 0)
++			continue;
++
++		irq_desc = &an7581_memif_irq_descs[i];
++		if (status & irq_desc->status_bit)
++			snd_pcm_period_elapsed(memif->substream);
++	}
++
++	regmap_set_bits(irq_regmap, clear_reg,
++			BIT(AFE_IRQ_CLR_SHIFT));
++	regmap_clear_bits(irq_regmap, clear_reg,
++			  BIT(AFE_IRQ_CLR_SHIFT));
++
++	regmap_set_bits(irq_regmap, clear_reg,
++			BIT(AFE_IRQ_MISS_FLG_CLR_SHIFT));
++	regmap_clear_bits(irq_regmap, clear_reg,
++			  BIT(AFE_IRQ_MISS_FLG_CLR_SHIFT));
++
++	return IRQ_HANDLED;
++}
++
++static int an7581_dai_memif_register(struct mtk_base_afe *afe)
++{
++	struct mtk_base_afe_dai *dai;
++
++	dai = devm_kzalloc(afe->dev, sizeof(*dai), GFP_KERNEL);
++	if (!dai)
++		return -ENOMEM;
++
++	list_add(&dai->list, &afe->sub_dais);
++
++	dai->dai_drivers = an7581_memif_dai_driver;
++	dai->num_dai_drivers = ARRAY_SIZE(an7581_memif_dai_driver);
++
++	dai->dapm_widgets = an7581_memif_widgets;
++	dai->num_dapm_widgets = ARRAY_SIZE(an7581_memif_widgets);
++	dai->dapm_routes = an7581_memif_routes;
++	dai->num_dapm_routes = ARRAY_SIZE(an7581_memif_routes);
++
++	return 0;
++}
++
++typedef int (*dai_register_cb)(struct mtk_base_afe *);
++static const dai_register_cb dai_register_cbs[] = {
++	an7581_dai_etdm_register,
++	an7581_dai_memif_register,
++};
++
++static int an7581_afe_pcm_dev_probe(struct platform_device *pdev)
++{
++	struct an7581_afe_private *afe_priv;
++	struct reset_control *reset;
++	struct mtk_base_afe *afe;
++	struct device *dev;
++	int i, irq_id, ret;
++	void *base;
++
++	afe = devm_kzalloc(&pdev->dev, sizeof(*afe), GFP_KERNEL);
++	if (!afe)
++		return -ENOMEM;
++	platform_set_drvdata(pdev, afe);
++
++	afe->platform_priv = devm_kzalloc(&pdev->dev, sizeof(*afe_priv),
++					  GFP_KERNEL);
++	if (!afe->platform_priv)
++		return -ENOMEM;
++
++	afe_priv = afe->platform_priv;
++	atomic_set(&afe_priv->users, 0);
++	afe->dev = &pdev->dev;
++	dev = afe->dev;
++
++	reset = devm_reset_control_get_exclusive(dev, NULL);
++	if (IS_ERR(reset))
++		return PTR_ERR(reset);
++
++	/* Global reset I2S */
++	reset_control_assert(reset);
++	usleep_range(10, 20);
++	reset_control_deassert(reset);
++
++	afe->base_addr = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(afe->base_addr))
++		return PTR_ERR(afe->base_addr);
++
++	base = devm_platform_ioremap_resource(pdev, 1);
++	if (IS_ERR(base))
++		return PTR_ERR(base);
++
++	ret = devm_pm_runtime_enable(dev);
++	if (ret)
++		return ret;
++
++	afe->regmap = devm_regmap_init_mmio(&pdev->dev, afe->base_addr,
++					    &an7581_afe_regmap_config);
++	if (IS_ERR(afe->regmap))
++		return PTR_ERR(afe->regmap);
++
++	irq_data[AN7581_IRQ_0].regmap = afe->regmap;
++	irq_data[AN7581_IRQ_1].regmap = devm_regmap_init_mmio(&pdev->dev, base,
++							      &an7581_afe_irq1_regmap_config);
++	if (IS_ERR(irq_data[AN7581_IRQ_1].regmap))
++		return PTR_ERR(irq_data[AN7581_IRQ_1].regmap);
++
++	mutex_init(&afe->irq_alloc_lock);
++
++	/* irq initialize */
++	afe->irqs_size = AN7581_IRQ_NUM;
++	afe->irqs = devm_kcalloc(dev, afe->irqs_size, sizeof(*afe->irqs),
++				 GFP_KERNEL);
++	if (!afe->irqs)
++		return -ENOMEM;
++
++	for (i = 0; i < afe->irqs_size; i++)
++		afe->irqs[i].irq_data = &irq_data[i];
++
++	/* request irq */
++	irq_id = platform_get_irq(pdev, 0);
++	if (irq_id < 0)
++		return irq_id;
++
++	ret = devm_request_irq(dev, irq_id, an7581_afe_irq_handler,
++			       IRQF_TRIGGER_NONE, "asys-isr", (void *)afe);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to request irq for asys-isr\n");
++
++	/* init memif */
++	afe->memif_size = AN7581_MEMIF_NUM;
++	afe->memif = devm_kcalloc(dev, afe->memif_size, sizeof(*afe->memif),
++				  GFP_KERNEL);
++	if (!afe->memif)
++		return -ENOMEM;
++
++	for (i = 0; i < afe->memif_size; i++) {
++		int sel_irq = an7581_memif_irq_descs[i].irq;
++
++		afe->memif[i].data = &memif_data[i];
++		afe->memif[i].irq_usage = sel_irq;
++		afe->memif[i].const_irq = 1;
++		afe->irqs[sel_irq].irq_occupyed = true;
++	}
++
++	/* init sub_dais */
++	INIT_LIST_HEAD(&afe->sub_dais);
++
++	for (i = 0; i < ARRAY_SIZE(dai_register_cbs); i++) {
++		ret = dai_register_cbs[i](afe);
++		if (ret)
++			return dev_err_probe(dev, ret, "DAI register failed, i: %d\n", i);
++	}
++
++	/* init dai_driver and component_driver */
++	ret = mtk_afe_combine_sub_dai(afe);
++	if (ret)
++		return dev_err_probe(dev, ret, "mtk_afe_combine_sub_dai fail\n");
++
++	afe->mtk_afe_hardware = &an7581_afe_hardware;
++	afe->memif_fs = an7581_memif_fs;
++	afe->irq_fs = an7581_irq_fs;
++
++	/* register component */
++	ret = devm_snd_soc_register_component(&pdev->dev,
++					      &mtk_afe_pcm_platform,
++					      NULL, 0);
++	if (ret)
++		return dev_err_probe(dev, ret, "Cannot register AFE component\n");
++
++	ret = devm_snd_soc_register_component(afe->dev,
++					      &an7581_afe_pcm_dai_component,
++					      afe->dai_drivers,
++					      afe->num_dai_drivers);
++	if (ret)
++		return dev_err_probe(dev, ret, "Cannot register PCM DAI component\n");
++
++	return 0;
++}
++
++static const struct of_device_id an7581_afe_pcm_dt_match[] = {
++	{ .compatible = "airoha,an7581-afe" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, an7581_afe_pcm_dt_match);
++
++static struct platform_driver an7581_afe_pcm_driver = {
++	.driver = {
++		   .name = "an7581-audio",
++		   .of_match_table = an7581_afe_pcm_dt_match,
++	},
++	.probe = an7581_afe_pcm_dev_probe,
++};
++module_platform_driver(an7581_afe_pcm_driver);
++
++MODULE_DESCRIPTION("Airoha SoC AFE platform driver for ALSA AN7581");
++MODULE_LICENSE("GPL");
+diff --git a/sound/soc/mediatek/an7581/an7581-dai-etdm.c b/sound/soc/mediatek/an7581/an7581-dai-etdm.c
+new file mode 100644
+index 000000000000..1022bedea991
+--- /dev/null
++++ b/sound/soc/mediatek/an7581/an7581-dai-etdm.c
+@@ -0,0 +1,453 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Airoha ALSA SoC Audio DAI eTDM Control
++ *
++ */
++
++#include <linux/bitfield.h>
++#include <linux/bitops.h>
++#include <linux/regmap.h>
++#include <sound/pcm_params.h>
++#include "an7581-afe-common.h"
++#include "an7581-reg.h"
++
++#define HOPPING_CLK  0
++#define APLL_CLK     1
++#define MTK_DAI_ETDM_FORMAT_I2S   0
++#define MTK_DAI_ETDM_FORMAT_DSPA  4
++#define MTK_DAI_ETDM_FORMAT_DSPB  5
++
++enum {
++	MTK_ETDM_RATE_8K = 0,
++	MTK_ETDM_RATE_12K = 1,
++	MTK_ETDM_RATE_16K = 2,
++	MTK_ETDM_RATE_24K = 3,
++	MTK_ETDM_RATE_32K = 4,
++	MTK_ETDM_RATE_48K = 5,
++	MTK_ETDM_RATE_96K = 6,
++	MTK_ETDM_RATE_192K = 7,
++	MTK_ETDM_RATE_384K = 8,
++	MTK_ETDM_RATE_7K = 16,
++	MTK_ETDM_RATE_11K = 17,
++	MTK_ETDM_RATE_14K = 18,
++	MTK_ETDM_RATE_22K = 19,
++	MTK_ETDM_RATE_29K = 20,
++	MTK_ETDM_RATE_44K = 21,
++	MTK_ETDM_RATE_88K = 22,
++	MTK_ETDM_RATE_176K = 23,
++	MTK_ETDM_RATE_352K = 24,
++};
++
++struct mtk_dai_etdm_priv {
++	bool bck_inv;
++	bool lrck_inv;
++	bool slave_mode;
++	unsigned int format;
++};
++
++static unsigned int an7581_etdm_rate_transform(struct device *dev, unsigned int rate)
++{
++	switch (rate) {
++	case 7350:
++		return MTK_ETDM_RATE_7K;
++	case 8000:
++		return MTK_ETDM_RATE_8K;
++	case 11025:
++		return MTK_ETDM_RATE_11K;
++	case 12000:
++		return MTK_ETDM_RATE_12K;
++	case 14700:
++		return MTK_ETDM_RATE_14K;
++	case 16000:
++		return MTK_ETDM_RATE_16K;
++	case 22050:
++		return MTK_ETDM_RATE_22K;
++	case 24000:
++		return MTK_ETDM_RATE_24K;
++	case 29400:
++		return MTK_ETDM_RATE_29K;
++	case 32000:
++		return MTK_ETDM_RATE_32K;
++	case 44100:
++		return MTK_ETDM_RATE_44K;
++	case 48000:
++		return MTK_ETDM_RATE_48K;
++	case 88200:
++		return MTK_ETDM_RATE_88K;
++	case 96000:
++		return MTK_ETDM_RATE_96K;
++	case 176400:
++		return MTK_ETDM_RATE_176K;
++	case 192000:
++		return MTK_ETDM_RATE_192K;
++	case 352800:
++		return MTK_ETDM_RATE_352K;
++	case 384000:
++		return MTK_ETDM_RATE_384K;
++	default:
++		dev_warn(dev, "%s(), rate %u invalid, using %d!!!\n",
++			 __func__, rate, MTK_ETDM_RATE_48K);
++		return MTK_ETDM_RATE_48K;
++	}
++}
++
++static int get_etdm_wlen(unsigned int bitwidth)
++{
++	return bitwidth <= 16 ? 16 : 32;
++}
++
++static const struct snd_soc_dapm_widget mtk_dai_etdm_widgets[] = {
++	/* DL */
++	SND_SOC_DAPM_MIXER("I150", SND_SOC_NOPM, 0, 0, NULL, 0),
++	SND_SOC_DAPM_MIXER("I151", SND_SOC_NOPM, 0, 0, NULL, 0),
++
++	/* UL */
++	SND_SOC_DAPM_MIXER("O124", SND_SOC_NOPM, 0, 0, NULL, 0),
++	SND_SOC_DAPM_MIXER("O125", SND_SOC_NOPM, 0, 0, NULL, 0),
++};
++
++static const struct snd_soc_dapm_route mtk_dai_etdm_routes[] = {
++	{"I150", NULL, "ETDM Capture"},
++	{"I151", NULL, "ETDM Capture"},
++	{"ETDM Playback", NULL, "O124"},
++	{"ETDM Playback", NULL, "O125"},
++	{"O124", NULL, "I032"},
++	{"O125", NULL, "I033"},
++};
++
++/* dai ops */
++static int mtk_dai_etdm_startup(struct snd_pcm_substream *substream,
++				struct snd_soc_dai *dai)
++{
++	struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
++	struct an7581_afe_private *afe_priv = afe->platform_priv;
++
++	regmap_set_bits(afe->regmap, AFE_DAC_CON0,
++			BIT(AFE_AFE_ENABLE_SHIFT));
++
++	atomic_inc(&afe_priv->users);
++
++	return 0;
++}
++
++static void mtk_dai_etdm_shutdown(struct snd_pcm_substream *substream,
++				  struct snd_soc_dai *dai)
++{
++	struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
++	struct an7581_afe_private *afe_priv = afe->platform_priv;
++
++	if (atomic_dec_and_test(&afe_priv->users))
++		regmap_clear_bits(afe->regmap, AFE_DAC_CON0,
++				  BIT(AFE_AFE_ENABLE_SHIFT));
++}
++
++static unsigned int get_etdm_ch_fixup(unsigned int channels)
++{
++	if (channels > 16)
++		return 24;
++	else if (channels > 8)
++		return 16;
++	else if (channels > 4)
++		return 8;
++	else if (channels > 2)
++		return 4;
++	else
++		return 2;
++}
++
++static int mtk_dai_etdm_config(struct mtk_base_afe *afe,
++			       struct snd_pcm_hw_params *params,
++			       struct snd_soc_dai *dai,
++			       int stream)
++{
++	struct an7581_afe_private *afe_priv = afe->platform_priv;
++	struct mtk_dai_etdm_priv *etdm_data = afe_priv->dai_priv[dai->id];
++	unsigned int rate = params_rate(params);
++	unsigned int etdm_rate = an7581_etdm_rate_transform(afe->dev, rate);
++	unsigned int channels = params_channels(params);
++	unsigned int bit_width = params_width(params);
++	unsigned int wlen = get_etdm_wlen(bit_width);
++	unsigned int val = 0, val1 = 0;
++	unsigned int mask = 0, mask1 = 0;
++
++	dev_dbg(afe->dev, "%s(), stream %d, rate %u, bitwidth %u\n",
++		__func__, stream, rate, bit_width);
++
++	/* CON0 */
++	mask |= ETDM_SLAVE_MODE;
++	if (etdm_data->slave_mode)
++		val |= ETDM_SLAVE_MODE;
++	mask |= ETDM_BIT_LEN;
++	val |= FIELD_PREP(ETDM_BIT_LEN, bit_width - 1);
++	mask |= ETDM_WRD_LEN;
++	val |= FIELD_PREP(ETDM_WRD_LEN, wlen - 1);
++	mask |= ETDM_FMT;
++	val |= FIELD_PREP(ETDM_FMT, etdm_data->format);
++	mask |= ETDM_CH_NUM;
++	val |= FIELD_PREP(ETDM_CH_NUM, get_etdm_ch_fixup(channels) - 1);
++
++	/* CON1 */
++	mask1 |= EDTM_LRCK_AUTO_MODE;
++	val1 |= EDTM_LRCK_AUTO_MODE;
++	mask1 |= EDTM_CKEN_SEL;
++	val1 |= EDTM_CKEN_SEL;
++	mask1 |= EDTM_LRCK_AUTO_OFF;
++	val1 |= EDTM_LRCK_AUTO_OFF;
++	mask1 |= EDTM_INITIAL_POINT;
++	val1 |= FIELD_PREP(EDTM_INITIAL_POINT, 14);
++	mask1 |= EDTM_INITIAL_COUNT;
++	val1 |= FIELD_PREP(EDTM_INITIAL_COUNT, 14);
++
++	switch (stream) {
++	case SNDRV_PCM_STREAM_PLAYBACK:
++		/* set ETDM_OUT1_CON0 */
++		regmap_update_bits(afe->regmap, ETDM_OUT1_CON0, mask, val);
++
++		mask1 |= EDTM_DIRECT_INPUT_MASTER_BCK;
++		val1 |= EDTM_DIRECT_INPUT_MASTER_BCK;
++
++		/* set ETDM_OUT1_CON1 */
++		regmap_update_bits(afe->regmap, ETDM_OUT1_CON1, mask1, val1);
++
++		/* set ETDM_OUT1_CON4 */
++		regmap_update_bits(afe->regmap, ETDM_OUT1_CON4, OUT_SEL_FS,
++				   FIELD_PREP(OUT_SEL_FS, etdm_rate));
++
++		regmap_update_bits(afe->irqs[AN7581_IRQ_0].irq_data->regmap,
++				   afe->irqs[AN7581_IRQ_0].irq_data->irq_en_reg,
++				   AFE_IRQ_EN_SEL, AFE_IRQ_EN_SEL_I2SOUT);
++		break;
++	case SNDRV_PCM_STREAM_CAPTURE:
++		/* set ETDM_IN1_CON0 */
++		regmap_update_bits(afe->regmap, ETDM_IN1_CON0, mask, val);
++
++		/* set ETDM_IN1_CON1 */
++		regmap_update_bits(afe->regmap, ETDM_IN1_CON1, mask1, val1);
++
++		/* set ETDM_IN1_CON3 */
++		regmap_update_bits(afe->regmap, ETDM_IN1_CON3, IN_SEL_FS,
++				   FIELD_PREP(IN_SEL_FS, etdm_rate));
++
++		regmap_update_bits(afe->irqs[AN7581_IRQ_1].irq_data->regmap,
++				   afe->irqs[AN7581_IRQ_1].irq_data->irq_en_reg,
++				   AFE_IRQ_EN_SEL, AFE_IRQ_EN_SEL_I2SIN);
++		break;
++	default:
++		break;
++	}
++
++	return 0;
++}
++
++static int mtk_dai_etdm_hw_params(struct snd_pcm_substream *substream,
++				  struct snd_pcm_hw_params *params,
++				  struct snd_soc_dai *dai)
++{
++	unsigned int rate = params_rate(params);
++	struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
++
++	regmap_update_bits(afe->regmap, ETDM_COWORK_CON0,
++			   EDTM_IN1_SLAVE_SEL,
++			   EDTM_IN1_SLAVE_FROM_ETDMIN1_SLAVE);
++	regmap_update_bits(afe->regmap, ETDM_COWORK_CON0,
++			   EDTM_OUT1_SLAVE_SEL,
++			   EDTM_OUT1_SLAVE_FROM_ETDMOUT1_SLAVE);
++	regmap_update_bits(afe->regmap, ETDM_COWORK_CON1,
++			   EDTM_IN1_SDATA0_SEL,
++			   EDTM_IN1_SDATA0_FROM_PAD);
++
++	switch (rate) {
++	case 7350:
++	case 8000:
++	case 11025:
++	case 12000:
++	case 14700:
++	case 16000:
++	case 22050:
++	case 24000:
++	case 29400:
++	case 32000:
++	case 44100:
++	case 48000:
++	case 88200:
++	case 96000:
++	case 176400:
++	case 192000:
++	case 352800:
++	case 384000:
++		mtk_dai_etdm_config(afe, params, dai, substream->stream);
++		return 0;
++	default:
++		dev_err(afe->dev,
++			"Sample rate %d invalid\n",
++			rate);
++		return -EINVAL;
++	}
++}
++
++static int mtk_dai_etdm_trigger(struct snd_pcm_substream *substream, int cmd,
++				struct snd_soc_dai *dai)
++{
++	struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
++
++	dev_dbg(afe->dev, "%s(), cmd %d, dai id %d\n", __func__, cmd, dai->id);
++	switch (cmd) {
++	case SNDRV_PCM_TRIGGER_START:
++	case SNDRV_PCM_TRIGGER_RESUME:
++		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
++			regmap_set_bits(afe->regmap, ETDM_OUT1_CON0,
++					ETDM_OUT_EN);
++
++		if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
++			regmap_set_bits(afe->regmap, ETDM_IN1_CON0,
++					ETDM_IN_EN);
++
++		break;
++	case SNDRV_PCM_TRIGGER_STOP:
++	case SNDRV_PCM_TRIGGER_SUSPEND:
++		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
++			regmap_clear_bits(afe->regmap, ETDM_OUT1_CON0,
++					  ETDM_OUT_EN);
++
++		if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
++			regmap_clear_bits(afe->regmap, ETDM_IN1_CON0,
++					  ETDM_IN_EN);
++
++		break;
++	default:
++		break;
++	}
++
++	return 0;
++}
++
++static int mtk_dai_etdm_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
++{
++	struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
++	struct an7581_afe_private *afe_priv = afe->platform_priv;
++	struct mtk_dai_etdm_priv *etdm_data;
++	void *priv_data;
++
++	switch (dai->id) {
++	case AN7581_DAI_ETDM:
++		break;
++	default:
++		dev_warn(afe->dev, "%s(), id %d not support\n",
++			 __func__, dai->id);
++		return -EINVAL;
++	}
++
++	priv_data = devm_kzalloc(afe->dev, sizeof(struct mtk_dai_etdm_priv),
++				 GFP_KERNEL);
++	if (!priv_data)
++		return -ENOMEM;
++
++	afe_priv->dai_priv[dai->id] = priv_data;
++	etdm_data = afe_priv->dai_priv[dai->id];
++
++	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
++	case SND_SOC_DAIFMT_I2S:
++		etdm_data->format = MTK_DAI_ETDM_FORMAT_I2S;
++		break;
++	case SND_SOC_DAIFMT_DSP_A:
++		etdm_data->format = MTK_DAI_ETDM_FORMAT_DSPA;
++		break;
++	case SND_SOC_DAIFMT_DSP_B:
++		etdm_data->format = MTK_DAI_ETDM_FORMAT_DSPB;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
++	case SND_SOC_DAIFMT_NB_NF:
++		etdm_data->bck_inv = false;
++		etdm_data->lrck_inv = false;
++		break;
++	case SND_SOC_DAIFMT_NB_IF:
++		etdm_data->bck_inv = false;
++		etdm_data->lrck_inv = true;
++		break;
++	case SND_SOC_DAIFMT_IB_NF:
++		etdm_data->bck_inv = true;
++		etdm_data->lrck_inv = false;
++		break;
++	case SND_SOC_DAIFMT_IB_IF:
++		etdm_data->bck_inv = true;
++		etdm_data->lrck_inv = true;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
++	case SND_SOC_DAIFMT_BP_FP:
++		etdm_data->slave_mode = false;
++		break;
++	case SND_SOC_DAIFMT_BC_FC:
++		etdm_data->slave_mode = true;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static const struct snd_soc_dai_ops mtk_dai_etdm_ops = {
++	.startup = mtk_dai_etdm_startup,
++	.shutdown = mtk_dai_etdm_shutdown,
++	.hw_params = mtk_dai_etdm_hw_params,
++	.trigger = mtk_dai_etdm_trigger,
++	.set_fmt = mtk_dai_etdm_set_fmt,
++};
++
++/* dai driver */
++#define MTK_ETDM_FORMATS (SNDRV_PCM_FMTBIT_S16_LE |\
++			  SNDRV_PCM_FMTBIT_S24_LE |\
++			  SNDRV_PCM_FMTBIT_S32_LE)
++
++static struct snd_soc_dai_driver mtk_dai_etdm_driver[] = {
++	{
++		.name = "ETDM",
++		.id = AN7581_DAI_ETDM,
++		.capture = {
++			.stream_name = "ETDM Capture",
++			.channels_min = 1,
++			.channels_max = 8,
++			.rates = SNDRV_PCM_RATE_8000_192000,
++			.formats = MTK_ETDM_FORMATS,
++		},
++		.playback = {
++			.stream_name = "ETDM Playback",
++			.channels_min = 1,
++			.channels_max = 8,
++			.rates = SNDRV_PCM_RATE_8000_192000,
++			.formats = MTK_ETDM_FORMATS,
++		},
++		.ops = &mtk_dai_etdm_ops,
++		.symmetric_rate = 1,
++		.symmetric_sample_bits = 1,
++	},
++};
++
++int an7581_dai_etdm_register(struct mtk_base_afe *afe)
++{
++	struct mtk_base_afe_dai *dai;
++
++	dai = devm_kzalloc(afe->dev, sizeof(*dai), GFP_KERNEL);
++	if (!dai)
++		return -ENOMEM;
++
++	list_add(&dai->list, &afe->sub_dais);
++
++	dai->dai_drivers = mtk_dai_etdm_driver;
++	dai->num_dai_drivers = ARRAY_SIZE(mtk_dai_etdm_driver);
++
++	dai->dapm_widgets = mtk_dai_etdm_widgets;
++	dai->num_dapm_widgets = ARRAY_SIZE(mtk_dai_etdm_widgets);
++	dai->dapm_routes = mtk_dai_etdm_routes;
++	dai->num_dapm_routes = ARRAY_SIZE(mtk_dai_etdm_routes);
++
++	return 0;
++}
+diff --git a/sound/soc/mediatek/an7581/an7581-reg.h b/sound/soc/mediatek/an7581/an7581-reg.h
+new file mode 100644
+index 000000000000..a6ada3ca97ab
+--- /dev/null
++++ b/sound/soc/mediatek/an7581/an7581-reg.h
+@@ -0,0 +1,114 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * an7581-reg.h  --  Airoha AN7581 audio driver reg definition
++ */
++
++#ifndef _AN7581_REG_H_
++#define _AN7581_REG_H_
++
++#define AFE_DAC_CON0			0x0
++#define   AFE_DL1_ENABLE_SHIFT		17
++#define   AFE_UL1_ENABLE_SHIFT		1
++#define   AFE_AFE_ENABLE_SHIFT		0
++
++#define ETDM_COWORK_CON0		0x4c
++#define   EDTM_IN1_SLAVE_SEL		GENMASK(27, 24)
++#define     EDTM_IN1_SLAVE_FROM_ETDMIN1_SLAVE FIELD_PREP_CONST(EDTM_IN1_SLAVE_SEL, 0x1)
++#define     EDTM_IN1_SLAVE_FROM_ETDMIN2_MASTER FIELD_PREP_CONST(EDTM_IN1_SLAVE_SEL, 0x2)
++#define     EDTM_IN1_SLAVE_FROM_ETDMIN2_SLAVE FIELD_PREP_CONST(EDTM_IN1_SLAVE_SEL, 0x3)
++#define     EDTM_IN1_SLAVE_FROM_ETDMOUT1_MASTER FIELD_PREP_CONST(EDTM_IN1_SLAVE_SEL, 0x8)
++#define     EDTM_IN1_SLAVE_FROM_ETDMOUT1_SLAVE FIELD_PREP_CONST(EDTM_IN1_SLAVE_SEL, 0x9)
++#define     EDTM_IN1_SLAVE_FROM_ETDMOUT2_MASTER FIELD_PREP_CONST(EDTM_IN1_SLAVE_SEL, 0xa)
++#define     EDTM_IN1_SLAVE_FROM_ETDMOUT2_SLAVE FIELD_PREP_CONST(EDTM_IN1_SLAVE_SEL, 0xb)
++#define   EDTM_OUT1_SLAVE_SEL		GENMASK(11, 8)
++#define     EDTM_OUT1_SLAVE_FROM_ETDMIN1_MASTER FIELD_PREP_CONST(EDTM_OUT1_SLAVE_SEL, 0x0)
++#define     EDTM_OUT1_SLAVE_FROM_ETDMIN1_SLAVE FIELD_PREP_CONST(EDTM_OUT1_SLAVE_SEL, 0x1)
++#define     EDTM_OUT1_SLAVE_FROM_ETDMIN2_MASTER FIELD_PREP_CONST(EDTM_OUT1_SLAVE_SEL, 0x2)
++#define     EDTM_OUT1_SLAVE_FROM_ETDMIN2_SLAVE FIELD_PREP_CONST(EDTM_OUT1_SLAVE_SEL, 0x3)
++#define     EDTM_OUT1_SLAVE_FROM_ETDMOUT1_SLAVE FIELD_PREP_CONST(EDTM_OUT1_SLAVE_SEL, 0x9)
++#define     EDTM_OUT1_SLAVE_FROM_ETDMOUT2_MASTER FIELD_PREP_CONST(EDTM_OUT1_SLAVE_SEL, 0xa)
++#define     EDTM_OUT1_SLAVE_FROM_ETDMOUT2_SLAVE FIELD_PREP_CONST(EDTM_OUT1_SLAVE_SEL, 0xb)
++#define ETDM_COWORK_CON1		0x50
++#define   EDTM_IN1_SDATA0_SEL		GENMASK(3, 0)
++#define     EDTM_IN1_SDATA0_FROM_PAD FIELD_PREP_CONST(EDTM_IN1_SDATA0_SEL, 0x0)
++#define     EDTM_IN1_SDATA0_FROM_ETDMIN2 FIELD_PREP_CONST(EDTM_IN1_SDATA0_SEL, 0x2)
++#define     EDTM_IN1_SDATA0_FROM_ETDMOUT1 FIELD_PREP_CONST(EDTM_IN1_SDATA0_SEL, 0x8)
++#define     EDTM_IN1_SDATA0_FROM_ETDMOUT2 FIELD_PREP_CONST(EDTM_IN1_SDATA0_SEL, 0xa)
++#define ETDM_IN1_CON0			0x5c
++#define   ETDM_CH_NUM			GENMASK(26, 23)
++#define   ETDM_WRD_LEN			GENMASK(20, 16)
++#define   ETDM_BIT_LEN			GENMASK(15, 11)
++#define   ETDM_FMT			GENMASK(8, 6)
++#define   ETDM_SLAVE_MODE		BIT(5)
++#define   ETDM_IN_EN			BIT(0)
++#define ETDM_IN1_CON1			0x60
++#define   EDTM_LRCK_AUTO_MODE		BIT(29)
++#define   EDTM_DIRECT_INPUT_MASTER_BCK	BIT(30)
++#define   EDTM_CKEN_SEL			BIT(12)
++#define   EDTM_LRCK_AUTO_OFF		BIT(10)
++#define   EDTM_INITIAL_POINT		GENMASK(9, 5)
++#define   EDTM_INITIAL_COUNT		GENMASK(4, 0)
++#define ETDM_IN1_CON2			0x64
++#define   IN_CLK_SRC			GENMASK(12, 10)
++#define ETDM_IN1_CON3			0x68
++#define   IN_SEL_FS			GENMASK(30, 26)
++#define ETDM_IN1_CON4			0x6c
++#define   IN_RELATCH			GENMASK(24, 20)
++#define   IN_CLK_INV			BIT(18)
++#define ETDM_IN1_CON5			0x70
++#define ETDM_IN1_CON6			0x74
++#define ETDM_OUT1_CON0			0x7c
++#define   ETDM_SYNC_MODE		BIT(1)
++#define   ETDM_OUT_EN			BIT(0)
++#define ETDM_OUT1_CON1			0x80
++#define ETDM_OUT1_CON2			0x84
++#define ETDM_OUT1_CON3			0x88
++#define ETDM_OUT1_CON4			0x8c
++#define   OUT_RELATCH			GENMASK(28, 24)
++#define   OUT_CLK_SRC			GENMASK(8, 6)
++#define   OUT_SEL_FS			GENMASK(4, 0)
++#define ETDM_OUT1_CON5			0x90
++#define   ETDM_CLK_DIV			BIT(12)
++#define   OUT_CLK_INV			BIT(9)
++#define ETDM_OUT1_CON6			0x94
++#define ETDM_OUT1_CON7			0x98
++
++#define AFE_DL1_BASE			0xa8
++#define AFE_DL1_END			0xb0
++#define AFE_DL1_CUR			0xac
++#define AFE_DL1_CON0			0xb4
++#define   AFE_PBUF_SIZE_SHIFT		16
++#define   AFE_PBUF_SIZE_MASK		GENMASK(1, 0)
++#define   AFE_MINLEN_SHIFT		8
++#define   AFE_MINLEN_MASK		GENMASK(3, 0)
++#define   AFE_HD_SHIFT			5
++
++#define AFE_UL1_BASE			0xc4
++#define AFE_UL1_END			0xc8
++#define AFE_UL1_CUR			0xcc
++#define AFE_UL1_CON0			0xd0
++#define   AFE_HD_ALIGN_SHIFT		6
++
++#define AFE_IRQ_CON0			0xe4
++#define   AFE_IRQ_EN_SEL		BIT(4)
++#define   AFE_IRQ_EN_SEL_I2SIN		FIELD_PREP_CONST(AFE_IRQ_EN_SEL, 0x0)
++#define   AFE_IRQ_EN_SEL_I2SOUT		FIELD_PREP_CONST(AFE_IRQ_EN_SEL, 0x1)
++#define   AFE_IRQ_MISS_FLG_CLR_SHIFT	3
++#define   AFE_IRQ_CLR_SHIFT		2
++#define   AFE_IRQ_ON_SHIFT		0
++#define AFE_IRQ_CNT			0xe8
++#define   AFE_IRQ_CNT_SHIFT		0
++#define   AFE_IRQ_CNT_MASK		GENMASK(31, 0)
++
++#define AFE_IRQ_STS			0xf8
++#define  AFE_IRQ_STS_PLAY		BIT(1)
++#define  AFE_IRQ_STS_RECORD		BIT(0)
++
++#define AFE_MAX_REGISTER		AFE_IRQ_STS
++
++#define AFE_IRQ1_CON0			0x0
++#define AFE_IRQ1_CNT			0x4
++
++#define AFE_IRQ1_MAX_REGISTER		AFE_IRQ1_CNT
++
++#endif
+diff --git a/sound/soc/mediatek/an7581/an7581-wm8960.c b/sound/soc/mediatek/an7581/an7581-wm8960.c
+new file mode 100644
+index 000000000000..4e60e112018c
+--- /dev/null
++++ b/sound/soc/mediatek/an7581/an7581-wm8960.c
+@@ -0,0 +1,156 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Airoha ALSA SoC I2S platform driver for AN7581
++ *
++ */
++
++#include <linux/module.h>
++#include <sound/soc.h>
++
++#include "an7581-afe-common.h"
++
++SND_SOC_DAILINK_DEFS(playback,
++		     DAILINK_COMP_ARRAY(COMP_CPU("DL1")),
++		     DAILINK_COMP_ARRAY(COMP_DUMMY()),
++		     DAILINK_COMP_ARRAY(COMP_EMPTY()));
++
++SND_SOC_DAILINK_DEFS(capture,
++		     DAILINK_COMP_ARRAY(COMP_CPU("UL1")),
++		     DAILINK_COMP_ARRAY(COMP_DUMMY()),
++		     DAILINK_COMP_ARRAY(COMP_EMPTY()));
++
++SND_SOC_DAILINK_DEFS(codec,
++		     DAILINK_COMP_ARRAY(COMP_CPU("ETDM")),
++		     DAILINK_COMP_ARRAY(COMP_CODEC(NULL, "wm8960-hifi")),
++		     DAILINK_COMP_ARRAY(COMP_EMPTY()));
++
++static struct snd_soc_dai_link an7581_wm8960_dai_links[] = {
++	/* FE */
++	{
++		.name = "wm8960-playback",
++		.stream_name = "wm8960-playback",
++		.trigger = {SND_SOC_DPCM_TRIGGER_POST,
++			    SND_SOC_DPCM_TRIGGER_POST},
++		.dynamic = 1,
++		.playback_only = 1,
++		SND_SOC_DAILINK_REG(playback),
++	},
++	{
++		.name = "wm8960-capture",
++		.stream_name = "wm8960-capture",
++		.trigger = {SND_SOC_DPCM_TRIGGER_POST,
++			    SND_SOC_DPCM_TRIGGER_POST},
++		.dynamic = 1,
++		.capture_only = 1,
++		SND_SOC_DAILINK_REG(capture),
++	},
++	/* BE */
++	{
++		.name = "wm8960-codec",
++		.no_pcm = 1,
++		.dai_fmt = SND_SOC_DAIFMT_I2S |
++			SND_SOC_DAIFMT_NB_NF |
++			SND_SOC_DAIFMT_CBP_CFP |
++			SND_SOC_DAIFMT_GATED,
++		SND_SOC_DAILINK_REG(codec),
++	},
++};
++
++static struct snd_soc_card an7581_wm8960_card = {
++	.name = "an7581-wm8960",
++	.owner = THIS_MODULE,
++	.dai_link = an7581_wm8960_dai_links,
++	.num_links = ARRAY_SIZE(an7581_wm8960_dai_links),
++};
++
++static int an7581_wm8960_machine_probe(struct platform_device *pdev)
++{
++	struct device_node *platform_dai_node, *codec_dai_node;
++	struct snd_soc_card *card = &an7581_wm8960_card;
++	struct device_node *platform, *codec;
++	struct snd_soc_dai_link *dai_link;
++	int ret, i;
++
++	card->dev = &pdev->dev;
++
++	platform = of_get_child_by_name(pdev->dev.of_node, "platform");
++
++	if (platform) {
++		platform_dai_node = of_parse_phandle(platform, "sound-dai", 0);
++		of_node_put(platform);
++
++		if (!platform_dai_node) {
++			dev_err(&pdev->dev, "Failed to parse platform/sound-dai property\n");
++			return -EINVAL;
++		}
++	} else {
++		dev_err(&pdev->dev, "Property 'platform' missing or invalid\n");
++		return -EINVAL;
++	}
++
++	for_each_card_prelinks(card, i, dai_link) {
++		if (dai_link->platforms->name)
++			continue;
++		dai_link->platforms->of_node = platform_dai_node;
++	}
++
++	codec = of_get_child_by_name(pdev->dev.of_node, "codec");
++
++	if (codec) {
++		codec_dai_node = of_parse_phandle(codec, "sound-dai", 0);
++		of_node_put(codec);
++
++		if (!codec_dai_node) {
++			of_node_put(platform_dai_node);
++			dev_err(&pdev->dev, "Failed to parse codec/sound-dai property\n");
++			return -EINVAL;
++		}
++	} else {
++		of_node_put(platform_dai_node);
++		dev_err(&pdev->dev, "Property 'codec' missing or invalid\n");
++		return -EINVAL;
++	}
++
++	for_each_card_prelinks(card, i, dai_link) {
++		if (dai_link->codecs->name)
++			continue;
++		dai_link->codecs->of_node = codec_dai_node;
++	}
++
++	ret = snd_soc_of_parse_audio_routing(card, "audio-routing");
++	if (ret) {
++		dev_err(&pdev->dev, "Failed to parse audio-routing: %d\n", ret);
++		goto err_of_node_put;
++	}
++
++	ret = devm_snd_soc_register_card(&pdev->dev, card);
++	if (ret) {
++		dev_err_probe(&pdev->dev, ret, "%s snd_soc_register_card fail\n", __func__);
++		goto err_of_node_put;
++	}
++
++	return 0;
++
++err_of_node_put:
++	of_node_put(platform_dai_node);
++	of_node_put(codec_dai_node);
++	return ret;
++}
++
++static const struct of_device_id an7581_wm8960_machine_dt_match[] = {
++	{ .compatible = "airoha,an7581-wm8960-sound" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, an7581_wm8960_machine_dt_match);
++
++static struct platform_driver an7581_wm8960_driver = {
++	.driver = {
++		   .name = "an7581-wm8960",
++		   .of_match_table = an7581_wm8960_machine_dt_match,
++	},
++	.probe = an7581_wm8960_machine_probe,
++};
++module_platform_driver(an7581_wm8960_driver);
++
++MODULE_DESCRIPTION("Airoha SoC I2S platform driver for ALSA AN7581");
++MODULE_LICENSE("GPL");
 -- 
 2.53.0
 
