@@ -1,113 +1,251 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A0D13F0740;
-	Thu, 28 May 2026 13:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779974965; cv=pass; b=MEYiX+mwE6Q0LE8+rnXtYYw7qGUa3LEeJm9dSTR3h2McObKPoS81oOhGHrdm3f0BsZG1TyM+FDgnKqS8bGhVKeFrt2fffgLDstbDo5bzrcqtcgAFfLDghKVZaNESZJX/h0ch42/f0J/J8iV57iJ6ZoBrmQgKu2BfBU7xLTSbMto=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779974965; c=relaxed/simple;
-	bh=7qEK7ju3Omgrg8aAypHQk6Cbk0gZuRfZUcvvKJcACFA=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=IqFUl5JHJQgoJXrEUtzd37ReJeSqhFszr15boubLmu0RmcBQzk10cOXQ5ugcoy64NiwFbHQfyUmfBbw+UboneiFVyCTGklCxiop30t0wWTxaHvj3nASOicRRgpYUGIo6MVcgfrhviOoSeVALP6zYWlggWHY+ZH54lN4F/eyQrtQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=nAj+e7UB; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489CB3F39CC;
+	Thu, 28 May 2026 13:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779975547; cv=none; b=pt0YBOa1UNj/wbofkaGEdXG0Num3rQagvvDew7jaj8WKac55N0td2Xfm2oK3J9/sN0HLaXRK4qkFxeEH5fz3bPn/9wURDUHJODW0NMJ/92E86KhNEj/yXTycSYNWB7SKEp1xTFT0IDljKc/urEufBO9O/O8hFyg68PRvzEs+/vo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779975547; c=relaxed/simple;
+	bh=8VimZfc6SfHkqE9MtQ2K31Cu7iJ5TmTyB8noWfj13IU=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jLzgLAiL6TVjIXzFlmk3WRbyCPhJm0AsepTo8Y+VONz1k4m6GaknsoLLNm9NM6prqmqo6Eoz4YqzOFPsOpmXuslKN9VD75LJko8QpJW/Bj27rm4vI2eqWbqSfUs2j/oOXOobYsvfn3gt4pauvuvMOWrs3d4QiJgKvmcRRVsB/Xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=OyHJjKVw; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="nAj+e7UB"
-ARC-Seal: i=1; a=rsa-sha256; t=1779974945; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=RtNIp5pQ+N4uRz4sbdKqhMkiyRAh0GZeb5KzdeLEB4592t9KXZCeT3uGsU4/JJajw5kZT9x4sriFz7nqdN7FrKkfRestq+5qJdCG037fCw5e5wTxZQ+IIaPlu3fsNbqIrCVidKckQBffS5zkqzFvEEMGswZhOEVVATPYTrpezAk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1779974945; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=meLy9pmAiQkEggopsXqYM0yVHff10DZv32SxrejNWJE=; 
-	b=DS1Yt5L4rwnHtPxTIL1S8d/AjzpT7Cp6Jpai+ldhLyuCOkVSRaknPqlIB1TmHpOPGfjQmfihjd6ugExjUOJX5aQ8vtC5A0cTn4jnXsTBg/aME2X3YurlZl4qmCwz68/Tc5qh8yvOF9nSIfG+29uAOsAI76L/SvO5ohYenzme1pE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779974945;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=meLy9pmAiQkEggopsXqYM0yVHff10DZv32SxrejNWJE=;
-	b=nAj+e7UBC8m9KsXsA67ZpQ0G+P4Wr+yGaw5uG9KocDsQtEyLCq3sV/BrxzddgPjE
-	/UZ1yJIoR8dbEmFNrpDDypsVD/M7R93gryh7fju8GAXCsig0/YiFnuMu66eOBae0bqY
-	YGcbeWkMT2FfDGnIFF949slQ4UGtgPinNFNmqtkxfBy5s0Zii+UMkFIGlM831KKPntB
-	WcBQh+ZjJcpgexjhte0ekVJEg6jxcFFiqcWdjzvKpwELnvmBbrqw2J+BWnH5Bjf0xXV
-	uGJLHjDDwl/rx5Lpf7VyLwLNX4tBoMPg1Yo10zXrGIGPu69NTu3eK36m6PrwQCYm8Uc
-	15uyo4Ob/A==
-Received: by mx.zohomail.com with SMTPS id 1779974943588581.027273066147;
-	Thu, 28 May 2026 06:29:03 -0700 (PDT)
-Message-ID: <966fd55f52bb5e0bd1d16d3227b2e6695fa23f56.camel@rong.moe>
-Subject: Re: [PATCH v2 1/2] ALSA: usb-audio: Add
- QUIRK_FLAG_MIXER_GET_CUR_BROKEN
-From: Rong Zhang <i@rong.moe>
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="OyHJjKVw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1779975538; x=1780234738;
+	bh=0da8f7q6UGW5k5B/4ZyD2KzxrnUR3yNSjbTgkILUujw=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=OyHJjKVwnJVE1eCLjS00fS0W/mgqkvAkwQnap82hZKXmR/ZUcLNXYKBIurZG1FdGB
+	 tCGqq0hTzp4GqG3+1lrUEfOjXkUIs3Ogq3X8qpsCRdCuKpoFlcfeg04ELLHxYxdyxk
+	 /Kp9QBZ41vYXivmmkc/exD+SidaF7x+QD5gkts68P+aYG8h5KunQ1QiwWeYSahC9ds
+	 D3m7ANxzzwnb4UHzjEr9DnRmtSd0erCH24h6WjAf6fghlU1mMvxY1uFUWyOpsYCErk
+	 rmEu7Gi6piqza1ee7/qor1oxL1vSHmHXFvPtaQq4y6Ieo/ZWu4THOVnY37OPh90/4N
+	 DZLNuKGBypi/Q==
+Date: Thu, 28 May 2026 13:38:54 +0000
 To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet
-	 <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-In-Reply-To: <877boougfq.wl-tiwai@suse.de>
-References: <20260528-uac-quirk-get-cur-vol-v2-0-84d3c8f48150@rong.moe>
-		<20260528-uac-quirk-get-cur-vol-v2-1-84d3c8f48150@rong.moe>
-	 <877boougfq.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 28 May 2026 21:23:53 +0800
+From: Mike Karcic <mikekarcic@protonmail.com>
+Cc: Sean Rhodes <sean@starlabs.systems>, "stable@vger.kernel.org" <stable@vger.kernel.org>, "regressions@lists.linux.dev" <regressions@lists.linux.dev>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287 (17aa:231e) -- 6.12.73 to 6.12.85
+Message-ID: <RfzfjlzeaeMgNNWNST_Zzx1v49rYjM63MvAV6O5_fFIoZJ73GcN69FDLJcwhJ3s6fl9TVD2l45YBh2n3hy95LM7rhLhoVt8dU9stMkuVJvE=@protonmail.com>
+In-Reply-To: <87eciwukvy.wl-tiwai@suse.de>
+References: <O6pYAi7yf23du9ivLsL0QqrnTmodj2lDTL7Wviv7I_nhjVtvllO7Y5Ban0TeTqrastb1RWhJtlkqrM3quLMWSriai-YjjGy312MTcEhxyWs=@protonmail.com> <CABtds-3GOyBr1H=c5aFV1uzfkhO3d1NHMPuon_cWDq0V=pFwUA@mail.gmail.com> <wZmYozyav1sNx53nFr4ShKmcdLFVJp5bdUOJgUq1I57MX6kgyq7n8XvH-MWG9Fi4q2x4CQqjEQ3Q8ok5MClut8hNixnhVmVtXkhcOzH1sw8=@protonmail.com> <87eciwukvy.wl-tiwai@suse.de>
+Feedback-ID: 22946815:user:proton
+X-Pm-Message-ID: 3f637aff999f8468b28d51195c7b3faffa96c256
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-9 
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Takashi,
+I did test 46c862f5419e on 6.12.90. Chirp still present.
 
-Thanks for your review.
+I'm also on a ThinkPad X1 Carbon Gen 12 with ALC287 (17aa:231e),
+same as the original reporter. The fix resolved it for them but
+not for me.
 
-On Thu, 2026-05-28 at 09:44 +0200, Takashi Iwai wrote:
-> On Wed, 27 May 2026 20:56:27 +0200,
-> Rong Zhang wrote:
-> >=20
-> > @@ -1258,6 +1261,16 @@ static int check_sticky_volume_control(struct us=
-b_mixer_elem_info *cval,
-> >  			return 0;
-> >  	}
-> > =20
-> > +	if (cval->head.mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_GET_CUR_BR=
-OKEN) {
-> > +		usb_audio_warn(cval->head.mixer->chip,
-> > +			       "%d:%d: broken mixer GET_CUR (%d/%d/%d =3D> %d)\n",
-> > +			       cval->head.id, mixer_ctrl_intf(cval->head.mixer),
-> > +			       cval->min, cval->max, cval->res, saved);
-> > +
+Only a full revert of 630fbc6e870e resolves the issue.
+
+Verification on the running kernel:
+
+  $ grep -c "dis_coefs" sound/pci/hda/patch_realtek.c
+  2
+
+  $ grep -c "en_coefs" sound/pci/hda/patch_realtek.c
+  0
+
+  $ sed -n '/alc287_alc1318_playback_pcm_hook/,/^}/p' sound/pci/hda/patch_r=
+ealtek.c
+  static void alc287_alc1318_playback_pcm_hook(struct hda_pcm_stream *hinfo=
+,
+                                     struct hda_codec *codec,
+                                     struct snd_pcm_substream *substream,
+                                     int action)
+  {
+          switch (action) {
+          case HDA_GEN_PCM_ACT_OPEN:
+                  alc_write_coefex_idx(codec, 0x5a, 0x00, 0x954f);
+                  break;
+          case HDA_GEN_PCM_ACT_CLOSE:
+                  alc_write_coefex_idx(codec, 0x5a, 0x00, 0x554f);
+                  break;
+          }
+  }
+
+Happy to test further patches.
+
+
+
+Sent with Proton Mail secure email.
+
+On Thursday, May 28th, 2026 at 2:08 AM, Takashi Iwai <tiwai@suse.de> wrote:
+
+> On Thu, 28 May 2026 01:18:31 +0200,
+> Mike Karcic wrote:
+> >
+> > I tested both setups on top of Debian's 6.12.90 source tree.
+> >
+> > 1. I applied the 46c862f5419e patch, but the chirp was still there on e=
+very audio transition.
+> > 2. I did a full revert of 630fbc6e870e, and the chirp is completely gon=
+e.
 >=20
-> IMO, it's better to be usb_audio_info().  Otherwise it leads to an
-> unnecessary caution.  Basically the behavior is expected, so there is
-> nothing to worry about that.
-
-Hmm, makes sense.
-
-With your suggestion, I also just realized that it makes no sense to
-restore a garbage volume using snd_usb_set_cur_mix_value(..., saved)
-when GET_CUR is broken. It would be probably better to rely on
-init_cur_mix_raw() to initialize the mixer to cval->min instead, just
-like what it does for mixers that return errors for GET_CUR.
-
-Hence, I will turn it into a usb_audio_info(), clear cval->cached and
-goto no_checks, so that init_cur_mix_raw() will initialize it properly.
-The usb_audio_warn() in init_cur_mix_raw() will need to be gated by
-cval->get_cur_broken in this case too.
-
-Thanks for your suggestion,
-Rong
-
+> There is a follow-up fix in the upstream, try to apply the commit
+> 46c862f5419e ("ALSA: hda/realtek - fixed speaker no sound update").
 >=20
 >=20
 > thanks,
 >=20
 > Takashi
+>=20
+>=20
+> >
+> > My hardware is a Lenovo ThinkPad (Meteor Lake), ALC287, subsystem 17aa:=
+231e.
+> >
+> >
+> >
+> > Sent with Proton Mail secure email.
+> >
+> > On Wednesday, May 27th, 2026 at 3:44 PM, Sean Rhodes <sean@starlabs.sys=
+tems> wrote:
+> >
+> > > What about 630fbc6e870e? If so, 46c862f5419e looks relevant.
+> > >
+> > > On Wed, 27 May 2026 at 15:25, Mike Karcic <mikekarcic@protonmail.com>=
+ wrote:
+> > > >
+> > > > Speaker pop/chirp regression on a Lenovo ThinkPad with Meteor Lake =
+and
+> > > > Realtek ALC287 (subsystem ID 17aa:231e). The chirp occurs on speake=
+r
+> > > > power state transitions when audio starts or stops. It is not prese=
+nt
+> > > > on kernel 6.12.73 and is present on 6.12.85. A desktop with ALC897
+> > > > (subsystem ID 1f660202) on kernel 6.19.14 is unaffected, so this is
+> > > > codec/fixup-specific.
+> > > >
+> > > > Tested on the same LMDE (Debian 13) installation with multiple kern=
+els
+> > > > selectable from GRUB. All userspace, firmware, and configuration ar=
+e
+> > > > identical between tests. Cold boot between kernel switches is requi=
+red,
+> > > > as warm reboot can carry codec register state forward. The kernel i=
+s
+> > > > not tainted on any tested version.
+> > > >
+> > > > Bisection results (Debian package versions):
+> > > >   6.12.48  -- no chirp
+> > > >   6.12.73  -- no chirp
+> > > >   6.12.85  -- chirp present
+> > > >   6.12.86  -- chirp present
+> > > >   6.12.90  -- chirp present
+> > > >
+> > > > Also broken: 6.19.14-101.fc44.x86_64 (Fedora/Aurora 44)
+> > > >
+> > > > The regression window (6.12.73 to 6.12.85) includes two commits
+> > > > targeting speaker pop on the Star Labs StarFighter (ALC233, SSID
+> > > > 7017:2014) that touch patch_realtek.c:
+> > > >
+> > > >   1cb3c20688fc ("ALSA: hda/realtek: Fix speaker pop on Star Labs St=
+arFighter")
+> > > >   Fixes commit ("ALSA: hda/realtek: Sequence GPIO2 on Star Labs Sta=
+rFighter")
+> > > >
+> > > > These are quirk-gated to SSID 7017:2014 and should not run on
+> > > > 17aa:231e, but they are the most prominent sound changes in the
+> > > > regression window. The actual culprit may be a different commit
+> > > > in the 6.12.74-6.12.85 range. I was unable to narrow further as
+> > > > Debian does not publish intermediate point-release packages.
+> > > >
+> > > > I can build and test vanilla kernels for a proper bisection if
+> > > > guided, and I can test proposed fixes.
+> > > >
+> > > > Hardware:
+> > > >   Lenovo ThinkPad, Meteor Lake
+> > > >   Codec: Realtek ALC287
+> > > >   Subsystem ID: 17aa:231e
+> > > >   PCI: 0000:00:1f.3
+> > > >   Machine driver: skl_hda_dsp_generic
+> > > >   Codec fixup: "ALC287: picked fixup for PCI SSID 17aa:231e"
+> > > >
+> > > > Unaffected hardware (same 6.19.14 kernel, no chirp):
+> > > >   Desktop, Realtek ALC897, Subsystem ID: 1f660202
+> > > >
+> > > > Controlled variables (identical across all tested 6.12 kernels):
+> > > >   SOF firmware: 2.12.0.1 (firmware-sof-signed 2025.01-1)
+> > > >   Topology: intel/sof-ace-tplg/sof-hda-generic-2ch.tplg
+> > > >   Topology ABI: 3:29:1 (Kernel ABI: 3:23:1 on all tested)
+> > > >   ALSA UCM: alsa-ucm-conf 1.2.14-1
+> > > >   PipeWire: 1.4.2, WirePlumber: 0.5.8
+> > > >   power_save: 10, hda_model: (null)
+> > > >   Desktop: KDE Plasma 6 (Wayland)
+> > > >
+> > > > Eliminated causes:
+> > > >   - Topology files in sof-ipc4-tplg/ and sof-ace-tplg/ are
+> > > >     byte-identical (confirmed via binary diff). Path irrelevant.
+> > > >   - SOF firmware version (same 2.12.0.1 on all tested kernels).
+> > > >   - Topology ABI mismatch (3:29:1 vs 3:23:1 present on working
+> > > >     kernel too).
+> > > >   - power_save (10 on all kernels).
+> > > >   - PipeWire/WirePlumber (identical versions on all kernels).
+> > > >   - Desktop environment (KDE on all; a KDE install triggered a
+> > > >     kernel update which was the actual cause of the regression
+> > > >     appearing).
+> > > >
+> > > > dmesg (6.12.48, working):
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3: Firmware paths/files for ip=
+c type 1:
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3:  Firmware file:     intel/s=
+of-ipc4/mtl/sof-mtl.ri
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3:  Firmware lib path: intel/s=
+of-ipc4-lib/mtl
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3:  Topology file:     intel/s=
+of-ace-tplg/sof-hda-generic-2ch.tplg
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3: Booted firmware version: 2.=
+12.0.1
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3: Topology: ABI 3:29:1 Kernel=
+ ABI 3:23:1
+> > > >   snd_hda_codec_alc269 ehdaudio0D0: ALC287: picked fixup for PCI SS=
+ID 17aa:231e
+> > > >   snd_hda_codec_alc269 ehdaudio0D0: autoconfig for ALC287: line_out=
+s=3D1 (0x17/0x0/0x0/0x0/0x0) type:speaker
+> > > >
+> > > > dmesg (6.19.14, affected):
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3: Digital mics found on Skyla=
+ke+ platform, using SOF driver
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3: DSP detected with PCI class=
+/subclass/prog-if 0x040380
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3: hda codecs found, mask 5
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3: using HDA machine driver sk=
+l_hda_dsp_generic now
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3: Firmware paths/files for ip=
+c type 1:
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3:  Firmware file:     intel/s=
+of-ipc4/mtl/sof-mtl.ri
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3:  Firmware lib path: intel/s=
+of-ipc4-lib/mtl
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3:  Topology file:     intel/s=
+of-ipc4-tplg/sof-hda-generic-2ch.tplg
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3: Booted firmware version: 2.=
+14.1.1
+> > > >   sof-audio-pci-intel-mtl 0000:00:1f.3: Topology: ABI 3:29:1 Kernel=
+ ABI 3:23:1
+> > > >   snd_hda_codec_alc269 ehdaudio0D0: ALC287: picked fixup for PCI SS=
+ID 17aa:231e
+> > > >   snd_hda_codec_alc269 ehdaudio0D0: autoconfig for ALC287: line_out=
+s=3D1 (0x17/0x0/0x0/0x0/0x0) type:speaker
+> > > >
+> > > > Note: The kernel is not tainted on any tested version.
+> > >
+> 
