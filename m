@@ -1,421 +1,219 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3BBA3A3E8C
-	for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 09:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779959193; cv=none; b=o2THh52nNI3Me7GVZjH/P3RD11sLZQzK2qtMoiO2uV5Mi15AS6+5RCUjYgqMILrZOHSa/Ru3No0KA7dpP1rbxGnY8L84035t8zajrskMHw+fQfghKlnQfAIxY7UVWFiA8CV91Bovkwgh2Ux9A6JtGmpthGjEHmz+xyvthVFYYe0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779959193; c=relaxed/simple;
-	bh=/QZevzqoiILuJdxFPPb5GMy1YhLxYNO661KlZBY80hk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HbBohkKSFkZwhdp5KVnDDARaeFq34u4DS9vNHfC7ejeiqApRcuXlrmSfnqLiz9cOU6QF34Drutu31Fx43Lkklxzw/yN1+Oz0d3KD+/oZA3VPgxpJuzmJiJWEvtoOsCwTjiDzH0vRLongHVeVhGKV75gj6xoiF1P29F31zXoQ5Lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=HhR2PwW7; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5A93AC0D7;
+	Thu, 28 May 2026 09:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779960495; cv=fail; b=GkBym+uXLWeowzSrS4ls7+dkTYz20jrVi0uePEug/4NVjOH0vhYlOy9O0foiE+6X68jZ9ngVHODRETe38tEbtl+0Gz0AglvbenZd/laNt9jQTsH+KPIVuQ6hJNcwZXoGulwtEubFi9GO7E813gPoQUojZF1JefvqWQB0zTZ+qII=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779960495; c=relaxed/simple;
+	bh=JD2K5i9mamkzXITS/qIN341V2yEIi5ldK9Jd/Cm8nRE=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=iEmcY6ZSE9WZLKbh2HUdLn9aGe5QeEvpXgLbT/plR1OfRQrGm/buIkhnCyShS8okBu1ExDh0Y+10up73F+73jiNHOrsH3rotJAbsiSIT5sZg6TOQSJXh0U9FZqncHLX/LKdXy5lQqN8DyZLCKWn/QvTGOs/UrFr4LiKYlQn2Tp4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vg49YSfY; arc=fail smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="HhR2PwW7"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48d146705b4so132752945e9.3
-        for <linux-sound@vger.kernel.org>; Thu, 28 May 2026 02:06:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1779959189; x=1780563989; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UwHmEHawCvEdEm/8FkS4pO9969OH1I8FzaNoFpRPvxc=;
-        b=HhR2PwW7DWABhWfN5YO9YxWGYpulQwkeAmag8KDyjzjmdA0xyMI6F9Nijh152Q2pGt
-         RUsyc0VxNfpJ8kS/LmKl+vrgJ52pBLRqF4OvOZGXn4M+2bZD+xt0q7vVOhFB8eNiFP6S
-         CyfPfxKW6ok1xt0KfTkSHITQiVqjgP0g4dZZwlXVYl6M0QTCbpamH0QgoqWuXoUWKIZa
-         qu/759dl9dxQKMThFpRcQVQCkSHPwy5GWXFx+Od5Foa4CSdwQWv6k6ihnEmhJWu6qA5l
-         B/QD9vbNiP4wuVDOC5DjrQUNDyqWl9n/JxTjeWkIXGonBgmXnBkBjC0VaTGSqOjKCEQR
-         0xqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779959189; x=1780563989;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UwHmEHawCvEdEm/8FkS4pO9969OH1I8FzaNoFpRPvxc=;
-        b=YDAn8nADSR9SdZhoffhqW4rRmhE1EavOfTXfueqHkZoVTQnO9c3i1mz6m++pWifasr
-         LFmMyc5tKmoXlaon0jOxYDPFP2Fpbj/ClaJ9znHnVbx5bEc7mHqc7A5WIF/BvoNIhUof
-         S1R96HaY4tAgiyEtXQgZli7i/mHEpSB3HRXwNdqvHYnKosE05EdKMpYwjtDgwoOc0vIl
-         LWIu/rmU+lxyOy15Fw3hr6rLHZKQxzVmCiHTEOkG3VkP9WGj2ka7C+TJZ3syU2cEJasj
-         wdMLqerWY2YhHZNt9+LWCGaFpXFa1lYri6jZyTmVosoUc8MyoT7qSROly2WmhQ92ok9n
-         Q1EQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+VToGSu6CkbGahNv0kXsrPFONKUfk8EZHFu5SzUFjh65PPig8cYgstHqcjLtny/EaMS/cWosmk1aDn9w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvN7pLioK3HQ6r+6A06A9/jJeQWH8Z5Wcj61Grk7L87wPv3jTt
-	ogK8EzmWIlltwUQItMtcwOZ5NPjOCJ6hyuKUYOMF7P0ghHi/UTYlIZ2o1HmIxJEci+8=
-X-Gm-Gg: Acq92OFKvUIc/5uKChPasg0zrXBQCVZroDfAI2Z7b1QlLgyA8rv8wfhe7czduKP3n0/
-	JRr6aQGuXhq53RQqsiINjDT0PS1O+Kk0Auem5T5ldxU2YnqUUSeO87/N+onz1wL04Inbc3zz1C9
-	XCWW9TDMvrYc64dRJuIuZSrPxQCttqtkDA5y5oJmwJjihg7TBO9hb7bjU02KKFjOaI9HyTstTfV
-	d+szFnlE/eSqwLdas32HfbZkbFvRIri00l/fRiTT/mnulPHJmoXMIG/Whk6+sp5YOSbF9qhW94b
-	uVe9/1MgShsF++uzbHJ3/TVFTN3anNnSFqaL5DBq1/G/Ao5PYHEWzLRDXnlvJ40EpoG/XAKm0JM
-	K2QK2mjhhNWRCoiIGSHa+0rjxS1dGBxqhDH6nFRKYjikI51nUNcxzcXzFqaDUPeCclh7c768NV8
-	uUD3HdQxCR26foyz2sfQl4YpMbDHybOx/mQYKKQmSy0BD3i6QT6/KYsxdPPEzItLeXbo6THvTrU
-	Y8QrPJQEiJEWHCsQVAchzMSqg==
-X-Received: by 2002:a05:600c:35c9:b0:490:45bb:8dd8 with SMTP id 5b1f17b1804b1-49045bb8e65mr438275745e9.25.1779959189267;
-        Thu, 28 May 2026 02:06:29 -0700 (PDT)
-Received: from localhost (p200300f65f47db04e95e43453a0d1648.dip0.t-ipconnect.de. [2003:f6:5f47:db04:e95e:4345:3a0d:1648])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4908b6af139sm17124775e9.4.2026.05.28.02.06.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 02:06:28 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vg49YSfY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779960493; x=1811496493;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=JD2K5i9mamkzXITS/qIN341V2yEIi5ldK9Jd/Cm8nRE=;
+  b=Vg49YSfYRjlRzILXWITlkq9ka+OU/+AARDja0C5v0g3uZNNEyVUpWPrr
+   VhBsGEfDSyySu/3Rd8DE2KSMoTTQQTL2SSSGorYzvnGGeVdgoRRsh43EX
+   nEATawFvckC07Et/levKDuZ2i9FlQGplIGHTxHwSMc6ds7vIYS0BIBpFn
+   Buvav38wiRFaBK4MO04H6bpH2jQ8QiqfmnQnnzlpHeeosE7hDLu46lTEb
+   wm3UlJsrMWM4BpIkC8il3xXA8mag164xG72hhInrzBzglvMf9+y4FgzFB
+   3v3dZzObDW8bdjkVJOsgvVo7ajSNOmyON+X3jtXsUpV2ZJPNSHNvCWbuZ
+   w==;
+X-CSE-ConnectionGUID: HzVi0xZbQ1iLGeURjsFZwQ==
+X-CSE-MsgGUID: asKLEKP8TEGGR6FD2YE/AA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11799"; a="84688716"
+X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
+   d="scan'208";a="84688716"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 02:28:12 -0700
+X-CSE-ConnectionGUID: YaWjEIAIQtWkPyQ1NduepQ==
+X-CSE-MsgGUID: 0UhFw0GuQfmzHPJ5kXj2XA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
+   d="scan'208";a="242661383"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 02:28:12 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 28 May 2026 02:28:11 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 28 May 2026 02:28:11 -0700
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.9) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 28 May 2026 02:28:08 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LbJV7DOetHEc886ufORmn9rEDubcSTPiS+6wEJ5D3MgVKdpBo2dLvQeAzrhhnhmd8Fc9QpSjLWqoj167ZzYmZyYw9+mc1gD1FsHIS+STblxsVOrlG0ilgFURhlHAxKYl80+W3g0rWvZ5/uxDaENsJVmehNaeOGCtSbRQG36niBwPkoD5z4aRyOI2+RKUXm0WJA580DEdro6WvpLCh1mHMLiDV80FP/Uv6TPCcV5I7+QH1Ln8/vALJvzGSal678LAKzZBcWvb3jBnSC41wTXcK/DustYojCotIL5BCtiX1pOEYBvnRK6oWe12ercxbnowUf9zwPXqnGEBexzlnpW0hg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HCu4+qYM+z9jVHBU28NXZpqSKSLFQrnLgVVhYTw6Nc0=;
+ b=VGLDEUSZqjZDSinkyshMFQp+M7C3o0eoeBbTQm3heAbdEN8Vrw17Zm/Rnw62mRGD/NC00CcLnmZzwLF4FvHYGojM4iv2+SyUhMUPpuyfH8fGmJMnTan1TtV+X8+K/TiG0woX1qirv+dC0JL4QhzvFMjWaSPbsBzLzbtq0y7+Zb3azXilfUI1lTCGPn2gtNbGMjM1JXDUer7VbFEjm62xKPvQtikuOk6Ekn0RuYTpGfvbqSsUjZKbLWTAPy5u4g5yrhmVjiUjzuCdMExL/9fQgYS0G7/BrWPoM50W50U1tuY++UInzTT2TiRTsS8y0TDGQKQY2vXxC1W99dwVqhd8Fg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
+ by DS7PR11MB9451.namprd11.prod.outlook.com (2603:10b6:8:261::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.12; Thu, 28 May
+ 2026 09:28:06 +0000
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4%4]) with mapi id 15.21.0071.011; Thu, 28 May 2026
+ 09:28:06 +0000
+Message-ID: <28c0e1ae-e2a4-43e8-8be9-c05f8cbeecdb@intel.com>
+Date: Thu, 28 May 2026 11:27:57 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 4/4] ASOC: Unify code style for platform_device_id
+ arrays
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
+	<u.kleine-koenig@baylibre.com>
+CC: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Venkata Prasad Potturu
+	<venkataprasad.potturu@amd.com>, Jaroslav Kysela <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>, Lars-Peter Clausen <lars@metafoo.de>,
+	=?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, Srinivas Kandagatla
+	<srini@kernel.org>, Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li
+	<Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, Nicolin Chen
+	<nicoleotsuka@gmail.com>, Frank Li <Frank.Li@nxp.com>, Sascha Hauer
+	<s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>, Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>, "Guilherme G. Piccoli"
+	<gpiccoli@igalia.com>, Mario Limonciello <mario.limonciello@amd.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Kuninori Morimoto
+	<kuninori.morimoto.gx@renesas.com>, =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+	<amadeuszx.slawinski@linux.intel.com>, Charles Keepax
+	<ckeepax@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+	<linuxppc-dev@lists.ozlabs.org>, <imx@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	=?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	=?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v1 4/4] ASOC: Unify code style for platform_device_id arrays
-Date: Thu, 28 May 2026 11:06:03 +0200
-Message-ID:  <d131f7afc3c61ca8ac82a848aaa6ecfbb57ec63b.1779958164.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1779958164.git.u.kleine-koenig@baylibre.com>
 References: <cover.1779958164.git.u.kleine-koenig@baylibre.com>
+ <d131f7afc3c61ca8ac82a848aaa6ecfbb57ec63b.1779958164.git.u.kleine-koenig@baylibre.com>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <d131f7afc3c61ca8ac82a848aaa6ecfbb57ec63b.1779958164.git.u.kleine-koenig@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI4PEPF00000126.AUTP296.PROD.OUTLOOK.COM
+ (2603:10a6:808:1::8b4) To SA1PR11MB6967.namprd11.prod.outlook.com
+ (2603:10b6:806:2bb::15)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10010; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=/QZevzqoiILuJdxFPPb5GMy1YhLxYNO661KlZBY80hk=; b=owGbwMvMwMXY3/A7olbonx/jabUkhiwJ1iaBR1031CW00isu5K1or9LLz5CeJt+09/RBa5Vja wscegQ7GY1ZGBi5GGTFFFnsG9dkWlXJRXau/XcZZhArE8gUBi5OAZjIzHT2v5Idn0wVa6bXbuLw dVmSJ/TD6m/pPGHfC6ZpBjUOJtMebPOp9ax+/+f43NriH8dtaxtuXS3TOdEvFfvvzvOazoQCt6D Tl7MPPKqbxpnLIFb5/anq6yLn7JNSsvpxDuff2zO/M5IsOLngxXQ+9uUH5D4JZfUfq/LQXlZn3s nAnDFJYFXU8m86UfvdlEvN+6K3ncxX9928S+Xw/aCFjN/ar+4pf+uk923zmraPjf/iTXq0rHYb/ QmZdCj445bf9fKHV2y9/qVsR1vCpc8F9SsF90nMaIo9emX+zf/2l+91l5bb+zTuO/QwWGdhytXr H/sio25zKzGUzZNrEBc3rrZbwSOheq51xzeBzlR5ljWTAA==
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|DS7PR11MB9451:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69f6634e-ece6-4bb9-5362-08debc9b6c6a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|5023799004|11063799006|4143699003|22082099003|18002099003|56012099006;
+X-Microsoft-Antispam-Message-Info: r1pjSLPRLnMluD50OmpznKzvaJIEFU1ZemFCz7MAtEjA4yaMGGOwzQfwmmQg0H+ewYDHcqPTI5SAIYvMahbYtdAx82FLzzlBKJHi5ODIB34SADMI8I3MWzvMX25UQ3aAQ+qkiWyTOwC7e0AKJcuZV3eLy9HWEl6CmUyQL6swbpz3+TTeiAWUzEegigEod6mf7bSrZz9NFtJFMXLZNnDzTmCR2Rthwf4zBP9wsAybHi6ydCCplBLbCN7lFawi/6ilblj0wE70JyktByxHwrL81Ls2bJ7Jhhfd7YP0SM0aKMoTM6Yv5AP2NwfLu5BiyXSXwbjPThEeCleL8vTpKWTNyqq2DgJRT2zXc913trq33A2TvLwI+2FOTiLr5penfF0Tw+1ubwD1LYZMX9e+7lJHVSu92fCHxZRLttR6a5QWfgDnI3QfMIzMHxOPCMHUKTXUS7aziMYqdC1LAcpKuhE20aUQvi22jL2Qv9dmBh6IoaLu7cQAm7lY6tvohhQPvJpNn//d2vi3EVzcOKeQMfZnoOdsUoXxQ523ZAKmaEGn4vTAKxRdMSRFXVsdD/jOXJ1mItaUZc1kiPpxWm6xx2qeaAarf4eQdjRr2Q22Qm9BOKd02WT7b5iMjdfpMY+egtAIJw01InXnF6iIIKpHOlnpIgiPMGKsNcK2qawhlq1Sn35DLxJeSPuTkYPZ7JN66zi5
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(5023799004)(11063799006)(4143699003)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dWpmTlhEVWFJYXBxdE42WW1tLzJ2clBNQmFZT1k0bGtpMGpidkhvZGpwSHVR?=
+ =?utf-8?B?NFEvYlpqVGN3V0NEUGNGR3EyRDR3Q1ptclFaanlxVnVYZnNFRGt5SHZzSitB?=
+ =?utf-8?B?WHdHQUtkL2x5YzVwNzY5aWpvK2tOZlIzSWVoblRkd1A1Z1R4M1ZLTEdMaThr?=
+ =?utf-8?B?bElIZ0RuM2hCNHE0aEdVMVNHMjhaRGVNMjJrYW9VWUVyd25PQk0xb1k2Mkht?=
+ =?utf-8?B?UE55RjVTR3pxaU5nK0g4Y0IzTlV6M3RnZnMvdXY0WGRBcGJJTDRvcTNwNWNw?=
+ =?utf-8?B?VmtvUkFXc05WUmwxdGxUUkFia085aFdnZFpWZVNHS0JtSlB0ZEVWSXdjWWVU?=
+ =?utf-8?B?b0JqRXdxaTAzN2xpVmJ3bFhyRzF5MmtLckxBZjZCelR4TjFacWQ5bEd0eXZv?=
+ =?utf-8?B?cDNFY0NnMXJsbXNzTjlRNzQ3T3E5a2JXZ3o4Wnl6Um9PKzJEeDBlNCsrV0t2?=
+ =?utf-8?B?YjhhdHg4RmJITUVsQllIV3BLUURYWVhVQUh5WW5OT1Z6V3BsMGRRZk5ZU1di?=
+ =?utf-8?B?b3psTTNmZDladVQ3ZnBTTVZORFhzOUVSVzNTd2VPbUQ5elBvTHcwRU5zN0FH?=
+ =?utf-8?B?S21hSHljRlJyUlpsRmYvYVVtUm9IU2trZE03dDJxWGdnRXVySXpoVDZiVXZk?=
+ =?utf-8?B?b0QvMkNpNk1YS1ZJV3NzdTV3RHpuYm5WWkdTRUtUMnpaM01nWkJYQWhXSHV2?=
+ =?utf-8?B?Q0phYUVNSXRDbWd1SHVYK2Q0YSsvRG1DWHBpc3BFc2lwOEhFOU14UnpyQzFh?=
+ =?utf-8?B?ZXVkMFRDcjA3UEdGOGFQRzh6R1RZWHh3SksxY3hGbkRya3JGWXVBNjJ1WUxh?=
+ =?utf-8?B?UHM5aDVBT1FSbVZpdThpUmJKWXZxYmFIVnZ2VlV1MWJDZEdrc2lGVWRwZFlO?=
+ =?utf-8?B?VDB2UkRKdzNSTWFVNkU1c29IYW9GUEJOdHMvcnZpSjR1d05pd3ZmTFVMcmVP?=
+ =?utf-8?B?ZUtxNHhSTGFFMHBSVUp3djltYVE0eXp0clVteUJuQVB1N0p1YlhpWk85YTBR?=
+ =?utf-8?B?MW1QRWZmL2dtNTgyUWxoSUF5QzRQNUVaOU93VlZLckJON2d0bjJqRW9ENHlv?=
+ =?utf-8?B?VDVLd1RzbjNwSEZZY2xpWWFwK1lGeHl1NTdCMng3eUdpRmZvOUJLaEZOaTVR?=
+ =?utf-8?B?RTh0Q01KVm56M2Q0N1lWa2FCc1NOUm9QaEVac3ZLWC9GSWIzSnRSeVdyZ2hv?=
+ =?utf-8?B?c3d4RngweUd0Q1ZKbGwzb2NISnd6ZitWNjNjOUU0cllEOWNIM2hlWUU0VXg1?=
+ =?utf-8?B?U01zSXVqYm9mT2FudmtHYjExU3Bwa2ZHQWRWNkowb21IUitnWnNlWVEzWmlG?=
+ =?utf-8?B?RmEraGdsVEVMZHp1ZjdNVlB5aWw1RFpqMDZ5RVhmTG1YK0NHWm56dWZyejhq?=
+ =?utf-8?B?MkpaOGk0TTZ0Z01raGZuSGJuS2UyRllBQ2N5QTBuWVEvc2VYWFVUbzN6bTVJ?=
+ =?utf-8?B?ZUVjcGtzUFZZWnJyWlVpdjg1VUJNVGNQWDFkdHdVcWJGNFV0a1FRTHB5VkJY?=
+ =?utf-8?B?aEp3YnVSanV1dVB5Wkc1VXJuUEJPMmRmVVA0b2QvUU1qOGx4cm5nVE01cjVB?=
+ =?utf-8?B?ZmtRM1lmTUpEa2wzTWxxRHpBSjIxWVBQTk9WazhXc0tNTXpmZHYxaEpRdVh2?=
+ =?utf-8?B?YS8vZ0JUWEtua28zZ0kwYzJqMzdsYmI2K2ZRUTdvS3E5Uk1LTG9DaXEraWpB?=
+ =?utf-8?B?RGFvUy9JZEFoN1cyRzF5Sld2VjAzZENnTURxTkpvR015SWdVUjBuTzZleGdm?=
+ =?utf-8?B?NkJuaFNXT3RGMmRsdjVHWFJMUUpHamhaTTRXcStpcGplQys4aE9LSURLdEpQ?=
+ =?utf-8?B?U1crZ3R0a2dCNnE4RVppekltdC9SaDh3TUlJaHI2WDNTMlMvZEl4VGhQQWhn?=
+ =?utf-8?B?MTBmOUlrcUtybDRJTkhXdUJNNksyQ2JTM1JIOXQ0TjI3aUpqeE5JU1lLY0dk?=
+ =?utf-8?B?TGZiRmpGWWNsWFZ1dXNKQjlGR2NYS0NlMjJ6dUxMUU9hSys2TjdkNU83R1c3?=
+ =?utf-8?B?dzdPMVN5MGxBZDZFcnZLVm92d0tWM3VTLzBWZUpaeWUydiswejRtbGF4dmgr?=
+ =?utf-8?B?SnViMndHeForbGdOMGhPMkw2cHZwWlR2UUtScjJmRm0rTmcra2s5alIwUnNj?=
+ =?utf-8?B?R3YzVTFZYWc0WmFTL3BNQndJSGFWbE55eksrNXIweGRJeHVBZVErSDhzNFlz?=
+ =?utf-8?B?SjBKR0g4OEFiRC9BQUpIM2wvaXM3L001WGFBRXFUNzArc2xKOVhiTXBOczV4?=
+ =?utf-8?B?MUNOM0dZVHhJcXZLOHRyWStmRWxDN2NYSG1sRmZoeE1lRjA2YTdiQUNHWlVj?=
+ =?utf-8?B?UUJhVHhINzZJZzlWVjM0U3NPcUE3YkJidGkwck40RFBaUDBGY2lkb0xHTDVx?=
+ =?utf-8?Q?R5//YdscsfLjxg3I=3D?=
+X-Exchange-RoutingPolicyChecked: itkMyu/sU9bDUkZzl7YoVf+Uf8a3osTJfUReeZ4v8HgtSb4Md0n/zqYhMI53REivTtGMAA8u++0ncKkrRY944kpEU0OL0J+EkRdT/tZ0gozHC/ASVDoJgZDptDXOs61M9g02aRLIHVIVt6ku5d00OOH6LYYHV1BFeGIU61CFsXPw8b2rDfhFnSHZIQ55N2NP1kZBncNd33Fqv0yQtwlECoLIQfea5HfVsoyTBuetXHZqmWsaCs9wfFCaz5ydS6ut8/PPnul6Omaj4bY8q/GnkMwPKWVCIV3kHNCs4C7fD+mqDmjp3p8q0MRCtZUl6K+mw1y6FIx2bXSnTJBBBRdEpQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69f6634e-ece6-4bb9-5362-08debc9b6c6a
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 09:28:06.0533
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9gI9arv0KW1c1QXyIe0J4GkjAZ6mKCelc/jhkCOmR4oHAARbyymzeODqrWe1hQwkw8Mqo59cotNhLPFE+H+kJe9I/zc4Hxw4aL6Bwzx5xp0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB9451
+X-OriginatorOrg: intel.com
 
- - Add a trailing comma for initializers unless the closing brace is on
-   the same line and for the list terminator;
- - Use a single space in the list terminator;
- - Use compact one-line style for small entries;
- - s/\t=/ =/ were the tab is only one char wide anyhow;
+On 5/28/2026 11:06 AM, Uwe Kleine-König (The Capable Hub) wrote:
+>   - Add a trailing comma for initializers unless the closing brace is on
+>     the same line and for the list terminator;
+>   - Use a single space in the list terminator;
+>   - Use compact one-line style for small entries;
+>   - s/\t=/ =/ were the tab is only one char wide anyhow;
+> 
+> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+> ---
+>   sound/soc/amd/acp/acp-sof-mach.c       | 14 +++++++-------
+>   sound/soc/codecs/adau7118-hw.c         |  2 +-
+>   sound/soc/codecs/bt-sco.c              | 10 +++-------
+>   sound/soc/codecs/wcd934x.c             |  6 ++----
+>   sound/soc/fsl/imx-pcm-rpmsg.c          |  6 +++---
 
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
----
- sound/soc/amd/acp/acp-sof-mach.c       | 14 +++++++-------
- sound/soc/codecs/adau7118-hw.c         |  2 +-
- sound/soc/codecs/bt-sco.c              | 10 +++-------
- sound/soc/codecs/wcd934x.c             |  6 ++----
- sound/soc/fsl/imx-pcm-rpmsg.c          |  6 +++---
- sound/soc/intel/avs/boards/da7219.c    |  6 ++----
- sound/soc/intel/avs/boards/dmic.c      |  6 ++----
- sound/soc/intel/avs/boards/es8336.c    |  6 ++----
- sound/soc/intel/avs/boards/hdaudio.c   |  6 ++----
- sound/soc/intel/avs/boards/i2s_test.c  |  6 ++----
- sound/soc/intel/avs/boards/max98357a.c |  6 ++----
- sound/soc/intel/avs/boards/max98373.c  |  6 ++----
- sound/soc/intel/avs/boards/max98927.c  |  6 ++----
- sound/soc/intel/avs/boards/nau8825.c   |  6 ++----
- sound/soc/intel/avs/boards/pcm3168a.c  |  6 ++----
- 15 files changed, 36 insertions(+), 62 deletions(-)
+...
 
-diff --git a/sound/soc/amd/acp/acp-sof-mach.c b/sound/soc/amd/acp/acp-sof-mach.c
-index 36ecef7013b9..8874151e159a 100644
---- a/sound/soc/amd/acp/acp-sof-mach.c
-+++ b/sound/soc/amd/acp/acp-sof-mach.c
-@@ -128,31 +128,31 @@ static int acp_sof_probe(struct platform_device *pdev)
- static const struct platform_device_id board_ids[] = {
- 	{
- 		.name = "rt5682-rt1019",
--		.driver_data = (kernel_ulong_t)&sof_rt5682_rt1019_data
-+		.driver_data = (kernel_ulong_t)&sof_rt5682_rt1019_data,
- 	},
- 	{
- 		.name = "rt5682-max",
--		.driver_data = (kernel_ulong_t)&sof_rt5682_max_data
-+		.driver_data = (kernel_ulong_t)&sof_rt5682_max_data,
- 	},
- 	{
- 		.name = "rt5682s-max",
--		.driver_data = (kernel_ulong_t)&sof_rt5682s_max_data
-+		.driver_data = (kernel_ulong_t)&sof_rt5682s_max_data,
- 	},
- 	{
- 		.name = "rt5682s-rt1019",
--		.driver_data = (kernel_ulong_t)&sof_rt5682s_rt1019_data
-+		.driver_data = (kernel_ulong_t)&sof_rt5682s_rt1019_data,
- 	},
- 	{
- 		.name = "nau8825-max",
--		.driver_data = (kernel_ulong_t)&sof_nau8825_data
-+		.driver_data = (kernel_ulong_t)&sof_nau8825_data,
- 	},
- 	{
- 		.name = "rt5682s-hs-rt1019",
--		.driver_data = (kernel_ulong_t)&sof_rt5682s_hs_rt1019_data
-+		.driver_data = (kernel_ulong_t)&sof_rt5682s_hs_rt1019_data,
- 	},
- 	{
- 		.name = "nau8821-max",
--		.driver_data = (kernel_ulong_t)&sof_nau8821_max98388_data
-+		.driver_data = (kernel_ulong_t)&sof_nau8821_max98388_data,
- 	},
- 	{ }
- };
-diff --git a/sound/soc/codecs/adau7118-hw.c b/sound/soc/codecs/adau7118-hw.c
-index 45a5d2dcc0f2..ffbd2ea3cde3 100644
---- a/sound/soc/codecs/adau7118-hw.c
-+++ b/sound/soc/codecs/adau7118-hw.c
-@@ -23,7 +23,7 @@ static const struct of_device_id adau7118_of_match[] = {
- MODULE_DEVICE_TABLE(of, adau7118_of_match);
- 
- static const struct platform_device_id adau7118_id[] = {
--	{ .name	= "adau7118" },
-+	{ .name = "adau7118" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(platform, adau7118_id);
-diff --git a/sound/soc/codecs/bt-sco.c b/sound/soc/codecs/bt-sco.c
-index 3afcef2dfa35..6507bd20a650 100644
---- a/sound/soc/codecs/bt-sco.c
-+++ b/sound/soc/codecs/bt-sco.c
-@@ -79,13 +79,9 @@ static int bt_sco_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id bt_sco_driver_ids[] = {
--	{
--		.name		= "dfbmcs320",
--	},
--	{
--		.name		= "bt-sco",
--	},
--	{},
-+	{ .name = "dfbmcs320" },
-+	{ .name = "bt-sco" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, bt_sco_driver_ids);
- 
-diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
-index bc41a1466c70..a9e6f2923099 100644
---- a/sound/soc/codecs/wcd934x.c
-+++ b/sound/soc/codecs/wcd934x.c
-@@ -5899,10 +5899,8 @@ static int wcd934x_codec_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id wcd934x_driver_id[] = {
--	{
--		.name = "wcd934x-codec",
--	},
--	{},
-+	{ .name = "wcd934x-codec" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, wcd934x_driver_id);
- 
-diff --git a/sound/soc/fsl/imx-pcm-rpmsg.c b/sound/soc/fsl/imx-pcm-rpmsg.c
-index 031e5272215d..8f1185dff780 100644
---- a/sound/soc/fsl/imx-pcm-rpmsg.c
-+++ b/sound/soc/fsl/imx-pcm-rpmsg.c
-@@ -829,9 +829,9 @@ static const struct dev_pm_ops imx_rpmsg_pcm_pm_ops = {
- };
- 
- static const struct platform_device_id imx_rpmsg_pcm_id_table[] = {
--	{ .name	= "rpmsg-audio-channel" },
--	{ .name	= "rpmsg-micfil-channel" },
--	{ },
-+	{ .name = "rpmsg-audio-channel" },
-+	{ .name = "rpmsg-micfil-channel" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, imx_rpmsg_pcm_id_table);
- 
-diff --git a/sound/soc/intel/avs/boards/da7219.c b/sound/soc/intel/avs/boards/da7219.c
-index 2b17abcbd2bc..163d9982d797 100644
---- a/sound/soc/intel/avs/boards/da7219.c
-+++ b/sound/soc/intel/avs/boards/da7219.c
-@@ -259,10 +259,8 @@ static int avs_da7219_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_da7219_driver_ids[] = {
--	{
--		.name = "avs_da7219",
--	},
--	{},
-+	{ .name = "avs_da7219" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_da7219_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/dmic.c b/sound/soc/intel/avs/boards/dmic.c
-index bf6f580a5164..8d36bc7ddf16 100644
---- a/sound/soc/intel/avs/boards/dmic.c
-+++ b/sound/soc/intel/avs/boards/dmic.c
-@@ -104,10 +104,8 @@ static int avs_dmic_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_dmic_driver_ids[] = {
--	{
--		.name = "avs_dmic",
--	},
--	{},
-+	{ .name = "avs_dmic" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_dmic_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/es8336.c b/sound/soc/intel/avs/boards/es8336.c
-index 301cfb3cf15b..36c13db3a272 100644
---- a/sound/soc/intel/avs/boards/es8336.c
-+++ b/sound/soc/intel/avs/boards/es8336.c
-@@ -309,10 +309,8 @@ static int avs_es8336_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_es8336_driver_ids[] = {
--	{
--		.name = "avs_es8336",
--	},
--	{},
-+	{ .name = "avs_es8336" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_es8336_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/hdaudio.c b/sound/soc/intel/avs/boards/hdaudio.c
-index aec769e2396c..03cfd91202d3 100644
---- a/sound/soc/intel/avs/boards/hdaudio.c
-+++ b/sound/soc/intel/avs/boards/hdaudio.c
-@@ -231,10 +231,8 @@ static int avs_hdaudio_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_hdaudio_driver_ids[] = {
--	{
--		.name = "avs_hdaudio",
--	},
--	{},
-+	{ .name = "avs_hdaudio" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_hdaudio_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/i2s_test.c b/sound/soc/intel/avs/boards/i2s_test.c
-index 9a6b89ffdf14..787d781ba1d9 100644
---- a/sound/soc/intel/avs/boards/i2s_test.c
-+++ b/sound/soc/intel/avs/boards/i2s_test.c
-@@ -107,10 +107,8 @@ static int avs_i2s_test_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_i2s_test_driver_ids[] = {
--	{
--		.name = "avs_i2s_test",
--	},
--	{},
-+	{ .name = "avs_i2s_test" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_i2s_test_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/max98357a.c b/sound/soc/intel/avs/boards/max98357a.c
-index e9a87804f918..389a50923d3b 100644
---- a/sound/soc/intel/avs/boards/max98357a.c
-+++ b/sound/soc/intel/avs/boards/max98357a.c
-@@ -136,10 +136,8 @@ static int avs_max98357a_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_max98357a_driver_ids[] = {
--	{
--		.name = "avs_max98357a",
--	},
--	{},
-+	{ .name = "avs_max98357a" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_max98357a_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/max98373.c b/sound/soc/intel/avs/boards/max98373.c
-index 8b45b643ca29..b8231f71d3d6 100644
---- a/sound/soc/intel/avs/boards/max98373.c
-+++ b/sound/soc/intel/avs/boards/max98373.c
-@@ -191,10 +191,8 @@ static int avs_max98373_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_max98373_driver_ids[] = {
--	{
--		.name = "avs_max98373",
--	},
--	{},
-+	{ .name = "avs_max98373" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_max98373_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/max98927.c b/sound/soc/intel/avs/boards/max98927.c
-index db073125fa4d..d657e7da1cc0 100644
---- a/sound/soc/intel/avs/boards/max98927.c
-+++ b/sound/soc/intel/avs/boards/max98927.c
-@@ -188,10 +188,8 @@ static int avs_max98927_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_max98927_driver_ids[] = {
--	{
--		.name = "avs_max98927",
--	},
--	{},
-+	{ .name = "avs_max98927" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_max98927_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/nau8825.c b/sound/soc/intel/avs/boards/nau8825.c
-index d44edacbfc9a..d7ea08bb27cd 100644
---- a/sound/soc/intel/avs/boards/nau8825.c
-+++ b/sound/soc/intel/avs/boards/nau8825.c
-@@ -293,10 +293,8 @@ static int avs_nau8825_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_nau8825_driver_ids[] = {
--	{
--		.name = "avs_nau8825",
--	},
--	{},
-+	{ .name = "avs_nau8825" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_nau8825_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/pcm3168a.c b/sound/soc/intel/avs/boards/pcm3168a.c
-index b5bebadbbcb2..9d415fd0499a 100644
---- a/sound/soc/intel/avs/boards/pcm3168a.c
-+++ b/sound/soc/intel/avs/boards/pcm3168a.c
-@@ -132,10 +132,8 @@ static int avs_pcm3168a_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_pcm3168a_driver_ids[] = {
--	{
--		.name = "avs_pcm3168a",
--	},
--	{},
-+	{ .name = "avs_pcm3168a" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_pcm3168a_driver_ids);
- 
--- 
-2.47.3
+>   sound/soc/intel/avs/boards/da7219.c    |  6 ++----
+>   sound/soc/intel/avs/boards/dmic.c      |  6 ++----
+>   sound/soc/intel/avs/boards/es8336.c    |  6 ++----
+>   sound/soc/intel/avs/boards/hdaudio.c   |  6 ++----
+>   sound/soc/intel/avs/boards/i2s_test.c  |  6 ++----
+>   sound/soc/intel/avs/boards/max98357a.c |  6 ++----
+>   sound/soc/intel/avs/boards/max98373.c  |  6 ++----
+>   sound/soc/intel/avs/boards/max98927.c  |  6 ++----
+>   sound/soc/intel/avs/boards/nau8825.c   |  6 ++----
+>   sound/soc/intel/avs/boards/pcm3168a.c  |  6 ++----
 
+Please separate all the avs-driver changes into a separate patch with 
+the following prefix for the title: "ASoC: Intel: avs:".
+
+The code itself looks good. Provided the separation is done, feel free 
+to add my tag:
+
+Acked-by: Cezary Rojewski <cezary.rojewski@intel.com>
