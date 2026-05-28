@@ -1,42 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928EE3DD537
-	for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 14:42:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1960367297
+	for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 14:42:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780065729; cv=none; b=X5Rv/ns+AT9O7ieMBIFYPnnr3tckMQAZYOBeKAULajThphNhrllKe1ODfZ8A7XaLCH+Vo5wY8BG8SvQGRdox05ZutO/QSneKPmeVqHVzovbXqdcIqAJAxXw8vMD/gDqCQDB000F/xBNHB3SmEf6Vh6365oX9iznCw1WxMC9Kk88=
+	t=1780065734; cv=none; b=JZqZz1StkVqXOJwIOswIiyEGqy+1PcTt8iPA14BGyX4KeH4uFW9Wtx7i5oXO2vxj8KoxMNWKFfipyQ7kb5Whp93h662KIacMbBpZ0Nq0w6wH9uRzbxvRMlSfJyY52GkKf1IgOB7ZOyhmiFC+gXo71Z03vQbgnfGUtyazQ23WpP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780065729; c=relaxed/simple;
-	bh=2gS8XfkusJFfIAIxl+hvS7jeOyiTzzWPkRzYzKPZwIw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=nSDlNv9wyt9mg2ne0jDyfnedN8ngeo6+VrYMEFgCyCmKDjbwzoofBkjWylxMfWbZU+5aKUru1BhtUQ6yIJCWwbN8ppxxpPzdCfb5K1t6YZSb/u6gD6erroORIERAtY/gAkiKbKtiHLFIXJaTqNt80SFi3uSZWc6x1rjyxtlCzhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nhVChKyS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780065734; c=relaxed/simple;
+	bh=KW64H8qcj+BI/trQntXPk7bJYYrLZACRng6FgUd666Y=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=uUu78E1+bFrDxwK+I5n5CMATUSLddipbTmVzF9AaTkJ7gASRIj5lV2BTQkcHRX3YoBcPjgG1paFL+Mdueq7M31fFR5qcN6++4+xupEd9sd0c80kYyChyS+A1aCYoJyIuKq7Sc0offrEfjK/pNUx9wdwTj3zuN6NXDIPIDFL6PXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mn5SpiNc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nhVChKyS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E35AA1F00898;
-	Fri, 29 May 2026 14:42:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mn5SpiNc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F25871F00893;
+	Fri, 29 May 2026 14:42:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780065728;
-	bh=HhZoZAr2pF2fTUiJqVrj2murSsl6nzRUYuqbfzAabfE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=nhVChKySr8wOOSPMBADn5djebqB9gYaSyMRiOStgZu2DR7he10Odpmqx606RMUX97
-	 JSe/TedOGvzJGHlGq/vobRTvJMKmMPP1tTqwbZ+nfQxKD1AR4ORWev9QmRnUcfESNk
-	 wtCs9/jQsLow9zzikyqp1oaZZA7zVpHnhP5DCMJr811D6vcffaEUvkr03hD7jHH87E
-	 +tcf4so78KUE/kjzBaeRoSkOQHDK8GtYaqe2ERRj09qhHb1p3s62QS9RU2sykwtEMc
-	 PK6td6QXotg3ERKkIRcCPS1RYFCITSebf5UcoCDcIkJ2SBsRn/ybgd+dJbiJ8rT8vp
-	 aGQ54pDAOkYhA==
+	s=k20260515; t=1780065733;
+	bh=zYIYIOb0xNPiHQPY3klF2TjCpn0LMUpmB3GaKKWcY7E=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=Mn5SpiNc/GRxlhmvQM5FPIBW3DshGhg0TwzTd8cBJ4GUIhi1FnKwPyVxszBfQ+64A
+	 dusUUWs+O6y01GZ3EhrRQzkI3iaDNSE2oEqeSUHdMfRUzezjvA8dIcNXYKKT+l936Z
+	 jwAwuVgqdSeBE8qleuzZmVoA8QDhpmgKKWdlJFMYSqLJu3WqQukDR/e1AJl7f1YYhl
+	 fLzqchjaGRIsGDLwCJDElKY8ADq9uG8R41Jur9fR5El8Li8pZL3Kff731YQZoYvcwR
+	 vVZOiKdGADNZanc8JR23iitPYWpX99AaY1mXrg6WnkDPbfl/Mx3EcZ+WBFa1KD1D3Y
+	 sFpxX7BlGwt5w==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, 
- linux-sound@vger.kernel.org, andriy.shevchenko@linux.intel.com, 
- krzysztof.hejmowski@intel.com
-In-Reply-To: <20260528083444.1439233-1-cezary.rojewski@intel.com>
-References: <20260528083444.1439233-1-cezary.rojewski@intel.com>
-Subject: Re: [PATCH v2 0/3] ASoC: Intel: catpt: Error handling and debug
- improvements
-Message-Id: <177999197688.110239.12996121345217539599.b4-ty@b4>
-Date: Thu, 28 May 2026 19:12:56 +0100
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Chen-Yu Tsai <wenst@chromium.org>, Daniel Baluta <daniel.baluta@nxp.com>, 
+ Jaroslav Kysela <perex@perex.cz>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Takashi Iwai <tiwai@suse.com>, linux-arm-kernel@lists.infradead.org, 
+ linux-sound@vger.kernel.org, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <878q942wce.wl-kuninori.morimoto.gx@renesas.com>
+References: <878q942wce.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v2] ASoC: soc-card: add
+ snd_soc_card_set_topology_name()
+Message-Id: <177996722359.8579.3270107698198416645.b4-ty@b4>
+Date: Thu, 28 May 2026 12:20:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,27 +54,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1638; i=broonie@kernel.org;
- h=from:subject:message-id; bh=2gS8XfkusJFfIAIxl+hvS7jeOyiTzzWPkRzYzKPZwIw=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqGaW9TdAu83w9orHJy/8BfmyF9uknXNQexkfHN
- Mr7GeuH03OJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCahmlvQAKCRAk1otyXVSH
- 0JXSB/9bZj2Y3gvNK1qX3vhuyafXXDiuuSnUvaiyN1fPw2YRU7Z896kdzUwrbKTwBbX1fPO9cYv
- fBc2oot33MwmhhHpxikHuoSQADR50ZE0gvos/VPUeogRIx8WMpVZ0pUljnbjshoeOUjGMQT0oHC
- L+xNhWg+fqDCXpEKk37hFMLVZPYxhZmQUU/xPlFBRMR4c7Vz3oj2oshh1w93Nx+uoMgYgXScw/B
- Z5FzTE+nuVBqj1yAyEqcyoEbCYhWxNEmCp8V4/sw85yGSorf1Ynmvu4iEr/Q3v06FQnfajTAUVc
- GV0WPf18sgWy/bYGqMtIPnC7w3/Ayrj5Rb3VQoVKifXp3HhG
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1127; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=KW64H8qcj+BI/trQntXPk7bJYYrLZACRng6FgUd666Y=;
+ b=owGbwMvMwMWocq27KDak/QLjabUkhizJpQc1u/056zzb2uxdPy9m7jG+PUX5HYeHdFJxTgdzm
+ n5l0NZORmMWBkYuBlkxRZa1zzJWpYdLbJ3/aP4rmEGsTCBTGLg4BWAiTLXsf3idWrx31bGkBLdL
+ il2clsVrN3nFd2dW1WUbAv/fEDDgPZWrYbSyoLNj33+GPyq5AdmvxPfVRjGG6ea5hQm36DkeNjC
+ ISrHN+f+Z5/t0XcMz0cZq6dZCz9hDFi+95rvVVXuna0zYLf1pT1jcPkZKvDPI0lgk3x3Fm7ht2n
+ +OwmWVtjz6p37NiPDaIsP2+dbz5w3bn67a9fLnnjY5swOPLbcd5mrfrf5iboPqQynBz9nb7lRxz
+ Y9kXxsbG6TDFcmiw260QKbsA2NYBEOXr+aRxCtrziz3dQ4q+5hiKGdi11R++q9g37WeK9e/LOvP
+ sfk6zWViNJPran2u6bnyuXXz5Z2VP8t4nvOOUI0/kAUA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 28 May 2026 10:34:41 +0200, Cezary Rojewski wrote:
-> ASoC: Intel: catpt: Error handling and debug improvements
-> 
-> Outcome of a long debug to solve one, long-standing bug ocurring very
-> rarely on Haswell/Broadwell machines during the boot procedure of the
-> AudioDSP firmware.  Clever/unfortunate user can increase the
-> reproduction rare to 100%.
-> 
-> [...]
+On Thu, 28 May 2026 00:48:01 +0000, Kuninori Morimoto wrote:
+> ASoC: soc-card: add snd_soc_card_set_topology_name()
 
 Applied to
 
@@ -74,12 +75,8 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: Intel: catpt: Complete coredump handling
-      https://git.kernel.org/broonie/sound/c/7e5d59f407bc
-[2/3] ASoC: Intel: catpt: Add pretty-trace for large IPC payloads
-      https://git.kernel.org/broonie/sound/c/0ee392ea75c7
-[3/3] ASoC: Intel: catpt: Print error code if board-registration fails
-      https://git.kernel.org/broonie/sound/c/45cf3e0cb4ca
+[1/1] ASoC: soc-card: add snd_soc_card_set_topology_name()
+      https://git.kernel.org/broonie/sound/c/ec4489c43efe
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
