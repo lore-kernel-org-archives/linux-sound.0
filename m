@@ -1,89 +1,87 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D3A3B7772
-	for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 08:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A673BC685
+	for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 09:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780044991; cv=none; b=rvKLjqXCELEpK+ZFHgRoms3pZPO4R5Mq90mqWPE7on0MAPYglXBdPrcR1cMe2b8TrOnwWZN0R4pohgaw5YBBdOd/I8cj5w7f/kPxViRJkfqxKFN9Cy+bv3GY2Zegm/yNSLz/0/zMu2wHitZAadZr3K9D/a8LAOeAyq1A0uo6SXU=
+	t=1780045298; cv=none; b=EfLz/gMcisk0BIXIl0y6ywc1VGGBmZ9BvRIiWPmSiTfHujiPGzw56fsBVE7cN5yOkPjfGmh5Wd++K7U2e2g/pj7/8SyJzfD1kH82y+iusq+Wb0k+piIw6oH3Dlmh7JsYgZ0go1qbrqfHPGxrFFtg/Y4LSnEq615Q1irb2u6wB7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780044991; c=relaxed/simple;
-	bh=u52KAyKTKrEsEtp9L4qDBjRSU+DFB09wCNA3z0VHVeE=;
+	s=arc-20240116; t=1780045298; c=relaxed/simple;
+	bh=ihdcukkPRZ+Q3bMLKR0mcxgWglBkSG/giICS17S/T+s=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VNRAdR2Sl9M6Va+7w94uUnqQQVa63lQMBbcT/7qvSMU1wi71utpWNcMpg0oy4wCdLk+LK8hUi9JJwPK0iGraxqx2XOUzjzWjMy5C9K7KgXFfr1FQ4aeyU5SAfMTyg+o1+RWm2Q49LhGCzrKDJo+xIPdHmpY/vfdFKqgb16knP5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=woQRNOaB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=myLKF7mJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=I2tFrNei; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L+7aQzFt; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=A0dkzVIpqFIcq6lpKqY56+hgiDsJ5pRVF4yS+m2yJ+9bttFKnrfyCSeoxh6mb/ZDI8+V1gBqdR88/fZJEwu3gWzk6JHRrSe1RZrP9MRlQAWdDZxNFsflVMpLWVNFUTLEQKCaHGk3fcm8S+mpDKO/LwLHLWlluMWY20XnBwu8AMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gSTXjfTv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BFSH+pRF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tqQ9Tvv1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1eQgXN4d; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="woQRNOaB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="myLKF7mJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="I2tFrNei";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L+7aQzFt"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gSTXjfTv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BFSH+pRF";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tqQ9Tvv1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1eQgXN4d"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C904267342;
-	Fri, 29 May 2026 08:56:27 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 506D06A927;
+	Fri, 29 May 2026 09:01:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780044988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1780045292; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=khp8pgmNcLjpyYb+rARBaWJTHLVLheayc+s99XI06g0=;
-	b=woQRNOaBvBFkps7k3GMPTevpmrd3nqKlL40d9POfYrBfv1sjc+LiqCAN2thrrggc/MnbNL
-	dhV8WUf0sUqK/CcdB7wxTaujSyZIqpbLvHbJCmw6fVooUoJlSjZJ+F9mgmnAljVvvAknou
-	N6/BBg/fFwQyYKAnsKPy7hTkLTHucTs=
+	bh=YWXbALwRq2CXSyf5+Jss4dRwtlgrosd30LcTZTcL4Zk=;
+	b=gSTXjfTv271fADy4aXMitZrpU0Qz1NkhiApLLKUrJMeL9Oka8bETtQ1PRUYOQ6I6wp0ohD
+	br+OdF3baLxuZMEXpEmml4ZSuSypKKk+nswAdbxTxG5DVnLXLOb99Ogg2DxGMtEv+FAo/T
+	9J/Bu7XB4Q0J/ZF6GJ3zx167IxBJ5GU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780044988;
+	s=susede2_ed25519; t=1780045292;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=khp8pgmNcLjpyYb+rARBaWJTHLVLheayc+s99XI06g0=;
-	b=myLKF7mJmoz222nKWEujpCHI8Kv2J1AtxUDlgwPSzb4eZjye+Hpnmd1iVlomd5wvNdcx6P
-	k21HKnRU8uKikLDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=I2tFrNei;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=L+7aQzFt
+	bh=YWXbALwRq2CXSyf5+Jss4dRwtlgrosd30LcTZTcL4Zk=;
+	b=BFSH+pRF48u0qfGbElEY2eCLaZo2zQcqPkk2puy8+uaL1QCKZ/dn43o9O3AWnMYfv/ooan
+	KJIcEbrmUBr2iyCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780044987; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1780045290; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=khp8pgmNcLjpyYb+rARBaWJTHLVLheayc+s99XI06g0=;
-	b=I2tFrNei/TtjS892sMYrMaLf8yx1ZoIrIF3kpk7l76YOYB3QaA31P+EuEDeH0SMFjrSxy+
-	jq2pseS6zi4D5RhaFOjAPxS+Ey0GDFJDY9YN/IGDZjna3XdlKyFHmKy6pwO+hEXeqNzcF9
-	e9Vt720fWZpjw9rWaEFs8p/16E8avEs=
+	bh=YWXbALwRq2CXSyf5+Jss4dRwtlgrosd30LcTZTcL4Zk=;
+	b=tqQ9Tvv1GpzxNeDIXGpUkmjX5klm7h3DNMoDEAIwWNFDwGPer3qZeOIKHXCywiZ3jwWJKD
+	Bftyalz+HGkEYIGD4VO6Uva66P5VB9O413BTuf+IzCQZejWIE4p1N6c0tOgkNcUoghzUEs
+	7Pe7bh9evnHhPk/Y8qT3yW/WQq2mI6o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780044987;
+	s=susede2_ed25519; t=1780045290;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=khp8pgmNcLjpyYb+rARBaWJTHLVLheayc+s99XI06g0=;
-	b=L+7aQzFtYhCN0hnIJbTw9RhECiVPLNCFI565w9BkvedNt8qnYmIHwodOlWdWPgsptDoj+j
-	WFolGtyDU4u7V7Aw==
+	bh=YWXbALwRq2CXSyf5+Jss4dRwtlgrosd30LcTZTcL4Zk=;
+	b=1eQgXN4dFwRTlcpc8PfW4utPWxu9zlBOTewbiHPslazig+cCv+HsTAMAoW+yoU6drk4eq/
+	sT2+NjvDiTTUptDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8D484779A7;
-	Fri, 29 May 2026 08:56:27 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B1CE779A7;
+	Fri, 29 May 2026 09:01:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3qAgIbtUGWpwMwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 May 2026 08:56:27 +0000
-Date: Fri, 29 May 2026 10:56:27 +0200
-Message-ID: <871peusif8.wl-tiwai@suse.de>
+	id pNBDBepVGWqOOAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 May 2026 09:01:30 +0000
+Date: Fri, 29 May 2026 11:01:29 +0200
+Message-ID: <87zf1ir3me.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Rong Zhang <i@rong.moe>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
+To: Li Jun <lijun01@kylinos.cn>
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] ALSA: usb-audio: Add QUIRK_FLAG_MIXER_GET_CUR_BROKEN for Sennheiser MOMENTUM 3
-In-Reply-To: <20260529-uac-quirk-get-cur-vol-v3-0-bde363188ca4@rong.moe>
-References: <20260529-uac-quirk-get-cur-vol-v3-0-bde363188ca4@rong.moe>
+Subject: Re: [PATCH] ALSA: loongson: Fix invalid position error in ls_pcm_pointer
+In-Reply-To: <20260529024830.3078886-1-lijun01@kylinos.cn>
+References: <20260529024830.3078886-1-lijun01@kylinos.cn>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -92,64 +90,90 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: C904267342
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,kylinos.cn:email];
 	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,perex.cz,suse.com,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_TRACE(0.00)[suse.de:+]
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo,kylinos.cn:email]
 
-On Thu, 28 May 2026 20:38:54 +0200,
-Rong Zhang wrote:
+On Fri, 29 May 2026 04:48:30 +0200,
+Li Jun wrote:
 > 
-> Since commit 86aa1ea1f15c ("ALSA: usb-audio: Do not expose sticky
-> mixers"), the UAC mixer core utilizes volume SET_CUR and GET_CUR to
-> identify devices with sticky mixers. Unfortunately, even though most
-> devices with sticky GET_CUR also have corresponding sticky SET_CUR,
-> which I actually met more since the commit had been merged, there is
-> also a rare case that some devices may have volume mixers that responds
-> to SET_CUR properly but with its GET_CUR stubbed. This cause the sticky
-> check to consider the mixer to be sticky and unnecessarily disable it.
+> The "invalid position" error occurred when the DMA position descriptor
+> returned an invalid address value (e.g., pos = -1048838144). This happened
+> because the `bytes_to_frames()` function returns a signed value, but when
+> `addr < runtime->dma_addr`, the subtraction produces a negative result that
+> gets interpreted as a large unsigned integer in comparisons.
 > 
-> As the sticky check can't distinguish between sticky mixers and working
-> SET_CUR but broken GET_CUR, add QUIRK_FLAG_MIXER_GET_CUR_BROKEN to tell
-> that the device should fall into the second category when GET_CUR
-> returns a constant value. In this case, the sticky check becomes
-> non-fatal and only disables GET_CUR instead of the whole mixer. The
-> current volume will then be provided by the internal cache that stores
-> the last set volume.
+> [   32.834431][ 2]  soc-audio soc-audio: invalid position: , pos = -1048838144
+> [   32.845019][ 2]  soc-audio soc-audio: invalid position: , pos = -1048838144
+> [   32.855588][ 2]  soc-audio soc-audio: invalid position: , pos = -1048838144
+> [   32.866145][ 2]  soc-audio soc-audio: invalid position: , pos = -1048838144
+> [   32.995394][ 2]  soc-audio soc-audio: invalid position: , pos = -1048838144
+> [   33.006025][ 2]  soc-audio soc-audio: invalid position: , pos = -1048838144
+> [   33.016748][ 2]  soc-audio soc-audio: invalid position: , pos = -1048838144
 > 
-> The Sennheiser MOMENTUM 3 needs the quirk flag. Though its UAC mixer
-> works fine and precisely corresponds to the reported dB range, the
-> mixer's volume GET_CUR method is somehow stubbed and returns a constant
-> value (15dB), resulting in it being disabled by the sticky check.
-> 
-> Signed-off-by: Rong Zhang <i@rong.moe>
+> Signed-off-by: Li Jun <lijun01@kylinos.cn>
 
-Applied to for-next branch now.  Thanks.
+Since it's a change for ASoC, use "ASoC" prefix for the subject line.
 
+About the code change: how does this negative position come?  Is it an
+utterly bogus value to be ignored, or is it a position overlap or
+such?  Your change seems just ignoring and returning 0, and if it's a
+spontaneous bogus value, it may lead to an unexpected jump of the PCM
+position, too, for example.
+
+
+thanks,
 
 Takashi
+
+> ---
+>  sound/soc/loongson/loongson_dma.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/soc/loongson/loongson_dma.c b/sound/soc/loongson/loongson_dma.c
+> index a149b643175c..f0a7065ddae7 100644
+> --- a/sound/soc/loongson/loongson_dma.c
+> +++ b/sound/soc/loongson/loongson_dma.c
+> @@ -207,9 +207,15 @@ loongson_pcm_pointer(struct snd_soc_component *component,
+>  	desc = dma_desc_save(prtd);
+>  	addr = ((u64)desc->saddr_hi << 32) | desc->saddr;
+>  
+> -	x = bytes_to_frames(runtime, addr - runtime->dma_addr);
+> -	if (x == runtime->buffer_size)
+> +	if (addr < runtime->dma_addr ||
+> +	    addr >= runtime->dma_addr + runtime->dma_bytes) {
+>  		x = 0;
+> +	} else {
+> +		x = bytes_to_frames(runtime, addr - runtime->dma_addr);
+> +		if (x >= runtime->buffer_size)
+> +			x = 0;
+> +	}
+> +
+>  	return x;
+>  }
+>  
+> -- 
+> 2.25.1
+> 
