@@ -1,165 +1,155 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013005.outbound.protection.outlook.com [52.101.83.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443413321A2;
-	Fri, 29 May 2026 08:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780044657; cv=fail; b=edjuwc4SsguKBps32tNLpkCLZVts3ZSRW7ewUZDIyuZ95W4RcNros3ZQkza0CTo2J/5Cx/0zh3A04lvjT6dOtltlGS3deSXnFCQEzwsgiK6c6GYHwUayH9qJHPKxHkGNgIktYLmRrCxHbhM3L/9qlTelqrHTzCNNAH0DSjKP/iE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780044657; c=relaxed/simple;
-	bh=VW1Bp8ssIIyavl95MO5YhWqnb4a99Gpu0GV269D3oe0=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=WhIVXsDI9MBFj/yXImsjDRI7q+xmVMWzLi8t5AFfwHcR3Dyxf5rbWA6AAPrKfWIanfp6q4CMN8SVfMBY76ZoHPKn2w7y4UEG1LCK6b5Eys1qf113tehRTA8KJoNpCFdLuMAG1x2jyqGHGHhqVLqGgJ1lt9aOBs3VyjmUL38Bt8I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=MN18HeO/; arc=fail smtp.client-ip=52.101.83.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D3A3B7772
+	for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 08:56:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780044991; cv=none; b=rvKLjqXCELEpK+ZFHgRoms3pZPO4R5Mq90mqWPE7on0MAPYglXBdPrcR1cMe2b8TrOnwWZN0R4pohgaw5YBBdOd/I8cj5w7f/kPxViRJkfqxKFN9Cy+bv3GY2Zegm/yNSLz/0/zMu2wHitZAadZr3K9D/a8LAOeAyq1A0uo6SXU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780044991; c=relaxed/simple;
+	bh=u52KAyKTKrEsEtp9L4qDBjRSU+DFB09wCNA3z0VHVeE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VNRAdR2Sl9M6Va+7w94uUnqQQVa63lQMBbcT/7qvSMU1wi71utpWNcMpg0oy4wCdLk+LK8hUi9JJwPK0iGraxqx2XOUzjzWjMy5C9K7KgXFfr1FQ4aeyU5SAfMTyg+o1+RWm2Q49LhGCzrKDJo+xIPdHmpY/vfdFKqgb16knP5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=woQRNOaB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=myLKF7mJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=I2tFrNei; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L+7aQzFt; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="MN18HeO/"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=P2AbZcprGNDPpDkEzHQCOsfusnCDOXB2q91ID5pcInBZ6gQcxEQwddWjmspwskDdlKVFKgIeiZswumNTR2B/GuZgOTxPGBtq7ghRyWzPLrofWda+N6PCmOfbeEEddjAJ7ni7/24uQA+FAxd67YE8ODeEhwbbeBTW3rUmPsG0TPfVGoSMxlaqx7toUjVCI8Oxk0nUh8qwH4PLJCwyDuybsNneAWQLUithzDXmiLFHcqCDN4f27aPeiGJ/kQgHvUcKJ0K0NhVb9vTNPmdEWNtQfRIgyiDVV++8mY5ggtVONRJkLBHno/ApwVOah1akgY6EGl36AuXSNAE/95EnPzeCgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Oq8/tGUi72BajpVWW4PkpB2phs/PpBWbG1ELBTV2vLU=;
- b=R5bLASwGzv4SuV2HxF6Be1LrP2yBSEk7vRKHgzYMhLCHnZcA96lLYzAY5fsDj+/R+zvTRdH+5eOp43xtE012iQuxO0ShnzrwVUz7QyO/Gl/4gPm5pHevvBw8HA1u0ekwiF2GW9FwXhGa7CM2ZCdrADgBbx1pwZxSn10LoKwvpx0OKGkJrKJ+JndDkJQSJ7NlxezwkggcD3wubhfiROik1FwXCFUvAzvaaSkD6yBd85yh8gR77DelemrsbG1edw4z9m3KHFMghASNCTH1wODYtfYkoKcsko35aSkxvSvNk5OTfVpaIXmRvKu9KVWaePx7mT640KJVfrk1qvYbg1vMQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Oq8/tGUi72BajpVWW4PkpB2phs/PpBWbG1ELBTV2vLU=;
- b=MN18HeO/TjHl5kYJM6IfFqKv3J6acTG5bBmnS96/9jJObuV2zt1o7lS7iJDUK4Cig2xkrD+YxgyIsMu0DAxBcppeILO6/BeGnOnGZcZGSzbVu3jOuZV8P0qjukp573gFCLHA1rBP0y2r7vO/eQLdJw7mEiJn4KY/OxHL9w928xDvqdo2WB9bjjjxKu+Wu8rUNeYEf6dse3v4SUBAYeL6WsYuBverKkbPEEIB+9RJ0EN2FOGuoKCxePwyFE/rXU36KES8pdeVp+d/UYMyzWrUUNUdmPv9RoxZMzTctIpiuQ2edKGmQgOJ71n/1+AYpRMixPvR3sGub1HxRWwdwmR24Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM9PR04MB8353.eurprd04.prod.outlook.com (2603:10a6:20b:3ef::22)
- by GVXPR04MB11665.eurprd04.prod.outlook.com (2603:10a6:150:2c0::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.13; Fri, 29 May
- 2026 08:50:52 +0000
-Received: from AM9PR04MB8353.eurprd04.prod.outlook.com
- ([fe80::46ae:f774:f04c:a1bc]) by AM9PR04MB8353.eurprd04.prod.outlook.com
- ([fe80::46ae:f774:f04c:a1bc%5]) with mapi id 15.20.9870.023; Fri, 29 May 2026
- 08:50:52 +0000
-From: Chancel Liu <chancel.liu@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="woQRNOaB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="myLKF7mJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="I2tFrNei";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L+7aQzFt"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C904267342;
+	Fri, 29 May 2026 08:56:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780044988; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=khp8pgmNcLjpyYb+rARBaWJTHLVLheayc+s99XI06g0=;
+	b=woQRNOaBvBFkps7k3GMPTevpmrd3nqKlL40d9POfYrBfv1sjc+LiqCAN2thrrggc/MnbNL
+	dhV8WUf0sUqK/CcdB7wxTaujSyZIqpbLvHbJCmw6fVooUoJlSjZJ+F9mgmnAljVvvAknou
+	N6/BBg/fFwQyYKAnsKPy7hTkLTHucTs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780044988;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=khp8pgmNcLjpyYb+rARBaWJTHLVLheayc+s99XI06g0=;
+	b=myLKF7mJmoz222nKWEujpCHI8Kv2J1AtxUDlgwPSzb4eZjye+Hpnmd1iVlomd5wvNdcx6P
+	k21HKnRU8uKikLDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=I2tFrNei;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=L+7aQzFt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780044987; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=khp8pgmNcLjpyYb+rARBaWJTHLVLheayc+s99XI06g0=;
+	b=I2tFrNei/TtjS892sMYrMaLf8yx1ZoIrIF3kpk7l76YOYB3QaA31P+EuEDeH0SMFjrSxy+
+	jq2pseS6zi4D5RhaFOjAPxS+Ey0GDFJDY9YN/IGDZjna3XdlKyFHmKy6pwO+hEXeqNzcF9
+	e9Vt720fWZpjw9rWaEFs8p/16E8avEs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780044987;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=khp8pgmNcLjpyYb+rARBaWJTHLVLheayc+s99XI06g0=;
+	b=L+7aQzFtYhCN0hnIJbTw9RhECiVPLNCFI565w9BkvedNt8qnYmIHwodOlWdWPgsptDoj+j
+	WFolGtyDU4u7V7Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8D484779A7;
+	Fri, 29 May 2026 08:56:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3qAgIbtUGWpwMwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 May 2026 08:56:27 +0000
+Date: Fri, 29 May 2026 10:56:27 +0200
+Message-ID: <871peusif8.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Rong Zhang <i@rong.moe>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-sound@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: fsl_sai: Fix 32 slots TDM broken by integer shift UB in xMR write
-Date: Fri, 29 May 2026 17:50:20 +0900
-Message-ID: <20260529085020.3727790-1-chancel.liu@nxp.com>
-X-Mailer: git-send-email 2.50.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SEWP216CA0024.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:2b6::6) To AM9PR04MB8353.eurprd04.prod.outlook.com
- (2603:10a6:20b:3ef::22)
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] ALSA: usb-audio: Add QUIRK_FLAG_MIXER_GET_CUR_BROKEN for Sennheiser MOMENTUM 3
+In-Reply-To: <20260529-uac-quirk-get-cur-vol-v3-0-bde363188ca4@rong.moe>
+References: <20260529-uac-quirk-get-cur-vol-v3-0-bde363188ca4@rong.moe>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8353:EE_|GVXPR04MB11665:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2bb48f98-1fcf-467e-a4b3-08debd5f629c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|52116014|376014|19092799006|38350700014|56012099006|11063799006|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	6NkF/g/kaSKYYkI/YmT0gZ0RH1CgEMUyvvV3GiFQ0vyxYlh9gnUWY8uMRJsRr1o5M/Qml8Nu5eJce60xqOSG0HjT9E4xQuy5iz3+LnUEc/cRx4nE9p0jwmDL1L3rn7wyiyhPuq1D3HZX54fMx/6N6mjoIwGrLdHLbuHX2JLC7qtPiDiL3S1qeSYeMy1kEtTQuQKJq4N6+VZYXci2jUJ1y7Lz0VOVJKBHiGIw9ZSGnNxMf2QyZNxJTwGwv+5SM5436cU2MH4FYU2uWdSc1PIGpCsCNhiV/sM2NdXvsVLv/hXzqolyT3W3VHkEON794Gh4cWFeKpY7LWFH9u1+apoTPVySsUj3K2TAk+LaWioHe4d16baW74ZPPB0cnWzahHN50zqSTg+f+Min18cNkyjbUuMbheEONxB6ONS2TShaND1rLqxgxewHm24dTC8CAQ82dGL74BNPlZIRmQSwUfzmjNVe7f1Xy8wgYxLut8e4pUdA4tr8flJ1tiFt2ili0as23NYCCAqvlW7Zz/HOcN6w/q0ONwPHykc1Qb07/Yazvjx8lKLEyNk3o84DvXPmkJqssRCD3bigrt7CMVOfe+NOiV3MCFmKLe++7wTb3/Az5id2kgAsC2+1/4kWjw4+lSgHI7fDG8XtPsiL8HaVC+7vKtXt+5mgFXx9zIRIXrg/RQ++WRNsP5qUFP8G+zGRQuaHpYKBCPBMgqVTiPzEDsb+sHiQbuSR0quSINAjRBU4of74gZgtBsucgpnf+YGD0pf+
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8353.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(52116014)(376014)(19092799006)(38350700014)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?RxRENxFVic8oehysuswU7hb1ncXIRfZ3eiNUpMyW0gHU5ZuiXN6cpi+0whmW?=
- =?us-ascii?Q?ecJbPurMDRDhXbp/VUr9bmtpkdiBuL63TEXVsJDDWqiWp5kwnlgZvhU5aJ3V?=
- =?us-ascii?Q?K1l1r8VMpjipXjT+LbZvuehok0po+TOsiIaQiyPlZx1/9zFkPCxKtILXQgDK?=
- =?us-ascii?Q?ppzDOPr4b4+UziZNPdLpwaTba3kgWScg0Vc+x2NJjk3ATyunnXkTaMzzfDvq?=
- =?us-ascii?Q?NziBpmuz3N5VUE51Qm2yVZNazu4ruWE0XWqvgOH9jTrZUrQe+sx4OZ8sP4eI?=
- =?us-ascii?Q?0Q0DwClnJ4qX7LmcgjsfVJoC2/fcQWv+gOwMRkYlKOSIvH2HtXw0RcfC8qHt?=
- =?us-ascii?Q?bmbTX818xCjN/hxs7F/sCDGqUUQh4KiUl5Je/3dm/VNoZES2pEKqTP1l5/Sv?=
- =?us-ascii?Q?f4VgJwucXTN4Aa7pN7JNvfwZS7IPsKJT2Yoq62AGOT4jWqodQJ4xm6rVVrMt?=
- =?us-ascii?Q?Rh80l/WL6AjrDxnwI0bIxRsPaI750b5X9LCHemT86y16JqLplL0vROYZ9Zhx?=
- =?us-ascii?Q?8YNs/T6S6Xn5efZ1RQzFlrD7/CTPxliPwnuUvHWpCeLdsZCRINrDbpuj4wbS?=
- =?us-ascii?Q?J7Yu7JqPwgeqxY2hYgDD9H+I0TgqTw6zE6NWAtARCuDCGDBt8frfIm5+YtDw?=
- =?us-ascii?Q?RZO9APi248Xp57iHc1Oo2LyKEfGCXWjtPs2QyP1B9fnGo3TeLEN//ewPL/v+?=
- =?us-ascii?Q?7HlnVSUe6PdknX4CGGUqv4nSiZjPig/aRJv2ibejEzl71ZbKcj3T7CdtZnEZ?=
- =?us-ascii?Q?AcEaV9+dCf+jEYuLdxhsINJo2bWPQ3gSu3d7JQLkx6JTF2Z5gYKHsMQW0nHs?=
- =?us-ascii?Q?6eGbJEF9l6bsWHBc6paRoIxtQlnVvnA2f3CHqUDMh7dAQqGk8gY5KS5C1gg7?=
- =?us-ascii?Q?08ZVIfshyKg03nP/ZUJ6fLfXvYow4um/pEvQ3JGwariEeLQZuJVFIe6uG+89?=
- =?us-ascii?Q?fJO78QmQG1VT3b1HauhUoWpmFGtFkuuA/exmqL8TPsNXObj0V9b2/XPAFeM4?=
- =?us-ascii?Q?asSjBgywkbVhN5qrr17pY8DHocdd/Jos35XVHx4pao/uvwNyTJO6iFF978Qx?=
- =?us-ascii?Q?D+w1Bb2Xid+hD8gfegKy7VALNOXyaKobGgkB02EMXL8pFuRKDqbKCHpmJiVj?=
- =?us-ascii?Q?gOI2bzXqV/clV9ts4FEOTe313s3FleDZA0tVUa4NDZRLQESPVYQEqhHwKzxp?=
- =?us-ascii?Q?TmfzRnJ548i8S2sSFo+WBVvP9KYAm4DrFwc2GZnBiLsSzWrkL0oyFWgpBiEO?=
- =?us-ascii?Q?Ago2N0JTq9XpvxI1cM6kFHLD5G3aX4cSEClmog4okItVuuYqZRQJBHRjSn6P?=
- =?us-ascii?Q?NXcj1eWGe7NtTS3HJx4rOgWtAWR1Hr2/W1S0/X9tcv+lqDN2v8ng9GLIrm1M?=
- =?us-ascii?Q?RoI9iViVL+AC8TRFuhTVW+HQoK/1MgvJFJi7y7lnEJvQWugvlDAz/vNnbnpB?=
- =?us-ascii?Q?dU41X1KP61zrklIknYN/6XaXRvdsKE2lFDzsz/OdDIgKmwT3S7RtTs5wIUiR?=
- =?us-ascii?Q?zsH5TjGvDKvsYy78emsC8A8syP58veYBeDxdDEyRPvJZJbLvWAg38ZbSt7jD?=
- =?us-ascii?Q?IkyuS61jrMyR7Kl/NxlJdbyr24o4h+c8iu/XTyRL/w9nMgwZMtwidEbIUVV7?=
- =?us-ascii?Q?32BXMetX4dRhDO8jcSfNj5bWSZV1MKYLIj7j5Dt5up+oGgam88BVBOoimIMG?=
- =?us-ascii?Q?qNWNPIRMlyG89Fm4REmqrRvbGjFJACTzI8S7X9UxeEI/69kCzSh68oGP70Tc?=
- =?us-ascii?Q?D8S8t6Ir+Q=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2bb48f98-1fcf-467e-a4b3-08debd5f629c
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8353.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2026 08:50:52.4007
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KoZ/6mt0ofO3BOhQN8OIRQO6hOsj0ubD0+bYG7nO9hVP4Xtqt7kkK2iq4lODRa+P+1Oz7eFdgNiN7lwge0ai1A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB11665
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: C904267342
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_TRACE(0.00)[suse.de:+]
 
-When configuring 32 slots TDM (channels == slots == 32), the xMR
-(Mask Register) write used:
-~0UL - ((1 << min(channels, slots)) - 1)
+On Thu, 28 May 2026 20:38:54 +0200,
+Rong Zhang wrote:
+> 
+> Since commit 86aa1ea1f15c ("ALSA: usb-audio: Do not expose sticky
+> mixers"), the UAC mixer core utilizes volume SET_CUR and GET_CUR to
+> identify devices with sticky mixers. Unfortunately, even though most
+> devices with sticky GET_CUR also have corresponding sticky SET_CUR,
+> which I actually met more since the commit had been merged, there is
+> also a rare case that some devices may have volume mixers that responds
+> to SET_CUR properly but with its GET_CUR stubbed. This cause the sticky
+> check to consider the mixer to be sticky and unnecessarily disable it.
+> 
+> As the sticky check can't distinguish between sticky mixers and working
+> SET_CUR but broken GET_CUR, add QUIRK_FLAG_MIXER_GET_CUR_BROKEN to tell
+> that the device should fall into the second category when GET_CUR
+> returns a constant value. In this case, the sticky check becomes
+> non-fatal and only disables GET_CUR instead of the whole mixer. The
+> current volume will then be provided by the internal cache that stores
+> the last set volume.
+> 
+> The Sennheiser MOMENTUM 3 needs the quirk flag. Though its UAC mixer
+> works fine and precisely corresponds to the reported dB range, the
+> mixer's volume GET_CUR method is somehow stubbed and returns a constant
+> value (15dB), resulting in it being disabled by the sticky check.
+> 
+> Signed-off-by: Rong Zhang <i@rong.moe>
 
-The literal '1' is a signed 32-bit int. Shifting it by 32 positions is
-undefined behaviour which may set this register to 0xFFFFFFFF, masking
-all 32 slots.
+Applied to for-next branch now.  Thanks.
 
-Use 1ULL so the shift is carried out in 64 bits. For 32 slots this
-produces a zero mask after truncation to the 32-bit register:
-~0ULL - ((1ULL << 32) - 1)
-  = 0xFFFFFFFFFFFFFFFF - (0x100000000 - 1)
-  = 0xFFFFFFFFFFFFFFFF - 0xFFFFFFFF
-  = 0xFFFFFFFF00000000
-  -> Truncates to 0x00000000
-Behaviour for fewer than 32 slots is unchanged.
 
-Fixes: 770f58d7d2c5 ("ASoC: fsl_sai: Support multiple data channel enable bits")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
----
- sound/soc/fsl/fsl_sai.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-index d6dd95680892..821e3bd51b6e 100644
---- a/sound/soc/fsl/fsl_sai.c
-+++ b/sound/soc/fsl/fsl_sai.c
-@@ -797,7 +797,7 @@ static int fsl_sai_hw_params(struct snd_pcm_substream *substream,
- 				   FSL_SAI_CR4_FSD_MSTR, FSL_SAI_CR4_FSD_MSTR);
- 
- 	regmap_write(sai->regmap, FSL_SAI_xMR(tx),
--		     ~0UL - ((1 << min(channels, slots)) - 1));
-+		     ~0ULL - ((1ULL << min(channels, slots)) - 1));
- 
- 	return 0;
- }
--- 
-2.50.1
-
+Takashi
