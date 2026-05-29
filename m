@@ -1,205 +1,164 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4663DDDD4
-	for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 14:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E573AC0C4
+	for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 14:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780063499; cv=none; b=bz3AzKh6Q1JzbQ9vt9DIxVZ9obugLbbGwzoe1F0UKjwxxUAOohthQDxf5Ol3H0ZgHHZyB5WmGhTr/qv3BGRvH264pcCy1kg8awgJDzkeT/kyeh6XWMV/LCmouHFUeOClLHI0lT8Hz+RWpbjkRs54JCAutj8PZhrxfiV1QIpp3Ic=
+	t=1780063918; cv=none; b=gArFFwQo5jTfbhaOxlWdDtrG50mVZLo4IYc45Mi3xQ3A91oeBlpgJBQFGrF83nw6QrXwQdYBYtrpCrw6f+1PK+BP6rRFXKOXhP5YY1Wgm2baIDB95PzBnP2Aejq8x0CeysEA9qkOPJdw01m0am/Jd6ejKNkeVbHftBTJZq2H6Tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780063499; c=relaxed/simple;
-	bh=ssdk4TllqrUyQ9iw/EhrLrRpYTqEOcBzNmEBr+yHLqM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EGG9A7AqBYpNzgDQoRgajV5kAmsvxYG6MNNCBdyWDQwv3kdg10Q5BOEsUs87cEOaEaYMIrKFp0c25KBxpnAg8+LeabrFCq/DjS/fNzZyqxtscOrZoxHVHW8M+sP1wtwe78w7DMiBCtN5njeY9RrWsLqBNMXOPHqQdNpMUNPs4rE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W10l1mO4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OC88svKk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=z3PjI4iD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=d+Qqm2Or; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1780063918; c=relaxed/simple;
+	bh=voMnBWS8cEwfefp8PCxJqjZI5qwsBJ+SwoKj9MSHzzM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YdxyzQZYOUjPy8IVXKGihYSyuNqiGzmzVqV6fkCiSPlGKvXNlIdRVIduaHv16pa/A5JotJ4aRaslQdm46I6oBKGxw0wBRvYjFx0mVtJqw9JhyUMo53R1s2Rb8QlSPkIRfKO5x/gK7SbG56umHhO7T6v+txImqn3qZBdKEB7mtGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QC9Q1Gb6; arc=none smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W10l1mO4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OC88svKk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="z3PjI4iD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d+Qqm2Or"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E61306AD49;
-	Fri, 29 May 2026 14:04:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780063495; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3ynohfOhiCGgB7gP2Vr3jlZz5yvfdJjwr6zoGdetjqQ=;
-	b=W10l1mO4fLYrypiKG59ZsiXLLHY9tFS4rsvd0ZbndNOMY7p4EjDOI29B6KYSwUMAyJfKab
-	XPPKx4SN1ZQ+7OnVWxrSG/Mx6rXU6+ZdScuWz4lPghRmi7fUc8C3SW2oVLywX/81GmHMPz
-	BTVFM2Jkv5A4JKToMktEKaTRjgR5F/M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780063495;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3ynohfOhiCGgB7gP2Vr3jlZz5yvfdJjwr6zoGdetjqQ=;
-	b=OC88svKkBYC2Ba3D2IB00IhdxZiQryh0jr5RRPsIa/XTyFtm65ZQa2cEZSR1BYCVej/SD7
-	TVMRz2ZgmacmBhAQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=z3PjI4iD;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=d+Qqm2Or
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780063494; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3ynohfOhiCGgB7gP2Vr3jlZz5yvfdJjwr6zoGdetjqQ=;
-	b=z3PjI4iDSnvWOyHo75ieL27CVNhmenv4xeSkGIlKmfVeYQsIfsiR5JKZE3B5etolaMjO+n
-	2qjEv+hHSGWTsUXIoCUmv6QNSfbuaqgcZa5VpBztMVF0tmur3ZN9DpTXYY61mLU5wvYtHS
-	+9STtuklsmHc0hGn0ZP3jCNLZC57toU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780063494;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3ynohfOhiCGgB7gP2Vr3jlZz5yvfdJjwr6zoGdetjqQ=;
-	b=d+Qqm2OrMCOOJf0VdYBXDk3RDwQK3YW6Ah9cFlAaTQxHX3OQZBDZtPG6x+Z8cGrzJp3Iyk
-	PmzbydVPDqszeEAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC55B779A7;
-	Fri, 29 May 2026 14:04:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id C1bDKAadGWpGaQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 May 2026 14:04:54 +0000
-Date: Fri, 29 May 2026 16:04:54 +0200
-Message-ID: <878q92qpkp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: lijun <lijun01@kylinos.cn>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: loongson: Fix invalid position error in ls_pcm_pointer
-In-Reply-To: <55194c42-91ac-43cc-9891-86604fb2618d@kylinos.cn>
-References: <20260529024830.3078886-1-lijun01@kylinos.cn>
-	<87zf1ir3me.wl-tiwai@suse.de>
-	<55194c42-91ac-43cc-9891-86604fb2618d@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QC9Q1Gb6"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-12ddbe104ccso10236897c88.0
+        for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 07:11:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780063912; x=1780668712; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Im9EwLlskN6tLRrDssrI4Txz2shPxQYbcfE75EYkiHM=;
+        b=QC9Q1Gb6HwWBnBAb+vU5G+e4Dk3zz6LyUoV47WbTb6nx/72uG0atjJCRXLiV9Fy4PU
+         bUNq8JzFwkST+RV12UpKAG5Q1P3s8ALjjP1nM7dwhQAg9UxvL2EgqgH1OGrt3Q3R8JsF
+         plbTO8PmBGVwmplaeND31FXqWMPaPHdnMX2NLlBSM6b5LPN6IP+JjxJblJRfY+BYvAH9
+         WHexXuqebwe/Tol8dmlRgA/lClIgWI6g1d0FPAO3kc3JiMOL1l82BbR9Tqc6MW3QMobx
+         OXyUAXTKNXqXQNucBqtg+lh9PSZ2DIpo6JJsyqZSuSS9y2klcEOkQkdTTxyxrP2A/KqG
+         RK2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780063912; x=1780668712;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Im9EwLlskN6tLRrDssrI4Txz2shPxQYbcfE75EYkiHM=;
+        b=WlS5LFwO83wGum32wUBdsnIQELE1ywsnHqWx/nfCXINVUwaqyLghXdZ/sn+8ieIyDN
+         fhhY7oP4w4x/9V0K/lToZMXkiHj+RHSt2AX45MjWjC3HRJ+RxvZXWU6RSAi2b2MauwCs
+         5dzpYrx2Tocwr9IMNZhIgmlltrzDqevtD1KKdaXG1pWlp0KmZ/wL/bKf+XsNV07T5pos
+         vE7LHTt2EtB9nwOD+TMBJHT6gP7Yb8F104gk0Y6VZMQ5W7M+TPdhxtzet7BcTxIxgLgx
+         ap0kI1jcdpqUOwBssx3vJwE9blxscLAEJBKGqZHDJqVB8/wicTD4Tevq4lxprDO6pTGm
+         qidw==
+X-Gm-Message-State: AOJu0YxmbZ5nhyaW/ElMKAp21nDWbvE735xWkrdtYFiP7vP01O9c3Gz8
+	NSVRuXLom0KuJalrA6QVNYFQK7rLT3bN6bUI95bh5+voWZAxwDDfiQgQ
+X-Gm-Gg: Acq92OHCuOOtiuNs3ZNAoeSmYV/Sz+1L4Arh5HizthMN8SqghyuF5nZMyLIdmOLb4e8
+	4W1z3G2v/SKt1HOXUozyb5mKzpGARlI53BdsDIQSY9bCFq5MSW6Qg1FWn3SCMUzZEmHwup8DdwW
+	XxsbcfDS3D7Tv3IDvcdYDWaaG8xIdw0H9KS1IXyS64oLQYyHbEnF0UP4amaEFmoVc7wnj5lyXoa
+	t8o5oo9oD0PYWWGpKEMj1WRnIzKAREkXGtISHpWdl1J8Sg4apbo+xPKiimShqvSbj6Uwix+vX0e
+	S9/ZPdr0MwgjTj8PalmmVNkISFUr2iHWGxHoAI/apwsDNZ3DLptNiZuGes/hPXODhItNzm+KTyV
+	Ri2sZxJCTmy7P/y5LQuWyuXqh1BWfj409ng3ATd+jBG3+C4hRbLm3sniEIWEsRST8KPGL5mjo2y
+	WFJaPyj5gUrfnSOzfrWEV3Wp/a19FmyTFktaDX8+gbeqfZcFNs325u/prBAfUUwJfJx9shsiyle
+	UyUIyCWZIqLpoTBSngyaqY=
+X-Received: by 2002:a05:7022:62a2:b0:137:6781:7dbb with SMTP id a92af1059eb24-137aedca82bmr1146585c88.27.1780063911838;
+        Fri, 29 May 2026 07:11:51 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-23.user3p.v-tal.net.br. [177.4.161.23])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137b3c69bcfsm1172473c88.10.2026.05.29.07.11.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2026 07:11:51 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Fri, 29 May 2026 11:11:45 -0300
+Subject: [PATCH] ALSA: core: Use flexible array for card private data
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-2022-JP
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: E61306AD49
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[suse.de,gmail.com,kernel.org,perex.cz,suse.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260529-alsa-card-private-flex-array-v1-1-370eb58e251a@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CQAwAwK+Qnm2CK3DwK8ZDd7fVGoKkBYIh/
+ J1Vj3OZDZxN2eFabWC8qOt7KDifKkhPGh6Mmosh1KGr29Ah9U6YyDKOpgtNjNLzimRGH2ylyRJ
+ TFAkXKMVoLLr++tv9b5/ji9P0PWHfD5eZjGSAAAAA
+X-Change-ID: 20260526-alsa-card-private-flex-array-5f4dfbcbff23
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ notify@kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2634;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=voMnBWS8cEwfefp8PCxJqjZI5qwsBJ+SwoKj9MSHzzM=;
+ b=kA0DAAoW0F0/Glr/7oMByyZiAGoZnqWi68AFg0fguHvbXC0oTiAMeGaEKadjoio/Bc+Xh+aXe
+ 4h1BAAWCgAdFiEEq2KiObyK4NV/XqhI0F0/Glr/7oMFAmoZnqUACgkQ0F0/Glr/7oP8AgEA2GHz
+ Yen4o7ZFzjYKqBB8QlSGODUT/IQ/IcSDimleRG0BAIMD7hKg66lJ7WzMtFhYqme96ESl59RpFVg
+ u/xa+/0UL
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-On Fri, 29 May 2026 15:23:18 +0200,
-lijun wrote:
-> 
-> When the addr is abnormal, such as when the DMA controller is abnormal,
-> I think x=0 should not be a point, but a range, which includes the addr
-> address being less than runtime ->dma1-adr, and the addr exceeding
-> the DMA address range.
+snd_card_new() and snd_devm_card_new() allocate struct snd_card
+together with optional driver-private storage. The storage is currently
+described only by open-coded sizeof(*card) + extra_size arithmetic, and
+snd_card_init() reaches it by manually adding sizeof(struct snd_card) to
+the card pointer.
 
-The question is how often it happens.  If this happens frequently,
-reporting a position jump just confuses user-space.
-If it's an abnormal situation, one can treat it rather like an XRUN
-and let stop the stream / restart, too.
+Make the trailing storage explicit with a flexible array member and use
+struct_size() for the allocation size. This documents the layout and
+avoids open-coded variable-size object arithmetic.
 
+Align the flexible array to unsigned long long so the driver-private area
+does not become less aligned than the old sizeof(struct snd_card) tail
+address on 32-bit ABIs.
 
-Takashi
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+---
+ include/sound/core.h | 2 ++
+ sound/core/init.c    | 8 +++++---
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-> 
-> $B:_(B 2026/5/29 17:01, Takashi Iwai $B<LF;(B:
-> > On Fri, 29 May 2026 04:48:30 +0200,
-> > Li Jun wrote:
-> >> The "invalid position" error occurred when the DMA position descriptor
-> >> returned an invalid address value (e.g., pos = -1048838144). This happened
-> >> because the `bytes_to_frames()` function returns a signed value, but when
-> >> `addr < runtime->dma_addr`, the subtraction produces a negative result that
-> >> gets interpreted as a large unsigned integer in comparisons.
-> >> 
-> >> [   32.834431][ 2]  soc-audio soc-audio: invalid position: , pos = -1048838144
-> >> [   32.845019][ 2]  soc-audio soc-audio: invalid position: , pos = -1048838144
-> >> [   32.855588][ 2]  soc-audio soc-audio: invalid position: , pos = -1048838144
-> >> [   32.866145][ 2]  soc-audio soc-audio: invalid position: , pos = -1048838144
-> >> [   32.995394][ 2]  soc-audio soc-audio: invalid position: , pos = -1048838144
-> >> [   33.006025][ 2]  soc-audio soc-audio: invalid position: , pos = -1048838144
-> >> [   33.016748][ 2]  soc-audio soc-audio: invalid position: , pos = -1048838144
-> >> 
-> >> Signed-off-by: Li Jun <lijun01@kylinos.cn>
-> > Since it's a change for ASoC, use "ASoC" prefix for the subject line.
-> > 
-> > About the code change: how does this negative position come?  Is it an
-> > utterly bogus value to be ignored, or is it a position overlap or
-> > such?  Your change seems just ignoring and returning 0, and if it's a
-> > spontaneous bogus value, it may lead to an unexpected jump of the PCM
-> > position, too, for example.
-> > 
-> > 
-> > thanks,
-> > 
-> > Takashi
-> > 
-> >> ---
-> >>   sound/soc/loongson/loongson_dma.c | 10 ++++++++--
-> >>   1 file changed, 8 insertions(+), 2 deletions(-)
-> >> 
-> >> diff --git a/sound/soc/loongson/loongson_dma.c b/sound/soc/loongson/loongson_dma.c
-> >> index a149b643175c..f0a7065ddae7 100644
-> >> --- a/sound/soc/loongson/loongson_dma.c
-> >> +++ b/sound/soc/loongson/loongson_dma.c
-> >> @@ -207,9 +207,15 @@ loongson_pcm_pointer(struct snd_soc_component *component,
-> >>   	desc = dma_desc_save(prtd);
-> >>   	addr = ((u64)desc->saddr_hi << 32) | desc->saddr;
-> >>   -	x = bytes_to_frames(runtime, addr - runtime->dma_addr);
-> >> -	if (x == runtime->buffer_size)
-> >> +	if (addr < runtime->dma_addr ||
-> >> +	    addr >= runtime->dma_addr + runtime->dma_bytes) {
-> >>   		x = 0;
-> >> +	} else {
-> >> +		x = bytes_to_frames(runtime, addr - runtime->dma_addr);
-> >> +		if (x >= runtime->buffer_size)
-> >> +			x = 0;
-> >> +	}
-> >> +
-> >>   	return x;
-> >>   }
-> >>   
-> >> -- 
-> >> 2.25.1
-> >> 
+diff --git a/include/sound/core.h b/include/sound/core.h
+index 4093ec82a0a1..4bb76c21c956 100644
+--- a/include/sound/core.h
++++ b/include/sound/core.h
+@@ -148,6 +148,8 @@ struct snd_card {
+ 	struct snd_mixer_oss *mixer_oss;
+ 	int mixer_oss_change_count;
+ #endif
++
++	unsigned char private_data_area[] __aligned(__alignof__(unsigned long long));
+ };
+ 
+ #define dev_to_snd_card(p)	container_of(p, struct snd_card, card_dev)
+diff --git a/sound/core/init.c b/sound/core/init.c
+index 0c316189e947..98e702ffa856 100644
+--- a/sound/core/init.c
++++ b/sound/core/init.c
+@@ -181,7 +181,8 @@ int snd_card_new(struct device *parent, int idx, const char *xid,
+ 
+ 	if (extra_size < 0)
+ 		extra_size = 0;
+-	card = kzalloc(sizeof(*card) + extra_size, GFP_KERNEL);
++	card = kzalloc(struct_size(card, private_data_area, extra_size),
++		       GFP_KERNEL);
+ 	if (!card)
+ 		return -ENOMEM;
+ 
+@@ -232,7 +233,8 @@ int snd_devm_card_new(struct device *parent, int idx, const char *xid,
+ 	int err;
+ 
+ 	*card_ret = NULL;
+-	card = devres_alloc(__snd_card_release, sizeof(*card) + extra_size,
++	card = devres_alloc(__snd_card_release,
++			    struct_size(card, private_data_area, extra_size),
+ 			    GFP_KERNEL);
+ 	if (!card)
+ 		return -ENOMEM;
+@@ -280,7 +282,7 @@ static int snd_card_init(struct snd_card *card, struct device *parent,
+ 	int err;
+ 
+ 	if (extra_size > 0)
+-		card->private_data = (char *)card + sizeof(struct snd_card);
++		card->private_data = card->private_data_area;
+ 	if (xid)
+ 		strscpy(card->id, xid, sizeof(card->id));
+ 	err = 0;
+
+---
+base-commit: c784d0e6a62abbd2af58bbbe2d20f88dd550e3eb
+change-id: 20260526-alsa-card-private-flex-array-5f4dfbcbff23
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
+
