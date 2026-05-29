@@ -1,148 +1,165 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013005.outbound.protection.outlook.com [52.101.83.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1833B83FB
-	for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 08:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780044558; cv=none; b=Ijko1Ey6mguKSquqQVD/JqEY+3U4Uv4ygIczUJqKvTjupmwYTgGwhz/o9CkxA7t7GjWcI6M3tlcQLJOqsf+AIgnm40s/OxrfLuMQMyx0depcNyeY2vaPWaU3ZSF3gInmau7Vl/+9fsMVC5toeGYvMzaL6DjCC6KzYjaouWa8G0o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780044558; c=relaxed/simple;
-	bh=9ueTTfsQM7Cuw9fsa2Mw5zy14prrsOw1dfrs93kRZHI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=buyMMfNhxAU9FS0gVK3gT/3xHQ97gu35IzpTkyVpvglBGfJAWH/RwPIV9CBygkgUDkGkHdMJ9mRuc2NhoXi8jpS/mT86V9p8OXcWwUm3bwng/X9akiuFSd3CKHACdoqe8RGJH71ffUaGBB6FSBt1tJ26vjgWwludprAtgxQ6y04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZJdTJNkP; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443413321A2;
+	Fri, 29 May 2026 08:50:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.5
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780044657; cv=fail; b=edjuwc4SsguKBps32tNLpkCLZVts3ZSRW7ewUZDIyuZ95W4RcNros3ZQkza0CTo2J/5Cx/0zh3A04lvjT6dOtltlGS3deSXnFCQEzwsgiK6c6GYHwUayH9qJHPKxHkGNgIktYLmRrCxHbhM3L/9qlTelqrHTzCNNAH0DSjKP/iE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780044657; c=relaxed/simple;
+	bh=VW1Bp8ssIIyavl95MO5YhWqnb4a99Gpu0GV269D3oe0=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=WhIVXsDI9MBFj/yXImsjDRI7q+xmVMWzLi8t5AFfwHcR3Dyxf5rbWA6AAPrKfWIanfp6q4CMN8SVfMBY76ZoHPKn2w7y4UEG1LCK6b5Eys1qf113tehRTA8KJoNpCFdLuMAG1x2jyqGHGHhqVLqGgJ1lt9aOBs3VyjmUL38Bt8I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=MN18HeO/; arc=fail smtp.client-ip=52.101.83.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZJdTJNkP"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-36b9b15af73so1401484a91.0
-        for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 01:49:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780044556; x=1780649356; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QhjoroGKXf9Vnwm4rb6qgzeF8DBjHLvOxd0WaalRzBk=;
-        b=ZJdTJNkPywclqp7ovf1fs/qp/yt+uqTj5HYvBH7ouN5xpah9qEZum/m5KVP9Z60MG2
-         feXHG3Zwe7w4xw+uo2MLvPzptXRr/Xqi6zfYGS5Emur97wzM93y3wY98wleUiROWWn0X
-         0kCxmpfhqo6h1YJ40LUgJie8v/hTciVmx4dYUukNmWBPz07bSVGmtpU9hfk+QbtO+xGf
-         sG9i/6KOlt9nKAVTQc4O35Aye1jhWcUdzU9DW9helYAl+jTTiVTy48EYFtO1SwgDOvUa
-         OPcIg2bXbxzkYnnZ139BaCxbwORccFtnw0VozX1Y9EDzgwKbV78W2IyRdjzLZuJSqlYV
-         g/lQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780044556; x=1780649356;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QhjoroGKXf9Vnwm4rb6qgzeF8DBjHLvOxd0WaalRzBk=;
-        b=ns8QiMa+W8AigKbj5O+H/cpZvt+qCyhyxNlSWTQ/Lmin73TwjO1xcwnCEXCxs9OH+B
-         +LMyVeph+sRi2J7tgtYV+rjMUPyQKSMf3NJStWNP4EOEWPIp3E1BcYOqscp18fOdyOAv
-         TU9HnIPhVVWxq0nuBPGsx2xELtpg90Oi7Q2kp+jBrE0/0POsXO7wzyoK0hI1qIv3lnGL
-         IztE4I8tQcFkPJIl9yxQ3wm0jvU0FBJxvpFCYZPsYjIl84Ge6Y+2wWx+dU1j2nIbR3Fw
-         jZNGWTYw8oCvWQr1qv0G01tGX1ueSFCQdcubdl6SsPalOVrCxnM/TPknThYNMXxar/2e
-         yJjw==
-X-Forwarded-Encrypted: i=1; AFNElJ/RrB8Dr8+FCwj6ejqe8hKqsdIGRVL0xojzjrURnvJy+rDOqeHcuA8QoamIkuRVZHaLoHyQwQzH4SISig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTA6d3CO/pnj0AvOf38wZT4R+UEjmVCYwq1ntubPPceeJRwK+a
-	uPtF7ymeD42z6ke6d68eM9FLjjWCTTCzu01Ezh+fj3P84wCN0QlIqjhp
-X-Gm-Gg: Acq92OECp78W+zBTbuzHzKYRhidpOM2Pb+BIixUjm3ACpwMo7C1xx0qGXpRHgPbm9Pl
-	mvkoAv+3jhPj+t7Lu90SH8VwIP9HyVEN1a/+QkPnzx51kmp3a4JMuyIkbNenKMw/pOtaB1e8pbU
-	y1nHSeg9q6RFDqXzueUkXL29vn/CByvP82mLKu4AuPM8SU1w2wiJ6irch/9L2NNP7qYvM/3MVMB
-	YVW21LZVnUU4/MaESfiMEwQHJ0RoAyNryfHi+kzomQmWdHusq+KvcBQhYvt4E1utyEmWngUcZkf
-	kH7pFg++04rwFJwcYm2WhdSJX63xGeLT9gt8dpwk/FANWIHy7mjSt3e1gpPwF7lueQzpg+FeOWb
-	oqMqFjcZo0Jt4ne1UojwF5OrKEFg1swuqrzBUBGnNjp5ry8AN+iGcRLiZW4SF2W9cMw1TpIzb/L
-	m+AcOQ4O/qy477RYgtpUN8oiNFstxN5hS3aWdKDFhsgyUmSOPxiGC4MpPBVdqA0Sz8ETgD
-X-Received: by 2002:a17:903:32c7:b0:2bf:2e06:2ebf with SMTP id d9443c01a7336-2bf2e062fb8mr2415555ad.31.1780044556442;
-        Fri, 29 May 2026 01:49:16 -0700 (PDT)
-Received: from [172.20.10.2] (42-79-54-216.emome-ip.hinet.net. [42.79.54.216])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf23a21f0bsm10975345ad.34.2026.05.29.01.49.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 May 2026 01:49:15 -0700 (PDT)
-Message-ID: <1d7a01aa-dd65-129a-c9ac-e24e9b474f8e@gmail.com>
-Date: Fri, 29 May 2026 16:49:11 +0800
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="MN18HeO/"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=P2AbZcprGNDPpDkEzHQCOsfusnCDOXB2q91ID5pcInBZ6gQcxEQwddWjmspwskDdlKVFKgIeiZswumNTR2B/GuZgOTxPGBtq7ghRyWzPLrofWda+N6PCmOfbeEEddjAJ7ni7/24uQA+FAxd67YE8ODeEhwbbeBTW3rUmPsG0TPfVGoSMxlaqx7toUjVCI8Oxk0nUh8qwH4PLJCwyDuybsNneAWQLUithzDXmiLFHcqCDN4f27aPeiGJ/kQgHvUcKJ0K0NhVb9vTNPmdEWNtQfRIgyiDVV++8mY5ggtVONRJkLBHno/ApwVOah1akgY6EGl36AuXSNAE/95EnPzeCgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Oq8/tGUi72BajpVWW4PkpB2phs/PpBWbG1ELBTV2vLU=;
+ b=R5bLASwGzv4SuV2HxF6Be1LrP2yBSEk7vRKHgzYMhLCHnZcA96lLYzAY5fsDj+/R+zvTRdH+5eOp43xtE012iQuxO0ShnzrwVUz7QyO/Gl/4gPm5pHevvBw8HA1u0ekwiF2GW9FwXhGa7CM2ZCdrADgBbx1pwZxSn10LoKwvpx0OKGkJrKJ+JndDkJQSJ7NlxezwkggcD3wubhfiROik1FwXCFUvAzvaaSkD6yBd85yh8gR77DelemrsbG1edw4z9m3KHFMghASNCTH1wODYtfYkoKcsko35aSkxvSvNk5OTfVpaIXmRvKu9KVWaePx7mT640KJVfrk1qvYbg1vMQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Oq8/tGUi72BajpVWW4PkpB2phs/PpBWbG1ELBTV2vLU=;
+ b=MN18HeO/TjHl5kYJM6IfFqKv3J6acTG5bBmnS96/9jJObuV2zt1o7lS7iJDUK4Cig2xkrD+YxgyIsMu0DAxBcppeILO6/BeGnOnGZcZGSzbVu3jOuZV8P0qjukp573gFCLHA1rBP0y2r7vO/eQLdJw7mEiJn4KY/OxHL9w928xDvqdo2WB9bjjjxKu+Wu8rUNeYEf6dse3v4SUBAYeL6WsYuBverKkbPEEIB+9RJ0EN2FOGuoKCxePwyFE/rXU36KES8pdeVp+d/UYMyzWrUUNUdmPv9RoxZMzTctIpiuQ2edKGmQgOJ71n/1+AYpRMixPvR3sGub1HxRWwdwmR24Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com (2603:10a6:20b:3ef::22)
+ by GVXPR04MB11665.eurprd04.prod.outlook.com (2603:10a6:150:2c0::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.13; Fri, 29 May
+ 2026 08:50:52 +0000
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc]) by AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc%5]) with mapi id 15.20.9870.023; Fri, 29 May 2026
+ 08:50:52 +0000
+From: Chancel Liu <chancel.liu@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: fsl_sai: Fix 32 slots TDM broken by integer shift UB in xMR write
+Date: Fri, 29 May 2026 17:50:20 +0900
+Message-ID: <20260529085020.3727790-1-chancel.liu@nxp.com>
+X-Mailer: git-send-email 2.50.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SEWP216CA0024.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2b6::6) To AM9PR04MB8353.eurprd04.prod.outlook.com
+ (2603:10a6:20b:3ef::22)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 2/2] ASoC: codecs: nau8360: Add support for NAU83G60
- amplifier
-Content-Language: en-US
-To: Mark Brown <broonie@kernel.org>, Neo Chang <YLCHANG2@nuvoton.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org, krzk+dt@kernel.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- alsa-devel@alsa-project.org, kchsu0@nuvoton.com, sjlin0@nuvoton.com
-References: <20260526015826.440769-1-YLCHANG2@nuvoton.com>
- <20260526015826.440769-3-YLCHANG2@nuvoton.com>
- <d4cf4ad9-82fb-4beb-be5b-b3687f822fcf@sirena.org.uk>
-From: YLCHANG2 <neo.chang70@gmail.com>
-In-Reply-To: <d4cf4ad9-82fb-4beb-be5b-b3687f822fcf@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8353:EE_|GVXPR04MB11665:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2bb48f98-1fcf-467e-a4b3-08debd5f629c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|52116014|376014|19092799006|38350700014|56012099006|11063799006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	6NkF/g/kaSKYYkI/YmT0gZ0RH1CgEMUyvvV3GiFQ0vyxYlh9gnUWY8uMRJsRr1o5M/Qml8Nu5eJce60xqOSG0HjT9E4xQuy5iz3+LnUEc/cRx4nE9p0jwmDL1L3rn7wyiyhPuq1D3HZX54fMx/6N6mjoIwGrLdHLbuHX2JLC7qtPiDiL3S1qeSYeMy1kEtTQuQKJq4N6+VZYXci2jUJ1y7Lz0VOVJKBHiGIw9ZSGnNxMf2QyZNxJTwGwv+5SM5436cU2MH4FYU2uWdSc1PIGpCsCNhiV/sM2NdXvsVLv/hXzqolyT3W3VHkEON794Gh4cWFeKpY7LWFH9u1+apoTPVySsUj3K2TAk+LaWioHe4d16baW74ZPPB0cnWzahHN50zqSTg+f+Min18cNkyjbUuMbheEONxB6ONS2TShaND1rLqxgxewHm24dTC8CAQ82dGL74BNPlZIRmQSwUfzmjNVe7f1Xy8wgYxLut8e4pUdA4tr8flJ1tiFt2ili0as23NYCCAqvlW7Zz/HOcN6w/q0ONwPHykc1Qb07/Yazvjx8lKLEyNk3o84DvXPmkJqssRCD3bigrt7CMVOfe+NOiV3MCFmKLe++7wTb3/Az5id2kgAsC2+1/4kWjw4+lSgHI7fDG8XtPsiL8HaVC+7vKtXt+5mgFXx9zIRIXrg/RQ++WRNsP5qUFP8G+zGRQuaHpYKBCPBMgqVTiPzEDsb+sHiQbuSR0quSINAjRBU4of74gZgtBsucgpnf+YGD0pf+
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8353.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(52116014)(376014)(19092799006)(38350700014)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?RxRENxFVic8oehysuswU7hb1ncXIRfZ3eiNUpMyW0gHU5ZuiXN6cpi+0whmW?=
+ =?us-ascii?Q?ecJbPurMDRDhXbp/VUr9bmtpkdiBuL63TEXVsJDDWqiWp5kwnlgZvhU5aJ3V?=
+ =?us-ascii?Q?K1l1r8VMpjipXjT+LbZvuehok0po+TOsiIaQiyPlZx1/9zFkPCxKtILXQgDK?=
+ =?us-ascii?Q?ppzDOPr4b4+UziZNPdLpwaTba3kgWScg0Vc+x2NJjk3ATyunnXkTaMzzfDvq?=
+ =?us-ascii?Q?NziBpmuz3N5VUE51Qm2yVZNazu4ruWE0XWqvgOH9jTrZUrQe+sx4OZ8sP4eI?=
+ =?us-ascii?Q?0Q0DwClnJ4qX7LmcgjsfVJoC2/fcQWv+gOwMRkYlKOSIvH2HtXw0RcfC8qHt?=
+ =?us-ascii?Q?bmbTX818xCjN/hxs7F/sCDGqUUQh4KiUl5Je/3dm/VNoZES2pEKqTP1l5/Sv?=
+ =?us-ascii?Q?f4VgJwucXTN4Aa7pN7JNvfwZS7IPsKJT2Yoq62AGOT4jWqodQJ4xm6rVVrMt?=
+ =?us-ascii?Q?Rh80l/WL6AjrDxnwI0bIxRsPaI750b5X9LCHemT86y16JqLplL0vROYZ9Zhx?=
+ =?us-ascii?Q?8YNs/T6S6Xn5efZ1RQzFlrD7/CTPxliPwnuUvHWpCeLdsZCRINrDbpuj4wbS?=
+ =?us-ascii?Q?J7Yu7JqPwgeqxY2hYgDD9H+I0TgqTw6zE6NWAtARCuDCGDBt8frfIm5+YtDw?=
+ =?us-ascii?Q?RZO9APi248Xp57iHc1Oo2LyKEfGCXWjtPs2QyP1B9fnGo3TeLEN//ewPL/v+?=
+ =?us-ascii?Q?7HlnVSUe6PdknX4CGGUqv4nSiZjPig/aRJv2ibejEzl71ZbKcj3T7CdtZnEZ?=
+ =?us-ascii?Q?AcEaV9+dCf+jEYuLdxhsINJo2bWPQ3gSu3d7JQLkx6JTF2Z5gYKHsMQW0nHs?=
+ =?us-ascii?Q?6eGbJEF9l6bsWHBc6paRoIxtQlnVvnA2f3CHqUDMh7dAQqGk8gY5KS5C1gg7?=
+ =?us-ascii?Q?08ZVIfshyKg03nP/ZUJ6fLfXvYow4um/pEvQ3JGwariEeLQZuJVFIe6uG+89?=
+ =?us-ascii?Q?fJO78QmQG1VT3b1HauhUoWpmFGtFkuuA/exmqL8TPsNXObj0V9b2/XPAFeM4?=
+ =?us-ascii?Q?asSjBgywkbVhN5qrr17pY8DHocdd/Jos35XVHx4pao/uvwNyTJO6iFF978Qx?=
+ =?us-ascii?Q?D+w1Bb2Xid+hD8gfegKy7VALNOXyaKobGgkB02EMXL8pFuRKDqbKCHpmJiVj?=
+ =?us-ascii?Q?gOI2bzXqV/clV9ts4FEOTe313s3FleDZA0tVUa4NDZRLQESPVYQEqhHwKzxp?=
+ =?us-ascii?Q?TmfzRnJ548i8S2sSFo+WBVvP9KYAm4DrFwc2GZnBiLsSzWrkL0oyFWgpBiEO?=
+ =?us-ascii?Q?Ago2N0JTq9XpvxI1cM6kFHLD5G3aX4cSEClmog4okItVuuYqZRQJBHRjSn6P?=
+ =?us-ascii?Q?NXcj1eWGe7NtTS3HJx4rOgWtAWR1Hr2/W1S0/X9tcv+lqDN2v8ng9GLIrm1M?=
+ =?us-ascii?Q?RoI9iViVL+AC8TRFuhTVW+HQoK/1MgvJFJi7y7lnEJvQWugvlDAz/vNnbnpB?=
+ =?us-ascii?Q?dU41X1KP61zrklIknYN/6XaXRvdsKE2lFDzsz/OdDIgKmwT3S7RtTs5wIUiR?=
+ =?us-ascii?Q?zsH5TjGvDKvsYy78emsC8A8syP58veYBeDxdDEyRPvJZJbLvWAg38ZbSt7jD?=
+ =?us-ascii?Q?IkyuS61jrMyR7Kl/NxlJdbyr24o4h+c8iu/XTyRL/w9nMgwZMtwidEbIUVV7?=
+ =?us-ascii?Q?32BXMetX4dRhDO8jcSfNj5bWSZV1MKYLIj7j5Dt5up+oGgam88BVBOoimIMG?=
+ =?us-ascii?Q?qNWNPIRMlyG89Fm4REmqrRvbGjFJACTzI8S7X9UxeEI/69kCzSh68oGP70Tc?=
+ =?us-ascii?Q?D8S8t6Ir+Q=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2bb48f98-1fcf-467e-a4b3-08debd5f629c
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8353.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2026 08:50:52.4007
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KoZ/6mt0ofO3BOhQN8OIRQO6hOsj0ubD0+bYG7nO9hVP4Xtqt7kkK2iq4lODRa+P+1Oz7eFdgNiN7lwge0ai1A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB11665
 
+When configuring 32 slots TDM (channels == slots == 32), the xMR
+(Mask Register) write used:
+~0UL - ((1 << min(channels, slots)) - 1)
 
-On 5/27/26 21:43, Mark Brown wrote:
-> On Tue, May 26, 2026 at 09:58:26AM +0800, Neo Chang wrote:
->> Add support for the Nuvoton NAU83G60 audio codec. The NAU83G60 is a
->> stereo 30W+30W smart amplifier with an integrated low-latency
->> Advanced Audio DSP.
-> A few things below, you also have a bunch of what look like legitimate
-> issues picked up by sashiko (some of which overlap with what I've got
-> below):
->
->     https://sashiko.dev/#/patchset/20260526015826.440769-1-YLCHANG2%40nuvoton.com
-Regarding the sashiko report, I have a few questions:
-Are we required to address every issue caught by sashiko? We found that 
-some of them are actually false positives.
-If we need to explain our code regarding sashiko's findings, who should 
-we send the reply to?
-Additionally, is there a way to run the sashiko checks locally before 
-submitting our patches?
->
->> +static int nau8360_peq_coeff_get(struct snd_kcontrol *kcontrol,
->> +	struct snd_ctl_elem_value *ucontrol)
->> +{
-> ...
->
->> +	snd_soc_component_update_bits(cp, NAU8360_R9D_PEQ_CTL, NAU8360_HW1_MEM_TEST,
->> +		NAU8360_HW1_MEM_TEST);
->> +	for (i = 0; i < params->max / sizeof(u16); i++) {
->> +		value = snd_soc_component_read(cp, reg + i);
->> +		*(val + i) = cpu_to_be16(value);
->> +	}
->> +	snd_soc_component_update_bits(cp, NAU8360_R9D_PEQ_CTL, NAU8360_HW1_MEM_TEST, 0);
->> +
->> +	return 0;
->> +}
->
->> +static int nau8360_peq_coeff_put(struct snd_kcontrol *kcontrol,
->> +	struct snd_ctl_elem_value *ucontrol)
->> +{
->> +	snd_soc_component_update_bits(cp, NAU8360_R9D_PEQ_CTL, NAU8360_HW1_MEM_TEST,
->> +		NAU8360_HW1_MEM_TEST);
-> ...
->
->> +	snd_soc_component_update_bits(cp, NAU8360_R9D_PEQ_CTL, NAU8360_HW1_MEM_TEST, 0);
-> We use an rwsem to protect the controls from userspace so we could get
-> more than one caller in these, you need some driver local locking.
-Got it. I will add local lock in v4.
->
->> +static int nau8360_set_tdm_slot(struct snd_soc_dai *dai, unsigned int tx_mask,
->> +	unsigned int rx_mask, int slots, int slot_width)
->> +{
->> +	struct snd_soc_component *cp = dai->component;
->> +	struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
->> +	unsigned int tx_slot_used = 0, rx_slot_used = 0;
->> +	int ret = 0;
->> +
->> +	if (slot_width != 16 && slot_width != 24 && slot_width != 32) {
->> +		dev_err(cp->dev, "Invalid TDM channel length: %d", slot_width);
->> +		return -EINVAL;
->> +	}
-> This stops the support for disabling TDM from working, a slot_width is
-> required here.
-Got it. I will fix this in v4.
+The literal '1' is a signed 32-bit int. Shifting it by 32 positions is
+undefined behaviour which may set this register to 0xFFFFFFFF, masking
+all 32 slots.
+
+Use 1ULL so the shift is carried out in 64 bits. For 32 slots this
+produces a zero mask after truncation to the 32-bit register:
+~0ULL - ((1ULL << 32) - 1)
+  = 0xFFFFFFFFFFFFFFFF - (0x100000000 - 1)
+  = 0xFFFFFFFFFFFFFFFF - 0xFFFFFFFF
+  = 0xFFFFFFFF00000000
+  -> Truncates to 0x00000000
+Behaviour for fewer than 32 slots is unchanged.
+
+Fixes: 770f58d7d2c5 ("ASoC: fsl_sai: Support multiple data channel enable bits")
+Cc: stable@vger.kernel.org
+Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+---
+ sound/soc/fsl/fsl_sai.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
+index d6dd95680892..821e3bd51b6e 100644
+--- a/sound/soc/fsl/fsl_sai.c
++++ b/sound/soc/fsl/fsl_sai.c
+@@ -797,7 +797,7 @@ static int fsl_sai_hw_params(struct snd_pcm_substream *substream,
+ 				   FSL_SAI_CR4_FSD_MSTR, FSL_SAI_CR4_FSD_MSTR);
+ 
+ 	regmap_write(sai->regmap, FSL_SAI_xMR(tx),
+-		     ~0UL - ((1 << min(channels, slots)) - 1));
++		     ~0ULL - ((1ULL << min(channels, slots)) - 1));
+ 
+ 	return 0;
+ }
+-- 
+2.50.1
+
