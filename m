@@ -1,357 +1,186 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012070.outbound.protection.outlook.com [52.101.66.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782B13BD657
-	for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 10:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780050643; cv=none; b=n21947ms0HnipkPqZnYGR+uoUfYrrhQGZJ90hYfDLPAK9ambhftTASYDj4erf4tMO8NlC5ldCMGuv84KSNn54cAAJ+Roql5c2kpbDBrPFHrEC7dVyTg3iSSMPq/vMu9q0HEaCt9ibIPVXkgHKfLpaWDpe/ceYynXOoChdHzwHvQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780050643; c=relaxed/simple;
-	bh=oy09ZHrl9v5cKiaCRQNKvFAeiGrAltam15QJNPJBBn4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cpyT4npnDBTgLb9NnUntOcjzIzTDBJf4woca1bW5zM8r/ycviZX90v/tP3MoFpTXgeghP1mkUiZlEvTPuR+GKPEjts5vNXVwLXfC2mg9trQ3EM65zZ16KPfq0q26RCr/9vYOMe+l/yXSiMUJ+GHvWBt6o89Rgs5gbq8/ruTCa1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=erbD/F+a; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7773DB317;
+	Fri, 29 May 2026 11:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780054912; cv=fail; b=Q3/mD8ABiec8ahcBaC7BVMmkxWMZDt3oos4neJiWBH65TexTkArjI2fAiWjOMT3H8U6dFI1RbKfITpWDFfdgORBb+ieT+Z4ZQT2NKunYsIPLSvvCV32UJt00KeppqyfcCgO3XyK8y0cQV+mnUY6VtJ/3u+l5HQyW2bzfgFKr6wo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780054912; c=relaxed/simple;
+	bh=+WPiQ0V0WmRyhXLD6LZru35UImrMRwQpOu8ANr8cCSs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=oeZ4LcGC3EDrZj76ZYehfqf1JNzQvHEKsjHP7r1oWDgFRQx3RmEewakqqU8dJnvn6x/NO1bNrPpTnGI4XkjQcbAjXdVPzYJyan8CaZmpbsduB3bC4i3q0OdMB/tVaxEqOtdhojx/CZiEkuSg41tRGJzd5/nnTd1maG/FF3EgoyE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=RFuxUPv+; arc=fail smtp.client-ip=52.101.66.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="erbD/F+a"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2bcd3ac3307so80400055ad.0
-        for <linux-sound@vger.kernel.org>; Fri, 29 May 2026 03:30:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780050640; x=1780655440; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1qPVtOmyFqQyKIyP2PlSkUiq0jd3c4HJJrw3M4f4wYQ=;
-        b=erbD/F+aREFaFzCOmKyhR+LLN+PTGYrTgGFaYVAxVkA039lkRvWm1opn5RtYMu4FrV
-         UrJRfqMXw6BNMxKGiZHX0uEBN3ChzjNaqqoPcHxB50ZRaavN3jXnEAz88FZmv71Z94XC
-         Q8+Q2b+uFnjmxEUGI0phPBEjT4WpEhYSyF5BO2yHAIArprOM/efJzL9cFc4n5Dek/005
-         Lqvk+pwTmEtH5NA7toEsRz+IxXuymZOxy7rducBqCz9Pyi5YDcpaKURx85wZbOf09T45
-         ItOBU+kQUszcuTi3v2WtQLCdOoPk8KLoI6+eleNtgHSJD97t7RKheNGUiElxK4a48tXs
-         fldg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780050640; x=1780655440;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1qPVtOmyFqQyKIyP2PlSkUiq0jd3c4HJJrw3M4f4wYQ=;
-        b=DuiCQUHmyNjCqIH3B9ZQJX8BFvln3lHTwDoJZr9L7fxYmGk/hnXojSxt60DLXvCc8e
-         hTjtigicfoBXZnTLFaClJoKixqjq8dLLzx76f4XPrDnDrtZxy1RfwtNAxQyGRO8sJigh
-         hWFWhmu1/FnJ3TtzOOu9fHJaop4/6jstTC7CSlQMLRNVSy7EFY1QgC1dFJrIhA6i2i9O
-         d5qtf939DabhAhnmZ196tDsxaHYolXiIuJKDaTWAMZHEWkCCMjoUQ/PodEXskhOnCF7v
-         Ii9Vqv3btwnnScD3q0M/0M5/zC7cOpfRaktagb6fCbmz8OdVZwqtzaygJqYTxClStEcq
-         97sg==
-X-Forwarded-Encrypted: i=1; AFNElJ+5F/RJhYEC1z/kgbfmrHI3Lqdgsiezm0qSRpOjj2FPqN/HqjjtO/r37g3RjXSP1HrvhXg5KxvQC/kAHA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcmtO3jeksLTeHn95s2KeeTW8UUylhhzMjWSNXr2YjSKVRwn1S
-	3uC+U26pYr7yfxQH0fEWsO5gkHfEs9qMBXp0VRPmXzd9e3t859MMD0tf
-X-Gm-Gg: Acq92OGutdcwxG95Gj87N/lVyUY3S/aqrgSeGjF/TQbEU5WFLvl312jf0Ad+8XF+G2G
-	PVkTNdzKQsAPcNq/sDzNqPTEyVr2gGBfUvDq6ew4PT9Yl/8bysDK9yBayviWpVDCmtSlL1LwO4O
-	2h0NQV4tn4MPfhRo3ivZXPF0vCre7dPxEpdA8qthAMcl2oNSFTWpfPXI9vjwBVyIw9NEgY1iBrU
-	FP/0ZYSyQXY7iVtNx3r47g5i1fQT9hKPktrwIEfhoLL8du/SssEsLoH7hDrmI4P2/8gbVZ3BMKb
-	2JF/OIwBKRBDWqYz8jJrI03iJJNTPyx7N5Nwn26QSAFrP49WgCMIyOfKV/Y3KENot+iz0nSxDWI
-	06fFFh69GCbv2QONUXAfCr1UGg3d9GhnnlXHotxyNKfmVhCs3qMltreAcP8u8/CLzQ3rdH30xHs
-	qkHyEg/FqtmjhQBI5bmG7vD185bws1xvCmk06UnBqfkgCARwLvC6koZtnhePEm6HeViy0PHaf1C
-	WpRPe0=
-X-Received: by 2002:a17:903:234f:b0:2bf:3126:44b6 with SMTP id d9443c01a7336-2bf312645c6mr427695ad.40.1780050639662;
-        Fri, 29 May 2026 03:30:39 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf23c3a8afsm22904795ad.73.2026.05.29.03.30.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 03:30:39 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2] ASoC: sprd: sprd-mcdt: Use guard() for mutex & spin locks
-Date: Fri, 29 May 2026 17:30:19 +0700
-Message-ID: <20260529103019.15233-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="RFuxUPv+"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y31Jsk9y4IDwxA0ZOEiLJHYH9rHdv4f4g1ZBQgZIjPrLpHJ21wREuSX6T7vuFqJ6fkg94VqpKISJc2OWPiO9cFeLfvhtrJgdH6Q1vWTAO2FvdL9yDH5tl5yj5ytupnzPeIlm1k65YkPVJnVkf8MKz51e0kMGfoXkPvQcPhLc54gfkoYdW2tpIufVVLYfU+SSpdC4U0srLDb/doXEt4v+LF8s8OJGDbN5DA5W0+LUA50F9YhaZt09NbSxGFf1uENhA0/7u9Xbc4s/lmENqJHwOoLoAiM0QYcuCB4hP1sfQSrCZVMz83r7Qm81eKdYlX3TJ0Bw3KRvddfBWoxXQFEPEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hInrqHjBg7z/n9KhlwfRg9vIne9TyAKckq8s2VowQno=;
+ b=n0DFjPW7r6uNrYgjMP4lDAxft2YtptCRYks/diaYM2qRXqznqy5d0E+cjR2fOEsnuW3xvlyZRNtD0ghW9Sk6S6gX4dYVw2XerCJ85ftVjUai3y8xZjwi7+Z4SvOVt9KScE4/Y99yimv5bkKkPNcQ607V7cVHeYQAkm+mI6gNS8sQAyJ1qqjMqb/j5vXlKHKXPo0Rmob06ibFPHtOXDURjPubebvzlpVjUnd7hnrFojwQGXqy4uAsbifF0yjYr267veUDL4bqZSjCNX9RbsocS3DDmpeL3EnUvdsb+anmNqEQhDGTO+rxyRobxOhHoorvZ8CkEiYEQXnGQ3oxFljlXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hInrqHjBg7z/n9KhlwfRg9vIne9TyAKckq8s2VowQno=;
+ b=RFuxUPv+uVXw4w5UWBUDbRN3vbi2w0i8Pv85HwzB2doPUpD4QFx5ZauMmgzGkZdP9+Z+K/F+3JpJvSeUZBymJgur43sL8PTMgWceL4UUIcjD7c3mKNSdFe9Olss4DzC2dLwUwJoilNwAqXOO6xl9EP31F5uOb6Cgwu1JluMpfWI5PGO0HZGX3+nngGfhMJhrgMIhRCC2IZUHW1+jzvPAcuTwJW7TF5XQUpbiMVLVtufBsdzRFErxWI068XVM9DvL8r1wcs4ovnxr+ErBaTap7RAHalu6+fbj/M8XQ8FcUqBzkLOI/D2fcsxp1SPg7imJHeRl/rOxhtvoYVqsf9f56A==
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com (2603:10a6:20b:3ef::22)
+ by GV1PR04MB9197.eurprd04.prod.outlook.com (2603:10a6:150:28::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.15; Fri, 29 May
+ 2026 11:41:43 +0000
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc]) by AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc%5]) with mapi id 15.20.9870.023; Fri, 29 May 2026
+ 11:41:43 +0000
+From: Chancel Liu <chancel.liu@nxp.com>
+To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	"shengjiu.wang@gmail.com" <shengjiu.wang@gmail.com>, "Xiubo.Lee@gmail.com"
+	<Xiubo.Lee@gmail.com>, "festevam@gmail.com" <festevam@gmail.com>,
+	"nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>, "lgirdwood@gmail.com"
+	<lgirdwood@gmail.com>, "broonie@kernel.org" <broonie@kernel.org>,
+	"perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>, "Chancel Liu (OSS)"
+	<chancel.liu@oss.nxp.com>
+Subject: RE: Re: [PATCH] ASoC: fsl_sai: Fix 32 slots TDM broken by integer
+ shift UB in xMR write
+Thread-Topic: Re: [PATCH] ASoC: fsl_sai: Fix 32 slots TDM broken by integer
+ shift UB in xMR write
+Thread-Index: AQHc72AfURLdifOC3Uyxaha2zeOCbA==
+Date: Fri, 29 May 2026 11:41:43 +0000
+Message-ID:
+ <AM9PR04MB8353DA21759A12509CDED8BDE3162@AM9PR04MB8353.eurprd04.prod.outlook.com>
+References: <20260529085020.3727790-1-chancel.liu@nxp.com>
+ <c5591024-0d8e-4c41-9e35-56689fa94731@kernel.org>
+In-Reply-To: <c5591024-0d8e-4c41-9e35-56689fa94731@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM9PR04MB8353:EE_|GV1PR04MB9197:EE_
+x-ms-office365-filtering-correlation-id: 81ececaa-64d4-490a-7e6e-08debd774184
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|7416014|366016|1800799024|19092799006|38070700021|4143699003|56012099006|11063799006|22082099003|18002099003;
+x-microsoft-antispam-message-info:
+ ArS3wuXfipSbVK/JIKxJEENJJKLVMNALALJkM0FnX8GMfosLqCJiPQc79Um8GO+exyq3j+Tv4Itk3ED9Lma+KsWZEB9yzh+24AAB2kQbQVXXyytUPpfwhqZpFvtbpAinf1ToKgMuju3MbhXtSLej1KAKkZyMWHDA1A/sQi1rGNzrY6vgy9uK9BlvSmChKDlS7qHvYyqfvHlMTMGiOWCRuQISikxrLiy/10RSxd4xEx2KmXM36iNTtq5zkHh9WpjKyPGNYL2HKrpIkhuWCbWxZ+mHfYTHJJ5wHrRExDS1Goa8W0zvA/9lNF4lINJWWCCpw2SPziZQsnAXL1Nw0VDEyFie/KyJdfgaONB9JInpNt7LUF19vgz9GGG2KIjU2yXAacDbapDjSWXLMcTqyU+Jk1cdk+CPKUz0K4vvTwy9sAXr1HnlXeVU3INXynJBu8Eu3Yvz71P7Vz2wom/O/7HQ0jX+4L5hiui9s331rxBTXLdSwjCvQcBZ+ekJm03xU3Dq2FEjAbK1TYPEK39dBqH2zpjbeQ7BbaP326vSgloAHckiRiAQ11YsT6poOJEt52xumYyycl64DRk6El7AEg9cBdVgQVhw8WLEMlkejhpwXhu5EVATxgThlSE+okqJDoK+TitUzBoF5tyLBqPs1MoKncBf05DfCpfbzYFVvKsrLCRBrGJOLryBTFOSZiwcNOXsLt/1+DmxWLdqdSxNqsT2G6xqN4tV/cQpnbWSC8EhD6fLq7HmtzKyMN7COccZoAwT
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8353.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(19092799006)(38070700021)(4143699003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?6hs13INWDHxibtKh0YXjfJS89LAMlXHp5btXY3QqTYk3Uqz0ly3u+kxph4gK?=
+ =?us-ascii?Q?liTOQ/JbOH6TmXyWLmn4sOL42eAIbxTLvKv7pc41iCfJlabasi6KKsf9ZpWY?=
+ =?us-ascii?Q?/DZt+s/GeKIZcbQpcaapVi5AvfvZbBpnj/cKmGHX+gMjNqn0nZ4XPfwW217J?=
+ =?us-ascii?Q?RXMF/5Mr12b+E4kfMtpD6vfdI88z7J2hxveM2Gc75xsjvrRy5HKIRBBUVGyq?=
+ =?us-ascii?Q?6d2AegXyds79FTHZHSVI84LP9cTqYsyUrz4CbRFplNMEF35MSP8s+eAsNJ0B?=
+ =?us-ascii?Q?5NOVX2zMFaBXKjlaiud0QNTpIV+lnSoxaq6mIbp9ACS0OftQCqnEUaIiLreG?=
+ =?us-ascii?Q?owsdXoHnoLTWKzQaNLkFiNp8LqSsM40IJxFIHjCrl5yB6qQERTB5weI4MRtm?=
+ =?us-ascii?Q?ivL24HG7HWAdxGqLyK95pYtYJfqRxb1rDi3DnXd/dmtzJzOMruIqGbs4Tk68?=
+ =?us-ascii?Q?7bNIOmPnHpUgazpG4x87ABa6/O59VSRhzMeYdiltBabqHJZZgrsPVP2wXmFY?=
+ =?us-ascii?Q?qvtUp0nG6Ijnp1CaSN0YRn882+usY9F/QL4bgANf0qGxOMH5JEoYFtTbKFm7?=
+ =?us-ascii?Q?MPyPmZAiGtYOW0VOGFya8O+N+fGUmMAonJOPdIywNfiWLCA5EgPMr4pmj3oR?=
+ =?us-ascii?Q?FRDGdYMjknnJTx9JUkxZqbIci8/u+QX5W157TkgYNOpkB6hSbXlLqHw9yA9u?=
+ =?us-ascii?Q?9OKB4TxbHvgTreNQ2YT3/+eeId8iqbFgnSlkN2NO0xv6u1waNGHQprqT4uR+?=
+ =?us-ascii?Q?uzH1MU5ILQhyoof1YD7qZSRj4KsLHPR5R+Hs2iI96EpPVFddFQRz+ZT380TU?=
+ =?us-ascii?Q?aUUK5ifZC0sXo+3OKxeGkm97yS0lr8RoxFRzmEADcD4F8Q6DVtEMbUD2oczM?=
+ =?us-ascii?Q?xxH3ZosXVPB4rJYZJq4quDD9iyZfFEwQ4hlc+YYrglFPSAkhJsAQ1JOFlh1o?=
+ =?us-ascii?Q?JTu+X2yKX4G+cWwOD1E3Sz4dC7lxYeaf/pQwyRiT81uetgInoniAmzjCeoeG?=
+ =?us-ascii?Q?7I47ZkxwzHZ6EWw2ZareqyDMKuWVVCqWXp8Lq63swYlk+lCVJvlCNQ1IDALi?=
+ =?us-ascii?Q?joKtpIY08UzeGQT7HlXl0ZtZ/0xPBm4zQjdbDuIW7k3Mnh2CG6fNINIyuKNS?=
+ =?us-ascii?Q?/dG4wirot/g5ZpXSrmtQmlK8br5bCU1jK3EDGbnVMM/7yj+maDmAfTDBXHPV?=
+ =?us-ascii?Q?8Zo+AHOmr3ycy0ws/KrrKOYyEMgsh/mQZEHg+E5eSJRKCT8VUi4BgxXfr4XV?=
+ =?us-ascii?Q?zvj7KJ+S2Qtf3pTgNXgYmTLosWe+QSmrmv+Glt+XB8DcyPVoHTs4WwJlLTWC?=
+ =?us-ascii?Q?o9hy/9eLSzcc6dHozdqj/W5rTpTmrcgT1Rzc650kZguIq+S9AC6oQVKGJDoG?=
+ =?us-ascii?Q?xYhE2WMj9kWrDgt8bCcgFKHIZYC9jkJvvbQ3UGmOpaNjNsFtxUeg9Cw8OB4s?=
+ =?us-ascii?Q?5i+njIspcDUWQt6hCtvrO2ed3LSdq4IIeJlUaC/hFQcfcrMeImzmFDf4Do1o?=
+ =?us-ascii?Q?Y+gRUnBlQ/J6SnRhRBXcmzb/h1AuEHVoiAUz0MrhCq/F4E2LGgh6/B1d4B+x?=
+ =?us-ascii?Q?uk2IytUFcfZbJDP/pW+AdqvnSB0a+qT+lLTfyRadedmlV/2od3HjO0V9X0eW?=
+ =?us-ascii?Q?RD7M/WmjDKbve31vNc7HUX5lefs2mB1qy8XeG48Oz0eceLB2/TkXhq52SB3q?=
+ =?us-ascii?Q?DsRgZl91smvqe9zgdm9pcXYzgzSgVTwz7lm+tWNlNNhf1An0?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8353.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81ececaa-64d4-490a-7e6e-08debd774184
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 May 2026 11:41:43.0725
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 04xG/ycYN6S9pLSvYFLod4FMlhkFg8PJ61reP5rJDG2eYrOUeJ9gPdwh8x/qgUYOqMcwUvnRxJchJQnZqjjpMQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB9197
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+> > When configuring 32 slots TDM (channels =3D=3D slots =3D=3D 32), the xM=
+R (Mask
+> > Register) write used:
+> > ~0UL - ((1 << min(channels, slots)) - 1)
+> >
+> > The literal '1' is a signed 32-bit int. Shifting it by 32 positions is
+> > undefined behaviour which may set this register to 0xFFFFFFFF, masking
+> > all 32 slots.
+> >
+> > Use 1ULL so the shift is carried out in 64 bits. For 32 slots this
+> > produces a zero mask after truncation to the 32-bit register:
+> > ~0ULL - ((1ULL << 32) - 1)
+> >    =3D 0xFFFFFFFFFFFFFFFF - (0x100000000 - 1)
+> >    =3D 0xFFFFFFFFFFFFFFFF - 0xFFFFFFFF
+> >    =3D 0xFFFFFFFF00000000
+> >    -> Truncates to 0x00000000
+> > Behaviour for fewer than 32 slots is unchanged.
+>=20
+> Why not use macro GENMASK_U32() instead ?
+>
 
-Clean up the code using guard() for mutex & spin locks.
-Merely code refactoring, and no behavior change.
+Thanks for this reminder. OK, I will switch to the clearer and safer
+GENMASK_U32() macro:
+	regmap_write(sai->regmap, FSL_SAI_xMR(tx),
+		     ~GENMASK_U32(min(channels, slots) - 1, 0));
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
+Regards,=20
+Chancel Liu
 
-Changes in v2: 
- Remove the leftover mutex_unlock, as pointed out by Mark.
-
- sound/soc/sprd/sprd-mcdt.c | 66 +++++++++-----------------------------
- 1 file changed, 16 insertions(+), 50 deletions(-)
-
-diff --git a/sound/soc/sprd/sprd-mcdt.c b/sound/soc/sprd/sprd-mcdt.c
-index 814a1cde1d35..5f3a2a7bce31 100644
---- a/sound/soc/sprd/sprd-mcdt.c
-+++ b/sound/soc/sprd/sprd-mcdt.c
-@@ -524,7 +524,7 @@ static irqreturn_t sprd_mcdt_irq_handler(int irq, void *dev_id)
- 	struct sprd_mcdt_dev *mcdt = (struct sprd_mcdt_dev *)dev_id;
- 	int i;
- 
--	spin_lock(&mcdt->lock);
-+	guard(spinlock)(&mcdt->lock);
- 
- 	for (i = 0; i < MCDT_ADC_CHANNEL_NUM; i++) {
- 		if (sprd_mcdt_chan_int_sts(mcdt, i, MCDT_ADC_FIFO_AF_INT)) {
-@@ -547,8 +547,6 @@ static irqreturn_t sprd_mcdt_irq_handler(int irq, void *dev_id)
- 		}
- 	}
- 
--	spin_unlock(&mcdt->lock);
--
- 	return IRQ_HANDLED;
- }
- 
-@@ -569,22 +567,19 @@ static irqreturn_t sprd_mcdt_irq_handler(int irq, void *dev_id)
- int sprd_mcdt_chan_write(struct sprd_mcdt_chan *chan, char *tx_buf, u32 size)
- {
- 	struct sprd_mcdt_dev *mcdt = chan->mcdt;
--	unsigned long flags;
- 	int avail, i = 0, words = size / 4;
- 	u32 *buf = (u32 *)tx_buf;
- 
--	spin_lock_irqsave(&mcdt->lock, flags);
-+	guard(spinlock_irqsave)(&mcdt->lock);
- 
- 	if (chan->dma_enable) {
- 		dev_err(mcdt->dev,
- 			"Can not write data when DMA mode enabled\n");
--		spin_unlock_irqrestore(&mcdt->lock, flags);
- 		return -EINVAL;
- 	}
- 
- 	if (sprd_mcdt_chan_fifo_sts(mcdt, chan->id, MCDT_DAC_FIFO_REAL_FULL)) {
- 		dev_err(mcdt->dev, "Channel fifo is full now\n");
--		spin_unlock_irqrestore(&mcdt->lock, flags);
- 		return -EBUSY;
- 	}
- 
-@@ -592,14 +587,12 @@ int sprd_mcdt_chan_write(struct sprd_mcdt_chan *chan, char *tx_buf, u32 size)
- 	if (size > avail) {
- 		dev_err(mcdt->dev,
- 			"Data size is larger than the available fifo size\n");
--		spin_unlock_irqrestore(&mcdt->lock, flags);
- 		return -EBUSY;
- 	}
- 
- 	while (i++ < words)
- 		sprd_mcdt_dac_write_fifo(mcdt, chan->id, *buf++);
- 
--	spin_unlock_irqrestore(&mcdt->lock, flags);
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(sprd_mcdt_chan_write);
-@@ -620,21 +613,18 @@ EXPORT_SYMBOL_GPL(sprd_mcdt_chan_write);
- int sprd_mcdt_chan_read(struct sprd_mcdt_chan *chan, char *rx_buf, u32 size)
- {
- 	struct sprd_mcdt_dev *mcdt = chan->mcdt;
--	unsigned long flags;
- 	int i = 0, avail, words = size / 4;
- 	u32 *buf = (u32 *)rx_buf;
- 
--	spin_lock_irqsave(&mcdt->lock, flags);
-+	guard(spinlock_irqsave)(&mcdt->lock);
- 
- 	if (chan->dma_enable) {
- 		dev_err(mcdt->dev, "Can not read data when DMA mode enabled\n");
--		spin_unlock_irqrestore(&mcdt->lock, flags);
- 		return -EINVAL;
- 	}
- 
- 	if (sprd_mcdt_chan_fifo_sts(mcdt, chan->id, MCDT_ADC_FIFO_REAL_EMPTY)) {
- 		dev_err(mcdt->dev, "Channel fifo is empty\n");
--		spin_unlock_irqrestore(&mcdt->lock, flags);
- 		return -EBUSY;
- 	}
- 
-@@ -645,7 +635,6 @@ int sprd_mcdt_chan_read(struct sprd_mcdt_chan *chan, char *rx_buf, u32 size)
- 	while (i++ < words)
- 		sprd_mcdt_adc_read_fifo(mcdt, chan->id, buf++);
- 
--	spin_unlock_irqrestore(&mcdt->lock, flags);
- 	return words * 4;
- }
- EXPORT_SYMBOL_GPL(sprd_mcdt_chan_read);
-@@ -672,14 +661,12 @@ int sprd_mcdt_chan_int_enable(struct sprd_mcdt_chan *chan, u32 water_mark,
- 			      struct sprd_mcdt_chan_callback *cb)
- {
- 	struct sprd_mcdt_dev *mcdt = chan->mcdt;
--	unsigned long flags;
- 	int ret = 0;
- 
--	spin_lock_irqsave(&mcdt->lock, flags);
-+	guard(spinlock_irqsave)(&mcdt->lock);
- 
- 	if (chan->dma_enable || chan->int_enable) {
- 		dev_err(mcdt->dev, "Failed to set interrupt mode.\n");
--		spin_unlock_irqrestore(&mcdt->lock, flags);
- 		return -EINVAL;
- 	}
- 
-@@ -712,8 +699,6 @@ int sprd_mcdt_chan_int_enable(struct sprd_mcdt_chan *chan, u32 water_mark,
- 		chan->int_enable = true;
- 	}
- 
--	spin_unlock_irqrestore(&mcdt->lock, flags);
--
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(sprd_mcdt_chan_int_enable);
-@@ -725,14 +710,12 @@ EXPORT_SYMBOL_GPL(sprd_mcdt_chan_int_enable);
- void sprd_mcdt_chan_int_disable(struct sprd_mcdt_chan *chan)
- {
- 	struct sprd_mcdt_dev *mcdt = chan->mcdt;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&mcdt->lock, flags);
-+	guard(spinlock_irqsave)(&mcdt->lock);
- 
--	if (!chan->int_enable) {
--		spin_unlock_irqrestore(&mcdt->lock, flags);
-+	if (!chan->int_enable)
- 		return;
--	}
-+
- 
- 	switch (chan->type) {
- 	case SPRD_MCDT_ADC_CHAN:
-@@ -754,7 +737,6 @@ void sprd_mcdt_chan_int_disable(struct sprd_mcdt_chan *chan)
- 	}
- 
- 	chan->int_enable = false;
--	spin_unlock_irqrestore(&mcdt->lock, flags);
- }
- EXPORT_SYMBOL_GPL(sprd_mcdt_chan_int_disable);
- 
-@@ -775,15 +757,13 @@ int sprd_mcdt_chan_dma_enable(struct sprd_mcdt_chan *chan,
- 			      u32 water_mark)
- {
- 	struct sprd_mcdt_dev *mcdt = chan->mcdt;
--	unsigned long flags;
- 	int ret = 0;
- 
--	spin_lock_irqsave(&mcdt->lock, flags);
-+	guard(spinlock_irqsave)(&mcdt->lock);
- 
- 	if (chan->dma_enable || chan->int_enable ||
- 	    dma_chan > SPRD_MCDT_DMA_CH4) {
- 		dev_err(mcdt->dev, "Failed to set DMA mode\n");
--		spin_unlock_irqrestore(&mcdt->lock, flags);
- 		return -EINVAL;
- 	}
- 
-@@ -814,8 +794,6 @@ int sprd_mcdt_chan_dma_enable(struct sprd_mcdt_chan *chan,
- 	if (!ret)
- 		chan->dma_enable = true;
- 
--	spin_unlock_irqrestore(&mcdt->lock, flags);
--
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(sprd_mcdt_chan_dma_enable);
-@@ -827,14 +805,11 @@ EXPORT_SYMBOL_GPL(sprd_mcdt_chan_dma_enable);
- void sprd_mcdt_chan_dma_disable(struct sprd_mcdt_chan *chan)
- {
- 	struct sprd_mcdt_dev *mcdt = chan->mcdt;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&mcdt->lock, flags);
-+	guard(spinlock_irqsave)(&mcdt->lock);
- 
--	if (!chan->dma_enable) {
--		spin_unlock_irqrestore(&mcdt->lock, flags);
-+	if (!chan->dma_enable)
- 		return;
--	}
- 
- 	switch (chan->type) {
- 	case SPRD_MCDT_ADC_CHAN:
-@@ -852,7 +827,6 @@ void sprd_mcdt_chan_dma_disable(struct sprd_mcdt_chan *chan)
- 	}
- 
- 	chan->dma_enable = false;
--	spin_unlock_irqrestore(&mcdt->lock, flags);
- }
- EXPORT_SYMBOL_GPL(sprd_mcdt_chan_dma_disable);
- 
-@@ -868,7 +842,7 @@ struct sprd_mcdt_chan *sprd_mcdt_request_chan(u8 channel,
- {
- 	struct sprd_mcdt_chan *temp;
- 
--	mutex_lock(&sprd_mcdt_list_mutex);
-+	guard(mutex)(&sprd_mcdt_list_mutex);
- 
- 	list_for_each_entry(temp, &sprd_mcdt_chan_list, list) {
- 		if (temp->type == type && temp->id == channel) {
-@@ -880,8 +854,6 @@ struct sprd_mcdt_chan *sprd_mcdt_request_chan(u8 channel,
- 	if (list_entry_is_head(temp, &sprd_mcdt_chan_list, list))
- 		temp = NULL;
- 
--	mutex_unlock(&sprd_mcdt_list_mutex);
--
- 	return temp;
- }
- EXPORT_SYMBOL_GPL(sprd_mcdt_request_chan);
-@@ -897,17 +869,14 @@ void sprd_mcdt_free_chan(struct sprd_mcdt_chan *chan)
- 	sprd_mcdt_chan_dma_disable(chan);
- 	sprd_mcdt_chan_int_disable(chan);
- 
--	mutex_lock(&sprd_mcdt_list_mutex);
-+	guard(mutex)(&sprd_mcdt_list_mutex);
- 
- 	list_for_each_entry(temp, &sprd_mcdt_chan_list, list) {
--		if (temp == chan) {
--			mutex_unlock(&sprd_mcdt_list_mutex);
-+		if (temp == chan)
- 			return;
--		}
- 	}
- 
- 	list_add_tail(&chan->list, &sprd_mcdt_chan_list);
--	mutex_unlock(&sprd_mcdt_list_mutex);
- }
- EXPORT_SYMBOL_GPL(sprd_mcdt_free_chan);
- 
-@@ -933,9 +902,8 @@ static void sprd_mcdt_init_chans(struct sprd_mcdt_dev *mcdt,
- 		chan->mcdt = mcdt;
- 		INIT_LIST_HEAD(&chan->list);
- 
--		mutex_lock(&sprd_mcdt_list_mutex);
--		list_add_tail(&chan->list, &sprd_mcdt_chan_list);
--		mutex_unlock(&sprd_mcdt_list_mutex);
-+		scoped_guard(mutex, &sprd_mcdt_list_mutex)
-+			list_add_tail(&chan->list, &sprd_mcdt_chan_list);
- 	}
- }
- 
-@@ -977,12 +945,10 @@ static void sprd_mcdt_remove(struct platform_device *pdev)
- {
- 	struct sprd_mcdt_chan *chan, *temp;
- 
--	mutex_lock(&sprd_mcdt_list_mutex);
-+	guard(mutex)(&sprd_mcdt_list_mutex);
- 
- 	list_for_each_entry_safe(chan, temp, &sprd_mcdt_chan_list, list)
- 		list_del(&chan->list);
--
--	mutex_unlock(&sprd_mcdt_list_mutex);
- }
- 
- static const struct of_device_id sprd_mcdt_of_match[] = {
--- 
-2.43.0
+> >
+> > Fixes: 770f58d7d2c5 ("ASoC: fsl_sai: Support multiple data channel
+> > enable bits")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+> > ---
+> >   sound/soc/fsl/fsl_sai.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c index
+> > d6dd95680892..821e3bd51b6e 100644
+> > --- a/sound/soc/fsl/fsl_sai.c
+> > +++ b/sound/soc/fsl/fsl_sai.c
+> > @@ -797,7 +797,7 @@ static int fsl_sai_hw_params(struct
+> snd_pcm_substream *substream,
+> >                                  FSL_SAI_CR4_FSD_MSTR,
+> > FSL_SAI_CR4_FSD_MSTR);
+> >
+> >       regmap_write(sai->regmap, FSL_SAI_xMR(tx),
+> > -                  ~0UL - ((1 << min(channels, slots)) - 1));
+> > +                  ~0ULL - ((1ULL << min(channels, slots)) - 1));
+> >
+> >       return 0;
+> >   }
 
