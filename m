@@ -1,268 +1,177 @@
-Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023077.outbound.protection.outlook.com [52.101.127.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3583AB47B;
-	Sat, 30 May 2026 12:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780142678; cv=fail; b=PSMY9jPjoihM/20jQ2arJ8sZmtycJ9jUgVi6AiTZXKlzxE9d/9ydmyWS5AFpK059dngzPBJoXFMaIsITowzupAZBhcQVABZFJ5ySrsxjCSefhWRaE6JKGIKfud1E5yjNMmGOEU7HHbbmnOZnzJCW60TwGHcbPFa6Lm8YpG67ZgY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780142678; c=relaxed/simple;
-	bh=XKcG3H9C/vOMAL4Q8sXWeN5QuUhXDvy/Evyy/9tVLy0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=hIecO2v8kOGi/us1OZjDXzfGvqyXndUtZ5vWScCTkwvgP/80CHmWN0k0WuimmltdFXu1+Yfv7VRgJnBsakki9FaREH5NQQufkuDH+/OF0pc0Pb/Htx7iPJFX1sVmY5uvOrQZNvTDLY9lg1ElYrqQ8ctLswhzQXWasxPRQq1gH+g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=52.101.127.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k3RMJS2Q4DnOSCWfjsBtRi+mSbAcZ/HUDmHpWopqJLLJqthpkFoeItSNLA5CzGSpnKeRgbCgBsoNp2ur8WhF4DawUJRUz5kGmFmqOBTvLwmc05eLiQnAcbs/snpke7g92ufE5j2guGDs708GfS8RxnjKmevv/sksCXAnxRwslhnOeFpDT6Ftt8mJKpEYsMva0RHo4zHh1L3lzkjZ6Gn7OFSAyYjYNbDVj7O63yX7UtNbyxtrTij7nrvlHUbQhswwfcJZZaumw4hh6tBXV2ENwGW9iq50xqOz7L+/nO2SZId1UpT+1lX8ZDwXHuBJMhrOrieMVN5T9otpryhxN+diPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Fvsz2GCPyGBnQrnohhEJjmlcOkSDXI/IL0I7+Czfhxs=;
- b=Ruovj78DW1Jr1zY7qxKQh/8Q8z7aCVN2XiycLHphQjS7cSbgg0irftE9jhw1pkJOF1cUtu+wXKKFvoo1bl2t4nB38369G5WuBmqS42wrC+PBZr7Xdx2LUGrpXM3w113rvkJsXxrvGj0O+LuwgL+zkHhR7FpPz6bpQ+Z9qtrNSO4ZmOLP4pb75yl6+I+l0vHTDDvB5fgSqBVl1txSaErwZFliVxJKXRpT/0cjaM7gKvqcH/VqD3MeiDMaWM6sPY2tO6+u4RbAFSE3CcEjBAEHBXUqi0vBFD3ueU3XhSjBgQSbbA4VcXTwi1KdBUN5KgESGMB8AldvcpN4VBAqAkMTtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cixtech.com; dmarc=pass action=none header.from=cixtech.com;
- dkim=pass header.d=cixtech.com; arc=none
-Received: from KL1PR06MB6236.apcprd06.prod.outlook.com (2603:1096:820:d7::11)
- by TYUPR06MB6193.apcprd06.prod.outlook.com (2603:1096:400:351::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Sat, 30 May
- 2026 12:04:34 +0000
-Received: from KL1PR06MB6236.apcprd06.prod.outlook.com
- ([fe80::2c9b:c257:fe54:16e7]) by KL1PR06MB6236.apcprd06.prod.outlook.com
- ([fe80::2c9b:c257:fe54:16e7%5]) with mapi id 15.21.0071.015; Sat, 30 May 2026
- 12:04:33 +0000
-From: "Joakim  Zhang" <joakim.zhang@cixtech.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, "mturquette@baylibre.com"
-	<mturquette@baylibre.com>, "sboyd@kernel.org" <sboyd@kernel.org>,
-	"robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
-	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "lgirdwood@gmail.com"
-	<lgirdwood@gmail.com>, "broonie@kernel.org" <broonie@kernel.org>
-CC: cix-kernel-upstream <cix-kernel-upstream@cixtech.com>,
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: RE: [PATCH v1 7/7] arm64: dts: cix: sky1: add audss device nodes
-Thread-Topic: [PATCH v1 7/7] arm64: dts: cix: sky1: add audss device nodes
-Thread-Index: AQHc79phYUnJrue6JkuMF0BZ9FMNBLYmR9KAgAAU9VA=
-Date: Sat, 30 May 2026 12:04:33 +0000
-Message-ID:
- <KL1PR06MB62366E2FEE6414E6A3F450A582172@KL1PR06MB6236.apcprd06.prod.outlook.com>
-References: <20260530021642.64059-1-joakim.zhang@cixtech.com>
- <20260530021642.64059-8-joakim.zhang@cixtech.com>
- <c68f29a0-1d5e-4568-bc70-52926c275623@kernel.org>
-In-Reply-To: <c68f29a0-1d5e-4568-bc70-52926c275623@kernel.org>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cixtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: KL1PR06MB6236:EE_|TYUPR06MB6193:EE_
-x-ms-office365-filtering-correlation-id: e0fac63a-cc3a-4f32-1f65-08debe439cf6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|376014|18002099003|22082099003|4143699003|56012099006|38070700021;
-x-microsoft-antispam-message-info:
- Bv8XdVIeKihLW+GgtM8qM15TLmiLpn597sv+K1knPFgfi+38ju69Fe1HSnFKUd22loNioHFzas1f/xYg96V+JzC1wRkh+Kfvt/scjplt4fkf1KrXwokPX9/pByiMBC/QeTz7LuySbsm9nb4lmLEZ//9Q1xCEwuQ5FZCmOqhi1r/ecOTX/RsAv2LOF2RhoA8bySQ61a4Tby4VWLYH1vU20aSaCAdQX+qOrX+Lxmhm3Zz0VGILJ6y2dRZbmDM9u8UmLs74VA+NoE0u2oy9Wm/BjqRWVnUGUE6aaQ07A5jz0G9XsfVV0hd+sWiy7NddKDdYdqoC3KFHtqMlAPjkmU9tOSqpErAdybeW1ZE2KW64SGBGu2Z3SGT7OojIgI/+WstNchoC+dosML7KD/ztt34rO/v5oR5L3jgP1KqyJrSxHCyA4lpxpRYNDMoxgUpMc1smUVz4PlRLr560tAPMlhsDwm8X4ONBB7QnqyhlKE6BQb+BGjrzVXNsj9BuhJdYz20sWx6sJuRueYka5VXa5zysrruPMRa8seIwOGPRyKA/DgUYdtwlfgtYLgwOr25ze4ev4Upnn5mvmB3/Fq8RYxEmM9zpZaitk2sfeNju5IBsQ7+QttdFgG+zzR2mBg/gMgtSLhG9/5ZB3r1X2tEOacxaLTvEQ182T3Dx+VEPncOtLRmAf6zWZYDgRsy4Nu0sYh3GubTybWhud55pEy3YLrRPlodv8u6ckLXO9g09QAQxm68NRRexO0sUF2iFIYgWDFE6
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR06MB6236.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(18002099003)(22082099003)(4143699003)(56012099006)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?++eId+1Z5EaolrCKz9d8rZSNbqNYrPHRmt1mZ/z69DanESb/VNmPn0zdnmpU?=
- =?us-ascii?Q?0PpR2qaMoK/H6nYtfSXNzt1kpYrJd8yjVue+X2ND20T08DpknRpX607YevEs?=
- =?us-ascii?Q?2g92sodBdsNvhLXbGORMvzz91prqv1gZ21z81HIic4YhhzFQcoMHWqqkqpR5?=
- =?us-ascii?Q?WSYbTiktJy1oNuuWkpiYiREMmBHaWzGl2nz4fwoJZBUWWz5mj8T3mCFDSyt1?=
- =?us-ascii?Q?L1Y3ux0SCcn2fiYsfHcJV1/nounyCNC7KqtOkPH/ySArzaGghU1PXyFLAb2Q?=
- =?us-ascii?Q?liDwwyOnt92X0B46dXq5h5aj4t1jXZgRZoiDjjokZH/5BGXVyg5kY+S2Gud+?=
- =?us-ascii?Q?MCv79Kne48MUEVIbIqNuyR/lhSIhXaPAOIbYKGMQO0pLak58aglxiDwmGCVm?=
- =?us-ascii?Q?IVjCN2DO2KFH0MQBEjHLdjpsi4KYKx0dAUzhTzQyTPg5ypwyNJylm3z6O166?=
- =?us-ascii?Q?dFiaEgyppPHTPr+qoUu7ZqyOZ3BZ7CEelxHlraUGT7DnsFfUbAooeJWG+4RA?=
- =?us-ascii?Q?/0Q1i84CPu3c8/ORTZrwsnrXTstwXEAWXJB8UJbCWdUnV/gg7ZyVirF/RQ4R?=
- =?us-ascii?Q?yJJydoz+iQs6GHS/q0kkazoMkTjAOIZHpX88DilW+tHyTWGdY2TxU4bklzCq?=
- =?us-ascii?Q?MRmsfmW+exK6LMqxZ+ZjNOYRYLqPT92xhPN9frnAUTiUtyPRkpaBKOLmV2If?=
- =?us-ascii?Q?pLB1XABGQILygH3i6pzsnBl4ptQQMgBSXaFjTTJmAqHEv2gZvzozG0I4NbdQ?=
- =?us-ascii?Q?u00eM5+P7OYUAWXFPtNACPmm52ICM6jkl3UVOo0g3oc3W0Vva1TOD4wEHZ52?=
- =?us-ascii?Q?Ym6ftJoUQ88iUw1SsULPiZHhD6lZ7sgo2flc8w08gtzNaIEspue7wtOMr/gb?=
- =?us-ascii?Q?29GcHnXkMrc6icoMD018w5kWRgye+pOOUukM5lVcfu3fjHoDbale1Q31iW3U?=
- =?us-ascii?Q?UTi9G/To5BleD8Um7O0fBR5/YaOUz4oScskZNnxDnfIVDjvh7ODJj8tIPL1V?=
- =?us-ascii?Q?78ebrKuTpoC2AyFmUuhgZ0QJCmd+7bmUj2tMG63FHVyS2vhIT3mhu0JJhxUI?=
- =?us-ascii?Q?OnGbBgVN+54SCq2GOsaHWX+NyJnJSL1bNnXL4nCweW1WE1VoPYrwgXBEhVtS?=
- =?us-ascii?Q?bMFBaPBwT85DiMVvhAeHDznHvlHCGeKXbCgdaGWE+vD9MxjE3TZlRhYU/nfO?=
- =?us-ascii?Q?0GFexHitjAa4gjES3CmVtnR77Dsrf7cDNplIpdpGtwZppYGKOeZ2/XR82qAm?=
- =?us-ascii?Q?qizek6XO4EK8AMujFBIB8+xqcSdldlzWMLjTT6opuZUWLecxdWjWXqSy9MgK?=
- =?us-ascii?Q?K4sPK5SXfXrTQFSlAm5PNy9XvgSI5RQ6ImVAVO4GcciBmLyN/mqDW28Y8pTh?=
- =?us-ascii?Q?qXa2o1hBBKIFmEKGo2+N28l9Em8inADA85zbvd9Wu9iwFBV7DGC/viZc+Srk?=
- =?us-ascii?Q?hHPpfWIvX9kLeIYeaAjmXy+Edsrn8PMeXmuDsxbX7HTjZMhxp6+CvaDv0Gau?=
- =?us-ascii?Q?ENWFphNrKSltor6pHggIaShK2RBmJV6tzXrTBnPYj+w6Rk4w3u2vSS5YYOUf?=
- =?us-ascii?Q?5z3EQWJ+P+9iO7WuisJme62HKpB6EAZ2OYGm1nCvD9sk+L5CUByvmqK4EFT4?=
- =?us-ascii?Q?aW3pWAd3hwRATFPfrqFy2E84KaAmUsiDqZ0MJlGTquVpcoPJqhqM9o1VLst8?=
- =?us-ascii?Q?VvIWf3VIQ4VNdHvnEANkuH2OHOmb29CzaJc+M1/b+dZGXgnls481Lu/UGQSl?=
- =?us-ascii?Q?Tnvg49pp+g=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F3364AA4
+	for <linux-sound@vger.kernel.org>; Sat, 30 May 2026 12:09:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780142951; cv=none; b=eB2XNtqbPvZmJfNxWknmGwujx4NOQ4THulrD1no65JhxlOV723LUJgc6tqwiJPQY0ohyXSiak6bVRM2wjgNvFZB63ktsf1CDBRq+w+t2av+Cdfc4lDfYcOGe98UbjxURPbw5lzsymleRFD1aC1V7Yn08xL2sZZMoRX5BjPJUd4s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780142951; c=relaxed/simple;
+	bh=qUWTCbwlkxlnfzz9/IL3rX2JW47TPnhU5FVNLDZ74Wk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qmD3J3Z75MM7/sjCrmvhnpRfpaYpUeWM2eH++vJFnLINk5v3v9tNR+/AKqqLmoPmIWOm8QhYB/QINCktT5sYQGg8ithaE5AUC0c9daFRnAwDP/P9mKuBgGavLk5pa2mNYhFlG13ghP/sOk3opzIzICF3ncDvF1B36Jdn5ARkdQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=peWf+ynf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+2O75crj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=POuS97S2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=55fHc+my; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="peWf+ynf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+2O75crj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="POuS97S2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="55fHc+my"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2FBB46B703;
+	Sat, 30 May 2026 12:09:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780142948; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5oW+mMkq3XU90p5N6mE+XfAFbEqnCfZHsOi7os1ACDk=;
+	b=peWf+ynfJyTxvfquzaL18yY2kYxHwcp1bFRoLDRnvUmZQIvTJ+0+WQeJveqV9y1YcxMFa7
+	3WzjMP0ZyDOrYfmrvgNdDGx0lhdic3YFjLw6BW5gXNx3UmixCUMxzjp1SS06mYBAr46lzz
+	Ym3j0ypNgJjPR1oPC7gctgYTR4Ng948=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780142948;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5oW+mMkq3XU90p5N6mE+XfAFbEqnCfZHsOi7os1ACDk=;
+	b=+2O75crjWc+39yqFvJ62eFqEDJxrWxvFrYjcceYt1UcFuOZaiPB7Cqnts7DlwOKgXbzR4F
+	yh0U0QwBk1EjH6Cw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=POuS97S2;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=55fHc+my
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780142947; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5oW+mMkq3XU90p5N6mE+XfAFbEqnCfZHsOi7os1ACDk=;
+	b=POuS97S2YP6CiWgLCtxyoyQVLx2+gHE19ewcU7WmoJ91zr0l76O1xhM+b4v9P/2KZ38RZ5
+	NyhBZx9AKPGWLC/DdewgIP/OnkJ/x+P+p3jipOf0j7qWXC4z5gDefxiLOsipAsAXTh81ul
+	KAbwkf95ZVS7tD2av2HlVEenR8HcUNw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780142947;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5oW+mMkq3XU90p5N6mE+XfAFbEqnCfZHsOi7os1ACDk=;
+	b=55fHc+myNXo6/51Y4cREVl68yNGeZAU+pdhfqA+rrWWAweJohfzAic+iBzYA7hxgJoTolw
+	uQfjYK2daubL/xCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 04DCC779A7;
+	Sat, 30 May 2026 12:09:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id EUs9O2LTGmrGVQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 30 May 2026 12:09:06 +0000
+Date: Sat, 30 May 2026 14:09:06 +0200
+Message-ID: <87ldd1p09p.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Rong Zhang <i@rong.moe>
+Cc: Steve Smith <tarkasteve@gmail.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	Jaroslav
+ Kysela	 <perex@perex.cz>
+Subject: Re: [BUG] Audio regression in 7.1-rcX; low volume on Edifier MF200
+In-Reply-To: <50261203461f3b56c0bd196c1d9a754f84a4d8bc.camel@rong.moe>
+References: <CAHLWS5FJCx66GQ-O10pu+nEudEo_QgQAM9vt76T7vT0zGPPC1g@mail.gmail.com>
+	<87wlwmr32n.wl-tiwai@suse.de>
+	<b25d12e13bffefb926d92464eda1f66cb26f5dfa.camel@rong.moe>
+	<CAHLWS5HrOUGw8KiPsZPV4im3jKLd1YOoRs6szvLjusHQm1dmZQ@mail.gmail.com>
+	<50261203461f3b56c0bd196c1d9a754f84a4d8bc.camel@rong.moe>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: KL1PR06MB6236.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0fac63a-cc3a-4f32-1f65-08debe439cf6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2026 12:04:33.8288
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5jEZ2lSqM/gFC8M3s2WzuflF2X+mMTxKSQcYUq6rvvQDAGf2ulmgaySCeqPqnnx1l/h63lbXqsHMwwBzD24Epwc42s/CUFKEKC204bc/7EM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYUPR06MB6193
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 2FBB46B703
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,suse.de,vger.kernel.org,perex.cz];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[rong.moe:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+
+On Sat, 30 May 2026 13:06:03 +0200,
+Rong Zhang wrote:
+> 
+> Hi Steve,
+> 
+> On Sat, 2026-05-30 at 12:34 +1000, Steve Smith wrote:
+> > On Fri, 29 May 2026 at 22:07, Rong Zhang <i@rong.moe> wrote:
+> > > 
+> > > Hi Takashi, Steve,
+> > > 
+> > > Hmm, the dmesg dump is, however, for a good commit. No wonder we
+> > > couldn't find the error message... :-/
+> > 
+> > You are correct, apologies. rc5 (broken) dmesg attached; it does have
+> > the following line:
+> > 
+> >     usb 1-3.2: 9:1: sticky mixer values (-32768/-32513/1 => -32702), disabling
+> > 
+> > > Steve, could you please attach a dmesg dump for a bad commit? And could
+> > > you please test if setting QUIRK_FLAG_MIXER_GET_CUR_BROKEN on your
+> > > device helps? See
+> > > https://lore.kernel.org/linux-sound/20260529-uac-quirk-get-cur-vol-v3-0-bde363188ca4@rong.moe/
+> > 
+> >  I can confirm this works:
+> > 
+> > * Applied above patchset to its base commit; volume still low.
+> > * Added to MF200 to the quirks list (see below); volume behaves as expected:
+> 
+> Thanks for testing! I will submit a patch for your device with your
+> Tested-by tag.
+> 
+> While a correct fix for your device is a said quirk table entry, I will
+> also submit another patch to improve the error path of sticky mixers as
+> I've said in my previous reply, so that future quirky devices can mostly
+> work fine before someone submits a quirk table entry. I will add you to
+> the CC list when I submit it. Could you kindly test it (without the
+> quirk table entry for your device) to see if the soft mixer works better
+> when you receive it?
+
+Rong, if you work on the improvement, can you try to have a small fix
+that fits with 7.1?  We can merge whatever for 7.2, but 7.1 is already
+at a late RC, so I'd like to avoid to drag a big series of fixes
+there.
 
 
-Hi,
+thanks,
 
-> -----Original Message-----
-> From: Krzysztof Kozlowski <krzk@kernel.org>
-> Sent: Saturday, May 30, 2026 5:08 PM
-> To: Joakim Zhang <joakim.zhang@cixtech.com>; mturquette@baylibre.com;
-> sboyd@kernel.org; robh@kernel.org; krzk+dt@kernel.org;
-> conor+dt@kernel.org; p.zabel@pengutronix.de; lgirdwood@gmail.com;
-> broonie@kernel.org
-> Cc: cix-kernel-upstream <cix-kernel-upstream@cixtech.com>; linux-
-> clk@vger.kernel.org; linux-sound@vger.kernel.org
-> Subject: Re: [PATCH v1 7/7] arm64: dts: cix: sky1: add audss device nodes
->=20
-> EXTERNAL EMAIL
->=20
-> On 30/05/2026 04:16, joakim.zhang@cixtech.com wrote:
-> > From: Joakim Zhang <joakim.zhang@cixtech.com>
-> >
-> > Add audss support for cix sky1 platform, including clock, reset and
-> > hda controllers.
-> >
-> > Signed-off-by: Joakim Zhang <joakim.zhang@cixtech.com>
-> > ---
-> >  arch/arm64/boot/dts/cix/sky1-orion-o6.dts | 34 ++++++++++++++
-> >  arch/arm64/boot/dts/cix/sky1.dtsi         | 56 +++++++++++++++++++++++
-> >  2 files changed, 90 insertions(+)
-> >
-> > diff --git a/arch/arm64/boot/dts/cix/sky1-orion-o6.dts
-> > b/arch/arm64/boot/dts/cix/sky1-orion-o6.dts
-> > index e39c87774c12..1700ecbfa1ce 100644
-> > --- a/arch/arm64/boot/dts/cix/sky1-orion-o6.dts
-> > +++ b/arch/arm64/boot/dts/cix/sky1-orion-o6.dts
-> > @@ -66,6 +66,20 @@ pins {
-> >                       drive-strength =3D <8>;
-> >               };
-> >       };
-> > +
-> > +     pinctrl_audss_hda: hda-cfg {
-> > +             pins {
-> > +                     pinmux =3D <CIX_PAD_HDA_BITCLK_FUNC_HDA_BITCLK>,
-> > +                            <CIX_PAD_HDA_RST_L_FUNC_HDA_RST_L>,
-> > +                            <CIX_PAD_HDA_SDIN0_FUNC_HDA_SDIN0>,
-> > +                            <CIX_PAD_HDA_SDOUT0_FUNC_HDA_SDOUT0>,
-> > +                            <CIX_PAD_HDA_SYNC_FUNC_HDA_SYNC>,
-> > +                            <CIX_PAD_HDA_SDIN1_FUNC_HDA_SDIN1>,
-> > +                            <CIX_PAD_HDA_SDOUT1_FUNC_HDA_SDOUT1>;
-> > +                     bias-pull-down;
-> > +                     drive-strength =3D <20>;
-> > +             };
-> > +     };
-> >  };
-> >
-> >  &iomuxc_s5 {
-> > @@ -82,6 +96,26 @@ pins {
-> >       };
-> >  };
-> >
-> > +&audss_cru {
-> > +     status =3D "okay";
-> > +};
-> > +
-> > +&audss_clk {
-> > +     status =3D "okay";
-> > +};
-> > +
-> > +&audss_rst {
-> > +     status =3D "okay";
-> > +};
-> > +
-> > +&audss_ipb_hda {
-> > +     model =3D "Radxa Orion O6 HDA";
-> > +     pinctrl-names =3D "default";
-> > +     pinctrl-0 =3D <&pinctrl_audss_hda>;
-> > +     memory-region =3D <&audio_alsa_hda>;
-> > +     status =3D "okay";
-> > +};
-> > +
-> >  &pcie_x8_rc {
-> >       status =3D "okay";
-> >  };
-> > diff --git a/arch/arm64/boot/dts/cix/sky1.dtsi
-> > b/arch/arm64/boot/dts/cix/sky1.dtsi
-> > index bb5cfb1f2113..fe096ab95f3b 100644
-> > --- a/arch/arm64/boot/dts/cix/sky1.dtsi
-> > +++ b/arch/arm64/boot/dts/cix/sky1.dtsi
-> > @@ -6,6 +6,10 @@
-> >
-> >  #include <dt-bindings/interrupt-controller/arm-gic.h>
-> >  #include <dt-bindings/clock/cix,sky1.h>
-> > +#include <dt-bindings/clock/sky1-audss.h> #include
-> > +<dt-bindings/reset/cix,sky1-system-control.h>
-> > +#include <dt-bindings/reset/cix,sky1-s5-system-control.h>
-> > +#include <dt-bindings/reset/sky1-reset-audss.h>
-> >  #include "sky1-power.h"
-> >
-> >  / {
-> > @@ -155,6 +159,18 @@ core11 {
-> >               };
-> >       };
-> >
-> > +     reserved-memory {
-> > +             #address-cells =3D <2>;
-> > +             #size-cells =3D <2>;
-> > +             ranges;
-> > +
-> > +             audio_alsa_hda: audio_alsa_hda@d0c00000 {
-> > +                     compatible =3D "shared-dma-pool";
-> > +                     reg =3D <0x0 0xd0c00000 0x0 0x200000>;
-> > +                     no-map;
-> > +             };
-> > +     };
-> > +
-> >       firmware {
-> >               ap_to_pm_scmi: scmi {
-> >                       compatible =3D "arm,scmi"; @@ -488,6 +504,46 @@
-> > mbox_pm2ap: mailbox@65a0080 {
-> >                       cix,mbox-dir =3D "rx";
-> >               };
-> >
-> > +             audss_ipb_hda: hda@70c0000 {
-> > +                     compatible =3D "cix,sky1-ipbloq-hda";
-> > +                     reg =3D <0x0 0x070c0000 0x0 0x10000>;
-> > +                     interrupts =3D <GIC_SPI 234 IRQ_TYPE_LEVEL_HIGH 0=
->;
-> > +                     clocks =3D <&audss_clk CLK_HDA_SYS>,
-> > +                              <&audss_clk CLK_HDA_HDA>;
-> > +                     clock-names =3D "ipg", "per";
-> > +                     resets =3D <&audss_rst AUDSS_HDA_SW_RST_N>;
-> > +                     status =3D "disabled";
-> > +             };
-> > +
-> > +             audss_cru: system-controller@7110000 {
-> > +                     compatible =3D "cix,sky1-audss-cru", "simple-mfd"=
-, "syscon";
-> > +                     reg =3D <0x0 0x07110000 0x0 0x10000>;
-> > +                     status =3D "disabled";
->=20
-> What is missing on the board side? Why SoC component is disabled?
-
-Indeed, there is absolutely no need to disable. Will updated.
-
-Thanks,
-Joakim
+Takashi
