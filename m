@@ -1,118 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857F939F193;
-	Sat, 30 May 2026 12:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780143624; cv=none; b=UE2jddcRsUqD2NSrcBJ1fYJwtRYBIaigZ+lJw8fXtB0/XM3bHtOb3n7zoezGX9uF2EtJNMGEPylimBOZF+LD6KIDdFQpkDGYeZCJSCOMXoiOGjG5HWSLRJ95uocHG+Ay5e8Y55ChNdYzF2q3Mw31jsud/kl5ImZeq1h8tgEC4bo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780143624; c=relaxed/simple;
-	bh=1iIkLrSHCp8BbEt31oSxdHRzx/Ss5VI6U+H4ykdQ6A0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tpgyNQLXunKMKJyWYT0tMh2dYYJh3Ufwr/ab/TYoEvGAE152gP7RIXnl9XMEyWPWUcMS8fCO02uQ67EhxNK9nSurDefLTu7a2zEXcuhGg21PYxX1EFGMjJFkcNa1yOA/CaSJmybEX2MzKH5oWluepyMSMPsLCGcVNrvecsi6vbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B0UwQm4b; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D8B3AFD10
+	for <linux-sound@vger.kernel.org>; Sat, 30 May 2026 12:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780143761; cv=pass; b=NIGmW6NloJuX2kJu++cTS1MrJIpCvjWxUEWH0hnCoCWBL7T6eYHH9gCDpXhLBGD6+yA1qr+FHrQ6ZQAWTcV/AdA/A58Q1b+sr/iGRyNwSPR3IuO2YM9y6TWdm2sqFTK5s/xSPe1ZbKWtdy/DgOR6cIr0ROu52TIHnd6hnWuLeYg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780143761; c=relaxed/simple;
+	bh=ykCaK6wPgPWdGUV/fHD9gI5oxVYknGrSTtjLdh7PNvk=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=Zz4UyF8T39UKr1UZoZEHoOolsvlTRZU2QQTkt8cBC36DFU+ViUyVpyoWyysODQjLozjo60y+e18UGMnImyw1Hc1SuDmww1D5+WaQq8BbLlAhzi+u0YeJfNQi7kNWO9x9ErXNeG1XU5EFXOwsk+bdKZ5VHpEsbiXFUZQkabwTGAQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=HMGZs0ju; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B0UwQm4b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5E7A1F00893;
-	Sat, 30 May 2026 12:20:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780143623;
-	bh=feo7TG65wg1TQuqL/0fZ0HSS9T0n2ciIDHGKhOCwvPU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=B0UwQm4bJ4PkOyxLRatzERETpUeZAiNE9b1Gj9gRQ0FaNaEMoIWtiu63EqmfFyegw
-	 mDQHKIGYOpWfp51qYdzB8/la2to9NERUM26jbRyzxwWJNCblUgitebGwGpI4pJCWot
-	 gGnLfUcL1G6zmJNGUty+rdY3ffkS5qSGgIUnsn11tWk3icEsOp7y6pK9pKLwakiA9q
-	 AQfcxst/zZPt3obHx9GP1CvJU+PEPMVuH7wvXXuP0TsQm07CKyRiruVXSIG0MjRkSR
-	 fyqPpkgcuIJIeMWTucC1/sfG7KAIGeoIN/i7aKYYred+BUIGCW5x8NDYUTZ9I6mX2k
-	 3vnyJhS0DE++g==
-Message-ID: <55df95c3-4c63-40d4-8da5-9b33f52d1f5c@kernel.org>
-Date: Sat, 30 May 2026 14:20:19 +0200
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="HMGZs0ju"
+ARC-Seal: i=1; a=rsa-sha256; t=1780143754; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=avm47q9swNdns2FWouopU2nEbfC08oZMk1EmYHCjVQZk1AZTCJ5rYwmv9xbUOPRmOcRQeKoiDh587yyeUVaB1h8N4aGTy5PbhdTobLv6HwxIpY3afYlpwDh5QOsHnbTTN1OSthCyz0vQ/UXfsY45nBpi4B95ua60MjCUhAJeNZ4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1780143754; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=moCZwDF9e4ooIeDhNzL7hsW636D/w6/vb1uWnbO6ISE=; 
+	b=CidaL79q0+1P5f9cV+gAuo0VHSZgZOY2IrfEPChYWHqE/xS3YuvXyM9iZkTHW/5HdoKG8nbZRio2jWFzT/Y4w7ccZiE8iPdrLXOkGLI3OFTre3nXCnZ1eJUtDgClwWN9nuFDmLW32G43jnTsTL6XgkrL5KpYn8KmFADqv4ftZA8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1780143754;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=Date:Date:From:From:To:To:CC:Subject:Subject:In-Reply-To:References:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+	bh=moCZwDF9e4ooIeDhNzL7hsW636D/w6/vb1uWnbO6ISE=;
+	b=HMGZs0juvmuvRkp0wnmlSOR8X4VIm8fmF1TXOsH62m2fcMbPTYoNGKTCBEWVAZQ6
+	iLnDujPzE+9UQHy/NtF1C6AEKnA6O+7Ov7+EeUze0KBDurIDJ1XTc2JYTUsJc0gdKfT
+	5fdJd0lx37JIIRF4pqzms3TocsVWP979ExE+KiV9z5TZD/5RtaOIQ0QCkk4U6HB+Acj
+	IMAgehWgCq0zGc/xcwzH6l31V8RFuCVxBDxCPFnXMdTnGsm61dmEzvCAtmuLpzMgIVM
+	YwKPLNBGQEcSzYMByWv3aZuQq/M9EYogB0AugriOecnhN+ZCMty7u/OkMyYOD5co5Re
+	jPfYcCWprw==
+Received: by mx.zohomail.com with SMTPS id 17801437516841013.0826179547513;
+	Sat, 30 May 2026 05:22:31 -0700 (PDT)
+Date: Sat, 30 May 2026 20:22:23 +0800
+From: Rong Zhang <i@rong.moe>
+To: Takashi Iwai <tiwai@suse.de>
+CC: Steve Smith <tarkasteve@gmail.com>, linux-sound@vger.kernel.org,
+ Jaroslav Kysela <perex@perex.cz>
+Subject: Re: [BUG] Audio regression in 7.1-rcX; low volume on Edifier MF200
+User-Agent: Thunderbird for Android
+In-Reply-To: <87ldd1p09p.wl-tiwai@suse.de>
+References: <CAHLWS5FJCx66GQ-O10pu+nEudEo_QgQAM9vt76T7vT0zGPPC1g@mail.gmail.com> <87wlwmr32n.wl-tiwai@suse.de> <b25d12e13bffefb926d92464eda1f66cb26f5dfa.camel@rong.moe> <CAHLWS5HrOUGw8KiPsZPV4im3jKLd1YOoRs6szvLjusHQm1dmZQ@mail.gmail.com> <50261203461f3b56c0bd196c1d9a754f84a4d8bc.camel@rong.moe> <87ldd1p09p.wl-tiwai@suse.de>
+Message-ID: <1B383455-B0F8-4B67-92AA-559D3F638999@rong.moe>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 4/7] dt-bindings: reset: cix,sky1-audss-reset: add
- aduss reset controller
-To: Joakim Zhang <joakim.zhang@cixtech.com>,
- "mturquette@baylibre.com" <mturquette@baylibre.com>,
- "sboyd@kernel.org" <sboyd@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "broonie@kernel.org" <broonie@kernel.org>
-Cc: cix-kernel-upstream <cix-kernel-upstream@cixtech.com>,
- "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-References: <20260530021642.64059-1-joakim.zhang@cixtech.com>
- <20260530021642.64059-5-joakim.zhang@cixtech.com>
- <dba033ec-1939-40b8-8aa0-26750b9bd591@kernel.org>
- <KL1PR06MB6236ED153961B695117A0B9A82172@KL1PR06MB6236.apcprd06.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <KL1PR06MB6236ED153961B695117A0B9A82172@KL1PR06MB6236.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 
-On 30/05/2026 14:04, Joakim Zhang wrote:
->>
->>
->> I am not really reviewing this, since you never tested it and did not follow the
->> process, but to spare you one review cycle - no resources here, so this is NOT a
->> separate node. Please read writing bindings or
->> DTS101 slides.
-> 
-> Sorry, that's the meaning of " so this is NOT a separate node ",  could you please explain it more, so I can update later.
+Hi Takashi,
+
+=E4=BA=8E 2026=E5=B9=B45=E6=9C=8830=E6=97=A5 GMT+08:00 20:09:06=EF=BC=8CTa=
+kashi Iwai <tiwai@suse=2Ede> =E5=86=99=E9=81=93=EF=BC=9A
+>On Sat, 30 May 2026 13:06:03 +0200,
+>Rong Zhang wrote:
+>>=20
+>> Hi Steve,
+>>=20
+>> On Sat, 2026-05-30 at 12:34 +1000, Steve Smith wrote:
+>> > On Fri, 29 May 2026 at 22:07, Rong Zhang <i@rong=2Emoe> wrote:
+>> > >=20
+>> > > Hi Takashi, Steve,
+>> > >=20
+>> > > Hmm, the dmesg dump is, however, for a good commit=2E No wonder we
+>> > > couldn't find the error message=2E=2E=2E :-/
+>> >=20
+>> > You are correct, apologies=2E rc5 (broken) dmesg attached; it does ha=
+ve
+>> > the following line:
+>> >=20
+>> >     usb 1-3=2E2: 9:1: sticky mixer values (-32768/-32513/1 =3D> -3270=
+2), disabling
+>> >=20
+>> > > Steve, could you please attach a dmesg dump for a bad commit? And c=
+ould
+>> > > you please test if setting QUIRK_FLAG_MIXER_GET_CUR_BROKEN on your
+>> > > device helps? See
+>> > > https://lore=2Ekernel=2Eorg/linux-sound/20260529-uac-quirk-get-cur-=
+vol-v3-0-bde363188ca4@rong=2Emoe/
+>> >=20
+>> >  I can confirm this works:
+>> >=20
+>> > * Applied above patchset to its base commit; volume still low=2E
+>> > * Added to MF200 to the quirks list (see below); volume behaves as ex=
+pected:
+>>=20
+>> Thanks for testing! I will submit a patch for your device with your
+>> Tested-by tag=2E
+>>=20
+>> While a correct fix for your device is a said quirk table entry, I will
+>> also submit another patch to improve the error path of sticky mixers as
+>> I've said in my previous reply, so that future quirky devices can mostl=
+y
+>> work fine before someone submits a quirk table entry=2E I will add you =
+to
+>> the CC list when I submit it=2E Could you kindly test it (without the
+>> quirk table entry for your device) to see if the soft mixer works bette=
+r
+>> when you receive it?
 >
+>Rong, if you work on the improvement, can you try to have a small fix
+>that fits with 7=2E1?  We can merge whatever for 7=2E2, but 7=2E1 is alre=
+ady
+>at a late RC, so I'd like to avoid to drag a big series of fixes
+>there=2E
 
-Does that mean you are not willing to read existing guides?
+Sure=2E I will fix the error path for 7=2E1 while adding a quirk table ent=
+ry for Edifier MF200 for 7=2E2=2E
 
-Best regards,
-Krzysztof
+Thanks,
+Rong
+
+>
+>
+>thanks,
+>
+>Takashi
