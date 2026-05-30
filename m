@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 973C119ABD8;
-	Sat, 30 May 2026 09:19:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D89B7263B;
+	Sat, 30 May 2026 09:20:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780132784; cv=none; b=GdoGHcm+AdyKN+0iX2zbOI5lhdFoyupSrtux0ndHc3jn9d9kKnXy9cmIqBk9LE6xzRqRp4bU8jxs25XTsTNg9GrFUYMeJ2pujltH2U04foFFCzZHm+F15GAZ6/387WSWlwx41BYHqaLzQ0d5lxWuj6KBPY6XDlM8llAIFg9QORU=
+	t=1780132819; cv=none; b=DjdUbjLToKRLEZEB6w1U0dqsr+LEYwHh9/q2nQTfmM4gQ38ra8o51X0JgfFXVixwmJzK9NM9x4abI2um2fHYpdYbGO9NJ8bob4s2SCd2d+O13fZ0MvvZ9jODxmEJpfRlBAKmxgWN+1ky8+6L9x/niqjGq5GUVJct6YRoDnryvxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780132784; c=relaxed/simple;
-	bh=jwX1HYi2/3Bj5Ge3rbomNQiqcHrGe0sUZYiu3wz+1SU=;
+	s=arc-20240116; t=1780132819; c=relaxed/simple;
+	bh=bP5vJ2u5AEbDHdZ8r0dmFXOAocHomMUCiE5vNav573k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hZkCvi/5WwoIFfrBWPRl2YqLFLGAzSpiXoaPNOpPcqdvs/pL06soxQUTOgi+0UQ6SQMh1mPZJjH60FPJCLW+r0Be5IZAofYWpYpgBG4A5zgryZ5SXRVj23c9bgUmobIAzrbD3VFDCTTOu4fvQqCw3d0agZ2ya6xEgV7bEgGutDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZuRLDRLX; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=fjPgeWOW49ai2A07Vl2D3njz5KBqP0jdWTbTXjoEyl1as9h1DSbJjwS0HpRUT2VsaXmjowF3tF/Jf8984B7KZ0N3NDuNCtq9NwPJm6jZ1HZLVQKzYPjmzVxgt1M+NDWXYqTyGjYt3x4GY5tVZlr70MOhd0FvyufRPaojxKn1YbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z3MLw628; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZuRLDRLX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 281081F00893;
-	Sat, 30 May 2026 09:19:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z3MLw628"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 393951F00893;
+	Sat, 30 May 2026 09:20:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780132783;
-	bh=/Jnl+zmlmoEq+25cOZElJUmvItq+GJWsQIhRGrzPddg=;
+	s=k20260515; t=1780132818;
+	bh=Vk/0CJJJGRogiX9amt5r+/shVb/2evbPqryg55FyrkU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ZuRLDRLXF5DtZjxWk47Qtx6dfc6TwaNskJfeX5YnKlOJiSEaUORaqosD1aC+kM1cd
-	 iqnLMydn68D3Uvx05/wBrpG11fn9x5bHNq1mYisLFIpjqhyttqCRttN/fHhl2L+jZ+
-	 9mUuHXnwbOgJT5ytxzGLFkTLHk0uiUd8bjpTtmEGztczd87iSQYTH+XK9dxPJECd6J
-	 +wIt5N7yPD4T3OsE8fKKdpSFKEaOZMz6FzOKnxhhWpW38qtclkPyBi7yAWfH3vhS6J
-	 jdVBpYWred3G8BknJMDleexNiLcZ4OaST87qUtuQNzcSPUltlJDrY5H8hv8/WXGRuW
-	 P+Wmr3TCp+GXw==
-Message-ID: <8219cc01-e13a-484d-a335-6e638671b9a6@kernel.org>
-Date: Sat, 30 May 2026 11:19:39 +0200
+	b=Z3MLw6286pAZHXisvAX6mcc3n8SwhgLI2lkh8wkg2D4WEYvLlyaDQnDwsmOO9fgkX
+	 NkfQc3aRbxPyzYzbxLTOIjyitexuuhzEowcWGNDsXf7V15vYt1YPq3QzpgxfsnYBM5
+	 HxYIJci55WznOm01TlPpzGKmIEzH0qYzkhcF+O7LrEJLu2k4vOqmR3sqtsymGuamvK
+	 3Pm75l9b3B4nv/XqP1xcUOtzARmsd1Kl7u3RSXJlJ4eYuA1QCrpkFbKVDKXoYznL50
+	 sKPkL/NC+ej92VGJnwydTcRhodcWkSa9T1d2EaNaC16/xUNlXmjgQA6nYX7THqd3vv
+	 P9u97A5SELywQ==
+Message-ID: <c8209301-774e-4ec5-8685-c8453a84ae61@kernel.org>
+Date: Sat, 30 May 2026 11:20:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,14 +35,15 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: dt-bindings: sound: asahi-kasei,ak4118: Convert
- DT schema
-To: Manish Baing <manishbaing2789@gmail.com>, lgirdwood@gmail.com,
- broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, peron.clem@gmail.com
+Subject: Re: [PATCH v3] ASoC: dt-bindings: sound: atmel_ac97c: Convert to DT
+ schema
+To: Manish Baing <manishbaing2789@gmail.com>, claudiu.beznea@tuxon.dev,
+ lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, nicolas.ferre@microchip.com,
+ alexandre.belloni@bootlin.com
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260524150231.109157-1-manishbaing2789@gmail.com>
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20260530052812.115994-1-manishbaing2789@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -88,38 +89,36 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260524150231.109157-1-manishbaing2789@gmail.com>
+In-Reply-To: <20260530052812.115994-1-manishbaing2789@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 24/05/2026 17:02, Manish Baing wrote:
-> Convert the Asahi Kasei AK4118 S/PDIF transceiver bindings from
-> text format to YAML schema.
+On 30/05/2026 07:28, Manish Baing wrote:
+> Convert the Atmel AC97 controller binding from text
+> format to YAML schema.
+> 
+> The binding constraints were updated during conversion to align with
+> actual driver behavior:
+> - Added previously undocumented 'clocks' and 'clock-names' properties.
+>   These are made required, as the driver unconditionally requests them.
+> - Removed 'ac97-gpios' from the required list, as the driver
+>   treats the reset pin as optional, and requiring it breaks existing
+>   .dtsi validation.
+> - Fixed the ac97-gpios array in the example to use standard
+>   comma-separated formatting.
 > 
 > Signed-off-by: Manish Baing <manishbaing2789@gmail.com>
 > ---
+> Changes in v3:
+> - Updated the commit message to include the reasoning behind the property changes, 
+>   addressing Sashiko bot feedback.
 > Changes in v2:
-> - Restored legacy 'irq-gpios' property to prevent C driver probe failure.
-> - Added 'reset-gpios' and 'irq-gpios' to the required properties list.
-> 
->  .../devicetree/bindings/sound/ak4118.txt      | 22 -------
->  .../bindings/sound/asahi-kasei,ak4118.yaml    | 58 +++++++++++++++++++
->  2 files changed, 58 insertions(+), 22 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/sound/ak4118.txt
->  create mode 100644 Documentation/devicetree/bindings/sound/asahi-kasei,ak4118.yaml
+> - Added undocumented 'clocks' and 'clock-names' properties which are
+>   unconditionally required by the driver.
+> - Removed 'ac97-gpios' from the required list, as the driver treats
 
 
-Organize your patches targeting one subsystem into one patchset. You
-sent a lot and you make EXACTLY the same mistakes everywhere. So now I
-need to replay to 10 different emails?
-
-Well, you don't even give time to review, but immediately send v2.
-
-Please slow down and put attention to this work.
-
-I expect answers:
-1. Did you analyze existing users of this binding?
-2. If so, which users? How did you analyze them?
+Srsly, stop. I don't even know where to reply...
 
 Best regards,
 Krzysztof
