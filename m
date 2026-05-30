@@ -1,172 +1,358 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023074.outbound.protection.outlook.com [40.107.44.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C64F1EDA0F;
-	Sat, 30 May 2026 13:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.74
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780149097; cv=fail; b=lHnJdbX12jfHsxQSRcTKB/xJ2Aao/4+sjmt/75OqnTaVt+uz4HKoQrv8+OO4lAV1J6V2F4rt9s0nWLA6weDVOScKtToeQ7f1k2noA2krrA8I0kk2g0pxbeOOtYTnbYzaRDXSgmWuWZRiPhqy1uQA5HfINSjHuFGnfBuLZkQ+ojA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780149097; c=relaxed/simple;
-	bh=/TQBgZowrrC4XcJ0q1baMLVkEMjdaVce+RbWBj9uwl8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=SMY5tWd1W6d4z5455+QLsuMaFs00QkBNVyY9+b4iYqh6hiJ3w9EXf8bc99bzjbz4TzEzVfie4dcXpTnMPf2RUbUKzKY1/aNwFpi84P0VgT+qmT8lzFwDjf5imsJXlQdUY3DIOQsJ6KTGJ+cZyzFjyHGiY/cec4lzGSajhAm4BVc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=40.107.44.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LbCEFjwx7dnuW+/xEfslOtnflUHybLJwFmuvrtlDnagsnBRq8dzJhn1AQJbJoJzkS9uen1h+QWZysgC5cjhg8EoyndOG8V0WI7pr6v3pOu5jWbMsKDKY0Tc8ntoBg+ROXo7QvzLZyTTZqt8DAP9bRQhkyzGCUMFTCq3SVjJ7n3xe/zEvOHkoxivUkHVrnWNuJBtYvbBlKMA0tWP1XMvJOLsc/7KSTQvEeXAa//BqRes8vkD0Vf/p8+qUX/VDCykB2fuXyY2YsZJuLrxgUim3K9VzTEmVi9lXqLY3r5tT+rNxGj/X1iB3VdXYM1Lh1EXA74xcucIqOdkbRSWCntQLGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M+RM1wwsCpvSH7Ne/W37XnhhINATLQAXysu9CCMNz60=;
- b=AqXJIMfusNMHcIzRSs9BLoHAiyY7IKdxxDKtOgXWhWeVe/nhffelLS3cXeS+QwSZGiGzHJLMiPnWpYsXeAYZjQiX9i6cgv8+Ei8dozzZPeybC0r/iovTi0lJQeWST9alAQYulhUcFoernfo5IUy/6LdGcDufz/z1geUk69JfyzBymVkztAHj9P1p5QFIvffId0N6V2ZfcSJj7v0UVgApLDSV6HZo/vHE0KH5BJKTqXS2r5exLzwpJaNsHCLx7IO9VOhupuPDLyIUbhnfL1YD9St2oRw+vLBtcPdJ6fiYIWHqOti+MJ2Zd4K0u/o6b5RQeJzSSsaKoM4WUbqkgCYg6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cixtech.com; dmarc=pass action=none header.from=cixtech.com;
- dkim=pass header.d=cixtech.com; arc=none
-Received: from SEYPR06MB6226.apcprd06.prod.outlook.com (2603:1096:101:df::13)
- by TYZPR06MB6191.apcprd06.prod.outlook.com (2603:1096:400:33d::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Sat, 30 May
- 2026 13:51:30 +0000
-Received: from SEYPR06MB6226.apcprd06.prod.outlook.com
- ([fe80::56e8:777c:d80e:d364]) by SEYPR06MB6226.apcprd06.prod.outlook.com
- ([fe80::56e8:777c:d80e:d364%5]) with mapi id 15.21.0071.015; Sat, 30 May 2026
- 13:51:30 +0000
-From: "Joakim  Zhang" <joakim.zhang@cixtech.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, "mturquette@baylibre.com"
-	<mturquette@baylibre.com>, "sboyd@kernel.org" <sboyd@kernel.org>,
-	"robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
-	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "lgirdwood@gmail.com"
-	<lgirdwood@gmail.com>, "broonie@kernel.org" <broonie@kernel.org>
-CC: cix-kernel-upstream <cix-kernel-upstream@cixtech.com>,
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: RE: [PATCH v1 4/7] dt-bindings: reset: cix,sky1-audss-reset: add
- aduss reset controller
-Thread-Topic: [PATCH v1 4/7] dt-bindings: reset: cix,sky1-audss-reset: add
- aduss reset controller
-Thread-Index: AQHc79pg3e8btjBSt0qe7LG9PgjwBbYmSNcAgAAu4SCAAAXugIAAGAEQ
-Date: Sat, 30 May 2026 13:51:29 +0000
-Message-ID:
- <SEYPR06MB6226F49E303DD786090B715282172@SEYPR06MB6226.apcprd06.prod.outlook.com>
-References: <20260530021642.64059-1-joakim.zhang@cixtech.com>
- <20260530021642.64059-5-joakim.zhang@cixtech.com>
- <dba033ec-1939-40b8-8aa0-26750b9bd591@kernel.org>
- <KL1PR06MB6236ED153961B695117A0B9A82172@KL1PR06MB6236.apcprd06.prod.outlook.com>
- <55df95c3-4c63-40d4-8da5-9b33f52d1f5c@kernel.org>
-In-Reply-To: <55df95c3-4c63-40d4-8da5-9b33f52d1f5c@kernel.org>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cixtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEYPR06MB6226:EE_|TYZPR06MB6191:EE_
-x-ms-office365-filtering-correlation-id: 801f930c-a7d5-4d7c-e9ba-08debe528d43
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|376014|366016|38070700021|18002099003|22082099003|56012099006|4143699003;
-x-microsoft-antispam-message-info:
- Oz5rq/svmRYuJnoWVPDQaAfGSvn5v405HzaRuHmVG4SYXTpWvyQa6tjT6dgnDkJPoW1p6FN43CsSPRNRgni+PomzQjmlOIxTOXP11BFgPFLg/5hwgr+Ib0Hzp10NdnLma9+MhPgDFiIMg2tElVceMJx1zO6DrDrKcVGhLWt0O24NGr2NgH9vj9GH/3qgFVuYoyQCEezef6CZohG57U5GmM7vU13McqmMXnVoFZ7bRqavI3NNHxxMGMink+GCtVGX+L45jXTgsaPcEeSsd7OXMza66I91KohQB8cnP7mcKS/QLe6p3mZFmPfZii0Od1fgjNMVR6i5p91sVQuoboN5chLo+4drAXmDjQpeouNHBZRCFXGd1MU03Ti4g4NAd7Wokfn5tdZ2x8DxgSyFyovoHcYEm9nY5bD8knF7zp7TPG9Y7EYkzKTTwMvSzWsL1L7tQF5ljTJ3LNbKuxNJ4qFWzcW3sMYD3O4TWdLOPwBM/+8HTVCtGvOdQ24qknwpY0VI3K4oNlxCTq8uMBczqRE6zsAcBHS/Dlts92mtGFSSQTsR+q+ysR1r+wmOGbvb253bKbBg2RdKkmmWsC4LMYTyOQAk+mWMGzgsLrsDBRNojrH/+Uw9Q2mGD0JbKyZTidO7tAUOWpednFNclDoVc6B59Z+TEyM84S2grRDvLXSWNWEe22lmzcEh/tCG+kIja5wt2SBngG2iudYezx+aH4su1FoQcA6TDcMUHqMAEB4VOZ3GkFzzpROR1D2KyDc8CJV7
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR06MB6226.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021)(18002099003)(22082099003)(56012099006)(4143699003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?60Gh7Qb5/0nBkjTQnMk6TCb4jiwy0YULgsw8Qw3y6Rr2zo6nb7/QxzLiXMNe?=
- =?us-ascii?Q?Ux5z8SJcj5ysidezQ/bwNPPtRaWIEBKnpw8vs8CLhCv+oBgndK+Y4GjQztH+?=
- =?us-ascii?Q?uc9zlQ9EHHpj/JKC1Ns94PG/LWyWWI/m8JkDQe/ENK4NENTNdyOBAC/+euzg?=
- =?us-ascii?Q?vZACme3YNe4NjaQ3RuQjj1rZtaF//iE3l+7RLlOcWCw/UFD4lyYOGHaBOFx3?=
- =?us-ascii?Q?WQfHzpB2q74ITeWSSxvgse1eon0jPgHJYNv+xirWXckE43BMDmq39JfZpU21?=
- =?us-ascii?Q?ej2rb2WMppDt+plTRZj0lCxV4uQ8FGY4SyiTwltj367E9Tvs3ltkurz9UcL0?=
- =?us-ascii?Q?XaxVfe/xGtL6h1ocJIkmZtFHbFIsCXA3tBh+RpModVDQqyzJhp5t+pCHtShf?=
- =?us-ascii?Q?6+tkgEgbeFF5MdSspOjMONf8DME2K0BiYkEVeMy8ErDGKiC7WYnYVVXWfNBS?=
- =?us-ascii?Q?m7IWj1egd1rW4OfdXnzRy984Kbt5Weo7U0U/gID/7/SwDrf8kLBs9BQ4p1PH?=
- =?us-ascii?Q?P0E5bYsFygBCh6qxNjd58+D+2rADvRL+5jT8sfcLOAwkJ8xJ9wpx06oP/d/H?=
- =?us-ascii?Q?4WvwNgAk/fA0w5Rx3Yb/Vso/TxqiImCc5zKU/bDUVYNoZkOYpyoRv2iyUs+i?=
- =?us-ascii?Q?5FGvUYOAClhVcA0wNtnRckX51MH8KpvYI7D7lXu3nx950QCrHWh5WEI6B0bB?=
- =?us-ascii?Q?xYooiojsnf/wwT70rTz9omQJSJZ0ShTuCI1i8MeDO58hYdVAlyLUPrz3s+Dd?=
- =?us-ascii?Q?fFnyJJ7vmsiRhbEhzb5qx9jLOUGRtRxvs18DzeXg5O6zGa1dkaQL5RvJR2TN?=
- =?us-ascii?Q?Q7fbBI+Kut4QaqcFTbPzs7sDCTDrabjoVPxMsAPOBCdBKItLifzKQHwoyVv9?=
- =?us-ascii?Q?e6Sbo/HHdxSe0qzKZ9qkOMhjtfEcLkRTzvDgBvUzZGpVVUSmBvk9d4SAYPqj?=
- =?us-ascii?Q?txaiH0eQ0GEGuA4QSJYPLpVKLglxD/S/qfdPAeDvs0Uf2Hyg5KPXyHK4maqW?=
- =?us-ascii?Q?yycJjxrd8djLFdxeutcbXmQ0zGvsKgebKqVq0uB/RnmUNDRMeVkZLu6Lcm2U?=
- =?us-ascii?Q?A02LY6MPBU5cVtWzKxDwzCWVO9C9ksKIlYDhoy51j/+CF3lDXaNdXnx+e54v?=
- =?us-ascii?Q?krnOE5YZW7haQUDUjlOKBKcSs2p57vXtP26mEMt5kh+aCScaUaYbdVFfEkpe?=
- =?us-ascii?Q?dVacTYHflXjSFWfwBKp3WoFm3NSkuFi/4Z3aKgcT4xQ/sgRurd+CB811Four?=
- =?us-ascii?Q?wb4WJgybD0ppYPA+RNNiniGZqHfFaHuDwM0NQ/CoEC4OHDjRbacOUWVD/x6D?=
- =?us-ascii?Q?9BhSl1n29GmEDYaVKxKjNAjCyQoOhfQD7UoSZVYxIf+h+5O9O3rWYkfDbJ4y?=
- =?us-ascii?Q?ZLBj2B9pIqD/T3cvn0kMRIpc6umC6Y2doObZK3AHzL8BuHJShvPoJVcIIe3h?=
- =?us-ascii?Q?TjAdClCgWfIaaf7Hq4sE0CMEFv7K92uSR7/xL5PerXD/M4RjHI38i+YOnL9Z?=
- =?us-ascii?Q?xmt2WZirDgSBnFBFHvi65UWXvD6shZYzg5pu435CvSFoGRi/0Nney0/9L7Ce?=
- =?us-ascii?Q?K/wZn/VQqeatCGJ0ZclZSepRGaHUsHj31nIi/op6kS5xj7hoPOWUECPD6GUM?=
- =?us-ascii?Q?JWlllVIc20KFBYvu3dfR3A+yp29rhdh3td57DlcptJKMRNz4+a/DVVLh+PeL?=
- =?us-ascii?Q?zrxSiQQj4OZrtkPJrhOaFnyWNEIYQaWYlx673eVidg6WMk5qmtlkB6kilyTo?=
- =?us-ascii?Q?hAL4V25fwQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9D5186284
+	for <linux-sound@vger.kernel.org>; Sat, 30 May 2026 19:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780169603; cv=none; b=TfwwpxZ8VmdTxtQPwxXqBAYJFGrRtj8kgc9VNDrRq6ffoBYrUeftIz14wmCzvOxwVQ6RO1CDABf4T9T65Zq/M3JrYVWIxL4ZerGob/YDjnJyGCKWO6RP6bdy/BseZ4Lp71wGeiSSyJ4Gbs+jDT3VBMv1UY0nPEs2a3vtcJsaAmI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780169603; c=relaxed/simple;
+	bh=CX2qVC2AE+L54uXUXm+Z9Iit5+nOZCKob5b+x1Y+h68=;
+	h=Subject:To:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=jwQweLfxedhcPVBR6e49PIcadOZZn3koce+4TLSetuzS58wi+d6Z9MRh8EJzvpQaIWevmwssuQ/X44rSgcS6cbuvuLqctFlPxOq6cZ9/pa3jg5OIJlwIAMrc4HwsKkLSVeNBx8VDtZrNGqNQry9WMxcGe3loRfkwMDMm2BGQKak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sgpN/8P2; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sgpN/8P2"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-45eedcdaeaaso1870370f8f.3
+        for <linux-sound@vger.kernel.org>; Sat, 30 May 2026 12:33:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780169601; x=1780774401; darn=vger.kernel.org;
+        h=content-language:content-transfer-encoding:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ujDzl3VgcuY/zkAs0Fu8yv7JZl4goVNlOsppss5gFKQ=;
+        b=sgpN/8P2Kwj3swjgvEKvdzF/SNVsxW18fqtec7ofx6GNIAMFe1YQPRzJuxcAWfJizB
+         FfQs5ufj6ol8h/cDLOWwXAW2Q3l/vf/8rXaGbsiouUlqUwXONF4VFhgTsUCd1dkrKbIO
+         SUUngmyM98yPzkVbrwnXY984kivOX77qhw0FIZwqbD02SWgerZpMDUYRJSjVMqbQApRc
+         +U8ct0P1KfhKyVhoLNG7FH5dxN+b/ydq3HWkyI1SelgFec7C5ZIXoB2WjxkWB3pDzuuD
+         F9gYCtliqOG2guMiLsCBo6UzNvEHrg1a4g7RwaheZomcWOdxk+Mqdr4HoJPylj3RK8dB
+         xFbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780169601; x=1780774401;
+        h=content-language:content-transfer-encoding:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:to:subject:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ujDzl3VgcuY/zkAs0Fu8yv7JZl4goVNlOsppss5gFKQ=;
+        b=avfyoiIRHhiH3p00FpeDn2iKuN/FmzyxqGxlsNXjMGNrQVgJ7So0Od5gNo2V6iCfpo
+         AohVZ37l+mwsV2+EwWfSFLPEfZ+IrNyviqlJU8MuRu1wf9FNPwwc8RbjU3wWxTz6ZEg7
+         Jbmq0bzBfl2BhOkd+q+ypxsV56dQKpzJVgfViK9Uv3BwNkV8InMN0qakDU+bqf21aoFP
+         z/Uap6mfP7FmSe6t0LIG2pc6Mmt89cBUyOSiMmDbJ3s2s2+J85v4MCMqAhFsNRAsQx1t
+         bpAko94uGH/tA58RJO/ik+HUyHAO47c+QZ2dBRZ/PCSqOvDsF/6X17kcdglyGJMbJ+AL
+         rjkQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/h9wtmv+dXJWqFiFgHtEHCqnNfpUxgIBOUirJgNiEkOMv6U5kp8ARmx3/L3iIpqjzXngURGZ/Hk+rAwA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMHAzjJhnlW2ZCPhLumzbK4m1hmSGefBPUPaM2fX3yCVmIb0MN
+	y5OFCkQloUkEUZfNOh0Rvas2TUt68/YlDo8dhUQwXecM4LzAEHa4Ebfa8tNOMhBk
+X-Gm-Gg: Acq92OEAIEByvr4NzVmgnGgjKBzLs5Lz80shlAxORSWA4p+hY4UaUKrfPMlUo7YiESh
+	z7cXG7t2sZqyK4q5TuR0RaHrLwYhizax4gNjtOcs5iURsBUBbCYPUrPok/F91wsi5zCz0GTEzUd
+	+JnDx9GLJPVZmZvBc/6fcaWejH0vX+8kBsJazRdnBWnHUiAHE8Nke+RSvkDweW5qPebqPogBgGc
+	GVLCx/3M4SmZ+B29tRlZKTZ08dkdtH6pgfqa966UKSq4CiWoIWJP9nM1NFZdv0b2kJA4j1OD2Fl
+	AEjGSN1tqFlGrtQM96lDmNTgv3KH8k+xn3by4mI8zfpbTpd3LPNnunjVnnpHZwpKGUZem5JHa9G
+	VfMdNgblbOwP6WCRpmE6R2nnwC4H1mcrJu0onLkDRlhpAqUZ67wKZOkpQ0LgDkt02oL2nqHFxHg
+	w7qvBWL0kf0ao6p09iJ0YlEBhjebq2G/Fg/dSdwQyDM1lwA8DxNC+QeyxrhkmqagcyB8P34+P8h
+	7A7buRiRO6ijXBeihY5VCFVxYvoRDfQWsB8ZdXznhU8WDkLY/ak/MziTcVv2KdqeZRk
+X-Received: by 2002:adf:ea85:0:b0:45e:f302:95b with SMTP id ffacd0b85a97d-45ef6b8b285mr6484053f8f.37.1780169600401;
+        Sat, 30 May 2026 12:33:20 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3102-4c14-1900-f233-a94f-4a5a-3424.310.pool.telefonica.de. [2a02:3102:4c14:1900:f233:a94f:4a5a:3424])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef34a03f8sm13408490f8f.7.2026.05.30.12.33.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 30 May 2026 12:33:19 -0700 (PDT)
+Subject: Re: [PATCH 43/83] ASoC: codecs: pcm*: use .auto_selectable_formats
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ =?UTF-8?Q?Alvin_=c5=a0ipraga?= <alsi@bang-olufsen.dk>,
+ "J.M.B. Downing" <jonathan.downing@nautel.com>,
+ =?UTF-8?Q?Martin_Povi=c5=a1er?= <povik+lin@cutebit.org>,
+ =?UTF-8?Q?Nuno_S=c3=a1?= <nuno.sa@analog.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig_=28The_Capable_Hub=29?=
+ <u.kleine-koenig@baylibre.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Baojun Xu
+ <baojun.xu@ti.com>, Bartosz Golaszewski <brgl@kernel.org>,
+ Ben Bright <ben.bright@cirrus.com>, Benson Leung <bleung@chromium.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>, Binbin Zhou <zhoubinbin@loongson.cn>,
+ Bram Vlerick <bram.vlerick@openpixelsystems.org>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Chen-Yu Tsai <wens@kernel.org>, Cheng-Yi Chiang <cychiang@chromium.org>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Daniel Mack <daniel@zonque.org>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+ David Rhodes <david.rhodes@cirrus.com>, Fabio Estevam <festevam@gmail.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Frank Li
+ <Frank.Li@nxp.com>, Fred Treven <fred.treven@cirrus.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Guenter Roeck <groeck@chromium.org>,
+ Guoqing Jiang <guoqing.jiang@canonical.com>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>,
+ HariKrishna Sagala <hariconscious@gmail.com>,
+ Heiko Stuebner <heiko@sntech.de>, Herve Codina <herve.codina@bootlin.com>,
+ Hsieh Hung-En <hungen3108@gmail.com>,
+ James Ogletree <jogletre@opensource.cirrus.com>,
+ Jarkko Nikula <jarkko.nikula@bitmer.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Jihed Chaibi <jihed.chaibi.dev@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Kevin Cernekee <cernekee@chromium.org>, Kevin Hilman <khilman@baylibre.com>,
+ Kevin Lu <kevin-lu@ti.com>, Kiseok Jo <kiseok.jo@irondevice.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Liam Girdwood <lgirdwood@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ M R Swami Reddy <mr.swami.reddy@ti.com>, Mark Brown <broonie@kernel.org>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Max Filippov
+ <jcmvbkbc@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Nicolin Chen <nicoleotsuka@gmail.com>, Oder Chiou <oder_chiou@realtek.com>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Paul Cercueil <paul@crapouillou.net>, Peter Rosin <peda@lysator.liu.se>,
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+ Qianfeng Rong <rongqianfeng@vivo.com>, Ray Jui <rjui@broadcom.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, Samuel Holland
+ <samuel@sholland.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Scott Branden <sbranden@broadcom.com>, Sen Wang <sen@ti.com>,
+ Sharique Mohammad <sharq0406@gmail.com>, Shenghao Ding
+ <shenghao-ding@ti.com>, Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
+ Thierry Reding <thierry.reding@kernel.org>, Tim Bird <tim.bird@sony.com>,
+ Troy Mitchell <troy.mitchell@linux.spacemit.com>,
+ Tzung-Bi Shih <tzungbi@kernel.org>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ Vishwas A Deshpande <vishwas.a.deshpande@ti.com>,
+ Vladimir Zapolskiy <vz@mleia.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ Yixun Lan <dlan@kernel.org>, Zhang Yi <zhangyi@everest-semi.com>,
+ linux-sound@vger.kernel.org
+References: <8733zfj5jj.wl-kuninori.morimoto.gx@renesas.com>
+ <87bje2hpyv.wl-kuninori.morimoto.gx@renesas.com>
+From: Kirill Marinushkin <k.marinushkin@gmail.com>
+Message-ID: <93f2741f-e23e-a1be-bc04-a00a5c4713cd@gmail.com>
+Date: Sat, 30 May 2026 21:33:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB6226.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 801f930c-a7d5-4d7c-e9ba-08debe528d43
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2026 13:51:29.9803
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: R3vqWse1PNZTS+FCERY9+YNdX6YmCKs+0FTksl0qrJbQNXdWHOxawRWHwy7mt+/QqsA1yXg/AGLEli9tw+NRtmEDD7+sLPxGZZgPeohHzvE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB6191
+In-Reply-To: <87bje2hpyv.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+
+Hello Kuninori Morimoto,
 
 
-Hi,
+i looked at the [PATCH 43/83], related to pcm* codecs, it looks good to me!
 
-> -----Original Message-----
-> From: Krzysztof Kozlowski <krzk@kernel.org>
-> Sent: Saturday, May 30, 2026 8:20 PM
-> To: Joakim Zhang <joakim.zhang@cixtech.com>; mturquette@baylibre.com;
-> sboyd@kernel.org; robh@kernel.org; krzk+dt@kernel.org;
-> conor+dt@kernel.org; p.zabel@pengutronix.de; lgirdwood@gmail.com;
-> broonie@kernel.org
-> Cc: cix-kernel-upstream <cix-kernel-upstream@cixtech.com>; linux-
-> clk@vger.kernel.org; linux-sound@vger.kernel.org
-> Subject: Re: [PATCH v1 4/7] dt-bindings: reset: cix,sky1-audss-reset: add=
- aduss
-> reset controller
->=20
-> EXTERNAL EMAIL
->=20
-> On 30/05/2026 14:04, Joakim Zhang wrote:
-> >>
-> >>
-> >> I am not really reviewing this, since you never tested it and did not
-> >> follow the process, but to spare you one review cycle - no resources
-> >> here, so this is NOT a separate node. Please read writing bindings or
-> >> DTS101 slides.
-> >
-> > Sorry, that's the meaning of " so this is NOT a separate node ",  could=
- you
-> please explain it more, so I can update later.
-> >
->=20
-> Does that mean you are not willing to read existing guides?
+I don't think i would be able to embrace the whole patchset, but hopefully,
 
-I understand what you mean now. I saw this:
-- DON'T create nodes just for the sake of instantiating drivers. Multi-func=
-tion
-  devices only need child nodes when the child nodes have their own DT
-  resources. A single node can be multiple providers (e.g. clocks and reset=
-s).
+my review will be at least somewhat helpful!
 
-According to this, reset node does not have resources, should not be a sepa=
-rate node.
 
-Joakim
+Only one minor thought is that probably `.auto_selectable_formats` for 
+`pcm3060.c`
+
+could also include `SND_SOC_POSSIBLE_DAIFMT_NB_NF`, similar to `pcm186x.c`.
+
+But it's a tiny comment, you don't need to take it seriously.
+
+You are doing a massive work, i deeply respect the scope you take on!
+
+
+Reviewed-by: Kirill Marinushkin <k.marinushkin@gmail.com>
+
+
+Best regards,
+
+Kirill
+
+---
+
+On 5/26/26 4:19 AM, Kuninori Morimoto wrote:
+> We can use .auto_selectable_formats. Let's adds it.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>   sound/soc/codecs/pcm1681.c | 7 +++++++
+>   sound/soc/codecs/pcm1754.c | 6 ++++++
+>   sound/soc/codecs/pcm1789.c | 7 +++++++
+>   sound/soc/codecs/pcm179x.c | 6 ++++++
+>   sound/soc/codecs/pcm186x.c | 9 +++++++++
+>   sound/soc/codecs/pcm3060.c | 7 +++++++
+>   sound/soc/codecs/pcm512x.c | 9 +++++++++
+>   7 files changed, 51 insertions(+)
+>
+> diff --git a/sound/soc/codecs/pcm1681.c b/sound/soc/codecs/pcm1681.c
+> index cb923cecb47fc..60fdbe5c4e054 100644
+> --- a/sound/soc/codecs/pcm1681.c
+> +++ b/sound/soc/codecs/pcm1681.c
+> @@ -199,10 +199,17 @@ static int pcm1681_hw_params(struct snd_pcm_substream *substream,
+>   	return pcm1681_set_deemph(component);
+>   }
+>   
+> +static const u64 pcm1681_selectable_formats =
+> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
+> +	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
+> +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J;
+> +
+>   static const struct snd_soc_dai_ops pcm1681_dai_ops = {
+>   	.set_fmt	= pcm1681_set_dai_fmt,
+>   	.hw_params	= pcm1681_hw_params,
+>   	.mute_stream	= pcm1681_mute,
+> +	.auto_selectable_formats	= &pcm1681_selectable_formats,
+> +	.num_auto_selectable_formats	= 1,
+>   	.no_capture_mute = 1,
+>   };
+>   
+> diff --git a/sound/soc/codecs/pcm1754.c b/sound/soc/codecs/pcm1754.c
+> index b68a528000be8..bb15da1c24aa2 100644
+> --- a/sound/soc/codecs/pcm1754.c
+> +++ b/sound/soc/codecs/pcm1754.c
+> @@ -78,10 +78,16 @@ static int pcm1754_mute_stream(struct snd_soc_dai *dai, int mute, int stream)
+>   	return 0;
+>   }
+>   
+> +static const u64 pcm1754_selectable_formats =
+> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
+> +	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J;
+> +
+>   static const struct snd_soc_dai_ops pcm1754_dai_ops = {
+>   	.set_fmt = pcm1754_set_dai_fmt,
+>   	.hw_params = pcm1754_hw_params,
+>   	.mute_stream = pcm1754_mute_stream,
+> +	.auto_selectable_formats = &pcm1754_selectable_formats,
+> +	.num_auto_selectable_formats = 1,
+>   };
+>   
+>   static const struct snd_soc_dai_driver pcm1754_dai = {
+> diff --git a/sound/soc/codecs/pcm1789.c b/sound/soc/codecs/pcm1789.c
+> index 3ab381e9a8566..f06e353743aaa 100644
+> --- a/sound/soc/codecs/pcm1789.c
+> +++ b/sound/soc/codecs/pcm1789.c
+> @@ -164,11 +164,18 @@ static int pcm1789_trigger(struct snd_pcm_substream *substream, int cmd,
+>   	return ret;
+>   }
+>   
+> +static const u64 pcm1789_selectable_formats =
+> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
+> +	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
+> +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J;
+> +
+>   static const struct snd_soc_dai_ops pcm1789_dai_ops = {
+>   	.set_fmt	= pcm1789_set_dai_fmt,
+>   	.hw_params	= pcm1789_hw_params,
+>   	.mute_stream	= pcm1789_mute,
+>   	.trigger	= pcm1789_trigger,
+> +	.auto_selectable_formats	= &pcm1789_selectable_formats,
+> +	.num_auto_selectable_formats	= 1,
+>   	.no_capture_mute = 1,
+>   };
+>   
+> diff --git a/sound/soc/codecs/pcm179x.c b/sound/soc/codecs/pcm179x.c
+> index f52ff66b6e644..cb70927872aa0 100644
+> --- a/sound/soc/codecs/pcm179x.c
+> +++ b/sound/soc/codecs/pcm179x.c
+> @@ -142,10 +142,16 @@ static int pcm179x_hw_params(struct snd_pcm_substream *substream,
+>   	return 0;
+>   }
+>   
+> +static const u64 pcm179x_selectable_formats =
+> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
+> +	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J;
+> +
+>   static const struct snd_soc_dai_ops pcm179x_dai_ops = {
+>   	.set_fmt	= pcm179x_set_dai_fmt,
+>   	.hw_params	= pcm179x_hw_params,
+>   	.mute_stream	= pcm179x_mute,
+> +	.auto_selectable_formats	= &pcm179x_selectable_formats,
+> +	.num_auto_selectable_formats	= 1,
+>   	.no_capture_mute = 1,
+>   };
+>   
+> diff --git a/sound/soc/codecs/pcm186x.c b/sound/soc/codecs/pcm186x.c
+> index 0d1103fe4e04d..461ec74e87521 100644
+> --- a/sound/soc/codecs/pcm186x.c
+> +++ b/sound/soc/codecs/pcm186x.c
+> @@ -473,11 +473,20 @@ static int pcm186x_set_dai_sysclk(struct snd_soc_dai *dai, int clk_id,
+>   	return 0;
+>   }
+>   
+> +static const u64 pcm186x_selectable_formats =
+> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
+> +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
+> +	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
+> +	SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
+> +	SND_SOC_POSSIBLE_DAIFMT_NB_NF;
+> +
+>   static const struct snd_soc_dai_ops pcm186x_dai_ops = {
+>   	.set_sysclk = pcm186x_set_dai_sysclk,
+>   	.set_tdm_slot = pcm186x_set_tdm_slot,
+>   	.set_fmt = pcm186x_set_fmt,
+>   	.hw_params = pcm186x_hw_params,
+> +	.auto_selectable_formats = &pcm186x_selectable_formats,
+> +	.num_auto_selectable_formats = 1,
+>   };
+>   
+>   static struct snd_soc_dai_driver pcm1863_dai = {
+> diff --git a/sound/soc/codecs/pcm3060.c b/sound/soc/codecs/pcm3060.c
+> index 8974200652e7e..5fb344c6d8d90 100644
+> --- a/sound/soc/codecs/pcm3060.c
+> +++ b/sound/soc/codecs/pcm3060.c
+> @@ -164,10 +164,17 @@ static int pcm3060_hw_params(struct snd_pcm_substream *substream,
+>   	return 0;
+>   }
+>   
+> +static const u64 pcm3060_selectable_formats =
+> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
+> +	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
+> +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J;
+> +
+>   static const struct snd_soc_dai_ops pcm3060_dai_ops = {
+>   	.set_sysclk = pcm3060_set_sysclk,
+>   	.set_fmt = pcm3060_set_fmt,
+>   	.hw_params = pcm3060_hw_params,
+> +	.auto_selectable_formats = &pcm3060_selectable_formats,
+> +	.num_auto_selectable_formats = 1,
+>   };
+>   
+>   #define PCM3060_DAI_RATES_ADC	(SNDRV_PCM_RATE_16000 | SNDRV_PCM_RATE_32000 | \
+> diff --git a/sound/soc/codecs/pcm512x.c b/sound/soc/codecs/pcm512x.c
+> index a70e8ea166dc5..981a2e56fa724 100644
+> --- a/sound/soc/codecs/pcm512x.c
+> +++ b/sound/soc/codecs/pcm512x.c
+> @@ -1505,12 +1505,21 @@ static int pcm512x_mute(struct snd_soc_dai *dai, int mute, int direction)
+>   	return ret;
+>   }
+>   
+> +static const u64 pcm512x_selectable_formats =
+> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
+> +	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
+> +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
+> +	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
+> +	SND_SOC_POSSIBLE_DAIFMT_DSP_B;
+> +
+>   static const struct snd_soc_dai_ops pcm512x_dai_ops = {
+>   	.startup = pcm512x_dai_startup,
+>   	.hw_params = pcm512x_hw_params,
+>   	.set_fmt = pcm512x_set_fmt,
+>   	.mute_stream = pcm512x_mute,
+>   	.set_bclk_ratio = pcm512x_set_bclk_ratio,
+> +	.auto_selectable_formats = &pcm512x_selectable_formats,
+> +	.num_auto_selectable_formats = 1,
+>   	.no_capture_mute = 1,
+>   };
+>   
