@@ -1,125 +1,121 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5982C2EF64F
-	for <linux-sound@vger.kernel.org>; Sat, 30 May 2026 11:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780139479; cv=pass; b=SsKKf6XhY9vqvLKxvWOA15mSByjSvJZ1Y86a0ioq5DeDLjwDAJjDamPmvalkSOoXs3n5ikAabd/iw08Qo0UrWeqTFr6AeOcihutDqB5DBtwAL77BFUP6jm48tDKYzpS5SwdPGCEMAZa1nAJXayO/z/zN5HbzbCcA9rhXXAkxxJ0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780139479; c=relaxed/simple;
-	bh=Em/q7g+BHrTDIHuK+HtErSiQk0CdvSTMp32ptuYUbtk=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=mGt5qu7PNnFKjU1zN6tV7SEH7jsDmDFTkOY58K8rwEDeQelapVjRnqpXjCSHG4px4u2mamf3EZwAeOf+3EJpdU3Ssi2CYy/BEfqY3DdSR05rsUjPBAvlHfkgpGuz1vVAhMw7XfYJyG6Q7cAPV8i/f1tUr2Cm8fz1sRs0qQxj7qA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=QtKDtkFu; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680B321ABC9;
+	Sat, 30 May 2026 11:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780141980; cv=none; b=DkAm7Jr1Fy3bFvH3cY/tJ04wFK/l1EL01+nxvs2H845d1PG+G5lJCU5fPcNjL1PMhCh9gdzEWeYC7KdsPN3Uz+Nrdj1YapJI2SQ5SuBEEON68A6PaTmM2NNrSRwF/TIPOp2gpxTnNyZ0Fp9AORAmtEv0rFhGNjCnMS3IcdyW+Fo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780141980; c=relaxed/simple;
+	bh=QCcH8TSjvLI3PYzekOYwN3En7F2LWMmFPGgsI+I4udQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=LhagaGLHrrIhrfmEYsNB+hQ6zouVxM3ASbkWDwzhwRQJgrx7xkncdRMkLwP8p5AS949vI/CfwAAzPuhSSNSYvUAKhYqC9PcYuFbGT3VJxfProydMOst6ark68eKza+OKwNAsX7DaGvubG+Vv2qzVyEZWCYoWR1YtLuSEcPmEaKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=hgiRdsW8; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=CsX373hw; arc=none smtp.client-ip=5.75.144.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="QtKDtkFu"
-ARC-Seal: i=1; a=rsa-sha256; t=1780139470; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=WxpKhStveGCxdnn76FTBoVY1lcWytHm4cIdKrnJHaYVmvCVjlcolzFwhdaP94eCMDR3hUgIGsEJnwKGAEl+KktnU4dSRhAzr9l0mseIWVqrZgEULtInNLh5+HHNmrbYiIGf3Hxmd7atITDVrFc6ulzCxmih5JpZTwBj0c6kSQmI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1780139470; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=bvFwWsLbiz5ukAVR2OeIqxm7eHHaETJLYhmquSAVBjM=; 
-	b=juasyqI7bMq18Vd2I/AoQC92oNm5Jg8nIzY+6+1uLNB4Q98iAMdGFD17/z+PkpjvDMcb+PwXRFsGW+1HC+7XDDIHnXgPckL73SPIqZjgFo5hUtKftKtghWeLdkoH8R4dhCSfcoUH1ZwKUXykpn/sc2h0QZNQyXsYJnllx+YyG2g=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1780139469;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=bvFwWsLbiz5ukAVR2OeIqxm7eHHaETJLYhmquSAVBjM=;
-	b=QtKDtkFur50XW0j1Fh676DOJxyhgplKsEaL4t0fZVL05ipGmhxyn5i7A1a1sAp7O
-	2gRFivEKt3LmsrVjfmWxz/YrrYjv4C8/X7GaUSpALJnoW9QElq3LfHNcyTpauMdx4rf
-	/p+HC9BdVDlfKtdar1xNe3qBgVqcxMj1DYTjifCo72hL4sxZL43vIZctVEmf2XyJiwv
-	AYtH6DaaoZoaD5DPAfkkXL+mITcgybuVjdx6tZePeQ41k2CpBp4VxkVskGeAbs4ah5f
-	Uu8apwPP20WGZ6q5s4whVLa9Da6PKYloU13du5QLLp4dIRHzd/txRHHSXt9tsPbdccK
-	01s4UEWSrQ==
-Received: by mx.zohomail.com with SMTPS id 1780139468631846.1514651687035;
-	Sat, 30 May 2026 04:11:08 -0700 (PDT)
-Message-ID: <50261203461f3b56c0bd196c1d9a754f84a4d8bc.camel@rong.moe>
-Subject: Re: [BUG] Audio regression in 7.1-rcX; low volume on Edifier MF200
-From: Rong Zhang <i@rong.moe>
-To: Steve Smith <tarkasteve@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, Jaroslav
- Kysela	 <perex@perex.cz>
-In-Reply-To: <CAHLWS5HrOUGw8KiPsZPV4im3jKLd1YOoRs6szvLjusHQm1dmZQ@mail.gmail.com>
-References: 
-	<CAHLWS5FJCx66GQ-O10pu+nEudEo_QgQAM9vt76T7vT0zGPPC1g@mail.gmail.com>
-	 <87wlwmr32n.wl-tiwai@suse.de>
-	 <b25d12e13bffefb926d92464eda1f66cb26f5dfa.camel@rong.moe>
-	 <CAHLWS5HrOUGw8KiPsZPV4im3jKLd1YOoRs6szvLjusHQm1dmZQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 30 May 2026 19:06:03 +0800
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="hgiRdsW8";
+	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="CsX373hw"
+DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
+	h=To:From:Subject:Date:Message-ID; t=1780141956; bh=HvwxMLevTeXB5/bB9QrrZ1i
+	NcbhD7jsSe+TWGxGnV0M=; b=hgiRdsW8bsDFsLapTLBebqwu5K98cMLdn9j2QaWKToMMKgowZu
+	ZGpbLuU2xH8NcwhMwOhMsZNNwFrmOxjNv1SS0jlYb4tmi/gh/KpUKVfPL+LgfRbrsVolL11elUm
+	0prz7cGYeluKvoaifsQE5oDcaISVFJfqJ4q7mqlEXrpHs6gdGQpunLT1mMFhu3xiQlFful4+9ue
+	PQalxNSDQUkVGruq0A0s+14oyS/ZjnYPoFGOWtlA9EWHXQWxp8pBWN8S1EtWoMyZiZOat9g6taj
+	EpSAUVvLamLAZFN09WjvTC4zNa3ShTCloU7xVkL4B4kj1Oovbi+nrMZY2owdHO08REA==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
+	h=To:From:Subject:Date:Message-ID; t=1780141956; bh=HvwxMLevTeXB5/bB9QrrZ1i
+	NcbhD7jsSe+TWGxGnV0M=; b=CsX373hw9vAgm1qji+3Z0DtXT14C7YsyxWoI/DCSNsexRZ6C2A
+	1lnAbuLvRvlgKOkzhS9vRPnp0OrNToiPC2Ag==;
+Message-ID: <f237a850-0718-4a3d-a11e-56f663e7641d@mainlining.org>
+Date: Sat, 30 May 2026 14:52:35 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-9 
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 02/15] ASoC: dt-bindings: qcom: q6dsp: add internal
+ mi2s support
+From: Nickolay Goppen <setotau@mainlining.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Richard Acayan <mailingradian@gmail.com>,
+ Srinivas Kandagatla <srini@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ Adam Skladowski <a39.skl@gmail.com>,
+ Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Wesley Cheng <quic_wcheng@quicinc.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+References: <20260501153128.8152-1-mailingradian@gmail.com>
+ <20260501153128.8152-3-mailingradian@gmail.com>
+ <20260503-devout-mamba-of-sorcery-d4ecb2@quoll> <afe8bQ3SIAu9rP1S@rdacayan>
+ <98cf25d1-7dd8-408e-98db-c60f6e8b403b@kernel.org>
+ <3fe41d7b-0e65-4937-afda-b9a9e470e638@mainlining.org>
+Content-Language: ru-RU, en-US
+In-Reply-To: <3fe41d7b-0e65-4937-afda-b9a9e470e638@mainlining.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Steve,
 
-On Sat, 2026-05-30 at 12:34 +1000, Steve Smith wrote:
-> On Fri, 29 May 2026 at 22:07, Rong Zhang <i@rong.moe> wrote:
-> >=20
-> > Hi Takashi, Steve,
-> >=20
-> > Hmm, the dmesg dump is, however, for a good commit. No wonder we
-> > couldn't find the error message... :-/
->=20
-> You are correct, apologies. rc5 (broken) dmesg attached; it does have
-> the following line:
->=20
->     usb 1-3.2: 9:1: sticky mixer values (-32768/-32513/1 =3D> -32702), di=
-sabling
->=20
-> > Steve, could you please attach a dmesg dump for a bad commit? And could
-> > you please test if setting QUIRK_FLAG_MIXER_GET_CUR_BROKEN on your
-> > device helps? See
-> > https://lore.kernel.org/linux-sound/20260529-uac-quirk-get-cur-vol-v3-0=
--bde363188ca4@rong.moe/
->=20
->  I can confirm this works:
->=20
-> * Applied above patchset to its base commit; volume still low.
-> * Added to MF200 to the quirks list (see below); volume behaves as expect=
-ed:
+25.05.2026 14:51, Nickolay Goppen пишет:
+>
+> 14.05.2026 16:55, Krzysztof Kozlowski пишет:
+>> On 03/05/2026 23:21, Richard Acayan wrote:
+>>> On Sun, May 03, 2026 at 02:11:31PM +0200, Krzysztof Kozlowski wrote:
+>>>> On Fri, May 01, 2026 at 11:31:15AM -0400, Richard Acayan wrote:
+>>>>> The internal MI2S ports are found on devices with the internal sound
+>>>>> card for Snapdragon 660. Add support for them.
+>>>>>
+>>>>> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+>>>>> ---
+>>>>>   .../bindings/sound/qcom,q6dsp-lpass-ports.yaml     |  4 ++--
+>>>>>   include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h | 14 
+>>>>> ++++++++++++++
+>>>>>   2 files changed, 16 insertions(+), 2 deletions(-)
+>>>> Same feedback as last time. DO NOT send next versions, untill you 
+>>>> reply
+>>>> or address the feedback.
+>>> Ok, I believe this is about [1] and [2] with reference to the patches
+>>> already in v7.1-rc1 [3].
+>>>
+>>> My patches add INT0_MI2S_RX through INT6_MI2S_TX, which correspond to
+>>> q6afe port IDs 0x102e - 0x103b. Srini's patches add LPI_MI2S_RX_0
+>>> through LPI_MI2S_TX_4, but no q6afe port IDs.
+>>>
+>>> I asked if the LPI_MI2S ports have q6afe port IDs to check if we're
+>>> referring to the same ports, but apparently q6afe is too old to have it
+>>> [4]:
+>>>
+>>>     > Is the LPI MI2S on Q6AFE? I don't see the AFE port ID.
+>>>     I think the older SOCs did not have this I guess,
+>>>
+>>> Even if there's already an allocation of dt-bindings ports for 
+>>> LPI_MI2S,
+>>> they can't just be reused for INT_MI2S. There are allegedly INT5_MI2S
+>>> and INT6_MI2S (each RX and TX) but LPI_MI2S only counts to 4.
+>> Then what is the difference between INT and LPI? People stuff here some
+>> hardware names but this is SW ABI, so MI2S_RX_0 is only one. Just like
+>> we have DISPLAY_PORT_RX_0, but no LPI_DISPLAY_PORT_RX_0 and
+>> INT_DISPLAY_PORT_RX_0.
+resending since this message failed to deliver.
+> Then do you mean that LPI_MI2S ports need to have port ID's assigned 
+> like Richard done that for INT_MI2S? +Srini, Is this a good idea?
+>> Best regards,
+>> Krzysztof
+>
+-- 
+Best regards,
+Nickolay
 
-Thanks for testing! I will submit a patch for your device with your
-Tested-by tag.
-
-While a correct fix for your device is a said quirk table entry, I will
-also submit another patch to improve the error path of sticky mixers as
-I've said in my previous reply, so that future quirky devices can mostly
-work fine before someone submits a quirk table entry. I will add you to
-the CC list when I submit it. Could you kindly test it (without the
-quirk table entry for your device) to see if the soft mixer works better
-when you receive it?
-
-Thanks,
-Rong
-
->=20
-> diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-> index 149f2009df12..6af5a18ad88c 100644
-> --- a/sound/usb/quirks.c
-> +++ b/sound/usb/quirks.c
-> @@ -2475,6 +2475,8 @@ static const struct usb_audio_quirk_flags_table
-> quirk_flags_table[] =3D {
->            QUIRK_FLAG_CTL_MSG_DELAY_1M),
->      DEVICE_FLG(0x2d99, 0x0026, /* HECATE G2 GAMING HEADSET */
->            QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-> +    DEVICE_FLG(0x2d99, 0xa024, /* Edifier MF200 */
-> +                   QUIRK_FLAG_MIXER_GET_CUR_BROKEN),
->      DEVICE_FLG(0x2fc6, 0xf06b, /* MOONDROP Moonriver2 Ti */
->            QUIRK_FLAG_CTL_MSG_DELAY),
->      DEVICE_FLG(0x2fc6, 0xf0b7, /* iBasso DC07 Pro */
->=20
-> Thanks,
-> Steve
