@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34CC3546D9;
-	Sat, 30 May 2026 09:11:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 973C119ABD8;
+	Sat, 30 May 2026 09:19:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780132284; cv=none; b=hTEImY2Qu6kHE0Guy3IM47WGNef/sg8p4cEvaEyTxZz0AwwXa5B2ED/JcHE85NmMJzxtfhl9HWqOAyZxUiHXoCtcahBZhig5M4lDMpSkjnE/gvL3oh+ibLeyzQJuQMVXCu5vYh0OOz5BdsR2tagOUE1FvfJpxsHq+aoyDI/yyYM=
+	t=1780132784; cv=none; b=GdoGHcm+AdyKN+0iX2zbOI5lhdFoyupSrtux0ndHc3jn9d9kKnXy9cmIqBk9LE6xzRqRp4bU8jxs25XTsTNg9GrFUYMeJ2pujltH2U04foFFCzZHm+F15GAZ6/387WSWlwx41BYHqaLzQ0d5lxWuj6KBPY6XDlM8llAIFg9QORU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780132284; c=relaxed/simple;
-	bh=W720Aq1nCQWl0Ht2vGuWZd+WQIbt1iq5WLpyoNUpiXg=;
+	s=arc-20240116; t=1780132784; c=relaxed/simple;
+	bh=jwX1HYi2/3Bj5Ge3rbomNQiqcHrGe0sUZYiu3wz+1SU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=daf34ksTp/ET7tDNhimu2n3L3TRd+Snr/zNEwdYMrMclN/UTaFacZKVHzMw4qfjVqGtt9+CY+TNwkkjugfcj1Bf791KLpGTow4IfADevP33rUgenTFhDYkenN3SrQtLkbjjOzonDYHY+AVdmO7ncqzuE4GONlxHsufXzvQiLxU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nw7tbJlY; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=hZkCvi/5WwoIFfrBWPRl2YqLFLGAzSpiXoaPNOpPcqdvs/pL06soxQUTOgi+0UQ6SQMh1mPZJjH60FPJCLW+r0Be5IZAofYWpYpgBG4A5zgryZ5SXRVj23c9bgUmobIAzrbD3VFDCTTOu4fvQqCw3d0agZ2ya6xEgV7bEgGutDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZuRLDRLX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nw7tbJlY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD961F00893;
-	Sat, 30 May 2026 09:11:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZuRLDRLX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 281081F00893;
+	Sat, 30 May 2026 09:19:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780132282;
-	bh=QpO7LSK6Od32eyZvVmC3+QBio9VeS7bWPnEw+gvb6SM=;
+	s=k20260515; t=1780132783;
+	bh=/Jnl+zmlmoEq+25cOZElJUmvItq+GJWsQIhRGrzPddg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=nw7tbJlYrET2AADeNl89EEeuMlOrhpajpfyF3EOJUXZ6iKhsOSars0KnxAsuPQTIO
-	 EnRereKDhXte/BCoKe+s/BEuNz17kl/tXF9fjXKQxUNgOVDC8etKnP9c6hq2xrLmZd
-	 eHWVoZZW4INgum9bojrLXvvPccoKlYuIUEkm2EFmI0N/c3RZL64DYFAH/Pm1IAXQMn
-	 iQQXIz74BMy97FV8tT/xKPGHca7UVCxF3FYyZl/dmS7uSSL59KeeAHEFcalQJ0E+r8
-	 mxTWmT1V2NTp56oHNQhRGTjY+oVfp60Rz2ZSccAYtiZCr1WA5kp/cN5Mdb3HdH2YeV
-	 TYlC2yQbyWHGw==
-Message-ID: <dba033ec-1939-40b8-8aa0-26750b9bd591@kernel.org>
-Date: Sat, 30 May 2026 11:11:18 +0200
+	b=ZuRLDRLXF5DtZjxWk47Qtx6dfc6TwaNskJfeX5YnKlOJiSEaUORaqosD1aC+kM1cd
+	 iqnLMydn68D3Uvx05/wBrpG11fn9x5bHNq1mYisLFIpjqhyttqCRttN/fHhl2L+jZ+
+	 9mUuHXnwbOgJT5ytxzGLFkTLHk0uiUd8bjpTtmEGztczd87iSQYTH+XK9dxPJECd6J
+	 +wIt5N7yPD4T3OsE8fKKdpSFKEaOZMz6FzOKnxhhWpW38qtclkPyBi7yAWfH3vhS6J
+	 jdVBpYWred3G8BknJMDleexNiLcZ4OaST87qUtuQNzcSPUltlJDrY5H8hv8/WXGRuW
+	 P+Wmr3TCp+GXw==
+Message-ID: <8219cc01-e13a-484d-a335-6e638671b9a6@kernel.org>
+Date: Sat, 30 May 2026 11:19:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,15 +35,14 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 4/7] dt-bindings: reset: cix,sky1-audss-reset: add
- aduss reset controller
-To: joakim.zhang@cixtech.com, mturquette@baylibre.com, sboyd@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- p.zabel@pengutronix.de, lgirdwood@gmail.com, broonie@kernel.org
-Cc: cix-kernel-upstream@cixtech.com, linux-clk@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20260530021642.64059-1-joakim.zhang@cixtech.com>
- <20260530021642.64059-5-joakim.zhang@cixtech.com>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: sound: asahi-kasei,ak4118: Convert
+ DT schema
+To: Manish Baing <manishbaing2789@gmail.com>, lgirdwood@gmail.com,
+ broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, peron.clem@gmail.com
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260524150231.109157-1-manishbaing2789@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -89,70 +88,38 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260530021642.64059-5-joakim.zhang@cixtech.com>
+In-Reply-To: <20260524150231.109157-1-manishbaing2789@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 30/05/2026 04:16, joakim.zhang@cixtech.com wrote:
-> From: Joakim Zhang <joakim.zhang@cixtech.com>
+On 24/05/2026 17:02, Manish Baing wrote:
+> Convert the Asahi Kasei AK4118 S/PDIF transceiver bindings from
+> text format to YAML schema.
 > 
-> Add schema and reset IDs for the Cix Sky1 audio subsystem (AUDSS)
-> reset controller.
-> 
-> The compatible string is cix,sky1-audss-reset. Reset indices are
-> defined in include/dt-bindings/reset/sky1-reset-audss.h.
-> 
-> Signed-off-by: Joakim Zhang <joakim.zhang@cixtech.com>
+> Signed-off-by: Manish Baing <manishbaing2789@gmail.com>
 > ---
->  .../bindings/reset/cix,sky1-audss-reset.yaml  | 50 +++++++++++++++++++
->  include/dt-bindings/reset/sky1-reset-audss.h  | 29 +++++++++++
->  2 files changed, 79 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/reset/cix,sky1-audss-reset.yaml
->  create mode 100644 include/dt-bindings/reset/sky1-reset-audss.h
+> Changes in v2:
+> - Restored legacy 'irq-gpios' property to prevent C driver probe failure.
+> - Added 'reset-gpios' and 'irq-gpios' to the required properties list.
 > 
-> diff --git a/Documentation/devicetree/bindings/reset/cix,sky1-audss-reset.yaml b/Documentation/devicetree/bindings/reset/cix,sky1-audss-reset.yaml
-> new file mode 100644
-> index 000000000000..8e02ddd2517d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/reset/cix,sky1-audss-reset.yaml
-> @@ -0,0 +1,50 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/reset/cix,sky1-audss-reset.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cix Sky1 audio subsystem reset controller
-> +
-> +maintainers:
-> +  - Joakim Zhang <joakim.zhang@cixtech.com>
-> +
-> +description: |
-> +  Reset provider for the Cix Sky1 audio subsystem (AUDSS).
-> +
-> +  This node is a child of a cix,sky1-audss-cru MFD/syscon node (see
-> +  cix,sky1-audss-cru.yaml). It does not have a reg property; software reset
-> +  bits are accessed through the parent CRU regmap.
-> +
-> +  Each #reset-cells index maps to a software reset line for an AUDSS block
-> +  (I2S, HDA, DMA, mailbox, watchdog, timer, etc.). Indices are defined in
-> +  sky1-reset-audss.h.
-> +
-> +properties:
-> +  compatible:
-> +    const: cix,sky1-audss-reset
-> +
-> +  '#reset-cells':
-> +    const: 1
-> +    description:
-> +      Reset indices are defined in include/dt-bindings/reset/sky1-reset-audss.h.
-> +
+>  .../devicetree/bindings/sound/ak4118.txt      | 22 -------
+>  .../bindings/sound/asahi-kasei,ak4118.yaml    | 58 +++++++++++++++++++
+>  2 files changed, 58 insertions(+), 22 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/sound/ak4118.txt
+>  create mode 100644 Documentation/devicetree/bindings/sound/asahi-kasei,ak4118.yaml
 
 
-I am not really reviewing this, since you never tested it and did not
-follow the process, but to spare you one review cycle - no resources
-here, so this is NOT a separate node. Please read writing bindings or
-DTS101 slides.
+Organize your patches targeting one subsystem into one patchset. You
+sent a lot and you make EXACTLY the same mistakes everywhere. So now I
+need to replay to 10 different emails?
+
+Well, you don't even give time to review, but immediately send v2.
+
+Please slow down and put attention to this work.
+
+I expect answers:
+1. Did you analyze existing users of this binding?
+2. If so, which users? How did you analyze them?
 
 Best regards,
 Krzysztof
