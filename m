@@ -1,130 +1,177 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D8B3AFD10
-	for <linux-sound@vger.kernel.org>; Sat, 30 May 2026 12:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780143761; cv=pass; b=NIGmW6NloJuX2kJu++cTS1MrJIpCvjWxUEWH0hnCoCWBL7T6eYHH9gCDpXhLBGD6+yA1qr+FHrQ6ZQAWTcV/AdA/A58Q1b+sr/iGRyNwSPR3IuO2YM9y6TWdm2sqFTK5s/xSPe1ZbKWtdy/DgOR6cIr0ROu52TIHnd6hnWuLeYg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780143761; c=relaxed/simple;
-	bh=ykCaK6wPgPWdGUV/fHD9gI5oxVYknGrSTtjLdh7PNvk=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=Zz4UyF8T39UKr1UZoZEHoOolsvlTRZU2QQTkt8cBC36DFU+ViUyVpyoWyysODQjLozjo60y+e18UGMnImyw1Hc1SuDmww1D5+WaQq8BbLlAhzi+u0YeJfNQi7kNWO9x9ErXNeG1XU5EFXOwsk+bdKZ5VHpEsbiXFUZQkabwTGAQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=HMGZs0ju; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D350234E746
+	for <linux-sound@vger.kernel.org>; Sat, 30 May 2026 13:38:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780148291; cv=none; b=m8omMfLhgqPg0BjQhW5BFkBrhk4/gt4KeA6UmYRu34BgCdpakaSNF9KKDTfEnruag8Up8R1weEhOCW+C1wqDdTGXsS2YxJDkCd7QcSoTwIgmWYBtoZUGwiEySmunGBShxqdoqiEHEeNJX4j0v2grCq9Lz6zZlTgUD6PKx5cd/9U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780148291; c=relaxed/simple;
+	bh=eprYrL29YHl45LKRBwrHmfab84rAf1H0o/rzSSXrxzU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LkBQ6t5G0NHk45cxq0htwW5X5vEWk6XryTpMkKEDMOWfiT/qBuwC7bYTsnbHroSkdcorGhl1n//Rt7UUvCwvngM/v9zDonSPCPuE1cr9dUyjilvPswWqNJSH+xfuHePvYVAd9wJmkwsF5egbxNoMssFFkoDVgV+EBQARCTZdlIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=d5Fmaslb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=N7TV+d+o; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fmper+4Z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wmjG1ncS; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="HMGZs0ju"
-ARC-Seal: i=1; a=rsa-sha256; t=1780143754; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=avm47q9swNdns2FWouopU2nEbfC08oZMk1EmYHCjVQZk1AZTCJ5rYwmv9xbUOPRmOcRQeKoiDh587yyeUVaB1h8N4aGTy5PbhdTobLv6HwxIpY3afYlpwDh5QOsHnbTTN1OSthCyz0vQ/UXfsY45nBpi4B95ua60MjCUhAJeNZ4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1780143754; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=moCZwDF9e4ooIeDhNzL7hsW636D/w6/vb1uWnbO6ISE=; 
-	b=CidaL79q0+1P5f9cV+gAuo0VHSZgZOY2IrfEPChYWHqE/xS3YuvXyM9iZkTHW/5HdoKG8nbZRio2jWFzT/Y4w7ccZiE8iPdrLXOkGLI3OFTre3nXCnZ1eJUtDgClwWN9nuFDmLW32G43jnTsTL6XgkrL5KpYn8KmFADqv4ftZA8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1780143754;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Date:Date:From:From:To:To:CC:Subject:Subject:In-Reply-To:References:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
-	bh=moCZwDF9e4ooIeDhNzL7hsW636D/w6/vb1uWnbO6ISE=;
-	b=HMGZs0juvmuvRkp0wnmlSOR8X4VIm8fmF1TXOsH62m2fcMbPTYoNGKTCBEWVAZQ6
-	iLnDujPzE+9UQHy/NtF1C6AEKnA6O+7Ov7+EeUze0KBDurIDJ1XTc2JYTUsJc0gdKfT
-	5fdJd0lx37JIIRF4pqzms3TocsVWP979ExE+KiV9z5TZD/5RtaOIQ0QCkk4U6HB+Acj
-	IMAgehWgCq0zGc/xcwzH6l31V8RFuCVxBDxCPFnXMdTnGsm61dmEzvCAtmuLpzMgIVM
-	YwKPLNBGQEcSzYMByWv3aZuQq/M9EYogB0AugriOecnhN+ZCMty7u/OkMyYOD5co5Re
-	jPfYcCWprw==
-Received: by mx.zohomail.com with SMTPS id 17801437516841013.0826179547513;
-	Sat, 30 May 2026 05:22:31 -0700 (PDT)
-Date: Sat, 30 May 2026 20:22:23 +0800
-From: Rong Zhang <i@rong.moe>
-To: Takashi Iwai <tiwai@suse.de>
-CC: Steve Smith <tarkasteve@gmail.com>, linux-sound@vger.kernel.org,
- Jaroslav Kysela <perex@perex.cz>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="d5Fmaslb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="N7TV+d+o";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fmper+4Z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wmjG1ncS"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C2CE46B9AD;
+	Sat, 30 May 2026 13:38:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780148288; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ue/XLqPtTNzyZbzreuYOG8qyoOz/yNZp+n8QcTFxcac=;
+	b=d5FmaslbPLQzv0Q96gHtWxSdxrN4cP3WQde38gTNQ4jzVCTwdZLyfLu+gtf9/d0pnaIMEW
+	K57eCTGsZ+5/IWf3yJZ2k4lQbsXgQwYNhgCunSPxhTwJudfpirERSfZIG4hKCdV1QzjAH5
+	O4e85pI3SeO149Kxt0tMOYgZngIPygI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780148288;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ue/XLqPtTNzyZbzreuYOG8qyoOz/yNZp+n8QcTFxcac=;
+	b=N7TV+d+owZ98vpV3aVLSwqWZ5PX8+mdqv4uEpdwFogE2fSDGNsN09aAmbXmW8zcGL/G8Q2
+	v0EpqhFx7tfbcZBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780148286; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ue/XLqPtTNzyZbzreuYOG8qyoOz/yNZp+n8QcTFxcac=;
+	b=fmper+4ZFIr9Inu+2i4358s70TE6jUNKsevYPH3/PsP81njlIyL8cNWZAGMs4t8Ex7Lwse
+	CN18tjdYAk1H9QXNrjJfK/t0IeZDqwgwekgv7YuTVCFmvzWYuxaHcT/kCydn6MxJyCF1T6
+	h/m4dfY0j5/AGFloIJX9CcuxGeL/7nU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780148286;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ue/XLqPtTNzyZbzreuYOG8qyoOz/yNZp+n8QcTFxcac=;
+	b=wmjG1ncSzKTI54k7r1icp91X/Ly+vq8FPpGSqn891hN44NC1ba3E/MNoOUH8dgbPf1aPSc
+	e+5rqcY5u0sc9hBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9A0D0779A7;
+	Sat, 30 May 2026 13:38:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id R9w0JD7oGmp6KgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 30 May 2026 13:38:06 +0000
+Date: Sat, 30 May 2026 15:38:06 +0200
+Message-ID: <87ik85ow5d.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Rong Zhang <i@rong.moe>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Steve Smith <tarkasteve@gmail.com>,
+	linux-sound@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>
 Subject: Re: [BUG] Audio regression in 7.1-rcX; low volume on Edifier MF200
-User-Agent: Thunderbird for Android
-In-Reply-To: <87ldd1p09p.wl-tiwai@suse.de>
-References: <CAHLWS5FJCx66GQ-O10pu+nEudEo_QgQAM9vt76T7vT0zGPPC1g@mail.gmail.com> <87wlwmr32n.wl-tiwai@suse.de> <b25d12e13bffefb926d92464eda1f66cb26f5dfa.camel@rong.moe> <CAHLWS5HrOUGw8KiPsZPV4im3jKLd1YOoRs6szvLjusHQm1dmZQ@mail.gmail.com> <50261203461f3b56c0bd196c1d9a754f84a4d8bc.camel@rong.moe> <87ldd1p09p.wl-tiwai@suse.de>
-Message-ID: <1B383455-B0F8-4B67-92AA-559D3F638999@rong.moe>
+In-Reply-To: <1B383455-B0F8-4B67-92AA-559D3F638999@rong.moe>
+References: <CAHLWS5FJCx66GQ-O10pu+nEudEo_QgQAM9vt76T7vT0zGPPC1g@mail.gmail.com>
+	<87wlwmr32n.wl-tiwai@suse.de>
+	<b25d12e13bffefb926d92464eda1f66cb26f5dfa.camel@rong.moe>
+	<CAHLWS5HrOUGw8KiPsZPV4im3jKLd1YOoRs6szvLjusHQm1dmZQ@mail.gmail.com>
+	<50261203461f3b56c0bd196c1d9a754f84a4d8bc.camel@rong.moe>
+	<87ldd1p09p.wl-tiwai@suse.de>
+	<1B383455-B0F8-4B67-92AA-559D3F638999@rong.moe>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-2022-JP
+X-Spam-Level: 
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,gmail.com,vger.kernel.org,perex.cz];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[rong.moe:email,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
 
-Hi Takashi,
+On Sat, 30 May 2026 14:22:23 +0200,
+Rong Zhang wrote:
+> 
+> Hi Takashi,
+> 
+> 于 2026年5月30日 GMT+08:00 20:09:06，Takashi Iwai <tiwai@suse.de> 写道：
+> >On Sat, 30 May 2026 13:06:03 +0200,
+> >Rong Zhang wrote:
+> >> 
+> >> Hi Steve,
+> >> 
+> >> On Sat, 2026-05-30 at 12:34 +1000, Steve Smith wrote:
+> >> > On Fri, 29 May 2026 at 22:07, Rong Zhang <i@rong.moe> wrote:
+> >> > > 
+> >> > > Hi Takashi, Steve,
+> >> > > 
+> >> > > Hmm, the dmesg dump is, however, for a good commit. No wonder we
+> >> > > couldn't find the error message... :-/
+> >> > 
+> >> > You are correct, apologies. rc5 (broken) dmesg attached; it does have
+> >> > the following line:
+> >> > 
+> >> >     usb 1-3.2: 9:1: sticky mixer values (-32768/-32513/1 => -32702), disabling
+> >> > 
+> >> > > Steve, could you please attach a dmesg dump for a bad commit? And could
+> >> > > you please test if setting QUIRK_FLAG_MIXER_GET_CUR_BROKEN on your
+> >> > > device helps? See
+> >> > > https://lore.kernel.org/linux-sound/20260529-uac-quirk-get-cur-vol-v3-0-bde363188ca4@rong.moe/
+> >> > 
+> >> >  I can confirm this works:
+> >> > 
+> >> > * Applied above patchset to its base commit; volume still low.
+> >> > * Added to MF200 to the quirks list (see below); volume behaves as expected:
+> >> 
+> >> Thanks for testing! I will submit a patch for your device with your
+> >> Tested-by tag.
+> >> 
+> >> While a correct fix for your device is a said quirk table entry, I will
+> >> also submit another patch to improve the error path of sticky mixers as
+> >> I've said in my previous reply, so that future quirky devices can mostly
+> >> work fine before someone submits a quirk table entry. I will add you to
+> >> the CC list when I submit it. Could you kindly test it (without the
+> >> quirk table entry for your device) to see if the soft mixer works better
+> >> when you receive it?
+> >
+> >Rong, if you work on the improvement, can you try to have a small fix
+> >that fits with 7.1?  We can merge whatever for 7.2, but 7.1 is already
+> >at a late RC, so I'd like to avoid to drag a big series of fixes
+> >there.
+> 
+> Sure. I will fix the error path for 7.1 while adding a quirk table entry for Edifier MF200 for 7.2.
 
-=E4=BA=8E 2026=E5=B9=B45=E6=9C=8830=E6=97=A5 GMT+08:00 20:09:06=EF=BC=8CTa=
-kashi Iwai <tiwai@suse=2Ede> =E5=86=99=E9=81=93=EF=BC=9A
->On Sat, 30 May 2026 13:06:03 +0200,
->Rong Zhang wrote:
->>=20
->> Hi Steve,
->>=20
->> On Sat, 2026-05-30 at 12:34 +1000, Steve Smith wrote:
->> > On Fri, 29 May 2026 at 22:07, Rong Zhang <i@rong=2Emoe> wrote:
->> > >=20
->> > > Hi Takashi, Steve,
->> > >=20
->> > > Hmm, the dmesg dump is, however, for a good commit=2E No wonder we
->> > > couldn't find the error message=2E=2E=2E :-/
->> >=20
->> > You are correct, apologies=2E rc5 (broken) dmesg attached; it does ha=
-ve
->> > the following line:
->> >=20
->> >     usb 1-3=2E2: 9:1: sticky mixer values (-32768/-32513/1 =3D> -3270=
-2), disabling
->> >=20
->> > > Steve, could you please attach a dmesg dump for a bad commit? And c=
-ould
->> > > you please test if setting QUIRK_FLAG_MIXER_GET_CUR_BROKEN on your
->> > > device helps? See
->> > > https://lore=2Ekernel=2Eorg/linux-sound/20260529-uac-quirk-get-cur-=
-vol-v3-0-bde363188ca4@rong=2Emoe/
->> >=20
->> >  I can confirm this works:
->> >=20
->> > * Applied above patchset to its base commit; volume still low=2E
->> > * Added to MF200 to the quirks list (see below); volume behaves as ex=
-pected:
->>=20
->> Thanks for testing! I will submit a patch for your device with your
->> Tested-by tag=2E
->>=20
->> While a correct fix for your device is a said quirk table entry, I will
->> also submit another patch to improve the error path of sticky mixers as
->> I've said in my previous reply, so that future quirky devices can mostl=
-y
->> work fine before someone submits a quirk table entry=2E I will add you =
-to
->> the CC list when I submit it=2E Could you kindly test it (without the
->> quirk table entry for your device) to see if the soft mixer works bette=
-r
->> when you receive it?
->
->Rong, if you work on the improvement, can you try to have a small fix
->that fits with 7=2E1?  We can merge whatever for 7=2E2, but 7=2E1 is alre=
-ady
->at a late RC, so I'd like to avoid to drag a big series of fixes
->there=2E
+Great, much appreciated!
 
-Sure=2E I will fix the error path for 7=2E1 while adding a quirk table ent=
-ry for Edifier MF200 for 7=2E2=2E
 
-Thanks,
-Rong
-
->
->
->thanks,
->
->Takashi
+Takashi
