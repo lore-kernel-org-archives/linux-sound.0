@@ -1,197 +1,187 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F116242D9D
-	for <linux-sound@vger.kernel.org>; Sun, 31 May 2026 13:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780234796; cv=none; b=LnCnJLoQP2mdbG364qEkNsFeGtqGLaM8wUSCM6LQpKA08osfuJ91C6xnXhL2srD4rZgJWpOIHfhSwZNjHjWriEq35TEKw/3LFCE1YQYab4HDo19Eftkqk9FbZx2svx+CAL/yw3ZiSMHDEUfyqY856jhhsElztnrVc2jBawmnrsU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780234796; c=relaxed/simple;
-	bh=bo0/V7RHERzJoYhkb3CUSGs+G9RcuCDE8noSfKiz25I=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RTUtRn9ZCq5J+VSwbD6lbhTvMYNtYm+DCC92k1EDsSQl15uwx8qj7aW0UhVt7dacdX36guMyN+yz8a5ONJtWgf7up+XqL6lmNKy98eaY9DnTFmLxi4xoWBCTPEEza/Q9cghMCa87OxKguFxbv9+bo3RlgT22fzAH+U9CWVZQfMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zZYt2RZx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lzHiwmGg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zZYt2RZx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lzHiwmGg; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A7523ABB9;
+	Sun, 31 May 2026 13:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780235811; cv=pass; b=V1tG0kn3StwSBdmRE30r+jP4L989rcb38y8ON/+/sdkGPWLCuP55vmGqjtqmdJxD4hCTMRnBsr23Yy6tPrkI89nPeUQqCmzwtafocf2/2UZSAY+9GvDfPIcGPsLsDwImXqsAUl5UMiOAxSIryiMaYuq2QBudDk72RtJswclfHrQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780235811; c=relaxed/simple;
+	bh=cxN2y8KaLja4zLka667P5bzD5w8vikreB/ITL9GtUt4=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=oIap2LJ/C/to16WORtDGnYJgFpI/ByDBPAxJG6GOmak/U1rmdVlrpaxwe+T7coYawkrJREmI+qw9PLPCBUPC4CrsIQ2jOWXBNIeXcucEW4nnwWcwsppYkJmrB+2xV+K3yfPBF0YfR0Mxbs6YHNDoElmuGH5moVIPjBWrJbJPUP0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=QPG69Mpx; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zZYt2RZx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lzHiwmGg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zZYt2RZx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lzHiwmGg"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1C8A66B054;
-	Sun, 31 May 2026 13:39:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780234793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Dz8L+sxfdjn/i3TPgyHt6MJxFV5coo2k4QX5X+k+Bro=;
-	b=zZYt2RZx4KHDhhLSliZ98DycPTeL2RfDJhhQ+pEW4JY085QwG9UcYvV8a5asjQpQ3OR6xW
-	2xqpmJg7ApAF1flvLMzL0mYDFONQgiswLEa2OEkY+L/Z82IofjaNuQzGYzFgCjFtNSh7TA
-	CcNVFUIyNvitBYzhgb/0Cw49tOq6HqQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780234793;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Dz8L+sxfdjn/i3TPgyHt6MJxFV5coo2k4QX5X+k+Bro=;
-	b=lzHiwmGgSiWw/inm2+9vhJydQCNg3U6wIBjibJfkAyhHW+HFAxQm7brm6kHa6uVK8HyjTJ
-	KzxgfmczB0BMdxCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zZYt2RZx;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lzHiwmGg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780234793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Dz8L+sxfdjn/i3TPgyHt6MJxFV5coo2k4QX5X+k+Bro=;
-	b=zZYt2RZx4KHDhhLSliZ98DycPTeL2RfDJhhQ+pEW4JY085QwG9UcYvV8a5asjQpQ3OR6xW
-	2xqpmJg7ApAF1flvLMzL0mYDFONQgiswLEa2OEkY+L/Z82IofjaNuQzGYzFgCjFtNSh7TA
-	CcNVFUIyNvitBYzhgb/0Cw49tOq6HqQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780234793;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Dz8L+sxfdjn/i3TPgyHt6MJxFV5coo2k4QX5X+k+Bro=;
-	b=lzHiwmGgSiWw/inm2+9vhJydQCNg3U6wIBjibJfkAyhHW+HFAxQm7brm6kHa6uVK8HyjTJ
-	KzxgfmczB0BMdxCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE729779A7;
-	Sun, 31 May 2026 13:39:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id b2ULNCg6HGpXaAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 31 May 2026 13:39:52 +0000
-Date: Sun, 31 May 2026 15:39:52 +0200
-Message-ID: <871perpujb.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	notify@kernel.org
-Subject: Re: [PATCH] ALSA: seq: Use flexible array for device arguments
-In-Reply-To: <20260529-alsa-seq-flex-args-v1-1-bb3ff5c62d49@gmail.com>
-References: <20260529-alsa-seq-flex-args-v1-1-bb3ff5c62d49@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="QPG69Mpx"
+ARC-Seal: i=1; a=rsa-sha256; t=1780235791; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ny9B3wILm+g1bJiivSLCqZ5DY5sY0n1cv4OcalqfuxsLrbrmwcrGOf1toAnLN3zqwGwKNWhMcxr1GqZ4BB9ZTPcjPhNijS7N/mcB7U8UAfC0McnWJ3jIshfWS4OZNUV6lkxOlw0mW6ZisMcQ9r3BUJ0gIp2H2pu9rSNG6METKzs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1780235791; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=wYB0FqqNCB9dsQSUVjQ3WjIA4oqgJ2KphRLSC/SEXIo=; 
+	b=Qp7YLdTHq5DkmzKjcpgOzYyhbffxDf+H7+aucweMiiTBLnx/bxzcivfjfaPQkIeFuUF8CeAmD9akn6TwmF8rZvvf4KUSS4GXgUhHjA917B/yVwfxplKl4a6Ypb3OdEeE7hKEtmILKuICQV0OC3U29/BOW5ln+NjQm+TogLqzt5w=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1780235791;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
+	bh=wYB0FqqNCB9dsQSUVjQ3WjIA4oqgJ2KphRLSC/SEXIo=;
+	b=QPG69MpxOssEDodA86ITL4NT397V0tZqtYwY45kexMEAkHp9WEJmpo1rAO/CBXWH
+	yJphvKbnHUacd7DYfcf65Rt3TjZzG6/sOXk7t7uvEbLPXizulzhAelD04XEKuRSoZae
+	9YiOg7TUi7tjoxzVRIntie09Z0yF9RGCeGgLHqxr6ztaHZMkod6vG+PNQzo0gL/OLce
+	N8DhHL85WP59/hJgjB6yvb8C7ASmDTSaKCBHl9/CHF7Iwofd4WGQGRUxov8IuwvUIxq
+	3WJB1ZvGRsBoFZicE0piUbIpdWYqjc5qhyQ63sxTq+iZYqXOGflltuaYyxEy0KcpEa3
+	Md7GWRQtkw==
+Received: by mx.zohomail.com with SMTPS id 1780235787309947.7530061527572;
+	Sun, 31 May 2026 06:56:27 -0700 (PDT)
+Message-ID: <47f764913c6a7ee6e01825f711a30ec44bf2d7bb.camel@rong.moe>
+Subject: Re: [PATCH] ALSA: usb-audio: Set the value of potential sticky
+ mixers to maximum
+From: Rong Zhang <i@rong.moe>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Steve
+ Smith <tarkasteve@gmail.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+In-Reply-To: <877bojpvao.wl-tiwai@suse.de>
+References: <20260531-uac-sticky-error-path-v1-1-12c2329d17ef@rong.moe>
+	 <877bojpvao.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 31 May 2026 21:55:46 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 1C8A66B054
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+User-Agent: Evolution 3.56.2-9 
+X-ZohoMailClient: External
 
-On Fri, 29 May 2026 15:12:39 +0200,
-Cássio Gabriel wrote:
-> 
-> snd_seq_device_new() allocates struct snd_seq_device together with a
-> caller-specific argument area. SNDRV_SEQ_DEVICE_ARGPTR() reaches that
-> area by adding sizeof(struct snd_seq_device) to the object pointer.
-> 
-> Make the trailing storage explicit with a flexible array and allocate it
-> with struct_size(). This makes the object layout self-describing and
-> avoids open-coded size arithmetic in the allocation and accessor.
-> 
-> Reject negative argsize values before calculating the allocation size.
-> Current in-tree callers pass either zero or sizeof() values, but the
-> function takes an int size argument and should not let a negative value
-> flow into unsigned allocation arithmetic.
-> 
-> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
-> ---
->  include/sound/seq_device.h | 3 ++-
->  sound/core/seq_device.c    | 5 ++++-
->  2 files changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/sound/seq_device.h b/include/sound/seq_device.h
-> index a72380c202e9..3137d4c5f5a8 100644
-> --- a/include/sound/seq_device.h
-> +++ b/include/sound/seq_device.h
-> @@ -22,6 +22,7 @@ struct snd_seq_device {
->  	void *private_data;	/* private data for the caller */
->  	void (*private_free)(struct snd_seq_device *device);
->  	struct device dev;
-> +	unsigned char args[];	/* driver-specific argument */
->  };
->  
->  #define to_seq_dev(_dev) \
-> @@ -64,7 +65,7 @@ void snd_seq_device_load_drivers(void);
->  int snd_seq_device_new(struct snd_card *card, int device, const char *id,
->  		       int argsize, struct snd_seq_device **result);
->  
-> -#define SNDRV_SEQ_DEVICE_ARGPTR(dev) (void *)((char *)(dev) + sizeof(struct snd_seq_device))
-> +#define SNDRV_SEQ_DEVICE_ARGPTR(dev) ((void *)(dev)->args)
->  
->  int __must_check __snd_seq_driver_register(struct snd_seq_driver *drv,
->  					   struct module *mod);
-> diff --git a/sound/core/seq_device.c b/sound/core/seq_device.c
-> index 1b062d6b17ea..a7b69ff07261 100644
-> --- a/sound/core/seq_device.c
-> +++ b/sound/core/seq_device.c
-> @@ -234,7 +234,10 @@ int snd_seq_device_new(struct snd_card *card, int device, const char *id,
->  	if (snd_BUG_ON(!id))
->  		return -EINVAL;
->  
-> -	dev = kzalloc(sizeof(*dev) + argsize, GFP_KERNEL);
-> +	if (argsize < 0)
-> +		return -EINVAL;
-> +
-> +	dev = kzalloc(struct_size(dev, args, argsize), GFP_KERNEL);
->  	if (!dev)
->  		return -ENOMEM;
+Hi Takashi,
 
-IIRC, we can use kzalloc_flex() for this kind, too:
+On Sun, 2026-05-31 at 15:23 +0200, Takashi Iwai wrote:
+> On Sat, 30 May 2026 21:52:49 +0200,
+> Rong Zhang wrote:
+> >=20
+> > It makes no sense to restore the saved value for a sticky mixer, since
+> > setting any value is a no-op.
+> >=20
+> > However, in some rare cases, SET_CUR is effective despite GET_CUR alway=
+s
+> > returns a constant value. These mixers are not sticky, but there's no
+> > way to distinguish them. Without any additional information, the best
+> > thing we can do is to set the mixer value to the maximum before bailing
+> > out, so that a soft mixer can still reach the maximum hardware volume i=
+f
+> > the mixer turns out to be non-sticky. Meanwhile, all channels must be
+> > synchronized to prevent imbalance volume.
+> >=20
+> > Fixes: 86aa1ea1f15c ("ALSA: usb-audio: Do not expose sticky mixers")
+> > Signed-off-by: Rong Zhang <i@rong.moe>
+> > ---
+> >  sound/usb/mixer.c | 33 +++++++++++++++++++++++++++++----
+> >  1 file changed, 29 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+> > index 5fba456eb4a9..fb37bb8ad9a9 100644
+> > --- a/sound/usb/mixer.c
+> > +++ b/sound/usb/mixer.c
+> > @@ -1371,10 +1371,8 @@ static int get_min_max_with_quirks(struct usb_mi=
+xer_elem_info *cval,
+> >  				goto no_checks;
+> > =20
+> >  			ret =3D check_sticky_volume_control(cval, minchn, saved);
+> > -			if (ret < 0) {
+> > -				snd_usb_set_cur_mix_value(cval, minchn, 0, saved);
+> > -				return ret;
+> > -			}
+> > +			if (ret < 0)
+> > +				goto sticky;
+> > =20
+> >  			if (cval->min + cval->res < cval->max)
+> >  				check_volume_control_res(cval, minchn, saved);
+> > @@ -1431,6 +1429,33 @@ static int get_min_max_with_quirks(struct usb_mi=
+xer_elem_info *cval,
+> >  	}
+> > =20
+> >  	return 0;
+> > +
+> > +sticky:
+> > +	/*
+> > +	 * It makes no sense to restore the saved value for a sticky mixer,
+> > +	 * since setting any value is a no-op.
+> > +	 *
+> > +	 * However, in some rare cases, SET_CUR is effective despite GET_CUR
+> > +	 * always returns a constant value. These mixers are not sticky, but
+> > +	 * there's no way to distinguish them. Without any additional
+> > +	 * information, the best thing we can do is to set the mixer value to
+> > +	 * the maximum before bailing out, so that a soft mixer can still rea=
+ch
+> > +	 * the maximum hardware volume if the mixer turns out to be non-stick=
+y.
+> > +	 * Meanwhile, all channels must be synchronized to prevent imbalance
+> > +	 * volume.
+> > +	 */
+> > +	if (!cval->cmask) {
+> > +		snd_usb_set_cur_mix_value(cval, 0, 0, cval->max);
+> > +	} else {
+> > +		for (i =3D 0; i < MAX_CHANNELS; i++) {
+> > +			idx =3D 0;
+> > +			if (cval->cmask & BIT(i)) {
+> > +				snd_usb_set_cur_mix_value(cval, i + 1, idx, cval->max);
+> > +				idx++;
+> > +			}
+> > +		}
+> > +	}
+> > +	return ret;
+>=20
+> This change is supposed to be applied only to 7.1,=C2=A0
+>=20
 
-	dev = kzalloc_flex(*dev, args, argsize);
+This patch is meant for both 7.1 and 7.2.
 
+> and 7.2 should take
+> another your series ("ALSA: usb-audio: MIXER_GET_CUR_BROKEN related
+> changes for 7.2") instead, right?
+>=20
 
-thanks,
+Right.
 
-Takashi
+>   If so, at merging the latter, I'll
+> revert this one as a preliminary.
+
+Please don't revert this one in 7.2.
+
+It is needed to make any future devices like that to at least have
+audible volume out-of-box. Without it, users will have to wait for an
+quirk table entry for their devices (or add one themselves). Since
+setting the mixer value to maximum should be safe on both categories of
+devices (sticky, effective SET_CUR but broken GET_CUR), I'd prefer to
+retain this patch in 7.2 too.
+
+Another reason of retaining it is that the current error path only
+"restores" the garbage GET_CUR value for minchn, so it could lead to
+imbalance volume if the mixer has multiple channels. In the effective
+SET_CUR but broken GET_CUR case, we would still have to fix the error
+path anyway to synchronize all channels. Since this patch does the job
+and synchronize all channels using a non-garbage value, it should be
+fine to retain it in 7.2.
+
+That being said, this patch has a trivial single-line conflict in 7.2
+because my series adding QUIRK_FLAG_MIXER_GET_CUR_BROKEN narrowed the
+sticky path down to `ret =3D=3D -ENODEV'. I can resubmit the series for 7.2
+to include a rebased version of this patch, should you prefer.
+
+Thanks,
+Rong
+
+>=20
+>=20
+> thanks,
+>=20
+> Takashi
