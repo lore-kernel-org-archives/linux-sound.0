@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195013DB992
-	for <linux-sound@vger.kernel.org>; Tue,  2 Jun 2026 12:08:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0BE3DBD54;
+	Tue,  2 Jun 2026 12:08:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780402084; cv=none; b=hRvEpgn2DbWvVpMDwC+sCQn5l3Q/2BtL8o8Ld/HPcvhbVV2UYU7hZCBgThmLL/GgvATm47gC7MRvqgJv4vrItNJn4AyLweBDKP8KCaWQSE7zEZhaZsgIEQLQUyA+k7TQhtfsWxyCTVmHBFEB7G6XhJdJ0YBFZGTG9t8pMikoTo0=
+	t=1780402088; cv=none; b=MtKZaehAscz0cH6ddRL2oWYI1k1/ILR5qL1pFPGHffDrDwDWNIfXfAoW79CtrFJ/XMz+ccfetcLUp9l2oWNNmzsIHZSJ/vNZiWA6PVQRg406mJDuypsf4gJwXz6eet9ymfDIcIeTrGpLchDkdMbstZJSKYWcGT42E+c2befrtl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780402084; c=relaxed/simple;
-	bh=dGCT4XHcujrQK2sKUgNEKADIdB0SmB+vR6weKRUWRf8=;
+	s=arc-20240116; t=1780402088; c=relaxed/simple;
+	bh=wAp5PlSpaMKc01ROd4IGfMgTZuj6bXL4sJp7KzJ2ZjA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YeFKxQg7Hy4jtnw3VkDT6g5G08KsiBiKFd1Gqt1vwF3tTi8HuF3DhS/lmJZYxc5IADh/vGmvKj8ZQ0yu9AUql8sSZs7TQ6nzDirTEkgpDNmkDDhwn672NmG/ta+GBBodi9Hfay7IV3qyGgHbnoAd7rc/edka1kC2ut0Mzpw3A7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l/G+9EOr; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=EzRdxQrYC+6T3by0U+CSqOmY/EZe6zj3Uy9d06mPAas9CqM6KL9aebAvpSAZKvkCyUObZ4DgmhMtIqB1a/RXcqP3zeRWxs8vr3YYvyaKL+tS/5FWgLJazF7sIC6aav7TwY+laoiH6fgXFlDUYfYaXuuQBFoOjxQIjEGaOFR7Ajc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S+cA2ekh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l/G+9EOr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2BF81F00893;
-	Tue,  2 Jun 2026 12:08:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S+cA2ekh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA8411F00893;
+	Tue,  2 Jun 2026 12:08:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780402083;
-	bh=kwewgopAPfs3G1mCE941odq66nXinoK5dIHmOcC3TWY=;
+	s=k20260515; t=1780402087;
+	bh=gYd219WrFrrp7TENHUD8ikSvXHyRtOBVcPadMvRq8/k=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=l/G+9EOrEQkQPmsEC6sJ1HGU5PzvQTrCMPASZcpy/d/w2orBf6obVj2eb80mY3tUS
-	 CLXY0NdRKLx/0ItyoPWA1tGdleg93y+Wjz90oHd+Uw2Aru5jAeyEgxrIXFqVDAhGve
-	 V+YpUXz5JWxVpXdOxUvMocbG1pboEvLBlthJfnFiZZcR18rc7Q+vA5FwoAN9uxRgwJ
-	 IK35CpfZ4/RjAVKPGsDEQszdW4TAc3SVM2cPe6x1CFuPJKIH8WkrmAW7ty2sgEUCgs
-	 KKDBxi6iiHOPYDkJhR30iFFe6dUOrMcqGyKI4irkW7DKpV/N2l+RMJDc4EnxJYbZ84
-	 BjqbstPZidifQ==
+	b=S+cA2ekh4AbcXugDNm5FjAPj/U3aAZhUBQjnt9VMDhIukJHKuRjW8zoWy98qftsCj
+	 WXyevxxJlZr/tEYcZPiWG7KJf7bb1sosbT5aihiVQd8y+Xn4Jpsf2h2LIwo5UDmh2R
+	 dEtQLCO9KJGJw1C6L+X9MGmqJ1EAhCYNxlVmHcq90O9HJJ4A2F72Al/ULE3ajZKEYp
+	 d25an7ZwX4YnZYWtbeSJhB10e0nQvhp0WccdjiLQIF818U7ScD1LETubVOuHpv/cS2
+	 moAJ/7NqxoJFANwncpRbaYhfJc1OePdbdm6wuaKH1HeeIhiBYsW2aY2k/PQk2kWVsa
+	 KtVoosQu0nnNQ==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, jiada_wang@mentor.com, 
- linux-sound@vger.kernel.org, peter.ujfalusi@linux.intel.com
-In-Reply-To: <20260525201801.1336936-1-cezary.rojewski@intel.com>
-References: <20260525201801.1336936-1-cezary.rojewski@intel.com>
-Subject: Re: [PATCH 0/3] ASoC: codecs: pcm3168a: Fix and updates for power
- management
-Message-Id: <178032591118.44654.4554236976696140137.b4-ty@b4>
-Date: Mon, 01 Jun 2026 15:58:31 +0100
+To: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Jackie Dong <xy-jackie@139.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260527102005.58528-1-xy-jackie@139.com>
+References: <20260527102005.58528-1-xy-jackie@139.com>
+Subject: Re: [PATCH] ASoC:amd:acp:Add DMI quirk for Lenovo Yoga Pro 7
+ 15ASH11
+Message-Id: <178033011660.44654.13966829321338054554.b4-ty@b4>
+Date: Mon, 01 Jun 2026 17:08:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,40 +46,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1614; i=broonie@kernel.org;
- h=from:subject:message-id; bh=dGCT4XHcujrQK2sKUgNEKADIdB0SmB+vR6weKRUWRf8=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqHsegdu17zjEUyBhNLpC7dQel1ak32+GqO0ncO
- XPj3GpmLcKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCah7HoAAKCRAk1otyXVSH
- 0EIbB/9AUgonkPJCcWNSd9X2/CNLg+wUE/tW0THMdFS9P/HxUE04VrC34du0uXyultd2Gret/hj
- DloIjGYGYMIVhyQI83EOWvn71Wl4piKRU1gi6syxCHwTaDm5/+FX7DlbEzYe28zYgO3J5fPYwNo
- uDDlExGh5BoZW7xsJzVtx8m3CKLQ4B2nUsAXIyvqbU9VizwfS+y9JaR7ci+ad88QfERxcHRLH6O
- 17V01HotET6k+xsE2knulikCkyhERk6p5MDe7tOCoALfRPqFnbBy3vgyV6ic3ESNI97orhD4od5
- 5ZMLT2t8tC3fVmCoBcXgFrS8+TgNGSwZctp+gDJKkc2lWdo+
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1129; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=wAp5PlSpaMKc01ROd4IGfMgTZuj6bXL4sJp7KzJ2ZjA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqHsekHLfl7r0kf9vt5n3L6kUyeOVLxy/U4/2kg
+ B6pk+ea+p2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCah7HpAAKCRAk1otyXVSH
+ 0BuRB/4m+PqMskjQNJKBNyXGdfQFS8O80ybHu+Vt8o9MysqE8HkOfVex8DWhqaXN4AecMGQDfyv
+ XI9Xry89vbrLWSYOKuG92onakcqH0WI8DyW+uX1ayzD/fmnzUj9eUfUPHeA+ewjAhoZCF8M3mrj
+ utPsq3Qr7iA9bH8REiZV3yfGIgSZyPpnzGo46tEnTwZun4QPOy6+W/1bSYYp6oUmKNg7kwMOwUV
+ fbeZrha8PtVs+O+cox+oI12b4iUraKd5ysjjEwWzFU+3xT+5VgpkxnwEQdOsd48fKCwh9lmFWry
+ 1Co0eYKbxSiN0L4N9yw2/49ir+79aulayYUkO2juhrIXnirr
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 25 May 2026 22:17:58 +0200, Cezary Rojewski wrote:
-> ASoC: codecs: pcm3168a: Fix and updates for power management
-> 
-> Set of changes composed of one fix and two improvements.
-> 
-> The fix leads the series and addresses "unbalanced disables" coming from
-> the regulator core during S4 (hibernation) scenario.
-> 
-> [...]
+On Wed, 27 May 2026 18:20:05 +0800, Jackie Dong wrote:
+> ASoC:amd:acp:Add DMI quirk for Lenovo Yoga Pro 7 15ASH11
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
 Thanks!
 
-[1/3] ASoC: codecs: pcm3168a: Prevent regulator double-disable in S4
-      https://git.kernel.org/broonie/sound/c/bb3c847523f9
-[2/3] ASoC: codecs: pcm3168a: Drop redundant pm_runtime_idle()
-      https://git.kernel.org/broonie/sound/c/2c734439be9c
-[3/3] ASoC: codecs: pcm3168a: Drop CONFIG_PM-conditional preproc directive
-      https://git.kernel.org/broonie/sound/c/eb7107264da8
+[1/1] ASoC:amd:acp:Add DMI quirk for Lenovo Yoga Pro 7 15ASH11
+      https://git.kernel.org/broonie/sound/c/fc12cf16df9a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
