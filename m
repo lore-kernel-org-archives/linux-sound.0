@@ -1,153 +1,115 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15EB3BB69D
-	for <linux-sound@vger.kernel.org>; Mon,  1 Jun 2026 14:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780325064; cv=pass; b=DEhIBU2jkvGv0hrYCO8aiBc9Ku2ZhSCgbfph+wY3y60U0+I6Z8ohQO0gwP+YIeHmUXibImzA4Hp/40Thy4zwZ3bae1hJWnx+ssY05jXfZ1rFBxPY2iv3HK/BvMYTzCCCNDUpu3/vwGtQsaOqH1e2PapWWOyBUHCnATx3GlHdLio=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780325064; c=relaxed/simple;
-	bh=hCbc8aLnsEt6zgLzaF+eVqd7nZ5pbDQnU0hBPvvS+hA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hWDNMDW22WeZWqf+bpmDuXZ4dKUT1zTnaQ4+jrSr5wzYy65iT1Zu0KvvpimZPHJuNz4E8TRiiDCOZun4g/kahIpq3+4//J+XPk66WvdrZG+uIDnfmjYs30nJxTa4YOv8+nbn5OKr8UHIvLqpOzLFvwQpJIv5i/8pWicQotMo5e4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y24Bv4rd; arc=pass smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060D03C9ECF
+	for <linux-sound@vger.kernel.org>; Mon,  1 Jun 2026 14:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780325567; cv=none; b=jXd1aIoUqWqO+/28j80FkleuDA61FUUp7E3I/nGnFEPYTes7WUwdfQR1RUxuoTYvzZMvr9EHGsbIW8EsEReqewiCn+RVX4JSVY2n0eebch+3TEVR5ypIn/dfEcHBv++kGch5Zri+hZICWEJpUG7gNgRlkDPg0lyvdy+XmkiNjTI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780325567; c=relaxed/simple;
+	bh=VilKTMUODu88Eqm2Pw4VrVCsM/0NxA5+oGoozbxftRg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rDZ0ejS9BGUIJzG8wya6a12P08R1gMHGN5ySsKTk4Pu/34O7SCuAM7Mp/x9UVXn6L2ZJpqdia1Il1qx3mbhgQgKjjhW1V9bYioatqE+smOG1YqsP8RD5pmlIKFzhR/vvRu2iD8j8UGmtdT7h0wXcSEWg6LKqHBqAxfP3jl2p7NQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y6FJOAZB; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y24Bv4rd"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3967738c801so16108811fa.2
-        for <linux-sound@vger.kernel.org>; Mon, 01 Jun 2026 07:44:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780325061; cv=none;
-        d=google.com; s=arc-20240605;
-        b=DBKWBFLic21BA45dScr5arogKJsMuu5b6LLSWivkE4NcoxJ6NRL0e4YGCv+Pwe6cOj
-         htHruo7/9C2/R2diDkLLxdcwO4tvvbZz6idynignYbJFmRvcz20GKoigEnNcQ8sgLC0P
-         FyCg5moXDbuaMnO/bLuJcpe4DOM6JxHFpho1v/OmFPYqEi1xbdGXDbRu+khXNlvUJP7/
-         8XNXbUUl8t8e4t3f8eoUVLuLyVBxxDOsG7cgyabH/sah7kJkfxTf9WubqpQDiLZ9P4pj
-         Xsq9QRT74T3ACSCZpHy9oIjqQW21woXF/gtxfsyZwKdcd034mXGHsT4CmIf5jwH80BAg
-         rr2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LeSGQAtfbqIjwsYge5eawocxe2T0LG78G0yrJejDqDA=;
-        fh=wfQm4zHhUwHrV1Hpnqk+yVoeteeuqLmh/iWNOokhtbE=;
-        b=HYGrgwUaTWoqPGF3CCRwAhDD0uvqhbVM7agYPq8vQEqnrZe2LUtpTsUh/zo+r7DzIn
-         q8UI5/9wYyQ7ey3Y32KPM12o+GrQi9znSYk6Nhvg4U+V1pB4lCDJlhFvmEC8O43z/Sse
-         uPS76Xsd0hhrWg/Rd6FCCW7iTrJutuBcsWFm75EE9JoHXOD6IZXjGxX1QCtvVFaZnMBA
-         vKeDnqXisvEFTIbMMt+jvtiLKdQDZ73IczFqM3WdoOz0Mdxf8OeQIGakxDY58+DBcWlY
-         Ddl1mgxn1SdtLialIhDLV0ThbuLunAya1Kdm54a9k1MuhXxlps8qGeu2xyzCEZ8+H9lb
-         s5eQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y6FJOAZB"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490abf12f0fso4597625e9.0
+        for <linux-sound@vger.kernel.org>; Mon, 01 Jun 2026 07:52:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780325061; x=1780929861; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LeSGQAtfbqIjwsYge5eawocxe2T0LG78G0yrJejDqDA=;
-        b=Y24Bv4rdsrmmukExgAzC7EEcxgQy77C8V5FmpVmPgNriNoRYREarRPwAeHZ4q1E0wO
-         a1+itvk4B2oeneNI93jKsLVEEBuJm5A8X2wz8FaobI06MabEyVJ94r2C/Ov4OkyEC5fn
-         SVNfU1yi4QRrk3mcfiq4goRbux+CvnAWuCQnGIi5tXHv0b3tVLgEv9Qi2aNNPF31iGPi
-         VsoDd3nU/7lC66aTaodSQ34XTx6UYxQoW4ui5orzZB4JhGDAb1SDCzXZxdteZgsRBNKp
-         ba8mU7Q6Jgvg+B8XsIHwpLOiT6zA3iRaDHBZgt8tZdt2oMfBlgxkWQyvhKojyp3AHrd/
-         QXEg==
+        d=gmail.com; s=20251104; t=1780325564; x=1780930364; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=n/dF/BREYgluq2yc7QavjflbN1wLiPqAZu2uhlcXNI8=;
+        b=Y6FJOAZB8yDjysWv3nu7fp/o03l3h7cbV1W9kvYyeHEn3jiG0+OPvfLiRo6hFCtLrk
+         NtP5w8CVMA9CcY9OBFJ+3W1/jaJEdERapLQUl6cHJXfn7EqmPKAFWooNwdfG3Hp8Bkt4
+         7F9pzcHDfzmVo6Add7oKNaQM0/sgmcMJOGdV0rYNhgMGPFCWjgFNzoim6lA8jRbQWimH
+         qY1S+EATKl0RY+TkWJOEK3UXEN7b3/8mcp5mXZdHRSpCDghGNWFuIDX6Hz0G/50OYyYm
+         7+tcbV753xzbaOfQZyzkjeB8DihzsH3YKnmQ8WUfWSJOSxoJqTV3SZxTZ/1YZf+7wdOd
+         ujjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780325061; x=1780929861;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LeSGQAtfbqIjwsYge5eawocxe2T0LG78G0yrJejDqDA=;
-        b=YD6mGyCXMJTmdscc5XAzUv2kACgdrWfe22FwaZMV+9yfU73VlM5BvJQfCF7M1RBmEY
-         NhAclzIrJRUOXDORsAIIZuzFC8VgWWMoaX3GZVzKeT6I4oF5pnJqMIi6bjEQv8cZPOiE
-         rJhbs7cWmYjeFI9c75cdRw6kB8+jWPmCK7tP3XklCm+qnUTO8Ou53RyBdgxPb/lYEwCE
-         +6q5L8N+zwRlkhdyLJQfbMVSMIpqQpIarAYy1ShShezf/3m3MOEs8q2BNfmtTetoj0Jf
-         GdoG3Ro9pSt6dG1KwlYVEeBar1kpYuG2+3K1b/69O2zbjcgFhAZSkFjReKpEWEnQvDTj
-         Wm4Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8Qmulm2Hp2oTyl9hqm2iC6nbGZQGO1V9WiYqyy/u6WUdVa/1J433WbuEVpoBQrHUgH85mYHojibotr3Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YydVBqEFPcVU1zDRQA6DDL6sgupBfJRghyAz8t+OKJ3umTMo02r
-	AsHnMbyMt7SeeN51raVW5PVjKf35YNqf+aS0eJsq5PQOPwUTRZ/xHJkJrXO66AsQMXV1Q/O+Jux
-	X0x+pVm82AXcLGu1txKUDxOQFtL9CmKn3GgAH
-X-Gm-Gg: Acq92OFkO8qfRvULlV16V3eOKqL6SzSlxAHtCVfaC2w7IfgIQjsCfzT2DU/AdZ1PuzE
-	hI3kmHIFfTgWYhpEotAo45Dh3j+OU6dEN9HeKebBoq+tHdDX2XqFI2bTXSPpRzx64gm6gw/pXEw
-	RaTmTBT8Yl+820IL/8R9KLcAZDI208JCTwfZqBtf3o9S+xKb8d9rFY709DRNQfslXRevErpTXeb
-	PA5PFkvio4LhEEZku3OxcyatJ2kfu9j1T8TmmdGQ3T7pkY3GUsTI47vRlEHk0PzpozTPMfbwh5E
-	r7/9YMwZdk958FNbEp0=
-X-Received: by 2002:a05:651c:1473:b0:396:7f19:3b2 with SMTP id
- 38308e7fff4ca-3967f19079dmr17097791fa.20.1780325060874; Mon, 01 Jun 2026
- 07:44:20 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780325564; x=1780930364;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n/dF/BREYgluq2yc7QavjflbN1wLiPqAZu2uhlcXNI8=;
+        b=dnivYFCcsliiVUpnxmZhwdTRjntdQ5AjUgWvwwuknfFsy2nsPNO0HvGPV4d1bLlIB7
+         iFwL3Ld/1K0WAjkFa01/WlKce8k86kWweYsgeUkuDsZ5xKDLv96DJrjeFQltd6g7g36i
+         xD5nbtoVGRbuwXAGrZUiYwjUsoZf/eIt5eAwMU1xbkW9ngEGtf7RJAgd/WhHgkvYTlnk
+         kSzOMxBNq9w9R8hMUCNuZcxQoUcI1SeYCKzTgLruqplGLsUnKVm7PlrByC2N7hLcrN/Y
+         +k+OB/1fnmXZNPTaElFFOlkjjAPnxlbrq11ICPmSCYDD7xrn9/Ka4AI/Q2/YHvtnzABo
+         YhuA==
+X-Forwarded-Encrypted: i=1; AFNElJ9e/SU16qO23UhUjiQ//P15JHbFYd4iyU4pzOhvY7B0jDUeKD6NphF1mXxtGmOLRtbo2ydjvBuwvoaUEQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1iH0M50ougFc/sMmUyOw2CzKnfKbYQvjOOkdPUoXnibe9K2rl
+	x/E8asQaCp3xQI91NJ2Cw5VV2LLaL0Zqzl7CQvLXfEzJ/x9ky29Tuu1H
+X-Gm-Gg: Acq92OFecJbvVtt8LBhpuaYQEvG8duZ3s8BhYHVTfUoBKpYrbZ8CR78d4atYB8FUYt3
+	/eR8vDPfs6UFMu+QiwLXHQESjH4zHPSYBqMLBQW4PSEO2gQD61qSGAoBgmnUGSh94WsVg5JSawa
+	EkUf8kyfzPxAnLSvMLiaRtt2ii1OP0tfJ6xFSGu1sl3TUhgGo+NyyxL7CEg82cK5xcKF9i+VFCk
+	CZRMHMSRyo4JRsVCmSEAxDNaaS+FIErEYzdXQpQlq+JRow6Pf3E1bpFC758cc1jGBnRo2UDoBAj
+	taPMM4oGWVYmmrD8SMjjSSLMykUhsiW1IN6QHTUwRyFK1g4VzZCK7DSRGwabABsTC5Rpcw/hRP7
+	gVUV30S67nhGdW48ROXvAaoHsvo3iUyyQCbPeOeNNGobOfaL90n+fveNb51y0A+LIoDj6UAQ91c
+	j3x3z0YVFcZLg8yC4LPtmppyCxedJo5iSdsoA2prbFExdU7yeXEnKbZEWI9dRU877iaIXa4dI=
+X-Received: by 2002:a05:600c:3f0d:b0:48a:5236:7f38 with SMTP id 5b1f17b1804b1-4909c15cc0emr236803725e9.14.1780325564291;
+        Mon, 01 Jun 2026 07:52:44 -0700 (PDT)
+Received: from joaom-cachyos ([2a01:b340:60:2221:4a33:2a16:491d:b1fb])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef357635fsm24615795f8f.33.2026.06.01.07.52.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jun 2026 07:52:43 -0700 (PDT)
+From: =?UTF-8?q?Jo=C3=A3o=20Miguel?= <jmiguel.ghp@gmail.com>
+To: Vijendar.Mukunda@amd.com
+Cc: venkataprasad.potturu@amd.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Jo=C3=A3o=20Miguel?= <jmiguel.ghp@gmail.com>
+Subject: [PATCH] ASoC: amd: yc: Enable internal mic on MSI Bravo 17 C7VF
+Date: Mon,  1 Jun 2026 15:51:58 +0100
+Message-ID: <20260601145158.4113-1-jmiguel.ghp@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260523213548.5219-1-jmiguel.ghp@gmail.com> <CAEsQvcsYnjBK1vor3MFKs3GNzn_wAvOP4rGthpW3vYkcnwMxgQ@mail.gmail.com>
-In-Reply-To: <CAEsQvcsYnjBK1vor3MFKs3GNzn_wAvOP4rGthpW3vYkcnwMxgQ@mail.gmail.com>
-From: Geraldo Nascimento <geraldogabriel@gmail.com>
-Date: Mon, 1 Jun 2026 11:44:09 -0300
-X-Gm-Features: AVHnY4IzOQCoXVYrkT8H8KNAHxJSA939A6_zGtK5fYYBOcze80qLUKQffrBtXJo
-Message-ID: <CAEsQvctnNjLv5i0wc+6PkCE+x3BQcT2jog=0b3GrsE8Ufi80fA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: amd: yc: Enable internal mic on MSI Bravo 17 C7VF
-To: =?UTF-8?B?Sm/Do28gTWlndWVs?= <jmiguel.ghp@gmail.com>
-Cc: Vijendar.Mukunda@amd.com, linux-sound@vger.kernel.org, 
-	Mark Brown <broonie@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Jo=C3=A3o,
+The MSI Bravo 17 C7VF routes its internal digital microphone through
+the ACP6x. The machine driver only enables the DMIC for boards present
+in the DMI quirk table, so on this model the internal mic is never
+detected and no capture device is created.
 
-On Thu, May 28, 2026 at 3:34=E2=80=AFPM Geraldo Nascimento
-<geraldogabriel@gmail.com> wrote:
->
-> On Sat, May 23, 2026 at 6:36=E2=80=AFPM Jo=C3=A3o Miguel <jmiguel.ghp@gma=
-il.com> wrote:
-> >
-> > The MSI Bravo 17 C7VF routes its internal digital microphone through
-> > the ACP6x. The machine driver only enables the DMIC for boards present
-> > in the DMI quirk table, so on this model the internal mic is never
-> > detected and no capture device is created.
-> >
-> > Add a quirk entry matching the board's DMI identifiers so the DMIC is
-> > enabled and the internal microphone works.
-> >
-> > Signed-off-by: Jo=C3=A3o Miguel <jmiguel.ghp@gmail.com>
->
-> Cc: Mark Brown
+Add a quirk entry matching the board's DMI identifiers so the DMIC is
+enabled and the internal microphone works.
 
-I'm pretty sure Mark missed this entirely, so feel free to resend
-the patch but this time remember to use scripts/get_maintainer.pl
-so your patch lands proeminently on the maintainer's mailbox.
+Signed-off-by: João Miguel <jmiguel.ghp@gmail.com>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Thanks,
-Geraldo Nascimento
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 7a637d6b5..a93a7fd48 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -794,6 +794,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "M7601RM"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
++			DMI_MATCH(DMI_BOARD_NAME, "MS-17LN"),
++		}
++	},
+ 	{}
+ };
+ 
+-- 
+2.54.0
 
->
-> > ---
-> >  sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mac=
-h.c
-> > index 7a637d6b5..a93a7fd48 100644
-> > --- a/sound/soc/amd/yc/acp6x-mach.c
-> > +++ b/sound/soc/amd/yc/acp6x-mach.c
-> > @@ -794,6 +794,13 @@ static const struct dmi_system_id yc_acp_quirk_tab=
-le[] =3D {
-> >                         DMI_MATCH(DMI_PRODUCT_NAME, "M7601RM"),
-> >                 }
-> >         },
-> > +       {
-> > +               .driver_data =3D &acp6x_card,
-> > +               .matches =3D {
-> > +                       DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star Interna=
-tional Co., Ltd."),
-> > +                       DMI_MATCH(DMI_BOARD_NAME, "MS-17LN"),
-> > +               }
-> > +       },
-> >         {}
-> >  };
-> >
-> > --
-> > 2.54.0
-> >
-> >
