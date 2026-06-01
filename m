@@ -1,244 +1,169 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010022.outbound.protection.outlook.com [52.101.229.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 580E6FC0A
-	for <linux-sound@vger.kernel.org>; Mon,  1 Jun 2026 00:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780272478; cv=fail; b=bahUQ+T6xzuN1Sc0dJvUCyDHHWBQlNlNQASgUpIe52+xG0g9FjPRSbjqD1RTiW70PuRciBk+eUalcbSFosmCE3GtF7VDgbwW+YXNg98j50LTEKsxElTCs/IcO28ofGkYKZjdirvvLBjZkjPVlkM9xe0It9ftJqNvJKw5TnvziVY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780272478; c=relaxed/simple;
-	bh=zLYL9lbwScwH8bG+NueJSaFu6aBk2XHBpdeBg4eFHGs=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=mQeDd+PgCSpxMyy6FXwcm0PsI44aggvuChPGJlbodXbmDIwlQ88/ODjbQ5L7Iv5aVvNEp9mww3Ikg3c88cYhh5DnGt1aPHDVM5pIGf+EKLDU0ECprqzRQqeyClTUdIyXkHEN08gOx8O/Seeq9KnxQBN7AmyIMw6pFLRUWyN1dFw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=cQfXdMox; arc=fail smtp.client-ip=52.101.229.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13DA5733E
+	for <linux-sound@vger.kernel.org>; Mon,  1 Jun 2026 01:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780277027; cv=none; b=j4warrAjJYriGmrJt9sDgfwhzVFfDUhN46IgzFpOa39QqtNJNaPEPtNUk1AG7yuTYu5UkkUT+qp623EHCpHi7Q5N2ucvjLi00alajP0o0ple37adPybkg7N8gjwOw/ASzh7KMJEQNyp3qJ+17D8gGfI33uLYRzzFTkV0y7XuO/U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780277027; c=relaxed/simple;
+	bh=nJCgTMFiRgabN3an7EYZs+NWRtA61piWagt15POy5qI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=WNoubwJXQQUakMVYfMU6CjcPIlIPB/FxMMWaCPmRs6hHLcOCEveHAGpXWDONMc599HTawIU7lmlBl1NQwhHAyEp8ZKVLWTPD0ef8VLxezVgLXPbGr+j2AWxz2lMrSxuuzMEUaT2JjeVeSO0on7R3JFXlle1gOMuK4orRftl5w7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UMmiwYy1; arc=none smtp.client-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="cQfXdMox"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p1G7tZv6QRxybQugwUvgH+hkeQuqZsuELc5dAUKzq6vOBDRm2iHKKMbiCbP//UR78n4OKKoaIXYkD+2Yg9GfeRQOA/mDywiKIr7zC4I83yvKzaA/o7Xb3lvycWcfKf375ox1qCA9no/9tDFX1mnIR2oBFC9T5YIBDixPIWI+4gNDnwWx33CUVIZVnK2SBrCSvd4xbBVi4GcsvpEl9r2wi/2TOkETT327DxlIS9STcAaobMCykekYt97OjwNEPb91cljJtyDAHsEN/JpsGo9CXL5TZ5ly/bBJ1RMtr1yD5ZWB0rvK5fkHRed6NBmbdCsD/mC2nGuxmLMhbHh5kQ6+Pg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UjX3lyCcETSpvV95YOnjvogOrtarbDm3vH9vrOXBuzY=;
- b=tEEkFvdiJ3gYWJXIBvjxGgKFOQ0FPy0/NtIEmV7pDPg+Rba3yzAFhgPJ7b3k6dBi9V7NfgZfNjnovR0FsDZvIdA2NjzFQHxMTGDMzc9dxncgzAj1hGNJyK0cVGdeJ7KKuLArIUd2tDjD2i2n9it9ncPJ7wrkwVbM5YY5QihIdmb1cEKxrRvD5K4zIROU9dCkO2m0q9Y2+i6n9rieeLvMhzxKdGJ5X9XLat+VrygCleGYxCf0yoL2JaI5op80hW5DdXELfMWr77KaqViMT41w5SB5pY2a89MHFd+mWZU6uhcAFRDlSQn0FFOuQSgg/7LoDAfCW81ibdcf3jLxFBFgkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UjX3lyCcETSpvV95YOnjvogOrtarbDm3vH9vrOXBuzY=;
- b=cQfXdMoxGh+pVrKg967yia2oqbLMgGVV13Apnn5I+yZHRO3h1/hoW8ep6mQe6aKL2XjtSUKAofBTbQRA3oQ1KolLf5HHpEcGUz5fBY5EU6/1jyDIenq4TI8O0C2dRKB5HrRJc0cZnA4Ywq4Xw3RiW+oI111KRRaxKLmWEJWfgTA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by TY6PR01MB17860.jpnprd01.prod.outlook.com (2603:1096:405:346::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Mon, 1 Jun 2026
- 00:07:48 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0071.015; Mon, 1 Jun 2026
- 00:07:48 +0000
-Message-ID: <877bojazsc.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Kirill Marinushkin <k.marinushkin@gmail.com>
-Cc: =?UTF-8?Q?Alvin_=c5=a0ipraga?= <alsi@bang-olufsen.dk>,
-	"J.M.B. Downing" <jonathan.downing@nautel.com>,
-	=?UTF-8?Q?Martin_Povi=c5=a1er?= <povik+lin@cutebit.org>,
-	=?UTF-8?Q?Nuno_S=c3=a1?= <nuno.sa@analog.com>,
-	=?UTF-8?Q?Uwe_Kleine-K=c3=b6nig_=28The_Capable_Hub=29?=
- <u.kleine-koenig@baylibre.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Baojun Xu
- <baojun.xu@ti.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Ben Bright <ben.bright@cirrus.com>,
-	Benson Leung <bleung@chromium.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Bram Vlerick <bram.vlerick@openpixelsystems.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Daniel Mack <daniel@zonque.org>,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Frank Li
- <Frank.Li@nxp.com>,
-	Fred Treven <fred.treven@cirrus.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Guenter Roeck <groeck@chromium.org>,
-	Guoqing Jiang <guoqing.jiang@canonical.com>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	HariKrishna Sagala <hariconscious@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Hsieh Hung-En <hungen3108@gmail.com>,
-	James Ogletree <jogletre@opensource.cirrus.com>,
-	Jarkko Nikula <jarkko.nikula@bitmer.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Jihed Chaibi <jihed.chaibi.dev@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kevin Cernekee <cernekee@chromium.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Kiseok Jo <kiseok.jo@irondevice.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	M R Swami Reddy <mr.swami.reddy@ti.com>,
-	Mark Brown <broonie@kernel.org>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Max Filippov
- <jcmvbkbc@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Peter Rosin <peda@lysator.liu.se>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Qianfeng Rong <rongqianfeng@vivo.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Samuel Holland
- <samuel@sholland.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Scott Branden <sbranden@broadcom.com>,
-	Sen Wang <sen@ti.com>,
-	Sharique Mohammad <sharq0406@gmail.com>,
-	Shenghao Ding
- <shenghao-ding@ti.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Tim Bird <tim.bird@sony.com>,
-	Troy Mitchell <troy.mitchell@linux.spacemit.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Vishwas A Deshpande <vishwas.a.deshpande@ti.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Yixun Lan <dlan@kernel.org>,
-	Zhang Yi <zhangyi@everest-semi.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 43/83] ASoC: codecs: pcm*: use .auto_selectable_formats
-In-Reply-To: <93f2741f-e23e-a1be-bc04-a00a5c4713cd@gmail.com>
-References: <8733zfj5jj.wl-kuninori.morimoto.gx@renesas.com>
-	<87bje2hpyv.wl-kuninori.morimoto.gx@renesas.com>
-	<93f2741f-e23e-a1be-bc04-a00a5c4713cd@gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 1 Jun 2026 00:07:47 +0000
-X-ClientProxiedBy: TY6PR01CA0038.jpnprd01.prod.outlook.com
- (2603:1096:405:3bd::18) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UMmiwYy1"
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-137d457acd4so1109517c88.0
+        for <linux-sound@vger.kernel.org>; Sun, 31 May 2026 18:23:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780277025; x=1780881825; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uZcjgvZCvNpJWentv+qnXvtNSSU1VFpEqOO1EMSQO+g=;
+        b=UMmiwYy1kFbeNWVquEy+PLlXRG0iOD7Me9bh/5UuEJXDIN3Nqmqj8/FPoI14Rg2sjo
+         ExPaPLJoM5cWbsX217JMRQj9WjR7pdJt+MGbHnQHAocL9zmCQUxgYbBTZ53lo8hQoqe4
+         2nF4gIVEK9qAiLQTB1JneoaeL9l9obBlOy/VQbNHpLj/5015i2BT5uc10DQw5zf3u8QC
+         uNNEQJl0xajlscF5Zp+QJJ0+2II9HyAmw7AjHePOmg4lL9MVtAipWPp5r+QBkZzBFXAU
+         0uiKrvOdBv/fmYqAnZ41K+hhS0I1T16kRnuxDpkODXAvSnPcFdEtCq5IJsKq38Kecm71
+         U4lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780277025; x=1780881825;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uZcjgvZCvNpJWentv+qnXvtNSSU1VFpEqOO1EMSQO+g=;
+        b=deTD1y/3eu7pJ24xn74Xizm3tk3us1wj7h1Ig3UCeUDOjThZaYMAaXLKpgAuuR0als
+         v1xwRmGSZdwOXFPDCPyU7OWiDlPWd/1szJRjYv1mPkK3iDTrhi7mgi3L3XUI7XQ0V3q8
+         Id44Q3IWF8S8DjIvIKpjgMZ+rd6YnboIOvuKAxJO7Oiq9uvvMsgrhGNcdRvrAZbGSMCZ
+         nj5Mp4slrznLg2vz8E42X9HKQ6La1aoy2dorFiD26ZyMqZuzvnEfx51ytkK2PI7qZnPt
+         pF/mc6tL0z7HUeVtgm7R7cl6XmrP7JzWJHPkn/jHOhZlPCIfZFQfPV6aUTyk9Ka9uh0U
+         Z5jw==
+X-Gm-Message-State: AOJu0Yx0ZmOIL1bYroii/tAe9I2or9K+K0Z4ILvS9ecSrzCeVPHhV2MV
+	T+XcvLkAaHkfV1XDh8p/S0nBkH/jTlIULtvVSUZFYGXBlfEABngO7cQ4
+X-Gm-Gg: Acq92OEFygm39oPWjCHczZw8GmTCr7EWKa5s1e9Jng+BGeUBHRND+/xLIXOB0ICCAU4
+	nddc7WanzykbuSMgPvYxdxhDQxqCqvaz0Fpq07mjo4WMaKVDuvvsZQnUMBkObT2tiErhftwdyEF
+	vBpJqkHZfI/ekPwfcBhRO7gPG4HN5agcXIfJb/oOnu4hjcWkATP/IxZObOdy32BmXazvuMvsN9l
+	mVyKKoQlqOVsaLdp+lTCJt30UoO2O1JzCG90N/GTbl9q4M9DTZDyCRdN98EerbbJQ8kqq5StZfQ
+	vfZ3QlSwedWAP/kuD1cHnZXSd/KFLqzSM1ROIQZe4mo/X+UuFqVd0MXppRWwjVfWf2MxWDl7KJK
+	/mQYTnvwKZRn97y45GLHgQvIVPHLUrT91A7i/PuDxTuxCXsbHpw3QG2Lm782GKRFoRm0LPiB5vE
+	4+NpOlbSFsrNxdi5zsWyKJN6Z0Ox20hMbnAJj8h+xP14mbB+MbiSTKnRG3EN7d3yNBgEanaTkaa
+	aYXvAtzdUAv
+X-Received: by 2002:a05:7022:6083:b0:12d:c9b6:bbe2 with SMTP id a92af1059eb24-137d43bbedfmr3995240c88.2.1780277024699;
+        Sun, 31 May 2026 18:23:44 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-23.user3p.v-tal.net.br. [177.4.161.23])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137b3c69bdfsm5835614c88.9.2026.05.31.18.23.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 31 May 2026 18:23:44 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Sun, 31 May 2026 22:23:35 -0300
+Subject: [PATCH v2] ALSA: core: Use flexible array for card private data
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TY6PR01MB17860:EE_
-X-MS-Office365-Filtering-Correlation-Id: 590662b6-954b-4966-8a3e-08debf71d063
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|52116014|366016|1800799024|38350700014|18002099003|22082099003|56012099006|4143699003|11063799006|41080700001;
-X-Microsoft-Antispam-Message-Info:
-	G6vlR9oSCjIKD4MteH973DmRftmqeZPYubysOaJ/86ymbsNqidS1uBD2LZfK776z6NrAbh5/j28kIKwcMZxGFLhUufnonPlDo2E0Y5+GQRFtSoliDy20ovIqnBSjcScpLoHVq0fJL5gzc5ec3oRn5oJN28TPdKyg/Zqa2YcW3UAHUejeUHtQa8x1KRZZeUpbcCkUj0hsPJ4dPTtLOyL6UJiGe4RJQC84snmEtiazKhUs+qSyAOgZnIoTHNh3NR/1RVPUmsIR68vl+GSV6XcI3an8xQhsqUaxzpwQiOtkCiNiWP8/9xWeV+xOYOpdUDzj4sFIBzZTfJBmkzOyKuv7ewkMq1jyhNZjRD3Mhl1J58vc0NkEEIqXdJf611XRpkbHlGNBJxCgTyRta+uuuAfVj4jsRY0b9dogUnFHMWalPdne02p+0y5fV71CI2IhfIe7hx1bTV2h9vy0o9Pchvhs/X05nchQ6glADZxUlHjaSv5z4JInxm5xpg2RbUm6bya1TVJ1ZO0DFDRlbNv+GbgYSfHEIzs3ZHQ+sEJH7BTUkEbrY2Ea4zJL3GoZdNScOaxsgdrZ/vNCfp9tTJAbr/fm6A5QSbJDBMux77q47P9D0rTHNkuAYY73ekOSdQRWMG1Iz28pvk1sTZQp7G1/dZRvqjR1u3cpqBW+oagb1eui2EWFz0ZcsibGwr6SYmkItkl5Xbp/p49L69Q3JHiDkCY9G3RrnKvW5X3Pw5C8ojF1WmTRfpt3ayQM5N034lC6Yl79LRerTrhDpTGnxAOwcXH9Wg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(366016)(1800799024)(38350700014)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006)(41080700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?LCZqshl4YtlXrEGySdb3Te3iecufi8kOxtoZSovfyToaqBw+odIq8AC3ygaW?=
- =?us-ascii?Q?k95+vcTuW4oImO28CEILclau/0cWrArLzZckU0WCLDvxYK1w08O5Yt36/VTJ?=
- =?us-ascii?Q?kOveOrlITnjJ7RYhHF/+CFcowabSuP5XHpCOIn6jpjHmjFaAJE9VpELvhWyL?=
- =?us-ascii?Q?m81qourMJJ1su8QrRPaXD1f703f/Y3ldidXsHwrMNbhDSV7g9AIKa12JUc/8?=
- =?us-ascii?Q?hJnbjLJYYRlDCLWQnQoL1Hy08sNb7DCAYC/bUuKcd/qXELqcHG/otcpn7rsi?=
- =?us-ascii?Q?6PitS91lljg67VkAeQWmEkH7a5wUcUrLCV+obBnjiROBHiWjsXesTnnQ6JNR?=
- =?us-ascii?Q?d7VIBBDw8PSIFNxeNV1HBsCOvC6UtxslH/kkOYqdtL0vAkND0olkAEcbs1j0?=
- =?us-ascii?Q?iLkWn/xmyobgaQYZikLcJqxeZzLr0ocO9dUuHnR75T3RE304we3wefytQ4BF?=
- =?us-ascii?Q?8zWFoNr4esOG+QC2jXlyshmsJXhs3G4lQ3sMhHDJALK/1cB9ik26WbmpuMkL?=
- =?us-ascii?Q?j+I10tHj/Mefck2PhcrzAOh3h8X9tgCMKQbTj6xfhgZAR8QAzJ7tuSwjCCDM?=
- =?us-ascii?Q?3ismMXlztltF3k2ODvuHKUeF8ARiFlhji67HBvwVNCAJ2Z+dQnTDBXLY0fFQ?=
- =?us-ascii?Q?BiEIsj517dWjLyRCyQIT0Wzp3OieHQwD5oEbqzadGbEMfR0U/DYOGB8gbX0U?=
- =?us-ascii?Q?N9TAxQsEFh7UbEjacv0a7z0PrnR3Zz5jlMwa5UE/eUYMQBwSWgEL33oqibfM?=
- =?us-ascii?Q?qYbi27sFqjL6x97yYnp89qmpWw8is0Axk/HbyIYKnRuAQDTeIDhowKbXL9EE?=
- =?us-ascii?Q?sluDLC1FCvzqMF20q02VVxuKV3eNI2tSzPTDM/X3SmsnG8rpQUClyt0UTbke?=
- =?us-ascii?Q?RbfdBHv2jl17Nf7i8kIQ3G/eZvyMwUcADf4mscStBuH5f8JWx1GFz5rxgCoN?=
- =?us-ascii?Q?+MVU/WKrDblBYX3vBS7nz5qo8rp0ENySXAHZ2MJLpLXA4E0H8AuYA4a2aR7k?=
- =?us-ascii?Q?eF9ptmrvIK3k1JacITRAeemZLkkELxNSSjRRsIUBUysOJ4ZSGRL4R+a73dhw?=
- =?us-ascii?Q?8xbzlR8Vsq+Fp2rsYpkBOx78eYynK+6Y2J8sNfRAKwXhxfI5/vVIgmtcu2lK?=
- =?us-ascii?Q?uah+v7Zq7FgAWw3LVCZcdCtOKY7RnLeNLz/k5+etRVGk6hxpm7TEbVns4u71?=
- =?us-ascii?Q?j9XxdZXEgLHyn0lPoSmi/yIvy/bHYblYWJyWQBTSzY0h8WB6d3rO4PejB3p8?=
- =?us-ascii?Q?E9JnOUZnlirfuZGTh+X19x+U3E0gXytjGzTZV1A0ElfSKTAq3DozNsaZ7K5u?=
- =?us-ascii?Q?ZLKUf9dMD2GnbefhMmAayI1NWVarwyVflkaaEmxm6k6cDzUDCt3i0GFBu0gW?=
- =?us-ascii?Q?rVK9MCy4neW3VFnlIkaZvmvM88gCaEXg37ydCi83GvA3VSd8O3C+f12ioXiC?=
- =?us-ascii?Q?E3G/DWKO5oK7Ju/nimOyBWh95SqqjfLTnB8Jhd2ICDgPPrZDGZBnR4q7/gDx?=
- =?us-ascii?Q?UvtP5k96ZY/kZ9r7zD7AVbz0+912KoNfIKMutgy7a2bYbfN58j/NDKKL465f?=
- =?us-ascii?Q?+22Qj5lW2nwEdHYNfSM6OwvIQuADQNfy05JJIe4Psgb8fF+G70cOh9TUJCfZ?=
- =?us-ascii?Q?KvGtTGuDuzu+M0rfUmE4sxr7aXE6P/IsKUKY/2G7++zbrlpM49CXHcMbuNKt?=
- =?us-ascii?Q?A4AJ9bDQSNBhxlqmz2XoT3SmZnQVzaJ+sQyjdsBeZ28rBBfULjMG/1NwVChY?=
- =?us-ascii?Q?ko3CDkerPe9Iigbbuie6F8my31LHvr8zQ3+u2X8WtzuQq6MKm14+?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 590662b6-954b-4966-8a3e-08debf71d063
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2026 00:07:48.3493
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kVnpFEpBD3y83AEr4TZsrz71hqH5/4Vy+GhM8zbWUG/ogHAs8hmSBCZW3uTM05Xi5gD2JyNW76Cr8r3dfgwFUNtjk7hCM6IKm7ooHITM3jAPZUJMOuvnWf1eWejhVttC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY6PR01MB17860
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260531-alsa-card-private-flex-array-v2-1-e4ff67f5bd23@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32Nyw6CMBAAf4Xs2TVtSQU88R/Gw1IWqOGVLRIM4
+ d8FvXjyOMlkZoXA4jnANVpBePbBD/0O5hSBa6ivGX25MxhlLsrGGqkNhI6kxFH8TBNj1fKCJEI
+ vNEnqbBGrTJODPTEKV3755G/3L4dn8WA3Hc3DqGTocGqE6Wdjsv+bWaPGOFFc2JSN1ZTXHfn27
+ IYOtu0NtBEJMNQAAAA=
+X-Change-ID: 20260531-alsa-card-private-flex-array-278c5b3091ac
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ notify@kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2848;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=nJCgTMFiRgabN3an7EYZs+NWRtA61piWagt15POy5qI=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDFky9+UmmSyseMCpUGfbLDn9NKfTzeVqnIFf+RrLhQ4xP
+ GQ2cfneUcrCIMbFICumyLI6aZHlnq4HV+vjVnjAzGFlAhnCwMUpABNx5mP4Z7+HY9nW1/ovps86
+ 8+u979Kn5g/l5Vh3Vje9vrn6+esdznIM/yyUM9e4t7Dsyntdqu6wctqr0NTMKYnXl+1+yatppbB
+ ZjAUA
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
+snd_card_new() and snd_devm_card_new() allocate struct snd_card
+together with optional driver-private storage. The storage is currently
+described only by open-coded sizeof(*card) + extra_size arithmetic, and
+snd_card_init() reaches it by manually adding sizeof(struct snd_card) to
+the card pointer.
 
-Hi Kirill
+Make the trailing storage explicit with a flexible array member. Use
+kzalloc_flex() for the regular allocation path and struct_size() for the
+devres allocation size. This documents the layout and avoids open-coded
+variable-size object arithmetic.
 
-Thank you for your review
+Align the flexible array to unsigned long long so the driver-private area
+does not become less aligned than the old sizeof(struct snd_card) tail
+address on 32-bit ABIs.
 
-> Only one minor thought is that probably `.auto_selectable_formats` for
-> `pcm3060.c`
-> 
-> could also include `SND_SOC_POSSIBLE_DAIFMT_NB_NF`, similar to `pcm186x.c`.
-
-Ah, Yes indeed.
-Thanks, will update in v2
-
-> You are doing a massive work, i deeply respect the scope you take on!
-
-Thanks a lot, it is very fun for me ;P
-
-Thank you for your help !!
-
-Best regards
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
-Kuninori Morimoto
+Changes in v2:
+- Use kzalloc_flex() for the snd_card_new() allocation path.
+- Link to v1: https://patch.msgid.link/20260529-alsa-card-private-flex-array-v1-1-370eb58e251a@gmail.com
+---
+ include/sound/core.h | 2 ++
+ sound/core/init.c    | 7 ++++---
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/include/sound/core.h b/include/sound/core.h
+index 4093ec82a0a1..4bb76c21c956 100644
+--- a/include/sound/core.h
++++ b/include/sound/core.h
+@@ -148,6 +148,8 @@ struct snd_card {
+ 	struct snd_mixer_oss *mixer_oss;
+ 	int mixer_oss_change_count;
+ #endif
++
++	unsigned char private_data_area[] __aligned(__alignof__(unsigned long long));
+ };
+ 
+ #define dev_to_snd_card(p)	container_of(p, struct snd_card, card_dev)
+diff --git a/sound/core/init.c b/sound/core/init.c
+index 0c316189e947..2408160b8ea1 100644
+--- a/sound/core/init.c
++++ b/sound/core/init.c
+@@ -181,7 +181,7 @@ int snd_card_new(struct device *parent, int idx, const char *xid,
+ 
+ 	if (extra_size < 0)
+ 		extra_size = 0;
+-	card = kzalloc(sizeof(*card) + extra_size, GFP_KERNEL);
++	card = kzalloc_flex(*card, private_data_area, extra_size);
+ 	if (!card)
+ 		return -ENOMEM;
+ 
+@@ -232,7 +232,8 @@ int snd_devm_card_new(struct device *parent, int idx, const char *xid,
+ 	int err;
+ 
+ 	*card_ret = NULL;
+-	card = devres_alloc(__snd_card_release, sizeof(*card) + extra_size,
++	card = devres_alloc(__snd_card_release,
++			    struct_size(card, private_data_area, extra_size),
+ 			    GFP_KERNEL);
+ 	if (!card)
+ 		return -ENOMEM;
+@@ -280,7 +281,7 @@ static int snd_card_init(struct snd_card *card, struct device *parent,
+ 	int err;
+ 
+ 	if (extra_size > 0)
+-		card->private_data = (char *)card + sizeof(struct snd_card);
++		card->private_data = card->private_data_area;
+ 	if (xid)
+ 		strscpy(card->id, xid, sizeof(card->id));
+ 	err = 0;
+
+---
+base-commit: 5fa82dd6492e9ac3ab27d2c15d73b601b4e6a87d
+change-id: 20260531-alsa-card-private-flex-array-278c5b3091ac
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
+
