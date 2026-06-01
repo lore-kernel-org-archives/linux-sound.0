@@ -1,41 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95103DA5A9;
-	Tue,  2 Jun 2026 12:08:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA0A3E0745;
+	Tue,  2 Jun 2026 12:08:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780402092; cv=none; b=u14lOJwkXFGwMXa2hs43lMY7sdX5ONIBNGdQWauTbmJE7ErkkBHMWaXBbd//wEkK3/vL7XGX5RHb0FNXCNwLhvTFn6L/6tbijMUq0UrEPxjcbj4Egx5CGPJXT7u7r4b4t13QiOlf7GYXBIc9KDNgzSgsKewOZ08V7rsclByBPg0=
+	t=1780402098; cv=none; b=ot9949X2AjmgVDjOFckinsMtwKKi2j2eHe59OTvyjISoyiW73ZyI8+em31P9m1LoT4lMUqrLt5hOl3S/mNwCUMZQKDw3u7gAcTvn3pOqMlQ1wPB+e0bL6IkH2B8FBdX5uRhHdqNAHoDry4BL+lr6Q9Z4DTkdC/0jEs+bqXYoBqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780402092; c=relaxed/simple;
-	bh=z/+hgPPlUvufC16yntU5KcxQ21JhPlwVwzLuLjojaXY=;
+	s=arc-20240116; t=1780402098; c=relaxed/simple;
+	bh=zLAj4P9Dy6L2EM/RcQvTYSnONUWfrINoP2/8PbJBYwc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=JoAWnu8K5o4R/Z/L3toi2uOC2LDjcNUX+20EewF2kqjUKIqC0Xptrv6LtU/quwNcMvAGau/1gkJqACMRwt8YJujxij7e3CaE5QL+WRqZC81wj8ChbW1MZYfcqgXH6Sy7EgBq8SjD47arkFZnKkhpDk8WYcgV37slJnWR03pAq6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nr2lUsJP; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=kLE0l++nxGj7vI+Z/4gCLeLmNozSPjS21Qkx/eys0EkKYjkrEYsKZpg784sUoxZq98Bb8KEHNkqVEVjaqSqrNxmg40qB3X6hxM5Gd2ExUVhr9xK9E/ifSjzLn5BLZDNmCK/2a+tJOkLXc5rLTdkTrYTXKn1ZM7x6mFKx20B412Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UoHp3qsd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nr2lUsJP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FCF21F00893;
-	Tue,  2 Jun 2026 12:08:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UoHp3qsd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 741461F00893;
+	Tue,  2 Jun 2026 12:08:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780402091;
-	bh=1A60zaXjI6b3FIBcExPDQN2zDgTKgqVTn6/Cgpx7SA8=;
+	s=k20260515; t=1780402097;
+	bh=7ay+AKx4LhOcg/My/FDa+sB5VF1ZYepET64MBC4G2yU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=nr2lUsJPK/9a+vF6HAz+VUDyU+xSaKvxbyTNkfzQDe1ROP4X++Jw41DaxlRK9icja
-	 n/WF64jddmxAFSG4UDsZOcFcKWQQ1eiFgByjes64GNLb/pmnSG49t64p6iUx10eL9v
-	 0zueNAwbdBuAIvP1J9dxBNX1YOuyXpn9i8ctJkG0PHXvwFC4W4LOIlHrBgiqoOfHGz
-	 V0dV31Vs+yF4KVZpF2XhZ24kTzfDcwCZIJCLi4FzOhJ+kp+8y6KatYNIsC6TRVoG55
-	 Yz1nkVRXJ7NnQ3ZYu+yLrft9UjMLMGR0BcZXhaYSn2NUX+C8b3cMWq1XiQmIoQh+1H
-	 PLMbniP3lEKFA==
+	b=UoHp3qsdcYvkoZIK7m+Fe+1i23bwbQ/x6dyI00f/m5x7QCvioD3/g3kHG37z9oMwH
+	 vPR2eS76453kH648olGHUttv826cIEvgmQq821aSsB+v1Sr4Yh5xdDBoob+foLSQp+
+	 6I+i1W4Ec4WRaVBHl1S9YTpRr2alOsVPnwPKR0BzoQF7iDFqZMnvp9jp9OgOYWYdoE
+	 aHDjizs9+kZWHuB4gkC4rfSZSrxz9qKPw0imkHc+azrF4MWEnoWfibIgtOigVgV5YT
+	 pzD4UQX8awJVssk9nloieR6XBzFUJyv/NeS0kKOcKlMkuBybpaQakzq4jIoi9umBL8
+	 uhj/P/6eCvIHw==
 From: Mark Brown <broonie@kernel.org>
-To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, phucduc.bui@gmail.com
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260527100206.26788-1-phucduc.bui@gmail.com>
-References: <20260527100206.26788-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH 0/2] ASoC: sti: Use guard() for mutex & spin locks
-Message-Id: <178032884067.44654.7022103861716003797.b4-ty@b4>
-Date: Mon, 01 Jun 2026 16:47:20 +0100
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ krzysztof.kozlowski@oss.qualcomm.com, alexey.klimov@linaro.org, 
+ mohammad.rafi.shaik@oss.qualcomm.com, ravi.hothi@oss.qualcomm.com, 
+ mathieu.poirier@linaro.org, andersson@kernel.org, kees@kernel.org, 
+ verhaegen@google.com, linux-sound@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260528185806.6316-1-srinivas.kandagatla@oss.qualcomm.com>
+References: <20260528185806.6316-1-srinivas.kandagatla@oss.qualcomm.com>
+Subject: Re: [PATCH v2 0/6] ASoC: qcom: qdsp6: add push/pull module support
+Message-Id: <178033076336.44654.4051791515158017580.b4-ty@b4>
+Date: Mon, 01 Jun 2026 17:19:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,29 +48,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1534; i=broonie@kernel.org;
- h=from:subject:message-id; bh=z/+hgPPlUvufC16yntU5KcxQ21JhPlwVwzLuLjojaXY=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqHsepjJT85cM/LETbsBM7YPm7E/ygscFsMVmQu
- kpKwypkbGuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCah7HqQAKCRAk1otyXVSH
- 0MQUB/94TrkyV85vcB2rzLpNBrc90T45xIy7LynrgbriTERh76OV4g9e5gKt+MJwZi1bKSh2IW+
- YPLK2nvG5jVnpc0yaS0pFGfKA2+t3GukcGilQyHEjgUmoJE9fBHLEASDVj+Aqfej7VeYjgyF/cj
- a4TzDyax/ZtMUZIH/LD+lQ3n3/Apsyx4/oT14bCCfljt5G9OVWmWrx2OKlJdC879UTJ4L4gQ1//
- zeUD1sEUQHzB5JDd81I9nn5OYYmmJ/1pfft+U95ah51A0ktawEsEvMbQpnb1qtDTOHYpVY7Cm3+
- UCXdB00gEvfClFFmWAJtWiMtkCj3ft/gpGifX4fvhH7l2pSC
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2531; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=zLAj4P9Dy6L2EM/RcQvTYSnONUWfrINoP2/8PbJBYwc=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqHsetKXMP3n1XuuoAxs5FVEr/0WuQBxJi8N6z4
+ kxMzFt5XIWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCah7HrQAKCRAk1otyXVSH
+ 0CZ1B/92s1QLN95Sn55fcp3zZUNqeflRtHVjF7tCT2t/PKmGDUjQgUQ5BOc29+EPXWfmZA3GFUe
+ pYKvi7fWkG4xp7rlagTvu6tilvuqa6q66V9HLI1h/HFI070hNT4ots49kuVA3LLbgDKWuCyiMyh
+ 7AT0tJ5jTDtxaZtjyqK7I0TxBxCMMTpIic1LwdgOQmij3HY3U9i/cT0Br0Wlq9Av1PYqDNuBUQM
+ dzxOO67cGf/toRmVdVyX3v9JWtVeTqgeKKeJoanflJBBElKnaepFiJ6ANhn0HOJRym7uC5frVEX
+ GFzAZMIAwmGWkwZUKazWr6uruajDbqZU5HD9MF5wwGy3i7fD
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 27 May 2026 17:02:04 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: sti: Use guard() for mutex & spin locks
+On Thu, 28 May 2026 19:57:59 +0100, Srinivas Kandagatla wrote:
+> ASoC: qcom: qdsp6: add push/pull module support
 > 
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> Hi all,
-> 
-> This series converts mutex and spinlock handling in the STI drivers
-> to use guard() helpers.
-> The changes are code cleanup only and should have no functional impact.
-> Compile tested only.
+> This patchset adds support for Push/Pull mode modules.
+> Push-pull mode uses dedicated shared-memory modules that allow the DSP
+> to access the PCM circular buffer directly. In addition to reducing
+> fragment queueing and ACK handling in the host driver,
+> This mode exposes a DSP-maintained position buffer that provides
+> fine-grained hardware pointer updates. Unlike the Read/Write Shared
+> Memory endpoitn modules, which are period based, where the reported
+> pointer advances only at period boundaries, where as push-pull mode
+> allows .pointer() to reflect sub-period progress, improving pointer
+> accuracy.
+> Also the driver now can queue buffers which are less than period size,
+> which makes tests like alsa_conformance_test happy.
 > 
 > [...]
 
@@ -77,10 +84,18 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: sti: uniperif_reader: Use guard() for spin locks
-      https://git.kernel.org/broonie/sound/c/205cc2a7eff0
-[2/2] ASoC: sti: uniperif_player: Use guard() for mutex & spin locks
-      https://git.kernel.org/broonie/sound/c/96166a8def74
+[1/6] ASoC: qcom: audioreach: use cached shared memory module IID
+      https://git.kernel.org/broonie/sound/c/525fa5f30c83
+[2/6] ASoC: qcom: q6apm: return error code to consumers on failures
+      https://git.kernel.org/broonie/sound/c/3075ae5abbc3
+[3/6] ASoC: qcom: q6apm: remove shared memory IID helpers
+      https://git.kernel.org/broonie/sound/c/240286ecf1a2
+[4/6] ASoC: qcom: audioreach: Add support for shared memory push/pull modules
+      https://git.kernel.org/broonie/sound/c/7c1ac23b178a
+[5/6] ASoC: qcom: q6apm: add watermark event support
+      https://git.kernel.org/broonie/sound/c/ed56ac9e5e96
+[6/6] ASoC: qcom: q6apm-dai: add push-pull and watermark event support
+      https://git.kernel.org/broonie/sound/c/4cfbd3a8d596
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
