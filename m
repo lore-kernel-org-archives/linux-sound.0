@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575333A7F48
-	for <linux-sound@vger.kernel.org>; Mon,  1 Jun 2026 14:09:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0A93AEB39
+	for <linux-sound@vger.kernel.org>; Mon,  1 Jun 2026 14:09:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780322942; cv=none; b=I6TLc+9Vj/qEmwB/wuYxYMnc4yGMl0dg8nU9djkTCOddhuCF+QxXE4xf3dOTTVQuSJ7qJZrPi/pCJgmt3iiQpyDCfRsOTxlMajr+eEdadZMqqezAGW6bofsZypv64sFhK1hAR1baH7hKecoffJc2hcInT6+f8SbwH7Q4BBk1y74=
+	t=1780322943; cv=none; b=S5HTv47llGpUhjgN0RpsLsZVcP/kMu57cW/5Altu+kFhNhBdcUa9e+PhxNI00WWuXVmdFUKuSv6y1cPZAmh8bIw4N2PnzsL8AAf5mkzsAC9bjAuBLqHhqgfBSC1B/iKLmxT6mDbWFlhu4kec0BgVkhSH7Sj05+zANxnMoetcrIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780322942; c=relaxed/simple;
-	bh=AX5PKoi4S4V+mv++qTS49/A8EF+5K67AmE5Qqv7a1II=;
+	s=arc-20240116; t=1780322943; c=relaxed/simple;
+	bh=ufzAQ5ZMBZH2DmJBprPZovjTuvKJAvdx/NTwhHCeo2M=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cacajA7bZZMNbJkkXjBpJoHVXlCrErkaRU5HzyQykiEExYIH2btp+zmkOPmA7pH03tXa7ple5ju9clkQpGtSsAb27NS7jy8R59D8na5QPnmmHZQNKzeb0vzHveucnRt+DWz+FfRcyhf8jNnPR1qtOoooK/k7QsJPKtAaYzRjOZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JRTn9iCT; arc=none smtp.client-ip=198.175.65.18
+	 MIME-Version; b=FkeEut9NxC7UoQ99t/bFrMeIpFX1F26NQiuXUJmfmHcip48SyDhc4T/dP4Qa7X3dIJ9JQN6SgiGe4aIaZvOScVTjgHvcruju7jjxTPcytDm7vm6Wr17MbBybY3Fyc14zNwocpmVapv9+czxa0l0/qSArOi8T+FMRvkc2gzT4oP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ts7i3Udq; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JRTn9iCT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ts7i3Udq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780322941; x=1811858941;
+  t=1780322943; x=1811858943;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=AX5PKoi4S4V+mv++qTS49/A8EF+5K67AmE5Qqv7a1II=;
-  b=JRTn9iCT+gOFpz5mhPsh9wEQ2sEetrtJcocIMIYaQNdI+1AkFa733irq
-   LJSCdkKUsEv9Pu1zIG3pxBI/AJ4lNeqP+zesBOMIrEcssC9d5L84wWdsN
-   y7vLJzZ7NUuwbJh6FD8VuE3xTCUzYcAu/BCWAKue3TktSe8zg26UKomE3
-   ffGgx8UKNba7ec4c2QrYeLBBkw1LAsMlqqcXADWMOsQjLMVhsrda9jKPt
-   YoUyNFIw3oqDhXp+6tFKs7LHX4YqV/1f6b+NKGz79ojYeupKU6zVQ/d0K
-   JcP7h6S8P0V34B/oSRjmMl2TwzbKci8pjE1ylN0b5N6Pr9O/4EH4tsnl2
-   g==;
-X-CSE-ConnectionGUID: +DRj8loATqyhDuW8Bva7Gw==
-X-CSE-MsgGUID: 1MF2H2s9SxGn8GvKbtWmZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81140270"
+  bh=ufzAQ5ZMBZH2DmJBprPZovjTuvKJAvdx/NTwhHCeo2M=;
+  b=Ts7i3UdqAeQIMV5dekQjki3EDenQJe0j3twudPTtzn+6Z1r2+Q8KpgoN
+   Il9QP9jfMh34Yjqvn60lsMD+gYACjc5PfIWoQ6J674ZvF9hN/oTMub4DI
+   zjZC9hDOVJ7pvwRWq37JWnQarDyDvi2vkdlwE1yezfydUr1yYtMx0ahqk
+   2LOTRcp7IBCux6PjsvLsyZAhfjmkWZiyemVVrR9oPGgiV3tDia0e+YiMo
+   BHdnF+WI5TJAV2HgZRFZ6xOOgCK54fctqkINiZy414c3p3vMZBIDcVNFB
+   zuSAw4uUsk5+ghfzPvJr6ilNkjeeIgGJbOuDvJqKz3Cw9DPNFYA6udARz
+   A==;
+X-CSE-ConnectionGUID: MS9vIIvwRBWVoS4pqA8U9A==
+X-CSE-MsgGUID: wiFS6WhaSxiq6H2z7FGXRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="81140278"
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="81140270"
+   d="scan'208";a="81140278"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 07:09:01 -0700
-X-CSE-ConnectionGUID: vwaZvGa3TsGrSHax4QeLsg==
-X-CSE-MsgGUID: CKosNfCvS5e/YX2YJ5mgcw==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 07:09:03 -0700
+X-CSE-ConnectionGUID: L03g8VW1QI2Q77nJG6veZA==
+X-CSE-MsgGUID: nypQkRLPS/ys/KPWRXQACA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="243704961"
+   d="scan'208";a="243704995"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa007.jf.intel.com with ESMTP; 01 Jun 2026 07:08:58 -0700
+  by orviesa007.jf.intel.com with ESMTP; 01 Jun 2026 07:09:00 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -51,9 +51,9 @@ Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	andriy.shevchenko@linux.intel.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 3/7] ASoC: Intel: catpt: Simplify the RAM-navigation code
-Date: Mon,  1 Jun 2026 16:10:27 +0200
-Message-Id: <20260601141031.1606847-4-cezary.rojewski@intel.com>
+Subject: [PATCH 4/7] ASoC: Intel: catpt: Simplify catpt_stream_find()
+Date: Mon,  1 Jun 2026 16:10:28 +0200
+Message-Id: <20260601141031.1606847-5-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260601141031.1606847-1-cezary.rojewski@intel.com>
 References: <20260601141031.1606847-1-cezary.rojewski@intel.com>
@@ -65,59 +65,44 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add catpt_iram_addr() to the catpt helpers family and replace all the
-open arithmetics with them.  Makes it easier to understand the code.
+Code line reduction and more transparent variable naming.
+No functional changes.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/catpt/dsp.c       | 6 +++---
- sound/soc/intel/catpt/registers.h | 2 ++
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ sound/soc/intel/catpt/pcm.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/sound/soc/intel/catpt/dsp.c b/sound/soc/intel/catpt/dsp.c
-index b1865d10f995..60ec561d670c 100644
---- a/sound/soc/intel/catpt/dsp.c
-+++ b/sound/soc/intel/catpt/dsp.c
-@@ -122,7 +122,7 @@ int catpt_dmac_probe(struct catpt_dev *cdev)
- 	if (!dmac)
- 		return -ENOMEM;
+diff --git a/sound/soc/intel/catpt/pcm.c b/sound/soc/intel/catpt/pcm.c
+index 7b2bab12c707..deb76eb79d18 100644
+--- a/sound/soc/intel/catpt/pcm.c
++++ b/sound/soc/intel/catpt/pcm.c
+@@ -99,19 +99,14 @@ catpt_get_stream_template(struct snd_pcm_substream *substream)
+ }
  
--	dmac->regs = cdev->lpe_ba + cdev->spec->host_dma_offset[CATPT_DMA_DEVID];
-+	dmac->regs = catpt_dma_addr(cdev, CATPT_DMA_DEVID);
- 	dmac->dev = cdev->dev;
- 	dmac->irq = cdev->irq;
+ /* Caller responsible for holding ->stream_mutex. */
+-struct catpt_stream_runtime *
+-catpt_stream_find(struct catpt_dev *cdev, u8 stream_hw_id)
++struct catpt_stream_runtime *catpt_stream_find(struct catpt_dev *cdev, u8 stream_hw_id)
+ {
+-	struct catpt_stream_runtime *pos, *result = NULL;
++	struct catpt_stream_runtime *stream;
  
-@@ -498,7 +498,7 @@ int catpt_coredump(struct catpt_dev *cdev)
- 	hdr->size = resource_size(&cdev->iram);
- 	pos += sizeof(*hdr);
+-	list_for_each_entry(pos, &cdev->stream_list, node) {
+-		if (pos->info.stream_hw_id == stream_hw_id) {
+-			result = pos;
+-			break;
+-		}
+-	}
+-
+-	return result;
++	list_for_each_entry(stream, &cdev->stream_list, node)
++		if (stream->info.stream_hw_id == stream_hw_id)
++			return stream;
++	return NULL;
+ }
  
--	memcpy_fromio(pos, cdev->lpe_ba + cdev->iram.start, hdr->size);
-+	memcpy_fromio(pos, catpt_iram_addr(cdev), hdr->size);
- 	pos += hdr->size;
- 
- 	hdr = (struct catpt_dump_section_hdr *)pos;
-@@ -508,7 +508,7 @@ int catpt_coredump(struct catpt_dev *cdev)
- 	hdr->size = resource_size(&cdev->dram);
- 	pos += sizeof(*hdr);
- 
--	memcpy_fromio(pos, cdev->lpe_ba + cdev->dram.start, hdr->size);
-+	memcpy_fromio(pos, catpt_dram_addr(cdev), hdr->size);
- 	pos += hdr->size;
- 
- 	hdr = (struct catpt_dump_section_hdr *)pos;
-diff --git a/sound/soc/intel/catpt/registers.h b/sound/soc/intel/catpt/registers.h
-index 64bd534a76ff..864802bd7809 100644
---- a/sound/soc/intel/catpt/registers.h
-+++ b/sound/soc/intel/catpt/registers.h
-@@ -144,6 +144,8 @@
- 
- #define catpt_dram_addr(cdev) \
- 	((cdev)->lpe_ba + (cdev)->spec->host_dram_offset)
-+#define catpt_iram_addr(cdev) \
-+	((cdev)->lpe_ba + (cdev)->spec->host_iram_offset)
- #define catpt_shim_addr(cdev) \
- 	((cdev)->lpe_ba + (cdev)->spec->host_shim_offset)
- #define catpt_dma_addr(cdev, dma) \
+ /* Caller responsible for holding ->stream_mutex. */
 -- 
 2.34.1
 
