@@ -1,82 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B988637BE85
-	for <linux-sound@vger.kernel.org>; Mon,  1 Jun 2026 18:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5A036DA03
+	for <linux-sound@vger.kernel.org>; Mon,  1 Jun 2026 19:34:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780340243; cv=none; b=IldWgssaKwvkdyGQoJ0iayDdGz159fYqcTCqZhhdOTNFchA9m7wWptwr65XVsXZ+tF3C/HwZIE+uHAYSCt/hUm8Yvpklbsw3+MHAUy9HiNccMddjQOGZLDXqZouQZ3DIGFxh93SXoZprIxOygmg+uQZvgeB1k4Y8b5K4gGSIkrI=
+	t=1780342494; cv=none; b=Gy32NMiQACssdDr1n4lxkxAm6RoSgSRzC8dliAGHe5kB1jWPA9aQ/pwWQTrcxM0EzlCyxr0L/7DHatGw8AwzPOtwqujnNE6HjIIcdOFGOrYA4KggvmsQhbdStzaxapaiZGyKwriGWHDgq6IhWjuoZkqojYc1c5GZFx1gv9iEVug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780340243; c=relaxed/simple;
-	bh=7WeoIIUgiBaiPjoBYy2JCyo6fdc694VYm0aYQlDcmSQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ka5KROEZFC/66nlP2X+c3oYl5MjcSs8Cn7v5w0H/Pi8T9LCVy9iTESgiIgM6ON8uAclKciNuXfOvtxxLKpwxLnTnkLZR7T5vvsojpWB/17pi0+25ndiIhCcAqWwkZCFg8e9CjesO8wl24nauFK7h4eCEIHBvDXGbNn2SF9HXX80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=grcWTd7O; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780342494; c=relaxed/simple;
+	bh=t+3KyG8pCDhVdlfVWBFAG3kdKO865GQnsGyyRWxzxso=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WKIf3DS67U6nCALbqf2rc9ajKoHacRm8hNTsFGH0eOG1QyIeXBx4MBGnkVtiZ24iW6h+ZdzuTpQtjC2BA0QVgYEmi1hL/Y9l//4JHpz1KD3d5bc9kUruz57757Sp1lbsZBU0I9HVDsucAhFhIkI4Hy91PInoK433tYdnsM2xXkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WeGfiX9Y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="grcWTd7O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 283BC1F00893;
-	Mon,  1 Jun 2026 18:57:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WeGfiX9Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C65B1F0089A
+	for <linux-sound@vger.kernel.org>; Mon,  1 Jun 2026 19:34:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780340242;
-	bh=6emSRz1XI9aJiiEfuXGuZ1yFpatStDKVptLZJF5Ow1c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=grcWTd7OJqqLEDmxezZEQrnaY6dqtQ8HRjmWmwcR4h3o3VMo+h2HV6iXpbhXQ3OK1
-	 yxCrOVYI7zTjUfzE4x/v0vdjcQSs+gRou6ohcwLaQ5rurZdPaLcuwN+jr4p3eARaW/
-	 ZmqLm75GPKNaTe9p3e+BQNpC2XHxLrW4yAxFWRuKhspQrMwfM/auXuOy8HAB9/nN5z
-	 9MixHTB4CBuDgaoesnPJVwN7RcBdOo0Ce879R8QrN3oe/EM2DJaySgpD7Arm9zD+5e
-	 fkgcEfLS93uI283kakvgIyvjaqPN+rF9RoCZdawVzWha/Sf9J6zA42BbO+WmQw4p85
-	 7d0EmXwN7AniQ==
-Date: Mon, 1 Jun 2026 19:57:18 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
-	linux-sound@vger.kernel.org, andriy.shevchenko@linux.intel.com
-Subject: Re: [PATCH 2/7] ASoC: Intel: catpt: Replace RAM-helpers with
- resource_xxx()
-Message-ID: <be625272-9daf-4d38-a7df-875f89b30f69@sirena.org.uk>
-References: <20260601141031.1606847-1-cezary.rojewski@intel.com>
- <20260601141031.1606847-3-cezary.rojewski@intel.com>
+	s=k20260515; t=1780342493;
+	bh=3mEbYDN6uV8d8+c0kcVqzrcwGQmdKSW+XwVT8wh+fP4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=WeGfiX9YN/6GtIQDh5P9rTbDwakrNfFrbnZBoyRm0THeFk9acRx3+i75xbue41+G5
+	 nQyqUmyhXjk+DrY0rPfyNTWeAAbtxvMDRpqnRg4lTP1STj6NQX8txOxm7dcgOB/m3r
+	 lHv8omZOggxOR+KVYJ5OSaSt+DR1o64ER7kXyLgLLb71kxo5nO1D47qJEK4t6A4pY8
+	 NYGnC+A7vB2QrTPtUwN9MqYPJcNK0RLD91tbNyt0u42+hIIf3cwDDJ0JWCOnuM+vIj
+	 eoNkY5Nl2O1d1d/90cZyRzkJ+Drt9AIjSNilT7gt6lMwaMvgf8RFLRR568m1NZV6jo
+	 3GI+5ztKhrEEQ==
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-68bfcf11050so6026165a12.0
+        for <linux-sound@vger.kernel.org>; Mon, 01 Jun 2026 12:34:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/muWSF+CnyxPBE8Nv0J8hKkwH2K/8Xbe0Iuw39DvztJCglTnBVBwpNKKcZyn6odSb57LdGtEo7BDZ0RA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmSuCfX4HzUEGXTfyvT3/GjlsEZ5s9wdc58TRerSA2Nuz+XUrM
+	zitYbPXolKQ/KLyLLvIPxipDrsq213RYLLqe9Q6IiOefycViqBzrCbjccYth4Bg/ZSluyuXe+BC
+	G5i0rJEuGnhSb7VW5+8UYuKr8mZXj0Q==
+X-Received: by 2002:a17:906:4583:b0:bef:12f:347e with SMTP id
+ a640c23a62f3a-bef012f3d6fmr37363366b.24.1780342491972; Mon, 01 Jun 2026
+ 12:34:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ivOEf4ZLRrEbej7/"
-Content-Disposition: inline
-In-Reply-To: <20260601141031.1606847-3-cezary.rojewski@intel.com>
-X-Cookie: Have a nice day!
+References: <20260530021642.64059-1-joakim.zhang@cixtech.com> <20260530021642.64059-7-joakim.zhang@cixtech.com>
+In-Reply-To: <20260530021642.64059-7-joakim.zhang@cixtech.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 1 Jun 2026 14:34:40 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKWzgTqC66z9YvHSLiZqSy_7Dh1J7_M1dE50O_+J1SCbw@mail.gmail.com>
+X-Gm-Features: AVHnY4IqR8_R8OFQm7c_UOl7assWM7m9ME4VddbK5GtTsmCRe5dVh9ykj4FgMI4
+Message-ID: <CAL_JsqKWzgTqC66z9YvHSLiZqSy_7Dh1J7_M1dE50O_+J1SCbw@mail.gmail.com>
+Subject: Re: [PATCH v1 6/7] dt-bindings: sound: cix,sky1-ipbloq-hda: add hda
+ dma memory-region
+To: joakim.zhang@cixtech.com
+Cc: mturquette@baylibre.com, sboyd@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, p.zabel@pengutronix.de, lgirdwood@gmail.com, 
+	broonie@kernel.org, cix-kernel-upstream@cixtech.com, 
+	linux-clk@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, May 29, 2026 at 9:16=E2=80=AFPM <joakim.zhang@cixtech.com> wrote:
+>
+> From: Joakim Zhang <joakim.zhang@cixtech.com>
+>
+> Document the reserved memory region used for IPBLOQ HDA DMA buffers and
+> require it in board DTS.
+>
+> Signed-off-by: Joakim Zhang <joakim.zhang@cixtech.com>
+> ---
+>  .../devicetree/bindings/sound/cix,sky1-ipbloq-hda.yaml      | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
---ivOEf4ZLRrEbej7/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Resend this to the DT list if you want it reviewed.
 
-On Mon, Jun 01, 2026 at 04:10:26PM +0200, Cezary Rojewski wrote:
-
-> -void catpt_sram_init(struct resource *sram, u32 start, u32 size)
-> -{
-> -	sram->start = start;
-> -	sram->end = start + size - 1;
-> -}
-> -
-
-The prototype in the header could be cleaned up too.
-
---ivOEf4ZLRrEbej7/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmod1g0ACgkQJNaLcl1U
-h9CpOwf9FXerSOy1/msPNSniuAZCTbgDdNTwUYba7LndvzfSmgleU76X5dcrey9J
-+3Gbd1/I0psnRZuXVqIRrVWX6Pf9H28BOfzuUyO9LyjHMMHLF33QotmDuLHLXcXr
-WiG57KWP0VNkha8kiHh85FErPKZD+qZfclklHw+C+ejYmFVKDI66va5pz0BXwB+k
-1x2GO2BqXnXH4hL0hApRbbG15QMN31JM5lUqQKGbrxYLBkOAovyZFRjAhTDWG+JU
-YtiLHefwUTO3fVmuucFjjtcWohbTOYKjqpztVhDvx7TIioLki+tEAFN+MI+Bm74N
-Mt9WEFZdO1RXBtN9+04Ie39Ld8Sqgg==
-=SK4M
------END PGP SIGNATURE-----
-
---ivOEf4ZLRrEbej7/--
+Rob
