@@ -1,484 +1,152 @@
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011012.outbound.protection.outlook.com [52.101.125.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9680175A79
-	for <linux-sound@vger.kernel.org>; Mon,  1 Jun 2026 01:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780279164; cv=none; b=XYo8OEH8xeU2ONah5L/N3xrBRmU8DbEywWvweZ1nKaZpMRiUAVMoR0Wcww89slkvhLnNjynL6NRtQUi0SOZbWsDVCCCbvPWfni9UkM9LzSXEQ5Cf0Wp8TTZLxRMhsydigVtYXN+SMpcQN8sRa9ojlLQSQi4ds5DwBSzJNGYDOLc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780279164; c=relaxed/simple;
-	bh=03BvygSOC8DjFHkGwz73/sJEtL0JQ8W55aJrZA0OaAs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nmyar47BGcZiGzVi9Ca0Kr30mrwbEFB0NXq8cP7Jok3nKEs9tkM2JpG9UFnHSqJmHLZ38SLxdvWmIhKKwA1CM4RZg5WZtvPcgM6bHMeQw3MxJ4t0ZJqVEt0D2Gi+ozznytcklwcHi4rxHDnz02aY3rtkNvEDVz1MtZFMcelmYWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PshVI4w0; arc=none smtp.client-ip=74.125.82.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA2BBA34;
+	Mon,  1 Jun 2026 04:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780289399; cv=fail; b=i+dvVSX+xfFp0SvvUT8vM5WWl0pcAza8xFev3FOOTy5TLl8s0z/r1dHCBi9GQ5QUuSgZANKrVhFkiUiwvDV97R3xXTxlaw3VA+siKc731hpa9cpSS4DT+EymyV8DIpt9cFScgihEju7Tbaus9tr3xTNuCXaq8BjKzjUNEmvsSXk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780289399; c=relaxed/simple;
+	bh=gf7d92dMAcxN9keht/VkUDTj+BbaXO58n4fS4U0JiOU=;
+	h=Message-ID:From:To:Subject:Content-Type:Date:MIME-Version; b=gM6M02Bkyq/EckpNFHdl5MRDiNyt7MCiNZONBe8AJ5d5k/MDI8VmTfmXHPtG7gJEBVtnrrYZGxvHqDyPOA3mtuKm33xvdflvoHkT+7ph+UBWpZYPhU3YGkFR8SOB2z9eIl7MOLBqQskkGVk+xrcTRb5mQADm29IvPfw1HpuXwxE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Sxbu0sP9; arc=fail smtp.client-ip=52.101.125.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PshVI4w0"
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-304545f5206so13305582eec.0
-        for <linux-sound@vger.kernel.org>; Sun, 31 May 2026 18:59:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780279162; x=1780883962; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mFUceQxD5y95ftKb10VP5umDLnod9a60+EGCwRKENio=;
-        b=PshVI4w05F8TflzYqtyRAK85miC7Pt6IhSpiibQTjTRMs7PXTedGGJE/0gIJdk/4p1
-         3TCypE21oFYDgz1Lb3v5jENoPrNegohAuiK+KUWDi3ojYy9jj4u0En5IUjuS4VrihybS
-         NTF78FZ4AUJuZsd4ZkBfichHDeDguO4grbSQIgT2D4Zhoqe1tqkiW9S2TO5tflCjwTNA
-         iJwSOCfQ5b4lxJA5m51kPGtATxadswUxhDXTaspjT9g3untOTARL6kDHyrPotbVxCi3l
-         EIK0vm1s9Pf3+Wr/bDBRWQ8lJScdcDSwu0Z+gw7ECLIqhjDA9Rim7Wy84pMuArZLgQv1
-         zqoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780279162; x=1780883962;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mFUceQxD5y95ftKb10VP5umDLnod9a60+EGCwRKENio=;
-        b=ZYI+6Y/9ldfNtwp/VI3LOmGOcrQF/5twIRXCVKVPtlWBlosuWfbzJ2HxX6WTGamPDx
-         fjiX9jcWh90p3G3BfjdVh3cUSshljy4Ro05FphsOQ38c0rNGhkJBPQ9l3cvBjC30riJ8
-         ID2RAGb5bDfyIhqRjmWrPMcFuYwLR5AZY+un0I7hb4+i75yQwnWS7z9c7bBSWKAx9g/v
-         3Xqaz/BN2cHpU3q8x1QmUgrLHlTdTaON+tM/n3U+qChh/2+mqa2emMylJt9akViCdAcW
-         4thO/xlKMP+CVIeaFkX2xoM6Cs+nD2d72rJa8SpSUh4MT8buAEajw9tfTSnROO2n+/O1
-         BH6A==
-X-Gm-Message-State: AOJu0YzeFWmfAN1RjpA0yDvQuxAteQLq0GSQhNM9QxlU7yzvrweSom/y
-	5KrDzuRwrQXqUmv3Pxc1n7URpfcoI2ozSt0LScvofH4dyQq3mvpXyOgGOMuWtq1I8nmyAupg
-X-Gm-Gg: Acq92OFPzQKY1BBRVYdzpOBjZMis36MyLBj67Fn+6Bb3AesRFLmXR5X9TZD8N2z+Lik
-	9sm6C3t+7wtr54obXaB4gUgfTN6/wmIHyXHRhlWWR4NdPUYk9C6fBQoioRph8/ZT17EfKplhKkD
-	eZ7diNQCCTYVuW6Qez6LCiuMGZjuAiZniQY95alPi6ttx49qHhx6+M8+JMHJPpTlOW7F/9LX2Bn
-	4ViF+PGZLvFhEe+9P3Hm/CX1t5zd1SX++ZbE21qOE+OTjyAD43nJh5l8tAIXm78TFZs4GmLir0B
-	umkVRUv/dvHRv6+pRHT5HbICWGrT/s5mnodapu1puYH2qZmj5Vwjp2/FT2YSGEPgWbIBr8/i/3l
-	jACTB9kuefJJhdpGE+vtYb+vn5DOqxj0BmE1ng5Zxi40Jm8VSxHGI0m538j26HTPL7hHG8S94xQ
-	AAScwea2PR1NJ+Eta6U8vhHntu/TJ8Tx0/CdDzPAGkN0mJCPhVZFkPeaiw
-X-Received: by 2002:a05:7300:8605:b0:2dd:6937:79d5 with SMTP id 5a478bee46e88-304fa4c7c24mr4477449eec.8.1780279161714;
-        Sun, 31 May 2026 18:59:21 -0700 (PDT)
-Received: from DeathStar (c-98-224-79-207.hsd1.ca.comcast.net. [98.224.79.207])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-304ed2efb4esm7815521eec.8.2026.05.31.18.59.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 18:59:21 -0700 (PDT)
-From: Ferus Castor <castor.ferus@gmail.com>
-X-Google-Original-From: Ferus Castor <feruscastor@proton.me>
-To: linux-sound@vger.kernel.org
-Cc: clemens@ladisch.de,
-	tiwai@suse.com,
-	Ferus Castor <feruscastor@proton.me>
-Subject: [PATCH] ALSA: oxygen: add HT-Omega eClaro (7284:9783) support
-Date: Sun, 31 May 2026 18:58:48 -0700
-Message-ID: <20260601015848.128566-1-feruscastor@proton.me>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Sxbu0sP9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KAaHpoBHJig/K2rHq/HzCYwYXaivQthafVP23RviizY7Ptzf3sriHCTEq78Gg+3U9ZH59ZsTL4AOPdGOj8tV1kZMrimYjYyo/8TY2nu+V/HZUjmHUf9/Ou4Ud+PfsiHXUzxdVrz9Ctdbe3aOnJMA5gAMRGZv+Hv82a6ptU7it61hap1yz36jT9wSotLTVEY5ejSECN6ZsdRAEjljbgOwN3OGunHVzZQSJGfBbs8qwkEyxU57RdTMMpnFwbg/IgjTdKRFbkIaZezAA19RuJxcJIXPCbrZ2hp+YAFTq3IMof6Q4OfKzXIvRcMS3Sr8lkiZAgcjBs5KaOBu/QmPKiS8vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7H3RYD1mF9Ad5bG1M2gQSCxzAtnDNwr8ZaGNJbx4jwk=;
+ b=K20L1Me+/q+/z6PQrDXBvTv9+jqGQeOTE0ETLbZM7XBzPhaxHu9AZ3ayBCUAMsCSH/2wqeO0Lu709z/oiU/h63lhqN/4wQ0sW7DcoV+3tCzMl4YtwQ3MiX0D0oo+RVzDT1TRR/mKHJeNa40GoqAauAWwVlGUcbckpeWRcxCCdplr5fk/Q8Z11JVMO4Jh6bTSIpRl/ZsUMoLeiyD52QMbtz61yA3DEvRDygitMckihxP9XsOLf8vjcKaPYtjtxpCqQlc+ELwNOsCC05nIEyBWwzr+gpsGkMJ3GC1TReN+bPxlogLDjTMSFk4mOmO0Gxy5CVDb4w4oUn5O3DcIiPHlOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7H3RYD1mF9Ad5bG1M2gQSCxzAtnDNwr8ZaGNJbx4jwk=;
+ b=Sxbu0sP9P2g+1NKzq2kG5ho8ITJt6br9hSQOkyAIdeYLtRSAgHq1hEBLsMKxdHAiodU4ETzFrGalHLMjKzeFJJlnSgO6O/UCG2YknaItVphvuOURovVgiH1CIgZlZVdzAmwit9zzDDg0geDXhzNhqCDlgsUUgx+gQm8BJiqYAao=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by OSCPR01MB14869.jpnprd01.prod.outlook.com (2603:1096:604:3af::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.13; Mon, 1 Jun 2026
+ 04:49:55 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0071.015; Mon, 1 Jun 2026
+ 04:49:55 +0000
+Message-ID: <875x42c1al.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Bartosz Golaszewski <brgl@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Jaroslav Kysela <perex@perex.cz>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>, Mark Brown <broonie@kernel.org>, Rich Felker <dalias@libc.org>, Takashi Iwai <tiwai@suse.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org, linux-sound@vger.kernel.org
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Subject: [PATCH] ASoC: simple-card: remove platform data style
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 1 Jun 2026 04:49:54 +0000
+X-ClientProxiedBy: TY4P286CA0055.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:36e::14) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OSCPR01MB14869:EE_
+X-MS-Office365-Filtering-Correlation-Id: 90fc29b7-16c7-46e1-1bed-08debf99397c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|52116014|1800799024|366016|921020|38350700014|18002099003|11063799006|5023799004|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	NOseglQFhV7pDE4cmANIyo8jd4a4V+ODX250Fj+AiLKv81p7kwuNEnIjUuEdv6xM24AyDdhpH4Y7iaBiukTpbaoyhct4xtugfPmE9ihdbMm+/SCK9IkZYT/v+IEOQeb0x3dNKEPdMFIvycogIhVyZ3G2RKXOQrJ3I0iBLgi2fWAmBd8Xoj+Yf2rTTRLP085qm+WxaG+p6f4baW3MllkbQ/Px1J2elcenfXU0QiuRybv6Xi2Gt+AeFPA+EZK7E4JgVUdfueZkbhu5x+9wuDG4cOssf4Qb0DN731xpAWD3W8zG+iKhnvHXAmFdKkLftAMu9595c7lx+H796/ul/jNKA9FUpp5upnDQ+tz8Tk2chEY7lyfGC/vnompjD4uIpudbvunGMI5Y2oSPmOA57Qo8f4S2x1Yjbo6zIq3bEl1ZT1FsDaH02XbaXjReI1OEd2egeawpUgxMuGFBX3CySDArhw7uKRV5oiSx3DI+ypDjkRjHknK7N1O1CVZ+VZJnfFXa5y6Z530AcL5/j5Nhb7H3WiQeawHk83O/ejLfv2P5MVL3DafpmsR1DEkm0eI4KbXqDD3YaSV9GYxzTTe2f/fFzMKhyBI8ZZLqsfK131F+iYiXImjvxhgI8Ua6ffl7z9Y8U8oYI4xnTqLqhqr4mw42oCFz/HD4oMq6pr/djlXUEzYz+7qU6LVxL+ILlQealS2yiVQdPlaEnzvn/+Wi27KXpl81sEYBcJKG3BYq18gktqsyY0LRuv4/i219DbxCCSV55RsuIMW/i7ZrbyKht+5ZYQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(366016)(921020)(38350700014)(18002099003)(11063799006)(5023799004)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?KPgG+JEs2zgmqzLaWJWkbnkeliBjEFvWrbI5/7UlgPRsopqQFiZ4k0luOSvi?=
+ =?us-ascii?Q?u3SUimZasByUFl9hXhUcHJt5yBLk6jIlcc5ldv2wKeF/XaEaNhEIqZQ2JRDz?=
+ =?us-ascii?Q?1aiK/lplZU8UEcqSYIWuGjoI5uLpglcjH+oOVeZJ8zGyyjpRZLMKj9ndBSyU?=
+ =?us-ascii?Q?KxOzTfX9pBvI5UAd2RlYB/t9uwZwSBsFEFIjoZvXDLMTIRZ0YfTUrLK8WN3W?=
+ =?us-ascii?Q?LM0ANuXeLtG22TwOcmtH5nyknuyonB43YhoE2BTaliaUGuLwqRrEHN9tUgeJ?=
+ =?us-ascii?Q?pQx9Bx6VkefHJpVjr8CKxSkNjUHJqlIr6pKxlTZa7T56oYGJ0Q5LfMVe534D?=
+ =?us-ascii?Q?sGq1ZV/4YFUiQHD83isbNk0LJIAw+kssM8cz3lREc6RL+OxvRyYSV/sPFMd3?=
+ =?us-ascii?Q?qb3wYWlIPAub+2T2uvbs4r5okqZIPdeJyXNNa7p3yFBTkQN5HZgDmf4mEWyk?=
+ =?us-ascii?Q?Kk3JMkrGl9yBhs0rne7LKnXBh3G3KNhSYeiAvWRKJvLalZiOion8hZKjmjK2?=
+ =?us-ascii?Q?CNlU12gd6zgD2Fo3pXBCslwTxtizpSg5ACAJFJOrqnpnrRK/1cX1jsYs9GfA?=
+ =?us-ascii?Q?no1tqfvXG4jbgmFteXMxYLMY0VfM0wz1bxrj8uqgrwf4sihy0APS2YrJ8Xf/?=
+ =?us-ascii?Q?jchh6cMzFQhHBePGSmMfHal7q0TbVNTrV0C330cLfy8Kq30hkdtgNrcw6LAQ?=
+ =?us-ascii?Q?Y9OjO37CUkixsf8I6CVLbVcX+C26B2Sx1aepUeDnInt6/4E1iekkZCqXgeU/?=
+ =?us-ascii?Q?/4HlvjORLaqNu2ZDV2bNYuInnJqWfmnKhajpvemwr7oLQbMcuGus/kPGM4CB?=
+ =?us-ascii?Q?oRoLwArl3AVt7IFJX1UucK6BO7+T6RJ2pKAZ5IzIesiAQeiBQ4d7p0oi2Jzn?=
+ =?us-ascii?Q?bnGBpW6iO7IQg4kPGGxQO2DPDKuCuVIFuqYv356HqYb3LaSzOwDLraJ0DvEZ?=
+ =?us-ascii?Q?B89I7UR4UfGHKbBcYzHkJw+VawXrjXWP6VVyCzE2KgEI9bgBm1vRyEGCS6/r?=
+ =?us-ascii?Q?zfLKX8z0iXqmV+W96S8QYeevDRLwpFCZyucKfNbNExdn4HxiYDo3kmziPZQy?=
+ =?us-ascii?Q?Rdh/zHy90HaRohwSM6k58Batk3I9/fUBS3Vnp3QVfHLb+N5z6KJBlmk4xHBk?=
+ =?us-ascii?Q?C/PFkwZcK5xdCYUAv1shZMsZvwj7snkcJNe5/2Jm9qH+TPpHsjU0fXYb4/XF?=
+ =?us-ascii?Q?0kLtI08aOXKYd0kMI1hkbXm5R7Rs59LwXzjekWvw8EYeft8bjH5GHkvX6pLu?=
+ =?us-ascii?Q?PlqvnV2/WVZyS85C65J2YZ/tDgE8ttGQdfCrHUiR9Ork68Qz3uwSplpEBcES?=
+ =?us-ascii?Q?voPTpcQ+9si+vcQC47ckv5pnunDzz47FMuEXyyMiCrbtX7EsRlKdXy9UUfwg?=
+ =?us-ascii?Q?N6mrAO/KFZmAPOrb2TQXcScm8OerTd/Fxu7+jJFRGbj+d5Y0H3/O7tnE2ALB?=
+ =?us-ascii?Q?2Y005yjvOrXLn5kGyy8feIEIMAFkxAYXwj6z5rvoERpnJlzWM6a6XV7EFCvv?=
+ =?us-ascii?Q?N3IBJ69w9b9FwUC7gXs861AAwc0sdWJIPJGWF+hrQJNjrT2LWCp2mukMEGvg?=
+ =?us-ascii?Q?DMIXBvXM/5DghUa4fB0BYoAmfMIrnpiXDvXwmtfzmASXt7gK2ByTrSq/+uUn?=
+ =?us-ascii?Q?E+a43XIlQIJ/1vfwp9Zg5TfZljTUER6vZzL0gy8I1C98ulMdvKwm7z0Csqs3?=
+ =?us-ascii?Q?dJWv2HcdDNT+x6KlvGGFqJPcB5/RxVFHP239DWO+GnBgAfepiQ8tMwfiQTxQ?=
+ =?us-ascii?Q?d/shG4SW1eSGkAoOcXPgmbnICsiz3aVi6wUjmRrPjn0za+hqH2oX?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90fc29b7-16c7-46e1-1bed-08debf99397c
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2026 04:49:55.0624
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Bdc/MemxeUBm2ceOPRArRTgFJfhWTy+m3WVfXZrPX2ls7LepmODj22p6uoBtnosWqh5q6jAf1CUQA2m2yNVBmnn+gooV5zd9BV11bdrq8XKgw4776MO5nwcvSD7jxYr2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB14869
 
-The HT-Omega eClaro is a PCI sound card built on the C-Media CMI8788
-(Oxygen HD) controller, with PCI subsystem ID 7284:9783.
 
-Output hardware:
- - AK4396VF stereo DAC: front L/R output, connected via SPI CE0
- - CS4362A 6-channel DAC: surround, center/LFE, and side outputs,
-   connected via SPI CE1 with a 3-byte [0x30, reg, val] frame
+Hi
 
-The CS4362A uses inverse attenuation encoding (0 = 0 dB, 127 = max
-attenuation) and a 0.5 dB/step logarithmic scale. Volume TLV is set
-to TLV_DB_SCALE(-6350, 50, 0) to match the hardware. The channel-to-
-register mapping was verified by listening test:
- - Pair 1 (regs 7/8):   side L/R   (ALSA channels 6/7)
- - Pair 2 (regs 10/11): center/LFE (ALSA channels 4/5)
- - Pair 3 (regs 13/14): rear L/R   (ALSA channels 2/3)
+SuperH Ecovec24/7724se are the last user of "platform data style" for
+"Simple Audio Card" / "Renesas FSI".
+The drivers are mainly supporting "DT style" in these days.
 
-Input hardware:
- - CS5361 stereo ADC: Line In and Mic In capture
+Now, Simple Audio Card "platform data style" is no longer correctly working
+during almost this 10 years. but we have not get such report.
 
-GPIO assignments:
- - GPIO 0 (0x0001): CS4362A RESET# (active-low, driven high)
- - GPIO 2/3:        CS5361 M0/M1 (sample rate mode)
- - GPIO 5 (0x0020): front output stage enable (driven high)
- - GPIO 8 (0x0100): headphone amplifier enable
+According to Adrian, SuperH is planning to switch to "DT style". So
+	- Current Simple Card ("platform data style") is not working,
+	  thus, Ecovec24/7724se Sound is also not working.
+	  - FSI "platform data style" has no issue, but is thus not used
+	- SH will switch to "DT style", soon
+	- There is no active user
 
-Signed-off-by: Ferus Castor <feruscastor@proton.me>
-Assisted-by: Claude:claude-sonnet-4-6
----
- sound/pci/oxygen/oxygen.c | 270 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 264 insertions(+), 6 deletions(-)
+Let's remove "platform data style" from "Simple Audio Card" and "Renesas FSI".
+Because keeping compatibility is difficult, and doesn't meaning anymore.
 
-diff --git a/sound/pci/oxygen/oxygen.c b/sound/pci/oxygen/oxygen.c
-index e6f869cf8ca2..a4212b2558ee 100644
---- a/sound/pci/oxygen/oxygen.c
-+++ b/sound/pci/oxygen/oxygen.c
-@@ -25,6 +25,11 @@
-  *   GPIO 6 -> S/PDIF from optical (0) or coaxial (1) input
-  *   GPIO 8 -> enable headphone amplifier
-  *
-+ * eClaro model:
-+ *   GPIO 2 -> M0 of CS5361
-+ *   GPIO 3 -> M1 of CS5361
-+ *   GPIO 8 -> enable headphone amplifier
-+ *
-  * CM9780:
-  *
-  *   LINE_OUT -> input of ADC
-@@ -51,6 +56,7 @@
- #include "oxygen.h"
- #include "xonar_dg.h"
- #include "ak4396.h"
-+#include "cs4362a.h"
- #include "wm8785.h"
- 
- MODULE_AUTHOR("Clemens Ladisch <clemens@ladisch.de>");
-@@ -74,6 +80,7 @@ enum {
- 	MODEL_MERIDIAN_2G,
- 	MODEL_CLARO,
- 	MODEL_CLARO_HALO,
-+	MODEL_ECLARO,
- 	MODEL_FANTASIA,
- 	MODEL_SERENADE,
- 	MODEL_2CH_OUTPUT,
-@@ -113,6 +120,8 @@ static const struct pci_device_id oxygen_ids[] = {
- 	{ OXYGEN_PCI_SUBID(0x7284, 0x9761), .driver_data = MODEL_CLARO },
- 	/* HT-Omega Claro halo */
- 	{ OXYGEN_PCI_SUBID(0x7284, 0x9781), .driver_data = MODEL_CLARO_HALO },
-+	/* HT-Omega eClaro */
-+	{ OXYGEN_PCI_SUBID(0x7284, 0x9783), .driver_data = MODEL_ECLARO },
- 	{ }
- };
- MODULE_DEVICE_TABLE(pci, oxygen_ids);
-@@ -130,27 +139,35 @@ MODULE_DEVICE_TABLE(pci, oxygen_ids);
- #define GPIO_CLARO_DIG_COAX	0x0040
- #define GPIO_CLARO_HP		0x0100
- 
-+#define GPIO_ECLARO_CS4362A_NRESET	0x0001	/* GPIO 0: CS4362A RESET# (active-low) */
-+#define GPIO_ECLARO_FRONT_ENABLE	0x0020	/* GPIO 5: front output stage enable */
-+
-+/* CS4362A SPI: 3-byte frame [0x30, reg, value] on CE1, 1280 ns/bit clock */
-+#define ECLARO_CS4362A_SPI_CONTROL \
-+	(OXYGEN_SPI_TRIGGER | OXYGEN_SPI_DATA_LENGTH_3 | \
-+	 OXYGEN_SPI_CLOCK_1280 | (1 << OXYGEN_SPI_CODEC_SHIFT) | \
-+	 OXYGEN_SPI_CEN_LATCH_CLOCK_HI)
-+
- struct generic_data {
- 	unsigned int dacs;
-+	u8 spi_map[4];
-+	u16 spi_prefix[4];
- 	u8 ak4396_regs[4][5];
-+	u8 cs4362a_regs[15];
- 	u16 wm8785_regs[3];
- };
- 
- static void ak4396_write(struct oxygen *chip, unsigned int codec,
- 			 u8 reg, u8 value)
- {
--	/* maps ALSA channel pair number to SPI output */
--	static const u8 codec_spi_map[4] = {
--		0, 1, 2, 4
--	};
- 	struct generic_data *data = chip->model_data;
- 
- 	oxygen_write_spi(chip, OXYGEN_SPI_TRIGGER |
- 			 OXYGEN_SPI_DATA_LENGTH_2 |
- 			 OXYGEN_SPI_CLOCK_160 |
--			 (codec_spi_map[codec] << OXYGEN_SPI_CODEC_SHIFT) |
-+			 (data->spi_map[codec] << OXYGEN_SPI_CODEC_SHIFT) |
- 			 OXYGEN_SPI_CEN_LATCH_CLOCK_HI,
--			 AK4396_WRITE | (reg << 8) | value);
-+			 data->spi_prefix[codec] | (reg << 8) | value);
- 	data->ak4396_regs[codec][reg] = value;
- }
- 
-@@ -163,6 +180,51 @@ static void ak4396_write_cached(struct oxygen *chip, unsigned int codec,
- 		ak4396_write(chip, codec, reg, value);
- }
- 
-+static void eclaro_cs4362a_write(struct oxygen *chip, u8 reg, u8 value)
-+{
-+	struct generic_data *data = chip->model_data;
-+	int err;
-+
-+	if (reg < ARRAY_SIZE(data->cs4362a_regs))
-+		data->cs4362a_regs[reg] = value;
-+
-+	err = oxygen_write_spi(chip, ECLARO_CS4362A_SPI_CONTROL,
-+			       (0x30u << 16) | ((u32)reg << 8) | value);
-+	if (err)
-+		dev_err(chip->card->dev,
-+			"CS4362A SPI timeout: reg=0x%02x val=0x%02x\n",
-+			reg, value);
-+}
-+
-+static void eclaro_cs4362a_write_cached(struct oxygen *chip, u8 reg, u8 value)
-+{
-+	struct generic_data *data = chip->model_data;
-+
-+	if (value != data->cs4362a_regs[reg])
-+		eclaro_cs4362a_write(chip, reg, value);
-+}
-+
-+static void eclaro_cs4362a_registers_init(struct oxygen *chip)
-+{
-+	struct generic_data *data = chip->model_data;
-+
-+	eclaro_cs4362a_write(chip, 1, CS4362A_CPEN | CS4362A_PDN);
-+	eclaro_cs4362a_write(chip, 2, CS4362A_DIF_LJUST);
-+	eclaro_cs4362a_write(chip, 3, CS4362A_SOFT_RAMP | CS4362A_AMUTE);
-+	eclaro_cs4362a_write(chip, 4, data->cs4362a_regs[4]);
-+	eclaro_cs4362a_write(chip, 5, 0);
-+	eclaro_cs4362a_write(chip, 6,  data->cs4362a_regs[6]);
-+	eclaro_cs4362a_write(chip, 7,  data->cs4362a_regs[7]);
-+	eclaro_cs4362a_write(chip, 8,  data->cs4362a_regs[8]);
-+	eclaro_cs4362a_write(chip, 9,  data->cs4362a_regs[9]);
-+	eclaro_cs4362a_write(chip, 10, data->cs4362a_regs[10]);
-+	eclaro_cs4362a_write(chip, 11, data->cs4362a_regs[11]);
-+	eclaro_cs4362a_write(chip, 12, data->cs4362a_regs[12]);
-+	eclaro_cs4362a_write(chip, 13, data->cs4362a_regs[13]);
-+	eclaro_cs4362a_write(chip, 14, data->cs4362a_regs[14]);
-+	eclaro_cs4362a_write(chip, 1, CS4362A_CPEN);
-+}
-+
- static void wm8785_write(struct oxygen *chip, u8 reg, unsigned int value)
- {
- 	struct generic_data *data = chip->model_data;
-@@ -199,8 +261,13 @@ static void ak4396_registers_init(struct oxygen *chip)
- static void ak4396_init(struct oxygen *chip)
- {
- 	struct generic_data *data = chip->model_data;
-+	static const u8 default_spi_map[4] = { 0, 1, 2, 4 };
-+	unsigned int i;
- 
- 	data->dacs = chip->model.dac_channels_pcm / 2;
-+	memcpy(data->spi_map, default_spi_map, sizeof(default_spi_map));
-+	for (i = 0; i < 4; ++i)
-+		data->spi_prefix[i] = AK4396_WRITE;
- 	data->ak4396_regs[0][AK4396_CONTROL_2] =
- 		AK4396_SMUTE | AK4396_DEM_OFF | AK4396_DFS_NORMAL;
- 	ak4396_registers_init(chip);
-@@ -322,6 +389,102 @@ static void claro_resume(struct oxygen *chip)
- 	claro_enable_hp(chip);
- }
- 
-+#define GPIO_CS5361_M_MASK	0x000c
-+#define GPIO_CS5361_M_SINGLE	0x0000
-+#define GPIO_CS5361_M_DOUBLE	0x0004
-+#define GPIO_CS5361_M_QUAD	0x0008
-+
-+static void cs5361_init(struct oxygen *chip)
-+{
-+	oxygen_set_bits16(chip, OXYGEN_GPIO_CONTROL, GPIO_CS5361_M_MASK);
-+	oxygen_write16_masked(chip, OXYGEN_GPIO_DATA,
-+			      GPIO_CS5361_M_SINGLE, GPIO_CS5361_M_MASK);
-+}
-+
-+static void set_cs5361_params(struct oxygen *chip,
-+			      struct snd_pcm_hw_params *params)
-+{
-+	unsigned int value;
-+
-+	if (params_rate(params) <= 54000)
-+		value = GPIO_CS5361_M_SINGLE;
-+	else if (params_rate(params) <= 108000)
-+		value = GPIO_CS5361_M_DOUBLE;
-+	else
-+		value = GPIO_CS5361_M_QUAD;
-+	oxygen_write16_masked(chip, OXYGEN_GPIO_DATA,
-+			      value, GPIO_CS5361_M_MASK);
-+}
-+
-+static void eclaro_init(struct oxygen *chip)
-+{
-+	struct generic_data *data = chip->model_data;
-+
-+	oxygen_set_bits16(chip, OXYGEN_GPIO_CONTROL, GPIO_CLARO_DIG_COAX);
-+	oxygen_clear_bits16(chip, OXYGEN_GPIO_DATA, GPIO_CLARO_DIG_COAX);
-+
-+	/* Single AK4396VF on SPI CE0/CA=00 handles front L/R */
-+	data->dacs = 1;
-+	data->spi_map[0] = 0;
-+	data->spi_prefix[0] = AK4396_WRITE;
-+	data->ak4396_regs[0][AK4396_CONTROL_2] =
-+		AK4396_SMUTE | AK4396_DEM_OFF | AK4396_DFS_NORMAL;
-+
-+	ak4396_write(chip, 0, AK4396_CONTROL_1, AK4396_DIF_24_MSB | AK4396_ACKS);
-+	ak4396_write(chip, 0, AK4396_CONTROL_2,
-+		     data->ak4396_regs[0][AK4396_CONTROL_2]);
-+	ak4396_write(chip, 0, AK4396_CONTROL_3, AK4396_PCM);
-+	ak4396_write(chip, 0, AK4396_LCH_ATT, chip->dac_volume[0] * 2);
-+	ak4396_write(chip, 0, AK4396_RCH_ATT, chip->dac_volume[1] * 2);
-+	ak4396_write(chip, 0, AK4396_CONTROL_1, AK4396_DIF_24_MSB | AK4396_ACKS | AK4396_RSTN);
-+
-+	/* CS4362A (SPI CE1): surround/center-LFE/side L/R.
-+	 * GPIO 0 (RESET#, active-low) and GPIO 5 (front output enable) must
-+	 * be driven high. GPIOs 1 and 7 are outputs driven high.
-+	 */
-+	oxygen_set_bits16(chip, OXYGEN_GPIO_CONTROL, 0x00a3);
-+	oxygen_set_bits16(chip, OXYGEN_GPIO_DATA, 0x00a3);
-+	usleep_range(1000, 2000);
-+
-+	data->cs4362a_regs[4] = CS4362A_RMP_DN | CS4362A_DEM_NONE;
-+	data->cs4362a_regs[6] = CS4362A_FM_SINGLE |
-+				 CS4362A_ATAPI_B_R | CS4362A_ATAPI_A_L;
-+	data->cs4362a_regs[7] = CS4362A_MUTE;
-+	data->cs4362a_regs[9] = data->cs4362a_regs[6];
-+	data->cs4362a_regs[12] = data->cs4362a_regs[6];
-+
-+	eclaro_cs4362a_registers_init(chip);
-+
-+	snd_component_add(chip->card, "AK4396");
-+	snd_component_add(chip->card, "CS4362A");
-+	cs5361_init(chip);
-+	claro_enable_hp(chip);
-+	snd_component_add(chip->card, "CS5361");
-+}
-+
-+static void eclaro_resume(struct oxygen *chip)
-+{
-+	struct generic_data *data = chip->model_data;
-+
-+	oxygen_set_bits16(chip, OXYGEN_GPIO_CONTROL,
-+			  GPIO_ECLARO_CS4362A_NRESET | GPIO_ECLARO_FRONT_ENABLE);
-+	oxygen_set_bits16(chip, OXYGEN_GPIO_DATA,
-+			  GPIO_ECLARO_CS4362A_NRESET | GPIO_ECLARO_FRONT_ENABLE);
-+
-+	/* AK4396 chip 0 */
-+	ak4396_write(chip, 0, AK4396_CONTROL_1, AK4396_DIF_24_MSB | AK4396_ACKS | AK4396_RSTN);
-+	ak4396_write(chip, 0, AK4396_CONTROL_2,
-+		     data->ak4396_regs[0][AK4396_CONTROL_2]);
-+	ak4396_write(chip, 0, AK4396_CONTROL_3, AK4396_PCM);
-+	ak4396_write(chip, 0, AK4396_LCH_ATT, chip->dac_volume[0] * 2);
-+	ak4396_write(chip, 0, AK4396_RCH_ATT, chip->dac_volume[1] * 2);
-+
-+	eclaro_cs4362a_registers_init(chip);
-+
-+	cs5361_init(chip);
-+	claro_enable_hp(chip);
-+}
-+
- static void stereo_resume(struct oxygen *chip)
- {
- 	ak4396_registers_init(chip);
-@@ -355,6 +518,76 @@ static void set_ak4396_params(struct oxygen *chip,
- 	}
- }
- 
-+static void eclaro_set_dac_params(struct oxygen *chip,
-+				  struct snd_pcm_hw_params *params)
-+{
-+	struct generic_data *data = chip->model_data;
-+	u8 ak_value, cs_fm;
-+
-+	ak_value = data->ak4396_regs[0][AK4396_CONTROL_2] & ~AK4396_DFS_MASK;
-+	if (params_rate(params) <= 54000) {
-+		ak_value |= AK4396_DFS_NORMAL;
-+		cs_fm = CS4362A_FM_SINGLE;
-+	} else if (params_rate(params) <= 108000) {
-+		ak_value |= AK4396_DFS_DOUBLE;
-+		cs_fm = CS4362A_FM_DOUBLE;
-+	} else {
-+		ak_value |= AK4396_DFS_QUAD;
-+		cs_fm = CS4362A_FM_QUAD;
-+	}
-+
-+	usleep_range(1000, 2000);
-+
-+	if (ak_value != data->ak4396_regs[0][AK4396_CONTROL_2]) {
-+		ak4396_write(chip, 0, AK4396_CONTROL_1, AK4396_DIF_24_MSB | AK4396_ACKS);
-+		ak4396_write(chip, 0, AK4396_CONTROL_2, ak_value);
-+		ak4396_write(chip, 0, AK4396_CONTROL_1,
-+			     AK4396_DIF_24_MSB | AK4396_ACKS | AK4396_RSTN);
-+		data->ak4396_regs[0][AK4396_CONTROL_2] = ak_value;
-+	}
-+
-+	/* Update CS4362A FM mode for all three DAC pairs */
-+	cs_fm |= data->cs4362a_regs[6] & ~CS4362A_FM_MASK;
-+	eclaro_cs4362a_write_cached(chip, 6, cs_fm);
-+	eclaro_cs4362a_write_cached(chip, 12, cs_fm);
-+	cs_fm &= CS4362A_FM_MASK;
-+	cs_fm |= data->cs4362a_regs[9] & ~CS4362A_FM_MASK;
-+	eclaro_cs4362a_write_cached(chip, 9, cs_fm);
-+}
-+
-+static void update_eclaro_volume(struct oxygen *chip)
-+{
-+	u8 mute = chip->dac_mute ? CS4362A_MUTE : 0;
-+
-+	ak4396_write_cached(chip, 0, AK4396_LCH_ATT, chip->dac_volume[0] * 2);
-+	ak4396_write_cached(chip, 0, AK4396_RCH_ATT, chip->dac_volume[1] * 2);
-+
-+	/* CS4362A attenuation is inverse: 0 = 0 dB, 127 = max attenuation.
-+	 * Pair 1 (regs 7/8) is wired to the side outputs (ALSA ch 6/7);
-+	 * pair 3 (regs 13/14) is wired to the rear outputs (ALSA ch 2/3).
-+	 */
-+	eclaro_cs4362a_write_cached(chip, 7,  mute | (127 - chip->dac_volume[6]));
-+	eclaro_cs4362a_write_cached(chip, 8,  mute | (127 - chip->dac_volume[7]));
-+	eclaro_cs4362a_write_cached(chip, 10, mute | (127 - chip->dac_volume[4]));
-+	eclaro_cs4362a_write_cached(chip, 11, mute | (127 - chip->dac_volume[5]));
-+	eclaro_cs4362a_write_cached(chip, 13, mute | (127 - chip->dac_volume[2]));
-+	eclaro_cs4362a_write_cached(chip, 14, mute | (127 - chip->dac_volume[3]));
-+}
-+
-+static void update_eclaro_mute(struct oxygen *chip)
-+{
-+	struct generic_data *data = chip->model_data;
-+	u8 value;
-+
-+	value = data->ak4396_regs[0][AK4396_CONTROL_2] & ~AK4396_SMUTE;
-+	if (chip->dac_mute)
-+		value |= AK4396_SMUTE;
-+	ak4396_write_cached(chip, 0, AK4396_CONTROL_2, value);
-+
-+	/* Re-apply volume+mute to CS4362A so the mute bit is set correctly */
-+	update_eclaro_volume(chip);
-+}
-+
- static void update_ak4396_volume(struct oxygen *chip)
- {
- 	struct generic_data *data = chip->model_data;
-@@ -702,6 +935,8 @@ static void dump_oxygen_registers(struct oxygen *chip,
- }
- 
- static const DECLARE_TLV_DB_LINEAR(ak4396_db_scale, TLV_DB_GAIN_MUTE, 0);
-+/* CS4362A: 0.5 dB/step, raw=127 -> 0 dB, raw=0 -> -63.5 dB */
-+static const DECLARE_TLV_DB_SCALE(eclaro_db_scale, -6350, 50, 0);
- 
- static const struct oxygen_model model_generic = {
- 	.shortname = "C-Media CMI8788",
-@@ -745,6 +980,7 @@ static int get_oxygen_model(struct oxygen *chip,
- 		[MODEL_MERIDIAN_2G]	= "AuzenTech X-Meridian 2G",
- 		[MODEL_CLARO]		= "HT-Omega Claro",
- 		[MODEL_CLARO_HALO]	= "HT-Omega Claro halo",
-+		[MODEL_ECLARO]		= "HT-Omega eClaro",
- 		[MODEL_FANTASIA]	= "TempoTec HiFier Fantasia",
- 		[MODEL_SERENADE]	= "TempoTec HiFier Serenade",
- 		[MODEL_HG2PCI]		= "CMI8787-HG2PCI",
-@@ -788,6 +1024,28 @@ static int get_oxygen_model(struct oxygen *chip,
- 					    CAPTURE_0_FROM_I2S_2 |
- 					    CAPTURE_1_FROM_SPDIF;
- 		break;
-+	case MODEL_ECLARO:
-+		chip->model.init = eclaro_init;
-+		chip->model.mixer_init = generic_mixer_init;
-+		chip->model.cleanup = claro_cleanup;
-+		chip->model.suspend = claro_suspend;
-+		chip->model.resume = eclaro_resume;
-+		chip->model.set_dac_params = eclaro_set_dac_params;
-+		chip->model.set_adc_params = set_cs5361_params;
-+		chip->model.update_dac_volume = update_eclaro_volume;
-+		chip->model.update_dac_mute = update_eclaro_mute;
-+		chip->model.dump_registers = dump_ak4396_registers;
-+		chip->model.device_config = PLAYBACK_0_TO_I2S |
-+					    PLAYBACK_1_TO_SPDIF |
-+					    CAPTURE_0_FROM_I2S_2 |
-+					    CAPTURE_1_FROM_SPDIF;
-+		chip->model.function_flags = OXYGEN_FUNCTION_SPI |
-+					      OXYGEN_FUNCTION_ENABLE_SPI_4_5;
-+		chip->model.dac_mclks = OXYGEN_MCLKS(256, 128, 128);
-+		chip->model.dac_volume_min = 0;
-+		chip->model.dac_volume_max = 127;
-+		chip->model.dac_tlv = eclaro_db_scale;
-+		break;
- 	case MODEL_FANTASIA:
- 	case MODEL_SERENADE:
- 	case MODEL_2CH_OUTPUT:
+This patch removes "platform data style" from Sound driver, but will keep
+header (<sound/simple_card.h>), and do nothing to Ecovec24/7724se, so far.
+The header will be removed if SuperH switched to "DT style", it is needed
+for "platform data style".
+
+This patch needs Acked-by from SuperH maintainer
+
+Kuninori Morimoto (2):
+  ASoC: simple-card: remove platform data style support
+  ASoC: renesas: fsi: remove platform data style support
+
+ sound/soc/generic/simple-card.c | 61 ++++-----------------------------
+ sound/soc/renesas/fsi.c         | 16 ++-------
+ 2 files changed, 9 insertions(+), 68 deletions(-)
+
 -- 
-2.53.0
+2.43.0
 
