@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129163E1D0B;
-	Mon,  1 Jun 2026 18:28:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B988637BE85
+	for <linux-sound@vger.kernel.org>; Mon,  1 Jun 2026 18:57:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780338538; cv=none; b=DGfZwfADH4HPGIoXDzW+E2Q9dswFM+mVkL/CCUKD5uAk4MGAEjavFzG0GTHQ3sDebE0VQRC6fLF+qGTGvyuM89TFgxF9GHg+XFSVE3/CwqsDCcTuHfgVBvMnWffVr725AmFQcVOu1TkTfs3YfvzNm+T2Mqpt8EZ4h4e07jn/FVc=
+	t=1780340243; cv=none; b=IldWgssaKwvkdyGQoJ0iayDdGz159fYqcTCqZhhdOTNFchA9m7wWptwr65XVsXZ+tF3C/HwZIE+uHAYSCt/hUm8Yvpklbsw3+MHAUy9HiNccMddjQOGZLDXqZouQZ3DIGFxh93SXoZprIxOygmg+uQZvgeB1k4Y8b5K4gGSIkrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780338538; c=relaxed/simple;
-	bh=E+dYWrT32GGBqleltKVGkvSZJfKQEJz/9vZ3MLeYhgw=;
+	s=arc-20240116; t=1780340243; c=relaxed/simple;
+	bh=7WeoIIUgiBaiPjoBYy2JCyo6fdc694VYm0aYQlDcmSQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u4i21MGp8GJx96QvegmmL6pTK0DV8qOcEytLeZiDETb+iFubre0Da6BKLI0g1shQadkywx3NZrM8c1a2wq6fKwD8xJyVK2pI50nslBI7rxh8w5QE8JfvdQyMjNPAj3KTasLvh5PAPNZSJ61FEJZmaVKbvGQkRQ5PQTeASnZYpog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bnf3/Pqe; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ka5KROEZFC/66nlP2X+c3oYl5MjcSs8Cn7v5w0H/Pi8T9LCVy9iTESgiIgM6ON8uAclKciNuXfOvtxxLKpwxLnTnkLZR7T5vvsojpWB/17pi0+25ndiIhCcAqWwkZCFg8e9CjesO8wl24nauFK7h4eCEIHBvDXGbNn2SF9HXX80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=grcWTd7O; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bnf3/Pqe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 527551F00893;
-	Mon,  1 Jun 2026 18:28:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="grcWTd7O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 283BC1F00893;
+	Mon,  1 Jun 2026 18:57:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780338537;
-	bh=p5vPvbuuihkxV1n50/7KfLBmzT3OGN6+wFVZ5hTVciM=;
+	s=k20260515; t=1780340242;
+	bh=6emSRz1XI9aJiiEfuXGuZ1yFpatStDKVptLZJF5Ow1c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bnf3/Pqe9aUKgJpBRqxwFEFg/D9bflCqbGoMOd4wCw2lwnfGXo15XgrII9d01Jlhv
-	 IAEunoRcBCF2qavMhTjVfqqzTv+rQ+dj8P8iOWEbgCx+4YVcq/qO0yW5rvAYrLN8JF
-	 7MVzqDVKSXOTE0llOZlaNgD4LbIYlaxbwcZ88/xtrS40rnh04cTlx38IXauG2ZUvu2
-	 dfHSbG6xuMclvxV2TGId8QZu1ZldpVKdAYSMfrmFeMPR5X2yqvIIxl96MQeMv7jppx
-	 P1DYxvDCLyNKie90OI/EuOKh/GUDX+XKwJpiYdfDSWsRrSrigVhQzBzqUUFFsJqYBN
-	 2cQ0RIIDuX9pQ==
-Date: Mon, 1 Jun 2026 19:28:53 +0100
+	b=grcWTd7OJqqLEDmxezZEQrnaY6dqtQ8HRjmWmwcR4h3o3VMo+h2HV6iXpbhXQ3OK1
+	 yxCrOVYI7zTjUfzE4x/v0vdjcQSs+gRou6ohcwLaQ5rurZdPaLcuwN+jr4p3eARaW/
+	 ZmqLm75GPKNaTe9p3e+BQNpC2XHxLrW4yAxFWRuKhspQrMwfM/auXuOy8HAB9/nN5z
+	 9MixHTB4CBuDgaoesnPJVwN7RcBdOo0Ce879R8QrN3oe/EM2DJaySgpD7Arm9zD+5e
+	 fkgcEfLS93uI283kakvgIyvjaqPN+rF9RoCZdawVzWha/Sf9J6zA42BbO+WmQw4p85
+	 7d0EmXwN7AniQ==
+Date: Mon, 1 Jun 2026 19:57:18 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Li Jun <lijun01@kylinos.cn>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: loongson: Fix invalid position error in
- ls_pcm_pointer
-Message-ID: <7ff4cebc-4873-4135-b58c-29a9ce2d696f@sirena.org.uk>
-References: <20260601084309.845322-1-lijun01@kylinos.cn>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
+	linux-sound@vger.kernel.org, andriy.shevchenko@linux.intel.com
+Subject: Re: [PATCH 2/7] ASoC: Intel: catpt: Replace RAM-helpers with
+ resource_xxx()
+Message-ID: <be625272-9daf-4d38-a7df-875f89b30f69@sirena.org.uk>
+References: <20260601141031.1606847-1-cezary.rojewski@intel.com>
+ <20260601141031.1606847-3-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,44 +43,40 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="M++ZiabQa6fJi7Sj"
+	protocol="application/pgp-signature"; boundary="ivOEf4ZLRrEbej7/"
 Content-Disposition: inline
-In-Reply-To: <20260601084309.845322-1-lijun01@kylinos.cn>
+In-Reply-To: <20260601141031.1606847-3-cezary.rojewski@intel.com>
 X-Cookie: Have a nice day!
 
 
---M++ZiabQa6fJi7Sj
+--ivOEf4ZLRrEbej7/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Mon, Jun 01, 2026 at 04:43:09PM +0800, Li Jun wrote:
-> The "invalid position" error occurred when the DMA position descriptor
-> returned an invalid address value (e.g., pos = -1048838144). This happened
-> because the `bytes_to_frames()` function returns a signed value, but when
-> `addr < runtime->dma_addr`, the subtraction produces a negative result that
-> gets interpreted as a large unsigned integer in comparisons.
-> when the addr is abnormal, for example,the DMA controller is abnormal in
-> hardware,x=0 should not be a point(x == runtime->buffer_size),but a range,
-> which includes the addr address being less than runtime ->dma1-adr, and
-> the addr exceeding the DMA address range.
+On Mon, Jun 01, 2026 at 04:10:26PM +0200, Cezary Rojewski wrote:
 
-I'm not clear in what circumstances we see an address that's outside the
-DMA buffer?  Is this an error that should be reported as an XRUN instead
-of silently masked (which will presumably lead to audible issues)?
+> -void catpt_sram_init(struct resource *sram, u32 start, u32 size)
+> -{
+> -	sram->start = start;
+> -	sram->end = start + size - 1;
+> -}
+> -
 
---M++ZiabQa6fJi7Sj
+The prototype in the header could be cleaned up too.
+
+--ivOEf4ZLRrEbej7/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmodz2UACgkQJNaLcl1U
-h9CJ1wf/Zc1bVgqevBHFIeuvfzP5TaTeDBJvVkklARA9HvdEHXO9e9+z0J9YIcAy
-vbqHX2U1v4HJ9Ih3a/sACMoIOWhtA9XDJ/CXQU624/uK4VG66FosxnMN/eNYrY0D
-LDqsg0NgFtTJBkeP7k6i0KuNzj/ZkpMtTGLaVpG45AxLRCdw34XVkmI07aAKKda1
-W9TsqullUgkxemC9qtNilsFJZEji66wuO2+3rIW2XeUigqCPrAstoM2TnoYoyRLf
-Dvl58IvZeFYGaU/OP7qfdO8q4YAPaeJorWG22kLHbi3NW36R4xAfcUug8226l1q2
-1jqRUnzCnyJouXY9wQZPTgB8pY2Cvw==
-=Si7k
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmod1g0ACgkQJNaLcl1U
+h9CpOwf9FXerSOy1/msPNSniuAZCTbgDdNTwUYba7LndvzfSmgleU76X5dcrey9J
++3Gbd1/I0psnRZuXVqIRrVWX6Pf9H28BOfzuUyO9LyjHMMHLF33QotmDuLHLXcXr
+WiG57KWP0VNkha8kiHh85FErPKZD+qZfclklHw+C+ejYmFVKDI66va5pz0BXwB+k
+1x2GO2BqXnXH4hL0hApRbbG15QMN31JM5lUqQKGbrxYLBkOAovyZFRjAhTDWG+JU
+YtiLHefwUTO3fVmuucFjjtcWohbTOYKjqpztVhDvx7TIioLki+tEAFN+MI+Bm74N
+Mt9WEFZdO1RXBtN9+04Ie39Ld8Sqgg==
+=SK4M
 -----END PGP SIGNATURE-----
 
---M++ZiabQa6fJi7Sj--
+--ivOEf4ZLRrEbej7/--
