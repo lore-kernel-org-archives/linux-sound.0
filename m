@@ -1,115 +1,103 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060D03C9ECF
-	for <linux-sound@vger.kernel.org>; Mon,  1 Jun 2026 14:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB82830C15F;
+	Mon,  1 Jun 2026 16:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780325567; cv=none; b=jXd1aIoUqWqO+/28j80FkleuDA61FUUp7E3I/nGnFEPYTes7WUwdfQR1RUxuoTYvzZMvr9EHGsbIW8EsEReqewiCn+RVX4JSVY2n0eebch+3TEVR5ypIn/dfEcHBv++kGch5Zri+hZICWEJpUG7gNgRlkDPg0lyvdy+XmkiNjTI=
+	t=1780332813; cv=none; b=q6oqsUmeyPGLFmbkLvnKT1bcxXfUmU5fpq8LkfVkOPRWhhaFr63rxJOuUm5FVQ+HMCQnRvcnz7F8Ue9GSOhLijtnKbnWfWZRG9YTplXDXtBHOvBoYIONjLPjKC3jeKzByURyRI8JjDcpZk8iOEsMjchBxUYJ8Y1bfPWCbKajUpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780325567; c=relaxed/simple;
-	bh=VilKTMUODu88Eqm2Pw4VrVCsM/0NxA5+oGoozbxftRg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rDZ0ejS9BGUIJzG8wya6a12P08R1gMHGN5ySsKTk4Pu/34O7SCuAM7Mp/x9UVXn6L2ZJpqdia1Il1qx3mbhgQgKjjhW1V9bYioatqE+smOG1YqsP8RD5pmlIKFzhR/vvRu2iD8j8UGmtdT7h0wXcSEWg6LKqHBqAxfP3jl2p7NQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y6FJOAZB; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780332813; c=relaxed/simple;
+	bh=g8StwNJi79ve0ZBHSM7QhCdLWK3lpOeORYCCRuJPB84=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qBcLtyK73wkrNQ+p2x2t+n5rCYE9O+O/ynsO9ePP3gF+iZEmmJR5bmtsvZSCoQFx2jKlmUeB1cYGB+hwasPtUimTWUClvitpbXY2OHC1I323chVL7UGFw0RRjUviaqiCiHwldX2aYyVNc0HbbdDJrQpMv+A43Z1A8E6pVk1Cb5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b7LYrXac; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y6FJOAZB"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490abf12f0fso4597625e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 01 Jun 2026 07:52:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780325564; x=1780930364; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=n/dF/BREYgluq2yc7QavjflbN1wLiPqAZu2uhlcXNI8=;
-        b=Y6FJOAZB8yDjysWv3nu7fp/o03l3h7cbV1W9kvYyeHEn3jiG0+OPvfLiRo6hFCtLrk
-         NtP5w8CVMA9CcY9OBFJ+3W1/jaJEdERapLQUl6cHJXfn7EqmPKAFWooNwdfG3Hp8Bkt4
-         7F9pzcHDfzmVo6Add7oKNaQM0/sgmcMJOGdV0rYNhgMGPFCWjgFNzoim6lA8jRbQWimH
-         qY1S+EATKl0RY+TkWJOEK3UXEN7b3/8mcp5mXZdHRSpCDghGNWFuIDX6Hz0G/50OYyYm
-         7+tcbV753xzbaOfQZyzkjeB8DihzsH3YKnmQ8WUfWSJOSxoJqTV3SZxTZ/1YZf+7wdOd
-         ujjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780325564; x=1780930364;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n/dF/BREYgluq2yc7QavjflbN1wLiPqAZu2uhlcXNI8=;
-        b=dnivYFCcsliiVUpnxmZhwdTRjntdQ5AjUgWvwwuknfFsy2nsPNO0HvGPV4d1bLlIB7
-         iFwL3Ld/1K0WAjkFa01/WlKce8k86kWweYsgeUkuDsZ5xKDLv96DJrjeFQltd6g7g36i
-         xD5nbtoVGRbuwXAGrZUiYwjUsoZf/eIt5eAwMU1xbkW9ngEGtf7RJAgd/WhHgkvYTlnk
-         kSzOMxBNq9w9R8hMUCNuZcxQoUcI1SeYCKzTgLruqplGLsUnKVm7PlrByC2N7hLcrN/Y
-         +k+OB/1fnmXZNPTaElFFOlkjjAPnxlbrq11ICPmSCYDD7xrn9/Ka4AI/Q2/YHvtnzABo
-         YhuA==
-X-Forwarded-Encrypted: i=1; AFNElJ9e/SU16qO23UhUjiQ//P15JHbFYd4iyU4pzOhvY7B0jDUeKD6NphF1mXxtGmOLRtbo2ydjvBuwvoaUEQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1iH0M50ougFc/sMmUyOw2CzKnfKbYQvjOOkdPUoXnibe9K2rl
-	x/E8asQaCp3xQI91NJ2Cw5VV2LLaL0Zqzl7CQvLXfEzJ/x9ky29Tuu1H
-X-Gm-Gg: Acq92OFecJbvVtt8LBhpuaYQEvG8duZ3s8BhYHVTfUoBKpYrbZ8CR78d4atYB8FUYt3
-	/eR8vDPfs6UFMu+QiwLXHQESjH4zHPSYBqMLBQW4PSEO2gQD61qSGAoBgmnUGSh94WsVg5JSawa
-	EkUf8kyfzPxAnLSvMLiaRtt2ii1OP0tfJ6xFSGu1sl3TUhgGo+NyyxL7CEg82cK5xcKF9i+VFCk
-	CZRMHMSRyo4JRsVCmSEAxDNaaS+FIErEYzdXQpQlq+JRow6Pf3E1bpFC758cc1jGBnRo2UDoBAj
-	taPMM4oGWVYmmrD8SMjjSSLMykUhsiW1IN6QHTUwRyFK1g4VzZCK7DSRGwabABsTC5Rpcw/hRP7
-	gVUV30S67nhGdW48ROXvAaoHsvo3iUyyQCbPeOeNNGobOfaL90n+fveNb51y0A+LIoDj6UAQ91c
-	j3x3z0YVFcZLg8yC4LPtmppyCxedJo5iSdsoA2prbFExdU7yeXEnKbZEWI9dRU877iaIXa4dI=
-X-Received: by 2002:a05:600c:3f0d:b0:48a:5236:7f38 with SMTP id 5b1f17b1804b1-4909c15cc0emr236803725e9.14.1780325564291;
-        Mon, 01 Jun 2026 07:52:44 -0700 (PDT)
-Received: from joaom-cachyos ([2a01:b340:60:2221:4a33:2a16:491d:b1fb])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef357635fsm24615795f8f.33.2026.06.01.07.52.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 07:52:43 -0700 (PDT)
-From: =?UTF-8?q?Jo=C3=A3o=20Miguel?= <jmiguel.ghp@gmail.com>
-To: Vijendar.Mukunda@amd.com
-Cc: venkataprasad.potturu@amd.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Jo=C3=A3o=20Miguel?= <jmiguel.ghp@gmail.com>
-Subject: [PATCH] ASoC: amd: yc: Enable internal mic on MSI Bravo 17 C7VF
-Date: Mon,  1 Jun 2026 15:51:58 +0100
-Message-ID: <20260601145158.4113-1-jmiguel.ghp@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b7LYrXac"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D2E81F00893;
+	Mon,  1 Jun 2026 16:53:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780332812;
+	bh=Hs5PdwFLptXpT0tB2pJaRnUtEYfRt4SMpNOxdYvNr9U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=b7LYrXacRAuOK7FgDvGHtwDsrWBxFvqqDjRtISxLkYQcDKPVzNWBuDrUwIXJwHNF1
+	 SSaURj8nZPW5kTOtmaJ7jAnPPqTb5cyrKT4Eis0+JXBoBb+xcswPfggIp6N2fvVlry
+	 jDY4HaEqRV2Y31rA+v/bYJScCosOkKzOyx03ZJDaf9y9bAl7ZralhbDZRncpf74COV
+	 3OnMkveJFpu+jdMWg88gPxESxF9dGP2+UzuZhqo43RpR32EXT9aJdSQ89NOEhwLYtt
+	 tYcRl3U4EVBXGdkVLA+m7sVM6CE6G5/1heo0ySfy3BxKd3y/YYhxKPftnh9qqbr5FI
+	 iBw+praOdM2tQ==
+Date: Mon, 1 Jun 2026 17:53:27 +0100
+From: Mark Brown <broonie@kernel.org>
+To: chancel.liu@oss.nxp.com
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	david.rhodes@cirrus.com, rf@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH] ASoC: cs42xx8: Add SPI bus support for CS42448/CS42888
+ codec
+Message-ID: <ea0e8942-75d6-4a02-8be8-cf0f7680f825@sirena.org.uk>
+References: <20260601080224.1410292-1-chancel.liu@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vo/dz4/+VFAEJQTG"
+Content-Disposition: inline
+In-Reply-To: <20260601080224.1410292-1-chancel.liu@oss.nxp.com>
+X-Cookie: Have a nice day!
 
-The MSI Bravo 17 C7VF routes its internal digital microphone through
-the ACP6x. The machine driver only enables the DMIC for boards present
-in the DMI quirk table, so on this model the internal mic is never
-detected and no capture device is created.
 
-Add a quirk entry matching the board's DMI identifiers so the DMIC is
-enabled and the internal microphone works.
+--vo/dz4/+VFAEJQTG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: João Miguel <jmiguel.ghp@gmail.com>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+On Mon, Jun 01, 2026 at 05:02:24PM +0900, chancel.liu@oss.nxp.com wrote:
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 7a637d6b5..a93a7fd48 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -794,6 +794,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "M7601RM"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
-+			DMI_MATCH(DMI_BOARD_NAME, "MS-17LN"),
-+		}
-+	},
- 	{}
- };
- 
--- 
-2.54.0
+> The existing cs42xx8 driver only supported I2C control interface.
+> Add SPI bus support for the Cirrus Logic CS42448/CS42888 Audio CODEC.
 
+> + * The SPI frame is 3 bytes:
+> + *   Byte 0: chip address [7:1] = 1001111, bit[0] = R/W (0=write, 1=read)
+> + *           Write: 0x9E,  Read: 0x9F
+> + *   Byte 1: MAP - Memory Address Pointer
+> + *           bit[7] = INCR (auto-increment for burst), bits[6:0] = address
+
+> + * We configure reg_bits=16 so that regmap treats the address field as 2 bytes
+> + * (big-endian). The chip address byte (0x9E/0x9F) is placed in the high byte
+> + * via write_flag_mask / read_flag_mask, and the MAP register address occupies
+> + * the low byte. This produces the correct 3-byte on-wire frame without any
+> + * custom bus implementation:
+> + *
+> + *   write: [0x9E, MAP_addr, data]
+> + *   read:  [0x9F, MAP_addr] -> [data]
+
+What about INCR?
+
+> +static const struct of_device_id cs42xx8_of_match[] = {
+> +	{ .compatible = "cirrus,cs42448", .data = &cs42448_data, },
+> +	{ .compatible = "cirrus,cs42888", .data = &cs42888_data, },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, cs42xx8_of_match);
+
+This should have an update to the bindings as well.
+
+--vo/dz4/+VFAEJQTG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoduQYACgkQJNaLcl1U
+h9BELQf/Z8p0kOkZaV2ukPfycAxUVCGYkbQtF1m6YG8sWtMWKXnCs3OHRGSnyJgq
+Wm9sZgNgpfUuW/yy26oF6I+sZUjKn975Tgg737ZEglOzgUA3YT2czGGu/t9DU09U
+5RtPkIoT2bfgEGEZGcpl5Wu4Yjg9E1UH2SXburkByX0o7wzOh50lbrEx500k6EYV
+fvZGw+BGnNACGhjgPX+4QqdNm6yAtShlxpXCN9dEXVohTti4l9+O+2NyYvbHMtLC
+WkjS7vIFrUL5bBv+0xyw9do/i9N2wHn+QsBbnhJXg4xgd9JrjdXJWai6nioxtYnx
+soZ0vxJeFH2eXZzig2e9CHuhUabmOQ==
+=zX48
+-----END PGP SIGNATURE-----
+
+--vo/dz4/+VFAEJQTG--
