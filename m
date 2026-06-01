@@ -1,135 +1,641 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE61B39BFED
-	for <linux-sound@vger.kernel.org>; Mon,  1 Jun 2026 10:05:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780308329; cv=pass; b=LnjsV7aP5OqXDJPqCB6ntLV5BsGt7fYTpKIaJPvQqRGQDljUba9heN+QnQzcWIkjTCU9oiF1InmVa+1Sg7UstnslCyfWheqw3A8mQBNa9U2AinKFyTMSqBYGC6LrJKR6NOeDx9kF5kNBeGxcZPsOm7lWmA9oGnkMTKeX5Px0igg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780308329; c=relaxed/simple;
-	bh=BdswV/H72I0eIbl7Z3IhvzcEqMAO/9EWXcrHd21kKTE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ip54jvlpaoIT50FXBiwxkrCtN+7V/TZSfqZjUWlasEHRw7ztCc14H+ny3DjjBm1WHp34s+yIevIFc+2vMMoYfux70kw6AyeIugsxugQ/kcVQC4t1hWMQgv9N5l7Cx9THLKS1iEIFvZyzI/10Lif0zmKfUVpIeSeXCvU6qgA4bwM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cK/5IGOw; arc=pass smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF963911DD
+	for <linux-sound@vger.kernel.org>; Mon,  1 Jun 2026 10:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780311585; cv=none; b=pf80vun1IT8ZLMQsYC1Tuh+Zf/P9IbcN/sKd+dsYehFSanWZ4WV97mpt53+RGgbbwR7hDUcf+6V3hXf5dU4NGXDBhx4CAhvTdHnCr79NQ8P7yPrU72cemKwdw9Pjhai/Ssv5d2RR2kkxT+15NHW6nh8TCJzywY76rj52IoBFPIA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780311585; c=relaxed/simple;
+	bh=sSzKGfFTiNS1gT+kkoNfdqjYvqBtVL0dXmpw85QJCis=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=OdcQbPMOJ8eW5iFx+khxFT5m18bIXs0SiN/PbPLFEvOIZFx1CF89V4+xRVk23mI0ixz/6JowyBASy4W/uEQtfdRq9xYxn8ka1JqMMkr8vLBEoVtZWcoebyT4StlecgYRmUzI7lhLbrreROsRa5uYJyRJ177rk4aeEqk5qZR9Z1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FSb0bYLV; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cK/5IGOw"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2c0c32f6ce1so6900625ad.2
-        for <linux-sound@vger.kernel.org>; Mon, 01 Jun 2026 03:05:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780308323; cv=none;
-        d=google.com; s=arc-20240605;
-        b=achO1mnCj7oLCu3Ghc4mtYom428HgWmmpNS8IwDqNSqx3Q8ZjmwTKAm/6XzVTlI00q
-         i2AxQ7XQmxTazOxvaQXqFDyfOM3ZX78weq9LxwiC3r9dHAXf4B03vS2Ab59jMqPzG5De
-         wnYH2jPQaVw1nLbfvNku5bmJs7kbztJjCld97tlxFycjqv37SZDRFV3685hrY6zVyJ0w
-         wI1rFXxkl9zDvhvJwK7Oz0I6iw7Og6Ll8BjFvjmLX701rRZc4RYWL6bHb9majOhcA96S
-         4jpDFRrbpjL7T4JSUdgaG44gogP6p4tfNkkRJ1n4X62m9p/cG2Jk4gxOWHKtSb4ZpKal
-         DoEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=BdswV/H72I0eIbl7Z3IhvzcEqMAO/9EWXcrHd21kKTE=;
-        fh=G18oPqpKDkYT/mfEHd0+1H3VKPXe5qqX2c/98n96fmQ=;
-        b=Z1j3ne+JjtZxueZ6Sr2vdJ3Hx6H7oKjt7daPlR1VWJzaWCoRB+266krCdUPiYDhXC+
-         M86gyRovnAZ46pIYh0FyEPpmEhT8yHMYm5Qm8C6XuzkFTpyuiNOuZurYFUt3UwXbwJ8I
-         b2nPggqjJUNykv53+ux2WL8QR02Uoo7fVIESun1WUHqrneVzplQzgnYYS1JNdHmE56Yl
-         3iCFrYfsoZYPUKHqkLrzE0yQy37ajDrydt/GCN4KvfTxeGHvK/W4jCKQX+d02UDna9z2
-         pV7r3NVClmjo9u4ARYdCZKJz1dJgc12f2cW55WS4wrKzaxmtDx3lE3iDopHrvZ7DYsbl
-         PxKQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780308323; x=1780913123; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BdswV/H72I0eIbl7Z3IhvzcEqMAO/9EWXcrHd21kKTE=;
-        b=cK/5IGOwSQuxlxt0HchblokCewI3gvi+x24drbm5aVXrP9WZ7w7exDF+phC9WBgVXl
-         yCbi4X4oJsEp66B+qTxc4rmAHsSwSXLX7JO81BOiVlVcJxAB0rQi838R4dpn6Uc7+Yqv
-         M2wH9nY4OQ2RlqkgIp+MDHAu5ANkAP25iM760mVmBIwJC72PoKNATlpLR6NkSwspLy5u
-         H5nvleLpI7QMONpkmoWi8Z7MLuqHFVcVfHU5PwEnfsqgUQl7vZHHx3kpoYFxCX4fU1S7
-         mCSLHSnvBnsDiewDYEPics9GJg0Qfj2E3db582asltRXGKqsDo4di19V42pJY/3eO4UW
-         Hn4Q==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FSb0bYLV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780311582;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Q/+dACPPpV7iLGZiwKeuS8PA0gOf44KxbktyVcQ/IIM=;
+	b=FSb0bYLVznn4XIv1/PxXr8upKDtyUt0DEaO8maDwz8XCYfDGa+0AO7ewvTTJOM2cVTZbzU
+	3JNsMTd5GWHF/c3j/lH07T/FBTxeEjgped3h0FGvSW4oxT362xvj3qSCCnXM0GuSa6QYdQ
+	uf30vZKxbxF4m8Z9tI/Ui7ZVMGvG2Ls=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-10-0IVCD0yKOsGGws9JU9DPPQ-1; Mon, 01 Jun 2026 06:59:39 -0400
+X-MC-Unique: 0IVCD0yKOsGGws9JU9DPPQ-1
+X-Mimecast-MFC-AGG-ID: 0IVCD0yKOsGGws9JU9DPPQ_1780311578
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-490a762bcbaso10925175e9.0
+        for <linux-sound@vger.kernel.org>; Mon, 01 Jun 2026 03:59:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780308323; x=1780913123;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BdswV/H72I0eIbl7Z3IhvzcEqMAO/9EWXcrHd21kKTE=;
-        b=qNLsHga47CNpALRe3g9pJxW4TApYm6jipt1IKeLRx2KP2Vphf+1UlWXgKvIBN9qR+E
-         sAwRsQ3ESz9hBxRqF+be+Ln5dq/GhmHnLoFkX3RgTTX5dC25hv9ARiOzdkmBbPuOLK1I
-         ZDK48LTwZ6SzmGYTYhBXmfj+tTJz3GEHZQMLjBMDaDM6vYGVmNFY513vCeH7K3uQCeqb
-         IQwyFoM0asMqq7QgVTkleInqQfjgFNYjL6yv2VEALA+YxV3/XUr+XxIxKypsnckmHweU
-         NX6MR+K2Qjsj0AhbOreudTFqeMi6Oe82OsyIi8HuGESNAl1ojam6xxq6ceSzbYei+9rB
-         pRqA==
-X-Forwarded-Encrypted: i=1; AFNElJ9ytXWbKkzUDl1fj/3sgZg04nQ2kaPsabdEjYQ+LE7OGmxOTUk4t69KGSac6qB3Wq0gb73VaYAhRE+5yA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHoCS7UhIZbqla9fUhu1sjV+q8SFlWi2IOoaOtUqKlvamy3Qf9
-	XuAunOp9dN7K3FDnMSvdzfTm/3p+nbzI44Xb0pxV9OCuBGb0XF7uUCKXsyArUme+thkfKjpA017
-	fAF6g5ATFBHftEJ23VuQWuu/N9DbwSgA=
-X-Gm-Gg: Acq92OFLs+hCTAuWqnr0gzkGYZux0SbuhFzD02iEdEPf3VAlruwqJ3FbjPGJBm6+dM4
-	T4hNX1eiKeUjYB5gfR31GMHMiLL7y5B3pb0UHNxdF/mmFKqPhDLAhvmToCi84KJWbQh8Il4jk4Y
-	1t4Mym3UlTcTXvwQxSFl6beFxAQH48vwxnbGCC7FXuWKWIjJyAYOekvirTHlI/CeeQ8IZZzKzOU
-	1mN/G0xKDgeCbpEMgeKtv91tO1tAagaPJ05YUvoWgTQzRXcu03Gw+2mf/SuPDwyXgpdQXxrl/4c
-	JqcgvWP5kPfqgevteHxA2Mo3fd0ySSpunkFbQvYWYzB1TcWc
-X-Received: by 2002:a17:902:d483:b0:2b2:4260:109 with SMTP id
- d9443c01a7336-2bf3684aeb9mr121794295ad.23.1780308322810; Mon, 01 Jun 2026
- 03:05:22 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780311578; x=1780916378;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Q/+dACPPpV7iLGZiwKeuS8PA0gOf44KxbktyVcQ/IIM=;
+        b=lw4T+pJ21qs02IThxVZFZzwKWTaf4bAlOJgj+Pxei/7yvlrsg0xUTgnEHm3KxwKhh7
+         2EU+u8T0Au08iUDU9O8XKbuA8LpW4m+m14IKIQTMCpUN6hNJJxvHkahk4L53MJWDZtH4
+         d/31RLSrlSHnoMc7DjeDjMfF8QSTQIex3FPg6H+8kyW+OzSjR/gu8nHy+gE2G35Xt3DK
+         X4ONI6CWkTCj1aoey5hcMKBODjJ4Qnd6gH2zUO2llpAujINyzuegHjEoGyCPUwoLbRiL
+         cgwBq+HVwyWHUdBEXS3b0ne7pfTMDWHGh5FKo/C3VfgovIvevk2R6Em7FVpf+yqaIm5C
+         MZVQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/z/VYcONHpFn5GbuOTDGt9X6JQ3En/yc/0gwTaArT6LMEIHSrf/g268kQiLc5yHiH2smNOAKjp+mBtXQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyA8V2+IdfGxvg9dnNoWAzEjRVoCSu1uDL4x4O7cwilNnvoB0/i
+	BR+htYiNgwOC40huXVWM8GVG/ns95s+k70KdTtSp/k/zdjSLl4yr20JM5SOFsEIbHCeoBZho2zn
+	euXD/CaW5M5OE7eNTniMF008EUvE/4dBRC2Ugo+vIxxF13Dx1heCCFoXh57rl/MBO
+X-Gm-Gg: Acq92OHLW6DKHZj48dTYQjmdRq1MIWgFyfK+yqZsCk1ifdLEUOyJz7dI4SBAl5eZXcH
+	HeKuKeuaO4+otZm1waRKn+BbS1u5eFet1O29szZJDR2/8KvLaEEx3Di1LJolxRCohPZhxgLUVwF
+	IHwNupLuxqyF/8CKIj+NR7PtXfcioknzg22NTCmYTR5SowhO9vOO6Td79ERvvailLYFKjMyjEdp
+	9VNs8dwjw1xIEsXgs8/595OH+vgCjXx7X51THIHNKfAVpFpVZV3GAqkhmSDzo2egbk3oFuKmHHU
+	f8LTRqDBht6/WX1PFdKdRscHovoCK+ILO+Y0rtPWtDCIQHgFSvqO0k8lnqlotAHnfdZdcqIt8uV
+	31DYV+48tYc+P5dhEIPF0ucAmumTM7HWD1+WEcJQLT5slYn4RCpp1mQ==
+X-Received: by 2002:a05:600c:a40a:b0:490:44eb:c1e9 with SMTP id 5b1f17b1804b1-490a293c904mr169963575e9.26.1780311577491;
+        Mon, 01 Jun 2026 03:59:37 -0700 (PDT)
+X-Received: by 2002:a05:600c:a40a:b0:490:44eb:c1e9 with SMTP id 5b1f17b1804b1-490a293c904mr169962935e9.26.1780311576668;
+        Mon, 01 Jun 2026 03:59:36 -0700 (PDT)
+Received: from redhat.com (IGLD-80-230-25-45.inter.net.il. [80.230.25.45])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490ae39c281sm22373695e9.14.2026.06.01.03.59.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jun 2026 03:59:35 -0700 (PDT)
+Date: Mon, 1 Jun 2026 06:59:31 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Miroslav Lichvar <mlichvar@redhat.com>,
+	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	thomas.weissschuh@linutronix.de,
+	Arthur Kiyanovski <akiyano@amazon.com>,
+	Rodolfo Giometti <giometti@enneenne.com>,
+	Vincent Donnefort <vdonnefort@google.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev,
+	Oliver Upton <oupton@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Peter Hilber <peter.hilber@oss.qualcomm.com>,
+	virtualization@lists.linux.dev, linux-wireless@vger.kernel.org,
+	linux-sound@vger.kernel.org, David Woodhouse <dwmw@amazon.co.uk>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Subject: Re: [patch V2 00/25] timekeeping/ptp: Expand snapshot functionality
+Message-ID: <20260601065916-mutt-send-email-mst@kernel.org>
+References: <20260529193435.921555544@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260522100318.73474-1-phucduc.bui@gmail.com> <20260522100318.73474-2-phucduc.bui@gmail.com>
- <20260530-adventurous-basilisk-of-happiness-def6fa@quoll>
-In-Reply-To: <20260530-adventurous-basilisk-of-happiness-def6fa@quoll>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Mon, 1 Jun 2026 17:05:11 +0700
-X-Gm-Features: AVHnY4K0HX288K_cD5Sf10SY7BujkeLaPeGOHP02VGsc25wWrKbaxn-vW53Y2o0
-Message-ID: <CAABR9nHh5WbC+A-7KV9jKEUbmK8WHgpf=VUk0DJqFrhhQFRpwg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: rockchip-spdif: Correct SPDIF
- clock descriptions
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
-	heiko@sntech.de, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20260529193435.921555544@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: F4ZKhhgvVUIFegQvPjLGmiWjKJ2XhJK2TNmY2usIf6M_1780311578
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Krzysztof,
+On Fri, May 29, 2026 at 09:59:47PM +0200, Thomas Gleixner wrote:
+> This is an update to V1 which can be found here:
+> 
+>    https://lore.kernel.org/lkml/20260526165826.392227559@kernel.org
+> 
+> PTP wants to grow new snapshot functionality, which provides not only the
+> captured CLOCK* values, but also the underlying clocksource counter value.
+> 
+>    https://lore.kernel.org/20260515164033.6403-1-akiyano@amazon.com
+> 
+> There was quite some discussion in seemingly related threads how to capture
+> these values and how to provide core infrastructure so that driver writers
+> have something to work with
+> 
+>    https://lore.kernel.org/20260514225842.110706-1-hramamurthy@google.com
+>    https://lore.kernel.org/20260520135207.37826-1-dwmw2@infradead.org
 
-Thank you for your review .
 
-> So example is wrong?
->
-> What about all the users?
+virtio bits:
 
-I only updated the internal description text to match the existing clock-names.
-The clock ordering (mclk followed by hclk) remains unchanged,
-so external .dts files and the example section at the end of the
-binding are unaffected.
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-> Please wrap commit message according to Linux coding style / submission
-> process (neither too early nor over the limit):
-> https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
->
+> This series implements the timekeeping related mechanisms to:
+> 
+>      1) Capture CLOCK values along with the clocksource counter value for
+>      	non-hardware based sampling
+> 
+>      2) Expanding the hardware cross time stamp mechanism to hand back the
+>      	clocksource counter value, which was captured by the device, along
+>      	with the related CLOCK values
+> 
+>      3) Adding AUX clock support to the hardware cross timestamping core
+> 
+>      4) Add support for derived clocksources to the snapshot mechanism (New
+>      	in V2)
+> 
+> Changes vs. V1:
+> 
+>   - Fixed the ptp_ocp typo - 0-day, Jakub
+> 
+>   - Renamed the system_time_snapshot members sys and raw so systime and
+>     monoraw to make them less ambigous.
+> 
+>   - Fixed the error case return values of get_device_system_crosststamp()
+> 
+>   - Made ktime_snapshot_id() void as there is no point for the return
+>     value, which is nowhere checked and cannot be propagated.
+>     system_time_snapshot::valid has to be evaluated at the call sites
+>     anyway. - Jacob
+> 
+>   - Picked up the first patch from Davids follow up series, which extends
+>     the snapshot mechanism so that derived clocksources (like kvmclock and
+>     Hyper-V scaled TSC) can return the actual underlying hardware counter
+>     value (TSC for the two examples).
+> 
+>   - Collected Reviewed/Acked/Tested-by tags
+> 
+> Delta patch against v1 below.
+> 
+> The series is based on v7.1-rc2 and also available from git:
+> 
+>     git://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git timekeeping-ptp-extend-v2
+> 
+> Thanks,
+> 
+> 	tglx
+> ---
+> diff --git a/arch/arm64/kvm/hyp_trace.c b/arch/arm64/kvm/hyp_trace.c
+> index 616062587510..b056c652ff01 100644
+> --- a/arch/arm64/kvm/hyp_trace.c
+> +++ b/arch/arm64/kvm/hyp_trace.c
+> @@ -51,8 +51,8 @@ static void __hyp_clock_work(struct work_struct *work)
+>  
+>  	hyp_clock = container_of(dwork, struct hyp_trace_clock, work);
+>  
+> -	ktime_get_snapshot_id(&snap, CLOCK_BOOTTIME);
+> -	boot = ktime_to_ns(snap.sys);
+> +	ktime_get_snapshot_id(CLOCK_BOOTTIME, &snap);
+> +	boot = ktime_to_ns(snap.systime);
+>  
+>  	delta_boot = boot - hyp_clock->boot;
+>  	delta_cycles = snap.cycles - hyp_clock->cycles;
+> @@ -120,7 +120,7 @@ static void hyp_trace_clock_enable(struct hyp_trace_clock *hyp_clock, bool enabl
+>  
+>  	ktime_get_snapshot_id(&snap, CLOCK_BOOTTIME);
+>  
+> -	hyp_clock->boot = ktime_to_ns(snap.sys);
+> +	hyp_clock->boot = ktime_to_ns(snap.systime);
+>  	hyp_clock->cycles = snap.cycles;
+>  	hyp_clock->mult = 0;
+>  
+> diff --git a/arch/arm64/kvm/hypercalls.c b/arch/arm64/kvm/hypercalls.c
+> index e60cc7ed3e70..b11b8821c9fb 100644
+> --- a/arch/arm64/kvm/hypercalls.c
+> +++ b/arch/arm64/kvm/hypercalls.c
+> @@ -28,7 +28,7 @@ static void kvm_ptp_get_time(struct kvm_vcpu *vcpu, u64 *val)
+>  	 * system time and counter value must captured at the same
+>  	 * time to keep consistency and precision.
+>  	 */
+> -	ktime_get_snapshot_id(&systime_snapshot, CLOCK_REALTIME);
+> +	ktime_get_snapshot_id(CLOCK_REALTIME, &systime_snapshot);
+>  
+>  	/*
+>  	 * This is only valid if the current clocksource is the
+> @@ -61,8 +61,8 @@ static void kvm_ptp_get_time(struct kvm_vcpu *vcpu, u64 *val)
+>  	 * in the future (about 292 years from 1970, and at that stage
+>  	 * nobody will give a damn about it).
+>  	 */
+> -	val[0] = upper_32_bits(systime_snapshot.sys);
+> -	val[1] = lower_32_bits(systime_snapshot.sys);
+> +	val[0] = upper_32_bits(systime_snapshot.systime);
+> +	val[1] = lower_32_bits(systime_snapshot.systime);
+>  	val[2] = upper_32_bits(cycles);
+>  	val[3] = lower_32_bits(cycles);
+>  }
+> diff --git a/drivers/net/dsa/sja1105/sja1105_main.c b/drivers/net/dsa/sja1105/sja1105_main.c
+> index 1d5fef4df560..2697073dbf90 100644
+> --- a/drivers/net/dsa/sja1105/sja1105_main.c
+> +++ b/drivers/net/dsa/sja1105/sja1105_main.c
+> @@ -2310,10 +2310,10 @@ int sja1105_static_config_reload(struct sja1105_private *priv,
+>  		goto out;
+>  	}
+>  
+> -	t1 = ktime_to_ns(ptp_sts_before.pre_sts.sys);
+> -	t2 = ktime_to_ns(ptp_sts_before.post_sts.sys);
+> -	t3 = ktime_to_ns(ptp_sts_after.pre_sts.sys);
+> -	t4 = ktime_to_ns(ptp_sts_after.post_sts.sys);
+> +	t1 = ktime_to_ns(ptp_sts_before.pre_sts.systime);
+> +	t2 = ktime_to_ns(ptp_sts_before.post_sts.systime);
+> +	t3 = ktime_to_ns(ptp_sts_after.pre_sts.systime);
+> +	t4 = ktime_to_ns(ptp_sts_after.post_sts.systime);
+>  	/* Mid point, corresponds to pre-reset PTPCLKVAL */
+>  	t12 = t1 + (t2 - t1) / 2;
+>  	/* Mid point, corresponds to post-reset PTPCLKVAL, aka 0 */
+> diff --git a/drivers/net/ethernet/intel/ice/ice_ptp.c b/drivers/net/ethernet/intel/ice/ice_ptp.c
+> index 5023fc1587f9..f9e4ec6f7ebb 100644
+> --- a/drivers/net/ethernet/intel/ice/ice_ptp.c
+> +++ b/drivers/net/ethernet/intel/ice/ice_ptp.c
+> @@ -2117,7 +2117,7 @@ static int ice_capture_crosststamp(ktime_t *device,
+>  	}
+>  
+>  	/* Snapshot system time for historic interpolation */
+> -	ktime_get_snapshot_id(&ctx->snapshot, ctx->snapshot_clock_id);
+> +	ktime_get_snapshot_id(ctx->snapshot_clock_id, &ctx->snapshot);
+>  
+>  	/* Program cmd to master timer */
+>  	ice_ptp_src_cmd(hw, ICE_PTP_READ_TIME);
+> diff --git a/drivers/net/ethernet/intel/igc/igc_ptp.c b/drivers/net/ethernet/intel/igc/igc_ptp.c
+> index 9b8b4a04e32d..b40aba9ab685 100644
+> --- a/drivers/net/ethernet/intel/igc/igc_ptp.c
+> +++ b/drivers/net/ethernet/intel/igc/igc_ptp.c
+> @@ -1049,7 +1049,7 @@ static int igc_phc_get_syncdevicetime(ktime_t *device,
+>  	 */
+>  	do {
+>  		/* Get a snapshot of system clocks to use as historic value. */
+> -		ktime_get_snapshot_id(&adapter->snapshot, adapter->snapshot_clock_id);
+> +		ktime_get_snapshot_id(adapter->snapshot_clock_id, &adapter->snapshot);
+>  
+>  		igc_ptm_trigger(hw);
+>  
+> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/lib/clock.c b/drivers/net/ethernet/mellanox/mlx5/core/lib/clock.c
+> index beb80912b9d5..5df786133e4b 100644
+> --- a/drivers/net/ethernet/mellanox/mlx5/core/lib/clock.c
+> +++ b/drivers/net/ethernet/mellanox/mlx5/core/lib/clock.c
+> @@ -340,7 +340,7 @@ static int mlx5_ptp_getcrosststamp(struct ptp_clock_info *ptp,
+>  		goto unlock;
+>  	}
+>  
+> -	ktime_get_snapshot_id(&history_begin, cts->clock_id);
+> +	ktime_get_snapshot_id(cts->clock_id, &history_begin);
+>  
+>  	err = get_device_system_crosststamp(mlx5_mtctr_syncdevicetime, mdev,
+>  					    &history_begin, cts);
+> @@ -366,7 +366,7 @@ static int mlx5_ptp_getcrosscycles(struct ptp_clock_info *ptp,
+>  		goto unlock;
+>  	}
+>  
+> -	ktime_get_snapshot_id(&history_begin, cts->clock_id);
+> +	ktime_get_snapshot_id(cts->clock_id, &history_begin);
+>  
+>  	err = get_device_system_crosststamp(mlx5_mtctr_syncdevicecyclestime,
+>  					    mdev, &history_begin, cts);
+> diff --git a/drivers/ptp/ptp_chardev.c b/drivers/ptp/ptp_chardev.c
+> index aed5c13cd1be..dc23cd708cfe 100644
+> --- a/drivers/ptp/ptp_chardev.c
+> +++ b/drivers/ptp/ptp_chardev.c
+> @@ -392,11 +392,11 @@ static long ptp_sys_offset_extended(struct ptp_clock *ptp, void __user *arg,
+>  		extoff->ts[i][1].sec = ts.tv_sec;
+>  		extoff->ts[i][1].nsec = ts.tv_nsec;
+>  
+> -		ts = ktime_to_timespec64(sts.pre_sts.sys);
+> +		ts = ktime_to_timespec64(sts.pre_sts.systime);
+>  		extoff->ts[i][0].sec = ts.tv_sec;
+>  		extoff->ts[i][0].nsec = ts.tv_nsec;
+>  
+> -		ts = ktime_to_timespec64(sts.post_sts.sys);
+> +		ts = ktime_to_timespec64(sts.post_sts.systime);
+>  		extoff->ts[i][2].sec = ts.tv_sec;
+>  		extoff->ts[i][2].nsec = ts.tv_nsec;
+>  	}
+> diff --git a/drivers/ptp/ptp_ocp.c b/drivers/ptp/ptp_ocp.c
+> index b7a23936a44d..28b0302c6250 100644
+> --- a/drivers/ptp/ptp_ocp.c
+> +++ b/drivers/ptp/ptp_ocp.c
+> @@ -1492,7 +1492,7 @@ __ptp_ocp_gettime_locked(struct ptp_ocp *bp, struct timespec64 *ts,
+>  	ptp_read_system_postts(sts);
+>  
+>  	if (sts && bp->ts_window_adjust)
+> -		sts->post_ts.sys -= bp->ts_window_adjust;
+> +		sts->post_sts.systime -= bp->ts_window_adjust;
+>  
+>  	time_ns = ioread32(&bp->reg->time_ns);
+>  	time_sec = ioread32(&bp->reg->time_sec);
+> @@ -4592,8 +4592,8 @@ ptp_ocp_summary_show(struct seq_file *s, void *data)
+>  		struct timespec64 sys_ts;
+>  		s64 pre_ns, post_ns, ns;
+>  
+> -		pre_ns = ktime_to_ns(sts.pre_sts.sys);
+> -		post_ns = ktime_to_ns(sts.post_sts.sys);
+> +		pre_ns = ktime_to_ns(sts.pre_sts.systime);
+> +		post_ns = ktime_to_ns(sts.post_sts.systime);
+>  		ns = (pre_ns + post_ns) / 2;
+>  		ns += (s64)bp->utc_tai_offset * NSEC_PER_SEC;
+>  		sys_ts = ns_to_timespec64(ns);
+> diff --git a/drivers/ptp/ptp_vmclock.c b/drivers/ptp/ptp_vmclock.c
+> index cb18c15a4697..d6a5a533164a 100644
+> --- a/drivers/ptp/ptp_vmclock.c
+> +++ b/drivers/ptp/ptp_vmclock.c
+> @@ -263,7 +263,7 @@ static int ptp_vmclock_getcrosststamp(struct ptp_clock_info *ptp,
+>  	if (ret == -ENODEV) {
+>  		struct system_time_snapshot systime_snapshot;
+>  
+> -		ktime_get_snapshot_id(&systime_snapshot, CLOCK_REALTIME);
+> +		ktime_get_snapshot_id(CLOCK_REALTIME, &systime_snapshot);
+>  
+>  		if (systime_snapshot.cs_id == CSID_X86_TSC ||
+>  		    systime_snapshot.cs_id == CSID_X86_KVM_CLK) {
+> diff --git a/drivers/virtio/virtio_rtc_ptp.c b/drivers/virtio/virtio_rtc_ptp.c
+> index e15d00aeb01d..ff8d834493dc 100644
+> --- a/drivers/virtio/virtio_rtc_ptp.c
+> +++ b/drivers/virtio/virtio_rtc_ptp.c
+> @@ -139,7 +139,7 @@ static int viortc_ptp_getcrosststamp(struct ptp_clock_info *ptp,
+>  	if (ret)
+>  		return ret;
+>  
+> -	ktime_get_snapshot_id(&history_begin, xtstamp->clock_id);
+> +	ktime_get_snapshot_id(xtstamp->clock_id, &history_begin);
+>  	if (history_begin.cs_id != cs_id)
+>  		return -EOPNOTSUPP;
+>  
+> diff --git a/include/linux/clocksource.h b/include/linux/clocksource.h
+> index 7c38190b10bf..6d9ddf1587a2 100644
+> --- a/include/linux/clocksource.h
+> +++ b/include/linux/clocksource.h
+> @@ -31,6 +31,21 @@ struct module;
+>  
+>  #include <vdso/clocksource.h>
+>  
+> +/**
+> + * struct clocksource_hw_snapshot - Snapshot for the underlying hardware counter of derived
+> + *				    clocksources like kvmclock or Hyper-V scaled TSC
+> + * @hw_cycles:		The hardware counter value
+> + * @hw_csid:		Clocksource ID of the hardware counter
+> + *
+> + * Such clocksources must implement the read_snapshot() callback and fill in the
+> + * hardware counter value, the clocksource ID of the hardware counter and derive
+> + * the actual clocksource cycles from @hw_cycles to provide an atomic snapshot
+> + */
+> +struct clocksource_hw_snapshot {
+> +	u64			hw_cycles;
+> +	enum clocksource_ids	hw_csid;
+> +};
+> +
+>  /**
+>   * struct clocksource - hardware abstraction for a free running counter
+>   *	Provides mostly state-free accessors to the underlying hardware.
+> @@ -72,6 +87,14 @@ struct module;
+>   * @flags:		Flags describing special properties
+>   * @base:		Hardware abstraction for clock on which a clocksource
+>   *			is based
+> + * @read_snapshot:	Extended @read() function for clocksources such as
+> + *			kvmclock or the Hyper-V scaled TSC where the actual
+> + *			clocksource value for timekeeping is calculated from an
+> + *			underlying hardware counter. Returns the timekeeping
+> + *			relevant cycle value and stores the raw value of the
+> + *			underlying counter from which it was calculated
+> + *			including the clocksource ID of that counter in the
+> + *			clocksource hardware snapshot.
+>   * @enable:		Optional function to enable the clocksource
+>   * @disable:		Optional function to disable the clocksource
+>   * @suspend:		Optional suspend function for the clocksource
+> @@ -113,6 +136,7 @@ struct clocksource {
+>  	unsigned long		flags;
+>  	struct clocksource_base *base;
+>  
+> +	u64			(*read_snapshot)(struct clocksource *cs, struct clocksource_hw_snapshot *chs);
+>  	int			(*enable)(struct clocksource *cs);
+>  	void			(*disable)(struct clocksource *cs);
+>  	void			(*suspend)(struct clocksource *cs);
+> diff --git a/include/linux/pps_kernel.h b/include/linux/pps_kernel.h
+> index cd80f1cb96a9..9f088c9023b1 100644
+> --- a/include/linux/pps_kernel.h
+> +++ b/include/linux/pps_kernel.h
+> @@ -102,9 +102,9 @@ static inline void pps_get_ts(struct pps_event_time *ts)
+>  #ifdef CONFIG_NTP_PPS
+>  	struct system_time_snapshot snap;
+>  
+> -	ktime_get_snapshot_id(&snap, CLOCK_REALTIME);
+> -	ts->ts_real = ktime_to_timespec64(snap.sys);
+> -	ts->ts_raw = ktime_to_timespec64(snap.raw);
+> +	ktime_get_snapshot_id(CLOCK_REALTIME, &snap);
+> +	ts->ts_real = ktime_to_timespec64(snap.systime);
+> +	ts->ts_raw = ktime_to_timespec64(snap.monoraw);
+>  #else
+>  	ktime_get_real_ts64(&ts->ts_real);
+>  #endif
+> diff --git a/include/linux/ptp_clock_kernel.h b/include/linux/ptp_clock_kernel.h
+> index df6c9aac458b..36a27a910595 100644
+> --- a/include/linux/ptp_clock_kernel.h
+> +++ b/include/linux/ptp_clock_kernel.h
+> @@ -511,13 +511,13 @@ static inline ktime_t ptp_convert_timestamp(const ktime_t *hwtstamp,
+>  static inline void ptp_read_system_prets(struct ptp_system_timestamp *sts)
+>  {
+>  	if (sts)
+> -		ktime_get_snapshot_id(&sts->pre_sts, sts->clockid);
+> +		ktime_get_snapshot_id(sts->clockid, &sts->pre_sts);
+>  }
+>  
+>  static inline void ptp_read_system_postts(struct ptp_system_timestamp *sts)
+>  {
+>  	if (sts)
+> -		ktime_get_snapshot_id(&sts->post_sts, sts->clockid);
+> +		ktime_get_snapshot_id(sts->clockid, &sts->post_sts);
+>  }
+>  
+>  #endif
+> diff --git a/include/linux/timekeeping.h b/include/linux/timekeeping.h
+> index f7945f1048fc..984a866d293b 100644
+> --- a/include/linux/timekeeping.h
+> +++ b/include/linux/timekeeping.h
+> @@ -279,18 +279,24 @@ static inline bool ktime_get_aux_ts64(clockid_t id, struct timespec64 *kt) { ret
+>   * struct system_time_snapshot - Simultaneous time capture of CLOCK_MONOTONIC_RAW,
+>   *				 a selected CLOCK_* and the clocksource counter value
+>   * @cycles:		Clocksource counter value to produce the system times
+> - * @sys:		The system time of the selected CLOCK ID
+> - * @raw:		Monotonic raw system time
+> + * @hw_cycles:		For derived clocksources, the hardware counter value from
+> + *			which @cycles was derived
+> + * @systime:		The system time of the selected CLOCK ID
+> + * @monoraw:		Monotonic raw system time
+>   * @cs_id:		Clocksource ID
+> + * @hw_csid:		Clocksource ID of the underlying hardware counter for derived
+> + *			clocksources which implement the read_snapshot() callback.
+>   * @clock_was_set_seq:	The sequence number of clock-was-set events
+>   * @cs_was_changed_seq:	The sequence number of clocksource change events
+>   * @valid:		True if the snapshot is valid
+>   */
+>  struct system_time_snapshot {
+>  	u64			cycles;
+> -	ktime_t			sys;
+> -	ktime_t			raw;
+> +	u64			hw_cycles;
+> +	ktime_t			systime;
+> +	ktime_t			monoraw;
+>  	enum clocksource_ids	cs_id;
+> +	enum clocksource_ids	hw_csid;
+>  	unsigned int		clock_was_set_seq;
+>  	u8			cs_was_changed_seq;
+>  	u8			valid;
+> @@ -348,8 +354,7 @@ extern int get_device_system_crosststamp(
+>   * Simultaneously snapshot a given clock with MONOTONIC_RAW and the underlying
+>   * clocksource counter value.
+>   */
+> -extern bool ktime_get_snapshot_id(struct system_time_snapshot *systime_snapshot,
+> -				  clockid_t clock_id);
+> +extern void ktime_get_snapshot_id(clockid_t clock_id, struct system_time_snapshot *systime_snapshot);
+>  
+>  /*
+>   * Persistent clock related interfaces
+> diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
+> index c4fd7229b7da..0d5b67f609bb 100644
+> --- a/kernel/time/timekeeping.c
+> +++ b/kernel/time/timekeeping.c
+> @@ -320,6 +320,7 @@ static __always_inline u64 tk_clock_read(const struct tk_read_base *tkr)
+>  
+>  	return clock->read(clock);
+>  }
+> +
+>  static inline void clocksource_disable_inline_read(void) { }
+>  static inline void clocksource_enable_inline_read(void) { }
+>  #endif
+> @@ -1187,14 +1188,26 @@ noinstr time64_t __ktime_get_real_seconds(void)
+>  	return tk->xtime_sec;
+>  }
+>  
+> +static inline u64 tk_clock_read_snapshot(const struct tk_read_base *tkr,
+> +					 struct clocksource_hw_snapshot *chs)
+> +{
+> +	struct clocksource *clock = READ_ONCE(tkr->clock);
+> +
+> +	if (unlikely(clock->read_snapshot))
+> +		return clock->read_snapshot(clock, chs);
+> +
+> +	return clock->read(clock);
+> +}
+> +
+> +
+>  /**
+>   * ktime_get_snapshot_id -  Simultaneously snapshot a given clock ID with
+>   *			    CLOCK_MONOTONIC_RAW and the underlying
+>   *			    clocksource counter value.
+> - * @systime_snapshot:	Pointer to struct receiving the system time snapshot
+>   * @clock_id:		The clock ID to snapshot
+> + * @systime_snapshot:	Pointer to struct receiving the system time snapshot
+>   */
+> -bool ktime_get_snapshot_id(struct system_time_snapshot *systime_snapshot, clockid_t clock_id)
+> +void ktime_get_snapshot_id(clockid_t clock_id, struct system_time_snapshot *systime_snapshot)
+>  {
+>  	ktime_t base_raw, base_sys, offs_sys, *offs, offs_zero = 0;
+>  	u64 nsec_raw, nsec_sys, now;
+> @@ -1206,7 +1219,7 @@ bool ktime_get_snapshot_id(struct system_time_snapshot *systime_snapshot, clocki
+>  	systime_snapshot->valid = false;
+>  
+>  	if (WARN_ON_ONCE(timekeeping_suspended))
+> -		return false;
+> +		return;
+>  
+>  	switch (clock_id) {
+>  	case CLOCK_REALTIME:
+> @@ -1226,25 +1239,31 @@ bool ktime_get_snapshot_id(struct system_time_snapshot *systime_snapshot, clocki
+>  	case CLOCK_AUX ... CLOCK_AUX_LAST:
+>  		tkd = aux_get_tk_data(clock_id);
+>  		if (!tkd)
+> -			return false;
+> +			return;
+>  		offs = &tkd->timekeeper.offs_aux;
+>  		break;
+>  	default:
+>  		WARN_ON_ONCE(1);
+> -		return false;
+> +		return;
+>  	}
+>  
+>  	tk = &tkd->timekeeper;
+>  
+>  	do {
+> +		struct clocksource_hw_snapshot chs = { };
+> +
+>  		seq = read_seqcount_begin(&tkd->seq);
+>  
+>  		/* Aux clocks can be invalid */
+>  		if (!tk->clock_valid)
+> -			return false;
+> +			return;
+>  
+> -		now = tk_clock_read(&tk->tkr_mono);
+> +		now = tk_clock_read_snapshot(&tk->tkr_mono, &chs);
+>  		systime_snapshot->cs_id = tk->tkr_mono.clock->id;
+> +
+> +		systime_snapshot->hw_cycles = chs.hw_cycles;
+> +		systime_snapshot->hw_csid = chs.hw_csid;
+> +
+>  		systime_snapshot->cs_was_changed_seq = tk->cs_was_changed_seq;
+>  		systime_snapshot->clock_was_set_seq = tk->clock_was_set_seq;
+>  
+> @@ -1257,18 +1276,17 @@ bool ktime_get_snapshot_id(struct system_time_snapshot *systime_snapshot, clocki
+>  	} while (read_seqcount_retry(&tkd->seq, seq));
+>  
+>  	systime_snapshot->cycles = now;
+> -	systime_snapshot->sys = ktime_add_ns(base_sys, offs_sys + nsec_sys);
+> -	systime_snapshot->raw = ktime_add_ns(base_raw, nsec_raw);
+> +	systime_snapshot->systime = ktime_add_ns(base_sys, offs_sys + nsec_sys);
+> +	systime_snapshot->monoraw = ktime_add_ns(base_raw, nsec_raw);
+>  
+>  	/*
+>  	 * Special case for PTP. Just transfer the raw time into sys,
+> -	 * so the call sites can consistently use snap::sys.
+> +	 * so the call sites can consistently use snap::systime.
+>  	 */
+>  	if (clock_id == CLOCK_MONOTONIC_RAW)
+> -		systime_snapshot->sys = systime_snapshot->raw;
+> +		systime_snapshot->systime = systime_snapshot->monoraw;
+>  	/* Tell the consumer that this snapshot is valid */
+>  	systime_snapshot->valid = true;
+> -	return true;
+>  }
+>  EXPORT_SYMBOL_GPL(ktime_get_snapshot_id);
+>  
+> @@ -1330,7 +1348,7 @@ static int adjust_historical_crosststamp(struct system_time_snapshot *history,
+>  	 * Scale the monotonic raw time delta by:
+>  	 *	partial_history_cycles / total_history_cycles
+>  	 */
+> -	corr_raw = (u64)ktime_to_ns(ktime_sub(ts->sys_monoraw, history->raw));
+> +	corr_raw = (u64)ktime_to_ns(ktime_sub(ts->sys_monoraw, history->monoraw));
+>  	ret = scale64_check_overflow(partial_history_cycles,
+>  				     total_history_cycles, &corr_raw);
+>  	if (ret)
+> @@ -1347,7 +1365,7 @@ static int adjust_historical_crosststamp(struct system_time_snapshot *history,
+>  	if (discontinuity) {
+>  		corr_sys = mul_u64_u32_div(corr_raw, tk->tkr_mono.mult, tk->tkr_raw.mult);
+>  	} else {
+> -		corr_sys = (u64)ktime_to_ns(ktime_sub(ts->sys_systime, history->sys));
+> +		corr_sys = (u64)ktime_to_ns(ktime_sub(ts->sys_systime, history->systime));
+>  		ret = scale64_check_overflow(partial_history_cycles, total_history_cycles,
+>  					     &corr_sys);
+>  		if (ret)
+> @@ -1356,8 +1374,8 @@ static int adjust_historical_crosststamp(struct system_time_snapshot *history,
+>  
+>  	/* Fixup monotonic raw and system time time values */
+>  	if (interp_forward) {
+> -		ts->sys_monoraw = ktime_add_ns(history->raw, corr_raw);
+> -		ts->sys_systime = ktime_add_ns(history->sys, corr_sys);
+> +		ts->sys_monoraw = ktime_add_ns(history->monoraw, corr_raw);
+> +		ts->sys_systime = ktime_add_ns(history->systime, corr_sys);
+>  	} else {
+>  		ts->sys_monoraw = ktime_sub_ns(ts->sys_monoraw, corr_raw);
+>  		ts->sys_systime = ktime_sub_ns(ts->sys_systime, corr_sys);
+> @@ -1521,12 +1539,12 @@ int get_device_system_crosststamp(int (*get_time_fn)
+>  	case CLOCK_AUX ... CLOCK_AUX_LAST:
+>  		tkd = aux_get_tk_data(xtstamp->clock_id);
+>  		if (!tkd)
+> -			return false;
+> +			return -ENODEV;
+>  		offs = &tkd->timekeeper.offs_aux;
+>  		break;
+>  	default:
+>  		WARN_ON_ONCE(1);
+> -		return false;
+> +		return -ENODEV;
+>  	}
+>  
+>  	tk = &tkd->timekeeper;
 
-Thank you for the guidance. I will address this in v2.
-
-> > The clock descriptions are currently swapped relative to the
-> > clock names used by the driver.
->
-> Why would order of clock names in the driver matter here? I do not
-> understand that explanation.
->
-
-I inferred that 'hclk' is the bus clock from the driver, which uses
-devm_regmap_init_mmio_clk() with 'hclk',
-and this matches the description found in several Rockchip datasheets.
-However, I understand that the binding should be described
-independently of the driver implementation.
-Therefore, I'll drop this description in the next revision.
-
-Best Regards,
-Phuc
