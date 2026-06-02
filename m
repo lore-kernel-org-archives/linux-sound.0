@@ -1,95 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D983B8BC7;
-	Tue,  2 Jun 2026 09:31:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED44B306D3F
+	for <linux-sound@vger.kernel.org>; Tue,  2 Jun 2026 09:43:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780392709; cv=none; b=GrEEy4T944gTr7NiL5AbBm38wNERx68UO9lrlusSjf7J628htJCzUuaBb4CXLewsNcbB/XlldcwYJ3p2N1HFdCmmh1+5tU+0sKxYFT7E3/4o9NE8D6/T2o/VoTlnwO0yxrqGPh9Nec29cP2WHY7BQ7NIzyP3zF4GISzi6gIXnEQ=
+	t=1780393402; cv=none; b=n1+9Prak5quexFLoGkU8+wqme1Zf1dp2FE1yDNJRjt8KhOtK+Tdf+To4KVnSqRCmRU8YSldL+Y1b5fdx5rUxp4eOoSA+10Ya2XXqhw9kkfAGmupMIMg9Sb/2b/eTmeCWqelBCeGjK/zTyknthiuEp8h04lVl+GYL3IM596vJ4mA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780392709; c=relaxed/simple;
-	bh=oVFK0nG008aHrlI8LnIts54WnpxPIH7UStYVo6BNbp0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=eFKp0G73eqy+7WqKD5aqncLKVJHFye0383go5hXx4r7+zvfL/3XlsfLAaTJl5w+Ez5xNpaIJMaEZ1XRXJJB7X6We/iSmQ8XCeQPRq+zfQLHgIX79b0gmD5ui6oQNUzuCYLCKsagWtqZq+V+Pt07dwvx89MqPymf2p5nb6bJOVe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G+IpyZ8O; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780393402; c=relaxed/simple;
+	bh=8xyHhJ7FOK40jJL9A3NqR4cuESNgurpe4nRJP8WrfpY=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=bSOLF5MOHQZ/pazjpLc9c60PxqQxCUTpHxA6wL38Brgk8vqF1jDu4j52SlfLAGWOAc5TjKRRy6wSv/aXyS/3FqtWiV86DEsnXutTjXHQplIytEy41fk7Qp/uZe3EG8kIkfvpvezour2Ak5RR3+B/hk0vTI+ZPrulKg/CxX2Y/rY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QJEsdT5Y; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G+IpyZ8O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 323701F00893;
-	Tue,  2 Jun 2026 09:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780392703;
-	bh=l9Fnu7ql/xw3WcbLnwmXcQ6Np+ykb7eXiOcMgZ1/zrA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=G+IpyZ8ORqglynUsO5PqcmN9TOoMfpn/CrlCCnUVH6YlWLr0MUKCjg8JLpHl2ljOA
-	 P1R6cZugmO5ewnx1OWoJ7YSpv8jik4V9TQt/awnIbmC8xYDzNnztKJJ2aobL+VbTtF
-	 5rmc6dw/7bksesUxZVCTCDGWrTr8AI1+AIh8+9dEvy4r9aW3mlUxjPDuRqsitDf7CF
-	 CU8CDMNsmCx4lgYkC6HDkWhXZs8sdcB6qbTcE/PP5+v8gQI5O0APeSHUvt5CkKCrrd
-	 d6U0aDVmb5bBTaSHV3MYMSd2oxAGkxdVqwMVO8j5MT7AAUrRHRPHCpL9AuriNQaMZO
-	 YLyDVj4i3gOqQ==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Rodolfo Giometti <giometti@enneenne.com>, LKML
- <linux-kernel@vger.kernel.org>
-Cc: David Woodhouse <dwmw2@infradead.org>, Miroslav Lichvar
- <mlichvar@redhat.com>, John Stultz <jstultz@google.com>, Stephen Boyd
- <sboyd@kernel.org>, Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- thomas.weissschuh@linutronix.de, Arthur Kiyanovski <akiyano@amazon.com>,
- Vincent Donnefort <vdonnefort@google.com>, Marc Zyngier <maz@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, Oliver
- Upton <oupton@kernel.org>, Richard Cochran <richardcochran@gmail.com>,
- netdev@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, Miri Korenblit
- <miriam.rachel.korenblit@intel.com>, Johannes Berg
- <johannes.berg@intel.com>, Jacob Keller <jacob.e.keller@intel.com>, Tony
- Nguyen <anthony.l.nguyen@intel.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Peter Hilber <peter.hilber@oss.qualcomm.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, virtualization@lists.linux.dev,
- linux-wireless@vger.kernel.org, linux-sound@vger.kernel.org, David
- Woodhouse <dwmw@amazon.co.uk>, Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: Re: [patch V2 04/25] pps: Convert to ktime_get_snapshot_id()
-In-Reply-To: <912a22e8-878f-4763-958b-71052ee69b36@enneenne.com>
-References: <20260529193435.921555544@kernel.org>
- <20260529195557.123410250@kernel.org>
- <912a22e8-878f-4763-958b-71052ee69b36@enneenne.com>
-Date: Tue, 02 Jun 2026 11:31:40 +0200
-Message-ID: <877boh8f0j.ffs@fw13>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QJEsdT5Y"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490ae34298aso930365e9.1
+        for <linux-sound@vger.kernel.org>; Tue, 02 Jun 2026 02:43:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780393399; x=1780998199; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8xyHhJ7FOK40jJL9A3NqR4cuESNgurpe4nRJP8WrfpY=;
+        b=QJEsdT5YW0xLrNyxlSNXuNoo0rvF75bjscnENRqzTAXe9GIdxeW3guTX1NlzYR2Mhg
+         r+iNDpNq5sTshIISOxX+bdjUHEA3afMly8xgXFmUeBNA/4a1p89EdpuxuKdNc/Tq/Y1H
+         rXZqc5w9ssy8y8A+hp0JQ5QmCiGbaAZGpZMM0S/S6AqLo1DEz5PupUUr+ACAPpffOF3O
+         jlPGHSwvwhvKSQSWokjIg/GAIhW/9mAEt3zItnsG/+OmnDInRWLOPCXXu8HFIUgMDeJy
+         zDtY+8+R+9VZBy0Y0TBCXJYI5OJxQ4En3Ny6bpGbhk6fVpMX9JlPum/EeMNROgm3G7NO
+         YvxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780393399; x=1780998199;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8xyHhJ7FOK40jJL9A3NqR4cuESNgurpe4nRJP8WrfpY=;
+        b=bjnyN6wMK6MaJjH8b7HYuq1gR8jFb3hzhzy4q+94DsHWj4lyQ2JMGmtCvqgrPbp2Ty
+         hqZEZopH/6d6qcqEZ7De81kcNStAIxTxNufPecSjvzthVe2Pxr5OXLArdpwjLFiKXnA1
+         wszIGzRcK7xflhAAdINiPBlGF5Byv3MOVl3k3BK3Ip2yQPEXizQppp/+fqwvoVo/wEqR
+         MFE3VTkrFI7ZOqp4AMWJJatDPqSa9unUNPb3FL6J0E0bfCWhCkrFuCc8az18AcRRX6XE
+         ++uSBCwcbbeUfesKXr0Ec+WcBATmZQSPhx0g/for9iCYQUoTo7u27ePmh8iOb3z7wQ87
+         829g==
+X-Forwarded-Encrypted: i=1; AFNElJ8LiLPThK0l6pcHaFzmP1UpdJcM/ilfp/53lBItbjayj4DwVzlTQDi1r7yDYyx6e3rpFS6Y7S4lVpq1Ag==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYIxA+WnHB7T1EeXxcORVzL4SBlk9EUima4HnKtZ3fEJIVaLqp
+	CWecYxKDQtO7fu3zUU0y0djsUF8wmx2ry1rLxQE2Oc2kZW8RmKDfL+U=
+X-Gm-Gg: Acq92OFfMkZzfv03BS5vXNt1Ctma1DRPN4BGDd7XqYWDNY0lLKm3eIrpVdMdnm3ZsfI
+	j3Fh0m2BviVlB5VpeWp48aojc3g7fgN5DQ15G74+IuQ1xvg4qXJ8m2rJjeYOI3pdyghiGAwWjjK
+	SDJx0lTQhnOhIup2GNyEH3cR3A9KMQ7C/cs1rSfBTLzV6S4qJ6J0tE3zvxiBc2obRBBgrCISOLe
+	J/2C5eHvhhXo4w1eA+L4SJi9i9UkJdpoMWgUiAKbzLiZtNXnwArkUukrNdhfisHDD9AUzVXnCeK
+	ZClyhvFz5P3+UjNCzunAf0n4l5eKi8yK7cych6P9F6e1B5rLCYTpQxtAR6TUpKMM222IUItCkcD
+	nVue0KzJugILX9j7EUnt1vGaRCYe5z5gQADH8erv21wzOu3EQsPrRfWADrcNgwyheQgFvCgAtWX
+	WgniHeLXrwgXYsGJB9jJ1e+AcTKsovXZYJfqEzLK2omnT0wYzkNJJ0HGmpEfBF9rOolTPrw+8=
+X-Received: by 2002:a05:600c:871a:b0:490:b1bb:cdbf with SMTP id 5b1f17b1804b1-490b1bbcecamr17109605e9.7.1780393399317;
+        Tue, 02 Jun 2026 02:43:19 -0700 (PDT)
+Received: from localhost (32.red-80-39-29.staticip.rima-tde.net. [80.39.29.32])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e28fa0sm54936315e9.8.2026.06.02.02.43.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jun 2026 02:43:18 -0700 (PDT)
+Message-ID: <ff761ce3-ddd6-4dae-8e7e-392874d7dc60@gmail.com>
+Date: Tue, 2 Jun 2026 11:43:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Language: en-US, en-GB, es-ES
+To: "Jaroslav Kysela <perex@perex.cz> Takashi Iwai" <tiwai@suse.com>,
+ SOUND ML <linux-sound@vger.kernel.org>
+From: Xose Vazquez Perez <xose.vazquez@gmail.com>
+Subject: [linux] sound/isa/wavefront/wavefront_synth.c : Form feed (^L)
+ characters
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, May 30 2026 at 13:08, Rodolfo Giometti wrote:
-> On 29/05/2026 22:00, Thomas Gleixner wrote:
->>   static inline void pps_get_ts(struct pps_event_time *ts)
->>   {
->> +#ifdef CONFIG_NTP_PPS
->>   	struct system_time_snapshot snap;
->>   
->> -	ktime_get_snapshot(&snap);
->> -	ts->ts_real = ktime_to_timespec64(snap.real);
->> -#ifdef CONFIG_NTP_PPS
->> -	ts->ts_raw = ktime_to_timespec64(snap.raw);
->> +	ktime_get_snapshot_id(CLOCK_REALTIME, &snap);
->> +	ts->ts_real = ktime_to_timespec64(snap.systime);
->> +	ts->ts_raw = ktime_to_timespec64(snap.monoraw);
->> +#else
->> +	ktime_get_real_ts64(&ts->ts_real);
->
-> 	/*
-> 	 * Prevent kernel stack information disclosure if the
-> 	 * structure is later copied to userspace.
-> 	 */
-> 	ts->ts_raw = (struct timespec64){0, 0};
+Hi,
 
-Which will fail to build because of:
+I noticed that sound/isa/wavefront/wavefront_synth.c contains
+several legacy form feed (\f, ^L) characters used as page breaks.
 
-struct pps_event_time {
-#ifdef CONFIG_NTP_PPS
-        struct timespec64 ts_raw;
-#endif /* CONFIG_NTP_PPS */
-        struct timespec64 ts_real;
-};
+According to the Linux kernel coding style, these should be removed. They
+appear in the following lines:
 
-No?
+$ grep -n -P '\f' sound/isa/wavefront/wavefront_synth.c
+513:
+
+593:
+
+1478:
+
+1710:
