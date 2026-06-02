@@ -1,92 +1,171 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDB13D1A86;
-	Tue,  2 Jun 2026 13:13:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E03233941;
+	Tue,  2 Jun 2026 13:30:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780406031; cv=none; b=leYoOXPQcahe6vFrDld0LZoRMh0xLhXVJfNZKToJlQWYzB8+mTuCcj6ZTiEdAPS4pa8u6kBx89UeaMqRDetqUKdFcGDLJPG9gmygDfyMOAKtdjBR8iKHHU2FjN5Q2UobgrAOj8AouigtyreWb5gALh2KNKJZE2j1IkZPUFf23sI=
+	t=1780407054; cv=none; b=i4mFyqlV4VWuZgAJABEttyBatww1cN+FnBWaKqpqk9D1I2QA3qwnBRbtGB35lY2y/qnmHbME0jsH8+FRL5kwXomxvrGa+pdwrWn0KuWimya1OHSYoh5mjojHwnfzyKQwhqo5SmOlVNk3X33qNG8C8uDIv+0TC2MV39wJUP3SJiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780406031; c=relaxed/simple;
-	bh=bdATNsuW+ejvlXXmD5hXFPYFFKTEOS5Pduc6iVFXvBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ivnV6s75NEW1zEbV7fYvYLC4SAoImN9DM3O15z4TxfooDGLSvVGcRlxhR8CCOaxKhoSW5rqLPbswOhNdwjn7XTwjdN0rNaXR40DP44JoCKOcE9pDBRZy9KERgmc2vGnlfNQxFwJdQRtp2SXnN9QF7mUd8IDsX+ZTok8cloVreck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O4nXaQX7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780407054; c=relaxed/simple;
+	bh=WnoCYYY2O9xdTYGKzcRY4YVB5VH1xlhm+ELi8P1QuIM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J0YXY6UqTjyo8JB/89gFaDfr2GJzQcdQkSCcQIV/n7aN9fusrLGhY5EA7HlsESenweLVQTFrtl673nfcocAeAdUSodaK6MQAylMhzKHCyup242eT9lObmVBZ31vYfISumTQitPLkSoq+6C+kA+e/lfaD3KE77qkw/5cNYnlcLlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cWxipr1D; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O4nXaQX7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EB251F00893;
-	Tue,  2 Jun 2026 13:13:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cWxipr1D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD1501F00893;
+	Tue,  2 Jun 2026 13:30:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780406030;
-	bh=LzHR1tYkliTSBjOTQ008Or3ty5QZOABm6IV2H15p6EA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=O4nXaQX7UUf1WBKLtyJuMNYb5O+mNMo/Hl4DHFg2L+RIst5ejzaTIZLbfIpQyZhwr
-	 +r62Jzg4+dtgSNjuo2237oPpivT5eM9d+BXznaiqqwrTKphB09T+WX/ztDa5Szpy77
-	 DTh2+lbr7NhzplaHKl4gcrQLzx/yvHUCxCRDvM4meKlPXOJotqmudl4gGw6wdXtmmU
-	 tZvibx7qzAGfDOxAhKmjmUhYR91615cLmx5vlQgFnNriIp7XojtErVxSQfrhxC93p7
-	 B6MMCkTX2b2r2k57qncNErMVjpa3bqd1uAEOw0grgRWvSWpEXxT9s38VNgJY5pco59
-	 w/pxakXx6/hGA==
-Date: Tue, 2 Jun 2026 14:13:46 +0100
-From: Mark Brown <broonie@kernel.org>
-To: lijun <lijun01@kylinos.cn>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: loongson: Fix invalid position error in
- ls_pcm_pointer
-Message-ID: <40a51e9a-56d3-4859-871a-42842158e976@sirena.org.uk>
-References: <20260601084309.845322-1-lijun01@kylinos.cn>
- <7ff4cebc-4873-4135-b58c-29a9ce2d696f@sirena.org.uk>
- <e4c628f8-dac3-4318-bdeb-758ac007a92b@kylinos.cn>
+	s=k20260515; t=1780407052;
+	bh=LPGoqrF6mb31SwqNmGzzMqxaVZZ8znhqb4FkUA/VCz8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=cWxipr1D62ketjcWQHp6nNED2Wmoompy3wuVag1agy1YlyiB3s4WiamHmW6b8d8f3
+	 1yD2BRNTAteW7+MDmYHZRdfdHf8du/YyVlmwrm4qRyJtqow/sSmgUcFDpVWuw+MtvR
+	 araYop00eGUzJNx31nuneRZZMJ6HwEv2tEORdQVbyiSgQZ5tixZKF5zkRNIHb2GqIZ
+	 zSW/gqMAycpZrGfVqoT+YKOytAN9Zbfz+56EtCx4WW8941NAJO//JeqgrHQLtalpb4
+	 ysqff86AgezehekBpCTN58qCIdOtrfdMpiGQgHQi5LhQNDgWhsa3X/18M3jaT8F4NC
+	 WXIXczCGQBnIg==
+Message-ID: <8bfee508-9d3e-47ef-8542-cda6cf28847e@kernel.org>
+Date: Tue, 2 Jun 2026 16:30:47 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ZfrquphT14/rNvx/"
-Content-Disposition: inline
-In-Reply-To: <e4c628f8-dac3-4318-bdeb-758ac007a92b@kylinos.cn>
-X-Cookie: The wages of sin are unreported.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 00/18] Renesas: dmaengine and ASoC fixes
+To: vkoul@kernel.org, Frank.Li@kernel.org, lgirdwood@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ p.zabel@pengutronix.de, geert+renesas@glider.be,
+ kuninori.morimoto.gx@renesas.com, long.luu.ur@renesas.com
+Cc: claudiu.beznea@tuxon.dev, dmaengine@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20260526084710.3491480-1-claudiu.beznea@kernel.org>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@kernel.org>
+In-Reply-To: <20260526084710.3491480-1-claudiu.beznea@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
---ZfrquphT14/rNvx/
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Gentle ping on this series.
 
-On Tue, Jun 02, 2026 at 08:49:29AM +0800, lijun wrote:
+Thank you,
+Claudiu
 
-Please don't top post, reply in line with needed context.  This allows
-readers to readily follow the flow of conversation and understand what
-you are talking about and also helps ensure that everything in the
-discussion is being addressed.
+On 5/26/26 11:46, Claudiu Beznea wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Hi,
+> 
+> This series addresses issues identified in the DMA engine and RZ SSI
+> drivers.
+> 
+> As described in the patch "dmaengine: sh: rz-dmac: Set the Link End (LE)
+> bit on the last descriptor", stress testing on the Renesas RZ/G2L SoC
+> showed that starting all available DMA channels could cause the system
+> to stall after several hours of operation. This issue was resolved by
+> setting the Link End bit on the last descriptor of a DMA transfer.
+> 
+> However, after applying that fix, the SSI audio driver began to suffer
+> from frequent overruns and underruns. This was caused by the way the SSI
+> driver emulated cyclic DMA transfers: at the start of playback/capture
+> it initially enqueued 4 DMA descriptors as single SG transfers, and upon
+> completion of each descriptor, a new one was enqueued. Since there was
+> no indication to the DMA hardware where the descriptor list ended
+> (though the LE bit), the DMA engine continued transferring until the
+> audio stream was stopped. From time to time, audio signal spikes were
+> observed in the recorded file with this approach.
+> 
+> To address these issue, cyclic DMA support was added to the DMA engine
+> driver, and the SSI audio driver was reworked to use this support via
+> the generic PCM dmaengine APIs.
+> 
+> Due to the behavior described above, no Fixes tags were added to the
+> patches in this series, and all patches should be merged through the
+> same tree.
+> 
+> In case this series will be merged this release cycle, as the audio
+> patches are acked, best would be to go though the DMA tree.
+> 
+> However, there might be merge conflict on the rz-ssi driver due to the
+> recently posted patch at [1].
+> 
+> Thank you,
+> Claudiu
+> 
+> [1] https://lore.kernel.org/all/875x4agb2x.wl-kuninori.morimoto.gx@renesas.com
+> 
+> Changes in v6:
+> - addressed sashiko review comments
+> - addressed Frank's review comments
+> - collected tags
+> 
+> Changes in v5:
+> - dropped patch "dmaengine: sh: rz-dmac: Do not disable the channel on error"
+> - added patch "dmaengine: sh: rz-dmac: Add runtime PM support"
+> 
+> Changes in v4:
+> - collected tags
+> - addressed review comments got from sashiko.dev. For this:
+> - added patches:
+> -- dmaengine: sh: rz-dmac: Move interrupt request after everything is set up
+> -- dmaengine: sh: rz-dmac: Fix incorrect NULL check on list_first_entry()
+> 
+> Changes in v3:
+> - addressed review comments got from sashiko.dev. For this:
+> - added patches 1-9
+> - added patch "ASoC: renesas: rz-ssi: Add pause support"
+> - dropped patches:
+> -- dmaengine: sh: rz-dmac: Add enable status bit
+> -- dmaengine: sh: rz-dmac: Add pause status bit
+> 
+> Changes in v2:
+> - fixed typos in patch descriptions and patch titles
+> - updated "ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs"
+>    to fix the PIO mode
+> - in patch "dmaengine: sh: rz-dmac: Add suspend to RAM support"
+>    clear the RZ_DMAC_CHAN_STATUS_SYS_SUSPENDED status bit for
+>    channel w/o RZ_DMAC_CHAN_STATUS_PAUSED_INTERNAL
+> - per-patch updates can be found in individual patches changelog
+> - rebased on top of next-20260319
+> - updated the cover letter
+> 
+> Claudiu Beznea (18):
+>    dmaengine: sh: rz-dmac: Move interrupt request after everything is set
+>      up
+>    dmaengine: sh: rz-dmac: Fix incorrect NULL check for
+>      list_first_entry()
+>    dmaengine: sh: rz-dmac: Use list_first_entry_or_null()
+>    dmaengine: sh: rz-dmac: Use rz_dmac_disable_hw()
+>    dmaengine: sh: rz-dmac: Add helper to compute the lmdesc address
+>    dmaengine: sh: rz-dmac: Save the start LM descriptor
+>    dmaengine: sh: rz-dmac: Add helper to check if the channel is enabled
+>    dmaengine: sh: rz-dmac: Add helper to check if the channel is paused
+>    dmaengine: sh: rz-dmac: Use virt-dma APIs for channel descriptor
+>      processing
+>    dmaengine: sh: rz-dmac: Refactor pause/resume code
+>    dmaengine: sh: rz-dmac: Drop the update of channel->chctrl with
+>      CHCTRL_SETEN
+>    dmaengine: sh: rz-dmac: Add cyclic DMA support
+>    dmaengine: sh: rz-dmac: Adjust rz_dmac_chan_get_residue() to return
+>      error codes
+>    dmaengine: sh: rz-dmac: Add runtime PM support
+>    dmaengine: sh: rz-dmac: Add suspend to RAM support
+>    ASoC: renesas: rz-ssi: Add pause support
+>    ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs
+>    dmaengine: sh: rz-dmac: Set the Link End (LE) bit on the last
+>      descriptor
+> 
+>   drivers/dma/sh/rz-dmac.c   | 823 ++++++++++++++++++++++++++-----------
+>   sound/soc/renesas/Kconfig  |   1 +
+>   sound/soc/renesas/rz-ssi.c | 399 +++++++-----------
+>   3 files changed, 723 insertions(+), 500 deletions(-)
+> 
 
-> for example,the DMA controller is abnormal in hardware
-> the addr =3D 0,
-> addr =3D ((u64)desc->saddr_hi << 32) | desc->saddr;
-> x =3D bytes_to_frames(runtime, addr - runtime->dma_addr);
-> addr =3D 0 dma_addr=3D4195352576=C2=A0=C2=A0 x=3D-1048838144 i think the =
-value of pos should
-> not be a negative=EF=BC=8Creturn 0, maybe better.
-
-Right, the question is if this happens in normal operation somehow or if
-this is an error condition.  If this is an error should we be reporting
-it as such, for example with snd_pcm_stop_xrun().
-
---ZfrquphT14/rNvx/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoe1wkACgkQJNaLcl1U
-h9BEbAf/UGarMXfYSUaJlanDV/h8Kp4TfzWbleRNPXe0vTo0/QgCLNBVPdzZNcYe
-hM7N1evVKJsVCtnLPQ1dhR7rBePeZMMx/p8XrntbmpEwBo/iE7rf5XPBAyoEhpHr
-uoRURQVl8X7o/IKvCAPE4FFEGac2rmjpLuvM0b+q9brAcRbZOUu5v8neboJyDaeF
-/V84ecAds+vC64ZFwoMU6nKDhi0lCnnRDsJSD7mEBwvhYdZ+hprrumDzSR/XYbiT
-ydWkwk7H/XQHsIYBWvwbtFHno2zggPx/BVmdQ0fD04nDeceFua3Lf+sNv0+XWih9
-hLT72zAT4hanBlMlw0SyR1hF8Y2NDA==
-=b2xY
------END PGP SIGNATURE-----
-
---ZfrquphT14/rNvx/--
