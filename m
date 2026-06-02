@@ -1,109 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F31C33F590;
-	Mon,  1 Jun 2026 23:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6145C19CCF5;
+	Tue,  2 Jun 2026 00:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780356951; cv=none; b=ZkvjnJeSxJPFANgsg4qd1alWkl94UWguwjfQfucig68WnQr2aJ5sSMPJCeaP+2z9LjX/HH3bonVkGYhh/YY5Ho4WawMR9yFSxNaDB/Bfp5LPMmyOr6FGQLpc3aSedoLjc4GW/ljlZsZ8glZRIsMcM53n1VzTSkiBfoaHkSp4zh8=
+	t=1780361380; cv=none; b=FWiuzdsjg7u0YffnTHGQRxUgNFRMc9cRxY0ibhh8ztoklLwh/wQLf9c68bN0jUeBOVt0gynmvQK0fgEvtbs7P8dmo2t75O/+I2wIAw0q/KDMT3MARkipJ3DrDw+/UNpHVQCj7ovqAamD4iTnnviwCRE1J0N43hqsK+2Wt8kVJIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780356951; c=relaxed/simple;
-	bh=mu+k5t+nIMpSdNoVyH2bpssgMm+HGMnEOEsZeveBT8Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dZ7+2Sy49W8OkBelKwRKgbivpVg6LIkE+Lk3X4mQwcCRghJyNGESIHbVWI3g84vHJPoGO633N/P4K8q/zKhBDtwDfgRvrtB+C6RQ2UZ0nzxBP1zfkOh4elUJPq6EWWIChIftFy1iR8Alxvp+Pd4WNi2UaNt093uHf7SWMhQQ+Mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bwFeM+dK; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bwFeM+dK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5639F1F00893;
-	Mon,  1 Jun 2026 23:35:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780356949;
-	bh=BsNyXchE0cQ+WrTEzbPCgdBZhaTxYz8ZYh6ODfO6Thc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bwFeM+dKJids5MGHkWeT2lqLmOE+Z22fpYZVG8IarCaPIkYd1ClJLTF0P+KK4TZC1
-	 t1HfBIbIgLm2lF9d6SD2H1GRY5GUIy6SJwL9v8EZ3L20jIK/NaVXSt1XPTueO0oIGy
-	 y19iXABriAlFUODdDTo2f2+FK6UaosZlP/s7kW+eWFj9kPjNXvxZUpQLix9fiYAVMs
-	 qutOmIhrfL9fMTHLsw3ErfIZs150qZpCJg1stHoIzdshVCQp8iYW9sI4ko81gCNtbL
-	 eRcz3oBpBUe09WQM6FxiPQKCgb0o3dANEdBD5y5Egf4yKaQOgk8QwaFZYGWRDLloCl
-	 38TEpySFeTuzg==
-Date: Mon, 1 Jun 2026 18:35:48 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Lee Jones <lee@kernel.org>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Bin Liu <b-liu@ti.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Thierry Reding <thierry.reding@avionic-design.de>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, brgl@kernel.org,
-	Eric Dumazet <edumazet@google.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	David Airlie <airlied@gmail.com>, linux-arm-msm@vger.kernel.org,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Will Deacon <will@kernel.org>, iommu@lists.linux.dev,
-	Ulf Hansson <ulfh@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-arm-kernel@lists.infradead.org,
-	"David S. Miller" <davem@davemloft.net>,
-	intel-xe@lists.freedesktop.org, Andi Shyti <andi.shyti@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>, netdev@vger.kernel.org,
-	linux-sound@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>,
-	linux-mips@vger.kernel.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	driver-core@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	imx@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
-	Peter Chen <peter.chen@kernel.org>, linux-usb@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Joerg Roedel <joro@8bytes.org>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Mark Brown <broonie@opensource.wolfsonmicro.com>,
-	Robin Murphy <robin.murphy@arm.com>, Frank Li <Frank.Li@nxp.com>,
-	devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	linuxppc-dev@lists.ozlabs.org,
-	Saravana Kannan <saravanak@kernel.org>,
-	Maximilian Luz <luzmaximilian@gmail.com>, linux-pm@vger.kernel.org,
-	Hans de Goede <hansg@kernel.org>, dri-devel@lists.freedesktop.org,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 09/23] of: platform: use platform_device_set_of_node()
-Message-ID: <178035694685.195552.1114165096275774254.robh@kernel.org>
-References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
- <20260521-pdev-fwnode-ref-v1-9-88c324a1b8d2@oss.qualcomm.com>
+	s=arc-20240116; t=1780361380; c=relaxed/simple;
+	bh=Ynz+KatejpJwarNr6Qk59ZoMqMLHzKa3ZAcDd+dq7c8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LnvbxWpF6VgAPPTq2GcO2fBW2SUUHDjl9o9bLbs0T0QWltkZPqLQhTB8AsHHw2UuWQDTqOfLKktG0SG6IHeOLwp0tVgdja01eCf6LvQGcUmzXXDnk9sybQ+TC1vYqw3KsqLszpbOTb7D9wuXI6rvFSBBifktLDkQ+yg0ksP5zJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: ead1ca2e5e1c11f1aa26b74ffac11d73-20260602
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:0fb9d2cd-3a96-431c-b8c8-7ad4c52fb3e4,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:e7bac3a,CLOUDID:85ec5049a3375c1e247395a9d3229e70,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|136|865|898,TC:nil,Content:
+	0|15|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,
+	OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: ead1ca2e5e1c11f1aa26b74ffac11d73-20260602
+X-User: lijun01@kylinos.cn
+Received: from [172.30.70.202] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lijun01@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 683246315; Tue, 02 Jun 2026 08:49:31 +0800
+Message-ID: <e4c628f8-dac3-4318-bdeb-758ac007a92b@kylinos.cn>
+Date: Tue, 2 Jun 2026 08:49:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260521-pdev-fwnode-ref-v1-9-88c324a1b8d2@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ASoC: loongson: Fix invalid position error in
+ ls_pcm_pointer
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>, lijun01@kylinos.cn
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260601084309.845322-1-lijun01@kylinos.cn>
+ <7ff4cebc-4873-4135-b58c-29a9ce2d696f@sirena.org.uk>
+From: lijun <lijun01@kylinos.cn>
+In-Reply-To: <7ff4cebc-4873-4135-b58c-29a9ce2d696f@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+for example,the DMA controller is abnormal in hardware
+the addr = 0,
+addr = ((u64)desc->saddr_hi << 32) | desc->saddr;
+x = bytes_to_frames(runtime, addr - runtime->dma_addr);
+addr = 0 dma_addr=4195352576   x=-1048838144 i think the value of pos 
+should not be a negative，return 0, maybe better.
 
-On Thu, 21 May 2026 10:36:32 +0200, Bartosz Golaszewski wrote:
-> Ahead of reworking the reference counting logic for platform devices,
-> encapsulate the assignment of the OF node for dynamically allocated
-> platform devices with the provided helper.
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
->  drivers/of/platform.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-
+2026/6/2 02:28, Mark Brown :
+> I'm not clear in what circumstances we see an address that's outside the
+> DMA buffer?  Is this an error that should be reported as an XRUN instead
+> of silently masked (which will presumably lead to audible issues)?
