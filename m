@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D6D3A8749
-	for <linux-sound@vger.kernel.org>; Tue,  2 Jun 2026 08:12:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92D13BB132
+	for <linux-sound@vger.kernel.org>; Tue,  2 Jun 2026 08:12:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780387974; cv=none; b=RmXbG/08P8xtHT0x/fZIqz6ptABkTe4dtLbi6MJxWI87OXutCDpbcMd1DzPewSjGvZ8Y3cc6iRx2fiLaayz1Aw0tvgfFbgAbINxhg3+J/0ed0mZTEjGfM66mk3SgADkj3PY1sxYOOpfPe6GkUYASiUkqvnEG3pC2Fe7XG9ZlbVc=
+	t=1780387976; cv=none; b=fqFDPZTHj15yzrOD46CZ1JZYLZiDNDioXadFIhzrce4nGSLgo9C3whZHNtLWvGSK9XN6apEt+e36f7WWU+KkEdPOa2ginwtZKE9EpfznR9bGiMVeJo/ePes/GAldA0fJ6NqAPzZmPqB9Y3xQwWDZH7nEnU9Go0l8pM96fRTViJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780387974; c=relaxed/simple;
-	bh=lM6Yx912fHfQrNUHZYMrp4FcmEKI7xxH2KvAyoce6KI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G8Fo2W4v/QXw1jBEIT6rzMhFtJIOZSNrn0mvXK0JmHbaA0fDgIwrtjdIrkHNjrZECOJVpd0jsTI8s6puPFIG6u0K8T0baOumM4ADVJ/Pv/Ver1eklAhrT46Yr6tUxJUuazR/BpdSIDrDSsFXzVDn8ge7IvfTMf2Vbh0eZIU6Cjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SB1y4N2R; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1780387976; c=relaxed/simple;
+	bh=Bcc9zTnbqHeIxFprFFQRXchkx5uS0HN1dij9lD8ZZBE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=nAwEGq5Po+g40qEl3+JNHobPURaKq7HzWYM5Aqybp73nm8CrGlDP67p7ypRYe6GZMF3V4zmSJp1e7NZfburCE1jNtsnZ4IDhKyf59agQw4EdR/hNi8fbvarF3WeCtsp9ZG4LQxNHH+C8d0Av5CNgYeaQY7ftFzGRR4+vsHuZz50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ColgogI3; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SB1y4N2R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ColgogI3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780387973; x=1811923973;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=lM6Yx912fHfQrNUHZYMrp4FcmEKI7xxH2KvAyoce6KI=;
-  b=SB1y4N2RP5asjpgIrcKYYW1vpo16xJpYv1lN212YYA+ZfId6OL877TbM
-   SbO85Bm8IXAxFR8W/5Ei+LKQiQLJAnmnAzYtZ+DZBGsO+S83+YFMpyKzW
-   /WNGlQc4/z0SVOVAhAG3KMq0skcsAIcMaBX1BSFGJJIyJ2ZsZDStwkgTa
-   ZYesXw2jMpY42FvqbfSm6Y2sdnz9n3M3ybH9v2hFG3E/KFdIHvk15DWVk
-   xyi8qPVJZLx46z2tWXPZY8XtkzP4tvgSwRKo6LF3LS2krRKbgAVnlaf6D
-   OCGFFRKWkwGd16pVNJe27bFWgbynRNmBT62MQ33r83lieyQ7sNPrQG0Fo
-   w==;
-X-CSE-ConnectionGUID: NczCJH3rT2SgPkJlYTdu9Q==
-X-CSE-MsgGUID: Rk5bN8KTSB+gUwoHTiK/eA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="91742872"
+  t=1780387975; x=1811923975;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Bcc9zTnbqHeIxFprFFQRXchkx5uS0HN1dij9lD8ZZBE=;
+  b=ColgogI3j+Thc0BT/1XyRoIAAGiXz7iuXrkXNG1dhk994LIo8SIdB9i/
+   TAUEwjQ11VFkVyHCsiMNTpvExW/C0m01z7aOOujLq5V1NIKp3C8b4P4Qj
+   eMZKa1StJp7vFX3TK6om7bTZ/+pONU1VhDmaODYQyohQUfChwGW9Jn7fn
+   qI4gz/P86q4KLLBy84ByaZtpZXicVgXOHPvx8haa0/8U9+mLqbAs/oXVn
+   i++cxZ2brhtSOCMtWE6+wDbNcaWQ5ssXgKQqGWXb2YbP/dKD+s2iUg/Km
+   YoHL2oCmeSKeiOv0S1pnEZWZ3SNAmAGXtPA36dwkJJcuuslLaJ3Cr35TO
+   Q==;
+X-CSE-ConnectionGUID: roRL4jFHTyaKswuch+wK1g==
+X-CSE-MsgGUID: t/DVFUdUTZiPieeVXu0Klg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="91742878"
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="91742872"
+   d="scan'208";a="91742878"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:12:52 -0700
-X-CSE-ConnectionGUID: fKXdDb9PR2CTLAaG2UtskQ==
-X-CSE-MsgGUID: PFR7mELHTzatAFgAtQRFHQ==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:12:54 -0700
+X-CSE-ConnectionGUID: 6Z/u1PsxSF2YMd7RbXVntQ==
+X-CSE-MsgGUID: dQpSKyGWSoWlAl5S9GrkRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="243949922"
+   d="scan'208";a="243949929"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa007.jf.intel.com with ESMTP; 02 Jun 2026 01:12:51 -0700
+  by orviesa007.jf.intel.com with ESMTP; 02 Jun 2026 01:12:53 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -50,10 +51,12 @@ Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	andriy.shevchenko@linux.intel.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v2 0/7] ASoC: Intel: catpt: Code cleanup
-Date: Tue,  2 Jun 2026 10:13:43 +0200
-Message-Id: <20260602081350.1752773-1-cezary.rojewski@intel.com>
+Subject: [PATCH v2 1/7] ASoC: Intel: catpt: Utilize lock-guard helper
+Date: Tue,  2 Jun 2026 10:13:44 +0200
+Message-Id: <20260602081350.1752773-2-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260602081350.1752773-1-cezary.rojewski@intel.com>
+References: <20260602081350.1752773-1-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,41 +65,87 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-All of the changes found here are cleanups and from functional
-perspective, have no impact - either unused code is being removed or
-existing code is altered to use helpers/macros to improve readability.
+The lock-guard helps simplify the driver's code.
 
-Collateral of recent fixes [1].  There is one more patchset with similar
-goal following this one.  Before the team managed to actually fix the
-problem, a number of changes were added to make the code easier to
-understand for people who are not the author (me).
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+---
+ sound/soc/intel/catpt/dsp.c | 12 ++++--------
+ sound/soc/intel/catpt/ipc.c | 10 ++--------
+ 2 files changed, 6 insertions(+), 16 deletions(-)
 
-[1]: https://lore.kernel.org/linux-sound/20260528083444.1439233-1-cezary.rojewski@intel.com/
-
-
-Changes in v2:
-- removed the header declaration for
-  catpt_sram_init() as suggested by Mark
-
-
-Cezary Rojewski (7):
-  ASoC: Intel: catpt: Utilize lock-guard helper
-  ASoC: Intel: catpt: Replace RAM-helpers with resource_xxx()
-  ASoC: Intel: catpt: Simplify the RAM-navigation code
-  ASoC: Intel: catpt: Simplify catpt_stream_find()
-  ASoC: Intel: catpt: Remove unused WAVES controls
-  ASoC: Intel: catpt: Drop manipulation of the obsolete direction flag
-  ASoC: Intel: catpt: Cleanup components_kcontrols[]
-
- sound/soc/intel/catpt/core.h      |  1 -
- sound/soc/intel/catpt/device.c    |  9 ++---
- sound/soc/intel/catpt/dsp.c       | 19 ++++------
- sound/soc/intel/catpt/ipc.c       | 10 +----
- sound/soc/intel/catpt/loader.c    |  7 +---
- sound/soc/intel/catpt/pcm.c       | 63 ++++++-------------------------
- sound/soc/intel/catpt/registers.h |  2 +
- 7 files changed, 27 insertions(+), 84 deletions(-)
-
+diff --git a/sound/soc/intel/catpt/dsp.c b/sound/soc/intel/catpt/dsp.c
+index 677f348909c8..b1865d10f995 100644
+--- a/sound/soc/intel/catpt/dsp.c
++++ b/sound/soc/intel/catpt/dsp.c
+@@ -5,6 +5,7 @@
+ // Author: Cezary Rojewski <cezary.rojewski@intel.com>
+ //
+ 
++#include <linux/cleanup.h>
+ #include <linux/devcoredump.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/firmware.h>
+@@ -256,17 +257,15 @@ static int catpt_dsp_select_lpclock(struct catpt_dev *cdev, bool lp, bool waiti)
+ 	u32 mask, reg, val;
+ 	int ret;
+ 
+-	mutex_lock(&cdev->clk_mutex);
++	guard(mutex)(&cdev->clk_mutex);
+ 
+ 	val = lp ? CATPT_CS_LPCS : 0;
+ 	reg = catpt_readl_shim(cdev, CS1) & CATPT_CS_LPCS;
+ 	dev_dbg(cdev->dev, "LPCS [0x%08lx] 0x%08x -> 0x%08x",
+ 		CATPT_CS_LPCS, reg, val);
+ 
+-	if (reg == val) {
+-		mutex_unlock(&cdev->clk_mutex);
++	if (reg == val)
+ 		return 0;
+-	}
+ 
+ 	if (waiti) {
+ 		/* wait for DSP to signal WAIT state */
+@@ -276,10 +275,8 @@ static int catpt_dsp_select_lpclock(struct catpt_dev *cdev, bool lp, bool waiti)
+ 		if (ret) {
+ 			dev_warn(cdev->dev, "await WAITI timeout\n");
+ 			/* no signal - only high clock selection allowed */
+-			if (lp) {
+-				mutex_unlock(&cdev->clk_mutex);
++			if (lp)
+ 				return 0;
+-			}
+ 		}
+ 	}
+ 
+@@ -303,7 +300,6 @@ static int catpt_dsp_select_lpclock(struct catpt_dev *cdev, bool lp, bool waiti)
+ 	/* update PLL accordingly */
+ 	cdev->spec->pll_shutdown(cdev, lp);
+ 
+-	mutex_unlock(&cdev->clk_mutex);
+ 	return 0;
+ }
+ 
+diff --git a/sound/soc/intel/catpt/ipc.c b/sound/soc/intel/catpt/ipc.c
+index 225757e6a776..11238fc641a4 100644
+--- a/sound/soc/intel/catpt/ipc.c
++++ b/sound/soc/intel/catpt/ipc.c
+@@ -128,14 +128,8 @@ int catpt_dsp_send_msg_timeout(struct catpt_dev *cdev,
+ 			       struct catpt_ipc_msg request,
+ 			       struct catpt_ipc_msg *reply, int timeout, const char *name)
+ {
+-	struct catpt_ipc *ipc = &cdev->ipc;
+-	int ret;
+-
+-	mutex_lock(&ipc->mutex);
+-	ret = catpt_dsp_do_send_msg(cdev, request, reply, timeout, name);
+-	mutex_unlock(&ipc->mutex);
+-
+-	return ret;
++	guard(mutex)(&cdev->ipc.mutex);
++	return catpt_dsp_do_send_msg(cdev, request, reply, timeout, name);
+ }
+ 
+ int catpt_dsp_send_msg(struct catpt_dev *cdev, struct catpt_ipc_msg request,
 -- 
 2.34.1
 
