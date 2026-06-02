@@ -1,152 +1,128 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C54367B66
-	for <linux-sound@vger.kernel.org>; Tue,  2 Jun 2026 21:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA3B367B66;
+	Tue,  2 Jun 2026 21:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780436491; cv=none; b=gWCdijiq6G4zamr2Mkwr+tqKCABzu3q8b5Ul6ApNj7YmTiJ5RGyVE4FIJsnbr63TVTdgvX1nv2deUFQ+4zwE+3nUId/kvDXXWXg0DI/CQ/XMMOSNW15mnbyGDdykqf9n4s0CHEM+R1nA5ccNrlsJwNluxP7SBuf9JCt1CoQ2B1g=
+	t=1780436530; cv=none; b=nDJewXyysYxfL6W2W/gLN99wcn3myy2eqgMLjB7IJBwJBYIhyRt1A52XPAdZTRKnz8HzcnFAB8dgVs5/dpghwMBktcXWHCKvWT5Yf8HVsWsQrTnfBrr+tP9L+GiWqD3sGbnOSZEK5V2zAgro3zveQgtd12hanlOCPMjsuIeY+2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780436491; c=relaxed/simple;
-	bh=sjMsbbjjMfo9G1oEK3UaccO9b84Vt9uv0KKIhK5TKS8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JmZg5lEnvEURFjriM6YRgY4VjukV7En8zcHqxxGiW9Ak+cm7PnRDlbFO1B/AJ6d84fGjDMqtTCqW+2POxtRBcO6v93j5QvtyxRhtFkHhI2hA6XoNCoxwCGJC7rvVMvxV93nNOHpDR7ncuHQl3WuqM/j2T6ea9WR1yyXs7o1O4jA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lxEGm46G; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780436530; c=relaxed/simple;
+	bh=y1ADfjlXNms8ZBUMtHS+kHppk6E04WG2MGtxZDw5VPQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UaFRBgi4D8aS9/lVYG3x68rs+2uK6zIA0ul+2scX6D6/TVVV9w3MKqizwKEoHwWvy6Nj8W6h1lidNg1j2UgPQCZMvSU9L+z0h29n/w3c+45nqiGOSJVld97NfGnLmZecL+IFqQAs7bcHSjrn2V7j74UvcexL5fLvyjwe4LR9dUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ays48kj7; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lxEGm46G"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5176b9c476aso9195911cf.3
-        for <linux-sound@vger.kernel.org>; Tue, 02 Jun 2026 14:41:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780436489; x=1781041289; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=i1Smy8/SB/PveJYFtngxRxdzvHxPRcQ4uBdTyESwI7A=;
-        b=lxEGm46G6XukysB59GNrk27i9w1QhhQkP6GhjElIU8XSiaHH47njn3m9crLa7SwGTT
-         YEar+gOZoFOnS8qsQdUQYgjpdz3UA7LjAu3Wum4qF/MIGb645lOVE42srsQprH10Ltlo
-         MHMKlwnUynuctwZJAbVWgSrRK2pWhvoqtQrRHPXUwaLg+TyUp1kPvJZqytJPWYyLVUH3
-         apuwit4aj6Iu06JComnHN+a7mn2gMuj1K4/tCuxpBz6SNhBVYpfAmELzx0nPpDZVMijI
-         45avmJUVTN4U7IV0f6ponvfTeDAPCPWBDfX+UrKiaT6iUI8IVIGaRcMhceNeaLKZwIQ/
-         q14w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780436489; x=1781041289;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i1Smy8/SB/PveJYFtngxRxdzvHxPRcQ4uBdTyESwI7A=;
-        b=HtlgM+AS2LwECj9lv5RZfvoJyGR798IWGjZJmsdq39XDpVCBB9qLc6snvh2IlyNAxf
-         TDREwPQJnNTEOFJH2JR/xbe/fjk6VItEiasBfkZCivBQ8YFCWk8YVt/6tcGzZrtkjAWd
-         B8uzkdVhEAfm7Ptd8OB5tLuzl3Q3unFlyDtCSg/IA71KJ7gmZjOjs1JZXnpsUpDlV9f1
-         UGwFuGTnWv8SzAMLdlA+TRGEM9PyeEc8VaJHCgyYpOtGRLdi6t+Wm0Y+meRnqHfvL2zH
-         Sa5HwJcLCItaxqU1UtdVWCVu9G4PXaepbmOpdFWmHU1kqnrfxZdwCHzs8aDda56MN8T6
-         cLVw==
-X-Gm-Message-State: AOJu0YyQKdvjy/unvi+LUc9kyKp1w9fFY6xPWNcVIEtflFCsuTwhTNMD
-	TK+/slbqqLsC7xq793BWXcfGqWabalQ+Krs4F5kEHbNh5R2z6gM5NcGE/6SSQ56pfWM=
-X-Gm-Gg: Acq92OF/8SDw6Mr9LUmE4hDUe/BoYSY1bAEkR+6pH8muscPCZX28reS6w5EumVDAChd
-	mZHi7P3AjLu6fgmC2FF1LtlTEKjXttMzs4uf/Ngt3p57qU2JeUD/RP8Si4rX/tB4arQ7eLdl5p9
-	WMWu0e4ZOI8kZ5Ha617dwtVLPlvrg0+qdL4CeM/ZLGsKKcBuIlfXzq5g8OO+A3a1j9c5fkRcPyi
-	d57H34uhk73M7CpM7+63nkZ2RzhoL8FNXRoQc3rO1aIuotxJMq1bLtqC/fIiNFvG8u0iTgJ9NqM
-	PSKzVYGCwtECtM1PGHMs/0bB8Lz0dw6odM64VLysxiWLY2KfU6kOK6UZ+5DPw+0xOwbI0vc2ca8
-	vfA2mjbwvRCha60HTVWbYyOgM+Xmw2ghMMt1LcgDouylKCffqPqVbQ3ovrVpVOCKdlzL84xOTYU
-	gGwE94h9BiZXh5g+GnTT9V8dPcYELjbBQnAeOfnlKKm7sR8BzcCIWwUVaOlmE+BdMpJg==
-X-Received: by 2002:a05:622a:1391:b0:517:6ef7:f6e0 with SMTP id d75a77b69052e-51778753f7fmr14366631cf.46.1780436488652;
-        Tue, 02 Jun 2026 14:41:28 -0700 (PDT)
-Received: from NixHeater ([194.59.251.154])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5177b1c1c6fsm342911cf.18.2026.06.02.14.41.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 14:41:28 -0700 (PDT)
-From: Evelyn Ali <evelynali99@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Evelyn Ali <evelynali99@gmail.com>
-Subject: [v2] ALSA: hda/realtek: ALC882: Fixup for Clevo P775TM1
-Date: Tue,  2 Jun 2026 17:41:22 -0400
-Message-ID: <20260602214122.78020-1-evelynali99@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ays48kj7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780436529; x=1811972529;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y1ADfjlXNms8ZBUMtHS+kHppk6E04WG2MGtxZDw5VPQ=;
+  b=Ays48kj7lZCaRXhxGIt9pgHjLSiSEy21HIc6u0dXimntKLB8q653XIit
+   airOIkPCnPJ0G9QvvgId5C7LrAV8foLX+PiOnDO9pgrxOSayNcYcgXMTu
+   5ivOSAcCftpHRDIPa3WaHuGvVW5Nd+85Vi8xr5L25IDrtnowjebFBEL2F
+   j6C8pg+8npnTzwaJu/r3DfW2yB1DfF1YNyrFql8ZT6tywrqKX92oIOMM5
+   DESttfdbdPlLO96IUmG0jieSl514gMyUG+TfeOukPwA3Kf0KwC+6VfwDs
+   3VQsaqdPIYwj8vpT36MzPFFmeSCYFNVdeQCm81XFmXX9+njMLr9Qpyuil
+   g==;
+X-CSE-ConnectionGUID: Jlwe5SkGQxyTCIe/1S/B2w==
+X-CSE-MsgGUID: P3LQd/JcS+29POOmwX1CpQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="91546432"
+X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
+   d="scan'208";a="91546432"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 14:42:08 -0700
+X-CSE-ConnectionGUID: tgIXYpSsR9qp+knkNCaUJg==
+X-CSE-MsgGUID: nLO3XIOVTTyZUZFp+zTfGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
+   d="scan'208";a="241042785"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.116])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 14:41:55 -0700
+Date: Wed, 3 Jun 2026 00:41:53 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Lee Jones <lee@kernel.org>,
+	Mark Brown <broonie@opensource.wolfsonmicro.com>,
+	Thierry Reding <thierry.reding@avionic-design.de>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Peter Chen <peter.chen@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 07/23] driver core: platform: provide
+ platform_device_set_fwnode()
+Message-ID: <ah9OIVyrHEhcMHzN@ashevche-desk.local>
+References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
+ <20260521-pdev-fwnode-ref-v1-7-88c324a1b8d2@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260521-pdev-fwnode-ref-v1-7-88c324a1b8d2@oss.qualcomm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Clevo P775TM1 laptops come with an ESS Sabre HiFi DAC. Setting
-0x1b pin VREF to 80% enables said DAC output.
+On Thu, May 21, 2026 at 10:36:30AM +0200, Bartosz Golaszewski wrote:
+> Provide a helper function encapsulating the logic of assigning firmware
+> nodes to platform devices created with platform_device_alloc(). Make the
+> kerneldoc state that this is the proper interface for assigning firmware
+> nodes to dynamically allocated platform devices. This will allow us to
+> switch to counting the references of the device's firmware nodes in the
+> future, not only the OF nodes.
 
-Signed-off-by: Evelyn Ali <evelynali99@gmail.com>
----
-Notes: Since 0x1b seems only to enable the external headphone amp,
-the non-VREF bit preservation of v1 seemed extraneous.
+But why different for of_node and fwnode to begin with?!
 
-Changes in v2:
-	- Move fixup from HDA_FIXUP_ACT_INIT to HDA_FIXUP_ACT_PRE_PROBE.
-	- Drop pin-target read/modify/write logic.
-
- sound/hda/codecs/realtek/alc882.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/sound/hda/codecs/realtek/alc882.c b/sound/hda/codecs/realtek/alc882.c
-index 529fecd5baa0a..fd466b6985f05 100644
---- a/sound/hda/codecs/realtek/alc882.c
-+++ b/sound/hda/codecs/realtek/alc882.c
-@@ -61,6 +61,7 @@ enum {
- 	ALC887_FIXUP_ASUS_HMIC,
- 	ALCS1200A_FIXUP_MIC_VREF,
- 	ALC888VD_FIXUP_MIC_100VREF,
-+	ALC898_FIXUP_CLEVO_P775TM1,
- };
- 
- static void alc889_fixup_coef(struct hda_codec *codec,
-@@ -236,6 +237,19 @@ static void alc1220_fixup_clevo_pb51ed(struct hda_codec *codec,
- 	alc_fixup_headset_mode_no_hp_mic(codec, fix, action);
- }
- 
-+/* On Clevo P775TM1, VREF of pin 0x1b enables the external headphone amp */
-+static void alc898_fixup_clevo_p775tm1(struct hda_codec *codec,
-+				       const struct hda_fixup *fix, int action)
-+{
-+	struct alc_spec *spec = codec->spec;
-+
-+	if (action != HDA_FIXUP_ACT_PRE_PROBE)
-+		return;
-+
-+	snd_hda_set_pin_ctl_cache(codec, 0x1b, PIN_VREF80);
-+	spec->gen.keep_vref_in_automute = 1;
-+}
-+
- static void alc887_asus_hp_automute_hook(struct hda_codec *codec,
- 					 struct hda_jack_callback *jack)
- {
-@@ -560,6 +574,12 @@ static const struct hda_fixup alc882_fixups[] = {
- 			{}
- 		}
- 	},
-+	[ALC898_FIXUP_CLEVO_P775TM1] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc898_fixup_clevo_p775tm1,
-+		.chained = true,
-+		.chain_id = ALC882_FIXUP_EAPD,
-+	},
- };
- 
- static const struct hda_quirk alc882_fixup_tbl[] = {
-@@ -664,6 +684,7 @@ static const struct hda_quirk alc882_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1558, 0x67f1, "Clevo PC70H[PRS]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
- 	SND_PCI_QUIRK(0x1558, 0x67f5, "Clevo PD70PN[NRT]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
- 	SND_PCI_QUIRK(0x1558, 0x70d1, "Clevo PC70[ER][CDF]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
-+	SND_PCI_QUIRK(0x1558, 0x7709, "Clevo P775TM1", ALC898_FIXUP_CLEVO_P775TM1),
- 	SND_PCI_QUIRK(0x1558, 0x7714, "Clevo X170SM", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
- 	SND_PCI_QUIRK(0x1558, 0x7715, "Clevo X170KM-G", ALC1220_FIXUP_CLEVO_PB51ED),
- 	SND_PCI_QUIRK(0x1558, 0x9501, "Clevo P950HR", ALC1220_FIXUP_CLEVO_P950),
-@@ -719,6 +740,7 @@ static const struct hda_model_fixup alc882_fixup_models[] = {
- 	{.id = ALC1220_FIXUP_GB_DUAL_CODECS, .name = "dual-codecs"},
- 	{.id = ALC1220_FIXUP_GB_X570, .name = "gb-x570"},
- 	{.id = ALC1220_FIXUP_CLEVO_P950, .name = "clevo-p950"},
-+	{.id = ALC898_FIXUP_CLEVO_P775TM1, .name = "clevo-p775tm1"},
- 	{}
- };
- 
 -- 
-2.54.0
+With Best Regards,
+Andy Shevchenko
+
 
