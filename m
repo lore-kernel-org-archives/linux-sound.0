@@ -1,194 +1,198 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011009.outbound.protection.outlook.com [52.101.125.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82982DA76C
-	for <linux-sound@vger.kernel.org>; Tue,  2 Jun 2026 06:02:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780380177; cv=fail; b=MDx8S2vHqF96A+xgvwGy4w68fjirZ7nhehsmMOFtTyQnDyPlB9nGFN/mrwwoC/o9xjMeG5o3GfukSwQ2pls6kCdB6FXSkAQwExonb1AsFe0RrIawU5z4PlWt2Er+kTQ77x3pqG2cBWfgP1XNyJ0K8Ocsec1JAA5S6ueMtf9+26Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780380177; c=relaxed/simple;
-	bh=fQGRRdh6tgA8OS2hriI0QDxsyOkSZciBF/XdrXUehFM=;
-	h=Message-ID:From:To:Cc:Subject:Content-Type:Date:MIME-Version; b=pzR6F4bo0/5+6FFV2MFiI8XnJPy9Vsr9qjavq7rtH3nEQ6CmrRfyDxja60lsFTx7EpVozbCHZ55WbWQOVTAkFQhb4fiV+v9ANqJP0Bcudvh0dpizEyU3b39d69uSx9BKpaymjNLoDRiDjCHiB+46Kp2tCO3k+qMOLmRvXEIE6D0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=abGHZLdn; arc=fail smtp.client-ip=52.101.125.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF7B2D2382;
+	Tue,  2 Jun 2026 06:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780380862; cv=none; b=D3My+yeiwMxk42ANTJP5eCxzud/YKAnz6642clOyaNVc5vpR5DKaB2Tt4EazJ/VXm1v6eXp7omNXv4tMO02RwTz6UA8QcA9ffpmAfDI1Gfwhln1Stxlj1xxptx6mBZ2AYHxzNIWep82RHZ429e01XceR5/7RItZWjmEK9/8cYVc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780380862; c=relaxed/simple;
+	bh=ZZloKfi+BZkzFML4nwkLNn6PsJRRhLCXqfaYA3b9NT0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=L+hBRjD4lp4N/ehgJUXoOeXwQyW+liIN5Hx6NcyeErriEr6T46eXk+W6jd4bt9mbCMDZ5XcUi/pxZ7lcTu6L/6hA/AvnpszUb8UivB43E4fPRC6iqhXgTTXSuBOUNgx5X6KDZ4b6BPBBesJUXycw5krcPmnrfoJQxAsbGNf/Gxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=CKa0STd9; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="abGHZLdn"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=agM2mFU1odq/lwcjN3Ln4XHbvLOjePPM68Jm6uBUA2/jYA72G7WruJFvXgHA824hM0MiSUG+5b6bZY/TJ/2ELhy6Raqgrg+MGRIUXD+ZPej8XZHoG9c3jqN/qwjpso7AFrnInA2CZV9+EB9PEVzG7QuLFSiCOp39YrAn6kcbOe4WgFMXIwAfda3LXHW7uL1unU2Ub1w2Ue1E/wg/Yp+fR2ChD9Um0N4V0J40nUViixDClo/tekSEsa2GHzuMagsop9JHQvG7hivk+gYnnoEWfHSFAdL4q0UmewxDTv116KAExUNu5pCOp4Yw4wTMwT1qIOu4XMJNNHRevBJlHWzzfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GwSGCC8jGeG+2qEQdNjVaEUPvL06i3RoVXDrify0rm8=;
- b=cr1ObMhj31kFWK8Zb2xABs7blALKuoMKQLedJoTBDkNxxLxsHIcgeS2hlYm4woyUDGHbQzWmFRbpwhSQmWidTX2Yw/YXl3jR2H+dfM4v/ZYdHfjbdbi6n/W9sRnmhcN3TUipdAyRSrgYLUpymW/mS6/oDt9cdKOBc0oQqivrXfzLVAXk+VaAKHPmQ18sd20P2JQMUtTTX+rnG7H8kCdIVZjlg8ZIDfTWzCMjNp+gQoGj/wsjysWd+eZcJRoOrVh9gGhVzP7+aEu5tlZ3caCI+ihvo1HjXXqwFeIdZ6F2n6p/j0errzUe5TNYlk48wGGD3tvgBB5pImSqg9r0J77xbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GwSGCC8jGeG+2qEQdNjVaEUPvL06i3RoVXDrify0rm8=;
- b=abGHZLdnh/kuHA6KuBAkAjsoZN/WbJ7pHeJpuPUygHeDrooMQj9Uv90W7xBZMRl+6EwJg95C3DMaFh9LayiTfGwPBjMfLCx0qn47CJb0MAqEmx6ekgyp4L2RCwZ6nMecSFUvXohO71K7g647X7EGUDfYHdYYS0VatI3P/jCOypc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by TYWPR01MB10854.jpnprd01.prod.outlook.com (2603:1096:400:2a8::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Tue, 2 Jun 2026
- 06:02:52 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0071.015; Tue, 2 Jun 2026
- 06:02:52 +0000
-Message-ID: <877bohjx84.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Linux-ALSA <linux-sound@vger.kernel.org>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	David Rhodes <david.rhodes@cirrus.com>
-Subject: Question about component->name_prefix
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 2 Jun 2026 06:02:51 +0000
-X-ClientProxiedBy: TY4P301CA0043.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:36b::6) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="CKa0STd9"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6526EF4G02716836, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1780380855; bh=ilJXk8Qu02sYQ2BxQLxa2OOTW7Tl/jc1dpPk5iv8ogA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=CKa0STd9u6ScnEPUz8jVq0wgeAT9Mpd8kCQdFAFA+P5LdMm0aBWl1bbR4GnTL8gqU
+	 2Pam4TuHemHZ+DSOQYegzXS81rbLzXlfCgZVekZyj3DiIQzFl6Eo/iDtEpDtVkDjoU
+	 Qwd0sEc2YYWJiIN4DvdO/KKji+Y2wX5oiuiW+UFHWiY95tYnGakiIO/2/YkTKyI5rH
+	 zFjDvQDjZVNvK/rgLG3TPLHaATDwTWu+1kO2HKEXC958tzAm/ekFr+gGLrIcBNDKCB
+	 21f+UsVPm6gkPU/Pj4pI14I4MB3dy/PdO6uVPF9Obxn4TQxOQd+Wo3sMiZd4w84rJ/
+	 AzwceZWJpKn9g==
+Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
+	by rtits2.realtek.com.tw (8.15.2/3.28/5.94) with ESMTPS id 6526EF4G02716836
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 2 Jun 2026 14:14:15 +0800
+Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 2 Jun 2026 14:14:15 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Tue, 2 Jun 2026 14:14:15 +0800
+Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
+ RTKEXHMBS06.realtek.com.tw ([fe80::e6fd:5a3f:8946:92c4%10]) with mapi id
+ 15.02.2562.017; Tue, 2 Jun 2026 14:14:15 +0800
+From: Kailang <kailang@realtek.com>
+To: Takashi Iwai <tiwai@suse.de>, Mike Karcic <mikekarcic@protonmail.com>
+CC: Sean Rhodes <sean@starlabs.systems>, "stable@vger.kernel.org"
+	<stable@vger.kernel.org>, "regressions@lists.linux.dev"
+	<regressions@lists.linux.dev>, "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287 (17aa:231e)
+ -- 6.12.73 to 6.12.85
+Thread-Topic: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287 (17aa:231e)
+ -- 6.12.73 to 6.12.85
+Thread-Index: AQHc7t9eJfAz3yPaB0G+XZXqEzNDFrYqzh7Q
+Date: Tue, 2 Jun 2026 06:14:14 +0000
+Message-ID: <833d600fdebd4aaeab6706185ce854e6@realtek.com>
+References: <O6pYAi7yf23du9ivLsL0QqrnTmodj2lDTL7Wviv7I_nhjVtvllO7Y5Ban0TeTqrastb1RWhJtlkqrM3quLMWSriai-YjjGy312MTcEhxyWs=@protonmail.com>
+	<CABtds-3GOyBr1H=c5aFV1uzfkhO3d1NHMPuon_cWDq0V=pFwUA@mail.gmail.com>
+	<wZmYozyav1sNx53nFr4ShKmcdLFVJp5bdUOJgUq1I57MX6kgyq7n8XvH-MWG9Fi4q2x4CQqjEQ3Q8ok5MClut8hNixnhVmVtXkhcOzH1sw8=@protonmail.com>
+	<87eciwukvy.wl-tiwai@suse.de>
+	<RfzfjlzeaeMgNNWNST_Zzx1v49rYjM63MvAV6O5_fFIoZJ73GcN69FDLJcwhJ3s6fl9TVD2l45YBh2n3hy95LM7rhLhoVt8dU9stMkuVJvE=@protonmail.com>
+	<87mrxjsk52.wl-tiwai@suse.de>
+	<bibLdgyll9YOEDANdCBy8WOqeOeJry1SnahLR-EhoGkttJ6BE2srDZ9jv0gjkt0bA19aKivruQs3nkMQWbdEXPaOrLT80xjzF4KJvDcB-IU=@protonmail.com>
+ <87cxyfs2vm.wl-tiwai@suse.de>
+In-Reply-To: <87cxyfs2vm.wl-tiwai@suse.de>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYWPR01MB10854:EE_
-X-MS-Office365-Filtering-Correlation-Id: b4bec6e8-6cfc-4aef-06a6-08dec06c94d4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|52116014|56012099006|18002099003|11063799006|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	Z99FgwTAcZeHe9sjf3Y7JQ7ag0IKMc+qr7UuG3s1H4iTXUC3lYJZ8b5OCu69vfLdk74OC94oUvJVYfCvD3kIspsTtJGXt2HRSwuprsb7dOvNAIHUKNgINSksLytxfcb+9VE1HgIcrd9w1rG6cqrt6pLJz/swnQfh3pic4pXMeT++NWBPBhIp26tgfTvxbElqJHSmWA29PPBRFIVjc50uYs4iv9OvzfvXWaTNKONTGj1HCdr1jx7iWa5VT4fVkrcsQEjR4m+Jiz2XCNYOHpaEYA+JtJIuw3RqGbrwf6fu3xLI1NvSSPjT72MPwq8q4JuRmytosLW4VnQrqITJnh0gdQc2W+jyz87UtvwteA4R2tfKFxyWbmUVRTTPsKfjVUySjaYRK9/kl6XKVGyZW9rwjrH7jLK87YrHHBCduiBfzhQG8uLmHldJ+q0ZGZjSzkDQzgcd2imxXMwNcB8H3F3rG2fY79o7qA0Jr5/v1lPQgPPmPHdztyKK44B3eSGryB6tS89XAlw+ENNmGAFK1fI7708u8GbIH4kVTVWIKgRXmvXr0cPIc/iNyVbYx9rFYlcHXMuuYs9F0PTUAMJzuC/irfWGSoFfQGH72RL+IxRxPRl396sBu5mgTe4cm/UDjdlnPk2D9UTR8NXMFc1JlBmKjJpENshxDbwR7jsGUpGbRTKEZKKZucWAjv9PzlT2FQRyQgD+XO6YLU/vxDI0L6xSl/XuPDR1ZqcwtPFnv/pj3K2BYeAtM4tL+SxSKVH1v5Dk
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(52116014)(56012099006)(18002099003)(11063799006)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?nuQXsxkGGZNbaa+Wcgz13XEYB/G22G3dteeOVWgTc5DcafcmMIyij4NHnnf9?=
- =?us-ascii?Q?OdBxHkVr1gl6v0VJD3PHSrd/bROB8cd1wDntSRDtw6GoBDSjuTRto1JT1WTj?=
- =?us-ascii?Q?ayJ2Xac6sx7wodqRt5+7Qy3CchIvnKHLF32pebopjfQoR5szuSFTkb7bsGAD?=
- =?us-ascii?Q?hNTIaJMMtKntPszFLDwERP5AKk8Q7LSQ8XLSXkdYkwpLJQ1vBy0fTc+yRGg1?=
- =?us-ascii?Q?I0AS1uEeQdXLxG6w3bkWCWdefRPlAr+7umqSbkwsIRxnm8TKaapSUOCnIL5W?=
- =?us-ascii?Q?CXOezuFohR18KRL1R7T5pvu4pKYKKPso7wGX0b5TUKLpmIBfzztchxR5btAP?=
- =?us-ascii?Q?hKvn3gFfyVBOo976ga98XSRl5wnmjAT9wROxQ5PIGjU/+L1BVtBJ4Altw+st?=
- =?us-ascii?Q?E8IT0USwcnG4wFfhRLVDuvTYibynF3cr3ZCuwEc/jWiL54eeAu8rJDVHrn0j?=
- =?us-ascii?Q?2uQaQDmpp4Nh82gDV2+s0nmHJ+lehtpSP7LqkedBQCTkIaqBesZBY1ShVMis?=
- =?us-ascii?Q?JfLj9jFvolw6jeChuTr3fCsrePKVHA5C5fzhHYqeTIlZtgDDUc6qaF4Ob5ps?=
- =?us-ascii?Q?uf2tVyMTDGzTPSyuM3/VGPLLVqtLw9R3flCo2YziM6crs8uI31ST7HkN5m08?=
- =?us-ascii?Q?Bc2IY0e99gpKzNAbuAsY06/8lYxOs4JIJ3L1qshZMf4L841/hXxIAI2F9hDM?=
- =?us-ascii?Q?I/S7LgPNr3P8emW7jDlbV+CloEMnp4NBtYtwLBKbHH0Fv3Gabm9VtkiNXkSc?=
- =?us-ascii?Q?s6uZNKDo7UXegwPYcuKr+K81iKJpC/GctKfQRewI/oC2g9KH8hCqFZD76hhn?=
- =?us-ascii?Q?CbyvjT/QdOd0Z42qkaPTAkiMulIQAGFHcAN3v43F8upHGlUymajGgACQZDE9?=
- =?us-ascii?Q?dVNLyc9uS9/VKu3RDDDOOwMpwb7P+6I6NPkHiD2cn/QROajm9dg46ML/LM61?=
- =?us-ascii?Q?Yfd6GYIS1zW3dosGVHmpiyXlNyBykm4ny2EoGi3NTvndq4yCIVBYx3pl132Y?=
- =?us-ascii?Q?amXzerOdGb/pTR5BIwT/KUjRcQ2Ts5cyd3gUfsWA+hxPeaEmJmpDOTvC/LsI?=
- =?us-ascii?Q?Nx7r9QtP3L7r/2zKT8S9eIjbV91nTXJsevpubzrn/oz4H2mWs3gCAGtugnYj?=
- =?us-ascii?Q?vUXdK/bOoGurjhkiASlxUcr04NwQkjKRddanb85ra4oJTsaQfJkrhp0iw4Yc?=
- =?us-ascii?Q?sBiWcYoef54VXNeDnMNIzCHsdMyiuFn2M+58qMHQlX+vP1ujOcINZVCVPA9z?=
- =?us-ascii?Q?+PBTcdhzI4Q52MFQ6U5iigOqLynes3iF60vtFEvmTNJ6zvvu9rukGBGqPTLq?=
- =?us-ascii?Q?8ne3gnvA+JUpuYdHhmnKdL1W1af0VtjveZJyxdMwxd3aKZtSW57aiaUzKvxg?=
- =?us-ascii?Q?QwrxJpRPonwMTsRPLe8E098aSCHIcA3UtRKL/FZ9a0dz+iWV0CQoDG6qqwtp?=
- =?us-ascii?Q?/TjCipxw67tB+kQmRiVai074mk8x2ixwajD7vCdjbDnPUUyRPwnJODA8UEoj?=
- =?us-ascii?Q?1UQUNX4V/qqAzyJ////AW1CjXdy2LaRXAuuCszB/IG5KUd/Sj7U8lY3GPpmf?=
- =?us-ascii?Q?tYiESc7UrHP61qZVhnLNoR/6WbFnCQqp5Jz6A/mCDZ5LKYXfPeSH0V4AAP6b?=
- =?us-ascii?Q?OyEVE1bkie1vldXoG1oTN90/Ox4gY1RYy0FhhkMgoIT9hIP0BM1ej6GQ7coN?=
- =?us-ascii?Q?ifvohQDvvwV1gA0n13FaRMeaFNOPDuWp/agLAUQECpjrLkM09PEW5CDjboMR?=
- =?us-ascii?Q?PgZNVeGZA6DW13mWjLnV6tpv5qpI4REUs3htaWLTZgZxSp/mVmqD?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4bec6e8-6cfc-4aef-06a6-08dec06c94d4
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2026 06:02:52.1164
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Iixyc/Yc6woub/EMO2Util4ON0S48cBBVxWIpRDKi8H85lxR3JoxWq1sdW35duyg6B9SzF/otmbVfuQD4lbdvtfNkKnVH+6PHlO+v3PSvJ2tFuY9xbKlkEkiqIPRoiwJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10854
 
 
-Hi ALSA ML
-Cc Mark, Jaroslav, Richard, David
+There were the same SSID for two different symptoms.
+But this project was from 2025. This machine maybe didn't in our site.
 
-Now I'm trying to cleanup Component, and noticed that component->name_prefix.
+-----Original Message-----
+From: Takashi Iwai <tiwai@suse.de>=20
+Sent: Friday, May 29, 2026 4:20 AM
+To: Mike Karcic <mikekarcic@protonmail.com>
+Cc: Kailang <kailang@realtek.com>; Takashi Iwai <tiwai@suse.de>; Sean Rhode=
+s <sean@starlabs.systems>; stable@vger.kernel.org; regressions@lists.linux.=
+dev; linux-sound@vger.kernel.org; linux-kernel@vger.kernel.org
+Subject: Re: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287 (17aa:231=
+e) -- 6.12.73 to 6.12.85
 
-Basically, component->name_prefix is set via snd_soc_codec_conf (A), or DT (B).
 
-	static void soc_set_name_prefix(...)
-	{
-		...
-		for (i = 0; i < card->num_configs; i++) {
-			struct snd_soc_codec_conf *map = &card->codec_conf[i];
+External mail : This email originated from outside the organization. Do not=
+ reply, click links, or open attachments unless you recognize the sender an=
+d know the content is safe.
 
-			...
-(A)			component->name_prefix = map->name_prefix;
-			...
-		}
-		...
-		ret = of_property_read_string(of_node, "sound-name-prefix", &str);
-		...
-(B)		component->name_prefix = str;
-	}
 
-But below 2 drivers set it directly.
 
-	sound/soc/codecs/wm_adsp_fw_find_test.c
+On Thu, 28 May 2026 20:27:30 +0200,
+Mike Karcic wrote:
+>
+> Yes, I can confirm the patched kernel is running, and commenting out that=
+ line fixes the problem completely.
+>
+> Below is output with the added debug lines as requested:
+>
+> $ uname -r
+> 6.12.90-debug-no-discoefs
+>
+> $ sudo dmesg | grep -i "alc287_alc1318"
+> [  453.823528] snd_hda_codec_realtek ehdaudio0D0:=20
+> alc287_alc1318_playback_pcm_hook called action=3D0 [  453.871577]=20
+> snd_hda_codec_realtek ehdaudio0D0: alc287_alc1318_playback_pcm_hook=20
+> called action=3D1 [  459.605379] snd_hda_codec_realtek ehdaudio0D0:=20
+> alc287_alc1318_playback_pcm_hook called action=3D2 [  459.605497]=20
+> snd_hda_codec_realtek ehdaudio0D0: alc287_alc1318_playback_pcm_hook=20
+> called action=3D3
+>
+> $ grep -n -A5 -B2 "alc_process_coef_fw.*dis_coefs" sound/pci/hda/patch_re=
+altek.c
+> 7918-           return;
+> 7919-   alc_update_coef_idx(codec, 0x10, 1<<11, 1<<11);
+> 7920:   /* alc_process_coef_fw(codec, dis_coefs); */ /* commented out for=
+ testing */
+> 7921-   alc_process_coef_fw(codec, coefs);
+> 7922-   spec->power_hook =3D alc287_s4_power_gpio3_default;
+> 7923-   spec->gen.pcm_playback_hook =3D alc287_alc1318_playback_pcm_hook;
+> 7924-}
 
-		dsp->component->name_prefix = params->alsa_name;
+Hm, then the previous fix doesn't seem working, obviously.
+Kailang, could you check this in your side?
 
-	sound/soc/codecs/cs35l56-test.c
+Maybe we should apply the AMP-silence-detection disablement conditionally t=
+o certain models?
 
-		cs35l56->component->name_prefix = "AMP1";
 
-Some other driver are also using it, but is just referencing, not setting.
-These are the only place that component->name_prefix is set via non-normal
-method.
+thanks,
 
-These are using it kunit_suite, but I'm not sure detail of it.
-Is it possible to set component->name_prefix via (A) or (B) ?
-Or, is it possible to set it via component driver which is not yet supported,
-but if I support it. for example, like below.
+Takashi
 
-	struct snd_soc_component_driver {
-		...
-+		const char *name_prefix;
-		...
-	};
-
-	static void soc_set_name_prefix(...)
-	{
-		...
-		for (i = 0; i < card->num_configs; i++) {
-			struct snd_soc_codec_conf *map = &card->codec_conf[i];
-
-			...
-(A)			component->name_prefix = map->name_prefix;
-			...
-		}
-		...
-		ret = of_property_read_string(of_node, "sound-name-prefix", &str);
-		...
-(B)		component->name_prefix = str;
-
-+		if (!component->name_prefix)
-+			component->name_prefix = component->driver->name_prefix;
-	}
-
-I'm asking because I would like to capsuling Component, and don't want to
-create snd_soc_component_set_name_prefix() for only them.
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
+>
+>
+>
+> Sent with Proton Mail secure email.
+>
+> On Thursday, May 28th, 2026 at 10:07 AM, Takashi Iwai <tiwai@suse.de> wro=
+te:
+>
+> > On Thu, 28 May 2026 15:38:54 +0200,
+> > Mike Karcic wrote:
+> > >
+> > > I did test 46c862f5419e on 6.12.90. Chirp still present.
+> > >
+> > > I'm also on a ThinkPad X1 Carbon Gen 12 with ALC287 (17aa:231e),=20
+> > > same as the original reporter. The fix resolved it for them but=20
+> > > not for me.
+> > >
+> > > Only a full revert of 630fbc6e870e resolves the issue.
+> > >
+> > > Verification on the running kernel:
+> > >
+> > >   $ grep -c "dis_coefs" sound/pci/hda/patch_realtek.c
+> > >   2
+> > >
+> > >   $ grep -c "en_coefs" sound/pci/hda/patch_realtek.c
+> > >   0
+> > >
+> > >   $ sed -n '/alc287_alc1318_playback_pcm_hook/,/^}/p' sound/pci/hda/p=
+atch_realtek.c
+> > >   static void alc287_alc1318_playback_pcm_hook(struct hda_pcm_stream =
+*hinfo,
+> > >                                      struct hda_codec *codec,
+> > >                                      struct snd_pcm_substream *substr=
+eam,
+> > >                                      int action)
+> > >   {
+> > >           switch (action) {
+> > >           case HDA_GEN_PCM_ACT_OPEN:
+> > >                   alc_write_coefex_idx(codec, 0x5a, 0x00, 0x954f);
+> > >                   break;
+> > >           case HDA_GEN_PCM_ACT_CLOSE:
+> > >                   alc_write_coefex_idx(codec, 0x5a, 0x00, 0x554f);
+> > >                   break;
+> > >           }
+> > >   }
+> > >
+> > > Happy to test further patches.
+> >
+> > Just to be sure, could you verify that you've tested really the=20
+> > patched kernel, e.g. by adding a debug print, etc?
+> > If yes and the problem is seen even with the patch, try to comment out
+> >   alc_process_coef_fw(codec, dis_coefs); and confirm that this fixes=20
+> > the problem.
+> >
+> >
+> > Takashi
+> >
