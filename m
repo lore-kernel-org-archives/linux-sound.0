@@ -1,85 +1,87 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BC53C73EA
-	for <linux-sound@vger.kernel.org>; Tue,  2 Jun 2026 10:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780395425; cv=none; b=X8iCRibfMufxjGo5mL9MUZOSlEBDPoVlrGmxlYFm3GDp8UBYhXe/PRpMhVvnGpzREp8PB8NTvYBuwKo9TY8bFKi4hvVw3w37wTqLhsfDJQkopdcu8cOlnTMsqyafIDoRhgpXkSJbC+pokdpg7c3t1So2l7SFFHwC4fnFbdKeCx4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780395425; c=relaxed/simple;
-	bh=FTgoAa+xu/joTesi8Jf6xXuDhGFQReh7G4WALnJ4OLw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fJybxf4T66fPpnxMLHLTF2VnTkSWeuVFbEY6RiXJqqw8zpvwgz8qv3YrqeozcuNtncRTX+PxU1JgVeDNNp9z38uJqLWaAw21WCb9R8smtDwnIUuVBJYSaBvUAxZUjDQUBZxmQ1Pr7ZXB4NGJhYzDO7GBanJzZihN3wtM41kbe3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s4w3B3nd; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D54F33D6F7;
+	Tue,  2 Jun 2026 10:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780396085; cv=fail; b=eMHs+2QkBrObGWgp2sAnqJfjLSLuCzNv9edWYPKytWsuxOVa0DPIVkUc02F6l/BMz97dlRM1mGbJvKLGyM9T13lRpftnDxIzWOB/a1d5wN2G+GxGKB4ferkL3syPbrvSsydmnvEv3mU5Bgy/RfRzWPHPZtPdN5Rm1XQoTIUceyI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780396085; c=relaxed/simple;
+	bh=QDCZqZz7Cw4kck2f351da7brodj8xxnB+ZfVoP4tRSk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qcRYW6azUiJeX9+pyLwXVItMPlXbKbvrk3lVxSTCQB1tZaEQse19RUu0rIRvRlTLXIo0M7sSbWLZyM0xlsenjdHYDAo0kyxOkx8RIqUj3u6if94qQL6LoITog4ZmFG0MZyC573CCXgz48HSIfyxcpHprI3OD8zLP/4N5kqJbXXY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=UE1dhKLa; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=TcUJ49OR; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s4w3B3nd"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2bf77d4a4e2so12394895ad.1
-        for <linux-sound@vger.kernel.org>; Tue, 02 Jun 2026 03:17:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="UE1dhKLa";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="TcUJ49OR"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6524A49a3541339;
+	Tue, 2 Jun 2026 05:27:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=xg9uwfj0wnrPJLWG
+	NjmsS1odgcU83gdpMwbxZ6Et27w=; b=UE1dhKLafCDLzsA+2mw10IwL38ecj63x
+	qkkSv3uLOXRvOZDLuf+MgL4pdpDmNncWgEPaFWwGucLKRNY6a+VevBFYnXH10GBn
+	xksBdGaN2dgoGxYn0X28Z44SK8vBa90bHClMT69BHAcEbfr7ETg72B8isBE2OgvJ
+	R3arvXYG9REFlhikxjSbNUqtJQiWWciieBNVDmap73R12+lY02xBboYrDp7gHWZU
+	fEhqdVD+410aIxYLB0pvc9YCChK7LVYcWXn5R/c0z7e5pPX3jGcmlNCBPBup7GLd
+	O9mY0aaZk2kwgaoOB6H5AiZZk2YPjCcss7VL8dN0UHjsdvqs9/5y0g==
+Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11020125.outbound.protection.outlook.com [52.101.56.125])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4efvagc3mt-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 02 Jun 2026 05:27:56 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mvFNtDFXuKJD+PEZHTwFG1bsg8mUJz9U8K6yc0DF2TcCyMTc142PVrsaGIF8jOSqceuRvMmef09ImkM4AEXCfkQB4EfsceX3tU/j27WrgmPOYPetAI4mrT2YFRhwhZkBIg0P+lEJh0U0kXTLS5J3PGc71ABnBeu43UqOhFjmdlWGieBocpPji9xNCGHRy2bAJ7t8sy5r2VxaGcXKF3sT+ORBKQi9EJAIAiOa/IhBFcwyPFnH7UoTHGDG4sKFcalOOhG4sWQM/iOpb0MBlOXVgbnCQec5eL/8RVgCIXTkr+BRKMETXFNTObZdK2Onf/tW5TkR5VkOn2U40pBCSvFefQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xg9uwfj0wnrPJLWGNjmsS1odgcU83gdpMwbxZ6Et27w=;
+ b=Z36F1RhGIFtTVUq2jh1LBDct3oAbEZdqgCa0UNwp0AuDEyI4OVLvTBnZNAXvieP/TL905zDo4at+QDmYnYtiZu2Swv5H+EYno2YBEfd3WPA6y6xcOCPrHiC8PNp/8J6Zf56q0Xj+sCBqqiQJSBuUX7VZ9BJFg3Bwo/7A4BtIa+9NWVAn3TpepQWrwXYYfVwMgkX2xkp2gdNEbYTcacfw1MpmpDBIXMwphwiymT9jBNsMBCGZcO+nAk5zVARtc3euQEMSqFBjRg4SawFcgG8O871ZiRj975HIKZI7cw5s0cinCHlm6/o/6n4do7212RaUfAnhWNKegKpa3xNRLe1VEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780395424; x=1781000224; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lT+JLRZTXmUkizcf52XaQYhGVpogr5HSaG3W4C826mA=;
-        b=s4w3B3ndAsTBMJgGpJqRtyTgA8iCBV6fHNIWsezzuCsvkeh/o6FsfvDPaBdT4g1f/s
-         VOoFrenophzfqWGpU2BJXOSoEolOutg7nhwGOLtmWbfeUol+u7vkTOL/ArZBJhJ0pz5V
-         AMOFuFuzjh8sDHnlKti8xEKAKUl3XH1Mxh/m/Lvn31SoLsZtaVoPIu1gi6znlYwUe102
-         rsFKtT70FVJb/2h3pjrNm4Dm6oUdJOtBnyu6KB/CHXBxfmr6nFXLHvIr53kRTLYLWVUG
-         2EswZi0H0p4hImdROVcCX7psy5CgqKNkOS1MFvG7J4eS/YHhW5d8h156LQkYRUDAEw8h
-         6pMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780395424; x=1781000224;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lT+JLRZTXmUkizcf52XaQYhGVpogr5HSaG3W4C826mA=;
-        b=sZx6D0nQdb4fNvnYJO9XTZ6Az13jcP82aTnyl+vGc8VRL+ktL00z8Et1Ew/cO1lzeX
-         2GHZswTPsDxo9+XXWrr7r6PUUxH0g8MIn3LnqrDt6cb1xDdRmkO96Q8qmL87kfZFvtIW
-         +chHjB0z0uOwsW1mv6J0ysTc+PdpnZAV+pH0h1dIqJ2mn9bYdvXfHiLkksqavN2ZKdk2
-         eAFKpaMnVi0csYgs9ibKirAHFrjKe4dRmaZZmhgy5DNNVrWBCg9LTVQMUNyn7a8OTLfm
-         N87SBC4eG0jbnIszAgAR1SqVyQvcrm2vBiB0+hZdotDn7ZR2W01w+FMcr3FRVKV5g45W
-         GoKw==
-X-Forwarded-Encrypted: i=1; AFNElJ+J2bnxMEMEZ2KUg+RIAhEdwYR7SjHd/7lpO/J8oKSWEdU+XtHJ1e1XhdCbqnFBlqkXvth37v/b8wsO9A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGtG1dSY4w/7VDs+iiaGSH1fNgi6K0kKvZYMEXiM7szjepY8t6
-	ouYNdMDW4NaoNkcZEGDKXCawg8efb+RH2+n+YMZtammCVL49s6vAjT9J
-X-Gm-Gg: Acq92OHY6vxFH6fyqTfHgOdM8GXo4ycLkTmoF0Tyy157annC7VraDN/gd8sBB39L8y6
-	c1zRYpzahsJwPHYTGuYH93ObGHHyrIro5T1/9bU7mFb+YRm17LKw/cuZs4SGRTnA+BrCztqwieC
-	Oz0aMFMuY6RjVQb781e3sAJquaXGkqaYHbwONJLJ5N4NYzA+czYMuNKJGRG9WMu3IFDmIlTEU/x
-	Nzz1Tu5MTpnMVA5Y+1lIGLajBVPtDusyoDubND6p/ki7ZrYoXyREDK8v/C/i3OvJnC/hbU7Wihi
-	ompPy1NpE3mwYAWtJhz7uzklK5aKWipJZGWmrdFGJhvISeMNQsTktWRZ08xY49tHD4ja3VQ9dQh
-	IUHjnDSJHz1dDeo1iP/ALAJ8PN4n4IPihLUBLzR+u8j1VZ9e4Cb9/zwdLrDXWXoyELlkDFepIz5
-	bISTD6LPBDun6Ni2YoAme4/jXMUiS1DcXkignigXcmXKNMJ7ZGNIh6sFL0ptoLAri6aabn
-X-Received: by 2002:a17:903:3848:b0:2c0:a4c3:d7a with SMTP id d9443c01a7336-2c10ccfb095mr31503255ad.26.1780395423749;
-        Tue, 02 Jun 2026 03:17:03 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf239fd84fsm132766305ad.23.2026.06.02.03.16.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 03:17:03 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Heiko Stuebner <heiko@sntech.de>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>,
-	Sashiko AI Review <sashiko-bot@kernel.org>
-Subject: [PATCH v2 5/5] ASoC: rockchip: rockchip_pdm: Handle runtime PM resume failures in set_fmt
-Date: Tue,  2 Jun 2026 17:16:08 +0700
-Message-ID: <20260602101608.45137-6-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260602101608.45137-1-phucduc.bui@gmail.com>
-References: <20260602101608.45137-1-phucduc.bui@gmail.com>
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xg9uwfj0wnrPJLWGNjmsS1odgcU83gdpMwbxZ6Et27w=;
+ b=TcUJ49ORD8Za+DBDGAnquQIxB/znBUe5w9ZHw0hHpJuIXoNS6w++rXy33Ba/CaKH7p+TyNdqkiaGNDp47R+813bvspzysce8PNGSP19ysyOVCkfdhUOq5eA+DRbcl6wzfH/DVXvLcO56JamMDwA57nx31tv8SMgIhVou2gZT3Wo=
+Received: from DS7P220CA0036.NAMP220.PROD.OUTLOOK.COM (2603:10b6:8:223::24) by
+ DS2PR19MB9126.namprd19.prod.outlook.com (2603:10b6:8:2b9::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.71.15; Tue, 2 Jun 2026 10:27:54 +0000
+Received: from DS3PEPF000099E0.namprd04.prod.outlook.com
+ (2603:10b6:8:223:cafe::c) by DS7P220CA0036.outlook.office365.com
+ (2603:10b6:8:223::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.16 via Frontend Transport; Tue, 2
+ Jun 2026 10:27:54 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ DS3PEPF000099E0.mail.protection.outlook.com (10.167.17.203) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.5 via
+ Frontend Transport; Tue, 2 Jun 2026 10:27:53 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 8758D406540;
+	Tue,  2 Jun 2026 10:27:52 +0000 (UTC)
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.12])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 78240820244;
+	Tue,  2 Jun 2026 10:27:52 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: broonie@kernel.org
+Cc: lgirdwood@gmail.com, zhangyi@everest-semi.com, nathan@kernel.org,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com
+Subject: [PATCH] ASoC: es9356: Use new SoundWire enumeration helper
+Date: Tue,  2 Jun 2026 11:27:49 +0100
+Message-ID: <20260602102749.3962261-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -87,51 +89,95 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099E0:EE_|DS2PR19MB9126:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 8aa1800d-b7dc-4b54-60e9-08dec0919b2d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|376014|82310400026|61400799027|3023799007|6133799003|13003099007|11063799006|56012099006|18002099003|16102099003;
+X-Microsoft-Antispam-Message-Info:
+	F2H6U73503CcciZbNnautCama1n22G9HYGKEywOxSuk7iFFlsNLaf1jNtAk5tFYvwSNcJFrB5ckiSuhrCKCw3A7ZHO8toKJmqNf73JqkhFdkXniId/Q6Cif7yUSeJE/iSdyf5M7GuXpQ+uWlXvk7t5EDqMe9jgeWG6UyxQw4p4C3Si4zmoN7YCjlArPuE+Gx1IpBn3WaDiel79BfzfM8lIqNHfDn6bZqiPOrRe/3pQEwR10+vmpR2UuNPlMmhXf+jfpDp40fTqrNu1INLVhKG9DspG6PC96qzkb16Uwqo94wDDrwDLi00aZ/YVL96nQ2/ga1uAZHmteCdZPq7ooUxvZep2LbD+REpvBTsFh+IEY/SaE+3yndglTSmsm562QMhHP87J40FIVhfvEB4GcKcI02CT8OWsowZ1B9b5pzpjNLTn3uxYdXDQ7lpMPKjf8En9vYDyXEQzuTQ4WL0uqSBBC5gawn/DFUlJt2R0KqXJlzXe5x7jQ4xFW1yrCAdG0FMscNadsbNNKIbeXitncCDgNTFUCvaaJX9OMkBlIgvB2U9VkDG1pXv822y1Zm41va7W8gTXsemZRydFf+V+hGv9ZIWAwmL4dW6tuvEvrbJu46Ht8R5Cn7csqswfxs99ju9NtemN44HMwsXJ9lrS7l0Ae7GoAZIMzOSEDITcHFAVJtqLwCxSfxhm5f0so43/JQcTxaKvCyPan7WVL6Nmnhe8OnBr31Xf7m4rhqmZtE/BI=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(82310400026)(61400799027)(3023799007)(6133799003)(13003099007)(11063799006)(56012099006)(18002099003)(16102099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	NM2/DOjOk6QLrQMzJlHSelT3kLEc4JyN92KBxPn2JUwG02vnuMzVgFS06vKhWCdULZPzzpv8Y1w58e7ibJwRcLxMfSIfGyZsMGyEeKjOQIWI6n2l/Qoo/qwM7GRNHpyyE4amqnYHbmp9j/sPMqarYie/nkqw2Wl7PlwOx78uyL3UpwFVNfqy2KTkHtWcf/hMVSb6BcS6v2Tg3tBFJgohwiV8KDz4FNjlWKLXjanpxee+JJuXU6gQjC7RqZ7LlfdBR7KcIPvtCIUCwVYJHdU3O6xADyEFrVcyIp6z82n6EyhBs9SlNY3SsbXyvYispLOkUUXQp4c5IAy2eqTBiTkTjSsVcpiar9kMcRarBg4SxAUEaglBPyfMvGIKG1JOQXRmPyq+FgSN+h9uJ+HcQ5cmOuWKW/vrlfe99OrhJLDqpn08pkqFQNlecKeNsfo/NiUm
+X-Exchange-RoutingPolicyChecked:
+	EDhIJEab0Q4AwLxzAPttJPEMaQOpv3gXd6Mw/T4yaGOouyt9qXx+dirJFYjKtYNbiJWeFxCSO5Hqt8wU9u+N96urcB0xVOHW7uCxmBWDXNDt7YdD/9XunzPdU7pa/vO/Ze7jfGZ5yPdJ6VJNmY6xAI2L5uRN0udKz6pLd9vZzXKej/fkGIYFrS8s0PgAs2UgiDr85aidQx6lM0RlddKP09tAkpU/CSniZ9P0xz4FOlau2jweMn85sEow+gmOA5df4ICHFRmicPfJzzqq8+K0Mj2fiw4f6rmtKZ+LLzvhCReOWfXh2Jb9/5MZVbMYeVwTm7exijyAFlzS+UBVNA2J2A==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2026 10:27:53.6633
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8aa1800d-b7dc-4b54-60e9-08dec0919b2d
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS3PEPF000099E0.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR19MB9126
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAyMDA5OSBTYWx0ZWRfX6IVEw6yxfjkz
+ 6cSYhz6jrf8PYrO0tN5WRT/0zMmQ2F+8lDV8P3mJrTyyeG0IIyiowhbpXqZmSoUt1Xa4Cg0BMrr
+ 8pMeS3xE7AEeer6eSGahIzl7Hdn8zhoYcjfVwDBcLGVMqolMsQd5Pzqtc6m6fnxoRT+9jYliEgM
+ IIYwc2YLSG7OuAYB9hWh6iHM0Q12pz8yfTj+LypfJ86qvZ/0J1r9D66IeQ0h0AnJ0GCR914gw3Z
+ XEcJtcEDajVI5Ermt9prD4xcw0KvAArOOLe3OrmxGyssmYiQ5e4W2UozEM2MX0SNWPD2GuwLi1k
+ MRVij0xzZlXpxJTNxrfH3jZ/jbbC/mTqaq1VnOGskEwT12ULqDj3ftL4pwZIi9vJTlIlpQHbq6H
+ xS0wbgxP80u/fXHNMpx453wWzPkvq+cu6ZQS9kk5QGUvDUoxBbh39Wj+UiR8YV4657HfndLeG1I
+ 6WzFBWzkcPjJ5dzOQhw==
+X-Proofpoint-GUID: uOIGOKW-tA_eLXzdUI8G2_RSiPxoTyFf
+X-Proofpoint-ORIG-GUID: uOIGOKW-tA_eLXzdUI8G2_RSiPxoTyFf
+X-Authority-Analysis: v=2.4 cv=ddywG3Xe c=1 sm=1 tr=0 ts=6a1eb02c cx=c_pps
+ a=qoAvcrxUHY3FHMzwJxUv3w==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=FelO9ux0wxsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=VwQbUJbxAAAA:8 a=w1d2syhTAAAA:8 a=RSNFnDTKUff3PuC_oEkA:9
+X-Proofpoint-Spam-Reason: safe
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+Update the driver to use the new core helper that waits for the device
+to enumerate on SoundWire and be initialised by the SoundWire core.
 
-rockchip_pdm_set_fmt() calls pm_runtime_get_sync() before accessing
-hardware registers, but ignores its return value.
-If the runtime resume fails, the function continues to perform register
-accesses while the device state is undefined.
-Replace pm_runtime_get_sync() with pm_runtime_resume_and_get() and
-return early on failure to avoid unpowered register accesses.
-
-Reported-by: Sashiko AI Review <sashiko-bot@kernel.org>
-Closes: https://lore.kernel.org/all/20260522110302.349421F000E9@smtp.kernel.org/
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+Link: https://lore.kernel.org/linux-sound/20260512103022.1154645-1-ckeepax@opensource.cirrus.com/
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
+ sound/soc/codecs/es9356.c | 19 +++++--------------
+ 1 file changed, 5 insertions(+), 14 deletions(-)
 
-NOTE: This patch is compile-tested only. Please help test if you have 
-    the relevant Rockchip hardware.
-
- sound/soc/rockchip/rockchip_pdm.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/sound/soc/rockchip/rockchip_pdm.c b/sound/soc/rockchip/rockchip_pdm.c
-index 8f78f7bc1806..115e90d3bbfe 100644
---- a/sound/soc/rockchip/rockchip_pdm.c
-+++ b/sound/soc/rockchip/rockchip_pdm.c
-@@ -321,6 +321,7 @@ static int rockchip_pdm_set_fmt(struct snd_soc_dai *cpu_dai,
+diff --git a/sound/soc/codecs/es9356.c b/sound/soc/codecs/es9356.c
+index 78fddd9d01711..670e918b56a46 100644
+--- a/sound/soc/codecs/es9356.c
++++ b/sound/soc/codecs/es9356.c
+@@ -1105,24 +1105,15 @@ static int es9356_sdca_dev_resume(struct device *dev)
  {
- 	struct rk_pdm_dev *pdm = to_info(cpu_dai);
- 	unsigned int mask = 0, val = 0;
+ 	struct sdw_slave *slave = dev_to_sdw_dev(dev);
+ 	struct es9356_sdw_priv *es9356 = dev_get_drvdata(dev);
+-	unsigned long time;
 +	int ret;
  
- 	mask = PDM_CKP_MSK;
- 	switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
-@@ -334,7 +335,10 @@ static int rockchip_pdm_set_fmt(struct snd_soc_dai *cpu_dai,
- 		return -EINVAL;
- 	}
+-	if (!slave->unattach_request) {
++	if (!slave->unattach_request)
+ 		es9356->disable_irq = false;
+-		goto regmap_sync;
+-	}
+-
+-	time = wait_for_completion_timeout(&slave->initialization_complete,
+-				msecs_to_jiffies(es9356_PROBE_TIMEOUT));
+-	if (!time) {
+-		dev_err(&slave->dev, "Initialization not complete, timed out\n");
+-		sdw_show_ping_status(slave->bus, true);
  
--	pm_runtime_get_sync(cpu_dai->dev);
-+	ret = pm_runtime_resume_and_get(cpu_dai->dev);
+-		return -ETIMEDOUT;
+-	}
++	ret = sdw_slave_wait_for_init(slave, es9356_PROBE_TIMEOUT);
 +	if (ret)
 +		return ret;
-+
- 	regmap_update_bits(pdm->regmap, PDM_CLK_CTRL, mask, val);
- 	pm_runtime_put(cpu_dai->dev);
  
+-regmap_sync:
+-	slave->unattach_request = 0;
+ 	regcache_cache_only(es9356->regmap, false);
+ 	regcache_sync(es9356->regmap);
+ 	return 0;
 -- 
-2.43.0
+2.47.3
 
