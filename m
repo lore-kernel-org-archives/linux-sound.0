@@ -1,63 +1,63 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A6B3DA5CC
-	for <linux-sound@vger.kernel.org>; Tue,  2 Jun 2026 11:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9F13DCDB4
+	for <linux-sound@vger.kernel.org>; Tue,  2 Jun 2026 11:45:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780400703; cv=none; b=BEBmCBz1VmosBbatnrDimT2ykWJTEdzUMQ0apHsEH2/1tmrzB0ivnH1+3zYqzaYbXtpDozeiWZjB3EDPnL1bCNNnm0nC7cUXGoKiRr/HrcITvE+IMcP7yJKwAo48o3GCnawVJjWZ1bjQNunqkDzjsplhUCmYLvYM9LWYZjmjTLs=
+	t=1780400708; cv=none; b=LgfPPLm9aPpaI/N8CqBuqkJnd5QfOI/MdB4k06nzq/2IMwiaf/c5/aTMdL1XCmNcqSWWKrMW7XynvsEnYqfCwBYR01du+aLSXMaiu9tdLcSegAj3AQeLJab4Peq16hi+9u6Q+D1LNsa0Gs3QLrONRGm9bxsMQFOCcBbFpUSJFMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780400703; c=relaxed/simple;
-	bh=ues6/VOUWZmjMAGbuVCi5NdprQzYdw/UbUKF+QEzg/Q=;
+	s=arc-20240116; t=1780400708; c=relaxed/simple;
+	bh=jMX9mnAoMrDWCHNf1eDVHGV/w2HaBRXDp99gKsHpzSc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ofskt+H5ci+BiO7sJK4/rhbtW5L1r6jEJI7IAJb0cSDpUTZ/Rz7jydG0NhNRVO2unihNmp+VzROyxSFg7ZixoYpGMOIvkboIETFk7YlC7UTCKp5LyjBYRI7rB1/wSRCZsOC2ovZlI1CqfcF5ztMEZUCYQJFHceo+UqGO43VhvxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YPRoewfm; arc=none smtp.client-ip=209.85.210.170
+	 MIME-Version; b=WsA0114FegKf7mu3Oy3gE6f/38sNASnb5gVxDWWRT3UbYQW5vWFUy1PglJNAg6P9OiCea3C0Vs9qdUZC/vAUk9D/mtKTKyld4iXLWQ52VYvYnqzTAaV/Z2yivlJZdw4q1mLhOGMLXlcSewnsUjQJu4AV+AUgIFUwWIC0Dz0m9vM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QUcWbCZT; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YPRoewfm"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8423f1e2f8eso1754838b3a.1
-        for <linux-sound@vger.kernel.org>; Tue, 02 Jun 2026 04:45:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QUcWbCZT"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-84232e83ca9so1077286b3a.2
+        for <linux-sound@vger.kernel.org>; Tue, 02 Jun 2026 04:45:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780400700; x=1781005500; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780400706; x=1781005506; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TmC4zYF7/VSFzDxDUcysEBlqEWK3sw1salrmEASv0aE=;
-        b=YPRoewfmcsN2l41rkOsj6M23fdkFQSEXGZQfaa+ttgTgjpOMVR0U+3yMmYz+ULP3yr
-         jsqs6iqhvz6hv8qw2kym+rLlmPtJg3C8W4Akw02h//Ykz7voI1prs90BxogvCADn4jhY
-         AvNocESNDjXiiPBuF0Cs/ogBwI3qlRJdbCBoRR1KpFfNOl/Odr2czlJ0MvgxOQvp1tMv
-         8P27JkPUwSPc1K4XOXcqjKo7hZIGNx4Qp7oiTwdeX+7/aHS32TFByOM8lQecl50Fpyl8
-         NvyIyCpm706ImgcVCPScRCR7MCQiJvlSv72q8HzG6lc0kXfMcE2b1cXOt0i/VLAwi3fb
-         6mow==
+        bh=bnFWVx6VWhxeKMY/FKRW9Q1g3mwhdS1r25okhPrkiNY=;
+        b=QUcWbCZT9ic2o8FG+3JUleuQWGpuTpwgXVsUQu71MzgVKM8rMcKHkkZL1kuYPXV8c4
+         INg9fan/LlT+NX2w44i9StxtfpAS/6iAY/FujR1k88Upy8SHZbZLrJrjjFMNysFkkPNq
+         7y2X6zNtFP+QWX4wPqJdmdsKjqVqgHhiu/Hshv3uGmGXIFnieXAFAs5KrqBCR+QTgZcW
+         5VeC84pL1hwGs5D7vJV5W6RdvjwDXHcxyrUah5HpPh1ubX7gCgYhyqQgXng1k+Uy4/F5
+         Rl+JxyqkEpjFHvDzIpLf3Zg+1euIMnONtxUxwyOXB/mvMcx0JbU13X4//mEtQjcFJsCr
+         jPGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780400700; x=1781005500;
+        d=1e100.net; s=20251104; t=1780400706; x=1781005506;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=TmC4zYF7/VSFzDxDUcysEBlqEWK3sw1salrmEASv0aE=;
-        b=DV1JVBAWWpkFCbuEM3V2mxjCULfhTRDTr9CJ0kZPeBawoWt2ppzfrSX6hZBZVycCAB
-         zf2iJpVBLVd6xq2gBQqT00Lww9Lz49BC6bmgH/rD7wv/9zCGDwsNXf2h561VFGwDjr1P
-         CkVubujIJL6WPDsp8vAkXoI0FQJxy9ZsUeL+RgxK6mc7QTdBiM93p6CYmM2YDCEcBVPU
-         C0aMp3vIt9GmhNiT37HqfepCanebyoovfCKa0xnRWtowTWkY6JXbOALhr+pZbnZbHTrD
-         MMHiep9tQMRlYuA28Z+ePGH1/oEtmucZj+E3ZJSP8Q5Drp9P5IZgYvS50xSDFaBatKOP
-         m6LA==
-X-Forwarded-Encrypted: i=1; AFNElJ9oXmpubXo45+rRwggnvQYZV3OuQeTFENxHIJ/0rIgyCiRozylldvfGunhJnLoFau6WqO4rF13VWS5HBQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJwNfdq84+eV+Kqkts3m7M0C6rqbxev4y7hO5FTgPGj6dRKTD6
-	g6W4qTAXMUOLUuvUe4nLLHN1rokD8vQvuhD2P88Yu26HyzOOVBywyGTb
-X-Gm-Gg: Acq92OHnr64qO9bF9tJVt+D/DLkcyTmMHVV5oyT2w5fGGyi3UBNZdiltB81KRM9/5Is
-	UuWmWUAq2w9BxVfKKGMzNVapF9g41vDrgFn3vK0PY+d6APbwUKwe+JmsK+y+5v/Aj9pqy8qZ2T5
-	T7HXUVdilnfiFMzScYMJpZwiWzHUUC3rYotHvcSCiIAycQ5s5VuOfBDlmpoan1IFUCze1RBDTkC
-	XR/2lt6BLpfYpSyS157B9ilq5v4I+99Gb7dRuXiQH11dzQm0lef7zcQryLXGMT7wjaZOEtucMXZ
-	ooN+VxBfc1AcBruxmAWRuBclmx3rNS5Uv+BqF4JWhZfoMt7XLMrbL/saXahm7o405s43DW2KyUH
-	xwujSigZkswWtQ5YHeeRvrxvF6fhBpeD7knsx/fJoLHMrFFBJ6m6RPmYWnhm3AcXmcXjo9Q/VN+
-	WuiMBa1UqbmPH+iq6PWGVfeiNP6WGlfwqyN7z0HStaWAuyZx7JTQnOQcL2qpCMHqDk05AZ
-X-Received: by 2002:aa7:88cb:0:b0:842:6d95:261e with SMTP id d2e1a72fcca58-8426d9538a9mr3400413b3a.41.1780400700453;
-        Tue, 02 Jun 2026 04:45:00 -0700 (PDT)
+        bh=bnFWVx6VWhxeKMY/FKRW9Q1g3mwhdS1r25okhPrkiNY=;
+        b=RKSVY/uaWfkyaAhXx2sIigyXnTmIWZXaZroZYyltomw1F0vc2bbr/A4EON63R4kV9z
+         6Syx+95RxO18QzpbNzM2HLTY0mzUMVY/mVL304WgRAQ0s4bpq4+P12fCJjdzt7xFdGQh
+         vlTu/pFGe+cu9z/mGc0XZKOeDS951JlI1lg/xUyEYVZvMaeteMLahFsBvcERYRaTg94z
+         lKtX9rvbN7F43jdjM3Yzg4TfdUEqWI2c2V2iGTl3InmzevjWeEV6Xtqwr0IZq6UZEMva
+         cSQsyER45XzuXaSABSG5DYec5yCPch7AQ31XKEc7gGKgF7hft3KU3piIOjYPBrnzDRP0
+         Wt5w==
+X-Forwarded-Encrypted: i=1; AFNElJ8c+GrPLyQqAFFKExYMfRLoAs9b6SqwFi5xjETN89gVE9UN017GOmEjoO9bsEGWtFbK2R7ubY/4oVoujw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwczrBbjwAm5iTiQLTiuMH+lKA1FX5wJ1sYZ2WYwu5TOXuQ8aXc
+	27T+9DfTsLUawAl8TNqq6At35QNA+pPZMukuDY63M8xD+ChIrlRFs5sH
+X-Gm-Gg: Acq92OFqeLIZRVKehzMNyZvQCDRu0RQmksEl6Z63BaVi5EE1fYUC/M+XaHVfJ9uFnb7
+	tmZY41NbRuVeMoDhyRIHIpVe92oztHZkcovOdh6FVO8UIfHEQ8nyZWrhpafNUNlzZJOGYdC5y6j
+	pDpNA6fGyun+YzkBSl08uvtM0OKs9LiNBkkoVBz0yrtW3VbCZOImmb/wmuDOf5Cb6MCn4n6I3Cm
+	CW2cZRveF5ZXwzma2AwcnJH1HQKXqUDzJNO1FSFKdDuGL4y87jHNHX4+u6fS55WRQzVZVN49LTv
+	8KJVIyKNSbGeX6B+WtaMo+2fneuS9HZuvFk0knAaNI6dNVgwFtkbMhUMT7P2OJz2+MxpypGTSZ7
+	nUpUsVPTtK8vG8X9xnf8bYa8XYIEohaeO89j6Ud4oRk9rH/+aljnDbbnCA4nCQShqXeKAZvKBoM
+	wbNeV+zZ1C5dzcsX3g/YbtLP9rFVwda/rugSiAjZ/s38RUQtkehirm1kgSGsDw4gih15JZ
+X-Received: by 2002:a05:6a00:2d8d:b0:842:5b85:63a0 with SMTP id d2e1a72fcca58-8425b856f49mr6797766b3a.46.1780400705444;
+        Tue, 02 Jun 2026 04:45:05 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842263539a3sm12025224b3a.44.2026.06.02.04.44.56
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842263539a3sm12025224b3a.44.2026.06.02.04.45.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 04:44:59 -0700 (PDT)
+        Tue, 02 Jun 2026 04:45:05 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Chen-Yu Tsai <wens@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -70,10 +70,11 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 1/3] ASoC: sunxi: sun4i-spdif: Use guard() for spin locks
-Date: Tue,  2 Jun 2026 18:44:35 +0700
-Message-ID: <20260602114437.50324-2-phucduc.bui@gmail.com>
+	bui duc phuc <phucduc.bui@gmail.com>,
+	Sashiko AI Review <sashiko-bot@kernel.org>
+Subject: [PATCH v3 2/3] ASoC: sunxi: sun4i-spdif: Resume device before kcontrol register access
+Date: Tue,  2 Jun 2026 18:44:36 +0700
+Message-ID: <20260602114437.50324-3-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260602114437.50324-1-phucduc.bui@gmail.com>
 References: <20260602114437.50324-1-phucduc.bui@gmail.com>
@@ -87,110 +88,71 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Clean up the code using guard() for spin locks.
-Merely code refactoring, and no behavior change.
+The IEC958 status kcontrols access hardware registers directly.
+Take a runtime PM reference while accessing the registers so that the
+device remains active for the duration of the operation.
 
+Reported-by: Sashiko AI Review <sashiko-bot@kernel.org>
+Closes: https://lore.kernel.org/all/20260514043314.62222C2BCB7@smtp.kernel.org/
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
 
 NOTE: This patch is compile-tested only.
+Changes in v3:
+  - Add Reported-by tag from Sashiko AI review.
 
- sound/soc/sunxi/sun4i-spdif.c | 62 ++++++++++++++++-------------------
- 1 file changed, 28 insertions(+), 34 deletions(-)
+
+ sound/soc/sunxi/sun4i-spdif.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
 diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdif.c
-index c2ec19437cd7..89eccc83a130 100644
+index 89eccc83a130..f54eb14c9ed8 100644
 --- a/sound/soc/sunxi/sun4i-spdif.c
 +++ b/sound/soc/sunxi/sun4i-spdif.c
-@@ -427,24 +427,21 @@ static int sun4i_spdif_get_status(struct snd_kcontrol *kcontrol,
- 	struct snd_soc_dai *cpu_dai = snd_kcontrol_chip(kcontrol);
+@@ -428,6 +428,11 @@ static int sun4i_spdif_get_status(struct snd_kcontrol *kcontrol,
  	struct sun4i_spdif_dev *host = snd_soc_dai_get_drvdata(cpu_dai);
  	u8 *status = ucontrol->value.iec958.status;
--	unsigned long flags;
  	unsigned int reg;
++	int ret;
++
++	ret = pm_runtime_resume_and_get(cpu_dai->dev);
++	if (ret)
++		return ret;
  
--	spin_lock_irqsave(&host->lock, flags);
-+	scoped_guard(spinlock_irqsave, &host->lock) {
-+		regmap_read(host->regmap, SUN4I_SPDIF_TXCHSTA0, &reg);
+ 	scoped_guard(spinlock_irqsave, &host->lock) {
+ 		regmap_read(host->regmap, SUN4I_SPDIF_TXCHSTA0, &reg);
+@@ -443,6 +448,8 @@ static int sun4i_spdif_get_status(struct snd_kcontrol *kcontrol,
+ 		status[5] = (reg >> 8) & 0x3;
+ 	}
  
--	regmap_read(host->regmap, SUN4I_SPDIF_TXCHSTA0, &reg);
-+		status[0] = reg & 0xff;
-+		status[1] = (reg >> 8) & 0xff;
-+		status[2] = (reg >> 16) & 0xff;
-+		status[3] = (reg >> 24) & 0xff;
- 
--	status[0] = reg & 0xff;
--	status[1] = (reg >> 8) & 0xff;
--	status[2] = (reg >> 16) & 0xff;
--	status[3] = (reg >> 24) & 0xff;
-+		regmap_read(host->regmap, SUN4I_SPDIF_TXCHSTA1, &reg);
- 
--	regmap_read(host->regmap, SUN4I_SPDIF_TXCHSTA1, &reg);
--
--	status[4] = reg & 0xff;
--	status[5] = (reg >> 8) & 0x3;
--
--	spin_unlock_irqrestore(&host->lock, flags);
-+		status[4] = reg & 0xff;
-+		status[5] = (reg >> 8) & 0x3;
-+	}
- 
++	pm_runtime_put(cpu_dai->dev);
++
  	return 0;
  }
-@@ -455,35 +452,32 @@ static int sun4i_spdif_set_status(struct snd_kcontrol *kcontrol,
- 	struct snd_soc_dai *cpu_dai = snd_kcontrol_chip(kcontrol);
+ 
+@@ -453,8 +460,13 @@ static int sun4i_spdif_set_status(struct snd_kcontrol *kcontrol,
  	struct sun4i_spdif_dev *host = snd_soc_dai_get_drvdata(cpu_dai);
  	u8 *status = ucontrol->value.iec958.status;
--	unsigned long flags;
  	unsigned int reg;
++	int ret;
  	bool chg0, chg1;
  
--	spin_lock_irqsave(&host->lock, flags);
--
--	reg = (u32)status[3] << 24;
--	reg |= (u32)status[2] << 16;
--	reg |= (u32)status[1] << 8;
--	reg |= (u32)status[0];
-+	scoped_guard(spinlock_irqsave, &host->lock) {
-+		reg = (u32)status[3] << 24;
-+		reg |= (u32)status[2] << 16;
-+		reg |= (u32)status[1] << 8;
-+		reg |= (u32)status[0];
++	ret = pm_runtime_resume_and_get(cpu_dai->dev);
++	if (ret)
++		return ret;
++
+ 	scoped_guard(spinlock_irqsave, &host->lock) {
+ 		reg = (u32)status[3] << 24;
+ 		reg |= (u32)status[2] << 16;
+@@ -479,6 +491,8 @@ static int sun4i_spdif_set_status(struct snd_kcontrol *kcontrol,
+ 				   SUN4I_SPDIF_TXCFG_NONAUDIO, reg);
+ 	}
  
--	regmap_update_bits_check(host->regmap, SUN4I_SPDIF_TXCHSTA0,
--				 GENMASK(31,0), reg, &chg0);
-+		regmap_update_bits_check(host->regmap, SUN4I_SPDIF_TXCHSTA0,
-+					 GENMASK(31, 0), reg, &chg0);
- 
--	reg = (u32)status[5] << 8;
--	reg |= (u32)status[4];
-+		reg = (u32)status[5] << 8;
-+		reg |= (u32)status[4];
- 
--	regmap_update_bits_check(host->regmap, SUN4I_SPDIF_TXCHSTA1,
--				 GENMASK(9,0), reg, &chg1);
-+		regmap_update_bits_check(host->regmap, SUN4I_SPDIF_TXCHSTA1,
-+					 GENMASK(9, 0), reg, &chg1);
- 
--	reg = SUN4I_SPDIF_TXCFG_CHSTMODE;
--	if (status[0] & IEC958_AES0_NONAUDIO)
--		reg |= SUN4I_SPDIF_TXCFG_NONAUDIO;
-+		reg = SUN4I_SPDIF_TXCFG_CHSTMODE;
-+		if (status[0] & IEC958_AES0_NONAUDIO)
-+			reg |= SUN4I_SPDIF_TXCFG_NONAUDIO;
- 
--	regmap_update_bits(host->regmap, SUN4I_SPDIF_TXCFG,
--			   SUN4I_SPDIF_TXCFG_CHSTMODE |
--			   SUN4I_SPDIF_TXCFG_NONAUDIO, reg);
--
--	spin_unlock_irqrestore(&host->lock, flags);
-+		regmap_update_bits(host->regmap, SUN4I_SPDIF_TXCFG,
-+				   SUN4I_SPDIF_TXCFG_CHSTMODE |
-+				   SUN4I_SPDIF_TXCFG_NONAUDIO, reg);
-+	}
- 
++	pm_runtime_put(cpu_dai->dev);
++
  	return chg0 || chg1;
  }
+ 
 -- 
 2.43.0
 
