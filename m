@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92D13BB132
-	for <linux-sound@vger.kernel.org>; Tue,  2 Jun 2026 08:12:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976073A8749
+	for <linux-sound@vger.kernel.org>; Tue,  2 Jun 2026 08:12:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780387976; cv=none; b=fqFDPZTHj15yzrOD46CZ1JZYLZiDNDioXadFIhzrce4nGSLgo9C3whZHNtLWvGSK9XN6apEt+e36f7WWU+KkEdPOa2ginwtZKE9EpfznR9bGiMVeJo/ePes/GAldA0fJ6NqAPzZmPqB9Y3xQwWDZH7nEnU9Go0l8pM96fRTViJs=
+	t=1780387977; cv=none; b=gvJqO9JQuUV8of0S0hrJglQA/7pjchwvw98fRy/6yGvue/gJqyzGpK17iIXmn15Yp96riznIydKgURrqUxyFZWEomGkKoCPOsKpTrxx4vO4l8a6Mhh7DvepIbolA6sl+GS+w7CibBcawhlzywur/yE0ISPib3ucxsuTNgkfqqjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780387976; c=relaxed/simple;
-	bh=Bcc9zTnbqHeIxFprFFQRXchkx5uS0HN1dij9lD8ZZBE=;
+	s=arc-20240116; t=1780387977; c=relaxed/simple;
+	bh=MwIWe2jvCaiK+YzhZ72d33YqfGklv1lDYwKHkxBUjpQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nAwEGq5Po+g40qEl3+JNHobPURaKq7HzWYM5Aqybp73nm8CrGlDP67p7ypRYe6GZMF3V4zmSJp1e7NZfburCE1jNtsnZ4IDhKyf59agQw4EdR/hNi8fbvarF3WeCtsp9ZG4LQxNHH+C8d0Av5CNgYeaQY7ftFzGRR4+vsHuZz50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ColgogI3; arc=none smtp.client-ip=192.198.163.11
+	 MIME-Version; b=HjBRj80tpBybSKsavpO/OO1HqdoIhyxOvnLE6o7lFluln/EOUMWKqNF4+dGYeaM7/U2QVssK8RpoKf1VqY8wYrLZsGMz91m30HXXO+QPuQyiMRx1YCoYIQvqPFLLMkA3q3tY3VCp/X6AAj7zZdoOZwPflu/le0PJEhoKXhL/Etw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FfLkCwUA; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ColgogI3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfLkCwUA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780387975; x=1811923975;
+  t=1780387976; x=1811923976;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Bcc9zTnbqHeIxFprFFQRXchkx5uS0HN1dij9lD8ZZBE=;
-  b=ColgogI3j+Thc0BT/1XyRoIAAGiXz7iuXrkXNG1dhk994LIo8SIdB9i/
-   TAUEwjQ11VFkVyHCsiMNTpvExW/C0m01z7aOOujLq5V1NIKp3C8b4P4Qj
-   eMZKa1StJp7vFX3TK6om7bTZ/+pONU1VhDmaODYQyohQUfChwGW9Jn7fn
-   qI4gz/P86q4KLLBy84ByaZtpZXicVgXOHPvx8haa0/8U9+mLqbAs/oXVn
-   i++cxZ2brhtSOCMtWE6+wDbNcaWQ5ssXgKQqGWXb2YbP/dKD+s2iUg/Km
-   YoHL2oCmeSKeiOv0S1pnEZWZ3SNAmAGXtPA36dwkJJcuuslLaJ3Cr35TO
-   Q==;
-X-CSE-ConnectionGUID: roRL4jFHTyaKswuch+wK1g==
-X-CSE-MsgGUID: t/DVFUdUTZiPieeVXu0Klg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="91742878"
+  bh=MwIWe2jvCaiK+YzhZ72d33YqfGklv1lDYwKHkxBUjpQ=;
+  b=FfLkCwUA0p1t32tSz3eM3S82vj4Awbh/8pLIAGmOFLmbdPbRn3C2EEaf
+   F+nvf72dd3ldH/cBX7WQmeLm5qCZL1/88eNDkxoHtU0KYp3eZNdL+Zyk3
+   SwWfjl44Go2rwHNPELNIyC7FlaKdgZafTNr61QPJtAP4r8+luMrYP0PCD
+   8f8UfjWoXmNjEHJ3Bl9BLjki2xLk5NZpjFOCc8PKZIKNSYiHYBbkJh2Er
+   3C2W4uzXNYs2vI9KJNFAlaiWMWjWIgSil/R0pyceZdt/i+a9aByAH/1pX
+   g0B+8on5sTO+hWetFHa0ndcXdEwPmfktrTFk/aoIMwmtH9rDR7jWN/Se6
+   A==;
+X-CSE-ConnectionGUID: OZgCWVarSmikk8woUiJzPg==
+X-CSE-MsgGUID: zIDK9Wp/R6Cf0VpSBuIU3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="91742885"
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="91742878"
+   d="scan'208";a="91742885"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:12:54 -0700
-X-CSE-ConnectionGUID: 6Z/u1PsxSF2YMd7RbXVntQ==
-X-CSE-MsgGUID: dQpSKyGWSoWlAl5S9GrkRg==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 01:12:56 -0700
+X-CSE-ConnectionGUID: 4YYWFNPbRl2ERjftJeTMmw==
+X-CSE-MsgGUID: 2aKWHS/kRmePmBkn568Gjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,182,1774335600"; 
-   d="scan'208";a="243949929"
+   d="scan'208";a="243949936"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by orviesa007.jf.intel.com with ESMTP; 02 Jun 2026 01:12:53 -0700
+  by orviesa007.jf.intel.com with ESMTP; 02 Jun 2026 01:12:55 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -51,9 +51,9 @@ Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	andriy.shevchenko@linux.intel.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v2 1/7] ASoC: Intel: catpt: Utilize lock-guard helper
-Date: Tue,  2 Jun 2026 10:13:44 +0200
-Message-Id: <20260602081350.1752773-2-cezary.rojewski@intel.com>
+Subject: [PATCH v2 2/7] ASoC: Intel: catpt: Replace RAM-helpers with resource_xxx()
+Date: Tue,  2 Jun 2026 10:13:45 +0200
+Message-Id: <20260602081350.1752773-3-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260602081350.1752773-1-cezary.rojewski@intel.com>
 References: <20260602081350.1752773-1-cezary.rojewski@intel.com>
@@ -65,87 +65,86 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The lock-guard helps simplify the driver's code.
+For catpt_sram_init(), the exact same functionality has been provided to
+ioport.h with commit 9fb6fef0fb49 ("resource: Add resource set range and
+size helpers") in recent years.
+
+As for catpt_dram/iram_size(), leave it for the driver initialization
+only.  Have all other manipulations be done using resource_xxx() API
+which are more familiar to kernel developers.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/catpt/dsp.c | 12 ++++--------
- sound/soc/intel/catpt/ipc.c | 10 ++--------
- 2 files changed, 6 insertions(+), 16 deletions(-)
+ sound/soc/intel/catpt/core.h   | 1 -
+ sound/soc/intel/catpt/device.c | 9 +++------
+ sound/soc/intel/catpt/loader.c | 7 +------
+ 3 files changed, 4 insertions(+), 13 deletions(-)
 
-diff --git a/sound/soc/intel/catpt/dsp.c b/sound/soc/intel/catpt/dsp.c
-index 677f348909c8..b1865d10f995 100644
---- a/sound/soc/intel/catpt/dsp.c
-+++ b/sound/soc/intel/catpt/dsp.c
-@@ -5,6 +5,7 @@
- // Author: Cezary Rojewski <cezary.rojewski@intel.com>
- //
+diff --git a/sound/soc/intel/catpt/core.h b/sound/soc/intel/catpt/core.h
+index 7e479ef89ad0..3881164422b8 100644
+--- a/sound/soc/intel/catpt/core.h
++++ b/sound/soc/intel/catpt/core.h
+@@ -17,7 +17,6 @@ struct catpt_dev;
  
-+#include <linux/cleanup.h>
- #include <linux/devcoredump.h>
+ extern const struct attribute_group *catpt_attr_groups[];
+ 
+-void catpt_sram_init(struct resource *sram, u32 start, u32 size);
+ void catpt_sram_free(struct resource *sram);
+ struct resource *
+ catpt_request_region(struct resource *root, resource_size_t size);
+diff --git a/sound/soc/intel/catpt/device.c b/sound/soc/intel/catpt/device.c
+index b0a926db483c..b176aebea9d5 100644
+--- a/sound/soc/intel/catpt/device.c
++++ b/sound/soc/intel/catpt/device.c
+@@ -233,12 +233,9 @@ static void catpt_dev_init(struct catpt_dev *cdev, struct device *dev,
+ 	cdev->devfmt[CATPT_SSP_IFACE_0].iface = UINT_MAX;
+ 	cdev->devfmt[CATPT_SSP_IFACE_1].iface = UINT_MAX;
+ 
++	resource_set_range(&cdev->dram, spec->host_dram_offset, catpt_dram_size(cdev));
++	resource_set_range(&cdev->iram, spec->host_iram_offset, catpt_iram_size(cdev));
+ 	catpt_ipc_init(&cdev->ipc, dev);
+-
+-	catpt_sram_init(&cdev->dram, spec->host_dram_offset,
+-			catpt_dram_size(cdev));
+-	catpt_sram_init(&cdev->iram, spec->host_iram_offset,
+-			catpt_iram_size(cdev));
+ }
+ 
+ static int catpt_acpi_probe(struct platform_device *pdev)
+@@ -287,7 +284,7 @@ static int catpt_acpi_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	cdev->dxbuf_vaddr = dmam_alloc_coherent(dev, catpt_dram_size(cdev),
++	cdev->dxbuf_vaddr = dmam_alloc_coherent(dev, resource_size(&cdev->dram),
+ 						&cdev->dxbuf_paddr, GFP_KERNEL);
+ 	if (!cdev->dxbuf_vaddr)
+ 		return -ENOMEM;
+diff --git a/sound/soc/intel/catpt/loader.c b/sound/soc/intel/catpt/loader.c
+index 75457187b614..c577f2e17ddf 100644
+--- a/sound/soc/intel/catpt/loader.c
++++ b/sound/soc/intel/catpt/loader.c
+@@ -7,6 +7,7 @@
+ 
  #include <linux/dma-mapping.h>
  #include <linux/firmware.h>
-@@ -256,17 +257,15 @@ static int catpt_dsp_select_lpclock(struct catpt_dev *cdev, bool lp, bool waiti)
- 	u32 mask, reg, val;
- 	int ret;
++#include <linux/ioport.h>
+ #include <linux/slab.h>
+ #include "core.h"
+ #include "registers.h"
+@@ -50,12 +51,6 @@ struct catpt_fw_block_hdr {
+ 	u32 rsvd;
+ } __packed;
  
--	mutex_lock(&cdev->clk_mutex);
-+	guard(mutex)(&cdev->clk_mutex);
- 
- 	val = lp ? CATPT_CS_LPCS : 0;
- 	reg = catpt_readl_shim(cdev, CS1) & CATPT_CS_LPCS;
- 	dev_dbg(cdev->dev, "LPCS [0x%08lx] 0x%08x -> 0x%08x",
- 		CATPT_CS_LPCS, reg, val);
- 
--	if (reg == val) {
--		mutex_unlock(&cdev->clk_mutex);
-+	if (reg == val)
- 		return 0;
--	}
- 
- 	if (waiti) {
- 		/* wait for DSP to signal WAIT state */
-@@ -276,10 +275,8 @@ static int catpt_dsp_select_lpclock(struct catpt_dev *cdev, bool lp, bool waiti)
- 		if (ret) {
- 			dev_warn(cdev->dev, "await WAITI timeout\n");
- 			/* no signal - only high clock selection allowed */
--			if (lp) {
--				mutex_unlock(&cdev->clk_mutex);
-+			if (lp)
- 				return 0;
--			}
- 		}
- 	}
- 
-@@ -303,7 +300,6 @@ static int catpt_dsp_select_lpclock(struct catpt_dev *cdev, bool lp, bool waiti)
- 	/* update PLL accordingly */
- 	cdev->spec->pll_shutdown(cdev, lp);
- 
--	mutex_unlock(&cdev->clk_mutex);
- 	return 0;
- }
- 
-diff --git a/sound/soc/intel/catpt/ipc.c b/sound/soc/intel/catpt/ipc.c
-index 225757e6a776..11238fc641a4 100644
---- a/sound/soc/intel/catpt/ipc.c
-+++ b/sound/soc/intel/catpt/ipc.c
-@@ -128,14 +128,8 @@ int catpt_dsp_send_msg_timeout(struct catpt_dev *cdev,
- 			       struct catpt_ipc_msg request,
- 			       struct catpt_ipc_msg *reply, int timeout, const char *name)
+-void catpt_sram_init(struct resource *sram, u32 start, u32 size)
+-{
+-	sram->start = start;
+-	sram->end = start + size - 1;
+-}
+-
+ void catpt_sram_free(struct resource *sram)
  {
--	struct catpt_ipc *ipc = &cdev->ipc;
--	int ret;
--
--	mutex_lock(&ipc->mutex);
--	ret = catpt_dsp_do_send_msg(cdev, request, reply, timeout, name);
--	mutex_unlock(&ipc->mutex);
--
--	return ret;
-+	guard(mutex)(&cdev->ipc.mutex);
-+	return catpt_dsp_do_send_msg(cdev, request, reply, timeout, name);
- }
- 
- int catpt_dsp_send_msg(struct catpt_dev *cdev, struct catpt_ipc_msg request,
+ 	struct resource *res, *save;
 -- 
 2.34.1
 
