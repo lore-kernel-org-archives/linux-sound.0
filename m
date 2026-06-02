@@ -1,95 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEDE391844;
-	Tue,  2 Jun 2026 18:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D522425A354;
+	Tue,  2 Jun 2026 21:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780424746; cv=none; b=A4OtYrhFHQ7QTCSrQehluZogQFTWHFbIK+jDeaUXrhhKSNMpFRBXDoNzH0KnY/iLC/lI8LzxsJO49WotDIkH0DBxudPjM1WWYOf8PB2Dn9Fm25cofL4ffu+FHlHvwxOO0OkZETCoyFlUMpFp6amkZTcqrWpOHFFXSqaLqk+B3PQ=
+	t=1780436426; cv=none; b=hG1oAR4KGjTTcYBlH+fghBotxTnMZVki4ChAPUn1smESfg84PEOO8UGmTQg/rPypw1yz6YDAjfC+L7O36u7rNqg/G1GLMro+7+M36uF2GYxOUVvKjZRTMjs57h7ORblmbeztBsKrunq5qEPmax0NW7XsTC9jvRQRvvi8tWq6BmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780424746; c=relaxed/simple;
-	bh=AV76TpfOpqLoK8WOnjA1Pmw5UUEMrH+IJKYTM5BKWLw=;
+	s=arc-20240116; t=1780436426; c=relaxed/simple;
+	bh=4eyZw4UOnHhwv4cFQ/JjHG+RrOIvOOmydNLwutjD+3M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AgM7Fm2JzepxSBHzzwk4EIxYYH0l1X+g39UHY/DpkJvpqCXrfFSvrlRHPDEIhrShXQOBxs/D5XOttzoSNokKGw8C6n5SbHYhTSGa5pvcbUJj08KgYi5BDDNz8OE7nUbBkMCaUpPQKhzWkQjpOPMWo1jl8oLnF7Qbt3rijjhaxrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KsaeRqfQ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=QRu7q33Kb4LOlBIbQqlj7aYJtj1Lzq+sBxAP2CumSXJOKhS0BP3cc77Yw2xv15+e++kC3xhsg+XKglLv4rRBOy3Cnx74gQkX6FBmCvx1dPExSBhnc5Fy4UVlmNxeikVIpAXGYISO3E18zF+6Q2voXZzLNtGZuoOuI5EuU11dvDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bOrxwt7d; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KsaeRqfQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49A491F00893;
-	Tue,  2 Jun 2026 18:25:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780424745;
-	bh=MPywl2Tf3bPWevgjpeoBp+UGNpJbeJ89NTxN/Iv10f0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KsaeRqfQwT2ZO7uUhDH52Yel/RVCTRDGBLU08LzLF1F96pniJDE4WSmlq/53pTgpJ
-	 yjETQkvS+uJoZBV3PFGVZCDY+ujkDt+pOBImrytVJ4xfsJjNV9ddDi/YKOgbSzbhQU
-	 gF3zQ3hBcdvRH41yzQiwEGiTF0rfAQrC2Ko9Xn7bF/d09HI43M+8vrT+kCiJ9QjVUO
-	 rrqA+zptVi/nP1DKHOJnrx9JSmZjAOUIFXxaXfZrJwsMHSSaC8wJircli6zjOVaPEO
-	 curvbHc/CWHHovXeMoTkR23cA3njz5w69hGlQZNyO8iTcq+g/MHeRa2YtHjuU3P25c
-	 tOOAZa+xDA1Tg==
-Date: Tue, 2 Jun 2026 19:25:35 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Bartosz Juraszewski <bjuraszewski@gmail.com>
-Cc: shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
-	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: tas2783: Update loaded firmware names to
- linux-firmware 20260519
-Message-ID: <15efa76a-aab8-4a21-ac91-ed6698cb958a@sirena.org.uk>
-References: <20260602175359.22439-1-bjuraszewski@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bOrxwt7d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780436425; x=1811972425;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4eyZw4UOnHhwv4cFQ/JjHG+RrOIvOOmydNLwutjD+3M=;
+  b=bOrxwt7dDdlu+tP9OU2MHGU2Tagrr5urXNNZGyFg9SW7iyaS4ycJF/jt
+   G7DzFSRuUviQCr4+/0YBH90Zi26k4nKHka39YsxJ6e/ItU1hjSddgaOze
+   Zrnu4wLJG/HAnwt4N4+RhcBYjnjIc4fWKDvu32buOY4fA8jSOILZRuc6/
+   Oquoy7V+wOXq3BuLTRFX4PV1ZZJLwm4xqKhixuJqCflyB/YT3R+DxvCGn
+   X+w/m00sEp/majR84hpYlILQE6N1uFcoiv4u+uasR+bJNnBpo3/gQxMNF
+   9HnQztpLpcpEsMpDc608AE4H5W8Evy7VyjMoMUy/vB74FP2Ok41osAO+j
+   A==;
+X-CSE-ConnectionGUID: 5vzSC6yuRUadbchniYYLFQ==
+X-CSE-MsgGUID: dJMr+KXQRnSltNzNwtzVWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="80972401"
+X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
+   d="scan'208";a="80972401"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 14:40:24 -0700
+X-CSE-ConnectionGUID: PcIQbEzqTbKa1yc0yhfIOQ==
+X-CSE-MsgGUID: nO91ZzCfR2qu25nrSJCLRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
+   d="scan'208";a="239575909"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.116])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 14:40:11 -0700
+Date: Wed, 3 Jun 2026 00:40:08 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Lee Jones <lee@kernel.org>,
+	Mark Brown <broonie@opensource.wolfsonmicro.com>,
+	Thierry Reding <thierry.reding@avionic-design.de>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Peter Chen <peter.chen@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 06/23] driver core: platform: provide
+ platform_device_set_of_node()
+Message-ID: <ah9NXwJFrkK_yuw8@ashevche-desk.local>
+References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
+ <20260521-pdev-fwnode-ref-v1-6-88c324a1b8d2@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="A3LX8sZ8FsULIL3X"
-Content-Disposition: inline
-In-Reply-To: <20260602175359.22439-1-bjuraszewski@gmail.com>
-X-Cookie: The wages of sin are unreported.
-
-
---A3LX8sZ8FsULIL3X
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260521-pdev-fwnode-ref-v1-6-88c324a1b8d2@oss.qualcomm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Jun 02, 2026 at 07:53:59PM +0200, Bartosz Juraszewski wrote:
+On Thu, May 21, 2026 at 10:36:29AM +0200, Bartosz Golaszewski wrote:
+> Encapsulate the reference counting logic for OF nodes assigned to
+> platform devices created with platform_device_alloc() in a helper
+> function. Make the kerneldoc state that this is the proper interface for
+> assigning OF nodes to dynamically allocated platform devices. This will
+> allow us to switch to counting the references of the device's firmware
+> nodes, not only the OF nodes.
 
-> This same commit removes all 22 symlinks from WHENCE, that used naming
-> without the '0x' prefix to only 6 prevoiusly existing .bin files.
+...
 
-So there will be existing userspace using the old names.
+> +/**
+> + * platform_device_set_of_node - assign an OF node to device
+> + * @pdev: platform device to add the node for
+> + * @np: new device node
+> + *
+> + * Assign an OF node to this platform device. Internally keep track of the
+> + * reference count. Devices created with platform_device_alloc() must use this
+> + * function instead of assigning the node manually.
+> + */
+> +void platform_device_set_of_node(struct platform_device *pdev,
+> +				 struct device_node *np)
 
-> This patch adds `0x` prefix explicitly to the generated firmware name
-> allowing file to successfully load. This results in functioning audio on
-> my device - ASUS ProArt PX13 HN7306EAC, which uses 1714-1-0x8.bin and
-> 1714-1-0xB.bin firmware files.
+Why not fwnode to begin with?
 
->  	for (; dev; dev = dev->parent) {
->  		if (dev->bus == &pci_bus_type) {
->  			pci = to_pci_dev(dev);
-> -			scnprintf(name, size, "%04X-%1X-%1X.bin",
-> +			scnprintf(name, size, "%04X-%1X-0x%1X.bin",
->  				  pci->subsystem_device, bus->link_id, unique_id);
+> +{
+> +	of_node_put(pdev->dev.of_node);
 
-This will only use the new name, meaning that an existing working
-install will be broken when upgrading the kernel unless linux-firmware
-is also updated.  We should try both names, assuming the change in name
-stays, so that existing installs continue to work.
+And if it has an fwnode?
 
---A3LX8sZ8FsULIL3X
-Content-Type: application/pgp-signature; name="signature.asc"
+> +	pdev->dev.of_node = of_node_get(np);
+> +	pdev->dev.fwnode = of_fwnode_handle(np);
 
------BEGIN PGP SIGNATURE-----
+This looks like
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmofIB4ACgkQJNaLcl1U
-h9BYwwf+L53gaq4+7DIzi2jPRKM7saIXE7FlTyp0y56S5Jo5G8FVwSPdkJ4sOWB4
-IZIszKWnIWxoU45p6eiu29VWFifzBOYXXOcOdP1Jo0twD7i34KxjlnFpNyAcetvA
-3MWXJZ2x6YvCKLsM1ZkaViM93QByT8fkBD4tiAfG/VjT75gS9HKqA9hBVsLeNTqm
-PzbPacL0uWipND+PokSTRuZPQWBi6X/txulwGL56ynoy1ugHX+vC/IsLhfHgyMyF
-4cMTLfyFxIvm1kDS7s5Zc7c+4DPNe+PtAsnFtJXKcvXIm2ajOTq70IzDH4TfL84p
-DuXW5TcpWrX1mlzjZ90UY12nq7pWRA==
-=RtMF
------END PGP SIGNATURE-----
+	device_set_node(&pdev->dev, fwnode_handle_get(...));
 
---A3LX8sZ8FsULIL3X--
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
