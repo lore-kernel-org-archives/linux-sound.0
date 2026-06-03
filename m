@@ -1,88 +1,106 @@
-Received: from wp23.hostingpalvelu.fi (wp23.hostingpalvelu.fi [31.217.193.162])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F38E3803E3;
-	Wed,  3 Jun 2026 18:03:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=31.217.193.162
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388D62EF653
+	for <linux-sound@vger.kernel.org>; Wed,  3 Jun 2026 19:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780509838; cv=none; b=C/wmHtkkJtHGpiPhEfXTVqgSHMxFvN9hffpNGJtWAxEbYDc/JMIpEkozwEe8UUuweCyGFHofTneA+h9fI7JjARWsVhC36YS/zuKP9VAiup4Rtf3Fh3tkGBoyiHMgH51xeiNiyTCvevtnt/J1oCpKKDeoLfYEiUlWKdQIp7g2bP0=
+	t=1780514401; cv=none; b=io4dYHoYEL0SalpRCSNUDBZ2MW7ZZjxof67pW6S0S8pJZ1WMw+ckafn2des7gG+0wovfPvpS2Yjx4svz83DoZ7YkcaS70z40jwG8nIRe+DxLtyLn5KGxWw+A8uNUvG27B7OkphLNs+zVHs1S8mJM9qN2e3Y/k+PoUN9c2LpbMG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780509838; c=relaxed/simple;
-	bh=zp4jQJ1wXlYnbYRHYUqGy4dX+NNH3Md2Txg6tvkNPlE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N+ZLFQio5Odqs9ZLEv8aKFZQH+0bAF0W4lFAzDaJ+xijzihEMX4a5AQP4FJi027vKVZrUy/YoF7MBpAlTWKaKSUhdyjrLBYyrRSMm2PbvhJiBu+sKJM2DQtLNjwV2yJBRk3R8U8RXD90A16ybhOahjMFpVI6TPHGKW8rBISnvKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bitmer.com; spf=pass smtp.mailfrom=bitmer.com; dkim=pass (2048-bit key) header.d=bitmer.com header.i=@bitmer.com header.b=K2Xr9dXL; arc=none smtp.client-ip=31.217.193.162
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bitmer.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bitmer.com
+	s=arc-20240116; t=1780514401; c=relaxed/simple;
+	bh=GZsEjBORihSe5Bp8bAR+rNmPdgfaLzpQdr+FfbAUjrE=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ewJiT4COz7LtyAGSIXqWFmPuaMUA7mu3/4OwF8yZGb6aWpG5k4papX23zrGJukFpARXHNsut6SdddAom5tsFNzFa8HJpaJOukM7xIttWo99oZz+IrxpNezbdj2oMfhWPkdQmqT4GHFwcVCK5l0Jos9e57Le4iJSUSsWmQ4PjQrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fQUjmVNL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bitmer.com header.i=@bitmer.com header.b="K2Xr9dXL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bitmer.com;
-	s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=GRH6ROiC7swqpaBAILN2NW9pHI2WaansCMXE6BpbWH8=; b=K2Xr9dXLEiQ9frPEFEss0ZTTn3
-	STu/GTYJk1yAyc2wNcfaAD0uyxynF6cm9sGgOxH1Ugjb6OyYeS6ZQW2A5tGNmAilOPMjGWZwi3FTJ
-	hfwWCpq9qXHEVRMKypZ0ZY/p5038vFTo7dT7y62VgY7EJaTYiBs7SJVfLJxj+wYik1+YO0FEaxp3j
-	klF4E1HB+9e8oNHjThF31PooFZlAFr1RKLJUEunSoLWCSgg+hr5/oL1xGa+H5KfT+w67IHMei7W2Q
-	ExQhrczwh9h8oLbMWzUhg6CXSw7lI4m6mEKUNkLIoMB+wIxNFN3ty9T1hZmmpoSG14UOkuFn2McDM
-	6lr7VQZA==;
-Received: from 81-197-170-239.elisa-laajakaista.fi ([81.197.170.239]:36662 helo=[192.168.0.14])
-	by wp23.hostingpalvelu.fi with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
-	(Exim 4.99.4)
-	(envelope-from <jarkko.nikula@bitmer.com>)
-	id 1wUpbt-00000001NfV-3POD;
-	Wed, 03 Jun 2026 20:42:33 +0300
-Message-ID: <81c80265-f04d-485f-97bb-92b38129db20@bitmer.com>
-Date: Wed, 3 Jun 2026 20:42:31 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fQUjmVNL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 772901F00893;
+	Wed,  3 Jun 2026 19:19:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780514399;
+	bh=GmK6AvOHSmVOaNnGG+cuxMadAqXKJYRIH6YzYsFxvjQ=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=fQUjmVNLJNmF8QOshzYNvaOtffD2t0uFFbGc3fMEWT6+20GEaZlGzJSrsg11viQjJ
+	 9l1E40gSrYqS/0HfaLNiPabrH8iuDeUL2yd3BFeOLRezVqY+A67DuhOkK3dCTYlqyG
+	 4wFTgEiqQ9+EbGZcKbrT+3g0FvK7oYkkDvGYPn3xCxbM5SsaA0i+gi/c8EeXd1aW7L
+	 cuBSJ49BjlJz1r+hiPHN/HQsBuyeKymC1WdUIXaF/EdhFWuzJ7cVAmiOXs1ogN/d0U
+	 /kgDe/xDIfDak5/Nt4QOP//zJVcEgquQFk6DWMZ0ay+gCyUkrr3EYek9P7mrvxYtnc
+	 Dv8FHEKejePIQ==
+From: Mark Brown <broonie@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, linux-sound@vger.kernel.org, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <877bogce4k.wl-kuninori.morimoto.gx@renesas.com>
+References: <877bogce4k.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH 0/3] ASoC: amd: remove unused machine
+Message-Id: <178049461050.10172.8620264364231175924.b4-ty@b4>
+Date: Wed, 03 Jun 2026 14:50:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] ASoC: ti: rx51: drop unnecessary machine checks
-To: Sascha Hauer <s.hauer@pengutronix.de>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sen Wang <sen@ti.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-omap@vger.kernel.org
-References: <20260603-asoc-remove-mach-types-h-v1-0-2b9446dff0c1@pengutronix.de>
- <20260603-asoc-remove-mach-types-h-v1-3-2b9446dff0c1@pengutronix.de>
-Content-Language: en-US
-From: Jarkko Nikula <jarkko.nikula@bitmer.com>
-In-Reply-To: <20260603-asoc-remove-mach-types-h-v1-3-2b9446dff0c1@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - wp23.hostingpalvelu.fi
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - bitmer.com
-X-Get-Message-Sender-Via: wp23.hostingpalvelu.fi: authenticated_id: jarkko.nikula@bitmer.com
-X-Authenticated-Sender: wp23.hostingpalvelu.fi: jarkko.nikula@bitmer.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1559; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=GZsEjBORihSe5Bp8bAR+rNmPdgfaLzpQdr+FfbAUjrE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqIH5dvmJl869gvVbwVxWeYTDzE5/g9ozpD2AhR
+ /7AJVWxARyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiB+XQAKCRAk1otyXVSH
+ 0BynCACE3xdVcqS4b7sXwCgytXO2xqJ/oJXtkCnenzZYQFArc1O8XubcxQCwBp6vsnK8QmWlIAb
+ NSORs5lc3Xam9K00YtwhyxKV7K5y4JduoayF9tYQIo/vg+RtZQ7MT97IhYXCyuYAq8laFCS7Osn
+ YJDJT1mB0rVUr9GripgulqdoqeUIO9rOibgbp6LkA4n/Da5OIE9hY91iO1oN3gOvbpsJv4SVl0R
+ 7irC4FT90hAP/XZXeyTTehn+E89r8Zqt4O0hDmqChf7rQ8WRaQhF6PjilIP8Hl2MXxaf6td1UaC
+ 7WXtuuUg+LDXggfRpTO/r0u+ltfjCtQXM8MaiCr6ohTDUReA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Hi
+On Wed, 03 Jun 2026 06:49:31 +0000, Kuninori Morimoto wrote:
+> ASoC: amd: remove unused machine
+> 
+> Hi
+> 
+> This patch-set removes unused machine
+> 
+> Kuninori Morimoto (3):
+>   ASoC: amd: acp3x-rn: remove unused machine
+>   ASoC: amd: acp6x-mach: remove unused machine
+>   ASoC: amd: ps-mach: remove unused machine
+> 
+> [...]
 
-On 6/3/26 3:09 PM, Sascha Hauer wrote:
-> Nokia N900 is device tree only, machine_is_nokia_rx51() always expands
-> to 0. Testing for of_machine_is_compatible() is unnecessary as the
-> N900 is the only board registering the device node necessary to get to
-> this point, so remove that as well. This makes inclusion of mach-types.h
-> unnecessary.
->
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> ---
->   sound/soc/ti/rx51.c | 5 -----
->   1 file changed, 5 deletions(-)
-Recent patch removed the machine_is_nokia_rx51(). Could you base your 
-of_machine_is_compatible() removal on top of it.
+Applied to
 
-https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/commit/sound/soc/ti/rx51.c?id=ee05c329c0487c86d37635a7503ba989c6aa7636 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+
+Thanks!
+
+[1/3] ASoC: amd: acp3x-rn: remove unused machine
+      https://git.kernel.org/broonie/sound/c/f6c87ba6c37a
+[2/3] ASoC: amd: acp6x-mach: remove unused machine
+      https://git.kernel.org/broonie/sound/c/7cd04a6ad6c3
+[3/3] ASoC: amd: ps-mach: remove unused machine
+      https://git.kernel.org/broonie/sound/c/b03cda915623
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
