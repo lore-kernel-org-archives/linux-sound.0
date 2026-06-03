@@ -1,149 +1,101 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DCC33D6DD
-	for <linux-sound@vger.kernel.org>; Wed,  3 Jun 2026 12:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDEDF2EBB89;
+	Wed,  3 Jun 2026 13:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780489130; cv=none; b=hRPNqrpo2YVRy6NKijPWSz0J+1jtD5ZZMmoE1bnhVAFpAbBgrL7arK9AvpqXwaHdYMhlntLofZYDza55VDwIX/NuONRdX9ZlFwnukqq+ZzRjHI0pceRcgngNdnNsRKaRgihKuLSchHNdszWaIr20TxkqFzG1uMpo1vvAEcwu0Ik=
+	t=1780494370; cv=none; b=sCvu1b0T7D+MnlgRKV9ogOvgJADXpBAmkiTrCc0RLUAxANiv/0TVdekBEhz22EIS5qtBE/rAkTUPBDNLQCnPS5Fep3oRGiO2EmoFX1e3mhWrRKIi2qOtSAE9pmq1WdsOA5uoJ1ozJDFaTxYcZkH082Q/WLM5rclzBHaeuNH6ZYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780489130; c=relaxed/simple;
-	bh=cVsIIY8CxED8IOMY5ucOvvvxSDQam/aTs0S98YZ83H4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YfNttlq6MLlFzeIE7JCE3j/Es60aP9M/kopfyeMkhkRRrTZcH4FByd+jtx+MS0RzcsjofGYQqpQlm9za4OSAlXGwsTHgXVHyxQ3xvul7sjRHH8ibcGtG8/lTGGwfF0iL9spmEqik2cKnXbTbADHD5ZERKhIRysYW3E13dTOpSFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=oDjwgWv0; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1780494370; c=relaxed/simple;
+	bh=iTS7peFxzwtnF5frmKtWAItro1LS4Pw0CPImeT2U50o=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=CKqEQ8+1wpOBb1GEpOsdl0tr2h892TXUnjBYHw+Y35Xya6ZJ1QbZHc9Fzppmq+y3bJ1zozMH4Xo6wCU9iR5Nh0vCACyreLcsYHUlQUG4Dm7hndusYOODApIIYP8FByMhG/dnvhmDIGzuquqpPKMVbalx1t2rgsWTOhjGNQf5XUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fIPa35Hl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="oDjwgWv0"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id D90E04E40108;
-	Wed,  3 Jun 2026 12:18:45 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8A67C6073E;
-	Wed,  3 Jun 2026 12:18:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AA06610888413;
-	Wed,  3 Jun 2026 14:17:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1780489120; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=zFi/fGH5JDn5JO2RB9yxgU6c2Ow81xQ2uZUvm6i/E1g=;
-	b=oDjwgWv0v2GgyX3pUULcD12EPMMUfgyJz9dBcXuV+rHROoWzoTs8xUfKvHan7sDmS4CabP
-	L+IrQHrvnK0vVMlJcr6wVI29ruHN0LlRTpSAbksHJDQU4x6/AUscYD365MmPH4Ai9RHUD3
-	INZ8kgugtku7ob0NW+Ab7SNI9LVONJhSV2/Jk11qsbj+crVHJ9NJj1exILul60PuVPHkKS
-	HfTz8P9kfZEod84fwQjR8JESyd/TGvwRHW/nVKN9n20yx7yviIrbsYx2VG2qWDRMnUj3ZS
-	NEQxmhhJHdJjDyxCCsVL18Z9rUUNa16rIZrNpUha+f5Agkx9HJ0YQZpZ489vRg==
-Date: Wed, 3 Jun 2026 14:17:57 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: "Alvin =?UTF-8?B?xaBpcHJhZ2E=?=" <alsi@bang-olufsen.dk>, "J.M.B.
- Downing" <jonathan.downing@nautel.com>, "Martin =?UTF-8?B?UG92acWhZXI=?="
- <povik+lin@cutebit.org>, "Nuno =?UTF-8?B?U8Oh?=" <nuno.sa@analog.com>, "Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= (The Capable Hub)"
- <u.kleine-koenig@baylibre.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Arnaud Pouliquen
- <arnaud.pouliquen@foss.st.com>, Baojun Xu <baojun.xu@ti.com>, Bartosz
- Golaszewski <brgl@kernel.org>, Ben Bright <ben.bright@cirrus.com>, Benson
- Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>, Binbin
- Zhou <zhoubinbin@loongson.cn>, Bram Vlerick
- <bram.vlerick@openpixelsystems.org>, Charles Keepax
- <ckeepax@opensource.cirrus.com>, Chen-Yu Tsai <wens@kernel.org>, Cheng-Yi
- Chiang <cychiang@chromium.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Daniel Mack
- <daniel@zonque.org>, Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- David Rhodes <david.rhodes@cirrus.com>, Fabio Estevam <festevam@gmail.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Frank Li
- <Frank.Li@nxp.com>, Fred Treven <fred.treven@cirrus.com>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Guenter Roeck
- <groeck@chromium.org>, Guoqing Jiang <guoqing.jiang@canonical.com>, Haojian
- Zhuang <haojian.zhuang@gmail.com>, HariKrishna Sagala
- <hariconscious@gmail.com>, Heiko Stuebner <heiko@sntech.de>, Hsieh Hung-En
- <hungen3108@gmail.com>, James Ogletree <jogletre@opensource.cirrus.com>,
- Jarkko Nikula <jarkko.nikula@bitmer.com>, Jaroslav Kysela <perex@perex.cz>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jerome Brunet
- <jbrunet@baylibre.com>, Jihed Chaibi <jihed.chaibi.dev@gmail.com>, Jonathan
- Hunter <jonathanh@nvidia.com>, Kevin Cernekee <cernekee@chromium.org>,
- Kevin Hilman <khilman@baylibre.com>, Kevin Lu <kevin-lu@ti.com>, Kirill
- Marinushkin <k.marinushkin@gmail.com>, Kiseok Jo
- <kiseok.jo@irondevice.com>, Krzysztof Kozlowski <krzk@kernel.org>, Kunihiko
- Hayashi <hayashi.kunihiko@socionext.com>, Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Liam Girdwood <lgirdwood@gmail.com>, Luca Ceresoli
- <luca.ceresoli@bootlin.com>, M R Swami Reddy <mr.swami.reddy@ti.com>, Mark
- Brown <broonie@kernel.org>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Masami Hiramatsu
- <mhiramat@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Max
- Filippov <jcmvbkbc@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Nicolas Frattaroli
- <frattaroli.nicolas@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, Oder
- Chiou <oder_chiou@realtek.com>, Olivier Moysan
- <olivier.moysan@foss.st.com>, Paul Cercueil <paul@crapouillou.net>, Peter
- Rosin <peda@lysator.liu.se>, Piotr Wojtaszczyk
- <piotr.wojtaszczyk@timesys.com>, Qianfeng Rong <rongqianfeng@vivo.com>, Ray
- Jui <rjui@broadcom.com>, Richard Fitzgerald <rf@opensource.cirrus.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Samuel Holland
- <samuel@sholland.org>, Sascha Hauer <s.hauer@pengutronix.de>, Scott Branden
- <sbranden@broadcom.com>, Sen Wang <sen@ti.com>, Sharique Mohammad
- <sharq0406@gmail.com>, Shenghao Ding <shenghao-ding@ti.com>, Shengjiu Wang
- <shengjiu.wang@gmail.com>, Steven Eckhoff
- <steven.eckhoff.opensource@gmail.com>, Support Opensource
- <support.opensource@diasemi.com>, Sylwester Nawrocki
- <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Thierry Reding
- <thierry.reding@kernel.org>, Tim Bird <tim.bird@sony.com>, Troy Mitchell
- <troy.mitchell@linux.spacemit.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Vijendar Mukunda
- <Vijendar.Mukunda@amd.com>, Vishwas A Deshpande
- <vishwas.a.deshpande@ti.com>, Vladimir Zapolskiy <vz@mleia.com>, Xiubo Li
- <Xiubo.Lee@gmail.com>, Yixun Lan <dlan@kernel.org>, Zhang Yi
- <zhangyi@everest-semi.com>, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-sound@vger.kernel.org,
- spacemit@lists.linux.dev
-Subject: Re: [PATCH 04/83] ASoC: codecs: peb2466: don't use array if single
- pattarn
-Message-ID: <20260603141757.451cad7b@bootlin.com>
-In-Reply-To: <87wlwrhqxf.wl-kuninori.morimoto.gx@renesas.com>
-References: <8733zfj5jj.wl-kuninori.morimoto.gx@renesas.com>
-	<87wlwrhqxf.wl-kuninori.morimoto.gx@renesas.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fIPa35Hl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22B1E1F00893;
+	Wed,  3 Jun 2026 13:46:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780494369;
+	bh=AT+eITPFZBNH4pWD+B7ApKZiUCMee3eICNlohkpDMj4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=fIPa35HlkF/7U/7A6r84ENA+zrqhZQrakZbVU/VqR4ilCoMIwyh5UMgdjW5WTUS5K
+	 NzGHV2pztiY6n+U1dNdy/BNHm4LTYQTyI4LvO4+yvyJSwKNZ5i4Ei1aAWP0Cud16TZ
+	 7JBwi82A7uFcD6wnNaASVc5i2qFZ4HI2R91U/rJlsiLGTOATg59q/DUHj1JMgi88D9
+	 /v0nOjDP7ia1t8wC5ng7bcAIhQIeU5CFpinUKfu0W/oZZZd5aXiOFnToc+Fny9vXo8
+	 kXKXRAWlxbie2W/hk0ktCq23hAMz5cepy9W0JeBPoFzP8m+mt4uPzS0f9OjKwaLa7e
+	 7uZnGY2VaL8aQ==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ david.rhodes@cirrus.com, rf@opensource.cirrus.com, robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, chancel.liu@oss.nxp.com
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20260603095041.3906558-1-chancel.liu@oss.nxp.com>
+References: <20260603095041.3906558-1-chancel.liu@oss.nxp.com>
+Subject: Re: [PATCH v2 0/2] ASoC: cs42xx8: Add SPI bus support for
+ CS42448/CS42888 codec
+Message-Id: <178048783925.10172.17263652686786901191.b4-ty@b4>
+Date: Wed, 03 Jun 2026 12:57:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1476; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=iTS7peFxzwtnF5frmKtWAItro1LS4Pw0CPImeT2U50o=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqIDAesWeEYjmOZhPkOwZTNpo1yURrck4PHihTG
+ XtjxsY+Tm+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiAwHgAKCRAk1otyXVSH
+ 0NP8B/9F8LzWEFUQjfcf7SsIRP/A7Hi9P57gHFyLJ6LrVkt6AyEIQVWzNNulTOSFa+ArWRLuIzC
+ vHaVgd5Os6FbR4XeMmbZUDA46CVbJoObpwdkbULLNnc4yuTgVdlEyQCrRWicYYUcnTkmwizCZ4v
+ mF3CURjQ3v8c0usxHukmbkpZPT7MYieXmVHRKEp6fKA+wmIykmhKG0rP5rreTWK5TWPWjJBNLtI
+ EalA0RstVeZMzFWxGwZcQSa+d90rG4VwABNJ4+aQXYyaehBZXzqQ29KppeJt/vib1bguZ28d3uI
+ PVcfQXZ4JF3ui/8CkAn4mNCOMrRR/l0AXS4brTdoMp0+cDNN
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Hi Kuninori,
-
-On Tue, 26 May 2026 01:59:08 +0000
-Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
-
-> Because it is confusable during debugging ASoC FW update, tidyup
-> auto format style not to use array if single pattern case.
+On Wed, 03 Jun 2026 18:50:39 +0900, chancel.liu@oss.nxp.com wrote:
+> ASoC: cs42xx8: Add SPI bus support for CS42448/CS42888 codec
 > 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  sound/soc/codecs/peb2466.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+> From: Chancel Liu <chancel.liu@nxp.com>
 > 
+> The existing cs42xx8 driver only supported I2C control interface.
+> Add SPI bus support for the Cirrus Logic CS42448/CS42888 Audio CODEC.
+> 
+> [...]
 
-Same typo in the commit title as in patch 2:
-s/pattarn/pattern/
+Applied to
 
-Or even
-s/pattarn/item/
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
-With that fixed,
+Thanks!
 
-Reviewed-by: Herve Codina <herve.codina@bootlin.com>
+[1/2] ASoC: dt-bindings: cirrus,cs42xx8: Add SPI bus support
+      https://git.kernel.org/broonie/sound/c/596f8d649444
+[2/2] ASoC: cs42xx8: Add SPI bus support for CS42448/CS42888 codec
+      https://git.kernel.org/broonie/sound/c/3158f585f4f2
 
-Best regards,
-Hervé
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
