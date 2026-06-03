@@ -1,101 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDEDF2EBB89;
-	Wed,  3 Jun 2026 13:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E472438BF81;
+	Wed,  3 Jun 2026 14:01:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780494370; cv=none; b=sCvu1b0T7D+MnlgRKV9ogOvgJADXpBAmkiTrCc0RLUAxANiv/0TVdekBEhz22EIS5qtBE/rAkTUPBDNLQCnPS5Fep3oRGiO2EmoFX1e3mhWrRKIi2qOtSAE9pmq1WdsOA5uoJ1ozJDFaTxYcZkH082Q/WLM5rclzBHaeuNH6ZYU=
+	t=1780495273; cv=none; b=QIcxT80MDT2ww2hj8TGMIf1/pELhnaJJ9AdAizGFwAdx04JUuGLGZYJKahtbapdm/iUF+eJCao2hqi22XGiQkfz1mnmWuO8e/JZg91+Lc3kHDeD91FrV0djac2Usrh7bAZVYAYOEACk1ROaTWD20n2gxDP+c+8PHW13AutASxLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780494370; c=relaxed/simple;
-	bh=iTS7peFxzwtnF5frmKtWAItro1LS4Pw0CPImeT2U50o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CKqEQ8+1wpOBb1GEpOsdl0tr2h892TXUnjBYHw+Y35Xya6ZJ1QbZHc9Fzppmq+y3bJ1zozMH4Xo6wCU9iR5Nh0vCACyreLcsYHUlQUG4Dm7hndusYOODApIIYP8FByMhG/dnvhmDIGzuquqpPKMVbalx1t2rgsWTOhjGNQf5XUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fIPa35Hl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780495273; c=relaxed/simple;
+	bh=uuUqhKWEKZxwZNiUuEsG4zpxnkjceIdkOKCVud5SynU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p3nFo5bApBdt5Oc34g5xq4nVNFZxbul1kRicQ8so99dOfWMi8TQtUbarwBbwJPtt4Ts6mMWtoL3A6dxbKQmg4+vXfRE04vSmsMqIXEQ+olLLpHq76xuum4zoZmbk9ggwiaKhCzewGRyMBxbTO3Mt+iUo7jcLqQHpVPTPL9I9H5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=PESTnN/E; arc=none smtp.client-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fIPa35Hl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22B1E1F00893;
-	Wed,  3 Jun 2026 13:46:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780494369;
-	bh=AT+eITPFZBNH4pWD+B7ApKZiUCMee3eICNlohkpDMj4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=fIPa35HlkF/7U/7A6r84ENA+zrqhZQrakZbVU/VqR4ilCoMIwyh5UMgdjW5WTUS5K
-	 NzGHV2pztiY6n+U1dNdy/BNHm4LTYQTyI4LvO4+yvyJSwKNZ5i4Ei1aAWP0Cud16TZ
-	 7JBwi82A7uFcD6wnNaASVc5i2qFZ4HI2R91U/rJlsiLGTOATg59q/DUHj1JMgi88D9
-	 /v0nOjDP7ia1t8wC5ng7bcAIhQIeU5CFpinUKfu0W/oZZZd5aXiOFnToc+Fny9vXo8
-	 kXKXRAWlxbie2W/hk0ktCq23hAMz5cepy9W0JeBPoFzP8m+mt4uPzS0f9OjKwaLa7e
-	 7uZnGY2VaL8aQ==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- david.rhodes@cirrus.com, rf@opensource.cirrus.com, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, chancel.liu@oss.nxp.com
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20260603095041.3906558-1-chancel.liu@oss.nxp.com>
-References: <20260603095041.3906558-1-chancel.liu@oss.nxp.com>
-Subject: Re: [PATCH v2 0/2] ASoC: cs42xx8: Add SPI bus support for
- CS42448/CS42888 codec
-Message-Id: <178048783925.10172.17263652686786901191.b4-ty@b4>
-Date: Wed, 03 Jun 2026 12:57:19 +0100
+	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="PESTnN/E"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=References:In-Reply-To:Cc:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=prfXAt9tKfPdDbq7Qad1x/j/7Y7QtTKcS9qzpdfUzxs=; b=PESTnN/E7GxHedSIBBjkPS7S74
+	hfYbiyebs+2yHMxD9KRayLv+CKnzknrUHt0R6C3npb1E1xhPCnEY5sAS8l7AFHGyY15agM3xwesv1
+	JQxJ4Fcp8ticjgDLSq+bdQuZ9ZAENiSH4mtnDNX/5cGkDqe2IShIKDQZL56AmcSJMCqfP1Qo2zd34
+	N/TVkxOxafIq2XVFP1CJVvuLbzfIiaSjf8GNLWHuEJ09mKfcXiLDt6M4N895RaKF9YAL31jlttvMC
+	5iSD9IbtPV2k+QN+IPazXkkZt213PpeRYipqFWrIhmTpE3LA607mMsiptKpqF2wSiO2pgJPMnfXkZ
+	fVjGl1lQ==;
+Date: Wed, 3 Jun 2026 16:00:21 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Sascha Hauer <s.hauer@pengutronix.de>, hns@goldelico.com,
+ grond66@riseup.net
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Sen Wang
+ <sen@ti.com>, Jarkko Nikula <jarkko.nikula@bitmer.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-omap@vger.kernel.org
+Subject: Re: [PATCH 2/4] ASoC: ti: omap3pandora: remove
+Message-ID: <20260603160021.11cfae7c@kemnade.info>
+In-Reply-To: <20260603-asoc-remove-mach-types-h-v1-2-2b9446dff0c1@pengutronix.de>
+References: <20260603-asoc-remove-mach-types-h-v1-0-2b9446dff0c1@pengutronix.de>
+	<20260603-asoc-remove-mach-types-h-v1-2-2b9446dff0c1@pengutronix.de>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1476; i=broonie@kernel.org;
- h=from:subject:message-id; bh=iTS7peFxzwtnF5frmKtWAItro1LS4Pw0CPImeT2U50o=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqIDAesWeEYjmOZhPkOwZTNpo1yURrck4PHihTG
- XtjxsY+Tm+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiAwHgAKCRAk1otyXVSH
- 0NP8B/9F8LzWEFUQjfcf7SsIRP/A7Hi9P57gHFyLJ6LrVkt6AyEIQVWzNNulTOSFa+ArWRLuIzC
- vHaVgd5Os6FbR4XeMmbZUDA46CVbJoObpwdkbULLNnc4yuTgVdlEyQCrRWicYYUcnTkmwizCZ4v
- mF3CURjQ3v8c0usxHukmbkpZPT7MYieXmVHRKEp6fKA+wmIykmhKG0rP5rreTWK5TWPWjJBNLtI
- EalA0RstVeZMzFWxGwZcQSa+d90rG4VwABNJ4+aQXYyaehBZXzqQ29KppeJt/vib1bguZ28d3uI
- PVcfQXZ4JF3ui/8CkAn4mNCOMrRR/l0AXS4brTdoMp0+cDNN
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 03 Jun 2026 18:50:39 +0900, chancel.liu@oss.nxp.com wrote:
-> ASoC: cs42xx8: Add SPI bus support for CS42448/CS42888 codec
+On Wed, 03 Jun 2026 14:09:23 +0200
+Sascha Hauer <s.hauer@pengutronix.de> wrote:
+
+> The omap3pandora driver entirely depends on machine_is_omap3_pandora().
+> Pandora has been converted to device tree:
 > 
-> From: Chancel Liu <chancel.liu@nxp.com>
+> 7fcf7e061edd3 ("ARM: OMAP2+: Remove legacy booting support for Pandora")
 > 
-> The existing cs42xx8 driver only supported I2C control interface.
-> Add SPI bus support for the Cirrus Logic CS42448/CS42888 Audio CODEC.
+> Since then machine_is_omap3_pandora() always expands to 0. Remove the
+> long unused driver.
 > 
-> [...]
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+>  sound/soc/ti/Kconfig        |   9 --
+>  sound/soc/ti/Makefile       |   2 -
+>  sound/soc/ti/omap3pandora.c | 290 --------------------------------------------
+>  3 files changed, 301 deletions(-)
+> 
+On the first glance, this looks ok... but
+I know there was work undergone in converting this to devicetree but it
+appeared not upstream.
 
-Applied to
+So
+Grond, hns: What are your plans in this? You are effectively maintaining this
+out-of-mainline. What are your upstreaming plans?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+Do we need this kind of glue anyway? Or can we use some of the
+audio-graph-card stuff instead to wire up things?
 
-Thanks!
-
-[1/2] ASoC: dt-bindings: cirrus,cs42xx8: Add SPI bus support
-      https://git.kernel.org/broonie/sound/c/596f8d649444
-[2/2] ASoC: cs42xx8: Add SPI bus support for CS42448/CS42888 codec
-      https://git.kernel.org/broonie/sound/c/3158f585f4f2
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Regards,
+Andreas
