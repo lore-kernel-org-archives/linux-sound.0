@@ -1,85 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E122B9A4
-	for <linux-sound@vger.kernel.org>; Wed,  3 Jun 2026 01:16:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3AB326ED3E
+	for <linux-sound@vger.kernel.org>; Wed,  3 Jun 2026 03:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780449407; cv=none; b=WZDShHIKaO5joi64Rgjzhfll90ACZ5UIkgReX8ohz/0ZPcLWRk844yA5TxfCxNhBQKAKGA4MZX39lzpIvz3Ce+III/8QFJPhk/F+LeX5gvbOfDvVKHWp9hxMemu7B+Lbb9k+nL7a93L4U082fiH0XK607tJVeEA3JEA73o5THhc=
+	t=1780459114; cv=none; b=Yc42fDtQHgI3jjrapKFAekW9H0n2brKQ+buKtMim0cmNySaKYrtQUnhjJNwNUG+rI8QYrM51vK1izSvc0ECFIy9LhfT8d4Xg1ni+tasiKTje9szDc+Iy0xcEHbFLUFKdTIs7pakN5BLwyL7yOzsPoIVS+foJshgrzMdXNrNuzaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780449407; c=relaxed/simple;
-	bh=laFxfyTeJR9r4sKqfGozI7Oj9WO30exV0D1+WCs6d9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z6KH9kAH6Wk3XZcYyPX80k6bow2Vdr1lPRjySAuJK7kvqrT47Dpcfc5JSTt4ixSnuYbCMuq98ewXCd3Yl+81kXtfBajjgURQyaxqAcTGcMKFFf3XhXwdzET5gnS2jR9PnFsuelw8mS4l7UN5MyjG/kcs/ZgVUpU+GhxzHG6wYYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aDrH6W2R; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1780459114; c=relaxed/simple;
+	bh=yxrf1oUiCYIzBKh392eNF0a/muUCk4H04S9L+gnQjag=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XGuro+CLfObGSsJt3QMaGPNvlVB2H+zdd4KM9iWMguZKdbZrrJAOMdC2KQ+YzswLjUICF0dn3a0hRTrInRopM1wkl7IrXm2/d3sWU/BGccjC2w6k0jGcvylTFn19gkRueVFqW7eSBnvN+sR+hoEM/4eWFihzE2b6bGXs63hxqxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hwLGOK8H; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aDrH6W2R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780449406; x=1811985406;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=laFxfyTeJR9r4sKqfGozI7Oj9WO30exV0D1+WCs6d9M=;
-  b=aDrH6W2RgxeelWfpDuYCoI73z5cQ4UygYHlhBYQQsXKlSLF3kC1gijwD
-   Bplb+FTCVWPIYxYMKyYOzraSGTUhMCZctsp5HHCGGvc01lo+gT3z3QZo7
-   prLpo5kKZ2z22rwWtDp0nOZTjUAX258+ejf9Un+pYVp/rd1T+WSbzBDkw
-   VKpWu4bmar6Iy6y2XCN++A5SS4uNrAPX6kskc9pfr6pLF4ZaPjPjOUSh8
-   51ZMAFP9/F26lSHPOjsKazICL4+W6G3G3vnzh3N737SYfcAkP273jbftE
-   yIm6EReSXiVSRIAh8QL9ocE6BkvesaN7u7UwuZymSGyYUG4U9WCQ9fEBf
-   w==;
-X-CSE-ConnectionGUID: fkchI/k/THa2T14bne1mrQ==
-X-CSE-MsgGUID: 77PPOaGDQI26YzfnkPG2eg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="91821226"
-X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="91821226"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 18:16:45 -0700
-X-CSE-ConnectionGUID: 59/Tkor0Qm+nhUYO1NoCDw==
-X-CSE-MsgGUID: lhnEykTxSoOSZnphl0nQLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="267702730"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.116])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 18:16:44 -0700
-Date: Wed, 3 Jun 2026 04:16:41 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: broonie@kernel.org, tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 4/7] ASoC: Intel: catpt: Simplify catpt_stream_find()
-Message-ID: <ah-AeU24nP-nMK4o@ashevche-desk.local>
-References: <20260602081350.1752773-1-cezary.rojewski@intel.com>
- <20260602081350.1752773-5-cezary.rojewski@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hwLGOK8H"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2bf125989f2so39975575ad.3
+        for <linux-sound@vger.kernel.org>; Tue, 02 Jun 2026 20:58:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780459113; x=1781063913; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=n5ygFXPwsJQO8ymWnjVkYNZg4lOorcqeH1A5jF0msXE=;
+        b=hwLGOK8H5yXMtyLOVinQBxMIBm6mb1+40FB5WsJh9hr+3pMC4RSjDCOGcEgwlwj0Kd
+         FXh8TIE7IunkPrW+Je4Voz+dlz0yBqLbMdbbllSRiwlmqsbHCXeMJuvJWAbOMFD1vmAX
+         9Gj0PUOWg6ebJwK/6Ddi7pIWoSRR6x1BhCPojTPym3QLqEzrb3osP74G/L1R4rQtAGDb
+         76m2EDypm6ZW9jQWsT+JHuh5OIOPCWZN7OY6XNwT0L6kaKlzxlMPup9wWwnLNxBIrRC/
+         1/GMv1L4PE6Nc2iX+bSu4CvUCbfjFira6p+cLCz1dQGjMAxT4QA/FDn9b415/TFrOAfC
+         1qBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780459113; x=1781063913;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n5ygFXPwsJQO8ymWnjVkYNZg4lOorcqeH1A5jF0msXE=;
+        b=AwL5amBNi0aal2DxbW/OGiFMUot5EyBLW4ae9z/J+vEhbgt+Zx2SzEv7yuUH37zlLV
+         RBF7SShyJJdsGNOxn4oioV8bZ78yeAfLvGWrFwA8FHEm4D+M3D/WR/lKN0Vry0we86PH
+         wNN/Htgb87p+/DhYhrZrVVdtGHb7jU+tBQx2k9TJ6EZXpNEO8ADCM19Rrsm6CyOJ/wUz
+         hbP4Y2uu4nKJAltOMuxxGszdu3Hj1gN2O5rVc8k7TuLewNGBNOt03Ss/1asZoznwofw+
+         g85ryXW2mUCl3Uwyrqfs+OJz8KlgQpeCqsd1ia9KzhBLiWkBEhz4x/MYmzuhEVtw5xag
+         xanQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8DmfAMavaIjnFcEFViz5hHWwFPj5NHBkuHnU8hDwW1XsYIzZyEQL8mM7O0Bj6QXr6cm19LXTXipnxcsw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBGdVk6DvUcGm1aoop20Zl4zg2fXoNDpJLmouHWixiUX3mmdFh
+	GjlFI3WNdPJVNsNLwcqugEN0lqhF8C8nb/KJmfosklYAEtEjd1HSZTWJuBwTNw==
+X-Gm-Gg: Acq92OFj6FvVQg5LjePSOWfeSstj5APS0lgo5xBob744zAtcXIUXcG+sAMAc4kJddBu
+	ceERd9PvH/Gxw4Vx74WA42ZSVbAr5jACXRXh6XNh8rjri+PZ1iOPGi2/AFI3aW+mSrXuxSAZget
+	gMeH1IT4ouscU9xcg8qXTgHpbP1j6+ixfr2HuxieNJRRFVMPE5ehjeh/saJseq/ebUCcd8L8i3W
+	bHoH2+fYaKfAUwi2StLApbopUBjnrXtqLCvyOEBzriXLmdMTnHjbT8veJnufECVkjfovZMx9njF
+	Hu15wS+x1Rvv/c9iSXOiUR0y/8WFnlhy3icNDcuGjerfHdlLo54XWsokzUL4ZjKuCI5jBx1D9S6
+	XoWEVTQAKR6JSHCQlMwrnENaarWMHdSuA/vFMMuHVQ++3VoOIOkV+mTwiCRzWCLGFzzjfLAmY/G
+	gN5qaC9Y32eLOJEiqTzNjPFYsoUToiphj1I4dD0tjQg//0Gnp1C1WH9gAde0KW1sjh4ylM
+X-Received: by 2002:a17:902:f785:b0:2bc:b80f:677e with SMTP id d9443c01a7336-2c163d8ebccmr16632755ad.25.1780459113142;
+        Tue, 02 Jun 2026 20:58:33 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f6e294sm8461085ad.6.2026.06.02.20.58.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jun 2026 20:58:32 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Heiko Stuebner <heiko@sntech.de>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Cc: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 0/3] ASoC: rockchip: Use guard() for spin locks
+Date: Wed,  3 Jun 2026 10:57:38 +0700
+Message-ID: <20260603035741.68893-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260602081350.1752773-5-cezary.rojewski@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 02, 2026 at 10:13:47AM +0200, Cezary Rojewski wrote:
-> Code line reduction and more transparent variable naming.
-> No functional changes.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-...
+Hi all,
 
-> +	list_for_each_entry(stream, &cdev->stream_list, node)
-> +		if (stream->info.stream_hw_id == stream_hw_id)
-> +			return stream;
+This series converts spinlock handling in the Rockchip sound drivers
+to use guard() helpers.
+The changes are code cleanup only and should have no functional impact.
+Compile tested only.
 
-Seems there is still no blank line here.
+Best regards,
+Phuc
 
-> +	return NULL;
+bui duc phuc (3):
+  ASoC: rockchip: rockchip_i2s: Use guard() for spin locks
+  ASoC: rockchip: i2s-tdm: Use guard() for spin locks
+  ASoC: rockchip: rockchip_sai: Use guard() for spin locks
+
+ sound/soc/rockchip/rockchip_i2s.c     | 160 ++++++++--------
+ sound/soc/rockchip/rockchip_i2s_tdm.c |   8 +-
+ sound/soc/rockchip/rockchip_sai.c     | 258 +++++++++++++-------------
+ 3 files changed, 209 insertions(+), 217 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
