@@ -1,63 +1,63 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70ECE46AF08
-	for <linux-sound@vger.kernel.org>; Wed,  3 Jun 2026 11:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F75A477990
+	for <linux-sound@vger.kernel.org>; Wed,  3 Jun 2026 11:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780487429; cv=none; b=BlYd90JsG2L98MugeIjZQ8DLjkcJoYG/qUuCx6GTlqpYTG1hdEtHZY9EsdZyCv5zmUhX/LE/dfLJZcHby83RjVqJPSeHM8ALytP6PEmu6LKBUJZU32z91dE0L8WklcU7NFnSArXMoNl8pXhCCBAXOjRGN+bHTnC9L3ihCeIDykE=
+	t=1780487433; cv=none; b=iSVS4tRgGhTKvRhpxQphU7wcyo0hT1hgv8dwudEYMxO1IwPOl9wMKxa8lw6tozCAtxiJveLPsZ/9uSDy41L2Nuslobj/I2I+4RvVnAICdsRPBmks/15lKNlX6LVZjNP/3fh0p3myobiRMf+bAAowzejuguOkTnzIBlDHGm3CanU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780487429; c=relaxed/simple;
-	bh=he35cP/gvA5xSZMWrFOaF04BmRJcyzkN8tKIS3U8k/w=;
+	s=arc-20240116; t=1780487433; c=relaxed/simple;
+	bh=y6XRfj7uH/twihlvLPQECCeTMtp+zAXGvZHstWObMDU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nLH62+bxppZMjgY5cJnfiILBegH4Ri/CAU+dOwJkgYXxg1lKYrzqAivgCCiW7uHHc3QKjfxSDVCsAog+/l7rtFmwgmLdiobz1e81OvtR5Sp6YrKH14wy/pk8iHZ6EL6L6Mr06GiqpFYmcK6fAsk6WWQ1TP0/k4vamZiquM5ZKg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lcui2KWM; arc=none smtp.client-ip=209.85.216.53
+	 MIME-Version; b=T06TInBn7938cR7NKIjDvqHO69cbAuQeqvhc8YO/wX5EEfQFd46nEk+a25kT8YTbDgdyvBy9Ov7KF7Ph3Ft9JrBkANRLZfqiOc3ab45ie5FRFr9xa8uexHyb9HvVMRJ9PsOGOcud7dqFt75/8CWOxpk7g3Xx6q58hDoGU0MqjW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mBJm5luJ; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lcui2KWM"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-36b8d414666so4022370a91.3
-        for <linux-sound@vger.kernel.org>; Wed, 03 Jun 2026 04:50:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mBJm5luJ"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2bf30d530bdso51861195ad.3
+        for <linux-sound@vger.kernel.org>; Wed, 03 Jun 2026 04:50:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780487428; x=1781092228; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780487431; x=1781092231; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7cxTSMgNqZwdOR4PrDlBQXp8DTW1iK+QB/aZTwgHd9A=;
-        b=lcui2KWM+W7k3FGtUD2BlL15BckvNeHwmrakJQ9XApwJx+Bew0FSNpyLkU6FArwJlQ
-         GQ6E98UyCyzRv9+dDIDY9PKZZewc/yqiFvOHlk3+5Nm5GlxCXzzL7EYU75vsRu1ceTFM
-         oceD8kZgutOUncKSzL1BAfVTCFVLfzvjrg4RMitJeC7G+tMefI/MFV4tpLvuZ2iWmAhw
-         WxZxz+TG3+50fl7dxdZcXrV+4MWZ2vMU89mat4WKyWphZkKdLRIn9rrlZIsaJadDPsTz
-         opnpXh/YMACuSb3610PI9a0ok48wr/RO0K2Vtke0auk2GOLPY7VYFztJex97BH8K6082
-         O1Yg==
+        bh=CTIltzuE2Za37oaiI+Y4tpXxqTPpmM9bJbC/+luaF7g=;
+        b=mBJm5luJPjy7IFMe57I7DY2wTQx3pdzo1JHNOOlEII937JEuw1tO0WFXQsSCWv8rFm
+         bEumMFdTbTZvTvW3g2suqWKsHgH6D0Ie3i7gJ8rFilIt3YGO503t2j485mvMD/Itxoun
+         qjc5Ie/cwjtiK0LaS9aJjkqkminJRSGBWcEwN2YMX0mWHh754NSEPRYQbb82hwJi9vME
+         rwRVMJcLoafix7qKnjnhz+AbAVS1+javcWziPz/3jbKzzfpsFvw1PySDkBQDub9gNapG
+         m+WcOaUWHRJmCSERRtQ/7fQbGXUTObuggOWYbUs3u5vGTba2Gv+ZzUov39eELyCmBHf1
+         klUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780487428; x=1781092228;
+        d=1e100.net; s=20251104; t=1780487431; x=1781092231;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=7cxTSMgNqZwdOR4PrDlBQXp8DTW1iK+QB/aZTwgHd9A=;
-        b=f8ruIyPhT+4+FCi8oYkNyMsbJngXVtAY8e+4STjYiDtMlbrMHzL8wH2xicuj/7xOJ3
-         4+VkE1ZKqffeeGrOVkdMVWtr/xt2mT9D8u8te8D9nMOz1q+wuEyArec+4Hr8mQPyBlBJ
-         rgPF0sTUyvJdnHLyEDl0o5tHWzygLdsr1PdkcZbk4w9vOuFE2VcpT0JLQ9/AMKoX9+91
-         N4N2k7p43u0YIeZegID7VU85FKSkRq1oWt1hNYb5UToNYMPjSCTyZv4qFoGrh71Mpg9l
-         t3Wcys2xkt0c3LGitofAGjoQ3/paPvAQjOUiOIO7B9VJ2R6r3cItDrTnC2MmD3wPuxer
-         xBow==
-X-Forwarded-Encrypted: i=1; AFNElJ/K4cvQpHU2cJwDIx/J9OYhpg66uJXz0Z3ejaV1260fcFaNIP81SvBVc8T9G7PWgc+unRVuSvrhh3CkxQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3ZqzvYKY8zNJnv32oJSOt74YZAm9ouhzXUWHCdlD37unjSYY4
-	8E+hu4SW2cJNYsX7TV70l7MGK7bjTKtsaG2Lr+B992UIItNKs4bhyPgs
-X-Gm-Gg: Acq92OE0ByBKXIpeJ3jw48/IIbATPyOMVuU64TW5o/DPgzRUofFh307CWr+SBNpiYQK
-	alrJi1ZCIatCkEnARovo+4rDqLP3H5vWzcsPfKRWOuniITgkeKOTqhg5Bkdz6uzjUGFOhNXeXcI
-	mh6XTZr/UTQ8Oi8viIPdc6cnTDk5uvCY2w1sdPV2COH8lTzyqhdh8TcyBGPqbQZMoVT729J2TyR
-	TDnbeAP3M9aChew/hYt+cdWJDaU8H4xfNYq6e08TQNYeqBK4SiBQgb1iS5Fsg3ivpnZORGn7Mfa
-	GmvtWH8FzrH8Qsi10gx9AfBeMS/aoFkZMqO62K5+cNJCQ9HwAYF8xBLR/E2MAT17BKIhuPE9EK4
-	GYt7HY5jiKjHT5RpFyJHAa0ZxbxArj+GggHcaJnCiNC0HjbrzeyQ7GUb+ndl612DcrMn0A9bf+2
-	0nMDrlBZjlXvCgVESox1kR2XTYpQXs8FrlPqUq3x8rDYv2F0yix+Sc1CxSORdf+g5/zr3B
-X-Received: by 2002:a17:902:e14c:b0:2b9:ec37:2977 with SMTP id d9443c01a7336-2c1644dbfd2mr18979195ad.38.1780487427507;
-        Wed, 03 Jun 2026 04:50:27 -0700 (PDT)
+        bh=CTIltzuE2Za37oaiI+Y4tpXxqTPpmM9bJbC/+luaF7g=;
+        b=J1w3vyeYERUWa0KR1wzUnD9EW9Ufvrqd39Gy8m/5NND3XJ2B9UqbiE4Km7Kx/9sLAd
+         WOMbgzQc0llwnYuEvesUF4r3Y2KrFEgAfMlqt6r++g6QSF4SqYdy2qVWeoAAfMW338S/
+         +HFGygLibJ17PsQEBQCpSH0ZyxyXzo4r79uOTLSqd5nOiPxUF11iG+2GRfCj2qUtT3Xw
+         gQQ6lU9PtVo/HsVSx8UL40QtyHvT8B9SrES1PJV618e0DlNP0ICEDpb/bHwIQspc77FB
+         eqxfAKy6nWN9OEW2iUXSZuyrx9fsztgxTt0isYhplF1IypYAOopQGcBZK/Q16pnF1mjU
+         s1SQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+95jxk/JBid+pCeBGNXiogY4Uph5mUr0xm5KAWFsZS1AwAPqlP0d4jn6XNw/AhfFL7LECX6xLPOgizMw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YylyK9VEE09ZF30wPpCzpPL2V92TQ8mm4f7d/HeqOCm7bQU3Pa1
+	C7/t3L+jV25DTygqlVtVbRfH+1X93AkYI4Kl5DdHQn8Gk9Tgdn51zKA8
+X-Gm-Gg: Acq92OELNZ3MsAjYIcyqAPjsyKYu3DFwy2JpD1iEtFJ2NQFmbyu7hsQ2ovhSoWtnSIl
+	56FhGDZHSLgQmPtfj0RGyS4JxpuRdS1Yany/11b9CnrSfJ9P+C6j83KTsOs8TNXNUYZnm5F4Hl8
+	aqVLWVzb2pFYWRng8N8OCPhfV3uPeoVDjIdAPCWWhC7RPqsbhwmy1XDIqBu7GAu8fIZGV6Zh8bD
+	OED9QDS6cE/OZXqvJ7bIJFLllNBNcA+So4xh+IRDGld6iuY6K2ZEpabJMH5l0QTtjHlde2rIn2f
+	8dUTnl1wQzeG0Wm2hXiAAapIHL24MdS74NMKpFQfIUfB3QQld0Pz4tpxdtacHuRTabQUUx4U/vA
+	6QoOx7Iig3VN4D7uKAwJjRAxk/rAXy7YFe8OCV5NgiEVQW5zenQBooMkSlllws5e7qcgJr/i0IK
+	KZE+2IpfJuSuGifzyvdSfoNN6zC3TpndqXaQnvJBYzDcuw1lG/q1hcXauLbb8LWaexf4+9
+X-Received: by 2002:a17:903:b8d:b0:2c0:cbd8:5ff9 with SMTP id d9443c01a7336-2c163fa8268mr32192965ad.21.1780487431250;
+        Wed, 03 Jun 2026 04:50:31 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16609df63sm22731455ad.40.2026.06.03.04.50.24
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16609df63sm22731455ad.40.2026.06.03.04.50.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 04:50:27 -0700 (PDT)
+        Wed, 03 Jun 2026 04:50:30 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Srinivas Kandagatla <srini@kernel.org>,
 	Mark Brown <broonie@kernel.org>
@@ -69,9 +69,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 4/9] ASoC: qcom: q6apm: Use guard() for mutex locks
-Date: Wed,  3 Jun 2026 18:49:44 +0700
-Message-ID: <20260603114949.149595-5-phucduc.bui@gmail.com>
+Subject: [PATCH 5/9] ASoC: qcom: q6asm: Use guard() for mutex & spin locks
+Date: Wed,  3 Jun 2026 18:49:45 +0700
+Message-ID: <20260603114949.149595-6-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260603114949.149595-1-phucduc.bui@gmail.com>
 References: <20260603114949.149595-1-phucduc.bui@gmail.com>
@@ -85,7 +85,7 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Clean up the code using guard() for mutex locks.
+Clean up the code using guard() for mutex & spin locks.
 Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
@@ -93,198 +93,320 @@ Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 
 NOTE: This patch is compile-tested only.
 
- sound/soc/qcom/qdsp6/q6apm.c | 107 ++++++++++++++++-------------------
- 1 file changed, 48 insertions(+), 59 deletions(-)
+ sound/soc/qcom/qdsp6/q6asm.c | 164 +++++++++++++++--------------------
+ 1 file changed, 71 insertions(+), 93 deletions(-)
 
-diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
-index 2ab378fb5032..17c44587b084 100644
---- a/sound/soc/qcom/qdsp6/q6apm.c
-+++ b/sound/soc/qcom/qdsp6/q6apm.c
-@@ -44,9 +44,8 @@ static struct audioreach_graph *q6apm_get_audioreach_graph(struct q6apm *apm, ui
- 	struct audioreach_graph *graph;
- 	int id;
+diff --git a/sound/soc/qcom/qdsp6/q6asm.c b/sound/soc/qcom/qdsp6/q6asm.c
+index de0bd8fd08ee..d058468c4afa 100644
+--- a/sound/soc/qcom/qdsp6/q6asm.c
++++ b/sound/soc/qcom/qdsp6/q6asm.c
+@@ -297,12 +297,12 @@ static int q6asm_apr_send_session_pkt(struct q6asm *a, struct audio_client *ac,
+ 	struct apr_hdr *hdr = &pkt->hdr;
+ 	int rc;
  
--	mutex_lock(&apm->lock);
--	graph = idr_find(&apm->graph_idr, graph_id);
--	mutex_unlock(&apm->lock);
-+	scoped_guard(mutex, &apm->lock)
-+		graph = idr_find(&apm->graph_idr, graph_id);
+-	mutex_lock(&ac->cmd_lock);
++	guard(mutex)(&ac->cmd_lock);
+ 	ac->result.opcode = 0;
+ 	ac->result.status = 0;
+ 	rc = apr_send_pkt(a->adev, pkt);
+ 	if (rc < 0)
+-		goto err;
++		return rc;
  
- 	if (graph) {
- 		kref_get(&graph->refcount);
-@@ -74,16 +73,15 @@ static struct audioreach_graph *q6apm_get_audioreach_graph(struct q6apm *apm, ui
- 		return ERR_CAST(err);
+ 	if (rsp_opcode)
+ 		rc = wait_event_timeout(a->mem_wait,
+@@ -323,8 +323,6 @@ static int q6asm_apr_send_session_pkt(struct q6asm *a, struct audio_client *ac,
+ 		rc = -EINVAL;
  	}
  
--	mutex_lock(&apm->lock);
--	id = idr_alloc(&apm->graph_idr, graph, graph_id, graph_id + 1, GFP_KERNEL);
--	if (id < 0) {
--		dev_err(apm->dev, "Unable to allocate graph id (%d)\n", graph_id);
--		kfree(graph->graph);
--		kfree(graph);
--		mutex_unlock(&apm->lock);
--		return ERR_PTR(id);
-+	scoped_guard(mutex, &apm->lock) {
-+		id = idr_alloc(&apm->graph_idr, graph, graph_id, graph_id + 1, GFP_KERNEL);
-+		if (id < 0) {
-+			dev_err(apm->dev, "Unable to allocate graph id (%d)\n", graph_id);
-+			kfree(graph->graph);
-+			kfree(graph);
-+			return ERR_PTR(id);
+-err:
+-	mutex_unlock(&ac->cmd_lock);
+ 	return rc;
+ }
+ 
+@@ -371,11 +369,8 @@ static int __q6asm_memory_unmap(struct audio_client *ac,
+ static void q6asm_audio_client_free_buf(struct audio_client *ac,
+ 					struct audio_port_data *port)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&ac->lock, flags);
+-	port->num_periods = 0;
+-	spin_unlock_irqrestore(&ac->lock, flags);
++	scoped_guard(spinlock_irqsave, &ac->lock)
++		port->num_periods = 0;
+ 	kfree(port->buf);
+ 	port->buf = NULL;
+ }
+@@ -427,7 +422,6 @@ static int __q6asm_memory_map_regions(struct audio_client *ac, int dir,
+ 	struct audio_port_data *port = NULL;
+ 	struct audio_buffer *ab = NULL;
+ 	struct apr_pkt *pkt;
+-	unsigned long flags;
+ 	uint32_t num_regions, buf_sz;
+ 	int i, pkt_size;
+ 
+@@ -464,17 +458,17 @@ static int __q6asm_memory_map_regions(struct audio_client *ac, int dir,
+ 	cmd->num_regions = num_regions;
+ 	cmd->property_flag = 0x00;
+ 
+-	spin_lock_irqsave(&ac->lock, flags);
+-	port = &ac->port[dir];
++	scoped_guard(spinlock_irqsave, &ac->lock) {
++		port = &ac->port[dir];
+ 
+-	for (i = 0; i < num_regions; i++) {
+-		ab = &port->buf[i];
+-		mregions->shm_addr_lsw = lower_32_bits(ab->phys);
+-		mregions->shm_addr_msw = upper_32_bits(ab->phys);
+-		mregions->mem_size_bytes = buf_sz;
+-		++mregions;
++		for (i = 0; i < num_regions; i++) {
++			ab = &port->buf[i];
++			mregions->shm_addr_lsw = lower_32_bits(ab->phys);
++			mregions->shm_addr_msw = upper_32_bits(ab->phys);
++			mregions->mem_size_bytes = buf_sz;
++			++mregions;
 +		}
  	}
--	mutex_unlock(&apm->lock);
+-	spin_unlock_irqrestore(&ac->lock, flags);
  
- 	kref_init(&graph->refcount);
+ 	return q6asm_apr_send_session_pkt(a, ac, pkt, ASM_CMDRSP_SHARED_MEM_MAP_REGIONS);
+ }
+@@ -495,38 +489,32 @@ int q6asm_map_memory_regions(unsigned int dir, struct audio_client *ac,
+ 			     size_t period_sz, unsigned int periods)
+ {
+ 	struct audio_buffer *buf;
+-	unsigned long flags;
+ 	int cnt;
+ 	int rc;
  
-@@ -131,9 +129,8 @@ static void q6apm_put_audioreach_graph(struct kref *ref)
- 
- 	audioreach_graph_mgmt_cmd(graph, APM_CMD_GRAPH_CLOSE);
- 
--	mutex_lock(&apm->lock);
--	graph = idr_remove(&apm->graph_idr, graph->id);
--	mutex_unlock(&apm->lock);
-+	scoped_guard(mutex, &apm->lock)
-+		graph = idr_remove(&apm->graph_idr, graph->id);
- 
- 	kfree(graph->graph);
- 	kfree(graph);
-@@ -254,20 +251,16 @@ int q6apm_alloc_fragments(struct q6apm_graph *graph, unsigned int dir, phys_addr
- 	else
- 		data = &graph->tx_data;
- 
--	mutex_lock(&graph->lock);
-+	guard(mutex)(&graph->lock);
- 
- 	data->dsp_buf = 0;
- 
--	if (data->buf) {
--		mutex_unlock(&graph->lock);
-+	if (data->buf)
- 		return 0;
+-	spin_lock_irqsave(&ac->lock, flags);
+-	if (ac->port[dir].buf) {
+-		dev_err(ac->dev, "Buffer already allocated\n");
+-		spin_unlock_irqrestore(&ac->lock, flags);
+-		return 0;
 -	}
- 
- 	buf = kzalloc_objs(struct audio_buffer, periods);
+-
+-	buf = kzalloc_objs(*buf, periods, GFP_ATOMIC);
 -	if (!buf) {
--		mutex_unlock(&graph->lock);
-+	if (!buf)
- 		return -ENOMEM;
+-		spin_unlock_irqrestore(&ac->lock, flags);
+-		return -ENOMEM;
 -	}
++	scoped_guard(spinlock_irqsave, &ac->lock) {
++		if (ac->port[dir].buf) {
++			dev_err(ac->dev, "Buffer already allocated\n");
++			return 0;
++		}
  
- 	if (dir == SNDRV_PCM_STREAM_PLAYBACK)
- 		data = &graph->rx_data;
-@@ -287,8 +280,6 @@ int q6apm_alloc_fragments(struct q6apm_graph *graph, unsigned int dir, phys_addr
++		buf = kzalloc_objs(*buf, periods, GFP_ATOMIC);
++		if (!buf)
++			return -ENOMEM;
+ 
+-	ac->port[dir].buf = buf;
++		ac->port[dir].buf = buf;
+ 
+-	buf[0].phys = phys;
+-	buf[0].size = period_sz;
++		buf[0].phys = phys;
++		buf[0].size = period_sz;
+ 
+-	for (cnt = 1; cnt < periods; cnt++) {
+-		if (period_sz > 0) {
+-			buf[cnt].phys = buf[0].phys + (cnt * period_sz);
+-			buf[cnt].size = period_sz;
++		for (cnt = 1; cnt < periods; cnt++) {
++			if (period_sz > 0) {
++				buf[cnt].phys = buf[0].phys + (cnt * period_sz);
++				buf[cnt].size = period_sz;
++			}
+ 		}
++		ac->port[dir].num_periods = periods;
  	}
- 	data->num_periods = periods;
- 
--	mutex_unlock(&graph->lock);
+-	ac->port[dir].num_periods = periods;
 -
- 	return 0;
+-	spin_unlock_irqrestore(&ac->lock, flags);
+ 
+ 	rc = __q6asm_memory_map_regions(ac, dir, period_sz, periods, 1);
+ 	if (rc < 0) {
+@@ -542,14 +530,12 @@ static void q6asm_audio_client_release(struct kref *ref)
+ {
+ 	struct audio_client *ac;
+ 	struct q6asm *a;
+-	unsigned long flags;
+ 
+ 	ac = container_of(ref, struct audio_client, refcount);
+ 	a = ac->q6asm;
+ 
+-	spin_lock_irqsave(&a->slock, flags);
+-	a->session[ac->session] = NULL;
+-	spin_unlock_irqrestore(&a->slock, flags);
++	scoped_guard(spinlock_irqsave, &a->slock)
++		a->session[ac->session] = NULL;
+ 
+ 	kfree(ac);
  }
- EXPORT_SYMBOL_GPL(q6apm_alloc_fragments);
-@@ -457,23 +448,22 @@ int q6apm_write_async(struct q6apm_graph *graph, uint32_t len, uint32_t msw_ts,
+@@ -842,7 +828,6 @@ struct audio_client *q6asm_audio_client_alloc(struct device *dev, q6asm_cb cb,
+ {
+ 	struct q6asm *a = dev_get_drvdata(dev->parent);
+ 	struct audio_client *ac;
+-	unsigned long flags;
  
- 	write_buffer = (void *)pkt + GPR_HDR_SIZE;
+ 	ac = q6asm_get_audio_client(a, session_id + 1);
+ 	if (ac) {
+@@ -854,9 +839,8 @@ struct audio_client *q6asm_audio_client_alloc(struct device *dev, q6asm_cb cb,
+ 	if (!ac)
+ 		return ERR_PTR(-ENOMEM);
  
--	mutex_lock(&graph->lock);
--	ab = &graph->rx_data.buf[graph->rx_data.dsp_buf];
+-	spin_lock_irqsave(&a->slock, flags);
+-	a->session[session_id + 1] = ac;
+-	spin_unlock_irqrestore(&a->slock, flags);
++	scoped_guard(spinlock_irqsave, &a->slock)
++		a->session[session_id + 1] = ac;
+ 	ac->session = session_id + 1;
+ 	ac->cb = cb;
+ 	ac->dev = dev;
+@@ -880,20 +864,19 @@ static int q6asm_ac_send_cmd_sync(struct audio_client *ac, struct apr_pkt *pkt)
+ 	struct apr_hdr *hdr = &pkt->hdr;
+ 	int rc;
+ 
+-	mutex_lock(&ac->cmd_lock);
++	guard(mutex)(&ac->cmd_lock);
+ 	ac->result.opcode = 0;
+ 	ac->result.status = 0;
+ 
+ 	rc = apr_send_pkt(ac->adev, pkt);
+ 	if (rc < 0)
+-		goto err;
++		return rc;
+ 
+ 	rc = wait_event_timeout(ac->cmd_wait,
+ 				(ac->result.opcode == hdr->opcode), 5 * HZ);
+ 	if (!rc) {
+ 		dev_err(ac->dev, "CMD %x timeout\n", hdr->opcode);
+-		rc =  -ETIMEDOUT;
+-		goto err;
++		return -ETIMEDOUT;
+ 	}
+ 
+ 	if (ac->result.status > 0) {
+@@ -904,9 +887,6 @@ static int q6asm_ac_send_cmd_sync(struct audio_client *ac, struct apr_pkt *pkt)
+ 		rc = 0;
+ 	}
+ 
 -
--	write_buffer->buf_addr_lsw = lower_32_bits(ab->phys);
--	write_buffer->buf_addr_msw = upper_32_bits(ab->phys);
--	write_buffer->buf_size = len;
--	write_buffer->timestamp_lsw = lsw_ts;
--	write_buffer->timestamp_msw = msw_ts;
--	write_buffer->mem_map_handle = graph->info->mem_map_handle;
--	write_buffer->flags = wflags;
-+	scoped_guard(mutex, &graph->lock) {
-+		ab = &graph->rx_data.buf[graph->rx_data.dsp_buf];
- 
--	graph->rx_data.dsp_buf++;
-+		write_buffer->buf_addr_lsw = lower_32_bits(ab->phys);
-+		write_buffer->buf_addr_msw = upper_32_bits(ab->phys);
-+		write_buffer->buf_size = len;
-+		write_buffer->timestamp_lsw = lsw_ts;
-+		write_buffer->timestamp_msw = msw_ts;
-+		write_buffer->mem_map_handle = graph->info->mem_map_handle;
-+		write_buffer->flags = wflags;
- 
--	if (graph->rx_data.dsp_buf >= graph->rx_data.num_periods)
--		graph->rx_data.dsp_buf = 0;
-+		graph->rx_data.dsp_buf++;
- 
--	mutex_unlock(&graph->lock);
-+		if (graph->rx_data.dsp_buf >= graph->rx_data.num_periods)
-+			graph->rx_data.dsp_buf = 0;
-+	}
- 
- 	return gpr_send_port_pkt(graph->port, pkt);
+-err:
+-	mutex_unlock(&ac->cmd_lock);
+ 	return rc;
  }
-@@ -493,21 +483,20 @@ int q6apm_read(struct q6apm_graph *graph)
  
- 	read_buffer = (void *)pkt + GPR_HDR_SIZE;
+@@ -1402,7 +1382,6 @@ int q6asm_read(struct audio_client *ac, uint32_t stream_id)
+ 	struct audio_port_data *port;
+ 	struct audio_buffer *ab;
+ 	struct apr_pkt *pkt;
+-	unsigned long flags;
+ 	int pkt_size = APR_HDR_SIZE + sizeof(*read);
+ 	int rc = 0;
  
--	mutex_lock(&graph->lock);
--	port = &graph->tx_data;
+@@ -1413,25 +1392,25 @@ int q6asm_read(struct audio_client *ac, uint32_t stream_id)
+ 	pkt = p;
+ 	read = p + APR_HDR_SIZE;
+ 
+-	spin_lock_irqsave(&ac->lock, flags);
+-	port = &ac->port[SNDRV_PCM_STREAM_CAPTURE];
+-	q6asm_add_hdr(ac, &pkt->hdr, pkt_size, false, stream_id);
 -	ab = &port->buf[port->dsp_buf];
--
--	read_buffer->buf_addr_lsw = lower_32_bits(ab->phys);
--	read_buffer->buf_addr_msw = upper_32_bits(ab->phys);
--	read_buffer->mem_map_handle = graph->info->mem_map_handle;
--	read_buffer->buf_size = ab->size;
-+	scoped_guard(mutex, &graph->lock) {
-+		port = &graph->tx_data;
+-	pkt->hdr.opcode = ASM_DATA_CMD_READ_V2;
+-	read->buf_addr_lsw = lower_32_bits(ab->phys);
+-	read->buf_addr_msw = upper_32_bits(ab->phys);
+-	read->mem_map_handle = port->mem_map_handle;
++	scoped_guard(spinlock_irqsave, &ac->lock) {
++		port = &ac->port[SNDRV_PCM_STREAM_CAPTURE];
++		q6asm_add_hdr(ac, &pkt->hdr, pkt_size, false, stream_id);
 +		ab = &port->buf[port->dsp_buf];
++		pkt->hdr.opcode = ASM_DATA_CMD_READ_V2;
++		read->buf_addr_lsw = lower_32_bits(ab->phys);
++		read->buf_addr_msw = upper_32_bits(ab->phys);
++		read->mem_map_handle = port->mem_map_handle;
+ 
+-	read->buf_size = ab->size;
+-	read->seq_id = port->dsp_buf;
+-	pkt->hdr.token = port->dsp_buf;
++		read->buf_size = ab->size;
++		read->seq_id = port->dsp_buf;
++		pkt->hdr.token = port->dsp_buf;
  
 -	port->dsp_buf++;
-+		read_buffer->buf_addr_lsw = lower_32_bits(ab->phys);
-+		read_buffer->buf_addr_msw = upper_32_bits(ab->phys);
-+		read_buffer->mem_map_handle = graph->info->mem_map_handle;
-+		read_buffer->buf_size = ab->size;
++		port->dsp_buf++;
  
 -	if (port->dsp_buf >= port->num_periods)
 -		port->dsp_buf = 0;
-+		port->dsp_buf++;
- 
--	mutex_unlock(&graph->lock);
 +		if (port->dsp_buf >= port->num_periods)
 +			port->dsp_buf = 0;
 +	}
  
- 	return gpr_send_port_pkt(graph->port, pkt);
- }
-@@ -545,12 +534,12 @@ static int graph_callback(const struct gpr_resp_pkt *data, void *priv, int op)
- 		if (!graph->ar_graph)
- 			break;
- 		client_event = APM_CLIENT_EVENT_DATA_WRITE_DONE;
--		mutex_lock(&graph->lock);
--		token = hdr->token & APM_WRITE_TOKEN_MASK;
-+		scoped_guard(mutex, &graph->lock) {
-+			token = hdr->token & APM_WRITE_TOKEN_MASK;
+-	spin_unlock_irqrestore(&ac->lock, flags);
+ 	rc = apr_send_pkt(ac->adev, pkt);
+ 	if (rc == pkt_size)
+ 		rc = 0;
+@@ -1515,7 +1494,6 @@ int q6asm_write_async(struct audio_client *ac, uint32_t stream_id, uint32_t len,
+ 	struct asm_data_cmd_write_v2 *write;
+ 	struct audio_port_data *port;
+ 	struct audio_buffer *ab;
+-	unsigned long flags;
+ 	struct apr_pkt *pkt;
+ 	int pkt_size = APR_HDR_SIZE + sizeof(*write);
+ 	int rc = 0;
+@@ -1527,30 +1505,30 @@ int q6asm_write_async(struct audio_client *ac, uint32_t stream_id, uint32_t len,
+ 	pkt = p;
+ 	write = p + APR_HDR_SIZE;
  
--		done = data->payload;
--		phys = graph->rx_data.buf[token].phys;
--		mutex_unlock(&graph->lock);
-+			done = data->payload;
-+			phys = graph->rx_data.buf[token].phys;
-+		}
- 		/* token numbering starts at 0 */
- 		atomic_set(&graph->rx_data.hw_ptr, token + 1);
- 		if (lower_32_bits(phys) == done->buf_addr_lsw &&
-@@ -569,10 +558,10 @@ static int graph_callback(const struct gpr_resp_pkt *data, void *priv, int op)
- 		if (!graph->ar_graph)
- 			break;
- 		client_event = APM_CLIENT_EVENT_DATA_READ_DONE;
--		mutex_lock(&graph->lock);
--		rd_done = data->payload;
--		phys = graph->tx_data.buf[hdr->token].phys;
--		mutex_unlock(&graph->lock);
-+		scoped_guard(mutex, &graph->lock) {
-+			rd_done = data->payload;
-+			phys = graph->tx_data.buf[hdr->token].phys;
-+		}
- 		/* token numbering starts at 0 */
- 		atomic_set(&graph->tx_data.hw_ptr, hdr->token + 1);
+-	spin_lock_irqsave(&ac->lock, flags);
+-	port = &ac->port[SNDRV_PCM_STREAM_PLAYBACK];
+-	q6asm_add_hdr(ac, &pkt->hdr, pkt_size, false, stream_id);
++	scoped_guard(spinlock_irqsave, &ac->lock) {
++		port = &ac->port[SNDRV_PCM_STREAM_PLAYBACK];
++		q6asm_add_hdr(ac, &pkt->hdr, pkt_size, false, stream_id);
  
+-	ab = &port->buf[port->dsp_buf];
+-	pkt->hdr.token = port->dsp_buf | (len << ASM_WRITE_TOKEN_LEN_SHIFT);
+-	pkt->hdr.opcode = ASM_DATA_CMD_WRITE_V2;
+-	write->buf_addr_lsw = lower_32_bits(ab->phys);
+-	write->buf_addr_msw = upper_32_bits(ab->phys);
+-	write->buf_size = len;
+-	write->seq_id = port->dsp_buf;
+-	write->timestamp_lsw = lsw_ts;
+-	write->timestamp_msw = msw_ts;
+-	write->mem_map_handle =
+-	    ac->port[SNDRV_PCM_STREAM_PLAYBACK].mem_map_handle;
++		ab = &port->buf[port->dsp_buf];
++		pkt->hdr.token = port->dsp_buf | (len << ASM_WRITE_TOKEN_LEN_SHIFT);
++		pkt->hdr.opcode = ASM_DATA_CMD_WRITE_V2;
++		write->buf_addr_lsw = lower_32_bits(ab->phys);
++		write->buf_addr_msw = upper_32_bits(ab->phys);
++		write->buf_size = len;
++		write->seq_id = port->dsp_buf;
++		write->timestamp_lsw = lsw_ts;
++		write->timestamp_msw = msw_ts;
++		write->mem_map_handle =
++		    ac->port[SNDRV_PCM_STREAM_PLAYBACK].mem_map_handle;
+ 
+-	write->flags = wflags;
++		write->flags = wflags;
+ 
+-	port->dsp_buf++;
++		port->dsp_buf++;
+ 
+-	if (port->dsp_buf >= port->num_periods)
+-		port->dsp_buf = 0;
++		if (port->dsp_buf >= port->num_periods)
++			port->dsp_buf = 0;
++	}
+ 
+-	spin_unlock_irqrestore(&ac->lock, flags);
+ 	rc = apr_send_pkt(ac->adev, pkt);
+ 	if (rc == pkt_size)
+ 		rc = 0;
 -- 
 2.43.0
 
