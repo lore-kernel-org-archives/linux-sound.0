@@ -1,105 +1,296 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010013.outbound.protection.outlook.com [52.101.229.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5099D492519
-	for <linux-sound@vger.kernel.org>; Wed,  3 Jun 2026 21:33:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780522433; cv=none; b=jhZT1pdCD+St/B3p3TGv/cknWPHrFkMc66S2eSP7LkNRMbz5e2ig5W0fgPquj7G2MtgRngEcJKOiQq3FdZgLeAJnx9VjBYIO/nqm0BWmRnlA+9YIcJfAr4Uotvzio3HSq9hB360x10z1/hhYKhu7SOqbBkx9+xHbHuXcTCS96oQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780522433; c=relaxed/simple;
-	bh=FzjlBSZTQ4xIgKzesNz8Nd4bBERzPTu3p3kNn1RpBcE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZhBw+03hcEyp5xwpG2DsR7KetPsyiWZLGpv5DS86piGu24me582fjIhfuQbBBksjyQ8kYO/L9/h8pYiIBSJpdpWUH7tKEzrmHYtOdUit/MG9YrZmfkEWjpktG0/KgjFLCDB6qd41beC0YLlQNALEGhp2uhIGa4dzy6xIM+Ea4X0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noogadev.com; spf=none smtp.mailfrom=noogadev.com; dkim=pass (2048-bit key) header.d=noogadev-com.20251104.gappssmtp.com header.i=@noogadev-com.20251104.gappssmtp.com header.b=qiaVta69; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noogadev.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=noogadev.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB1B397E96;
+	Wed,  3 Jun 2026 22:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780525815; cv=fail; b=kfDEDCft4sxRwCWrCivXtLjfElVUPOV6umvp7FZlNSUcrzJksp6rTJaQdTp11Ofmnt8hj2Yzze853VwWfNyc2yyY968gT37wtFroIkKHcMd0hcRVr4M+FA25p5kjFKnZ6jebPf9fnPw9ohKoNa3HAWIdVyDrMYiHDvM/EEfp1Hc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780525815; c=relaxed/simple;
+	bh=WTS5ddFEdnOSo9/IV5+3mQLL8kJAv06vfsAF0SDG5gs=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=ECzf5FEymJWLDJ4RvCMf/HpBcApuZ74NycOrcT+OjssviSJb1bxBF9zJbShJ2cOVPvujITJDOW4+eJyCr7dVAfwVgPZD4kBiixnm4gcf8uUpct3iWT1HUxSKIr9ji+Sbz91kg2G9gnzoVCgR+jhJqQLriqOBXbXUL2XfaOTax5Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ULF/oiWs; arc=fail smtp.client-ip=52.101.229.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=noogadev-com.20251104.gappssmtp.com header.i=@noogadev-com.20251104.gappssmtp.com header.b="qiaVta69"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45eeba68948so5310753f8f.1
-        for <linux-sound@vger.kernel.org>; Wed, 03 Jun 2026 14:33:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=noogadev-com.20251104.gappssmtp.com; s=20251104; t=1780522430; x=1781127230; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mlH1yY2Qw2PumWmBtn3keZ08FiCHVsmk5GMo+CQoULY=;
-        b=qiaVta69X+OfPUYeeMuEpuvGqvkljkYyUyUtQeO2lbS3MzZ1LKNNxa2VsPl90WrdyC
-         /Y/7ojOJooMjHvr9qv4UOdO1zU9C5RFlBWnA+pb9hJNuB6lv88S6SnzFwQ2pX9OkwPJF
-         kqWO7JKFFVz9c4spjzt72ieZuCx71P9moU5J2JsP0NjnL9uPobBAB48w63qdWBo1KM1T
-         63REzfbO/V+/keb9gG8nfw0vo1Opzn1GQGd+QT9NTHYvU8yv//JQoC75Eg5xk7LbWOfh
-         ZdvZqvAXN7ocN0Ev4ycnQ9lUBQiKmWbaLUbQ6QPyoHPHdofBKejsv40rWjj5DEOAe3gG
-         SeiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780522430; x=1781127230;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mlH1yY2Qw2PumWmBtn3keZ08FiCHVsmk5GMo+CQoULY=;
-        b=jsu5I4maIwnDKKieC3T61U03IShKrdEsTH1otEZQrCGlLeg/ZMl20laE3vYR4nKt78
-         RLN4QmjILuKqUlnLRSJkZZQAgh7jJrbMz+veMNzW0oCZ1tLSV0WbS6Kq5VtxFzff13F0
-         eyuFVw3b6Sx1lnTvbLsFjTiMmXRPSG6TTu93cncefXPQBgLAgAiMyExQEKov3JQWuEIx
-         S4YhkogK2tb7WRiqT7Sj18KLuXvWZwsu18hBTL+67OFQd8Ux1uz+noIxQACuxUoLO2Iv
-         YD6DzJ4C3K5PZhptn13FUtYrcq3qxTtDtAmpRb30MlwuEChAapeyCnnGRBlOgft3CbCZ
-         6/Fw==
-X-Forwarded-Encrypted: i=1; AFNElJ9Fj7F/Y+LZsNgnMZ4eVui3gXh1vwTHobx8o3QczStB+JXHE+/kla/IM74BKJDUkX5lErE3VbBeurXbAA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgVPMsfrk6sKdanvlxh6C6u/wn7Qu8xR1pJ7nNw86gjWdZPnII
-	4Dg16BJg9dVElxNk06rvApElKX8vBk68ejUAnqcuJvjfTf5hnVzHUQgR3hbzo5BKab4=
-X-Gm-Gg: Acq92OHtkSZ8uPAC5MChXunRxi80dd16/UQ/S6uS1CmlfSmhjYA6IzRVU668YSjd7/k
-	5BVsxm1xEERx8ITyAmAdvEH76e9PJQ+Q/E1ovqJ1gRtICdr1xCuXxdY1beUSphKSWNecWg7VfZi
-	z5cCd/DE+AHVovdMuFEljUduhQc0t3WhLOGFk29T37TVxvt4OXSi3DSEzRrXX7eXy8ZZwW+3rJa
-	rlXZtaGX32gtL+QcKmDgQkZmtCM6QCao+bLrXjQhMGvaA1prPhNgexWvZc82+eKY/6eJVTNn9Ke
-	ANnln+ommGpXWwFr02rUoSRkiVfWLc3ERrnOw2KqI0/UjwgBG6SwscufBYXnGz+F4SaJ4z7itbN
-	Jye6qJKv5MgruI6AZXsTl0j9tGHWO2Dhic3Rebz4sC7f+w8ZU8LSueEIbnCmRJiqGkFjjzEJWeT
-	BD1rgZWLH+MNV3FWTYGU7Hlb4Oz/fTNL50GoZR
-X-Received: by 2002:a05:6000:18ab:b0:45e:a0ab:8bcb with SMTP id ffacd0b85a97d-460217de189mr8487206f8f.15.1780522429770;
-        Wed, 03 Jun 2026 14:33:49 -0700 (PDT)
-Received: from srv ([91.184.117.216])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2f5612sm10415562f8f.15.2026.06.03.14.33.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 14:33:48 -0700 (PDT)
-From: Andrei Faleichyk <andrei.faleichyk@noogadev.com>
-To: geraldogabriel@gmail.com
-Cc: andrei.faleichyk@noogadev.com,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ULF/oiWs"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LiDlgTOjquM/2FE5w5nqTPrFknXxRQZP/CGzYppoHfAaqwgYMbOmu3M8v9wE1vxp+RvIyJ/EtYz1GyL4XKb4DRCZgnII91tczhuEndI2P0WEBgOOtGvXTVe4E/IRu6afZ1nB/IXc3OdcsoyBUalSAvZVs05YkhBs4YalBTkgl7/+Nc13KXP8V8FYculSePWX4fFitda4ACghvbbrSIMac+Rift6XingS9pXBYLO03duoKDb6t9//3ZkbFrC5Nr+Ys5Udhz0uDWaoxPGd8La8jmfHH+CTy0FhnKxffCJ8TuTv00LCOinNbLCWnQEuS0fnVXvLY2i/32S33Pd2Phjvqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qbXB38SUTgltPz28Qrbj5oXXKCfe23ekoxc3LjZrCj4=;
+ b=Uk5ZvW2XjrhF55mroyq9r1J1MXZTRDnVmt25JPun6SVbPHEYuwjv88KO7KKpl2Jwl5VtK2ye4POVjCE3N6usuAFFN1Bj8+G0eklBRrFQWdOCF1evYoqc8+xj/m479ApBx/2fMKLQaYiBAv95GfvNQl/hKXHILo3GEMetWxC6Ta8Ke//elW0NTgk9FMgbiPbie/AkRnciQKd8H0685AVCBMc+TE8pdpFMcnidh3jDcTemNXBsB5t1gvDmt+pbKm8/tXlH6YYkV+QXOB2fN6TT7Zm+JSUbhYkKKNrPjWCjI+I//bxDxzdX7d1yomx0cPJb8SPUpP7itGRW5yiPjeeNig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qbXB38SUTgltPz28Qrbj5oXXKCfe23ekoxc3LjZrCj4=;
+ b=ULF/oiWs23LHbBNk+vejikbK1FT5bQkDAWfG4U8i/7Z+VlzWKWx55Ko/bNbZtsuGZwDZUw4FqRWehWPb98eAhsdF5oeTBECaBpMGkl+EqZqReIig2ErCwptcVO6Bx6g7CGjTgMgD6zN3Jr7P4oauU5V7KTPAC601ibJ1aGB+3Yc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by OSAPR01MB7280.jpnprd01.prod.outlook.com (2603:1096:604:142::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
+ 22:30:10 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0092.006; Wed, 3 Jun 2026
+ 22:30:10 +0000
+Message-ID: <87se7345qm.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: "Alvin =?UTF-8?B?xaBpcHJhZ2E=?=" <alsi@bang-olufsen.dk>,
+	"J.M.B.\
+ Downing" <jonathan.downing@nautel.com>,
+	"Martin =?UTF-8?B?UG92acWhZXI=?="
+ <povik+lin@cutebit.org>,
+	"Nuno =?UTF-8?B?U8Oh?=" <nuno.sa@analog.com>,
+	"Uwe\
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= (The Capable Hub)"
+ <u.kleine-koenig@baylibre.com>,
+	Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,
+	Alexandre Torgue
+ <alexandre.torgue@foss.st.com>,
+	AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>,
+	Arnaud Pouliquen
+ <arnaud.pouliquen@foss.st.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Bartosz
+ Golaszewski <brgl@kernel.org>,
+	Ben Bright <ben.bright@cirrus.com>,
+	Benson
+ Leung <bleung@chromium.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Binbin
+ Zhou <zhoubinbin@loongson.cn>,
+	Bram Vlerick
+ <bram.vlerick@openpixelsystems.org>,
+	Charles Keepax
+ <ckeepax@opensource.cirrus.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Cheng-Yi
+ Chiang <cychiang@chromium.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Daniel Mack
+ <daniel@zonque.org>,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Frank Li
+ <Frank.Li@nxp.com>,
+	Fred Treven <fred.treven@cirrus.com>,
+	Geert
+ Uytterhoeven <geert+renesas@glider.be>,
+	Guenter Roeck
+ <groeck@chromium.org>,
+	Guoqing Jiang <guoqing.jiang@canonical.com>,
+	Haojian
+ Zhuang <haojian.zhuang@gmail.com>,
+	HariKrishna Sagala
+ <hariconscious@gmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Hsieh Hung-En
+ <hungen3108@gmail.com>,
+	James Ogletree <jogletre@opensource.cirrus.com>,
+	Jarkko Nikula <jarkko.nikula@bitmer.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jerome Brunet
+ <jbrunet@baylibre.com>,
+	Jihed Chaibi <jihed.chaibi.dev@gmail.com>,
+	Jonathan
+ Hunter <jonathanh@nvidia.com>,
+	Kevin Cernekee <cernekee@chromium.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Kirill
+ Marinushkin <k.marinushkin@gmail.com>,
+	Kiseok Jo
+ <kiseok.jo@irondevice.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Kunihiko
+ Hayashi <hayashi.kunihiko@socionext.com>,
+	Lad Prabhakar
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Lars-Peter Clausen
+ <lars@metafoo.de>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Luca Ceresoli
+ <luca.ceresoli@bootlin.com>,
+	M R Swami Reddy <mr.swami.reddy@ti.com>,
+	Mark
+ Brown <broonie@kernel.org>,
+	Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>,
+	Masami Hiramatsu
+ <mhiramat@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Max
+ Filippov <jcmvbkbc@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolas Ferre
+ <nicolas.ferre@microchip.com>,
+	Nicolas Frattaroli
+ <frattaroli.nicolas@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Oder
+ Chiou <oder_chiou@realtek.com>,
+	Olivier Moysan
+ <olivier.moysan@foss.st.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Peter
+ Rosin <peda@lysator.liu.se>,
+	Piotr Wojtaszczyk
+ <piotr.wojtaszczyk@timesys.com>,
+	Qianfeng Rong <rongqianfeng@vivo.com>,
+	Ray
+ Jui <rjui@broadcom.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Samuel Holland
+ <samuel@sholland.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Scott Branden
+ <sbranden@broadcom.com>,
+	Sen Wang <sen@ti.com>,
+	Sharique Mohammad
+ <sharq0406@gmail.com>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Shengjiu Wang
+ <shengjiu.wang@gmail.com>,
+	Steven Eckhoff
+ <steven.eckhoff.opensource@gmail.com>,
+	Support Opensource
+ <support.opensource@diasemi.com>,
+	Sylwester Nawrocki
+ <s.nawrocki@samsung.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding
+ <thierry.reding@kernel.org>,
+	Tim Bird <tim.bird@sony.com>,
+	Troy Mitchell
+ <troy.mitchell@linux.spacemit.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Vijendar Mukunda
+ <Vijendar.Mukunda@amd.com>,
+	Vishwas A Deshpande
+ <vishwas.a.deshpande@ti.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Xiubo Li
+ <Xiubo.Lee@gmail.com>,
+	Yixun Lan <dlan@kernel.org>,
+	Zhang Yi
+ <zhangyi@everest-semi.com>,
+	chrome-platform@lists.linux.dev,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
 	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for ASUS VivoBook X509DAP
-Date: Thu,  4 Jun 2026 01:33:13 +0400
-Message-ID: <20260603213313.6298-1-andrei.faleichyk@noogadev.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <aiCaJlTA8j9oahdt@geday>
-References: <aiCaJlTA8j9oahdt@geday>
+	spacemit@lists.linux.dev
+Subject: Re: [PATCH 02/83] ASoC: codecs: framer-codec: don't use array if single pattarn
+In-Reply-To: <20260603140939.091f126f@bootlin.com>
+References: <8733zfj5jj.wl-kuninori.morimoto.gx@renesas.com>
+	<87zf1nhqxx.wl-kuninori.morimoto.gx@renesas.com>
+	<20260603140939.091f126f@bootlin.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 3 Jun 2026 22:30:09 +0000
+X-ClientProxiedBy: TY4PR01CA0115.jpnprd01.prod.outlook.com
+ (2603:1096:405:379::17) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OSAPR01MB7280:EE_
+X-MS-Office365-Filtering-Correlation-Id: 12607daf-5c35-4ee7-4d86-08dec1bfabd8
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|52116014|7416014|376014|1800799024|4143699003|11063799006|56012099006|38350700014|22082099003|18002099003|41080700001;
+X-Microsoft-Antispam-Message-Info:
+	TzHfVoj7TpgdvJ0HaGWwBMagVB+iozqFbkXG3tqI/A+k0Q2rZwkMIB5Xx3ck6auLWKhc7o6+wZ4bwSxnZ9ogH8It4qEBWtw1aIsCJd11CygAQ1F4yyZtNvDSoIIp/lIJC85yb94H4WAHP87hQmsft9/ZyUOn3u/CUHqDhFepHbaIPsFIb71BPNQJk6n3dUf49wwd18j/MdGNOBeG3yJaspINvLZL1noqZINg8S/AQF66DylY/EzUUU6WtLvxbhfMDQFrznaVBzSrubhuIXUejOSR+c/RiKsDaMADknHbfX8sEqhCY233XPCJzjOD9CdgdkYMdVF6qd1DDRfSpj7Xp7eAliJrUvjQ/pz6evXYjVra64yWF9m9XZ1+TbBFnAsTRXg/DbGpN7JsR+8mfK6CF2bccqF8N7qBst00qqedEkfIQ1U8hK3lJJItYdngZMgQTYsREmzb4lQzLDoSqgNrwRc3SCyed1/YcNEtOnSyIlHKk8jXB9nHhKph5kqYOX62GmzM2lnh2humnTqNrV8Me8AJg7DL48c3WTJnupZdYNHrs0q5J21E6JYzQH5ECf7zt0RE6FBXRLn6c1axLC4DFTEMsCc6qEh0NGBWcMhwF32fZSOdZjVzcuVOmv4QlGmJXGjwUrTnCYHijp7U3rBpcGiAKjewtJQEieXKxU5wUwRU8ci7adSQI2R/1W3Qwx9z7u5upyIbtWXK1p56WD+7WayH0vfH6e8OkUyTrBR6oqpwrW5uuMy1KVIg/4z89G5fGC2T/5vZdSWTCG3Q78Uy/w==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(7416014)(376014)(1800799024)(4143699003)(11063799006)(56012099006)(38350700014)(22082099003)(18002099003)(41080700001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?lijGfEg2qt0pQmb+mOI2PAFjEPX5cvZTcz81IkTfz7udR+nM8t7IJasJJUvA?=
+ =?us-ascii?Q?BkFvJ2fR+7rRjtqcfD9WtFILE68AkGFRGZgLf+1/SGECmnVxZTGtHkc6n0m5?=
+ =?us-ascii?Q?z0ZmomtME2rKjn6+MJD9N1bX8ZQ9Lhg9LlSzvEIgIogY1EY+b97qbuWHWwzu?=
+ =?us-ascii?Q?S+UNO0yTdFJuHat548RBYCSdywiq+Z/aiBuj/gixLL5aT9Solk26WkaJ/bbJ?=
+ =?us-ascii?Q?BRByFu8MTY0oYso1I89HeeJ853ISSyvLqom7RqMbchmyPsggg4AHeP/2oWcw?=
+ =?us-ascii?Q?D1tK2woenELOe9S4eZ9XvzhydxAXzlNL+Rzz3pU+o+7hw/SSOQibgCq9n87p?=
+ =?us-ascii?Q?vWUm+czOwilM92gdCGaHmfngiAxHQd/dhheYlSTWMIXI02ijWSlIdMUORkdS?=
+ =?us-ascii?Q?udpFHyuEIi0ewq5VVw1l36NqBWxtG+Z0xLIWIx0RnujNhxGbNXWTN1GKsKfS?=
+ =?us-ascii?Q?7XSE5aTWUrfyJXvrKPKTbjgVKymunDlyBj7OpewOFWqREFbCj0C72+mQhowz?=
+ =?us-ascii?Q?TxPXra3+QqOtEu/zl1AvgtUsn8pSYyGsbYNwegoxsrQD9YJVaUSr3IBRgmjw?=
+ =?us-ascii?Q?j339RbHAgPrcu/nAR4xIxBQA2sO1rWWLmZ4EpFbk+ez2Q9o8zf+2nmbW5Ns5?=
+ =?us-ascii?Q?9cEnW9dpfldeBEzGc9JuDspkKKrrijTOSplwLQ8RZFmkYzQwehu9tniQD1fB?=
+ =?us-ascii?Q?oPyFA1Av8VrlDRZlhcUvyOSJ/4BbSED1f46A1jDRWU6rFVpdf2Kbth6RF9/q?=
+ =?us-ascii?Q?3WfjMI4zS19/1BQ8GOEsS9eNRRrgYp61eMrbbYS3KH7uu6qQ3uoWlYrECcCA?=
+ =?us-ascii?Q?Q/Pmp+hY9uWiP+nw2MJ93u/CE3MoqRww5y0rRajWvu1cWKwFsGQzUIfTtJaI?=
+ =?us-ascii?Q?+lAtn+RdnSEN9yJ+SygTCHCAJJGKAJeHtvQsco0xD7CqYsRgq+lgFYgHl/MC?=
+ =?us-ascii?Q?XhtHQOOwosIbVUeqVBLqW7WY4dhQzkfnD3oKDnWS8UNSU7P6NE7csts1roqm?=
+ =?us-ascii?Q?cwfCaguCX9ky4q5Vmq1nvNR49bPEfeO14KCv08n0/TGWf3SgNVQm+jvIrO72?=
+ =?us-ascii?Q?l0ry2ZVaIJhpJtkwS6Mz4dCchmJq80SlX1x6k9dwK8/ojdWJmNMXofvuLUDC?=
+ =?us-ascii?Q?aydCDmVSal2VKz4C3hWRuUnGuGEIbqj0lpnSr3UyFou9GNxpg76Ghv1gH2wG?=
+ =?us-ascii?Q?Cq31PW8EfXdtNBNvh8NB8A4fk1gzCEzu7/HxlqdYG4eT/mDCA59Yvi6z7aHq?=
+ =?us-ascii?Q?9VvX53yqqG1rwPmdot49PgNfjS8KIdh8h8Y8fMmQ99WvWfVoa0BE791bvRip?=
+ =?us-ascii?Q?iFJaBEa+yYEn5uCnfV0uXVDNrd/FnYaqBEBiGjtxdlV6NRTGvvH3lhISs4cD?=
+ =?us-ascii?Q?pkCYlUo1S6rmoBUNu0GUZdWMfVemPowbfDSp6Ek777P6jfkyLWKtGtP9El0p?=
+ =?us-ascii?Q?9Ghr+8TeF4ys/ILqWWMYXAnyMkRKaa2R+HzDia5nyC603B4UnX+9qkBcGfqS?=
+ =?us-ascii?Q?KJCfdec5Bt1Eb44J33SLn7MJ8cYUqoSK7n9vCOnznTI7bqdM3VkPFoVwQRwj?=
+ =?us-ascii?Q?b/fF7s4jePi+DBbVhWEgeJvi1XzngYhHJqpwFNUrpGp3IaC0g43/7p8064ZW?=
+ =?us-ascii?Q?f4i7tmukWnPoQnaGAg/RfmYYuuJzXINCh6wMSsWz221+nQwNIX1JeervuiKF?=
+ =?us-ascii?Q?q6SqRaPYePYZhToevnWWbbFBruSKi1cGVMvNACGEgRdLxUXPnmVvjVHdKyBx?=
+ =?us-ascii?Q?5euAeZDvxxCg2LmKfL4PNJ+TJ2Qrl4I=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12607daf-5c35-4ee7-4d86-08dec1bfabd8
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 22:30:10.0343
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EyC61S6I4F1H/JUrqLmYIDVpFK/SlSm13DNt6xUltouV4dvhcRjKpd8NRDA+hLX49R6tOu3NrKhHMj8PEAtVUobxHahqkGQLa4wogB/tn+T5ZY2VVwdW9b3Hw9vVFBbs
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB7280
 
-The internal microphone on ASUS VivoBook X509DAP (subsystem ID
-0x1043:0x197e) is not detected without a quirk entry. Add
-ALC256_FIXUP_ASUS_MIC_NO_PRESENCE to fix the issue.
 
-Signed-off-by: Andrei Faleichyk <andrei.faleichyk@noogadev.com>
+Hi Herve
+
+> > Because it is confusable during debugging ASoC FW update, tidyup
+> > auto format style not to use array if single pattern case.
+> > 
+> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > ---
+(snip)
+> Just a typo in the commit title:
+> s/pattarn/pattern/
+
+Oops, thank you for pointing it.
+Will fix in v2
+
+Thank you for your help !!
+
+Best regards
 ---
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index dcbc66984..18dec3427 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7379,6 +7379,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x18f1, "Asus FX505DT", ALC256_FIXUP_ASUS_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x194e, "ASUS UX563FD", ALC294_FIXUP_ASUS_HPE),
- 	SND_PCI_QUIRK(0x1043, 0x1970, "ASUS UX550VE", ALC289_FIXUP_ASUS_GA401),
-+	SND_PCI_QUIRK(0x1043, 0x197e, "ASUS VivoBook X509DAP", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1043, 0x1982, "ASUS B1400CEPE", ALC256_FIXUP_ASUS_HPE),
- 	SND_PCI_QUIRK(0x1043, 0x19ce, "ASUS B9450FA", ALC294_FIXUP_ASUS_HPE),
- 	SND_PCI_QUIRK(0x1043, 0x19e1, "ASUS UX581LV", ALC295_FIXUP_ASUS_MIC_NO_PRESENCE),
--- 
-2.54.0
-
+Kuninori Morimoto
