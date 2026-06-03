@@ -1,22 +1,23 @@
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B36C2727EB;
-	Wed,  3 Jun 2026 00:59:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7FC2D94A0;
+	Wed,  3 Jun 2026 01:07:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780448391; cv=none; b=CGVFBzWCmglndyKPFWF7nHh0Ei99gr551IPzXeXgzfvxQ5Vw5dseZ0Z64K80kJzn0ya8osMUFQq0ql/t/NR4X4tNSlCMAeZIW3GRt7uLbiPLZoB3aUev5rDpx6U7+QcNq0I4aHWFXfU7DjLLGt4Q1L/hxgW0i0b/p91IrwBt6KM=
+	t=1780448859; cv=none; b=AVjyqoqlfrzxECpdpKgkisfs3ExVe0i+AFIjrNdROJn8hYX6GdGTXZb3uOVpTJvl1Cz7d2T1xpDKI0YlTlskd0cZH/fBhy8IEB1nwywJCU5VuKhZWoSWow3PzGAl5jSVxvrE4lklpcILsou98s8nHeOnEKye5BW1Y6/N2czQ70U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780448391; c=relaxed/simple;
-	bh=qzTQQDlpEBedx/0h0uOFqlyONXJe2DqouiFNVaJKOE4=;
+	s=arc-20240116; t=1780448859; c=relaxed/simple;
+	bh=7CmHJ1sD5tabedTjPJjGbpHYW0UAJKemheL40hkq6HY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l5BwHi4H8CV+aKkshl2jxg3f/y3fdABdAm8+jQ2UWF6TN1yakybSk/f6CUMcznCw4i53ibCxo2zZyJ9JyXRmDmOAiYy+ieS7YnwX+FCl+FWa7PVsCTiTTlgxJh7rlG9NMEbkfQOoDZTVXSairodZDHFLZST82Utpd4y1g4TzSNw=
+	 In-Reply-To:Content-Type; b=mHCBYivNxKJ3t5v7X1UqnB03PQcZ5axO7tMBeIPVD/duuEFM3jDFhkDpS2Unt3vFd1C+Q20mTyyFVOBwh7ZgYpmoyRa9RjNV1uL+LR80tzy1glG10gtSzz1TY3wrXxfQViBXClEyI3ib9ZhAfRA9CceIBWKi/LQKIF2KowGtoTM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 811b17e05ee711f1aa26b74ffac11d73-20260603
+X-UUID: 99a515585ee811f1aa26b74ffac11d73-20260603
+X-CID-CACHE: Type:Local,Time:202606030859+08,HitQuantity:1
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:384ad27c-7f94-472a-89b9-fc6ee8af4cb6,IP:0,U
+X-CID-O-INFO: VERSION:1.3.12,REQID:5431555c-05e1-4c67-9785-db322f86a904,IP:0,U
 	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
 	release,TS:0
 X-CID-META: VersionHash:e7bac3a,CLOUDID:1713e10e1f68a2844fe6f071846a2294,BulkI
@@ -27,14 +28,14 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 811b17e05ee711f1aa26b74ffac11d73-20260603
+X-UUID: 99a515585ee811f1aa26b74ffac11d73-20260603
 X-User: lijun01@kylinos.cn
 Received: from [172.30.70.202] [(10.44.16.150)] by mailgw.kylinos.cn
 	(envelope-from <lijun01@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1895300904; Wed, 03 Jun 2026 08:59:42 +0800
-Message-ID: <7b5f8c9d-d086-43c9-a61c-4daa1d65f127@kylinos.cn>
-Date: Wed, 3 Jun 2026 08:59:39 +0800
+	with ESMTP id 727336880; Wed, 03 Jun 2026 09:07:32 +0800
+Message-ID: <7c1bb036-3670-4d71-9f0d-a395b4f6823d@kylinos.cn>
+Date: Wed, 3 Jun 2026 09:07:30 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -58,14 +59,20 @@ Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 Is it handled like this?
-desc = dma_desc_save(prtd); addr = ((u64)desc->saddr_hi << 32) | 
-desc->saddr; if (addr < runtime->dma_addr || addr > runtime->dma_addr + 
-runtime->dma_bytes) { dev_warn(dev, "WARNING! dma_addr:0x%x\n", addr); 
-snd_pcm_stop_xrun(substream); x = 0; } else { x = 
-bytes_to_frames(runtime, addr - runtime->dma_addr); if (x == 
-runtime->buffer_size) x = 0; }
+desc = dma_desc_save(prtd);
+addr = ((u64)desc->saddr_hi << 32) | desc->saddr;
+if (addr < runtime->dma_addr || addr > runtime->dma_addr + 
+runtime->dma_bytes) {
+         dev_warn(dev, "WARNING! dma_addr:0x%x\n", addr);
+         snd_pcm_stop_xrun(substream);
+         x = 0;
+} else {
+         x = bytes_to_frames(runtime, addr - runtime->dma_addr);
+         if (x == runtime->buffer_size)
+         x = 0;
+}
 
-  2026/6/2 21:13, Mark Brown :
+在 2026/6/2 21:13, Mark Brown 写道:
 > On Tue, Jun 02, 2026 at 08:49:29AM +0800, lijun wrote:
 >
 > Please don't top post, reply in line with needed context.  This allows
