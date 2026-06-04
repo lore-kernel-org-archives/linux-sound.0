@@ -1,142 +1,202 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C2412DEA8C;
-	Thu,  4 Jun 2026 02:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977A5386551
+	for <linux-sound@vger.kernel.org>; Thu,  4 Jun 2026 03:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780539125; cv=none; b=d9H+O81m2xktrgMQ7k9uoSv7Wyfp66vVbReFH0fGLyFpPx1MOt+C6L8NG/4IoeWpkaEds+uSaB6yEFB5WB0Epf/2xt8W9Di25uLpreF9rKYOPhpWoLddPwpMpLU8KF+xMb04wSWvsVnOPk5Rdm+I1jHbBQObps7J3XnOArKgpZY=
+	t=1780542676; cv=none; b=N46h/diHIOCvcJhhObjA/T4fUqGAYzDBvx3YiG575ITahz8tYNanWc7xPeDnVpycniN7+9FCNrWWp3UBoFxRK+Co0iV2MR06lFdfC4j7j+MuVPxxUmGaSD1JVeuaR0KE5cLTO8dF+5nf1/ZPtdgQHarRUvWhRfdg9t0UOfWibuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780539125; c=relaxed/simple;
-	bh=ubKUIVApfhJKZsctF/X0ULl7CaqPMXDoGhV1X6v2PZU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lP/ATx97u5vs5ypgFv8o0YImDvE45TNZHOQAxhi83m8roFDSP0qnzsjL70DKLpIefMaV5thWcxyOmb1dC5vQ+pj8uiHGx3PjIDClXGFx55ight2sVUlvBTMmxHBjvptDihjhW24hLcAy+Mzp4k6TKmJG2OW6fIrXbgxJnCQqRW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [223.64.68.59])
-	by gateway (Coremail) with SMTP id _____8Dxhunx3iBqYmEQAA--.45510S3;
-	Thu, 04 Jun 2026 10:12:01 +0800 (CST)
-Received: from kernelserver (unknown [223.64.68.59])
-	by front1 (Coremail) with SMTP id qMiowJCxGODr3iBq5EabAA--.32358S4;
-	Thu, 04 Jun 2026 10:11:58 +0800 (CST)
-From: Binbin Zhou <zhoubinbin@loongson.cn>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
-	Xuerui Wang <kernel@xen0n.name>,
-	loongarch@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH v2 6/7] ASoC: dt-bindings: loongson,ls-audio-card: Add ATK-DL2K0300B compatible
-Date: Thu,  4 Jun 2026 10:11:46 +0800
-Message-ID: <c03b86a9318cffe69ecf8d5c14543fc5948ab2c7.1780538113.git.zhoubinbin@loongson.cn>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1780538113.git.zhoubinbin@loongson.cn>
-References: <cover.1780538113.git.zhoubinbin@loongson.cn>
+	s=arc-20240116; t=1780542676; c=relaxed/simple;
+	bh=Q6/RP/ICLpgOkDTGL9yzNqK8wqGv6aHYVnskfy5B/CY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=PVhUITGgzQ0QfIZsghu7R32t1X0Uj/KIDkjloAGnXRyZ0a2jb5KeKIOzNZ6RZGDf2rVM0vO4z9xdY4i/ujMIIPB0doPmFky0oh5CcJUF7HCHv94LH8CnA/1tXX3fihXp73Oc402SQtg8Upy+V7PTVBDpEjiSpa/nePzkLmxwpS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FFKvqLaJ; arc=none smtp.client-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FFKvqLaJ"
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-135e7f4a295so149885c88.0
+        for <linux-sound@vger.kernel.org>; Wed, 03 Jun 2026 20:11:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780542675; x=1781147475; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VbwdIBSDHSxTBOxkXvou9QueKyiGAI0qWq+McK1ImMc=;
+        b=FFKvqLaJ2Sv5b6JwVBEk0iNRR3cjO4uoc4vTH/HS3aeGZWiTZpdVk8EWdAy+952VpR
+         YF72kJp8aNZlk9auQY8PBWohZixZMcDLJX2FqRq6VeD5rDEfmTreJBEuXMtU8xpYzIt/
+         mdhWSMHPvcDy2OgV8qbnaQg5Lq4gU1IzHGYofYbIm8BmUsQg4T82rmq8ZC5WzVWKp+TS
+         MxU1E9QOPg8WjsKdpcGTgVveAOwummjND3AmLL+xuMVTTgdj0WJ43p3JqL2vfokjw0EM
+         GgY0++CaLFQ2sIe/Uc66LBmtAe7RJuSUxwBuY4zXSq+ke29GWntPE0aEYS1IZcO2kkuj
+         b9bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780542675; x=1781147475;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VbwdIBSDHSxTBOxkXvou9QueKyiGAI0qWq+McK1ImMc=;
+        b=tT6Sc8z9cUCGK2HvVoKGWW1Sd8BL2hgiSq/ZC9URo0SkFm7V9cPCOmLliYo31eBgcT
+         otnF3MCW7nlxA/AEyFcoL9kYy5UCGSB4AI3ePZQuoABQ18U7bNwjUM/Y7nR9Poinp/wp
+         S2+tJDXy8TMtgE8QrVuaPyVmI53IZCkjbhr8xUVUcvecEMU6EgHksv0pasv9VfLX9kMU
+         bEYxthWmugCIxkXgJh7d8j5w9AbeDhZTI+mHkdO33SWxJ3Cbfcc9ieZREDzVlihEmu7G
+         E3rkWFHuwcGgBCtS8jp/42ihSrcf+XKKAFiGMvUL0BwlqIC+9cOqEld1xqoV4o4WRK6z
+         uPzA==
+X-Forwarded-Encrypted: i=1; AFNElJ87FimX8mrXP4hrkQfxWlXrsAm4XUwHYzjyUxwLs1ZDFyf5K3qMe5iMLfaJwb1yx1XaLbuWUpHsAaQ6Qg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLTcDecIu6b11Rkn4YiPBnv/OdBaLPeajtqr/NiYKTZFm7T99i
+	qOr39K9xf19O1SWvIpHO9RaGEdJroKJRdi6jHBPW9gScReKjuOYujz8n
+X-Gm-Gg: Acq92OFWrcVJnucCZrdUqXY65m3SMWvHQiEelB6rMwDiNLsQMV2l7CbC84IveQ7R6rq
+	QncbUFQc26pYAtNbuxqVWNmSHImfSkuM5DTabBYVTRl7Wih9gyxYgpihQsytpIUoChPqxV61a+/
+	i5IUDE2DPLNJ3tnXmdDw9hsBOxNKKSULKn0R36HkEtIDLruXjR/O0uC5U3uI5YHRO2TPffgq0Zo
+	7hoW3flnxu3YZuEnh9knqSki/EdFEwX6UBX860A0nwEeSmVsTIllmHaXwnKIfOoLkNEp1GF/UbX
+	/b3IGYM5u/CUy+9vOMw/7u803DeMmCuBIEdOkmMhIyJ5shK8CZa31nIH3nIqlGRKv38uYAOYSf+
+	RP7o+7CLKFNdjsOeJcfTBqqBVDYZBj9SN68h67LWQ5/Ef4aUGwdZEvYSygBNzN/YPGLQC/TNJE5
+	c9hO69FHw5OBASZNSa29guayh+YegEtiav6a1f+Y0V7MnI/13P7mD4eHgoP97u9m4UtXtd3AXVY
+	LHQMpsKRtHd
+X-Received: by 2002:a05:7022:252c:b0:137:ee08:ad37 with SMTP id a92af1059eb24-137fdf25676mr791902c88.13.1780542674423;
+        Wed, 03 Jun 2026 20:11:14 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-23.user3p.v-tal.net.br. [177.4.161.23])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137f54899acsm2888211c88.3.2026.06.03.20.11.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2026 20:11:13 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Thu, 04 Jun 2026 00:10:58 -0300
+Subject: [PATCH] ASoC: topology: Check PCM and DAI name strings before use
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJCxGODr3iBq5EabAA--.32358S4
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAQEICGofwl8ZawAAsa
-X-Coremail-Antispam: 1Uk129KBj93XoW7ZF4fZw1DuF48CryfWryfuFX_yoW8ur1kp3
-	s3CasxGrWxtw13A3s8XFyxAw4fW3s3AFsrJF42qw1fGan8Kw4Yqw45K3WUWay3ArWvqFW7
-	Wr95Kr48CF9rAwbCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUBvb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1a6r1DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
-	wI0_Gr1j6F4UJwAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2
-	xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_
-	Wrv_ZF1lYx0Ex4A2jsIE14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
-	Ij64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Y
-	z7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Ar0_tr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6x
-	AIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIE
-	c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jbTmhUUUUU=
+Message-Id: <20260604-asoc-topology-check-pcm-dai-names-v1-1-e1b0f6f7c2ce@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNwQrCMAyA4VcZORtIK4zhq4iHmGVb1bWl2UQZe
+ 3erHr/L/29gWoIanJoNij6DhRQr3KEBmTiOiqGvBk++pZaOyJYEl5TTI41vlEnljllm7Dlg5Fk
+ NaZCO2LvOMUHt5KJDeP0e58vftl5vKss3DPv+AaVrT6GFAAAA
+X-Change-ID: 20260603-asoc-topology-check-pcm-dai-names-0fc80a2181a0
+To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Mengdong Lin <mengdong.lin@linux.intel.com>
+Cc: Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ notify@kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3564;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=Q6/RP/ICLpgOkDTGL9yzNqK8wqGv6aHYVnskfy5B/CY=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDFkKb859//mQi+1XIJ9Fg9nV80/XL3ecv1QuYS/vqVuXw
+ x9fErra0lHKwiDGxSArpsiyOmmR5Z6uB1fr41Z4wMxhZQIZwsDFKQAT+X2J4Z/F8U7Z63GJfyay
+ Pj+0g6PsnhJncOg9V6MLbO1G7m/qlF8xMlxkPxqdrrCw3a9qzmPtemm7Z0vaezwN69Xvv52zjOH
+ KDA4A
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-Add new compatible for the ATK-DL2K0300B development board based on
-Loongson-2K0300.
+Topology objects store several PCM and DAI names in fixed-size UAPI
+arrays. Other topology parser paths validate these fields with bounded
+strnlen() checks before using them as C strings, but the PCM and DAI
+paths still pass some fixed-size arrays directly to strlen(),
+devm_kstrdup(), DAI lookup, and diagnostic prints.
 
-Unlike others, this board features GPIO-controlled headphone detection,
-headphone mute, and speaker enable.
+A malformed topology blob with a non-NUL-terminated PCM, DAI, or stream
+capability name can therefore make the parser read past the end of the
+fixed-size field.
 
-Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+Reject unterminated PCM and DAI name fields before consuming them as C
+strings.
+
+Fixes: 64527e8a3529 ("ASoC: topology: Add FE DAIs dynamically")
+Fixes: acfc7d46cddc ("ASoC: topology: Add FE DAI links dynamically")
+Fixes: 0038be9a84dc ("ASoC: topology: Add support for configuring existing BE DAIs")
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
- .../sound/loongson,ls-audio-card.yaml         | 37 +++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ sound/soc/soc-topology.c | 37 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 34 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/loongson,ls-audio-card.yaml b/Documentation/devicetree/bindings/sound/loongson,ls-audio-card.yaml
-index 8c214e5d04b1..e9b248e8246c 100644
---- a/Documentation/devicetree/bindings/sound/loongson,ls-audio-card.yaml
-+++ b/Documentation/devicetree/bindings/sound/loongson,ls-audio-card.yaml
-@@ -23,6 +23,7 @@ properties:
-     enum:
-       - loongson,ls-audio-card  # Loongson-2K1000/Loongson-2K2000/LS7A
-       - loongson,ls2k0300-forever-pi-audio-card # CTCISZ Forever Pi
-+      - loongson,ls2k0300-dl2k0300b-audio-card # ATK-DL2K0300B
+diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
+index 85679c8e0229..35cbe29d2275 100644
+--- a/sound/soc/soc-topology.c
++++ b/sound/soc/soc-topology.c
+@@ -1326,9 +1326,24 @@ static int soc_tplg_dapm_complete(struct soc_tplg *tplg)
+ 	return ret;
+ }
  
-   mclk-fs:
-     $ref: simple-card.yaml#/definitions/mclk-fs
-@@ -47,6 +48,18 @@ properties:
-     required:
-       - sound-dai
++static int soc_tplg_check_name(const char *name)
++{
++	if (strnlen(name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) ==
++	    SNDRV_CTL_ELEM_ID_NAME_MAXLEN)
++		return -EINVAL;
++
++	return 0;
++}
++
+ static int set_stream_info(struct soc_tplg *tplg, struct snd_soc_pcm_stream *stream,
+ 			   struct snd_soc_tplg_stream_caps *caps)
+ {
++	int ret;
++
++	ret = soc_tplg_check_name(caps->name);
++	if (ret)
++		return ret;
++
+ 	stream->stream_name = devm_kstrdup(tplg->dev, caps->name, GFP_KERNEL);
+ 	if (!stream->stream_name)
+ 		return -ENOMEM;
+@@ -1380,7 +1395,11 @@ static int soc_tplg_dai_create(struct soc_tplg *tplg,
+ 	if (dai_drv == NULL)
+ 		return -ENOMEM;
  
-+  loongson,spkr-en-gpios:
-+    maxItems: 1
-+    description: The GPIO that enables the speakers
+-	if (strlen(pcm->dai_name)) {
++	ret = soc_tplg_check_name(pcm->dai_name);
++	if (ret)
++		goto err;
 +
-+  loongson,hp-mute-gpios:
-+    maxItems: 1
-+    description: The GPIO that mutes the headphones
++	if (pcm->dai_name[0]) {
+ 		dai_drv->name = devm_kstrdup(tplg->dev, pcm->dai_name, GFP_KERNEL);
+ 		if (!dai_drv->name) {
+ 			ret = -ENOMEM;
+@@ -1486,7 +1505,11 @@ static int soc_tplg_fe_link_create(struct soc_tplg *tplg,
+ 	if (tplg->ops)
+ 		link->dobj.unload = tplg->ops->link_unload;
+ 
+-	if (strlen(pcm->pcm_name)) {
++	ret = soc_tplg_check_name(pcm->pcm_name);
++	if (ret)
++		goto err;
 +
-+  loongson,hp-det-gpios:
-+    maxItems: 1
-+    description: The GPIO that detect headphones are plugged in
++	if (pcm->pcm_name[0]) {
+ 		link->name = devm_kstrdup(tplg->dev, pcm->pcm_name, GFP_KERNEL);
+ 		link->stream_name = devm_kstrdup(tplg->dev, pcm->pcm_name, GFP_KERNEL);
+ 		if (!link->name || !link->stream_name) {
+@@ -1496,7 +1519,11 @@ static int soc_tplg_fe_link_create(struct soc_tplg *tplg,
+ 	}
+ 	link->id = le32_to_cpu(pcm->pcm_id);
+ 
+-	if (strlen(pcm->dai_name)) {
++	ret = soc_tplg_check_name(pcm->dai_name);
++	if (ret)
++		goto err;
 +
- required:
-   - compatible
-   - mclk-fs
-@@ -69,3 +82,27 @@ examples:
-              sound-dai = <&es8323>;
-         };
-     };
++	if (pcm->dai_name[0]) {
+ 		link->cpus->dai_name = devm_kstrdup(tplg->dev, pcm->dai_name, GFP_KERNEL);
+ 		if (!link->cpus->dai_name) {
+ 			ret = -ENOMEM;
+@@ -1848,6 +1875,10 @@ static int soc_tplg_dai_config(struct soc_tplg *tplg,
+ 
+ 	memset(&dai_component, 0, sizeof(dai_component));
+ 
++	ret = soc_tplg_check_name(d->dai_name);
++	if (ret)
++		return ret;
 +
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    sound {
-+        compatible = "loongson,ls2k0300-dl2k0300b-audio-card";
-+        model = "loongson-audio";
-+        mclk-fs = <512>;
-+        loongson,hp-det-gpios = <&gpio 81 GPIO_ACTIVE_HIGH>;
-+        loongson,spkr-en-gpios = <&gpio 86 GPIO_ACTIVE_HIGH>;
-+        loongson,hp-mute-gpios = <&gpio 87 GPIO_ACTIVE_HIGH>;
-+        audio-routing =
-+                      "Headphone", "LOUT1",
-+                      "Headphone", "ROUT1",
-+                      "Speaker", "LOUT2",
-+                      "Speaker", "ROUT2";
-+
-+        cpu {
-+            sound-dai = <&i2s>;
-+        };
-+        codec {
-+             sound-dai = <&es8388>;
-+        };
-+    };
--- 
-2.52.0
+ 	dai_component.dai_name = d->dai_name;
+ 	dai = snd_soc_find_dai(&dai_component);
+ 	if (!dai) {
+
+---
+base-commit: c90ab81b8d75e0ea3d725f60dafed9a8285855f5
+change-id: 20260603-asoc-topology-check-pcm-dai-names-0fc80a2181a0
+
+Best regards,
+--  
+Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
