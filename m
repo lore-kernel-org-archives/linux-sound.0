@@ -1,42 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2049B24A05D;
-	Thu,  4 Jun 2026 13:17:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F4647CC63
+	for <linux-sound@vger.kernel.org>; Thu,  4 Jun 2026 13:17:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780579064; cv=none; b=JCJ8BCzJWMlLVvL8a7ENZSomMZDZbMJiGPBtnurCOjo5clquH0MXIb4is566dWlZymMFZnvTw1oHUcLUFop6Yl2IwUydL9wsQ4tBgWtpBwOl5xUQB2pIlPAiHcn9ZoLpJ2aeqQYMBvdhhm5qU9CmhWI9WOD5OgfnDsIw+nCH+pA=
+	t=1780579068; cv=none; b=NzlLKz7gnEJfFmHUHzk5w07L2cuIjxuAN8j/D9NR5xT3+jYek5sAqucQwH2IahnFor8L/JcmriBsN1pVVrQ3IqOyTvuh26oQTtf9986BXONKVtfcyBLgC3RTOCghVUAUvKcZ5u2YdmRk3464lTxN7VgHa4FdriFITlQ9pLHsVhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780579064; c=relaxed/simple;
-	bh=issduZWBIJdrP3/L0IBXwuh1Vb/0kdTF6VTuMsNPxMo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hGsgYh6UY+6gelEvnMYbMABipjk3wsXcp0N5flT8T/UZam73asXcPVaT8aOiB/cycjJVqD6jAWQ3wq4snU1K9jSKCl6J2ELQLWkJBzGeFb8bdDcT6OxBDbq6BdbCOwzPohWP0XdADIoHTxidD2/PovvUqfd9ZYXnEOuEvI35Co4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O6s9r21G; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780579068; c=relaxed/simple;
+	bh=okc7g/O3qa/NWWmoRHj/encYADRdxuFj1KsMBSrJIbg=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MFL1rdYo6nU8kRMHPbAkbDoleZiou5SkQ5lXqYkodyE9rew+e14o78TBIPUSjIVrlhCzus2BcGC4/X959Cozkwq4IPpEtXG1qlSRBJa4S6tok7kSZwIXtphEMCqxXbgNECuRBmd7etBaIswi2blaC1lAycweGIU6eVspEqLulEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cLcSgQmV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O6s9r21G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20CD31F00893;
-	Thu,  4 Jun 2026 13:17:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cLcSgQmV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD2CD1F00893;
+	Thu,  4 Jun 2026 13:17:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780579062;
-	bh=MlSBdLkLFKGREcCWJ2ppOtNh082oDhlkpVJCJfiPFFA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=O6s9r21GhJcr1xWIYmD2eixACqjik+4h9RY+HBKB03/Wmb+ANDyp74YaCA9stPYzB
-	 X5oMMHbUoNu5hzdAHc1b3rYDcyTpsP7UY4ykAMsAePIF2/FRCGevpWV2+NNoGMdzZE
-	 mjcnTbXrwO7FDULzRFyqyeJqNQP7B6iR3M/cksxEYSkjfPpPHjqBbxKchfWrBfhjo+
-	 36k9X/iKw0pBSj1cgm2TsXwTAQfCbkkSCcrf4WKha4nH64fFFarUtnBdbSyd9/Ike4
-	 jMCB1MNL7tP2KMBSObCw3z0e0vtJl08RDJFDN7e3a9YC+9tPrJCRVe1rvhqdQZOOPS
-	 QDTl0jqjEQw5g==
+	s=k20260515; t=1780579066;
+	bh=Q7zZzLXU3f3I1ovJX21dkGMx7G/dUo17cpmucbP15Io=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=cLcSgQmVIFJtABAwOIEwOjE3KHzaPdeJfAdMC1vX+mruW4bhW4iWICMi6bG7UmYLi
+	 kVKTSJcV/XEydcgisGCsuPITG3ELHBJdy+6L/5rPXuEvWcnH4uYZGjG3nke/lO+Inc
+	 tlvMGbsnWtHR4doc7yZUsI4hNtpAUXTGvRLFC+KfMXjoakHG1GHVvXt9vTiVLaURLe
+	 sk08gwghNTFhep6noUBlfX0udZAo8+J5RD5IhGWy40VlyFOX4JsaDKGuqTYXs8E4dQ
+	 NKAtHDUvAYGubNTgYB+Ws4P4B40xICx1F/LfImsg6gZ0IbNNCJkQFUEZAoAo7W70wJ
+	 OJ8RK75kppSRA==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Rosen Penev <rosenp@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260528221928.142511-1-rosenp@gmail.com>
-References: <20260528221928.142511-1-rosenp@gmail.com>
-Subject: Re: [PATCHv2] ASoC: tegra: ADX: use of_device_get_match_data
-Message-Id: <178056909266.53724.607869411013236988.b4-ty@b4>
-Date: Thu, 04 Jun 2026 11:31:32 +0100
+To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87a4tk2weh.wl-kuninori.morimoto.gx@renesas.com>
+References: <87a4tk2weh.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v2] ASoC: soc-core: remove card->dmi_longname
+Message-Id: <178056863153.53724.6388307663613029198.b4-ty@b4>
+Date: Thu, 04 Jun 2026 11:23:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,20 +44,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1109; i=broonie@kernel.org;
- h=from:subject:message-id; bh=issduZWBIJdrP3/L0IBXwuh1Vb/0kdTF6VTuMsNPxMo=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqIXr0ux7qytaWHCq1yc3VckADibgKeoeT2HSgn
- 7PCYkpcnxiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiF69AAKCRAk1otyXVSH
- 0LCyB/wJaXcWsOBkD+3yoloPADitVXgo77QrWE6yD9PTCue1byaZSnySsS7kPdReIOOOOOmfPar
- O4OEje+n/tc+EYvih1N3SxPWJtDzGySE6BcHhONA8aVUPDtPtLqlpCBuzEdYIF+rwWzvavLOv/U
- Gpw0X7llX6iVyf+2+BYXgBL4Conrtv+mkol4O51opCw6iDvwYjWzlv4iM3KXKLHSo4H8RmL6Ybe
- fiA2p4cwPCFE3XKnvKasssEAHx+E/du9gk58IWgotaI4z1Zo8mAXkiHZ4UWWOMDQJW3fQWmYNJk
- N3BJM2iB4/JVcoJPFIOTCDRHfSYWpn4immUQeIyWTAZXB73q
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1105; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=okc7g/O3qa/NWWmoRHj/encYADRdxuFj1KsMBSrJIbg=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqIXr4demy8ht90pSO6RTHxM3zpmJjiEG9KNrEs
+ wf3iNwWxv2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiF6+AAKCRAk1otyXVSH
+ 0KSbB/9ELldcQF5gH10yuAs8bFfNDZPtpZdCHnuyO0olTW/ZZPMk7dK6Y6PnUtggRFFKuIA44W3
+ WqFPvUF4evfTqqqNOp9ebmiTpPjOwCbwIGwCaFf3W5nsyI4E0JmMyOTTim1QO7hX+hfM55UunH1
+ rCHoSs65HjjPpcpDmSxe7ymnL9NDfneHP8ia4HidBJaVgB3AXssf831fz1lvkSwXXUk2lxhOyzz
+ kQGw9n1nD0QNF6ZyLDt0GMHMgc9v5YugWaZ77mlf5Km1zzLxkBJXgJST7UP5DN/6+l+4vne/wEs
+ sPxuxNMKNbbewwH74kB0LwLGjPwrsxQNbwCets/SmMvTWq9Y
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 28 May 2026 15:19:28 -0700, Rosen Penev wrote:
-> ASoC: tegra: ADX: use of_device_get_match_data
+On Thu, 28 May 2026 00:46:46 +0000, Kuninori Morimoto wrote:
+> ASoC: soc-core: remove card->dmi_longname
 
 Applied to
 
@@ -67,8 +65,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: tegra: ADX: use of_device_get_match_data
-      https://git.kernel.org/broonie/sound/c/ce3d971735bb
+[1/1] ASoC: soc-core: remove card->dmi_longname
+      https://git.kernel.org/broonie/sound/c/66c75c7e0498
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
