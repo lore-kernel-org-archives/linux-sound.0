@@ -1,63 +1,63 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9A13D891B
-	for <linux-sound@vger.kernel.org>; Thu,  4 Jun 2026 20:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6D3366DB9
+	for <linux-sound@vger.kernel.org>; Thu,  4 Jun 2026 20:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780605421; cv=none; b=MHgtXxoqDHX9VcNxL3daI2CABX2SqQaj35PjETJux8bp7tDuRQESEIn+4MFNMa4Pm1KfBqyHak3936Tzx3dGDCsrZpb9foDo4MhjR3GW2wLyPrcMaocX+0qAVlXaM7OgIgRoubbyRk7t9Cj3CHHClh1DUtlW0QwrS7tlm+cb7Zw=
+	t=1780605435; cv=none; b=TPspojBTu3Lnnf965iNmGxzVq3vBFZ3k8vB9XKwlZ8D6AAx44v0Fj74OIGuaIV4R/WeuVCIkqMoJkks3PMNKNGv0auyeLFVdlT5tPXu2JEPCHL9cgtEEcIbujLN00OAneE3XMH5+v+gSTJHMDmH8lortPIW+aljkRq4xdaWQzQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780605421; c=relaxed/simple;
-	bh=317dd9absANjSuCrAQXv+YWq8qGvdqAv9Ef0rbkdF6Y=;
+	s=arc-20240116; t=1780605435; c=relaxed/simple;
+	bh=sFAg+UnNZFsqoEmOnCOLpobCREe/dQvTzc8AGSIGq2Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mYl6/5puYt8NuKZtx9m00j1RNiTfkeQyeTlDl0hezaGFPrmpAuJEbQhftdy8zUGQIWoTeqromZllBA8wuZH/iOd24xezywd8ElopYzRf2pqAAbc5ZIq78ud+a7uFOD6LNoIkjtIa9LudDul+vCTyljB6dfAU8gvFN3KWfa62tTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=no4WyL+f; arc=none smtp.client-ip=209.85.210.180
+	 MIME-Version; b=uudfAyprn4ukPwHahjvKZDel5l86huahaUXEuev3TTbhUvWv5bCnLHLImuH6yw8uCXxjBV8+nG+j41JE8xVGkz7z2H4vg+x0tE0YfRFxBbdlqFiHc/lnQ/E0dw4EOWeL3OffyOyBtsAMKZ9/gZbmSYsK0RctdDm+PHnZE/TTy0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WlVOiXZ0; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="no4WyL+f"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84232e83ca9so560757b3a.2
-        for <linux-sound@vger.kernel.org>; Thu, 04 Jun 2026 13:36:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WlVOiXZ0"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-84230ab8857so535082b3a.1
+        for <linux-sound@vger.kernel.org>; Thu, 04 Jun 2026 13:37:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780605419; x=1781210219; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780605432; x=1781210232; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FSEu/KQOdhdFHwNGT0hTQLZR1iOR8ZTNFTO5ZOxwoto=;
-        b=no4WyL+fjD++Jn71aW4cs1V8cFeOBzboNlknOuAhPCetl1a6fO+8Ag8fftuoou2959
-         7pkdKnv5ul7J7gSviIC6HaA+D/5ETVaNFt4/j9cbBSJsR5a3Cq73YsEFa+oEuawdDKvj
-         8XDebHsQsEVaDGllKHl1xHd7j3z+pMrNRBAe5pAG2M2kj4Ug2fKr5os8vzpotBBoNPgs
-         z4qWcjbxQEhmBKs41j+ek9n4UPp57dcjMmIpbwrXQkm8uMaehHsE1J23ZlrlScnMf3sW
-         Pc3gLI1EreNhvnpQiei7Y+n1fSck1ErjsmgwKZgANJe/2PVvgv8qy6U3hI99Lv4/zh8a
-         nnlA==
+        bh=6RDOJWyZ5/u9ipkjQCKV4Mf6ByGXtSeoznwE7qqlAc4=;
+        b=WlVOiXZ0DD4y4B+nIszZnsiu+0T1TXF+d2Xw5IEsNrUTEJ+6BubaoTQXfD4X12odW4
+         HaGgaG3LWhyS/B9I/K1ZWqD1ugsErOlr2BNyCGWJ7b2U6fXKGiipKdIBbgYBOL/yV/rN
+         BX/wDdzQMknYVeKv9YNtLQW6/o4czpT+JnOmw9kyxffxxOulvLsbKfjSbIq/DyRr9tJl
+         TEb7CdpKEGvRLA4W4aOY8zD2QDycGufCPspWmhHy1TK/bEvv5PeB85DGHupKifqIcAYh
+         hGj3SwrqDFIYsy3Qv7j6M+XqFIBYmCaEJT3F2dlGA6cEAmQjHfkzGP16XO9yufqXYu8X
+         LjXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780605419; x=1781210219;
+        d=1e100.net; s=20251104; t=1780605432; x=1781210232;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=FSEu/KQOdhdFHwNGT0hTQLZR1iOR8ZTNFTO5ZOxwoto=;
-        b=mJeWgo4wSIBUUaQm1iaGRgyLr2tKzd9wmxwopKLQIMaBPsGvxNP8tarFth4BDe/Qvj
-         oEo/lTIDIuW/+0qRa+3ajahE017vule9ElH1CZUbYPU1ssZGKtreiipK74agt15PATYo
-         gHv6rN8bsZ8v87DeGTbri7phC6pVEYmm9DiJGiPdSBPHdd5jHzKrKrAdrzmFljBSz8Bl
-         VXUztkwFvr+Q433eJgS7avlKacY6lAJAXNnNnCWw17iNTsWvyTIzBw4AEGUJIDDURhvt
-         +RmvUlRo/EVkkGU+M/05Z3r2/Y8QSDXDtrbxGDMrrQXWTmtZmxHWSKuzsyI6c5e1KA0I
-         EYvg==
-X-Gm-Message-State: AOJu0Yxuh2aU9LIWrn2oEhQAL0pD/gNpT4cUbgC963/NjGxKXjBb5v0t
-	pBiPb2QqHP9zP3P1LLJVoIsr2okZfecYBGTd3nNOhG3jco+aEbC/s0sqqBtxM3JoCdc=
-X-Gm-Gg: Acq92OFksuv9PQBkAOrOH2kr8Sm0FQS/Fd0BKFg9luYdRE/l6pZnrYVui1vDD7jYKaL
-	ALULoOQ6CPnedBWv0e9y4BaNqZLRlgIy+KBgS6byKH520pItCO3r0DY7gayZ9AGjYDSg93dWy4m
-	7d89AM6nPQ96ghEgILDBEE0nFE7oGRijjdM4R5AfJn2UYdQD4UZrrfkAGyML1ty3trG+9ysKXfn
-	oA3hS995SVmBqm968w8TeuCcd8PSBTcviO42bNulikF0A3OBUcAtFyH2NtYTzT60f7+g3Uu1OIO
-	VUXRh92+4f+WbY0EtUTEApD3XodQ7dZAS/r8a8+/dyb/mAW6C+BaTh06XYWquC8OxHq42tSHdoZ
-	7/v+SDlIrWfXUss+hdl/Lef31iBswd6ESAAWMWjjFAgWDZ7wrAvWBiMQclD/H3NXcAQIgU81g5n
-	lYhiOE5mzW2W7PMBKyvF9PUvScyqnz9DZd+IXn9mirHonbizMqS0rHNrsNbIy9w3b5b/2Lt+cDC
-	6YT
-X-Received: by 2002:a05:6a00:acd:b0:82f:776f:a78d with SMTP id d2e1a72fcca58-842b0f9987amr265860b3a.19.1780605419056;
-        Thu, 04 Jun 2026 13:36:59 -0700 (PDT)
+        bh=6RDOJWyZ5/u9ipkjQCKV4Mf6ByGXtSeoznwE7qqlAc4=;
+        b=nJvEZgO1hVTKDHUCTXh5dihDRwgYT4QPwkF3Nqqhy1OuOM02/6FpZs6TIpxyffHXna
+         EtCXVrw1ZckKJY36ptWU3poD0DROvqnSiYPpQAmYOWIe4/aDyuXosmlk7UVLcMOBqeYx
+         /3V8rotAvLR9jdOrQpTO61Z+Jrl3GUZ3SMIz9WtTbn1Co2EPLfDsfyMe+dAMJkGmXG6E
+         5QYZ1jFbNZ6KGNZer2kM48Fb+SFLjPtf7LlhLfrKjd+bMLpMBoQTjyV6gTi3gXJGEbbg
+         yv/tlo1b3E6cEkf6P3f5h8V82+zX9uQxayqnb06Fz1pXLWReYESvVjMvQ345RWXS4A+u
+         S1ng==
+X-Gm-Message-State: AOJu0YxnUHG6JDZ2Zid3cf3BaRwrwHhjS9rtLDGkES+oZV5avoSuc7T3
+	CeKh/EGBt7FuNBoG4JtpB0OhJ4JpzFDlG+vz2C0UBIx68D2LtXCv0MY8
+X-Gm-Gg: Acq92OFklYk6m4nC84ePsuO++yo1nPVzzvRTMaPD9DKk4yScf1FDP35etdV7mpifUsi
+	Fb2dLflFngriYDJ5IXwdmrjuK77i9oxQXL7aVA0niyMwcc7a8WFIYT3GnxOBP+Okt7wNYRkHkcP
+	gb0WGwOqPa2ogcCiReIGj577f6ly6aqdN0CK3qmY7vZ44Qb3EHs0WjZhE5DDY+I3GkWsMVHRzdg
+	hb428h6Agc5elXsBNGauAOgMYFxQ/1GoY1J0bBhW8eVzE59JFHV0kAs/8NEqVIflzqn3QQb2OXe
+	6NL94Er5YUnrFfcOQpdneJZGy4BxlA3RhmFq87Uqmof214HM0OnFpFwwtr1jCV+RfFNeB39Vx7U
+	UHtTtqPghbJPwHWp1WVNtkG5KIzkzn0j9C1ps2k7hanqlYmmr9ZZlsS95sNo8tBgtf5Oiwws66P
+	rUTFeQz3TII1dBgks2WHALDddlYCJpNs/lsmsqe9exOQSVW+eJaloLIH38FE3IFNsRAZDuS4PVg
+	TzU
+X-Received: by 2002:a05:6a00:9292:b0:842:688f:307f with SMTP id d2e1a72fcca58-842b0f51a52mr276902b3a.28.1780605432407;
+        Thu, 04 Jun 2026 13:37:12 -0700 (PDT)
 Received: from Ubuntu.. ([49.37.171.82])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842828fe634sm7118257b3a.52.2026.06.04.13.36.55
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842828fe634sm7118257b3a.52.2026.06.04.13.37.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 13:36:58 -0700 (PDT)
+        Thu, 04 Jun 2026 13:37:11 -0700 (PDT)
 From: Manish Baing <manishbaing2789@gmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com,
@@ -69,9 +69,9 @@ Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	manishbaing2789@gmail.com,
 	Sashiko AI <sashiko-bot@kernel.org>
-Subject: [RFC PATCH 1/2] ASoC: sound: atmel_ac97c: Fix IRQ handler null pointer dereference
-Date: Thu,  4 Jun 2026 20:36:22 +0000
-Message-ID: <20260604203623.162640-2-manishbaing2789@gmail.com>
+Subject: [RFC PATCH 2/2] ASoC: atmel: ac97c: Fix use-after-free on driver teardown
+Date: Thu,  4 Jun 2026 20:36:23 +0000
+Message-ID: <20260604203623.162640-3-manishbaing2789@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260604203623.162640-1-manishbaing2789@gmail.com>
 References: <20260604203623.162640-1-manishbaing2789@gmail.com>
@@ -83,14 +83,13 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In atmel_ac97c_probe(), request_irq() is called before ioremap().
-If an interrupt fires immediately, the handler atmel_ac97c_interrupt()
-will attempt to dereference chip->regs via ac97c_readl(), leading to
-a null pointer dereference and kernel panic.
+In atmel_ac97c_remove() and the probe error path, the driver disables
+clocks and unmaps memory before freeing the IRQ. If a stray interrupt
+fires during this window, the handler will attempt to access unmapped
+memory or unclocked hardware, resulting in a kernel panic.
 
-Move request_irq() to the end of the probe function, after memory
-is mapped and clocks are enabled, ensuring the hardware is fully
-ready before interrupts are serviced.
+Reorder the teardown sequence to call free_irq() first, adhering to
+the standard reverse-initialization order.
 
 Running make W=1 returns no errors. I was unable to test the patch
 because I do not have the hardware.The issue was flagged by the
@@ -100,38 +99,49 @@ Link: https://sashiko.dev/#/patchset/20260530052812.115994-1-manishbaing2789@gma
 Reported-by: Sashiko AI <sashiko-bot@kernel.org>
 Signed-off-by: Manish Baing <manishbaing2789@gmail.com>
 ---
- sound/atmel/ac97c.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ sound/atmel/ac97c.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/sound/atmel/ac97c.c b/sound/atmel/ac97c.c
-index df0a049192de..cd74395dd222 100644
+index cd74395dd222..b9280b644f26 100644
 --- a/sound/atmel/ac97c.c
 +++ b/sound/atmel/ac97c.c
-@@ -734,11 +734,6 @@ static int atmel_ac97c_probe(struct platform_device *pdev)
- 
- 	chip = get_chip(card);
- 
--	retval = request_irq(irq, atmel_ac97c_interrupt, 0, "AC97C", chip);
--	if (retval) {
--		dev_dbg(&pdev->dev, "unable to request irq %d\n", irq);
--		goto err_request_irq;
--	}
- 	chip->irq = irq;
- 
- 	spin_lock_init(&chip->lock);
-@@ -786,6 +781,12 @@ static int atmel_ac97c_probe(struct platform_device *pdev)
- 		goto err_ac97_bus;
- 	}
- 
-+	retval = request_irq(irq, atmel_ac97c_interrupt, 0, "AC97C", chip);
-+	if (retval) {
-+		dev_dbg(&pdev->dev, "unable to request irq %d\n", irq);
-+		goto err_request_irq;
-+	}
-+
+@@ -790,7 +790,7 @@ static int atmel_ac97c_probe(struct platform_device *pdev)
  	retval = snd_card_register(card);
  	if (retval) {
  		dev_dbg(&pdev->dev, "could not register sound card\n");
+-		goto err_ac97_bus;
++		goto err_snd_card_register;
+ 	}
+ 
+ 	platform_set_drvdata(pdev, card);
+@@ -800,11 +800,12 @@ static int atmel_ac97c_probe(struct platform_device *pdev)
+ 
+ 	return 0;
+ 
++err_snd_card_register:
++	free_irq(irq, chip);
+ err_ac97_bus:
++err_request_irq:
+ 	iounmap(chip->regs);
+ err_ioremap:
+-	free_irq(irq, chip);
+-err_request_irq:
+ 	snd_card_free(card);
+ err_snd_card_new:
+ 	clk_disable_unprepare(pclk);
+@@ -842,10 +843,10 @@ static void atmel_ac97c_remove(struct platform_device *pdev)
+ 	ac97c_writel(chip, COMR, 0);
+ 	ac97c_writel(chip, MR,   0);
+ 
++	free_irq(chip->irq, chip);
+ 	clk_disable_unprepare(chip->pclk);
+ 	clk_put(chip->pclk);
+ 	iounmap(chip->regs);
+-	free_irq(chip->irq, chip);
+ 
+ 	snd_card_free(card);
+ }
 -- 
 2.43.0
 
