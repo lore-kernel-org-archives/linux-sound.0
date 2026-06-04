@@ -1,61 +1,63 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D533C9EEE
-	for <linux-sound@vger.kernel.org>; Thu,  4 Jun 2026 20:36:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9A13D891B
+	for <linux-sound@vger.kernel.org>; Thu,  4 Jun 2026 20:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780605407; cv=none; b=YHcInujYp6wIDCcSfJswh2p6WwBUvc+9SE0fg1la98RAdUDbta1Q95vtr/00gBE/DYAMka1gyADAT92ZK7JXIowH4FI/Csrsl1IK0DsaubUz5sRYaTPKZeUEE4Zy3ScmkcTYFYE2uY+m5M4yZQQIeReTX1tqpu5bnbqrmSaWyJQ=
+	t=1780605421; cv=none; b=MHgtXxoqDHX9VcNxL3daI2CABX2SqQaj35PjETJux8bp7tDuRQESEIn+4MFNMa4Pm1KfBqyHak3936Tzx3dGDCsrZpb9foDo4MhjR3GW2wLyPrcMaocX+0qAVlXaM7OgIgRoubbyRk7t9Cj3CHHClh1DUtlW0QwrS7tlm+cb7Zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780605407; c=relaxed/simple;
-	bh=6x/ojXkuF8nllztqjsDMjtFT/Fgf5pdxmmz0LydfmG0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RXBwGus5mFI9LEWQIhMTbnUOUI9hxIC5Ads3DYlic1u3bhH+lhHtCITaDWRtAEhNCW/R63WdYo1YQoMzZihy2XuaZA6CpMzeeUMgsOnMeUCGz1n+PiPL6f7FbksBXJ15WXkgQBlhsLQ9Y9+etAbKeG5HfCgTjlp3kUUy6ziplkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O5IyRpbs; arc=none smtp.client-ip=209.85.210.171
+	s=arc-20240116; t=1780605421; c=relaxed/simple;
+	bh=317dd9absANjSuCrAQXv+YWq8qGvdqAv9Ef0rbkdF6Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mYl6/5puYt8NuKZtx9m00j1RNiTfkeQyeTlDl0hezaGFPrmpAuJEbQhftdy8zUGQIWoTeqromZllBA8wuZH/iOd24xezywd8ElopYzRf2pqAAbc5ZIq78ud+a7uFOD6LNoIkjtIa9LudDul+vCTyljB6dfAU8gvFN3KWfa62tTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=no4WyL+f; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O5IyRpbs"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8423efad617so642414b3a.0
-        for <linux-sound@vger.kernel.org>; Thu, 04 Jun 2026 13:36:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="no4WyL+f"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84232e83ca9so560757b3a.2
+        for <linux-sound@vger.kernel.org>; Thu, 04 Jun 2026 13:36:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780605406; x=1781210206; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iJnZuwuMHvW8L98BhZe5fgrtMJB4sNolVVw/sf9vpDk=;
-        b=O5IyRpbsjuuszKvps2WHRsl01S4PqhUzh4kIKPFdVmUzs4AeHF6Q+nV8ab7Je8JpbI
-         J4pT2fB58HY0ZORYBRQaGYFu5bbGmrKRC8Ui9xAcCihi/cD238JkN2rKFwznJ5wt31Xv
-         uIhf0yPwyesIiAd+JW1aqzpVJiN8wuGa/Sk+o5Dy0PPS8YjzZO/PDz1dnt444VlzJrzU
-         JsqibM8utZicVlsaCw+mvuW6u63O6uqVbd7o03zta0RR9txSX6DmS8P28bl2XlYAN3Pa
-         rKHXQdqz7fPJ0ZiGeapcXfhC++rGZXP7XHwuBthxqiv4FOfQa8Scf1LSYfZXk/0ZXnUY
-         05kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780605406; x=1781210206;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780605419; x=1781210219; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iJnZuwuMHvW8L98BhZe5fgrtMJB4sNolVVw/sf9vpDk=;
-        b=huES/cMATM/f9yY7BhZ5JIiUq8lsCwZuoqafHbVo1VfGiT4gAa9LDSgKo+Uqtcxmmk
-         Q6BmRlT1xplGdI7vMe7QVHfQQxQwCx9Zazephv9vlIbkGK5VeB/KSmwWoVxIRIOUxvIk
-         SsZo8A0Oblx0vcmDCs8CjTSHAd0VP3pYc1vOjBB1W4nniRRp4ditDcT6NdfhHnbzxl20
-         q59FKX2XzDEoZNCAk2E+G9EJznIWoLT7gQjy2X3AU7PWSUzDGhOUd4JWQB+k3yGqaqu0
-         zJa7efGvMlBqyryhpsyn1xrTfIWs4KS98bDf7xV0kfxIqkJDVjxavEV8iUdpb9a3zSuS
-         XcoA==
-X-Gm-Message-State: AOJu0YwxwDv7GPBkrcQZPm8J/2ladeJyDeHrxxKbBwYJXcMQ6Rb4ROvI
-	fqjyS+IxR5fT9fJCnm5qdXIuEV6JZfzdAC3fPrqvxXRsuVtK+AJnEE9tog9j79IzRdA=
-X-Gm-Gg: Acq92OH//e3lWnuF7rY5wSgz8Eljw4861vaHfKa3a5ndf7hz+XNC0W823h2b2w0yuNG
-	STVGoeFioql6xWF67o2BY+ufKckquusJeCeVoXnn4Upqt3ieTw4mOnxEdlb6MOGEGUH0CZPbDNp
-	g5BL0dEA+UtdX/RU9CDcBnrrV13wK7wMemW/9y8ZOmtqD6FdTBsckqw9RF/70KLHmaBuexYkK+y
-	GLC+QIajrOi+nI2nfPwocl1oAw53j3HyGByLgXmj7nDIVe8ww/sCk0pWP78tKQET3m4bFceI+jV
-	tr7H0S9P2qD0XVLZjoej4u08DZD9VXb1Szd8a+sSdok7doT82DgzSpvDuxmF223AJMvy5J7LS/D
-	EyFYB0avS8ICkGxEL631WL9bj40/0RuT7R8wRMAyaQS86wPuKlRTrKF7+jbO+FX76TjjOkbwTTG
-	qbJ14sa+dPxqWti+0Kze8JhdtCHkH0vwbFg/bwaGNS6tJLggyLQtFY6Wd1HkqZ3PMGs84QIrEfN
-	hEj
-X-Received: by 2002:a05:6a00:4216:b0:82c:24d5:63e6 with SMTP id d2e1a72fcca58-842b0e619camr323397b3a.15.1780605405545;
-        Thu, 04 Jun 2026 13:36:45 -0700 (PDT)
+        bh=FSEu/KQOdhdFHwNGT0hTQLZR1iOR8ZTNFTO5ZOxwoto=;
+        b=no4WyL+fjD++Jn71aW4cs1V8cFeOBzboNlknOuAhPCetl1a6fO+8Ag8fftuoou2959
+         7pkdKnv5ul7J7gSviIC6HaA+D/5ETVaNFt4/j9cbBSJsR5a3Cq73YsEFa+oEuawdDKvj
+         8XDebHsQsEVaDGllKHl1xHd7j3z+pMrNRBAe5pAG2M2kj4Ug2fKr5os8vzpotBBoNPgs
+         z4qWcjbxQEhmBKs41j+ek9n4UPp57dcjMmIpbwrXQkm8uMaehHsE1J23ZlrlScnMf3sW
+         Pc3gLI1EreNhvnpQiei7Y+n1fSck1ErjsmgwKZgANJe/2PVvgv8qy6U3hI99Lv4/zh8a
+         nnlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780605419; x=1781210219;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=FSEu/KQOdhdFHwNGT0hTQLZR1iOR8ZTNFTO5ZOxwoto=;
+        b=mJeWgo4wSIBUUaQm1iaGRgyLr2tKzd9wmxwopKLQIMaBPsGvxNP8tarFth4BDe/Qvj
+         oEo/lTIDIuW/+0qRa+3ajahE017vule9ElH1CZUbYPU1ssZGKtreiipK74agt15PATYo
+         gHv6rN8bsZ8v87DeGTbri7phC6pVEYmm9DiJGiPdSBPHdd5jHzKrKrAdrzmFljBSz8Bl
+         VXUztkwFvr+Q433eJgS7avlKacY6lAJAXNnNnCWw17iNTsWvyTIzBw4AEGUJIDDURhvt
+         +RmvUlRo/EVkkGU+M/05Z3r2/Y8QSDXDtrbxGDMrrQXWTmtZmxHWSKuzsyI6c5e1KA0I
+         EYvg==
+X-Gm-Message-State: AOJu0Yxuh2aU9LIWrn2oEhQAL0pD/gNpT4cUbgC963/NjGxKXjBb5v0t
+	pBiPb2QqHP9zP3P1LLJVoIsr2okZfecYBGTd3nNOhG3jco+aEbC/s0sqqBtxM3JoCdc=
+X-Gm-Gg: Acq92OFksuv9PQBkAOrOH2kr8Sm0FQS/Fd0BKFg9luYdRE/l6pZnrYVui1vDD7jYKaL
+	ALULoOQ6CPnedBWv0e9y4BaNqZLRlgIy+KBgS6byKH520pItCO3r0DY7gayZ9AGjYDSg93dWy4m
+	7d89AM6nPQ96ghEgILDBEE0nFE7oGRijjdM4R5AfJn2UYdQD4UZrrfkAGyML1ty3trG+9ysKXfn
+	oA3hS995SVmBqm968w8TeuCcd8PSBTcviO42bNulikF0A3OBUcAtFyH2NtYTzT60f7+g3Uu1OIO
+	VUXRh92+4f+WbY0EtUTEApD3XodQ7dZAS/r8a8+/dyb/mAW6C+BaTh06XYWquC8OxHq42tSHdoZ
+	7/v+SDlIrWfXUss+hdl/Lef31iBswd6ESAAWMWjjFAgWDZ7wrAvWBiMQclD/H3NXcAQIgU81g5n
+	lYhiOE5mzW2W7PMBKyvF9PUvScyqnz9DZd+IXn9mirHonbizMqS0rHNrsNbIy9w3b5b/2Lt+cDC
+	6YT
+X-Received: by 2002:a05:6a00:acd:b0:82f:776f:a78d with SMTP id d2e1a72fcca58-842b0f9987amr265860b3a.19.1780605419056;
+        Thu, 04 Jun 2026 13:36:59 -0700 (PDT)
 Received: from Ubuntu.. ([49.37.171.82])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842828fe634sm7118257b3a.52.2026.06.04.13.36.41
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842828fe634sm7118257b3a.52.2026.06.04.13.36.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 13:36:45 -0700 (PDT)
+        Thu, 04 Jun 2026 13:36:58 -0700 (PDT)
 From: Manish Baing <manishbaing2789@gmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com,
@@ -65,11 +67,14 @@ To: perex@perex.cz,
 Cc: linux-sound@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	manishbaing2789@gmail.com
-Subject: [RFC PATCH 0/2] ASoC: atmel: ac97c: Fix IRQ handling sequences
-Date: Thu,  4 Jun 2026 20:36:21 +0000
-Message-ID: <20260604203623.162640-1-manishbaing2789@gmail.com>
+	manishbaing2789@gmail.com,
+	Sashiko AI <sashiko-bot@kernel.org>
+Subject: [RFC PATCH 1/2] ASoC: sound: atmel_ac97c: Fix IRQ handler null pointer dereference
+Date: Thu,  4 Jun 2026 20:36:22 +0000
+Message-ID: <20260604203623.162640-2-manishbaing2789@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260604203623.162640-1-manishbaing2789@gmail.com>
+References: <20260604203623.162640-1-manishbaing2789@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -78,27 +83,55 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series addresses two hardware initialization and teardown issues in 
-the atmel_ac97c driver flagged by the Sashiko AI bot.
-The original report can be found here:
-https://sashiko.dev/#/patchset/20260530052812.115994-1-manishbaing2789@gmail.com?part=1
+In atmel_ac97c_probe(), request_irq() is called before ioremap().
+If an interrupt fires immediately, the handler atmel_ac97c_interrupt()
+will attempt to dereference chip->regs via ac97c_readl(), leading to
+a null pointer dereference and kernel panic.
 
-- Patch 1 moves request_irq() to the end of probe to prevent a null pointer
-  dereference if an interrupt fires early.
-- Patch 2 reorders the teardown sequence to free the IRQ before disabling
-  clocks and unmapping memory, preventing a use-after-free.
+Move request_irq() to the end of the probe function, after memory
+is mapped and clocks are enabled, ensuring the hardware is fully
+ready before interrupts are serviced.
 
-I am submitting this as an RFC because I do not have the physical hardware
-to test these changes, However, my manual analysis indicates these are 
-valid bugs, and the series compiles cleanly with W=1.
+Running make W=1 returns no errors. I was unable to test the patch
+because I do not have the hardware.The issue was flagged by the
+Sashiko AI bot.
 
-Manish Baing (2):
-  ASoC: sound: atmel_ac97c: Fix IRQ handler null pointer dereference
-  ASoC: atmel: ac97c: Fix use-after-free on driver teardown
+Link: https://sashiko.dev/#/patchset/20260530052812.115994-1-manishbaing2789@gmail.com?part=1
+Reported-by: Sashiko AI <sashiko-bot@kernel.org>
+Signed-off-by: Manish Baing <manishbaing2789@gmail.com>
+---
+ sound/atmel/ac97c.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
- sound/atmel/ac97c.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
-
+diff --git a/sound/atmel/ac97c.c b/sound/atmel/ac97c.c
+index df0a049192de..cd74395dd222 100644
+--- a/sound/atmel/ac97c.c
++++ b/sound/atmel/ac97c.c
+@@ -734,11 +734,6 @@ static int atmel_ac97c_probe(struct platform_device *pdev)
+ 
+ 	chip = get_chip(card);
+ 
+-	retval = request_irq(irq, atmel_ac97c_interrupt, 0, "AC97C", chip);
+-	if (retval) {
+-		dev_dbg(&pdev->dev, "unable to request irq %d\n", irq);
+-		goto err_request_irq;
+-	}
+ 	chip->irq = irq;
+ 
+ 	spin_lock_init(&chip->lock);
+@@ -786,6 +781,12 @@ static int atmel_ac97c_probe(struct platform_device *pdev)
+ 		goto err_ac97_bus;
+ 	}
+ 
++	retval = request_irq(irq, atmel_ac97c_interrupt, 0, "AC97C", chip);
++	if (retval) {
++		dev_dbg(&pdev->dev, "unable to request irq %d\n", irq);
++		goto err_request_irq;
++	}
++
+ 	retval = snd_card_register(card);
+ 	if (retval) {
+ 		dev_dbg(&pdev->dev, "could not register sound card\n");
 -- 
 2.43.0
 
