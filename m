@@ -1,80 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E022FF164
-	for <linux-sound@vger.kernel.org>; Thu,  4 Jun 2026 14:59:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C3C3314AC
+	for <linux-sound@vger.kernel.org>; Thu,  4 Jun 2026 15:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780585174; cv=none; b=NHDFk/nzCPPr3aA+2UD+bRjyXTn4k0YWkHRV6XTido7gBTYSQ+RWq/Ji/PUX4Wi6clhu4AZy0WtnwLheftePI114ou3C23+tL1T4gsJtJ+4W9J2jKY1YXx+jc9WXCdsWa0ev/S+I4ckWYEOYAe0LDC7q9z1G7ZMKmB8xuZ8G0bo=
+	t=1780586372; cv=none; b=HTHUsDMpMCFCvkvfkfSNH9kWhDKqlM14qTDqYJqQ8SMqn85C1EGHt2P12PDCUMbD7Nng2xiYMTHilLeS9U0qLJhoy6XyViu/vallvDz13Lk2CC+JPea77n0n8Yt42wbIW1eQbYxmSLkt+C0Ec8jfR2Jv1caxuKp2H2CMeu/asQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780585174; c=relaxed/simple;
-	bh=MsTAYqGRduV0qR/MF5eO+Yf4JcSL9qKrxiNRcZxXqEU=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=BaY0rOW1R8Q02rbdfPeq0ftSD0JJyq/BIV063d1Ljq/Rq89klI461TrANRqvaX42ziGdAFtpYHhCWO8rN4I5P5sXu7b6j+w3UiJM1aiN3i5LHF7siiUcCANLOCtG+QttMSuDc0ns8fRRoOJ3hcSc0dxNoncXEKsNGCLHDGj8Ueg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RelonrKG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780586372; c=relaxed/simple;
+	bh=QVFkeDIlii/8bbsD3aHYTYsZil9etk4OJnJsC5uGfX4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jD5JXu54vLkGMxTlp3f8neOqaQn8nqaCHuvYwiIzcRRhhojJrBTlUBduDXMOxQXlEViSJhtzDymycTDrW2jSh8TFWnAeg/p0ifozvocudUS2TJXEp1BlZwZkheWv6CkKUaqis2OcprzzGESqnkXyUpiY7jki+6Baldl2ZBq2OE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oU8R7ivk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fV/p1kp5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oU8R7ivk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fV/p1kp5; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RelonrKG"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C1F1B1F00893;
-	Thu,  4 Jun 2026 14:59:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780585172;
-	bh=PhrhDHP1FdjIu6eaq4hR73jfDA0sRMs89f3GPR4e9s8=;
-	h=From:To:Cc:Subject:Date;
-	b=RelonrKG5PKXuxHWzpviGWPpJf0Dx3i5EooZ7YnZapcNydSeKGguwsMz3A3Iu1dtK
-	 B/GZX42GDjK+pQ5O8qshQY4vskgYSJAk9VqSvWvk7ondc9WUpl7dxTN7ifLj9+lUBZ
-	 6tTRR7jC+ALkLxtxw1PHZgejEJjYgqvPHm+Ams9qg3lq8UDFPsheTb2BHYUiwu4WFh
-	 aG5nSre3/7E9PP+VSSKNQqiFCl1EAfWqC7AWbAahmJeCl7RkkGSi7tZTmu7oEYXdlg
-	 NR0yzBBfcRuYJc7bjAVXmxj+0eAoCKfZj4ixgOMXh5cI7+8NopkqejYjjdnJhOUEs+
-	 TxvaeHMhHO6Pg==
-Message-ID: <b99a86ce19505d0016af56bcfe4ad81f@kernel.org>
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v7.1-rc6
-Date: Thu, 04 Jun 2026 15:59:17 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oU8R7ivk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fV/p1kp5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oU8R7ivk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fV/p1kp5"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7860D683FA;
+	Thu,  4 Jun 2026 15:19:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780586369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=2mqFuFC3xzWUimh3a+SukYgSKhjX4fISHm3ZCCJnGD4=;
+	b=oU8R7ivkAdPH/DmAs4LjBbRU7JAy9o0ZAY9dcwUuetJuMVjBe+zzEnbXeDX9o8Pa5h8yt4
+	uokN3Hgp4F4oQAYTFwvl6pbLEVoFwMTuF8rKaJgUf7jte9B5UGUcie7TYTYAYuA/SfasRC
+	1ShHp5MaAXivmNZz6ON2wOsxGEuctms=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780586369;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=2mqFuFC3xzWUimh3a+SukYgSKhjX4fISHm3ZCCJnGD4=;
+	b=fV/p1kp5+4D+ZTvAZ53Bg1Mv9TRA4DA007SdwkCe1NevuJksHR4YA//HPvMqn0iMKeCEeF
+	4X21U8pyW9Cm0SBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780586369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=2mqFuFC3xzWUimh3a+SukYgSKhjX4fISHm3ZCCJnGD4=;
+	b=oU8R7ivkAdPH/DmAs4LjBbRU7JAy9o0ZAY9dcwUuetJuMVjBe+zzEnbXeDX9o8Pa5h8yt4
+	uokN3Hgp4F4oQAYTFwvl6pbLEVoFwMTuF8rKaJgUf7jte9B5UGUcie7TYTYAYuA/SfasRC
+	1ShHp5MaAXivmNZz6ON2wOsxGEuctms=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780586369;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=2mqFuFC3xzWUimh3a+SukYgSKhjX4fISHm3ZCCJnGD4=;
+	b=fV/p1kp5+4D+ZTvAZ53Bg1Mv9TRA4DA007SdwkCe1NevuJksHR4YA//HPvMqn0iMKeCEeF
+	4X21U8pyW9Cm0SBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 54F3F779A8;
+	Thu,  4 Jun 2026 15:19:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id scdzE4GXIWpoIAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 04 Jun 2026 15:19:29 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: wangdicheng <wangdicheng@kylinos.cn>,
+	Mark Brown <broonie@kernel.org>
+Subject: [PATCH] ALSA: usb-audio: Drop unused variables
+Date: Thu,  4 Jun 2026 17:19:17 +0200
+Message-ID: <20260604151927.1227105-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Level: 
+X-Spam-Score: -2.80
 
-The following changes since commit e43ffb69e0438cddd72aaa30898b4dc446f664f8:
+Forgot to clean up the unused variables after the code refactoring,
+which leads to compile warnings.
 
-  Linux 7.1-rc6 (2026-05-31 15:14:24 -0700)
+Reported-by: Mark Brown <broonie@kernel.org>
+Closes: https://lore.kernel.org/aiGUoChmVKE-xwvC@sirena.org.uk
+Fixes: f1f16e1809c8 ("ALSA: usb-audio: qcom: Use PAGE_ALIGN macro for buffer size calculation")
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/usb/qcom/qc_audio_offload.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-are available in the Git repository at:
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index 32982318fbed..b2b719238b0b 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -1042,8 +1042,6 @@ static int uaudio_transfer_buffer_setup(struct snd_usb_substream *subs,
+ 	u32 len = xfer_buf_len;
+ 	bool dma_coherent;
+ 	dma_addr_t xfer_buf_dma_sysdev;
+-	u32 remainder;
+-	u32 mult;
+ 	int ret;
+ 
+ 	dma_coherent = dev_is_dma_coherent(subs->dev->bus->sysdev);
+-- 
+2.54.0
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.1-rc6
-
-for you to fetch changes up to d2dcd85f9e09fe3566d4cdcd357856a42ac73f93:
-
-  ASoC: amd: acp70: add standalone RT721 SoundWire machine (2026-06-04 11:35:06 +0100)
-
-----------------------------------------------------------------
-ASoC: Fixes for v7.1
-
-There's only one actual fix here, for the TDM configuration on the
-Freescale SAI controller, everytihng else is DMI quirks for AMD systems.
-One of those is relatively large as it adds a bunch of different structs
-but it's all data.
-
-----------------------------------------------------------------
-Aleksander Pshenitsyn (1):
-      ASoC: amd: acp70: add standalone RT721 SoundWire machine
-
-Chancel Liu (1):
-      ASoC: fsl_sai: Fix 32 slots TDM broken by integer shift UB in xMR write
-
-David Glushkov (1):
-      ASoC: amd: yc: Add MSI Raider A18 HX A9WJG to quirk table
-
-Jackie Dong (1):
-      ASoC: amd: acp: Add DMI quirk for Lenovo Yoga Pro 7 15ASH11
-
-João Miguel (1):
-      ASoC: amd: yc: Enable internal mic on MSI Bravo 17 C7VF
-
- sound/soc/amd/acp-config.c               |  7 +++++
- sound/soc/amd/acp/amd-acp70-acpi-match.c | 44 ++++++++++++++++++++++++++++++++
- sound/soc/amd/yc/acp6x-mach.c            | 14 ++++++++++
- sound/soc/fsl/fsl_sai.c                  |  2 +-
- 4 files changed, 66 insertions(+), 1 deletion(-)
