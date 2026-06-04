@@ -1,296 +1,188 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010013.outbound.protection.outlook.com [52.101.229.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB1B397E96;
-	Wed,  3 Jun 2026 22:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780525815; cv=fail; b=kfDEDCft4sxRwCWrCivXtLjfElVUPOV6umvp7FZlNSUcrzJksp6rTJaQdTp11Ofmnt8hj2Yzze853VwWfNyc2yyY968gT37wtFroIkKHcMd0hcRVr4M+FA25p5kjFKnZ6jebPf9fnPw9ohKoNa3HAWIdVyDrMYiHDvM/EEfp1Hc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780525815; c=relaxed/simple;
-	bh=WTS5ddFEdnOSo9/IV5+3mQLL8kJAv06vfsAF0SDG5gs=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=ECzf5FEymJWLDJ4RvCMf/HpBcApuZ74NycOrcT+OjssviSJb1bxBF9zJbShJ2cOVPvujITJDOW4+eJyCr7dVAfwVgPZD4kBiixnm4gcf8uUpct3iWT1HUxSKIr9ji+Sbz91kg2G9gnzoVCgR+jhJqQLriqOBXbXUL2XfaOTax5Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ULF/oiWs; arc=fail smtp.client-ip=52.101.229.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ULF/oiWs"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LiDlgTOjquM/2FE5w5nqTPrFknXxRQZP/CGzYppoHfAaqwgYMbOmu3M8v9wE1vxp+RvIyJ/EtYz1GyL4XKb4DRCZgnII91tczhuEndI2P0WEBgOOtGvXTVe4E/IRu6afZ1nB/IXc3OdcsoyBUalSAvZVs05YkhBs4YalBTkgl7/+Nc13KXP8V8FYculSePWX4fFitda4ACghvbbrSIMac+Rift6XingS9pXBYLO03duoKDb6t9//3ZkbFrC5Nr+Ys5Udhz0uDWaoxPGd8La8jmfHH+CTy0FhnKxffCJ8TuTv00LCOinNbLCWnQEuS0fnVXvLY2i/32S33Pd2Phjvqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qbXB38SUTgltPz28Qrbj5oXXKCfe23ekoxc3LjZrCj4=;
- b=Uk5ZvW2XjrhF55mroyq9r1J1MXZTRDnVmt25JPun6SVbPHEYuwjv88KO7KKpl2Jwl5VtK2ye4POVjCE3N6usuAFFN1Bj8+G0eklBRrFQWdOCF1evYoqc8+xj/m479ApBx/2fMKLQaYiBAv95GfvNQl/hKXHILo3GEMetWxC6Ta8Ke//elW0NTgk9FMgbiPbie/AkRnciQKd8H0685AVCBMc+TE8pdpFMcnidh3jDcTemNXBsB5t1gvDmt+pbKm8/tXlH6YYkV+QXOB2fN6TT7Zm+JSUbhYkKKNrPjWCjI+I//bxDxzdX7d1yomx0cPJb8SPUpP7itGRW5yiPjeeNig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qbXB38SUTgltPz28Qrbj5oXXKCfe23ekoxc3LjZrCj4=;
- b=ULF/oiWs23LHbBNk+vejikbK1FT5bQkDAWfG4U8i/7Z+VlzWKWx55Ko/bNbZtsuGZwDZUw4FqRWehWPb98eAhsdF5oeTBECaBpMGkl+EqZqReIig2ErCwptcVO6Bx6g7CGjTgMgD6zN3Jr7P4oauU5V7KTPAC601ibJ1aGB+3Yc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by OSAPR01MB7280.jpnprd01.prod.outlook.com (2603:1096:604:142::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
- 22:30:10 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0092.006; Wed, 3 Jun 2026
- 22:30:10 +0000
-Message-ID: <87se7345qm.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: "Alvin =?UTF-8?B?xaBpcHJhZ2E=?=" <alsi@bang-olufsen.dk>,
-	"J.M.B.\
- Downing" <jonathan.downing@nautel.com>,
-	"Martin =?UTF-8?B?UG92acWhZXI=?="
- <povik+lin@cutebit.org>,
-	"Nuno =?UTF-8?B?U8Oh?=" <nuno.sa@analog.com>,
-	"Uwe\
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= (The Capable Hub)"
- <u.kleine-koenig@baylibre.com>,
-	Alexandre Belloni
- <alexandre.belloni@bootlin.com>,
-	Alexandre Torgue
- <alexandre.torgue@foss.st.com>,
-	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,
-	Arnaud Pouliquen
- <arnaud.pouliquen@foss.st.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Bartosz
- Golaszewski <brgl@kernel.org>,
-	Ben Bright <ben.bright@cirrus.com>,
-	Benson
- Leung <bleung@chromium.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Binbin
- Zhou <zhoubinbin@loongson.cn>,
-	Bram Vlerick
- <bram.vlerick@openpixelsystems.org>,
-	Charles Keepax
- <ckeepax@opensource.cirrus.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Cheng-Yi
- Chiang <cychiang@chromium.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Daniel Mack
- <daniel@zonque.org>,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Frank Li
- <Frank.Li@nxp.com>,
-	Fred Treven <fred.treven@cirrus.com>,
-	Geert
- Uytterhoeven <geert+renesas@glider.be>,
-	Guenter Roeck
- <groeck@chromium.org>,
-	Guoqing Jiang <guoqing.jiang@canonical.com>,
-	Haojian
- Zhuang <haojian.zhuang@gmail.com>,
-	HariKrishna Sagala
- <hariconscious@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Hsieh Hung-En
- <hungen3108@gmail.com>,
-	James Ogletree <jogletre@opensource.cirrus.com>,
-	Jarkko Nikula <jarkko.nikula@bitmer.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jerome Brunet
- <jbrunet@baylibre.com>,
-	Jihed Chaibi <jihed.chaibi.dev@gmail.com>,
-	Jonathan
- Hunter <jonathanh@nvidia.com>,
-	Kevin Cernekee <cernekee@chromium.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Kirill
- Marinushkin <k.marinushkin@gmail.com>,
-	Kiseok Jo
- <kiseok.jo@irondevice.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Kunihiko
- Hayashi <hayashi.kunihiko@socionext.com>,
-	Lad Prabhakar
- <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Lars-Peter Clausen
- <lars@metafoo.de>,
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52F9129D267;
+	Thu,  4 Jun 2026 02:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780539105; cv=none; b=eq3L67ML34BIGqMRFjNpHi9YII4McvEar8ieoMd74Z/0cbsf/a0xPv6Qn2NypGjDg9oBzBX+lXf6py3GREy6kJIoUtJUsMLn48Cdta6Z0Rvag6h2RCwOOAYnOapV9ZCwFcelorBP6Ggi/viFZYczMvWPMzad39yZVxEqrZmzUJ4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780539105; c=relaxed/simple;
+	bh=x0rjkB6VSM2DpvHGtAv6lYGGTUZrteHbc6IfcLCKDsI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=H0XOAS8LR8PYg/xc5M9AOSxd+cbx3L9ubAfuH5nEMAj41nIcoheSql8bGrO0520aMiVgjOLuLS+I8ctBv+n/tDnJ2kiWZ7GtppHloJiyjPymSD0AUiV9Lx0UdhVDSeYXiFV1CVXlmJ9fsQ4nRGiZgx10meIhdrkiVAL6zl+t/SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.68.59])
+	by gateway (Coremail) with SMTP id _____8Axp3jd3iBqMGEQAA--.20838S3;
+	Thu, 04 Jun 2026 10:11:41 +0800 (CST)
+Received: from kernelserver (unknown [223.64.68.59])
+	by front1 (Coremail) with SMTP id qMiowJBx78LZ3iBq1UabAA--.33017S4;
+	Thu, 04 Jun 2026 10:11:40 +0800 (CST)
+From: Binbin Zhou <zhoubinbin@loongson.cn>
+To: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Luca Ceresoli
- <luca.ceresoli@bootlin.com>,
-	M R Swami Reddy <mr.swami.reddy@ti.com>,
-	Mark
- Brown <broonie@kernel.org>,
-	Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>,
-	Masami Hiramatsu
- <mhiramat@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Max
- Filippov <jcmvbkbc@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolas Ferre
- <nicolas.ferre@microchip.com>,
-	Nicolas Frattaroli
- <frattaroli.nicolas@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Oder
- Chiou <oder_chiou@realtek.com>,
-	Olivier Moysan
- <olivier.moysan@foss.st.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Peter
- Rosin <peda@lysator.liu.se>,
-	Piotr Wojtaszczyk
- <piotr.wojtaszczyk@timesys.com>,
-	Qianfeng Rong <rongqianfeng@vivo.com>,
-	Ray
- Jui <rjui@broadcom.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Samuel Holland
- <samuel@sholland.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Scott Branden
- <sbranden@broadcom.com>,
-	Sen Wang <sen@ti.com>,
-	Sharique Mohammad
- <sharq0406@gmail.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Shengjiu Wang
- <shengjiu.wang@gmail.com>,
-	Steven Eckhoff
- <steven.eckhoff.opensource@gmail.com>,
-	Support Opensource
- <support.opensource@diasemi.com>,
-	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding
- <thierry.reding@kernel.org>,
-	Tim Bird <tim.bird@sony.com>,
-	Troy Mitchell
- <troy.mitchell@linux.spacemit.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Vijendar Mukunda
- <Vijendar.Mukunda@amd.com>,
-	Vishwas A Deshpande
- <vishwas.a.deshpande@ti.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Xiubo Li
- <Xiubo.Lee@gmail.com>,
-	Yixun Lan <dlan@kernel.org>,
-	Zhang Yi
- <zhangyi@everest-semi.com>,
-	chrome-platform@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+	Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev,
+	devicetree@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	spacemit@lists.linux.dev
-Subject: Re: [PATCH 02/83] ASoC: codecs: framer-codec: don't use array if single pattarn
-In-Reply-To: <20260603140939.091f126f@bootlin.com>
-References: <8733zfj5jj.wl-kuninori.morimoto.gx@renesas.com>
-	<87zf1nhqxx.wl-kuninori.morimoto.gx@renesas.com>
-	<20260603140939.091f126f@bootlin.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 3 Jun 2026 22:30:09 +0000
-X-ClientProxiedBy: TY4PR01CA0115.jpnprd01.prod.outlook.com
- (2603:1096:405:379::17) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	Binbin Zhou <zhoubinbin@loongson.cn>
+Subject: [PATCH v2 2/7] ASoC: loongson: Add Loongson-2K0300 I2S controller support
+Date: Thu,  4 Jun 2026 10:11:22 +0800
+Message-ID: <4b003425d16a18049c5b90dbdaf91024e265cd8e.1780538113.git.zhoubinbin@loongson.cn>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1780538113.git.zhoubinbin@loongson.cn>
+References: <cover.1780538113.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OSAPR01MB7280:EE_
-X-MS-Office365-Filtering-Correlation-Id: 12607daf-5c35-4ee7-4d86-08dec1bfabd8
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|52116014|7416014|376014|1800799024|4143699003|11063799006|56012099006|38350700014|22082099003|18002099003|41080700001;
-X-Microsoft-Antispam-Message-Info:
-	TzHfVoj7TpgdvJ0HaGWwBMagVB+iozqFbkXG3tqI/A+k0Q2rZwkMIB5Xx3ck6auLWKhc7o6+wZ4bwSxnZ9ogH8It4qEBWtw1aIsCJd11CygAQ1F4yyZtNvDSoIIp/lIJC85yb94H4WAHP87hQmsft9/ZyUOn3u/CUHqDhFepHbaIPsFIb71BPNQJk6n3dUf49wwd18j/MdGNOBeG3yJaspINvLZL1noqZINg8S/AQF66DylY/EzUUU6WtLvxbhfMDQFrznaVBzSrubhuIXUejOSR+c/RiKsDaMADknHbfX8sEqhCY233XPCJzjOD9CdgdkYMdVF6qd1DDRfSpj7Xp7eAliJrUvjQ/pz6evXYjVra64yWF9m9XZ1+TbBFnAsTRXg/DbGpN7JsR+8mfK6CF2bccqF8N7qBst00qqedEkfIQ1U8hK3lJJItYdngZMgQTYsREmzb4lQzLDoSqgNrwRc3SCyed1/YcNEtOnSyIlHKk8jXB9nHhKph5kqYOX62GmzM2lnh2humnTqNrV8Me8AJg7DL48c3WTJnupZdYNHrs0q5J21E6JYzQH5ECf7zt0RE6FBXRLn6c1axLC4DFTEMsCc6qEh0NGBWcMhwF32fZSOdZjVzcuVOmv4QlGmJXGjwUrTnCYHijp7U3rBpcGiAKjewtJQEieXKxU5wUwRU8ci7adSQI2R/1W3Qwx9z7u5upyIbtWXK1p56WD+7WayH0vfH6e8OkUyTrBR6oqpwrW5uuMy1KVIg/4z89G5fGC2T/5vZdSWTCG3Q78Uy/w==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(7416014)(376014)(1800799024)(4143699003)(11063799006)(56012099006)(38350700014)(22082099003)(18002099003)(41080700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?lijGfEg2qt0pQmb+mOI2PAFjEPX5cvZTcz81IkTfz7udR+nM8t7IJasJJUvA?=
- =?us-ascii?Q?BkFvJ2fR+7rRjtqcfD9WtFILE68AkGFRGZgLf+1/SGECmnVxZTGtHkc6n0m5?=
- =?us-ascii?Q?z0ZmomtME2rKjn6+MJD9N1bX8ZQ9Lhg9LlSzvEIgIogY1EY+b97qbuWHWwzu?=
- =?us-ascii?Q?S+UNO0yTdFJuHat548RBYCSdywiq+Z/aiBuj/gixLL5aT9Solk26WkaJ/bbJ?=
- =?us-ascii?Q?BRByFu8MTY0oYso1I89HeeJ853ISSyvLqom7RqMbchmyPsggg4AHeP/2oWcw?=
- =?us-ascii?Q?D1tK2woenELOe9S4eZ9XvzhydxAXzlNL+Rzz3pU+o+7hw/SSOQibgCq9n87p?=
- =?us-ascii?Q?vWUm+czOwilM92gdCGaHmfngiAxHQd/dhheYlSTWMIXI02ijWSlIdMUORkdS?=
- =?us-ascii?Q?udpFHyuEIi0ewq5VVw1l36NqBWxtG+Z0xLIWIx0RnujNhxGbNXWTN1GKsKfS?=
- =?us-ascii?Q?7XSE5aTWUrfyJXvrKPKTbjgVKymunDlyBj7OpewOFWqREFbCj0C72+mQhowz?=
- =?us-ascii?Q?TxPXra3+QqOtEu/zl1AvgtUsn8pSYyGsbYNwegoxsrQD9YJVaUSr3IBRgmjw?=
- =?us-ascii?Q?j339RbHAgPrcu/nAR4xIxBQA2sO1rWWLmZ4EpFbk+ez2Q9o8zf+2nmbW5Ns5?=
- =?us-ascii?Q?9cEnW9dpfldeBEzGc9JuDspkKKrrijTOSplwLQ8RZFmkYzQwehu9tniQD1fB?=
- =?us-ascii?Q?oPyFA1Av8VrlDRZlhcUvyOSJ/4BbSED1f46A1jDRWU6rFVpdf2Kbth6RF9/q?=
- =?us-ascii?Q?3WfjMI4zS19/1BQ8GOEsS9eNRRrgYp61eMrbbYS3KH7uu6qQ3uoWlYrECcCA?=
- =?us-ascii?Q?Q/Pmp+hY9uWiP+nw2MJ93u/CE3MoqRww5y0rRajWvu1cWKwFsGQzUIfTtJaI?=
- =?us-ascii?Q?+lAtn+RdnSEN9yJ+SygTCHCAJJGKAJeHtvQsco0xD7CqYsRgq+lgFYgHl/MC?=
- =?us-ascii?Q?XhtHQOOwosIbVUeqVBLqW7WY4dhQzkfnD3oKDnWS8UNSU7P6NE7csts1roqm?=
- =?us-ascii?Q?cwfCaguCX9ky4q5Vmq1nvNR49bPEfeO14KCv08n0/TGWf3SgNVQm+jvIrO72?=
- =?us-ascii?Q?l0ry2ZVaIJhpJtkwS6Mz4dCchmJq80SlX1x6k9dwK8/ojdWJmNMXofvuLUDC?=
- =?us-ascii?Q?aydCDmVSal2VKz4C3hWRuUnGuGEIbqj0lpnSr3UyFou9GNxpg76Ghv1gH2wG?=
- =?us-ascii?Q?Cq31PW8EfXdtNBNvh8NB8A4fk1gzCEzu7/HxlqdYG4eT/mDCA59Yvi6z7aHq?=
- =?us-ascii?Q?9VvX53yqqG1rwPmdot49PgNfjS8KIdh8h8Y8fMmQ99WvWfVoa0BE791bvRip?=
- =?us-ascii?Q?iFJaBEa+yYEn5uCnfV0uXVDNrd/FnYaqBEBiGjtxdlV6NRTGvvH3lhISs4cD?=
- =?us-ascii?Q?pkCYlUo1S6rmoBUNu0GUZdWMfVemPowbfDSp6Ek777P6jfkyLWKtGtP9El0p?=
- =?us-ascii?Q?9Ghr+8TeF4ys/ILqWWMYXAnyMkRKaa2R+HzDia5nyC603B4UnX+9qkBcGfqS?=
- =?us-ascii?Q?KJCfdec5Bt1Eb44J33SLn7MJ8cYUqoSK7n9vCOnznTI7bqdM3VkPFoVwQRwj?=
- =?us-ascii?Q?b/fF7s4jePi+DBbVhWEgeJvi1XzngYhHJqpwFNUrpGp3IaC0g43/7p8064ZW?=
- =?us-ascii?Q?f4i7tmukWnPoQnaGAg/RfmYYuuJzXINCh6wMSsWz221+nQwNIX1JeervuiKF?=
- =?us-ascii?Q?q6SqRaPYePYZhToevnWWbbFBruSKi1cGVMvNACGEgRdLxUXPnmVvjVHdKyBx?=
- =?us-ascii?Q?5euAeZDvxxCg2LmKfL4PNJ+TJ2Qrl4I=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12607daf-5c35-4ee7-4d86-08dec1bfabd8
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 22:30:10.0343
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EyC61S6I4F1H/JUrqLmYIDVpFK/SlSm13DNt6xUltouV4dvhcRjKpd8NRDA+hLX49R6tOu3NrKhHMj8PEAtVUobxHahqkGQLa4wogB/tn+T5ZY2VVwdW9b3Hw9vVFBbs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB7280
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJBx78LZ3iBq1UabAA--.33017S4
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAQEICGofwl8ZYAAAsR
+X-Coremail-Antispam: 1Uk129KBj93XoWxXFyfZF13ZF1kZF1kKw4UGFX_yoWrWr1fpr
+	sxCaySgrWYgF1akFZxJrWkAF15uryftasrGF47Gw4xG3sIy34Fvwn5KF1ayF4xCFyDCryU
+	Xa95KFW8CF45WFcCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUBIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r126r13M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+	tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
+	AKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
+	6r1j6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
+	jxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
+	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
+	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8EoGPUUUUU==
 
+The Loongson-2K0300 I2S interface differs significantly from the
+Loongson-2K1000. Although both utilize external DMA controllers, the
+Loongson-2K0300 does not require additional registers for routing
+configuration.
 
-Hi Herve
+Due to hardware design flaw, an extra controller reset sequence is
+required during probe.
 
-> > Because it is confusable during debugging ASoC FW update, tidyup
-> > auto format style not to use array if single pattern case.
-> > 
-> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > ---
-(snip)
-> Just a typo in the commit title:
-> s/pattarn/pattern/
-
-Oops, thank you for pointing it.
-Will fix in v2
-
-Thank you for your help !!
-
-Best regards
+Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
 ---
-Kuninori Morimoto
+ sound/soc/loongson/loongson_i2s_plat.c | 42 +++++++++++++++++++++-----
+ 1 file changed, 35 insertions(+), 7 deletions(-)
+
+diff --git a/sound/soc/loongson/loongson_i2s_plat.c b/sound/soc/loongson/loongson_i2s_plat.c
+index ac054b6ce632..b4d807ee7f8f 100644
+--- a/sound/soc/loongson/loongson_i2s_plat.c
++++ b/sound/soc/loongson/loongson_i2s_plat.c
+@@ -2,7 +2,7 @@
+ //
+ // Loongson I2S controller master mode dirver(platform device)
+ //
+-// Copyright (C) 2023-2024 Loongson Technology Corporation Limited
++// Copyright (C) 2023-2026 Loongson Technology Corporation Limited
+ //
+ // Author: Yingkun Meng <mengyingkun@loongson.cn>
+ //         Binbin Zhou <zhoubinbin@loongson.cn>
+@@ -21,6 +21,7 @@
+ #include "loongson_i2s.h"
+ #include "loongson_dma.h"
+ 
++/* Loongson-2K1000 APBDMA routing */
+ #define LOONGSON_I2S_RX_DMA_OFFSET	21
+ #define LOONGSON_I2S_TX_DMA_OFFSET	18
+ 
+@@ -30,6 +31,11 @@
+ #define LOONGSON_DMA3_CONF	0x3
+ #define LOONGSON_DMA4_CONF	0x4
+ 
++struct loongson_i2s_plat_config {
++	int rev_id;
++	int (*i2s_dma_config)(struct platform_device *pdev);
++};
++
+ static int loongson_i2s_apbdma_config(struct platform_device *pdev)
+ {
+ 	int val;
+@@ -47,8 +53,18 @@ static int loongson_i2s_apbdma_config(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static struct loongson_i2s_plat_config ls2k1000_i2s_plat_config = {
++	.rev_id = 0,
++	.i2s_dma_config = loongson_i2s_apbdma_config,
++};
++
++static struct loongson_i2s_plat_config ls2k0300_i2s_plat_config = {
++	.rev_id = 1,
++};
++
+ static int loongson_i2s_plat_probe(struct platform_device *pdev)
+ {
++	const struct loongson_i2s_plat_config *plat_config;
+ 	struct device *dev = &pdev->dev;
+ 	struct loongson_i2s *i2s;
+ 	struct resource *res;
+@@ -59,12 +75,17 @@ static int loongson_i2s_plat_probe(struct platform_device *pdev)
+ 	if (!i2s)
+ 		return -ENOMEM;
+ 
+-	ret = loongson_i2s_apbdma_config(pdev);
+-	if (ret)
+-		return ret;
++	plat_config = device_get_match_data(dev);
++	if (!plat_config)
++		return -EINVAL;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	i2s->reg_base = devm_ioremap_resource(&pdev->dev, res);
++	if (plat_config->i2s_dma_config) {
++		ret = plat_config->i2s_dma_config(pdev);
++		if (ret)
++			return ret;
++	}
++
++	i2s->reg_base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+ 	if (IS_ERR(i2s->reg_base))
+ 		return dev_err_probe(dev, PTR_ERR(i2s->reg_base),
+ 				     "devm_ioremap_resource failed\n");
+@@ -87,11 +108,17 @@ static int loongson_i2s_plat_probe(struct platform_device *pdev)
+ 	if (IS_ERR(i2s_clk))
+ 		return dev_err_probe(dev, PTR_ERR(i2s_clk), "clock property invalid\n");
+ 	i2s->clk_rate = clk_get_rate(i2s_clk);
++	i2s->rev_id = plat_config->rev_id;
+ 
+ 	dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
+ 	dev_set_name(dev, LS_I2S_DRVNAME);
+ 	dev_set_drvdata(dev, i2s);
+ 
++	if (i2s->rev_id == 1) {
++		regmap_update_bits(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_RESET, I2S_CTRL_RESET);
++		fsleep(200);
++	}
++
+ 	ret = devm_snd_soc_register_component(dev, &loongson_i2s_edma_component,
+ 					      &loongson_i2s_dai, 1);
+ 	if (ret)
+@@ -102,7 +129,8 @@ static int loongson_i2s_plat_probe(struct platform_device *pdev)
+ }
+ 
+ static const struct of_device_id loongson_i2s_ids[] = {
+-	{ .compatible = "loongson,ls2k1000-i2s" },
++	{ .compatible = "loongson,ls2k0300-i2s", .data = &ls2k0300_i2s_plat_config },
++	{ .compatible = "loongson,ls2k1000-i2s", .data = &ls2k1000_i2s_plat_config },
+ 	{ /* sentinel */ },
+ };
+ MODULE_DEVICE_TABLE(of, loongson_i2s_ids);
+-- 
+2.52.0
+
