@@ -1,44 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A61F35C19D;
-	Mon,  8 Jun 2026 13:54:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58F53C3428
+	for <linux-sound@vger.kernel.org>; Mon,  8 Jun 2026 13:54:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780926881; cv=none; b=a8EZB2xBeyLrZ/yOIkooFQGHY/03hbUNuBaFRhuKF5zUf8l/ILd0+WS6Y1SjHu9Glqr5Sc3nrCOkjMk+kiU5Auq6sLA1sRs09LwvGzVgm8phwzy/WA7jCEfGmz1lPjZ+f0i0a0ITn9zSfi73J+ZxpWfOwaOVWWBV2ZBoGm+d9Ps=
+	t=1780926884; cv=none; b=Xkye5qUQUO8Z1pmuI8TKt108E61X71c7NkLVliFqHwpehv5BVGOLYSKbMYUKISUhvrJq31u1VWl33rHD6C/J2QVb9MtiUnls4ERP42V5SMoEmzkZrLlXLvtGy1QGvwKRe1ooHyKHK4y16RDjcUNdnE7CFVX5ZyUk4ityvlzgKOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780926881; c=relaxed/simple;
-	bh=L9staRYHSkW9jzdbzui2ZA4DQDKVLZCgSBnee2Cwo0U=;
+	s=arc-20240116; t=1780926884; c=relaxed/simple;
+	bh=ilFxC0H6O6u611nSKHK6oBMJMWs5ipeUicuMUc1Ms7Q=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bBREjYb6ul7TqRa+ZmZrchrMmBBXUsC11SaXX47tR/oZUxlqAu2IRRvFOgHNuIVsXxSSH3ldTF4YfQ2tHSRGjU+IHTojNISHljAoZ4gtrckc3DCBwEqozyUf6X6ui2nKEbl+LnliKww8u+y/Hb373seMgxPtRhr79IQ4FRfAr7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=blYCQWsY; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=GfDa9VMNcPFo7EFPeMZsAwoOV54bq6GpXr72JIY1ItKzZIq5+1QKOgb5tNpapi9VI24Br2+daOlYdmJeWC9bPMc4wtbPncsxq0a3v12YK4k+rxThLgXAF9wE9XMF6o4ESDy1Cd57xFD0+3hTM8LrMhRUlOBroR7Gfj5ymJ2a0Cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IlxrnW+C; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="blYCQWsY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 835DB1F00893;
-	Mon,  8 Jun 2026 13:54:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IlxrnW+C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FA821F00893;
+	Mon,  8 Jun 2026 13:54:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780926879;
-	bh=3cQphqP9JS/kBWYtn7n6EIUZyWsbWxZdu3/deJXfVnc=;
+	s=k20260515; t=1780926883;
+	bh=4PPooc47SIssOsjr6WACf48tzTHmuEGMUIVbnC1Md0Q=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=blYCQWsY6mRdKMRmfbNvNIfVMIUbnOOKlnDJDm0Cfx1PMTkJCHKLOqq798x4lLhaG
-	 nnqoKoMZRvQ8tgMrW97lozd2Ivp8eX7KtszU5r/GoFEm/pa8yTBItAJAGUP4W4TZmJ
-	 li8wRFiTZF5PRcEE8XoR3TNCmS4woQPHjZ1QycSMadYdvmgocY6U6Y5ri6si98sN1K
-	 crTQ/6FyOWuX8LQydjhuLMl+FA2a4/v3C/x/bmty0Jy+CXDCjXCkKt+IR0wq5aArr7
-	 rUa3wfgNKr4blsATIKTwsK1svPcqM3Ve8XM6MEtWcDJGj/vm9ZpHlp6oRBRxpFQv9P
-	 JlPj5G0JSaPrQ==
+	b=IlxrnW+C5YcgwlKbYNcFe9m6H74VC+rTgM7x6B2uh/TBqD3A3gtmmbOxy1QK8VYZF
+	 5vlUCAqgkaZUfOS/yD1gdirKyVXCAnjB+ZY3mOBTns7FNmJYivj74GMS9gBIrzGJSN
+	 WrMjdOX0Elw7nbaTLGieq8W+F8LRfago0Q1eS9ExMeJnvzAxojxHTBxFboGkKHt7Ck
+	 Np+tfDyS265ajaLGDMgLiGOzfcSkf7QiId5steaSiziL8BwgLl63Hjz2Ek8I6IXxMe
+	 SK2fdyq0By1532JyrqVhePqTw8FkFk+o0zCru4fHB8lggijpOJcwCvRz+YdQLrPPA2
+	 RaRYE+wGmuw7g==
 From: Mark Brown <broonie@kernel.org>
-To: Max Filippov <jcmvbkbc@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260421085635.4490-1-chaitanya.msabnis@gmail.com>
-References: <20260421085635.4490-1-chaitanya.msabnis@gmail.com>
-Subject: Re: [PATCH v3] ASoC: dt-bindings: cdns,xtfpga-i2s: Convert to
- dt-schema
-Message-Id: <178092409502.121051.15910146751063527340.b4-ty@b4>
-Date: Mon, 08 Jun 2026 14:08:15 +0100
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, 
+ linux-sound@vger.kernel.org, andriy.shevchenko@linux.intel.com
+In-Reply-To: <20260603085827.1964796-1-cezary.rojewski@intel.com>
+References: <20260603085827.1964796-1-cezary.rojewski@intel.com>
+Subject: Re: [PATCH v3 0/7] ASoC: Intel: catpt: Code cleanup
+Message-Id: <178058884333.53724.12410643514620540112.b4-ty@b4>
+Date: Thu, 04 Jun 2026 17:00:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,20 +44,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1134; i=broonie@kernel.org;
- h=from:subject:message-id; bh=L9staRYHSkW9jzdbzui2ZA4DQDKVLZCgSBnee2Cwo0U=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqJsmcLz6My2x/yt9Lz3w8SN4Ioq5Q4f7+/bViZ
- dU2QBcHQZqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaibJnAAKCRAk1otyXVSH
- 0KnpB/9WDQUdR8LaWnQBOb25ntRzTH6+T9k9U3bRMbmLHOLATMB4fALQn19l9j8ryU+7iJLWrxm
- i/IZs1GL3OoM60bm4/V/1fKwbTM5STjOcLBM+itIaHpvYZpxqgKEqCuCgRpTQMTRuPzla85aaGg
- qqXm+hvILFfoiZpU42Hmef5EGwmN0TCEmgRhWvlTYG5A34SAl51OkWsWoyEAsMZDpT6cSp7m0vH
- yjltYBclSjRl8jGX1P5MSueVp6UH/qJ/w6w9luCGHn91xnj53UwPM2lGZVor8q7TC/TvkYMfJDI
- iRW/pguPzcnf1TK3/poLM+d867M5K3n82umOB6TAs4lG3RI6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2331; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ilFxC0H6O6u611nSKHK6oBMJMWs5ipeUicuMUc1Ms7Q=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqJsmhPdu2AH+EV5GlziQFh0df0Q9zbcFirX4Ix
+ MJU8Vdr7JGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaibJoQAKCRAk1otyXVSH
+ 0CqhB/9upk4tJMuwlcnRL8lfU3mOAW0+YypD7wJ0IsVun7kQroR6ZOZrgC0W/31JIJ19WcO7slD
+ r4bAcM+7XAFCPZRBptbSs2MxdhpjTq8Hs10jJoUtO3pQwhtUARKQOACowaNitv/Le2plzOqzapB
+ cZdzuTVDTrLK1m9KYhtI51E/qJAjakOHP5+pxAll0UEUQ/N0fN/eZLyNLMZH+rs7/6T1anig/d7
+ QHmKwOwsptLiFr2T8TfKVHR9y+ErlSKwEYZrtSEwsf4Mfj5naMjuk4WhgcwFQ50dXpt4I+wjz3T
+ W+n9lGE2wIjojxfiBOVbkt3jsnF3wM/Tzb3tYDOvnjQblfC/
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 21 Apr 2026 14:26:34 +0530, Chaitanya Sabnis wrote:
-> ASoC: dt-bindings: cdns,xtfpga-i2s: Convert to dt-schema
+On Wed, 03 Jun 2026 10:58:20 +0200, Cezary Rojewski wrote:
+> ASoC: Intel: catpt: Code cleanup
+> 
+> All of the changes found here are cleanups and from functional
+> perspective, have no impact - either unused code is being removed or
+> existing code is altered to use helpers/macros to improve readability.
+> 
+> Collateral of recent fixes [1].  There is one more patchset with similar
+> goal following this one.  Before the team managed to actually fix the
+> problem, a number of changes were added to make the code easier to
+> understand for people who are not the author (me).
+> 
+> [...]
 
 Applied to
 
@@ -69,8 +76,20 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: cdns,xtfpga-i2s: Convert to dt-schema
-      https://git.kernel.org/broonie/sound/c/f88580407f99
+[1/7] ASoC: Intel: catpt: Utilize lock-guard helper
+      https://git.kernel.org/broonie/sound/c/36685d0b05d9
+[2/7] ASoC: Intel: catpt: Replace RAM-helpers with resource_xxx()
+      https://git.kernel.org/broonie/sound/c/a88cd88eee75
+[3/7] ASoC: Intel: catpt: Simplify the RAM-navigation code
+      https://git.kernel.org/broonie/sound/c/fa55ad6079b0
+[4/7] ASoC: Intel: catpt: Simplify catpt_stream_find()
+      https://git.kernel.org/broonie/sound/c/f40e7873cd85
+[5/7] ASoC: Intel: catpt: Remove unused WAVES controls
+      https://git.kernel.org/broonie/sound/c/89f7afd3e26e
+[6/7] ASoC: Intel: catpt: Drop manipulation of the obsolete direction flag
+      https://git.kernel.org/broonie/sound/c/f95ac7d0c7bd
+[7/7] ASoC: Intel: catpt: Cleanup components_kcontrols[]
+      https://git.kernel.org/broonie/sound/c/06152e336861
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
