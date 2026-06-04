@@ -1,128 +1,89 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0903E2751
-	for <linux-sound@vger.kernel.org>; Thu,  4 Jun 2026 14:26:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78D12FF164;
+	Thu,  4 Jun 2026 14:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780583198; cv=none; b=NAIgDmMeVqRlBQySKvVWB4IAqOfwTn04rqJz+Zcd3hr2geIkYACzuu8uOx/JyopH+qjkP9q4O721MBrcSymIwS4k6I/4lqOnS/NdOTiSajHp2kULtNV0REYhhybB1Fj2GmeM+XSWk3tE9VTt83vz1S+EvMhbbCm7oWDaWGiCvuk=
+	t=1780585005; cv=none; b=DTGx3fjrMy4Gfq1aUJbxZDBBsn/GvE/5Y03KzpLRTdV3M/UU7YsF3IeAZ6fkwOGynVDvedSwto4IRuZFyNneyqpQsmFIzyukt+XmLmUj1BWKbxOi34SwY4/U1H7XrAxaup/9T+JXMV0af2obmNzbODna9DOjfg8BD1QijrTVye4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780583198; c=relaxed/simple;
-	bh=AgmutPCKALZwQde9yisOX8+mpmlApNI/EPjNcFnSWRg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eZ+0MFm/GJnJm5+Huf50m8MbJmOTgkoM5oV8PBkrDyJ5gYDgO96Zd6Z5PGF+klixuidiT3dMPRc1v905xIpdzWsn7CwNtbQwmWiyJtrSWzCwxch7YrcwgeAAzOO0q0SS5uQXGRUBuNsXSi6Kkcs2nhwwtyD0E5v341pfVdOiJSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WugFq4aj; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780585005; c=relaxed/simple;
+	bh=gYJdOT+kztrpuCapCf5xchFjzoYlxpQe7ajZ9/2wQBo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BBsQ8jej1pkZYyCrrPgLCY50k0rd33bZYimIewqI0fIULWOUkqsngGepajfvKLFuIku/Lu18iNFr+lTtV2CAsV20Gnza49nqF5dUSnxkI5biHhq+WqeF/5UdVtJ56c5xwTFv/FpqALd0xPo+jqyLmrXpCSbIXaNIS+02fy2FTsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=emuzeQcK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WugFq4aj"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-517773db4c0so920591cf.2
-        for <linux-sound@vger.kernel.org>; Thu, 04 Jun 2026 07:26:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780583195; x=1781187995; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xvx++o1RWsd4KoVE4D0F/L+3FCt/xFBAfKUh8QKbiJw=;
-        b=WugFq4aj4oxnHaZFqbFMEP5weiblx90YRxUgrSxEaKAo7tKbgUJPSH4nlObgW50Htn
-         g3s2uGz9+WQlgZKYBlT5513qJ0slC3kAhXm9XAIRRy9lADJD9uuVZrsDzRz935zeUvpX
-         ItXQGSBbZpuw8JtjKQj8/b0qV3iI8uEKXEoRJHZiLQYXwMPaoJZi7bdrd+sxsk9suTdx
-         dOCJ9nL6eZlCuhU8gItkbmIH1jETCpOZhIMzYZ7/h0UGMnkBVurLTYOCjQysCVQSvwzw
-         zl0sMmu5NyAaa3YdOMj1+49m33QoHoqhQeJxQi76x3Q2Kl//n8AumZlWm0F4FWYBJoGy
-         NNHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780583195; x=1781187995;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xvx++o1RWsd4KoVE4D0F/L+3FCt/xFBAfKUh8QKbiJw=;
-        b=n5Jyb+Ml5oTnhg5AiWvBe8SegoWmvERWCz8Q8y6dMHHZUYz9UdIftLBDoP0+655KNH
-         XoVgXE8ksk3XJcn9wolunhVhQDYNBidYqr/erZuy2Z/6u7G7qAOotFkiIhAuPxVm/oKM
-         ZM+Yj0+IUj3OduB2PunuIGuLSlXNyr7dbuhcLEaP7bJp52L1WqSkpCINtDKeqjUm5LFb
-         d0slBe8FQnW6UgOz8JiaNwjiTQpw3oPKhnx+zMr/SIMbSRHBnC0IyYmzw49aGOePglH6
-         QJ+N+wY9jS00IFCnXBUMy3txa1v0zdKJZe9kVz+9cKRmVHiLAFZ4HJTJxTJlnj9HK8BX
-         nyTQ==
-X-Gm-Message-State: AOJu0YxkbEo4ccjGTOcsTAAtKNlrh7b1z7NGUIZ0DeGQeuKP07nuMI13
-	EOcRe7RIK6aCGwt4FM9bNCGp6yxb9RbsOWJZwd9j9v/1DbiiYgiD4pSV5PTcWPeJ/mo=
-X-Gm-Gg: Acq92OFNzKzLd7YBLOF7fIWJG0Ct84IjqBTM5Q7DjgkCXI+GlVRx+BHQl8PpKYr4o0o
-	31c3r1zdJUldLMCZ37A+qiC3MJgHNVYEDisq4IuUxrtWB9OFDFDI1MnKrGFvgIyHoHXkHPAg2bU
-	ed2TZUQXS2y4mbupi/FS7HyU/riFGoUBqx/SZoCKMLajEXdiN8RkoFgbCSXQCNHRIxbDYV/as19
-	NArLcfW5iWYXhtpwTtTpFyGdXCL0EmuZMyFCspZVJzAvG+TNitKaQnA+7vCESXESsRZBB9ehX4e
-	yui8pZ7LWrvbUCAwy7aTyfuWQuy41lzeis81zswzwmjcffhHfw9i1CZJ0sgo4x/MdsPAYEVcDaT
-	N9iNay5p0qh9RxC3k76d3hVDrsBdc9QvvFs01ex7zMoI+ZHLQL52qYgq/bGfBKm1zreZpxLwH+T
-	E4g14nnI6KHdfVL7uGjEDMIfBBJTza35kbbnyNBHJn1pISlEFNQ/KY9usf/IHyQ6g3GWDLyx6jL
-	BLrG2oJEpx1XWRLHqL0thomNi2aPWr5FnIRSi7gVSs=
-X-Received: by 2002:a05:622a:28b:b0:517:6a56:accf with SMTP id d75a77b69052e-51789ef64e8mr22716911cf.1.1780583194864;
-        Thu, 04 Jun 2026 07:26:34 -0700 (PDT)
-Received: from localhost.localdomain ([47.246.98.82])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51775dd2e53sm52509581cf.24.2026.06.04.07.26.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 07:26:34 -0700 (PDT)
-From: Ji'an Zhou <eilaimemedsnaimel@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	tiwai@suse.de,
-	Ji'an Zhou <eilaimemedsnaimel@gmail.com>
-Subject: [PATCH] ALSA: PCM: Fix wait queue list corruption in snd_pcm_drain() on linked streams
-Date: Thu,  4 Jun 2026 14:25:59 +0000
-Message-ID: <20260604142559.3840881-1-eilaimemedsnaimel@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="emuzeQcK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3EB31F00893;
+	Thu,  4 Jun 2026 14:56:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780585004;
+	bh=OC5ga9Pq3Yc77qTP1yNBGCZX4v5ojWcN6A8ss/R+9jk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=emuzeQcKdvRxAb2ozoL3pZM02/NmEm1QVBWEbKysWMl1RJoqmITEtQp/3ufMhN8GB
+	 Hiv9kh8a3pbZ2wigznzxI2v9LVMfe+xtz7wxtYRGQ1DXLYr4y0qJbfGjOwoIXAQ/JN
+	 W7jnzaLNbXVbR9lMApgY4t1x+tr19DhHH4QBsOrAvIjifQDnHdof7GEi5AUHqcaKuW
+	 xD9Ah7R5ir9MNLw83dvrsoiz9qMVg4juXwDY/kVIvMc9QpEnS/z/eacAQmb1kJkCWo
+	 umOGkVR9rpYeLaZpB2D04/sdOON3ZowJrBj/UI173b5uiBAX4wa9ReXIOts4tey6ko
+	 kZ2Io2hzlOxeQ==
+Date: Thu, 4 Jun 2026 15:56:39 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 7/7] ASoC: loongson: Add headphone jack detection and
+ DAPM routing
+Message-ID: <bae028cd-c77b-4238-8b62-330a1c3c46ed@sirena.org.uk>
+References: <cover.1780538113.git.zhoubinbin@loongson.cn>
+ <2736a44ee11bcc0bbf282c69e99cb05b12469207.1780538113.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="1fBcZ10phzTz2633"
+Content-Disposition: inline
+In-Reply-To: <2736a44ee11bcc0bbf282c69e99cb05b12469207.1780538113.git.zhoubinbin@loongson.cn>
+X-Cookie: Q:	Are we not men?
 
-snd_pcm_drain() uses init_waitqueue_entry which does not clear
-entry.prev/next, and add_wait_queue with a conditional
-remove_wait_queue that is skipped when to_check is no longer
-in the group after concurrent UNLINK.  The orphaned wait entry
-remains on the unlinked substream sleep queue.  On the next
-drain iteration, add_wait_queue adds the entry to a new queue
-while still linked on the old one, corrupting both lists.  A
-subsequent wake_up dereferences NULL at the func pointer
-(mapped from the spinlock at offset 0 of the misinterpreted
-wait_queue_head_t), causing a kernel panic.
 
-Replace init_waitqueue_entry/add_wait_queue/conditional
-remove_wait_queue with init_wait_entry/prepare_to_wait/
-finish_wait.  init_wait_entry clears prev/next via
-INIT_LIST_HEAD on each iteration and sets
-autoremove_wake_function which auto-removes the entry on
-wake-up.  finish_wait safely handles both the already-removed
-and still-queued cases.
+--1fBcZ10phzTz2633
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes: 9b1dbd69ba6f ("ALSA: pcm: fix use-after-free on linked stream runtime in snd_pcm_drain")
-Signed-off-by: Ji'an Zhou <eilaimemedsnaimel@gmail.com>
----
- sound/core/pcm_native.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+On Thu, Jun 04, 2026 at 10:11:47AM +0800, Binbin Zhou wrote:
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index a541bb235cfa..302643c1c192 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -2199,9 +2199,8 @@ static int snd_pcm_drain(struct snd_pcm_substream *substream,
- 		drain_no_period_wakeup = to_check->no_period_wakeup;
- 		drain_rate = to_check->rate;
- 		drain_bufsz = to_check->buffer_size;
--		init_waitqueue_entry(&wait, current);
--		set_current_state(TASK_INTERRUPTIBLE);
--		add_wait_queue(&to_check->sleep, &wait);
-+		init_wait_entry(&wait, 0);
-+		prepare_to_wait(&to_check->sleep, &wait, TASK_INTERRUPTIBLE);
- 		snd_pcm_stream_unlock_irq(substream);
- 		if (drain_no_period_wakeup)
- 			tout = MAX_SCHEDULE_TIMEOUT;
-@@ -2219,7 +2218,7 @@ static int snd_pcm_drain(struct snd_pcm_substream *substream,
- 		group = snd_pcm_stream_group_ref(substream);
- 		snd_pcm_group_for_each_entry(s, substream) {
- 			if (s->runtime == to_check) {
--				remove_wait_queue(&to_check->sleep, &wait);
-+				finish_wait(&to_check->sleep, &wait);
- 				break;
- 			}
- 		}
--- 
-2.43.0
+> +	ret = snd_soc_of_parse_audio_routing(card, "audio-routing");
+> +	if (ret)
+> +		dev_warn(dev, "Unable to parse routing\n");
 
+The routing is optional in the schema but the helper will return an
+error if it's missing AFAICT (the of_property_count_strings() won't find
+the property).  I'm wondering if it makes more sense to have the check
+for a missing property here or in the helper...
+
+--1fBcZ10phzTz2633
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmohkiYACgkQJNaLcl1U
+h9Av+wf/dNDmuZb5aUnt96DNgVi/4GoHeiWCbVjokcZTYgHJC4cfLo5m+ans9tDB
+WZYiRwYofUevktF714YEHaxM8FR5bInrISPa44WNu8AZrct6XdnptoDJIGd67wWm
+a+zgHzQNNfyXTT2QIZJuKFLQ5ruMyfrIbQfU6NS0R8W4JOR+uxTrOlIsCZtCH6mV
+/BJCl192+gkZz4mWs3tDjzAewUPIdUHUwDA7ngF8o1Uxv9ai5mK6+k1vsklSLVHN
+djlZp66zw84iIk253/ftUQk/FnsvnCqFdlHmbQXyNcoo6xxIGJWc1sOQUTLlEgXV
+n2INFGQESYLK3PIkN4gjjiSrRn0opQ==
+=gWCa
+-----END PGP SIGNATURE-----
+
+--1fBcZ10phzTz2633--
