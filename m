@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6AE2749DC;
-	Thu,  4 Jun 2026 13:17:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF08478E2B;
+	Thu,  4 Jun 2026 13:17:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780579073; cv=none; b=rpGOSu6dKpGT3lHegbmT3KMHqcnNLRfzeBv6R4KWk3GvyZ+vTGLFdTlOYdajSSncZREZzMRa2dhd+36G4jEY0C8GU7qZFWmQwarGMAr/Hh3wPI8x90bIL7NzXnv2GaezOip+/Rfs7G1oCFDVhWTNt+G7mUwcZD0jXrSwN/3HBxY=
+	t=1780579081; cv=none; b=p5/DLUF/D32C+5yldmdcKQK5fkf82R078BFvjd1MsD95P0LDDUWwKonpZQDRiCNAHMly3ZycX9xHF8bFoSPu++u40HJhrYgMDc29K2wjZQpBXck89f2XlTpxFUFDUovRmR9y4v6aiIr550BojUafTUMFvhuhstr+Lrr2q+AyMW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780579073; c=relaxed/simple;
-	bh=OxNdjiclvt3XWr9lGJv8pywSMILXl1KuxQxrcQ/M3s4=;
+	s=arc-20240116; t=1780579081; c=relaxed/simple;
+	bh=bOEeXt7ZVX5SVa4qNwux/LXra/9PC00oPs68mshBqZ0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=rBG6ATyt9Cm6VnZNWISnwFiellPzfRrDbUHnlqDBfQ/EaJJG/adt4GbibJJN9laC5FEzNT83aL9xR+g61SeR+UM1Ei4Y/OVY7Wut8ZLHzrTkPo3WSPGcEwsF9f4aZ2HTKZWWjmlVM2NzdZfVXcNyio4TL45n0TjVMewGXhyt+Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n0WGt6dt; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=YEWdCgvZLfyiuelgp5uzqtzWnXOJdHwwp4yjiIexGOXML4DpjZmkQaa99mQE01VcBFz82B5Mk++yhtOd/S+70uLDNZWsg2xiixXYuHpjaXnYT/fjR0TJox4LvRHjEfCBugiIcJ+RlHj6p+l5xTtiK9a+BbInS+3p5Ao+HrKIfC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GEZd8S4s; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n0WGt6dt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A18A41F00893;
-	Thu,  4 Jun 2026 13:17:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GEZd8S4s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FA601F00893;
+	Thu,  4 Jun 2026 13:17:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780579071;
-	bh=/5uXpRyUrLn5meNm86Lfod8o8MpRd+piC/cq/gzPePY=;
+	s=k20260515; t=1780579079;
+	bh=aAIuoY86etK9Irh/9l3Vr/YxhGmCvib8UOQvhQd+kYw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=n0WGt6dt1Aqe35I11bb8enolwaDGwbGLDhIumRd3Lo0Z1MO2t/DbqRW5rOMh9nEbo
-	 Hc6eUodQYJQ9ooe5XOpwKJJufujPBahJkw2grthcQ7KtHADU2pyPuXzyi7gNKmCk+O
-	 CfFTDq+3n4rcfkDma77nRJpm/2fKj/9fmZcZegwaRw1vuJU3OGgZo6eVcvSVmx/x+8
-	 7aytA9dEjUNr8EG9fn63hz+0tlK4vE0bRGREnB839IKOHGwh2WG/WKQ5RTn2GbqRoI
-	 fX7jLNEE059aLHHEIHs0xWBnK/Zr4pa75eIjBTfy/oiGaUhQ9pH0B3ap7bpHfgK78i
-	 vqAJHEDTgqnlA==
+	b=GEZd8S4s/k5Uoiu2kPdcfHb7FuaqRiqTdcclWFdKJ4w5r2VdSD/3xKe0CRoW/9eg5
+	 /azA+xMQ0KBdMF6QNxVoWgA8h8AmbjbQSFRR22ucb4vSnlbh5uHOMp0gPTrB4Clqkc
+	 UusLUSviFLna+OrYQt4fYFG0tiQ9e1oskbuhdPw10my0NnlFKj9bYTEzor13TgCUCr
+	 MjyQG+MYAExcd46ueszrz0w80YiSRuxnOslnKw/Adef/Czao27/1JwMsdrXPwTAk52
+	 +YalSFg7g7Hgx5Xvmnzg9h6jXedgkkiBdoP/CL+91NezwsvXmHQIeTBI3pGYPnuHp3
+	 +7HwH0zwvbbtg==
 From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- chancel.liu@oss.nxp.com
-Cc: linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-sound@vger.kernel.org, stable@vger.kernel.org
-In-Reply-To: <20260601083327.1535185-1-chancel.liu@oss.nxp.com>
-References: <20260601083327.1535185-1-chancel.liu@oss.nxp.com>
-Subject: Re: [PATCH v3] ASoC: fsl_sai: Fix 32 slots TDM broken by integer
- shift UB in xMR write
-Message-Id: <178056822812.53724.11372449372244956668.b4-ty@b4>
-Date: Thu, 04 Jun 2026 11:17:08 +0100
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Aleksander Pshenitsyn <brains.fatman@gmail.com>
+Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260531101159.14241-1-brains.fatman@gmail.com>
+References: <20260531101159.14241-1-brains.fatman@gmail.com>
+Subject: Re: [PATCH] ASoC: amd: acp70: add standalone RT721 SoundWire
+ machine
+Message-Id: <178056931723.53724.12006967972521092404.b4-ty@b4>
+Date: Thu, 04 Jun 2026 11:35:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,20 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1171; i=broonie@kernel.org;
- h=from:subject:message-id; bh=OxNdjiclvt3XWr9lGJv8pywSMILXl1KuxQxrcQ/M3s4=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqIXr8KlHbpsbVkedXxSZs+2KCwbVlZw6puS5EM
- BwWP/BGFayJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiF6/AAKCRAk1otyXVSH
- 0L9zB/4/n0blZE1Z6+elV9oWF+udM4vqfGkMnWJ6r7KgA0pJQPK/xU0RuvGhc1HYtvCCLOWA5MB
- AyyPQV9u21xbPrmhusis2cGWvbNNU82MbW0cTYzeKGKVUG1a7kc2/3uP676Jxf/F91WR4+W6LnA
- W//1xv7sGbhK8AUYGsi8ZKuDhnfxSBl0U/R/cyonOkX/16sUvPoiwMdX3SPa9tJStkeDuOQB1zh
- Q3SGed42moVgdD4NH5sRQbrtDB+7HqsQcz3NXnX9EMFEBNJQ8rXZWSl7d+F3++zVHMHGwg8HEn1
- 1OaWzdR6UbDB5ukkqiDb4EpgKakSvtIWAlnYnZD6RLVxtgkP
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1139; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=bOEeXt7ZVX5SVa4qNwux/LXra/9PC00oPs68mshBqZ0=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqIXsFOWeClJmY233sllEq6oiaaHxJxPqUDuo+S
+ SSuWmhWlEaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiF7BQAKCRAk1otyXVSH
+ 0HztB/4zmvY4nT8DLBkuftfKJjzndL1/+C/34a2h9eoTq7jl1M0XO9iFrbQ702sD21T1dm6krmE
+ 5KOSeMpfie+Qidh+KBmA5bpV0jYF4NO+drDP0OxZ0xNB7mqQNPzdEqUoBCwaeZUWX/1qpCrO9mS
+ PimCyO0kfhcNzR0XJviFnhsUlirXxKkTh4LlCYZEmsEUH7kMIbJ1B15WUbs5iihF1shd+vhAZag
+ 1AUKzcCQ61PPS2o0RPzKgewhXyHhVg8OBXSJzHmGmDfIJb4x2GTVd6rcGuX5yHbglrrmgot0z4I
+ Qn+cAEDU95/I7/UQIWTdTWKJn34MaJhD1jT94WQi4mNEn5Ac
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 01 Jun 2026 17:33:27 +0900, chancel.liu@oss.nxp.com wrote:
-> ASoC: fsl_sai: Fix 32 slots TDM broken by integer shift UB in xMR write
+On Sun, 31 May 2026 13:11:59 +0300, Aleksander Pshenitsyn wrote:
+> ASoC: amd: acp70: add standalone RT721 SoundWire machine
 
 Applied to
 
@@ -68,8 +69,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: fsl_sai: Fix 32 slots TDM broken by integer shift UB in xMR write
-      https://git.kernel.org/broonie/sound/c/4790af1cc2e8
+[1/1] ASoC: amd: acp70: add standalone RT721 SoundWire machine
+      https://git.kernel.org/broonie/sound/c/d2dcd85f9e09
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
