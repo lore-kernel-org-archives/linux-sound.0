@@ -1,161 +1,118 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762533BBFD2
-	for <linux-sound@vger.kernel.org>; Fri,  5 Jun 2026 06:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C6D7134CF;
+	Fri,  5 Jun 2026 06:37:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780640656; cv=none; b=Bts7ZMECEUpwWrBrEGNn5idjwzqP60ykaSS34c3MXSJUIxDuBPTsVkKBp23ZfddBmw9O/BempC9GFF6W0KAoR6atvD19w9JN0Ly5rFAV6I/rQz5IXo7j/tgBappSYYQVPA15XEFX/PS2wbIyxJV1XBGvoioK9uKgIpsnxOSxaUg=
+	t=1780641468; cv=none; b=bBRUcbdeMFWiZEY1oE1b1J2bIel++PcWhIm4i915nBAZe4mOq8xefk1hdH29VQoMz9NGqR+hwmkYGkFIr5BFJT1QxfpiAU+IxG76IOVLOhj9G4U/etkgs7zYNSLo63WlkmUdGJ3eNv/BIrBmx0+bhpw11M1O10y/SJX2bZLJTfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780640656; c=relaxed/simple;
-	bh=vkMOM58EyJLYtMfYqpTwi1n85BmlllkWhBX0m00qllM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eZW0oeD/EY/fymleJEhjEe/4a3gTzlbOSZXtrWeMmap62Wvkyh41fbeB+jGRFPj70zmO8+btgQLuBNOtUShUWVoyU6HsmTwxmYYxhyMNiHTsY0jwe/dMjhJyo3LhD5OxSXMZdfujap2Uyje2jUyS0Q7BlmIY4NyzCao7cskuVaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ko3pSvEq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xPheEBOe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nKMw7INC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qNciohEW; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1780641468; c=relaxed/simple;
+	bh=2W2Z0yEsfvPID3nJ676bCZmV1HGOlnk9mb1VgflAgHM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a+9GqostZBGP5cGkW2lrZR96QpkQ7R8gV5Ojp1YYAHacsuBTH9hJ9UJNQIJQHFH0BDhLS3v2mlnHRSavijwGkh1sxufDno3v0rz6+qEJZtclOGZpSJZVamn6OM06fI8e9kfm83DLZfjuhEVwAAF2r+OXa72G6bdQ0Li8Jofgf2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=A8S9ZnVm; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ko3pSvEq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xPheEBOe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nKMw7INC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qNciohEW"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D65906AA67;
-	Fri,  5 Jun 2026 06:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780640647; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uW1cFQILsWDDaZTBTxOudOwCTdBxAA67J5HCdw5Ifcg=;
-	b=Ko3pSvEqqIj9Is56Pi8VZcVFyB0sOoRgRLFULkCbWvAa3t1PI9Rh0htu9CCtRt/tGS/D4+
-	C/MvhDUXX/+A0JqgOKXWMi97u1jLnx/qtSJVRxgBoIChQbLlfN4irWhXMicFwSV8eUd7xi
-	aInMy/IXhmI7OwqxM4jWUfrO/cFHl/A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780640647;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uW1cFQILsWDDaZTBTxOudOwCTdBxAA67J5HCdw5Ifcg=;
-	b=xPheEBOeDsUBFlhH7iMoH8HoYFlSlnMhnYG5rTcZSQnqa/dQZRntn9fUKO7Ge52W+7il96
-	bZWZEDKvbJ9aYrDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nKMw7INC;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qNciohEW
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780640646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uW1cFQILsWDDaZTBTxOudOwCTdBxAA67J5HCdw5Ifcg=;
-	b=nKMw7INC2O9R/RJUp56g7hWT6C5nmKqMX/OFSbsXoO7As0xtwSHLkJT6YgEl8exN3oN+oR
-	kurtI8rQBI0DJ/g5OiILuBUieOOfZwtsyKYQpsq2wUe8+8og8y9qwJUxYCCCJiu9I5lPxt
-	ZJvT0+bs5RJqQb2Aj+tMrCLdNN+tgEg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780640646;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uW1cFQILsWDDaZTBTxOudOwCTdBxAA67J5HCdw5Ifcg=;
-	b=qNciohEWcxeqpLjW6BU3ppkgwdI654CdrxngFDJp8QtpntaKASVONCavTjwmrcv75geKsp
-	JM0rLGMjvj2jtSBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8BDD3779A8;
-	Fri,  5 Jun 2026 06:24:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id urTLIIZrImq9cQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 05 Jun 2026 06:24:06 +0000
-Date: Fri, 05 Jun 2026 08:24:06 +0200
-Message-ID: <87mrx9v721.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Guangshuo Li <lgs201920130244@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,
-	Christophe Leroy <chleroy@kernel.org>,	Mehul Rao <mehulrao@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,	=?ISO-8859-1?Q?C=E1ssio?= Gabriel
- <cassiogabrielcontato@gmail.com>,	Cen Zhang <zzzccc427@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-sound@vger.kernel.org,	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: pcm: keep linked runtime alive while draining
-In-Reply-To: <20260605051637.1442529-1-lgs201920130244@gmail.com>
-References: <20260605051637.1442529-1-lgs201920130244@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="A8S9ZnVm"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 680DDC5846E;
+	Fri,  5 Jun 2026 06:37:43 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A96FA5FED1;
+	Fri,  5 Jun 2026 06:37:43 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BF958106A1F0D;
+	Fri,  5 Jun 2026 08:37:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1780641461; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=3IyHXE5kz/n0P8iPF96woiuOqliDOrQHxVfM4rBmin0=;
+	b=A8S9ZnVmLHc2TeOD20ueswPQ2h9AH/Lrz65bcGqIXbWyNwoKK7UujEAsSt2UTcLUGo8PNU
+	tMOy5+eoUJjOIgVsSo6uyjRAZRe0aSPu/mt9TSP/HuMLyvduncihLhub3KzDorbHAujJYb
+	v8sdJGvdGucSBpMksUVdyjYe0TqG/IiyEQvzNurEKHor+U+yZue40FJ4FvMoEW3azUZvX7
+	J14BjNow2/zRXmDln4ZOCxtaDhArmh5vJsFi3OaIAh3lg3jx7Qjy7hYIRiLikFr1JqiqdO
+	vsYdhkhnBClMTF+v8u36hnu2bfhyFyZ0pvdOUq0MEg4wsY8rseJvmjgtv88rnw==
+Date: Fri, 5 Jun 2026 08:37:31 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Saravana
+ Kannan <saravanak@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
+ <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, Linus
+ Walleij <linusw@kernel.org>, Len Brown <lenb@kernel.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jic23@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>, Vishal Verma
+ <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, Dan Williams
+ <djbw@kernel.org>, Lizhi Hou <lizhi.hou@amd.com>, Herve Codina
+ <herve.codina@bootlin.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
+ <allan.nielsen@microchip.com>, Horatiu Vultur
+ <horatiu.vultur@microchip.com>, Daniel Machon
+ <daniel.machon@microchip.com>, Steen Hegelund
+ <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v7 0/8] lan966x pci device: Add support for SFPs, PCI
+ part
+Message-ID: <20260605083731.1921f388@bootlin.com>
+In-Reply-To: <20260511155930.34604-1-herve.codina@bootlin.com>
+References: <20260511155930.34604-1-herve.codina@bootlin.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: D65906AA67
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,kernel.org,gmail.com,linutronix.de,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, 05 Jun 2026 07:16:37 +0200,
-Guangshuo Li wrote:
+Hi Bjorn, all,
+
+On Mon, 11 May 2026 17:59:20 +0200
+Herve Codina <herve.codina@bootlin.com> wrote:
+
+> Hi,
 > 
-> snd_pcm_drain() may select a runtime from a linked playback stream and
-> queue a stack wait entry on its embedded sleep waitqueue. The function
-> then drops the stream lock and sleeps before removing the wait entry.
+> Previously, I sent a big picture series adding support for SFP ports
+> available on the LAN966x PCI device [0].
 > 
-> commit 9b1dbd69ba6f ("ALSA: pcm: fix use-after-free on linked stream
-> runtime in snd_pcm_drain()") cached scalar fields from the linked
-> runtime before dropping the stream lock, because a concurrent close can
-> unlink the stream and free its runtime. The same lifetime issue remains
-> for runtime->sleep. If the linked runtime is detached while the wait
-> entry is queued, remove_wait_queue() can later operate on a freed or
-> reused waitqueue, or the stack wait entry can remain linked to freed
-> memory.
+> In this series patches touch several parts and sub-system in the kernel.
+> Reviews have be done and it makes sense to split the series and send
+> parts separately.
 > 
-> Take snd_pcm_link_rwsem for read while the wait entry is queued on the
-> linked runtime. Acquire it before re-taking the stream lock, matching the
-> link/unlink lock order, and drop it only after the wait entry has been
-> removed.
+> This current series is the extraction of patches related to issues in
+> the PCI subsystem. It has to be seen as a continuation of the big
+> picture series but related to this specific core part.
 > 
-> Fixes: 21cb2a2ec581 ("[ALSA] Fix races between PCM drain and other ops")
-> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+> Patches 1 to 6 introduce and use fw_devlink_set_device() in already
+> existing code. No functional change but the introduction of the
+> fw_devlink_set_device() wrapper.
+> 
+> Patches 7 and 8 fix fw_devlink issues specific to PCI and the
+> device-tree nodes created during enumeration.
+> 
+> [0] https://lore.kernel.org/all/20260325143555.451852-1-herve.codina@bootlin.com/
+> 
+> Best regards,
+> Hervé
+> 
 
-This should have been already fixed by the commit 88fe2e365872
-  ALSA: PCM: Fix wait queue list corruption in snd_pcm_drain() on
-  linked streams
-in for-linus branch of sound.git tree.
-Please check whether the issue still occurs.
+I haven't received any feedback on this series other than the
+"Reviewed-by: Andy Shevchenko" tags.
+
+IHMO, the series is ready to be applied. Do you have any comments ?
+
+Best regards,
+Hervé
 
 
-thanks,
-
-Takashi
