@@ -1,146 +1,191 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11D5495505
-	for <linux-sound@vger.kernel.org>; Fri,  5 Jun 2026 08:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780646987; cv=none; b=kUSg5sh1boYSmPrTD0giHAHqVQx2LqhbmNZcPh3woJzV5vD6yPWT37e7oonnfLRySWeo3QN9wPUPh/jO5oKjDrmX/tmCSbS3QuJL5g6f/iFKguS8tq09ene3CYXkqaDtz52RgbnoUIN3i6LEK972fYjdQANj1AUPks5IK8bDYr8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780646987; c=relaxed/simple;
-	bh=EUH+LRBh0rJE1W5iuiTSTKef/8wqvBFxnbBUZEO7WMk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iZ8d9L/A0Hra7xIvit0WzvKCdl95simld4RQ8nxfy75AnF4aCKJ4YDWSTIJnTunXFdFKdAxOzoF9SyJLIg75ZBq5X/xVY418lDtDlFLWHRPIMvXWsqAJCWA6s8QdAz40mu7+ZLOpfphbIopGuXChAL94ENJZubBhNml8S3tx3Nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ET0SVxgq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1ftyWUkN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ET0SVxgq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1ftyWUkN; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3685147CC6A;
+	Fri,  5 Jun 2026 08:48:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780649338; cv=fail; b=AzB8uBNvSTKwNdvS8QHI4ep8X8TA5Q0yLOIWzzbeCeLXUzTqgR1+JG9JTJsGByonqkkknUgeovrqalzMihzLI4kFz7hwdVxFN/vNHTD5XV8CI2iLJtx1xISVIkTtKs1Ug7kpnkPInElUFQqoMJaSZl3wdrRS9/2etbVYSltDdgo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780649338; c=relaxed/simple;
+	bh=VVw0xPribqJ531/S3pPXkcptpSTCk4kaIDaFK1OCI6s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AgIPIKd0A30jYStvgiCGX7A3/M9cAH7otRCWP/cV5dn85/G14KV1F33+xSFZYfmyafi9dB1rKA8mxhPPFEVx1T2Q7QGBKBaxEfWPPHr5AaIywn6kCMPJruc6DMp/7nI7hbYY2M4QzUGTVVjJExpWxX/Lq8riJztKgThFeCXK8WI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=TDGVwybm; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=G6O43Jus; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ET0SVxgq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1ftyWUkN";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ET0SVxgq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1ftyWUkN"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 20A7775A3D;
-	Fri,  5 Jun 2026 08:09:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780646984; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5+aX/dY2icTuDWriKObJboT6lrtTBEdCOjN58ZZXRA4=;
-	b=ET0SVxgq/i86t4Swmbo+eeIme+LYpWYcrbktCtqcgoPvF5dnli3xxKIKNrR/oAQjDsBWYs
-	sPlaO++38hMtO/ZnWFuAY2a+yM2JdINOH0yZMmCRjbPioqX0BsJNMT3jKaXKAy6qXRtAdm
-	O8n8RTZnSYglBsZPU4AJMuvN4uaNVXU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780646984;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5+aX/dY2icTuDWriKObJboT6lrtTBEdCOjN58ZZXRA4=;
-	b=1ftyWUkNa3ancLSJJy5c4inzAXYYp0bZyuTP4HjEgJjfYXSv/B2gwG12I5DNl7nU0gPckX
-	lTT+EtJdpFd9R/Dg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ET0SVxgq;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1ftyWUkN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1780646984; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5+aX/dY2icTuDWriKObJboT6lrtTBEdCOjN58ZZXRA4=;
-	b=ET0SVxgq/i86t4Swmbo+eeIme+LYpWYcrbktCtqcgoPvF5dnli3xxKIKNrR/oAQjDsBWYs
-	sPlaO++38hMtO/ZnWFuAY2a+yM2JdINOH0yZMmCRjbPioqX0BsJNMT3jKaXKAy6qXRtAdm
-	O8n8RTZnSYglBsZPU4AJMuvN4uaNVXU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1780646984;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5+aX/dY2icTuDWriKObJboT6lrtTBEdCOjN58ZZXRA4=;
-	b=1ftyWUkNa3ancLSJJy5c4inzAXYYp0bZyuTP4HjEgJjfYXSv/B2gwG12I5DNl7nU0gPckX
-	lTT+EtJdpFd9R/Dg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 00F26779A8;
-	Fri,  5 Jun 2026 08:09:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gAAWOkeEImqWWgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 05 Jun 2026 08:09:43 +0000
-Date: Fri, 05 Jun 2026 10:09:43 +0200
-Message-ID: <87ecilv260.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Kyle Zeng <kylebot@openai.com>
-Cc: linux-sound@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH] ALSA: seq: dummy: fix UMP event stack overread
-In-Reply-To: <20260605080204.32045-1-kylebot@openai.com>
-References: <20260605080204.32045-1-kylebot@openai.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="TDGVwybm";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="G6O43Jus"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6555iB1W3107326;
+	Fri, 5 Jun 2026 03:48:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=8ZvFXSdjBe+rgq2x
+	UbmAmnHKFUbnNIn5VnqeAxzMUXI=; b=TDGVwybmQs77o6hlpwAn80waHT2owr+5
+	m8+jozIjXBJXCa3ljmGs9X8dzWptA5PJWhrAxDDQE7mHH9LWGp8TbhMsKl9RNVvs
+	Ljk3KC4eOP2w+MQb3qjNgsXuLSaiYLiI9r0RtsbojO8r/NyJbLIgxcWnTYyTn6cT
+	Qcd2nTVLEAwEEqvG6bPso4UxNGu9k06zxaoZoByt8JnAteDLP3EEyZFpF+bIP10D
+	Et8TQPyfUQhN6LLYVRcZ60cY6AzVV5WPgIzgsBQaaqNK9NWn+JfjDlXsiik8QOlY
+	yuNoCnJu/kF6ll97YdaE6Tfpu/qnSlrpUqagm0loGBpo4UjD1Hlffg==
+Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11021143.outbound.protection.outlook.com [52.101.57.143])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4ejrbram9q-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 05 Jun 2026 03:48:21 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dOdm4TenTWWfWlbbO8s6a3Awuxb1RrYp1Jj8/SUVrOzm8TFvmq0agpSqMQRzQv2xlCeJSGJ6sUxwLyM4f4mi7N4WgsWjPGeF80ieB+Yr8X4agCE7V+gNKbf9OUCDYZ4u2+INdSetIqsR/aYAyYK5BknkUwVnZ7E3/V7aVEJyJJeomxi66vPepLIv5IfPfhu19nk4MR6mFGDkMdGaXfHpVr3Le+TrgE4SEvJ8VKKiyXCMM94XpAg+GEwYHD4rHlfA9/Rz5PegJiF4iSlXNMHBIdzxSve8IwRI8RyEZ8JGlWxfQz3bt68b4hQwt/e28QpeiUHXz44YcWbW6RcMl5zMlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8ZvFXSdjBe+rgq2xUbmAmnHKFUbnNIn5VnqeAxzMUXI=;
+ b=cdyzqA2XceL/0UW8gRv4svOuIMfnxctCssCq6shPCjlaL4dx1+lMucgW6q+mw09HJ4O0K4dgAlidSImxDuuSnX0B03jD7PbdV9CulxqCvOTnUJHy5EFBqAS8CMcjb4bkfde8NjWaUhnTLVkyKs0rixvybNBQ9Eo1T37enO1aoIlo7T7bjCoJy0v4iG3EFskEke1jmfCbFUk3QsnVGW3WFiWp2Um4WbfMQaEsbeltTnqN2BrXQCdepOnC8PexG+hLI1o6pXLrrfpMnqxCRr4fUv85+xZIIvnbB8lYcMFEgbswJ2fk2xfhEU+jmZBjENl9UR2aUY8SbYx1fKwk78rNfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8ZvFXSdjBe+rgq2xUbmAmnHKFUbnNIn5VnqeAxzMUXI=;
+ b=G6O43JusMi8OVZKzPAqDb9qZQcLGQ0PLWCBNYXa5rYw1VT4fNIHzijSj5m64Xi9FbTmlmSZvP0NM9Dw0r1DRW/cEb7CqlqgG6OC6JBbIuKRvZM5hLPbkzV4rk7EgeaHVoUvd6oV0M6YO6VNyCCmYNnT3s75g0pO3iHjg6+cWLV4=
+Received: from PH7P221CA0005.NAMP221.PROD.OUTLOOK.COM (2603:10b6:510:32a::22)
+ by IA1PR19MB7711.namprd19.prod.outlook.com (2603:10b6:208:3d9::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.8; Fri, 5 Jun 2026
+ 08:48:17 +0000
+Received: from CY4PEPF0000FCBF.namprd03.prod.outlook.com
+ (2603:10b6:510:32a:cafe::13) by PH7P221CA0005.outlook.office365.com
+ (2603:10b6:510:32a::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.9 via Frontend Transport; Fri, 5
+ Jun 2026 08:48:16 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CY4PEPF0000FCBF.mail.protection.outlook.com (10.167.242.101) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.5 via
+ Frontend Transport; Fri, 5 Jun 2026 08:48:15 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 2949F406540;
+	Fri,  5 Jun 2026 08:48:14 +0000 (UTC)
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.12])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id F131582024A;
+	Fri,  5 Jun 2026 08:48:13 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: broonie@kernel.org, vkoul@kernel.org, lee@kernel.org
+Cc: lgirdwood@gmail.com, pierre-louis.bossart@linux.dev,
+        yung-chuan.liao@linux.intel.com, peter.ujfalusi@linux.intel.com,
+        oder_chiou@realtek.com, jack.yu@realtek.com, shumingf@realtek.com,
+        srini@kernel.org, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com
+Subject: [PATCH v2 00/10] Expand SoundWire enumeration helper coverage
+Date: Fri,  5 Jun 2026 09:48:00 +0100
+Message-ID: <20260605084810.1575539-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,openai.com:email];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 20A7775A3D
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCBF:EE_|IA1PR19MB7711:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: ab424f48-3e68-4118-bb4e-08dec2df2f5d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|82310400026|61400799027|376014|7416014|13003099007|56012099006|18002099003|3023799007|16102099003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	8r50JvMUZxGcqp7ukf441l0kRV8+QgmIqFSp2mMuzdXh3/kgbULrbozK8i2UVaWJrOSPilejpPTzv5EbK+pI4lc5oehAS5cG4X6DHRigNLfOilSHSmg5+4mYap6t2e7rc3kvZBzZ7c1AutpsZSV/xShEhrG8Vvz1nitPbrCqiickxZXFWx+NbIYE+ZSoiZLqmHaBFDX4KQI8xZBiUvE5ud6L2Riaq5/9tcFRHksQd7amTAhPg6bkLtVW74F9r6/49pWaXTtcta8wdJZFMUtO7hFcRTE8BBBDI9GaUB0smSKMAYhj9sAfEjRizB2VJ1YS6KeGoSSJg2YJbGWH3LIy57Y518q6qj7yd7bY3veL3nIz3PNxazbszgRtTq8hsvDAvz4MH2BVRsnLEi71ftJf7PwnD6wCmV5hGxuccL/fRigCoW7+RF3tYzXoyuJNPrjFErhnL6U2JA/oUGVZyqiWyHHP+9H9S2wlZarksOxCnA4e1oDW9lJpzRP64wzka7pKFZQ0nqyiCG88WdIzgkTDv4guuCuulmhTNGfwY7KXSJiNZDSRCBSDQh/sAkuZcVobrj/ckTAzvwuzKPir8V9FCmlcamDixzZEiNMQ6KevZzLmMfoSvz4X7238ejGAwSCnQY77N+dk+AzkRokTH5gc0a5RNC6gNt+0PFvuAngOngT9w4WfFlCjVE8ieVnKljzz6nlB2ypuDpQO70zJv7W/kB98rcIPhcKHRgvtv5pG9z0=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(61400799027)(376014)(7416014)(13003099007)(56012099006)(18002099003)(3023799007)(16102099003)(11063799006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	j+EoyYohtASCZtaTTv8rwmjjyXliuqjH8FsDRHATx/9HuVYQ9P+GUdQzEH/Le8V2SFttiDO7aTx3XedY7JmC5q1PYfcU0sxzDUAFW/+Aq0KJGeaZO298AUzvkv8ZCOnHUtMWy7e4hbN+o9ybpdjWdigSbZfxfGheCp8n/JzQ6viB5PNVRxwxkohKqEsGXPn31aWvNsxvZzanv+qOPsx+ni0xNW7ptl6iR2ne1pPRzCMUf/Ja8tu4aBir9AmACpCH5vdpSthgCK40QdhQnEOjd0zIi551MfPA7OQNQklRAWe7JwpS9ZUP4v4gaDPRORjeJih8kzYSS+hN9nH60o5sk4rmGY79QeNpzVXI+GpACh4mOzABmvK4OtjSGIlYPvuY5HJ7r0kTX7uJcOfNhPTJgPTyj8vmMici4bvvEkieGp/Gus5EFyFY8gXY/YPtjT8E
+X-Exchange-RoutingPolicyChecked:
+	WdqENTYN1fSrWTRwu3hHmjkYtuF+I9v4IpFgZQOhoEkdxRv+/+aLv4XeLprEuUdpkVMxchcHwX64TwS4cya8C1jQm0MhQ8e4r4ciG7FCF+EPGgpXvZ3mMzj99sLq2TfcuTE3rYlimgYYVjkMBXv4DHqbTgaZH6R2HxqShh40RrXF8FjAPWH3fgs5ga7DebxtSLu0laK2z1v2+T4bjpsDIJLX5tj3tGV1M+Fn7QkFvR1kZ6aSGl+r18BNQT2WwqzwRJ1+arAIDXQaxZNP8Wv1YHs5gMoKHGyexw3Se/vB/wMCIaWwV3IMXRz5TJrwxi7tgElB8wZ0dxdDl7tSWZkGoQ==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 08:48:15.8401
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab424f48-3e68-4118-bb4e-08dec2df2f5d
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CY4PEPF0000FCBF.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR19MB7711
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDA4NCBTYWx0ZWRfX163rAAxuD/7G
+ ikCjYlIUMgdocASpKI2sC2jw2pu1uUhWy+eoIiI5hMd6iauXy2cTHWZHOD1d5m3mD7EGlXxrAs4
+ WsBCKOihl39W4LRWBciGVNTlVrh1BMt3ut8kS+ftcwko3l2ZfXVAI/xF6Y2ZPDAbeivV8kyM90i
+ rbigMh/cA3jfgc+ULaLPVpBLVA+m1I1KTelmj5WbaVDiO5kfCBFDSF8+8rfDGUEEfKHyHxWZIUd
+ d75giX6n7cb10jEIsTSsXLYiCennc18/mybanwcEbkTt45fyfxK9YeO9VYiuqQr5MoH/hn6o1a3
+ mPmghaU031Q5sIA7WI5p7HYfjcGfaVg5uyKiK5zlwQau1nC1SibKKoj9mkCE8RuGua9bnzb0EPo
+ RPLm3Bh9+mqDYLgshZPYySK6p3wsfBspYQ2UonHG1lZUlq0XEL+5sP+OOuyBbOzRhE2Xe29tCfz
+ +cLLIdZlOcdObbij5Ng==
+X-Authority-Analysis: v=2.4 cv=TZimcxQh c=1 sm=1 tr=0 ts=6a228d55 cx=c_pps
+ a=pCScd9Md5F2Oib7HHR5gBQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=FelO9ux0wxsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=VwQbUJbxAAAA:8 a=w1d2syhTAAAA:8 a=maTja8o1zyEAkiTaWhoA:9
+X-Proofpoint-GUID: c96tgtnc21guJ648RFkJKB4c_tkSfzTC
+X-Proofpoint-ORIG-GUID: c96tgtnc21guJ648RFkJKB4c_tkSfzTC
+X-Proofpoint-Spam-Reason: safe
 
-On Fri, 05 Jun 2026 10:02:04 +0200,
-Kyle Zeng wrote:
-> 
-> The dummy sequencer port forwards events by copying an incoming
-> struct snd_seq_event into a stack temporary, rewriting source and
-> destination, and dispatching the temporary to subscribers. That legacy
-> event storage is smaller than struct snd_seq_ump_event.
-> 
-> When a UMP event reaches the dummy client, the copy leaves the UMP flag
-> set but only provides legacy-sized stack storage. The subscriber
-> delivery path then uses snd_seq_event_packet_size() and copies a
-> UMP-sized packet from that stack object, reading past the end of the
-> temporary.
-> 
-> Use the existing union __snd_seq_event storage and copy the packet size
-> reported for the incoming event before rewriting the common routing
-> fields. This preserves the full UMP packet for UMP events while keeping
-> legacy event handling unchanged.
-> 
-> Fixes: 32cb23a0f911 ("ALSA: seq: dummy: Allow UMP conversion")
-> Signed-off-by: Kyle Zeng <kylebot@openai.com>
+The patch series in [1] added a new helper to remove common boiler plate
+waiting for a device to enumerate on SoundWire, however, many devices
+also wait for enumeration during probe. This series updates things to be
+suitable such that we can call the same helper at probe time when the
+unattach_request is not valid.
 
-Applied now.  Thanks.
+There is one final step outstanding which is to add a core helper
+that waits for a device to drop off the bus. This is not include
+in this series and should be the last step of this process.
 
+Thanks,
+Charles
 
-Takashi
+[1] https://lore.kernel.org/linux-sound/20260512103022.1154645-1-ckeepax@opensource.cirrus.com/
+
+Changes since v1:
+ - Completely remove the attached flag from cs42l43
+
+Charles Keepax (10):
+  soundwire: Always wait for initialisation of unattached devices
+  ASoC: wsa881x: Use new SoundWire enumeration helper
+  mfd: cs42l43: Use new SoundWire enumeration helper
+  ASoC: rt5682: Use new SoundWire enumeration helper
+  ASoC: pm4125: Use new SoundWire enumeration helper
+  ASoC: wcd937x: Use new SoundWire enumeration helper
+  ASoC: wcd938x: Use new SoundWire enumeration helper
+  ASoC: wcd939x: Use new SoundWire enumeration helper
+  ASoC: SDCA: Use new SoundWire enumeration helper
+  ASoC: cs35l56: Remove unnecessary conditionals waiting for enumeration
+
+ drivers/mfd/cs42l43-i2c.c      |  2 --
+ drivers/mfd/cs42l43-sdw.c      |  7 -----
+ drivers/mfd/cs42l43.c          | 15 ++++------
+ drivers/soundwire/bus.c        |  3 --
+ include/linux/mfd/cs42l43.h    |  2 --
+ sound/soc/codecs/cs35l56-sdw.c | 47 +++++++-----------------------
+ sound/soc/codecs/cs35l56.h     |  1 -
+ sound/soc/codecs/pm4125.c      | 11 ++-----
+ sound/soc/codecs/rt5682.c      | 14 +++------
+ sound/soc/codecs/wcd937x.c     | 11 ++-----
+ sound/soc/codecs/wcd938x.c     | 11 ++-----
+ sound/soc/codecs/wcd939x.c     | 11 ++-----
+ sound/soc/codecs/wsa881x.c     | 10 +++----
+ sound/soc/sdca/sdca_class.c    | 53 ++++------------------------------
+ sound/soc/sdca/sdca_class.h    |  3 --
+ 15 files changed, 41 insertions(+), 160 deletions(-)
+
+-- 
+2.47.3
+
