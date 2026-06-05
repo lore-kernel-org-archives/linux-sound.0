@@ -1,42 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9116A3803F3;
-	Fri,  5 Jun 2026 12:23:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1081F330B2E;
+	Fri,  5 Jun 2026 14:21:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780662229; cv=none; b=Z7xDKIqEPFh+hqf/H0mBvG83Xa5k/yrNfTS03Itf2x1rwUsoR4C0J4OnoMvL6vIsrh+8iJniEMZQFQsL/w0XhKs+YuFfd8KGdYUFSxfllKAYdt3QmbJTTMAls+lT0sPKpElM13RmxJ7kCoTc8psj/goA2/xW/Ft9F6E9pIfsLZg=
+	t=1780669301; cv=none; b=NpHOHb9Zv/6fLl9Mj9sb78QoNE80rSXmuzyzODzFhXpuPFjPCEAdeSnNR7bW7oftW8Ry0TknFcjOM+WR7asynAryNwWT5yxc7HBpBQa6pOaMHgeC7bgZgDr1jlEBhes7wg8NbAFvBHKmiPdloSboy8JYKJezHbMbShKbA9Y71+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780662229; c=relaxed/simple;
-	bh=7KcW7rTKtkv/R93y+gx34OUeYV+MreUUGrgD+Qg3Ptk=;
+	s=arc-20240116; t=1780669301; c=relaxed/simple;
+	bh=8YL72t44yE4RHjLWnzT9Cs0Y+8NCQpiDFvM9EEwwibA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dtY1WnaPVPr17dGkY8sUjgsAnttG/u8Qs3XsM8KVD+mMPD+/3I+X8n3+uLAZdOpCyM7/vnLn//QGYw1LMF+BrtHM+htNYMpuQyK1OFeKrH5HzrPMpmETZIX3Dcd6/x5RTrO12Fd8uyF15zt7/eyhjW8Nsv2uWCO6zvBA3sW20ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e+JE/AwO; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=oGRfSPtNiQVSIOXTjBzjjTNTGn91pbw5zw3CvcYENlzG8OyZgBYffpvDvDPVNW5I8752uSJgknchxBGudPRRXsozdVYV98xy81cVBlvA6wgbE/8VyTPyAy6wlf3ziqOvtrdrr3P9XnRGiMOzqRY0fsI5S3la2C81UTZd9IX85uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hw+U0HjQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e+JE/AwO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AF4F1F00893;
-	Fri,  5 Jun 2026 12:23:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hw+U0HjQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E05A61F00893;
+	Fri,  5 Jun 2026 14:21:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780662228;
-	bh=DpnWcYxCEeDWlw2uqHVEYAIRFGh9BMJQb8HIB2SYwkQ=;
+	s=k20260515; t=1780669300;
+	bh=UbSa3ODwt/Ewf2SZXpIlClLvhhn/p7bCuK3p6KqCz0Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=e+JE/AwO7RGezZ8ewY9jIZGg8SssaCRIQG2EHWVHRjcdtIWH2MPJwdlAxqm7AycPb
-	 ZDrbSp2Wrly2duNcIWvHaLZV85E+eY4MXym28qFcfTq2QxKLh+QYg2WH0Eo0Ir8r3T
-	 OF5nsCU8by1L/CDkbZmPpmTEyUeRiVhFBd5wZfjmk8EF17lyvAakMuJe6MmB/TvSnl
-	 hfvZUVYBczKYce8tfrw3TWMQ2/1w9dahvk5AkV/fA6kWsuCA7YhEOMD0zlIxoNgvsV
-	 1W9wprymu2rPJ90/B95wUdP18u/5Z4XffsIGJdtbRaTdYSOZi8E/NaWapU7BBbEpkD
-	 oW1CviHxDJ1CA==
-Date: Fri, 5 Jun 2026 13:23:44 +0100
+	b=Hw+U0HjQnNbnt9KxUAPI2UFbqmqu3tRenc4wRuIA4wMGQxLiNv4YVZAWHqFq1gcDe
+	 MLQ+UNAzqN/CwsuW1gr4oDoaSjwiVKK2GIm/woYzrfC+75a0Vb767dYlKxF5wkStYp
+	 jv6mFO3fWA1T8wZjnB1UzdSKtq+cQJliv63vU5951Z5MFesKPgsFYqqL7h6WC8vNkz
+	 WwqeammPuCJrRUVQRu1FRxMBoITkhVd2a6+QogBFqpi2N5nsTo9HqT9mcritUePk6t
+	 ChtEVP8w2gSZR/HJ13IRoDU5gWLts1b2ikA2nCv8nP+xC6Zu0CNDOjZtGkLyds0PLP
+	 3ynWeC6Spsfwg==
+Date: Fri, 5 Jun 2026 15:21:35 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: Harendra Gautam <harendra.gautam@oss.qualcomm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] ASoC: qcom: Refactor of_xlate_dai_name into common
- helper
-Message-ID: <353be3c7-effd-4559-9455-9d4c6248f8f3@sirena.org.uk>
-References: <20260605092812.3495852-1-harendra.gautam@oss.qualcomm.com>
- <e256edef-fc24-4ccc-b031-4387a127fc83@kernel.org>
+To: phucduc.bui@gmail.com
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 10/10] ASoC: renesas: fsi: Add SPU clock control in
+ hw_startup/shutdown
+Message-ID: <68a03a72-07f3-4738-bad4-6b92bafec318@sirena.org.uk>
+References: <20260605121955.105661-1-phucduc.bui@gmail.com>
+ <20260605121955.105661-11-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,39 +50,50 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oTm0qgAVOaU/GbfX"
+	protocol="application/pgp-signature"; boundary="pvn0gmD5q1QTwXci"
 Content-Disposition: inline
-In-Reply-To: <e256edef-fc24-4ccc-b031-4387a127fc83@kernel.org>
+In-Reply-To: <20260605121955.105661-11-phucduc.bui@gmail.com>
 X-Cookie: Error in operator: add beer
 
 
---oTm0qgAVOaU/GbfX
+--pvn0gmD5q1QTwXci
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Fri, Jun 05, 2026 at 10:41:33AM +0100, Srinivas Kandagatla wrote:
+On Fri, Jun 05, 2026 at 07:19:54PM +0700, phucduc.bui@gmail.com wrote:
 
-> Please consider making it part of the series that actually has more than
-> one user for this.
+> Enable and disable the SPU clock in fsi_hw_startup() and
+> fsi_hw_shutdown() to ensure the clock is active while the
+> driver accesses hardware registers.
 
-Or at least identify additional users that will be added soon, it might
-make sense to cut down the size of a larger series by splitting out the
-API addition.  That's especially true if there's multiple new users that
-each need their own series.
+> +	/* enable spu clock */
+> +	if (fsi->master->clk_spu) {
+> +		scoped_guard(spinlock_irqsave, &fsi->master->lock) {
+> +			if (fsi->master->spu_count == 0) {
+> +				ret = clk_enable(fsi->master->clk_spu);
+> +				if (ret < 0)
+> +					return ret;
+> +			}
+> +				fsi->master->spu_count++;
 
---oTm0qgAVOaU/GbfX
+The indentation here seems wrong.  We're also using spu_count to
+separately guard the clk_prepare() in fsi_clk_prepare() which seems
+problematic, I'm having to think too hard about how this might be
+robust.
+
+--pvn0gmD5q1QTwXci
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoiv88ACgkQJNaLcl1U
-h9AjqAf/UOiHFGkeZ2b74nKm2DOvK41vAoSqNqlw1khQRVUfoOnHN8VUY9jPdVGK
-RLEg5vTQ2QC93aZeA50VIfNhUDW9/uuHLG6M4bbdXlMYxEEzLc/bohtt9LuQ4uH5
-FuXx2BgAJgWaen/CEclpKeRGiNlcIdVb/psbc2tktuSq6hBX8Q1lZhKQya7hz5up
-X32HT8eocrp30C7OeoAxR9JCf89VeO43MbcjUgh1sFLh7eIvhj3COh/sJQzwDDhC
-i2DVyWvyMWpAk4X305CmahGBJ0uCSgRWornKhzPH0gvDoPsJwx/ZbyeffWkcHy4S
-oHs+lyHQUXy8NKV0/q6OVJMrWEh0mw==
-=Yq5L
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoi224ACgkQJNaLcl1U
+h9BkdAf+IjsYXqEFmaRdkBWIeWhxpQqeA1zBqSdnHnXswCKMa+XQXoMCSRIguVUi
+GSo4pY57A3x3s8EZMfy+kKVUI4t8m7bo4AdFW2IJub6hW2lBI/UMGizz/vFApu7S
+IdsQd+59S216HHJvTmm5kBBtYOmhxEHDBK38fAnStSLk9Nztx+OemR8JzCKqdfWm
+dssRjktzCSanRakdmumgmSLis/bKDTLKqs3fK+gQYbkCzmEc8Z2zyRDRxQ/vCblA
+AwVAxKLMG6WWkGVBHP/bdUlPhqPI59ZpFJMJ/r6kcWPPYjl441/ydPzw4w4jMoaz
+J9XHJwv0k6oIMFP30EbnRoQY6C3KiQ==
+=B88h
 -----END PGP SIGNATURE-----
 
---oTm0qgAVOaU/GbfX--
+--pvn0gmD5q1QTwXci--
