@@ -1,88 +1,348 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011029.outbound.protection.outlook.com [40.107.74.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1883B369234;
-	Fri,  5 Jun 2026 16:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780677182; cv=none; b=rRnRAwXsrWP3IFGyO6ebLRnvleBPkD4OcYYH+Wo+4+lL32BjXmR+T1MwxgOu6Knz6pfC2foqREtEad2RAHgs1wo5gVkSJkMma2ycuDZtCWoV/JAPY0JqqudhpNMqgXJBOZ2pVgcIMrfaugsCxzF7eGgMJgq4izoXGActIOOPsgQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780677182; c=relaxed/simple;
-	bh=XdaUqpemeJInYjQOAOfUp5vuhcrM6Xvhae72sIx03hs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U08KisMIosCe8p5S3t0SVNnBKWihkbjCeMsi5hnfCOarFU6Sbgdqb9IgzGTaaLjzn3OLogtRCsIyF1khZrXEdSK3GGhbjoKlslKSPn3Mz31cRnktwWZQA2+wabk7H3nrSSvpSFY17BK0C3fbfcn3yDf/6BqbNrPRR6ptzIqV7NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MGQusmPV; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCAB345CC0;
+	Fri,  5 Jun 2026 20:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.29
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780689984; cv=fail; b=ZfYf5vkblEUFd6zuFowFtp/zQEvtLZc1zyX9HKUDC6wXMHpdfsXPaLikan24Gy1VQZDyaS9o/gat1nSYHoehRY9cORog8Sj6gwlgfrz8Ez19Z0dYDoBZOubqMU4UsXNGwE+LTeTy901h6YCVmZMIem8k+EXTSHnYxb9VzvZJXcI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780689984; c=relaxed/simple;
+	bh=HJewihLOyijcDBWJM0kh9LRTm6ecChjeVhOVOnFQTD0=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=ek1Kg973DBmRkTFxeZ938BmkfTy1sXjfMfriZLIdvpztPWkSZl53nbi7PjBT6Oi3ZGPzUOg07j+zY6s9Lz3otFWuCK9dKOaNC1z0DDLIkG+3/Hf2u6pyLURHem6tOwzznJ2ThBJUmi7B7jhN7AnQ+TUcVs2W0e6O8GaVYCJHOJQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=Zpl4iv3W; arc=fail smtp.client-ip=40.107.74.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MGQusmPV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CF741F00893;
-	Fri,  5 Jun 2026 16:32:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780677175;
-	bh=NUqtLxYe4LXsIZDiLuB+KBJWoypL/aoV76Bd5XEZ0A8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MGQusmPVOkuSkh44NMEIk1Lfh0WBM4wbYRzKkiroZIQtgnwrJ4ggXDF1IhnY3i2tY
-	 9ULxqZhalImC35XrmhCRmj3MxV4pzRIv7sU3Yr/mJUWJsbiQRqkUNOVY6XiH5SPc/N
-	 0qLdgDjXND8z7HUL0aQfg8otfpBzfmxounWjuBR681lVOBvHcnNll5iR9tuIPN2NBM
-	 rI/7YHFT5NN9/uZEA9LQTK7JGVBHTl26U+qwvWarXapKzJwiUWr8BMSu3HsSmgtg91
-	 oprZ/Rox6p5NtI6SGGm9ZO0hhmx5mMRI7SJTNBs0zQensb8sw5FxUxEVIu0/jCKw/o
-	 5KW+JhAP2lAtw==
-Date: Fri, 5 Jun 2026 17:32:51 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH] ASoC: soc-core: Create device_link to ensure correct
- suspend order
-Message-ID: <e2d7793a-c7ae-42b2-a841-c2a9d3ca1200@sirena.org.uk>
-References: <20260601142835.282301-1-rf@opensource.cirrus.com>
- <84d162fc-2b0a-4aac-ad40-2203a277d82f@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="Zpl4iv3W"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mgiOJ/2nhPVcmQHwf3CL07ULg8dgd+O2t5KiyDiiGlh65kSLbqAZ6RhWKGlVsoddIjoQcRNaG4XPMKqyCqCG0KRDn4kiMa36UaVG2+MDVZHDzMvH8HiNv/zIDMmM2VDN58M9oSgj/J+T0sSvXLfrGHfDObZwQuGAn7XkiGbBZuQgbhx4DqT5aTc5/9qevRfvXzMVLYz9t2XuNr/g706/o/b4a3PkruolonfiDsoZIbYUKfqNn6i7mpeo3PYWat77nW7NWgCdp/h2zyn7fpas67d4JYl7erSJXQ5KZtp+HxSAckWHWU147OJx9/bQER5+T3iFbI2V3memJ/aGd0SbUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YCz4B7cg4fA3aTYNrTZsdfM1dWGuMa3Roi4FHySpBBQ=;
+ b=TBvzsXtRG/uzY4+Jw+b6knwqCH3INdhjnLQtgHgAF8DweZG3t7qMgOQwSq5Jbm4ZBbUljaRfO7dW9s7sZcH75AoSQ7CsOFV/IHkSpjTZ4DAnBZJLmdIOdd6xG4cYP6FJ6eg6q/fl+dSQCXswNcP18WgPWu5QvHfseiiWK129TjAySqDlT/LN1QLHvcNmvjLRz/uhRLSWUqisIwGqOG4YZgPMZQWAz2VyJbs3X3rNRYt/eq+9wq1G3Donmbjv6YdrXcAORyOATjnYyqploycwE9WBJQniz3ut4MHHYxfE6iI2+NADMJg3ki51dVNVjPkXDShvYgMp/ymXG36oI8izLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YCz4B7cg4fA3aTYNrTZsdfM1dWGuMa3Roi4FHySpBBQ=;
+ b=Zpl4iv3WYT1uVm9Sadqzzun+5niAwLGrOido9u6V2s1qYmU21I1yTvwQ5KTMyzRIIJjItKqpcovd31yu5hRzSgQW+QpNIurcArC/84cYQOZGg1T6TbMXGlI3l76TIXOADHC7VMqR5brSn2w4TPoLDIit95UVuUofMMjsMWxnI68=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com (2603:1096:405:35b::6)
+ by OS3PR01MB8212.jpnprd01.prod.outlook.com (2603:1096:604:176::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.9; Fri, 5 Jun 2026
+ 20:06:20 +0000
+Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com
+ ([fe80::f373:26d6:86c4:6aa3]) by TY6PR01MB17377.jpnprd01.prod.outlook.com
+ ([fe80::f373:26d6:86c4:6aa3%6]) with mapi id 15.21.0092.007; Fri, 5 Jun 2026
+ 20:06:17 +0000
+From: John Madieu <john.madieu.xa@bp.renesas.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com
+Cc: kuninori.morimoto.gx@renesas.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	john.madieu@gmail.com,
+	biju.das.jz@bp.renesas.com,
+	John Madieu <john.madieu.xa@bp.renesas.com>
+Subject: [PATCH v2] ASoC: dt-bindings: sound: renesas,r9a09g047: Fix dma-names and ports schema
+Date: Fri,  5 Jun 2026 20:05:26 +0000
+Message-Id: <20260605200526.683577-1-john.madieu.xa@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PA7P264CA0271.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:373::13) To TY6PR01MB17377.jpnprd01.prod.outlook.com
+ (2603:1096:405:35b::6)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="FV8rLwTNuD/IBVV3"
-Content-Disposition: inline
-In-Reply-To: <84d162fc-2b0a-4aac-ad40-2203a277d82f@opensource.cirrus.com>
-X-Cookie: Error in operator: add beer
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY6PR01MB17377:EE_|OS3PR01MB8212:EE_
+X-MS-Office365-Filtering-Correlation-Id: a429309f-657c-40c1-a9a4-08dec33de73a
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|52116014|1800799024|38350700014|11063799006|56012099006|3023799007|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	oknQPK8icmbqO7tirBt5HpZzq3pfU+51iv66TbT8LfBC//OAvgQW5+z4yc1uYXCO0IIMzfVJK4iXjlOlJm+S4BK2L5CKtHf9d4c/AOy4Naa+nmxyHQp09v+hkA6o2gBAz+l+hpkEyM6cF+l+EB62dFOyxprXat3fZZ13YuRvaw2Ut8FSQtB4/AT0mTHIC3LSshE7lEdsdZHB6oG7u9VE+WzPHBNDHyIC2OOlbjDKUv/OARt/8hcXeYLBbU8OqEctqrWCwoAZIBs62cyNi2OkSsonfcAeUHF6TrgIsXAU8TEYm4CIKgZsmzgraY1IOeixQAXf9p9hwYvVCT/pJhw9SKZ2mDtlC4OEz4wdl8vs608J67VANS0hR3NayTW66SJGsW962Fh27LL45/dpnsOEWMGX+7ggrc+lbQd3Mg6IzYvzl7I3SUUpcpAVuzLUHsFHw2NSQGW/VNKp+VNjP323eM2Wfb1wHtWEBGv6UY9Wkwvo/bqufv+0UTyuuCTIJTvtVSOUWNd56ZdGmP3c4AgeFPoPdGyRw1ggbI149gA5f0zhxVra595I2dE7d2nIDKYOYlmKxrF0mfFUDBmS0S6Od4CUM/ONmZnw1hDz1ThmaabbCaVQObg94R5jenxzHImoZAWWVlYUOw704KfqgXmZAXEKyosltOEV4TpNUlFvtDUcsab3gqbhiyhbhAXWaiT53D+2481GZbICuCdQnsoDV47UJrrhSvdmoPpPmTrVabarFN833ICBhUQiXT7BMPOn
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY6PR01MB17377.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(52116014)(1800799024)(38350700014)(11063799006)(56012099006)(3023799007)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?qB6i46nrvWhFIlbRfP6wysQQGTlJjpg0PrbJORpOqr+Dyb9/Xz8ezvbOMxBH?=
+ =?us-ascii?Q?YUulNXP/hWvYJAGkV99LOJhxdaDieJbcLxPXIEHkasWW3uIrBSuU2Z16XLw6?=
+ =?us-ascii?Q?dwlcd2VjL9TaNOk1j4If9SYDOHaA4HtI9GqoWhk2dm8AMI8XRQ8sjYG5isj/?=
+ =?us-ascii?Q?TAccYlYXM3sn+WixA1LwUA6CCRpVVLyfEf+aafhgfoKuFLZHJzp67ySJY5P7?=
+ =?us-ascii?Q?5rKbjVBnsCIGthzSWp4XioL8LJkjf7ZOhuR11YqIEjIIUKCFynIbxVNzSyqk?=
+ =?us-ascii?Q?dIwNAnEd8AI7Ap4zC+6cyuFM1aSCXh75aV96aZmghXm9dPb/LpBJVWvNXpgD?=
+ =?us-ascii?Q?6mCS2lkkPCZP95t+K0OC7lF4vmqTuWEZ2Z+iNCtzhJCxPQ/zNIZaWgZPyzkh?=
+ =?us-ascii?Q?6W47ySwU9xaIeKZEvZ+sEji5OwMWSLn3lyYXR2VP7DkXAwJmeLxDYrbLWDil?=
+ =?us-ascii?Q?zHBNC+5poBMM4EJxhVC5V2/Gfk5qnt9nqX8CFilW6A1b60nuFwwj9M05H9Kt?=
+ =?us-ascii?Q?RYuXnxkVEqH9LAbUSr7tRPhBrY48+sxKeXw6PYTPsvUuFNQYSPnlxfrl5wGt?=
+ =?us-ascii?Q?LlXiojOkVdXy2CiwOMr52t4/uku7Lzx/7hIaaOfKHAdzZYWkblMChP6aIeNS?=
+ =?us-ascii?Q?BTX3nGAA/5fMAs/Yc3akbt4uRonUCZcPMCXYAHKo5MPUdCoegQVLzV8puW4k?=
+ =?us-ascii?Q?6F/h3car4bcC3Mx41mDwQIiXyKtMDDmn+8Vp03FkKJ+HyXk1zz1AZQ+CX/lj?=
+ =?us-ascii?Q?IRq8IvVve2E6Zb1p2K/z5aVgNL+o7EKXibM0wgCcmYIphp0oTXVSD+lBo93X?=
+ =?us-ascii?Q?NjMTu5bvyP/NMP5EmxJaJLjZgmIlhbKL10kBfhwr4Gv4WXlBmc2x1fQNQ2kO?=
+ =?us-ascii?Q?UYshUSOzKQP7AJ9vlzwKc6inMQIBDtbN6kqrxj67MoOLJRMirieSXANlA+2r?=
+ =?us-ascii?Q?SMJmi02SHBwxa+z7aeDP4V5169i/B8sAKwDrUy3iFW2dIn4D01bD3ylbwFSN?=
+ =?us-ascii?Q?9Ct52epuqqy97DHFHQGvHQpvg1oYfpgqm3XK2bQJO81hemxfXubBk/dinSCa?=
+ =?us-ascii?Q?k9RsYiO04eNXj3ifDKQ/cCt6AG5uEAwIdD/iGIE+qvwGtPqFWWKKXAkZks4V?=
+ =?us-ascii?Q?+I4gRIELTfeAz8YDecoDolnWHViCjy38k4ZDRjuzB0wGqZzAYx0Y67tjziDD?=
+ =?us-ascii?Q?eg4cT/EYePhLFuhAlQQGlBNEk6lRpDuCSloEbnTHOLQkxkafr1ceEXQrRMrJ?=
+ =?us-ascii?Q?bidE7OP4LM1QK4OVTEz78Jwbhcx+Mx+u8NgHBB9XzSTtz0c2skShxuw/GoFG?=
+ =?us-ascii?Q?QMj+YZFUHneU4CCNgezO7qByvYFSh91rik10KAK8QCmjiKGlYeo2KC3VowrT?=
+ =?us-ascii?Q?DtDgkiiYRdKxtgFgko9tFBo5vJGLDv1B8SluijBSdAjxYuQ8D1hDJvZDPtOd?=
+ =?us-ascii?Q?WkjLn7dcnTeklyuAdjWLXQXEu1R1VrAxlW/1hnCxmRslyNMhOLYN27lT8zcT?=
+ =?us-ascii?Q?T5rtUed1XC/xsw9cCC9+7hPF3thLC80aJuJP9nHWpnoGxgNw7C0ZRzLkyH/Y?=
+ =?us-ascii?Q?hb2+lGv7Yv4h0EczkKw4KH06eCC7EU1sC/szxnsifH/hyEfyiy+16+1XCP0t?=
+ =?us-ascii?Q?VnyR66wwMaUKdzJxlnK3Qy6HTILbtk1AAwdxjdgYQIP1zewhoZUxqvtfmxNo?=
+ =?us-ascii?Q?jNqiXhYU4BgIw5emK/EmlM5L1T6tIZdnRWOlySIYsbrE/TfnLn+wyp63iEU7?=
+ =?us-ascii?Q?vqluzrncvcSKIN3V9fPWiSkzzePNkSk=3D?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a429309f-657c-40c1-a9a4-08dec33de73a
+X-MS-Exchange-CrossTenant-AuthSource: TY6PR01MB17377.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 20:06:17.6436
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9CNtHzFSHK6pk+vZGRO6PoleFFIrVtN/tHclT0+ZSF5k3AEERaINWIepGpm3bKzll0STBhNBLKAf7xlOaaqIOrYKl3NnFBhhf1hwuReqmyg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8212
 
+Replace the allOf-wrapped enum in the dvc/src/ssiu dma-names with a plain
+scalar items schema bounded by minItems/maxItems and point the ports
+container at graph.yaml's ports definition instead of port-base (a ports
+container is not itself a port).
 
---FV8rLwTNuD/IBVV3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+While at it, drop the unused top-level #address-cells/#size-cells since no
+child node uses a unit address and the ports node provides its own, require
+interrupts/dmas/dma-names on the src sub-nodes to match the ssi/ssiu
+sub-nodes and the driver, and pin clocks and resets to their fixed counts
+(47 and 14) to match the clock-names/reset-names lists. In the example, put
+compatible and reg first, include renesas,r9a09g047-cpg.h, and restore the
+CPG_MOD cell on the clock specifiers.
 
-On Fri, Jun 05, 2026 at 09:55:07AM +0100, Richard Fitzgerald wrote:
-> On 01/06/2026 3:28 pm, Richard Fitzgerald wrote:
+Fixes: a86fd3c20218 ("ASoC: dt-bindings: sound: Add DT binding for RZ/G3E sound")
+Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+---
 
-> > I think it would be ok to put this into -next and let it get some wider
-> > testing before it goes into 7.1 or older.
+Changes:
 
-> I was looking at the Sashiko review for this patch.
-> If Sashiko can be trusted, device_links seems to be thoroughly
-> booby-trapped.
+v2:
+ - dma-names: drop the per-position items list in favour of a scalar items
+   schema with minItems/maxItems. The list form forced exactly N entries,
+   and a scalar items schema needs both bounds to satisfy string-array.yaml
+   (Rob Herring, sashiko-bot).
+ - Example: restore the CPG_MOD cell on the clock specifiers and add the
+   renesas,r9a09g047-cpg.h include (Geert Uytterhoeven).
 
-> Short summary seems to be: only safe way to use them is with the
-> STATELESS flag and do manual cleanup.
+v1:
+ - https://lore.kernel.org/r/20260603202805.3530046-1-john.madieu.xa@bp.renesas.com
 
-Yeah, I saw that but didn't put the time in to confirming how reliable
-the specific analysis is.  The booby trapped bit seems about right
-though.
+ .../sound/renesas,r9a09g047-sound.yaml        | 100 +++++++++---------
+ 1 file changed, 50 insertions(+), 50 deletions(-)
 
---FV8rLwTNuD/IBVV3
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml b/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
+index d7fa16554698..933edc729f6c 100644
+--- a/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
++++ b/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
+@@ -42,13 +42,8 @@ properties:
+   "#clock-cells":
+     const: 0
+ 
+-  "#address-cells":
+-    const: 1
+-
+-  "#size-cells":
+-    const: 0
+-
+   clocks:
++    minItems: 47
+     maxItems: 47
+ 
+   clock-names:
+@@ -105,6 +100,7 @@ properties:
+     maxItems: 1
+ 
+   resets:
++    minItems: 14
+     maxItems: 14
+ 
+   reset-names:
+@@ -143,11 +139,10 @@ properties:
+               through the list to find a free channel.
+ 
+           dma-names:
++            minItems: 1
+             maxItems: 5
+-            allOf:
+-              - items:
+-                  enum:
+-                    - tx
++            items:
++              const: tx
+ 
+         required:
+           - dmas
+@@ -203,12 +198,15 @@ properties:
+               falls through the list to find a free channel.
+ 
+           dma-names:
++            minItems: 1
+             maxItems: 10
+-            allOf:
+-              - items:
+-                  enum:
+-                    - tx
+-                    - rx
++            items:
++              enum: [ tx, rx ]
++
++        required:
++          - interrupts
++          - dmas
++          - dma-names
+ 
+   ssiu:
+     type: object
+@@ -229,12 +227,10 @@ properties:
+               falls through the list to find a free channel.
+ 
+           dma-names:
++            minItems: 1
+             maxItems: 10
+-            allOf:
+-              - items:
+-                  enum:
+-                    - tx
+-                    - rx
++            items:
++              enum: [ tx, rx ]
+ 
+         required:
+           - dmas
+@@ -261,10 +257,9 @@ properties:
+           - interrupts
+ 
+   ports:
+-    $ref: audio-graph-port.yaml#/definitions/port-base
+-    unevaluatedProperties: false
++    $ref: /schemas/graph.yaml#/properties/ports
+     patternProperties:
+-      '^port@[0-9a-f]+$':
++      '^port(@[0-9a-f]+)?$':
+         $ref: audio-graph-port.yaml#/definitions/port-base
+         unevaluatedProperties: false
+         properties:
+@@ -276,6 +271,8 @@ properties:
+             properties:
+               playback:
+                 $ref: /schemas/types.yaml#/definitions/phandle-array
++                items:
++                  maxItems: 1
+                 description:
+                   Ordered list of phandles to the in-SoC modules used
+                   by this DAI in the playback direction. Each phandle
+@@ -285,6 +282,8 @@ properties:
+                   from CPU to off-SoC endpoint.
+               capture:
+                 $ref: /schemas/types.yaml#/definitions/phandle-array
++                items:
++                  maxItems: 1
+                 description:
+                   Ordered list of phandles to the in-SoC modules used
+                   by this DAI in the capture direction. Each phandle
+@@ -308,11 +307,10 @@ unevaluatedProperties: false
+ 
+ examples:
+   - |
++    #include <dt-bindings/clock/renesas,r9a09g047-cpg.h>
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+ 
+     sound@13c00000 {
+-      #sound-dai-cells = <1>;
+-      #clock-cells = <0>;
+       compatible = "renesas,r9a09g047-sound";
+       reg = <0x13c00000 0x10000>,
+             <0x13c20000 0x10000>,
+@@ -320,31 +318,33 @@ examples:
+             <0x13c31000 0x1f000>,
+             <0x13c50000 0x10000>;
+       reg-names = "scu", "adg", "ssiu", "ssi", "audmapp";
+-      clocks = <&cpg 245>,
+-               <&cpg 385>, <&cpg 386>,
+-               <&cpg 387>, <&cpg 388>,
+-               <&cpg 389>, <&cpg 390>,
+-               <&cpg 391>, <&cpg 392>,
+-               <&cpg 393>, <&cpg 394>,
+-               <&cpg 372>, <&cpg 373>,
+-               <&cpg 374>, <&cpg 375>,
+-               <&cpg 376>, <&cpg 377>,
+-               <&cpg 378>, <&cpg 379>,
+-               <&cpg 380>, <&cpg 381>,
+-               <&cpg 370>, <&cpg 371>,
+-               <&cpg 370>, <&cpg 371>,
+-               <&cpg 368>, <&cpg 369>,
+-               <&cpg 251>, <&cpg 252>,
+-               <&cpg 253>, <&cpg 250>,
+-               <&cpg 384>,
+-               <&cpg 246>, <&cpg 247>,
+-               <&cpg 382>,
+-               <&cpg 352>, <&cpg 353>,
+-               <&cpg 354>, <&cpg 355>,
+-               <&cpg 356>, <&cpg 357>,
+-               <&cpg 358>, <&cpg 359>,
+-               <&cpg 360>, <&cpg 361>,
+-               <&cpg 248>, <&cpg 249>;
++      #sound-dai-cells = <1>;
++      #clock-cells = <0>;
++      clocks = <&cpg CPG_MOD 245>,
++               <&cpg CPG_MOD 385>, <&cpg CPG_MOD 386>,
++               <&cpg CPG_MOD 387>, <&cpg CPG_MOD 388>,
++               <&cpg CPG_MOD 389>, <&cpg CPG_MOD 390>,
++               <&cpg CPG_MOD 391>, <&cpg CPG_MOD 392>,
++               <&cpg CPG_MOD 393>, <&cpg CPG_MOD 394>,
++               <&cpg CPG_MOD 372>, <&cpg CPG_MOD 373>,
++               <&cpg CPG_MOD 374>, <&cpg CPG_MOD 375>,
++               <&cpg CPG_MOD 376>, <&cpg CPG_MOD 377>,
++               <&cpg CPG_MOD 378>, <&cpg CPG_MOD 379>,
++               <&cpg CPG_MOD 380>, <&cpg CPG_MOD 381>,
++               <&cpg CPG_MOD 370>, <&cpg CPG_MOD 371>,
++               <&cpg CPG_MOD 370>, <&cpg CPG_MOD 371>,
++               <&cpg CPG_MOD 368>, <&cpg CPG_MOD 369>,
++               <&cpg CPG_MOD 251>, <&cpg CPG_MOD 252>,
++               <&cpg CPG_MOD 253>, <&cpg CPG_MOD 250>,
++               <&cpg CPG_MOD 384>,
++               <&cpg CPG_MOD 246>, <&cpg CPG_MOD 247>,
++               <&cpg CPG_MOD 382>,
++               <&cpg CPG_MOD 352>, <&cpg CPG_MOD 353>,
++               <&cpg CPG_MOD 354>, <&cpg CPG_MOD 355>,
++               <&cpg CPG_MOD 356>, <&cpg CPG_MOD 357>,
++               <&cpg CPG_MOD 358>, <&cpg CPG_MOD 359>,
++               <&cpg CPG_MOD 360>, <&cpg CPG_MOD 361>,
++               <&cpg CPG_MOD 248>, <&cpg CPG_MOD 249>;
+       clock-names = "ssi-all",
+                     "ssi-0", "ssi-1",
+                     "ssi-2", "ssi-3",
+-- 
+2.25.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoi+jMACgkQJNaLcl1U
-h9AoAAf+JLCQAZPDWjPPoDIF/ziOX1MREENUA5lOepNpYlWr9sHn7JDHwdDYz3pJ
-bcGOKtvZz2rZapo5XMpsKkwQLnM+iQe/MDQbMlKah7LdPnpJUbxktRiFMeyBEbQK
-olhJcMD7YtlpkorfiyEAJvdMHTCtAbib4kgp7URAivyiq6+jn56JyFcm3MordwQx
-GvLblk0TJfCsltjQ0LhJntYIATxEmQrsgnJiV15SbBleH4wfrj6YS51JK/rLiQbh
-xfSiyVprghnGsng2mI9qZ/rtqGXNu1MfFi9zkru55SwzCZhwC7vVCkgxSxw1n+A3
-rb+jR914zvDef4NsXmNi1BEzobXUmg==
-=nKHF
------END PGP SIGNATURE-----
-
---FV8rLwTNuD/IBVV3--
