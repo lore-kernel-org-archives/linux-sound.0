@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5203F822D;
-	Fri,  5 Jun 2026 10:42:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63DF4C6EF4;
+	Fri,  5 Jun 2026 10:46:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780656132; cv=none; b=t9il6q9sK1wgDm93y0o52goMjw7h2tjvwuMCHgARm8npoLReP8ik3g5f8csgcKfk7eG9oEOQbj/cYBsZJaPpFrpvUYY1GR0bdYOyLOvvG/9EJpMMSmhVnk8REsE00xCvW203Xkhh8+dwb6oRJ5oCxl5XoM3++DuVrnJCCOnWqn4=
+	t=1780656404; cv=none; b=N5XiOp5CFLvH/uLeMQSMEhrycWpIc18lVWFLLraNtnxDFdYgdf/rUt71feoT7YGDMEELCRaR2FS5LrJ03wdg6dbThcEIc7Ya9lDN1lIaADNmrQfNZfR/QBtQVFXYBoKd9xNcKcEqdm7gTNHoxZW3tJ/gbLhXJyDdQWD4O+EX6Ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780656132; c=relaxed/simple;
-	bh=J0h6tTPLBqBzFB3093crVNp64vtuAbi8eULUrZLaM6k=;
+	s=arc-20240116; t=1780656404; c=relaxed/simple;
+	bh=cUulBsqWTdutZG7hdijIsZXWRwcHT65xZf0ytVsbYsE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h6sAs1T6+KrSRiYUbhzTVsMXSLTS11T3lUtuBKgHcS9PG8LPqmfrs0e+Ib+1qlZ/md6m/wfdxP4nRKvrML4btxKHvOM4XbbiCyZhRneOM2JHU+At7hg3xuCLyH3ApwPc+lxqUKZ+MFhNI4E6kbCAvsX5YQY4hLvyrSdArKV3vXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iqz6PanE; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=eb0ii9+D+OBhjcVvHHjbSH9LKIAQ2ycVn1FnUICHUfwwP4ApMDWIp3hn+Y3SIInwu0gbE3lf5Fz0gUyCIYDTJmfwItY6COq5Kv9Xke3FCPaUQQs6bXOR6Dy5Lr2SKN7LIxeI/oZx+2yOBcp2iSVHaP2k8Zlqn4qiJKY3s/7rOag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EuDDkpzz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iqz6PanE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2B461F00893;
-	Fri,  5 Jun 2026 10:42:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EuDDkpzz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7B5F1F00893;
+	Fri,  5 Jun 2026 10:46:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780656131;
-	bh=loZtY1wUeFLErX3KgMafhwkOURDj1k96YTlVuDim+hs=;
+	s=k20260515; t=1780656399;
+	bh=i3DlqOWeg92UvXjm3ACbczHQArJI6XX3NI4GXYtMdJg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=iqz6PanE19is3J8q9sdxWykmxU7GY/cxgCjqzpvsUKZdW7Zq+5aMgykn1grsJ1OrZ
-	 drOjFYtYOYjwjaIzgsxSO4LBnYElKPB005i4xS0pSjosSrXuflT/ejK49hNCbQBC9M
-	 URjEXPMPahkthtOiohdxjjFCV56qaVazs2lnuF+XQeHPHJilVyisVkYpipO2wYlkD0
-	 7eL7/YB+MfMjMXUJ8KnJbhL27jtQ7KgIjiARIOmsfBF2oh1K9UaA3JU/PXOk4Z9m03
-	 NwlJwhSRWfLuqFueCHwLZhCI3dd/VRBgFHqDMdz33vqZX799op43BfNVSq6omOzr6X
-	 /kqJYn0J+rU3g==
-Message-ID: <0b1c870c-b22b-458e-b845-866bc23d0d79@kernel.org>
-Date: Fri, 5 Jun 2026 12:42:04 +0200
+	b=EuDDkpzz20i9H2OxU+mNRenMCWlJo3dVisJDZKRwwxjwywFH1yTSNTpd5Pc9cbekI
+	 C911UAhw+vLA4xF6uY4Psm+YUipkGx+lqtFpPkZKbTmdz/5NvRQIeIs+auH/k2WZqc
+	 4FlBF/ZjrTQphl5Nh3af1gQlS+aPHNa+HKConN/Sqa5PmEnyEe+q15XiPWMgAH+H1c
+	 fo97csnKn9ZZDrEDJRfl3pwi8a5Gy+PYEJxJFJ84K6S0n1rN5Up+gThffiq25aXxrB
+	 I5SGnkOhqwOzBY0KSJYa2MH4UCSzh3G97VMMJ/xQmB1JJOVQvXC5wkyzH88rHCvY8K
+	 oCQrNSb9h6Hwg==
+Message-ID: <a7852d0b-10ee-42ec-b966-28d3f2066bb1@kernel.org>
+Date: Fri, 5 Jun 2026 12:46:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,7 +35,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/13] dt-bindings: sound: Add Qualcomm QAIF DAI ID header
+Subject: Re: [PATCH 2/13] dt-bindings: sound: Add Qualcomm QAIF binding
 To: Harendra Gautam <harendra.gautam@oss.qualcomm.com>,
  Srinivas Kandagatla <srini@kernel.org>
 Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
@@ -44,7 +44,7 @@ Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20260605103739.3557573-1-harendra.gautam@oss.qualcomm.com>
- <20260605103739.3557573-2-harendra.gautam@oss.qualcomm.com>
+ <20260605103739.3557573-3-harendra.gautam@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -90,18 +90,240 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260605103739.3557573-2-harendra.gautam@oss.qualcomm.com>
+In-Reply-To: <20260605103739.3557573-3-harendra.gautam@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 05/06/2026 12:37, Harendra Gautam wrote:
-> Add a dt-bindings header for the Qualcomm Audio Interface (QAIF) controller
-> DAI IDs. This provides shared constants for devicetree sound-dai references
-> and QAIF aif-interface reg values instead of using raw numeric IDs.
+> Add a Devicetree binding for the Qualcomm Audio Interface (QAIF) CPU DAI
+> controller used on the Shikra audio platform.
 > 
-> Signed-off-by: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
+> QAIF moves PCM data between system memory and external serial audio
+> interfaces through the AIF path, and between memory and the internal Bolero
+> digital codec through the CIF path. The controller needs a binding so
+> platform Devicetree files can describe its MMIO region, DMA IOMMU stream,
+> clocks, interrupt, DAI cells and per-interface AIF configuration.
+> 
+> Describe the single register region, one EE interrupt, the required GCC
+> LPASS and audio core clocks, the DMA IOMMU mapping, and 'aif-interface@N'
+> child nodes used for static PCM, TDM or MI2S configuration.
+> 
 
-This is is never a separate patch from the binding.
+A nit, subject: drop second/last, redundant "bindings". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+
+> Signed-off-by: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
+> ---
+>  .../devicetree/bindings/sound/qcom,qaif.yaml  | 353 ++++++++++++++++++
+>  1 file changed, 353 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/qcom,qaif.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,qaif.yaml b/Documentation/devicetree/bindings/sound/qcom,qaif.yaml
+> new file mode 100644
+> index 000000000000..5b385e05a650
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/qcom,qaif.yaml
+
+Filename must match compatible.
+
+> @@ -0,0 +1,361 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/qcom,qaif.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm Audio Interface (QAIF) CPU DAI Controller
+> +
+> +maintainers:
+> +  - Harendra Gautam <harendra.gautam@oss.qualcomm.com>
+> +
+> +description:
+> +  |
+> +  The Qualcomm Audio Interface (QAIF) is a fully configurable DMA-based
+> +  audio subsystem controller. It serialises and deserialises PCM audio
+> +  between system memory and external serial audio peripherals (PCM, TDM,
+> +  I2S, MI2S) through the AIF path, and transfers parallel audio between
+> +  memory and an internal WCD codec through the CIF path.
+> +
+> +  AIF (Audio Interface): up to 13 multi-lane Unified Audio Interfaces,
+> +  each supporting up to 8 independent data lanes. Each lane is individually
+> +  configurable as TX (output/speaker) or RX (input/mic). All lanes of an
+> +  interface share a single bit clock and frame sync. Supported modes are
+> +  PCM (short/long sync), TDM, and MI2S (stereo/mono). Per-interface
+> +  configuration includes sync source (master/slave), sync mode, sync delay,
+> +  sync inversion, slot width (8/16/24/32-bit), sample width, active slot
+> +  masks (up to 32 slots), bits-per-lane frame size, lane enable/direction
+> +  masks, loopback, output-enable control, and full-cycle path support for
+> +  long chip-to-chip connections.
+> +
+> +  CIF (Codec Interface): up to 32 RDDMA (playback) and 32 WRDMA (capture)
+> +  channels connecting to an internal codec over a parallel bus. Each channel
+> +  supports active-channel enable mask (up to 16 channels), frame-sync
+> +  selection, frame-sync delay, frame-sync output gating, dynamic clock
+> +  gating, and 16-bit packing/unpacking.
+> +
+> +  Note on RX/TX naming convention: in QAIF, RX refers to the capture path
+> +  (audio received from the interface into memory) and TX refers to the
+> +  playback path (audio transmitted from memory to the interface). This
+> +  applies to both AIF lane directions and CIF slot/mask properties.
+> +
+> +  DMA engine: RDDMA fetches audio from DDR/TCM/LPM into a shared SRAM
+> +  latency buffer (SHRAM) and drains it to the interface. WRDMA collects
+> +  data from the interface into SHRAM and writes it to memory. Each DMA
+> +  owns a private SHRAM region defined by start address and length registers.
+> +  Burst sizes of 1/2/4/8/16 beats (64-bit) are supported with up to 4
+> +  outstanding transactions per DMA. Two QSB master ports (QXM0 for TCM,
+> +  QXM1 for DDR/LPM) provide the memory interface.
+> +
+> +  Resources are partitioned among up to 5 Execution Engines (EEs) via
+> +  EE map registers. Each EE owns a set of DMAs, audio interfaces, and
+> +  interface groups, and receives its own independent interrupt output.
+> +  The interrupt hierarchy has a two-level structure: a summary register
+> +  identifies the event class (DMA period, underflow/overflow, error
+> +  response, audio interface underflow/overflow, group done, rate detector,
+> +  VFR), and per-resource status registers identify the specific channel.
+> +
+> +  Interface grouping (bonding) allows up to 6 groups of audio and codec
+> +  interfaces to start synchronously and align their DMA period interrupts
+> +  within half a frame duration using the RDDMA padding feature.
+> +
+> +  Two rate detector blocks measure the frequency of incoming frame sync or
+> +  word select signals and generate interrupts on rate change, undetected
+> +  rate, or sync timeout.
+> +
+> +  Block diagram::
+> +
+> +    System Memory (DDR / LPM / TCM)
+> +    +---------------------------------+
+> +    |  Circular Buffers (ping-pong)   |
+> +    +----------+----------+-----------+
+> +               |          ^
+> +         64-bit AXI  64-bit AXI
+> +               |          |
+> +    +----------v----------+-----------+
+> +    |        QSB Master Ports         |
+> +    |  +----------+  +----------+     |
+> +    |  |   QXM0   |  |   QXM1   |     |
+> +    |  +----+-----+  +-----+----+     |
+> +    +-------|--------------|----------+
+> +            |              |
+> +    +-------v--------------v----------+
+> +    |         Shared RAM (SHRAM)       |
+> +    |  +------------+  +------------+ |
+> +    |  | QXM0 Read  |  | QXM0 Write | |
+> +    |  | SHRAM      |  | SHRAM      | |
+> +    |  +------------+  +------------+ |
+> +    |  +------------+  +------------+ |
+> +    |  | QXM1 Read  |  | QXM1 Write | |
+> +    |  | SHRAM      |  | SHRAM      | |
+> +    |  +------------+  +------------+ |
+> +    +---+--------+--------+-------+---+
+> +        |        |        |       |
+> +    +---v--+  +--v---+ +--v---+ +-v----+
+> +    |RDDMA |  |RDDMA | |WRDMA | |WRDMA |
+> +    | AIF  |  | CIF  | | AIF  | | CIF  |
+> +    |[0..n]|  |[0..n]| |[0..n]| |[0..n]|
+> +    +--+---+  +--+---+ +--+---+ +-+----+
+> +       |         |       ^          ^
+> +       | TX      | TX    | RX       | RX
+> +       v         v       |          |
+> +    +--+--------------------+  +----+----------+
+> +    |  Unified Audio Intf   |  | Codec DMA     |
+> +    |  (AIF 0..12)          |  | Interface     |
+> +    |                       |  | (CIF)         |
+> +    |  AUD_INTFa block:     |  |               |
+> +    |  - Serializer (TX)    |  | RDDMA: DDR -> |
+> +    |  - De-serializer (RX) |  |   internal    |
+> +    |  - Sync gen/detect    |  |   codec       |
+> +    |  - Up to 8 data lanes |  | WRDMA: codec  |
+> +    |  - PCM / TDM / MI2S   |  |   -> DDR      |
+> +    |  - Near Pad Logic     |  | Up to 16 ch   |
+> +    +--+--------------------+  +----+----------+
+> +       |  Lane 0..7 (TX/RX)       |  Parallel bus
+> +       |  Bit clk + Frame sync    |  + Frame sync
+> +       v                          v
+> +    +--+--------+          +------+------+
+> +    | External  |          | Internal    |
+> +    | Serial    |          | Digital     |
+> +    | Peripherals|         | Codec       |
+> +    | (PCM/TDM/ |          | (Bolero/    |
+> +    |  MI2S)    |          |  WCD)       |
+> +    +-----------+          +-------------+
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - qcom,shikra-qaif-cpu
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 15
+
+Drop
+
+> +    maxItems: 15
+> +
+> +  clock-names:
+> +    items:
+> +      - const: lpass_config_clk
+> +      - const: lpass_core_axim_clk
+> +      - const: aud_dma_clk
+> +      - const: aud_dma_mem_clk
+> +      - const: bus_clk
+> +      - const: aif_if0_ebit_clk
+> +      - const: aif_if0_ibit_clk
+> +      - const: aif_if1_ebit_clk
+> +      - const: aif_if1_ibit_clk
+> +      - const: aif_if2_ebit_clk
+> +      - const: aif_if2_ibit_clk
+> +      - const: aif_if3_ebit_clk
+> +      - const: aif_if3_ibit_clk
+> +      - const: ext_mclka_clk
+> +      - const: ext_mclkb_clk
+
+Drop _clk everywhere
+
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  '#sound-dai-cells':
+> +    const: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +  status: true
+
+Please do not invent own style. Is there any binding with something like
+that?
+
+I finish here. Why? Because you sent DIFFERENT binding to internal
+review. Then you made completely confusing changes and never reviewed it
+internally again.
+
+The internal review which Qualcomm implemented is for purpose of not
+wasting community time on reviewing trivialities. You bypassing this and
+sending us the trivialities feels like that wasting time is okay?
+
+No, it is not okay.
 
 Best regards,
 Krzysztof
