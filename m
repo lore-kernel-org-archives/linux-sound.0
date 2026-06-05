@@ -1,276 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83B441931B;
-	Fri,  5 Jun 2026 11:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A46D47ECF5
+	for <linux-sound@vger.kernel.org>; Fri,  5 Jun 2026 11:14:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780657372; cv=none; b=RaMK7IQ+HaXK1JmdVPB04FfinMhhf5WC03Ca82Gum3TD1EqQrCoZ3EMh/7E8Cpprj7lkIuCewyz03SH3l01c9R57eVt+8ALuKHX2asp3BUm4DaaO01VwXd0EsP6cmNx/mjqjgV2yhPP3sAQQT0SjJG+sXe5hVWDvHr3r1pnIZQs=
+	t=1780658096; cv=none; b=iCdv8lPBrwB9Fh74nJcvVTXtiQ6p6xAH9kEtVhdKincjIo45Dda1UwsncjKuA7QMPyZBbfOX/p/DgffAoj7xc9KgFU+0HppkSjZCHdKAm7j++b6T/B3Uq2HCqdDomFHOD/s3j7A1e2OYWn5bTrUBSzSfprSQ/grb38r1OArhkBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780657372; c=relaxed/simple;
-	bh=ATKuZrmjh0+nxYwrl5UozVjZ4MFh7N8Xie5aZebTgJo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FuwoVq3fM+kfTSlwsIw8WF/PEQky5YyRf5uTGTWdwvGREjA40KQIyv50PhH0miBNXpp6INA0yYa+CZHS+EWcjxQgFKJlRRfprMUBiUjtd+QI8LI2aPnHB6FpNHBuTJ2pR8J8Fpd4UQyft0BSIF0UMOk8UDsk0JAc/bjatXNyedc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ArwlXFJ4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780658096; c=relaxed/simple;
+	bh=EmAxi0dy8XN2ZS2UaSQ6lFm5syiiZ9+VWwhsuIG79/M=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=B4WL3BGJhuA6IeP1sDpHRxXBux/UpjCtHLGwdPX9YdJVccEh/ubDOG27c+A3zUqQ+6XwILNtG4kZfEXOTIcKwsNucSptJov4G+E+ZKmvsyZHm5thecksUSEItfjGn8uMSaHnZvy4paYeA/HPQgZ18RYx3O2vgGbigIQ9GIKvyik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RGuj9ZHm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tiGIt6cA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RGuj9ZHm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tiGIt6cA; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ArwlXFJ4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DF681F00893;
-	Fri,  5 Jun 2026 11:02:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780657371;
-	bh=SOrwkWwzDpnmIIcj/befEioPqvfrPdVPjZKeLNjoeGQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ArwlXFJ4RJftwlThQuOdEOEcjNo3dB9sqJ7OS44qN+HFaJcW63P+//yzsU86ayT38
-	 +38jJ+QhXylXI5/ux7t1SPIQL5WNPA3Wb+xN/sdQfcgpmSp2x1Zc30F3Rw3WYELSGu
-	 c/uWq8ieO9o3KxCkbpR+PPhR1g8TiYZoK9X2+rQtLOi+tmX/SsOBqasLnUPnO9gH53
-	 g/qRPAp9LwSwcy1K5KFw+XEoMH05OZdfnpZEgNJqdkFGbuqtTfogqg6RtAnZjFNDsF
-	 bXaNbyxo0nY7ESq7nWQ65hXlhglLsVwPpvNFV36tnAMMJTbYjpbHy1Yy7UyXbPxxOg
-	 xcx/QVEgLZqJA==
-Message-ID: <0f0fe294-a6c8-4b2d-a038-9f699845ab58@kernel.org>
-Date: Fri, 5 Jun 2026 13:02:45 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RGuj9ZHm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tiGIt6cA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RGuj9ZHm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tiGIt6cA"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 88EF76B24D;
+	Fri,  5 Jun 2026 11:14:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780658093; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3YCdUF9pUzumwZW8AJ7mjfGIGEUiBosrt854yz49E8Y=;
+	b=RGuj9ZHmIlkR3TMiOmmE5YZF7cVk8A+ZcHqmBCiY+s7A9MzJGjyTL5OqUSEY0vWNVm75I1
+	uLT3It5UeRMmAgGVOS4EtBDDMx3gcfqA4QgsdmMLzJRXInYM7xD2BZxxkQtcx/PA9GAnnw
+	RSZ6/zj3Hhm50WMuVbDNuNvMz4MI8Rg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780658093;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3YCdUF9pUzumwZW8AJ7mjfGIGEUiBosrt854yz49E8Y=;
+	b=tiGIt6cAIrlZUH/S21Hkbd1A8ujW8hTAE/iyXZKkCipEJa983kJCxwWoplKyoPHHkhVCJH
+	uwG+uwPinZwjnBCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780658093; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3YCdUF9pUzumwZW8AJ7mjfGIGEUiBosrt854yz49E8Y=;
+	b=RGuj9ZHmIlkR3TMiOmmE5YZF7cVk8A+ZcHqmBCiY+s7A9MzJGjyTL5OqUSEY0vWNVm75I1
+	uLT3It5UeRMmAgGVOS4EtBDDMx3gcfqA4QgsdmMLzJRXInYM7xD2BZxxkQtcx/PA9GAnnw
+	RSZ6/zj3Hhm50WMuVbDNuNvMz4MI8Rg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780658093;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3YCdUF9pUzumwZW8AJ7mjfGIGEUiBosrt854yz49E8Y=;
+	b=tiGIt6cAIrlZUH/S21Hkbd1A8ujW8hTAE/iyXZKkCipEJa983kJCxwWoplKyoPHHkhVCJH
+	uwG+uwPinZwjnBCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 49541779A9;
+	Fri,  5 Jun 2026 11:14:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id dUGuEK2vImoUDwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 05 Jun 2026 11:14:53 +0000
+Date: Fri, 05 Jun 2026 13:14:52 +0200
+Message-ID: <87y0gttf0z.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	notify@kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: qcom: Initialize offload control return value
+In-Reply-To: <20260605-alsa-usb-qcom-offload-ret-init-v1-1-dc72fcc4bd3b@gmail.com>
+References: <20260605-alsa-usb-qcom-offload-ret-init-v1-1-dc72fcc4bd3b@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/13] ASoC: qcom: Add QAIF regmap, DT parsing and
- platform init
-To: Harendra Gautam <harendra.gautam@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260605103739.3557573-1-harendra.gautam@oss.qualcomm.com>
- <20260605103739.3557573-11-harendra.gautam@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260605103739.3557573-11-harendra.gautam@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Level: 
 
-On 05/06/2026 12:37, Harendra Gautam wrote:
-> +int asoc_qcom_qaif_cpu_platform_probe(struct platform_device *pdev)
-> +{
-> +	struct qaif_drv_data *drvdata;
-> +	struct resource *res;
-> +	const struct qaif_variant *variant;
-> +	struct device *dev = &pdev->dev;
-> +	const struct of_device_id *match;
-> +	int ret, i, dai_id, idx;
-> +	bool variant_init_done = false;
-> +
-> +	dev_dbg(dev, "%s\n", __func__);
+On Fri, 05 Jun 2026 06:14:40 +0200,
+Cássio Gabriel wrote:
+> 
+> snd_usb_offload_create_ctl() returns ret after walking the USB PCM list,
+> but ret is only assigned after a playback stream passes the endpoint and
+> PCM-index filters.
+> 
+> If all playback streams are skipped, for example because there is no
+> playback endpoint or because all PCM indexes exceed the 0xff control
+> range, the function returns an uninitialized stack value.
+> 
+> Initialize ret to 0 so the no-control-created path returns deterministic
+> success, while preserving the existing negative error return when
+> snd_ctl_add() fails.
+> 
+> Fixes: a67656f011d1 ("ALSA: usb-audio: qcom: Add USB offload route kcontrol")
+> Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
-NAK, see further. This is clear, old known antipattern. Don't send such
-code anymore.
-
-> +	drvdata = devm_kzalloc(dev, sizeof(struct qaif_drv_data), GFP_KERNEL);
-
-sizeof(*), and with third argument - lack of dev_err_probe - means you
-just sent us old junk vendor code.
-
-That's waste of the time - we will have to point you all standard
-issues, we solved already years ago.
-
-No. Drop all this code and start from current kernel code as your base
-so you won't be repeating same old poor patterns.
-
-> +	if (!drvdata)
-> +		return -ENOMEM;
-> +	platform_set_drvdata(pdev, drvdata);
-> +
-> +	match = of_match_device(dev->driver->of_match_table, dev);
-> +	if (!match || !match->data)
-> +		return -EINVAL;
-> +
-> +	drvdata->variant = (const struct qaif_variant *)match->data;
-
-Why do you need to cast?
-
-> +	variant = drvdata->variant;
-> +	if (!variant) {
-> +		dev_err(dev, "No variant data\n");
-
-Is it a possible condition? Probably no, so why printing messages?
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = of_qaif_parse_aif_intf_cfg(dev, drvdata);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to parse aif interfaces: %d\n", ret);
-> +		return -EINVAL;
-> +	}
-> +
-> +	drvdata->audio_qaif =
-> +			devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(drvdata->audio_qaif))
-> +		return PTR_ERR(drvdata->audio_qaif);
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	if (!res)
-> +		return -EINVAL;
-> +
-> +	audio_qaif_regmap_config.max_register = resource_size(res);
-> +
-> +	drvdata->audio_qaif_map = devm_regmap_init_mmio(dev, drvdata->audio_qaif,
-> +				&audio_qaif_regmap_config);
-
-Your code is barely readable.
-
-> +	if (IS_ERR(drvdata->audio_qaif_map))
-> +		return PTR_ERR(drvdata->audio_qaif_map);
-> +
-> +	ret = of_qaif_cdc_dma_clks_parse(dev, drvdata);
-> +	if (ret) {
-> +		dev_err(dev, "failed to get cdc dma clocks %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	if (variant->init) {
-> +		ret = variant->init(pdev);
-> +		if (ret) {
-> +			dev_err(dev, "error initializing variant: %d\n", ret);
-> +			return ret;
-> +		}
-> +		variant_init_done = true;
-> +	}
-> +
-> +	for (i = 0; i < variant->num_dai; i++) {
-> +		dai_id = variant->dai_driver[i].id;
-> +		if (is_cif_dma_port(dai_id))
-> +			continue;
-> +		idx = variant->get_dma_idx(dai_id);
-> +		if (idx < 0)
-> +			continue;
-> +
-> +		drvdata->mi2s_bit_clk[idx] = devm_clk_get(dev,
-> +						variant->dai_bit_clk_names[idx]);
-> +		if (IS_ERR(drvdata->mi2s_bit_clk[idx])) {
-> +			dev_err(dev,
-> +				"error getting %s: %ld\n",
-> +				variant->dai_bit_clk_names[idx],
-> +				PTR_ERR(drvdata->mi2s_bit_clk[idx]));
-> +			ret = PTR_ERR(drvdata->mi2s_bit_clk[idx]);
-
-Heh....
-
-> +			goto err;
-> +		}
-> +	}
-> +
-> +	ret = qaif_aif_cpu_init_bitfields(dev, drvdata->audio_qaif_map);
-> +	if (ret) {
-> +		dev_err(dev, "error init cif bitfield: %d\n", ret);
-> +		goto err;
-> +	}
-> +
-> +	ret = qaif_aif_cfg_cpu_init_bitfields(dev, drvdata->audio_qaif_map);
-> +	if (ret) {
-> +		dev_err(dev, "error init aif_intfctl field: %d\n", ret);
-> +		goto err;
-> +	}
-> +
-> +	ret = qaif_cif_cpu_init_bitfields(dev, drvdata->audio_qaif_map);
-> +	if (ret) {
-> +		dev_err(dev, "error init cif bitfield: %d\n", ret);
-> +		goto err;
-> +	}
-> +
-> +	ret = devm_snd_soc_register_component(dev, &qaif_cpu_comp_driver,
-> +								variant->dai_driver,
-> +								variant->num_dai);
-> +	if (ret) {
-> +		dev_err(dev, "error registering cpu driver: %d\n", ret);
-
-Why aren't you using modern style? dev_err_probe?
-
-> +		goto err;
-> +	}
-> +
-> +	ret = asoc_qcom_qaif_platform_register(pdev);
-> +	if (ret) {
-> +		dev_err(dev, "error registering platform driver: %d\n", ret);
-> +		goto err;
-> +	}
-> +	dev_dbg(&pdev->dev, "%s: QAIF CPU-Platform Driver Registered Successfully\n", __func__);
-
-Drop. This does not look like useful printk message. Drivers should be
-silent on success:
-https://elixir.bootlin.com/linux/v6.15-rc7/source/Documentation/process/coding-style.rst#L913
-https://elixir.bootlin.com/linux/v6.15-rc7/source/Documentation/process/debugging/driver_development_debugging_guide.rst#L79
-
-Especially trivial probe successes are useless - core handles it.
-
-> +err:
-> +	if (ret && variant_init_done && variant->exit)
-> +		variant->exit(pdev);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(asoc_qcom_qaif_cpu_platform_probe);
-
-Every exported function should have kerneldoc.
-
-> +
-> +void asoc_qcom_qaif_cpu_platform_remove(struct platform_device *pdev)
-> +{
-> +	struct qaif_drv_data *drvdata = platform_get_drvdata(pdev);
-> +
-> +	if (drvdata->variant->exit)
-> +		drvdata->variant->exit(pdev);
-> +}
-> +EXPORT_SYMBOL_GPL(asoc_qcom_qaif_cpu_platform_remove);
-> +
+Applied to for-next branch now.  Thanks.
 
 
-
-
-Best regards,
-Krzysztof
+Takashi
