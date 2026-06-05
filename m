@@ -1,41 +1,40 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B776D4183CD;
-	Fri,  5 Jun 2026 10:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E7C4BC012;
+	Fri,  5 Jun 2026 10:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780655877; cv=none; b=c8lPHVA+jK0ZgTsDyNHlPGpBtxu1tS/0NyWzFIq1s0GCTkrh0Y4H5MZoyWtM1j7fbhG9TUYee/MjLaW7tylrGdFExzUdSh2jF8MwzzksYMpqBeB8tOnrfWDSEr9HVALa88xTd3MrFWYN4vuzO6zi5kfq5jX265NIfDBDoI6gOG8=
+	t=1780655881; cv=none; b=bewW/IKB7SM74lJGXlRjQhAimp8NC+jzQ2lb9F1aNftbp3q1yx2HX9LCt4Yx5B00yqRbniL1Pp2QSEemn0zG8n7XIObYcf7tLup1hJGhid4ZFwoUdocqDqXHUF1rpjkezrgdbxouBIOGWhCASbZNpbDwayczWE7dF398y32gJt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780655877; c=relaxed/simple;
-	bh=zuk8XiQNs/JAyL1uFTnxn+zjPUc0+Kg3ZQeCk8+o4vg=;
+	s=arc-20240116; t=1780655881; c=relaxed/simple;
+	bh=6Bau6eWF3OGZbph4DhBnNqwUvTGQCcIfsMmBpA4jPbU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YR+VbIlwJ213AYFZqXm1MjJLG6K8LG6YSBZpfhVGfu1hV1LqNYLSkS/voJ8oHwpyJ7MviXCJUMZxcMlVD6fzwWmBfEyLb6YaYZ5E/phjAe8/jh0A2hRnn1gjS5lhYjPMQTc9KVyqjSe0wgni14vt7WvzweSkErUiW0InlKXTja0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kgkDNREx; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version; b=s0XE2ferCnZCPNIiEM22QSaFGyHcTuGAB3Xygkj596P8lSs9FDua3CuLVQ38MNHgZAK9m/6ASvjP38WlcQ0JGAAuKQgqmmHPvuOdsKta4KoKFmWks8Qh4ObdnzZHAega7Wyg0Clj4HNpgCtsCXKIhbcO28QA/pnCQsJfLVhgdM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=a+/SXAiZ; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kgkDNREx"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6556Oawe3112461;
-	Fri, 5 Jun 2026 10:37:53 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="a+/SXAiZ"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 655A4KC82975103;
+	Fri, 5 Jun 2026 10:37:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	jgzmhYHrpG0Ff/CL+iSKnmwN0NIEacRz4ArN4DDbdOs=; b=kgkDNREx46XTKlj6
-	g1SxXDfzBww7r+EMzEPInzbt+cnOnjJICml6n3DlyWqMtLqK+0avNvMYDGS2CQvn
-	1cc46DaeAAOvcdleIBUWf+W5+qf4bEYBX8HYkM90Z7W6v12Ieyoeq1oa0wZ6/1pK
-	VqlmlQNUQxFjKqS+cb4Ol42kxzsOxbaYrlpqiZDnx2FDysmPJ01chV9UVoZbNDcN
-	YMlExU86Q2Zv7BAdgpKvWuLrBMRws3dODpvaPb5+3HNWj3gK/hioRC9HyDumc7ro
-	hxWyF6jCkXeRZSpIAQksOypX6xXxx0giiXNDi4GKpMWqqAkTZGxHmZVaWJsBsw73
-	sEainA==
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=FJ9WJrzJB+H
+	GT0aua/Hyv4If1KBHQbm8D8NXwMK4R14=; b=a+/SXAiZbwPCz8uAyh2znQ7ukSl
+	ZGcR057e8tlZeKDcDTP+t2SYgOUOn277qmdmjkWpXUv8fLyJL6W5va2Qu5/4Zyqt
+	fptrmmdxy6z9G/n3cuf/bHC0wCmSvTAC5Z8YDuriiKoMm2qiDAKIPA67fcPZRywe
+	9InirxmuHMdTqrz5BAMO8KVibUmf1BDKH31VAVBMxva6Myk50RhLo78yJNABewcg
+	eHhoe1Q8Z6i0AgvG4Xax3hz83lwHI1Cv5sknGtDux1yVYCw2nwUCpYUpVnkMnBJW
+	KHPNilVJirEfYhSkkJjI/4+/iC0JCOzTRcVuQYcaakdn5G0v/odmwYUdIEQ==
 Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ekfv732yj-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ekpnu9hcm-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Jun 2026 10:37:52 +0000 (GMT)
+	Fri, 05 Jun 2026 10:37:54 +0000 (GMT)
 Received: from hu-hgautam-hyd.qualcomm.com (hu-hgautam-hyd.qualcomm.com [10.147.247.91])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 655Abk6n011714;
-	Fri, 5 Jun 2026 10:37:49 GMT
+	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 655Abk6p011714;
+	Fri, 5 Jun 2026 10:37:51 GMT
 From: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
 To: Srinivas Kandagatla <srini@kernel.org>
 Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
@@ -44,9 +43,9 @@ Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
         Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 2/13] dt-bindings: sound: Add Qualcomm QAIF binding
-Date: Fri,  5 Jun 2026 16:07:28 +0530
-Message-Id: <20260605103739.3557573-3-harendra.gautam@oss.qualcomm.com>
+Subject: [PATCH 4/13] ASoC: qcom: Add QAIF hardware register map
+Date: Fri,  5 Jun 2026 16:07:30 +0530
+Message-Id: <20260605103739.3557573-5-harendra.gautam@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260605103739.3557573-1-harendra.gautam@oss.qualcomm.com>
 References: <20260605103739.3557573-1-harendra.gautam@oss.qualcomm.com>
@@ -56,420 +55,456 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-QCInternal: smtphost
-X-Proofpoint-GUID: DXrFP0_MecdF69zEtYd5ECu5HvHTBAsm
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDEwMyBTYWx0ZWRfX62PK47UggQK0
- lkTwntA5sAIAahrySXlHRjHxccWawLhxNRzwPJ2UrxBZvKQZVEI3ZVhjBWfM1VLZy+zWQlbseAn
- BWETxjS39j0mqq+hI1L0JK5HzVcrIQvtFHs5vYAYu23dK2ERJKjRPkWXdqSnoqDH7MsqHZklvtq
- xoB9/EYgTs5MdBL77s7jfSf2D0ArOMRYkIMk1+Sx3kITn7B23gX43rR9DsiEuYsdzobdOdkPQtG
- 3IAHGzmqQ9beMvOFvebIdmzBxuDFaoH54bGulukCYW+irC5mgEF0nePagD+gPNGZ7kCbcft+RsQ
- uRMdzeAJ/JlClsBO+RR2uSDTcPqraoiJJhtTXq3EuOOgyfgmy6iN1b2MUyZG9XraefeFxVMzMp4
- 1bEsaSlykmkjxdMjZ30fkOTZBte6oJPOJ12pm1dFhT7V7MK8eGa5bbHQrJQ6bbZqkpojZSweCAk
- 9T5GBTq1d/oqNNQ96hA==
-X-Authority-Analysis: v=2.4 cv=JNULdcKb c=1 sm=1 tr=0 ts=6a22a700 cx=c_pps
+X-Proofpoint-GUID: H8DTCX_OFun0ds8cmRJPFzlTsv4_np-F
+X-Authority-Analysis: v=2.4 cv=Ksl9H2WN c=1 sm=1 tr=0 ts=6a22a703 cx=c_pps
  a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=gEfo2CItAAAA:8
- a=EUspDBNiAAAA:8 a=2W7YXHVdVEJxzfH0i0IA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-ORIG-GUID: DXrFP0_MecdF69zEtYd5ECu5HvHTBAsm
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=3WHJM1ZQz_JShphwDgj5:22 a=EUspDBNiAAAA:8 a=WaxOdm7N1IIUbwD4DyAA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDEwMyBTYWx0ZWRfX27Lgy26aXFeI
+ IDlF2xXlsByQ2DUuvDcxOAbkCRVEw6ERYb8H8ClIQH6xo6gzhi/uc7OiKfgEcR6u1ih8G4abEOb
+ FLbv2DGcIjX2KvTvDtqSXmKelaWHRWt12/1qqtxGai+YfG5OKkC7EPx2GVP3q8WWHHh1u2ehMop
+ HrXC2Z6hSTbYNlPeYcIhuHe2CriSDpZ2CKdEs7MbiQ889OOlhy/Eyg+dmmcjXhctPFNA9/tFrPN
+ 1RzA7T4Sz/cmOu+YWFURv+YzZsVoH4Rc5sDmDORPkg0dp/pl27WMkucsKYSMNGHFTr13mzck3pz
+ DOi9aCn7618h2qmNtOchI6aQqD1sMgpry6Zqt3tYLW/uukALKtu3sCaJkODL8tRNO2RwS5DY/Ce
+ MxdW2XclVwpjCeptdFVDkKREJ3H/qGY+ZwuKqjyYwaF/v2q4qvizMJgS577s6cKNb/hs4a8TA4i
+ iFPo0Ke3EocuYsJTs1Q==
+X-Proofpoint-ORIG-GUID: H8DTCX_OFun0ds8cmRJPFzlTsv4_np-F
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-05_01,2026-05-28_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0 spamscore=0
- clxscore=1015 adultscore=0 priorityscore=1501 malwarescore=0 bulkscore=0
+ impostorscore=0 phishscore=0 clxscore=1015 priorityscore=1501 adultscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 bulkscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606050103
 
-Add a Devicetree binding for the Qualcomm Audio Interface (QAIF) CPU DAI
-controller used on the Shikra audio platform.
+Add qaif-reg.h with the MMIO register definitions for the Qualcomm Audio
+Interface (QAIF) hardware block.
 
-QAIF moves PCM data between system memory and external serial audio
-interfaces through the AIF path, and between memory and the internal Bolero
-digital codec through the CIF path. The controller needs a binding so
-platform Devicetree files can describe its MMIO region, DMA IOMMU stream,
-clocks, interrupt, DAI cells and per-interface AIF configuration.
-
-Describe the single register region, one EE interrupt, the required GCC
-LPASS and audio core clocks, the DMA IOMMU mapping, and 'aif-interface@N'
-child nodes used for static PCM, TDM or MI2S configuration.
+The QAIF driver needs these definitions to program the core registers,
+audio interfaces, AIF/CIF DMA channels, interrupt registers, SHRAM/QXM
+routing, and SID maps. Also add common accessor macros so the driver can
+select the appropriate AIF or CIF DMA register set based on the DAI ID.
 
 Signed-off-by: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
 ---
- .../devicetree/bindings/sound/qcom,qaif.yaml  | 353 ++++++++++++++++++
- 1 file changed, 353 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/qcom,qaif.yaml
+ sound/soc/qcom/qaif-reg.h | 405 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 405 insertions(+)
+ create mode 100644 sound/soc/qcom/qaif-reg.h
 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,qaif.yaml b/Documentation/devicetree/bindings/sound/qcom,qaif.yaml
+diff --git a/sound/soc/qcom/qaif-reg.h b/sound/soc/qcom/qaif-reg.h
 new file mode 100644
-index 000000000000..5b385e05a650
+index 000000000000..1034b50b431a
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/qcom,qaif.yaml
-@@ -0,0 +1,361 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/qcom,qaif.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/sound/soc/qcom/qaif-reg.h
+@@ -0,0 +1,405 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
++ *
++ * qaif-reg.h -- ALSA SoC CPU-Platform DAI driver register header file for QTi QAIF
++ */
++#ifndef __QAIF_REG_H__
++#define __QAIF_REG_H__
 +
-+title: Qualcomm Audio Interface (QAIF) CPU DAI Controller
++#include "qaif.h"
 +
-+maintainers:
-+  - Harendra Gautam <harendra.gautam@oss.qualcomm.com>
++#define QAIF_SUMMARY_IRQSTAT_REG(v)					(0x19188 + (0x1000 * (v->ee)))
 +
-+description:
-+  |
-+  The Qualcomm Audio Interface (QAIF) is a fully configurable DMA-based
-+  audio subsystem controller. It serialises and deserialises PCM audio
-+  between system memory and external serial audio peripherals (PCM, TDM,
-+  I2S, MI2S) through the AIF path, and transfers parallel audio between
-+  memory and an internal WCD codec through the CIF path.
 +
-+  AIF (Audio Interface): up to 13 multi-lane Unified Audio Interfaces,
-+  each supporting up to 8 independent data lanes. Each lane is individually
-+  configurable as TX (output/speaker) or RX (input/mic). All lanes of an
-+  interface share a single bit clock and frame sync. Supported modes are
-+  PCM (short/long sync), TDM, and MI2S (stereo/mono). Per-interface
-+  configuration includes sync source (master/slave), sync mode, sync delay,
-+  sync inversion, slot width (8/16/24/32-bit), sample width, active slot
-+  masks (up to 32 slots), bits-per-lane frame size, lane enable/direction
-+  masks, loopback, output-enable control, and full-cycle path support for
-+  long chip-to-chip connections.
++/* Core HW info */
++#define QAIF_HW_VERSION_REG                                 (0x0000)
++#define QAIF_HW_INFO_REG                                    (0x0004)
++#define QAIF_HW_INFO2_REG                                   (0x0008)
 +
-+  CIF (Codec Interface): up to 32 RDDMA (playback) and 32 WRDMA (capture)
-+  channels connecting to an internal codec over a parallel bus. Each channel
-+  supports active-channel enable mask (up to 16 channels), frame-sync
-+  selection, frame-sync delay, frame-sync output gating, dynamic clock
-+  gating, and 16-bit packing/unpacking.
++/* Interface lane and channel info */
++#define QAIF_AUD_INTF_LANE_INFO_REG                         (0x0020)
++#define QAIF_AUD_INTF_LANE_INFO2_REG                        (0x0024)
++#define QAIF_CODEC_TX_INTF_CH_INFO_REG(n)                   (0x0028 + (0x4 * (n)))
++#define QAIF_CODEC_RX_INTF_CH_INFO_REG(n)                   (0x0068 + (0x4 * (n)))
++#define QAIF_QXM1_SHRAM_LENGTH_INFO_REG                     (0x0088)
++#define QAIF_QXM0_SHRAM_LENGTH_INFO_REG                     (0x008C)
++#define QAIF_NUM_AUD_INTF_TO_RAIL_INFO_REG                  (0x0090)
 +
-+  Note on RX/TX naming convention: in QAIF, RX refers to the capture path
-+  (audio received from the interface into memory) and TX refers to the
-+  playback path (audio transmitted from memory to the interface). This
-+  applies to both AIF lane directions and CIF slot/mask properties.
++/* Debug/control and status */
++#define QAIF_DEBUG_CTL_REG                                  (0x0200)
++#define QAIF_WRDMA_LOOPBACK_EN_REG                          (0x0204)
++#define QAIF_WRDMA_LOOPBACK_SEL_REG                         (0x0208)
++#define QAIF_SHRAM_DYNAMIC_CLK_GATING_EN_REG                (0x0300)
++#define QAIF_AXI_STATUS_REG                                 (0x0304)
++#define QAIF_QSB_DYNAMIC_CLK_GATING_EN_REG                  (0x0308)
++#define QAIF_START_STOP_CTRL_BYPASS_EN_REG                  (0x030C)
++#define QAIF_QXM0_AXI_ATTR_CFG_REG                          (0x040C)
 +
-+  DMA engine: RDDMA fetches audio from DDR/TCM/LPM into a shared SRAM
-+  latency buffer (SHRAM) and drains it to the interface. WRDMA collects
-+  data from the interface into SHRAM and writes it to memory. Each DMA
-+  owns a private SHRAM region defined by start address and length registers.
-+  Burst sizes of 1/2/4/8/16 beats (64-bit) are supported with up to 4
-+  outstanding transactions per DMA. Two QSB master ports (QXM0 for TCM,
-+  QXM1 for DDR/LPM) provide the memory interface.
++/* QXM request/grant debug */
++#define QAIF_QXM0_AUD_WR_REQ_GNT_DBG_STAT_REG               (0x0500)
++#define QAIF_QXM1_AUD_WR_REQ_GNT_DBG_STAT_REG               (0x0504)
++#define QAIF_QXM0_CODEC_RX_WR_REQ_DBG_STAT_REG              (0x0508)
++#define QAIF_QXM0_CODEC_RX_WR_GNT_DBG_STAT_REG              (0x050C)
++#define QAIF_QXM1_CODEC_RX_WR_REQ_DBG_STAT_REG              (0x0510)
++#define QAIF_QXM1_CODEC_RX_WR_GNT_DBG_STAT_REG              (0x0514)
++#define QAIF_QXM0_AUD_RD_REQ_GNT_DBG_STAT_REG               (0x0518)
++#define QAIF_QXM1_AUD_RD_REQ_GNT_DBG_STAT_REG               (0x051C)
++#define QAIF_QXM0_CODEC_TX_RD_REQ_DBG_STAT_REG              (0x0520)
++#define QAIF_QXM0_CODEC_TX_RD_GNT_DBG_STAT_REG              (0x0524)
++#define QAIF_QXM1_CODEC_TX_RD_REQ_DBG_STAT_REG              (0x0528)
++#define QAIF_QXM1_CODEC_TX_RD_GNT_DBG_STAT_REG              (0x052C)
++#define QAIF_QXM0_EXT_RDDMA_RD_REQ_GNT_DBG_STAT_REG         (0x0530)
++#define QAIF_QXM1_EXT_RDDMA_RD_REQ_GNT_DBG_STAT_REG         (0x0534)
 +
-+  Resources are partitioned among up to 5 Execution Engines (EEs) via
-+  EE map registers. Each EE owns a set of DMAs, audio interfaces, and
-+  interface groups, and receives its own independent interrupt output.
-+  The interrupt hierarchy has a two-level structure: a summary register
-+  identifies the event class (DMA period, underflow/overflow, error
-+  response, audio interface underflow/overflow, group done, rate detector,
-+  VFR), and per-resource status registers identify the specific channel.
++/* QSB transaction debug */
++#define QAIF_QSB_AUD_WR_TXN_DBG_STAT_REG                    (0x0538)
++#define QAIF_QSB_CODEC_RX_WR_TXN_ERR_DBG_STAT_REG           (0x053C)
++#define QAIF_QSB_CODEC_RX_WR_TXN_OKAY_DBG_STAT_REG          (0x0540)
++#define QAIF_QSB_AUD_ADDR_SENT_DBG_STAT_REG                 (0x0544)
++#define QAIF_QSB_CODEC_TX_RD_ADDR_SENT_DBG_STAT_REG         (0x0548)
++#define QAIF_QSB_EXT_RDDMA_RD_ADDR_SENT_DBG_STAT_REG        (0x054C)
++#define QAIF_QSB_CODEC_RX_WR_ADDR_SENT_DBG_STAT_REG         (0x0550)
++#define QAIF_QSB_AUD_RD_TXN_DBG_STAT_REG                    (0x0554)
++#define QAIF_QSB_CODEC_TX_RD_TXN_ERR_DBG_STAT_REG           (0x0558)
++#define QAIF_QSB_CODEC_TX_RD_TXN_RCVD_DBG_STAT_REG          (0x055C)
++#define QAIF_QSB_EXT_RDDMA_RD_TXN_DBG_STAT_REG              (0x0560)
++#define QAIF_QSB_MISC_DBG_STATUS_REG                        (0x0564)
 +
-+  Interface grouping (bonding) allows up to 6 groups of audio and codec
-+  interfaces to start synchronously and align their DMA period interrupts
-+  within half a frame duration using the RDDMA padding feature.
++/* Global spare and HWE */
++#define QAIF_GLOBAL_SPARE_IN_REG                            (0x0B00)
++#define QAIF_GLOBAL_SPARE_OUT_REG                           (0x0B04)
++#define QAIF_HWE_CFG_REG                                    (0x0B08)
 +
-+  Two rate detector blocks measure the frequency of incoming frame sync or
-+  word select signals and generate interrupts on rate change, undetected
-+  rate, or sync timeout.
++/* SID maps */
++#define QAIF_WRDMA_SID_MAP_REG                              (0x1B00)
++#define QAIF_CODEC_WRDMA_SID_MAP_REG                        (0x1B40)
++#define QAIF_RDDMA_SID_MAP_REG                              (0x1C00)
++#define QAIF_CODEC_RDDMA_SID_MAP_REG                        (0x1C40)
 +
-+  Block diagram::
++/* EE overlap interrupts */
++#define QAIF_EE_OVERLAP_IRQ_EN_REG                          (0x1D00)
++#define QAIF_EE_OVERLAP_IRQ_RAW_STATUS_REG                  (0x1D04)
++#define QAIF_EE_OVERLAP_IRQ_CLEAR_REG                       (0x1D08)
++#define QAIF_EE_OVERLAP_IRQ_FORCE_REG                       (0x1D0C)
 +
-+    System Memory (DDR / LPM / TCM)
-+    +---------------------------------+
-+    |  Circular Buffers (ping-pong)   |
-+    +----------+----------+-----------+
-+               |          ^
-+         64-bit AXI  64-bit AXI
-+               |          |
-+    +----------v----------+-----------+
-+    |        QSB Master Ports         |
-+    |  +----------+  +----------+     |
-+    |  |   QXM0   |  |   QXM1   |     |
-+    |  +----+-----+  +-----+----+     |
-+    +-------|--------------|----------+
-+            |              |
-+    +-------v--------------v----------+
-+    |         Shared RAM (SHRAM)       |
-+    |  +------------+  +------------+ |
-+    |  | QXM0 Read  |  | QXM0 Write | |
-+    |  | SHRAM      |  | SHRAM      | |
-+    |  +------------+  +------------+ |
-+    |  +------------+  +------------+ |
-+    |  | QXM1 Read  |  | QXM1 Write | |
-+    |  | SHRAM      |  | SHRAM      | |
-+    |  +------------+  +------------+ |
-+    +---+--------+--------+-------+---+
-+        |        |        |       |
-+    +---v--+  +--v---+ +--v---+ +-v----+
-+    |RDDMA |  |RDDMA | |WRDMA | |WRDMA |
-+    | AIF  |  | CIF  | | AIF  | | CIF  |
-+    |[0..n]|  |[0..n]| |[0..n]| |[0..n]|
-+    +--+---+  +--+---+ +--+---+ +-+----+
-+       |         |       ^          ^
-+       | TX      | TX    | RX       | RX
-+       v         v       |          |
-+    +--+--------------------+  +----+----------+
-+    |  Unified Audio Intf   |  | Codec DMA     |
-+    |  (AIF 0..12)          |  | Interface     |
-+    |                       |  | (CIF)         |
-+    |  AUD_INTFa block:     |  |               |
-+    |  - Serializer (TX)    |  | RDDMA: DDR -> |
-+    |  - De-serializer (RX) |  |   internal    |
-+    |  - Sync gen/detect    |  |   codec       |
-+    |  - Up to 8 data lanes |  | WRDMA: codec  |
-+    |  - PCM / TDM / MI2S   |  |   -> DDR      |
-+    |  - Near Pad Logic     |  | Up to 16 ch   |
-+    +--+--------------------+  +----+----------+
-+       |  Lane 0..7 (TX/RX)       |  Parallel bus
-+       |  Bit clk + Frame sync    |  + Frame sync
-+       v                          v
-+    +--+--------+          +------+------+
-+    | External  |          | Internal    |
-+    | Serial    |          | Digital     |
-+    | Peripherals|         | Codec       |
-+    | (PCM/TDM/ |          | (Bolero/    |
-+    |  MI2S)    |          |  WCD)       |
-+    +-----------+          +-------------+
++/* EE assignments and maps */
++#define QAIF_EE_RDDMA_ASSIGNMENT_REG(v)                     (0x19148 + (0x1000 * (v->ee)))
++#define QAIF_EE_WRDMA_ASSIGNMENT_REG(v)                     (0x19150 + (0x1000 * (v->ee)))
++#define QAIF_EE_INTF_ASSIGNMENT_REG(v)                      (0x19158 + (0x1000 * (v->ee)))
++#define QAIF_EE_CODEC_RDDMA_ASSIGNMENT_REG(v)               (0x19308 + (0x1000 * (v->ee)))
++#define QAIF_EE_CODEC_WRDMA_ASSIGNMENT_REG(v)               (0x19318 + (0x1000 * (v->ee)))
++#define QAIF_EE_RDDMA_MAP_REG(v)                            (0x1920 + (0x1000 * (v->ee)))
++#define QAIF_EE_WRDMA_MAP_REG(v)                            (0x1940 + (0x1000 * (v->ee)))
++#define QAIF_EE_INTF_MAP_REG(v)                             (0x1960 + (0x1000 * (v->ee)))
++#define QAIF_EE_CODEC_RDDMA_MAP_REG(v)                      (0x1980 + (0x1000 * (v->ee)))
++#define QAIF_EE_CODEC_WRDMA_MAP_REG(v)                      (0x1A00 + (0x1000 * (v->ee)))
 +
-+properties:
-+  compatible:
-+    enum:
-+      - qcom,shikra-qaif-cpu
++/* EE rate-detection and VFR interrupts */
++#define QAIF_EE_RATE_DET_IRQ_EN_REG(v)                      (0x190F0 + (0x1000 * (v->ee)))
++#define QAIF_EE_RATE_DET_IRQ_STATUS_REG(v)                  (0x190F4 + (0x1000 * (v->ee)))
++#define QAIF_EE_RATE_DET_IRQ_RAW_STATUS_REG(v)              (0x190F8 + (0x1000 * (v->ee)))
++#define QAIF_EE_RATE_DET_IRQ_CLEAR_REG(v)                   (0x190FC + (0x1000 * (v->ee)))
++#define QAIF_EE_RATE_DET_IRQ_FORCE_REG(v)                   (0x19100 + (0x1000 * (v->ee)))
 +
-+  reg:
-+    maxItems: 1
++#define QAIF_EE_VFR_IRQ_EN_REG(v)                           (0x19104 + (0x1000 * (v->ee)))
++#define QAIF_EE_VFR_IRQ_STATUS_REG(v)                       (0x19108 + (0x1000 * (v->ee)))
++#define QAIF_EE_VFR_IRQ_RAW_STATUS_REG(v)                   (0x1910C + (0x1000 * (v->ee)))
++#define QAIF_EE_VFR_IRQ_CLEAR_REG(v)                        (0x19110 + (0x1000 * (v->ee)))
++#define QAIF_EE_VFR_IRQ_FORCE_REG(v)                        (0x19114 + (0x1000 * (v->ee)))
 +
-+  iommus:
-+    maxItems: 1
++/* EE AUD_INTF underflow/overflow interrupts */
++#define QAIF_EE_AUD_INTF_UNDERFLOW_IRQ_EN_REG(v)            (0x19160 + (0x1000 * (v->ee)))
++#define QAIF_EE_AUD_INTF_UNDERFLOW_IRQ_STATUS_REG(v)        (0x19164 + (0x1000 * (v->ee)))
++#define QAIF_EE_AUD_INTF_UNDERFLOW_IRQ_RAW_STATUS_REG(v)    (0x19168 + (0x1000 * (v->ee)))
++#define QAIF_EE_AUD_INTF_UNDERFLOW_IRQ_CLEAR_REG(v)         (0x1916C + (0x1000 * (v->ee)))
++#define QAIF_EE_AUD_INTF_UNDERFLOW_IRQ_FORCE_REG(v)         (0x19170 + (0x1000 * (v->ee)))
 +
-+  clocks:
-+    minItems: 15
-+    maxItems: 15
++#define QAIF_EE_AUD_INTF_OVERFLOW_IRQ_EN_REG(v)             (0x19174 + (0x1000 * (v->ee)))
++#define QAIF_EE_AUD_INTF_OVERFLOW_IRQ_STATUS_REG(v)         (0x19178 + (0x1000 * (v->ee)))
++#define QAIF_EE_AUD_INTF_OVERFLOW_IRQ_RAW_STATUS_REG(v)     (0x1917C + (0x1000 * (v->ee)))
++#define QAIF_EE_AUD_INTF_OVERFLOW_IRQ_CLEAR_REG(v)          (0x19180 + (0x1000 * (v->ee)))
++#define QAIF_EE_AUD_INTF_OVERFLOW_IRQ_FORCE_REG(v)          (0x19184 + (0x1000 * (v->ee)))
 +
-+  clock-names:
-+    items:
-+      - const: lpass_config_clk
-+      - const: lpass_core_axim_clk
-+      - const: aud_dma_clk
-+      - const: aud_dma_mem_clk
-+      - const: bus_clk
-+      - const: aif_if0_ebit_clk
-+      - const: aif_if0_ibit_clk
-+      - const: aif_if1_ebit_clk
-+      - const: aif_if1_ibit_clk
-+      - const: aif_if2_ebit_clk
-+      - const: aif_if2_ibit_clk
-+      - const: aif_if3_ebit_clk
-+      - const: aif_if3_ibit_clk
-+      - const: ext_mclka_clk
-+      - const: ext_mclkb_clk
++/* EE L2 Period IRQ mux selection */
++#define QAIF_EE_L2_PERIOD_IRQ_0_3_MUX_SEL_REG(v)            (0x19F00 + (0x1000 * (v->ee)))
++#define QAIF_EE_L2_PERIOD_IRQ_4_7_MUX_SEL_REG(v)            (0x19F04 + (0x1000 * (v->ee)))
 +
-+  interrupts:
-+    maxItems: 1
++/* AUD_INTF block (per interface, stride 0x1000 starting at 0x4000) */
++#define QAIF_AUD_INTF_REG_ADDR(offset, intf)                (0x4000 + (offset) + (0x1000 * (intf)))
 +
-+  '#sound-dai-cells':
-+    const: 1
++#define QAIF_AUD_INTF_CTL_REG(intf)                          QAIF_AUD_INTF_REG_ADDR(0x0000, (intf))
++#define QAIF_AUD_INTF_SYNC_CFG_REG(intf)                     QAIF_AUD_INTF_REG_ADDR(0x0004, (intf))
++#define QAIF_AUD_INTF_BIT_WIDTH_CFG_REG(intf)                QAIF_AUD_INTF_REG_ADDR(0x0008, (intf))
++#define QAIF_AUD_INTF_FRAME_CFG_REG(intf)                    QAIF_AUD_INTF_REG_ADDR(0x000C, (intf))
++#define QAIF_AUD_INTF_ACTV_SLOT_EN_TX_REG(intf)              QAIF_AUD_INTF_REG_ADDR(0x0010, (intf))
++#define QAIF_AUD_INTF_ACTV_SLOT_EN_RX_REG(intf)              QAIF_AUD_INTF_REG_ADDR(0x0030, (intf))
++#define QAIF_AUD_INTF_LANE_CFG_REG(intf)                     QAIF_AUD_INTF_REG_ADDR(0x0050, (intf))
++#define QAIF_AUD_INTF_MI2S_CFG_REG(intf)                     QAIF_AUD_INTF_REG_ADDR(0x0054, (intf))
++#define QAIF_AUD_INTF_CFG_REG(intf)                          QAIF_AUD_INTF_REG_ADDR(0x0058, (intf))
++#define QAIF_AUD_INTF_CHAR_CTL_REG(intf)                     QAIF_AUD_INTF_REG_ADDR(0x005C, (intf))
++#define QAIF_AUD_INTF_CHAR_CFG_REG(intf)                     QAIF_AUD_INTF_REG_ADDR(0x0060, (intf))
++#define QAIF_AUD_INTF_CHAR_DATA_REG(intf)                    QAIF_AUD_INTF_REG_ADDR(0x0064, (intf))
++#define QAIF_AUD_INTF_CHAR_DATA_EXT_REG(intf)                QAIF_AUD_INTF_REG_ADDR(0x0068, (intf))
++#define QAIF_AUD_INTF_CHAR_SYNC_REG(intf)                    QAIF_AUD_INTF_REG_ADDR(0x006C, (intf))
++#define QAIF_AUD_INTF_INIT_DBG_STATUS_REG(intf)              QAIF_AUD_INTF_REG_ADDR(0x0FF0, (intf))
++#define QAIF_AUD_INTF_TX_DBG_STATUS_REG(intf)                QAIF_AUD_INTF_REG_ADDR(0x0FF4, (intf))
++#define QAIF_AUD_INTF_RX_DBG_STATUS_REG(intf)                QAIF_AUD_INTF_REG_ADDR(0x0FF8, (intf))
 +
-+  '#address-cells':
-+    const: 1
++/* RATE_DET block (per detector, stride 0x1000 starting at 0x1E000) */
++#define QAIF_RATE_DET_REG_ADDR(offset, det)                  (0x1E000 + (offset) + (0x1000 * (det)))
 +
-+  '#size-cells':
-+    const: 0
++#define QAIF_RATE_DET_CONFIG_REG(det)                        QAIF_RATE_DET_REG_ADDR(0x0000, (det))
++#define QAIF_RATE_DET_TARGET1_CONFIG_REG(det)                QAIF_RATE_DET_REG_ADDR(0x0004, (det))
++#define QAIF_RATE_DET_TARGET2_CONFIG_REG(det)                QAIF_RATE_DET_REG_ADDR(0x0008, (det))
++#define QAIF_RATE_DET_BIN_REG(det)                           QAIF_RATE_DET_REG_ADDR(0x000C, (det))
++#define QAIF_RATE_DET_STC_DIFF_REG(det)                      QAIF_RATE_DET_REG_ADDR(0x0010, (det))
++#define QAIF_RATE_DET_SEL_REG(det)                           QAIF_RATE_DET_REG_ADDR(0x0014, (det))
++#define QAIF_RATE_DET_TIMEOUT_CFG_REG(det)                   QAIF_RATE_DET_REG_ADDR(0x0018, (det))
 +
-+  status: true
++#define QAIF_WRDMA_MAP_QXM									(0X1000)
++#define QAIF_CODEC_WRDMA_MAP_QXM							(0X1004)
++#define QAIF_RDDMA_MAP_QXM									(0X1010)
++#define QAIF_CODEC_RDDMA_MAP_QXM							(0X1014)
++#define QAIF_RDDMA_QXM1_SHRAM_ST_ADDR(i)					(0X1100 + (0x4 * (i)))
++#define QAIF_CODEC_RDDMA_QXM1_SHRAM_ST_ADDR(i)				(0X1140 + (0x4 * (i)))
++#define QAIF_RDDMA_QXM0_SHRAM_ST_ADDR(i)					(0X1200 + (0x4 * (i)))
++#define QAIF_CODEC_RDDMA_QXM0_SHRAM_ST_ADDR(i)				(0X1240 + (0x4 * (i)))
++#define QAIF_RDDMA_QXM1_SHRAM_LEN(i)						(0x1300 + (0x4 * (i)))
++#define QAIF_CODEC_RDDMA_QXM1_SHRAM_LEN(i)					(0x1340 + (0x4 * (i)))
++#define QAIF_RDDMA_QXM0_SHRAM_LEN(i)						(0x1400 + (0x4 * (i)))
++#define QAIF_CODEC_RDDMA_QXM0_SHRAM_LEN(i)					(0x1440 + (0x4 * (i)))
++#define QAIF_WRDMA_QXM1_SHRAM_ST_ADDR(i)					(0x1500 + (0x4 * (i)))
++#define QAIF_CODEC_WRDMA_QXM1_SHRAM_ST_ADDR(i)				(0x1540 + (0x4 * (i)))
++#define QAIF_WRDMA_QXM0_SHRAM_ST_ADDR(i)					(0x1600 + (0x4 * (i)))
++#define QAIF_CODEC_WRDMA_QXM0_SHRAM_ST_ADDR(i)				(0x1640 + (0x4 * (i)))
++#define QAIF_WRDMA_QXM1_SHRAM_LEN(i)						(0x1700 + (0x4 * (i)))
++#define QAIF_CODEC_WRDMA_QXM1_SHRAM_LEN(i)					(0x1740 + (0x4 * (i)))
++#define QAIF_WRDMA_QXM0_SHRAM_LEN(i)						(0x1800 + (0x4 * (i)))
++#define QAIF_CODEC_WRDMA_QXM0_SHRAM_LEN(i)					(0x1840 + (0x4 * (i)))
 +
-+patternProperties:
-+  "^aif-interface@[0-9a-f]+$":
-+    type: object
-+    description:
-+      AIF interface configuration child node. The compatible string
-+      identifies the serial protocol the interface is wired for on the
-+      board. The unit address matches the hardware AIF interface index.
-+    properties:
-+      compatible:
-+        enum:
-+          - qcom,qaif-pcm-dai
-+          - qcom,qaif-tdm-dai
-+          - qcom,qaif-mi2s-dai
-+      reg:
-+        maxItems: 1
-+        description: |
-+          Hardware AIF interface index (AUD_INTFa block index). This value
-+          also serves as the ALSA DAI ID; it corresponds directly to the
-+          QAIF_MI2S_TDM_AIFn constants in <dt-bindings/sound/qcom,qaif.h>
-+          (e.g. reg = <2> selects QAIF_MI2S_TDM_AIF2).
-+      qcom,qaif-aif-sync-mode:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Sync mode. Use QAIF_AIF_SYNC_MODE_SHORT (0) for short (pulse)
-+          sync or QAIF_AIF_SYNC_MODE_LONG (1) for long (level) sync.
-+      qcom,qaif-aif-sync-src:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Sync source. Use QAIF_AIF_SYNC_SRC_SLAVE (0) for slave mode
-+          or QAIF_AIF_SYNC_SRC_MASTER (1) for master mode.
-+      qcom,qaif-aif-invert-sync:
-+        type: boolean
-+        description: Invert the frame sync polarity.
-+      qcom,qaif-aif-sync-delay:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description: Number of bit-clock cycles to delay the data relative to sync.
-+      qcom,qaif-aif-slot-width-rx:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          RX slot width in bits. This is a board-specific hardware constraint
-+          determined by the wiring of the serial audio interface.
-+      qcom,qaif-aif-slot-width-tx:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          TX slot width in bits. This is a board-specific hardware constraint
-+          determined by the wiring of the serial audio interface.
-+      qcom,qaif-aif-slot-en-rx-mask:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Bitmask of active RX slots. Board-specific — determined by which
-+          TDM slots the codec is wired to on this board.
-+      qcom,qaif-aif-slot-en-tx-mask:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Bitmask of active TX slots. Board-specific — determined by which
-+          TDM slots the codec is wired to on this board.
-+      qcom,qaif-aif-loopback:
-+        type: boolean
-+        description: Enable loopback mode (presence enables loopback).
-+      qcom,qaif-aif-ctrl-data-oe:
-+        type: boolean
-+        description: Enable output drive on the control/data line.
-+      qcom,qaif-aif-lane-config:
-+        $ref: /schemas/types.yaml#/definitions/uint32-matrix
-+        description:
-+          Lane configuration matrix. Each row is a pair <enable direction>
-+          for one lane starting from lane 0, up to 8 lanes. Use
-+          QAIF_AIF_LANE_ENABLE (1) or QAIF_AIF_LANE_DISABLE (0) for enable.
-+          Use QAIF_AIF_LANE_DIR_TX (0) for TX (speaker) or QAIF_AIF_LANE_DIR_RX
-+          (1) for RX (mic). TX and RX lanes should each be grouped contiguously.
-+        maxItems: 8
-+        items:
-+          items:
-+            - description: Lane enable (0 = disabled, 1 = enabled)
-+              enum: [0, 1]
-+            - description: Lane direction (0 = TX/speaker, 1 = RX/mic)
-+              enum: [0, 1]
-+      qcom,qaif-aif-full-cycle-en:
-+        type: boolean
-+        description: Enable full-cycle sync (effective in sync master mode).
-+      qcom,qaif-aif-bits-per-lane:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Number of slots per lane. The frame length is computed as
-+          slot-width multiplied by bits-per-lane.
-+    if:
-+      properties:
-+        compatible:
-+          const: qcom,qaif-mi2s-dai
-+    then:
-+      description:
-+        MI2S interface. Sync mode and slot-enable masks are fixed by the
-+        MI2S protocol and must not be set in DT. Mono/stereo mode is
-+        determined at runtime from the stream channel count.
-+      properties:
-+        qcom,qaif-aif-sync-mode: false
-+        qcom,qaif-aif-slot-en-rx-mask: false
-+        qcom,qaif-aif-slot-en-tx-mask: false
-+    else:
-+      description:
-+        PCM or TDM interface. Sync mode and slot-enable masks are
-+        board-specific and must be provided. Mono mode does not apply.
-+      required:
-+        - qcom,qaif-aif-sync-mode
-+        - qcom,qaif-aif-slot-en-rx-mask
-+        - qcom,qaif-aif-slot-en-tx-mask
++/* RDDMA
++ * v : ptr to qaif_variant
++ */
++#define QAIF_RDDMA_REG_ADDR(v, offset, chan) \
++	(v->rddma_reg_base + (offset) + v->rddma_stride * (chan))
++#define QAIF_RDDMA_CTL_REG(v, chan)							QAIF_RDDMA_REG_ADDR(v, 0x00, (chan))
++#define QAIF_RDDMA_CFG_REG(v, chan)							QAIF_RDDMA_REG_ADDR(v, 0x04, (chan))
++#define QAIF_RDDMA_BASE_ADDR_REG(v, chan)					QAIF_RDDMA_REG_ADDR(v, 0x08, (chan))
++#define	QAIF_RDDMA_BUFF_LEN_REG(v, chan)					QAIF_RDDMA_REG_ADDR(v, 0x10, (chan))
++#define QAIF_RDDMA_CURR_ADDR_REG(v, chan)					QAIF_RDDMA_REG_ADDR(v, 0x14, (chan))
++#define	QAIF_RDDMA_PERIOD_LEN_REG(v, chan)					QAIF_RDDMA_REG_ADDR(v, 0x1C, (chan))
++#define	QAIF_RDDMA_PERIOD_CNT_REG(v, chan)					QAIF_RDDMA_REG_ADDR(v, 0x20, (chan))
++#define QAIF_RDDMA_SHRAM_WORDCNT_REG(v, chan)				QAIF_RDDMA_REG_ADDR(v, 0x24, (chan))
++#define QAIF_RDDMA_FRAME_STATUS_REG(v, chan)				QAIF_RDDMA_REG_ADDR(v, 0x28, (chan))
++#define QAIF_RDDMA_FRAME_STATUS_EXTN_REG(v, chan)			QAIF_RDDMA_REG_ADDR(v, 0x2C, (chan))
++#define QAIF_RDDMA_FRAME_STATUS_CLR_REG(v, chan)			QAIF_RDDMA_REG_ADDR(v, 0x30, (chan))
++#define QAIF_RDDMA_SET_BUFF_CNT_REG(v, chan)				QAIF_RDDMA_REG_ADDR(v, 0x34, (chan))
++#define QAIF_RDDMA_SET_PERIOD_CNT_REG(v, chan)				QAIF_RDDMA_REG_ADDR(v, 0x38, (chan))
++#define QAIF_RDDMA_STC_LSB_REG(v, chan)						QAIF_RDDMA_REG_ADDR(v, 0x3C, (chan))
++#define QAIF_RDDMA_STC_MSB_REG(v, chan)						QAIF_RDDMA_REG_ADDR(v, 0x40, (chan))
++#define QAIF_RDDMA_PERIOD_DET_STAT_REG(v, chan)				QAIF_RDDMA_REG_ADDR(v, 0x44, (chan))
++#define QAIF_RDDMA_PERIOD_DET_CLR_REG(v, chan)				QAIF_RDDMA_REG_ADDR(v, 0x48, (chan))
++#define QAIF_RDDMA_FORMAT_ERR_REG(v, chan)					QAIF_RDDMA_REG_ADDR(v, 0x4C, (chan))
++#define QAIF_RDDMA_AHB_BYPASS_REG(v, chan)					QAIF_RDDMA_REG_ADDR(v, 0x50, (chan))
++#define QAIF_RDDMA_SHUTDOWN_STAT_REG(v, chan)				QAIF_RDDMA_REG_ADDR(v, 0x54, (chan))
++#define QAIF_RDDMA_PADDING_CFG_REG(v, chan)					QAIF_RDDMA_REG_ADDR(v, 0x58, (chan))
++#define QAIF_RDDMA_STATUS_REG(v, chan)						QAIF_RDDMA_REG_ADDR(v, 0x60, (chan))
++#define QAIF_RDDMA_DBG_STATUS_REG(v, chan)					QAIF_RDDMA_REG_ADDR(v, 0xFF0, (chan))
 +
-+    required:
-+      - compatible
-+      - reg
-+    additionalProperties: false
++#define QAIF_CODEC_RDDMA_REG_ADDR(v, offset, chan) \
++	(v->codec_rddma_reg_base + (offset) + v->codec_rddma_stride * (chan))
++#define QAIF_CODEC_RDDMA_CTL_REG(v, chan)					QAIF_CODEC_RDDMA_REG_ADDR(v, 0x00, (chan))
++#define QAIF_CODEC_RDDMA_CFG_REG(v, chan)					QAIF_CODEC_RDDMA_REG_ADDR(v, 0x04, (chan))
++#define QAIF_CODEC_RDDMA_BASE_ADDR_REG(v, chan)				QAIF_CODEC_RDDMA_REG_ADDR(v, 0x08, (chan))
++#define QAIF_CODEC_RDDMA_BUFF_LEN_REG(v, chan)				QAIF_CODEC_RDDMA_REG_ADDR(v, 0x10, (chan))
++#define QAIF_CODEC_RDDMA_CURR_ADDR_REG(v, chan)				QAIF_CODEC_RDDMA_REG_ADDR(v, 0x14, (chan))
++#define QAIF_CODEC_RDDMA_PERIOD_LEN_REG(v, chan)			QAIF_CODEC_RDDMA_REG_ADDR(v, 0x1C, (chan))
++#define QAIF_CODEC_RDDMA_PERIOD_CNT_REG(v, chan)			QAIF_CODEC_RDDMA_REG_ADDR(v, 0x20, (chan))
++#define QAIF_CODEC_RDDMA_SHRAM_WORDCNT_REG(v, chan)			QAIF_CODEC_RDDMA_REG_ADDR(v, 0x24, (chan))
++#define QAIF_CODEC_RDDMA_FRAME_STATUS_REG(v, chan)			QAIF_CODEC_RDDMA_REG_ADDR(v, 0x28, (chan))
++#define QAIF_CODEC_RDDMA_FRAME_STATUS_EXTN_REG(v, chan)		QAIF_CODEC_RDDMA_REG_ADDR(v, 0x2C, (chan))
++#define QAIF_CODEC_RDDMA_FRAME_STATUS_CLR_REG(v, chan)		QAIF_CODEC_RDDMA_REG_ADDR(v, 0x30, (chan))
++#define QAIF_CODEC_RDDMA_SET_BUFF_CNT_REG(v, chan)			QAIF_CODEC_RDDMA_REG_ADDR(v, 0x34, (chan))
++#define QAIF_CODEC_RDDMA_SET_PERIOD_CNT_REG(v, chan)		QAIF_CODEC_RDDMA_REG_ADDR(v, 0x38, (chan))
++#define QAIF_CODEC_RDDMA_STC_LSB_REG(v, chan)				QAIF_CODEC_RDDMA_REG_ADDR(v, 0x3C, (chan))
++#define QAIF_CODEC_RDDMA_STC_MSB_REG(v, chan)				QAIF_CODEC_RDDMA_REG_ADDR(v, 0x40, (chan))
++#define QAIF_CODEC_RDDMA_PERIOD_DET_STAT_REG(v, chan)		QAIF_CODEC_RDDMA_REG_ADDR(v, 0x44, (chan))
++#define QAIF_CODEC_RDDMA_PERIOD_DET_CLR_REG(v, chan)		QAIF_CODEC_RDDMA_REG_ADDR(v, 0x48, (chan))
++#define QAIF_CODEC_RDDMA_FORMAT_ERR_REG(v, chan)			QAIF_CODEC_RDDMA_REG_ADDR(v, 0x4C, (chan))
++#define QAIF_CODEC_RDDMA_AHB_BYPASS_REG(v, chan)			QAIF_CODEC_RDDMA_REG_ADDR(v, 0x50, (chan))
++#define QAIF_CODEC_RDDMA_SHUTDOWN_STAT_REG(v, chan)			QAIF_CODEC_RDDMA_REG_ADDR(v, 0x54, (chan))
++#define QAIF_CODEC_RDDMA_PADDING_CFG_REG(v, chan)			QAIF_CODEC_RDDMA_REG_ADDR(v, 0x58, (chan))
++#define QAIF_CODEC_RDDMA_INTF_CFG_REG(v, chan)				QAIF_CODEC_RDDMA_REG_ADDR(v, 0x5C, (chan))
++#define QAIF_CODEC_RDDMA_STATUS_REG(v, chan)				QAIF_CODEC_RDDMA_REG_ADDR(v, 0x60, (chan))
++#define QAIF_CODEC_RDDMA_DBG_STATUS_REG(v, chan)			QAIF_CODEC_RDDMA_REG_ADDR(v, 0xFF0, (chan))
++#define QAIF_CODEC_RDDMA_INTF_DBG_STATUS_REG(v, chan)		QAIF_CODEC_RDDMA_REG_ADDR(v, 0xFF4, (chan))
 +
-+required:
-+  - compatible
-+  - reg
-+  - iommus
-+  - clocks
-+  - clock-names
-+  - interrupts
-+  - '#sound-dai-cells'
++/* WRDMA
++ * v : ptr to qaif_variant
++ */
++#define QAIF_WRDMA_REG_ADDR(v, offset, chan) \
++	(v->wrdma_reg_base + (offset) + v->wrdma_stride * (chan))
++#define QAIF_WRDMA_CTL_REG(v, chan)							QAIF_WRDMA_REG_ADDR(v, 0x00, (chan))
++#define QAIF_WRDMA_CFG_REG(v, chan)							QAIF_WRDMA_REG_ADDR(v, 0x04, (chan))
++#define QAIF_WRDMA_BASE_ADDR_REG(v, chan)					QAIF_WRDMA_REG_ADDR(v, 0x08, (chan))
++#define QAIF_WRDMA_BUFF_LEN_REG(v, chan)					QAIF_WRDMA_REG_ADDR(v, 0x10, (chan))
++#define QAIF_WRDMA_CURR_ADDR_REG(v, chan)					QAIF_WRDMA_REG_ADDR(v, 0x14, (chan))
++#define QAIF_WRDMA_PERIOD_LEN_REG(v, chan)					QAIF_WRDMA_REG_ADDR(v, 0x1C, (chan))
++#define QAIF_WRDMA_PERIOD_CNT_REG(v, chan)					QAIF_WRDMA_REG_ADDR(v, 0x20, (chan))
++#define QAIF_WRDMA_SHRAM_WORDCNT_REG(v, chan)				QAIF_WRDMA_REG_ADDR(v, 0x24, (chan))
++#define QAIF_WRDMA_FRAME_STATUS_REG(v, chan)				QAIF_WRDMA_REG_ADDR(v, 0x28, (chan))
++#define QAIF_WRDMA_FRAME_STATUS_EXTN_REG(v, chan)			QAIF_WRDMA_REG_ADDR(v, 0x2C, (chan))
++#define QAIF_WRDMA_FRAME_STATUS_CLR_REG(v, chan)			QAIF_WRDMA_REG_ADDR(v, 0x30, (chan))
++#define QAIF_WRDMA_SET_BUFF_CNT_REG(v, chan)				QAIF_WRDMA_REG_ADDR(v, 0x34, (chan))
++#define QAIF_WRDMA_SET_PERIOD_CNT_REG(v, chan)				QAIF_WRDMA_REG_ADDR(v, 0x38, (chan))
++#define QAIF_WRDMA_STC_LSB_REG(v, chan)						QAIF_WRDMA_REG_ADDR(v, 0x3C, (chan))
++#define QAIF_WRDMA_STC_MSB_REG(v, chan)						QAIF_WRDMA_REG_ADDR(v, 0x40, (chan))
++#define QAIF_WRDMA_PERIOD_DET_STAT_REG(v, chan)				QAIF_WRDMA_REG_ADDR(v, 0x44, (chan))
++#define QAIF_WRDMA_PERIOD_DET_CLR_REG(v, chan)				QAIF_WRDMA_REG_ADDR(v, 0x48, (chan))
++#define QAIF_WRDMA_FORMAT_ERR_REG(v, chan)					QAIF_WRDMA_REG_ADDR(v, 0x4C, (chan))
++#define QAIF_WRDMA_AHB_BYPASS_REG(v, chan)					QAIF_WRDMA_REG_ADDR(v, 0x50, (chan))
++#define QAIF_WRDMA_SHUTDOWN_STAT_REG(v, chan)				QAIF_WRDMA_REG_ADDR(v, 0x54, (chan))
++#define QAIF_WRDMA_DBG_STATUS_REG(v, chan)					QAIF_WRDMA_REG_ADDR(v, 0xFF0, (chan))
 +
-+additionalProperties: false
++#define QAIF_CODEC_WRDMA_REG_ADDR(v, offset, chan) \
++	(v->codec_wrdma_reg_base + (offset) + v->codec_wrdma_stride * (chan))
++#define QAIF_CODEC_WRDMA_CTL_REG(v, chan)					QAIF_CODEC_WRDMA_REG_ADDR(v, 0x00, (chan))
++#define QAIF_CODEC_WRDMA_CFG_REG(v, chan)					QAIF_CODEC_WRDMA_REG_ADDR(v, 0x04, (chan))
++#define QAIF_CODEC_WRDMA_BASE_ADDR_REG(v, chan)				QAIF_CODEC_WRDMA_REG_ADDR(v, 0x08, (chan))
++#define QAIF_CODEC_WRDMA_BUFF_LEN_REG(v, chan)				QAIF_CODEC_WRDMA_REG_ADDR(v, 0x10, (chan))
++#define QAIF_CODEC_WRDMA_CURR_ADDR_REG(v, chan)				QAIF_CODEC_WRDMA_REG_ADDR(v, 0x14, (chan))
++#define QAIF_CODEC_WRDMA_PERIOD_LEN_REG(v, chan)			QAIF_CODEC_WRDMA_REG_ADDR(v, 0x1C, (chan))
++#define QAIF_CODEC_WRDMA_PERIOD_CNT_REG(v, chan)			QAIF_CODEC_WRDMA_REG_ADDR(v, 0x20, (chan))
++#define QAIF_CODEC_WRDMA_SHRAM_WORDCNT_REG(v, chan)			QAIF_CODEC_WRDMA_REG_ADDR(v, 0x24, (chan))
++#define QAIF_CODEC_WRDMA_FRAME_STATUS_REG(v, chan)			QAIF_CODEC_WRDMA_REG_ADDR(v, 0x28, (chan))
++#define QAIF_CODEC_WRDMA_FRAME_STATUS_EXTN_REG(v, chan)		QAIF_CODEC_WRDMA_REG_ADDR(v, 0x2C, (chan))
++#define QAIF_CODEC_WRDMA_FRAME_STATUS_CLR_REG(v, chan)		QAIF_CODEC_WRDMA_REG_ADDR(v, 0x30, (chan))
++#define QAIF_CODEC_WRDMA_SET_BUFF_CNT_REG(v, chan)			QAIF_CODEC_WRDMA_REG_ADDR(v, 0x34, (chan))
++#define QAIF_CODEC_WRDMA_SET_PERIOD_CNT_REG(v, chan)		QAIF_CODEC_WRDMA_REG_ADDR(v, 0x38, (chan))
++#define QAIF_CODEC_WRDMA_STC_LSB_REG(v, chan)				QAIF_CODEC_WRDMA_REG_ADDR(v, 0x3C, (chan))
++#define QAIF_CODEC_WRDMA_STC_MSB_REG(v, chan)				QAIF_CODEC_WRDMA_REG_ADDR(v, 0x40, (chan))
++#define QAIF_CODEC_WRDMA_PERIOD_DET_STAT_REG(v, chan)		QAIF_CODEC_WRDMA_REG_ADDR(v, 0x44, (chan))
++#define QAIF_CODEC_WRDMA_PERIOD_DET_CLR_REG(v, chan)		QAIF_CODEC_WRDMA_REG_ADDR(v, 0x48, (chan))
++#define QAIF_CODEC_WRDMA_FORMAT_ERR_REG(v, chan)			QAIF_CODEC_WRDMA_REG_ADDR(v, 0x4C, (chan))
++#define QAIF_CODEC_WRDMA_AHB_BYPASS_REG(v, chan)			QAIF_CODEC_WRDMA_REG_ADDR(v, 0x50, (chan))
++#define QAIF_CODEC_WRDMA_SHUTDOWN_STAT_REG(v, chan)			QAIF_CODEC_WRDMA_REG_ADDR(v, 0x54, (chan))
++#define QAIF_CODEC_WRDMA_INTF_CFG_REG(v, chan)				QAIF_CODEC_WRDMA_REG_ADDR(v, 0x58, (chan))
++#define QAIF_CODEC_WRDMA_DBG_STATUS_REG(v, chan)			QAIF_CODEC_WRDMA_REG_ADDR(v, 0xFF0, (chan))
++#define QAIF_CODEC_WRDMA_INTF_DBG_STATUS_REG(v, chan)		QAIF_CODEC_WRDMA_REG_ADDR(v, 0xFF4, (chan))
 +
-+examples:
-+  - |
-+    /* Shikra platform example */
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/sound/qcom,qaif.h>
-+    #include <dt-bindings/clock/qcom,shikra-audiocorecc.h>
-+    #include <dt-bindings/clock/qcom,gcc-shikra.h>
 +
-+    qaif_cpu: audio@a000000 {
-+        compatible = "qcom,shikra-qaif-cpu";
-+        reg = <0x0 0x0a000000 0x0 0x20000>;
-+        iommus = <&apps_smmu 0x1c0 0x0>;
-+        clocks = <&gcc GCC_LPASS_CONFIG_CLK>,
-+                 <&gcc GCC_LPASS_CORE_AXIM_CLK>,
-+                 <&audiocorecc AUDIO_CORE_CC_AUD_DMA_CLK>,
-+                 <&audiocorecc AUDIO_CORE_CC_AUD_DMA_MEM_CLK>,
-+                 <&audiocorecc AUDIO_CORE_CC_BUS_CLK>,
-+                 <&audiocorecc AUDIO_CORE_CC_AIF_IF0_EBIT_CLK>,
-+                 <&audiocorecc AUDIO_CORE_CC_AIF_IF0_IBIT_CLK>,
-+                 <&audiocorecc AUDIO_CORE_CC_AIF_IF1_EBIT_CLK>,
-+                 <&audiocorecc AUDIO_CORE_CC_AIF_IF1_IBIT_CLK>,
-+                 <&audiocorecc AUDIO_CORE_CC_AIF_IF2_EBIT_CLK>,
-+                 <&audiocorecc AUDIO_CORE_CC_AIF_IF2_IBIT_CLK>,
-+                 <&audiocorecc AUDIO_CORE_CC_AIF_IF3_EBIT_CLK>,
-+                 <&audiocorecc AUDIO_CORE_CC_AIF_IF3_IBIT_CLK>,
-+                 <&audiocorecc AUDIO_CORE_CC_EXT_MCLKA_OUT_CLK>,
-+                 <&audiocorecc AUDIO_CORE_CC_EXT_MCLKB_OUT_CLK>;
-+        clock-names = "lpass_config_clk",
-+                      "lpass_core_axim_clk",
-+                      "aud_dma_clk",
-+                      "aud_dma_mem_clk",
-+                      "bus_clk",
-+                      "aif_if0_ebit_clk",
-+                      "aif_if0_ibit_clk",
-+                      "aif_if1_ebit_clk",
-+                      "aif_if1_ibit_clk",
-+                      "aif_if2_ebit_clk",
-+                      "aif_if2_ibit_clk",
-+                      "aif_if3_ebit_clk",
-+                      "aif_if3_ibit_clk",
-+                      "ext_mclka_clk",
-+                      "ext_mclkb_clk";
-+        #sound-dai-cells = <1>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        interrupts = <GIC_SPI 331 IRQ_TYPE_LEVEL_HIGH>;
-+        status = "okay";
++#define QAIF_EE_RDDMA_IRQ_REG_ADDR(v, dma_type, offset) \
++	(dma_type == QAIF_AIF_IRQ ? (v->rddma_irq_reg_base + (offset) + v->rddma_irq_stride * (v->ee)) : \
++	(v->codec_rddma_irq_reg_base + (offset) + v->codec_rddma_irq_stride * (v->ee)))
 +
-+        qaif_aif_if2: aif-interface@2 {
-+            compatible = "qcom,qaif-tdm-dai";
-+            reg = <QAIF_MI2S_TDM_AIF2>;
-+            qcom,qaif-aif-sync-mode = <QAIF_AIF_SYNC_MODE_LONG>;
-+            qcom,qaif-aif-sync-src = <QAIF_AIF_SYNC_SRC_MASTER>;
-+            qcom,qaif-aif-sync-delay = <1>;
-+            qcom,qaif-aif-slot-width-rx = <32>;
-+            qcom,qaif-aif-slot-width-tx = <32>;
-+            qcom,qaif-aif-slot-en-rx-mask = <0x3>;
-+            qcom,qaif-aif-slot-en-tx-mask = <0x3>;
-+            qcom,qaif-aif-ctrl-data-oe;
-+            /* Lane 0: RX (mic); Lane 1: TX (speaker) */
-+            qcom,qaif-aif-lane-config = <QAIF_AIF_LANE_ENABLE QAIF_AIF_LANE_DIR_RX>,
-+                                        <QAIF_AIF_LANE_ENABLE QAIF_AIF_LANE_DIR_TX>;
-+            /* frame length = slot-width (32) * bits-per-lane (2) = 64 bits */
-+            qcom,qaif-aif-bits-per-lane = <2>;
-+        };
-+    };
++/* RDDMA Period Interrupts */
++#define QAIF_EE_RDDMA_PERIOD_IRQ_EN_REG(v, i)				QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x00)
++#define QAIF_EE_RDDMA_PERIOD_IRQ_STAT_REG(v, i)				QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x08)
++#define QAIF_EE_RDDMA_PERIOD_IRQ_RAW_STAT_REG(v, i)			QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x10)
++#define QAIF_EE_RDDMA_PERIOD_IRQ_CLR_REG(v, i)				QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x18)
++#define QAIF_EE_RDDMA_PERIOD_IRQ_FORCE_REG(v, i)			QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x20)
++/* RDDMA Underflow Interrupts */
++#define QAIF_EE_RDDMA_UNDERFLOW_IRQ_EN_REG(v, i)			QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x28)
++#define QAIF_EE_RDDMA_UNDERFLOW_IRQ_STAT_REG(v, i)			QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x30)
++#define QAIF_EE_RDDMA_UNDERFLOW_IRQ_RAW_STAT_REG(v, i)		QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x38)
++#define QAIF_EE_RDDMA_UNDERFLOW_IRQ_CLR_REG(v, i)			QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x40)
++#define QAIF_EE_RDDMA_UNDERFLOW_IRQ_FORCE_REG(v, i)			QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x48)
++/* RDDMA Error Response Interrupts */
++#define QAIF_EE_RDDMA_ERR_RSP_IRQ_EN_REG(v, i)				QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x50)
++#define QAIF_EE_RDDMA_ERR_RSP_IRQ_STAT_REG(v, i)			QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x58)
++#define QAIF_EE_RDDMA_ERR_RSP_IRQ_RAW_STAT_REG(v, i)		QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x60)
++#define QAIF_EE_RDDMA_ERR_RSP_IRQ_CLR_REG(v, i)				QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x68)
++#define QAIF_EE_RDDMA_ERR_RSP_IRQ_FORCE_REG(v, i)			QAIF_EE_RDDMA_IRQ_REG_ADDR(v, i, 0x70)
++
++#define QAIF_EE_WRDMA_IRQ_REG_ADDR(v, dma_type, offset) \
++	(dma_type == QAIF_AIF_IRQ ? (v->wrdma_irq_reg_base + (offset) + v->wrdma_irq_stride * (v->ee)) : \
++	(v->codec_wrdma_irq_reg_base + (offset) + v->codec_wrdma_irq_stride * (v->ee)))
++
++/* WRDMA Period Interrupts */
++#define QAIF_EE_WRDMA_PERIOD_IRQ_EN_REG(v, i)				QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x00)
++#define QAIF_EE_WRDMA_PERIOD_IRQ_STAT_REG(v, i)				QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x08)
++#define QAIF_EE_WRDMA_PERIOD_IRQ_RAW_STAT_REG(v, i)			QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x10)
++#define QAIF_EE_WRDMA_PERIOD_IRQ_CLR_REG(v, i)				QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x18)
++#define QAIF_EE_WRDMA_PERIOD_IRQ_FORCE_REG(v, i)			QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x20)
++/* WRDMA Overflow Interrupts */
++#define QAIF_EE_WRDMA_OVERFLOW_IRQ_EN_REG(v, i)				QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x28)
++#define QAIF_EE_WRDMA_OVERFLOW_IRQ_STAT_REG(v, i)			QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x30)
++#define QAIF_EE_WRDMA_OVERFLOW_IRQ_RAW_STAT_REG(v, i)		QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x38)
++#define QAIF_EE_WRDMA_OVERFLOW_IRQ_CLR_REG(v, i)			QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x40)
++#define QAIF_EE_WRDMA_OVERFLOW_IRQ_FORCE_REG(v, i)			QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x48)
++/* WRDMA Error Response Interrupts */
++#define QAIF_EE_WRDMA_ERR_RSP_IRQ_EN_REG(v, i)				QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x50)
++#define QAIF_EE_WRDMA_ERR_RSP_IRQ_STAT_REG(v, i)			QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x58)
++#define QAIF_EE_WRDMA_ERR_RSP_IRQ_RAW_STAT_REG(v, i)		QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x60)
++#define QAIF_EE_WRDMA_ERR_RSP_IRQ_CLR_REG(v, i)				QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x68)
++#define QAIF_EE_WRDMA_ERR_RSP_IRQ_FORCE_REG(v, i)			QAIF_EE_WRDMA_IRQ_REG_ADDR(v, i, 0x70)
++
++
++#define QAIF_DMACFG_REG(v, chan, dir, dai_id) \
++	(is_cif_dma_port(dai_id) ? \
++	__QAIF_CDC_DMA_REG(v, chan, dir, CFG) : \
++	__QAIF_DMA_REG(v, chan, dir, CFG))
++
++#define QAIF_DMACTL_REG(v, chan, dir, dai_id) \
++	(is_cif_dma_port(dai_id) ? \
++	__QAIF_CDC_DMA_REG(v, chan, dir, CTL) : \
++	__QAIF_DMA_REG(v, chan, dir, CTL))
++
++#define QAIF_DMABUFF_REG(v, chan, dir, dai_id) \
++	(is_cif_dma_port(dai_id) ? \
++	__QAIF_CDC_DMA_REG(v, chan, dir, BUFF_LEN) : \
++	__QAIF_DMA_REG(v, chan, dir, BUFF_LEN))
++
++#define QAIF_DMACURR_REG(v, chan, dir, dai_id) \
++	(is_cif_dma_port(dai_id) ? \
++	__QAIF_CDC_DMA_REG(v, chan, dir, CURR_ADDR) : \
++	__QAIF_DMA_REG(v, chan, dir, CURR_ADDR))
++
++#define QAIF_DMAPER_REG(v, chan, dir, dai_id)  \
++	(is_cif_dma_port(dai_id) ? \
++	__QAIF_CDC_DMA_REG(v, chan, dir, PERIOD_CNT) : \
++	__QAIF_DMA_REG(v, chan, dir, PERIOD_CNT))
++
++#define QAIF_DMAPER_LEN_REG(v, chan, dir, dai_id)  \
++	(is_cif_dma_port(dai_id) ? \
++	__QAIF_CDC_DMA_REG(v, chan, dir, PERIOD_LEN) : \
++	__QAIF_DMA_REG(v, chan, dir, PERIOD_LEN))
++
++#define QAIF_DMABASE_REG(v, chan, dir, dai_id) \
++	(is_cif_dma_port(dai_id) ? \
++	__QAIF_CDC_DMA_REG(v, chan, dir, BASE_ADDR) : \
++	__QAIF_DMA_REG(v, chan, dir, BASE_ADDR))
++
++#define __QAIF_CDC_DMA_REG(v, chan, dir, reg) \
++		(((dir) ==  SNDRV_PCM_STREAM_PLAYBACK) ? \
++			__QAIF_CDC_RDDMA_REG(v, chan, reg) : \
++			__QAIF_CDC_WRDMA_REG(v, chan, reg))
++
++#define __QAIF_DMA_REG(v, chan, dir, reg)  \
++	(((dir) ==  SNDRV_PCM_STREAM_PLAYBACK) ? \
++		(QAIF_RDDMA_##reg##_REG(v, chan)) : \
++		QAIF_WRDMA_##reg##_REG(v, chan))
++
++#define __QAIF_CDC_RDDMA_REG(v, chan, reg) \
++			QAIF_CODEC_RDDMA_##reg##_REG(v, chan)
++
++#define __QAIF_CDC_WRDMA_REG(v, chan, reg) \
++			QAIF_CODEC_WRDMA_##reg##_REG(v, chan)
++
++#define QAIF_SID_MAP_REG(dir, dai_id) \
++	(is_cif_dma_port(dai_id) ? \
++	__QAIF_CDC_SID_MAP_REG(dir) : \
++	__QAIF_SID_MAP_REG(dir))
++
++#define __QAIF_SID_MAP_REG(dir)  \
++	(((dir) ==  SNDRV_PCM_STREAM_PLAYBACK) ? \
++		QAIF_RDDMA_SID_MAP_REG : \
++		QAIF_WRDMA_SID_MAP_REG)
++
++#define __QAIF_CDC_SID_MAP_REG(dir)  \
++	(((dir) ==  SNDRV_PCM_STREAM_PLAYBACK) ? \
++		QAIF_CODEC_RDDMA_SID_MAP_REG : \
++		QAIF_CODEC_WRDMA_SID_MAP_REG)
++
++#endif /* __QAIF_REG_H__ */
 -- 
 2.34.1
 
