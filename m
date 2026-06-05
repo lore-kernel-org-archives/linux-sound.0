@@ -1,133 +1,171 @@
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2611337B032
-	for <linux-sound@vger.kernel.org>; Fri,  5 Jun 2026 04:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882162EEE94
+	for <linux-sound@vger.kernel.org>; Fri,  5 Jun 2026 05:16:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780632913; cv=none; b=EaIUQQ7gP0H2sdTMebD8kjv5pxeGTjhVTqzdJJ5lmwG87GZNEjrUOhGg2bKcbn6iFMa1uObaqLHIxUzb+vDT3WEQHJmFpZOGPU5yfovwwqgUgtbTgy5Q/8rEpl30VqsOGG4DVYKS7mPlQmwkAeQ5belhITS7FvgkzXuhrecJhk8=
+	t=1780636617; cv=none; b=GldfgjAfj0Z/LE1K7WlVX69FbLpMwFURmWv94YKwj7HWG5rTBwvHHNNABPTy1lbA+t5b7GBEkDUhE/dIEkiRUIe1zE3fVQd5enN3Sqg+2N/tWmsTN0X5MaDitOss/9WL129/RckoN5sSUm1U1KRf/kqxAaWh4VXrbL0t8DHrnpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780632913; c=relaxed/simple;
-	bh=UKVuNdIwrJbey3Frar5jsdTaMIoI6yP+r39UrWt10tQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=aKFovpRXfWwiHhueKUXrsp8PlURBUANx3OYFQtwJ/RDDNzEzpf8qmPk1qZeDQmsd7Ycyf+atmrgvQPZYL7CsUiUMbfOngfT+DX7YGp6MHH/XR19BmLrIdw2wAcSHQKCcnIhKA0UFs1XXYVb1mIR02feibaUYSNaMoGNJCEaYxco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q/0OvLUp; arc=none smtp.client-ip=74.125.82.51
+	s=arc-20240116; t=1780636617; c=relaxed/simple;
+	bh=9f+jaBTiw0YCCwjO8rY5tpPp9Jp2rSXjEWVZ3tmfie0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=HazsERbKYkGkWcRdV3IbVDWKkfsn9kTv6S7x55Ct0aqeEE2QdM9l9o6K9q9S9NRz1M9IEIsERDPFWgrhF9eTGamt3gPG6Za8QhRxGY3NaBNeoryFjZijNJF/tndXoSdHc8O1JN1VMqNM1IyKBMKOEiDnetf7NZaaemEJMePb2HQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C0O0CcGR; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q/0OvLUp"
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-137dd523634so2485412c88.1
-        for <linux-sound@vger.kernel.org>; Thu, 04 Jun 2026 21:15:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C0O0CcGR"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-36b8d414666so946188a91.3
+        for <linux-sound@vger.kernel.org>; Thu, 04 Jun 2026 22:16:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780632908; x=1781237708; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OVnO26slniRK2FmkJZvabdg4k7aFVKg33wMgtkQUsgs=;
-        b=Q/0OvLUpcz1vPL0YNrQVqNHug+L5ftM27ueugF1huK1yZQ8nn5K3AZFxd89AqZ/aQu
-         BgPSUcAGUUWwYjZxxwolyqpb2rzDbMUANFd4c5S8aci5jS20YipteHxabGZfppTKD+WW
-         MaDltHu/ctAeFwcdd26qBONZK11cMygALBbinBnTbSv839DwmRlvfBjWaVjrbFmM1hGo
-         uvuIHglbxOgRNbkWqHmccAW0eItemEVjZo/KYE42kIq+p5zXFM31EnJbqrEsoImQ9/1b
-         UO0c124CIIT87Gg1QepcOX81XBEsngOmSi75PN6dg1UZ33SoY0vwZIGaTmIKKu6Gvs6t
-         GiYg==
+        d=gmail.com; s=20251104; t=1780636616; x=1781241416; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pD9CqhmzX6JNf1uZuVqTL+AJSUpqeYSBphcg8pxVa58=;
+        b=C0O0CcGRtv96nSEFL62BzsFNPyq8VrkNYVe8XjR6Au97Bl3NuC5NjWwDbia8ojapoW
+         S6u8AAgnd5HiZFWPW4zt9eI4/GIBoQBcMH4doQNTsI5/s5F4AccwoMdzXbdMpJJfejNT
+         Ms/Hr08REFrXzFvDszbppIvrVsbyAAx83Bm6cVXMkR5sPlWdWDgG/Gj2k1MmEQOz/nwe
+         B4jW+ImpyYZrGPK2iKfCHNcL0mt/ioNI4Ul1r0vdqGJKAhL/uEqxyNVIb8M+cFrxLx1p
+         +aMLMf4FVYLkPUulcVYnmB15uWX/wonKjno7UB6BuNnVaT/xWIqmneGNjLsNk42BKtbc
+         FTjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780632908; x=1781237708;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OVnO26slniRK2FmkJZvabdg4k7aFVKg33wMgtkQUsgs=;
-        b=Q6i0O+n4Gz5Y70csrIXosZ8I7edPOlC2J0iCiBXCs/iqm/LazWYpaiZAryexjm4Dxw
-         muNGnsykwm2w+qqTpnlZ4bYvZgkphpxjPqjMy0W4fW1tvRNnbuzzwUN/Kk/aCUWgvWRF
-         DE7jIHJ5Yl1wsCzx1fj87oq+a3FLOMyW6CPljrF0yLZX4bMT6014Deu3IcdFhDaLnhuZ
-         Q9c0cxarHJecKw0fDfREuijv/Mab2RTQT5VwoRwqab26+wboDaNW6kpt284MyVHWRGoN
-         a3Mtd5HBiG+eifQ4SzMLDxqIyWm3cs9JCAi2M/DLb8v1/aJNlCh5Qc7KOeR29fohES+e
-         s2jw==
-X-Gm-Message-State: AOJu0Yy5/1jCF6+5APXgQDVFJ3N2ydDM827+WtHpfaBajvomvGssnq0D
-	Tk7ziqr1e7WxebajC7uK14fslViYrjez8oFiw++CIUmgStdVK13t20Ye
-X-Gm-Gg: Acq92OG0m4CaPUBcI1w16BjF3sHV5BM1Ku/SezYbMnwjGg470IDYZWy7D28Na608GHs
-	S51mm5h50ZaZxAz/9SGb3rWvutg7n4F3hdfx4U1MoxPqhrMGDdpAKHrM2aDZ4t7jfdhqi0vGwvF
-	gZTA107h+Q16OQe1e61tggUJV2aXTPwncxtKlDvCFEXremgMjVc0ADwNPWiE+btj/Xn+voFRDju
-	7XD2MqVfqoKrNSsC4Rs69sX2PKE1TTjrRcCwWKABjKmUl9eEYuxbf/tUMElGx3lE5fvckXM+efo
-	ZipwirFo7FRdQagSGdOcO0nye9VLNX2mzkZZBsGTyfKzb2rwDyn2NarbLHRic3Z27NyIOL9cvPU
-	/qFOS/tji7F3PBMky16fZ7gRN9a807TEhdFhNcuDHKH/1EILEl76YTWCrtmtMpCILHAjJS+9ryj
-	MWviSAVKRyFcLOMg1+BSp17e1QhEZmrb2Vd8OH1mqwHdek/uxDsUdLVNVCxkuz6gln3NnSitgfr
-	pxcDLMFSTcXTht1pbd/dEI=
-X-Received: by 2002:a05:7022:6999:b0:138:5ef:f31 with SMTP id a92af1059eb24-138067214demr736863c88.27.1780632907765;
-        Thu, 04 Jun 2026 21:15:07 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-23.user3p.v-tal.net.br. [177.4.161.23])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137f5539035sm5300845c88.11.2026.06.04.21.15.04
+        d=1e100.net; s=20251104; t=1780636616; x=1781241416;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pD9CqhmzX6JNf1uZuVqTL+AJSUpqeYSBphcg8pxVa58=;
+        b=Ms5hP9AX+DYzIGTPpfWAKhq4Rx3UdOkOQkcBs7uktPam3HJ7HKVopC/pj2JxyZyeVw
+         t828FrFWZ28LTUypGiB7dLPcDR5ixRv57yqlWy/f/mbn9mkaCnW0hj1WxVI+swbw6boq
+         Jlcv+2Asz3IVoFomKSSndtRiZ1oCLo/kvoDgur0fDxkYN5qAH8zGiz5tokFW3ua8Pz2V
+         cg+BWozrOaheh9oWy3UppMxRTFOoLmLwpJIlQ1bNP7KSF0gKHE+0IqQL8Dcmi/0D0ue6
+         /AGikWRTVOrYJ4fRH0PSNkCwF2HfvWld1EK19Ntgp6C4EwisrJvWUG2yn9FnPOnBm7iD
+         oF8A==
+X-Forwarded-Encrypted: i=1; AFNElJ9L01sdB6UTF7K/QfnCzQOJXjx8ZOWmW1XTSLC1WYcpXKxANTXgtUQb2NS0lW+e+bf4RK/o43F/qvy1Kw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFWJufbVkFjUQyEsVvVypR8ffFItublvjys+77eSHiDEDLg6TO
+	bxGdmu/VTFHYOwlRg0vjo4AXU7wkqkn7qaClqMNSQDK+E5fBxUhJRzQd
+X-Gm-Gg: Acq92OG9tyVXyZ1EkC4ZkOxkEPE13ckrpkmsM+t7yeq7zxmTM5Hzw1Za1QbRiNgVjgX
+	MjyPLQzvnMvsj6mz5c/Z2ivJl1xk6ZxBYJGet7LN51S353VZjX3RHKIRoxouFaFdQ2dxLjYtXk2
+	02PZFNxe90xXhXHFO/5w+nH1odM9YwBkh4WVpNOiK4pvAv1P502ioCjJ4gjgfdtko8SELf7kTF3
+	+Wh7MpNkacign0HZETV5/mIyt4vZox/aRCQGkFAeTB2K5hBeQi7pVQafk2UkVAObADaBX61po0p
+	VxXbKT/yUFbHOhocrUo2V/XkVEiuA0eWyB5m3gfzcIQPuporv97hmQchjQQnbPPXoMk12rXTQp3
+	dGtxssPij9HEY5bKf8g2K+xPNpNA4+6/X6rmIAlGSzTLU1sMoy/DgNu/46MtpwerVqbFWuRvzbq
+	zh90kAnLIS1UA7WnCoC6S/SWlX
+X-Received: by 2002:a17:90b:53c6:b0:369:a359:b181 with SMTP id 98e67ed59e1d1-370f162420amr2107012a91.23.1780636615786;
+        Thu, 04 Jun 2026 22:16:55 -0700 (PDT)
+Received: from lgs.. ([101.36.107.181])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85df0b2ddbsm6514164a12.24.2026.06.04.22.16.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 21:15:07 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Fri, 05 Jun 2026 01:14:40 -0300
-Subject: [PATCH] ALSA: usb-audio: qcom: Initialize offload control return
- value
+        Thu, 04 Jun 2026 22:16:55 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Christophe Leroy <chleroy@kernel.org>,
+	Mehul Rao <mehulrao@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	=?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>,
+	Guangshuo Li <lgs201920130244@gmail.com>,
+	Cen Zhang <zzzccc427@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: pcm: keep linked runtime alive while draining
+Date: Fri,  5 Jun 2026 13:16:37 +0800
+Message-ID: <20260605051637.1442529-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260605-alsa-usb-qcom-offload-ret-init-v1-1-dc72fcc4bd3b@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNTQrCMBBA4auUWTswCbagVxEX+ZnoSE00k4pQe
- nejLr/NeysoV2GF47BC5ZeolNxhdgOEq8sXRondYMlONNGIblaHi3p8hnLHktJcXMTKDSVLQ0s
- H8maMhvcJeuRROcn7Nzid/9bF3zi0bxW27QO38PZwggAAAA==
-X-Change-ID: 20260605-alsa-usb-qcom-offload-ret-init-2090b15d1e4f
-To: Takashi Iwai <tiwai@suse.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Wesley Cheng <quic_wcheng@quicinc.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- notify@kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1516;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=UKVuNdIwrJbey3Frar5jsdTaMIoI6yP+r39UrWt10tQ=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDFlKvs5LRCeFCt7fe6f2wn29Sf/Md3/YVJBWVFiyVUGRU
- SFWaK9pRykLgxgXg6yYIsvqpEWWe7oeXK2PW+EBM4eVCWQIAxenAEwkpoSRoVHr45Tg2cdPxRwQ
- lzP32n/PeQnb1pULdgbFLiucplT2V4ORYZs1W+a87QaHdqSppj0sbIvulp6twPczR90gn+Mgm/w
- eVgA=
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-snd_usb_offload_create_ctl() returns ret after walking the USB PCM list,
-but ret is only assigned after a playback stream passes the endpoint and
-PCM-index filters.
+snd_pcm_drain() may select a runtime from a linked playback stream and
+queue a stack wait entry on its embedded sleep waitqueue. The function
+then drops the stream lock and sleeps before removing the wait entry.
 
-If all playback streams are skipped, for example because there is no
-playback endpoint or because all PCM indexes exceed the 0xff control
-range, the function returns an uninitialized stack value.
+commit 9b1dbd69ba6f ("ALSA: pcm: fix use-after-free on linked stream
+runtime in snd_pcm_drain()") cached scalar fields from the linked
+runtime before dropping the stream lock, because a concurrent close can
+unlink the stream and free its runtime. The same lifetime issue remains
+for runtime->sleep. If the linked runtime is detached while the wait
+entry is queued, remove_wait_queue() can later operate on a freed or
+reused waitqueue, or the stack wait entry can remain linked to freed
+memory.
 
-Initialize ret to 0 so the no-control-created path returns deterministic
-success, while preserving the existing negative error return when
-snd_ctl_add() fails.
+Take snd_pcm_link_rwsem for read while the wait entry is queued on the
+linked runtime. Acquire it before re-taking the stream lock, matching the
+link/unlink lock order, and drop it only after the wait entry has been
+removed.
 
-Fixes: a67656f011d1 ("ALSA: usb-audio: qcom: Add USB offload route kcontrol")
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+Fixes: 21cb2a2ec581 ("[ALSA] Fix races between PCM drain and other ops")
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
 ---
- sound/usb/qcom/mixer_usb_offload.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/core/pcm_native.c | 36 +++++++++++++++++++++++++++---------
+ 1 file changed, 27 insertions(+), 9 deletions(-)
 
-diff --git a/sound/usb/qcom/mixer_usb_offload.c b/sound/usb/qcom/mixer_usb_offload.c
-index 48e55d5872d5..b1591361e76c 100644
---- a/sound/usb/qcom/mixer_usb_offload.c
-+++ b/sound/usb/qcom/mixer_usb_offload.c
-@@ -113,7 +113,7 @@ int snd_usb_offload_create_ctl(struct snd_usb_audio *chip, struct device *bedev)
- 	struct snd_usb_substream *subs;
- 	struct snd_usb_stream *as;
- 	char ctl_name[48];
--	int ret;
-+	int ret = 0;
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index a541bb235cfa..1f7aba988e45 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -2175,6 +2175,22 @@ static int snd_pcm_drain(struct snd_pcm_substream *substream,
+ 			result = -ERESTARTSYS;
+ 			break;
+ 		}
++
++		/*
++		 * The wait below is queued on to_check->sleep, which is embedded
++		 * in a runtime that may belong to a linked substream.  Link/unlink
++		 * paths take snd_pcm_link_rwsem for write before moving streams
++		 * between groups and detaching runtimes, so take it for read while
++		 * the wait entry is queued.
++		 *
++		 * Drop and re-take the stream lock so the lock order matches
++		 * snd_pcm_link() and snd_pcm_unlink(): link_rwsem first, then the
++		 * stream/group lock.
++		 */
++		snd_pcm_stream_unlock_irq(substream);
++		down_read(&snd_pcm_link_rwsem);
++		snd_pcm_stream_lock_irq(substream);
++
+ 		/* find a substream to drain */
+ 		to_check = NULL;
+ 		group = snd_pcm_stream_group_ref(substream);
+@@ -2188,8 +2204,14 @@ static int snd_pcm_drain(struct snd_pcm_substream *substream,
+ 			}
+ 		}
+ 		snd_pcm_group_unref(group, substream);
+-		if (!to_check)
++
++		if (!to_check) {
++			snd_pcm_stream_unlock_irq(substream);
++			up_read(&snd_pcm_link_rwsem);
++			snd_pcm_stream_lock_irq(substream);
+ 			break; /* all drained */
++		}
++
+ 		/*
+ 		 * Cache the runtime fields needed after unlock.
+ 		 * A concurrent close() on the linked stream may free
+@@ -2216,14 +2238,10 @@ static int snd_pcm_drain(struct snd_pcm_substream *substream,
+ 		tout = schedule_timeout(tout);
  
- 	list_for_each_entry(as, &chip->pcm_list, list) {
- 		subs = &as->substream[SNDRV_PCM_STREAM_PLAYBACK];
-
----
-base-commit: a5b51356e6b570571592b1a0f9a994f2573227e2
-change-id: 20260605-alsa-usb-qcom-offload-ret-init-2090b15d1e4f
-
-Best regards,
---  
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+ 		snd_pcm_stream_lock_irq(substream);
+-		group = snd_pcm_stream_group_ref(substream);
+-		snd_pcm_group_for_each_entry(s, substream) {
+-			if (s->runtime == to_check) {
+-				remove_wait_queue(&to_check->sleep, &wait);
+-				break;
+-			}
+-		}
+-		snd_pcm_group_unref(group, substream);
++		remove_wait_queue(&to_check->sleep, &wait);
++		snd_pcm_stream_unlock_irq(substream);
++		up_read(&snd_pcm_link_rwsem);
++		snd_pcm_stream_lock_irq(substream);
+ 
+ 		if (card->shutdown) {
+ 			result = -ENODEV;
+-- 
+2.43.0
 
