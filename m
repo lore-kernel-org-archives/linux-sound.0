@@ -1,87 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13DF1ACED5;
-	Thu,  4 Jun 2026 23:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780617112; cv=none; b=MQOcjBY182Joh6vSdEl2q2J2KFSfpuLBBgR4tIFpiwjmAThOnoCYtBjdjbq+Dr5KNVdEKMeY9PawtRDWzZ8RKlelejqnRJSLmTomIWmF07yJgYWMIGEGT3x/9paiBiYHUK1w8Kl1YZ+pRTteaLvtq7CciVQhmJU4n/op3xNi0kk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780617112; c=relaxed/simple;
-	bh=Qsbe+Zr03M6GgtVi4XR4r7M6OAh7koJDCDJUXBghNFY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ld2gVpYWTswbNciZ4Vj0f+5LWHaVDiPt5yw+AvB2o2IelZvjyZxMYCm0MksSuRlCPrTAr0odeFOFKboxb72Jt4Yauf31Rq2zXyT5d//KWkAs4THMHrtjQbjJXdXRbgVVJzolSylEhNl2fSLPNJ38f6Wo7jI8bGfMtqxZSHhsOi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jKcw/Idx; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC1F3B6BE3
+	for <linux-sound@vger.kernel.org>; Fri,  5 Jun 2026 01:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780622739; cv=pass; b=HC1Zu7NPpT3H2teqtwHaqEg00m6Rk4aSj1tnWJnr1YDe1VnXTtmUagjtjBQBhSOtvz2Zjg57U5LzkeAls/JkZdGvIN/8dFwNOv1uSQxtwARFYHIRbO31ihYfuIVfXIUojcrNgHBpVl2xNZCz41RubeYYTEYpymNuHW26VDfSRMY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780622739; c=relaxed/simple;
+	bh=yR9iPHQ7X1yMgWZrkr31stdQCeajq3KhlcULNx8kfWQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J7RmabVQL6TxxHLukngepa/MxnIpl9LTep7c/tIPK3Cs3CH6Ea4bHDGt/8EU0ZBvani+NuX3e70KpwHyx/J1yEGckrkv/rIc6NMiTIx/ERMRTRDDtkL2sZ8gfKWmBcZnKt4SCOWfUYpZCVCbnuSSkil67exEbHOq7CU/Cl9YPfo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sTcP9kYO; arc=pass smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jKcw/Idx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4175F1F00893;
-	Thu,  4 Jun 2026 23:51:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780617111;
-	bh=qh7GaHudWqFS4OaIxaBj0xspMhNwznx2VYShs8Ojxj0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jKcw/IdxZ03ISnE0pAxKMesbvA2zH37ofT1ZM6iLvTf8bkoWUUHHP7DKIvnR++TXM
-	 Sf/wygPpPp5JQO1CJSW1ZQaN6+Pv3ZCFh5pYEcCejg/80HHXVHtqZ36q4p0FYJWVvk
-	 uVCsNmN/MfBHpIYpTx/TRT9f0uQ9tCK7jkJNiyBu5hRdCIuL+1XgLZGfizTG4R9PHg
-	 9HPvfyNATXVxxjTv8Ex0EVM1wPYQKGO7hWZsyb+6gcqoT7SlSB30uBN1rZq2p3zYTz
-	 +QjuVQm/o5LXS9vCa6l2pSEEjJiVgs4nBu8n1ALFSUX0BbHDFAxRy6BKcGRNGYOB3J
-	 ku1q3xR/wKM4w==
-Date: Fri, 5 Jun 2026 01:51:47 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Lee Jones <lee@kernel.org>, 
-	Mark Brown <broonie@opensource.wolfsonmicro.com>, Thierry Reding <thierry.reding@avionic-design.de>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Peter Chen <peter.chen@kernel.org>, Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Maximilian Luz <luzmaximilian@gmail.com>, 
-	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
-	brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, driver-core@lists.linux.dev, 
-	devicetree@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 11/23] i2c: pxa-pci: use platform_device_set_of_node()
-Message-ID: <aiIOrXwc4pNk8ihI@zenone.zhora.eu>
-References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
- <20260521-pdev-fwnode-ref-v1-11-88c324a1b8d2@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sTcP9kYO"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-bebc80100efso136984666b.1
+        for <linux-sound@vger.kernel.org>; Thu, 04 Jun 2026 18:25:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780622730; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WJA9eg9cXGiThi5k2QJiFLBJ6TDnojRxEgHT8PUb7U9kSHnMDjG8D6qpo7KgLUsM89
+         12fI49j/mP90sBr6u2P1RUM37VPATTTpuW5XSTgYS/A5+RsT7mcNCKeF8RPOUDEx1j3k
+         i33V6jPBNrcW8oXYevcsJAOkYPjJfiyogBYS4cXIwp7qrWX5cNwqjSOb1+zGwrHMoEnZ
+         ktUqenL625EbsF5AFHRt/kubdyesIJVXvb0VGUIaPgqgQLvdXJGRiroE6x9jObN6Jbyy
+         5KGev2bj9btGihmNUV0unJfbqRhyIch84lISA3LuYcHXqONE1Zf6agnuvwASqQBs1C4F
+         KssA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Uokzk4V1WQNqzax8rM0zN70J5L37rNbhenhyeHDxJfg=;
+        fh=WUr1rtPp3Q0K6qnGlu53j5K6YGSWiT3UPCnqyqTt8FQ=;
+        b=W5QlnjB+cxIE98zLfuugmDJTmStL/5Hguz7lQORMQ26Mm+p6bZWz2rmeB3yfpQkTq/
+         qju+dH5t3YjihNVzr9Ov/eCmmlL4/gbYfs00m4bM0vDbb9o7Sc0JG+lDQmqO6BMG5sqa
+         /eQbce1lOK7Gw0sKPuupBA56cWN3+R+SxCw5XTwVx7GZX/8qC5u4xPcDSPMs1Us6kD3/
+         v1Qg04a8I4qImOzCbXlEKvb2lXP3t07jmdjhBvbMCcLlTDYVt5nB78Mcti73TH9+vnTk
+         ZV8DnkBZ9BYuxajGIDfq1EhpuxiM5XjUpxkdhYKbGOQaZauFisihxVVOXKD2bIkh2iBY
+         bCiw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780622730; x=1781227530; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Uokzk4V1WQNqzax8rM0zN70J5L37rNbhenhyeHDxJfg=;
+        b=sTcP9kYOPITvC2aSMeL/A9u1ZAavHkIf2RkdQAOBE2XIxeBSy12dd/GkbiBLReZt1J
+         3q+hpfwTv2bNGD+xekHUE6w65STeu5r/ZeCVhAjFB2BLzGUWZnIIeWmWnJo02LK9XX3Z
+         Q47gjpO/Dz/u4r2xjf8iWuSEHWPrXoWOFe1smUD8rABQbXCKrNrZR5rbyDDjlry+/iwp
+         Dzb6cOx6qGTtswmpJlxPX03sbt7opfuVS1BCjWsUL/bv8PAGm3YVAZd4hP5sLas6FVEP
+         QzY9FatsIgCSChyombaaXZOabcviM7bsC/vdaXzc39BRqrWRZUykXy6aD/fBfUVxoKKG
+         PniA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780622730; x=1781227530;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Uokzk4V1WQNqzax8rM0zN70J5L37rNbhenhyeHDxJfg=;
+        b=ZzwIt6e7vdMnCsWwhcGLNA2fa3RBv6mtyJ87OGUIaYb/IgOXO6iLbNekdPpo+bm8Ut
+         Rm9OjWjGj31oV3DiW0J+OIzZ0eRenC+/ItlQSvXOqew/yZYkvBI8+71zySYbbstPTJvy
+         8HdHax5wK6ntdTxHgsdixelUxTIgdGVDWENkTpzgcTBMz3tWKM4qUuMsS5d/W0ddSej0
+         3Q80dQ61VXfcD9cgoABfxPghWZx6b87qI7iJMq0vvXsoaWFtVI4QAwiiy+iL/jSsIo5d
+         idrGQSAl3qxuPRsJ8qYfgFgV1c8O668hdmZgaOBGopHawNHAX/aOYLMRodTABwIkRQ6B
+         PZXg==
+X-Forwarded-Encrypted: i=1; AFNElJ87td+Jd51PruIyia1Ge7WGYTq8RWIuEa5gF1KBoJmqwSEztSKeR2tXINXqOPkqLJylWBden7OphrwOCA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxusP9K5VenZiGu3AhVcgNEDNUvwZZ0K/AQ7CM4uy2smfW+KlXr
+	ZJMCkwKq0ZsvfhAyK9DdN2Obg28rBDUJVT5iOlDE44o2CgabM8JhzeUXc6KdNVGXZoV/diZH+n/
+	myLYa0hfoJwxK8iRjT+BYBhzm28qXt+/C6vQ4oPQ=
+X-Gm-Gg: Acq92OG76ZTFXQQHtz115V5MuaeKUWLxHvkdI9U/jqwm6Bl2rUWfX+6vCc27VKVJdSP
+	0OUOP/ULi9iACy7daCAJDn8zOF5C+2C6hGcP1jgGkTQxSxnW8qlGn02ZYnjQLTri05qsTAwLTnT
+	ByuKB8Bi95x8afZyhVirsO6AW/zdIVFl0DVrwizA5PCjl3TJX1EBJOHMIMrv0pW/yiYbIn68/k6
+	PFOWMnYI3FlwIq/7eu6iTYT+39HI8W+wVegEhO9gOIBs4NXPzffl0m673wAz3gRIv9qvgzHg7KF
+	4BmGVd85JYP1VsLp2Svc
+X-Received: by 2002:a17:907:dac:b0:baa:6847:af9 with SMTP id
+ a640c23a62f3a-bf37234c8c5mr52264866b.28.1780622729733; Thu, 04 Jun 2026
+ 18:25:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260521-pdev-fwnode-ref-v1-11-88c324a1b8d2@oss.qualcomm.com>
+References: <cover.1780538113.git.zhoubinbin@loongson.cn> <2736a44ee11bcc0bbf282c69e99cb05b12469207.1780538113.git.zhoubinbin@loongson.cn>
+ <bae028cd-c77b-4238-8b62-330a1c3c46ed@sirena.org.uk>
+In-Reply-To: <bae028cd-c77b-4238-8b62-330a1c3c46ed@sirena.org.uk>
+From: Binbin Zhou <zhoubb.aaron@gmail.com>
+Date: Fri, 5 Jun 2026 09:25:17 +0800
+X-Gm-Features: AVVi8CfdW5IUTOMPP78y2fnXmkP4Q2-oxn8x6qdRtekrt5cj2B0jDWhtd_sOa5w
+Message-ID: <CAMpQs4LCQmp1-Rw6W0jf=h9Rub1iK8BYCYi_jhB7updSKMfCSA@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] ASoC: loongson: Add headphone jack detection and
+ DAPM routing
+To: Mark Brown <broonie@kernel.org>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Huacai Chen <chenhuacai@kernel.org>, Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev, 
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bartosz,
+Hi Mark:
 
-On Thu, May 21, 2026 at 10:36:34AM +0200, Bartosz Golaszewski wrote:
-> Ahead of reworking the reference counting logic for platform devices,
-> encapsulate the assignment of the OF node for dynamically allocated
-> platform devices with the provided helper.
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Thanks for your reply.
 
-Acked-by: Andi Shyti <andi.shyti@kernel.org>
+On Thu, Jun 4, 2026 at 10:56=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> On Thu, Jun 04, 2026 at 10:11:47AM +0800, Binbin Zhou wrote:
+>
+> > +     ret =3D snd_soc_of_parse_audio_routing(card, "audio-routing");
+> > +     if (ret)
+> > +             dev_warn(dev, "Unable to parse routing\n");
+>
+> The routing is optional in the schema but the helper will return an
+> error if it's missing AFAICT (the of_property_count_strings() won't find
+> the property).  I'm wondering if it makes more sense to have the check
+> for a missing property here or in the helper...
 
-Thanks,
-Andi
+Yes, I noticed that too.
+
+In the next version, I'll add an `add_dapm_routes` field to `struct
+loongson_card_config` to indicate whether `dapm_routes` needs to be
+parsed, in order to avoid unnecessary warning output.
+
+Also, since the newly added parsing items only apply to FDT, I=E2=80=99ll m=
+ove
+them to `loongson_card_parse_of()` as well, which should make the code
+clearer.
+
+--=20
+Thanks.
+Binbin
