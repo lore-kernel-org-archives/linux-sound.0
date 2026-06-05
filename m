@@ -1,142 +1,227 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6EA42EEC4;
-	Fri,  5 Jun 2026 07:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9880940242E;
+	Fri,  5 Jun 2026 07:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780642817; cv=none; b=RoE34PfVM0qak9wgXNL8q8hyxaySKJ0ZKFZ+yv2TrNzJpzvz482DOSqeFWdIC9TdrRB6FPsZSi5LZ2aU59faDK8F2HLc3EBcBPqpzLao0DxHU8bfLiZ5Qcm6NHYB8Ij3l/sGl2uwQIFRWY2cR4CGm0AP2Murd1T6XCGdqNTAw+s=
+	t=1780642956; cv=none; b=AxpPWkefKKy+dq2waltTxVcPwEqKBhSxBY7luOms1YovhfTJ7P9ylI3lpaZq1xAH/nw2xES/d5w9F67sv0WPhR8iWNr2TF7S6lRLv9+KMW1pOjqn5yYZSCc/JUc/s2anfEcUvOnCQbbbNVPQSk9IZ/9B0qG3Z1LyCjGzHPe0Ofw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780642817; c=relaxed/simple;
-	bh=DdINVUBttw6klrnTn+6VWBp4sfhuGwvaqZSXK6B9SXw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qsaTldnqQNAiY7PbHIEI8P9KORqrMiu6M/YG/x1J7nkIoHb1LblzXC/Ixyma9fSaC2H0C7L+eU6TYzxF2pv5419XUFTpN/DGb6U+6PVG/GjKv3s7aGQzZ6B7IPSD/dZGvQVLxRJtf2ctHtf1nVJfxe77zoehbhyIBIOrM3Qlbg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YsZyfuH0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780642956; c=relaxed/simple;
+	bh=EFGeluncc9bSfyM5uQew0OqVIBlrOBxS+F68KlRdc1Q=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=h1ZZGOyzTHeRvIWa5UpXfne/PFZHPr+2DkQ11dACNcJ3KHWJt3QgKvNdR+1EBG2bc15GYrH4tP1b3lX7uktODltOdaHGj4q9CaUKq72WFznGurlS7ZDC/MHQH3s6Bi1dDu9aK8zyWAzQSPBlJz59l4tnfzIWiZk3dgWh2iOsdBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=KlO3B+Vp; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YsZyfuH0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF3B51F00893;
-	Fri,  5 Jun 2026 06:59:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780642807;
-	bh=mLaeht+14OltYjlKRnSLpPtYOk2E9Ea1Lx7tk/hcws8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YsZyfuH0DNQ7mv7u3TjtJz2xyIwZsrK8oVaqlPhk64DT+j0rV42P72G1+i/iwKkjR
-	 NRcuOWYnbQoyKyo3l2FM69tbt1G6e/HuNgC0tjlGYq95rMPDSYtqVOPYzvnqYUPxmO
-	 AWjPhYcJZ6wydfSYXF/XBNDK3f5d8IIgdI55O1W1HwIefukk8kexEUl8N5fsDeXx2z
-	 4BExZj5mf+2VTADoOZFYWQlBUHvbteLd4O8xGa6QVu9YQUtYookUrNQ3mqvO9CAt4H
-	 08LnpIh0I2Rne5hZA1mQuw5b6DWAlajftwY4jPb1w8G4b6cEGfnkYFO9vhRvcAILg8
-	 LyUNuKdCiw8wA==
-Date: Fri, 5 Jun 2026 14:59:53 +0800
-From: "Peter Chen (CIX)" <peter.chen@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Lee Jones <lee@kernel.org>,
-	Mark Brown <broonie@opensource.wolfsonmicro.com>,
-	Thierry Reding <thierry.reding@avionic-design.de>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Re: [PATCH 20/23] usb: chipidea: use
- platform_device_set_of_node_from_dev()
-Message-ID: <aiJz6Ys4gE998ULp@nchen-desktop>
-References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
- <20260521-pdev-fwnode-ref-v1-20-88c324a1b8d2@oss.qualcomm.com>
- <ah9P6Xt9SyKgc2oJ@ashevche-desk.local>
- <CAMRc=MdhjZhGL9tEx9WEjn2f95d=ObNM0AtBNpcevm6aHgpj+Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="KlO3B+Vp"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 65572TyfC1208320, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1780642949; bh=3RLzl/J92jZyUCnh0oN9f4vGr8dbHrP0TQA45xxI5Hw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=KlO3B+Vpp/lKIBLEvyIDDuQ23unqlcWlx4yIof8f/Ug99DDbP4UqTyBVETgyCKkq/
+	 WmPgwfPJe2IeYo46zfhVwjTuoUfx8kC8GARa007asCL/qXdz4rmI/ht9WpPtEq372K
+	 4YZz5LgKZuHQtsUj/oF8nxvTytw9KdRTGmdPMNnO2padUovOLZCquMvkSlhxm8G6PX
+	 CNz8hUMogDjZNSVQM0VVOvJ2OJdi492jkgQI3u3HDCxAAPTI8wsDyvgA5V4+UTvvVF
+	 8BXJR+zbwE7VkUVFxReJFImS4WbLuhDZiIvmFN6rody5R65HY5wwfhwIsehI3SXJMt
+	 QCnhv0AXaonyg==
+Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
+	by rtits2.realtek.com.tw (8.15.2/3.28/5.94) with ESMTPS id 65572TyfC1208320
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 5 Jun 2026 15:02:29 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Fri, 5 Jun 2026 15:02:29 +0800
+Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
+ RTKEXHMBS06.realtek.com.tw ([fe80::e6fd:5a3f:8946:92c4%10]) with mapi id
+ 15.02.2562.017; Fri, 5 Jun 2026 15:02:29 +0800
+From: Kailang <kailang@realtek.com>
+To: Takashi Iwai <tiwai@suse.de>
+CC: Mike Karcic <mikekarcic@protonmail.com>, Sean Rhodes
+	<sean@starlabs.systems>, "stable@vger.kernel.org" <stable@vger.kernel.org>,
+	"regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287 (17aa:231e)
+ -- 6.12.73 to 6.12.85
+Thread-Topic: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287 (17aa:231e)
+ -- 6.12.73 to 6.12.85
+Thread-Index: AQHc7t9eJfAz3yPaB0G+XZXqEzNDFrYqzh7QgAA9JgCABITvsA==
+Date: Fri, 5 Jun 2026 07:02:29 +0000
+Message-ID: <330931ee49624f2486f66e510271d80a@realtek.com>
+References: <O6pYAi7yf23du9ivLsL0QqrnTmodj2lDTL7Wviv7I_nhjVtvllO7Y5Ban0TeTqrastb1RWhJtlkqrM3quLMWSriai-YjjGy312MTcEhxyWs=@protonmail.com>
+	<CABtds-3GOyBr1H=c5aFV1uzfkhO3d1NHMPuon_cWDq0V=pFwUA@mail.gmail.com>
+	<wZmYozyav1sNx53nFr4ShKmcdLFVJp5bdUOJgUq1I57MX6kgyq7n8XvH-MWG9Fi4q2x4CQqjEQ3Q8ok5MClut8hNixnhVmVtXkhcOzH1sw8=@protonmail.com>
+	<87eciwukvy.wl-tiwai@suse.de>
+	<RfzfjlzeaeMgNNWNST_Zzx1v49rYjM63MvAV6O5_fFIoZJ73GcN69FDLJcwhJ3s6fl9TVD2l45YBh2n3hy95LM7rhLhoVt8dU9stMkuVJvE=@protonmail.com>
+	<87mrxjsk52.wl-tiwai@suse.de>
+	<bibLdgyll9YOEDANdCBy8WOqeOeJry1SnahLR-EhoGkttJ6BE2srDZ9jv0gjkt0bA19aKivruQs3nkMQWbdEXPaOrLT80xjzF4KJvDcB-IU=@protonmail.com>
+	<87cxyfs2vm.wl-tiwai@suse.de>	<833d600fdebd4aaeab6706185ce854e6@realtek.com>
+ <87wlwgygyf.wl-tiwai@suse.de>
+In-Reply-To: <87wlwgygyf.wl-tiwai@suse.de>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMRc=MdhjZhGL9tEx9WEjn2f95d=ObNM0AtBNpcevm6aHgpj+Q@mail.gmail.com>
 
-On 26-06-04 08:34:16, Bartosz Golaszewski wrote:
-> On Tue, 2 Jun 2026 23:49:29 +0200, Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> said:
-> > On Thu, May 21, 2026 at 10:36:43AM +0200, Bartosz Golaszewski wrote:
-> >> Ahead of reworking the reference counting logic for platform devices,
-> >> encapsulate the assignment of the OF node from another device for
-> >> dynamically allocated platform devices with the provided helper.
+
+Yes, it's the same codec and SSID. It's the same model of machine.
+
+-----Original Message-----
+From: Takashi Iwai <tiwai@suse.de>=20
+Sent: Wednesday, June 3, 2026 1:45 AM
+To: Kailang <kailang@realtek.com>
+Cc: Takashi Iwai <tiwai@suse.de>; Mike Karcic <mikekarcic@protonmail.com>; =
+Sean Rhodes <sean@starlabs.systems>; stable@vger.kernel.org; regressions@li=
+sts.linux.dev; linux-sound@vger.kernel.org; linux-kernel@vger.kernel.org
+Subject: Re: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287 (17aa:231=
+e) -- 6.12.73 to 6.12.85
+
+
+External mail : This email originated from outside the organization. Do not=
+ reply, click links, or open attachments unless you recognize the sender an=
+d know the content is safe.
+
+
+
+On Tue, 02 Jun 2026 08:14:14 +0200,
+Kailang wrote:
+>
+>
+> There were the same SSID for two different symptoms.
+> But this project was from 2025. This machine maybe didn't in our site.
+
+Aha, that can explain the difference of the behavior, then.
+Do both of them have the same codec ID and SSID, too?
+
+
+Takashi
+
+>
+> -----Original Message-----
+> From: Takashi Iwai <tiwai@suse.de>
+> Sent: Friday, May 29, 2026 4:20 AM
+> To: Mike Karcic <mikekarcic@protonmail.com>
+> Cc: Kailang <kailang@realtek.com>; Takashi Iwai <tiwai@suse.de>; Sean=20
+> Rhodes <sean@starlabs.systems>; stable@vger.kernel.org;=20
+> regressions@lists.linux.dev; linux-sound@vger.kernel.org;=20
+> linux-kernel@vger.kernel.org
+> Subject: Re: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287=20
+> (17aa:231e) -- 6.12.73 to 6.12.85
+>
+>
+> External mail : This email originated from outside the organization. Do n=
+ot reply, click links, or open attachments unless you recognize the sender =
+and know the content is safe.
+>
+>
+>
+> On Thu, 28 May 2026 20:27:30 +0200,
+> Mike Karcic wrote:
 > >
-> > ...
+> > Yes, I can confirm the patched kernel is running, and commenting out th=
+at line fixes the problem completely.
 > >
-> >>  	pdev->dev.parent = dev;
-> >> -	device_set_of_node_from_dev(&pdev->dev, dev);
-> >> +	platform_device_set_of_node_from_dev(pdev, dev);
+> > Below is output with the added debug lines as requested:
 > >
-> > Why do they even do that? Do they have a USB connected pin control?
+> > $ uname -r
+> > 6.12.90-debug-no-discoefs
 > >
-> 
-> I don't know. I can't test it so I don't want to break it. If they don't need
-> it, the person who can test it, can remove it later.
-> 
-
-It was introduced by below commits:
-
-commit 0f153a1b8193ce768be4df0400aeb2c8f2a3b3da
-Author: Rob Herring <robh@kernel.org>
-Date:   Wed Dec 15 16:56:46 2021 -0600
-
-    usb: chipidea: Set the DT node on the child device
-
-    The ChipIdea glue drivers just copy the glue resources to the "ci_hdrc"
-    child device. Instead, set the child device's DT node pointer to the
-    parent device's node so that platform_get_irq() can find the IRQ
-    resources in the DT. This removes the need for statically populating the
-    IRQ resources from the DT which has been deprecated for some time.
-
-    Acked-by: Peter Chen <peter.chen@kernel.org>
-    Signed-off-by: Rob Herring <robh@kernel.org>
-    Link: https://lore.kernel.org/r/20211215225646.1997946-1-robh@kernel.org
-    Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-
--- 
-
-Best regards,
-Peter
+> > $ sudo dmesg | grep -i "alc287_alc1318"
+> > [  453.823528] snd_hda_codec_realtek ehdaudio0D0:
+> > alc287_alc1318_playback_pcm_hook called action=3D0 [  453.871577]=20
+> > snd_hda_codec_realtek ehdaudio0D0: alc287_alc1318_playback_pcm_hook=20
+> > called action=3D1 [  459.605379] snd_hda_codec_realtek ehdaudio0D0:
+> > alc287_alc1318_playback_pcm_hook called action=3D2 [  459.605497]=20
+> > snd_hda_codec_realtek ehdaudio0D0: alc287_alc1318_playback_pcm_hook=20
+> > called action=3D3
+> >
+> > $ grep -n -A5 -B2 "alc_process_coef_fw.*dis_coefs" sound/pci/hda/patch_=
+realtek.c
+> > 7918-           return;
+> > 7919-   alc_update_coef_idx(codec, 0x10, 1<<11, 1<<11);
+> > 7920:   /* alc_process_coef_fw(codec, dis_coefs); */ /* commented out f=
+or testing */
+> > 7921-   alc_process_coef_fw(codec, coefs);
+> > 7922-   spec->power_hook =3D alc287_s4_power_gpio3_default;
+> > 7923-   spec->gen.pcm_playback_hook =3D alc287_alc1318_playback_pcm_hoo=
+k;
+> > 7924-}
+>
+> Hm, then the previous fix doesn't seem working, obviously.
+> Kailang, could you check this in your side?
+>
+> Maybe we should apply the AMP-silence-detection disablement conditionally=
+ to certain models?
+>
+>
+> thanks,
+>
+> Takashi
+>
+> >
+> >
+> >
+> > Sent with Proton Mail secure email.
+> >
+> > On Thursday, May 28th, 2026 at 10:07 AM, Takashi Iwai <tiwai@suse.de> w=
+rote:
+> >
+> > > On Thu, 28 May 2026 15:38:54 +0200, Mike Karcic wrote:
+> > > >
+> > > > I did test 46c862f5419e on 6.12.90. Chirp still present.
+> > > >
+> > > > I'm also on a ThinkPad X1 Carbon Gen 12 with ALC287 (17aa:231e),=20
+> > > > same as the original reporter. The fix resolved it for them but=20
+> > > > not for me.
+> > > >
+> > > > Only a full revert of 630fbc6e870e resolves the issue.
+> > > >
+> > > > Verification on the running kernel:
+> > > >
+> > > >   $ grep -c "dis_coefs" sound/pci/hda/patch_realtek.c
+> > > >   2
+> > > >
+> > > >   $ grep -c "en_coefs" sound/pci/hda/patch_realtek.c
+> > > >   0
+> > > >
+> > > >   $ sed -n '/alc287_alc1318_playback_pcm_hook/,/^}/p' sound/pci/hda=
+/patch_realtek.c
+> > > >   static void alc287_alc1318_playback_pcm_hook(struct hda_pcm_strea=
+m *hinfo,
+> > > >                                      struct hda_codec *codec,
+> > > >                                      struct snd_pcm_substream *subs=
+tream,
+> > > >                                      int action)
+> > > >   {
+> > > >           switch (action) {
+> > > >           case HDA_GEN_PCM_ACT_OPEN:
+> > > >                   alc_write_coefex_idx(codec, 0x5a, 0x00, 0x954f);
+> > > >                   break;
+> > > >           case HDA_GEN_PCM_ACT_CLOSE:
+> > > >                   alc_write_coefex_idx(codec, 0x5a, 0x00, 0x554f);
+> > > >                   break;
+> > > >           }
+> > > >   }
+> > > >
+> > > > Happy to test further patches.
+> > >
+> > > Just to be sure, could you verify that you've tested really the=20
+> > > patched kernel, e.g. by adding a debug print, etc?
+> > > If yes and the problem is seen even with the patch, try to comment ou=
+t
+> > >   alc_process_coef_fw(codec, dis_coefs); and confirm that this=20
+> > > fixes the problem.
+> > >
+> > >
+> > > Takashi
+> > >
