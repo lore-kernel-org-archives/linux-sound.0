@@ -1,137 +1,146 @@
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5D648B37B
-	for <linux-sound@vger.kernel.org>; Fri,  5 Jun 2026 08:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11D5495505
+	for <linux-sound@vger.kernel.org>; Fri,  5 Jun 2026 08:09:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780646533; cv=none; b=enVSFwFMhECb3sSWyjCq3yinR5KqGejD+ZtWgUN5OKJhDSXhu0OeeqM4IvnxXX+gu7gdKP+3D3f4K2oGIqVlb4EEW5TFY39P8PrfKJhjD2cOClXyFPBA/pjNJBRII8RUHOIF+81uqMMRFX/Hqmbn/ywWt+n3rOOc2Iu/App5WYA=
+	t=1780646987; cv=none; b=kUSg5sh1boYSmPrTD0giHAHqVQx2LqhbmNZcPh3woJzV5vD6yPWT37e7oonnfLRySWeo3QN9wPUPh/jO5oKjDrmX/tmCSbS3QuJL5g6f/iFKguS8tq09ene3CYXkqaDtz52RgbnoUIN3i6LEK972fYjdQANj1AUPks5IK8bDYr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780646533; c=relaxed/simple;
-	bh=J4QF6HyY7WdXcJOvzqQeMovZTMJew1FwpOJ4L0slqpc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l8Esd8HwSukoV9Rie0CDwLxJo00qlx+aIsDSOB3Yl6XJuZ/Mq+2oDx1zRywCcylemNyfpSudqD2/GJTkSTzic2M3WMWla/NQTo7nNRVFFb+KSk878mZz227NP0GHI55cqPaxJJ+3fK87AlT4Y/If1EBfbuX6rSTtXUSY8Ov0bvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com; spf=pass smtp.mailfrom=openai.com; dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b=YEfC46h9; arc=none smtp.client-ip=74.125.82.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=openai.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=openai.com
+	s=arc-20240116; t=1780646987; c=relaxed/simple;
+	bh=EUH+LRBh0rJE1W5iuiTSTKef/8wqvBFxnbBUZEO7WMk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iZ8d9L/A0Hra7xIvit0WzvKCdl95simld4RQ8nxfy75AnF4aCKJ4YDWSTIJnTunXFdFKdAxOzoF9SyJLIg75ZBq5X/xVY418lDtDlFLWHRPIMvXWsqAJCWA6s8QdAz40mu7+ZLOpfphbIopGuXChAL94ENJZubBhNml8S3tx3Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ET0SVxgq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1ftyWUkN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ET0SVxgq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1ftyWUkN; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=openai.com header.i=@openai.com header.b="YEfC46h9"
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1370417c01cso2205918c88.1
-        for <linux-sound@vger.kernel.org>; Fri, 05 Jun 2026 01:02:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=openai.com; s=google; t=1780646532; x=1781251332; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0MKd2BjGRjcfijiROsnShPJb9QdO7zP5n1xrf5kWKBE=;
-        b=YEfC46h939uVcmn7zDIvpvH1RRTD5dvm7/lBJg5adrP7+NdPNI21qe4S5SPDKxjcop
-         jJf5ftk2axIB82CS7CGApd5t0fJuNW8hge0Q8YlA2XUmedJQo6rTyEDewm1NV8WlzaFS
-         N8V8qmXbcC8h8C+8OvX6sOJTNqd53iJWi8Bhk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780646532; x=1781251332;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0MKd2BjGRjcfijiROsnShPJb9QdO7zP5n1xrf5kWKBE=;
-        b=hIpX2/W4Kgokf7o+Xr8i6POhwAXFExHX4DqYPjbfwnPxdux21IaVGCptidPyYRvPph
-         +PmCLu5IIjfKEboPHUy0mXy5uB86CeKhNPKhZA3Wl/9XABTkU2Dm/5Mn2LeJy1UM3sJj
-         fXU68MxaTISUQx0XbzOalelQPbJuNmXc5J47XzRl8R75IleQdi/vX44/QR0brM8Yqwri
-         M4W4SC6lRhE17czFINAvwOqkfVZLa0BbGtostaNJr8FXiGJMxz589GZ9BHOr7ahugoO8
-         ncgN02GipT6EObqUxXxsTq7odfB6m63ZUU58KJshSPONqJOO9/loeNfIrA3Kt/KipY4X
-         EZJg==
-X-Gm-Message-State: AOJu0YzVrMuFmiL9qm8dbZyqEOyTTeYPMnKXXPt7fA8KMaAQ5r/rxbmC
-	wf1nUZVp1KyeefRqcTxB+jtzVaQrbmgqwZHDput+PkPnF01B2/I1qB1QQgXyQMX85OvOnoUptS2
-	zTvLofhI=
-X-Gm-Gg: Acq92OGQniEL+jgNLrVYWqqSbmdLNzvQgL8SgYYUxLjUQb+vYuYXgEsGbL5SJlYQ4q4
-	w5zJciKa41/NLoUH4xKfST/xUAmmE5xnObyTRNZ1yVDgnEaF113BeX6ny1nijoAk0F8c3QkLtyd
-	G9ykGJdsG52/TXKriiphRyes3l653/yktlXfiRgfILwdlcrLR/H2Yx3n3SrCssnfRaPHTs3vr9D
-	iZ3dliGP9z+QGZL4luPFSbqro946J1Z9acfS6/b08f65JIKPrg/CJgfZHWMKuyPRUcwuZ9oWZjg
-	V+iPFe/7VH6DhM0tJbspWrV599pLwPS5Dhd+RzGjbzrO+E7U8ozBX8N36kzV2xMvCv9d5yLvyK7
-	H9621LJXX9fylObyfZHnEg4q4iU2vFL/Jt0GYa8nOeHldoa60UeYBrLtpWQzuOiy7ZQGh4l4zCO
-	MY3K0i4dMTJ9hIfYJL+/VrZTPz8VkmC7d4wGVmkQa4wqURQwSv2U5ZZ60+v9Rg+Pg9SYKaUvYbZ
-	ewJujnt40lTY1pq6RUg4moBJYpr7F+6uLCw2yGLoMXv
-X-Received: by 2002:a05:7301:292e:b0:2ed:e14:7f54 with SMTP id 5a478bee46e88-3077b79be38mr918628eec.30.1780646531534;
-        Fri, 05 Jun 2026 01:02:11 -0700 (PDT)
-Received: from com-75606.node.ndb.openai.org ([104.241.0.233])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074dfa3a2asm9869493eec.31.2026.06.05.01.02.10
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 05 Jun 2026 01:02:11 -0700 (PDT)
-From: Kyle Zeng <kylebot@openai.com>
-To: linux-sound@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Kyle Zeng <kylebot@openai.com>
-Subject: [PATCH] ALSA: seq: dummy: fix UMP event stack overread
-Date: Fri,  5 Jun 2026 01:02:04 -0700
-Message-ID: <20260605080204.32045-1-kylebot@openai.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ET0SVxgq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1ftyWUkN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ET0SVxgq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1ftyWUkN"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 20A7775A3D;
+	Fri,  5 Jun 2026 08:09:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780646984; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5+aX/dY2icTuDWriKObJboT6lrtTBEdCOjN58ZZXRA4=;
+	b=ET0SVxgq/i86t4Swmbo+eeIme+LYpWYcrbktCtqcgoPvF5dnli3xxKIKNrR/oAQjDsBWYs
+	sPlaO++38hMtO/ZnWFuAY2a+yM2JdINOH0yZMmCRjbPioqX0BsJNMT3jKaXKAy6qXRtAdm
+	O8n8RTZnSYglBsZPU4AJMuvN4uaNVXU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780646984;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5+aX/dY2icTuDWriKObJboT6lrtTBEdCOjN58ZZXRA4=;
+	b=1ftyWUkNa3ancLSJJy5c4inzAXYYp0bZyuTP4HjEgJjfYXSv/B2gwG12I5DNl7nU0gPckX
+	lTT+EtJdpFd9R/Dg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ET0SVxgq;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1ftyWUkN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780646984; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5+aX/dY2icTuDWriKObJboT6lrtTBEdCOjN58ZZXRA4=;
+	b=ET0SVxgq/i86t4Swmbo+eeIme+LYpWYcrbktCtqcgoPvF5dnli3xxKIKNrR/oAQjDsBWYs
+	sPlaO++38hMtO/ZnWFuAY2a+yM2JdINOH0yZMmCRjbPioqX0BsJNMT3jKaXKAy6qXRtAdm
+	O8n8RTZnSYglBsZPU4AJMuvN4uaNVXU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780646984;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5+aX/dY2icTuDWriKObJboT6lrtTBEdCOjN58ZZXRA4=;
+	b=1ftyWUkNa3ancLSJJy5c4inzAXYYp0bZyuTP4HjEgJjfYXSv/B2gwG12I5DNl7nU0gPckX
+	lTT+EtJdpFd9R/Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 00F26779A8;
+	Fri,  5 Jun 2026 08:09:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gAAWOkeEImqWWgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 05 Jun 2026 08:09:43 +0000
+Date: Fri, 05 Jun 2026 10:09:43 +0200
+Message-ID: <87ecilv260.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Kyle Zeng <kylebot@openai.com>
+Cc: linux-sound@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH] ALSA: seq: dummy: fix UMP event stack overread
+In-Reply-To: <20260605080204.32045-1-kylebot@openai.com>
+References: <20260605080204.32045-1-kylebot@openai.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,openai.com:email];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 20A7775A3D
+X-Spam-Score: -3.51
 
-The dummy sequencer port forwards events by copying an incoming
-struct snd_seq_event into a stack temporary, rewriting source and
-destination, and dispatching the temporary to subscribers. That legacy
-event storage is smaller than struct snd_seq_ump_event.
+On Fri, 05 Jun 2026 10:02:04 +0200,
+Kyle Zeng wrote:
+> 
+> The dummy sequencer port forwards events by copying an incoming
+> struct snd_seq_event into a stack temporary, rewriting source and
+> destination, and dispatching the temporary to subscribers. That legacy
+> event storage is smaller than struct snd_seq_ump_event.
+> 
+> When a UMP event reaches the dummy client, the copy leaves the UMP flag
+> set but only provides legacy-sized stack storage. The subscriber
+> delivery path then uses snd_seq_event_packet_size() and copies a
+> UMP-sized packet from that stack object, reading past the end of the
+> temporary.
+> 
+> Use the existing union __snd_seq_event storage and copy the packet size
+> reported for the incoming event before rewriting the common routing
+> fields. This preserves the full UMP packet for UMP events while keeping
+> legacy event handling unchanged.
+> 
+> Fixes: 32cb23a0f911 ("ALSA: seq: dummy: Allow UMP conversion")
+> Signed-off-by: Kyle Zeng <kylebot@openai.com>
 
-When a UMP event reaches the dummy client, the copy leaves the UMP flag
-set but only provides legacy-sized stack storage. The subscriber
-delivery path then uses snd_seq_event_packet_size() and copies a
-UMP-sized packet from that stack object, reading past the end of the
-temporary.
+Applied now.  Thanks.
 
-Use the existing union __snd_seq_event storage and copy the packet size
-reported for the incoming event before rewriting the common routing
-fields. This preserves the full UMP packet for UMP events while keeping
-legacy event handling unchanged.
 
-Fixes: 32cb23a0f911 ("ALSA: seq: dummy: Allow UMP conversion")
-Signed-off-by: Kyle Zeng <kylebot@openai.com>
----
- sound/core/seq/seq_dummy.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
-
-diff --git a/sound/core/seq/seq_dummy.c b/sound/core/seq/seq_dummy.c
-index af45f328ae99..8abe80985dad 100644
---- a/sound/core/seq/seq_dummy.c
-+++ b/sound/core/seq/seq_dummy.c
-@@ -9,6 +9,7 @@
- #include <linux/module.h>
- #include <sound/core.h>
- #include "seq_clientmgr.h"
-+#include "seq_memory.h"
- #include <sound/initval.h>
- #include <sound/asoundef.h>
- 
-@@ -81,19 +82,21 @@ dummy_input(struct snd_seq_event *ev, int direct, void *private_data,
- 	    int atomic, int hop)
- {
- 	struct snd_seq_dummy_port *p;
--	struct snd_seq_event tmpev;
-+	union __snd_seq_event tmpev;
-+	size_t size;
- 
- 	p = private_data;
- 	if (ev->source.client == SNDRV_SEQ_CLIENT_SYSTEM ||
- 	    ev->type == SNDRV_SEQ_EVENT_KERNEL_ERROR)
- 		return 0; /* ignore system messages */
--	tmpev = *ev;
-+	size = snd_seq_event_packet_size(ev);
-+	memcpy(&tmpev, ev, size);
- 	if (p->duplex)
--		tmpev.source.port = p->connect;
-+		tmpev.legacy.source.port = p->connect;
- 	else
--		tmpev.source.port = p->port;
--	tmpev.dest.client = SNDRV_SEQ_ADDRESS_SUBSCRIBERS;
--	return snd_seq_kernel_client_dispatch(p->client, &tmpev, atomic, hop);
-+		tmpev.legacy.source.port = p->port;
-+	tmpev.legacy.dest.client = SNDRV_SEQ_ADDRESS_SUBSCRIBERS;
-+	return snd_seq_kernel_client_dispatch(p->client, &tmpev.legacy, atomic, hop);
- }
- 
- /*
--- 
-2.51.0
-
+Takashi
