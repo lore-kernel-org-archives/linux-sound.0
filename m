@@ -1,27 +1,27 @@
-Received: from mail-m12782.qiye.163.com (mail-m12782.qiye.163.com [115.236.127.82])
+Received: from mail-m32113.qiye.163.com (mail-m32113.qiye.163.com [220.197.32.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2022D8DD0;
-	Sat,  6 Jun 2026 19:04:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A653B2D8DD0;
+	Sat,  6 Jun 2026 19:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780772653; cv=none; b=AxQxT0kyLCHN/zrBDEIsm+KR39xVsIbt4y8diIgg3G+CinDNijv1pU+r1WcpPLCjuFbTbQJfp/xQIRZW2UrDRUlH+NDAWSPR5bVyUPH9Dc2emF0ua3OGrLkjOYK6JeT9uR3o7KWVWNudNsHUkp0M4qVg6MAW5h8fX0rxL3xf4Zo=
+	t=1780773271; cv=none; b=m+pvRnnpPK6AeVw01nc3bT82To0XH6XR2TAfgkdVN53n8IXbE7wLfnPqBEwC58Vo0K6t88nCF1/ODDm/a7So0wEEL1HuM+xA157s0ndbLY5MU2K/l5uqwJYpjx4a0Zq9wxQqxLoH199bBVuBrLtuWTeEEcSM3NdgnkMsZcHkM2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780772653; c=relaxed/simple;
-	bh=xhGx9btUBJ7PbSENKiLTzAu2Pwgm8GyTghkEQBUGyqg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nAhb1p2XcDDvtislk5G+E+Kqkt2PUyzHwC6EZIdOzRheS9rCyRDba+cHIwBiwqhS3BB4Wea9h04X3TF77pUBkhtwQHvGYRYmQ0gAPza7fX/txKw56cD0s49wyqsKylNdMEWG0oaTXn48JwMS9+U6H7LZjN4gngr5QsrHDp+Bk/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=bD1MJLPe; arc=none smtp.client-ip=115.236.127.82
+	s=arc-20240116; t=1780773271; c=relaxed/simple;
+	bh=IABZdxqTlxrkAaJmB/SbLJ3bBbi85l6Cufavt9VzJr0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TqYGUNBsME0uYA82W7XdqOjNHkn4sEJARYy6o/aSU1ZLYxd1Bvgkr0ZRkBR0g+mVzEUYWnWAaNy6QvO8IGB7LaN6QLo9trjJ/DQrUENshzWzU8oqaN7Bb9+YsggOYGajPg+e94ymcghD8Mt62g4JL2ItOdekkvUTHUIrdCzO1NM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=aopiUIlB; arc=none smtp.client-ip=220.197.32.113
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="bD1MJLPe"
+	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="aopiUIlB"
 Received: from [127.0.1.1] (unknown [113.235.125.44])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 415a25048;
-	Sun, 7 Jun 2026 02:58:49 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 415a25036;
+	Sun, 7 Jun 2026 02:58:40 +0800 (GMT+08:00)
 From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-Date: Sun, 07 Jun 2026 02:58:21 +0800
-Subject: [PATCH 5/5] arm64: dts: qcom: qcs6490-rubikpi3: Add audio support
+Subject: [PATCH 0/5] Add audio support for QCS6490 RubikPi3
+Date: Sun, 07 Jun 2026 02:58:16 +0800
+Message-Id: <20260607-rubikpi-next-20260605-v1-0-7f334e16fea6@thundersoft.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -30,9 +30,10 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260607-rubikpi-next-20260605-v1-5-7f334e16fea6@thundersoft.com>
-References: <20260607-rubikpi-next-20260605-v1-0-7f334e16fea6@thundersoft.com>
-In-Reply-To: <20260607-rubikpi-next-20260605-v1-0-7f334e16fea6@thundersoft.com>
+X-B4-Tracking: v=1; b=H4sIAMhtJGoC/z3MywqAIBCF4VeJWSeodKNXiRamU02BhVYE0rtnB
+ S2/A+cP4NEReqiTAA4P8rTYCJEmoEdlB2RkokFyWfCC58ztHc0rMYvnxv61N0YJkVUyMyXE7+q
+ wp/PtNu1nv3cT6u2JwXXdXt+yonkAAAA=
+X-Change-ID: 20260605-rubikpi-next-20260605-fdda114824d7
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Daniel Drake <drake@endlessm.com>, 
@@ -45,302 +46,75 @@ To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  Hongyang Zhao <hongyang.zhao@thundersoft.com>, 
- mohammad.rafi.shaik@oss.qualcomm.com, rosh@debian.org
+ mohammad.rafi.shaik@oss.qualcomm.com, rosh@debian.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: b4 0.15-dev-47773
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780772320; l=6149;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780772320; l=2048;
  i=hongyang.zhao@thundersoft.com; s=20251115; h=from:subject:message-id;
- bh=xhGx9btUBJ7PbSENKiLTzAu2Pwgm8GyTghkEQBUGyqg=;
- b=Mn66vPLzlmABgaAUUrZHmG14UEMVyB3JmaGGiItMcwXP5ZTDvZJ35XA4cDV70j+YXTjuCDXD9
- Kg2Y3s34YNsCpONU6F0YCHxS2DzDiEbs3rlIn2FDSl6QhokimEk791W
+ bh=IABZdxqTlxrkAaJmB/SbLJ3bBbi85l6Cufavt9VzJr0=;
+ b=DLy1KBU96IPFfCZ47AKDLWzKxCnoAj166h4I62bkXoOa+LJHHZHYy5DPgo3PS9ihpBxEUr8uL
+ cLWYb6N2+F8BecqgwW9+IOwtINiC6bHopXjhNRr7jbaPflmQrIHqNDb
 X-Developer-Key: i=hongyang.zhao@thundersoft.com; a=ed25519;
  pk=0M0CJ1s9WiFZwli2JsxLB9ykikp5WkpKzCWgpdANKNI=
-X-HM-Tid: 0a9e9e4d59c609d5kunm343af971138b07
+X-HM-Tid: 0a9e9e4d33d609d5kunm343af971138ad4
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaGh9IVkkaS0hLH05MH0geSlYVFA
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZHx8aVh4fSR1MSUpNHkhDT1YVFA
 	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlKSkhVSUhOVUpJTlVPT1lXWRYaDxIVHRRZQVlPS0hVSk
-	tJT09PSFVKS0tVSkJLS1kG
+	tJT09PS1VKS0tVS1kG
 DKIM-Signature: a=rsa-sha256;
-	b=bD1MJLPe6WiIC1Tw1WWbTRLJaPKkjJi3D5HA/IhsJFvulrcuWATzkH391PJVO72xvO3sv2eZHpieFCvqWOqq3JYTCBqsHg/JahDQluUKPr+Ixu9+rgUBbaA/QCtR5HxPw0r++Ga24OeeMLRYNagEKN+dNZ3dLSewUDuRpFhCxsg=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
-	bh=Fhw4hjclec77QznNiSsI18O2qX1bXG4rCI/YfxKzWfs=;
+	b=aopiUIlBTgUq8fNPkhb+/npOJ7x+bkViNOTC3EtoXmw310p5zdTdJEvuVNBucvnifx86PXkbXQ8JVCmcRAVm7Lgr/+L102K+Lu55yaLYjjkojT3JCZILtR2OGlEBY2WY8uEqFm4TsGr/m/dhc6p6kgh7xpU+VN/Kb/vWVv0UAH4=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
+	bh=hQ46BKVamGSK3m9eVxhd/n4maC8WpfGZkI/xp74gi4o=;
 	h=date:mime-version:subject:message-id:from;
 
-Add audio support for the Thundercomm RubikPi3 board.
+Add audio support for the Thundercomm RubikPi3 board based on QCS6490.
 
-Enable AudioReach and describe the ES8316 headset codec, the LT9611
-HDMI codec endpoint and the SPDIF TX/RX endpoints exposed on the
-40-pin header. Add the sound card DAI links, LPASS pin configuration
-and ES8316 fixed 3.3V supply.
+RubikPi3 uses AudioReach/GPR on the ADSP, an ES8316 headset codec on
+primary MI2S, HDMI audio through the LT9611 bridge, and SPDIF TX/RX
+on tertiary MI2S exposed on the 40-pin header.
+
+The series first documents the ES8316 jack detect inversion property
+and the board-specific Qualcomm sound card compatible. It then adds the
+missing q6prm MCLK IDs required to drive the external codec MCLK.
+
+The sc8280xp machine driver is extended with per-card data so the
+RubikPi3 MI2S DAI format, MCLK, BE parameters and headset jack pins
+can be handled without adding DAI format properties to devicetree.
+
+The final patch describes the RubikPi3 audio hardware in devicetree.
+
+Tested on Thundercomm RubikPi3:
+- HDMI playback
+- Headset playback and capture
+- Headset jack detection
 
 Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
 ---
- .../boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts | 196 +++++++++++++++++++++
- 1 file changed, 196 insertions(+)
+Hongyang Zhao (4):
+      ASoC: dt-bindings: es8316: Document jack detect inversion
+      ASoC: dt-bindings: qcom,sm8250: Add QCS6490 RubikPi3 sound card
+      ASoC: qcom: sc8280xp: Add per-card data
+      arm64: dts: qcom: qcs6490-rubikpi3: Add audio support
 
-diff --git a/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts b/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-index f47efca42d48..3249176b4c77 100644
---- a/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-+++ b/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-@@ -19,6 +19,7 @@
- #include "pm7325.dtsi"
- #include "pm8350c.dtsi" /* PM7350C */
- #include "pmk8350.dtsi" /* PMK7325 */
-+#include "qcs6490-audioreach.dtsi"
- 
- /delete-node/ &adsp_mem;
- /delete-node/ &cdsp_mem;
-@@ -128,6 +129,23 @@ fan0: pwm-fan {
- 		pinctrl-names = "default";
- 	};
- 
-+	vreg_es8316_3v3: vreg-es8316-3v3 {
-+		compatible = "regulator-fixed";
-+
-+		regulator-name = "vreg_es8316_3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+
-+		gpio = <&tlmm 117 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-0 = <&es8316_power_on>;
-+		pinctrl-names = "default";
-+
-+		regulator-always-on;
-+		regulator-boot-on;
-+	};
-+
- 	vreg_eth_1v8: regulator-eth-1v8 {
- 		compatible = "regulator-fixed";
- 
-@@ -346,6 +364,16 @@ active-config0 {
- 		};
- 	};
- 
-+	spdif_rx: spdif-rx {
-+		compatible = "linux,spdif-dir";
-+		#sound-dai-cells = <0>;
-+	};
-+
-+	spdif_tx: spdif-tx {
-+		compatible = "linux,spdif-dit";
-+		#sound-dai-cells = <0>;
-+	};
-+
- 	usb1-sbu-mux {
- 		compatible = "pericom,pi3usb102", "gpio-sbu-mux";
- 
-@@ -727,6 +755,23 @@ &gpu_zap_shader {
- 	firmware-name = "qcom/qcs6490/a660_zap.mbn";
- };
- 
-+&i2c0 {
-+	status = "okay";
-+
-+	es8316: audio-codec@11 {
-+		compatible = "everest,es8316";
-+		reg = <0x11>;
-+		#sound-dai-cells = <0>;
-+
-+		clocks = <&q6prmcc LPASS_CLK_ID_MCLK_1 LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-+		clock-names = "mclk";
-+
-+		interrupts-extended = <&tlmm 63 IRQ_TYPE_EDGE_BOTH>;
-+
-+		everest,jack-detect-inverted;
-+	};
-+};
-+
- /* Pin 3, 5 in 40-pin connector */
- &i2c1 {
- 	status = "okay";
-@@ -740,6 +785,7 @@ &i2c9 {
- 	lt9611_codec: hdmi-bridge@39 {
- 		compatible = "lontium,lt9611";
- 		reg = <0x39>;
-+		#sound-dai-cells = <1>;
- 
- 		interrupts-extended = <&tlmm 20 IRQ_TYPE_EDGE_FALLING>;
- 		reset-gpios = <&tlmm 21 GPIO_ACTIVE_HIGH>;
-@@ -970,6 +1016,15 @@ &pon_resin {
- 	status = "okay";
- };
- 
-+&q6apmbedai {
-+	pinctrl-0 = <&mi2s0_data0>, <&mi2s0_data1>, <&mi2s0_mclk>,
-+		    <&mi2s0_sclk>, <&mi2s0_ws>,
-+		    <&lpass_qua_mi2s_sclk>, <&lpass_qua_mi2s_ws>, <&lpass_qua_mi2s_data>,
-+		    <&lpass_lpi_i2s1_clk>, <&lpass_lpi_i2s1_ws>,
-+		    <&lpass_lpi_i2s1_data0>, <&lpass_lpi_i2s1_data1>;
-+	pinctrl-names = "default";
-+};
-+
- &qupv3_id_0 {
- 	firmware-name = "qcom/qcm6490/qupv3fw.elf";
- 
-@@ -1006,6 +1061,96 @@ &sdhc_2 {
- 	status = "okay";
- };
- 
-+&sound {
-+	compatible = "thundercomm,qcs6490-rubikpi3-sndcard";
-+	model = "QCS6490-Thundercomm-RubikPi3";
-+
-+	audio-routing =
-+		"Headphone Jack", "HPOL",
-+		"Headphone Jack", "HPOR",
-+		"MIC2", "Mic Jack";
-+
-+	mi2s-playback-dai-link {
-+		link-name = "MI2S-LPAIF-RX-PRIMARY";
-+
-+		codec {
-+			sound-dai = <&es8316>;
-+		};
-+
-+		cpu {
-+			sound-dai = <&q6apmbedai PRIMARY_MI2S_RX>;
-+		};
-+
-+		platform {
-+			sound-dai = <&q6apm>;
-+		};
-+	};
-+
-+	mi2s-capture-dai-link {
-+		link-name = "MI2S-LPAIF-TX-PRIMARY";
-+
-+		codec {
-+			sound-dai = <&es8316>;
-+		};
-+
-+		cpu {
-+			sound-dai = <&q6apmbedai PRIMARY_MI2S_TX>;
-+		};
-+
-+		platform {
-+			sound-dai = <&q6apm>;
-+		};
-+	};
-+
-+	quaternary-mi2s-playback-dai-link {
-+		link-name = "MI2S-LPAIF_RXTX-RX-PRIMARY";
-+
-+		codec {
-+			sound-dai = <&lt9611_codec 0>;
-+		};
-+
-+		cpu {
-+			sound-dai = <&q6apmbedai QUATERNARY_MI2S_RX>;
-+		};
-+
-+		platform {
-+			sound-dai = <&q6apm>;
-+		};
-+	};
-+
-+	tert-mi2s-playback-dai-link {
-+		link-name = "MI2S-LPAIF-RX-TERTIARY";
-+
-+		codec {
-+			sound-dai = <&spdif_tx>;
-+		};
-+
-+		cpu {
-+			sound-dai = <&q6apmbedai TERTIARY_MI2S_RX>;
-+		};
-+
-+		platform {
-+			sound-dai = <&q6apm>;
-+		};
-+	};
-+
-+	tert-mi2s-capture-dai-link {
-+		link-name = "MI2S-LPAIF-TX-TERTIARY";
-+
-+		codec {
-+			sound-dai = <&spdif_rx>;
-+		};
-+
-+		cpu {
-+			sound-dai = <&q6apmbedai TERTIARY_MI2S_TX>;
-+		};
-+
-+		platform {
-+			sound-dai = <&q6apm>;
-+		};
-+	};
-+};
-+
- /* Pin 19, 21, 23, 24 in 40-pin connector */
- &spi12 {
- 	status = "okay";
-@@ -1220,6 +1365,50 @@ &sdc2_data {
- 	drive-strength = <10>;
- };
- 
-+&lpass_tlmm {
-+	lpass_qua_mi2s_sclk: qua-mi2s-sclk-state {
-+		pins = "gpio0";
-+		function = "qua_mi2s_sclk";
-+		drive-strength = <8>;
-+		bias-disable;
-+		output-high;
-+	};
-+
-+	lpass_qua_mi2s_ws: qua-mi2s-ws-state {
-+		pins = "gpio1";
-+		function = "qua_mi2s_ws";
-+		drive-strength = <8>;
-+		output-high;
-+	};
-+
-+	lpass_qua_mi2s_data: qua-mi2s-data-state {
-+		pins = "gpio2", "gpio3", "gpio4";
-+		function = "qua_mi2s_data";
-+		drive-strength = <8>;
-+		bias-disable;
-+	};
-+
-+	lpass_lpi_i2s1_clk: lpi-i2s1-clk-state {
-+		pins = "gpio6";
-+		function = "i2s1_clk";
-+	};
-+
-+	lpass_lpi_i2s1_ws: lpi-i2s1-ws-state {
-+		pins = "gpio7";
-+		function = "i2s1_ws";
-+	};
-+
-+	lpass_lpi_i2s1_data0: lpi-i2s1-data0-state {
-+		pins = "gpio8";
-+		function = "i2s1_data";
-+	};
-+
-+	lpass_lpi_i2s1_data1: lpi-i2s1-data1-state {
-+		pins = "gpio9";
-+		function = "i2s1_data";
-+	};
-+};
-+
- &tlmm {
- 	pcie1_reset_n: pcie1-reset-n-state {
- 		pins = "gpio2";
-@@ -1387,6 +1576,13 @@ pcie0_wake_n: pcie0-wake-n-state {
- 		bias-pull-up;
- 	};
- 
-+	es8316_power_on: es8316-power-on-state {
-+		pins = "gpio117";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-down;
-+	};
-+
- 	wifi_power_on: wifi-power-on-state {
- 		pins = "gpio125";
- 		function = "gpio";
+Neil Armstrong (1):
+      ASoC: qcom: qdsp6: q6prm: add the missing MCLK clock IDs
 
--- 
-2.43.0
+ .../devicetree/bindings/sound/everest,es8316.yaml  |   5 +
+ .../devicetree/bindings/sound/qcom,sm8250.yaml     |   1 +
+ .../boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts | 196 +++++++++++++
+ sound/soc/qcom/common.c                            |  75 ++++-
+ sound/soc/qcom/common.h                            |   6 +-
+ sound/soc/qcom/qdsp6/q6prm-clocks.c                |   5 +
+ sound/soc/qcom/qdsp6/q6prm.h                       |  11 +
+ sound/soc/qcom/sc8280xp.c                          | 319 +++++++++++++++++++--
+ 8 files changed, 575 insertions(+), 43 deletions(-)
+---
+base-commit: 6e845bcb78c95af935094040bd4edc3c2b6dd784
+change-id: 20260605-rubikpi-next-20260605-fdda114824d7
+
+Best regards,
+--  
+Hongyang Zhao <hongyang.zhao@thundersoft.com>
 
