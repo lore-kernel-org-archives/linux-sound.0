@@ -1,837 +1,177 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazolkn19011034.outbound.protection.outlook.com [52.103.39.34])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010035.outbound.protection.outlook.com [52.101.229.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3ED17A2FC
-	for <linux-sound@vger.kernel.org>; Sun,  7 Jun 2026 19:16:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.39.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB782F1FEA;
+	Sun,  7 Jun 2026 20:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.35
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780859812; cv=fail; b=bM33HlWvfqmvz8/wrA9XymW8mufMoYtJ2YadqpRDC1F5ddKUAosVwsk71ZowN/eJZc+XZ27wV3pt55dugpsdclGTAGEJsM5u4xxiXsntaVhJF0pgvAsXgeZXulblO5h8v7epOMhAkZOncNi3wUE/pf4BYrsekqBG2KAZmoFDTH0=
+	t=1780865459; cv=fail; b=GlwFPl/JbzIm0wWuslEwUIUEqr4fRdilDVmv4CBz2TBiWOO4Z9vo5hM2MJD89C+UmEZXw8cJLsLcZoWPEciPYnEQMHvFkI1qULc8kmNoRNOgWQUMAagn3EzCDZpj6i0LxYI/FKMifocl92iKhmHW0OBZvl6RLR9X2RkXgQR/l5Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780859812; c=relaxed/simple;
-	bh=j7RmSFIgtnOGo6ZSYCWWY/ZF48/taFz0f5HTSYBiK9U=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=RRE16SXWwTcSemW19Blrc5q+T8+9yoSCsCoi3Kg7eo1yosypfg4Ld00noVwiu0NtbrjkC/S5pKfqUFszleC2GRV0p42JP/eDaAk690O5B8flEZuidmLkv1TRfGUjUiJ8sBubv/ZQX3Kxzm09mpYOuBiB0Ei9jPL4ORQTDn0KebI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.de; spf=pass smtp.mailfrom=hotmail.de; dkim=pass (2048-bit key) header.d=HOTMAIL.DE header.i=@HOTMAIL.DE header.b=n+hul24R; arc=fail smtp.client-ip=52.103.39.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.de
+	s=arc-20240116; t=1780865459; c=relaxed/simple;
+	bh=Ley2Z111R1r4FXtrXgKIQyCF/JPTjQ1e6URCyyRqfd8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ISZh41AqrYBRu6OuXZJ9MKAo3Jy0GdXP9WkvjpSgiZk2mj+hQknvIS7QpdbhH6BZetnGPqSGRzwXTq117Zlgh7zc/1SxRmyWUqH2Z6wIj7OrlCdtB9BNg8WC7uaZZEEGgK91g4ldhQ1zBgpb5SYEQvjfCvJdS8ZqgosVl5X4eGc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=QCtmjqC+; arc=fail smtp.client-ip=52.101.229.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=HOTMAIL.DE header.i=@HOTMAIL.DE header.b="n+hul24R"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="QCtmjqC+"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O8qHwL5IvFc7Ict/SA4ArMlVoRtxc8B5IMdtL09cu01+n6Kej35gqraPLNsBr8Rm0hdCWEo6M9Jz9PcV+tmCFl5fFRZXCcU2B36/yqxgwu6b7RkKG+r2kjlajntZ217zywY7GFkMVAVJMZgroev4kjNXLEWKjV6s/boMTgLCz6+wGBa8rmlXiS82TaVTrGx+ncK62RTUqqa+lEEa/ATiB6I1llBCHb7SWfjlZij+aDI/gbAQrwgJuXpuP/MlxqsAxRlA6a8N+rTIEpHo5lB4+0HMp+vvyRM9gC9vXorbBrPZk34hP4V6HOQfWknVRTkmlJYezzPvC59qrtcnaypMXQ==
+ b=FnzwSkFzN3Vi5Q/kCJH5rDa3teW4jP9DDztAoc7Jp44E2tuYy6uUi52d4ZES7CK5kgzthjmflDLJoSbV4Y4Z35CMvpIz3GbySeCaud+/57zw678jrykrnwPIW0NdxEYVLiBB28JdA5XwXXmnK1gJs0aivcGECefxhv0TPVqe6SkJmwTQ9gUAw236OHlWaYzfcxUBHnhpEtqKiGcT3sj394BLbAFGS9QR4pwvso0lTxGzX1aQZzhxw8rhe6uCW2tSa2tQ9Ki4BnybkyufnITef5TXatvEEBVwkn2MYyQBDp1By9d9MnWp0BREEyT7ADZxJ9Tu0nJvx7xp5ldvNv1bqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o/RN0noGP+CuH+Lxfp1/p/0WQMPrZS9rgLG7zUdhc9o=;
- b=NA1OqhZnAv+sxf1Q74oxEO8uuADfPTQxNgG1bOfjmY/J/K40krl0AsWnO7Lq3qLTML6EsVrYK0CzFTtxRlvbCW8x0ls9CGvGB2usZ/Ktkuan04NtMq62cUddQLVq7Zri+KGBeVR/2kohX76X5Aif2s7E9XY3w2DpolNi73kfNCO/JeVLjpli15kBB65gtAWPaRqB/hdqFl4Q9awFP7LuWDoVlXoyoAG+accdGtLiZKEoWSKLe9HzBfc69+0w1iX9p27l/kTKSCBtm7cXFSzY1WjqWHS3HtT3biuokXz4wYMIbI08wLc44eZ5ZEwgEWBOne2g0fTK6Bt36JqAimJ9EQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=HOTMAIL.DE;
+ bh=Ley2Z111R1r4FXtrXgKIQyCF/JPTjQ1e6URCyyRqfd8=;
+ b=PAH8hLqLcMAZfR6XjYkxvaNOAkiGz/gcE2tPY7GOeZKjOaRiHzFueX291ohqEmknkPiz/nsLht3g5u9UdBQsALN7SkuErW8DumEkKR0OvrPi9HvbUf6p9fyPi3CcFvUoTCvJKhODDv9e1mYuSb73SFCu0C3UF/ijQe+CqE4JfUqy811ALVkYX2b5xuzhCJQQYbwRfPJ1gn8A6RuQIIJhNLxi9C6B4PAOlIC9cZE4n+h9jMp5IjGCjx1NefonIq3eauCX5/GTEBI4TVZCmWAJZI5PWdk783WqzSaSdG1fNAnvCM+1WSA0YmZcRCG6wJ1bkNQPn22YNuKX3VxMdkT+wQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o/RN0noGP+CuH+Lxfp1/p/0WQMPrZS9rgLG7zUdhc9o=;
- b=n+hul24RP/3528mTqhxAGG6sLtclgnmR3GEOVBrWVn//6wZ8x8jyT2GhYUlZ8P1pibP9RPKzOSbfSa83tZzYJ74xdYVktYgbqlnWL00SS/aIrXbwqlRsLHc2aIqswKwomxiCQRX041B7TkYMR4bOizobVWKIPBGkfkClyuORK8sSOXhjQsr5jy4wMzZYAaNHwoDJtVyCfShWRU7x5nz5ynIsUzUb+Kd6oqdaFCj/2YlVeC6zU4R+uMpZlQn18SJx+vNjs/40pP8q7TulmOBIckmMkuWUZREi4gdkf7B7rJ2FLSTibJw8MOnLryWbilpcoqx4FPCzmoY7cOoDRUBgAQ==
-Received: from AS8P250MB0887.EURP250.PROD.OUTLOOK.COM (2603:10a6:20b:54c::13)
- by DU7PPFEB0D49F29.EURP250.PROD.OUTLOOK.COM (2603:10a6:18:3::b67) with
+ bh=Ley2Z111R1r4FXtrXgKIQyCF/JPTjQ1e6URCyyRqfd8=;
+ b=QCtmjqC+2UfHO0wTSWz9BCPjMd244vyiMspTxVWTSal0a9l3BsfkQ5vveUa0gr6gIfhzaqmxb2ca4wOUH+iBeZW/JBt1Y2bQ73Vsy7tW65f0Oq5gAyBWvTww+M58EYPTcrSmaeGKsD7FYFgJUWPakhYTDk376vbyvFWMY8xvxB0=
+Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com (2603:1096:405:35b::6)
+ by TYCPR01MB7797.jpnprd01.prod.outlook.com (2603:1096:400:17b::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.12; Sun, 7 Jun 2026
- 19:16:48 +0000
-Received: from AS8P250MB0887.EURP250.PROD.OUTLOOK.COM
- ([fe80::d225:cd5f:c40c:482]) by AS8P250MB0887.EURP250.PROD.OUTLOOK.COM
- ([fe80::d225:cd5f:c40c:482%4]) with mapi id 15.21.0092.011; Sun, 7 Jun 2026
- 19:16:48 +0000
-From: Gigi Furnari <gigi.furnari@hotmail.de>
-To: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>
-CC: "tiwai@suse.de" <tiwai@suse.de>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>
-Subject: [PATCH REQUEST] hda/realtek: Add fixup for HP Spectre x360 16-f1xxx
- (103c:891c, ALC245)
-Thread-Topic: [PATCH REQUEST] hda/realtek: Add fixup for HP Spectre x360
- 16-f1xxx (103c:891c, ALC245)
-Thread-Index: AQHc9rGkEF+3gXCLL0i3KlYlBCGkew==
-Date: Sun, 7 Jun 2026 19:16:47 +0000
+ 20:50:54 +0000
+Received: from TY6PR01MB17377.jpnprd01.prod.outlook.com
+ ([fe80::f373:26d6:86c4:6aa3]) by TY6PR01MB17377.jpnprd01.prod.outlook.com
+ ([fe80::f373:26d6:86c4:6aa3%6]) with mapi id 15.21.0092.011; Sun, 7 Jun 2026
+ 20:50:49 +0000
+From: John Madieu <john.madieu.xa@bp.renesas.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+CC: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Biju
+ Das <biju.das.jz@bp.renesas.com>, "lgirdwood@gmail.com"
+	<lgirdwood@gmail.com>, magnus.damm <magnus.damm@gmail.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"john.madieu@gmail.com" <john.madieu@gmail.com>, "geert+renesas@glider.be"
+	<geert+renesas@glider.be>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, "broonie@kernel.org"
+	<broonie@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>
+Subject: RE: [PATCH v2] ASoC: dt-bindings: sound: renesas,r9a09g047: Fix
+ dma-names and ports schema
+Thread-Topic: [PATCH v2] ASoC: dt-bindings: sound: renesas,r9a09g047: Fix
+ dma-names and ports schema
+Thread-Index: AQHc9SbE88+QH7spg0qrWm41YM+SpLYweniAgAMYn+A=
+Date: Sun, 7 Jun 2026 20:50:49 +0000
 Message-ID:
- <AS8P250MB0887C48FD62B9F2A5B882565F41F2@AS8P250MB0887.EURP250.PROD.OUTLOOK.COM>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: yes
+ <TY6PR01MB17377F8945B85671FCD20B83DFF1F2@TY6PR01MB17377.jpnprd01.prod.outlook.com>
+References: <20260605200526.683577-1-john.madieu.xa@bp.renesas.com>
+ <178069496769.286078.10840905064274842451.robh@kernel.org>
+In-Reply-To: <178069496769.286078.10840905064274842451.robh@kernel.org>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
-x-ms-reactions: allow
-x-ms-exchange-messagesentrepresentingtype: 1
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8P250MB0887:EE_|DU7PPFEB0D49F29:EE_
-x-ms-office365-filtering-correlation-id: 7c7133a9-788f-4ef6-295c-08dec4c95232
+x-ms-traffictypediagnostic: TY6PR01MB17377:EE_|TYCPR01MB7797:EE_
+x-ms-office365-filtering-correlation-id: 1f9d9e22-9562-4cac-c0f0-08dec4d674ef
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:14566002|31061999003|15080799012|24071999003|6092099016|14030799003|5062599005|39105399006|25031999004|24021099003|8062599012|8060799015|20031999006|19110799012|3412199025|440099028|102099032|40105399003;
+ BCL:0;ARA:13230040|376014|7416014|1800799024|366016|38070700021|13003099007|18002099003|22082099003|11063799006|4143699003|56012099006|3023799007;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?DofJ6v2MPSuT+AWVMb9oCMDJbNi+FLyo+OiYJjr09ZD6ZwrgmX7ioESdNrvu?=
- =?us-ascii?Q?6lc6v+VosrpTk5suYEvagoACzo6W1g39pmZsnJqb+KkQyrWFf4VNi3qoA+Jq?=
- =?us-ascii?Q?VDvB/QjaZHrfp7BKS2FoXbab8OurecCv0RMoMcDZnZRD/q/V02b+VYa421lz?=
- =?us-ascii?Q?yDYR+R2vB2WTLEMlLrV5oQ2Ho1B08Li4yJSfz6EhRJ4MSjCuSVEUeaAt8XQT?=
- =?us-ascii?Q?/xNb2y792hCp3SKkDxoxSWsU25stslJwrjONYH56lPh0clK9Vuzu6G365YlP?=
- =?us-ascii?Q?TsNXAxlKFcqQTSruKCDp/ZGDfzs2iVzOUMgour1tDHToF50sO2Q2ULQ3G910?=
- =?us-ascii?Q?HoOa6xvKyjG+JYIwqRB9AlwJ6ady4V+lQFKCLbNGe9BuK6DO2vzMe1kzdXkn?=
- =?us-ascii?Q?/DGZacVuTscYBiJieoRQAqyPutVTEwaREO2nmQzanlgd03uTeupSY/fqnDjW?=
- =?us-ascii?Q?iq3J6y3TPk3+4f1YRZlr8IqYdQWsWImgk7tav+9Y97fLqbl3YQdl1qWbkiwb?=
- =?us-ascii?Q?wnhz6OwlY4JCMrJyoYwt8DQ148JfsT2pC+rUBlgtM+cGoCYGUjsj5Dvh/NnM?=
- =?us-ascii?Q?eYu9Pa3MppUcB3naWAdvCWjMgpcBmFGT2IPQHCogW8aXqTQO6a5ctbWGA2Jq?=
- =?us-ascii?Q?T09+0vOEeZjcQV0VyTm2cX9nnBDc9dSNZVIKShSL6d+BTQs+2cS88AGzVfLw?=
- =?us-ascii?Q?3M0yhHEPfYRvjr95oBSoDzmLsvZijvTl7etYiSnXUr45TbCA3g5sbEh7fo+p?=
- =?us-ascii?Q?vYLOgFypMeBp8GD2oB3sFnkRKlq2sZMypo7hxqmuenfwH9wj3XZ+SlugMrQn?=
- =?us-ascii?Q?DeHgYtWz9oVDsVoGeTyBNLBxC/xvdty75kNbl6h/etwhXjr68iN+omlOLBxO?=
- =?us-ascii?Q?fo2TNc+kcTND/dUSguw7ffbrzdkT9zwbs1SfF1gl9c0MO3jxZdhFTiLbfjtH?=
- =?us-ascii?Q?nItYP+DeklKN9lq5ah12wwk9wQ78qEzQRNDeFoTJKJH5Yv3aMrYI2LbqJYt/?=
- =?us-ascii?Q?0a/FyznHAdQrz1qcQTq3YU1BfxQa9mI7lYmFvZ345EjyXnCCPqm/mfcZvD8X?=
- =?us-ascii?Q?KNVFew7cAFGwot3GCLcYIHD1d7+kLL4JOmq7WU4xbh78YDrGYUCM+DnPxzMl?=
- =?us-ascii?Q?CwXAaN666/hf?=
+ 1hXnZODOLWqI08LBtbX3MQ3++TfLHiXGA5JqxQFrqcLyUEx0bVAH8MM7oRvXweD6NwKx4ls3r475f432QlaFeGMQNXWte5ojlxsxxLzC6F0NGE/0A58wd1XxKnjuxETDJ6s2WiFZwklrIk8AQO7wux+d5GrrEgfjVg3siPxNCqM11ktMVEoTp+QO1RmJf8Fdp5RDtZGxSGK4muc4txV07987NBXtMr68yA2YDW0gDNGYDFiQmt+jSi3ZzjB0mRhqXgEE5Hj6CKtF1o0iyPoG8Pkorqs5EYo+/8eQYKGz4NJ4LQAZse6ZR4hOzzm9/hl/0LrnbfOz7sBfL2tGg98QpeCwdhZMXt9xnqjQupFMJw48YkeU2wrieFtJATtamznGLUZNL4PWeOxGINqd8afFDPXszpGsSz9GH8LsU/t2AxfgRB+Mj+ElpLL1yLhcAjyOwacMixRMngWjfR40B3BABleLuN2YiAUMZTSbSmsXViGs7Pm+uCEvicSrTN03CjRTAykPsPoHx4cbiYLGYzfM0520katJw7CCOX/zsdBBef65lQdpwlMM1kLKQedL2oeA8bb1n0j0URI40mgKO/9hhynWLtaio2KldEa/1Q8+VF12NZfzIkFhoONMPnwM3+0V7CJvENU6V/C5Np/zHhoLjuVPeecQwjYU+Sc8FpDCHAjws/QOC+SZs29e49xReh6lZvOQKI2iCpfc4ZmVGQnBfaCivBnCF2PhhTAKi1019qPOQbTpboy01rq3qEjv+tHe
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY6PR01MB17377.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700021)(13003099007)(18002099003)(22082099003)(11063799006)(4143699003)(56012099006)(3023799007);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?4seZJQqQ1wIVoL9cMBcO76fEDt7j68M8POFJv8IciqW9tNtSlc2NduxC31kV?=
- =?us-ascii?Q?vv2u+Icl+zbbFOE8hSzwU+3dwjyM/LmzNELt4BuHxoYyF0rytQibBus49N+p?=
- =?us-ascii?Q?Memi6lTOm4sDso+U7bORRApHQqFPuavknbkx+9jW4VRRUlFoqwF/iH2t1G6Y?=
- =?us-ascii?Q?+AHZkjs8eV0De5/tri7Xj48nTFm/JuChCn+ufSYyaR8dhmAGLTh06HUXAvv6?=
- =?us-ascii?Q?QoFDNlz4MMt7yZs+tTd5ZQa+44B+M6acpmgTEJAbey3maFJ7uQAvqoL1BV76?=
- =?us-ascii?Q?UA5SSsVTvDQ+BCNqSRJ69CaSsmBRGeaCFtgVrBpM6j4LR01k82Pxw918WTwz?=
- =?us-ascii?Q?HQc68vpOSk4I96Yv+Go8oH4DgifEbFUeUWGeIzrNE61yUExP7GXDsBPFWgSL?=
- =?us-ascii?Q?1LposgknLU4w1rT+mePg/09iFj6XTOT3iiVw0S38CvwabgDPCaCi1QcV2o/E?=
- =?us-ascii?Q?2u2UKpSf9v8E+ClYaH9tt6RnQoNWwumwltNyz4342CjJrgABCLpwVbBTQjKv?=
- =?us-ascii?Q?2dyKY1aaZLLv+oZFxe8dkbH7UZjESf+cTrCu93E1Bth7ZsoTY95D3+EJLm/W?=
- =?us-ascii?Q?kgM1AYKFSzJPW4zLQfZ6DoAxZqYrO9QPWbBifU59rx0Jk+MSl7YvX+8omdkg?=
- =?us-ascii?Q?zqHPz8/Br4jZiQgmdmmbYxDYY9bpM7u+8dBKXx6HBMAZn92LA6CTjeejkVxb?=
- =?us-ascii?Q?CzAKhowA9N/aPJsUXgSwEEAG70sGWeZbKs6r91sPFoYpJjuSE6SgFPfjfW5M?=
- =?us-ascii?Q?Gm8R14Gysjl4xXfjxGI6SpsR02+AQ6Sz41NhsyGnsybWBcl9rnANhSO2D8us?=
- =?us-ascii?Q?Bu8HtSY1XA53XfFkGuDiDgID8TGx4qeOLzWN3ce3bQmI7TXnU7GiDRFPA1eK?=
- =?us-ascii?Q?lmHlHY0Q1MkWdG9zJAZmNolToT1bxmteEUsChwNtUpdRA3Z+R6Wo7bMCxk4f?=
- =?us-ascii?Q?kHVRRdmpenV7+ZJpif/TuR8K6XVY8VbvFyF1bsSqmvH206q78sTosJbFSSHB?=
- =?us-ascii?Q?aFpV64ecSKcJvmmDdC3DS83CT/Su4txIH779WGOOwTY1DgP7D3OzEs8py3Gx?=
- =?us-ascii?Q?f3eYqjBFgrEC0xr6QSaBTRe1vWiPM5aX+A4jo7ry5LyN0zBOHOMwL8gaJMdc?=
- =?us-ascii?Q?0VpQSnIMtAKXnVr/0QNDDdvnZz5USb7LCOrg0cx+JdB28Ge6FYSq+kexNZoG?=
- =?us-ascii?Q?sE7wH2qQyr2SaLYYNddrwsinhClmhxpe1V2+oqFymOYMmiMSN4u6lO5Vll4S?=
- =?us-ascii?Q?3HmQcl+xx/EUjhjUuKt9ObG7k09AedaGa8VVKppB/1DrCnA6CJzQsGOmXbUc?=
- =?us-ascii?Q?muvWa7capCg0boTdH8PF0/N0CwYAU16R6s9NtB1OdLfRVT9GVk84H0ZmIgbl?=
- =?us-ascii?Q?BQ2qkoiIxFJFiXkTafnprCvRVBqlu8KAfyYUIV+V+RyF2r9sJQ=3D=3D?=
-Content-Type: multipart/mixed;
-	boundary="_004_AS8P250MB0887C48FD62B9F2A5B882565F41F2AS8P250MB0887EURP_"
+ =?utf-8?B?eGwwN1p3dkZnNktHekp6NG8xRVZPWTY5Q1cvbE93TXVNeGJlcW5ZMkh6WmZ3?=
+ =?utf-8?B?S3pOcktWcURvWEswdC9vVDRyNmZpekxaRmNMUG5lejFzN1g2b01YbnFlQmxQ?=
+ =?utf-8?B?SUlaQmRzekNWcXYxVlhqT1NWZmsvQ0JodXlOQmdEVG4zMDBqWnBwZ0dYNUcz?=
+ =?utf-8?B?TmIwYmF5ems0dXBzWWtwNmZQVXBEWkMrN0hlL2FGMXIveFpwRS9xWmdFTGp4?=
+ =?utf-8?B?amt4c1duMmIrbDkrQ2xBb2dTdFJkazRFcktEaUZRSVRIVGd0MHRVZ0kzYWR0?=
+ =?utf-8?B?b21DVTk0Q3BRTzZjak91UjA3ekczd0RqaUM0WE1jRXIwdU84YUZQYnpIbWZH?=
+ =?utf-8?B?a0FVQW5IWkF4Z044aHdlMGw0RTJzWkRlaWJYK01aSExrOE1jQTVlVTZPUTE4?=
+ =?utf-8?B?RjkvZFBrVk1HWUV3Mm55eDZIVEVBL1NUYi9IdXBESG1naUxXSlJqWVAzYXZG?=
+ =?utf-8?B?SUI3VVYwZkFqWXl6cDlRUm1WTjJXT0g5VitNbWhiMzRCeHJOY0h4SVUweXk5?=
+ =?utf-8?B?R3V5SGFqNkhoOElBRmk3bW56VWpSeHZFTmVJaHRKZXp2OXR6Z0orRDBaNnYx?=
+ =?utf-8?B?T2hOcVJRRlNkTHF2SWN2SitKN2d1cDNiUEh0UlMvSkFQM21jZ0M0SmtJZU9i?=
+ =?utf-8?B?eGdHSjlqRi85Y2JsZE1STlJhTXJMY3FEZ3V3bHpkY0F0eklQS3lJRUdCM3E0?=
+ =?utf-8?B?QVVzUXc3UGVzTmJFQ0ZIa28yOXlQZmM1blE3cE1GSkdORmFnODZ6T0EvdSt2?=
+ =?utf-8?B?U1hHZHpTUUkyakRPTWxMOWlHR3FKN1oyVDRJYnZOTE1kYWxLWnNxV3dtb2hI?=
+ =?utf-8?B?UHZGQklFTWhrR29ZNm55S3JMWktpTUNUa0VBdVZzOXQwcFFyVUJaOU9oZzlM?=
+ =?utf-8?B?cFhQM0l5RllzM3NmNWkxdFJVK2xwY09wUmlyeUFmK2NBajlPY0Y2bXREd1Vm?=
+ =?utf-8?B?aE9xZFlHTkVUY1ZpbFlBRW1vOTVsc2pxTURCQ3NWb1EvSWR1Z1FicThkWkpI?=
+ =?utf-8?B?K1FCdGNwNUJFTHMzcitNMjVBSFhYNnA5NjBvRnFTMHh6Vzg5aGlWdEd6aEYz?=
+ =?utf-8?B?SkVscWh0MStrWjFCQkdGQjR3L3o0TE91dTZ6dC9tcFNHeXdURThOVTNObE0x?=
+ =?utf-8?B?Qzg0L1NTck5mZURzcDNOY29tUUdJMXdJeS91M1hlNm5XZU9QSThPSzJMdjNy?=
+ =?utf-8?B?eDU3R0pXd2QwVmF2UGFpT05ZOU5KcDJGcjgzUk9UVlo5K1VJYnJHRG14dzFp?=
+ =?utf-8?B?dmNVLzJwYTY4RXk2Q2tpanB6eWQ1YSt0V3RBVHRSZ01MUU4yRG5uMVROeElh?=
+ =?utf-8?B?bWRVM01jV2pYUE43ZUUwNzFkMG4wVjNHM2xBSUdyOEo1RTdtVENTRm9nQkpw?=
+ =?utf-8?B?a0wwbWN0a3ZiZ3p2czE5K2ZtSGs3U1VGYlFEMkVzWllqdUlZNXhtY204emZn?=
+ =?utf-8?B?Rm5hdzdFWXRFSm1ieGllVWdxc20vWUx4SlpGOFdxQWl1WEpDY3AyZjE0VWJD?=
+ =?utf-8?B?QTJkRHVSYXRIUWgrS2lva0hyQmJYOWxsS1hZMEpyZEZuaHdBaW9jcEthZ3Rq?=
+ =?utf-8?B?WThsTXN2SVVRcDNVK0xzdHRvOWZIRlVJaVJydS9pUnZIOTAxNlFTbHpsV2cw?=
+ =?utf-8?B?MU9veStDR2VJNkdrcXBZZlo0SWdlTHRsYjdzUVNJS2tzQnRlZWlOdGlzSnRl?=
+ =?utf-8?B?aURKazRoNlZ5OFU4b1o1SjNFOXNDbFpLMjdIWGJFYWh3Nmo2cXpiU0lURHVy?=
+ =?utf-8?B?dXlTLzRCd1Byb3FYdWhVeUtTMHpRYk1xYTlJRGJhY3IxdXh4cEhqNEsrOC9h?=
+ =?utf-8?B?MVdyNUtiWmtpNEsxaXZBdnRSRFVtcFlIT2w1QnB4QjVuV1JsUTI3ZFppbkNB?=
+ =?utf-8?B?L3lNODFrSUxNRlNPMmJxYi9BRzJ2TlRjMEpmbmRDOC94ckg1aXJXSmFRVVcz?=
+ =?utf-8?B?Y0pmTUk3V1NOdVBXbnBidVhSMDVpTVZMVW10MGViZEwxajA0RE5taXdjZi8v?=
+ =?utf-8?B?dlN6WVdCSG5HSzNCZEFQd1hEVExiRWkwTnduUlEvQjA2LzNRRHNWQnRZbE45?=
+ =?utf-8?B?eFJDQjhzUWVpNURNSlN5aU8xeEZ5b0kvaEo0YmdIQnBWYWNVN0Q2U0hOVjJl?=
+ =?utf-8?B?ZEF0Kzhybmdma0g2ZXdSenNLRFJiTDhaaEQ2cVBETHpYUnZ6SWJFMklkZmVs?=
+ =?utf-8?B?OE5hS1lRdURjY2JyK1BvMVAvSFBDQjBGS293eHl4VmJwY2VQU3dBR2xCK1Iz?=
+ =?utf-8?B?VzJKL1lHVER3SWt3ckRxUWJwVk8xNjJERklTcU9lWVMxSGY5c3hxRlFmMm96?=
+ =?utf-8?B?Umh4MWRDSVVWZUpraldRN2d1OUFIQzF6WmF6MVJ1QTRZVy8raWhCZ1JpYXRh?=
+ =?utf-8?Q?P07zLtGWSsOgDU94=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-6108c.templateTenant
+X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8P250MB0887.EURP250.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c7133a9-788f-4ef6-295c-08dec4c95232
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2026 19:16:47.9661
+X-MS-Exchange-CrossTenant-AuthSource: TY6PR01MB17377.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f9d9e22-9562-4cac-c0f0-08dec4d674ef
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2026 20:50:49.6940
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU7PPFEB0D49F29
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: chnlaQEhqwhnVbNkX3ZZ4VrlSOeJ0fcSOkS5MKj4TIEgcoMR7pcNguM1kwxr/0LVb7llromwL3AOKXrUeYMEsohTB0WrkmgX1V3/dOKIm80=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB7797
 
---_004_AS8P250MB0887C48FD62B9F2A5B882565F41F2AS8P250MB0887EURP_
-Content-Type: multipart/alternative;
-	boundary="_000_AS8P250MB0887C48FD62B9F2A5B882565F41F2AS8P250MB0887EURP_"
-
---_000_AS8P250MB0887C48FD62B9F2A5B882565F41F2AS8P250MB0887EURP_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-The HP Spectre x360 2-in-1 Laptop 16-f1xxx (PCI SSID 103c:891c) uses
-a Realtek ALC245 codec. Without a fixup, the upper speakers (node 0x14)
-are silent because their pin configuration is set to N/A (0x411111f0)
-and the amplifier GPIO is not initialized.
-
-The codec layout is:
-  Node 0x14: upper speakers, connected to DAC 0x02, EAPD present
-  Node 0x17: lower speakers, connected to DAC 0x06 (active)
-  Node 0x21: headphone out, connected to DAC 0x03 (active)
-
-The fix overrides the pin default config for node 0x14 to mark it as
-an internal fixed speaker, and chains to the existing
-ALC245_FIXUP_HP_X360_AMP fixup which toggles GPIO0 to enable the
-amplifier -- the same mechanism used by the HP Spectre x360 14
-(103c:87f7).
-
-Note: the driver currently reads PCI SSID as 103c:0000 instead of the
-correct 103c:891c (the codec reports Subsystem Id: 0x103c891c correctly
-in /proc/asound/card0/codec#0). This means no device-specific fixup is
-applied without an explicit model parameter. This patch adds the quirk
-entry so the correct fixup is applied automatically once the SSID
-reading issue is resolved, and can be used with model=3D in the meantime.
-
-Signed-off-by: [Your Name] <your@email.com>
----
-
-HOW TO APPLY (context lines abbreviated; apply against current mainline):
-
-In sound/pci/hda/patch_realtek.c:
-
-1) In the enum (near ALC245_FIXUP_HP_X360_AMP), add:
-   ALC245_FIXUP_HP_SPECTRE_X360_16,
-
-2) In alc269_fixups[], after the ALC245_FIXUP_HP_X360_AMP entry, add:
-
- [ALC245_FIXUP_HP_SPECTRE_X360_16] =3D {
-  .type =3D HDA_FIXUP_PINS,
-  .v.pins =3D (const struct hda_pintbl[]) {
-   { 0x14, 0x90170110 }, /* upper speakers */
-   { }
-  },
-  .chained =3D true,
-  .chain_id =3D ALC245_FIXUP_HP_X360_AMP,
- },
-
-3) In alc269_fixup_tbl[] (keep sorted by PCI SSID), add:
-
- SND_PCI_QUIRK(0x103c, 0x891c, "HP Spectre x360 16-f1xxx",
-        ALC245_FIXUP_HP_SPECTRE_X360_16),
-
----
-Full diff (line numbers are approximate; verify against current tree):
-
- sound/pci/hda/patch_realtek.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ enum (around ALC245_FIXUP_HP_X360_AMP line) @@
-  ALC245_FIXUP_HP_X360_AMP,
-+ ALC245_FIXUP_HP_SPECTRE_X360_16,
-
-@@ alc269_fixups[] (after ALC245_FIXUP_HP_X360_AMP block) @@
-+ [ALC245_FIXUP_HP_SPECTRE_X360_16] =3D {
-+ .type =3D HDA_FIXUP_PINS,
-+ .v.pins =3D (const struct hda_pintbl[]) {
-+ { 0x14, 0x90170110 }, /* upper speakers */
-+ { }
-+ },
-+ .chained =3D true,
-+ .chain_id =3D ALC245_FIXUP_HP_X360_AMP,
-+ },
-
-@@ alc269_fixup_tbl[] (sorted position after 0x891b if present, else near 0=
-x891c) @@
-+ SND_PCI_QUIRK(0x103c, 0x891c, "HP Spectre x360 16-f1xxx",
-+ ALC245_FIXUP_HP_SPECTRE_X360_16),
-
----
-ADDITIONAL NOTE FOR MAINTAINER:
-
-The codec correctly reports Subsystem Id: 0x103c891c in
-/proc/asound/card0/codec#0, but dmesg shows:
-  snd_hda_codec_alc269: ALC245: picked fixup for PCI SSID 103c:0000
-
-This SSID mismatch (0000 vs 891c) means the quirk table is never
-consulted. The root cause appears to be in how the HDA subsystem ID
-is read on this Alder Lake platform -- a separate bug that may need
-investigation in hda_codec.c or the Intel HDA driver.
-
-Tested on:
-  Device: HP Spectre x360 2-in-1 Laptop 16-f1xxx
-  BIOS: F.18 10/11/2023
-  Kernel: 7.0.10-201.fc44.x86_64
-  OS: Fedora 44
-
-
---_000_AS8P250MB0887C48FD62B9F2A5B882565F41F2AS8P250MB0887EURP_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-</head>
-<body>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-The HP Spectre x360 2-in-1 Laptop 16-f1xxx (PCI SSID 103c:891c) uses</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-a Realtek ALC245 codec. Without a fixup, the upper speakers (node 0x14)</di=
-v>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-are silent because their pin configuration is set to N/A (0x411111f0)</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-and the amplifier GPIO is not initialized.</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-The codec layout is:</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; Node 0x14: upper speakers, connected to DAC 0x02, EAPD present</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; Node 0x17: lower speakers, connected to DAC 0x06 (active)</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; Node 0x21: headphone out, connected to DAC 0x03 (active)</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-The fix overrides the pin default config for node 0x14 to mark it as</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-an internal fixed speaker, and chains to the existing</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-ALC245_FIXUP_HP_X360_AMP fixup which toggles GPIO0 to enable the</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-amplifier -- the same mechanism used by the HP Spectre x360 14</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-(103c:87f7).</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-Note: the driver currently reads PCI SSID as 103c:0000 instead of the</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-correct 103c:891c (the codec reports Subsystem Id: 0x103c891c correctly</di=
-v>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-in /proc/asound/card0/codec#0). This means no device-specific fixup is</div=
->
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-applied without an explicit model parameter. This patch adds the quirk</div=
->
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-entry so the correct fixup is applied automatically once the SSID</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-reading issue is resolved, and can be used with model=3D in the meantime.</=
-div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-Signed-off-by: [Your Name] &lt;your@email.com&gt;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
----</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-HOW TO APPLY (context lines abbreviated; apply against current mainline):</=
-div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-In sound/pci/hda/patch_realtek.c:</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-1) In the enum (near ALC245_FIXUP_HP_X360_AMP), add:</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; &nbsp;ALC245_FIXUP_HP_SPECTRE_X360_16,</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-2) In alc269_fixups[], after the ALC245_FIXUP_HP_X360_AMP entry, add:</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;[ALC245_FIXUP_HP_SPECTRE_X360_16] =3D {</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; .type =3D HDA_FIXUP_PINS,</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; .v.pins =3D (const struct hda_pintbl[]) {</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; &nbsp;{ 0x14, 0x90170110 }, /* upper speakers */</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; &nbsp;{ }</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; },</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; .chained =3D true,</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; .chain_id =3D ALC245_FIXUP_HP_X360_AMP,</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;},</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-3) In alc269_fixup_tbl[] (keep sorted by PCI SSID), add:</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;SND_PCI_QUIRK(0x103c, 0x891c, &quot;HP Spectre x360 16-f1xxx&quot;,</=
-div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; &nbsp; &nbsp; &nbsp; ALC245_FIXUP_HP_SPECTRE_X360_16),</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
----</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-Full diff (line numbers are approximate; verify against current tree):</div=
->
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;sound/pci/hda/patch_realtek.c | 8 ++++++++</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;1 file changed, 8 insertions(+)</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c<=
-/div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
---- a/sound/pci/hda/patch_realtek.c</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-+++ b/sound/pci/hda/patch_realtek.c</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-@@ enum (around ALC245_FIXUP_HP_X360_AMP line) @@</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; ALC245_FIXUP_HP_X360_AMP,</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-+ ALC245_FIXUP_HP_SPECTRE_X360_16,</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-@@ alc269_fixups[] (after ALC245_FIXUP_HP_X360_AMP block) @@</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-+ [ALC245_FIXUP_HP_SPECTRE_X360_16] =3D {</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-+ .type =3D HDA_FIXUP_PINS,</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-+ .v.pins =3D (const struct hda_pintbl[]) {</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-+ { 0x14, 0x90170110 }, /* upper speakers */</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-+ { }</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-+ },</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-+ .chained =3D true,</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-+ .chain_id =3D ALC245_FIXUP_HP_X360_AMP,</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-+ },</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-@@ alc269_fixup_tbl[] (sorted position after 0x891b if present, else near 0=
-x891c) @@</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-+ SND_PCI_QUIRK(0x103c, 0x891c, &quot;HP Spectre x360 16-f1xxx&quot;,</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-+ ALC245_FIXUP_HP_SPECTRE_X360_16),</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
----</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-ADDITIONAL NOTE FOR MAINTAINER:</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-The codec correctly reports Subsystem Id: 0x103c891c in</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-/proc/asound/card0/codec#0, but dmesg shows:</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; snd_hda_codec_alc269: ALC245: picked fixup for PCI SSID 103c:0000</d=
-iv>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-This SSID mismatch (0000 vs 891c) means the quirk table is never</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-consulted. The root cause appears to be in how the HDA subsystem ID</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-is read on this Alder Lake platform -- a separate bug that may need</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-investigation in hda_codec.c or the Intel HDA driver.</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp;</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-Tested on:</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; Device: HP Spectre x360 2-in-1 Laptop 16-f1xxx</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; BIOS: F.18 10/11/2023</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; Kernel: 7.0.10-201.fc44.x86_64</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-&nbsp; OS: Fedora 44</div>
-<div dir=3D"auto" style=3D"font-family: Aptos, Aptos_MSFontService, -apple-=
-system, Roboto, Arial, Helvetica, sans-serif; font-size: 12pt; color: rgb(3=
-3, 33, 33);">
-<br>
-</div>
-</body>
-</html>
-
---_000_AS8P250MB0887C48FD62B9F2A5B882565F41F2AS8P250MB0887EURP_--
-
---_004_AS8P250MB0887C48FD62B9F2A5B882565F41F2AS8P250MB0887EURP_
-Content-Type: text/plain; name="codec_dump.txt"
-Content-Description: codec_dump.txt
-Content-Disposition: attachment; filename="codec_dump.txt"; size=10241;
-	creation-date="Sun, 07 Jun 2026 19:16:12 GMT";
-	modification-date="Sun, 07 Jun 2026 19:16:12 GMT"
-Content-Transfer-Encoding: base64
-
-Q29kZWM6IFJlYWx0ZWsgQUxDMjQ1CkFkZHJlc3M6IDAKQUZHIEZ1bmN0aW9uIElkOiAweDEgKHVu
-c29sIDEpClZlbmRvciBJZDogMHgxMGVjMDI0NQpTdWJzeXN0ZW0gSWQ6IDB4MTAzYzg5MWMKUmV2
-aXNpb24gSWQ6IDB4MTAwMDAxCk5vIE1vZGVtIEZ1bmN0aW9uIEdyb3VwIGZvdW5kCkRlZmF1bHQg
-UENNOgogICAgcmF0ZXMgWzB4NTYwXTogNDQxMDAgNDgwMDAgOTYwMDAgMTkyMDAwCiAgICBiaXRz
-IFsweGVdOiAxNiAyMCAyNAogICAgZm9ybWF0cyBbMHgxXTogUENNCkRlZmF1bHQgQW1wLUluIGNh
-cHM6IE4vQQpEZWZhdWx0IEFtcC1PdXQgY2FwczogTi9BClN0YXRlIG9mIEFGRyBub2RlIDB4MDE6
-CiAgUG93ZXIgc3RhdGVzOiAgRDAgRDEgRDIgRDMgRDNjb2xkIENMS1NUT1AgRVBTUwogIFBvd2Vy
-OiBzZXR0aW5nPUQwLCBhY3R1YWw9RDAKR1BJTzogaW89Mywgbz0wLCBpPTAsIHVuc29saWNpdGVk
-PTEsIHdha2U9MAogIElPWzBdOiBlbmFibGU9MCwgZGlyPTAsIHdha2U9MCwgc3RpY2t5PTAsIGRh
-dGE9MCwgdW5zb2w9MAogIElPWzFdOiBlbmFibGU9MCwgZGlyPTAsIHdha2U9MCwgc3RpY2t5PTAs
-IGRhdGE9MCwgdW5zb2w9MAogIElPWzJdOiBlbmFibGU9MCwgZGlyPTAsIHdha2U9MCwgc3RpY2t5
-PTAsIGRhdGE9MCwgdW5zb2w9MApOb2RlIDB4MDIgW0F1ZGlvIE91dHB1dF0gd2NhcHMgMHg0MWQ6
-IFN0ZXJlbyBBbXAtT3V0CiAgQ29udHJvbDogbmFtZT0iQmFzcyBTcGVha2VyIFBsYXliYWNrIFZv
-bHVtZSIsIGluZGV4PTAsIGRldmljZT0wCiAgICBDb250cm9sQW1wOiBjaHM9MywgZGlyPU91dCwg
-aWR4PTAsIG9mcz0wCiAgQW1wLU91dCBjYXBzOiBvZnM9MHg1NywgbnN0ZXBzPTB4NTcsIHN0ZXBz
-aXplPTB4MDIsIG11dGU9MAogIEFtcC1PdXQgdmFsczogIFsweDA5IDB4MDldCiAgQ29udmVydGVy
-OiBzdHJlYW09MCwgY2hhbm5lbD0wCiAgUENNOgogICAgcmF0ZXMgWzB4NDBdOiA0ODAwMAogICAg
-Yml0cyBbMHhlXTogMTYgMjAgMjQKICAgIGZvcm1hdHMgWzB4MV06IFBDTQogIFBvd2VyIHN0YXRl
-czogIEQwIEQxIEQyIEQzIEVQU1MKICBQb3dlcjogc2V0dGluZz1EMCwgYWN0dWFsPUQwCk5vZGUg
-MHgwMyBbQXVkaW8gT3V0cHV0XSB3Y2FwcyAweDQxZDogU3RlcmVvIEFtcC1PdXQKICBDb250cm9s
-OiBuYW1lPSJIZWFkcGhvbmUgUGxheWJhY2sgVm9sdW1lIiwgaW5kZXg9MCwgZGV2aWNlPTAKICAg
-IENvbnRyb2xBbXA6IGNocz0zLCBkaXI9T3V0LCBpZHg9MCwgb2ZzPTAKICBBbXAtT3V0IGNhcHM6
-IG9mcz0weDU3LCBuc3RlcHM9MHg1Nywgc3RlcHNpemU9MHgwMiwgbXV0ZT0wCiAgQW1wLU91dCB2
-YWxzOiAgWzB4MDAgMHgwMF0KICBDb252ZXJ0ZXI6IHN0cmVhbT0wLCBjaGFubmVsPTAKICBQQ006
-CiAgICByYXRlcyBbMHg0MF06IDQ4MDAwCiAgICBiaXRzIFsweGVdOiAxNiAyMCAyNAogICAgZm9y
-bWF0cyBbMHgxXTogUENNCiAgUG93ZXIgc3RhdGVzOiAgRDAgRDEgRDIgRDMgRVBTUwogIFBvd2Vy
-OiBzZXR0aW5nPUQwLCBhY3R1YWw9RDAKTm9kZSAweDA0IFtWZW5kb3IgRGVmaW5lZCBXaWRnZXRd
-IHdjYXBzIDB4ZjAwMDAwOiBNb25vCk5vZGUgMHgwNSBbVmVuZG9yIERlZmluZWQgV2lkZ2V0XSB3
-Y2FwcyAweGYwMDAwMDogTW9ubwpOb2RlIDB4MDYgW0F1ZGlvIE91dHB1dF0gd2NhcHMgMHg0MTE6
-IFN0ZXJlbwogIERldmljZTogbmFtZT0iQUxDMjQ1IEFuYWxvZyIsIHR5cGU9IkF1ZGlvIiwgZGV2
-aWNlPTAKICBDb252ZXJ0ZXI6IHN0cmVhbT0wLCBjaGFubmVsPTAKICBQQ006CiAgICByYXRlcyBb
-MHg0MF06IDQ4MDAwCiAgICBiaXRzIFsweGVdOiAxNiAyMCAyNAogICAgZm9ybWF0cyBbMHgxXTog
-UENNCiAgUG93ZXIgc3RhdGVzOiAgRDAgRDEgRDIgRDMgRVBTUwogIFBvd2VyOiBzZXR0aW5nPUQw
-LCBhY3R1YWw9RDAKTm9kZSAweDA3IFtBdWRpbyBJbnB1dF0gd2NhcHMgMHgxMDA1MWI6IFN0ZXJl
-byBBbXAtSW4KICBBbXAtSW4gY2Fwczogb2ZzPTB4MTcsIG5zdGVwcz0weDNmLCBzdGVwc2l6ZT0w
-eDAyLCBtdXRlPTEKICBBbXAtSW4gdmFsczogIFsweDk3IDB4OTddCiAgQ29udmVydGVyOiBzdHJl
-YW09MCwgY2hhbm5lbD0wCiAgU0RJLVNlbGVjdDogMAogIFBDTToKICAgIHJhdGVzIFsweDQwXTog
-NDgwMDAKICAgIGJpdHMgWzB4ZV06IDE2IDIwIDI0CiAgICBmb3JtYXRzIFsweDFdOiBQQ00KICBQ
-b3dlciBzdGF0ZXM6ICBEMCBEMSBEMiBEMyBFUFNTCiAgUG93ZXI6IHNldHRpbmc9RDAsIGFjdHVh
-bD1EMAogIENvbm5lY3Rpb246IDEKICAgICAweDI0Ck5vZGUgMHgwOCBbQXVkaW8gSW5wdXRdIHdj
-YXBzIDB4MTAwNTFiOiBTdGVyZW8gQW1wLUluCiAgQ29udHJvbDogbmFtZT0iQ2FwdHVyZSBWb2x1
-bWUiLCBpbmRleD0wLCBkZXZpY2U9MAogICAgQ29udHJvbEFtcDogY2hzPTMsIGRpcj1JbiwgaWR4
-PTAsIG9mcz0wCiAgQ29udHJvbDogbmFtZT0iQ2FwdHVyZSBTd2l0Y2giLCBpbmRleD0wLCBkZXZp
-Y2U9MAogICAgQ29udHJvbEFtcDogY2hzPTMsIGRpcj1JbiwgaWR4PTAsIG9mcz0wCiAgRGV2aWNl
-OiBuYW1lPSJBTEMyNDUgQW5hbG9nIiwgdHlwZT0iQXVkaW8iLCBkZXZpY2U9MAogIEFtcC1JbiBj
-YXBzOiBvZnM9MHgxNywgbnN0ZXBzPTB4M2YsIHN0ZXBzaXplPTB4MDIsIG11dGU9MQogIEFtcC1J
-biB2YWxzOiAgWzB4MjcgMHgyN10KICBDb252ZXJ0ZXI6IHN0cmVhbT0wLCBjaGFubmVsPTAKICBT
-REktU2VsZWN0OiAwCiAgUENNOgogICAgcmF0ZXMgWzB4NTYwXTogNDQxMDAgNDgwMDAgOTYwMDAg
-MTkyMDAwCiAgICBiaXRzIFsweGVdOiAxNiAyMCAyNAogICAgZm9ybWF0cyBbMHgxXTogUENNCiAg
-UG93ZXIgc3RhdGVzOiAgRDAgRDEgRDIgRDMgRVBTUwogIFBvd2VyOiBzZXR0aW5nPUQwLCBhY3R1
-YWw9RDAKICBDb25uZWN0aW9uOiAxCiAgICAgMHgyMwpOb2RlIDB4MDkgW0F1ZGlvIElucHV0XSB3
-Y2FwcyAweDEwMDUxYjogU3RlcmVvIEFtcC1JbgogIEFtcC1JbiBjYXBzOiBvZnM9MHgxNywgbnN0
-ZXBzPTB4M2YsIHN0ZXBzaXplPTB4MDIsIG11dGU9MQogIEFtcC1JbiB2YWxzOiAgWzB4OTcgMHg5
-N10KICBDb252ZXJ0ZXI6IHN0cmVhbT0wLCBjaGFubmVsPTAKICBTREktU2VsZWN0OiAwCiAgUENN
-OgogICAgcmF0ZXMgWzB4NTYwXTogNDQxMDAgNDgwMDAgOTYwMDAgMTkyMDAwCiAgICBiaXRzIFsw
-eGVdOiAxNiAyMCAyNAogICAgZm9ybWF0cyBbMHgxXTogUENNCiAgUG93ZXIgc3RhdGVzOiAgRDAg
-RDEgRDIgRDMgRVBTUwogIFBvd2VyOiBzZXR0aW5nPUQwLCBhY3R1YWw9RDAKICBDb25uZWN0aW9u
-OiAxCiAgICAgMHgyMgpOb2RlIDB4MGEgW0F1ZGlvIElucHV0XSB3Y2FwcyAweDEwMDUxYjogU3Rl
-cmVvIEFtcC1JbgogIEFtcC1JbiBjYXBzOiBvZnM9MHgxNywgbnN0ZXBzPTB4M2YsIHN0ZXBzaXpl
-PTB4MDIsIG11dGU9MQogIEFtcC1JbiB2YWxzOiAgWzB4OTcgMHg5N10KICBDb252ZXJ0ZXI6IHN0
-cmVhbT0wLCBjaGFubmVsPTAKICBTREktU2VsZWN0OiAwCiAgUENNOgogICAgcmF0ZXMgWzB4NDBd
-OiA0ODAwMAogICAgYml0cyBbMHhlXTogMTYgMjAgMjQKICAgIGZvcm1hdHMgWzB4MV06IFBDTQog
-IFBvd2VyIHN0YXRlczogIEQwIEQxIEQyIEQzIEVQU1MKICBQb3dlcjogc2V0dGluZz1EMCwgYWN0
-dWFsPUQwCiAgQ29ubmVjdGlvbjogMQogICAgIDB4MjUKTm9kZSAweDBiIFtWZW5kb3IgRGVmaW5l
-ZCBXaWRnZXRdIHdjYXBzIDB4ZjAwMDAwOiBNb25vCk5vZGUgMHgwYyBbVmVuZG9yIERlZmluZWQg
-V2lkZ2V0XSB3Y2FwcyAweGYwMDAwMDogTW9ubwpOb2RlIDB4MGQgW1ZlbmRvciBEZWZpbmVkIFdp
-ZGdldF0gd2NhcHMgMHhmMDAwMDA6IE1vbm8KTm9kZSAweDBlIFtWZW5kb3IgRGVmaW5lZCBXaWRn
-ZXRdIHdjYXBzIDB4ZjAwMDAwOiBNb25vCk5vZGUgMHgwZiBbVmVuZG9yIERlZmluZWQgV2lkZ2V0
-XSB3Y2FwcyAweGYwMDAwMDogTW9ubwpOb2RlIDB4MTAgW1ZlbmRvciBEZWZpbmVkIFdpZGdldF0g
-d2NhcHMgMHhmMDAwMDA6IE1vbm8KTm9kZSAweDExIFtWZW5kb3IgRGVmaW5lZCBXaWRnZXRdIHdj
-YXBzIDB4ZjAwMDAwOiBNb25vCk5vZGUgMHgxMiBbUGluIENvbXBsZXhdIHdjYXBzIDB4NDAwNDBi
-OiBTdGVyZW8gQW1wLUluCiAgQW1wLUluIGNhcHM6IG9mcz0weDAwLCBuc3RlcHM9MHgwMywgc3Rl
-cHNpemU9MHgyNywgbXV0ZT0wCiAgQW1wLUluIHZhbHM6ICBbMHgwMCAweDAwXQogIFBpbmNhcCAw
-eDAwMDAwMDIwOiBJTgogIFBpbiBEZWZhdWx0IDB4NDExMTExZjA6IFtOL0FdIFNwZWFrZXIgYXQg
-RXh0IFJlYXIKICAgIENvbm4gPSAxLzgsIENvbG9yID0gQmxhY2sKICAgIERlZkFzc29jaWF0aW9u
-ID0gMHhmLCBTZXF1ZW5jZSA9IDB4MAogICAgTWlzYyA9IE5PX1BSRVNFTkNFCiAgUGluLWN0bHM6
-IDB4MDA6CiAgUG93ZXIgc3RhdGVzOiAgRDAgRDEgRDIgRDMgRVBTUwogIFBvd2VyOiBzZXR0aW5n
-PUQwLCBhY3R1YWw9RDAKTm9kZSAweDEzIFtQaW4gQ29tcGxleF0gd2NhcHMgMHg0MDA0MGI6IFN0
-ZXJlbyBBbXAtSW4KICBBbXAtSW4gY2Fwczogb2ZzPTB4MDAsIG5zdGVwcz0weDAzLCBzdGVwc2l6
-ZT0weDI3LCBtdXRlPTAKICBBbXAtSW4gdmFsczogIFsweDAwIDB4MDBdCiAgUGluY2FwIDB4MDAw
-MDAwMjA6IElOCiAgUGluIERlZmF1bHQgMHg0MDAwMDAwMDogW04vQV0gTGluZSBPdXQgYXQgRXh0
-IE4vQQogICAgQ29ubiA9IFVua25vd24sIENvbG9yID0gVW5rbm93bgogICAgRGVmQXNzb2NpYXRp
-b24gPSAweDAsIFNlcXVlbmNlID0gMHgwCiAgUGluLWN0bHM6IDB4MDA6CiAgUG93ZXIgc3RhdGVz
-OiAgRDAgRDEgRDIgRDMgRVBTUwogIFBvd2VyOiBzZXR0aW5nPUQwLCBhY3R1YWw9RDAKTm9kZSAw
-eDE0IFtQaW4gQ29tcGxleF0gd2NhcHMgMHg0MDA1OGQ6IFN0ZXJlbyBBbXAtT3V0CiAgQ29udHJv
-bDogbmFtZT0iQmFzcyBTcGVha2VyIFBsYXliYWNrIFN3aXRjaCIsIGluZGV4PTAsIGRldmljZT0w
-CiAgICBDb250cm9sQW1wOiBjaHM9MywgZGlyPU91dCwgaWR4PTAsIG9mcz0wCiAgQW1wLU91dCBj
-YXBzOiBvZnM9MHgwMCwgbnN0ZXBzPTB4MDAsIHN0ZXBzaXplPTB4MDAsIG11dGU9MQogIEFtcC1P
-dXQgdmFsczogIFsweDAwIDB4MDBdCiAgUGluY2FwIDB4MDAwMTAwMTQ6IE9VVCBFQVBEIERldGVj
-dAogIEVBUEQgMHgyOiBFQVBECiAgUGluIERlZmF1bHQgMHg0MTExMTFmMDogW04vQV0gU3BlYWtl
-ciBhdCBFeHQgUmVhcgogICAgQ29ubiA9IDEvOCwgQ29sb3IgPSBCbGFjawogICAgRGVmQXNzb2Np
-YXRpb24gPSAweGYsIFNlcXVlbmNlID0gMHgwCiAgICBNaXNjID0gTk9fUFJFU0VOQ0UKICBQaW4t
-Y3RsczogMHg0MDogT1VUCiAgVW5zb2xpY2l0ZWQ6IHRhZz0wMCwgZW5hYmxlZD0wCiAgUG93ZXIg
-c3RhdGVzOiAgRDAgRDEgRDIgRDMgRVBTUwogIFBvd2VyOiBzZXR0aW5nPUQwLCBhY3R1YWw9RDAK
-ICBDb25uZWN0aW9uOiAxCiAgICAgMHgwMgpOb2RlIDB4MTUgW1ZlbmRvciBEZWZpbmVkIFdpZGdl
-dF0gd2NhcHMgMHhmMDAwMDA6IE1vbm8KTm9kZSAweDE2IFtWZW5kb3IgRGVmaW5lZCBXaWRnZXRd
-IHdjYXBzIDB4ZjAwMDAwOiBNb25vCk5vZGUgMHgxNyBbUGluIENvbXBsZXhdIHdjYXBzIDB4NDAw
-NThkOiBTdGVyZW8gQW1wLU91dAogIENvbnRyb2w6IG5hbWU9IlNwZWFrZXIgUGxheWJhY2sgU3dp
-dGNoIiwgaW5kZXg9MCwgZGV2aWNlPTAKICAgIENvbnRyb2xBbXA6IGNocz0zLCBkaXI9T3V0LCBp
-ZHg9MCwgb2ZzPTAKICBBbXAtT3V0IGNhcHM6IG9mcz0weDAwLCBuc3RlcHM9MHgwMCwgc3RlcHNp
-emU9MHgwMCwgbXV0ZT0xCiAgQW1wLU91dCB2YWxzOiAgWzB4MDAgMHgwMF0KICBQaW5jYXAgMHgw
-MDAwMDAxYzogT1VUIEhQIERldGVjdAogIFBpbiBEZWZhdWx0IDB4OTAxNzAxMTA6IFtGaXhlZF0g
-U3BlYWtlciBhdCBJbnQgTi9BCiAgICBDb25uID0gQW5hbG9nLCBDb2xvciA9IFVua25vd24KICAg
-IERlZkFzc29jaWF0aW9uID0gMHgxLCBTZXF1ZW5jZSA9IDB4MAogICAgTWlzYyA9IE5PX1BSRVNF
-TkNFCiAgUGluLWN0bHM6IDB4NDA6IE9VVAogIFVuc29saWNpdGVkOiB0YWc9MDAsIGVuYWJsZWQ9
-MAogIFBvd2VyIHN0YXRlczogIEQwIEQxIEQyIEQzIEVQU1MKICBQb3dlcjogc2V0dGluZz1EMCwg
-YWN0dWFsPUQwCiAgQ29ubmVjdGlvbjogNAogICAgIDB4MDIgMHgwMyAweDA2KiAweDA4Ck5vZGUg
-MHgxOCBbUGluIENvbXBsZXhdIHdjYXBzIDB4NDAwNDhiOiBTdGVyZW8gQW1wLUluCiAgQW1wLUlu
-IGNhcHM6IG9mcz0weDAwLCBuc3RlcHM9MHgwMywgc3RlcHNpemU9MHgyNywgbXV0ZT0wCiAgQW1w
-LUluIHZhbHM6ICBbMHgwMCAweDAwXQogIFBpbmNhcCAweDAwMDAwMDI0OiBJTiBEZXRlY3QKICBQ
-aW4gRGVmYXVsdCAweDQxMTExMWYwOiBbTi9BXSBTcGVha2VyIGF0IEV4dCBSZWFyCiAgICBDb25u
-ID0gMS84LCBDb2xvciA9IEJsYWNrCiAgICBEZWZBc3NvY2lhdGlvbiA9IDB4ZiwgU2VxdWVuY2Ug
-PSAweDAKICAgIE1pc2MgPSBOT19QUkVTRU5DRQogIFBpbi1jdGxzOiAweDAwOgogIFVuc29saWNp
-dGVkOiB0YWc9MDAsIGVuYWJsZWQ9MAogIFBvd2VyIHN0YXRlczogIEQwIEQxIEQyIEQzIEVQU1MK
-ICBQb3dlcjogc2V0dGluZz1EMCwgYWN0dWFsPUQwCk5vZGUgMHgxOSBbUGluIENvbXBsZXhdIHdj
-YXBzIDB4NDAwNDhiOiBTdGVyZW8gQW1wLUluCiAgQ29udHJvbDogbmFtZT0iTWljIEJvb3N0IFZv
-bHVtZSIsIGluZGV4PTAsIGRldmljZT0wCiAgICBDb250cm9sQW1wOiBjaHM9MywgZGlyPUluLCBp
-ZHg9MCwgb2ZzPTAKICBBbXAtSW4gY2Fwczogb2ZzPTB4MDAsIG5zdGVwcz0weDAzLCBzdGVwc2l6
-ZT0weDI3LCBtdXRlPTAKICBBbXAtSW4gdmFsczogIFsweDAwIDB4MDBdCiAgUGluY2FwIDB4MDAw
-MDM3MjQ6IElOIERldGVjdAogICAgVnJlZiBjYXBzOiBISVogNTAgR1JEIDgwIDEwMAogIFBpbiBE
-ZWZhdWx0IDB4MDNhMTEwYzA6IFtKYWNrXSBNaWMgYXQgRXh0IExlZnQKICAgIENvbm4gPSAxLzgs
-IENvbG9yID0gQmxhY2sKICAgIERlZkFzc29jaWF0aW9uID0gMHhjLCBTZXF1ZW5jZSA9IDB4MAog
-IFBpbi1jdGxzOiAweDI0OiBJTiBWUkVGXzgwCiAgVW5zb2xpY2l0ZWQ6IHRhZz0wMiwgZW5hYmxl
-ZD0xCiAgUG93ZXIgc3RhdGVzOiAgRDAgRDEgRDIgRDMgRVBTUwogIFBvd2VyOiBzZXR0aW5nPUQw
-LCBhY3R1YWw9RDAKTm9kZSAweDFhIFtQaW4gQ29tcGxleF0gd2NhcHMgMHg0MDA0OGI6IFN0ZXJl
-byBBbXAtSW4KICBBbXAtSW4gY2Fwczogb2ZzPTB4MDAsIG5zdGVwcz0weDAzLCBzdGVwc2l6ZT0w
-eDI3LCBtdXRlPTAKICBBbXAtSW4gdmFsczogIFsweDAwIDB4MDBdCiAgUGluY2FwIDB4MDAwMDM3
-MjQ6IElOIERldGVjdAogICAgVnJlZiBjYXBzOiBISVogNTAgR1JEIDgwIDEwMAogIFBpbiBEZWZh
-dWx0IDB4NDExMTExZjA6IFtOL0FdIFNwZWFrZXIgYXQgRXh0IFJlYXIKICAgIENvbm4gPSAxLzgs
-IENvbG9yID0gQmxhY2sKICAgIERlZkFzc29jaWF0aW9uID0gMHhmLCBTZXF1ZW5jZSA9IDB4MAog
-ICAgTWlzYyA9IE5PX1BSRVNFTkNFCiAgUGluLWN0bHM6IDB4MDA6IFZSRUZfSElaCiAgVW5zb2xp
-Y2l0ZWQ6IHRhZz0wMCwgZW5hYmxlZD0wCiAgUG93ZXIgc3RhdGVzOiAgRDAgRDEgRDIgRDMgRVBT
-UwogIFBvd2VyOiBzZXR0aW5nPUQwLCBhY3R1YWw9RDAKTm9kZSAweDFiIFtQaW4gQ29tcGxleF0g
-d2NhcHMgMHg0MDA1OGY6IFN0ZXJlbyBBbXAtSW4gQW1wLU91dAogIEFtcC1JbiBjYXBzOiBvZnM9
-MHgwMCwgbnN0ZXBzPTB4MDMsIHN0ZXBzaXplPTB4MjcsIG11dGU9MAogIEFtcC1JbiB2YWxzOiAg
-WzB4MDAgMHgwMF0KICBBbXAtT3V0IGNhcHM6IG9mcz0weDAwLCBuc3RlcHM9MHgwMCwgc3RlcHNp
-emU9MHgwMCwgbXV0ZT0xCiAgQW1wLU91dCB2YWxzOiAgWzB4ODAgMHg4MF0KICBQaW5jYXAgMHgw
-MDAxMzczNDogSU4gT1VUIEVBUEQgRGV0ZWN0CiAgICBWcmVmIGNhcHM6IEhJWiA1MCBHUkQgODAg
-MTAwCiAgRUFQRCAweDI6IEVBUEQKICBQaW4gRGVmYXVsdCAweDQxMTExMWYwOiBbTi9BXSBTcGVh
-a2VyIGF0IEV4dCBSZWFyCiAgICBDb25uID0gMS84LCBDb2xvciA9IEJsYWNrCiAgICBEZWZBc3Nv
-Y2lhdGlvbiA9IDB4ZiwgU2VxdWVuY2UgPSAweDAKICAgIE1pc2MgPSBOT19QUkVTRU5DRQogIFBp
-bi1jdGxzOiAweDAwOiBWUkVGX0hJWgogIFVuc29saWNpdGVkOiB0YWc9MDAsIGVuYWJsZWQ9MAog
-IFBvd2VyIHN0YXRlczogIEQwIEQxIEQyIEQzIEVQU1MKICBQb3dlcjogc2V0dGluZz1EMCwgYWN0
-dWFsPUQwCiAgQ29ubmVjdGlvbjogMgogICAgIDB4MDIqIDB4MDMKTm9kZSAweDFjIFtWZW5kb3Ig
-RGVmaW5lZCBXaWRnZXRdIHdjYXBzIDB4ZjAwMDAwOiBNb25vCk5vZGUgMHgxZCBbUGluIENvbXBs
-ZXhdIHdjYXBzIDB4NDAwNDAwOiBNb25vCiAgUGluY2FwIDB4MDAwMDAwMjA6IElOCiAgUGluIERl
-ZmF1bHQgMHg0MDYwMDAwMTogW04vQV0gTW9kZW0gTGluZSBhdCBFeHQgTi9BCiAgICBDb25uID0g
-VW5rbm93biwgQ29sb3IgPSBVbmtub3duCiAgICBEZWZBc3NvY2lhdGlvbiA9IDB4MCwgU2VxdWVu
-Y2UgPSAweDEKICBQaW4tY3RsczogMHgyMDogSU4KICBQb3dlciBzdGF0ZXM6ICBEMCBEMSBEMiBE
-MyBFUFNTCiAgUG93ZXI6IHNldHRpbmc9RDAsIGFjdHVhbD1EMApOb2RlIDB4MWUgW1BpbiBDb21w
-bGV4XSB3Y2FwcyAweDQwMDUwMTogU3RlcmVvCiAgUGluY2FwIDB4MDAwMDAwMTA6IE9VVAogIFBp
-biBEZWZhdWx0IDB4NDExMTExZjA6IFtOL0FdIFNwZWFrZXIgYXQgRXh0IFJlYXIKICAgIENvbm4g
-PSAxLzgsIENvbG9yID0gQmxhY2sKICAgIERlZkFzc29jaWF0aW9uID0gMHhmLCBTZXF1ZW5jZSA9
-IDB4MAogICAgTWlzYyA9IE5PX1BSRVNFTkNFCiAgUGluLWN0bHM6IDB4NDA6IE9VVAogIFBvd2Vy
-IHN0YXRlczogIEQwIEQxIEQyIEQzIEVQU1MKICBQb3dlcjogc2V0dGluZz1EMCwgYWN0dWFsPUQw
-CiAgQ29ubmVjdGlvbjogMQogICAgIDB4MDYKTm9kZSAweDFmIFtWZW5kb3IgRGVmaW5lZCBXaWRn
-ZXRdIHdjYXBzIDB4ZjAwMDAwOiBNb25vCk5vZGUgMHgyMCBbVmVuZG9yIERlZmluZWQgV2lkZ2V0
-XSB3Y2FwcyAweGYwMDA0MDogTW9ubwogIFByb2Nlc3NpbmcgY2FwczogYmVuaWduPTAsIG5jb2Vm
-Zj0xNDIKTm9kZSAweDIxIFtQaW4gQ29tcGxleF0gd2NhcHMgMHg0MDA1OGQ6IFN0ZXJlbyBBbXAt
-T3V0CiAgQ29udHJvbDogbmFtZT0iSGVhZHBob25lIFBsYXliYWNrIFN3aXRjaCIsIGluZGV4PTAs
-IGRldmljZT0wCiAgICBDb250cm9sQW1wOiBjaHM9MywgZGlyPU91dCwgaWR4PTAsIG9mcz0wCiAg
-QW1wLU91dCBjYXBzOiBvZnM9MHgwMCwgbnN0ZXBzPTB4MDAsIHN0ZXBzaXplPTB4MDAsIG11dGU9
-MQogIEFtcC1PdXQgdmFsczogIFsweDgwIDB4ODBdCiAgUGluY2FwIDB4MDAwMTAwMWM6IE9VVCBI
-UCBFQVBEIERldGVjdAogIEVBUEQgMHgyOiBFQVBECiAgUGluIERlZmF1bHQgMHgwMzIxMTAyMDog
-W0phY2tdIEhQIE91dCBhdCBFeHQgTGVmdAogICAgQ29ubiA9IDEvOCwgQ29sb3IgPSBCbGFjawog
-ICAgRGVmQXNzb2NpYXRpb24gPSAweDIsIFNlcXVlbmNlID0gMHgwCiAgUGluLWN0bHM6IDB4YzA6
-IE9VVCBIUAogIFVuc29saWNpdGVkOiB0YWc9MDEsIGVuYWJsZWQ9MQogIFBvd2VyIHN0YXRlczog
-IEQwIEQxIEQyIEQzIEVQU1MKICBQb3dlcjogc2V0dGluZz1EMCwgYWN0dWFsPUQwCiAgQ29ubmVj
-dGlvbjogMgogICAgIDB4MDIgMHgwMyoKTm9kZSAweDIyIFtBdWRpbyBNaXhlcl0gd2NhcHMgMHgy
-MDAxMGI6IFN0ZXJlbyBBbXAtSW4KICBBbXAtSW4gY2Fwczogb2ZzPTB4MDAsIG5zdGVwcz0weDAw
-LCBzdGVwc2l6ZT0weDAwLCBtdXRlPTEKICBBbXAtSW4gdmFsczogIFsweDgwIDB4ODBdIFsweDgw
-IDB4ODBdIFsweDgwIDB4ODBdIFsweDgwIDB4ODBdIFsweDgwIDB4ODBdCiAgQ29ubmVjdGlvbjog
-NQogICAgIDB4MTkgMHgxYSAweDFiIDB4MWQgMHgxMwpOb2RlIDB4MjMgW0F1ZGlvIE1peGVyXSB3
-Y2FwcyAweDIwMDEwYjogU3RlcmVvIEFtcC1JbgogIEFtcC1JbiBjYXBzOiBvZnM9MHgwMCwgbnN0
-ZXBzPTB4MDAsIHN0ZXBzaXplPTB4MDAsIG11dGU9MQogIEFtcC1JbiB2YWxzOiAgWzB4MDAgMHgw
-MF0gWzB4ODAgMHg4MF0gWzB4ODAgMHg4MF0gWzB4ODAgMHg4MF0gWzB4ODAgMHg4MF0KICBDb25u
-ZWN0aW9uOiA1CiAgICAgMHgxOSAweDFhIDB4MWIgMHgxZCAweDEyCk5vZGUgMHgyNCBbQXVkaW8g
-U2VsZWN0b3JdIHdjYXBzIDB4MzAwMTAxOiBTdGVyZW8KICBDb25uZWN0aW9uOiAzCiAgICAgMHgx
-MiogMHgxMyAweDE4Ck5vZGUgMHgyNSBbQXVkaW8gU2VsZWN0b3JdIHdjYXBzIDB4MzAwMTAxOiBT
-dGVyZW8KICBDb25uZWN0aW9uOiAyCiAgICAgMHgxMiogMHgxMwo=
-
---_004_AS8P250MB0887C48FD62B9F2A5B882565F41F2AS8P250MB0887EURP_--
+SGkgUm9iLA0KDQpUaGFua3MgZm9yIHlvdXIgcmV2aWV3Lg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVz
+c2FnZS0tLS0tDQo+IEZyb206IFJvYiBIZXJyaW5nIChBcm0pIDxyb2JoQGtlcm5lbC5vcmc+DQo+
+IFNlbnQ6IEZyZWl0YWcsIDUuIEp1bmkgMjAyNiAyMzoyOQ0KPiBUbzogSm9obiBNYWRpZXUgPGpv
+aG4ubWFkaWV1LnhhQGJwLnJlbmVzYXMuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYyXSBB
+U29DOiBkdC1iaW5kaW5nczogc291bmQ6IHJlbmVzYXMscjlhMDlnMDQ3OiBGaXgNCj4gZG1hLW5h
+bWVzIGFuZCBwb3J0cyBzY2hlbWENCg0KWy4uLl0NCg0KPiA+DQo+ID4gIC4uLi9zb3VuZC9yZW5l
+c2FzLHI5YTA5ZzA0Ny1zb3VuZC55YW1sICAgICAgICB8IDEwMCArKysrKysrKystLS0tLS0tLS0N
+Cj4gPiAgMSBmaWxlIGNoYW5nZWQsIDUwIGluc2VydGlvbnMoKyksIDUwIGRlbGV0aW9ucygtKQ0K
+PiA+DQo+IA0KPiBNeSBib3QgZm91bmQgZXJyb3JzIHJ1bm5pbmcgJ21ha2UgZHRfYmluZGluZ19j
+aGVjaycgb24geW91ciBwYXRjaDoNCj4gDQo+IHlhbWxsaW50IHdhcm5pbmdzL2Vycm9yczoNCj4g
+DQo+IGR0c2NoZW1hL2R0YyB3YXJuaW5ncy9lcnJvcnM6DQo+IC9idWlsZHMvcm9iaGVycmluZy9k
+dC1yZXZpZXctDQo+IGNpL2xpbnV4L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9z
+b3VuZC9yZW5lc2FzLHI5YTA5ZzA0Ny0NCj4gc291bmQuZXhhbXBsZS5kdGI6IHNvdW5kQDEzYzAw
+MDAwIChyZW5lc2FzLHI5YTA5ZzA0Ny1zb3VuZCk6DQo+IHBvcnRzOnBvcnRAMDplbmRwb2ludDpj
+YXB0dXJlOjA6IFs2LCA3LCA4XSBpcyB0b28gbG9uZw0KPiAJZnJvbSBzY2hlbWEgJGlkOg0KPiBo
+dHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9zb3VuZC9yZW5lc2FzLHI5YTA5ZzA0Ny1zb3Vu
+ZC55YW1sDQo+IC9idWlsZHMvcm9iaGVycmluZy9kdC1yZXZpZXctDQo+IGNpL2xpbnV4L0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9zb3VuZC9yZW5lc2FzLHI5YTA5ZzA0Ny0NCj4g
+c291bmQuZXhhbXBsZS5kdGI6IHNvdW5kQDEzYzAwMDAwIChyZW5lc2FzLHI5YTA5ZzA0Ny1zb3Vu
+ZCk6DQo+IHBvcnRzOnBvcnRAMDplbmRwb2ludDpwbGF5YmFjazowOiBbMywgNCwgNV0gaXMgdG9v
+IGxvbmcNCj4gCWZyb20gc2NoZW1hICRpZDoNCj4gaHR0cDovL2RldmljZXRyZWUub3JnL3NjaGVt
+YXMvc291bmQvcmVuZXNhcyxyOWEwOWcwNDctc291bmQueWFtbA0KDQpUaGlzIGlzIHRoZSAnaXRl
+bXM6IG1heEl0ZW1zOiAxJyBJIGFkZGVkIG9uIHBsYXliYWNrL2NhcHR1cmUgcGVyIHlvdXIgdjcN
+CkNvbW1lbnQgWzFdIG9uIHRoZSBvcmlnaW5hbCBhdWRpbyBkcml2ZXIgc2VyaWVzLiBUaGVzZSBw
+aGFuZGxlcyBwb2ludCBhdA0KdGhlIHNzaS1OL3NyYy1OL2R2Yy1OIHN1Yi1ub2Rlcywgd2hpY2gg
+YXJlbid0IHNwZWNpZmllciBwcm92aWRlcnMgYW5kDQpoYXZlIG5vICMqLWNlbGxzLCBzbyB0aGUg
+bGlzdCBpc24ndCBzcGxpdCBwZXItZW50cnkgYW5kIHRoZSBjb25zdHJhaW50DQp0cmlwcy4NCg0K
+V291bGQgeW91IHByZWZlciBJIGRyb3AgaXQgYW5kIGtlZXAgdGhlbSBhcyBhIGJhcmUgcGhhbmRs
+ZS1hcnJheSwgYXMNCnJlbmVzYXMscnNuZC55YW1sIGRvZXMsIG9yIGlzIHRoZXJlIGEgZm9ybSB5
+b3UnZCByYXRoZXIgc2VlIGhlcmU/DQoNClsxXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwv
+MjAyNjA2MDIxNDU1MjcuR0EyMTEzNjgtcm9iaEBrZXJuZWwub3JnLw0KDQpSZWdhcmRzLA0KSm9o
+bg0KDQoNCg==
