@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA3B37F721;
-	Mon,  8 Jun 2026 19:46:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A720937F721;
+	Mon,  8 Jun 2026 19:48:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780947988; cv=none; b=dodBN0NZpzuaGLrIOTmQ9QyjlkYubF7y9W16lTWBGe30q8fyV3FREvC+xhUX92b7wI9QKPq+AEX2ghG+2EnjbNDpkM3bXRAckI8cTxQeeF4wKwFclIpC2zfqeJhmDXmAmkmjgRYALLaj6FBgI7Z5n3sRgGtGMHR4r2G3+VPo9H4=
+	t=1780948094; cv=none; b=XuhthF9WFCoc0dWFi3PYbTZWrH5T9oay73nGPvgQG9egv/gzhRj4dWO2b0wTZ/nOXdqpNvIWdjbmgZUvBNvQkpmcjRG9aJkw/VBqzzLcVWo/uwWl/9Go01BMAfPUr1KW0cDw6TrhwojLAA7wj9A3mUM2xfP1dVTgGaFg47NPP3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780947988; c=relaxed/simple;
-	bh=XKNZyRSyzeoGbi+rEs/n5KM0cBC/zhjoEO7oNjW/Oog=;
+	s=arc-20240116; t=1780948094; c=relaxed/simple;
+	bh=+Ze7wlvQCSqYAK/5lCWzSqyjPXfsA34McEhLyWMGz+o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VhvXWJanLCKD3sn1UHPY4YfxFDhQEmbkR2BF76/9e/5svxqto69HFBrWBPOhs9xK8n2rLyOmZ9aP6yTinBioO2rH9RFES2hKlo+kVj42p6PJd3ydIgEDIZTMHVdrKdF/bTroS1WMg5q/512xdWefPic2IuaSO8XqUmf3A9JN1WU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GaQx7DdH; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=PJINSwr52kpyQt535EJJl1sS4yPuqE123YQEttokq3Ah43mlWyDRaJ1uF4qKgH2usOIsLcKjrIq44nOEm9Y72qQXrPvIPXmgW352H9eVLwnxoU6LXf4xqKGw3hnfRFBbgnsW1QOLDaFXxAU2KveVarHyCqanAPPWIT7alGL/PMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E/Wzkui5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GaQx7DdH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 725A71F00893;
-	Mon,  8 Jun 2026 19:46:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E/Wzkui5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1CBB1F00893;
+	Mon,  8 Jun 2026 19:48:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780947986;
-	bh=TWP8wrhtR5N8HNd2dXQfcpn2jvKnYaPqHm19S0/wNyI=;
+	s=k20260515; t=1780948093;
+	bh=VVNTZaAO0B0DQ+HTH+EESlWokJ8mf5amEZrArva7fb0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GaQx7DdHCQsFACsLy9uiis/YlLAmMoQ5QvGOrl3aZiWJPHilayeb9bRAEFjxNiTLd
-	 /S1v1Ot92nLa/yNZ3tyBvx4F6EZWjD3uzJsUO3bENvGxwRXFau9m0oYfVTfkIvxU1K
-	 DpKmAghfDBRvO7DkvOzIdghRciickxMaP9zvs6uQOJ98a9oiS5Gm/rXsWBIjhcBkA+
-	 8DxjcvRwYANq76qBJVQ9nn7BkdVF/t7S0rXlqJU+nQoUFfqXHMBkLq/b3/OUHan2xa
-	 xigssIGz4SpUjHEq+2/mNI05v8x/5bKc6qvKiKdn6amthnzrinRe9qqXoRqQjRTurO
-	 T2QZB4sZbnbpQ==
-Message-ID: <66c097e8-8b5f-4b78-910d-799bc0a488b0@kernel.org>
-Date: Mon, 8 Jun 2026 21:46:17 +0200
+	b=E/Wzkui5soYyPiod/SkyuiDxg9W7N5rEpDkLT0a6VoKbfVcxWP/5a292RCCpZrGlF
+	 UzYsRTs4jfRARqO/jp3LSWva5ArcOdzKY+FkpyOsM4s3SQZL6iK1/xviVRa2bX0Q75
+	 0bUeEZiZSgvLyxyarxXgy+4fLoWOYUt/xk3pS8ftICME8m0rWk7fd/NHntpEA80FUZ
+	 CdveDCuqb/PIf4KTwO+WwF8xbD6n78cWIm7AaLo5GqZ9E5wFGH08RLi+/lvC85PQlA
+	 C7Mlk+ZgxPWN+coVt6yzXoUyJoYBoBXEbZhAahxl+48St3CyXEYrpyDxytooDNQQhq
+	 iE/2o2FUa0TrQ==
+Message-ID: <0030e12e-96b7-4a22-a3b4-1b42bd32f39e@kernel.org>
+Date: Mon, 8 Jun 2026 21:48:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] dt-bindings: soundwire: qcom: add
- qcom,swr-master-ee-val property
+Subject: Re: [PATCH v1 2/2] soundwire: qcom: add EE-aware register layout and
+ cpu selection
 To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
@@ -46,7 +46,7 @@ Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
 References: <20260608175345.3118060-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <20260608175345.3118060-2-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20260608175345.3118060-3-mohammad.rafi.shaik@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -92,57 +92,27 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260608175345.3118060-2-mohammad.rafi.shaik@oss.qualcomm.com>
+In-Reply-To: <20260608175345.3118060-3-mohammad.rafi.shaik@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 08/06/2026 19:53, Mohammad Rafi Shaik wrote:
-> Add documentation for the qcom,swr-master-ee-val Device Tree property
-> used by Qualcomm SoundWire masters to describe the execution-environment
-> value for interrupt routing.
+> Some Qualcomm SoundWire masters expose interrupt, FIFO and status
+> registers in EE-specific register windows on v2.0 and newer hardware.
 > 
-> This property allows platform DTs to specify the EE value used to direct
+> Add support for selecting the SoundWire execution environment from DT
+> and use it to program the correct register window for the active EE.
+> The driver now reads the EE value from the new
 
-Please describe more what this EE value is for.
+No, it does not. "now" means before the commit, you are making the
+changes - see submitting patches.
 
-> SoundWire master interrupts to the appropriate CPU target.
+> qcom,swr-master-ee-val property, with qcom,ee as a fallback for
+> backward compatibility.
 
-Interrupt affinity defines where the interrupts are routed. Not custom
-properties.
-
-> 
-> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> ---
->  .../devicetree/bindings/soundwire/qcom,soundwire.yaml       | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml b/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml
-> index 9447a2f37..5b06cc1a5 100644
-> --- a/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml
-> +++ b/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml
-> @@ -215,6 +215,12 @@ properties:
->            maximum: 4
->          - const: 0xff
->  
-> +  qcom,swr-master-ee-val:
-
-Aren't there existing properties for execution context? I think Qualcomm
-has something, so you should not come with a new property. Assuming this
-stays in the first place...
-
-
-> +    $ref: /schemas/types.yaml#/definitions/uint8-array
-
-Missing constraints.
-
-> +    description:
-> +      Execution-environment value used to route SoundWire master
-> +      interrupts to CPU0 or CPU1.
-> +
->    label:
->      maxItems: 1
->  
-
+And where did you document qcom,ee and why do you need fallback in the
+first place? For downstream DTS? We do not support anything from
+downstream here.
 
 Best regards,
 Krzysztof
