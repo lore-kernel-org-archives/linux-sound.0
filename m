@@ -1,46 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3623F1643;
-	Tue,  9 Jun 2026 08:41:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D87A3EFFB2;
+	Tue,  9 Jun 2026 08:41:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780994485; cv=none; b=aS4C4M7iKpiBzz0dwFS9NsxPN5OyMS6b17X/L2+4pSE2jeKitptSWdT671GL0XdqttuANeZfMlqiMr9YnyZZG7Q6Hzn8wIAAdLRZi8j9XcGHVwrfYtGPb+HkOYjk6fZBRodwDpkYdDxET0HVdqHHyODICGBRb+6f1c0b2CNLzac=
+	t=1780994489; cv=none; b=M/HUKAQNJvMdEAIMEBfC1QOn7ZNAOXPz2EtO4Jw7aknYbitFpbC4z2vvISNp06azQsIoTpIZ+BF1MtI7HB2vb7oIumymfwDcaDOQBSHXyBvHpePeNj08+cKE4sprdoQqmLPUL8Jxfpi3iTEA4+nZ4P4GECANFUtBs/g1JUxUS9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780994485; c=relaxed/simple;
-	bh=LMU2WKBRsY9qnKg0AFjIH68qrwlYZLrtmayrpsY+iT4=;
+	s=arc-20240116; t=1780994489; c=relaxed/simple;
+	bh=qwVhfSdGHJOeeF+IQatg3Vb7isbgSuJU0n8EJdNhs1U=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=vGwCnWct924Oth20fmJyhTBGUCUmuHsH4RaOixyZKQutc9i7FJSE/o7M2e/HslkfUXFuOKV6df8QxnB2o1mU1TZPIpsJWtZoR0Ok4S9/lRjsg9M2hYwstAojQc6naW8FB4D8s3tS1Ii1BIj9kY7Y4g5D2LB2SAdYWWCz6p0e0eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fe8MB+2/; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=QMo22SbqRJC0IhVOXm9C85CDW039Zpo9q4tEzys2ViJOsZ7gwJ/z4yYNIRI4BRG0/PYqdgycVF8UKQ+NiI1u4pGnWyoYTxhjxP1+DyDVNcXs3JDIDJZcimCNS4aGkCTGEfJp5zj2YSgvz/oQqVqiachU7c+FrNqj7p/0pCLMiqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RyWaY7cD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fe8MB+2/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2DEF1F00893;
-	Tue,  9 Jun 2026 08:41:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RyWaY7cD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14BB01F00898;
+	Tue,  9 Jun 2026 08:41:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780994481;
-	bh=uJTUmbk8J8QkjyaTbAHKRJ7XTqDvz+ngwJDthoeODuw=;
+	s=k20260515; t=1780994486;
+	bh=NTi0rdt9/fB9K0FwN8VFAmYTKhfchv/tFpXhZHF2pAo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Fe8MB+2/RsDHwPkgyBSTLH2hrffmGOPYlRuuxqtqh0H4+SobUdqwH+j15mYytRbxX
-	 bJ81CDa23VCgfjHQSOZbdwvPDGptAmfX9zTlcYfycEtUcbpk8AcyGu52eTeZ6p/gG6
-	 wiHp3dCSPL65rpW7/MF8o04ptkU80Aw3wIvqW7rfYmo46NfJgzdPlYak3lCuXO4Bc2
-	 xlbUoyMNwkI4NdFNd39jHvoLxl6y1bKS4S1Z11Qefy2Y6vJfLXhZTMUR54CPCV/RN4
-	 bP0Kba9LwJ1R/ZR+Er4V+XLCbqNFtZvKVGnQ/RXqYUiYVykiOpwYfWCyjz+X960hwH
-	 ZtVIzXBHgix3w==
+	b=RyWaY7cDYGXrTKVZ4qgXp2P1jtPvGcjmtq31Dxf2F/ZJSj+J+TahLTB+kotejI67h
+	 LfCjvRppUe1M9zAzSUYMSin1eiU/CbNtU87BcGXD3TERxWduOaWWvcRmZ7N63l6Mpr
+	 bH3TZjgDheEEvhL4dWBps58sPwUgmqczBv87K7xCEnGUvOddF0aQSc9mOIQyGitQ0Z
+	 heT3DtBfQJ5QYbWeIm3jr3cLCRdwt7MQr+WvDTE/HLTKuDnpxLp8G8/bEmD8ekp9PJ
+	 c2M0aYDw+ZldRRA2J2m1XEZ2OtCraH7Qu/BeJW1AKkgszrVpo7q6yHjUCEC96hsm5o
+	 R2fx9jFuoKLoQ==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Baojun Xu <baojun.xu@ti.com>
-Cc: andriy.shevchenko@linux.intel.com, 13916275206@139.com, 
- shenghao-ding@ti.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, lgirdwood@gmail.com, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, 
- k-yi@ti.com, henry.lo@ti.com, robinchen@ti.com, will-wang@ti.com, 
- jim.shil@goertek.com, toastcheng@google.com, chinkaiting@google.com, 
- riyo@ti.com, a0393308@india.ti.com
-In-Reply-To: <20260602100532.6463-1-baojun.xu@ti.com>
-References: <20260602100532.6463-1-baojun.xu@ti.com>
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: ti,tas2781: Add TAS2573
- support
-Message-Id: <178094167780.20828.2747027030132997875.b4-ty@b4>
-Date: Mon, 08 Jun 2026 19:01:17 +0100
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260604101244.1402862-1-rf@opensource.cirrus.com>
+References: <20260604101244.1402862-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: wm_adsp: Fix NULL dereference when removing
+ firmware controls
+Message-Id: <178094110887.20828.6401488222927092447.b4-ty@b4>
+Date: Mon, 08 Jun 2026 18:51:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,31 +45,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1216; i=broonie@kernel.org;
- h=from:subject:message-id; bh=LMU2WKBRsY9qnKg0AFjIH68qrwlYZLrtmayrpsY+iT4=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqJ9Gr/GXIG3DoSxiQQFN85fGaKwad+XHuaynQ7
- iPqjnEFYZGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaifRqwAKCRAk1otyXVSH
- 0Fo6B/9+s/FoIIdgyDgYwnjdzjEnJfTpONGXdaBkblnHrkR2frk8sHEitTf+0JNPuS/1edqpRGT
- K7VQFZjE8ti045ee4yP3fJ275SwjX+xSamhSO7UAABrxorbazGBxSqIVxwu9JKu6TuLjmcf1+i5
- AnL14Oz6AA+vZuWPhKLna17lnNRqp+Fi1+rbbg2HWvVJOSl8GpMV/iuFtND923muOWm03wVIQvF
- AStUZbVznzegg0Da4jZKKc4N7BmYMKM9tZ+/PPcQsBNDSt9KZ8ORbhl20zyfPV9bDFwyHTqvvvm
- z9Otw8dYk5wupu1L85r+sMspRtGXumNcV8mqTocLWYWgTi3K
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1158; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=qwVhfSdGHJOeeF+IQatg3Vb7isbgSuJU0n8EJdNhs1U=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqJ9GzwGsmLLkKz6NnrDbHJEVH8xQ7ZhT1WVobI
+ RQoGicFHnmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaifRswAKCRAk1otyXVSH
+ 0DtfB/4j0frhiMhbE4pqBPOZR1gE1iQCf2pv4nAXUN/Sm/seUgiM7mU6Sj9LeR6STKX1yvNuAaW
+ Ibtf7gpj812RnllMpHB5BLgJPaTyPAIVBK5NrbIx//qz7P4sz/Ljsv1Qs8EyHAHnJW4b98d7r63
+ aacaXgBcB/fMXz1Km6FJGcDMtMH6ZIrlm6+80gPVjtJJPF7a+l/dsu2WlTyJLjW1m8Ra7KpHKDW
+ xVo5cBeFe4r+b1Qx3Ftt9vxTZtEM3diWcMoFcIq4pQX9UtUrCeFaRVkR6+e6WCurLW2pWGGlLJw
+ 251RbWHBdVEq+RdHYXYl195GauJ9PYGkW72UYCB+uBDfcVdi
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 02 Jun 2026 18:05:31 +0800, Baojun Xu wrote:
-> ASoC: dt-bindings: ti,tas2781: Add TAS2573 support
+On Thu, 04 Jun 2026 11:12:44 +0100, Richard Fitzgerald wrote:
+> ASoC: wm_adsp: Fix NULL dereference when removing firmware controls
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
 Thanks!
 
-[1/2] ASoC: dt-bindings: ti,tas2781: Add TAS2573 support
-      https://git.kernel.org/broonie/sound/c/a0cecbfc1545
-[2/2] ASoC: tas2781: Add TAS2573 support
-      https://git.kernel.org/broonie/sound/c/06ff6ffec2f7
+[1/1] ASoC: wm_adsp: Fix NULL dereference when removing firmware controls
+      https://git.kernel.org/broonie/sound/c/7d3fb78b5503
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
