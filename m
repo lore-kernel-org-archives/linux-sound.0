@@ -1,66 +1,66 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4368137F74C
-	for <linux-sound@vger.kernel.org>; Mon,  8 Jun 2026 13:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C2A37F001
+	for <linux-sound@vger.kernel.org>; Mon,  8 Jun 2026 13:40:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780925996; cv=none; b=gk34KkDnTvT1zaVMOAHvyZfyKKY2NlHQGtstKWT6fZl/z0WaWEbRjCPBp1mi2l7UYjWZy/hXBzLzFKUNKvpFOyDCXIrysM8H4EpwCjyuKFADBDQQHhG9MKbrkKhhZmRpJmRdQuv8Cayiv7ZfNv8PUqRDjhnhJ+xy4Sb55Wysdkw=
+	t=1780926002; cv=none; b=iebgkBNFypJAyjzuBGFYAMkZiFe4Soocc2lRf/iBUq6PGxr6KgwUv7ZSiFxeMHjPEYyn0krbs1yJNm6RUKf9lZNRba2kl0ngKCgsb1tfApYOna7MIhN3iRMyX/dPEKWGkx84sbO9F9+VY/eft7FLZ5JkKu+YyMsNhuxLAgzkRYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780925996; c=relaxed/simple;
-	bh=MCx2N3prAUvO8MqB4noVmeheqznOyy7WsBMuY4aEAtk=;
+	s=arc-20240116; t=1780926002; c=relaxed/simple;
+	bh=vyC7w6pskJBgaLu4nRRhMfqupYy0eXGTyLVkdxR3pJI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PNKyc4cY6hHxwWiY2RGk7xj1eJt1hMvf/FxCpzPWAlb4gUyfAJoRqLefvp7l1BJwZtEIZm3ZKT2+aRPB6RDe7vaMetBUxprznXKEUKV6olmITd9KP1eZA56FEv+ZvlSNEhBbAimuEkji90f8ycIWs86EZpqBdZXfuqlPsy5mSYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pcEeqrQ1; arc=none smtp.client-ip=74.125.82.172
+	 In-Reply-To:To:Cc; b=kULU8Mntxd1kaUmE+TuMagaQnLXCzFw9Rj6XyRjQA1z/l3V8FA2PyiIGus+lIw3xi8aJDyHbCd/Q0yV6X2pFjg4zB3TV5Ju82y0oep+fzdgnOmSw1Sxs+2U+d6LpbnIB9uOe1FKHLeRyQ4nYWVasU4IYS6Ti5YhGUDEjBr/QaqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cTbq3s+E; arc=none smtp.client-ip=74.125.82.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pcEeqrQ1"
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-307263ad0cbso5505388eec.0
-        for <linux-sound@vger.kernel.org>; Mon, 08 Jun 2026 06:39:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cTbq3s+E"
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-304f590dd91so4579217eec.0
+        for <linux-sound@vger.kernel.org>; Mon, 08 Jun 2026 06:40:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780925994; x=1781530794; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780926000; x=1781530800; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=v5KkougDEniPNaB4zp+jheULTstkgfTv6Bq66fUj4K0=;
-        b=pcEeqrQ1rXSkw4a9YhYtbBwLi0wiTtajYkk7MOctLEfub3YlVN9RSKkvry0I8vHxKF
-         OCy+sxy60liWa0bsvCvr+jTQqrNM4CJnpEhT0BwIvG4pP4mEuWRlTjWjHKx4Vby2maxg
-         8ieN+NabylhRwt6BpubHfsG8XFrpLTJGQrVY5KXZcMh3l6xX0EW8al2vwIJK/qvCQNtZ
-         S6Y2GWu7yUhpco4pTMpHzHBNaRrLQrNh410EgVp/9UeXEZOEYKFadULTt7zsHL0S81lB
-         NcuvskIJ2OeGrHWaEaYpqq+jF6vM2XxXk8zhAxUkzpEx9U4CAuoQlOX8vRXTWPkvsdtk
-         9IoA==
+        bh=r+CdAGYIEklPCYPkGTaICLk240mHu6t2xegNP8dRyKY=;
+        b=cTbq3s+E0EgjDUhBeyGay8XIgIKawmRsPEGPUMy17wZxMclXJi5iE7y68hUxDzebaY
+         g1Q6VHnBnjG81OS30/HWK5FFcbEnDmtvfzLtUQzEuj03j9T4BfrkNPYdvrpJGSGQ/AIq
+         sbXOfEbmxsRpSYq1Ihuq2RYivGD6VRyHTYNnyJsv7b/yQrGKZrfEuLmYy2Tt0M0ccW00
+         fAR4lGrc7xz52nvRQmDV22Ng8RvUA4Zk99L1TTD4fpxkjW1Qjykd+FTPmjYym6yQBLig
+         7BH35hkyYG2OQMFU8RYBbZJz7PlJCAcCRCyOamFEfxl9ls+S3mxzDaFNMdujSE9dj1fM
+         /nGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780925994; x=1781530794;
+        d=1e100.net; s=20251104; t=1780926000; x=1781530800;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=v5KkougDEniPNaB4zp+jheULTstkgfTv6Bq66fUj4K0=;
-        b=Y5SZ+QYHbRdLk63AXJeYm5HYCAZOQSi0G/vLI/4QpP3IMW06tOUQf/nFwyISQSn4Mv
-         uZRSUycNGV8iWPM2tpLxbiCXDnYny5JNB0CexC9tA8S2s3/iAprVJJUt6OXD6XTRxvND
-         J2aZLX2hcmy0AgNTZmxZVgfj1/oSi4XIgpLiti/U1O7nSIMYXRPUQP02cBPv2yOMSel6
-         tk0upGf/YoVl2kFXroI1wXaFJAOYX7AUleGGYwtqStgzqiNTQ0vDOKXdSAdnDmERyXcv
-         fxlKM0YAhnaGUTwnR+zCmGf1YpTjVdvD0oJ32Aj2hv+oc9FHAH3IjGIQMYcocnW133P6
-         vmqg==
-X-Gm-Message-State: AOJu0YyW0vL8Bp+qxMMvnnuKLL+ijHaaafGmxepkEd86X4Jx7eijwfAG
-	eb+S+OEDEoDQfVQp6werRp5+hF7+3xLoro9NyEG4bpQ4ysmV/J/yQBbp
-X-Gm-Gg: Acq92OGVpw2sMbATDr8xDazYtr/Ko+L1at3jelNaq8xxVHIsaWq4RcBkQjByblfgDjS
-	Zna3nPvtZtKcFPdLrI6zAt56+uMWHT1W62AL/n67/AGECKDauGQmmLRwb/CfHhutQ3pe39AhzHi
-	vugpHpIDoYbwJb7UycPiyBnFPn9URw+BomsmxRt69nDRYXalrqo9X7U+h1emN6ftQlwBI/9etI4
-	MUkIwdvpmjuOgEiQK3uWCgJ98zIbZeXchCastviFl472rIgCrL70TTibDjzXuJnLCo9ZaAzubAa
-	ipfR+COE1DbfaxcrOZM4c8hYCpjqIDzYxlL93PcgMGQclF3pe4XAE8XRcrN2XoG3i7qoi2lkv/C
-	p7bVDAnH7WyXulWjqVmbUUKBEPtu5V+SewdYwyKttQDy0JKbveLMez/AlCwyVBDU0MELICiykHd
-	JwK1jkA9tU1blgr/lcXyPT2ZWQH5eeY+sU7b9quAG2p4arn2Mxy1QSBg++qu5B2MdfzkrzupO1Q
-	CrC1r0tE4RH
-X-Received: by 2002:a05:693c:3003:b0:304:d835:27f with SMTP id 5a478bee46e88-3077b15d304mr7307289eec.22.1780925994137;
-        Mon, 08 Jun 2026 06:39:54 -0700 (PDT)
+        bh=r+CdAGYIEklPCYPkGTaICLk240mHu6t2xegNP8dRyKY=;
+        b=aipL3UgHeuav6XsSbuZ6m8yv96Gu8JykOLb0gTRQvLnZwyBRk41VbF6iPtCRKpHcRg
+         rC9LyROdbeZI+Y/Dd5O2qFbjmI1ZNdF1puRMrtI5GqVw0RdR/8ZXuQ3NniD9QFaqf7GE
+         xQbUtK03O+Cvxf6nWn/iZW6snLeNv1CN7vNla7z19dHsuafWRHpJZjMHnyP3Ao0iBRB8
+         5OzzjFviNQvbxNlMtR3NzxUgA5VkA83SUjRty3+HlqXQjbQSdUg5BPEI1aJtkBnStKUT
+         1FTqOUiNyEpUXk/Qb5PTw2jl/07o4U+hseWP+YtCwMggdVUXmsx2C8zIYhUDiDwTH/X5
+         X6YA==
+X-Gm-Message-State: AOJu0YzRQGKDoZ8Ea6hD90AYWz9KtJ7if+rL4XGTAQCjsFVhsg9Do1b9
+	MHixyAhHDvXnlWKoF6KFBS1aX6a0qYPP98Qbw+df8ZivO3OyYjP5nDJy
+X-Gm-Gg: Acq92OGlNvXka2TaG2RRUM5vOChY99SlF6wdW9SHbRSuqzs4jkftrN3xBv8u5kzKmwt
+	JvTgeuOcs16G2sYhWBpfJrXRha16nzQb7y4Gy/VGxL/klw5gKIy2q8fgI3c5tToON069PdklzfS
+	65l4J2YOi1AoTwMB1B1vMUnBOzsJwgY5qp3RM5daMzTS+2V0qxHAYhMiuiR1Lvuj44yB0iaUAIm
+	NI3Kobj2KnugvjySZ8TZ97FJULHDHmeDfz9lUhkh/hbZ/DfiymqTqmpY3S49yzypl/vezpRuFFE
+	ZlEvRVJhicIvFT9/zEH7+Srv0ye5hZ03EQCmSMGUl12N5/Wxznb/oihlMZvb/PUzBpAga9YOwRd
+	B3A/uoloSVG/j00FTWadtzllqJjwjyZUrUv18cJWYzT5Y7ZtJ9/eDyO3p/uJWUPUmopHvQORFBL
+	byWxKHXE7sHz8BfkwEUqV662U/XUztPg3SefdF6s1PgOvR9S6XdEn0OHxwpqaoectcLWEvupIkv
+	GhxGL9vwiTE
+X-Received: by 2002:a05:693c:65d9:b0:307:91f5:8eee with SMTP id 5a478bee46e88-30791f5af59mr3853798eec.12.1780925999720;
+        Mon, 08 Jun 2026 06:39:59 -0700 (PDT)
 Received: from [192.168.1.18] (177-4-161-23.user3p.v-tal.net.br. [177.4.161.23])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074db560d7sm23893449eec.5.2026.06.08.06.39.48
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074db560d7sm23893449eec.5.2026.06.08.06.39.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 06:39:53 -0700 (PDT)
+        Mon, 08 Jun 2026 06:39:59 -0700 (PDT)
 From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Mon, 08 Jun 2026 10:39:12 -0300
-Subject: [PATCH 2/3] ASoC: fsl: fsl_qmc_audio: use scoped child node loop
+Date: Mon, 08 Jun 2026 10:39:13 -0300
+Subject: [PATCH 3/3] ASoC: bcm: cygnus: use scoped child node loop
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260608-asoc-of-node-scoped-cleanup-v1-2-9e3ac518dc2e@gmail.com>
+Message-Id: <20260608-asoc-of-node-scoped-cleanup-v1-3-9e3ac518dc2e@gmail.com>
 References: <20260608-asoc-of-node-scoped-cleanup-v1-0-9e3ac518dc2e@gmail.com>
 In-Reply-To: <20260608-asoc-of-node-scoped-cleanup-v1-0-9e3ac518dc2e@gmail.com>
 To: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>, 
@@ -84,56 +84,60 @@ Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, notify@kernel.org, 
  =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1261;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1564;
  i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=MCx2N3prAUvO8MqB4noVmeheqznOyy7WsBMuY4aEAtk=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDFlqxyQ6WbXOHZl573lk8fKZWS9rEjeZ7J/2YxvT62vSk
- utzDuowdZSyMIhxMciKKbKsTlpkuafrwdX6uBUeMHNYmUCGMHBxCsBE3n5k+Mm48r9C6PqddYW7
- uKUX3W660TnB1a/qr6303zidBctYjqoxMuyLmB/7u3zl96m+jSwPQpazaHlsyeq94VPsoy/x/EV
- /FzcA
+ bh=vyC7w6pskJBgaLu4nRRhMfqupYy0eXGTyLVkdxR3pJI=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDFlqxyRKLkZwS7AE2Tf2p92fUXVnr8gKwS6tnBXNy1btW
+ jiJT2laRykLgxgXg6yYIsvqpEWWe7oeXK2PW+EBM4eVCWQIAxenAEzkchYjw/9Qn6uF35RTdtpk
+ X+d4MWXhlgeaC3X+Lbn4/qig9NQvKk4M/+tcorM3x6i7Oc46NWO+9mLXuXL6M27kyvu1n9gTu1u
+ MnRUA
 X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
  fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-qmc_audio_probe() manually puts the current child node before returning
-from the DAI parsing loop on error.
+cygnus_ssp_probe() manually puts the current child node before returning
+from the child parsing loop on error.
 
 Use for_each_available_child_of_node_scoped() so the current child node is
 released automatically on early return and normal loop exit.
 
 Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
- sound/soc/fsl/fsl_qmc_audio.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ sound/soc/bcm/cygnus-ssp.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_qmc_audio.c b/sound/soc/fsl/fsl_qmc_audio.c
-index 76e014dfb6d7..d0f644573f49 100644
---- a/sound/soc/fsl/fsl_qmc_audio.c
-+++ b/sound/soc/fsl/fsl_qmc_audio.c
-@@ -905,7 +905,6 @@ static int qmc_audio_probe(struct platform_device *pdev)
+diff --git a/sound/soc/bcm/cygnus-ssp.c b/sound/soc/bcm/cygnus-ssp.c
+index e0ce0232eb1e..47706ae0a31f 100644
+--- a/sound/soc/bcm/cygnus-ssp.c
++++ b/sound/soc/bcm/cygnus-ssp.c
+@@ -1298,7 +1298,6 @@ static int audio_clk_init(struct platform_device *pdev,
+ static int cygnus_ssp_probe(struct platform_device *pdev)
  {
- 	struct device_node *np = pdev->dev.of_node;
- 	struct qmc_audio *qmc_audio;
--	struct device_node *child;
- 	unsigned int i;
- 	int ret;
+ 	struct device *dev = &pdev->dev;
+-	struct device_node *child_node;
+ 	struct cygnus_audio *cygaud;
+ 	int err;
+ 	int node_count;
+@@ -1331,16 +1330,15 @@ static int cygnus_ssp_probe(struct platform_device *pdev)
  
-@@ -931,14 +930,12 @@ static int qmc_audio_probe(struct platform_device *pdev)
- 	}
+ 	active_port_count = 0;
  
- 	i = 0;
--	for_each_available_child_of_node(np, child) {
-+	for_each_available_child_of_node_scoped(np, child) {
- 		ret = qmc_audio_dai_parse(qmc_audio, child,
- 					  qmc_audio->dais + i,
- 					  qmc_audio->dai_drivers + i);
--		if (ret) {
--			of_node_put(child);
-+		if (ret)
- 			return ret;
+-	for_each_available_child_of_node(pdev->dev.of_node, child_node) {
++	for_each_available_child_of_node_scoped(pdev->dev.of_node, child_node) {
+ 		err = parse_ssp_child_node(pdev, child_node, cygaud,
+ 					&cygnus_ssp_dai[active_port_count]);
+ 
+ 		/* negative is err, 0 is active and good, 1 is disabled */
+-		if (err < 0) {
+-			of_node_put(child_node);
++		if (err < 0)
+ 			return err;
 -		}
- 		i++;
- 	}
- 
+-		else if (!err) {
++
++		if (!err) {
+ 			dev_dbg(dev, "Activating DAI: %s\n",
+ 				cygnus_ssp_dai[active_port_count].name);
+ 			active_port_count++;
 
 -- 
 2.54.0
