@@ -1,112 +1,115 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58F53C3428
-	for <linux-sound@vger.kernel.org>; Mon,  8 Jun 2026 13:54:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5135E2571DD;
+	Mon,  8 Jun 2026 14:12:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780926884; cv=none; b=Xkye5qUQUO8Z1pmuI8TKt108E61X71c7NkLVliFqHwpehv5BVGOLYSKbMYUKISUhvrJq31u1VWl33rHD6C/J2QVb9MtiUnls4ERP42V5SMoEmzkZrLlXLvtGy1QGvwKRe1ooHyKHK4y16RDjcUNdnE7CFVX5ZyUk4ityvlzgKOc=
+	t=1780927942; cv=none; b=W8nSvNLwL8V+TgEmHpB2z4fLa2zlzv/22lVQ9ZeMlYz4fC36QrPytUX5PY7wNNW4/aT97FXyrHi8Q8KMwMnXHtPCsRVAY3hkC3t0gUM1ADQsXUsJURLdNGMAcCGjDy+25YsqIeND/GvYZcwg7xyqTNu4wK4vBm1W5pm3e6wxBNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780926884; c=relaxed/simple;
-	bh=ilFxC0H6O6u611nSKHK6oBMJMWs5ipeUicuMUc1Ms7Q=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GfDa9VMNcPFo7EFPeMZsAwoOV54bq6GpXr72JIY1ItKzZIq5+1QKOgb5tNpapi9VI24Br2+daOlYdmJeWC9bPMc4wtbPncsxq0a3v12YK4k+rxThLgXAF9wE9XMF6o4ESDy1Cd57xFD0+3hTM8LrMhRUlOBroR7Gfj5ymJ2a0Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IlxrnW+C; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780927942; c=relaxed/simple;
+	bh=DkilVGjZZ8mH36mHs2ezpNM/hCSxFlcR8Se6qRGtt6U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L20AVL3f0QICL+PoyZV8mTy4oxse1oP8ZeocD6zgVTyz9agRzcGODv7Q/s4h/qglC94VZ5LkP4bYqlD3LLQOe5t6n1XMTMY29hvfrCOCf6LVmPsseXcwGeFLHtPLb4he8WBasX5j3jOFuVgKz9vuaANNMys0UtjRbuK7Zygqyn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=STvMYlEQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IlxrnW+C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FA821F00893;
-	Mon,  8 Jun 2026 13:54:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="STvMYlEQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC47B1F00898;
+	Mon,  8 Jun 2026 14:12:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780926883;
-	bh=4PPooc47SIssOsjr6WACf48tzTHmuEGMUIVbnC1Md0Q=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=IlxrnW+C5YcgwlKbYNcFe9m6H74VC+rTgM7x6B2uh/TBqD3A3gtmmbOxy1QK8VYZF
-	 5vlUCAqgkaZUfOS/yD1gdirKyVXCAnjB+ZY3mOBTns7FNmJYivj74GMS9gBIrzGJSN
-	 WrMjdOX0Elw7nbaTLGieq8W+F8LRfago0Q1eS9ExMeJnvzAxojxHTBxFboGkKHt7Ck
-	 Np+tfDyS265ajaLGDMgLiGOzfcSkf7QiId5steaSiziL8BwgLl63Hjz2Ek8I6IXxMe
-	 SK2fdyq0By1532JyrqVhePqTw8FkFk+o0zCru4fHB8lggijpOJcwCvRz+YdQLrPPA2
-	 RaRYE+wGmuw7g==
-From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, 
- linux-sound@vger.kernel.org, andriy.shevchenko@linux.intel.com
-In-Reply-To: <20260603085827.1964796-1-cezary.rojewski@intel.com>
-References: <20260603085827.1964796-1-cezary.rojewski@intel.com>
-Subject: Re: [PATCH v3 0/7] ASoC: Intel: catpt: Code cleanup
-Message-Id: <178058884333.53724.12410643514620540112.b4-ty@b4>
-Date: Thu, 04 Jun 2026 17:00:43 +0100
+	s=k20260515; t=1780927941;
+	bh=OEBUB4frnuV0v1syjChJn+9M/EhF9VBLynr6hUTAR6o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=STvMYlEQaY6lXysPYA7cehtnajVaPWxctTuFBoASfyo/xlZBZlyWvfa88ipFBnn4D
+	 D7EQ/QRH58XNGZDAQ4LhC3aZrvftt0k41y+/Og76HMhPegtby6s2m+kVkDSuPlk+b7
+	 9+GG6AOc7zkJ6fofN/5tuY9NZ+0qQTKA4FFJSbRAhl5k3WbCbwkmuKIzBPnUMJdMDV
+	 18yzD7y7bP6P0U8qqXWQsERy/kDsYiib6p64piD7H8yqYrO5gxNjCMG65xnhGA4Cel
+	 zizD7Xlj92iQqNXrNajiscyBGd1AZeT98DGzeIJdaSd3b8xPfyHLuabW28nvO1qXM3
+	 LoY76NCp2CEuA==
+Date: Mon, 8 Jun 2026 09:12:20 -0500
+From: Rob Herring <robh@kernel.org>
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	"lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+	"magnus.damm" <magnus.damm@gmail.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"john.madieu@gmail.com" <john.madieu@gmail.com>,
+	"geert+renesas@glider.be" <geert+renesas@glider.be>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	"broonie@kernel.org" <broonie@kernel.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: sound: renesas,r9a09g047: Fix
+ dma-names and ports schema
+Message-ID: <20260608141220.GA2500736-robh@kernel.org>
+References: <20260605200526.683577-1-john.madieu.xa@bp.renesas.com>
+ <178069496769.286078.10840905064274842451.robh@kernel.org>
+ <TY6PR01MB17377F8945B85671FCD20B83DFF1F2@TY6PR01MB17377.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2331; i=broonie@kernel.org;
- h=from:subject:message-id; bh=ilFxC0H6O6u611nSKHK6oBMJMWs5ipeUicuMUc1Ms7Q=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqJsmhPdu2AH+EV5GlziQFh0df0Q9zbcFirX4Ix
- MJU8Vdr7JGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaibJoQAKCRAk1otyXVSH
- 0CqhB/9upk4tJMuwlcnRL8lfU3mOAW0+YypD7wJ0IsVun7kQroR6ZOZrgC0W/31JIJ19WcO7slD
- r4bAcM+7XAFCPZRBptbSs2MxdhpjTq8Hs10jJoUtO3pQwhtUARKQOACowaNitv/Le2plzOqzapB
- cZdzuTVDTrLK1m9KYhtI51E/qJAjakOHP5+pxAll0UEUQ/N0fN/eZLyNLMZH+rs7/6T1anig/d7
- QHmKwOwsptLiFr2T8TfKVHR9y+ErlSKwEYZrtSEwsf4Mfj5naMjuk4WhgcwFQ50dXpt4I+wjz3T
- W+n9lGE2wIjojxfiBOVbkt3jsnF3wM/Tzb3tYDOvnjQblfC/
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TY6PR01MB17377F8945B85671FCD20B83DFF1F2@TY6PR01MB17377.jpnprd01.prod.outlook.com>
 
-On Wed, 03 Jun 2026 10:58:20 +0200, Cezary Rojewski wrote:
-> ASoC: Intel: catpt: Code cleanup
+On Sun, Jun 07, 2026 at 08:50:49PM +0000, John Madieu wrote:
+> Hi Rob,
 > 
-> All of the changes found here are cleanups and from functional
-> perspective, have no impact - either unused code is being removed or
-> existing code is altered to use helpers/macros to improve readability.
+> Thanks for your review.
 > 
-> Collateral of recent fixes [1].  There is one more patchset with similar
-> goal following this one.  Before the team managed to actually fix the
-> problem, a number of changes were added to make the code easier to
-> understand for people who are not the author (me).
+> > -----Original Message-----
+> > From: Rob Herring (Arm) <robh@kernel.org>
+> > Sent: Freitag, 5. Juni 2026 23:29
+> > To: John Madieu <john.madieu.xa@bp.renesas.com>
+> > Subject: Re: [PATCH v2] ASoC: dt-bindings: sound: renesas,r9a09g047: Fix
+> > dma-names and ports schema
 > 
 > [...]
+> 
+> > >
+> > >  .../sound/renesas,r9a09g047-sound.yaml        | 100 +++++++++---------
+> > >  1 file changed, 50 insertions(+), 50 deletions(-)
+> > >
+> > 
+> > My bot found errors running 'make dt_binding_check' on your patch:
+> > 
+> > yamllint warnings/errors:
+> > 
+> > dtschema/dtc warnings/errors:
+> > /builds/robherring/dt-review-
+> > ci/linux/Documentation/devicetree/bindings/sound/renesas,r9a09g047-
+> > sound.example.dtb: sound@13c00000 (renesas,r9a09g047-sound):
+> > ports:port@0:endpoint:capture:0: [6, 7, 8] is too long
+> > 	from schema $id:
+> > http://devicetree.org/schemas/sound/renesas,r9a09g047-sound.yaml
+> > /builds/robherring/dt-review-
+> > ci/linux/Documentation/devicetree/bindings/sound/renesas,r9a09g047-
+> > sound.example.dtb: sound@13c00000 (renesas,r9a09g047-sound):
+> > ports:port@0:endpoint:playback:0: [3, 4, 5] is too long
+> > 	from schema $id:
+> > http://devicetree.org/schemas/sound/renesas,r9a09g047-sound.yaml
+> 
+> This is the 'items: maxItems: 1' I added on playback/capture per your v7
+> Comment [1] on the original audio driver series. These phandles point at
+> the ssi-N/src-N/dvc-N sub-nodes, which aren't specifier providers and
+> have no #*-cells, so the list isn't split per-entry and the constraint
+> trips.
+> 
+> Would you prefer I drop it and keep them as a bare phandle-array, as
+> renesas,rsnd.yaml does, or is there a form you'd rather see here?
 
-Applied to
+The problem lies in renesas,rsnd.yaml having no constraints. That 
+should have the same constraints. However, you really shouldn't be 
+redefining these properties again here, but refactor whatever is common 
+into a common schema.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+I suppose for fixing the rest of the issues, you can drop 'items: 
+maxItems: 1' constraint on this patch and address that separately.
 
-Thanks!
-
-[1/7] ASoC: Intel: catpt: Utilize lock-guard helper
-      https://git.kernel.org/broonie/sound/c/36685d0b05d9
-[2/7] ASoC: Intel: catpt: Replace RAM-helpers with resource_xxx()
-      https://git.kernel.org/broonie/sound/c/a88cd88eee75
-[3/7] ASoC: Intel: catpt: Simplify the RAM-navigation code
-      https://git.kernel.org/broonie/sound/c/fa55ad6079b0
-[4/7] ASoC: Intel: catpt: Simplify catpt_stream_find()
-      https://git.kernel.org/broonie/sound/c/f40e7873cd85
-[5/7] ASoC: Intel: catpt: Remove unused WAVES controls
-      https://git.kernel.org/broonie/sound/c/89f7afd3e26e
-[6/7] ASoC: Intel: catpt: Drop manipulation of the obsolete direction flag
-      https://git.kernel.org/broonie/sound/c/f95ac7d0c7bd
-[7/7] ASoC: Intel: catpt: Cleanup components_kcontrols[]
-      https://git.kernel.org/broonie/sound/c/06152e336861
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Rob
