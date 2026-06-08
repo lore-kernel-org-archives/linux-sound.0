@@ -1,134 +1,67 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D89235E1C5;
-	Mon,  8 Jun 2026 07:03:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBF6399CF5;
+	Mon,  8 Jun 2026 08:07:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780902187; cv=none; b=JHsmTzwMvt3HA1MonoQjbz4f46vJZQ0JF5oYfcA5uf1hdTk57oz3E29m7ggZTdzkXiICt1rC3MOWdncRnyA/YFif0fqW1pZNfN5ZescKdpI0/8RsNjxV/QuvevMwLhGHmNWdzr8chKOV3WS/RNfnK5Xk3u+0Tq2/fSBOeNptVKY=
+	t=1780906065; cv=none; b=YNndCmjFqElfhZqOaGfNw7XausBZktH2Gb4OiyerfES5Qed59LmmLhNCVPzpZYEfzNg24gUfCkfSZRHdZyrQtNtcgqbxgBMUpAIcXtXrf7VE0RfWFX8LPYyu8AqbQyC9EX0cwDZh9wzogBVGpgyQCIR+sh8Yp9yG+/m2X1oQq8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780902187; c=relaxed/simple;
-	bh=/EV8js+2v8OzyEkyzphqS7BgoRmZaabHmg7vtIFY5t8=;
+	s=arc-20240116; t=1780906065; c=relaxed/simple;
+	bh=eEf58wVHdRuUO/Hskq0T4UR/B7ICRR2BGeZ5Y5irEZ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rKEv80/br3FXob8jYeqyjObK6o3gMLBqtwurQeIJKK7qKryUPrIGtaHfVzjyrD23NZdE+sAR32v3QU94mIsGF9EhqKS1hsoYBgF3XYDh0AFcd7DZbMGz89rvtf5ukTLoLvuelrJZkYOs3Ycb0WlaBA6Z/3RMRCusZaut1UCHhug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ds8FYyBn; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=mpdmTBb9Bl4opiq4KNRaH8+V/UpTcDHgOqvp2V2pOKhvvQ56ky3PPARssPqWPm6x3L27ZFKUnc7GvgZbunBj9bj7KiXQlqhJMCtwr8JDdQZ8+N3oGW5uW1bYSPVYLmSoxYm+ahlFO8z+4nkvIcRhzM+A2H6dX0iEp6CX0CFVWlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IYiUszw6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ds8FYyBn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 980A31F0089A;
-	Mon,  8 Jun 2026 07:03:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IYiUszw6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31A631F00893;
+	Mon,  8 Jun 2026 08:07:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780902185;
-	bh=10dFrUC/6z32jGP8zynGCsubM/uQN+Pn4UzSAjajejM=;
+	s=k20260515; t=1780906064;
+	bh=nEyq2RLHjc1mBNuhUMfnxj06UNEfpzy+ame2str7MMo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ds8FYyBnv2B771u4jaYArIjXJx5UpC1WUxFyjTQDVhtf+l1qYyu5NwqVY+oOzuc6C
-	 YgqUxqU4gV2VnsPffdjORqDHElM1kd63ltUYUyVdF4TYaUEWtF2JD2pU6poVM1ArWL
-	 lMUinVJ6futH/7sdnAjzkFIuaCbufZx8fG+uk80ePL2EOH8cH49KxCDKv1sJ8txsUy
-	 Qpsb63Y/49p0ZHrtiY6ZwtKegiVpiUrgHwkrzV4CAq0F0zJwJnRUTZXAStb/+L2/kr
-	 FA/3lev2TYsrVndJqyIIwBECwbTBWrmYCkIgZRjk+HnLbC8Mzg1CGk5xkLhbQhHDnH
-	 KQOX+wjtpEfGA==
-Received: from johan by xi.lan with local (Exim 4.99.3)
-	(envelope-from <johan@kernel.org>)
-	id 1wWU0k-00000000LzQ-1V0O;
-	Mon, 08 Jun 2026 09:03:02 +0200
-Date: Mon, 8 Jun 2026 09:03:02 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Lee Jones <lee@kernel.org>,
-	Mark Brown <broonie@opensource.wolfsonmicro.com>,
-	Thierry Reding <thierry.reding@avionic-design.de>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Peter Chen <peter.chen@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 08/23] driver core: platform: provide
- platform_device_set_of_node_from_dev()
-Message-ID: <aiZpJkQBXg2pcczy@hovoldconsulting.com>
-References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
- <20260521-pdev-fwnode-ref-v1-8-88c324a1b8d2@oss.qualcomm.com>
- <ah9O15bMlAYgSlHx@ashevche-desk.local>
- <aiK-EXwp_xhcbty9@hovoldconsulting.com>
- <aiLi0KZskrCyEYO5@ashevche-desk.local>
+	b=IYiUszw6Bwhonk0Bqe4kZxEpzYYtOw4z2OAijXRCIbUdXT/nJg0ImRIJMDOZ7xO5D
+	 PtLikCyk61G61Aw6pTlSdCZuM0uZbQOMzSklICjtHRCrBLLA3HKHeOASyeVkPykSIm
+	 jdj2NCeT114IP0IRJwCcG3imyYa+KpNUaJDXbLkxJdyvvwrcHG/76BECs4Yps8RcsO
+	 8QTAdypqgXhcmq7hhEKTjNkCIk1i+1eRY6eLXeNtO+6xm8ZSLylWx0hUPEfoW7PROm
+	 t1IX20/JLqS+JDOfaGGBF3qz46IF5RQMAjTLVphrlug6uVBoNKhnaBnytdu605cZqb
+	 sstu3Kgyt+Y3Q==
+Date: Mon, 8 Jun 2026 10:07:40 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: broonie@kernel.org, tiwai@suse.de, andriy.shevchenko@linux.intel.com, 
+	13916275206@139.com, shenghao-ding@ti.com, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, devicetree@vger.kernel.org, k-yi@ti.com, henry.lo@ti.com, 
+	robinchen@ti.com, will-wang@ti.com, jim.shil@goertek.com, toastcheng@google.com, 
+	chinkaiting@google.com, riyo@ti.com, a0393308@india.ti.com
+Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: ti,tas2781: Add TAS2573 support
+Message-ID: <20260608-tough-light-mayfly-08c7d4@quoll>
+References: <20260602100532.6463-1-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aiLi0KZskrCyEYO5@ashevche-desk.local>
+In-Reply-To: <20260602100532.6463-1-baojun.xu@ti.com>
 
-On Fri, Jun 05, 2026 at 05:53:04PM +0300, Andy Shevchenko wrote:
-> On Fri, Jun 05, 2026 at 02:16:17PM +0200, Johan Hovold wrote:
-> > On Wed, Jun 03, 2026 at 12:44:55AM +0300, Andy Shevchenko wrote:
-> > > On Thu, May 21, 2026 at 10:36:31AM +0200, Bartosz Golaszewski wrote:
-> > > > Provide a platform-specific variant of device_set_of_node_from_dev(). In
-> > > > addition to bumping the reference count of the OF node being assigned,
-> > > > it also assigns the fwnode of the platform device.
-> > > 
-> > > Can we rather investigate the way how to make that of node reuse thingy
-> > > (which is used solely by pin control) differently and then drop this confusing
-> > > device_set_of_node_from_dev() call altogether?
-> > 
-> > No, that call is needed. See commit 4e75e1d7dac9 ("driver core: add
-> > helper to reuse a device-tree node") for details.
+On Tue, Jun 02, 2026 at 06:05:31PM +0800, Baojun Xu wrote:
+> The TAS2573 belongs to the TAS257x device family, featuring an integrated
+> DSP and IV sensing capability.
 > 
-> Bart fixes the problem with the platform driver. At the result this will be
-> the only device_set_node() + 'reused = true'.  As for 'reused' flag, the need
-> is only for pinmux/pin control stuff.
+> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+> ---
+> v2:
+>  - No update.
+> ---
+>  Documentation/devicetree/bindings/sound/ti,tas2781.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
 
-And any other resource which may (eventually) be claimed by driver core
-or bus code.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-> The question here is if there is a better
-> way to make that 'reused' be done automatically without need of setting some
-> flag explicitly.
+Best regards,
+Krzysztof
 
-That's not really relevant to the series at hand.
-
-If this is something we want to merge then you need to continue setting
-the flag in order not to cause regressions.
-
-Johan
