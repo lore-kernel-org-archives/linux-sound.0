@@ -1,110 +1,129 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F473590A9;
-	Mon,  8 Jun 2026 05:56:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B84385D8F;
+	Mon,  8 Jun 2026 06:53:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780898167; cv=none; b=E42eHYMiFtaynLurDFs9e1WpQpmrW1ROCVwdjwNRFsMHomRED3AP/PWOay9gfJOsgBrOaLa/uJek1/Ihkk7lWxbhJg5jxSTzaJdYWDsFSUj9xhP0fNsdgZTMEEefrVYjcFoFkslkXOnrl3V6tZN+gfoODGVhjSThKcySvD6MQ0M=
+	t=1780901584; cv=none; b=q+BmtHPmmo9D5opDdPPCqkRvjtkczTMXOxD6jqD4X3lC/LOB+xpB12hJc9emszrj5VZFUhe7vqbeVtIOpkoNFJNhJO/vXfQVlpUbUQsSpI3svijoOOEUNg2Qc8/7/QREr6Ol/dEZppI79Hvm3SHwh4mvzARASkRM9oeBRVfOHjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780898167; c=relaxed/simple;
-	bh=0MdKOXRySoGARuPpCuOczIDb+WVwxAcv6j9Yr+cjKRA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NcUBFLhCQNn7CRrT8uK9CIEerCLjWstwJUtc+PubI8Z8/5sYW/ZfNuVuz0hy0Fzs2mup4iD/ObDMxUwwaO0nFmbz1ptw/ER5jRM/MJhYGl2L9CcsCOFV9iBL6Z+DWCSFl5DK+00tVwGPbPKj9wIccdh1iXQ46qUOMpuZGwFwrLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oTLEsb7E; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780901584; c=relaxed/simple;
+	bh=/i0oSk0OKgLBWCqcsuxynAGu+4KYjigz39mykr2/kUo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l7ETRd7LVwS3zhYLnnL+YzvpB/6I+MfC3HB0+WHziSnh+RM8L1Mk0Y+/m4O4MfYHimYznZYIWA2tKfhJmGZMtyUXsvgAVCdodcZetyBLdC7uEQaO1p9bHIJHZ47cq24SI7auUE0Ynq3si8TZtdfl2OtOp8Sfjox1044t6xRcsFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L1813wxY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oTLEsb7E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CE061F00893;
-	Mon,  8 Jun 2026 05:56:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L1813wxY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC2AF1F00893;
+	Mon,  8 Jun 2026 06:53:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780898166;
-	bh=6tTBHhwnLy48LiDCb4fczQwpX7BSRsJ3hkvOsxaWUbQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=oTLEsb7EE3B35cg5dziOrLCNlD/+xoFSKHn9s4Yuvob0WV4BSru84skz6uIrcWEJv
-	 JrrFnHlRKlzT6GtkgDlhndHve9Nf6Um4HOqPNo430WbdGTVdMQKZ6V0A67Miqv4t7j
-	 idotGAKg4hE05FXigEK66u3PGMKTGoUgIe4ptQjVxvDM/9W75w4+qeDgT8+a4OqMXe
-	 RgNNyutar610xBq3koc+Lp/7G+ECGso8DkaydAyJDGjububoSkywBP1XJ7bB8MNc4e
-	 eYShytXK90umG1pBLzuESPmfBkSYCUlRbu0wqW2UL/FmxHHRfyxRmTRRWJYo2vpDFt
-	 rLAR+HvPCAN3g==
-From: Vinod Koul <vkoul@kernel.org>
-To: Frank.Li@kernel.org, lgirdwood@gmail.com, broonie@kernel.org, 
- perex@perex.cz, tiwai@suse.com, biju.das.jz@bp.renesas.com, 
- prabhakar.mahadev-lad.rj@bp.renesas.com, p.zabel@pengutronix.de, 
- geert+renesas@glider.be, kuninori.morimoto.gx@renesas.com, 
- long.luu.ur@renesas.com, Claudiu Beznea <claudiu.beznea@kernel.org>
-Cc: claudiu.beznea@tuxon.dev, dmaengine@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, 
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20260526084710.3491480-1-claudiu.beznea@kernel.org>
-References: <20260526084710.3491480-1-claudiu.beznea@kernel.org>
-Subject: Re: [PATCH v6 00/18] Renesas: dmaengine and ASoC fixes
-Message-Id: <178089816101.15844.5628352417869771177.b4-ty@kernel.org>
-Date: Mon, 08 Jun 2026 11:26:01 +0530
+	s=k20260515; t=1780901583;
+	bh=havdYnCEiwh5vTCKe1DHbkaoT5AWDXTLJ1Y7Ln7iWgw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=L1813wxYCSG23bMqgH0ctBCaj9Bpvn+Mzei1rNqsq0WCcwGOsXm6XM2KGxAXsFIYY
+	 PNDm8BVVIy+mxZVPKU4wVu6h4p0KPjoC1XxutYgkz/tkmmhAG8rVrOOKTNPIdmEki7
+	 ZhxSUdrBlMWLeL8QBDbyNq9XDMsiOMNBfZ2GhLV/YwyVuA/eN004Tel/YWmS0caTVI
+	 1Ki3J3QunXEpB3QhQYJVMtlF0mA4AxTKTG00ZLd+5TQtr+P/xrxmp+UI8GKHBADra+
+	 51Vuz5yLHqFvIOweKB/4wkDinKL1buqvy1wE9fbYOVn6sWyc24920VQdY8amOd7RLf
+	 3b6jOlh5wB1iw==
+Received: from johan by xi.lan with local (Exim 4.99.3)
+	(envelope-from <johan@kernel.org>)
+	id 1wWTr1-00000000Lrw-2QFM;
+	Mon, 08 Jun 2026 08:52:59 +0200
+Date: Mon, 8 Jun 2026 08:52:59 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Lee Jones <lee@kernel.org>,
+	Mark Brown <broonie@opensource.wolfsonmicro.com>,
+	Thierry Reding <thierry.reding@avionic-design.de>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Peter Chen <peter.chen@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 22/23] reset: rzg2l: use
+ platform_device_set_of_node_from_dev()
+Message-ID: <aiZmy1lxcYzMF78e@hovoldconsulting.com>
+References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
+ <20260521-pdev-fwnode-ref-v1-22-88c324a1b8d2@oss.qualcomm.com>
+ <6af284545729f03a60d06479339862a2f08c6b7e.camel@pengutronix.de>
+ <ah9QtExF2rUUTMNo@ashevche-desk.local>
+ <aiK-qZqpuC-OEigf@hovoldconsulting.com>
+ <aiLjE0SLwrDytyw0@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aiLjE0SLwrDytyw0@ashevche-desk.local>
 
-
-On Tue, 26 May 2026 11:46:52 +0300, Claudiu Beznea wrote:
-> This series addresses issues identified in the DMA engine and RZ SSI
-> drivers.
+On Fri, Jun 05, 2026 at 05:54:11PM +0300, Andy Shevchenko wrote:
+> On Fri, Jun 05, 2026 at 02:18:49PM +0200, Johan Hovold wrote:
+> > On Wed, Jun 03, 2026 at 12:52:52AM +0300, Andy Shevchenko wrote:
+> > > On Tue, Jun 02, 2026 at 10:24:41AM +0200, Philipp Zabel wrote:
+> > > > On Do, 2026-05-21 at 10:36 +0200, Bartosz Golaszewski wrote:
 > 
-> As described in the patch "dmaengine: sh: rz-dmac: Set the Link End (LE)
-> bit on the last descriptor", stress testing on the Renesas RZ/G2L SoC
-> showed that starting all available DMA channels could cause the system
-> to stall after several hours of operation. This issue was resolved by
-> setting the Link End bit on the last descriptor of a DMA transfer.
+> ...
 > 
-> [...]
+> > > > > -	device_set_of_node_from_dev(&vdev->dev, dev);
+> > > > > +	platform_device_set_of_node_from_dev(vdev, dev);
+> > > 
+> > > Same Q here, why it uses inherited call? Cargo cult?
+> > > 
+> > > 'reused' flag is solely pin control (provider!) thingy as far as I remember.
+> > 
+> > No, it's needed for pin control *consumers*, which can be any device,
+> > and potentially any other resource managed by driver core or bus code.
+> 
+> Why don't we set it for every pin control consumer automatically?
 
-Applied, thanks!
+It must only be set on the second (child) one to prevent driver core
+from trying to acquire resources already claimed by the parent.
 
-[01/18] dmaengine: sh: rz-dmac: Move interrupt request after everything is set up
-        commit: 731712403ddb39d1a76a11abf339a0615bc85de7
-[02/18] dmaengine: sh: rz-dmac: Fix incorrect NULL check for list_first_entry()
-        commit: 5fbf3a2a3b96ef5810e6e0fbc601f82067629bc5
-[03/18] dmaengine: sh: rz-dmac: Use list_first_entry_or_null()
-        commit: 89975baaa9ea2490b75d69842561a32ca888b7e5
-[04/18] dmaengine: sh: rz-dmac: Use rz_dmac_disable_hw()
-        commit: 38d4d021228386b8e3fbef2bca5f1e91eacd4fe6
-[05/18] dmaengine: sh: rz-dmac: Add helper to compute the lmdesc address
-        commit: 32a69f1487819766d2084ed32b1350b18f971c10
-[06/18] dmaengine: sh: rz-dmac: Save the start LM descriptor
-        commit: e21aa306e82067457f2297ae56af4c91db86c59a
-[07/18] dmaengine: sh: rz-dmac: Add helper to check if the channel is enabled
-        commit: 7a94c109a5def4f0f25705a82ed5870f794ff4ed
-[08/18] dmaengine: sh: rz-dmac: Add helper to check if the channel is paused
-        commit: 1dddc864dfa844efaf36345eb58b121b2cdffa5f
-[09/18] dmaengine: sh: rz-dmac: Use virt-dma APIs for channel descriptor processing
-        commit: daa6d4617bee722e83f7d8584416e83b709c958a
-[10/18] dmaengine: sh: rz-dmac: Refactor pause/resume code
-        commit: dc86e47ca9b1021e258c366a5a9aa15d71c814a5
-[11/18] dmaengine: sh: rz-dmac: Drop the update of channel->chctrl with CHCTRL_SETEN
-        commit: e8baee1d1cddc8e2be7bc362d6dc3fcb2021e873
-[12/18] dmaengine: sh: rz-dmac: Add cyclic DMA support
-        commit: 172bfb57481c65fcc94ebcae3a730f6df2f953d4
-[13/18] dmaengine: sh: rz-dmac: Adjust rz_dmac_chan_get_residue() to return error codes
-        commit: 16ba40151b1e6a52b28296a2173457bc6c31f022
-[14/18] dmaengine: sh: rz-dmac: Add runtime PM support
-        commit: 7c27a4d54d48d0774518390e4ce6cf3309aac141
-[15/18] dmaengine: sh: rz-dmac: Add suspend to RAM support
-        commit: c13ce43e70719dead7009e7e708971ba1c447568
-[16/18] ASoC: renesas: rz-ssi: Add pause support
-        commit: b4d34819a53964648bc53cabaa3ba9890d4fdf9c
-[17/18] ASoC: renesas: rz-ssi: Use generic PCM dmaengine APIs
-        commit: 9fcaec81ac56c9d2c5d779ffb5a76b622b4d0590
-[18/18] dmaengine: sh: rz-dmac: Set the Link End (LE) bit on the last descriptor
-        commit: cd2d36e8ae61832aaac3bddf5aafdab72821e6b9
+Setting it on both would break things.
 
-Best regards,
--- 
-~Vinod
-
-
+Johan
