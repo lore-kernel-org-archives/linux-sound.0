@@ -1,66 +1,66 @@
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA9234AB0B
-	for <linux-sound@vger.kernel.org>; Mon,  8 Jun 2026 13:39:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF7A37BE86
+	for <linux-sound@vger.kernel.org>; Mon,  8 Jun 2026 13:39:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780925984; cv=none; b=lKVshn4JBT4GQY1pbL5GyECpYzJz0KlssRDbfPGNfzO8Ag5ETEVarZzHDDT9lZsbQ3oH8bFbfzPfQBbGTmLSQ3+dVyVvUVzkZJO64vBuOJghmjipp2H2x7A/oEYtc4dw8MVr7Djd2PSVjDZEvCOHQ6/YfrugPMVuqJ9t7AO64JQ=
+	t=1780925990; cv=none; b=q1qesU+A9bSSr7gCYKStClm7qXnK3VM1tz9FPcgj8Ev5AzbKKy0dVuvCUT2d11WwkwxVv9UuDhgboJ38yEmiEu1fkLqqwedbLhQ83CbvXBDtiIgjvUDDyMitwiM4feCps8tPYuyoojeovYdmE+Zws5nTU41IVq/UDBzKXMWnoZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780925984; c=relaxed/simple;
-	bh=C7dxKdcgfrcYjsHEoKJuUHkSmi5vz3fglU2QYjaF3mU=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=gKbgqneOSvozGINOrzgKu47t1dJuFEkd/FTHEXpN91nGj50ThylN06Yj+wCe29MG2GiOwWBTWtkBEapnFL2dstzs+B1YJXXegv2Hm/DPfqN51+Q3ndH2Td6BG4EJOBz1w1YPFrUhh3DegEB/Mjrb/LX2FY12FpnELcxROYzYHkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i/Hhfx+5; arc=none smtp.client-ip=74.125.82.173
+	s=arc-20240116; t=1780925990; c=relaxed/simple;
+	bh=Fku3y1CGF4nhcunbUPtMiClanJb89VvqUuwkh2+knqc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=elPbcHk0hZV/DTl0MME0d9JfM9oZ5wlMs+jqsMuoKUlb4OBNqUZVhPwCmJUQmqbkD0R4OCFQvJ3FxO0t+7ouMrXvrNmxXlPeHyNetsks/xx06StiOkMR+A2soNXFubyi4tKSFXiGkMCFaeTt9hxk67C3jdA3TFB+T28smkJe7NY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=soPQGuAj; arc=none smtp.client-ip=74.125.82.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i/Hhfx+5"
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-30749947917so762608eec.1
-        for <linux-sound@vger.kernel.org>; Mon, 08 Jun 2026 06:39:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="soPQGuAj"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-304fb780deaso4226154eec.1
+        for <linux-sound@vger.kernel.org>; Mon, 08 Jun 2026 06:39:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780925982; x=1781530782; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cnPr0God56443aVBHA2GEm21wYZNNjULBNiCWm5g3cg=;
-        b=i/Hhfx+5RnNHlTRYf2EW5qjCH77f3dxchZZ8PDi449of7KDyD+BYCjJshJhpvo5UtT
-         Obwf/y0CtWUKwcMnQme0oWwyxsSSa2kUvMV+qcOTPTijMD4XQ7HTMPKh0vOMWqBQphBK
-         7jyjlxJwrhxiSbI5/YNVUhC4gLe/fU6YKqD9/0lONrBaG+DwvQMTrDzEjoTqvsy8mPeS
-         3GKyuIHVJyIhnL5GzXnwT1I2kV6gvXJrdpTOzw23ZPesKka1eNSIg6dZNpMTL5q3z7Bk
-         SsnSw8KRXqXSZTLT4WQQLwxfRutxkPBvWLS6/JAt7nOBp21/RgMWG/D2UKKyJ2PknAzm
-         9Zvg==
+        d=gmail.com; s=20251104; t=1780925988; x=1781530788; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YBhrbnQZkkDV1+28VAJe073K28r+xjYcWQgKCYCLNoY=;
+        b=soPQGuAj9/yrkCa/JTz0MZfBohNMYiXxWF1wuZyHw0E767AaKJBHEUpFOmzq234XaC
+         /hCegh+6US0IqsecrM7eiRTzGzGsbXFRwDTqv/FIC4mp3QU8tFykEOOpLjk/ISNRQWJY
+         bnNVfCoU1EqOkP7f2VyQm8yXea2cXSas6GrXocyWIk4KdVqZM3iI5ExkGfecSD+n/ztf
+         hHkRY5XDhcXyvZWg4HAHJwE9gbKIdMjcH2k6IDtcZuJ6BYodVA6E5a8ncRb6QBFif8pL
+         Km6Asj8D6wVHL37OFRRw4CBwhp7TdH0haqL+9NqHvXcpEllaeMXGbJzIoEqzKyMh2GFT
+         VSVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780925982; x=1781530782;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cnPr0God56443aVBHA2GEm21wYZNNjULBNiCWm5g3cg=;
-        b=LEFOwuATBOoeLqgHqhVBiwuj98YI+NLFkITpPZjm6qJ3s9qDBfhi+EaABr08OFaCMn
-         i/PkLk9/srC3JsE5s+H494MLjtprP84v+8FRt0Ip0Jx3Ufsv7PLniPFaIOsDg9wsZ4fG
-         gBHTi0tpLO86plEG7m2AiyMfVgUbJhf6fjEHRH6hsen/YxNS060Mp9F0oO/54K2O/etv
-         aXuNhuPBuY+RUmsO27Dg/wYEZxSQfzZa6l6OrbF7YDq7FMtTRxf8bkSvg1APV9a2CtcL
-         e+ibsRtQIIwCGGg1teSALGVisR9xLgBQIdjYbzB/Ne5z+PRhpte3AfIpCb/5CeX1tuB/
-         syTw==
-X-Gm-Message-State: AOJu0Ywv1L2vcGGVgbdi6UuAOalBlJnLu43d4AldwhNsOACUI3st5JsY
-	VUgt8VoEvSVAxq/Jvcwos027dyVm20uM/zBMMOp4R2ngyD+340AVx4CQ
-X-Gm-Gg: Acq92OG1GO/tLFkIbGAdpXW00IBk+FD1aZ98Qkjo3GUf7YgpDuSZQ89DtpxC0aH+nM5
-	hZgRKij7s6aZ7YkAyvIEQp9hUypGAoYCf4eSCbZuLCcZyynp9NgIvsCcitetcPXJl5KE8ytW/Fu
-	HgcX3MeSZQd7HLKxJqfy1XW6E264TOKSk6IuKD94Jxkn2iFdl8zoYY7OSsRJufxXgwjKudk5axL
-	cueSrJ4eJ3e3FHtF1B5rxcY8KcWI0WxYa0jPXWcH9ZqE2JX6GVpzRZittRC8BlFHZAADhP6oR7y
-	d7exL4lkuMVDWOYZvN/X/2nLL4cxy99FUlK97EN5i/R/1aM8IKPN0duB3xfPrfDphRhacxjT1vd
-	61j5b8Ea9pKHp/XHcAD+wnRbC0VI8zWresiLQsXAhdb8d3bh202qi/WUQt4AVjTggzQtXpL/LYr
-	WtRMFG5C1f1FFUVjIKQiLCwlvDCHOT993J0ndbSCiwHFbTTYmTwHV92Z/hPooBm750wxywlzyJ7
-	gdG6RW92GUbJ7fzd2LyKtE=
-X-Received: by 2002:a05:7300:134a:b0:2de:cc07:e99 with SMTP id 5a478bee46e88-3077b357e08mr8719405eec.7.1780925982244;
-        Mon, 08 Jun 2026 06:39:42 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1780925988; x=1781530788;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=YBhrbnQZkkDV1+28VAJe073K28r+xjYcWQgKCYCLNoY=;
+        b=HLA+suKD43xxCwV96zecoxHiUYhVRszu+/pzIdkYlRrYxPlOujyDbzBADvloT1vqSu
+         zXfXlJR9O/kiqHx2hOyvRC9KVzuqUPIcgYuxB0obM+RPhc54aFrh9bVnkPDUMssurgep
+         sY4BivAPK4cbzrZJ2JqwGXRn5CoKDAstodZsqmn+3IrMU2E34qpJauIjzWNbsUVaCGrT
+         8eZv3TZLVrlt/UfcZtBAoA/krsO9yfweNMh2nqzp6kzrNIjgXORWN7HtAk3IG3exQ4Vb
+         1Lwcz2qR4RNrf0PF8ZeUEc31blL1CpbRibD+qvEGPeWec+oNQ7bS6AuA+lZjjBBjxVt+
+         OJ+Q==
+X-Gm-Message-State: AOJu0YxQ26BK0kwXdB2OQWK0Q/INNViYrIukNBrBEWEQjg9WKewfSr+a
+	uN55XUaHmGdDvhIZ4EYqCINtiaqA1QkrxPj7Y4b3LyEIObB1W1Ui8ef4
+X-Gm-Gg: Acq92OHOrtYo0Y7xs0qp8LwO0yYFNNyfX3teUXL8R2+Shfe30buOA5IQ+9UertUXROk
+	9ucfDztn9G9zoDX/wgfN2IgpqQSo/kKAghTf66cG3ukpv5yWQU2vCMgM9R5LLnmksKr90o+klHg
+	YXkhIz4qPCPeusDXA6gKcrQbCnyTNTtyVVtZbzb8KdVziOVj2qrt15uHF68OnhxTQ8pSTvSRXl+
+	IYks8V5I72rhb3tYuaQ6uVF6+m2Mm/oNeirkjmWrZHTQAnhMWgIlvl+ytDiZNGcKikxZwB3jV4j
+	2PlAJ72jUk79MMeBky9X9QjRS61gEVqpPmBg3hrtjACbLCasSal7qVTZMLAOB4zVgcZhKryTgy0
+	fFwus5V4LoCJ+yHg30yL8rE1PP2Q+0snT80NJ1t/5I7OmH9+TBmXE6AuGpVqmJm7IsrZr3vEHBI
+	rVtBwJywyHhMegI5VmSDmW0hRuxGinySEo5W7jAwz2Or908ypqLIkaqY11LGi3INDxZNp3+Umg9
+	1/1H6FXpnxQ2ihJ4D8tTzc=
+X-Received: by 2002:a05:7300:230b:b0:304:2eb0:2726 with SMTP id 5a478bee46e88-3077b22df0fmr7429361eec.25.1780925987987;
+        Mon, 08 Jun 2026 06:39:47 -0700 (PDT)
 Received: from [192.168.1.18] (177-4-161-23.user3p.v-tal.net.br. [177.4.161.23])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074db560d7sm23893449eec.5.2026.06.08.06.39.36
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074db560d7sm23893449eec.5.2026.06.08.06.39.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 06:39:41 -0700 (PDT)
+        Mon, 08 Jun 2026 06:39:47 -0700 (PDT)
 From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Subject: [PATCH 0/3] ASoC: use scoped OF node handling in manual cleanup
- paths
-Date: Mon, 08 Jun 2026 10:39:10 -0300
-Message-Id: <20260608-asoc-of-node-scoped-cleanup-v1-0-9e3ac518dc2e@gmail.com>
+Date: Mon, 08 Jun 2026 10:39:11 -0300
+Subject: [PATCH 1/3] ASoC: qcom: common: use scoped OF node handling
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -69,10 +69,9 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQrCMBAF0KuUWTuQphLRq4iLdPKrEUlCxkqh9
- O6Nunybt5KiRihdupUqPlFjTg39oSN5+HQHx9BM1lhnnOnZaxbOE6ccwCq5ILC84NNcOAwjhnC
- 2J7gjtaFUTHH57dfb3zqPT8j7W9K27fe7jI5/AAAA
-X-Change-ID: 20260601-asoc-of-node-scoped-cleanup-d3be3d927e64
+Message-Id: <20260608-asoc-of-node-scoped-cleanup-v1-1-9e3ac518dc2e@gmail.com>
+References: <20260608-asoc-of-node-scoped-cleanup-v1-0-9e3ac518dc2e@gmail.com>
+In-Reply-To: <20260608-asoc-of-node-scoped-cleanup-v1-0-9e3ac518dc2e@gmail.com>
 To: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>, 
  Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
  Jaroslav Kysela <perex@perex.cz>, Herve Codina <herve.codina@bootlin.com>, 
@@ -85,47 +84,150 @@ Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, notify@kernel.org, 
  =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1305;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4019;
  i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=C7dxKdcgfrcYjsHEoKJuUHkSmi5vz3fglU2QYjaF3mU=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDFlqxwQnzt4WfWDffoev+vtuCZqdWzUp9H6gV9CW54d/7
- FH14zsU2FHKwiDGxSArpsiyOmmR5Z6uB1fr41Z4wMxhZQIZwsDFKQATufyH4b9jiF7l3Ih1zPta
- 2D3jXs60qw3Yw7HjVMCsY3eufWo4pa7H8M9g56/tC5oEE5myWILa59V1Oebwxm7e8PT34faaH0u
- MtjAAAA==
+ bh=Fku3y1CGF4nhcunbUPtMiClanJb89VvqUuwkh2+knqc=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDFlqxySsmP6Uc+po3Tn/8kP/s2fH8w/HHkoXC4xxXeCRb
+ /CAZ39pRykLgxgXg6yYIsvqpEWWe7oeXK2PW+EBM4eVCWQIAxenAEzk1y+GPxwrOKKqzBacSJxt
+ 9/tcgR5Dgp68lparbeMO/TVCrQstljMynC35KmN89b1HxdbVHh9ufDaRTzlueZRld/yU+ZP/P/X
+ ewwAA
 X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
  fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-Some ASoC drivers still manually release child OF nodes
-when leaving child-node iteration loops early.
+qcom_snd_parse_of() manually drops the link child node and the
+cpu/platform/codec child nodes on error paths and at the end of each
+iteration.
 
-Convert these focused cases to scoped OF node cleanup
-so early returns and normal loop exits keep the same node
-lifetime handling without explicit of_node_put() calls.
-
-- Patch 1 updates qcom_snd_parse_of() to use
-  for_each_available_child_of_node_scoped() for link nodes and
-  __free(device_node) for temporary cpu/platform/codec child nodes.
-- Patch 2 updates fsl_qmc_audio to use
-  for_each_available_child_of_node_scoped() for DAI child-node parsing.
-- Patch 3 updates cygnus-ssp to use
-  for_each_available_child_of_node_scoped() for SSP child-node parsing.
+Use for_each_available_child_of_node_scoped() for the link node and
+__free(device_node) for the named child nodes. This keeps the existing
+ownership rules for DAI component phandle references, while removing the
+manual cleanup labels from a path that has previously needed OF refcount
+fixes.
 
 Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
-Cássio Gabriel (3):
-      ASoC: qcom: common: use scoped OF node handling
-      ASoC: fsl: fsl_qmc_audio: use scoped child node loop
-      ASoC: bcm: cygnus: use scoped child node loop
+ sound/soc/qcom/common.c | 47 +++++++++++++++--------------------------------
+ 1 file changed, 15 insertions(+), 32 deletions(-)
 
- sound/soc/bcm/cygnus-ssp.c    | 10 ++++-----
- sound/soc/fsl/fsl_qmc_audio.c |  7 ++-----
- sound/soc/qcom/common.c       | 47 ++++++++++++++-----------------------------
- 3 files changed, 21 insertions(+), 43 deletions(-)
+diff --git a/sound/soc/qcom/common.c b/sound/soc/qcom/common.c
+index cf1f3a767cee..edc4611691f7 100644
+--- a/sound/soc/qcom/common.c
++++ b/sound/soc/qcom/common.c
+@@ -25,10 +25,6 @@ static const struct snd_soc_dapm_widget qcom_jack_snd_widgets[] = {
+ 
+ int qcom_snd_parse_of(struct snd_soc_card *card)
+ {
+-	struct device_node *np;
+-	struct device_node *codec = NULL;
+-	struct device_node *platform = NULL;
+-	struct device_node *cpu = NULL;
+ 	struct device *dev = card->dev;
+ 	struct snd_soc_dai_link *link;
+ 	struct of_phandle_args args;
+@@ -82,12 +78,10 @@ int qcom_snd_parse_of(struct snd_soc_card *card)
+ 	card->num_links = num_links;
+ 	link = card->dai_link;
+ 
+-	for_each_available_child_of_node(dev->of_node, np) {
++	for_each_available_child_of_node_scoped(dev->of_node, np) {
+ 		dlc = devm_kcalloc(dev, 2, sizeof(*dlc), GFP_KERNEL);
+-		if (!dlc) {
+-			ret = -ENOMEM;
+-			goto err_put_np;
+-		}
++		if (!dlc)
++			return -ENOMEM;
+ 
+ 		link->cpus	= &dlc[0];
+ 		link->platforms	= &dlc[1];
+@@ -98,32 +92,33 @@ int qcom_snd_parse_of(struct snd_soc_card *card)
+ 		ret = of_property_read_string(np, "link-name", &link->name);
+ 		if (ret) {
+ 			dev_err(card->dev, "error getting codec dai_link name\n");
+-			goto err_put_np;
++			return ret;
+ 		}
+ 
+-		cpu = of_get_child_by_name(np, "cpu");
+-		platform = of_get_child_by_name(np, "platform");
+-		codec = of_get_child_by_name(np, "codec");
++		struct device_node *cpu __free(device_node) =
++			of_get_child_by_name(np, "cpu");
++		struct device_node *platform __free(device_node) =
++			of_get_child_by_name(np, "platform");
++		struct device_node *codec __free(device_node) =
++			of_get_child_by_name(np, "codec");
+ 
+ 		if (!cpu) {
+ 			dev_err(dev, "%s: Can't find cpu DT node\n", link->name);
+-			ret = -EINVAL;
+-			goto err;
++			return -EINVAL;
+ 		}
+ 
+ 		ret = snd_soc_of_get_dlc(cpu, &args, link->cpus, 0);
+ 		if (ret) {
+ 			dev_err_probe(card->dev, ret,
+ 				      "%s: error getting cpu dai name\n", link->name);
+-			goto err;
++			return ret;
+ 		}
+ 
+ 		link->id = args.args[0];
+ 
+ 		if (link->id >= LPASS_MAX_PORT) {
+ 			dev_err(dev, "%s: Invalid cpu dai id %d\n", link->name, link->id);
+-			ret = -EINVAL;
+-			goto err;
++			return -EINVAL;
+ 		}
+ 
+ 		if (platform) {
+@@ -132,8 +127,7 @@ int qcom_snd_parse_of(struct snd_soc_card *card)
+ 					0);
+ 			if (!link->platforms->of_node) {
+ 				dev_err(card->dev, "%s: platform dai not found\n", link->name);
+-				ret = -EINVAL;
+-				goto err;
++				return -EINVAL;
+ 			}
+ 		} else {
+ 			link->platforms->of_node = link->cpus->of_node;
+@@ -144,7 +138,7 @@ int qcom_snd_parse_of(struct snd_soc_card *card)
+ 			if (ret < 0) {
+ 				dev_err_probe(card->dev, ret,
+ 					      "%s: codec dai not found\n", link->name);
+-				goto err;
++				return ret;
+ 			}
+ 
+ 			if (platform) {
+@@ -167,10 +161,6 @@ int qcom_snd_parse_of(struct snd_soc_card *card)
+ 
+ 		link->stream_name = link->name;
+ 		link++;
+-
+-		of_node_put(cpu);
+-		of_node_put(codec);
+-		of_node_put(platform);
+ 	}
+ 
+ 	if (!card->dapm_widgets) {
+@@ -179,13 +169,6 @@ int qcom_snd_parse_of(struct snd_soc_card *card)
+ 	}
+ 
+ 	return 0;
+-err:
+-	of_node_put(cpu);
+-	of_node_put(codec);
+-	of_node_put(platform);
+-err_put_np:
+-	of_node_put(np);
+-	return ret;
+ }
+ EXPORT_SYMBOL_GPL(qcom_snd_parse_of);
+ 
 
----
-base-commit: 112b3b39550d94f94eb7e44fd865716835d9aab2
-
-Best regards,
---
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
+-- 
+2.54.0
 
