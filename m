@@ -1,103 +1,98 @@
-Received: from mail-m9358.xmail.ntesmail.com (mail-m9358.xmail.ntesmail.com [103.126.93.58])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4750532FA14;
-	Mon,  8 Jun 2026 02:42:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.126.93.58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84CD2EEE95
+	for <linux-sound@vger.kernel.org>; Mon,  8 Jun 2026 02:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780886580; cv=none; b=bPTkBAmtcFZAZmD/upNpBhSPEVBr0FJ2yF0PyyCuN/il8iSbcYg3WFp79uGdLHbs8NVVMrgUcuyx1hj6jHKUMQVUrzzW9BrBgpYGTHgaaKWvy2+bkOOlNDzuvLgAPH7cgGrmIzSUu9fp6xwU8UwrjWbSs5Sq+Q20hw9i1tbXEq0=
+	t=1780887008; cv=none; b=LCxJJIkhlRlyShqcqSqxhwfOzzIQ8doKrMtIeJFNMcYLim4aUXYL66VLN7BoIZetDNe6MXkwM/hCaGtIFLuLmfhIKGxR6G0h2Ux6dRorLDv+vWchuwat2HOO4CO8OP0GMu9vgjKjG05/7VLN8lyqlpzep48mU2r6P0ibwsJLgtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780886580; c=relaxed/simple;
-	bh=FFHkbWqxP4gtZ0+UM4SSW3ETnpfqxrf4fmpYzQIlMcU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KXA+j+WIpy/4q8HtYTuqUsRw7ic71NBGSAWFYhxrHZF4dT5m8Rzmzp8JMWODoMVyRkuuE1OMKWQJgBBnPKWbhl/UZvRviT6SMWZ0LVZ3VA13mWSLHWofpdOCHpgd/gkJGJxr+Z2MuPF+DW0EY2gAmFyNxaqsaKMR4gUhVcDm3/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=VcS2bmLU; arc=none smtp.client-ip=103.126.93.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
+	s=arc-20240116; t=1780887008; c=relaxed/simple;
+	bh=491fWt55/N2aTx44vs9X6kBKZdkQr3bM+n0tnZ90BXg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G6HFoma+ufgP+qdcKIJULTbtfxZIiW8UKPS6DoOhg4WM5tRiqUBLlSg0kcy1wrno3hLWEGO3MbFbOh1/daneldM54YBATnriKdu18InrjbdOP+s7eAi9CA0Wwy3ZJ31JuU4qArYQpSSzsQpPn+PIOa3DSf3+V3n2coMveNjxpDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=MGTsitXG; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="VcS2bmLU"
-Received: from tsdl-HP-EliteDesk-880-G6-Tower-PC.. (unknown [36.129.139.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 416e8806b;
-	Mon, 8 Jun 2026 10:42:46 +0800 (GMT+08:00)
-From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-To: dmitry.baryshkov@oss.qualcomm.com
-Cc: andersson@kernel.org,
-	broonie@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	drake@endlessm.com,
-	hongyang.zhao@thundersoft.com,
-	katsuhiro@katsuster.net,
-	konradybcio@kernel.org,
-	krzk+dt@kernel.org,
-	lgirdwood@gmail.com,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	matteomartelli3@gmail.com,
-	mohammad.rafi.shaik@oss.qualcomm.com,
-	perex@perex.cz,
-	robh@kernel.org,
-	srini@kernel.org,
-	tiwai@suse.com,
-	zhoubinbin@loongson.cn
-Subject: Re: [PATCH 4/5] ASoC: qcom: sc8280xp: Add per-card data
-Date: Mon,  8 Jun 2026 10:42:03 +0800
-Message-ID: <20260608024203.3381312-1-hongyang.zhao@thundersoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <t2vwes2xzruqygdjasgi6akwuvephitqbyz3dntiqidbm23bki@uj22cgv72ht5>
-References: <t2vwes2xzruqygdjasgi6akwuvephitqbyz3dntiqidbm23bki@uj22cgv72ht5>
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="MGTsitXG"
+Message-ID: <8b2318ff-d07c-4c2d-9c2d-ef7c5c763096@packett.cool>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
+	s=key1; t=1780886993;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=om3kMyjepA1gbqPe5vEK7VOqgLsCQEKydpPF0v4/Fwc=;
+	b=MGTsitXGrXbEf9LiDSGBLKIMTNZZCYtXzz8LKWu7cOEAhNE3pMzPeHTjJAgORivqI7b2lw
+	GL1nsLfYT4+W0KRhVJiioeeg5sdfGWjL3y5bqlN+CkX8U6wIQCCC/HKjE7KnFkuFZAS6+Q
+	F8R5uEHL+Hh+ljff00x/8rb+0XGfXRM9syD7eX3/GhkuhFvyxaWy8eWKoZc75y4WQ3kMkm
+	q/5SI1m3+2T7qtlgfDLumqLQAf7pV4WFKED6d+5/MOdlYc7+6PN7M0AbT024IQ72ju60ua
+	6v3nYJ3vtsKrlhBVT8lAeumvZQrO8DZAHtX1/Og7N5krHwj5tVr4q1EF8TW2Pg==
+Date: Sun, 7 Jun 2026 23:49:41 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9ea51c749a09d5kunm1fdaa3051d051f
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaT09IVklISR5JQx5MTh1CGVYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
-	lPT09IVUpLS1VKQktLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=VcS2bmLUGJ/5+Wnh1J3UcwBRUvI0f4cEFl0y2PqJdF8nSgkgFSTOxiM/bX2gRPTA3xgk6C/m54ohLqx5XJVWXKklCOqsXhTY7EMTUCDgSFzvDmM3jKFHCm8pmuyqdfFCZBAIHC9fPTc7aVZSNiVbWKRukN3MYTe5DzgnN9Ty2jY=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
-	bh=gomWAGuoJJ3xeyiLoDn5pG81Zg2uv+LzMpwhNWj9oH8=;
-	h=date:mime-version:subject:message-id:from;
+Subject: Re: [PATCH v2 2/3] ASoC: qcom: q6apm-lpass-dais: Add MI2S clock
+ control
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+References: <20260608023011.942228-1-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20260608023011.942228-3-mohammad.rafi.shaik@oss.qualcomm.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Val Packett <val@packett.cool>
+In-Reply-To: <20260608023011.942228-3-mohammad.rafi.shaik@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-> On Sun, Jun 07, 2026 at 02:58:20AM +0800, Hongyang Zhao wrote:
-> > The sc8280xp machine driver currently uses the OF match data only as a
-> > driver name, which makes it difficult to describe board-specific MI2S
-> > codec requirements.
-> > 
-> > Convert the match data to a per-card data structure and add data for
-> > the QCS6490 RubikPi3. The RubikPi3 data configures the ES8316 MI2S DAI
-> > format, MCLK rate, BE hardware parameters and headset jack pins.
-> 
-> Please don't mix refactoring and actual changes in a single patch. Split
-> this commit, performing one logical change per commit.
-> 
 
-Thanks for your review.
+On 6/7/26 11:30 PM, Mohammad Rafi Shaik wrote:
+> Add support for MI2S clock control within q6apm-lpass DAIs, including
+> handling of MCLK, BCLK, and ECLK via the DAI .set_sysclk callback.
+> Each MI2S port now retrieves its clock handles from the device tree,
+> allowing per-port clock configuration and proper enable/disable during
+> startup and shutdown.
+> [..]
+> @@ -297,6 +373,59 @@ static const struct snd_soc_component_driver q6apm_lpass_dai_component = {
+>   	.remove_order   = SND_SOC_COMP_ORDER_FIRST,
+>   };
+>   
+> +static int of_q6apm_parse_dai_data(struct device *dev,
+> +				   struct q6apm_lpass_dai_data *data)
+> +{
+> +	struct device_node *node;
+> +	int ret;
+> +
+> +	for_each_child_of_node(dev->of_node, node) {
+> +		struct q6apm_dai_priv_data *priv;
+> +		int id;
+> +
+> +		ret = of_property_read_u32(node, "reg", &id);
+> +		if (ret || id < 0 || id >= APM_PORT_MAX) {
+> +			dev_err(dev, "valid dai id not found:%d\n", ret);
+> +			continue;
+> +		}
+> +
+> +		switch (id) {
+> +		/* MI2S specific properties */
+> +		case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
+> +		case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
 
-I will split it in v2. The intended split is:
-- convert the sc8280xp OF match data to a per-card data structure;
-- add the generic/common helper changes needed for headset jack setup;
-- add the RubikPi3-specific machine data, including MI2S codec clocking
-  and headset jack configuration.
+SENARY is also a thing these days btw..
 
-> > 
-> > Add a common headset jack helper which accepts board-specific DAPM pins
-> > for codecs that are not connected through the WCD TX codec DMA path.
-> > 
-> > Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-> > ---
-> >  sound/soc/qcom/common.c   |  75 ++++++++---
-> >  sound/soc/qcom/common.h   |   6 +-
-> >  sound/soc/qcom/sc8280xp.c | 319 ++++++++++++++++++++++++++++++++++++++++++----
-> >  3 files changed, 357 insertions(+), 43 deletions(-)
-> >
 
---
-Thanks,
-Hongyang
+~val
+
