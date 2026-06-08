@@ -1,277 +1,133 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C0832D0D4
-	for <linux-sound@vger.kernel.org>; Mon,  8 Jun 2026 08:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2273E3C4574
+	for <linux-sound@vger.kernel.org>; Mon,  8 Jun 2026 08:40:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780907021; cv=none; b=ZmcSmivKwLOVBfTdKfPvYVLjZi5AL5aeVFGIEU11B3DybgF/6zpzMrkulMrUD5Axjqrv+TXd0zL89hcx1j0wcPr64gDp1aD2NWaz+6haH5xGWhjHAVvzqTmU6BxyiMn89RzespXVEWBEbXiyFjxpv8LwliOnQQpqD9n6Kc+JUR4=
+	t=1780908058; cv=none; b=tNb4yjxwZGkNfrKHIzQHTszUbzS4a85XgVb3DFu7x8iAaN8KkV0y/LrZjAfrckFH3BFFvupN3xNiXis+E18xSxt+Vw/oUrpBcsa+gKd6y8MxJSlb1u48di5gOiOHeHVQxl0QIL27egik/mAgt4gbN6i5wm15bG9sfeqF8DOaT0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780907021; c=relaxed/simple;
-	bh=r0GWKbt0KfiG2UapGCknRA/prOE3vHCrcNgeNB8htCM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PGn7trJP9brzOvV4Nxp4rMGk4J2+uybQ1doaKDBSdUjZ1Zw0Hc++LxRQ1QcWWuAxWttAhYP2E6hbiQVjCAa94vGcDqydnd1iE2txPreQqKHjS28xZo6QtLRN9vzmYnN7wrh6jqjQWL5+CUY+a7HJ5dokXCi0kaoQDDGCvSo847E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xPZrtNq6; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1780908058; c=relaxed/simple;
+	bh=Z1tpQiF5SlWYkxPC/pBiynkFWvlAzchlifLEFft0XF8=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Wuz68i3hziOPv7uMzKw0Ml+T7KcZ9bTHylFVlfO+yPKE1LQbYWsgc5C7v5CWhhkJ2BJvbllmUaBsJvkTNfEL0OBT+tQc6TLiQPCo0HRmfcMIbUeeaT3Bu+5WHce+vz04gY4RLwidXDPemKNn4KsCKddCY2z4iVf63Cxv+j6Xx6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UtAzf/TG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xPZrtNq6"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490cf3000f0so8453755e9.1
-        for <linux-sound@vger.kernel.org>; Mon, 08 Jun 2026 01:23:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780907018; x=1781511818; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:reply-to:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wGQ/7zWk9AsykTIEFhta6IENd1hVluGDPOK1Lw9aOrg=;
-        b=xPZrtNq6igA76wAUFGVkzmp1lZJPKb62AmN4E9sGSawqKpWwEaRcBvaxfx5fLF2/BL
-         m2ibcIWhEUfoH14JsghB3f1bDgw8A7aarz336NQ+GkH1Uw0cY4fvnH47HpfkKOlbNVrj
-         J8T7oDkRrfXdWxoLM7HPFkJ6LkDKovgMUfUJXCwEWhhSgeKurlBkZVbRNnSnfrpgnTXZ
-         AhYZN5x0Lxtl4efHHZQioGKgPVT51oSmcMH39R48hNzg92xEMzwCN4oB+JbW9fOQeoXp
-         jgF4KRbUVLTlcwmJBg0KkMgnCvOqMsnbNRhUVMo5GtYXkicZ7Fd+2f6/7RDt0MvqMptW
-         PMcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780907018; x=1781511818;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:reply-to:user-agent
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wGQ/7zWk9AsykTIEFhta6IENd1hVluGDPOK1Lw9aOrg=;
-        b=gaWgTE9dbKNjGnSskxDqsp/kHIFYD/wKOGeR7iLpOMwW35evcdZFd5UkBjWHR9XzMY
-         pyzmoelKbn5Qbr3g7IC5UFJLVea+sUW4+s2xLf4zEDOPAiHEXy9xx1+sJ+fsFillcn3V
-         yUOsBhoa2eBCeyvUFwVroz75CIsYJxCiNIP1aZh+1yenPInVmrmCdghnu2/Y40KEhnX3
-         nAk1pSF0tMP89CWfvtBnXpNnICZiJXvu0HAptl5aWzGFwWqHB4DwJG/Z9v7ztA7Zs9gL
-         84ohZR5oaBOxptlcs53xXA3527VRmM65fuxrCWoPXR4ULIVVAiLhBexiTRXGwid+Weau
-         RncA==
-X-Forwarded-Encrypted: i=1; AFNElJ8aZHCPEawFVinsGIvJWAWUuCaYweCHhVTXmigx1VYM76S+7frRiJv8GvtrimKYs15hu81AsEgx9i5Czw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxjbUKVtGg+ivihQD1CGcBkoJD2NUWXOBAjlIdYaZmVl6W8WL2
-	S1Xx9Eq572z5/X2Bo7Cz+vqTlRYQYW/d150HakwayJYeL4WD30EoA5ZG/lmMvFGn7WY=
-X-Gm-Gg: Acq92OFASO9V3OLNaXmIO9bHu51V4WrgFbi8fimzVfG5KygpFRL1Bcag2vqVgZZ5cWJ
-	+5ND1IHt8KFVl5DW/a3eh4i8b11D98OoDrnOl0Lj2Vrn/v40tsnQvTLi2Qico0aX36Js3egI5ko
-	xAMs9kwHz124byzBgezYJTt9/9ofDOGn18mYVWNBQYiLrv0uCtH8ZfqAPVvTdCGrs2oqii8oKdZ
-	5aitN8JPXfbazO+o9M7TYNhLxxLmn87H80kGWQeqScwZ0m9MEdvdkv4w/cjBDmg8o4lxwOkxslt
-	vadI3yp2mFtuUS3/ToN7nbv/205GcHOdfyRzU0WLoaKN7TUPjPXe1ssWdYDw6uzlm/0O13ElgCe
-	wT4TsTnKpNoKXKPs2AXmVFuFqyouenlvCs+Pz94kb+qlKQfQ/yDB06zLODocwpKqqMrYVETrmuF
-	G9RhYIaY5RAiZWiYg4tkRY5ArPITbfO4/iAInpd24m4fbgYbnqng9GhrUzvC6zNJ/nGMZpou4PK
-	ZcVPz7POqT/fkY=
-X-Received: by 2002:a05:600c:8a0c:10b0:490:c682:e37d with SMTP id 5b1f17b1804b1-490c682e39dmr105477495e9.32.1780907018172;
-        Mon, 08 Jun 2026 01:23:38 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:106d:1080:aa0b:c7d:a032:4c3a? ([2a01:e0a:106d:1080:aa0b:c7d:a032:4c3a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3c183asm379335455e9.6.2026.06.08.01.23.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jun 2026 01:23:37 -0700 (PDT)
-Message-ID: <dd20a233-4c42-4eee-b856-a6a988892ee2@linaro.org>
-Date: Mon, 8 Jun 2026 10:23:36 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UtAzf/TG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D06931F00898
+	for <linux-sound@vger.kernel.org>; Mon,  8 Jun 2026 08:40:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780908055;
+	bh=4HoT9KIsnYIDd0zvedKTYCGFgVE6ChDhK5tVcTIkXrs=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=UtAzf/TGWJfwCsNV2Ue5iolZ68yf3f30P6b6WmVzMzBqmmPCvh444Q2e4wBR9DYZC
+	 AnxUpcvEVn2Om/u9TmAeMRVOIJcAlsFT0YmOWjrVMVfIRbPKrc9iGS0/Jgf4Qr2NYD
+	 MBwOdTvIy/zAkvHr4quF7Wwq4FMCmIDH4DB7ddcjbeIN5xVcDXorm2J96nVOaL/XCC
+	 r8l2OPZPij1DKq+wHQbblb/+Tt2+7PzogxDLKgACcK819/76HiKDbpBS0bXE4RuGEG
+	 d69BNA98i9BydLxFP1a+/yqre2Wxr8M5vsK9LaX6cTvPy5TevPtps1emBN/QIKPBDS
+	 nJrnvZt+BYY4w==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5aa61e3d3f3so3788920e87.0
+        for <linux-sound@vger.kernel.org>; Mon, 08 Jun 2026 01:40:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9y0BTHh1mz5nepKutKRckcvyv//Id/xylToutUL/rK3t3HrzasyiDb2cHfHndjOaO6GYQ7NmKeMEJGAA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy84g7jMwjDRUdKZW41HjBg/pJeh7nNlEMlVeHPB1jnN3/uMKIM
+	BFXmsyUK0N/cms9mX5DK0jmwPE6I6qMNaWPf/SOQGZFJChdcBtt/NBr3HbvFoLXRI7MDL2hJb9u
+	BAWnGHl1aX2jbucjOAzFP0aycWAM5kqm5wPB2zFbnDg==
+X-Received: by 2002:a05:6512:8046:b0:5aa:6dff:cf0d with SMTP id
+ 2adb3069b0e04-5aa87bc2279mr2524415e87.28.1780908053800; Mon, 08 Jun 2026
+ 01:40:53 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 8 Jun 2026 01:40:52 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 8 Jun 2026 01:40:52 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260521-pdev-fwnode-ref-v1-5-88c324a1b8d2@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 0/3] ASoC: qcom: qdsp6: Add MI2S clock control
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260608023011.942228-1-mohammad.rafi.shaik@oss.qualcomm.com>
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20260608023011.942228-1-mohammad.rafi.shaik@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com> <20260521-pdev-fwnode-ref-v1-5-88c324a1b8d2@oss.qualcomm.com>
+Date: Mon, 8 Jun 2026 01:40:52 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MdrfyUUyk9sMGVCedyug_JmZQZEQHuK5T6+BRv3AvNT6g@mail.gmail.com>
+X-Gm-Features: AVVi8CchM9VaksLWvpKbwHirniTnl6glReoNd3-xvchi05VK9oh9JtbFGYTDxqA
+Message-ID: <CAMRc=MdrfyUUyk9sMGVCedyug_JmZQZEQHuK5T6+BRv3AvNT6g@mail.gmail.com>
+Subject: Re: [PATCH 05/23] powerpc/powermac: fix OF node refcount
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
+	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	stable@vger.kernel.org, Lee Jones <lee@kernel.org>, 
+	Mark Brown <broonie@opensource.wolfsonmicro.com>, 
+	Thierry Reding <thierry.reding@avionic-design.de>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+	Andi Shyti <andi.shyti@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Doug Berger <opendmb@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Maximilian Luz <luzmaximilian@gmail.com>, 
+	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 6/8/26 04:30, Mohammad Rafi Shaik wrote:
-> Add support for MI2S clock control within q6apm-lpass DAIs, including
-> handling of MCLK, BCLK, and ECLK via the DAI .set_sysclk callback.
-> Each MI2S port now retrieves its clock handles from the device tree,
-> allowing per-port clock configuration and proper enable/disable during
-> startup and shutdown.
-> 
-> On platforms such as Monaco and Lemans, third-party codecs are
-> hardware-wired to the SoC and do not always have an in-tree codec
-> driver to manage their clocks. For these designs, clock line
-> enablement must be driven from the platform side, and this
-> series provides the necessary support for that.
-> 
-> On QAIF-based platforms such as Shikra and Hawi, responsibility
-> for voting I2S MCLK and bit-clock has moved from the DSP to the
-> kernel. This series introduces the required device tree binding
-> support to represent and vote for these clocks from the kernel.
-> 
-> Enhances the sc8280xp machine driver to set the boards spacific
-> configurations.
-> 
-> This series depends on:
-> - https://lore.kernel.org/all/20260607-rubikpi-next-20260605-v1-3-7f334e16fea6@thundersoft.com/
-> 
+On Thu, 21 May 2026 10:36:28 +0200, Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> said:
+> Platform devices created with platform_device_alloc() call
+> platform_device_release() when the last reference to the device's
+> kobject is dropped. This function calls of_node_put() unconditionally.
+> This works fine for devices created with platform_device_register_full()
+> but users of the split approach (platform_device_alloc() +
+> platform_device_add()) must bump the reference of the of_node they
+> assign manually. Add the missing call to of_node_get().
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 81e5d8646ff6 ("i2c/powermac: Register i2c devices from device-tree")
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 > ---
-> Changes in v3:
-> - Added a detailed commit description to clearly explain the need for this change.
-> - Improved the machine driver based on Neil’s feedback.
-> - Link to v1: https://lore.kernel.org/all/20260309111300.2484262-1-mohammad.rafi.shaik@oss.qualcomm.com/
-> ---
-> Mohammad Rafi Shaik (3):
->    ASoC: dt-bindings: qcom,q6apm-lpass-dais: Document DAI subnode
->    ASoC: qcom: q6apm-lpass-dais: Add MI2S clock control
->    ASoC: qcom: sc8280xp: ASoC: qcom: sc8280xp: enhance machine driver for
->      board-specific config
-> 
->   .../bindings/sound/qcom,q6apm-lpass-dais.yaml |  57 +++++
->   sound/soc/qcom/qdsp6/q6apm-lpass-dais.c       | 137 ++++++++++-
->   sound/soc/qcom/qdsp6/q6prm.h                  |   4 +
->   sound/soc/qcom/sc8280xp.c                     | 213 ++++++++++++++++--
->   4 files changed, 391 insertions(+), 20 deletions(-)
-> 
-> 
-> base-commit: 6e845bcb78c95af935094040bd4edc3c2b6dd784
-> prerequisite-patch-id: 2f1bd3efac328030dd8efe28fb95f84603868043
+>  arch/powerpc/platforms/powermac/low_i2c.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/arch/powerpc/platforms/powermac/low_i2c.c b/arch/powerpc/platforms/powermac/low_i2c.c
+> index da72a30ab8657e6dc7e6f3437af612155783d8f9..973f58771d9636605ed5d3e91b45008543b584d3 100644
+> --- a/arch/powerpc/platforms/powermac/low_i2c.c
+> +++ b/arch/powerpc/platforms/powermac/low_i2c.c
+> @@ -1471,7 +1471,7 @@ static int __init pmac_i2c_create_platform_devices(void)
+>  		if (bus->platform_dev == NULL)
+>  			return -ENOMEM;
+>  		bus->platform_dev->dev.platform_data = bus;
+> -		bus->platform_dev->dev.of_node = bus->busnode;
+> +		bus->platform_dev->dev.of_node = of_node_get(bus->busnode);
+>  		platform_device_add(bus->platform_dev);
+>  	}
+>
+>
+> --
+> 2.47.3
+>
+>
 
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
+Hi!
 
-With:
-```
-diff --git a/arch/arm64/boot/dts/qcom/sm8650-hdk.dts b/arch/arm64/boot/dts/qcom/sm8650-hdk.dts
-index eabc828c05b4..69327c4857e1 100644
---- a/arch/arm64/boot/dts/qcom/sm8650-hdk.dts
-+++ b/arch/arm64/boot/dts/qcom/sm8650-hdk.dts
-@@ -218,6 +218,22 @@ platform {
-  				sound-dai = <&q6apm>;
-  			};
-  		};
-+
-+		pri-mi2s-dai-link {
-+			link-name = "HDMI Playback";
-+
-+			cpu {
-+				sound-dai = <&q6apmbedai PRIMARY_MI2S_RX>;
-+			};
-+
-+			codec {
-+				sound-dai = <&lt9611_codec 0>;
-+			};
-+
-+			platform {
-+				sound-dai = <&q6apm>;
-+			};
-+		};
-  	};
+Gentle ping for that fix. Can we get this landed for v7.1 or early v7.2 and
+make getting the rest of the series upstream easier next cycle?
 
-  	vph_pwr: regulator-vph-pwr {
-@@ -853,6 +869,7 @@ &i2c6 {
-  	lt9611_codec: hdmi-bridge@2b {
-  		compatible = "lontium,lt9611uxc";
-  		reg = <0x2b>;
-+		#sound-dai-cells = <1>;
-
-  		interrupts-extended = <&tlmm 85 IRQ_TYPE_EDGE_FALLING>;
-
-@@ -861,7 +878,10 @@ lt9611_codec: hdmi-bridge@2b {
-  		vdd-supply = <&lt9611_1v2>;
-  		vcc-supply = <&lt9611_3v3>;
-
--		pinctrl-0 = <&lt9611_irq_pin>, <&lt9611_rst_pin>;
-+		pinctrl-0 = <&lt9611_irq_pin>,
-+			    <&lt9611_rst_pin>,
-+			    <&i2s0_default_state>,
-+			    <&audio_mclk0_default_state>;
-  		pinctrl-names = "default";
-
-  		ports {
-@@ -1072,6 +1092,19 @@ &pon_resin {
-  	status = "okay";
-  };
-
-+&q6apmbedai {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	dai@16 {
-+		reg = <PRIMARY_MI2S_RX>;
-+		clocks = <&q6prmcc LPASS_CLK_ID_MCLK_1 LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
-+			 <&q6prmcc LPASS_CLK_ID_PRI_MI2S_IBIT LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-+		clock-names = "mclk",
-+			      "bclk";
-+	};
-+};
-+
-  &qup_i2c3_data_clk {
-  	/* Use internal I2C pull-up */
-  	bias-pull-up = <2200>;
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index 1f3afc6d015c..7b34ff533e0d 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -320,18 +320,36 @@ static struct snd_soc_common sm8450_priv_data = {
-  	.driver_name = "sm8450",
-  	.dapm_widgets = sc8280xp_dapm_widgets,
-  	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	/* I2S Connected to HDMI */
-+	.mi2s_mclk_enable = true,
-+	.mi2s_bclk_enable = true,
-+	.codec_dai_fmt = SND_SOC_DAIFMT_BC_FC |
-+			 SND_SOC_DAIFMT_NB_NF |
-+			 SND_SOC_DAIFMT_I2S,
-  };
-
-  static struct snd_soc_common sm8550_priv_data = {
-  	.driver_name = "sm8550",
-  	.dapm_widgets = sc8280xp_dapm_widgets,
-  	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	/* I2S Connected to HDMI */
-+	.mi2s_mclk_enable = true,
-+	.mi2s_bclk_enable = true,
-+	.codec_dai_fmt = SND_SOC_DAIFMT_BC_FC |
-+			 SND_SOC_DAIFMT_NB_NF |
-+			 SND_SOC_DAIFMT_I2S,
-  };
-
-  static struct snd_soc_common sm8650_priv_data = {
-  	.driver_name = "sm8650",
-  	.dapm_widgets = sc8280xp_dapm_widgets,
-  	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	/* I2S Connected to HDMI */
-+	.mi2s_mclk_enable = true,
-+	.mi2s_bclk_enable = true,
-+	.codec_dai_fmt = SND_SOC_DAIFMT_BC_FC |
-+			 SND_SOC_DAIFMT_NB_NF |
-+			 SND_SOC_DAIFMT_I2S,
-  };
-
-  static struct snd_soc_common sm8750_priv_data = {
-```
-
-Thanks,
-Neil
+Bart
