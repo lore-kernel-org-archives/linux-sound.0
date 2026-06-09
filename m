@@ -1,151 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9B53D811B;
-	Tue,  9 Jun 2026 07:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6055830E85D;
+	Tue,  9 Jun 2026 07:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780988697; cv=none; b=SvtJrF15/1GKq4vpr4SByOfu30laJr7OdrNCz+l2zy9KhqunDxjRWvi6HzWGcRWA1dPKvxRnyEy9Z6lmcRWPbQUkncE35+WuSrIcuO26Gb5qCRO3xd0HqpxlJojHjjbqj7ymIIkob7AD1TdCwhPIH1rZX29GZkSOrALPI6LpYNk=
+	t=1780988776; cv=none; b=MSDH5Lf9HFBFe51O05+cqWlj1dEXrKYonrZia5uN0IoafQKFaTTBl0JVxZmXlOqF6OxdksxeRp94AyHJCJGo2EaEdWMfJgmGmbXvwTRQKu033S2AGMWDrFaGNTzRYCem0yQDVChuYaAEbTDUeDzHadZ6lSQrgChWBpjsPGw3nBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780988697; c=relaxed/simple;
-	bh=iypVwKQAl1d161PJuCJiQZ8cL2LK++n+cytP17W2zIo=;
+	s=arc-20240116; t=1780988776; c=relaxed/simple;
+	bh=wPNxaq+MxK/SZuHOphqim3jNSNXgk7q+4ZcK8M927Ho=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X3AH03uZ+Kg5wQDSxnP12xaYK8MeJ/jMnoLMLDtpcQKNvfddulyLkJO3rCdTkej5lvJVEPakbN9I/Q2dsoLdOX3Hx/ZWIIVELpb6F16qKlpnatMf7oConjqEN1DE5T2vujolQPGUfrZziA30dsPLcxQYTMEJUYn/89JV8HJXmNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GRRqhosw; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=rbXn9fu1PUK+Fwn6Gio+k8+RYt/R5vqzJn2V2ESa+af5LJBHtgkn1F9LBWFETpVMppQp7QVaFTyntUXzQKkiWw7FVBNcHeNIrH6yol+ojcEtWffjktlj5fGVMlJS9OngSCp/vfhIxC6/G+EWey1y8tL25UndxmM268p3TNtUcUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V1Q/svxB; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GRRqhosw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EFA91F00893;
-	Tue,  9 Jun 2026 07:04:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780988695;
-	bh=DJUmtmPwmSVMMnBBfyUFcLIcI7msLFbvO5LL8BmNMbk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GRRqhoswSTG0xi9C9hO+ZQDQEUXOX0KkrQjj3zbJ0PJx8gynRHUTiyLPkJECOqRAA
-	 +NUQnxNOAq2C7oah1yPdbxBkOt6u7adUrc7J7Se3Ikt5GvxeKGKAieIFFIXs1fgCE+
-	 Q79od3Dh+sgXJzhlbjx1HagOR7c3c7vpsReBYcuZk6NM4hbyO/0XtiYKL3PrHFeKOo
-	 yZCRCO6scD57PAVc2SvsZ168j4YOvAXHH63pwtLnmlz0T/E6djeZK1uSFpXVx91GdW
-	 T2ugzuukhNzO9FGFSpQbUW8t0t3QcH8VTwSIdju6e9dC0Ks8WfqJrsZ0StnVGu4TeW
-	 VEcz1p/lRhNSA==
-Date: Tue, 9 Jun 2026 09:04:52 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Neo Chang <YLCHANG2@nuvoton.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, 
-	robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, alsa-devel@alsa-project.org, neo.chang70@gmail.com, 
-	kchsu0@nuvoton.com, sjlin0@nuvoton.com
-Subject: Re: [PATCH v4 1/2] ASoC: dt-bindings: nuvoton,nau8360: Add NAU83G60
-Message-ID: <20260609-hysterical-rhino-of-resistance-d7e1da@quoll>
-References: <20260609024128.585938-1-YLCHANG2@nuvoton.com>
- <20260609024128.585938-2-YLCHANG2@nuvoton.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V1Q/svxB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780988775; x=1812524775;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wPNxaq+MxK/SZuHOphqim3jNSNXgk7q+4ZcK8M927Ho=;
+  b=V1Q/svxBQIKze/UXIJSjOVKgrHKSgASIHCOspehkIKVQv2bX/4KShqag
+   d/zBQ8UonmmfCj23Qs6t014+PRFWP64qdiRXDWUO2OGNx4EEGAO2w7sCU
+   LzHdXSmmXEbVpF2R8KUvg9khSMXFrJq7Vl7L5BPkpGUIiiD5fiYxw3W59
+   4FQh6ok8g54u9bkh5DW/Blm+yyV0i7ZfxxRM0zm2LuMO17UyyOq9quxWQ
+   m9u+KlPrFKZMmipRXS8dPL0QcSU9emqYxGViqZqE8at93dpxdLxORPsZ3
+   1zs8+uHOBOMxAuYOXU3Mg0bhso5WN1KqbjVHLVl3SqfMuxV7UvOnW0AtV
+   w==;
+X-CSE-ConnectionGUID: WXYisqjbQZyrA+fWFTk52w==
+X-CSE-MsgGUID: 2Gv7+2jvTKSkNfbTwfVq+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11811"; a="69275340"
+X-IronPort-AV: E=Sophos;i="6.24,195,1774335600"; 
+   d="scan'208";a="69275340"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 00:06:13 -0700
+X-CSE-ConnectionGUID: 0Fv2wpZjRBeJ47Uck52CjA==
+X-CSE-MsgGUID: onLxLx0PQVGxZ3J/XwQjww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,195,1774335600"; 
+   d="scan'208";a="242837949"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.39])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 00:06:01 -0700
+Date: Tue, 9 Jun 2026 10:05:58 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Kaitao Cheng <kaitao.cheng@linux.dev>
+Cc: Muchun Song <muchun.song@linux.dev>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Huang Rui <ray.huang@amd.com>, Eddie James <eajames@linux.ibm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Waiman Long <longman@redhat.com>, drbd-dev@lists.linbit.com,
+	linux-block@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Kaito Cheng <chengkaitao@kylinos.cn>
+Subject: Re: [PATCH v2 00/14] list: Prepare entry iterators to cache cursor
+ state
+Message-ID: <aie7Vlcg76naApoC@ashevche-desk.local>
+References: <20260609061347.93688-1-kaitao.cheng@linux.dev>
+ <aie299WveL1utNya@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260609024128.585938-2-YLCHANG2@nuvoton.com>
+In-Reply-To: <aie299WveL1utNya@ashevche-desk.local>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Jun 09, 2026 at 10:41:27AM +0800, Neo Chang wrote:
-> Add device tree bindings documentation for the Nuvoton NAU83G60
-> audio amplifier.
+On Tue, Jun 09, 2026 at 09:47:34AM +0300, Andy Shevchenko wrote:
+> On Tue, Jun 09, 2026 at 02:13:33PM +0800, Kaitao Cheng wrote:
+> > 
+> > This series prepares for, and then updates, the list_for_each_entry()
+> > family so the common entry iterators cache their next or previous cursor
+> > before the loop body runs.
+
+While code looks okay, this doesn't explain "why?" aspects.
+
+> > The first 13 patches open-code loops that intentionally depend on the
+> > old "derive the next entry from the current cursor at the end of the
+> > iteration" behaviour.  These loops append work to the list being walked,
+> > restart traversal after dropping a lock, skip an entry consumed by the
+> > current iteration, or otherwise adjust the cursor in the loop body.
+> > 
+> > The final patch changes include/linux/list.h to keep a private cursor in
+> > the common entry iterators while preserving the public macro interface.
+> > The safe variants remain available when callers need the temporary
+> > cursor explicitly or have stronger mutation requirements.
 > 
-> Signed-off-by: Neo Chang <YLCHANG2@nuvoton.com>
-> ---
-> Changes in v4:
-> - Refine the `firmware-name` description to clarify the loading order
->  (Left then Right) and the PBTL mode behavior.
-> - Remove the "dsp bypass" option description.
-> - Update the example node to follow devicetree coding styles.
+> Something is really wrong with the patch series email chaining.
+> Patches 3, 10, and 13 start the subthreads. Please, check your
+> tools and fix them accordingly.
 > 
-> Changes in v3:
-> - Remove colon to resolve YAML build warnings.
-> - Fix 'firmware-name' property definition to comply with binding schemas
-> 
-> Changes in v2:
-> - Dropped the word "driver" from the description.
-> - Removed runtime/software configuration properties:
->   nuvoton,low-latency, nuvoton,anc-enable, nuvoton,aec-enable,
->   nuvoton,vbat-microvolt, and nuvoton,tdm-channel-length.
-> - Added missing "nuvoton,dac-cur-enable" property for static speaker impedance matching.
-> - Removed unnecessary '|' formatting from single-line descriptions.
-> - Fixed typo in firmware-name property.
-> ---
->  .../bindings/sound/nuvoton,nau8360.yaml       | 83 +++++++++++++++++++
->  1 file changed, 83 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml b/Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml
-> new file mode 100644
-> index 000000000000..2d19aedf1419
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml
-> @@ -0,0 +1,83 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/nuvoton,nau8360.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Nuvoton NAU83G60 Stereo Class-D Amplifier with DSP
-> +
-> +description:
-> +  Stereo Class-D Amplifier with DSP and I/V-sense.
-> +  This device supports I2C.
-> +
-> +maintainers:
-> +  - Neo Chang <YLCHANG2@nuvoton.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - nuvoton,nau8360
-> +
-> +  reg:
-> +    maxItems: 1
-> +    description:
+> Note, `git format-patch ...` should not have this "side-effect"
+> when used correctly.
 
-You want |
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Or this could be just enum of addresses, no need to copy paste address
-decoding from datasheet.
-
-> +      The I2C address of the device. The address is determined by the external
-> +      hardware configuration of GPIO1 and GPIO2 pins.
-> +       - 0x1a (GPIO2=Low, GPIO1=Low)
-> +       - 0x1b (GPIO2=Low, GPIO1=High)
-> +       - 0x4a (GPIO2=High, GPIO1=Low)
-> +       - 0x4b (GPIO2=High, GPIO1=High)
-> +
-> +  "#sound-dai-cells":
-> +    const: 0
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: mclk
-> +
-> +  firmware-name:
-> +    minItems: 2
-> +    maxItems: 2
-> +    description:
-> +      Assign firmware filenames for Left and Right DSP cores.
-> +      The first firmware is for the Left channel,
-> +      and the second is for the Right channel.
-
-Drop all above and just list the items with description
-
-> +      In PBTL mode, the Left firmware is ignored and only the Right is applied.
-
-Combining also this.
-
-items:
- - description: ...
- - description: ...
-
-
-Best regards,
-Krzysztof
 
