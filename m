@@ -1,122 +1,98 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mailout1n.rrzn.uni-hannover.de (mailout1n.rrzn.uni-hannover.de [130.75.2.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2383438BD
-	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 14:15:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ECCA33B6D9;
+	Tue,  9 Jun 2026 14:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.75.2.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781014559; cv=none; b=aC3VAXMZ4Ul8/ImlekxXY0s0m6aRkiBNSu84GUVx1F/poT9nsHFTTc2Tpan3KlMdmJgov5f71pjWE3Wt81m4osoe+qq3PyCOwvO98szWWEOYubJz0i8uyGmxqXQxzbnxfC5WOiPvizNN+SSQ88kRCPbVQzK4k+iQiupPBQEWqTY=
+	t=1781014626; cv=none; b=YGFe7rCoPvDvNjHOrt5da1P+BMzTF6b/rg61VAh3RMtSQxWsFILxDLvTARTLQwybZAg6xtoK3wRjpeWyz7f9DiSsNRK8JaFcrWOLjr9cukryeAmRb12+it5WJU26dWNt4hCLMW2DtEtCprboIp/Vabxy/ilCl0VkyWZVUvKRKRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781014559; c=relaxed/simple;
-	bh=9CIJb88IKWbWT6IEhObvHO6UhRZhTYKH7PhKE6eSb3c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=htCrhqKy29c6njstQrhcgxNbERsDu6q7bz+RZlUWZGv5nA/PjYQj0RhopYbP+ikVUHlMtoobx/ql7Jaqi2HB8UeKZUqnoqIMuk0ZlPXHefk/DI12tdgTXiqQ1J+w7HonQqkpQiRwaoBIUJRwkdFRsv8oesMIn4ptts+Ek1Bhfx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CDlsObfR; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781014626; c=relaxed/simple;
+	bh=v9Xjp5WDOt6rPgE3bbkhfYbSAPeo5LAza3PYMIsO0sc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ezRBlwYRup9S4hZNGJlkuMDIEbtz4gxt3H9XFqm5ngiwJhuK0YaX7v0Zb0XIdn7DCVloXy+BWk4VX03MbFv36f91/XFRT1TFKJ3J17ZxVp4cCAb1p/5CT5u+24ut+oQ5Mtc8IYyXjhaaofSi7Jwm3VK0S+nenEPK5ldISure6xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=stud.uni-hannover.de; spf=pass smtp.mailfrom=stud.uni-hannover.de; dkim=pass (2048-bit key) header.d=uni-hannover.de header.i=@uni-hannover.de header.b=tv4WFFM/; arc=none smtp.client-ip=130.75.2.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=stud.uni-hannover.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stud.uni-hannover.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CDlsObfR"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-7e87602f26aso62559827b3.1
-        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 07:15:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781014557; x=1781619357; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O1hcL5eJx6MWJvlu7fWXmuLzT2QrGx87Ta518j+s/Zc=;
-        b=CDlsObfRA6zeJVPR80IO2VEbnyTpPoQjQ7aA0T+iMmbWqJSzex/G/klZorHDEzj78n
-         cV2CSea2JYpgTxXYpwzPIQcvCXmM85NaIIrjygGtVKOEEgrNhSNZNAx6+lpZkBHsy865
-         Hslu1f9AiMIptd4if0cOgWqTF5uVRZXCbTJtKh7QiLugzQ89Nnop7mPRoDOYmB91O2dE
-         I7O4ru34uXJIXoMRh4EI2jLmmcXT+qcBTICoXVwkxbXCn7iYGEk0m7kwE2tHdogr/j+z
-         MTr7Zx4jvQHPr0/4y5qB6TxXhKMNULQhlfwn0dozxeQXsvS2U5PaQx8VnQ87TNZxJfUw
-         w85w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781014557; x=1781619357;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=O1hcL5eJx6MWJvlu7fWXmuLzT2QrGx87Ta518j+s/Zc=;
-        b=RUU35ExRWcRTYoPsdXn3joTZSA9cIttSAItarGGsCv/iXMsesqDvemtTpdD/8jBB5M
-         4q99a73jnS1Q1NhxHf0BDZ9O+QUNmjrVJnM+fBeqi96Ryzy12PDZx6oy/NO+w/2zJ8Ic
-         s/wzsgHyO7lI5TnsKWdUEwNs0+abIK6ekFiywfwtXklwl04mkHRxi8FsKioGUuTDKdCk
-         k3SgY7AoaaDH8Eui3gl+mkATjJnxPnQaQ77nyAIPwsiTpz95Q/xjbye5SAqK/K3HIc0j
-         4/25/0ZlbLAaJbk83zUf0lUL/Sfr1VurG3I3nXSGqinkSvzdoH+zPEtUkRG04ZPm+CV3
-         /KyA==
-X-Forwarded-Encrypted: i=1; AFNElJ+rG0i71a1cPboPGxiSsW7PjJQRStCCmeLw6kJ7u+ge+JcHzGhT9XFR82zF1+7nzdCHFBRXjtHgVA+wwQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxu5ITSN1vXq5ygHFoGwxzMR9/wT65JJufFHtOC64neQmb7NNKZ
-	y/m1CIMAd0Vr22RgWQs2wF0yL48vWOo1jCrjY/TXEBftOSGLxPFQfe6O
-X-Gm-Gg: Acq92OFu+/eEvi6yimzLx8HmuHNaJOtNcjZpUlpMbsTNg/fDCEsf1TqoFn5jjMl3etr
-	Mci28EtH+YglqCJ9NCAQNTCIJgREunbw9XPbQE6Z3LoGdWDEVw2RaFoe5jpzgqIWBoYgtO0KzE5
-	IHKLLuqUphqKfZSt7HQrFKSVDgkwDXYySST1pDm0Svq4MjJEjbspoW+wmF6sNFWMpkYMAKiMjnx
-	Be7Swe4csWk1yEngG5AZozy7eFuvudpofvejT0VZAu3ACPKXYCQQC1kHmKEPyjtxXxG4ENQ8bn3
-	tnUUQno4HPxtYHTi45SCA9NrBImWohp3Leh8Q81juJtd3LxY4EXJp3MuPIYqnrBvS0BiMJGMXo9
-	mt/CvzNLtgBcO2PQvdy8dsDZCtHl5AHA6/VvM7D2Ap2Vp7Z/Uoqwhlf3TIp99b2HM6YgEFmimMI
-	B8GZTgbQ7VFMm/LJ9/tbnf
-X-Received: by 2002:a05:690c:c641:b0:7ef:9fd9:db07 with SMTP id 00721157ae682-7ef9fd9ec08mr72816327b3.12.1781014556604;
-        Tue, 09 Jun 2026 07:15:56 -0700 (PDT)
-Received: from geday ([2804:7f2:800b:dd29::dead:c001])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7ea2148cc98sm96519887b3.13.2026.06.09.07.15.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 07:15:55 -0700 (PDT)
-Date: Tue, 9 Jun 2026 11:15:51 -0300
-From: Geraldo Nascimento <geraldogabriel@gmail.com>
-To: Denis Batishchev <ii343hbka@gmail.com>
-Cc: tiwai@suse.com, perex@perex.cz, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable micmute LED on HP EliteBook
- 6 G1a
-Message-ID: <aiggF41W3LlKDts4@geday>
-References: <20260604131518.45993-1-ii343hbka@gmail.com>
- <20260609135607.3960625-1-ii343hbka@gmail.com>
+	dkim=pass (2048-bit key) header.d=uni-hannover.de header.i=@uni-hannover.de header.b="tv4WFFM/"
+Received: from moritz-Yoga-Pro-7-14IRH8.. (ip5f5abb0d.dynamic.kabel-deutschland.de [95.90.187.13])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mailout1n.rrzn.uni-hannover.de (Postfix) with ESMTPSA id 1FE522C2;
+	Tue,  9 Jun 2026 16:17:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=uni-hannover.de;
+	s=2024all; t=1781014621;
+	bh=v9Xjp5WDOt6rPgE3bbkhfYbSAPeo5LAza3PYMIsO0sc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=tv4WFFM/Q/H6WInEmP94AgzVjLohjgIdmPuyDdlgnj25Ccc5VXYLLg44jBBvZCAIv
+	 ics6cXFAaDmb587pz/7OV+L0I4+Ikzb8GkNNTdW5xpCaOIQ2YKsCPRkejSUFuvIugN
+	 SI8+ilSRmeqFqMD8tYg713555JwjvIrqIgN/EpjazV2aPnmE9akceSJBxu8yuwEFIZ
+	 su3HCIIvqBBkTsUZwSA79UbRulWM1UOoaKXczfA79LOB0FZpuspEE35c3dDg7oblkM
+	 5U0S4qXsNgcB9ixJGlIQt6zetUIoJia+XdOpUTXojfjxAaJ03um4Gtq8kr5OAgAJup
+	 cclrWO+cDO2QA==
+From: Moritz Baron <moritz.baron@stud.uni-hannover.de>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel@i4.cs.fau.de,
+	Felix Aljoscha Schnuell <felix.aljoscha.schnuell@stud.uni-hannover.de>,
+	Moritz Baron <moritz.baron@stud.uni-hannover.de>
+Subject: [PATCH v2] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14IRH8
+Date: Tue,  9 Jun 2026 16:16:48 +0200
+Message-ID: <20260609141648.60608-1-moritz.baron@stud.uni-hannover.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <87ecig6l1v.wl-tiwai@suse.de>
+References: <87ecig6l1v.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260609135607.3960625-1-ii343hbka@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.9 at mailout1n
+X-Virus-Status: Clean
 
-Hi Denis,
+The Lenovo Yoga Pro 7 14IRH8 (ALC287 codec, subsystem ID 0x17aa:0x38b1)
+has bass speakers on pin 0x17 that are not routed through a DAC with
+volume control. This causes the bass speakers to play at full volume
+regardless of the volume slider position.
 
-On Tue, Jun 09, 2026 at 03:56:07PM +0200, Denis Batishchev wrote:
-> The HP EliteBook 6 G1a (SSID 103c:8e0d) uses a Realtek ALC236 codec.
-> Without a quirk no fixup is selected and the mic-mute LED stays off.
-> It needs the same ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk as the
-> already-supported 14" variant (SSID 103c:8dfb), so add it.
+Apply ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN which corrects the DAC
+routing for pin 0x17, enabling proper volume control. This is the same
+fix used for other Yoga Pro 7 models with identical audio topology
+(14APH8, 14AHP9, 14ASP10, 14IAH10).
 
-What is your exact variant of this hardware? Also please refrain from
-sending V2 in response to V1: it makes patches harder to track.
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=217949
 
-> 
-> Signed-off-by: Denis Batishchev <ii343hbka@gmail.com>
-> Cc: <stable@vger.kernel.org>
-> ---
-> v2: reword commit message as was required by Takashi Iwai
-> 
->  sound/hda/codecs/realtek/alc269.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-> index 78a865709635..8eebf91595d3 100644
-> --- a/sound/hda/codecs/realtek/alc269.c
-> +++ b/sound/hda/codecs/realtek/alc269.c
-> @@ -7274,6 +7274,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x103c, 0x8df1, "HP EliteBook 630 G12", ALC236_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8df7, "HP Z66 G6", ALC236_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8dfb, "HP EliteBook 6 G1a 14", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-> +	SND_PCI_QUIRK(0x103c, 0x8e0d, "HP EliteBook 6 G1a 14", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+Co-developed-by: Felix Aljoscha Schnuell <felix.aljoscha.schnuell@stud.uni-hannover.de>
+Signed-off-by: Felix Aljoscha Schnuell <felix.aljoscha.schnuell@stud.uni-hannover.de>
+Signed-off-by: Moritz Baron <moritz.baron@stud.uni-hannover.de>
+---
+v2: Move the quirk entry before 17aa:3852 and add a comment to
+    clarify the PCI SSID conflict, as suggested by Takashi Iwai.
 
-The description string of the quirk seems copy-pasted. Are you sure
-you have the 14" variant?
+ sound/hda/codecs/realtek/alc269.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Thanks,
-Geraldo Nascimento
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index dcbc669842e0..dbd562c7c626 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7713,6 +7713,10 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	HDA_CODEC_QUIRK(0x17aa, 0x38cf, "Lenovo Yoga Pro 7 14IMH9", ALC287_FIXUP_YOGA9_14IMH9_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x3847, "Legion 7 16ACHG6", ALC287_FIXUP_LEGION_16ACHG6),
+ 	SND_PCI_QUIRK(0x17aa, 0x384a, "Lenovo Yoga 7 15ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
++	/* Yoga Pro 7 14IRH8 shares PCI SSID 17aa:3852 with Yoga 7 14ITL5;
++	 * use codec SSID to distinguish them
++	 */
++	HDA_CODEC_QUIRK(0x17aa, 0x38b1, "Lenovo Yoga Pro 7 14IRH8", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x3852, "Lenovo Yoga 7 14ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3853, "Lenovo Yoga 7 15ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHG6", ALC287_FIXUP_LEGION_16ITHG6),
+-- 
+2.43.0
 
->  	SND_PCI_QUIRK(0x103c, 0x8dfc, "HP EliteBook 645 G12", ALC236_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8dfd, "HP EliteBook 6 G1a 16", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
->  	SND_PCI_QUIRK(0x103c, 0x8dfe, "HP EliteBook 665 G12", ALC236_FIXUP_HP_GPIO_LED),
-> -- 
-> 2.53.0
-> 
-> 
