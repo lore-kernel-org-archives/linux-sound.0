@@ -1,64 +1,64 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBD041B34C
-	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 12:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B714218A1
+	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 12:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781009222; cv=none; b=qtdmmfvxPUn0K1WISzpOxGgQV4aS/xj5LsyjZgLA56K/u6zaSCwc8vyUjpLijt5r5vwl3mBEG8QuWdpaQjphmp5WsOXJDg0jrqr8sg5OxF4i7mmOsz7LhPxls4DNYLDNY42ZuzQz+tcKLQ7yNV8mTlYDMkLeu9DRi4/+BWpTCCM=
+	t=1781009225; cv=none; b=pY/795YKnGnuH+TAGU/DDGs4YzFlC2fYehRKEBYq+bl8YGNe//lIC6yrwKUZCPxYEkGeq1Cf8riNLctWyeUvxkZgdXPTNQFp43D8Bm/K2SIL5/iVvXbo5rBBjeK7GgnVPs3abHeBehoN6PiAByFACwxU94sljQ+3cYZ5+Fps/eI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781009222; c=relaxed/simple;
-	bh=zuslSjBhbtwOo+02kXcRyWg4AlDrGCMRcK6xgfcuovQ=;
+	s=arc-20240116; t=1781009225; c=relaxed/simple;
+	bh=oddDzn30hz+MNqvf9DAzenvLYi1pG8FYsLnwMwtd5D0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kx6PBa9N+FxXQ9yRM6fhVcCXE44neZgbCAbM9htyaatv9zu90t4BaAR17XFEioKAJtZw5WL6bu6KFdui7Z/TBI0erGqEGshR4FBQUojoFNPgKTDLCgwr2ou8QHUxeEEK0iv7P2IVtXXr1VybakcY5IhCgm6Fqb717644IsKYfRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TGlFOTpE; arc=none smtp.client-ip=209.85.215.169
+	 MIME-Version; b=e2ltk2SefrnilObT15IkG2XwIuoEUIdAC+h8ZnPfIbWkydMyAFKRvJgKTNBhv57O43UW33CM9fTJTGgkWKTpxYYHGrNty6gJLpJfhfECitDOAh8Nw+GbPZCnAknYekiD+6MpxWK0JRGu61ME4ifidJqwnxxrCCBG4SyNe3WxOFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A0WcYAWI; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TGlFOTpE"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c8585c51f1fso2643616a12.1
-        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 05:47:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A0WcYAWI"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2bf1cda2b17so40073735ad.1
+        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 05:47:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781009221; x=1781614021; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781009224; x=1781614024; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3ehwC4+p6kz8win9+9tJOLmuWLTHCo6mGAGt8WUYA5c=;
-        b=TGlFOTpEaO77Doo6fMGdC1JhMKsHh3gFRjkzhHy9NIabywGM0wufjbX31wKIwOWUkK
-         h9esoXSl9+XbQiFIyxgEXg1wCUuU/FhrcsrlzOWNMRTdzpRITH0/+RGGk1Ddn1g4Bf4p
-         9hKY2h3EhOjeaIHgEi19mwevsovkphXGvCvtb2/kJMHMu0zJUrpDay1lrAwk7O9HJ2P6
-         lJfY/K55h5bnQq96nyZ5S9Z6r9LE1/FlYu1uuwdV+pjhkhTOyRzVcpz2jLR4tqn+IwLk
-         OxRDqUqYWBrZjjYyeP3ZmaNjAygw0f3YTeHZTFeJ7dLdTmj3RJjcg7OG2u0x6VmddtYF
-         3Tow==
+        bh=keoU58MOi5VGqip4nmTurg5eYjRQQf5+ZFnAVokgfv4=;
+        b=A0WcYAWIpYdee98KYm7mS1THocs35Ex/2t1qzdV7LTOgz+ieRj6+Lj2QSVqAj+gsN6
+         wxNlDRBaUGZ2BDTvAv68A9jMVD+u05YTkzC0f4J5kmnNSDhU1f/3DqMAhn7bIruY3mt8
+         ZWfKT4doT0wWCWyQbJRYGqEXHBWOrZzxVYFSfABmIxeVv2EG+xi/vUuLOqpTG30kkNGj
+         65Xm3Si0wfGvmwhVAKL8cAlRfhskZ0Ih/SFtt2EFp+lRa2ln2oHI3/SWJFhv+FVsVOSt
+         Ny2jKV4GvzZbh3kilg0rdErXOMHze0POw3z0muLKzHUvwcK7FPdUdrZiyE0Bn/n2UqOb
+         Ja6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781009221; x=1781614021;
+        d=1e100.net; s=20251104; t=1781009224; x=1781614024;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=3ehwC4+p6kz8win9+9tJOLmuWLTHCo6mGAGt8WUYA5c=;
-        b=mxwBO4+T2MUx5G4hP+S5XQbGDIaRKA2HN9yr2TRSSKHTibNRegakYEHGBvjYbeMeqc
-         lsVGmoPu3SM0Hxzfx2aEuGzfGJBfAPTuO6TJHz0FeQqFv4sV38PnE3fw2xBSVJtdfyPQ
-         lCcxQPQxyxBsxqHoS21asqChIfcAOiTr0T8sXQoQsdwikMCY9OzR1T1ANALVvHNHl6fq
-         6rAqyORDAj81NO1mjGYPMSGbZ0xBhaPzzScmgbGlZ5+cwnIj7Fu53iNU0wIeTFnv3NVf
-         o/ds/Qkg9cecw6dPJNjhN9n3uSrYF5Z9MF8JNdstFcV8YE+ZcbM/zUWjMHwG2GZUVtSk
-         3TLA==
-X-Forwarded-Encrypted: i=1; AFNElJ/mY+RHN3KfTwYeNoXaieggdlY06lOsVVmA5xnwujLIRyOWa0taUUzZTbrRoDMO/VtFZZDt5rywtVO1Qg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2HxSVQPPqdKKKje3+HkvC9elxra1L5lC5dlxJ4hi+T1uM7fqK
-	YR8uDhz3zkC3BLMQaz19RggE+2THNSrsg2kEE5VmbksErYNMcHJaRrDsZlA+Vy9v
-X-Gm-Gg: Acq92OH7I6uJ2SRaXL/qCYquLOMsNpieuFmX2Ob1anmAyGoK8xczEXq4PLDqOlnr5XY
-	HAqhFczmKVDUxUlNa8ZSAX9r/AuO7fMmyBrRQLVWAGZCmreraMzQ9ZTBZ7NjqZdvw+CLELj1NA3
-	69jy9WnyYqxHYs5yG4dOyR6Ysc/2mK0Vl1t5SsY/FgQQyitYTBusLxUP9UjM03Y4dICZY3Iw7lJ
-	HoUQRr1qQfcFu8aRL+97r1313LGKiuI7AIQsg/gZgnSIaZyppJMO0f95PXB7ydispMu3L9dW354
-	1hvOnJcVHLQS1Yp9za1yuThEU+F3O0yQbV9DYopV8VWRVjc2BmD2HiQpK9WGxeCYL7Lz+Y3wIo0
-	Sbp3P7Zyyl/Y5OD4nxVs9XYtyOjXCp/qyz5Nq4cEP45e7Zv0x5X9Z7vA8XfbPqAGU94+/muHOy7
-	E2sPYS/fIlFrnffi4Xdx0juYxez2stMd02qn5RvvqY37YXftyYMSDan8tUXmbto/t4/IvxhNQai
-	xnOObuiH+KS/wWAXxrYQTQisRw=
-X-Received: by 2002:a17:902:f650:b0:2bd:2c3a:2a36 with SMTP id d9443c01a7336-2c1eb7476d2mr171953745ad.0.1781009220767;
-        Tue, 09 Jun 2026 05:47:00 -0700 (PDT)
+        bh=keoU58MOi5VGqip4nmTurg5eYjRQQf5+ZFnAVokgfv4=;
+        b=AOztKp2U3eNnQGWVBxLyV9gRHznYN7gRIk9ZBbtuXmlUvCC71dvLF6/IAjxE5WZPw7
+         TQrT4cdTJyeku+SWKNu/lqcRjZ87MEmXuSTYBVoRkZGldQuFaTh/v9dG+rFKg1blkIuo
+         ytLGIMRcLdnaBZFTirnoDuyQjFAXXssiZFExK+1N9GgcuOqrJ9sZWFEhWo4s7aFnQCSJ
+         mn3IWjtJtAZrHI4huc9TlpDSwLww+x2uVgZyGDhIgImn9SunsRBs1ntn4BkclwfQqPSk
+         y+aFvSiOd5jtAGoVFGvubDU3XocWz+j5xp0/8exAPR1Udy3/ooRacPyI2F5/EVTdmXK2
+         7CpQ==
+X-Forwarded-Encrypted: i=1; AFNElJ80weW7g9XUlqAtgaF+55kZtgr3xyxKlrLpAV3sDWLwo3TokabinT/QsG1crIq5zq3cvnSAC21F2zQq8A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTrVpUmYO8gh8EdVgzUZN8efCodS7K/0Yr7QYSSzPrZ/Ggh4Ej
+	JQFTtNkowZ9JxqSSNfEsp21lPd8HNR7rxq31TaSVE6KS9GV0CuC1NFDN
+X-Gm-Gg: Acq92OGzELvjQsmqO7or/7RKxoj+VkFjT4rHIkwL7aMUKqADyiexPseJjJGgNtJbR0/
+	YrN9PCcaOBK3Lp/FqHAT3gqRHf14JFRMLJKn96l+sKOkIaSyhIL2gYNLMnA7qmlEhdcHOK4ZEQR
+	+7RpD3HpxwD5tT2TlLWAbCw44hf/LhwDG0mFHNta5N45K4fDmhp7e6OgZqyRL7KbdTjj9FX7q5I
+	vBc0MnL1W4fknuv7gf4SqZbimN1Byc2ELRi1GdjRoEPjuOkbO7zWtxqARy901nzJXsg7XtHIn1Q
+	VCDI0kSCr1ftVsOpik1+I4oAr7D9GXLkqMtIjPqCZLG7J0J2KBv4fxOX0UsiaGjNbWmUqu5g3Wm
+	SKP+ftK4urA51GzsFR47YlIF9ZviUTy3vfBUHabzxgkuszCblepOPNhEhdzK9L82GTUitNhN9tm
+	OEMMIke7DxfTNcohvuKUm1wWLgKLVJ8bB+pI0BrdSDdixT1hvrb8wK479V+GQfu1/BBPpHA+Pnr
+	eQUceT7Yhnjm6MUp9hlGogICa8=
+X-Received: by 2002:a17:902:d2cd:b0:2c0:b74f:a58c with SMTP id d9443c01a7336-2c1ec7972e4mr167544185ad.16.1781009223982;
+        Tue, 09 Jun 2026 05:47:03 -0700 (PDT)
 Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16629d40asm204686345ad.64.2026.06.09.05.46.57
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16629d40asm204686345ad.64.2026.06.09.05.47.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 05:46:59 -0700 (PDT)
+        Tue, 09 Jun 2026 05:47:03 -0700 (PDT)
 From: HyeongJun An <sammiee5311@gmail.com>
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>
@@ -67,15 +67,15 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	HyeongJun An <sammiee5311@gmail.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org
-Subject: [PATCH 2/4] ASoC: meson: aiu: Validate written enum values
-Date: Tue,  9 Jun 2026 21:43:14 +0900
-Message-ID: <20260609124317.38046-3-sammiee5311@gmail.com>
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Viorel Suman <viorel.suman@nxp.com>,
+	linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH 3/4] ASoC: fsl: fsl_audmix: Validate written enum values
+Date: Tue,  9 Jun 2026 21:43:15 +0900
+Message-ID: <20260609124317.38046-4-sammiee5311@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260609124317.38046-1-sammiee5311@gmail.com>
 References: <20260609124317.38046-1-sammiee5311@gmail.com>
@@ -87,50 +87,48 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The AIU HDMI and internal codec mux put callbacks use the written enum
-value with snd_soc_enum_item_to_val() before checking whether the value is
-valid for the enumeration.
+fsl_audmix_put_mix_clk_src() and fsl_audmix_put_out_src()
+convert the user-provided enum item with snd_soc_enum_item_to_val()
+before checking whether the item is within the enum's item count.
 
-Reject out-of-range values before converting the enum item, matching the
-validation already done by the G12A HDMI and internal codec mux controls.
+The generic snd_soc_put_enum_double() helper performs that
+validation, but these callbacks use the converted value first: the
+clock-source path tests it with BIT(), and the output-source path
+indexes the prms transition table with it.
 
-Fixes: b82b734c0e9a ("ASoC: meson: aiu: add hdmi codec control support")
-Fixes: 65816025d461 ("ASoC: meson: aiu: add internal dac codec control support")
+Reject out-of-range enum items before converting them.
+
+Fixes: be1df61cf06e ("ASoC: fsl: Add Audio Mixer CPU DAI driver")
 Assisted-by: Claude:claude-opus-4-8
 Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
 ---
- sound/soc/meson/aiu-acodec-ctrl.c | 3 +++
- sound/soc/meson/aiu-codec-ctrl.c  | 3 +++
- 2 files changed, 6 insertions(+)
+ sound/soc/fsl/fsl_audmix.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/sound/soc/meson/aiu-acodec-ctrl.c b/sound/soc/meson/aiu-acodec-ctrl.c
-index 483772ba69cd..94c5d6533523 100644
---- a/sound/soc/meson/aiu-acodec-ctrl.c
-+++ b/sound/soc/meson/aiu-acodec-ctrl.c
-@@ -36,6 +36,9 @@ static int aiu_acodec_ctrl_mux_put_enum(struct snd_kcontrol *kcontrol,
- 	struct soc_enum *e = (struct soc_enum *)kcontrol->private_value;
- 	unsigned int mux, changed;
+diff --git a/sound/soc/fsl/fsl_audmix.c b/sound/soc/fsl/fsl_audmix.c
+index 40a3b7432174..f819f33ec46b 100644
+--- a/sound/soc/fsl/fsl_audmix.c
++++ b/sound/soc/fsl/fsl_audmix.c
+@@ -117,6 +117,9 @@ static int fsl_audmix_put_mix_clk_src(struct snd_kcontrol *kcontrol,
+ 	unsigned int *item = ucontrol->value.enumerated.item;
+ 	unsigned int reg_val, val, mix_clk;
  
-+	if (ucontrol->value.enumerated.item[0] >= e->items)
++	if (item[0] >= e->items)
 +		return -EINVAL;
 +
- 	mux = snd_soc_enum_item_to_val(e, ucontrol->value.enumerated.item[0]);
- 	changed = snd_soc_component_test_bits(component, e->reg,
- 					      CTRL_DIN_LRCLK_SRC,
-diff --git a/sound/soc/meson/aiu-codec-ctrl.c b/sound/soc/meson/aiu-codec-ctrl.c
-index 396f815077e2..60bb4cdfee52 100644
---- a/sound/soc/meson/aiu-codec-ctrl.c
-+++ b/sound/soc/meson/aiu-codec-ctrl.c
-@@ -28,6 +28,9 @@ static int aiu_codec_ctrl_mux_put_enum(struct snd_kcontrol *kcontrol,
- 	struct soc_enum *e = (struct soc_enum *)kcontrol->private_value;
- 	unsigned int mux, changed;
+ 	/* Get current state */
+ 	reg_val = snd_soc_component_read(comp, FSL_AUDMIX_CTR);
+ 	mix_clk = ((reg_val & FSL_AUDMIX_CTR_MIXCLK_MASK)
+@@ -157,6 +160,9 @@ static int fsl_audmix_put_out_src(struct snd_kcontrol *kcontrol,
+ 	unsigned int reg_val, val, mask = 0, ctr = 0;
+ 	int ret;
  
-+	if (ucontrol->value.enumerated.item[0] >= e->items)
++	if (item[0] >= e->items)
 +		return -EINVAL;
 +
- 	mux = snd_soc_enum_item_to_val(e, ucontrol->value.enumerated.item[0]);
- 	changed = snd_soc_component_test_bits(component, e->reg,
- 					      CTRL_DATA_SEL,
+ 	/* Get current state */
+ 	reg_val = snd_soc_component_read(comp, FSL_AUDMIX_CTR);
+ 
 -- 
 2.43.0
 
