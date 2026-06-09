@@ -1,177 +1,123 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439C53B95FA
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 10:22:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4283EFFB5;
+	Wed, 10 Jun 2026 10:23:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781086929; cv=none; b=IKC0t9rGA7vThTW7d4molyxQm/eU0gaS2MDKefqmgJvvq1FG+f62J3zCpqUxmiy5AmNszwowS0tuZ6dZ5CSBphkr0+wOHNtrLmhD5HDqJrpdvqgj5zkTN+kUgSUn1z33uIHuU9HThOW4H9XxHwJWUJV75bz98oRC5380MoiwxUM=
+	t=1781086998; cv=none; b=VrLBx43G4UFBT4hnLQR/ofToKpix0A1euRftw3XwZGlEqRPod+mp3UUTFfd1VPz8dDw1zZyXTyO+y+4wwKogbzZIQ8NQqInjOIw3ZfL0FwvWZimeKWNFnkGY0ItWF2hMXgKVOO8AWtzSWBqA4rbo9GzanLDssxQiKa/oxZ2Fc3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781086929; c=relaxed/simple;
-	bh=ZgLsOTmDPgl0bOgLFz0unt3vkdsvvmeFeKMYXg/J4hs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VdOgM9+m+mo1m8s3f0l38bk/ElgBGsRnJyrsbnw03uE4DYwBQiOWffBycC3X4gNCaTduT2QvXR90hznGKC6L1i7upqWDisrXGNIWySSt1MEmB/dDmLC8dwUb9S0idKq/bj6k+INoHGBRq43/1BdaTYnsLzjz7NezgDI40AbsOLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SR5U19pJ; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781086998; c=relaxed/simple;
+	bh=GjQoMSl+S+ijDAnNQXjwhwnaSIySn/7/CBufcCjNSyA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Mx2qZxLuOVVxR1mvvLm0CZevZswHcf6vXR2BPtFLq3GbrUraOZ/MLHlCVWvHAAF96EKNZl//EcKA225c4OtksBy8KRK+YyAsVY/vKVIgDPvfXVtSuRXyL4XINEmZUOiR28rcTLjo1fjXq0tYNxoJtVQGaRnGrEHieNNFoPhdNn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kvvMwC5h; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SR5U19pJ"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2c0c1e0d00bso63506445ad.0
-        for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 03:22:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781086928; x=1781691728; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7rPTGNjskcRtQTw6mA5VpAqBzsjh0SlCyTZZ3Fz9+0M=;
-        b=SR5U19pJAM20BOq1NDdOcmkZaNmEJ3lsnulAARNNmQIPYxt5oU9mSgQis9VUOudkdy
-         mfJ8ggxXZQBYKBSTnDkIMkvfZWwzSwhERSJogULH1mIr44skcyHcwCVdKhcej3YPIGR7
-         HPt9wjBorx5fe6YXij3lMM9cFK7D6jlY5LABRJEqvZqVaHKlGdQ+C4s29j5Y6wL+WRR6
-         Hc46ZCjQjnmiBoDbAY+/8OFItLPBdxgtlKuh9Fzegkt0ATaKvyy2XcmpHm/D+kHvIn6T
-         dF9Vsah8Rxpi1TY4DUSx0sBtDQWDUXkZo2fehhLz2QkKZsOVNy8p1Uyldtp/4cWfB0WJ
-         5Izg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781086928; x=1781691728;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7rPTGNjskcRtQTw6mA5VpAqBzsjh0SlCyTZZ3Fz9+0M=;
-        b=eElw8R0fiYY27O4FBb5gl0MA3P8fziuNbxc/CPUfeJrtoT3VaKCN9nnK5hN5f2DGk+
-         LhG0KitgdIXO67INLNkUsjlbrPnB9LE4LlMWf9kEWfa8Y3fiXhHKCib5RBlvZmPuCa1+
-         h8Hl0orgFA2s5wp/wu0Fd91GlOZKgmi+NW+961Dxk3DHxVaY8sGZxrJGLQdFwRoFzPJF
-         cFiiEKTo5UlVCNO1HGIeF4tYbDeQREoIczDkEItDumng9TWMiGHQK6eArsUjzZnN0Nf7
-         UuV+7ktzxmn4pWRAVPWwePxs3C0mwytMm+6fuhVUvECFtlGK97UUFb+zg9WbDmdPGd50
-         JAvw==
-X-Forwarded-Encrypted: i=1; AFNElJ/aBmJWbNEuV/ytVOegEfdCqFUFxUFpRr3hGMWgQNaNQHrPZrbeCBZYNbot+D2YQbAFs26Rgk1A6nsXag==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yypp37k2O2o+n2VNLlruorUB5CpC8+aCCCfVw1nns2hTriCV2Oc
-	OEepUJstlTuufxKZWWCaHbivbDL0URVgwH6i3utlWVmnn/2esAU2WhOZ
-X-Gm-Gg: Acq92OEQAk1xOSMSlOASMpdLJA7G0ChT++ZiGJaNDaB8jgPYUUMPm2hwRC4gbncvKtG
-	4hDVQrQzKY5clIuQl9Gbnvu5mqAktk7qDzUCRbpDu2yZP6HK5wMadF5zrRn/pcwMJa7k+KH4hHA
-	scq73KlVOOUq6Qg65Oub4F9eO4EUu3E34aNx3QNnrC3XH54hchgngGWj9QgwgE0o1BHeATZ/B3g
-	9VmsNzoggfTGxvQ+HMhzmLvV0FTETiXbgpFyLD0VIUeuGUQltYcZ4r936BwjMtri+JSN/NqU/WA
-	3kcoQDUvIy4kMbG/2EL4jzyeGotNxYmSlZvNpOiXiA6bjDeeKDWeIJ5egSeQLvuozMXJ1tSx5WF
-	ZJRfN0rPDYtWDhxDSZg/WtON4zX4MJxxLhhWgLCeT0vixmoKbTHzUjyD1z1dkurPV8hPco1jSQV
-	zF/s2g4DoyN6zd6iPxeud+jWCq28TKmwUt/J3BD723eo4iYfn+jRiH9d0FLR+9/n/CCRUc
-X-Received: by 2002:a17:902:f711:b0:2c0:ab82:6ba7 with SMTP id d9443c01a7336-2c1e85ad8d7mr289553825ad.33.1781086927749;
-        Wed, 10 Jun 2026 03:22:07 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c1663981basm239924075ad.67.2026.06.10.03.22.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 03:22:07 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Jerome Brunet <jbrunet@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH] ASoC: meson: axg-tdm-formatter: Use guard() for mutex locks
-Date: Wed, 10 Jun 2026 17:21:53 +0700
-Message-ID: <20260610102153.83367-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kvvMwC5h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 416461F0089B;
+	Wed, 10 Jun 2026 10:23:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781086994;
+	bh=Hu3axCTPjfMs3cUhhhjRYZSUzNrC+vMNBMn69voBuMs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=kvvMwC5hvuAadTTNgtBkxkJ/4i/OhV97HPFAOGw04yvN/C0tHKMtwfFN+CFBYYy+O
+	 fQX8hRrnql+Sn/jhjXmSLaJ6ZYoV4Kn7IGZtTzTUjf20k0n3+f6mRQaUT6j4qFM/n2
+	 QESfwtwsftiUZ+msK/fJA2Iuyq2V0x1ftbZm7XqyRI38XhT362kwIqqxlruKMtJYDN
+	 cbg/JESdE/r7/W9IYFSza4/OJmD8C/Q8W0BPieEnVmrjtvhGOGeTfLeQ1qL4eTN5Sn
+	 EgmYWWqsqiMB0lQ54TuyT9VutGFMxAYxrtNZLon3F2+qYdh00qdL5U7CeuWGShS2sJ
+	 iYNTHzYNOmVMA==
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, phucduc.bui@gmail.com
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260609113836.45079-1-phucduc.bui@gmail.com>
+References: <20260609113836.45079-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH v6 00/11] ASoC: renesas: fsi: Fix system hang by adding
+ SPU clock
+Message-Id: <178104804456.232889.7203992010119048881.b4-ty@b4>
+Date: Wed, 10 Jun 2026 00:34:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2546; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=GjQoMSl+S+ijDAnNQXjwhwnaSIySn/7/CBufcCjNSyA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKTsORBTxRP91rPH4QXSV+YoHKfvpSBoH9EWz4
+ WPuauw5ch6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaik7DgAKCRAk1otyXVSH
+ 0F9iB/0bvlHYY5F8KFfNZKW4GcfAdhhY74UpfzFD5YO+aoOgnhk0ebhuMJoGoYYaMbERCbsEmxi
+ RgKTPEe6o0s+Wgo2k2TnfZFDn3EjBlnTuZK+5B0QzMM4Fv799zLhm62nCPnxeRrIggfivmAMKIS
+ L9poiI/RUR3qZ5mSQKrxvTHVj83Dnnoc43XQ9vEwIhFG7FiY5UNZKVx7wPEwMpYyhxxFgGoDcvx
+ YKBO6ZsH++QESoEuUsS6W/F/6cNlmDgsrjaL2bxED9SChoaPJm9JGN9xwqTy9iHbl6bEPCw4pC3
+ 83N3BDd6DbcNGUb4yfvDUifktXojtCv4W7U3bxEyWqNPtR94
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On Tue, 09 Jun 2026 18:38:25 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: renesas: fsi: Fix system hang by adding SPU clock
+> 
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> Hi all,
+> 
+> The FSI on r8a7740 requires the SPU clock to be enabled before accessing
+> its internal registers. Without it, register accesses may hang the system
+> even when the FSI functional clock is enabled.
+> 
+> [...]
 
-Clean up the code using guard() for mutex locks.
-Merely code refactoring, and no behavior change.
+Applied to
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/meson/axg-tdm-formatter.c | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
-diff --git a/sound/soc/meson/axg-tdm-formatter.c b/sound/soc/meson/axg-tdm-formatter.c
-index f451e4dce442..a6ba401104d5 100644
---- a/sound/soc/meson/axg-tdm-formatter.c
-+++ b/sound/soc/meson/axg-tdm-formatter.c
-@@ -157,20 +157,19 @@ static int axg_tdm_formatter_attach(struct axg_tdm_formatter *formatter)
- 	struct axg_tdm_stream *ts = formatter->stream;
- 	int ret = 0;
- 
--	mutex_lock(&ts->lock);
-+	guard(mutex)(&ts->lock);
- 
- 	/* Catch up if the stream is already running when we attach */
- 	if (ts->ready) {
- 		ret = axg_tdm_formatter_enable(formatter);
- 		if (ret) {
- 			pr_err("failed to enable formatter\n");
--			goto out;
-+			return ret;
- 		}
- 	}
- 
- 	list_add_tail(&formatter->list, &ts->formatter_list);
--out:
--	mutex_unlock(&ts->lock);
-+
- 	return ret;
- }
- 
-@@ -178,9 +177,8 @@ static void axg_tdm_formatter_dettach(struct axg_tdm_formatter *formatter)
- {
- 	struct axg_tdm_stream *ts = formatter->stream;
- 
--	mutex_lock(&ts->lock);
--	list_del(&formatter->list);
--	mutex_unlock(&ts->lock);
-+	scoped_guard(mutex, &ts->lock)
-+		list_del(&formatter->list);
- 
- 	axg_tdm_formatter_disable(formatter);
- }
-@@ -330,7 +328,7 @@ int axg_tdm_stream_start(struct axg_tdm_stream *ts)
- 	struct axg_tdm_formatter *formatter;
- 	int ret = 0;
- 
--	mutex_lock(&ts->lock);
-+	guard(mutex)(&ts->lock);
- 	ts->ready = true;
- 
- 	/* Start all the formatters attached to the stream */
-@@ -338,12 +336,10 @@ int axg_tdm_stream_start(struct axg_tdm_stream *ts)
- 		ret = axg_tdm_formatter_enable(formatter);
- 		if (ret) {
- 			pr_err("failed to start tdm stream\n");
--			goto out;
-+			return ret;
- 		}
- 	}
- 
--out:
--	mutex_unlock(&ts->lock);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(axg_tdm_stream_start);
-@@ -352,15 +348,13 @@ void axg_tdm_stream_stop(struct axg_tdm_stream *ts)
- {
- 	struct axg_tdm_formatter *formatter;
- 
--	mutex_lock(&ts->lock);
-+	guard(mutex)(&ts->lock);
- 	ts->ready = false;
- 
- 	/* Stop all the formatters attached to the stream */
- 	list_for_each_entry(formatter, &ts->formatter_list, list) {
- 		axg_tdm_formatter_disable(formatter);
- 	}
--
--	mutex_unlock(&ts->lock);
- }
- EXPORT_SYMBOL_GPL(axg_tdm_stream_stop);
- 
--- 
-2.43.0
+Thanks!
+
+[01/11] ASoC: dt-bindings: renesas,fsi: add support multiple clocks
+        https://git.kernel.org/broonie/sound/c/955fecff55c3
+[03/11] ASoC: renesas: fsi: Fix trigger stop ordering
+        https://git.kernel.org/broonie/sound/c/859efe92b0bc
+[04/11] ASoC: renesas: fsi: Move fsi_stream_is_working()
+        https://git.kernel.org/broonie/sound/c/c9e05e2fa089
+[05/11] ASoC: renesas: fsi: Fix register access from in-flight IRQ after shutdown
+        https://git.kernel.org/broonie/sound/c/e813df3ef529
+[06/11] ASoC: renesas: fsi: Move fsi_clk_init()
+        https://git.kernel.org/broonie/sound/c/cfa1466e6dfd
+[07/11] ASoC: renesas: fsi: Use devm_clk_get_optional() for optional clocks
+        https://git.kernel.org/broonie/sound/c/5fb4660ce59b
+[08/11] ASoC: renesas: fsi: refactor clock initialization
+        https://git.kernel.org/broonie/sound/c/2330e0b49f14
+[09/11] ASoC: renesas: fsi: Add SPU clock support
+        https://git.kernel.org/broonie/sound/c/39033b278f9c
+[10/11] ASoC: renesas: fsi: add fsi_clk_prepare/unprepare()
+        https://git.kernel.org/broonie/sound/c/05e1ebfeb726
+[11/11] ASoC: renesas: fsi: Add SPU clock control in hw_startup/shutdown
+        https://git.kernel.org/broonie/sound/c/26deeee42f4f
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
