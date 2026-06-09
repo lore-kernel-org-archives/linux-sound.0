@@ -1,33 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FFA3ED3CF;
-	Tue,  9 Jun 2026 08:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1143ED10F
+	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 08:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780993053; cv=none; b=QmmOpmLuRilU+QWvQpjtWtt5fESB5fNvWwuk/t0S/em4aENfJfBfOIMbYN8AL4f4ltNksj0+vRMxsvb5O/r1EnTHqM+fEZOfYxGCJWcw+1c3ngtOSOeLVJPHjI3i3bBXjHz/YJ3rra9tqi271vMHHQ/GBlp1OqFeKQvtV6xkDXA=
+	t=1780993054; cv=none; b=DXYAGaQJd9wOxsQRFxYtP36ujnlWi0WvRNMXwhxSrXSn1yrB6NB7Z7K28L3Z2dRDW2SRJ3h+SUdLe7HE3f2iPR00HLaKhGJYw+ORCeyPR6U7KPagaZ5Yz6is46KYYMTAa894+UDsQgArPwoUYXQNstK19666zkgE4Yb7/cudKss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780993053; c=relaxed/simple;
-	bh=Hey1LQAXuZmCG19jslP+c9ud5xanXTUfnmWwHzTFagY=;
+	s=arc-20240116; t=1780993054; c=relaxed/simple;
+	bh=uQm6s70m59A3ZS0k7qVGOuINJm4UcVMZ64aEEQVkb5U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GPUypD5+aiqi131pplzTrDzKFvEmoGH93EV8b1erjmxuYQKEVS949DIGzZtJ6AH/JKH3uVHkQa7UDmjUhY3XJnqU+qED/zLOyBf16jFy/Ybi7hb0SgIek4jrdMlKEaA4CapT5oeVHEJNTY1aT2EzDqIKBQIAIM/tmSXmOebKdzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UngoCtbc; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=ivegKX0MsgP+/S4c6D/d4ziJddn1EgW23AQadoq3+9AvnW/r5PeeXsMusQktbKp5ufPOl5j/ugwzb9PeaGY8EfEk3i3ltTj4YhdpvgCAfpgJKWwcFxybTaHIUFPd4kEl4T5T4aJrOFMqK6cVF2UvQ+L98X72HLrZ9h9zE88MY8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LxpRCKyS; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=C10KizJI; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UngoCtbc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 924541F00893;
-	Tue,  9 Jun 2026 08:17:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780993050;
-	bh=+o8NcVD44f+MtaBW4vVd+tz2TjDGupXfe3eEvJ2F4As=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=UngoCtbclOO4mbIiAWj93LITYtulX55/t8J1v3B/50f9sawhcJYKSJC42tEwlpwX1
-	 nRwxf/TKCYvF42E9xLBygw7NdRACc6GeNvRg4rFybVuhc33/B2lTuK6FrqkGbqueQx
-	 bVNy4B9WrylEZFTlzRVYEB06Lafx40f6NAlbz4v3h9HLE8QxKMtXqakjzSKCiYFUMV
-	 9UzXvFAlowTWx2YNGOu0g2+av/7OeFPbMMzntGRjbW02iCeojdngKMkA3qBjESWj1L
-	 08NKESpleYfq4JQGz0+ZLoQVfm4mdsP781MdffFiG6g9HLB5ZDp2m3kFKb51aEjFe+
-	 PuBSuJ7SDQrEg==
-Message-ID: <6103e3fc-4b27-47b5-aee9-8b481759eb65@kernel.org>
-Date: Tue, 9 Jun 2026 10:17:22 +0200
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LxpRCKyS";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="C10KizJI"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6597rbUx1923227
+	for <linux-sound@vger.kernel.org>; Tue, 9 Jun 2026 08:17:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	eTkKKYwFiIEURTm1w+ARkuT6eNO4BWc0Cd3iyEr2PXA=; b=LxpRCKySf8Mfd5SF
+	6mfSWm+N2eFCA5hgMr9wPauwkmvjBlaSZs0fCgqdnQRRPmzK/vI4zSaoMRzXa/4L
+	JuqkOURKE0vrkwSf3g62iOp9KZDa+ycBrWc4sO5AvGTLXMD1ZMXKPxNSiPuszwZT
+	OXuifKq8p9lfzGBRlcKAV9wjU+Sr38yh+Gz+soigW1qxwcif4/kic9ehS+htXy5E
+	nTiD7/DbN4cv0lSgfRZ4A0dUIEbR6KpPzjdpB8JHW7EneieUYArYxf7XZDA27jbA
+	FtNCkWGHBjbetWCO0kYxzv4qLAyXZ4eVjFxm8W3yib8p8WSNA5cCD2WwQvVVBLXK
+	g3+oeQ==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4epee4g72p-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 08:17:28 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-517c65c019bso22542591cf.0
+        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 01:17:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1780993048; x=1781597848; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eTkKKYwFiIEURTm1w+ARkuT6eNO4BWc0Cd3iyEr2PXA=;
+        b=C10KizJIS42ILXCfOQC8BJSFWHp3Fproz3SNUkKsNUGqnChcBwLLWeWj0boQOl8Tsr
+         MvRPwmgW4stzny/s4YcW+cNZDkRGoXqMJdrYCTxJal8AN+JeVE3DfiFZL8mU0fbFznh0
+         lD2l7CzbvxTVCsVW+ERUcHZrDhm1KgNajvTorSaxv6OAk9dsK7AHgwGwqveCyu8qSjDe
+         KV2O3Hj1xEvrSuQ8rLwuRAh86zXSKYai8j8G68UtnqtEWGFVjGpVjw+WMdkTXH5gd8iH
+         b3FchqEHBjTWYz9g5h6EVdsk9IYO7OfuDbgtJ0P31E9DAv4XQ1zec2ITcEYd+G0/bUY4
+         eyZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780993048; x=1781597848;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eTkKKYwFiIEURTm1w+ARkuT6eNO4BWc0Cd3iyEr2PXA=;
+        b=RZrmHxQfgKULwzHJtaL+Aa2RrTevpkPraJtjT43Kds1QtVcmbCTShsv91hkkTMQEFb
+         l7pFEJX1YV/htHSlNsbLWDhZ1gsilWZA71nxZvxtpcWdEtqN85x3lAV2aTKAV8sm+4v5
+         yrk4390aCmFOw+Jyl7NXZeJp0ItWeQk5JmoQQdtarjFtGWMaqkqx3WzERgEfkcG4XKyk
+         JaqBWWPJRK+M1att6Tg/U9lZlFPoUCPHHOBWkyfnyOcZh+/b2g3vZR5Rtkzp0fpWkYBW
+         Y5H1uL+8mYxZBex0kml4+vE5D+sOzKqdN4sn54wukWbAFecn5Q4AYiH/S1++qK5wRtsV
+         gV0A==
+X-Forwarded-Encrypted: i=1; AFNElJ86khY/PTjJ4yuIXCWr+H6GQxCfvvdVrTNQfxSy32zmmaU9dhnWgOO+j1KlNgLwuHSsz6hbS8IExAIhWw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1RsGnJGNP/QPdWCw67iyYJ+gkfQsQnOgVhPmimSqX0S0akIbR
+	+LLrGS041asdBSq7Thugm1bYrUHjPdNmdQ94Wm/IgiYckilZb9wWxEZ64s7K42+/dRs/szYc6Uy
+	/1YsXsH8srPlYqI/jOSQn2i1fBAFsyWGG0Hn89Nbfe9eYYKSAj6CoK6J7FT69VQxdpg==
+X-Gm-Gg: Acq92OFhhY7igs/3/Qu7QSODYv+peI7TCUyXkvrGAFPjI1JANt5AgzfDUuaYu1qtu/C
+	nGdufbBbR7nXo7Rhhxdmo/5RxrVG1k2VMgiNhqanTGGraw5vivU1+KxxmQlKYQud9Uj/8GO/tsk
+	IkhZ+iX2wSh+BQgNLtnWT66Md88roYpDJm/HtjpfpsIIeaB3wzrjvxjcVae6qtS47C6PuFFqc0w
+	xz/tLiQOPJsQmfnSv991c57XnGCsH7nh8D230TJ/ZBTe3yuEi/MKiTpM3uyWaf+1drWWA9dN7pO
+	oSt+FeHPdAvlQf6+ZRcPuMSab/vdGwCvbfmlorQvGdcXc+9FbhI58hTiCy5f2ziojbggr5PFXRX
+	KwMwABtkjFiSIniYj2NiRB5FW1bxDVf276mbK59ncK8t0c/cHO70cZME6FlU=
+X-Received: by 2002:ac8:5d0c:0:b0:516:dcfc:ebc3 with SMTP id d75a77b69052e-51795c52ac0mr280768971cf.30.1780993047965;
+        Tue, 09 Jun 2026 01:17:27 -0700 (PDT)
+X-Received: by 2002:ac8:5d0c:0:b0:516:dcfc:ebc3 with SMTP id d75a77b69052e-51795c52ac0mr280768521cf.30.1780993047458;
+        Tue, 09 Jun 2026 01:17:27 -0700 (PDT)
+Received: from [192.168.68.125] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-bf054e02b43sm973508466b.40.2026.06.09.01.17.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Jun 2026 01:17:26 -0700 (PDT)
+Message-ID: <7bcddc82-f46f-4366-a4cb-453a213f8bd4@oss.qualcomm.com>
+Date: Tue, 9 Jun 2026 09:17:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,127 +88,94 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 01/11] ASoC: dt-bindings: renesas,fsi: add support
- multiple clocks
-To: Bui Duc Phuc <phucduc.bui@gmail.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Mark Brown <broonie@kernel.org>, Geert Uytterhoeven
- <geert+renesas@glider.be>, Liam Girdwood <lgirdwood@gmail.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260609013107.5995-1-phucduc.bui@gmail.com>
- <20260609013107.5995-2-phucduc.bui@gmail.com>
- <20260609-nimble-guillemot-of-karma-bef5f1@quoll>
- <CAABR9nF6uhEyCo-6cekhKwfm3zkqjXCpj2O8C8Xk=2Frw0arRg@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v1 1/2] dt-bindings: soundwire: qcom: add
+ qcom,swr-master-ee-val property
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Rao Mandadapu <quic_srivasam@quicinc.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20260608175345.3118060-1-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20260608175345.3118060-2-mohammad.rafi.shaik@oss.qualcomm.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <CAABR9nF6uhEyCo-6cekhKwfm3zkqjXCpj2O8C8Xk=2Frw0arRg@mail.gmail.com>
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20260608175345.3118060-2-mohammad.rafi.shaik@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=PIs/P/qC c=1 sm=1 tr=0 ts=6a27cc18 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=A9yZ0FjQ5avCatc7oRUA:9 a=QEXdDO2ut3YA:10
+ a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-GUID: 63_178Ujd6GT5CVtTsjPF-sNovamknIv
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA5MDA3NyBTYWx0ZWRfX2pJqN/nTKhLz
+ j4H0zlRxo9ItS6/PvF5RFolAIyvIiqoSnRqy6FzXfxTbuhnw3Yf+p2YRQFlV/o6y+6vYIoiR5RX
+ rT0DdsXKETFLHU3VLQxCNvWCoDQZRfe9T25NGIpCGaImJLR/fHiWR8U9ZNp9DXZxNrWXdg/hkYv
+ 2TtRr7NxmUxQHJj+jRB0fQSuzVhLJF1B5m3Da6hiylCoX8l2cX3bZepzvq6MSBTggnOc/5RK3lF
+ y1GpGGCqpFHRJ2AwU5vczo9gKOEQIUNE39um3Ps4MEqyjJZy7gXKvnp7AT29tvKF/qMMxbJhecO
+ 6NFr2nB1dy8Zlr77H5b56BSivj8Zeqwq8YAQpt0QfSDZ+he+uOY3tvFplZXuGpI10I5zFC1m+LN
+ kkXXN7j43x76fNRyPqgAJpuXq/+VBTkvi35B48dOnF0kBju7OGCSzAIl99GqT4m+Pucbxe1VU2Y
+ o6ghSepxeZQaesyh+pw==
+X-Proofpoint-ORIG-GUID: 63_178Ujd6GT5CVtTsjPF-sNovamknIv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-09_02,2026-06-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 suspectscore=0 adultscore=0 spamscore=0
+ clxscore=1015 malwarescore=0 priorityscore=1501 bulkscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
+ definitions=main-2606090077
 
-On 09/06/2026 10:11, Bui Duc Phuc wrote:
-> Hi Krzysztof,
-> 
-> Thank you for your reviews.
-> 
->>> +      properties:
->>> +        clock-names:
->>> +          minItems: 2
->>> +          uniqueItems: true
->>
->> You don't need this, it's by default.
->>
-> 
-> Could you clarify which part you are referring to?
-> Are you referring to the "uniqueItems: true" property or another
-> constraint in this block?
 
-The uniqueItems should not be needed.
+
+On 6/8/26 6:53 PM, Mohammad Rafi Shaik wrote:
+> Add documentation for the qcom,swr-master-ee-val Device Tree property
+> used by Qualcomm SoundWire masters to describe the execution-environment
+> value for interrupt routing.
+> 
+> This property allows platform DTs to specify the EE value used to direct
+
+this sounds wrong, this should never be platform specific, this is SoC
+specific.
+
+> SoundWire master interrupts to the appropriate CPU target.
+
+Why should this come from DT, driver should be able to make a choice
+based on SoC compatible string.
+
+
+
+--srini
+
 
 > 
+> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+> ---
+>  .../devicetree/bindings/soundwire/qcom,soundwire.yaml       | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
->>> +          items:
->>> +            - const: fck
->>> +            - const: spu
->>> +            - enum: [icka, ickb, diva, divb, xcka, xckb]
->>> +            - enum: [icka, ickb, diva, divb, xcka, xckb]
->>> +            - enum: [icka, ickb, diva, divb, xcka, xckb]
->>> +            - enum: [icka, ickb, diva, divb, xcka, xckb]
->>> +            - enum: [icka, ickb, diva, divb, xcka, xckb]
->>> +            - enum: [icka, ickb, diva, divb, xcka, xckb]
->>
->> Are all optional in the board design? I cannot find answers to that in
->> commit msg, but it is important - you need to explain WHY you are doing
->> this and WHY such different way.
->>
-> 
-> For r8a7740, "fck" and "spu" are required. The SPU clock must be enabled
-> to access the FSI registers because the FSI block is located behind the
-> SPU bus.
-> The remaining clocks (icka/b, diva/b and xcka/b) are not always required.
-> Their presence depends on the clock topology used by each FSI port.
-> In the previous discussion I described the supported clock configurations:
-> https://lore.kernel.org/all/CAABR9nEhOTz1-0NmCMTbz=-+782Pto0yovSQhBXrXqhLwMg80Q@mail.gmail.com/
+> diff --git a/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml b/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml
+> index 9447a2f37..5b06cc1a5 100644
+> --- a/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml
+> +++ b/Documentation/devicetree/bindings/soundwire/qcom,soundwire.yaml
+> @@ -215,6 +215,12 @@ properties:
+>            maximum: 4
+>          - const: 0xff
+>  
+> +  qcom,swr-master-ee-val:
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    description:
+> +      Execution-environment value used to route SoundWire master
+> +      interrupts to CPU0 or CPU1.
+> +
+>    label:
+>      maxItems: 1
+>  
 
-This commit must stand on its own, thus here you must explain that.
-
-> The hardware supports several valid configurations, for example:
->  - FSIA/FSIB slave: only fck and spu are needed.
->  - FSI master using an internal clock: ickx and divx are used.
->  - FSI master using an external clock: ickx and xckx are used.
-> 
-> Therefore, while fck and spu are mandatory on r8a7740, the other clocks
-> depend on the selected master/slave configuration and clock source, so
-> not all of them are expected to be present in every DT.
-
-Explain that in the commit msg and be explicit that all these further
-clocks are optional.
-
-Best regards,
-Krzysztof
