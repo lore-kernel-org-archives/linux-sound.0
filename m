@@ -1,113 +1,662 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA433F58E7
-	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 09:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731D33F58F0;
+	Tue,  9 Jun 2026 09:49:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780998586; cv=pass; b=qVqulqo1MulV4Z7VTcRfeBOVxGlx78fO5Db2jFQ0Rjt0R6gwxz8yq2Er6nyQdLZWNzAHs3S1XYu8jobznQm8ncgxnGsxGK3xim/BA1hW+7Cb2B3JTau0nEWVtB+j/gnEMcTBZ6jPFV5Sp7tSz9Rmx1k6zLxDph9pp16GPyMZ594=
+	t=1780998587; cv=fail; b=vGXkDQWczE0yOd6EBv6v1kRn6p58HlzpepDmdnEzRYWVHZclOxEmsNBiZQblfdNrzjKAj+JJM3h0OGvjfMtlbKJ+tE5v69NxuULP+YNFTQZ+HSDZSLR1Xv6j/bbT7PzlzvDBDBa51KEbkqMRpMXE4zNg6+6QhiOwgt5RpHAQrys=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780998586; c=relaxed/simple;
-	bh=q5WaJN9st8+bnH1+MzVguSudiJc27t/J+CSb2Cfa8zU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ca337mC6wedoeBpLKbY3rMsqR2QrVBt6gaJPIibW/ax1L5gsgesNZO4/ZGzmAzuEtsJjlvhl/UcXkPdCXrU3aUS5MGx0yK4FxMhjWMvulVREpjXeimNx3XaWj2Jun+v16nlgNmCueMVe2brmbWjt3cEKYhqT07L+S7leOPsMIn0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KBbM86Ky; arc=pass smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780998587; c=relaxed/simple;
+	bh=bLr/x62fufMUkBZ+0EEI5hA0CYDJnANEohBWPKSzbUE=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=nBjf4NPmvCS7V3bPmHt1MG0y+HE8WOQZ7NCeUwlB8FAzWOuKFf/Hq1n3rmiP8pXdg+pyVSdbGsYzobHRdfuF95yMslSJqWsAqjr6Bju+OogFK2tuZWKoWtTbXnAd2AXpE8y7clMTx6VcLI38jdV73F3vBIe2RtISHZsr1GRRCD4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NeSH9hAv; arc=fail smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KBbM86Ky"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2c0b9328c4aso37233805ad.0
-        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 02:49:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780998585; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZOhua84oVeTaS6MSwd0KmTsNv+E+alW9RP2/W5kqqjkeNEU2V6uUqjeaGkobAvqIQP
-         oScHPBc3t01jtFWelhn7CfRsf6RSLZfNDkKTvaoxhPeq6hjtKxhcOaZNrp6WSb2Mz2BG
-         1SIx1Lmkc4YQqVePBYMRXSpydE5c283F2E/LVsiX7qTyBxy9sKQZWLFxcimGGPUDpmxs
-         qC2XQ33xD8Xg5dK9O1EkApTMUOuaCcZw03N/jc2N5Nd4rore7sDhOyWmICN9nyGuUndW
-         tErndDK5K8cMNtQnU/ttdqbpRL3fr3r27PauFQ7ajceu6tmLi63/TWp4naqteDDNqylB
-         2tIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=q5WaJN9st8+bnH1+MzVguSudiJc27t/J+CSb2Cfa8zU=;
-        fh=3HFGN0rjjGpVlr8/foFSDP0emF/GNU2ogrEnxC4zGxs=;
-        b=J6nlHEcFINiR+pI5RZQyn/TszpgljD+/GOlmqCZwHy9V8Dd3bia2Z0+xmsUe7cbQsD
-         wNScvsiXL9Hip9KmPkhd0ByahlVUcI7qVeFq+8yueB53fBLsBpwYsoMjz34mzf4Di/ek
-         pLYKr1048h5o0W7Ay52fB0RbH5OZymwPafLf/GoOb+W1zepOJDhaSQ/I7E9Hcya8pKo9
-         FqfbLd2xHAKmPJrpY8d0uYUKC8hpFEwntvojHrYgeCM4rjwTVcTTqWK+TtnRFEX89ah/
-         Bfw5sT9IBeUryZJEl14/oxgPhAqYE8HgDwg9NINLLSP0SBTH1jCGlqqZKtfXW/QQ/q61
-         ENYg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780998585; x=1781603385; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=q5WaJN9st8+bnH1+MzVguSudiJc27t/J+CSb2Cfa8zU=;
-        b=KBbM86KyF2nfp2WA+02JDxIwb2euc7XguaPtK77tXmF9Yq6PJNheOBy2xScKCQ5Vx2
-         X717y9ajvuSaCM1XXHpbajuPyGRwckuWfseGBmzsnunmD/b9WdFLVzUBCRa7y9Kx76f3
-         ehCjBI5X3OPQ0vyKWxliXWwqltJyFfe1JGwhnw3EcZXvGSjTBrf/BrS/ORpkrEexRJ3Z
-         Ity9ZSfWAoiOwD7S2LnFisB+SF46EgFv+XGMqdlF2Tfg2YD05dVmYdFFUudH8V+SrOP8
-         ABwfr4KvR8ffng2RGQGb4ojAorVJGCAbtOtT47lzEX3IA7M0kx0tn7GSWS9OkiSQPLBR
-         ePiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780998585; x=1781603385;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q5WaJN9st8+bnH1+MzVguSudiJc27t/J+CSb2Cfa8zU=;
-        b=QvUwFrmNh9WRZuMiOV0mO66pxmikfRSwUM2Nvp50mzFR8O96OBXuZRsisx8ikY8OWI
-         vEMfyuR2lVM1/Nlia9M6dV5LuobRU81Xa1Tw5rcy2qBdjunsD6ffOqkaALkKRU1K05sH
-         B/Cq7xE9dKZRF8swqSFeupYopBabI3LE0AUiHmyielItq6UlG1gJ59J5V77JcaZBx8Iu
-         NhWGvzL8bBQ6a3e6bIzHegcCuPRdqFhq47q/Disf3B0/7L2I3Dq/Pxa50b8O2ffZRrs/
-         S8q7Flw3fx+sN3wr3TVFXmegjnO+2ouaZKT7AmtlO/JjMTOClX59vwYiCG/okn/H4oLi
-         oefQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+LKiajhgHnwBGJMyE/YyyAjLEVE7I8B//FwS3dW9aAVysNIcru/yhO8qVuDihpxZgSnTdHlNFMNhAI+Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yze/CwdKbGEJFhBR3Rb9L8HUexErVFW7gO+mNmnbCTmifBm4oZt
-	/kz3suIPJh/lYy6FnvQif6ok0hOcawD4DDZfmSMqB/eERxMxK2K+Lv1U++xbcSzUuKJSB01kjv8
-	zKZC8ZW8oQO0V16sZ5iRBHfJ5Rfuhrfh5NOQi
-X-Gm-Gg: Acq92OGLitJRyxxilLmauKF0e+SqrLalcX0xOQY+vIEKyLVxYdvo8CXgAUrcZTipcU4
-	nNjvo+jGn2uP5866jpNn4JCUyteJIxSNlJGOiDG1lAAhALPVtcjYXcv4FIwCMit9GCHejUJmwlH
-	1RxH8YtcGmeSQE2Vea1Q5tt9CaArjecQ8zXey2oIKO/AV8aWq8m2JCWJDBdmMJnAEJIjkAd5J6B
-	F+nTxUsXguckaa7RkbWXWbX2ik4ShPg23PihJusjwDZLwX8q/bXeVtdmZavw7dXd4i8ZfIIgwgT
-	IvNGVEEn8dd4dadHmWEXCMjOvyf/5x+eNsxHezdcftvZWJZMPziYG+3FbCk=
-X-Received: by 2002:a17:903:15c7:b0:2bf:1e37:a2ff with SMTP id
- d9443c01a7336-2c2a19b70c4mr29256975ad.0.1780998584740; Tue, 09 Jun 2026
- 02:49:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NeSH9hAv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780998586; x=1812534586;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=bLr/x62fufMUkBZ+0EEI5hA0CYDJnANEohBWPKSzbUE=;
+  b=NeSH9hAvMTaSfpJhXVbnb31eN6dVii77/FMPv+MTmuNcK/smRKqijXtj
+   XpmQ4bTGk9PYRYWgfCjs02eiMG90dMd0x10VC3kHOUK7zSiE6TEJrvQuM
+   m70HNbAYKiYvw0JRSc7j0lZMeAyDgxkWFOrcMUFXVMEpeFLrsQXfR0QWz
+   rHzmC2j0a6NemSi3eCwvU7vAUjsjpQ0MvZ4jyI45CPmf05p+cFs3N7lsT
+   XEIKMnfH9Xvkcokt67Lc/vDJJGExrqnipCFOTUQ3NwadU2607wyZ04cTB
+   ER8Hys+hUIYBa2lkM53rQHKwRDcYY5UBydGvw3UylHZ4BuDoMCoEt+vdM
+   A==;
+X-CSE-ConnectionGUID: pwht1z80R+OFn6DOyuIxPw==
+X-CSE-MsgGUID: sQRYqIWpQKSIpqulqokrbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11811"; a="104418302"
+X-IronPort-AV: E=Sophos;i="6.24,195,1774335600"; 
+   d="scan'208";a="104418302"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 02:49:45 -0700
+X-CSE-ConnectionGUID: hOJuw64uSlimn+v6BhIvHA==
+X-CSE-MsgGUID: u/H8gYT+QfOGtFaXc3WkDg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,195,1774335600"; 
+   d="scan'208";a="245661762"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 02:49:45 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 9 Jun 2026 02:49:43 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Tue, 9 Jun 2026 02:49:43 -0700
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.28)
+ by edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 9 Jun 2026 02:49:43 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pPdmGOgz+25dEo8ph/1kN4HRCJuil/vPZN2fM+wpKGgwCkALil9TlXU44O7EN6PBbflt/QQLCsC9h8FUk99K+scWCa5GTgdHDWxvhhALiV8qeunwjaf1t+VK17yiKy5wEbPA/BSekRNeIRsPfgFE+X8fR7NDr8qKdKEWpoubsu5pyw5Ts2C7NHflwK5G8IGUcN7sX6K0o8Y2fLiRfJeLJvyQkOU228x8X8ZzohVJtHflBf1CPqvWtJAgLSYC2bKlY8Wg2hLw/klhwJ/21orIP76rNt9tFwUKNvIJix2MkENpHBffNP94I9edDTb+inGx0hqpVTeFmiJQhmYJtuDMrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mH+eiKX6PXzoGBtzCVpG1VoLTZItjzGWvH8AwVHdBZo=;
+ b=uCue6sKohrhgOTgOQjekDWfF8L5oAhh+AMiqpsnGUc+sAqUYERG+k8MWwelxyoJLRxWmcVMU6Qj7EBYt2WTHwLZpLV7ASItkDNOSGb2M3I0r6JL1WS2zLaKuRIdCpU56IAVvOkCo89/ft5G1StDSzE+Pv0Z2Rg/8NSQGRt8k6z6kgIEPM8UsIjHGdTvs8okk/ewYAKEesFCQxcJ0LpW0/MHqUsti/hSkaXqnYO4IxwAidfWrERy4X0chcc6x2wzvS40qo7Hw0CPl1hBpIo4bK+fYt+kfAKI4nh3W0pg2wKjdIGIoqeX8rypgyGZMlD39/zb3Q56VzB5EFCA/N8zKBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
+ by DM6PR11MB4516.namprd11.prod.outlook.com (2603:10b6:5:2a5::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Tue, 9 Jun 2026
+ 09:49:35 +0000
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4%4]) with mapi id 15.21.0092.011; Tue, 9 Jun 2026
+ 09:49:35 +0000
+Message-ID: <329cf637-786d-4fee-9c63-b8e73827b330@intel.com>
+Date: Tue, 9 Jun 2026 11:49:28 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/2] ASoC: codecs: nau8360: Add support for NAU83G60
+ amplifier
+To: Neo Chang <YLCHANG2@nuvoton.com>
+CC: <lgirdwood@gmail.com>, <perex@perex.cz>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+	<neo.chang70@gmail.com>, <kchsu0@nuvoton.com>, <sjlin0@nuvoton.com>, "Mark
+ Brown" <broonie@kernel.org>
+References: <20260609024128.585938-1-YLCHANG2@nuvoton.com>
+ <20260609024128.585938-3-YLCHANG2@nuvoton.com>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <20260609024128.585938-3-YLCHANG2@nuvoton.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR03CA0051.eurprd03.prod.outlook.com
+ (2603:10a6:803:50::22) To SA1PR11MB6967.namprd11.prod.outlook.com
+ (2603:10b6:806:2bb::15)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260609013107.5995-1-phucduc.bui@gmail.com> <878q8o2ob3.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <878q8o2ob3.wl-kuninori.morimoto.gx@renesas.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 9 Jun 2026 16:49:33 +0700
-X-Gm-Features: AVVi8CdljbTt5iumVzeCFBObBOG-VUOn8HWf8RQUwP6hql8FD7Nvhkr27Hm_R2E
-Message-ID: <CAABR9nGTi_Sc4Rn_Prg-cv0OeQkR_qjvaFPZAH8hf3JSCF-yZg@mail.gmail.com>
-Subject: Re: [PATCH v5 00/11] ASoC: renesas: fsi: Fix system hang by adding
- SPU clock
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|DM6PR11MB4516:EE_
+X-MS-Office365-Filtering-Correlation-Id: 836b1787-d568-408d-037b-08dec60c69af
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|11063799006|4143699003|5023799004|56012099006|6133799003|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info: 3OJTAGAr94vy7ESJtqpL0Zhac+fOv2HviKiXXhOPJQtiwqo4u+N0ttBswZqVih5YTM9L+AYGCYzkSAe2axb9k4CoNglBRzcqe83nvtJXOR8dZ0z2EY+wmpo8FDTfK7xSzA3tJH51ZCODFzq+9d1j8aahJzQJucU+Vp7KAnAOoej/WR/Aja21DHyup+Q3kF8fGoK+cgP8hOr8Zi9wanq84lqfdabF0Y19LuP5xiyYRXsJT+udXYkxRiCSjCGeD0M/o0PDVethTB/JkfoS6GVy0TE18YFxnHs+VNXhOk6G0HmoMIiqtPCyqbUayAuL+sxfHxuIQBk1i0AvaLW6QpyuesUv2FbL6KTwwyw9IRF9LooxDpunst+iYjHMdKIqQIPQrjbbMaXclAPKxwWQ2HkfJqxA8WsR+cuVN0VzL+qLReAlXLGCyidh0ZdcVH9REno45jvGij+FRrrDav/1mU1oUSmMyS5QLSonKM5Lx3cjs144e/3GwninoAKIrW2fvWh2FxArbvhvQj7LH/w6Xx0x0voDVd+tqo4kJ19wYBC38t4IGR269ECdF0cZrxZIm/RzhZGtdfkSGaNS67ZnM6IemDuwOt1YZFoyW4DJ8F32DcytE1E/ejhSdz3CiKqHQSy5Su8IPj4l45sjEld+1kLF9A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(11063799006)(4143699003)(5023799004)(56012099006)(6133799003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VUxPcituMEFQS2JRbVZ0cUhNd2pKTUViVWMwRWQ4L29UajdudDlqSDZWN2dv?=
+ =?utf-8?B?U0lQRWZhTk54cDdyZjBCelFFcWRRcDF1UnhzYW5DbXJtYzM4SmRBZmIwdUxM?=
+ =?utf-8?B?OEsybUdxRmFQU09sVjlnNzVPdTUyQnVwemhTdUVTUjBFU0h6S244aDR4a2M4?=
+ =?utf-8?B?MkxWRktKRWZUSVBJQVlzRXJlNW5MQVNvcEpSYlhtZHdzOVJjRSs0QldtbXVN?=
+ =?utf-8?B?anNLZHl3b2ovYndyeE9MaDh1ZkJDRDJrWVBqS0xHNWZyaWxpYjJGdDR3czZi?=
+ =?utf-8?B?YkFvS1J4R2ZrZzVVRVJqeGlURlpjMk8rTFZZazdwaG5Hc1ByeEphOFlYeTly?=
+ =?utf-8?B?c1FnUWgrRitXN3VGRUxIVEYrWGh2SGV3Z252aDdnZHFxenVjMmJ6bHBhTzVi?=
+ =?utf-8?B?eDJSS05HRHM1NUM0UDJ0Umg1QVFXaFk1Q0xZRWN0SHl0RXQ1NEQ2c3c0ODBR?=
+ =?utf-8?B?MENiM1Rvdnd2Wm93Q2NBRmNYOXVBRkM3TEp6UGM4VzNZN21HL0ZXUVBpVmhF?=
+ =?utf-8?B?dE5VTStBcnlvTEFhOXFYalJVVmNka21ZVGhrNkp1aFBvcmNWTDNJUUd3MUds?=
+ =?utf-8?B?ckdOOGprMC9Tb1ZFcUtJSFQ1amUzcVJiM2hIQUpjc05ybml4L1FxaGNOSzh2?=
+ =?utf-8?B?N1hXbGpxdk1PUVZkanNwQjhJUis0VkN3ZVoxWmMvVmVCVFNRc0dua1hPTFlq?=
+ =?utf-8?B?VE9pbkUvR3FvN2JhVTFzdStEcU1xa2RWeGd2L29WNFo1MGhaTGZJUC94aWpL?=
+ =?utf-8?B?UmpGVGkyTGduTWtZRGZGS0xBTWxKdXlwOXU4aHhLVTM1NXptZTFwbUZYeEdF?=
+ =?utf-8?B?R2dFL0NodzA4V1FUUWgxN0ZPZGkwTU01ZzFiVWMyR084ZWlaalV6VnZzL1I2?=
+ =?utf-8?B?dFFGendDb2tDM2ZnRUFCRmRXUDFUWFU4U3JKeXRrM0VHWldFTEhiSWR1WXRv?=
+ =?utf-8?B?NW5HS2praHdEbCtOYnd0WmRXRUYvckhlellrV0FuNUJmZVBOOFgyeGQ5R1Zt?=
+ =?utf-8?B?enFTNFFJQUt6WnVTSEQ2MlkvaFdHdk9KOWtsejgvRlpYTys2eFk4M1pDNDFP?=
+ =?utf-8?B?K1JXSjBabDRhcTBQQjVNMmtpY2Q1MjJINGJRMlVqd3lIVU9zZzNBeUhrUnFI?=
+ =?utf-8?B?YXpXUmZNMVI5bGtJOUV1SVNrZTdYdmxNV3VtbGlOdXJlazhlRWM3WCtLZVhB?=
+ =?utf-8?B?NG1leVVkazAvOFJGSjVPbGhKczFuaWtnOEhteU9TNUJkTDVWdEhuZWVLck93?=
+ =?utf-8?B?Q21kdWJkZ2VHWFd2VkY5WXpUQzRhckk4Y0YxUXRRcWZZZmtEZHpWZ01vRmtT?=
+ =?utf-8?B?VHBFOFcyblBZMTVkTElQblZJcmc3dUhwREUzMDlRYVVPdER3cmpKL3hnVDZ0?=
+ =?utf-8?B?YXFZeUxDc0h6RmkrTGZxYmVpS3JjYlVvSTRkNzZUSW93cWMzb2JSYmJhcDZv?=
+ =?utf-8?B?NDBRTCtySGJJemJYZm1tcGFGWk1TVlZSUkVCV2RwU0YweUc4WDdoZVFpeS8z?=
+ =?utf-8?B?cjJKUkZib0FnY0F6UzVMcmJhK2U2YTY3OUVTMVM4QjcvUjVodzRCVExtaGNk?=
+ =?utf-8?B?djZkOFowZkZaR3YxTXB2NFUza3FrdzBxTUFuZDJ2dTNFa3QzS3dwV21MNlg1?=
+ =?utf-8?B?RnpSZXhuTlNYS3pzS2NjMHAzRyt4QXh4bUFUUXNzd1VXT0R0UVJLKy9Xek90?=
+ =?utf-8?B?TGJFRGdRam5wNytzeGFJYnFvRHcvTktKRlo2MkRtSmdzYWIxQzRxMGdLUUk1?=
+ =?utf-8?B?OWMrZWpjOUgxdmlLeHVsSkkramFudEJPMlFRZTZUdVY1SUNQZUlrYllISHcv?=
+ =?utf-8?B?TlVZNUJONFExcTkzd2E2enVJM2ZIUXZTOUVoTXYyRFlXR2FWS2d2Q1NVS21U?=
+ =?utf-8?B?L24yZTlVTDRYOUc5d1MzUHZ4cjRLOEUyQ1FVSUNuNXgya05tWnVoTHVta3JS?=
+ =?utf-8?B?eEdoaUkvUkw1d1JhZ29sY2RzZ2Qxeko3dlJVa0U1aUsvM25DSEtyMGxROWJs?=
+ =?utf-8?B?Z2Vzemo5NXlMdWRpcjVWc3ZNZVFEVFZtTnR3QlpEU2VVOTNpTGpZOUFPNHJm?=
+ =?utf-8?B?NXBoZ0ZvYUxNc3BpUjQyTVZ6dWMyVUV3VElaUEsyTVFwTFliLy9HZk9neEpZ?=
+ =?utf-8?B?WDBSUXdhZDN3Mm5NMjl3VlhLa2R4NkgvQXduVWVaTmpvN21SZjRoSTZqNUJi?=
+ =?utf-8?B?RzVneUdOWDkvUFhQZzlobG96eHNmd29IVmFORE85SVU2OXc2VWJHYWFmQVdh?=
+ =?utf-8?B?WnVaSTh3WGhDTnRFT2ZqNU52U29GL2E1SDgxNmwyT1NlSTdWbXMzeURoRXNl?=
+ =?utf-8?B?OFZWZnFxL2s1Z3FrSEU2UW9EZy9WN3dLZWh4eWw3NStOUkowY1lwcUs3R01X?=
+ =?utf-8?Q?swYQRTK/blYdc3ko=3D?=
+X-Exchange-RoutingPolicyChecked: SZCVrYBsdl87QpofVupQPf/YmScfsuk5109QuL4hZoo/Ynas4a7hOTp4QojHdCvGlkkBKEhfNegf414t2EIa6QaI89YtXRaRCsoavy0ZLfoJ+la35ltckfLIkvnThguJwNwFUThwxVA+4EyjyXaCTI3SYLM23V2sZbSn5i+MEoearsfLJo4QLAhe1E9m48mK0B6I0xoGNlcM+FMR7xBlrz5UPc8tYwolPSzkcsN5t3nHuygwnLKwAGKWZ9X2kCFGqir4L7O4gStBbdqM0qIGVHElSNHkGrL9prb+PVv/UM/auWhv/RCl1vBuCtagASItZjRrqRfFXZm4HPessFnTpg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 836b1787-d568-408d-037b-08dec60c69af
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 09:49:35.1033
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yu+UXzhrfvtfRg7Z8xhxestmrloI3vGFv35RtP8l9KbW7izM5Dho7nwc3zkT96zFJzIWWhJTJwVrdZ88YvaTp/ODdcqokaxrp0hB6csLiaE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4516
+X-OriginatorOrg: intel.com
 
-Hi Morimoto-san,
+On 6/9/2026 4:41 AM, Neo Chang wrote:
+> Add support for the Nuvoton NAU83G60 audio codec. The NAU83G60 is a
+> stereo 30W+30W smart amplifier with an integrated low-latency
+> Advanced Audio DSP.
 
-> For all patches (except DT)
->
-> Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->
+Hi Neo,
 
-Thank you very much for your review and Acked-by.
-I will send a v6 shortly to update the commit message for the DT binding
-patch based on Krzysztof's feedback. I also have a few small updates for
-patches 8 and 11 to address comments from the Sashiko review.
-Thank you again for your help and guidance.
+I've provided a number of possible improvements and nitpicks which scale 
+for the entire file - not just the occurrences I've highlighted.  In 
+general, it's hard to follow the code.  A lot of arithmetics bundled 
+together with limited spacing/comments/self-explanatory names.  Sheer 
+number of if-statements and brackets does not help either.
 
-Best regards,
-Phuc
+There seem to be quite a bit of defensive programming here too - checks 
+just to print a message.  I'd suggest to enlist event tracing and log 
+the TX/RX communication unconditionally.  Would eliminate the need for 
+many of prints found here.
+
+> +static int nau8360_reply_from_dsp(struct snd_soc_component *component,
+> +	const struct nau8360_cmd_info *cmd_info, int data_size,
+> +	void *data, unsigned short dsp_addr)
+> +{
+> +	struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+> +	struct device *dev = component->dev;
+> +	unsigned int payload, *data_buf;
+> +	int i, j, ret, frag_len, frag_payload_len, len_pos, pad_len, pad_len_exp;
+> +	int data_count = 0;
+
+13 local variables.  Does not look good.  I'd try to refactor this one. 
+Ask yourself - what's the (one) goal this function shall achieve.  It's 
+clear that currently it does more than one thing e.g.: performs 
+validation of the payload.  The validation could be moved into a 
+separate function.
+
+> +
+> +	if (!cmd_info->reply_data) {
+> +		dsp_dbg(dev, "The cmd without reply data!!");
+> +		ret = nau8360_dsp_replied(nau8360, &frag_len, dsp_addr);
+> +		if (ret)
+> +			goto err;
+> +		else if (!frag_len)
+> +			goto done;
+
+No need for 'else if', 'if' suffices.
+
+> +	}
+> +
+> +	if (!data) {
+> +		ret = -EINVAL;
+> +		goto err;
+> +	}
+> +	data_buf = (unsigned int *)data;
+> +
+> +	ret = nau8360_dsp_replied(nau8360, &frag_len, dsp_addr);
+> +	if (ret)
+> +		goto err;
+> +	else if (!frag_len)
+> +		goto done;
+
+Ditto.
+
+> +
+> +	frag_payload_len = frag_len - 1;
+> +	if (cmd_info->msg_param)
+> +		data_count = data_size;
+> +	for (i = 0; i < frag_payload_len; i++) {
+> +		ret = regmap_read(nau8360->regmap, dsp_addr, &payload);
+> +		if (ret) {
+> +			dev_err(dev, "failed to read payload of dsp");
+> +			goto err;
+> +		}
+> +		if (cmd_info->msg_param) {
+> +			if (data_count >= NAU8360_DSP_DATA_BYTE) {
+> +				*data_buf++ = payload;
+> +				data_count -= NAU8360_DSP_DATA_BYTE;
+> +				payload_read(dev, payload);
+> +			} else {
+> +				for (j = 0; j < NAU8360_DSP_DATA_BYTE; j++) {
+> +					if (data_count <= 0)
+> +						break;
+> +
+> +					((u8 *)data_buf)[j] = (payload >> (j * 8)) & 0xff;
+> +					data_count--;
+> +				}
+> +				payload_read(dev, payload);
+> +				break;
+> +			}
+> +		} else {
+> +			*data_buf = payload;
+> +			payload_read(dev, payload);
+> +		}
+> +	}
+> +
+> +	/* check the reply length same as request */
+> +	if (data_count && (cmd_info->cmd_id == NAU8360_DSP_CMD_GET_KCS_RSLTS ||
+> +			cmd_info->cmd_id == NAU8360_DSP_CMD_GET_KCS_SETUP)) {
+> +		dev_warn(dev, "payload_len %d, expected %d",
+> +			data_size - data_count, data_size);
+> +	}
+> +	dsp_dbg(dev, "reading trailing fragment");
+> +	ret = regmap_read(nau8360->regmap, dsp_addr, &payload);
+> +	if (ret) {
+> +		dev_err(dev, "failed to read trailing fragment");
+> +		goto err;
+> +	}
+> +
+> +	len_pos = payload & 0xff;
+> +	len_pos |= ((payload >> 8) & 0xc0) << 2;
+> +	if (len_pos != frag_len) {
+> +		dev_err(dev, "LEN_POST %02X, expect %02X", len_pos, frag_len);
+> +		ret = -EPROTO;
+> +		goto err;
+> +	}
+> +
+> +	pad_len = ((payload >> 8) & 0x30) >> 4;
+> +	if (cmd_info->msg_param)
+> +		pad_len_exp = frag_payload_len * NAU8360_DSP_DATA_BYTE -
+> +			(data_size - data_count);
+> +	else
+> +		pad_len_exp = 0;
+> +	if (pad_len != pad_len_exp) {
+> +		dev_err(dev, "PAD_LEN %02X, expect %02X", pad_len, pad_len_exp);
+> +		ret = -EPROTO;
+> +		goto err;
+> +	}
+> +	dsp_dbg(dev, "LEN_POST 0x%x, PAD_LEN 0x%x", len_pos, pad_len);
+> +	payload_read(dev, payload);
+> +done:
+> +	return 0;
+> +err:
+> +	dev_err(dev, "DSP reply error %d !!!", ret);
+> +	return ret;
+> +}
+
+...
+
+> +int nau8360_dsp_init(struct snd_soc_component *component)
+> +{
+> +	dev_info(component->dev, "DSP initializing...");
+> +	return nau8360_dsp_set_kcs_setup(component);
+> +}
+
+Do we need a function that just inlines to nau8360_dsp_set_kcs_setup() 
+except for a single print?  Doubt so.
+
+...
+
+> +static int nau8360_adacl_event(struct snd_soc_dapm_widget *w,
+> +	struct snd_kcontrol *kcontrol, int event)
+> +{
+> +	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+> +
+> +	if (SND_SOC_DAPM_EVENT_ON(event))
+> +		snd_soc_component_update_bits(component, NAU8360_R6E_DAC_CFG0,
+> +			NAU8360_PD_DACL_DIS, 0);
+> +
+> +	return 0;
+> +}
+> +
+> +static int nau8360_adacr_event(struct snd_soc_dapm_widget *w,
+> +	struct snd_kcontrol *kcontrol, int event)
+> +{
+> +	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+> +
+> +	if (SND_SOC_DAPM_EVENT_ON(event))
+> +		snd_soc_component_update_bits(component, NAU8360_R6E_DAC_CFG0,
+> +			NAU8360_PD_DACR_DIS, 0);
+> +
+> +	return 0;
+> +}
+> +
+> +static int nau8360_dacl_event(struct snd_soc_dapm_widget *w,
+> +	struct snd_kcontrol *kcontrol, int event)
+> +{
+> +	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+> +
+> +	if (SND_SOC_DAPM_EVENT_OFF(event))
+> +		snd_soc_component_update_bits(component, NAU8360_R6E_DAC_CFG0,
+> +			NAU8360_PD_DACL_DIS, NAU8360_PD_DACL_DIS);
+> +
+> +	return 0;
+> +}
+> +
+> +static int nau8360_dacr_event(struct snd_soc_dapm_widget *w,
+> +	struct snd_kcontrol *kcontrol, int event)
+> +{
+> +	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+> +
+> +	if (SND_SOC_DAPM_EVENT_OFF(event))
+> +		snd_soc_component_update_bits(component, NAU8360_R6E_DAC_CFG0,
+> +			NAU8360_PD_DACR_DIS, NAU8360_PD_DACR_DIS);
+> +
+> +	return 0;
+> +}
+
+Refactor the above four functions - you could create a wrapper to lower 
+LOCs without huring the readability.  If you prefer, instead of a 
+one-for-four, you could have one "positive" wrapper (handles EVENT_ON 
+cases) and a "negative" one (handles EVENT_OFF cases).
+
+...
+
+> +static int nau8360_codec_probe(struct snd_soc_component *component)
+> +{
+> +	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
+> +	struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+> +	struct regmap *regmap = nau8360->regmap;
+> +	struct device *dev = nau8360->dev;
+> +	int ret, vbat, vsaw_level, vsaw_slope;
+> +
+> +	nau8360->dapm = dapm;
+> +	nau8360_coeff_set_def(nau8360);
+> +	ret = nau8360_dsp_setup(component);
+> +	if (ret)
+> +		goto err;
+> +
+> +	ret = nau8360_dsp_setup_controls(component);
+> +	if (ret) {
+> +		nau8360_dsp_enable(regmap, false);
+> +		dev_err(dev, "DSP setup controls failed(%d)", ret);
+> +		goto err;
+> +	}
+> +
+> +	/* default disable Sense signal after booting */
+> +	snd_soc_dapm_disable_pin(nau8360->dapm, "Sense");
+> +	snd_soc_dapm_sync(nau8360->dapm);
+> +
+> +	/* VBAT is sensed by chip. */
+> +	ret = nau8360_vbat_level(regmap, &vbat);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to get valid VBAT level: %d\n", ret);
+> +		goto err;
+> +	}
+> +	dev_dbg(dev, "VBAT %dV for nau8360", vbat);
+> +
+> +	/* Config sawtooth clock according to VBAT. Class D modulator input short setting
+> +	 * for mute and de-pop purpose. Restore normal after initiation.
+> +	 */
+> +	ret = nau8360_sawtooth_params(vbat, &vsaw_level, &vsaw_slope);
+> +	if (ret) {
+> +		dev_err(dev, "can't get sawtooth clock parameters (%d)", ret);
+> +		goto err;
+> +	}
+> +	regmap_update_bits(regmap, NAU8360_RA5_ANA_REG_1, NAU8360_VSAW_LV_MASK |
+> +		NAU8360_KVCO_SAW_MASK, (vsaw_level << NAU8360_VSAW_LV_SFT) |
+> +		(vsaw_slope << NAU8360_KVCO_SAW_SFT));
+> +
+> +	return 0;
+> +err:
+> +	return ret;
+
+Why are we using the goto here if there is no unwinding found within the 
+error path?  Either you've forgotten to add the unwinding or the goto is 
+redundant.
+
+Repeat for all the functions with similar behavior found in this file.
+
+> +}
+> +
+> +static int __maybe_unused nau8360_suspend(struct snd_soc_component *component)
+> +{
+> +	struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+> +
+> +	regmap_update_bits(nau8360->regmap, NAU8360_R90_HW2_CTL0, NAU8360_HW2_STALL,
+> +		NAU8360_HW2_STALL);
+> +	nau8360_dsp_enable(nau8360->regmap, false);
+> +	regcache_cache_only(nau8360->regmap, true);
+> +	regcache_mark_dirty(nau8360->regmap);
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused nau8360_resume(struct snd_soc_component *component)
+> +{
+> +	struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
+> +	struct regmap *regmap = nau8360->regmap;
+> +	int ret;
+> +
+> +	regcache_cache_only(regmap, false);
+> +	nau8360_peq_mem_enable(regmap, true);
+> +	regcache_sync(regmap);
+> +	nau8360_peq_mem_enable(regmap, false);
+> +
+> +	/* disable Sense at standby */
+> +	snd_soc_dapm_disable_pin(nau8360->dapm, "Sense");
+> +	snd_soc_dapm_sync(nau8360->dapm);
+> +
+> +	ret = nau8360_dsp_setup(component);
+> +	if (ret)
+> +		goto err;
+
+Drop the goto, no error handling here.
+
+> +
+> +	return 0;
+> +err:
+> +	return ret;
+> +}
+
+...
+
+> +static int nau8360_reg_write(void *context, unsigned int reg, unsigned int value)
+> +{
+> +	struct i2c_client *client = context;
+> +	int ret, count = 0;
+> +	u8 buf[6];
+> +
+> +	buf[count++] = reg >> 8;
+> +	buf[count++] = reg & 0xff;
+> +	if (reg != NAU8360_RF000_DSP_COMM && reg != NAU8360_RF002_DSP_COMM) {
+
+Refactor to positive a check.  Positive checks are easier to follow and 
+as long as there is no major impact on complexity of the code that 
+follows, there is no reason to hurt readability.
+
+> +		/* format for Codec, 2 bytes value and endian big */
+> +		buf[count++] = value >> 8;
+> +		buf[count++] = value & 0xff;
+> +		dev_dbg(&client->dev, " %x <= %x", reg, value);
+> +	} else {
+> +		/* format for DSP, 4 bytes value and native */
+> +		buf[count++] = value & 0xff;
+> +		buf[count++] = (value >> 8) & 0xff;
+> +		buf[count++] = (value >> 16) & 0xff;
+> +		buf[count++] = (value >> 24) & 0xff;
+> +	}
+> +
+> +	ret = i2c_master_send(client, buf, count);
+> +	if (ret == count)
+> +		return 0;
+> +	else if (ret < 0)
+> +		return ret;
+> +	else
+> +		return -EIO;
+
+No need for 'else if', 'if' suffices.  And the 'else' can be dropped.
+
+> +}
+
+...
+
+> +static struct reg_default *nau8360_alloc_defaults(struct device *dev, int *total_regs)
+> +{
+> +	struct reg_default *dyn_defaults;
+> +	int reg_num = ARRAY_SIZE(nau8360_reg_defaults);
+> +	int total = reg_num + (2 * NAU8360_TOT_BAND_PER_CH * NAU8360_TOT_BAND_COE);
+> +	int i, j, idx;
+> +
+> +	dyn_defaults = devm_kzalloc(dev, total * sizeof(*dyn_defaults), GFP_KERNEL);
+> +	if (!dyn_defaults)
+> +		return NULL;
+> +
+> +	memcpy(dyn_defaults, nau8360_reg_defaults, sizeof(*dyn_defaults) * reg_num);
+> +	idx = reg_num;
+> +
+> +	for (i = 0; i < NAU8360_TOT_BAND_PER_CH; i++) {
+> +		unsigned int l_base = NAU8360_R100_LEFT_BIQ0_COE +
+> +					(i * NAU8360_TOT_BAND_COE_RANGE);
+> +		unsigned int r_base = NAU8360_R200_RIGHT_BIQ0_COE +
+> +					(i * NAU8360_TOT_BAND_COE_RANGE);
+
+Just add a local:
+	unsigned int range = i * NAU8360_TOT_BAND_COE_RANGE;
+to simplify the code.
+
+> +
+> +		for (j = 0; j < NAU8360_TOT_BAND_COE; j++) {
+> +			dyn_defaults[idx++].reg = l_base + j;
+> +			dyn_defaults[idx++].reg = r_base + j;
+> +		}
+> +	}
+> +
+> +	*total_regs = total;
+> +
+> +	return dyn_defaults;
+> +}
+> +
+> +static int nau8360_i2c_probe(struct i2c_client *i2c)
+> +{
+> +	struct device *dev = &i2c->dev;
+> +	struct nau8360 *nau8360 = dev_get_platdata(dev);
+> +	struct regmap_config regmap_cfg = nau8360_regmap_config;
+> +	struct reg_default *dyn_defaults;
+> +	int num_total_regs;
+> +	int i, ret, value;
+> +
+> +	if (!nau8360) {
+
+What?  This seems redundant.
+
+> +		nau8360 = devm_kzalloc(dev, sizeof(*nau8360), GFP_KERNEL);
+> +		if (!nau8360)
+> +			return -ENOMEM;
+> +	}
+> +	i2c_set_clientdata(i2c, nau8360);
+> +	mutex_init(&nau8360->lock);
+> +
+> +	dyn_defaults = nau8360_alloc_defaults(dev, &num_total_regs);
+> +	if (!dyn_defaults)
+> +		return -ENOMEM;
+> +
+> +	regmap_cfg.reg_defaults = dyn_defaults;
+> +	regmap_cfg.num_reg_defaults = num_total_regs;
+> +
+> +	nau8360->regmap = devm_regmap_init(dev, NULL, i2c, &regmap_cfg);
+> +	if (IS_ERR(nau8360->regmap))
+> +		return PTR_ERR(nau8360->regmap);
+> +	nau8360->dev = dev;
+> +
+> +	nau8360_reset_chip(nau8360->regmap);
+> +	ret = regmap_read(nau8360->regmap, NAU8360_R46_I2C_DEVICE_ID, &value);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to read NAU83G60 device id %d",
+> +			ret);
+
+No need for a new line here, you won't exceed the recommended char limit.
+
+> +		return ret;
+> +	}
+> +
+> +	for (i = 0; i < NAU8360_TDM_TXN; i++)
+> +		nau8360->tdm_tx_func_slot[i] = TDM_SLOT_NONE;
+> +	for (i = 0; i < NAU8360_TDM_RXN; i++)
+> +		nau8360->tdm_rx_func_slot[i] = TDM_SLOT_NONE;
+> +	nau8360->tdm_chan_len = 32;
+
+Either use constant or comment any use of hardcodes.
+
+> +	ret = nau8360_read_device_properties(nau8360);
+> +	if (ret)
+> +		return ret;
+> +
+> +	nau8360_print_device_properties(nau8360);
+> +	nau8360_init_regs(nau8360);
+> +
+> +	return devm_snd_soc_register_component(dev, &soc_comp_dev_nau8360, &nau8360_dai, 1);
+> +}
+> +
+> +static const struct i2c_device_id nau8360_i2c_ids[] = {
+> +	{ "nau8360", 0 },
+> +	{ }
+
+Please match the style of existing entires.  Checkout Mark's for-next to 
+be up-to-date with recommended style or see commit 910714d4e79b ("ASoC: 
+Use named initializers for arrays of i2c_device_data").
+
+[1]: 
+https://patch.msgid.link/ae2ff4898eb340bd8bcafb7b75443eb4a0ce3e76.1778692164.git.u.kleine-koenig@b
+aylibre.com
+
+> +};
+> +MODULE_DEVICE_TABLE(i2c, nau8360_i2c_ids);
+> +
+> +#ifdef CONFIG_OF
+> +static const struct of_device_id nau8360_of_ids[] = {
+> +	{ .compatible = "nuvoton,nau8360", },
+> +	{}
+
+Ditto.  Sidenote: you've used a different style then for the i2c table.
+
+> +};
+> +MODULE_DEVICE_TABLE(of, nau8360_of_ids);
+> +#endif
+> +
+> +#ifdef CONFIG_ACPI
+> +static const struct acpi_device_id nau8360_acpi_match[] = {
+
+struct acpi_device_id is available even if CONFIG_ACPI is disabled.  Not 
+sure if we even need preproc #ifdef here.  Remove it and do some 
+compilation checks.
+
+> +	{"NVTN2002", 0,},
+> +	{},
+
+Ditto.  Sidenote: you've used a different style then for the i2c and the 
+of table.
+
+> +};
+> +MODULE_DEVICE_TABLE(acpi, nau8360_acpi_match);
+> +#endif
+> +
+> +static struct i2c_driver nau8360_i2c_driver = {
+> +	.driver = {
+> +		.name = "nau8360",
+> +		.of_match_table = of_match_ptr(nau8360_of_ids),
+> +		.acpi_match_table = ACPI_PTR(nau8360_acpi_match),
+
+Does this compile if I disable e.g.: CONFIG_ACPI ?
+
+> +	},
+> +	.probe = nau8360_i2c_probe,
+> +	.id_table = nau8360_i2c_ids,
+> +};
+> +module_i2c_driver(nau8360_i2c_driver);
