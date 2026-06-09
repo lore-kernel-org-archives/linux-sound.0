@@ -1,217 +1,189 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29938404BCD
-	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 12:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781006649; cv=none; b=fUlHld3rXs20/2OL3VJGLh4kacjyKB3WcVayuYEQva49gvb0hiJNT4dcmukWvozp5RnTsTbE3C76OcrMShlLghVtHS9JBcZm6ElUNmjzbKbc27LUDPjCNgHP0vh6xcSHKbjE+Uq6VVrFa5BTBATSSL/VR8IzhUDP50EkPjZBjBk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781006649; c=relaxed/simple;
-	bh=jZVaJCpdJPCmA7RMD7l6HhgA0fLolhoJy+4MYoGPoWs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=OaPvWxTiNbHBTfEHd2E9MCZrIArwK46X2BhsY1ItKlygR3i4UhTXwgTQ2wfiExUDKv+Bf+N1LxaaUGUmbXwbX3C6imUXipqKH0yYE8+aaAfJyy7BN0QILbl6GdtIrckDDJJhwWYpgRBSglsIn5BuCEKj1nmApcSXy7fkhv1rOAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gQL/6mGp; arc=none smtp.client-ip=74.125.82.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCBF3E3C69;
+	Tue,  9 Jun 2026 12:08:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781006907; cv=fail; b=I0x8z9lVNveJliq9m89XtdixKcAZHIqiw24ZW3X3eRtJjxvXY/9cK4W3LPZt4c3F4CMD12qDHxEmfoA/uomaGDIpFgwHiOARVV+M67atSbuKotz/4JgiES/vuB+yO6Dp2N5KaU1R8+zUEGAUjDW45WvCOx4I253ToyNjFwIrR4Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781006907; c=relaxed/simple;
+	bh=q22CEDcwuWbqsby+cXpAnmWESr0nybKNSNE5BLXBXFs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JKnfqXI3hF7uxJTJFShWLOp31uYk24xQrktT884hidEEAlLcJo66D7RPpKBeFEy60M2xLceyfIwDPpSQS7ogKjqWH719D+aau45RWQ61fxBbbjGAUkq3ovzalQ2ZYCMHF3rAFEZvP4udLfd7NfIPe6d69Cw0RLLuHDKSatPlL3E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=dF54955q; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=cwu5MNFF; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gQL/6mGp"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-30749947917so3697440eec.1
-        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 05:04:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="dF54955q";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="cwu5MNFF"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6594wfC31837632;
+	Tue, 9 Jun 2026 07:08:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=ofWDkvXMwZy509vK6EhpqEjUpQPOhZZCXM6oNWKSQOo=; b=
+	dF54955qeiH9nmv6ycvGu16UvXNSWWoKStlAUUomMkkket7ngdrr3MvWpB/gLTBO
+	VojqIpO2g/CFUG7XtWe/ZJy27msHp7st2zPxp1KFP/wtDYQMvfY4E/w7tSvGE+fN
+	KsBp3LPl25EWkeJ/hSswwBz19Mt/29euZBtAKKXaDnbBqP/bxv6veH455V0pyn4N
+	3Q+oZxv3W6NOaAqfYVMNYW9ECWsWfkjM74Q/X0bRsWNUEqlsLpNJpsLHWqmzyRnd
+	r4wu3JL+aQsZOi6m5opdGZ+gF1Cml4xSAex+2CExZ6sYGIKF97hcXjWKauu2Tlyr
+	z/m9B3eBMLUbk8c+G/LE+g==
+Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11022104.outbound.protection.outlook.com [52.101.53.104])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4emgy0c2xh-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 09 Jun 2026 07:08:12 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yMum7pEYPBtLF0MFzdZTAHVJB2ji16qSI8mOdk6W3+6ZA+hD3bdWgzbS1yUQnGQ7Lh/F6EPlBAZOmu65iKAg6gta6IaR3r/yAIvVRjdxLpWDUxeKbMg0ZTT6rA2GTZ5x4hHxh09w23jY0JXybVRHRYLlcMk8wKEF2RC+Lo13hKNOYfNyWXDXbrk8tIbwv4fwr3HeSzWRhrXpfIamVGcAaMKt1qwFR+LuYFd9tFbjIV9jLADNTiAew9YQye/pyPr33eBpqJOZGBflwUa9utOtK+mQRDeQW1q32XvSNoSasBQqlCpgEWZg65O38joG6cY6hYMWfjv7HG7NVxNic5iT6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ofWDkvXMwZy509vK6EhpqEjUpQPOhZZCXM6oNWKSQOo=;
+ b=KGxQY/4pzi/Ip1yVqE1jezyzARjYC9/CKYouJYBNFadEW9ssO5b5A8Fr+fwfX1Y55O9iy8jG2uY0AFHEwdQZwLXme0dAh9gOrszfx0ufWiHROuJmFTPnHf2JFbs3IDWJB9sQBbSXXq9EFj+JCuB1MYmD+DjUYBCTC0yzOriYt2JXvPc1EO4o6eqMFE4Qtjqqv3f5Rr0qKVXXanX1N7wImSGc6xsXsxNmDh4ig6FivPeKJZjFC1dIUqs+iaVmvZcOdnJr9jf7qQp1eeycrgkoj8lxDvOgb9vJt5WrdDAxY3Ho5eIgpxAi4LxWdriKk6qWbr6x8Q5xw4ZouCWlnc52rQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781006647; x=1781611447; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yamXPCwQjj/bccldgb8NO8/20UgmKojt3wb1DmnP/c0=;
-        b=gQL/6mGp65hVwBfV60JNVycowV9NkFf8C8DdIkTw8qySjZmw7NmfoL5fR+7U1HcYQ6
-         HdIUQ9klpTYgOASBojyfDs++937demYRCsZD/1Tf24hDD8mg71njWHLV6twYrxc0z//W
-         6dSq3JUzX9xPPPSo1ntt4XwlRdJ/Kl/xPf6u0D8b8BDsQoeTWXlYK4IYakqftWl3CAb4
-         CZZLb0iCIKOY10lXq8L3w9p6ob/4iJbT0g8hodY+UBMqpJSR0jPajxZMEp20mpdXreoB
-         dhmGiGrVwMx1Wxv8EffncjkLK9kJ4geKJx/Wjko0hWOnKmHHbMJnjKGAzReNo5mn/6+L
-         4xbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781006647; x=1781611447;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yamXPCwQjj/bccldgb8NO8/20UgmKojt3wb1DmnP/c0=;
-        b=p7JjCvQ+KqIfvBL1Hd4rcTl2pp5gamPwTc72PUSgPjkr6GYgx3fOI3buTTnUvAiVM8
-         teESegNX0O3s6ZNWC4bdWjMOellPcR3V5zEo+k58fpHKEc7eb50bOKs5zAS9EZitiOkS
-         2WFzio/jgUUQGDoPNy4Cl3ZFcL5FmWA6xqUGpFh+laJfBf2l8MTkDy/ucykUQ5mKP6nc
-         1ynD3Oo+hvcx70hOLmK3pE3mFcIGCGkhc6XtA5thH9zoES2BDfalL0tqxyPzHF4G/WMD
-         Bt2Hqafxlbbu+pG3rqrCf6Krn3QIZzN3oO4v90HajSAlgERlvnt9NmkuusF4z2Pmo5lu
-         dErg==
-X-Gm-Message-State: AOJu0YyuB/MU1JvgBeSLPw12tqS82PtZHwHrDrR0bmZF1kfXI5hdfW2K
-	LnMrbR/jp70rKyeTnXTIv0r7czGenG0bMu7hsuTqdlhpdDZ+8DCt5EII
-X-Gm-Gg: Acq92OGk3TS0D/3nu20Ny3AlbJOxBpLZwa8q99S0UM6Dqe9htdL46BbNWv2cflvjj6y
-	/PBAnHyaD3uAKWud9UNgiFEeY7/frOnO6whyDxUig7bAJ0yjRVbpLq7g4BkBNLfWsaN9SalFDc8
-	r6uIOsDRMt8xbKdZxgEOThkjdG0FxqBuXBzGnARtmxwYWqENGG/2xZnmbJnR5XxajlyGy0Jiqg9
-	UatVnKJZA6CYOPBJOXCPdKp8VcZ6r05h0X4cQcZJBn++BvVGkBGu+oLbEpWKkJqtHFIXTvHJnwe
-	ahMJrxLSfeCz1U0QrD50eZ1pBU9zt9UuJWr0dwna8X7AbVDDg2v/4EmbModfeITy8WxIJJE8v82
-	feZ4Hx8j+tMYXgXi4N15h7vlLgfflQZkmnujo9fQ2vRO7gznVFgjDQ0MHhCAagLovxIpXjqRXrq
-	torQ21s0IgZTXDD3f4jx7K8bGk53SVjx3/w19XY4YBA08mJ2dDdQ1WhjGbPXDAtClHeR+RdHH56
-	UrqJ+oJ2AJ3
-X-Received: by 2002:a05:7301:2f88:b0:2c5:b23e:48a6 with SMTP id 5a478bee46e88-3077b7c6086mr10163640eec.23.1781006646938;
-        Tue, 09 Jun 2026 05:04:06 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-23.user3p.v-tal.net.br. [177.4.161.23])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074db55f60sm26890139eec.6.2026.06.09.05.04.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 05:04:06 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Tue, 09 Jun 2026 09:03:56 -0300
-Subject: [PATCH] ASoC: sma1307: Fix uevent string leaks in fault worker
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ofWDkvXMwZy509vK6EhpqEjUpQPOhZZCXM6oNWKSQOo=;
+ b=cwu5MNFFuBIou5fKTfqVDcM5KYgg8JnUovDNHX9zK0EHwyjDgJFx4ipGPrt3xndcZVNNLqmzNH8gG5dg3F3B8VTx0pWFbrknLqmkyMLskwUoxbzhTTFhd2vDZ+EuVJu5MaAnKC+2MbsNIXhs63Eoshd7hs5U1F/ZSq+SIMeLPhc=
+Received: from DS7PR07CA0013.namprd07.prod.outlook.com (2603:10b6:5:3af::19)
+ by SAVPR19MB997258.namprd19.prod.outlook.com (2603:10b6:806:4e7::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Tue, 9 Jun 2026
+ 12:08:09 +0000
+Received: from DS2PEPF00003446.namprd04.prod.outlook.com
+ (2603:10b6:5:3af:cafe::5d) by DS7PR07CA0013.outlook.office365.com
+ (2603:10b6:5:3af::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.10 via Frontend Transport; Tue, 9
+ Jun 2026 12:08:08 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ DS2PEPF00003446.mail.protection.outlook.com (10.167.17.73) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.7
+ via Frontend Transport; Tue, 9 Jun 2026 12:08:08 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 2A75B406556;
+	Tue,  9 Jun 2026 12:08:07 +0000 (UTC)
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.13])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 1287F82254D;
+	Tue,  9 Jun 2026 12:08:07 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com
+Subject: [PATCH 1/2] ASoC: cs35l56: Fix missing calls to wm_adsp2_remove()
+Date: Tue,  9 Jun 2026 13:07:37 +0100
+Message-ID: <20260609120738.284770-2-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260609120738.284770-1-rf@opensource.cirrus.com>
+References: <20260609120738.284770-1-rf@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260609-asoc-sma1307-uevent-leak-v1-1-cd7f5b062ab7@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQrCQAxA4auUrA1kGpyCVxEXY4waf6YyaYtQe
- nfHdvkt3pvBtZg6HJoZik7m1ueKsGtA7infFO1SDS21kSLtMXkv6O8UmDocddI84EvTE5mFWQO
- F2AnU/FP0at91fTxt9vH8UBn+P1iWH69AFNt8AAAA
-X-Change-ID: 20260605-asoc-sma1307-uevent-leak-33c33e10167c
-To: Kiseok Jo <kiseok.jo@irondevice.com>, Mark Brown <broonie@kernel.org>, 
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- notify@kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4538;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=jZVaJCpdJPCmA7RMD7l6HhgA0fLolhoJy+4MYoGPoWs=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDFkajMbK1RIc0xzFF+j5zEl46Fq2LPrDLYaMNQl/Cgpv7
- Ekt1HjbUcrCIMbFICumyLI6aZHlnq4HV+vjVnjAzGFlAhnCwMUpABOZvZyR4eg2xgMqG/kia8Mt
- utvZmsNdm1bOm7VJTns6y9zCd8n59gx/xYRC7dluJK00a/52XLH0bbZIxT5BJl3J1d1VT3KmRRl
- wAAA=
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PEPF00003446:EE_|SAVPR19MB997258:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 9ecde733-fb01-4e1c-9cf1-08dec61fc4f7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|82310400026|36860700016|61400799027|11063799006|56012099006|22082099003|18002099003|16102099003;
+X-Microsoft-Antispam-Message-Info:
+	6lN42j8THy0B+36E+nfkkxW7PD2FvSUFIEoSmbq0aq+FZzv8YWWtxgLYLsDTHQaoZtP1vfRZ28/wT5ms8GgBJv9+s0U/doZoFVKLflF7aNpBA/IF7StHgDW/v1s2kGL1hOfMbTzrQox/iBQOKWbHoCoiKzk+HbHrg2GoCDVREGr2pMS101eJRVPK/6x1iRUJ49POGOk/Bwxp02ojlmhU+xAYCySlvyx1p0lpF6glsYQbx8rNBHXCFPhNgMoWutDayK7kLkkdD4rrMgp9zAWlQ+cQDim6LajlctcMoPY8VrJYDTJ0pIQ4bltWEZHk332SOfgPBLHlqcqAZHGeV2uh3Y25rdB9WpqwNQgRFizwi2fqa4GFKWjKy5aen2JqVDyGpW6KGXbajqsP7unAGD01yEK7OwPH3ccpTvSYGI1p1e1mrAe/WGOM3GAp/rtaCEppOEcK02UHe4BCUChiXtc0ZxuG3sA3LlsF/pLrS0TR0iT9i2KaBr5S0zsDolJ0XrTOrGka1GksZjeZU3seYjAhF+wDCJGdTlB58oao0Iyt28TXhN7i4FqdMKfN4FrlOkpFE/C7ktr3qfXxZbpa9Q1ZBi0yKoYMbDrvleB5HyOqop2r/SftnnZVye1IH+Mf4I0zXBexRo0OoiUpZjKaneJTPV5oY9S/KVAiZeYJTZt/Sb71dUZrnBTXMxdAkbsWx/KODWewIpB4Au+vwUlu4MGcpVVZu+sqsIKD9eMBZqj+wUA=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700016)(61400799027)(11063799006)(56012099006)(22082099003)(18002099003)(16102099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	I3FbMRaYgAQK2o0QqGLO04xKkmyawg+UylJ9+ot+kdRYb7EeDCX4RWQrwAMyAwb3Mz3B4FR/n8HUybDcHJhW/O2637gndIUtezbOTP28p7jL/jbDNvRi3A9+eu6OwuKJec+t6R/SFTxnGPHt3gVEk0wJJxPLlFgNva7WgOuYaIacUrPQqzIdQD2IzWPyjlIXfwJGGK0T0r7mPju56XMa0PSh7JDFe+jtaahpH/KEK5MZW19ONM8I7qEAdNaZhSesMLs4ou3Ue/lZHlM1vK9N/KCtmGmzKocSV+PmAyAy1JZfi2VO8ySw48iZ158kICSqsYlzGBfaJD2QadVUwOXj9JhvikFUfcAIY2pbzPOYuzcO5J8SgTlOcSLXlCo6WSAw6+seWo8ij0WJl8MJ8Y7CooKmQr3zGfb45BGQp6i+saghyR1WgADvQBgCdAtva/hf
+X-Exchange-RoutingPolicyChecked:
+	TlNpsZySMYP8L5v/l2XpLXOuNhY45P0BmvOv5mkym6JoOV+eupjMswfrpeJ2f03azJkyvcc6rq8F+87uI9xSQu5RHy13JY3n0jy0LdvG0QvEmQ5uoW94HC+gKIQrB/Z1/v7zszesAIbF9zBw17BjR9etNcwSGUD/HWXVcy3Z77LQRFxTatkzEOKG9tc6dX+7b00WL2f0YfBofp6Yy5e45p6c+2vLyQtC4lxYmSs8ECQpo2qZjo80xwznEHrWlUEZDZeTY+VabsNk9z2ZUSG1TYzy0NhN6+N2TyFvXg9pamvS+twDGub9BYA57CXsSA7LmKr8jAl6W+t0vNleftuePw==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 12:08:08.1484
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ecde733-fb01-4e1c-9cf1-08dec61fc4f7
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS2PEPF00003446.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SAVPR19MB997258
+X-Authority-Analysis: v=2.4 cv=GP441ONK c=1 sm=1 tr=0 ts=6a28022c cx=c_pps
+ a=2xeXp0dC9D2Ab43tHZD4EQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=FelO9ux0wxsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=w1d2syhTAAAA:8 a=AQBjrmBz-BZPdndYv68A:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA5MDExNSBTYWx0ZWRfXwAW0dDtsObJh
+ 2GOed3fNhfDBFdy0QAoi5/04+nA6NMJGiQpvyRbEBdZefnAR2hLQwKTW4GnCeRf48JAkWzWzO6H
+ LOFvKB0F4JLXlv5vTGWmOanKxSMEN7ZUsdGc3dd7cGb4hVSh3L519MN8zn46KJDLll5whTxbacb
+ tMUowZxLwXOC65F9QPuBHL9/7jnpIERoflpXB1RHVLJ4zoq8BKCYUXkS4WTGjTS6QuOz+M/KoR9
+ YyjK2Er86iXtzB2C3n4s9014MS727JcHay9jKeHY//RbUFYNGPTtjzJzumFTHJxh5zWx8WxQzRd
+ Bmr0Pbu3Y9PVPzBlIXDBOW6YWFvRMmDqTnUTbbjTuw6n7HO0DTJx/aAYDCCTGzuDks6c1+WgH0o
+ 1Q0g6uoeFzGiLGnEXZeD8NQV1oj+5Snt7YqOKtPjRAsCpd1h4sEM/GRerH0G54Bya3U7hppBC+x
+ ChO9Wt7LdEsNedmy1zg==
+X-Proofpoint-ORIG-GUID: lQrL_zQVigib-BOlNCTFjQSAhgk1tled
+X-Proofpoint-GUID: lQrL_zQVigib-BOlNCTFjQSAhgk1tled
+X-Proofpoint-Spam-Reason: safe
 
-sma1307_check_fault_worker() stores dynamically allocated uevent strings in
-envp[0]. Several fault conditions are checked in sequence, so a later fault
-can overwrite envp[0] before the final kfree() and leak the previous
-allocation.
+Call wm_adsp2_remove() in cs35l56_remove() and the error path of
+cs35l56_common_probe().
 
-The same flow can leave an OT1 volume entry in envp[1] while envp[0]
-has been overwritten by a later non-OT1 fault, causing an inconsistent
-uevent payload.
+Depends on commit 7d3fb78b5503 ("ASoC: wm_adsp: Fix NULL dereference
+when removing firmware controls").
 
-Use static STATUS strings and a stack buffer for the optional VOLUME entry.
-This removes the allocations from the worker and keeps VOLUME tied only
-to the OT1 events that produce it.
+The call to wm_halo_init() during driver probe should be paired with
+a call to wm_adsp2_remove() but this was missing. The consequence
+would be a memory leak of the control lists in the cs_dsp driver.
 
-Fixes: 576c57e6b4c1 ("ASoC: sma1307: Add driver for Iron Device SMA1307")
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Fixes: e49611252900 ("ASoC: cs35l56: Add driver for Cirrus Logic CS35L56")
 ---
-base-commit: 70eef21e8890f81f1b79733259bb23de394f1e30
+ sound/soc/codecs/cs35l56.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Best regards,
---
-Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/soc/codecs/sma1307.c | 35 +++++++++++++++++++++--------------
- 1 file changed, 21 insertions(+), 14 deletions(-)
-
-diff --git a/sound/soc/codecs/sma1307.c b/sound/soc/codecs/sma1307.c
-index 1de6bd1e4ee7..c52fe95b30c6 100644
---- a/sound/soc/codecs/sma1307.c
-+++ b/sound/soc/codecs/sma1307.c
-@@ -1592,6 +1592,7 @@ static void sma1307_check_fault_worker(struct work_struct *work)
- 	struct sma1307_priv *sma1307 =
- 	    container_of(work, struct sma1307_priv, check_fault_work.work);
- 	unsigned int status1_val, status2_val;
-+	char volume[sizeof("VOLUME=0x12345678")];
- 	char *envp[3] = { NULL, NULL, NULL };
- 
- 	if (sma1307->tsdw_cnt)
-@@ -1607,7 +1608,7 @@ static void sma1307_check_fault_worker(struct work_struct *work)
- 	if (~status1_val & SMA1307_OT1_OK_STATUS) {
- 		dev_crit(sma1307->dev,
- 			 "%s: OT1(Over Temperature Level 1)\n", __func__);
--		envp[0] = kasprintf(GFP_KERNEL, "STATUS=OT1");
-+		envp[0] = "STATUS=OT1";
- 		if (sma1307->sw_ot1_prot) {
- 			/* Volume control (Current Volume -3dB) */
- 			if ((sma1307->cur_vol + 6) <= 0xFA) {
-@@ -1615,8 +1616,9 @@ static void sma1307_check_fault_worker(struct work_struct *work)
- 				regmap_write(sma1307->regmap,
- 						     SMA1307_0A_SPK_VOL,
- 						     sma1307->cur_vol);
--				envp[1] = kasprintf(GFP_KERNEL,
--					"VOLUME=0x%02X", sma1307->cur_vol);
-+				snprintf(volume, sizeof(volume),
-+					 "VOLUME=0x%02X", sma1307->cur_vol);
-+				envp[1] = volume;
- 			}
- 		}
- 		sma1307->tsdw_cnt++;
-@@ -1625,48 +1627,53 @@ static void sma1307_check_fault_worker(struct work_struct *work)
- 				     SMA1307_0A_SPK_VOL, sma1307->init_vol);
- 		sma1307->tsdw_cnt = 0;
- 		sma1307->cur_vol = sma1307->init_vol;
--		envp[0] = kasprintf(GFP_KERNEL, "STATUS=OT1_CLEAR");
--		envp[1] = kasprintf(GFP_KERNEL,
--				"VOLUME=0x%02X", sma1307->cur_vol);
-+		envp[0] = "STATUS=OT1_CLEAR";
-+		snprintf(volume, sizeof(volume), "VOLUME=0x%02X",
-+			 sma1307->cur_vol);
-+		envp[1] = volume;
+diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+index b4b126753c10..5de9cf3d0330 100644
+--- a/sound/soc/codecs/cs35l56.c
++++ b/sound/soc/codecs/cs35l56.c
+@@ -1997,11 +1997,14 @@ int cs35l56_common_probe(struct cs35l56_private *cs35l56)
+ 					 cs35l56_dai, ARRAY_SIZE(cs35l56_dai));
+ 	if (ret < 0) {
+ 		dev_err_probe(cs35l56->base.dev, ret, "Register codec failed\n");
+-		goto err;
++		goto err_remove_wm_adsp;
  	}
  
- 	if (~status1_val & SMA1307_OT2_OK_STATUS) {
- 		dev_crit(sma1307->dev,
- 			 "%s: OT2(Over Temperature Level 2)\n", __func__);
--		envp[0] = kasprintf(GFP_KERNEL, "STATUS=OT2");
-+		envp[0] = "STATUS=OT2";
-+		envp[1] = NULL;
- 	}
- 	if (status1_val & SMA1307_UVLO_STATUS) {
- 		dev_crit(sma1307->dev,
- 			 "%s: UVLO(Under Voltage Lock Out)\n", __func__);
--		envp[0] = kasprintf(GFP_KERNEL, "STATUS=UVLO");
-+		envp[0] = "STATUS=UVLO";
-+		envp[1] = NULL;
- 	}
- 	if (status1_val & SMA1307_OVP_BST_STATUS) {
- 		dev_crit(sma1307->dev,
- 			 "%s: OVP_BST(Over Voltage Protection)\n", __func__);
--		envp[0] = kasprintf(GFP_KERNEL, "STATUS=OVP_BST");
-+		envp[0] = "STATUS=OVP_BST";
-+		envp[1] = NULL;
- 	}
- 	if (status2_val & SMA1307_OCP_SPK_STATUS) {
- 		dev_crit(sma1307->dev,
- 			 "%s: OCP_SPK(Over Current Protect SPK)\n", __func__);
--		envp[0] = kasprintf(GFP_KERNEL, "STATUS=OCP_SPK");
-+		envp[0] = "STATUS=OCP_SPK";
-+		envp[1] = NULL;
- 	}
- 	if (status2_val & SMA1307_OCP_BST_STATUS) {
- 		dev_crit(sma1307->dev,
- 			 "%s: OCP_BST(Over Current Protect Boost)\n", __func__);
--		envp[0] = kasprintf(GFP_KERNEL, "STATUS=OCP_BST");
-+		envp[0] = "STATUS=OCP_BST";
-+		envp[1] = NULL;
- 	}
- 	if (status2_val & SMA1307_CLK_MON_STATUS) {
- 		dev_crit(sma1307->dev,
- 			 "%s: CLK_FAULT(No clock input)\n", __func__);
--		envp[0] = kasprintf(GFP_KERNEL, "STATUS=CLK_FAULT");
-+		envp[0] = "STATUS=CLK_FAULT";
-+		envp[1] = NULL;
- 	}
+ 	return 0;
  
- 	if (envp[0] != NULL) {
- 		if (kobject_uevent_env(sma1307->kobj, KOBJ_CHANGE, envp))
- 			dev_err(sma1307->dev,
- 				"%s: Error sending uevent\n", __func__);
--		kfree(envp[0]);
--		kfree(envp[1]);
- 	}
++err_remove_wm_adsp:
++	wm_adsp2_remove(&cs35l56->dsp);
++
+ err:
+ 	gpiod_set_value_cansleep(cs35l56->base.reset_gpio, 0);
+ 	regulator_bulk_disable(ARRAY_SIZE(cs35l56->supplies), cs35l56->supplies);
+@@ -2109,6 +2112,8 @@ void cs35l56_remove(struct cs35l56_private *cs35l56)
  
- 	if (sma1307->check_fault_status) {
-
-
+ 	destroy_workqueue(cs35l56->dsp_wq);
+ 
++	wm_adsp2_remove(&cs35l56->dsp);
++
+ 	pm_runtime_dont_use_autosuspend(cs35l56->base.dev);
+ 	pm_runtime_suspend(cs35l56->base.dev);
+ 	pm_runtime_disable(cs35l56->base.dev);
+-- 
+2.47.3
 
