@@ -1,109 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491793EDABA;
-	Tue,  9 Jun 2026 23:06:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85997320CAD;
+	Tue,  9 Jun 2026 23:24:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781046381; cv=none; b=aT5cL5vRNH0y6zwbV2XvZD0jpc15fYjj04WfAjcpLQ5Ybd6bvLJcWcdcSH3ReuvUERTQhsO3nczxEd+YqFEoXToQyHg++8euFcX2FK11OKHXyifLz/QWCtVHZSA5s+hg/VRAsSV08gHH19hLc7luJ+O3zT3nwrP78RnXBuIWkJ4=
+	t=1781047499; cv=none; b=cORz/ByqEu7uQVMJj/BV+uJmC+vS2c/mA41lbYCw3vvXBq6PM+1GsXbtzJ3wr7Dud1dTrFShVTYexGjjG4tDgA6YoZYH/aDCdxDYJp/Nz9W3k+a9VE/od2qVplJD/H+XTjkZ/0cJ8UK59R7c54XQPfKVGT4jb+Bb47Phg9ScJhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781046381; c=relaxed/simple;
-	bh=4uZIHwZ1FummxHeb3vPJSqClgqSIXab7kKj02Zdv9iA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RS1oQrhRtGEHF+cRYBLCIsQ4/20r3kYlPVuN4q94/zscC20JnwRSdLUSrd/AJs/xQJZ2RipPCHoCqDmvJu3qLcGHL60oLOJcoj/03SEzZpzqgdpLLnRi7MGnukpF8EPfFfVQwoU+VlDK78oJ/EOX29Sr1PmqD+X+K8+xdjIOF+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MoogQM0g; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781047499; c=relaxed/simple;
+	bh=9MdWy2QrDz5exOOLcEuBuj6NyRKlWXPx6gtf5833H4Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pRpwundnTRiQ/mOcV58mrJG7NJ5IPUEjsxhZce60FPCkeMWpIItVpA+GfE+T4AFS2IZQV2t2YG7R1HrXJ0Pro5B+Vhv2E5YL0VN5dQcfOgV1lbfrwMYwvh87TJC+y/mFbRnDNnZqip2PUWVqbv8nbNpPJ+70e7loky7OuJKxFao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WELQ078C; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MoogQM0g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 893E01F00893;
-	Tue,  9 Jun 2026 23:06:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WELQ078C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4D561F00893;
+	Tue,  9 Jun 2026 23:24:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781046380;
-	bh=AtTkIPwhiUBqdh/egoEcrg9UpG8OOuSwuXDOFVx9VHw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=MoogQM0gxY2wwwz9o7v7ySh2THpZJiwwdzXXV5No3MFdJEpnIEgZ2NFr4yX+V5w3D
-	 aZjmgKnHLnzqe+ptqjQ+HfmWZ5Y+D52cgYE4lg+k4vUTh+t5TfkSoKvrlaXI3AD4az
-	 vReCPAq0brNwk00ppsFdeUutzbBLz5LWFtt98zIZhUiey3LxojWfgIh7vCTcBB84F2
-	 463EAScA4wjm4oKtbzquumal4UGzF25bEMD/J0SmP4hTnAxL+s97bzm7ZXu/v6+Lb/
-	 8MmhifTRH5hd/l/GcoKNceKxQvgYNjhCB9UqE2xwfPDnqZKLJLROJMCtsckC3LxQMz
-	 l7Z1wWKgSqt3w==
+	s=k20260515; t=1781047498;
+	bh=XECSwOdG7aWv+AWzkviwG4lcJ5iemprDQN3GLacZFEg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WELQ078Cnx3ZRgxOd9TJSEoDMyp4ZPhSZQoulwds1G3zBSC/ve1v+j8gSMDVmqo8Y
+	 N721YOKAn20IE0/TAql5rkEUqo86waFSU9AhrjTyMRuVJNxDoAPjKP4JZfLp9xrY48
+	 4WBSTcXWPvwABjPWblyjWVQwZRflo06m1juhCm5bmXhjUKgP0v5W6LA2g85vYyY0ne
+	 Qox08IOwOPpG2XLO/gPu8Ma22b9SMQvfmnqgdRtMVfYWPzQeLTrbsC9+/BuWOREr3A
+	 zuOaRaPnRw7DHvKXzo9JZlVcgr5SRZAfMZB6ePMBxf8Tn9fRETUsJXEORVPzldr40W
+	 m4tqDeuyC7/Kw==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 856FC1AC56BD; Wed, 10 Jun 2026 00:24:39 +0100 (BST)
+Date: Wed, 10 Jun 2026 00:24:39 +0100
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
- liam.r.girdwood@intel.com, stable@vger.kernel.org
-In-Reply-To: <20260609083458.31193-1-peter.ujfalusi@linux.intel.com>
-References: <20260609083458.31193-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH 0/6] ASoC: SOF: ipc3/ipc4-control: harden kcontrol
- payload handling
-Message-Id: <178102687840.34323.18334716238703776280.b4-ty@b4>
-Date: Tue, 09 Jun 2026 18:41:18 +0100
+To: phucduc.bui@gmail.com
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 11/11] ASoC: renesas: fsi: Add SPU clock control in
+ hw_startup/shutdown
+Message-ID: <aiigtwDM-qEBxjH5@sirena.co.uk>
+References: <20260609113836.45079-1-phucduc.bui@gmail.com>
+ <20260609113836.45079-12-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2027; i=broonie@kernel.org;
- h=from:subject:message-id; bh=4uZIHwZ1FummxHeb3vPJSqClgqSIXab7kKj02Zdv9iA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKJxoPVtdGVWZxVP9/UUzdp4+ggn0T4s7w7jLT
- 4x0nHI8FDWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiicaAAKCRAk1otyXVSH
- 0MTtB/9fE9Q9UYOEbIQgvE20zuQnFqlSRpnCL+mCFzwcul3rZ43sSYgG7qIWdGPprifsHGYieZ0
- tBr8rIB4Yf3Xa8YfHD1nBUYuRi6hGIGoWDmVJfRNtFSDqGAWHu0Dzgyh6ki7IQfbM2OQ/1xaOFm
- /45hGLJqtIg/Fnzas0tPneHCIaw0g0OEC7Zkcey7qmv6bQfmRAdjpdZbKEPsynXxb/KxMHULlvs
- 9iEEy7wTwSWwdYehvnlchXqmsPGNP+K4qlAIEZx4W8sp9vHbS+QSUpl3U4XDKZQBIfobY4rK8+U
- hOWb064N6hnkqwAsp93VM327GpK1JpZ5F1Ck97bkeVsDG6me
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rIVLtUXf0Jj60L4V"
+Content-Disposition: inline
+In-Reply-To: <20260609113836.45079-12-phucduc.bui@gmail.com>
+X-Cookie: Leave no stone unturned.
 
-On Tue, 09 Jun 2026 11:34:52 +0300, Peter Ujfalusi wrote:
-> ASoC: SOF: ipc3/ipc4-control: harden kcontrol payload handling
-> 
-> Hi,
-> 
-> This series hardens SOF kcontrol data paths for both IPC3 and IPC4 by
-> fixing size-handling bugs in put/get/update flows and tightening bounds
-> checks around firmware/user-provided payload lengths.
-> 
-> [...]
 
-Applied to
+--rIVLtUXf0Jj60L4V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+On Tue, Jun 09, 2026 at 06:38:36PM +0700, phucduc.bui@gmail.com wrote:
+> @@ -1560,6 +1560,11 @@ static int fsi_hw_startup(struct fsi_priv *fsi,
+>  			  struct device *dev)
+>  {
+>  	u32 data = 0;
+> +	int ret;
+> +	/* enable spu bus bridge clock */
+> +	ret = clk_enable(fsi->master->clk_spu);
+> +	if (ret)
+> +		return ret;
 
-Thanks!
+This is unconditional...
 
-[1/6] ASoC: SOF: ipc4-control: Fix TOCTOU in sof_ipc4_bytes_put
-      https://git.kernel.org/broonie/sound/c/3ad673e7139c
-[2/6] ASoC: SOF: ipc4-control: Validate notification payload size
-      https://git.kernel.org/broonie/sound/c/5bdfeccb7fbf
-[3/6] ASoC: SOF: ipc3-control: Use overflow checks in control_update size calc
-      https://git.kernel.org/broonie/sound/c/8791977d7289
-[4/6] ASoC: SOF: ipc3-control: Validate size in snd_sof_update_control
-      https://git.kernel.org/broonie/sound/c/390aa4c9339b
-[5/6] ASoC: SOF: ipc3-control: Fix TOCTOU in bytes_put and bytes_get
-      https://git.kernel.org/broonie/sound/c/1f97760417b5
-[6/6] ASoC: SOF: ipc3-control: Fix heap overflow in bytes_ext put/get
-      https://git.kernel.org/broonie/sound/c/fd46668d5389
+>  static int fsi_hw_shutdown(struct fsi_priv *fsi,
+>  			    struct device *dev)
+>  {
+> +	int ret;
+>  	/* stop master clock */
+> -	if (fsi_is_clk_master(fsi))
+> -		return fsi_clk_disable(dev, fsi);
+> +	if (fsi_is_clk_master(fsi)) {
+> +		ret = fsi_clk_disable(dev, fsi);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +	/* stop spu bus bridge clock */
+> +	clk_disable(fsi->master->clk_spu);
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+...but the matching disable is skipped if !fsi_is_clk_master().
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+--rIVLtUXf0Jj60L4V
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+-----BEGIN PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoooLYACgkQJNaLcl1U
+h9BikQgAgs32gfdN4Rngk/+MZu3KLIyYeq4PEjHKyPBS45e/hcQAox/9hL3UG9ok
+y41NH8g3rJIB0pGpxqkdhgy0comqz/j8jke5fF2Tutv2nnzCKeZ8u6ZZqY5ZgI6Y
+ttlqSXpeRuCNBKLr+Psk27CJsvUALBTrahTK9IraRIbODD27+BYqbpH5u2eq4NTJ
+cBHwq+GB+8IDWUrVq39gZA6+/u7mY4YfuWe8r8EhvkOyEfcW414tjaPiMCEEsu9c
+tXejrZloBhnG4xrH1c+dmvC+aqhhBGoReDUPWEjqsc7RQIqK9rNumDb/s763UxYd
+gxKLg1je7le4XGT4P+ojFZh6gLU0kg==
+=q5yz
+-----END PGP SIGNATURE-----
 
-Thanks,
-Mark
-
+--rIVLtUXf0Jj60L4V--
