@@ -1,90 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011066.outbound.protection.outlook.com [40.93.194.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB2236D9F8;
-	Tue,  9 Jun 2026 16:04:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781021066; cv=none; b=T67XUSFijX9ymPgJDMxQSEhuFR9hEX63TObBec9VhMSReilfkWFoSPA+qpgXEm8QKU3PZhhPbkL+Rw6w6xxohVgETL7+rkrNt2G+O6qpBftl266Eh6aeehQyEv5I09CFDjoNs2wyMPMf2fTSgsjkz6HOmSrjaSZ4/Fm+YHxbEAo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781021066; c=relaxed/simple;
-	bh=9hLgtZ8NgBCHZ/yN8NFc6Qpxzdb/6VAOYIWGQIOE4ic=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ULASgnowDzDJsyq/gzXg6kyMlM/t5AHCaaZvNDtRgvyEXoG/UdWLYsAUKWvD30Ju4ej49I9T9WshB/Xr+H1XtcRFNli8pjmrLPDQXfhqgSdLl2s66ta4u+Gmh29fbt1lcs56nti27MCxEBaYHpe8QvhSnAeabzgT7n/7qhj9XCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XKM5QbrT; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489B336DA0B;
+	Tue,  9 Jun 2026 16:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781021401; cv=fail; b=OMgfooPsuS+ZRf1s3SWInEfqIorbGrnyboubpbROCO2Lqg14xwMIWD1hoFLvo1B37E18b+l3c5ZvWm8YR5ALsYJmrJ9BVtQvpdpi8I3jvdB7bI0+JLUp9faSxC5FGJAReRCs93OfHKhqbBs5LIR7eSeuGdD4XAPoWNfxOr+FyWE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781021401; c=relaxed/simple;
+	bh=LGKBRb5zw1huFOOvnE+VAIAVATZRGJm6hvC0Ban25+s=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=W+w+yMKPY+W6lvbRFwglp47cXzSPOBDLsRUIbPGNNXGrck42xtQbJi19wUevh6o/KaNSMTQ2bMUhr38h1l2hFw+OyTUK6pxpbSdH+59g+I1kVQbhJ4AUh7JrUgABDjQG4AQUwuWVV8hkWxocUpfQpsndEx44giFNeOKq+U78lPU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2nA8G1Cn; arc=fail smtp.client-ip=40.93.194.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XKM5QbrT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25D431F00898;
-	Tue,  9 Jun 2026 16:04:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781021065;
-	bh=rWNQsrFYpu/vCUAn3QHBEywCdhhRWN4mBS4hafW3zac=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XKM5QbrTSEqzV9W8nx8Huka91MA4LxWNRh2NNEsEtDrLWvAnCt5zd8gtpfC+/EWFJ
-	 5xpw+cefdi14hTplC0AJhzZs9Nq675hInP4aiBugYESzkDh8fIBuKwaHvQCAQB77qE
-	 mOMTlPXSpNlfhYcaaW/A8utugTniC7wmuAKwJcxNYtnwAm2iHDGFWCakW07Nmx4kPm
-	 nCFXrmTw/Yaasb+4/Qg1McSTx+xY486ix6+Iow+uc1tXjdbXX8T5bRX3wojy4OCS16
-	 +ZqMIVA5Fe2tXvUoAcwEWMnuUVd6AeETdUmqIVZ9lf/iyfZ9ki+WqFxYqULTdvxgv/
-	 J8Aq2YU8fqsOQ==
-Date: Tue, 9 Jun 2026 18:04:21 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 01/11] ASoC: dt-bindings: renesas,fsi: add support
- multiple clocks
-Message-ID: <20260609-eager-nightingale-of-devotion-b6ca1f@quoll>
-References: <20260609113836.45079-1-phucduc.bui@gmail.com>
- <20260609113836.45079-2-phucduc.bui@gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2nA8G1Cn"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BXrPvFfag2CzHEY/GXSn5dGs16HP/nI63t309CzzDejvkhfqrYvUU8G06fUYEfUQDAvDy580BECvSnfm6z4bFfMhO2ArqEvYhKJQtjp7cO5aPlJwrRAL3oJELCbkoC86npyQWes7k+/nGgs9oHGSg65jdiQ2I8dEu3Ejxd3YJRnbYS+CZI24tnpcMz5r+IU4VVrporEh3GFBvtPshxkxp8bbNFkVwLsEHTPeCy1Ye+BoKNfzG0ViV8fxnn/+5iajVqJMKQxTkUSx9lVeuH/dvEKlQ9bE7/oXLPo0uoRbQgfIrwIkj0XUPyOdJNnH6ozldBe0xqLovvpN59onrJmTig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MPgaKcoxTo17IQWhvNSixf6xZ0UKs8S8qVqxvRYa4/4=;
+ b=Vff7HkpFKpLHkpS9bfm1XOWYeAYN119P9YJWQtwu6rzFjcdBQ9q0fJn5fjDytHAS+lEccOrEyw00zCqq6p4C62GNSHp8Fn/imPxzTsi4rulYr2J1hMoyNNoEVyOhAghqkXElPqcaGa9LBbv6LwZ5MPfZqf63XiFjnRnXvaSeXYBXqbsC88M5XiVg77N4JgIhI/JeMVR2leJns0FAUcUjmrr5THHPmP2dHmZWt1bzKeF1WmMfbO2LqCx9oFC+fyAd83iV/OCH6Mzq0mCKcCUBLhM3X1r5x4umzW4Hzmy/+e4QKZ5qZL8EYQtVM+w3NjwKHcCbN7vQfLU4Pr0gE/7lng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MPgaKcoxTo17IQWhvNSixf6xZ0UKs8S8qVqxvRYa4/4=;
+ b=2nA8G1Cn2mOrqKcR670XzHb67+PW2lriB26m7PUR1Dt6D8gdDM+G67+HGBHqFHI8JdktGEL2I+GM5M5nkSmUyUkdScXunAfOTaqfDWNnkpdnHGfaxYUIY9pqQs6aDagmYgplXkweA/tkd8oxiCxO6TnNF4dww20qsvr12Cp9Xrg=
+Received: from SJ0PR13CA0116.namprd13.prod.outlook.com (2603:10b6:a03:2c5::31)
+ by SJ0PR12MB5633.namprd12.prod.outlook.com (2603:10b6:a03:428::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.11; Tue, 9 Jun
+ 2026 16:09:54 +0000
+Received: from SJ1PEPF00001CE3.namprd05.prod.outlook.com
+ (2603:10b6:a03:2c5:cafe::42) by SJ0PR13CA0116.outlook.office365.com
+ (2603:10b6:a03:2c5::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.10 via Frontend Transport; Tue, 9
+ Jun 2026 16:09:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ1PEPF00001CE3.mail.protection.outlook.com (10.167.242.11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.113.7 via Frontend Transport; Tue, 9 Jun 2026 16:09:54 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 9 Jun
+ 2026 11:09:53 -0500
+Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.41
+ via Frontend Transport; Tue, 9 Jun 2026 11:09:49 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>,
+	<yung-chuan.liao@linux.intel.com>, <ranjani.sridharan@linux.intel.com>,
+	<pierre-louis.bossart@linux.dev>, <perex@perex.cz>, <tiwai@suse.com>,
+	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <mario.limonciello@amd.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<uajain@igalia.com>, <sound-open-firmware@alsa-project.org>, Vijendar Mukunda
+	<Vijendar.Mukunda@amd.com>
+Subject: [PATCH 1/2] ASoC: SOF: amd: fix for ipc flags check
+Date: Tue, 9 Jun 2026 21:38:44 +0530
+Message-ID: <20260609160938.3717513-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260609113836.45079-2-phucduc.bui@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE3:EE_|SJ0PR12MB5633:EE_
+X-MS-Office365-Filtering-Correlation-Id: 637fb0b2-b0ee-438d-7e9a-08dec6418b2c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|82310400026|1800799024|36860700016|7416014|56012099006|11063799006|18002099003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	c/cT+NCl/GmLmoVsq/cbkmzavthJ9Uq9kv1RsgMOkgVCu7MmzESRUPJeIc5Cxbr4M8H43/ep2uqCuHVJnyl6dqDTf+D+sKFKYpIA/BHRCQju3cGHU27n8AuOHUTmNJsVQto1WlZY5t4V+1+gt+wyfAL5cjD7BDSbfzbJ7ha0Y3RRlqqkvzzbL4zXVOoFsuBtrrRwxcxn4XU706ddbY994+dRtPbI6GxRftiAI10lnF96txawLr6vOf7/yv0Ji4zGg9sKHfk2q20JZuuPrjxIOzwgDDbiNFGWMPNSXzWNnawY9K44Qhzm2FvRq6z47BdwrF2WQLFuCc0SnA9bEBibrHRIRNPs6IfeoTtnksR6MbxMas1kkXEbob4YVrM1RvA+J/P+ytL4x7foo+TTR8CqwbAMR3fuzUSJx1Ma4UOXPrJpknS4p1jV7wjfkIeLgjBN604F5UUc72mbtluZtWZeoa2aMl2mo3aibqD8cfBZHiXLLqvOWZq1aUYzWNGRLMecIs2SRfWMbvKXKiaDpAHx8KQRZSz3PQdr3oyhfa4/0gf90+q3+++rKarLkZtH57RupEBtUUHrUn1Bv6IvXJ6pRokSh6WpWG6itnIH0n6dvUekmpkEGKU4gQUkZ5E4oAhfdcskYd+ro80C4aNTzg1BR6maEuuZYBAM6MBlWSlho1//px3C9nuqi5j5eqArMgJI2S7CEArp2be3cmCbwttBq2+LU8iRWbXxe7n9kaS1PGI=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(1800799024)(36860700016)(7416014)(56012099006)(11063799006)(18002099003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	M3sgabYT/mYVoDOZPDpuPFn0XoaTGBrgE4Hacqy33x/e0EZD0ZZjTUDSqffqpDLo811mSFNcO/TZ1zSsVLhnruFJzktzP98vOOnaK5LTPpDsU9FvobSQ1M5Eg8I7Mz4WN1sHgw0NPX5/2coWFSzjnVDi76K3II/Q5DM2cgjpTX9jLykrVUIQ0s6Q/w56amz6ERsqLZXze+Vjdf4bWH7sz3PxT92eFJsF6dTsx1pnQUfmsCG7M+sZr4ppr+ZZOKxNDJlBQMfOrK58AJwTq4k7Abi+wHkKtFCYHennGbezbtkoB+nuoNi+cNn5EWzPbZIyP/rz5IafmUAv4j1CSouQ825+IYBamrM1dLA7NXE13fKJHTjjrvoFXl/M2zqKcBZRhJvLCqCSLQR55t7LnPf/MHBxNMzybK7cYOERyFyyI5p9fTjb+068E+jLLWhq21Iz
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 16:09:54.1952
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 637fb0b2-b0ee-438d-7e9a-08dec6418b2c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00001CE3.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5633
 
-On Tue, Jun 09, 2026 at 06:38:26PM +0700, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> The FSI on r8a7740 requires the SPU bus/bridge clock to be enabled before
-> accessing its registers. Without this clock, any register access leads to
-> a system hang as the FSI block sits behind the SPU bus.
-> Update the binding to support multiple clocks to properly describe the
-> hardware clock tree, including:
->   - SPU bus/bridge clock (spu) for register access.
->   - CPG DIV6 clocks (icka/b) as functional clock.
->   - FSI dividers (diva/b) for audio clock generation.
->   - External clock inputs (xcka/b) provided by the board.
-> The hardware supports several valid clock configurations. For example,
-> when both FSIA and FSIB operate as slaves, only the fck and spu clocks
-> are required. When a port operates as a master, it can use either an
-> internal clock source (ickx + divx) or an external clock source
-> (ickx + xckx). Therefore, while fck and spu are mandatory on r8a7740,
-> the remaining clocks (icka/b, diva/b and xcka/b) are optional and depend
-> on the selected master/slave configuration and clock source.
-> Both sh73a0 and r8a7740 define the SPU DIV6 clock control register at
-> 0xe6150084. The binding therefore documents the clocks supported by the
-> FSI driver for these variants.
-> 
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-> ---
-> 
-> Changes in v6:
->  - DT binding updates (drop uniqueItems, commit message) based on 
->    Krzysztof's feedback.
-> Changes in v4:
->  - Update dt-bindings based on feedback from Krzysztof, Rob, and Geert.
+Firmware will set dsp_ack to 1 when firmware sends response for the IPC
+command issued by host. Similarly dsp_msg flag will be updated to 1.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+During ACP D0 entry, the value read from the sof_dsp_ack_write scratch
+flag can be uninitialized. A non-zero garbage value is treated as a
+pending DSP IPC ack before SOF_FW_BOOT_COMPLETE, causing a spurious
+"IPC reply before FW_BOOT_COMPLETE" log.
 
-Best regards,
-Krzysztof
+Fix the condition checks for ipc flags.
+
+Fixes: 738a2b5e2cc9 ("ASoC: SOF: amd: Add IPC support for ACP IP block")
+Link: https://github.com/thesofproject/linux/pull/5642
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Tested-by: Umang Jain <uajain@igalia.com>
+---
+ sound/soc/sof/amd/acp-ipc.c | 4 ++--
+ sound/soc/sof/amd/acp.h     | 2 ++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/sof/amd/acp-ipc.c b/sound/soc/sof/amd/acp-ipc.c
+index 3cd4674dd800..94025bc799ea 100644
+--- a/sound/soc/sof/amd/acp-ipc.c
++++ b/sound/soc/sof/amd/acp-ipc.c
+@@ -181,14 +181,14 @@ irqreturn_t acp_sof_ipc_irq_thread(int irq, void *context)
+ 	}
+ 
+ 	dsp_msg = snd_sof_dsp_read(sdev, ACP_DSP_BAR, ACP_SCRATCH_REG_0 + dsp_msg_write);
+-	if (dsp_msg) {
++	if (dsp_msg == ACP_DSP_MSG_SET) {
+ 		snd_sof_ipc_msgs_rx(sdev);
+ 		acp_dsp_ipc_host_done(sdev);
+ 		ipc_irq = true;
+ 	}
+ 
+ 	dsp_ack = snd_sof_dsp_read(sdev, ACP_DSP_BAR, ACP_SCRATCH_REG_0 + dsp_ack_write);
+-	if (dsp_ack) {
++	if (dsp_ack == ACP_DSP_ACK_SET) {
+ 		if (likely(sdev->fw_state == SOF_FW_BOOT_COMPLETE)) {
+ 			guard(spinlock_irq)(&sdev->ipc_lock);
+ 
+diff --git a/sound/soc/sof/amd/acp.h b/sound/soc/sof/amd/acp.h
+index 2b7ea8c64106..7bcb76676a98 100644
+--- a/sound/soc/sof/amd/acp.h
++++ b/sound/soc/sof/amd/acp.h
+@@ -116,6 +116,8 @@
+ #define ACP_SRAM_PAGE_COUNT			128
+ #define ACP6X_SDW_MAX_MANAGER_COUNT		2
+ #define ACP70_SDW_MAX_MANAGER_COUNT		ACP6X_SDW_MAX_MANAGER_COUNT
++#define ACP_DSP_MSG_SET				1
++#define ACP_DSP_ACK_SET				1
+ 
+ enum clock_source {
+ 	ACP_CLOCK_96M = 0,
+-- 
+2.48.1
 
