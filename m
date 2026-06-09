@@ -1,162 +1,139 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0890181724;
-	Tue,  9 Jun 2026 13:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781010190; cv=fail; b=qnvxt8RDG1cDQHtPpHmLtoZTzqRBSMo+jQC5TAdu7O1tz1qwfoOL42tyO7Qc8B84feDfEAZEbd90r+bGXD4oXs7cjLQvHPgEkGhv9JsdNz6oPwfgKYrEEK7/Ga4AS6azRlPOBAUvZ34d6Ncg9ow3vFCczr90wjD3JE0VZn4nLCs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781010190; c=relaxed/simple;
-	bh=wdioys1cCSbAKrrP3ROlWXT/x0WJgrL/2DCWFyPUocI=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=b43Y/Ny8mVtxedVNagIw+aIueWZ+jwA7bRecUMBU0Uvn7VQuT3PMxrvWFbqICwxVK9eKWzz/D1m+iVsiSl9ZHFCcHZ9TValavvkoSgXbGTJBNsCNTVpiiGRFcK6rKnPKRe9UD/WKDlTV7dVLCzjS6se0iPmuZ7gqZ3HJT97Lmjo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=BwgW0nPU; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=DMjezu38; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="BwgW0nPU";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="DMjezu38"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6596HXNj253610;
-	Tue, 9 Jun 2026 08:03:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=PTOZPw/FDG/2bokhRtEvyG75vNaHrK4B2JTAai58950=; b=
-	BwgW0nPUnJ4JagSwcJs2Nt17KNJXOtDQBRm450HVLEw1hY01NJpiUgAkfyHocSBz
-	ZbOt9KQHW6ZVdWHVlfgxeJu1QC9r8eDpQMLrcq2e91gOG+HyIC8mgWI38xN6u0wl
-	eyihXnAlfqJOfodenl7NrbvKiMM3GKod7qpLSt8LV6Dii0MPun4KSskRqPUKLDpm
-	UZ6iX9nfiRMkdfHlG+LoMEu7ef9EzhOUKYIiGnYHx/9L8YTDkZfUoquXfkgG/wBu
-	0ObAKzFfzpb8wap6VtiyMonA+Yu0dM8afv2LBNfIqs01CtGtE5qRaltNBIRdVIdP
-	TPPMjY1tSZg0X10BWQpr/g==
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11022109.outbound.protection.outlook.com [40.93.195.109])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4emfygc700-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 09 Jun 2026 08:03:06 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nsgRY3WGpmPv8n1hJCokLSh4AxXsv0JjTVxgGwdpILHCODi/qLPjK/7vmrcGFNIVvRBdrA0Yhc+5GTbOf1ceoEke428g6bQLgbdWXUGXzAmZmc8y4MhDbOqCytYp646tAdkJ4keBzMKZtRsVksfwLza9lV2oWESpqdUOWjrEN0W9KNB9qYwUcGgv//ilNItHL3iChrKScuesaQzko888xW/7flhL4hBO9d24CZFNmFO8I5bq9uLZvV+Aqom8TPJidRbm5ZNxQ11lihMxC4KnE1wv2oMaeEeNURj7+YisbGYmvwTK0NRkFsMQo/2euAxXbEKtGfH35wdj54L7wo5WUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PTOZPw/FDG/2bokhRtEvyG75vNaHrK4B2JTAai58950=;
- b=NhIBpMQaaYRdnsOjs+wSyPUnmCIG37TldnlSYETs1ckmq3qd9dWpXUF+RLIVzfKB6ZtWaDkoYapb89GlkEnS1lz4ISuBa3azw2mi3ceMAPqmac15YyDjWSHgMVOLziamyeUtLiTIZaDIIfOdCo6ihPz+HCFPYBjXLYFZ6OLfVG7UB50vAjS6kH+0THH/MmWqIhC/ysaAs10+6G21BEP9pRat4VoXHrkXkUHB/QpuxJzmjjSl2jlyjL/VrRfgxlTNGMrEJk4e4JouZWXTmccazoXNFgA1F5Td5c0Gny5V0xA7CmNyGUwHunuEBLhE4fqCPZgTFprRUuOblheZJH1v/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PTOZPw/FDG/2bokhRtEvyG75vNaHrK4B2JTAai58950=;
- b=DMjezu380GeYaZQzOqscHwlQRG9vlk6VXl1s5QP4N2OiiqnmEkVLI7V07tBlufkNzeF/nKFYcnmM8yDCzlMnMdCqOYYoj3ResJKam8Mrkyws6lelsC3GIV6/whZKKeenqqgv6BdpRB7N15MTSOXAAAM0MSy2MNC4wHt1J5OqSVU=
-Received: from IA1P220CA0020.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:464::13)
- by CY8PR19MB6938.namprd19.prod.outlook.com (2603:10b6:930:61::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Tue, 9 Jun 2026
- 13:03:03 +0000
-Received: from BN1PEPF0000468E.namprd05.prod.outlook.com
- (2603:10b6:208:464:cafe::75) by IA1P220CA0020.outlook.office365.com
- (2603:10b6:208:464::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.10 via Frontend Transport; Tue, 9
- Jun 2026 13:03:01 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BN1PEPF0000468E.mail.protection.outlook.com (10.167.243.139) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.7
- via Frontend Transport; Tue, 9 Jun 2026 13:03:00 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 210B0406544;
-	Tue,  9 Jun 2026 13:03:00 +0000 (UTC)
-Received: from [198.90.208.13] (ediswws06.ad.cirrus.com [198.90.208.13])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 1022382024A;
-	Tue,  9 Jun 2026 13:03:00 +0000 (UTC)
-Message-ID: <f8866e44-b1a5-4bd5-afbe-5e7615794850@opensource.cirrus.com>
-Date: Tue, 9 Jun 2026 14:02:51 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81ADE416CE6
+	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 13:38:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781012284; cv=none; b=TCj1JYJ0wuAMcDsxnmSd2z4jEOqvQin0RhbgAWzGLDMTcnNLuu+Z7TOpqLq3nwJVQ+K+CjpwzPQG42zdCEJW35oxskDsSqaV4fQtZVC/gANokxcAHbTiRiMOuYCH+1Au1Ho1JBQcvjxMrUO64Bkiuyrk462QFZ2rhb6LchBfinU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781012284; c=relaxed/simple;
+	bh=zNk6pJWd+v88a+9NOUGNQabXaXiV9hjQTgWFhpjOWl0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BNg3e3mn2wf/ju04ktDDboBKA1LJxMPQN7m239zcvTIu84SVjb1br51dn+v9xPjqS1xMDpbWEN67u7175+KLlnf3/ufw6TfvejPuu8PAWMB7P8JOFQMxkMv4GAkjL8D+36W+AulSRZA59Yk1zg0rz4nQa/PwdQEHLKHtpn+pvm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-59ccf81e6feso1864819e0c.2
+        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 06:38:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781012281; x=1781617081;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t/PRbin0hiFf0sv0V65HKQzKM0CIanlyTiYsPPuNvzs=;
+        b=V56RkycZ2DlFkKtQiTtAFkyuGWrNrUns9DzwFLH9YzmSHTYTuUMQDtmBqAZmmRULlW
+         vMNa9KyGyKjDP2dF1zHCUtazIWf3EJOcvSqC4K1+lU7U5mITl0lGACHdvpGLjiPsbhuN
+         tVgtOpAZR6uUYi2d5CDgrvy+9zcE5mMjML3bgh1QD54NB7LmkClJb+Mn05v7cl+HtOPD
+         T1IahKnkkc5vrpqD2JFIONN2lufEua1KiF3nQqx58si+xcnQLbHtCr9Gup02GR5e1KmZ
+         FFzAUAIu+ZFRSkx8sfxOAcxFgql0lBUdljzH061GGPz4oM2wjMYIcqlBlK+Nm7G1insi
+         IyvA==
+X-Forwarded-Encrypted: i=1; AFNElJ99bxnt41b1is2D2HT+efq3YxH81/0oYFNK3giM5yKJ7fT2wrdTlv8YAklMvHU1tauQ5GRED1dji0/7Lw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxON4EfkUWJrw2o8h3JwCyMglRLc32Ex9k8abPI4zJbmOi4x2Ey
+	LEo8GyNfvo6F0RajfIRlcZB3Dg3ocJBGBkc5IZzczEQsl1fYTc0+hT+Qd0+E9RPIFGw=
+X-Gm-Gg: Acq92OHpAp6JZ6O8WvA31f8UikIzjV6uK7h6xSToNjrqS4ggT2JhQE7cwGwIAp9mwtp
+	62hOiZ5opPHaOWE1Aw2kkjMRr+gVwg+fesbddBfAXB99M1QBheXnX6pKiUaOfSj6lHW8Je3kstG
+	cclqEWjzqNjy/L6DmBPeI/johrFz4+6aXYOL2NuXG4jiY8yDer/yf91+2vXG7IPukUuJDrp6ayn
+	GIXtykcnazFkpP1nUoi510dNvQ1vMkQiQYdXzf1JwUIs0hEvrGZJmfin0Kdd4YwZNKkwSl7TM7A
+	Io+3DirEuoZZGVXgf6dX2GMQphqvmX3qDZzqrBD+Hx8PEcOahhlREaAn+VzaVSig1s67TFVd2GE
+	68b1pb0ujcrPRuAc7pOgzPKDs7F0RszC+amuqvTLt+C5MYcMJ/5r25GXoudzcRlxNyZfKXvgj3G
+	UC7mHC45AxC0XluWEbkjzaJfviWlhkxIlJVw2CgBvBn1L8Z2iJyu75RVkADuxTg6Kfmgm+ate6z
+	zs=
+X-Received: by 2002:a05:6122:d02:b0:5a4:b5ab:b5f8 with SMTP id 71dfb90a1353d-5b6347623a5mr1148902e0c.2.1781012281182;
+        Tue, 09 Jun 2026 06:38:01 -0700 (PDT)
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com. [209.85.221.180])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5a6dcf24e93sm16856697e0c.15.2026.06.09.06.38.00
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Jun 2026 06:38:00 -0700 (PDT)
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-59eb57ed4cbso1870717e0c.0
+        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 06:38:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/toEUp2VurvuNvFnpozRskehCrN3T4ZNkkvSK1F9T9qSra1tVgzVb4GiIQjPLiRIkd0Ei3TR7TQLogwQ==@vger.kernel.org
+X-Received: by 2002:a05:6122:2a47:b0:59e:f988:51a with SMTP id
+ 71dfb90a1353d-5b634763bc1mr1142689e0c.1.1781012280533; Tue, 09 Jun 2026
+ 06:38:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] ASoC: cs35l56: Fix some cleanup memory leaks
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-References: <20260609120738.284770-1-rf@opensource.cirrus.com>
-Content-Language: en-GB
-In-Reply-To: <20260609120738.284770-1-rf@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF0000468E:EE_|CY8PR19MB6938:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6fafd862-ecbb-4a84-49e3-08dec6276f9a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|36860700016|61400799027|16102099003|18002099003|22082099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	Bjn9br8HqRc7cDy7nl0jfqNMn5pHvEIclu866AHgDdFzCXYvixJrSklaxLomiiJA4R6OCOY2sQ4Osn+oGlmGTSyoeNdhLCx6G4/AHHuK1KPWTJiX334pwyLRZPGrnjIeyF1xQgJV9GfgTDaQeJdcddHT92CnZyT9+tdOJZVT4dfBmtY/5bg5PnvHzF0gJ4cHpyCoHfPJKoQqME5NWg8ld5HAXFHPH4UECQCoPy1fJ0OI92TcCHuU5NL3th1S0D7CoTg6Vby9XiFmfdS45G28LBb7nLS5xBx5M6ifDbgk/ttTRkw7SGECCTL1RdCus5IDk+u0NeMAoSNDFaAjfNkvX5sSxsaSIWeUL1bG0XRNN86RV0LVk1MVWLxAoSE6GABg5lzhRahmf7/80LI3i4iwRICT4+57lP4ysLHEbvlJfiWhSHxlI7m5pD6xOaAJbOSHZWqwBqUPr9EE57c1pX+7bkwA/72SN++ysoNMVTkrphmVtw2gkRgtry5zYHwrFvO/gRfstMU1n3gSGz+IHgKrmpqKODyYke+8F3MTVEiHLHTIpsB232rfdNDq75Tplynlx13PY++Aq8GO9ugu5F51lj3XO/aRBZr+mBEUmEVZf2hQhNgYZB+5EY/nXhp9B5Aq7SbBLoT9lCm80ufiDoFf604YsGWKxF5lC/92YJr6Kp724oy5Gi6wAVF6Otx2k9XmOkDmaHMLxdzdQkTaRoeufl7Rd0scOPGTOPA1+Z4h6QM=
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700016)(61400799027)(16102099003)(18002099003)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	oagzJrdc3z8UZn2KDgoq6wXIjvya1oz4uD7LtILNRZN1C7Nfp2gH9kGptIfxlTbFKZXeL1eDE+gRReZV4y1AGz+hLOpdLPRi9zt1Wmwv0d+EeQZ9CaEOwbn1aYtoMVTak6kzmI6h3XsMGgibU/2+Uag5b0lb4PlLM5cEH5Ob9XM3kBagbUyKhcmfEdQKIF+Z1KzRtFBvSsFBhz6WRz3Wzrcm+XOXgabBKlQz9Cs8hRvV3QXjuL/IXB7mfnWRKNKhArgu/v05cvIr1VdAXJ2xrZ92FNWLo+8CbBKots3jAXrKcqqGb0zdzsvUjgdsG+HCI8Go/u152FGAhIfwLmCqKt8rv4NbYf/aRDjByXs0ZY7kd/j7mdLfErQgOv1jXcwIo5Wo+Z7ysZopVnbBifTFNNCvoDt8XcObbWi716YAMvA9EDMh+6KnaOG6KAedX3jD
-X-Exchange-RoutingPolicyChecked:
-	A9a9iOwHfGkPlW6kIMsWU0oTv9plxQrjNNGhyA79l+I+LZL1P8oOofhnB0TarUdiD5smUmJlDW0j163euRD8J65y9GS0ANB0mS/LoVP8chTvEP77kw246/wAzplfK9cXGnIum1LJ67COX+DgjpX30B0fgBZGudNoH9KZ4bMarXflIol9my4Jj6aySNfJjXuwc7L5drxlMnG7yl398rsPVMAr44ZZcmpErtiw4yYA6HfGzmQ7xJblmKjXYzZPi02Ob1S3hGoZ2WNkWH7Bmb0hZlqqVnfgX20cqkiY6USXxaT+gUoNI40K9Hcj9iGHAxcyr3s0bzJT6i65y8Vfug6UAg==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 13:03:00.9471
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6fafd862-ecbb-4a84-49e3-08dec6276f9a
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN1PEPF0000468E.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR19MB6938
-X-Authority-Analysis: v=2.4 cv=Wt4b99fv c=1 sm=1 tr=0 ts=6a280f0a cx=c_pps
- a=o74NBiIPioXkFKZqBywf3Q==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=wHTs--2kB65sBGaqtNQA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: lLfhUtTjU3Q10ljP44uuO4OreKv4H4lE
-X-Proofpoint-ORIG-GUID: lLfhUtTjU3Q10ljP44uuO4OreKv4H4lE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA5MDEyNCBTYWx0ZWRfX9zQezI2WNkxQ
- hn2ooierv7jp18deDjEwiPA2VRT+eiCo4NU0hkzY14/hMkLedgKUT1ohgg6CvizlkExNQ/9DByI
- rJ4DoeT8WWl+d4tcjSDnpg4t/FZ4Qs/d3GLolaxjr8JEQ12keCZkCkeYOir+cAvn6lJzIaf4cn9
- syotiuoK+nr49SFrwI7pEee2fm7pjgpsy4y0rxXpM57qe4ozVWDy07yCI8PxZYwlrGg3uoFye7p
- 3aOZBtM4jGP4vBH0VV9z0m2UjNzyda04OF6W65o05BjFkzkrUrZDsrg0IdW2/pWNSvSq9jOrtNE
- J/7AbAVJEGrB5RanzGCk7+Rya2RmkeqhqN5W9wmDCws7u+2z1YUf2kxDBideizTTS5SGRNs1W5Q
- vPTu2GJM4GdFw38zPhuZWfEJZLj+EQBpLNCSB06x7LCoI/7v7WpH2A9DFy8w4GotLVqIjZ5bzhK
- QglVpVnd91vEe8y1rxQ==
-X-Proofpoint-Spam-Reason: safe
+References: <87zf1le4fu.wl-kuninori.morimoto.gx@renesas.com>
+ <178094130630.20828.12708103059145547835.b4-ty@b4> <fa7d7af8a780c27f85e29c518ba45e39ab18abad.camel@physik.fu-berlin.de>
+In-Reply-To: <fa7d7af8a780c27f85e29c518ba45e39ab18abad.camel@physik.fu-berlin.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 9 Jun 2026 15:37:47 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXVWPxu-5BXAgWOBoWdNXxZ2zeAfTovXxftXsKuCUUDww@mail.gmail.com>
+X-Gm-Features: AVVi8CdJQ9opFjMVwtIPNGUt6qVgHAl8SOhR-UuJZWuU9CAlreT_77PbJOB7tNs
+Message-ID: <CAMuHMdXVWPxu-5BXAgWOBoWdNXxZ2zeAfTovXxftXsKuCUUDww@mail.gmail.com>
+Subject: Re: [PATCH 0/3] ASoC: simple-card: remove platform data style
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: Mark Brown <broonie@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Jaroslav Kysela <perex@perex.cz>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>, Rich Felker <dalias@libc.org>, 
+	Takashi Iwai <tiwai@suse.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org, 
+	linux-sound@vger.kernel.org, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 09/06/2026 1:07 pm, Richard Fitzgerald wrote:
-> These are for-next.
-> 
-> They are not urgent because it only leaks memory if the driver failed to
-> component_probe or is removed, which wouldn't happen in normal use.
-> 
-> These two patches fix some memory leaks:
-> - The memory allocated by wm_adsp/cs_dsp was not freed.
-> - If component_probe() failed it didn't clean up.
-> 
-> Richard Fitzgerald (2):
->    ASoC: cs35l56: Fix missing calls to wm_adsp2_remove()
->    ASoC: cs35l56: Cleanup if component_probe fails
-> 
->   sound/soc/codecs/cs35l56.c | 20 ++++++++++++++++++--
->   sound/soc/codecs/wm_adsp.c |  7 +++++++
->   2 files changed, 25 insertions(+), 2 deletions(-)
-> 
-Sashiko doesn't like these, so ignore them and I'll look at its
-complaints and do a V2.
+Hi Adrian,
+
+On Tue, 9 Jun 2026 at 14:21, John Paul Adrian Glaubitz
+<glaubitz@physik.fu-berlin.de> wrote:
+> On Mon, 2026-06-08 at 18:55 +0100, Mark Brown wrote:
+> > On Wed, 27 May 2026 06:45:26 +0000, Kuninori Morimoto wrote:
+> > > ASoC: simple-card: remove platform data style
+> > >
+> > > Hi
+> > >
+> > > SuperH ecovec24/7724se are the last user of Simple Audio Card as
+> > > "platform data style". It is mainly supporting "DT style" in these days.
+> > >
+> > > [...]
+> >
+> > Applied to
+> >
+> >    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+> >
+> > Thanks!
+> >
+> > [1/3] sh: ecovec24: remove FSI/DA7210/Simple-Audio-Card support
+> >       https://git.kernel.org/broonie/sound/c/9cc93ebc85e7
+> > [2/3] sh: 7724se: remove FSI/AK4642/Simple-Audio-Card support
+> >       https://git.kernel.org/broonie/sound/c/deadb855b694
+> > [3/3] ASoC: simple-card: remove platform data style
+> >       https://git.kernel.org/broonie/sound/c/325fea33e141
+> >
+> > All being well this means that it will be integrated into the linux-next
+> > tree (usually sometime in the next 24 hours) and sent to Linus during
+> > the next merge window (or sooner if it is a bug fix), however if
+> > problems are discovered then the patch may be dropped or reverted.
+> >
+> > You may get further e-mails resulting from automated or manual testing
+> > and review of the tree, please engage with people reporting problems and
+> > send followup patches addressing any issues that are reported if needed.
+> >
+> > If any updates are required or you are submitting further changes they
+> > should be sent as incremental updates against current git, existing
+> > patches will not be replaced.
+> >
+> > Please add any relevant lists and maintainers to the CCs when replying
+> > to this mail.
+>
+> I actually wanted to keep the driver and convert it to using device-trees,
+> not remove it. We have an out-of-tree patch for switching SuperH to device-
+> tree support.
+
+1. The sound driver is not removed at all.
+2. s/SuperH/SH7751R/.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
