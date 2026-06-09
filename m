@@ -1,42 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B384937D133;
-	Tue,  9 Jun 2026 23:05:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E043EB0E6;
+	Tue,  9 Jun 2026 23:06:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781046358; cv=none; b=JbDTy4hiXaukSR1C9scPyfVgeKBdl3HGnuqRkwJpu5IU5nll6f4UHYmZekt+hHvMrRpn45knOZlpCRcI4j7tATXkrp7pDu9IkI3sMn7xTAmSsiQOVGFaaUbDnuipm+TksZQrnASi3GsHd/n6qIT1K7jTTiUZiUsNCHmKZwZFX4Q=
+	t=1781046367; cv=none; b=cSGE/4bT8UFotwSx2/O8bFhxVlHanG3dWg7adJ8oWnpgEqyvENsqehf4I0K2EqsjK7OUI6y3E2Ogyk8uyV2pRTK3ezBsJ4PqIOCDUQIk8+wHy1LZ7sVtoFOzUFntNvnKqcxYGAKPZR/XXBdzqACTfEHAjeMUwu0jUOSBPL/6gX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781046358; c=relaxed/simple;
-	bh=5LQl2WcwuFKTToxd1V5X1FZs0pTpkmD0XLN8h5jNSro=;
+	s=arc-20240116; t=1781046367; c=relaxed/simple;
+	bh=k5t7aVM8QYNUoNadvs+3MSDNcEi0SoFgD+88APBIQLY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OrhjCF+0/KDanh3vU9gA+uZvlgMZJGkoeiRHQ70Y6SsU7TeF0AOuefd1F2eT2DIRQI0u6wVnoV+9f4YBycRVR4olb4UcuRCa1y3y1aq1HKV8ahRr4LMPQP0i0zCUHCdFA0oFbvs6BssbjtFkzvOcl3TrRgUUddhWS8jMBv3t3ZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GNiuNPlP; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=Vb4MCwM8SfBpw4yr+xvQgUXYfgxkUbbALFCP8xC4bNyAgXGTZ3njmzez6G+fpGoeFmNXmCNE1kfHXPeV1z+gFxxIgmzM3AmUOC0aubvu4wKGlPywy1jPYxmr0e+2WVuCNV8fQme+4Rx2zWCv/UxbM+eaRsBblsEVRBmsrXDAznU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ImdYzAD5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GNiuNPlP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D93DF1F00893;
-	Tue,  9 Jun 2026 23:05:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ImdYzAD5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AACC81F00893;
+	Tue,  9 Jun 2026 23:06:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781046357;
-	bh=Z5PHncgUYR0EhNnHfVHTNQtEn3DA26zVbU6SYmpvpQY=;
+	s=k20260515; t=1781046366;
+	bh=aNsIRvR/phnQOsYCPUenL8Mnhm7ycJtUB5dZQ7dgL8o=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=GNiuNPlPiVy4elDjLB4fCAqAUSbbnnQt5DYLfM/gFgbj4F6IUjWdEbEL4LMwNcdPq
-	 XfFYNHL4nV+lwM3wxuLzu17UB/sYT9g8lhFAvxNGeutPf+xYmD1LS0SrP4/OIO6QXp
-	 1K9ASD6aKetikVBBRiscwoOFT9W60mz0fW10VMpRbVS129ufv+F1K+Ccku+dpjHgqf
-	 u3JUz/vggW6OGLR6BgBhZ1CJagRIsRUDg3hJ2jsdYmOHLFxyGGI+U3nWtLmMReNrci
-	 ga6aj3u6K1GATSd6f4cUdq7Lf/Ni2a0bVDYYFjzb+EL7EXUI1fEYiu22Q/XxvmtAVm
-	 MS9KQkXiENi0w==
+	b=ImdYzAD5eCVzPO248h8ighAOiXw01OTC19KP9vg2wGFxVbzFXipDbvJQ9Shog7wJH
+	 tPhTmsKMvtYe4joKyT82YiMKyNqA5PKVC/0rKrbrcsQox+iYGeJbxSkVqrqYdmzbLV
+	 chp2D3dqduBzmOJ+lt7zvbDeL/nd2VGpAH1R3Klkr9AK1CafYKNq8L/VfRhfLTgo1O
+	 kpV/yTeaqnbfNr7ZScj6MSQHLmTcZQ2Bd9A2eIKt0BJUiycHsVRlB3NdWCL9ZaI+Wx
+	 g6YLZ9exwGGw87SDrvrf1vfX6u6emsxgGYABfbCYA9uQya7l7UqKKp05c+rOOxpLhf
+	 Z7Zdf69cxhZ5Q==
 From: Mark Brown <broonie@kernel.org>
-To: Kiseok Jo <kiseok.jo@irondevice.com>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- notify@kernel.org
-In-Reply-To: <20260609-asoc-sma1307-uevent-leak-v1-1-cd7f5b062ab7@gmail.com>
-References: <20260609-asoc-sma1307-uevent-leak-v1-1-cd7f5b062ab7@gmail.com>
-Subject: Re: [PATCH] ASoC: sma1307: Fix uevent string leaks in fault worker
-Message-Id: <178102691249.34323.12823495616641820887.b4-ty@b4>
-Date: Tue, 09 Jun 2026 18:41:52 +0100
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, 
+ yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, perex@perex.cz, tiwai@suse.com, 
+ Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com, 
+ Basavaraj.Hiregoudar@amd.com, mario.limonciello@amd.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ uajain@igalia.com, sound-open-firmware@alsa-project.org
+In-Reply-To: <20260609160938.3717513-1-Vijendar.Mukunda@amd.com>
+References: <20260609160938.3717513-1-Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH 1/2] ASoC: SOF: amd: fix for ipc flags check
+Message-Id: <178102626029.34323.7256614430915240162.b4-ty@b4>
+Date: Tue, 09 Jun 2026 18:31:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,31 +47,33 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1129; i=broonie@kernel.org;
- h=from:subject:message-id; bh=5LQl2WcwuFKTToxd1V5X1FZs0pTpkmD0XLN8h5jNSro=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKJxRHlUE94DsF2nKkgv0oc2aP99Fktg+JI7HZ
- IQsOtoGbDSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiicUQAKCRAk1otyXVSH
- 0CfsB/9jGUUYkGaKnAs9zslQrk55xub1NI1cW8Igg3w9HJk0YTHXSItgHQqltfI7jRbxxaPSSxF
- Dz2x6gtj3mvngTsA/1hdZHCcBiqXvWsTqcz9bKhEPzPVotgrVF8tprjZbpohlC/rNKO+nxlyLQ2
- 4z/e6UZf+Rk0jYfeknVXlEwn2IAjE6uP87BAV+ow5A9iOpp0psJbNkqeQNgXOsuh1uOY4UzBpAw
- EPdHgq21pq0pGo2jWtT0raEEqJwul74OTv51tX2gTevXrh+WBvOuyWs2XwxxzFXETZIlcsf86o5
- rCpJMtjhOjL4Zc0l9u2ktL6Y51v5E3k7qdoV7mYxErG2GUog
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1204; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=k5t7aVM8QYNUoNadvs+3MSDNcEi0SoFgD+88APBIQLY=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKJxXfpM1D3Ar36rwSOwoyXMV+gs8mWEnHEAfU
+ cDxZ7K/cDiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiicVwAKCRAk1otyXVSH
+ 0FdlB/9PF71r0mTwJKKIawGI5IrmlIZfKekoqdqYluKd6im5+cBUZx/k1UfqZoOVGQUh4RcLvOd
+ n6uxfHSzV0gE3kNfkbSk9ThNPp2IN/ss1nksV8vA9xtmICTaYMVDnvZuIKhDFu1zCl9M+fgBD4z
+ i8/jt5soZzpFuzv6Kuv01BqPCDu5QldnXdsldKhDFMOROHTXXQXX+5n3KLU2iQyL97XQfuG24Am
+ qBibAUkFePphs96JcF7hKFOsajArpZkGt4n/ZB36QfubivDVqn7Yp0HCKS9YRYOyMe9cI72VF41
+ UTbrx4werx05dUWFLSg6STKMxbRLdy8L966K1YKlXNq0yO65
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 09 Jun 2026 09:03:56 -0300, Cássio Gabriel wrote:
-> ASoC: sma1307: Fix uevent string leaks in fault worker
+On Tue, 09 Jun 2026 21:38:44 +0530, Vijendar Mukunda wrote:
+> ASoC: SOF: amd: fix for ipc flags check
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
 Thanks!
 
-[1/1] ASoC: sma1307: Fix uevent string leaks in fault worker
-      https://git.kernel.org/broonie/sound/c/a750ca72af72
+[1/2] ASoC: SOF: amd: fix for ipc flags check
+      https://git.kernel.org/broonie/sound/c/6042c91df60e
+[2/2] ASoC: SOF: amd: set ipc flags to zero
+      https://git.kernel.org/broonie/sound/c/25b17c06040f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
