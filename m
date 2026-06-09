@@ -1,158 +1,145 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010000.outbound.protection.outlook.com [52.101.229.0])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCF8CA4E;
-	Tue,  9 Jun 2026 06:57:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.0
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780988278; cv=fail; b=A9x+1jVaLSeR8WHgBQMAFlZ6cz9Mi0oBTswTvN49PaEh6Cj2wLzAhwxUmAKOVapsrotA2w6E2Ta24CVQf7hclx1M7jRaqAPMZtKYSHDXRjcA+eE+oz2kcktGdRzOrXLerAGjsS2OBjFBvCH49xr/qVJ2E2kfAP0djy18qP3ZiW8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780988278; c=relaxed/simple;
-	bh=sNnUOq9B8E+J/GyEOeRDCUKypKc5ZWBS6Wx4l0KIxtk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YBfdRDl3oqawwPF7c/vfyDpMawaquEBJ+4rCLahb/1fvvCxqDJ2kWdiaQ+h19ZUbTEdWdUcqG62jRSCjtKl7SnpCHprv1Sf9xEJjEEZFo0ENADClxwy9jCzpQ3oZkAnUlF+Ccyl8kbqihoIqA7oDNJ+UlssWTSubFsICGxrLM94=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=f91ZYE7z; arc=fail smtp.client-ip=52.101.229.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C02C3161BA;
+	Tue,  9 Jun 2026 07:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780988422; cv=none; b=ChLrn1cu9VDFuoPcXtzF8nMK3zgUTxAN8c4NtBmDggYnLM5y5zK5ulwB4pV0CqzqevUeYWPR9T7rMffKTpw3QzxMw1TgkwgZ2qOp+CZx4S+FqGcupTcjtmf2RFbtTV7NhscllkO0mZ8IR65gz5CSxPUXfPgnkJH2YAJ4GM1cUXc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780988422; c=relaxed/simple;
+	bh=2uFU5Nc5neHcjkdpq8khI2EoQ4OEWJdTXCqvSWCGdV4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t3CfC3+ywYr62dbEF90tu7CTQRZEt9TLXocMS00UuhH5DBa00bYnbz3JmZ7KJ3Gwb2GovZ31N6QvsXKJCNBYc/6qBwrxe1BQee0hWRjDc1APkLSWeYQ7cRapUsiKym5TnqkN9pst9nvgWT4RBdEC8ESTJ5RLBDs73ZnFhL0SoU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ge8WQRR4; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="f91ZYE7z"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iOeXtMe6HFFmUegR+EO1OZNsD0k9CRbvnUp7gSbBVnNLJJ414vXFLcLhu+7bVeVeu4ZkoZb1woccm4UsRor9jWsI1FhHyVKLlj/UiU+JeP6WG86onw3P6WhbGwD3UZwUcVC/bLGzGvVOIJi/08SclXe2XWDDAV7Ul/pazTtKlFYEA9ExXeqh7vPHXRtwrBq4vL2/MbxRh1ChxP6clZiavbpZGj+lOrZNCdIOlwS+/hWDhrZ2occZAyAtWRfMXoifzafxioJ4Tw1ghEo4Yo8tNu7wI5TL//LpkpUAAAI+8R5q2rJkYzifZCGMnXYB4Vax+STiAyxD14rMsD4DuqljHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EXQiuIVbOPbgVOJgKTdLbLexHNifA6jxGqjgoYK1DyI=;
- b=MfwkiwXBYGlqfeu8/ejj/MrJLPqB+4iFo4P8ov0C4v52RDfEtuwaRNaUbkyXU0KrSrX8FV/yb1P3MlHtdMYVrPD0m5JMmp4TTB5PTXhNvEEnUqsEdFvWE6PJNJuRtfVKo32NnI588c+Sk+aMAJBS81Pfe5aFFS1gHk93mtGXDnGP0UR+68t6i9BNtf0ijGG6Xawx7VhCyywdWP9sW9YZP97tUqZWE1Zbg3ioUtZox17Wr0PLgAh2c2jfQvGvlduBcdzrAk+nz+KiVwVgVb+i2noPXMlQuv6gzyVlO0GEeMII07ibvFC7SSIoSma5/aJAkc4omeS7YSQb6UsBl4+hYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EXQiuIVbOPbgVOJgKTdLbLexHNifA6jxGqjgoYK1DyI=;
- b=f91ZYE7zg0PdjEhkDykX9AJIOAZS/4Mx8Zq+1zzE5RKn9NIuVCoANKVItfFTO3p4Tte86ZlLDT+6kQJPc2VZ4oFg34EEEkhpoUCFkznAmXoSJtauyykz80Wf3C7vziWyYzMwu8DzS4X9pjRYvPnrflynAOii72IMlF0oPO00s3E=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OSRPR01MB11811.jpnprd01.prod.outlook.com (2603:1096:604:235::9)
- by OSCPR01MB15652.jpnprd01.prod.outlook.com (2603:1096:604:3c9::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.14; Tue, 9 Jun 2026
- 06:57:54 +0000
-Received: from OSRPR01MB11811.jpnprd01.prod.outlook.com
- ([fe80::a2c7:5e53:c133:d834]) by OSRPR01MB11811.jpnprd01.prod.outlook.com
- ([fe80::a2c7:5e53:c133:d834%3]) with mapi id 15.21.0092.011; Tue, 9 Jun 2026
- 06:57:54 +0000
-Date: Tue, 09 Jun 2026 15:57:52 +0900
-Message-ID: <878q8o2ob3.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: phucduc.bui@gmail.com
-Cc: Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 00/11] ASoC: renesas: fsi: Fix system hang by adding SPU clock
-In-Reply-To: <20260609013107.5995-1-phucduc.bui@gmail.com>
-References: <20260609013107.5995-1-phucduc.bui@gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-X-ClientProxiedBy: TY6P301CA0003.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:3be::9) To OSRPR01MB11811.jpnprd01.prod.outlook.com
- (2603:1096:604:235::9)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ge8WQRR4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780988422; x=1812524422;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2uFU5Nc5neHcjkdpq8khI2EoQ4OEWJdTXCqvSWCGdV4=;
+  b=ge8WQRR4VcrmPbPq+fsDeE7duJPhV9EeKrOr6TXurjOrptdb1yPsT4K1
+   l+icar9RusaYYkEc6ojAxzVZj+mdrDZLFMyLrZy/k2xvWDkssb4efHKNE
+   tArYOZUxH+Bwtnb9fi1q3Mf3ULfaC/HDTy1XabA9ahu7DyNNQlndo7j7O
+   gNnN669/wLAoiP9J8hu9GslQNdU+XSHblcbktR7BQ9ZYpdxbDpZk3j5Oh
+   VzypZUVFhTSLVEIoKUaAInhH6cCbAPKDfOw5yQyqLxw7oOw1EKd0LxNar
+   uOIUyzKFQz2KMdSjpFreu3DSXnfqN/qnY0pcx0bda8zazALgKf8vxjy6v
+   g==;
+X-CSE-ConnectionGUID: Ev081xT3SHabmdaEgE1BAQ==
+X-CSE-MsgGUID: zUwp9MauRnmSRNZ9d9ZcFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11811"; a="85364707"
+X-IronPort-AV: E=Sophos;i="6.24,195,1774335600"; 
+   d="scan'208";a="85364707"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 00:00:21 -0700
+X-CSE-ConnectionGUID: pCChZ3wCTI+GwpURGgDxKg==
+X-CSE-MsgGUID: Ei1KwtbHTi20oALanPWYpA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,195,1774335600"; 
+   d="scan'208";a="249699387"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.39])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 00:00:05 -0700
+Date: Tue, 9 Jun 2026 10:00:03 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Kaitao Cheng <kaitao.cheng@linux.dev>
+Cc: Muchun Song <muchun.song@linux.dev>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Huang Rui <ray.huang@amd.com>, Eddie James <eajames@linux.ibm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Waiman Long <longman@redhat.com>, drbd-dev@lists.linbit.com,
+	linux-block@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Kaitao Cheng <chengkaitao@kylinos.cn>
+Subject: Re: [PATCH v2 04/14] drm/i915/gt: Open-code active timeline walk
+Message-ID: <aie580RAM3vCunbh@ashevche-desk.local>
+References: <20260609061347.93688-1-kaitao.cheng@linux.dev>
+ <20260609062526.94907-1-kaitao.cheng@linux.dev>
+ <20260609062526.94907-2-kaitao.cheng@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OSRPR01MB11811:EE_|OSCPR01MB15652:EE_
-X-MS-Office365-Filtering-Correlation-Id: 82c8dcac-a7bf-4a03-3a7d-08dec5f46dfe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|52116014|7416014|376014|38350700014|56012099006|11063799006|6133799003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	vmlt7yDvbE6k1Zinagho2bsBXLNaKNdwUiAbsQta6UNLQjEL3eWWv6QusF41XG5/A7DATYxMKbb1usGCc5OR1+rFkTtYA8B0URqByN+GgM7JKze9uwNZV/8GTmcyXsp8T46refH0ntCrp88MSCk1iUYocAwLX47hdtk9+q+dtPqSaBB7/Fcaw9Ote/Miph01cjkqIgfypVACV9/ZPH7Lh0Mq3n9p6+xSTMzyeCbw6hR/c2ML8A3sWF4S2Xm8hanjX8kmHDovNeXH8aNayuf/5DvicHx766RYmB+va3GPz9Jg3XjHJF3Vef09VFNPJ0DNR5DgesmB7MIRyvztTDnwrmffXpDd/AciR7TtjvvtoG6MUHyL/DKehTZVd2oGIB3oBjg+jQvnMLTRZ5RpW3uB02eQQZmkZhSZ0U99MFc5Gg+U1jzj02UtTGeyLZdBbsvuf76haxpRytt1/L+28384+3zClM04CzMxwC5Z66gmTS3ppbm8txq3Nv3dJ3zcl0pTuc8amzS9MWtFX+gnmrNLt1DCIIZ+WZhJIzizztrTG1SCbOyJKDyx8bUQ6Tm6Ia3suQKin3b3gppf33z58iXmNh5JiEE4fVHoIRNqaTTKYCBLffmBkJVWCcynqXKYDwEUk1tOi6G5JrRSnwxkCscATg7fajZvIdNtQLTMW1tCqe1iH/uZJyd/98QGsJaEB8/L5U8b2qEUgOfwQHhCYtcILgKOWei9hpFbh3KvGK5hQ8AEDAJqRydWM8uXEooel8H/
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSRPR01MB11811.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(7416014)(376014)(38350700014)(56012099006)(11063799006)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?sH+BlBWzlYJN58UFC4p+kL/CBVz+ZVSW8U2vWhYC3EVYwV/PZE69FUv7/gSJ?=
- =?us-ascii?Q?vCz0HVKtu5AdECMcEADxT9GaAnT+/EyiR1vRjt1nKkI+OCWf6TqT8ZnFwSVc?=
- =?us-ascii?Q?TIfqwa97ByxE0aWw6dqDQL+Smpmow1wq56XZOon1eFyp9XcX/lN5/hO47s8J?=
- =?us-ascii?Q?Ea3HBrwFM1CF2Q31h9p7xW8xWoIw5wFyG33gVno6ntuaSlrbDsPjwZfurmc3?=
- =?us-ascii?Q?ZNogEb4EeAnzZxfIOeSBCrAPIYa8gPX22ePZsqRo0GdK2gM7Vf5Ry2EvYTba?=
- =?us-ascii?Q?D9rOuMN9L+ycwVlhWAdnPuTrkTMj0HHsYNnyE11BUoOeZUNRUw97NOoOA2OD?=
- =?us-ascii?Q?MFDre5W0QgPIZDrpNzjMpMeH4vU0ZZzkGDt3ypOd5163gLJs1x0GYke+AP6J?=
- =?us-ascii?Q?eZW50kneWRQu3VLXyh9tq1T/DAVVsi3GWjRmMwE/8wswqnDAC/bwBd2+cY9z?=
- =?us-ascii?Q?u4/MbPOPNJznmz9oHHKfMfwhvyCbgpIFQ14wWClOjhrvS3IUfW8W4ZUtT989?=
- =?us-ascii?Q?0SSZ9MncRh5utxvtMKiwyzKfewjUD0itaLyf3T1TeqB9CwdHDF2zUlFTAvAl?=
- =?us-ascii?Q?d9vWkF597Gd8sWpAC+kgoIssvflLJK6KGVkRNd+dMy7N7G5auJ4v7uZqUCbC?=
- =?us-ascii?Q?bNry2o/rYAQFhBVBQ7mUoI5pc1yG9XddqwMpOGVcviYjIBHXvsHA6aDIvgen?=
- =?us-ascii?Q?Ua/NjrTIRyCjcLbXT3KeoerN7T7Cf73PYVv9hoViiNXhRuOc1SF2lrRCSGbM?=
- =?us-ascii?Q?cDwxSP9Z1PwU1hzZyRZlE36ZQGedOSsCGh/EzhLA2773WFF+qLI5603+VmJB?=
- =?us-ascii?Q?xqUZObTUvkkCXGjPYyinwOc7uQEkH7b/8nSG5kPqMq1owDGOIuKzTckJVFSM?=
- =?us-ascii?Q?tzVG0nXsPJbIBOtxaQH4YsKfuOfJvpRul2mudZyVSxGqTmYxIsb3hAqOVNGi?=
- =?us-ascii?Q?MZhK/uAxYIAXeU/Gzli6rP73yakQ/fdTvuaCKlQuR3ZXCCmTA25vQ1GxLkpX?=
- =?us-ascii?Q?Xu4pCSvulnvDvzr1UjBgSCvVVDadS9gqFMgs4fugTzJ015ZhjjmRWoscTcBg?=
- =?us-ascii?Q?dri7sMu2toYkrHhsW3xTYj+4yFHIRD2rZ38RLOnd7ZHzOwxv3S7hIf5HkTPz?=
- =?us-ascii?Q?HHJ9YwWGoc3bzaVpLfbsuuDBO4p0tkTWRrh6PC2TzhNOSKRX97GaHk67IPKv?=
- =?us-ascii?Q?9n6+80MnXfP/jABjwxMWPENfH6CuUoaZZ/CR8xrEI6+jUCTFGO6OfZttWqFZ?=
- =?us-ascii?Q?+4i4GVykZXBpahkMgMrniW8Iv/aVQJm5ScUWgKlVzV0i+ToBGroOZOIP9hcK?=
- =?us-ascii?Q?9b8zdp/XP1sehtn7gQjpFkcCBYZ3MUbNOkQtIj9+YtuBNjNm2y5U3oW9j5IZ?=
- =?us-ascii?Q?4RUCHvUih6YN3Nphq6DOqXGelZVCwjp6vW4D0X3OnrZGtbxDtdYA96sqG8cV?=
- =?us-ascii?Q?qHhbTL0iPZFikDAd0Sd3pDNE7OaoIvBjQzr3AIjRUfpQnZxyrQ5FmVNSq77F?=
- =?us-ascii?Q?7CU6pv6nwDthHI6LnGhat3hz4rBRWy4NhESK0kjsYSvpnd7gOcAvq2/naNIA?=
- =?us-ascii?Q?c8lpG+V1zt3tqRPDxQDkQd8bO6XbcZa7hmxO8eWZP+/TzV9TJmkV4wo+vtoJ?=
- =?us-ascii?Q?L8R1aHxkGkw/EPxMZsgSKF3PgfbM++8ZorRMpeqjgFKzC6dbLR6bmUy/GexB?=
- =?us-ascii?Q?JnOTyZRQw7ihNrvvME+hS4loOIF1NMjU164lAMiGDW8mdP7Iywcos8+k0MYI?=
- =?us-ascii?Q?deUpRzkB6oOyjJYpR2kCtZZZVnfr4/2B2f71kqVfrA6sND1VzPBt?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82c8dcac-a7bf-4a03-3a7d-08dec5f46dfe
-X-MS-Exchange-CrossTenant-AuthSource: OSRPR01MB11811.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 06:57:54.2601
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AxX/5Wzi96Pg79jEbowho6G88Nr07Dxd0+JDaa4cCDK5Luf6xh5D5mB4BiBcU+41+YhhAJH79Jg6RLRPOASGAwWeJ5B0qwCfD/48dPN/mUKV751npWmZlhiS9R2sr3wI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB15652
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260609062526.94907-2-kaitao.cheng@linux.dev>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-
-Hi
-
-Thank you for the patches
-
-> The FSI on r8a7740 requires the SPU clock to be enabled before accessing
-> its internal registers. Without it, register accesses may hang the system
-> even when the FSI functional clock is enabled.
+On Tue, Jun 09, 2026 at 02:25:16PM +0800, Kaitao Cheng wrote:
 > 
-> Previously, the SPU clock remained enabled because it was left running by
-> the bootloader. After adding the SPU clock to the device tree, it is
-> automatically disabled once system initialization completes.
+> A later change will make list_for_each_entry() cache the next element
+> before entering the loop body. __intel_gt_unset_wedged() drops
+> timelines->lock while waiting on a fence and then restarts the walk from
+> the list head after the lock is reacquired.
 > 
-> This series adds the missing clocks and aligns their names with those used
-> by the driver.
-> 
-> Following feedback from Morimoto-san, the driver is also refactored to
-> improve stability. Clock initialization is moved from the runtime path to
-> the probe function to simplify the flow and avoid redundant setup.
-> Additionally, the shutdown sequence is reordered to ensure the stream is
-> stopped before the hardware is shut down.
-> 
-> The driver currently uses clk_enable()/clk_disable() without matching
-> clk_prepare()/clk_unprepare() handling. This series adds the missing
-> prepare/unprepare operations and moves them into startup/shutdown paths,
-> since clk_prepare() may sleep and therefore must not be called from 
-> atomic contexts.
-> 
-> The series also fixes a race where in-flight IRQ handlers may continue
-> accessing registers after the SPU clock has been disabled during shutdown.
+> Keep the loop open-coded so the next timeline is selected after that
+> restart logic has run. This preserves the existing lock-drop traversal
+> semantics and prepares the code for the list iterator update.
 
-For all patches (except DT)
+...
 
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>  	spin_lock(&timelines->lock);
+> -	list_for_each_entry(tl, &timelines->active_list, link) {
+> +	for (tl = list_first_entry(&timelines->active_list, typeof(*tl), link);
+> +	     !list_entry_is_head(tl, &timelines->active_list, link);
+> +	     tl = list_next_entry(tl, link)) {
 
-Thank you for your help !!
+Yeah, these cases should rather be converted to do {} while or while-loop.
+This will make the intention clearer and reduces the possibility that someone
+mistakenly changes these back to use list_for_each_entry().
 
-Best regards
----
-Kuninori Morimoto
+See, for example, deferred_probe_work_func() implementation.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
