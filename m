@@ -1,80 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6793B3C1A;
-	Tue,  9 Jun 2026 07:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724262EAB72
+	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 07:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780990137; cv=none; b=OJiiEtIm3cp5aTFf9AM5OKSDybIEI4cl5aCs6QzzmDNUg72tNOr6sxbyZMFksMOwh1jwo351AvoxLLWk/ERMMvZtGij00vROGTyKqf0DYxaVzgVSghQ4IlWpOSSIBJuQVlWcrUwQvVhkNgEzK+8+8wDH7bTDf4c8Z/3UgaP6EBE=
+	t=1780991352; cv=none; b=jlhnJCKQGITp9lxnCP8RdFaeBchdX5FFD0gR+3vt7insE18Ey3GpTX2LOpAMQo0yOjDBMIRCWFLJpCLu03L2MNvCMm5RwithIkIpbiQ8Xin2ZlvQ79Nw1gNhI+fWgKgkKRl5Iuiu2fnAm+z/WXgRW2hjjIqdo181dJgp2nakz3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780990137; c=relaxed/simple;
-	bh=Qzq8JFlFuObFvmKuFmssnbGMWgD29AFPCAnznkuDpA0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q5+/0Nka7y3BdSiN7Xc6N16dLr63lzLgH9xCwCW6RnFoDp3NiobukkreuC6KDwqavYCtUPSno75Yy3MnXwHKNcSix3kVfwlXYHO1u8aA87XNUkd5SW0hPKJp6rRAch1x70Rk+5q6Ie7omECFS6f9i9ZPrHgBvYdMHi+50WmbK5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQG/1zsH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780991352; c=relaxed/simple;
+	bh=QBXV6cZQNv95D2lWbdgLMFoS8bWvyQAvDV+K5cq3J68=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=lWx3CdCFb/YHecPWh4BYG28Qmte4FbnOw2/xZFUTHU+ZutieqHpoBftWnwTFXJ5SiDvRgCItOHwGlKP+UgA/XMaFgOTBrK5GT4LGEV3Q4LLkWAl/ARQ4ujXOZjAatNfxNeF5ORG60ujhTlHdZ33kVz0QuCdTC16sZtPRogARgLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FYb1lSRT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Nkmk8Bzf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FYb1lSRT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Nkmk8Bzf; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQG/1zsH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A2DE1F00893;
-	Tue,  9 Jun 2026 07:28:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780990136;
-	bh=sWNAmXeiWmwxeKCoQ11+GrDkd2t2GOIhhcnyC5yfQl4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UQG/1zsHX+JRRF7DbIBZJZG8OKX0NWnFOxKLv7cTXIfpCkTf6DXL4opYKkNc7U01b
-	 2WvQ+LWMwew+eKuWNgjs9oCUICK/ksO2NzLYkU1Ny8SX37YvJJESxj2tVYVECxlEx6
-	 bYYKziFRJ5F3iHHhfG9rLLXMxXqB0M+ahp6fe3TnNRGywPPFSI+4hlvGpTTwZCxoSO
-	 U/9RFlpaHXlmngR/a36ebbL3ZdcGaoF4LGDfO0xEhZ+DIqIrc7WjfJtVipW8IPP9Q6
-	 4e0QYEvNGB9kHfWUuj+h7zuGtNkhKiMsj3l/y8ViXs8w+Ge0jXRQ5biLDqndLus1IO
-	 ZFr45H+Gjk3jg==
-Date: Tue, 9 Jun 2026 09:28:52 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] ASoC: qcom: lpass-rx-macro: Add shikra compatible
-Message-ID: <20260609-pretty-coral-weasel-e951ef@quoll>
-References: <20260608172023.2965292-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <20260608172023.2965292-3-mohammad.rafi.shaik@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FYb1lSRT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Nkmk8Bzf";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FYb1lSRT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Nkmk8Bzf"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 939BC6A906;
+	Tue,  9 Jun 2026 07:49:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780991349; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=e+CDwCyh3JijRWO+GshpHjTflTGXqM4y3IUkdy3wlcw=;
+	b=FYb1lSRTFzRegz8mYfiJJO2sa4iFxW9UzLI+V8QuBn5GYIPSa4v8qEci2C5O7OjzGTcpUv
+	fVZf7qecqoVJEirEPWVYUUoCSLEw0Z9RieCgoB1Jax9PCtMwxpbR4hswkTg0WJtTy1luMe
+	V2BTfZocJaFxguGQbGuZ3kgB/6EqGQY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780991349;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=e+CDwCyh3JijRWO+GshpHjTflTGXqM4y3IUkdy3wlcw=;
+	b=Nkmk8BzfKtWLtGyXJIJqls8iw4FkIn043y2EiW/uMEeaVhUr1ByOVMcRqw9h9+mtd9o7G6
+	mp1//ceI1AuL/9BA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1780991349; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=e+CDwCyh3JijRWO+GshpHjTflTGXqM4y3IUkdy3wlcw=;
+	b=FYb1lSRTFzRegz8mYfiJJO2sa4iFxW9UzLI+V8QuBn5GYIPSa4v8qEci2C5O7OjzGTcpUv
+	fVZf7qecqoVJEirEPWVYUUoCSLEw0Z9RieCgoB1Jax9PCtMwxpbR4hswkTg0WJtTy1luMe
+	V2BTfZocJaFxguGQbGuZ3kgB/6EqGQY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1780991349;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=e+CDwCyh3JijRWO+GshpHjTflTGXqM4y3IUkdy3wlcw=;
+	b=Nkmk8BzfKtWLtGyXJIJqls8iw4FkIn043y2EiW/uMEeaVhUr1ByOVMcRqw9h9+mtd9o7G6
+	mp1//ceI1AuL/9BA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6AFB6779A9;
+	Tue,  9 Jun 2026 07:49:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pbb0GHXFJ2rYNAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 09 Jun 2026 07:49:09 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: aloop: Drop superfluous break
+Date: Tue,  9 Jun 2026 09:49:04 +0200
+Message-ID: <20260609074907.726593-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260608172023.2965292-3-mohammad.rafi.shaik@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-0.999];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Level: 
 
-On Mon, Jun 08, 2026 at 10:50:22PM +0530, Mohammad Rafi Shaik wrote:
-> @@ -3648,6 +3655,7 @@ static int rx_macro_component_probe(struct snd_soc_component *component)
->  	case LPASS_CODEC_VERSION_2_6:
->  	case LPASS_CODEC_VERSION_2_7:
->  	case LPASS_CODEC_VERSION_2_8:
-> +	case LPASS_CODEC_VERSION_4_0:
->  		controls = rx_macro_2_5_snd_controls;
->  		num_controls = ARRAY_SIZE(rx_macro_2_5_snd_controls);
->  		widgets = rx_macro_2_5_dapm_widgets;
-> @@ -3809,6 +3817,7 @@ static int rx_macro_probe(struct platform_device *pdev)
->  		return PTR_ERR(base);
->  
->  	rx->codec_version = lpass_macro_get_codec_version();
-> +	rx->bypass_fs_control = !!(flags & LPASS_MACRO_FLAG_BYPASS_FS_CONTROL);
+At converting the spinlock to guard(), a break statement was put in
+the scoped_guard block in loopback_jiffies_timer_function(), but it's
+obviously superfluous (although it's harmless).  Better to drop it for
+avoiding confusion.
 
-Is this specific to Shikra or LPASS v4 codec version? Commit msg
-suggests latter, so detectable from version, no?
+Fixes: 1ef2cb6b29c2 ("ALSA: aloop: Use guard() for spin locks")
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/drivers/aloop.c | 1 -
+ 1 file changed, 1 deletion(-)
 
->  	struct reg_default *reg_defaults __free(kfree) = NULL;
->  
->  	switch (rx->codec_version) {
-> @@ -3831,6 +3840,7 @@ static int rx_macro_probe(struct platform_device *pdev)
->  	case LPASS_CODEC_VERSION_2_6:
->  	case LPASS_CODEC_VERSION_2_7:
->  	case LPASS_CODEC_VERSION_2_8:
-> +	case LPASS_CODEC_VERSION_4_0:
-
-Best regards,
-Krzysztof
+diff --git a/sound/drivers/aloop.c b/sound/drivers/aloop.c
+index a37a1695f51c..3f8488716a08 100644
+--- a/sound/drivers/aloop.c
++++ b/sound/drivers/aloop.c
+@@ -728,7 +728,6 @@ static void loopback_jiffies_timer_function(struct timer_list *t)
+ 			if (dpcm->period_update_pending) {
+ 				dpcm->period_update_pending = 0;
+ 				period_elapsed = true;
+-				break;
+ 			}
+ 		}
+ 	}
+-- 
+2.54.0
 
