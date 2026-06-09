@@ -1,45 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A89C3E3142;
-	Tue,  9 Jun 2026 23:06:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491793EDABA;
+	Tue,  9 Jun 2026 23:06:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781046375; cv=none; b=bMTSWUbXF5TvgEwTz1vBY/lsHY14mIB3sqajKtudR/fiBX/M6J+96N3fIywFwccT7yB26XrvemWPtqk5xSFj2zxQ38IZTcznX63hyGlZmBQayQEB+QvVmKjEgFwpQtcVC3MTtMPh0/bijWGy72J//0Ot8MKFA9NySSk7i40LY6s=
+	t=1781046381; cv=none; b=aT5cL5vRNH0y6zwbV2XvZD0jpc15fYjj04WfAjcpLQ5Ybd6bvLJcWcdcSH3ReuvUERTQhsO3nczxEd+YqFEoXToQyHg++8euFcX2FK11OKHXyifLz/QWCtVHZSA5s+hg/VRAsSV08gHH19hLc7luJ+O3zT3nwrP78RnXBuIWkJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781046375; c=relaxed/simple;
-	bh=JgEeY7eB+za5CqBF1RW90q81nKBWj8SL2L9Mv9jKbrE=;
+	s=arc-20240116; t=1781046381; c=relaxed/simple;
+	bh=4uZIHwZ1FummxHeb3vPJSqClgqSIXab7kKj02Zdv9iA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hmi+aziJSLnYNSTaWgOXCIBQ1mOiOdrcLwNPUHpVHsYBt2QjctXmAkq2GFg4sg2SoFgW9Ns6Ots9CMxd3BU/HBjCwtj+qhiASWNHOhiTh4nSiKsQshTQ4VAPiyHn+sNWFXWEor1TNtOUEd85e8o3s6CbHA+UqksAiDg/2W/FMgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q+Sflg4G; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=RS1oQrhRtGEHF+cRYBLCIsQ4/20r3kYlPVuN4q94/zscC20JnwRSdLUSrd/AJs/xQJZ2RipPCHoCqDmvJu3qLcGHL60oLOJcoj/03SEzZpzqgdpLLnRi7MGnukpF8EPfFfVQwoU+VlDK78oJ/EOX29Sr1PmqD+X+K8+xdjIOF+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MoogQM0g; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q+Sflg4G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFC511F00898;
-	Tue,  9 Jun 2026 23:06:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MoogQM0g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 893E01F00893;
+	Tue,  9 Jun 2026 23:06:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781046374;
-	bh=8pDXuObPF5gw4XW/4lBOLwp4F53GOe6GUabH0eYzzb8=;
+	s=k20260515; t=1781046380;
+	bh=AtTkIPwhiUBqdh/egoEcrg9UpG8OOuSwuXDOFVx9VHw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Q+Sflg4GCrY+7baCctMMxwNdeyLNu8lm69Q/1po0FI39Z3okx6jnjKuKoKOrlozF7
-	 vCL9wbOOByaoYn0JdplctiuiPzeD0HumS138ETj2Si37YQ/OdtDzYl2X8hILGEUnMa
-	 eigqKRU3152Z8NnjjazxB7vh45dRAI54q/wP3YUFKbHtBizApmqBS1PlSikB2r5OD1
-	 4+RRlsYl0iUjsF/rQfX5g01Typ0SU114h54fCN7Qe7p5a2ovPFZjhAaOD47UiiyeIH
-	 cTL5tGeYiywe8CGeigiFGV7hkPe5a/KPuQVA6vemi+a4zEHC9SZWgOatwPaw4ik8ME
-	 eGGXFkL0UNEWw==
+	b=MoogQM0gxY2wwwz9o7v7ySh2THpZJiwwdzXXV5No3MFdJEpnIEgZ2NFr4yX+V5w3D
+	 aZjmgKnHLnzqe+ptqjQ+HfmWZ5Y+D52cgYE4lg+k4vUTh+t5TfkSoKvrlaXI3AD4az
+	 vReCPAq0brNwk00ppsFdeUutzbBLz5LWFtt98zIZhUiey3LxojWfgIh7vCTcBB84F2
+	 463EAScA4wjm4oKtbzquumal4UGzF25bEMD/J0SmP4hTnAxL+s97bzm7ZXu/v6+Lb/
+	 8MmhifTRH5hd/l/GcoKNceKxQvgYNjhCB9UqE2xwfPDnqZKLJLROJMCtsckC3LxQMz
+	 l7Z1wWKgSqt3w==
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, 
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
  yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
- perex@perex.cz, tiwai@suse.com, Sunil-kumar.Dommati@amd.com, 
- venkataprasad.potturu@amd.com, Basavaraj.Hiregoudar@amd.com, 
- mario.limonciello@amd.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, sound-open-firmware@alsa-project.org
-In-Reply-To: <20260609144146.3311301-1-Vijendar.Mukunda@amd.com>
-References: <20260609144146.3311301-1-Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH] ASoC: SOF: amd: honor machine_check in SoundWire
- machine select
-Message-Id: <178102720923.34323.10871612282287356569.b4-ty@b4>
-Date: Tue, 09 Jun 2026 18:46:49 +0100
+ liam.r.girdwood@intel.com, stable@vger.kernel.org
+In-Reply-To: <20260609083458.31193-1-peter.ujfalusi@linux.intel.com>
+References: <20260609083458.31193-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH 0/6] ASoC: SOF: ipc3/ipc4-control: harden kcontrol
+ payload handling
+Message-Id: <178102687840.34323.18334716238703776280.b4-ty@b4>
+Date: Tue, 09 Jun 2026 18:41:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,20 +46,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1148; i=broonie@kernel.org;
- h=from:subject:message-id; bh=JgEeY7eB+za5CqBF1RW90q81nKBWj8SL2L9Mv9jKbrE=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKJxg5zFG+6P7IB/4vT8X+FMUEttZz6DrQOzy7
- mIfWZYeVRGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiicYAAKCRAk1otyXVSH
- 0A+JB/0XpEMlIpNLDsdCIcFtBWHfn6P58WI/mSgrki8V4oxdSrMVrM3/f+VRflMn9DQx+/wi9sh
- hHmfYIA/Dfk0RB2iVA/CBEjgux1lA3x1raybrq0LDhsMNdMb4JtrVm9/Oi2pg6TwZkyhJwHlEbU
- nusnaJhoin5ZG4i9oyowXnyOhI3ledtJyxoWyKJDZ/TlgBETMQrTrC1roWNEyBDZEPBCZnQCMUK
- y7wUxxUjWGopDOZcNX07AOscz1f7+ToVVWWT8wy/UvLbjWIfyWBklgOd/pLzBU02JqCdNYBZNVf
- G7QXk5wZ8Q5ex0oaaTDY4dVPA1o/AspEd21dDAozyavZtsB6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2027; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=4uZIHwZ1FummxHeb3vPJSqClgqSIXab7kKj02Zdv9iA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKJxoPVtdGVWZxVP9/UUzdp4+ggn0T4s7w7jLT
+ 4x0nHI8FDWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiicaAAKCRAk1otyXVSH
+ 0MTtB/9fE9Q9UYOEbIQgvE20zuQnFqlSRpnCL+mCFzwcul3rZ43sSYgG7qIWdGPprifsHGYieZ0
+ tBr8rIB4Yf3Xa8YfHD1nBUYuRi6hGIGoWDmVJfRNtFSDqGAWHu0Dzgyh6ki7IQfbM2OQ/1xaOFm
+ /45hGLJqtIg/Fnzas0tPneHCIaw0g0OEC7Zkcey7qmv6bQfmRAdjpdZbKEPsynXxb/KxMHULlvs
+ 9iEEy7wTwSWwdYehvnlchXqmsPGNP+K4qlAIEZx4W8sp9vHbS+QSUpl3U4XDKZQBIfobY4rK8+U
+ hOWb064N6hnkqwAsp93VM327GpK1JpZ5F1Ck97bkeVsDG6me
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 09 Jun 2026 20:10:00 +0530, Vijendar Mukunda wrote:
-> ASoC: SOF: amd: honor machine_check in SoundWire machine select
+On Tue, 09 Jun 2026 11:34:52 +0300, Peter Ujfalusi wrote:
+> ASoC: SOF: ipc3/ipc4-control: harden kcontrol payload handling
+> 
+> Hi,
+> 
+> This series hardens SOF kcontrol data paths for both IPC3 and IPC4 by
+> fixing size-handling bugs in put/get/update flows and tightening bounds
+> checks around firmware/user-provided payload lengths.
+> 
+> [...]
 
 Applied to
 
@@ -70,8 +75,18 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: amd: honor machine_check in SoundWire machine select
-      https://git.kernel.org/broonie/sound/c/ff457653ee38
+[1/6] ASoC: SOF: ipc4-control: Fix TOCTOU in sof_ipc4_bytes_put
+      https://git.kernel.org/broonie/sound/c/3ad673e7139c
+[2/6] ASoC: SOF: ipc4-control: Validate notification payload size
+      https://git.kernel.org/broonie/sound/c/5bdfeccb7fbf
+[3/6] ASoC: SOF: ipc3-control: Use overflow checks in control_update size calc
+      https://git.kernel.org/broonie/sound/c/8791977d7289
+[4/6] ASoC: SOF: ipc3-control: Validate size in snd_sof_update_control
+      https://git.kernel.org/broonie/sound/c/390aa4c9339b
+[5/6] ASoC: SOF: ipc3-control: Fix TOCTOU in bytes_put and bytes_get
+      https://git.kernel.org/broonie/sound/c/1f97760417b5
+[6/6] ASoC: SOF: ipc3-control: Fix heap overflow in bytes_ext put/get
+      https://git.kernel.org/broonie/sound/c/fd46668d5389
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
