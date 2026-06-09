@@ -1,246 +1,194 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013044.outbound.protection.outlook.com [40.93.196.44])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011023.outbound.protection.outlook.com [40.107.208.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCA52BE642;
-	Tue,  9 Jun 2026 10:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8B23FADFA;
+	Tue,  9 Jun 2026 10:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.23
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781001216; cv=fail; b=Wsa4gGfAxXfL9btuEA/MynRCF1JDSgvzkzx8B8hy6pivoHMS2bIgYSvMR29XDcFAUbVrjWyLzSYEv1i2h5ThOfN/0/kfABXiBzPUXethWuwUVR/o6zqKP/tVxgGsqnzhHP9m22Bd5Ya+FuKZoefzsGCOR+SG8V165lJl/z8V8Ks=
+	t=1781002415; cv=fail; b=Qtp+0DGTVHmFhNyioaPZrILQKjJfYZEnH0J/Y1nbpopZGpOz4gr3KTbr0cn+wE4VbAso4ZU/Tkt7z1+ZR5xxY5Glgf8RNJH9CyDqQYtiB+f01pz5U4iEjRICRi77hnJxoT3kWN15Rm17qvwIF7VVqAPvesjs1lb8o/OUJB7lFE4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781001216; c=relaxed/simple;
-	bh=mxpb30J4LpOYnBqcSTBQQzM8S7iLE8itHR1qgVUER3E=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=WvhrnJ84CnTLZ6l4+PGQdG76NOKufm7zbcuD37k0HECD3yeRWDXgMMUmAzmHvA8/DqCVMfjo5dfCgVsyKw9E4WuMmDMdTr3svRkD+egYMNv9G/t3NGBaFBwyrhMyeq5BjjsENxs+/0lQuwg0LYv4PZrdcZ8l2eqMRWd3rM0hH2c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=L84i/HjQ; arc=fail smtp.client-ip=40.93.196.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1781002415; c=relaxed/simple;
+	bh=lKtu2QaOeSOlUVDyt/2by+jQrfWq3ppXeCu8t0pLXZA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TBfzV/NngJlvZUoeGQmDC2RdGgweGKWAtLcl4+LgPKZB73PvPxFZJBDD0hONtkagKVsuzXUj0zB5uMqalQzCLV8SSrlSxTIKUSmQ6Lv7freu51wZ1TfrUxMMBEiZPPtaR796xRqfG9+ANP8e1zggJe8nwmqVWk1shVUoGb8BlD0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ec73LiHy; arc=fail smtp.client-ip=40.107.208.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="L84i/HjQ"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ec73LiHy"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lCQGvJscpAqhFxeKUTvgkgchzLMuQm60tJeNW5CQ0tc3S11lK0JcBTt09Q48AaUM0iNbjWGlWoLzGz7LFw/r4b4vPaUuJe23ucwq4lPZW+o56rHRDVtPLuneLMEhcy3zHhMkk6nyIg1Mg6vswiCll60wztN9MV/3d2aQRsEX4aDrJwySWbGL7i8T6F+OncbrVJxbN2FOFBC72jTHetYOtqOmFeVTwr2uESdcrZTfk4c+djc+x5ugrkkvPEW/A5jyqFImTIjwZODkLC0X1wbnEwFQAtMmiC5Aia0xY2q0JHiPpJD36x0rqHFdSqYDoi0iLgP5HCdGWgHcZT7p5X0x/w==
+ b=Y96ewjOe2J6yqfyBL5YIk5qIBoNLAHMOBd3HdEAEyakr3GaNm72ldmk2y9s1V0rwbMdhcxr5kmXORM+F0NjFDAKVPX4FOOEYUlM1UEcNBKen1WM3Q7HVagZs6kCyZJF4XyxsEWj5Zv0rgKqHzhEnxExh5HYsMyxE8rRSerQqP0FCYCEjJyqJqMAzjhCRIFChDE4u+2baH+fb0CUbtrvAUUPPKGwJ4qc8IUPijtKqSVIUYDynbi0lpewDkrGJSJMYsmEHj/M7HIm29U5GZdFHY14aRkDiTiZIeidWnC8c+XZwmEF+Cxmoq+LQIrBGCzd2UltrAMsVwfXzT5lJMP2b6w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1exUrY7Qo3lVA7JgoG0qMXXtrxWa1FvVhQ6rQaMKzl8=;
- b=XQGGeqFNy1/0F1LsnVrBueC8BV9bJXf/QynNJQ5kirVHbI4f+g13Kl1KFVRu+hVUbxbWVg0O3j/ZDaPIsuQ94hmSHn+L6zCrMJ5DOASiwv4eHlNy+LeuPbjT4ZiiwTDIZDKffj7VJoiXTu5pblZITRj0PSwl+VdecM7mJzBquKOxCSFh/LpyEgQrhAbsegEOS7G5GEm6OfsDbR2KA/FMyhC2SVBcUgSnlAIhxwlMHXrEFC4Rodr7svH2K2fHDV/CtjBADU3yHmQs5idSYzbd0PK0IXphjsX4TqrrGR6aDOT3S9Y73Ps0Hw9lV6GG4imLI+cCXb18mPeFci/6CBpZHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=dr+i2fxQxf5fGBHvyEkak5IKxmrh09ciVMZ7jV6bCMM=;
+ b=JQXRriFxS6VqjcCaQjzobRkCF9A6B4fx6UF215j3dz1jk+PZtUfUXVRSUylAegNNAmt6e+LgnbBWkx7q2C7+gVsFXDri+LOmfU5XIj1q1KBnpTY9tz44vYMhM0QR2eFqrz+JCOl0pTZ4ryqXgGNqiu2VjDJXWqAVpe2IqSp4wRCFo4wAuf7ypHje+9x9TMo5JOSxofwzbvjqDg3KUhx2j8MrNZg15xf3MbSQv9ETmVLtFfI12Br7Oyh2GiB3JCfU87KvMMrb/FAkCAJHAZx6Hk+oc8e5O62SwoIaw7haDAOlFkDWP/AeXaDXbEF++w58jGF5XfuSh8J7/9fUJ+IO6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=hp.com smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1exUrY7Qo3lVA7JgoG0qMXXtrxWa1FvVhQ6rQaMKzl8=;
- b=L84i/HjQWvmxlqRgb7ackx5yJTz87lUy7VE6HcqY4qA8L7C81q/S27p53NsDoIGPFNa/vkBgoD7UXwpC/Tb/D1hMjxBW7HWeCjklPhfAAQzk+HqS6gg6HMzUQ//i0GVLGlsRJN8/rd2IppVHDQ4/JO9KQww3PjguQM3VRYctviA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SN7PR12MB7347.namprd12.prod.outlook.com (2603:10b6:806:29a::15) with
+ bh=dr+i2fxQxf5fGBHvyEkak5IKxmrh09ciVMZ7jV6bCMM=;
+ b=ec73LiHyGbTm8llaRd5q5sTZqNqry+vezlDFBslnUOuyVXJQTQJJPq8fH7vcskwu36wJVGeB3t514VyPfor6rfoUcy8L5Qbr2cjVTbvdh4L9EMO0xjeeM/8454Ur8DeV35dfGfOv2s72bSANI8dPu8APemvFODx6bNTZVNx326U=
+Received: from BL1P221CA0008.NAMP221.PROD.OUTLOOK.COM (2603:10b6:208:2c5::28)
+ by SA3PR10MB6999.namprd10.prod.outlook.com (2603:10b6:806:318::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.12; Tue, 9 Jun 2026
- 10:33:30 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0092.006; Tue, 9 Jun 2026
- 10:33:30 +0000
-Message-ID: <bd0b7393-8ccb-4d67-8bfc-18c68347122c@amd.com>
-Date: Tue, 9 Jun 2026 12:33:15 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/14] list: Prepare entry iterators to cache cursor
- state
-To: Kaitao Cheng <kaitao.cheng@linux.dev>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Muchun Song <muchun.song@linux.dev>,
- Philipp Reisner <philipp.reisner@linbit.com>,
- Lars Ellenberg <lars.ellenberg@linbit.com>,
- =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Jens Axboe <axboe@kernel.dk>, Takashi Sakamoto <o-takashi@sakamocchi.jp>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Eddie James <eajames@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Laxman Dewangan <ldewangan@nvidia.com>,
- Thierry Reding <thierry.reding@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Davidlohr Bueso <dave@stgolabs.net>, "Paul E . McKenney"
- <paulmck@kernel.org>, Josh Triplett <josh@joshtriplett.org>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Waiman Long <longman@redhat.com>,
- drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
- linux1394-devel@lists.sourceforge.net, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-spi@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Christian Brauner
- <brauner@kernel.org>, David Howells <dhowells@redhat.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Kaito Cheng <chengkaitao@kylinos.cn>
-References: <20260609061347.93688-1-kaitao.cheng@linux.dev>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260609061347.93688-1-kaitao.cheng@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN0PR04CA0179.namprd04.prod.outlook.com
- (2603:10b6:408:eb::34) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.14; Tue, 9 Jun 2026
+ 10:53:30 +0000
+Received: from BN3PEPF0000B077.namprd04.prod.outlook.com
+ (2603:10b6:208:2c5:cafe::48) by BL1P221CA0008.outlook.office365.com
+ (2603:10b6:208:2c5::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.11 via Frontend Transport; Tue, 9
+ Jun 2026 10:53:30 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ BN3PEPF0000B077.mail.protection.outlook.com (10.167.243.122) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.113.7 via Frontend Transport; Tue, 9 Jun 2026 10:53:30 +0000
+Received: from DLEE213.ent.ti.com (157.170.170.116) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Tue, 9 Jun
+ 2026 05:53:25 -0500
+Received: from DLEE215.ent.ti.com (157.170.170.118) by DLEE213.ent.ti.com
+ (157.170.170.116) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Tue, 9 Jun
+ 2026 05:53:25 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE215.ent.ti.com
+ (157.170.170.118) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
+ Transport; Tue, 9 Jun 2026 05:53:25 -0500
+Received: from lelvem-mr05.itg.ti.com ([10.250.165.105])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 659ArJGA1492810;
+	Tue, 9 Jun 2026 05:53:20 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <tiwai@suse.de>, <hansg@kernel.org>
+CC: <ilpo.jarvinen@linux.intel.com>, <broonie@kernel.org>,
+	<andriy.shevchenko@linux.intel.com>, <shenghao-ding@ti.com>,
+	<13916275206@139.com>, <platform-driver-x86@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<baojun.xu@ti.com>, <letitia.tsai@hp.com>, <bill.yu@canonical.com>,
+	<pin-hao.huang@hp.com>
+Subject: [PATCH v1] ALSA: hda/tas2781: Fix device-0 reset issue and handle -EXDEV in block data processing
+Date: Tue, 9 Jun 2026 18:52:53 +0800
+Message-ID: <20260609105253.19510-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB7347:EE_
-X-MS-Office365-Filtering-Correlation-Id: e4ddc47c-7238-44ef-a3f7-08dec6128c8f
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B077:EE_|SA3PR10MB6999:EE_
+X-MS-Office365-Filtering-Correlation-Id: 90438710-cdeb-4e8c-3c00-08dec61557c2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|921020|18002099003|22082099003|11063799006|56012099006;
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700016|376014|7416014|18002099003|6133799003|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	fJIaLgXpgcNug3LCR18J+qaYh8wIinv9We7sUHZPPLMIiCfcJWiOqIjEbcJiOx4Si0KMO3U2nofKBWObiOF7oUWce3oXb8H2lz2LWt04fqV0L83eQJl+VWBMuZfnfqmY43cPmo5rHYKjEWBW5Qd8bN+X8PKnL+driRgyGOmBH2feqgId8qPITj0ZMHLm9GA5BVLigCquZrWDuLyuZUy4Tl0Zfw77QQ44As8N2avbf1Qv4Ce46wEg0A07BT17QOsnRSPjK+iuCrRu5kOVYd+g6nfNXf9mu2KorBx9GW1ZtQ+WhuIPY1o3ye7WrnuST7PGV/3c3Y9MqxKqdFNBF+xIq0bZN87vgVa3+C3eM8R2oeCVeEtsXXj+4LAukExvhwWSbXd6IMYM1pXHdz8MTco8f8iWvblkuwjQIHCYy7sCaKTm9nn/TIJws9lvH2zxEtDXo2tHs4UunLAk9kAM93nZXNdAFQf30TvcTht4+pP5UdKya808JBnSI05wMbV4CXTbJMsfruTKg6mMJl4y3ZV6+H4KhY+hp8IYpzXHuMwDPtdLGVbiqzb39PXt7Ng0z5VGzLSkUt9+7Yjg9HXUZ6G90XpZ72RkSqJgA7HA4xAFQnS1z/Ka1MwY77PbgbV9qrj6HxRYBPAgSJp702JRomVQVvDXGoQLFEC+4b2S41XaKMIQLjGgvfPX5zl5PMg8Gimg1BG4SSfnWYM7TOv6vm7XuZLxj/GaQLWtbm3wpEHu9L1WjCiGb+sab4ecGmoTV4Lq
+	Ucef/OjuzA1mbctWhPAI1rtyPI78CluBRAmb+mRcVvlMLcs1ic2JCgUb9ZgqBeXY6PkMH+wuNkbUJtgrylKebaz7+zV3xjkN6ZK61GeZ0gmuoDNIi7lchgOHQ+tA4n4lGonnZqUE9kf4/qRsQNoGSp/9WwaWvcUGQ6zPyG/JV2ZoinR7hU9gnAmlx4NRWdz74EyiZ72x6ceRJC7Sqt8jZpiRollfLRA05S1inblZEdI4VKdimowlqeNzyf8NpF1gHZuBTz1qg9i+/QhQQVRFBY2hjZ/WpaiopIOqP7zRQr+tSmAHUbab5HSHZ3DeI9zIN166/5VDX++HsZ5wxUjL2pyTLg/vBAwKejLc0AJq2kTRqna7cR78Nd7TVpjyEr7nX3dIawXVey9S5xy4u4vI3+vIgGRTSCAVPcPBwE9LZ+yTj+LJZZU3wanqdDyxYhtaKk9AhvGSRUimn2MxMsXlKg45+Rvc3ptwsGo3QKbdGx6yrWLiL7bXGJLB60x4E/XYa9ZOrKeFR3+Ws7RtKOM+zfJmMC46tnB3/qBI3i829N8tshKeKEgfSpmX8EXqGpNT8R4kBGYanh2f2U1MqXH0O/vgV21nsD7rAy1vvLZg3QzMLHXuvjvCqZ3hCE8cqxFlrpQbC2eyKdz8cQgE64gXE7PAOTur5BEYHicJno6ipXJ6dsgmZZHAoVdf46Lhvzt6XFB6KE0ixDkyRgnTH+9Xt78BC66FWuJvZyYFRBh6EAU=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(921020)(18002099003)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700016)(376014)(7416014)(18002099003)(6133799003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aTlRRXVMSitRcjUycDhudHowTG01Vkx3ZExmcWswL25DVnQwMFdtbDIweHNq?=
- =?utf-8?B?Mm82SFc4em1CNU1sc2xLQy9qYTgxWFdhS2lZRjEvbHR0NUVDMm9qaVY2UHBG?=
- =?utf-8?B?RU1CZEVjMkhNRnBLWWVPOHRHaG1qTjJLVk1GbzFUU1A5bVBDZlowaG9PcHVv?=
- =?utf-8?B?bEU5MEZ4WjE5L05MT3lzWU0ydUFDeWdpMXlnSHkxN3VVdThVUWIzMDQ3bXgz?=
- =?utf-8?B?VVcyNkl1UjV3U21pVGlTUEFwUHFjSTVhcUQyYThpWDhsUnFpMWVob3R6SldZ?=
- =?utf-8?B?citoTzFEOHF1UUlYZ0Vtc2lrRU9NdG1GT1d5NElSKzY2MU9mTm1IZ21tRGpw?=
- =?utf-8?B?ZFVNZXpMeHBodE5XL2FZVnE2VjZlbWxkZHVOd2UreStiRmtKeks2b014OVUr?=
- =?utf-8?B?dWJ1SUt0d2dVZ1dsaVJNS2tIS3E3TUFGbC9xWWhuZmZaWmY4MGNkT1FUMzF5?=
- =?utf-8?B?cFJ4ZC9RTjFpR2EyYXJKWGRKOHZVZk81MUxLM1pBa1FmSDVHSms4Vi9FWElu?=
- =?utf-8?B?Szdnc1d5RndWWDJLWjFYTVI2V0pmVk03L1RGWitTdm94N2xscERwTG1OZWlD?=
- =?utf-8?B?NExGc0htaVF6SUlNZzdzUDhTYWVDSG16MDgrangrUkVPUVpJRDRWcGVvMVlk?=
- =?utf-8?B?U29qY2tZVGgrQVdpRGk5cWpQTUU2cVJVVENTMlU2bnB6Ym1vR0M1RXM0ZnY2?=
- =?utf-8?B?QTVDeDhiYTR2N3F1YWRldXNsbUd1KzJoUnRFRDAwcWwvL1o5UkRnUElkZlli?=
- =?utf-8?B?TlVqUi9ueTRMSlM1bVRiS1NvbDMzYVU5K2tQcUpZcENNTk1aY1Z0NVZJRURH?=
- =?utf-8?B?c3N4R2dONnR6d3kyRkIvM1U2QVZPNWhzbXRrM3pEeHpac0grYktvcDY1RXFq?=
- =?utf-8?B?bG01V2JXYUFlVm81cXNmMTg1Q0ozL2lGVld2NDJseEtYN1dycGhDWjRqUDFz?=
- =?utf-8?B?U0l4MXV6VDRlYmxGRUppZy8wbzczSHIzeGgxdit5WEN1YVpCZlpQcVVYMy9U?=
- =?utf-8?B?R05YZnUvenV4dDBmVk9pRXVJR0VkMDdLa3dUMTkvWGd3V3NsdHpkTGN0TnN0?=
- =?utf-8?B?WHVGMW5GZ0F2algvaUpOMlpqTFZDdEZkblZQd1hMbnlGTHZVcDlqZEdmUUNF?=
- =?utf-8?B?Nm9TSzBKZDEya1Fzak1EYXJWam1uSnl5eEMwYkVUWEVYaUhjNGZCemtRZTh6?=
- =?utf-8?B?ZW9pZkxndEsyaVJQdFlvd04veEZ6UEhXb1paVlVKWXN2U3pIK0p2ck1qaXBO?=
- =?utf-8?B?dSt5NmV3dG9NQzMrMGtkZmh6d3VQUVRVQjQ3S1VCM29yZW54RG4zd0FHeTRT?=
- =?utf-8?B?ek83YkUwNjhqSjRsS1VqT2RtbW9WbTRJUHArTkRuZVd6UUI1ZjU4YUpKMzRu?=
- =?utf-8?B?emVSUkdkZVk2S0kzOWFOQlByeFJBdElBRVI0cm9uYStUeW1TRCs3Nm1NYUE2?=
- =?utf-8?B?UkhJVzNTQWNibTQwM25URUdGaVpCSXhhNVpvSndOU3ZPK25QbE5rU3Qrd09B?=
- =?utf-8?B?anE5YnFVOWs5cGcwRlVSS2RsSlFyeHBNc1RMQTdDSTd3OVRFNWlrOHhTL1hT?=
- =?utf-8?B?clNCZ09lbkJ0RE5qRGlEd1pvMTEyV29ic3RXcks4MGdXME5hTjZDWnJsdm1j?=
- =?utf-8?B?MjFQS3dKZ1NJL3ByTkVPVkNqOUF0VTNZeFJzVFN2c0NZU0tLMFlkcHNuRzdP?=
- =?utf-8?B?cVNoLy9HdGNBU04xdG1ySWV4NkF5cE1wTDM5Mi91d0JqaW5iaG52VUFPbEs5?=
- =?utf-8?B?K1lTaWZXemFjeXMwWmxTNSs2M242M25SWlZQQUN5RVdHamJyVyt2b0FtdFlj?=
- =?utf-8?B?SU44QUNJclVlWHBWZ2tDbFJsQ0VDekR0NkxGZUVvbjQxbmFrM0RhN1dyNUEz?=
- =?utf-8?B?S0Q2WjVTZksrdk1BRG50M1Y5VWRmYVlZOWhiQm11OUlNQVoyQmZjbFY0OGhT?=
- =?utf-8?B?aXRIQmthK3ZQbGxLeTFUeXdCejNSVmVnOGJmWHdwa0hkeVNDbFgrRi9Odkp5?=
- =?utf-8?B?bmg1QjhjeitDbkh1WVBCN01IckNtU1NmR2kyYm1HQ0FIeXlHUHVVeGJ0MGhS?=
- =?utf-8?B?bWRQOWxtam1oNm1oalNiU3ZmeFZNUkNmd0hlb1RTYXlnKzVXd29JdEJFc2NV?=
- =?utf-8?B?VFZjRnJKN1BkSzR2QzdxT0hBaTlOQUFFNzJnRXFrNEo4dnUzcUVOZE9MalJC?=
- =?utf-8?B?dHpUOW5TbjBydWpLbEFoNnY0dUFMcVdHbnRJYkw2alN3dGo3ZWdtQWswTVU4?=
- =?utf-8?B?SXppaUlWYlpwT3hLbGxoVERYU1RCZWVsSlBLNEtyRno5VW52dkZPeklGUTR3?=
- =?utf-8?Q?gYJlWein0Pm5ja/Aun?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4ddc47c-7238-44ef-a3f7-08dec6128c8f
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 10:33:30.4796
+	RsBwETNLcWX5BvDKP4isWUXyMOKwLci7mmEwrZx/V+gwHAxqlmEHCyG//Pu8EpZ25uZ5UCMxzMDBxI79ncZ/JYy+DkHkFZkt5COvRii9VjdjqutYoC8OmsbggKaTgkYQT7iTrqS7KNoT0fh5/OfltvE5wRnL0MJOoMih/rzNgzouL636aokGbbb21CK6dubn1G217zod1j8zUbaHGHqCOltJUj+m2eC2G4494gK88kwYTA0lN1OM4JokzDb/5omG+VofBBsmCITeIe+9e+BgHbIa+Bm7LbTRmp70WE4enBrJuHy4WHwEa4nf2ZmR21IQQDTssT81H7u35pwC8nqjnair1BiUXJ/neGnLI7GxtUy1e7//8kChyWWvzAYg0eDrLqpc8Kl+C5GuzBIXtV10swj4ktATdA6g9pCZZVDjSrLC8JH05UCc/2G3mPlvpNle
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 10:53:30.0978
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IlHMK/h8qOYTMLFlOp4FhET2Jf2km6ZN0BdmXe1dA3SfQn9bTkNiaxAb5v8XEnju
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7347
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90438710-cdeb-4e8c-3c00-08dec61557c2
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B077.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR10MB6999
 
-On 6/9/26 08:13, Kaitao Cheng wrote:
-> From: Kaito Cheng <chengkaitao@kylinos.cn>
-> 
-> This series prepares for, and then updates, the list_for_each_entry()
-> family so the common entry iterators cache their next or previous cursor
-> before the loop body runs.
+Fix reset for device-0:‌ In older projects (e.g., Merino), the hardware
+reset pin for the first SPI device (device-0) is ineffective, causing
+initialization failures. Added a software reset sequence for device-0
+to ensure proper initialization.
 
-Why in the world would we want to do that?
+‌Handle -EXDEV correctly:‌ When processing block data, if the data does
+not belong to the current SPI device, the driver returned -EXDEV.
+This error code is now ignored to allow the driver to continue iterating
+through the block data and correctly calculate the total block size.
 
-The safe and non-safe variants have very distinct use cases and that is completely intentional.
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+---
+ sound/hda/codecs/side-codecs/tas2781_hda_spi.c | 16 ++++++++--------
+ sound/soc/codecs/tas2781-fmwlib.c              |  7 ++++---
+ 2 files changed, 12 insertions(+), 11 deletions(-)
 
-What we could improve maybe is the documentation, from my experience an astonishing large amount of people have misconceptions about the safe variants.
-
-> The first 13 patches open-code loops that intentionally depend on the
-> old "derive the next entry from the current cursor at the end of the
-> iteration" behaviour.  These loops append work to the list being walked,
-> restart traversal after dropping a lock, skip an entry consumed by the
-> current iteration, or otherwise adjust the cursor in the loop body.
-
-Well I have to clearly reject the changes for subsystems/components I'm maintaining, that just looks horrible to me and I clearly don't see a good reason for that.
-
-Regards,
-Christian.
-
-> 
-> The final patch changes include/linux/list.h to keep a private cursor in
-> the common entry iterators while preserving the public macro interface.
-> The safe variants remain available when callers need the temporary
-> cursor explicitly or have stronger mutation requirements.
-> 
-> Changes in v2 (Muchun Song, Andy Shevchenko):
->  - Drop the list_for_each_entry_mutable*() helpers from v1 and make the
->    cursor change directly in the existing list_for_each_entry*() helpers.
->  - Open-code special list walks that rely on updating the loop cursor in
->    the body, preserving their existing traversal semantics.
-> 
-> Link to v1:
-> https://lore.kernel.org/all/20260529082149.76764-1-kaitao.cheng@linux.dev/
-> 
-> Kaitao Cheng (14):
->   drbd: Open-code transfer log list walk
->   firewire: core: Open-code topology list walk
->   drm/bridge: Open-code bridge chain list walks
->   drm/i915/gt: Open-code active timeline walk
->   drm/i915: Open-code DFS dependency list walk
->   drm/ttm: Open-code reservation list walk
->   spi: fsi: Open-code message transfer walk
->   spi: stm32-ospi: Open-code message transfer walk
->   spi: stm32-qspi: Open-code message transfer walk
->   spi: tegra210-quad: Open-code message transfer walk
->   locking/locktorture: Open-code ww mutex list walk
->   locking/ww_mutex: Open-code stress reorder list walk
->   ASoC: dapm: Open-code widget invalidation walk
->   list: Cache cursors in entry iterators
-> 
->  drivers/block/drbd/drbd_debugfs.c      |  4 ++-
->  drivers/firewire/core-topology.c       |  4 ++-
->  drivers/gpu/drm/drm_bridge.c           |  7 ++--
->  drivers/gpu/drm/i915/gt/intel_reset.c  |  4 ++-
->  drivers/gpu/drm/i915/i915_scheduler.c  |  4 ++-
->  drivers/gpu/drm/ttm/ttm_execbuf_util.c |  4 ++-
->  drivers/spi/spi-fsi.c                  |  5 ++-
->  drivers/spi/spi-stm32-ospi.c           |  4 ++-
->  drivers/spi/spi-stm32-qspi.c           |  5 ++-
->  drivers/spi/spi-tegra210-quad.c        |  4 ++-
->  include/linux/list.h                   | 46 ++++++++++++++++++++------
->  kernel/locking/locktorture.c           |  4 ++-
->  kernel/locking/test-ww_mutex.c         |  4 ++-
->  sound/soc/soc-dapm.c                   |  4 ++-
->  14 files changed, 78 insertions(+), 25 deletions(-)
-> 
-> --
-> 2.43.0
-> 
+diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
+index 0efc476abe8e..3978d58ad020 100644
+--- a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
++++ b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
+@@ -190,15 +190,15 @@ static void tas2781_spi_reset(struct tasdevice_priv *tas_dev)
+ 		gpiod_set_value_cansleep(tas_dev->reset, 0);
+ 		fsleep(800);
+ 		gpiod_set_value_cansleep(tas_dev->reset, 1);
+-	} else {
+-		ret = tasdevice_dev_write(tas_dev, tas_dev->index,
+-			TASDEVICE_REG_SWRESET, TASDEVICE_REG_SWRESET_RESET);
+-		if (ret < 0) {
+-			dev_err(tas_dev->dev, "dev sw-reset fail, %d\n", ret);
+-			return;
+-		}
+-		fsleep(1000);
+ 	}
++
++	ret = tasdevice_dev_write(tas_dev, tas_dev->index,
++		TASDEVICE_REG_SWRESET, TASDEVICE_REG_SWRESET_RESET);
++	if (ret < 0) {
++		dev_err(tas_dev->dev, "dev sw-reset fail, %d\n", ret);
++		return;
++	}
++	fsleep(1000);
+ }
+ 
+ static int tascodec_spi_init(struct tasdevice_priv *tas_priv,
+diff --git a/sound/soc/codecs/tas2781-fmwlib.c b/sound/soc/codecs/tas2781-fmwlib.c
+index 885e0b6fed00..bd16d5326a23 100644
+--- a/sound/soc/codecs/tas2781-fmwlib.c
++++ b/sound/soc/codecs/tas2781-fmwlib.c
+@@ -921,7 +921,8 @@ static int tasdevice_process_block(void *context, unsigned char *data,
+ 						data[subblk_offset + 1],
+ 						data[subblk_offset + 2]),
+ 					data[subblk_offset + 3]);
+-				if (rc < 0) {
++				if (rc < 0 &&
++				    !(tas_priv->isspi && rc == -EXDEV)) {
+ 					is_err = true;
+ 					dev_err(tas_priv->dev,
+ 					"process_block: single write error\n");
+@@ -953,7 +954,7 @@ static int tasdevice_process_block(void *context, unsigned char *data,
+ 				data[subblk_offset + 1],
+ 				data[subblk_offset + 2]),
+ 				&(data[subblk_offset + 4]), len);
+-			if (rc < 0) {
++			if (rc < 0 && !(tas_priv->isspi && rc == -EXDEV)) {
+ 				is_err = true;
+ 				dev_err(tas_priv->dev,
+ 					"%s: bulk_write error = %d\n",
+@@ -991,7 +992,7 @@ static int tasdevice_process_block(void *context, unsigned char *data,
+ 				data[subblk_offset + 4]),
+ 				data[subblk_offset + 1],
+ 				data[subblk_offset + 5]);
+-			if (rc < 0) {
++			if (rc < 0 && !(tas_priv->isspi && rc == -EXDEV)) {
+ 				is_err = true;
+ 				dev_err(tas_priv->dev,
+ 					"%s: update_bits error = %d\n",
+-- 
+2.25.1
 
