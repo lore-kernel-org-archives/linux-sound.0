@@ -1,50 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85997320CAD;
-	Tue,  9 Jun 2026 23:24:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308883AB5DA;
+	Tue,  9 Jun 2026 23:26:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781047499; cv=none; b=cORz/ByqEu7uQVMJj/BV+uJmC+vS2c/mA41lbYCw3vvXBq6PM+1GsXbtzJ3wr7Dud1dTrFShVTYexGjjG4tDgA6YoZYH/aDCdxDYJp/Nz9W3k+a9VE/od2qVplJD/H+XTjkZ/0cJ8UK59R7c54XQPfKVGT4jb+Bb47Phg9ScJhg=
+	t=1781047578; cv=none; b=WaytIzIS+qsb5yiTw13DgXb+1Mb61N5i36vyfd48YOvD/5y+pg033k76fjv6ebUOrFKvKQywGPTFVFn9fasgqUaURIlZ9W4mB41tsGDIfCZ3vr4333f1t5lsMXD7ysLRQu6/KQMichPeRFqGFij7yoaQPr2e9uIza7rCdsj5HqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781047499; c=relaxed/simple;
-	bh=9MdWy2QrDz5exOOLcEuBuj6NyRKlWXPx6gtf5833H4Q=;
+	s=arc-20240116; t=1781047578; c=relaxed/simple;
+	bh=TRJjoTCPCYTlhS++FYiGvAK8pIJghQ6dgzQsrO2oHn0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pRpwundnTRiQ/mOcV58mrJG7NJ5IPUEjsxhZce60FPCkeMWpIItVpA+GfE+T4AFS2IZQV2t2YG7R1HrXJ0Pro5B+Vhv2E5YL0VN5dQcfOgV1lbfrwMYwvh87TJC+y/mFbRnDNnZqip2PUWVqbv8nbNpPJ+70e7loky7OuJKxFao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WELQ078C; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=jtxIGH2/9JgJvd2TPXL0UQUQ0mEDsZPsn0DdPqch9Bsq/7D5Jhv/+DcgARRKWyDUGNQklzGAvKKLDFp6sbr+w6iqocukyXoCG+rKeWTWntxYSxX3uB9mu+I8gh2KDQuPP0HOIv9cRIPc4uFJJbJXyKGyC3Pp1CoDQ0HyxRfQidk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n7uD2zGf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WELQ078C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4D561F00893;
-	Tue,  9 Jun 2026 23:24:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n7uD2zGf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EF421F00893;
+	Tue,  9 Jun 2026 23:26:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781047498;
-	bh=XECSwOdG7aWv+AWzkviwG4lcJ5iemprDQN3GLacZFEg=;
+	s=k20260515; t=1781047576;
+	bh=TRJjoTCPCYTlhS++FYiGvAK8pIJghQ6dgzQsrO2oHn0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WELQ078Cnx3ZRgxOd9TJSEoDMyp4ZPhSZQoulwds1G3zBSC/ve1v+j8gSMDVmqo8Y
-	 N721YOKAn20IE0/TAql5rkEUqo86waFSU9AhrjTyMRuVJNxDoAPjKP4JZfLp9xrY48
-	 4WBSTcXWPvwABjPWblyjWVQwZRflo06m1juhCm5bmXhjUKgP0v5W6LA2g85vYyY0ne
-	 Qox08IOwOPpG2XLO/gPu8Ma22b9SMQvfmnqgdRtMVfYWPzQeLTrbsC9+/BuWOREr3A
-	 zuOaRaPnRw7DHvKXzo9JZlVcgr5SRZAfMZB6ePMBxf8Tn9fRETUsJXEORVPzldr40W
-	 m4tqDeuyC7/Kw==
+	b=n7uD2zGfSZs7ZLS2ftMOPBINLSNg8GFgTXzExO8P+8jzBRbxhVFSYagapJcnMnrnY
+	 I6+cJkJoUPKRN7hyxBU74SI3Otc6g3KB/SAMteqgXu93X98WgavhU91S6qFEyMT8TQ
+	 U9pkVxy0QaCOVaoj2wgl0Fb3tsOlcJLo3ggCsHX94KoKvU7PdfJF1ChaVcP599m54J
+	 z6sXrNGke4pLeCDriR7jglZrb8sIGQCoMJ9xbQDUcImZKYPlVafAW3es3uujR+ivMi
+	 REZR7PXTMLTS8K9Vd9HrEAQGgSrsb7vOML0Bo6eOZJP2iCVYD/clqPF5OxjKyWTAgj
+	 VgBoB7DAcF/gQ==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 856FC1AC56BD; Wed, 10 Jun 2026 00:24:39 +0100 (BST)
-Date: Wed, 10 Jun 2026 00:24:39 +0100
+	id 7228F1AC56BD; Wed, 10 Jun 2026 00:26:13 +0100 (BST)
+Date: Wed, 10 Jun 2026 00:26:13 +0100
 From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 11/11] ASoC: renesas: fsi: Add SPU clock control in
- hw_startup/shutdown
-Message-ID: <aiigtwDM-qEBxjH5@sirena.co.uk>
-References: <20260609113836.45079-1-phucduc.bui@gmail.com>
- <20260609113836.45079-12-phucduc.bui@gmail.com>
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: fsl: remove Efika audio fabric driver
+Message-ID: <aiihFWIOxS9XjZyK@sirena.co.uk>
+References: <20260609215212.28713-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,59 +44,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rIVLtUXf0Jj60L4V"
+	protocol="application/pgp-signature"; boundary="gQwYY4YF8YlIZBmQ"
 Content-Disposition: inline
-In-Reply-To: <20260609113836.45079-12-phucduc.bui@gmail.com>
+In-Reply-To: <20260609215212.28713-1-rosenp@gmail.com>
 X-Cookie: Leave no stone unturned.
 
 
---rIVLtUXf0Jj60L4V
+--gQwYY4YF8YlIZBmQ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Jun 09, 2026 at 06:38:36PM +0700, phucduc.bui@gmail.com wrote:
-> @@ -1560,6 +1560,11 @@ static int fsi_hw_startup(struct fsi_priv *fsi,
->  			  struct device *dev)
->  {
->  	u32 data = 0;
-> +	int ret;
-> +	/* enable spu bus bridge clock */
-> +	ret = clk_enable(fsi->master->clk_spu);
-> +	if (ret)
-> +		return ret;
+On Tue, Jun 09, 2026 at 02:52:12PM -0700, Rosen Penev wrote:
+> The Efika 5K2 is an OpenFirmware-based PowerPC board from ~2006.
+> The platform code (PPC_EFIKA) and its sound driver have no in-tree
+> DTB references and the hardware is long obsolete. Remove the driver.
 
-This is unconditional...
+Is this solving an actual problem, and was the DT ever distributed with
+the kernel?
 
->  static int fsi_hw_shutdown(struct fsi_priv *fsi,
->  			    struct device *dev)
->  {
-> +	int ret;
->  	/* stop master clock */
-> -	if (fsi_is_clk_master(fsi))
-> -		return fsi_clk_disable(dev, fsi);
-> +	if (fsi_is_clk_master(fsi)) {
-> +		ret = fsi_clk_disable(dev, fsi);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +	/* stop spu bus bridge clock */
-> +	clk_disable(fsi->master->clk_spu);
-
-...but the matching disable is skipped if !fsi_is_clk_master().
-
---rIVLtUXf0Jj60L4V
+--gQwYY4YF8YlIZBmQ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoooLYACgkQJNaLcl1U
-h9BikQgAgs32gfdN4Rngk/+MZu3KLIyYeq4PEjHKyPBS45e/hcQAox/9hL3UG9ok
-y41NH8g3rJIB0pGpxqkdhgy0comqz/j8jke5fF2Tutv2nnzCKeZ8u6ZZqY5ZgI6Y
-ttlqSXpeRuCNBKLr+Psk27CJsvUALBTrahTK9IraRIbODD27+BYqbpH5u2eq4NTJ
-cBHwq+GB+8IDWUrVq39gZA6+/u7mY4YfuWe8r8EhvkOyEfcW414tjaPiMCEEsu9c
-tXejrZloBhnG4xrH1c+dmvC+aqhhBGoReDUPWEjqsc7RQIqK9rNumDb/s763UxYd
-gxKLg1je7le4XGT4P+ojFZh6gLU0kg==
-=q5yz
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoooRQACgkQJNaLcl1U
+h9CmlAf9EuvW1fesFeX/BzkzffbA1XVuqZ8uDf0gPuLgLmgPNpB/dfEHK7OjoRp7
+uT0jBr4UaLPlAM52Bah/hSqMIw01UAJtAZZEmm3sqiRTgJFh7+6nrQ3iQYAXEO7x
+cpWYJC+gfX0chW+6S6Vo14qy4aTaagMcvXBhVBmOfckgNdyB3T0gm6jQIlIURnPb
+Cr7NERcHlIanzh9e+Kru2URKLq77g6CSxjDrtRFt8jnruaWJMK7eLk+7fa+E+Cy6
+28YmdLCZ0F8rLSBYDg/Kwt0j8HWISTpqshgBBwcQ8As/XohAax9VWtOi6FTmDjGS
+6y2R6im5BIdzJLo5vxxJ91gsUFSQew==
+=VCI9
 -----END PGP SIGNATURE-----
 
---rIVLtUXf0Jj60L4V--
+--gQwYY4YF8YlIZBmQ--
