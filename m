@@ -1,197 +1,246 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013044.outbound.protection.outlook.com [40.93.196.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44EAF2C15BB
-	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 09:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780999035; cv=none; b=gGCPz9h3hN4UfedEyxlEmgf7xNTh6El17gC1C3JCWkiMZbUeNXUlRHqs7ef17D+pH2H5JBQo+p8A51o14l8pRjjINA68HV8iUaBlTulLxp6Y00j6kNc3TqoAkAbnQwbLYGvjbErqQqLAu/eYYrMdPwtCCQItfcAiYnrUteoFA9Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780999035; c=relaxed/simple;
-	bh=l/exZGynhFniJ4IOReSaddSkbCSs3Th1uTqufpftfQQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b7ZJET6MsIW2JlZPLswAsX6NWmZ68p0o1mPZ+AgHesUAx+vsztbAzNruqb4rOycHLJ6dvpnrqtjUEXSIVBuOJ4j/7vivnInLnfmHEKkPILMLNjzs2BUTBgbY7ui9XWXlGZbUcir9pqty/O18c82NzDNHbqv7GiSI2o3drLfKlfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RaBrytJc; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=CIb7TJdQ; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCA52BE642;
+	Tue,  9 Jun 2026 10:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781001216; cv=fail; b=Wsa4gGfAxXfL9btuEA/MynRCF1JDSgvzkzx8B8hy6pivoHMS2bIgYSvMR29XDcFAUbVrjWyLzSYEv1i2h5ThOfN/0/kfABXiBzPUXethWuwUVR/o6zqKP/tVxgGsqnzhHP9m22Bd5Ya+FuKZoefzsGCOR+SG8V165lJl/z8V8Ks=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781001216; c=relaxed/simple;
+	bh=mxpb30J4LpOYnBqcSTBQQzM8S7iLE8itHR1qgVUER3E=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=WvhrnJ84CnTLZ6l4+PGQdG76NOKufm7zbcuD37k0HECD3yeRWDXgMMUmAzmHvA8/DqCVMfjo5dfCgVsyKw9E4WuMmDMdTr3svRkD+egYMNv9G/t3NGBaFBwyrhMyeq5BjjsENxs+/0lQuwg0LYv4PZrdcZ8l2eqMRWd3rM0hH2c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=L84i/HjQ; arc=fail smtp.client-ip=40.93.196.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RaBrytJc";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="CIb7TJdQ"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6599vDZX1800490
-	for <linux-sound@vger.kernel.org>; Tue, 9 Jun 2026 09:57:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	jWJT1a+F8ivTQleEWMwYup4EASygHT710sf+q+SVdxY=; b=RaBrytJcs9g+wY1B
-	kZZ97LmO8KApbhI5jz+LhwtIguW5xr2a7MMmqWX7vKwakyrIQMMmf2ehgleFqfH3
-	rxHjkMYXGNGCDXu7IuXWoiIXD/LC2F2K0ujkXTbyp0VQvq9UGeDVLqZjanfiL+t2
-	n6TOEJlCGzeDzKysLv9kF5qt4TYZPR+Inbo1ziHEn56iGSJEtcshxBJ3umA96naz
-	ndnelebxxz5d78djULzJrUNw851SVfQ2TcAVFi69We/L0CPtj7buUzmVolfMr8li
-	1yfLgFR7LMIZya7IuDNU9r7OVpXMkVAz+HrHd7MURpfv9eiTeCrT7OlImPL4Pp8j
-	BRpzcQ==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4epenr8hv2-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 09:57:13 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-51780e3ca44so10600961cf.3
-        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 02:57:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780999032; x=1781603832; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jWJT1a+F8ivTQleEWMwYup4EASygHT710sf+q+SVdxY=;
-        b=CIb7TJdQKCksE7WbnlYK40pVytbq5FmFJ4By/hycRagxZJk4ghoedVRmQaa1ULGSJd
-         JR/jUNYHogiQpy0kks9njvz892TdHT0sdluJliqvCfTuO5V4bOajvkdmQHB3ff1SMJL3
-         hlMli/nu+zI5Cwt4f56uLgtuWbV5g4p7cruCKsZi41hls/Jd5IiY7e8ZWLJYGAiCxTMu
-         oAxeOcBKPW8nS6gfS5GGNAztKD0QX4pmatpJAKqeMWPFzi4O1CLhfllOkpXY8t3dCucE
-         5EAo54g2J/liuaKL/T2VrkqHhQBG9TNQ45dlFUKPwNPH+AmXf4K7PLLSXyo9HuWMhMU8
-         94QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780999032; x=1781603832;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jWJT1a+F8ivTQleEWMwYup4EASygHT710sf+q+SVdxY=;
-        b=lQ9IzT+WAnn6MolA3hT1wyFLdmKRUupPWp8XAynXdl7HAZTuhrwSLRnJiFhfnDz3QC
-         j0xZSCV4yudedoxnjmyjsAo8pkTsz0mbasoTPJCBAOUXCWcCssFKdvpm6NmIHm9cTrR8
-         Rq87cfK8P4UpHqpPTUE4c+Gc6judZeProuckiFGIaOKREFW5QZYoVZA6NI1slGYaJz3X
-         edIGcNv7OvRk8BfcnsN5Xefa6iEaP9uZc1d32iWjpXa5ezmAb3EttEaDLeymGD1NoO84
-         n2NUGzLRvJEf6K3Jxk2MCbRBVcmIll1Wqk+gjGxdNJ3Qt82R7fAoBjd5gpOZ9ar/Ng10
-         TTxg==
-X-Forwarded-Encrypted: i=1; AFNElJ9kXcMrLMXiVwujcWQcs1pj/yW0QFRpa4DbTrHWhRPXg2AIn13fIrycWQK/KicA89+Y5Fzv6f0PTl4bmQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjloGkpARBKnPlJkoTd5Kw1aIhvqS/sRqj6i6o1PM3f4lIEruJ
-	I8mvZUCrox8tahvJf2QjBB+NV+G8TgqzLGJVK5Ew45Ttwu9VdWNLaSyvCQgSJyaGcRzmb7zDxyb
-	adpJvZ6eQMOR4MsyCy99bE0U6IWsJstp5ZMFW6V5re/Zkhyg6qYBbg06FeklFJZl7tQ==
-X-Gm-Gg: Acq92OHL+GGqFepOE3Bq30sPJ8kusl+aAYtWgV1HtMgYevhzatsd6GJhuz/JTiyfH/V
-	IwtXwLqvxNYeKhvj3M8li0TrGZf2rviL9nj8ksxh2RanqAnHVMLtzz5FfMr4ASmHCyVW4HNKva+
-	Ex8VB6QsddDvBL3O9KxDl+5tsshewRYbubhHp0+2dfFNhUYky/TO72AsD48RjsAeEbld3rq7EMP
-	HJiNyW0Ic4YLTYb+ZO2W6SUk9jYbD9AnhV3zT8hQQa2gCfOvnApnprr1plGVI8U4GTWRKx3VTGf
-	v2YgUNqYU8I8cnCJCh48QvzJ2pqDWm4Yh+PZddkMWQDUS/LiXGNM1REehnVbN5Qo6ZsiSM6JpFb
-	RtNU1xL23pDMxcIpQo3IFmy5twrpDAKH1MGkr8tKQTw1UqN46TJXrTAx8
-X-Received: by 2002:a05:622a:d:b0:50e:487a:bfef with SMTP id d75a77b69052e-51795a481e4mr171478211cf.2.1780999032522;
-        Tue, 09 Jun 2026 02:57:12 -0700 (PDT)
-X-Received: by 2002:a05:622a:d:b0:50e:487a:bfef with SMTP id d75a77b69052e-51795a481e4mr171478091cf.2.1780999032144;
-        Tue, 09 Jun 2026 02:57:12 -0700 (PDT)
-Received: from [192.168.120.170] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf054e051a5sm1019894766b.35.2026.06.09.02.57.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jun 2026 02:57:11 -0700 (PDT)
-Message-ID: <3da8b668-1504-450e-bde2-b383d63090a8@oss.qualcomm.com>
-Date: Tue, 9 Jun 2026 11:57:08 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="L84i/HjQ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lCQGvJscpAqhFxeKUTvgkgchzLMuQm60tJeNW5CQ0tc3S11lK0JcBTt09Q48AaUM0iNbjWGlWoLzGz7LFw/r4b4vPaUuJe23ucwq4lPZW+o56rHRDVtPLuneLMEhcy3zHhMkk6nyIg1Mg6vswiCll60wztN9MV/3d2aQRsEX4aDrJwySWbGL7i8T6F+OncbrVJxbN2FOFBC72jTHetYOtqOmFeVTwr2uESdcrZTfk4c+djc+x5ugrkkvPEW/A5jyqFImTIjwZODkLC0X1wbnEwFQAtMmiC5Aia0xY2q0JHiPpJD36x0rqHFdSqYDoi0iLgP5HCdGWgHcZT7p5X0x/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1exUrY7Qo3lVA7JgoG0qMXXtrxWa1FvVhQ6rQaMKzl8=;
+ b=XQGGeqFNy1/0F1LsnVrBueC8BV9bJXf/QynNJQ5kirVHbI4f+g13Kl1KFVRu+hVUbxbWVg0O3j/ZDaPIsuQ94hmSHn+L6zCrMJ5DOASiwv4eHlNy+LeuPbjT4ZiiwTDIZDKffj7VJoiXTu5pblZITRj0PSwl+VdecM7mJzBquKOxCSFh/LpyEgQrhAbsegEOS7G5GEm6OfsDbR2KA/FMyhC2SVBcUgSnlAIhxwlMHXrEFC4Rodr7svH2K2fHDV/CtjBADU3yHmQs5idSYzbd0PK0IXphjsX4TqrrGR6aDOT3S9Y73Ps0Hw9lV6GG4imLI+cCXb18mPeFci/6CBpZHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1exUrY7Qo3lVA7JgoG0qMXXtrxWa1FvVhQ6rQaMKzl8=;
+ b=L84i/HjQWvmxlqRgb7ackx5yJTz87lUy7VE6HcqY4qA8L7C81q/S27p53NsDoIGPFNa/vkBgoD7UXwpC/Tb/D1hMjxBW7HWeCjklPhfAAQzk+HqS6gg6HMzUQ//i0GVLGlsRJN8/rd2IppVHDQ4/JO9KQww3PjguQM3VRYctviA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SN7PR12MB7347.namprd12.prod.outlook.com (2603:10b6:806:29a::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.12; Tue, 9 Jun 2026
+ 10:33:30 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0092.006; Tue, 9 Jun 2026
+ 10:33:30 +0000
+Message-ID: <bd0b7393-8ccb-4d67-8bfc-18c68347122c@amd.com>
+Date: Tue, 9 Jun 2026 12:33:15 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/14] list: Prepare entry iterators to cache cursor
+ state
+To: Kaitao Cheng <kaitao.cheng@linux.dev>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Muchun Song <muchun.song@linux.dev>,
+ Philipp Reisner <philipp.reisner@linbit.com>,
+ Lars Ellenberg <lars.ellenberg@linbit.com>,
+ =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ Jens Axboe <axboe@kernel.dk>, Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Eddie James <eajames@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Laxman Dewangan <ldewangan@nvidia.com>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Davidlohr Bueso <dave@stgolabs.net>, "Paul E . McKenney"
+ <paulmck@kernel.org>, Josh Triplett <josh@joshtriplett.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Waiman Long <longman@redhat.com>,
+ drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+ linux1394-devel@lists.sourceforge.net, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-spi@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Christian Brauner
+ <brauner@kernel.org>, David Howells <dhowells@redhat.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Kaito Cheng <chengkaitao@kylinos.cn>
+References: <20260609061347.93688-1-kaitao.cheng@linux.dev>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260609061347.93688-1-kaitao.cheng@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN0PR04CA0179.namprd04.prod.outlook.com
+ (2603:10b6:408:eb::34) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/13] dt-bindings: sound: Add Qualcomm QAIF binding
-To: Harendra Gautam <harendra.gautam@oss.qualcomm.com>,
-        Srinivas Kandagatla <srini@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20260605103739.3557573-1-harendra.gautam@oss.qualcomm.com>
- <20260605103739.3557573-3-harendra.gautam@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260605103739.3557573-3-harendra.gautam@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: vH1hsB1q-rtN-p9FhFRQ8iLoxChFl--B
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA5MDA5MiBTYWx0ZWRfX/c2AGp30ub1h
- yxwBX7cAJHJ+0X8sucsv8GAIWrbrHCrVtNAlpo+NgR55JFvoi+rKOPGINdbGNNEfWsl5JGa8dGy
- TKVOOastW2Rl3lNB0b9FaSApckBzzQK49fjXG4g23hOn/Dnbx2/3fzaIo4C1X0gVsSMLf3B+HbZ
- 5Ie/KhMEFvbMYq5pTzG3h67qqzhxWS1AR2bUMdIgaxr9I3osndUrV/lsI98tvwPpZGbqK6obHDp
- I1V1JnbsUqHcWHGj5bw5uAu4JfFJOTCIbEKyQGQEqcLe5a2r+qNBFX3+Ezw3TWgF9L+kPpQYf+n
- 00PuleSWRy6R4hQbQ3F0SG0ktVbdb3XXDNU8OShogh+Xw0FRM3RoA2/TwJzl98hvuWd4wZy4Fnc
- kUtjYXlE7IP//5a9NCJN0P1UuVNMbuHGvgHvSf1uGjddyJVuwi7ZV7FSn7+73E/9OabluEGobRu
- FpmbDc3q6o69s9hIeHw==
-X-Authority-Analysis: v=2.4 cv=NKPlPU6g c=1 sm=1 tr=0 ts=6a27e379 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=4Sww1aU327frn4sdWmQA:9 a=QEXdDO2ut3YA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-ORIG-GUID: vH1hsB1q-rtN-p9FhFRQ8iLoxChFl--B
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-09_02,2026-06-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0
- clxscore=1015 impostorscore=0 malwarescore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606090092
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB7347:EE_
+X-MS-Office365-Filtering-Correlation-Id: e4ddc47c-7238-44ef-a3f7-08dec6128c8f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|921020|18002099003|22082099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	fJIaLgXpgcNug3LCR18J+qaYh8wIinv9We7sUHZPPLMIiCfcJWiOqIjEbcJiOx4Si0KMO3U2nofKBWObiOF7oUWce3oXb8H2lz2LWt04fqV0L83eQJl+VWBMuZfnfqmY43cPmo5rHYKjEWBW5Qd8bN+X8PKnL+driRgyGOmBH2feqgId8qPITj0ZMHLm9GA5BVLigCquZrWDuLyuZUy4Tl0Zfw77QQ44As8N2avbf1Qv4Ce46wEg0A07BT17QOsnRSPjK+iuCrRu5kOVYd+g6nfNXf9mu2KorBx9GW1ZtQ+WhuIPY1o3ye7WrnuST7PGV/3c3Y9MqxKqdFNBF+xIq0bZN87vgVa3+C3eM8R2oeCVeEtsXXj+4LAukExvhwWSbXd6IMYM1pXHdz8MTco8f8iWvblkuwjQIHCYy7sCaKTm9nn/TIJws9lvH2zxEtDXo2tHs4UunLAk9kAM93nZXNdAFQf30TvcTht4+pP5UdKya808JBnSI05wMbV4CXTbJMsfruTKg6mMJl4y3ZV6+H4KhY+hp8IYpzXHuMwDPtdLGVbiqzb39PXt7Ng0z5VGzLSkUt9+7Yjg9HXUZ6G90XpZ72RkSqJgA7HA4xAFQnS1z/Ka1MwY77PbgbV9qrj6HxRYBPAgSJp702JRomVQVvDXGoQLFEC+4b2S41XaKMIQLjGgvfPX5zl5PMg8Gimg1BG4SSfnWYM7TOv6vm7XuZLxj/GaQLWtbm3wpEHu9L1WjCiGb+sab4ecGmoTV4Lq
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(921020)(18002099003)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aTlRRXVMSitRcjUycDhudHowTG01Vkx3ZExmcWswL25DVnQwMFdtbDIweHNq?=
+ =?utf-8?B?Mm82SFc4em1CNU1sc2xLQy9qYTgxWFdhS2lZRjEvbHR0NUVDMm9qaVY2UHBG?=
+ =?utf-8?B?RU1CZEVjMkhNRnBLWWVPOHRHaG1qTjJLVk1GbzFUU1A5bVBDZlowaG9PcHVv?=
+ =?utf-8?B?bEU5MEZ4WjE5L05MT3lzWU0ydUFDeWdpMXlnSHkxN3VVdThVUWIzMDQ3bXgz?=
+ =?utf-8?B?VVcyNkl1UjV3U21pVGlTUEFwUHFjSTVhcUQyYThpWDhsUnFpMWVob3R6SldZ?=
+ =?utf-8?B?citoTzFEOHF1UUlYZ0Vtc2lrRU9NdG1GT1d5NElSKzY2MU9mTm1IZ21tRGpw?=
+ =?utf-8?B?ZFVNZXpMeHBodE5XL2FZVnE2VjZlbWxkZHVOd2UreStiRmtKeks2b014OVUr?=
+ =?utf-8?B?dWJ1SUt0d2dVZ1dsaVJNS2tIS3E3TUFGbC9xWWhuZmZaWmY4MGNkT1FUMzF5?=
+ =?utf-8?B?cFJ4ZC9RTjFpR2EyYXJKWGRKOHZVZk81MUxLM1pBa1FmSDVHSms4Vi9FWElu?=
+ =?utf-8?B?Szdnc1d5RndWWDJLWjFYTVI2V0pmVk03L1RGWitTdm94N2xscERwTG1OZWlD?=
+ =?utf-8?B?NExGc0htaVF6SUlNZzdzUDhTYWVDSG16MDgrangrUkVPUVpJRDRWcGVvMVlk?=
+ =?utf-8?B?U29qY2tZVGgrQVdpRGk5cWpQTUU2cVJVVENTMlU2bnB6Ym1vR0M1RXM0ZnY2?=
+ =?utf-8?B?QTVDeDhiYTR2N3F1YWRldXNsbUd1KzJoUnRFRDAwcWwvL1o5UkRnUElkZlli?=
+ =?utf-8?B?TlVqUi9ueTRMSlM1bVRiS1NvbDMzYVU5K2tQcUpZcENNTk1aY1Z0NVZJRURH?=
+ =?utf-8?B?c3N4R2dONnR6d3kyRkIvM1U2QVZPNWhzbXRrM3pEeHpac0grYktvcDY1RXFq?=
+ =?utf-8?B?bG01V2JXYUFlVm81cXNmMTg1Q0ozL2lGVld2NDJseEtYN1dycGhDWjRqUDFz?=
+ =?utf-8?B?U0l4MXV6VDRlYmxGRUppZy8wbzczSHIzeGgxdit5WEN1YVpCZlpQcVVYMy9U?=
+ =?utf-8?B?R05YZnUvenV4dDBmVk9pRXVJR0VkMDdLa3dUMTkvWGd3V3NsdHpkTGN0TnN0?=
+ =?utf-8?B?WHVGMW5GZ0F2algvaUpOMlpqTFZDdEZkblZQd1hMbnlGTHZVcDlqZEdmUUNF?=
+ =?utf-8?B?Nm9TSzBKZDEya1Fzak1EYXJWam1uSnl5eEMwYkVUWEVYaUhjNGZCemtRZTh6?=
+ =?utf-8?B?ZW9pZkxndEsyaVJQdFlvd04veEZ6UEhXb1paVlVKWXN2U3pIK0p2ck1qaXBO?=
+ =?utf-8?B?dSt5NmV3dG9NQzMrMGtkZmh6d3VQUVRVQjQ3S1VCM29yZW54RG4zd0FHeTRT?=
+ =?utf-8?B?ek83YkUwNjhqSjRsS1VqT2RtbW9WbTRJUHArTkRuZVd6UUI1ZjU4YUpKMzRu?=
+ =?utf-8?B?emVSUkdkZVk2S0kzOWFOQlByeFJBdElBRVI0cm9uYStUeW1TRCs3Nm1NYUE2?=
+ =?utf-8?B?UkhJVzNTQWNibTQwM25URUdGaVpCSXhhNVpvSndOU3ZPK25QbE5rU3Qrd09B?=
+ =?utf-8?B?anE5YnFVOWs5cGcwRlVSS2RsSlFyeHBNc1RMQTdDSTd3OVRFNWlrOHhTL1hT?=
+ =?utf-8?B?clNCZ09lbkJ0RE5qRGlEd1pvMTEyV29ic3RXcks4MGdXME5hTjZDWnJsdm1j?=
+ =?utf-8?B?MjFQS3dKZ1NJL3ByTkVPVkNqOUF0VTNZeFJzVFN2c0NZU0tLMFlkcHNuRzdP?=
+ =?utf-8?B?cVNoLy9HdGNBU04xdG1ySWV4NkF5cE1wTDM5Mi91d0JqaW5iaG52VUFPbEs5?=
+ =?utf-8?B?K1lTaWZXemFjeXMwWmxTNSs2M242M25SWlZQQUN5RVdHamJyVyt2b0FtdFlj?=
+ =?utf-8?B?SU44QUNJclVlWHBWZ2tDbFJsQ0VDekR0NkxGZUVvbjQxbmFrM0RhN1dyNUEz?=
+ =?utf-8?B?S0Q2WjVTZksrdk1BRG50M1Y5VWRmYVlZOWhiQm11OUlNQVoyQmZjbFY0OGhT?=
+ =?utf-8?B?aXRIQmthK3ZQbGxLeTFUeXdCejNSVmVnOGJmWHdwa0hkeVNDbFgrRi9Odkp5?=
+ =?utf-8?B?bmg1QjhjeitDbkh1WVBCN01IckNtU1NmR2kyYm1HQ0FIeXlHUHVVeGJ0MGhS?=
+ =?utf-8?B?bWRQOWxtam1oNm1oalNiU3ZmeFZNUkNmd0hlb1RTYXlnKzVXd29JdEJFc2NV?=
+ =?utf-8?B?VFZjRnJKN1BkSzR2QzdxT0hBaTlOQUFFNzJnRXFrNEo4dnUzcUVOZE9MalJC?=
+ =?utf-8?B?dHpUOW5TbjBydWpLbEFoNnY0dUFMcVdHbnRJYkw2alN3dGo3ZWdtQWswTVU4?=
+ =?utf-8?B?SXppaUlWYlpwT3hLbGxoVERYU1RCZWVsSlBLNEtyRno5VW52dkZPeklGUTR3?=
+ =?utf-8?Q?gYJlWein0Pm5ja/Aun?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e4ddc47c-7238-44ef-a3f7-08dec6128c8f
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 10:33:30.4796
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IlHMK/h8qOYTMLFlOp4FhET2Jf2km6ZN0BdmXe1dA3SfQn9bTkNiaxAb5v8XEnju
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7347
 
-On 6/5/26 12:37 PM, Harendra Gautam wrote:
-> Add a Devicetree binding for the Qualcomm Audio Interface (QAIF) CPU DAI
-> controller used on the Shikra audio platform.
+On 6/9/26 08:13, Kaitao Cheng wrote:
+> From: Kaito Cheng <chengkaitao@kylinos.cn>
 > 
-> QAIF moves PCM data between system memory and external serial audio
-> interfaces through the AIF path, and between memory and the internal Bolero
-> digital codec through the CIF path. The controller needs a binding so
-> platform Devicetree files can describe its MMIO region, DMA IOMMU stream,
-> clocks, interrupt, DAI cells and per-interface AIF configuration.
+> This series prepares for, and then updates, the list_for_each_entry()
+> family so the common entry iterators cache their next or previous cursor
+> before the loop body runs.
+
+Why in the world would we want to do that?
+
+The safe and non-safe variants have very distinct use cases and that is completely intentional.
+
+What we could improve maybe is the documentation, from my experience an astonishing large amount of people have misconceptions about the safe variants.
+
+> The first 13 patches open-code loops that intentionally depend on the
+> old "derive the next entry from the current cursor at the end of the
+> iteration" behaviour.  These loops append work to the list being walked,
+> restart traversal after dropping a lock, skip an entry consumed by the
+> current iteration, or otherwise adjust the cursor in the loop body.
+
+Well I have to clearly reject the changes for subsystems/components I'm maintaining, that just looks horrible to me and I clearly don't see a good reason for that.
+
+Regards,
+Christian.
+
 > 
-> Describe the single register region, one EE interrupt, the required GCC
-> LPASS and audio core clocks, the DMA IOMMU mapping, and 'aif-interface@N'
-> child nodes used for static PCM, TDM or MI2S configuration.
+> The final patch changes include/linux/list.h to keep a private cursor in
+> the common entry iterators while preserving the public macro interface.
+> The safe variants remain available when callers need the temporary
+> cursor explicitly or have stronger mutation requirements.
 > 
-> Signed-off-by: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-> ---
+> Changes in v2 (Muchun Song, Andy Shevchenko):
+>  - Drop the list_for_each_entry_mutable*() helpers from v1 and make the
+>    cursor change directly in the existing list_for_each_entry*() helpers.
+>  - Open-code special list walks that rely on updating the loop cursor in
+>    the body, preserving their existing traversal semantics.
+> 
+> Link to v1:
+> https://lore.kernel.org/all/20260529082149.76764-1-kaitao.cheng@linux.dev/
+> 
+> Kaitao Cheng (14):
+>   drbd: Open-code transfer log list walk
+>   firewire: core: Open-code topology list walk
+>   drm/bridge: Open-code bridge chain list walks
+>   drm/i915/gt: Open-code active timeline walk
+>   drm/i915: Open-code DFS dependency list walk
+>   drm/ttm: Open-code reservation list walk
+>   spi: fsi: Open-code message transfer walk
+>   spi: stm32-ospi: Open-code message transfer walk
+>   spi: stm32-qspi: Open-code message transfer walk
+>   spi: tegra210-quad: Open-code message transfer walk
+>   locking/locktorture: Open-code ww mutex list walk
+>   locking/ww_mutex: Open-code stress reorder list walk
+>   ASoC: dapm: Open-code widget invalidation walk
+>   list: Cache cursors in entry iterators
+> 
+>  drivers/block/drbd/drbd_debugfs.c      |  4 ++-
+>  drivers/firewire/core-topology.c       |  4 ++-
+>  drivers/gpu/drm/drm_bridge.c           |  7 ++--
+>  drivers/gpu/drm/i915/gt/intel_reset.c  |  4 ++-
+>  drivers/gpu/drm/i915/i915_scheduler.c  |  4 ++-
+>  drivers/gpu/drm/ttm/ttm_execbuf_util.c |  4 ++-
+>  drivers/spi/spi-fsi.c                  |  5 ++-
+>  drivers/spi/spi-stm32-ospi.c           |  4 ++-
+>  drivers/spi/spi-stm32-qspi.c           |  5 ++-
+>  drivers/spi/spi-tegra210-quad.c        |  4 ++-
+>  include/linux/list.h                   | 46 ++++++++++++++++++++------
+>  kernel/locking/locktorture.c           |  4 ++-
+>  kernel/locking/test-ww_mutex.c         |  4 ++-
+>  sound/soc/soc-dapm.c                   |  4 ++-
+>  14 files changed, 78 insertions(+), 25 deletions(-)
+> 
+> --
+> 2.43.0
+> 
 
-[...]
-
-> +  clock-names:
-> +    items:
-> +      - const: lpass_config_clk
-> +      - const: lpass_core_axim_clk
-> +      - const: aud_dma_clk
-> +      - const: aud_dma_mem_clk
-> +      - const: bus_clk
-> +      - const: aif_if0_ebit_clk
-> +      - const: aif_if0_ibit_clk
-> +      - const: aif_if1_ebit_clk
-> +      - const: aif_if1_ibit_clk
-> +      - const: aif_if2_ebit_clk
-> +      - const: aif_if2_ibit_clk
-> +      - const: aif_if3_ebit_clk
-> +      - const: aif_if3_ibit_clk
-> +      - const: ext_mclka_clk
-> +      - const: ext_mclkb_clk
-
-Drop the _clk suffix, we already know they are clocks, as they are
-listed under the clocks property
-
-[...]
-
-> +      qcom,qaif-aif-sync-mode:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Sync mode. Use QAIF_AIF_SYNC_MODE_SHORT (0) for short (pulse)
-> +          sync or QAIF_AIF_SYNC_MODE_LONG (1) for long (level) sync.
-> +      qcom,qaif-aif-sync-src:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Sync source. Use QAIF_AIF_SYNC_SRC_SLAVE (0) for slave mode
-> +          or QAIF_AIF_SYNC_SRC_MASTER (1) for master mode.
-
-Should these be boolean flags then?
-
-[...]
-
-> +        #sound-dai-cells = <1>;
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        interrupts = <GIC_SPI 331 IRQ_TYPE_LEVEL_HIGH>;
-> +        status = "okay";
-
-status is "okay" by default if unspecified
-
-Konrad
