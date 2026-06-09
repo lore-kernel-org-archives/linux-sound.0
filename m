@@ -1,63 +1,63 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A75F3B2FD4
-	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 16:23:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB8B3B4439
+	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 16:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781022181; cv=none; b=lWYFdpNs1BJNDke+wib49BhuP3OHQyH5FG93wCOxdOBtEsHzdQk2qfSZYGn0o9AISHWc71XTLserd0erGd2oO4XpvyHelwCBevYN4dAXmPG6ZWEwevOjp9IYnU3EHiYWjC276QetSaY/pFRHyvbRZNBkr5naJzeYvJLnKP4KUcc=
+	t=1781022183; cv=none; b=gxe0317qX+Z1+C5KDhMxNfF/Qna7Mltqnx8Egk0zNf5qm+owZZQJJCt9diio5e7kvFneTdOo1qbx7n7BvW2jA1Aerr8JPcKSdPeiPd7Qi3BYdSu+qPRQUNBuQD2OX0pdcnXbEQOR15uLNTgLArf8OtQB9yvEhvyVDbT8AD/9ByM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781022181; c=relaxed/simple;
-	bh=EixlG3+pSd1+umoQcq597TULbcew8judyFI9QjElm5k=;
+	s=arc-20240116; t=1781022183; c=relaxed/simple;
+	bh=AeGIWM01cEy8wx/Ywn2gwtkQshceFsOvLf1UYfjPakY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NUqbs2qiYg3vwxX0yooQ3a0F9EuXCjVxA6M8wvuVbY/5KjMby5ahEiUEZp+AznyeH3dEUAs53yF/TumjBv8JdgI1qq3s64XNmkSopa14cUudg1YK5F7CjNyt7egD18J4SSp9oIAmhJRsHvKY4dwseP4BT6H+jYrJXm11xMP5z8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o7IqhGFj; arc=none smtp.client-ip=209.85.222.177
+	 MIME-Version; b=KtwUtm2lWKVt4mHM1JAdy58bHLZ2wN4rmsJiijcSswcWyaPVY6BGbAEZ+GNPajIEU48OwAPmGLbgBnn42Cb+2YOOxVsihiKvahxWazG1XzFwvi92tWQIB95TqWdrth2aY4xEsyX/ZKSf77+WkjdkS1K+xeNq5Rjv3uEPFtXMHBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Br91IK60; arc=none smtp.client-ip=209.85.219.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o7IqhGFj"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-915ab38ac14so628633385a.0
-        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 09:23:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Br91IK60"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8ccf18ef922so80462626d6.3
+        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 09:23:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781022179; x=1781626979; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781022181; x=1781626981; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7H6CVxdwvbBnHBwu5wTdK915OM3mOvFPgDPWam3xl2Q=;
-        b=o7IqhGFjshO4GfpWCc5WtIsUhEdrWQuu99r4h8PUVp4b3K3NXD6xT3xYVPZ8xCDNg7
-         fZQG+VZNOt5zDoUCzFUa/sDTCdfwTEi8+/UpxDdJ7bWTJpUWxaDBTIKNl/8zs32VmT2X
-         VzU4WYXHAOJeEMryHzeDcfo4594/Zz4w2h9wr2iT46jZUUSqbzsJnIFGUyCbxwIDcZnJ
-         ixmaalT+baYSOh9zirSDAN/6V2Kfy3ktLX5OwIVJs0sQdHpVuehcyITqL4AxFqBqlgAD
-         EIyF8IhNUH3IW2JiTHknYcS8HbGIoV6JfX9OEtESfedV+d2b+Q8jAxckOtoYLCVhapBx
-         oXDA==
+        bh=PxrmblCHxPYTYWGagnmJNDYlhKvZUH0GTSCNjpfZ6R0=;
+        b=Br91IK608+GqEQoaoKY35QhRcHF9oKwR/zI1nPuvC4xN+6EMzmfveNQT/Y1sien6FT
+         4SO94tO6sn4W3BC/RMWktikd93LQEUYu8ydXnAxb/xcpQDXCaHNKaHu0B1ZzYoOFraap
+         MyMfxJMy/P0y1TGi4DQqqtR7FdskSoPFktwZszwPUrwBHn3K0USy3707q8J21Lve08hg
+         54q5xH380Tt6QfxV4eLyJY0ssXJFnNoOf/nlDixsQjCo99+/BUODGdtBjW78y/80ROui
+         y8mb8cPeTYox3eI6RR9X8b7WSnXds4+1qcWEJNz4P9YNxLe82lrggDA7+EKDsraJtsSK
+         r1qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781022179; x=1781626979;
+        d=1e100.net; s=20251104; t=1781022181; x=1781626981;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=7H6CVxdwvbBnHBwu5wTdK915OM3mOvFPgDPWam3xl2Q=;
-        b=cueZKM8hYndPjpwwl0/TtRthKFBo0DWzVjqjAyoDymyGy2oabI4+jfeXkTVpVvJ3Lx
-         j41J8RvprblmMdaHUyx70PHA36eXkU9XxyTiiRu07n5mPqukgVI1wI43qnAh2FOkFb4+
-         kBjgE0g89WsSaOXrU3IdeI8xXUAW5Ts8bZC+WhPzylxwWKINqWlAS90OAFJP6jk6qg9v
-         11UyftU153SmrkrLrTbxx5+2wMjTR9947Als0W+QnuPh9cdm7ntFsL+l54mbbx6VkLr2
-         t2yY49bEdh/KYQPs1tk/bVUlwCtxY6FLfUpRkLxa4zzgAV/ojn/S0a2jbIWlDAUncFV5
-         0y8g==
-X-Forwarded-Encrypted: i=1; AFNElJ8SBnE8mfk1Jb+jjRDnJK8dm85sh2mevC9f2NvgYrGizhCF7yogYIXPBo24r5PibmjLOGy9F09Z/8NDbg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/QWjR3ktVYowAb54DYFNYTTFZQpk+nP4XjL5W4d8Q1MkY5YW2
-	Iw3hBW5llU0kE41wzGb9huGwLL3y6yfbELtN3Fcsnn6aPHlegCzkhoIW
-X-Gm-Gg: Acq92OEHrF8HlSe9JNUjy+IWiDbtgYg2lssJSovBOf3eEVFXcG0iDxdQJAlG8dIgBKO
-	PjyCQlpQC4d/wYY6IX0ntu01Q5A5qmoo7fE7NtWrp1f8z/3+bKi9xa+eRlOWhtn7y6nETN7oyWW
-	zQeJbOhugXC3jJxsUlbATuxoOGi8nbQ22/A9IQQ2BASSDI0EdxSEVAjrg7arg/Ex9hQMKET5yNj
-	+xffqSHG4EbgXUs0puq6dKErYn4YO8FYFGJsrMBkhyL8apOi27u1T9AG8qp/fW2tI96pBaQ5CRO
-	NuebIzx4hLJBx1O/JWyuc/V2W4Ro4W6zbkPPhbwTwjT+BI5SH679+tqxsu8YOHuaA1Z7PfGgcRX
-	aXMv1zn+VVtXa7EEwiP3vMTMxSZm596wrp8zKKCXdux1ZwDcttmGBRcQhSZ2jd5wTXvGzu42g7t
-	frxAd5r4yCVao5WGykXAwjQYfAwXS5GEs5u8KMVg==
-X-Received: by 2002:a05:620a:3723:b0:915:c7ad:8bd2 with SMTP id af79cd13be357-915c7ad8e62mr1920782085a.30.1781022179141;
-        Tue, 09 Jun 2026 09:22:59 -0700 (PDT)
+        bh=PxrmblCHxPYTYWGagnmJNDYlhKvZUH0GTSCNjpfZ6R0=;
+        b=in2g4nOtbQSMEf2CzMag4A7NX8FVlKMeb1v+1IMMgG+LhNMZzZ8wxPOF8JfdojJnqn
+         VKML2DjJQaD7iza5FYDG6o00eUT6c84HIhCtlrtI0i5SyYteNLDnRiraNDX3n05lWGTo
+         H2CfuxutnieJ9N0h1n9fuGwgiZUBTO0cjqexlYAdwkvVqNBJR/6Hg+pwWTZdV6b+pmBP
+         2GNojMKUZYGa+7qnWWCyCYnMz96O2sWxhLQeUPFdDe+4b+CbaalZy5tNci1QL/YP1cTI
+         NJME1R8OeLXNi2rX63NapSLnJyWQJ1bcYI1+/mPGax94OcSiYaird1QGpge7Qsh7Be2x
+         G1+A==
+X-Forwarded-Encrypted: i=1; AFNElJ/vsi+zxchDrOMdpZzaAOuTylq1KXxmCicEzXU3qnVjijAJruabL0uTxGclnkwTPV5tY/6mpeK9KNw5pw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXMSYGCBoR6oKuhycOWOB3bV0zX28zqycxt7NWuYuStPDZMHWu
+	D4zvEMEa5ox1ukcSLA6xkGkuZlLHiLLqsXSMVwpTHR87NMhWBMo5pJNl
+X-Gm-Gg: Acq92OGeWn+ZR1KAZWVLaWZwWrPfzFZ+PBdrKlU+mrbUj2mtuwsF+la1rUXdGbm81+V
+	vUdIQQXaG9LyTQZyPX4kenuBXxvVsYFn7GaDIihiCZivUvNLM1Lzt11c8NG+iAnzxpwg0e04VxL
+	eQdwEyzN6KmYPrGdtPsxlEOfYcMvj8o1agiH2V0cOfFR0MvqHOQXmsOUljwIU8jrS+Mu3yhO/ak
+	FCrMcTYSpyN9LtOdgc1F74pC+3e2pYbltTqGrnEH0pXgC1oZW+saRJr61SlxFCYxrsWKrhuSbRj
+	PB/z+84r+WCyRYsUkYtOz+H2Nrt/JDyliGxaZMJx+jW3F5SUfqZg/F6W4DLfMWdcheaJEMEKQX/
+	hUfljL2O3UgyETw/Im9lX+hPt8aWZBpdfucQrSAEBYRtYEWYSGoWjpjCX+BdLYyRoLj0XgrXuAw
+	/P3C51WJNEvBPqHmT0E71nQmt1A7sH4sirtcL2bPHIl7xXDKe+
+X-Received: by 2002:a0c:f146:0:20b0:8cc:f074:95e with SMTP id 6a1803df08f44-8cee61337camr273970516d6.30.1781022180931;
+        Tue, 09 Jun 2026 09:23:00 -0700 (PDT)
 Received: from localhost ([142.181.163.192])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a3d3a0esm2184525585a.40.2026.06.09.09.22.58
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ceccdc91cesm205664046d6.19.2026.06.09.09.22.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 09:22:58 -0700 (PDT)
+        Tue, 09 Jun 2026 09:23:00 -0700 (PDT)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -81,9 +81,9 @@ Cc: Nickolay Goppen <setotau@mainlining.org>,
 	Charles Keepax <ckeepax@opensource.cirrus.com>,
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH v5 01/15] ASoC: dt-bindings: qcom,sm8250: add compatible for sdm660
-Date: Tue,  9 Jun 2026 12:22:41 -0400
-Message-ID: <20260609162255.31074-2-mailingradian@gmail.com>
+Subject: [PATCH v5 02/15] ASoC: dt-bindings: qcom: q6dsp: add support for lpi mi2s ports 5-6
+Date: Tue,  9 Jun 2026 12:22:42 -0400
+Message-ID: <20260609162255.31074-3-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260609162255.31074-1-mailingradian@gmail.com>
 References: <20260609162255.31074-1-mailingradian@gmail.com>
@@ -95,29 +95,54 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Nickolay Goppen <setotau@mainlining.org>
+There are 7 internal MI2S ports per direction found on devices with the
+internal sound card for Snapdragon 660. This is similar to the LPI MI2S
+ports, and the LPI MI2S bindings can be reused for internal MI2S. Extend
+the bindings for LPI MI2S ports to accommodate the internal MI2S ports.
 
-Add compatibles for sdm660 based soundcards.
-
-Signed-off-by: Nickolay Goppen <setotau@mainlining.org>
 Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
- Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/sound/qcom,q6dsp-lpass-ports.yaml     | 4 ++--
+ include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h            | 4 ++++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-index 15f38622b98b..63c744524e01 100644
---- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-@@ -44,6 +44,7 @@ properties:
-           - qcom,qrb5165-rb5-sndcard
-           - qcom,sc7180-qdsp6-sndcard
-           - qcom,sc8280xp-sndcard
-+          - qcom,sdm660-sndcard
-           - qcom,sdm845-sndcard
-           - qcom,sm8250-sndcard
-           - qcom,sm8450-sndcard
+diff --git a/Documentation/devicetree/bindings/sound/qcom,q6dsp-lpass-ports.yaml b/Documentation/devicetree/bindings/sound/qcom,q6dsp-lpass-ports.yaml
+index 2b27d6c8f58f..3b03e2acd67e 100644
+--- a/Documentation/devicetree/bindings/sound/qcom,q6dsp-lpass-ports.yaml
++++ b/Documentation/devicetree/bindings/sound/qcom,q6dsp-lpass-ports.yaml
+@@ -127,7 +127,7 @@ patternProperties:
+               contains:
+                 # MI2S DAI ID range PRIMARY_MI2S_RX - QUATERNARY_MI2S_TX and
+                 # QUINARY_MI2S_RX - QUINARY_MI2S_TX and
+-                # LPI_MI2S_RX_0 - SENARY_MI2S_TX
++                # LPI_MI2S_RX_0 - LPI_MI2S_TX_6
+                 items:
+                   oneOf:
+                     - minimum: 16
+@@ -135,7 +135,7 @@ patternProperties:
+                     - minimum: 127
+                       maximum: 128
+                     - minimum: 137
+-                      maximum: 148
++                      maximum: 152
+         then:
+           required:
+             - qcom,sd-lines
+diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+index 45850f2d4342..f0a6899b6523 100644
+--- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
++++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+@@ -152,6 +152,10 @@
+ #define LPI_MI2S_TX_4		146
+ #define SENARY_MI2S_RX		147
+ #define SENARY_MI2S_TX		148
++#define LPI_MI2S_RX_5		149
++#define LPI_MI2S_TX_5		150
++#define LPI_MI2S_RX_6		151
++#define LPI_MI2S_TX_6		152
+ 
+ #define LPASS_CLK_ID_PRI_MI2S_IBIT	1
+ #define LPASS_CLK_ID_PRI_MI2S_EBIT	2
 -- 
 2.54.0
 
