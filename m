@@ -1,144 +1,201 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010019.outbound.protection.outlook.com [52.101.229.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6569C548EE
-	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 00:35:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780965302; cv=fail; b=iOd2ZJaqHW05+jwz7KKjCBh4knaR2e9hJtCGjdna4ln+yLwsBJz1MDeFMDSD/zhS6U5djckXK4KNh4LSAXDbbh1/HLpfzcAZm+XNtz57zVrN/XyLtIf7WVs7HQS1EWZQMlWInnWNSATA3KY0ZC+bHxZT7YMt1S1zHYB4+JEMpgw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780965302; c=relaxed/simple;
-	bh=vpYnQYXqVFJAPMKx1jXObqjGnXa+EDBex5b+aPfbpXg=;
-	h=Message-ID:From:To:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=pYhgAkQHBmgCpzBexocfaK/yiWrOCpoBvZapGCJXbkT/rMIwRzxP9czh2aj86Gf7Q4i2AmiwAeSvElW9uLY2qnPfhi+ky1t6RR703/akbUziv3vRhtbHdWHIef49fFmCwwIpImAaUOi6wlXI3TmuqN5kIFHQ8RFoWT7X0P23lYk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=dvHZi+Zk; arc=fail smtp.client-ip=52.101.229.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A3632BF41
+	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 01:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780968693; cv=none; b=noiBuw/AUGM1qgslm0NsnEcvrxmMq0c9Tw8RNArjN7WByIunAlEbtoJ5Fko2mhlmnfd+G53ykuTWesM5+9tLZbFCnh1rxjENHH7hR0xH3m/3S/XmJUF5AuVC9+f5ykqakTGyU/xvJ45NNBwqVXTmu3Xxs6TN8/n90SSqEMNMu1s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780968693; c=relaxed/simple;
+	bh=UBq/TfHyDSOxgJXlZFUCdop4eaB/vfrndG7P4URnSsM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u5BGzBtzigi96UwaEZqeB1Uf0jwtCEr1AjPoN++TocSfkT59+XKJ/Vkdr7Pi1Nfu8M/+Jcu60QtL59iUB/+7i14NNwn5Gh8EN5aT7h464sm/tKLbhR+xcCBS9C4Olvtj712Iw47alcDt356QK5K4PxCyHZXa4hKV6IPHNoJRuCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mw88FGxM; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="dvHZi+Zk"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jJuxwrX77YyHzMD4JiZeYxSEkNl4+IiZSh5rllRM0a8PvzSGq13ZuwPN8+YDqilQzmOfQcha1FaJjpcOqIB17nRcmdKBzUDrECcSDe/FoB2pOBKIMfts95IIHzxpgSvyzBx3okG7NaOUgGTkVxsI19HEhVE7+yhhEKGclzoCKjCqVY2B9Xt21CaZOJYk2+VUWrWFX7pJB6JJ8sRtNO1l/DJi9LGRr6LBI3HYVzlJqUu/wN1LB8hps9gXoaYSUqd6Hqvj36moFr5v/Yuuhzx/OAdznNZVTsvXsRf+a9XykXXHUPwMH5ArbD9GpDpGaURR78ODy/blpajKb8Upq2MkTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o0PjrGMe8W89rXeWQYv38KC8IYnIdhabYGbCVIwCe3g=;
- b=HXB/MT7eZoGfba+6ZCdcJymEYgwZC0PTJFPsRwNdvfynrrsd6YaWYzXqs6dRou4GGHh/atWtYm1RNd94sG/YGN6IQmlTl1DJAqWdMnxibXvz5TIFYurUMQ6a14TJPBfgW6aManHMHGjb0nzF3i5xKvAOWTbFkQBlCyMhwPKQpssM2ao/Ke1diIgzbGHjJhENEoCZcCOdoxSNDeJkEcG/ddwK14oc9CA+L51AnK9gIZ+JFOS3kzI9i7hInk8P0dm7xDuBO5RTyMIBIDur+HDQTzXFsHbFpDSHnz3Wpl9ZF0xoHSOFRwrq7GGO3yuYrhzyrsFMtp5SVkl2DWpAMy2/ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o0PjrGMe8W89rXeWQYv38KC8IYnIdhabYGbCVIwCe3g=;
- b=dvHZi+ZkvVledSJn2sACHto16WJ2+hlx2HvqB8y/KRYk6CKPQ3USqcLmTNA2JuVPVJpjdJsOqrZfBd/Wlcz/NJ5LWISEs/2pIAfjF88iahhxlJla/1leVxswdCut8TFVj6azWq5eSK3B4T0aFWMZqywUtZuntm+LGctfaxtCh4E=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OSRPR01MB11811.jpnprd01.prod.outlook.com (2603:1096:604:235::9)
- by OS9PR01MB17156.jpnprd01.prod.outlook.com (2603:1096:604:458::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.14; Tue, 9 Jun 2026
- 00:34:59 +0000
-Received: from OSRPR01MB11811.jpnprd01.prod.outlook.com
- ([fe80::a2c7:5e53:c133:d834]) by OSRPR01MB11811.jpnprd01.prod.outlook.com
- ([fe80::a2c7:5e53:c133:d834%3]) with mapi id 15.21.0092.011; Tue, 9 Jun 2026
- 00:34:59 +0000
-Message-ID: <87ecig3619.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Baojun Xu <baojun.xu@ti.com>,	Geert Uytterhoeven
- <geert+renesas@glider.be>,	Herve Codina <herve.codina@bootlin.com>,
-	Jaroslav Kysela <perex@perex.cz>,	Kevin Lu <kevin-lu@ti.com>,	Liam Girdwood
- <lgirdwood@gmail.com>,	linux-sound@vger.kernel.org,	Mark Brown
- <broonie@kernel.org>,	Sen Wang <sen@ti.com>,	Shenghao Ding
- <shenghao-ding@ti.com>,	Support Opensource
- <support.opensource@diasemi.com>,	Takashi Iwai <tiwai@suse.com>,
-	=?ISO-8859-1?Q?=22Uwe_Kleine-K=F6nig_=28The_Capable_Hub=29=22?=
- <u.kleine-koenig@baylibre.com>
-Subject: Re: [PATCH v3 4/9] ASoC: codecs: peb2466: don't use array if single pattern
-In-Reply-To: <87pl2036kt.wl-kuninori.morimoto.gx@renesas.com>
-References: <87v7bs36m0.wl-kuninori.morimoto.gx@renesas.com>
-	<87pl2036kt.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 9 Jun 2026 00:34:58 +0000
-X-ClientProxiedBy: OS7PR01CA0063.jpnprd01.prod.outlook.com
- (2603:1096:604:253::6) To OSRPR01MB11811.jpnprd01.prod.outlook.com
- (2603:1096:604:235::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mw88FGxM"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2bf0ddaf50fso33699275ad.1
+        for <linux-sound@vger.kernel.org>; Mon, 08 Jun 2026 18:31:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780968685; x=1781573485; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=02FJ6YGr3OixEk6iz8PM1UvhvRNKfCs847PeFoWoGHg=;
+        b=mw88FGxM0D8YwrO27t8wG+B9Eu9iRdP1FvfTkU2RIr4ek9BFUi0dan1dPgeqJtj2KR
+         UuJXrU6BQK7k3RyIOgKQBU92xLArKaQp95BrmuwUnrbtRDd8j88a80V21c5DJ7SCYxIa
+         r02v0ZXtqGM1PhBlEKW+AtLUJTOyTLcoaLDUF3aO+Gqa3TnU8MllEDHzNOddiXjeaFm+
+         nvT454C72cQpPfkguGW1PDc9/poa2SHcdtbSwwQUA/1MxbqudTUbRFLnRUppqNh05GkQ
+         6xXoIrmycT+zur+0Zukl5RIpnGpsix7gyddtN4CmAxV9jA9CRuMxQSydaUX9ObuoJxkj
+         Vi5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780968685; x=1781573485;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=02FJ6YGr3OixEk6iz8PM1UvhvRNKfCs847PeFoWoGHg=;
+        b=nNHBOb9LAFyzvGbSQgKBK5So6K6ThXpo1aN5WX5Si+IqJvWtBmS5p7nCDLL2emSNRG
+         9dLWwW5rPryrdggNdmdPltJb9ovC79yUFNMmsFvj1XgvvUJm/L0DXkjtphGlzRDeLHzn
+         x+kYk6RRC6AbpkHJlRq5cAttNr+KTalRk1gghiz23JqkoUYohYpJqCwoUTqGcccRc9Kg
+         TEDCk7/sWJGtdM1tlvFNGwiT5l89/0zNI7PkOjxcdlc8l+P6Muyg2286Thi/6ylUEYw7
+         nNoTml8EONi4mTtNkIgnZiISkEuqHLXYJljPIo75w+577a1Ic2eyYYoYEgLzcaVoqY/S
+         PtyQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/OYGt/PoQrocJvKw/GHx7PV99pGcDaYVZES/vR1kYGyxkTVIclAC7ZSL1l/wS/L1OL1OZqBEM23tn3Rw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFBfpiGnENTYPoeNgl7IOROhXMP7wTRna55R6N++qhMEdOB2Zs
+	hmMxy0ou2j2QnpdXE1DAFh+7OvkuvJec8TMeKn7NpBWICFeemB4iP50s
+X-Gm-Gg: Acq92OGpgUeX+9PKom4N0dYWQFSJVgDIVKzr8lIVQQX4URkIEnCVj22y4MmTuC0WNM+
+	9jKLASzYDJ/+B4bL+0IzVBgFkXmxDcA5IQJLo6FEF+le67sIVHhcxPNRGXBq1CPApULOLGTpa6f
+	EEoOWVG1SIcKxdFmIPv2zQLGFmGLxO/+ZWds34AUZOZ0cV5tmw/Pc4bcbxJNyOFjeOMsbajN8c8
+	HgbzXdudG+YOvAUENV8zN1jvvQ8brxXSbiSZElWflHZInMVjF3uxX7iQ7B35I0RtFtqMGfZd2ij
+	FGARMSkZ3IZiqLyoxCiQUrO59Lma4tGiZs8qEmTAbOZadnDQ22idPLiCEYdO9+R3SfaeMg9cYuq
+	p6KLa0DDFdGVscpQ4hSvGW8q0WEIY7czzJXqtonbJ9D0TgFjXQydR4v+lcOkts2DzCY1D16dn33
+	VtBam9/evf2vdknyHMzqLxZPhbdkBiFkfRriTlTHLFx/pOsUpO4xw9EGBzZlY9DJaEdoRO
+X-Received: by 2002:a17:903:46c3:b0:2c1:13b5:6c24 with SMTP id d9443c01a7336-2c1e7f922a9mr188591745ad.20.1780968684858;
+        Mon, 08 Jun 2026 18:31:24 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16609e627sm198765335ad.52.2026.06.08.18.31.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jun 2026 18:31:24 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Mark Brown <broonie@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v5 00/11] ASoC: renesas: fsi: Fix system hang by adding SPU clock
+Date: Tue,  9 Jun 2026 08:30:56 +0700
+Message-ID: <20260609013107.5995-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OSRPR01MB11811:EE_|OS9PR01MB17156:EE_
-X-MS-Office365-Filtering-Correlation-Id: 891dd29d-5956-4ef2-d77e-08dec5beefb0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|52116014|921020|56012099006|4143699003|11063799006|18002099003|22082099003|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	V+YDlBX9gNGN9qoI+y+8BuUvxH81X0MQWIG51lnbYhaT1SZs+Uj7UUadpbn/PeSzJ0hlT0ZclMW79Tayt6R4skKDFBVhw+v0Vi59sbZs5wBbJ2uVvV9H5Q2AIrYoPNlmJJXRdU/eq6f5Q4evzvDRAWL1Ffqy8Ai2JOwHdRLhdUzJlLcS8BquRfdCiWstyH2jxFCve9tP9geDqJKqnhnOj4pPgwd87L5hgVDBLjXH5xfMV5U0StXzjSDj2/XPSmAf+Y5wl6MvPUeQA+To7U8WvQ3dreC9SGtkfeUNs5Nt5ELZB2tCkMNO7dKduQxOqUADWsof8bg/osYNp9AthSDbGzTeL0mILeC579L1Z/qwpotasWfXJWgSfIci6eyNjJtdo5+EAQDfD3C1av2teDAt55Aweuw69Lxo/w3lr3rFBx1D0SKsTxNDmDmJ5rzMhmCL0thyvRVBVmIzp8VsKIop7CaF3HcRGBb/qHUpapUdcmdYI6DvWpzXjev9Y5LMe78jHA8YsH9dQR802lhZP3wPbsGGFCCWxQE33trqhvm/ZOEJF3qx4tg2wNOqbgSbwv9VuXCqrFhPjzs1qJxBA7fLPsQwlPNsjfHex+5gJsLc5/mRZ0UWlfcYSJcnz+LGIb6lLPSvM0A/cw+gIZl6wQiQ2syb6viYFuci5c4MvdYdmrMrZ6d6/EDmjUr2p747P3lbvV37v5fgITYt1OQdCj8StzbSfHIkH7LIqH7gEqsdsNbqtgPjQkvPZxCXwqJbT4mUiffmZmnKG2HXI/Ooyvto5Q==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSRPR01MB11811.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(52116014)(921020)(56012099006)(4143699003)(11063799006)(18002099003)(22082099003)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?+ZYTg1bxqbMYOAMuHQWnf9JXjSzdX7Mp9ZIpXJw+EwE+75yR0G9V2fjQgMxd?=
- =?us-ascii?Q?wBu88TA886VfiOeq9+8TbV4y+vDaeffwiYS+ggNTLRHY5aFayAzFDYePHMN/?=
- =?us-ascii?Q?ZMm3y50IOxD4WCvnRzktL9jKm9rwaN2D7t6Q0PC8uufUoRZZz4+lleCq3FLt?=
- =?us-ascii?Q?15ANeTTDalRwAu0xz/pbG3ZagZGigsjR08N2x1PRDw3/7ceCm6DMsC4DIj6t?=
- =?us-ascii?Q?WR6FUU0wXpI8QuQWsmEfSDxOSTYh6Ryj3cKgLj07tQdo2eK14JmamHwEK4Pm?=
- =?us-ascii?Q?uohSqurIhG0+LgB3zM7TJprw3N+OAP5ZpXuqf8IBB1VdtlChqjZSzglUHVeC?=
- =?us-ascii?Q?Kow6wDAUd+2QUBgMjqdbQBOgMC3VN2snOG2DQap8XjkGYJypLAvrzXEwsfiO?=
- =?us-ascii?Q?dKkD2pMiv7guB4GfXYRh6QAF3C0KsxPJ2GsBvZhUAeS7MZzKqBlolW2JxEcv?=
- =?us-ascii?Q?wBWBzz7gy7Q+tuOieV45cJvVnPqW+g1jF3wqDWzzAypZFxOgoheYwavnLxiO?=
- =?us-ascii?Q?nPvlnblMiULMXYpGVyrbd7dmuVPprsRqSoIqXx2sXKMYMtA4U+AM6ucq0ff7?=
- =?us-ascii?Q?3Tb/u0HlJnJWTOFzGu7eavK1Iu5tA+D+hMFrZBCHesoFBouxYkBk5J+2Wwmr?=
- =?us-ascii?Q?Bs7CbKQ7KKArt9ALjtzArm9R0QU5SnfFBTiOOq3kbuWNg+Zg//hHSFDZKKLr?=
- =?us-ascii?Q?atc4aG8SuNn6yXhrDtEAgYc5NB8b3fHcmCbl21RXnzICychCdPy5cYsFdNX0?=
- =?us-ascii?Q?ljRqCqR18ksTe8+M25+fb+05laEihj2LyKBgtEeHeAb+rGo2LNk0CKWu6UmT?=
- =?us-ascii?Q?6QRSAVf9jJA09tyE1vxb11LFPMixGiikRNB2fkYFxkg3v0XxfdXsQP5dbrDf?=
- =?us-ascii?Q?JsvCaAFYDkEDNxy6ACYYmNXxI1T/DGvvVFDPgM3uvdRmwmKsqx82PzPDkuHr?=
- =?us-ascii?Q?tXwWY3yA6/4FHoS74UeFEN3HpmyRUwNnG2eNY8Ai10B9gbC1XcyLoSJlCxSW?=
- =?us-ascii?Q?5e4SYxdoCFvbMwKedMPSiDmpwzO/Iq0hm3/Hh+R+XY8eCbvxme09oUoZ+kGw?=
- =?us-ascii?Q?WDRCn0Vuz8C51U5mws0iKvxxMs78spg8X/TgeJWYEXITHaZ5eKJDnEeeZIix?=
- =?us-ascii?Q?PiueI0Y7L/YMD8dRxZXwW87WESUGnI7e+pp6rgEyTuoksk9WsX5hg5oXv7Qi?=
- =?us-ascii?Q?ezYd/OLCV0AShaT/6Prf4xXQTiMMjiN3He9ZMRHHqr933gs5iBja2t+ahYtU?=
- =?us-ascii?Q?SgkYJOji1FJ3AgwbVUHEz96+0YqfsIiX1lnW5hSzMY7EjW49gM1EELB0kdyL?=
- =?us-ascii?Q?CUzfSgIPa5IC4eg2HO4Qnh/Zdv+wFvvIIL7B3+0014ZZo0aTOC0WJSzpQTAO?=
- =?us-ascii?Q?sfQN/3+dmtO+9YLvW40pJNWu8B9GKg1uRyodm/n4vaThqX4xo/OGbiECxUWP?=
- =?us-ascii?Q?0JoICmJsQbUi3aiLbd48SxhwJczpH7z3kc3BGEMD+r0dk/eOYw0Ptp0u7AF+?=
- =?us-ascii?Q?yOEKPQER1C2Km63s6qhUrtmuFza2u3vE0iVSh2yAynOihJcN5cJwJNhuBjWB?=
- =?us-ascii?Q?c/z2YaQ5vaoJjBbKfGlvji65xnKHFOrquSIJT0HS0USMPZWUoWubshgI4gxr?=
- =?us-ascii?Q?vnbPjP2NJIgOfo/QRCDTLOUYSqJBQSWorccipCxmCgKQozlfMId25O/8RlOQ?=
- =?us-ascii?Q?kFF/ow2dgnu+ucJeq6ikefSNKywri65E3cSdXM+05x+PgiT6paSL6UzU+G8B?=
- =?us-ascii?Q?Bjh/QSMPsGAAKbWUDrlNpkOWTJq2kwsL1EC39CZtzl0/Yg2teKaw?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 891dd29d-5956-4ef2-d77e-08dec5beefb0
-X-MS-Exchange-CrossTenant-AuthSource: OSRPR01MB11811.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 00:34:59.0139
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: X8mP429hSmfkyjQD1wD0rcJkG5pg0G6UU4sEnhqFnHEul5FTvAWcpnCpzrGQh+JF1DXJW0G+cCi275UeQdW/Q0UasAO+Pu0Ak1UlhdVktTn7kKxot7nRuVXBbLlKaJ7l
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB17156
+Content-Transfer-Encoding: 8bit
 
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi Mark
+Hi all,
 
-> Because it is confusable during debugging ASoC FW update, tidyup
-> auto format style not to use array if single pattern case.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
+The FSI on r8a7740 requires the SPU clock to be enabled before accessing
+its internal registers. Without it, register accesses may hang the system
+even when the FSI functional clock is enabled.
 
-Sorry. this patch already got Reviewed-by.
+Previously, the SPU clock remained enabled because it was left running by
+the bootloader. After adding the SPU clock to the device tree, it is
+automatically disabled once system initialization completes.
 
-Reviewed-by: Herve Codina <herve.codina@bootlin.com>
+This series adds the missing clocks and aligns their names with those used
+by the driver.
 
-Thank you for your help !!
+Following feedback from Morimoto-san, the driver is also refactored to
+improve stability. Clock initialization is moved from the runtime path to
+the probe function to simplify the flow and avoid redundant setup.
+Additionally, the shutdown sequence is reordered to ensure the stream is
+stopped before the hardware is shut down.
 
-Best regards
----
-Kuninori Morimoto
+The driver currently uses clk_enable()/clk_disable() without matching
+clk_prepare()/clk_unprepare() handling. This series adds the missing
+prepare/unprepare operations and moves them into startup/shutdown paths,
+since clk_prepare() may sleep and therefore must not be called from 
+atomic contexts.
+
+The series also fixes a race where in-flight IRQ handlers may continue
+accessing registers after the SPU clock has been disabled during shutdown.
+
+Changes in v5:
+ - Drop spu_count and rely on the clk core for clock reference counting.
+ - Reorder the patch series as suggested by Morimoto-san.
+ - Update the probe error handling path to ensure proper cleanup on
+   failure.
+
+Changes in v4:
+ - use fsi_stream_is_working() for Fixed a race where in-flight IRQ 
+   handlers following Morimoto-san's suggestions
+ - Handle the return value of fsi_clk_init() to properly support deferred 
+   probe, as suggested by Mark.
+ - Split the clock refactoring into a devm cleanup patch and a refactor 
+   patch, as suggested by Morimoto-san.
+ - Update dt-bindings based on feedback from Krzysztof, Rob, and Geert.
+
+Changes in v3:
+ - Reordered the patches following Morimoto-san's suggestions
+ - Updated the DT bindings based on Geert's feedback and renamed the
+   "own" clock to "fck"
+ - Added fsi_clk_prepare()/fsi_clk_unprepare() and moved them into
+   dai_startup()/dai_shutdown()
+ - Fixed a race where in-flight IRQ handlers could continue accessing
+   registers after the SPU clock had been disabled
+
+Changes in v2:
+ - DT Bindings:
+   Define "own" clock and add "spu", "icka/b", "diva/b", "xcka/b" to the 
+   clock tree.
+   Use YAML anchors and "if" rules to enforce clock-names and r8a7740 
+   requirements.
+   Relocate allOf block and update example with full 8-clock configuration.
+
+ - DTS:
+   Rename "fsi" clock to "own" to match driver implementation.
+   Add missing clock names: "icka", "ickb", "diva", "divb", "xcka", "xckb".
+ 
+ - In the driver:
+   Refactor clock initialization.
+   Reorder shutdown: stop stream before hardware shutdown.
+   Move SPU clock enable/disable handling to fsi_hw_startup/shutdown.
+v4 links:
+   https://lore.kernel.org/all/20260605121955.105661-1-phucduc.bui@gmail.com/
+v3 links:
+   https://lore.kernel.org/all/20260510084303.122426-1-phucduc.bui@gmail.com/
+v2 links: 
+   https://lore.kernel.org/all/20260413100700.30995-1-phucduc.bui@gmail.com/
+v1 links : 
+   https://lore.kernel.org/all/20260403112655.167593-1-phucduc.bui@gmail.com/
+
+Testing:
+  - Verified on r8a7740 (Armadillo-800EVA): FSI slave / Codec master mode.
+    The system no longer hangs. aplay works correctly, while arecord has 
+    some noise in the recorded file (this likely needs further tuning, but
+    it is not part of this patch series). 
+  - FSI master mode is currently compile-tested only. Full verification
+    requires a dedicated HDMI driver (FSIB) or hardware modifications 
+    (resoldering board resistors) (FSIA).
+  - Youtube video link of the test process (from v3 verification):
+    https://youtu.be/w3H4v5djr7M
+
+Best regards,
+Phuc
+
+bui duc phuc (11):
+  ASoC: dt-bindings: renesas,fsi: add support multiple clocks
+  ARM: dts: renesas: r8a7740: Add clocks for FSI
+  ASoC: renesas: fsi: Fix trigger stop ordering
+  ASoC: renesas: fsi: Move fsi_stream_is_working()
+  ASoC: renesas: fsi: Fix register access from in-flight IRQ after
+    shutdown
+  ASoC: renesas: fsi: Move fsi_clk_init()
+  ASoC: renesas: fsi: Use devm_clk_get_optional() for optional clocks
+  ASoC: renesas: fsi: refactor clock initialization
+  ASoC: renesas: fsi: Add SPU clock support
+  ASoC: renesas: fsi: add fsi_clk_prepare/unprepare()
+  ASoC: renesas: fsi: Add SPU clock control in hw_startup/shutdown
+
+ .../bindings/sound/renesas,fsi.yaml           |  61 ++++-
+ arch/arm/boot/dts/renesas/r8a7740.dtsi        |  12 +-
+ sound/soc/renesas/fsi.c                       | 246 ++++++++++++------
+ 3 files changed, 228 insertions(+), 91 deletions(-)
+
+-- 
+2.43.0
+
