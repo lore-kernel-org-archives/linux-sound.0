@@ -1,63 +1,63 @@
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CB53B6367
-	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 16:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA853F8893
+	for <linux-sound@vger.kernel.org>; Tue,  9 Jun 2026 16:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781022194; cv=none; b=TIbTR+MCrMdyzrv7l3MT8a5OFbV1n9F87z4H+GK21FokBggvhRLzFxLs6yhx4nnPUne3zZHeCZZYI5ULIv3v1czhzWv8+7WM0PCcsGP9CRXLUwHsDdJA8PFVUEmCKud4GWc7kG9mFllkj7HqAMmgANomAlUv359Wz3oDciWeNb8=
+	t=1781022196; cv=none; b=SIz4HM2SV6yNV7b2MyEjoiMv1Do81hAmB7F2Cs79ejecjzRsewJY83wxMaaafhuvB/JRecFGfpBIx9sHjHu49jJokdEAqehwAOJk5cvk6XAzWKhU99aL5Rs4ZpiYbgJEtf6Wa/dZDvD/uacLcGoFuhWDdfmVFRhRBBQTmekkPyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781022194; c=relaxed/simple;
-	bh=tZzl0LSt5hWKjHWY0hRyxQWh/N8wup3F94zum0CMnlo=;
+	s=arc-20240116; t=1781022196; c=relaxed/simple;
+	bh=F3/Q/P8gGDDcuSGCNzRM4Jb/sel/WSnd3g4fJslYVg4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S0aBjdCYkzC8165G9a2gHEaP4z+m2NFpXJjsTNjYO46pZA8lS9IuIrg2rarD3Rbk41dyO9izl6SBhUz+CvySL4uymqEStEcUMQubeo7a2MmKksoIRWyCbHE4wABOg2H2oKlYbSEL6NXEBVMff5J81AZG+Bu441KdgLOkkmU+D+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y3+ekqDd; arc=none smtp.client-ip=209.85.217.54
+	 MIME-Version; b=Zd8oTTB+FfIa1Nz4uHes9Zgl1S6UYrboprAiwrmtdQIcS065AApKMpxP8HYwdU4HCB25uRx/YsFRBv/ESZUajKOYfYjTCitrn+lViqLQc4NM0MMkABo0LH1D4Qi8h3Jshu1QA8XPYwWBm+TSz215sqEK7UOqHXNwr3bfO6L+jL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ExwWrScB; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y3+ekqDd"
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-6c7e8c9f612so2090516137.0
-        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 09:23:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ExwWrScB"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-915671abde5so511509385a.3
+        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 09:23:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781022192; x=1781626992; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781022194; x=1781626994; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x/RwMIwkE5nM8F7dAjhZHrdIn89L9B+B3Bhy6t+lh+c=;
-        b=Y3+ekqDdMRcrxLbSPuwdnZZ7YZ7Eu+NbTN8pJylhJ6kMG+02wHyLppQqY66sXuyYeM
-         GL3kog9QfzU8RBJ65pbKNlO4CZ7i5ZkVfsYNX37ULh9h1CmhZxs5FBGa4OfucHwFp8PF
-         xj27giFzPUyS5CpHDhNj1CDg98UNXHOV9GG7KQAkfJ5571N6lNHKDoNYrcACuOyiixB3
-         U/neTVVNoJ6rf0xn8cH/BiBNkhuVMQrNXQtYOqjbWJuuXyri4+e9zS6rv7ZMofX3QY/6
-         /Ghb/68Ul1oRmR1Grwi9L/5N7Dnko50zQpSI/6JWj3Fea7/CaWvxjOd2s8u0bGrFQ4Al
-         BpSw==
+        bh=t9po3bV9rnmIHm+a4pHCaXjx/Bof8CvBzTp64aammzQ=;
+        b=ExwWrScB12UJPgUOulJhOD3WF6GW3a8iqU66RzS1Bpp7Ix+ftz0vKtD5ZlwD9RJOAV
+         zCtTn8HxwtMuidzXvs7ExwnR8fS781bprWVZ5txvJAsXie2YIl0aW5fxH1RbKS//llhE
+         SEJyT7kdAdvhxAmjyXU2Yf+XxFRB0Enar1/c6eeIhYklCBiKU1B5ZyPd0cb249FTPiN8
+         I5H8wKWsFCHUJPouu3A4BzG15BiXjxJc44XFUUIZu47ilpMg6LJBNA4aO7GuUEs+5+o6
+         m2WS23fm2KDyc+/x0jGxYlphFfCYm0KZzMbcpTJHJf7MLmK5o4fzJObl9c6fb+X8iCvy
+         f7QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781022192; x=1781626992;
+        d=1e100.net; s=20251104; t=1781022194; x=1781626994;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=x/RwMIwkE5nM8F7dAjhZHrdIn89L9B+B3Bhy6t+lh+c=;
-        b=UEtBsayWJPS8oAxSSONWTfgzndkZJQNxjWJ3LC8eKAlDQx6Ew/qd2tgFj9SZTjjNnG
-         m/3s08DIbblsyq2rhf+YPTQStYIZ7geDi6Ghy7JfVgxa1k3apLtjY3Srqfbm2CglfM/i
-         c5mCUJHegFd+9FKrozutJ7wg5HtNqrMVr/SiaPkHILb9tk1bGgVHKl3IhsbUvZNEwpKk
-         zZvmHaE15Xyg8nfPrn01NuPnrY8iGOhislaKVK1SDA4UcLJ1EL3IY8LM9golkvnWJTt9
-         fx4lL4X1cb3PNH79xHt/rSMKye4Ozbz/iCGPeWeQXoFI5AcL0iJ4JPAPUkcEBJmaFiDB
-         +N4w==
-X-Forwarded-Encrypted: i=1; AFNElJ8OCdfuqUeoAMeBIvCBex7RqnXhKYFs+kDeIgAORqWk6Yocvy7btj9cFPInUbSF3frcrIkFcH6huoIX2Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyfWqMEPTnYfrHYGNfPvw/KirfZf+ZLT3/u8gv5NyvH0KHhNyV
-	Apl+IG3u4ht+nD9xgogQTY7yvmgfyDJMgeMMZ4eHEKa5vQBmr3Fmzsca
-X-Gm-Gg: Acq92OGpyvFB0WUW6zKM8J6x8NpjnP8AOxFe/BeIm/drhOp+9IgD1yQTi7KNSPczFxX
-	mwDX0cPnEeBNvFxqBeDsPXxs9y3yuAhj6eMNKo/SkHsCmFSO/ZndMOID/bvsJRIylIOcL45uHb6
-	/ZObDEhXGh7/mvcFE5BbbNP3+5X+c/LKv/vVT8qv3Bc2LjfY/LRALR+d0bp5uXdxbWV9kEn6jT9
-	shgFXfuMWXXllsV2amdgF916EgsNl9ZHT7TkePsfkF/avjaHFMaxQUsTSy1XCOm4GwIBD8+E7Nr
-	6X2XZQZzL/2eWbrN/lrDCvUN5W8sX9xuxQclVmNrGMXbOY25fMmp/yaJLASlB9zW1ZdVKsGvIti
-	rX56KpU63YbY8MAuXF5r3m6hW0NgiEifNhNebCXkLsZeq5VZRsa0NY5v+A9Hlz5Iwq0D2eYPiGH
-	1m3BeaqiHuVFzqlnJMg4PCb3lwmb6H/hXrm3OJlg==
-X-Received: by 2002:a05:6102:9d8:b0:634:d42d:15e2 with SMTP id ada2fe7eead31-6ff0725fd2fmr10705801137.26.1781022192234;
-        Tue, 09 Jun 2026 09:23:12 -0700 (PDT)
+        bh=t9po3bV9rnmIHm+a4pHCaXjx/Bof8CvBzTp64aammzQ=;
+        b=BlF05uZ/se1YqHZS2kGlRYGS5p+n/4Im7nIZcIjyCmvSO2IHJn+GqN1wRizCzVuK5p
+         R9+UnNhgwpNAtBYJ1vlo8M3w5oaHTAbCOSuadA33/s6VKkg1btLBUKoFp+HKYfXBbvZ/
+         Zf25ddgpptwqTRNiOCJw/2ITLsXuMbCxg9qYjuA2wB5toKr4QgUGNVtKswk9dYAaVkh1
+         yRt5SoWKDZSoKruAhDz4L+yEMgRgXckCBz+ie2lKGNDI+u9jov4qlWf9OjCHNP5bTC8G
+         4FEFzFLPwW358i3+lejG9+R/BpRZuBkzAutcu1S+eQ3kk80OsIVUT7v9W0JKJB7ne1OL
+         wn9Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/NLvsIyVt2e7lpR5rSXs33wDm4+NxJ6f6D4LseTQcG5321adWEbrCr3J4Ec5eTKZrQyKBwWySkVGrDBg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZfD1l+OEH1JbZa4FfE9quvChlPz/5YXdBB8HfJuP8+nY9A63n
+	dqNn5YrEe/K6RMh0o5C9UrynpkiltEw9uMJ/ByYym7YcYRv5YtXrK3JP
+X-Gm-Gg: Acq92OEYT2RWr3mWTfWJw/xykcI64upTs7oMDIoNTfkNSxCcnawKsq6lX9lO31QV1Na
+	D/z/v62bneqJRwlgNhDi4WXNgTpW+EP1wu07Xo4kaxnw53QSk9Psi8avFiyw9723VTM4YoVzbG4
+	DAaJyBeHuLomtBw0uhSCGB2lmtSCcNsXxK1SGZYzNhg4EMtFbt6KefRo+oOfIx1Ya7aP7kXYFGE
+	XU/jM3OfP5zix8r648ju7l6KAispG2S6KTOtyumA+epuyLCpbGslUueovAqsiRQKu3wOLLg99zf
+	gmKedZBt9s31X6hMKAZQc5uGTd+q1V7bnkflBVQ+zML6DequvcHJY2pz7Y0t1NEUvOqgmGHHNcv
+	MNr4oNfplb3eUHuMjAMowO9XPbvl3wwKfTp/iAvtsnOGS3WNiupH7SvaljvY8VD1toP1kz06M/N
+	tGO7gtIOadIegjrLd3ce7aMxOcn5A9BjoyKUbsdQ==
+X-Received: by 2002:a05:620a:6847:b0:915:bac0:fc2d with SMTP id af79cd13be357-915bac10351mr2274439585a.7.1781022193940;
+        Tue, 09 Jun 2026 09:23:13 -0700 (PDT)
 Received: from localhost ([142.181.163.192])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ceccdcc968sm220219576d6.22.2026.06.09.09.23.11
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a3d2384sm2158510185a.39.2026.06.09.09.23.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 09:23:11 -0700 (PDT)
+        Tue, 09 Jun 2026 09:23:13 -0700 (PDT)
 From: Richard Acayan <mailingradian@gmail.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -81,9 +81,9 @@ Cc: Nickolay Goppen <setotau@mainlining.org>,
 	Charles Keepax <ckeepax@opensource.cirrus.com>,
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Richard Acayan <mailingradian@gmail.com>
-Subject: [PATCH v5 09/15] ASoC: qdsp6: q6routing: add lpi mi2s support
-Date: Tue,  9 Jun 2026 12:22:49 -0400
-Message-ID: <20260609162255.31074-10-mailingradian@gmail.com>
+Subject: [PATCH v5 10/15] ASoC: qdsp6: common: support headphone jacks connected to lpi mi2s
+Date: Tue,  9 Jun 2026 12:22:50 -0400
+Message-ID: <20260609162255.31074-11-mailingradian@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260609162255.31074-1-mailingradian@gmail.com>
 References: <20260609162255.31074-1-mailingradian@gmail.com>
@@ -95,131 +95,27 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the ASM-AFE routing for LPI MI2S ports which represent internal MI2S
-ports on SDM660.
+On SDM660, LPI MI2S ports can be connected to a WCD codec which may
+support headphones. Register the headphone jack on codecs connected to
+the playback port, LPI_MI2S_RX_0.
 
 Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 ---
- sound/soc/qcom/qdsp6/q6routing.c | 78 +++++++++++++++++++++++++++++++-
- 1 file changed, 77 insertions(+), 1 deletion(-)
+ sound/soc/qcom/common.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6routing.c
-index 7386226046fa..d076c99f197f 100644
---- a/sound/soc/qcom/qdsp6/q6routing.c
-+++ b/sound/soc/qcom/qdsp6/q6routing.c
-@@ -127,7 +127,14 @@
- 	{ mix_name, "TX_CODEC_DMA_TX_2", "TX_CODEC_DMA_TX_2"},	\
- 	{ mix_name, "TX_CODEC_DMA_TX_3", "TX_CODEC_DMA_TX_3"},	\
- 	{ mix_name, "TX_CODEC_DMA_TX_4", "TX_CODEC_DMA_TX_4"},	\
--	{ mix_name, "TX_CODEC_DMA_TX_5", "TX_CODEC_DMA_TX_5"}
-+	{ mix_name, "TX_CODEC_DMA_TX_5", "TX_CODEC_DMA_TX_5"},	\
-+	{ mix_name, "LPI_MI2S_TX_0", "LPI_MI2S_TX_0" },		\
-+	{ mix_name, "LPI_MI2S_TX_1", "LPI_MI2S_TX_1" },		\
-+	{ mix_name, "LPI_MI2S_TX_2", "LPI_MI2S_TX_2" },		\
-+	{ mix_name, "LPI_MI2S_TX_3", "LPI_MI2S_TX_3" },		\
-+	{ mix_name, "LPI_MI2S_TX_4", "LPI_MI2S_TX_4" },		\
-+	{ mix_name, "LPI_MI2S_TX_5", "LPI_MI2S_TX_5" },		\
-+	{ mix_name, "LPI_MI2S_TX_6", "LPI_MI2S_TX_6" }
+diff --git a/sound/soc/qcom/common.c b/sound/soc/qcom/common.c
+index cf1f3a767cee..9070db005e21 100644
+--- a/sound/soc/qcom/common.c
++++ b/sound/soc/qcom/common.c
+@@ -232,6 +232,7 @@ int qcom_snd_wcd_jack_setup(struct snd_soc_pcm_runtime *rtd,
+ 	}
  
- #define Q6ROUTING_TX_MIXERS(id)						\
- 	SOC_SINGLE_EXT("PRI_MI2S_TX", PRIMARY_MI2S_TX,			\
-@@ -320,6 +327,27 @@
- 		id, 1, 0, msm_routing_get_audio_mixer,			\
- 		msm_routing_put_audio_mixer),				\
- 	SOC_SINGLE_EXT("TX_CODEC_DMA_TX_5", TX_CODEC_DMA_TX_5,		\
-+		id, 1, 0, msm_routing_get_audio_mixer,			\
-+		msm_routing_put_audio_mixer),				\
-+	SOC_SINGLE_EXT("LPI_MI2S_TX_0", LPI_MI2S_TX_0,			\
-+		id, 1, 0, msm_routing_get_audio_mixer,			\
-+		msm_routing_put_audio_mixer),				\
-+	SOC_SINGLE_EXT("LPI_MI2S_TX_1", LPI_MI2S_TX_1,			\
-+		id, 1, 0, msm_routing_get_audio_mixer,			\
-+		msm_routing_put_audio_mixer),				\
-+	SOC_SINGLE_EXT("LPI_MI2S_TX_2", LPI_MI2S_TX_2,			\
-+		id, 1, 0, msm_routing_get_audio_mixer,			\
-+		msm_routing_put_audio_mixer),				\
-+	SOC_SINGLE_EXT("LPI_MI2S_TX_3", LPI_MI2S_TX_3,			\
-+		id, 1, 0, msm_routing_get_audio_mixer,			\
-+		msm_routing_put_audio_mixer),				\
-+	SOC_SINGLE_EXT("LPI_MI2S_TX_4", LPI_MI2S_TX_4,			\
-+		id, 1, 0, msm_routing_get_audio_mixer,			\
-+		msm_routing_put_audio_mixer),				\
-+	SOC_SINGLE_EXT("LPI_MI2S_TX_5", LPI_MI2S_TX_5,			\
-+		id, 1, 0, msm_routing_get_audio_mixer,			\
-+		msm_routing_put_audio_mixer),				\
-+	SOC_SINGLE_EXT("LPI_MI2S_TX_6", LPI_MI2S_TX_6,			\
- 		id, 1, 0, msm_routing_get_audio_mixer,			\
- 		msm_routing_put_audio_mixer),
- 
-@@ -709,6 +737,26 @@ static const struct snd_kcontrol_new rxcodec_dma_rx_6_mixer_controls[] = {
- static const struct snd_kcontrol_new rx_codec_dma_rx_7_mixer_controls[] = {
- 	Q6ROUTING_RX_MIXERS(RX_CODEC_DMA_RX_7) };
- 
-+static const struct snd_kcontrol_new lpi_mi2s_rx_0_mixer_controls[] = {
-+	Q6ROUTING_RX_MIXERS(LPI_MI2S_RX_0) };
-+
-+static const struct snd_kcontrol_new lpi_mi2s_rx_1_mixer_controls[] = {
-+	Q6ROUTING_RX_MIXERS(LPI_MI2S_RX_1) };
-+
-+static const struct snd_kcontrol_new lpi_mi2s_rx_2_mixer_controls[] = {
-+	Q6ROUTING_RX_MIXERS(LPI_MI2S_RX_2) };
-+
-+static const struct snd_kcontrol_new lpi_mi2s_rx_3_mixer_controls[] = {
-+	Q6ROUTING_RX_MIXERS(LPI_MI2S_RX_3) };
-+
-+static const struct snd_kcontrol_new lpi_mi2s_rx_4_mixer_controls[] = {
-+	Q6ROUTING_RX_MIXERS(LPI_MI2S_RX_4) };
-+
-+static const struct snd_kcontrol_new lpi_mi2s_rx_5_mixer_controls[] = {
-+	Q6ROUTING_RX_MIXERS(LPI_MI2S_RX_5) };
-+
-+static const struct snd_kcontrol_new lpi_mi2s_rx_6_mixer_controls[] = {
-+	Q6ROUTING_RX_MIXERS(LPI_MI2S_RX_6) };
- 
- static const struct snd_kcontrol_new mmul1_mixer_controls[] = {
- 	Q6ROUTING_TX_MIXERS(MSM_FRONTEND_DAI_MULTIMEDIA1) };
-@@ -938,6 +986,27 @@ static const struct snd_soc_dapm_widget msm_qdsp6_widgets[] = {
- 	SND_SOC_DAPM_MIXER("USB_RX Audio Mixer", SND_SOC_NOPM, 0, 0,
- 			   usb_rx_mixer_controls,
- 			   ARRAY_SIZE(usb_rx_mixer_controls)),
-+	SND_SOC_DAPM_MIXER("LPI_MI2S_RX_0 Audio Mixer", SND_SOC_NOPM, 0, 0,
-+		lpi_mi2s_rx_0_mixer_controls,
-+		ARRAY_SIZE(lpi_mi2s_rx_0_mixer_controls)),
-+	SND_SOC_DAPM_MIXER("LPI_MI2S_RX_1 Audio Mixer", SND_SOC_NOPM, 0, 0,
-+		lpi_mi2s_rx_1_mixer_controls,
-+		ARRAY_SIZE(lpi_mi2s_rx_1_mixer_controls)),
-+	SND_SOC_DAPM_MIXER("LPI_MI2S_RX_2 Audio Mixer", SND_SOC_NOPM, 0, 0,
-+		lpi_mi2s_rx_2_mixer_controls,
-+		ARRAY_SIZE(lpi_mi2s_rx_2_mixer_controls)),
-+	SND_SOC_DAPM_MIXER("LPI_MI2S_RX_3 Audio Mixer", SND_SOC_NOPM, 0, 0,
-+		lpi_mi2s_rx_3_mixer_controls,
-+		ARRAY_SIZE(lpi_mi2s_rx_3_mixer_controls)),
-+	SND_SOC_DAPM_MIXER("LPI_MI2S_RX_4 Audio Mixer", SND_SOC_NOPM, 0, 0,
-+		lpi_mi2s_rx_4_mixer_controls,
-+		ARRAY_SIZE(lpi_mi2s_rx_4_mixer_controls)),
-+	SND_SOC_DAPM_MIXER("LPI_MI2S_RX_5 Audio Mixer", SND_SOC_NOPM, 0, 0,
-+		lpi_mi2s_rx_5_mixer_controls,
-+		ARRAY_SIZE(lpi_mi2s_rx_5_mixer_controls)),
-+	SND_SOC_DAPM_MIXER("LPI_MI2S_RX_6 Audio Mixer", SND_SOC_NOPM, 0, 0,
-+		lpi_mi2s_rx_6_mixer_controls,
-+		ARRAY_SIZE(lpi_mi2s_rx_6_mixer_controls)),
- 	SND_SOC_DAPM_MIXER("MultiMedia1 Mixer", SND_SOC_NOPM, 0, 0,
- 		mmul1_mixer_controls, ARRAY_SIZE(mmul1_mixer_controls)),
- 	SND_SOC_DAPM_MIXER("MultiMedia2 Mixer", SND_SOC_NOPM, 0, 0,
-@@ -1031,6 +1100,13 @@ static const struct snd_soc_dapm_route intercon[] = {
- 	Q6ROUTING_RX_DAPM_ROUTE("RX_CODEC_DMA_RX_6 Audio Mixer", "RX_CODEC_DMA_RX_6"),
- 	Q6ROUTING_RX_DAPM_ROUTE("RX_CODEC_DMA_RX_7 Audio Mixer", "RX_CODEC_DMA_RX_7"),
- 	Q6ROUTING_RX_DAPM_ROUTE("USB_RX Audio Mixer", "USB_RX"),
-+	Q6ROUTING_RX_DAPM_ROUTE("LPI_MI2S_RX_0 Audio Mixer", "LPI_MI2S_RX_0"),
-+	Q6ROUTING_RX_DAPM_ROUTE("LPI_MI2S_RX_1 Audio Mixer", "LPI_MI2S_RX_1"),
-+	Q6ROUTING_RX_DAPM_ROUTE("LPI_MI2S_RX_2 Audio Mixer", "LPI_MI2S_RX_2"),
-+	Q6ROUTING_RX_DAPM_ROUTE("LPI_MI2S_RX_3 Audio Mixer", "LPI_MI2S_RX_3"),
-+	Q6ROUTING_RX_DAPM_ROUTE("LPI_MI2S_RX_4 Audio Mixer", "LPI_MI2S_RX_4"),
-+	Q6ROUTING_RX_DAPM_ROUTE("LPI_MI2S_RX_5 Audio Mixer", "LPI_MI2S_RX_5"),
-+	Q6ROUTING_RX_DAPM_ROUTE("LPI_MI2S_RX_6 Audio Mixer", "LPI_MI2S_RX_6"),
- 	Q6ROUTING_TX_DAPM_ROUTE("MultiMedia1 Mixer"),
- 	Q6ROUTING_TX_DAPM_ROUTE("MultiMedia2 Mixer"),
- 	Q6ROUTING_TX_DAPM_ROUTE("MultiMedia3 Mixer"),
+ 	switch (cpu_dai->id) {
++	case LPI_MI2S_RX_0:
+ 	case TX_CODEC_DMA_TX_0:
+ 	case TX_CODEC_DMA_TX_1:
+ 	case TX_CODEC_DMA_TX_2:
 -- 
 2.54.0
 
