@@ -1,46 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4283EFFB5;
-	Wed, 10 Jun 2026 10:23:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CFCE3EEAD7;
+	Wed, 10 Jun 2026 10:23:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781086998; cv=none; b=VrLBx43G4UFBT4hnLQR/ofToKpix0A1euRftw3XwZGlEqRPod+mp3UUTFfd1VPz8dDw1zZyXTyO+y+4wwKogbzZIQ8NQqInjOIw3ZfL0FwvWZimeKWNFnkGY0ItWF2hMXgKVOO8AWtzSWBqA4rbo9GzanLDssxQiKa/oxZ2Fc3A=
+	t=1781087003; cv=none; b=iNNOJYjFKnP4rDO7PkkywsWUZbDdHhUciwTaW2tnugS/QpcsSYjsT99K28JBTujjKyQo+w+f3on6+JaP1H7BHvK/BTXs3Dg3m8kw89T77+FBKVGCpmrwdzrRHBfNAfVF/goRQ+unAHb1EZbtd9LO9QNlKcRxfz32naW5w/2LINo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781086998; c=relaxed/simple;
-	bh=GjQoMSl+S+ijDAnNQXjwhwnaSIySn/7/CBufcCjNSyA=;
+	s=arc-20240116; t=1781087003; c=relaxed/simple;
+	bh=PAGrDWie8BTjOTXvkdxU5Th2jdyJTQTL0HQ17ZCgp/A=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Mx2qZxLuOVVxR1mvvLm0CZevZswHcf6vXR2BPtFLq3GbrUraOZ/MLHlCVWvHAAF96EKNZl//EcKA225c4OtksBy8KRK+YyAsVY/vKVIgDPvfXVtSuRXyL4XINEmZUOiR28rcTLjo1fjXq0tYNxoJtVQGaRnGrEHieNNFoPhdNn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kvvMwC5h; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=oZHPOrdHrAnWlsZK1ePG4P5u3iQMRNQqg0QThliTE1VU5rjKkkvMHT7X06XrrYW4AsMX/VkfOihpMGYnXQGi7Yom+/+74Cs/G/vnzQh5hwAz4766gCGLl5DT98/0D1SJFk/ZN3MmfxQZpFp3D+14s0c6O6xTB+yWY/2Zl1t8P68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HOyDLLm2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kvvMwC5h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 416461F0089B;
-	Wed, 10 Jun 2026 10:23:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HOyDLLm2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4241F1F00893;
+	Wed, 10 Jun 2026 10:23:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781086994;
-	bh=Hu3axCTPjfMs3cUhhhjRYZSUzNrC+vMNBMn69voBuMs=;
+	s=k20260515; t=1781087000;
+	bh=OqZNRywFsffFbpu4Dq0wPVF6iIEwNLobhUTVzvlf4WI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=kvvMwC5hvuAadTTNgtBkxkJ/4i/OhV97HPFAOGw04yvN/C0tHKMtwfFN+CFBYYy+O
-	 fQX8hRrnql+Sn/jhjXmSLaJ6ZYoV4Kn7IGZtTzTUjf20k0n3+f6mRQaUT6j4qFM/n2
-	 QESfwtwsftiUZ+msK/fJA2Iuyq2V0x1ftbZm7XqyRI38XhT362kwIqqxlruKMtJYDN
-	 cbg/JESdE/r7/W9IYFSza4/OJmD8C/Q8W0BPieEnVmrjtvhGOGeTfLeQ1qL4eTN5Sn
-	 EgmYWWqsqiMB0lQ54TuyT9VutGFMxAYxrtNZLon3F2+qYdh00qdL5U7CeuWGShS2sJ
-	 iYNTHzYNOmVMA==
+	b=HOyDLLm2buh0DmGG6QKbovtle4kLYWoRvwZwR2n3h9t50D0tu/OPHmmWlV7IcKwg5
+	 VqTB2oQtpsOfrQOnlpjU20b/jXqzohuFrsc5iTVz23lt/ADmQHwLs5GNz+NFi9MxeW
+	 +5eiagZRtaUU9alHmlvAEL29/FN3epkC8xcj9c5ytwCOBRduiHvLbBzbwFJa4E4T+g
+	 7BnXc2uRZKwokXluTNKhhSMxkxMyqUebid+nkyizXYZ8zAzOMDe5B8xywCFh2CJTvh
+	 rh7IDDvV4JV9O3tVsFqiAVXu6ARjcBJqZVKaI5p/1RvRto1gbykYqodOxjSdQVXCl4
+	 nRu96pGvN5tLg==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, phucduc.bui@gmail.com
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260609113836.45079-1-phucduc.bui@gmail.com>
-References: <20260609113836.45079-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH v6 00/11] ASoC: renesas: fsi: Fix system hang by adding
- SPU clock
-Message-Id: <178104804456.232889.7203992010119048881.b4-ty@b4>
-Date: Wed, 10 Jun 2026 00:34:04 +0100
+To: Val Packett <val@packett.cool>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Luca Weiss <luca.weiss@fairphone.com>, 
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260529200550.529719-1-val@packett.cool>
+References: <20260529200550.529719-1-val@packett.cool>
+Subject: Re: [PATCH v3 0/7] ASoC: codecs: aw88261: fixes and cleanup
+Message-Id: <178104655633.212106.619790244001573816.b4-ty@b4>
+Date: Wed, 10 Jun 2026 00:09:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,28 +46,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2546; i=broonie@kernel.org;
- h=from:subject:message-id; bh=GjQoMSl+S+ijDAnNQXjwhwnaSIySn/7/CBufcCjNSyA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKTsORBTxRP91rPH4QXSV+YoHKfvpSBoH9EWz4
- WPuauw5ch6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaik7DgAKCRAk1otyXVSH
- 0F9iB/0bvlHYY5F8KFfNZKW4GcfAdhhY74UpfzFD5YO+aoOgnhk0ebhuMJoGoYYaMbERCbsEmxi
- RgKTPEe6o0s+Wgo2k2TnfZFDn3EjBlnTuZK+5B0QzMM4Fv799zLhm62nCPnxeRrIggfivmAMKIS
- L9poiI/RUR3qZ5mSQKrxvTHVj83Dnnoc43XQ9vEwIhFG7FiY5UNZKVx7wPEwMpYyhxxFgGoDcvx
- YKBO6ZsH++QESoEuUsS6W/F/6cNlmDgsrjaL2bxED9SChoaPJm9JGN9xwqTy9iHbl6bEPCw4pC3
- 83N3BDd6DbcNGUb4yfvDUifktXojtCv4W7U3bxEyWqNPtR94
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2210; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=PAGrDWie8BTjOTXvkdxU5Th2jdyJTQTL0HQ17ZCgp/A=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKTsVPgOjpl7YiKpIJ71gTUUNl2wKyV2oiiuZU
+ H08CgNFw1iJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaik7FQAKCRAk1otyXVSH
+ 0EkrB/0SjT5YYiceWwSZTaykZ5Nle2EQLCi/oTE8+lKjZmejgneQOZ5fWNEZ3CfDCbqYLVDkYbS
+ +stLIp0LxJecUaF3WChuLT2EOq+ecCC2EjwkqqDj8TsO0UeqjRg/lAKBPf/CViIzpoPHEkzyQYi
+ +NsH56uK8NgWJZloTr+anql/psi4QHwqwPWwpwNkrmvcmLrOP8x9N/L7XcgbSMRszu0TmE15et4
+ 5A4rGC9SM94LjSWZuX0wwg/EsyYUdG0cjG9tM5PI6hYRCRCD/k2ZAewNC0Lzum13imTMoMjDgcy
+ EA7lozTVkxrHIFNFF3re3dvRu5ts/0DscF94QgUe21P2vzgE
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 09 Jun 2026 18:38:25 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: renesas: fsi: Fix system hang by adding SPU clock
+On Fri, 29 May 2026 17:05:07 -0300, Val Packett wrote:
+> ASoC: codecs: aw88261: fixes and cleanup
 > 
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> Hi all,
-> 
-> The FSI on r8a7740 requires the SPU clock to be enabled before accessing
-> its internal registers. Without it, register accesses may hang the system
-> even when the FSI functional clock is enabled.
+> The Awinic smart speaker/amp drivers were merged in a very
+> "downstream-brained" state, where configuration was only really
+> determined by the binary "firmware" (register list) file instead
+> of properly participating in the ASoC system. Let's start
+> untangling this mess. This series makes aw88261 actually usable
+> on devices like fairphone-fp5, motorola-dubai and xiaomi-pipa.
 > 
 > [...]
 
@@ -81,26 +76,20 @@ Applied to
 
 Thanks!
 
-[01/11] ASoC: dt-bindings: renesas,fsi: add support multiple clocks
-        https://git.kernel.org/broonie/sound/c/955fecff55c3
-[03/11] ASoC: renesas: fsi: Fix trigger stop ordering
-        https://git.kernel.org/broonie/sound/c/859efe92b0bc
-[04/11] ASoC: renesas: fsi: Move fsi_stream_is_working()
-        https://git.kernel.org/broonie/sound/c/c9e05e2fa089
-[05/11] ASoC: renesas: fsi: Fix register access from in-flight IRQ after shutdown
-        https://git.kernel.org/broonie/sound/c/e813df3ef529
-[06/11] ASoC: renesas: fsi: Move fsi_clk_init()
-        https://git.kernel.org/broonie/sound/c/cfa1466e6dfd
-[07/11] ASoC: renesas: fsi: Use devm_clk_get_optional() for optional clocks
-        https://git.kernel.org/broonie/sound/c/5fb4660ce59b
-[08/11] ASoC: renesas: fsi: refactor clock initialization
-        https://git.kernel.org/broonie/sound/c/2330e0b49f14
-[09/11] ASoC: renesas: fsi: Add SPU clock support
-        https://git.kernel.org/broonie/sound/c/39033b278f9c
-[10/11] ASoC: renesas: fsi: add fsi_clk_prepare/unprepare()
-        https://git.kernel.org/broonie/sound/c/05e1ebfeb726
-[11/11] ASoC: renesas: fsi: Add SPU clock control in hw_startup/shutdown
-        https://git.kernel.org/broonie/sound/c/26deeee42f4f
+[1/7] ASoC: codecs: aw88261: support changing sample rate and bit width
+      https://git.kernel.org/broonie/sound/c/1b92b0673d5e
+[2/7] ASoC: codecs: aw88261: add TDM support
+      https://git.kernel.org/broonie/sound/c/33f917e18f39
+[3/7] ASoC: codecs: aw88261: reduce log spam
+      https://git.kernel.org/broonie/sound/c/d90c361af215
+[4/7] ASoC: codecs: aw88261: remove fade in/out on start/stop
+      https://git.kernel.org/broonie/sound/c/edf01bc1c698
+[5/7] ASoC: codecs: aw88261: remove async start
+      https://git.kernel.org/broonie/sound/c/caea99ac809d
+[6/7] ASoC: codecs: aw88261: fix incorrect masks for boost regs
+      https://git.kernel.org/broonie/sound/c/79c053a1ff9d
+[7/7] ASoC: codecs: aw88261: make volume control usable
+      https://git.kernel.org/broonie/sound/c/9b2929eed4d2
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
