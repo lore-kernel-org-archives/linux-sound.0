@@ -1,200 +1,124 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0EB3F824A
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 13:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C5240B374;
+	Wed, 10 Jun 2026 13:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781098075; cv=none; b=GBch4JuyLom6ehaIYxtbsHe9eyJ3t6krwT0sosGHh3VZ2k7Pm9O+vPAsT0wfYViVVnLRNdPl73ZuDuiHNeIa7JNTa2K0p8AgNVhtd9kWmCC36fHJ0NDRNqMDgF/gYmvuouqyw8uRVb8AeMUdb4qHXzrGWmEBrJlDS4sfopIYT5E=
+	t=1781098436; cv=none; b=fhdSpfiA/ITmksYCklmBoTtP4jSXGSqZDH1YgT1033+J7WhvWffXncR3Ua0UvpW+4iOFerAtVqIq+WBQ2vcJJpzlxFDH+DIZEKQI5mQVGKUiXsbD8rMsQiXhRAtkS9+AMzf/1Um++kBYOeQmIlMFi0In9sNNdSWPH2suZzp7m+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781098075; c=relaxed/simple;
-	bh=w6qUDwgiUTdJg+8WZOlXabbkRvKEFVx+rr1JfxifkpU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=LpoQtkygomGNsluAj+bLV1coTDYvHc+1Q93HHmWR2yR4ZU9sQkq0FHXEc62qQcN8fhjdzTRnGYPvAHu4uWqq7caFhsphSP92rSHZ/OxIIKNXMj6hK9xB8MoDgNtPI3FzwO6qb0l5YnsvjOmsUHEnWU4af/nfuir7Y4wzKYehS7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=iEAKdSFJ; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1781098436; c=relaxed/simple;
+	bh=YO4D9bY1nnQAvoprGsTD6BI0BMassdrHAmyuSVwgENM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T02iKovXrAOPgiT8PJc7/I//+U9QZrQMwP19wGCds+7i97ieGe4+eLTvdUy51hXA3RoOCCSihIioRBlbzIXcixrNojjDSGe8JwgCSUFXLZMeiCr5/bLZpx54DZGxFTZdbky3nUr9l3luKCho4h/TyfxWdRD4USH5DnnD/q/A7SQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mF5ByOWP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="iEAKdSFJ"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-45ef1198766so3916952f8f.0
-        for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 06:27:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1781098071; x=1781702871; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:user-agent
-         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8Dg/fQKFRKiQFhT9w/Pj60e36nurv4DmYNa63cuyXbQ=;
-        b=iEAKdSFJsRsZz7vL4JtJjfRoHrB1TOyV9xZzkrg6qaxgm+5Zof8Uz+Hnu34XSA3Oi/
-         P/+zubztU1UeilSU4/L/zuyp69pJ1xodFLGDxY0bXCfgfXjmLrWGtYtPuc6hfXHXBVwi
-         82uA5pKtXa++iSX4X7wIcNnU+kXGMgXhfGtae0IcW23zWhWlZ/ey5HCV4UtSGyq+e9S2
-         lVptJpjdUpCV4NmcMopbhDsYVu1omSp3pqLOcTyZjbsdCn5YU/pEDaFPI3sKSjS2+sbh
-         HMmsgWU2jsqAkG3agH/0P+Jm8X89KGqxVvly4nZ/g4PbCEFwzFDjI6wYxKYstAeVK2s9
-         U5ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781098071; x=1781702871;
-        h=content-transfer-encoding:mime-version:message-id:date:user-agent
-         :references:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8Dg/fQKFRKiQFhT9w/Pj60e36nurv4DmYNa63cuyXbQ=;
-        b=Z3vrtNiq3oxd0+htIkDWpNuEUIGBGYL4tsTDB57+8NyHe/Z76YcLyaku6uBHuPUf9c
-         nOpGQ2eBUe52i4xj17Mpqc9LteyQ0xf6phoTntOI/mLLRSwoXZgqhFYizOZwBFh+O79v
-         cdvxqlWbg5KwulEl2oRysMhL5Njo4zo0VwmvO5SV9DripQRRcLaJcwYB6vDZ17nwC+br
-         xbegZ+erRvUIv2z7bNGMlmtj+WnM1ir1xE6G5bTNSiitWhuCI48u7nnqNuTmAkAXv+g2
-         /dsZyg5XC+oNqCr0z8nmXcYQdxZrGUpV1Mmv5+2lNhfgDvPmNWT7S7P+JjnfypFb3YoX
-         /SyA==
-X-Forwarded-Encrypted: i=1; AFNElJ91T6CssUbmbNHhbxdrvA0bhE8be5PACdPJP9RtJWK6NpNH3XoKEtQICEEHP1JaNfH32qxX+trn+J4g0g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyrn3LPokZAm1s3EU4z+GTuguvkPRq486r9uakZG/Tr3uk+Bbl0
-	VtW1HI0KpXphxBGEpwD9eT8ts/dx7CAlovIdghKrPh8NtjJLDnH1MxPAbHmeIEGmLnI=
-X-Gm-Gg: Acq92OEV7VLhVMsR3aTkCDWrT5R0eOQTTZdS/C97apJxkuwAensZqBYSEfTU3jI2BHn
-	IKo9jPuGuLPoiu2NUGBKbPdtv3pjI4NhOy2JrAhNmfeZuYKryjsSsm8YvbaqZ0utskHjxkm0PDW
-	OxPlqfWCp5isobtIcjH9p+UhGwGCHNBO+JoOZ5KOaF0F69eMd7TJb1gzb3fGePZuJ0ilN1il2e9
-	QjA3emYILw8kxyqFwYvuGu7a9QKq4llwlOJryiLshWd4Ts61eV7eFECl8GgFh2jvorveS4lL9wZ
-	hoN9ny7AyPFlQCYydXJI6nfFOpKyC7yCqIc2P8ulsl3ZMoyDVynZBIXbGbxEZfVWnNqPmq1lcRh
-	M8FCgEe5Rja52GFcPIxDsuLCV7V1V8k2rz57RQV2pVqJNjuQZOOF2Mw/jZ81WXfQUD/s+uTfUmR
-	JwrTCMEPrE2xkt7sIOb3DQK9rv7WzqgGdQ
-X-Received: by 2002:a05:6000:400e:b0:460:18cf:d49b with SMTP id ffacd0b85a97d-46032dabbc0mr33050153f8f.15.1781098071144;
-        Wed, 10 Jun 2026 06:27:51 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:c371:18ed:9599:7f5f])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4601f2eadefsm74272179f8f.11.2026.06.10.06.27.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 06:27:50 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Valerio Setti <vsetti@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,  Jaroslav Kysela <perex@perex.cz>,
-  Takashi Iwai <tiwai@suse.com>,  Neil Armstrong
- <neil.armstrong@linaro.org>,  Kevin Hilman <khilman@baylibre.com>,  Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>,
-  linux-kernel@vger.kernel.org,  linux-sound@vger.kernel.org,
-  linux-arm-kernel@lists.infradead.org,  linux-amlogic@lists.infradead.org,
-  Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH 4/4] ASoC: meson: aiu: use aiu-formatter-i2s to format
- I2S output data
-In-Reply-To: <a5aa2965-3651-4927-acff-51eee2e4ab4a@baylibre.com> (Valerio
-	Setti's message of "Thu, 28 May 2026 17:01:59 +0200")
-References: <20260515-reshape-aiu-as-axg-v1-0-53b457784ff3@baylibre.com>
-	<20260515-reshape-aiu-as-axg-v1-4-53b457784ff3@baylibre.com>
-	<758a4ef9-1a3e-475a-ae1e-83523330d006@sirena.org.uk>
-	<891be10c-99f1-45b7-bd31-ec5080cfc780@baylibre.com>
-	<a5aa2965-3651-4927-acff-51eee2e4ab4a@baylibre.com>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Wed, 10 Jun 2026 15:27:48 +0200
-Message-ID: <1jtsraed9n.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mF5ByOWP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B6831F00898;
+	Wed, 10 Jun 2026 13:33:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781098428;
+	bh=36QV/qY8hBv7JfTejMs0VL9odk6duyGi82ooLH77zS8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mF5ByOWPNotXagrLyGn+Hqot2f6xIyyjQKjo0M/HzhLLgoRDz6AkYwXZm6cMcXq0B
+	 dxdOG82yODEUTUzIfiqwOOYuVbSkDrBeoOxmTPfhdvSpKgThi8BCvZ2gOBDoqR6aow
+	 BPJv8yFmhLlu6L8YkCUDcA9JAPi9U6mgvPxicPZBmHIKjn+fqIGaeXzJL3atUJZFY1
+	 1I1VFaT5gU2SQd89DjAbMFIwq3Xop6ZuoR6dNxyjntoq/BMnmqKLZ4Iq245H1J4D7N
+	 uO5aAiBIm9P/EBXMyjdTBW0dNNC7SgE78u7CRUQRi04FUL2wMGRLylMf7SemTAmTIm
+	 y/aRq7Tv7+dIA==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id B3A561AC56C5; Wed, 10 Jun 2026 14:33:45 +0100 (BST)
+Date: Wed, 10 Jun 2026 14:33:45 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Li Jun <lijun01@kylinos.cn>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ASoC: loongson: Fix invalid position error in
+ ls_pcm_pointer
+Message-ID: <ailnuUp8r6Xy_Na-@sirena.co.uk>
+References: <20260602020132.4170127-1-lijun01@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cyO8NS34AwNjI6QE"
+Content-Disposition: inline
+In-Reply-To: <20260602020132.4170127-1-lijun01@kylinos.cn>
+X-Cookie: Leave no stone unturned.
+
+
+--cyO8NS34AwNjI6QE
 Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On jeu. 28 mai 2026 at 17:01, Valerio Setti <vsetti@baylibre.com> wrote:
+On Tue, Jun 02, 2026 at 10:01:32AM +0800, Li Jun wrote:
+> The "invalid position" error occurred when the DMA position descriptor
+> returned an invalid address value (e.g., pos =3D -1048838144). This happe=
+ned
 
-> On 5/22/26 18:24, Valerio Setti wrote:
->> On 5/22/26 01:15, Mark Brown wrote:
->>> On Fri, May 15, 2026 at 05:10:40PM +0200, Valerio Setti wrote:
->>>> Create a new DAPM widget for "I2S formatter" and place it on the path
->>>> between FIFO and output DAI interface. Remove I2S output formatting co=
-de
->>>> from aiu-encoder-i2s since it's now implemented from aiu-formatter-i2s.
->>>
->>> This series, it looks like this specific patch, is breaking pcm-test on
->>> my libretech Le Potato board, the clocking looks to be seriously messed
->>> up.=C2=A0 I'm getting:
->>>
->>> [...]
->>>
->>> Full log:
->>>
->>> =C2=A0=C2=A0=C2=A0 https://lava.sirena.org.uk/scheduler/job/2786342#L19=
-34
->>>
->>> The prior patches seem to test fine, it's this one that seems to
->>> introduce the issue.
->> Thanks a lot for the heads up and please apologize for the problem.
->> I wasn't aware of these testing tools so I based my testing on playing
->> with userspace alsa tools on the physical board that I have.
->> I will take a look at it ASAP and send a properly tested v2.
->>=20
->
-> Hi!
->
-> I investigated a bit on the issue caused by my v1 patch series and I think
-> I've found the root cause. I suspect my patch series helped discovering a
-> misbehavior that was already present, so I'm seeking for suggestions on t=
-he
-> proper way to proceed.
->
-> # First: the background
->
-> By default on OdroidC2/LePotato boards the only available audio playback =
-is
-> through HDMI. From DAI point of view the flow is as follows:
->
-> "I2S FIFO" -> "I2S Encoder Playback" -> "CODEC CTRL HDMI I2S IN" -> "HDMI
-> CTRL SRC" (mixer) -> "CODEC CTRL HDMI OUT Capture"
->
-> In this chain the mixer "HDMI CTRL SRC" by default starts as "DISABLED" so
-> it should prevent "CODEC CTRL HDMI OUT Capture" from receiving data.
+> +	if (addr < runtime->dma_addr ||
+> +	    addr > runtime->dma_addr + runtime->dma_bytes) {
+> +		dev_warn(dev, "WARNING! dma_addr:0x%x\n", addr);
+>  		x =3D 0;
 
-Yes, leaving registers to their default state (even if it is not a
-working configuration) and relying on mixer path to be setup was done on
-purpose.
+This breaks the x86 allmodconfig build:
 
-There is not a single configuration that would work/please everyone,
-especially on AXG but the same could be said about the GX
-series.
+In file included from /build/stage/linux/include/linux/device.h:15,
+                 from /build/stage/linux/include/linux/pm_runtime.h:11,
+                 from /build/stage/linux/sound/soc/loongson/loongson_dma.c:=
+12:
+/build/stage/linux/sound/soc/loongson/loongson_dma.c: In function =E2=80=98=
+loongson_pcm_
+pointer=E2=80=99:
+/build/stage/linux/sound/soc/loongson/loongson_dma.c:213:31: error: format =
+=E2=80=98%x=E2=80=99=20
+expects argument of type =E2=80=98unsigned int=E2=80=99, but argument 3 has=
+ type =E2=80=98u64=E2=80=99 {aka =E2=80=98lon
+g long unsigned int=E2=80=99} [-Werror=3Dformat=3D]
+  213 |                 dev_warn(dev, "WARNING! dma_addr:0x%x\n", addr);
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/include/linux/dev_printk.h:110:30: note: in definition o=
+f mac
+ro =E2=80=98dev_printk_index_wrap=E2=80=99
+  110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                  =
+     \
+      |                              ^~~
+/build/stage/linux/include/linux/dev_printk.h:156:61: note: in expansion of=
+ macro =E2=80=98dev_fmt=E2=80=99
+  156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt=
+(fmt), ##__VA_ARGS__)
+      |                                                             ^~~~~~~
+/build/stage/linux/sound/soc/loongson/loongson_dma.c:213:17: note: in expan=
+sion of macro =E2=80=98dev_warn=E2=80=99
+  213 |                 dev_warn(dev, "WARNING! dma_addr:0x%x\n", addr);
+      |                 ^~~~~~~~
+/build/stage/linux/sound/soc/loongson/loongson_dma.c:213:53: note: format s=
+tring is defined here
+  213 |                 dev_warn(dev, "WARNING! dma_addr:0x%x\n", addr);
+      |                                                    ~^
+      |                                                     |
+      |                                                     unsigned int
+      |                                                    %llx
+cc1: all warnings being treated as errors
 
-Not hardcoding any such configuration in the driver was the only sane
-choice, even if it may seem to weird to have pipelines that do not work
-by default.
 
->
-> # What changed before/after the last commit of my patch series?
->
-> - Before: "aiu-encoder-i2s.c" was calling "aiu_encoder_i2s_setup_desc()" =
-in
->   "hw_params()". Audio playback shouldn't work in this condition because =
-as
->   I mentioned "HDMI CTRL SRC"=3D"DISABLED" by default, but apparently
->   configuring the AIU_I2S_SOURCE_DESC register is enough to make the
->  playback to work properly.
+--cyO8NS34AwNjI6QE
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Nice :'(
+-----BEGIN PGP SIGNATURE-----
 
->
-> - After: those configurations are only set when "aiu_formatter_i2s_prepar=
-e"
->   is called which happens if "I2S Formatter" widget is enabled. Since "HD=
-MI
->   CTRL SRC"=3D"DISABLED" then "I2S Formatter" is not powered up and there=
-fore
->   its callbacks are not called and the playback fails.
->
-> Simply issuing the following command:
-> $ amixer sset 'AIU HDMI CTRL SRC' 'I2S'
->
-> resolves the problem and all pcm-tests pass.
-> This also explains why I didn't catch this issue before sending the v1
-> series: I tested with NXP SGTL5000 codec, not the HDMI one.
->
-> # Final question
->
-> I have 2 alternative proposals for this:
->
-> - Change the default value of "HDMI CTRL SRC" so that at boot it's set to
->   some working configuration (ex: "I2S"). This should be done somewhere in
->  "aiu-codec-ctrl" I think.
-> - Run the 'amixer' command above before running ALSA tests.
->
-> Any suggestion on what's the best approach?
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmopZ7gACgkQJNaLcl1U
+h9DoLgf/WzEkKXMf6uvbGsG3RHhqwizd4b96tTq7+mfr4o8U0Jz7LTFcQaKftqcn
+WkENH8R5+u7T4UhzClUDdJ0tDC5LcN2AOVrLO+hiB77fP8wIsZtVCkXFNUr8Sswv
+4+9PT03DCuxTVOsRZZzRb1bSqMo3D1kythfB7TjyAsNc1Zmm2FcHh/svJmimTyVl
+NjdbKkclzOUCsPN4B0uNdVuDOWvZgZOy0uaniph4XKuIwj+Fo0OCzBFTUnZVeEIh
+PoAt3JWbQbcDsTzAvCHTTAHGCS6KZlqnSawc48W4JvwemkRUGj8PAu6VLe3f1D7k
+EbiTviWoVWdCxBpSnAO5mEndNNbv/g==
+=jjad
+-----END PGP SIGNATURE-----
 
-As Mark suggested, let be nice on the user and poke the register on
-probe. Just add a big fat comment around it so it is clear why you are
-doing it (and why it is not something to be copied)
-
->
-> Thanks a lot.
-
---=20
-Jerome
+--cyO8NS34AwNjI6QE--
