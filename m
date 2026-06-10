@@ -1,73 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6451898FB;
-	Wed, 10 Jun 2026 06:46:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6602D8795;
+	Wed, 10 Jun 2026 06:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781073991; cv=none; b=L1O6i71hggVAfxjVnPjfXMZMX7wb8eq3RdDhd5ksEHMETFqo6pehzH02hkfPYEPW7O47JKpFQoYx2kRF/z6RpW7ZSQHXT6SEijkMjvuWppfTTz2bBQF1BUiCkLlFKHmdIXG7MSLDmac8b97388ULEqW2OYE0MFWLQfHM4p/pFzI=
+	t=1781074689; cv=none; b=C94OwsYwgoRt86pk6spamNNme8o4yB6v9TcQYkWm8H8eqr1bF/dcvdfxRqrpqCKXcwDZx12ow+777YpbcMzXPGPGcl+DHipdCdpKlZOayCLuJOu/9W1E+faS2vpUazB0eMxSpSXtzLlpFdxV0ohOmrZNRvBhBCtIX/yVbXC7SDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781073991; c=relaxed/simple;
-	bh=u7YOelhDPOkEe+ygseQFg3HIJ9G3EzeUC1EcSXKcsZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hav0Uf/zTQ1trNNWD9i/phj179Kj1Zxn9X5bNjY1sVwQS/Thyl7YH41ibdWdloLQd+CZxBYoI4i7y8Eddg2icQVF7EqvLtYCzOdtKZPdQd6yFjQ9AYDtxp1ltBOLqtvL4y7HTTkje+n8efXgY8A8F2jSdz2ppZwuRgeHcrEaHUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EZG+TaM2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781074689; c=relaxed/simple;
+	bh=IVRwCBNjPlQUYB6sKF+F7jGl7xu+8jb6UBF2X9IQU9U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=e8RMFPcLZcA0svlsUahEOBjOaFvB1GSYy3DesM1eVIkGA72H2Ej1Zcz2gv5cUmIMV4XnPXmY4dk5twSVpcBkHKsYxVqS/vVhAptDwt25jINvIMa22y9kZLZVeVMjIUHnaIJHSL2qbDNZykIj9cBbYgWcaPI9TFeyxFJJf//ay/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GTYjuxTQ; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EZG+TaM2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C889B1F00893;
-	Wed, 10 Jun 2026 06:46:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781073989;
-	bh=FkPXCepqRUy7nsilnfQjzTEdRMA/rcS9qrVjc1EIpEQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EZG+TaM2xOpdStnA9Jj0JTI/bmcAeK3mjLG8WjJExrqA2egzTyv0tNIjZT61T19q8
-	 MG2LSopad03konOE+mIhicx3PuVrYs9NGDOoBTLxAVQbgwv4Jwo23dFFqNxfnX2eJm
-	 q8PCh4E3IYadW1IBXgfyahbmAy0Xawt+sb0wJ3ciQKIcqBnZfs1nC3sQIZ2k+x16MM
-	 pK8Q85vFWeob3fIQCYvnB+N+R+RAMM7226gvfwC0dHHNi0yiO8AQJzzZMjghfL27Dk
-	 Lmo2jD/uB0b6dJBS5D0EJHsUCBejUVkgDIzFISPnE2C41sbWnFckLx9ssaoIIvCKlw
-	 bHunyZPs8QICA==
-Date: Wed, 10 Jun 2026 08:46:25 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Richard Acayan <mailingradian@gmail.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, Nickolay Goppen <setotau@mainlining.org>, 
-	Adam Skladowski <a39.skl@gmail.com>, Vladimir Lypak <vladimir.lypak@gmail.com>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>, 
-	Johan Hovold <johan@kernel.org>, Kees Cook <kees@kernel.org>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v5 02/15] ASoC: dt-bindings: qcom: q6dsp: add support for
- lpi mi2s ports 5-6
-Message-ID: <20260610-humorous-shrewd-lizard-e54276@quoll>
-References: <20260609162255.31074-1-mailingradian@gmail.com>
- <20260609162255.31074-3-mailingradian@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GTYjuxTQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781074688; x=1812610688;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=IVRwCBNjPlQUYB6sKF+F7jGl7xu+8jb6UBF2X9IQU9U=;
+  b=GTYjuxTQwmIhTCgRuaB43aXIQumaEoZwIhICyZIvoUxLUhFr/So+UOqe
+   3IJy+iWMorSiaw6rCdoDPnmlWW0blEsErmw9euz6c92bOJzE0ABDC/jme
+   ERXRA5mgyFVc9/dWU8dIjTQxaS5B1lKs9IdAxYhSJFqvTbqzxoxwSEqwb
+   19xrKTNifraAYwdDu6qZ3tAA+snhRIj40b2aH3NuBr9Q1SehqtmiEvphA
+   EvucDQpZVlHQoEiTlj6Lf1iEUUgbp75Nz9JoyHulXALGNcDpkyyBBdkkL
+   2O5TkzP4ZAA/J/DlErT/p7kdunrj8g6wt9YLc0mP9M819MY+PveqJzoE9
+   Q==;
+X-CSE-ConnectionGUID: BpllVnauR9mAeb66EXBAew==
+X-CSE-MsgGUID: QyuowD2yQeK1TbX+TF2p3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="93246975"
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="93246975"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 23:58:07 -0700
+X-CSE-ConnectionGUID: VQrlg1apRX2dAxbXAhiMkA==
+X-CSE-MsgGUID: yUrdc/hsT6GLiQv7gyvWMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="251159983"
+Received: from krybak-mobl1.ger.corp.intel.com (HELO [10.245.246.32]) ([10.245.246.32])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 23:58:05 -0700
+Message-ID: <d4059b90-ba44-4c51-bdd0-0b791f1a5fd4@linux.intel.com>
+Date: Wed, 10 Jun 2026 09:58:13 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260609162255.31074-3-mailingradian@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: SOF: topology: fix memory leak in
+ snd_sof_load_topology
+To: Zhao Dongdong <winter91@foxmail.com>, lgirdwood@gmail.com,
+ daniel.baluta@nxp.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ sound-open-firmware@alsa-project.org, Zhao Dongdong
+ <zhaodongdong@kylinos.cn>, stable@vger.kernel.org
+References: <tencent_D87B6446BC0B517BEF9D4731C6CD8B288206@qq.com>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <tencent_D87B6446BC0B517BEF9D4731C6CD8B288206@qq.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 09, 2026 at 12:22:42PM -0400, Richard Acayan wrote:
-> There are 7 internal MI2S ports per direction found on devices with the
-> internal sound card for Snapdragon 660. This is similar to the LPI MI2S
-> ports, and the LPI MI2S bindings can be reused for internal MI2S. Extend
-> the bindings for LPI MI2S ports to accommodate the internal MI2S ports.
+
+
+On 10/06/2026 06:11, Zhao Dongdong wrote:
+> From: Zhao Dongdong <zhaodongdong@kylinos.cn>
 > 
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> When the topology filename contains "dummy" and tplg_cnt is 0, the
+> function returns -EINVAL directly without freeing the tplg_files
+> allocated by kcalloc() at line 2497. This leaks memory on every
+> such topology load attempt.
+> 
+> Fix this by setting ret = -EINVAL and jumping to the out: label,
+> which already handles the kfree(tplg_files) cleanup.
+> 
+> Fixes: 99c159279c6d ("ASoC: SOF: don't check the existence of dummy topology")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
 > ---
->  .../devicetree/bindings/sound/qcom,q6dsp-lpass-ports.yaml     | 4 ++--
->  include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h            | 4 ++++
->  2 files changed, 6 insertions(+), 2 deletions(-)
+>  sound/soc/sof/topology.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
+> index 63d582c65891..09d6dc01814c 100644
+> --- a/sound/soc/sof/topology.c
+> +++ b/sound/soc/sof/topology.c
+> @@ -2534,7 +2534,8 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+>  		if (strstr(file, "dummy")) {
+>  			dev_err(scomp->dev,
+>  				"Function topology is required, please upgrade sof-firmware\n");
+> -			return -EINVAL;
+> +			ret = -EINVAL;
+> +			goto out;
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+I think adding
+kfree(tplg_files);
+before the return would look better and align better with the code, here
+we are sure that led controls have not been created.
 
-Best regards,
-Krzysztof
+>  		}
+>  		tplg_files[0] = file;
+>  		tplg_cnt = 1;
+
+-- 
+Péter
 
