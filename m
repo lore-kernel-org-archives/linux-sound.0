@@ -1,142 +1,125 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.sms-medipool.de (mail.sms-medipool.de [178.63.14.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5131E34D93B
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 17:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FAC175A6A;
+	Wed, 10 Jun 2026 17:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.14.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781113704; cv=none; b=mz909r5wiLb5/grgk/1Y/Up4C98vfiCqBUMdJJllI9e+LIJZisAwWPE0nOVuaMJRshguttYWTdcqYNZEt2nmvTnlMpGM433GHZ9zv2C0z20LWYt5637p6b6dx8dd8GbJOufxxSAiVBbjthCwnwfa8xGnseChfotz7LzDdxLcpFo=
+	t=1781114289; cv=none; b=ImcGJyYRJ14AjI2sYGMPagqlUBZYRyIgf155KuDs5I1QUHP88aFG2nKzKEs2VKQLPBa277U0/uE68qoAs1hhLu++7EtMBSpbkcRFaBTIpHxpWiMumsEjVa0UE9+KAl4Sl27OOsjwrBwB5WbF1KzmnUsnLpkzBYx8vsPvEJlm5As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781113704; c=relaxed/simple;
-	bh=75two1c0UgRf3rBvUtpN6LBHBYk7Z+P0nbh/g7E1xno=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SG4NLI4rJjZ7CIJpyXb8oa/gGMNhnK3kedTEMXS70tsglLcv+b+EzZ/jHeXtt5THArlKXSjeNeH2kt0MveEnS8xF352ZWA7i3TNi6pRugN9CGFAO9cm9iJJT4OPisCRYCKI4EAUPvxmLFpyfYKmXKHgLaGG4fuAw9ZQUUcpk1iI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oYOs6QpH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=H1x4geKy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oYOs6QpH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=H1x4geKy; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781114289; c=relaxed/simple;
+	bh=ihUlkXSiWA5fqy0pE0DcLIch1Zf7ZM2UeRQXu1e/d1g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QlhW0lUi7EI3PpJDLBwyNYhRfvsF0pxm0pkxFiRsf78euot2PHfse5vTgU0Sud7QwLA7A4X0bvl7lDCAa33w9GSF7DIz7G/WZoK4u0Fz23m3mhWeEw7Yj6+Sotea3gXIFgMLpoH9sHtHb9bkx59lQN4H20TAdCGCMk0EoAm9Ldg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sms-medipool.de; spf=pass smtp.mailfrom=sms-medipool.de; dkim=pass (2048-bit key) header.d=sms-medipool.de header.i=@sms-medipool.de header.b=u+eNISFm; arc=none smtp.client-ip=178.63.14.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sms-medipool.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sms-medipool.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oYOs6QpH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="H1x4geKy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oYOs6QpH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="H1x4geKy"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 38AA975CAD;
-	Wed, 10 Jun 2026 17:48:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781113700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DLuF51RC/o7ifF3vLqgDJGUCP6OvVUzEIX6pED6UrMc=;
-	b=oYOs6QpHAPw8kf1CXUwUJJrCgp+ClOTSM1spcBP0GURv9VEKz47OpJaDPir1uYI6Gze7Vr
-	bXuxdhLHLvOYZiGigG1ZPN73uW7oEB7TT2OKCWqoRuEzLPCZA1wpMDr5BPOeBF4xmo5OfT
-	zrCm/x+nR4U2G82Cw5T8rbi2PlC+TMQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781113700;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DLuF51RC/o7ifF3vLqgDJGUCP6OvVUzEIX6pED6UrMc=;
-	b=H1x4geKy0OfiERaFL7pJXq1qnDZzYzYmdPq5hcqNFMaR2GnioI+BH860WtE+yp+Sqab78s
-	BCRNwQ/lbkbq5fAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oYOs6QpH;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=H1x4geKy
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781113700; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DLuF51RC/o7ifF3vLqgDJGUCP6OvVUzEIX6pED6UrMc=;
-	b=oYOs6QpHAPw8kf1CXUwUJJrCgp+ClOTSM1spcBP0GURv9VEKz47OpJaDPir1uYI6Gze7Vr
-	bXuxdhLHLvOYZiGigG1ZPN73uW7oEB7TT2OKCWqoRuEzLPCZA1wpMDr5BPOeBF4xmo5OfT
-	zrCm/x+nR4U2G82Cw5T8rbi2PlC+TMQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781113700;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DLuF51RC/o7ifF3vLqgDJGUCP6OvVUzEIX6pED6UrMc=;
-	b=H1x4geKy0OfiERaFL7pJXq1qnDZzYzYmdPq5hcqNFMaR2GnioI+BH860WtE+yp+Sqab78s
-	BCRNwQ/lbkbq5fAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D03B8779A7;
-	Wed, 10 Jun 2026 17:48:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XLfyMGOjKWraJwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 10 Jun 2026 17:48:19 +0000
-Date: Wed, 10 Jun 2026 19:48:19 +0200
-Message-ID: <87zf12jnh8.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-sound@vger.kernel.org,	=?ISO-8859-1?Q?C=E1ssio?= Gabriel
- <cassiogabrielcontato@gmail.com>,	Jaroslav Kysela <perex@perex.cz>,	Kees
- Cook <kees@kernel.org>,	Takashi Iwai <tiwai@suse.com>,	LKML
- <linux-kernel@vger.kernel.org>,	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] ALSA: 6fire: Use common error handling code in usb6fire_control_init()
-In-Reply-To: <a24a6bd9-a8e1-423c-9eae-b9ab08a8de81@web.de>
-References: <a24a6bd9-a8e1-423c-9eae-b9ab08a8de81@web.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=sms-medipool.de header.i=@sms-medipool.de header.b="u+eNISFm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sms-medipool.de;
+	s=mail; t=1781113715;
+	bh=7CkiQSdVEazQZCCPmgIysSgNdiIAqqWLAFnaduLrUlg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=u+eNISFmHGseP8N+lfeibs4IRYOJCPuvlX1FeO0BU6PbGObJFXmnV2mJwPYcNMuw3
+	 4pctoaVwys5K27CEBi6CQ80Bp6qhLLXEw40ZtrucMja7EZGwd1Io5ghMEsU9H5fyIv
+	 zAY+nnGh2cUIvoZ13e+lqL6VhFhlEf3Q9M2wFagLkcVhrY11PnKUmFjtRFle6f+ZnM
+	 yMRCEa3WPUDOpXHZ/FhQ5PN1uZIKHqObmgWlZHEESJ3OmDo+suaijYoYfWL5/YJY2n
+	 HIKJc6XGBmCF8xrwLJGF7otWSDL3rydezOV5/AicL9oLdMIgyavIAnQOpio/DaW4yJ
+	 YQyND8mkrVMfQ==
+Received: from mail.stoss-medica.de (mail.stoss-medica.de [213.147.17.40])
+	by mail.sms-medipool.de (Postfix) with ESMTPS id C8F3811D51;
+	Wed, 10 Jun 2026 19:48:35 +0200 (CEST)
+Received: from NUC16-Linux.sb.golima.de ([95.88.98.111])
+	by mail.stoss-medica.de (Kerio Connect 10.0.8 patch 2) with ESMTP;
+	Wed, 10 Jun 2026 19:48:34 +0200
+From: Alexander Kaplan <alexander.kaplan@sms-medipool.de>
+To: Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	stable@vger.kernel.org,
+	alexander.kaplan@sms-medipool.de
+Subject: [PATCH] ALSA: hda/hdmi: disable KAE for Intel Panther Lake
+Date: Wed, 10 Jun 2026 19:48:34 +0200
+Message-ID: <20260610174834.6301-1-alexander.kaplan@sms-medipool.de>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[web.de];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,web.de];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,perex.cz,kernel.org,suse.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 38AA975CAD
-X-Spam-Score: -4.51
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 10 Jun 2026 19:02:39 +0200,
-Markus Elfring wrote:
-> 
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Wed, 10 Jun 2026 18:57:17 +0200
-> 
-> Use an additional label so that a bit of exception handling can be better
-> reused at the end of this function implementation.
-> 
-> This issue was detected by using the Coccinelle software.
-> 
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+On Panther Lake the keep-alive engine poisons the display side of the
+audio path for multichannel PCM.
+Once KAE has been active in the running display power cycle, the first
+6 or 8 channel stream on that pin plays silent and wedges the pin.
+All subsequent streams stay silent regardless of their format.
+Only a display power domain cycle recovers the pin, in practice a
+reboot or one suspend cycle.
 
-Applied to for-next branch now.  Thanks.
+The wedge sits behind the audio converter.
+Sample counters in the display audio register block keep running during
+the silent playback while the output stays dead.
+The wedge survives clearing the KAE bit ahead of the stream id
+programming, fully quiescing the converter (KAE bit, stream id and
+format cleared before the multichannel setup), a complete codec and
+controller reset through a driver rebind with the keep-alive kept off,
+and powering down the audio well for ten minutes.
+The sequence is harmless when the keep-alive was never enabled in the
+running display power cycle, which isolates the KAE hardware as the
+trigger.
+
+Easy reproducer on a sink whose LPCM capability is limited to
+2 channels:
+speaker-test -c2 plays, one speaker-test -c6 run plays silent and every
+following speaker-test -c2 stays silent until reboot.
+With enable_silent_stream=0 the same sequence plays normally.
+
+This is the failure class already known from commit 6ab6f98fcdc9
+("ALSA: hda/hdmi: disable KAE for Intel DG2").
+Handle Panther Lake like DG2 and fall back to the older i915 silent
+stream method, which uses the regular stream path instead of the
+keep-alive engine.
+Like on DG2 this keeps the codec powered while the silent stream runs.
+
+Cc: stable@vger.kernel.org
+Fixes: e9481d9b83f8 ("ALSA: hda: add HDMI codec ID for Intel PTL")
+Signed-off-by: Alexander Kaplan <alexander.kaplan@sms-medipool.de>
+---
+Found and verified on an ASUS NUC 16 Pro (Panther Lake H, codec
+0x80862822) driving an LG TV through a Synaptics VMM7100 DP-to-HDMI
+protocol converter, kernel 7.1-rc7.
+The poisoning is independent of the sink and of the video mode.
+
+This may also fix the silent Dolby TrueHD passthrough on Battlemage
+reported in
+https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/7515.
+Battlemage uses the same keep-alive code path and TrueHD passthrough
+is the same first-multichannel-stream pattern, but I could not test
+that hardware.
+
+Workaround for affected systems without this patch:
+snd_hda_codec_intelhdmi.enable_silent_stream=0.
+
+ sound/hda/codecs/hdmi/intelhdmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/hda/codecs/hdmi/intelhdmi.c b/sound/hda/codecs/hdmi/intelhdmi.c
+index 6a7882544a..52997caae9 100644
+--- a/sound/hda/codecs/hdmi/intelhdmi.c
++++ b/sound/hda/codecs/hdmi/intelhdmi.c
+@@ -791,7 +791,7 @@ static const struct hda_device_id snd_hda_id_intelhdmi[] = {
+ 	HDA_CODEC_ID_MODEL(0x8086281e, "Battlemage HDMI",	MODEL_ADLP),
+ 	HDA_CODEC_ID_MODEL(0x8086281f, "Raptor Lake P HDMI",	MODEL_ADLP),
+ 	HDA_CODEC_ID_MODEL(0x80862820, "Lunar Lake HDMI",	MODEL_ADLP),
+-	HDA_CODEC_ID_MODEL(0x80862822, "Panther Lake HDMI",	MODEL_ADLP),
++	HDA_CODEC_ID_MODEL(0x80862822, "Panther Lake HDMI",	MODEL_TGL),
+ 	HDA_CODEC_ID_MODEL(0x80862823, "Wildcat Lake HDMI",	MODEL_ADLP),
+ 	HDA_CODEC_ID_MODEL(0x80862824, "Nova Lake HDMI",	MODEL_ADLP),
+ 	HDA_CODEC_ID_MODEL(0x80862882, "Valleyview2 HDMI",	MODEL_BYT),
+-- 
+2.54.0
 
 
-Takashi
