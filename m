@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E439A3A7F59;
-	Wed, 10 Jun 2026 08:51:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9743B3BF3;
+	Wed, 10 Jun 2026 08:52:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781081462; cv=none; b=IYmAufVqF9UU17U7YX6MKk1gKY7osyDOPdCfmLggD4hdOHHVuGzUhCqCriGXWAiBc+IgvDVZsN9kOVigkQOYCU6bRUH8yCq9CbgvzypV3UFu5XCRIbv1Y17WQoleJIbaC3gzxvqzVkpH1tVRJi8GcBUKRRgmtq+nrU9Tq+cSHRQ=
+	t=1781081553; cv=none; b=La2KS+xX6SY24P9cpjr/KJC3BUY2fLdGnXfdnJcY+2FMFFwc3lA5it4EdNmBUu6gD7LXFiBze+DLTthRxcvg5S4svJ8tVbtYh41hyFRPuO4O/nmyZJerZZ1To0cH9+cnx94QwXcJZpDreFaPfKP39LD0SyW0wLbJ7kZ/uvjcyVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781081462; c=relaxed/simple;
-	bh=n13i9DN+x6itolrXfeCRqK1ypg2cYsP1x0umNA1LFYg=;
+	s=arc-20240116; t=1781081553; c=relaxed/simple;
+	bh=u0LR3SYBuJwgYvGP2OXBUhsRu4xYAEjv/Q7ZAW6n3Bw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B6l+sd9xybgXbAnVMrtt7QCqJ+8k6cpnv3+SVg/hbYL6An7DxhPvb8yT24ihRoYdXEod7DHNJJ08yExGqvqf/GDB+lsiHR2TfwXySiP1nLv2+RiDZP6VjE93yXgCxB20JBBhYWLdYA+2Na6q1vJVazHJLB7+aobFGt9Gp8Ox+tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fJWYSfGI; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=VLuesfTARL6zaQVmo9mfJYueQSOZqKIcmG7rWT3tV0R0+GOzOSzFj5THCs5EnE8t7JZPX7VVdAvgjYu75n49l+k6bHHKdf+BkUVuS81SZh+LqERna2B+H7EtMSZ4g/YNc76VQ6cAPePwxaViduSlECc4FbKHSnPAaptuNsCKDSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g1Sg4Hv0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fJWYSfGI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C89411F00893;
-	Wed, 10 Jun 2026 08:51:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g1Sg4Hv0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF1EF1F00898;
+	Wed, 10 Jun 2026 08:52:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781081461;
-	bh=nwFfqw6RTmiqHr0J4pBOGyY2zipkP9FlsxvhdxTXaGo=;
+	s=k20260515; t=1781081551;
+	bh=5SzetJXMUGhRXQho0GH8amXNhAhLSHfKjTR6z8oRNaM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fJWYSfGI1h2OdJnrFwuzsE0a0y9u0fzo9Wnvvlld4CPgKEo8Oxi4fdDxp2iQIuxSn
-	 QvZWmQBerkfiK2Hoc5+vS5vktoY7WdfZxS0qJ7G+p73MTOxTnXzxtL8sYdbjvmNxkl
-	 7nuqEAKaHr56UW/5wYARxc/zCH4F7S6KIXxJrd8cqsZruizAl5fa1g9lQ30ytSqSaY
-	 acH4rFINzwrfg/ylDJl4pP+wRzmx9f0f3hiyEB951jgs7jrVczUWNs3F7K2bEo5NSK
-	 MV3Okvx+CRyrThr8xGhaZ4Yts9qNNGkTe7RZcEhX21dGZ5gQmEneQpr7eVi56MRCkQ
-	 iG6hpuJ4sOfAw==
-Date: Wed, 10 Jun 2026 10:50:57 +0200
+	b=g1Sg4Hv0x1UnnI0PXZYe2GZxhEJoKoru2hzNyElmeTI/Horl+nCScUhAWcxMV0CMx
+	 hD2pOgzlhNgpEOTriq9KZY20m2uYsoKT9s1zrtcnGVGsfe5PerGkn+GRw0ryu6aCDu
+	 WCqIuUyohZz1x/M4DAXL4c63Td06IIkfTrU/RSBAtmh3xkG/j6qHLc3K1YwIEIh4TJ
+	 WMlkZsaaXvw3Dp4djKJNVNp9nbCf6qVxCaUi66ZUJ1u3T/2HF1ePegzde9Es0ocbV4
+	 YSD4NvIrLpdDuUMfbmzdudc9VK9em9nea2ylUoqCDiEs0KCbl3++x1L0/ihn7fARb1
+	 t7RkNiB9nT5UA==
+Date: Wed, 10 Jun 2026 10:52:28 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
 Cc: Srinivas Kandagatla <srini@kernel.org>, 
@@ -34,12 +34,11 @@ Cc: Srinivas Kandagatla <srini@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
 	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	mohammad.rafi.shaik@oss.qualcomm.com
-Subject: Re: [PATCH v1 1/3] dt-bindings: sound: qcom,q6apm-dai: add optional
- qcom,vmid
-Message-ID: <20260610-silver-pelican-of-agility-86fcbc@quoll>
+	mohammad.rafi.shaik@oss.qualcomm.com, Pratyush Meduri <mpratyus@qti.qualcomm.com>
+Subject: Re: [PATCH v1 3/3] ASoC: qcom: qdsp6: generalize GPR service domain
+Message-ID: <20260610-goat-of-pragmatic-imagination-2ee30f@quoll>
 References: <20260609064038.492641-1-ajay.nandam@oss.qualcomm.com>
- <20260609064038.492641-2-ajay.nandam@oss.qualcomm.com>
+ <20260609064038.492641-4-ajay.nandam@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,42 +47,40 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260609064038.492641-2-ajay.nandam@oss.qualcomm.com>
+In-Reply-To: <20260609064038.492641-4-ajay.nandam@oss.qualcomm.com>
 
-On Tue, Jun 09, 2026 at 12:10:36PM +0530, Ajay Kumar Nandam wrote:
-> Add an optional qcom,vmid property for q6apm-dais nodes to describe
-> additional VMIDs that should be granted access to PCM DMA buffers.
-
-No clue what is VMIDs and nothing here explains that.
-
-> 
-> The property is optional and bounded, and driver-side validation will
-> reject invalid values such as including HLOS in the list or VMIDs that
-
-Driver is not relevant here.
-
-> exceed 31, matching current SCM source-permission mask handling.
-> 
-> Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-> ---
->  .../devicetree/bindings/sound/qcom,q6apm-dai.yaml      | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml b/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml
-> index 9e5b30d9c6e6..b767625985a7 100644
-> --- a/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml
-> +++ b/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml
-> @@ -20,6 +20,16 @@ properties:
->      minItems: 1
->      maxItems: 2
+On Tue, Jun 09, 2026 at 12:10:38PM +0530, Ajay Kumar Nandam wrote:
+> diff --git a/sound/soc/qcom/qdsp6/q6prm.c b/sound/soc/qcom/qdsp6/q6prm.c
+> index 04892fb4423f..15ca51ce33b8 100644
+> --- a/sound/soc/qcom/qdsp6/q6prm.c
+> +++ b/sound/soc/qcom/qdsp6/q6prm.c
+> @@ -71,8 +71,9 @@ static int q6prm_set_hw_core_req(struct device *dev, uint32_t hw_block_id, bool
+>  		rsp_opcode = PRM_CMD_RSP_RELEASE_HW_RSC;
+>  	}
 >  
-> +  qcom,vmid:
+> -	struct gpr_pkt *pkt __free(kfree) =
+> -		audioreach_alloc_cmd_pkt(sizeof(*req), opcode, 0, gdev->svc.id, GPR_PRM_MODULE_IID);
+> +	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_cmd_pkt(sizeof(*req),
+> +					    opcode, 0, gdev->svc.id, GPR_PRM_MODULE_IID,
+> +					    audioreach_gpr_dest_domain(gdev));
 
-Does not look like property of a DAI, but some sort of SW policy how you
-organize your VM guests...
+I don't understand why you are making all these changes - code is not
+readable.
 
-> +    description: Optional list of destination VMIDs to share PCM DMA buffers with.
-> +      HLOS retains RW access as source owner and must not be listed.
+>  	if (IS_ERR(pkt))
+>  		return PTR_ERR(pkt);
+>  
+> @@ -112,9 +113,10 @@ static int q6prm_request_lpass_clock(struct device *dev, int clk_id, int clk_att
+>  	struct prm_cmd_request_rsc *req;
+>  	gpr_device_t *gdev = prm->gdev;
+>  
+> -	struct gpr_pkt *pkt __free(kfree) =
+> -		audioreach_alloc_cmd_pkt(sizeof(*req), PRM_CMD_REQUEST_HW_RSC, 0,
+> -					 gdev->svc.id, GPR_PRM_MODULE_IID);
+> +	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_cmd_pkt(sizeof(*req),
+> +					    PRM_CMD_REQUEST_HW_RSC, 0, gdev->svc.id,
+> +					    GPR_PRM_MODULE_IID,
+> +					    audioreach_gpr_dest_domain(gdev));
 
 Best regards,
 Krzysztof
