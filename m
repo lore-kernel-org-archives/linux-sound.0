@@ -1,154 +1,151 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FD9416D1D
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 14:56:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DB9408639;
+	Wed, 10 Jun 2026 15:02:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781103385; cv=none; b=H0AmNtXHWc9/QHT1fuMeud0ChBAXh7Z8HWKgrqV682swTbABOHT3p9sDpVtR8WYFRuxmc8ZjNCoeXhBhrRn8cRlWNMbChWBGRGmSxKMxwIvu/0OAV6xc9byI60nl1PzYbTFFLfuAO7OVKDaxt9jZAtwATwbVPPtBDKnfMedxYC8=
+	t=1781103771; cv=none; b=m0omgFemG9MtLt2cORSpumBAwW/De2niLLrs9jqjENLHbjjG1GLLPzKLUE3n6QokcGC4PEAwEYNtrXbsYgNCwuZ4Jz1PdMMD/G1VDOEoouBKPO49izL/m2fcIlUPIyLYHnJwX9vT6dlfcj+YPFu0wUCzu4vekKPB85NFD+3XRAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781103385; c=relaxed/simple;
-	bh=uh+Q6h8Vmd+PcfdjRNrYje6JcnkcwbdiF4UAYNPevaw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P1JUBmXac0yYLhQOXZ8TACUQsoLgH9Ss3HmfF2mId3C9GQD2tF3dMQFRjaFVTmS0RJnAE/yP6JIr2L+ZB/E7Ya/Nm/etrksDI+MpYcvEVG9ZXTIuxtB2yJwOPf+g2jd3HopjZY1ZMDaYYaDQrbqUx+0PpcgPB7P6zx0/qQMRSlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L8mZOpee; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VZG97ti7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ckRGtWom; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=39PiOX+z; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781103771; c=relaxed/simple;
+	bh=wdD+yxiW9aVoMld4LMPC1DWLru4HtTsU9EmgfMnk6eg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WTMIJZzNC5XVeHD9t4n2Hk5OqXo9uWeu3DgNd9nYDEcQdEGb1ov1QZnxLqtyeFxoma4XgerrTBcbvKnrwpiT0ixjsun2zi0klCjXpep4p0YNLQLPV3R5ALqEfetyZts1gpGbRVeYJlWgUW++fKoSp5g0VvyKmoOd9KC7xlIkSjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IYWIndeY; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L8mZOpee";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VZG97ti7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ckRGtWom";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="39PiOX+z"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 913C175985;
-	Wed, 10 Jun 2026 14:56:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781103381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1keMmcB2uzbU1w/GK2KZf+kAqHPKG2WPDPvORAhtF1U=;
-	b=L8mZOpeeNiJ9nqnyg540QryGuT+Mj45ixGYo8UHop/nlYY5MO09d8lqXHmvsRLh28pEnbb
-	fcqC7d1u6bJstFStbjgfIDUQZOp1teg1biT9vdGpf1XW00NzGXfUVdDek0gzC9jtyj4poG
-	ZuCYZW9VHEuM3K6LnAa0pz0g+bvd95Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781103381;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1keMmcB2uzbU1w/GK2KZf+kAqHPKG2WPDPvORAhtF1U=;
-	b=VZG97ti7/4ZE/+AwPJMC/fBRmBCxV29bq0AoIyk2J3yADU2rh2TRpaf9vaBpsMvZNhvHKZ
-	ysVFGgEuIb3QENAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ckRGtWom;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=39PiOX+z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781103379; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1keMmcB2uzbU1w/GK2KZf+kAqHPKG2WPDPvORAhtF1U=;
-	b=ckRGtWomPpfJ5jNo2zD4a8BUBrburM8/Jnja177m7HuHdDTJH89I57zLamGUt11b3+Cv1+
-	oBznl9oAZ7el/7lawwM433ZB1SAGnnhnYRuv2CAXHXo5qWmczLixr765LFpQfqToQdFO6v
-	5aeDKhfmSGS/IB1FlbfxoJXX0h4Y9ko=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781103379;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1keMmcB2uzbU1w/GK2KZf+kAqHPKG2WPDPvORAhtF1U=;
-	b=39PiOX+zcs8sunagYj6YsbiwYH/2e+6yMMqARi6dbRQoNCZVLkziSh95jBW44vPv2UVDgO
-	0fT16Cdihy8kxpCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5E9C4779A9;
-	Wed, 10 Jun 2026 14:56:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id J/b/FRN7KWp+AQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 10 Jun 2026 14:56:19 +0000
-Date: Wed, 10 Jun 2026 16:56:19 +0200
-Message-ID: <87wlw64f70.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	notify@kernel.org
-Subject: Re: [PATCH] ALSA: pcm: Fix unlocked state reads in read/write file ops
-In-Reply-To: <20260610-alsa-pcm-read-write-state-helper-v1-1-93b7b992db09@gmail.com>
-References: <20260610-alsa-pcm-read-write-state-helper-v1-1-93b7b992db09@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IYWIndeY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781103770; x=1812639770;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=wdD+yxiW9aVoMld4LMPC1DWLru4HtTsU9EmgfMnk6eg=;
+  b=IYWIndeY6xvcOvSzUD3YJRYWYC8lX4SZ+0P/TXyAB1A5m8V2lk6Ienaz
+   1XrZPVFZJkQZEhRQDVjjYmB6WJs3LyTOkJ/fDXgPvml5G8ObipCP/hm2Q
+   b4hrB31D09MtFizWt7LC9koJi6546dcbRgL1DgZh8/56oylxOVSZ4nmNO
+   Vz7FJRd88Ku9xNe7/jiUrlGEXK+6j7hfCByby9uFlNKXtVh/+ssTGbdSf
+   gnlUOHQWDDhkK6s8VgkZKvfeEsynJueDjeIGA7IVyRYbvec8/pdM7NCnC
+   wq6YE60gwbkmqjWbvBHzDmUizGbGatUBrr+eZBGNmI/qbi+yKg/ZUM5yU
+   Q==;
+X-CSE-ConnectionGUID: KcgU0FGrQx+nl55jRFys7A==
+X-CSE-MsgGUID: IY8JNEakTTaKROC01+vL7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="107334580"
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="107334580"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 08:02:48 -0700
+X-CSE-ConnectionGUID: vFiAK4i9TuuPvjj1ruVuyA==
+X-CSE-MsgGUID: yPzj5/7BTy26oZg8/7CqtA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="251275772"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.38])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 08:02:35 -0700
+Date: Wed, 10 Jun 2026 18:02:32 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Kaitao Cheng <kaitao.cheng@linux.dev>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Huang Rui <ray.huang@amd.com>, Eddie James <eajames@linux.ibm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Waiman Long <longman@redhat.com>, drbd-dev@lists.linbit.com,
+	linux-block@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Kaito Cheng <chengkaitao@kylinos.cn>,
+	Muchun Song <muchun.song@linux.dev>,
+	Philipp Reisner <philipp.reisner@linbit.com>,
+	Lars Ellenberg <lars.ellenberg@linbit.com>,
+	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v2 00/14] list: Prepare entry iterators to cache cursor
+ state
+Message-ID: <ail8iNvPrJnE7p58@ashevche-desk.local>
+References: <20260609061347.93688-1-kaitao.cheng@linux.dev>
+ <bd0b7393-8ccb-4d67-8bfc-18c68347122c@amd.com>
+ <5152089a-2808-4fe9-b633-b03018105dd2@linux.dev>
+ <6b2efdee-95b0-4306-a682-0d0466497ddb@amd.com>
+ <2399841f-d834-4652-8285-4a15c7d9a9b9@linux.dev>
+ <d974a2ea-6102-45ff-bf36-3b25a2404e40@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 913C175985
-X-Spam-Score: -3.51
+In-Reply-To: <d974a2ea-6102-45ff-bf36-3b25a2404e40@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, 10 Jun 2026 13:31:30 +0200,
-C�ssio Gabriel wrote:
-> 
-> The PCM read/write and readv/writev file operations reject streams in
-> OPEN or DISCONNECTED state before accessing the configured runtime
-> parameters. However, each operation reads runtime->state without the
-> PCM stream lock.
-> 
-> PCM state updates are serialized by the stream lock and may occur
-> concurrently from IRQ context. Use a local predicate based on
-> snd_pcm_get_state() to take a locked state snapshot for these VFS entry
-> checks.
-> 
-> This also consolidates the duplicated OPEN and DISCONNECTED tests. The
-> conditions and returned errors remain unchanged.
-> 
-> Signed-off-by: C�ssio Gabriel <cassiogabrielcontato@gmail.com>
+On Wed, Jun 10, 2026 at 11:11:34AM +0200, Christian König wrote:
+> On 6/10/26 10:18, Kaitao Cheng wrote:
+> > 在 2026/6/10 16:07, Christian König 写道:
 
-Applied to for-next branch now.  Thanks.
+...
+
+> > Should we revert to v1, or keep list_for_each_entry() and
+> > list_for_each_entry_safe() as they are, close this thread, and make no
+> > changes?
+> > 
+> > Link to v1:
+> > https://lore.kernel.org/all/20260529082149.76764-1-kaitao.cheng@linux.dev/
+> > 
+> > Or do you have any better suggestions?
+> 
+> v1 looks perfectly reasonable to me.
+
+But why not just hiding that once for all (in case they don't use the temporary
+iterator)? Easy to automate, robust — everyone is happy?
+
+> You should just include some patches in the same patch set to actually use
+> the new macros.
+> 
+> If you modify the files under drivers/dma-buf or drivers/gpu/drm/amd to use
+> the new macro I'm happy to review that.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Takashi
