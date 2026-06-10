@@ -1,127 +1,205 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138D811CBA
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 04:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3C930C629
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 06:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781065079; cv=none; b=fmTOaPoBQ5WYAyzxTzavQWcM+ag9QjLkLCNlVXr5UtTUIND263QUyant+qiDbvHVlNhgMwaLb/WahqZh0Hh8caNAUiv998bepxdYvE1NJ1yq98ebXEvAmVX5AIqyh0AwfFWAkvGEmGuzX4qopWMCm0MPISYqvUT6xIfnIz2v3uM=
+	t=1781072109; cv=none; b=NFX2nrDkVd8gLD+d892sy+fgGNNkn4R83ARpv5dizlHAOi74ig66N3LNUXHTzXq+B1ZcLsxpkuAyeJyDIWJ3R3W/WovQsj5j9//xqoKrDuRsxmP6cxAubbOnVh/nTKxkQerh+KSPLZfBBPyNitaLQTw6kvUoU8fR3MXdSluXzhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781065079; c=relaxed/simple;
-	bh=2k/7sVBsf+036mIuV/evv1onTSm6IZDrTWZzB/8ZS6k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Z33zM0bRvYXVe3vNWDQfKYUb6YQ8byUG5F9pKU8MGUaivWvajWWcKpmTK3hDFg5hPxxMfVUNyeUVxjD969K4R8/DqUMCw6FbK6k+DtxnE0onWt4RMUJsesAyBkLVRogLMLG4RAamD/UDh3gQ+1A0ni+/wuMs3c88MICbw0ptFpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LA+cXjyb; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781072109; c=relaxed/simple;
+	bh=Am80scJm7qZln289j193oDacMGxPd50Xb+X58U16Q+c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mGOJCEPZIZKJV+0pMHLMqI0EZCy4JGJSOL+h6si0Lzma+LABSVFAqdShXmf8wBmx2Oe6Ew1N8j3J4bpalHPSHNr6f7cu0m4kzdspXr5Lnn8KsQrH66p15SINvZ5nNQnvlLZDlIwrXKjNbcJ2QA4bj9V833V5qHMqfLHw4sMAXHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=S/EuK96p; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LA+cXjyb"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-84230ab8857so2820954b3a.1
-        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 21:17:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781065077; x=1781669877; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=48HoSBf/AJje2YmExI6mWMusXIAF8pqpZlQKPjet+g0=;
-        b=LA+cXjybdcXExVg1vLHbLMKYbfQGDCdsE20HBFYNzbSwUhziAAoSFZrSCepmRAtFvV
-         R29qmNdApv39GvNIAVBiSVPvdZyqa9sTfgELtbSXUIdxT9PkerOMQNBtEp89MKTyrVeO
-         lWYmOsChDrGVYlcdssqcITmSUiMQgsL33MY89jtng8Qb+zLVNPCkGzTrewyjwInHbQX1
-         WkQrVkttCGDhnti6L055Ob11vKRn2IBtcBgYPiJubeNutbd86CWofM8Q97TsWXWMUtkC
-         Yj8qoki3Dj4WV9fbi0QiuUBfYeG9Hq5owYosWTulcqqdPB8hOkmr9uSfHRlGG+urV5l/
-         OtRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781065077; x=1781669877;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=48HoSBf/AJje2YmExI6mWMusXIAF8pqpZlQKPjet+g0=;
-        b=hOq29lD9Dto2934zwojA843ziz+/REivXVF+8uRPY3PHX677pdigLLF5zXVJ/j/IUd
-         7c0uIQDfm7ottiRXkUAF/BRiC9g+Uv9Cr18lQG8Ob4uYNtU4uySlkjWvErimj8k01TNA
-         ouaqTsqj+L8zswSoBQwzK6OGhekWOJuQo9IjOrdf41Jlve3ZXGt2ldBKk/kC0wm8+FQ1
-         vaKkvqj3W2B6wVdbzxJtfjh+BrSjhddxV8gWowymSfeo7TV7u25qg9y0CXeR6NUDgRVA
-         lM2Ik2OVFBge+g1CzskGaEh5Ri7MyRvq0tt1M4WcmaUW46L7i2tUVFCktUpDji2gunYN
-         TGCg==
-X-Gm-Message-State: AOJu0YzvJLWSCNpDdpssbUwO65krL9sWfYF1wR/3u3IN6GTtSlT7pOL0
-	g9O/d85GjesAaDHYqgldyBbrCdHbWICHN1UP9lMPk0DYAe2MC/ZOFBcC
-X-Gm-Gg: Acq92OH6OjAH5TURpYiNVpFwE/Zf1LHHwwlDmTDbevBN+pEx0PLNzE0b2ztEqoEg481
-	dggTVIAaFAN3Me0Wua9dqOloyHTnhafP3Sa3h6KkK8OxDs27ZHf+arLWQpsPv9e2stnWMVUohNI
-	UMQ2otfPAYsfRG2BuHFvrcEvmP2qc+oduYnNeqdoUPB292BL6OnsW+EQb807gQM+tqlC0wjxUXf
-	r/7QnCjI77polkAmx3HHUeVPctauhI4A/MlxXsYN1R5RfJFz84KPCBMRNHJ+y7iwNxFdqKQOevG
-	dup6atRffU66mTenMvk5af6DiUpn2eZRP+zEOg1UOyL+M0NHA7Y+DPcawzoeDseiuelHWFVYh1C
-	Vi6RloBCt+9mDNbFN82W2SjaDfTLqfyVUBzDAcudbRQhXzsY3/KqmKFfMZ7bfCXAE3G75diJQHV
-	GdgABSi7w328UC6tA3gC2pafbGyJYBrxckr64TY+htFcsmQY52O7Bxzg9mt3yQ46M=
-X-Received: by 2002:a05:6a00:1bc5:b0:839:9ad:ee31 with SMTP id d2e1a72fcca58-842b0e2436emr25697840b3a.8.1781065077290;
-        Tue, 09 Jun 2026 21:17:57 -0700 (PDT)
-Received: from localhost (211-75-139-220.hinet-ip.hinet.net. [211.75.139.220])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-842829188b9sm23719261b3a.59.2026.06.09.21.17.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 21:17:56 -0700 (PDT)
-Sender: AceLan Kao <acelan@gmail.com>
-From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Shuming Fan <shumingf@realtek.com>,
-	Niranjan H Y <niranjan.hy@ti.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Mac Chiang <mac.chiang@intel.corp-partner.google.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Miaoqian Lin <linmq006@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: sdw_utils: fix missing component_name for cs42l43 part_id 0x2A3B
-Date: Wed, 10 Jun 2026 12:17:53 +0800
-Message-ID: <20260610041753.1151088-1-acelan.kao@canonical.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="S/EuK96p"
+Message-ID: <5152089a-2808-4fe9-b633-b03018105dd2@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781072103;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GCPO9v7e2NaYcPW5zVGvXXPxzu/fCfdM58tRqJXSo9A=;
+	b=S/EuK96pTXAWUBg+8TCiJYM+danZr1codL6zDdrR1CXWZbSAz8OZt88gSb3T73P2+Oj0bR
+	ye5UJbetTGxWmds/F2K/tlbDAkWts/YSgQ0PrY0mv2jpzcQt2r4zQh26U4ohdHNt5eRxKb
+	jqr9Nyh610YgX0sau/FOqrE+b1XuGGI=
+Date: Wed, 10 Jun 2026 14:14:06 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH v2 00/14] list: Prepare entry iterators to cache cursor
+ state
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Thierry Reding <thierry.reding@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Davidlohr Bueso <dave@stgolabs.net>, "Paul E . McKenney"
+ <paulmck@kernel.org>, Josh Triplett <josh@joshtriplett.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Eddie James <eajames@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Laxman Dewangan <ldewangan@nvidia.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Waiman Long <longman@redhat.com>,
+ drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+ linux1394-devel@lists.sourceforge.net, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-spi@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Christian Brauner
+ <brauner@kernel.org>, David Howells <dhowells@redhat.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Kaito Cheng <chengkaitao@kylinos.cn>, Muchun Song <muchun.song@linux.dev>,
+ Philipp Reisner <philipp.reisner@linbit.com>,
+ Lars Ellenberg <lars.ellenberg@linbit.com>,
+ =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ Jens Axboe <axboe@kernel.dk>, Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+References: <20260609061347.93688-1-kaitao.cheng@linux.dev>
+ <bd0b7393-8ccb-4d67-8bfc-18c68347122c@amd.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kaitao Cheng <kaitao.cheng@linux.dev>
+In-Reply-To: <bd0b7393-8ccb-4d67-8bfc-18c68347122c@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-commit 87a3f5c8ac20 ("ASoC: sdw_utils: cs42l43: allow spk component names
-to be combined") moved spk:cs42l43-spk generation from rtd_init() into
-the asoc_sdw_rtd_init() generic path by adding component_name to
-codec_info_list entries. However, only the 0x4243 cs42l43 entry was
-updated; the 0x2A3B entry (vendor_id 0x01fa, Cirrus Logic cs42l43 with
-sidecar bridge) was missed.
+在 2026/6/9 18:33, Christian König 写道:
+> On 6/9/26 08:13, Kaitao Cheng wrote:
+>> From: Kaito Cheng <chengkaitao@kylinos.cn>
+>>
+>> This series prepares for, and then updates, the list_for_each_entry()
+>> family so the common entry iterators cache their next or previous cursor
+>> before the loop body runs.
+> 
+> Why in the world would we want to do that?
+> 
+> The safe and non-safe variants have very distinct use cases and that is completely intentional.
+> 
+> What we could improve maybe is the documentation, from my experience an astonishing large amount of people have misconceptions about the safe variants.
+> 
+>> The first 13 patches open-code loops that intentionally depend on the
+>> old "derive the next entry from the current cursor at the end of the
+>> iteration" behaviour.  These loops append work to the list being walked,
+>> restart traversal after dropping a lock, skip an entry consumed by the
+>> current iteration, or otherwise adjust the cursor in the loop body.
+> 
+> Well I have to clearly reject the changes for subsystems/components I'm maintaining, that just looks horrible to me and I clearly don't see a good reason for that.
 
-Without component_name on the 0x2A3B dp6 DAI, asoc_sdw_rtd_init() never
-accumulates spk_components and never appends 'spk:cs42l43-spk' (or its
-sidecar alias 'spk:cs35l56-bridge') to card->components. The sof-soundwire
-UCM regex ' spk:([a-z0-9]+...)' then fails to match, causing WirePlumber
-to mark all HiFi profiles as unavailable=no and fall back to the Off
-profile — resulting in Dummy Output in GNOME.
+Hi Christian and Andy Shevchenko,
 
-The existing sidecar redirect in asoc_sdw_rtd_init() already handles the
-SOC_SDW_SIDECAR_AMPS case: when component_name is 'cs42l43-spk' and
-sidecar amps are active, it substitutes 'cs35l56-bridge' into
-card->components, which matches the existing cs35l56-bridge.conf UCM file.
+Thanks for taking a look. I would like to clarify the point you raised.
 
-Fixes: 87a3f5c8ac20 ("ASoC: sdw_utils: cs42l43: allow spk component names to be combined")
-Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
----
- sound/soc/sdw_utils/soc_sdw_utils.c | 1 +
- 1 file changed, 1 insertion(+)
+The reason I started looking at this is the original motivation behind
+the _safe() variants.  They exist because some users need to remove, move
+or otherwise consume the current entry while walking the list.  In that
+case the next cursor has to be preserved before the loop body can modify
+the current entry.
 
-diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index 681452bb89f2b..3c3e7c89e976f 100644
---- a/sound/soc/sdw_utils/soc_sdw_utils.c
-+++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -969,6 +969,7 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 			{
- 				.direction = {true, false},
- 				.codec_name = "cs42l43-codec",
-+				.component_name = "cs42l43-spk",
- 				.dai_name = "cs42l43-dp6",
- 				.dai_type = SOC_SDW_DAI_TYPE_AMP,
- 				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+The unfortunate part is that this could not be expressed with the
+existing list_for_each_entry() interface without changing its calling
+convention.  The _safe() variants had to grow an extra argument for the
+temporary cursor, and that is why we ended up with a separate family of
+macros.
+
+But conceptually, the distinction does not have to be exposed as two
+different iterator families forever.  The difference is an implementation
+detail: whether the iterator keeps the next/previous cursor before the
+body runs.  This series makes the common list_for_each_entry() iterators
+do that internally, so the safe and non-safe forms can effectively be
+folded together, or at least the need for a separate public _safe()
+interface becomes much weaker.
+
+There is also a usability issue with the current _safe() interface.  The
+caller is forced to define a temporary cursor outside the macro and pass
+it in, even though almost all users never use that cursor directly.  It is
+just boilerplate required by the macro implementation.  I find that
+redundant and awkward: the temporary cursor is an internal detail of the
+iteration, but every caller has to spell it out.
+
+With the updated list_for_each_entry() implementation, that extra cursor
+can be kept inside the iterator itself.  Callers that only want to walk
+the list, including callers that delete or consume the current entry, no
+longer need to carry an otherwise-unused temporary variable just to make
+the macro work.
+
+>>
+>> The final patch changes include/linux/list.h to keep a private cursor in
+>> the common entry iterators while preserving the public macro interface.
+>> The safe variants remain available when callers need the temporary
+>> cursor explicitly or have stronger mutation requirements.
+>>
+>> Changes in v2 (Muchun Song, Andy Shevchenko):
+>>  - Drop the list_for_each_entry_mutable*() helpers from v1 and make the
+>>    cursor change directly in the existing list_for_each_entry*() helpers.
+>>  - Open-code special list walks that rely on updating the loop cursor in
+>>    the body, preserving their existing traversal semantics.
+>>
+>> Link to v1:
+>> https://lore.kernel.org/all/20260529082149.76764-1-kaitao.cheng@linux.dev/
+>>
+>> Kaitao Cheng (14):
+>>   drbd: Open-code transfer log list walk
+>>   firewire: core: Open-code topology list walk
+>>   drm/bridge: Open-code bridge chain list walks
+>>   drm/i915/gt: Open-code active timeline walk
+>>   drm/i915: Open-code DFS dependency list walk
+>>   drm/ttm: Open-code reservation list walk
+>>   spi: fsi: Open-code message transfer walk
+>>   spi: stm32-ospi: Open-code message transfer walk
+>>   spi: stm32-qspi: Open-code message transfer walk
+>>   spi: tegra210-quad: Open-code message transfer walk
+>>   locking/locktorture: Open-code ww mutex list walk
+>>   locking/ww_mutex: Open-code stress reorder list walk
+>>   ASoC: dapm: Open-code widget invalidation walk
+>>   list: Cache cursors in entry iterators
+>>
+>>  drivers/block/drbd/drbd_debugfs.c      |  4 ++-
+>>  drivers/firewire/core-topology.c       |  4 ++-
+>>  drivers/gpu/drm/drm_bridge.c           |  7 ++--
+>>  drivers/gpu/drm/i915/gt/intel_reset.c  |  4 ++-
+>>  drivers/gpu/drm/i915/i915_scheduler.c  |  4 ++-
+>>  drivers/gpu/drm/ttm/ttm_execbuf_util.c |  4 ++-
+>>  drivers/spi/spi-fsi.c                  |  5 ++-
+>>  drivers/spi/spi-stm32-ospi.c           |  4 ++-
+>>  drivers/spi/spi-stm32-qspi.c           |  5 ++-
+>>  drivers/spi/spi-tegra210-quad.c        |  4 ++-
+>>  include/linux/list.h                   | 46 ++++++++++++++++++++------
+>>  kernel/locking/locktorture.c           |  4 ++-
+>>  kernel/locking/test-ww_mutex.c         |  4 ++-
+>>  sound/soc/soc-dapm.c                   |  4 ++-
+>>  14 files changed, 78 insertions(+), 25 deletions(-)
+>>
+>> --
+>> 2.43.0
+>>
+> 
+
 -- 
-2.53.0
+Thanks
+Kaitao Cheng
 
