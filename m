@@ -1,75 +1,75 @@
-Received: from mail-dy1-f195.google.com (mail-dy1-f195.google.com [74.125.82.195])
+Received: from mail-dl1-f68.google.com (mail-dl1-f68.google.com [74.125.82.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8653F264A9D
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 01:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC391427A
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 01:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781055365; cv=none; b=u+bWg1/KEBmhumGcZRiU+89ItikM/NibCTAkVDu8oqs/L2Ctt+oPm28jtFc+yeybSs88kf+G/qYdYZt/jYJZ1QBRDf9lhG/2j6NC8+pySUQf64i0mYxuA108qRSdW4OKf0m0fTOuM98U72u7Wt6jfAyZFszc5CHlGpLLCyEQfCY=
+	t=1781056579; cv=none; b=dtbTDkH7GBHS1ufXZs7Z7EOVka2wpRNAgEhLlIM70WzeWfM2y1qACKAfnH8qDJFlb1ePlBpGQCk78RiRwFdvyjzGDMw4xTyWxEOIUzd2g1+1tFadh9MaRr/s7h8BY8hC6NTmlOFcTd4zHo+Mpi8FTSPZp+CiXq3qtD3+X9DLLFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781055365; c=relaxed/simple;
-	bh=yIG8jnwjO1ragfb5xNiBZHB1/3Bcd6VQBxhZPtWgsyM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QcR+HVLZ5kx4wrgy267D4R9UK7uzjTJL+eGLSRnpRO4DXSNJ8EbUFH4eFxSBdI271JeMwgOSttRFbJItT+qkPv52PG31mblgA0AGjJxfPPsEYvhD05ChCMPUOkkYmMGVHMORB4FPU+iWevdoG9PVYHKkgVz37nkQJIbcAW3738I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cMFgkbXU; arc=none smtp.client-ip=74.125.82.195
+	s=arc-20240116; t=1781056579; c=relaxed/simple;
+	bh=dqH9cDlBuMXBoZ3HqMA68EZSucgLQFDS0EJW9TLzHpM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aGRZk3w+xLtknm9E6P+3dyfVVpTAf3kJs61fY1T9GraY7SO3rEzb81ooQePpwX3zqEsvxCQkfm0R1G5Ml/KPm55mbZkwLha8pue0QBgRum1qKR2NFqtOi1xsvDJHRioFtEUem5hjQjX5p6beFlSCZjtKz5wvDYU1hF3Z8H94J8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RQYlERpf; arc=none smtp.client-ip=74.125.82.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cMFgkbXU"
-Received: by mail-dy1-f195.google.com with SMTP id 5a478bee46e88-304df7ff4c2so4209841eec.0
-        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 18:36:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RQYlERpf"
+Received: by mail-dl1-f68.google.com with SMTP id a92af1059eb24-137335bc3caso7885161c88.0
+        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 18:56:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781055363; x=1781660163; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781056578; x=1781661378; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MQAAiHMYlO3uSh+R3O+4fd1kAqMjv9d3rR1NkImJiMk=;
-        b=cMFgkbXUZYUOGfw47Lh0YxHyvHYCATwKKUG9TxlpFEvr+N/ggG7KaB0lcR5Lxhi3Ze
-         426WGCqC6TFxdOdnBFGIY1OyeJMmgzUzMibfukJO7Br3ON1nVPuEQBgbl7XJXl/3JMIx
-         j7AJAeKKD/9jiC2abqAtVorZHt994rGlkmGPTNaZm2fh/3Q77g1wuoMlyZjNEDV59tJz
-         gDnqAJq08XPHIFtxq+XbahePtvV/MqTDapKetnbjgvQQ6EooNFmiUglahyGugxHy5FGv
-         6Kj+qXD+zqj2D7nD0aT6kVUZQxeKxuP8pG+016btm+OwSx8XD7hqhIP7BawLwOFSoIxe
-         C5zA==
+        bh=O7CKpOtIEJX6VF9+gm1XQKFtxQTKoIy2N2bjbhGxBG8=;
+        b=RQYlERpf4qksD1ESWcxbYBF3aOEF75gcm9SXY/5DGakC/kPPEROLder8ZISKvDDczB
+         fhO/dEQ4fz7P9lEjisn1wCqBUeiPS5mMjz6qInyyA1K3VH6onnxTPgnmSbbDVPW57ayk
+         g/2R1oz/DVrjRpX+shWB7cW1PtMJV+7cbu11fUu7XBReVaS8924wm8avu0lf6MNI5hBY
+         Dv/L3ACTY/Bg/c4VmMzWH73PXb+WC+oGDQrs3X9yE8JCQhfFa/J50oEPHg6IYW/Gqi7A
+         HrfOnoMwSIDDQcf38fqneUpgsCKPpPdFaHmWcCZojI2HbF2HvDoI8vlETMb6jG49N1zn
+         qpNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781055363; x=1781660163;
+        d=1e100.net; s=20251104; t=1781056578; x=1781661378;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MQAAiHMYlO3uSh+R3O+4fd1kAqMjv9d3rR1NkImJiMk=;
-        b=bTdalmJf3ZOQT0jC0PziRNKojd2Tly5Aprcm0H17dUdpseyeR3zu/1yBjB47su4yvY
-         VriwZJSm39eLpc73JEaDjNSH63EGWMbNaSf0JnJyyGjCu8GOud7WqyhLJc/l8JbleVOK
-         BJDwa16Gi/1Ruv1c02PEi/Bv4nSJD18m5WDg9d93Rn5F4PCgvGvj2a5w0yz84o76O9Wg
-         JANYZxMavY7Y2vOkTXd/c8pHtS8lJ18AvrZrCf0TAsAHXCGHXp1kwjbMeN17TLm554B7
-         IDSskK+fUB+mPOTilRSiXbdvd2euVX/rKmI6nXIk3q0hUS4F8VD8AIyfx7x+EOWa1uvn
-         W2JQ==
-X-Gm-Message-State: AOJu0Yx2gUJG6+BIP+cI676i6wF1TbBV1hx5Us0WCofEF9EQC1ZVUEoW
-	F1T4lOSZwvona6mHfLvI0SafCgzV714lu/Cq4t3x6JvGVUzrjEKMI7NxdqABrfym
-X-Gm-Gg: Acq92OGYQnpxtAO/NvkiLwmLX7u6NpM3QoYQL9YMydEPatrAVrt4q+l+I8tAQ1qaa7j
-	Xa1nF72QnrgGpQP9ZxQkM4j4cVUzbvvtBLpUBhQ8CjQEZJdnwNdlsqolWREPJl4L9pKZDDFAO/M
-	L2NQF8xjOKmOXodqekEALRYK4Y6IA2fky+0SIeDyU2Vtl/C674XHkyvRqMcSayez7idEY7PFUe/
-	nCkn++EOzEe4KrXjcOTgP08YdBsj8Acsip3uU8NP4MbcwY7HY5DhRmcP8VHeSoatA4PKkiQoh6A
-	rRq3KdDDiIOyY7wdbMpX0IGIn8sm7vxGJtAAclmQaiGBK3+rqIkAgtqW/+bwqxZN5VtFzwkfKeZ
-	PDh3Smasp8tgyaHoSBNyOzIdZXuNJoftYBi4suI6rSIUtpt1HYuaBha9pG1ck6njjUVQy8RWbSM
-	KwYfz1CRy+pVNeNJComrTYtkcVzEFncwer2nyJr0mtGfJ9rkqxdZGwxP8+tyI8usIHAC0pAonTW
-	eru+7WM5cl30yDcRRQFekVInbkTf46mMhL0vVzaMoqqLW0t+yIpqY3R2MW9NYCjg/FjagS0W3ly
-	VsT0YJjqE/b4vpBZGZmV9lVcwWzS
-X-Received: by 2002:a05:7300:1355:b0:2ed:a58c:942 with SMTP id 5a478bee46e88-3077fe53f52mr12188355eec.8.1781055363440;
-        Tue, 09 Jun 2026 18:36:03 -0700 (PDT)
+        bh=O7CKpOtIEJX6VF9+gm1XQKFtxQTKoIy2N2bjbhGxBG8=;
+        b=iJ5uqcz+u2k+VA+NSz5UV0QBn9jZhaHfto8vuIinYZWLjLi+oZXddJ4dTx2wNlcUrc
+         61BheX3Je0lzYXsS+LRakzQR+IJ1EfC+ebcT2i9VGGL9PwKcpUfdG40DViAU5Gn9Iw2O
+         83wDDxBH/NdqObG62tErneN2FiPDUfza8dJnWLdMmun5tH3MmSctdT3Bt5oP7N5GP1JM
+         fGiPtcu7fu5ZgrEpgfnc4RlZQ7KhyS/yN8ISyjApq2JYDKCaMfil61D3cNJh+f9BQFC2
+         a98Cgkbidwjrj++v5r/JpCOwrMOHzl33rAvh6XkP1nm0uey98tb6RgIpIJ0VBwkoMDGS
+         irpg==
+X-Gm-Message-State: AOJu0YyqguZoP/pG2O3yylsVAkgYj798SvZ44MWiK0MqgknAgo3vvwdC
+	MDta9zgiqxQ4hVbsfG4VdZ7XVm19HfLz9L1BG/pDLT0paojxsi0ZihsCJi1/WUiS
+X-Gm-Gg: Acq92OHeybz3eXiEJTknH/gK5HcuuRfofzmOdRP89MxlghQBZQpqu4yv/Y0wqYCcsIy
+	8XMy5aQF7H3x1TCYMQ3/lzIT4JRr9jCvZVv8f4IsWcF6NaQdmWMWn4SVpmZ4C1qAKKKdtfa3sXw
+	alxxglkHeoQLdPLbDbw4MdB4KJuOLxko9YLjL57+PZGDeRWfLSCWnZJbQ993bgIt23JrX1c293x
+	Z81dIOKcwq60ExBSDAXw66afx/k0X2V+nh31SrG8Rc4PNeOpKjSwO5ifPLd3/rghhHFktQ71XHy
+	rOod4SMndnamgxq7OsmEI7S6UR0M6BgrguqBuRA1tDYoX3vFnDl1FNl/NtXwvqchMKPBT0DwceA
+	L3kyOm93uNFueWbICNst8ZrVVqG8RLtL6Zbf0MEka/mNslERR9RTMWqA08JDYTUOSTUHPbEsIq/
+	sI4ODDpnjSsgBxkdlWYiGGtLBPCB8vnOvvvDhmowTfYPxSQVrCkmAs7s3IV0gDq6xjZIi43EIUu
+	GYpRfa4szRi91SZaxMkIwZiEwMDcyjfVrSx3a2/dUknVnTP/OZdNyID0sUJtS+L9vo4r5XYQaFv
+	cko2Duin15YfkPE6ciDKg6nxVXUm
+X-Received: by 2002:a05:7022:e997:b0:138:3742:fe5d with SMTP id a92af1059eb24-1383742ff6fmr1158962c88.18.1781056577445;
+        Tue, 09 Jun 2026 18:56:17 -0700 (PDT)
 Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074df48671sm24103902eec.24.2026.06.09.18.36.02
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137f53f06c4sm16508829c88.0.2026.06.09.18.56.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 18:36:02 -0700 (PDT)
+        Tue, 09 Jun 2026 18:56:16 -0700 (PDT)
 From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-To: linux-sound@vger.kernel.org
+To: linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org
 Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH] ASoC: tas2783A: remove unused tas25xx_(de)register_misc() functions
-Date: Tue,  9 Jun 2026 18:35:34 -0700
-Message-ID: <20260610013534.30762-1-enelsonmoore@gmail.com>
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Rhys Tumelty <rhys@tumelty.co.uk>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] ALSA: docs: remove references to removed CONFIG_SND_HDA_POWER_SAVE
+Date: Tue,  9 Jun 2026 18:56:09 -0700
+Message-ID: <20260610015614.41530-1-enelsonmoore@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -79,58 +79,49 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The tas2783 driver defines two functions tas25xx_register_misc and
-tas25xx_deregister_misc which have stub implementations. It uses
-external implementations if CONFIG_SND_SOC_TAS2783_UTIL is enabled, but
-that symbol has never been present in the kernel. Therefore, these
-functions are entirely unused. Remove them.
+The CONFIG_SND_HDA_POWER_SAVE option was removed in commit 83012a7ccbb9
+("ALSA: hda - Clean up CONFIG_SND_HDA_POWER_SAVE"), but references to
+it remained in documentation. Remove them.
 
 Discovered while searching for CONFIG_* symbols referenced in code but
 not defined in any Kconfig file.
 
 Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 ---
- sound/soc/codecs/tas2783-sdw.c | 2 --
- sound/soc/codecs/tas2783.h     | 8 --------
- 2 files changed, 10 deletions(-)
+ Documentation/sound/designs/powersave.rst | 5 +++--
+ Documentation/sound/hd-audio/notes.rst    | 3 ---
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-index 90008d2d06e2..1aadb3a4c3a6 100644
---- a/sound/soc/codecs/tas2783-sdw.c
-+++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -1011,7 +1011,6 @@ static s32 tas_component_probe(struct snd_soc_component *component)
- 		snd_soc_component_get_drvdata(component);
+diff --git a/Documentation/sound/designs/powersave.rst b/Documentation/sound/designs/powersave.rst
+index ca7d1e838b4d..4b9d6d0b0d98 100644
+--- a/Documentation/sound/designs/powersave.rst
++++ b/Documentation/sound/designs/powersave.rst
+@@ -3,8 +3,9 @@ Notes on Power-Saving Mode
+ ==========================
  
- 	tas_dev->component = component;
--	tas25xx_register_misc(tas_dev->sdw_peripheral);
+ AC97 and HD-audio drivers have the automatic power-saving mode.
+-This feature is enabled via Kconfig ``CONFIG_SND_AC97_POWER_SAVE``
+-and ``CONFIG_SND_HDA_POWER_SAVE`` options, respectively.
++For HD-audio devices, this feature is enabled if ``CONFIG_PM`` is
++enabled. For AC97 devices, it is enabled via the Kconfig
++``CONFIG_SND_AC97_POWER_SAVE`` option.
  
- 	return 0;
- }
-@@ -1020,7 +1019,6 @@ static void tas_component_remove(struct snd_soc_component *codec)
- {
- 	struct tas2783_prv *tas_dev =
- 			snd_soc_component_get_drvdata(codec);
--	tas25xx_deregister_misc();
- 	tas_dev->component = NULL;
- }
+ With the automatic power-saving, the driver turns off the codec power
+ appropriately when no operation is required.  When no applications use
+diff --git a/Documentation/sound/hd-audio/notes.rst b/Documentation/sound/hd-audio/notes.rst
+index 6993bfa159b4..1412a8eabfa8 100644
+--- a/Documentation/sound/hd-audio/notes.rst
++++ b/Documentation/sound/hd-audio/notes.rst
+@@ -341,9 +341,6 @@ hwdep option above.  When enabled, you'll have some sysfs files under
+ the corresponding hwdep directory.  See "HD-audio reconfiguration"
+ section below.
  
-diff --git a/sound/soc/codecs/tas2783.h b/sound/soc/codecs/tas2783.h
-index bf34319c9a9f..d5996c73526c 100644
---- a/sound/soc/codecs/tas2783.h
-+++ b/sound/soc/codecs/tas2783.h
-@@ -100,12 +100,4 @@
- #define TAS2783_CALIB_DATA_SZ	((TAS2783_CALIB_HDR_SZ) + TAS2783_CALIB_CRC_SZ + \
- 				((TAS2783_CALIB_PARAMS) * 4 * (TAS2783_CALIB_MAX_SPK_COUNT)))
- 
--#if IS_ENABLED(CONFIG_SND_SOC_TAS2783_UTIL)
--int32_t tas25xx_register_misc(struct sdw_slave *peripheral);
--int32_t tas25xx_deregister_misc(void);
--#else
--static void tas25xx_register_misc(struct sdw_slave *peripheral) {}
--static void tas25xx_deregister_misc(void) {}
--#endif
+-``CONFIG_SND_HDA_POWER_SAVE`` option enables the power-saving feature.
+-See "Power-saving" section below.
 -
- #endif /*__TAS2783_H__ */
+ 
+ Codec Proc-File
+ ---------------
 -- 
 2.43.0
 
