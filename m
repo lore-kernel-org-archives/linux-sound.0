@@ -1,179 +1,158 @@
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA86E3A6B67
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 08:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781079587; cv=none; b=rp8PYX8JYhTUfxU7CRkcNXBOfpDHSouKYsR/E/pteeo0O3mpIQkRy1f6d8cNzA966KcVnpxIGMUt0FzIFgR/1mtWV1+nPWCmlKYAX1HO8PnkY3lh33VvEsB8/T08H3E2KY5jiC97bAiJBCoNvDbLoAuUcliHKRi1IP1IPJ1vbR0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781079587; c=relaxed/simple;
-	bh=Jyc91vyJ7ndQgFlz+YZrGZa32ZyUmsV/OWq4Besj+oQ=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309C03AE19F;
+	Wed, 10 Jun 2026 08:38:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781080709; cv=fail; b=oDWdOGUpDbUYkaTguneFashzWVA/KAZaACuPzAwlp3EOl1KBe3Puy0RAsN3rQrYP9sDhIzw8pUInIBQXIEXtQ19SS9GluZC8ixUWXvwb0yQAoRhKhUrLd1I2HmHePImjjSI1M98Ulwkea50pE11U8lzmOhH+KfoUaR6eO++584Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781080709; c=relaxed/simple;
+	bh=Qc1QO4+ZV0CuTDvciZBImQd5lXCURgwqpuauxkDD7EM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qNJKPLOFqhqNwdbPOqbORzB/EXM1GDM96NJLDaYLsjU6RCj4fxZ2RRYvkGKtFikQpz7pFDHJDqtU7eyz+DwWJOM7rTC5HxDAq/j92KucNLNnDpbx3OY9sRLkVwQpL2lPnh00Dz3mzUxwVyPEC1VatGsm6JEHUpZMEqrJZSjO4I8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=b+KKxMDO; arc=none smtp.client-ip=95.215.58.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=eJzXOd6SoFbC4dO5P3ZJpi8EQSlBAEWWa0LnDl+axIuEzKLvPk7/sCtgsxesODMH+9lHL8+ZmqQxZ89heP+Yuca7WG06sLmo4Wvr7/T4pyEa5vUdqE+VnjI49nQfx+zuxJ712Nxln0Wi+gCwxd0MYEVTgN7rBgfkTATXgTwBIws=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=LNakMrl9; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=I+Vtdypk; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="b+KKxMDO"
-Message-ID: <2399841f-d834-4652-8285-4a15c7d9a9b9@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781079581;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vgeT73qC1JMBtqJB2TUIr+4bit/wHx6kJFn5Pav/2f4=;
-	b=b+KKxMDOPPD9issjhumw6+KGbYM7wMtezvy5jEnscI0CZYz2NKMOHn33g1ku+yIj4Y2DTn
-	+Yag6Z6BDFL2Y2GchMx0dVC5s3t6GNYZv4TV2TeNkysaubM7HMus5UBFldLUBxBN8KRyYZ
-	t05b5xvQnStTsnzUuvWsLluFbGiay9I=
-Date: Wed, 10 Jun 2026 16:18:28 +0800
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="LNakMrl9";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="I+Vtdypk"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65A4dhA6347391;
+	Wed, 10 Jun 2026 03:38:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=iU3WkoO0HiJeofpSxbJVWA5jHOLS8p5nAXhlG5cs6/Y=; b=
+	LNakMrl9Y2918obqnrB82VaDrMrrZ8FONOAFavG73unLVHcrvA/wxUJlcf9X4KIu
+	/5bm3jrer/4ffX3FeN2qt8EL4K8UzOK12FasXt8c2pJHAcvHwCZewFM7wiXulQy5
+	e7rJY2QoNMBgISSCWWo/al4Zt2YFJh1PtzXL1xxHfpVKAEx9/hVk65zfwlkGE2oq
+	JdzmUxXIwDBkT9qikHa633gfpkxxzeCMwXcRbEQUUxtg6K/5KDjzhouFM5Sw01X+
+	GOR/YExww4apBX/D5Mqw9YEvLsJDwwcVAfpGVNorz1M61r9VtFV+xeeCLaqDchpN
+	W1oVeIdtUl80gpijhFVObA==
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11023102.outbound.protection.outlook.com [40.107.201.102])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4emgy0ds3a-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 10 Jun 2026 03:38:25 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=t9S5aqVarnpPyaqq42qJjGyezcW3IvIK94y/mVwrTq2sPdb/hoJ3T2fQtlLmZFeAoQaH83bddK+fQxkFTaYnBjHKWB02iNpB5fYCaKc8JgMmRJ11oGrPiPpZpXFpJcbt4k+2lL8w9cd9ViwUtS6EFo4bQW5jDWXIP1tmJFF1KMVuIGvTDC/T80TGEBbh7y4E1y/4h1TgTQyw7Xvu4EDwv1dufY+eGLD4OAhTz92VYTMjQa3ivBN4oxU56Szf6WeQKpXFzqQqbGxM8LNrshD/ev/JDkCVfuXqreT1xtL68EWM0ePKPFsESr/97N+9zpQdb6IyYhR3cqLOLDhKxReK2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iU3WkoO0HiJeofpSxbJVWA5jHOLS8p5nAXhlG5cs6/Y=;
+ b=PFis4qi4JPBETwYuFVAevScbDptuzbMRVkyDOSqF+WeVfwGLoq64x+IuwCwguE3YL32jNw4hWZ6StMh1MfbWSfkJNFJHt/AH21FQHUVyais+QSorb8K/Azb4oSswZRW7zhgdxdCODu4zTtWEbXcPK3fuc/oKDQO7IO7sEqOevULAOkg5482O5LKt4N6fi3WSRCR0/brLFPT052hTc7XtR07jGIopY0tf2TrrY3OC+GKHXuSOcW4L5uOVazLgnBZp9DJF2ueD4YzQ++Q2fXHBpzi/9u4h7/8uwrsB0kehIYjldWdmehlcWZgaz2vRtH4VOxa2sJbWn0OmonYbaFav6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iU3WkoO0HiJeofpSxbJVWA5jHOLS8p5nAXhlG5cs6/Y=;
+ b=I+Vtdypk7dwmVbDj7Y2rlT3S8NtcdTS+rs1risUR+XLZERv8RWcLHXKXZoAbIztxU6DYCsn0NDA7Ah5sZ8JjmsS5PCswsOH4fR02TKw+pQDJFQkNylpHUXHn49iUPdEkxv8OcFm9vX5oWUlXpuH0belLNWtvVbG8qWKF8knQqrU=
+Received: from BN9P220CA0018.NAMP220.PROD.OUTLOOK.COM (2603:10b6:408:13e::23)
+ by CO6PR19MB4739.namprd19.prod.outlook.com (2603:10b6:5:347::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.9; Wed, 10 Jun 2026
+ 08:38:19 +0000
+Received: from BN3PEPF0000B374.namprd21.prod.outlook.com
+ (2603:10b6:408:13e:cafe::28) by BN9P220CA0018.outlook.office365.com
+ (2603:10b6:408:13e::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.13 via Frontend Transport; Wed, 10
+ Jun 2026 08:38:19 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ BN3PEPF0000B374.mail.protection.outlook.com (10.167.243.171) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.1
+ via Frontend Transport; Wed, 10 Jun 2026 08:38:18 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id D5E1C406544;
+	Wed, 10 Jun 2026 08:38:17 +0000 (UTC)
+Received: from [198.90.208.13] (ediswws06.ad.cirrus.com [198.90.208.13])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id C581D82024A;
+	Wed, 10 Jun 2026 08:38:17 +0000 (UTC)
+Message-ID: <50e6b2b8-0945-425b-bdeb-de6ffa1940ad@opensource.cirrus.com>
+Date: Wed, 10 Jun 2026 09:38:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 00/14] list: Prepare entry iterators to cache cursor
- state
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Thierry Reding <thierry.reding@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Davidlohr Bueso <dave@stgolabs.net>, "Paul E . McKenney"
- <paulmck@kernel.org>, Josh Triplett <josh@joshtriplett.org>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Eddie James <eajames@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Laxman Dewangan <ldewangan@nvidia.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Waiman Long <longman@redhat.com>,
- drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
- linux1394-devel@lists.sourceforge.net, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-spi@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Christian Brauner
- <brauner@kernel.org>, David Howells <dhowells@redhat.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Kaito Cheng <chengkaitao@kylinos.cn>, Muchun Song <muchun.song@linux.dev>,
- Philipp Reisner <philipp.reisner@linbit.com>,
- Lars Ellenberg <lars.ellenberg@linbit.com>,
- =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Jens Axboe <axboe@kernel.dk>, Takashi Sakamoto <o-takashi@sakamocchi.jp>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-References: <20260609061347.93688-1-kaitao.cheng@linux.dev>
- <bd0b7393-8ccb-4d67-8bfc-18c68347122c@amd.com>
- <5152089a-2808-4fe9-b633-b03018105dd2@linux.dev>
- <6b2efdee-95b0-4306-a682-0d0466497ddb@amd.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kaitao Cheng <kaitao.cheng@linux.dev>
-In-Reply-To: <6b2efdee-95b0-4306-a682-0d0466497ddb@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] ASoC: cs35l56: Fix some cleanup memory leaks
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com
+References: <20260609120738.284770-1-rf@opensource.cirrus.com>
+ <f8866e44-b1a5-4bd5-afbe-5e7615794850@opensource.cirrus.com>
+ <aihNbERb1gjlWrtB@sirena.co.uk>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <aihNbERb1gjlWrtB@sirena.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B374:EE_|CO6PR19MB4739:EE_
+X-MS-Office365-Filtering-Correlation-Id: c6957c26-3d7c-4e92-681e-08dec6cb9f7e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|82310400026|61400799027|376014|36860700016|22082099003|18002099003|16102099003|56012099006|4143699003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	TU85PoPh0BHKLV0aQnBN/uVi+cFKOw19MMv+H+B9NvoGdfZSBtLwLYTZozUbShz1mA3x4Me+NZqZPjZ0yLgML9O31Bfl7dX1bxG98HL9ICYXmqYzToXkSTNtabfsxNjBbWxhMEfjd9QydgIbKoQHscjl7juXbnGmOAc5dvmZ8lrx03p6GMZbcZeLsUn/9tRXL7y5PDiS74qGZBiYG27/2bYgV9DFxkJZV3y5Zn9mad8ixmr7rNf+bDb09Jx7FE0d9OG2u0psZtlHGqs9Y4uuQLzwDpO1b+CGjUsV7VX4013Tkn4ceMgJKJGq5I+ZuA0lKytM9QJkkeMrr0U/HVfRYrG+cbLMOx8xnOvS5l4SFWEtG7uN9EccNry1Ww+MRU2X8g0gXjifkMn4fhfLGJwN0hdcRrzpj9G9awYFPHyhn+Ku12hUEgOgsosbjFvLDs+W7fuP5llwdZOtx7FMxiz0PSpqGlQhehpWTXBnqiu2rFl8MDgmsb5NXpXxOPJ1rwUkhshhsyVdvuXq+KaxBmFtO6msdM13AIpXPN64fupBZl+zgbBfQmEdw9uMUBSwvowvPrnFKylE33TVyUJOBoW0aQeFULA+gdLs8jEPmu5dqliJF1TgC1lB7OIwgcbjSu2Li7sdTDGU+1lX3OB6dLCkQy33XAfHcMerJIjCxhuF3kVm6wd77A5PZUpqxowIPKZv5o5SCZ3ORGJ2dqmKqHjVEOLNR5BIJ8MFHLRe94l6PR8=
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(82310400026)(61400799027)(376014)(36860700016)(22082099003)(18002099003)(16102099003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	kqNpoPd4BhyCmNnbhUmBzM3F9fuXtpJKb4e7m7PWhrPHEgNByq6D4dj7oNF47Exq45DwhtvUYoR9BPjR03RVW7z4JM9RS24kEE9YJ8mvTfFMQzBA8pd6Oa/6QRM7nCKXMWuUyWBe9qr4dKUXeeaj2k6G/qBMceexVrbfv9gzdtH5qdGTb4hN4be0ia+BL9dj7c8dICGgJuNkHWLY27S7imay6R1V+HavkaWVBdzJc/GlSOQ0n9wVgtaAiSu/F4W3zfrQ66MTok6XspB1LDtAYbmedLWgFrbowl8jo8a81f3OezUmPNh71tBXrb1SMpVuj4v0i11t8j/z2H/bCvaS4d0EGdol0JAH3MKNNOr4wA7dsvErcw2a+rZUL7qILx03RNLO7fV7Nd5LqvboE+COXPJz0leg2yoLmTKu7c7xBpsRMygiVe3xsVmwZe1pumFh
+X-Exchange-RoutingPolicyChecked:
+	sI+4W9VBmxsmvXXbcaQ5ZZ3paNayCWH+A/ddSl+kyc2wEbL7Pjr1wYTO0o7OZiJJKkHcO1oJAxVZhMV4EM8fUTsvA3ul8tefrA6ept9JAfhIR0Hr1X+MaP7mBmGTvGJ7lSPKkyrpxpYCsP61y+gxRNllFGtwQsBff1lrRJWqC1JfGUa28JISB9R6lBvxjKgSZOBpOwFfbjmSqJuXyIlUyhKyteIHRTvfmkYU7/5jbM1y50suJ2H/FMUl4WI4Jam8tf37keIlWcPwZeD54QjrFV8e25Cqap7GYn5Ghxeb5rSM8AhHFeyLnitHZIpXynOI+8W6DVwuJ3o6GnMTlD3LkQ==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2026 08:38:18.7587
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6957c26-3d7c-4e92-681e-08dec6cb9f7e
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN3PEPF0000B374.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR19MB4739
+X-Authority-Analysis: v=2.4 cv=GP441ONK c=1 sm=1 tr=0 ts=6a292281 cx=c_pps
+ a=7YB+2G0If1l7sHkNSTuqNQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=1wlGEa3lTHIFCMDRBH0A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjEwMDA4MSBTYWx0ZWRfXwvXcySQSg14M
+ jtNff9ujEuhi5YYQz4DZ1CQ9TOIxsoxeIoJOKuJ5bq7yghCDLtBL9uY5KTJ9Pa+dBrnRWlaaAaK
+ LVI3qrepbSmBRDm96YK8pDPRqggu/nqJLNZUejQ+NGDh6WAWWlNgkYklqUDaPgYoTzydOQGOys4
+ 9qJ8eg8uFRgXEZn0dkhy3nqRPVj5gpdJ92i6GYarC1dVVhMi5TmTbPjTNjwTNNw8MTweyaK0IUw
+ k60QQhsihNugtu1wKEMSjor4DHRg5tPOyxV7qq6p7+BeW0C407lODATHH68rTj3y5dPYbpyeMjU
+ yH3VCsKvkqSks2spK9f+JUPD6mNXrk4lbSXc5PIaGO0M3OLiz7JUKQ7nyED7SfD2cVt8g72FWy7
+ /aRfTm60+mvwff0dVK3Xbhjs5kHW0lVa0EH6Q4oAWu/mKp+hJRhM7ORqhyVxsPj5Krqi2Oz0Zg8
+ 39lvr0kJSP7SEdXAZvg==
+X-Proofpoint-ORIG-GUID: IOn_SsXa1cRqNe_3vaY7r4klt5-36xhJ
+X-Proofpoint-GUID: IOn_SsXa1cRqNe_3vaY7r4klt5-36xhJ
+X-Proofpoint-Spam-Reason: safe
 
-
-
-在 2026/6/10 16:07, Christian König 写道:
-> On 6/10/26 08:14, Kaitao Cheng wrote:
->> 在 2026/6/9 18:33, Christian König 写道:
->>> On 6/9/26 08:13, Kaitao Cheng wrote:
->>>> From: Kaito Cheng <chengkaitao@kylinos.cn>
->>>>
->>>> This series prepares for, and then updates, the list_for_each_entry()
->>>> family so the common entry iterators cache their next or previous cursor
->>>> before the loop body runs.
->>>
->>> Why in the world would we want to do that?
->>>
->>> The safe and non-safe variants have very distinct use cases and that is completely intentional.
->>>
->>> What we could improve maybe is the documentation, from my experience an astonishing large amount of people have misconceptions about the safe variants.
->>>
->>>> The first 13 patches open-code loops that intentionally depend on the
->>>> old "derive the next entry from the current cursor at the end of the
->>>> iteration" behaviour.  These loops append work to the list being walked,
->>>> restart traversal after dropping a lock, skip an entry consumed by the
->>>> current iteration, or otherwise adjust the cursor in the loop body.
->>>
->>> Well I have to clearly reject the changes for subsystems/components I'm maintaining, that just looks horrible to me and I clearly don't see a good reason for that.
->>
->> Hi Christian and Andy Shevchenko,
->>
->> Thanks for taking a look. I would like to clarify the point you raised.
->>
->> The reason I started looking at this is the original motivation behind
->> the _safe() variants.  They exist because some users need to remove, move
->> or otherwise consume the current entry while walking the list.  In that
->> case the next cursor has to be preserved before the loop body can modify
->> the current entry.
->>
->> The unfortunate part is that this could not be expressed with the
->> existing list_for_each_entry() interface without changing its calling
->> convention.  The _safe() variants had to grow an extra argument for the
->> temporary cursor, and that is why we ended up with a separate family of
->> macros.
->>
->> But conceptually, the distinction does not have to be exposed as two
->> different iterator families forever.  The difference is an implementation
->> detail: whether the iterator keeps the next/previous cursor before the
->> body runs.  This series makes the common list_for_each_entry() iterators
->> do that internally, so the safe and non-safe forms can effectively be
->> folded together, or at least the need for a separate public _safe()
->> interface becomes much weaker.
->>
->> There is also a usability issue with the current _safe() interface.  The
->> caller is forced to define a temporary cursor outside the macro and pass
->> it in, even though almost all users never use that cursor directly.  It is
->> just boilerplate required by the macro implementation.  I find that
->> redundant and awkward: the temporary cursor is an internal detail of the
->> iteration, but every caller has to spell it out.
->>
->> With the updated list_for_each_entry() implementation, that extra cursor
->> can be kept inside the iterator itself.  Callers that only want to walk
->> the list, including callers that delete or consume the current entry, no
->> longer need to carry an otherwise-unused temporary variable just to make
->> the macro work.
+On 09/06/2026 6:29 pm, Mark Brown wrote:
+> On Tue, Jun 09, 2026 at 02:02:51PM +0100, Richard Fitzgerald wrote:
 > 
-> Well the distinction between list_for_each_entry() and list_for_each_entry_safe() is *not* there because you need an extra variable to hold the next pointer, but because just 'iterating the list' and 'iterating the list while you modify it' are two distinct use cases.
+>> Sashiko doesn't like these, so ignore them and I'll look at its
+>> complaints and do a V2.
 > 
-> Apart from the technical implications this also has some documentation value for the code using it.
-> 
-> What we could consider with C99 at hand is to have _safe() variants who uses a local hidden variable to hold the next element.
-> 
-> Or maybe come up with a better name instead of _safe() because people seem to misunderstand that quite often.
-> 
-> But mangling the two use cases together just because it is now technical possible is among the worst ideas I've ever heard.
-> 
+> FWIW it's not gospel, and in particular if it's a preexisting issue
+> while it's obviously good to fix them I'm not going to block something
+> for it unless there's some really special reason.
 
-Should we revert to v1, or keep list_for_each_entry() and
-list_for_each_entry_safe() as they are, close this thread, and make no
-changes?
-
-Link to v1:
-https://lore.kernel.org/all/20260529082149.76764-1-kaitao.cheng@linux.dev/
-
-Or do you have any better suggestions?
-
--- 
-Thanks
-Kaitao Cheng
+I know, and it depends which AI engine Sashiko chooses. But I like to
+take the time to be sure there isn't something real hiding in apparently
+bogus reports.
 
