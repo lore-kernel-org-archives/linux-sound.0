@@ -1,68 +1,88 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32A23DDDBD;
-	Wed, 10 Jun 2026 15:45:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71AE426D2E
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 15:45:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781106351; cv=none; b=IrzTCgHNkhkaXEfrRUERZob2uRB3a4I5IlOAuujU2gsiATCcNVvvelMY3Chx/hztsdNWkBKml+v5GvXSHuIcUNdDA0JCDdgcvyrNSMJOOIp1aInZZeFSI88o00ebgLhcLXEysZ+MHkTR8TMzY7lC929wbquxXbO20Xa+DaEU+Ug=
+	t=1781106351; cv=none; b=ckL8rtzjRqiFxUu55XN8JyCUw8GmcmbptalFv+vP6EV2Ua6hCLgDDmZwfC8NTVtLuf2wHMKMCRtunKhfXgfmDNHG9TXi6oS8qltAv72grt6MKTniT/djL4W8E31/oCoZIW9PXTINhT/nCvGrW2CXVqCXLLEZLT9Xm6B3CUI7UHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781106351; c=relaxed/simple;
-	bh=8HqqgLPkWeQVtmg+MS/rk8VfhqmZy8QFS944gT3C6rI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=NQK29+YifJSQs/E7mhC0HD9RmVb+NSw1jF7GuZRPT+tPU18nxGHl+sgz4A61uwUXs5uNRvh1lebHjkrI75nWUJFn8sKOhsBmJlgpa6RccdxBTbECOEJJba260zwF+cWPbvnx23ZCjpPpgqfmxwKmVUFzacQlNahJi6DtbbKkAiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pk1VB5/h; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	bh=9hq4dxhCz+vTgv6bb0YYNZ5Y9A0DNSGCm9xuo9b1Nno=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Nt2WRNzr78L16Mrw8MpmLNGr4QBCfHiSOQ1U66f/OLfUz/Ev+WUCdxc80wiJqf0HWOIVoDNxDpsu8dOSh2VFLngn5SPhXJijWk+pe4IRmdeXvsbdtgJRyI3RLSTlEm4bXeeWRVQ3YEaUFgla3PaYY0t3gINbEcG9gsiyDSGWk/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pDSRg3l2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wB2LoRs3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pDSRg3l2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wB2LoRs3; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pk1VB5/h"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65ACBeo71137390;
-	Wed, 10 Jun 2026 15:45:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=+NN/ou4LRYf
-	enaqjVMkcC/pmtmn5RBW0prMObg/VLrQ=; b=pk1VB5/hwP6lysjGzmucAqdWGaH
-	L2kP4mEzRtkxF5x0L28POBzKsBYoULg2AmEQRwTcGhWBPS2T2tQTKJqJPKTVi604
-	toMl4bG7/P+/z+3KN/gz/sTT/CbisXVV8w06yOeJyCh5vEIRuBd/v/j/AF61052x
-	qUzpm0CkG87EwIIeMBESrfDrQ/dVE/g0iX0EXXs+pvAuAR7EoPKnmqNNq8QDXE1N
-	5wVh0eGR9djIFSKK8xH7J9SawvL8Zv1Yfm/l1pKCoU9NvJHt1JiaeEI9fqshDn4I
-	4h/4BLFsWeuKFGBGK9ePiB/QTEYkZve7OG5vBRcBQsnDkUCyQz+HI7X24VA==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4epwnh3cq7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Jun 2026 15:45:36 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 65AFjWVh003511;
-	Wed, 10 Jun 2026 15:45:32 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4emcmk7fwv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Jun 2026 15:45:32 +0000 (GMT)
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 65AFjWdB003482;
-	Wed, 10 Jun 2026 15:45:32 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 65AFjWbL003479
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Jun 2026 15:45:32 +0000 (GMT)
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
-	id 755DA637; Wed, 10 Jun 2026 21:15:31 +0530 (+0530)
-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Srinivas Kandagatla <srini@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Subject: [PATCH v1 3/6] dt-bindings: sound: qcom,q6dsp-lpass-ports: add Audio IF clocks
-Date: Wed, 10 Jun 2026 21:15:14 +0530
-Message-Id: <20260610154517.134570-4-prasad.kumpatla@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260610154517.134570-1-prasad.kumpatla@oss.qualcomm.com>
-References: <20260610154517.134570-1-prasad.kumpatla@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pDSRg3l2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wB2LoRs3";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pDSRg3l2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wB2LoRs3"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A92C06AF4B;
+	Wed, 10 Jun 2026 15:45:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781106342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fGwBp1fBxssZ/XBVgq3vmxXGo+wSy+sotojtAiu8E1w=;
+	b=pDSRg3l2Imrnuw2G9r61ik4/Qv3KgO2CWdm8nM47WhlGjBiJHjzjGglBBq2bujaIjYXvRd
+	UvrPR5Ep8PvjQpDWMdrBG1f9pHCQVA93aY7TVN4MVLEV90IVPASI/4xhkeisIrNoIPrYSH
+	YVvfgZ8uwDkVcmkAF4WE0GzgO7xlOgA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781106342;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fGwBp1fBxssZ/XBVgq3vmxXGo+wSy+sotojtAiu8E1w=;
+	b=wB2LoRs3pqVA67tM6SMI2LDBH04lDx+V9xc9jYxnqZQcqqiSNZoAgvKE/fgBBhmJ0pk0ou
+	dtBlG/zLPjO0dNAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pDSRg3l2;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=wB2LoRs3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781106342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fGwBp1fBxssZ/XBVgq3vmxXGo+wSy+sotojtAiu8E1w=;
+	b=pDSRg3l2Imrnuw2G9r61ik4/Qv3KgO2CWdm8nM47WhlGjBiJHjzjGglBBq2bujaIjYXvRd
+	UvrPR5Ep8PvjQpDWMdrBG1f9pHCQVA93aY7TVN4MVLEV90IVPASI/4xhkeisIrNoIPrYSH
+	YVvfgZ8uwDkVcmkAF4WE0GzgO7xlOgA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781106342;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fGwBp1fBxssZ/XBVgq3vmxXGo+wSy+sotojtAiu8E1w=;
+	b=wB2LoRs3pqVA67tM6SMI2LDBH04lDx+V9xc9jYxnqZQcqqiSNZoAgvKE/fgBBhmJ0pk0ou
+	dtBlG/zLPjO0dNAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 897FA779A7;
+	Wed, 10 Jun 2026 15:45:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OFVNIKaGKWo5MwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 10 Jun 2026 15:45:42 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org,
+	linux-kernel@vber.kernel.org
+Subject: [PATCH 4/5] ALSA: aloop: Use the new helper for stop-count refcount
+Date: Wed, 10 Jun 2026 17:45:34 +0200
+Message-ID: <20260610154538.51076-5-tiwai@suse.de>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260610154538.51076-1-tiwai@suse.de>
+References: <20260610154538.51076-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,110 +90,100 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjEwMDE0OSBTYWx0ZWRfX3ohKW6b+b4l2
- aHc+AFkDfxpo3fb5PaAnvLfEFfPK3ZcE7qlaa/qq95rMTEZR8xc0FYHjB9gpTicBq5WNcH3bdpc
- ynENwlNwrNZQKYAe2xR47qZ8Ak2phSlhdE5L+ze4nzS+h0xgS/fIpTouJhKytUwHjUoN0+hirri
- c52JJun3KMwL4cm+UaBVbQVB6Ync3HzwjhQ6MCOJ+0bZQMQLrfRRkkcbh6CapBl6eSlH7g8AJmq
- CdSaLms9qG1dAfvqPCCPrqsHGDRSPvZ37BrwtLtVu41wARs+L9qJxf3Vh+qo8yZ6YHUzW8H7C3f
- gUUWn2b6FFAagWu7i7LV0lVzYiWyCgd8xpd13zTRH+9rxJdPG/yEOvyPj8T9EsSGiNhGAyW6qKP
- ui0EoOzDP4e0brhU1wzcFb9RN4mtPeHxtRzR+nuNd7s/bpfUp/jP41Zn4lDaQ9jYCw8Hq9limtp
- HxEHqh0ZxGmo7iCJj+Q==
-X-Authority-Analysis: v=2.4 cv=Xce5Co55 c=1 sm=1 tr=0 ts=6a2986a1 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=eoimf2acIAo5FJnRuUoq:22 a=EUspDBNiAAAA:8 a=c7mLAEsDfJ1tomV-q_4A:9
-X-Proofpoint-ORIG-GUID: Mon5rI9aGBSoVntNKmq59Ywpw5eQ8PWo
-X-Proofpoint-GUID: Mon5rI9aGBSoVntNKmq59Ywpw5eQ8PWo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-10_03,2026-06-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 malwarescore=0 impostorscore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 bulkscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606100149
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: A92C06AF4B
+X-Spam-Score: -3.01
 
-Add the LPASS Audio IF clock IDs used by newer backend interfaces.
+Replace the open-code for managing the stop-count refcount with the
+new helpers.
+Only a code cleanup, no functional changes.
 
-Platforms using Audio IF module backends request the interface bit
-clocks through q6prm. Add the Audio IF IBIT and EBIT IDs to the binding
-header so these clocks can be referenced from device trees.
-
-Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- .../sound/qcom,q6dsp-lpass-ports.h            | 57 +++++++++++++++++++
- 1 file changed, 57 insertions(+)
+ sound/drivers/aloop.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-index 45850f2d4..bc860fcbf 100644
---- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-+++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-@@ -233,6 +233,63 @@
- /* Clock ID for RX CORE MCLK2 2X  MCLK */
- #define LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK	70
+diff --git a/sound/drivers/aloop.c b/sound/drivers/aloop.c
+index 3f8488716a08..06bfe09eae1a 100644
+--- a/sound/drivers/aloop.c
++++ b/sound/drivers/aloop.c
+@@ -100,8 +100,7 @@ struct loopback_cable {
+ 	spinlock_t lock;
+ 	struct loopback_pcm *streams[2];
+ 	/* in-flight peer stops running outside cable->lock */
+-	atomic_t stop_count;
+-	wait_queue_head_t stop_wait;
++	struct snd_refcount stop_count;
+ 	struct snd_pcm_hardware hw;
+ 	/* flags */
+ 	unsigned int valid;
+@@ -371,7 +370,7 @@ static int loopback_check_format(struct loopback_cable *cable, int stream)
+ 				return -EIO;
+ 			else if (cruntime->state == SNDRV_PCM_STATE_RUNNING) {
+ 				/* close must not free the peer runtime below */
+-				atomic_inc(&cable->stop_count);
++				snd_refcount_get(&cable->stop_count);
+ 				stop_capture = true;
+ 			}
+ 		}
+@@ -404,8 +403,7 @@ static int loopback_check_format(struct loopback_cable *cable, int stream)
  
-+/** Clock ID of the Audio Intf 0 internal bit clock (IBIT). */
-+#define LPASS_CLK_ID_AUD_INTF0_IBIT 71
-+/** Clock ID of the Audio Intf 0 external bit clock (EBIT). */
-+#define LPASS_CLK_ID_AUD_INTF0_EBIT 72
-+/** Clock ID of the Audio Intf 1 internal bit clock (IBIT). */
-+#define LPASS_CLK_ID_AUD_INTF1_IBIT 73
-+/** Clock ID of the Audio Intf 1 external bit clock (EBIT). */
-+#define LPASS_CLK_ID_AUD_INTF1_EBIT 74
-+/** Clock ID of the Audio Intf 2 internal bit clock (IBIT). */
-+#define LPASS_CLK_ID_AUD_INTF2_IBIT 75
-+/** Clock ID of the Audio Intf 2 external bit clock (EBIT). */
-+#define LPASS_CLK_ID_AUD_INTF2_EBIT 76
-+/** Clock ID of the Audio Intf 3 internal bit clock (IBIT). */
-+#define LPASS_CLK_ID_AUD_INTF3_IBIT 77
-+/** Clock ID of the Audio Intf 3 external bit clock (EBIT). */
-+#define LPASS_CLK_ID_AUD_INTF3_EBIT 78
-+/** Clock ID of the Audio Intf 4 internal bit clock (IBIT). */
-+#define LPASS_CLK_ID_AUD_INTF4_IBIT 79
-+/** Clock ID of the Audio Intf 4 external bit clock (EBIT). */
-+#define LPASS_CLK_ID_AUD_INTF4_EBIT 80
-+/** Clock ID of the Audio Intf 5 internal bit clock (IBIT). */
-+#define LPASS_CLK_ID_AUD_INTF5_IBIT 81
-+/** Clock ID of the Audio Intf 5 external bit clock (EBIT). */
-+#define LPASS_CLK_ID_AUD_INTF5_EBIT 82
-+/** Clock ID of the Audio Intf 6 internal bit clock (IBIT). */
-+#define LPASS_CLK_ID_AUD_INTF6_IBIT 83
-+/** Clock ID of the Audio Intf 6 external bit clock (EBIT). */
-+#define LPASS_CLK_ID_AUD_INTF6_EBIT 84
-+/** Clock ID of the Audio Intf 7 internal bit clock (IBIT). */
-+#define LPASS_CLK_ID_AUD_INTF7_IBIT 85
-+/** Clock ID of the Audio Intf 7 external bit clock (EBIT). */
-+#define LPASS_CLK_ID_AUD_INTF7_EBIT 86
-+/** Clock ID of the Audio Intf 8 internal bit clock (IBIT). */
-+#define LPASS_CLK_ID_AUD_INTF8_IBIT 87
-+/** Clock ID of the Audio Intf 8 external bit clock (EBIT). */
-+#define LPASS_CLK_ID_AUD_INTF8_EBIT 88
-+/** Clock ID of the Audio Intf 9 internal bit clock (IBIT). */
-+#define LPASS_CLK_ID_AUD_INTF9_IBIT 89
-+/** Clock ID of the Audio Intf 9 external bit clock (EBIT). */
-+#define LPASS_CLK_ID_AUD_INTF9_EBIT 90
-+/** Clock ID of the Audio Intf 10 internal bit clock (IBIT). */
-+#define LPASS_CLK_ID_AUD_INTF10_IBIT 91
-+/** Clock ID of the Audio Intf 10 external bit clock (EBIT). */
-+#define LPASS_CLK_ID_AUD_INTF10_EBIT 92
-+/** Clock ID of the Audio Intf 11 internal bit clock (IBIT). */
-+#define LPASS_CLK_ID_AUD_INTF11_IBIT 93
-+/** Clock ID of the Audio Intf 11 external bit clock (EBIT). */
-+#define LPASS_CLK_ID_AUD_INTF11_EBIT 94
-+/** Clock ID of the Audio Intf 12 internal bit clock (IBIT). */
-+#define LPASS_CLK_ID_AUD_INTF12_IBIT 95
-+/** Clock ID of the Audio Intf 12 external bit clock (EBIT). */
-+#define LPASS_CLK_ID_AUD_INTF12_EBIT 96
-+/** Clock ID of the Audio VA Intf 0 internal bit clock (IBIT). */
-+#define LPASS_CLK_ID_AUD_VA_INTF0_IBIT 97
-+/** Clock ID of the Audio VA Intf 0 external bit clock (EBIT). */
-+#define LPASS_CLK_ID_AUD_VA_INTF0_EBIT 98
-+
- #define LPASS_HW_AVTIMER_VOTE		101
- #define LPASS_HW_MACRO_VOTE		102
- #define LPASS_HW_DCODEC_VOTE		103
+ 	if (stop_capture) {
+ 		snd_pcm_stop(dpcm_capt->substream, SNDRV_PCM_STATE_DRAINING);
+-		if (atomic_dec_and_test(&cable->stop_count))
+-			wake_up(&cable->stop_wait);
++		snd_refcount_put(&cable->stop_count);
+ 	}
+ 
+ 	return 0;
+@@ -1070,7 +1068,7 @@ static void free_cable(struct snd_pcm_substream *substream)
+ 	}
+ 
+ 	/* Pair with the stop_count increment in loopback_check_format(). */
+-	wait_event(cable->stop_wait, !atomic_read(&cable->stop_count));
++	snd_refcount_sync(&cable->stop_count);
+ 	if (other_alive)
+ 		return;
+ 
+@@ -1274,8 +1272,7 @@ static int loopback_open(struct snd_pcm_substream *substream)
+ 			goto unlock;
+ 		}
+ 		spin_lock_init(&cable->lock);
+-		atomic_set(&cable->stop_count, 0);
+-		init_waitqueue_head(&cable->stop_wait);
++		snd_refcount_init(&cable->stop_count);
+ 		cable->hw = loopback_pcm_hardware;
+ 		if (loopback->timer_source)
+ 			cable->ops = &loopback_snd_timer_ops;
 -- 
-2.34.1
+2.54.0
 
