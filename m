@@ -1,65 +1,65 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6303C1082
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 23:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09073B4407
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 23:52:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781135535; cv=none; b=g957Pq4aKfJf4ZruOTeybeFTwdqq9Yufy+nr69QFW3MB6kWVwMjmFDDL4xq6q+ibGO8Cv6L6jpzQHURXHigHZzBvhf6RUo1qSStj6Vrc1iO12XwnGOOhGLbyVMhOQfZAu6ZrDNX/mIfDJJqguHfs+ehJ4JTCcVD7V07+wp16m/E=
+	t=1781135536; cv=none; b=SyUjZsbzmLXZysVq3oJHYAwzsOJEuKJ86l0LjzCLZMsP/9B+AT7h/40w7vSMyBcIS+nz2+nnL2SydabyONa7zELFAUisGQxux/n3pYBggyWXpXJBPB2NpjGPtbpXY24sGg84rEruVj8pr2M5VNnQOj6SdaSchUiPDRUfETk55aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781135535; c=relaxed/simple;
-	bh=KCapcH04GnQHTviEX00pHFF1ryFIL2Xzijj8JcWrcA8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pd/PYyPWHeaqXwdtrhizoF4aQqsmkL00UxGNAHAkk5m467NEB4V8xcsVcnR1ooqrwxeXwoZWjeObYMOWsU9Qqntq88SxeL+QMgz2LMhi6FqfnY+3k23diLAGSHuDplAvlvilIw7Sjz9Up/wihYO39ij2NmPA2V0qEMlO7o/BA1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KgBjv6At; arc=none smtp.client-ip=209.85.218.49
+	s=arc-20240116; t=1781135536; c=relaxed/simple;
+	bh=GerYjjWYFTrsHb6FnX4NV4P82wObY0cWFl/5KAIY0n8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oLbG1gpCw+j42QT/m35qwEZarL2Vrol+6x5EwCDeA7o9GkIMntTIqXv/dALS7tK2RtozhCv0eSwxftYKNS3F6+uWOTRD049aAmFwCxhWIpI4OKazswG28Tj/SpWY0BV14mdEw7bSRSIcJujLUcp/otJugTfXDXXSUvWW8QDRqm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nC6vxsHr; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KgBjv6At"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-bebb72b845aso1174365566b.3
-        for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 16:52:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nC6vxsHr"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-68ced97b6eeso9923916a12.0
+        for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 16:52:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781135531; x=1781740331; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=E6H99sHoIWKNuVB0cS6tuVXAWbJCFFw3FoZpbc6aip4=;
-        b=KgBjv6AtA/UYA5rej+CIsAMcWeTGQAKYO2k/ktqSCfnqdnzgbmFVlU8mYEq2OPSzbk
-         6CZG7z5BlzpwEfJjljvtjzTunFDn4YyXp8sVrcNZdE+JwxAIZSG3P+DfyWtWFSw3ZPQs
-         zMtEYTneSQ2wegPJB+4jcM+2AUMMPyzSl2hbHB0ypioE0+RD9LHcG5bpwiWgkXz8ANTO
-         ZrrJLg7hEE7W+LXvPsyOEloEelY/U2M0qYf4PmBNSnCpa9Ir+YIJsyx1HImXRfho8qSD
-         87xYJ1zrziIUoHa56lFm/xE/Vertnua+4rldiov4B6vvkSS8Cg0Ij6hjddAUqhISJ+Lu
-         4lPw==
+        d=gmail.com; s=20251104; t=1781135530; x=1781740330; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/CHPfL3kQ1kskyB8zBWlowViCMrW6SC9Pz9yVVbBrKY=;
+        b=nC6vxsHru3BF9qtkZ+3XrWnU9mbliISs0je31sDfOxfV/6f+OR4a4MUE6kwqseriP6
+         TMBuekMYN096S7FSMK1EBmlFbAsCLSf3z+iCRVlWkDyHbiB1ZvGMivXCpBxy9bHsynum
+         t8Bi1bjxOORyBHGa29rfMLXkq0WjG7l1qNY7T/3ituo+t988piIcw2E0FKs4Effn2KIL
+         7YOGiT13jvYzfr7IWHv//cOz1/kYoGs+zp5e8Hvq1/nu+e+Ithr4ZiMTEDv4FsKuFxL+
+         Tg4XpiS3UpP9RP5MqUo7MRp/GuvmiF6KbbKbiqoXfYFumoBNn0R0xnCbSl0J/EXNn6uz
+         2Axw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781135531; x=1781740331;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=E6H99sHoIWKNuVB0cS6tuVXAWbJCFFw3FoZpbc6aip4=;
-        b=PaZI0ETg+9S02Vy3AhiyeVObmPSMzCBgo9IhVGDvoNYBj0s/bOVdEegBfHMGl8apmX
-         Kufkr+hwyDtgM3G6lESQH6BpCUPMCmKMZVB8pYb2sFwS0jDcnxbAq+ji5ZjK8G/kmxMM
-         W0q12cjoQNYZy1p+LKe98QVv2iY83+Cl1L5jh1zRKLGIQ78pIQgjILCZRELZGBHnimYx
-         PHVNo05hfAVVXHWqqD48X55p0UMTvwoF7tQuAWIO7kDn/7cJ9MTzJ92Y3wR3qrnDflPY
-         UP8rWpiqLMaQVwp0yQFRk52pdcg26o7yiHaUW45c8p6r+mv1yn0HRp5NGP9Xyuidw5VL
-         7GTg==
-X-Gm-Message-State: AOJu0Yy+V43hGKoKbu3W8Mda7M1NRFpMmNZ3/uyDP5PTKxxqnBlKuX4M
-	77armjhKtCqVAYs1p6/wX04JHMY0nS37ejRHnZrp16yfFYgaPGKC+C4n
-X-Gm-Gg: Acq92OHiLCjCnKSus2XTT6VlfXNVPrWaiTqLTC6VBFbfazHAW2BQu1ZgcH1PyiVyx6n
-	T9oWFkNVwai9sL00kniGu2JbTZ8YdBywty79DhkZReCDTdpU6ivX4x6QPMNVhlRdw9TEvpaEniK
-	2RkKA1gR+vyfklDifbRKNUNFIeHSfNliT2pDoGu+lBWv8SeUyaePsNn8hotpUVcaFTtpk5FA2z4
-	BDD3b52zqyLwcdrPb+VFCsC5r1STB3cbfNcQPJUQJObmadRKCq0JmO0BAWMSIftRK5Ig1gHFP9C
-	/HuhSfAvgQSNstApy0/S4kVGYzjkYoqqmYqo9TYf8F7gGpFb5EKuXIB/jWpz81OB3tv12dyGhIK
-	z9w2a2SG+c0Phs/20c7Cj5d3dQsyvCqpUbbMbo+ccPTG38lDWWdP2+qmTOPh71noZeZNjEJRwdF
-	Y4rGIUYtXyT+BJMsA7aR6AJQO7JKUC
-X-Received: by 2002:a17:907:9702:b0:bed:4f1f:bf9f with SMTP id a640c23a62f3a-bfc855337d8mr2716766b.5.1781135530677;
-        Wed, 10 Jun 2026 16:52:10 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781135530; x=1781740330;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/CHPfL3kQ1kskyB8zBWlowViCMrW6SC9Pz9yVVbBrKY=;
+        b=TC834PRv45F8lSXiRttc3oDDUgCmRH9UfP2uRDixSV3WYBi8qabFpqN5o5nn5E6E3X
+         qfuBQ6O4j8sPR3LBdCz1P37OBaOgEUDQz2zVBkIkvXGzcb3h/xjo9H73/BTjdC4Z0q80
+         3ThP8hdobE+2zwSQR8vMQqUS5MufBAJ7inLpbARq2c+/h5yFIKYOUsIzRR20m9xJXCan
+         kHQgGsbAmQLpp3a6d3fBP+G1ewLEfF/gp27kBnFzyvmvnsaL51W/9XYsUCKw9wc5Gz35
+         TP1KOb4SyknG/0VP8XRmojm2m6i5FuYT6JSjFj5djl6YbHPqqprJoCQj4WNBfZY8xldB
+         qopA==
+X-Gm-Message-State: AOJu0YzTDi2hY8aT118EZgJTcC+wRQErTqc00dJdTm76E8Liyy15qN0i
+	XwGEmlUPe5z9L8njDvUH/9kRSiI+RK3GjPiuiNfimHfjOO4yCR6PS3CA
+X-Gm-Gg: Acq92OGQRWyr1CrSJLLpl3EPUG1OCzN4WVPqtRGrxTh91/euya8IjGKqG6CLsyjIFAX
+	7vtJrxiI/FCg6Jz73WW7IyS/Cs5gF0GfIJcbrPPmnRb3K55/070IeSxHhHzz4jrMXXzWI2J16xO
+	pZ4xyFUbE5AuSjsXaew8VLODGf6NElxMi/hGv9PBsrttUgY9vJFJYIvWBdX8mHaEHOFzEMOrFPQ
+	9sOVc6YIynjii4cfqW6BoCV+FjdROvvz8mK14L/pT1Vv4vpLRDo34ahr7HiQEelhYLMEkWJbcgs
+	+jMW1/4oUNTVrnOpVM6EuYz8Mp3XLwsUkCaJYqPuJJPx9sLgn3wEIclpWO8J60Kcf/JPb9uPXp3
+	qk1a4YATpMV+lhq04yL4s668jIsKJAFAMJ/EV+0LndmCjw+Rlrw19Rvq1a5P6DhsVoCiQquWTqB
+	cFqzv1QIzeXREYqDhHZJn2xp9txfJy
+X-Received: by 2002:a17:907:a0c7:b0:be2:cd33:2142 with SMTP id a640c23a62f3a-bfc85d877e9mr2459666b.15.1781135529624;
+        Wed, 10 Jun 2026 16:52:09 -0700 (PDT)
 Received: from [127.0.1.1] ([46.251.53.180])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf054e03716sm1225741366b.34.2026.06.10.16.52.09
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf054e03716sm1225741366b.34.2026.06.10.16.52.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 16:52:10 -0700 (PDT)
+        Wed, 10 Jun 2026 16:52:09 -0700 (PDT)
 From: Yauhen Kharuzhy <jekhor@gmail.com>
-Date: Thu, 11 Jun 2026 02:51:55 +0300
-Subject: [PATCH v3 1/3] ASoC: Intel: soc-acpi-cht: Unify device quirks
+Subject: [PATCH v3 0/3] Add ASoC machine driver for Cherryview tablets with
+ RT5677
+Date: Thu, 11 Jun 2026 02:51:54 +0300
+Message-Id: <20260611-asoc-yogabook-v2-v3-0-3128447b67b6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,9 +68,11 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260611-asoc-yogabook-v2-v3-1-3128447b67b6@gmail.com>
-References: <20260611-asoc-yogabook-v2-v3-0-3128447b67b6@gmail.com>
-In-Reply-To: <20260611-asoc-yogabook-v2-v3-0-3128447b67b6@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAJr4KWoC/2WOQQ6CMBBFr0Jmbc20IAgr72FYlHbERqHaVgIh3
+ N1aliazeTP5b/4KnpwhD022gqPJeGPHCPkhA3WXY0/M6MggUJQoeM2kt4ottpedtQ82CVah4kW
+ ZV1wLhBh7ObqZOSmv7c6O3p9oDvsSOumJKTsMJjTZSHNgyV5iDb/A3fhg3ZIqTSIl0j1H/v89D
+ jKplapIF1ifT5d+kOZ5jHpot237AvKYzv/hAAAA
+X-Change-ID: 20260219-asoc-yogabook-v2-70c146371d20
 To: Cezary Rojewski <cezary.rojewski@intel.com>, 
  Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
  Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
@@ -83,187 +85,182 @@ To: Cezary Rojewski <cezary.rojewski@intel.com>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Hans de Goede <hansg@kernel.org>, Yauhen Kharuzhy <jekhor@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781135528; l=5862;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781135528; l=6679;
  i=jekhor@gmail.com; s=20260301; h=from:subject:message-id;
- bh=KCapcH04GnQHTviEX00pHFF1ryFIL2Xzijj8JcWrcA8=;
- b=Yo4qIXbPba2P7yyvuj8ifINTPJcCkc75oiJmm/mCr5Jr8yFiV/SKp26JqK220FTDUUgOlkhBV
- VT3a+EfT/k/DhydkK4RMPoMIpgOE8bLydoJem0PKjHYNzSqqGECQG1e
+ bh=GerYjjWYFTrsHb6FnX4NV4P82wObY0cWFl/5KAIY0n8=;
+ b=/L4RCK6PSIWdi3MK55hRzxr7YIokbhsxwsIM2LzaIkZgwPl8Xg71LwBefD6tMMN+gBQNSXFZa
+ spBW0IHwnCAA2Uv7V7PEIrjDeWo6Db0uaddBENLwIjdp1jXVKeY24ql
 X-Developer-Key: i=jekhor@gmail.com; a=ed25519;
  pk=C/csaZJs7UBNDgeJcUAmPu4ntqNeaZ3BKfBQiH8tuGc=
 
-This file contains two types of quirks, both checking DMI for
-machine-specific strings and returning machine data for a matching entry.
+This is the third iteration of my submission for sound support for Lenovo
+    Yoga Book YB1-X90/X91 tablets.
 
-The first one, `cht_quirk`, is used to override the default entry for an
-existing ACPI codec node if the node's info is invalid. It returns either
-the matched machine data or the default entry if no match is found.
+    These are Cherry Trail-based platforms that use the RT5677 codec and
+    TS3A227E jack detection IC.
 
-The second one, `cht_yt3_quirk_cb`, is used for devices (originally the
-Lenovo Yoga Tab 3 Pro) without a valid codec DSDT entry. It is bound to
-the SST ACPI node and returns either the matched machine data or NULL if
-no match is found.
+    The YB1-X90 is an Android-designated device and has incorrect ACPI entries
+    for many onboard peripherals, including sound devices. The YB1-X91 has a
+    DSDT node for the codec, and the same node is shared with the TS3A227E
+    jack detection IC (see below).
 
-To allow adding new machine entries to the second case and to use a single
-DMI match entry for both cases (for example, if two variants of one device
-exist: one with a valid ACPI entry and one without, like the Lenovo Yoga
-Book YB1-X91 and YB1-X90 - Windows and Android versions), reorganize
-these quirks functions to use the same approach: machine data is set in
-the matched dmi_system_id entry as driver_data field.
+    Matching with ACPI entries is somewhat tricky; see the corresponding
+    commit. Jack detection IC info is defined in the x86-android-tablets driver
+    for both platforms to simplify the code.
+
+    The ASoC machine driver is called 'cht_rt5677' but has some
+    device-specific things hardcoded because no other known
+    Cherry Trail-based platforms use an RT5677 codec.
+
+v3:
+- Rename cht_yogabook driver to cht_rt5677;
+- Allocate snd_soc_card structure dynamically;
+- Reset the codec name in the global dailink array back to the default
+  at driver remove() method to prevent use-after-free error;
+- Apply small fixes like removing code duplication and renaming variables in
+  the probe method;
+- Remove support for SOF;
+- Skip checking if ctx->mclk is valid since probe() will fail if not;
+- Ensure error codes are included in error messages during initialization;
+- Eliminate debug messages;
+- Split cht_rt5677_platform_clock_control() function into enable/disable
+  subroutines;
+- Move GPIOs initialization from codec init to probe and use gpiod_*
+  functions instead of devm_gpiod_* versions because GPIOs are linked to
+  another device;
+- Rename variable 'k' to 'kctl' for struct snd_kcontrol arguments;
+- Remove ambiguous copyright statements;
+- Switch from using *-objs to *-y in the Makefile;
+- Correct alignment warnings reported by checkpatch;
+- Update ACPI matching code: rename cht_quirk_nocodec() to cht_quirk_strict(),
+  and use a default entry for the YB1-X91 tablet.
+- Link to v2: https://lore.kernel.org/r/20260301-asoc-yogabook-v2-v2-0-adcc7ed40985@gmail.com
+
+v2:
+ cht_yogabook driver:
+ - Remove likely obsolete code from the driver: GPIO magic manipulations
+   when enabling the speaker amplifier and msleep() calls when turning
+   the speaker/headphones on and off.
+ - Remove MICBIAS1 manipulation on headphone jack insertion (click
+   prevention): the TS3A227E should handle it by itself.
+ - Rename struct cht_mc_private to cht_yb_private.
+
+ ACPI matching code:
+ - Split the changes into two commits: reworking existing entries and adding
+   new ones.
+ - Use dmi_system_id.driver_data to specify matched machine data instead
+   of callbacks.
+
+For reference, there is an ACPI node for sound configuration from YB1-X91
+DSDT below:
+
+HID: 10EC5677
+_CRS resources:
+
+  I2C devices:
+  0: rt5677 codec
+  1: ts3a227e jack detection IC
+
+  GPIOs:
+  0: rt5677 codec reset
+  1: rt5677 codec pow-ldo2
+  2: speaker enable
+
+  INTs:
+  0: rt5677 codec
+  1: ts3a227e jack detection IC
+
+  SPI device:
+  0: rt5677 codec SPI connection
+
+Decompiled fragment of ACPI dump:
+
+    Device (RTEK)
+    {
+        Name (_ADR, Zero)  // _ADR: Address
+        Name (_HID, "10EC5677")  // _HID: Hardware ID
+        Name (_CID, "10EC5677")  // _CID: Compatible ID
+        Name (_DDN, "Realtek IIS Audio Codec")  // _DDN: DOS Device Name
+        Name (_SUB, "17AA7005")  // _SUB: Subsystem ID
+        Name (_UID, One)  // _UID: Unique ID
+        Name (_PR0, Package (0x01)  // _PR0: Power Resources for D0
+        {
+            CLK3
+        })
+        Name (CHAN, Package (0x02)
+        {
+            One,
+            0x0124F800
+        })
+        Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+        {
+            Name (SBUF, ResourceTemplate ()
+            {
+                I2cSerialBusV2 (0x002C, ControllerInitiated, 0x000186A0,
+                    AddressingMode7Bit, "\\_SB.PCI0.I2C1",
+                    0x00, ResourceConsumer, , Exclusive,
+                    )
+                I2cSerialBusV2 (0x003B, ControllerInitiated, 0x000186A0,
+                    AddressingMode7Bit, "\\_SB.PCI0.I2C1",
+                    0x00, ResourceConsumer, , Exclusive,
+                    )
+                GpioIo (Exclusive, PullDefault, 0x0000, 0x0000, IoRestrictionOutputOnly,
+                    "\\_SB.GPO3", 0x00, ResourceConsumer, ,
+                    )
+                    {   // Pin list
+                        0x0019
+                    }
+                GpioIo (Exclusive, PullDefault, 0x0000, 0x0000, IoRestrictionOutputOnly,
+                    "\\_SB.GPO3", 0x00, ResourceConsumer, ,
+                    )
+                    {   // Pin list
+                        0x0012
+                    }
+                GpioIo (Exclusive, PullDefault, 0x0000, 0x0000, IoRestrictionOutputOnly,
+                    "\\_SB.GPO3", 0x00, ResourceConsumer, ,
+                    )
+                    {   // Pin list
+                        0x0030
+                    }
+                GpioInt (Edge, ActiveLow, Exclusive, PullNone, 0x0000,
+                    "\\_SB.GPO0", 0x00, ResourceConsumer, ,
+                    )
+                    {   // Pin list
+                        0x005B
+                    }
+                GpioInt (Edge, ActiveLow, Exclusive, PullNone, 0x0000,
+                    "\\_SB.GPO0", 0x00, ResourceConsumer, ,
+                    )
+                    {   // Pin list
+                        0x004D
+                    }
+                SpiSerialBusV2 (0x0001, PolarityLow, FourWireMode, 0x08,
+                    ControllerInitiated, 0x003D0900, ClockPolarityHigh,
+                    ClockPhaseSecond, "\\_SB.PCI0.SPI1",
+                    0x00, ResourceConsumer, , Exclusive,
+                    )
+            })
+            Return (SBUF) /* \_SB_.PCI0.I2C1.RTEK._CRS.SBUF */
+        }
+    }
 
 Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
 ---
- sound/soc/intel/common/soc-acpi-intel-cht-match.c | 100 +++++++++-------------
- 1 file changed, 42 insertions(+), 58 deletions(-)
+Yauhen Kharuzhy (3):
+      ASoC: Intel: soc-acpi-cht: Unify device quirks
+      ASoC: Intel: soc-acpi-cht: Add Lenovo Yoga Book entries
+      ASoC: Intel: Add cht_rt5677 driver
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-cht-match.c b/sound/soc/intel/common/soc-acpi-intel-cht-match.c
-index e4c3492a0c28..28f600171f9d 100644
---- a/sound/soc/intel/common/soc-acpi-intel-cht-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-cht-match.c
-@@ -9,47 +9,63 @@
- #include <sound/soc-acpi.h>
- #include <sound/soc-acpi-intel-match.h>
- 
--static unsigned long cht_machine_id;
--
--#define CHT_SURFACE_MACH 1
-+static struct snd_soc_acpi_mach cht_surface_mach = {
-+	.id = "10EC5640",
-+	.drv_name = "cht-bsw-rt5645",
-+	.fw_filename = "intel/fw_sst_22a8.bin",
-+	.board = "cht-bsw",
-+	.sof_tplg_filename = "sof-cht-rt5645.tplg",
-+};
- 
--static int cht_surface_quirk_cb(const struct dmi_system_id *id)
--{
--	cht_machine_id = CHT_SURFACE_MACH;
--	return 1;
--}
-+static struct snd_soc_acpi_mach cht_lenovo_yoga_tab3_x90_mach = {
-+	.id = "10WM5102",
-+	.drv_name = "bytcr_wm5102",
-+	.fw_filename = "intel/fw_sst_22a8.bin",
-+	.board = "bytcr_wm5102",
-+	.sof_tplg_filename = "sof-cht-wm5102.tplg",
-+};
- 
- static const struct dmi_system_id cht_table[] = {
- 	{
--		.callback = cht_surface_quirk_cb,
-+		.driver_data = (void *)&cht_surface_mach,
- 		.matches = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "Microsoft Corporation"),
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Surface 3"),
- 		},
- 	},
-+	{
-+		/*
-+		 * The Lenovo Yoga Tab 3 Pro YT3-X90, with Android factory OS
-+		 * has a buggy DSDT with the codec not being listed at all.
-+		 */
-+		.driver_data = (void *)&cht_lenovo_yoga_tab3_x90_mach,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
-+			DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
-+		},
-+	},
- 	{ }
- };
- 
--static struct snd_soc_acpi_mach cht_surface_mach = {
--	.id = "10EC5640",
--	.drv_name = "cht-bsw-rt5645",
--	.fw_filename = "intel/fw_sst_22a8.bin",
--	.board = "cht-bsw",
--	.sof_tplg_filename = "sof-cht-rt5645.tplg",
--};
--
- static struct snd_soc_acpi_mach *cht_quirk(void *arg)
- {
- 	struct snd_soc_acpi_mach *mach = arg;
-+	const struct dmi_system_id *match;
- 
--	dmi_check_system(cht_table);
--
--	if (cht_machine_id == CHT_SURFACE_MACH)
--		return &cht_surface_mach;
-+	match = dmi_first_match(cht_table);
-+	if (match)
-+		return (struct snd_soc_acpi_mach *)match->driver_data;
- 	else
- 		return mach;
- }
- 
-+static struct snd_soc_acpi_mach *cht_quirk_strict(void *arg)
-+{
-+	struct snd_soc_acpi_mach *mach = cht_quirk(arg);
-+
-+	return mach == arg ? NULL : mach;
-+}
-+
- /*
-  * Some tablets with Android factory OS have buggy DSDTs with an ESSX8316 device
-  * in the ACPI tables. While they are not using an ESS8316 codec. These DSDTs
-@@ -75,38 +91,6 @@ static struct snd_soc_acpi_mach *cht_ess8316_quirk(void *arg)
- 	return arg;
- }
- 
--/*
-- * The Lenovo Yoga Tab 3 Pro YT3-X90, with Android factory OS has a buggy DSDT
-- * with the coded not being listed at all.
-- */
--static const struct dmi_system_id lenovo_yoga_tab3_x90[] = {
--	{
--		/* Lenovo Yoga Tab 3 Pro YT3-X90, codec missing from DSDT */
--		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
--			DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
--		},
--	},
--	{ }
--};
--
--static struct snd_soc_acpi_mach cht_lenovo_yoga_tab3_x90_mach = {
--	.id = "10WM5102",
--	.drv_name = "bytcr_wm5102",
--	.fw_filename = "intel/fw_sst_22a8.bin",
--	.board = "bytcr_wm5102",
--	.sof_tplg_filename = "sof-cht-wm5102.tplg",
--};
--
--static struct snd_soc_acpi_mach *lenovo_yt3_x90_quirk(void *arg)
--{
--	if (dmi_check_system(lenovo_yoga_tab3_x90))
--		return &cht_lenovo_yoga_tab3_x90_mach;
--
--	/* Skip wildcard match snd_soc_acpi_intel_cherrytrail_machines[] entry */
--	return NULL;
--}
--
- static const struct snd_soc_acpi_codecs rt5640_comp_ids = {
- 	.num_codecs = 2,
- 	.codecs = { "10EC5640", "10EC3276" },
-@@ -208,14 +192,14 @@ struct snd_soc_acpi_mach  snd_soc_acpi_intel_cherrytrail_machines[] = {
- 		.sof_tplg_filename = "sof-cht-src-50khz-pcm512x.tplg",
- 	},
- 	/*
--	 * Special case for the Lenovo Yoga Tab 3 Pro YT3-X90 where the DSDT
--	 * misses the codec. Match on the SST id instead, lenovo_yt3_x90_quirk()
--	 * will return a YT3 specific mach or NULL when called on other hw,
--	 * skipping this entry.
-+	 * Special case for devices where the DSDT misses the codec. Match on
-+	 * the SST id instead, cht_quirk_nocodec() will return a
-+	 * device-specific mach for matched device or NULL when called on other
-+	 * hw, skipping this entry.
- 	 */
- 	{
- 		.id = "808622A8",
--		.machine_quirk = lenovo_yt3_x90_quirk,
-+		.machine_quirk = cht_quirk_strict,
- 	},
- 
- #if IS_ENABLED(CONFIG_SND_SOC_INTEL_BYT_CHT_NOCODEC_MACH)
+ sound/soc/intel/boards/Kconfig                    |  18 +
+ sound/soc/intel/boards/Makefile                   |   2 +
+ sound/soc/intel/boards/cht_rt5677.c               | 564 ++++++++++++++++++++++
+ sound/soc/intel/common/soc-acpi-intel-cht-match.c | 121 ++---
+ 4 files changed, 648 insertions(+), 57 deletions(-)
+---
+base-commit: 94a662ada263eb2238b85e1eb4b21fd03b9b5fa2
+change-id: 20260219-asoc-yogabook-v2-70c146371d20
 
+Best regards,
 -- 
-2.53.0
+Yauhen Kharuzhy
 
