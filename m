@@ -1,48 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371CA3A8727;
-	Thu, 11 Jun 2026 09:23:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6518F3A7F61;
+	Thu, 11 Jun 2026 09:23:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781169830; cv=none; b=TVDSiZCw3ewxLB0MoWfv0FjLyQL9yRAnBHp8lPVM0luiG0gNadMQMXqkfwbvpRxrQxJ+DwrVQ7UMXBjHCDab8ISPKTfDJe3mFwyNxYReoRaC23ntxjOUt97jvch+aQydJ2fjDDv9oLLg8OHQcvJZDQ9KnV6efsx/2xtmtrGMdnQ=
+	t=1781169834; cv=none; b=snnDDpofXVUgJ3o9TdbG0ZW9d9BW0UJqaSia4inRJFRnQtFRDlXCcXHFC13urN2XWlhTsJuHH/Y6+ZpVMp9WyzluTMBiJP7n+tyx69Xe/Ed4ugQaN/kr8tRoDvn02bgt/X9gUMYbkygNSayx83vwKJ7TR5ELSCQR+jOVuYJBB4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781169830; c=relaxed/simple;
-	bh=pAk/rz5nklkqgJsfteE1/x98ntym0NYpSou3iPJJxv0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=qp1wR7KlTe5oy50LSOCX2sZcp9E1TMePuBj2BBGxEN+ZROg6iMQXDoyOm6DH/pLc0Ua/2MlzfAvzL8BzyRSoWDTZTK0l1bXhuZpbQUfjjY781vu+W+z/vcm+K1Gx0Vm3U98WWh5xxPGd9+ez5BNa9xatHTJ8nLeKAI94vPoTuis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z/Ku2wQR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781169834; c=relaxed/simple;
+	bh=2kgvAZh5i6TjL2ymp+0nFzP+TkH9OtTdbSVY2lZ332E=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=mF2fCgzwW7DnVIAUNM3Ni4mEurqR1kQhTk8YZLtOimg2Sp+VdsF3NzOVj2TnxsokshlrHf+sRyQ7mR0nI5iVLMpXSDHy9JzYqhvCm2sOr7axzO5geRy3xTxjMFtC+mjKn0ZYNYlQ1QjCCx4MfwUtC+O8AzrOKLGkKsLoqXbazgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CaQbQfZZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z/Ku2wQR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 726E61F00893;
-	Thu, 11 Jun 2026 09:23:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CaQbQfZZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6E0A1F00893;
+	Thu, 11 Jun 2026 09:23:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781169828;
-	bh=BDmJLkubdE2s64eOfBHL85xRlhFhARVgHJEEXr1vHRk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Z/Ku2wQRuWUiT7dL/qZc0NMNizstHmEaWrI+JtQMZY7pYizaYlS/bJWZoq2S4hsCa
-	 B8LFvfD+3FBe7ZNsxmkKTNtj54kDT2wgDe1jpWG3bGi+9Yf2Egkz4HFVBjx74E+Tp8
-	 31t2y6avEH/LXKQqxWYnXJjUFxcHC22ullLTryplAQbwf4Qu5Dx43Xm0IXFmLvkp3i
-	 soUhqufZpR9NaPGlCC8vv6Z2FN/ZdI2OPXRRmhtlj7b8ezkdZOAhYUZv4VO/pYyt+w
-	 MdtBfQg/6F14OQZYr3SuH5q/A6pASkOhkpYnJD/RrCxMsMtZQ/YBkiSZFMeloX/aLM
-	 NV5PnLOC2IRLQ==
+	s=k20260515; t=1781169833;
+	bh=qGjKooHEH5juKcCEI2ltOy3NUCz/pd9xmYygSuPpJ4A=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=CaQbQfZZaTRCoak79z6icvPhIAo1VIKzWgzx4zDaSbA1WLvBpm3JP6PAc4V4ELvoT
+	 9i0+9l+108KDAWEZr1/LuDzGMimm2maU6iAl8SI99Pv/hjgKH6qivsJVharpswtkSd
+	 LMNeQ4gUHRm1QWwpkB1V4VSAympr3X/5pAx40LP1gYU5n8zhVctuTX3NIEPbO32Bh2
+	 6edpIsjVS8ji+pM4Zr49sB18nOHe9SUBuMkNZU85IGL7CQovcVxULpo0kmA4j2367b
+	 7m/Xp0x8DrzFyDEG9RpQLXOc9+zCtXm44/nkQqT/WS2GSbrW0r8TNjfLJST4jNWRRY
+	 WjFuJuLlaIiVA==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Cc: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, notify@kernel.org, stable@vger.kernel.org
-In-Reply-To: <20260603-sof-topology-array-size-signed-v1-1-84f97879a4ef@gmail.com>
-References: <20260603-sof-topology-array-size-signed-v1-1-84f97879a4ef@gmail.com>
-Subject: Re: [PATCH] ASoC: SOF: topology: validate vendor array size before
- parsing
-Message-Id: <178108960580.232889.5715134893654319840.b4-ty@b4>
-Date: Wed, 10 Jun 2026 12:06:45 +0100
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Li Jun <lijun01@kylinos.cn>
+In-Reply-To: <20260602020132.4170127-1-lijun01@kylinos.cn>
+References: <20260602020132.4170127-1-lijun01@kylinos.cn>
+Subject: Re: [PATCH v3] ASoC: loongson: Fix invalid position error in
+ ls_pcm_pointer
+Message-Id: <178109041257.232889.2439992762294372644.b4-ty@b4>
+Date: Wed, 10 Jun 2026 12:20:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,31 +43,31 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1145; i=broonie@kernel.org;
- h=from:subject:message-id; bh=pAk/rz5nklkqgJsfteE1/x98ntym0NYpSou3iPJJxv0=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKn6guXZdxStAH6FqoO1ALVgF+0Uk66t8yO1xa
- QFohaA5lVeJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaip+oAAKCRAk1otyXVSH
- 0OPAB/4t44eFnrkaFuZNTbAeUJgmYpSe6sJmoq6Yn71DidqfLugeMN0eZqt5sxd5BFgUbyYfGDD
- 0fCSdayDytxPe3krtOlXhcIcXjY92HXI2uCd242EXUGTAE68CAGzWhdcAix695Q8+dF9jgf4ON8
- 0Dzf35C98Wf33d6HHn/rqwcEt5z5cNSnMgGjA3E+F84/C9Zj4b6ZM6Hrq3hHu0Hcj5a5Ilb/VWz
- srQDPjHA8EQzKO3EE2f5DM49oIqIU6l1xdVp4rx9wgfnYb2m9Nj7HoKnUSeYon4WLWpNAEU7jCV
- HVmf5QpYR9lYjQ5fyIGcaOBOEJ3cUqZAZZnMf6jYachsrhT2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1132; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=2kgvAZh5i6TjL2ymp+0nFzP+TkH9OtTdbSVY2lZ332E=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKn6m4wai1z8VCLvIOTJKMo2hErSGqrAFOMLss
+ y3lCvd2kfSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaip+pgAKCRAk1otyXVSH
+ 0F+YB/9+8fvuEQzeKbOXmo8KoegVs7qIK4nwmP74eLUmY+gfapqJfhmJhasvVZvjpYpNuH0+d9M
+ BEQR6lB63Pe9oOCOETMkR593/FJvTnQlyAVelH9JwBVe7Zi+BPW04npj8Q8+5fYeV7FoR2L3e29
+ SrOQkwKXrE2JsKV7LSzu2QhBvxZpXk9DRPngszjFG4bh5+eqOKs95lAYoSee2c3OANNLmJGFyCZ
+ KK6xhmhZPKuRX/QLfBDEgLGoXuHXB/GjzVgIX0Yk5r2UUifoExeU7sQUW8lXh7oNV2Y1190t0qT
+ sck0b0APqSKlce3AjW1B8g1JfhKGdsLO+MeobjdGYG91taoD
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 03 Jun 2026 14:57:54 -0300, Cássio Gabriel wrote:
-> ASoC: SOF: topology: validate vendor array size before parsing
+On Tue, 02 Jun 2026 10:01:32 +0800, Li Jun wrote:
+> ASoC: loongson: Fix invalid position error in ls_pcm_pointer
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
 Thanks!
 
-[1/1] ASoC: SOF: topology: validate vendor array size before parsing
-      https://git.kernel.org/broonie/sound/c/8468dd79cfb2
+[1/1] ASoC: loongson: Fix invalid position error in ls_pcm_pointer
+      https://git.kernel.org/broonie/sound/c/3f3d5a7a065f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
