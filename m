@@ -1,63 +1,63 @@
 Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F1D3F65E0
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 10:21:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D293EFFB5
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 10:21:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781086880; cv=none; b=Foyht+uLl2vMJNmJ6twaGNWu+c6qBHtJ4h5xzQzU4Qhgrxggrf97+byuHYfAui6RcTyp2/vH873xUU3youKUHWDIZ9jM4x2wBuMaSKE3rBmFwADQOjKqliiszXkUKLDTHgneTM6WkzCxHY8U8lTu3IZEESCXVKDdYXaJycUT9l0=
+	t=1781086886; cv=none; b=RcdthsNA4Gn/uqXjd5NXAXXfuKBcsPG1tY8C2TzzBvZpkoq4XlWIRH2XhOmLOve+VmYGNf99FG9x0c8v1rv+lGW1bSmJsGHdhGQDGgJGFq9m+fKzRzRgMxmNuml5ROhyTWNP8/pYOB5bdqM6HiCSLUfYItTHj7W+OCnrznsr7Lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781086880; c=relaxed/simple;
-	bh=jQF2PD5Ek55INuzVksah+lqn8zIcy/oMy6ahCFURIeQ=;
+	s=arc-20240116; t=1781086886; c=relaxed/simple;
+	bh=1D3oru0dFtWb5ZXGrKjETr+J2Jt5UjZXp2oe5HZM5mw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=khkwgxsYMO07pHtTEhysCW+0q26WxHlUKgtJq5eN2ZMVq0SI38EFEpQg0Yee7iqD7i8WIEOeDU5jyzoK5KaiNbuw2a48SwiKbB4Lkj3vEKdaBLAmLiddU42DIX95VTS53xZxH3625o5UDqphq3dyy/apDndfu8UMi0npLyAjiCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mNtkXmE0; arc=none smtp.client-ip=209.85.214.174
+	 MIME-Version; b=VX2t3HoJA2R7GMJWVCQsUyANjSktsbXUpXXClDxGUgamOBYt+GQAjPPfqVwOJi1tRXiIB/DxbMwp6Ie8AgoxkYRGf2DFy+2gFHgghkTe2tOcqK+H0j+ptn21N2v7gRGLcwub9TUu+75BZfbxrt2UaX/41nl6K9rVixMT8JzZCl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ahUfTj7Y; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mNtkXmE0"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2bf20f6be6bso51935645ad.3
-        for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 03:21:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ahUfTj7Y"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2c0b9328c4aso45733975ad.0
+        for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 03:21:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781086879; x=1781691679; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781086883; x=1781691683; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i8yD0V3JpTBBCPvBkTEEQc4c3oKXbaRtxhAPfIJqxXo=;
-        b=mNtkXmE0wdEM3nz7SZalvd7bHgjdbSCRB0ke43RPR+SWaPiVIdAZDjuP18uUJqCnrU
-         Woqyv2pmVx5hBxqmbgi9yIUT9gi+Ap6QnexzBhFeW/9BLl7ub912Q/EN9foskObM0jLu
-         kMnlBQC/MaQ8S5IiKPdjCW+mKXxC894ksvhhDJgauAmdwxh1kT68HGe0bo2QFMUcdIVA
-         MuIhj3NgOyARKYTXCWd4kGgn/wdre9QKgZ8SIkDifspoS+zofQ1ihHsN4bTpRTn7kTkB
-         j6ZFniYt9d/lCu4J2zvFSkUVaAGZ6UZjft18H+eUSF9yDHdUtDD7yw320kulD+oxxa3T
-         YKHw==
+        bh=XujJTqPif96ZcsPOUAZQ6B5C/J5OqNB1kq3+Ep+LgvM=;
+        b=ahUfTj7YUV1Oy99+/ojOY1I+hwgbBRJy5SLsXUXIrcK+TDefPbH+aJBWVjwTKH/ca4
+         tYYVGgB6BIP9ieu7nkD/TVQSKgOdNGc7LRIwP3y+4HN5RZLPo3MbgO8kyCLfGuBctV84
+         q+IWmw80ykct+wClcHfVKesX+HKopEYbgfRgIuZlz+ZWekKg90oxX826e+sug0LQcMMa
+         9FQQduXxHQ8ZC7n6c/FVLTLZ9MNC7p2CipVC6MBtPf5jmARBvp+jBqfqiOX6HzrJxDei
+         fC3rjVfmFYkFA+oqezMlOBzhhQZ+SWXCmbVKd8vo66x8+qQHWRzjVb/dpPj/w1P4dtal
+         /VWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781086879; x=1781691679;
+        d=1e100.net; s=20251104; t=1781086883; x=1781691683;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=i8yD0V3JpTBBCPvBkTEEQc4c3oKXbaRtxhAPfIJqxXo=;
-        b=QdJ1yfm979esUKy+Zy9OJ77rxhG/iaKbftmV7w3Lrvh74zcNfy8QTfoLuGDhj4ROCm
-         a/uAnd+4zlW7F6SixgcKp71tupmgiLQ9HodY5RF0+MztZz1S7abQHlW4JvitWGTlBOJW
-         Bw+d/8kDhFQLYYXJhKaEOxPF8FuvwX/6eK7/WLfm/8kONmbGeli0oTbfGOPT7dzyqD05
-         WMqtClx56EZnsz4rtTifC5Shvn3OevledDk5s+Qn0TNm5b4tqeDGHbrQSqx/YcUruwqw
-         ng7XyLvSI58BI23hZMmuQv7qEC/KlFx5LDxJWpEAGbFhBjBoNs964jepzTNrVV4OyxBw
-         jVlA==
-X-Forwarded-Encrypted: i=1; AFNElJ9GYqoG5pWvSPsW9tM8AmdZGYirweh16CTMCPh+KXPLbIM5prWrDq/S4odH7lwzjCCBE4G+Tqku/QN0Rw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIoA+F0++a4nQgNtFAwljvYdvxaXTu2Pc/aYMDcOTGJ5+vskzZ
-	QA5y4Ty+yswrPvmZx7jGUR+eFeZYCSgFNoA147lQGiQNr81Tpf9shLE/
-X-Gm-Gg: Acq92OH+xmV/1OTBb6CTpxzm102ZbBX5kVaS/Is1MsUF4Fj+jVFnPgRDsOn+tyOutkA
-	OW0t5UU40AgiUSeOg7dIyRNmV8oW78RWOJp7+C84ChyVTMaW+8wqnch6JG0PkBtACzlWSvyxpGq
-	p54olR0Z0Jj7fcljLJbbyGpUJTaU/Jsh5WOkAgPIxW4yOfuHFOm4mu9rnhrTe++vg45OcLo4F31
-	4g33vYJoL9SGXl7eN69SiyPD+oWklZ97yJI9Jc2gvhg4NVbU5KUTQ8zPs4QN+G90gUcYxJSyJpz
-	+P6glfY5lCjD4q3hIi+i0CkUG19t3KpnJp0eNFk+74L0GG1UE6dTgp+whCJCTiYGXPNpL/yFhE5
-	WYoOT3gqEdC1e2iHM5fmbyVlmaKIhD+2uHSQQAT602PI41LsVPV9966CTHcc/1p05MzWk0Wd3X/
-	Pzzbt1P6wg9peLQV/3mvfVcwsOMHCdhxMAp9PJWF/fUukUlDOUODvaP0Uv0rrWzeJI6wcy
-X-Received: by 2002:a17:902:da4b:b0:2c1:f262:494d with SMTP id d9443c01a7336-2c1f2624a70mr252269075ad.19.1781086879138;
-        Wed, 10 Jun 2026 03:21:19 -0700 (PDT)
+        bh=XujJTqPif96ZcsPOUAZQ6B5C/J5OqNB1kq3+Ep+LgvM=;
+        b=s+h27DP9RoxpKxup14tqXyLwGcyg3b6/Zqt8oxOzT5/DpCLYA9lsMb2cjkQYGVu/6p
+         wDZm0K3MHYRyZcTmDTgyohV+v++rxR0QOj7zkElbqTPCoMr0lcMs6GESwOjaIZVWzLfx
+         Rhj1zyFz8wC0BGS7uRVqOeo+eAgb0+bP2dWft4Gj6ph3aOwCT7+hYPPDUjLTfv5YfwJW
+         7Iqhofy+J6Undi6z8xStLlbkpM1VYLa4tM6IiK1CXPv/31Nap9pS6RZh4GUe7Qxs9bZP
+         510to+T3OHA4KLCpPS7x0yTRU8V6LRBKEduwfgs07DlfXzy5nYxtqjUyM5khYfSmsrMb
+         8kYA==
+X-Forwarded-Encrypted: i=1; AFNElJ8GFjhEZZT2Jrs4GYwhzveL1jqoMiR33sdjANESXK7qj1Na1j9Ffj+J1nsUBSupn5pzD/HVa8yUGEwpPg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyB3WLHVXXsHfr3cT4YAcOOuD/dgBJmHu7/OPK5VkBYSABRw+6p
+	iNyeftj+3F4ji/da/wmifhaEzgjc8O1NFmJYEfNTjCHUI/M4cD2pI9Ef
+X-Gm-Gg: Acq92OHs2/OD0YAg6zLubpZ33l6U946zgxRwDPzl8mmtn6rTC1xJB+ZfFtHvBFTrDQX
+	FMicflmFIH7mb7p4nXDXlZ71oqCSimSsN7AMxEoZqHwiyK4WfaiWZw1tZUn9hAwX1dNR8PO4fR7
+	fDUhV9fDJztkY7jly3P/QhgJTpuwvPvQFdPTvMGcYzYXxqTlJjUtDeeg9bT1pZ232tS+1M7RDYG
+	SAFvv4BrL0+bzAr24SVQ0gtTFdJj2N/ikuPpWCi1wuFe6QEsIxwuvmx26ymKRPYvd4ahYQQm06T
+	WGX8tytVsgpvy725ELEoiZQgZgx67gMEFtoXzTYDbURys5JdSD+Rd47m6AhD/lJkx8ZDMV0glL4
+	qGw96ZjUYj7Hwcl1iHdncW+M1YIZStWg0lMhLCXw3qvolRKyHV2dc/+Lk9bwZ6X7Sfer2bbHVng
+	MpYTHd9I3Qe8+Ts0AoWDftM2tZI98EtoZC8dm1X4YzR3fxG4NxWizdAN+I4wq+nn9kXXIm
+X-Received: by 2002:a17:902:ef50:b0:2bf:23c3:34ba with SMTP id d9443c01a7336-2c2a1c99a9bmr82532235ad.28.1781086883340;
+        Wed, 10 Jun 2026 03:21:23 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f96b3fsm250133875ad.29.2026.06.10.03.21.15
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f96b3fsm250133875ad.29.2026.06.10.03.21.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 03:21:18 -0700 (PDT)
+        Wed, 10 Jun 2026 03:21:23 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Matthias Brugger <matthias.bgg@gmail.com>
@@ -73,9 +73,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-gpio@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 09/10] ASoC: mediatek: mt8195: mt8365-dai-adda: Use guard() for spin locks
-Date: Wed, 10 Jun 2026 17:20:20 +0700
-Message-ID: <20260610102021.83273-10-phucduc.bui@gmail.com>
+Subject: [PATCH 10/10] ASoC: mediatek: mt8195: mt8365-dai-i2s: Use guard() for spin locks
+Date: Wed, 10 Jun 2026 17:20:21 +0700
+Message-ID: <20260610102021.83273-11-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260610102021.83273-1-phucduc.bui@gmail.com>
 References: <20260610102021.83273-1-phucduc.bui@gmail.com>
@@ -94,53 +94,39 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/mediatek/mt8365/mt8365-dai-adda.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ sound/soc/mediatek/mt8365/mt8365-dai-i2s.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/sound/soc/mediatek/mt8365/mt8365-dai-adda.c b/sound/soc/mediatek/mt8365/mt8365-dai-adda.c
-index a04c24bbfcff..d8eda9e17eb8 100644
---- a/sound/soc/mediatek/mt8365/mt8365-dai-adda.c
-+++ b/sound/soc/mediatek/mt8365/mt8365-dai-adda.c
-@@ -63,10 +63,9 @@ static int mt8365_dai_set_adda_in(struct mtk_base_afe *afe, unsigned int rate)
- 
- int mt8365_dai_enable_adda_on(struct mtk_base_afe *afe)
+diff --git a/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c b/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
+index cb9beb172ed5..a058973662b3 100644
+--- a/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
++++ b/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
+@@ -463,7 +463,6 @@ static int mt8365_afe_set_2nd_i2s_asrc_enable(struct mtk_base_afe *afe,
+ void mt8365_afe_set_i2s_out_enable(struct mtk_base_afe *afe, bool enable)
  {
+ 	int i;
 -	unsigned long flags;
  	struct mt8365_afe_private *afe_priv = afe->platform_priv;
+ 	struct mtk_afe_i2s_priv *i2s_data = NULL;
+ 
+@@ -475,7 +474,7 @@ void mt8365_afe_set_i2s_out_enable(struct mtk_base_afe *afe, bool enable)
+ 	if (!i2s_data)
+ 		return;
  
 -	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
 +	guard(spinlock_irqsave)(&afe_priv->afe_ctrl_lock);
  
- 	adda_afe_on_ref_cnt++;
- 	if (adda_afe_on_ref_cnt == 1)
-@@ -74,17 +73,14 @@ int mt8365_dai_enable_adda_on(struct mtk_base_afe *afe)
- 				   AFE_ADDA_UL_DL_ADDA_AFE_ON,
- 				   AFE_ADDA_UL_DL_ADDA_AFE_ON);
- 
--	spin_unlock_irqrestore(&afe_priv->afe_ctrl_lock, flags);
--
- 	return 0;
- }
- 
- int mt8365_dai_disable_adda_on(struct mtk_base_afe *afe)
- {
--	unsigned long flags;
- 	struct mt8365_afe_private *afe_priv = afe->platform_priv;
- 
--	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
-+	guard(spinlock_irqsave)(&afe_priv->afe_ctrl_lock);
- 
- 	adda_afe_on_ref_cnt--;
- 	if (adda_afe_on_ref_cnt == 0)
-@@ -96,8 +92,6 @@ int mt8365_dai_disable_adda_on(struct mtk_base_afe *afe)
- 		dev_warn(afe->dev, "Abnormal adda_on ref count. Force it to 0\n");
+ 	if (enable) {
+ 		i2s_data->i2s_out_on_ref_cnt++;
+@@ -490,8 +489,6 @@ void mt8365_afe_set_i2s_out_enable(struct mtk_base_afe *afe, bool enable)
+ 		else if (i2s_data->i2s_out_on_ref_cnt < 0)
+ 			i2s_data->i2s_out_on_ref_cnt = 0;
  	}
- 
--	spin_unlock_irqrestore(&afe_priv->afe_ctrl_lock, flags);
 -
- 	return 0;
+-	spin_unlock_irqrestore(&afe_priv->afe_ctrl_lock, flags);
  }
  
+ static void mt8365_dai_set_enable(struct mtk_base_afe *afe,
 -- 
 2.43.0
 
