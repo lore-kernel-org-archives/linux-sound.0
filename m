@@ -1,218 +1,94 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028E24D2EC0
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 15:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6992C4D2ED5;
+	Wed, 10 Jun 2026 15:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781106362; cv=none; b=NOVurkFcTrsdCG8Siv78JVLt4DG3cd016v+nKKER7/FDtwKSpRexvrK7inAtnioPBBXaYPWOP3D5btyo1yY8HRJAEWIRKnHoCQKTVihfJoKAG6IRUS0btrlFjWV3H33yTi8/ERLz2HxuNv/XbnYGjJrxZToWoIVfIKmILXvv+/0=
+	t=1781106402; cv=none; b=ZM4XSdezjsChQsdf9QotjjxrarqhjTAkZ6yCXmPRqF5I1kejk+qDgEm2aC1cb5VQINrPUX+y9CtYA1bNCLY9+i22OJoV3h19jc0AQ4vz1nyWCq3WKrK5qF31tNsTJf0imj+R/n3TRUXw8dEyIWIOXXXImKB0+QVkCmxBJ63KrjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781106362; c=relaxed/simple;
-	bh=ObT+sah7uqsRFdLpxLWrTDQiKXFwNYsPa/5JwdxNsdo=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r/eYF3MWTwHaVYAZ4jZYTfp+YJ2RRoSrq2OqlPC40p+vjp5jME9NE0JjL6srO92x+dlUZo+OL1V+zQHBCWIfaPxY17c4z1YYvErDTZNIX78haV6WE/XtUhSXvnvdVpL+zBEUr9XYdXwTzmk5UCZrDufHsx04svJ38T+W/fN25TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FTFY99ks; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Zx0ebPEs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FTFY99ks; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Zx0ebPEs; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781106402; c=relaxed/simple;
+	bh=KfdWJVUy1kU0Nhcuk2I/MmIfNfdAKh+0EByci0W5Szg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UaVTQrMcqM+lpSZxxeToFNNkJqGXm2yIBpQGGpCFfLo1da2Pk3F2oLg02lajJEwS44ti6+gAa4Se4jUrmFXs1+KXkHmlLqhz1qOOMhlKi8w+SHZhf8OrG31p4KjgLoIF0zewEtUor0C+d3Fde9MVwBVDXOh5PEsRrubEFZ4DktM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=flSmuyQV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FTFY99ks";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zx0ebPEs";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FTFY99ks";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zx0ebPEs"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8297775D56;
-	Wed, 10 Jun 2026 15:45:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781106342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2bMHFbjzDu3oi4CEqxroIPZysv4ayzz+RSa2gaM/x7U=;
-	b=FTFY99ksHxMVX2Uy0Sl37q201/eII8I8qfqzEDv5NIxd74s8wA+sbSD0QL+ToA3lRsdtrl
-	DzRxkcGBYfcsbxpHWyTxTg4UkcjZsxfaLUt14ezBt8CUEBtaNF10zv/f0PNAQpBA0wpRzk
-	I1cTiAdo2xz+HsMLK82pt470tjgxWeA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781106342;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2bMHFbjzDu3oi4CEqxroIPZysv4ayzz+RSa2gaM/x7U=;
-	b=Zx0ebPEslJfAlQP7QflL4DBQgzpHyqlT6EKBxgOLhv/tqsTRnprM+ae95vX4AVxQZEG7K3
-	fOdqo1F7dWMdRYBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781106342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2bMHFbjzDu3oi4CEqxroIPZysv4ayzz+RSa2gaM/x7U=;
-	b=FTFY99ksHxMVX2Uy0Sl37q201/eII8I8qfqzEDv5NIxd74s8wA+sbSD0QL+ToA3lRsdtrl
-	DzRxkcGBYfcsbxpHWyTxTg4UkcjZsxfaLUt14ezBt8CUEBtaNF10zv/f0PNAQpBA0wpRzk
-	I1cTiAdo2xz+HsMLK82pt470tjgxWeA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781106342;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2bMHFbjzDu3oi4CEqxroIPZysv4ayzz+RSa2gaM/x7U=;
-	b=Zx0ebPEslJfAlQP7QflL4DBQgzpHyqlT6EKBxgOLhv/tqsTRnprM+ae95vX4AVxQZEG7K3
-	fOdqo1F7dWMdRYBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 62F35779A9;
-	Wed, 10 Jun 2026 15:45:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SDDpFqaGKWo5MwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 10 Jun 2026 15:45:42 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org,
-	linux-kernel@vber.kernel.org
-Subject: [PATCH 3/5] ALSA: hda: Use the new helper for PCM instance refcount
-Date: Wed, 10 Jun 2026 17:45:33 +0200
-Message-ID: <20260610154538.51076-4-tiwai@suse.de>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260610154538.51076-1-tiwai@suse.de>
-References: <20260610154538.51076-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="flSmuyQV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC2411F00893;
+	Wed, 10 Jun 2026 15:46:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781106400;
+	bh=KfdWJVUy1kU0Nhcuk2I/MmIfNfdAKh+0EByci0W5Szg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=flSmuyQVfR6Qzzj4264uL/3WKO4fpcjjZ4Jpe9LCYf8w3yyzBkv8J82QVqjrkmzVT
+	 f3l9nEUh+vtSycuEhKgKkyJbWjprL/xSDxyAFXi6dOjZfQ0rcmCcqRFBm2BgjCSU21
+	 txjRwsPP3m5KjRCREpBfcg+aHnfP7JKdtnE3YdXLBfg1oC117BM6h+1l4eBsdCO2RV
+	 JLA/NvN/HDKG9Kq6SdG9LDOVGP3RRZ4W7tN2KyW6lAf4sQWIIzKpXPsQywVQjX/X7V
+	 9ie4s2b02YYvDDh0WtIhos8Dror3uQHv1HNL0PZ2xdXYrduO2nJ4MSmPBzBybB56Ec
+	 DmWapuh2XIRzA==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 5CE5E1AC56C5; Wed, 10 Jun 2026 16:46:38 +0100 (BST)
+Date: Wed, 10 Jun 2026 16:46:38 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: phucduc.bui@gmail.com, Liam Girdwood <lgirdwood@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: meson: axg-tdm-formatter: Use guard() for mutex
+ locks
+Message-ID: <aimG3hIK6HUWyc2Q@sirena.co.uk>
+References: <20260610102153.83367-1-phucduc.bui@gmail.com>
+ <1j8q8mfte7.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWO(0.00)[2];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Level: 
-X-Spam-Score: -2.80
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="PxyZ8U/rEKlTlGqo"
+Content-Disposition: inline
+In-Reply-To: <1j8q8mfte7.fsf@starbuckisacylon.baylibre.com>
+X-Cookie: Leave no stone unturned.
 
-HD-audio core driver has some open-code for managing the refcount for
-PCM instances, and it can be replaced gracefully with the new helpers.
-Only a code cleanup, no functional changes.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- include/sound/hda_codec.h | 10 ++++++----
- sound/hda/common/bind.c   |  3 +--
- sound/hda/common/codec.c  | 14 +++-----------
- 3 files changed, 10 insertions(+), 17 deletions(-)
+--PxyZ8U/rEKlTlGqo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
-index 1a1fe7a904c3..17945ab5e6e2 100644
---- a/include/sound/hda_codec.h
-+++ b/include/sound/hda_codec.h
-@@ -188,8 +188,7 @@ struct hda_codec {
- 
- 	/* PCM to create, set by hda_codec_ops.build_pcms callback */
- 	struct list_head pcm_list_head;
--	refcount_t pcm_ref;
--	wait_queue_head_t remove_sleep;
-+	struct snd_refcount pcm_ref;
- 
- 	/* codec specific info */
- 	void *spec;
-@@ -439,9 +438,12 @@ void snd_hda_codec_cleanup_for_unbind(struct hda_codec *codec);
- 
- static inline void snd_hda_codec_pcm_get(struct hda_pcm *pcm)
- {
--	refcount_inc(&pcm->codec->pcm_ref);
-+	snd_refcount_get(&pcm->codec->pcm_ref);
-+}
-+static inline void snd_hda_codec_pcm_put(struct hda_pcm *pcm)
-+{
-+	snd_refcount_put(&pcm->codec->pcm_ref);
- }
--void snd_hda_codec_pcm_put(struct hda_pcm *pcm);
- 
- int snd_hda_codec_prepare(struct hda_codec *codec,
- 			  struct hda_pcm_stream *hinfo,
-diff --git a/sound/hda/common/bind.c b/sound/hda/common/bind.c
-index bb1090b65699..6a728a773556 100644
---- a/sound/hda/common/bind.c
-+++ b/sound/hda/common/bind.c
-@@ -162,8 +162,7 @@ static int hda_codec_driver_remove(struct device *dev)
- 
- 	snd_hda_codec_disconnect_pcms(codec);
- 	snd_hda_jack_tbl_disconnect(codec);
--	if (!refcount_dec_and_test(&codec->pcm_ref))
--		wait_event(codec->remove_sleep, !refcount_read(&codec->pcm_ref));
-+	snd_refcount_sync(&codec->pcm_ref);
- 	snd_power_sync_ref(codec->bus->card);
- 
- 	if (driver->ops->remove)
-diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
-index 81f266b9b850..ef533770179b 100644
---- a/sound/hda/common/codec.c
-+++ b/sound/hda/common/codec.c
-@@ -689,13 +689,6 @@ get_hda_cvt_setup(struct hda_codec *codec, hda_nid_t nid)
- /*
-  * PCM device
-  */
--void snd_hda_codec_pcm_put(struct hda_pcm *pcm)
--{
--	if (refcount_dec_and_test(&pcm->codec->pcm_ref))
--		wake_up(&pcm->codec->remove_sleep);
--}
--EXPORT_SYMBOL_GPL(snd_hda_codec_pcm_put);
--
- struct hda_pcm *snd_hda_codec_pcm_new(struct hda_codec *codec,
- 				      const char *fmt, ...)
- {
-@@ -716,7 +709,7 @@ struct hda_pcm *snd_hda_codec_pcm_new(struct hda_codec *codec,
- 	}
- 
- 	list_add_tail(&pcm->list, &codec->pcm_list_head);
--	refcount_inc(&codec->pcm_ref);
-+	snd_hda_codec_pcm_get(pcm);
- 	return pcm;
- }
- EXPORT_SYMBOL_GPL(snd_hda_codec_pcm_new);
-@@ -787,7 +780,7 @@ void snd_hda_codec_cleanup_for_unbind(struct hda_codec *codec)
- 	remove_conn_list(codec);
- 	snd_hdac_regmap_exit(&codec->core);
- 	codec->configured = 0;
--	refcount_set(&codec->pcm_ref, 1); /* reset refcount */
-+	snd_refcount_init(&codec->pcm_ref); /* reset refcount */
- }
- EXPORT_SYMBOL_GPL(snd_hda_codec_cleanup_for_unbind);
- 
-@@ -927,8 +920,7 @@ snd_hda_codec_device_init(struct hda_bus *bus, unsigned int codec_addr,
- 	INIT_LIST_HEAD(&codec->conn_list);
- 	INIT_LIST_HEAD(&codec->pcm_list_head);
- 	INIT_DELAYED_WORK(&codec->jackpoll_work, hda_jackpoll_work);
--	refcount_set(&codec->pcm_ref, 1);
--	init_waitqueue_head(&codec->remove_sleep);
-+	snd_refcount_init(&codec->pcm_ref);
- 
- 	return codec;
- }
--- 
-2.54.0
+On Wed, Jun 10, 2026 at 02:54:08PM +0200, Jerome Brunet wrote:
+> On mer. 10 juin 2026 at 17:21, phucduc.bui@gmail.com wrote:
 
+> > Clean up the code using guard() for mutex locks.
+> > Merely code refactoring, and no behavior change.
+
+> I suppose it is OK but it does not seem to really clean anything and
+> make the code easier to follow in that instance, from my perspective at
+> least.
+
+> If there is policy to systematically use guard() whenever
+> possible then OK, otherwise it seems unnecessary.
+
+I don't know about policy but there's definitely people who are keen on
+converting things to this pattern.
+
+--PxyZ8U/rEKlTlGqo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmopht0ACgkQJNaLcl1U
+h9CzRwgAgDswQDXFyzP5z4rETNyEf3MQAZYJYQ3LTNsRsjBW0i3YBsbEwiJoeDF5
+jfTgd6UguAKKbHKzgkWe6qbYY2bUjMVI3xANcR4Uyd6SbyS92RpWyDH729+mDbLK
+bP3l4yAWtiGfSsDqDASxflSVpkWJmSFcImDX9QxoEc8L94Xynh4V6Ju3g4U5mo1t
+Z1sZmpt5uktyvYaTqt8KISlILUGBNzd3XGsmCZYLD+BhPprmyuPKpvDLPho+zXkP
++Uop8nWZpZGNNo2iJN5szX8ZEO3XVKsaXLcsbc4PeKNhqf02cu2S5aZm1N9az+Rq
+1L7IGgsO7TnmOy1C6O6pK/6Hd9d31Q==
+=eN3r
+-----END PGP SIGNATURE-----
+
+--PxyZ8U/rEKlTlGqo--
