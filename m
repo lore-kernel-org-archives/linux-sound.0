@@ -1,313 +1,178 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010044.outbound.protection.outlook.com [52.101.228.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18FC3F7AAD
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 21:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781126985; cv=none; b=mXFryEfCb+sgixHG4S7o2ibv90xK0FxvLBaTqpC0AJdxTe3P+r72Vi2cNehf3oUa+fSXIn6RxYT5h6HCHtiq2VzjVzqzEVr9oE35tAihkAkA4dlDsbiv8d3AdqQcgjb3V+tUhfg77Q7oeWr3R47rerbyf8OFEFRYJaPye5vQF+k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781126985; c=relaxed/simple;
-	bh=/h2Td7mUr6sv6XUhWr9Xcq7WvMFZwzP575T2baPy/Ds=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ne6v0nLY3/BucaSzfiLvh2cIp1Uy5/irJ11eMpVGU4T7hPeBxhNjbQ+kJsk6A9cSXGabs+dnJPD1a9O8g7ZXMyigDvmKDEmrEoi8LEdOWrdH2+epetuhXzXISgkSe505K4SLsoOLBMNIKRNd412a8VqjW3ngUIxNiz8mmdBDg/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=pLzxiZ1F; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E37A40D592;
+	Wed, 10 Jun 2026 22:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781131928; cv=fail; b=BT2Q/38kiQrpZMXlIkbpAD9vgdCfCxztVL303PvmYBKM3Qw8YCvgwcnBMpw3ZYGJCYlRwh0vcmfeNz6P9h2huCB93c4gk5jX+i/fGqTGCm3ByU9XFOgqlq/QFMWKvrl+9Yf+1M7eE6s/p1GR7u6fEcAS3BbSVoMTGye4ViDqHII=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781131928; c=relaxed/simple;
+	bh=EewOueFGZQNPrPeGCObRkLrna1R6nsSGODhNxVtzhEA=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=fSQb8UBVS34etGcw4nINXzuOtpHp8t2inm/wx/O7nEF4yrBQJa+YXCAi3KA+PNQP+XVZed1uWTGhYp2zY1hBgVYou1PEH1DamDcV7WhWjdxx0c7rDt8DXhqfiba3hmeGfEchDLnP+XnV/z67DhxLn+wkK9Frl5s+g5HeVUMABQ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=TI4cJg94; arc=fail smtp.client-ip=52.101.228.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="pLzxiZ1F"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490b915ded5so63987385e9.3
-        for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 14:29:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1781126982; x=1781731782; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HdSvP4OsE7eHoTjId0UaG2CyxblqVBvzSM5Fo0qLTpA=;
-        b=pLzxiZ1FiM7CUp6dubACI08KMSSgsoshkZFfkl86LGoGBWcfnvsiYH+SiUc3QwmuhA
-         EyhfZ0Bpk//pfwPopaBTVsVPyjiwGdgS+nVeS9x30FZd83Jzwb/kaO2w0wREBGreEyh+
-         8Yv5x5CRzANUdld5pfczlkZ0y4i8JvOjyuJkqnYX6/KvUq1QhtLquLVVRbDTK2oLdjOg
-         kG3/QxtFfP6ObPdyRBlMhXT3z1GtMbKApFf/bs7RlkEhTFD7AAEUTFlF+5lNJfVKUhLI
-         K8AJndctsUarFFdcZoebKNI8o5OmwuHrGDiuMW69n2oBM7ytkN2EGD4IwctkgbVoCvF9
-         cTtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781126982; x=1781731782;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=HdSvP4OsE7eHoTjId0UaG2CyxblqVBvzSM5Fo0qLTpA=;
-        b=MaKTwbwTP++66xggZlfZLvvh7gIGLZXAnnv5tNgMp+LcNysRjOvW2Qi6624nidx9Z1
-         KFutgXn3k/DAiwA5r8JvCfx48LvpiuGRwlM8PQbDgb7sw7KnAUQjsPlViV56tbkGrgze
-         W/wkc6DcRlROiQfYUPzofwdgW0ruIKIP+NJcGfJ9Gwwe6yP7qKPanBYcGxxuVPbVi0OG
-         hZUXXdc3f+ZkxORAI3STL8zwdN1ArlrgHDx68N9mwSXj6+Iapk1bcYLRPWtPBiI75m32
-         H4drRnMoLHadTf4WeIqoSlMQdxPKMyfvt+6gc1L77qQiD+LUhV1Oljo5EgIcCRwrLr6K
-         OUnQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8hPL/kzM75viS0xm54GVybrWIRz0XzKqJE59zbxfEYFqyJboJLlduEVjGEGfTpaAFgpNxv/eGTGlhHiw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbO25jbSv1xq8vGkKoz+/g+TXLLaVhS0QjDvB9zVQYEwa4n0C1
-	nRV6DRIjA2Y+5d0mevx7O+quSSmxT5sHKjvIRKWw2rDgEZaUQECWj2YTr4OGTGGM+e4=
-X-Gm-Gg: Acq92OG7metLix2t3ClcWhxvxNY50GCY+euqeNPek1dhFfGOByLNhADD3JMgHtd3bWu
-	SvEJ+T1rzKQwM/xuCoZqeI5e/WYBGBpIyB7+JrwKivZzXyrHIgHi6wnvvVNwuESUGEPEYlfTwLc
-	hKLC2CfATk4OO6CMCEqGwKzzFaRlyHnyYVL6oBX9fKzr9y1PsOrnvaxEmDU1iz05RpudtWdGqro
-	KPOtd52x2UX6p8i7Clttw1rpuzrSG5OsGp/hf61aMPMH0PizykwWF3J6MgnXCDna9kvj55eCDkF
-	+fJH3166lv5vqu5BC/RkRoUJs65PipEXOwzW7N/6VGN/xUpd9pXo7vXB5+U3G4X8G2q8V7zcTLc
-	EhRebnpqNv+91COVyDUqRO3qGgYWdoB6uGrFSoCsX1AJeZ8CRqe8/xXvtZ10vXz65zsyMYNJVAH
-	ODk9LnbyALhIir1gv9w5DDFOAdgLg3KnCA+hl5lq4Zsg==
-X-Received: by 2002:a05:600d:6446:10b0:490:bccf:2bd6 with SMTP id 5b1f17b1804b1-490e2e29494mr5787235e9.15.1781126982292;
-        Wed, 10 Jun 2026 14:29:42 -0700 (PDT)
-Received: from [127.0.1.1] ([151.61.238.34])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490e4228768sm970965e9.0.2026.06.10.14.29.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 14:29:42 -0700 (PDT)
-From: Valerio Setti <vsetti@baylibre.com>
-Date: Wed, 10 Jun 2026 23:29:28 +0200
-Subject: [PATCH v2 4/4] ASoC: meson: aiu: use aiu-formatter-i2s to format
- I2S output data
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="TI4cJg94"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fPR7WCbAxAUJ2JoI+dYjZiYqeaqgy08tDx6Lp7ZrH9lo334HjkVt8MgTVEKvwgMr41hObHqBK3K8VQO1sHyqwXrFAOhEV8kn3yOFtfz8RN91OuHb62NBYU90t7FYdLA0CEbvgiXQvg5Elr+AvAtbyRhW2szWpOEJD4D0cpEsSgvaicNwM2a2OSHt7E/iaZYeFDjEDi7/7V0blkYKogbUiwK0lJ+AlTXQM3gzZGieWb9jP5bU5kxeEG+WIWI2uuH8EgNBqH4iqKtrtL8dykc/WI/qszSQlJfa2QPvKj02kDx9+BQq+9Wx2sQ1zjwk3Zdlr+GSHiR5OtHiyBaAbHg3KQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EDEMDDaqdj9pQ3OwoIuKc6Cse0pp48jNinFz3VV87wk=;
+ b=rffDBnCrKEaD2BW3YeSx3rcg2+iRC0VBgvl0R37Xc+NwiNG4I6w5Shth3Xr2OAlhKjj6EGWu9S8EDSM7ZLS7k2nJaezYxbKScC8XVkoWL4UmwBYiEOR1WB67GlTsy7kZCg8ajYF9OJz9vmQfvFklog7N5Tn5wVvgQL1Tc1eFRi1xi6ZOVDIwV9KMpreMRmfPmFHFT1X8MPM8LTVLWLiSDQjqenZdVIy1u2yZ6yjvGaDkNwVDV52hM4xa0RigCfYbsSxiuQIxonlU2wsxlnSE44/pMEjGzLIqQqgKShfp+w42cEnMcamClQ/FnG1lyvoO8KmvdxbhywBAQHmXj5R5sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EDEMDDaqdj9pQ3OwoIuKc6Cse0pp48jNinFz3VV87wk=;
+ b=TI4cJg94jTDYIh1MZDsyp1qma+DlncJPqL7GwUlbcWjYMazH3eTrIpD4AZhdrRaN6d21XhRy7QC+OoRD0kVmUPSU9PGdM4xHfBZwpkbxXvFUlck9dtL/Ci/hcTYB1KsMv5sUt7oa97M3olZEKAXLg+hCQouMpLfYlQ3JFrSILco=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from OSRPR01MB11811.jpnprd01.prod.outlook.com (2603:1096:604:235::9)
+ by TY3PR01MB10942.jpnprd01.prod.outlook.com (2603:1096:400:3af::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.11; Wed, 10 Jun
+ 2026 22:52:00 +0000
+Received: from OSRPR01MB11811.jpnprd01.prod.outlook.com
+ ([fe80::a2c7:5e53:c133:d834]) by OSRPR01MB11811.jpnprd01.prod.outlook.com
+ ([fe80::a2c7:5e53:c133:d834%3]) with mapi id 15.21.0113.011; Wed, 10 Jun 2026
+ 22:51:58 +0000
+Message-ID: <87ldcmovp0.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: John Madieu <john.madieu.xa@bp.renesas.com>
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	john.madieu@gmail.com,
+	biju.das.jz@bp.renesas.com
+Subject: Re: [PATCH] ASoC: rsnd: adg: make rsnd_adg_clk_control() idempotent
+In-Reply-To: <20260610164704.2211321-1-john.madieu.xa@bp.renesas.com>
+References: <20260610164704.2211321-1-john.madieu.xa@bp.renesas.com>
+User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 10 Jun 2026 22:51:58 +0000
+X-ClientProxiedBy: TY4P286CA0114.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:37c::12) To OSRPR01MB11811.jpnprd01.prod.outlook.com
+ (2603:1096:604:235::9)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260610-reshape-aiu-as-axg-v2-4-cac3663a8b51@baylibre.com>
-References: <20260610-reshape-aiu-as-axg-v2-0-cac3663a8b51@baylibre.com>
-In-Reply-To: <20260610-reshape-aiu-as-axg-v2-0-cac3663a8b51@baylibre.com>
-To: Jerome Brunet <jbrunet@baylibre.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- Valerio Setti <vsetti@baylibre.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7991; i=vsetti@baylibre.com;
- h=from:subject:message-id; bh=/h2Td7mUr6sv6XUhWr9Xcq7WvMFZwzP575T2baPy/Ds=;
- b=owGbwMvMwCF2z3ty7kUrRgbG02pJDFma1x2COF5w1rWmPDvsyMu7KsxGbZuhj/f+yfwLelrq7
- h1c9EW/o5SFQYyDQVZMkYVl+r3fBaVqD40TThbAzGFlAhnCwMUpABNpiWZkOLL1F/sOzeA12y7O
- z9z7PX6yvM9SM9bah3v5/Trsz2qfKGP4yfj1WP1cjlLvYotjP4/t5ZmXwx95fHka1zPrNy1bWA4
- ZMAMA
-X-Developer-Key: i=vsetti@baylibre.com; a=openpgp;
- fpr=0497DEFB707526E13360C970DE4B936DD13A0100
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OSRPR01MB11811:EE_|TY3PR01MB10942:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4ffdf00e-750c-463b-ad26-08dec742e085
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|52116014|376014|366016|1800799024|56012099006|11063799006|22082099003|18002099003|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	rxwA68vwqUNP4fw2gdlev6zX3w9kFU1I+iG7OkUUQiMokYip64wqgNQtZjxeV5QHGPKXAEayYQkEg4K3FKGmGnu/vBO+PMqEXHV+hHcTMOf0mdAsMRTE6vGvTKckY4a5p0GIJbYsB+wIY9rPeu/z+4hcuiRpsgsN5JN8Wx26qxjsu6A1L1G0oKP2Czi1JAUSrzogk/G78gLccxkX7QF9FQ0FaIqqVddwcfb2cqNtZMrdM3LNK1ZxDkj9IpqTn+kriFE7VLh/yZK98eTUEiiYlUuxY2hzPvvMnbp4+cnsJUsf+Gg9kei4MFvAAu/XK584q7XZPtvlYJywsDcfBmx7ykWjd85/UUai8Osv++GHV5R3t+zA42umA5ef6qpPkcexFl6izXrDU3QbagzwpFQz421oz1XuEwXihL4BfiWcTeW6eAse9eKROhEN9r0bKp86Q6nWDpc9rP2jS4AvS9z38iad0RcLSNieTvDeJIAMf+kO2f4sjGsJoUGuDUgA8xiY2mo6g6P28VdIw58WD0w9d7SOVaxiy2etrN45bnxUifxj/sjYE2uCeZXG5DDdRRzv7IAPIreVG8rTU/6R6Wo+8Z8xl8W3ZoG+4hqA+zUbhKDHhQ2xB5XAieVrcEdEw2q5e8iTeERinWfYrQP0qGML2QkRt27XMw57037OpVZDP3FP4WoTa4VswUGj+Il2y6Blg/efmPjnFZq9SyWbv1Vz3tUveuSbI0xd2zBl+ru/kp9mNDlpqfZsgmCMjuWbNqV1
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSRPR01MB11811.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(52116014)(376014)(366016)(1800799024)(56012099006)(11063799006)(22082099003)(18002099003)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?w1p5PfIDnd0N/jaEvQHn4F5J7zgTclld7EjZV66h9pvW9cPBarrLQw24/jqa?=
+ =?us-ascii?Q?RYioPeuFgoMJdL6pis29zuEumxBzF2AKq2wzZ6r0slso03uPl2/ObcR19xpB?=
+ =?us-ascii?Q?L5HtpQg+oW93NiXwhpmDIAGqBHaRawOT+tvc3iAIsLLpg5p5lfUljB7KrUNr?=
+ =?us-ascii?Q?RYU6C66ARzOAlbt7gP8/9lYMaQ23L6/wMpnhi3c/ZW843DA6eqN2FL5qj/+/?=
+ =?us-ascii?Q?oexRKfLltSSYEejZZg+gXLxH7ohJoWeFtnbtj6y8u3KzS9DYVCcy8LVR3XRj?=
+ =?us-ascii?Q?i/S3Zsd/NR5lwCPINSrm/ViCFRUjUMpasVYBKXNcPi9N0Q5yOfooO85qDbI1?=
+ =?us-ascii?Q?PuS4W5i0D3qz56Zv+ttALzjxivRZihVysjCpzlKPfncyaVetwDA/ezMU058y?=
+ =?us-ascii?Q?6kbhCzqQzSs387+1zpzHrsROpNT8Dg0DIgtxxUj8YzmfU3qlWetUH9UEAR9u?=
+ =?us-ascii?Q?odcZCTyOzNoj0KydpiImvUGdDB9dZ4zEcTbJy7Ol6yjnaEet2qEHsoIUIFl7?=
+ =?us-ascii?Q?5Dt3uSkPO8BFOnS9sbbZLIHYKPp2BHQc2S60xj9o+dsqWOUN0Na5CZXe62lM?=
+ =?us-ascii?Q?AwY8hcKwj/zjM2N+oYjuTSGaI37E12eCYyaDWnMMPXgwJgon28g9AeCI+XQd?=
+ =?us-ascii?Q?2bNr3CF6sq4ZFYa8t7Q4XGYeQ033SL6qI7rSybbaN3tXLbIJF8Vj3gZE+Qnf?=
+ =?us-ascii?Q?OvggFWahcobvxCg/wU4WnQl4qcZVHf+Nv8C/AFwOEABpt2OFsNgWHMFVS1G1?=
+ =?us-ascii?Q?0iHJouA8yVaOhOzUwXI2mtMM2IZIgUD3/obOnhQrLO6F8OtiX/Vsh8NT3sZT?=
+ =?us-ascii?Q?9GEm/eBwXzsp1VGPmp01BC/jFbwwAxUtrCq0BpqNmcFQRQHMjPTR8yyqgfqU?=
+ =?us-ascii?Q?S/AMevLdw8l/IKjf5kb4pPV/Mz6DpmgqrjKTO1tRHXXCrC9Q6wDLCdSc81Qm?=
+ =?us-ascii?Q?3Kkl+vua/MHSWJqJnb9dzNcTj2jIWloHAbULAb+WlgVPHkIufZ9vzf3VCoSY?=
+ =?us-ascii?Q?XjCBfwUz0qZ1qbHWeNlMPgV+yT6vLszzSXP61gaPOsnfp9jypcHNXn4YJkoF?=
+ =?us-ascii?Q?HNeW4HeDH23bnTjiFINz6mifvlysWZLUX9Mlz+/TTCiTlX3ps6A7qNW8wpag?=
+ =?us-ascii?Q?2qHBuX4Wt6qHoLfwq38EoBZE7WNycRTZM4DqQwpOCcV5I6wP9qtuApJgBWRK?=
+ =?us-ascii?Q?DCcXadUelG5oAlSGL6bHres2rE2/XwZuS8m4G8wPxNF9vUHm+zdv5KyjYoWr?=
+ =?us-ascii?Q?fkcfh04OfO3IpKWXsT3iiQcfHOV//gFM0BhkyZ/cSGtVls6zSCTW4ULo+57M?=
+ =?us-ascii?Q?oWLuPtniBEogsauAfe3sHSVsDTFkDZYVyygcXGzBjhZHCItAyoscrBHx4oRK?=
+ =?us-ascii?Q?NNtnknubjV1MiZWuz4chJMxYzTiF4BIVkwMxn4zMkrkZOkZcugcrA2aHjN2c?=
+ =?us-ascii?Q?tEOFVTjzQCLVYp5zXSiD548XGTgKfmhF0KBWcLqlN3Zhx79ftPa0+VPgIbat?=
+ =?us-ascii?Q?sLod6WWxjr+lHAdSBsFuTqq1+8Xbv/csMfr4rtt30h+sW0BQyTiOrhGl72kk?=
+ =?us-ascii?Q?yndft4kSU1LhLhXIqLut1a271Qjb8RBvqLeSGJrnP40n/fVn+OdJvhxsSjKZ?=
+ =?us-ascii?Q?iR/quXu6W9h0qIQ2om+t2HH9jI4Bf7mbTqRoQM+1iOZ9C0WY7MJ+c7M4GJwg?=
+ =?us-ascii?Q?BReAaNpvdLsnMXBYNk18pLTriY/XJHzNMqegkKzVRokt4BxOBnAjXVFmWvLm?=
+ =?us-ascii?Q?seMzhuNDxmr1jW2+QAaGsflDkFAw3X+0dimNtBet6NMf2lCLlW7r?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ffdf00e-750c-463b-ad26-08dec742e085
+X-MS-Exchange-CrossTenant-AuthSource: OSRPR01MB11811.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2026 22:51:58.3315
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TbbH8o84b4Yh3QeMjZizbSlVnB0+JhdphiGC/GuWi2nRs7sLyBcH40AaXn8t1vHC6BGFx6qSzUwD2TPgk/XpNItX9wtbXwyUu+rz46MjV0Dr8shMADe+DczF5s7iJ5N3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10942
 
-Create a new DAPM widget for "I2S formatter" and place it on the path
-between FIFO and output DAI interface. Remove I2S output formatting code
-from aiu-encoder-i2s since it's now implemented from aiu-formatter-i2s.
 
-Signed-off-by: Valerio Setti <vsetti@baylibre.com>
+Hi John
+
+> rsnd_adg_clk_control() is asymmetric on the disable path: the clkin
+> clocks are guarded by clkin_rate[], but the "adg" clock is disabled
+> unconditionally. If an enable attempt fails (for example a clkin
+> failing to turn on during resume), the error path correctly rolls
+> everything back, but rsnd_resume() ignores the return value, so the
+> following system suspend calls rsnd_adg_clk_disable() again and
+> underflows the "adg" clock enable count:
+> 
+>   adg_0_clks1 already disabled
+>   WARNING: drivers/clk/clk.c:1188 clk_core_disable+0xa4/0xac
+>   Call trace:
+>    clk_core_disable+0xa4/0xac (P)
+>    clk_disable+0x30/0x4c
+>    rsnd_adg_clk_control+0x9c/0x2cc
+>    rsnd_suspend+0x20/0x74
+>    device_suspend+0x140/0x3ec
+>    dpm_suspend+0x168/0x270
+> 
+> Track the enable state explicitly and bail out of redundant
+> enable/disable calls, mirroring what is already done for the per-SSI
+> clock prepare state. A failed enable leaves the state as disabled, so
+> the next suspend becomes a no-op and the next resume retries cleanly.
+> 
+> Fixes: 47899d53f86f ("ASoC: rsnd: adg: Add per-SSI ADG and SSIF supply clock management")
+> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
+> ---
+>  sound/soc/renesas/rcar/adg.c | 29 ++++++++++++++++++++++++++++-
+>  1 file changed, 28 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/renesas/rcar/adg.c b/sound/soc/renesas/rcar/adg.c
+> index 5479cefb6dbe..53efd1be5139 100644
+> --- a/sound/soc/renesas/rcar/adg.c
+> +++ b/sound/soc/renesas/rcar/adg.c
+> @@ -45,6 +45,7 @@ struct rsnd_adg {
+>  	struct rsnd_mod mod;
+>  	int clkin_rate[CLKINMAX];
+>  	bool ssi_clk_prepared;
+> +	bool clk_enabled;
+
+Can we use clk_is_enabled_when_prepared() instead ?
+
+Thank you for your help !!
+
+Best regards
 ---
- sound/soc/meson/aiu-encoder-i2s.c | 78 ++++++++++-----------------------------
- sound/soc/meson/aiu.c             | 32 ++++++++++++++--
- sound/soc/meson/aiu.h             |  1 +
- 3 files changed, 48 insertions(+), 63 deletions(-)
-
-diff --git a/sound/soc/meson/aiu-encoder-i2s.c b/sound/soc/meson/aiu-encoder-i2s.c
-index f50b03824ad280afabb31eecc20ccb855defa11e..83b579e98f1c75ce03fea1c6ff4e99b2fedebe0c 100644
---- a/sound/soc/meson/aiu-encoder-i2s.c
-+++ b/sound/soc/meson/aiu-encoder-i2s.c
-@@ -13,13 +13,8 @@
- #include "gx-formatter.h"
- #include "gx-interface.h"
- 
--#define AIU_I2S_SOURCE_DESC_MODE_8CH	BIT(0)
--#define AIU_I2S_SOURCE_DESC_MODE_24BIT	BIT(5)
--#define AIU_I2S_SOURCE_DESC_MODE_32BIT	BIT(9)
- #define AIU_I2S_SOURCE_DESC_MODE_SPLIT	BIT(11)
--#define AIU_RST_SOFT_I2S_FAST		BIT(0)
- 
--#define AIU_I2S_DAC_CFG_MSB_FIRST	BIT(2)
- #define AIU_CLK_CTRL_I2S_DIV_EN		BIT(0)
- #define AIU_CLK_CTRL_I2S_DIV		GENMASK(3, 2)
- #define AIU_CLK_CTRL_AOCLK_INVERT	BIT(6)
-@@ -37,49 +32,6 @@ static void aiu_encoder_i2s_divider_enable(struct snd_soc_component *component,
- 				      enable ? AIU_CLK_CTRL_I2S_DIV_EN : 0);
- }
- 
--static int aiu_encoder_i2s_setup_desc(struct snd_soc_component *component,
--				      struct snd_pcm_hw_params *params)
--{
--	/* Always operate in split (classic interleaved) mode */
--	unsigned int desc = AIU_I2S_SOURCE_DESC_MODE_SPLIT;
--
--	/* Reset required to update the pipeline */
--	snd_soc_component_write(component, AIU_RST_SOFT, AIU_RST_SOFT_I2S_FAST);
--	snd_soc_component_read(component, AIU_I2S_SYNC);
--
--	switch (params_physical_width(params)) {
--	case 16: /* Nothing to do */
--		break;
--
--	case 32:
--		desc |= (AIU_I2S_SOURCE_DESC_MODE_24BIT |
--			 AIU_I2S_SOURCE_DESC_MODE_32BIT);
--		break;
--
--	default:
--		return -EINVAL;
--	}
--
--	switch (params_channels(params)) {
--	case 2: /* Nothing to do */
--		break;
--	case 8:
--		desc |= AIU_I2S_SOURCE_DESC_MODE_8CH;
--		break;
--	default:
--		return -EINVAL;
--	}
--
--	snd_soc_component_update_bits(component, AIU_I2S_SOURCE_DESC,
--				      AIU_I2S_SOURCE_DESC_MODE_8CH |
--				      AIU_I2S_SOURCE_DESC_MODE_24BIT |
--				      AIU_I2S_SOURCE_DESC_MODE_32BIT |
--				      AIU_I2S_SOURCE_DESC_MODE_SPLIT,
--				      desc);
--
--	return 0;
--}
--
- static int aiu_encoder_i2s_set_legacy_div(struct snd_soc_component *component,
- 					  struct snd_pcm_hw_params *params,
- 					  unsigned int bs)
-@@ -173,11 +125,6 @@ static int aiu_encoder_i2s_set_clocks(struct snd_soc_component *component,
- 	if ((fs % 64) || (fs == 0))
- 		return -EINVAL;
- 
--	/* Send data MSB first */
--	snd_soc_component_update_bits(component, AIU_I2S_DAC_CFG,
--				      AIU_I2S_DAC_CFG_MSB_FIRST,
--				      AIU_I2S_DAC_CFG_MSB_FIRST);
--
- 	/* Set bclk to lrlck ratio */
- 	snd_soc_component_update_bits(component, AIU_CODEC_DAC_LRCLK_CTRL,
- 				      AIU_CODEC_DAC_LRCLK_CTRL_DIV,
-@@ -223,12 +170,6 @@ static int aiu_encoder_i2s_hw_params(struct snd_pcm_substream *substream,
- 		}
- 	}
- 
--	ret = aiu_encoder_i2s_setup_desc(component, params);
--	if (ret) {
--		dev_err(dai->dev, "setting i2s desc failed: %d\n", ret);
--		return ret;
--	}
--
- 	ret = aiu_encoder_i2s_set_clocks(component, params);
- 	if (ret) {
- 		dev_err(dai->dev, "setting i2s clocks failed: %d\n", ret);
-@@ -411,6 +352,25 @@ static int aiu_encoder_i2s_startup(struct snd_pcm_substream *substream,
- 		return ret;
- 	}
- 
-+	/*
-+	 * We're always operating in split mode for the playback stream.
-+	 *
-+	 * This setting arguably belong to the 'aiu-formatter', but it's kept
-+	 * here for backward compatibility reason. At reset the I2S encoder
-+	 * operates in normal mode which would only support 8ch, but by default
-+	 * only 2ch are enabled. If a playback stream is started without
-+	 * changing to split mode, then the I2S encoder doesn't consume audio
-+	 * samples and the playback fails.
-+	 * Moving this to 'aiu-formatter' would cause the split mode to be set
-+	 * only when the formatter is enabled, which doesn't happen at boot as
-+	 * the default value for "HDMI CTRL SRC" is "DISABLED".
-+	 */
-+	ret = snd_soc_component_update_bits(dai->component, AIU_I2S_SOURCE_DESC,
-+					    AIU_I2S_SOURCE_DESC_MODE_SPLIT,
-+					    AIU_I2S_SOURCE_DESC_MODE_SPLIT);
-+	if (ret < 0)
-+		dev_err(dai->dev, "failed to update AIU_I2S_SOURCE_DESC: %d", ret);
-+
- 	return 0;
- }
- 
-diff --git a/sound/soc/meson/aiu.c b/sound/soc/meson/aiu.c
-index f2890111c1d2cfa2213bf01849957a796744b9ae..64ace4d25d92cbe137066359a839e1b11bf140f8 100644
---- a/sound/soc/meson/aiu.c
-+++ b/sound/soc/meson/aiu.c
-@@ -29,13 +29,22 @@ static SOC_ENUM_SINGLE_DECL(aiu_spdif_encode_sel_enum, AIU_I2S_MISC,
- static const struct snd_kcontrol_new aiu_spdif_encode_mux =
- 	SOC_DAPM_ENUM("SPDIF Buffer Src", aiu_spdif_encode_sel_enum);
- 
--static const struct snd_soc_dapm_widget aiu_cpu_dapm_widgets[] = {
--	SND_SOC_DAPM_MUX("SPDIF SRC SEL", SND_SOC_NOPM, 0, 0,
--			 &aiu_spdif_encode_mux),
-+#define AIU_WIDGET_SPDIF_SRC_SEL	0
-+#define AIU_WIDGET_I2S_FORMATTER	1
-+
-+static struct snd_soc_dapm_widget aiu_cpu_dapm_widgets[] = {
-+	[AIU_WIDGET_SPDIF_SRC_SEL] =
-+		SND_SOC_DAPM_MUX("SPDIF SRC SEL", SND_SOC_NOPM, 0, 0,
-+				 &aiu_spdif_encode_mux),
-+	[AIU_WIDGET_I2S_FORMATTER] =
-+		SND_SOC_DAPM_PGA_E("I2S Formatter", SND_SOC_NOPM, 0, 0, NULL, 0,
-+				   gx_formatter_event,
-+				   (SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_PRE_PMD)),
- };
- 
- static const struct snd_soc_dapm_route aiu_cpu_dapm_routes[] = {
--	{ "I2S Encoder Playback", NULL, "I2S FIFO Playback" },
-+	{ "I2S Formatter", NULL, "I2S FIFO Playback" },
-+	{ "I2S Encoder Playback", NULL, "I2S Formatter" },
- 	{ "SPDIF SRC SEL", "SPDIF", "SPDIF FIFO Playback" },
- 	{ "SPDIF SRC SEL", "I2S", "I2S FIFO Playback" },
- 	{ "SPDIF Encoder Playback", NULL, "SPDIF SRC SEL" },
-@@ -172,6 +181,11 @@ static const struct regmap_config aiu_regmap_cfg = {
- 	.max_register	= 0x2ac,
- };
- 
-+const struct gx_formatter_driver aiu_formatter_i2s_drv = {
-+	.regmap_cfg	= &aiu_regmap_cfg,
-+	.ops		= &aiu_formatter_i2s_ops,
-+};
-+
- static int aiu_clk_bulk_get(struct device *dev,
- 			    const char * const *ids,
- 			    unsigned int num,
-@@ -282,6 +296,14 @@ static int aiu_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
-+	/* Allocate the aiu-formatter into its widget */
-+	ret = gx_formatter_create(dev, &aiu_cpu_dapm_widgets[AIU_WIDGET_I2S_FORMATTER],
-+				  &aiu_formatter_i2s_drv, map);
-+	if (ret) {
-+		dev_err(dev, "Failed to allocate aiu formatter\n");
-+		goto err;
-+	}
-+
- 	/* Register the cpu component of the aiu */
- 	ret = snd_soc_register_component(dev, &aiu_cpu_component,
- 					 aiu_cpu_dai_drv,
-@@ -310,12 +332,14 @@ static int aiu_probe(struct platform_device *pdev)
- 
- 	return 0;
- err:
-+	gx_formatter_free(&aiu_cpu_dapm_widgets[AIU_WIDGET_I2S_FORMATTER]);
- 	snd_soc_unregister_component(dev);
- 	return ret;
- }
- 
- static void aiu_remove(struct platform_device *pdev)
- {
-+	gx_formatter_free(&aiu_cpu_dapm_widgets[AIU_WIDGET_I2S_FORMATTER]);
- 	snd_soc_unregister_component(&pdev->dev);
- }
- 
-diff --git a/sound/soc/meson/aiu.h b/sound/soc/meson/aiu.h
-index 68310de0bdf7a97d8de2ff306c159248ee9b0ede..7d0b98c1f351b3c526ca06c43a4c04ee5f4b6dfa 100644
---- a/sound/soc/meson/aiu.h
-+++ b/sound/soc/meson/aiu.h
-@@ -61,6 +61,7 @@ extern const struct snd_soc_dai_ops aiu_fifo_i2s_dai_ops;
- extern const struct snd_soc_dai_ops aiu_fifo_spdif_dai_ops;
- extern const struct snd_soc_dai_ops aiu_encoder_i2s_dai_ops;
- extern const struct snd_soc_dai_ops aiu_encoder_spdif_dai_ops;
-+extern const struct gx_formatter_ops aiu_formatter_i2s_ops;
- 
- #define AIU_IEC958_BPF			0x000
- #define AIU_958_MISC			0x010
-
--- 
-2.39.5
-
+Kuninori Morimoto
