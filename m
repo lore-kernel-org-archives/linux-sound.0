@@ -1,64 +1,64 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A4D3F0A96
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 10:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A6F3B38B1
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 10:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781086863; cv=none; b=F/WeW+q+SPnn5+2MF4r3Goc6nNWfrK1PraOPHpcbIvv9R7ANKaEJF/49Gsdtvqf3H7ZtsnuIAUkuq+zudCTK8u4qMEWignwMyOCaUG93pAqXywf9wXHmuVvRacYSW1HXXegjmCDr9IqhJu6Tdnk07fqjbYx+q2e9v3+TQ95Uevw=
+	t=1781086868; cv=none; b=pfeqNPdQbLFoHzRV6aVqIOCGxBG0zC2KuX45nOuiY6Z9On4zEMLE3BmHYxAlsxIyhoe9lM6YUjP37SfDaHD0/QDfu2zhKRrlN+RxkeCWC3m5qqFDAAEMi+p4/9kznGpa15hyzg2qQYMsfoN8Z0GpWEM/Ep2LV6ZibDMryTpRL/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781086863; c=relaxed/simple;
-	bh=oqCFls7mvbDi78AmlfEIReCmwgy1BeuT4n4FaEn6K+k=;
+	s=arc-20240116; t=1781086868; c=relaxed/simple;
+	bh=z2piZvL+mAaTAYZdczqHMzsCaYv/janICW5fPxWoyjA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DtHF8CrIZ1Pro5S1KARCyj62rvqjS+rRKXg5XgplXUTNmbt0LlhbHcLuz7T9qBFDSfmtAgsqjPEyzjjpz1eWedbirOlqGUFwGiE6kwtZiTnKbcpiRjAEobvLl6a65u8/dJtAJkmttcCNTWbe0d3vJZPOJLJcDZXp6YrRpqU3Gro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h3Ty1Ml+; arc=none smtp.client-ip=209.85.214.180
+	 MIME-Version; b=aDCpzbDjLPAJJwzEx+TXCooaRSzs/pe4dscN6Kcb4bovvRU24d3Yf4cHWKefwlVG6A3FowQEQzn+L9U/99ASnwHRacQ32bNIFZiPM6duEA8m01LimXDzNBl1eYRoGoScP7Ih1yvE2crYr3z77Kii+dhgskMNzqe34aOiZv2nEw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K2IZVRVO; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3Ty1Ml+"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2c0c3315c5dso68727425ad.3
-        for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 03:21:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K2IZVRVO"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2c0c1e0b0faso45326335ad.0
+        for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 03:21:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781086861; x=1781691661; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781086866; x=1781691666; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=g48rDzZBVCGDCg/97G6a3N/2kOm+y9KrRj3TLV6zvrU=;
-        b=h3Ty1Ml+Gfq0CZgQ2mXDqHywLwgtfJ5zrIbRZw0SEwwBPJcAT8wsgqOsv2DLom/CT/
-         oHHrA7O8SJ2rHiKYi1iiTGmWE9HY6M4C+tw2HIWQT0AC/3YgVKVpUyCYmWaLQ/A09AhJ
-         9z84yDMCJK74kUha3LSZMeBjHmqaS/C5lMRnyNzRfTNREJSek74mudNmkp/1tpP0RWOK
-         gJNlebEdUKq8Usx0aPc3LyKGy6UjuuYskKl5VFXr5UDDpkm9WbAB8yu4JK8KOWRf1egq
-         FCp/Pc400xswVtzP4LTGVT7yMOHMBY+YSSt7Hg8UXTZV14ddyDnZDZJUosK+Tfk6xpNB
-         q+Pg==
+        bh=6PfHdZyZ58+lAvtt9QURTlmXybxBjprQ5FeV+lzJh6Y=;
+        b=K2IZVRVOqj+COv0SbmJ7yk0zYbPidm9/KYimjxAtqCWa0hMtfKdB0+4W92gy82OCek
+         8wwAx2f2EEw5rUf4RJCqmrh8fmOGcw4pVLWJPVGKel4zIEZdV0Ud0/Upg5y2OTt+FeaQ
+         qAjIImt7thDHlc3NjDjJAqp+Zyz4zhhg0zjJk9dFaiE9JQ7NQnPbvZU8tStDHMgj4a56
+         wW2KZ57986BpU0/5L73nhxq9G2qb2rnDKUbYpGinDN1lSGb/SLdbz7OTgaw1RiimMx+u
+         BDDdvqAn4SLY4XE7MQkghCePt30kcrYCb+c0gjgTlS+44PauY44s5nCo9W7KS1Qui5KH
+         bHIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781086861; x=1781691661;
+        d=1e100.net; s=20251104; t=1781086866; x=1781691666;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=g48rDzZBVCGDCg/97G6a3N/2kOm+y9KrRj3TLV6zvrU=;
-        b=eadDc8c+ez5t6NNZa+6iCGGdguZ5ZxsVBr2u+iW95cf6SvQ9vppWCDV/v+n8ng0Gwo
-         jyamSDmMauSmIWEvhFWDf9aIcDLjLnyriAiAP6t/JxUKu1fU6v4kbGZHBzQMCLtGOSCt
-         d1YmIOnH8fmfq3cRBkKmg6iIv+PS2sJ9WgOcIJLA+JFetaiXlinYSEChOZMAuAi2DbfQ
-         158kOuGGPLtuu9tn0jdhFWpIIBFwWSe4LY2tMMAW76J4DccLMVS2xlZCtELLl5iKftd1
-         mHkTu9BKysEgqVWPTo2NoT2IHvrk8+BytY03fsL5DpoKO7kGYiPLmx6hZbAL1rPjHczP
-         R6GA==
-X-Forwarded-Encrypted: i=1; AFNElJ8jkJ4uHamFYay433VaY4Z1kQGTIv+E+2dCBcLS+dZ6d5F+R6yHCj3ULU0V6tDBL7bTFt4M8dadsEQpdQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFW7l0sOt49hf8AFvCGqMIS6RMSn0b6z285k/mDXXwMIsvO+Ff
-	gpNzLiLkacsUHTJfytcPE/T5vecvbE53ig7Zf6TLrg6qDOELN7Yt8L1l
-X-Gm-Gg: Acq92OGiaCrPNXr4lHgdqGUxPYoC6Ygkccro6wmKMiSrihj+GhAmwofvP2vg20X6oHx
-	0xbZhtBYcvrX3L9BLQ7NvyZPC7JI7Vq9i9yeq6yvZBe/1NQYYR6sNjBbO98CdIkh+bZhEp35l41
-	eQpcG4DK52xDuyS/NIDUwnE+kv/BX45QUM/Op7gZYIoeXXaIxz8NBR5LBRoS/KHiEsrf4IPkyyv
-	0tQPay8TPydCKLuGkRbzI+cpF1wf7QSNBvXm9xs5NR1PI/ebBmzTNTtx9/2J0eOdTLHYv/seHwa
-	tJ4UOSnqy3lHZQZv7z1Mt+bY7Mrj6lkbYTFDuIzFZMpPitQFNP9aI39oG9chubz3pnMtRtDGFw5
-	KAH3hDl3pfYawHx8MWjl8qQ4BOz1g8L7g3rsepjdchd8M6O0L4LaJsd8u0Ldo7YAPkiGBPocEBZ
-	Nr7gLZvjU2F0U96FoRZgRTC1QS/HYiNZpl0PqtJecnIEoYs9qt9V97Xfn/eDnWO+QFj/knYP2t5
-	8uIjjU=
-X-Received: by 2002:a17:902:f70f:b0:2bf:356f:4e0c with SMTP id d9443c01a7336-2c1e80d2996mr310019635ad.1.1781086861478;
-        Wed, 10 Jun 2026 03:21:01 -0700 (PDT)
+        bh=6PfHdZyZ58+lAvtt9QURTlmXybxBjprQ5FeV+lzJh6Y=;
+        b=V3rVihUNs8kYqqv3NVbRlBjn//iqF4R6Zw+ZSmxIADuyKWu2MM4JngVPFBqTTpXszU
+         abgx8E8cYj/7xOvO6QB2vzyOz195Dke0Y0gFh57HLR6py20Ju9/SgtZD2dAZF9NhsJaD
+         T1mFeSOFxB5jX1zIBggulLFrv2ggCwaDI8AbMZVneACMRZNcxyPKPF1vBxWFibdyVydf
+         tB7wtdxYmOQ8Gg/c0zv4NFrNzYZUVGiDqgFpwcTwWKdfVqGRjRkdaT15iXE7a8v+FUWC
+         sTlzkT8XNgeD1nwy1jKmAuqkwDP2WI37qHdcy4sJaylKMtrNjxxHeYZw+gWLlJ8u0pQ5
+         PTZg==
+X-Forwarded-Encrypted: i=1; AFNElJ/ACjNE6ZMDu4w0FNz4ozeZQCh2w4JHSeJ66Sr29UVVwBct+N16IHfbns6IAXcNQTdo8QTxENi8aWt+fw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAQCTt+e3qEobYJhTFq+ila2VWzYRIpxtNuzF/EXFwRNOzHdXG
+	x1Iwi5CN0MvsMFOqkGMkBcr9Nwtj7DWCXYmPxrj5OF4bhKKOEVDRQs25
+X-Gm-Gg: Acq92OHTdJBxX2Ehi/onCSt0R3ij889RXwINz/3kZA+L95W5b9JsDI7SRvuPab8zUA7
+	1HSAaeZYQqR/HAq7w+WixdAhr/kVYaMAI2nmpuyN7wQojmeFXueOCdybNkL/toP9boWjg50i22D
+	ubzspfqTA/2dTjiUZCasTgj5cqn720UO00Lvl/+4BNOHiR4tVs+G6MirrdbTeChMfxX4ul2OOGv
+	KnjTt/eaDmFMhPkikCbQGoWJAyl+NL29sG8YMtRpuL9wJ2qElIu4gUchvxBpZVMEGp3YqjIowu3
+	Wp8qQWJKBIsngXKcWN3k246NxHECTYSytStQOtfsWZeyKi4CjpLgt1zBdDbBaHP1nqHrZDPTOUk
+	pV6m5K7YtR3EspjC4XR7D0PcQ9hWD/YcpeKmPWb2sOGRrOgbkouwx8Mm8QXRuE3Aa1mlw3Hjy6z
+	hA2Mos7YQn8z216oUdTKjhwht/NkrXj1Fg6Ao4nEhOq6VXgh7QogQoab4G+zEnZW1dsDSC7b6IF
+	vlJ3Mk=
+X-Received: by 2002:a17:903:1209:b0:2c0:c3ac:4ae6 with SMTP id d9443c01a7336-2c1e810b983mr265633925ad.19.1781086866069;
+        Wed, 10 Jun 2026 03:21:06 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f96b3fsm250133875ad.29.2026.06.10.03.20.58
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f96b3fsm250133875ad.29.2026.06.10.03.21.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 03:21:01 -0700 (PDT)
+        Wed, 10 Jun 2026 03:21:05 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Matthias Brugger <matthias.bgg@gmail.com>
@@ -74,9 +74,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-gpio@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 05/10] ASoC: mediatek: mt8192: mt8192-afe-gpio: Use guard() for mutex locks
-Date: Wed, 10 Jun 2026 17:20:16 +0700
-Message-ID: <20260610102021.83273-6-phucduc.bui@gmail.com>
+Subject: [PATCH 06/10] ASoC: mediatek: mt8195: mt8195-afe-clk: Use guard() for spin locks
+Date: Wed, 10 Jun 2026 17:20:17 +0700
+Message-ID: <20260610102021.83273-7-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260610102021.83273-1-phucduc.bui@gmail.com>
 References: <20260610102021.83273-1-phucduc.bui@gmail.com>
@@ -90,44 +90,86 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Convert the explicit mutex_lock()/mutex_unlock() pair to guard(mutex)
-to simplify the locking logic and automatically release the mutex on
-all exit paths.
-
-This changes the mutex release point from immediately before dev_warn()
-to automatic cleanup at scope exit. However, the affected path only emits
-a warning and immediately returns -EINVAL, without any further processing.
+Clean up the code using guard() for spin locks.
+Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/mediatek/mt8192/mt8192-afe-gpio.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ sound/soc/mediatek/mt8195/mt8195-afe-clk.c | 42 ++++++++++------------
+ 1 file changed, 18 insertions(+), 24 deletions(-)
 
-diff --git a/sound/soc/mediatek/mt8192/mt8192-afe-gpio.c b/sound/soc/mediatek/mt8192/mt8192-afe-gpio.c
-index de5e1deaa167..b993ca2dbd7c 100644
---- a/sound/soc/mediatek/mt8192/mt8192-afe-gpio.c
-+++ b/sound/soc/mediatek/mt8192/mt8192-afe-gpio.c
-@@ -208,7 +208,7 @@ static int mt8192_afe_gpio_adda_ch34_ul(struct device *dev, bool enable)
- int mt8192_afe_gpio_request(struct device *dev, bool enable,
- 			    int dai, int uplink)
+diff --git a/sound/soc/mediatek/mt8195/mt8195-afe-clk.c b/sound/soc/mediatek/mt8195/mt8195-afe-clk.c
+index f35318ae0739..618d8400913a 100644
+--- a/sound/soc/mediatek/mt8195/mt8195-afe-clk.c
++++ b/sound/soc/mediatek/mt8195/mt8195-afe-clk.c
+@@ -283,7 +283,6 @@ static int mt8195_afe_enable_apll_tuner(struct mtk_base_afe *afe,
+ 					unsigned int id)
  {
--	mutex_lock(&gpio_request_mutex);
-+	guard(mutex)(&gpio_request_mutex);
- 	switch (dai) {
- 	case MT8192_DAI_ADDA:
- 		if (uplink)
-@@ -296,11 +296,9 @@ int mt8192_afe_gpio_request(struct device *dev, bool enable,
- 		}
- 		break;
- 	default:
--		mutex_unlock(&gpio_request_mutex);
- 		dev_warn(dev, "%s(), invalid dai %d\n", __func__, dai);
- 		return -EINVAL;
- 	}
--	mutex_unlock(&gpio_request_mutex);
+ 	struct mt8195_afe_tuner_cfg *cfg = mt8195_afe_found_apll_tuner(id);
+-	unsigned long flags;
+ 	int ret;
+ 
+ 	if (!cfg)
+@@ -297,16 +296,14 @@ static int mt8195_afe_enable_apll_tuner(struct mtk_base_afe *afe,
+ 	if (ret)
+ 		return ret;
+ 
+-	spin_lock_irqsave(&cfg->ctrl_lock, flags);
+-
+-	cfg->ref_cnt++;
+-	if (cfg->ref_cnt == 1)
+-		regmap_update_bits(afe->regmap,
+-				   cfg->tuner_en_reg,
+-				   cfg->tuner_en_maskbit << cfg->tuner_en_shift,
+-				   1 << cfg->tuner_en_shift);
+-
+-	spin_unlock_irqrestore(&cfg->ctrl_lock, flags);
++	scoped_guard(spinlock_irqsave, &cfg->ctrl_lock) {
++		cfg->ref_cnt++;
++		if (cfg->ref_cnt == 1)
++			regmap_update_bits(afe->regmap,
++					   cfg->tuner_en_reg,
++					   cfg->tuner_en_maskbit << cfg->tuner_en_shift,
++					   1 << cfg->tuner_en_shift);
++	}
  
  	return 0;
  }
+@@ -315,24 +312,21 @@ static int mt8195_afe_disable_apll_tuner(struct mtk_base_afe *afe,
+ 					 unsigned int id)
+ {
+ 	struct mt8195_afe_tuner_cfg *cfg = mt8195_afe_found_apll_tuner(id);
+-	unsigned long flags;
+ 	int ret;
+ 
+ 	if (!cfg)
+ 		return -EINVAL;
+ 
+-	spin_lock_irqsave(&cfg->ctrl_lock, flags);
+-
+-	cfg->ref_cnt--;
+-	if (cfg->ref_cnt == 0)
+-		regmap_update_bits(afe->regmap,
+-				   cfg->tuner_en_reg,
+-				   cfg->tuner_en_maskbit << cfg->tuner_en_shift,
+-				   0 << cfg->tuner_en_shift);
+-	else if (cfg->ref_cnt < 0)
+-		cfg->ref_cnt = 0;
+-
+-	spin_unlock_irqrestore(&cfg->ctrl_lock, flags);
++	scoped_guard(spinlock_irqsave, &cfg->ctrl_lock) {
++		cfg->ref_cnt--;
++		if (cfg->ref_cnt == 0)
++			regmap_update_bits(afe->regmap,
++					   cfg->tuner_en_reg,
++					   cfg->tuner_en_maskbit << cfg->tuner_en_shift,
++					   0 << cfg->tuner_en_shift);
++		else if (cfg->ref_cnt < 0)
++			cfg->ref_cnt = 0;
++	}
+ 
+ 	ret = mt8195_afe_disable_tuner_clk(afe, id);
+ 	if (ret)
 -- 
 2.43.0
 
