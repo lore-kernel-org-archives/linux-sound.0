@@ -1,84 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810B04CA279
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 15:45:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028E24D2EC0
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 15:45:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781106361; cv=none; b=DT0kKTx4UifjZI+ZlSK7xdh7ezzwSS1bMwVmMGmvKi3KDPNbaqqQy84+JhyZ4ZI6Ec9MMxnQn2D7t5PSxwIg0lpDrfBltsYy2nbPrjmxZj3t2l7oOrQiTr1+/2lAV8RhjIyonUUQhFA3U1WhtM3fjMUK6qZ/IKzu0wQgnkhJLRM=
+	t=1781106362; cv=none; b=NOVurkFcTrsdCG8Siv78JVLt4DG3cd016v+nKKER7/FDtwKSpRexvrK7inAtnioPBBXaYPWOP3D5btyo1yY8HRJAEWIRKnHoCQKTVihfJoKAG6IRUS0btrlFjWV3H33yTi8/ERLz2HxuNv/XbnYGjJrxZToWoIVfIKmILXvv+/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781106361; c=relaxed/simple;
-	bh=NDLfg5vOJ/kgWfswEuttCJb7m7h1EU0b0E0aOeDo3gI=;
+	s=arc-20240116; t=1781106362; c=relaxed/simple;
+	bh=ObT+sah7uqsRFdLpxLWrTDQiKXFwNYsPa/5JwdxNsdo=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QADrOdExtk43DW3aqzFvRmQhXpApL5rwIG1FlnebUvpSDmEnRVWT69iORwbFWSW/ZHpfywp0K9pMUM0A1E4RVn93HmwXh3gdP/oQ6KMonTeRQIt4C9aQwc0aFoDKWWtwWpBwJqHCYSp/Vhz3Goa34ZM6ijaomVhVZYidu59WUCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1BY9trBi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ly2vIMlO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1BY9trBi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ly2vIMlO; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=r/eYF3MWTwHaVYAZ4jZYTfp+YJ2RRoSrq2OqlPC40p+vjp5jME9NE0JjL6srO92x+dlUZo+OL1V+zQHBCWIfaPxY17c4z1YYvErDTZNIX78haV6WE/XtUhSXvnvdVpL+zBEUr9XYdXwTzmk5UCZrDufHsx04svJ38T+W/fN25TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FTFY99ks; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Zx0ebPEs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FTFY99ks; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Zx0ebPEs; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1BY9trBi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ly2vIMlO";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1BY9trBi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ly2vIMlO"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FTFY99ks";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zx0ebPEs";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FTFY99ks";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Zx0ebPEs"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D63B46AF02;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8297775D56;
 	Wed, 10 Jun 2026 15:45:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1781106342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=acbItduUV+sVAopmiVcAhmBo1FaQT5B95h8uK9dl7WQ=;
-	b=1BY9trBiXrcXBMjkw8to1CJyquuPtGIrFaLfgqUz9QBrWIOlOsfDCUEvbr0QYwHmiIy5Gb
-	WuLZcUf+6hs15Mq/1S2S0uHIVFnpNe7ls7SaiPrW6BQUYjsxENscclEPCRa3IABHx7WI8c
-	Z+delkiPKdaGlqXIr67XXu0HFBAurso=
+	bh=2bMHFbjzDu3oi4CEqxroIPZysv4ayzz+RSa2gaM/x7U=;
+	b=FTFY99ksHxMVX2Uy0Sl37q201/eII8I8qfqzEDv5NIxd74s8wA+sbSD0QL+ToA3lRsdtrl
+	DzRxkcGBYfcsbxpHWyTxTg4UkcjZsxfaLUt14ezBt8CUEBtaNF10zv/f0PNAQpBA0wpRzk
+	I1cTiAdo2xz+HsMLK82pt470tjgxWeA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1781106342;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=acbItduUV+sVAopmiVcAhmBo1FaQT5B95h8uK9dl7WQ=;
-	b=Ly2vIMlOWb34ZAbqA6ImI0CIc9bqr22by9ASUXg74ZuByxcPHEqUVUGugIVNkM8y0wnEKv
-	917V5D7g97gT10BA==
-Authentication-Results: smtp-out1.suse.de;
+	bh=2bMHFbjzDu3oi4CEqxroIPZysv4ayzz+RSa2gaM/x7U=;
+	b=Zx0ebPEslJfAlQP7QflL4DBQgzpHyqlT6EKBxgOLhv/tqsTRnprM+ae95vX4AVxQZEG7K3
+	fOdqo1F7dWMdRYBg==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1781106342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=acbItduUV+sVAopmiVcAhmBo1FaQT5B95h8uK9dl7WQ=;
-	b=1BY9trBiXrcXBMjkw8to1CJyquuPtGIrFaLfgqUz9QBrWIOlOsfDCUEvbr0QYwHmiIy5Gb
-	WuLZcUf+6hs15Mq/1S2S0uHIVFnpNe7ls7SaiPrW6BQUYjsxENscclEPCRa3IABHx7WI8c
-	Z+delkiPKdaGlqXIr67XXu0HFBAurso=
+	bh=2bMHFbjzDu3oi4CEqxroIPZysv4ayzz+RSa2gaM/x7U=;
+	b=FTFY99ksHxMVX2Uy0Sl37q201/eII8I8qfqzEDv5NIxd74s8wA+sbSD0QL+ToA3lRsdtrl
+	DzRxkcGBYfcsbxpHWyTxTg4UkcjZsxfaLUt14ezBt8CUEBtaNF10zv/f0PNAQpBA0wpRzk
+	I1cTiAdo2xz+HsMLK82pt470tjgxWeA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1781106342;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=acbItduUV+sVAopmiVcAhmBo1FaQT5B95h8uK9dl7WQ=;
-	b=Ly2vIMlOWb34ZAbqA6ImI0CIc9bqr22by9ASUXg74ZuByxcPHEqUVUGugIVNkM8y0wnEKv
-	917V5D7g97gT10BA==
+	bh=2bMHFbjzDu3oi4CEqxroIPZysv4ayzz+RSa2gaM/x7U=;
+	b=Zx0ebPEslJfAlQP7QflL4DBQgzpHyqlT6EKBxgOLhv/tqsTRnprM+ae95vX4AVxQZEG7K3
+	fOdqo1F7dWMdRYBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B20DB779A9;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 62F35779A9;
 	Wed, 10 Jun 2026 15:45:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WHIuKqaGKWo5MwAAD6G6ig
+	id SDDpFqaGKWo5MwAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Wed, 10 Jun 2026 15:45:42 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org,
 	linux-kernel@vber.kernel.org
-Subject: [PATCH 5/5] ALSA: usb-audio: Use the new helper for shutdown refcount
-Date: Wed, 10 Jun 2026 17:45:35 +0200
-Message-ID: <20260610154538.51076-6-tiwai@suse.de>
+Subject: [PATCH 3/5] ALSA: hda: Use the new helper for PCM instance refcount
+Date: Wed, 10 Jun 2026 17:45:33 +0200
+Message-ID: <20260610154538.51076-4-tiwai@suse.de>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260610154538.51076-1-tiwai@suse.de>
 References: <20260610154538.51076-1-tiwai@suse.de>
@@ -102,7 +102,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -113,99 +113,106 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 X-Spam-Level: 
 X-Spam-Score: -2.80
 
-Replace the open-code for managing the shutdown refcount with the new
-helpers.
+HD-audio core driver has some open-code for managing the refcount for
+PCM instances, and it can be replaced gracefully with the new helpers.
 Only a code cleanup, no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/usb/card.c     | 14 +++++---------
- sound/usb/usbaudio.h |  5 +++--
- 2 files changed, 8 insertions(+), 11 deletions(-)
+ include/sound/hda_codec.h | 10 ++++++----
+ sound/hda/common/bind.c   |  3 +--
+ sound/hda/common/codec.c  | 14 +++-----------
+ 3 files changed, 10 insertions(+), 17 deletions(-)
 
-diff --git a/sound/usb/card.c b/sound/usb/card.c
-index f42d72cd0378..6a3b576fb067 100644
---- a/sound/usb/card.c
-+++ b/sound/usb/card.c
-@@ -769,7 +769,6 @@ static int snd_usb_audio_create(struct usb_interface *intf,
+diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
+index 1a1fe7a904c3..17945ab5e6e2 100644
+--- a/include/sound/hda_codec.h
++++ b/include/sound/hda_codec.h
+@@ -188,8 +188,7 @@ struct hda_codec {
  
- 	chip = card->private_data;
- 	mutex_init(&chip->mutex);
--	init_waitqueue_head(&chip->shutdown_wait);
- 	chip->index = idx;
- 	chip->dev = dev;
- 	chip->card = card;
-@@ -778,7 +777,7 @@ static int snd_usb_audio_create(struct usb_interface *intf,
- 	chip->autoclock = autoclock;
- 	chip->lowlatency = lowlatency;
- 	atomic_set(&chip->active, 1); /* avoid autopm during probing */
--	atomic_set(&chip->usage_count, 0);
-+	snd_refcount_init(&chip->usage_count);
- 	atomic_set(&chip->shutdown, 0);
+ 	/* PCM to create, set by hda_codec_ops.build_pcms callback */
+ 	struct list_head pcm_list_head;
+-	refcount_t pcm_ref;
+-	wait_queue_head_t remove_sleep;
++	struct snd_refcount pcm_ref;
  
- 	chip->usb_id = usb_id;
-@@ -1107,8 +1106,7 @@ static bool __usb_audio_disconnect(struct usb_interface *intf,
- 		/* wait until all pending tasks done;
- 		 * they are protected by snd_usb_lock_shutdown()
- 		 */
--		wait_event(chip->shutdown_wait,
--			   !atomic_read(&chip->usage_count));
-+		snd_refcount_sync(&chip->usage_count);
- 		snd_card_disconnect(card);
- 		/* release the pcm resources */
- 		list_for_each_entry(as, &chip->pcm_list, list) {
-@@ -1166,7 +1164,7 @@ int snd_usb_lock_shutdown(struct snd_usb_audio *chip)
+ 	/* codec specific info */
+ 	void *spec;
+@@ -439,9 +438,12 @@ void snd_hda_codec_cleanup_for_unbind(struct hda_codec *codec);
+ 
+ static inline void snd_hda_codec_pcm_get(struct hda_pcm *pcm)
  {
- 	int err;
- 
--	atomic_inc(&chip->usage_count);
-+	snd_refcount_get(&chip->usage_count);
- 	if (atomic_read(&chip->shutdown)) {
- 		err = -EIO;
- 		goto error;
-@@ -1177,8 +1175,7 @@ int snd_usb_lock_shutdown(struct snd_usb_audio *chip)
- 	return 0;
- 
-  error:
--	if (atomic_dec_and_test(&chip->usage_count))
--		wake_up(&chip->shutdown_wait);
-+	snd_refcount_put(&chip->usage_count);
- 	return err;
+-	refcount_inc(&pcm->codec->pcm_ref);
++	snd_refcount_get(&pcm->codec->pcm_ref);
++}
++static inline void snd_hda_codec_pcm_put(struct hda_pcm *pcm)
++{
++	snd_refcount_put(&pcm->codec->pcm_ref);
  }
- EXPORT_SYMBOL_GPL(snd_usb_lock_shutdown);
-@@ -1187,8 +1184,7 @@ EXPORT_SYMBOL_GPL(snd_usb_lock_shutdown);
- void snd_usb_unlock_shutdown(struct snd_usb_audio *chip)
- {
- 	snd_usb_autosuspend(chip);
--	if (atomic_dec_and_test(&chip->usage_count))
--		wake_up(&chip->shutdown_wait);
-+	snd_refcount_put(&chip->usage_count);
- }
- EXPORT_SYMBOL_GPL(snd_usb_unlock_shutdown);
+-void snd_hda_codec_pcm_put(struct hda_pcm *pcm);
  
-diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
-index e472aef6eb87..e26f9092417e 100644
---- a/sound/usb/usbaudio.h
-+++ b/sound/usb/usbaudio.h
-@@ -7,6 +7,8 @@
-  *   Copyright (c) 2002 by Takashi Iwai <tiwai@suse.de>
+ int snd_hda_codec_prepare(struct hda_codec *codec,
+ 			  struct hda_pcm_stream *hinfo,
+diff --git a/sound/hda/common/bind.c b/sound/hda/common/bind.c
+index bb1090b65699..6a728a773556 100644
+--- a/sound/hda/common/bind.c
++++ b/sound/hda/common/bind.c
+@@ -162,8 +162,7 @@ static int hda_codec_driver_remove(struct device *dev)
+ 
+ 	snd_hda_codec_disconnect_pcms(codec);
+ 	snd_hda_jack_tbl_disconnect(codec);
+-	if (!refcount_dec_and_test(&codec->pcm_ref))
+-		wait_event(codec->remove_sleep, !refcount_read(&codec->pcm_ref));
++	snd_refcount_sync(&codec->pcm_ref);
+ 	snd_power_sync_ref(codec->bus->card);
+ 
+ 	if (driver->ops->remove)
+diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
+index 81f266b9b850..ef533770179b 100644
+--- a/sound/hda/common/codec.c
++++ b/sound/hda/common/codec.c
+@@ -689,13 +689,6 @@ get_hda_cvt_setup(struct hda_codec *codec, hda_nid_t nid)
+ /*
+  * PCM device
   */
+-void snd_hda_codec_pcm_put(struct hda_pcm *pcm)
+-{
+-	if (refcount_dec_and_test(&pcm->codec->pcm_ref))
+-		wake_up(&pcm->codec->remove_sleep);
+-}
+-EXPORT_SYMBOL_GPL(snd_hda_codec_pcm_put);
+-
+ struct hda_pcm *snd_hda_codec_pcm_new(struct hda_codec *codec,
+ 				      const char *fmt, ...)
+ {
+@@ -716,7 +709,7 @@ struct hda_pcm *snd_hda_codec_pcm_new(struct hda_codec *codec,
+ 	}
  
-+#include <sound/core.h>
-+
- /* handling of USB vendor/product ID pairs as 32-bit numbers */
- #define USB_ID(vendor, product) (((unsigned int)(vendor) << 16) | (product))
- #define USB_ID_VENDOR(id) ((id) >> 16)
-@@ -41,8 +43,7 @@ struct snd_usb_audio {
- 	unsigned int system_suspend;
- 	atomic_t active;
- 	atomic_t shutdown;
--	atomic_t usage_count;
--	wait_queue_head_t shutdown_wait;
-+	struct snd_refcount usage_count;
- 	unsigned int quirk_flags;
- 	unsigned int need_delayed_register:1; /* warn for delayed registration */
- 	int num_interfaces;
+ 	list_add_tail(&pcm->list, &codec->pcm_list_head);
+-	refcount_inc(&codec->pcm_ref);
++	snd_hda_codec_pcm_get(pcm);
+ 	return pcm;
+ }
+ EXPORT_SYMBOL_GPL(snd_hda_codec_pcm_new);
+@@ -787,7 +780,7 @@ void snd_hda_codec_cleanup_for_unbind(struct hda_codec *codec)
+ 	remove_conn_list(codec);
+ 	snd_hdac_regmap_exit(&codec->core);
+ 	codec->configured = 0;
+-	refcount_set(&codec->pcm_ref, 1); /* reset refcount */
++	snd_refcount_init(&codec->pcm_ref); /* reset refcount */
+ }
+ EXPORT_SYMBOL_GPL(snd_hda_codec_cleanup_for_unbind);
+ 
+@@ -927,8 +920,7 @@ snd_hda_codec_device_init(struct hda_bus *bus, unsigned int codec_addr,
+ 	INIT_LIST_HEAD(&codec->conn_list);
+ 	INIT_LIST_HEAD(&codec->pcm_list_head);
+ 	INIT_DELAYED_WORK(&codec->jackpoll_work, hda_jackpoll_work);
+-	refcount_set(&codec->pcm_ref, 1);
+-	init_waitqueue_head(&codec->remove_sleep);
++	snd_refcount_init(&codec->pcm_ref);
+ 
+ 	return codec;
+ }
 -- 
 2.54.0
 
