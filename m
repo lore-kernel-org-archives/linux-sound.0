@@ -1,63 +1,63 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753F63F4DE6
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 10:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F1D3F65E0
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 10:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781086877; cv=none; b=QDsFwVs5Tg37YxtwItIPAfowRvCtdsPSylFZ3KHAI1f+i3zcuy0/qqrUHvRGLoOw0p7WMDYJcvSzPfuyst9aDXXPuO3Mm6i+zuKOezkOIurOu5xr2cYWoJfDxi4r6EbgcBrUaFDtJCHrqWoXp0Z5X4m+Ll7Bjtv3AzK6Apkkvz8=
+	t=1781086880; cv=none; b=Foyht+uLl2vMJNmJ6twaGNWu+c6qBHtJ4h5xzQzU4Qhgrxggrf97+byuHYfAui6RcTyp2/vH873xUU3youKUHWDIZ9jM4x2wBuMaSKE3rBmFwADQOjKqliiszXkUKLDTHgneTM6WkzCxHY8U8lTu3IZEESCXVKDdYXaJycUT9l0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781086877; c=relaxed/simple;
-	bh=xAwIEomSe/rVYBk55F2T1a2zoLu9gtjNH+NvgWc+v1g=;
+	s=arc-20240116; t=1781086880; c=relaxed/simple;
+	bh=jQF2PD5Ek55INuzVksah+lqn8zIcy/oMy6ahCFURIeQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PpEup8qy7FmpH4YrJjOmoBm1p0FRjMVVuet67O8zP39rUarl15HBtAJjeukhFXoqySqDRjiLB40jiqBsuYPHvRbUGip7YXOEhqSqFuFyYmAFWlc8q7NjKm0DFCecmDIC9Ef7U/PMo6Hn1YfDmW2N6FhFl/cGdPg7uJiUriz7P/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sN3GT5bk; arc=none smtp.client-ip=209.85.214.180
+	 MIME-Version; b=khkwgxsYMO07pHtTEhysCW+0q26WxHlUKgtJq5eN2ZMVq0SI38EFEpQg0Yee7iqD7i8WIEOeDU5jyzoK5KaiNbuw2a48SwiKbB4Lkj3vEKdaBLAmLiddU42DIX95VTS53xZxH3625o5UDqphq3dyy/apDndfu8UMi0npLyAjiCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mNtkXmE0; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sN3GT5bk"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2c0c35980fdso66059915ad.2
-        for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 03:21:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mNtkXmE0"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2bf20f6be6bso51935645ad.3
+        for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 03:21:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781086875; x=1781691675; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781086879; x=1781691679; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8rJRzCL8/vGU1Cnds6wAoa9R/cBJXeGAkkZCjOz43G0=;
-        b=sN3GT5bk0bfhn696q2IMhV6MNEf8BFcd/h6CHH5ezvb2L8vcz1HB/6zJWZOSsClMb+
-         Su1jHZpMRopEa/IIX5j1Z8XPMbMBMpiy0vRWkn886+1Yyq/vEw7pYVZWBRxjnHtvRZVA
-         Kk9o8DsqOJ/1Sm7EUxGAV7DVUmUIgyUUcKMouN30PgjCzLvfHBUi20TZjkXUstj1Izmw
-         +Os2HrK0OsMg/uZqPqpgiGVnC7BPD2Zi27myz8RBr+27EgRLysdnxiBmQC5ugG6kYUXg
-         jSPFWH4qmq3FXmBYr+gO01p8WMYljDxGXWE2Qhi08jhxin4KZv0MkUAdrZOe2Oxu/sv/
-         FyhQ==
+        bh=i8yD0V3JpTBBCPvBkTEEQc4c3oKXbaRtxhAPfIJqxXo=;
+        b=mNtkXmE0wdEM3nz7SZalvd7bHgjdbSCRB0ke43RPR+SWaPiVIdAZDjuP18uUJqCnrU
+         Woqyv2pmVx5hBxqmbgi9yIUT9gi+Ap6QnexzBhFeW/9BLl7ub912Q/EN9foskObM0jLu
+         kMnlBQC/MaQ8S5IiKPdjCW+mKXxC894ksvhhDJgauAmdwxh1kT68HGe0bo2QFMUcdIVA
+         MuIhj3NgOyARKYTXCWd4kGgn/wdre9QKgZ8SIkDifspoS+zofQ1ihHsN4bTpRTn7kTkB
+         j6ZFniYt9d/lCu4J2zvFSkUVaAGZ6UZjft18H+eUSF9yDHdUtDD7yw320kulD+oxxa3T
+         YKHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781086875; x=1781691675;
+        d=1e100.net; s=20251104; t=1781086879; x=1781691679;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=8rJRzCL8/vGU1Cnds6wAoa9R/cBJXeGAkkZCjOz43G0=;
-        b=lA2v1G7k/adc31wPvdEiWa5OT3cesoQbRuzAuakXSLmhAJd2sk5bkItEZGsWcXngD/
-         RYtzviEeipUXKUW7djWBsUXBPpfikOBg89F+UEHuNo2aFT4mcV/T9EhKMhXcFrXMKPaI
-         OZrd+6hrSwM4SI/rPw6SMdpuzlnITMbv96AbMbmeEWpUBYcx1cNtvdUHBGpPM/6zse8t
-         EvLWJsDSxMXnm1uYUH4IwSriq+ElIMzUWPduRNzatnWm2FpPYjc//LhA4tXdCZcjYIlW
-         Y2SN/Ira+7tqBWGUy9DoSfh5tV1Owt/KBcEPgvp5njY9yDspRQrRX8THlwOCBJT6zx3t
-         vHvg==
-X-Forwarded-Encrypted: i=1; AFNElJ9iMhfCLa15MA2uAwb4db/kITU6Tlgs9A5gM2pDWjzOh4w6gDaq0DmC+d+M/0YWvODu1dHsFGo+N7QBHw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiDHElrZ2CYIHRdQ0njwsctvIRVyBraMBNUAp28WLePIy1A0fA
-	ik2YqxC+x/HUCakEMdQGFXnT7W2G6MnzJrTlgceByNWv3FTObYeyig/S
-X-Gm-Gg: Acq92OF1n4jVZLDlc7JGOrmfvPf570QDubp4bgBOsVPaJXh05B86dczb9Ehk9GWNJnN
-	+Y22TnUzNdpk3Bu2c+Tc6mVs9KE9Uds2JLxXHloeInaEyu3C7pY5ygSpbZjl04Rl3dUTLRL6kN9
-	yoBUggx5E1Rs45rhi4N+oClTNuJU0En1TzCe+zBZkKI63wQ9TprcqnOMZbisdHFp4K4rRzvYZPA
-	BtBdiaR8TZ7AE33Sr2/KASA87GwiRnIuQfwXkt3UGoFo6qVSWAvqmkpeu4D5YInq5C3Si7OSsNS
-	pWsRGWRRA3fAJnlv3D16Ho97YCNoYt3kDfSLQ/3Runjo0GPz+XKZCDP/f1HE7jIzqkI9IajbaNP
-	td5+b7RMVR+KcEZxLF+dgZW6LoxdHi/c0HZd4g0ERkcyV0bKu/EpOjKH+8du7lBgOovWMpan4Gf
-	3lnYjjaA7g0Y+jg94mz1BO4UXGl04XZDla3IHCz7Lv/mZhkWleZI1SQJigD5NjuJuvcjb0
-X-Received: by 2002:a17:903:2a84:b0:2ba:4ad9:70f6 with SMTP id d9443c01a7336-2c1e85c5022mr288228085ad.31.1781086874701;
-        Wed, 10 Jun 2026 03:21:14 -0700 (PDT)
+        bh=i8yD0V3JpTBBCPvBkTEEQc4c3oKXbaRtxhAPfIJqxXo=;
+        b=QdJ1yfm979esUKy+Zy9OJ77rxhG/iaKbftmV7w3Lrvh74zcNfy8QTfoLuGDhj4ROCm
+         a/uAnd+4zlW7F6SixgcKp71tupmgiLQ9HodY5RF0+MztZz1S7abQHlW4JvitWGTlBOJW
+         Bw+d/8kDhFQLYYXJhKaEOxPF8FuvwX/6eK7/WLfm/8kONmbGeli0oTbfGOPT7dzyqD05
+         WMqtClx56EZnsz4rtTifC5Shvn3OevledDk5s+Qn0TNm5b4tqeDGHbrQSqx/YcUruwqw
+         ng7XyLvSI58BI23hZMmuQv7qEC/KlFx5LDxJWpEAGbFhBjBoNs964jepzTNrVV4OyxBw
+         jVlA==
+X-Forwarded-Encrypted: i=1; AFNElJ9GYqoG5pWvSPsW9tM8AmdZGYirweh16CTMCPh+KXPLbIM5prWrDq/S4odH7lwzjCCBE4G+Tqku/QN0Rw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIoA+F0++a4nQgNtFAwljvYdvxaXTu2Pc/aYMDcOTGJ5+vskzZ
+	QA5y4Ty+yswrPvmZx7jGUR+eFeZYCSgFNoA147lQGiQNr81Tpf9shLE/
+X-Gm-Gg: Acq92OH+xmV/1OTBb6CTpxzm102ZbBX5kVaS/Is1MsUF4Fj+jVFnPgRDsOn+tyOutkA
+	OW0t5UU40AgiUSeOg7dIyRNmV8oW78RWOJp7+C84ChyVTMaW+8wqnch6JG0PkBtACzlWSvyxpGq
+	p54olR0Z0Jj7fcljLJbbyGpUJTaU/Jsh5WOkAgPIxW4yOfuHFOm4mu9rnhrTe++vg45OcLo4F31
+	4g33vYJoL9SGXl7eN69SiyPD+oWklZ97yJI9Jc2gvhg4NVbU5KUTQ8zPs4QN+G90gUcYxJSyJpz
+	+P6glfY5lCjD4q3hIi+i0CkUG19t3KpnJp0eNFk+74L0GG1UE6dTgp+whCJCTiYGXPNpL/yFhE5
+	WYoOT3gqEdC1e2iHM5fmbyVlmaKIhD+2uHSQQAT602PI41LsVPV9966CTHcc/1p05MzWk0Wd3X/
+	Pzzbt1P6wg9peLQV/3mvfVcwsOMHCdhxMAp9PJWF/fUukUlDOUODvaP0Uv0rrWzeJI6wcy
+X-Received: by 2002:a17:902:da4b:b0:2c1:f262:494d with SMTP id d9443c01a7336-2c1f2624a70mr252269075ad.19.1781086879138;
+        Wed, 10 Jun 2026 03:21:19 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f96b3fsm250133875ad.29.2026.06.10.03.21.11
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f96b3fsm250133875ad.29.2026.06.10.03.21.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 03:21:14 -0700 (PDT)
+        Wed, 10 Jun 2026 03:21:18 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Matthias Brugger <matthias.bgg@gmail.com>
@@ -73,9 +73,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-gpio@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 08/10] ASoC: mediatek: mt8195: mt8365-afe-clk: Use guard() for mutex & spin locks
-Date: Wed, 10 Jun 2026 17:20:19 +0700
-Message-ID: <20260610102021.83273-9-phucduc.bui@gmail.com>
+Subject: [PATCH 09/10] ASoC: mediatek: mt8195: mt8365-dai-adda: Use guard() for spin locks
+Date: Wed, 10 Jun 2026 17:20:20 +0700
+Message-ID: <20260610102021.83273-10-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260610102021.83273-1-phucduc.bui@gmail.com>
 References: <20260610102021.83273-1-phucduc.bui@gmail.com>
@@ -89,131 +89,55 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Clean up the code using guard() for mutex & spin locks.
+Clean up the code using guard() for spin locks.
 Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/mediatek/mt8365/mt8365-afe-clk.c | 30 +++++-----------------
- 1 file changed, 7 insertions(+), 23 deletions(-)
+ sound/soc/mediatek/mt8365/mt8365-dai-adda.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/sound/soc/mediatek/mt8365/mt8365-afe-clk.c b/sound/soc/mediatek/mt8365/mt8365-afe-clk.c
-index 7078c01ba19b..af96aa446fe2 100644
---- a/sound/soc/mediatek/mt8365/mt8365-afe-clk.c
-+++ b/sound/soc/mediatek/mt8365/mt8365-afe-clk.c
-@@ -194,16 +194,13 @@ int mt8365_afe_enable_top_cg(struct mtk_base_afe *afe, unsigned int cg_type)
- 	unsigned int reg = get_top_cg_reg(cg_type);
- 	unsigned int mask = get_top_cg_mask(cg_type);
- 	unsigned int val = get_top_cg_on_val(cg_type);
--	unsigned long flags;
+diff --git a/sound/soc/mediatek/mt8365/mt8365-dai-adda.c b/sound/soc/mediatek/mt8365/mt8365-dai-adda.c
+index a04c24bbfcff..d8eda9e17eb8 100644
+--- a/sound/soc/mediatek/mt8365/mt8365-dai-adda.c
++++ b/sound/soc/mediatek/mt8365/mt8365-dai-adda.c
+@@ -63,10 +63,9 @@ static int mt8365_dai_set_adda_in(struct mtk_base_afe *afe, unsigned int rate)
  
--	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
-+	guard(spinlock_irqsave)(&afe_priv->afe_ctrl_lock);
- 
- 	afe_priv->top_cg_ref_cnt[cg_type]++;
- 	if (afe_priv->top_cg_ref_cnt[cg_type] == 1)
- 		regmap_update_bits(afe->regmap, reg, mask, val);
- 
--	spin_unlock_irqrestore(&afe_priv->afe_ctrl_lock, flags);
--
- 	return 0;
- }
- 
-@@ -213,9 +210,8 @@ int mt8365_afe_disable_top_cg(struct mtk_base_afe *afe, unsigned int cg_type)
- 	unsigned int reg = get_top_cg_reg(cg_type);
- 	unsigned int mask = get_top_cg_mask(cg_type);
- 	unsigned int val = get_top_cg_off_val(cg_type);
--	unsigned long flags;
- 
--	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
-+	guard(spinlock_irqsave)(&afe_priv->afe_ctrl_lock);
- 
- 	afe_priv->top_cg_ref_cnt[cg_type]--;
- 	if (afe_priv->top_cg_ref_cnt[cg_type] == 0)
-@@ -223,8 +219,6 @@ int mt8365_afe_disable_top_cg(struct mtk_base_afe *afe, unsigned int cg_type)
- 	else if (afe_priv->top_cg_ref_cnt[cg_type] < 0)
- 		afe_priv->top_cg_ref_cnt[cg_type] = 0;
- 
--	spin_unlock_irqrestore(&afe_priv->afe_ctrl_lock, flags);
--
- 	return 0;
- }
- 
-@@ -263,25 +257,21 @@ int mt8365_afe_emi_clk_off(struct mtk_base_afe *afe)
- int mt8365_afe_enable_afe_on(struct mtk_base_afe *afe)
+ int mt8365_dai_enable_adda_on(struct mtk_base_afe *afe)
  {
- 	struct mt8365_afe_private *afe_priv = afe->platform_priv;
 -	unsigned long flags;
- 
--	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
-+	guard(spinlock_irqsave)(&afe_priv->afe_ctrl_lock);
- 
- 	afe_priv->afe_on_ref_cnt++;
- 	if (afe_priv->afe_on_ref_cnt == 1)
- 		regmap_update_bits(afe->regmap, AFE_DAC_CON0, 0x1, 0x1);
- 
--	spin_unlock_irqrestore(&afe_priv->afe_ctrl_lock, flags);
--
- 	return 0;
- }
- 
- int mt8365_afe_disable_afe_on(struct mtk_base_afe *afe)
- {
- 	struct mt8365_afe_private *afe_priv = afe->platform_priv;
--	unsigned long flags;
- 
--	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
-+	guard(spinlock_irqsave)(&afe_priv->afe_ctrl_lock);
- 
- 	afe_priv->afe_on_ref_cnt--;
- 	if (afe_priv->afe_on_ref_cnt == 0)
-@@ -289,8 +279,6 @@ int mt8365_afe_disable_afe_on(struct mtk_base_afe *afe)
- 	else if (afe_priv->afe_on_ref_cnt < 0)
- 		afe_priv->afe_on_ref_cnt = 0;
- 
--	spin_unlock_irqrestore(&afe_priv->afe_ctrl_lock, flags);
--
- 	return 0;
- }
- 
-@@ -322,13 +310,11 @@ int mt8365_afe_enable_apll_tuner_cfg(struct mtk_base_afe *afe, unsigned int apll
- {
  	struct mt8365_afe_private *afe_priv = afe->platform_priv;
  
--	mutex_lock(&afe_priv->afe_clk_mutex);
-+	guard(mutex)(&afe_priv->afe_clk_mutex);
+-	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
++	guard(spinlock_irqsave)(&afe_priv->afe_ctrl_lock);
  
- 	afe_priv->apll_tuner_ref_cnt[apll]++;
--	if (afe_priv->apll_tuner_ref_cnt[apll] != 1) {
--		mutex_unlock(&afe_priv->afe_clk_mutex);
-+	if (afe_priv->apll_tuner_ref_cnt[apll] != 1)
- 		return 0;
--	}
+ 	adda_afe_on_ref_cnt++;
+ 	if (adda_afe_on_ref_cnt == 1)
+@@ -74,17 +73,14 @@ int mt8365_dai_enable_adda_on(struct mtk_base_afe *afe)
+ 				   AFE_ADDA_UL_DL_ADDA_AFE_ON,
+ 				   AFE_ADDA_UL_DL_ADDA_AFE_ON);
  
- 	if (apll == MT8365_AFE_APLL1) {
- 		regmap_update_bits(afe->regmap, AFE_APLL_TUNER_CFG,
-@@ -342,7 +328,6 @@ int mt8365_afe_enable_apll_tuner_cfg(struct mtk_base_afe *afe, unsigned int apll
- 				   AFE_APLL_TUNER_CFG1_EN_MASK, 0x1);
+-	spin_unlock_irqrestore(&afe_priv->afe_ctrl_lock, flags);
+-
+ 	return 0;
+ }
+ 
+ int mt8365_dai_disable_adda_on(struct mtk_base_afe *afe)
+ {
+-	unsigned long flags;
+ 	struct mt8365_afe_private *afe_priv = afe->platform_priv;
+ 
+-	spin_lock_irqsave(&afe_priv->afe_ctrl_lock, flags);
++	guard(spinlock_irqsave)(&afe_priv->afe_ctrl_lock);
+ 
+ 	adda_afe_on_ref_cnt--;
+ 	if (adda_afe_on_ref_cnt == 0)
+@@ -96,8 +92,6 @@ int mt8365_dai_disable_adda_on(struct mtk_base_afe *afe)
+ 		dev_warn(afe->dev, "Abnormal adda_on ref count. Force it to 0\n");
  	}
  
--	mutex_unlock(&afe_priv->afe_clk_mutex);
- 	return 0;
- }
- 
-@@ -350,7 +335,7 @@ int mt8365_afe_disable_apll_tuner_cfg(struct mtk_base_afe *afe, unsigned int apl
- {
- 	struct mt8365_afe_private *afe_priv = afe->platform_priv;
- 
--	mutex_lock(&afe_priv->afe_clk_mutex);
-+	guard(mutex)(&afe_priv->afe_clk_mutex);
- 
- 	afe_priv->apll_tuner_ref_cnt[apll]--;
- 	if (afe_priv->apll_tuner_ref_cnt[apll] == 0) {
-@@ -365,7 +350,6 @@ int mt8365_afe_disable_apll_tuner_cfg(struct mtk_base_afe *afe, unsigned int apl
- 		afe_priv->apll_tuner_ref_cnt[apll] = 0;
- 	}
- 
--	mutex_unlock(&afe_priv->afe_clk_mutex);
+-	spin_unlock_irqrestore(&afe_priv->afe_ctrl_lock, flags);
+-
  	return 0;
  }
  
