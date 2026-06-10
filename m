@@ -1,178 +1,269 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010044.outbound.protection.outlook.com [52.101.228.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E37A40D592;
-	Wed, 10 Jun 2026 22:52:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781131928; cv=fail; b=BT2Q/38kiQrpZMXlIkbpAD9vgdCfCxztVL303PvmYBKM3Qw8YCvgwcnBMpw3ZYGJCYlRwh0vcmfeNz6P9h2huCB93c4gk5jX+i/fGqTGCm3ByU9XFOgqlq/QFMWKvrl+9Yf+1M7eE6s/p1GR7u6fEcAS3BbSVoMTGye4ViDqHII=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781131928; c=relaxed/simple;
-	bh=EewOueFGZQNPrPeGCObRkLrna1R6nsSGODhNxVtzhEA=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=fSQb8UBVS34etGcw4nINXzuOtpHp8t2inm/wx/O7nEF4yrBQJa+YXCAi3KA+PNQP+XVZed1uWTGhYp2zY1hBgVYou1PEH1DamDcV7WhWjdxx0c7rDt8DXhqfiba3hmeGfEchDLnP+XnV/z67DhxLn+wkK9Frl5s+g5HeVUMABQ0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=TI4cJg94; arc=fail smtp.client-ip=52.101.228.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6303C1082
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 23:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781135535; cv=none; b=g957Pq4aKfJf4ZruOTeybeFTwdqq9Yufy+nr69QFW3MB6kWVwMjmFDDL4xq6q+ibGO8Cv6L6jpzQHURXHigHZzBvhf6RUo1qSStj6Vrc1iO12XwnGOOhGLbyVMhOQfZAu6ZrDNX/mIfDJJqguHfs+ehJ4JTCcVD7V07+wp16m/E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781135535; c=relaxed/simple;
+	bh=KCapcH04GnQHTviEX00pHFF1ryFIL2Xzijj8JcWrcA8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=pd/PYyPWHeaqXwdtrhizoF4aQqsmkL00UxGNAHAkk5m467NEB4V8xcsVcnR1ooqrwxeXwoZWjeObYMOWsU9Qqntq88SxeL+QMgz2LMhi6FqfnY+3k23diLAGSHuDplAvlvilIw7Sjz9Up/wihYO39ij2NmPA2V0qEMlO7o/BA1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KgBjv6At; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="TI4cJg94"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fPR7WCbAxAUJ2JoI+dYjZiYqeaqgy08tDx6Lp7ZrH9lo334HjkVt8MgTVEKvwgMr41hObHqBK3K8VQO1sHyqwXrFAOhEV8kn3yOFtfz8RN91OuHb62NBYU90t7FYdLA0CEbvgiXQvg5Elr+AvAtbyRhW2szWpOEJD4D0cpEsSgvaicNwM2a2OSHt7E/iaZYeFDjEDi7/7V0blkYKogbUiwK0lJ+AlTXQM3gzZGieWb9jP5bU5kxeEG+WIWI2uuH8EgNBqH4iqKtrtL8dykc/WI/qszSQlJfa2QPvKj02kDx9+BQq+9Wx2sQ1zjwk3Zdlr+GSHiR5OtHiyBaAbHg3KQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EDEMDDaqdj9pQ3OwoIuKc6Cse0pp48jNinFz3VV87wk=;
- b=rffDBnCrKEaD2BW3YeSx3rcg2+iRC0VBgvl0R37Xc+NwiNG4I6w5Shth3Xr2OAlhKjj6EGWu9S8EDSM7ZLS7k2nJaezYxbKScC8XVkoWL4UmwBYiEOR1WB67GlTsy7kZCg8ajYF9OJz9vmQfvFklog7N5Tn5wVvgQL1Tc1eFRi1xi6ZOVDIwV9KMpreMRmfPmFHFT1X8MPM8LTVLWLiSDQjqenZdVIy1u2yZ6yjvGaDkNwVDV52hM4xa0RigCfYbsSxiuQIxonlU2wsxlnSE44/pMEjGzLIqQqgKShfp+w42cEnMcamClQ/FnG1lyvoO8KmvdxbhywBAQHmXj5R5sw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EDEMDDaqdj9pQ3OwoIuKc6Cse0pp48jNinFz3VV87wk=;
- b=TI4cJg94jTDYIh1MZDsyp1qma+DlncJPqL7GwUlbcWjYMazH3eTrIpD4AZhdrRaN6d21XhRy7QC+OoRD0kVmUPSU9PGdM4xHfBZwpkbxXvFUlck9dtL/Ci/hcTYB1KsMv5sUt7oa97M3olZEKAXLg+hCQouMpLfYlQ3JFrSILco=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OSRPR01MB11811.jpnprd01.prod.outlook.com (2603:1096:604:235::9)
- by TY3PR01MB10942.jpnprd01.prod.outlook.com (2603:1096:400:3af::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.11; Wed, 10 Jun
- 2026 22:52:00 +0000
-Received: from OSRPR01MB11811.jpnprd01.prod.outlook.com
- ([fe80::a2c7:5e53:c133:d834]) by OSRPR01MB11811.jpnprd01.prod.outlook.com
- ([fe80::a2c7:5e53:c133:d834%3]) with mapi id 15.21.0113.011; Wed, 10 Jun 2026
- 22:51:58 +0000
-Message-ID: <87ldcmovp0.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: John Madieu <john.madieu.xa@bp.renesas.com>
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	john.madieu@gmail.com,
-	biju.das.jz@bp.renesas.com
-Subject: Re: [PATCH] ASoC: rsnd: adg: make rsnd_adg_clk_control() idempotent
-In-Reply-To: <20260610164704.2211321-1-john.madieu.xa@bp.renesas.com>
-References: <20260610164704.2211321-1-john.madieu.xa@bp.renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 10 Jun 2026 22:51:58 +0000
-X-ClientProxiedBy: TY4P286CA0114.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:37c::12) To OSRPR01MB11811.jpnprd01.prod.outlook.com
- (2603:1096:604:235::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KgBjv6At"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-bebb72b845aso1174365566b.3
+        for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 16:52:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781135531; x=1781740331; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E6H99sHoIWKNuVB0cS6tuVXAWbJCFFw3FoZpbc6aip4=;
+        b=KgBjv6AtA/UYA5rej+CIsAMcWeTGQAKYO2k/ktqSCfnqdnzgbmFVlU8mYEq2OPSzbk
+         6CZG7z5BlzpwEfJjljvtjzTunFDn4YyXp8sVrcNZdE+JwxAIZSG3P+DfyWtWFSw3ZPQs
+         zMtEYTneSQ2wegPJB+4jcM+2AUMMPyzSl2hbHB0ypioE0+RD9LHcG5bpwiWgkXz8ANTO
+         ZrrJLg7hEE7W+LXvPsyOEloEelY/U2M0qYf4PmBNSnCpa9Ir+YIJsyx1HImXRfho8qSD
+         87xYJ1zrziIUoHa56lFm/xE/Vertnua+4rldiov4B6vvkSS8Cg0Ij6hjddAUqhISJ+Lu
+         4lPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781135531; x=1781740331;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=E6H99sHoIWKNuVB0cS6tuVXAWbJCFFw3FoZpbc6aip4=;
+        b=PaZI0ETg+9S02Vy3AhiyeVObmPSMzCBgo9IhVGDvoNYBj0s/bOVdEegBfHMGl8apmX
+         Kufkr+hwyDtgM3G6lESQH6BpCUPMCmKMZVB8pYb2sFwS0jDcnxbAq+ji5ZjK8G/kmxMM
+         W0q12cjoQNYZy1p+LKe98QVv2iY83+Cl1L5jh1zRKLGIQ78pIQgjILCZRELZGBHnimYx
+         PHVNo05hfAVVXHWqqD48X55p0UMTvwoF7tQuAWIO7kDn/7cJ9MTzJ92Y3wR3qrnDflPY
+         UP8rWpiqLMaQVwp0yQFRk52pdcg26o7yiHaUW45c8p6r+mv1yn0HRp5NGP9Xyuidw5VL
+         7GTg==
+X-Gm-Message-State: AOJu0Yy+V43hGKoKbu3W8Mda7M1NRFpMmNZ3/uyDP5PTKxxqnBlKuX4M
+	77armjhKtCqVAYs1p6/wX04JHMY0nS37ejRHnZrp16yfFYgaPGKC+C4n
+X-Gm-Gg: Acq92OHiLCjCnKSus2XTT6VlfXNVPrWaiTqLTC6VBFbfazHAW2BQu1ZgcH1PyiVyx6n
+	T9oWFkNVwai9sL00kniGu2JbTZ8YdBywty79DhkZReCDTdpU6ivX4x6QPMNVhlRdw9TEvpaEniK
+	2RkKA1gR+vyfklDifbRKNUNFIeHSfNliT2pDoGu+lBWv8SeUyaePsNn8hotpUVcaFTtpk5FA2z4
+	BDD3b52zqyLwcdrPb+VFCsC5r1STB3cbfNcQPJUQJObmadRKCq0JmO0BAWMSIftRK5Ig1gHFP9C
+	/HuhSfAvgQSNstApy0/S4kVGYzjkYoqqmYqo9TYf8F7gGpFb5EKuXIB/jWpz81OB3tv12dyGhIK
+	z9w2a2SG+c0Phs/20c7Cj5d3dQsyvCqpUbbMbo+ccPTG38lDWWdP2+qmTOPh71noZeZNjEJRwdF
+	Y4rGIUYtXyT+BJMsA7aR6AJQO7JKUC
+X-Received: by 2002:a17:907:9702:b0:bed:4f1f:bf9f with SMTP id a640c23a62f3a-bfc855337d8mr2716766b.5.1781135530677;
+        Wed, 10 Jun 2026 16:52:10 -0700 (PDT)
+Received: from [127.0.1.1] ([46.251.53.180])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf054e03716sm1225741366b.34.2026.06.10.16.52.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2026 16:52:10 -0700 (PDT)
+From: Yauhen Kharuzhy <jekhor@gmail.com>
+Date: Thu, 11 Jun 2026 02:51:55 +0300
+Subject: [PATCH v3 1/3] ASoC: Intel: soc-acpi-cht: Unify device quirks
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OSRPR01MB11811:EE_|TY3PR01MB10942:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ffdf00e-750c-463b-ad26-08dec742e085
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|52116014|376014|366016|1800799024|56012099006|11063799006|22082099003|18002099003|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	rxwA68vwqUNP4fw2gdlev6zX3w9kFU1I+iG7OkUUQiMokYip64wqgNQtZjxeV5QHGPKXAEayYQkEg4K3FKGmGnu/vBO+PMqEXHV+hHcTMOf0mdAsMRTE6vGvTKckY4a5p0GIJbYsB+wIY9rPeu/z+4hcuiRpsgsN5JN8Wx26qxjsu6A1L1G0oKP2Czi1JAUSrzogk/G78gLccxkX7QF9FQ0FaIqqVddwcfb2cqNtZMrdM3LNK1ZxDkj9IpqTn+kriFE7VLh/yZK98eTUEiiYlUuxY2hzPvvMnbp4+cnsJUsf+Gg9kei4MFvAAu/XK584q7XZPtvlYJywsDcfBmx7ykWjd85/UUai8Osv++GHV5R3t+zA42umA5ef6qpPkcexFl6izXrDU3QbagzwpFQz421oz1XuEwXihL4BfiWcTeW6eAse9eKROhEN9r0bKp86Q6nWDpc9rP2jS4AvS9z38iad0RcLSNieTvDeJIAMf+kO2f4sjGsJoUGuDUgA8xiY2mo6g6P28VdIw58WD0w9d7SOVaxiy2etrN45bnxUifxj/sjYE2uCeZXG5DDdRRzv7IAPIreVG8rTU/6R6Wo+8Z8xl8W3ZoG+4hqA+zUbhKDHhQ2xB5XAieVrcEdEw2q5e8iTeERinWfYrQP0qGML2QkRt27XMw57037OpVZDP3FP4WoTa4VswUGj+Il2y6Blg/efmPjnFZq9SyWbv1Vz3tUveuSbI0xd2zBl+ru/kp9mNDlpqfZsgmCMjuWbNqV1
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSRPR01MB11811.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(52116014)(376014)(366016)(1800799024)(56012099006)(11063799006)(22082099003)(18002099003)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?w1p5PfIDnd0N/jaEvQHn4F5J7zgTclld7EjZV66h9pvW9cPBarrLQw24/jqa?=
- =?us-ascii?Q?RYioPeuFgoMJdL6pis29zuEumxBzF2AKq2wzZ6r0slso03uPl2/ObcR19xpB?=
- =?us-ascii?Q?L5HtpQg+oW93NiXwhpmDIAGqBHaRawOT+tvc3iAIsLLpg5p5lfUljB7KrUNr?=
- =?us-ascii?Q?RYU6C66ARzOAlbt7gP8/9lYMaQ23L6/wMpnhi3c/ZW843DA6eqN2FL5qj/+/?=
- =?us-ascii?Q?oexRKfLltSSYEejZZg+gXLxH7ohJoWeFtnbtj6y8u3KzS9DYVCcy8LVR3XRj?=
- =?us-ascii?Q?i/S3Zsd/NR5lwCPINSrm/ViCFRUjUMpasVYBKXNcPi9N0Q5yOfooO85qDbI1?=
- =?us-ascii?Q?PuS4W5i0D3qz56Zv+ttALzjxivRZihVysjCpzlKPfncyaVetwDA/ezMU058y?=
- =?us-ascii?Q?6kbhCzqQzSs387+1zpzHrsROpNT8Dg0DIgtxxUj8YzmfU3qlWetUH9UEAR9u?=
- =?us-ascii?Q?odcZCTyOzNoj0KydpiImvUGdDB9dZ4zEcTbJy7Ol6yjnaEet2qEHsoIUIFl7?=
- =?us-ascii?Q?5Dt3uSkPO8BFOnS9sbbZLIHYKPp2BHQc2S60xj9o+dsqWOUN0Na5CZXe62lM?=
- =?us-ascii?Q?AwY8hcKwj/zjM2N+oYjuTSGaI37E12eCYyaDWnMMPXgwJgon28g9AeCI+XQd?=
- =?us-ascii?Q?2bNr3CF6sq4ZFYa8t7Q4XGYeQ033SL6qI7rSybbaN3tXLbIJF8Vj3gZE+Qnf?=
- =?us-ascii?Q?OvggFWahcobvxCg/wU4WnQl4qcZVHf+Nv8C/AFwOEABpt2OFsNgWHMFVS1G1?=
- =?us-ascii?Q?0iHJouA8yVaOhOzUwXI2mtMM2IZIgUD3/obOnhQrLO6F8OtiX/Vsh8NT3sZT?=
- =?us-ascii?Q?9GEm/eBwXzsp1VGPmp01BC/jFbwwAxUtrCq0BpqNmcFQRQHMjPTR8yyqgfqU?=
- =?us-ascii?Q?S/AMevLdw8l/IKjf5kb4pPV/Mz6DpmgqrjKTO1tRHXXCrC9Q6wDLCdSc81Qm?=
- =?us-ascii?Q?3Kkl+vua/MHSWJqJnb9dzNcTj2jIWloHAbULAb+WlgVPHkIufZ9vzf3VCoSY?=
- =?us-ascii?Q?XjCBfwUz0qZ1qbHWeNlMPgV+yT6vLszzSXP61gaPOsnfp9jypcHNXn4YJkoF?=
- =?us-ascii?Q?HNeW4HeDH23bnTjiFINz6mifvlysWZLUX9Mlz+/TTCiTlX3ps6A7qNW8wpag?=
- =?us-ascii?Q?2qHBuX4Wt6qHoLfwq38EoBZE7WNycRTZM4DqQwpOCcV5I6wP9qtuApJgBWRK?=
- =?us-ascii?Q?DCcXadUelG5oAlSGL6bHres2rE2/XwZuS8m4G8wPxNF9vUHm+zdv5KyjYoWr?=
- =?us-ascii?Q?fkcfh04OfO3IpKWXsT3iiQcfHOV//gFM0BhkyZ/cSGtVls6zSCTW4ULo+57M?=
- =?us-ascii?Q?oWLuPtniBEogsauAfe3sHSVsDTFkDZYVyygcXGzBjhZHCItAyoscrBHx4oRK?=
- =?us-ascii?Q?NNtnknubjV1MiZWuz4chJMxYzTiF4BIVkwMxn4zMkrkZOkZcugcrA2aHjN2c?=
- =?us-ascii?Q?tEOFVTjzQCLVYp5zXSiD548XGTgKfmhF0KBWcLqlN3Zhx79ftPa0+VPgIbat?=
- =?us-ascii?Q?sLod6WWxjr+lHAdSBsFuTqq1+8Xbv/csMfr4rtt30h+sW0BQyTiOrhGl72kk?=
- =?us-ascii?Q?yndft4kSU1LhLhXIqLut1a271Qjb8RBvqLeSGJrnP40n/fVn+OdJvhxsSjKZ?=
- =?us-ascii?Q?iR/quXu6W9h0qIQ2om+t2HH9jI4Bf7mbTqRoQM+1iOZ9C0WY7MJ+c7M4GJwg?=
- =?us-ascii?Q?BReAaNpvdLsnMXBYNk18pLTriY/XJHzNMqegkKzVRokt4BxOBnAjXVFmWvLm?=
- =?us-ascii?Q?seMzhuNDxmr1jW2+QAaGsflDkFAw3X+0dimNtBet6NMf2lCLlW7r?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ffdf00e-750c-463b-ad26-08dec742e085
-X-MS-Exchange-CrossTenant-AuthSource: OSRPR01MB11811.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2026 22:51:58.3315
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TbbH8o84b4Yh3QeMjZizbSlVnB0+JhdphiGC/GuWi2nRs7sLyBcH40AaXn8t1vHC6BGFx6qSzUwD2TPgk/XpNItX9wtbXwyUu+rz46MjV0Dr8shMADe+DczF5s7iJ5N3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10942
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260611-asoc-yogabook-v2-v3-1-3128447b67b6@gmail.com>
+References: <20260611-asoc-yogabook-v2-v3-0-3128447b67b6@gmail.com>
+In-Reply-To: <20260611-asoc-yogabook-v2-v3-0-3128447b67b6@gmail.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Hans de Goede <hansg@kernel.org>, Yauhen Kharuzhy <jekhor@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781135528; l=5862;
+ i=jekhor@gmail.com; s=20260301; h=from:subject:message-id;
+ bh=KCapcH04GnQHTviEX00pHFF1ryFIL2Xzijj8JcWrcA8=;
+ b=Yo4qIXbPba2P7yyvuj8ifINTPJcCkc75oiJmm/mCr5Jr8yFiV/SKp26JqK220FTDUUgOlkhBV
+ VT3a+EfT/k/DhydkK4RMPoMIpgOE8bLydoJem0PKjHYNzSqqGECQG1e
+X-Developer-Key: i=jekhor@gmail.com; a=ed25519;
+ pk=C/csaZJs7UBNDgeJcUAmPu4ntqNeaZ3BKfBQiH8tuGc=
 
+This file contains two types of quirks, both checking DMI for
+machine-specific strings and returning machine data for a matching entry.
 
-Hi John
+The first one, `cht_quirk`, is used to override the default entry for an
+existing ACPI codec node if the node's info is invalid. It returns either
+the matched machine data or the default entry if no match is found.
 
-> rsnd_adg_clk_control() is asymmetric on the disable path: the clkin
-> clocks are guarded by clkin_rate[], but the "adg" clock is disabled
-> unconditionally. If an enable attempt fails (for example a clkin
-> failing to turn on during resume), the error path correctly rolls
-> everything back, but rsnd_resume() ignores the return value, so the
-> following system suspend calls rsnd_adg_clk_disable() again and
-> underflows the "adg" clock enable count:
-> 
->   adg_0_clks1 already disabled
->   WARNING: drivers/clk/clk.c:1188 clk_core_disable+0xa4/0xac
->   Call trace:
->    clk_core_disable+0xa4/0xac (P)
->    clk_disable+0x30/0x4c
->    rsnd_adg_clk_control+0x9c/0x2cc
->    rsnd_suspend+0x20/0x74
->    device_suspend+0x140/0x3ec
->    dpm_suspend+0x168/0x270
-> 
-> Track the enable state explicitly and bail out of redundant
-> enable/disable calls, mirroring what is already done for the per-SSI
-> clock prepare state. A failed enable leaves the state as disabled, so
-> the next suspend becomes a no-op and the next resume retries cleanly.
-> 
-> Fixes: 47899d53f86f ("ASoC: rsnd: adg: Add per-SSI ADG and SSIF supply clock management")
-> Signed-off-by: John Madieu <john.madieu.xa@bp.renesas.com>
-> ---
->  sound/soc/renesas/rcar/adg.c | 29 ++++++++++++++++++++++++++++-
->  1 file changed, 28 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/renesas/rcar/adg.c b/sound/soc/renesas/rcar/adg.c
-> index 5479cefb6dbe..53efd1be5139 100644
-> --- a/sound/soc/renesas/rcar/adg.c
-> +++ b/sound/soc/renesas/rcar/adg.c
-> @@ -45,6 +45,7 @@ struct rsnd_adg {
->  	struct rsnd_mod mod;
->  	int clkin_rate[CLKINMAX];
->  	bool ssi_clk_prepared;
-> +	bool clk_enabled;
+The second one, `cht_yt3_quirk_cb`, is used for devices (originally the
+Lenovo Yoga Tab 3 Pro) without a valid codec DSDT entry. It is bound to
+the SST ACPI node and returns either the matched machine data or NULL if
+no match is found.
 
-Can we use clk_is_enabled_when_prepared() instead ?
+To allow adding new machine entries to the second case and to use a single
+DMI match entry for both cases (for example, if two variants of one device
+exist: one with a valid ACPI entry and one without, like the Lenovo Yoga
+Book YB1-X91 and YB1-X90 - Windows and Android versions), reorganize
+these quirks functions to use the same approach: machine data is set in
+the matched dmi_system_id entry as driver_data field.
 
-Thank you for your help !!
-
-Best regards
+Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
 ---
-Kuninori Morimoto
+ sound/soc/intel/common/soc-acpi-intel-cht-match.c | 100 +++++++++-------------
+ 1 file changed, 42 insertions(+), 58 deletions(-)
+
+diff --git a/sound/soc/intel/common/soc-acpi-intel-cht-match.c b/sound/soc/intel/common/soc-acpi-intel-cht-match.c
+index e4c3492a0c28..28f600171f9d 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-cht-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-cht-match.c
+@@ -9,47 +9,63 @@
+ #include <sound/soc-acpi.h>
+ #include <sound/soc-acpi-intel-match.h>
+ 
+-static unsigned long cht_machine_id;
+-
+-#define CHT_SURFACE_MACH 1
++static struct snd_soc_acpi_mach cht_surface_mach = {
++	.id = "10EC5640",
++	.drv_name = "cht-bsw-rt5645",
++	.fw_filename = "intel/fw_sst_22a8.bin",
++	.board = "cht-bsw",
++	.sof_tplg_filename = "sof-cht-rt5645.tplg",
++};
+ 
+-static int cht_surface_quirk_cb(const struct dmi_system_id *id)
+-{
+-	cht_machine_id = CHT_SURFACE_MACH;
+-	return 1;
+-}
++static struct snd_soc_acpi_mach cht_lenovo_yoga_tab3_x90_mach = {
++	.id = "10WM5102",
++	.drv_name = "bytcr_wm5102",
++	.fw_filename = "intel/fw_sst_22a8.bin",
++	.board = "bytcr_wm5102",
++	.sof_tplg_filename = "sof-cht-wm5102.tplg",
++};
+ 
+ static const struct dmi_system_id cht_table[] = {
+ 	{
+-		.callback = cht_surface_quirk_cb,
++		.driver_data = (void *)&cht_surface_mach,
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "Microsoft Corporation"),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Surface 3"),
+ 		},
+ 	},
++	{
++		/*
++		 * The Lenovo Yoga Tab 3 Pro YT3-X90, with Android factory OS
++		 * has a buggy DSDT with the codec not being listed at all.
++		 */
++		.driver_data = (void *)&cht_lenovo_yoga_tab3_x90_mach,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
++			DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
++		},
++	},
+ 	{ }
+ };
+ 
+-static struct snd_soc_acpi_mach cht_surface_mach = {
+-	.id = "10EC5640",
+-	.drv_name = "cht-bsw-rt5645",
+-	.fw_filename = "intel/fw_sst_22a8.bin",
+-	.board = "cht-bsw",
+-	.sof_tplg_filename = "sof-cht-rt5645.tplg",
+-};
+-
+ static struct snd_soc_acpi_mach *cht_quirk(void *arg)
+ {
+ 	struct snd_soc_acpi_mach *mach = arg;
++	const struct dmi_system_id *match;
+ 
+-	dmi_check_system(cht_table);
+-
+-	if (cht_machine_id == CHT_SURFACE_MACH)
+-		return &cht_surface_mach;
++	match = dmi_first_match(cht_table);
++	if (match)
++		return (struct snd_soc_acpi_mach *)match->driver_data;
+ 	else
+ 		return mach;
+ }
+ 
++static struct snd_soc_acpi_mach *cht_quirk_strict(void *arg)
++{
++	struct snd_soc_acpi_mach *mach = cht_quirk(arg);
++
++	return mach == arg ? NULL : mach;
++}
++
+ /*
+  * Some tablets with Android factory OS have buggy DSDTs with an ESSX8316 device
+  * in the ACPI tables. While they are not using an ESS8316 codec. These DSDTs
+@@ -75,38 +91,6 @@ static struct snd_soc_acpi_mach *cht_ess8316_quirk(void *arg)
+ 	return arg;
+ }
+ 
+-/*
+- * The Lenovo Yoga Tab 3 Pro YT3-X90, with Android factory OS has a buggy DSDT
+- * with the coded not being listed at all.
+- */
+-static const struct dmi_system_id lenovo_yoga_tab3_x90[] = {
+-	{
+-		/* Lenovo Yoga Tab 3 Pro YT3-X90, codec missing from DSDT */
+-		.matches = {
+-			DMI_MATCH(DMI_SYS_VENDOR, "Intel Corporation"),
+-			DMI_MATCH(DMI_PRODUCT_VERSION, "Blade3-10A-001"),
+-		},
+-	},
+-	{ }
+-};
+-
+-static struct snd_soc_acpi_mach cht_lenovo_yoga_tab3_x90_mach = {
+-	.id = "10WM5102",
+-	.drv_name = "bytcr_wm5102",
+-	.fw_filename = "intel/fw_sst_22a8.bin",
+-	.board = "bytcr_wm5102",
+-	.sof_tplg_filename = "sof-cht-wm5102.tplg",
+-};
+-
+-static struct snd_soc_acpi_mach *lenovo_yt3_x90_quirk(void *arg)
+-{
+-	if (dmi_check_system(lenovo_yoga_tab3_x90))
+-		return &cht_lenovo_yoga_tab3_x90_mach;
+-
+-	/* Skip wildcard match snd_soc_acpi_intel_cherrytrail_machines[] entry */
+-	return NULL;
+-}
+-
+ static const struct snd_soc_acpi_codecs rt5640_comp_ids = {
+ 	.num_codecs = 2,
+ 	.codecs = { "10EC5640", "10EC3276" },
+@@ -208,14 +192,14 @@ struct snd_soc_acpi_mach  snd_soc_acpi_intel_cherrytrail_machines[] = {
+ 		.sof_tplg_filename = "sof-cht-src-50khz-pcm512x.tplg",
+ 	},
+ 	/*
+-	 * Special case for the Lenovo Yoga Tab 3 Pro YT3-X90 where the DSDT
+-	 * misses the codec. Match on the SST id instead, lenovo_yt3_x90_quirk()
+-	 * will return a YT3 specific mach or NULL when called on other hw,
+-	 * skipping this entry.
++	 * Special case for devices where the DSDT misses the codec. Match on
++	 * the SST id instead, cht_quirk_nocodec() will return a
++	 * device-specific mach for matched device or NULL when called on other
++	 * hw, skipping this entry.
+ 	 */
+ 	{
+ 		.id = "808622A8",
+-		.machine_quirk = lenovo_yt3_x90_quirk,
++		.machine_quirk = cht_quirk_strict,
+ 	},
+ 
+ #if IS_ENABLED(CONFIG_SND_SOC_INTEL_BYT_CHT_NOCODEC_MACH)
+
+-- 
+2.53.0
+
