@@ -1,47 +1,69 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9FA40F8CC;
-	Wed, 10 Jun 2026 15:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23DB4218B8;
+	Wed, 10 Jun 2026 15:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781107037; cv=none; b=EODeBVcv7hbgy2hC5r99Vb5F1jof9kbHg+phl0c8ulzDXWGrS6Ib2GWM3JXEwf0t+cmc1aAHQdddu1rcez4W+NKjSK+htIDZG1FVuoXxX611UV26mHu1RDAod0qOHX3KI6Fo0Zgd0uWkV76O0LKFVMC4rQOjxGdH1BCMjIGJOWw=
+	t=1781107044; cv=none; b=bI9/gXNWwiuxh7zLmhbP9HQOabw/N5Rwqwzm87rjE8tCGzGQqm4BqHLZtrUXGBNGC+gbAiJ4S94+RMyE15eeRNSmc4UB3wUWAjqqLCn2gE+FAewDMYJqloL+523EDkpc9VRDzmJwIpoRuuJ89+GET41ky3T6N1RofG/KiWm5VUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781107037; c=relaxed/simple;
-	bh=Z6dnVy0IPF1i2HHyjgUfXO20JQjwcp5mVvu+2hci7/Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CrqxSVMBv/2RmXBvD/nc+Q/B6QIxJfKEiBc41GE+o5etjJ/YgG5b2m1GCtERm49ejZac30gT5GNJBkckvbMghOSjqkllatlE/pYveEMv3OwHTw5sR5fFq5tCP8PzuOSnLKS0lU0UFyqmbYzY88vu+l5S83j+ksOCnSSG/qc2XI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=M56vYu5H; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1781107044; c=relaxed/simple;
+	bh=h7P53uFc7SEJfNucfm32xC+ai27BRGWxdMVNGS9lDvg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dBDlCL+OoD4Hr3fFlI4I9+CFK6YsoRaPU9B14PIfWWssllaH+s+Mp4xcezcczhAECnlChGW3HQ55zB355FQabBaR12gRP7uR1237NXwzgLiuP8ST3vSJyTSQe5J56d1WNXBZC5Z9/cGioie4tbkrb3o0kSQ9LDsUweqAc/hE36E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bf7lCs4I; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="M56vYu5H"
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id C37F326DFC;
-	Wed, 10 Jun 2026 17:57:14 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id d1eBA_By-t0M; Wed, 10 Jun 2026 17:57:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1781107034; bh=Z6dnVy0IPF1i2HHyjgUfXO20JQjwcp5mVvu+2hci7/Y=;
-	h=From:To:Cc:Subject:Date;
-	b=M56vYu5Hckz1dJ0SL6vmKDebV2BnjxoveywHu0ycOoZS97laA9t63ehizV3TvTd2Y
-	 dotE1m+AD+JL0nB/9y8YW99Fb2H4g5C+69hEa/Jv/fIeO7fZKu2BUsTeTt0tryz58r
-	 F5AaGR0CJkOYK/EBRoPMmPx1bIbJu/hSzC/rkid6WwYmTRCYBWvKBF14AbHp1Z1qaA
-	 zogsGhbWAM1VzMCY0EEEVpjjrFVE49t59wLsSAQWBg357GWNhjRRisFgwEb83ymGAy
-	 WM3o5qtWaMpU0tnK9tlNRDX98waXXIps/oLCz+SDuER4pPUnHaIF5zk5UCB5SWB1uO
-	 obOadnASx+Zzg==
-From: Marco Scardovi <scardracs@disroot.org>
-To: david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hda: cs35l41: Add SSID quirk for ASUS ROG Strix G16 G614PR
-Date: Wed, 10 Jun 2026 17:57:01 +0200
-Message-ID: <20260610155701.118313-1-scardracs@disroot.org>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bf7lCs4I"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65ACBl4u1072714;
+	Wed, 10 Jun 2026 15:57:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=pZg/Ji48yUD3zYDdKhobPrwg5IvsJ9Q+xFZ
+	UIdUe2DU=; b=bf7lCs4IJNhyOJlRTTLkE8t/y7hoLkLxWFyxGC9uGrItRM60miu
+	5gcotUSYHXIIBDu/tv4cy9FYbnLntqQ3MGcpFcXoFE8RhJEa22vqEtXiWKdiTfkH
+	hc4bp/PNCBtczc3iENy0FhXW9kOY5WbuuflaRBZaTlHan+/Bi8dKtnDywWM4Z1Vx
+	+VVu0RDSr2MZ5JbP5CmxhHbMlwnD/h9Ru1wCWeDY0/BoXCNQX5yCShSSsQljIUZB
+	V91Nr5ocJ0obJAZXAQ/e8GkHUkxRuUELATg68qJeFj9ZtBlnHxjMw2k+ubEnXydj
+	r8vaMLgykr31GCe+BOz3Ug9aOkXP6sdZ3Gw==
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4epxuvk2kj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Jun 2026 15:57:16 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 65AFvBXG017570;
+	Wed, 10 Jun 2026 15:57:11 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4emcmk7k8g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Jun 2026 15:57:11 +0000 (GMT)
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 65AFvBmc017555;
+	Wed, 10 Jun 2026 15:57:11 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 65AFvBP9017551
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Jun 2026 15:57:11 +0000 (GMT)
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
+	id 3CB85631; Wed, 10 Jun 2026 21:27:10 +0530 (+0530)
+From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Linus Walleij <linusw@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org
+Subject: [PATCH v1 0/2] ASoC: add Qualcomm WSA885X I2C codec support
+Date: Wed, 10 Jun 2026 21:27:06 +0530
+Message-Id: <20260610155708.151067-1-prasad.kumpatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,47 +71,59 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-GUID: t8U3yd8vn43CmP1jDHN33ETq7bNw3sLH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjEwMDE1MSBTYWx0ZWRfX/J5Q7VBVVW6J
+ DrBLUsg8+w8S68FQ9oalqBGlwsHGpDL8x1oLrDiN7VPU825m+3fUp3BGCyDPxLrPi/++lCj/CCq
+ fy1LGIqR7i7z52JaaopL7eQmZEIZ3NVTgEMnNNKoqrm2Ez45C/rfvR27cWT2qddFpgbR7xFBgWU
+ kgFnCAxZVvPP01dVjDNcznTziUZgVrlAtefZxyzcfJqYrfadNIdfNq1y8zw0KePYvQulOH/l652
+ yzCE6P1pYb3OxVek2XXTRoHaScnbFERrTo4O5wC/0OBZiAIAxcCKfuFJ6xPewcx6ZtWYarOgsaD
+ +VfpcWbIY2U7054ZeW8XXHcqxYowk/qc1VlcN5AqQfG4mZoj+kJIm3qNU0uhm182Vi2t9XaruUs
+ 0jwiQcg34A0CUwF2KtUxqODWt2rpbsNxh+t1cRHyP+9Lcqh7F4vMy1pzH3QX8Svw8mB3vJifZbv
+ hPie6VNAHi7mcqiP3cA==
+X-Authority-Analysis: v=2.4 cv=Co+PtH4D c=1 sm=1 tr=0 ts=6a29895c cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=_K5XuSEh1TEqbUxoQ0s3:22 a=izUB74xbDtXez7lD44YA:9
+X-Proofpoint-ORIG-GUID: t8U3yd8vn43CmP1jDHN33ETq7bNw3sLH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-10_03,2026-06-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501 adultscore=0
+ spamscore=0 clxscore=1011 impostorscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606100151
 
-The ASUS ROG Strix G16 G614PR laptop (SSID: 1043:1074) uses I2C to connect
-two CS35L41 smart amplifiers, but its BIOS ACPI tables lack the necessary
-_DSD properties to describe this hardware setup. This leads to the driver
-failing to enable the amplifiers during boot, resulting in a -110
-connection timeout:
+Add support for the Qualcomm WSA885X smart speaker amplifier accessed
+over I2C.
 
-    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Enable(1) failed: -110
+The series first documents the qcom,wsa885x-i2c devicetree binding,
+including supplies, GPIOs, battery configuration, and the init-table
+data used during codec initialization.
 
-Add the SSID quirk entry in cs35l41_config_table and
-cs35l41_prop_model_table to provide the configuration override. The
-setup uses internal boost with a 1.0 uH inductor, a peak current limit of
-4.5 A, and a 24 uF capacitor. The GPIO indices used are 0 for the reset
-GPIO and 1 for the speaker ID GPIO.
+It then adds the ASoC codec driver with register programming, serial
+interface setup, clock handling, mute and gain control, reset handling,
+interrupt support, runtime TDM slot-count configuration, and stream-time
+power-state sequencing.
 
-Assisted-by: Antigravity:gemini-3.5-flash
-Signed-off-by: Marco Scardovi <scardracs@disroot.org>
----
- sound/hda/codecs/side-codecs/cs35l41_hda_property.c | 2 ++
- 1 file changed, 2 insertions(+)
+validated speaker playback on Shikra and Hawi platforms.
 
-diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-index 732ae534db36..4a3b14468dd8 100644
---- a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-+++ b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-@@ -85,6 +85,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "103C8C51", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
- 	{ "103C8CDD", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
- 	{ "103C8CDE", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 3900, 24 },
-+	{ "10431074", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "104312AF", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
- 	{ "10431433", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "10431463", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
-@@ -510,6 +511,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "103C8C6A", hp_i2c_int_2amp_dual_spkid },
- 	{ "CSC3551", "103C8CDD", generic_dsd_config },
- 	{ "CSC3551", "103C8CDE", generic_dsd_config },
-+	{ "CSC3551", "10431074", generic_dsd_config },
- 	{ "CSC3551", "104312AF", generic_dsd_config },
- 	{ "CSC3551", "10431433", generic_dsd_config },
- 	{ "CSC3551", "10431463", generic_dsd_config },
+Prasad Kumpatla (2):
+  dt-bindings: sound: add qcom,wsa885x-i2c
+  ASoC: codecs: add Qualcomm WSA885X I2C codec driver
+
+ .../bindings/sound/qcom,wsa885x-i2c.yaml      |   89 +
+ sound/soc/codecs/Kconfig                      |   11 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/wsa885x-i2c.c                | 1643 +++++++++++++++++
+ 4 files changed, 1745 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml
+ create mode 100644 sound/soc/codecs/wsa885x-i2c.c
+
+
+base-commit: 49e02880ec0a8c378e811bc9d85da188d7c6204c
 -- 
-2.54.0
+2.34.1
 
