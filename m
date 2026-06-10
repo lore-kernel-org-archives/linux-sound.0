@@ -1,45 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2281356759;
-	Thu, 11 Jun 2026 09:24:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6058356759;
+	Thu, 11 Jun 2026 09:24:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781169853; cv=none; b=IfvtbX1N77Tpo+VLSiU6paXucqtqJkt/Pe7fvePFlbOQhnEj9o8c85OYRMQibmq/vv6CiT+cPFnj0jjUaVnY/cI3mbwgWWU44VmnPu/+UuiRlI/xSbllLbeO+hjpOBx4p34XJDvHOcTF8J+djSHBsdEuBctFxMeaalY0w0bpPB0=
+	t=1781169857; cv=none; b=X5F3BZMJ9v40d+EJjFMFde7OjlbwivJtrfT+0LRpiU1xm2p1AyqIQO1TzV+eKdI7tFVeoN92ozJEtD0Nm8Deihqc/UPZI8LlfYEcyqGvpj9ghZQaaE/fnyHOTuYvAceWP7iuy+LLjlxTMP+lWbJem9r9pH0Dx9G6E27uPJDqsGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781169853; c=relaxed/simple;
-	bh=mfT8gSVDCWk4JyRaaMo+/qGlPesjAc/rwMATv4G2nsg=;
+	s=arc-20240116; t=1781169857; c=relaxed/simple;
+	bh=5lD0xvlCx/UgbvTDuHONjwurbZrJWF5vtslIkEydUyc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=U5/h00SUWjS/d5LhLoDewpElEXhlmupuESbMwTlkFX5FTWzhGaRWF9JM4ITSnh42IJjY5IyAE+69PW7QWiH9dQh3f2bd0uzF78tjthYpAh+waTJBV4uth7pnZxLd5QZnJ6WwjMe26nfUw4wntdac0MHaRLZHnrq71DttvM0Km08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WnTU/27N; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=Jtme/1sJ2+blBeGoqd6DgfNlvxpgBjJosJ2O+fNU90C/2UJEmHsZ38rc9mNADyt3WcTCwBtqfBXc21Lpq7LgO5kQifG0yrL9VVJ01x3j8SwzqV0QMM3aO2l9tm6Otwaa+8n5V73ZCetnKz0isbe3l/8lFO3QVHpMA46vBDsER4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BZtDae+C; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WnTU/27N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F7A51F00893;
-	Thu, 11 Jun 2026 09:24:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BZtDae+C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FF761F00893;
+	Thu, 11 Jun 2026 09:24:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781169852;
-	bh=kaDbe2Wtadm1CovoX1M+pm7BWifn8mTlFUxuaDqLi0Y=;
+	s=k20260515; t=1781169856;
+	bh=D1898Ep3mEqkd7xbKIhWDoolzPZcxEF/q6NJ5X7TsJg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=WnTU/27NgzOoYes/IzeMe1761wQ9wdP19YpDfXsYUpxxGG6XZMQ25Hl4AFte7UTPd
-	 BL8I0iSXCAKoGHxIb9Ayper7xIpPamXXxwv5m5VsIiasCQHvnvOZuqv9I5+4qGtxV3
-	 XbwKGgLUZRH+j7fA58Q7D/JhvHB0y0wcsc6r2X3U98aesHk1zaDTi+9qcueDmAeR+J
-	 uAZns5DnSAzUES0mpChef3CG3k+CVsNG+l2VlDg1dyvN6UstFwo7GOoSJ0aO6k7pYP
-	 puMZojS8gK/7CxwD2v0LuFfPk9L1CJ7Si0BZmcwSj1+lCPXpKE5+MQ1KAquwU90sVk
-	 P5Dpa3PvD9p2w==
+	b=BZtDae+CUMD6qA3ZjQKdXhjWMkhAyzrSu9ot5tCEmMEB5XNrsnT4IqjJeKpIkbXqm
+	 2zLNbw53ERrXUKYeLwKuab2qI1RId+JCRg0u+vUM8we+ci8kCQ5aHfrVilF31oukn2
+	 kciHmur+KOKNkwwM3FHfvWTkRLPwoxgrPF7GXS8cNSCAX7Arnlg8FxSeTV9KncHkAq
+	 7qCDtLJNqNke+7LoNVtstVsTndTLa42iFTCII+2YDlvGSP2j4gAnJZLJaFCICJzvuQ
+	 6vBLg+ouF1ukwXcy62AyAsK4pqGQYw8CTORGri2fKUfLaA2zFgmAYSVvK4P8Ww+oYr
+	 C3Wnj6DZrkJrg==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Michael Zhang <zhangyi@everest-semi.com>, 
- Diederik de Haas <diederik@cknow-tech.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
-In-Reply-To: <20260607105913.355966-1-diederik@cknow-tech.com>
-References: <20260607105913.355966-1-diederik@cknow-tech.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: everest,es8389: Document audio
- graph port
-Message-Id: <178108992684.232889.2776738169377861702.b4-ty@b4>
-Date: Wed, 10 Jun 2026 12:12:06 +0100
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260610093432.557375-1-rf@opensource.cirrus.com>
+References: <20260610093432.557375-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH v2 0/3] ASoC: cs35l56: Fix some cleanup memory leaks
+Message-Id: <178108709087.232889.2383937614253167965.b4-ty@b4>
+Date: Wed, 10 Jun 2026 11:24:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,20 +44,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1142; i=broonie@kernel.org;
- h=from:subject:message-id; bh=mfT8gSVDCWk4JyRaaMo+/qGlPesjAc/rwMATv4G2nsg=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKn65dqvazU4B177fGwRd8nxToenUhgxdKVsld
- sQPpxJGuxuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaip+uQAKCRAk1otyXVSH
- 0F0bB/9PSDgrxCKFj6Vx5OG4742eNYZfdMZGWRmtZMqx1jEsWbsOTc1La2BjnRVl1v3bTjNqWTT
- o6OyxjkETr5eVJG+c6mpNoJYNumnURYwFUK9NKXk0eHHcLxw2LN62kTG1il1q4kOemlEGKb5CT3
- OCM98D214M1rKGCcpeR+A50ik03quJF8PL0hBYuTfgpczE/pOXGDSJKanc50sAq2bdnRTWZPbpr
- 5eDQxgiESXTCYokAEvP+SExqeDHFdz8g5NLcy4C2Je93hx8+x9hcaTVkSAgjC+JB9srp6dwIrp7
- Tj2XVH18GBsUMlpB/cJ9mj9CStveBRbsE+xJYp4NQTRBXHP8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1538; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=5lD0xvlCx/UgbvTDuHONjwurbZrJWF5vtslIkEydUyc=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKn6+dDnck982S8rFRGYDwI+iNE0lncHyOA/8z
+ NNCZ/QQH+mJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaip+vgAKCRAk1otyXVSH
+ 0AbRB/9vwyBTCB5bW3JKt/+baVLLX19dOJ3kJtvqqlvY3Ykl9EhggxeOn1odpvirnFRR2NIoaPf
+ 2WX9HIPTuWw1tqzmyXcqYsAHYriTn8m5ew8SXa8vktylL2Rayc80UP1nVn6Dmo30E4rpKOZoR7o
+ 3IgF9PJTyECkrx3+W7ZZkAD3EjiMijx/ywK5ImhdCDqrNzDPd3rmmXZelwOp6vcuATy7j1HjZzf
+ bWZm0/5nh7CIVDvpP2pUeGYCzhEYh+DdOKS42sZZf1/0Vn7/0OhlIRUYXLdsNtcgpXwxzpj5fZi
+ yQ0WeUSN+OopxYEGY9uqIpkTWrOk+VaJStudSyDTp/3zwmEj
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sun, 07 Jun 2026 12:58:49 +0200, Diederik de Haas wrote:
-> ASoC: dt-bindings: everest,es8389: Document audio graph port
+On Wed, 10 Jun 2026 10:34:29 +0100, Richard Fitzgerald wrote:
+> ASoC: cs35l56: Fix some cleanup memory leaks
+> 
+> These are for-next.
+> 
+> They are not urgent because it only leaks memory if the driver failed to
+> component_probe or is removed, which wouldn't happen in normal use.
+> 
+> [...]
 
 Applied to
 
@@ -70,8 +72,12 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: everest,es8389: Document audio graph port
-      https://git.kernel.org/broonie/sound/c/aa283db3bb8d
+[1/3] ASoC: cs35l56: Fix missing calls to wm_adsp2_remove()
+      https://git.kernel.org/broonie/sound/c/85f7bf03632b
+[2/3] ASoC: cs35l56: Prevent double-free of debugfs
+      https://git.kernel.org/broonie/sound/c/344a12ca7ba6
+[3/3] ASoC: cs35l56: Cleanup if component_probe fails
+      https://git.kernel.org/broonie/sound/c/a0df7522dfb0
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
