@@ -1,197 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B237B15C14F;
-	Wed, 10 Jun 2026 14:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FD9416D1D
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 14:56:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781102612; cv=none; b=o4fphUl6PeXOgsJWQtxVS7qXgoKbZg6tWQiAKCEGysHjQ8zJOpFXx9FJ6AH5sjqZByM4X4xdfz5a5S3Is4CAzAeBZ2f+4m9VAKsoVwGTT74URXz6+I6bUedwZ8cj5XZFVs5ELQvek7RzoEulE3fbwru3cMgPcdXvbxKs4OKnRkE=
+	t=1781103385; cv=none; b=H0AmNtXHWc9/QHT1fuMeud0ChBAXh7Z8HWKgrqV682swTbABOHT3p9sDpVtR8WYFRuxmc8ZjNCoeXhBhrRn8cRlWNMbChWBGRGmSxKMxwIvu/0OAV6xc9byI60nl1PzYbTFFLfuAO7OVKDaxt9jZAtwATwbVPPtBDKnfMedxYC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781102612; c=relaxed/simple;
-	bh=DPrzoI0Cic4lctVW9xW26ap2kbgPfsaWv6mpsae+kMQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EarYmbdRF5vKGtm3ZXBS4R/7g27LPIzt1HzMWv0Tagr0rNl7uOPkOrDtH2goVYoTXs5y3BEZsp7yq9CCprQHoZ/raYM+1jG4SJVJwrNF7RgaAhvpSd+gK2NYCIwPimaL2b1zu6U6eqpr4tAItkZtlA4NQjvv/wq2ZN3VUq3zVHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=na+2ujzO; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1781103385; c=relaxed/simple;
+	bh=uh+Q6h8Vmd+PcfdjRNrYje6JcnkcwbdiF4UAYNPevaw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=P1JUBmXac0yYLhQOXZ8TACUQsoLgH9Ss3HmfF2mId3C9GQD2tF3dMQFRjaFVTmS0RJnAE/yP6JIr2L+ZB/E7Ya/Nm/etrksDI+MpYcvEVG9ZXTIuxtB2yJwOPf+g2jd3HopjZY1ZMDaYYaDQrbqUx+0PpcgPB7P6zx0/qQMRSlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L8mZOpee; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VZG97ti7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ckRGtWom; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=39PiOX+z; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="na+2ujzO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781102611; x=1812638611;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=DPrzoI0Cic4lctVW9xW26ap2kbgPfsaWv6mpsae+kMQ=;
-  b=na+2ujzOI/QIK0hxH5SmVq1OXSr79K7m/H8isj9MQ5AmNt4nlE1DxXup
-   fPZ7F9YdTnOBBxSPzOnBbKXlJF5Br8qmL1gV0OuqpbLLnwen2c/pDHV88
-   WWNolPd0zbKNXp1YioXUxrea6e8337OOgT6CBDS6upRxVlzK1RuJRLKSW
-   2F48BTWvOORjkFqlmDzLwfH+rOlRC8xbOehdLaQCWv90whbVrLUvwUd8d
-   Iwp2MulVgI7UWcmRn2Pml5FhEeCjynitbdmEu+2+04tysfUi8Mu+nEnIb
-   r0we5NcGUpXxx59lbyuJrfR5fCgkVXe5/tP8rYdYBhTmcQ5k4VWcL76UW
-   w==;
-X-CSE-ConnectionGUID: hmGqtfgORD6gGQuC8j5eCw==
-X-CSE-MsgGUID: T8q1HyzvTraFe67iTMRHhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="93384023"
-X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="93384023"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 07:43:30 -0700
-X-CSE-ConnectionGUID: 9i25flRDSViVTbAIRpyEPA==
-X-CSE-MsgGUID: qyMNFvgnTEePAxuMiNBn1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
-   d="scan'208";a="251104880"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.38])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 07:43:17 -0700
-Date: Wed, 10 Jun 2026 17:43:14 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Kaitao Cheng <kaitao.cheng@linux.dev>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Huang Rui <ray.huang@amd.com>, Eddie James <eajames@linux.ibm.com>,
-	Mark Brown <broonie@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Waiman Long <longman@redhat.com>, drbd-dev@lists.linbit.com,
-	linux-block@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Kaito Cheng <chengkaitao@kylinos.cn>,
-	Muchun Song <muchun.song@linux.dev>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Christoph =?iso-8859-1?Q?B=F6hmwalder?= <christoph.boehmwalder@linbit.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH v2 00/14] list: Prepare entry iterators to cache cursor
- state
-Message-ID: <ail4AvzqAOXNaU6N@ashevche-desk.local>
-References: <20260609061347.93688-1-kaitao.cheng@linux.dev>
- <bd0b7393-8ccb-4d67-8bfc-18c68347122c@amd.com>
- <5152089a-2808-4fe9-b633-b03018105dd2@linux.dev>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L8mZOpee";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VZG97ti7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ckRGtWom";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="39PiOX+z"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 913C175985;
+	Wed, 10 Jun 2026 14:56:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781103381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1keMmcB2uzbU1w/GK2KZf+kAqHPKG2WPDPvORAhtF1U=;
+	b=L8mZOpeeNiJ9nqnyg540QryGuT+Mj45ixGYo8UHop/nlYY5MO09d8lqXHmvsRLh28pEnbb
+	fcqC7d1u6bJstFStbjgfIDUQZOp1teg1biT9vdGpf1XW00NzGXfUVdDek0gzC9jtyj4poG
+	ZuCYZW9VHEuM3K6LnAa0pz0g+bvd95Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781103381;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1keMmcB2uzbU1w/GK2KZf+kAqHPKG2WPDPvORAhtF1U=;
+	b=VZG97ti7/4ZE/+AwPJMC/fBRmBCxV29bq0AoIyk2J3yADU2rh2TRpaf9vaBpsMvZNhvHKZ
+	ysVFGgEuIb3QENAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ckRGtWom;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=39PiOX+z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781103379; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1keMmcB2uzbU1w/GK2KZf+kAqHPKG2WPDPvORAhtF1U=;
+	b=ckRGtWomPpfJ5jNo2zD4a8BUBrburM8/Jnja177m7HuHdDTJH89I57zLamGUt11b3+Cv1+
+	oBznl9oAZ7el/7lawwM433ZB1SAGnnhnYRuv2CAXHXo5qWmczLixr765LFpQfqToQdFO6v
+	5aeDKhfmSGS/IB1FlbfxoJXX0h4Y9ko=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781103379;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1keMmcB2uzbU1w/GK2KZf+kAqHPKG2WPDPvORAhtF1U=;
+	b=39PiOX+zcs8sunagYj6YsbiwYH/2e+6yMMqARi6dbRQoNCZVLkziSh95jBW44vPv2UVDgO
+	0fT16Cdihy8kxpCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5E9C4779A9;
+	Wed, 10 Jun 2026 14:56:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id J/b/FRN7KWp+AQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 10 Jun 2026 14:56:19 +0000
+Date: Wed, 10 Jun 2026 16:56:19 +0200
+Message-ID: <87wlw64f70.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	notify@kernel.org
+Subject: Re: [PATCH] ALSA: pcm: Fix unlocked state reads in read/write file ops
+In-Reply-To: <20260610-alsa-pcm-read-write-state-helper-v1-1-93b7b992db09@gmail.com>
+References: <20260610-alsa-pcm-read-write-state-helper-v1-1-93b7b992db09@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5152089a-2808-4fe9-b633-b03018105dd2@linux.dev>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 913C175985
+X-Spam-Score: -3.51
 
-On Wed, Jun 10, 2026 at 02:14:06PM +0800, Kaitao Cheng wrote:
-> 在 2026/6/9 18:33, Christian König 写道:
-> > On 6/9/26 08:13, Kaitao Cheng wrote:
-> >>
-> >> This series prepares for, and then updates, the list_for_each_entry()
-> >> family so the common entry iterators cache their next or previous cursor
-> >> before the loop body runs.
-> > 
-> > Why in the world would we want to do that?
-> > 
-> > The safe and non-safe variants have very distinct use cases and that is completely intentional.
-> > 
-> > What we could improve maybe is the documentation, from my experience an astonishing large amount of people have misconceptions about the safe variants.
-> > 
-> >> The first 13 patches open-code loops that intentionally depend on the
-> >> old "derive the next entry from the current cursor at the end of the
-> >> iteration" behaviour.  These loops append work to the list being walked,
-> >> restart traversal after dropping a lock, skip an entry consumed by the
-> >> current iteration, or otherwise adjust the cursor in the loop body.
-> > 
-> > Well I have to clearly reject the changes for subsystems/components I'm maintaining, that just looks horrible to me and I clearly don't see a good reason for that.
+On Wed, 10 Jun 2026 13:31:30 +0200,
+C�ssio Gabriel wrote:
 > 
-> Hi Christian and Andy Shevchenko,
+> The PCM read/write and readv/writev file operations reject streams in
+> OPEN or DISCONNECTED state before accessing the configured runtime
+> parameters. However, each operation reads runtime->state without the
+> PCM stream lock.
 > 
-> Thanks for taking a look. I would like to clarify the point you raised.
+> PCM state updates are serialized by the stream lock and may occur
+> concurrently from IRQ context. Use a local predicate based on
+> snd_pcm_get_state() to take a locked state snapshot for these VFS entry
+> checks.
 > 
-> The reason I started looking at this is the original motivation behind
-> the _safe() variants.  They exist because some users need to remove, move
-> or otherwise consume the current entry while walking the list.  In that
-> case the next cursor has to be preserved before the loop body can modify
-> the current entry.
+> This also consolidates the duplicated OPEN and DISCONNECTED tests. The
+> conditions and returned errors remain unchanged.
 > 
-> The unfortunate part is that this could not be expressed with the
-> existing list_for_each_entry() interface without changing its calling
-> convention.  The _safe() variants had to grow an extra argument for the
-> temporary cursor, and that is why we ended up with a separate family of
-> macros.
-> 
-> But conceptually, the distinction does not have to be exposed as two
-> different iterator families forever.  The difference is an implementation
-> detail: whether the iterator keeps the next/previous cursor before the
-> body runs.  This series makes the common list_for_each_entry() iterators
-> do that internally, so the safe and non-safe forms can effectively be
-> folded together, or at least the need for a separate public _safe()
-> interface becomes much weaker.
-> 
-> There is also a usability issue with the current _safe() interface.  The
-> caller is forced to define a temporary cursor outside the macro and pass
-> it in, even though almost all users never use that cursor directly.  It is
-> just boilerplate required by the macro implementation.  I find that
-> redundant and awkward: the temporary cursor is an internal detail of the
-> iteration, but every caller has to spell it out.
+> Signed-off-by: C�ssio Gabriel <cassiogabrielcontato@gmail.com>
 
-Ah, I think the distinct macro families is that what we want.
-But the hiding of the parameter can be done inside list_for_each_*_safe().
-You can do a treewide change with coccinelle.
-
-Sorry if I didn't get the whole idea from your previous contributions.
-
-Note, even cases that would need a temporary cursor may be switched to
-new list_for_each_*_safe(), see how PCI macros for iterating over resources
-are implemented (include/linux/pci.h).
-
-> With the updated list_for_each_entry() implementation, that extra cursor
-> can be kept inside the iterator itself.  Callers that only want to walk
-> the list, including callers that delete or consume the current entry, no
-> longer need to carry an otherwise-unused temporary variable just to make
-> the macro work.
-> 
-> >> The final patch changes include/linux/list.h to keep a private cursor in
-> >> the common entry iterators while preserving the public macro interface.
-> >> The safe variants remain available when callers need the temporary
-> >> cursor explicitly or have stronger mutation requirements.
+Applied to for-next branch now.  Thanks.
 
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Takashi
