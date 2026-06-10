@@ -1,268 +1,186 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265BF38B157
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 20:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A14331EA0
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 21:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781121829; cv=none; b=Vcu1QeBDjciRQOnFQrWpuRFeX9ORaQCtgx3ZoGMBrDRGyxfqmYfrB6egJJ1hoehSbWNMfytQmyQ+r+/7uqbeIFWT6cZVhvIYoE7pNxEkl5JqRcgTS8isMSMNR+VY/3/acrTd+EI53+Ct9o74MYFJKF5ZpHpiJsiDzZ4tyCTnVtg=
+	t=1781126418; cv=none; b=hV49bn3Pbklv+3T/a2GERowPewtm4eiLzfPtDfrAaMUUFMJ2fmOdVFZ5qX4uS/qhov+yA0QPGNGJ5wNMVwAlej4j73aQWBpoBsJj/s4ryUyfkbAab4iTZ8FXO7D4xqHpBhizl+fXCVXYRvuUubyj+0RCOE4iqfseJc6ss07rnI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781121829; c=relaxed/simple;
-	bh=cXApHyFlc2PqD9jOOpKMENeZir7591PNC8udpG2atDw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cVgZnU81GT2MX4SYWhPRYZ77aQ9ghei5weipfgBk27XlbMRCaYbtpjnzAmCGs3o5T0B51WwsDxQa3BPtoXyhhJHl0TOAFAGwyBBb43wEqqDzNgRXpPY0dK37asuhVATW9Fw0KriIGUrmtXvk7BEY9YJHsKTNEdAz2HO3G4QPxz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=rfoyasQ3; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
+	s=arc-20240116; t=1781126418; c=relaxed/simple;
+	bh=v1gqv24Ddr2MKYsZRsj427gjTwvco1fGLOh0zO2Uyd0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BETEj9VCNG6G76qa43Z8W0GEIGoR7aLlEZpK0puPEorvL2Nu3JpLDDwaxQ2e47V39u0p+NcV6kVOpJ3NpdHJDmcjGRp+rThSVsdMDHTx9EEhIoBwkdXucSDp8QNce4DgT3JuEkdsduLtGrFW7LADJ60JuNNTqS+AdSz2JDKRvDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L98w+oGd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="rfoyasQ3"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-45ef5146b56so165846f8f.0
-        for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 13:03:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1781121818; x=1781726618; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=T9Ik/Hu7HfBReuRjOUx9ml3LLQi6HB3gr0pewSh4Yb4=;
-        b=rfoyasQ36cysf2iZPFjUdIqnaYtymV8S6OJ+4gpsj6sonRe7L1aR+r70Np1mdyUtEa
-         30N6+hlsCUf6gmjwpE/l1A0JE1cnK7Rbt5YaRSeZCtodEtGPMwWCrbBAoN77Ul30ZPS0
-         jdEITKmnNleSKwe5upBUte8zOQgl1nuAFq1UT8ItLcVkWoCnJ9LahchHbfNtLEhxSMPZ
-         1NsVtN4OCyr7A5Y4LU7HKthIzq0SUl/6C3liskkna8MZHJmA3Bwk4TocPMaLzkYpA7uM
-         j773fVH9N5sLFTMkzkC8CmV2OKScjN5maUnBxyu8hAcEEjMRaypXmdq332EPuqGJs6SY
-         OKgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781121818; x=1781726618;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T9Ik/Hu7HfBReuRjOUx9ml3LLQi6HB3gr0pewSh4Yb4=;
-        b=ZhMFS0O4yAVmG3BIa5r3weKqbCkNpW8na9DmpmojQadTdEhyzmUrI6m5NS0zwOUoFb
-         9I972v+o3+xp/m7QOoLmhhr2iEfRx6l04KmvjjfphB8Vb9XbckFyS2h4GU2UpE1cPsZW
-         GFTHYTt+uTog3UtFvmMKWmFA0B3RFpFFn9cfu2Je3Vl6/l1zJ4M99eDD78Gv/R1nmtKz
-         YF6KCo/gSiB4kpSh6mEWd4nlWOw89OBtSgVfFBQbGNjnOTLrDu779f+Wpf4dewm99Cyr
-         EL6hlxHSCkBT1AOJDISPZO7mUIt+mC8DsuJNviG9UlDEZ7EzoNqJevqQFOvXddG59S0l
-         1YXQ==
-X-Gm-Message-State: AOJu0Yw4Zy/J4QNHAZLalTg1bNo14bZQ/Xx2EIFbsSbGBds0RiNlAMod
-	LuHVpI/fV2xEPBWgUz+izQxQ3YjwjBBCm/e/wcfUZcb7ZAwTCYG2sflA075Y8lZ6WPGk
-X-Gm-Gg: Acq92OFsOJOdWF3TEa4B1ph3Zoe6WJze12SrsA9DkvpJ4dAyOZTLYUm5E2KSFqWFc2V
-	8XMXYhZWTFlb6YiYarRLYO2EVX1BUkVIOucBf1KiZKUwtL7Nk0ZrM1N51OKviyfdz1nqF0prrcF
-	4lGWbMZdF/FcN7Xz11MlqmXjkaqo1m7EnBf+JB3g0PrC2p/t5mrmHru1HRwQ+W/Byl4mZ+SxmCS
-	V5b2Ldb80t2YmrqMyPDBhFlJi/p3tsb5RG1z44+I+rkMpdK+IophpJwilP7HexnROHFa4RcyZvI
-	f4KKgV04+YW/rF6DkQriMlAnPkZfn2Q/FGfFDsdQ8M1COQ/oX2O/iECNW/aDJhP803VDVv73VIK
-	LpUCfu9IVzzxCFf7NR8wnX6jAkWr2SEIlg0kpW9o6iyKyuqw5L12NF3ltyrzY0tdN95b08pWLT3
-	SPVSJctN2tCgcFO7cbXqHbvHoKH1cjrax9QhviPRKWHMhfHhHWUGRGdx8wCvnrY+CQpK+ebbwOH
-	RQMQFCOHDO1yU6Z//zwt+RqLzW+rQDNxdeOaRRIHaiFUPktlEQxRAS2
-X-Received: by 2002:a05:6000:2995:20b0:460:3210:950d with SMTP id ffacd0b85a97d-4606653b57fmr109506f8f.21.1781121818328;
-        Wed, 10 Jun 2026 13:03:38 -0700 (PDT)
-Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.222.237])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dcad5sm81714147f8f.5.2026.06.10.13.03.37
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 10 Jun 2026 13:03:37 -0700 (PDT)
-From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: seq: fix use-after-free of borrowed substream in snd-seq-midi
-Date: Wed, 10 Jun 2026 22:03:36 +0200
-Message-ID: <20260610200336.33979-1-doruk@0sec.ai>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L98w+oGd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4CBE1F0089E
+	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 21:20:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781126416;
+	bh=HJ9lnraU3gL3V2XICu485Q4fmt5CBL1cj0w1pFLmiZ8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=L98w+oGdNbE26c37oAyfU+vfdavpJ7spTqX4xkhmoNyoUfwyBOQArEiV0AYAyclC/
+	 LrkEHredTASanLash6pIcaydEJk2cu8oe9yzusMVQomxCQEfh0znw+kRtZeO2AkG8b
+	 dvI2rmTWu8jeErxXzkJWYbQ3mZPhzc/RbICTESLERSOzy4TVdlZ1qdfGP/Vkf+xNn1
+	 G8OA7sYW2qoeFODuAwjhB6CfAZ+NjFx55wwTxpqmgxAurawp5IynXYVFs+XIzdfe7f
+	 6b8kuuXCSu3GXtcsRL33Mp6AyuOOlP/w+ANvGM71ZK1m5s9yOGBmVrfhxKyGEtUn1N
+	 moKr0u+uXMp6A==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5aa68cf03bfso7855066e87.0
+        for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 14:20:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/zSH4jCp8Rs2yb7MIBaG7gFXMFYKgA0itFqveYqoOHV5sKQDG+Bupt/foxKsrhKwsHR3+MCcLckRROJw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/aYi/58lsp8jHifw7umopItAv0ZgS+fJ6ruxIdl6XEUc7RmJU
+	E8v8hCRh2DLsqnxxT5evEy1qnWpRywrUCT/76ulrlV0SLfbQElaevT/U7yCzaqX91TZmb/dcG/l
+	12i/or9UZr/QvXdlm1thsIzBbyPB7oK0=
+X-Received: by 2002:a05:6512:15a1:b0:5aa:77b2:fec8 with SMTP id
+ 2adb3069b0e04-5acf82ed837mr2557659e87.27.1781126415414; Wed, 10 Jun 2026
+ 14:20:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260610155708.151067-1-prasad.kumpatla@oss.qualcomm.com> <20260610155708.151067-2-prasad.kumpatla@oss.qualcomm.com>
+In-Reply-To: <20260610155708.151067-2-prasad.kumpatla@oss.qualcomm.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 10 Jun 2026 23:20:03 +0200
+X-Gmail-Original-Message-ID: <CAD++jLkFPb4CZqTsAh_qX1Jt9pWxhwhgbhREe9uybL_S7-t60Q@mail.gmail.com>
+X-Gm-Features: AVVi8CcL4md9evY3o4CKNj7rvxGr0XyH7uAL4ERhPsq_jxr4deyl4L86i4tDiqY
+Message-ID: <CAD++jLkFPb4CZqTsAh_qX1Jt9pWxhwhgbhREe9uybL_S7-t60Q@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] dt-bindings: sound: add qcom,wsa885x-i2c
+To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-event_process_midi() borrows the rawmidi output substream via
-msynth->output_rfile.output and uses it through dump_midi() ->
-snd_rawmidi_kernel_write() -> snd_rawmidi_kernel_write1() without
-synchronizing against a concurrent port unsubscribe.
+Hi Prasad,
 
-A concurrent UNSUBSCRIBE_PORT on the output connection runs the
-unuse callback midisynth_unuse() -> snd_rawmidi_kernel_release() ->
-close_substream() -> snd_rawmidi_runtime_free(), freeing
-substream->runtime while an in-flight event_input callback is still
-inside snd_rawmidi_kernel_write1(). The borrowed substream runtime is
-exposed to teardown before the write path takes its own buffer
-reference (snd_rawmidi_buffer_ref()), so the early derefs of
-substream->runtime / runtime->buffer read freed memory.
+thanks for your patch!
 
-The buggy scenario involves two paths, with each column showing the
-order within that path:
+On Wed, Jun 10, 2026 at 5:57=E2=80=AFPM Prasad Kumpatla
+<prasad.kumpatla@oss.qualcomm.com> wrote:
 
-  path A: event_input path                path B: last unuse path
-  1. event_process_midi() reads           1. midisynth_unuse() runs on the
-     msynth->output_rfile.output.            last UNSUBSCRIBE_PORT.
-  2. snd_rawmidi_kernel_write1() has      2. snd_rawmidi_kernel_release()
-     not yet pinned runtime.                 closes the output file.
-  3. The writer continues using           3. close_substream() frees
-     the borrowed substream.                 substream->runtime.
+> Document the Qualcomm WSA885X I2C smart amplifier binding.
 
-This is the snd-seq-midi sibling of the UMP-bridge race fixed by
-commit 60a1969fae62 ("ALSA: seq: Serialize UMP output teardown with
-event_input"); mirror its approach here.
+Skip I2C? We don't need to tell e.g. "PCI" in some device on PCI and
+there is no reason to mention I2C for this device, the fact that it sits
+on an I2C bus will be apparent later.
 
-Add a per-msynth rwlock for the event_input-visible output file.
-Publish a newly opened output file under the write side once it is
-fully set up, and hold the read side from the output lookup through
-snd_rawmidi_kernel_write() in event_process_midi(). The last unuse
-copies and clears the visible output file under the write side, then
-drops the lock and drains/releases the saved rawmidi file outside it
-(drain/release may sleep). Use IRQ-safe rwlock guards because
-event_input can be reached from atomic sequencer delivery.
+> Describe the required supplies, powerdown and interrupt GPIOs, the
+> optional battery configuration, and the optional init-table property
+> used to program the device during codec initialization.
+>
+> This matches the driver programming model and documents the DT data
+> needed to use the codec on platforms with Audio IF playback.
+>
+> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 
-Reproduced under KASAN: a single subscription to the midisynth output
-port (so the subscriber count oscillates 0<->1 and every unsubscribe
-frees the runtime via snd_rawmidi_kernel_release) is raced against a
-flood of events driving event_process_midi -> snd_rawmidi_kernel_write1.
-The narrow window (the runtime is read before snd_rawmidi_buffer_ref())
-was widened with an injected delay to land the race deterministically;
-the freed object is the kmalloc-192 snd_rawmidi_runtime. With this patch
-applied the same forced race shows no use-after-free.
+Perhaps add
+Link: https://www.qualcomm.com/audio/applications/compute-and-mobile-audio/=
+products/wsa8815
 
-  BUG: KASAN: slab-use-after-free in snd_rawmidi_kernel_write1+0x73e/0x800
-  Read of size 8 at addr ffff88800b04f310 by task seqmidi_uaf2/84
-  Call Trace:
-   snd_rawmidi_kernel_write1+0x73e/0x800
-   __dump_midi+0x70/0x100
-   dump_var_event+0x290/0x320
-   event_process_midi+0x1ff/0x310
-   snd_seq_deliver_single_event+0x1e6/0x670
-   snd_seq_deliver_event+0x323/0x5f0
-   snd_seq_client_enqueue_event.constprop.0+0x226/0x400
-   snd_seq_write+0x2f1/0x530
-   vfs_write+0x21e/0xd30
-   ksys_write+0x17c/0x1c0
-   do_syscall_64+0xf9/0x540
+(...)
+> ---
+>  .../bindings/sound/qcom,wsa885x-i2c.yaml      | 89 +++++++++++++++++++
+>  1 file changed, 89 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/qcom,wsa885x-=
+i2c.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yam=
+l b/Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml
 
-  Allocated by task 85:
-   open_substream+0xc7/0x7a0
-   rawmidi_open_priv+0x3df/0x660
-   snd_rawmidi_kernel_open+0x95/0x140
-   midisynth_use+0xda/0x1f0
-   check_and_subscribe_port+0x707/0xbd0
-   snd_seq_ioctl_subscribe_port+0x1f4/0x400
+Drop the -i2c suffix on the files.
 
-  Freed by task 85:
-   close_substream.part.0+0x1f9/0x790
-   rawmidi_release_priv+0x1b0/0x240
-   snd_rawmidi_kernel_release+0x2d/0xb0
-   __delete_and_unsubscribe_port+0x1b9/0x3c0
-   snd_seq_ioctl_unsubscribe_port+0x1ee/0x400
+> new file mode 100644
+> index 000000000..1069f470d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml
+> @@ -0,0 +1,89 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/qcom,wsa885x-i2c.yaml#
 
-  The buggy address belongs to the object at ffff88800b04f300
-   which belongs to the cache kmalloc-192 of size 192
+Drop the -i2c suffix.
 
-Found by 0sec.
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
----
- sound/core/seq/seq_midi.c | 39 ++++++++++++++++++++++++++++++++-------
- 1 file changed, 32 insertions(+), 7 deletions(-)
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm WSA885x I2C smart speaker amplifier
 
-diff --git a/sound/core/seq/seq_midi.c b/sound/core/seq/seq_midi.c
-index ca3f5fc30992..c79c628561ce 100644
---- a/sound/core/seq/seq_midi.c
-+++ b/sound/core/seq/seq_midi.c
-@@ -18,6 +18,7 @@ Possible options for midisynth module:
- #include <linux/string.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-+#include <linux/spinlock.h>
- #include <sound/core.h>
- #include <sound/rawmidi.h>
- #include <sound/seq_kernel.h>
-@@ -43,6 +44,7 @@ struct seq_midisynth {
- 	int subdevice;
- 	struct snd_rawmidi_file input_rfile;
- 	struct snd_rawmidi_file output_rfile;
-+	rwlock_t output_lock;	/* protects output_rfile.output access */
- 	int seq_client;
- 	int seq_port;
- 	struct snd_midi_event *parser;
-@@ -129,6 +131,13 @@ static int event_process_midi(struct snd_seq_event *ev, int direct,
- 
- 	if (snd_BUG_ON(!msynth))
- 		return -EINVAL;
-+	/*
-+	 * Hold the read side across the whole borrowed-substream use so a
-+	 * concurrent port unsubscribe (midisynth_unuse) cannot release the
-+	 * rawmidi file and free substream->runtime under us. IRQ-safe because
-+	 * event_input can be reached from atomic sequencer delivery.
-+	 */
-+	guard(read_lock_irqsave)(&msynth->output_lock);
- 	substream = msynth->output_rfile.output;
- 	if (substream == NULL)
- 		return -ENODEV;
-@@ -160,6 +169,7 @@ static int snd_seq_midisynth_new(struct seq_midisynth *msynth,
- {
- 	if (snd_midi_event_new(MAX_MIDI_EVENT_BUF, &msynth->parser) < 0)
- 		return -ENOMEM;
-+	rwlock_init(&msynth->output_lock);
- 	msynth->card = card;
- 	msynth->device = device;
- 	msynth->subdevice = subdevice;
-@@ -215,12 +225,13 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
- {
- 	int err;
- 	struct seq_midisynth *msynth = private_data;
-+	struct snd_rawmidi_file rfile = {};
- 	struct snd_rawmidi_params params;
- 
- 	/* open midi port */
- 	err = snd_rawmidi_kernel_open(msynth->rmidi, msynth->subdevice,
- 				      SNDRV_RAWMIDI_LFLG_OUTPUT,
--				      &msynth->output_rfile);
-+				      &rfile);
- 	if (err < 0) {
- 		pr_debug("ALSA: seq_midi: midi output open failed!!!\n");
- 		return err;
-@@ -229,12 +240,15 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
- 	params.avail_min = 1;
- 	params.buffer_size = output_buffer_size;
- 	params.no_active_sensing = 1;
--	err = snd_rawmidi_output_params(msynth->output_rfile.output, &params);
-+	err = snd_rawmidi_output_params(rfile.output, &params);
- 	if (err < 0) {
--		snd_rawmidi_kernel_release(&msynth->output_rfile);
-+		snd_rawmidi_kernel_release(&rfile);
- 		return err;
- 	}
- 	snd_midi_event_reset_decode(msynth->parser);
-+	/* publish the opened file only after it is fully set up */
-+	scoped_guard(write_lock_irqsave, &msynth->output_lock)
-+		msynth->output_rfile = rfile;
- 	return 0;
- }
- 
-@@ -242,11 +256,22 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
- static int midisynth_unuse(void *private_data, struct snd_seq_port_subscribe *info)
- {
- 	struct seq_midisynth *msynth = private_data;
--
--	if (snd_BUG_ON(!msynth->output_rfile.output))
-+	struct snd_rawmidi_file rfile = {};
-+
-+	/*
-+	 * Detach the borrowed output file under the write side so any in-flight
-+	 * event_process_midi() either still sees the live substream (and is
-+	 * drained out by the read lock) or sees NULL. Then drain and release
-+	 * outside the lock, since those paths may sleep.
-+	 */
-+	scoped_guard(write_lock_irqsave, &msynth->output_lock) {
-+		rfile = msynth->output_rfile;
-+		msynth->output_rfile = (struct snd_rawmidi_file){};
-+	}
-+	if (snd_BUG_ON(!rfile.output))
- 		return -EINVAL;
--	snd_rawmidi_drain_output(msynth->output_rfile.output);
--	return snd_rawmidi_kernel_release(&msynth->output_rfile);
-+	snd_rawmidi_drain_output(rfile.output);
-+	return snd_rawmidi_kernel_release(&rfile);
- }
- 
- /* delete given midi synth port */
--- 
-2.43.0
+Drop I2C.
 
+> +maintainers:
+> +  - Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+> +  - Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+> +
+> +description: |
+> +  WSA885x is a Qualcomm Aqstic smart speaker amplifier with an I2C contr=
+ol
+> +  interface and a digital audio interface exposed through ASoC DAI callb=
+acks.
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,wsa885x-i2c
+
+Drop -i2c
+
+> +  reg:
+> +    maxItems: 1
+> +
+> +  '#sound-dai-cells':
+> +    const: 0
+> +
+> +  powerdown-gpios:
+> +    description: GPIO controlling the SD_N powerdown pin.
+> +    maxItems: 1
+> +
+> +  interrupt-gpios:
+> +    description: GPIO used for the codec interrupt output.
+> +    maxItems: 1
+> +
+> +  vdd-1p8-supply: true
+> +
+> +  vdd-io-supply: true
+> +
+> +  qcom,battery-config:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: Speaker battery configuration, 1 for 1S and 2 for 2S.
+
+What is a "1S" and a "2S"? Include description here.
+
+> +    default: 1
+> +    enum: [1, 2]
+> +
+> +  qcom,wsa885x-init-table:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 2
+> +    maxItems: 256
+> +    description: |
+> +      Sequence of register/value pairs applied during codec hardware
+> +      initialization. Entries are encoded as alternating register addres=
+s and
+> +      register value cells. The number of entries must be even (register=
+/value
+> +      pairs); maxItems is 256 (128 pairs).
+
+Can this just be a table inside the driver, if it will be the same
+array for every user? If this is board-unique then it needs to describe
+what each value is actually doing well enough so engineers can use this
+documentation right here to configure their board without looking through
+register maps and what not.
+
+Something more abstract using SI units etc is probably needed here.
+
+Yours,
+Linus Walleij
