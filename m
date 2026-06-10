@@ -1,87 +1,68 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A444F29D27D
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 15:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256062BE02A;
+	Wed, 10 Jun 2026 15:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781106345; cv=none; b=gEnXpOgLU+OuTqLD7tMK0N8x9zVmg1fzW628sH3W8akdW8cNScTuESjsVUnqnDrDFavpNGtcT7rq1d2Zhml1eRDSszJULEkhM6Vd937yqbTw44Qj6IxjvTGu4O1qdzznZeq3AVOgGxBNkBOqKzcTmw82sZmdZuFhxelNFeITq5k=
+	t=1781106350; cv=none; b=gWLh4oJKCtIhfpkE7gM4NYRfpvib8f6FXfwqESidArqU/w35uBxvYjmJJKI3+MISN0PPkFKj9lADJVhYIRiSR7KSb2YpH8uBCM5I8VZ4YSxA0FTAO3/i3SsZ8/vfwadjXeDJtONiHIsCLKowD7QasUIFKr6n0ObRw3OnJYJi2ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781106345; c=relaxed/simple;
-	bh=mSJBT9gw3g/YI3vzVEaslINgCKfkdg0I74ZF5D97mTA=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OxTPtcFShPeeKvtHHOVhsKpMyov0NlUn1343xx+pkTxRGyKfqdOEWspHI7Oa08Yt4tBFOhTmxEDi18jRIQdl6p0bFGPLorZWWEieTpbDfkgU9dtZH3ISwrsuENBBVqUI3lGQGta1DXd77tg52iDKrxLB0VVZiOEXwwmEcwsPxlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DFaPISpR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pC9Mmj3K; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DFaPISpR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pC9Mmj3K; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781106350; c=relaxed/simple;
+	bh=tGJWmdZyOe3MDJ4nf2eSRXl6b4K3X1K+78Gq/zmri/8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=YZkajnXz7q081qh2mifKEhfFBi0AJMhW65NF1hCjGk+4pgmPlrmdeucHmlzpB91djHWtLSQDVD/yYbjSU64uyq+fb0Gp3nbJAChi5GpUUfHlSnGuqHhIWxYK3N4eDhRtGkrJmYPpSGjd72kvKZmlLHhQCy0I5uPqPE+Y3AntTwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JkKbn5hQ; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DFaPISpR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pC9Mmj3K";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DFaPISpR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pC9Mmj3K"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2EB2C759AB;
-	Wed, 10 Jun 2026 15:45:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781106342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mZ3bOcoL4ROhprnLJ+d55aZaSwf+vwkKXvn8PcoXTtY=;
-	b=DFaPISpRX0rCR6iY61HuUTZG2dtQlbJesRa4p2IjlBGt9Zus0vqi8NizNu5LXUN6jj0M8l
-	4CSuQN4AASkIBd4BNjPPenmPImb+lSd7A8O/pYwZvsa04ki8lLkl3O/VKfI6B6gLUS093Q
-	pkfxdl59Qn61xRQmvt/9b8AuqTvNmXA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781106342;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mZ3bOcoL4ROhprnLJ+d55aZaSwf+vwkKXvn8PcoXTtY=;
-	b=pC9Mmj3Kabz4F4FsryRE31JReDDO2H5bum4GhHZ/MATAUbDuUV7LWDM34ZpCA6XJ3h0OLU
-	qtUcdhZwkXnrVQAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781106342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mZ3bOcoL4ROhprnLJ+d55aZaSwf+vwkKXvn8PcoXTtY=;
-	b=DFaPISpRX0rCR6iY61HuUTZG2dtQlbJesRa4p2IjlBGt9Zus0vqi8NizNu5LXUN6jj0M8l
-	4CSuQN4AASkIBd4BNjPPenmPImb+lSd7A8O/pYwZvsa04ki8lLkl3O/VKfI6B6gLUS093Q
-	pkfxdl59Qn61xRQmvt/9b8AuqTvNmXA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781106342;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mZ3bOcoL4ROhprnLJ+d55aZaSwf+vwkKXvn8PcoXTtY=;
-	b=pC9Mmj3Kabz4F4FsryRE31JReDDO2H5bum4GhHZ/MATAUbDuUV7LWDM34ZpCA6XJ3h0OLU
-	qtUcdhZwkXnrVQAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0D10B779A9;
-	Wed, 10 Jun 2026 15:45:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id uKDwAaaGKWo5MwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 10 Jun 2026 15:45:42 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org,
-	linux-kernel@vber.kernel.org
-Subject: [PATCH 1/5] ALSA: Add simple refcount helper functions
-Date: Wed, 10 Jun 2026 17:45:31 +0200
-Message-ID: <20260610154538.51076-2-tiwai@suse.de>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260610154538.51076-1-tiwai@suse.de>
-References: <20260610154538.51076-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JkKbn5hQ"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65ACBwPj1169956;
+	Wed, 10 Jun 2026 15:45:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=tkXAkXqrlK1
+	rofHPC1VKknhIHhdjpGHCqUs8h8Q2+Ac=; b=JkKbn5hQrvTjIKdwYJJwPbWSWzT
+	D/t6MBriNm3+FKWN7JF1IfBHYybGlsWg4qWNQ/W8G7jSH6NjhvhKFSJ3yRZgN+W8
+	XDxDhqtVK8lshxiUQ4DC+gLwkCDyoF+fwFgW0+P8D0wUxIMWyKsQtc71ghiLNAhm
+	sYahpy9H/v1Q5t6ECULrLI/xaafRFS/8ELWqL6K/6zmHj8DyQGbMUE973JG+Uawx
+	wDd+LGXwtqVWXLZMwrDTQSAwxSSoA6qtKO6CAIbuu9p2UbCuLymUT7PaVnRAnvjr
+	yICnMI6OuTVApv8flJDJEOQn4MYVbglev6y5MSEgjievbFnsj3l056TyFKg==
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eq4w1smy4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Jun 2026 15:45:37 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 65AFjW90003510;
+	Wed, 10 Jun 2026 15:45:33 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4emcmk7fwu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Jun 2026 15:45:33 +0000 (GMT)
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 65AFjWuA003484;
+	Wed, 10 Jun 2026 15:45:32 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 65AFjWp1003477
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Jun 2026 15:45:32 +0000 (GMT)
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
+	id 70F3B636; Wed, 10 Jun 2026 21:15:31 +0530 (+0530)
+From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Srinivas Kandagatla <srini@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Subject: [PATCH v1 2/6] ASoC: qcom: q6apm-lpass-dais: add TDM DAI operations
+Date: Wed, 10 Jun 2026 21:15:13 +0530
+Message-Id: <20260610154517.134570-3-prasad.kumpatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260610154517.134570-1-prasad.kumpatla@oss.qualcomm.com>
+References: <20260610154517.134570-1-prasad.kumpatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,114 +70,147 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWO(0.00)[2];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Level: 
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-ORIG-GUID: XAYEJckqL58NX_KjOHovMkaRXbq4m8pl
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjEwMDE0OSBTYWx0ZWRfX1PN3s6h5WEkP
+ XP0EVBjVoVjCYIlx3Q10orgOQSZvKXVkSYtXlG9fu15Da1PAbXxzV3FVTxKHHcymPbDpw7Hmz7W
+ PT0y11mLw7H/FKqxfaCr4NPwWu8Uo7/GI3YI4BjY/EmKOwdyIvSk6CCB3nPwsFfFw0/RoK5X6eo
+ bSK06q+dh3kIYpSA6dkU1kMBW4LYVkfaZy2Cco0RFv6m63nTtHqzAhIsJA4R4wO+5x0cA7L0vDK
+ 3u4rnWVlSM5Uqv+jPPWB72nhDiglmL23sEhUDrXRj+ik2eGyqdklGbkZcP7H2lpOySuoIfzU106
+ EeX6hXeHvOj9Lzx5hRjx91UEIK9Gt8gNzQrHQwbC6E5z8rI2cssoPfIqlY5F3uS32pfTYzsdlsy
+ PB8c/Fogzj7JOphfC4X04kmnxY6g8gylb3Q8kqbcxPut+Enjp8lWcFMi4wGjezFAyAJ8YHUO1AA
+ fAEplmW/tf569LZ3X9w==
+X-Proofpoint-GUID: XAYEJckqL58NX_KjOHovMkaRXbq4m8pl
+X-Authority-Analysis: v=2.4 cv=ZfEt8MVA c=1 sm=1 tr=0 ts=6a2986a1 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8 a=ZMHsmkTgFhVY9WPaUOcA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-10_03,2026-06-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 clxscore=1015 spamscore=0 phishscore=0
+ lowpriorityscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
+ definitions=main-2606100149
 
-There are many open-code to manage the same pattern for refcount +
-wakeup sync at closing.  Let's provide the common helper functions to
-replace the open-code.
+Add TDM DAI operations to q6apm-lpass-dais so AudioReach TDM
+backends can be configured through the normal ASoC hw_params and DAI
+setup flow.
 
-- The recount is kept in struct snd_refcount, where it's initialized
-by snd_refcount_init().
-- The user can simply reference or unreference via snd_refcount_get()
-and snd_refcount_put() functions
-- The user can wait for the all usages gone by snd_refcount_sync()
+The TDM set_tdm_slot() callback validates the supported slot width and
+slot count, stores the active slot mask in the AudioReach module
+configuration, and leaves existing DMA, I2S and HDMI paths unchanged.
 
-Note that here we use atomic_t instead of refcount_t since the current
-users allow reusing the refcount after sync again.  The design of
-refcount_t prevents exactly this behavior, so it doesn't fit.
+Reuse the existing LPASS child-clock handling for TDM nodes as well as
+MI2S nodes, since TDM backends also request optional backend clocks
+through the machine driver set_sysclk() path.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 ---
- include/sound/core.h | 21 +++++++++++++++++++++
- sound/core/misc.c    | 24 ++++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
+ sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 64 ++++++++++++++++++++++++-
+ 1 file changed, 63 insertions(+), 1 deletion(-)
 
-diff --git a/include/sound/core.h b/include/sound/core.h
-index 8b2ca95d13f7..a3f10294e834 100644
---- a/include/sound/core.h
-+++ b/include/sound/core.h
-@@ -75,6 +75,27 @@ struct snd_device {
+diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+index 143750afb..d07b2d751 100644
+--- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
++++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+@@ -336,6 +336,55 @@ static int q6i2s_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+ 	return 0;
+ }
  
- #define snd_device(n) list_entry(n, struct snd_device, list)
++static int q6tdm_set_tdm_slot(struct snd_soc_dai *dai,
++			      unsigned int tx_mask,
++			      unsigned int rx_mask,
++			      int slots, int slot_width)
++{
++	struct q6apm_lpass_dai_data *dai_data = dev_get_drvdata(dai->dev);
++	struct audioreach_module_config *cfg = &dai_data->module_config[dai->id];
++	unsigned int cap_mask;
++
++	if (slot_width != 16 && slot_width != 32) {
++		dev_err(dai->dev, "%s: invalid slot_width %d\n",
++			__func__, slot_width);
++		return -EINVAL;
++	}
++
++	switch (slots) {
++	case 2:
++		cap_mask = 0x03;
++		break;
++	case 4:
++		cap_mask = 0x0f;
++		break;
++	case 8:
++		cap_mask = 0xff;
++		break;
++	case 16:
++		cap_mask = 0xffff;
++		break;
++	default:
++		dev_err(dai->dev, "%s: invalid slots %d\n",
++			__func__, slots);
++		return -EINVAL;
++	}
++
++	switch (dai->id) {
++	case PRIMARY_TDM_RX_0 ... QUINARY_TDM_TX_7:
++		cfg->nslots_per_frame = slots;
++		cfg->slot_width = slot_width;
++		cfg->slot_mask = ((dai->id & 0x1) ? tx_mask : rx_mask) & cap_mask;
++		break;
++	default:
++		dev_err(dai->dev, "%s: invalid dai id 0x%x\n",
++			__func__, dai->id);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ static const struct snd_soc_dai_ops q6dma_ops = {
+ 	.prepare	= q6apm_lpass_dai_prepare,
+ 	.startup	= q6apm_lpass_dai_startup,
+@@ -365,6 +414,17 @@ static const struct snd_soc_dai_ops q6hdmi_ops = {
+ 	.trigger	= q6apm_lpass_dai_trigger,
+ };
  
-+/*
-+ * A simple reference counter with a wait queue;
-+ * typically used for usage counts, and you can synchronize at finishing
-+ * via snd_refcount_sync(), which is woken up when the refcount reaches to
-+ * zero again.
-+ */
-+struct snd_refcount {
-+	atomic_t count;
-+	wait_queue_head_t waiter;
++static const struct snd_soc_dai_ops q6tdm_ops = {
++	.prepare	= q6apm_lpass_dai_prepare,
++	.startup	= q6apm_lpass_dai_startup,
++	.shutdown	= q6i2s_lpass_dai_shutdown,
++	.set_tdm_slot	= q6tdm_set_tdm_slot,
++	.hw_params	= q6dma_hw_params,
++	.set_fmt	= q6i2s_set_fmt,
++	.set_sysclk	= q6i2s_set_sysclk,
++	.trigger	= q6apm_lpass_dai_trigger,
 +};
 +
-+void snd_refcount_init(struct snd_refcount *ref);
-+
-+static inline void snd_refcount_get(struct snd_refcount *ref)
-+{
-+	atomic_inc(&ref->count);
-+}
-+
-+void snd_refcount_put(struct snd_refcount *ref);
-+void snd_refcount_sync(struct snd_refcount *ref);
-+
- /* main structure for soundcard */
+ static const struct snd_soc_component_driver q6apm_lpass_dai_component = {
+ 	.name = "q6apm-be-dai-component",
+ 	.of_xlate_dai_name = q6dsp_audio_ports_of_xlate_dai_name,
+@@ -390,9 +450,10 @@ static int of_q6apm_parse_dai_data(struct device *dev,
+ 		}
  
- struct snd_card {
-diff --git a/sound/core/misc.c b/sound/core/misc.c
-index 833124c8e4fa..4772b2a3b808 100644
---- a/sound/core/misc.c
-+++ b/sound/core/misc.c
-@@ -174,3 +174,27 @@ void snd_fasync_free(struct snd_fasync *fasync)
- 	kfree(fasync);
- }
- EXPORT_SYMBOL_GPL(snd_fasync_free);
-+
-+/*
-+ * generic refcount helper
-+ */
-+
-+void snd_refcount_init(struct snd_refcount *ref)
-+{
-+	atomic_set(&ref->count, 0);
-+	init_waitqueue_head(&ref->waiter);
-+}
-+EXPORT_SYMBOL_GPL(snd_refcount_init);
-+
-+void snd_refcount_put(struct snd_refcount *ref)
-+{
-+	if (atomic_dec_and_test(&ref->count))
-+		wake_up(&ref->waiter);
-+}
-+EXPORT_SYMBOL_GPL(snd_refcount_put);
-+
-+void snd_refcount_sync(struct snd_refcount *ref)
-+{
-+	wait_event(ref->waiter, !atomic_read(&ref->count));
-+}
-+EXPORT_SYMBOL_GPL(snd_refcount_sync);
+ 		switch (id) {
+-		/* MI2S specific properties */
++		/* MI2S/TDM child clocks */
+ 		case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
+ 		case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
++		case PRIMARY_TDM_RX_0 ... QUINARY_TDM_TX_7:
+ 			priv = &data->priv[id];
+ 			priv->mclk = of_clk_get_by_name(node, "mclk");
+ 			if (IS_ERR(priv->mclk)) {
+@@ -448,6 +509,7 @@ static int q6apm_lpass_dai_dev_probe(struct platform_device *pdev)
+ 	cfg.q6i2s_ops = &q6i2s_ops;
+ 	cfg.q6dma_ops = &q6dma_ops;
+ 	cfg.q6hdmi_ops = &q6hdmi_ops;
++	cfg.q6tdm_ops = &q6tdm_ops;
+ 	dais = q6dsp_audio_ports_set_config(dev, &cfg, &num_dais);
+ 
+ 	return devm_snd_soc_register_component(dev, &q6apm_lpass_dai_component, dais, num_dais);
 -- 
-2.54.0
+2.34.1
 
