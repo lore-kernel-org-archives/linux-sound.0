@@ -1,111 +1,135 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011005.outbound.protection.outlook.com [40.107.74.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB24D5FDA7
-	for <linux-sound@vger.kernel.org>; Wed, 10 Jun 2026 00:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B5E81AA8;
+	Wed, 10 Jun 2026 00:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.5
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781051364; cv=pass; b=EkT2kSc/sI1OHqjdhpkj682oS7v60k0yvIfZjbQp1WKZNlaOFd6VYhC7yOO6zfzGOIzeccaq/FM/IGfHlTF2k2LjtGoSqol1SCXtTtR+VMC04rmmzsxOMD16R0Im1tiLs15eoj0dJDaJbX3YrnLZo5yGYA/sWxCq91MzZOFdMhc=
+	t=1781052462; cv=fail; b=FCoBnUxCBU7LLzHahw0fbTqnNl9nhnBLmKqvQnxOutKS6ErIfuVQYLIQsl1fHy4QqBMnZrOd/AF0SrKkONVuQX4YH0GJqFdgBZoWR3Z99TClxNskjIEjAV6fYLHf+SrYBYNC1RRJYTdLiMPTMp8Ro56qJMGNtlsFRyXDKUyIocE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781051364; c=relaxed/simple;
-	bh=zq++n8TeS+9Zc519ABbH6wxCJJwbul+UQ5LYPLmTaZE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OUXcWeMLA2oZdUZKHw6oPpvoB6VV4Xc6sbb99vcY92ZshSSuC+uTCf66eB9bFhLsSb9eEl+g1dQXZcK/kSLunGI5UZKA4UoK5ILd50U8z2ZmVJBo92KmFhlOs3qV0A06HvRpKFNf6fydoAujCdBX0RA/SYC+HkDZFEXc0sLA/J8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GSnms140; arc=pass smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781052462; c=relaxed/simple;
+	bh=/bIKRL1sPGRBhWBqC+y1SXRTjEcrbky30Du1GZpTHpo=;
+	h=Message-ID:From:To:Subject:Content-Type:Date:MIME-Version; b=sr3kWSRjfo7QR36JciF6EoicStgwBYligmcBrF/AT/iRnOeLG9Y7tQ9drWANwArm6m6BvM6oLQjgijsm1ds9hGnhAVTAloUwQlcPJf5CJA7kegmEcQjeOb2krviUSjstFSQUHd4PbF/rwFHgTIaJybE7uCH6Ug1ynqr7vKbdpes=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=PQUUv29W; arc=fail smtp.client-ip=40.107.74.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GSnms140"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-69165354c87so4406331a12.3
-        for <linux-sound@vger.kernel.org>; Tue, 09 Jun 2026 17:29:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781051361; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Rr0FCsWKFf2gAUaQWPy2qJ5cFMEND4JYuCEq++3T7GZVOSY64JpZLfUbjUeCzMwxYZ
-         55ch2E6aGFl8u3IQYSUGR/svYlCnvgWwZ/30WvJTma1Yvt7JYdfDqqJG+kODtzT/93kZ
-         M4hW886vGEs4Sgpqljo3nZxmGQ0xxGYgEoeFgRDfxppmdt4nXk2BDdkN2cmkojOPHXqG
-         7dgsz9Xu5UeQ6F+uFb2h+DxMbU5COCQmk7pjX0gia4PFyV7FUaz1/y9j1yxudtqp0kPp
-         GH/i0lV/HLmg+m0W/SMuMxL+Y8Yg0cdVz+6my/dH7IuiyHWaJgNn3yezOSgtNzgOH7kd
-         nViw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=zq++n8TeS+9Zc519ABbH6wxCJJwbul+UQ5LYPLmTaZE=;
-        fh=BnpHl01GuIm2JwC/u2Adpv5hyElpUUspkiHIbTCeo/k=;
-        b=Q2lGgYaFu4vHjy273bLrckeP54sNwtmL3N/Mg9PqS/HDFo+TkkbCPRE7AoLOG223ql
-         Ruq2S2hluJIWeL5McB/iFzRmlWJWfrE85CdyC54uq7yfVKSV3T15LZAI/x2w9h3kTWtL
-         t7zcPliEIC3T5Vlae3OXesAanqPbaPTO65kxfT+LY+gH2S1XCikdVJaJAjemD1xajIeM
-         3UByig4n7QAPmQZqVLpw0LLGcKAjLGKgivx2Gf6R24uLMLhXFelzkXe/5vYyZmhUO3IE
-         UCYMsHano5zCvGEJxzaYGfNnhXhTICnyamSih2HxsochEs1k9oFUlIODP579YMADhf54
-         R75Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781051361; x=1781656161; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zq++n8TeS+9Zc519ABbH6wxCJJwbul+UQ5LYPLmTaZE=;
-        b=GSnms140KnB4PECOIqlukKO1/HWVJDBjOHKk3GCYZQEEAwswqoYY4gtkPd19PmBWKe
-         w2MJnF6msgQ7wp+hHtJZEb5Ee769qQwjQrnN68KBWkucsXTvL0CCZNmKYOOUkIBts3DX
-         X4XWyE75Uej8YARt1ZrD/J70mXZLeJM7rfW5ZOngbp0AokjDlaTU72nA8jEoFWB9fJi9
-         98wSNJVi6RrWghMZEGo3wcQ1BXtos6OBfoeH6am4RPVBg8X2SpjPWsiQDkaviglCygR1
-         XojYGFRAYs3cniCixGUofg77mHifeK7BosiofduFTPigQaSaVe8ucRLz+XV4955dD4ro
-         7nkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781051361; x=1781656161;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zq++n8TeS+9Zc519ABbH6wxCJJwbul+UQ5LYPLmTaZE=;
-        b=Vv+sFUG7qgblyRi+Jdb408WLMVShzSV9aFLNCi1VVsXkIDzLyMGla+CRUrAHh1hs7o
-         jfTYoFKmVW9Af6s1H/wu3EZ5QfNs+ENrxeK05hEy7mw8YI/BQ0xqAskKLquDIv7RZoBk
-         vS+wa1r/3ks8HCkB8xyvB5tMPA9839ra8iozEaO8D6sg/N1P4DR4XrFz0pwH7k+20cHR
-         ezvzYFILuiS/Igwnhmdc+8UC1gnVUd4hciym24l3SDLHcXnAIHt/xyH2oDokB4uc/oKf
-         k8esv9dKZmJU8BXdpeCN/bgc72vKvGzC7ookXpsXEAsDgLG06sDpWGDjL7ibBzDg11+H
-         sAcw==
-X-Gm-Message-State: AOJu0Yz6yhch3B2iBOoWYDQUDmocVEFqxiY3dXkztyxVsbkm/HOoH7wp
-	bH/TeJJve1sYdSaFPhWImKkXlmXuycXIXtr1m3RN+zG2WB1nErwGYl6pUyw4LBypVWxQGq+112Y
-	u4hLPY5SCIpeZD3QNC3Qlg5RtZOH4UgQ5+EPl
-X-Gm-Gg: Acq92OHWS3DQ5+OebmUaOmfNvaUZu8Cz9JvcopSSzOTKIMeKxF/08Elf97XE6jeHw3l
-	0qhxneqvGZOlIP+LtqigG1KOXcZHSzITTTkByPNVM5Tp1R1Zh6xNJ5gXGYaq+D8e61EXBf1bFo5
-	+CsbVCr/b527Vr2ycEgs2XgEvVhIA53t721FGZeWLK9dkcGjk//c32y/Ejti8z5QX3xZjWO79BF
-	99NZwKYlVTKAjCNtLHLTKht75l/XpRD5vwia/IayBCnhErGHBiR8Mit8kMBkPLQjSXngNFGyqmd
-	nQSg44juFexSL96INRSQapuqwtxTZEhn7X+a/3EHrK2JeDuh5p8+/UJlWxcN/dK3TTdvw7H/D/r
-	rhYPMY7B5ux7ZpJ48KLb2KLgc2rMinAQM/Cu64qGSFRyS9r1tZJQimIzqiv9Y3rgc1g11
-X-Received: by 2002:a05:6402:210e:b0:68d:d511:4a9f with SMTP id
- 4fb4d7f45d1cf-68fa514d599mr10709103a12.18.1781051361272; Tue, 09 Jun 2026
- 17:29:21 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="PQUUv29W"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Xl/E/CDpIW/Nfp0+j152GJ1UzjjaSuZZj6en3qItcRYeIeubdayFm+Pt2747JRHCyU5zLSHpzLGDXQ5SMzNNpV83CVZa2cH9SpPueUszaoZx/24AdFAjjz58/JjtizIt8SUp3pLA9Yh+qF4+pzOXFY4Kj9sv6p8O8pX1+ZfCTJzaviQjRNEunBINr7jymkKxLuHE8mXgX5ixnGDUM/545XVBaV/vhh0MnZoDLU4/Scelicsb7c3zzheTAwxsdIZ/utJ4CNIexhy/xhtJOJ+xqasMQ6fQW01BfYsYO8WNBbtKZZtJAtEWUJo9gPSosinAq2t9pjFstmRhQFZfi1N1CA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nbkotmFU04H3ZYCVrvVMNQnySykG6NKkSVeMYxA6gBY=;
+ b=dUe2q33bvd1gOoeHguc867VwaMCezXOS4e3MiXe3c29nAzMZNDmNaWMaHwwlSIE3r82jSGVkmVws/OaWbamvSI5XsNYYA88WtUbHZjjkhfH+DVOIZyqxGQWoRnN10u6SWW419+Ro8MkSDfAKB47eApuE/pLHGObAl/KXDlXimBmxE0AYzICp0ZY/uNiyNQy8YlyWZsRP2vGrSrvQD8AJ8uJ5M1hEs1JXukBFyGLRweOqni/QrmtBg4kOHbVwzyXnEDSuBrb7bc8cceFAFfZRGa0s5g9HX7CaKDH5pci/+Ywtw63uUVgub7Deyf+Oyjin1R1lb8N9T7QNwRM7I35l2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nbkotmFU04H3ZYCVrvVMNQnySykG6NKkSVeMYxA6gBY=;
+ b=PQUUv29WuackwzEUMt0TirZIc5YLVG3oPVWqO1893qvCB9DpUAMaAyjt2xIl0+2xbp0iSmG3lOJcbE4IDJLOLOWwsS48nGaYn/YjI6B/UWuTyjOwWn256hZEK3++1opxsg3E2lpN+D2GiCiHpEEOWJgxHByhG8G+wt2LYnpaNeA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by TYCPR01MB12042.jpnprd01.prod.outlook.com (2603:1096:400:3e1::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.11; Wed, 10 Jun
+ 2026 00:47:38 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0113.011; Wed, 10 Jun 2026
+ 00:47:37 +0000
+Message-ID: <87wlw743x2.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Bartosz Golaszewski <brgl@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Jaroslav Kysela <perex@perex.cz>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>, Mark Brown <broonie@kernel.org>, Rich Felker <dalias@libc.org>, Takashi Iwai <tiwai@suse.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: [PATCH 0/2] ASoC/sh: roll back Ecovec24/7724se Sound support
+User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 10 Jun 2026 00:47:37 +0000
+X-ClientProxiedBy: TYCP301CA0088.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:7b::16) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260609215212.28713-1-rosenp@gmail.com> <aiihFWIOxS9XjZyK@sirena.co.uk>
-In-Reply-To: <aiihFWIOxS9XjZyK@sirena.co.uk>
-From: Rosen Penev <rosenp@gmail.com>
-Date: Tue, 9 Jun 2026 17:29:10 -0700
-X-Gm-Features: AVVi8CeXHnZ48nC0iB-355qY9GxnerdjkKXmVgm30Am14UTRbOSbLWx57QWpfrI
-Message-ID: <CAKxU2N-Y8kd_2iaVcuR5ypXsu4su7gOqK8zuChEp4DZ8Tj+pjw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl: remove Efika audio fabric driver
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYCPR01MB12042:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7972dad8-08b6-470e-3505-08dec689de55
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|52116014|366016|7416014|376014|1800799024|38350700014|921020|56012099006|11063799006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	c5mP9A1Z6K0OMusG/JHm7qPjrIzeOydzGu8IWbIPLVrQXb4tMkPgzKXEMdaEJfTrYcjWrDRFH4Kjrs6NPE9CUtX6oJ5/KIpJHUOZvs8DXPcAA1LUAuP20Nffqk4m2KdI3Ez0iXuekWhxNlthLIYrOFM9J8gW2kL1/yzFsL1Z/NjH5aF61Bk4iB4TqDG+F9Ic5IBWSWQtnF4GECS+cUuUG+AXTItHoXd4QXIxeR0KncSQO/fmbDc6GeKYCoHq81XTpDzo1xSyp/N9sMqfKncMsks9fcUO4oq9F422duma9Va2eXTC4xATBcxikqvIeDVSwJCFfpDEgqL+9bwcXs5jRzSNWhDfqwRDefAkW0KIX1ZdqhVUsaPsOhw3aw9CRepwCISyA+BM00SmPBD2RQwi9qVfOJB7oF+WSkEWY5OxDsuXCpvshvfvS/0j7ovMRrQbEykadaJPbR7awVwHGxvQQVnidaX+2eR/MlWnp9ATJdzZoPh0/8fcerK76ITLUMyktuDW6njpj4ZTRSLgHISQq0driQdkAuWVoM8XDwJRtavRtmuU2T9UfUwRq7o+9Moyts1vM2LcTbUSj+ELnAVudGmNEQ6lBBAzE4uEnGi6mSsdymHxjvQrBONePsFvbFvK6SbL7+hSUHxhRt1267O/Z0BXSr+v7t1M0lmoXPgooLyyqsrllodtKBYt31tFKA6NBaxwD/mPrPAySx2UFRklwvvrTMXP5ZHcb48xJldTB14Oz/+oMpKOy/P3JzmBGa7eeU1fBAsh2oZAszIravDuyg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(52116014)(366016)(7416014)(376014)(1800799024)(38350700014)(921020)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Lan1JyLE3X0pxDegteTUwLiSCZlD3fsEoca4EmxzMTfE77acFUA1SjvNjfRw?=
+ =?us-ascii?Q?pdpTdQUouGAo4/A51r0pE5IURyGMLbMEKLAaIfuBDnPU7TlnheWGb0PSIycw?=
+ =?us-ascii?Q?xqF2wj0zAnmUNy0RZewk2ilyXHsquBZfBuThEZhxCzeaQDIw2UVZ5mMt99rn?=
+ =?us-ascii?Q?S+cFKghzJIP5d7sFd3T8Qfh290DbtOeA6l+RP+ItIwIR2u9rIPSCFVrfcvmE?=
+ =?us-ascii?Q?I/ewrdFT+LeAdpXOo7Ug9a7cPXH79vpcGivScE7YyHA43fBIpVwI7GcCoA9t?=
+ =?us-ascii?Q?4yg9t3qn24ijDIoMMRO+rX5Nk6G0J2trO+LCBxErz7gD81vFFzsN2x6GWMka?=
+ =?us-ascii?Q?NIhstQpVoJEcLwdN6venNg6b+s6aWb9gcR/muuWXNu9ZrVAuKGTjoICjXzT0?=
+ =?us-ascii?Q?LxAsOPISF9okALHoavN+qaqFaPe5r7KXCaFz6pgfnhkrZcIIlP8sZaYENaxE?=
+ =?us-ascii?Q?7DjCcmNpSrCJ/hArVfLskyfKa1Ogm0jhbDGpLpZk16AanKhonPPKLyGxAg2M?=
+ =?us-ascii?Q?Ttx1K0cV5XQioII3E823VrQIuhbTf1HgWgNKYaF5roCDxnTB973oQu+ZoDdM?=
+ =?us-ascii?Q?v/r2swarI/V1rhpMs1K2AIzVCDUoz3UBwKzmLrnDwtcdnp2tG66hc+mXNTw+?=
+ =?us-ascii?Q?OzmSNkEFDX45qsRptR7XRmLf4uMyStB5b6MlnRDuwCuBkNu3DPX+AJqg2eU5?=
+ =?us-ascii?Q?cs56pI4h26bpM7pWyyZJsKxe+caYpszzGCKeqwJXJM7QuBK0MG5Sxy2U9Kdv?=
+ =?us-ascii?Q?yEcX9LzVLr9AbEJji+SkjPdJHyQf4pRlyIovM3Q2oLoGZwwpu2SXYmgmASe2?=
+ =?us-ascii?Q?iBHdm2n+2iSN8TIKRUCBu5+qxNKc8IHVmXumqzqGd7HxgGWNCPat2STa3kNE?=
+ =?us-ascii?Q?nD8Yvzh/0bHITER0ACgIGa82YS8TpdO4MY53bEvKnFUBSSGmC7BQ4B5/lbad?=
+ =?us-ascii?Q?vVWUmd/V8avR0Np+VFHKimTK66baJ99nAwZx0zgq03hJJq1NUfDvQyuhW68U?=
+ =?us-ascii?Q?ir1SjkiVJs1GQ1TsccwUTT0bX6SIv838C18kSyTa3uGW2YhDnryS7TWjdJwT?=
+ =?us-ascii?Q?FqSxwisq3K8J6oCDbHLppWT7tCi2exSre2apF6hV3bNgMe7MVrNR4tNjOkvY?=
+ =?us-ascii?Q?zDlRM8X6QKApKNGTWKOFgBkXoJt1Cyj9rjjjUBUlhEuVbKzJzwOsQ0Azi137?=
+ =?us-ascii?Q?R0M2oS897Ezl1IMpnqNB/0hjS4r37NFIyO61B7t69OO86nosjyikbKx+Qt4o?=
+ =?us-ascii?Q?SirItmfezK32JtWIBKKGHSZo29jIFx86wW8PR80gA7zDbOB+IZVHERGn/9un?=
+ =?us-ascii?Q?vbOZmY9TqKjp/BUFza43Mj/ycYofduggjWouyDLX8YV3xqpDVA7Gbun+zck1?=
+ =?us-ascii?Q?t3j9SEdmvrHtTDuT53YYGMcVzGgiVmwVFvt+md7KZCBXrCjetGW00c5YrNgP?=
+ =?us-ascii?Q?YHQNmfbeVAfK/l8TVhQl9HnZvNZLJ4CfGpRSi9Tjzx/ZIrl+LcYZxtp9UWH7?=
+ =?us-ascii?Q?4REyn6M8A7BqK32akJxHsxMCvY5hkY+4DmfFydLvNGBu1wMxZTQPxRVUE2d1?=
+ =?us-ascii?Q?4EbqzxCleKpKMnnzW0CX0m2X+3LeYCjjtFgKzsH7vHvFsP7hGekdXjH1bVu/?=
+ =?us-ascii?Q?Vs6RMJVFaQeI/swgJgWRxgApRhNGp1K3Y+JJxxmSKFIUxGNN0XAg6f5/7k+K?=
+ =?us-ascii?Q?WiBG0HJS/2x7RrH2ZBYoLPzTdnuXpEa1Oh4Vv99cVWxNECE0E28npNVvInwt?=
+ =?us-ascii?Q?Ke6T61E5H4uCqw28QmlRw9jND3uvqCc=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7972dad8-08b6-470e-3505-08dec689de55
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2026 00:47:37.8127
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0M8vwQhEDpzMBfUa13MUq7bXe8owngJoQK3MqOMrPyb6JsrEK2pWZ7VzgxyV0D8tlbmkE6qtng71KaTD9N6V5TtHetP9PcZMoSdBr3SX7oxkU9XIjf9M5QWBmxoWiO1W
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB12042
 
-On Tue, Jun 9, 2026 at 4:26=E2=80=AFPM Mark Brown <broonie@kernel.org> wrot=
-e:
->
-> On Tue, Jun 09, 2026 at 02:52:12PM -0700, Rosen Penev wrote:
-> > The Efika 5K2 is an OpenFirmware-based PowerPC board from ~2006.
-> > The platform code (PPC_EFIKA) and its sound driver have no in-tree
-> > DTB references and the hardware is long obsolete. Remove the driver.
->
-> Is this solving an actual problem, and was the DT ever distributed with
-> the kernel?
-No and I don't think so.
+Hi Mark, Adrian
 
-The only reason for the removal is that everything else old seems to
-be getting removed.
+Due to a communication miss, the Ecovec24/7724se Sound support
+were removed. We need to keep them for a while, until they will
+support "DT-style".
+Roll back Ecovec24/7724se "platform data style", and its necessary header.
+
+Kuninori Morimoto (2):
+  sh: roll back Ecovec24/7724se Sound support
+  ASoC: renesas: fsi: remove platform data style support
+
+ arch/sh/boards/mach-ecovec24/setup.c |  90 ++++++++++++++++++++++++
+ arch/sh/boards/mach-se/7724/setup.c  | 101 +++++++++++++++++++++++++++
+ include/sound/simple_card.h          |  26 +++++++
+ sound/soc/renesas/fsi.c              |  16 +----
+ 4 files changed, 220 insertions(+), 13 deletions(-)
+ create mode 100644 include/sound/simple_card.h
+
+-- 
+2.53.0
+
