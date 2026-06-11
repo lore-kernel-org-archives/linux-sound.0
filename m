@@ -1,163 +1,99 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+Received: from r3-212.sinamail.sina.com.cn (r3-212.sinamail.sina.com.cn [202.108.3.212])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8431FF7C8;
-	Thu, 11 Jun 2026 02:38:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D89127FB0E
+	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 03:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.212
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781145508; cv=none; b=hX+B981Dvg/w9oU3H1rjTMEEh5lUZjJSIUKCN5nTeHXJAqtpBnyL6PYvJbjr2L6la6aAacFaFTUGeqFOdEE1GhVQq9cEVUHk98e4vg2707j2JsKbo1XlK6xpqWaZiK8VNuFEwzeRknfnoKHsTIw74iGe4osvPmwXc/sNVgC49nY=
+	t=1781147920; cv=none; b=h75elH5P9KtDwvUcMWMZiJIObfd8kIAQJ2R57H1UnsX0YmsLbT+daJh62UHWrQWCEOJnKX5DVNgoeEK5SNpXlBbwBzsJXCa6+yyT8Irw/NIkMnwb5PrUFer5KDFwaESn7FA0GdxxzfWzC7Wam4gIiQFXpAmN1BVTWOiP0489NDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781145508; c=relaxed/simple;
-	bh=9EGRLZY5AilKpFg28ZJo7UnJZmaVd78LGr7niIZFQu8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t3AezSGQsatpAM9tViiNg5SkpWMuv0qKv/vxUJkR1epTam1vihhKUUK+i9M+T3hlHTfVUpXwpbNqbNbxd1VVcEwTIpyx92cY+3FlJOS+ADIjwoe1lzmFOt84RD6PR9ve3b1yG50o7RnN1UgkvUD552fnyN3J6lkcZwRINC4Fv9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=X552yT9d; arc=none smtp.client-ip=117.135.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="X552yT9d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Y4
-	5EceXZv++lmBKFRkFB8qV0AsO0n/Zj7USjbV2HcIg=; b=X552yT9dMAs55hOwTn
-	oDQFJeeepXm3bdgsYyVoPXVt4TkYwmxAF4LfCWLGjzfUH2+MlOZVSoqjV36qWf7E
-	hFgKZ4kBZpaDHYjnNKmGfGSjnygvgk/XiUh3oG37PoyA/XELlVL6z3IgRWCdx4aY
-	2wATO/uv8D1ydhiEfjHBSaUxI=
-Received: from debian.lenovo.com (unknown [])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgBHJh5PHypqjZc_Bg--.28741S2;
-	Thu, 11 Jun 2026 10:37:04 +0800 (CST)
-From: Kean Ren <rh_king@163.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org,
-	Kean Ren <rh_king@163.com>
-Subject: [PATCH] ASoC: SDCA: fix NULL pointer dereference in sdca_dev_unregister_functions
-Date: Thu, 11 Jun 2026 10:37:57 +0800
-Message-ID: <20260611023757.1553960-1-rh_king@163.com>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1781147920; c=relaxed/simple;
+	bh=c+f6U8XEyBC10/jWORygtaM+DQvtua4vwr2nXSwCPPk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=Mg0kN1umhP8B1j4NO5b/fkPGBtWzp86ujVSqTJ5MCJm1xVapHVt2EfYD4TUWDx94wpC+kTYB4UugowcpTEp4n8zd8MAzAFpvv+kh3g0msf7SaWvMULIlVEzGUMEBrEJ1jrFDfIR6R1N27pQb19NTURMEMI0wNn9wPxpPKJEtcSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.212
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
+	by sina.net (10.54.253.38) with ESMTP
+	id 6A2A29030000377C; Thu, 11 Jun 2026 11:18:29 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 3655F794940D48ADA11F620B00CCFE15
+X-SMAIL-UIID: 3655F794940D48ADA11F620B00CCFE15-20260611-111829
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: linux-sound@vger.kernel.org,
+	broonie@kernel.org,
+	devicetree@vger.kernel.org
+Cc: tiwai@suse.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	Zhang Yi <zhangyi@everest-semi.com>
+Subject: [PATCH v1 1/7] ASoC: dt-bindings: ES8389: Add members about HPF and clock
+Date: Thu, 11 Jun 2026 11:18:18 +0800
+Message-Id: <20260611031824.4628-2-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260611031824.4628-1-zhangyi@everest-semi.com>
+References: <20260611031824.4628-1-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:QCgvCgBHJh5PHypqjZc_Bg--.28741S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxXr18ZF4rJFWUXryUuFy3urg_yoWrJr4Upa
-	s3Ca15CrW8Kr4vgr4aqF48GFy3GF4ayw4SyrW8J342gan8Jr93tr4ktw1Fqa18JrWfAF4x
-	ZF1DXw409w1DAaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRiYFJUUUUU=
-X-CM-SenderInfo: 5ukbyxlqj6il2tof0z/xtbC3xABr2oqH1BfzgAA3-
 
-sdca_dev_unregister_functions() iterates over all SDCA function
-descriptors and calls sdca_dev_unregister() on each func_dev without
-checking for NULL. When a function registration has failed partway
-through, or the device cleanup races with probe deferral, func_dev
-entries may be NULL, leading to a kernel oops:
+Add members related to HPF and mclk_source
+The value of HPF is not dB, it is just the value of registers
+And add HPF settings to the example
 
-  BUG: kernel NULL pointer dereference, address: 0000000000000040
-  RIP: 0010:device_del+0x1e/0x3e0
-  Call Trace:
-   sdca_dev_unregister_functions+0x37/0x60 [snd_soc_sdca]
-   release_nodes+0x35/0xb0
-   devres_release_all+0x90/0x100
-   device_unbind_cleanup+0xe/0x80
-   device_release_driver_internal+0x1c1/0x200
-   bus_remove_device+0xc6/0x130
-   device_del+0x161/0x3e0
-   device_unregister+0x17/0x60
-   sdw_delete_slave+0xb6/0xd0 [soundwire_bus]
-   sdw_bus_master_delete+0x1e/0x50 [soundwire_bus]
-   ...
-   sof_probe_work+0x19/0x30 [snd_sof]
-
-This was observed on a Lenovo ThinkPad X1 Carbon G14 (Panther Lake)
-with the SOF audio driver probe failing due to missing Panther Lake
-firmware, causing the subsequent cleanup of SoundWire devices to
-trigger the crash.
-
-Fix this with three changes:
-
-1) Add a NULL guard in sdca_dev_unregister() so that callers do not
-   need to pre-validate the pointer (defense in depth).
-
-2) In sdca_dev_unregister_functions(), skip NULL func_dev entries
-   and clear func_dev to NULL after unregistration, making the
-   function idempotent and safe against double-invocation.
-
-3) In sdca_dev_register_functions(), roll back all previously
-   registered functions when a later one fails, so the function
-   array is never left in a partially-populated state.
-
-Fixes: 4496d1c65bad ("ASoC: SDCA: add function devices")
-Signed-off-by: Kean Ren <rh_king@163.com>
+Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
 ---
- sound/soc/sdca/sdca_function_device.c | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+ .../bindings/sound/everest,es8389.yaml        | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/sound/soc/sdca/sdca_function_device.c b/sound/soc/sdca/sdca_function_device.c
-index feacfbc6a518..b5ca98283a88 100644
---- a/sound/soc/sdca/sdca_function_device.c
-+++ b/sound/soc/sdca/sdca_function_device.c
-@@ -82,6 +82,9 @@ static struct sdca_dev *sdca_dev_register(struct device *parent,
+diff --git a/Documentation/devicetree/bindings/sound/everest,es8389.yaml b/Documentation/devicetree/bindings/sound/everest,es8389.yaml
+index 75ce0bc48..be92014c0 100644
+--- a/Documentation/devicetree/bindings/sound/everest,es8389.yaml
++++ b/Documentation/devicetree/bindings/sound/everest,es8389.yaml
+@@ -38,6 +38,27 @@ properties:
+     description:
+       Interface power supply.
  
- static void sdca_dev_unregister(struct sdca_dev *sdev)
- {
-+	if (!sdev)
-+		return;
++  everest,mclk-from-sclk:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description:
++      Indicates that SCLK is used as the internal clock.
 +
- 	auxiliary_device_delete(&sdev->auxdev);
- 	auxiliary_device_uninit(&sdev->auxdev);
- }
-@@ -90,14 +93,24 @@ int sdca_dev_register_functions(struct sdw_slave *slave)
- {
- 	struct sdca_device_data *sdca_data = &slave->sdca_data;
- 	int i;
-+	int ret;
- 
- 	for (i = 0; i < sdca_data->num_functions; i++) {
- 		struct sdca_dev *func_dev;
- 
- 		func_dev = sdca_dev_register(&slave->dev,
- 					     &sdca_data->function[i]);
--		if (IS_ERR(func_dev))
--			return PTR_ERR(func_dev);
-+		if (IS_ERR(func_dev)) {
-+			ret = PTR_ERR(func_dev);
-+			/*
-+			 * Unregister functions that were successfully
-+			 * registered before this failure. This also
-+			 * sets func_dev to NULL so the caller will not
-+			 * try to unregister them again.
-+			 */
-+			sdca_dev_unregister_functions(slave);
-+			return ret;
-+		}
- 
- 		sdca_data->function[i].func_dev = func_dev;
- 	}
-@@ -111,7 +124,12 @@ void sdca_dev_unregister_functions(struct sdw_slave *slave)
- 	struct sdca_device_data *sdca_data = &slave->sdca_data;
- 	int i;
- 
--	for (i = 0; i < sdca_data->num_functions; i++)
-+	for (i = 0; i < sdca_data->num_functions; i++) {
-+		if (!sdca_data->function[i].func_dev)
-+			continue;
++  everest,hpfl:
++    $ref: /schemas/types.yaml#/definitions/uint8
++    description:
++      the HPF value of ADCL.
++    minimum: 0x00
++    maximum: 0x0f
++    default: 0x0a
 +
- 		sdca_dev_unregister(sdca_data->function[i].func_dev);
-+		sdca_data->function[i].func_dev = NULL;
-+	}
- }
- EXPORT_SYMBOL_NS(sdca_dev_unregister_functions, "SND_SOC_SDCA");
++  everest,hpfr:
++    $ref: /schemas/types.yaml#/definitions/uint8
++    description:
++      the HPF value of ADCR.
++    minimum: 0x00
++    maximum: 0x0f
++    default: 0x0a
++
+ required:
+   - compatible
+   - reg
+@@ -58,5 +79,7 @@ examples:
+         #sound-dai-cells = <0>;
+         vddd-supply = <&vdd3v3>;
+         vdda-supply = <&vdd3v3>;
++        everest,hpfl = [0a];
++        everest,hpfr = [0a];
+       };
+     };
 -- 
-2.47.3
+2.17.1
 
