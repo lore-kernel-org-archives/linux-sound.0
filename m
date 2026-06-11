@@ -1,161 +1,83 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D04346FA0
-	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 12:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2885A346E56;
+	Thu, 11 Jun 2026 12:36:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781180903; cv=none; b=sLXWxtu3EV8VE2tnciwbbmV78riQVmSa6e1vdgXC7+Lxut/SyYJX3vujTA5IWGXiAl3V/2nWs9Gohr14V04cR0PoptPGpIEH7jRd98Odm3kMaIl+anQfb7ceL7sd8Yd3jAmXpxX3bnsUF0F9T2BzEoYmoXZ5Di6k3UeJf67S/ag=
+	t=1781181395; cv=none; b=hbwU28aVyL6A3T9ovz/Gcn8gS3jm4pvva05LxoNseJaKJlHkoDDUKkDMR23x3ZhupXnGT9PUhVcusJm3W02quNd7DhG5IQ6f5UpVb2zARgNkpocobeI60fjwJBYFk3WDjpuubjjqFihOCDBPeKg0qlu4o443m/i8gTLmvqkNVNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781180903; c=relaxed/simple;
-	bh=RDiTQ/Lmd64nR5okqaIR9mwmKBXaymSA9H8Ldcbh2Jo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nZKXlU9X5KZd1BtB8y4epGG5opKrHlxwYgmp1rcvfQjigQcNfxakStoWNjHfv9EKEwKyvM5ywB7EF2ySqXmsHY7f/GwRQ6n/gFL+n3UW1+rFWVb3xmwX/HrD9sI8dwAbiV4IMosFjRAWXPpfAcp4oz1zTu4dhxIxtZXm2MHr3+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rFXXpM7I; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1781181395; c=relaxed/simple;
+	bh=oOxxIYmFTUetGlSGsDpk8mOO9zoGylxLDZ7zaJRNiJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XfP6GfRKjYXZetX6xORp6xct4oznoSy5IzHc7mVHYcJZ9ZhLRWMoycGO2Q/cE/QMroKl1+jV1VOWRLL6UrvxjzSZdFgdtVZnXA1fEYjl6wqa/DQFwDtPH5D9hmdlLEcN9KzWDa+VPRr8X1W48yge3o3iZzXSAD0D2JqvOE498ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=juXP/ER4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rFXXpM7I"
-Message-ID: <27b726c2-9b72-4b44-9d85-9b1aa12851a2@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781180888;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/UsUeGpou3lVapXWhjq32I6t+zBdHKuqjJl90iVDSiA=;
-	b=rFXXpM7IJOrHQFdgRhKujVf5VdxV6jkKNFlDsX25IoXEP9KJZ8Dv8l5c0nKTafwKXUsRZ9
-	3BPFb1LLg9n4GliYQt3h1fAcAsjSrL2AfeU8aUx/g3f9LERtMslSnnlcG3/NjMtCHL+fHf
-	5Y0xERqt55aedIITIkiJCvpkmeFBkwg=
-Date: Thu, 11 Jun 2026 20:27:05 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="juXP/ER4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B30F91F00893;
+	Thu, 11 Jun 2026 12:36:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781181393;
+	bh=oOxxIYmFTUetGlSGsDpk8mOO9zoGylxLDZ7zaJRNiJ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=juXP/ER43vPKW0KeDLwfEpsoCmknEnw8MW6MsLjaWA7UOIXAEGSMpWYiRlKu/0CEh
+	 oCZ4Ycz1N31n1rnszicOEXuXm8BeyfXvABxnGv+ZOb9go5u226D7fb8yChqx8GipHy
+	 3uJgGwCTAXncJSExpubhp17H4jtnxtQ25duncAzDkbs9zGHJa6I8QucY+VOzW+uSQj
+	 XxdTq5IcoC0OMeiBkhKPhzFnLuyTJVIrpYNtVZfRje8TRayz3KfjuuRIawfU2ZAXRR
+	 wezZmOJLzumK3lvolhC3EIoqZehmVwqaWFkrzzy+iaEW9Qj8r4fw0TPAxU1RoI57C0
+	 nKugE74mRPdCQ==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 5E03B1AC56C6; Thu, 11 Jun 2026 13:36:30 +0100 (BST)
+Date: Thu, 11 Jun 2026 13:36:30 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Andreas Axelsson <andreas.axelsson@androscientia.com>
+Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: tas2781: Do not report cross-instance writes as
+ errors on SPI
+Message-ID: <aiqrzlIGi0ClnygD@sirena.co.uk>
+References: <f39f2aa8-33f3-4cb6-b2ed-56254ad63f3c@androscientia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 00/14] list: Prepare entry iterators to cache cursor
- state
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Thierry Reding <thierry.reding@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Davidlohr Bueso <dave@stgolabs.net>, "Paul E . McKenney"
- <paulmck@kernel.org>, Josh Triplett <josh@joshtriplett.org>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Eddie James <eajames@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Laxman Dewangan <ldewangan@nvidia.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Waiman Long <longman@redhat.com>,
- drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
- linux1394-devel@lists.sourceforge.net, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-spi@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Christian Brauner
- <brauner@kernel.org>, David Howells <dhowells@redhat.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Kaito Cheng <chengkaitao@kylinos.cn>, Muchun Song <muchun.song@linux.dev>,
- Philipp Reisner <philipp.reisner@linbit.com>,
- Lars Ellenberg <lars.ellenberg@linbit.com>,
- =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
- Jens Axboe <axboe@kernel.dk>, Takashi Sakamoto <o-takashi@sakamocchi.jp>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-References: <20260609061347.93688-1-kaitao.cheng@linux.dev>
- <bd0b7393-8ccb-4d67-8bfc-18c68347122c@amd.com>
- <5152089a-2808-4fe9-b633-b03018105dd2@linux.dev>
- <6b2efdee-95b0-4306-a682-0d0466497ddb@amd.com>
- <2399841f-d834-4652-8285-4a15c7d9a9b9@linux.dev>
- <d974a2ea-6102-45ff-bf36-3b25a2404e40@amd.com>
- <ail8iNvPrJnE7p58@ashevche-desk.local>
- <92683537-8404-47fe-a4ba-160e54870f0b@amd.com>
- <aipx1goKIsk40vrF@ashevche-desk.local>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kaitao Cheng <kaitao.cheng@linux.dev>
-In-Reply-To: <aipx1goKIsk40vrF@ashevche-desk.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="SAS12zwCj0KJS19R"
+Content-Disposition: inline
+In-Reply-To: <f39f2aa8-33f3-4cb6-b2ed-56254ad63f3c@androscientia.com>
+X-Cookie: Leave no stone unturned.
 
 
+--SAS12zwCj0KJS19R
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-在 2026/6/11 16:29, Andy Shevchenko 写道:
-> On Thu, Jun 11, 2026 at 10:01:25AM +0200, Christian König wrote:
->> On 6/10/26 17:02, Andy Shevchenko wrote:
->>> On Wed, Jun 10, 2026 at 11:11:34AM +0200, Christian König wrote:
->>>> On 6/10/26 10:18, Kaitao Cheng wrote:
->>>>> 在 2026/6/10 16:07, Christian König 写道:
-> 
-> ...
-> 
->>>>> Should we revert to v1, or keep list_for_each_entry() and
->>>>> list_for_each_entry_safe() as they are, close this thread, and make no
->>>>> changes?
->>>>>
->>>>> Link to v1:
->>>>> https://lore.kernel.org/all/20260529082149.76764-1-kaitao.cheng@linux.dev/
->>>>>
->>>>> Or do you have any better suggestions?
->>>>
->>>> v1 looks perfectly reasonable to me.
->>>
->>> But why not just hiding that once for all (in case they don't use the temporary
->>> iterator)? Easy to automate, robust — everyone is happy?
->>
->> As far as I can see that is an extremely bad idea.
->>
->> The distinction between the use cases of 'iterating the list' and 'iterating
->> the list while you modify it' is completely intentional.
+On Thu, Jun 11, 2026 at 10:20:18AM +0200, Andreas Axelsson wrote:
+> On SPI-based TAS2781 HDA systems (e.g. HP laptops with two amplifiers
+> on separate SPI chip selects), each tasdevice_priv instance services a
+> single device. The SPI bus glue intentionally returns -EXDEV for
+> register access addressed to a channel the instance does not own, and
+> logs it at debug level as "Not error" (see
+> tasdevice_spi_change_chn_book()).
 
-I agree with this point. It is very reasonable for list_for_each_entry()
-to be used only for 'iterating the list'. In practice, however, we do not
-have an effective way to enforce that rule for users, whereas the distinction
-between bool and int can be enforced by the compiler. The 13 patches in the
-current series are all real examples where users modify the list while using
-list_for_each_entry(). Is a rule that cannot actually be enforced reasonable?
-This is just my humble opinion, and I am raising it here only for discussion.
+This doesn't apply against current code, please check and resend.
 
-> What I meant is to keep the name, just drop the parameter (make it hidden and
-> being defined inside list_for_each_*_safe() cases).
+--SAS12zwCj0KJS19R
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I agree with this approach, but the specific details still need to be settled,
-including the issue described in the link below.
+-----BEGIN PGP SIGNATURE-----
 
-https://lore.kernel.org/all/0a333eb8-fc29-4b85-993e-6b726f4c7cf0@linux.dev/
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoqq80ACgkQJNaLcl1U
+h9Da6Qf/b/6W/ms5qmN1aIgoM4qfDUHZWu+1UYJ3wLVNDv0H4o2tLYe3uyTm7hAa
+LdbXl6wvr2C7/KamI+jd+Z8BMCYISw8XDdsQlrRAZVjwL9a+Q8KuIWxAWxWWvP0q
+2CqyPRs6DRoISSL5j2Ds7DPvFlkC1474J9AP1HYelucPSx5h8LqO8ri23WFt2T4i
+Jqe6BTDZKFBlhIInzve7igJTHygGrZwinhTQhbRkeS6tvmlvC7ZTj10qYhQSRYGE
+jz5MVMOQ00AM1vl4/4W/1O23d2MMwg9aIZ6J1DYoDuaw4R5nlWbZ9HeoKVpPcXnI
+5LMMirKhVq1Vi/q7s2i7Hf4kw2dnlQ==
+=uIDl
+-----END PGP SIGNATURE-----
 
-Of course, there is also the suffix-renaming issue raised by Christian.
-
->> See the bool type can be implemented by int as well, but it is just a
->> different use case.
-> 
->>>> You should just include some patches in the same patch set to actually use
->>>> the new macros.
->>>>
->>>> If you modify the files under drivers/dma-buf or drivers/gpu/drm/amd to use
->>>> the new macro I'm happy to review that.
->>>
->>
-> 
-
--- 
-Thanks
-Kaitao Cheng
-
+--SAS12zwCj0KJS19R--
