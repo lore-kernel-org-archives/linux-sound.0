@@ -1,137 +1,105 @@
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6A0425CF7;
-	Thu, 11 Jun 2026 16:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E70279DAF
+	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 18:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781194882; cv=none; b=Op5QUHmFEnIj1juv2/h1DXmTD7NUMJjIyI56GUc/l4hu+VYkMuPlc9B4GrWRgNCGwXw7U0ypdDiaSUQYlteiuh43pHGMKbA+WHhN8kyOg6SAwHy7QniJ9WUyZ3XoRNrbhkOrRCo5d05xmFEsia1G42ZzW/5ip3I7gKCXqKkokxw=
+	t=1781201147; cv=none; b=UhXOXfkpUJA6xnSsssUrmVT0FtHrOG5b4LJNTI158Qw+9Uzm61RCbfP8L8F0g0cOC2ppwFHNJi9goMX7/e+q2uB03fnI2kL/gieY8C5U3sc8QvRPOExlNfB9o1qxRXSS/yybjpD3ozi6IfkJNK6nYzAz0lGgiGCRcHlLaAMJawE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781194882; c=relaxed/simple;
-	bh=/t4jyeDK2IvqS0+9MlVEkaR3MYfgo1rC9yuzyQbe5oo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=JqYv+CsgxHyv924JcAAe0bqtWfVBv3s77PaRogiER1NOfrwWw4odkkO3pFs822HPlADjaGDKHn9Bs97b08SLQkzvhnZQszFVFABQYh0/uKmo5q0WrwZAc46BYWdJcAmytYsNmMyxKbza4EatosjiXV0F81TZKVdPZYDPL64JiGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=BpRjE/DB; arc=none smtp.client-ip=45.254.49.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1781201147; c=relaxed/simple;
+	bh=6ybZjF8WB3thr+HC6EOAjzU8Gf3FoTdo60yU0MEBigg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CtpIElXo+LgaRu2A6J1RDpmNAJG+DqnFJC92L4W6iK5UIPVYyN3SEHPfocc3w2DvuI2lsyvUmRXO0B9VHiNyElDmSvZ9pZnkx8YIXkMhUPxSHoxd1hBNpfPWUWrbYRribGEToi+/z+6g9HOysOfzvj0kWQ8w2C0zi758DDQz20Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H1SJMeuk; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="BpRjE/DB"
-Received: from PC-202605011814.localdomain (unknown [58.241.16.34])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 420765eaa;
-	Fri, 12 Jun 2026 00:16:07 +0800 (GMT+08:00)
-From: Runyu Xiao <runyu.xiao@seu.edu.cn>
-To: broonie@kernel.org
-Cc: david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	Paul.Handrigan@cirrus.com,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn,
-	runyu.xiao@seu.edu.cn,
-	stable@vger.kernel.org
-Subject: [PATCH 2/2] ASoC: cs35l34: drain threaded IRQ before runtime suspend
-Date: Fri, 12 Jun 2026 00:15:53 +0800
-Message-Id: <20260611161553.3378721-3-runyu.xiao@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260611161553.3378721-1-runyu.xiao@seu.edu.cn>
-References: <20260611161553.3378721-1-runyu.xiao@seu.edu.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H1SJMeuk"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-68852b58d87so222649a12.3
+        for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 11:05:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781201145; x=1781805945; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6kf7F+OUmrvvD7GUsSTcz0x1Z1cMC6+OLO5k3eupXxk=;
+        b=H1SJMeuk6wjQ+UjWk/ZWqyN0uDH6MyqRcApKRWFJsPoWaCQd8iRy+hzWKTq/wnULrV
+         KNSBl9TSPqN3hn6WXJXbwhMRfXXr32oxMcyfukzfJanjuqBybolDvDLbhsapHjLQYOJh
+         gqZVV2ol5sBK0SVQBKOoRqauQbYmWYG2H0qLrZLOsRPrXfuDfc4ZROmOXH9e1CSQgQZ+
+         /yjjoFHaEKs6lON63CuSDIc1Q4futEh97G1aGLbijmHDKyKLeoDjP0DkwBadBLt3F0Me
+         5g7gvVXWZ+9OAaGxmo0P+aKrBf5/y4c9fJq/yw4IixTU8b7tF0q5BpPMJfLnRftphNob
+         /HTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781201145; x=1781805945;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6kf7F+OUmrvvD7GUsSTcz0x1Z1cMC6+OLO5k3eupXxk=;
+        b=RSCoQsogTmlioJmbcZgcdBGC9ntf/NCerbr1p84KglrMg9uPOmG42qCIghf8f3Lvcd
+         xKxrF/d9Dmaa1ooqBiRtSIHNuLaUCFGRWvuiGfmJV5Oo9fFa5Jtm/2ps2Q82zNEd9V69
+         otfMFo9TwEWnpEw0/RJei9DbR+pVdcioYthZgoSXbs/g1hc6GZNB8K8tHmD5V2Ayh14a
+         CTHvJlnQHgTRikApMkfa2g6htZxvVgSLNAJkuTZLW/Mv2GuJVwUJXu4q7TQbFgS9dysk
+         vWJ0521EjJaLE0bZiI2IneAWFKR5+8oo9JO2+nToUH/L5H/Ex+vBcV+JazT2rQAMljAE
+         TZ9Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9GlVfB/3kzUCzqIg4KayRkJbYfhQxEptldHl/Z08PDMa/R3QAlj7okyDnMsPBACFZaMV8teB8irwgV7A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaYgax5YpqcLwxt5X9vkBTQxBRm3ZoSrYcdvNAkaZVCLmRoVFz
+	1sVUJKT8JzQO/evyzK2mSJpnQ6K7ns/1ZoRKxW1IZWS6/uX0mviFIwO1
+X-Gm-Gg: Acq92OEPTAcLTh+6nc0sWphyXAFUcExjaDS3e1rrcGAItfCv5zPnMjAfBn6+W4iddaS
+	aAwLbzjlXC1n5l2Hxvd28dsxApF/aMcQBHJOa8Phpm4Q5rTHacozz9Dy1Z4uQeM+USG4K9dlxOj
+	X5UXXlGbX2R/EkHC23J7wHmxcoVjt5WF2nkZ5Jx912qbro0gQ2xZt6uI+YAK0AlbsJ4wgcg9CrE
+	C61hq4obAabm3IyRvzc+NhuBpi/BBzXSxpCN0ExXY/jK0Fx6lm+RLXJYBLzNKyIp1RR1gj8gbW1
+	2dt3Ngj/JygHL1ytGsOxAdtZ7J5bOaoIWMHRs2Ih0/9cAPxNRh/5v1rL1fhtoBIF1pf5hCM0Mkn
+	idGJAJTgjje+TXPOWip6qQkiFJAiva2rgO8tJyzuQUQRuPtwarG4yzbVDm3s7z2DKJ/95lBa5rF
+	peIRr7AFlUTb51EQ==
+X-Received: by 2002:a05:6402:1ed4:b0:692:4759:ac57 with SMTP id 4fb4d7f45d1cf-6930e26599dmr2106107a12.2.1781201144414;
+        Thu, 11 Jun 2026 11:05:44 -0700 (PDT)
+Received: from jekhomev ([46.251.53.180])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68e64c2ef2dsm10948615a12.1.2026.06.11.11.05.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 11:05:43 -0700 (PDT)
+Date: Thu, 11 Jun 2026 21:05:41 +0300
+From: Yauhen Kharuzhy <jekhor@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Hans de Goede <hansg@kernel.org>
+Subject: Re: [PATCH v3 1/3] ASoC: Intel: soc-acpi-cht: Unify device quirks
+Message-ID: <air4BYZvl5Gl_bsP@jekhomev>
+References: <20260611-asoc-yogabook-v2-v3-0-3128447b67b6@gmail.com>
+ <20260611-asoc-yogabook-v2-v3-1-3128447b67b6@gmail.com>
+ <airB2kIl_R_CH4vO@sirena.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9eb77830f003a1kunmccb51b6d16b65d
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCSE0YVhpJSkpNQ0xDTkpCTVYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
-	xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=BpRjE/DBu48nvcOQ6bkGn7W+jne3svKx0CeX2CxLeeMB40JSDFNT38Fa0MTlAZlrWMi9mBId907AzeAjl8ANqtczDnR0fdSaqEa47McTuNI7iJn7EpY2V0P9ooHx7QYJ8b3HuqTQfFr091XYmaypcxCoMTmpx0PeQ1wmkp1lqWI=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=i0Zv/u7L567sfUl0cz5HV/ubd0jANpYYqAp7pHutO1U=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <airB2kIl_R_CH4vO@sirena.co.uk>
 
-cs35l34_runtime_suspend() currently switches the codec into
-regcache_cache_only(true), asserts reset low, and powers the device off
-without first quiescing the threaded IRQ registered by
-devm_request_threaded_irq(). That leaves a window where
-cs35l34_irq_thread() can still run after suspend has removed live
-hardware access.
+On Thu, Jun 11, 2026 at 03:10:34PM +0100, Mark Brown wrote:
+> On Thu, Jun 11, 2026 at 02:51:55AM +0300, Yauhen Kharuzhy wrote:
+> 
+> > This file contains two types of quirks, both checking DMI for
+> > machine-specific strings and returning machine data for a matching entry.
+> 
+> You've not copied me on the rest of the series so I don't know what's
+> going on with dependencies.  When sending a patch series it is important
+> to ensure that all the various maintainers understand what the
+> relationship between the patches as the expecation is that there will be
+> interdependencies.  Either copy everyone on the whole series or at least
+> copy them on the cover letter and explain what's going on.  If there are
+> no strong interdependencies then it's generally simplest to just send
+> the patches separately to avoid any possible confusion.
 
-A running system can reach this during runtime PM while the driver still
-has critical fault IRQs unmasked. If the threaded handler runs in that
-window, it reads volatile INT_STATUS_1..4 after cache_only has been
-enabled, ignores the regmap_read() failures, and can still execute the
-PROT_RELEASE_CTL release sequence or the BST fault power-down writes.
+Hi,
 
-Use disable_irq() before entering cache_only/reset-low/power-off so any
-in-flight threaded handler is drained and no new IRQ thread can run
-while the device is suspended. Re-enable the IRQ only after
-runtime_resume() has restored live register access with regcache_sync().
-Since probe only logs request_threaded_irq() failures and keeps going,
-track whether the IRQ was actually installed before disabling or
-re-enabling it.
+Sorry, but your email is present in To: header of every patch in the
+series, could you explain what do you mean?
 
-Fixes: c1124c09e103 ("ASoC: cs35l34: Initial commit of the cs35l34 CODEC driver.")
-Cc: stable@vger.kernel.org
-Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
----
- sound/soc/codecs/cs35l34.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/codecs/cs35l34.c b/sound/soc/codecs/cs35l34.c
-index a5a8075598ff..35bc38132f23 100644
---- a/sound/soc/codecs/cs35l34.c
-+++ b/sound/soc/codecs/cs35l34.c
-@@ -45,6 +45,7 @@ struct  cs35l34_private {
- 	int num_core_supplies;
- 	int mclk_int;
- 	bool tdm_mode;
-+	bool irq_requested;
- 	struct gpio_desc *reset_gpio;	/* Active-low reset GPIO */
- };
- 
-@@ -1032,10 +1033,12 @@ static int cs35l34_i2c_probe(struct i2c_client *i2c_client)
- 	}
- 
- 	ret = devm_request_threaded_irq(&i2c_client->dev, i2c_client->irq, NULL,
--			cs35l34_irq_thread, IRQF_ONESHOT | IRQF_TRIGGER_LOW,
--			"cs35l34", cs35l34);
-+				cs35l34_irq_thread, IRQF_ONESHOT | IRQF_TRIGGER_LOW,
-+				"cs35l34", cs35l34);
- 	if (ret != 0)
- 		dev_err(&i2c_client->dev, "Failed to request IRQ: %d\n", ret);
-+	else
-+		cs35l34->irq_requested = true;
- 
- 	cs35l34->reset_gpio = devm_gpiod_get_optional(&i2c_client->dev,
- 				"reset", GPIOD_OUT_LOW);
-@@ -1140,6 +1143,9 @@ static int cs35l34_runtime_resume(struct device *dev)
- 		dev_err(dev, "Failed to restore register cache\n");
- 		goto err;
- 	}
-+
-+	if (cs35l34->irq_requested)
-+		enable_irq(to_i2c_client(dev)->irq);
- 	return 0;
- err:
- 	regcache_cache_only(cs35l34->regmap, true);
-@@ -1153,6 +1159,10 @@ static int cs35l34_runtime_suspend(struct device *dev)
- {
- 	struct cs35l34_private *cs35l34 = dev_get_drvdata(dev);
- 
-+	/* Drain and block the threaded IRQ before cache_only/power-off. */
-+	if (cs35l34->irq_requested)
-+		disable_irq(to_i2c_client(dev)->irq);
-+
- 	regcache_cache_only(cs35l34->regmap, true);
- 	regcache_mark_dirty(cs35l34->regmap);
- 
 -- 
-2.34.1
+Yauhen Kharuzhy
