@@ -1,106 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09ADF384238;
-	Thu, 11 Jun 2026 09:24:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476B43BA235;
+	Thu, 11 Jun 2026 09:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781169872; cv=none; b=QCjcz44Of0HioCqonAenU0kehd2A5weg/7lf88RvnuPWdSGBc4iD0/jQ+bn4m9NCWVML05/2fkoe5BGv8t99zK2WMReJCwMx6yXTmjzd4bW2ilfV9Z1yFpCJgKciy4pdNNwlza/SBqfcqox/tOARH5MiWJtxE//TSDOVxpiHOo4=
+	t=1781170425; cv=none; b=sexisG3Y4gmK9cuiHfjuIi9Dhh3JMWvvpUBm7SwKEP/fomd+j7KwJywAHRUMGebZ5szw3ZTFnALfbwd2CXh+SljPjBuHZJD56JIqx5QibHy3lkY/1WJPe7qy/1Z00wlehe8WMfLxFyOu1OiUvl4yUQNz8lNwy8yzIrgu5po6UyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781169872; c=relaxed/simple;
-	bh=YXaThjFaTvqK3pMs/4PM5iwnXmqdetewmJRINYfZP2I=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=oEloASqefVvt8uF9/vzAkmME/8PO/U/4iUEJKkyV5YF4MKulOGAqokGxV9fkG2Psz06yZBVw6NhqCT4HLlskTzvhyT6rHHF5tNu+dEMcgmhsDYZazzaIUHAudZ3goVZMY5vP7UNqLRxpU4zXe2BDb4iye9k46QMyE3JghGzZU50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WCEhws0d; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781170425; c=relaxed/simple;
+	bh=qOCCFlc+PSyf1avdq3ICE35rnneoH7tC3PkRXdj2zcI=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=fd+VxuIXyzo7uPD8+ObeogSHhOw8Psk1hzZUBVvTEI8ScmxwWrPT1YU2OvISeFqy3DDbFP9rwYodvzRNRYC4+ETMDA9zDdp7f8JQNPfIsUP5bmX4KEjWFnOIV78HBZqk8994sgWIdq6b6NlTq6iph1JmgupF50GxDZDZvPFen6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ldQ+n31G; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WCEhws0d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B1721F00893;
-	Thu, 11 Jun 2026 09:24:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781169869;
-	bh=qLEOLtq/mH/Z+jkcaJMzXzXM0IE0yJQT/QC+VMPWm+I=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=WCEhws0dXYtZ6Xv40T7ZGv7krC53jp3fTXcKk6SvvgZxwAUjVKQUqotO7VSthfJzX
-	 X/0GwpZ/Yk3G4DIJLEhm6m+lqLOzqmS+VTcYeKWdinW8j/SBTbuFoZFxP63tzFf6FV
-	 cT6uAPvVptXM9wU8u8F4DFDZfxqzhn9wFYAEKA8Yn+aGBGWF/4vJa6HngN0aM0/C/N
-	 cq9zENi4YBaQDlzfJ3F4uP6S9+zd9FtV84OM4qpBC8z5e7oOp6TYWx36Wg3iIBWjg8
-	 o0bxfps8ncGOmOq3A0RLSg9HuaDHpoYcbnCQnq8jhwgKw3T43zmiudpk0wqHHSl+S8
-	 ywgTKqjo6EGGQ==
-From: Mark Brown <broonie@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Jaroslav Kysela <perex@perex.cz>, 
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
- Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>, 
- Rich Felker <dalias@libc.org>, Takashi Iwai <tiwai@suse.com>, 
- Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org, 
- linux-sound@vger.kernel.org, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87wlw743x2.wl-kuninori.morimoto.gx@renesas.com>
-References: <87wlw743x2.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH 0/2] ASoC/sh: roll back Ecovec24/7724se Sound support
-Message-Id: <178108922909.232889.4715118215836071321.b4-ty@b4>
-Date: Wed, 10 Jun 2026 12:00:29 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ldQ+n31G"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781170424; x=1812706424;
+  h=message-id:date:mime-version:subject:from:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=qOCCFlc+PSyf1avdq3ICE35rnneoH7tC3PkRXdj2zcI=;
+  b=ldQ+n31GgVZFPgtvc6UGdf/SYRiduxToyf8bjMSjdbArwgq8z83lo+r1
+   1gDL4CizTb8bpAFVTvCMdHjTAKQY272wwGVorgpAzXjwY+vra84ZtN3AB
+   Czg+i9Yw0RaKaiqVk+wfDgKiiLCm1BD9MNaX0+SvJb9MReApHODLm1uxy
+   Eqig+9uQbAVOHGCdPEiQW7w4zOek0wh+3AYhMKxKK7OESSajKM3uXDw9a
+   +O8bwMuldfv7Y1CYJmLWmTlVEhdD5cCgP4dbTyiWZKbXHfC6znyJPvpWM
+   +IyAYETqmPbBtfg+rlBJS7kfNHwgqTyYtsTwVnrnwHpm6Mwu9K9yK9YLV
+   g==;
+X-CSE-ConnectionGUID: G2olyCWYSmiMlkNqDVa5DA==
+X-CSE-MsgGUID: 2GU4A7v4S7mFTYFXvFhWEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="92543609"
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="92543609"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 02:33:44 -0700
+X-CSE-ConnectionGUID: IFfu+EXtSfq6SIViYZWVpA==
+X-CSE-MsgGUID: YEEHzjp7TKmCkXnMGfQFpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="243988556"
+Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.246.63]) ([10.245.246.63])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 02:33:41 -0700
+Message-ID: <ec0d51a0-a31d-4c06-92f6-e38c408884b9@linux.intel.com>
+Date: Thu, 11 Jun 2026 12:33:50 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1509; i=broonie@kernel.org;
- h=from:subject:message-id; bh=YXaThjFaTvqK3pMs/4PM5iwnXmqdetewmJRINYfZP2I=;
- b=owGbwMvMwMWocq27KDak/QLjabUkhiytupPxnszGi9ILmrP1r+68LnX8wwXPtfV9S7Nn95xZc
- uC+2HaTTkZjFgZGLgZZMUWWtc8yVqWHS2yd/2j+K5hBrEwgUxi4OAVgIsZf2f9XsCf/0bSre2ze
- 4LXI2ng625bgIvca5kvJd2YZi/ctZ7MJ8E/13fHTU8mu6m9+laBe8J45lvZd7DlPn7I/5f6UEBJ
- 3tFJOak917Zo5jH0FKRIvf3hIKiwwr8hq1nIo0elm6E+seC+0hr+wyyHbXrvN3tzkrO+iB/NNKp
- exh/S8aC/4Gnh+YazOyclLNHWaXSX7p/3liF7cW7l9HZ9hJdO2M43rLuUqeB3cfkDt5uL2y3n7N
- 0r2BNjqTfYsygsO1di24oKk9dkVxw8u2/j0qOeeh1x9olsbmJ3aI38JhBz8IJvrzq8pmXDAdbNR
- wdeIgrUK/6qMbz384P/v/cVkk5yimTMm2TXuDfi5lysKAA==
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda/hdmi: disable KAE for Intel Panther Lake
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+To: Alexander Kaplan <alexander.kaplan@sms-medipool.de>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Cc: Jaroslav Kysela <perex@perex.cz>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ stable@vger.kernel.org, "Shankar, Uma" <uma.shankar@intel.com>
+References: <20260610174834.6301-1-alexander.kaplan@sms-medipool.de>
+ <5e05e954-338c-4a87-8a60-1fd2bd6bb8ce@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <5e05e954-338c-4a87-8a60-1fd2bd6bb8ce@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 10 Jun 2026 00:47:37 +0000, Kuninori Morimoto wrote:
-> ASoC/sh: roll back Ecovec24/7724se Sound support
+
+
+On 11/06/2026 12:08, Péter Ujfalusi wrote:
+> My setup is: laptop HDMI -> SYNIC HDMI audio extractor -> HDMI KVM ->
+> monitor w/o speakers.
+> I use the extractor to grab the audio and it is clean every time I play
+> audio to HDMI.
+
+Just to rule out iffy equipment on my side, I have connected the PTL
+laptop to my Denon AVR both in SOF and legacy HDA mode. I cannot hear
+any issue regarding to audio on my 5.1 speaker set.
+
+> Can this be somehow related to the DP-to-HDMI converter? Have you tested
+> that with other machine?
+> Or a combination of xe2+DP-to-HDMI?
 > 
-> Hi Mark, Adrian
+> Ccing Uma for display side
+>> This may also fix the silent Dolby TrueHD passthrough on Battlemage
+>> reported in
+>> https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/7515.
+>> Battlemage uses the same keep-alive code path and TrueHD passthrough
+>> is the same first-multichannel-stream pattern, but I could not test
+>> that hardware.
+>>
+>> Workaround for affected systems without this patch:
+>> snd_hda_codec_intelhdmi.enable_silent_stream=0.
+>>
+>>  sound/hda/codecs/hdmi/intelhdmi.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/sound/hda/codecs/hdmi/intelhdmi.c b/sound/hda/codecs/hdmi/intelhdmi.c
+>> index 6a7882544a..52997caae9 100644
+>> --- a/sound/hda/codecs/hdmi/intelhdmi.c
+>> +++ b/sound/hda/codecs/hdmi/intelhdmi.c
+>> @@ -791,7 +791,7 @@ static const struct hda_device_id snd_hda_id_intelhdmi[] = {
+>>  	HDA_CODEC_ID_MODEL(0x8086281e, "Battlemage HDMI",	MODEL_ADLP),
+>>  	HDA_CODEC_ID_MODEL(0x8086281f, "Raptor Lake P HDMI",	MODEL_ADLP),
+>>  	HDA_CODEC_ID_MODEL(0x80862820, "Lunar Lake HDMI",	MODEL_ADLP),
+>> -	HDA_CODEC_ID_MODEL(0x80862822, "Panther Lake HDMI",	MODEL_ADLP),
+>> +	HDA_CODEC_ID_MODEL(0x80862822, "Panther Lake HDMI",	MODEL_TGL),
+>>  	HDA_CODEC_ID_MODEL(0x80862823, "Wildcat Lake HDMI",	MODEL_ADLP),
+>>  	HDA_CODEC_ID_MODEL(0x80862824, "Nova Lake HDMI",	MODEL_ADLP),
+>>  	HDA_CODEC_ID_MODEL(0x80862882, "Valleyview2 HDMI",	MODEL_BYT),
 > 
-> Due to a communication miss, the Ecovec24/7724se Sound support
-> were removed. We need to keep them for a while, until they will
-> support "DT-style".
-> Roll back Ecovec24/7724se "platform data style", and its necessary header.
-> 
-> [...]
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
-
-Thanks!
-
-[1/2] sh: roll back Ecovec24/7724se Sound support
-      https://git.kernel.org/broonie/sound/c/fc83c6a271c1
-[2/2] ASoC: renesas: fsi: remove platform data style support
-      https://git.kernel.org/broonie/sound/c/38d3273075d6
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+Péter
 
