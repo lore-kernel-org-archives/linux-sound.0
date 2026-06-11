@@ -1,117 +1,181 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476B43BA235;
-	Thu, 11 Jun 2026 09:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9AEE3A3822;
+	Thu, 11 Jun 2026 09:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781170425; cv=none; b=sexisG3Y4gmK9cuiHfjuIi9Dhh3JMWvvpUBm7SwKEP/fomd+j7KwJywAHRUMGebZ5szw3ZTFnALfbwd2CXh+SljPjBuHZJD56JIqx5QibHy3lkY/1WJPe7qy/1Z00wlehe8WMfLxFyOu1OiUvl4yUQNz8lNwy8yzIrgu5po6UyY=
+	t=1781170462; cv=none; b=MuoMT4nqgX8ET6uf9+gc4aXgnORJDuk1j8877UHZ0iY6gAdYTrDQ9F3c+4FfUIsD0XjkyQ/i+Zo8Cy08x3026bq+h/XbFWh/IRCyoLsEHK68Bd+k6at9kRFEBtIIGzSebzAykZyLsp0S9u+DNk0CU0Lq+UQh7mZ7d0N0we74DnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781170425; c=relaxed/simple;
-	bh=qOCCFlc+PSyf1avdq3ICE35rnneoH7tC3PkRXdj2zcI=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=fd+VxuIXyzo7uPD8+ObeogSHhOw8Psk1hzZUBVvTEI8ScmxwWrPT1YU2OvISeFqy3DDbFP9rwYodvzRNRYC4+ETMDA9zDdp7f8JQNPfIsUP5bmX4KEjWFnOIV78HBZqk8994sgWIdq6b6NlTq6iph1JmgupF50GxDZDZvPFen6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ldQ+n31G; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1781170462; c=relaxed/simple;
+	bh=Vqwlo43bVLgUB8f7B4RoMUMMkIB/znkq0rsByvipKek=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hy2Dfg7a5LnqDkwcp8eS+fAGm4ZOoqwDRQb6qITp0OFOKw6iLuqViHmUdykYnK4hz8V6hEmfZVZ2V0CavyUhoPXQ64gjwxGO6hKvA7M8ukm/YD13oSgxU+0PUN2UfUdJPfff9tj7vQnLW1mIwvffqzkOpsOpNmrSnvAnEFdp9LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cT+XRqbN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ldQ+n31G"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781170424; x=1812706424;
-  h=message-id:date:mime-version:subject:from:to:cc:
-   references:in-reply-to:content-transfer-encoding;
-  bh=qOCCFlc+PSyf1avdq3ICE35rnneoH7tC3PkRXdj2zcI=;
-  b=ldQ+n31GgVZFPgtvc6UGdf/SYRiduxToyf8bjMSjdbArwgq8z83lo+r1
-   1gDL4CizTb8bpAFVTvCMdHjTAKQY272wwGVorgpAzXjwY+vra84ZtN3AB
-   Czg+i9Yw0RaKaiqVk+wfDgKiiLCm1BD9MNaX0+SvJb9MReApHODLm1uxy
-   Eqig+9uQbAVOHGCdPEiQW7w4zOek0wh+3AYhMKxKK7OESSajKM3uXDw9a
-   +O8bwMuldfv7Y1CYJmLWmTlVEhdD5cCgP4dbTyiWZKbXHfC6znyJPvpWM
-   +IyAYETqmPbBtfg+rlBJS7kfNHwgqTyYtsTwVnrnwHpm6Mwu9K9yK9YLV
-   g==;
-X-CSE-ConnectionGUID: G2olyCWYSmiMlkNqDVa5DA==
-X-CSE-MsgGUID: 2GU4A7v4S7mFTYFXvFhWEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="92543609"
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="92543609"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 02:33:44 -0700
-X-CSE-ConnectionGUID: IFfu+EXtSfq6SIViYZWVpA==
-X-CSE-MsgGUID: YEEHzjp7TKmCkXnMGfQFpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="243988556"
-Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.246.63]) ([10.245.246.63])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 02:33:41 -0700
-Message-ID: <ec0d51a0-a31d-4c06-92f6-e38c408884b9@linux.intel.com>
-Date: Thu, 11 Jun 2026 12:33:50 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cT+XRqbN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E21521F00893;
+	Thu, 11 Jun 2026 09:34:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781170460;
+	bh=4CE+B5X87C4B+lcYhCceZRzgV1so3jPdEvEN6nolt7A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cT+XRqbN+FRsGAYF7zyhydCwdA1+FVZrjIxCw9k5QqP55DrFhJweTKJwU8aW3lEEH
+	 WCEbXzTF0Wc59BMqRkX46PYhGvRvodJq40IA36JbRNKJVi9IMMi2U9xWosqKnxP40I
+	 GEdig7RJa6lQdUPGFgnkQzLeULgYzXeRUVaS+M4Z7NLNAbOpTdIjTXiG1r2Uy4LEcd
+	 1geXGJ/eVZoN1LTVIpIXAnCie28UWQrxf1lNaR2naP3a4HB2Ka8majO5xWOgDBYIJs
+	 +DjERFUC9KUHdBpoXKKt4fMYic5RKw93gABhuxbQvM42y2LfCxgfnFzZuAGE8iX662
+	 5H8/EITDcDxpQ==
+Date: Thu, 11 Jun 2026 11:34:18 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] dt-bindings: sound: add qcom,wsa885x-i2c
+Message-ID: <20260611-debonair-barnacle-of-action-ee9d22@quoll>
+References: <20260610155708.151067-1-prasad.kumpatla@oss.qualcomm.com>
+ <20260610155708.151067-2-prasad.kumpatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/hdmi: disable KAE for Intel Panther Lake
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-To: Alexander Kaplan <alexander.kaplan@sms-medipool.de>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- stable@vger.kernel.org, "Shankar, Uma" <uma.shankar@intel.com>
-References: <20260610174834.6301-1-alexander.kaplan@sms-medipool.de>
- <5e05e954-338c-4a87-8a60-1fd2bd6bb8ce@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <5e05e954-338c-4a87-8a60-1fd2bd6bb8ce@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260610155708.151067-2-prasad.kumpatla@oss.qualcomm.com>
 
-
-
-On 11/06/2026 12:08, Péter Ujfalusi wrote:
-> My setup is: laptop HDMI -> SYNIC HDMI audio extractor -> HDMI KVM ->
-> monitor w/o speakers.
-> I use the extractor to grab the audio and it is clean every time I play
-> audio to HDMI.
-
-Just to rule out iffy equipment on my side, I have connected the PTL
-laptop to my Denon AVR both in SOF and legacy HDA mode. I cannot hear
-any issue regarding to audio on my 5.1 speaker set.
-
-> Can this be somehow related to the DP-to-HDMI converter? Have you tested
-> that with other machine?
-> Or a combination of xe2+DP-to-HDMI?
+On Wed, Jun 10, 2026 at 09:27:07PM +0530, Prasad Kumpatla wrote:
+> Document the Qualcomm WSA885X I2C smart amplifier binding.
 > 
-> Ccing Uma for display side
->> This may also fix the silent Dolby TrueHD passthrough on Battlemage
->> reported in
->> https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/7515.
->> Battlemage uses the same keep-alive code path and TrueHD passthrough
->> is the same first-multichannel-stream pattern, but I could not test
->> that hardware.
->>
->> Workaround for affected systems without this patch:
->> snd_hda_codec_intelhdmi.enable_silent_stream=0.
->>
->>  sound/hda/codecs/hdmi/intelhdmi.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/sound/hda/codecs/hdmi/intelhdmi.c b/sound/hda/codecs/hdmi/intelhdmi.c
->> index 6a7882544a..52997caae9 100644
->> --- a/sound/hda/codecs/hdmi/intelhdmi.c
->> +++ b/sound/hda/codecs/hdmi/intelhdmi.c
->> @@ -791,7 +791,7 @@ static const struct hda_device_id snd_hda_id_intelhdmi[] = {
->>  	HDA_CODEC_ID_MODEL(0x8086281e, "Battlemage HDMI",	MODEL_ADLP),
->>  	HDA_CODEC_ID_MODEL(0x8086281f, "Raptor Lake P HDMI",	MODEL_ADLP),
->>  	HDA_CODEC_ID_MODEL(0x80862820, "Lunar Lake HDMI",	MODEL_ADLP),
->> -	HDA_CODEC_ID_MODEL(0x80862822, "Panther Lake HDMI",	MODEL_ADLP),
->> +	HDA_CODEC_ID_MODEL(0x80862822, "Panther Lake HDMI",	MODEL_TGL),
->>  	HDA_CODEC_ID_MODEL(0x80862823, "Wildcat Lake HDMI",	MODEL_ADLP),
->>  	HDA_CODEC_ID_MODEL(0x80862824, "Nova Lake HDMI",	MODEL_ADLP),
->>  	HDA_CODEC_ID_MODEL(0x80862882, "Valleyview2 HDMI",	MODEL_BYT),
+> Describe the required supplies, powerdown and interrupt GPIOs, the
+> optional battery configuration, and the optional init-table property
+> used to program the device during codec initialization.
 > 
+> This matches the driver programming model and documents the DT data
 
--- 
-Péter
+Binding matches hardware, not driver. Please describe the hardware.
+
+> needed to use the codec on platforms with Audio IF playback.
+> 
+> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+> ---
+>  .../bindings/sound/qcom,wsa885x-i2c.yaml      | 89 +++++++++++++++++++
+>  1 file changed, 89 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml b/Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml
+> new file mode 100644
+> index 000000000..1069f470d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml
+
+There is no I2C in device name.
+
+> @@ -0,0 +1,89 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/qcom,wsa885x-i2c.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm WSA885x I2C smart speaker amplifier
+> +
+> +maintainers:
+> +  - Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+> +  - Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+> +
+> +description: |
+
+Do not need '|' unless you need to preserve formatting.
+
+> +  WSA885x is a Qualcomm Aqstic smart speaker amplifier with an I2C control
+> +  interface and a digital audio interface exposed through ASoC DAI callbacks.
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,wsa885x-i2c
+
+Same here
+
+Also, incorrect usage of wildcard. Look at other bindings how this is
+written, so you will not repeat the same comments:
+https://lore.kernel.org/all/20250522-rb2_audio_v3-v3-3-9eeb08cab9dc@linaro.org/
+
+Read writing bindings before posting next version.
+
+I also cannot find traces of internal review of this. Did it happen? Did
+you receive toolset comments?
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  '#sound-dai-cells':
+> +    const: 0
+> +
+> +  powerdown-gpios:
+> +    description: GPIO controlling the SD_N powerdown pin.
+> +    maxItems: 1
+> +
+> +  interrupt-gpios:
+
+No, interrupts are never written as GPIOs.
+
+Where is this binding coming from?
+
+> +    description: GPIO used for the codec interrupt output.
+> +    maxItems: 1
+> +
+> +  vdd-1p8-supply: true
+> +
+> +  vdd-io-supply: true
+> +
+> +  qcom,battery-config:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: Speaker battery configuration, 1 for 1S and 2 for 2S.
+
+Use string
+
+> +    default: 1
+> +    enum: [1, 2]
+> +
+> +  qcom,wsa885x-init-table:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 2
+> +    maxItems: 256
+> +    description: |
+> +      Sequence of register/value pairs applied during codec hardware
+
+No, we don't store register values usually.
+
+> +      initialization. Entries are encoded as alternating register address and
+> +      register value cells. The number of entries must be even (register/value
+> +      pairs); maxItems is 256 (128 pairs).
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - '#sound-dai-cells'
+> +  - powerdown-gpios
+> +  - interrupt-gpios
+> +  - vdd-1p8-supply
+> +  - vdd-io-supply
+> +
+> +additionalProperties: false
+
+unevaluated instead. Again, OPEN other existing bindings. Why doing
+something completely different? Is there any WSA88xx binding with
+additionalProperties? No.
+
+Best regards,
+Krzysztof
 
