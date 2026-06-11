@@ -1,21 +1,22 @@
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8401BC2A;
-	Thu, 11 Jun 2026 00:51:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DC974C14;
+	Thu, 11 Jun 2026 01:01:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781139073; cv=none; b=IuRVZhoUX+QKEH3uN/8yFFeT+IMT+Glp4qm1WCqCVH+dpxYmIWHsVxKzDbz+dX9e56aqIKjnyfw9FFwLqLaTD23ZEdlMdw/zYL0q+J/8iZmy14N/Lp9pbKM5zJR38EJscV3CDTpF0yTJgGhrp9Sobzup9eAuYuQmUB6/eHeX1Fw=
+	t=1781139671; cv=none; b=CHAIwfdEjCmFiXFDRdymOVQ+xALosjR4UfDO0n9TxkZK0x52677o2xTKChNqquMG+1kU8G8g8Zd7rg+eHGRPXG9PhSALQQULkAg24sWZB0XPDhfDmWPoqLkVNRtOF3i/aJ65q9312xKTcAn0Dqwr1yQUGsb+S5JTBAXaodPx5Xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781139073; c=relaxed/simple;
+	s=arc-20240116; t=1781139671; c=relaxed/simple;
 	bh=5V4PEz8R5Wb5hcHTaE1jMeg2MenJDTWdhvyMmuZXgG4=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type; b=hkIhGWwrkPeDS+j/NlUezgs6YCtGPJ8PBKmpKpaml9TRvuYWO1sBD7PEGOgYAJQPwQG/AvMfXcIGpQAT4EKKOjtYjabztZQ3atL+CA4duJZ7MBquveaJnAWr/gOvhz2gfs/kca4NG+UiMXX/XxxkydNFqSTynYr/Nly4dtraiDY=
+	h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type; b=LsTAkvW/8zCrScPv6eMJXp5HS0VlEKfNWF6qpLAWQI37J37MmNea8XJ88n+0kggDr1xAZVLAYczAb8qncHTAx3kdOSV9mnYxGjeDqgAxO17Z1z0V42qZarAwR/Ix+cyRmrgK16TMNwVk3i2ptSI/v5/Y5f4+McYS8c8yxx/r+IQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 9f447088652f11f1aa26b74ffac11d73-20260611
+X-UUID: 04388ca8653111f1aa26b74ffac11d73-20260611
+X-CID-CACHE: Type:Local,Time:202606110851+08,HitQuantity:1
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:cbd1772d-5b9a-4d96-a0ff-3b57aeadbca9,IP:0,U
+X-CID-O-INFO: VERSION:1.3.12,REQID:eaab73e8-a8ac-4913-850a-dda1b0b72f81,IP:0,U
 	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
 	:release,TS:25
 X-CID-META: VersionHash:e7bac3a,CLOUDID:9533e4eafc4f0c6d1726fc5a3b485205,BulkI
@@ -26,12 +27,12 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 9f447088652f11f1aa26b74ffac11d73-20260611
+X-UUID: 04388ca8653111f1aa26b74ffac11d73-20260611
 X-User: lijun01@kylinos.cn
 Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
 	(envelope-from <lijun01@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1482295633; Thu, 11 Jun 2026 08:51:03 +0800
+	with ESMTP id 1061576750; Thu, 11 Jun 2026 09:01:02 +0800
 From: Li Jun <lijun01@kylinos.cn>
 To: lijun01@kylinos.cn,
 	lgirdwood@gmail.com,
@@ -40,9 +41,9 @@ To: lijun01@kylinos.cn,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: loongson: Fix invalid position error in ls_pcm_pointer
-Date: Thu, 11 Jun 2026 08:50:31 +0800
-Message-Id: <20260611005031.3505724-1-lijun01@kylinos.cn>
+Subject: [PATCH v5] ASoC: loongson: Fix invalid position error in ls_pcm_pointer
+Date: Thu, 11 Jun 2026 09:00:45 +0800
+Message-Id: <20260611010045.3668574-1-lijun01@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
