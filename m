@@ -1,144 +1,180 @@
-Received: from mail.sms-medipool.de (mail.sms-medipool.de [178.63.14.108])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A76AFBE1;
-	Thu, 11 Jun 2026 14:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.14.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781189063; cv=none; b=pSo2UTDGMIkK3xLPcnI5n4GvoRrhwd3Gelwbc3I67TLtoHy7EWg8EEc9GWEEbtENom3FpvSrPnxJONT9NufcfbX02EblvUIcZbelVf/YIq765B6+9MWoNaZ/EMgk1Ua76g7ZjRQ2GUQOZ4TmhLsWQ919CT3HAx+gJsQ6ckpMNds=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781189063; c=relaxed/simple;
-	bh=ale706WJrCqHRFPgGjzouIqQ7wD2DgR0VSWvuZ0duAU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HeTiZTaXaJ29MOj1iQE6nhpN/1PdtIv0ttRRqsqkjV8ZQeWIpW/ocjOjWwJgJmLBxsEWo3UUgfNGpTe3SQRndKaEClguwxYUENGb+xKZJ0oc5iuh557malZtJ5ILHZYq8yf06qzXwamWOfTi8ePixFyhMI1sfaZxwqv9BsKbDlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sms-medipool.de; spf=pass smtp.mailfrom=sms-medipool.de; dkim=pass (2048-bit key) header.d=sms-medipool.de header.i=@sms-medipool.de header.b=U9ta5I9Y; arc=none smtp.client-ip=178.63.14.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sms-medipool.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sms-medipool.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3593F0773;
+	Thu, 11 Jun 2026 15:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781190771; cv=fail; b=ewLutUi7gPxCYhihIL+ncB+EZq7NJnYQGGXputNhyWthelvuYG+AeUjLnkty4pi6Lxywmo8EeZgHAleFhm57Q3c2B+4OOjVTeWDZ742NADJptJMk++HpUnKY8OsXN3ecClO/sxz+xGV4KK/wZhCUcJqpMYA5OrUm14DlV+LvNpA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781190771; c=relaxed/simple;
+	bh=d4wkFhCVL42ZmZtox3x8Y3AOygpM41q3aTDUyFkorNE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PboiVPt+ATeaBN4RV87B/FosUOTr5ddnHfMCp53K6U5/56Rg6Fbc6q4+j8g4jhLlrS+5XaRzZ28C28iMvYPO2FAopaSYLjlzyAs/ZzBST5szQebSK88bFGUll376+sfqFuz4mmIPhsmthqRHFLwqP997zToE+8SJ+j2JL8TpfZs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=rE4P5tz7; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=gIU3T5av; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sms-medipool.de header.i=@sms-medipool.de header.b="U9ta5I9Y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sms-medipool.de;
-	s=mail; t=1781189059;
-	bh=ale706WJrCqHRFPgGjzouIqQ7wD2DgR0VSWvuZ0duAU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=U9ta5I9YwZ5n1BpVehDDJWHG4U+DZWJGQlZFJdzZAYOoFDtPlcvmmnI9nIsywgoVv
-	 E7Wgs/SFFETTUGaMqt1yEo946jazVuEobl5ozN2n/BDATn2QJfiLVJVWm8MVtOuPqq
-	 UqqIhUIsogHhOft7YkFYI2dnPPk9fBzgFFlxrVg74QH6d9WFS4WRuilbRXMpGvE9N/
-	 xhn3kZub3c3NHl0GtuRqp8tPp5rZ/F1IkgEtCr2dfxcbEvIkgsRgUCHecQfm/rky1X
-	 EwE+NLqWr4pAxaP/+Ik6v+7PlvMtJhsoY5czNG9JHMcUKb/A9LHuuS5a1K/GDzZesw
-	 FU0uQsCQEUOFg==
-Received: from mail.stoss-medica.de (mail.stoss-medica.de [213.147.17.40])
-	by mail.sms-medipool.de (Postfix) with ESMTPS id AF42215132;
-	Thu, 11 Jun 2026 16:44:19 +0200 (CEST)
-Received: from NUC16-Linux.sb.golima.de ([95.88.98.111])
-	by mail.stoss-medica.de (Kerio Connect 10.0.8 patch 2) with ESMTP;
-	Thu, 11 Jun 2026 16:44:19 +0200
-From: Alexander Kaplan <alexander.kaplan@sms-medipool.de>
-To: =?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	stable@vger.kernel.org,
-	Uma Shankar <uma.shankar@intel.com>,
-	alexander.kaplan@sms-medipool.de
-Subject: Re: [PATCH] ALSA: hda/hdmi: disable KAE for Intel Panther Lake
-Date: Thu, 11 Jun 2026 16:44:18 +0200
-Message-ID: <20260611144418.23640-1-alexander.kaplan@sms-medipool.de>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <ec0d51a0-a31d-4c06-92f6-e38c408884b9@linux.intel.com>
-References: <ec0d51a0-a31d-4c06-92f6-e38c408884b9@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="rE4P5tz7";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="gIU3T5av"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65BD4GCR3537185;
+	Thu, 11 Jun 2026 10:12:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=SNbMwjUFPUko047s
+	WhkNd5fLI2SlibGAlmPPfn58nXo=; b=rE4P5tz7iHOscO/YSTzIoZfoMZdqxmbh
+	JobqztyDETyHh1SHrKV2sKdXVkSjcF9JMMiiqRoCIL/B67OHeOuxJn1mo7RoeYZ6
+	DG5Dpw1LPqx3O6ycEEEf/OTA+/A7y0p5yKEfD3z9s8oEZeSHia2JmJ/h9lT+Ndzq
+	eflKL5xrDhVxDE0nN2A94vEkrO+fVLh8vbOyZRC7ZbqaNex6zDBy0jQUUbSUoRHe
+	yEFRZv3Cbck6qrIyRosuCAc3DYsHmX2RAuL1H8q8XwWaGzC/VzO1VCULmRE6O0j5
+	pqpe63sfFFWDrilK3hpyq9SiGhsnHhN9X9X+Vv+yx6HBcOz/khnolQ==
+Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11021134.outbound.protection.outlook.com [40.107.208.134])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4eqe6ds8ge-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 11 Jun 2026 10:12:42 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rSe3aRfDn8E0S/FmGYr69HbkjDEHMeDqlZ0iWNPWVH7H6Doe2hRJvBwK4OLi8RZLpATLL5kNj413dyOu3dkJp+Q55Eo4Pi3EqDaEMh4Yod7gwmVU2nRzBqOp43sd9tD8SwZneXpTMU8AVtnKK4kT6t6j/iDJdu4H1hSO8SjMl0PEIVrRy9gAvz2ZfjIoYxJ7WP2M/LfgTX5Q/bdNkVwlO7zy23O/vRthNKnbbFcaq1j6IsJroDHI6An6N1vPRd5EDHX12zsScGaI2a3po8KQhKP29CDXobxzzN/5kyQWu72tsAHSFMYYReex40tMTzrbu7M5zBtudaCV2mkMC03wkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SNbMwjUFPUko047sWhkNd5fLI2SlibGAlmPPfn58nXo=;
+ b=mSGo0lFFD8+qtWUWWvZuwUxsC4Of4GhE/4gz31zZYWoBF8H1qQiP+GKQ+RdUXDk3QKPud9jFGmWtDKC+J2zme4vMBl3qESD5YQMb9C6WN16SMHBRaOnVt25pXKP4PkCmjWl7ggneVqPER+n8CRXMab0tMsdk9ODMurX3KidGwQgh7lVcLHVIlRuYilrN+/+X8ZckzbVOh5MjOH3h28Npck7CcoV7/UUBYdhJH4etk/ibLCqhFI9NU8BtNtV1dE9j+DNKIQzyfHIFdNxS8NKN1qiWyWAhLFi6ja5CfWgmd0Yh3/EVtndPzTqi45hu/0uLFvdu+sXE2nRq1559VgjnXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SNbMwjUFPUko047sWhkNd5fLI2SlibGAlmPPfn58nXo=;
+ b=gIU3T5avG/I4n+iSSHIXOMhbfUOLzcqRfUiGhLcXxtZKHdAQKC3WJkQ/C0PRiP4/U+xknNTt9cNvUo3Qx6WxwGfPBACXHy2HT5rB80yme8m33bn+OZKGADwEp25iHe+Lc8AR1iGP/WFdJDlpMjT0noc09LG/bf1IXN+YgbCj+X4=
+Received: from BL1PR13CA0092.namprd13.prod.outlook.com (2603:10b6:208:2b9::7)
+ by CH3PR19MB7284.namprd19.prod.outlook.com (2603:10b6:610:150::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Thu, 11 Jun
+ 2026 15:12:36 +0000
+Received: from BN3PEPF0000B373.namprd21.prod.outlook.com
+ (2603:10b6:208:2b9:cafe::1f) by BL1PR13CA0092.outlook.office365.com
+ (2603:10b6:208:2b9::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.5 via Frontend Transport; Thu, 11
+ Jun 2026 15:12:36 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ BN3PEPF0000B373.mail.protection.outlook.com (10.167.243.170) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.1
+ via Frontend Transport; Thu, 11 Jun 2026 15:12:35 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 2F7EC40654B;
+	Thu, 11 Jun 2026 15:12:35 +0000 (UTC)
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.13])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 22834822549;
+	Thu, 11 Jun 2026 15:12:35 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com
+Subject: [PATCH] ASoC: cs35l56: Fix wrong error test on simple_write_to_buffer()
+Date: Thu, 11 Jun 2026 16:12:34 +0100
+Message-ID: <20260611151234.1111153-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B373:EE_|CH3PR19MB7284:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 23404ab1-352b-43be-a448-08dec7cbdeb7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|61400799027|82310400026|36860700016|23010399003|376014|18002099003|16102099003|13003099007|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	czkUKuJprmV7nwUTZD530ohaadxY+uP91fE2DaOYx671RzdorSEoSEYBR2kzQYKRB0bOQ6BWaVz1rzJVrdPRLK7jIXGI6Y7aovY4d2sGO73zSLv1SVRJAGOdep/9QMsOCSgK/GnQvasFsyk870t74EZwES3MpjYVXDrtBB9e1oOUqmMpq77jCZfN/AQTT97Zkw7zc9kp+W82MuCLfZ625BYo69iW01l3Zk15svOFepHOc8M0b7oUFNMFPveWpIkIi49IiV1gFJo1IB87WSgV+RBH2GL2FNzHF1kZx5eTjdH/OBr3KZ8kGxTjiWxBMh48QGvOxUSzZr/7zmx66S11/brJuWj+LB0TT7RAoaHyEIK71gixmR+cRwKwpn3sVxQioirpH5AyaAzx3T1b5gln3AmYEVjVtbt/zNKsceQqxUDq2eG/f++qHK4fK9gGnqrBgvzvwek7G/sTWVMdOXbJV+a+ikZxBor9Tqf7O+emCSEo/M1xmTfAT8qwfE5Uz2sv7Ox7CDWM7jNJdc1uNstu1+26oTrcmpYamHto9WgxM1/b01IAVI+UGlsfv66qgCm+Phez0FOCdq/GJPRdhRXvRKsy0StqFKjlsUfaWX2HDcDcSTAiq74r+gnPZYEZreJlzYGN1tcUt1aRe96WjkZoT19fpE85SupScyNgC3shzJm8Bgvw6tAoP8UewCM9Bhnl
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(82310400026)(36860700016)(23010399003)(376014)(18002099003)(16102099003)(13003099007)(11063799006)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	DSydgR2aLDL6byVM9yDKt8apYG6eQBLSaf6Z13/JbQc3/YmxtIXuwopF+HkSGYEJctwVPZcW6JsMcO5qVFy2C4DLe+plRr1Edw1PXVyWxo/u3UPZCD0ciSdVV2Wp9yZJLhMmk33At71oQEOj6/kvEIVYK0RFA8KApQmt5vcmlEmCt6K1yaBZKKV+PuMptlD5Lfe58SwHmYvtAWABiRkB0H/hUScGel2xsnxzfjVFoArwcfuakVgH0kRP/s5P0R+seKI6vR9kwEhmljGUQAWj2m4VPkoSLO0uI6Ql6W6ol1bCSfK3Ab2FCR8ohdMtlfq4JuwDm6yaxlWfni2Hwp6yf1gqyegEAD9Mb+Xki5aBSWlzlfC2aCcPoCNZ6wNI7efc2JF/7wvOvyIbAesCBGhN5uVXC0QbjuooF9ES22QOKmQXGUrwzJxTfBgjKVFEp+Hk
+X-Exchange-RoutingPolicyChecked:
+	qqKaW1UYpR6R/8LCdAXcVfeP1zhaIfgfNCyBvkt5MDUKRM7udkmFeF9sKd19diWyYZhK4ltB4XHFHrPdj+1fRxcQXDZTk87Zjvr7FD40V8gycr28g/RaxDZuGb5gCFhLiTsgKslmDY5KY3HRBu8Govp+3vdIihSLCU4ekb347J+wAwwNQi5TCyR18OChhezO9q2Ve2ahDjaGYqoLO0wfT90dGi2G6FVZAH19jfKCUu72L2zsg5cOX4Iatnzb9IAMAtSChdqY5x1R+YrMsLsqKf3CkLK1tbmqL2lUWUf68Pts8K4wGL6QI38tJocmsCbFhKfNrX6qSd3+RhUupe4RfA==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 15:12:35.9912
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23404ab1-352b-43be-a448-08dec7cbdeb7
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN3PEPF0000B373.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR19MB7284
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjExMDE1MyBTYWx0ZWRfX9G6hfS1ycAzC
+ BAMjLKVphzYt2z9nRFGjErHSa2dZ2uE7NHVQEc9GQcxRBOPYN/N9D0gFkRNOx5EPsgPiG63Xupm
+ B2TZY5U9P7XCqVRFsqTXIdLfT21uB/vr/ICafivObU2iPU966olXbUGatFEsmgEaE8A++cTPkNy
+ nJMpUcNPGZ2/jIzSWGX2zFeT7SXozdGQDJ6Yf71UfNT64TFeKmylxZtmQqP439xW2JcmtE3Kf0O
+ QeTFwfK83Jh0pmzZ0LwNozoV+CdQz9PyuCTXR+Jw3aBgKpTtPyfJslY2xCjDAHype7C1zhnse7m
+ YjzIVC4men1NiX2JCKIRmtz7WGgDSlo91Ho/VDhE5qrJrtTqzcFZ5fTQbYKWPh1fiiP03WAo/fZ
+ A1WR9ZCSN2ZMPCfddBP/XiyXCZ8lVn4z2oPt0b19o9gDkUzOmM7y8VFIHqphWksxEvtK6eX077g
+ QEajmy4wqi76gFTYVdw==
+X-Authority-Analysis: v=2.4 cv=Zdct8MVA c=1 sm=1 tr=0 ts=6a2ad06a cx=c_pps
+ a=FeeVHR8rqpo+Pf7fuAv9nw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=FelO9ux0wxsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=c92rfblmAAAA:8 a=w1d2syhTAAAA:8 a=VwQbUJbxAAAA:8 a=ZWxKnu4YsgHEB4sWVoQA:9
+ a=GvGzcOZaWPEFPQC_NcjD:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjExMDE1MyBTYWx0ZWRfX0xwx6mEvIi4N
+ bgkCZKVOBQJdJP85K6jii2gGoR6r5TkUoK7zsHE5OFSkvWFrmP9IBprxZKxGbgcvoOY7g55zJQh
+ wS6hIztET3GejNKugXerNk+QfFNSCy8=
+X-Proofpoint-ORIG-GUID: i9n-mUx1khulYhclGuOrDb1cmHfzqnKr
+X-Proofpoint-GUID: i9n-mUx1khulYhclGuOrDb1cmHfzqnKr
+X-Proofpoint-Spam-Reason: safe
 
-On 11/06/2026 12:33, Péter Ujfalusi wrote:
->> My setup is: laptop HDMI -> SYNIC HDMI audio extractor -> HDMI KVM ->
->> monitor w/o speakers.
->> I use the extractor to grab the audio and it is clean every time I play
->> audio to HDMI.
->
-> Just to rule out iffy equipment on my side, I have connected the PTL
-> laptop to my Denon AVR both in SOF and legacy HDA mode. I cannot hear
-> any issue regarding to audio on my 5.1 speaker set.
+In cs35l56_cal_data_debugfs_write() fix the if statement that checks for
+error return to only check for negative values.
 
-Hi Péter,
+Reported by Sashiko:
 
-thanks for testing this and for pulling in Uma.
+  simple_write_to_buffer() returns the positive number of bytes copied
+  on success. Since the condition returns immediately on any non-zero
+  value, is it possible that the written calibration data is discarded
+  and cs35l56_stash_calibration() is never called?
 
-Your two setups have one thing in common.
-Both use the native HDMI port of the laptop.
-That turned out to be the missing piece.
-I spent the day on a discrimination matrix here and your result now fits the picture exactly.
+Fixes: f7097161e94c ("ASoC: cs35l56: Add common code for factory calibration")
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Link: https://sashiko.dev/#/patchset/20260610093432.557375-1-rf%40opensource.cirrus.com
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+---
+Mark,
 
-This machine also has a native HDMI port next to the USB-C ports.
-On native HDMI the wedge does not reproduce at all.
-With KAE enabled the same stereo to 6 and 8 channel transitions play fine on the same TV.
+for-next
+This is low priority.
 
->> Can this be somehow related to the DP-to-HDMI converter? Have you tested
->> that with other machine?
->> Or a combination of xe2+DP-to-HDMI?
+ sound/soc/codecs/cs35l56-shared.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I only have this one PTL machine, so no cross machine data from me.
-But the converter question was the right direction, with one important refinement.
-The DP path is required to trigger the wedge, while the stuck state itself sits on the host side.
-
-The wedge reproduces on all three DP-alt to HDMI converters I have.
-A Club3D CAC-2505 with Synaptics VMM7100 firmware 7.1, a Cable Matters adapter on the VMM7100 7.2 firmware line and a Thunderbolt 4 dock with an integrated Synaptics converter.
-
-Once wedged, the state survives a converter replug, a move to the other USB-C port and a full TV power cycle (forced reboot of the TV over the network while everything stayed connected).
-Only a host suspend cycle or reboot clears it.
-While wedged on the converter path, moving the TV cable to the native HDMI port plays immediately.
-Moving it back to the converter wedges again.
-So nothing downstream of the host holds the state.
-It lives in the display side of the PTL audio path and only shows on DP.
-
-Some register level observations from the wedged state, maybe they help locating it internally.
-During the wedged silent playback the sample counters in the display audio register block at 0x65e04 and 0x650d0 keep advancing at the expected rate for the stream format.
-So the samples still arrive at the display side and the stream dies further down, behind the audio converter.
-There is also a register at 0x65f20 in that block which the driver does not define anywhere, directly behind AUD_CHICKENBIT_REG3 at 0x65f1c.
-With a 2 channel stream running its low bits read 0x482 in the healthy state and 0x4a1 in the wedged state.
-The same readback shows 0x4a1 as the normal value while a 6 channel stream plays, so it has to be sampled with a stereo stream.
-That readback follows the wedge through everything that does not power cycle the display.
-And 0x65e04 only counts at all while KAE is enabled, with this patch applied it stays at zero, so it seems to belong to the keep-alive machinery itself.
-
-There are also visible display side effects while KAE is in use, maybe interesting for Uma.
-Starting a 6 channel stream through the converter makes the TV drop from HDR to SDR.
-Starting an 8 channel stream blanks the picture for a moment and HDR survives.
-Stereo does neither.
-Both effects are gone with the patch applied.
-So the KAE to stream transition seems to disturb more of the SDP transmission on the DP path than just the audio samples.
-
-Two caveats I want to be transparent about.
-All my DP sinks are Synaptics protocol converters and I have no plain DP monitor here.
-So I cannot tell whether plain DP audio is affected or only the DP plus PCON combination.
-That should be quick to check on your side.
-And the native HDMI immunity is based on this one machine and one TV.
-
-For completeness, the sink does not explain the split.
-The TV advertises 2 channel LPCM only, on the converter path and on native HDMI alike, and native HDMI still plays every format.
-
-One unrelated observation from the native HDMI tests, in case someone trips over it while reproducing.
-This TV takes anywhere between a second and a few minutes to lock onto a new channel layout on native HDMI.
-The delay is the same with KAE enabled and with this patch applied, so KAE plays no role in it.
-During that time the host output is provably healthy, the PCM keeps running and the audio infoframe is correct for the new layout.
-Stopping the player for a few seconds and starting it again makes the TV lock immediately.
-That is a sink quirk.
-
-On the patch form.
-I am aware the model change gives up the KAE power benefit for the whole platform, like the DG2 change did, and PTL is mostly a mobile platform.
-If you prefer a narrower fix I can gate the silent stream type on the ELD connection type instead, so native HDMI pins keep KAE and only DP pins fall back to the older method.
-Given that the HDMI immunity rests on a single machine I did not want to make that call unilaterally.
-
-If you want to reproduce, a VMM7100 based USB-C to HDMI adapter plus one multichannel PCM stream should show it within a minute.
-
-Should the Battlemage boards drive their HDMI ports through an onboard protocol converter like the DG2 boards did, the TrueHD report in issue 7515 would fit this same pattern.
-
-Regards,
-Alexander
+diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
+index d9f237bf8168..f14e2eaaa4ee 100644
+--- a/sound/soc/codecs/cs35l56-shared.c
++++ b/sound/soc/codecs/cs35l56-shared.c
+@@ -1260,7 +1260,7 @@ ssize_t cs35l56_cal_data_debugfs_write(struct cs35l56_base *cs35l56_base,
+ 		return -EMSGSIZE;
+ 
+ 	ret = simple_write_to_buffer(&cal_data, sizeof(cal_data), ppos, from, count);
+-	if (ret)
++	if (ret < 0)
+ 		return ret;
+ 
+ 	ret = cs35l56_stash_calibration(cs35l56_base, &cal_data);
+-- 
+2.47.3
 
