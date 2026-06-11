@@ -1,152 +1,152 @@
-Received: from mailrelay-egress15.pub.mailoutpod3-cph3.one.com (mailrelay-egress15.pub.mailoutpod3-cph3.one.com [46.30.212.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FD73793C6
-	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 08:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.30.212.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB63377EDD
+	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 08:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781166092; cv=none; b=mPC/MGZnWX0TDNlLSzPzxIFmqFQikZketzsU5Th6XbUk8XtScv1DoGx+IbpZ4pLZ5pXbGjVPU/WQTAdqoCPf1OOJ3V0b3rz9YpHg//HciYK+UrM25KsYq8QT4/DD2rofGYwOHyUhoYyPC2thnOKkQSDo8eamGegx3720oQZ0h7M=
+	t=1781166539; cv=none; b=joLWbbAmQX5Sj0+SyMMRoBLAyisL0TbKjeWeASk1zJxE0XOgQJmr+kO2VqG8wTaOmu3QkHlVAfGciGQiZlMN1uvKQVmptrjSGXtDSG9lvhVMVre98y6xGTbNpin0/OATlYgFtMc31pZtcYzHbpSo3k5q6iBGHejdyRzUWA4XmIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781166092; c=relaxed/simple;
-	bh=1rN9j6vSOOTrHY3xSJ2XsOaUPPmFuq/xSyjyRRHGFpk=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=bizu8Z8LQomdtGUhaDWdrstTaWwVwm0iNnp25rdTVAHWydToIfTK0bzBF76VnTlE8bDb4EGLoZRZ2Uid/jimkITiIyY9vMdfpVA3snFQKKsQ5WywRoILFAjZc9mP4/V9+2kbPL8wSdhu4+lKAWXiZg8EtE1rP6iAm4Wn61OrujA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=androscientia.com; spf=none smtp.mailfrom=androscientia.com; dkim=pass (2048-bit key) header.d=androscientia.com header.i=@androscientia.com header.b=DKJ9YL01; dkim=permerror (0-bit key) header.d=androscientia.com header.i=@androscientia.com header.b=+uMtoyjO; arc=none smtp.client-ip=46.30.212.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=androscientia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=androscientia.com
+	s=arc-20240116; t=1781166539; c=relaxed/simple;
+	bh=BKPbMz4ymqlyl4qu11XKJ0++jaotO1IK3S+yeAc9SEc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=POx+x2YcTVJHv2Us3KQfhI7n//tM6fU6KWPRqyVI1oYt2uwhVS93smsonUYKhvLcyipZejbfTgWGHQT5RDTKRswX6jIb9NXTNhB7uGQRJ3qdH8CsWzXUxJg0y4KB36Ax/B6j8D0F0eO63KhCtsblNBLi+PkBw8nq1z2v/FrFe1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=U5/Y+yLL; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=androscientia.com header.i=@androscientia.com header.b="DKJ9YL01";
-	dkim=permerror (0-bit key) header.d=androscientia.com header.i=@androscientia.com header.b="+uMtoyjO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1781166019; x=1781770819;
-	d=androscientia.com; s=rsa1;
-	h=content-transfer-encoding:content-type:subject:from:cc:to:mime-version:date:
-	 message-id:from;
-	bh=uWkJIv5C83QzFS1Kj9xweXbIG7+kbcIvkVe6gExSON4=;
-	b=DKJ9YL01Lj0xlYLoW2cxa/F9Q/nBRdXdH5DiZ97ewOLwXJnkZg7bYpm6SdYXMW2H9llxR7mM1hnvZ
-	 l7AAXNYzzKj4/9saOfciWYuPN9RcA4slRudYNq0uapNU5BIZCkMyGOLXDmMoT6mRoR8pOS9nLSu3xp
-	 ENa7t9vG2dryDe10/h/+XJV0nRy8bpWK/OHtc0L/Rt7sLb2MIe9qY8IeMyzveRAwswmJYUuMbS8zmh
-	 Pvf5S9pxv6wGw+zXz303jGUM8XuyprvDpKEBVnTDJ3EnsA+BggGg2fzp2d0VMm9Cxfh/e66q2/vQ7O
-	 Ty1eoVoYNUd0D78abka+/K8LYH0XNKw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1781166019; x=1781770819;
-	d=androscientia.com; s=ed1;
-	h=content-transfer-encoding:content-type:subject:from:cc:to:mime-version:date:
-	 message-id:from;
-	bh=uWkJIv5C83QzFS1Kj9xweXbIG7+kbcIvkVe6gExSON4=;
-	b=+uMtoyjO3tG4uSLACAvuJ42VQytmDo2Mo1NjRgzz+O3tzFSx+jt0A95qxnDW5z0YJPoXUvxxEAQh1
-	 NEwUk02Ag==
-X-HalOne-ID: 617bcd40-656e-11f1-81fb-f7376af24660
-Received: from [IPV6:2001:2044:21:2a00:f419:cb74:b22e:fad4] (unknown [2001:2044:21:2a00:f419:cb74:b22e:fad4])
-	by mailrelay6.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
-	id 617bcd40-656e-11f1-81fb-f7376af24660;
-	Thu, 11 Jun 2026 08:20:19 +0000 (UTC)
-Message-ID: <f39f2aa8-33f3-4cb6-b2ed-56254ad63f3c@androscientia.com>
-Date: Thu, 11 Jun 2026 10:20:18 +0200
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="U5/Y+yLL"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490b3637b90so65710425e9.3
+        for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 01:28:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1781166535; x=1781771335; darn=vger.kernel.org;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q+GZxQR0zVGYyc7t6dGL8c2RABIohdt9U+GPG+DCKw4=;
+        b=U5/Y+yLL21yPCpPx1cR/Qdw1LhmWCEoAMHqHuo1i4vqMOqPUg8q1YDn0+nnwlQRluH
+         EElnGP4vdh6sPk9JrWakAzbos3MllJsNpNRy7mQcwKY4tNGYcTTc6A8rRiBenHrH7YIu
+         hNb0LUAiW0TzguVcEh3ZVnM6uuv3C5mYRdRstMUKIePJYF7GPb2pFceFO11nX24p585y
+         tALoRdGGGj6/PP4dRSnuSxpsnJ8W0dPXK+Bga+JJaiY93xyFNcSJHaqQTnm++AmCCaUU
+         4uABUogWlcNJ//TGg++FLCrmliqIxceoxs1ouToEYzo8XXDpU/w2Erc8q4MbZxnQBfqr
+         u2Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781166535; x=1781771335;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=q+GZxQR0zVGYyc7t6dGL8c2RABIohdt9U+GPG+DCKw4=;
+        b=ZWziTj94j8lpZdxD/LJij1nMeTS15TjPqKTQZgy9wZMDVq3AAZBLNz07N0OC/5AcXr
+         MR/e/CysOLi/vWBxiVzoFGmIJejGtINypxMh4BPGtcWt2rjmMvxwF/0OZ360Jd7en1nd
+         lTUvUkdt3NIxB9i8sEhwpVKoWcPDIvaWHenOSp9cNZoIea8Pobgwo457UrxMSRSk3oSp
+         SqBOgMMWVjOGSBu0UxoI9iJfeEJTcjNlN88jyd/Bj8j1KGjvin1w5hxF/eogm18PaWc+
+         yb0jTLfmbfQL/mhQWI7aqYEchDxLl8ayFACiDaomPMHOyZdSzAwY03Y4bLsUOMXkBvJe
+         HhrA==
+X-Forwarded-Encrypted: i=1; AFNElJ/A0H+3glp+mX4DHtV5FZApcO2ys9+1YiQ11SPeuL2ZAOulR+UQx4SYkOZeg/EnaUuaAiIv7BDAvi7LOQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwejLdP0/1q7VE6TqPB6R59xpNv/MEWfyh0P1lcAKp+yViBPJCE
+	3Ox+40rxAQzV5zedJSi6b1STcaNeI73kydLLCSUDqpgMjqksZUMZfyu/HJhsQYd8DGI=
+X-Gm-Gg: Acq92OFHCyUID6zD5HOG3MviD/ISDBhShnogC04o0pVr83LC+4oS2pH5AVg3O3iT/vy
+	qw1T+O9PuJJyWA6bYeIfJsjk57hMnlZAr2xMj93YLIaBxwjuYPrPIGtwAbkLUgNpBOUEUPTs3gn
+	P9EabiEfjCgOTjw7otDV6OB5Tv1R/hv+pY47EHE/8gFlr7RYI0eKWDPn9Z3oewOQsecYR65kZVP
+	P1MxpRXDqp7/zkqSQU85w/Ag6JyEQJ655w9Aj1UkZa3KVSzhbMbE6ZKSZjrIfifwlQL5pbbk8qe
+	kQjn74iRCJ3b+Xd27DDwQBajco0ympBQ7LMBjmnmyUrNFByLhtUZuPRGtfc0tDYIT+HYoTA1uVK
+	ITTbovIzl3AHECGM9vGRN9A/8beieGG2jYn9/6l40096IHWaWnGL1ruOqSyfDcyFycyqZFwx76p
+	H70FCokC0RLLT/CQiAavZ4k56QHu/kMKdl
+X-Received: by 2002:a05:600d:8450:10b0:48e:6db3:ff2e with SMTP id 5b1f17b1804b1-490e55dd891mr14395135e9.15.1781166535248;
+        Thu, 11 Jun 2026 01:28:55 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:1d1b:88ba:5161:3581])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4601f35133csm75931032f8f.25.2026.06.11.01.28.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 01:28:54 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Valerio Setti <vsetti@baylibre.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
+  Jaroslav Kysela <perex@perex.cz>,  Takashi Iwai <tiwai@suse.com>,  Neil
+ Armstrong <neil.armstrong@linaro.org>,  Kevin Hilman
+ <khilman@baylibre.com>,  Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>,  linux-kernel@vger.kernel.org,
+  linux-sound@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+  linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH v2 0/4] ASoC: meson: aiu: align I2S design to the AXG one
+In-Reply-To: <20260610-reshape-aiu-as-axg-v2-0-cac3663a8b51@baylibre.com>
+	(Valerio Setti's message of "Wed, 10 Jun 2026 23:29:24 +0200")
+References: <20260610-reshape-aiu-as-axg-v2-0-cac3663a8b51@baylibre.com>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Thu, 11 Jun 2026 10:28:53 +0200
+Message-ID: <1jcxxxeb0a.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Shenghao Ding <shenghao-ding@ti.com>, Mark Brown <broonie@kernel.org>
-Cc: Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-From: Andreas Axelsson <andreas.axelsson@androscientia.com>
-Subject: [PATCH] ASoC: tas2781: Do not report cross-instance writes as errors
- on SPI
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On SPI-based TAS2781 HDA systems (e.g. HP laptops with two amplifiers
-on separate SPI chip selects), each tasdevice_priv instance services a
-single device. The SPI bus glue intentionally returns -EXDEV for
-register access addressed to a channel the instance does not own, and
-logs it at debug level as "Not error" (see
-tasdevice_spi_change_chn_book()).
+On mer. 10 juin 2026 at 23:29, Valerio Setti <vsetti@baylibre.com> wrote:
 
-The shared firmware library does not handle this convention: firmware
-blocks explicitly addressed to another device (dev_idx != 0) and
-calibration data for other channels are still processed, and the
-resulting -EXDEV returns are reported via dev_err and counted as block
-errors, triggering pointless retries. This floods the log on every
-boot, resume and profile switch:
+> The goal of this series is to reshape Amlogic GX's AIU implementation for
+> I2S to let it follow the same design as in AXG's TDM. Keeping the same
+> design allows for unifying the two platform implementations in the future
+> and it also allows for an easy addition of I2S input.
+>
+> The first commit introduces gx-formatter as the basic block which takes
+> care of properly formatting audio data. Formatters are DAPM widgets
+> (c.f. axg-tdm-formatter in AXG) which are dynamically attached/detached
+> to the streams when the latters starts/stop, respectively.
+> aiu-formatter-i2s is introduced as formatter implementation for the i2s
+> output.
+>
+> By the end aiu-encoder-i2s will only need to handle interface clocks and
+> enforce interface wide rate symmetry (c.f axg-tdm-interface on the AXG
+> platform). Right now rate symmetry is not relevant because only i2s output
+> is supported, but it will become useful when following patch series will
+> introduce the i2s input part.
+>
+> This series was tested on an OdroidC2 board (Amlogic S905 SOC) both with
+> HDMI output and with NXP SGTL5000 codec connected to the I2S pins.
+> This series was also verified using "pcm-test" test tool and all tests
+> are passing.
+>
+> Changes in v2:
+> - Fixed most of the weaknesses found by Sashiko review tool [1].
+> - Resolved testing failures with "pcm-test" as reported by Mark Brown
+>   (thanks for the heads up!). I left a comment in
+>   "aiu_encoder_i2s_startup" to explain the fix.
+>
+> Link to v1: https://lore.kernel.org/r/20260515-reshape-aiu-as-axg-v1-0-53b457784ff3@baylibre.com
+>
+> [1]: https://sashiko.dev/#/patchset/20260515-reshape-aiu-as-axg-v1-0-53b457784ff3%40baylibre.com
+>
+> Signed-off-by: Valerio Setti <vsetti@baylibre.com>
 
-   tas2781-hda spi1-TXNW2781:00-tas2781-hda.0: tasdevice_process_block: 
-bulk_write error = -18
-   tas2781-hda spi1-TXNW2781:00-tas2781-hda.0: process_block: single 
-write error
-   tas2781-hda spi1-TXNW2781:00-tas2781-hda.0: chn 1 r0_reg bulk_wr err 
-= -18
+Nice work. Thanks for taking the time to understand the existing drivers
+and build upon them !
 
-Treat -EXDEV as "block not for this instance": skip it silently in
-tasdevice_process_block(), keeping the sub-block parsing intact so
-the data offset stays correct, and skip foreign channels entirely in
-tasdev_load_calibrated_data().
+Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
 
-Tested on an HP laptop (subsystem 103C:8DE8) with two TAS2781 amps on
-SPI: the error spam is gone, firmware and calibration still load, and
-audio is unaffected.
+Feel free to add yourself as maintainer of the Amlogic audio drivers, if
+you fancy doing so ;)
 
-The root cause analysis and fix were developed by Claude (Anthropic AI
-assistant); tested by me on the hardware above.
+> ---
+> Valerio Setti (4):
+>       ASoC: meson: gx: add gx-formatter and gx-interface
+>       ASoC: meson: aiu-encoder-i2s: prepare for multiple streams
+>       ASoC: meson: aiu: introduce I2S output formatter
+>       ASoC: meson: aiu: use aiu-formatter-i2s to format I2S output data
+>
+>  sound/soc/meson/Makefile            |   2 +
+>  sound/soc/meson/aiu-encoder-i2s.c   | 281 +++++++++++++++++++++++++----------
+>  sound/soc/meson/aiu-formatter-i2s.c | 104 +++++++++++++
+>  sound/soc/meson/aiu.c               |  32 +++-
+>  sound/soc/meson/aiu.h               |   4 +
+>  sound/soc/meson/gx-formatter.c      | 282 ++++++++++++++++++++++++++++++++++++
+>  sound/soc/meson/gx-formatter.h      |  56 +++++++
+>  sound/soc/meson/gx-interface.h      |  48 ++++++
+>  8 files changed, 731 insertions(+), 78 deletions(-)
+> ---
+> base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+> change-id: 20260515-reshape-aiu-as-axg-1dac9037cad3
+>
+> Best regards,
 
-Fixes: 9fa6a693ad8d ("ALSA: hda/tas2781: Remove tas2781_spi_fwlib.c and 
-leverage SND_SOC_TAS2781_FMWLIB")
-Signed-off-by: Andreas Axelsson <andreas.axelsson@androscientia.com>
----
---- a/sound/soc/codecs/tas2781-fmwlib.c
-+++ b/sound/soc/codecs/tas2781-fmwlib.c
-@@ -896,6 +896,14 @@
-          }
-      }
-
-+    /*
-+     * On SPI each instance services a single device, but explicitly
-+     * addressed blocks (idx != 0) may target any device. Writes for
-+     * a channel this instance does not own return -EXDEV from the
-+     * bus glue ("Not error", see tasdevice_spi_change_chn_book);
-+     * they are expected and must not be reported as failures. The
-+     * block is still parsed so the sub-block offset stays correct.
-+     */
-      for (; chn < chnend; chn++) {
-          if (tas_priv->tasdevice[chn].is_loading == false)
-              continue;
-@@ -921,7 +929,7 @@
-                          data[subblk_offset + 1],
-                          data[subblk_offset + 2]),
-                      data[subblk_offset + 3]);
--                if (rc < 0) {
-+                if (rc < 0 && rc != -EXDEV) {
-                      is_err = true;
-                      dev_err(tas_priv->dev,
-                      "process_block: single write error\n");
-@@ -953,7 +961,7 @@
-                  data[subblk_offset + 1],
-                  data[subblk_offset + 2]),
-                  &(data[subblk_offset + 4]), len);
--            if (rc < 0) {
-+            if (rc < 0 && rc != -EXDEV) {
-                  is_err = true;
-                  dev_err(tas_priv->dev,
-                      "%s: bulk_write error = %d\n",
-@@ -991,7 +999,7 @@
-                  data[subblk_offset + 4]),
-                  data[subblk_offset + 1],
-                  data[subblk_offset + 5]);
--            if (rc < 0) {
-+            if (rc < 0 && rc != -EXDEV) {
-                  is_err = true;
-                  dev_err(tas_priv->dev,
-                      "%s: update_bits error = %d\n",
-@@ -2552,6 +2560,10 @@
-      if (!data || !cali_data->total_sz)
-          return;
-
-+    /* On SPI each instance owns a single device; skip the others. */
-+    if (priv->isspi && i != priv->index)
-+        return;
-+
-      if (data[k] != i) {
-          dev_err(priv->dev, "%s: no cal-data for dev %d from usr-spc\n",
-              __func__, i);
-
+-- 
+Jerome
