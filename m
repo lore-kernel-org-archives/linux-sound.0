@@ -1,63 +1,63 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9A93E9C1F
-	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 11:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82AAE3ED3CA
+	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 11:59:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781179192; cv=none; b=uNwCGPcTc5KFJgjg1I70W0zdc6YvqRF6AX3HJq3AZ+mjP0T7bC4qp0j9Jp9cFFGGuHs1n1PCxqdufOa7dL6lD/2HBCTsjMSiKELQetN9UWMHYcWLI8L9Fi6I1Tm2OpKVwTqLTucY+T8GqPo2Rp9MdejLW52u+5bDxS7RJZs7WSQ=
+	t=1781179195; cv=none; b=H7yab/n8R5hAjWOhWbWsANaLiwoeyk+CzF/GkSvCU8gRlijm2gDOikgubE7UDf0iWM5odCcI1SYGR3OK2Gz/nLwa2f+i45OJbpB1jb/GNFz+xLLaaQEr73EYWpVrUjn4S+4ZGTkjXSDE4NzathmJ1ASWbQm69rMJYCO+LNLr+Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781179192; c=relaxed/simple;
-	bh=U+GEnLNMlriojKABWCJwBwGuvtvs2nwbpUuOxuhRKmc=;
+	s=arc-20240116; t=1781179195; c=relaxed/simple;
+	bh=f93t3KPA+wyLo9wjgzE1RphXD2VIPXSpohzjt6hMGS8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Bv6bE9m+PyyJMo2xEbypyaGKzl6SZgft7rdmS5GL/PxWR/AXm1X3fuxbep4SbgPMtm+NWVBXyzLqg04YVU5LMRS4zt7TqPGAZ2qG41MOSpMUOjwfLFzglsWOPblOAHGE0XrZ64jMZhgec3BJsYAmFG/ph9VtpAMz2pEgvBh0o2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=imA+DLAL; arc=none smtp.client-ip=209.85.216.53
+	 MIME-Version; b=Zhp2l5J1j4U0078c7RF3tjaHN26/RoAQrqte8QTCDhtD+mTCjYnc+0bydbzk47tTxLiyZa8pcFT7smSUYKKwCIkgmYXk0yUVhPhnthWMC5gDxCD8W0uFfiKdaQsDrux55xZXARkcMDSA4hYU2de86XyNfjCX4cIOkm561pUPFSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cydqoThf; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="imA+DLAL"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-36bb3551f6eso6873207a91.1
-        for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 04:59:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cydqoThf"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-36dac5d5da0so4039211a91.2
+        for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 04:59:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781179190; x=1781783990; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781179194; x=1781783994; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Shxsr/IFFAQqXJH4bg0NyDR4Sn4AVNCKrkaGqtwnP9c=;
-        b=imA+DLALmRKKaaWsb4wm4Qte+VLjhPYwoL6mj8RYnZbKBXG1rFIVgYGCT3XkWBTufe
-         PfenL5c85f7UZZeLN51Q6qLR/NHtjXE23D0BWJkOFjVSVicRVyy/zP7idCA6V5HgSHdw
-         SWfKwYpeMk2P03qKzqz88D70hmB2QA6Y2FcbnEDn39DpUrcOBkqOgUqqh++xmpjTZYH8
-         kjoWjYmbQ0P1OhOsGPhTtu/LnbWfeDK2cMXybK0l9Ba/b7NjpLjsQr4TcunKhNdAXUHp
-         Z3Mm8E3RRiqnBNUG93YaB5o8J80cUOLGz/PH7Uh6mlG+E0ldXPkfKm2PYMncYp6mr6f4
-         R9Gw==
+        bh=AcmaDQ8+KfB4e6m7++JXwBYQ7R8p81AkALQ3xv9FnR0=;
+        b=cydqoThfv0ixktaorKzCVQTz61IBhHNpRtLdauY5EJ+pmWwbJZpza53nwp770f2CEe
+         fXEIYUVh+dLhqH0ShGwBGu1KFBKkfZepCWv4UwYVuSGtg89FyKVmGkSeEDbCsr+f+dk+
+         gFVmS72Gjhp3fjQBovhc9RsFK0BpsqZwPHWVjPMoDwVHDlD2QuhgEVX1g/6sY8WjHq+m
+         sAfdL10FoFK9qRsEyGUU1uwZmG4Iysb/zXqdEha00v6rq7g3T7fMk/sz+E6mb7KiJVrY
+         fOZrPk5GrZABCUwCzx9+DKJjs8GU5qiUl2Bj8iXugZtHwkRtexMqX/fbyxK4lfExZKuo
+         cYhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781179190; x=1781783990;
+        d=1e100.net; s=20251104; t=1781179194; x=1781783994;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Shxsr/IFFAQqXJH4bg0NyDR4Sn4AVNCKrkaGqtwnP9c=;
-        b=Gb2WQORKtotOow4BoWg37tS9o9KK2gaY83pBlnRYy90WiLinzgNkgM+P0mK//R2Nhc
-         Za9BU7EzJIH3I7jVf8v8pNmBphL0FlejdE2qIgwT1aEVuKhd3HcU+gcxMGSPz6hpcyeN
-         dujkXCKQ2jo5Yorq+AYp9Chz32e0MWqHbPWzcTCBxW8YZTVc+owTVem+Jz6oLL1L0oii
-         QYYg1GMHn3ZYp3+YVmc6knUyLUx27cRxipLOy26Cmm2wJQ4p3kAZqgnDk9iNjz+jQMf2
-         IlERKiD9zpnMWjUOggMsu8/nemw9RApR9Uu/noubi8n7EmJLDpGnvy5F+ScoHhESddTO
-         rRmQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/CoFP+Z45Llg/ZDw/wRxLmLINkq+LS4YKTntnM+auj5hBsca2xapks1vy0jPtIdF/nkrF8DDdzc6mYiw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyn2yYdh9unQk7s9Ou0+w1ju/4/Kc+/qO9VDHrIoZAhbo7/uAxf
-	bac2ziL6mMvo5a3r523z7KRdw1Ar2vWwfBsAwBshRy4lK9qYuxLFuR9l
-X-Gm-Gg: Acq92OETkbNzXosgYjWWDxHpkFhJv1/8XZJ5xA0enMmDgJPCuEKyjwkaPCCDNVfR6NF
-	V86aHQ2czlTlpmV0ID5s8/0Q48x88ikEc4PtQKZXK++nDdRiFLRzIzCGxxPqMi+GuU4Rjckgrab
-	wF48y3RNgnTU4oSQmiRbuThDclWUrwJqIDd/KPo/ulvzWwiDx9+2iSnlCbnCzpCpbIDvwyPNA4A
-	lOswLa8Meu6rl6wpnmdzews4DslYpGggjhK4F5zPtTHDM3A2gBv4x5GHWGzVpI/miOCak2Oar0W
-	EYoSIUXQwnZ09IOpl5XnFopZvomndY8LVQ3v1r7GDncIC28C3AYUsIhwcfwvQq03/lPDSVHko0V
-	H4Sv0dQQjKIR6rs5gLfAIhczoBNf7aG1aoWb0zLd/ODtvgCaPGMVFIfFW7JoxeGLcjHRBx0t0pP
-	1igKFY9CBSgWKRrPtTqi36GXfDs/b1eFLXrVHIURYO703DzYc//sljmHO+PfoCZQAJu91l
-X-Received: by 2002:a17:90b:584e:b0:36b:8824:d7cc with SMTP id 98e67ed59e1d1-377aa0e499cmr2978319a91.20.1781179190073;
-        Thu, 11 Jun 2026 04:59:50 -0700 (PDT)
+        bh=AcmaDQ8+KfB4e6m7++JXwBYQ7R8p81AkALQ3xv9FnR0=;
+        b=m8w0Wflt7QHE1I1WPthMnFzgGkNSkawfeq1gC9UpRYqzgLfxv+S2p1QwnO5IdNqML1
+         p7cwTNEgwbedihvjwa4dxGeKA++4lqL5bch+hut3E+FIuAr6YhMrMPy0owj/KYsebQzt
+         gh8uk8qpra67tATMPbkkg5F9MGgkNp/yXTMtP5Qn7AlgNCd+13bMOqS6Gr0SOncpzalm
+         14IIHgIeF3vTjUWSbm+ZBAPCxHsRQIdiPNyt3oBHUxcv2wO5Pfn8jXwyJyFddd73vg8s
+         FmHCCG/Et8eXPYsj2XVZrSFAoOQyGuuLE2yqca/gaSkp/kqBPclkMZHlKS9iHKlw1NXZ
+         46ew==
+X-Forwarded-Encrypted: i=1; AFNElJ9BGcZPPa4J5Pk/aGADA6TdP/E42rtGCVao+v4j7aeSgRc4iOiAuf0fyuzPeyOqftCuCYOGLzoiMfm5tg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMXgj4GZ/lw3r9F6lOriaz/XeUZzXEkgjpRSLT6mowC4uMPbUn
+	TSn43VsSrmHXe3bIC3YJj8MXxbsJLSSIkGFxVWzZ9k57Ewyl81CujaDr
+X-Gm-Gg: Acq92OEs72oeGKn5MBY1RI2lnqVEcsPUIoZTkhdSnhdLm8xBK19KuUq2tt6M6eEE8BC
+	s8ise2yZ2i0N4KJQ63CKw8GNQJxTHTh6+zMzMSVjkt9LyOiaJorV1hdepu0862Mz6OKh6rJNLdJ
+	hlHf6tdmDV7SwDmNV61P1oBWM84ULYVLakVKq8dQmjoHrl0ij4u8yjygu/FnwsLSOf21LsS8pmx
+	5YQcBulKxBhMY3SMobM7b1IHKnG/txEQuYtKFZsE1oNUusjOpLovydantMbUgOxXRqUzwI7LeU7
+	kSgN44dBojsgfkrllyppBILuEz9tCZEhrQupHu7ErPwQ3wNjFV8tazbOwuZ++tVZk8hVVoI7tBd
+	S51XHthdCWmQAtJ3ASIt6y8OH0THdJJyz6BR22iTUpFFmMeuy2NI9qvFF9MRyF5kgiZhodHT3L4
+	vBjVjQsusyb+iAkahIN2JSLZgVAWm49fZ5UV9G2as29hWOhdX+piJQ2T9HC8D4KyAVm9ao
+X-Received: by 2002:a17:90b:2d92:b0:36d:649a:39f7 with SMTP id 98e67ed59e1d1-377a8dbbcc4mr3125965a91.22.1781179193958;
+        Thu, 11 Jun 2026 04:59:53 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37753d02ca4sm2499692a91.12.2026.06.11.04.59.46
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37753d02ca4sm2499692a91.12.2026.06.11.04.59.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 04:59:49 -0700 (PDT)
+        Thu, 11 Jun 2026 04:59:53 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
@@ -71,9 +71,9 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 08/20] ASoC: Intel: avs: ipc: Use guard() for mutex & spin locks
-Date: Thu, 11 Jun 2026 18:58:49 +0700
-Message-ID: <20260611115901.80438-9-phucduc.bui@gmail.com>
+Subject: [PATCH 09/20] ASoC: Intel: avs: icl: Use guard() for spin locks
+Date: Thu, 11 Jun 2026 18:58:50 +0700
+Message-ID: <20260611115901.80438-10-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260611115901.80438-1-phucduc.bui@gmail.com>
 References: <20260611115901.80438-1-phucduc.bui@gmail.com>
@@ -87,197 +87,37 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Clean up the code using guard() for mutex & spin locks.
-Additionally, simplify avs_ipc_wait_busy_completion()
-while converting the locking code.
-No functional change intended.
+Clean up the code using guard() for spin locks.
+Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/intel/avs/ipc.c | 105 ++++++++++++++++++--------------------
- 1 file changed, 49 insertions(+), 56 deletions(-)
+ sound/soc/intel/avs/icl.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/intel/avs/ipc.c b/sound/soc/intel/avs/ipc.c
-index c0feb9edd7f6..0dae36c83678 100644
---- a/sound/soc/intel/avs/ipc.c
-+++ b/sound/soc/intel/avs/ipc.c
-@@ -99,39 +99,39 @@ static void avs_dsp_recovery(struct avs_dev *adev)
- 	unsigned int core_mask;
- 	int ret;
+diff --git a/sound/soc/intel/avs/icl.c b/sound/soc/intel/avs/icl.c
+index d655e727bebd..4d425846b56e 100644
+--- a/sound/soc/intel/avs/icl.c
++++ b/sound/soc/intel/avs/icl.c
+@@ -166,15 +166,13 @@ int avs_icl_load_basefw(struct avs_dev *adev, struct firmware *fw)
  
--	mutex_lock(&adev->comp_list_mutex);
--	/* disconnect all running streams */
--	list_for_each_entry(acomp, &adev->comp_list, node) {
--		struct snd_soc_pcm_runtime *rtd;
--		struct snd_soc_card *card;
--
--		card = acomp->base.card;
--		if (!card)
--			continue;
--
--		for_each_card_rtds(card, rtd) {
--			struct snd_pcm *pcm;
--			int dir;
--
--			pcm = rtd->pcm;
--			if (!pcm || rtd->dai_link->no_pcm)
-+	scoped_guard(mutex, &adev->comp_list_mutex) {
-+		/* disconnect all running streams */
-+		list_for_each_entry(acomp, &adev->comp_list, node) {
-+			struct snd_soc_pcm_runtime *rtd;
-+			struct snd_soc_card *card;
-+
-+			card = acomp->base.card;
-+			if (!card)
- 				continue;
+ 	snd_hdac_chip_updateb(bus, VS_LTRP, AZX_REG_VS_LTRP_GB_MASK, ICL_VS_LTRP_GB_ICCMAX);
  
--			for_each_pcm_streams(dir) {
--				struct snd_pcm_substream *substream;
-+			for_each_card_rtds(card, rtd) {
-+				struct snd_pcm *pcm;
-+				int dir;
+-	spin_lock(&bus->reg_lock);
+-	snd_hdac_stream_start(hdac_stream(host_stream));
+-	spin_unlock(&bus->reg_lock);
++	scoped_guard(spinlock, &bus->reg_lock)
++		snd_hdac_stream_start(hdac_stream(host_stream));
  
--				substream = pcm->streams[dir].substream;
--				if (!substream || !substream->runtime)
-+				pcm = rtd->pcm;
-+				if (!pcm || rtd->dai_link->no_pcm)
- 					continue;
+ 	ret = avs_hda_load_basefw(adev, fw);
  
--				/* No need for _irq() as we are in nonatomic context. */
--				snd_pcm_stream_lock(substream);
--				snd_pcm_stop(substream, SNDRV_PCM_STATE_DISCONNECTED);
--				snd_pcm_stream_unlock(substream);
-+				for_each_pcm_streams(dir) {
-+					struct snd_pcm_substream *substream;
-+
-+					substream = pcm->streams[dir].substream;
-+					if (!substream || !substream->runtime)
-+						continue;
-+
-+					/* No need for _irq() as we are in nonatomic context. */
-+					snd_pcm_stream_lock(substream);
-+					snd_pcm_stop(substream, SNDRV_PCM_STATE_DISCONNECTED);
-+					snd_pcm_stream_unlock(substream);
-+				}
- 			}
- 		}
- 	}
--	mutex_unlock(&adev->comp_list_mutex);
+-	spin_lock(&bus->reg_lock);
+-	snd_hdac_stream_stop(hdac_stream(host_stream));
+-	spin_unlock(&bus->reg_lock);
++	scoped_guard(spinlock, &bus->reg_lock)
++		snd_hdac_stream_stop(hdac_stream(host_stream));
  
- 	/* forcibly shutdown all cores */
- 	core_mask = GENMASK(adev->hw_cfg.dsp_cores - 1, 0);
-@@ -294,10 +294,10 @@ void avs_dsp_process_response(struct avs_dev *adev, u64 header)
- 	 */
- 	if (avs_msg_is_reply(header)) {
- 		/* Response processing is invoked from IRQ thread. */
--		spin_lock_irq(&ipc->rx_lock);
--		avs_dsp_receive_rx(adev, header);
--		ipc->rx_completed = true;
--		spin_unlock_irq(&ipc->rx_lock);
-+		scoped_guard(spinlock_irq, &ipc->rx_lock) {
-+			avs_dsp_receive_rx(adev, header);
-+			ipc->rx_completed = true;
-+		}
- 	} else {
- 		avs_dsp_process_notification(adev, header);
- 	}
-@@ -338,21 +338,18 @@ static int avs_ipc_wait_busy_completion(struct avs_ipc *ipc, int timeout)
- 	}
- 
- 	/* Ongoing notification's bottom-half may cause early wakeup */
--	spin_lock(&ipc->rx_lock);
--	if (!ipc->rx_completed) {
--		if (repeats_left) {
-+	scoped_guard(spinlock, &ipc->rx_lock) {
-+		if (!ipc->rx_completed) {
-+			if (!repeats_left)
-+				return -ETIMEDOUT;
-+
- 			/* Reply delayed due to notification. */
- 			repeats_left--;
- 			reinit_completion(&ipc->busy_completion);
--			spin_unlock(&ipc->rx_lock);
- 			goto again;
- 		}
--
--		spin_unlock(&ipc->rx_lock);
--		return -ETIMEDOUT;
- 	}
- 
--	spin_unlock(&ipc->rx_lock);
- 	return 0;
- }
- 
-@@ -397,12 +394,12 @@ static int avs_dsp_do_send_msg(struct avs_dev *adev, struct avs_ipc_msg *request
- 	if (!ipc->ready)
- 		return -EPERM;
- 
--	mutex_lock(&ipc->msg_mutex);
-+	guard(mutex)(&ipc->msg_mutex);
- 
--	spin_lock(&ipc->rx_lock);
--	avs_ipc_msg_init(ipc, reply);
--	avs_dsp_send_tx(adev, request, true);
--	spin_unlock(&ipc->rx_lock);
-+	scoped_guard(spinlock, &ipc->rx_lock) {
-+		avs_ipc_msg_init(ipc, reply);
-+		avs_dsp_send_tx(adev, request, true);
-+	}
- 
- 	ret = avs_ipc_wait_busy_completion(ipc, timeout);
- 	if (ret) {
-@@ -412,7 +409,7 @@ static int avs_dsp_do_send_msg(struct avs_dev *adev, struct avs_ipc_msg *request
- 			/* Same treatment as on exception, just stack_dump=0. */
- 			avs_dsp_exception_caught(adev, &msg);
- 		}
--		goto exit;
-+		return ret;
- 	}
- 
- 	ret = ipc->rx.rsp.status;
-@@ -436,8 +433,6 @@ static int avs_dsp_do_send_msg(struct avs_dev *adev, struct avs_ipc_msg *request
- 			memcpy(reply->data, ipc->rx.data, reply->size);
- 	}
- 
--exit:
--	mutex_unlock(&ipc->msg_mutex);
- 	return ret;
- }
- 
-@@ -501,16 +496,16 @@ static int avs_dsp_do_send_rom_msg(struct avs_dev *adev, struct avs_ipc_msg *req
- 	struct avs_ipc *ipc = adev->ipc;
- 	int ret;
- 
--	mutex_lock(&ipc->msg_mutex);
-+	guard(mutex)(&ipc->msg_mutex);
- 
--	spin_lock(&ipc->rx_lock);
--	avs_ipc_msg_init(ipc, NULL);
--	/*
--	 * with hw still stalled, memory windows may not be
--	 * configured properly so avoid accessing SRAM
--	 */
--	avs_dsp_send_tx(adev, request, false);
--	spin_unlock(&ipc->rx_lock);
-+	scoped_guard(spinlock, &ipc->rx_lock) {
-+		avs_ipc_msg_init(ipc, NULL);
-+		/*
-+		 * with hw still stalled, memory windows may not be
-+		 * configured properly so avoid accessing SRAM
-+		 */
-+		avs_dsp_send_tx(adev, request, false);
-+	}
- 
- 	/* ROM messages must be sent before main core is unstalled */
- 	ret = avs_dsp_op(adev, stall, AVS_MAIN_CORE_MASK, false);
-@@ -522,8 +517,6 @@ static int avs_dsp_do_send_rom_msg(struct avs_dev *adev, struct avs_ipc_msg *req
- 		dev_err(adev->dev, "%s (0x%08x 0x%08x) failed: %d\n",
- 			name, request->glb.primary, request->glb.ext.val, ret);
- 
--	mutex_unlock(&ipc->msg_mutex);
--
- 	return ret;
- }
+ 	snd_hdac_dsp_cleanup(hdac_stream(host_stream), &dmab);
  
 -- 
 2.43.0
