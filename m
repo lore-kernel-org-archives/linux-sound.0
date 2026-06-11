@@ -1,41 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5034B3F54C6;
-	Thu, 11 Jun 2026 18:17:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17ADA344023;
+	Thu, 11 Jun 2026 18:18:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781201874; cv=none; b=KrpNKBQANqEUsxJZgm87nKH1iKmihEiL4u3sG5QwRytYxl2wvnluxneZgnNtX1JtPndARRNYMk7RM6jujiro/FHBZWTDaiK/8WxsJ1xkfVeMyrwUDMIJTGfuzU8Ne5XB9yVDpRcREZ8+vdNYfh6LbvvsDDR+3jRpafuo5XXPfdY=
+	t=1781201890; cv=none; b=s5XuuCt2fajT2x1jHuujOY3NY+lAtxagdyw7m6uuPUJ1j3qTDX09yYqjQ6sJgcGLboBBzXk2d0vR4oezbd3HmkpZYl9wxbdNOqYoP308RlxtV9y0npp1rmIK/2N9XyuSRYC8ko14alkgJfUu/BVdJXdNrYYrSZVcAm/Y2C1b7QQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781201874; c=relaxed/simple;
-	bh=rgwVf00TpQfQUhQS15Vic2zuxDqeOv9y5kr728SscBY=;
+	s=arc-20240116; t=1781201890; c=relaxed/simple;
+	bh=in4owDlCoeJ5PmWiRxoDfkggraoLjuAfbNkPu9JJgfc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=iffyOhH559PWfUgGZDXDy5bUwTWG/yw+LPOp7a39pwv41cRdHvx8hmjdFXO9ilhKrbJZHVr3Tm0oXz5LrE1qTIFyaUTGtccNEfnrUkUFNiLWmKiOWlop7gOApv5eboTMqmz9rEukkQ7RTL5laUxtHdKd9mOV3OK4eWVAqHCCK9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lLEBx66n; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=kHU40xAL9ssUifmppNlVXJEu1WzVGy3R8xXWTtfh9ljbhKJiqmaKdL4860bFIzjwJOdU2Zw4HTv5X1ao5JFaA1qR+YqmVioNbemOMEcu10+8HMin/HpY+se8FZ6/40TR+vd1uLuPPO0HZOlv3PNEgzcZK+sKurOk5W3DwfrzU7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ccSvFvjs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lLEBx66n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88C681F000E9;
-	Thu, 11 Jun 2026 18:17:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ccSvFvjs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 253811F000E9;
+	Thu, 11 Jun 2026 18:18:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781201872;
-	bh=JEBvD+jUcjhlpyuC2nHrf3cJVzS689d80WxPgMSg/aY=;
+	s=k20260515; t=1781201888;
+	bh=VxPP0a2J9KVuqsdgKSmN5PGiPnx6aQU7WMFCUoGrRCg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=lLEBx66nKamv4xrDHFgfZpPgpE8kM4SAbn59Sa2t90HXczVPjlz1kjyWoIHqTyjQC
-	 6WONmOcthKrANd2zAEcGhXQVGdc5JCwPWT/tf8aFByg6634gkpxVtcfnztBcmyTWHu
-	 zn6B2nTd8m7xuF/vvDB/1gknHlbqwUzBgZTCLsiJXfTY/oIrC1iBxu1SaMvEvdgkaF
-	 MMbi36inlOEd81irp/nt8NneUEya82b1U+62Qzh/7y1kfmQU48binBCbctvnf98fLa
-	 roYY0zBjkfH4sYfPEz0cnDlxPL15XapBERVJfv6Q5BoUxNRUGzJt4DbasRNFZm66X8
-	 f/nZe/K6QAHMg==
+	b=ccSvFvjskYJbTm0+NY5xKXSDJR3grdX7VMqM3LG+1G8QU/XupzSzVi8pp0IXwKcxP
+	 i0SV7JchiJRmjvErCUV7pLL9PqmcVGZjss2SZbhkbyvdXHbtceFJcZcS9/fAsbSwUX
+	 pIsHxhLRPTn0OuoDvZYs+Uac9Gq38R4mRiRby0UBCIVNmCs4DzMiba9GLtyS7izSAq
+	 w1wHOJaFuJjgmOiOvhtxePwTS+uPvCStVo2YUhRg4vFqlq6Wz+4rAyOdw6MLXuUc+g
+	 G1XVxaDrGQIg1QpbggAqb3+4YjFJmvw7s2so4MY6R0rLM75w0MpkdtXaiI/eN1lZvs
+	 Ea39o2BR7eLZg==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260611132221.1100497-1-rf@opensource.cirrus.com>
-References: <20260611132221.1100497-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: cs35l56: Fix possible uninitialized value in
- cs35l56_spi_system_reset()
-Message-Id: <178118682324.447103.13736898382897275700.b4-ty@b4>
-Date: Thu, 11 Jun 2026 15:07:03 +0100
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Kean Ren <rh_king@163.com>
+Cc: Maciej Strozek <mstrozek@opensource.cirrus.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260611023757.1553960-1-rh_king@163.com>
+References: <20260611023757.1553960-1-rh_king@163.com>
+Subject: Re: [PATCH] ASoC: SDCA: fix NULL pointer dereference in
+ sdca_dev_unregister_functions
+Message-Id: <178118972702.447103.16644082204172118645.b4-ty@b4>
+Date: Thu, 11 Jun 2026 15:55:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,29 +52,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1178; i=broonie@kernel.org;
- h=from:subject:message-id; bh=rgwVf00TpQfQUhQS15Vic2zuxDqeOv9y5kr728SscBY=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKvvK3T+D/pAQA6weIy/RqiK1ig4gnJvHIlNIK
- 4SJ/aiGW7GJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCair7ygAKCRAk1otyXVSH
- 0G7pB/4/m8YG41FDziVmbadkLjFFz4hsCwxPuPEWatnGLogtypQZjvKcRCnQ5DEbVKjxx6Zl+79
- ySQa3cGMvp4vgqVbXDALrUWr4tprl9qBrItM1pweMS+Ubu4enHB/09zIEc3QtvTW8ugobCIHtCF
- eXFk9nn6T+M/H7kS6gyK33vXFno/PdFOU+PxSHDWS/98Fxr5WJfCYLwFuHna4+TLk+MhQFnpbn1
- MH0i+5tyLtNY6X5HhX3SrCdrMlAWh6nR3XekBoCzUq8sCyoPPkTPgdLqfbDS+or8PsGx8TGjXUB
- KZ4RIyEEj7qrP9O1CB9WQU9dKPpsJLsJiTtc09X1zOGJlb+C
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1160; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=in4owDlCoeJ5PmWiRxoDfkggraoLjuAfbNkPu9JJgfc=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKvvXeKs0PxL6eiUdt5bLsly+fMGSta0hnIT8Z
+ lMqHz9dALOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCair71wAKCRAk1otyXVSH
+ 0GziB/9BIdPb+N+KN6JdK7KxB1VxnzUwyVpN2y10dmpfv50p34FLdmnU8kcO1twpl7ryaOiqbpI
+ zCJcVCyEJZFwbnsb6IuhJxM5IYDTNM9bGzfbpbrsDjQzsFtfDOf1Zl2y3/EouYFZzCvzeEGpHFd
+ efQWT69IHAagF4byRVq1uwizeEMrQnHAPpExv3Hfh0jStoqsKXytbvguz0yS59YbI/7EDyVythV
+ O2immacMBm3eGP97rZwtfKtkar3bprxAvDwArGY4Ybzf3N1pDKvQnhr3IZFzkE6WCSzf5VaKl2q
+ UIc1gUf4r7fBSFgcWNe10KjboK70L4HQ92fVV5NH3JZ1x9RL
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 11 Jun 2026 14:22:21 +0100, Richard Fitzgerald wrote:
-> ASoC: cs35l56: Fix possible uninitialized value in cs35l56_spi_system_reset()
+On Thu, 11 Jun 2026 10:37:57 +0800, Kean Ren wrote:
+> ASoC: SDCA: fix NULL pointer dereference in sdca_dev_unregister_functions
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
 
 Thanks!
 
-[1/1] ASoC: cs35l56: Fix possible uninitialized value in cs35l56_spi_system_reset()
-      https://git.kernel.org/broonie/sound/c/007699d278a6
+[1/1] ASoC: SDCA: fix NULL pointer dereference in sdca_dev_unregister_functions
+      https://git.kernel.org/broonie/sound/c/e4c60a1d4b6c
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
