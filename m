@@ -1,456 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D1C3C553B
-	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 09:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C08C264A97
+	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 10:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781171362; cv=none; b=aJFcMTb7lcBIQaiJz0p6VFQMgApQK2xNYQUd0ziFfpeJBVc+LJA9u84aw9YIfz08theUf6rgz8xXykqfbkJl/BpuDQG+IOP+AjdZfrsx2cktK7+YnNaK345HP4BEY6I3/N28C4OzYHNN63adEelHkxQN9QnhtllsSUrl5EJ7ZyI=
+	t=1781172978; cv=none; b=fcuNX4SfLyxitUaqgUOzEr6dQQCm3a0BHzOWugGObZ9a7jCW2Ycb2l5t1WnbsopS4AacynmeW7wgeXp1nEcu7cQXYaY4Gb77uQvLHB4RtTwYySBaeKL2V1nk8f8sZUrDVUFKOuNbRTcXWlnQzqb9qQOX6eNVtISFUyiqFRBOsmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781171362; c=relaxed/simple;
-	bh=S4BIUBRbEO29ocPxozqRrFP/C9o8xtnSUSH2KFmCpbg=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ppg2q3+dU06OUEp0TK13kNG22DaL0x5NSt0SFrF9niyAb1ckW96QiAvezASB4EsriFYBK1o7Nv/6+S8DoZEasWwjnwS893xkFFjuAlJIyV41QJhMb8pEmiGcQnSNup9E2Jaq4mcFOxYarr/ekUAoHWZIQ4R+Yp9Un0gul2JuWxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ohvexb5v; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781172978; c=relaxed/simple;
+	bh=rnRpWmG4J48ZICobw97cnDsqPP732sbLJJ65tkBqeIA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=QGYgjCZJv7LnhVtNylrJENZ1dlZg82Gj72/zqWeyCwV+oxnRjRkFJqIRMb8cpaDADfTaPXutJ1H4Z71We3CoxlM85+xcQeF2MyavJR5XoH0SFRN2rJW3vam+mvG30LKVnZDL8/WRQtLTg/+ksQmYt5jeBnOXMGk3a6xWpBhK77w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=G69zae+J; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ohvexb5v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 824E51F0089D
-	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 09:49:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781171360;
-	bh=wytX47iTOVlGsWaMnCOC5biW53KG+PvOIIBEsrB6UeQ=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=Ohvexb5vB0qvNCQ/waG2GHthFxasB5ZPE872j3CZA0Z4xB4Bu3tO97iYU0CgrWhAL
-	 e9Rat1EeRxA6GL3tBTMFwN9296nu3fZ62Z5PlmyPWhoa/XaSUuh6da1x+gN/n1D8g8
-	 xJ6vJwzhDoXjPA1JjwoesYe7BhlTH2R0A46mVDZaJp/8++OqIqYqD5qtS+ZCadmHUS
-	 yIvKXqKdQhyNVdz1FwpzH1BjNEihhErQIUKstpLXqVJH/WlLpyqw7evmVDTAn7B6HY
-	 dGkcC5TdGUW1ya97iuMQIQ/3umFqxkyjGpFMBETm9NYAHajzdv/PJ9KRbM7gerdOtH
-	 anR0kBEaAXN/A==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-39677aed4d3so69863831fa.2
-        for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 02:49:20 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8hHA1Mxrimufn6ClWEsnZ1XkF8VpRXlBy4B9qsVdCWvdfBdauapvvLtto4s4GiXo9SKkPCtPm9IpoMhQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzW0ob1BVF26q/JLkTNJaZcqPa7dVX2hkq1y/0Zu1jdvYRGP0NP
-	VW9UTWvoRM4LSXM3VxyBScFvqbDlLVEc1qt2fPa6dHA+y0KwmiI/NIJUtyCL2WmqetALUuiBDHh
-	tt4gxcpGUkg58/yV1iFd8Ha11bgZa3aJfnSD/Rxc4QA==
-X-Received: by 2002:a2e:bc82:0:b0:396:77aa:1dff with SMTP id
- 38308e7fff4ca-3991a1634fbmr5864991fa.23.1781171359200; Thu, 11 Jun 2026
- 02:49:19 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 11 Jun 2026 05:49:17 -0400
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 11 Jun 2026 05:49:17 -0400
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260610155708.151067-3-prasad.kumpatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="G69zae+J"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-68c1630159bso8840318a12.2
+        for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 03:16:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1781172974; x=1781777774; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PhJd7zCUXuRcUedlV9DBkM4yrOANKOlgS/yqDuehskQ=;
+        b=G69zae+Ju4pHWOEwD23d1mRyH38is151jX/CezTDqRVv3gOUkTnhdclFRM6XeRHpix
+         w6g+APpYd1G+cXckv2l0Z0+KFgmvnZ8cZNkzCswJ3ksYOGTMKHA6ylxgnvLLVznzmEAz
+         +7q7hqpINdptlgQnv4LU+HTPHnS9anEQjpN5f0D3iz8u5ZclpgdgNtLsnqKH1+j3vVrP
+         23JqOqtGeNW5Ef7isjufuKrq6P/qS5p9qTix63+uEDiM5y0icnOr0QeLI4OZDMRUAov4
+         8yq7Hb7HniZTFKh1piEsTwpAr+xsVjjGcdJYopiXeTp/QcD9TH0+f7Iym9wAxiHGUkMG
+         bqGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781172974; x=1781777774;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PhJd7zCUXuRcUedlV9DBkM4yrOANKOlgS/yqDuehskQ=;
+        b=jhqPfmaiqwNx0Zlc1xCZxOX/pmdzpbm1ICOkr0OllmNNiTuaz5eJXwzH9s8u6oO7it
+         LNWk++a0ViTsPrXqdIGOsohFca3ijhSysk0KA8ALleaZru4LWHoOsJoMjFK2ziHkmlP6
+         q2L/ttjjvXw3MK9Fi3TLTsyf8207XzQO3aVpf1LYn3Io4Fmz82sGQM0rXr1FUNuTdic5
+         HD2LUPwzHqIeJqeBpYdfEnBzUDeQsrU1CTPk4WaTEwxLUXcsgLgjeinWnM8DORAtRRiD
+         4Y3EP8R8NEqZXrWW8B5Cj2tdP6dP7yGlcPc7E1NXPNe29VAL4AF8gqw5qTuHJnTc+LQI
+         vsuw==
+X-Forwarded-Encrypted: i=1; AFNElJ91HR/+NXdYwwohYCYyCEZAxkFLy7w0LJBy58UjULmqZ/g71DTgocWhIF3QU6cNAChhqxX7fb67B4F1UA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbPPecAuxgorLdOYStCH4OWx+k+5GyXcCCf/w+YmXS8KKafaQ3
+	jw7of9GapGZdexXVy1L6GBX2xmEa2ax/ALqsd2zXt7AHsv0sokcqpwGc245V1FwInPk=
+X-Gm-Gg: Acq92OH5zcKKDjYwG0kTlKkmxD+EINlyJhoUgpBaez/2SzNXbVPmEinOFlf+rU/DkpA
+	gKrk9O6C9fhDvI4Tf4bww+bxmSGSTvSN4RDt/egUrsX+150VyraQm0DG6AlkPuJurUpbeTYMEG6
+	zLIH97qu21QAFNV+rxE99+OW915Dc4KldytyiemcXmnTmd0GE9GsUKTpmDIcl5uBCMXQIFHqMjn
+	lxiI78Zz/MMxjQMjj1p9qJzCwaAbvvJHx8Y0bqT3ifPxmLI+njodPob4RVrI70K/etAOYPsoyQi
+	TnbVT/5efF8SNYd/qrBsrcZ+/2WCWMHakvTdgvAjSYtuwHpkgrsQl1++HDlUzFN+VtfU63lAyt2
+	DhUOKPMhJsXo9xguPMtEQVCjcgz3DKDFnGy1ybGE8z5dZcaxyPqUYlUTUNNN5wwndn0M98GjJ3Q
+	s6IwwnSpLf/DTGPvoYZSVNeS8CV0STkoy+YCs5XTMzImw4c/Nj60S3h5oSaOe7tJpeWdhCELlpM
+	gkdhGc=
+X-Received: by 2002:a05:6402:4405:b0:692:4761:989e with SMTP id 4fb4d7f45d1cf-6930e2e5988mr1051968a12.13.1781172973893;
+        Thu, 11 Jun 2026 03:16:13 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68e65851786sm10571626a12.17.2026.06.11.03.16.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jun 2026 03:16:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260610155708.151067-1-prasad.kumpatla@oss.qualcomm.com> <20260610155708.151067-3-prasad.kumpatla@oss.qualcomm.com>
-Date: Thu, 11 Jun 2026 05:49:17 -0400
-X-Gmail-Original-Message-ID: <CAMRc=Mf2oujn6MstGqKg1JCu3hbPD5zHhCB-Zke_hu8LYCz-Xg@mail.gmail.com>
-X-Gm-Features: AVVi8CcPpEoF540dxiZBx5o09HxzmMiojRBzSAzxkGBQgVXV1gCQVjyXXQDH2E4
-Message-ID: <CAMRc=Mf2oujn6MstGqKg1JCu3hbPD5zHhCB-Zke_hu8LYCz-Xg@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] ASoC: codecs: add Qualcomm WSA885X I2C codec driver
-To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 11 Jun 2026 12:16:12 +0200
+Message-Id: <DJ654FFH3T09.1VKAT493JUWP3@fairphone.com>
+Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: codecs: lpass-va-macro: Fix LPASS Codec Version
+ for SC7280
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>, "Luca
+ Weiss" <luca.weiss@fairphone.com>, "Srinivas Kandagatla"
+ <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown"
+ <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
+ <tiwai@suse.com>, "Dmitry Baryshkov" <lumag@kernel.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260526-sc7280-va-macro-2-0-v1-1-2c1b572fa388@fairphone.com>
+ <311ceabf-23ff-471b-9553-797c7d76af74@oss.qualcomm.com>
+In-Reply-To: <311ceabf-23ff-471b-9553-797c7d76af74@oss.qualcomm.com>
 
-On Wed, 10 Jun 2026 17:57:08 +0200, Prasad Kumpatla
-<prasad.kumpatla@oss.qualcomm.com> said:
-> Add an ASoC codec driver for the Qualcomm WSA885X smart speaker
-> amplifier accessed over I2C.
+On Wed Jun 10, 2026 at 12:52 PM CEST, Srinivas Kandagatla wrote:
 >
-> The driver provides the control-side support needed for playback
-> bring-up, including register programming, serial interface setup, clock
-> handling, mute and gain control, reset handling and interrupt support.
+> Thanks Luca for the patch,
 >
-> Program the init table during codec initialization and reapply it only
-> after an explicit device reset so the static device configuration is
-> not rewritten on every playback start. Also program the TDM control
-> slot-count field from the runtime slot configuration so the same codec
-> path can be used with 2-slot, 4-slot, or 8-slot Audio IF backends.
+> On 5/26/26 4:03 PM, Luca Weiss wrote:
+>> According to both the static definition in downstream...
+>>=20
+>>   yupik-audio-overlay.dtsi: qcom,bolero-version =3D <4>;
+>>   #define BOLERO_VERSION_2_0 0x0004)
+>>=20
+>> and the runtime detection:
+>>=20
+>>   CDC_VA_TOP_CSR_CORE_ID_0=3D0x1
+>>   CDC_VA_TOP_CSR_CORE_ID_1=3D0xf
+>>=20
+>> SC7280 has LPASS Codec Version 2.0 and not, as declared with
+>> sm8250_va_data LPASS_CODEC_VERSION_1_0.
+>>=20
+>> Create new va_macro_data with .version not set to use the runtime
+>> detection and correctly get .version =3D LPASS_CODEC_VERSION_2_0.
+>>=20
+>> Fixes: 77212f300bfd ("ASoC: codecs: lpass-va-macro: set the default code=
+c version for sm8250")
 >
-> Keep the stream-time power-state sequencing in the DAI callbacks and
-> use normal regmap access for the control path.
+> Can you help me understand if this change was fixing any issue, if so
+> can you pl add CC stable
+
+I'm pretty sure that just came around because I was looking at the
+different parts of the audio stack and trying to figure out if there's
+something wrong somewhere, and how the different versions floating
+around downstream & upstream & documentation match up.
+
+I'm not aware of a situation where this change makes a difference -
+apart from the dev_dbg() print.
+
 >
-> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-> ---
+>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+>> ---
+>> I'm fairly confident this is correct, but please someone double check
+>> this if they can.
+>
+> Yes, you are correct, this is actually Bolero 1.1.0 Version where things
+> have changed in codec. if you read major number it will be 1
+> This has been artificially tagged as 2.0 in the driver.
+> So the change that you are doing is correct.
+>
+> Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 
-...
+Thanks a lot for checking! Opens even more questions in my mind, why
+1.1.0 =3D=3D 2.0 but somebody somewhere decided that at some point I guess.
 
-> diff --git a/sound/soc/codecs/wsa885x-i2c.c b/sound/soc/codecs/wsa885x-i2c.c
-> new file mode 100644
-> index 000000000..a7d8f8d48
-> --- /dev/null
-> +++ b/sound/soc/codecs/wsa885x-i2c.c
-> @@ -0,0 +1,1643 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> + */
-> +
-> +/* WSA885X I2C codec driver */
-> +
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/bitfield.h>
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +#include <linux/property.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <linux/slab.h>
-> +#include <sound/core.h>
-> +#include <sound/pcm.h>
-> +#include <sound/pcm_params.h>
-> +#include <sound/soc-dapm.h>
-> +#include <sound/soc.h>
-> +#include <sound/tlv.h>
-> +#include <linux/interrupt.h>
-
-Can you keep the headers in alphabetical order?
-
-...
-
-> +
-> +#define WSA885X_FU21_VOL_STEPS 124
-> +#define WSA885X_USAGE_MODE_MAX 8
-> +#define WSA885X_INIT_TABLE_MAX_ITEMS 256
-
-Add newline.
-
-...
-
-> +
-> +static int wsa885x_apply_init_table(struct wsa885x_i2c_priv *wsa885x)
-> +{
-> +	int i;
-> +	int ret;
-
-I'd put it on the same line (elsewhere too) but that's personal preference.
-
-> +
-> +	if (!wsa885x || !wsa885x->regmap)
-> +		return -EINVAL;
-
-
-You have a lot of these checks but this can't really happen, can it?
-
-> +
-> +	if (!wsa885x->init_table_size)
-> +		return 0;
-> +
-> +	if (!wsa885x->init_table)
-> +		return -EINVAL;
-> +
-> +	for (i = 0; i < wsa885x->init_table_size / 2; i++) {
-> +		u32 reg = wsa885x->init_table[2 * i];
-> +		u32 val = wsa885x->init_table[2 * i + 1];
-> +
-> +		if (wsa885x->batt_conf == WSA885X_BATT_2S && reg == WSA885X_SPK_TOP_LF_CH1_CTRL11)
-> +			continue;
-> +
-> +		if (wsa885x->batt_conf == WSA885X_BATT_2S && reg == WSA885X_SPK_TOP_LF_CH2_CTRL11)
-> +			continue;
-> +
-> +		ret = regmap_write(wsa885x->regmap, reg, val);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int wsa885x_hw_init(struct wsa885x_i2c_priv *wsa885x)
-> +{
-> +	static const struct reg_sequence regs[] = {
-> +		{ WSA885X_DIG_CTRL1_SPMI_PAD_GPIO2_CTL, 0x2e },
-> +		{ WSA885X_DIG_CTRL1_INTR_MODE, 0x01 },
-> +		{ WSA885X_DIG_CTRL1_PIN_CT, 0x04 },
-> +	};
-> +	int ret;
-> +
-> +	if (!wsa885x || !wsa885x->regmap)
-> +		return -EINVAL;
-> +
-> +	ret = wsa885x_apply_init_table(wsa885x);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (wsa885x->batt_conf == WSA885X_BATT_2S) {
-> +		ret = wsa885x_2s_conf(wsa885x);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return regmap_multi_reg_write(wsa885x->regmap, regs, ARRAY_SIZE(regs));
-> +}
-> +
-> +static int wsa885x_unmask_interrupts(struct wsa885x_i2c_priv *wsa885x)
-> +{
-> +	static const struct reg_sequence regs[] = {
-> +		{ WSA885X_INTR_MASK0, 0x00 },
-> +		{ WSA885X_INTR_MASK0 + 1, 0x00 },
-> +		{ WSA885X_INTR_MASK0 + 2, 0xf8 },
-> +	};
-> +
-> +	if (!wsa885x || !wsa885x->regmap)
-> +		return -EINVAL;
-> +
-> +	return regmap_multi_reg_write(wsa885x->regmap, regs, ARRAY_SIZE(regs));
-> +}
-> +
-> +static int wsa885x_wait_for_pde_state(struct wsa885x_i2c_priv *wsa885x, int ps)
-> +{
-> +	int act_ps = -1, cnt = 0, clock_valid = -1;
-> +	int rc = 0;
-> +
-> +	if (!wsa885x || !wsa885x->regmap)
-> +		return -EINVAL;
-> +
-> +	if (ps < 0 || ps > 3)
-> +		return -EINVAL;
-> +
-> +	do {
-> +		usleep_range(1000, 1500);
-> +		rc = regmap_read(wsa885x->regmap,
-> +				 WSA885X_SMP_AMP_CTRL_STEREO_PDE23_ACT_PS,
-> +				 &act_ps);
-> +		if (rc) {
-> +			dev_err(wsa885x->dev, "PDE state read failed: %d\n", rc);
-> +			return rc;
-> +		}
-> +		if (act_ps == ps)
-> +			return 0;
-> +	} while (++cnt < 5);
-
-Newline.
-
-> +	if (regmap_read(wsa885x->regmap,
-> +			WSA885X_SMP_AMP_CTRL_STEREO_CS21_CLOCK_VALID,
-> +			&clock_valid))
-> +		dev_err(wsa885x->dev,
-> +			"PDE power state %d request failed, actual_ps %d, clock_valid read failed\n",
-> +			ps, act_ps);
-> +	else
-> +		dev_err(wsa885x->dev,
-> +			"PDE power state %d request failed, actual_ps %d, clock_valid:%d\n",
-> +			ps, act_ps, clock_valid);
-> +
-> +	return -ETIMEDOUT;
-> +}
-> +
-> +static int wsa885x_codec_hw_params(struct snd_pcm_substream *substream,
-> +				   struct snd_pcm_hw_params *params,
-> +				   struct snd_soc_dai *dai)
-> +{
-> +	struct wsa885x_i2c_priv *wsa885x;
-> +	u8 pcm_rate, cs21_sample_rate_idx, cs24_sample_rate_idx;
-> +
-> +	(void)substream;
-
-Do we warn about unused arguments in the kernel now?
-
-...
-
-> +
-> +static int wsa885x_stereo_gain_offset_get(struct snd_kcontrol *kcontrol,
-> +					  struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct snd_soc_component *component;
-> +	struct wsa885x_i2c_priv *wsa885x;
-> +	int val;
-> +
-> +	if (!kcontrol || !ucontrol)
-> +		return -EINVAL;
-> +
-> +	component = snd_kcontrol_chip(kcontrol);
-> +	if (!component)
-> +		return -EINVAL;
-> +
-> +	wsa885x = snd_soc_component_get_drvdata(component);
-> +	if (!wsa885x)
-> +		return -EINVAL;
-> +
-> +	val = wsa885x->stereo_vol_db + 84;
-> +	if (val < 0 || val > WSA885X_FU21_VOL_STEPS)
-> +		return -ERANGE;
-> +
-> +	ucontrol->value.integer.value[0] = val;
-> +	return 0;
-> +}
-> +
-> +static int wsa885x_stereo_gain_offset_put(struct snd_kcontrol *kcontrol,
-> +					  struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct snd_soc_component *component;
-> +	struct wsa885x_i2c_priv *wsa885x;
-> +	long val;
-> +
-> +	if (!kcontrol || !ucontrol)
-> +		return -EINVAL;
-> +
-> +	component = snd_kcontrol_chip(kcontrol);
-> +	if (!component)
-> +		return -EINVAL;
-> +
-> +	wsa885x = snd_soc_component_get_drvdata(component);
-> +	if (!wsa885x)
-> +		return -EINVAL;
-> +
-> +	val = ucontrol->value.integer.value[0];
-> +
-> +	if (val < 0 || val > WSA885X_FU21_VOL_STEPS) {
-> +		dev_err(component->dev, "%s: Invalid range, Val: %ld\n", __func__, val);
-> +		return -EINVAL;
-> +	}
-> +	wsa885x->stereo_vol_db = (int)val - 84;
-> +	return 0;
-> +}
-> +
-> +static int wsa885x_i2c_usage_modes_get(struct snd_kcontrol *kcontrol,
-> +				       struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct snd_soc_component *component;
-> +	struct wsa885x_i2c_priv *wsa885x_i2c;
-> +
-> +	if (!kcontrol || !ucontrol)
-> +		return -EINVAL;
-> +
-> +	component = snd_kcontrol_chip(kcontrol);
-> +	if (!component)
-> +		return -EINVAL;
-> +
-> +	wsa885x_i2c = snd_soc_component_get_drvdata(component);
-> +	if (!wsa885x_i2c)
-> +		return -EINVAL;
-> +
-> +	if (wsa885x_i2c->usage_mode > WSA885X_USAGE_MODE_MAX)
-> +		return -ERANGE;
-> +
-> +	ucontrol->value.integer.value[0] = wsa885x_i2c->usage_mode;
-> +
-> +	return 0;
-> +}
-> +
-> +static int wsa885x_i2c_usage_modes_put(struct snd_kcontrol *kcontrol,
-> +				       struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct snd_soc_component *component;
-> +	struct wsa885x_i2c_priv *wsa885x_i2c;
-> +	long val;
-> +
-> +	if (!kcontrol || !ucontrol)
-> +		return -EINVAL;
-> +
-> +	component = snd_kcontrol_chip(kcontrol);
-> +	if (!component)
-> +		return -EINVAL;
-> +
-> +	wsa885x_i2c = snd_soc_component_get_drvdata(component);
-> +	if (!wsa885x_i2c)
-> +		return -EINVAL;
-> +
-
-You seem to be repeating the same sequence in multiple functions just to get
-the address of wsa885x_i2c. Can you factor it out into a separate helper and
-save some lines?
-
-> +	val = ucontrol->value.integer.value[0];
-> +
-> +	if (val < 0 || val > WSA885X_USAGE_MODE_MAX)
-> +		return -EINVAL;
-> +
-> +	wsa885x_i2c->usage_mode = val;
-> +
-> +	return 0;
-> +}
-> +
-> +static int wsa885x_i2c_rx_slot_mask_get(struct snd_kcontrol *kcontrol,
-> +					struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct snd_soc_component *component;
-> +	struct wsa885x_i2c_priv *wsa885x_i2c;
-> +	u32 mask;
-> +
-> +	if (!kcontrol || !ucontrol)
-> +		return -EINVAL;
-> +
-> +	component = snd_kcontrol_chip(kcontrol);
-> +	if (!component)
-> +		return -EINVAL;
-> +
-> +	wsa885x_i2c = snd_soc_component_get_drvdata(component);
-> +	if (!wsa885x_i2c)
-> +		return -EINVAL;
-> +
-> +	mask = wsa885x_i2c->rx_slot_mask;
-> +	if (!wsa885x_is_valid_rx_slot_mask(mask))
-> +		return -ERANGE;
-> +
-> +	ucontrol->value.integer.value[0] = mask;
-> +
-> +	return 0;
-> +}
-> +
-> +static int wsa885x_i2c_rx_slot_mask_put(struct snd_kcontrol *kcontrol,
-> +					struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct snd_soc_component *component;
-> +	struct wsa885x_i2c_priv *wsa885x_i2c;
-> +	long mask;
-> +
-> +	if (!kcontrol || !ucontrol)
-> +		return -EINVAL;
-> +
-> +	component = snd_kcontrol_chip(kcontrol);
-> +	if (!component)
-> +		return -EINVAL;
-> +
-> +	wsa885x_i2c = snd_soc_component_get_drvdata(component);
-> +	if (!wsa885x_i2c)
-> +		return -EINVAL;
-> +
-> +	mask = ucontrol->value.integer.value[0];
-> +
-> +	if (!wsa885x_is_valid_rx_slot_mask(mask))
-> +		return -EINVAL;
-> +
-> +	wsa885x_i2c->rx_slot_mask = mask;
-> +
-> +	return 0;
-> +}
-> +
-
-...
-
-> +				/* INTR_CLEAR registers are write-only; use regmap_write
-> +				 * instead of regmap_update_bits to avoid the read-modify-write
-> +				 * that regmap_update_bits performs on non-readable registers.
-> +				 */
-
-/*
- */
-
-style comments please
-
-...
-
-> +	ret = devm_add_action_or_reset(dev, wsa885x_gpio_powerdown, wsa885x);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "devm_add_action_or_reset failed\n");
-> +
-> +	i2c_set_clientdata(client, wsa885x);
-
-I don't see a corresponding i2c_get_clientdata(). Do you really need it?
-
-...
-
-Bart
+Regards
+Luca
