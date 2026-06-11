@@ -1,92 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C929437E314;
-	Thu, 11 Jun 2026 18:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97183411695;
+	Thu, 11 Jun 2026 18:22:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781201910; cv=none; b=bani97LMdQ33VMHwshcKsDVlPnlPzS9XZwursAszO2Xiy5xrJc8Eo15fkfiGapXzMidgtOcsebwk3/7AR/rt2KQ5AzRBaiqAd1nLtZO3pdwB/AzcrZSc0HWBHj6fBylld10MeUnszYUYudx9mnAr0sDRZmUjUjsxzdFl2SRAFvU=
+	t=1781202166; cv=none; b=bowj9Mj+HIextxnzdNyE3WrGGg37EYoDiQpFrj3s921dQy2IwckSINLZV4VkcADMp5AvjMwEtc3q8cIVKE15gTCGDPSkPrQ0FrDM1kxlZqzEhoHNulePELh60lPJjIUhVUo0FKLS/FgkoKIP1A2n+VmsQEsYjwD7K+7fwLQUcuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781201910; c=relaxed/simple;
-	bh=FgzklUGXjUNu2L4Fg+icg11qy+SobUnXK+pcyXpSyvM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=LllBj/mdzA+M+9Bo0j8wgH4ehUVaN7dxvNqVFojNMLTIFQxJu9HimPdMx+z7IuVzAtXcMHksUgJ2T2Ezlwpnnh08sBkbb7HIQrgu/a5DefW8o/S9cC4Jl6rmvHBJjPxPBYh59MxkXzLMJVP/+XiQ/rGDbY2Ql3VeBx6R2dr9DfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f4FJ83ED; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781202166; c=relaxed/simple;
+	bh=fw32aETREpZ6A2OjeA76IM867nHS8I6bmSRSbhzXCMI=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=iOipmM7GFH0ktjgirxmYDDFugLAKVY/IGNLTiC1ZjxbvDvYyjAqQ17m5uhM225qtfMrT17BtPj39sNyRFPsFniuYuHVsyy8gG0vP9RmOPn9flj0iqxUuhfueauBsa/2l/6t+um2b4nJ+I09K9mT9dEa0+1HTLMrVbYcyg5/mEgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Yl9himhG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cgweFlr/; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f4FJ83ED"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BF421F00A3A;
-	Thu, 11 Jun 2026 18:18:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781201907;
-	bh=QDK1kH8UHAvTtlHTiD81bPSYKlYhG1hyuzJocm9z09U=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=f4FJ83ED8lFAxExuoVJVWu6KCFmb19RdXiUKKS09pj8hL/CkTJZ2SvOAT6+6nHni3
-	 uF8Cg4i6yT0fJD5FXtVYYsdRDeOIhgCIbe2Fr0x+Hq6gCBdv5NWp4v40hyYiG1rPOn
-	 Jj78Kok8KFSPLMjxy7byCwOfDdRhMWOVHoCQz4o7LsVn/dErcu3gq+LmBokmVpuUVg
-	 7/bWPOoUH7O/NVArkDwNQIRb7vXDSesHW/yQ32FebtWy9WtUnRH6fyUNXTmGdzL+fe
-	 sUHVmoQANGqzRZxOH+2U6kf1RY+HT8njuAsXvfSkdDxFwt2qD3ebe9PspQblgqTODD
-	 VL+Z9A2e18S0A==
-From: Mark Brown <broonie@kernel.org>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: tiwai@suse.de, andriy.shevchenko@linux.intel.com, 13916275206@139.com, 
- alsa-devel@alsa-project.org, shenghao-ding@ti.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, k-yi@ti.com, 
- henry.lo@ti.com, robinchen@ti.com, niranjan.hy@ti.com
-In-Reply-To: <20260611125359.19839-1-baojun.xu@ti.com>
-References: <20260611125359.19839-1-baojun.xu@ti.com>
-Subject: Re: [PATCH v1] ASoC: sdw_utils: Add missed component_name strings
- for TI amps
-Message-Id: <178118602519.447103.397643315723566551.b4-ty@b4>
-Date: Thu, 11 Jun 2026 14:53:45 +0100
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Yl9himhG";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cgweFlr/"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id A5FCAEC01E2;
+	Thu, 11 Jun 2026 14:22:42 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-01.internal (MEProxy); Thu, 11 Jun 2026 14:22:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1781202162;
+	 x=1781288562; bh=9Et5SEXuWFd87Fvt+mZr2Pr/FJlXX8zwNpb/xrJ9v4E=; b=
+	Yl9himhGhI3bfxl46NXScRO0uzwqUerhjLLukR2NPODt4an1fkH12nn8aMZ5xnN+
+	39xBGAVQfPwScxYMYKYlTvBxZjT68BnZsj1lHzBHsmBIioVwMJrPVVDohE7/xVON
+	Tz8ZC8ZH8NK5TirO7Vn1pqBhhG9zEi+dS6vrqkloQmnMjHGqG3xu8/RGdAWhPPg0
+	4G7qDzGxEuf6FoAPYZlWTKyOgtozcTaiOKaJ5SGcTZy6xrVM1VCOU+9wy0FLndz6
+	A6jkPvu9rvnJ9nNI04OLEgTF1cyswUwUwo82Ves+7BcaCVl80CS4rGpm0WXXbgyv
+	FM5jvK+loWTgh3SokZTD2w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781202162; x=
+	1781288562; bh=9Et5SEXuWFd87Fvt+mZr2Pr/FJlXX8zwNpb/xrJ9v4E=; b=c
+	gweFlr/6he6pjojKdnSdbAmAWEOs8qUx7mCeA//rmualzwU/jHPBst6EvEXEjaK4
+	aEJA/AWZs5wEKsvX7dI/34NGzPEsMFhNXzN8CRu1/JzTALQaQMCter5iieKTy5AD
+	irnC2y3wjKL8pl+cO6tpymQbjzMD9kq1/uWU1CIuHX3bQCG1M9FJwN9Y7h7X+ryk
+	taHiCGvLpKyk7stHSA2RmeqA3fYJhQVurwMQqvI8Lu94nLNAjx0+sR+7dekE6YmI
+	pcyDLMM3Lsyf02rqqKHQnuzt4M1iYK8HjeBt1Cj8Zsod7YyiQluEqwPyU89dl1zj
+	7xt9YtWB4liKiY1BQ83jw==
+X-ME-Sender: <xms:8fwqamVkT0P9LYwm4wRAzs5D6jpw5GWBJDnSjw7t4QCk8oI6Q1RaSA>
+    <xme:8fwqaon0HvmXSVTh5mChEkeKsA4tDIc5Oli7CSAJuvIFQT3wC5HvH_zQ4yLQjIff4
+    PFdMQD488HlpUlVYYOmOdVY-MKgfatF4jncfO5BmEXCPfvK56s9Cg>
+X-ME-Proxy-Cause: dmFkZTEYxHTyov5mw6nzS6ITZISbR0s0w/3uAtFjtk0FoETHDYgua2wldA3lWoFH2yCyO5
+    UC6kLrYwt9i1hULZp3uj+dVA6iWgWuxqMBE3IbxOTa8u9mOt90x0z2CTGWXDVXXEp/TOEq
+    Zg2Vwrmzy32uAIKQ6Ia9lz86sJ+1Ho0Fir/bqnOGeUeshkDln06Oju57Lb/fSZeaMVSsoZ
+    A4zSlOwy48+w7dgnh2qkcbtY77GvsmKfk+MX5YRNkTZqzzpJWgBOoZ8qcSQWP6g07S+WP5
+    w1WjkbR4b6tD2BkiZ5PSEZcdnqVv7cTNWqt39iROGHvzj5pFXdJciL52BEyJb5sG9NUOOt
+    +/MWXNWiJUDMe26N84+0xmhCQ9peGapXJ278N58REPBAbx0lMYO9ASgC7MAzT6Q4mi+86A
+    JZW5Y4FjBA4VVPtZQI9Zl/nSrGcfddwSDe0arU0qiAprCwwYh4K6oamI05QCGPWrNL9VNt
+    wbfEt6oo0/UEz1iS1R1EbDV+3iNdSHg5E7MLPxG4vJ7XBBaFMIuWTnhhh3/yThg2Suc/PR
+    DKKT20qZ6CavR+FbgvXKHOLTAewn5O9ErlOnDl8u0jKrIPVL0VXqkFflnZ/6nHfmoYchf0
+    /bg59WPsnXA0oXnuL0fDKygXkdCPb8q3ZxTm0PWoznlGB36VzFIDnthSR16w
+X-ME-Proxy: <xmx:8fwqaiynUmWJlq0iTR8pckgahiwshNepiYqONSIU24FDHe3URNaf6g>
+    <xmx:8fwqapvHO6oQVo3mssnvsi4UwqzZxN2POzA9WD6m2XN94wdLkG0-9g>
+    <xmx:8fwqajBlnu1oxt6BZ6Daomg1OhGYr9do_UL_6jk6jylRcQqvOY0QvA>
+    <xmx:8fwqalpkPLxwe9n0JJgtjiTgNsT_bUKZ2HGdsPCDbDkehrpGVllpGQ>
+    <xmx:8vwqauwuf0tDk_2i9UvC9WTD9wwnsy95F4Qbj2AXtTVJ9OoVghRANgXB>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id E13471820082; Thu, 11 Jun 2026 14:22:41 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-ThreadId: A8g0-Z_ty2kZ
+Date: Thu, 11 Jun 2026 20:22:21 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Mark Brown" <broonie@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Liam Girdwood" <lgirdwood@gmail.com>,
+ "Peter Ujfalusi" <peter.ujfalusi@linux.intel.com>,
+ "Bard Liao" <yung-chuan.liao@linux.intel.com>,
+ "Daniel Baluta" <daniel.baluta@nxp.com>, "Jaroslav Kysela" <perex@perex.cz>,
+ "Takashi Iwai" <tiwai@suse.com>,
+ "Kai Vehmanen" <kai.vehmanen@linux.intel.com>,
+ "Pierre-Louis Bossart" <pierre-louis.bossart@linux.dev>,
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <c216893d-0548-42ac-8a3b-4be397a79fc7@app.fastmail.com>
+In-Reply-To: <airEQ7ER7jUF3SQ_@sirena.co.uk>
+References: <20260611132310.137688-1-arnd@kernel.org>
+ <airEQ7ER7jUF3SQ_@sirena.co.uk>
+Subject: Re: [PATCH 1/2] ASoC: SOF: Intel: select SND_SOC_SDW_UTILS=y from
+ SND_SOC_SOF_HDA_GENERIC=y
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1139; i=broonie@kernel.org;
- h=from:subject:message-id; bh=FgzklUGXjUNu2L4Fg+icg11qy+SobUnXK+pcyXpSyvM=;
- b=owGbwMvMwMWocq27KDak/QLjabUkhiyt36+eTn/+3KPCU0XxrqpJWFKgWaaGC29B/L8TcayCy
- v4/k5k7GY1ZGBi5GGTFFFnWPstYlR4usXX+o/mvYAaxMoFMYeDiFICJ/Odj/x8aYtwpnWLTf2Q/
- 8/wZxdsfqZ8SfZ3aayO6woblg3rt0TP8JT/4ssuZZwUtOZY2IfBPdOZl+y9cO34tyigxLSyrOln
- cuvihzsP3vssrP/QduuITEf2nMtSrRPKh94uGktVs3ZOZEi45mjKdc7PMXiljdXyqkmNmr6iNdO
- NcZbG/3xk1PT9c+mrnkLs52dli8qLIqW9OWPh3xi3XD3Q8YvdOatWGhQldJ0v2a8+qTC+L3rNzn
- 0Hk9u6EvS+8I/3X+XWaXZ2xdm5bFPOu0Oi/Pa02LdP7VjLw1d0vTRP7fcdozUP56TMLfxaou1hn
- s17h+eaYtJaZvTEyO/TdqU1n+c38XipZ35r88YTzdM+dAA==
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 11 Jun 2026 20:53:59 +0800, Baojun Xu wrote:
-> ASoC: sdw_utils: Add missed component_name strings for TI amps
+On Thu, Jun 11, 2026, at 16:20, Mark Brown wrote:
+> On Thu, Jun 11, 2026 at 03:23:05PM +0200, Arnd Bergmann wrote:
+>> +++ b/sound/soc/sof/intel/Kconfig
+>> @@ -335,7 +335,7 @@ config SND_SOC_SOF_HDA_GENERIC
+>>  	select SND_INTEL_DSP_CONFIG
+>>  	select SND_SOC_SOF_HDA_LINK_BASELINE
+>>  	select SND_SOC_SOF_HDA_PROBES
+>> -	select SND_SOC_SDW_UTILS if SND_SOC_SOF_INTEL_SOUNDWIRE
+>> +	select SND_SOC_SDW_UTILS if SND_SOC_SOF_INTEL_SOUNDWIRE !=n
+>
+> Can we end up with SND_SOC_SDW_UTILS=y but SOUNDWIRE=m?  Though I think
+> that's a potential issue anyway...
 
-Applied to
+I don't see that combination in any randconfig builds and haven't
+managed to produce it in menuconfig, but I can't swear that it's
+impossible either.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+I do feel that the entire set of dependencies around
+SOUNDWIRE, HDA and the Intel/AMD drivers is too fragile,
+so it would be good if someone could manage to simplify this
+in some form, but the best I can do at the moment it to
+address regressions when they happen.
 
-Thanks!
+With the patches that I have sent, plus the "ASoC: amd: acp: Fix
+linker error with SDCA quirks" one from Syed Saba Kareem that
+I'm testing at the moment, I get no link failures in randconfig
+kernels.
 
-[1/1] ASoC: sdw_utils: Add missed component_name strings for TI amps
-      https://git.kernel.org/broonie/sound/c/79bec4638194
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+      Arnd
