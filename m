@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B1A34403D;
-	Fri, 12 Jun 2026 22:18:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6BB34403D;
+	Fri, 12 Jun 2026 22:18:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781302686; cv=none; b=gyBAdPD1CORPnjQd9H8X7Lvs6ChPq0XcVEMsV/dRAw7+YzYwcfHeZ6w5OzN8b3JYokUsV8OxxPqObUDJBNtL14gRsPLExdKVXHvjhtoCN9P52z1w/PIppo0fhZhk2vT5OYOnB8Z0w/Bqb++AxVn5eVNUSnXMrM1jrNn72Ip/0WU=
+	t=1781302690; cv=none; b=J5NCkr/5MtaLxgMot2kbQkD2JMQQ3ppxx7cJ+c9NzrOiC6eTOUt2nVeeezaJfYiNzx2YRqnAZbUp64uZfMxT2frmzW7wka1uQY6efyInf8ahLKgwO7BoWjj+eCATKFbhPHYa94qjw5+tAyVdF5Q6HZMZ6NRRE/1AVcI+AgNLGY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781302686; c=relaxed/simple;
-	bh=0NZoUi4yTjyjN8hDy2uu0v8x/mi/5bxtA6qsUXoWtT8=;
+	s=arc-20240116; t=1781302690; c=relaxed/simple;
+	bh=iMQsDNw1BUKEAloi9QCs18dEc4d7MwRODIFEsQKs+TM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ieR9UY12cZzAs/i9Jko8Pk+i6vZ2+/rWRajadSfph7bs95t5cTycZvnCs3rfqcZVcDAIMpi1kQpT+JeB1a/7sCQRKoFS6dXPTAWzMqX4L8T5svjEVRsP0DEMFadzgJEv5pLZRghsNDo2aR+DhzXv6OLrdLFPrBTgp4K7MJ2gFaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E+kRQQ2J; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=LEcASt0ghmof8O6e7eKHUutMPvOCnUSZv2zHE6OPOabmdDJW+x0OvdsJVaGslKxZNuXVpz3jLx5YXKzj3orl0ym6qnJLATMO94tMKEMGDvcFFwz5K8A9PK/Fe884jaAUf6uR+Y3e1HrSb8ipl6DEphIcabgPr4FO57NyYHP6KPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jcXg4nVd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E+kRQQ2J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C06251F000E9;
-	Fri, 12 Jun 2026 22:18:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jcXg4nVd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 670D71F000E9;
+	Fri, 12 Jun 2026 22:18:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781302685;
-	bh=Z/61KFJYWXrOQyCZbASrU+Xps+NN44QMTC3+w7LhyNQ=;
+	s=k20260515; t=1781302689;
+	bh=W0yPm8952lH14kogup7Uo6TjIczd/TW/mJFvsZkfNtI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=E+kRQQ2Jz8K60h4THBnTGpf9+XCJ0p9sE4l8/jsuXsWbB/cti9C96Rljdw3a/6StE
-	 wx3F1e1j0k0Ii1NZfyWPxlQRGpYZtu5zvGM0W2QZfhvnXhI4caNAiGjtviZkjcTDDD
-	 IKquov6oXuYb1HKuiZmkbPX9M8xcY4sl60Yg87oENpd8p4qo9ZGH/vpRvLjmN8f/mO
-	 /zUznIosI2mO2Gfc36Zqmlg/TNJiIWLYRwy7syEbHmqtkljMXP3RLGI9tC6Y4m33hx
-	 NxrZP45XIozxNYtjoGpXiAF9w9QmoDj1wqEqSgTnOIjCV+/5VHRsUs9rwrZ7v8cv5N
-	 3Kg3nE6qO6E3g==
+	b=jcXg4nVd9JlTvC242kc70o8iUkHKfAn0KC2uOkI/twKqs4QErL8aS4kWsHPbyF/0R
+	 0VJcfdTLfQPr6juQ+fk9cDYhoSrFhv5e+YdemF4tdAtHFrvEoLywA5HIv+j/XFRfne
+	 vliu9mYKEfqSrvCGzfDIoK4qz/pXY/mCi8PRHb1ePdodLlOstoYyL0DbOFp13hs80U
+	 GaS6nNa1+evaUYMwODxsvPXHwUIcbQ67OL+/xy0lmUzAcBPjhRXIFX6nQ47jllcM1s
+	 Oqy3/1/9Ww9yT8Cv9Ebc/tLKluTdv6v0vQkG3LnwI4upGoyNbNTvOzXLJva8+Ax96q
+	 BzyrwxlkLqvXw==
 From: Mark Brown <broonie@kernel.org>
-To: Heiko Stuebner <heiko@sntech.de>, Liam Girdwood <lgirdwood@gmail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, phucduc.bui@gmail.com
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260602101608.45137-1-phucduc.bui@gmail.com>
-References: <20260602101608.45137-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH v2 0/5] ASoC: rockchip: Reorder clock enable sequence
-Message-Id: <178120738665.484538.15946340325623351219.b4-ty@b4>
-Date: Thu, 11 Jun 2026 20:49:46 +0100
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260611110856.1088110-1-rf@opensource.cirrus.com>
+References: <20260611110856.1088110-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH v2] ASoC: soc-core: Create device_link to ensure
+ correct suspend order
+Message-Id: <178120672426.467928.4198249826821953523.b4-ty@b4>
+Date: Thu, 11 Jun 2026 20:38:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,30 +45,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1918; i=broonie@kernel.org;
- h=from:subject:message-id; bh=0NZoUi4yTjyjN8hDy2uu0v8x/mi/5bxtA6qsUXoWtT8=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqLIWYYKm9dcS3DYn50RUL4v7kjRB1zbjoRQy7j
- WrL5egJEiqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiyFmAAKCRAk1otyXVSH
- 0DD6B/9NXGfMDpD3AQKfvqaQ35X+zUWCxNdfvPuFh97+ZGUgxMYKtYMKfbdLBs2wtkbMgB92mdv
- JEXpPBbAdaXnt3Z6WB1YNAtWJZHVxX1b5fBNULp6LHyAhRoXPtDhpGbZ0FgW6Jef6vI0UwB4QVC
- nxPszabzUQ7gc1z1xi9JVuevsYZ6d0BBG49WguRPQ8EerlSHyMs3UpEkkAHmfBwGwg5H4J5BKxM
- zGjQceKZVYs4ReVGMP1as4k3EBQ/qjS60QoewXqws9nprfRiJPtzEIpX7X1kZo9EkB9msMYIbWm
- DvQlJvJVuilSFcr65g8dYawk6T66ujxDPVlIpsgdRtD9aNkc
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1156; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=iMQsDNw1BUKEAloi9QCs18dEc4d7MwRODIFEsQKs+TM=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqLIWessYmHNRSSmrNfaIV6CnKSJ+UKigcWq1uK
+ UPW7cjhHbuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiyFngAKCRAk1otyXVSH
+ 0MpgB/0XOjke4wxfcP9gxz3ZRbtTMsDclAVkNVW91EWg/JC7Opo7a37u+az/hXMkoYe/Jy1vMza
+ 7tfqwNDwVV4f+C0u898Rs4DfeIf496ReLqkJ3Z0l4tIrIaXK3zXObQp0GHHVhxzxSuwcLFsyb/X
+ BtL63X3FwEUTufLxSCFY9c6f1HGjgP96lSHbLjNUuIVydR8/VwIeuTORlOVA2U3AcRglR6ZLcYU
+ U4F9PPFaeWde0Nh2OqB3i6lfdJ/FmKFKsTXAk4+sYWBi2PoIlUNGLxQq3Sg9qRl+N+xo/qTR35w
+ 08XtxFVFUOVYBCnGGzkdwykLE0CEnlaChJ3X3kcCicH7OAHA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 02 Jun 2026 17:16:03 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: rockchip: Reorder clock enable sequence
-> 
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> Hi all,
-> 
-> This series reorders the runtime resume clock enable sequence in the
-> Rockchip SPDIF and PDM drivers to enable the bus clock before the
-> functional controller clock.
-> 
-> [...]
+On Thu, 11 Jun 2026 12:08:56 +0100, Richard Fitzgerald wrote:
+> ASoC: soc-core: Create device_link to ensure correct suspend order
 
 Applied to
 
@@ -79,16 +66,8 @@ Applied to
 
 Thanks!
 
-[1/5] ASoC: dt-bindings: rockchip-spdif: Correct SPDIF clock descriptions
-      https://git.kernel.org/broonie/sound/c/d057cbc218ac
-[2/5] ASoC: rockchip: spdif: Reorder clock enable sequence
-      https://git.kernel.org/broonie/sound/c/74d3f01a90ca
-[3/5] ASoC: rockchip: rockchip_pdm: Reorder clock enable sequence
-      https://git.kernel.org/broonie/sound/c/3168721d6ec3
-[4/5] ASoC: rockchip: spdif: Restore regcache cache-only mode on sync failure
-      https://git.kernel.org/broonie/sound/c/3546e9aa691a
-[5/5] ASoC: rockchip: rockchip_pdm: Handle runtime PM resume failures in set_fmt
-      https://git.kernel.org/broonie/sound/c/ee7b5f7b3933
+[1/1] ASoC: soc-core: Create device_link to ensure correct suspend order
+      https://git.kernel.org/broonie/sound/c/0f54ce994b23
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
