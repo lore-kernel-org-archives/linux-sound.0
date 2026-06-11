@@ -1,214 +1,207 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444822BDC2A
-	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 07:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D113C2790
+	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 07:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781162760; cv=none; b=XitztOpSXH4YVpeyEpzqwmLLHt8PJZT1vbIQLzavNc3Iy6RdbbeCiAqIHSaQFeF4VQt/eMQz/hHmIdyduSXH77yOpgUy4+PtEYA9zdkCdkU8scOp1ATq/XW2nOh56LaW2OmG5fErQAx3+uVp6NT18QcJbwBo8L/Kv5W6riVrAT4=
+	t=1781163438; cv=none; b=m2qW4x6nTkVD/ItiZ/DvtUhPpvuQuGWWFxDzZI9DMLJRcxz1uLwZ+LDS+DlJd74akSuETCsDGaAUXHtT94HKgNGBliqUyy5mkVax5DYM39J4UGYJMcRk4r4Bqc1Ornd4z/9XtMra7Qzo5TZMsRYAwcCzbPno+S0gS3BEXllRI2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781162760; c=relaxed/simple;
-	bh=UHnRgbNHCXB0nmiDEMkYibqiU7jxYxElGkYbQL+TXu8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LS19CxGsxG3DIxuTSnRFyxc+HK6ISEusqLEriyYgn8NCMBnOtYlUdhm1jQ0YqTzGdbCkmX1ZYI7XXl9aLKfS7OzCFA1fxP3nci+y1wNlyosO1U6KIJynMbu3hwXibcXwImaST+LwsUUmYLoXsX6oew2TGm8g2WKvYsYNkgQDjjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Yc2meDfN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=k+WLsKVV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Yc2meDfN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=k+WLsKVV; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781163438; c=relaxed/simple;
+	bh=ZwNEwqWqAH0rsH4PZBcwMWBYPkJpG1mgM+qtK5FzCsA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OqEjSFlPyTDOSUP8nvqevjgfzE905hnNBofBSIcaMPcDid7SZ39RDF1oeke87XH4ddANoo/Ks0IQGV+rY5y8SypmF7V0L2pRyFt1Pc6vPB/Sr35C5RitE8sKBr5+0MaOSXBlhhH6bsbYF5uSCasOCj2NjQKZrBXnFbb1ZVMdbK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=b+1Jxg9v; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Yc2meDfN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="k+WLsKVV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Yc2meDfN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="k+WLsKVV"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6D9656ACC7;
-	Thu, 11 Jun 2026 07:25:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781162757; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="b+1Jxg9v"
+Message-ID: <83ba73d8-27d3-4ee9-a143-7dfe4cb827be@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781163433;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=30pX1E9RYeCcJQeD7ZO49JeBuurlNTP542TDsaubr+E=;
-	b=Yc2meDfNFjbJzKra+dvgbMTqcuBuKcvBVgXximiv/2TT9+ca3HflBCzil+rSd4UwVrNjxg
-	DY4je4jU/0ABUF85jzhQ6BJj2gTzvRwHC9U8ZfbtxHJQb6+iu3HWdHnJ7bHgf/DF2j7dVS
-	6CAgvx4U06onGahk6I3W60QVvoSGi8o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781162757;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=30pX1E9RYeCcJQeD7ZO49JeBuurlNTP542TDsaubr+E=;
-	b=k+WLsKVVio2UjdPDJeWysOJr6+EwZx+webV7eIS8IfH/+rU2VRqS75mvhCGsDRV4j2C3qj
-	mR0kmie4phjaArDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781162757; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=30pX1E9RYeCcJQeD7ZO49JeBuurlNTP542TDsaubr+E=;
-	b=Yc2meDfNFjbJzKra+dvgbMTqcuBuKcvBVgXximiv/2TT9+ca3HflBCzil+rSd4UwVrNjxg
-	DY4je4jU/0ABUF85jzhQ6BJj2gTzvRwHC9U8ZfbtxHJQb6+iu3HWdHnJ7bHgf/DF2j7dVS
-	6CAgvx4U06onGahk6I3W60QVvoSGi8o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781162757;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=30pX1E9RYeCcJQeD7ZO49JeBuurlNTP542TDsaubr+E=;
-	b=k+WLsKVVio2UjdPDJeWysOJr6+EwZx+webV7eIS8IfH/+rU2VRqS75mvhCGsDRV4j2C3qj
-	mR0kmie4phjaArDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44648779A7;
-	Thu, 11 Jun 2026 07:25:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id JVaIDwVjKmpbLQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 11 Jun 2026 07:25:57 +0000
-Date: Thu, 11 Jun 2026 09:25:56 +0200
-Message-ID: <87pl1xk06z.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Doruk Tan Ozturk <doruk@0sec.ai>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: seq: fix use-after-free of borrowed substream in snd-seq-midi
-In-Reply-To: <20260610200336.33979-1-doruk@0sec.ai>
-References: <20260610200336.33979-1-doruk@0sec.ai>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	bh=tji7AgabbUATaghWjiZhwDG13hGWICfhuUb1cXJUTp0=;
+	b=b+1Jxg9vc+lk8oLrl2ryGqge56LyQH0x4/uvTPLXuGWJDiCSo1AJ26eK71wWGJMLHgc5YA
+	D2g9Os8SKNpzlPOeVTmKlEyQlBDJ6RLe9mhavwKS7JCSSpe+hqtIo/4pQdus2a3B30mWlp
+	pk5eWE7R7j9MPWT1A6e1TVgUEm2OqoA=
+Date: Thu, 11 Jun 2026 15:36:01 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Level: 
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+Subject: Re: [PATCH v2 00/14] list: Prepare entry iterators to cache cursor
+ state
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Davidlohr Bueso <dave@stgolabs.net>, "Paul E . McKenney"
+ <paulmck@kernel.org>, Josh Triplett <josh@joshtriplett.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Eddie James <eajames@linux.ibm.com>, Mark Brown <broonie@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Laxman Dewangan <ldewangan@nvidia.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Waiman Long <longman@redhat.com>,
+ drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
+ linux1394-devel@lists.sourceforge.net, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-spi@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Christian Brauner
+ <brauner@kernel.org>, David Howells <dhowells@redhat.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Kaito Cheng <chengkaitao@kylinos.cn>, Muchun Song <muchun.song@linux.dev>,
+ Philipp Reisner <philipp.reisner@linbit.com>,
+ Lars Ellenberg <lars.ellenberg@linbit.com>,
+ =?UTF-8?Q?Christoph_B=C3=B6hmwalder?= <christoph.boehmwalder@linbit.com>,
+ Jens Axboe <axboe@kernel.dk>, Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+References: <20260609061347.93688-1-kaitao.cheng@linux.dev>
+ <bd0b7393-8ccb-4d67-8bfc-18c68347122c@amd.com>
+ <5152089a-2808-4fe9-b633-b03018105dd2@linux.dev>
+ <ail4AvzqAOXNaU6N@ashevche-desk.local>
+ <9b98e860-11df-44bf-9a95-3046d2c274a6@linux.dev>
+ <aipbojSeMH-usARY@ashevche-desk.local>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kaitao Cheng <kaitao.cheng@linux.dev>
+In-Reply-To: <aipbojSeMH-usARY@ashevche-desk.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, 10 Jun 2026 22:03:36 +0200,
-Doruk Tan Ozturk wrote:
+在 2026/6/11 14:54, Andy Shevchenko 写道:
+> On Thu, Jun 11, 2026 at 12:42:02PM +0800, Kaitao Cheng wrote:
+>> 在 2026/6/10 22:43, Andy Shevchenko 写道:
+>>> On Wed, Jun 10, 2026 at 02:14:06PM +0800, Kaitao Cheng wrote:
+>>>> 在 2026/6/9 18:33, Christian König 写道:
+>>>>> On 6/9/26 08:13, Kaitao Cheng wrote:
 > 
-> event_process_midi() borrows the rawmidi output substream via
-> msynth->output_rfile.output and uses it through dump_midi() ->
-> snd_rawmidi_kernel_write() -> snd_rawmidi_kernel_write1() without
-> synchronizing against a concurrent port unsubscribe.
+>>>>>> This series prepares for, and then updates, the list_for_each_entry()
+>>>>>> family so the common entry iterators cache their next or previous cursor
+>>>>>> before the loop body runs.
+>>>>>
+>>>>> Why in the world would we want to do that?
+>>>>>
+>>>>> The safe and non-safe variants have very distinct use cases and that is completely intentional.
+>>>>>
+>>>>> What we could improve maybe is the documentation, from my experience an astonishing large amount of people have misconceptions about the safe variants.
+>>>>>
+>>>>>> The first 13 patches open-code loops that intentionally depend on the
+>>>>>> old "derive the next entry from the current cursor at the end of the
+>>>>>> iteration" behaviour.  These loops append work to the list being walked,
+>>>>>> restart traversal after dropping a lock, skip an entry consumed by the
+>>>>>> current iteration, or otherwise adjust the cursor in the loop body.
+>>>>>
+>>>>> Well I have to clearly reject the changes for subsystems/components I'm maintaining, that just looks horrible to me and I clearly don't see a good reason for that.
+>>>>
+>>>> Hi Christian and Andy Shevchenko,
+>>>>
+>>>> Thanks for taking a look. I would like to clarify the point you raised.
+>>>>
+>>>> The reason I started looking at this is the original motivation behind
+>>>> the _safe() variants.  They exist because some users need to remove, move
+>>>> or otherwise consume the current entry while walking the list.  In that
+>>>> case the next cursor has to be preserved before the loop body can modify
+>>>> the current entry.
+>>>>
+>>>> The unfortunate part is that this could not be expressed with the
+>>>> existing list_for_each_entry() interface without changing its calling
+>>>> convention.  The _safe() variants had to grow an extra argument for the
+>>>> temporary cursor, and that is why we ended up with a separate family of
+>>>> macros.
+>>>>
+>>>> But conceptually, the distinction does not have to be exposed as two
+>>>> different iterator families forever.  The difference is an implementation
+>>>> detail: whether the iterator keeps the next/previous cursor before the
+>>>> body runs.  This series makes the common list_for_each_entry() iterators
+>>>> do that internally, so the safe and non-safe forms can effectively be
+>>>> folded together, or at least the need for a separate public _safe()
+>>>> interface becomes much weaker.
+>>>>
+>>>> There is also a usability issue with the current _safe() interface.  The
+>>>> caller is forced to define a temporary cursor outside the macro and pass
+>>>> it in, even though almost all users never use that cursor directly.  It is
+>>>> just boilerplate required by the macro implementation.  I find that
+>>>> redundant and awkward: the temporary cursor is an internal detail of the
+>>>> iteration, but every caller has to spell it out.
+>>>
+>>> Ah, I think the distinct macro families is that what we want.
+>>> But the hiding of the parameter can be done inside list_for_each_*_safe().
+>>> You can do a treewide change with coccinelle.
+>>>
+>>> Sorry if I didn't get the whole idea from your previous contributions.
+>>>
+>>> Note, even cases that would need a temporary cursor may be switched to
+>>> new list_for_each_*_safe(), see how PCI macros for iterating over resources
+>>> are implemented (include/linux/pci.h).
+>>
+>> Thanks for your suggestions. I've written a demo based on your feedback.
+>> Could you please review it and share your thoughts on this approach?
 > 
-> A concurrent UNSUBSCRIBE_PORT on the output connection runs the
-> unuse callback midisynth_unuse() -> snd_rawmidi_kernel_release() ->
-> close_substream() -> snd_rawmidi_runtime_free(), freeing
-> substream->runtime while an in-flight event_input callback is still
-> inside snd_rawmidi_kernel_write1(). The borrowed substream runtime is
-> exposed to teardown before the write path takes its own buffer
-> reference (snd_rawmidi_buffer_ref()), so the early derefs of
-> substream->runtime / runtime->buffer read freed memory.
-> 
-> The buggy scenario involves two paths, with each column showing the
-> order within that path:
-> 
->   path A: event_input path                path B: last unuse path
->   1. event_process_midi() reads           1. midisynth_unuse() runs on the
->      msynth->output_rfile.output.            last UNSUBSCRIBE_PORT.
->   2. snd_rawmidi_kernel_write1() has      2. snd_rawmidi_kernel_release()
->      not yet pinned runtime.                 closes the output file.
->   3. The writer continues using           3. close_substream() frees
->      the borrowed substream.                 substream->runtime.
-> 
-> This is the snd-seq-midi sibling of the UMP-bridge race fixed by
-> commit 60a1969fae62 ("ALSA: seq: Serialize UMP output teardown with
-> event_input"); mirror its approach here.
-> 
-> Add a per-msynth rwlock for the event_input-visible output file.
-> Publish a newly opened output file under the write side once it is
-> fully set up, and hold the read side from the output lookup through
-> snd_rawmidi_kernel_write() in event_process_midi(). The last unuse
-> copies and clears the visible output file under the write side, then
-> drops the lock and drains/releases the saved rawmidi file outside it
-> (drain/release may sleep). Use IRQ-safe rwlock guards because
-> event_input can be reached from atomic sequencer delivery.
-> 
-> Reproduced under KASAN: a single subscription to the midisynth output
-> port (so the subscriber count oscillates 0<->1 and every unsubscribe
-> frees the runtime via snd_rawmidi_kernel_release) is raced against a
-> flood of events driving event_process_midi -> snd_rawmidi_kernel_write1.
-> The narrow window (the runtime is read before snd_rawmidi_buffer_ref())
-> was widened with an injected delay to land the race deterministically;
-> the freed object is the kmalloc-192 snd_rawmidi_runtime. With this patch
-> applied the same forced race shows no use-after-free.
-> 
->   BUG: KASAN: slab-use-after-free in snd_rawmidi_kernel_write1+0x73e/0x800
->   Read of size 8 at addr ffff88800b04f310 by task seqmidi_uaf2/84
->   Call Trace:
->    snd_rawmidi_kernel_write1+0x73e/0x800
->    __dump_midi+0x70/0x100
->    dump_var_event+0x290/0x320
->    event_process_midi+0x1ff/0x310
->    snd_seq_deliver_single_event+0x1e6/0x670
->    snd_seq_deliver_event+0x323/0x5f0
->    snd_seq_client_enqueue_event.constprop.0+0x226/0x400
->    snd_seq_write+0x2f1/0x530
->    vfs_write+0x21e/0xd30
->    ksys_write+0x17c/0x1c0
->    do_syscall_64+0xf9/0x540
-> 
->   Allocated by task 85:
->    open_substream+0xc7/0x7a0
->    rawmidi_open_priv+0x3df/0x660
->    snd_rawmidi_kernel_open+0x95/0x140
->    midisynth_use+0xda/0x1f0
->    check_and_subscribe_port+0x707/0xbd0
->    snd_seq_ioctl_subscribe_port+0x1f4/0x400
-> 
->   Freed by task 85:
->    close_substream.part.0+0x1f9/0x790
->    rawmidi_release_priv+0x1b0/0x240
->    snd_rawmidi_kernel_release+0x2d/0xb0
->    __delete_and_unsubscribe_port+0x1b9/0x3c0
->    snd_seq_ioctl_unsubscribe_port+0x1ee/0x400
-> 
->   The buggy address belongs to the object at ffff88800b04f300
->    which belongs to the cache kmalloc-192 of size 192
-> 
-> Found by 0sec.
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
+> Have you checked how many users actually need the temporary storage?
 
-There has been already a similar fix queued in sound.git tree for-next
-branch:
-ef7607ab1c8adc6258fb1b27d08e26aecdc18a58
-    ALSA: seq: midi: Serialize output teardown with event_input
+In Muchun's reply, he mentioned the following:
 
-I believe this already addressed the bug.
+There are 9,925 list_for_each_entry() call sites in total. Among them,
+9,919 do not require any adaptation, and only 6 need to be refactored:
 
-Let me know if there is still anything missing.
+As for list_for_each_entry_safe(), there are 4,572 callers. 4,550 of them
+can be directly replaced by the new list_for_each_entry(), while 22 cannot
+be replaced
+
+https://lore.kernel.org/all/2B3BFA1E-08B8-42AB-87D6-A28BF15E5C58@linux.dev/
 
 
-thanks,
+I only used Coccinelle to scan for list_for_each_entry() call sites, and
+found the 13 call sites shown in the current patch series, which cover
+the 6 cases mentioned in Muchun's email. I have not yet run the Coccinelle
+scan for list_for_each_entry_safe().
 
-Takashi
+If we need to handle all 9,925 list_for_each_entry() call sites or all 4,572
+list_for_each_entry_safe() call sites in one go, would such a change be too
+large? I expect it would affect almost every kernel subsystem.
+
+I wonder whether it would be better to first provide the necessary
+compatibility APIs, and then let each subsystem owner update their code as
+appropriate. That would make the impact more controlled, similar to how
+the current folio replacement of page is being handled.
+
+>>>> With the updated list_for_each_entry() implementation, that extra cursor
+>>>> can be kept inside the iterator itself.  Callers that only want to walk
+>>>> the list, including callers that delete or consume the current entry, no
+>>>> longer need to carry an otherwise-unused temporary variable just to make
+>>>> the macro work.
+>>>>
+>>>>>> The final patch changes include/linux/list.h to keep a private cursor in
+>>>>>> the common entry iterators while preserving the public macro interface.
+>>>>>> The safe variants remain available when callers need the temporary
+>>>>>> cursor explicitly or have stronger mutation requirements.
+> 
+
+-- 
+Thanks
+Kaitao Cheng
+
