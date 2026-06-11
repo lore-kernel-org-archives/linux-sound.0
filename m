@@ -1,135 +1,72 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp153-177.sina.com.cn (smtp153-177.sina.com.cn [61.135.153.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937223F44F3
-	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 12:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009FB37E2EC
+	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 12:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781179244; cv=none; b=I7D9lNYi+wlp9D0E3WqtmAdAJ+NROZ6T/6oAerqmeepa/gkYBFYEXof6VYUWAcBOj7zABQSOrbZICyWk8I3oTcTxKrKsPl/zuymJmzPmnfTXFWoiX2PhDTUjN110fl1zscfTAitu4MZgGyQKxoqITc9Frq2ncfvENYtbYLLge8E=
+	t=1781179327; cv=none; b=c+sqyxH8UfCU09vMvAOWWJoZX8dCk50pwHPZts1MkHhYh4YkTUt6MgrVySUlbEXXjKcstpMe5YwH0Bg8uL5d8MdsKMyOPVn5xDaAbdv6JmdZ5I0w+9AHKZ8le9u3mRDcvrrKNkKxHg8cSl2bKeB4jKoETCTFoDtPz+moZMpW+Jg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781179244; c=relaxed/simple;
-	bh=91ooDYWBMu1dh5b8vR884c90Ox/AsfYMF/V4v2FhMvA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Dybj/naZbEUOMFeO3X/vN4a7nIvFXkf6pK9Bv0kTlZJur2zKmqXOC6RjXQJJWowmd5KJxBYOgy3XPr2Xe6QIyoV/dmgRFA+g6OcSjCiGFZsUpdGJJH3a8mnjJaBBuD1xMcjAdY0lXSNEL7uJCtazShZQtT7I7+4cZqPtLahRoKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BwENYgNV; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BwENYgNV"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-36b7b7b7a80so384415a91.1
-        for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 05:00:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781179242; x=1781784042; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i4PV9lmErDIzgABct4j90hNz5rsVhbbxUQcJjXZWD/0=;
-        b=BwENYgNVP7J9RI6J0/yeFgPFcBnOjTjs5kSfkBcRp1QT9FDZ/xRbB3Xcyd2OAxyPc0
-         pUiTLgAzOibGTJdPdE0ZB0CLc6RQrmscj3puZVraKYLzjPM+8ewXjlJGq/oA+uBniN3q
-         UOdui6nmo4Aci4znzJoNkKjjAsWaC4pJdGoBYEDllVF5Ue8B8ixwjCi90j90GbSdnxwA
-         ZsmUO9GTlQ/4JN8Cchxw4BZuptXRLtHCN9Vcxthyep0KAn2pRNHOiwvIfodiuvUAb8Hx
-         YPTC9lm9OR2bHNTUXIluRYhtO+sc0qMVQUgIbZfDJ7AdcRe/W90cX0VVvcIzaJj2WaUx
-         vF9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781179242; x=1781784042;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=i4PV9lmErDIzgABct4j90hNz5rsVhbbxUQcJjXZWD/0=;
-        b=Tsqkv4M3DTpqiJYnA1XqudBcqUCLaWtcB7l6vNXKaQ2ZR5lsYsfUjq9Ogr2+aO0ANO
-         6FNPlGGz9H7qwzHs1XzTdmH1Xn7O9AySlZz1PJwqMvj8m4cEA/Lb0jpPP6Is8zB9tMyP
-         Nxper2zMEjw98z19wiBJK+Vf8e2VerTssW6bFlJSRBaz5XC2VrxiI7l4SZLBH8oojTHD
-         h6IGM5UzO3JTTsCXrz3U/OUISYKJ6wKI6//WtuyXaXnGMHVN3PDpcd3xNjscja6JIDyE
-         jjlLCgD7bUyAAjI9uklMm6O3CrpB6ncQmu/ceJjqdErfOOoZ1ecVurqwXYB6ls/eKvDV
-         ZLNQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+vj5wNIGUogG05gn/fV9297ObGvVG8cQbTVhCR7eLkw62pn4ocdtYtYJ+5XXrb0W1cEWUFlVOFFb4OuQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6jMIcGWNk2v76f0TmvTBuq7oR7Gc0fZNarfO+kHLIYcgmbQpx
-	kfut9viQ8G4wuBNn0G2nQTx+jfKVL3Rr1QYnRLzIWbm/4RYlel8uYMmS
-X-Gm-Gg: Acq92OFYNwp4vXdXoj4GxG8GMd4HIlCwfDm/ZkryIe3tLyHRQBXxF2aTjaR0U5vAA2p
-	RiYZZCsFLE/XU7OFEzG2AhaM8ZeFN926RUvFr+egxPQ2oOKsbIve8Tvf+wAjje2jV08ckHHDLXr
-	qhQGUW3ypTL/tT+58JnuAvPt0Zfqij3lZfd6T7mIn0eNQKqkhJB33wmkpWAON6PW+63a55lLLt+
-	Yc0c+Atmn6Z7ED4WFwDfAMT9VPh+C9QkE40998AVAV5rOxmfUaElSy779ypYmUAaouj+wBDQupL
-	s4PDbyTNnYcHAOb3mYTWhsesVTMomF9fnAqP0aLh5xrlqSNdotzZvgHNawVWSXQeqXz+LOJ9mGA
-	G2qh3qR35xbdWj30VPmYtuHiCHDWSfOny93gNnari6p8zPJ9YbYw6fsOUPrZqPd0/xhprS4uMdF
-	Xm50AzzHN0ArtVGUVgjvkZV/eUCcUYApVKtwDANaN/P/Yj8JMuUwbp4LsFOsZRHz6rOpaT
-X-Received: by 2002:a17:90b:3fcc:b0:36b:d40e:2cf9 with SMTP id 98e67ed59e1d1-378045c77fdmr1738306a91.7.1781179241641;
-        Thu, 11 Jun 2026 05:00:41 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37753d02ca4sm2499692a91.12.2026.06.11.05.00.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 05:00:41 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	s=arc-20240116; t=1781179327; c=relaxed/simple;
+	bh=3Mz1buIldYgIfV+mCp3fBzQK/aC8n/L3gRN7gf7mPno=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=nTCyijpBrPhEIkjhIK/Lp0Qk4iDXextOfKuLN4o/YP+bzCZqYpfB8CVKABxwDN2cVz3mzWno+m+XHP8seP6st1zv0FUXOo5zO5ME2vGZEYJ26Yry54mGXPzfqAQzptoc+HKyFJ+BWkWGkXTv9TIRKUZrkR9CbkcfHhK08JySC0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=61.135.153.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
+	by sina.net (10.54.253.38) with ESMTP
+	id 6A2AA3B200002418; Thu, 11 Jun 2026 20:01:55 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 65226D66B1E341D581A6ACA05DEDBBF9
+X-SMAIL-UIID: 65226D66B1E341D581A6ACA05DEDBBF9-20260611-200155
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: krzk@kernel.org
+Cc: broonie@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	krzk+dt@kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 20/20] ASoC: Intel: atom: sst_ipc: Use guard() for spin locks
-Date: Thu, 11 Jun 2026 18:59:01 +0700
-Message-ID: <20260611115901.80438-21-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260611115901.80438-1-phucduc.bui@gmail.com>
-References: <20260611115901.80438-1-phucduc.bui@gmail.com>
+	robh@kernel.org,
+	tiwai@suse.com,
+	zhangyi@everest-semi.com
+Subject: RE: [PATCH v1 3/7] ASoC: codecs: ES8389: Fix the issue about mclk_src
+Date: Thu, 11 Jun 2026 20:01:53 +0800
+Message-Id: <20260611120153.5915-1-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260611-likable-ultraviolet-moth-fdf2f6@quoll>
+References: <20260611-likable-ultraviolet-moth-fdf2f6@quoll>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+> > Fix the issue with incorrect modifications to mclk_src When the system 
+> > needs to be configured to use the MCLK from the SCLK pin, the code 
+> > still sets the relevant registers to use the MCLK from the MCLK pin 
+> > And setting `mclk_src` to `u8` is inappropriate, because the purpose 
+> > of `mclk_src` is to determine whether to use SCLK as MCLK.
+> > Therefore, we will change the `mclk_src` member from `u8` to `bool`.
+> > 
+> > Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+> 
+> NAK, same comments as before. You just ignore feedback.
 
-Clean up the code using guard() for spin locks.
-Merely code refactoring, and no behavior change.
+I thought I had responded to your feedback, but I haven't received a reply since then.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/intel/atom/sst/sst_ipc.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+I¡¯d like to know if I need to respond to all of the AI¡¯s feedback.
+Much of the AI¡¯s feedback concerns pre-existing issues that are unrelated to my patch.
 
-diff --git a/sound/soc/intel/atom/sst/sst_ipc.c b/sound/soc/intel/atom/sst/sst_ipc.c
-index 0d5e71e8a5b5..580678c89b28 100644
---- a/sound/soc/intel/atom/sst/sst_ipc.c
-+++ b/sound/soc/intel/atom/sst/sst_ipc.c
-@@ -38,9 +38,8 @@ struct sst_block *sst_create_block(struct intel_sst_drv *ctx,
- 	msg->on = true;
- 	msg->msg_id = msg_id;
- 	msg->drv_id = drv_id;
--	spin_lock_bh(&ctx->block_lock);
--	list_add_tail(&msg->node, &ctx->block_list);
--	spin_unlock_bh(&ctx->block_lock);
-+	scoped_guard(spinlock_bh, &ctx->block_lock)
-+		list_add_tail(&msg->node, &ctx->block_list);
- 
- 	return msg;
- }
-@@ -180,9 +179,8 @@ void intel_sst_clear_intr_mrfld(struct intel_sst_drv *sst_drv_ctx)
- 	union interrupt_reg_mrfld isr;
- 	union interrupt_reg_mrfld imr;
- 	union ipc_header_mrfld clear_ipc;
--	unsigned long irq_flags;
- 
--	spin_lock_irqsave(&sst_drv_ctx->ipc_spin_lock, irq_flags);
-+	guard(spinlock_irqsave)(&sst_drv_ctx->ipc_spin_lock);
- 	imr.full = sst_shim_read64(sst_drv_ctx->shim, SST_IMRX);
- 	isr.full = sst_shim_read64(sst_drv_ctx->shim, SST_ISRX);
- 
-@@ -200,7 +198,6 @@ void intel_sst_clear_intr_mrfld(struct intel_sst_drv *sst_drv_ctx)
- 	/* un mask busy interrupt */
- 	imr.part.busy_interrupt = 0;
- 	sst_shim_write64(sst_drv_ctx->shim, SST_IMRX, imr.full);
--	spin_unlock_irqrestore(&sst_drv_ctx->ipc_spin_lock, irq_flags);
- }
- 
- 
--- 
-2.43.0
+At the same time, I assumed that when you saw a ¡°High¡± severity level on Sashiko,
+you wouldn't be able to view the patches, which is why I sent the following patches and assumed they were all v0.
+https://lore.kernel.org/all/20260608083540.12581-1-zhangyi@everest-semi.com/
+https://lore.kernel.org/all/20260609025605.16945-1-zhangyi@everest-semi.com/
+https://lore.kernel.org/all/20260609030623.17404-1-zhangyi@everest-semi.com/
 
+If you can see my reply, should the patch I send next be v2 or v5? I think it should be v2.
+I'm sorry for the trouble I've caused you
