@@ -1,45 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA75A37D10C;
-	Fri, 12 Jun 2026 22:18:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0C6374E4C;
+	Fri, 12 Jun 2026 22:18:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781302705; cv=none; b=WreEuYC20rfI+OXCjn2jIdpfTkmptKk+zXbOYOO9J1mZlADvZvkBC5T8gAd8mTWGvCQXyAqwQuvbLVbvxlbQeZ9QPyhjLm/cFGDDX32nS/6ptOeWe5tH/XXfEgl73+2mjmyJVFPatdMXAyUNQaLaEWvFyCZzCJlHBfGqkpZuvvQ=
+	t=1781302711; cv=none; b=U7DSq+IUlELd+XMAL4rvhnoCjYC+E25B95UOr7fVJ43ypMm8o8exATDo3r/SK0r7xVpbzeBQioM6Tf2UoVxN3WQP8pQhAlwcwbp8zuxWEGvS7ohUUer0vF1ewI3NqpohEDuB/GRpoNat4HynWSt987w2G+HaGEjLzvC43Sd6uNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781302705; c=relaxed/simple;
-	bh=GL+rVpbXxDx9TQnqiNqY6e8kDWvoz3tdmaVs1g/i2ME=;
+	s=arc-20240116; t=1781302711; c=relaxed/simple;
+	bh=iMlL1vFVayA2B3AOOQa5rSWOICr4+/dX6uwv8YS1F+s=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=O0gJTUxj5tPFaW7A4QIzJlTChLz6rDmrFyZerLFO8UESKhC9IF8I1oYOyDtAT4iAdJdb3n2BYe3Q7HIO9PzTJEzjSDx8nIwm7mzm4X4/pqetfcnCZ9T9b+ozMq2QOpQIzgSXF776zUwmG8ebjfPh7CQxn130Yywot9TTKFy6GuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m7YDX860; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=pBaGwKiqYa3Ma9KiTb+9woRuMMWEJIiOI3M+wnteEJP6933fqG/qU63/0bYgpSyW9uaD6xvgQsEt+dewXgafBRpsuOrEwQvnfegW/1Ul7rx1Nfw2iRY0A7vgbAKE8EG4cT9xIunot/qJknruaoqqNP5tSSLfP3f/M3iOES6j6mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gJmFOO25; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m7YDX860"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6E2C1F00A3A;
-	Fri, 12 Jun 2026 22:18:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gJmFOO25"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A8121F000E9;
+	Fri, 12 Jun 2026 22:18:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781302704;
-	bh=bUuLuCNwVMVotc/UaW34G+DbGMicTkMAs5MVRAwrjXA=;
+	s=k20260515; t=1781302710;
+	bh=AmDKpKNkyHOSQGKO6ddMzshe+a01Z+P69G0V72xH0YA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=m7YDX860HM66HOBfY8RfDxUceGnrxeZELI1mAlO+Peen1fVJFmZ31KFYE9TNhF+dz
-	 NHdKm4nY9/dsIDMwSJuLYFId7fH9GKl8yM8NDvcq8bQJbtUyHmUcx9KjGcPRSPOTJF
-	 v1+VMEcybP95Dl+NbhPrFehGPDpbSqW5WnhSA+OgLh3HnRJ7Dkki10sYUEuOSiVpZ4
-	 C29Z1FwYi8d/ivReaqRV2gb42DYcEAv3DaUokzPu2SvWmDKcBDGsu2fzVfnsscsE4f
-	 i4Ur4NyI8Vy6DJajrP78DmgUevtaj0lQbjXkUl85FmcmUmHOuGbglmeY09CRbm6ov4
-	 TYtOMPNJ7DQog==
+	b=gJmFOO257+VQ8A46wJyA+hzvkTHzjFx9c7pLMbKlPx4pFHfZXUVELRZhcpIxoAQp4
+	 h4cD6ZXMEI4eSiZScC/2m/gW+NV5Fu4EmKzcgMv3DiQgLohscb5Ra6WUwxK9SwpCAr
+	 BLeTPRUX0ZBlBYi5EY7dB7KrcXy+GBqK4rSHw7tA/Hp70hxWeA1WRh1ifhXUnc/0Ti
+	 BQzMLKInUAJUwRMBndBgoFSbxC8aP7BMQDLQs8HWNGFjmamQx819vTYqk2IXX9Pn/M
+	 UlTnblNpS0ftN0/VN2Ur2aYlTO+SbGabB5amWvS21Gitm0EqBssy7TdHOD4Wa0UcES
+	 TWQZrID2o+aRA==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>, 
- Jaroslav Kysela <perex@perex.cz>, 
- Mengdong Lin <mengdong.lin@linux.intel.com>, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Cc: Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- notify@kernel.org
-In-Reply-To: <20260604-asoc-topology-check-pcm-dai-names-v1-1-e1b0f6f7c2ce@gmail.com>
-References: <20260604-asoc-topology-check-pcm-dai-names-v1-1-e1b0f6f7c2ce@gmail.com>
-Subject: Re: [PATCH] ASoC: topology: Check PCM and DAI name strings before
- use
-Message-Id: <178120726777.484538.12510907202195244148.b4-ty@b4>
-Date: Thu, 11 Jun 2026 20:47:47 +0100
+To: vkoul@kernel.org, lee@kernel.org, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, pierre-louis.bossart@linux.dev, 
+ yung-chuan.liao@linux.intel.com, peter.ujfalusi@linux.intel.com, 
+ oder_chiou@realtek.com, jack.yu@realtek.com, shumingf@realtek.com, 
+ srini@kernel.org, linux-sound@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260608102714.2503120-1-ckeepax@opensource.cirrus.com>
+References: <20260608102714.2503120-1-ckeepax@opensource.cirrus.com>
+Subject: Re: (subset) [PATCH v3 00/10] Expand SoundWire enumeration helper
+ coverage
+Message-Id: <178120723551.484538.8091127246653014116.b4-ty@b4>
+Date: Thu, 11 Jun 2026 20:47:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,22 +48,30 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1135; i=broonie@kernel.org;
- h=from:subject:message-id; bh=GL+rVpbXxDx9TQnqiNqY6e8kDWvoz3tdmaVs1g/i2ME=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqLIWsHH6ILYZ784D0E+VmUHEBZmdK4D2zn70s+
- aN89a4Q53eJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiyFrAAKCRAk1otyXVSH
- 0PcQB/9SSvivs+j6S+90TPNoAGKrHpOGgDqfDS+PsE8i1bgfv9TNieP/f12yJ7rbVAdx7L06R7R
- 8oeknz4uTlPLUe5s0mHdzD+6c9C76g5niNItchFU7Xv9GwkugEtBTHWQ4r3hY7odxql3uNYNzt/
- FVwhJziga0+sQ5lGOt0uFZM7kr2SdNHYZCwnRtrY7gjWkQlncfZYUVQ6VvTsAJGtFaewjKs3IFd
- kZWpy7LEGmwl47V6lJOfgt2GCg6AJNtSvVfYUeUaVngtycPWfnGJuuaPbF6GEISj9obMTqNBmpt
- geBaWMX+PZefFbLwswc5/jT1A4biMPcwLq4l+YkQ+cVhnAAX
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2470; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=iMlL1vFVayA2B3AOOQa5rSWOICr4+/dX6uwv8YS1F+s=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqLIWx01hgPSdY0U0XnB3YIuP/hyAKexWEILJYF
+ 0S1U2RESXKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiyFsQAKCRAk1otyXVSH
+ 0O1JB/9AaKaf19LOtVzcwR9XkOvkYk1H4VwvXjLXO78dkZMjTpw2PHayPmajKCBj9q45Sj5vrqC
+ gyR+r/40McOuce5pryZxFKPXty1X5DZzzXfdw81vnJeQheiXQBAC6SwZw7IROnOPFaYaJ+5LAm2
+ nqjW8DLNhgOjYRdWxwpW4yWIhNn+GBQxU1JY517OFGt+sw2psCFV/l/YPg2A5APTTUO7w5qkVVe
+ WgLaNdUhbny1y563jiiIpJSHBZa6R0yFrnzg/tkxz6dQpY+bw87dA3+LJZr0AeohTGr2K20Pehx
+ jIbyzgYZf78mJiL84URc1rfnJ029d0B78kiuC+b1zc+1TkgR
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 04 Jun 2026 00:10:58 -0300, Cássio Gabriel wrote:
-> ASoC: topology: Check PCM and DAI name strings before use
+On Mon, 08 Jun 2026 11:27:04 +0100, Charles Keepax wrote:
+> Expand SoundWire enumeration helper coverage
+> 
+> The patch series in [1] added a new helper to remove common boiler plate
+> waiting for a device to enumerate on SoundWire, however, many devices
+> also wait for enumeration during probe. This series updates things to be
+> suitable such that we can call the same helper at probe time when the
+> unattach_request is not valid.
+> 
+> [...]
 
 Applied to
 
@@ -70,8 +79,24 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: topology: Check PCM and DAI name strings before use
-      https://git.kernel.org/broonie/sound/c/b7e44d1986d6
+[01/10] soundwire: Always wait for initialisation of unattached devices
+        https://git.kernel.org/broonie/sound/c/5677a551f458
+[02/10] ASoC: wsa881x: Use new SoundWire enumeration helper
+        https://git.kernel.org/broonie/sound/c/f0eb67c618ee
+[04/10] ASoC: rt5682: Use new SoundWire enumeration helper
+        https://git.kernel.org/broonie/sound/c/933feddee4d7
+[05/10] ASoC: pm4125: Use new SoundWire enumeration helper
+        https://git.kernel.org/broonie/sound/c/ae636c93299d
+[06/10] ASoC: wcd937x: Use new SoundWire enumeration helper
+        https://git.kernel.org/broonie/sound/c/ec1028e3f077
+[07/10] ASoC: wcd938x: Use new SoundWire enumeration helper
+        https://git.kernel.org/broonie/sound/c/d6fc2c7051a6
+[08/10] ASoC: wcd939x: Use new SoundWire enumeration helper
+        https://git.kernel.org/broonie/sound/c/4e006504ac95
+[09/10] ASoC: SDCA: Use new SoundWire enumeration helper
+        https://git.kernel.org/broonie/sound/c/90a49e0f1652
+[10/10] ASoC: cs35l56: Remove unnecessary conditionals waiting for enumeration
+        https://git.kernel.org/broonie/sound/c/890b61d3a8c9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
