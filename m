@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26582D94BA;
-	Thu, 11 Jun 2026 18:17:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5034B3F54C6;
+	Thu, 11 Jun 2026 18:17:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781201843; cv=none; b=EiCNFEy+0f4BscnQC3trSL25y77k/9k5duycztkJBMH/L2KI5YiF9Kcx+UAOZ1NE3UrIgQzuhwkSSHntL3ju33F1n1cfaxzPHKyu8RLisF1QppAUG4Hluq1eCCFUG9OokgzOmHTj7qevUlXKFrDNuDzW3JWIX1LxTwoL2WPpEcY=
+	t=1781201874; cv=none; b=KrpNKBQANqEUsxJZgm87nKH1iKmihEiL4u3sG5QwRytYxl2wvnluxneZgnNtX1JtPndARRNYMk7RM6jujiro/FHBZWTDaiK/8WxsJ1xkfVeMyrwUDMIJTGfuzU8Ne5XB9yVDpRcREZ8+vdNYfh6LbvvsDDR+3jRpafuo5XXPfdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781201843; c=relaxed/simple;
-	bh=tO7/EjsMQm86AaRt/f8utKAb8c8i4NYMVHqud/Z09Ek=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Eqgu+636WRK537r62gRrD+Bmm1g8JzrYgStcDdetiRTE7v2XMUq8yEO7mfzQ+T4q3gpCBPrCR59eXJPpzXivLod/AceYFQFjoKNN8c3YAU16tqzQi5rbKRlu5FOIQZBnBdJd1p3VAz6LZNQjoaN7WUX+8CukF87wk4sYXNr60VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SsiCwC+S; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781201874; c=relaxed/simple;
+	bh=rgwVf00TpQfQUhQS15Vic2zuxDqeOv9y5kr728SscBY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=iffyOhH559PWfUgGZDXDy5bUwTWG/yw+LPOp7a39pwv41cRdHvx8hmjdFXO9ilhKrbJZHVr3Tm0oXz5LrE1qTIFyaUTGtccNEfnrUkUFNiLWmKiOWlop7gOApv5eboTMqmz9rEukkQ7RTL5laUxtHdKd9mOV3OK4eWVAqHCCK9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lLEBx66n; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SsiCwC+S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A36481F000E9;
-	Thu, 11 Jun 2026 18:17:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lLEBx66n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88C681F000E9;
+	Thu, 11 Jun 2026 18:17:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781201842;
-	bh=QFgKRTdIwrU6rfs520f5cSsXBx3dGBPc+7sbQWwBgeE=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=SsiCwC+Sl23wCSZVmlY+77R8VC/dQkyhLAjn1FT7ZSZChjAnRieGGXqi+nnhVEQC8
-	 ySsjq2e8obJ2PR3kVoM1bfjtqIW+S4q7vPkiSvcMiVVvCUYN0iQwmxSNdnsXG9I1cP
-	 RSqWqEixAsdYWISpv/0JrVGb/v20k84jvlu3IzDAcAXZ7BSXFFuE8qX0pB5toxN/ik
-	 2434BDGQftzNuyIi5/D3DUWRVNoVcIuCe90BBukmI6qrVxupHqa2EFVEUqpjM8tupZ
-	 XDzPiavK2oJTcq+WWHuTYLQOSX2LgxJQeNlXu6vMU4GNIIOx1XKKwaC5amJgqM8IYB
-	 Phyg+jV5spwxg==
+	s=k20260515; t=1781201872;
+	bh=JEBvD+jUcjhlpyuC2nHrf3cJVzS689d80WxPgMSg/aY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=lLEBx66nKamv4xrDHFgfZpPgpE8kM4SAbn59Sa2t90HXczVPjlz1kjyWoIHqTyjQC
+	 6WONmOcthKrANd2zAEcGhXQVGdc5JCwPWT/tf8aFByg6634gkpxVtcfnztBcmyTWHu
+	 zn6B2nTd8m7xuF/vvDB/1gknHlbqwUzBgZTCLsiJXfTY/oIrC1iBxu1SaMvEvdgkaF
+	 MMbi36inlOEd81irp/nt8NneUEya82b1U+62Qzh/7y1kfmQU48binBCbctvnf98fLa
+	 roYY0zBjkfH4sYfPEz0cnDlxPL15XapBERVJfv6Q5BoUxNRUGzJt4DbasRNFZm66X8
+	 f/nZe/K6QAHMg==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Li Jun <lijun01@kylinos.cn>
-In-Reply-To: <20260611010045.3668574-1-lijun01@kylinos.cn>
-References: <20260611010045.3668574-1-lijun01@kylinos.cn>
-Subject: Re: [PATCH v5] ASoC: loongson: Fix invalid position error in
- ls_pcm_pointer
-Message-Id: <178117328814.385863.13217909476069164391.b4-ty@b4>
-Date: Thu, 11 Jun 2026 11:21:28 +0100
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260611132221.1100497-1-rf@opensource.cirrus.com>
+References: <20260611132221.1100497-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs35l56: Fix possible uninitialized value in
+ cs35l56_spi_system_reset()
+Message-Id: <178118682324.447103.13736898382897275700.b4-ty@b4>
+Date: Thu, 11 Jun 2026 15:07:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,29 +45,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1132; i=broonie@kernel.org;
- h=from:subject:message-id; bh=tO7/EjsMQm86AaRt/f8utKAb8c8i4NYMVHqud/Z09Ek=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKvunfLtWvvfumnTRVzhZaCRzjrAuyR0QiDKOV
- cEN8k7UCReJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCair7pwAKCRAk1otyXVSH
- 0OinB/9U8COyJ/lGYwjeXLD5SVW74cIqueMtuYS0g5Fi/iwTmK7SLVAXgz/HEJliMWZQmy1jMvy
- e42zYcrfAZMYtQVbXbQntl8Gijq5+Arf+cofHJ2FqKDwr6rAqxfPWNP8PIz9q27pSJo/PTMutcw
- IY2rkzz86Elx9TGd34DpO3o7RoyNGB9N1DKFQENUigTmkKav2Lu82M7qP68TyeW0ymE9aQuj2ML
- jOYyiqnvQVTBRydfdtLB+fKv4qnD1Mz88zaWUFpGncxlydx0GMLRLkGF5asestby1QQZKsZcS8G
- L488h/cPve35ySqYWsSTyY9zsX2eT0NErnVXCX1Pw3v/oQhm
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1178; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=rgwVf00TpQfQUhQS15Vic2zuxDqeOv9y5kr728SscBY=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqKvvK3T+D/pAQA6weIy/RqiK1ig4gnJvHIlNIK
+ 4SJ/aiGW7GJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCair7ygAKCRAk1otyXVSH
+ 0G7pB/4/m8YG41FDziVmbadkLjFFz4hsCwxPuPEWatnGLogtypQZjvKcRCnQ5DEbVKjxx6Zl+79
+ ySQa3cGMvp4vgqVbXDALrUWr4tprl9qBrItM1pweMS+Ubu4enHB/09zIEc3QtvTW8ugobCIHtCF
+ eXFk9nn6T+M/H7kS6gyK33vXFno/PdFOU+PxSHDWS/98Fxr5WJfCYLwFuHna4+TLk+MhQFnpbn1
+ MH0i+5tyLtNY6X5HhX3SrCdrMlAWh6nR3XekBoCzUq8sCyoPPkTPgdLqfbDS+or8PsGx8TGjXUB
+ KZ4RIyEEj7qrP9O1CB9WQU9dKPpsJLsJiTtc09X1zOGJlb+C
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 11 Jun 2026 09:00:45 +0800, Li Jun wrote:
-> ASoC: loongson: Fix invalid position error in ls_pcm_pointer
+On Thu, 11 Jun 2026 14:22:21 +0100, Richard Fitzgerald wrote:
+> ASoC: cs35l56: Fix possible uninitialized value in cs35l56_spi_system_reset()
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
 Thanks!
 
-[1/1] ASoC: loongson: Fix invalid position error in ls_pcm_pointer
-      https://git.kernel.org/broonie/sound/c/6ad3914e06a4
+[1/1] ASoC: cs35l56: Fix possible uninitialized value in cs35l56_spi_system_reset()
+      https://git.kernel.org/broonie/sound/c/007699d278a6
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
