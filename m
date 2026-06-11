@@ -1,140 +1,84 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C08C264A97
-	for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 10:16:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26603ACA59;
+	Thu, 11 Jun 2026 10:21:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781172978; cv=none; b=fcuNX4SfLyxitUaqgUOzEr6dQQCm3a0BHzOWugGObZ9a7jCW2Ycb2l5t1WnbsopS4AacynmeW7wgeXp1nEcu7cQXYaY4Gb77uQvLHB4RtTwYySBaeKL2V1nk8f8sZUrDVUFKOuNbRTcXWlnQzqb9qQOX6eNVtISFUyiqFRBOsmk=
+	t=1781173287; cv=none; b=W3F2F/YjtDhtECfpiaZ35mrtIqchJJio56n5PIfsTPxAbjEPmZps0GlR1e3NvoBAHiKJrjMUSQI0u6yTBEd8VywMdWRwkirmExHvBVxS3EsJJJALb21frrYcvMHFM8OzcXeVUqdXyAwVVjq6GyHpBTPr/bkZ/VYLbRkxNCQRta8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781172978; c=relaxed/simple;
-	bh=rnRpWmG4J48ZICobw97cnDsqPP732sbLJJ65tkBqeIA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=QGYgjCZJv7LnhVtNylrJENZ1dlZg82Gj72/zqWeyCwV+oxnRjRkFJqIRMb8cpaDADfTaPXutJ1H4Z71We3CoxlM85+xcQeF2MyavJR5XoH0SFRN2rJW3vam+mvG30LKVnZDL8/WRQtLTg/+ksQmYt5jeBnOXMGk3a6xWpBhK77w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=G69zae+J; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1781173287; c=relaxed/simple;
+	bh=s28oxA185EbP3iCcOMDczCIuxnixbz7tW7J1IgpaELo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EmJNOmgo93Is5gzi5dhAAJLYijvopKwZ3mgLVq5sItmryvs3tFazwZEem21+JKn/ZAyWMjebiCmzINXQ9VMbXEtDh2GAX+X3XN4xRC3uevYDI6VnjQZPgrFZUnPY+KsFlbrS0x/1WnIMQjT1sn7cV2Ai0EXtlep3MhzgvdF3DeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jP+7Ploi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="G69zae+J"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-68c1630159bso8840318a12.2
-        for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 03:16:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1781172974; x=1781777774; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PhJd7zCUXuRcUedlV9DBkM4yrOANKOlgS/yqDuehskQ=;
-        b=G69zae+Ju4pHWOEwD23d1mRyH38is151jX/CezTDqRVv3gOUkTnhdclFRM6XeRHpix
-         w6g+APpYd1G+cXckv2l0Z0+KFgmvnZ8cZNkzCswJ3ksYOGTMKHA6ylxgnvLLVznzmEAz
-         +7q7hqpINdptlgQnv4LU+HTPHnS9anEQjpN5f0D3iz8u5ZclpgdgNtLsnqKH1+j3vVrP
-         23JqOqtGeNW5Ef7isjufuKrq6P/qS5p9qTix63+uEDiM5y0icnOr0QeLI4OZDMRUAov4
-         8yq7Hb7HniZTFKh1piEsTwpAr+xsVjjGcdJYopiXeTp/QcD9TH0+f7Iym9wAxiHGUkMG
-         bqGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781172974; x=1781777774;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PhJd7zCUXuRcUedlV9DBkM4yrOANKOlgS/yqDuehskQ=;
-        b=jhqPfmaiqwNx0Zlc1xCZxOX/pmdzpbm1ICOkr0OllmNNiTuaz5eJXwzH9s8u6oO7it
-         LNWk++a0ViTsPrXqdIGOsohFca3ijhSysk0KA8ALleaZru4LWHoOsJoMjFK2ziHkmlP6
-         q2L/ttjjvXw3MK9Fi3TLTsyf8207XzQO3aVpf1LYn3Io4Fmz82sGQM0rXr1FUNuTdic5
-         HD2LUPwzHqIeJqeBpYdfEnBzUDeQsrU1CTPk4WaTEwxLUXcsgLgjeinWnM8DORAtRRiD
-         4Y3EP8R8NEqZXrWW8B5Cj2tdP6dP7yGlcPc7E1NXPNe29VAL4AF8gqw5qTuHJnTc+LQI
-         vsuw==
-X-Forwarded-Encrypted: i=1; AFNElJ91HR/+NXdYwwohYCYyCEZAxkFLy7w0LJBy58UjULmqZ/g71DTgocWhIF3QU6cNAChhqxX7fb67B4F1UA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbPPecAuxgorLdOYStCH4OWx+k+5GyXcCCf/w+YmXS8KKafaQ3
-	jw7of9GapGZdexXVy1L6GBX2xmEa2ax/ALqsd2zXt7AHsv0sokcqpwGc245V1FwInPk=
-X-Gm-Gg: Acq92OH5zcKKDjYwG0kTlKkmxD+EINlyJhoUgpBaez/2SzNXbVPmEinOFlf+rU/DkpA
-	gKrk9O6C9fhDvI4Tf4bww+bxmSGSTvSN4RDt/egUrsX+150VyraQm0DG6AlkPuJurUpbeTYMEG6
-	zLIH97qu21QAFNV+rxE99+OW915Dc4KldytyiemcXmnTmd0GE9GsUKTpmDIcl5uBCMXQIFHqMjn
-	lxiI78Zz/MMxjQMjj1p9qJzCwaAbvvJHx8Y0bqT3ifPxmLI+njodPob4RVrI70K/etAOYPsoyQi
-	TnbVT/5efF8SNYd/qrBsrcZ+/2WCWMHakvTdgvAjSYtuwHpkgrsQl1++HDlUzFN+VtfU63lAyt2
-	DhUOKPMhJsXo9xguPMtEQVCjcgz3DKDFnGy1ybGE8z5dZcaxyPqUYlUTUNNN5wwndn0M98GjJ3Q
-	s6IwwnSpLf/DTGPvoYZSVNeS8CV0STkoy+YCs5XTMzImw4c/Nj60S3h5oSaOe7tJpeWdhCELlpM
-	gkdhGc=
-X-Received: by 2002:a05:6402:4405:b0:692:4761:989e with SMTP id 4fb4d7f45d1cf-6930e2e5988mr1051968a12.13.1781172973893;
-        Thu, 11 Jun 2026 03:16:13 -0700 (PDT)
-Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68e65851786sm10571626a12.17.2026.06.11.03.16.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jun 2026 03:16:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jP+7Ploi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 529411F00893;
+	Thu, 11 Jun 2026 10:21:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781173286;
+	bh=FlyYJaEQuF6FxGm+1gu6fL94QSNuO0HFiJ4u7Vpwv8E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jP+7Ploi7y7cgeHuHvQa1aoTn3G4p8nTHe2dAjJnw3yk4SaMokIRbtVsB3CDM8Nkq
+	 2yNzfcPqvo5Fp9+0E4QS5IBgXoE+okVU1jBj0BAM2MdexIGieKBTf91kUEzNENdsx7
+	 1QG7rUrIyYi0VbP4aGiCH0XZPXHYtJnW0WS2ouFXaJClTeLj5ek9K7INSJEDINg/Yt
+	 rlvAU8oC5LU2/nXFSYcgVaDL+PhBfQJHTg/Amx6+6geammMnk3pftKeKCcChjtOkr9
+	 YJ0ynJ+ASJlpUPOSCTnIXQ8J9BIyc9rCquIhTRHtLa5drfG6B29A4foGY1OeSuUu3j
+	 gfAaRYt+7S+sQ==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 4C8841AC56C6; Thu, 11 Jun 2026 11:21:23 +0100 (BST)
+Date: Thu, 11 Jun 2026 11:21:23 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Li Jun <lijun01@kylinos.cn>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] ASoC: loongson: Fix invalid position error in
+ ls_pcm_pointer
+Message-ID: <aiqMI4Aejt-cUZMh@sirena.co.uk>
+References: <20260611010045.3668574-1-lijun01@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 11 Jun 2026 12:16:12 +0200
-Message-Id: <DJ654FFH3T09.1VKAT493JUWP3@fairphone.com>
-Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ASoC: codecs: lpass-va-macro: Fix LPASS Codec Version
- for SC7280
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>, "Luca
- Weiss" <luca.weiss@fairphone.com>, "Srinivas Kandagatla"
- <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown"
- <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
- <tiwai@suse.com>, "Dmitry Baryshkov" <lumag@kernel.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260526-sc7280-va-macro-2-0-v1-1-2c1b572fa388@fairphone.com>
- <311ceabf-23ff-471b-9553-797c7d76af74@oss.qualcomm.com>
-In-Reply-To: <311ceabf-23ff-471b-9553-797c7d76af74@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="AEwz7Ppn2ti+CNa/"
+Content-Disposition: inline
+In-Reply-To: <20260611010045.3668574-1-lijun01@kylinos.cn>
+X-Cookie: Leave no stone unturned.
 
-On Wed Jun 10, 2026 at 12:52 PM CEST, Srinivas Kandagatla wrote:
->
-> Thanks Luca for the patch,
->
-> On 5/26/26 4:03 PM, Luca Weiss wrote:
->> According to both the static definition in downstream...
->>=20
->>   yupik-audio-overlay.dtsi: qcom,bolero-version =3D <4>;
->>   #define BOLERO_VERSION_2_0 0x0004)
->>=20
->> and the runtime detection:
->>=20
->>   CDC_VA_TOP_CSR_CORE_ID_0=3D0x1
->>   CDC_VA_TOP_CSR_CORE_ID_1=3D0xf
->>=20
->> SC7280 has LPASS Codec Version 2.0 and not, as declared with
->> sm8250_va_data LPASS_CODEC_VERSION_1_0.
->>=20
->> Create new va_macro_data with .version not set to use the runtime
->> detection and correctly get .version =3D LPASS_CODEC_VERSION_2_0.
->>=20
->> Fixes: 77212f300bfd ("ASoC: codecs: lpass-va-macro: set the default code=
-c version for sm8250")
->
-> Can you help me understand if this change was fixing any issue, if so
-> can you pl add CC stable
 
-I'm pretty sure that just came around because I was looking at the
-different parts of the audio stack and trying to figure out if there's
-something wrong somewhere, and how the different versions floating
-around downstream & upstream & documentation match up.
+--AEwz7Ppn2ti+CNa/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I'm not aware of a situation where this change makes a difference -
-apart from the dev_dbg() print.
+On Thu, Jun 11, 2026 at 09:00:45AM +0800, Li Jun wrote:
+> The "invalid position" error occurred when the DMA position descriptor
+> returned an invalid address value (e.g., pos = -1048838144). This happened
 
->
->> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
->> ---
->> I'm fairly confident this is correct, but please someone double check
->> this if they can.
->
-> Yes, you are correct, this is actually Bolero 1.1.0 Version where things
-> have changed in codec. if you read major number it will be 1
-> This has been artificially tagged as 2.0 in the driver.
-> So the change that you are doing is correct.
->
-> Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+> +	    addr > runtime->dma_addr + runtime->dma_bytes) {
+> +		dev_warn(dev, "WARNING! dma_addr:0x%llx\n", addr);
+> +		snd_pcm_stop_xrun(substream);
+>  		x = 0;
 
-Thanks a lot for checking! Opens even more questions in my mind, why
-1.1.0 =3D=3D 2.0 but somebody somewhere decided that at some point I guess.
+Sorry, I shouldn't have suggested adding the _xrun() - it'll deadlock in
+pointer().  I'll fix this up myself, no need to resend.
 
-Regards
-Luca
+--AEwz7Ppn2ti+CNa/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoqjCIACgkQJNaLcl1U
+h9BQ9Qf/a5Y5JXXzbepUcyyCIUetRO9fTOSMgDg9ESL7rJxx4YtKJofw8toeIkcy
+WstdsDObpHeIFF+ELB5aagTxjbY+IZh5B6Q6PU+jjP0a0vRVuMX3tDrHH93lV/K+
+/BFIi0cVngp3jfzP/hHJ9KEead/DouIZvyNO8AeaG8cRmsxbQd+3jNwJzajf6InQ
+W6mc4xf1Ylk1Olj9awJcEspomX8IFWvZNgA3vQYqQUyScsgJFP8A1g2M0kWqFSrW
+ie78GV4X8pu/zKp8GTrpDj+WE8pD+SxWXUuQg3Z0tr7SxiCuQAl2HSUI0xT390o0
+QtNKe+IC27CoKsRhBG6uIPTKGlcm0A==
+=nviI
+-----END PGP SIGNATURE-----
+
+--AEwz7Ppn2ti+CNa/--
