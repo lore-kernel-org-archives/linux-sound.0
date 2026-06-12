@@ -1,94 +1,91 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2124D38238D
-	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 09:03:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398A320C00C
+	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 09:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781255012; cv=none; b=vBMlOqy0y7bGhbFvvBDv+FOIJbDZ6ow1FaOP+pFbmIpkT+2FGTziOIYTP5msp64hWhYO2xUOsha7r9upLnNCgpKIKuync7+N2HrXF4LtWoEjBkuj3LmGHI9t6X1H9MaKG+yh1HbdkgxHgasEQm3mCJ2CQJeej4GBF26z/Hl6nxU=
+	t=1781255284; cv=none; b=mAVeXePCPDnHobitD9H0eb7Ve1/4beP2SMzBbbWRWGIlZJcrLmCo+S1SJAoVcch47k3VX4v1Jw+kReIV2dGcNbB4x/ePEMbcnYmsmuLUIBYItXHgaXfL7UCk/zIH3iQ2iG06iuDuWbyIz4ZqnHANrHeqPWvlhwsJwwIMHZoy2xI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781255012; c=relaxed/simple;
-	bh=FRLgHHHejbeVIszfgcTeL9+nMYHSUeWw8/FL8+qxmxM=;
+	s=arc-20240116; t=1781255284; c=relaxed/simple;
+	bh=5/5om7vBN7gvnpaNHOKof4iZJQp6bQP8WkauPx5MAW0=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LP6nyIw1ggAp1pj0MykyuX9ZbqHUd0uE9OI6S8FQ1KOyDtEs8SsLFdl1RRb6vcHJ1jNpTTOgskTcORrjOgVXUJ5JJbd0T/ma3IF9A2b3oocB6c0liTn/XHq7CLudQE85GjKmruuGyhxp7QgZVGovD41KMWPvp/XI1tZL4OEaCeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DBy1IYJ4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=37WAc0Ol; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wkYkNdKL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=e8xJcNqT; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=CaCjfzakYE8IEGbB3xLFM0aXdJ0SNGJLiCzgnQzbey5A2aW6l5CxtZSJGdz4n89dXtMgmKAqslanKuzRTFMNTlq5G4iQsacITbWgjb+xlxbcTSJzetv4EJUwenuJBDn9RYin0JdhwbnXGPpqr3Zfp+VdUsyaBiiP47wRfe/xLVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fhYKokbO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=O1/mxa2O; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kqnu67KY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lKs/oBXQ; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DBy1IYJ4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="37WAc0Ol";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wkYkNdKL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="e8xJcNqT"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fhYKokbO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O1/mxa2O";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kqnu67KY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lKs/oBXQ"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DFDAA75E89;
-	Fri, 12 Jun 2026 09:03:27 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5CADA6B2B2;
+	Fri, 12 Jun 2026 09:08:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781255008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1781255281; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5OYFP/akkbuFZcWuDplTIWJvN/r50m3B8cDzeF5D0Do=;
-	b=DBy1IYJ4rEpgvruB/XxsV3DfiLsmeYGB3SkCPjfzCr0tWi5Ul/71ysn/f3AjqOqRXUDkJi
-	Px9MUIhkF7BMMr9fcsDbG7OY/XQtDWE1VG5vNoHoG/u9iWsPJwPhg1ov5s417tiqSJasem
-	1RRT0uZlKLO9jF7kh91y7D5bK5Wke+Q=
+	bh=DUGFRiRBWeS493YYDdMTOwle1hobnx50ihESzbg+z0k=;
+	b=fhYKokbOtfIdsSCOAixSdeBKnyAsE19UhTf6bzXEtF/chBtGtFx4vR9MQU2UK8v7Xga3AD
+	CyqmmZMPu22iJi7wh8JV75pHy3rcbxiAI1PJsLepXV/kSDk+kV40gyF/M2Gyvj5fCqJ2HP
+	mBwOdjy28toasszi4zVlS84YmlEW7kA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781255008;
+	s=susede2_ed25519; t=1781255281;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5OYFP/akkbuFZcWuDplTIWJvN/r50m3B8cDzeF5D0Do=;
-	b=37WAc0Ol1prUEI9HnN6g4ze2Gdy7a5JJSx1YtPuZZkM03cslclLaFfJtmgQHFxbpNYlS6a
-	wDXHyoKcU21CBdCA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wkYkNdKL;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=e8xJcNqT
+	bh=DUGFRiRBWeS493YYDdMTOwle1hobnx50ihESzbg+z0k=;
+	b=O1/mxa2OL6KnzoQPuQ2qthoGTQR/Rr4D923QJYcHP8FYMT1fo8msDNW9yeRoS9SLSVuLke
+	y0OzaXhW2vg57CCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kqnu67KY;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="lKs/oBXQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781255007; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1781255280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5OYFP/akkbuFZcWuDplTIWJvN/r50m3B8cDzeF5D0Do=;
-	b=wkYkNdKLfU5kG4HVcQST9xamCP6S5MAuqPRV//2zsXLJDzoXUMEzxhOnucYw3DIgF/Ogk3
-	PIuGzB8kDE2fExfEr9L2Z+CYULwKxlYWWPbwgxkkoJK5kMtbvaTjKS7WdGFwDf0dZULuZH
-	uUXH9M6IkdA83SqVPAnpnpqiO9VQI9M=
+	bh=DUGFRiRBWeS493YYDdMTOwle1hobnx50ihESzbg+z0k=;
+	b=kqnu67KYIQCmqeihMrPMXPUDsSM1OX3vnmK/+TiID2spT6BQ6lsSS3JjQjr430u70TL5FQ
+	ABJygIg4/XP5cynIIb06JoxOAkxKfWTvp0HcTc3fcpn+EvDuc4GaV1P3P0D6C1buXdQjEu
+	/6hwTkCWulBl3bBfzLrrgfuDEvg4i+Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781255007;
+	s=susede2_ed25519; t=1781255280;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5OYFP/akkbuFZcWuDplTIWJvN/r50m3B8cDzeF5D0Do=;
-	b=e8xJcNqTM1WPq16PWlZNjMiSR3vRMXVsc/ZxdkrUZiG0CNFp4nzcu8SVNHa1fhG4s3/KIl
-	eVqc712ZO+xMCgAw==
+	bh=DUGFRiRBWeS493YYDdMTOwle1hobnx50ihESzbg+z0k=;
+	b=lKs/oBXQQ+y0M2WBonGFGHZu+FLEqZCfryC4yBWoGILg3I4f9iWEzk+WPeHe1pheP9KYJj
+	d4yyX3OUD+yte1BA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A602779A7;
-	Fri, 12 Jun 2026 09:03:27 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2925F779A7;
+	Fri, 12 Jun 2026 09:08:00 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EsNaIF/LK2pXZwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 12 Jun 2026 09:03:27 +0000
-Date: Fri, 12 Jun 2026 11:03:27 +0200
-Message-ID: <87pl1wi10g.wl-tiwai@suse.de>
+	id Un2zCHDMK2oWbAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 12 Jun 2026 09:08:00 +0000
+Date: Fri, 12 Jun 2026 11:07:59 +0200
+Message-ID: <87mrx0i0sw.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: =?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>
 Cc: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	notify@kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: qcom: Guard sideband endpoint removal
-In-Reply-To: <20260611-alsa-usb-qcom-guard-sideband-endpoint-removal-v1-1-00e73787c156@gmail.com>
-References: <20260611-alsa-usb-qcom-guard-sideband-endpoint-removal-v1-1-00e73787c156@gmail.com>
+Subject: Re: [PATCH] ALSA: pcxhr: Share PLL frequency register calculation
+In-Reply-To: <20260612-alsa-pcxhr-pll-helper-v1-1-c84ae2bd2e9b@gmail.com>
+References: <20260612-alsa-pcxhr-pll-helper-v1-1-c84ae2bd2e9b@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -109,47 +106,42 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FREEMAIL_TO(0.00)[gmail.com];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
 	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: DFDAA75E89
+X-Rspamd-Queue-Id: 5CADA6B2B2
 X-Spam-Score: -3.51
 
-On Thu, 11 Jun 2026 15:57:22 +0200,
+On Fri, 12 Jun 2026 05:43:55 +0200,
 Cássio Gabriel wrote:
 > 
-> qmi_stop_session() conditionally looks up the cached data and sync
-> endpoints, but removes each endpoint unconditionally.
+> The PCXHR and HR222 clock paths duplicate the PLL divider calculation and
+> register encoding. The HR222 variant extends the same format with an
+> additional range for rates above those supported by the older boards.
 > 
-> The data endpoint is always present for an active offload stream, while
-> the sync endpoint is optional. When no sync endpoint exists, ep still
-> refers to the data endpoint and the code attempts to remove that endpoint
-> a second time. The current sideband implementation rejects the duplicate
-> removal, but the teardown path should not pass an unrelated endpoint for
-> an absent sync endpoint.
+> Move the complete encoding into pcxhr_pll_freq_register() and pass each
+> hardware path its existing maximum frequency. The additional encoding
+> branch is unreachable with the older 110 kHz limit, so this preserves both
+> paths' accepted ranges and generated register values while removing the
+> duplicate implementation and its long-standing TODO.
 > 
-> Only look up and remove an endpoint when its cached pipe exists, check the
-> lookup result, and clear the cached pipe after handling it. This matches
-> the normal stream-disable path.
-> 
-> Fixes: 326bbc348298 ("ALSA: usb-audio: qcom: Introduce QC USB SND offloading support")
 > Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
 Applied to for-next branch now.  Thanks.
