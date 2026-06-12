@@ -1,354 +1,154 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE2F399D08
-	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 04:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBEF237C0EC
+	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 07:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781240035; cv=none; b=gWhSQQxgnsaRlR3QKv4MNVTFJIFaO5OCQ85kwikuFB4M+rAOBpg0K7ncORPbvRJPiyKhZjXSgkIxlNwzz5NyNM7EwByhyAI3/w8exOAp2Z9ZoPofpgbKO/5fDKG0rcf27zZeMIsPmT3keI7HGSWQf6Rr6UZpmH23ppdp8QkOVag=
+	t=1781250241; cv=none; b=Juh8AXQLPbfq90wVfMVJXpf5wL80mgNZlaN3Q412i60CDt0IW13iwjtf3r488twbSbUNtnUOwybS9w04Yur6bTprQckz3l0ByHPwqvfgpwInFi8H3G1FVxArS3My5T1/iukMgEV+xj3zJ50MoLSNE6VN30aknfziQ3yAjLg5gB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781240035; c=relaxed/simple;
-	bh=bC/8un0gjlQzbn6mx8nfwiMtVZXofE+XiUEEsbGFVz8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=f+lpL+oJn0vVQXgaLcHKJ8QJcSd6Q6/LYCPaH6D+k7XXnjUNDLOfW0Gp/m7pMz9WhkscJEN6VXRaJMdy8G5Hr3apVtAuKuNwYMKpsaAd5ZzphzhPXavQqj2RjKYfnnFMaK7D49oyheVTK2n159BrScNamnZNjKU/+6RY8mzByWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aNqksR1F; arc=none smtp.client-ip=74.125.82.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781250241; c=relaxed/simple;
+	bh=xgLZ6ydEdxbm7XtxVmmjX5AJUpXge0zzzM7UHp0ej2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KHtTGYT2OV4WNKofuG+LOw07Mn0WTQbzPW1My80h60T8wJ8bClApog5ozIfGgB0JXD/KB5XqIuei0sUBj9dMlX0uQW12+W4G/mAO2PzXlYMLsq++zXbPNBhlC7Lr7TYcplIv693KsG8BXtfTeILmXAh4EePyCAPKSrC85fal9Pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=jn4oyUUm; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aNqksR1F"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-306f36df4feso474232eec.0
-        for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 21:53:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="jn4oyUUm"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490b1bbcf3aso4937485e9.1
+        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 00:43:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781240033; x=1781844833; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lVcQQd4sC+ylekkm5CE3VRYg0x6kzjaCjRpitPRM408=;
-        b=aNqksR1FFgPmom3xbSB5+HcovsbFKGiHWi4IFUkUV38hT9KSf79E1Wy7qATdvhvFea
-         wFFegE3SpCMRQIzb0nVvd3UPypWfJ9kEk2L53PPOUyWLnTGT7cLWzVMC+fIXnXmtbP2X
-         DHPkX28OTvJMfPocCLu2xAOtC9r1ycZDZqZwztAvmm/K0mK+0Cm1TX2KTqc5PDsJWuBA
-         IY1noSToSkSvp4QDanLC1cJBUhKkwCZNeA267oB9iItBvHaLIEDGgkdRCk9Te5QPg4l7
-         zax/93xWYJImnGs2wEuHmLSc0vff149fSDqwcILU9rehdqQVd52UMMz0NcSnH7bgGnI0
-         N8nA==
+        d=baylibre.com; s=google; t=1781250238; x=1781855038; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Rxr3RDnrGDap9ET6pVXLfD4X7lIkVPiU/6HValFYlE=;
+        b=jn4oyUUmU8lFKGSp8oNixWQduVa9uqTC/hdb2bhX0boJZxKCDb0/eV+xtQZ4l6Nesf
+         W8cHOolrQsecZGM7VsEqIXPjkK1dfRymfFFz9625BqO0JQYOjWacLgz/vcLMPY1xsCpl
+         BfXdbTqtfZIEgCNoZhDnuBxd85tCgSPN9VC3KgkBxgZiDiDAIBOl6OuVQO4VxwnxPv3O
+         Dq4qaTd/LH90YPNQOfC6Vga52c2DiXF4TZk475KEWMu88PkhIWGukXXEH1F3r0FJbYeq
+         4QfEHB8gx/GA8C3rxokF4Or6OEb/LAhyU/uUn7NlId47MACyLYDcArYE/Szisgqxt5Y1
+         k65g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781240033; x=1781844833;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=lVcQQd4sC+ylekkm5CE3VRYg0x6kzjaCjRpitPRM408=;
-        b=Ge/kU49ecdC+9770IrQOV8SZYI0nTfEMmAuEOCROlnY6OH9oTFSRFUmYzetlTUdieb
-         CflsArJ4Io97tq4HKRsSCSPytAT8UiIx8C357nih7BFFL8iPYsWUaFzcurJZij2sJCvp
-         BXJbIPY0NOIQgH0I9KDmf3F1AmZ2UveTh4n/l7tBt7y4dCC8dp/+7CzfZlVXZE7zCc4x
-         83X6KZ6Aw3MBo/zOi0K3/bGfOCBIsobfe/AYCOwgrRsJ4CM268TsP7VzVFUeplV5vZ5U
-         5ZLaLMA3d/4HcdxRdnipbJ+NHuRHVs3Sobsd9uMjW5LIjbzm1hukBx9nm9rFVNNU56hE
-         6Akw==
-X-Gm-Message-State: AOJu0YxiOb8WwEnSdSo2VCNTItfA8kjmS5AvAiRa6czqatWmlhNoXp+k
-	tIIR+qsLUMeQRxcoe+Yxoc8/NNghQg8wLvqmASr5s+zgYLFc94hKVPFH
-X-Gm-Gg: Acq92OFAX3T760jRq6dncMRdh57gaeGAv2yqBys02ekCZc1HRBIwUfUAOStcBh9cMLH
-	DznvZI9BUH9G4I60qBYOksX3SKaOw2VaYT8LNGPwaIknr7nUlAbd+kumGB5GlGbapUNGItxGr2S
-	VoClp+fjh7U00oYHetgchhiAYh/AP+1xdlD39zMMtHmz4l9uTvuuLCKjpYhFfdklBxKWQy9ASYa
-	nF1u9ACWRua0G56xJrZiSnWTcnEU0yyeFoeGx2V9UUAWiwpeDC75AbQdps8IcDdjwcc8LOSv/b8
-	duVUtqNDtEzUPKAK54I5ZeNtZmrak0YXTwnuBMlwVAcUnxjLgxZe28oFAMKCCuBU1FXjt5Darnt
-	vdBu/Rt78d5519e3wTCSpRPFFIo4/zADwAtc8+dpsbcDYfKYVDRpeBm2nTGJvJsNkbQCkC8T8xW
-	NwgqcrUuxM6c0HqICWbBZdGHYZAkRTLIYSldrtgCZTwbu4lNu59JYuxIzV2E7jOAuTJAOmSfAWO
-	g==
-X-Received: by 2002:a05:7301:e8b:b0:2c5:c532:1fe1 with SMTP id 5a478bee46e88-3081ddff1d0mr594316eec.3.1781240032969;
-        Thu, 11 Jun 2026 21:53:52 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-23.user3p.v-tal.net.br. [177.4.161.23])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5cea89sm1971217eec.8.2026.06.11.21.53.50
+        d=1e100.net; s=20251104; t=1781250238; x=1781855038;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5Rxr3RDnrGDap9ET6pVXLfD4X7lIkVPiU/6HValFYlE=;
+        b=QkQ5TftXLYn24vGX0tRqWkEyMlglt/o68MrySzsyhoUVHc6vJNOSHLcCJ4/XP81DH3
+         lrhMKdoNg12ibErdPMY9NbcS1CkuUU/P6/egiuTwIKf0rpLymU3W+GGrvxTlGDKKU087
+         3nx2w1iF+fSYN3ZFoSkNUuntd9WbBODbd2TfHcnwcEtDLwCELKd5GSqsguM6maZYwb9S
+         uifZl2tXxF2lSSOnBxi6lOZ/knceo1EYOt7imSCbZQM2XnJDgCD1SYytfyZ1Wuu0vWk4
+         T/Ikr7VjGCycy5QgXlfS6v7qvW9y39UW5VxPzxAaiXM7XY62LG3UhHiNocbW/WKR7Z7f
+         EnFA==
+X-Forwarded-Encrypted: i=1; AFNElJ/HhcTfK2As1UNKMYyqdUD25UcfeYVbV/2o0MWUkdaO/bNfsZmIVhG05ibkwdbISKJU8Ktv5P6aKwtLBw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5YL88a6iMQQ51jS2uEJAjULVScnQmwl5UJjbqgMEPzDKMY6Yz
+	r5XnBx9mJXC7txi9jFsS/ytYDGOkuE2A9ZkvwSoOc5oagIi7lhpEw+hgfeOu0noMnEA=
+X-Gm-Gg: Acq92OFj4rWJiHCr1pYHSNf6eYllPh5QwEx282jNu4GFYpfErm2vPnvxCTI6DGlvl9U
+	3UROE4IZjo6/qXpjPE1UwQluVD2Ofud5mk1xhyJd6xTgN/ezQx99gXVkfBhxCm8G6+oxMdwriue
+	+EIa5iLa6WuXUFQjhBaf/uBI3fPCdHgD9VGtLfGbdbF9mIhqUPFCpRdvR0PAL7H7VFHARsy+ZvL
+	3xd6ccTMF/4ZymoUCSXuS2vVX7WDt4COF86gkySECIBgLB84zbz0ag7JTc/XI0PHhHZZqhrx5Rr
+	+/UgSvPcdSfLzGO1jPMN+1TDbUCPv86Il7zhxkqrR8+A0DFQ10ZPQJdh5TPjQRA8yGE6aa7YZyR
+	QA8ZyAKchFpq75lSsD9rja/bT4N4NGojf5XM3X+ZtuYjd3BYRhp+5ET9RlaZhFXVOS3OrjHooxz
+	Q9+n2R4TH4A+NB8DkIic6domc6gYU0cFk0LW5Z1aKT313IWk3I80OWnp0BQecMkWvu9EQ0qbSLD
+	JfsdFNbW4Vf9g==
+X-Received: by 2002:a05:600c:820c:b0:48e:5d91:cfe3 with SMTP id 5b1f17b1804b1-490ec4cd08fmr20296955e9.1.1781250238091;
+        Fri, 12 Jun 2026 00:43:58 -0700 (PDT)
+Received: from localhost (p200300f65f47db040e4e5c1e98e7f0ff.dip0.t-ipconnect.de. [2003:f6:5f47:db04:e4e:5c1e:98e7:f0ff])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-490ea7c09bcsm44786175e9.2.2026.06.12.00.43.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 21:53:52 -0700 (PDT)
-From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Date: Fri, 12 Jun 2026 01:53:26 -0300
-Subject: [PATCH RFC 4/4] ALSA: x86: Use common CEA channel allocations
+        Fri, 12 Jun 2026 00:43:57 -0700 (PDT)
+Date: Fri, 12 Jun 2026 09:43:56 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/4] ASoC: renesas: fsi: Simplify driver_data handling
+Message-ID: <aiu4T1HgDW8xl2nC@monoceros>
+References: <cover.1779958164.git.u.kleine-koenig@baylibre.com>
+ <308c08c0fb309c190412f5ceb21b0027842b6294.1779958164.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260612-alsa-cea-channel-allocation-v1-4-b1bcbb6b1051@gmail.com>
-References: <20260612-alsa-cea-channel-allocation-v1-0-b1bcbb6b1051@gmail.com>
-In-Reply-To: <20260612-alsa-cea-channel-allocation-v1-0-b1bcbb6b1051@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-tegra@vger.kernel.org, notify@kernel.org, 
- =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9800;
- i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
- bh=bC/8un0gjlQzbn6mx8nfwiMtVZXofE+XiUEEsbGFVz8=;
- b=owGbwMvMwCV2IdZeKur/u2bG02pJDFnaEy6e7VmZqcibc5pl+r+yyLlvDh6d/yZsu5x7NPOla
- V7NDUaJHaUsDGJcDLJiiiyrkxZZ7ul6cLU+boUHzBxWJpAhDFycAjCR9yIM/yzymDY3JDrMrHw/
- N1CrN9czjqd6SeoPL6PsZ5vCd8q7BTD8d2nl2/Rzq4Scauoxidu96coVMote7fqy4tJhtiIBjY9
- T+QE=
-X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
- fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="33zssqxog3lq5pt6"
+Content-Disposition: inline
+In-Reply-To: <308c08c0fb309c190412f5ceb21b0027842b6294.1779958164.git.u.kleine-koenig@baylibre.com>
 
-Replace the Intel HDMI LPE copy of the CEA allocation table and selector
-with the common PCM ELD helpers. Preserve the driver's existing limits:
-only ELD speaker bits 0 through 6 participate, only CA values through
-0x1f are considered, and an incompatible ELD does not use HDA's fallback.
 
-Select SND_PCM_ELD for the new helper dependency.
+--33zssqxog3lq5pt6
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v1 2/4] ASoC: renesas: fsi: Simplify driver_data handling
+MIME-Version: 1.0
 
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
----
- sound/x86/Kconfig            |   1 +
- sound/x86/intel_hdmi_audio.c | 158 ++++++-------------------------------------
- sound/x86/intel_hdmi_audio.h |   9 ---
- 3 files changed, 20 insertions(+), 148 deletions(-)
-
-diff --git a/sound/x86/Kconfig b/sound/x86/Kconfig
-index 4ffcc5e623c2..a990989a12b9 100644
---- a/sound/x86/Kconfig
-+++ b/sound/x86/Kconfig
-@@ -12,6 +12,7 @@ config HDMI_LPE_AUDIO
- 	tristate "HDMI audio without HDAudio on Intel Atom platforms"
- 	depends on DRM_I915
- 	select SND_PCM
-+	select SND_PCM_ELD
- 	help
- 	 Choose this option to support HDMI LPE Audio mode
- 
-diff --git a/sound/x86/intel_hdmi_audio.c b/sound/x86/intel_hdmi_audio.c
-index 91dfcf47e979..4ea29c3ea6c5 100644
---- a/sound/x86/intel_hdmi_audio.c
-+++ b/sound/x86/intel_hdmi_audio.c
-@@ -26,6 +26,7 @@
- #include <sound/core.h>
- #include <sound/asoundef.h>
- #include <sound/pcm.h>
-+#include <sound/pcm_drm_eld.h>
- #include <sound/pcm_params.h>
- #include <sound/initval.h>
- #include <sound/control.h>
-@@ -57,72 +58,6 @@ module_param(single_port, bool, 0444);
- MODULE_PARM_DESC(single_port,
- 		"Single-port mode (for compatibility)");
- 
--/*
-- * ELD SA bits in the CEA Speaker Allocation data block
-- */
--static const int eld_speaker_allocation_bits[] = {
--	[0] = FL | FR,
--	[1] = LFE,
--	[2] = FC,
--	[3] = RL | RR,
--	[4] = RC,
--	[5] = FLC | FRC,
--	[6] = RLC | RRC,
--	/* the following are not defined in ELD yet */
--	[7] = 0,
--};
--
--/*
-- * This is an ordered list!
-- *
-- * The preceding ones have better chances to be selected by
-- * hdmi_channel_allocation().
-- */
--static struct cea_channel_speaker_allocation channel_allocations[] = {
--/*                        channel:   7     6    5    4    3     2    1    0  */
--{ .ca_index = 0x00,  .speakers = {   0,    0,   0,   0,   0,    0,  FR,  FL } },
--				/* 2.1 */
--{ .ca_index = 0x01,  .speakers = {   0,    0,   0,   0,   0,  LFE,  FR,  FL } },
--				/* Dolby Surround */
--{ .ca_index = 0x02,  .speakers = {   0,    0,   0,   0,  FC,    0,  FR,  FL } },
--				/* surround40 */
--{ .ca_index = 0x08,  .speakers = {   0,    0,  RR,  RL,   0,    0,  FR,  FL } },
--				/* surround41 */
--{ .ca_index = 0x09,  .speakers = {   0,    0,  RR,  RL,   0,  LFE,  FR,  FL } },
--				/* surround50 */
--{ .ca_index = 0x0a,  .speakers = {   0,    0,  RR,  RL,  FC,    0,  FR,  FL } },
--				/* surround51 */
--{ .ca_index = 0x0b,  .speakers = {   0,    0,  RR,  RL,  FC,  LFE,  FR,  FL } },
--				/* 6.1 */
--{ .ca_index = 0x0f,  .speakers = {   0,   RC,  RR,  RL,  FC,  LFE,  FR,  FL } },
--				/* surround71 */
--{ .ca_index = 0x13,  .speakers = { RRC,  RLC,  RR,  RL,  FC,  LFE,  FR,  FL } },
--
--{ .ca_index = 0x03,  .speakers = {   0,    0,   0,   0,  FC,  LFE,  FR,  FL } },
--{ .ca_index = 0x04,  .speakers = {   0,    0,   0,  RC,   0,    0,  FR,  FL } },
--{ .ca_index = 0x05,  .speakers = {   0,    0,   0,  RC,   0,  LFE,  FR,  FL } },
--{ .ca_index = 0x06,  .speakers = {   0,    0,   0,  RC,  FC,    0,  FR,  FL } },
--{ .ca_index = 0x07,  .speakers = {   0,    0,   0,  RC,  FC,  LFE,  FR,  FL } },
--{ .ca_index = 0x0c,  .speakers = {   0,   RC,  RR,  RL,   0,    0,  FR,  FL } },
--{ .ca_index = 0x0d,  .speakers = {   0,   RC,  RR,  RL,   0,  LFE,  FR,  FL } },
--{ .ca_index = 0x0e,  .speakers = {   0,   RC,  RR,  RL,  FC,    0,  FR,  FL } },
--{ .ca_index = 0x10,  .speakers = { RRC,  RLC,  RR,  RL,   0,    0,  FR,  FL } },
--{ .ca_index = 0x11,  .speakers = { RRC,  RLC,  RR,  RL,   0,  LFE,  FR,  FL } },
--{ .ca_index = 0x12,  .speakers = { RRC,  RLC,  RR,  RL,  FC,    0,  FR,  FL } },
--{ .ca_index = 0x14,  .speakers = { FRC,  FLC,   0,   0,   0,    0,  FR,  FL } },
--{ .ca_index = 0x15,  .speakers = { FRC,  FLC,   0,   0,   0,  LFE,  FR,  FL } },
--{ .ca_index = 0x16,  .speakers = { FRC,  FLC,   0,   0,  FC,    0,  FR,  FL } },
--{ .ca_index = 0x17,  .speakers = { FRC,  FLC,   0,   0,  FC,  LFE,  FR,  FL } },
--{ .ca_index = 0x18,  .speakers = { FRC,  FLC,   0,  RC,   0,    0,  FR,  FL } },
--{ .ca_index = 0x19,  .speakers = { FRC,  FLC,   0,  RC,   0,  LFE,  FR,  FL } },
--{ .ca_index = 0x1a,  .speakers = { FRC,  FLC,   0,  RC,  FC,    0,  FR,  FL } },
--{ .ca_index = 0x1b,  .speakers = { FRC,  FLC,   0,  RC,  FC,  LFE,  FR,  FL } },
--{ .ca_index = 0x1c,  .speakers = { FRC,  FLC,  RR,  RL,   0,    0,  FR,  FL } },
--{ .ca_index = 0x1d,  .speakers = { FRC,  FLC,  RR,  RL,   0,  LFE,  FR,  FL } },
--{ .ca_index = 0x1e,  .speakers = { FRC,  FLC,  RR,  RL,  FC,    0,  FR,  FL } },
--{ .ca_index = 0x1f,  .speakers = { FRC,  FLC,  RR,  RL,  FC,  LFE,  FR,  FL } },
--};
--
- static const struct channel_map_table map_tables[] = {
- 	{ SNDRV_CHMAP_FL,       0x00,   FL },
- 	{ SNDRV_CHMAP_FR,       0x01,   FR },
-@@ -384,68 +319,13 @@ static int had_init_audio_ctrl(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
--/*
-- * Compute derived values in channel_allocations[].
-- */
--static void init_channel_allocations(void)
--{
--	int i, j;
--	struct cea_channel_speaker_allocation *p;
--
--	for (i = 0; i < ARRAY_SIZE(channel_allocations); i++) {
--		p = channel_allocations + i;
--		p->channels = 0;
--		p->spk_mask = 0;
--		for (j = 0; j < ARRAY_SIZE(p->speakers); j++)
--			if (p->speakers[j]) {
--				p->channels++;
--				p->spk_mask |= p->speakers[j];
--			}
--	}
--}
--
--/*
-- * The transformation takes two steps:
-- *
-- *      eld->spk_alloc => (eld_speaker_allocation_bits[]) => spk_mask
-- *            spk_mask => (channel_allocations[])         => ai->CA
-- *
-- * TODO: it could select the wrong CA from multiple candidates.
-- */
- static int had_channel_allocation(struct snd_intelhad *intelhaddata,
- 				  int channels)
+On Thu, May 28, 2026 at 11:06:01AM +0200, Uwe Kleine-K=F6nig (The Capable H=
+ub) wrote:
+> Instead of hiding the fsi_core struct for the only supported (non-of)
+> device behind an abstraction for multi-device support, hardcode the used
+> pointer which gets rid of (open-coded) platform_get_device_id() and two
+> casts.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig (The Capable Hub) <u.kleine-koenig@bayl=
+ibre.com>
+> ---
+>  sound/soc/renesas/fsi.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/sound/soc/renesas/fsi.c b/sound/soc/renesas/fsi.c
+> index 8cbd7acc26f4..efd1447eacb9 100644
+> --- a/sound/soc/renesas/fsi.c
+> +++ b/sound/soc/renesas/fsi.c
+> @@ -1905,8 +1905,8 @@ static const struct of_device_id fsi_of_match[] =3D=
  {
--	int i;
--	int ca = 0;
--	int spk_mask = 0;
--
--	/*
--	 * CA defaults to 0 for basic stereo audio
--	 */
--	if (channels <= 2)
--		return 0;
--
--	/*
--	 * expand ELD's speaker allocation mask
--	 *
--	 * ELD tells the speaker mask in a compact(paired) form,
--	 * expand ELD's notions to match the ones used by Audio InfoFrame.
--	 */
--
--	for (i = 0; i < ARRAY_SIZE(eld_speaker_allocation_bits); i++) {
--		if (intelhaddata->eld[DRM_ELD_SPEAKER] & (1 << i))
--			spk_mask |= eld_speaker_allocation_bits[i];
--	}
-+	int ca;
- 
--	/* search for the first working match in the CA table */
--	for (i = 0; i < ARRAY_SIZE(channel_allocations); i++) {
--		if (channels == channel_allocations[i].channels &&
--		(spk_mask & channel_allocations[i].spk_mask) ==
--				channel_allocations[i].spk_mask) {
--			ca = channel_allocations[i].ca_index;
--			break;
--		}
--	}
-+	ca = snd_cea_channel_allocation(intelhaddata->eld[DRM_ELD_SPEAKER] & 0x7f,
-+					channels, 0x1f, false);
- 
- 	dev_dbg(intelhaddata->dev, "select CA 0x%x for %d\n", ca, channels);
- 
-@@ -487,7 +367,7 @@ static void had_build_channel_allocation_map(struct snd_intelhad *intelhaddata)
- 	/*
- 	 * Sink may support more than 8 channels, if eld_high has more than
- 	 * one bit set. SOC supports max 8 channels.
--	 * Refer eld_speaker_allocation_bits, for sink speaker allocation
-+	 * Refer the CEA ELD speaker allocation mapping for sink allocation.
- 	 */
- 
- 	/* if 0x2F < eld < 0x4F fall back to 0x2f, else fall back to 0x4F */
-@@ -505,24 +385,25 @@ static void had_build_channel_allocation_map(struct snd_intelhad *intelhaddata)
- 		}
- 	}
- 
--	for (i = 0; i < ARRAY_SIZE(eld_speaker_allocation_bits); i++) {
--		if (intelhaddata->eld[DRM_ELD_SPEAKER] & (1 << i))
--			spk_mask |= eld_speaker_allocation_bits[i];
--	}
-+	spk_mask = snd_cea_spk_mask_from_alloc(intelhaddata->eld[DRM_ELD_SPEAKER] &
-+						 0x7f);
- 
--	for (i = 0; i < ARRAY_SIZE(channel_allocations); i++) {
--		if (spk_mask == channel_allocations[i].spk_mask) {
--			for (c = 0; c < channel_allocations[i].channels; c++) {
--				chmap->map[c] = spk_to_chmap(
--					channel_allocations[i].speakers[
--						(MAX_SPEAKERS - 1) - c]);
--			}
--			chmap->channels = channel_allocations[i].channels;
-+	for (i = 0; i < snd_cea_channel_allocations_count; i++) {
-+		const struct snd_cea_channel_speaker_allocation *ca;
-+
-+		ca = &snd_cea_channel_allocations[i];
-+		if (ca->ca_index > 0x1f)
-+			continue;
-+		if (spk_mask == ca->spk_mask) {
-+			for (c = 0; c < ca->channels; c++)
-+				chmap->map[c] =
-+					spk_to_chmap(ca->speakers[MAX_SPEAKERS - 1 - c]);
-+			chmap->channels = ca->channels;
- 			intelhaddata->chmap->chmap = chmap;
- 			break;
- 		}
- 	}
--	if (i >= ARRAY_SIZE(channel_allocations))
-+	if (i >= snd_cea_channel_allocations_count)
- 		kfree(chmap);
- }
- 
-@@ -1723,7 +1604,6 @@ static int __hdmi_lpe_audio_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	init_channel_allocations();
- 
- 	card_ctx->num_pipes = pdata->num_pipes;
- 	card_ctx->num_ports = single_port ? 1 : pdata->num_ports;
-diff --git a/sound/x86/intel_hdmi_audio.h b/sound/x86/intel_hdmi_audio.h
-index 88bf9ef2c491..21cec605a879 100644
---- a/sound/x86/intel_hdmi_audio.h
-+++ b/sound/x86/intel_hdmi_audio.h
-@@ -44,15 +44,6 @@ enum cea_speaker_placement {
- 	LFE = (1 << 10),        /* Low Frequency Effect */
- };
- 
--struct cea_channel_speaker_allocation {
--	int ca_index;
--	int speakers[8];
--
--	/* derived values, just for convenience */
--	int channels;
--	int spk_mask;
--};
--
- struct channel_map_table {
- 	unsigned char map;              /* ALSA API channel map position */
- 	unsigned char cea_slot;         /* CEA slot value */
+>  MODULE_DEVICE_TABLE(of, fsi_of_match);
+> =20
+>  static const struct platform_device_id fsi_id_table[] =3D {
+> -	{ "sh_fsi",	(kernel_ulong_t)&fsi1_core },
+> -	{},
+> +	{ .name =3D "sh_fsi" },
+> +	{ }
+>  };
+>  MODULE_DEVICE_TABLE(platform, fsi_id_table);
+> =20
+> @@ -1929,9 +1929,7 @@ static int fsi_probe(struct platform_device *pdev)
+>  		fsi_of_parse("fsia", np, &info.port_a, &pdev->dev);
+>  		fsi_of_parse("fsib", np, &info.port_b, &pdev->dev);
+>  	} else {
+> -		const struct platform_device_id	*id_entry =3D pdev->id_entry;
+> -		if (id_entry)
+> -			core =3D (struct fsi_core *)id_entry->driver_data;
+> +		core =3D &fsi1_core;
+> =20
+>  		if (pdev->dev.platform_data)
+>  			memcpy(&info, pdev->dev.platform_data, sizeof(info));
 
--- 
-2.54.0
+With commit 38d3273075d6 ("ASoC: renesas: fsi: remove platform data
+style support") this patch doesn't apply any more. I will wait till
+after the upcoming merge window and then respin this series. (But if you
+take the other patches until then, I won't be angry :-)
 
+Best regards
+Uwe
+
+--33zssqxog3lq5pt6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmoruLkACgkQj4D7WH0S
+/k61EggAgll/pk23f8RfaCUiIfOyRHFxGAcldRRnRxxCMNzlPUzrpNxBfDyxg2y7
+DAMOlGiBXys0r4vCUHYvDH+ShS0qQifZV8oNXy3r/mRaRRP20Fw4xhopzGiQUYCQ
+aDsBs1NOQUaD0VraBA53JBkLQpL2I7osSlq62GgF9n1dkL0qIXgK1WNYaLc1QT5l
+oUzcBzyGVrldHnG5D8TMfZRAx206Kamj04Qki7zp6R7QG0IuiuIq4IMd2006FMES
+uBi/B7T1fctq8uLYMqkBwAbyy3mYsaWEpIfAYCi7GjJwpmPhnd6FiaQ24sWnRHvT
+sboWrBbS1d8HbAmFGsG+Ed4IB3xH3A==
+=3Yia
+-----END PGP SIGNATURE-----
+
+--33zssqxog3lq5pt6--
