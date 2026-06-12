@@ -1,61 +1,63 @@
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6090037EFEF
-	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 13:26:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95F5282F06
+	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 13:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781270820; cv=none; b=Gb05EyLeexNE9I2I3airV+bXDrUiWW/aOCym68gtoVX/EwhzQzGah3vMjhLe7/rC3hE4wyGl+mNnXDnzx598vqW2nsBrM5iNlfdnnsL6mO/Y79y6fcWMRsgkK1XcFhP3d5xbwXZxXD4gnupbTQedolFAhnrEDfTC3dm0F3aVzG0=
+	t=1781270826; cv=none; b=ttTPqgf09y8BiPHmhRihClVhSDGB43FV4CB7EALPPT0giaY1OqqfbvT4e+avNbgeBCu8NCpndtz1cH5pjfyKr5XBCpjxAxw9YNlNlqxqC/5o3RfJ4oUjO3kZLybAY3ta2nieSKwsOiD5k90ott8QeNaaEmTrd2J+TEM2GqJ5s14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781270820; c=relaxed/simple;
-	bh=SKzLAqQcxFKBzRQoVih2LKJhZnhNvUtw7I9jZ5DBlmg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W5+y+mVrYwKKOqkJeG72qGeZ2G00yejgiESLkYSMMY56ttDVnVgMTA3Me/c3Q67niNgaPid+2T2OKC5ZcE345+u7w6vBkZDF0XDkUqHlsa71PhPMsozZ//Lv/1Acj3akI7DEwgDitAdA6ZW9OTPkayVH2Uf7oX35wqrFAOzmJNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QyrpF5El; arc=none smtp.client-ip=74.125.82.178
+	s=arc-20240116; t=1781270826; c=relaxed/simple;
+	bh=a8q+/xYdawHh02h+UnPjMJx9XTz6+kkAdJhtry5V5R0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OP1fRKKYNXuPGmbUj6aRcJlypqtBNwnkhBhbgizvTevm0rMZIblu9H/vuvzOdek5xl/qba9KL9mUoRNT00OdluGWbZ9lpLSJPwF48IiX+jYwTrAf8XxPk3r2OmnJve6w2+f/4l3NILa/MkO3l2O7dK1O30PnP2gm8hnbx+5qmTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GLuxOriE; arc=none smtp.client-ip=74.125.82.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QyrpF5El"
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-304d0ac5e3cso2071052eec.0
-        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 06:26:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GLuxOriE"
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1384eb94d20so702638c88.1
+        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 06:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781270817; x=1781875617; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cVG10nqGoE52+XgCg6Cv77s0dTJbAfaitc0NFuAsjtg=;
-        b=QyrpF5ElX9YTJxU0/ipn7FZjAIKdTlbfd8ne9b90rlcK9KzWwjV4TeKU+RXzJTrMfp
-         SQzuaiIUDeLm45eI/Yn5hIaHlqf6hA5pXJpUZFK10qq/l8J4PW38U3hiscZgUs2T0dRc
-         yUIuIoe9Qk6BOSv82BPXzZySq3CFhSB64ktjUvk46yaqK/ZCbLV6mcUHg7LACGmFL8IW
-         hIGmRG2Jn5oZlD7+SnmvoEtOlZ9jr7EY/9kYy0ASKu7YseVQSpITpgCmBe8uo511Tpxi
-         ixj7MQXAqjgh6uVg1UoMFV9JqCkE9BxCCUzmIIM4nyEphzZ3zJRpbCvEEe8w/XkVrI5I
-         fYRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781270817; x=1781875617;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781270824; x=1781875624; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cVG10nqGoE52+XgCg6Cv77s0dTJbAfaitc0NFuAsjtg=;
-        b=JalXkiE2VbAZSG5k8qoUBMoCDJq84rui+uMPTy7i8wvjxeO3w/LnmbYrkAux9uCtBy
-         2IVPfCW83gJCoGYMxqkZiaJ7MVqkeN5ZWz/9bkT67FZmyRNXi9AHc5dtCSmodrtdb5Ju
-         l6NcDUL149iRLOF4pvgn8kGg6z7XVbjUjQfU+ha4ER9oBlIjycCozMl5DVafddI4d8iE
-         nM/hUmoKPVyZc9edYGtNs267eyIoBva1ToJW5fxtS91VdbPo/fC9nPN5tDqeaOsMrZ3B
-         UWrG5gbIkiBmEqF+MxTBCilzhA2nPbTvIBdr7qTRJ4t1cMVUbpDfuW2cHtVhyw4bNoPH
-         aS6g==
-X-Forwarded-Encrypted: i=1; AFNElJ+Qe8kOsnkJUJ7eo4e0chDdMNbKz+BEsLcnOa+vpFgR7gjOBnWxZWyPWJXgn0+TeXbF1cvUm08rqRxAWA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2PdH12a3w1bS+OUkN22W6xUArlL4dGy91q86ESOKpAHX5Ays5
-	u2j6YeIpZze+QbGEk6qbcDVS84WMSTxpQduWxyWI3ABsgYGXYj/0zLCA
-X-Gm-Gg: Acq92OHxJ6/IKXvmXTUxrU7e7a2vrbu26GsKfsSacrn+vskKcNbAEKQIn2l83RST4lJ
-	KGMRStefWJBdE7i+aTwn6Nx2GGncBb5KKYiVqfaMvy18SbhVA9IvYANsh0fv94bGIg9WdS9AKko
-	w+89xNvQ9gFd9bFYQ5iqkOeDuSVp/eTCbpujxgSrzdf5Qv5rYmyaFCKHcA3JkDu+VePqc2QUw+G
-	ft4NXx1RJ6rhqnDFJ2yn+5PUqa4xrqReordM0ikb9Pn7Rs7ezaoZDVkSywbm1Ki2IzpWuClSQm0
-	qfZCQDRYOx/fs+lSSu6f5Qto/+LQiWYv8svYwmv70NuaryG7n1py0ma4eiUe6ksQsHSjqhBzExS
-	/V4Cr1CRJYqnSZpoEXgeFUybHJfAl/kzxuXq3kJP3H18Yw5hdz+VbtCwROCCqclV4uWYUQ32v/M
-	J9l1Jf3x3MrhBS373fOsHWTKwVL5FkTJdpJS/abAw0JUv65If8WxiuzEq6dg==
-X-Received: by 2002:a05:7300:8b84:b0:2d9:ad46:4a92 with SMTP id 5a478bee46e88-3081ff8525bmr1726924eec.13.1781270817309;
-        Fri, 12 Jun 2026 06:26:57 -0700 (PDT)
+        bh=IOlleqlCU9UASt9sEqw41R4UllxELkSYjKqivDR96C8=;
+        b=GLuxOriEwVrAeapttbMlWHpWk1Qd6vqK0D/LKOITb6mM7SpA04ZZ25P+NOP1LIfG9o
+         fARzWD0P3GgmR+RSgBrobasgBf60jHkIqdh5wSEtfO9MQ2X/h//svTCy1xr/pLtXMtod
+         fRrtD2wNc3sowpXF1Z/A7WWk53DsW9/G4pjq+Rina4nKE0BWTHBp9gRRrA8SPqarLrmx
+         ATODtaGKRR3GPAKLrMHzhpx0xKm5WBdlpWQbV5331bZV23d5cPCTaeYe1p6fQaJGo1sm
+         J7skghrpjf3bZfcAZr+yb1cZRCZD17epJ0w4iWxGZhQJIwyQJnzg9kNBGwliTf+Z48pB
+         0VOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781270824; x=1781875624;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IOlleqlCU9UASt9sEqw41R4UllxELkSYjKqivDR96C8=;
+        b=NJKU/8ymNxQ0Pg3CpnPb2jyHaP4zulUwKQ4YOixJqtIwXywKyM/Fcw2dc3Qpu44pA/
+         HOIAUf0l6vHQkW7xrBuVIel9K9PFztjFmxl/HdcZv+aYGOX8L5FnBADTi4THRD+CUIZB
+         gylS2TUEJ7waYT2SEKCy5sDwllaOtMqt5Bb8922FIXW8kI21q41Hk67usa862itCfOsZ
+         hOi52Rs8A9YdLoC0pA/ObnRzFNHG2RGv1q64sLKbrQhVTrdAyG9+fpIu10Xfx25FcGrm
+         Aq0d5dcWsjDGaV5jigyUhSoJspkHCBIIVzSaHrxfGSyIWvhd94xRbLWP6VloekEaD8jJ
+         Ufpw==
+X-Forwarded-Encrypted: i=1; AFNElJ9ax1AYXaeQfIYhm/hV2Ns8BKb4mf1eA42UclvvKoAL5XlBkbQB0rBavLbMEOvUF8Cze2BZqQmcQ+ITDQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyANtG2NDqeJxhr/1H1VfWSB+H/8vkihuXxCOEPThCuZZk6cMic
+	Y+X1kcJj0m4M7L8AG/iB0oLS/7JgUAvUZm5UTJRSazOIDV5Zp5Hkd5LP
+X-Gm-Gg: Acq92OEVbM8JisGywsR8UtT0nyqqekRxTuD2NITcl089NM22rWDCzv92PEEXLPizLhp
+	AKcpPComLeO/pjGRjucRi6RPmPNHhnZllEpwrGTDuVXLrjvZ4c+9Kl5UD9CDZhn8qcvegqlFpBI
+	FJ3pNQZcr9fX/YQlPUatkzGqGoLh9i+qCrnUYnmbccuqQoaaPK90CUvafzy40OXTCs1FrFggntH
+	PWWMAs8TffytaEQ49++dqnlpOHhCLTuK4V4dKFZSigh6et9uF5kM2tPyfkBE7eesfnK3tLEDa/m
+	VVldngsoT0xX3eycyqLPfPC/LfNk+JlPesTLXFwy96xTPviVgBFkNQuMpdQ1REK+4rFxoViHbP2
+	SGYJ0mdklkCPBr+nzCqpXSCxK5c03hqRaZneWQQKP5CyO4w9g9VSNyd37dcDMClsu9EHZq/rqNM
+	kUSsep8a6b1MnTCmP7RopNyRg0P23PjXUpK13lCW5VUI0zMml7gdzFWlNbIQ==
+X-Received: by 2002:a05:7300:3c1e:b0:307:91f5:9377 with SMTP id 5a478bee46e88-3081ff945bcmr1832507eec.9.1781270823971;
+        Fri, 12 Jun 2026 06:27:03 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e91f8b5sm3302343eec.19.2026.06.12.06.26.52
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e91f8b5sm3302343eec.19.2026.06.12.06.26.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 06:26:56 -0700 (PDT)
+        Fri, 12 Jun 2026 06:27:03 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -74,10 +76,12 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	imx@lists.linux.dev,
 	linuxppc-dev@lists.ozlabs.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 00/11] ASoC: fsl: Use guard() for mutex & spin locks
-Date: Fri, 12 Jun 2026 20:26:28 +0700
-Message-ID: <20260612132639.78086-1-phucduc.bui@gmail.com>
+Subject: [PATCH 01/11] ASoC: fsl_asrc: Use guard() for spin locks
+Date: Fri, 12 Jun 2026 20:26:29 +0700
+Message-ID: <20260612132639.78086-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260612132639.78086-1-phucduc.bui@gmail.com>
+References: <20260612132639.78086-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,45 +92,60 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi all,
+Clean up the code using guard() for spin locks.
+Merely code refactoring, and no behavior change.
 
-This series converts mutex & spinlock handling in the FSL sound drivers
-to use guard() helpers.
-The changes are code cleanup only and should have no functional impact.
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/fsl/fsl_asrc.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-I have compile-tested all affected files except `mpc5200_dma` and 
-`mpc5200_psc_ac97`, as I have not yet found the correct configuration 
-needed to enable those drivers.
-
-Best regards,
-Phuc
-
-bui duc phuc (11):
-  ASoC: fsl_asrc: Use guard() for spin locks
-  ASoC: fsl_audmix: Use guard() for spin locks
-  ASoC: fsl_easrc: Use guard() for spin locks
-  ASoC: fsl_esai: Use guard() for spin locks
-  ASoC: fsl_spdif: Use guard() for spin locks
-  ASoC: fsl_ssi: Use guard() for mutex locks
-  ASoC: fsl_xcvr: Use guard() for spin locks
-  ASoC: imx-audio-rpmsg: Use guard() for spin locks
-  ASoC: fsl_rpmsg: Use guard() for mutex & spin locks
-  ASoC: fsl: mpc5200_dma: Use guard() for spin locks
-  ASoC: fsl: mpc5200_psc_ac97: Use guard() for mutex locks
-
- sound/soc/fsl/fsl_asrc.c         | 10 +----
- sound/soc/fsl/fsl_audmix.c       | 11 ++---
- sound/soc/fsl/fsl_easrc.c        | 36 +++++------------
- sound/soc/fsl/fsl_esai.c         | 16 +++-----
- sound/soc/fsl/fsl_spdif.c        |  8 +---
- sound/soc/fsl/fsl_ssi.c          | 13 ++----
- sound/soc/fsl/fsl_xcvr.c         | 29 ++++++--------
- sound/soc/fsl/imx-audio-rpmsg.c  | 25 ++++++------
- sound/soc/fsl/imx-pcm-rpmsg.c    | 69 ++++++++++++++------------------
- sound/soc/fsl/mpc5200_dma.c      | 56 +++++++++++++-------------
- sound/soc/fsl/mpc5200_psc_ac97.c | 34 ++++++----------
- 11 files changed, 121 insertions(+), 186 deletions(-)
-
+diff --git a/sound/soc/fsl/fsl_asrc.c b/sound/soc/fsl/fsl_asrc.c
+index 5fda9b647c70..0b28bcfa47fe 100644
+--- a/sound/soc/fsl/fsl_asrc.c
++++ b/sound/soc/fsl/fsl_asrc.c
+@@ -222,10 +222,9 @@ static int fsl_asrc_request_pair(int channels, struct fsl_asrc_pair *pair)
+ 	enum asrc_pair_index index = ASRC_INVALID_PAIR;
+ 	struct fsl_asrc *asrc = pair->asrc;
+ 	struct device *dev = &asrc->pdev->dev;
+-	unsigned long lock_flags;
+ 	int i, ret = 0;
+ 
+-	spin_lock_irqsave(&asrc->lock, lock_flags);
++	guard(spinlock_irqsave)(&asrc->lock);
+ 
+ 	for (i = ASRC_PAIR_A; i < ASRC_PAIR_MAX_NUM; i++) {
+ 		if (asrc->pair[i] != NULL)
+@@ -250,8 +249,6 @@ static int fsl_asrc_request_pair(int channels, struct fsl_asrc_pair *pair)
+ 		pair->index = index;
+ 	}
+ 
+-	spin_unlock_irqrestore(&asrc->lock, lock_flags);
+-
+ 	return ret;
+ }
+ 
+@@ -265,19 +262,16 @@ static void fsl_asrc_release_pair(struct fsl_asrc_pair *pair)
+ {
+ 	struct fsl_asrc *asrc = pair->asrc;
+ 	enum asrc_pair_index index = pair->index;
+-	unsigned long lock_flags;
+ 
+ 	/* Make sure the pair is disabled */
+ 	regmap_update_bits(asrc->regmap, REG_ASRCTR,
+ 			   ASRCTR_ASRCEi_MASK(index), 0);
+ 
+-	spin_lock_irqsave(&asrc->lock, lock_flags);
++	guard(spinlock_irqsave)(&asrc->lock);
+ 
+ 	asrc->channel_avail += pair->channels;
+ 	asrc->pair[index] = NULL;
+ 	pair->error = 0;
+-
+-	spin_unlock_irqrestore(&asrc->lock, lock_flags);
+ }
+ 
+ /**
 -- 
 2.43.0
 
