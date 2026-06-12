@@ -1,157 +1,96 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A396374E62
-	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 12:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781268854; cv=pass; b=U0sT6fcLLtq7rBaiDTUAVJNZ5OrmFC1RaQsh4wtn53dT2Wk5gdePRmJpeEJq2+1UzEraIu5bcmtEVWYPuN2I9pLSjG4EBuh7I4rbYtIH+Wmi30i9K5qJhMnsDZl7a8HOIFdcTTHTLF50dkEOMnpT3KKXWK2a5ReA+FlGGP/ebj8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781268854; c=relaxed/simple;
-	bh=+zmRZkf7AQ7PB9Kx8oHg2bM45aSk4u6jxmk4WYr/q54=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GkxbaZxKotbPFaThcRqcWos+MK5C2OBpi1aapy00zsnw81mnmu4t44QEQmSjWHGfxMAI9C1CRH6tbZiPT8OMI0zG79TYXOtFT/mEryzrlhb4cJt4ylFKYGe7UGpxIFhjXzDVMM9KkbKVtORs6VHRdxHMKVS7i5qiVXLl+1/2SgA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fo6DMMWt; arc=pass smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCBB367290;
+	Fri, 12 Jun 2026 13:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781270394; cv=none; b=HyIq81T36sGloiALvNFenZcvIY1mmeje0aayMYZ2C8fLpU4TUhHfweYeauoZyg5e90ly7SwOEsH/vCu13MomxVBhW+a95Y0MGywUgDO6MHclF5jXjm9bkGuIOPH8joTkoCJ387OYqfKtYQX6a/QLI96NXTWxC2pHbTzc8AQZNwE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781270394; c=relaxed/simple;
+	bh=dMiy8YJilqeLy4yuLyeoa1DWJAaISk3XLmw6h+N4mFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UeCzFOOjFWEu/9UYNwMxEftciU3pEUxKC4exxIi18GymphO5WcgeZucO1aO5P1U3tFwtV6/RYJONqXOYKjqSwSTJqlAEEftzHaheULUbswHmLcU+w6f149D7XugbXjLVunjfdm8fVPNLkzeSjssialymCI3GeJoalLRWzO5UL7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gRWaSvc6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fo6DMMWt"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2c0c1e0b0faso6191365ad.0
-        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 05:54:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781268852; cv=none;
-        d=google.com; s=arc-20240605;
-        b=L4cG5ea3CRobJ1xa/o38Rqb3LBSxiOAVUA+RrEFoJwyHKtja0YHt8fHORHPYLuy36r
-         X4PTezoLML4eS+qPCJDz7upxHvZe7kgnU0j6cWOsdhetZoCdiEGo9iNMGxiVtXGEtwSo
-         psiq1F0fHFyBCGe5bJHsrulNJf7M2pHRBrvm5g9oSDgWfcaEc7ODKpVO26qfUXAJgcQ5
-         s0Ejwplh3cq6zkukySdLc1cVvyqDpmay9d7syJmEjirf4wX6Qed0ZiJ0Sa18r+l17avH
-         BWblIPFDjfuQ9uxLUCiO3k//9YgCE0f8WvcEEJu8tg9xwwYrAuNgFA1/DLbjvppOJsFH
-         +Maw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vMiH2ZEz4WyIiZ3v/uym+XH8AqV96aclIybRlnrRB0o=;
-        fh=BRZygq4iDvGmQtC8hmmyafYwNjXWizRHrIpDLGio/X4=;
-        b=b/i86G8RoLqvsvFUPBWvaN6Up6Ufv1nJbJ6MWMCRD82wBsHQpQ52pNxxYBJ/wSnnCJ
-         /xRpO+ZPxg5aWzWCdnTDLNNscF0LGN15qQ6sI7ThWWxvLoAvwzSlkpllG0SsOxbZ/BY6
-         5ErLPx9lxTgymP8x20sv/zCSKk7msj+1CBvcz6gf7LrVLSylOQrgYQz2Icm0r1Hk6e0x
-         J7ay+DguGeqIk+zs/QG2c7FxTswx5XZIpi5Ay3f0cm4HiHm1P8UKLjjNJWGcBd9BBWI6
-         izYF5vif0QIe05V3Z5fB5Q5dK5nCvZC00QGp9n/6EOFuWwyYezSoKlSrujye+NHDBeGL
-         kkpw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781268852; x=1781873652; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vMiH2ZEz4WyIiZ3v/uym+XH8AqV96aclIybRlnrRB0o=;
-        b=Fo6DMMWtccis7AzK+idHPXi4Mn2R7/e9J44Wr9w3/C9djLCwS7iNO+Z+INJPkbX/gZ
-         /dkuGTvLBRE2pyEll2Qr3u+LQ6me+imfOltgglHfbaE6mboBV40RYJBeGqLj+Gsld0JL
-         4D9kcftw9ftVpHzxKkSoXYCUhxneL4h6UU2QwYvhSEeSDuSpDIih685eO7kdZ95lfgvO
-         P6sXzuE+L15g9X0phPRvDzZqJgrpjr2AdvvenW1uMS73bW6C0XXYbwA999eX83TzsUjc
-         RJIwCp2N/CdK9d5Tv0XFfgwgU8Bz4AgWQHJzReDoQ0CvJO3/5gIgLtl6fJaU5ep2yp3p
-         MptQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781268852; x=1781873652;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vMiH2ZEz4WyIiZ3v/uym+XH8AqV96aclIybRlnrRB0o=;
-        b=MJ4n1FbbWsm+bMZYvng147I8ZPdT84KbUTicOs8CDRkStA2uCx/tC5GST0IuMPpKWE
-         J8NBc+El/9i4zq6/2vHkwEadsl+oCBPl+dm2USANVqzFeK938/ddqhuba+hhp3F4sbjp
-         h86e5Za1aiHINzWU3PjHG8W+7mFEhy7ytEBHXUb8zBIaz10QtSXZUCqMYOtd5aEWJNEK
-         ygVaj3iFVx1I5bXG0Y33V2vxQf5Bqn5WW2x3Bic3gxJmwg8zG4JlBgyaDNUg2viZXENj
-         5sWdRrzcd1HuIKTtpn06dA86C9pW4JGcXCbLFQvuI2TPaGjkWE79+7+YHEcuq72g4w14
-         eXTg==
-X-Forwarded-Encrypted: i=1; AFNElJ/uXxQdT6OKZjqlwzkVNAr4iFmrMR0E3M3jt3HQ5Ef/v9+NwAylmZmaGGbPRHPoZGrEt/XIiewzL6q/WQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMm9WILuKkqcRw0U6RfTKgnGwAtmz5KIb5i/NKPpya0ybS46O9
-	k01G08+6jcg/ccZWfTvnobWkpM6Shstl2ujPsezfjqky30MxmrYY5p7RryRaRgxovN9yv+5klkA
-	sywUEfsKv1kfqD9FG4gTN6xQtQqbNu3Q=
-X-Gm-Gg: Acq92OGbhc2CnF3Ir7v0h7nswplS8UcyeKWhcLv/Wc8D+hm4mFG5w+lNFP7+J54pFaR
-	Zm8LzMcQxHUYfv6DHYyuAoFfnnLAg0tilBjmt2Bt6IAkRAizj2hA8JDAO3BqyYR9yVjkiphH2Xu
-	AF8LcdqklD7owtX3YS1w6qYDPp1tSEVVpodVE26gujtLtpy89VPi7E4BQv0Yy9k1LW7Eotrc1KL
-	fJU6X1gmh8FD9VR8tYzMihZl5czdbvSCRw8z3PpJGHK69WCkO8OWZ606EKktrdVFZTI7as584Os
-	XdPEYI4G8trqIrJubpKHorZ9lydbaGOXpcKKUA==
-X-Received: by 2002:a17:902:ea07:b0:2b7:aa20:3c61 with SMTP id
- d9443c01a7336-2c4134ec603mr33662135ad.33.1781268852381; Fri, 12 Jun 2026
- 05:54:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gRWaSvc6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8BDB1F000E9;
+	Fri, 12 Jun 2026 13:19:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781270393;
+	bh=taNgp4KGsZ3KiXZSZvUQMLkfqRwbGhzPbNLDn7Y5E3o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gRWaSvc697+zpk8A7FOUkBv+zrymR3irREfWIgwvAlNE/BxppA4V648OReKSQc8fp
+	 J3R3YL8sEiSOnsEdKj6XwmuaOpQ6ta9vePgHXJBEmqcwbxjJYiHwGZu6b9QyRWTGUC
+	 vAVXTrOmyt0akvDpkYpk4JJp9IhEemH2e4+/vwYU0vTWKnmj5OhS1YC5CLaruu+xqi
+	 VKQKaRtjZUBcKE3N7wD28JcsM0zWdZowDDK1fYjLLRInkQDGK9nhOeP3civb+CAn2H
+	 S3SAiAzenl7h12DoE1ntDoUH80lttvHmEVfh2ff4AtaQtsRn3yAm9VQTAenFSnxpoj
+	 IeWk2wxbZjcLg==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 2A3061AC58C5; Fri, 12 Jun 2026 14:19:40 +0100 (BST)
+Date: Fri, 12 Jun 2026 14:19:40 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Valerio Setti <vsetti@baylibre.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH v2 2/4] ASoC: meson: aiu-encoder-i2s: prepare for
+ multiple streams
+Message-ID: <aiwHbBM8UAYRKnvO@sirena.co.uk>
+References: <20260610-reshape-aiu-as-axg-v2-0-cac3663a8b51@baylibre.com>
+ <20260610-reshape-aiu-as-axg-v2-2-cac3663a8b51@baylibre.com>
+ <1jik7pebk7.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260609113836.45079-1-phucduc.bui@gmail.com> <20260609113836.45079-3-phucduc.bui@gmail.com>
- <CAMuHMdXku0BVRgwWWv1vNccKpRbvTu+1b0TjYacNJH94XBDOGg@mail.gmail.com>
- <CAABR9nHFHWFeEaaYE6X9fqt_Zb-3pF=jJbHQpsiBTgkS5LyTLQ@mail.gmail.com> <CAMuHMdWsLeEzjCPHEa=nY-kC0n34RHL3kUMW30vneUajCWwTRg@mail.gmail.com>
-In-Reply-To: <CAMuHMdWsLeEzjCPHEa=nY-kC0n34RHL3kUMW30vneUajCWwTRg@mail.gmail.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 12 Jun 2026 19:54:01 +0700
-X-Gm-Features: AVVi8CdLk4S96wYsYDBqrdC7z70oBdDD1ZwZrYm2niDWr8Nvh0Eb0jy8Rs6iHGo
-Message-ID: <CAABR9nG2kHH3=gkd0H+vhGZJtvkHLA7YMpoWt+p+XtdNV+oe=A@mail.gmail.com>
-Subject: Re: [PATCH v6 02/11] ARM: dts: renesas: r8a7740: Add clocks for FSI
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown <broonie@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Geert,
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="DTWiBsS0PG7p6gAP"
+Content-Disposition: inline
+In-Reply-To: <1jik7pebk7.fsf@starbuckisacylon.baylibre.com>
+X-Cookie: Nice guys get sick.
 
 
->
-> According to my schematics (RevA), R120 is not populated, but R250 is.
-> So the 12.288 MHz clock is fed to both the FSIACK-pin of R-Mobile A1,
-> and the MCLK-pin of the WM8978 codec.
-> Which revision of the schematics and board do you have?
->
+--DTWiBsS0PG7p6gAP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Oh, sorry, I misread it. You're right, mine is also Rev A, and R120 is
-not populated, but R250 is.
+On Thu, Jun 11, 2026 at 10:16:56AM +0200, Jerome Brunet wrote:
+> On mer. 10 juin 2026 at 23:29, Valerio Setti <vsetti@baylibre.com> wrote:
+>=20
+> > aiu-encoder-i2s is going to be the interface that handles both playback
+> > and capture, so this commit does all the required changes to prepare
+> > for that since so far it only handled playback:
+> > - probe/remove functions are added to allocate/free per stream data,
+> >   respectively.
 
->
-> I haven't located R120 and R250 yet, so I don't know which
-> configuration my board has.
->
+Please delete unneeded context from mails when replying.  Doing this
+makes it much easier to find your reply in the message, helping ensure
+it won't be missed by people scrolling through the irrelevant quoted
+material.
 
-Please flip the board over; these resistors are located on the bottom
-side of the board rather than the top.
-Other components like R123, R124, R139, and R227 are on the top side,
-but they are only visible after removing the display.
+--DTWiBsS0PG7p6gAP
+Content-Type: application/pgp-signature; name="signature.asc"
 
->
-> That information is found in the R-Mobile A1 docs (PORT11):
->
-> Table 1.3 Pin Assignment (505-Pin BGA Package)
->     Ball No. / Pin Name / Multiplexed Pin Functions / GPIO
->     G3 / FSIACK / FSIACK/FSIBCK / PORT11
->
-> Table 54.1 List of Multiplexed Pins
->     Pin Name / Function 0 / Function 1 / Function 2
->     FSIACK / PORT11 / FSIACK / FSIBCK
->
+-----BEGIN PGP SIGNATURE-----
 
-It would be helpful if there were a more detailed Armadillo schematic available.
-The R-Mobile A1 documentation (PORT11) is generic and shared across
-multiple boards,
-so it does not necessarily reflect the exact wiring used on Armadillo.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmosB2sACgkQJNaLcl1U
+h9BePAf/YY4oU9BYnoYM1az7OlkzIVHobdSBXPdAMqYYrlPj/WIZuTEDI1cdo/22
+hoqllO3JKTLGy44Zy5I1P7ijkgOEkx2mZeJ7AZYOgZPlIXPH6AKbscA/xYjzfYP4
+2CwyerLXM7UAy8RJv2Kimqj24HF6mzVVgYRbghHGqDWnLSGWj6BQLSlgaUYhwIcM
+xdrydiGGZz2vkC/HOmwFqpGSyk4XQAm3HFkW5OwsK3R6CmVSwcFxa2fhjcTw8CXc
+3gcvi70GBGQi8+9nMiAyGmnqxT4aONevk4cF8sVxLOxH1Gg0hwgMmsllFORiBdap
+sDGZbqCPoyuQ/1hjHLvs3sqbo32+3Q==
+=PhOT
+-----END PGP SIGNATURE-----
 
-I did look at the board support code and pin configuration some time
-ago, and I also tested audio output over HDMI successfully.
-As far as I remember, these pins can be configured as either inputs or
-outputs. For example:
-
-fsia_pins: sounda {
-    groups = "fsia_sclk_in", "fsia_mclk_out",
-         "fsia_data_in_1", "fsia_data_out_0";
-    function = "fsia";
-};
-
-I'll take another look at it when I have some time next week.
-At the moment I'm busy working on a few ASoC cleanup patches,
-so I haven't had a chance to investigate this further.
-
-Best regards,
-Phuc
+--DTWiBsS0PG7p6gAP--
