@@ -1,213 +1,156 @@
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541DC37D104
-	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 11:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E043E92AC
+	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 11:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781264683; cv=none; b=Ccid/VayKn2AliToGfPLZ9bRfcKStmgYKVkuZ/Wiuj3vvAKoCyeTQ/+6PMQqhfJABy2y4yFgvPAWS1WxHrnIflY1O8Wy7/SwuzZPJfL3yQmV9FlHDlY86+SOJ04cyI2Aax2jk8kMwj2ZvK59qER6J8skOI8G/45NsHhLzykiBjw=
+	t=1781264754; cv=none; b=FJIFGMy6e4un07zARj/fTZTmuP0NkReF1Vi/1l3MrTG9C9G0l4sUovL94M71e8LDLkb2k602KKCbNPWF+v0lH52KIFFKzf/Y5hlszsSfIoFkVo4h2iJ8cTIaPHG40suPqqoXIRyR967Vf+pTOSKQQI1YgH23bdaaj1A8/vwTljc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781264683; c=relaxed/simple;
-	bh=02EMTrGqwJRz/35WnrZI6ty2oJRuQvaqYSQRwo7jEHU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e+33JFiHuZLAA+rTg/z5qAe7s+kFCRklX8TKH2K7Msyq1IL7RV+Sx9ulfw9CxE1zDF1Qtpsgji77YVISeS0OwlVhasQNmOJj0sB43j8P2XFgaHDr8O12HZnMiM229jEZ1oRqumnAmucFvFsRwupASGWRKDZtaxRparQKeyMvves=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fasz5mke; arc=none smtp.client-ip=74.125.82.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1781264754; c=relaxed/simple;
+	bh=oGUJQrXok0oefnVapsoFTOkDTq4rMzW8cVDmbrT2fZo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FKsHGY6cvCTGYXcALakmOcR/8kHFC4Bn4G6FDiFlirnz0pqIpd4A2/b0zK0nXl1QobW5o/YXD+bALx74bg76bvgPWgxSPHKLSIGOuFqUnV4zCV2b/YeEokjiYqOFhDIWDuHDPG8fL0Ef2JPuKr1z+Oc89HpX2O4UphHoeEjpxS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fasz5mke"
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-1384ebe7a10so557401c88.1
-        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 04:44:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781264681; x=1781869481; darn=vger.kernel.org;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L/S5PGEY9gZoBURauCVph2ZL0Va4MAdVBTW3eVxW6fg=;
-        b=fasz5mke6LBrgKiF8CNtHpOfBiW6AsxgatbOmjQ3QoButLBVyjAPOae1e7t2Q/xgvw
-         kaLVZhVcqL9FebNu4jtLC6N5GjUaOQP6xT8WxlZjD8AwDCVkBg+RXHWXEYf2D3AjQ+vM
-         ZkJ1Lc6qFJkQocelfH5WpIXxHOAB8t2QtTc1PixPphiPr/CbagWwSpSHAvSfZBG2RDFC
-         QdwSgnDzyXoh1P9mUYeyTe/JBbLaLuM8tPRf57C1nEFHUrHRMD5TN5khCtkxUcNdr/Vm
-         NHkR5WgiZGg5ZlHPXj6DMlJxAQOmSOCNVcetXUvluPtKBYX8IYPySvpslZj08QqLSbwS
-         qg4Q==
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-9667ea2fc22so39440241.2
+        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 04:45:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781264681; x=1781869481;
-        h=in-reply-to:content-language:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=L/S5PGEY9gZoBURauCVph2ZL0Va4MAdVBTW3eVxW6fg=;
-        b=V5bL2RrcPJvQPVIqGuEqz+BzAlleWq4+MWzRKJbItck9aZpxJt00bYavYKnCyiuNli
-         mpR5KEFXaclQwx5FniT9awPaLXnZzBo7JOzZXhVw0x64VikN5B9tEsCdV7t5KKLw2Lbj
-         OJ8KuLI5D+jjkz7XstBgnTC2fO+5hYkgYugX/Zc/RXkVad4JFyTYxrNpfN2PCWddtzt6
-         hOSPXAjdW8JROQw7F+DgyFq37Lc2zlNHsFYcOIkBQHcFcUSloDLjWd8W8pQi5BgVodys
-         IquimODasdQZ8N+dFPwA/nQt+2q0RHyxsMPxOYg3HQ+G/QfeGGaql7CO/ZGQgAo/eP8g
-         XTBw==
-X-Forwarded-Encrypted: i=1; AFNElJ8tFV9I8ySKo1dBBAy6Bke8OpQdaZZrcgucCRHQ4c7mpxbA+UICQOKN9UBdauKQGnB+GwTLx94DwRrWDg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+DA7AchWMo+tKHPxIuW3IqqSrIYXqRWtTD049VfSIWFsxt9o9
-	p8Q8ZlhIRPfWcNy8b4nP/8C9ea+5oxAZprUE+qDW7p33qpB5bxElFLj9
-X-Gm-Gg: Acq92OEbGDzAvRWwY1pAlbkKsNyh6UqkFX/aHuXvmRvFtrXCLjF2HeR54Vfzdwxfv/T
-	WddTybDaFj4sWyqkEWgIo/eDXp4HjgSrNtce3iCOCF37ifGXqqfj6j8y7tpAAZomkbs5+5ugW6e
-	qwyQr8lhz7pam5jgmZ8l50TYKcpljnFnMQ0LjzzOsC8RWuHefibTsDw3YSCpeDaQUeXB6ewBDsa
-	+uO2WDoDhJs8jW42U/BciYijST/BX2XduHB/0iVx0f+YDYXCkCrZRFHM6Nzqs8wWHdOLrGkp3pG
-	hQI6sxP8L3vX/1Iwatqs9evJJlBV38j8/u0sU59W3VeKV+XtNsDoqpKAndM6uT2gW3+60FGlYhF
-	QcC2Hm7CChOgJEjidkYX6KoGWoi5GvlDVmr2PFBkaDuLR8OV85DHTNWRYyFrkP2MLTkHcuPhALl
-	MrCaRhTifNb1I05McihlvXYKv3EcfbDtX5mZg0QBEDtI81+2T9LhmPo7KIJ01WCSnmRKdWPT9so
-	Q==
-X-Received: by 2002:a05:7300:d4c7:b0:2f5:3641:f126 with SMTP id 5a478bee46e88-308201deb64mr1332952eec.24.1781264681104;
-        Fri, 12 Jun 2026 04:44:41 -0700 (PDT)
-Received: from [192.168.1.18] (177-4-161-23.user3p.v-tal.net.br. [177.4.161.23])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5fefecsm3182455eec.13.2026.06.12.04.44.37
+        d=1e100.net; s=20251104; t=1781264752; x=1781869552;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZNp4g5Gvhs1Bf1iVWmOM1OJf0ux2oAi1myswnuPAOFE=;
+        b=jQTSeqb8+Mygo61vy5vc5SWXe8SeMvaoqQzkd/vWyno6jxsWtTrrmhjcs2jLfZwQt7
+         WOUoN6u+SSmMAhqDmWw6UQulbh/ukbCTEw7xL3UFQofJMjOTNAgaTNeJPDrpJes6g7GW
+         Ud/Tj8pIfShjtpcFFEJujvxyRlHr+PO4or+GE3ekemO8pghxgNcxax9+lxEq/wDA5bWt
+         iMZQqY0xOifrp2be+ocsrYVKi/ZWO/yXTwzGlYhMc8siq1msEbQNsouFg8+I2goSKU21
+         IsgkX7Cd/YygW63fHax8Cwfpu4W9Riqoe9iLuLrSEh7AFp9k5wdBZEtapi1W2xyVyuC8
+         D7ag==
+X-Forwarded-Encrypted: i=1; AFNElJ+RdaX5zltmHLoU7+qFbMS4XwsTvXGlv8wAxhaEGKGtfSnRJYaLc6YKdSltIoUNdzDyLX6rrpdFT3Eotw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxoDH1gnVJLiXnrz+lpjD9Di3BL1OAgKiefHejAwBjTpRuBktGI
+	3ODR2xVLoIwAswEQLqt+PUHnWQfPYLTxQNwVcaGaawidSPPHAV+C3DsySqt7nx8+
+X-Gm-Gg: Acq92OFJgqw13+JvFf65AtzP/iimHNjUX4uVjOAL5zd3phf6Y7WHA0UrIKMzvVLnyCJ
+	yoq56kXD6Z7nDePpJskQRUn3gdbXlFvcdW2VUn+iqsH0rtUp1oJMmpBoKgjp373OIAVWvX39vaT
+	LqsM/R4rz+/U40Tq07NTpa9nyt/PPK+KlQ96K1BZX4/5JI3+OTJxneEYjZmMB8uZ3Lj3huQGLxw
+	6tH+Hyht7P9Krm0/4QnMX2pxtsm9lotc4i11vrklcpKgx9FKLM8L6NCvSSbyeXeuJJqASJ2MzJk
+	bxdTa6I1iETvMphWRQl9FDg/nmm/YrT8AVKu+HA0hbUVt23UNT6E7XlqstiDucbiYc4/75pF+yF
+	/rTPAv1eTgmosutl/oBSLJfPSkI7WBhi8cesDdduT5faUfL3KsAMQjdqIwcuanMFFa/FloPCXdO
+	zGU2b5W9C5ACaHw2mZUCYhEoKGJoGOKJNJujRkg/mfS5a1kjiZFMOjvRh46rCkiu6y
+X-Received: by 2002:a05:6122:da2:b0:5a3:5938:6935 with SMTP id 71dfb90a1353d-5bb6c0af4c4mr804172e0c.6.1781264752271;
+        Fri, 12 Jun 2026 04:45:52 -0700 (PDT)
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bb691bc485sm2267058e0c.12.2026.06.12.04.45.50
+        for <linux-sound@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jun 2026 04:44:40 -0700 (PDT)
-Message-ID: <b92f04fd-3e28-4ce1-b6c3-b371f4cbc648@gmail.com>
-Date: Fri, 12 Jun 2026 08:44:34 -0300
+        Fri, 12 Jun 2026 04:45:51 -0700 (PDT)
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-59eb501bcf0so255166e0c.0
+        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 04:45:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+Ebh5Eb/frSMvSvQENeMjVAn7w0pG2fVOsBKfha1PxaHVJxRE2M83jUKCYHECoAb6iH9x8HFEm5+y8BQ==@vger.kernel.org
+X-Received: by 2002:a05:6122:6606:b0:5a2:4391:1730 with SMTP id
+ 71dfb90a1353d-5bb6c0dd1abmr737507e0c.7.1781264750451; Fri, 12 Jun 2026
+ 04:45:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 0/4] ALSA: Consolidate CEA channel allocation data
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, Thierry Reding
- <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, notify@kernel.org
-References: <20260612-alsa-cea-channel-allocation-v1-0-b1bcbb6b1051@gmail.com>
- <87ldcki0k3.wl-tiwai@suse.de>
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-Content-Language: en-US
-In-Reply-To: <87ldcki0k3.wl-tiwai@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------mSCLmRCv9RqdPoIe6T4pH9iC"
+References: <20260609113836.45079-1-phucduc.bui@gmail.com> <20260609113836.45079-3-phucduc.bui@gmail.com>
+ <CAMuHMdXku0BVRgwWWv1vNccKpRbvTu+1b0TjYacNJH94XBDOGg@mail.gmail.com> <CAABR9nHFHWFeEaaYE6X9fqt_Zb-3pF=jJbHQpsiBTgkS5LyTLQ@mail.gmail.com>
+In-Reply-To: <CAABR9nHFHWFeEaaYE6X9fqt_Zb-3pF=jJbHQpsiBTgkS5LyTLQ@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 12 Jun 2026 13:45:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWsLeEzjCPHEa=nY-kC0n34RHL3kUMW30vneUajCWwTRg@mail.gmail.com>
+X-Gm-Features: AVVi8CfnD-TjdQCjcklRKqlAWA3VoQ7yU75YfPEvom1NYLk1a4nkIC9X_AZgb2s
+Message-ID: <CAMuHMdWsLeEzjCPHEa=nY-kC0n34RHL3kUMW30vneUajCWwTRg@mail.gmail.com>
+Subject: Re: [PATCH v6 02/11] ARM: dts: renesas: r8a7740: Add clocks for FSI
+To: Bui Duc Phuc <phucduc.bui@gmail.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------mSCLmRCv9RqdPoIe6T4pH9iC
-Content-Type: multipart/mixed; boundary="------------MueHiew5emScRGiYjxvoHacS";
- protected-headers="v1"
-From: =?UTF-8?Q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, Thierry Reding
- <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, notify@kernel.org
-Message-ID: <b92f04fd-3e28-4ce1-b6c3-b371f4cbc648@gmail.com>
-Subject: Re: [PATCH RFC 0/4] ALSA: Consolidate CEA channel allocation data
-References: <20260612-alsa-cea-channel-allocation-v1-0-b1bcbb6b1051@gmail.com>
- <87ldcki0k3.wl-tiwai@suse.de>
-In-Reply-To: <87ldcki0k3.wl-tiwai@suse.de>
-Autocrypt-Gossip: addr=perex@perex.cz; keydata=
- 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
+Hi Phuc,
 
---------------MueHiew5emScRGiYjxvoHacS
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Fri, 12 Jun 2026 at 13:08, Bui Duc Phuc <phucduc.bui@gmail.com> wrote:
+> > I have one more general question.
+> > arch/arm/boot/dts/renesas/r8a7740-armadillo800eva.dts configures
+> > audio for FSI (fsia_pins), but does not fill in a clock-frequency
+> > in fsiack_clk.  Instead, it fills in 12.288 MHz in fsibck_clk, while
+> > the schematics call it FSIACK.
+> > Apparently the FSIACK pin is shared with FSIBCK on R-Mobile A1, so
+> > which function is used depends on pin control.  However, the DTS does
+> > not perform any pin configuration for this pin?
+>
+> I checked the schematic in more detail.
+> On sheet 12 (FSIA section), the FSIACK signal is connected to the
+> WM8978 MCLK pin (pin 11).
+> It is also connected to the X8 oscillator output (pin 3) through R121.
+> By default, the board populates R120 (0 ohm), which routes the signal
+> to R8A7740 pin K5 (FSIAOMC).
+> If R120 is removed and R250 is populated instead, the signal is routed
+> to pin G3 (FSIACK).
 
-Hi, Iwai-san
+According to my schematics (RevA), R120 is not populated, but R250 is.
+So the 12.288 MHz clock is fed to both the FSIACK-pin of R-Mobile A1,
+and the MCLK-pin of the WM8978 codec.
+Which revision of the schematics and board do you have?
 
-On 6/12/26 06:13, Takashi Iwai wrote:
-> On Fri, 12 Jun 2026 06:53:22 +0200,
-> C=C3=A1ssio Gabriel wrote:
->>
->> HDA HDMI and Intel HDMI LPE maintain separate copies of the ordered
->> CEA-861 channel allocation descriptors, ELD speaker expansion, and
->> allocation selection logic. The Intel implementation originated from
->> the HDA code, but the copies now differ in supported allocation ranges=
+> From my understanding, the default resistor configuration places FSIA
+> in slave mode.
+> In this configuration, FSIA receives BCLK and LRCLK from the WM8978,
+> while the codec receives the 12.288 MHz MCLK from oscillator X8.
+>
+> This matches the current DTS configuration:
+>
+> simple-audio-card,codec {
+>           sound-dai = <&wm8978>;
+>           bitclock-master;
+>           frame-master;
+>           system-clock-frequency = <12288000>;
+> };
+>
+> Therefore, I do not think it is necessary to provide a 12.288 MHz
+> frequency for fsiack_clk (xcka) in the current configuration.
+> If the hardware were reconfigured to operate FSIA in master mode, that
+> might need to be revisited.
+>
+> I have considered testing the alternative resistor configuration
+> (removing R120 and populating R250)
+> to switch FSIA into master mode, but I have not done so due to the
+> risk of damaging the board.
 
->> and fallback behavior.
->>
->> Move the common data and transformations alongside the PCM DRM ELD
->> helpers, then migrate both users while preserving their established
->> behavior. HDA retains the complete CA range and channel-count fallback=
-=2E
->> Intel HDMI LPE retains its CA 0x1f limit, ELD speaker bits 0 through 6=
-,
->> and lack of fallback for incompatible ELD data.
->>
->> The descriptors and their derived channel counts and speaker masks
->> become compile-time constants. This removes duplicated mutable
->> initialization and provides one authoritative allocation table without=
+I haven't located R120 and R250 yet, so I don't know which
+configuration my board has.
 
->> changing the existing allocation-selection policy.
->>
->> No hardware was available to test this patch series.
->>
->> Signed-off-by: C=C3=A1ssio Gabriel <cassiogabrielcontato@gmail.com>
->> ---
->> C=C3=A1ssio Gabriel (4):
->>       ALSA: pcm: Add common CEA channel allocation helpers
->>       ALSA: hda: Make CEA channel allocation interfaces const
->>       ALSA: hda: Use common CEA channel allocations
->>       ALSA: x86: Use common CEA channel allocations
->=20
-> This looks like a nice cleanup.  There is similar code in
-> sound/soc/codecs/hdmi-codec.c, too.  Can we integrate it further in
-> future?
+> As for the relationship between FSIACK and FSIBCK, I am not sure.
+> The schematic I have does not appear to describe FSIB at all.
+> The HDMI section only documents video signals and does not mention audio,
+> so I do not have enough information to determine whether FSIACK and
+> FSIBCK share the same pin on this board.
 
-Yes, absolutely, and thanks for pointing that file.
-I'll work on that.
+That information is found in the R-Mobile A1 docs (PORT11):
 
---=20
-Thanks,
-C=C3=A1ssio
+Table 1.3 Pin Assignment (505-Pin BGA Package)
+    Ball No. / Pin Name / Multiplexed Pin Functions / GPIO
+    G3 / FSIACK / FSIACK/FSIBCK / PORT11
 
+Table 54.1 List of Multiplexed Pins
+    Pin Name / Function 0 / Function 1 / Function 2
+    FSIACK / PORT11 / FSIACK / FSIBCK
 
---------------MueHiew5emScRGiYjxvoHacS--
+Gr{oetje,eeting}s,
 
---------------mSCLmRCv9RqdPoIe6T4pH9iC
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+                        Geert
 
------BEGIN PGP SIGNATURE-----
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-wnsEABYIACMWIQSrYqI5vIrg1X9eqEjQXT8aWv/ugwUCaivxIgUDAAAAAAAKCRDQXT8aWv/ug3V5
-AP99eTDpoCnByJwx/MIRMuk3mFaN+LHcjGBudQVwRkIB5gD+IFx+oOCrmEXU89V+1HqfBMj4xClv
-DqfTU4xvr4ILLw0=
-=Sp01
------END PGP SIGNATURE-----
-
---------------mSCLmRCv9RqdPoIe6T4pH9iC--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
