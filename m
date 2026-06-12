@@ -1,148 +1,119 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0A8324B22
-	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 20:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781296231; cv=none; b=leE/maVOQB/Y7TaxkKCakfE0ErvQQxXDLIOu5rMAMig/Q9xatJ8eBdDW1EbJ/Yvt6H4oHTcWoC7WZCETLXLPdlyTopdaEPolTbePTtAK5jty091TSuB3ONZ+nZa1SsNPlDL0N2dfnoPl3k86FgWvslLtG6P48VThQ1lKHoB7NOI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781296231; c=relaxed/simple;
-	bh=Lt0k7jTl9l5Je/muEANY8WmcYg3cqaLLaJEUOSsDldY=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=VzLfRNCj6SUDGf8Lcxc4v+t5hjar1SLjx/EvP0IndA0RgkovWl02y3oHeiCfc3QTfNkXBQa0p00vKhdzFRE/7/glwvJR40AQ12Tt9S2v80u06ato30r8lYujHBxCB3mznMTefP2E094ldUVu7De4zWhFZVKYrlHDIOdm616ltnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S2vliFHj; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29FB33123D
+	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 21:42:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781300571; cv=pass; b=JaZ+HvDZi9h04aay/OTvw0zRDfA0uv2HYniO/inw1bBroFRGU74+/qBXuEuL5t3QmiJrdFScBEC6wStmSR+y3gfZwgFAlsC95mKad1fOux6Jz72zOO2FoC0UKcfDJRAmzPl5x82Q2IUhFkXP6+liLvJns8uaXEboGSxA0u60MlA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781300571; c=relaxed/simple;
+	bh=Y3EEbGOYPpMP5EWHBh2QepkaHZONirE7XdqpYFAxN3Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oib/8ljexbANYrDqo+oZVcwdjJPfg+ZUuWhIrnVqXA64nW5Z+wopSwToy/4PNDVnZFRowHcdUFGeoAM4fDKWiVFXB+aSLyzKMmR0CnhD9iumGJNME8jqgnygWs76p18E1PhYCAHpa+QWkKbTP11GL61vhpr9tVvdBvsOnTyMOiw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Asp/XAhW; arc=pass smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S2vliFHj"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490ac10e337so9091385e9.3
-        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 13:30:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Asp/XAhW"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2bf1cda2b17so11567495ad.1
+        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 14:42:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781300570; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FQTevG3W/iDoVRCefmGtcSnfHtyyha8xT198SPyztLPhVxU+SItru7gfqqPByfk2L8
+         0cRrxE88Azaii45itjhKdIxLAAmTSCF4uDHHeuOW8p3Z8ViglKnuTTHwLCCHj4EZ22va
+         fpBtQ2/TKnuppZ0MHZHp7sz/laLnLOUZ15toyOhWxOTgaHjYMaedcAuzU7KDXXaS6sSr
+         DK/r9LDSnblklC23cpQ8gcOaNagD1j/6LdpB7tbp/DbAsX44VbvanrZAWa6Mr+WxWmOL
+         vxlMR78UafaKCDw55Z+3mPsDjSuqj+oRnN3X0VJtFvTuqoDSX+hl855qVDwpfgsgs8Si
+         exjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=1vJ1NEAP1pi8XKUKeidNyFAtITrieBzkmoPXCAEf4CA=;
+        fh=8E2ch4u8DxGs50WcvrlSwh4ncXLw7TwjP1kAc7OJOj4=;
+        b=GZ8YcRmJco4/Fgf+4Umtx4/Neq8Q7trY3yTcjqRcItvlk/kvA7Z6GcRYrRHKtqv7oj
+         V4XSiFXdKPTVsHC5zyW9qs48/pyfCXgWfue/ZcfNnXN1Ok55hIUYpJac3u6tJch47GsP
+         cjEH/GaaqxBs0AkJgokeW2GGRjCmtZ1yaiABf7jK7g18mrclCVX8TcKpsgOUnO/m1JVD
+         At5flmXB1Y6fcS/cAiakg9NB9IxbQMHdm3wheeRnrvV5MxM6f/f5ZEb5hdWiDR55W91f
+         pJ9BaBwCtPyeOG7YENtV0ltLjhK//vE+UvexWLPt9qV8nUxvR4GHaSFJ0IVZghlgFW+w
+         udzg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781296227; x=1781901027; darn=vger.kernel.org;
-        h=user-agent:mime-version:date:content-transfer-encoding:references
-         :in-reply-to:cc:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8htq1iA3RMdrMAEb9/pJl3QbqhjPj8uKRlayNFVpG8w=;
-        b=S2vliFHjQ0WyVNDCV+A6eTsG9B3JMAPFGST8SX8NRhzjG09q0GfP1qcw0Q3jUJhnMj
-         djeRNlkP/WCxqgLpAqffcuUTa4NM6Fy9/mVK08yXrs+sXHtoh9vY+yu+EXvmzbkHnJB+
-         dFAzl/8tqGVd1Ce9nFFmzOzSVpFGqzlxKVwUSjCtOXTsl5RsvuRW3ni4hJ9kdrzW/fX9
-         HmiK5kMEUW9xRPvzzFDMeyOHBZr44FZKMEv/1/KR9myLW4FpLRYNjTDctXwvmxtbEqYO
-         A4ceJzSCZnKnejFEZQYuo09QSaTyEYCykcU6u/CdoNlVzcTOEJqhy62OF1Be4Pp9kilD
-         dyaw==
+        d=gmail.com; s=20251104; t=1781300570; x=1781905370; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1vJ1NEAP1pi8XKUKeidNyFAtITrieBzkmoPXCAEf4CA=;
+        b=Asp/XAhWuDsH8iil3ysMCOTv+AzKk8K6xoeyKPpJu26mV6TibWjtlW0gSuXhpNVA1X
+         o5LLIKVQHsgENLb1Am4RAPo0SYCxW/bQZcv+qa6GWrJ/wqaCWqH/upLGtW1jJZk8n5iW
+         1hfvAsDgrn7VlkRuimlr3wdW9l6T3qyIdp/zUv/9Dc2VWFrX0qYky/PmMa2Mi9h9iZh3
+         a/lmq8kj2D/41WgD4ErmQhO86V/JV6Rnsp4UDe6SLuCPn0EQPKgQzB7jhHrhBwYru4qT
+         JDEjqs7fzplOvdP4XgOJoNHxiUer6EULILbaxnbPfX/eF1raJ8VpZSCIC5w9I8uEYVC/
+         7O9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781296227; x=1781901027;
-        h=user-agent:mime-version:date:content-transfer-encoding:references
-         :in-reply-to:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8htq1iA3RMdrMAEb9/pJl3QbqhjPj8uKRlayNFVpG8w=;
-        b=qB6WooSI9ISVDWENPpgDu19R3BL3EAUEXVx02IpSDWX4HdJURe6d9D3Sr2u7MM+jsL
-         qfnMxGGWlZ7Dh1+axVXHfaDFaJs55swL20Lkx0YzscEQRFCkHzCQNFgNZIKQtLTdShty
-         dbevYqQ9mKAdPGraNHGltq1Iu7PyMn7TjvElg1o7fNaulk4svpaEHwOzwS/E3URL+WQu
-         ZL8bGQtxFK48y2ITCPz/oz/4FLO/DDf6HDPyeWsSXtRc5mIccEZAjQ7KAz0rtuirViDh
-         Ea/fxNlmIZVFqKUgp0vayahbWYwVuN02dxfHfYwwlkllz0kijEa6aGUKwPZ3xVwQYAdi
-         9JbA==
-X-Forwarded-Encrypted: i=1; AFNElJ/QIRpIkczIUgKfzZ5ks3lbCQ7lEfBfA864cnD+d5IfK6aQIwknhLzXUYc3Bkh/XadZeGe4zZgMKUMGCg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAkV7KcBNQLFZBwpkljOuJn7kY0fkwlY31NFb+ZE/zz6iSKNZ1
-	LQr/MSCfQ/SYxZlOglIMSG7RXin88aus7Cu02i6rTG8qF24/I0QtshS4
-X-Gm-Gg: Acq92OEqMecOj8F/DCmoGIpqnef/QJ4I4sWODxn8n6NFLgwr4K7GSB9r/KDKvlFZGHj
-	CLlftegZTOJwUVnFRI2k1q5+B+f9BVm3gyu0s+XTNR+MWFgdry/KRzBil6FDp99oNJGr6oU1f62
-	+8zkEWQoo7hvDBYjVSfP7XyRaFyfqFKo8PMMlJVuojsFrlBstYuWTgVba89Rbi7Vn30SL9XyrzY
-	1zPrbQmIHhG6DboPSvnw40asn9qesBb1hFoBsonI3zMfE015UWUMGd8dJcx8c7ZbWzHWOJpsoCj
-	kEtp3Psm/s/9pwas6nof9tRxCFwvaYlUEMxWoquqUXLCX8uCKipWneJUX+vGxM+vupmGMh7ZMI+
-	NVBOuhTc43Kqr/51S5cR9OkB57jdM1osafSSqodq7arWlD21NytZtMH1PxmN75TxeFZ6ZtGeB6a
-	JctCuda6a0+mAI1IZLrIYpLrlk/x0mHC/EjBezGIWr7/k5txZWb0EQnNc6HYtuWZbEjFAielKc+
-	nfJWFl1depDvKaun0QWCWT93IKm6WpLcyM=
-X-Received: by 2002:a05:600c:2d88:b0:48e:7854:1608 with SMTP id 5b1f17b1804b1-492200e24cfmr7047295e9.25.1781296227009;
-        Fri, 12 Jun 2026 13:30:27 -0700 (PDT)
-Received: from denis-elite6.lan (178-222-30-44.dynamic.isp.telekom.rs. [178.222.30.44])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492203d05d1sm19055385e9.12.2026.06.12.13.30.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 13:30:26 -0700 (PDT)
-Message-ID: <81d699c6fafb51c3f5d5adc657057706b07d9ee1.camel@gmail.com>
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable micmute LED on HP
- EliteBook 6 G1a
-From: Denis Batishchev <ii343hbka@gmail.com>
-To: Geraldo Nascimento <geraldogabriel@gmail.com>
-Cc: tiwai@suse.com, perex@perex.cz, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-In-Reply-To: <aiggF41W3LlKDts4@geday>
-References: <20260604131518.45993-1-ii343hbka@gmail.com>
-	 <20260609135607.3960625-1-ii343hbka@gmail.com> <aiggF41W3LlKDts4@geday>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 12 Jun 2026 22:30:20 +0200
+        d=1e100.net; s=20251104; t=1781300570; x=1781905370;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1vJ1NEAP1pi8XKUKeidNyFAtITrieBzkmoPXCAEf4CA=;
+        b=dyGLNv28U4kQEcWKxhl2L28wH6QH/w3mh8uoFPIB9nupTVIusEoYLLgAnCEFLrZgnX
+         YvmJy6yzfmYbz2Ae0dlUbbcpIPCcoulByaqtL8/tJTdvSM9Lk4BrEyOq2yuqy/ieQ6Mw
+         qZpDfD9IvRWiV3uq3cVe1zWm9Mo7HKYm5LQdMaw8gE7m+YEpEWFndIcZdYsG3z4dtB9i
+         vOMTEQFo3swVp4/R2rxemgczPH7ZUebWrf8GIcZ22ZSBx5+MapZ1TFmzR7wIwWKRPtMt
+         Wwkn+x+pRk1IsjM0A8ZCGAG0eV9qrln4Y45BdXhWQ1YC5OdtQCcSn/WF/3r3VGUixj8O
+         jzNg==
+X-Forwarded-Encrypted: i=1; AFNElJ/r5RJL2ZMAIc/0EnfrhasP0Y7t5Up8Ek8nnWYX8mXYCINqMttTLJMgRKzTVqH0dHjvaN+izogXkSdSdA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YynonPjHOIX6wV4JDlRxPPJdJw76xcgGLpVSe/5iNn2Jq/c99me
+	1D6S59/Nrfj76enZRHH9BoFwKnG9UBiIFTI73mfjkWBxYxJlHumiYWFf2W5GtBywMPN57olL2uK
+	10Wx+K8zM1rNBp2srMmnnfrEtgqttNKI=
+X-Gm-Gg: Acq92OFNxeWre2OD33XfIzzW7iF97G4/WU3yj3IKMZlMKpiYX+MPLoE/bSDeLHELr6A
+	nwYq1zEj0MgiTNnPWpqZ6jdtEoTWTbHLU4E0ckAT7awbrOerdz5Q8whG8BwS1xY09QcTM7FtI/v
+	QyxEX4yw0zsxPmVunT/fajO+fcUgXsZZgqA5PK/dnmWS0UYYpsbyaC7M6eZ9QuSPNWF/6e4CjwY
+	Y+4qgI1RgG6PID1U3K9jyA9JfML46nANdSLtEV7mou+Un+TDMjhGNWNE7FlFBm2dpsf4KCRsU9M
+	lT2fU16iNba3A5lI6Y3wqsudaq8pNpJ1olrSnAvQwm5VIVzNFFPcdATWWfIeXnqpB2s4/ylJ
+X-Received: by 2002:a17:903:2290:b0:2c1:88a1:9839 with SMTP id
+ d9443c01a7336-2c3fb4ec546mr42132845ad.11.1781300570163; Fri, 12 Jun 2026
+ 14:42:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-9 
+References: <20260612132639.78086-1-phucduc.bui@gmail.com> <20260612132639.78086-12-phucduc.bui@gmail.com>
+ <aiwgIjVqa4PeGjRQ@sirena.co.uk>
+In-Reply-To: <aiwgIjVqa4PeGjRQ@sirena.co.uk>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Sat, 13 Jun 2026 04:42:38 +0700
+X-Gm-Features: AVVi8CcQ5wnxCnP2P6gAEQ2cG8ISmqVV88AetkLUV34w5sJRMS1FX2oxjLgXEA0
+Message-ID: <CAABR9nFAaLgjUURzJjuH+vHwkExK2sq7Nu2jKC1Ge5+gLxFfiA@mail.gmail.com>
+Subject: Re: [PATCH 11/11] ASoC: fsl: mpc5200_psc_ac97: Use guard() for mutex locks
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+	Frank Li <Frank.Li@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
+	Nicolin Chen <nicoleotsuka@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Geraldo,
+Hi Mark,
 
-Sorry about wrong email threading. That's first time I'm sending patch to k=
-ernel.
+Thank you for the review.
 
-My laptop's SKUs is AD3Q9ET#UUG.
-It's HP Elitebook G1A 14" too but with a bit different audio chip as I unde=
-rstand.
-And quirk is indeed copy-pasted but with different device id.
-I can change quirk description string to reflect my laptop version.
+>
+> > -     dev_dbg(psc_dma->dev, "cold reset\n");
+> > +     scoped_guard(mutex_lock, &psc_dma->mutex) {
+> > +             dev_dbg(psc_dma->dev, "cold reset\n");
+>
+> mutex_lock not mutex?
+
+Sorry for this oversight.
+
+As mentioned in the cover letter, all files were compile-tested except
+mpc5200_dma and mpc5200_psc_ac97.
+I'll take a closer look next week and send a v2.
 
 Best regards,
-Denis B.
-
-On Tue, 2026-06-09 at 11:15 -0300, Geraldo Nascimento wrote:
-> Hi Denis,
->=20
-> On Tue, Jun 09, 2026 at 03:56:07PM +0200, Denis Batishchev wrote:
-> > The HP EliteBook 6 G1a (SSID 103c:8e0d) uses a Realtek ALC236 codec.
-> > Without a quirk no fixup is selected and the mic-mute LED stays off.
-> > It needs the same ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk as the
-> > already-supported 14" variant (SSID 103c:8dfb), so add it.
->=20
-> What is your exact variant of this hardware? Also please refrain from
-> sending V2 in response to V1: it makes patches harder to track.
->=20
-> >=20
-> > Signed-off-by: Denis Batishchev <ii343hbka@gmail.com>
-> > Cc: <stable@vger.kernel.org>
-> > ---
-> > v2: reword commit message as was required by Takashi Iwai
-> >=20
-> >  sound/hda/codecs/realtek/alc269.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realt=
-ek/alc269.c
-> > index 78a865709635..8eebf91595d3 100644
-> > --- a/sound/hda/codecs/realtek/alc269.c
-> > +++ b/sound/hda/codecs/realtek/alc269.c
-> > @@ -7274,6 +7274,7 @@ static const struct hda_quirk alc269_fixup_tbl[] =
-=3D {
-> >  	SND_PCI_QUIRK(0x103c, 0x8df1, "HP EliteBook 630 G12", ALC236_FIXUP_HP=
-_GPIO_LED),
-> >  	SND_PCI_QUIRK(0x103c, 0x8df7, "HP Z66 G6", ALC236_FIXUP_HP_GPIO_LED),
-> >  	SND_PCI_QUIRK(0x103c, 0x8dfb, "HP EliteBook 6 G1a 14", ALC236_FIXUP_H=
-P_MUTE_LED_MICMUTE_VREF),
-> > +	SND_PCI_QUIRK(0x103c, 0x8e0d, "HP EliteBook 6 G1a 14", ALC236_FIXUP_H=
-P_MUTE_LED_MICMUTE_VREF),
->=20
-> The description string of the quirk seems copy-pasted. Are you sure
-> you have the 14" variant?
->=20
-> Thanks,
-> Geraldo Nascimento
->=20
-> >  	SND_PCI_QUIRK(0x103c, 0x8dfc, "HP EliteBook 645 G12", ALC236_FIXUP_HP=
-_GPIO_LED),
-> >  	SND_PCI_QUIRK(0x103c, 0x8dfd, "HP EliteBook 6 G1a 16", ALC236_FIXUP_H=
-P_MUTE_LED_MICMUTE_VREF),
-> >  	SND_PCI_QUIRK(0x103c, 0x8dfe, "HP EliteBook 665 G12", ALC236_FIXUP_HP=
-_GPIO_LED),
-> > --=20
-> > 2.53.0
-> >=20
-> >=20
+Phuc
