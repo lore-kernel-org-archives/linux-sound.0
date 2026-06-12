@@ -1,63 +1,63 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CFA3EDACC
-	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 13:27:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACC337CD31
+	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 13:27:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781270836; cv=none; b=YQlLbhHp5E8rCvL+CuM4cmSZx2Bwzi5GiCB7Df+zKNgN8qGOTD4nIIyNQ+IGPmUjdAFpjwefcjNW5bvT6b1s/G3Zu8QpKswOoDBNU0sZlMtPCqXz1qEaBs9MBw1krQFio0u4Q6In4+DYWpdtjFwgBKZpDx1YT68RF6xGrfDR9lA=
+	t=1781270843; cv=none; b=heEBe0dS0cOkuUhzRrKp8iErtWSUnv+J+pV5RS/dRn5MQKCP1RG5myBPs9ijuPxRVTMNhG/icz0dzaepGpDiJDeb7MUH8VLeRwoxlZWQABliwjL0CzmVEo0fYLLKDVCJ6uso2bKyKCPH2Z+GSkvv0ga1R8B29VEvo0GsZgn9d6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781270836; c=relaxed/simple;
-	bh=eGIrG7UB1lhufDoMtkQ/eRxkJrt6N3pqPE1KjIIgjbs=;
+	s=arc-20240116; t=1781270843; c=relaxed/simple;
+	bh=qSQmlpC0OGwGcB+/9udOFkuHWL4YoPGy1E9XqZycimM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ArB1wwKu58Q1ihSfq5DmFQVJ7O5XqpeJVxvR3UV2UElugls/b6Eq3RdvrdGKO+l/9m8xWbWRFMSNzOSHr14lbHBUmzOUNtTv8JgmuCjKQlVxi4yrBj7NJQdypm7Tg6R8Obra41712pUv3WYUjxGx8DBzNlk8Eb5bcjH+RL9qZCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BzvO1gpe; arc=none smtp.client-ip=74.125.82.170
+	 MIME-Version; b=Q9Bjo3xR4wX++DoIb50LXl4upwlcxzfOm29dY8QITCy+sgO8ihbFjgCpXSi+c2LD67psqBeBLRsHfSxW5ujDILHNRoX+EyWjU67LxKYgEO4dPCTkfZif5Lv/nrYo1S+CkcUpahbfeOyHLylykFpAfYp7uYEo3dCBmraO+ZcZcnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hlHrI18E; arc=none smtp.client-ip=74.125.82.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BzvO1gpe"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-30749947917so2923787eec.1
-        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 06:27:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hlHrI18E"
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-304f590dd91so1111058eec.0
+        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 06:27:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781270835; x=1781875635; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781270840; x=1781875640; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ANb0KIfsTx8/8tZ1jjFTsAAUSzrIuzqzfqRTdMc2tcQ=;
-        b=BzvO1gpe0nEm8z7RhhT3gvpOX7WBCOC+62/Yq2yXPJvN4dy64nQgPTGznB9qQseXyW
-         +MhYpaN49nl6o4aUhRwMKkgqDvgcRFCIYcexldQwIHRnm3ZIdc5lZPSFLJ3FHmFRxMW6
-         8hWPRF2SRiNjCyFCwxJAmve+mPwUyfvyZDcrlaK4anUFkZEyh2nBNqbuA54TpcPLciqp
-         +I5oOWBmtgaXiWbRfhXhs8B9lD1q3OCRtCh3zYGKeAw4XUWl6AdNEXsMtANCPV5zjGgU
-         9wvQlxllBH8VQjtqvsOCR5AtWuu9Il0oLET0JgEjW7c/3SXfO2nkiYiz8VCOWMZ90Svk
-         tO2A==
+        bh=PmZ2sl38PCCS0bv5D9o7S4WvjIIRHmjBHALA0zfK1Ow=;
+        b=hlHrI18EDPEmtRZ9/n7VykbJfMhF7g66inMfNLQJXUqeude0UeeQ/t6sasWFE3PlFT
+         mQBxWFDJfDCCNxD1RCtopKZq+Wv3bCG0jNc8RQoafxWV/QqhUMjKK/m92roqTOn4QyTw
+         Ypg8lMALDDrVMm8og0DpioJqYHR3SO8wzjlfN85kZ38H06IMZxv2nt30S7fCx7pmzuIr
+         KUJEmLkvNtuqU2RO82F+0T29W5DTh8G346dpUm/zRpHPLeiAUK3S4IVHp/1nW3vs/6dF
+         O7Zcm9ady2SHxyM/aEceiDbgS8UjQ7u8HPdWfUsKvGtybJ0CeOpPFt2lFhUf6iS1CHnL
+         Oxvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781270835; x=1781875635;
+        d=1e100.net; s=20251104; t=1781270840; x=1781875640;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ANb0KIfsTx8/8tZ1jjFTsAAUSzrIuzqzfqRTdMc2tcQ=;
-        b=YC2NZwWUx5Df6ZjsVZroN7Sdp8/32wPXlgvFI2lJcB8Y6hEuNYPCj3a4ZwBE7+9syF
-         GoOSE6sa+4t6IQ1NeteMEaMy+hOP5fq8ZOfalUU9lNyjDOGEU+yee53fc71oVc3bb2uH
-         ckMGuRCDtiwQ9nUgJsdA6QkGIYRAG+kzniQ+oETQk8RA2Vp6p9d7xWyo7SEJoGIyneVX
-         aS4FhiVzQY9DFMeJ0UKNBVUv2whCImaaOlV3AVte/8RpJqmpuDtSjfFenZOjWv1JU718
-         uuaKxvg7CG1gFESIPr8J6QLJvdYNCIHpG0yUHl+4qqTb0Z2rqUYfidTyRUGlmQy0i5/J
-         Wj0Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8V85CWqnklVwjnzOs3+EO+SkxVntvhmCWXm0UtFoYsc71t0gemOlXwPZR4EprWQ7IKz3RuDwwJfWXZZA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8zi81bMt3TT536lz8+BjMYbcD6ef2go9jwmgp0IQDjB5vgrpO
-	DXhrEUd/XSPS6WSACNbFJ4hrpAUQkk3X9TIASmG/RVj+Fzi3NSbF+YbI
-X-Gm-Gg: Acq92OGejkurUcoEcPdz6Kv8juganxbfb3x6dQG5C7v2bqzjgg0OOqkAVUd/i8jKOnK
-	6rCVRo9ae7zqi1XPFCPg2Q5wCYpxWWbnlL6McEuumgremAc9PoGHFLjo3vv+CO9eseQ0D0gmKSL
-	pXQyszijiiye1/ffC7J1xVUDVyPgcKWcSWoKCi1KRdrKX/MxMN75GK8cnE7YFbT5FFY+aTjBVEL
-	02jFT4igw+k6mrMkWtt0Fu6xdp5/Y2xFl0+8FufXH3CbcCZ0YTHLdn1Z0IvDbyEe1q8vJzriT9d
-	GE0ko303qjVFG9ov43LLgkak39VWSD7RyV2wkp6Ha/Tpq4oQBuaDYwVMkBFDAqdW5wJhQYmF5WI
-	MtfDHFpqdLoexQNDizC9YAKdrqBBui1N6x8Z5V/UoQPwC9mTCF53asfA0H8lDUtwPLd+i+Rs8Th
-	k5TY49v40Kn4BsTfcoeVks1LIqxcrn5k7D8zzWF0geavWJ6y9J/y3Vo4iO9AiYp3pAatMo
-X-Received: by 2002:a05:7300:ec09:b0:2ed:e15:c927 with SMTP id 5a478bee46e88-3082021fa5fmr1811315eec.35.1781270834683;
-        Fri, 12 Jun 2026 06:27:14 -0700 (PDT)
+        bh=PmZ2sl38PCCS0bv5D9o7S4WvjIIRHmjBHALA0zfK1Ow=;
+        b=qbB3zMgur/QzGmoI45O7OGGjg80I6cKQ6i2Wzd9jgdCtgs4mRVEWSx4pcEQ4V06etj
+         pDoWKQtwuuYmQlqDi/VrEeDIEtIkQwe6M39c3bDpkYQTPHdM+e0DOC6t60FmqbGjC5CU
+         bPIxbGu9m6AP8ia93s6o6t/A148itSkcgKe3pRYsePMkrkCXTiUzHcWV1Uu/1vDRtctV
+         btjnFIAh0UwhG+5i9Tdv8U1J8YvjIl4NMRvcq+lWyJ01D2up2/2PJGFCKyP2R1g9or8g
+         RLfhqiptWvziEIW3+3X9oXlKyK/PRU7CwepB6Bux0du2IKMkMs5zO5sPiGh9HROoRO9c
+         Ir2A==
+X-Forwarded-Encrypted: i=1; AFNElJ8iaRusD06n+pmozxCALadIICnJ/Yig4xWf6FDxNL7NRko60cxE2mTQQlU7PigmsZSdpQFFFvln4WHZug==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0yPLbevnse06wWjfvKiS06ftaM9F1aZ5dp8O/5+6FzmFn1BhG
+	SDq21WeIdXsH5n1DRcNKVQ+4C9tYWYttG+vYc8LwnNLWT6jEyei5P7VV
+X-Gm-Gg: Acq92OFDor0RDEb2CFVVqUf/L2xtwn2CLq9MXWdoscRF5HG0yQWPQM7xzX7cteR9FcX
+	Qw9ojH5/sfUp08VeFuceC6LblxM8nY27DZFgQBveJSWGRHiXKcDWt1zRXjwZDAy0xf/VYrP5wQh
+	ctP8HJZGTcV2o1nfjK291q5Z8eQeTzbd2NiDDpS3Z9yxnoUyik2MjfVeeHRpLBUgmwA0q1xRWaa
+	WIsme97J1yCDDIe33YTuEK1oNSgfQ21F3kY6lL/5zsZVKFcL9nPehSeP+y3HI9OFrFZ6KEv53uW
+	eQRIpghVKsHKC1LlC+fPa8aKZsGQFwPUtpC7gbjbbgH94zsQ+tYXpnlKFhSQ/3h/oguYR4xp2Wn
+	p5ZX3IwO1ztcuuwPL9YUGq9NED6r/9sid3Hs5p/xuIzM35F3zQ8CT8rHFt7CyRbl4U6/vBCWH0z
+	+NWi0nFva8OD1GDjpFvobiRETRyz9gs2ASBSm1o1fag5Wuc2bVo2giI0vmHg==
+X-Received: by 2002:a05:7300:238b:b0:2f5:3fb3:4a76 with SMTP id 5a478bee46e88-3081ff73b6fmr1678230eec.10.1781270840085;
+        Fri, 12 Jun 2026 06:27:20 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e91f8b5sm3302343eec.19.2026.06.12.06.27.10
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e91f8b5sm3302343eec.19.2026.06.12.06.27.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 06:27:14 -0700 (PDT)
+        Fri, 12 Jun 2026 06:27:19 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -76,9 +76,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	imx@lists.linux.dev,
 	linuxppc-dev@lists.ozlabs.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 03/11] ASoC: fsl_easrc: Use guard() for spin locks
-Date: Fri, 12 Jun 2026 20:26:31 +0700
-Message-ID: <20260612132639.78086-4-phucduc.bui@gmail.com>
+Subject: [PATCH 04/11] ASoC: fsl_esai: Use guard() for spin locks
+Date: Fri, 12 Jun 2026 20:26:32 +0700
+Message-ID: <20260612132639.78086-5-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260612132639.78086-1-phucduc.bui@gmail.com>
 References: <20260612132639.78086-1-phucduc.bui@gmail.com>
@@ -97,135 +97,63 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/fsl/fsl_easrc.c | 36 ++++++++++--------------------------
- 1 file changed, 10 insertions(+), 26 deletions(-)
+ sound/soc/fsl/fsl_esai.c | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_easrc.c b/sound/soc/fsl/fsl_easrc.c
-index 114a6c0b6b73..edfd943197a0 100644
---- a/sound/soc/fsl/fsl_easrc.c
-+++ b/sound/soc/fsl/fsl_easrc.c
-@@ -1025,7 +1025,6 @@ static int fsl_easrc_config_context(struct fsl_asrc *easrc, unsigned int ctx_id)
- 	struct fsl_easrc_ctx_priv *ctx_priv;
- 	struct fsl_asrc_pair *ctx;
- 	struct device *dev;
--	unsigned long lock_flags;
- 	int ret;
- 
- 	if (!easrc)
-@@ -1053,9 +1052,8 @@ static int fsl_easrc_config_context(struct fsl_asrc *easrc, unsigned int ctx_id)
- 	if (ret)
- 		return ret;
- 
--	spin_lock_irqsave(&easrc->lock, lock_flags);
--	ret = fsl_easrc_config_slot(easrc, ctx->index);
--	spin_unlock_irqrestore(&easrc->lock, lock_flags);
-+	scoped_guard(spinlock_irqsave, &easrc->lock)
-+		ret = fsl_easrc_config_slot(easrc, ctx->index);
- 	if (ret)
- 		return ret;
- 
-@@ -1301,13 +1299,12 @@ static int fsl_easrc_request_context(int channels, struct fsl_asrc_pair *ctx)
- 	enum asrc_pair_index index = ASRC_INVALID_PAIR;
- 	struct fsl_asrc *easrc = ctx->asrc;
- 	struct device *dev;
--	unsigned long lock_flags;
- 	int ret = 0;
- 	int i;
- 
- 	dev = &easrc->pdev->dev;
- 
--	spin_lock_irqsave(&easrc->lock, lock_flags);
-+	guard(spinlock_irqsave)(&easrc->lock);
- 
- 	for (i = ASRC_PAIR_A; i < EASRC_CTX_MAX_NUM; i++) {
- 		if (easrc->pair[i])
-@@ -1331,8 +1328,6 @@ static int fsl_easrc_request_context(int channels, struct fsl_asrc_pair *ctx)
- 		easrc->channel_avail -= channels;
- 	}
- 
--	spin_unlock_irqrestore(&easrc->lock, lock_flags);
--
- 	return ret;
- }
- 
-@@ -1343,7 +1338,6 @@ static int fsl_easrc_request_context(int channels, struct fsl_asrc_pair *ctx)
-  */
- static void fsl_easrc_release_context(struct fsl_asrc_pair *ctx)
+diff --git a/sound/soc/fsl/fsl_esai.c b/sound/soc/fsl/fsl_esai.c
+index cde0b0c6c1ef..4a530a6c33f0 100644
+--- a/sound/soc/fsl/fsl_esai.c
++++ b/sound/soc/fsl/fsl_esai.c
+@@ -709,10 +709,9 @@ static void fsl_esai_hw_reset(struct work_struct *work)
  {
+ 	struct fsl_esai *esai_priv = container_of(work, struct fsl_esai, work);
+ 	bool tx = true, rx = false, enabled[2];
 -	unsigned long lock_flags;
- 	struct fsl_asrc *easrc;
+ 	u32 tfcr, rfcr;
  
- 	if (!ctx)
-@@ -1351,14 +1345,12 @@ static void fsl_easrc_release_context(struct fsl_asrc_pair *ctx)
- 
- 	easrc = ctx->asrc;
- 
--	spin_lock_irqsave(&easrc->lock, lock_flags);
-+	guard(spinlock_irqsave)(&easrc->lock);
- 
- 	fsl_easrc_release_slot(easrc, ctx->index);
- 
- 	easrc->channel_avail += ctx->channels;
- 	easrc->pair[ctx->index] = NULL;
+-	spin_lock_irqsave(&esai_priv->lock, lock_flags);
++	guard(spinlock_irqsave)(&esai_priv->lock);
+ 	/* Save the registers */
+ 	regmap_read(esai_priv->regmap, REG_ESAI_TFCR, &tfcr);
+ 	regmap_read(esai_priv->regmap, REG_ESAI_RFCR, &rfcr);
+@@ -750,8 +749,6 @@ static void fsl_esai_hw_reset(struct work_struct *work)
+ 		fsl_esai_trigger_start(esai_priv, tx);
+ 	if (enabled[rx])
+ 		fsl_esai_trigger_start(esai_priv, rx);
 -
--	spin_unlock_irqrestore(&easrc->lock, lock_flags);
+-	spin_unlock_irqrestore(&esai_priv->lock, lock_flags);
  }
  
- /*
-@@ -2292,15 +2284,13 @@ static int fsl_easrc_runtime_suspend(struct device *dev)
+ static int fsl_esai_trigger(struct snd_pcm_substream *substream, int cmd,
+@@ -759,7 +756,6 @@ static int fsl_esai_trigger(struct snd_pcm_substream *substream, int cmd,
  {
- 	struct fsl_asrc *easrc = dev_get_drvdata(dev);
- 	struct fsl_easrc_priv *easrc_priv = easrc->private;
+ 	struct fsl_esai *esai_priv = snd_soc_dai_get_drvdata(dai);
+ 	bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
 -	unsigned long lock_flags;
  
- 	regcache_cache_only(easrc->regmap, true);
+ 	esai_priv->channels[tx] = substream->runtime->channels;
  
- 	clk_disable_unprepare(easrc->mem_clk);
- 
--	spin_lock_irqsave(&easrc->lock, lock_flags);
--	easrc_priv->firmware_loaded = 0;
--	spin_unlock_irqrestore(&easrc->lock, lock_flags);
-+	scoped_guard(spinlock_irqsave, &easrc->lock)
-+		easrc_priv->firmware_loaded = 0;
- 
- 	return 0;
- }
-@@ -2311,7 +2301,6 @@ static int fsl_easrc_runtime_resume(struct device *dev)
- 	struct fsl_easrc_priv *easrc_priv = easrc->private;
- 	struct fsl_easrc_ctx_priv *ctx_priv;
- 	struct fsl_asrc_pair *ctx;
--	unsigned long lock_flags;
- 	int ret;
- 	int i;
- 
-@@ -2323,13 +2312,11 @@ static int fsl_easrc_runtime_resume(struct device *dev)
- 	regcache_mark_dirty(easrc->regmap);
- 	regcache_sync(easrc->regmap);
- 
--	spin_lock_irqsave(&easrc->lock, lock_flags);
--	if (easrc_priv->firmware_loaded) {
--		spin_unlock_irqrestore(&easrc->lock, lock_flags);
--		goto skip_load;
-+	scoped_guard(spinlock_irqsave, &easrc->lock) {
-+		if (easrc_priv->firmware_loaded)
-+			return 0;
-+		easrc_priv->firmware_loaded = 1;
- 	}
--	easrc_priv->firmware_loaded = 1;
--	spin_unlock_irqrestore(&easrc->lock, lock_flags);
- 
- 	ret = fsl_easrc_get_firmware(easrc);
- 	if (ret) {
-@@ -2377,9 +2364,6 @@ static int fsl_easrc_runtime_resume(struct device *dev)
- 			goto disable_mem_clk;
- 	}
- 
--skip_load:
--	return 0;
--
- disable_mem_clk:
- 	clk_disable_unprepare(easrc->mem_clk);
- 	return ret;
+@@ -767,16 +763,14 @@ static int fsl_esai_trigger(struct snd_pcm_substream *substream, int cmd,
+ 	case SNDRV_PCM_TRIGGER_START:
+ 	case SNDRV_PCM_TRIGGER_RESUME:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+-		spin_lock_irqsave(&esai_priv->lock, lock_flags);
+-		fsl_esai_trigger_start(esai_priv, tx);
+-		spin_unlock_irqrestore(&esai_priv->lock, lock_flags);
++		scoped_guard(spinlock_irqsave, &esai_priv->lock)
++			fsl_esai_trigger_start(esai_priv, tx);
+ 		break;
+ 	case SNDRV_PCM_TRIGGER_SUSPEND:
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+-		spin_lock_irqsave(&esai_priv->lock, lock_flags);
+-		fsl_esai_trigger_stop(esai_priv, tx);
+-		spin_unlock_irqrestore(&esai_priv->lock, lock_flags);
++		scoped_guard(spinlock_irqsave, &esai_priv->lock)
++			fsl_esai_trigger_stop(esai_priv, tx);
+ 		break;
+ 	default:
+ 		return -EINVAL;
 -- 
 2.43.0
 
