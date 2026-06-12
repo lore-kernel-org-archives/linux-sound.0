@@ -1,165 +1,151 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6602337BE6B
-	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 11:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781262495; cv=pass; b=sC4Nwb4LVw4Uahn1CNHdSeeItXGBBDVGQOYqFYay+p6s0ni7b2HPTdjICbxOx761j/tlOFud6Tun2V+/uCBTm85StfkzWS8xlcnGIHiWm3Lzy3iNFmhqVzlGKOo70GkFH8RiUbWlajDZnV2muQD3XQVpPeU4u3qFoM7xImwLNdA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781262495; c=relaxed/simple;
-	bh=46tK2SY8oxijrIbVND1wuLnWgyakUWAvGn7lOjZ9328=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r9RniVoxsYoWNKqiNHCiHfkHlX7YNv7KpQr9UmkrXoVUxm/6yUEI7ovhHvnJ4oEFI17LYwf1ZFbDlQhMRgvEV0DYHseAL3pCQUcNvttbZMWR4qjZfA4/S5I44TPr2UaXINgvcYXYHaiCmsmssE2LYNLuMma+wELwx0tbris0qGA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LrVnDpn7; arc=pass smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EBA3E7BBC
+	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 11:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781264004; cv=none; b=uYrqztn7YQzI/MHmkjg11JS4cfFflG9oIveyKf8d1YzkiN2zftE39WQranMxsuSZZkNK5MqF6+rG9c0cEnU6ZJZws0GNKwTp/7N12O0XnoUgHJDe+B0XOKtZW0ieMz5GHvddAl96P8CxBPhNBiSco0+k4fztPMPq8/Ee3QmRdYI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781264004; c=relaxed/simple;
+	bh=R578yBn2O6k18cIC3y1hQc62mo80zsddjCN4mCtOh80=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tgDf9OTeN0fibb+LtVGzGEodua2RqGR7ra0fxfgeqZ9BiMXLYhemsxmwY3bMLzyR23+MBiJlNRiPO+Xlx+LSZGR3lCV6d5ThwvaBs+Gwz5dOmadUaIXcNc8eir70xhctYYxVT7pO8W/A21t6EUt2JEnMt5GhpOMy1EI+wkaMfO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tvPTvcJw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GVdfPmPo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tvPTvcJw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GVdfPmPo; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LrVnDpn7"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8423610ec93so766673b3a.2
-        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 04:08:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781262493; cv=none;
-        d=google.com; s=arc-20240605;
-        b=aylleJWE+uky2zyO5TVCaJY87qURPVG16GxVCEDsoOIJOT//QTToSGuEQcW07PRG71
-         5KDqniZlpp81cBLrssT981HVHXJ99QzFbaKGuiqW8T6Pv77e3jAMeai6C6+FjjN99Bem
-         1mN8VcrW4tkbxCeaWk6hjolTg/7zL3lIdgNtuNF+TNN2xyZ/PhrjXL9C3OD1bdtnF/Js
-         TKna/dCHh5gAJwy3ShQZlMNJ9lk0lcO5HHrqUh4oSMpO9u/3mC6wD90zXkdw9wce4v+s
-         Uza63VU8dMBetftgYC2dFfu6ANJwZ7+tvMrku1hLAMmUZ2/HnLkYuBXI1J/Pn8K9wnup
-         TsIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=C8RG8wfZcQWUkvU7NuWObL4uAtXpFMwBEsyZAZlGxso=;
-        fh=q5i2xyiqnNPnnjY01JdyqZBAhUVpfhXBKM9WGKC/Q1g=;
-        b=QKMbzHFPu04NckKEpLvLxkTs2+c/FqS+1Y41tUwssuDhkHOsShG2cuKwkDJ+TMeBwi
-         pvfxnbeFnPJTvAxWCZzYBvBCw2ycRPchaPFCYH0PMGRdOgteBKbXSvWKTC+XuSIM5hNR
-         6b0FBO9OQYKiYtj3BKWRucKjHW/7pWMyoVJtN8Nllx+HhXqiNHK3PndHkDDmD50XWBqK
-         6tv+bzYoXDjbQ1rxdF02+BAXd14z3L+mqO3REsiSWw0chB2vykBPuM4RQ3zWRMuV0R+8
-         rhkGHxjQ8zaGE/oQbjsuEOs7hWm3Or7HHfuyMjPWO85qQnSM2/7KFuj1a6coTp1F1h8Q
-         rtAw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781262493; x=1781867293; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=C8RG8wfZcQWUkvU7NuWObL4uAtXpFMwBEsyZAZlGxso=;
-        b=LrVnDpn7bA0lGrLH2SO7PGUdXWe3BMQ4RVbOBDaQgZh+k9d6A7aYAB4AIr6AGQzvY9
-         0S1r91PPdcBldK4sTt1uTSyHmos83NTJucuawzTNsazAWSbYopGgsSSbz4GhajxMCtkb
-         cMmEOSFuGzX0hTWKC41NlYycgVV5ZvuL1WHE/9mbAB1Xusoh/VRQGC86V7/d+gjSlnuL
-         dy3Yt2pokH8DI0VRw6zE/gtWXfJw3oCZp2ptPEeJCBz4otDdC4C+1r2eLzbcbZpOweAJ
-         26nIsT+F47av8PppgoTGAtv9JNzsYTdwd0o2lT4GrNKmyfGxv0nY3o2xm4aZTxmS+RcC
-         sSDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781262493; x=1781867293;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C8RG8wfZcQWUkvU7NuWObL4uAtXpFMwBEsyZAZlGxso=;
-        b=kXIYV7ZYlJpgZbcC6n7OGsOD8paZt6E7TC/saQXXFbS2dTz+YJrehp7pK2GY2xecyW
-         IKsscbHwG3Qv3HxfnXSMEuAKGRTSf5w2dDImqW5XWezpqxMBUjdrtPcVALj494pmZRdd
-         6KB4b9vPnHZuRY9i4ROvjC72hjWM6YBNa018188MzI0C1vD5XkxcK0lPQtb4vgd1+Wwl
-         UyEt1yxOkxxDPs3V+ykKMtM3X0tbLxsINdarlCePayjM2sKd0e4BlkPOTpQH/lxHTHLQ
-         3uNkyzXVeGI/4s6i4fU06qPeOkuqQTvVIoz3gS09i+qAj6jfmAzIJaa7uhwCYI1OGtHF
-         w6bA==
-X-Forwarded-Encrypted: i=1; AFNElJ8MgAaucLVhfJViVlrJv7rPAAhS2OBZGHw/QNzplS5d0OuqpZyWtN1UgixEP85kgvMG1pF1tCIfQT6/UA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGNWyGCYhlm1Q0ewJ5egN3nlbzcH4vhs964jxBtD/UzHrBhcTy
-	dIJLOHkdMc/WfirP+SHzvjR0NlhZnETJMI+cISgUmJiJtb5+ooOPx+7FqBVDJiUcAW+64weMk/3
-	Zg7ryWoykvhTM+lQWKG50aEpeQPNp2l8=
-X-Gm-Gg: Acq92OHD+2obuW9zUDHhSZcWDc/0VGa430spgjmIqIiWXS0K/JUvzhU5DlRgYxmjEaB
-	pNORh6FeXLO2vwE4ajSh52lhZ1eLqmsVgKrmKVXAjskSMUpb+LmB2OrDFRSgnFFWJL8xbB7mRBp
-	H6XVlSTTbEJY0Uap/SVeYdjwHyWb4qCx/DpFVCsjI2+036Aa+oFsI7J7SyglG0Q7swsUilpUtaQ
-	5L4lcwMPMh/pe4BGOWWvOOyHsvazfO0C4oxMSSIpObTv0eQb7ODBsb/4g8evAeeGYzOM/1cvQiM
-	tgi8mwviAiqrFGz4fM8fWUILQio4i9ePTwYq5w==
-X-Received: by 2002:a05:6a00:805:b0:842:3be7:4d54 with SMTP id
- d2e1a72fcca58-8434cc0b564mr2663158b3a.15.1781262492776; Fri, 12 Jun 2026
- 04:08:12 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tvPTvcJw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GVdfPmPo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tvPTvcJw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GVdfPmPo"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8BFD46B6D5;
+	Fri, 12 Jun 2026 11:33:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781263996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MLpGTXgk5/yjoyg359rjfvNFwZbVq2RwvWhLIDJ7BmA=;
+	b=tvPTvcJwiXVPPg6cbgQaXWqTCHuLJ7Vq6lMX9hxj5qNICK7DSzsSRgi8+QQfGwLBppaw/u
+	llDBBqze499hTITTpKlHh9GaUCO7QPP7I1O9ENs2R35Vb/EzCdVjOrmfqYMWlQuPIJLFDn
+	VEYOTtOotZoBK6sjO5ku3snFC3HJ3jc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781263996;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MLpGTXgk5/yjoyg359rjfvNFwZbVq2RwvWhLIDJ7BmA=;
+	b=GVdfPmPogWIbuJe/nJvZHDTYEZsF/1kRk9lWWWITODjJQYMGPO1LOh/ojrP05Jf7z4+fLX
+	f/E91813SFPYDzAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781263996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MLpGTXgk5/yjoyg359rjfvNFwZbVq2RwvWhLIDJ7BmA=;
+	b=tvPTvcJwiXVPPg6cbgQaXWqTCHuLJ7Vq6lMX9hxj5qNICK7DSzsSRgi8+QQfGwLBppaw/u
+	llDBBqze499hTITTpKlHh9GaUCO7QPP7I1O9ENs2R35Vb/EzCdVjOrmfqYMWlQuPIJLFDn
+	VEYOTtOotZoBK6sjO5ku3snFC3HJ3jc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781263996;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MLpGTXgk5/yjoyg359rjfvNFwZbVq2RwvWhLIDJ7BmA=;
+	b=GVdfPmPogWIbuJe/nJvZHDTYEZsF/1kRk9lWWWITODjJQYMGPO1LOh/ojrP05Jf7z4+fLX
+	f/E91813SFPYDzAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 649F7779A7;
+	Fri, 12 Jun 2026 11:33:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id sBdVFnzuK2rUeAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 12 Jun 2026 11:33:16 +0000
+Date: Fri, 12 Jun 2026 13:33:15 +0200
+Message-ID: <877bo4hu2s.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: HanQuan <eilaimemedsnaimel@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.de,
+	perex@perex.cz
+Subject: Re: [PATCH] ALSA: seq: Fix kernel heap address leak in bounce_error_event()
+In-Reply-To: <20260612103222.2528305-1-eilaimemedsnaimel@gmail.com>
+References: <20260612103222.2528305-1-eilaimemedsnaimel@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260609113836.45079-1-phucduc.bui@gmail.com> <20260609113836.45079-3-phucduc.bui@gmail.com>
- <CAMuHMdXku0BVRgwWWv1vNccKpRbvTu+1b0TjYacNJH94XBDOGg@mail.gmail.com>
-In-Reply-To: <CAMuHMdXku0BVRgwWWv1vNccKpRbvTu+1b0TjYacNJH94XBDOGg@mail.gmail.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 12 Jun 2026 18:08:01 +0700
-X-Gm-Features: AVVi8CfMXSYu3RrDvNLF_rgtRUBfjvN1-IvBNNlzLi33SiKq9QBt8Ro97SYOt1A
-Message-ID: <CAABR9nHFHWFeEaaYE6X9fqt_Zb-3pF=jJbHQpsiBTgkS5LyTLQ@mail.gmail.com>
-Subject: Re: [PATCH v6 02/11] ARM: dts: renesas: r8a7740: Add clocks for FSI
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mark Brown <broonie@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+X-Spam-Score: -3.30
 
-Hi Geert,
+On Fri, 12 Jun 2026 12:32:22 +0200,
+HanQuan wrote:
+> 
+> The comment above bounce_error_event() documents that user clients
+> should receive SNDRV_SEQ_EVENT_BOUNCE with the original event embedded
+> as variable-length data, while kernel clients should receive
+> SNDRV_SEQ_EVENT_KERNEL_ERROR with a quoted kernel pointer.
+> 
+> However, the implementation unconditionally uses
+> SNDRV_SEQ_EVENT_KERNEL_ERROR with data.quote.event set to the raw
+> struct snd_seq_event pointer for all clients.  When a bounce error
+> event is delivered to a USER_CLIENT via snd_seq_read(), the kernel
+> heap address in data.quote.event is exposed to userspace through
+> copy_to_user() in the fixed-length branch.
+> 
+> This is a distinct leak path from the one addressed by commit
+> 705dd6dcbc0e ("ALSA: seq: Clear variable event pointer on read"),
+> which sanitizes data.ext.ptr in the variable-length branch of
+> snd_seq_read().  The bounce_error_event() leak uses fixed-length
+> events that take the else branch where no sanitization occurs.
+> 
+> Differentiate the bounce event by client type.  For USER_CLIENT,
+> send SNDRV_SEQ_EVENT_BOUNCE with SNDRV_SEQ_EVENT_LENGTH_VARIABLE
+> and data.ext pointing to the original event.  The variable-length
+> path in snd_seq_event_dup() copies the event data into chained
+> cells, and snd_seq_expand_var_event() copies only the content --
+> never the pointer -- to userspace.  For KERNEL_CLIENT, keep the
+> existing SNDRV_SEQ_EVENT_KERNEL_ERROR behavior with the quoted
+> pointer.
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Signed-off-by: HanQuan <eilaimemedsnaimel@gmail.com>
 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v7.3.
->
+Applied to for-next branch now.  Thanks.
 
-Thank you for the review and for the Reviewed-by tag.
 
-> I have one more general question.
-> arch/arm/boot/dts/renesas/r8a7740-armadillo800eva.dts configures
-> audio for FSI (fsia_pins), but does not fill in a clock-frequency
-> in fsiack_clk.  Instead, it fills in 12.288 MHz in fsibck_clk, while
-> the schematics call it FSIACK.
-> Apparently the FSIACK pin is shared with FSIBCK on R-Mobile A1, so
-> which function is used depends on pin control.  However, the DTS does
-> not perform any pin configuration for this pin?
->
-
-I checked the schematic in more detail.
-On sheet 12 (FSIA section), the FSIACK signal is connected to the
-WM8978 MCLK pin (pin 11).
-It is also connected to the X8 oscillator output (pin 3) through R121.
-By default, the board populates R120 (0 ohm), which routes the signal
-to R8A7740 pin K5 (FSIAOMC).
-If R120 is removed and R250 is populated instead, the signal is routed
-to pin G3 (FSIACK).
-
-From my understanding, the default resistor configuration places FSIA
-in slave mode.
-In this configuration, FSIA receives BCLK and LRCLK from the WM8978,
-while the codec receives the 12.288 MHz MCLK from oscillator X8.
-
-This matches the current DTS configuration:
-
-simple-audio-card,codec {
-          sound-dai = <&wm8978>;
-          bitclock-master;
-          frame-master;
-          system-clock-frequency = <12288000>;
-};
-
-Therefore, I do not think it is necessary to provide a 12.288 MHz
-frequency for fsiack_clk (xcka) in the current configuration.
-If the hardware were reconfigured to operate FSIA in master mode, that
-might need to be revisited.
-
-I have considered testing the alternative resistor configuration
-(removing R120 and populating R250)
-to switch FSIA into master mode, but I have not done so due to the
-risk of damaging the board.
-
-As for the relationship between FSIACK and FSIBCK, I am not sure.
-The schematic I have does not appear to describe FSIB at all.
-The HDMI section only documents video signals and does not mention audio,
-so I do not have enough information to determine whether FSIACK and
-FSIBCK share the same pin on this board.
-
-> Note that I have never tried audio on Armadillo myself.
->
-
-You should give it a try sometime.
-The audio quality of this board is actually not bad for hardware that
-is more than a decade old :-)
-
-Best regards,
-Phuc
+Takashi
