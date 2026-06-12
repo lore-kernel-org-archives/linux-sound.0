@@ -1,63 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1357391855;
-	Fri, 12 Jun 2026 15:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30C71DF26E;
+	Fri, 12 Jun 2026 15:58:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781279740; cv=none; b=lSP0BvJDc7cxBl45CVzXfyvqj4k/VlhsyRUSpHeoTtaItrqGvyg8OCvvwmxWxMt+L/R745lYP2fE0baVmig9b7NcmFYTigVh1harCwMSPqezMu3LCVk0LtUGfuyHxmUCDoZcojd68nL7anB5iQpnEr2hiCKdTgu6x+U+PWy+K54=
+	t=1781279917; cv=none; b=NNZd0vL1n7FIrwZ0CFXA5FXCU3cmOVsZngtGBVYOkBrQoDZeF+gBrPyoMFwGzJGT+tCiVghSgPYIfc7FZX5O4nMtLu7l3ZL/ISy9h5eip95holBbx2xDwWoeuRrTmyXvRXGvZELBNhQh2WsikDuxBm8+GdGYJVS8p+kFPTjPCWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781279740; c=relaxed/simple;
-	bh=zbQSZs/N+fkYK1GD7Zf2Mj3DzwAM/kj4zpFCSdieMg4=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=kptFfv8Abkkx6ika5rxZwhvs6PGSA6gRkfA6zJ7kHsNyw5vltkkgIQw7rueq1IbaFKhzm0rgR67I/Dp52igMkkGlPf+Aq45OFt9qU0W1SBJbesgdUTNJqpacrS0hximoTm0l+Jjdrfj8pQQghB1Nn9O7jm9sH9B858GV2vx6Nhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gU2DhaXg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781279917; c=relaxed/simple;
+	bh=7+X3SjJVPaTPnOi9bicKMfVUryy++bS3E4LZ0Ltw1mU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=citiFVmQjVY9yzTAKX0VqcyDc5/JDW68wZwMFgjkc6N9xonMGj9D0ts20AbDxkX8rj1ZbdfDlFA8UEMPkU7LCkjlPF3YtHoCoIVi4mUT7Xfa+Hzj5EIoNiEJoW1x3Qu3IAIZk5b26CxUYHZd/9A/B/GQpzcKBwM1lJ5BUj/rpLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oEjXRRG4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gU2DhaXg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D9391F000E9;
-	Fri, 12 Jun 2026 15:55:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oEjXRRG4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63AC71F000E9;
+	Fri, 12 Jun 2026 15:58:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781279739;
-	bh=yLJeIIJ6G9HHzwfvZGshi4cFvOhTM7z0lLp8CTZbXNQ=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=gU2DhaXgjCvBvOALhbMauoic21qb8/oDmMjKhC/wFrD6B4PZ8eIAP5RITXNIvzBy2
-	 ofEuI+BpuUQsleu1FFHbkoBge17dRZ1WgXhvQGuN9rnbrtOzkOR2QeGWtskhrpbhPo
-	 fYovmze8phQbIlDQN25nmjW8QFULHW5dhLtJVig6IUflWGJCdUUq9pD8FtQwa647mX
-	 a4Wud8LIg0D2520/XSaUOjdgteuQ+ypftuPFcNFyLOa6ROFLz2JqeQyCHYrWOHOOYG
-	 z7SsA7GCdjenSp5dZU8wabgF0e2XKydS7Bn+xvPWiaz2EmtfRtqKNLBL09vIs+dFur
-	 RarCek3yhkiVg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 939C13931092;
-	Fri, 12 Jun 2026 15:55:37 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 7.1-final
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87cxxwhzxg.wl-tiwai@suse.de>
-References: <87cxxwhzxg.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87cxxwhzxg.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.1
-X-PR-Tracked-Commit-Id: b0d1553d51c3d188baae6d77e6f3dfb415a7b623
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 1dadb7e7eb5a052a58fb2ec8d60c07186158efc4
-Message-Id: <178127973622.723498.16890777440669639702.pr-tracker-bot@kernel.org>
-Date: Fri, 12 Jun 2026 15:55:36 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=k20260515; t=1781279916;
+	bh=+a5jpUAwh8fsVU0v6dEuxINafF/FO5hpGm8pw8mFSZc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oEjXRRG4FcmjRa+T6eHXO00vZx2h7/wXzLXSm3Ey8XPBsSMbST/O9FZ2a68sXSiG3
+	 S7ly83bVesEe/SSO0L8b0wNYgRX1L2w7/e+syrkNXSF9uzhtNBHfgPV2+Frzd9KjLi
+	 mdshLHlw6b2S1aCi08bXKCtMiXqP7y3pmHUuzZPDKDzoiSJ8MyB306gYpXsttv5kEg
+	 Tb4kOefphM1y6ZGlmUHU11OBAn1gL96ZMjoFWtjhvilMZWCYmOq+CkURPAIpJhtzmZ
+	 JlXGvIQ0Dznd4dHiSkM3p707YMsQsHtCJIeuQEkZQaxcHa1Ec1+3IXDlCyKSXKD8LG
+	 4Sjh2XOas3dUw==
+Date: Fri, 12 Jun 2026 10:58:35 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+	Huacai Chen <chenhuacai@loongson.cn>, devicetree@vger.kernel.org,
+	Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	loongarch@lists.linux.dev, Conor Dooley <conor+dt@kernel.org>,
+	Xuerui Wang <kernel@xen0n.name>
+Subject: Re: [PATCH v2 3/7] ASoC: dt-bindings: loongson,ls-audio-card: Use
+ common sound card
+Message-ID: <178127991507.1115108.662303762612860150.robh@kernel.org>
+References: <cover.1780538113.git.zhoubinbin@loongson.cn>
+ <bbbcfd66b3b98713315f1af374c8da1065c8db68.1780538113.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bbbcfd66b3b98713315f1af374c8da1065c8db68.1780538113.git.zhoubinbin@loongson.cn>
 
-The pull request you sent on Fri, 12 Jun 2026 11:26:51 +0200:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.1
+On Thu, 04 Jun 2026 10:11:23 +0800, Binbin Zhou wrote:
+> Reference the common sound card properties. This allows removing the
+> `model` property and directly using the common `audio-routing` property
+> later on.
+> 
+> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+> ---
+>  .../bindings/sound/loongson,ls-audio-card.yaml        | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
+> 
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/1dadb7e7eb5a052a58fb2ec8d60c07186158efc4
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
