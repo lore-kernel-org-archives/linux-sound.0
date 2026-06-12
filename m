@@ -1,105 +1,212 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0459C76025;
-	Fri, 12 Jun 2026 03:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C25D3812EA
+	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 03:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781234597; cv=none; b=OKqDGIJf7Csb2sgwacgeQmJB8AzWyoFYzhSkhZemfPNNBhbmRjJN6EEprEM5hUcq0BE0uizCEhiJr0RUGg8jcxo5ZHFYZ06phgwyThiUmexvUSlZqLlHftbbRhVfgBH2Gf1+NNeywP8J+kNDg9a8E6hF0wEBp0/rNHnQN7+qm9Y=
+	t=1781235845; cv=none; b=a6OVvNI8fzdvWvmWVNisPxL2vYdsJJrQkShYUf/cLaeuf6ztRY0PGD0/2pEamjo7zVk3Kf/ObybP5ESkhAE3z9uZSbNI+VIwj1/BFdOdmc2eJto8Mbi0FXQJv6qYOr+80PhToi6EXWaUGpGPl4AdBPl0ysmoe5qx7a5kW/9h+M4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781234597; c=relaxed/simple;
-	bh=AdiZXxf0SM3KOsjDN1O6kcmMnJJvbVKuluzWEHWlPHo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z3xMtIMyQjZbNV78mJX6yG65cZDryg2tdWKxzwoauJlVqQ6s/l2dJUkrWMwMVa+ltSMP0GLJ1jYVunlP8YBMlrF+XHGluyrkMYxE5oyzVgsieofKwKGTdxN8918YBo7gKHkqoppuur7o4s2Vk3DbJlHrErtw9uX5e6+69/tbRD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [117.182.75.76])
-	by APP-01 (Coremail) with SMTP id qwCowACnS9SSeytq0w5dAQ--.11066S2;
-	Fri, 12 Jun 2026 11:23:00 +0800 (CST)
-From: WenTao Liang <vulab@iscas.ac.cn>
-To: cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: pierre-louis.bossart@linux.dev,
-	amadeuszx.slawinski@linux.intel.com,
-	songxiebing@kylinos.cn,
-	verhaegen@google.com,
-	vulab@iscas.ac.cn,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: Intel: avs: Fix d0ix reference count leak on set_params error path
-Date: Fri, 12 Jun 2026 11:22:56 +0800
-Message-ID: <20260612032256.23504-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1781235845; c=relaxed/simple;
+	bh=19YJZHEKgec4AeWlnKI0fOltwLaU/HdtOwyb93tjdA4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jxN7uHcnMm++tbUnwn0+WldxTSZRNoxYYCH6/kxWWILV714JAw5QXMfXwVDwGXjpw6QYGqWJ6NxaQ3XvApBXuI2baZ7M9+klxy1haOSfM/jQIG9gfWlmeTypxNul94la3VD8MUVLL2K5QOeyp9l7+kbYHafgpujuwJfwa3TCRY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jBvx6ZIG; arc=none smtp.client-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jBvx6ZIG"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-137335bc3caso686110c88.0
+        for <linux-sound@vger.kernel.org>; Thu, 11 Jun 2026 20:44:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781235843; x=1781840643; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VFo/5ESaKnayXwmaVHEihXSbRWQOgmVZlQFPdUU++Ik=;
+        b=jBvx6ZIGVQiX51LQ/+M9vYM3LGkdYbTuS52KVXb+2RU+RbvC/rogL1t/vEM1DZD0a3
+         VDO0WkUNz9ZxRLpRfA56sl3fe6WBiOVgY4l7LQUcZWyfCblnIa+jLR50bf+lYkJFC6cL
+         t4ZsGkbtLIfJhkwb5IJY6w2wCKBQ2sghjMQuaQXygFcFNMzPbWF28Srlvnip8clFcCDO
+         vrL/LGKAtHjm+ZYJ84N660eHAXn1lzFeUez/aYTB98tSMWh9lHmeMYdBK+++hfpaaFJc
+         ZpjkMIx1VAB+lhWit4iYhA2c+/z94/ALbuR35jhwvBiLqgoK8nT+8nG0273lDtAddvLQ
+         CaxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781235843; x=1781840643;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VFo/5ESaKnayXwmaVHEihXSbRWQOgmVZlQFPdUU++Ik=;
+        b=rpUGg47UmDZ1kXgohPdQA+x2M8SfyfsnnWKgv8w3W2ih01VUN3g8PF+7IGWZXBs6/i
+         sBRaFsEvfeQIR4I5m273GCZ3U63vY7Amw/d24/eFtlXCiueViML/OEV7KJ8j98HKIYI4
+         ZGBtNUhGUAgGI7YuJy0lvlL4zM7tT8pZs4Dg2cEhVUeJGVpRZX7Pe1t8LQeFjo0bnIlY
+         0iwDL/buEkpYWWd3y0c4USRLZOLR28tnfS8sWuUveJ8mAVJyKCjfactVjjcctPJdGoi5
+         1JxzyReZwRBjHJqDCoZFwirbWwJ5Ui5whikkON13O2fAAw2mDI1xku7D/yDpPaT85vSi
+         q7yg==
+X-Gm-Message-State: AOJu0YzAtZXtMACZQ8ZVs9cH8D9Ny76Lply//5NDV5NwVYrtO7F0xmdk
+	FIe9Y5I3t09wQe/BYm8PvBVV7J1iuBLNj2G8O4FDoKoWa9BeR8EW46dZ
+X-Gm-Gg: Acq92OGoU/6ydmGq3ZP+I08BsEQ/oYX3j2PLoJFQULwd6EEQcqsVnVV4n2G7KugF/64
+	c0oZwEOoq4H3CPL5DAxDJ6QHiUeiEKpcFbfMXqDjjZGQquj7fdnR3G3vRBZVvmHy76Bdfo52iV1
+	2ar6fe7DZKbbS24UQd5BuWVYNIw1/HvehDtGe/CsLNOm89QBdXqq5ev3g3S9vgxdvqA95cZEp1W
+	6w3Kg5uaQVxWtBmIxSmlJ2FxcqMBKs9WPNd7JRCxJ3aRb0Olf7At0QCi1MzKXBe1pZz72pNiKTv
+	9ucxYtJih7esMJAf4sK0LZ6Y130Yb6UZrwCv09G9C6ExHyzJrK7THYHUA1vT9UDv3wM38rMhcI0
+	K0zOL/zWAuGBofI3CSfv80N6Fzu0XET/gLRC8xqYKZQ3or1NHllepWEuxyEx4+bFzuWYBYS+9Ql
+	ND9AJRK9thSf8mmYIJF/WNdrQhYlXWULdNoYKxmX6NOk4K46vl0O2e0eP8z2GAoDHhZElgPj2dy
+	Q==
+X-Received: by 2002:a05:7300:5790:b0:304:cf6c:4d01 with SMTP id 5a478bee46e88-3081ff6f092mr711628eec.12.1781235843368;
+        Thu, 11 Jun 2026 20:44:03 -0700 (PDT)
+Received: from [192.168.1.18] (177-4-161-23.user3p.v-tal.net.br. [177.4.161.23])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e48bfa7sm1626248eec.5.2026.06.11.20.44.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 20:44:03 -0700 (PDT)
+From: =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Date: Fri, 12 Jun 2026 00:43:55 -0300
+Subject: [PATCH] ALSA: pcxhr: Share PLL frequency register calculation
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowACnS9SSeytq0w5dAQ--.11066S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tF47Kr15Ww4DKr4xuw1rZwb_yoW8XFWrpa
-	1q9395KryYqayv93y7Aa1FvFySkay5A3y3Kr4UGw1ayF15Jr1SqwnagayYgFWxtrWfGwnx
-	XFnrKry5CFy5CFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9F14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
-	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
-	zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
-	4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWU
-	CwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcS
-	sGvfC2KfnxnUUI43ZEXa7VUb8hL5UUUUU==
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgoQA2orLjLjngAAs-
+Message-Id: <20260612-alsa-pcxhr-pll-helper-v1-1-c84ae2bd2e9b@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQrCMBBG4auUWTsQg6nFq4iLmP6akVDDTJVC6
+ d2NuvwW761kUIHRqVtJ8RaT59Sw33WUcpzuYBmbyTvfu94FjsUi17Rk5VoKZ5QK5aM/pDEMIfg
+ B1NqquMny+54vf9vr+kCavzPatg+VI7cOeQAAAA==
+X-Change-ID: 20260605-alsa-pcxhr-pll-helper-724cd585528e
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ notify@kernel.org, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4174;
+ i=cassiogabrielcontato@gmail.com; h=from:subject:message-id;
+ bh=19YJZHEKgec4AeWlnKI0fOltwLaU/HdtOwyb93tjdA4=;
+ b=owGbwMvMwCV2IdZeKur/u2bG02pJDFnaDQ3v5xafWPBbZrvxPO2HXZ9fRKct+mrbveSqV/4U9
+ ZsNiYslOkpZGMS4GGTFFFlWJy2y3NP14Gp93AoPmDmsTCBDGLg4BWAiP4sYGW605Nitu3hZ8e3V
+ 7Lijc83F4ouZT25wMuYVZ39f3LAnOZ+RYcenGRuXPNBQ4edfKr5nxZ314e81FO0OXVy/xWW18uH
+ /6UwA
+X-Developer-Key: i=cassiogabrielcontato@gmail.com; a=openpgp;
+ fpr=AB62A239BC8AE0D57F5EA848D05D3F1A5AFFEE83
 
-In avs_probe_compr_set_params(), avs_dsp_disable_d0ix() is called when
-no probe streams are active. This function atomically increments the
-d0ix_disable_depth counter before attempting the hardware power state
-transition. If the transition (avs_dsp_set_d0ix()) fails, the function
-returns an error but the counter remains elevated.
+The PCXHR and HR222 clock paths duplicate the PLL divider calculation and
+register encoding. The HR222 variant extends the same format with an
+additional range for rates above those supported by the older boards.
 
-The caller does not balance the counter on this error path, causing a
-reference count leak that permanently prevents the DSP from entering
-d0ix.
+Move the complete encoding into pcxhr_pll_freq_register() and pass each
+hardware path its existing maximum frequency. The additional encoding
+branch is unreachable with the older 110 kHz limit, so this preserves both
+paths' accepted ranges and generated register values while removing the
+duplicate implementation and its long-standing TODO.
 
-Fix the leak by calling avs_dsp_enable_d0ix() to balance the previous
-disable call before returning the error, mirroring the existing cleanup
-pattern used when avs_dsp_init_probe() fails.
-
-Cc: stable@vger.kernel.org
-Fixes: 700462f55493 ("ASoC: Intel: avs: Probe compress operations")
-Signed-off-by: WenTao Liang <vulab@iscas.ac.cn>
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 ---
- sound/soc/intel/avs/probes.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+base-commit: 0f6f60115bfc536c1935d3d0da66cf1d5c7d6055
+---
+ sound/pci/pcxhr/pcxhr.c       | 13 ++++++++-----
+ sound/pci/pcxhr/pcxhr.h       |  2 ++
+ sound/pci/pcxhr/pcxhr_mix22.c | 33 ++-------------------------------
+ 3 files changed, 12 insertions(+), 36 deletions(-)
 
-diff --git a/sound/soc/intel/avs/probes.c b/sound/soc/intel/avs/probes.c
-index 099119ad28b3..01d9421cf9ab 100644
---- a/sound/soc/intel/avs/probes.c
-+++ b/sound/soc/intel/avs/probes.c
-@@ -162,8 +162,10 @@ static int avs_probe_compr_set_params(struct snd_compr_stream *cstream,
+diff --git a/sound/pci/pcxhr/pcxhr.c b/sound/pci/pcxhr/pcxhr.c
+index 1eea40e94c43..25a640304430 100644
+--- a/sound/pci/pcxhr/pcxhr.c
++++ b/sound/pci/pcxhr/pcxhr.c
+@@ -180,16 +180,18 @@ static const struct board_parameters pcxhr_board_params[] = {
+ 				      (x->fw_file_set == 0)   || \
+ 				      (x->fw_file_set == 2))
  
- 		/* D0ix not allowed during probing. */
- 		ret = avs_dsp_disable_d0ix(adev);
--		if (ret)
-+		if (ret) {
-+			avs_dsp_enable_d0ix(adev);
- 			return ret;
-+		}
+-static int pcxhr_pll_freq_register(unsigned int freq, unsigned int* pllreg,
+-				   unsigned int* realfreq)
++int pcxhr_pll_freq_register(unsigned int freq, unsigned int max_freq,
++			    unsigned int *pllreg, unsigned int *realfreq)
+ {
+ 	unsigned int reg;
  
- 		node_id.vindex = hdac_stream(host_stream)->stream_tag - 1;
- 		node_id.dma_type = AVS_DMA_HDA_HOST_INPUT;
--- 
-2.50.1 (Apple Git-155)
+-	if (freq < 6900 || freq > 110000)
++	if (freq < 6900 || freq > max_freq)
+ 		return -EINVAL;
+ 	reg = (28224000 * 2) / freq;
+ 	reg = (reg - 1) / 2;
+-	if (reg < 0x200)
++	if (reg < 0x100)
++		*pllreg = reg + 0xc00;
++	else if (reg < 0x200)
+ 		*pllreg = reg + 0x800;
+ 	else if (reg < 0x400)
+ 		*pllreg = reg & 0x1ff;
+@@ -260,7 +262,8 @@ static int pcxhr_get_clock_reg(struct pcxhr_mgr *mgr, unsigned int rate,
+ 		default :
+ 			val = PCXHR_FREQ_PLL;
+ 			/* get the value for the pll register */
+-			err = pcxhr_pll_freq_register(rate, &pllreg, &realfreq);
++			err = pcxhr_pll_freq_register(rate, 110000, &pllreg,
++						      &realfreq);
+ 			if (err)
+ 				return err;
+ 			pcxhr_init_rmh(&rmh, CMD_ACCESS_IO_WRITE);
+diff --git a/sound/pci/pcxhr/pcxhr.h b/sound/pci/pcxhr/pcxhr.h
+index 1b85200d00dd..011227b1fe79 100644
+--- a/sound/pci/pcxhr/pcxhr.h
++++ b/sound/pci/pcxhr/pcxhr.h
+@@ -190,6 +190,8 @@ struct pcxhr_hostport
+ };
+ 
+ /* exported */
++int pcxhr_pll_freq_register(unsigned int freq, unsigned int max_freq,
++			    unsigned int *pllreg, unsigned int *realfreq);
+ int pcxhr_create_pcm(struct snd_pcxhr *chip);
+ int pcxhr_set_clock(struct pcxhr_mgr *mgr, unsigned int rate);
+ int pcxhr_get_external_clock(struct pcxhr_mgr *mgr,
+diff --git a/sound/pci/pcxhr/pcxhr_mix22.c b/sound/pci/pcxhr/pcxhr_mix22.c
+index 80d22e22ea30..76beb443d983 100644
+--- a/sound/pci/pcxhr/pcxhr_mix22.c
++++ b/sound/pci/pcxhr/pcxhr_mix22.c
+@@ -305,36 +305,6 @@ int hr222_sub_init(struct pcxhr_mgr *mgr)
+ }
+ 
+ 
+-/* calc PLL register */
+-/* TODO : there is a very similar fct in pcxhr.c */
+-static int hr222_pll_freq_register(unsigned int freq,
+-				   unsigned int *pllreg,
+-				   unsigned int *realfreq)
+-{
+-	unsigned int reg;
+-
+-	if (freq < 6900 || freq > 219000)
+-		return -EINVAL;
+-	reg = (28224000 * 2) / freq;
+-	reg = (reg - 1) / 2;
+-	if (reg < 0x100)
+-		*pllreg = reg + 0xC00;
+-	else if (reg < 0x200)
+-		*pllreg = reg + 0x800;
+-	else if (reg < 0x400)
+-		*pllreg = reg & 0x1ff;
+-	else if (reg < 0x800) {
+-		*pllreg = ((reg >> 1) & 0x1ff) + 0x200;
+-		reg &= ~1;
+-	} else {
+-		*pllreg = ((reg >> 2) & 0x1ff) + 0x400;
+-		reg &= ~3;
+-	}
+-	if (realfreq)
+-		*realfreq = (28224000 / (reg + 1));
+-	return 0;
+-}
+-
+ int hr222_sub_set_clock(struct pcxhr_mgr *mgr,
+ 			unsigned int rate,
+ 			int *changed)
+@@ -345,7 +315,8 @@ int hr222_sub_set_clock(struct pcxhr_mgr *mgr,
+ 
+ 	switch (mgr->use_clock_type) {
+ 	case HR22_CLOCK_TYPE_INTERNAL:
+-		err = hr222_pll_freq_register(rate, &pllreg, &realfreq);
++		err = pcxhr_pll_freq_register(rate, 219000,
++					      &pllreg, &realfreq);
+ 		if (err)
+ 			return err;
+ 
+
+
 
