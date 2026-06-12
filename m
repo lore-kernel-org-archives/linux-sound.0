@@ -1,42 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0A73CF68B
-	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 22:18:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7CF3CF68B;
+	Fri, 12 Jun 2026 22:18:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781302722; cv=none; b=FU65HpJ0Zm7WwsHgtzPkm9DbC7FUtQxyJIOM522mu+0nvikLXlOv0BqJuyqYj21T3VKnyXuRjsEDihRQfudEUrpBqa3Nl+qB7IPdXxLa7MdwKPCEyL3WGwcmA3kLdDA8PGsIfAVmwRWn3pAa+fXd9JutjUx1FRaEaouHnJGygqU=
+	t=1781302729; cv=none; b=mjpyFNPm1KyrmGeYc1GUwVNa3jc6yiz2M+Q1EZ2FpgJui7NyhWx/iYmBWa5c2RkKvG90iJDvvY7J9OjtOPq6ZtaSu7OzO35Wl+gv8XsKr/Hreik0MmbQclGSpSs6kHwoXjsw0tPSYU00x0Pw+k/dp6DZLw95eRyeMZeaodvYv/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781302722; c=relaxed/simple;
-	bh=PEeW/x3EciyyPi5JHTyNeVBwCn24orf5ywbzd/LTbN8=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Krf2MZtmCuuSS9Zdd28h80Kgt7vlWJZW+MGuf5sQFAtJLG+EeeG8SUTNNdByAnsXs/3442sIQb3R0fK5IopAlzJFhYXicft0YFxIaT8WF829tPb68ByxkAeI2f9mGnSNkkLvdGMNaL6JipzBGMOxem4j7n3dApu+9X6RQnDwPmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bRjJNmyQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781302729; c=relaxed/simple;
+	bh=6NdJ1oXu8X+yrUyYOh3BVEt16gq7UD6K3TfA3IfrptY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Z0byvKZFQip85lNfAy8gENAv1HoYK+1DhJ+GdQbWSA/tJzMGUOMiC0XpMwIt+kSB3xnNQk5o58PD1GWFo7MFSXyEV55XbqHaX0kh/hP8zv62vW9U13jSq8Yrx32YZkgNbjBSUQlOXNnE/506QDf5ytM53divVLdX4xDPxrAhG3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MCcjGVU5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bRjJNmyQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5537E1F000E9;
-	Fri, 12 Jun 2026 22:18:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MCcjGVU5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03BC71F000E9;
+	Fri, 12 Jun 2026 22:18:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781302720;
-	bh=yEDBkfLAyVjR5pjuab2fm4dDN0Al31rlnTtthd/w4/4=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=bRjJNmyQXfw1cuU3lkdLRiXOrniWRnDt99e8+z9j1ZYUIaaL3vB3aC8nDUyVBgg7F
-	 H/AvWBu+yqRlbgXRkod/L3Oy+VQmBDqWyj1pmt2dR6tr/yAOsBq6dIc7/HuTiUD9kw
-	 JqIFLCJdnsmstIPDSNAQ0ZnG5Dvbx6jAvMVpalXKfhqFKYCVv+a6J1YIKA7VuLckfe
-	 eYbBdD+Mi7n+Aup1es0V4/r5DtNdtUhTWsnA2mQbis97glhP0SFn0HJLCK0zyKgYDK
-	 bzXM8OPDtHWYdvPjn83a7JyJ7BmC/d1VTNYEHUJCf+xSAFVZJsVIG1WUdZ2n6lRbbR
-	 F86dDjm01aFkQ==
+	s=k20260515; t=1781302728;
+	bh=+EaqxrR/sV3bOU1Rowx551pwQAzOjjox3enBFC+z/Nc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=MCcjGVU5k6xblfjlm0hOAQ0LxniK+ioRseQAbGr0sTWq5Lvyq/kScY4vYXkb/bfHt
+	 whIPFKbPmP/Ai80uaaYsLEKZdkge2EV9bFQJ8FpSqRvTekmxqA2m4ENfJ45lDWb23x
+	 JRoKEzD8PwT3Gi7LFaSUE3fz9rV7bdQPQh8T50fB+l9V4vBBBVOZgZTotMERGRI2j+
+	 J/RNWyA2lumXc+UcKfnTHysZq0b5GRmfgSBSt73C0Kqcl+lcjT3N2TQ99nImUGUNVm
+	 X4iMalO4cRwCX3tnuh50dZRQ0NYuJVlja1KFyzwDKG4daTUmWSEXpYwa0KIMhdlG+8
+	 YIrtwz6f2NHEA==
 From: Mark Brown <broonie@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
- linux-sound@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>, 
- Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87ik7tesdw.wl-kuninori.morimoto.gx@renesas.com>
-References: <87ik7tesdw.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH 0/6] ASoC: mediatek: tidyup details
-Message-Id: <178127683217.48375.9312920447884821177.b4-ty@b4>
-Date: Fri, 12 Jun 2026 16:07:12 +0100
+To: Srinivas Kandagatla <srini@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Herve Codina <herve.codina@bootlin.com>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ =?utf-8?q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-arm-kernel@lists.infradead.org, notify@kernel.org
+In-Reply-To: <20260608-asoc-of-node-scoped-cleanup-v1-0-9e3ac518dc2e@gmail.com>
+References: <20260608-asoc-of-node-scoped-cleanup-v1-0-9e3ac518dc2e@gmail.com>
+Subject: Re: [PATCH 0/3] ASoC: use scoped OF node handling in manual
+ cleanup paths
+Message-Id: <178127725305.48375.17603847447471691265.b4-ty@b4>
+Date: Fri, 12 Jun 2026 16:14:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,28 +51,29 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2035; i=broonie@kernel.org;
- h=from:subject:message-id; bh=PEeW/x3EciyyPi5JHTyNeVBwCn24orf5ywbzd/LTbN8=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqLIW9G38TejwuAvWGkZ4OyNt5XRZpdEqD56J7O
- 3UPwrqNsX2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiyFvQAKCRAk1otyXVSH
- 0JwVB/4o6s5oI+/IgvuMa13zYprq4QkBJo2NM0KuRK7yWR3PR4g6cJRFBNMYmrsnu5DDByDNwv3
- tXhcF6Roww65vf8IQ0kq4ASkmyIU7GQzeeSzCE18GAcWAgNzkCDvOIn+UQJs+zcuy0PNB9IOb3q
- NGwMuEgYBLBb8o+Xs9zlUHwHUfe8mlXyckILPWCcflw50hRpizRaLgiCNNxWIeO/pb69KFhfUMF
- /0s36M402jJtXNwqYk54xlxnKIHW1yoqTnmu1yiDR25b4+I4zHyMY23QAGBRmR7JIhDR2rHGNn8
- 9+TEGT60y/VKKl2lCQynHX7onv6mTrdZmObJENC3CSWsrIyp
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1663; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=6NdJ1oXu8X+yrUyYOh3BVEt16gq7UD6K3TfA3IfrptY=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqLIXBRNPXenH0pNh+GaHTYt582SCRLiGDStmcX
+ CIiqu8x+JmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaiyFwQAKCRAk1otyXVSH
+ 0KzSB/9EIxR68YF4xkDdQc5qt3LLq490icnYLlz3hS/NZYEltakjL8njExuQ3zcTJBfIUrJCoZe
+ V1ON3uZ3j1Ea91FUKsiBqIRNWpfU9cOfYwKdezXVTXFbrtH8oYaas6j/H0fm3C3KFDrcx6OV62E
+ veBD3U/6ovNL+EL/marF53J8tw5ujOw6s6ht+U6oO7M/aQqxpT59X0xh0pYOSN8xvvbEC0RIO14
+ nE1lO2wTJVHs2UYC1pLy0fuJyexr2jtykNji0JTzLDnobKjHMfIwxzCmM7fiCMq9aeTTzznCM7k
+ IlTzJifQ4K3OWu56FdA49audNwYAbb6FUZGz2hV7qyC9/1jV
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 08 Jun 2026 01:24:28 +0000, Kuninori Morimoto wrote:
-> ASoC: mediatek: tidyup details
+On Mon, 08 Jun 2026 10:39:10 -0300, Cássio Gabriel wrote:
+> ASoC: use scoped OF node handling in manual cleanup paths
 > 
-> Hi Mark, Mediatek developpers
+> Some ASoC drivers still manually release child OF nodes
+> when leaving child-node iteration loops early.
 > 
-> These are tidyup details of mediatek drivers. Basically there is no
-> functional change. This is prepare for later Card capsuling.
-> This makes code review easy when Card capsuling happen.
+> Convert these focused cases to scoped OF node cleanup
+> so early returns and normal loop exits keep the same node
+> lifetime handling without explicit of_node_put() calls.
 > 
 > [...]
 
@@ -75,18 +83,12 @@ Applied to
 
 Thanks!
 
-[1/6] ASoC: mediatek: cleanup mtk_sof_dailink_parse_of() param
-      https://git.kernel.org/broonie/sound/c/d7d3dc1dd345
-[2/6] ASoC: mediatek: mtk-soundcard-driver: tidyup set_card_codec_info()
-      https://git.kernel.org/broonie/sound/c/1ddd7dcbc858
-[3/6] ASoC: mediatek: mtk-soundcard-driver: tidyup set_dailink_daifmt()
-      https://git.kernel.org/broonie/sound/c/7042c5dc12ca
-[4/6] ASoC: mediatek: mt8186-mt6366: tidyup mt8186_mt6366_card_set_be_link()
-      https://git.kernel.org/broonie/sound/c/e611c2ccf75f
-[5/6] ASoC: mediatek: mt8186-mt6366: use *dev in mt8186_mt6366_soc_card_probe()
-      https://git.kernel.org/broonie/sound/c/fd83ba0c7de6
-[6/6] ASoC: mediatek: mt8365_mt6357: use *dev in mt8365_mt6357_gpio_probe()
-      https://git.kernel.org/broonie/sound/c/c1530e7b8c03
+[1/3] ASoC: qcom: common: use scoped OF node handling
+      https://git.kernel.org/broonie/sound/c/22aed576add0
+[2/3] ASoC: fsl: fsl_qmc_audio: use scoped child node loop
+      https://git.kernel.org/broonie/sound/c/065df02692f0
+[3/3] ASoC: bcm: cygnus: use scoped child node loop
+      https://git.kernel.org/broonie/sound/c/9741aad24432
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
