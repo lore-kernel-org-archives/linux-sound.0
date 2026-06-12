@@ -1,104 +1,148 @@
-Received: from mail.sms-medipool.de (mail.sms-medipool.de [178.63.14.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C566537BE72;
-	Fri, 12 Jun 2026 18:13:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.14.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0A8324B22
+	for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 20:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781288005; cv=none; b=lM5aIR6zh6PSSyMMhATmg+yjXBGFz8QcQubKQxQu1+6U3ter1S8ZSg+unOTFx3Vry453BkSImXShK9GOfB0liejqZaIu14LzoWcZJFyLZFp3gb2H71ysgYi3mNVSNTzcEBQN6ezgyzS1u4+ioAfOJ7SN9X4a8IfWyNleYz9+pgk=
+	t=1781296231; cv=none; b=leE/maVOQB/Y7TaxkKCakfE0ErvQQxXDLIOu5rMAMig/Q9xatJ8eBdDW1EbJ/Yvt6H4oHTcWoC7WZCETLXLPdlyTopdaEPolTbePTtAK5jty091TSuB3ONZ+nZa1SsNPlDL0N2dfnoPl3k86FgWvslLtG6P48VThQ1lKHoB7NOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781288005; c=relaxed/simple;
-	bh=4hmfCa69JxyzZZIANSUHJYAKlUF4kWc7qLqjKGtdKvs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PPbSPcvtw0h8aOdjjUgmBrp0XIYUArNDKjeXMMOkb40ZWRUDKgWI8YDvxmWuP8IZIROfcvEHyoR0PksyBVP8uy/pXXE3KiAOHJJ1+dAGi3AsfRnA5ZrKEvk9qM1/HErDcLeIs5S4ItgX0dnScgF4YAs6AYCAHvhRhryOFmDGV2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sms-medipool.de; spf=pass smtp.mailfrom=sms-medipool.de; dkim=pass (2048-bit key) header.d=sms-medipool.de header.i=@sms-medipool.de header.b=HpnHGUpk; arc=none smtp.client-ip=178.63.14.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sms-medipool.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sms-medipool.de
+	s=arc-20240116; t=1781296231; c=relaxed/simple;
+	bh=Lt0k7jTl9l5Je/muEANY8WmcYg3cqaLLaJEUOSsDldY=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=VzLfRNCj6SUDGf8Lcxc4v+t5hjar1SLjx/EvP0IndA0RgkovWl02y3oHeiCfc3QTfNkXBQa0p00vKhdzFRE/7/glwvJR40AQ12Tt9S2v80u06ato30r8lYujHBxCB3mznMTefP2E094ldUVu7De4zWhFZVKYrlHDIOdm616ltnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S2vliFHj; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sms-medipool.de header.i=@sms-medipool.de header.b="HpnHGUpk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sms-medipool.de;
-	s=mail; t=1781287995;
-	bh=4hmfCa69JxyzZZIANSUHJYAKlUF4kWc7qLqjKGtdKvs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HpnHGUpkvfuf1McF5x/LqPb+DNE9MyNlo3qdsGNr5Rbb+eupTAldTn1l67Ha86IhP
-	 MoOQ+o3mhtByyc/rWiFY730vHHvkdu/hX/6OzomLats6Ipv9RhIolO/8/V8SRpOmrR
-	 3VDbbBaU9isIrM8LlbjCSFTLW9j2Hto2qb43d0txhVmekhmazboT2QJOYr4cTGNLwS
-	 NqNp+ZwaBJEgWkuVaD8hTFCyOXRe5KZAELHgVn7zbGbZGuTQ3NGP5Td/bJYfmt3DnV
-	 Ocz3VBVlUj/qVxmPSiNv48GooYDCaUf9IqW3ZpcNybbOzCMkvj/Sazc8fyhbGv1Xx5
-	 IQhbZJLPX0HtA==
-Received: from mail.stoss-medica.de (mail.stoss-medica.de [213.147.17.40])
-	by mail.sms-medipool.de (Postfix) with ESMTPS id 9653418801;
-	Fri, 12 Jun 2026 20:13:15 +0200 (CEST)
-Received: from NUC16-Linux.sb.golima.de ([95.88.98.111])
-	by mail.stoss-medica.de (Kerio Connect 10.0.8 patch 2) with ESMTP;
-	Fri, 12 Jun 2026 20:13:15 +0200
-From: Alexander Kaplan <alexander.kaplan@sms-medipool.de>
-To: =?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@intel.com>,
-	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	stable@vger.kernel.org,
-	Uma Shankar <uma.shankar@intel.com>,
-	alexander.kaplan@sms-medipool.de
-Subject: Re: [PATCH] ALSA: hda/hdmi: disable KAE for Intel Panther Lake
-Date: Fri, 12 Jun 2026 20:13:14 +0200
-Message-ID: <20260612181314.5577-1-alexander.kaplan@sms-medipool.de>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <f7d26e4d-8810-430a-b727-52c00d2d6edc@intel.com>
-References: <f7d26e4d-8810-430a-b727-52c00d2d6edc@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S2vliFHj"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490ac10e337so9091385e9.3
+        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 13:30:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781296227; x=1781901027; darn=vger.kernel.org;
+        h=user-agent:mime-version:date:content-transfer-encoding:references
+         :in-reply-to:cc:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8htq1iA3RMdrMAEb9/pJl3QbqhjPj8uKRlayNFVpG8w=;
+        b=S2vliFHjQ0WyVNDCV+A6eTsG9B3JMAPFGST8SX8NRhzjG09q0GfP1qcw0Q3jUJhnMj
+         djeRNlkP/WCxqgLpAqffcuUTa4NM6Fy9/mVK08yXrs+sXHtoh9vY+yu+EXvmzbkHnJB+
+         dFAzl/8tqGVd1Ce9nFFmzOzSVpFGqzlxKVwUSjCtOXTsl5RsvuRW3ni4hJ9kdrzW/fX9
+         HmiK5kMEUW9xRPvzzFDMeyOHBZr44FZKMEv/1/KR9myLW4FpLRYNjTDctXwvmxtbEqYO
+         A4ceJzSCZnKnejFEZQYuo09QSaTyEYCykcU6u/CdoNlVzcTOEJqhy62OF1Be4Pp9kilD
+         dyaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781296227; x=1781901027;
+        h=user-agent:mime-version:date:content-transfer-encoding:references
+         :in-reply-to:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8htq1iA3RMdrMAEb9/pJl3QbqhjPj8uKRlayNFVpG8w=;
+        b=qB6WooSI9ISVDWENPpgDu19R3BL3EAUEXVx02IpSDWX4HdJURe6d9D3Sr2u7MM+jsL
+         qfnMxGGWlZ7Dh1+axVXHfaDFaJs55swL20Lkx0YzscEQRFCkHzCQNFgNZIKQtLTdShty
+         dbevYqQ9mKAdPGraNHGltq1Iu7PyMn7TjvElg1o7fNaulk4svpaEHwOzwS/E3URL+WQu
+         ZL8bGQtxFK48y2ITCPz/oz/4FLO/DDf6HDPyeWsSXtRc5mIccEZAjQ7KAz0rtuirViDh
+         Ea/fxNlmIZVFqKUgp0vayahbWYwVuN02dxfHfYwwlkllz0kijEa6aGUKwPZ3xVwQYAdi
+         9JbA==
+X-Forwarded-Encrypted: i=1; AFNElJ/QIRpIkczIUgKfzZ5ks3lbCQ7lEfBfA864cnD+d5IfK6aQIwknhLzXUYc3Bkh/XadZeGe4zZgMKUMGCg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAkV7KcBNQLFZBwpkljOuJn7kY0fkwlY31NFb+ZE/zz6iSKNZ1
+	LQr/MSCfQ/SYxZlOglIMSG7RXin88aus7Cu02i6rTG8qF24/I0QtshS4
+X-Gm-Gg: Acq92OEqMecOj8F/DCmoGIpqnef/QJ4I4sWODxn8n6NFLgwr4K7GSB9r/KDKvlFZGHj
+	CLlftegZTOJwUVnFRI2k1q5+B+f9BVm3gyu0s+XTNR+MWFgdry/KRzBil6FDp99oNJGr6oU1f62
+	+8zkEWQoo7hvDBYjVSfP7XyRaFyfqFKo8PMMlJVuojsFrlBstYuWTgVba89Rbi7Vn30SL9XyrzY
+	1zPrbQmIHhG6DboPSvnw40asn9qesBb1hFoBsonI3zMfE015UWUMGd8dJcx8c7ZbWzHWOJpsoCj
+	kEtp3Psm/s/9pwas6nof9tRxCFwvaYlUEMxWoquqUXLCX8uCKipWneJUX+vGxM+vupmGMh7ZMI+
+	NVBOuhTc43Kqr/51S5cR9OkB57jdM1osafSSqodq7arWlD21NytZtMH1PxmN75TxeFZ6ZtGeB6a
+	JctCuda6a0+mAI1IZLrIYpLrlk/x0mHC/EjBezGIWr7/k5txZWb0EQnNc6HYtuWZbEjFAielKc+
+	nfJWFl1depDvKaun0QWCWT93IKm6WpLcyM=
+X-Received: by 2002:a05:600c:2d88:b0:48e:7854:1608 with SMTP id 5b1f17b1804b1-492200e24cfmr7047295e9.25.1781296227009;
+        Fri, 12 Jun 2026 13:30:27 -0700 (PDT)
+Received: from denis-elite6.lan (178-222-30-44.dynamic.isp.telekom.rs. [178.222.30.44])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492203d05d1sm19055385e9.12.2026.06.12.13.30.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jun 2026 13:30:26 -0700 (PDT)
+Message-ID: <81d699c6fafb51c3f5d5adc657057706b07d9ee1.camel@gmail.com>
+Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable micmute LED on HP
+ EliteBook 6 G1a
+From: Denis Batishchev <ii343hbka@gmail.com>
+To: Geraldo Nascimento <geraldogabriel@gmail.com>
+Cc: tiwai@suse.com, perex@perex.cz, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <aiggF41W3LlKDts4@geday>
+References: <20260604131518.45993-1-ii343hbka@gmail.com>
+	 <20260609135607.3960625-1-ii343hbka@gmail.com> <aiggF41W3LlKDts4@geday>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 12 Jun 2026 22:30:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Evolution 3.56.2-9 
 
-On 12/06/2026 15:45, Péter Ujfalusi wrote:
-> I did not had too much time to test this, but I did found an old Dell
-> TB16 Dock stashed away.
-> With that I can reproduce the same issue on my PTL laptop. Out of
-> curiosity I gave this a try on an LNL laptop and the same thing happens.
+Hi Geraldo,
 
-Hi Péter,
+Sorry about wrong email threading. That's first time I'm sending patch to k=
+ernel.
 
-thanks for digging out the dock.
-The LNL result is the important one.
-It shows this is not Panther Lake specific and points at the KAE plus DP combination as the trigger.
-It might also explain the Battlemage TrueHD report.
+My laptop's SKUs is AD3Q9ET#UUG.
+It's HP Elitebook G1A 14" too but with a bit different audio chip as I unde=
+rstand.
+And quirk is indeed copy-pasted but with different device id.
+I can change quirk description string to reflect my laptop version.
 
-> Note: via TB16 dock I can _never_ hear 6ch audio, it is always silent,
-> only stereo goes through:
+Best regards,
+Denis B.
 
-That is probably just the sink.
-As long as KAE was never active in the display power cycle, my TV plays multichannel LPCM audibly on the front pair, even though its ELD advertises 2 channel LPCM only.
-The bug signal is the switch to multichannel itself.
-The first 6 or 8 channel stream after KAE activity plays silent, wedges the pin and everything after it stays silent.
-
-> I'm not sure where the bug is and I'm not sure how a fix would look
-> like, this needs help from the display guys, but globally disabling
-> silent stream for PTL is most likely not the right track.
-
-One small clarification on what the patch does.
-It does not disable silent stream globally.
-It falls back from SILENT_STREAM_KAE to SILENT_STREAM_I915, so the silent stream keeps running through the regular stream path, exactly like the DG2 change did.
-What is lost is the KAE power benefit, not the feature.
-
-That said, after your LNL result I agree a PTL only model change is the wrong shape.
-I can gate the silent stream type per pin on the ELD connection type instead.
-DP pins fall back to the SILENT_STREAM_I915 path and native HDMI pins keep KAE, on all KAE platforms.
-That matches the failure boundary on both of our machines and keeps the power benefit where it works.
-If that shape works for you I will send it as v2.
-
-Of course a real fix from someone who can look behind these registers would be better than any variant of my patch.
-I have no access to that side, so working around KAE from the codec driver is the only lever I have.
-
-If Uma or the display folks want data from the wedged state, the reproducer here is deterministic and takes under a minute.
-
-Regards,
-Alexander
-
+On Tue, 2026-06-09 at 11:15 -0300, Geraldo Nascimento wrote:
+> Hi Denis,
+>=20
+> On Tue, Jun 09, 2026 at 03:56:07PM +0200, Denis Batishchev wrote:
+> > The HP EliteBook 6 G1a (SSID 103c:8e0d) uses a Realtek ALC236 codec.
+> > Without a quirk no fixup is selected and the mic-mute LED stays off.
+> > It needs the same ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk as the
+> > already-supported 14" variant (SSID 103c:8dfb), so add it.
+>=20
+> What is your exact variant of this hardware? Also please refrain from
+> sending V2 in response to V1: it makes patches harder to track.
+>=20
+> >=20
+> > Signed-off-by: Denis Batishchev <ii343hbka@gmail.com>
+> > Cc: <stable@vger.kernel.org>
+> > ---
+> > v2: reword commit message as was required by Takashi Iwai
+> >=20
+> >  sound/hda/codecs/realtek/alc269.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realt=
+ek/alc269.c
+> > index 78a865709635..8eebf91595d3 100644
+> > --- a/sound/hda/codecs/realtek/alc269.c
+> > +++ b/sound/hda/codecs/realtek/alc269.c
+> > @@ -7274,6 +7274,7 @@ static const struct hda_quirk alc269_fixup_tbl[] =
+=3D {
+> >  	SND_PCI_QUIRK(0x103c, 0x8df1, "HP EliteBook 630 G12", ALC236_FIXUP_HP=
+_GPIO_LED),
+> >  	SND_PCI_QUIRK(0x103c, 0x8df7, "HP Z66 G6", ALC236_FIXUP_HP_GPIO_LED),
+> >  	SND_PCI_QUIRK(0x103c, 0x8dfb, "HP EliteBook 6 G1a 14", ALC236_FIXUP_H=
+P_MUTE_LED_MICMUTE_VREF),
+> > +	SND_PCI_QUIRK(0x103c, 0x8e0d, "HP EliteBook 6 G1a 14", ALC236_FIXUP_H=
+P_MUTE_LED_MICMUTE_VREF),
+>=20
+> The description string of the quirk seems copy-pasted. Are you sure
+> you have the 14" variant?
+>=20
+> Thanks,
+> Geraldo Nascimento
+>=20
+> >  	SND_PCI_QUIRK(0x103c, 0x8dfc, "HP EliteBook 645 G12", ALC236_FIXUP_HP=
+_GPIO_LED),
+> >  	SND_PCI_QUIRK(0x103c, 0x8dfd, "HP EliteBook 6 G1a 16", ALC236_FIXUP_H=
+P_MUTE_LED_MICMUTE_VREF),
+> >  	SND_PCI_QUIRK(0x103c, 0x8dfe, "HP EliteBook 665 G12", ALC236_FIXUP_HP=
+_GPIO_LED),
+> > --=20
+> > 2.53.0
+> >=20
+> >=20
