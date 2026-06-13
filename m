@@ -1,201 +1,508 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196FD242D67
-	for <linux-sound@vger.kernel.org>; Sat, 13 Jun 2026 03:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150673BFE5B
+	for <linux-sound@vger.kernel.org>; Sat, 13 Jun 2026 08:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781320732; cv=none; b=TVTBnYmCBxgw1yX8pS84iC0m/Xn8YpQcpCEC+8WpZUEulRO3GCyPZrYkpPsBFYYKBeMw7yJlq9rVBpI9QNP/yLM2AyAZtUVv1nzv/mM3KT/MzALs4TUyzhXLIamxzDG6Ncb1Y1pT4QJBVzltfcdiIJ89oi10kWS/FWhd1TMdSh8=
+	t=1781339179; cv=none; b=Zec5hDWvVP6ieq66d0V0uP58F2rnc0DMMpC0ynP1PI1Kwdng55ti62oRrR3CCAwZJ4ROgKF18tngMBRYMDdxvZ+BusxbfKs7DhON8PeG4sMuByBsxYM6huvfWXeOFzELvJepQ84aFB301lk4LUAicAFRfQolzZizOnmS3Or3Y6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781320732; c=relaxed/simple;
-	bh=r7l7aVxzs7O7Xak4jlTzUDCoTDD1I+eiZfAJ2L6+r4Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cEZcK+V7bXEPywJLNp5dmc246Dg0DiSbxnV0lHb60i7gw29fDFaGYI5MdXEWMvj/Nhxa0eJjxMULLGo3lYRNOvEsjE4lV3R3JXZl1XxK8Iq61fcQP+8BIa95MMCZ+lMOsH1nZPh4vrPch8EiSIHbRYZatdM++EQJGEyWMfoLh00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=inm/cKV8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781339179; c=relaxed/simple;
+	bh=QrjCXuihoGr5gjx1nUVOV4kq3EmrqQj6Xyodjt9ISAE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hnqKruHTi4FHeJclOclPnFZHmvcv2YdgH4gblZuwsGIS6VYfT3DnY6ReBQnv4lPNR52FYRWOyKVvLqjYqS8B+aK/HEsJGIOdOZkT0BKaL7LOQ2/bDxBUoqKZGZWVTA2NvAMfUm0uF/LC6XKVumqQ1e20f2YiNGd4PtwCM41+TdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ivSYrcf3; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="inm/cKV8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6B571F01559
-	for <linux-sound@vger.kernel.org>; Sat, 13 Jun 2026 03:18:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781320730;
-	bh=6hjksSQeC+ZsIoDOrxEQzgZgTjPJ+cv9dignez6UBwA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=inm/cKV8um/B4u8UFL6Y3YMdTyrWhrN868DReIZ40B4hAX/Cfi5eWy6hRps1BQT5N
-	 ZmXSrX/LGzxwOavX0Z0wWMRJJtAgObh7gAQxEPr+pdvV7rX/5S05uLVuNBtrdWZJQW
-	 C1twVIjxgfPWZL0w5RzwIy49/U51uC/4zhBgtO4pFVBfTLam6rXOUkJlNchLVy9z2d
-	 vas4IAi4304PiTBux7H+69KSLwqif2JDeMMRGl6NoDJxxaqQE8HlPZcuZlcqeffZ1D
-	 MGBFqX8xhfeV0/YQYDL3LO+gqD96f6eF2L1LqLzMQSfGPkFwEBLcU4/yCXbxL3gYko
-	 Mzz6tU5lg1K/A==
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-68c19f1f3ceso2505128a12.2
-        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 20:18:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+/ZZFXZCoxW2vka5pisgm4YW7jDSu9WzLk4Vifgas2/ejjuTMvvtd5zB0D5+B0+IIacHWmjKWo3KANwA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2WmRiMPImbvD5h6LQrwLHCO4pxgnSJq9unIKEttwvgYCgjZ5F
-	Ia4DDwemo4fKszsoxRHs423wrg2at11Pl+Ow8eMXQV2+qqLpFMCk61WUN95FsCYS5sNOOEK5rzf
-	7ltXtMdlYXaadNjkFSViX7zPYY115kJA=
-X-Received: by 2002:a05:6402:3607:b0:691:956a:cf6a with SMTP id
- 4fb4d7f45d1cf-693785fed15mr2365486a12.12.1781320729386; Fri, 12 Jun 2026
- 20:18:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ivSYrcf3"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2bf18c30bb2so13896145ad.0
+        for <linux-sound@vger.kernel.org>; Sat, 13 Jun 2026 01:26:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781339177; x=1781943977; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bFh4QwOfidNfNO0WUENvp1jz8UmiX7XDMFTl/OPrUew=;
+        b=ivSYrcf3qkZj/zRcClDXgYn7zHz0hxYsDjPYIN6jAL/+y0FXB7eNO2Q8ioJp1wT3gp
+         LY6a1yMwZOVt/m60d/4kxGZlJspmM+fT8kDr1TfMQL+30r7nC4zm6RNLRbJVwqHvUdus
+         AUFUpfwiOcElMuRhfO+DTG/cCL4k5kgMHIyIY8S3BwvaKtyrPxpd0GTNbBED6eg/Bojv
+         kQdxhSK09Vh4jVoWkWWWPZ+NXYm02eC62h3Qs1TN0dr47/8k07BMBSaQ87uk2a14Xw/i
+         Cdc1K8lFtNedVx3pqK/tRRwmjR/rXOXh3t7lnWmh1Ald5Xn+lNK6XeF1ooQGVO9zmhqK
+         WmJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781339177; x=1781943977;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bFh4QwOfidNfNO0WUENvp1jz8UmiX7XDMFTl/OPrUew=;
+        b=AQK2Qa5Z62SsBWDH487AxjF2uBndHG0XtQNeLp8bxliVX6TklIF2NAdn/aI+NyYJ1u
+         ueXqiGH2xVTXd5jIKaesMp7+yMkXdxMb2ruLItn+Y+Bl/tMdqEckGyRJTRqw6CnDT63B
+         cfPqRAomQ4PHyHu3cZwqxbmYKWabvat77Sb84uj8Bu5ZyIbytQMN84xTXhHax2ADlAXB
+         +SJk34+7rrG9nzhREYPhjkqJ6fEIBwnXRYpOJWMXG9I08h1aArBgkllevw7ItAbMsbLg
+         FdkqdWoVK9b/828srqPH5AXoCO+iKssIZoO6vkI68zZUnwTPaa8sd06sPApjDasq+K/U
+         4bmg==
+X-Gm-Message-State: AOJu0YyOIOlDL7d176y5gpb5LOHu8hLCkjx/8Pl8nuiDwRQKfNR1Y7kl
+	vB3+jrp4+4L6mZeDO2MEqPTUzT0zvkZ7aWaZF6OV0GiDvJW5TkY/bQ7a
+X-Gm-Gg: Acq92OGLsPBkcpa8fx7TVeCU85hKBb3KbEiIfhik7RmkjFIUVOdYEGtmcu8Aa8pnZBf
+	/pHkSULuYE3dv40tgfdJKQvHjddtS5b6XYm6oh+fTC3oNuO0JHMbM8TXrBt4jUXQX5rhHt1kNK+
+	noeJw9C5z6/ej/DUU5ZJliDl4eUS/BU0NHMSIh9eUPXrIBPAjbCWCHJhoL+qB27q9fz6DH37Ipp
+	mpfP7OsXffqmdQbc1brrfI+FFjvkywDQziCgdKCXD4yMRObxYaSSV0HzWaV8j7VFiBCQ1WKofxq
+	k63KpwynEOSAEqu6rbBOU+hooobgAIjQhCpH6k5PlVES/yBWeYgAUbYcphLZ+UWUppxhGN5Bgr+
+	SSDdr2XMQCLsRJMxBVkT3EqJ/kO0+LcqQWBpJvI6199XcFUtkwM8d7o4SML1dydN3Z2RyNYKvX2
+	g0V+R0PM+jG48WXnODJulZizejCsVxnydk74DvwSDqPDDX
+X-Received: by 2002:a17:902:cec7:b0:2c1:f29a:b554 with SMTP id d9443c01a7336-2c664271df6mr32125405ad.21.1781339177324;
+        Sat, 13 Jun 2026 01:26:17 -0700 (PDT)
+Received: from Black-Pearl.localdomain ([49.207.61.84])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2c4330782b2sm45352895ad.67.2026.06.13.01.26.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jun 2026 01:26:16 -0700 (PDT)
+From: Charan Pedumuru <charan.pedumuru@gmail.com>
+Date: Sat, 13 Jun 2026 08:24:47 +0000
+Subject: [PATCH] dt-bindings: sound: nvidia,tegra30-ahub: Convert to DT
+ schema
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1780538113.git.zhoubinbin@loongson.cn> <4b003425d16a18049c5b90dbdaf91024e265cd8e.1780538113.git.zhoubinbin@loongson.cn>
-In-Reply-To: <4b003425d16a18049c5b90dbdaf91024e265cd8e.1780538113.git.zhoubinbin@loongson.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Sat, 13 Jun 2026 11:18:42 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6G5vTH_58_pKvBnvjdr2eVTWTctUqmPAX3aMjsFDjsQg@mail.gmail.com>
-X-Gm-Features: AVVi8CfzQWj-D-TJJvfg08UU4k6shbbVHcLWFkeYPG8y4sewERe1-KnaBYwPigg
-Message-ID: <CAAhV-H6G5vTH_58_pKvBnvjdr2eVTWTctUqmPAX3aMjsFDjsQg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/7] ASoC: loongson: Add Loongson-2K0300 I2S controller support
-To: Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: Binbin Zhou <zhoubb.aaron@gmail.com>, Huacai Chen <chenhuacai@loongson.cn>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Xuerui Wang <kernel@xen0n.name>, 
-	loongarch@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260613-nvidia-ahub-v1-1-5b7e85301736@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAM4TLWoC/yXMTQ5AMBBA4avIrDWp0ZC4ilj0ZzAWJS2NRNxds
+ fwW710QKTBF6IoLAiWOvPqMqizAztpPJNhlA0pspEIUPrFjLfR8GOHQkpF1i61SkIst0Mjnd+u
+ H3/EwC9n9XcB9P2WZ1wlvAAAA
+X-Change-ID: 20260422-nvidia-ahub-d2ceb0372744
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Charan Pedumuru <charan.pedumuru@gmail.com>
+X-Mailer: b4 0.15.2
 
-Hi, Binbin,
+Convert NVIDIA Tegra Audio Hub (AHUB) binding to DT schema.
 
-On Thu, Jun 4, 2026 at 10:11=E2=80=AFAM Binbin Zhou <zhoubinbin@loongson.cn=
-> wrote:
->
-> The Loongson-2K0300 I2S interface differs significantly from the
-> Loongson-2K1000. Although both utilize external DMA controllers, the
-> Loongson-2K0300 does not require additional registers for routing
-> configuration.
->
-> Due to hardware design flaw, an extra controller reset sequence is
-> required during probe.
->
-> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
-> ---
->  sound/soc/loongson/loongson_i2s_plat.c | 42 +++++++++++++++++++++-----
->  1 file changed, 35 insertions(+), 7 deletions(-)
->
-> diff --git a/sound/soc/loongson/loongson_i2s_plat.c b/sound/soc/loongson/=
-loongson_i2s_plat.c
-> index ac054b6ce632..b4d807ee7f8f 100644
-> --- a/sound/soc/loongson/loongson_i2s_plat.c
-> +++ b/sound/soc/loongson/loongson_i2s_plat.c
-> @@ -2,7 +2,7 @@
->  //
->  // Loongson I2S controller master mode dirver(platform device)
->  //
-> -// Copyright (C) 2023-2024 Loongson Technology Corporation Limited
-> +// Copyright (C) 2023-2026 Loongson Technology Corporation Limited
->  //
->  // Author: Yingkun Meng <mengyingkun@loongson.cn>
->  //         Binbin Zhou <zhoubinbin@loongson.cn>
-> @@ -21,6 +21,7 @@
->  #include "loongson_i2s.h"
->  #include "loongson_dma.h"
->
-> +/* Loongson-2K1000 APBDMA routing */
->  #define LOONGSON_I2S_RX_DMA_OFFSET     21
->  #define LOONGSON_I2S_TX_DMA_OFFSET     18
->
-> @@ -30,6 +31,11 @@
->  #define LOONGSON_DMA3_CONF     0x3
->  #define LOONGSON_DMA4_CONF     0x4
->
-> +struct loongson_i2s_plat_config {
-> +       int rev_id;
-> +       int (*i2s_dma_config)(struct platform_device *pdev);
-> +};
-> +
->  static int loongson_i2s_apbdma_config(struct platform_device *pdev)
->  {
->         int val;
-> @@ -47,8 +53,18 @@ static int loongson_i2s_apbdma_config(struct platform_=
-device *pdev)
->         return 0;
->  }
->
-> +static struct loongson_i2s_plat_config ls2k1000_i2s_plat_config =3D {
-> +       .rev_id =3D 0,
-> +       .i2s_dma_config =3D loongson_i2s_apbdma_config,
-> +};
-> +
-> +static struct loongson_i2s_plat_config ls2k0300_i2s_plat_config =3D {
-> +       .rev_id =3D 1,
-> +};
-Put  ls2k0300_i2s_plat_config before ls2k1000_i2s_plat_config?
+The per-SoC differences in reset-names, dma-names, and reg entry
+counts described in the text binding are now enforced via allOf
+conditionals, making previously prose-only constraints machine
+validatable.
 
-Huacai
+Child node CIF ID properties are formally declared under
+patternProperties to allow dtschema to validate i2s subnodes.
 
-> +
->  static int loongson_i2s_plat_probe(struct platform_device *pdev)
->  {
-> +       const struct loongson_i2s_plat_config *plat_config;
->         struct device *dev =3D &pdev->dev;
->         struct loongson_i2s *i2s;
->         struct resource *res;
-> @@ -59,12 +75,17 @@ static int loongson_i2s_plat_probe(struct platform_de=
-vice *pdev)
->         if (!i2s)
->                 return -ENOMEM;
->
-> -       ret =3D loongson_i2s_apbdma_config(pdev);
-> -       if (ret)
-> -               return ret;
-> +       plat_config =3D device_get_match_data(dev);
-> +       if (!plat_config)
-> +               return -EINVAL;
->
-> -       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -       i2s->reg_base =3D devm_ioremap_resource(&pdev->dev, res);
-> +       if (plat_config->i2s_dma_config) {
-> +               ret =3D plat_config->i2s_dma_config(pdev);
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
-> +       i2s->reg_base =3D devm_platform_get_and_ioremap_resource(pdev, 0,=
- &res);
->         if (IS_ERR(i2s->reg_base))
->                 return dev_err_probe(dev, PTR_ERR(i2s->reg_base),
->                                      "devm_ioremap_resource failed\n");
-> @@ -87,11 +108,17 @@ static int loongson_i2s_plat_probe(struct platform_d=
-evice *pdev)
->         if (IS_ERR(i2s_clk))
->                 return dev_err_probe(dev, PTR_ERR(i2s_clk), "clock proper=
-ty invalid\n");
->         i2s->clk_rate =3D clk_get_rate(i2s_clk);
-> +       i2s->rev_id =3D plat_config->rev_id;
->
->         dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
->         dev_set_name(dev, LS_I2S_DRVNAME);
->         dev_set_drvdata(dev, i2s);
->
-> +       if (i2s->rev_id =3D=3D 1) {
-> +               regmap_update_bits(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_RES=
-ET, I2S_CTRL_RESET);
-> +               fsleep(200);
-> +       }
-> +
->         ret =3D devm_snd_soc_register_component(dev, &loongson_i2s_edma_c=
-omponent,
->                                               &loongson_i2s_dai, 1);
->         if (ret)
-> @@ -102,7 +129,8 @@ static int loongson_i2s_plat_probe(struct platform_de=
-vice *pdev)
->  }
->
->  static const struct of_device_id loongson_i2s_ids[] =3D {
-> -       { .compatible =3D "loongson,ls2k1000-i2s" },
-> +       { .compatible =3D "loongson,ls2k0300-i2s", .data =3D &ls2k0300_i2=
-s_plat_config },
-> +       { .compatible =3D "loongson,ls2k1000-i2s", .data =3D &ls2k1000_i2=
-s_plat_config },
->         { /* sentinel */ },
->  };
->  MODULE_DEVICE_TABLE(of, loongson_i2s_ids);
-> --
-> 2.52.0
->
->
+Signed-off-by: Charan Pedumuru <charan.pedumuru@gmail.com>
+---
+ .../bindings/sound/nvidia,tegra30-ahub.txt         |  88 ------
+ .../bindings/sound/nvidia,tegra30-ahub.yaml        | 299 +++++++++++++++++++++
+ 2 files changed, 299 insertions(+), 88 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.txt b/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.txt
+deleted file mode 100644
+index 0e9a1895d7fb..000000000000
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.txt
++++ /dev/null
+@@ -1,88 +0,0 @@
+-NVIDIA Tegra30 AHUB (Audio Hub)
+-
+-Required properties:
+-- compatible : For Tegra30, must contain "nvidia,tegra30-ahub".  For Tegra114,
+-  must contain "nvidia,tegra114-ahub".  For Tegra124, must contain
+-  "nvidia,tegra124-ahub".  Otherwise, must contain "nvidia,<chip>-ahub",
+-  plus at least one of the above, where <chip> is tegra132.
+-- reg : Should contain the register physical address and length for each of
+-  the AHUB's register blocks.
+-  - Tegra30 requires 2 entries, for the APBIF and AHUB/AUDIO register blocks.
+-  - Tegra114 requires an additional entry, for the APBIF2 register block.
+-- interrupts : Should contain AHUB interrupt
+-- clocks : Must contain an entry for each entry in clock-names.
+-  See ../clocks/clock-bindings.txt for details.
+-- clock-names : Must include the following entries:
+-  - d_audio
+-  - apbif
+-- resets : Must contain an entry for each entry in reset-names.
+-  See ../reset/reset.txt for details.
+-- reset-names : Must include the following entries:
+-  Tegra30 and later:
+-  - d_audio
+-  - apbif
+-  - i2s0
+-  - i2s1
+-  - i2s2
+-  - i2s3
+-  - i2s4
+-  - dam0
+-  - dam1
+-  - dam2
+-  - spdif
+-  Tegra114 and later additionally require:
+-  - amx
+-  - adx
+-  Tegra124 and later additionally require:
+-  - amx1
+-  - adx1
+-  - afc0
+-  - afc1
+-  - afc2
+-  - afc3
+-  - afc4
+-  - afc5
+-- ranges : The bus address mapping for the configlink register bus.
+-  Can be empty since the mapping is 1:1.
+-- dmas : Must contain an entry for each entry in clock-names.
+-  See ../dma/dma.txt for details.
+-- dma-names : Must include the following entries:
+-  - rx0 .. rx<n>
+-  - tx0 .. tx<n>
+-  ... where n is:
+-  Tegra30: 3
+-  Tegra114, Tegra124: 9
+-- #address-cells : For the configlink bus. Should be <1>;
+-- #size-cells : For the configlink bus. Should be <1>.
+-
+-AHUB client modules need to specify the IDs of their CIFs (Client InterFaces).
+-For RX CIFs, the numbers indicate the register number within AHUB routing
+-register space (APBIF 0..3 RX, I2S 0..5 RX, DAM 0..2 RX 0..1, SPDIF RX 0..1).
+-For TX CIFs, the numbers indicate the bit position within the AHUB routing
+-registers (APBIF 0..3 TX, I2S 0..5 TX, DAM 0..2 TX, SPDIF TX 0..1).
+-
+-Example:
+-
+-ahub@70080000 {
+-	compatible = "nvidia,tegra30-ahub";
+-	reg = <0x70080000 0x200 0x70080200 0x100>;
+-	interrupts = < 0 103 0x04 >;
+-	nvidia,dma-request-selector = <&apbdma 1>;
+-	clocks = <&tegra_car 106>, <&tegra_car 107>;
+-	clock-names = "d_audio", "apbif";
+-	resets = <&tegra_car 106>, <&tegra_car 107>, <&tegra_car 30>,
+-		<&tegra_car 11>, <&tegra_car 18>, <&tegra_car 101>,
+-		<&tegra_car 102>, <&tegra_car 108>, <&tegra_car 109>,
+-		<&tegra_car 110>, <&tegra_car 10>;
+-	reset-names = "d_audio", "apbif", "i2s0", "i2s1", "i2s2",
+-		"i2s3", "i2s4", "dam0", "dam1", "dam2",
+-		"spdif";
+-	dmas = <&apbdma 1>, <&apbdma 1>;
+-	       <&apbdma 2>, <&apbdma 2>;
+-	       <&apbdma 3>, <&apbdma 3>;
+-	       <&apbdma 4>, <&apbdma 4>;
+-	dma-names = "rx0", "tx0", "rx1", "tx1", "rx2", "tx2", "rx3", "tx3";
+-	ranges;
+-	#address-cells = <1>;
+-	#size-cells = <1>;
+-};
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.yaml
+new file mode 100644
+index 000000000000..82738058f672
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.yaml
+@@ -0,0 +1,299 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/nvidia,tegra30-ahub.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NVIDIA Tegra Audio Hub (AHUB)
++
++maintainers:
++  - Jonathan Hunter <jonathanh@nvidia.com>
++
++description:
++  The NVIDIA Tegra AHUB (Audio Hub) is an audio interconnect block used to
++  route data between various audio clients such as I2S, DAM, SPDIF, and
++  APBIF. It exposes multiple register regions and supports different
++  configurations depending on the Tegra SoC generation. The AHUB also
++  provides a configlink bus for child audio components, which use CIF
++  (Client Interface) IDs to identify their data paths. The number of DMA
++  channels, reset lines, and additional modules varies across Tegra30,
++  Tegra114, and Tegra124 platforms.
++
++properties:
++  compatible:
++    oneOf:
++      - const: nvidia,tegra30-ahub
++      - const: nvidia,tegra114-ahub
++      - const: nvidia,tegra124-ahub
++      - items:
++          - const: nvidia,tegra132-ahub
++          - const: nvidia,tegra124-ahub
++
++  reg:
++    minItems: 2
++    maxItems: 3
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Clock for the D_AUDIO domain
++      - description: Clock for the APBIF interface
++
++  clock-names:
++    items:
++      - const: d_audio
++      - const: apbif
++
++  resets:
++    minItems: 11
++    maxItems: 21
++
++  reset-names:
++    oneOf:
++      # Tegra30: d_audio apbif i2s0-4 dam0-2 spdif
++      - items:
++          - const: d_audio
++          - const: apbif
++          - const: i2s0
++          - const: i2s1
++          - const: i2s2
++          - const: i2s3
++          - const: i2s4
++          - const: dam0
++          - const: dam1
++          - const: dam2
++          - const: spdif
++
++      # Tegra114: adds amx adx
++      - items:
++          - const: d_audio
++          - const: apbif
++          - const: i2s0
++          - const: i2s1
++          - const: i2s2
++          - const: i2s3
++          - const: i2s4
++          - const: dam0
++          - const: dam1
++          - const: dam2
++          - const: spdif
++          - const: amx
++          - const: adx
++
++      # Tegra124: adds amx1 adx1 afc0-5
++      - items:
++          - const: d_audio
++          - const: apbif
++          - const: i2s0
++          - const: i2s1
++          - const: i2s2
++          - const: i2s3
++          - const: i2s4
++          - const: dam0
++          - const: dam1
++          - const: dam2
++          - const: spdif
++          - const: amx
++          - const: amx1
++          - const: adx
++          - const: adx1
++          - const: afc0
++          - const: afc1
++          - const: afc2
++          - const: afc3
++          - const: afc4
++          - const: afc5
++
++  dmas:
++    minItems: 8
++    maxItems: 20
++
++  dma-names:
++    oneOf:
++      # Tegra30: rx0..rx3 tx0..tx3 (n=3)
++      - items:
++          - const: rx0
++          - const: tx0
++          - const: rx1
++          - const: tx1
++          - const: rx2
++          - const: tx2
++          - const: rx3
++          - const: tx3
++
++      # Tegra114/124: rx0..rx9 tx0..tx9 (n=9)
++      - items:
++          - const: rx0
++          - const: tx0
++          - const: rx1
++          - const: tx1
++          - const: rx2
++          - const: tx2
++          - const: rx3
++          - const: tx3
++          - const: rx4
++          - const: tx4
++          - const: rx5
++          - const: tx5
++          - const: rx6
++          - const: tx6
++          - const: rx7
++          - const: tx7
++          - const: rx8
++          - const: tx8
++          - const: rx9
++          - const: tx9
++
++  "#address-cells":
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++  "#size-cells":
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++  ranges: true
++
++patternProperties:
++  "^i2s@[0-9a-f]+$":
++    type: object
++
++    allOf:
++      - $ref: /schemas/sound/nvidia,tegra30-i2s.yaml#
++
++    properties:
++      nvidia,ahub-cif-ids:
++        description: Pair of AHUB CIF IDs for the RX and TX data paths.
++        $ref: /schemas/types.yaml#/definitions/uint32-array
++        minItems: 2
++        maxItems: 2
++
++    required:
++      - nvidia,ahub-cif-ids
++
++    unevaluatedProperties: false
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: nvidia,tegra124-ahub
++    then:
++      properties:
++        "#address-cells":
++          const: 2
++
++        "#size-cells":
++          const: 2
++
++        resets:
++          minItems: 21
++          maxItems: 21
++
++        dmas:
++          minItems: 20
++          maxItems: 20
++
++    else:
++      properties:
++        "#address-cells":
++          const: 1
++
++        "#size-cells":
++          const: 1
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: nvidia,tegra30-ahub
++    then:
++      properties:
++        reg:
++          maxItems: 2
++
++        resets:
++          minItems: 11
++          maxItems: 11
++
++        dmas:
++          minItems: 8
++          maxItems: 8
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: nvidia,tegra114-ahub
++    then:
++      properties:
++        reg:
++          minItems: 3
++          maxItems: 3
++
++        resets:
++          minItems: 13
++          maxItems: 13
++
++        dmas:
++          minItems: 20
++          maxItems: 20
++
++required:
++  - reg
++  - compatible
++  - interrupts
++  - clocks
++  - clock-names
++  - resets
++  - reset-names
++  - dmas
++  - dma-names
++  - "#address-cells"
++  - "#size-cells"
++  - ranges
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/tegra30-car.h>
++    ahub@70080000 {
++        compatible = "nvidia,tegra30-ahub";
++        reg = <0x70080000 0x200>, <0x70080200 0x100>;
++        interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&tegra_car TEGRA30_CLK_D_AUDIO>,
++                 <&tegra_car TEGRA30_CLK_APBIF>;
++        clock-names = "d_audio", "apbif";
++        resets = <&tegra_car 106>, <&tegra_car 107>,
++                 <&tegra_car 30>, <&tegra_car 11>,
++                 <&tegra_car 18>, <&tegra_car 101>,
++                 <&tegra_car 102>, <&tegra_car 108>,
++                 <&tegra_car 109>, <&tegra_car 110>,
++                 <&tegra_car 10>;
++        reset-names = "d_audio", "apbif",
++                      "i2s0", "i2s1", "i2s2", "i2s3", "i2s4",
++                      "dam0", "dam1", "dam2",
++                      "spdif";
++        dmas = <&apbdma 1>, <&apbdma 1>,
++               <&apbdma 2>, <&apbdma 2>,
++               <&apbdma 3>, <&apbdma 3>,
++               <&apbdma 4>, <&apbdma 4>;
++        dma-names = "rx0", "tx0", "rx1", "tx1",
++                    "rx2", "tx2", "rx3", "tx3";
++        ranges;
++        #address-cells = <1>;
++        #size-cells = <1>;
++
++        i2s@70080300 {
++            compatible = "nvidia,tegra30-i2s";
++            reg = <0x70080300 0x100>;
++            nvidia,ahub-cif-ids = <4 4>;
++            clocks = <&tegra_car TEGRA30_CLK_I2S0>;
++            resets = <&tegra_car 30>;
++            reset-names = "i2s";
++        };
++    };
++...
+
+---
+base-commit: db7efce4ae23ad5e42f5f55428f529ff62b86fab
+change-id: 20260422-nvidia-ahub-d2ceb0372744
+
+Best regards,
+--  
+Charan Pedumuru <charan.pedumuru@gmail.com>
+
