@@ -1,167 +1,234 @@
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74CBC136351
-	for <linux-sound@vger.kernel.org>; Sat, 13 Jun 2026 13:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781356799; cv=pass; b=lEvnoUrx+uDafPkPNvPUVHj3SYl+dERAiD9V6c3va0/KKWaW3FJ5jDHDCModBvm3ywf0lV27VX5xFudaEf7IolLPnNF5OhvhaG2sn+uc168x+5UezQOaA0rYUanYkJmMW5otQ5dth1mJyjXiLHWP24ZqbXN2spc/tIuMXemhQVs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781356799; c=relaxed/simple;
-	bh=o1NLxwqqvjqRciIF0H87AYwGLhYI1xWFleHHAsr2nvc=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=T3/7jeHqLyVVIiPrOoHWU4escvnz2eyr+f3/ZdUMq/axAt4mWJo5H8v//G6wEAQ+WGKoMiJZLmTX2GJpmoDywtMbqmoUgxX8j1NtcHLrglPnGEKYMOICCNWdHWMVl/fmF6PYLmfNEczRRipQHSGcq8aqbT/YxTgGJH9r3HQv8RA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OIf2tv/n; arc=pass smtp.client-ip=74.125.82.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EBA1EEE6
+	for <linux-sound@vger.kernel.org>; Sat, 13 Jun 2026 17:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781372122; cv=none; b=m5Iw8SpLsIcRcv0Qxxz9Bp5aIvT9VSBOnuIrdRRpSou6nL9X20fitVZPJOef7i9vjdSh2vTW7mDpfsCXPsqu/ZKyqZBrqNnOv83gAbpWkRALQl8RvmnJi26UHce5w8+Irrg2fslDR4TPawW7rn6d5f4wTsCSFIOrCYLHiCK9MCk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781372122; c=relaxed/simple;
+	bh=Sj4Nl538pldC4eksvSoSB07VkWQxEkzIoVuQnRq8JeU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GK1ME5zidGVsiZ1wWIjLUiNNIx9GabiiQG6OkS+I2x9BWnX0879SwIlXhM3bCpZSXV4ctgcBHqjQ2E402tIxRwD7IwhpyUE43hxH59Tedg8B+Y1kFiciryH+kAQM4xSCj2IKn1jJ9Fv4cpOKmcW32Av27SNlCF6OsPAomPjrH7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IvY2Z3wj; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OIf2tv/n"
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-304ddfcf72cso2385929eec.0
-        for <linux-sound@vger.kernel.org>; Sat, 13 Jun 2026 06:19:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781356797; cv=none;
-        d=google.com; s=arc-20240605;
-        b=QAT3Wvfe/0l0nR2xUy4bYC7NkIv+B/7CUDz+1LdQ7lBsE0lbVf9SYyinYK2qUMrTT6
-         1VwGtKpA5i4EONcsxTVSeHqcTSWMumecOvhnnG8O8IJ9rkr565ASzR5IWr/4+kp9hJtD
-         4KQQLaABq+As1Smt0o2rtSy/dJ2/vuq3+SIziwbiT8RXJuaoxOvIicpiIsdUzABj40Zf
-         N0PY0U4fP8aP/kSH7/E7w0j3QK6v1BZUCxWOsnow0eihDe/Tc7SXutcKHvzYmsm8xIsS
-         u9IwRzdK1Mfr5MIU434ovhi36Ujth91Y3chV+SoAjOFn2rUKiKuaFgYbPXYAHvyCG/hH
-         OMYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=BwRF3cdKRqZeNxHxXbhst4kAcuaaMcZWSqrSm07bkns=;
-        fh=T7r0+1mn44Lt3iA70f1+eh+INXNMMEbFCLk64ec0+AI=;
-        b=d4PaNixX8PqcYJJ3JTE1SMGDCBlHuCTRRIMn8MKPwlZPySkXDmpz4sZewGW3A/IrJV
-         r1BJdr3JVG5wsFuIevLJKofesgXCCgTg0j0iEIWbzIm/SWrLtL4imefOmc/iTgy8bd0+
-         YYHXirqgHB+nftPkRgmSzWv6u0uKm8SyGictfgNSeMwlhgXBXqasWtjkXtNmFugSON4l
-         7ROmV0MXopjoHAqubdTKe6a4k+up5G4cKwxVBsZPxA2Qb1jmLmZ9MDibrP8Fjae4ivz0
-         SYCLWbKqAaBZHxDLpo/pRzVJycfALr4p4sI8ZuPHAvDBZrqhoh98doksfaZxHM3CLvpV
-         OoSA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IvY2Z3wj"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8422871b42dso1245889b3a.3
+        for <linux-sound@vger.kernel.org>; Sat, 13 Jun 2026 10:35:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781356797; x=1781961597; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=BwRF3cdKRqZeNxHxXbhst4kAcuaaMcZWSqrSm07bkns=;
-        b=OIf2tv/n6YpIMkuw8/+P5Tn2qSd3JM7ecGfCRZ5ZtSt4KxuStEpsolGRymTsYxAMa8
-         2kTsngHJTclaz9IeSIZzH/MQwPob9ofTomfGrcBCy/FwPTKdpb9mhsJPidwBNtgxgbTl
-         qkk4JPTi2qUeboRNHmz0Bpgx12zsVLGcDYVUZaVA0sOadrpPyga4kyPVDCzQR3SPDxuI
-         IrttUiCnjsWd4yjpFxJ2w605tJrJy9x2UFZ6Z3ZGQlfLTORBPBbyW/Xcu6qJDI3KaJhN
-         sI6a66OYPqkb4FwLXbYGYFaeCEkVu3pjYu39im1WIZSfO36kCRhebk8pvSNkshbpaf0a
-         G9vg==
+        d=gmail.com; s=20251104; t=1781372119; x=1781976919; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eMwch6akc+iC+N4/8qtQabSF3BiEL7PQv3Y1fEf2tBw=;
+        b=IvY2Z3wjuH5TTAr6nlPlrAWrsJ+KS8ozgrpPzxDb/9x2LlbJf3j69xrKBOZwfZqpiX
+         gVqoFSuG4ZsShItdEvq4GwoCWWfFa77eERE5VOJzLGKDsrvLfh69gaNRTnYrV1x1G8ML
+         5meCx42qXj5XTpjgW/6htRsCe2ajbrFZoivih56q9OdA1KGy8rnMuWnCE/t9Uy6455P0
+         tTJsWOK3TYd2yHW9QgMOvMLWK8DglnGNPJJzp5UBbdQNXBZb1tsW5Su7WQBVnQjRT3Jj
+         DmZfYLPRO+baDFBsgpKrM0grpb/6HwP536Ykd3435Vj5wESzwUpLL4G8gnCRxNlhfMSI
+         wipw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781356797; x=1781961597;
-        h=to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BwRF3cdKRqZeNxHxXbhst4kAcuaaMcZWSqrSm07bkns=;
-        b=IVup/0JMCofwg73zKupdmI50DzBVPHphO6eucVizwzvVDde+CtsAjY3bBpMXjpvB+j
-         FEc/rZUlE4/cp0Bz66OpPX8b9kD2mwzf9FIcA0J24x0kgO2DXj52ffxBXfal4ANrDXbS
-         f78DNtwsiqIDyXFEV944K1DWP1K3SC9T3KmoQXMPyVMbga3zT464i9ANCMyJyz2/rz8w
-         jFQwDqCooYOIvKF8/5eGWpg0K3H052F6tTiAW5gxVGKy17JAHK0IVnrGN/rkYo2s7611
-         kk1Wxa55ZOBQt6pE/VgGMqTT3hEISd1tZyhuK+Fwhcb6OOQmhJ1H8y67tPPHT9QMfOh+
-         5DVQ==
-X-Gm-Message-State: AOJu0YwqPe8vA6C+to7IoID5Ggb9IM6JjxAzfkVxE1SwTf+56Kq3aX0Q
-	PNQ07+MwgDACwhRLD1/I00keE7UovDIvDvmewMLAgLl+VUI77WJOhHokdaw5fxtv9WebTUwFy9r
-	jv8Czj6bk4N6l8Kt9c7rgudDAbvff6ePWB85NFTo=
-X-Gm-Gg: Acq92OE92zrgSYThChwrT8i0xV0DpMSE0qx2omRAe02YRyS3fQ2AM93qxA0gne2mNCe
-	oWfo+25e3cFCTNKjnMYNZh74TMYSwaQ8jUK+nyu09d7esE4EC4PiXIbv2sHDRPPJEzmRaLCbHN7
-	FzQP8gDvJ5F6mTjM8bO5AO1lHbp3iI2Url8EoVhRzkjqOC89xF1qwGFsYpgzoO2iK+8UGF5P9Yi
-	4hSeB0klUGAu6bYFozXlpiaVhgvgmZDmjVSFbS1d49O6pq5R2fNTqgmWj4mP7DM+Qm9c0aZxjeh
-	kb5wQ2/H8amGp0VXIRLROuOmC5NgWpex2moFKJPoxRdUNdqFni4G23rHeXBYqTn6CT0Dws5IxHd
-	OyeaykKhuGFG0ZgEQlOXnhANP4g==
-X-Received: by 2002:a05:7300:f10a:b0:307:91f5:92e2 with SMTP id
- 5a478bee46e88-3081ff4b659mr3902673eec.4.1781356797336; Sat, 13 Jun 2026
- 06:19:57 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781372119; x=1781976919;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eMwch6akc+iC+N4/8qtQabSF3BiEL7PQv3Y1fEf2tBw=;
+        b=UvTPvNUWDnD3vreRRAtMe5rl/u1pKeT4KxaLeF4Er4ihJ9D4wjz3KpQCBt5yVUFyh4
+         +ayOrGGxhL5O6GLiYU11kqDjfn7erz5FkCraws9bloDLVnJhWJ1/mItnrYW+DqqQxpQS
+         WOnKnrBPpckM04zDBOP7StNvl3/3C4IcASLUfEI6tG3L5V4yJDRor4sLgq2zuAf/md72
+         PD5VVbstdrpONU5dEohgj6YrxwRBIZK/vGnmh01BeP0WoRTjzrupZj8eDLWW1wogGrfZ
+         YmNNpw3qxHHWXeMQcx0dlaGs4McjblP9/HVkneHxD4QyH0DjefMO7fB7xC9L73mlfpKC
+         3fEw==
+X-Gm-Message-State: AOJu0YxjYrAoX06ZOXwZTK/UZu8zHryH3MObAvb0E/Fjfo7xshtdXxx0
+	sR1Ic3yZeCR1X/EGMEzTheJs0hUaLjvFbHjfemehCJbJOlN+ig2ixbDc
+X-Gm-Gg: Acq92OH8V4/jXyD66qkkHFyoRxTHt9uyQbqWGUQ0wKYjn5UhVBd/yjGd1jXPWJ/ov2K
+	MzIwHH6da7wwuRzII6HrNTjj/nXRSSx6p6BGfAobNGc9WU/Df+9KbeZIAU6AYGuoyCPISs31Vfi
+	DsdyvAT9g6XRUM5A0fkTYZHFtCuNiqWxwZMBpxoMnmlLv1r2pFAXmFurRgXPF9JbUX9ULMErndn
+	K3CuoMp8A/1CvN1N87GOoTr7bc8/9KWGPc3hdM8yEqahK6fZRtaaExGSl+HSLO5IW8lqtZdZVyw
+	/bBSH/tfOKSssULwBPA4VwJ1RzzkCK9wQyaNx/4JregkqldxQwuB0/ZgyttED1m58SbfHFk6PoF
+	lD9njla8isl+hEjbbPURw5oCFjdWfIRK6e0F46ruwQx8+fK4dCX7HtJ115y/h4oEsGJkY6QUjPA
+	K4X+S0mek6bV5/I8iaYA==
+X-Received: by 2002:a05:6a00:2308:b0:842:2ddb:e303 with SMTP id d2e1a72fcca58-8434cd497dfmr8520715b3a.12.1781372119069;
+        Sat, 13 Jun 2026 10:35:19 -0700 (PDT)
+Received: from localhost ([111.228.63.84])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434b011288sm4945312b3a.44.2026.06.13.10.35.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jun 2026 10:35:18 -0700 (PDT)
+From: Cen Zhang <zzzccc427@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	Cen Zhang <zzzccc427@gmail.com>
+Subject: [PATCH 1/2] ALSA: seq: oss: Serialize readq reset state with q->lock
+Date: Sun, 14 Jun 2026 01:35:12 +0800
+Message-Id: <20260613173513.2370168-1-zzzccc427@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Hridesh MG <hridesh699@gmail.com>
-Date: Sat, 13 Jun 2026 18:49:41 +0530
-X-Gm-Features: AVVi8Cc08Ki-GtBqJSO6TCsiAyHiqSMoCCwo47CH0D0JPCXm5KyHC6qgcgJ0Tl8
-Message-ID: <CALiyAo=RSmoWFH-zqMQWEWtU-qMeTP8YPkzPFCzNsGtFmtn_xQ@mail.gmail.com>
-Subject: ALSA: hda/realtek: headphone jack mic not working on ASUS Zenbook 14
-To: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello! I recently bought a new laptop and the headphone jack does not
-pick up microphone input on Linux. The following patch seems to fix
-it:
+snd_seq_oss_readq_clear() resets qlen, head, and tail without
+q->lock even though the normal reader and producer paths serialize the
+same ring state under that spinlock. A reset can therefore race
+snd_seq_oss_readq_free() or snd_seq_oss_readq_put_event() and leave
+stale records in the queue, drop freshly queued ones, or report the
+wrong readiness after wakeup. KCSAN reports a data race between
+snd_seq_oss_readq_clear() and snd_seq_oss_readq_free().
 
-#/lib/firmware/alc-sound-patch.fw
-[codec]
-0x10ec0294 0x10431194 0
+Take q->lock while clearing the ring and resetting input_time. Factor
+the enqueue logic into a caller-locked helper so
+snd_seq_oss_readq_put_timestamp() updates its suppression state under
+the same lock instead of racing the reset path.
 
-[pincfg]
-0x19 0x04A11050
+The buggy scenario involves two paths, with each column showing the
+order within that path:
 
-Could someone make a kernel patch to load this by default? I currently
-lack the setup to create the patch myself. Please let me know if any
-additional information is required,
+reset path:                      locked readq updater:
+1. snd_seq_oss_reset() or        1. A reader or callback producer
+   release reaches                  takes q->lock on the same queue.
+   snd_seq_oss_readq_clear().
+2. snd_seq_oss_readq_clear()     2. The updater tests or modifies
+   resets qlen, head, tail,         qlen, head, and tail.
+   and input_time.
+3. snd_seq_oss_readq_clear()     3. The updater completes its
+   wakes sleepers on                read-modify-write sequence.
+   q->midi_sleep.
+4. Without q->lock, the reset    4. The resulting ring state drives
+   can overlap the locked           later reads and readiness.
+   update.
 
-Some debug logs:
-~ -> lspci -nn | grep -i audio
-63:00.1 Audio device [0403]: Advanced Micro Devices, Inc. [AMD/ATI]
-Radeon High Definition Audio Controller [Rembrandt/Strix] [1002:1640]
-63:00.5 Multimedia controller [0480]: Advanced Micro Devices, Inc.
-[AMD] Audio Coprocessor [1022:15e2] (rev 71)
-63:00.6 Audio device [0403]: Advanced Micro Devices, Inc. [AMD] Family
-17h/19h/1ah HD Audio Controller [1022:15e3]
-~ -> sudo dmesg | grep snd
-[sudo] password for hridesh:
-[    1.739094] snd_acp_pci 0000:63:00.5: enabling device (0000 -> 0002)
-[    1.742696] snd_hda_intel 0000:63:00.1: enabling device (0000 -> 0002)
-[    1.742737] snd_hda_intel 0000:63:00.1: Handle vga_switcheroo audio client
-[    1.743028] snd_hda_intel 0000:63:00.6: enabling device (0000 -> 0002)
-[    1.743084] snd_hda_intel 0000:63:00.6: Applying patch firmware
-'alc-sound-patch.fw'
-[    2.386282] snd_hda_codec_realtek hdaudioC1D0: bound
-i2c-CSC3551:00-cs35l41-hda.0 (ops cs35l41_hda_comp_ops
-[snd_hda_scodec_cs35l41])
-[    2.938270] snd_hda_codec_realtek hdaudioC1D0: bound
-i2c-CSC3551:00-cs35l41-hda.1 (ops cs35l41_hda_comp_ops
-[snd_hda_scodec_cs35l41])
-[    2.938700] snd_hda_codec_realtek hdaudioC1D0: autoconfig for
-ALC294: line_outs=1 (0x17/0x0/0x0/0x0/0x0) type:speaker
-[    2.938704] snd_hda_codec_realtek hdaudioC1D0:    speaker_outs=0
-(0x0/0x0/0x0/0x0/0x0)
-[    2.938706] snd_hda_codec_realtek hdaudioC1D0:    hp_outs=1
-(0x21/0x0/0x0/0x0/0x0)
-[    2.938707] snd_hda_codec_realtek hdaudioC1D0:    mono: mono_out=0x0
-[    2.938709] snd_hda_codec_realtek hdaudioC1D0:    inputs:
-[    2.938710] snd_hda_codec_realtek hdaudioC1D0:      Internal Mic=0x12
-[    2.938711] snd_hda_codec_realtek hdaudioC1D0:      Mic=0x19
-[    3.097688] snd_hda_intel 0000:63:00.1: bound 0000:63:00.0 (ops
-amdgpu_dm_audio_component_bind_ops [amdgpu])
-[    4.599302] snd_hda_codec_hdmi hdaudioC0D0: HDMI: Unknown ELD version 0
+Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+---
+ sound/core/seq/oss/seq_oss_readq.c | 77 ++++++++++++++++++++----------
+ 1 file changed, 52 insertions(+), 25 deletions(-)
 
-RtHD Dump (with headphones plugged in):
-PCI ID ==> PCI\VEN_1022&DEV_15E3&SUBSYS_11941043&REV_00\4&3247FA0A&0&0641
-HDA ID ==> HDAUDIO\FUNC_01&VEN_10EC&DEV_0294&SUBSYS_10431194&REV_1000
-<Realtek High Definition Audio>
+diff --git a/sound/core/seq/oss/seq_oss_readq.c b/sound/core/seq/oss/seq_oss_readq.c
+index c880d4771169..06e12707db21 100644
+--- a/sound/core/seq/oss/seq_oss_readq.c
++++ b/sound/core/seq/oss/seq_oss_readq.c
+@@ -73,13 +73,17 @@ snd_seq_oss_readq_delete(struct seq_oss_readq *q)
+ void
+ snd_seq_oss_readq_clear(struct seq_oss_readq *q)
+ {
+-	if (q->qlen) {
+-		q->qlen = 0;
+-		q->head = q->tail = 0;
++	scoped_guard(spinlock_irqsave, &q->lock) {
++		if (q->qlen) {
++			q->qlen = 0;
++			q->head = 0;
++			q->tail = 0;
++		}
++		q->input_time = (unsigned long)-1;
+ 	}
++
+ 	/* if someone sleeping, wake'em up */
+ 	wake_up(&q->midi_sleep);
+-	q->input_time = (unsigned long)-1;
+ }
+ 
+ /*
+@@ -136,11 +140,11 @@ int snd_seq_oss_readq_sysex(struct seq_oss_readq *q, int dev,
+ /*
+  * copy an event to input queue:
+  * return zero if enqueued
++ * caller must hold lock
+  */
+-int
+-snd_seq_oss_readq_put_event(struct seq_oss_readq *q, union evrec *ev)
++static int snd_seq_oss_readq_put_event_locked(struct seq_oss_readq *q,
++					      union evrec *ev)
+ {
+-	guard(spinlock_irqsave)(&q->lock);
+ 	if (q->qlen >= q->maxlen - 1)
+ 		return -ENOMEM;
+ 
+@@ -148,12 +152,27 @@ snd_seq_oss_readq_put_event(struct seq_oss_readq *q, union evrec *ev)
+ 	q->tail = (q->tail + 1) % q->maxlen;
+ 	q->qlen++;
+ 
+-	/* wake up sleeper */
+-	wake_up(&q->midi_sleep);
+-
+ 	return 0;
+ }
+ 
++/*
++ * copy an event to input queue:
++ * return zero if enqueued
++ */
++int
++snd_seq_oss_readq_put_event(struct seq_oss_readq *q, union evrec *ev)
++{
++	int rc;
++
++	scoped_guard(spinlock_irqsave, &q->lock) {
++		rc = snd_seq_oss_readq_put_event_locked(q, ev);
++		if (!rc)
++			wake_up(&q->midi_sleep);
++	}
++
++	return rc;
++}
++
+ 
+ /*
+  * pop queue
+@@ -209,23 +228,31 @@ snd_seq_oss_readq_poll(struct seq_oss_readq *q, struct file *file, poll_table *w
+ int
+ snd_seq_oss_readq_put_timestamp(struct seq_oss_readq *q, unsigned long curt, int seq_mode)
+ {
+-	if (curt != q->input_time) {
+-		union evrec rec;
+-		memset(&rec, 0, sizeof(rec));
+-		switch (seq_mode) {
+-		case SNDRV_SEQ_OSS_MODE_SYNTH:
+-			rec.echo = (curt << 8) | SEQ_WAIT;
+-			snd_seq_oss_readq_put_event(q, &rec);
+-			break;
+-		case SNDRV_SEQ_OSS_MODE_MUSIC:
+-			rec.t.code = EV_TIMING;
+-			rec.t.cmd = TMR_WAIT_ABS;
+-			rec.t.time = curt;
+-			snd_seq_oss_readq_put_event(q, &rec);
+-			break;
++	int queued = 0;
++
++	scoped_guard(spinlock_irqsave, &q->lock) {
++		if (curt != q->input_time) {
++			union evrec rec;
++
++			memset(&rec, 0, sizeof(rec));
++			switch (seq_mode) {
++			case SNDRV_SEQ_OSS_MODE_SYNTH:
++				rec.echo = (curt << 8) | SEQ_WAIT;
++				queued = !snd_seq_oss_readq_put_event_locked(q, &rec);
++				break;
++			case SNDRV_SEQ_OSS_MODE_MUSIC:
++				rec.t.code = EV_TIMING;
++				rec.t.cmd = TMR_WAIT_ABS;
++				rec.t.time = curt;
++				queued = !snd_seq_oss_readq_put_event_locked(q, &rec);
++				break;
++			}
++			q->input_time = curt;
+ 		}
+-		q->input_time = curt;
+ 	}
++	if (queued)
++		wake_up(&q->midi_sleep);
++
+ 	return 0;
+ }
+ 
+-- 
+2.43.0
 
-< RtHDDump.exe file version V2.3.0.6 >
-File version => 6.0.9761.1
-File internal name=> RTKVHD64.sys 9761
-<9761> <RTKVHD64.sys 9761>
-Model index = 83
 
-Wid=12  Codec=90A60130  Drv=90A60130  Loc=00000000
-Wid=13  Codec=40000000  Drv=40000000  Loc=00000000
-Wid=14  Codec=411111F0  Drv=411111F0  Loc=00000000
-Wid=15  Codec=411111F0  Drv=411111F0  Loc=00000000
-Wid=16  Codec=411111F0  Drv=411111F0  Loc=00000000
-Wid=17  Codec=90170110  Drv=90170110  Loc=00000000
-Wid=18  Codec=411111F0  Drv=411111F0  Loc=00020000
-Wid=19  Codec=411111F0  Drv=04A11050  Loc=00080000
-Wid=1A  Codec=411111F0  Drv=04A11C30  Loc=00080000
-Wid=1B  Codec=411111F0  Drv=411111F0  Loc=00000000
-Wid=1D  Codec=40663B05  Drv=40663B05  Loc=00000000
-Wid=1E  Codec=411111F0  Drv=411111F0  Loc=00000700
-Wid=1F  Codec=411111F0  Drv=411111F0  Loc=00000800
-Wid=21  Codec=04211020  Drv=04211420  Loc=00000000
-
-Codec Address = 0
-Subsystem ID = 10431194
-Revision ID = 00100004
