@@ -1,225 +1,201 @@
-Received: from flow-b6-smtp.messagingengine.com (flow-b6-smtp.messagingengine.com [202.12.124.141])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF563A2543;
-	Sat, 13 Jun 2026 02:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196FD242D67
+	for <linux-sound@vger.kernel.org>; Sat, 13 Jun 2026 03:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781316697; cv=none; b=i2EvVH3U7sGXvplX/Ia9m49FvR7P8Ma58G6IOGw2LwFi36AKIxr4WEdYJAM+wxBDGwGZ43KWIseH4HNycdfWLyqHVzlhAqe2My8jDHPDYOJFU63lTVrsw2+zx9M0dmid96dI/vbFDe+ybOv6qeHQeu8o/F5vsPF1aydjWVNQcII=
+	t=1781320732; cv=none; b=TVTBnYmCBxgw1yX8pS84iC0m/Xn8YpQcpCEC+8WpZUEulRO3GCyPZrYkpPsBFYYKBeMw7yJlq9rVBpI9QNP/yLM2AyAZtUVv1nzv/mM3KT/MzALs4TUyzhXLIamxzDG6Ncb1Y1pT4QJBVzltfcdiIJ89oi10kWS/FWhd1TMdSh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781316697; c=relaxed/simple;
-	bh=ecnkEaaCS8+DWqCNDsS+RP9RroP8df0sQbWKP5wlgus=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IYC7OLwbo0NzfPSxuBeuiDZuJz6Vv3oWx9lCWgiFmp2AxnvBUWHxr/yLMCk6cR4IbatJPkpx6IZe+IZZNEGsF4UFJdvY5qHPAjdoSri7c+L3XuGpPWQ8X43W3wFraFiScuzbSkWT0z4wyuoip9YKJZNkRmSHt+nF4W9Xmy59aTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=m/B1Wk7p; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=B/MO738r; arc=none smtp.client-ip=202.12.124.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1781320732; c=relaxed/simple;
+	bh=r7l7aVxzs7O7Xak4jlTzUDCoTDD1I+eiZfAJ2L6+r4Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cEZcK+V7bXEPywJLNp5dmc246Dg0DiSbxnV0lHb60i7gw29fDFaGYI5MdXEWMvj/Nhxa0eJjxMULLGo3lYRNOvEsjE4lV3R3JXZl1XxK8Iq61fcQP+8BIa95MMCZ+lMOsH1nZPh4vrPch8EiSIHbRYZatdM++EQJGEyWMfoLh00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=inm/cKV8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="m/B1Wk7p";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="B/MO738r"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailflow.stl.internal (Postfix) with ESMTP id F3E41130005A;
-	Fri, 12 Jun 2026 22:11:31 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Fri, 12 Jun 2026 22:11:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1781316691; x=
-	1781323891; bh=fh1bnzRZkfgjl9/+6Z2PA5Kxn4ZV0HU2wTlYFBWNiQ4=; b=m
-	/B1Wk7purilBiKkMRVuC3Flfti1lZpKfwlt77AZHkSZhKAS8ia2z8R1CfOFuJXF6
-	jqWuwBOSRldHgJLpHFlWbohi+/JgUUnflgC3sz67VmbHnHyV/qKZ4L9+/cZXwBar
-	pZn5nQLmSLaeUika7jXQ35MDD5xqJYMJ+XFW0A6h82xxae3b35f+ak0pm9sP0j3o
-	Rn6Oms26Dq5JaxYcd+LhJ5gGkGzHljkvR3PWQpdcFDZcrutUQ5Gw4MM7C09x5GvX
-	Rm44QXSJLT+PBjHrSfnnGBG8BhkzE2o2bhAyK2kr+YrDji7XqZrfOW/mHwWthgS8
-	Q8mLA82aenzF3UH78IFeA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1781316691; x=1781323891; bh=fh1bnzRZkfgjl9/+6Z2PA5Kxn4ZV0HU2wTl
-	YFBWNiQ4=; b=B/MO738r25kBC5W1FZEi/jo6InpT95G+oNzeSTFxbs6dD4/bHOo
-	eohWxUFnm/DfWRpK+E9TtLDOCX/uuLyULx8m11eswEvzdxMrqTKhaL6Z02wKBqNd
-	CwUcrPKAd4Siff0BNUrNKfyxMQnnlhIFTpMxLRKZ8xZjD0t2cTZE+U4PZ4f1VLum
-	eUck3wo68eBHMIfH++HVVwfv7ri3oT2EnqWmMJLbVCz7Bgqys21n/vANfaMKmzA5
-	KTcEAvxk1SZlFD9lLcLv/WXuzYzr6P0pxCDuHnQsrl+DKeZ8fmfPZHEY9ZY0Se5J
-	q0LnaDPLjJpMRMgOPg+6e3HR5iqlooX1wzg==
-X-ME-Sender: <xms:ULwsaqJSU3ZGUfYTfTfHvUkDGrkZoAz6knspkLRN72dkmhaAlWGU0w>
-    <xme:ULwsahfpOAjeeQFoOqDeZonzxOth5iwOqocTQN665ujKaw5W4kvXENFHiPc-NQxhw
-    bYtvUQNmu3jDY73PL51YmoAI2sjikN827tQNcmget20GbLVOMoBysI>
-X-ME-Received: <xmr:ULwsahqjIqnco2Z3DcLoZTyMFsoOrP0wNMni9j0HG90Y9TI7BFN_QaV06BuMmbh11eW2LBxgLuuRksM5bGGMSNYbNYgx36I>
-X-ME-Proxy-Cause: dmFkZTF4d5otJNSy4E5+TBrm5t4/oKNW6ZUmoxVyat81cKms57U/uBMehGj0z5o/f8U0/o
-    PK70IhoMQDHia1i8CUjqCHYptK3rsgOvh6V75aLzG/qgZR8GOCrcy2g63bYzQQOxQqQZj/
-    9oT1UuiKnf5HDSuvjSqxoI4qcJJc8bRoOgMhp5UWdtRrRuetAFIP6Aax0o1UXRC5743AIG
-    ohTJB6VzPihRmorA3Lx8YAKhiMlL0+yMkZd8nQebbDlRgY6+OEVjhF6TdMsRENVLgOl/oT
-    e9kd0DiCM7hKkG8v6/VJyviGyBIdYP/hdF4S7lGeNUOAI6uqYDfailcqU2g8IxWFbY33Iz
-    +ACooa7G5aLCHNydDMqgIw/A9YbG1rRl+rnyg/YIAD4D6JdEdoAgr2XQjPH8mcmJlRbD3J
-    L4/zbRcQgfwyBPi98PR4JOKtv58W0qZNGq2bo6mWTGKoyLqrpZmzB453regdcvZ8yWpZmu
-    5lZqhVxLEQEMILodTD6zK1GHSSrZm7GNYXniwmQFVTJUC06+nPk5jOzXfJFTMkjFQnsTua
-    s5EZutrLFiC0SlXAMx3G8OW0t7HhwPROcWEkdP0Sg/cm0K2m7YFRY8ECn2xh73b8iO9AwB
-    tCQHO9fSd6RcJ4FMQt07rf5E93yDlosmA0AAxIdfE3fyuvVFOzAgwLaVB37Q
-X-ME-Proxy: <xmx:ULwsaquT5SmR-xrOGgQFjoa6EFFSjj_YmJFkzvlVLH6-bw1wIgxJcA>
-    <xmx:ULwsaiczRhSGXgdtKE6k3bFZWKF6E3kwyRiRHotFTZvhVr9iHcwmsg>
-    <xmx:ULwsavqtUT6DHcdKXT_TCM513fG-OiPCsLUvufUASvNxvwu79-mjtQ>
-    <xmx:ULwsagTJKGVgV3JEZ3ffGTuu0di_sdwXaiZGwS3tmV3GAsHXbdzfUw>
-    <xmx:U7wsaqO7MfduZe3aBiVNiGj0DHVe0CuJke1_63F3DF10oo3uJ_cbzvXT>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 12 Jun 2026 22:11:17 -0400 (EDT)
-Date: Sat, 13 Jun 2026 11:11:15 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: Kaitao Cheng <kaitao.cheng@linux.dev>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Christoph =?iso-8859-1?Q?B=F6hmwalder?=
- <christoph.boehmwalder@linbit.com>,	Jens Axboe <axboe@kernel.dk>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Christian Koenig <christian.koenig@amd.com>,
-	Huang Rui <ray.huang@amd.com>, Eddie James <eajames@linux.ibm.com>,
-	Mark Brown <broonie@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Peter Zijlstra <peterz@infradead.org>,	Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>,	Boqun Feng <boqun@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,	Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Waiman Long <longman@redhat.com>, drbd-dev@lists.linbit.com,
-	linux-block@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Kaitao Cheng <chengkaitao@kylinos.cn>
-Subject: Re: [PATCH v2 02/14] firewire: core: Open-code topology list walk
-Message-ID: <20260613021115.GA130812@sakamocchi.jp>
-Mail-Followup-To: Kaitao Cheng <kaitao.cheng@linux.dev>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Philipp Reisner <philipp.reisner@linbit.com>,
-	Lars Ellenberg <lars.ellenberg@linbit.com>,
-	Christoph =?iso-8859-1?Q?B=F6hmwalder?=
- <christoph.boehmwalder@linbit.com>,	Jens Axboe <axboe@kernel.dk>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Christian Koenig <christian.koenig@amd.com>,
-	Huang Rui <ray.huang@amd.com>, Eddie James <eajames@linux.ibm.com>,
-	Mark Brown <broonie@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Peter Zijlstra <peterz@infradead.org>,	Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>,	Boqun Feng <boqun@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>,	Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Waiman Long <longman@redhat.com>, drbd-dev@lists.linbit.com,
-	linux-block@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	linux-spi@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Kaitao Cheng <chengkaitao@kylinos.cn>
-References: <20260609061347.93688-1-kaitao.cheng@linux.dev>
- <20260609061347.93688-3-kaitao.cheng@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="inm/cKV8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6B571F01559
+	for <linux-sound@vger.kernel.org>; Sat, 13 Jun 2026 03:18:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781320730;
+	bh=6hjksSQeC+ZsIoDOrxEQzgZgTjPJ+cv9dignez6UBwA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=inm/cKV8um/B4u8UFL6Y3YMdTyrWhrN868DReIZ40B4hAX/Cfi5eWy6hRps1BQT5N
+	 ZmXSrX/LGzxwOavX0Z0wWMRJJtAgObh7gAQxEPr+pdvV7rX/5S05uLVuNBtrdWZJQW
+	 C1twVIjxgfPWZL0w5RzwIy49/U51uC/4zhBgtO4pFVBfTLam6rXOUkJlNchLVy9z2d
+	 vas4IAi4304PiTBux7H+69KSLwqif2JDeMMRGl6NoDJxxaqQE8HlPZcuZlcqeffZ1D
+	 MGBFqX8xhfeV0/YQYDL3LO+gqD96f6eF2L1LqLzMQSfGPkFwEBLcU4/yCXbxL3gYko
+	 Mzz6tU5lg1K/A==
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-68c19f1f3ceso2505128a12.2
+        for <linux-sound@vger.kernel.org>; Fri, 12 Jun 2026 20:18:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+/ZZFXZCoxW2vka5pisgm4YW7jDSu9WzLk4Vifgas2/ejjuTMvvtd5zB0D5+B0+IIacHWmjKWo3KANwA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2WmRiMPImbvD5h6LQrwLHCO4pxgnSJq9unIKEttwvgYCgjZ5F
+	Ia4DDwemo4fKszsoxRHs423wrg2at11Pl+Ow8eMXQV2+qqLpFMCk61WUN95FsCYS5sNOOEK5rzf
+	7ltXtMdlYXaadNjkFSViX7zPYY115kJA=
+X-Received: by 2002:a05:6402:3607:b0:691:956a:cf6a with SMTP id
+ 4fb4d7f45d1cf-693785fed15mr2365486a12.12.1781320729386; Fri, 12 Jun 2026
+ 20:18:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260609061347.93688-3-kaitao.cheng@linux.dev>
+References: <cover.1780538113.git.zhoubinbin@loongson.cn> <4b003425d16a18049c5b90dbdaf91024e265cd8e.1780538113.git.zhoubinbin@loongson.cn>
+In-Reply-To: <4b003425d16a18049c5b90dbdaf91024e265cd8e.1780538113.git.zhoubinbin@loongson.cn>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Sat, 13 Jun 2026 11:18:42 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6G5vTH_58_pKvBnvjdr2eVTWTctUqmPAX3aMjsFDjsQg@mail.gmail.com>
+X-Gm-Features: AVVi8CfzQWj-D-TJJvfg08UU4k6shbbVHcLWFkeYPG8y4sewERe1-KnaBYwPigg
+Message-ID: <CAAhV-H6G5vTH_58_pKvBnvjdr2eVTWTctUqmPAX3aMjsFDjsQg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/7] ASoC: loongson: Add Loongson-2K0300 I2S controller support
+To: Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: Binbin Zhou <zhoubb.aaron@gmail.com>, Huacai Chen <chenhuacai@loongson.cn>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Xuerui Wang <kernel@xen0n.name>, 
+	loongarch@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi, Binbin,
 
-On Tue, Jun 09, 2026 at 02:13:35PM +0800, Kaitao Cheng wrote:
-> From: Kaitao Cheng <chengkaitao@kylinos.cn>
-> 
-> A later change will make list_for_each_entry() cache the next element
-> before entering the loop body. for_each_fw_node() intentionally appends
-> newly discovered child nodes to the temporary walk list while the list is
-> being traversed.
-> 
-> Keep the loop open-coded so the next node is looked up only after
-> children have been appended. This preserves the current breadth-first
-> traversal semantics and prepares the code for the list iterator update.
-> 
-> Signed-off-by: Kaitao Cheng <chengkaitao@kylinos.cn>
+On Thu, Jun 4, 2026 at 10:11=E2=80=AFAM Binbin Zhou <zhoubinbin@loongson.cn=
+> wrote:
+>
+> The Loongson-2K0300 I2S interface differs significantly from the
+> Loongson-2K1000. Although both utilize external DMA controllers, the
+> Loongson-2K0300 does not require additional registers for routing
+> configuration.
+>
+> Due to hardware design flaw, an extra controller reset sequence is
+> required during probe.
+>
+> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
 > ---
->  drivers/firewire/core-topology.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  sound/soc/loongson/loongson_i2s_plat.c | 42 +++++++++++++++++++++-----
+>  1 file changed, 35 insertions(+), 7 deletions(-)
+>
+> diff --git a/sound/soc/loongson/loongson_i2s_plat.c b/sound/soc/loongson/=
+loongson_i2s_plat.c
+> index ac054b6ce632..b4d807ee7f8f 100644
+> --- a/sound/soc/loongson/loongson_i2s_plat.c
+> +++ b/sound/soc/loongson/loongson_i2s_plat.c
+> @@ -2,7 +2,7 @@
+>  //
+>  // Loongson I2S controller master mode dirver(platform device)
+>  //
+> -// Copyright (C) 2023-2024 Loongson Technology Corporation Limited
+> +// Copyright (C) 2023-2026 Loongson Technology Corporation Limited
+>  //
+>  // Author: Yingkun Meng <mengyingkun@loongson.cn>
+>  //         Binbin Zhou <zhoubinbin@loongson.cn>
+> @@ -21,6 +21,7 @@
+>  #include "loongson_i2s.h"
+>  #include "loongson_dma.h"
+>
+> +/* Loongson-2K1000 APBDMA routing */
+>  #define LOONGSON_I2S_RX_DMA_OFFSET     21
+>  #define LOONGSON_I2S_TX_DMA_OFFSET     18
+>
+> @@ -30,6 +31,11 @@
+>  #define LOONGSON_DMA3_CONF     0x3
+>  #define LOONGSON_DMA4_CONF     0x4
+>
+> +struct loongson_i2s_plat_config {
+> +       int rev_id;
+> +       int (*i2s_dma_config)(struct platform_device *pdev);
+> +};
+> +
+>  static int loongson_i2s_apbdma_config(struct platform_device *pdev)
+>  {
+>         int val;
+> @@ -47,8 +53,18 @@ static int loongson_i2s_apbdma_config(struct platform_=
+device *pdev)
+>         return 0;
+>  }
+>
+> +static struct loongson_i2s_plat_config ls2k1000_i2s_plat_config =3D {
+> +       .rev_id =3D 0,
+> +       .i2s_dma_config =3D loongson_i2s_apbdma_config,
+> +};
+> +
+> +static struct loongson_i2s_plat_config ls2k0300_i2s_plat_config =3D {
+> +       .rev_id =3D 1,
+> +};
+Put  ls2k0300_i2s_plat_config before ls2k1000_i2s_plat_config?
 
-Thanks for the patch.
+Huacai
 
-Last September I've realized the issue but not solved yet[1]. A pointer
-array would be another candidate to store the found nodes, since IEEE 1394
-bus a restriction about the maximum number of nodes up to 256. But It is
-too large if put in kernel stack, while it is slightly difficult to keep
-it in heap dynamically since the function is called under holding
-spinning lock.
-
-Anyway, there is no objection to your change. Let me apply it to
-for-next branch so that your further work goes well with no blocks
-locating in this subsystem.
-
-[1] https://social.kernel.org/notice/AyDqvLkpwUvI5eyokK
-
-
-Thanks
-
-Takashi Sakamoto
+> +
+>  static int loongson_i2s_plat_probe(struct platform_device *pdev)
+>  {
+> +       const struct loongson_i2s_plat_config *plat_config;
+>         struct device *dev =3D &pdev->dev;
+>         struct loongson_i2s *i2s;
+>         struct resource *res;
+> @@ -59,12 +75,17 @@ static int loongson_i2s_plat_probe(struct platform_de=
+vice *pdev)
+>         if (!i2s)
+>                 return -ENOMEM;
+>
+> -       ret =3D loongson_i2s_apbdma_config(pdev);
+> -       if (ret)
+> -               return ret;
+> +       plat_config =3D device_get_match_data(dev);
+> +       if (!plat_config)
+> +               return -EINVAL;
+>
+> -       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -       i2s->reg_base =3D devm_ioremap_resource(&pdev->dev, res);
+> +       if (plat_config->i2s_dma_config) {
+> +               ret =3D plat_config->i2s_dma_config(pdev);
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+> +       i2s->reg_base =3D devm_platform_get_and_ioremap_resource(pdev, 0,=
+ &res);
+>         if (IS_ERR(i2s->reg_base))
+>                 return dev_err_probe(dev, PTR_ERR(i2s->reg_base),
+>                                      "devm_ioremap_resource failed\n");
+> @@ -87,11 +108,17 @@ static int loongson_i2s_plat_probe(struct platform_d=
+evice *pdev)
+>         if (IS_ERR(i2s_clk))
+>                 return dev_err_probe(dev, PTR_ERR(i2s_clk), "clock proper=
+ty invalid\n");
+>         i2s->clk_rate =3D clk_get_rate(i2s_clk);
+> +       i2s->rev_id =3D plat_config->rev_id;
+>
+>         dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
+>         dev_set_name(dev, LS_I2S_DRVNAME);
+>         dev_set_drvdata(dev, i2s);
+>
+> +       if (i2s->rev_id =3D=3D 1) {
+> +               regmap_update_bits(i2s->regmap, LS_I2S_CTRL, I2S_CTRL_RES=
+ET, I2S_CTRL_RESET);
+> +               fsleep(200);
+> +       }
+> +
+>         ret =3D devm_snd_soc_register_component(dev, &loongson_i2s_edma_c=
+omponent,
+>                                               &loongson_i2s_dai, 1);
+>         if (ret)
+> @@ -102,7 +129,8 @@ static int loongson_i2s_plat_probe(struct platform_de=
+vice *pdev)
+>  }
+>
+>  static const struct of_device_id loongson_i2s_ids[] =3D {
+> -       { .compatible =3D "loongson,ls2k1000-i2s" },
+> +       { .compatible =3D "loongson,ls2k0300-i2s", .data =3D &ls2k0300_i2=
+s_plat_config },
+> +       { .compatible =3D "loongson,ls2k1000-i2s", .data =3D &ls2k1000_i2=
+s_plat_config },
+>         { /* sentinel */ },
+>  };
+>  MODULE_DEVICE_TABLE(of, loongson_i2s_ids);
+> --
+> 2.52.0
+>
+>
