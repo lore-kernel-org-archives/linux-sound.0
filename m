@@ -1,60 +1,62 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D911862A
-	for <linux-sound@vger.kernel.org>; Sun, 14 Jun 2026 00:48:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877B51DD0D4
+	for <linux-sound@vger.kernel.org>; Sun, 14 Jun 2026 00:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781398089; cv=none; b=uDTUuDP9SlzjY+tUdNxwFuGFvcY+gVLUU/C2ZbdqE1DwWW9dlOu+23dMaIzOwlbt40Po5xhD+JyO0Z1RAiwTZfIfXohPUr1oCm/dvmrgI6NEJBkgr5od83eBL8OgPVzVorc8jkvz4t6m3zjgZvDbghe66S13emJkBrfSllr4Ars=
+	t=1781398092; cv=none; b=T4k519mB87O59rqMtUzS9WLJdyjEVwuX5myVYAo+oVrqNRRGyr8VKD+vfzlUgDZemzvH4H7zCn2lL6JzeesvzGYX1m5+/rJi21QKIBAbhgyyQlYcaJOUde2tUa+sBiFdhgRoK2i9mPBMRIL2Y14E+nYASl/Cg9LdP81qxh2slDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781398089; c=relaxed/simple;
-	bh=+x67wBaaQqcvEWlcEgiK+KXxKahwmA1RZsTVZuoZtcI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bo4eqDmc0Lo5wRp432ndR4qkJ8g0REsv3xS7Gxcw2iLkbg4SxFB99eZS5DCTdFobYsTU6yJ2arHCj/YQQNFCKOnBXBBe8F/q/5P8XID9rklE4gNGmBeATeb3i1joJ+eqcvIcXvJ8Gc+BNpj/HKBwZvCqZ03mBElbkADT2thgDJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AJWDo7cs; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1781398092; c=relaxed/simple;
+	bh=M5sbCuJQy6J9jGZrFArpLPycBoBV8ieVux6l/SZzvFU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=W8EJwm4VgAgl0ommiOKatfq/4vz7MMCK39HJ7Ul1jvZW7ZgmXgA28J80WpvhZ+JKt1PMragxQn356QQWuZ/dERLyB7V54rYSoRsgUsMTu8GIlKmNSVfdh83ots5EZ915/XYHAO71Hq+xQIYr/SbEHrTUz68FJcQ0GJieqOXnoNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LSiwHUcf; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AJWDo7cs"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-36bdda53d99so814642a91.0
-        for <linux-sound@vger.kernel.org>; Sat, 13 Jun 2026 17:48:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LSiwHUcf"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-36b900f350fso1901246a91.0
+        for <linux-sound@vger.kernel.org>; Sat, 13 Jun 2026 17:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781398088; x=1782002888; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IGjAOq97KN0d/Ivqo0JiBpqmA0waLeyuLIhwmyJu2P0=;
-        b=AJWDo7cs//bYXxFUbOw3WTc1GMrbk3GNeo7z7lXJh1BSw7CpuIXT0tVlt6lpPanf+b
-         gJtc/DhowBu/WAPpzNCVzgjJpdReAGzK0yem//o9OQy+K/218vn7fnkbX1T0pPxtKFd0
-         skKeyAewNqDbvnuWh+OVMRQ00qLuOvJqynS8As5wtqXfG6Tyx9mVHXBQ9ZBUEOFZqo9C
-         4si2ubxr9pokS2FxQgZY9u8cGkxtk1NBY+WOBBmFAH5byGdbgQjRlas44zyUIsm8AiOK
-         dUO4Foidl3C+Rb1ko+fha4S1gUsRsNkXR2la3Db5oNSHfkOD38XlLUA+CeLqRYXyPAE3
-         /33Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781398088; x=1782002888;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781398091; x=1782002891; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IGjAOq97KN0d/Ivqo0JiBpqmA0waLeyuLIhwmyJu2P0=;
-        b=MAJzE9RsBMYQ3g1u26RFcKe1PCejOo+xfDfJ+/f+PaDoAhjqglMUvMRnJffz/xubEY
-         7/6FYnOGrcE7Oobmq7KLnTngQLo9zzRHUuZIuC3IwC3UL2hAeWhsuB7Jgyd38+IIGpIJ
-         i9VmZu3RH6ZCACYV82aPf9iceoe2DYhAWI3m841L6tjzacoiUcrcsSty04tY8Pc5wx3O
-         3OD1JJPdSjyxFiQNxutObdckU50I3reAHE8wb5TcP8FmWOhswKjP2HpfGGEszg9v+6Es
-         r70eHi8AdSeuK5LiQLxLWEZ7gatnoSuhLWvyqoc5M3MtKjItIJwvPnc3ei1lB2b1+iMX
-         Q3Jg==
-X-Gm-Message-State: AOJu0YzGJqvMFHgH0AsUPeE3lRRhqTPrvG53QuDXrHyqDaBaimgnl2i6
-	0aTJ5GB3UEWT421Hhz08GFqW24g6uvzIEaL9ZT7k4SyRAV+s/5juPVBW
-X-Gm-Gg: Acq92OFAxGG4UYib3HDBm9DC5gTqFFsyCshLN41xwRr59uQlHFqTec2YklvculGVjFp
-	fVvOnLl389GAUhwACqY+jbMP6JeW7mYVvXVw9HhPCyCpDrYugQOxXxrfKDnvCrpRTTFLkOofHBH
-	iEsLALCE4DYqM83PzlCrExpwT9HbH74YbxXFB4C9ln10Zt5HG/t80WqhilI3SEs0yE4fLtGVbPP
-	sPK6pEGEyEj5S8RF22Nw1zKTV0PauCYcUckCy5JwnexIIK/4tq88HTjZQ56lL7jDJ2yymPxMVPJ
-	8OxJgHGTip8kqmxeGWRDGB3l2YRqKymUTsXILzat8vHflY2K0S7J4Eo3mFPgSNSIY53z88LJ5cZ
-	8qTnyGezELcedjNMOtWxcuMnef3ZKe+SndJNYCZH/2/Kyqeg5NvTFh2dITLyezYrrj4ZUApYXxD
-	W2O6s3E3dbSCi+PHwQkhtppJHgDxiO
-X-Received: by 2002:a17:90b:53c8:b0:35e:d015:d675 with SMTP id 98e67ed59e1d1-37a01c34700mr9709607a91.7.1781398087814;
-        Sat, 13 Jun 2026 17:48:07 -0700 (PDT)
+        bh=pZYpgjn425e2hSJaR8q1oBAJgTovabh++2NXl4Y3D58=;
+        b=LSiwHUcfU4vqHo0rpJp2jOYtqhytWLxi/k01Iu6blz3u3Un3eJ9cABtFs8bXFeF+sx
+         VCSDDAVKaK0a/UJ05BpSYDHdJm8h0ntV+fuZx+QjrLVH6+harbgbIYdP3eC89DeRj01m
+         JmSqrv2v2HuvAYx9KRF7Ri1wDJKxBqgMqDKZIxWfO1qa5x1P5cwpG4ia3BspXzoPwC+U
+         b5fqv/eGsWqmppcm3YOxdbAFgShWwQb95COEq36tt0K6EvKZVkKtiasX+1N2TGFUppmU
+         F3x1PY4Px4o9vqgezmjNdICLJc2UOKp1/itkeiGPJPcqim45IToD3TiB9kzKENbjMaq0
+         ggcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781398091; x=1782002891;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pZYpgjn425e2hSJaR8q1oBAJgTovabh++2NXl4Y3D58=;
+        b=d0fgiJUVOdBM6CfFP6vAkjVpVC5rWOUiotjr/fas2cX5ec+qjtlfHTxgCKsyi7IxgT
+         fy5zIn4+f4K1b41vW582/ECke+POReTEj6ieQh4uMDtcQoSiaQoSPfRNV4OrcVnog3z3
+         ALAwvfoAs0y8XDfcq0EjkdxvPBoDTu24togDoq4eTC3TNAhCfc3D63gUufUALxJqvRCd
+         LepxcVj0wsKnyCxqL/M8mEQrgqIKGoQhSbBteRTbVg+SCdvtBdV8O8fGwo9prY0ND2S5
+         NN7pDnTQ/6xtAxgvrQuqLtB9mVB9XCTXO3APuwg7zrzdTYwG35NgypiPMZE84INYNoZc
+         ZGgg==
+X-Gm-Message-State: AOJu0Yyd7hcBcANTxmQps771q4VMssTpnJt+2r0twoJDXApvAEq40YgO
+	gIHqGWdfWbhKBjt40udSwlX3WJMP2RJvFEmJ/5tvrmV/heWBxztmUQwY
+X-Gm-Gg: Acq92OEjCtgZBg5cdQUht2WElTv+4BZO71HN1CWtqaBy7R7hUdcm22bclJHHrQmKwbw
+	RugVGCi7tzRfLjqF3Y8TBwhscUSrWbbI8TQq4HU475wmZVL/5Jiz6fYuDu4WC5SVKx0WEFyeBfo
+	dg84wMmudxRmnjunPx99/gvT36jbmJtVfztG1TxfIatJbiASw7B5B9jjhkaoEoIL6hYulz40Oyx
+	PNMZnyhlw8ULDm46/17Mz+qJWAllCH4vBgAux9L6ISotj5mW+xX3r4FvGZA/gOirMFy1g3XhFw2
+	ziq/99F1sR9+XaJt6OuCaUDZn53XD08rcNIThIBsGMitD2QopUU8OIYdUi4dViB3YWuA/bu/G3Q
+	nA4gU1rOQ70YGjTJZb/UGr2+QphhLDKGgnz39jGrf9dlSHXDXfoefTEfRKG2ZqPLB/18k2kg87c
+	nsZWhm0L4IwVluSMluKg==
+X-Received: by 2002:a17:90b:3a48:b0:368:341a:a925 with SMTP id 98e67ed59e1d1-37c2bd758d3mr5722425a91.23.1781398090895;
+        Sat, 13 Jun 2026 17:48:10 -0700 (PDT)
 Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-379e754e02dsm2962808a91.1.2026.06.13.17.48.04
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-379e754e02dsm2962808a91.1.2026.06.13.17.48.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2026 17:48:07 -0700 (PDT)
+        Sat, 13 Jun 2026 17:48:10 -0700 (PDT)
 From: Cen Zhang <zzzccc427@gmail.com>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
@@ -62,10 +64,12 @@ Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	Cen Zhang <zzzccc427@gmail.com>
-Subject: [PATCH v2 1/2] ALSA: seq: oss: Serialize readq reset state with q->lock
-Date: Sun, 14 Jun 2026 08:48:00 +0800
-Message-Id: <20260614004801.3507773-1-zzzccc427@gmail.com>
+Subject: [PATCH v2 2/2] ALSA: seq: avoid stale FIFO cells during resize
+Date: Sun, 14 Jun 2026 08:48:01 +0800
+Message-Id: <20260614004801.3507773-2-zzzccc427@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260614004801.3507773-1-zzzccc427@gmail.com>
+References: <20260614004801.3507773-1-zzzccc427@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,189 +78,169 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-snd_seq_oss_readq_clear() resets qlen, head, and tail without
-q->lock even though the normal reader and producer paths serialize the
-same ring state under that spinlock. A reset can therefore race
-snd_seq_oss_readq_free() or snd_seq_oss_readq_put_event() and leave
-stale records in the queue, drop freshly queued ones, or report the
-wrong readiness after wakeup. KCSAN reports a data race between
-snd_seq_oss_readq_clear() and snd_seq_oss_readq_free().
+snd_seq_fifo_resize() still needs to publish the replacement pool
+before it waits for FIFO users. A blocking snd_seq_read() holds
+f->use_lock while it sleeps, so concurrent senders must be able to
+queue to the new pool and wake that reader instead of failing against a
+closing old pool.
 
-Take q->lock while clearing the ring and resetting input_time. Factor
-the enqueue logic into a caller-locked helper so
-snd_seq_oss_readq_put_timestamp() updates its suppression state under
-the same lock instead of racing the reset path.
+However, snd_seq_fifo_event_in() duplicates an event before it takes
+f->lock, and snd_seq_read() can dequeue a cell and later call
+snd_seq_fifo_cell_putback() if copy_to_user() or
+snd_seq_expand_var_event() fails. If resize swaps f->pool and detaches
+oldhead in between, either path can relink an old-pool cell after the
+snapshot. That stale cell sits outside the drained oldhead list, keeps
+oldpool->counter elevated, and can leave snd_seq_pool_delete() waiting
+for the retired pool to drain.
+
+Keep the existing swap-before-wait ordering in snd_seq_fifo_resize(),
+but reject stale cells before any FIFO relink. Revalidate event-in cells
+under f->lock and retry them against the published replacement pool, and
+free stale putback cells instead of linking them back into the FIFO.
 
 The buggy scenario involves two paths, with each column showing the
 order within that path:
 
-reset path:                      locked readq updater:
-1. snd_seq_oss_reset() or        1. A reader or callback producer
-   release reaches                  takes q->lock on the same queue.
-   snd_seq_oss_readq_clear().
-2. snd_seq_oss_readq_clear()     2. The updater tests or modifies
-   resets qlen, head, tail,         qlen, head, and tail.
-   and input_time.
-3. snd_seq_oss_readq_clear()     3. The updater completes its
-   wakes sleepers on                read-modify-write sequence.
-   q->midi_sleep.
-4. Without q->lock, the reset    4. The resulting ring state drives
-   can overlap the locked           later reads and readiness.
-   update.
+resize path:                    relink path:
+1. Allocate newpool.             1. Take f->use_lock.
+2. Swap f->pool to newpool and   2. Duplicate or dequeue an old-pool
+   detach oldhead.                  cell before oldpool closes.
+3. Mark oldpool closing and      3. Reach a later relink point after
+   wait for FIFO users.             resize published newpool.
+4. Free oldhead and delete       4. Relink the old-pool cell after
+   oldpool.                         resize detached oldhead.
+                                 5. Drop f->use_lock.
 
-KCSAN reports:
+The reproducer reports a resize ioctl blocked in the expected pool
+teardown path:
 
-BUG: KCSAN: data-race in snd_seq_oss_readq_clear /
-snd_seq_oss_readq_free
-
-write to 0xffff8881069fe608 of 4 bytes by task 120516 on cpu 0:
-  snd_seq_oss_readq_free+0x6c/0x80
-  snd_seq_oss_read+0xcb/0x250
-  odev_read+0x38/0x60
-  vfs_read+0xff/0x600
-  ksys_read+0xb4/0x140
-  __x64_sys_read+0x46/0x60
-  do_syscall_64+0xbb/0x2f0
-  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-read to 0xffff8881069fe608 of 4 bytes by task 120517 on cpu 1:
-  snd_seq_oss_readq_clear+0x1f/0x90
-  snd_seq_oss_reset+0xa7/0xf0
-  snd_seq_oss_ioctl+0x6f6/0x7e0
-  odev_ioctl+0x56/0xc0
+signal: resize iteration=98 target_pool=4 exceeded 250ms
+        (elapsed=251ms)
+diagnostic: resize_tid=651 wchan=snd_seq_pool_done
+diagnostic: resize_tid=651 stack=
+  snd_seq_pool_done+0x5b/0x140
+  snd_seq_pool_delete+0x7a/0x90
+  snd_seq_fifo_resize+0x193/0x1e0
+  snd_seq_ioctl_set_client_pool+0x214/0x260
+  snd_seq_ioctl+0x119/0x540
   __x64_sys_ioctl+0xd1/0x120
   do_syscall_64+0xbb/0x2f0
   entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-value changed: 0x00000001 -> 0x00000000
+A second run with larger pools hit the same target path:
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+signal: resize iteration=32 target_pool=64 exceeded 250ms
+        (elapsed=251ms)
+diagnostic: resize_tid=663 wchan=snd_seq_pool_done
+diagnostic: resize_tid=663 stack=
+  snd_seq_pool_done+0x5b/0x140
+  snd_seq_pool_delete+0x7a/0x90
+  snd_seq_fifo_resize+0x193/0x1e0
+  snd_seq_ioctl_set_client_pool+0x214/0x260
+  snd_seq_ioctl+0x119/0x540
+  __x64_sys_ioctl+0xd1/0x120
+  do_syscall_64+0xbb/0x2f0
+  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Fixes: 2d7d54002e39 ("ALSA: seq: Fix race during FIFO resize")
 
 Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 ---
- sound/core/seq/oss/seq_oss_readq.c | 77 ++++++++++++++++++++----------
- 1 file changed, 52 insertions(+), 25 deletions(-)
+ sound/core/seq/seq_fifo.c | 52 ++++++++++++++++++++++++++++-----------
+ 1 file changed, 37 insertions(+), 15 deletions(-)
 
-diff --git a/sound/core/seq/oss/seq_oss_readq.c b/sound/core/seq/oss/seq_oss_readq.c
-index c880d4771169..06e12707db21 100644
---- a/sound/core/seq/oss/seq_oss_readq.c
-+++ b/sound/core/seq/oss/seq_oss_readq.c
-@@ -73,13 +73,17 @@ snd_seq_oss_readq_delete(struct seq_oss_readq *q)
- void
- snd_seq_oss_readq_clear(struct seq_oss_readq *q)
+diff --git a/sound/core/seq/seq_fifo.c b/sound/core/seq/seq_fifo.c
+index ebe1394c18a9..cffa8d430374 100644
+--- a/sound/core/seq/seq_fifo.c
++++ b/sound/core/seq/seq_fifo.c
+@@ -101,13 +101,17 @@ int snd_seq_fifo_event_in(struct snd_seq_fifo *f,
+ 			  struct snd_seq_event *event)
  {
--	if (q->qlen) {
--		q->qlen = 0;
--		q->head = q->tail = 0;
-+	scoped_guard(spinlock_irqsave, &q->lock) {
-+		if (q->qlen) {
-+			q->qlen = 0;
-+			q->head = 0;
-+			q->tail = 0;
-+		}
-+		q->input_time = (unsigned long)-1;
+ 	struct snd_seq_event_cell *cell;
++	struct snd_seq_pool *pool;
++	bool linked;
+ 	int err;
+ 
+ 	if (snd_BUG_ON(!f))
+ 		return -EINVAL;
+ 
+ 	guard(snd_seq_fifo)(f);
+-	err = snd_seq_event_dup(f->pool, event, &cell, 1, NULL, NULL); /* always non-blocking */
++retry:
++	pool = READ_ONCE(f->pool);
++	err = snd_seq_event_dup(pool, event, &cell, 1, NULL, NULL); /* always non-blocking */
+ 	if (err < 0) {
+ 		if ((err == -ENOMEM) || (err == -EAGAIN))
+ 			atomic_inc(&f->overflow);
+@@ -115,14 +119,24 @@ int snd_seq_fifo_event_in(struct snd_seq_fifo *f,
  	}
-+
- 	/* if someone sleeping, wake'em up */
- 	wake_up(&q->midi_sleep);
--	q->input_time = (unsigned long)-1;
- }
- 
- /*
-@@ -136,11 +140,11 @@ int snd_seq_oss_readq_sysex(struct seq_oss_readq *q, int dev,
- /*
-  * copy an event to input queue:
-  * return zero if enqueued
-+ * caller must hold lock
-  */
--int
--snd_seq_oss_readq_put_event(struct seq_oss_readq *q, union evrec *ev)
-+static int snd_seq_oss_readq_put_event_locked(struct seq_oss_readq *q,
-+					      union evrec *ev)
- {
--	guard(spinlock_irqsave)(&q->lock);
- 	if (q->qlen >= q->maxlen - 1)
- 		return -ENOMEM;
- 
-@@ -148,12 +152,27 @@ snd_seq_oss_readq_put_event(struct seq_oss_readq *q, union evrec *ev)
- 	q->tail = (q->tail + 1) % q->maxlen;
- 	q->qlen++;
- 
--	/* wake up sleeper */
--	wake_up(&q->midi_sleep);
--
- 	return 0;
- }
- 
-+/*
-+ * copy an event to input queue:
-+ * return zero if enqueued
-+ */
-+int
-+snd_seq_oss_readq_put_event(struct seq_oss_readq *q, union evrec *ev)
-+{
-+	int rc;
-+
-+	scoped_guard(spinlock_irqsave, &q->lock) {
-+		rc = snd_seq_oss_readq_put_event_locked(q, ev);
-+		if (!rc)
-+			wake_up(&q->midi_sleep);
+ 		
+ 	/* append new cells to fifo */
++	linked = false;
+ 	scoped_guard(spinlock_irqsave, &f->lock) {
+-		if (f->tail != NULL)
+-			f->tail->next = cell;
+-		f->tail = cell;
+-		if (f->head == NULL)
+-			f->head = cell;
+-		cell->next = NULL;
+-		f->cells++;
++		if (cell->pool == f->pool) {
++			if (f->tail)
++				f->tail->next = cell;
++			f->tail = cell;
++			if (!f->head)
++				f->head = cell;
++			cell->next = NULL;
++			f->cells++;
++			linked = true;
++		}
 +	}
 +
-+	return rc;
-+}
-+
- 
- /*
-  * pop queue
-@@ -209,23 +228,31 @@ snd_seq_oss_readq_poll(struct seq_oss_readq *q, struct file *file, poll_table *w
- int
- snd_seq_oss_readq_put_timestamp(struct seq_oss_readq *q, unsigned long curt, int seq_mode)
- {
--	if (curt != q->input_time) {
--		union evrec rec;
--		memset(&rec, 0, sizeof(rec));
--		switch (seq_mode) {
--		case SNDRV_SEQ_OSS_MODE_SYNTH:
--			rec.echo = (curt << 8) | SEQ_WAIT;
--			snd_seq_oss_readq_put_event(q, &rec);
--			break;
--		case SNDRV_SEQ_OSS_MODE_MUSIC:
--			rec.t.code = EV_TIMING;
--			rec.t.cmd = TMR_WAIT_ABS;
--			rec.t.time = curt;
--			snd_seq_oss_readq_put_event(q, &rec);
--			break;
-+	int queued = 0;
-+
-+	scoped_guard(spinlock_irqsave, &q->lock) {
-+		if (curt != q->input_time) {
-+			union evrec rec;
-+
-+			memset(&rec, 0, sizeof(rec));
-+			switch (seq_mode) {
-+			case SNDRV_SEQ_OSS_MODE_SYNTH:
-+				rec.echo = (curt << 8) | SEQ_WAIT;
-+				queued = !snd_seq_oss_readq_put_event_locked(q, &rec);
-+				break;
-+			case SNDRV_SEQ_OSS_MODE_MUSIC:
-+				rec.t.code = EV_TIMING;
-+				rec.t.cmd = TMR_WAIT_ABS;
-+				rec.t.time = curt;
-+				queued = !snd_seq_oss_readq_put_event_locked(q, &rec);
-+				break;
-+			}
-+			q->input_time = curt;
- 		}
--		q->input_time = curt;
++	if (!linked) {
++		/* Retry against the replacement pool after resize publishes it. */
++		snd_seq_cell_free(cell);
++		goto retry;
  	}
-+	if (queued)
-+		wake_up(&q->midi_sleep);
+ 
+ 	/* wakeup client */
+@@ -194,13 +208,21 @@ int snd_seq_fifo_cell_out(struct snd_seq_fifo *f,
+ void snd_seq_fifo_cell_putback(struct snd_seq_fifo *f,
+ 			       struct snd_seq_event_cell *cell)
+ {
++	bool linked = false;
 +
- 	return 0;
+ 	if (cell) {
+-		guard(spinlock_irqsave)(&f->lock);
+-		cell->next = f->head;
+-		f->head = cell;
+-		if (!f->tail)
+-			f->tail = cell;
+-		f->cells++;
++		scoped_guard(spinlock_irqsave, &f->lock) {
++			if (cell->pool == f->pool) {
++				cell->next = f->head;
++				f->head = cell;
++				if (!f->tail)
++					f->tail = cell;
++				f->cells++;
++				linked = true;
++			}
++		}
++		if (!linked)
++			snd_seq_cell_free(cell);
+ 	}
  }
  
+@@ -237,7 +259,7 @@ int snd_seq_fifo_resize(struct snd_seq_fifo *f, int poolsize)
+ 		oldpool = f->pool;
+ 		oldhead = f->head;
+ 		/* exchange pools */
+-		f->pool = newpool;
++		WRITE_ONCE(f->pool, newpool);
+ 		f->head = NULL;
+ 		f->tail = NULL;
+ 		f->cells = 0;
 -- 
 2.43.0
-
 
