@@ -1,76 +1,76 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F7273463
-	for <linux-sound@vger.kernel.org>; Sun, 14 Jun 2026 09:05:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FE33242BC
+	for <linux-sound@vger.kernel.org>; Sun, 14 Jun 2026 09:07:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781427921; cv=none; b=GkfMaHRqpRFNZG49yqhho5oWH2Ji5no3KaQ910bRa/AHR+bf2LL7HBDwPxNEP36H+R1ONHE6zk6ZgJLNF12inuKrCLt57Aqf1732UjlA++Da8ZFfVzAj0K2IIszqtk4SVcVBPkSI8KHzAhSCnXwsOjICXChdpEohhqU8zrv4Vb0=
+	t=1781428039; cv=none; b=hSrTcN88xhwaHxg4YiXuIm9jiwx3gHkJqp81Akzz3Y2hgbWKWDzmhJ6Ear8/FjTc5iAN8Yv1XV2KYtS/A9Wj8ZLXkDW8YQn+/mMynsY7Rprroi6CL3om/HsRLz3KuXM9iC2nCRnUxkuY/vfgSVYrGzL4DKOUpfgtfIptqtIUqMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781427921; c=relaxed/simple;
-	bh=xyLqePwJr8YgLCFofi9BbrqwNN24bqXpzYrSJOz+m8k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QS2DNk7zAkQJLm8HfgBFfSSIVukSN/2lDgwQ6jlNG2fZmB+iDqAKBBs+c4Ed3k03HivMjkDsWG4OCplbPo+LnsRRtuCUQ1DCfPe6AJjcxCyakeMTrr/wbJDBVlJhsrDs05RsiDB/6Y6trnNdxzEiJTz2zx28ZtzYbb4KA+xLHBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0HuayWRH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=53MdCwcE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0HuayWRH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=53MdCwcE; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1781428039; c=relaxed/simple;
+	bh=/Da+mkgXif5Byd7YIo/6cbTw2ApGxmwJvpyahoLzWUU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HdYqrQEfz90UmrkAmQPFfKlOMx43z+6EanmAx2B+XhzK1vy3WrB6j3TJ4w0zlsoGh1No0ktmN1WSzUIa9MpUPXd5mPtcf0KlqiPQhWc457Xg3wi0Lcqcqgi64np0Sw60zSTP8kbLeEdAqtVClLhfSnR0xK5+YuhZbALaY7rb3yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=syb+rGMu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=phk+lOOs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=syb+rGMu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=phk+lOOs; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0HuayWRH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="53MdCwcE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0HuayWRH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="53MdCwcE"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="syb+rGMu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="phk+lOOs";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="syb+rGMu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="phk+lOOs"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 164947584F;
-	Sun, 14 Jun 2026 09:05:12 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 847F3759F4;
+	Sun, 14 Jun 2026 09:07:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781427912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1781428036; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=IgJrQ97JWfZ08i7VGX+L+5DZZ3pOtrSIcukPRkIrZ6I=;
-	b=0HuayWRHkCE7SMpuoJbO5pPzu8KakINqF6HZII+/iWwoPZUlgDpwiWtTmubx2zvE7xQQkX
-	gZ0QBw/cwUdalfxMjqqYckJC85AMugpy1sJQ/sItWLSumBbtZ0LvWoCNmO7cZKh2Pxt3kT
-	xL7JnGJAyRR27AhJuoisZK9HRK1zGOs=
+	bh=9Nj7hizYVfmH/3S3656jNxKIf3o9PTMKl9z97+Ves5o=;
+	b=syb+rGMuoZZsMhF2bdBP9cAFIjS4Xnxe20GAjzhvE1exwhAYlu4snKYuY+T7xeQghMhgMU
+	lS18j3l+9rnErq3uSj3FSM2zOARyb7q/mLbBwElnA1EL+xQF74saCULYrLIKyLkrvOAPkQ
+	+i/ypt71Is1BnlW6X5SZ2TyF40JJ2hY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781427912;
+	s=susede2_ed25519; t=1781428036;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=IgJrQ97JWfZ08i7VGX+L+5DZZ3pOtrSIcukPRkIrZ6I=;
-	b=53MdCwcE2+mclQXcYxasP3Lvs/tdRECRPCbycCWq6tREW2Dra1zGPEmnzvs+KdOnNT3d94
-	IZAiMZvLlzT9ugDg==
+	bh=9Nj7hizYVfmH/3S3656jNxKIf3o9PTMKl9z97+Ves5o=;
+	b=phk+lOOsikzYLr2HvnFbNFRYqsPkGpglM8plJEqfYAkfmi9z118fkGe3bDGwk27qUjPSBI
+	T+xyZ95leMShUOCA==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781427912; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1781428036; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=IgJrQ97JWfZ08i7VGX+L+5DZZ3pOtrSIcukPRkIrZ6I=;
-	b=0HuayWRHkCE7SMpuoJbO5pPzu8KakINqF6HZII+/iWwoPZUlgDpwiWtTmubx2zvE7xQQkX
-	gZ0QBw/cwUdalfxMjqqYckJC85AMugpy1sJQ/sItWLSumBbtZ0LvWoCNmO7cZKh2Pxt3kT
-	xL7JnGJAyRR27AhJuoisZK9HRK1zGOs=
+	bh=9Nj7hizYVfmH/3S3656jNxKIf3o9PTMKl9z97+Ves5o=;
+	b=syb+rGMuoZZsMhF2bdBP9cAFIjS4Xnxe20GAjzhvE1exwhAYlu4snKYuY+T7xeQghMhgMU
+	lS18j3l+9rnErq3uSj3FSM2zOARyb7q/mLbBwElnA1EL+xQF74saCULYrLIKyLkrvOAPkQ
+	+i/ypt71Is1BnlW6X5SZ2TyF40JJ2hY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781427912;
+	s=susede2_ed25519; t=1781428036;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=IgJrQ97JWfZ08i7VGX+L+5DZZ3pOtrSIcukPRkIrZ6I=;
-	b=53MdCwcE2+mclQXcYxasP3Lvs/tdRECRPCbycCWq6tREW2Dra1zGPEmnzvs+KdOnNT3d94
-	IZAiMZvLlzT9ugDg==
+	bh=9Nj7hizYVfmH/3S3656jNxKIf3o9PTMKl9z97+Ves5o=;
+	b=phk+lOOsikzYLr2HvnFbNFRYqsPkGpglM8plJEqfYAkfmi9z118fkGe3bDGwk27qUjPSBI
+	T+xyZ95leMShUOCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0C84779A7;
-	Sun, 14 Jun 2026 09:05:11 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5B4B7779A7;
+	Sun, 14 Jun 2026 09:07:16 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TfVoNcduLmrPaQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 14 Jun 2026 09:05:11 +0000
+	id XpdcFERvLmrbawAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 14 Jun 2026 09:07:16 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
-	WenTao Liang <vulab@iscas.ac.cn>
-Subject: [PATCH] ALSA: core: Fix unintuitive behavior of snd_power_ref_and_wait()
-Date: Sun, 14 Jun 2026 11:05:05 +0200
-Message-ID: <20260614090507.772540-1-tiwai@suse.de>
+	Kyle Zeng <kylebot@openai.com>
+Subject: [PATCH] ALSA: timer: Fix racy timeri->timer changes with rwlock
+Date: Sun, 14 Jun 2026 11:07:11 +0200
+Message-ID: <20260614090714.773216-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -103,63 +103,134 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 X-Spam-Level: 
 X-Spam-Score: -2.80
 
-snd_power_ref_and_wait() takes the power refcount and doesn't leave it
-no matter whether it returns an error or not.  However, the majority
-of callers don't expect but just returns without unreferencing in the
-caller side upon errors.
+Although we've covered the races around the timer object assignment
+and release for timer instances, there are still races at starting or
+stopping the timer instance.  They refer to timeri->timer without
+lock, hence they can still trigger UAFs.
 
-For addressing the potential refcount unbalance, rather correct the
-behavior of snd_power_ref_wait() to unreference upon returning an
-error.
+For addressing it, this patch changes the existing slave_active_lock
+spinlock to timeri_lock rwlock.  It's a global rwlock applied as
+read-lock when snd_timer_start() & co are called as well as
+snd_timeri_timer_get() is called.  In turn, the places where
+timeri->timer is assigned or released are covered by the write-lock.
 
-Note that the problem above is likely negligible; the function returns
-an error only when the sound card is being shutdown, hence it doesn't
-matter about the power refcount any longer at such a state.
+The patch replaces spinlock_irqsave with spinlock in a couple of
+spaces because they are now already protected by timeri_lock, too.
 
-Fixes: e94fdbd7b25d ("ALSA: control: Track in-flight control read/write/tlv accesses")
-Reported-by: WenTao Liang <vulab@iscas.ac.cn>
-Closes: https://lore.kernel.org/20260612022121.14329-1-vulab@iscas.ac.cn
+Reported-by: Kyle Zeng <kylebot@openai.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/init.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ sound/core/timer.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/sound/core/init.c b/sound/core/init.c
-index ed5af4e0ec10..56dde5bd73c4 100644
---- a/sound/core/init.c
-+++ b/sound/core/init.c
-@@ -1139,7 +1139,7 @@ EXPORT_SYMBOL(snd_card_file_remove);
-  * typically around calling control ops.
-  *
-  * The caller needs to pull down the refcount via snd_power_unref() later
-- * no matter whether the error is returned from this function or not.
-+ * when this function returns 0.
-  *
-  * Return: Zero if successful, or a negative error code.
+diff --git a/sound/core/timer.c b/sound/core/timer.c
+index a3ae5416485e..51c6ac4df9f4 100644
+--- a/sound/core/timer.c
++++ b/sound/core/timer.c
+@@ -132,8 +132,8 @@ static LIST_HEAD(snd_timer_slave_list);
+ /* list of open master instances that can accept slave links */
+ static LIST_HEAD(snd_timer_master_list);
+ 
+-/* lock for slave active lists */
+-static DEFINE_SPINLOCK(slave_active_lock);
++/* rwlock for timer instance (for trigger actions) */
++static DEFINE_RWLOCK(timeri_lock);
+ 
+ #define MAX_SLAVE_INSTANCES	1000
+ static int num_slaves;
+@@ -252,7 +252,7 @@ struct snd_timer *snd_timeri_timer_get(struct snd_timer_instance *timeri)
+ {
+ 	struct snd_timer *t;
+ 
+-	guard(spinlock_irqsave)(&slave_active_lock);
++	guard(read_lock_irqsave)(&timeri_lock);
+ 	t = timeri->timer;
+ 	if (!t)
+ 		return NULL;
+@@ -279,7 +279,7 @@ static int check_matching_master_slave(struct snd_timer_instance *master,
+ 	list_move_tail(&slave->open_list, &master->slave_list_head);
+ 	master->timer->num_instances++;
+ 	snd_timer_ref_get(master->timer);
+-	guard(spinlock_irq)(&slave_active_lock);
++	guard(write_lock_irq)(&timeri_lock);
+ 	guard(spinlock)(&master->timer->lock);
+ 	slave->master = master;
+ 	slave->timer = master->timer;
+@@ -446,7 +446,7 @@ static void remove_slave_links(struct snd_timer_instance *timeri,
+ {
+ 	struct snd_timer_instance *slave, *tmp;
+ 
+-	guard(spinlock_irq)(&slave_active_lock);
++	guard(write_lock_irq)(&timeri_lock);
+ 	guard(spinlock)(&timer->lock);
+ 	timeri->timer = NULL;
+ 	list_for_each_entry_safe(slave, tmp, &timeri->slave_list_head, open_list) {
+@@ -601,7 +601,7 @@ static int snd_timer_start1(struct snd_timer_instance *timeri,
+ 	if (!timer)
+ 		return -EINVAL;
+ 
+-	guard(spinlock_irqsave)(&timer->lock);
++	guard(spinlock)(&timer->lock);
+ 	if (timeri->flags & SNDRV_TIMER_IFLG_DEAD)
+ 		return -EINVAL;
+ 	if (timer->card && timer->card->shutdown)
+@@ -649,7 +649,6 @@ static int snd_timer_start1(struct snd_timer_instance *timeri,
+ static int snd_timer_start_slave(struct snd_timer_instance *timeri,
+ 				 bool start)
+ {
+-	guard(spinlock_irqsave)(&slave_active_lock);
+ 	if (timeri->flags & SNDRV_TIMER_IFLG_DEAD)
+ 		return -EINVAL;
+ 	if (timeri->flags & SNDRV_TIMER_IFLG_RUNNING)
+@@ -673,7 +672,7 @@ static int snd_timer_stop1(struct snd_timer_instance *timeri, bool stop)
+ 	timer = timeri->timer;
+ 	if (!timer)
+ 		return -EINVAL;
+-	guard(spinlock_irqsave)(&timer->lock);
++	guard(spinlock)(&timer->lock);
+ 	list_del_init(&timeri->ack_list);
+ 	list_del_init(&timeri->active_list);
+ 	if (!(timeri->flags & (SNDRV_TIMER_IFLG_RUNNING |
+@@ -712,7 +711,6 @@ static int snd_timer_stop_slave(struct snd_timer_instance *timeri, bool stop)
+ {
+ 	bool running;
+ 
+-	guard(spinlock_irqsave)(&slave_active_lock);
+ 	running = timeri->flags & SNDRV_TIMER_IFLG_RUNNING;
+ 	timeri->flags &= ~SNDRV_TIMER_IFLG_RUNNING;
+ 	if (timeri->timer) {
+@@ -733,6 +731,7 @@ int snd_timer_start(struct snd_timer_instance *timeri, unsigned int ticks)
+ {
+ 	if (timeri == NULL || ticks < 1)
+ 		return -EINVAL;
++	guard(read_lock_irqsave)(&timeri_lock);
+ 	if (timeri->flags & SNDRV_TIMER_IFLG_SLAVE)
+ 		return snd_timer_start_slave(timeri, true);
+ 	else
+@@ -747,6 +746,7 @@ EXPORT_SYMBOL(snd_timer_start);
   */
-@@ -1152,7 +1152,11 @@ int snd_power_ref_and_wait(struct snd_card *card)
- 		       card->shutdown ||
- 		       snd_power_get_state(card) == SNDRV_CTL_POWER_D0,
- 		       snd_power_unref(card), snd_power_ref(card));
--	return card->shutdown ? -ENODEV : 0;
-+	if (card->shutdown) {
-+		snd_power_unref(card);
-+		return  -ENODEV;
-+	}
-+	return 0;
- }
- EXPORT_SYMBOL_GPL(snd_power_ref_and_wait);
+ int snd_timer_stop(struct snd_timer_instance *timeri)
+ {
++	guard(read_lock_irqsave)(&timeri_lock);
+ 	if (timeri->flags & SNDRV_TIMER_IFLG_SLAVE)
+ 		return snd_timer_stop_slave(timeri, true);
+ 	else
+@@ -763,6 +763,7 @@ int snd_timer_continue(struct snd_timer_instance *timeri)
+ 	if (!(timeri->flags & SNDRV_TIMER_IFLG_PAUSED))
+ 		return -EINVAL;
  
-@@ -1169,7 +1173,8 @@ int snd_power_wait(struct snd_card *card)
- 	int ret;
- 
- 	ret = snd_power_ref_and_wait(card);
--	snd_power_unref(card);
-+	if (!ret)
-+		snd_power_unref(card);
- 	return ret;
- }
- EXPORT_SYMBOL(snd_power_wait);
++	guard(read_lock_irqsave)(&timeri_lock);
+ 	if (timeri->flags & SNDRV_TIMER_IFLG_SLAVE)
+ 		return snd_timer_start_slave(timeri, false);
+ 	else
+@@ -775,6 +776,7 @@ EXPORT_SYMBOL(snd_timer_continue);
+  */
+ int snd_timer_pause(struct snd_timer_instance * timeri)
+ {
++	guard(read_lock_irqsave)(&timeri_lock);
+ 	if (timeri->flags & SNDRV_TIMER_IFLG_SLAVE)
+ 		return snd_timer_stop_slave(timeri, false);
+ 	else
 -- 
 2.54.0
 
