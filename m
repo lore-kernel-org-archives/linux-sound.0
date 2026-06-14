@@ -1,246 +1,136 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ixit.cz (ixit.cz [185.100.197.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877B51DD0D4
-	for <linux-sound@vger.kernel.org>; Sun, 14 Jun 2026 00:48:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E543932F1;
+	Sun, 14 Jun 2026 07:26:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781398092; cv=none; b=T4k519mB87O59rqMtUzS9WLJdyjEVwuX5myVYAo+oVrqNRRGyr8VKD+vfzlUgDZemzvH4H7zCn2lL6JzeesvzGYX1m5+/rJi21QKIBAbhgyyQlYcaJOUde2tUa+sBiFdhgRoK2i9mPBMRIL2Y14E+nYASl/Cg9LdP81qxh2slDo=
+	t=1781422016; cv=none; b=STagr1Lj/+wL5YqB9SDnx5TSoJJpXrxaIn+InpiyeDSzmycf+WAKKRI4g9fC+WKDHK3aSE9IdfJtLR51Q9p1V/8dPCGoror+vPfd+VlyJM99NxOBmbA0DUFGoQufB3O7AfBuT713roKElrR7baYB+1QxwXqieSzNMbpeyVmEJPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781398092; c=relaxed/simple;
-	bh=M5sbCuJQy6J9jGZrFArpLPycBoBV8ieVux6l/SZzvFU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=W8EJwm4VgAgl0ommiOKatfq/4vz7MMCK39HJ7Ul1jvZW7ZgmXgA28J80WpvhZ+JKt1PMragxQn356QQWuZ/dERLyB7V54rYSoRsgUsMTu8GIlKmNSVfdh83ots5EZ915/XYHAO71Hq+xQIYr/SbEHrTUz68FJcQ0GJieqOXnoNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LSiwHUcf; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781422016; c=relaxed/simple;
+	bh=dR4/045vKd8aEisvn6KALHWXPGBNWgkTALu9XGc5dZQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lMD9l1bQsLek8ZNGVFKw0CFBRKDa0HwlfiEIC1EUvbfPIsFDL4pUtNqQAHGLPQQpamuBclbUZvgkMIS1Y2RpzR+TeezFvXOL0H5clGJ5W9hkriqO6zolw1xNTLLtpa1HUhEN4Pxp8cekPZY5BGnyDp+1e9RyA1c/k2/YLsoMxyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=IeTh5rJZ; arc=none smtp.client-ip=185.100.197.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LSiwHUcf"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-36b900f350fso1901246a91.0
-        for <linux-sound@vger.kernel.org>; Sat, 13 Jun 2026 17:48:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781398091; x=1782002891; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pZYpgjn425e2hSJaR8q1oBAJgTovabh++2NXl4Y3D58=;
-        b=LSiwHUcfU4vqHo0rpJp2jOYtqhytWLxi/k01Iu6blz3u3Un3eJ9cABtFs8bXFeF+sx
-         VCSDDAVKaK0a/UJ05BpSYDHdJm8h0ntV+fuZx+QjrLVH6+harbgbIYdP3eC89DeRj01m
-         JmSqrv2v2HuvAYx9KRF7Ri1wDJKxBqgMqDKZIxWfO1qa5x1P5cwpG4ia3BspXzoPwC+U
-         b5fqv/eGsWqmppcm3YOxdbAFgShWwQb95COEq36tt0K6EvKZVkKtiasX+1N2TGFUppmU
-         F3x1PY4Px4o9vqgezmjNdICLJc2UOKp1/itkeiGPJPcqim45IToD3TiB9kzKENbjMaq0
-         ggcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781398091; x=1782002891;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pZYpgjn425e2hSJaR8q1oBAJgTovabh++2NXl4Y3D58=;
-        b=d0fgiJUVOdBM6CfFP6vAkjVpVC5rWOUiotjr/fas2cX5ec+qjtlfHTxgCKsyi7IxgT
-         fy5zIn4+f4K1b41vW582/ECke+POReTEj6ieQh4uMDtcQoSiaQoSPfRNV4OrcVnog3z3
-         ALAwvfoAs0y8XDfcq0EjkdxvPBoDTu24togDoq4eTC3TNAhCfc3D63gUufUALxJqvRCd
-         LepxcVj0wsKnyCxqL/M8mEQrgqIKGoQhSbBteRTbVg+SCdvtBdV8O8fGwo9prY0ND2S5
-         NN7pDnTQ/6xtAxgvrQuqLtB9mVB9XCTXO3APuwg7zrzdTYwG35NgypiPMZE84INYNoZc
-         ZGgg==
-X-Gm-Message-State: AOJu0Yyd7hcBcANTxmQps771q4VMssTpnJt+2r0twoJDXApvAEq40YgO
-	gIHqGWdfWbhKBjt40udSwlX3WJMP2RJvFEmJ/5tvrmV/heWBxztmUQwY
-X-Gm-Gg: Acq92OEjCtgZBg5cdQUht2WElTv+4BZO71HN1CWtqaBy7R7hUdcm22bclJHHrQmKwbw
-	RugVGCi7tzRfLjqF3Y8TBwhscUSrWbbI8TQq4HU475wmZVL/5Jiz6fYuDu4WC5SVKx0WEFyeBfo
-	dg84wMmudxRmnjunPx99/gvT36jbmJtVfztG1TxfIatJbiASw7B5B9jjhkaoEoIL6hYulz40Oyx
-	PNMZnyhlw8ULDm46/17Mz+qJWAllCH4vBgAux9L6ISotj5mW+xX3r4FvGZA/gOirMFy1g3XhFw2
-	ziq/99F1sR9+XaJt6OuCaUDZn53XD08rcNIThIBsGMitD2QopUU8OIYdUi4dViB3YWuA/bu/G3Q
-	nA4gU1rOQ70YGjTJZb/UGr2+QphhLDKGgnz39jGrf9dlSHXDXfoefTEfRKG2ZqPLB/18k2kg87c
-	nsZWhm0L4IwVluSMluKg==
-X-Received: by 2002:a17:90b:3a48:b0:368:341a:a925 with SMTP id 98e67ed59e1d1-37c2bd758d3mr5722425a91.23.1781398090895;
-        Sat, 13 Jun 2026 17:48:10 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-379e754e02dsm2962808a91.1.2026.06.13.17.48.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2026 17:48:10 -0700 (PDT)
-From: Cen Zhang <zzzccc427@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	Cen Zhang <zzzccc427@gmail.com>
-Subject: [PATCH v2 2/2] ALSA: seq: avoid stale FIFO cells during resize
-Date: Sun, 14 Jun 2026 08:48:01 +0800
-Message-Id: <20260614004801.3507773-2-zzzccc427@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260614004801.3507773-1-zzzccc427@gmail.com>
-References: <20260614004801.3507773-1-zzzccc427@gmail.com>
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="IeTh5rJZ"
+Received: from [10.0.0.200] (unknown [10.88.125.21])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 6DF8C5340E4C;
+	Sun, 14 Jun 2026 09:26:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1781422002;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=xWUnrEfHoVuao2YV6RsldOMXNlqy4cnvz5KBKRNQob8=;
+	b=IeTh5rJZj5jJeAlzLfKZ0+yMe3oIgyxdbz2n++SilYbei+q577AClKzsNsv99bDb3MmlP4
+	wbh3SqDOaUCzsjy6CSbKgoZBvOA93ofQXmeG7L4+5/70wL6PFe0jepnnx/QpzMoRjAf8cz
+	goUnRBA8ck/gXBf7N/F1R39JCgzINNw=
+Message-ID: <5f262a04-8e92-4ac1-bd7c-1246231d3de2@ixit.cz>
+Date: Sun, 14 Jun 2026 09:26:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH QUESTION] ASoC: qcom: sdm845: use DSP_A format for TDM
+ codec DAIs
+To: Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>
+References: <20260613-rfc-dsp-b-to-a-v1-1-7d095fe90a05@ixit.cz>
+ <ai3tafRfEgN938cu@sirena.co.uk>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <ai3tafRfEgN938cu@sirena.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-snd_seq_fifo_resize() still needs to publish the replacement pool
-before it waits for FIFO users. A blocking snd_seq_read() holds
-f->use_lock while it sleeps, so concurrent senders must be able to
-queue to the new pool and wake that reader instead of failing against a
-closing old pool.
+On 14/06/2026 01:53, Mark Brown wrote:
+> On Sat, Jun 13, 2026 at 09:55:59PM +0200, David Heidelberg via B4 Relay wrote:
+> 
+>> Currently this worked only because the cs35l36
+>> codec mapped both DSP_A and DSP_B to the same hardware register value
+>> (asp_fmt = 0), which is inherently DSP_A timing.
+> 
+>> The CPU-side AFE is configured with qcom,tdm-data-delay = <1> which
+>> produces DSP_A framing.
+>> The codec format should match what is actually on the wire.
+> 
+>> So I'm pretty lost if I should go fixing cs35l36 or sdm845.c.
+> 
+> That sounds like both.  The Cirrus driver is definitely buggy if it's
+> mapping DSP A and B to the same register value, at least one of those is
+> wrong.
 
-However, snd_seq_fifo_event_in() duplicates an event before it takes
-f->lock, and snd_seq_read() can dequeue a cell and later call
-snd_seq_fifo_cell_putback() if copy_to_user() or
-snd_seq_expand_var_event() fails. If resize swaps f->pool and detaches
-oldhead in between, either path can relink an old-pool cell after the
-snapshot. That stale cell sits outside the drained oldhead list, keeps
-oldpool->counter elevated, and can leave snd_seq_pool_delete() waiting
-for the retired pool to drain.
+I need to clarify. The CS35L36 supports by default only DSP_A, but when extended 
+to "take DSP_B", speaker just works.
 
-Keep the existing swap-before-wait ordering in snd_seq_fifo_resize(),
-but reject stale cells before any FIFO relink. Revalidate event-in cells
-under f->lock and retry them against the published replacement pool, and
-free stale putback cells instead of linking them back into the FIFO.
+This was done previously.
 
-The buggy scenario involves two paths, with each column showing the
-order within that path:
+Since there isn't any different configuration on the codec side when added DSP_B 
+into same codepath as DSP_A, I would assume QCOM ASoC send DSP_A, just marking 
+it as DSP_B ?
 
-resize path:                    relink path:
-1. Allocate newpool.             1. Take f->use_lock.
-2. Swap f->pool to newpool and   2. Duplicate or dequeue an old-pool
-   detach oldhead.                  cell before oldpool closes.
-3. Mark oldpool closing and      3. Reach a later relink point after
-   wait for FIFO users.             resize published newpool.
-4. Free oldhead and delete       4. Relink the old-pool cell after
-   oldpool.                         resize detached oldhead.
-                                 5. Drop f->use_lock.
+There isn't any other consumer to check against and I would assume incorrectly 
+configured TDM slot would lead - at least - to disorted output.
 
-The reproducer reports a resize ioctl blocked in the expected pool
-teardown path:
+The reference (which now works) is here [1].
 
-signal: resize iteration=98 target_pool=4 exceeded 250ms
-        (elapsed=251ms)
-diagnostic: resize_tid=651 wchan=snd_seq_pool_done
-diagnostic: resize_tid=651 stack=
-  snd_seq_pool_done+0x5b/0x140
-  snd_seq_pool_delete+0x7a/0x90
-  snd_seq_fifo_resize+0x193/0x1e0
-  snd_seq_ioctl_set_client_pool+0x214/0x260
-  snd_seq_ioctl+0x119/0x540
-  __x64_sys_ioctl+0xd1/0x120
-  do_syscall_64+0xbb/0x2f0
-  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+David
 
-A second run with larger pools hit the same target path:
-
-signal: resize iteration=32 target_pool=64 exceeded 250ms
-        (elapsed=251ms)
-diagnostic: resize_tid=663 wchan=snd_seq_pool_done
-diagnostic: resize_tid=663 stack=
-  snd_seq_pool_done+0x5b/0x140
-  snd_seq_pool_delete+0x7a/0x90
-  snd_seq_fifo_resize+0x193/0x1e0
-  snd_seq_ioctl_set_client_pool+0x214/0x260
-  snd_seq_ioctl+0x119/0x540
-  __x64_sys_ioctl+0xd1/0x120
-  do_syscall_64+0xbb/0x2f0
-  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Fixes: 2d7d54002e39 ("ALSA: seq: Fix race during FIFO resize")
-
-Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
----
- sound/core/seq/seq_fifo.c | 52 ++++++++++++++++++++++++++++-----------
- 1 file changed, 37 insertions(+), 15 deletions(-)
-
-diff --git a/sound/core/seq/seq_fifo.c b/sound/core/seq/seq_fifo.c
-index ebe1394c18a9..cffa8d430374 100644
---- a/sound/core/seq/seq_fifo.c
-+++ b/sound/core/seq/seq_fifo.c
-@@ -101,13 +101,17 @@ int snd_seq_fifo_event_in(struct snd_seq_fifo *f,
- 			  struct snd_seq_event *event)
- {
- 	struct snd_seq_event_cell *cell;
-+	struct snd_seq_pool *pool;
-+	bool linked;
- 	int err;
- 
- 	if (snd_BUG_ON(!f))
- 		return -EINVAL;
- 
- 	guard(snd_seq_fifo)(f);
--	err = snd_seq_event_dup(f->pool, event, &cell, 1, NULL, NULL); /* always non-blocking */
-+retry:
-+	pool = READ_ONCE(f->pool);
-+	err = snd_seq_event_dup(pool, event, &cell, 1, NULL, NULL); /* always non-blocking */
- 	if (err < 0) {
- 		if ((err == -ENOMEM) || (err == -EAGAIN))
- 			atomic_inc(&f->overflow);
-@@ -115,14 +119,24 @@ int snd_seq_fifo_event_in(struct snd_seq_fifo *f,
- 	}
- 		
- 	/* append new cells to fifo */
-+	linked = false;
- 	scoped_guard(spinlock_irqsave, &f->lock) {
--		if (f->tail != NULL)
--			f->tail->next = cell;
--		f->tail = cell;
--		if (f->head == NULL)
--			f->head = cell;
--		cell->next = NULL;
--		f->cells++;
-+		if (cell->pool == f->pool) {
-+			if (f->tail)
-+				f->tail->next = cell;
-+			f->tail = cell;
-+			if (!f->head)
-+				f->head = cell;
-+			cell->next = NULL;
-+			f->cells++;
-+			linked = true;
-+		}
-+	}
-+
-+	if (!linked) {
-+		/* Retry against the replacement pool after resize publishes it. */
-+		snd_seq_cell_free(cell);
-+		goto retry;
- 	}
- 
- 	/* wakeup client */
-@@ -194,13 +208,21 @@ int snd_seq_fifo_cell_out(struct snd_seq_fifo *f,
- void snd_seq_fifo_cell_putback(struct snd_seq_fifo *f,
- 			       struct snd_seq_event_cell *cell)
- {
-+	bool linked = false;
-+
- 	if (cell) {
--		guard(spinlock_irqsave)(&f->lock);
--		cell->next = f->head;
--		f->head = cell;
--		if (!f->tail)
--			f->tail = cell;
--		f->cells++;
-+		scoped_guard(spinlock_irqsave, &f->lock) {
-+			if (cell->pool == f->pool) {
-+				cell->next = f->head;
-+				f->head = cell;
-+				if (!f->tail)
-+					f->tail = cell;
-+				f->cells++;
-+				linked = true;
-+			}
-+		}
-+		if (!linked)
-+			snd_seq_cell_free(cell);
- 	}
- }
- 
-@@ -237,7 +259,7 @@ int snd_seq_fifo_resize(struct snd_seq_fifo *f, int poolsize)
- 		oldpool = f->pool;
- 		oldhead = f->head;
- 		/* exchange pools */
--		f->pool = newpool;
-+		WRITE_ONCE(f->pool, newpool);
- 		f->head = NULL;
- 		f->tail = NULL;
- 		f->cells = 0;
--- 
-2.43.0
-
+[1] https://codeberg.org/sdm845/linux/commits/branch/b4/pixel3-audio
