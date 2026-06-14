@@ -1,92 +1,262 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1153F2A1BF;
-	Sun, 14 Jun 2026 00:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D911862A
+	for <linux-sound@vger.kernel.org>; Sun, 14 Jun 2026 00:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781395451; cv=none; b=WvFruYmYogA6WZmjB/E9zQR203Py07vEwKzqmXD5mUOrlWaJ9lEx02ZfG5XEUo/wWwoz4AS6WDe5FAiB941A420bxyzYRchtvhqCRpNTL/H6edfsr4ohfAs/RTRZSr00Hz2+s6s1xKIMctlVGAI9TbV4lEhUZr6CugW5s4WwldQ=
+	t=1781398089; cv=none; b=uDTUuDP9SlzjY+tUdNxwFuGFvcY+gVLUU/C2ZbdqE1DwWW9dlOu+23dMaIzOwlbt40Po5xhD+JyO0Z1RAiwTZfIfXohPUr1oCm/dvmrgI6NEJBkgr5od83eBL8OgPVzVorc8jkvz4t6m3zjgZvDbghe66S13emJkBrfSllr4Ars=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781395451; c=relaxed/simple;
-	bh=7e3nVX9ngABwBCdt6PzAXwlFn5kI5ZQrj0wkL59qbv0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rblSP62SDIxrfROd1t33vXOBFouJClXZJhJOwBeB1yIznnSUmnXtda8UoJxoVCIlmRK7CXqacQUDcS4Dfo2eJGdvXVxPpa08AS/25JbFmXVSATV+nwzmfie81g98wsGFolC6EDSrqxhua3arSlDD8MCDZf04aNrvQB93of1jbsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F5S8lJLB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781398089; c=relaxed/simple;
+	bh=+x67wBaaQqcvEWlcEgiK+KXxKahwmA1RZsTVZuoZtcI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bo4eqDmc0Lo5wRp432ndR4qkJ8g0REsv3xS7Gxcw2iLkbg4SxFB99eZS5DCTdFobYsTU6yJ2arHCj/YQQNFCKOnBXBBe8F/q/5P8XID9rklE4gNGmBeATeb3i1joJ+eqcvIcXvJ8Gc+BNpj/HKBwZvCqZ03mBElbkADT2thgDJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AJWDo7cs; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F5S8lJLB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9DB81F000E9;
-	Sun, 14 Jun 2026 00:04:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781395450;
-	bh=7e3nVX9ngABwBCdt6PzAXwlFn5kI5ZQrj0wkL59qbv0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=F5S8lJLBHC4WECWsDA6BBAWk05pfVMpIhYlhGY34nMvWQcfz6eFJyIm1DGrGCZTZ2
-	 aN88Tz0c2fQI5IPUvN6s6vLkv76wISAUKsTRh3C9Ah0etCiFKzIS0ZbX5pv5povtEe
-	 lYuWwvdtrA0Qwxc2DxlcOe/i+RNSIN9ewhHnGSV2yLP8PvKG2ZDENxm1yqBSIObp5F
-	 MADmTlpV7zAPXZu59wB4kojVS7k883sJsYoA9DUVTGVcyGNVF1V3OtafZFK8tgF64O
-	 58AdRFvBxdSaMvYOmxjs7j0GsjxWArsniPaEd7cA4ZHcdL/KuTL/tlGJ80phC/gPgc
-	 NzFbJNLoe4SwQ==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 7CDD01AC5AC5; Sun, 14 Jun 2026 01:04:08 +0100 (BST)
-Date: Sun, 14 Jun 2026 01:04:08 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Charan Pedumuru <charan.pedumuru@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: sound: nvidia,tegra30-ahub: Convert to DT
- schema
-Message-ID: <ai3v-ALvCm7aAHdc@sirena.co.uk>
-References: <20260613-nvidia-ahub-v1-1-5b7e85301736@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AJWDo7cs"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-36bdda53d99so814642a91.0
+        for <linux-sound@vger.kernel.org>; Sat, 13 Jun 2026 17:48:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781398088; x=1782002888; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IGjAOq97KN0d/Ivqo0JiBpqmA0waLeyuLIhwmyJu2P0=;
+        b=AJWDo7cs//bYXxFUbOw3WTc1GMrbk3GNeo7z7lXJh1BSw7CpuIXT0tVlt6lpPanf+b
+         gJtc/DhowBu/WAPpzNCVzgjJpdReAGzK0yem//o9OQy+K/218vn7fnkbX1T0pPxtKFd0
+         skKeyAewNqDbvnuWh+OVMRQ00qLuOvJqynS8As5wtqXfG6Tyx9mVHXBQ9ZBUEOFZqo9C
+         4si2ubxr9pokS2FxQgZY9u8cGkxtk1NBY+WOBBmFAH5byGdbgQjRlas44zyUIsm8AiOK
+         dUO4Foidl3C+Rb1ko+fha4S1gUsRsNkXR2la3Db5oNSHfkOD38XlLUA+CeLqRYXyPAE3
+         /33Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781398088; x=1782002888;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IGjAOq97KN0d/Ivqo0JiBpqmA0waLeyuLIhwmyJu2P0=;
+        b=MAJzE9RsBMYQ3g1u26RFcKe1PCejOo+xfDfJ+/f+PaDoAhjqglMUvMRnJffz/xubEY
+         7/6FYnOGrcE7Oobmq7KLnTngQLo9zzRHUuZIuC3IwC3UL2hAeWhsuB7Jgyd38+IIGpIJ
+         i9VmZu3RH6ZCACYV82aPf9iceoe2DYhAWI3m841L6tjzacoiUcrcsSty04tY8Pc5wx3O
+         3OD1JJPdSjyxFiQNxutObdckU50I3reAHE8wb5TcP8FmWOhswKjP2HpfGGEszg9v+6Es
+         r70eHi8AdSeuK5LiQLxLWEZ7gatnoSuhLWvyqoc5M3MtKjItIJwvPnc3ei1lB2b1+iMX
+         Q3Jg==
+X-Gm-Message-State: AOJu0YzGJqvMFHgH0AsUPeE3lRRhqTPrvG53QuDXrHyqDaBaimgnl2i6
+	0aTJ5GB3UEWT421Hhz08GFqW24g6uvzIEaL9ZT7k4SyRAV+s/5juPVBW
+X-Gm-Gg: Acq92OFAxGG4UYib3HDBm9DC5gTqFFsyCshLN41xwRr59uQlHFqTec2YklvculGVjFp
+	fVvOnLl389GAUhwACqY+jbMP6JeW7mYVvXVw9HhPCyCpDrYugQOxXxrfKDnvCrpRTTFLkOofHBH
+	iEsLALCE4DYqM83PzlCrExpwT9HbH74YbxXFB4C9ln10Zt5HG/t80WqhilI3SEs0yE4fLtGVbPP
+	sPK6pEGEyEj5S8RF22Nw1zKTV0PauCYcUckCy5JwnexIIK/4tq88HTjZQ56lL7jDJ2yymPxMVPJ
+	8OxJgHGTip8kqmxeGWRDGB3l2YRqKymUTsXILzat8vHflY2K0S7J4Eo3mFPgSNSIY53z88LJ5cZ
+	8qTnyGezELcedjNMOtWxcuMnef3ZKe+SndJNYCZH/2/Kyqeg5NvTFh2dITLyezYrrj4ZUApYXxD
+	W2O6s3E3dbSCi+PHwQkhtppJHgDxiO
+X-Received: by 2002:a17:90b:53c8:b0:35e:d015:d675 with SMTP id 98e67ed59e1d1-37a01c34700mr9709607a91.7.1781398087814;
+        Sat, 13 Jun 2026 17:48:07 -0700 (PDT)
+Received: from localhost ([111.228.63.84])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-379e754e02dsm2962808a91.1.2026.06.13.17.48.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jun 2026 17:48:07 -0700 (PDT)
+From: Cen Zhang <zzzccc427@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	Cen Zhang <zzzccc427@gmail.com>
+Subject: [PATCH v2 1/2] ALSA: seq: oss: Serialize readq reset state with q->lock
+Date: Sun, 14 Jun 2026 08:48:00 +0800
+Message-Id: <20260614004801.3507773-1-zzzccc427@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="f/CcKpSk8DSkcH0u"
-Content-Disposition: inline
-In-Reply-To: <20260613-nvidia-ahub-v1-1-5b7e85301736@gmail.com>
-X-Cookie: Price does not include taxes.
+Content-Transfer-Encoding: 8bit
+
+snd_seq_oss_readq_clear() resets qlen, head, and tail without
+q->lock even though the normal reader and producer paths serialize the
+same ring state under that spinlock. A reset can therefore race
+snd_seq_oss_readq_free() or snd_seq_oss_readq_put_event() and leave
+stale records in the queue, drop freshly queued ones, or report the
+wrong readiness after wakeup. KCSAN reports a data race between
+snd_seq_oss_readq_clear() and snd_seq_oss_readq_free().
+
+Take q->lock while clearing the ring and resetting input_time. Factor
+the enqueue logic into a caller-locked helper so
+snd_seq_oss_readq_put_timestamp() updates its suppression state under
+the same lock instead of racing the reset path.
+
+The buggy scenario involves two paths, with each column showing the
+order within that path:
+
+reset path:                      locked readq updater:
+1. snd_seq_oss_reset() or        1. A reader or callback producer
+   release reaches                  takes q->lock on the same queue.
+   snd_seq_oss_readq_clear().
+2. snd_seq_oss_readq_clear()     2. The updater tests or modifies
+   resets qlen, head, tail,         qlen, head, and tail.
+   and input_time.
+3. snd_seq_oss_readq_clear()     3. The updater completes its
+   wakes sleepers on                read-modify-write sequence.
+   q->midi_sleep.
+4. Without q->lock, the reset    4. The resulting ring state drives
+   can overlap the locked           later reads and readiness.
+   update.
+
+KCSAN reports:
+
+BUG: KCSAN: data-race in snd_seq_oss_readq_clear /
+snd_seq_oss_readq_free
+
+write to 0xffff8881069fe608 of 4 bytes by task 120516 on cpu 0:
+  snd_seq_oss_readq_free+0x6c/0x80
+  snd_seq_oss_read+0xcb/0x250
+  odev_read+0x38/0x60
+  vfs_read+0xff/0x600
+  ksys_read+0xb4/0x140
+  __x64_sys_read+0x46/0x60
+  do_syscall_64+0xbb/0x2f0
+  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+read to 0xffff8881069fe608 of 4 bytes by task 120517 on cpu 1:
+  snd_seq_oss_readq_clear+0x1f/0x90
+  snd_seq_oss_reset+0xa7/0xf0
+  snd_seq_oss_ioctl+0x6f6/0x7e0
+  odev_ioctl+0x56/0xc0
+  __x64_sys_ioctl+0xd1/0x120
+  do_syscall_64+0xbb/0x2f0
+  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+value changed: 0x00000001 -> 0x00000000
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+
+Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+---
+ sound/core/seq/oss/seq_oss_readq.c | 77 ++++++++++++++++++++----------
+ 1 file changed, 52 insertions(+), 25 deletions(-)
+
+diff --git a/sound/core/seq/oss/seq_oss_readq.c b/sound/core/seq/oss/seq_oss_readq.c
+index c880d4771169..06e12707db21 100644
+--- a/sound/core/seq/oss/seq_oss_readq.c
++++ b/sound/core/seq/oss/seq_oss_readq.c
+@@ -73,13 +73,17 @@ snd_seq_oss_readq_delete(struct seq_oss_readq *q)
+ void
+ snd_seq_oss_readq_clear(struct seq_oss_readq *q)
+ {
+-	if (q->qlen) {
+-		q->qlen = 0;
+-		q->head = q->tail = 0;
++	scoped_guard(spinlock_irqsave, &q->lock) {
++		if (q->qlen) {
++			q->qlen = 0;
++			q->head = 0;
++			q->tail = 0;
++		}
++		q->input_time = (unsigned long)-1;
+ 	}
++
+ 	/* if someone sleeping, wake'em up */
+ 	wake_up(&q->midi_sleep);
+-	q->input_time = (unsigned long)-1;
+ }
+ 
+ /*
+@@ -136,11 +140,11 @@ int snd_seq_oss_readq_sysex(struct seq_oss_readq *q, int dev,
+ /*
+  * copy an event to input queue:
+  * return zero if enqueued
++ * caller must hold lock
+  */
+-int
+-snd_seq_oss_readq_put_event(struct seq_oss_readq *q, union evrec *ev)
++static int snd_seq_oss_readq_put_event_locked(struct seq_oss_readq *q,
++					      union evrec *ev)
+ {
+-	guard(spinlock_irqsave)(&q->lock);
+ 	if (q->qlen >= q->maxlen - 1)
+ 		return -ENOMEM;
+ 
+@@ -148,12 +152,27 @@ snd_seq_oss_readq_put_event(struct seq_oss_readq *q, union evrec *ev)
+ 	q->tail = (q->tail + 1) % q->maxlen;
+ 	q->qlen++;
+ 
+-	/* wake up sleeper */
+-	wake_up(&q->midi_sleep);
+-
+ 	return 0;
+ }
+ 
++/*
++ * copy an event to input queue:
++ * return zero if enqueued
++ */
++int
++snd_seq_oss_readq_put_event(struct seq_oss_readq *q, union evrec *ev)
++{
++	int rc;
++
++	scoped_guard(spinlock_irqsave, &q->lock) {
++		rc = snd_seq_oss_readq_put_event_locked(q, ev);
++		if (!rc)
++			wake_up(&q->midi_sleep);
++	}
++
++	return rc;
++}
++
+ 
+ /*
+  * pop queue
+@@ -209,23 +228,31 @@ snd_seq_oss_readq_poll(struct seq_oss_readq *q, struct file *file, poll_table *w
+ int
+ snd_seq_oss_readq_put_timestamp(struct seq_oss_readq *q, unsigned long curt, int seq_mode)
+ {
+-	if (curt != q->input_time) {
+-		union evrec rec;
+-		memset(&rec, 0, sizeof(rec));
+-		switch (seq_mode) {
+-		case SNDRV_SEQ_OSS_MODE_SYNTH:
+-			rec.echo = (curt << 8) | SEQ_WAIT;
+-			snd_seq_oss_readq_put_event(q, &rec);
+-			break;
+-		case SNDRV_SEQ_OSS_MODE_MUSIC:
+-			rec.t.code = EV_TIMING;
+-			rec.t.cmd = TMR_WAIT_ABS;
+-			rec.t.time = curt;
+-			snd_seq_oss_readq_put_event(q, &rec);
+-			break;
++	int queued = 0;
++
++	scoped_guard(spinlock_irqsave, &q->lock) {
++		if (curt != q->input_time) {
++			union evrec rec;
++
++			memset(&rec, 0, sizeof(rec));
++			switch (seq_mode) {
++			case SNDRV_SEQ_OSS_MODE_SYNTH:
++				rec.echo = (curt << 8) | SEQ_WAIT;
++				queued = !snd_seq_oss_readq_put_event_locked(q, &rec);
++				break;
++			case SNDRV_SEQ_OSS_MODE_MUSIC:
++				rec.t.code = EV_TIMING;
++				rec.t.cmd = TMR_WAIT_ABS;
++				rec.t.time = curt;
++				queued = !snd_seq_oss_readq_put_event_locked(q, &rec);
++				break;
++			}
++			q->input_time = curt;
+ 		}
+-		q->input_time = curt;
+ 	}
++	if (queued)
++		wake_up(&q->midi_sleep);
++
+ 	return 0;
+ }
+ 
+-- 
+2.43.0
 
 
---f/CcKpSk8DSkcH0u
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Jun 13, 2026 at 08:24:47AM +0000, Charan Pedumuru wrote:
-> Convert NVIDIA Tegra Audio Hub (AHUB) binding to DT schema.
->=20
-> The per-SoC differences in reset-names, dma-names, and reg entry
-> counts described in the text binding are now enforced via allOf
-> conditionals, making previously prose-only constraints machine
-> validatable.
-
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
-
---f/CcKpSk8DSkcH0u
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmot7/cACgkQJNaLcl1U
-h9Dodwf7BytyQpAOfq8DOTTSK2vt0+C4xM8obr7AHOzIOSisGtiXqZIN4sgZvMJL
-LfGFO320wCoN5AAB+bPGFXPBRLbAjznp/FOnXoA1QdsyD+dFAKgoTB7vWP6U9mMJ
-Kti08n8+NGKTf7Avm3TJ+OpBmaHmFuLGTOTVIZ3arOGnENABOBhaHeiT4ka+lAMr
-P8gZI1GmdoS3aAuyO6d+E0nn6sJuBlQMMqKb1MC2a6CPYZ1eRIDDQBH/NNNn4Qyr
-Pi9tXAZgyg2GvkO7AHYj/NZSYzZlpyiMWWyH63lGZA87UnUjC/iPtyuPaZdB5SeT
-7mFMr/T7ZDopyYX9lxCa1qkkAqI9hw==
-=/Wdu
------END PGP SIGNATURE-----
-
---f/CcKpSk8DSkcH0u--
