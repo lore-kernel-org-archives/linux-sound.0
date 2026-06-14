@@ -1,95 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1103519D074;
-	Sun, 14 Jun 2026 10:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9451B31B10B
+	for <linux-sound@vger.kernel.org>; Sun, 14 Jun 2026 12:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781433356; cv=none; b=RSifJ6ibR1hcuYoKM2cGQx+4ER0YbzgGOUjc4IeShGLgeM7nvq9ipKNKs9IHANcqv2F5aCB7WxvI+b2zKTpI14E4K/s4IOy3qEeXOJ5HlAy53boKAq9uQ4Ifzbsg3xix6rlNQP/4YgblcdRWmN6XOPz+BQPD0prADJJ5EfQsY2k=
+	t=1781440836; cv=none; b=stsgrsh8nXFrORf3hYScybsfYfrgXQJo9fxWKqh7y4QO9nHgPhR5uqSWg3Xw72cbDxN521Sjds7SYTMDz+fYiunzhQTWEs12YtX1BFEu7cm2vs2vGXtY5wyEEpwl/bNOHqGovrFfhtM09vx+DN175ig7tRugKE58ofsTIg23M3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781433356; c=relaxed/simple;
-	bh=1QF+N2X8XnhDlVoAMtIFBKDi5geAr1OcSkaPvDmkDXk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e6MuMHlcXYq/iK6sFteDYu5Sz9LbZk/kUOAwe7byQzatUxstmgkXhIgZWTGczABiE5fRJeeUfboh90Iv+1fOrWx3KMovLC4nLi0d36azRWsf7Bv2R1kZE4ElUHqLXVJc9CFyI2RBRCHIH/6XTN5EqKcROEqLBy2FY4lekn/h/d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V6t0XovL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781440836; c=relaxed/simple;
+	bh=G3UiUPakszrQsdZ1NYoTaE6UW7brKl99FyCoHBmB2gs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NFbNzhs9ngGV8jUDrmhbQLddWqAkiA+AG4o6w9yx9dAzqkBXE4VDdIrjU/gmB6zdQKPldgwuXXDDcAJNjiU1MhCF4g7FLYw/QGaaAYJwt8x6iIo2ATKIKioTqOLqr+WXBmCPFr8QcEN+Ox8fQno/xUaIWQboF66ckKm5wkE389k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tNDcWNrq; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V6t0XovL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AAE31F000E9;
-	Sun, 14 Jun 2026 10:35:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781433355;
-	bh=VAEADmbcc/MqYQEuunt2++DWQsDZgWfCQK6e2A75YCo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=V6t0XovLp8S9/5f3Wmq1flzwwuqCVk0EhR7r7B5P6P7n+JNLI0RBsl4C/OjPWZbxc
-	 icWCTSvYir3LVwVO/GSW6wft6r800V3wSTR3fB8NSdPduMxWhDsHBXIPdCc1xjx9Kz
-	 gGsmv4BmTwcKETJ0W1E+rAMiXfBO32Gdul/TO/5ZWLAvFBi0aPCcNDM1kqWxcs+EbV
-	 tuiBoyZMYd25yEL/jV5x+10L4KVqnM4B0LzlMFhGq/HKuuoFpZ+dFE7knIXjCK0nQQ
-	 XkW2vcFRyR2ED62nSMDhhL4qmtrBc5CsK9sIpSsaZIOAa2LuA8WqTItYXsQ/Tp82ry
-	 1RU+xZTJOmxyQ==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 678041AC5AC6; Sun, 14 Jun 2026 11:35:52 +0100 (BST)
-Date: Sun, 14 Jun 2026 11:35:52 +0100
-From: Mark Brown <broonie@kernel.org>
-To: David Heidelberg <david@ixit.cz>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tNDcWNrq"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-45efb698ef2so1165720f8f.3
+        for <linux-sound@vger.kernel.org>; Sun, 14 Jun 2026 05:40:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781440834; x=1782045634; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vq9DLY+g6gb1X5/j5vr2DD/jY8ECHzFWcSAy1jao/X0=;
+        b=tNDcWNrqBse/WKHego/DLJP3nfBpc7T35/whINhwEu9tXDl9wq1Ra9TiEgsLcd4P7f
+         yaW0HH93zx2/ZrcRYmy+IBmbwKktbiDKiSjvD8omxcmXgfVOcN6wFhuWA4YrWFEjOkXl
+         UlNa1FPvtbelwI/H1ujuFUpdJfXOEftUi+1mjSUQYXQEvfv4ZY6ZJ0cKai99xKW7WQUI
+         rXWao8t8tolKve8iSEf2F41oGuWF6f0/W/1VonDaVV44/j2dOcCr3EsV3nFiuNIQTo5h
+         S8PUEyh4U8XnSUADJDqxaBuMOXhdieqPcNmAlWoSLLfiERDMNbdftkst5wd/WJ/a4Qcv
+         EO7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781440834; x=1782045634;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vq9DLY+g6gb1X5/j5vr2DD/jY8ECHzFWcSAy1jao/X0=;
+        b=d7c+2gXa6AGi9OtmaU5MTQxlGZB0KtWLZWFGRaQjJ6oqZnoMCdDaCA0L0UpsuSdDL8
+         8R9f2Hi13SI91r25lOcmP+GId/oLTd/YYms8jz/jUWQpDJFRHQgn+n/+vo/9E83yX0fX
+         QN2PYR8SfoC5C+tdxpCl/ulLHKF9a2LEFC2DXlOYz/ZOBphnyCpVne3PzoDiTv+TEXcV
+         e30eaSGzbAHrN+ayph56F5zGtcED3PKa4rtX/kV8wc+ZNFQFYAJFKS4IKJ3QVElbm36L
+         4nL+eWht0fYW5qt2AM7E45NVWyuFKbHl2Focph80P+bBU8I8lSShP77AqP36G3ISuZbK
+         3Kug==
+X-Forwarded-Encrypted: i=1; AFNElJ9viH+slTuLFFKRhrYNuTp3qFYNbq8eci+W3FYd3kM1ihGGUq7W2HGklXReP8TiOW+jwZ19zl42adShGg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzauCCFvQoRNfX7miExoSc0iyjW+Fg2E7eZqXEho51CoC9vKOcw
+	KMIllMRuordpYyxx47ERDLb+kHOxMga2pJFlw3IbUlYvsdP6muHYqa/0
+X-Gm-Gg: Acq92OEP3OAQJsfGakTy7N6P3vg+RuDas9Vgjk7d4edR34VmycEUd5jT2Chr86Rlt1X
+	4BkqvEDdsO80nUH755H7sVOYrAy/w0XupJYLZGwBuIjR5+Eu243Up2FgDXIvp46n9IKvCSw/rKM
+	EfkLfMR6Pss5wAjengoJy+a3wH7Vc8l28rEjtzB8qBRH6KG3WItYwO9uLzwriIGYBShbP17NgRN
+	JNoIHglh0v1DLmBMlPnCxRo5LVxk+vpsZobDYq0r3Sxzm6ZLO/DnngKX2VnDXxQ53A6cwM4tK4z
+	ohWHliWlRkYIaUZ4baKLvnH+emv78yqbQbTAcrWmTSOW6OV+HJ1iTB3CocGWjRP9jxhv7UzewBK
+	qVH40Z25Mbd54bWXd+rjbub2cDXNx15HpB/g/Pe3FdodEZFhA5y721kDM2js0pPJmbTzp9jRW7k
+	1mXiduWVzOdHfj57YRRcKlKDo2l/A0SETL49hQK2XyynXjT+IimQ4NqJeSwinW3ejnKzD2oQh7j
+	IItzch5i0JvTDD3EzBAmmblWJ3jqw==
+X-Received: by 2002:a05:6000:18a6:b0:45e:f073:d2fd with SMTP id ffacd0b85a97d-46074a52953mr7793368f8f.9.1781440833771;
+        Sun, 14 Jun 2026 05:40:33 -0700 (PDT)
+Received: from workstation.speedport.ip (p200300d507395eb9d8178afcc325b543.dip0.t-ipconnect.de. [2003:d5:739:5eb9:d817:8afc:c325:b543])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26f4f6sm26271242f8f.16.2026.06.14.05.40.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Jun 2026 05:40:33 -0700 (PDT)
+From: Mert Seftali <mertsftl@gmail.com>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
-	Konrad Dybcio <konradybcio@kernel.org>
-Subject: Re: [PATCH QUESTION] ASoC: qcom: sdm845: use DSP_A format for TDM
- codec DAIs
-Message-ID: <ai6ECJgLG_GGx3tM@sirena.co.uk>
-References: <20260613-rfc-dsp-b-to-a-v1-1-7d095fe90a05@ixit.cz>
- <ai3tafRfEgN938cu@sirena.co.uk>
- <5f262a04-8e92-4ac1-bd7c-1246231d3de2@ixit.cz>
+	Mark Brown <broonie@kernel.org>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mert Seftali <mertsftl@gmail.com>,
+	kernel test robot <lkp@intel.com>,
+	Dan Carpenter <error27@gmail.com>
+Subject: [PATCH] ASoC: SOF: ipc4-topology: Return error for invalid number of formats
+Date: Sun, 14 Jun 2026 14:40:19 +0200
+Message-ID: <20260614124019.19259-1-mertsftl@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="V4sUG4M8NCPEnOOs"
-Content-Disposition: inline
-In-Reply-To: <5f262a04-8e92-4ac1-bd7c-1246231d3de2@ixit.cz>
-X-Cookie: Price does not include taxes.
+Content-Transfer-Encoding: 8bit
 
+When the number of input or output formats is zero,
+sof_ipc4_widget_setup_comp_src() and sof_ipc4_widget_setup_comp_asrc()
+print an error and jump to the cleanup label. At that point 'ret' is
+still 0, because the earlier sof_ipc4_get_audio_fmt() call succeeded, so
+the function returns success and the caller never finds out that the
+widget setup actually failed.
 
---V4sUG4M8NCPEnOOs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Set ret to -EINVAL before the goto so the error gets reported.
 
-On Sun, Jun 14, 2026 at 09:26:42AM +0200, David Heidelberg wrote:
-> On 14/06/2026 01:53, Mark Brown wrote:
+Fixes: 21a5adffad46 ("ASoC: SOF: ipc4-topology: Validate the number of in/out formats for src/asrc")
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <error27@gmail.com>
+Closes: https://lore.kernel.org/r/202606111431.Uky3T0tF-lkp@intel.com/
+Signed-off-by: Mert Seftali <mertsftl@gmail.com>
+---
+ sound/soc/sof/ipc4-topology.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> > That sounds like both.  The Cirrus driver is definitely buggy if it's
-> > mapping DSP A and B to the same register value, at least one of those is
-> > wrong.
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index 95ad5266b0c6..8ac7dde32f77 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -1127,6 +1127,7 @@ static int sof_ipc4_widget_setup_comp_src(struct snd_sof_widget *swidget)
+ 			"Invalid number of formats: input: %d, output: %d\n",
+ 			src->available_fmt.num_input_formats,
+ 			src->available_fmt.num_output_formats);
++		ret = -EINVAL;
+ 		goto err;
+ 	}
+ 
+@@ -1179,6 +1180,7 @@ static int sof_ipc4_widget_setup_comp_asrc(struct snd_sof_widget *swidget)
+ 			"Invalid number of formats: input: %d, output: %d\n",
+ 			asrc->available_fmt.num_input_formats,
+ 			asrc->available_fmt.num_output_formats);
++		ret = -EINVAL;
+ 		goto err;
+ 	}
+ 
+-- 
+2.54.0
 
-> I need to clarify. The CS35L36 supports by default only DSP_A, but when
-> extended to "take DSP_B", speaker just works.
-
-> This was done previously.
-
-No, that's buggy.  If the device only supports DSP A then the device
-only support DSP A and the driver should express that.  Any hacks that
-can be done to make it interoperate with something else should be done
-in the framework.
-
---V4sUG4M8NCPEnOOs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmouhAcACgkQJNaLcl1U
-h9Bnngf/WupwiWbL0WB9ym1D3QF3qbHDSXJQKSOo1Vtwcxx/lGFNckmPUKycd3J9
-PBI5zJ2wZ2q2onMZmpv27eAj9i0waVhvNdcFDqZnfPNqQimg/c/lewv9zjmVuBcJ
-+oCiSrGHfZfs6znEt+IMntQSre4gljue2Pj4H7yxvFg0UWzNyPJXxRwfwSLELDmA
-cligdZJ3hYWLuxpxc3txpaI49oPpoaU385y2Sgc8peNMgOh3FkxDXzPT+d1CwWoA
-zDeAHr1OlUykRAzOUxg3uODD2zx05XGmWfE/tMAqvOZg2vMsF1gK5vgM2++2WpJ7
-dgE2fOiOOQEEXYuNfYOGMuQFg4vbyA==
-=+odq
------END PGP SIGNATURE-----
-
---V4sUG4M8NCPEnOOs--
