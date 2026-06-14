@@ -1,136 +1,191 @@
-Received: from ixit.cz (ixit.cz [185.100.197.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E543932F1;
-	Sun, 14 Jun 2026 07:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F053A2EB5B8
+	for <linux-sound@vger.kernel.org>; Sun, 14 Jun 2026 08:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781422016; cv=none; b=STagr1Lj/+wL5YqB9SDnx5TSoJJpXrxaIn+InpiyeDSzmycf+WAKKRI4g9fC+WKDHK3aSE9IdfJtLR51Q9p1V/8dPCGoror+vPfd+VlyJM99NxOBmbA0DUFGoQufB3O7AfBuT713roKElrR7baYB+1QxwXqieSzNMbpeyVmEJPg=
+	t=1781427498; cv=none; b=h+VLcRAqOneYO7JYbDJQwwnmBm/CdK/Bose5yNsDWT0x51gt9HVUhh3jxlKVqBSbenDT74Ni1481Ayb2WeqwrEXTPWzA8KTikDRQYLLjcR6d5qfhi0P26T1FELvFw12HC8PdCl/m4g28GwOjBLw4/SIW+JdQBh4nJa7hWunDsGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781422016; c=relaxed/simple;
-	bh=dR4/045vKd8aEisvn6KALHWXPGBNWgkTALu9XGc5dZQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lMD9l1bQsLek8ZNGVFKw0CFBRKDa0HwlfiEIC1EUvbfPIsFDL4pUtNqQAHGLPQQpamuBclbUZvgkMIS1Y2RpzR+TeezFvXOL0H5clGJ5W9hkriqO6zolw1xNTLLtpa1HUhEN4Pxp8cekPZY5BGnyDp+1e9RyA1c/k2/YLsoMxyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=IeTh5rJZ; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1781427498; c=relaxed/simple;
+	bh=6M2LosQ17iXnEBTey+yJb6+Td6SbPTW79Ez2GVwfZHA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cblajLyGVPwg/YEBdf3oY2a03h5+r+qM75aBpixtxyvikLNj3Qw7t4u1QYtMKRNolQT9s/gB3lpW2rsKBwE96R65IFMvwd5eUSFGLR1yHLY5O25/khis8JR1JuVpnVOKjDOlKgpCTDnyb8AFJNv++N52AB859GmyviSyY+k/J6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=f8Z2LQ9m; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zwcnB5cS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=f8Z2LQ9m; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zwcnB5cS; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="IeTh5rJZ"
-Received: from [10.0.0.200] (unknown [10.88.125.21])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="f8Z2LQ9m";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zwcnB5cS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="f8Z2LQ9m";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zwcnB5cS"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 6DF8C5340E4C;
-	Sun, 14 Jun 2026 09:26:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1781422002;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=xWUnrEfHoVuao2YV6RsldOMXNlqy4cnvz5KBKRNQob8=;
-	b=IeTh5rJZj5jJeAlzLfKZ0+yMe3oIgyxdbz2n++SilYbei+q577AClKzsNsv99bDb3MmlP4
-	wbh3SqDOaUCzsjy6CSbKgoZBvOA93ofQXmeG7L4+5/70wL6PFe0jepnnx/QpzMoRjAf8cz
-	goUnRBA8ck/gXBf7N/F1R39JCgzINNw=
-Message-ID: <5f262a04-8e92-4ac1-bd7c-1246231d3de2@ixit.cz>
-Date: Sun, 14 Jun 2026 09:26:42 +0200
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 38E276A81D;
+	Sun, 14 Jun 2026 08:58:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781427489; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Sxl+JHwqrTgzddJCqAkcNO4dkkKXlGakMXoMXc/jgRw=;
+	b=f8Z2LQ9mkOcfXfbgMQMI7eLfPt9ifxHhOynA2WPESFAaheXmzi8dXb6XuRQ8y+U77Pxw4j
+	z3qCO1dWurpl4+gdMv2qewwjUV2n/FYQ8h8M17PsLsaFBoQItd5m7/gE+ra1VWGHVNArsM
+	rOCDrBbw0EwQvc6vFuTGvhgQUDSTYlU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781427489;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Sxl+JHwqrTgzddJCqAkcNO4dkkKXlGakMXoMXc/jgRw=;
+	b=zwcnB5cSJwsfYA1UBHnPxYvwVnJNYSppQUj3YQSyhKm0LGASwnL2DftdsfTAI79fljFo49
+	GD6/vCo7F7rBzbAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=f8Z2LQ9m;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zwcnB5cS
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781427489; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Sxl+JHwqrTgzddJCqAkcNO4dkkKXlGakMXoMXc/jgRw=;
+	b=f8Z2LQ9mkOcfXfbgMQMI7eLfPt9ifxHhOynA2WPESFAaheXmzi8dXb6XuRQ8y+U77Pxw4j
+	z3qCO1dWurpl4+gdMv2qewwjUV2n/FYQ8h8M17PsLsaFBoQItd5m7/gE+ra1VWGHVNArsM
+	rOCDrBbw0EwQvc6vFuTGvhgQUDSTYlU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781427489;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Sxl+JHwqrTgzddJCqAkcNO4dkkKXlGakMXoMXc/jgRw=;
+	b=zwcnB5cSJwsfYA1UBHnPxYvwVnJNYSppQUj3YQSyhKm0LGASwnL2DftdsfTAI79fljFo49
+	GD6/vCo7F7rBzbAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 08415779A7;
+	Sun, 14 Jun 2026 08:58:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id NfC9ACFtLmqWYwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 14 Jun 2026 08:58:09 +0000
+Date: Sun, 14 Jun 2026 10:58:08 +0200
+Message-ID: <87y0ghmrbz.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Cen Zhang <zzzccc427@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com
+Subject: Re: [PATCH v2 1/2] ALSA: seq: oss: Serialize readq reset state with q->lock
+In-Reply-To: <20260614004801.3507773-1-zzzccc427@gmail.com>
+References: <20260614004801.3507773-1-zzzccc427@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH QUESTION] ASoC: qcom: sdm845: use DSP_A format for TDM
- codec DAIs
-To: Mark Brown <broonie@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>
-References: <20260613-rfc-dsp-b-to-a-v1-1-7d095fe90a05@ixit.cz>
- <ai3tafRfEgN938cu@sirena.co.uk>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <ai3tafRfEgN938cu@sirena.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 38E276A81D
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,gmail.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On 14/06/2026 01:53, Mark Brown wrote:
-> On Sat, Jun 13, 2026 at 09:55:59PM +0200, David Heidelberg via B4 Relay wrote:
+On Sun, 14 Jun 2026 02:48:00 +0200,
+Cen Zhang wrote:
 > 
->> Currently this worked only because the cs35l36
->> codec mapped both DSP_A and DSP_B to the same hardware register value
->> (asp_fmt = 0), which is inherently DSP_A timing.
+> snd_seq_oss_readq_clear() resets qlen, head, and tail without
+> q->lock even though the normal reader and producer paths serialize the
+> same ring state under that spinlock. A reset can therefore race
+> snd_seq_oss_readq_free() or snd_seq_oss_readq_put_event() and leave
+> stale records in the queue, drop freshly queued ones, or report the
+> wrong readiness after wakeup. KCSAN reports a data race between
+> snd_seq_oss_readq_clear() and snd_seq_oss_readq_free().
 > 
->> The CPU-side AFE is configured with qcom,tdm-data-delay = <1> which
->> produces DSP_A framing.
->> The codec format should match what is actually on the wire.
+> Take q->lock while clearing the ring and resetting input_time. Factor
+> the enqueue logic into a caller-locked helper so
+> snd_seq_oss_readq_put_timestamp() updates its suppression state under
+> the same lock instead of racing the reset path.
 > 
->> So I'm pretty lost if I should go fixing cs35l36 or sdm845.c.
+> The buggy scenario involves two paths, with each column showing the
+> order within that path:
 > 
-> That sounds like both.  The Cirrus driver is definitely buggy if it's
-> mapping DSP A and B to the same register value, at least one of those is
-> wrong.
+> reset path:                      locked readq updater:
+> 1. snd_seq_oss_reset() or        1. A reader or callback producer
+>    release reaches                  takes q->lock on the same queue.
+>    snd_seq_oss_readq_clear().
+> 2. snd_seq_oss_readq_clear()     2. The updater tests or modifies
+>    resets qlen, head, tail,         qlen, head, and tail.
+>    and input_time.
+> 3. snd_seq_oss_readq_clear()     3. The updater completes its
+>    wakes sleepers on                read-modify-write sequence.
+>    q->midi_sleep.
+> 4. Without q->lock, the reset    4. The resulting ring state drives
+>    can overlap the locked           later reads and readiness.
+>    update.
+> 
+> KCSAN reports:
+> 
+> BUG: KCSAN: data-race in snd_seq_oss_readq_clear /
+> snd_seq_oss_readq_free
+> 
+> write to 0xffff8881069fe608 of 4 bytes by task 120516 on cpu 0:
+>   snd_seq_oss_readq_free+0x6c/0x80
+>   snd_seq_oss_read+0xcb/0x250
+>   odev_read+0x38/0x60
+>   vfs_read+0xff/0x600
+>   ksys_read+0xb4/0x140
+>   __x64_sys_read+0x46/0x60
+>   do_syscall_64+0xbb/0x2f0
+>   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> read to 0xffff8881069fe608 of 4 bytes by task 120517 on cpu 1:
+>   snd_seq_oss_readq_clear+0x1f/0x90
+>   snd_seq_oss_reset+0xa7/0xf0
+>   snd_seq_oss_ioctl+0x6f6/0x7e0
+>   odev_ioctl+0x56/0xc0
+>   __x64_sys_ioctl+0xd1/0x120
+>   do_syscall_64+0xbb/0x2f0
+>   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> 
+> value changed: 0x00000001 -> 0x00000000
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> 
+> Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 
-I need to clarify. The CS35L36 supports by default only DSP_A, but when extended 
-to "take DSP_B", speaker just works.
+Applied both patches now to for-next branch.  Thanks.
 
-This was done previously.
 
-Since there isn't any different configuration on the codec side when added DSP_B 
-into same codepath as DSP_A, I would assume QCOM ASoC send DSP_A, just marking 
-it as DSP_B ?
-
-There isn't any other consumer to check against and I would assume incorrectly 
-configured TDM slot would lead - at least - to disorted output.
-
-The reference (which now works) is here [1].
-
-David
-
-[1] https://codeberg.org/sdm845/linux/commits/branch/b4/pixel3-audio
+Takashi
