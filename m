@@ -1,63 +1,63 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727233D9680
-	for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 09:40:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619293DA7FD
+	for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 09:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781516443; cv=none; b=tIJ6K99sHUQ8DUzOKwhCE/0+XPooiEhHTPWLpS6Q4klPFsGKZGBE3uTeXUVPDFut9eMDMfiZjf79qUdHpaMgIhjxTIVtl4tnCwmT+ZFCwkgrCY9VCVgKmoU75ZEtT/0Sovr9yvtgsSVm38JAnLrc01WjZ1fvjYfnpJjxOzS67+g=
+	t=1781516449; cv=none; b=RjxaJw5Heg9dwmBBwC7STyX1y2dTnLcz7ungP+hlX8QAuVaarLaaP3AliN6ipQ6L1kK8DHR2BLDM3c7A+6xE5qUKUKkTbwvEOA5L+OAc4YEe5ZBYOQtxyOkL/qXecFRPf/7VRBZDR5LpE31kEg+JwXMXkgOFdpqAQJ8ingogUSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781516443; c=relaxed/simple;
-	bh=uVOODI0dcvu4VrcEd7Pee45Ik1Uu9/KkXXqPodrFKkE=;
+	s=arc-20240116; t=1781516449; c=relaxed/simple;
+	bh=uRKMa+0pM5/xNHpif3K5YMMQ7wGymJJ4S/rOeExb078=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=R5PgMyXMvKg6afy8iwOeA9jXchtgpG4eRktXmuonsraMw/EZ9CL0/e2GkjgDS5tw31bHHn/cjacMgnQll5gBZgx35+KcewNxMtxG+fjh9JLZXpLK0f53UHXik1ph+7Oc0luaDq4Zg69fNcleXIKZXqD7KGRG9FsphzM+QoMOXWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rW1axjgl; arc=none smtp.client-ip=209.85.216.53
+	 MIME-Version; b=B23gpS9Tdqdg7oAdaAaB76O/itbvTEkavLkUKO6Tn/lQADy64j39fi0peqoh8BvBiKEIC9QaaHdvOPuzQAR17ZNE/ZObGGvbk1wHqJtncQDPAXlHla6q8KraZxuTZjcFqJWNAT7yEYNP216OVbxpmb1o/9zMbP2bZoRBMx1HAis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rWW5+/nS; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rW1axjgl"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-372b4330deeso1960252a91.0
-        for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 02:40:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rWW5+/nS"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-36babe2c4bdso1795476a91.1
+        for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 02:40:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781516442; x=1782121242; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781516448; x=1782121248; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MVq+Lu3avSLljn1bjHDwqj7k0Y9nxoC/mnINOIpcocM=;
-        b=rW1axjgltor6aE1ZVLUFiys7VlLgmgbUp1sJOpupCteL2D5WjnSdL44J6rHjFtnnk1
-         9gnrDERhVMWeLOBiuoxmM1vsNwIPhMXtpflpBVyh7++9Jx4Xid5g8U3L7mXyfmzy+ex6
-         8uvZFu4bLTcBIyLOk2ZM3buMxbgjqqScdj7ko3GPVxgPZv5/qA+cqk6NfnNwNqNALi1v
-         IIMtvKmkktoTrhYvpky7aXMCmQkl0+g8XkXD9Z3bncivRC1ILaVSsn+A4W29IACQXNLH
-         6AvSkGkfNdu9Dz9NJiHkRTFp8gxjCbygD5a3ZjXKutf2F/tDgm3cA9hinhIA9RJN6SWz
-         8AGA==
+        bh=t/AXZy6D5BbhT5x9hx+suwKOnmd8LSBhmzi01ciTQP4=;
+        b=rWW5+/nSwJcuMukAv3R1scyQcB4Vl2jAR1gQVvYVxic/N5PgtFCEJLQYbzDyeYcXEG
+         pz93AqqaByLLk78X4gKpfLyayMM+2NDsezYvnusW+uBliFkKQqkD4YCvChzAFaJMOJC4
+         SV6jaTEc9VFphtHcQ7YsZxV68WlVGzXaMfgEtsWxuAL4y3Co7BRaAz0bSL7YTP1ju+Vz
+         +6SH36q4e/VUlQO/oIlkKYLF1t7slrHIfl7crCvFo5OuvWiA1MZlboBupeb60i2zSnF9
+         VUTJmEGaXk9o2G5f8WfFU4sbBfCRFZW6KjxQBF7r++oi4PnYV5gdxfLOgn3lNd4WqYvr
+         u+Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781516442; x=1782121242;
+        d=1e100.net; s=20251104; t=1781516448; x=1782121248;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=MVq+Lu3avSLljn1bjHDwqj7k0Y9nxoC/mnINOIpcocM=;
-        b=lG2yuRqi6ANbGiNaKKIk+ZEOggGA/iYEBB43m+5mgDZfZr4MNYvHbGzIIqgVxhEwRZ
-         ERmionGtTFys3qPQdpy/zBw+3jkxyqF/FCG5e1zOvSmxYeivt3w5Qnl5OukbcMDQfR88
-         XY9QM3ZeuVPiMxM7rzVh8oPk/khVpJ57znrdRuPInTtvlHuAqryHw6ur05oVn1eLqReH
-         YP+P98nUa/awNLUWGGKzGXHz2z1m+w7T+ae5ckWHd/Qw6qtV+jmUXB4NNJkGCM1Z+HJ3
-         TsCtNodjuYCwOIIyFmsxdvKnbK6kmhrE4hxpvK819UzDDWm8a8QF6M8sjoWU/4DquSmn
-         i4kQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/LxlHygDnqHslfquEf/dpwsJLl6/Q8538ckIqLya8FCnNeVe/boX6FPCXzIL0MyP48D4QxZ3K0lpsAjQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNvs1yaf8iWIA+yTyXzDsf1GGKwYKuw4u7VMW+86VRuNV1VKmp
-	g05ZqV9sAWS0dX0FlvbxEV2uFE7vFZjLHq8qIDJlWI+VfEZzosKMjE+a
-X-Gm-Gg: Acq92OE61I/GmmyQ+2P697oR11y0Li0vI2gGr6ZJnsAfR0KS9QroIwQxuQaYGUUcJQ0
-	qAoFxC2brgSuZ0z30H0jhD4uQb+utF3o+ZTUCa5yThzUnvDqooZSyG67qd7vRwPGdOFHApIkdAz
-	1YcSxE/I92hZobn4cyDmhTnHMrggp0gH4YGLeF6y5TDyCb8PQ+9BUBfT+PwpDymlYkm5hY5OZVL
-	GHDRViSdigW5XwG+M8zC3oemr3ipMsahx8e51MEXXBOS8vRoZtOhyZgAJG9wVmAaicisqR2A0wR
-	d7SV/5kLatU/PwROcISoEl0f4ES90lL9Rz7YP6WZLOzTGqXPtmuj/z7kF9YT7vpPJz0QC9J2aHy
-	5AQ3E5OwfiIb6yrKnV4uT+DjAl2Fq8pf9JAdn6qdvhd8D0rAhEgcOPxsEAs+8cr0VJoztw4cRw/
-	nF8Zv+IfJk6snd1yoUfwZVWGaKw91ZX7y7kquNLqiDbbarXv26qC6WavvIzw==
-X-Received: by 2002:a17:90b:2781:b0:365:a5f6:4a5c with SMTP id 98e67ed59e1d1-37c2bc5d202mr10797246a91.1.1781516441891;
-        Mon, 15 Jun 2026 02:40:41 -0700 (PDT)
+        bh=t/AXZy6D5BbhT5x9hx+suwKOnmd8LSBhmzi01ciTQP4=;
+        b=Hxx70CCFuEo9iPQ58tjQO6suuReT7hxEvEMMMs+93vWJcaJifyskKPDOGCjEKQGiCC
+         St4ZoogTai7VdlMDsgVuhIbPOQHXwqm2UYznZgQiN9QOfVg10zZNOeEDgHHMJ5R895Pk
+         ulWWqo+ADK0pBc7iplCcSpYqLw4VRW1ZZf2uiP24r6KydHvDsM4eStfK9/KRa+WZPQ7x
+         jd60y2HZ78GTQ6moMYFb9kZK/AC2Llcl99WKuQodbx9pSGW5hqVVv3L4R0WN+XEEUOOF
+         6ByX2hpIgLi0QAK2+CQt1qGHY0IGnCIzQadWO+Ls5R4x/8B2XyRKIohuId2CjiPOK6BQ
+         ZIBA==
+X-Forwarded-Encrypted: i=1; AFNElJ9SNQsK4h9RJAa4WSz8qToCZlfs2M27hYDJayVfY4csNxuBperWYDYxX6CETHmVOJpDeXy0/HSLN893hA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcQgHpREOnuMVElYG6Kz9txW3kNmH/Yh9LRfJ2vOxYctv4gp7z
+	3PrLFz52vFBG2WDbn0fa8OfrlfAGB0YZIL6BwUMtBe+fgB72YxWWC032
+X-Gm-Gg: Acq92OHQvcWGNavgeA1HUuQGTVNxAQgyQfI7ZO0l0ca3yUyfE59GQK3DnvMjr21SvS9
+	Y4EqTArCx2Cnx1seRXXmRCD3GV+nKKiioWqKfcPWnYeH+VG7+X7GzmsvqbO9wHZnR9xoXQyc397
+	5vagpZLrKB0q369b3eqMC5tNF06PS8CD19HOcCyuaS0Qvyzo35o4oRzEfwvyZUm70zdFGKJ4/7E
+	CSMdA8V1w3wBxDr82Od9gDa6FKHCPILi91KoPuy+/mbBiCqKKtgXYNqJiXMq8iUojh54PxZ4Js/
+	o4jw1hVAnAUotZcqJluW3dI2qhwW01L0QRgQW83xX0umhb/nDuKDz6PZofLmjqqDMUNQIH/6Dmh
+	0YbCffhJeT3rFdwwS92VQawwb1OAGcsMy7cV2MBFCWCeCBoxmibzHLI1cxmF2rmoFdG4p4SCEiF
+	moaB+RsQ4btgLx//7Am4GtpaTVKccj2eyMHmiOb4lnrTcgFPiK0a/2PMriZw==
+X-Received: by 2002:a17:90b:5583:b0:36d:5d1c:c4ad with SMTP id 98e67ed59e1d1-37a01f2d31emr14079846a91.9.1781516447765;
+        Mon, 15 Jun 2026 02:40:47 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37a1eba8e9asm9936290a91.2.2026.06.15.02.40.36
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37a1eba8e9asm9936290a91.2.2026.06.15.02.40.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 02:40:40 -0700 (PDT)
+        Mon, 15 Jun 2026 02:40:46 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -76,9 +76,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	imx@lists.linux.dev,
 	linuxppc-dev@lists.ozlabs.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 07/11] ASoC: fsl_xcvr: Use guard() for spin locks
-Date: Mon, 15 Jun 2026 16:38:20 +0700
-Message-ID: <20260615093824.115751-8-phucduc.bui@gmail.com>
+Subject: [PATCH v2 08/11] ASoC: imx-audio-rpmsg: Use guard() for spin locks
+Date: Mon, 15 Jun 2026 16:38:21 +0700
+Message-ID: <20260615093824.115751-9-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260615093824.115751-1-phucduc.bui@gmail.com>
 References: <20260615093824.115751-1-phucduc.bui@gmail.com>
@@ -97,143 +97,55 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/fsl/fsl_xcvr.c | 29 ++++++++++++-----------------
- 1 file changed, 12 insertions(+), 17 deletions(-)
+ sound/soc/fsl/imx-audio-rpmsg.c | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
-index 6677d3bf36ec..41d100500534 100644
---- a/sound/soc/fsl/fsl_xcvr.c
-+++ b/sound/soc/fsl/fsl_xcvr.c
-@@ -797,10 +797,9 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream *substream, int cmd,
- {
- 	struct fsl_xcvr *xcvr = snd_soc_dai_get_drvdata(dai);
- 	bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
--	unsigned long lock_flags;
- 	int ret = 0;
+diff --git a/sound/soc/fsl/imx-audio-rpmsg.c b/sound/soc/fsl/imx-audio-rpmsg.c
+index 38aafb8954c7..b55dfbdb4502 100644
+--- a/sound/soc/fsl/imx-audio-rpmsg.c
++++ b/sound/soc/fsl/imx-audio-rpmsg.c
+@@ -22,7 +22,6 @@ static int imx_audio_rpmsg_cb(struct rpmsg_device *rpdev, void *data, int len,
+ 	struct rpmsg_r_msg *r_msg = (struct rpmsg_r_msg *)data;
+ 	struct rpmsg_info *info;
+ 	struct rpmsg_msg *msg;
+-	unsigned long flags;
  
--	spin_lock_irqsave(&xcvr->lock, lock_flags);
-+	guard(spinlock_irqsave)(&xcvr->lock);
- 
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
-@@ -812,7 +811,7 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream *substream, int cmd,
- 					 FSL_XCVR_EXT_CTRL_DPTH_RESET(tx));
- 		if (ret < 0) {
- 			dev_err(dai->dev, "Failed to set DPATH RESET: %d\n", ret);
--			goto release_lock;
-+			return ret;
- 		}
- 
- 		if (tx) {
-@@ -824,7 +823,7 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream *substream, int cmd,
- 						   FSL_XCVR_ISR_CMDC_TX_EN);
- 				if (ret < 0) {
- 					dev_err(dai->dev, "err updating isr %d\n", ret);
--					goto release_lock;
-+					return ret;
- 				}
- 				fallthrough;
- 			case FSL_XCVR_MODE_SPDIF:
-@@ -833,7 +832,7 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream *substream, int cmd,
- 						      FSL_XCVR_TX_DPTH_CTRL_STRT_DATA_TX);
- 				if (ret < 0) {
- 					dev_err(dai->dev, "Failed to start DATA_TX: %d\n", ret);
--					goto release_lock;
-+					return ret;
- 				}
- 				break;
- 			}
-@@ -844,14 +843,14 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream *substream, int cmd,
- 					 FSL_XCVR_EXT_CTRL_DMA_DIS(tx), 0);
- 		if (ret < 0) {
- 			dev_err(dai->dev, "Failed to enable DMA: %d\n", ret);
--			goto release_lock;
-+			return ret;
- 		}
- 
- 		ret = regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_IER0,
- 					 FSL_XCVR_IRQ_EARC_ALL, FSL_XCVR_IRQ_EARC_ALL);
- 		if (ret < 0) {
- 			dev_err(dai->dev, "Error while setting IER0: %d\n", ret);
--			goto release_lock;
-+			return ret;
- 		}
- 
- 		/* clear DPATH RESET */
-@@ -860,7 +859,7 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream *substream, int cmd,
- 					 0);
- 		if (ret < 0) {
- 			dev_err(dai->dev, "Failed to clear DPATH RESET: %d\n", ret);
--			goto release_lock;
-+			return ret;
- 		}
- 
- 		break;
-@@ -873,14 +872,14 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream *substream, int cmd,
- 					 FSL_XCVR_EXT_CTRL_DMA_DIS(tx));
- 		if (ret < 0) {
- 			dev_err(dai->dev, "Failed to disable DMA: %d\n", ret);
--			goto release_lock;
-+			return ret;
- 		}
- 
- 		ret = regmap_update_bits(xcvr->regmap, FSL_XCVR_EXT_IER0,
- 					 FSL_XCVR_IRQ_EARC_ALL, 0);
- 		if (ret < 0) {
- 			dev_err(dai->dev, "Failed to clear IER0: %d\n", ret);
--			goto release_lock;
-+			return ret;
- 		}
- 
- 		if (tx) {
-@@ -891,7 +890,7 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream *substream, int cmd,
- 							FSL_XCVR_TX_DPTH_CTRL_STRT_DATA_TX);
- 				if (ret < 0) {
- 					dev_err(dai->dev, "Failed to stop DATA_TX: %d\n", ret);
--					goto release_lock;
-+					return ret;
- 				}
- 				if (xcvr->soc_data->spdif_only)
- 					break;
-@@ -905,7 +904,7 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream *substream, int cmd,
- 				if (ret < 0) {
- 					dev_err(dai->dev,
- 						"Err updating ISR %d\n", ret);
--					goto release_lock;
-+					return ret;
- 				}
- 				break;
- 			}
-@@ -916,8 +915,6 @@ static int fsl_xcvr_trigger(struct snd_pcm_substream *substream, int cmd,
- 		break;
- 	}
- 
--release_lock:
--	spin_unlock_irqrestore(&xcvr->lock, lock_flags);
- 	return ret;
- }
- 
-@@ -1448,11 +1445,10 @@ static void reset_rx_work(struct work_struct *work)
- {
- 	struct fsl_xcvr *xcvr = container_of(work, struct fsl_xcvr, work_rst);
- 	struct device *dev = &xcvr->pdev->dev;
--	unsigned long lock_flags;
- 	u32 ext_ctrl;
- 
- 	dev_dbg(dev, "reset rx path\n");
--	spin_lock_irqsave(&xcvr->lock, lock_flags);
-+	guard(spinlock_irqsave)(&xcvr->lock);
- 	regmap_read(xcvr->regmap, FSL_XCVR_EXT_CTRL, &ext_ctrl);
- 
- 	if (!(ext_ctrl & FSL_XCVR_EXT_CTRL_DMA_RD_DIS)) {
-@@ -1469,7 +1465,6 @@ static void reset_rx_work(struct work_struct *work)
- 				   FSL_XCVR_EXT_CTRL_RX_DPTH_RESET,
- 				   0);
- 	}
--	spin_unlock_irqrestore(&xcvr->lock, lock_flags);
- }
- 
- static irqreturn_t irq0_isr(int irq, void *devid)
+ 	if (!rpmsg->rpmsg_pdev)
+ 		return 0;
+@@ -37,21 +36,21 @@ static int imx_audio_rpmsg_cb(struct rpmsg_device *rpdev, void *data, int len,
+ 		/* TYPE C is notification from M core */
+ 		switch (r_msg->header.cmd) {
+ 		case TX_PERIOD_DONE:
+-			spin_lock_irqsave(&info->lock[TX], flags);
+-			msg = &info->msg[TX_PERIOD_DONE + MSG_TYPE_A_NUM];
+-			msg->r_msg.param.buffer_tail =
+-						r_msg->param.buffer_tail;
+-			msg->r_msg.param.buffer_tail %= info->num_period[TX];
+-			spin_unlock_irqrestore(&info->lock[TX], flags);
++			scoped_guard(spinlock_irqsave, &info->lock[TX]) {
++				msg = &info->msg[TX_PERIOD_DONE + MSG_TYPE_A_NUM];
++				msg->r_msg.param.buffer_tail =
++							r_msg->param.buffer_tail;
++				msg->r_msg.param.buffer_tail %= info->num_period[TX];
++			}
+ 			info->callback[TX](info->callback_param[TX]);
+ 			break;
+ 		case RX_PERIOD_DONE:
+-			spin_lock_irqsave(&info->lock[RX], flags);
+-			msg = &info->msg[RX_PERIOD_DONE + MSG_TYPE_A_NUM];
+-			msg->r_msg.param.buffer_tail =
+-						r_msg->param.buffer_tail;
+-			msg->r_msg.param.buffer_tail %= info->num_period[1];
+-			spin_unlock_irqrestore(&info->lock[RX], flags);
++			scoped_guard(spinlock_irqsave, &info->lock[RX]) {
++				msg = &info->msg[RX_PERIOD_DONE + MSG_TYPE_A_NUM];
++				msg->r_msg.param.buffer_tail =
++							r_msg->param.buffer_tail;
++				msg->r_msg.param.buffer_tail %= info->num_period[1];
++			}
+ 			info->callback[RX](info->callback_param[RX]);
+ 			break;
+ 		default:
 -- 
 2.43.0
 
