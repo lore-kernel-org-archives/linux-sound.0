@@ -1,129 +1,138 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7381D2DF152
-	for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 23:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56AE30AACB
+	for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 23:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781565787; cv=none; b=Mhnqm572PMJPUOO0ds28ovJxCjjYk/U2cKwGNXL3EiC0gXOoKOgozTdTVRT8+nV+Vj3y1JPOYjm7a0VbWixMxUw29ZZgLxBN7oIebic4HHqO5hLJomhcPVZEHw7KotRtYglO2F/ObjGrMNgmeLLk+KbUXVa63oGn1B0wMyUm2Vg=
+	t=1781566441; cv=none; b=Xf0z8XYOJaJ7o/8y7MhFVstHI35/HZ73mTTW7ethAAuG250lUrWdJb9xmbaQLhsp49t2aOIdZ9mDHgLi0OcLljyYY9vaWtjvUXv8WMozNky+O07XxVulrLwfgQ/SbUSn39e4J3yLkNFBaY52dppBy4K7BMj7kgiWAK9iWK3k9Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781565787; c=relaxed/simple;
-	bh=Poj8X2BczBlVpbcDeVlJlm9xdCTagH7LfgDANQ5rzEE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iuZI6EfQK5vpE0qTgOq3hdWCczgtEzWBFVY0ZJrkfZcSzZnffSrjCLQAMNsN7OSxt6KYJqENr+yIsax0D6otqQt+lnrTDT2L6ba3JV/u9qo9W3nO5N2s+z6rZpZp0/uG1l4plcwYDiR4PDyj71U8BeYy5g1GuGlk3V9/e+W6EU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pqrs.dk; spf=pass smtp.mailfrom=pqrs.dk; dkim=pass (2048-bit key) header.d=pqrs.dk header.i=@pqrs.dk header.b=PvyZfV0r; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pqrs.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pqrs.dk
+	s=arc-20240116; t=1781566441; c=relaxed/simple;
+	bh=9T5TXJjJT/W0S+9iEkwNGDuS1oeznvsFaTswzHNnstg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E4+Thug8sKK2EpYZ7QfyrcIUUh8K9NLoKCe0n4jbPNQ5+epJf+pHBUkb6trg2CfB0sXYSCfRQPS3bxeSuHap2BkIV0ZLGPlW268OW0AnzXs1hCsw/hKh/UoRyzIKWKPwAEjzalPhgaquTCQuqFys9n0mgL7/BrFHWU/pgJQiCZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yrq+v5gJ; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pqrs.dk header.i=@pqrs.dk header.b="PvyZfV0r"
-Date: Tue, 16 Jun 2026 01:22:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pqrs.dk; s=key1;
-	t=1781565778;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9GYSAFl/VjbYl9hVw9tZzlj4CMrNjuB0KBZg49Zsf/8=;
-	b=PvyZfV0rNZtbcMiszVA9UlcLKijcS46PqWWsy6yUp3ahofOvYjdbxHrW4LlBu8fhLYahww
-	6kSUxd4vLhYoqyZHu3gNxIQwWN/F8XiPYsfGxH55hSVPBnnidXOK6Slj2Pz9SDAUj+xfxN
-	nHhM8LqjnXdCHrZ2/uCa/Z0Vo4B9dBAJwZVnl+kfvy1opqf+JlwcJ2jAxuP7D4QWt374R9
-	QmUU8LlpNpAeqOaAxPvPCglrcmnN4aYtYT15Ub1DJSF8sAfmRjSPezHGPbie+fmRVU+YTN
-	lc2gHnUX84Xpr2F1qs7QhnmyGzO6tzaM+R+gS/P1GKaNz3IrbGZsCs87VVPenQ==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Baojun Xu <baojun.xu@ti.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Herve Codina <herve.codina@bootlin.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Kevin Lu <kevin-lu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>, Sen Wang <sen@ti.com>, 
-	Shenghao Ding <shenghao-ding@ti.com>, Support Opensource <support.opensource@diasemi.com>, 
-	Takashi Iwai <tiwai@suse.com>, 
-	=?utf-8?Q?=22Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29=22?= <u.kleine-koenig@baylibre.com>, Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin.sipraga@analog.com>
-Subject: Re: [PATCH v3 9/9] ASoC: audio-graph-card2: recommend to use auto
- select DAI format
-Message-ID: <dajhjm3tz6zug7dkdkqeis6bhxd6yxzxzyolmcbqaeer42ewut@czswsgsz5gok>
-References: <87v7bs36m0.wl-kuninori.morimoto.gx@renesas.com>
- <87ik7s36k2.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yrq+v5gJ"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-36b903567fdso4471560a91.1
+        for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 16:34:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781566440; x=1782171240; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p8FuvkiARpXIOFd5JwFqJggn0SYUMBb/rFOpyqvH+ZM=;
+        b=Yrq+v5gJikFUUQ5mWDwbr8rT6d4cZN3fBj6TPgvdq1hH/xNeq8OLiZ2/N4qYamV2ST
+         LkHoXYXflb21c6J1jZ4q5GGDtqfquPRJagA9rAUU5Hs1z9DE0tZf/c/ICFo1VKWYNjq7
+         qxZy3hWgxgTsVu6Sni205WYdHpR4/4L+b6l20Q0jj3nBgyXmd8873uriRd/26dWMUZnF
+         meL+ajnm/vaw0uBwRPmvhEVk+gWhbTP/+GxeoLnDArRnP2e5SrphAskP0kvGpao6osFz
+         0Q+Uo69eZ8A47dqxD19sov/BZ8jBEhDTb3qqPTTtOqmUYMm28VwFj3R4VRpi7t8UC4S1
+         DGqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781566440; x=1782171240;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p8FuvkiARpXIOFd5JwFqJggn0SYUMBb/rFOpyqvH+ZM=;
+        b=OVAcptZjDeb/iP1dWFYPWD0Xi9x+VeyAcYnHwtZoJFZEoUsRiqUF6ubanAdNyp/vqR
+         GM38O8D1HSnY5jw88l3lpCZCmfxO9590oXxgQZJIMzwqdPADYiOUSzEih/5xKH4tW4Jn
+         EirJrhov3msU7eB/U+P9YT2RdIxCuEsTzcweB7sKZ52v0WIVjVretR1bbeDw2Q8R0LZs
+         OjQe02LyFTrOdSY97Ovx+z7zDGue/FQm4s+tPHVylWNZqKnAY9L45EKG5p71uqOG2uHn
+         E+jlm8bqiL4L5KlYval+O6pJ/COg/w4V0VvqL1//ZdHSQ7Kqyrme5geKOPr+R34LvPMk
+         WjJg==
+X-Forwarded-Encrypted: i=1; AFNElJ/gLV6gq1p0Boj7rggndZ74ryJhyep3faWWWpnQcdFJxs6lKMtmm1LX9UDji4klD2JejP13fdxCPnNI+w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyILviR7JA9mQUd7THYaplUuGvAY7BhhsEMXKu3tawZ7Rr+jRBl
+	56Qmj37mSIzhwBJrriM6ey4p7TjhVrt9AU+3d6UYkqS3Vhj0z3OPjTzj
+X-Gm-Gg: Acq92OGuNAnAkGvvmFG5FG77+AsgiBtP0Cy2J/aslCiJNPLVGQw42Zsr+tnvoiIlP5G
+	wWVblM6cHN1o8GWtrfS8tnGhk2mrpDrIn4NkGC85xGpSqGEWttWIsi95ENyYoy0dZ4lCwOopg9N
+	QeoA3aFScjL7H1rnvwosGOiOXUD0eGigmXTNtMkXuPz9Ye1aM1Wbo1ZCoObAp7inZ/D3lZ5pH2U
+	oQeyTJtxMqO9cOIaeFhcUP9oZgp6KJl8EXpRhwx6DTEiGrC5/k5VzotYf73uTG3FftvLr9xhU5g
+	RclC1g3pXILYMj24Ksh5wt5uToihbpfSFMG5UWnrqojbtL+6ZJqd0CpEaGCdOcp9d8SV+nIiAhh
+	qAWn/EirmR0L4+d/iGmNVVm47i+sxKh5CIUVXsoyg+aQnjdgb+JQZ0Ts1Om6y9LZ7/OKU35Ygai
+	YRtFkq0u/0AEXzLZ/d9ze+mfAWRvj3xa1Zxg==
+X-Received: by 2002:a17:90b:5109:b0:36d:70c8:3a3 with SMTP id 98e67ed59e1d1-37c528e0f2bmr1211166a91.15.1781566439872;
+        Mon, 15 Jun 2026 16:33:59 -0700 (PDT)
+Received: from tall-manderson.lan ([2607:fb90:9c20:d8f0:780f:3697:cc13:5d3a])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-379e88d546dsm7118845a91.2.2026.06.15.16.33.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 16:33:59 -0700 (PDT)
+From: Galen <rwekyes@gmail.com>
+To: tiwai@suse.com
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	Galen <rwekyes@gmail.com>
+Subject: [PATCH] ALSA: hda/conexant: Add pin config quirk for Lenovo IdeaPad Slim 5 16AKP10
+Date: Mon, 15 Jun 2026 16:33:53 -0700
+Message-ID: <20260615233353.19913-1-rwekyes@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87ik7s36k2.wl-kuninori.morimoto.gx@renesas.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-Hi Kuninori,
+The Lenovo IdeaPad Slim 5 16AKP10 (PCI SSID 17aa:38b6) uses the
+Conexant SN6140 codec. The internal microphone is on pin 0x1a but
+the BIOS configures it with pin default 0x95a60120, which includes
+a jack detection bit that causes the kernel to treat it as an
+unplugged external mic rather than a fixed internal mic.
 
-I'm a bit late to the discussion, but I hope you can answer a few
-questions I have about auto_selectable_formats. See below.
+Add a pin config quirk that overrides pin 0x1a to 0x95a60130,
+setting the connectivity bits to indicate a fixed/always-connected
+device. This allows the internal microphone to be correctly
+identified and used.
 
-(BTW, I just moved job and don't have the means to test your latest
-changes right now. Please excuse any obvious questions.)
+Signed-off-by: Galen Hassen <rwekyes@gmail.com>
+---
+ sound/hda/codecs/conexant.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-On Tue, Jun 09, 2026 at 12:23:41AM +0000, Kuninori Morimoto wrote:
-> "Simple Audio Card", "Audio Graph Card", "Audio Graph Card2" are
-> possible to set DAI format via DT.
-> 
-> OTOH, ASoC is supporting .auto_selectable_formats to select DAI
-> format automatically. Let's recommend to use it on "Audio Graph Card2".
-> One note is that it keeps supporting DAI format setting via DT.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  sound/soc/generic/audio-graph-card2.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
-> index 0202ed0ee78e8..6894bb936cfd2 100644
-> --- a/sound/soc/generic/audio-graph-card2.c
-> +++ b/sound/soc/generic/audio-graph-card2.c
-> @@ -778,6 +778,18 @@ static void graph_link_init(struct simple_util_priv *priv,
->  	graph_parse_daifmt(ports_cpu,	&daifmt);
->  	graph_parse_daifmt(ports_codec,	&daifmt);
->  	graph_parse_daifmt(lnk,		&daifmt);
-> +	if (daifmt) {
-> +		struct device *dev = simple_priv_to_dev(priv);
-> +
-> +		/*
-> +		 * Recommend to use Auto Select by using .auto_selectable_formats.
-> +		 * linux/sound/soc/renesas/rcar/core.c can be good sample for it.
-> +		 *
-> +		 * One note is that Audio Graph Card2 still keeps compatible to set
-> +		 * DAI format via DT.
-> +		 */
-> +		dev_warn_once(dev, "use .auto_selectable_formats on each corresponding CPU/Codec driver");
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index e3b6aaabe..40d4591f9 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -291,6 +291,7 @@ enum {
+ 	CXT_FIXUP_HEADSET_MIC,
+ 	CXT_FIXUP_HP_MIC_NO_PRESENCE,
+ 	CXT_PINCFG_SWS_JS201D,
++	CXT_PINCFG_LENOVO_IDEAPAD_SLIM5_16AKP10,
+ 	CXT_PINCFG_TOP_SPEAKER,
+ 	CXT_FIXUP_HP_A_U,
+ 	CXT_FIXUP_ACER_SWIFT_HP,
+@@ -826,6 +827,12 @@ static const struct hda_pintbl cxt_pincfg_lemote[] = {
+ 	{}
+ };
+ 
++/* Lenovo IdeaPad Slim 5 16AKP10 with SN6140 */
++static const struct hda_pintbl cxt_pincfg_lenovo_ideapad_slim5_16akp10[] = {
++	{ 0x1a, 0x95a60130 }, /* Internal mic, fixed/always-connected */
++	{}
++};
++
+ /* SuoWoSi/South-holding JS201D with sn6140 */
+ static const struct hda_pintbl cxt_pincfg_sws_js201d[] = {
+ 	{ 0x16, 0x03211040 }, /* hp out */
+@@ -1006,6 +1013,10 @@ static const struct hda_fixup cxt_fixups[] = {
+ 		.type = HDA_FIXUP_PINS,
+ 		.v.pins = cxt_pincfg_sws_js201d,
+ 	},
++	[CXT_PINCFG_LENOVO_IDEAPAD_SLIM5_16AKP10] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = cxt_pincfg_lenovo_ideapad_slim5_16akp10,
++	},
+ 	[CXT_PINCFG_TOP_SPEAKER] = {
+ 		.type = HDA_FIXUP_PINS,
+ 		.v.pins = (const struct hda_pintbl[]) {
+@@ -1116,6 +1127,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x38af, "Lenovo IdeaPad Z560", CXT_FIXUP_MUTE_LED_EAPD),
+ 	SND_PCI_QUIRK(0x17aa, 0x3905, "Lenovo G50-30", CXT_FIXUP_STEREO_DMIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x390b, "Lenovo G50-80", CXT_FIXUP_STEREO_DMIC),
++	SND_PCI_QUIRK(0x17aa, 0x38b6, "Lenovo IdeaPad Slim 5 16AKP10", CXT_PINCFG_LENOVO_IDEAPAD_SLIM5_16AKP10),
+ 	SND_PCI_QUIRK(0x17aa, 0x3975, "Lenovo U300s", CXT_FIXUP_STEREO_DMIC),
+ 	/* NOTE: we'd need to extend the quirk for 17aa:3977 as the same
+ 	 * PCI SSID is used on multiple Lenovo models
+-- 
+2.53.0
 
-1. What happens if CPU and codec both support e.g. DSP_A and I2S as
-well-tested first priority formats? AFAIU I2S is only well-defined for
-2-channel stereo. But for the TDM (>2 channel) use case, will auto
-select choose I2S, when actually we should have used DSP_A?
-
-2. Regarding the warning: for DPCM use-case, I was always setting the
-DAI format on both the FE and BE links. Now I assume this will
-unconditionally warn?
-
-3. I can also see it being annoying that the sound card warns me just
-because the CPU or codec driver I'm using does not (correctly?) specify
-.auto_selectable_formats. Maybe it is hard for someone to send a patch
-if he doesn't know a lot about the third-party hardware.
-
-4. Last, just a comment: In my previous company we always used either I2S or
-DSP_A by convention, depending on if it is 2-channel stereo or TDM
-respectively. Both me and the hardware engineers would rely on this
-knowledge when debugging digital audio signals with an oscilloscope for
-example. While I agree in spirit that the DAI format is a SW setting and
-might not belong in the device tree, in practice I'm not sure the
-hardware engineers would completely agree. Hardware can also be buggy
-and forcing a format in the sound card is needed to make things work.
-
-It's just a warning so it's not a big deal. But I can see myself
-patching this warning s/warn/dbg/ if I kept seeing it, for the reasons
-stated above. Especially because I'm a big fan of audio-graph-card2 and
-use it all the time :-)
-
-Thanks for your work!
-
-Kind regards,
-Alvin
