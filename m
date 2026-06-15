@@ -1,105 +1,190 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BDFF21D3CC
-	for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 00:28:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781483307; cv=none; b=s4biCc+gsytGIC/46WPbC0XXrUM3EZMyPF9R+2s+08ccVMbX/nQJCH1KKuVFyyubyoyux/JSM4eaLFYvvHnKK1QBTjOU2YsMnJhoaWb5VgmJGM+dkqE8f9+UN9A67iyUFjNaz9UCQ9zwJNQX4WdXP+/CA6Sq2b80iV70iL35eac=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781483307; c=relaxed/simple;
-	bh=CjfSUv8Gnt//hqb51MR1rfGU1wtEycgRWQdqTGJ/GSY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pdsFjoaqbkcANcGBGrkacIEjQGZDecQQqtwQzIHNbMzjLZd5zQZl+Cr3tCFy6Tk+hJYCAQFJLQ+C5YEoIVZD6WyL4Hewlkmd3cnuOQydUQiVJDvzHiwpAptEoMcABe5vFEMlt4duaCVTlNaxz5CXU2dx4bMxOpeqCFqDhuzhTzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=RNiqDCpx; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA702A1BF
+	for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 01:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781485494; cv=pass; b=EGl4X25wvyF4WLHX7mr18LQkdWOUITNcHddjlGh4G7uAfPtB0p1H45ju8AbPGkkCC+XeJwE4Cn9dsFPrn+NoPV5HjC9gTlREd3oOYJZecz7RFTJycrYBAia1tBng7JPxO/FaRpW+LOIEylBiWkWkavDqljgurElt1mAG0qkbagA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781485494; c=relaxed/simple;
+	bh=R2ycl9QhnYSUjK91R3xYK2Q1tAb2Ce8h0XOfR+YQzug=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hNh8ab+6mojLnExAhaVAK+A0jLwfNh2KlyWa5A04YrhxO2wHzEw2jfeeL4QZwDijf/f63+eA6jOahfWEuX0fcHQr6QDvWnvcBaz97qzjWACuLjqdDF4TTGuYE2NZvvSgdpktjnbrR2+c7YoiJA5YFPZx9GNtiolOP9jqCXg4ePI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nQnNStKa; arc=pass smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="RNiqDCpx"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45ef82204c6so1376921f8f.3
-        for <linux-sound@vger.kernel.org>; Sun, 14 Jun 2026 17:28:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nQnNStKa"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-bed2195323cso398775066b.1
+        for <linux-sound@vger.kernel.org>; Sun, 14 Jun 2026 18:04:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781485492; cv=none;
+        d=google.com; s=arc-20240605;
+        b=V+m7CHhT3gZYRYVsqNH7zZ3Io8QmBMJFIMOMWCN1vg8FuBnTm4S6Whkr3/SjJQETK6
+         Nlu+ZkfjuAYiaq7ID6jvy3BjPkgx9CRG7UaiYXdcjv7Tg77mhmKPqWUSfFpKc/JLoz7o
+         wDhenPkZ4gMlMAp7IdfsT/yQcUFxOjxEld+JIT00iRk29X85FmZxMybs6gqg/xKmWWlp
+         lwxFQUlj5lCPw2r6FsYRdjxu8TxA9H6zvl3HdJaPGHS2xrmGFbXoUlz+XA75iVEdDxZt
+         1U6ab63Q+QlZuCM3UExCHtEJjP2irSDrIIHNSAWAVFAtIfWOm1QyD8cgb/9yz5U8H133
+         F9Rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=wQSOOV+DBTiCCEtastW35rFQgcJIi8WkjbxM6bIBd6s=;
+        fh=msL4PboLk/yGoyQs5gwSyGiwuG7S41/R7+MCeDQeF5M=;
+        b=GebMcIm3+naNgRea2RrGheoC2Cer0qbZTRfZhdsc6yxDpkXx4telvUcHYCYi72b3O0
+         X+IlO0ifJLpFpQ3mpNWjZp170vFc62DYVTGeGBa1GRPGtnsr9008k9yOxGjyYBFD1LoE
+         JGgpOsj/ylAv6Vsfcw1TVSUBDofM3DTw3hZJtL8WnscJZFyt4dWLn3325cc5nhD1vjti
+         XX3XvptjSqo0wKqMGnmhkFKWFe8jzHcdA4R0R2s4PuBPJEeD+sUGrC4wAWywG0/ftT0Y
+         3iB+/u78hNBTgcvVH240FZNt5m9c2oYe88EotlpFbz+gAjlayUQoavIwnzm5S3Y2gDp5
+         etZg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1781483304; x=1782088104; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781485492; x=1782090292; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qDgsO9WAhB4kSub3ESlC/5e/13+sNbJxJKK0iJK8XAc=;
-        b=RNiqDCpxU4+edAm3ntkDkTEqgxnhA1iqPsjsaP+8DFhie9QKRq6uXQc/+FJKsOpTkW
-         Ok/a9WE0XLvEUBTXOnEMA58BJ2Yt5+EPKLrxeaRogkrmIu8OjoOKuIETqF9L3gl0bhaz
-         ENIe+2mI0pPY+r57Pbm9qWF1ClLplRhbAtGlUNjb+olHyFIriBLxAKdGfOj4WSStHS5k
-         BgGzYmy7qL9sX9HTeOHS2dlLl5Oq5W2dbqNtoKidaD/ZHzFEu6QFnwQJ/Tq1ytOEFD3H
-         +OI91J/dJ15LZ0XQd+bzuzRtBVG97gJajCZiBtWLbVppEVVkegugcgUs7ii2P0+YVMDo
-         3x9A==
+        bh=wQSOOV+DBTiCCEtastW35rFQgcJIi8WkjbxM6bIBd6s=;
+        b=nQnNStKat8O5PFdQJu/FdBnZU1DzxV3pE17Al6Ok8Vn8wDC3aqS5lb2u2vIe93Fonl
+         scLZ8MwMxQ0xRi/QlXFHylaqQUBmo4tFTkddDG01XekCzTxwPBGGzvdphA3oN2sVlc1L
+         arHlFGZ4kLZZWhW0deoAdVb/lDcjf80aEe3QKznASOxtQRwJnXsMH2fTi2Zd8EryzIFS
+         3N8k6VVqe6YuTTMNsZkuQ0ASu16XvxJBxiQbq/gZt0/4IxEUxTk2yhgKE79Jj2LDjgIj
+         8o+uMPiRIl6cTyMxyczBwev12eHm4tV+MqggSCAkwjG1rjFhetJ71pW1HZrFgX29vSes
+         tR+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781483304; x=1782088104;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1781485492; x=1782090292;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=qDgsO9WAhB4kSub3ESlC/5e/13+sNbJxJKK0iJK8XAc=;
-        b=nxIP99vrWWqVls87eeYDhCkuYzwufIJLfuejj36gyWgUMgph8wK7WxHNthiiPJCAe3
-         WlEgRVzHIwtyaIbrTKHZ1UAiL6IDmo2BQd2zE3v0XKItm5LuFF017ddemrGxFODJoyIN
-         rOglEIo9gqLMjo18AS3aTIBTRUXyc5zi3uBEaSyA5QljD/VheQ3rKqHJedGOplmXFRoe
-         Q7dpqSRAAj8dtkGQeb4pa2kRhqncxls0bH+0d0ciBR+UXOnCms26XGx/v2qemqn8syTU
-         GRoiVyxJ8G+ymepH50N72TyUTE0UonEailEz/IipAj4BqFMPmyrQIXJQCa2ZP6fFxGDx
-         TW4g==
-X-Forwarded-Encrypted: i=1; AFNElJ+bArCM67PXOTPNn9u7QG8dvfJXW9p+orTKc6RHnXqPDrFkkzuspUgBSylVbzPJlFYSGRMKUE9BUmieug==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQ2Mn2tLsKzEs9vw39NKaw5wjvLuE2zNyi0InrKt13E2oQTS4w
-	lNl4ZXGKMxdEJhQiQ5vC+DxehsllVmdb1ceI9MuwCFgoDHeTVVdlQISeKfZFI6EvpHSS
-X-Gm-Gg: Acq92OFlo6JLBq8Y85QTv20jqFYY+yObE6tZxGiuSbCfmcwk5A4+cJBhBnaAIt4itbe
-	HqrjpeIDzGokE1oH3h4ZsQZKNAl+JdbkkuzD6hxlpzNSBECt81WkuDlnsHcbAEeDO3Jv3fQmC/E
-	fL5WCgSTpCxNUns8DD4dEsCMssV19IsfISTCms76riSR5bmokuQVALJ6yghFwQljTb71uf/dWJF
-	9N/xlzXF5xvdTVpKi8ROKLNyM5Zum7UtSDZ6ersfrLcIqR+hZNfqw4ZM3LCXv37+19QBhQCvcGa
-	baLoPMMNdTSEPO53skOQCNbwbkdBDpF3nuIl7YeSqQXacatt/VTjngZj0FQ1UWYpf8IIdcdZEBT
-	301RYd7ZW6wAHq1IG5tR4F3McFXTjiKgS6XFRh61M1NtKwmsLcz6rG/be/ERMGUZPGAhAo8uMFl
-	TU7R0v+Kitnj6Y5gkUy0cfAFAsPjcDvQlAZS0tlr72Tl2vALO572XlecRCfLdipFdnH0e9Urich
-	ghYOhsMrmcS2MScxs/vIYDM2AJmQPVgto4PCKTGytKQKg==
-X-Received: by 2002:a05:6000:46cd:b0:43d:68ad:3b7f with SMTP id ffacd0b85a97d-4606db988e8mr11754887f8f.21.1781483304570;
-        Sun, 14 Jun 2026 17:28:24 -0700 (PDT)
-Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.209])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26f23fsm28901275f8f.9.2026.06.14.17.28.22
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 14 Jun 2026 17:28:23 -0700 (PDT)
-From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: tiwai@suse.de
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: seq: fix use-after-free of borrowed substream in snd-seq-midi
-Date: Mon, 15 Jun 2026 02:28:21 +0200
-Message-ID: <20260615002821.47317-1-doruk@0sec.ai>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <87pl1xk06z.wl-tiwai@suse.de>
-References: <87pl1xk06z.wl-tiwai@suse.de>
+        bh=wQSOOV+DBTiCCEtastW35rFQgcJIi8WkjbxM6bIBd6s=;
+        b=FtcBWN5CfZ2VT5D6YLbepJ4IhxOVKyYYX0Wy7+muMypiCB2doCRhuZSEQbQhKwo8BK
+         h+sQHNWRF+5XTQIZqvc+THWM9wYFaUWfA6ryq7LyVmgy7+77JxjFgu5XO6s06MufVRWY
+         6vt3gVJ8nVIvX99AEFvDuw2wo8L8Q4kvrLFp0qHU5hv4xEHpd5MbFmFuv3Mttpno6ni6
+         aKpnf7dIWta5fDvgmRqAvP/dfwyfaGZmjOSlDRCGYxqBSZ9QImEpqFRBGG2BFoyJoapp
+         lzR+b7s4tUpjLhaf/GG8VBUjGtt61pLi+jIHjhbCU5M6GXIhdPAJ/ShFK68z6ZgiXAYO
+         a8zQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/u8PQIEg3GXDgPa5zzuTCXF0LN5c3z0kyuEII60A/fmNuwgNf2EHBZL39OiZCLjNHslwQK/IRuiHHM3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUm2VfcQPjsb7o/u4AQId+r2pMPzholiouA/rtmjG6PlV01YBg
+	Lw1Sp2V1pof1bI/UHtzxz3N24oPql60UwUU9CwNGytWSiyYG8RPTPctW8Ge7rKCDn0tlcL3NFrF
+	9t17fB/OzLvImuUdacpeyxwUmLSdAAgo=
+X-Gm-Gg: Acq92OFiEAEe+NvxGAYPbXfUCvkzDu8CDdNeIaBWPWqGY5esXLqGEQv98LH+g4v15lf
+	WJo2sVGWGj3i0ORX/+flINu8iXzKfYzDU7qdYZU2fXdYatS2ot/JStoRiPGbjKTaT222y2eusTS
+	z2dxMZ+ET4FRvOXjaHE62LKEe6K0DixZIoHywOkC86b/Dhq93QhU7bo/FAMx8XUUWXOOtsKh4Nh
+	EkPYmWD6fW0NuPic2btZnqAhqjJm4G2b9B4k4O+Om74u69N7l0huAjzaK0cfx16fBAa+w1gHT5W
+	HasYtIOM
+X-Received: by 2002:a17:907:6895:b0:bed:2a8b:3e72 with SMTP id
+ a640c23a62f3a-c006c665bf4mr175509566b.21.1781485491299; Sun, 14 Jun 2026
+ 18:04:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1780538113.git.zhoubinbin@loongson.cn> <c03b86a9318cffe69ecf8d5c14543fc5948ab2c7.1780538113.git.zhoubinbin@loongson.cn>
+ <20260612160134.GA1116138-robh@kernel.org>
+In-Reply-To: <20260612160134.GA1116138-robh@kernel.org>
+From: Binbin Zhou <zhoubb.aaron@gmail.com>
+Date: Mon, 15 Jun 2026 09:04:38 +0800
+X-Gm-Features: AVVi8CehLy42LEJgG2i99cMYFG50MlGhaNfJeJz81YaHZrK9mKFknfitnhAJSIc
+Message-ID: <CAMpQs4LUs2g=_QvJ14NQD1KAEwvKgjNmdj6B-3odnqJNxEUcQQ@mail.gmail.com>
+Subject: Re: [PATCH v2 6/7] ASoC: dt-bindings: loongson,ls-audio-card: Add
+ ATK-DL2K0300B compatible
+To: Rob Herring <robh@kernel.org>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 11 Jun 2026, Takashi Iwai wrote:
-> There has been already a similar fix queued in sound.git tree for-next
-> branch:
-> ef7607ab1c8adc6258fb1b27d08e26aecdc18a58
->     ALSA: seq: midi: Serialize output teardown with event_input
+Hi Rob:
+
+Thanks for your review.
+
+On Sat, Jun 13, 2026 at 12:01=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
+e:
 >
-> I believe this already addressed the bug.
+> On Thu, Jun 04, 2026 at 10:11:46AM +0800, Binbin Zhou wrote:
+> > Add new compatible for the ATK-DL2K0300B development board based on
+> > Loongson-2K0300.
+> >
+> > Unlike others, this board features GPIO-controlled headphone detection,
+> > headphone mute, and speaker enable.
+> >
+> > Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+> > ---
+> >  .../sound/loongson,ls-audio-card.yaml         | 37 +++++++++++++++++++
+> >  1 file changed, 37 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/sound/loongson,ls-audio-=
+card.yaml b/Documentation/devicetree/bindings/sound/loongson,ls-audio-card.=
+yaml
+> > index 8c214e5d04b1..e9b248e8246c 100644
+> > --- a/Documentation/devicetree/bindings/sound/loongson,ls-audio-card.ya=
+ml
+> > +++ b/Documentation/devicetree/bindings/sound/loongson,ls-audio-card.ya=
+ml
+> > @@ -23,6 +23,7 @@ properties:
+> >      enum:
+> >        - loongson,ls-audio-card  # Loongson-2K1000/Loongson-2K2000/LS7A
+> >        - loongson,ls2k0300-forever-pi-audio-card # CTCISZ Forever Pi
+> > +      - loongson,ls2k0300-dl2k0300b-audio-card # ATK-DL2K0300B
+> >
+> >    mclk-fs:
+> >      $ref: simple-card.yaml#/definitions/mclk-fs
+> > @@ -47,6 +48,18 @@ properties:
+> >      required:
+> >        - sound-dai
+> >
+> > +  loongson,spkr-en-gpios:
+> > +    maxItems: 1
+> > +    description: The GPIO that enables the speakers
+> > +
+> > +  loongson,hp-mute-gpios:
+> > +    maxItems: 1
+> > +    description: The GPIO that mutes the headphones
+> > +
+> > +  loongson,hp-det-gpios:
+> > +    maxItems: 1
+> > +    description: The GPIO that detect headphones are plugged in
 >
-> Let me know if there is still anything missing.
+> We have standard properties for at least this one. If you see multiple
+> $vendor,foo-bar properties, don't add yet another vendor foo-bar
+> property.
 
-Hi Takashi,
+Yes, the `hp-det-gpios` property can be found in
+`audio-graph-card2.yaml` or `audio-graph-card.yaml`, but I don't seem
+to be able to reference it directly.
+I=E2=80=99m not sure if I understood your suggestion correctly=E2=80=94to r=
+emove the
+`vendor` prefix? If so, could I use the `fsl sound card`[1] as a
+reference?
 
-Thanks for checking, and you're right -- ef7607ab1c8a ("ALSA: seq: midi:
-Serialize output teardown with event_input") addresses the same race my
-patch targeted: event_process_midi() borrowing msynth->output_rfile.output
-while a concurrent midisynth_unuse() releases the rawmidi file and frees
-substream->runtime before snd_rawmidi_kernel_write1() pins the runtime
-buffer. That commit serializes the output_rfile publish/clear and pairs the
-output snapshot with an in-flight reference, which closes the window, so my
-patch is redundant.
+Also, the description for `hp-mute-gpios` is inaccurate; it actually
+controls the enable state of the hp. I will rename it to
+`hp-ctl-gpios`, as follows:
 
-Please drop mine; nothing further needed. Thanks!
+  spkr-en-gpios:
+    maxItems: 1
+    description: The GPIO that enables the speakers
 
-Doruk
+  hp-ctl-gpios:
+    maxItems: 1
+    description: The GPIO that controls the headphones
+
+  hp-det-gpios:
+    maxItems: 1
+    description: The GPIO that detects when headphones are plugged in
+
+
+[1]: https://elixir.bootlin.com/linux/v7.0/source/Documentation/devicetree/=
+bindings/sound/fsl-asoc-card.yaml#L133
+>
+> Rob
+
+--
+Thanks.
+Binbin
