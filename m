@@ -1,114 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410CB409128;
-	Mon, 15 Jun 2026 17:42:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADAC3093B5
+	for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 18:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781545329; cv=none; b=hdQLqUjPYIKK78IDDyTyrVoZjuOdceuxIygUqkcdg8IP0ug5xVVTnJO2UWbog9YTaLKTVh3Jt6YpQ7gjW+uHsBpaJAoyKP4p9a0izn8ULy6ecDoQ/ZaJqi7rvVexVsI154vLBxeDZk2edUGAvMuIDYSWMCYAhi9daK1afxK3q74=
+	t=1781548516; cv=none; b=DN/tCyIrjOmhuwYKqWdJvUR4W7FMPC96bKFr2PjGfKVGyX0cyowk09wAvTuP/oYhAJcc2uuQgO+cIS/19AnPOTzb981vp8/YVFRdWcZ/mirBculdo6BtFOW94OMn6fUZ+6g4KMmqDe+CRyqT2ocE0PzEEhG1emZ/y3sz/zATIcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781545329; c=relaxed/simple;
-	bh=yybbf4grq/PTx5SLxZX/Rk2DKgwFyvTu/OFqgdTpTbE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KSyFmymCsEBLe2Ri3pSeGLAQmdtsjN8q1Hu9m6YpxvasT37TVN9zhaObGTBrKz7DkHQSvnw6dt5PBmMXq+E1wMx/bdFo3+TNcDr3SWd0mhbZanHERykYqummjdZ5mrtiNqx9eOxTqycr/uQM+zg/hUsY9Tl7WoRtN6hUr5b4qoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YO6IVEZa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781548516; c=relaxed/simple;
+	bh=ApRAvi7Nywv2gqyuY6pOh3b7XUek4mBjIND9Zi9Pnw4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bJcXEWLw2llNeR8n6Z8MeFLcCoBtt3+zCrKCYk+HYgZvCVERk+CLltBJa8zooanFcWLCUem84SHlI9Sn5MOh+gHkvtRrVSnrZGGmAoymxuL0DTc6wSyXjd0rfnh9ur6wx6LAbBtYqr2WdhMeFrUlfWCAGUQRZN0phzR0UEXQc4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fK8nE3Rk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SxbjfsZ8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fK8nE3Rk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SxbjfsZ8; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YO6IVEZa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA5DE1F000E9;
-	Mon, 15 Jun 2026 17:42:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781545327;
-	bh=roYVMc63L58mVDe0KaBW94nZVmEmmMfD6TQja88Liis=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YO6IVEZajC7trIbZo9nQlVcPlmad5DEY2J/e8kSTlA/aOSZijFcZ85Y1ysogdBA4Y
-	 XC7zi2psbcKKhNZ+8u9pD4F2W+PYJnVMYWClEPJJhFeg+EBK2TtWRHTTgwuwNfEX2U
-	 lpw3+JhD9j+vA+PSzzYk5hF/yRnQKpyFsFvxK8lFsO5BhzQRA8Ny6YGt5GQOrTXgmd
-	 p2wDcviQC7oXTPZnDPR3OWQApvWK8BisDVEYslemd3OzpAzRQBic8xDbsg3hKuU64Y
-	 xfiWnp8OZTJP1RSfRD9xmgJGL0BJCTcAtZJw3+Ca954bE5cdwDadTXMDiF75NQ2fMm
-	 SUwxxAbZVJl9A==
-Date: Mon, 15 Jun 2026 18:42:03 +0100
-From: Mark Brown <broonie@kernel.org>
-To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	kernel@collabora.com, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: cs35l41: Restore register state after system sleep
-Message-ID: <bdc50ca9-7126-464e-9c11-05d308c8aa13@sirena.org.uk>
-References: <20260615-cs35l41-s4-support-v1-1-f5a21e35dd9e@collabora.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fK8nE3Rk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SxbjfsZ8";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fK8nE3Rk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SxbjfsZ8"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CCECA6AEC4;
+	Mon, 15 Jun 2026 18:35:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781548512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=okFSlXFrgGUn7DCyrUClTuTmJWMYurc5ucqR0mwgRt0=;
+	b=fK8nE3RkiaayALf4Wp+iE/KPWZxCj7Ob2107D8ZhNcvrAeCUYwueOTG45tX9Gy+7m9SOHC
+	5q0oEUq4HbNe5zHC6yu8HQ54VqagMJDwIFAuE7tkiNrgC8Wvr+2GgtyGLP+vGaWEeaKLj9
+	z0aYQCEZnXvHFR845kFRh77A8OH6SK4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781548512;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=okFSlXFrgGUn7DCyrUClTuTmJWMYurc5ucqR0mwgRt0=;
+	b=SxbjfsZ8W9nVrNQem7MFIkdnhekEm6zNTBFuiQ0fklrXgWnut8TDQ+M4IuOKnkE/0JVqv8
+	SaOSWWyOYnst5QDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781548512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=okFSlXFrgGUn7DCyrUClTuTmJWMYurc5ucqR0mwgRt0=;
+	b=fK8nE3RkiaayALf4Wp+iE/KPWZxCj7Ob2107D8ZhNcvrAeCUYwueOTG45tX9Gy+7m9SOHC
+	5q0oEUq4HbNe5zHC6yu8HQ54VqagMJDwIFAuE7tkiNrgC8Wvr+2GgtyGLP+vGaWEeaKLj9
+	z0aYQCEZnXvHFR845kFRh77A8OH6SK4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781548512;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=okFSlXFrgGUn7DCyrUClTuTmJWMYurc5ucqR0mwgRt0=;
+	b=SxbjfsZ8W9nVrNQem7MFIkdnhekEm6zNTBFuiQ0fklrXgWnut8TDQ+M4IuOKnkE/0JVqv8
+	SaOSWWyOYnst5QDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9CD10779A7;
+	Mon, 15 Jun 2026 18:35:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id cnyeJOBFMGqGYAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 15 Jun 2026 18:35:12 +0000
+Date: Mon, 15 Jun 2026 20:35:12 +0200
+Message-ID: <87a4svslcv.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC updates for v7.2
+In-Reply-To: <ade83b6e856043bf84685b229f85a4d4@kernel.org>
+References: <ade83b6e856043bf84685b229f85a4d4@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="l4avMn/HOqa158IC"
-Content-Disposition: inline
-In-Reply-To: <20260615-cs35l41-s4-support-v1-1-f5a21e35dd9e@collabora.com>
-X-Cookie: To stay youthful, stay useful.
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	URIBL_BLOCKED(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Level: 
+X-Spam-Score: -3.30
+
+On Mon, 15 Jun 2026 19:04:15 +0200,
+Mark Brown wrote:
+> 
+> The following changes since commit 310628484ef06f95c5589374fade917a5689787b:
+> 
+>   spi: rzv2h-rspi: Fix SPDR read access width for 16-bit RX (2026-06-10 16:39:13 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-v7.2
+> 
+> for you to fetch changes up to 4346d91cfa47b0d9303533edde8acd33e4b9ca40:
+> 
+>   ASoC: dt-bindings: Fix RT5677 "realtek,gpio-config" type (2026-06-14 01:03:38 +0100)
+> 
+> ----------------------------------------------------------------
+> ASoC: Updates for v7.2
+> 
+> There's been quite a lot of framework improvements this time around,
+> though mainly cleanups and robustness rather than user visible features.
+> The same pattern is seen with a lot of the driver work that's going on,
+> there are new features but a huge proportion of this is bug fixing and
+> cleanup work.  We also have a good selectio of new device support.
+> 
+>  - Improvements to SDCA jack handling from Charles Keepax.
+>  - Use of device links to make suspend handling more robust from Richard
+>    Fitzgerald.
+>  - Use of a new helper to factor out a common pattern in SoundWire
+>    enmeration from Charles Keepax.
+>  - Slimming down of the component from Kuninori Morimoto.
+>  - Simplification of format auto selection from Kuninori Morimoto.
+>  - Lots of conversions to guard() from Bui Duc Phuc.
+>  - Addition of a simple-amplifier driver supporting more featureful GPIO
+>    controller amplifiers than the previous basic driver from Herve
+>    Codina.
+>  - Support for AMD ACP 7.x, Cirrus Logic CS42448/CS42888, Everest Semi
+>    ES9356, Mediatek MT2701 and MT8196, Renesas RZ/G3E, Spacemit K3,
+>    Texas Instruments TAC5xx2 and TAS67524.
+
+Pulled now.  Thanks.
 
 
---l4avMn/HOqa158IC
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jun 15, 2026 at 10:54:10AM -0400, N=EDcolas F. R. A. Prado wrote:
-> Currently, on the Steam Deck LCD when the system goes into hibernation
-> and resumes back, the speakers are silent when playing with:
-
->  static int cs35l41_sys_resume(struct device *dev)
->  {
->  	struct cs35l41_private *cs35l41 =3D dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	dev_dbg(cs35l41->dev, "System resume, restoring state\n");
-> +
-> +	regcache_cache_only(cs35l41->regmap, false);
-> +
-> +	ret =3D cs35l41_boot(cs35l41);
-> +	if (ret)
-> +		return ret;
-
-The error handling in this function needs some attention, we probably
-ought to go back to cache only mode here for example.
-
-> +	ret =3D cs35l41_init_boost(cs35l41->dev, cs35l41->regmap,
-> +				 &cs35l41->hw_cfg);
-> +	if (ret)
-> +		return ret;
-> =20
-> -	dev_dbg(cs35l41->dev, "System resume, reenabling IRQ\n");
->  	enable_irq(cs35l41->irq);
-
-We can also leave the IRQ disabled now which might be fun if it's
-shared.  Not sure there's a good solution to that though, and we're in
-trouble if resume fails anyway.
-
-> -	SYSTEM_SLEEP_PM_OPS(cs35l41_sys_suspend, cs35l41_sys_resume)
-> +	.suspend  =3D pm_sleep_ptr(cs35l41_sys_suspend),
-> +	.resume   =3D pm_sleep_ptr(cs35l41_sys_resume),
-> +	.freeze   =3D pm_sleep_ptr(cs35l41_sys_suspend),
-> +	.thaw     =3D pm_sleep_ptr(cs35l41_sys_thaw),
-
-This undoes far less than freeze does...
-
---l4avMn/HOqa158IC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmowOWoACgkQJNaLcl1U
-h9Bhpgf5AeLcoX2BhUwjx2RMdKv53gV0K9SHnojtrKKfJ9VosCGul3rhjBGnAN7r
-YqGFOcKPaLY8h9TRKQ9jTyuV5QgRxQ9jkK7YwIytWefY887MSUlRPqkSFW8/CBm7
-Q1VLKY2F2+o6K3jfjY8uI68MgAMyotRnY0GOewRNy7qhCLF5NTrLNHbyvadf/OsV
-b3Xsp1YN3MNy13iBNLHc62iKyuYzDrQUvDL/iqVwye6iaMs4B+K1lmU/5Mkb8+id
-nOXQk584Xxda+qEzwvNFEGIxzvLGpSKh+uu4TF0w5Zyek4bcPl1IzqbJkCoz3cpG
-GAHzNkqcuXyy3RvCQE8RQ1q6TBq1jA==
-=w7j/
------END PGP SIGNATURE-----
-
---l4avMn/HOqa158IC--
+Takashi
