@@ -1,87 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4A93F20FA
-	for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 13:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C821C69D
+	for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 13:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781531091; cv=none; b=fjPTAcCeEvRFgRxCIC/2WWCTMUcLkFC3SMjkIlxVRnLqbvWDtLNeNKj8mh8FnScuqS75smvOOyTjssfxfPkTQ9+csn55p+l9C16QZM6loxIIMiPniYHO7YtVmG3c2jZjTeeUMqcrNW4m/bW2qVNvtOyOlFHBSOb1tt+DxDPJC/A=
+	t=1781531143; cv=none; b=bXf7QUNg29AcyQ/0Px4u30xl73xy+dDk5Lo2CA1tbMdlw9oNeto6WaUyDxH7SK8v8Ylbyvs2wXPWg3OBp16NuBojx6auYpEWLx+j/ntypWRoq+gDxYfVmtw6w33dPSbiqYAsEh5LjQunBds0ABTeOlo15X/CGU4+cAOyuIk7rCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781531091; c=relaxed/simple;
-	bh=yKColTieZ/dL6WF61xZgDPdIOIBhvOMeiWFd1SHgUMI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Bs+PB/BOt9QmB5u0YYBvi/DaAEqC3tV4XkVZ95qnAIC5kwi/SfzFR8ZcrtJRxGQh8+ncYWh1viNVQA1Hpd7m178QYvUZvROLSi6HlntvAJHkoF4mjD/egSv+2jQuVvlC33/2zhm+VAUZ+F5XLy9disLv9LcE3ayFtiI54xKY5+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TvKvf927; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1781531143; c=relaxed/simple;
+	bh=lmLzYvQo8EwL47D65M8U/U9KkKA/eRJIFnFsqzl0C1s=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=csa1musmA/C8Ppx1e7Y/uVkR9L24F/oS0b576QYlOkQxn5omo1vzxEe/3skbKkVz3xoySmYAW6RjxqWOB4M/CoBuq/fchIbW55PnH7FJkkQ4du3eQVcTFRegsSi5oIlyFeKfBlG+xtE21YyQXDqGRs6KL6MPNKciJ2jHiOL/4Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yMjqmb6S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KN2n8SCz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yMjqmb6S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KN2n8SCz; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TvKvf927"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781531090; x=1813067090;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yKColTieZ/dL6WF61xZgDPdIOIBhvOMeiWFd1SHgUMI=;
-  b=TvKvf927yzqupOLPpH0LvPp3LYsBBSSGzxdEQnTihguQhlqgRvuN1gkC
-   dQxqQwFKZ0xwITgt4gPSEBzmYGMEyMFYWdU81i1VwNrD5lgjN1TPd9hZL
-   +fnCsyCSzWFiMq8zJ9j9KNKt9zjbyOg/ZTJujQgtyLYPDkM/d8qpPq8/r
-   I8kk1sck2EKU+YOMMFe5/x0XeUWHRWM+ZtMfhs8EHwkS8o3r8uPunUzIJ
-   uTpskC/QcTvBXQ4RNW+vSF4YSwwvIUh99cVt5yQ9oK/1Is4YzW6uDR5NC
-   TUln4caVQvEG1DM5ph18gmPAi91RgT8iaKKqyl/9xfBGQMlMm6XVYoPNA
-   g==;
-X-CSE-ConnectionGUID: DiMOOvZyR6S3Tz8fQpwG+w==
-X-CSE-MsgGUID: SJL/Q/TlTP+g7tqGqTqRXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="82168678"
-X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="82168678"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 06:44:49 -0700
-X-CSE-ConnectionGUID: AfBucriqT5qPrWoBkpXfXg==
-X-CSE-MsgGUID: KHIkULxIS+ewh1bR5s+xOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="241110379"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 06:44:47 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	bard.liao@intel.com,
-	peter.ujfalusi@linux.intel.com
-Subject: [PATCH] ASoC: SOF: add Intel UAOL sof_ipc_dai_type
-Date: Mon, 15 Jun 2026 21:44:39 +0800
-Message-ID: <20260615134439.1044872-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yMjqmb6S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KN2n8SCz";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yMjqmb6S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KN2n8SCz"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4D16E758EA;
+	Mon, 15 Jun 2026 13:45:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781531140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IaDbLekigmidYjI4couyKIRvsgcrj4QxU/4ep576v7M=;
+	b=yMjqmb6SUPatcLu6KzxPf8eL4b9DZY6ad3t29ILKd/GdbznSO6tDa7sKrSHWgI2F8niOk7
+	+mOk4WwKuQfe1St6EDUJnTQ1E3o/xY1saBeZ4qAxeWFOsPay9g4GVxZe8c2QmkfT6pIv4v
+	ViB/7bPvflRm4XuZDlk9iHDqPUV/8V8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781531140;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IaDbLekigmidYjI4couyKIRvsgcrj4QxU/4ep576v7M=;
+	b=KN2n8SCzDgDlQWMugDbFSMRb4aSAQ3nFzhkvi5J8zNvEq5K/FJ6XTqAwHOg8mOmYZ15Ktj
+	Sy6V+9Bav/D2a2Dg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yMjqmb6S;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KN2n8SCz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781531140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IaDbLekigmidYjI4couyKIRvsgcrj4QxU/4ep576v7M=;
+	b=yMjqmb6SUPatcLu6KzxPf8eL4b9DZY6ad3t29ILKd/GdbznSO6tDa7sKrSHWgI2F8niOk7
+	+mOk4WwKuQfe1St6EDUJnTQ1E3o/xY1saBeZ4qAxeWFOsPay9g4GVxZe8c2QmkfT6pIv4v
+	ViB/7bPvflRm4XuZDlk9iHDqPUV/8V8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781531140;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IaDbLekigmidYjI4couyKIRvsgcrj4QxU/4ep576v7M=;
+	b=KN2n8SCzDgDlQWMugDbFSMRb4aSAQ3nFzhkvi5J8zNvEq5K/FJ6XTqAwHOg8mOmYZ15Ktj
+	Sy6V+9Bav/D2a2Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 193B5779A7;
+	Mon, 15 Jun 2026 13:45:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fg3mBAQCMGqSQgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 15 Jun 2026 13:45:40 +0000
+Date: Mon, 15 Jun 2026 15:45:39 +0200
+Message-ID: <87pl1rsyrg.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>
+Cc: "perex@perex.cz" <perex@perex.cz>,
+	"tiwai@suse.com" <tiwai@suse.com>,
+	Cryolitia PukNgae <cryolitia@uniontech.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ALSA: usb-audio: Add iface reset and delay quirk for XIBERIA K03S
+In-Reply-To: <TYUPR06MB621706287FE30F4D8EE4618BD2E62@TYUPR06MB6217.apcprd06.prod.outlook.com>
+References: <TYUPR06MB621706287FE30F4D8EE4618BD2E62@TYUPR06MB6217.apcprd06.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=GB2312
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 4D16E758EA
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-The type will be used for Intel USB Audio Offload Link (UAOL) DAI.
+On Mon, 15 Jun 2026 14:05:01 +0200,
+ºúÁ¬ÇÚ wrote:
+> 
+> Setting up the interface when suspended/resumeing fail on this card.
+> Adding a reset and delay quirk will eliminate this problem.
+> 
+> usb 1-1: New USB device found, idVendor=36f9, idProduct=c009
+> usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> usb 1-1: Product: XIBERIA K03S
+> usb 1-1: Manufacturer: Actions
+> usb 1-1: usb_probe_device
+> 
+> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: PÃ©ter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- include/sound/sof/dai.h | 1 +
- 1 file changed, 1 insertion(+)
+Applied now.  Thanks.
 
-diff --git a/include/sound/sof/dai.h b/include/sound/sof/dai.h
-index 36809f712723..0b6a6ba6489a 100644
---- a/include/sound/sof/dai.h
-+++ b/include/sound/sof/dai.h
-@@ -90,6 +90,7 @@ enum sof_ipc_dai_type {
- 	SOF_DAI_AMD_HS_VIRTUAL,		/**< AMD ACP HS VIRTUAL */
- 	SOF_DAI_IMX_MICFIL,		/** < i.MX MICFIL PDM */
- 	SOF_DAI_AMD_SDW,		/**< AMD ACP SDW */
-+	SOF_DAI_INTEL_UAOL,		/**< Intel UAOL */
- };
- 
- /* general purpose DAI configuration */
--- 
-2.43.0
 
+Takashi
