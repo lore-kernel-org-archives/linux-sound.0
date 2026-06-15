@@ -1,135 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E883F5BCE;
-	Mon, 15 Jun 2026 13:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C86F2E7BB6
+	for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 13:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781531378; cv=none; b=t4+JG9jwTuzNceEBJow6LBf3g48p50NHiMIx3MbAmW93QQyINb2YM12gJdRZBOuLnjJYFfd5+Gy+G3x53KNpgGDDBeuxU+tKfU0c36A6zm22beW/miNqBi/JllyOsvMHeJdB6rAyhUMUwhIy0i21gQmjMBXSu9JiHTskw+a0DYk=
+	t=1781531521; cv=none; b=Mntw177ImqgV9COnPW/q69lIPOp0/U4cdwMQX27m6PuPD5FvRcXmOUZ6BZPucWnSXw4clqA0Qwr3s9vagLX7IXEPop4ykAhCp7QBNlaug3u8FCv8OEpWmj/lo4TgNmhZ7DpgEwGBKB+OBWtHRcth6/2bbR7P0nySkpKl7TLNfsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781531378; c=relaxed/simple;
-	bh=IO3By52drsLyPyCXbTpxsXQbYph+A2bkgrN+ZYab0aw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ufD8Fabw/jja6dor7FSbZ2seICutXYRhUtRWtxkR/GCUKTNx7Srnl76uuQwM8F0kLZLnnP5Wy8UdAkZVULUEs+yCx6jbqykczPYC8iL7Kv8eAY7H6QzPCkOaPDNGEn0LcnInHOuo0hk/DPPfiqtleuZYL/YxlT7nfJTd17ATo3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XAYG2ip4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781531521; c=relaxed/simple;
+	bh=K2m1SeBOQJe1rOkcFz4ssIUrdhLfWVdtUAMYK20hk3M=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ltXmHPieVHKJTNKuHsdZ7H04iWK8AaL49L4jukcSXRwj2kJwUBBaH5T6+X52RdAnZBcxskk7bNLXI2ybDg+4/5Bg8XLRE69ySVbR6uHfRdvPWmbauCXA10bH66/mCi3AW31dT1BeOgpXoXIGs/e4rh4Crkdt99QlrwF3QmPt/vI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vpWYdYuG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QFbB8yrl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vpWYdYuG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QFbB8yrl; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XAYG2ip4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2DAE1F00A3A;
-	Mon, 15 Jun 2026 13:49:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781531376;
-	bh=IhTcK2/QkNpWF7uWjIm+f7w8CY6mOCIjTXZ+KmCHSfc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XAYG2ip4qffx/aZj7UsYjyQdK3PDa6Jq8Ns/cQSsvKuj7mT8tJ5dPxeSAJ6dLBVaT
-	 HvxGJCpzZPi3PqdEgA30XOMfdw7tWwgRe5b/aP//gnXKRcvZztoQc+erI8nr3DgwUP
-	 7kcpVSzlN89nQo0ctUnkwCXbiayp+EYlq0Kuqi5fS4vKINKvKx4J/StYSnFFYLuaFv
-	 7BZIlFjZiAWGIvDG3ondMJeDErodSL7i0rJ+9GU2OuJ85SkVv6pKeNvxavXdRRZ4UT
-	 P8SBzC1ynzVqfFJ35wxeesoYbJ5F0Yp9Al2o2GWqiIo7QREphkrsX9Q2RhsdcKyjwv
-	 MPDghshlgTwDg==
-Date: Mon, 15 Jun 2026 14:49:32 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Tagir Garaev <tgaraev653@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vpWYdYuG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QFbB8yrl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vpWYdYuG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QFbB8yrl"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 458AD6C12A;
+	Mon, 15 Jun 2026 13:51:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781531517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EV8PrxgchSsr3Bdhhy6Zenr1K67PPD4Prshywa+V0aY=;
+	b=vpWYdYuGVCmOf//t3/TGO586CA1J86WxWqzGsk7cvf85Zf0mlEcDUT5AYS/Fg7St3uNCVe
+	kguT5sB76TvGeMBrF5MF0Wu/ncC8eGNxImcsj6N1KrxDPNWpfnixobSv2YCOsHGQmWqxJ2
+	v762H08vVJjRokrj9R+4UxQ7DjcAOHg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781531517;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EV8PrxgchSsr3Bdhhy6Zenr1K67PPD4Prshywa+V0aY=;
+	b=QFbB8yrlfFiAQahq/SMzy/yUkBXoJcucx4GG0fDjdnWnEfRivwjv2TVlX2HZWWqb5kZlHV
+	9fUVDh/v42QIx3AA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vpWYdYuG;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QFbB8yrl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781531517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EV8PrxgchSsr3Bdhhy6Zenr1K67PPD4Prshywa+V0aY=;
+	b=vpWYdYuGVCmOf//t3/TGO586CA1J86WxWqzGsk7cvf85Zf0mlEcDUT5AYS/Fg7St3uNCVe
+	kguT5sB76TvGeMBrF5MF0Wu/ncC8eGNxImcsj6N1KrxDPNWpfnixobSv2YCOsHGQmWqxJ2
+	v762H08vVJjRokrj9R+4UxQ7DjcAOHg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781531517;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EV8PrxgchSsr3Bdhhy6Zenr1K67PPD4Prshywa+V0aY=;
+	b=QFbB8yrlfFiAQahq/SMzy/yUkBXoJcucx4GG0fDjdnWnEfRivwjv2TVlX2HZWWqb5kZlHV
+	9fUVDh/v42QIx3AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 17C7C779A7;
+	Mon, 15 Jun 2026 13:51:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id l1NjBH0DMGo5SQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 15 Jun 2026 13:51:57 +0000
+Date: Mon, 15 Jun 2026 15:51:56 +0200
+Message-ID: <87o6hbsygz.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ai Chao <aichao@kylinos.cn>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	kees@kernel.org,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] ASoC: Intel: sof_es8336: add Huawei BOD-WXX9 HWSP
- support
-Message-ID: <110da016-a562-41af-a126-a3ad647bd782@sirena.org.uk>
-References: <20260614161028.10405-1-tgaraev653@gmail.com>
+Subject: Re: [PATCH] ALSA: pcm: Show closed for DISCONNECTED state
+In-Reply-To: <20260615132657.2097213-1-aichao@kylinos.cn>
+References: <20260615132657.2097213-1-aichao@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="IEU2QExjT5huXKY/"
-Content-Disposition: inline
-In-Reply-To: <20260614161028.10405-1-tgaraev653@gmail.com>
-X-Cookie: To stay youthful, stay useful.
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 458AD6C12A
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,kylinos.cn:email];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+
+On Mon, 15 Jun 2026 15:26:57 +0200,
+Ai Chao wrote:
+> 
+> Show "closed" for DISCONNECTED state allow audio service
+> to detect USB reset/disconnect and reinitialize the device.
+
+Hmm, why it must be that?  The state is shown as "DISCONNECTED".
+
+IOW, does this matter for which application and how do we have to
+imitate as if the file got closed?
 
 
---IEU2QExjT5huXKY/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+thanks,
 
-On Sun, Jun 14, 2026 at 07:10:28PM +0300, Tagir Garaev wrote:
-> Huawei BOD-WXX9 routes the ES8336 HPOL/HPOR outputs to both the
-> headphone jack and an internal speaker amplifier. The amplifier is
-> represented in ACPI as HWSP0001 and is not controlled by the ES8336
-> GPIOs alone.
+Takashi
 
-> +static const struct sof_es8336_hwsp_regval hwsp_speaker_restore_profile[] = {
-> +	{ 0x01, 0x69 },
-> +	{ 0x03, 0x16 },
-> +	{ 0x04, 0x80 },
-> +	{ 0x05, 0x0c },
-> +	{ 0x06, 0x11 },
-> +	{ 0x07, 0x93 },
-> +	{ 0x09, 0x0b },
-> +	{ 0x0b, 0x4b },
-> +	{ 0x0c, 0x00 },
-> +	{ 0x0d, 0x77 },
-> +	{ 0x0f, 0x51 },
-> +	{ 0x10, 0x58 },
-> +	{ 0x58, 0x00 },
-> +	{ 0x59, 0x80 },
-> +};
-
-Magic number write sequences in a machine integration...  this looks
-awfully like it should be either user visible controls or something more
-structured.  In a chip driver it's usually something the manufacturer
-simply does not document but this is a third party thing.
-
-> +	} else if (priv->gpio_hwsp) {
-> +		gpiod_set_raw_value_cansleep(priv->gpio_hwsp, 0);
-> +		usleep_range(SOF_ES8336_HWSP_MUTE_PULSE_MS * 1000,
-> +			     SOF_ES8336_HWSP_MUTE_PULSE_MS * 1000 + 1000);
-> +		gpiod_set_raw_value_cansleep(priv->gpio_hwsp, 1);
-
-Why _raw?
-
-> +static void sof_es8336_apply_gpio_mux(struct sof_es8336_private *priv)
-> +{
-> +	struct gpio_desc *speaker_gpio = priv->gpio_speakers;
-> +	struct gpio_desc *headphone_gpio = priv->gpio_headphone;
-> +	bool hwsp_enabled = sof_es8336_hwsp_amp_enabled() && priv->hwsp_client;
-> +	bool hwsp_speaker_on = false;
-> +	bool speaker_on;
-> +	bool headphone_on;
-> +	bool need_enable_delay;
-> +
-> +	if (!priv->gpio_speakers)
+> 
+> Signed-off-by: Ai Chao <aichao@kylinos.cn>
+> ---
+>  sound/core/pcm.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+> index bfedf571e021..6ce35492ea56 100644
+> --- a/sound/core/pcm.c
+> +++ b/sound/core/pcm.c
+> @@ -450,6 +450,14 @@ static void snd_pcm_substream_proc_status_read(struct snd_info_entry *entry,
+>  		snd_iprintf(buffer, "error %d\n", err);
+>  		return;
+>  	}
+> +	/*
+> +	 * Show "closed" for DISCONNECTED state allow audio service
+> +	 * to detect USB reset/disconnect and reinitialize the device.
+> +	 */
+> +	if (status.state == SNDRV_PCM_STATE_DISCONNECTED) {
+> +		snd_iprintf(buffer, "closed\n");
 > +		return;
-> +
-> +	mutex_lock(&priv->gpio_mux_lock);
-> +
-> +	speaker_on = priv->output_active && !priv->hp_jack_present;
-> +	headphone_on = priv->output_active && priv->hp_jack_present;
-
-Why is this not being done by userspace, it looks like policy is being
-encoded into the kernel here?  Does having the speaker and headphone
-active simultaneously physically work?
-
---IEU2QExjT5huXKY/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmowAusACgkQJNaLcl1U
-h9D7cAf/UWomyNikGFBRA1JbrXWi8pJcC6NoCn3jrXO8r1mLUnFICltLT5vU/bNc
-D3SxMnDE0oEoRyT88963pEbbuacGM9TzaLZoMOi0ixBTujMW5dgqgQHalShCLbxq
-qY0PBCeAPJCkQI9t6zQp1PKUbLQpe/j0ABevLi44GXwXsIatXISofVfhx0b6K1X3
-nQjxWK/mfYC3auLemFP7y5nnD3XCFS19ynA2sEsobrc0FokiyffwrDAtSultvYHv
-JUKgblKrmGUNbsonesHOtLrPK6sSKthBWNu0F1imCSecmeshEFTBJbKxJdCLn4iU
-TOQ3GObjZbXg6lcQvL4xds1iDumi9w==
-=ynGE
------END PGP SIGNATURE-----
-
---IEU2QExjT5huXKY/--
+> +	}
+>  	snd_iprintf(buffer, "state: %s\n", snd_pcm_state_name(status.state));
+>  	snd_iprintf(buffer, "owner_pid   : %d\n", pid_vnr(substream->pid));
+>  	snd_iprintf(buffer, "trigger_time: %lld.%09lld\n",
+> -- 
+> 2.25.1
+> 
