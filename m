@@ -1,180 +1,282 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012000.outbound.protection.outlook.com [52.101.66.0])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3749A3F2117;
-	Mon, 15 Jun 2026 14:31:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C494C12CD8B;
+	Mon, 15 Jun 2026 14:54:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781533871; cv=fail; b=gzU+QoADKdoScXYtvOClhDYQI1jNNQadJNC7rK9ATHhZyEKfLvkkl5cCpWr3pkPgyiuXNi4Qt6u91GGoypXqQQd7wq550dJiFHENJKisy3BOZfb3ApTWksHbDBBovHendFjnHlHBcp0mc+9tAGwq8LegazohvYI/BbKWCzS4CUI=
+	t=1781535298; cv=pass; b=XkHW1ES+F/z7J3ZbCyNLPhpaQjCNu0E7dIpjaQ2sITTp79k87ShXz/0CHNcrlRPNGhraR5g1HttIP3mX5wnpxfTT2x6BHrSnP+bOn9a2glpILrtjlax3rwHaG3P39ofWYfY+yOoV+PvGF60ZnPEly9cMVi+x5coQK6ZmC/F15CU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781533871; c=relaxed/simple;
-	bh=z6m4rgdLb8feiRM7WdQ0buzqmTcnMjdJj/4BwCS7eZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=K7aA4S/qyOtFgMFbamx2F2vV6mVAKKRxQE/C7e383FluX/aTwYxhK0ZITQtZQCZphIeYdMJykfPSzjB4c/443tupnySL/2IzKAREi0Gm1ktr1qcvFjd1Iw+NbIHNwSoRkiWaX5clSqe/oie8VJTvMtS3fqQSL3s4EKp7uOrGkts=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=vFEH6/Gm; arc=fail smtp.client-ip=52.101.66.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	s=arc-20240116; t=1781535298; c=relaxed/simple;
+	bh=p1AikPQsegmm/8lc9dyXr/qrNTxVTswc/zcaBdYD/Gg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=LBp2rhpWY4lNvEPz2xM1aOJASMRt2FPd1Ii8TeDARyFm4EIW0gccb8/7eMA/O/e2sBvCTiK36yJgOemaFq+GKC6uE+qkznHRE5YnthT4NlsFjYM6MTHhUYYNZKXWKuFMj8HwiI1hWAbH77mQIosTw9EOrZPQ+f68vzZ0JXf27vc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b=WFOwNHwy; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="vFEH6/Gm"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FQkUiFB8A1bTvo2v1958quG3Ufe8fXxsP4TRW4WiP54gg2zxdYAljtA2lK4SX6shlO8ulbjxGzf9ZHWHcvqXO57V4Uda0dRUALiY84Ofv4Pfe87GSoB6oUXEnkY1KqKIR3lNBHuub5IlG+IjMnS3vuKewh1fdYX57nfkYL/0wOTymaXhRsbh/wqEGiarmwVnFhTLb2CfYP9P5YXRXWpFdkdt9XVyNzQYoHe4fOmzE3op5/RnfSPdY5dOqbN6aRy4zw1/pqYnDWJVE5A+as4pddiEEAYm2bOXKArMtA3UAIE67qusa4q9sAPOC12wblt6h+WJIt2eWCMy/cy7ril/ag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KX6V6rSl3K3kiRjJ4KBXWZ5lhaebbXpOGSHK9UQLM8Q=;
- b=ljO+y3shYmk2q1LuVtxeBcUrv4j0CfF2v0wB4tettDdhjUB1rBMtYaTKW5SPDhDb7mBkQUKWkz1BlsjD1vyY3M3MfYPSb2y/PoXU6Kv0J8nwqCMGsjtugeQf6lPnPWao2vRk30oQaTgkJp8SiUPYLeFygyY4HRY49on/RW9v8rEMNq58+4l1wdnKrI/3STifOAK/QTZsotiTqi2QG54P4jHNF2aXLqDy2wlwKpKrfyHKQIG0kWiBLRnrKMsyJ4dpQQ6R1DFLQ6E27+47ycl9zADfmLhBcZr6X7x5GDn40e7G3jeXa6h7XPHLTaI99WeRH7E1cCWAaEf8PkWzZYPJsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KX6V6rSl3K3kiRjJ4KBXWZ5lhaebbXpOGSHK9UQLM8Q=;
- b=vFEH6/GmBX31yXHTjYyQKQCR76cg4Watqpuv+tZTcVhcz5D8+ntOA6YytVWNIuUkvEO1qfynYOucarxXIG9V3HBoNM7ptvyzQzS0AJxEqnOmUAqcDsHrAwPO4wjgnuXyN/1fGMOZKsf54p57+qIvbAdB+BHi+JiOvFGI1OU77WJ13YM7biE3ZPC8JiPvipxtJs4O6QW85cnya9cJIOJC05F9TfZ/dBrh2MHBypM9B1DOduA2VObC7X5zjFjI0xLJGEtMOulTnzbBmm7+W4SYZBZBpWGHKbKVI/cm4c/6D7DWF0tPG51TEb+c2hEP3ADt89pUEMuR6Z9kfOKljnkbBw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by AS8PR04MB9144.eurprd04.prod.outlook.com (2603:10a6:20b:44b::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Mon, 15 Jun
- 2026 14:31:07 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0113.015; Mon, 15 Jun 2026
- 14:31:07 +0000
-Date: Mon, 15 Jun 2026 09:30:56 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: phucduc.bui@gmail.com
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v2 02/11] ASoC: fsl_audmix: Use guard() for spin locks
-Message-ID: <ajAMoIwRSnfJtH6J@SMW015318>
-References: <20260615093824.115751-1-phucduc.bui@gmail.com>
- <20260615093824.115751-3-phucduc.bui@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260615093824.115751-3-phucduc.bui@gmail.com>
-X-ClientProxiedBy: SN7PR04CA0214.namprd04.prod.outlook.com
- (2603:10b6:806:127::9) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b="WFOwNHwy"
+ARC-Seal: i=1; a=rsa-sha256; t=1781535276; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=fEWhRxCQxLhfJYoyqaRCX4DmtErjXLB8XrjIZhWU6jsuxce+Gpho8jvaiXEdca1WpAKSlYm1Hbich3y5a58lGVxugJLdzYdEagnzG/SZ8EakHrZrqKWjUwxXkPoFBiKHjoG17ZPPMy+aDEL+G2Zm3jCD4Bnmh0YZvpgOgt72NfM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1781535276; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Pn12vlchHjVQB8lOnbgObSwAzbQoyOOc+YMsyec1nsc=; 
+	b=J8b5FHr0sYPf0N9quizEwe4SNi2gnZ5gD3t3WvNRVSa+q6EUicfKOua9sMn+5KQAOVo5OxqGTtdz3cen5BbuZutXSUp5kYAaQSmVp9qXfzQFmOAGZkkCgl0Tkc9xZe4Ab4icP+sq8FFdi68fEiFKQllSUUkxUgbaZ3fWwhBvdYE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nfraprado@collabora.com;
+	dmarc=pass header.from=<nfraprado@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781535276;
+	s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
+	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Cc:Cc:Reply-To;
+	bh=Pn12vlchHjVQB8lOnbgObSwAzbQoyOOc+YMsyec1nsc=;
+	b=WFOwNHwyAK+gEXB/INZZAVODr7+XqO+SlOhoTjIp/H0/OyjgErlZSbUZ7dVCTBjd
+	MIiBx5MIx92jWIp6upfg1aVDrlgRge5WiDOIDR+39vFpQUkiwsXcxc0GeEVoa5D6dvM
+	w/4ibM+pZlVpy2cNglNFV0hAo1bP64tPM7auSxsU=
+Received: by mx.zohomail.com with SMTPS id 1781535274044738.1958510421996;
+	Mon, 15 Jun 2026 07:54:34 -0700 (PDT)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Date: Mon, 15 Jun 2026 10:54:10 -0400
+Subject: [PATCH] ASoC: cs35l41: Restore register state after system sleep
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|AS8PR04MB9144:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0f86213e-bbd6-4150-735f-08decaeabca0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|19092799006|7416014|376014|23010399003|22082099003|18002099003|4143699003|11063799006|56012099006|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	zPV/FFQ8oMQ3ryolE7FDhdG816Lq8hlSn55edYbTLkMyJdsq6DKrsztRAg0EJtywLnKg9EXAYuOysgvN3xsNlBnI7cbsmZXHB0hVUASUcPPPtH+UEYw26rd0IqLWW9A5IjrsxRQ3+14HGpPEYnGEiTqDOS5tZjE2ohD21s9dDy4T6ntTwE8A7BhUDXBj8MSJS0KUB995cE4QiHzTuW8SbAJtNT9b3w9MgIBM7/rBXrJt+st9iyQWEhPoekG//2vOd4d1LASpcNrws6qTKLRNJOTLNvzch6/dyKmdNL2XqgmYYdcT75cUhzuukFhDDY6GrgAY14G7duYri1ImbJ/a5LcHpgejn98Pjn5QXKd0aRIiitkKPZX7mOFztPnklsS9Uq72oJc1by9nrQRV78jONPKs/0iFiobi/KiAc926WbnkskEM7R3zWACvld3WuT19rCoUHKDtyQ+sbZV65bCmVUEQmlekSxtqBfAZIL9xoAtA0lXls/ug5u75FzRky/gUB6G36TzxrDCeUiA90Iiy8g2/f+Gr5Z4BzVVCsl6zHkxFCEDk/fiC12lJKAGDBNunkBwVflEUMe4YMV8A2ZjgWRg54EV18iws2P/QwoMV2QJtfrea46oMZ7P6yDb/vKOawRAfy+Mcx6C0Cw6ubS8ncnQZVg5kIXTQoc8Jml1g/gMr/QuhLh6GEq/pev0R1bgG
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(7416014)(376014)(23010399003)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?9uyZH/8qKJgMmmGuGCvymmKIMZlYyfboqGD52127aB+gRZINz+ByyKSe4mPU?=
- =?us-ascii?Q?cxInPMVryvTyHe8S67VNR7s3SvRnVUSgArqyQavrKJ1U5UuyQhju+JOYL4lb?=
- =?us-ascii?Q?FWxUHCwQTr4hVpESQNSOapfMIpFYgCkd+DPg7HLlkmkwDP/CzrJ3GeKeikOK?=
- =?us-ascii?Q?FT0jXfFFFQvd0cVCBzsJ3d67WbqOYNmwvc13Y6m7nBR18txaAu4J9SeuwcS9?=
- =?us-ascii?Q?a37PLhtfeHMeirjqQskecYcvX951izoOCtfaY226vFijWhL1Uk/39+Dpj3UE?=
- =?us-ascii?Q?9+FwH0JxnLb6lUnb4xtFvsmplQOF9H1K/c4cZk2N5Pe5/4i6dWp8Zaop1oGg?=
- =?us-ascii?Q?4zQwRFIwxnofYUopngdo58Y3CdewkNysOe2h43fv8rRkk3xRsuUB1N18S8CF?=
- =?us-ascii?Q?e+PRAANfdP02Ghe/wfKSMy6zHLW0JKE18D3RPOCh+umZaX2lefo8O/VN7tIP?=
- =?us-ascii?Q?dkHCQt2mphkn5e9bQMlRUbI/wFM5iwy11819LcWI2rI6fRHBXVOQQ56Er5Nf?=
- =?us-ascii?Q?+tx6qY821c2TBvFZyUKrxWvu6dychW8UU04U1IJsJl+z/JQY7Kp1DIwAnMqK?=
- =?us-ascii?Q?JXe9TgSKGxIHBayTpF7RCAeVEFKEOAGHAzbkftDtER+nTEsXsDhQON1FMH9L?=
- =?us-ascii?Q?CryNgYZPkk50OijZfpppwqMxkt+SVoOa2wwlHJBrbsrrKIdUfIncN+krklYq?=
- =?us-ascii?Q?v1gnPIGchL/m9pF4m+1wvul2LaBVaiishTStsoBYAcry1RLltlZ6FHLf2o2l?=
- =?us-ascii?Q?f+8gC9OqdNC3Gth2ZTkSydOmaGQ6pmW8fQBrx06j6bFZr4rroJ0zvoQuUEhV?=
- =?us-ascii?Q?mfTZHaS06+G6JmNeJZ6/r3xD0GjpUTPxYUolIR2z1pn978SDoSCU+bghiVBv?=
- =?us-ascii?Q?RKmYhIooq4EA6N3+Ahdppc0Xb6sDePPLsYeZDy3S+1veQ5HfM1Xo03GYhwJd?=
- =?us-ascii?Q?+sK8/yqPRn+7L5AHJPACHi6Fy7xpg9zooF/erA6PSccKbRRYWvzKzxYFOXCG?=
- =?us-ascii?Q?fu+4fDh/nJr4gl3yKcTmWl1c77KPrtdSQ2i6IfYn8wQ1EvGc5I07eSVkPbTN?=
- =?us-ascii?Q?J8TP6Ofvme2Kg0+8A8maRwKsT3P3QwHcItK9xMfFwN9ICSbLzuShCHdA07Yb?=
- =?us-ascii?Q?KiHmPSInEu+MPncwk2vQO574J2QF2K3kaZGglW3sqagTcYnngPCguTnTM/me?=
- =?us-ascii?Q?c7M8gS5mCh83ZCRx94WqIEeTYr3nwrSyLwdiVT7s9w12N3ESfn6dGl+EPRo1?=
- =?us-ascii?Q?r1FBueFbYOseMouM1T3jRHM8gXVmmXAVJN9tMe0ZSVYM7WN4sZnTqMgMkZrV?=
- =?us-ascii?Q?eB9VQ6/BUvdqndnAKbregSFDzy7H+LX3iCeApABl44T11TTt8HTuIU/ZSQ2t?=
- =?us-ascii?Q?VbGjgS19CEDW8u04O+Grq3eoo55nIpKNYOExmvx72XUV1KgNSnYd5/Oa3HeD?=
- =?us-ascii?Q?sfIC93WM7rePrZgGBo8jqOyKI+k5zU5+arKivoNTSzQXVtIYkFm2Yss7O5tK?=
- =?us-ascii?Q?747qdd3fxIWffDDEKqhnu7NXRzprRaDlIRvRdAG3YB9IbWORk2GMjUMpVcuw?=
- =?us-ascii?Q?oRwziIbYuOxP3JZ2hEq9ld610MUmA3eACmaIjxKY56ww+qSS1vRG6OiLxOo2?=
- =?us-ascii?Q?Ikjo3GM9SyqSxIZy6QKaWR8C0SHPY7ZwKq+yUEipWQ6hMg2GQGG7pJrLO4hn?=
- =?us-ascii?Q?8L10n92xqvwbEGKL656ONs1OFo+srUVGlkhHQygPlJrCgh93UIFvmmS91xKo?=
- =?us-ascii?Q?a/x5v8o535IbPrFSre6Pfc0XGkOXRkMEfXQZKT8WPkGF5lHCLF9p?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f86213e-bbd6-4150-735f-08decaeabca0
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2026 14:31:07.2089
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ic2MKIYZ106b9iRCOQqBPQ7+KEoqGsG/PpboUmu2LCoxcoZHcFFDmiHM/8DcSIyYyVW0R/g5eFzLNY7VnSQg3+Lp/iQ1el3D6Hte1OdN5nwWjChSgIRDJtaaByBbvylG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9144
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260615-cs35l41-s4-support-v1-1-f5a21e35dd9e@collabora.com>
+X-B4-Tracking: v=1; b=H4sIABESMGoC/x3M3QpAQBBA4VfRXJuy1k+8ilysMZgS2w5S8u42l
+ 9/FOQ8oB2GFNnkg8CUq+xZh0gRocdvMKGM05FleZZUpkdSWa2FQC9TT+z0c6ByZxo410eAghj7
+ wJPc/7fr3/QDM2WT8ZAAAAA==
+X-Change-ID: 20260615-cs35l41-s4-support-aac193d7ccba
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+X-Mailer: b4 0.14.3
+X-ZohoMailClient: External
 
-On Mon, Jun 15, 2026 at 04:38:15PM +0700, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
->
-> Clean up the code using guard() for spin locks.
-> Merely code refactoring, and no behavior change.
->
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-> ---
+Currently, on the Steam Deck LCD when the system goes into hibernation
+and resumes back, the speakers are silent when playing with:
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+  aplay -D plughw:acp5x,1 /usr/share/sounds/alsa/Front_Left.wav
 
->  sound/soc/fsl/fsl_audmix.c | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
->
-> diff --git a/sound/soc/fsl/fsl_audmix.c b/sound/soc/fsl/fsl_audmix.c
-> index 40a3b7432174..066239c64037 100644
-> --- a/sound/soc/fsl/fsl_audmix.c
-> +++ b/sound/soc/fsl/fsl_audmix.c
-> @@ -280,7 +280,6 @@ static int fsl_audmix_dai_trigger(struct snd_pcm_substream *substream, int cmd,
->  				  struct snd_soc_dai *dai)
->  {
->  	struct fsl_audmix *priv = snd_soc_dai_get_drvdata(dai);
-> -	unsigned long lock_flags;
->
->  	/* Capture stream shall not be handled */
->  	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
-> @@ -290,16 +289,14 @@ static int fsl_audmix_dai_trigger(struct snd_pcm_substream *substream, int cmd,
->  	case SNDRV_PCM_TRIGGER_START:
->  	case SNDRV_PCM_TRIGGER_RESUME:
->  	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-> -		spin_lock_irqsave(&priv->lock, lock_flags);
-> -		priv->tdms |= BIT(dai->driver->id);
-> -		spin_unlock_irqrestore(&priv->lock, lock_flags);
-> +		scoped_guard(spinlock_irqsave, &priv->lock)
-> +			priv->tdms |= BIT(dai->driver->id);
->  		break;
->  	case SNDRV_PCM_TRIGGER_STOP:
->  	case SNDRV_PCM_TRIGGER_SUSPEND:
->  	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-> -		spin_lock_irqsave(&priv->lock, lock_flags);
-> -		priv->tdms &= ~BIT(dai->driver->id);
-> -		spin_unlock_irqrestore(&priv->lock, lock_flags);
-> +		scoped_guard(spinlock_irqsave, &priv->lock)
-> +			priv->tdms &= ~BIT(dai->driver->id);
->  		break;
->  	default:
->  		return -EINVAL;
-> --
-> 2.43.0
->
->
+A crude workaround was to, after resuming the system, bypassing the
+regmap cache on the cs35l41 devices, before playing:
+
+  echo 1 > /sys/kernel/debug/regmap/spi-VLV1776\:00/cache_bypass
+  echo 1 > /sys/kernel/debug/regmap/spi-VLV1776\:01/cache_bypass
+
+That indicated that the hardware registers had gone out of sync with
+the regmap cache due to the power down in system hibernation.
+
+Fix the issue by, before system sleep, marking the regcache as cache
+only, and after system sleep, resetting the hardware and restoring the
+hardware registers from the regcache.
+
+This gets the sound working on the Steam Deck LCD after resume from S4.
+
+While the issue was only observed on S4 on this platform, the callbacks
+for suspend/resume are also set in the same way to account for platforms
+that might power down the chip on S3 as well.
+
+Note that this change does not take care of restoring the DSP state,
+since the affected platform does not use the DSP and it couldn't be
+tested, so it is only shut down on resume so it can be reinitialized in
+a future DSP preload event.
+
+Assisted-by: Copilot:claude-sonnet-4.6
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+---
+ sound/soc/codecs/cs35l41.c | 127 ++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 102 insertions(+), 25 deletions(-)
+
+diff --git a/sound/soc/codecs/cs35l41.c b/sound/soc/codecs/cs35l41.c
+index b2a076706c79..231341a7eb44 100644
+--- a/sound/soc/codecs/cs35l41.c
++++ b/sound/soc/codecs/cs35l41.c
+@@ -1199,9 +1199,41 @@ static int cs35l41_get_system_name(struct cs35l41_private *cs35l41)
+ 	return ret;
+ }
+ 
++static int cs35l41_boot(struct cs35l41_private *cs35l41)
++{
++	u32 int_status;
++	int ret;
++
++	if (cs35l41->reset_gpio) {
++		/* satisfy minimum reset pulse width spec */
++		gpiod_set_value_cansleep(cs35l41->reset_gpio, 0);
++		usleep_range(2000, 2100);
++		gpiod_set_value_cansleep(cs35l41->reset_gpio, 1);
++	}
++
++	usleep_range(2000, 2100);
++
++	ret = regmap_read_poll_timeout(cs35l41->regmap, CS35L41_IRQ1_STATUS4,
++				       int_status, int_status & CS35L41_OTP_BOOT_DONE,
++				       1000, 100000);
++	if (ret) {
++		dev_err_probe(cs35l41->dev, ret,
++			      "Failed waiting for OTP_BOOT_DONE\n");
++		return ret;
++	}
++
++	regmap_read(cs35l41->regmap, CS35L41_IRQ1_STATUS3, &int_status);
++	if (int_status & CS35L41_OTP_BOOT_ERR) {
++		dev_err(cs35l41->dev, "OTP Boot error\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ int cs35l41_probe(struct cs35l41_private *cs35l41, const struct cs35l41_hw_cfg *hw_cfg)
+ {
+-	u32 regid, reg_revid, i, mtl_revid, int_status, chipid_match;
++	u32 regid, reg_revid, i, mtl_revid, chipid_match;
+ 	int irq_pol = 0;
+ 	int ret;
+ 
+@@ -1242,29 +1274,10 @@ int cs35l41_probe(struct cs35l41_private *cs35l41, const struct cs35l41_hw_cfg *
+ 			goto err;
+ 		}
+ 	}
+-	if (cs35l41->reset_gpio) {
+-		/* satisfy minimum reset pulse width spec */
+-		usleep_range(2000, 2100);
+-		gpiod_set_value_cansleep(cs35l41->reset_gpio, 1);
+-	}
+-
+-	usleep_range(2000, 2100);
+-
+-	ret = regmap_read_poll_timeout(cs35l41->regmap, CS35L41_IRQ1_STATUS4,
+-				       int_status, int_status & CS35L41_OTP_BOOT_DONE,
+-				       1000, 100000);
+-	if (ret) {
+-		dev_err_probe(cs35l41->dev, ret,
+-			      "Failed waiting for OTP_BOOT_DONE\n");
+-		goto err;
+-	}
+ 
+-	regmap_read(cs35l41->regmap, CS35L41_IRQ1_STATUS3, &int_status);
+-	if (int_status & CS35L41_OTP_BOOT_ERR) {
+-		dev_err(cs35l41->dev, "OTP Boot error\n");
+-		ret = -EINVAL;
++	ret = cs35l41_boot(cs35l41);
++	if (ret)
+ 		goto err;
+-	}
+ 
+ 	ret = regmap_read(cs35l41->regmap, CS35L41_DEVID, &regid);
+ 	if (ret < 0) {
+@@ -1450,7 +1463,20 @@ static int cs35l41_sys_suspend(struct device *dev)
+ {
+ 	struct cs35l41_private *cs35l41 = dev_get_drvdata(dev);
+ 
+-	dev_dbg(cs35l41->dev, "System suspend, disabling IRQ\n");
++	dev_dbg(cs35l41->dev, "System suspend, saving state\n");
++	disable_irq(cs35l41->irq);
++
++	regcache_cache_only(cs35l41->regmap, true);
++	regcache_mark_dirty(cs35l41->regmap);
++
++	return 0;
++}
++
++static int cs35l41_sys_poweroff(struct device *dev)
++{
++	struct cs35l41_private *cs35l41 = dev_get_drvdata(dev);
++
++	dev_dbg(cs35l41->dev, "System poweroff, disabling IRQ\n");
+ 	disable_irq(cs35l41->irq);
+ 
+ 	return 0;
+@@ -1476,20 +1502,71 @@ static int cs35l41_sys_resume_noirq(struct device *dev)
+ 	return 0;
+ }
+ 
++static int cs35l41_sys_thaw(struct device *dev)
++{
++	struct cs35l41_private *cs35l41 = dev_get_drvdata(dev);
++
++	dev_dbg(cs35l41->dev, "System thaw, reenabling IRQ\n");
++	enable_irq(cs35l41->irq);
++
++	return 0;
++}
++
+ static int cs35l41_sys_resume(struct device *dev)
+ {
+ 	struct cs35l41_private *cs35l41 = dev_get_drvdata(dev);
++	int ret;
++
++	dev_dbg(cs35l41->dev, "System resume, restoring state\n");
++
++	regcache_cache_only(cs35l41->regmap, false);
++
++	ret = cs35l41_boot(cs35l41);
++	if (ret)
++		return ret;
++
++	cs35l41_test_key_unlock(cs35l41->dev, cs35l41->regmap);
++	ret = regcache_sync(cs35l41->regmap);
++	cs35l41_test_key_lock(cs35l41->dev, cs35l41->regmap);
++	if (ret) {
++		dev_err(cs35l41->dev, "Failed to restore register cache: %d\n", ret);
++		return ret;
++	}
++
++	ret = cs35l41_init_boost(cs35l41->dev, cs35l41->regmap,
++				 &cs35l41->hw_cfg);
++	if (ret)
++		return ret;
+ 
+-	dev_dbg(cs35l41->dev, "System resume, reenabling IRQ\n");
+ 	enable_irq(cs35l41->irq);
+ 
++	if (!cs35l41->dsp.cs_dsp.running)
++		return 0;
++
++	/*
++	 * DSP firmware is gone after a full power cycle. Reset the DSP
++	 * software state so that firmware is reloaded on next DSP preload event
++	 */
++	wm_adsp_stop(&cs35l41->dsp);
++
++	if (!cs35l41->dsp.cs_dsp.booted)
++		return 0;
++
++	wm_adsp_power_down(&cs35l41->dsp);
++
+ 	return 0;
+ }
+ 
+ EXPORT_GPL_DEV_PM_OPS(cs35l41_pm_ops) = {
+ 	RUNTIME_PM_OPS(cs35l41_runtime_suspend, cs35l41_runtime_resume, NULL)
+ 
+-	SYSTEM_SLEEP_PM_OPS(cs35l41_sys_suspend, cs35l41_sys_resume)
++	.suspend  = pm_sleep_ptr(cs35l41_sys_suspend),
++	.resume   = pm_sleep_ptr(cs35l41_sys_resume),
++	.freeze   = pm_sleep_ptr(cs35l41_sys_suspend),
++	.thaw     = pm_sleep_ptr(cs35l41_sys_thaw),
++	.poweroff = pm_sleep_ptr(cs35l41_sys_poweroff),
++	.restore  = pm_sleep_ptr(cs35l41_sys_resume),
++
+ 	NOIRQ_SYSTEM_SLEEP_PM_OPS(cs35l41_sys_suspend_noirq, cs35l41_sys_resume_noirq)
+ };
+ 
+
+---
+base-commit: c425609d6ac4012c8bbf01ec2e10e801b1923a7b
+change-id: 20260615-cs35l41-s4-support-aac193d7ccba
+
+Best regards,
+-- 
+Nícolas F. R. A. Prado <nfraprado@collabora.com>
+
