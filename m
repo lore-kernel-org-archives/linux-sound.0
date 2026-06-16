@@ -1,620 +1,132 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534C4438FF3
-	for <linux-sound@vger.kernel.org>; Tue, 16 Jun 2026 15:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0485F46AF14;
+	Tue, 16 Jun 2026 16:20:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781622742; cv=none; b=eS++FQqSo/NUYOrmX9h1MeDJgbqIov/qyzNKH+rUHS0faA0Gjxa33+3xiI1P523Jk/sSHTMBI+XCxfDV1Fa0dZ9hVuE1AmAUaN8A52fNhaGXYNSTKqX+AJz+7iFahn6/e2GdQrz/k8/DdJjR/k1X4pO87L4diZu6XPqwaqFQDho=
+	t=1781626852; cv=none; b=QnxPShPM7/tOFZayjGZOluMwbFcoZThdopWcXcwCzc3rI5szMFIW2YZOTr/TQYbzNa6JGUKiCQ2qvnKUWZdNJkGueFZa0+62e8SnVO+rkkgGSosB+46zF1B6lDl+BjbIWd3eaxA6QAIcBn1xU7+LpcqD4vRHg9ORlxHw4E6XEF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781622742; c=relaxed/simple;
-	bh=reWhnsUXA4J8bNLpaWzgqHd4V0TBZ2M5HbNmFLkfLKY=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=omKLQqvyWW28Q763WfZ5O1WnrCc+neW8YsFM4rmB2cPW8HeEmaUx14/qTs7ul8abtihbNRkhs57kcd3kaNLFYsnFGHHyRe5/nkB9ghulFoFg7TK6mrSCmBViIYbnXDOKamzO/N1M5rUj0fgfaKMJkIxnVemlvd+0m+Sya7B2r2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=id37jDTQ; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1781626852; c=relaxed/simple;
+	bh=GJgFpaOODT7PKCmOi/uHSqP0I3tmz0cXhUIvKgtkXkY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iLJkuJakzk8nycgf3geo3HlYTKj2yzU88fBlU7tqLgqzfRfrXxiuytHnHj8vU4L+ZdTBjQRnmKFeuuY8FptXZ20MEnB1gGrAGlM3SMH5j1sMUdnV7nEMNgK3w6j/jDtynZiy0ZnbUDBbrv/rlH5A+BSXaqrlHKI3ViVfZa0DH8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QCPvpIQE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="id37jDTQ"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-45ee5cdbd28so3450586f8f.1
-        for <linux-sound@vger.kernel.org>; Tue, 16 Jun 2026 08:12:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1781622739; x=1782227539; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hZxv6iA7k0pSQBFbEcxAkbZ98OwX/xaAiQc6CH16UpU=;
-        b=id37jDTQd+5Qr6ovo1S4evmFTDZpTaag4/IbgjdLI/Pu8tdBrZRsEe7ukp336FjVlC
-         8buX8O8hGcGOqdQV7PLatDujDPtqzQjuFPTcpPsFTzfadMYUWjH4DxQ9oqh/09FOk4b3
-         mIdia9hnMdLVovJV3Npa6Yn6/vRxsLyh+XqRWaOT7m4VZUvz5rthFwqBEnL0tXJqDpDG
-         x0eYX8w3iC7Tf7bstyyiJ6dw6jYtH9wnMsnRmStpn2URO3Xzjc9WN5xHRwBzUR7HvDsb
-         XMaj1ciWXyRIuYv34ZMbqAiyYIqb/1tgCaQv1lySCL9lNijG9rS9Hmo8m+QuTZHhma5M
-         XBYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781622739; x=1782227539;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hZxv6iA7k0pSQBFbEcxAkbZ98OwX/xaAiQc6CH16UpU=;
-        b=odxuDCd8diiRZxIrB8vvYRnID/KZfLG232g0ezZ7DRtO/JRrgctyOb2xmsCEUaIGpf
-         L5WiGX7y+ReUN2ryBtiL3ved6SZgcGbiFq1eFVpca5g+ydBFaiqpxOdqLI0gOHfVemc3
-         440qCVjJ8RURGsIelKxj9yqG6eBJ6nZOmTFUhRiLrJe9TzoOAFOQ7ur/VR0GzJNa874M
-         QWRJ4WmoBJ28uFDReMskrlCbggplR1r9N/MAvimRrsqTd8v6juhuFIsiqIshhnlM+cx4
-         DFaOL6kMNKjajGfqsaH1eYlryagmA5GzpzKlxzvDY/nJvLGZCpgjwbTMQX0RuUAOpPC3
-         GkhA==
-X-Forwarded-Encrypted: i=1; AFNElJ9zdStSbxCZRusLF5s+Qjmk61OJulZkHMh/vANwyTfzsrU+WAP9z9d5mjGInIGTdOclb/fDIenyu4FTYw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpUvx+CFfbeT6Kxuhwu9LWWTHbCEt+DWoHqWWD6d99OBpGfkC4
-	Fh6EGYoAxDzWd+vRbcosfQvOET1wCoR7FjWe6naA3QtV3uSWt2R6cgO0Z1EkaG8c0zQ=
-X-Gm-Gg: Acq92OEDroh8liia9oNN7zMiz2jDj/rMQ4v+Y0xXaAn0Pk4fQVn1XMI0wjwLXYyxopC
-	46D9nXDnelvqKxPhxD8pIYZ6jya5NQTNKI2QUWWNropCEKMl3khYUR3JU58JG2wQ5Omxc35WVOk
-	TpCFhKO3AuDfhojBf5NgiICzB1FarOL1lXhy2Y/9sqPltymjZ9oeW8DkRJARiaL+B0QNSC1qSHB
-	m+33hupwomSbkbceOxNunNJUptFoUVVbHK7k2HxkgFLyK2tboLXrRQPziPIJRYc+2JwjcuDnZvZ
-	bRy9AOQMXJiXaosM+pBpOXEStGNOu+qnR/eoJVIJNNnbpBYnq0fYY0vRAFimbEIakPoqhTKMRCq
-	dRyrCuha7jXtbp8d4oY/bclW+iw+hgh02mP1yXKKLRo+sW4XyqgKeVPdBBihO/sjx3bZn2Uygwi
-	SODnumvhqS9IbWsqVgHydAXc/wczfW8M76Ex9ouIVZaTcHSGxIsO5JIDlyDOHXbz8GhMi+P+TxA
-	LveSkKTXg==
-X-Received: by 2002:a05:6000:4b1c:b0:460:d1e:a59a with SMTP id ffacd0b85a97d-4622b271812mr178592f8f.8.1781622738379;
-        Tue, 16 Jun 2026 08:12:18 -0700 (PDT)
-Received: from ?IPV6:2a01:cb14:150f:cf00:62e3:28a5:5976:18bf? ([2a01:cb14:150f:cf00:62e3:28a5:5976:18bf])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f263945sm46530468f8f.8.2026.06.16.08.12.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2026 08:12:17 -0700 (PDT)
-Message-ID: <a35d7f95-c158-46d1-b136-b901dcfbf101@linaro.org>
-Date: Tue, 16 Jun 2026 17:12:16 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QCPvpIQE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5D471F000E9;
+	Tue, 16 Jun 2026 16:20:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781626850;
+	bh=0AsclxypfELZoR4JIGkVPPEGEpP6Cc+HL71Qk/KC3Ks=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QCPvpIQEQtuq47nCz6/7eHev9nFJkZAtz3qN0yOn4W+xzfpwNdJ9Puy/gSBHMVGio
+	 DFSTv5vP4FcZVI3gvltYAG50Q0g5huGwF0Jzh/fUjTIYSLKD88n4SHp93Evqx5Zghv
+	 0f0HYEzjPzvtyKdoWs8BryCqdA0RVBAKXkRz9uO6SL9eNURGrUH5UvEy1BdARXPyFE
+	 EmKZn+jHqRab5PHSnOq6ER88iSPBK1uuRa8oMf4Ykp5JoN/OoesZ62zdnQlQDiOLQ/
+	 WIUM9seNBG0Czwse4OiCjPffIuJV6kxNYHXQUS5H8Z9BnVkiWvS2FxNPG7lnJNUgPo
+	 NY+JVN8EiIcdA==
+Date: Tue, 16 Jun 2026 17:20:45 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Bartosz Juraszewski <bjuraszewski@gmail.com>
+Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: tas2783: Update loaded firmware names to
+ linux-firmware 20260519
+Message-ID: <d2558567-67b9-4fca-b170-c6ece9f8cf23@sirena.org.uk>
+References: <15efa76a-aab8-4a21-ac91-ed6698cb958a@sirena.org.uk>
+ <20260607093023.42070-1-bjuraszewski@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 1/4] ASoC: qcom: audioreach: compute active channel maps
- from channel_map
-To: Srinivas Kandagatla <srini@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: kancy2333@outlook.com, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20260610-topic-sm8650-ayaneo-pocket-s2-wsa2-fix-v1-0-18bb19c5ca22@linaro.org>
- <20260610-topic-sm8650-ayaneo-pocket-s2-wsa2-fix-v1-1-18bb19c5ca22@linaro.org>
- <937aed10-9ec6-4ca4-bc60-db892121a416@kernel.org>
- <a5a957d0-a40c-424e-9d6d-622a4f624343@linaro.org>
- <05e15363-d49e-4a7b-82b3-0f07537b5366@kernel.org>
- <16d2e8e8-91bc-437d-8225-eb6eedb4bd8a@linaro.org>
- <f18fa22c-131c-409c-9c8b-3153e2272b89@kernel.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <f18fa22c-131c-409c-9c8b-3153e2272b89@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5VYmqCSxtQIhbtDo"
+Content-Disposition: inline
+In-Reply-To: <20260607093023.42070-1-bjuraszewski@gmail.com>
+X-Cookie: Password:
 
-On 6/16/26 16:59, Srinivas Kandagatla wrote:
-> 
-> 
-> On 6/15/26 2:54 PM, Neil Armstrong wrote:
->> On 6/15/26 11:36, Srinivas Kandagatla wrote:
->>> On 6/15/26 10:31 AM, Neil Armstrong wrote:
->>>> On 6/15/26 10:38, Srinivas Kandagatla wrote:
->>>>>
->>>>>
->>>>> On 6/10/26 8:41 AM, Neil Armstrong wrote:
->>>>>> The Qualcom SM8650 based Ayaneo Pocket S2 gaming device has a set
->>>>>> of 2 WSA speakers connected on the WSA2 lines.
->>>>>>
->>>>>> But the Audioreach DSP only handles WSA2 in pair with the WSA
->>>>>> interface by using the upper bits of the active_channels_mask
->>>>>> for WSA2 and the lower bits for WSA:
->>>>>>
->>>>>> /-------------------------------------------------\
->>>>>> | Bits  |     3    |     2    |   1     |     0   |
->>>>>> |-------------------------------------------------|
->>>>>> | Line  | WSA2 Ch2 | WSA2 Ch1 | WSA Ch2 | WSA Ch1 |
->>>>>> \-------------------------------------------------/
->>>>>>
->>>>> No, this is not totally correct, if the setup only has WSA2, then
->>>>> channel 0 and 1 should be WSA2 channels.
->>>>>
->>>>> What is the backend dai id that is in DT, it should be
->>>>>
->>>>>       sound-dai = <&q6apmbedai WSA2_CODEC_DMA_RX_0>;
->>>>>
->>>>> I also noticed that you are using
->>>>> https://github.com/linux-msm/audioreach-topology/blob/main/SM8550-
->>>>> HDK.m4
->>>>> which has WSA as backend dai, that is not correct, you should have
->>>>> WSA2.
->>>>
->>>> So I did try that, and DSP would error out when using the
->>>> LPAIF_INTF_TYPE_WSA2,
->>>> but I'm retrying from scratch right now.
->>>
->>> Please share the failure logs, we need to change
->>> 1. dt : bedai id, codec dais with correct soundwire wsa2 instance, the
->>> routes.
->>> 2. tplg
->>>
->>
->> So I did all the changes as you suggested:
->>
->> Resurected Krzk's serie: https://
->> patch.msgid.link/20231019153541.49753-1-krzysztof.kozlowski@linaro.org
->>
->> Adapted/Fixes it to apply on v7.1:
->> https://gitlab.com/superna9999/linux/-/commit/
->> fd8cf1922d10175c5bcd8cf2a444c5825392d994
->> https://gitlab.com/superna9999/linux/-/
->> commit/0c4e89e167b9ca9c7b500577c030e550ec2a6e73
->> https://gitlab.com/superna9999/linux/-/
->> commit/6364a0a45a3f0985b872d9f504e9ea1d1f3f2a35
->>
->> ```
->> +#define WSA2_CODEC_DMA_RX_0    147
->> +#define WSA2_CODEC_DMA_TX_0    148
->> +#define WSA2_CODEC_DMA_RX_1    149
->> +#define WSA2_CODEC_DMA_TX_1    150
->> +#define WSA2_CODEC_DMA_TX_2    151
->> ```
->>
->> https://gitlab.com/superna9999/linux/-/
->> commit/9bd0ce21f73df92fb35e3db7ef570f561a106478
->>
->> DT:
->> https://gitlab.com/superna9999/linux/-/
->> commit/2fc270860e3b77ccae28e0c38228cba3e39ea78a
->>
->> ```
->> -                               sound-dai = <&q6apmbedai
->> WSA_CODEC_DMA_RX_0>;
->> +                               sound-dai = <&q6apmbedai
->> WSA2_CODEC_DMA_RX_0>;
->>                          };
->> ```
->>
->> Topology, copied the SM8550-HDK into a new one, dropped I2S and changed
->> all WSA to WSA
->> and added the WSA defines:
->> https://github.com/superna9999/audioreach-topology/
->> commit/12adc76859cde606c67e5a95df204b8d407038df
->>
->>
->> ```
->> +define(`WSA2_CODEC_DMA_RX_0', `147') dnl
->> +define(`WSA2_CODEC_DMA_TX_0', `148') dnl
->> +define(`WSA2_CODEC_DMA_RX_1', `149') dnl
->> +define(`WSA2_CODEC_DMA_TX_1', `150') dnl
->> +define(`WSA2_CODEC_DMA_TX_2', `151') dnl
->> ```
->>
->> Extract of the SM8650-APS2.m4 concerning WSA2:
->> ```
->> ...
->> +dnl WSA Playback
->> +DEVICE_SG_ADD(audioreach/subgraph-device-codec-dma-playback.m4,
->> `WSA2_CODEC_DMA_RX_0', WSA2_CODEC_DMA_RX_0,
->> +       `S16_LE', 48000, 48000, 2, 2,
->> +       LPAIF_INTF_TYPE_WSA2, CODEC_INTF_IDX_RX0, 0,
->> DATA_FORMAT_FIXED_POINT,
->> +       0x00004006, 0x00004006, 0x00006050)
->> +dnl
->> ...
->> +STREAM_DEVICE_PLAYBACK_MIXER(WSA2_CODEC_DMA_RX_0,
->> ``WSA2_CODEC_DMA_RX_0'', ``MultiMedia1'', ``MultiMedia2'', ``MultiMedia5'')
->> ...
->> +STREAM_DEVICE_PLAYBACK_ROUTE(WSA2_CODEC_DMA_RX_0, ``WSA2_CODEC_DMA_RX_0
->> Audio Mixer'', ``MultiMedia1, stream0.logger1'', ``MultiMedia2,
->> stream1.logger1'', ``MultiMedia5, stream4.logger1'')
->> ...
->> ```
->>
->> On device, all sets up without errors:
->> ```
->> [   20.710228] qcom-apm gprsvc:service:2:1: CMD timeout for [1001021]
->> opcode
->> [   20.720234] platform 6800000.remoteproc:glink-
->> edge:gpr:service@1:dais: Adding to iommu group 30
->> [   20.763797] va_macro 6d44000.codec: qcom,dmic-sample-rate dt entry
->> missing
->> [   20.791279] wsa_macro 6aa0000.codec: using zero-initialized flat
->> cache, this may cause unexpected behavior
->> [   20.912445] wcd939x_codec audio-codec: bound sdw:2:0:0217:010e:00:4
->> (ops wcd_sdw_component_ops [snd_soc_wcd_common])
->> [   20.923343] wcd939x_codec audio-codec: bound sdw:3:0:0217:010e:00:3
->> (ops wcd_sdw_component_ops [snd_soc_wcd_common])
->> [   20.960741] snd-sc8280xp sound: ASoC: Parent card not yet available,
->> widget card binding deferred
->> [   20.972182] va_macro 6d44000.codec: supply vdd-micb not found, using
->> dummy regulator
->> [   20.985751] ALSA: Control name 'stream0.vol_ctrl0 MultiMedia1
->> Playback Volume' truncated to 'stream0.vol_ctrl0 MultiMedia1 Playback Volu'
->> [   20.998589] ALSA: Control name 'stream1.vol_ctrl1 MultiMedia2
->> Playback Volume' truncated to 'stream1.vol_ctrl1 MultiMedia2 Playback Volu'
->> [   21.011536] ALSA: Control name 'stream4.vol_ctrl4 MultiMedia5
->> Playback Volume' truncated to 'stream4.vol_ctrl4 MultiMedia5 Playback Volu'
->> [   21.026510] input: SM8650-APS2 Headset Jack as /devices/platform/
->> sound/sound/card0/input7
->> [   21.035151] input: SM8650-APS2 DP0 Jack as /devices/platform/sound/
->> sound/card0/input8
->> ```
->>
->> Available mixer elements:
->> ```
->> # amixer | grep WSA
->> Simple mixer control 'SpkrLeft WSA MODE',0
->> Simple mixer control 'SpkrRight WSA MODE',0
->> Simple mixer control 'WSA RX0 MUX',0
->> Simple mixer control 'WSA RX1 MUX',0
->> Simple mixer control 'WSA RX_MIX EC0_MUX',0
->> Simple mixer control 'WSA RX_MIX EC1_MUX',0
->> Simple mixer control 'WSA RX_MIX0 MUX',0
->> Simple mixer control 'WSA RX_MIX1 MUX',0
->> Simple mixer control 'WSA2_CODEC_DMA_RX_0 Audio Mixer MultiMedia1',0
->> Simple mixer control 'WSA2_CODEC_DMA_RX_0 Audio Mixer MultiMedia2',0
->> Simple mixer control 'WSA2_CODEC_DMA_RX_0 Audio Mixer MultiMedia5',0
->> Simple mixer control 'WSA_AIF_VI Mixer WSA_SPKR_VI_1',0
->> Simple mixer control 'WSA_AIF_VI Mixer WSA_SPKR_VI_2',0
->> Simple mixer control 'WSA_COMP1',0
->> Simple mixer control 'WSA_COMP2',0
->> Simple mixer control 'WSA_RX0 Digital',0
->> Simple mixer control 'WSA_RX0 Digital Mute',0
->> Simple mixer control 'WSA_RX0 EC_HQ',0
->> Simple mixer control 'WSA_RX0 INP0',0
->> Simple mixer control 'WSA_RX0 INP1',0
->> Simple mixer control 'WSA_RX0 INP2',0
->> Simple mixer control 'WSA_RX0 INT0 SIDETONE MIX',0
->> Simple mixer control 'WSA_RX0 MIX INP',0
->> Simple mixer control 'WSA_RX0_MIX Digital',0
->> Simple mixer control 'WSA_RX0_MIX Digital Mute',0
->> Simple mixer control 'WSA_RX1 Digital',0
->> Simple mixer control 'WSA_RX1 Digital Mute',0
->> Simple mixer control 'WSA_RX1 EC_HQ',0
->> Simple mixer control 'WSA_RX1 INP0',0
->> Simple mixer control 'WSA_RX1 INP1',0
->> Simple mixer control 'WSA_RX1 INP2',0
->> Simple mixer control 'WSA_RX1 MIX INP',0
->> Simple mixer control 'WSA_RX1_MIX Digital',0
->> Simple mixer control 'WSA_RX1_MIX Digital Mute',0
->> Simple mixer control 'WSA_Softclip0 Enable',0
->> Simple mixer control 'WSA_Softclip1 Enable',0
->> ```
->>
->> I setup the speaker with (no errors):
->> ```
->> amixer -c 0 cset name='SpkrLeft PA Volume' 20
->> amixer -c 0 cset name='SpkrRight PA Volume' 20
->> amixer -c 0 cset name='WSA RX0 MUX' AIF1_PB
->> amixer -c 0 cset name='WSA RX1 MUX' AIF1_PB
->> amixer -c 0 cset name='WSA_RX0 INP0' RX0
->> amixer -c 0 cset name='WSA_RX1 INP0' RX1
->> amixer -c 0 cset name='SpkrLeft DAC Switch' 1
->> amixer -c 0 cset name='SpkrRight DAC Switch' 1
->> amixer -c 0 cset name='WSA_RX0 Digital Volume' 85
->> amixer -c 0 cset name='WSA_RX1 Digital Volume' 85
->> ```
->>
->> and finally:
->> ```
->> amixer -c 0 cset name='WSA2_CODEC_DMA_RX_0 Audio Mixer MultiMedia1' 1
->> numid=216,iface=MIXER,name='WSA2_CODEC_DMA_RX_0 Audio Mixer MultiMedia1'
->>    ; type=BOOLEAN,access=rw------,values=2
->>    : values=on,off
->>
->> ```
->>
->> When playing sound, it just timeouts, no printed errors:
->> ```
->> # speaker-test -D plughw:0,0 -c 2
->>
->> speaker-test 1.2.14
->>
->> Playback device is plughw:0,0
->> Stream parameters are 48000Hz, S16_LE, 2 channels
->> Using 16 octaves of pink noise
->> Rate set to 48000Hz (requested 48000Hz)
->> Buffer size range from 960 to 130560
->> Period size range from 480 to 16320
->> Periods = 4
->> was set period_size = 12000
->> was set buffer_size = 48000
->>   0 - Front Left
->> Write error: -5,Input/output error
->> xrun_recovery failed: -5,Input/output error
->> Transfer failed: Input/output error
->> ```
-> 
-> Thanks Neil for trying this out, I had pretty much simillar behavoir on
-> Glymur device too, My understanding was that there are some codec DMA
-> instances where we can use 2 channels as default for WSA2.
-> 
-> But on Glymur all the DMA instances are 8 channel wide. Am trying to
-> check internally to see if its actually doable to get this working with
-> the ch1 and ch2 mask.
-> 
-> Am working on this to get more details on what it takes to get this working.
-> 
-> 
-> Only concern with this patch is that the channel mapping, which does not
-> reflect the channel mask. can you confirm that in your working setup you
-> have chmask as 0xC0 and channel_map setup for ch1 and ch2?
 
-Yeah 0xC0 for active_channels_mask and channel_mapping = { PCM_CHANNEL_FL, PCM_CHANNEL_FR };
+--5VYmqCSxtQIhbtDo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I tried to keep the leading 0, but since the channel_mapping table is allocated with
-the size of the num_channels parameter, you can ony have 2 entries.
+On Sun, Jun 07, 2026 at 11:30:23AM +0200, Bartosz Juraszewski wrote:
 
-> 
->  From DSP docs:
-> https://github.com/AudioReach/audioreach-engine/blob/master/fwk/api/modules/media_fmt_api_basic.h#L780
-> 
-> Channel[i] mapping describes channel i. Each element i of the array
-> describes channel i inside the buffer where i is less than num_channels.
-> An unused channel is set to 0.
-> 
-> 
-> So unused channels should be set to zero, but the patch padding the
-> channels starting form zero.
+> This patch adds `0x` prefix explicitly to the generated firmware name
+> allowing file to successfully load. In case prefixed firmware is missing
+> due to out of date linux-firmware, we set the fallback flag and attempt
+> to load firmware again based on the old file names.
 
-My understanding in my trial and error is that the DSP will map each
-entry of the channel_mapping to the active_channels_mask bits in order
-so you can have a non linear active_channels_mask like b10101010 which
-has 4 channels active and pass a channel_mapping table with 4 entries.
+> @@ -800,6 +815,11 @@ static void tas2783_fw_ready(const struct firmware *=
+fmw, void *context)
+>  	wake_up(&tas_dev->fw_wait);
+>  	if (fmw)
+>  		release_firmware(fmw);
+> +
+> +	if (try_load_fallback) {
+> +		dev_info(tas_dev->dev, "Attempting fallback fw load\n");
+> +		tas_io_init(tas_dev->dev, tas_dev->sdw_peripheral);
+> +	}
+>  }
+> =20
 
-The is what I implemented here, and it gives a lot of flexibility on how
-to connect speakers to the interface.
+This will unconditionally wake fw_wait even if we've gone for the
+fallback, meaning that the rest of the driver will think the firmware
+is ready when it isn't.
 
-Neil
+>  static inline s32 tas_clear_latch(struct tas2783_prv *priv)
+> @@ -1115,13 +1135,16 @@ static void tas_generate_fw_name(struct sdw_slave=
+ *slave, char *name, size_t siz
+>  	bool pci_found =3D false;
+>  #if IS_ENABLED(CONFIG_PCI)
+>  	struct device *dev =3D &slave->dev;
+> +	struct tas2783_prv *tas_dev =3D dev_get_drvdata(&slave->dev);
+>  	struct pci_dev *pci =3D NULL;
+> +	const char *fw_uid_prefix =3D tas_dev->fw_using_fallback ? "" : "0x";
+> =20
+>  	for (; dev; dev =3D dev->parent) {
+>  		if (dev->bus =3D=3D &pci_bus_type) {
+>  			pci =3D to_pci_dev(dev);
+> -			scnprintf(name, size, "%04X-%1X-%1X.bin",
+> -				  pci->subsystem_device, bus->link_id, unique_id);
+> +			scnprintf(name, size, "%04X-%1X-%s%1X.bin",
+> +				  pci->subsystem_device, bus->link_id,
+> +				  fw_uid_prefix, unique_id);
+>  			pci_found =3D true;
+>  			break;
+>  		}
+> @@ -1326,6 +1349,7 @@ static s32 tas_sdw_probe(struct sdw_slave *peripher=
+al,
+>  	mutex_init(&tas_dev->calib_lock);
+>  	mutex_init(&tas_dev->pde_lock);
+> =20
+> +	tas_dev->fw_using_fallback =3D false;
+>  	init_waitqueue_head(&tas_dev->fw_wait);
+>  	dev_set_drvdata(dev, tas_dev);
+>  	regmap =3D devm_regmap_init_sdw_mbq_cfg(&peripheral->dev,
+> --=20
+> 2.54.0
+>=20
 
-> 
-> -srini
-> 
-> 
->>
->> Neil
->>
->>>
->>> --srini
->>>>
->>>> Thanks,
->>>> Neil
->>>>
->>>>>
->>>>>
->>>>>> Setting only the WSA2 upper bits is perfectly valid and
->>>>>> functional but the current Audioreach code builds the bitmask
->>>>>> from the channels count with:
->>>>>>       active_channels_mask = (1 << num_channels) - 1;
->>>>>>
->>>>>> In order to enable the WSA2 bits the channel count should be 4,
->>>>>> but the lower WSA bits are then also enabled and the DSP errors
->>>>>> out when trying to play on the disabled WSA interface.
->>>>>>
->>>>>> A solution would've been to add a fake WSA2 topology element which
->>>>>> would be translated into the top bits only, but it's not clean and
->>>>>> add some special exceptions in the generic Audioreach code.
->>>>>>
->>>>>> The solution suggested by Srinivas is to use the channel mapping to
->>>>>> set this bitmask.
->>>>>>
->>>>>> This works but makes all the other calls using the channel mapping
->>>>>> fail
->>>>>> because the DSP requires the channel_mapping table to start from
->>>>>> index 0
->>>>>> and using num_channel length in order to apply the mapping on the
->>>>>> active_channels_mask bits in order.
->>>>>>
->>>>>> So we need to skip the empty channel mapping entries in all other
->>>>>> users of the channel_map to build valid channel_mapping tables.
->>>>>>
->>>>>> This should not break any other usecases since the default channel
->>>>>> mapping always start from index 0, and will add flexibilty to allow
->>>>>> some special non linear mapping for other interfaces as well.
->>>>>>
->>>>>> Suggested-by: Srinivas Kandagatla
->>>>>> <srinivas.kandagatla@oss.qualcomm.com>
->>>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>>>> ---
->>>>>>     sound/soc/qcom/qdsp6/audioreach.c | 47 ++++++++++++++++++++++++++++
->>>>>> ++---------
->>>>>>     1 file changed, 37 insertions(+), 10 deletions(-)
->>>>>>
->>>>>> diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/
->>>>>> qdsp6/audioreach.c
->>>>>> index a13f753eff98..9b80cfa56e8a 100644
->>>>>> --- a/sound/soc/qcom/qdsp6/audioreach.c
->>>>>> +++ b/sound/soc/qcom/qdsp6/audioreach.c
->>>>>> @@ -703,6 +703,7 @@ static int
->>>>>> audioreach_codec_dma_set_media_format(struct q6apm_graph *graph,
->>>>>>         int pm_sz = APM_HW_EP_PMODE_CFG_PSIZE;
->>>>>>         int size = ic_sz + ep_sz + fs_sz + pm_sz;
->>>>>>         void *p;
->>>>>> +    int i;
->>>>>>           struct gpr_pkt *pkt __free(kfree) =
->>>>>> audioreach_alloc_apm_cmd_pkt(size, APM_CMD_SET_CFG, 0);
->>>>>>         if (IS_ERR(pkt))
->>>>>> @@ -741,7 +742,12 @@ static int
->>>>>> audioreach_codec_dma_set_media_format(struct q6apm_graph *graph,
->>>>>>           intf_cfg->cfg.lpaif_type = module->hw_interface_type;
->>>>>>         intf_cfg->cfg.intf_index = module->hw_interface_idx;
->>>>>> -    intf_cfg->cfg.active_channels_mask = (1 << cfg->num_channels)
->>>>>> - 1;
->>>>>> +    intf_cfg->cfg.active_channels_mask = 0;
->>>>>> +    /* Convert the physical channel mapping into a bit field */
->>>>>> +    for (i = 0; i < AR_PCM_MAX_NUM_CHANNEL; i++)
->>>>>> +        if (cfg->channel_map[i])
->>>>>> +            intf_cfg->cfg.active_channels_mask |= BIT(i);
->>>>>> +
->>>>>
->>>>> This one looks good, this should be a bug fix patch.
->>>>>
->>>>>>         p += ic_sz;
->>>>>>           pm_cfg = p;
->>>>>> @@ -840,7 +846,7 @@ static int audioreach_mfc_set_media_format(struct
->>>>>> q6apm_graph *graph,
->>>>>>         uint32_t num_channels = cfg->num_channels;
->>>>>>         int payload_size = APM_MFC_CFG_PSIZE(media_format,
->>>>>> num_channels) +
->>>>>>                     APM_MODULE_PARAM_DATA_SIZE;
->>>>>> -    int i;
->>>>>> +    int i, j;
->>>>>>         void *p;
->>>>>>           struct gpr_pkt *pkt __free(kfree) =
->>>>>> audioreach_alloc_apm_cmd_pkt(payload_size, APM_CMD_SET_CFG, 0);
->>>>>> @@ -860,8 +866,12 @@ static int
->>>>>> audioreach_mfc_set_media_format(struct q6apm_graph *graph,
->>>>>>         media_format->sample_rate = cfg->sample_rate;
->>>>>>         media_format->bit_width = cfg->bit_width;
->>>>>>         media_format->num_channels = cfg->num_channels;
->>>>>> -    for (i = 0; i < num_channels; i++)
->>>>>> -        media_format->channel_mapping[i] = cfg->channel_map[i];
->>>>>> +    /* Convert the physical mapping to a logical mapping of the
->>>>>> channels */
->>>>>> +    for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < cfg-
->>>>>>> num_channels; i++) {
->>>>>> +        if (!cfg->channel_map[i])
->>>>>> +            continue;
->>>>>> +        media_format->channel_mapping[j++] = cfg->channel_map[i];
->>>>> Each element i of the channel_mapping[i] array, describes the channel i
->>>>> inside the buffer where i is less than num_channels.  An unused channel
->>>>> is set to 0.
->>>>>
->>>>> For some reason I get impression that user is trying to set a 4
->>>>> channels
->>>>> instead of 2 channel.
->>>>>
->>>>> Can you fix the backend-dai id and play it directly on WSA2 instead of
->>>>> WSA.
->>>>> Or was there a reason for not doing it otherwise?
->>>>>
->>>>> --srini
->>>>>
->>>>>> +    }
->>>>>>           return q6apm_send_cmd_sync(graph->apm, pkt, 0);
->>>>>>     }
->>>>>> @@ -1080,6 +1090,7 @@ static int
->>>>>> audioreach_pcm_set_media_format(struct q6apm_graph *graph,
->>>>>>         struct apm_pcm_module_media_fmt_cmd *cfg;
->>>>>>         struct apm_module_param_data *param_data;
->>>>>>         int payload_size;
->>>>>> +    int i, j;
->>>>>>           if (num_channels > 4) {
->>>>>>             dev_err(graph->dev, "Error: Invalid channels (%d)!\n",
->>>>>> num_channels);
->>>>>> @@ -1113,7 +1124,12 @@ static int
->>>>>> audioreach_pcm_set_media_format(struct q6apm_graph *graph,
->>>>>>         media_cfg->num_channels = mcfg->num_channels;
->>>>>>         media_cfg->q_factor = mcfg->bit_width - 1;
->>>>>>         media_cfg->bits_per_sample = mcfg->bit_width;
->>>>>> -    memcpy(media_cfg->channel_mapping, mcfg->channel_map, mcfg-
->>>>>>> num_channels);
->>>>>> +    /* Convert the physical mapping to a logical mapping of the
->>>>>> channels */
->>>>>> +    for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < mcfg-
->>>>>>> num_channels; i++) {
->>>>>> +        if (!mcfg->channel_map[i])
->>>>>> +            continue;
->>>>>> +        media_cfg->channel_mapping[j++] = mcfg->channel_map[i];
->>>>>> +    }
->>>>>>           return q6apm_send_cmd_sync(graph->apm, pkt, 0);
->>>>>>     }
->>>>>> @@ -1127,6 +1143,7 @@ static int
->>>>>> audioreach_shmem_set_media_format(struct q6apm_graph *graph,
->>>>>>         struct payload_media_fmt_pcm *cfg;
->>>>>>         struct media_format *header;
->>>>>>         int rc, payload_size;
->>>>>> +    int i, j;
->>>>>>         void *p;
->>>>>>           if (num_channels > 4) {
->>>>>> @@ -1166,7 +1183,12 @@ static int
->>>>>> audioreach_shmem_set_media_format(struct q6apm_graph *graph,
->>>>>>             cfg->q_factor = mcfg->bit_width - 1;
->>>>>>             cfg->endianness = PCM_LITTLE_ENDIAN;
->>>>>>             cfg->num_channels = mcfg->num_channels;
->>>>>> -        memcpy(cfg->channel_mapping, mcfg->channel_map, mcfg-
->>>>>>> num_channels);
->>>>>> +        /* Convert the physical mapping to a logical mapping of the
->>>>>> channels */
->>>>>> +        for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < cfg-
->>>>>>> num_channels; i++) {
->>>>>> +            if (!mcfg->channel_map[i])
->>>>>> +                continue;
->>>>>> +            cfg->channel_mapping[j++] = mcfg->channel_map[i];
->>>>>> +        }
->>>>>>         } else {
->>>>>>             rc = audioreach_set_compr_media_format(header, p, mcfg);
->>>>>>             if (rc)
->>>>>> @@ -1243,7 +1265,7 @@ static int
->>>>>> audioreach_speaker_protection_vi(struct q6apm_graph *graph,
->>>>>>         struct apm_module_sp_vi_ex_mode_cfg *ex_cfg;
->>>>>>         int op_sz, cm_sz, ex_sz;
->>>>>>         struct apm_module_param_data *param_data;
->>>>>> -    int rc, i, payload_size;
->>>>>> +    int rc, i, payload_size, j;
->>>>>>         struct gpr_pkt *pkt;
->>>>>>         void *p;
->>>>>>     @@ -1284,14 +1306,19 @@ static int
->>>>>> audioreach_speaker_protection_vi(struct q6apm_graph *graph,
->>>>>>         param_data->param_size = cm_sz - APM_MODULE_PARAM_DATA_SIZE;
->>>>>>           cm_cfg->cfg.num_channels = num_channels * 2;
->>>>>> -    for (i = 0; i < num_channels; i++) {
->>>>>> +    /* Convert the physical mapping to a logical mapping of the
->>>>>> channels */
->>>>>> +    for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j <
->>>>>> num_channels; i++) {
->>>>>> +        if (!mcfg->channel_map[i])
->>>>>> +            continue;
->>>>>>             /*
->>>>>>              * Map speakers into Vsense and then Isense of each
->>>>>> channel.
->>>>>>              * E.g. for PCM_CHANNEL_FL and PCM_CHANNEL_FR to:
->>>>>>              * [1, 2, 3, 4]
->>>>>>              */
->>>>>> -        cm_cfg->cfg.channel_mapping[2 * i] = (mcfg->channel_map[i] -
->>>>>> 1) * 2 + 1;
->>>>>> -        cm_cfg->cfg.channel_mapping[2 * i + 1] = (mcfg-
->>>>>>> channel_map[i] - 1) * 2 + 2;
->>>>>> +        cm_cfg->cfg.channel_mapping[2 * j] = (mcfg->channel_map[i] -
->>>>>> 1) * 2 + 1;
->>>>>> +        cm_cfg->cfg.channel_mapping[2 * j + 1] = (mcfg-
->>>>>>> channel_map[i] - 1) * 2 + 2;
->>>>>> +
->>>>>> +        ++j;
->>>>>>         }
->>>>>>           p += cm_sz;
->>>>>>
->>>>>
->>>>
->>>
->>
-> 
+--5VYmqCSxtQIhbtDo
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoxd90ACgkQJNaLcl1U
+h9CkaAf9HqAwhSWv/oXFUUwmhxDY6QZQhjqu/KSqyjqOGYTixSEL41yFAtzVg2ug
+V91MSpl0eSyt2nF6shqdocmbo2Tv0Z9p1efPgfXgNwdK3Q1KmczSTrH9VOFMvuj9
+9NLIt7zc/0urdSPGaoYEN+rBBBsTtyhaTJlazuiODg+JO/kOMOdh6XTCcQrgezlo
+qYYxW1LkHLOAVDscc6KjY9QlC1FNlbvyQDahgKJnNWGaHpLdndIC8YChefekZJVH
+vfthAtNfYEBVCQZFA6qv5ROHcXpCQ51Qhz0SKr0AXKJqLPVFc9W9WH9OdQXUTVBP
+jMBjLWw8ASW1c4esPpVglfPbRUoenQ==
+=bobi
+-----END PGP SIGNATURE-----
+
+--5VYmqCSxtQIhbtDo--
