@@ -1,160 +1,164 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011024.outbound.protection.outlook.com [52.101.70.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554183ABD98;
-	Tue, 16 Jun 2026 02:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.24
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781578541; cv=fail; b=mw4YULGO3lGaKCZjfzJ18BE2jwlndRVbRHK3Wo6Mdh+pg/FFIX6mQG6MsZ98Z9xk0DanYzYkq2jov5ZD+OotBaZpb2zN6/DFEydTs+160p6Txbd1wH2M1DgFsEmzx5DwlJQL7rxCIq/80uZ0RHld65vD5iLIHCtO33mzXFudPXE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781578541; c=relaxed/simple;
-	bh=qPW8VcSqYXzIHqcAyJnCvGGqKF+4R9MbrxgPZxfVwjk=;
-	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=iQ7XVu+urz3B80SXAiVeuj86dHgF75rhDc3lojNNoql32HB8PjiLktTjNvQBAJ8kfNQ1QwSgeA3zf5MLzhzZE7K4uIZKUWXq7Z4IYkAwrrY4oDT/m+k0tYX3dHCWD8zRpaU4etewaxtvmfBorhwaMRtZkmyDbadUVST43iNMbvA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=wIfvxsun; arc=fail smtp.client-ip=52.101.70.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE7B349CE9
+	for <linux-sound@vger.kernel.org>; Tue, 16 Jun 2026 07:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781594695; cv=none; b=UxfR5JRcX0RvOSdwju16ZD5yF54qnkqv/dmzwh2SMAAuOUXD6NBHkZG1/mU4X5RedSF9afMt9DxvO1zH620ScpxUiLp4a/zPKg392O9ciwhbh6KcLLyll9rKxdTbk8RQcfBWetAvam7Tnwu+8LlZOz+J/ao0KrkU5MnmWylQqJI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781594695; c=relaxed/simple;
+	bh=1aizsr/ZAErlIyh8I+1fKQB7XSg/xQo+gGIAYlPQuHE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=k3a9+YTjkooJEslb7kvpl8PniGtJJl2BTx2sGoUUK7A4IdaCDZv8RbllY1VSQBogKxetwIF1LwUBT1oKQz4mPLJ5h2jr+CBm0KrxGxYYJZhUdSwzMudJROvO1fb81Nr4sItrQ26Emc3tB2R1d5Jb/nNXtuKToR1aXpmLZph8gto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L5ELzNzV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3WFylrpQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rRpsZsnh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DSQJtfMn; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="wIfvxsun"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D/FJrBEx3jKrUtxZdlmFrSqCfF9zrAE+bYtb/yGecNrw6fNJtBjvLfCB3tM0lwvyVxVrUirfNYOeBoSFlbKE0I9n0dskzp0eQJg8PekRzwx2BabnyEwBuqGOmhWyTBgWxJaOWnYl0xYvy4CD/L/F790sov7lp50KJPMtU8R+AMMCoY1dvOZjSOr+OhNUpuTKV4n6x1LLphxfhIoQ4iLEycF9C2hIVI93zUhZlFwX9ctgPWvn3uXjsb5seNa6hwQTpukeYnxfN0qJub75Q/svMtmhaAV40/4EyaoTUqhy6HDSEt228VgMNDAShTpzpoiDx5f1ziCLQg3MKMIaqj8SYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VniVVmey6R8v1LIKXBxYX526Kc1k48PWa/K1A3y2JAE=;
- b=RBRL612fj6IzeQGnOKsjmmjYm3k21oYa3Otf8HhwSicbVMdvPOFY+1ObcmzYLiJHZ7GJhHq+lHvr5aU5X6jcWOKWJLTZYnXD4019wcR4P02QwZ6KmqP0ud8magGhiR6c5J1o579b37N1n8wX7zt0XIqCONbZJRVf5tOEnTjid8P/xsr2meI+rntma0cIFX9xS/8mfkc2eRYIG/Z6A/AtqUW3tw786qGlIPTCttB8ltQobA9RxyQpz1cWSlglKHACUg4OEy6Cr8tGSzP7M23cBuEo9iWkWMhQl37y4Fl7BvU0VsVUUufRpwvfuf/2CVVuks1x8FC7ApzDrMJoLyn/Zg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VniVVmey6R8v1LIKXBxYX526Kc1k48PWa/K1A3y2JAE=;
- b=wIfvxsun8maovHvm5OP+RSwHRf0p+854NECV4RVvPDhbk4UOJJ2X7zDaOcrwu3pj2xm1b5IM51bjNCa0MS/vVLIkJsJZEATetb27Fp1KD8odgHFzj+jOotsrW2Oh0a/SZYskljx7RwmC99galgudYaPavNc6tYDbzWJcnZ7E4z/o6lBbRfKk+UeHuhVLitKfjlL4W1C6jyX/1z01h63h33YxwYRBKTtCmIdLdsQWLSyEFv5uZ10/jwifzm1bukKIahQct33+s8G3uEIPx/9CUVCqpWMbP5vLwLM3sLPMwdmVyDg6FqaGa3bk9IeSGf2kbnJDMwdPqMHgXlvGs6iNtA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9351.eurprd04.prod.outlook.com (2603:10a6:102:2b6::17)
- by GVXPR04MB9804.eurprd04.prod.outlook.com (2603:10a6:150:114::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Tue, 16 Jun
- 2026 02:55:36 +0000
-Received: from PAXPR04MB9351.eurprd04.prod.outlook.com
- ([fe80::1058:a430:52c1:5aa]) by PAXPR04MB9351.eurprd04.prod.outlook.com
- ([fe80::1058:a430:52c1:5aa%6]) with mapi id 15.21.0113.015; Tue, 16 Jun 2026
- 02:55:36 +0000
-From: shengjiu.wang@oss.nxp.com
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L5ELzNzV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3WFylrpQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rRpsZsnh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DSQJtfMn"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 47D51758DC;
+	Tue, 16 Jun 2026 07:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781594692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DBS5FjR9bA6WAYLZtl1jM64SBUnvii836fJdPNw9+wY=;
+	b=L5ELzNzVMBZD9qSlX5F+wFC1z3zBaklpHwJyCe/iSKZYj2qqgDY4x85iDxRACu/rLENxvz
+	wxL6+/XXXvOHq+fnqWj9B/1IGEevUu2cSRvZYKVfqvUtR8EuGSw1aHsvEXMP2jEIOttMoS
+	0IKa6A9lEku7J8e6SuAQyea30IfPm2g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781594692;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DBS5FjR9bA6WAYLZtl1jM64SBUnvii836fJdPNw9+wY=;
+	b=3WFylrpQlujCW+2xMWakZdJk7AZLTB0YEE0dWN4I4/wUe9rm41A6anGyp7FGSo5cDSYKH2
+	EjUPiDziqF2Kr1DQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781594691; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DBS5FjR9bA6WAYLZtl1jM64SBUnvii836fJdPNw9+wY=;
+	b=rRpsZsnhECQuUy2M/4VTfRfzKRhn3fitMEpdBnmH8VWy4QUxojBweIe5wqkZBDln5MltSz
+	ISvWOZSX1ZgNFbcy4289ZRgJNhgAOF8Y+iSD9FPMXGThzNNcYLkflIRVzXeT8WXKHTQXa0
+	ttiMG1U9ZFWENe3PBpf00+F8rPIFzaY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781594691;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DBS5FjR9bA6WAYLZtl1jM64SBUnvii836fJdPNw9+wY=;
+	b=DSQJtfMnVn+RB8PSaFG+yVnN28h2+HPAUyThd1oTzTfwIVlyQh1gv6vJ1bYH4vnf2P/ARW
+	eBEantSZuCfYEZBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0347779A8;
+	Tue, 16 Jun 2026 07:24:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id TNSGNUL6MGomOgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 16 Jun 2026 07:24:50 +0000
+Date: Tue, 16 Jun 2026 09:24:50 +0200
+Message-ID: <8733ynrlq5.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ai Chao <aichao@kylinos.cn>
+Cc: perex@perex.cz,
 	tiwai@suse.com,
+	kees@kernel.org,
 	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: fsl_audmix: switch regmap to cache-only mode after probe
-Date: Tue, 16 Jun 2026 11:00:38 +0800
-Message-Id: <20260616030038.4170204-1-shengjiu.wang@oss.nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MA1PR01CA0147.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:71::17) To PAXPR04MB9351.eurprd04.prod.outlook.com
- (2603:10a6:102:2b6::17)
+Subject: Re: [PATCH] ALSA: pcm: Show closed for DISCONNECTED state
+In-Reply-To: <20260616020601.2106490-1-aichao@kylinos.cn>
+References: <20260616020601.2106490-1-aichao@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9351:EE_|GVXPR04MB9804:EE_
-X-MS-Office365-Filtering-Correlation-Id: c361d2ec-2ea2-47d8-6801-08decb52bde8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|23010399003|1800799024|366016|7416014|376014|18002099003|921020|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	1wAQHw5t22yw11abMCqSi1FvPpVECM3SFczq2Qs4KEmKuW3Ej7y8BSKW6+N96jg3j5eUfUX9jVQkLKY4GzS2SvOLHXh87H2t7aCJzZGYgKryqb9fN4/amPiemiZB3qb1bvpe+sppMy4hp5ZvLlf+ZMg4krkNlMqdgHN62fZttTUdqU1zfUbKbCIl/Psln+BtVrUEJ6GFD52vGYjTOmzQQe+/Z6sbeC9WnDvlDFZT92+YIJU6AqqAj1mci6HN2n0b/aXVb/eNjUYi2xKQaMaLUHJLpdFGPiEAXmiQ36rMLcBQ+UzfyGfkQ77HiwYwbetBVWvldJwBbJ1NJ3EhcblnObKXXpOzrhhlvTsDHYmBEmLM+QMBjmOwNFa3UZQk80gtesgtZ3wY6ytD/URxwrKGLlZOWK8e3jyaRsKmIeVxVXWtQdYCbOQq+oNvhRiru0XDiBlNZiaeR9sybj1YaVMUUMYMF851t5v4rYo8Ln2hjC55/2aJ+XMw3dCqPQ4v+xYPo9oFkBRg0vM5xh9dJWKBAsP8KmTAmrwVcOm9cPe7PiYn4xd8zog5DTA2dmNWhmEvLdKvqOkYI6GsoDihARMcy2J4zVBzb557yTghPw1xCm6xFwTvPjV+oTqPtXj6mJU00UfzO2L3SBOvmKvmFiLNi1/B73CQBMtzcdc7xXOy5m/WOS6Dg/nIVPB3ymZCupnkH2bpkwJCDW3rhLdgNzpj3lTxtG2TGWRaiT/eBnUqGBA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9351.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(23010399003)(1800799024)(366016)(7416014)(376014)(18002099003)(921020)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?XhZKuQ3sUy3Tu8iwTQz91o5ybx0uC4CJwWckVp+4B9kBUVF0X6U9UKURHPJB?=
- =?us-ascii?Q?y/iZrJxr4rMRhdxKu3MHKtOoPhXqZfXVudgFUWUy5ExEla2+0qIKmCjhYy/z?=
- =?us-ascii?Q?olzpcJH4Gx5aCjQPLe/QKcGS8WrXAd/LmmS7yOykVZdnLuuiAG3YBUtycPkr?=
- =?us-ascii?Q?hm4/tgz47qZFYs29/+D/2EF6CO2/AlSbV16J2CEZJZH5vZRIZNDWzdLHshIm?=
- =?us-ascii?Q?3q8EooPrKnh0ctD/+7YrvYoLrtNki0beyeViQ4u+zYBKYOcy2msQbbtTGd/R?=
- =?us-ascii?Q?bSGZn5+5AL03fQV7IQsHYwG6lOXkc8XV7pq1lVdIwF39MT0lFwjreH5Kby7s?=
- =?us-ascii?Q?cA6v+7p0mCG4bkvFRUGK3Bsmyeot6aMOQcGigUEJoX26LUPGD/swtVQLd/oT?=
- =?us-ascii?Q?wKb3h4Qj4HYt0b1eDYndTnDFVMAIr8CKm32X9ScQrOVIJYInvhSjofVzPIJ0?=
- =?us-ascii?Q?XxaZLUw31AWC5h81+HaHHnZ+j4ucOYB6TwJ3PiZ9Auf4ib7dATrpZVlnkYaN?=
- =?us-ascii?Q?reOI1hbzRITP5ucTRQhY7GiThckQ0eqCFqieaVBm+RUMRFRcdCzPedbCOQB9?=
- =?us-ascii?Q?NPTisOht2vpAqw2p9mheYw58yeZ6f5c7EWiust6YomUK2IZz+la7CYFUhHgl?=
- =?us-ascii?Q?VXrwpU70NnRr28qweF60oSlFGPQvjbUK4nEHrkaRXHWRKIfWHjAi70PRJoLt?=
- =?us-ascii?Q?h/3Nhp2utekELiHavki4+xE0EivI/U48kJdwvctsRkpZAchdH/6dESOWrvtB?=
- =?us-ascii?Q?hFO3xdsiCRLtUpso+e8PkmnbN9JH4yovQD2Ye+XwkUlYEMxQuyNcfPKTrGOJ?=
- =?us-ascii?Q?tGpwzsMMvGppZjaWG2jQZIU1QVCLf6pot9yYl9Pb/ene33CV+LRG1Wl5ilQ9?=
- =?us-ascii?Q?BHKvjz0FBY2HWfM6u2orHC+r13bSTt6T6Ea4ALl0UTtlhjCLsv/48Js35rKl?=
- =?us-ascii?Q?h6ByXP67CU/djwFkte1YaGXY3X8sFeqors964vjA7LbhEc1eHIfp81TfiUye?=
- =?us-ascii?Q?HsVjc36vyDk2mVJV8FHvqD55SfziBQlPz7euoZBgFr7MqPYWnoViOgVrBhKe?=
- =?us-ascii?Q?30odjWmrtlowt/lNLhYn/CZgCUd5vjcwA3+6JtPeeCHvdFtrWiJRikIrJ0Fs?=
- =?us-ascii?Q?ZSzZ5lESkJ8A/awwcJlKIMaBY7hUH/Pt7N3vwKZrfcosyGCUhi2XwaqEN1lv?=
- =?us-ascii?Q?vP5TujT3PkgEL4zov8BTHwOVyp9zs5mZYQMgjz9ned1+kvUEjyvQPxzTelxH?=
- =?us-ascii?Q?NRrpnYso/RMrmnvEh6RiuG3vCYsUFpnVb/V7BMqTOfaqBJfbbINzbXa6SQHO?=
- =?us-ascii?Q?mly09S6Tbe5vYNnl8rFX0uP874xbumcJoFBYOI1+RWHmKrZ8UMBR3pTuYEll?=
- =?us-ascii?Q?+2H4aAhw8iTqQiA1fnvVo67IUj/7O9j4lTc7ErB2mixoKgwERUvEYWBLCTfc?=
- =?us-ascii?Q?OZdNjxtskxf2AN/gOliXwjd19aoxo+i1q/z3iAgFts4gZGjS50ucFiytmiuD?=
- =?us-ascii?Q?G5l9tf1cObGz2Ilmvg8KAQ96kq9l+RReSwwrTy+Js6NSVKW69D9TjimbuDOP?=
- =?us-ascii?Q?xSla9dqs2c3225B8kgtRBX5fqt9aL4BzM8ntciyEBg6jzzHKk16zyUJ89jN+?=
- =?us-ascii?Q?oJH7jyAzO7Cmqn9AbEy0RZxGN+EwXxdLv6IxaOF4LIaUfaNajF44C3KL4Bu6?=
- =?us-ascii?Q?3hiuXOhr3u9d2XZzxmrc+aKLznhVPejZdEyDbRsJcNkrnn7b2rAlyqeI30qF?=
- =?us-ascii?Q?KPxoXcTzD6dUCienRWK0xwvQSJ8Mbvrz2Gjv9xXeuV9ufvTQWzwd?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c361d2ec-2ea2-47d8-6801-08decb52bde8
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9351.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 02:55:36.8878
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RNe/lazOihNxN0+8JU1UcGzLJAqwkBRMppDN4lBfjKCqJYVDcDBxSmoBn7MJnxljIZ21800bvd3ZTm3tuvWfbC4pCkvr5dSiP3gmlTfuQZer+9vJkZcfBfqwlRbQi17o
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB9804
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
 
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
+On Tue, 16 Jun 2026 04:06:01 +0200,
+Ai Chao wrote:
+> 
+> Hello Takashi
+> 
+> >Hmm, why it must be that?  The state is shown as "DISCONNECTED".
+> >
+> >IOW, does this matter for which application and how do we have to
+> >imitate as if the file got closed?
+> 
+> Test Environment: Dual-boot Linux and Android system.
+> 
+> Issue: When a recording app is opened in Linux, the system is switched to Android,
+> and then switched back to Linux, the recording app fails to save the recording
+> and keeps prompting "generating recording file".
+> 
+> Note: The USB hub resets during the system switching process.
+> 
+> Root Cause Analysis (from App Engineer): The recording app relies on the driver to
+> report the IN_CLOSE_WRITE event. Upon receiving this, the audio service
+> checks /proc/asound/card0/pcm0*/sub0/status. If the value is not "close", it assumes
+> the sound card is occupied and skips loading; if the value is "close", it considers
+> the sound card available and loads it normally.
+> syslog:
+> [ 1140.495952] retire_capture_urb: 17 callbacks suppressed
+> [ 1140.583090] usb 1-2.4.2: USB disconnect, device number 53
+> [ 1140.583965] usb 1-2.4.2: cannot submit urb (err = -19)
+> [ 1140.588816] usb 1-2.4.2: cannot submit urb 0, error -19: no device
+> [ 1140.662630] usb 2-4.3: USB disconnect, device number 15
+> [ 1140.722584] usb 1-2.3: USB disconnect, device number 51
+> [ 1140.722605] usb 1-2.3.2: USB disconnect, device number 52
+> [ 1140.805724] usb 2-4.4: USB disconnect, device number 16
+> [ 1141.352341] usb 1-2.3.3: USB disconnect, device number 54
+> [ 1141.558840] hub 1-2.4:1.0: hub_ext_port_status failed (err = -71)
+> [ 1141.613714] usb 1-2.3.5: USB disconnect, device number 55
+> [ 1141.757651] usb 1-2.4: USB disconnect, device number 49
+> [ 1144.324836] usb 1-2.4: new high-speed USB device number 56 using xhci_hcd
+> [ 1144.473047] usb 1-2.4: New USB device found, idVendor=1a40, idProduct=0101, bcdDevice= 1.11
+> [ 1144.473065] usb 1-2.4: New USB device strings: Mfr=0, Product=1, SerialNumber=0
+> [ 1144.473072] usb 1-2.4: Product: USB 2.0 Hub
+> [ 1144.473738] hub 1-2.4:1.0: USB hub found
+> [ 1144.473765] hub 1-2.4:1.0: 4 ports detected
 
-After pm_runtime_enable() the AUDMIX hardware block is powered off and
-remains suspended until the first runtime resume. Any register write
-issued between probe() and the first resume (for example from DAPM or
-ALSA control paths) would target unpowered hardware and be silently
-lost.
+Thanks, it's a bit clearer.  But it still means that it's a cargo fix
+only for that specific application.  The program should receive an
+error for any further syscalls, so that it can close gracefully by
+itself.  Or it doesn't work as expected?
 
-Enable regmap cache-only mode immediately after pm_runtime_enable() so
-that register accesses during this window go to the cache. The cached
-values are flushed to hardware on the first runtime resume via
-regcache_sync(), ensuring the hardware is programmed correctly when
-power is restored.
 
-Fixes: be1df61cf06ef ("ASoC: fsl: Add Audio Mixer CPU DAI driver")
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/fsl/fsl_audmix.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/soc/fsl/fsl_audmix.c b/sound/soc/fsl/fsl_audmix.c
-index f819f33ec46b..0e6586a2ae69 100644
---- a/sound/soc/fsl/fsl_audmix.c
-+++ b/sound/soc/fsl/fsl_audmix.c
-@@ -488,6 +488,7 @@ static int fsl_audmix_probe(struct platform_device *pdev)
- 	spin_lock_init(&priv->lock);
- 	platform_set_drvdata(pdev, priv);
- 	pm_runtime_enable(dev);
-+	regcache_cache_only(priv->regmap, true);
- 
- 	ret = devm_snd_soc_register_component(dev, &fsl_audmix_component,
- 					      fsl_audmix_dai,
--- 
-2.34.1
-
+Takashi
