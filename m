@@ -1,149 +1,110 @@
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189C347B435
-	for <linux-sound@vger.kernel.org>; Tue, 16 Jun 2026 18:56:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6D73DC87A;
+	Tue, 16 Jun 2026 19:14:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781636189; cv=none; b=P2Xs2ejdn7gwmlDxwttm4NhPrcY4QidAk0LYFs2EavrAzCOe9EJ/ePAOk/miMRD3+1XMk018E+vSA9L0/N5saXLLhKZ57qmYylJSadT5QThCLMT0VqKDQrxqtB3SUQe1WvD2gT2Mt9ABx5KSKpZ0xYaVROevW2zPkmzuIghI75Y=
+	t=1781637253; cv=none; b=ZEphaOgdzcboKLQ+bWFKrA27nc/zuk+l02tYbJU/5Gudf3eXmy0QHP+GlSrw8FcsV2S+K2RDlX2aE/fME5r1jv+HVVGHpUEvrj4NCeKxPsoQgS0LJS2e46ZWZswH0IhCzbJOwWhdHsTRZ5SEAXUvtDeRy2ICFE2ILrDQXxLf/Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781636189; c=relaxed/simple;
-	bh=uamPQj2GJcr8hli5E7AL/lW+3vBdlr4biIfKdnJ8WR0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G+ox2cf1Ol4jX994XcGP28r1pC8rfgKkScsXtL121kqeH2+MziuEqukHvRe/HYjJZ8eiaK+ayo+vz+wFk4bVjlWt1fb3BMPVoQiv+4UGSYg5BMgaVn83sBPCdKofHplyzyjoh+pnTZDlEkaKROkmKpFkQf1WkAK4JqJZj1oV18U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MI+QNfzD; arc=none smtp.client-ip=74.125.82.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781637253; c=relaxed/simple;
+	bh=ld6Li5sYyBFy8HfAbk5VPafFYDwUe2SSZ7hdSpMIWwU=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=bXTCNI6Ysz3rH614DjPzFNpbReGTJu6xxAfTd/CZ+jy8DD/nCl3TLrJqZQDJO3AL1NKh4sHRW9wQHgKBZtRhefDu1o5wnxlNp6RyA+tTkOcSsoM+UyiL02vJaPV2zwscoTydt7UePg4SOMZEKvZLGzAzDGb95BTNDIo5Riv/5yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QaIRT6Oa; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MI+QNfzD"
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-30759632453so7658338eec.1
-        for <linux-sound@vger.kernel.org>; Tue, 16 Jun 2026 11:56:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781636187; x=1782240987; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EIgTF5O/yhj6128vPN9UJW0fZzS2s+5C3Fyk+MW+nJ8=;
-        b=MI+QNfzDlzYPtGFsHRXcKe/yNy+9VVS9wzNZUtAcQIsDPp37MTec8K8uWgal61Uu0e
-         uf+HoOGYGVGFoQtQZ6+2fzE8aZ3e04pvZGcKp/Hf07q/v/jqUA7SXNisUmKni0Ik5wDy
-         i4CRVKMqyc6rbbM0aiqi1Pnz/8dATyHceSDTYm3kfCSIoVIh2PF6j0569xqJlkrgPGe9
-         3MU0gTiw3jXZf3v1nByj5gn5KNi8UJvFTFHv7is7HJLCZD4zTuL+4XIDfwnCRx5O37LJ
-         4eTdMfLEBFIgL8sSHq0r3ECFfcitBP3IxBUOIQvP1Snk3TCgb2AALMaTBIZermJKEgUT
-         5LLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781636187; x=1782240987;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EIgTF5O/yhj6128vPN9UJW0fZzS2s+5C3Fyk+MW+nJ8=;
-        b=YecAaoUjp8CyHLfgxPNQPiySm8ypfCA0bA84qThpZCu1R3q3BmiI3NfnIDKxW/kbOK
-         cTBXPnRwv5J8keAfHD+3KA5oZoiximKmEs+rCRWJqMnqvVHzMBf5ncEo6WPHBh7Kv9Yi
-         lGyH7QZSi3PQv3RPx+zkotx8OiLj3R8K+oJmMRkA43bND2neMUAF/UMGz2/a/hyWtwgH
-         BIsv6ZVF3vawDmlOd16mHBEKRZkC6m+QBBRKJ3E3FYUY6QVs3YV6yiCE6Erz6c23MVC8
-         21IhHu0B0MbSASbEHRNHwKmFl90MYOUF3z5Ra5eKLW0iHks+uY/uGyLQoCZkexq0TsWb
-         AWzw==
-X-Forwarded-Encrypted: i=1; AFNElJ+ndyO+PsSdjjCtv4mVuVA50mmsWNCqt290gYlmETkGxjxrlQWE6PWY+W2LWemUCygHaiNSxxlUB6TGHA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxTtIhqMynBKNcW4ni9tkZb3XxbzXkpYwby5r72TPVpqwiNbgJ
-	PevomYDVlR7hr1a8glL9Qv+OrvPMNOoAESTQNqemVbmyP+zaqsTTko4V
-X-Gm-Gg: Acq92OFvrmeu5BlWr39Vo1+JbXd4PuY/N52SL7gCmT39zbd4d8Pcd3HcYyUdHLcIAb3
-	Qw3LSSE+zO+bfLiZocc5Mgwu3vOBLH37aYJww6ezN2kdqxZ7jb1h7vaS6obkgqlMZLtXsm1MYzB
-	LR4LQa4n6RikTDgrylO6v4MwOPo3bnH9ODq7Pxt7qg54ToMI9yeNvBGeP3n/VRiuOPZ8WdnzknZ
-	pc1HMoxs7YCfSjb174yLHPnRjBQy4OniywsrgkMSbd+9UrzYqfuYyXsqqLuU0e7F3YOSTB8o5Db
-	wvikl91blfA9X+8mC8JOYbhAi47G/6OrmF7jsWOsI1FV0fV5RZxOCrK0JaBOcZ2nBN2ZxKv1a58
-	0Ggi722YLmh1sF444Je0SXjJ6XxFEftR6sObnidda8A77YwDRCa1iBCnM3MDjIZVE487Amb8+Ci
-	5wBsu0i3KRzZtGCMLb/C3FCvUXyhgxy5c4jVhpu5Ky0w==
-X-Received: by 2002:a05:7300:a497:b0:2c5:50fe:c795 with SMTP id 5a478bee46e88-30bca0ed5a2mr321628eec.29.1781636187121;
-        Tue, 16 Jun 2026 11:56:27 -0700 (PDT)
-Received: from qchaos.cnea.gob.ar ([186.141.198.40])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e91f878sm19886502eec.17.2026.06.16.11.56.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 11:56:26 -0700 (PDT)
-From: "Pablo D. Bergamasco" <danpablo@gmail.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Pablo D. Bergamasco" <danpablo@gmail.com>
-Subject: [PATCH] dt-bindings: sound: add toshiba,apb-dummy-codec binding
-Date: Tue, 16 Jun 2026 15:56:19 -0300
-Message-ID: <20260616185619.1581174-1-danpablo@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QaIRT6Oa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781637251; x=1813173251;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=ld6Li5sYyBFy8HfAbk5VPafFYDwUe2SSZ7hdSpMIWwU=;
+  b=QaIRT6Oae7Nb4OHyjkcEs9hqnOuLPiY56s76ixTKdABtgH22CM7Xx9xJ
+   PYsOpfVKwZZpB3AQcphrgmdEF+1LELljjHnYZ3rx9aly5I3kXPGmyGwFN
+   GfLHNl3L9sLoFM///uf2eky9lNqtEE1+TNVJkn4hrCVeA74ezk1zorDQh
+   Hnfv7int+cfmFdZpkmVR9kLT0lWyvIlosalJES6BuxPd4ZunopeGeGddp
+   5EFwQZmbPgcAT8apj6KJIwvIYaELEDWNTXAU9upK+Y5PYWcbvb+iWdT0h
+   i0Wg0WMb6Vik+vwXg9LOkNJsW6jz9vI9SZ/Y2goiaGVUxJl59paLBZ/UF
+   w==;
+X-CSE-ConnectionGUID: 3PWmhW5zStqSv1jUY6TTJg==
+X-CSE-MsgGUID: +J1UOlKcT5+HrnhyTfcxmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="86250533"
+X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
+   d="scan'208";a="86250533"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 12:14:10 -0700
+X-CSE-ConnectionGUID: CbN7Ya9nTYOtngFQ6I/7Bg==
+X-CSE-MsgGUID: CTCSkLcdTYyFWUXNKEZaKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
+   d="scan'208";a="252963050"
+Received: from ettammin-mobl3.ger.corp.intel.com ([10.245.244.170])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 12:14:08 -0700
+Date: Tue, 16 Jun 2026 22:13:47 +0300 (EEST)
+From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+To: Alexander Kaplan <alexander.kaplan@sms-medipool.de>
+cc: =?ISO-8859-15?Q?P=E9ter_Ujfalusi?= <peter.ujfalusi@intel.com>, 
+    =?ISO-8859-15?Q?P=E9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>, 
+    Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+    Jaroslav Kysela <perex@perex.cz>, 
+    Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+    Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+    stable@vger.kernel.org, Uma Shankar <uma.shankar@intel.com>
+Subject: Re: [PATCH] ALSA: hda/hdmi: disable KAE for Intel Panther Lake
+In-Reply-To: <20260612181314.5577-1-alexander.kaplan@sms-medipool.de>
+Message-ID: <e5a56b3c-1fd7-35ad-f072-e490e2b471a9@linux.intel.com>
+References: <f7d26e4d-8810-430a-b727-52c00d2d6edc@intel.com> <20260612181314.5577-1-alexander.kaplan@sms-medipool.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7 02160 Espoo
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-Add device tree binding documentation for the Toshiba APBridge
-dummy ALSA SoC codec used in the Greybus audio framework.
+Hi Alexander,
 
-Fixes the following checkpatch warning:
-  WARNING: DT compatible string appears un-documented
+On Fri, 12 Jun 2026, Alexander Kaplan wrote:
 
-Signed-off-by: Pablo D. Bergamasco <danpablo@gmail.com>
----
- .../sound/toshiba,apb-dummy-codec.yaml        | 33 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/toshiba,apb-dummy-codec.yaml
+> That is probably just the sink.
+> As long as KAE was never active in the display power cycle, my TV plays multichannel LPCM audibly on the front pair, even though its ELD advertises 2 channel LPCM only.
+> The bug signal is the switch to multichannel itself.
+> The first 6 or 8 channel stream after KAE activity plays silent, wedges the pin and everything after it stays silent.
+[...]
+> That said, after your LNL result I agree a PTL only model change is the wrong shape.
+> I can gate the silent stream type per pin on the ELD connection type instead.
+> DP pins fall back to the SILENT_STREAM_I915 path and native HDMI pins keep KAE, on all KAE platforms.
+> That matches the failure boundary on both of our machines and keeps the power benefit where it works.
+> If that shape works for you I will send it as v2.
 
-diff --git a/Documentation/devicetree/bindings/sound/toshiba,apb-dummy-codec.yaml b/Documentation/devicetree/bindings/sound/toshiba,apb-dummy-codec.yaml
-new file mode 100644
-index 000000000000..e0542feeb980
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/toshiba,apb-dummy-codec.yaml
-@@ -0,0 +1,33 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/toshiba,apb-dummy-codec.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Toshiba APBridge Dummy ALSA SoC Codec
-+
-+maintainers:
-+  - Vaibhav Agarwal <vaibhav.agarwal@linaro.org>
-+
-+description:
-+  The APBridge dummy codec is part of the Greybus audio framework,
-+  used in Project Ara modular phone hardware. It provides a dummy
-+  ALSA SoC codec driver for the APBridge audio interface, enabling
-+  audio streaming between Greybus modules and the host processor
-+  via the APBridge protocol.
-+
-+properties:
-+  compatible:
-+    const: toshiba,apb-dummy-codec
-+
-+required:
-+  - compatible
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    codec {
-+        compatible = "toshiba,apb-dummy-codec";
-+    };
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b2040011a386..b6b4b488c0f7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11077,6 +11077,7 @@ GREYBUS AUDIO PROTOCOLS DRIVERS
- M:	Vaibhav Agarwal <vaibhav.sr@gmail.com>
- M:	Mark Greer <mgreer@animalcreek.com>
- S:	Maintained
-+F:	Documentation/devicetree/bindings/sound/toshiba,apb-dummy-codec.yaml
- F:	drivers/staging/greybus/audio_apbridgea.c
- F:	drivers/staging/greybus/audio_apbridgea.h
- F:	drivers/staging/greybus/audio_codec.c
--- 
-2.54.0
+gating on DP pin type is less than ideal as this would impact USB-C dock
+usage, which is probably the most common scenario where the display audio 
+keepalive helps (to ensure desktop/UI sounds are played out from the start 
+and not eaten up by the HDMI/DP receiver taking their time waking up).
 
+I'm asking around internally for more test results based on your findings, 
+but one quick test to make if you have time:
+--cut--
+--- a/sound/hda/codecs/hdmi/intelhdmi.c
++++ b/sound/hda/codecs/hdmi/intelhdmi.c
+@@ -445,6 +445,12 @@ static int i915_hsw_setup_stream(struct hda_codec *codec, hda_nid_t cvt_nid,
+                                        stream_tag, format);
+
+        if (spec->silent_stream_type == SILENT_STREAM_KAE && per_pin && per_pin->silent_stream) {
++               /* do not reenable KAE if multichannel streaming started */
++               if ((format & AC_FMT_TYPE_NON_PCM) || (format & AC_FMT_CHAN_MASK) > 1) {
++                       codec_dbg(codec, "HDMI: multichannel stream, disable KAE\n");
++                       return res;
++               }
++
+--cut--
+
+The driver has disabled KAE just before this, so this is worth a shot. 
+If pin is still wedged, then the problem occurs already earlier in the 
+sequence.
+
+Br, Kai
