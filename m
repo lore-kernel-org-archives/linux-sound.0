@@ -1,128 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF564266B3
-	for <linux-sound@vger.kernel.org>; Tue, 16 Jun 2026 09:51:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66BC313272;
+	Tue, 16 Jun 2026 10:48:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781603509; cv=none; b=pDk0kEluaY396GFo/XDmkDUkJGaV2/ZP++1aQqZA9QFQP97IfBRwIRLFGA7z3aGQVat50hvNvND2QEDzrcfcls8UULU9V1xQ1phEp01FuiRzrqyBHzgLD2a4Ctv5+TeOOu3o5dwvcAfpW71HtQkohMypycVXKjHG2EHDrEuW8WY=
+	t=1781606916; cv=none; b=Ffm5vOGJxydAeIXrH7KZ21Tt7wKrQjTYSit1bEk8P0XdZKQF4dw38cqBNJfYQVS8f/RI+oq+bUG2aHYxuj1o38SQm1+8G6Y536GhgEl7anwOpCqPC3OkwnJs0iRio32d8SexNF3JxXQuj6LgKNdEJbp/oA1StmUcafPJdyOzFM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781603509; c=relaxed/simple;
-	bh=rKN6Dquf9JjEmoiOojbev5G9ca2XqPvpxKtiKVWHsuA=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mXxAA77qE3bMH96EpMUcwRL8EuKwoznx3m3UfiXubM85jFVZ+0dTyKeeGsTGJsQZl9LdWuwxqKXzvhUkFsQbXCQwRn4F73C+uadQ8wLaIesY3VwrG6Si8P3vpvEpIvMsdbQb6sKuf60fE7F7dMAu39lVMvTsyyc2Mka3t1ungcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F88UFqux; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781606916; c=relaxed/simple;
+	bh=QqrCbBiAhi1PKEmfvDv6761Ic0WSeOU/NxuQpriL0nI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H6ls1HEvExlDYwe+pWAUl21qewFzG0MiaMoaCx9oeUasmN6OmKoGasU6h5VdZNp/Gq8Un8cyeBuWwjN+/aikIinml8tCStxgzWp8yzECnLtT0btfvf2h7gy4gKY9z5hTbWy0NZCS4dFwhbgAAysubyeapi2CN3whQxYUWpnX/Z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XViuzm9W; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F88UFqux"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A81F81F0155D
-	for <linux-sound@vger.kernel.org>; Tue, 16 Jun 2026 09:51:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XViuzm9W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FEF01F00A3A;
+	Tue, 16 Jun 2026 10:48:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781603507;
-	bh=rKN6Dquf9JjEmoiOojbev5G9ca2XqPvpxKtiKVWHsuA=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=F88UFquxP6GLTDnZndksxQH93yb7LMcZiAKfOmWMrZWnPbMsihpEeRj3B3ypIx14N
-	 epvt/Fduq7ggo+VV9WejL+g7Sr8uUgpEwhUghrJOHV2dDu2cJpMGZAwcafnTN6Kwbp
-	 a15VxT0oN1UFkqIjBTBPuz+ANyeGrSPc9cwc/Ba8wgMItVhAx1/RhWdSYi9MNN5EZL
-	 /pngyeY6RoI0nwh7Z3R16ElAujbM26xlreosWrdgb2Uz0O09Yj8qqnp6vFlSetlLKF
-	 BXjILI+uuZq84yMv33tltQiFi5KpHo5Cw4g55Nz/0ylLV1OUjYGEAN3Ht6BNupLR3T
-	 h4rEOtybtCu8w==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5aa68d65d24so3952497e87.1
-        for <linux-sound@vger.kernel.org>; Tue, 16 Jun 2026 02:51:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/IsM7F3ulCXXh1D6Et2PsJTVpsPKAKz+5S7u+IQNEMQxyRyxNLU7BXhTN7RMDBadqp+t8HBOwG9CHMKw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+boebtIPHjKYGpPs7u6BWIkDhOa9F6sUo85/YjSpe7hAvBs1z
-	N/zuUxCu+MAbFXj/yPa8mgac4NzFibNqp+TYt7lFRCHk/KcBvqRD8iVb0JqwQH6w9F0se7VFLYC
-	i49HBFEy8mJ3qbVqzn7ZTSbT/Da8FSDhUs8Hd3SonQA==
-X-Received: by 2002:ac2:5597:0:b0:5aa:6aac:3f7f with SMTP id
- 2adb3069b0e04-5ad4277bed7mr670959e87.22.1781603505619; Tue, 16 Jun 2026
- 02:51:45 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 16 Jun 2026 05:51:44 -0400
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 16 Jun 2026 05:51:43 -0400
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <ajEcDq0S067wMFaK@black.igk.intel.com>
+	s=k20260515; t=1781606915;
+	bh=lHAFcW0nG96oh4/5rGfxXXQpPFLmRkRujWnlOBdcS5g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XViuzm9WsVpI0YtxUgSlGg544D0RfGK5rUhQFyvC1lbqfi6GlR0aR44R+y+/zS6zV
+	 odUuEINSC55wyGU84DBa9UUb0VcMuDCKNAvZ4oKUpt81wD64chqA7tPgDm+N2pFEXP
+	 ptlTF8Er7gxBp244++ukyTuc+4mEQn0R6PaWEcxVt2qGu9kUXkZ36o5Ns9NvO09Sf8
+	 djOVXfbcrBYKkw03Gf1MfPxgFNajAnsZuH8hVpY8yqIdEgRYPW8qqgvaAcuu4zMrhW
+	 dJ69LX3UDo6ijvzbIbhTh3BRxWifkPLhh7Xo+METipXWGsm8w0yLqS3dAYZezNTqyp
+	 zN0nTr7mkhhxA==
+Date: Tue, 16 Jun 2026 11:48:30 +0100
+From: Mark Brown <broonie@kernel.org>
+To: shengjiu.wang@oss.nxp.com
+Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: fsl_audmix: switch regmap to cache-only mode after
+ probe
+Message-ID: <a5a652cb-d6bb-45a2-a1f5-ca540b34c115@sirena.org.uk>
+References: <20260616030038.4170204-1-shengjiu.wang@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
- <20260521-pdev-fwnode-ref-v1-7-88c324a1b8d2@oss.qualcomm.com>
- <ah9OIVyrHEhcMHzN@ashevche-desk.local> <CAMRc=McLN9Ovoqo3om-3uC=q+=rcKCoiWMctC=yvwiaHacU0PQ@mail.gmail.com>
- <ajEcDq0S067wMFaK@black.igk.intel.com>
-Date: Tue, 16 Jun 2026 05:51:43 -0400
-X-Gmail-Original-Message-ID: <CAMRc=MfY3k4a9KdPE-4pmMUEH4KADYaO8ZY+Md9sMzgFr0-s9A@mail.gmail.com>
-X-Gm-Features: AVVi8Ccfi9fNZx5anc5Hh9w27iqbKs4Mv-ef0kQk9lnbNaF9SR74KH4RoJVGW8U
-Message-ID: <CAMRc=MfY3k4a9KdPE-4pmMUEH4KADYaO8ZY+Md9sMzgFr0-s9A@mail.gmail.com>
-Subject: Re: [PATCH 07/23] driver core: platform: provide platform_device_set_fwnode()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Lee Jones <lee@kernel.org>, Mark Brown <broonie@opensource.wolfsonmicro.com>, 
-	Thierry Reding <thierry.reding@avionic-design.de>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Matthew Brost <matthew.brost@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
-	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Maximilian Luz <luzmaximilian@gmail.com>, 
-	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, driver-core@lists.linux.dev, 
-	devicetree@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-i2c@vger.kernel.org, iommu@lists.linux.dev, linux-pm@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="0QxAaZebDU/txdAX"
+Content-Disposition: inline
+In-Reply-To: <20260616030038.4170204-1-shengjiu.wang@oss.nxp.com>
+X-Cookie: Password:
 
-On Tue, 16 Jun 2026 11:49:02 +0200, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> said:
-> On Thu, Jun 04, 2026 at 05:32:27AM -0700, Bartosz Golaszewski wrote:
->> On Tue, 2 Jun 2026 23:41:53 +0200, Andy Shevchenko
->> <andriy.shevchenko@linux.intel.com> said:
->> > On Thu, May 21, 2026 at 10:36:30AM +0200, Bartosz Golaszewski wrote:
->> >> Provide a helper function encapsulating the logic of assigning firmware
->> >> nodes to platform devices created with platform_device_alloc(). Make the
->> >> kerneldoc state that this is the proper interface for assigning firmware
->> >> nodes to dynamically allocated platform devices. This will allow us to
->> >> switch to counting the references of the device's firmware nodes in the
->> >> future, not only the OF nodes.
->> >
->> > But why different for of_node and fwnode to begin with?!
->>
->> I'm not following. What are you suggesting?
->
-> After re-reading of this thread, I think I'm suggesting the same what you have
-> in plans to do in the future as you put it as "This will allow us to switch to
-> counting the references of the device's firmware nodes in the future, not only
-> the OF nodes."
->
-> // Offtopic
-> I haven't heard from you for more than a month on this:
-> https://lore.kernel.org/r/af18zdP5HF3_P9Vo@black.igk.intel.com
-> Anything should I do? Please, answer to that thread.
->
 
-Eek, sorry, must have flown under the radar.
+--0QxAaZebDU/txdAX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'll pull it now, I will do a second PR for this merge window anyway.
+On Tue, Jun 16, 2026 at 11:00:38AM +0800, shengjiu.wang@oss.nxp.com wrote:
+> From: Shengjiu Wang <shengjiu.wang@nxp.com>
+>=20
+> After pm_runtime_enable() the AUDMIX hardware block is powered off and
+> remains suspended until the first runtime resume. Any register write
+> issued between probe() and the first resume (for example from DAPM or
+> ALSA control paths) would target unpowered hardware and be silently
+> lost.
 
-Bart
+>  	platform_set_drvdata(pdev, priv);
+>  	pm_runtime_enable(dev);
+> +	regcache_cache_only(priv->regmap, true);
+
+How does the cache get turned off again when runtime PM is configured
+off?  I'd expect the device to probe powered up and then be powered down
+and put into cache only mode as a result of runtime PM running.
+
+--0QxAaZebDU/txdAX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoxKf4ACgkQJNaLcl1U
+h9B7dQf/W/e8VMHNcIYJXnNZsr/kx8uz9FBbVMYpPUftjvAh3scxQ8UUQdJvAPbg
+tKXGbdyhKSiPUVqpX8l4uqDUYnl7gbtwBYJqto2bwwg+iiGyo2PX/tXPpwODzAqY
+LIXtws7AnKUAJ/biDa8btHIRjein0m496mC31pphbg2roK3Ohx0WVrq9kjV/IeBO
+LlyxMHSeYr+4IEDhjvifa2+kMH+4JusPTp5Mpg9uU6Y9viIsgbX9lBmTY+VVEVST
+6WlryPoyIxSJ+U8+N0UyjqkIj/OdSS8Hkvb4PCEMryn1EqXiqJWFqUXpDdEvLn7e
+D5lh6XRTEOuKylHknmTLPpepZcx6uQ==
+=7epm
+-----END PGP SIGNATURE-----
+
+--0QxAaZebDU/txdAX--
