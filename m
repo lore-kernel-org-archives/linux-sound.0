@@ -1,138 +1,158 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56AE30AACB
-	for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 23:34:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D2C19ADA4
+	for <linux-sound@vger.kernel.org>; Tue, 16 Jun 2026 00:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781566441; cv=none; b=Xf0z8XYOJaJ7o/8y7MhFVstHI35/HZ73mTTW7ethAAuG250lUrWdJb9xmbaQLhsp49t2aOIdZ9mDHgLi0OcLljyYY9vaWtjvUXv8WMozNky+O07XxVulrLwfgQ/SbUSn39e4J3yLkNFBaY52dppBy4K7BMj7kgiWAK9iWK3k9Zk=
+	t=1781571189; cv=none; b=BfeYy+LOVcw0VZsAgSItUTVVrkEk/Glv9iFh+pxv8r1oKMWV+CrPMi8LC+DfR9W7KIngIXPPvcqUZZXQhFac6/bX97SpSAZf1OcZp45Y6eLUZpRCEkMQPAz7IQVudduet+5/Y4FwLqrx5PHUcY0L4Ne6b/zgnmlYNeOSw9LgLmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781566441; c=relaxed/simple;
-	bh=9T5TXJjJT/W0S+9iEkwNGDuS1oeznvsFaTswzHNnstg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E4+Thug8sKK2EpYZ7QfyrcIUUh8K9NLoKCe0n4jbPNQ5+epJf+pHBUkb6trg2CfB0sXYSCfRQPS3bxeSuHap2BkIV0ZLGPlW268OW0AnzXs1hCsw/hKh/UoRyzIKWKPwAEjzalPhgaquTCQuqFys9n0mgL7/BrFHWU/pgJQiCZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yrq+v5gJ; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781571189; c=relaxed/simple;
+	bh=NnIebMcgp+6ImBtusDRxYTiIHFgo3Luuq/SXITrMzjw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uDj4YKc8BoAsVz9o6jMGch4/Q247rlEluCXPPPd1P9sJyo1Yl/s4EylHFDQI61fzft+i1ecC2h18AALF6KS+lDsQAValx7Sw0XwuxXqcQWYNcfoc9dWaBBE7Xk+fFiuZyeqJMx66Zz1RXtBxSxKqGFJNKfo/jNEA8nKje3dXh5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lrAdGGlr; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=O4gntnBR; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yrq+v5gJ"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-36b903567fdso4471560a91.1
-        for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 16:34:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lrAdGGlr";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="O4gntnBR"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65G0Nx6I1561418
+	for <linux-sound@vger.kernel.org>; Tue, 16 Jun 2026 00:53:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	zJqwxaa5rU7meAmpXVnuWA0t0Wm6+jGN7YbURDLdxZI=; b=lrAdGGlrZRRLEDex
+	k0sZXLQMfHuETQmNgwzIk+7ma8Ml0Nvm2WX1ilArVttLWfr/UD0DIqZ0QzVIqu9e
+	2EkI98f7/oID+Y39zdbDi6n0/uqXsN89Gbr4iXMCEGdap6exICHYMELDwzHQjYAZ
+	lP+eFMIBHV4/uhqZTsdycJTg5QbFZtI1K143RBOZ05Q8GuEcbdXJg9AAmAlDpqcD
+	TatIleAma/GFE5z2XExSABy+kgteZSGOUHbBb6VTzfAHP7QpJIr054OIbKAhvwjt
+	DKdTnN/GR6taxc0qPb3gABIW2v44h/Cilb5Sr9LZl000P18B6A+z5lrsmvFnBzp4
+	SNlTkQ==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eteydbtdx-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 16 Jun 2026 00:53:07 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-915b9dd020cso1019344785a.3
+        for <linux-sound@vger.kernel.org>; Mon, 15 Jun 2026 17:53:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781566440; x=1782171240; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p8FuvkiARpXIOFd5JwFqJggn0SYUMBb/rFOpyqvH+ZM=;
-        b=Yrq+v5gJikFUUQ5mWDwbr8rT6d4cZN3fBj6TPgvdq1hH/xNeq8OLiZ2/N4qYamV2ST
-         LkHoXYXflb21c6J1jZ4q5GGDtqfquPRJagA9rAUU5Hs1z9DE0tZf/c/ICFo1VKWYNjq7
-         qxZy3hWgxgTsVu6Sni205WYdHpR4/4L+b6l20Q0jj3nBgyXmd8873uriRd/26dWMUZnF
-         meL+ajnm/vaw0uBwRPmvhEVk+gWhbTP/+GxeoLnDArRnP2e5SrphAskP0kvGpao6osFz
-         0Q+Uo69eZ8A47dqxD19sov/BZ8jBEhDTb3qqPTTtOqmUYMm28VwFj3R4VRpi7t8UC4S1
-         DGqQ==
+        d=oss.qualcomm.com; s=google; t=1781571187; x=1782175987; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=zJqwxaa5rU7meAmpXVnuWA0t0Wm6+jGN7YbURDLdxZI=;
+        b=O4gntnBRNoMk0+qEUeiM4nCuA+0BKXHC5vEfVHt/EQrPyI7tT+0OYLnvAknzN8pM98
+         77GjIxNjnyfiX292YQZSE6BDNJwm7E6x6hz09RWr7dvhGbrboJXO+olt0vCNppfbK1YV
+         3GyYHr5vIAdgtAIyFoarN8CrMUFcypDc+q3YxawPzGCtSurLv2GWRsWmbbisgFDXEZOd
+         Hl3meERGs1dGmWLcTZrCNkimbKLsUuRxhWGvkQuDbF6K3fQIY2M9bHymASf+D6z1xX3K
+         YvUdrGG+6DCuIfCT7x67sT2kZzzyZblue89HLWyZYYHD2STQcpXD93SeVis3qK0t8T9N
+         7wkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781566440; x=1782171240;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p8FuvkiARpXIOFd5JwFqJggn0SYUMBb/rFOpyqvH+ZM=;
-        b=OVAcptZjDeb/iP1dWFYPWD0Xi9x+VeyAcYnHwtZoJFZEoUsRiqUF6ubanAdNyp/vqR
-         GM38O8D1HSnY5jw88l3lpCZCmfxO9590oXxgQZJIMzwqdPADYiOUSzEih/5xKH4tW4Jn
-         EirJrhov3msU7eB/U+P9YT2RdIxCuEsTzcweB7sKZ52v0WIVjVretR1bbeDw2Q8R0LZs
-         OjQe02LyFTrOdSY97Ovx+z7zDGue/FQm4s+tPHVylWNZqKnAY9L45EKG5p71uqOG2uHn
-         E+jlm8bqiL4L5KlYval+O6pJ/COg/w4V0VvqL1//ZdHSQ7Kqyrme5geKOPr+R34LvPMk
-         WjJg==
-X-Forwarded-Encrypted: i=1; AFNElJ/gLV6gq1p0Boj7rggndZ74ryJhyep3faWWWpnQcdFJxs6lKMtmm1LX9UDji4klD2JejP13fdxCPnNI+w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyILviR7JA9mQUd7THYaplUuGvAY7BhhsEMXKu3tawZ7Rr+jRBl
-	56Qmj37mSIzhwBJrriM6ey4p7TjhVrt9AU+3d6UYkqS3Vhj0z3OPjTzj
-X-Gm-Gg: Acq92OGuNAnAkGvvmFG5FG77+AsgiBtP0Cy2J/aslCiJNPLVGQw42Zsr+tnvoiIlP5G
-	wWVblM6cHN1o8GWtrfS8tnGhk2mrpDrIn4NkGC85xGpSqGEWttWIsi95ENyYoy0dZ4lCwOopg9N
-	QeoA3aFScjL7H1rnvwosGOiOXUD0eGigmXTNtMkXuPz9Ye1aM1Wbo1ZCoObAp7inZ/D3lZ5pH2U
-	oQeyTJtxMqO9cOIaeFhcUP9oZgp6KJl8EXpRhwx6DTEiGrC5/k5VzotYf73uTG3FftvLr9xhU5g
-	RclC1g3pXILYMj24Ksh5wt5uToihbpfSFMG5UWnrqojbtL+6ZJqd0CpEaGCdOcp9d8SV+nIiAhh
-	qAWn/EirmR0L4+d/iGmNVVm47i+sxKh5CIUVXsoyg+aQnjdgb+JQZ0Ts1Om6y9LZ7/OKU35Ygai
-	YRtFkq0u/0AEXzLZ/d9ze+mfAWRvj3xa1Zxg==
-X-Received: by 2002:a17:90b:5109:b0:36d:70c8:3a3 with SMTP id 98e67ed59e1d1-37c528e0f2bmr1211166a91.15.1781566439872;
-        Mon, 15 Jun 2026 16:33:59 -0700 (PDT)
-Received: from tall-manderson.lan ([2607:fb90:9c20:d8f0:780f:3697:cc13:5d3a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-379e88d546dsm7118845a91.2.2026.06.15.16.33.58
+        d=1e100.net; s=20251104; t=1781571187; x=1782175987;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zJqwxaa5rU7meAmpXVnuWA0t0Wm6+jGN7YbURDLdxZI=;
+        b=FPqGZaTjo4ERWVRiITYIUkppe9PSilA200faYB6D8apdId7bmlny1H6L601e8L+Z7K
+         hGUfpaRRctWziYIDx/ZnS4Mc11BIakDazzMsMXDpBz4WwkY37hZS+eVHcKx+UOhtcvc1
+         ZVIm5+15MIL/GsDQnGplGAOC7VJlE1R47Oo7mXegFEymW+LnG9mYN0A5HhwJRwRwXZMg
+         BgNyjyxnEDzf66yqZcVCPxnpxsy7CFGL4Zu9dPPJTvgKbOQMeIu49zma7GjgY/E4XebY
+         C+uIIocmaCqMudsZCZrkTvIcHZjgQU20xfK+WrFr/i3E9C+XZupk2G7ecHHz8iFGctsl
+         NaLA==
+X-Forwarded-Encrypted: i=1; AFNElJ90t0tLrvJyyo2vMj2oqkDzoTIZzhFDZA+/9T41bHzWlKw0W4RD/IzFsyy+YtUhwWdcnUmqGdNkOpkhJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzaodJtlrmMTYar2WOtAlnO/lgm2+GQbHtoh6/XGfXMW2Hhr2E
+	rUeOlZcAs1pdAuS7OY19IzpM1q4uxS2S4TxH0+zen4dXWg1W1bfSJvulH039tvVzPqk04tsES4Z
+	kOJNsRCtisXxmnWUHrylSkX7t/xtufPy4QbJL/2gVwt7xliwtB/OmM6D76TJS2Sjq4g==
+X-Gm-Gg: Acq92OGM2VrbnTaTO7Cew7yyRz+aLQb9VcMTIoQfrUhvYGt8e1kF8muapmNfiX/gKZa
+	+ESvBmKOv+E8PGbU2QLxTqtBEj7av8mMWJaBXj4BtwwCmtbY5J40h04brCwguzdF7FV02gVVfKa
+	sBmg2P1wWj+PTQqVPk891EYwkD/I7fiQrbBMlv70doqE11qedFbPP3IOtXoCrdXQHZr0t9YN/DM
+	GA1n3/sUDzVWZ8XnGFHBrrlSJDYXUQXe8kCjXHtstXwM7ol3jzX/sa0XgjrFryCDr7PevFJJn8K
+	jgit9rVARXSqE4dbK96OiWQN/4TfS0Rq/omdxYTSD9ndPDlrvPjyyA5dR+7mFYcWaHXQUDn6Eyx
+	b6vJvXqaAVn6EybDam7ga7O6lC59jPVDfttT+bHXDADAwzVf31blFoyZGJG8xU2wGTP/WqLkvEB
+	DQk4ZPbb7JVXIjn+NdRqd6G/SvhavSPVeb/Uo=
+X-Received: by 2002:a05:620a:1b82:b0:915:efa6:d714 with SMTP id af79cd13be357-917f243b141mr2084927885a.52.1781571186584;
+        Mon, 15 Jun 2026 17:53:06 -0700 (PDT)
+X-Received: by 2002:a05:620a:1b82:b0:915:efa6:d714 with SMTP id af79cd13be357-917f243b141mr2084926185a.52.1781571186083;
+        Mon, 15 Jun 2026 17:53:06 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ad2e1b5031sm3113027e87.79.2026.06.15.17.53.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 16:33:59 -0700 (PDT)
-From: Galen <rwekyes@gmail.com>
-To: tiwai@suse.com
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	Galen <rwekyes@gmail.com>
-Subject: [PATCH] ALSA: hda/conexant: Add pin config quirk for Lenovo IdeaPad Slim 5 16AKP10
-Date: Mon, 15 Jun 2026 16:33:53 -0700
-Message-ID: <20260615233353.19913-1-rwekyes@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        Mon, 15 Jun 2026 17:53:03 -0700 (PDT)
+Date: Tue, 16 Jun 2026 03:53:01 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Sohil Mehta <sohil.mehta@intel.com>, Raag Jadav <raag.jadav@intel.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] soc: qcom: apr: Drop unused apr_device_id
+Message-ID: <wmb446maxntl3gvujkdp7rwr7vsdmcptw7abmp6goolu6g5zum@j2zvqjnowjas>
+References: <dee008af1510ee2a71087f3798814dd516730413.1781517268.git.ukleinek@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <dee008af1510ee2a71087f3798814dd516730413.1781517268.git.ukleinek@kernel.org>
+X-Proofpoint-GUID: 6vMdTciH2EVyPUsOmuH-BEhj59J6Gllj
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE2MDAwNiBTYWx0ZWRfX6koaZPa04GrJ
+ JW3yj4D/q3FwqW4rdrW2CyRlZ3EBrEh17gf81atxgzJupMTa2Rdyzj03uDtb7o9tPzVMQUrdP70
+ jvu4woEQ8vhMXqi2rAMqfs1zG4yxqWA=
+X-Authority-Analysis: v=2.4 cv=QrJuG1yd c=1 sm=1 tr=0 ts=6a309e73 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=IpJZQVW2AAAA:8
+ a=EUspDBNiAAAA:8 a=Y7cAMVT_gd59W81BrzoA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=IawgGOuG5U0WyFbmm1f5:22
+X-Proofpoint-ORIG-GUID: 6vMdTciH2EVyPUsOmuH-BEhj59J6Gllj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE2MDAwNiBTYWx0ZWRfX2z8/tLJCN4Gf
+ UsCbuG4+Aprh9Y/mZnOUqZJF8Y/IQ2kzc9YJphfmPAuT2nYI8VX0xyEBQkiwjHsKNR7hIaLI7Qn
+ TRxQ/NWfq+54qSBjJiJIWycTmGy3RpPA8XbVZ1/vPss4AzZi4TErhTYqhnGrkK7Ak4QcNT9L20P
+ 7XLmVxuPslp8Jztiq91WBDwzp93q12avR/PsDrYoso/SdDvOUbNmxNea1vcrohxH04dE0ewePtA
+ lxcdaLHEfluM+GJzWKEU3OzGatS6hTDktsY5UMVed5IlZfUCozygIV37Wti3Uqgrl8E25dQkhBx
+ +RcHOfAkRo9aHzOAwYTiouJI8wF8MBQPmcVi5sgcoSr9x7DtLZGk96E0mjs9Mw0uTrMqB3DWc/A
+ 2zs6ZZL3ps4luJGVe0OQtBoT0z7jyFKYnNBKoUtls16qsjzJorsaszxQLgGIpcfXx/BGaNThlDh
+ xroMAsC9HS/K5GVTZkg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-16_01,2026-06-15_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 suspectscore=0
+ phishscore=0 spamscore=0 impostorscore=0 malwarescore=0 adultscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2606040000
+ definitions=main-2606160006
 
-The Lenovo IdeaPad Slim 5 16AKP10 (PCI SSID 17aa:38b6) uses the
-Conexant SN6140 codec. The internal microphone is on pin 0x1a but
-the BIOS configures it with pin default 0x95a60120, which includes
-a jack detection bit that causes the kernel to treat it as an
-unplugged external mic rather than a fixed internal mic.
+On Mon, Jun 15, 2026 at 12:04:28PM +0200, Uwe Kleine-König (The Capable Hub) wrote:
+> apr_device_id was introduced in commit 6adba21eb434 ("soc: qcom: Add APR
+> bus driver") in 2018, and since then not a single driver made use of it.
+> 
+> So drop the unused id_table pointer from struct apr_driver and move
+> APR_NAME_SIZE to the apr header which still has a usage of it.
+> 
+> Note that with the id_table being NULL apr_device_match() degrades to just
+> of_driver_match_device(), so replace this callback accordingly.
+> 
+> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+> ---
+>  drivers/soc/qcom/apr.c          | 25 +------------------------
+>  include/linux/mod_devicetable.h | 11 -----------
+>  include/linux/soc/qcom/apr.h    |  4 ++--
+>  3 files changed, 3 insertions(+), 37 deletions(-)
+> 
 
-Add a pin config quirk that overrides pin 0x1a to 0x95a60130,
-setting the connectivity bits to indicate a fixed/always-connected
-device. This allows the internal microphone to be correctly
-identified and used.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Signed-off-by: Galen Hassen <rwekyes@gmail.com>
----
- sound/hda/codecs/conexant.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
 
-diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
-index e3b6aaabe..40d4591f9 100644
---- a/sound/hda/codecs/conexant.c
-+++ b/sound/hda/codecs/conexant.c
-@@ -291,6 +291,7 @@ enum {
- 	CXT_FIXUP_HEADSET_MIC,
- 	CXT_FIXUP_HP_MIC_NO_PRESENCE,
- 	CXT_PINCFG_SWS_JS201D,
-+	CXT_PINCFG_LENOVO_IDEAPAD_SLIM5_16AKP10,
- 	CXT_PINCFG_TOP_SPEAKER,
- 	CXT_FIXUP_HP_A_U,
- 	CXT_FIXUP_ACER_SWIFT_HP,
-@@ -826,6 +827,12 @@ static const struct hda_pintbl cxt_pincfg_lemote[] = {
- 	{}
- };
- 
-+/* Lenovo IdeaPad Slim 5 16AKP10 with SN6140 */
-+static const struct hda_pintbl cxt_pincfg_lenovo_ideapad_slim5_16akp10[] = {
-+	{ 0x1a, 0x95a60130 }, /* Internal mic, fixed/always-connected */
-+	{}
-+};
-+
- /* SuoWoSi/South-holding JS201D with sn6140 */
- static const struct hda_pintbl cxt_pincfg_sws_js201d[] = {
- 	{ 0x16, 0x03211040 }, /* hp out */
-@@ -1006,6 +1013,10 @@ static const struct hda_fixup cxt_fixups[] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = cxt_pincfg_sws_js201d,
- 	},
-+	[CXT_PINCFG_LENOVO_IDEAPAD_SLIM5_16AKP10] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = cxt_pincfg_lenovo_ideapad_slim5_16akp10,
-+	},
- 	[CXT_PINCFG_TOP_SPEAKER] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -1116,6 +1127,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x38af, "Lenovo IdeaPad Z560", CXT_FIXUP_MUTE_LED_EAPD),
- 	SND_PCI_QUIRK(0x17aa, 0x3905, "Lenovo G50-30", CXT_FIXUP_STEREO_DMIC),
- 	SND_PCI_QUIRK(0x17aa, 0x390b, "Lenovo G50-80", CXT_FIXUP_STEREO_DMIC),
-+	SND_PCI_QUIRK(0x17aa, 0x38b6, "Lenovo IdeaPad Slim 5 16AKP10", CXT_PINCFG_LENOVO_IDEAPAD_SLIM5_16AKP10),
- 	SND_PCI_QUIRK(0x17aa, 0x3975, "Lenovo U300s", CXT_FIXUP_STEREO_DMIC),
- 	/* NOTE: we'd need to extend the quirk for 17aa:3977 as the same
- 	 * PCI SSID is used on multiple Lenovo models
 -- 
-2.53.0
-
+With best wishes
+Dmitry
