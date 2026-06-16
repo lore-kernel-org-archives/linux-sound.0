@@ -1,164 +1,204 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE7B349CE9
-	for <linux-sound@vger.kernel.org>; Tue, 16 Jun 2026 07:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9EB30D3FA
+	for <linux-sound@vger.kernel.org>; Tue, 16 Jun 2026 07:35:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781594695; cv=none; b=UxfR5JRcX0RvOSdwju16ZD5yF54qnkqv/dmzwh2SMAAuOUXD6NBHkZG1/mU4X5RedSF9afMt9DxvO1zH620ScpxUiLp4a/zPKg392O9ciwhbh6KcLLyll9rKxdTbk8RQcfBWetAvam7Tnwu+8LlZOz+J/ao0KrkU5MnmWylQqJI=
+	t=1781595349; cv=none; b=PWx56N509qmz0o5f0uIh4aNy/b2GfWEMBfDENM3SjBfb5LvemRNlzE51qQFLgyLe52K97qxd2fdf48QFzLgdrP7yhkDWhvIeoQ47oPcJFAphWk58+ySySWtFATNDFLA6wTdqgnRKxrQ+7T09cp8MQYXKU4E8OuRVf596//h9+js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781594695; c=relaxed/simple;
-	bh=1aizsr/ZAErlIyh8I+1fKQB7XSg/xQo+gGIAYlPQuHE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k3a9+YTjkooJEslb7kvpl8PniGtJJl2BTx2sGoUUK7A4IdaCDZv8RbllY1VSQBogKxetwIF1LwUBT1oKQz4mPLJ5h2jr+CBm0KrxGxYYJZhUdSwzMudJROvO1fb81Nr4sItrQ26Emc3tB2R1d5Jb/nNXtuKToR1aXpmLZph8gto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L5ELzNzV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3WFylrpQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rRpsZsnh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DSQJtfMn; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781595349; c=relaxed/simple;
+	bh=TnYkDouuG4csMI/D7w9ME6ZIeYV5QZ6uLtJOrSOZ8jM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MY3goeSHwXqkpCmv0P2VgJHG8ys/d6ZZOg/i6RWVDMUoiXqoYU0S+Yb+pbkvlZo92k7w33BRIjbWlrRRttUsRDZDbJGLY+CHTG/izsd94UKtpcXRP/ECdF/3ccPMdJ8PsOKv3B3Q58MqC+9qwpILaXRjaG4Kph+0vgkG9WeEf4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pqrs.dk; spf=pass smtp.mailfrom=pqrs.dk; dkim=pass (2048-bit key) header.d=pqrs.dk header.i=@pqrs.dk header.b=zjhlGFqp; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pqrs.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pqrs.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L5ELzNzV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3WFylrpQ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rRpsZsnh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DSQJtfMn"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 47D51758DC;
-	Tue, 16 Jun 2026 07:24:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781594692; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=pqrs.dk header.i=@pqrs.dk header.b="zjhlGFqp"
+Date: Tue, 16 Jun 2026 09:35:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pqrs.dk; s=key1;
+	t=1781595342;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DBS5FjR9bA6WAYLZtl1jM64SBUnvii836fJdPNw9+wY=;
-	b=L5ELzNzVMBZD9qSlX5F+wFC1z3zBaklpHwJyCe/iSKZYj2qqgDY4x85iDxRACu/rLENxvz
-	wxL6+/XXXvOHq+fnqWj9B/1IGEevUu2cSRvZYKVfqvUtR8EuGSw1aHsvEXMP2jEIOttMoS
-	0IKa6A9lEku7J8e6SuAQyea30IfPm2g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781594692;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DBS5FjR9bA6WAYLZtl1jM64SBUnvii836fJdPNw9+wY=;
-	b=3WFylrpQlujCW+2xMWakZdJk7AZLTB0YEE0dWN4I4/wUe9rm41A6anGyp7FGSo5cDSYKH2
-	EjUPiDziqF2Kr1DQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781594691; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DBS5FjR9bA6WAYLZtl1jM64SBUnvii836fJdPNw9+wY=;
-	b=rRpsZsnhECQuUy2M/4VTfRfzKRhn3fitMEpdBnmH8VWy4QUxojBweIe5wqkZBDln5MltSz
-	ISvWOZSX1ZgNFbcy4289ZRgJNhgAOF8Y+iSD9FPMXGThzNNcYLkflIRVzXeT8WXKHTQXa0
-	ttiMG1U9ZFWENe3PBpf00+F8rPIFzaY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781594691;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DBS5FjR9bA6WAYLZtl1jM64SBUnvii836fJdPNw9+wY=;
-	b=DSQJtfMnVn+RB8PSaFG+yVnN28h2+HPAUyThd1oTzTfwIVlyQh1gv6vJ1bYH4vnf2P/ARW
-	eBEantSZuCfYEZBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0347779A8;
-	Tue, 16 Jun 2026 07:24:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TNSGNUL6MGomOgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 16 Jun 2026 07:24:50 +0000
-Date: Tue, 16 Jun 2026 09:24:50 +0200
-Message-ID: <8733ynrlq5.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ai Chao <aichao@kylinos.cn>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	kees@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: pcm: Show closed for DISCONNECTED state
-In-Reply-To: <20260616020601.2106490-1-aichao@kylinos.cn>
-References: <20260616020601.2106490-1-aichao@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	bh=0TIxMr6p/Yv9hpTP9dv8eovugvzGEvZJ8rqq8R5629E=;
+	b=zjhlGFqp8fRe4Ve9v6zRPVgsN9qwr+ZBzqXokGMHw2qBPdaB7bnjw4KrnYBD5xPceQmEUn
+	ej6utvbWV5ax6Jmnjf+F4lZiZM7KQEGqXB8s2qKkkV85gt4sau5hXLVFzXq/NijfMOHCqz
+	mJn23602vobeZodvk47XSEj8P5JYqzrTmnFmuxn0N1QZ9FBKe6kcNDnnojt0YtPnzV8Y0t
+	YezpsOukPvG0vQWN8PYjLhXSAQbdFj+B+bRe6FtQh75/3R9uRy++FhnB5bCR7BeqVhJkNM
+	Ej/r7Qbhzz7qVfpx/kQwBqt6oO11yauKHaDUCio4+wrhAd91bMqITwtEMCYNSA==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Baojun Xu <baojun.xu@ti.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Herve Codina <herve.codina@bootlin.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Kevin Lu <kevin-lu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>, Sen Wang <sen@ti.com>, 
+	Shenghao Ding <shenghao-ding@ti.com>, Support Opensource <support.opensource@diasemi.com>, 
+	Takashi Iwai <tiwai@suse.com>, 
+	=?utf-8?Q?=22Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29=22?= <u.kleine-koenig@baylibre.com>, Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin.sipraga@analog.com>
+Subject: Re: [PATCH v3 9/9] ASoC: audio-graph-card2: recommend to use auto
+ select DAI format
+Message-ID: <wcwjhkd4czypxcantb3mb7suo2vegpd4p24chi27hduongxjtw@mb3ee6rv24vs>
+References: <87v7bs36m0.wl-kuninori.morimoto.gx@renesas.com>
+ <87ik7s36k2.wl-kuninori.morimoto.gx@renesas.com>
+ <dajhjm3tz6zug7dkdkqeis6bhxd6yxzxzyolmcbqaeer42ewut@czswsgsz5gok>
+ <87qzm7mg6s.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87qzm7mg6s.wl-kuninori.morimoto.gx@renesas.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 16 Jun 2026 04:06:01 +0200,
-Ai Chao wrote:
-> 
-> Hello Takashi
-> 
-> >Hmm, why it must be that?  The state is shown as "DISCONNECTED".
-> >
-> >IOW, does this matter for which application and how do we have to
-> >imitate as if the file got closed?
-> 
-> Test Environment: Dual-boot Linux and Android system.
-> 
-> Issue: When a recording app is opened in Linux, the system is switched to Android,
-> and then switched back to Linux, the recording app fails to save the recording
-> and keeps prompting "generating recording file".
-> 
-> Note: The USB hub resets during the system switching process.
-> 
-> Root Cause Analysis (from App Engineer): The recording app relies on the driver to
-> report the IN_CLOSE_WRITE event. Upon receiving this, the audio service
-> checks /proc/asound/card0/pcm0*/sub0/status. If the value is not "close", it assumes
-> the sound card is occupied and skips loading; if the value is "close", it considers
-> the sound card available and loads it normally.
-> syslog:
-> [ 1140.495952] retire_capture_urb: 17 callbacks suppressed
-> [ 1140.583090] usb 1-2.4.2: USB disconnect, device number 53
-> [ 1140.583965] usb 1-2.4.2: cannot submit urb (err = -19)
-> [ 1140.588816] usb 1-2.4.2: cannot submit urb 0, error -19: no device
-> [ 1140.662630] usb 2-4.3: USB disconnect, device number 15
-> [ 1140.722584] usb 1-2.3: USB disconnect, device number 51
-> [ 1140.722605] usb 1-2.3.2: USB disconnect, device number 52
-> [ 1140.805724] usb 2-4.4: USB disconnect, device number 16
-> [ 1141.352341] usb 1-2.3.3: USB disconnect, device number 54
-> [ 1141.558840] hub 1-2.4:1.0: hub_ext_port_status failed (err = -71)
-> [ 1141.613714] usb 1-2.3.5: USB disconnect, device number 55
-> [ 1141.757651] usb 1-2.4: USB disconnect, device number 49
-> [ 1144.324836] usb 1-2.4: new high-speed USB device number 56 using xhci_hcd
-> [ 1144.473047] usb 1-2.4: New USB device found, idVendor=1a40, idProduct=0101, bcdDevice= 1.11
-> [ 1144.473065] usb 1-2.4: New USB device strings: Mfr=0, Product=1, SerialNumber=0
-> [ 1144.473072] usb 1-2.4: Product: USB 2.0 Hub
-> [ 1144.473738] hub 1-2.4:1.0: USB hub found
-> [ 1144.473765] hub 1-2.4:1.0: 4 ports detected
+Hi Kuninori,
 
-Thanks, it's a bit clearer.  But it still means that it's a cargo fix
-only for that specific application.  The program should receive an
-error for any further syscalls, so that it can close gracefully by
-itself.  Or it doesn't work as expected?
+On Tue, Jun 16, 2026 at 01:23:23AM +0000, Kuninori Morimoto wrote:
+> 
+> Hi Alvin
+> 
+> Thank you for your question
+> 
+> > 1. What happens if CPU and codec both support e.g. DSP_A and I2S as
+> > well-tested first priority formats? AFAIU I2S is only well-defined for
+> > 2-channel stereo. But for the TDM (>2 channel) use case, will auto
+> > select choose I2S, when actually we should have used DSP_A?
+> 
+> Auto format can have priority. But if DSP_A and I2S are set as same
+> priority, DSP_A will be selected first.
+> It doesn't care about channel numbers etc, just checking CPU/Codec
+> format only.
+> Please see soc_dai_convert_possiblefmt_to_daifmt() to know how it was
+> selected.
+
+OK, just reading soc_dai_convert_possiblefmt_to_daifmt(), it looks like
+lower bits are preferred, so:
+
+#define SND_SOC_DAI_FORMAT_I2S          1 /* I2S mode */
+#define SND_SOC_DAI_FORMAT_RIGHT_J      2 /* Right Justified mode */
+#define SND_SOC_DAI_FORMAT_LEFT_J       3 /* Left Justified mode */
+#define SND_SOC_DAI_FORMAT_DSP_A        4 /* L data MSB after FRM LRC */
+
+... would mean I2S gets selected.
+
+My point here is that maybe "best effort" auto select actually makes a
+bad choice, since DAI_FORMAT_I2S with >2 channel might lead to different
+HW implementations on either side of the link.
+
+> 
+> > 2. Regarding the warning: for DPCM use-case, I was always setting the
+> > DAI format on both the FE and BE links. Now I assume this will
+> > unconditionally warn?
+> 
+> Your concern is about dummy DAI ?
+> dummy DAI will have auto format settings too.
+> (But, it should be included in 1st patch-set, but I have forgot to include
+> it..., Will post for -rcX).
+> 
+> So there is no concern about DPCM case, but is this clear answer for you ?
+
+Assuming the extra patch with auto format for dummy DAI, where dummy DAI
+supports everything as first priority (my assumption), there are two cases:
+
+    1. The user continues setting DAI format in graph-card2 DT. Auto
+    format selection is skipped and a warning is emitted. Same behaviour
+    as before except for a warning.
+
+    2. The user sees the new warning and removes the DT setting. Since
+    it's DPCM, the DAPM playback toplogy could look like this:
+
+        FE                                      BE
 
 
-Takashi
+                                { 0 --------> codec0
+      cpu -------> audio mux {
+                                { 1 --------> codec1
+
+    cpu, codec0, codec1 are connected to dummies, so their format is
+    just one of their first priority formats.
+
+    But if there is no conflict resolution, so we could end up with
+    incompatible formats between cpu and codec0 or codec1. For example,
+    cpu and codec0 both have I2S as first priority, DSP_A as second. But
+    codec1 only supports DSP_A. So you end up with:
+
+        FE                                      BE
+
+                                              [I2S]
+    [I2S]                       { 0 --------> codec0
+      cpu -------> audio mux {
+                                { 1 --------> codec1
+                                              [DSP_A]
+
+    ... and cpu can't properly talk to codec1. But it would work if
+    DSP_A was set everywhere.
+
+    Maybe I missed the code/patch, but to resolve the conflict, wouldn't
+    the code have to walk all possible permutations of the DAPM graph to
+    resolve the conflict?
+
+My point here is that for DPCM, auto format selection seems not to
+work. I hope the example is clear.
+
+> 
+> > 3. I can also see it being annoying that the sound card warns me just
+> > because the CPU or codec driver I'm using does not (correctly?) specify
+> > .auto_selectable_formats. Maybe it is hard for someone to send a patch
+> > if he doesn't know a lot about the third-party hardware.
+> 
+> I will post 2nd auto format patch-set, and all existing driver will
+> have auto format settings by it. So, v7.2 will have warns, but v7.3 should
+> be no warn. Unfortunately it is patch accepted timing issue.
+
+OK, good to know! Feel free to put me on cc and I will check it out.
+
+> Actually, I have no big opinion about sound card warning.
+> I just thought it might be a good to indication.
+> If it is annoying for people, I have no objection to remove it ;)
+> 
+> > 4. Last, just a comment: In my previous company we always used either I2S or
+> > DSP_A by convention, depending on if it is 2-channel stereo or TDM
+> > respectively. Both me and the hardware engineers would rely on this
+> > knowledge when debugging digital audio signals with an oscilloscope for
+> > example. While I agree in spirit that the DAI format is a SW setting and
+> > might not belong in the device tree, in practice I'm not sure the
+> > hardware engineers would completely agree. Hardware can also be buggy
+> > and forcing a format in the sound card is needed to make things work.
+> 
+> Yeah
+> 
+> If you know that it can't use some format for some reasons, it's better to
+> set it as lower priority, or disable from automatic selection.
+> 
+> And more, if the best format can't be automatically selected based on the
+> CPU / Codec combination, you can use previous selection method as-is.
+> 
+> If CPU/Codec drivers has auto select settings, *basic* format will be
+> automatically selected. But it is not necessarily the *best*.
+> In most cases, I hope it is sufficient.
+> 
+> Unfortunately, auto format can't help all best cases. So I need to say it
+> is "better than nothing".
+
+It's for this reason that I think the warning is too strict. There are
+"normal" setups where the user cannot avoid setting the DAI format in
+the DT. Something to consider.
+
+> 
+> > It's just a warning so it's not a big deal. But I can see myself
+> > patching this warning s/warn/dbg/ if I kept seeing it, for the reasons
+> > stated above. Especially because I'm a big fan of audio-graph-card2 and
+> > use it all the time :-)
+> 
+> Hehe :)
+> I'm happy to know that there is audio-graph-card2 user :)
+
+:-)
+
+Kind regards,
+Alvin
