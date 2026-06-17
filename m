@@ -1,119 +1,98 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A1618BBAE
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 02:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781664451; cv=pass; b=cJoZXoP0D6kUIC+SK6moItnR6mmajR3r03dlXAMgzNhvraYIkL8sMYTU0vG27Hr7440tg7cmSQbeAME1K0TBMq/GuYQTcvb3R9jgnjcLwCpEeTGPGOLdHjz3skGSCmWNdTMefYraZHgHJNYUHbtTKoxN3LSO1GIOQFigYNMI9bY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781664451; c=relaxed/simple;
-	bh=21CVZQDbTAMe89ajgAnXDUlzqVCUT7uwZY3Vs9iAWO0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fWK5jz3feJHjVfjQcnEDG70KMVflXC3cMJtKLPrlxI2lugZa6OuZDimAN0omfXjdeIBz13055MvB4WTLYbPmkDIB34UGoCocOVX7PQ0sq1A6/rkYlZwfiVuf4GmHBWecxSgiyKk1NuoNeDJmSSWRlxEQKcB5EwJK9HEaIlwKAwI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MMFNk4Rn; arc=pass smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MMFNk4Rn"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c8583b8fd89so3195187a12.0
-        for <linux-sound@vger.kernel.org>; Tue, 16 Jun 2026 19:47:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781664450; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BWm6bGMegINTTWVdTj0PlNQ4rgfEZ8mVjmknyY5/wUOi+yQrj+/MBcsY3wBjmW6vhq
-         AH9S8bTOszalZgZa+dbRdDss4ze8CwHxVBzWHlTnDRFz84SSp09+salV1HdvflAPpI6p
-         OeqKB2hWB8XgiPgtUtQ0CGYhrNPJbIK0XsZ30kmFxsafJCkrXESqt/rxclCyd/m7aOZa
-         3Wfn1OngIGvysCEKXy84jn7p2CkTpaLVj2mV0IsbIY3hRDFDSEgeqp85UKQrNjO1vY+B
-         Kr0Bh6Sx0XVCzV+JQRhRy3P/kcL2Uz4cPegKfom50nwQz23JlUoYf4lmxXUmaZ+gnnY1
-         YA0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=21CVZQDbTAMe89ajgAnXDUlzqVCUT7uwZY3Vs9iAWO0=;
-        fh=lPY9mPL6Jt1KlpveQLe0BkAvzgAhHKgODDQZXIFxeVI=;
-        b=WSaUFnuXK5kfQUdbainOac9fRRdDSyXMb/UHmyWL1u3AK2f4f3sXYP5wJDZHcofp8/
-         UIf9PMU0jKcOHVbjJZ4m9PUosxJIHS83oNTu6aGNxXLtCIpaotoJp4W3HklQFlC7degp
-         WvjtELZnlYaoBaIBvPzml1s3Jfcn5ZG3zWtSvN8b0hQuX7mJ6sAsWtsvomIrhBMMngw1
-         3GUvrdAzeu1V19e6xVxvnlJxnQy1I0LULoz3vZ+gZ+wWC3UCeVVL9dLCaKsvZGIl0tV9
-         fiBdLFrh1VZ5JknsnAOxIfU6cJMLJnIpjckfRO7Ng/khjjCw4Va2SgkwQPDqKII8LuPD
-         EC0w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781664450; x=1782269250; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=21CVZQDbTAMe89ajgAnXDUlzqVCUT7uwZY3Vs9iAWO0=;
-        b=MMFNk4RndWI8nSrKz3JC1jF+E2lQ7/fuwLvgvfNRnxTCUehHi97eEac/X7Dszge/Qp
-         BHEVDj1JCU58V06/2Aj1ZtQXGhGjhpeKhj4giCawHRHDNlaa5ACqnwwpxiQ0pGArT/B0
-         vub0QuH3gEIkRJDB/FCnzj0DlO3XObtXsTiqaET2xUeqlYHKLuB9+ab5g0K2tjQWCixY
-         QuYxP3hKpMDb1tpCRZOoDAYQgIqfOGF5bczD6qPKaxjAKkp+J0btHgiYMzvs9dw7zu/Z
-         994VbLC+vsYC1lit1TD7sEnQu2RQqAL4o/jALUJW7vzQeiQhFeE/Hz6QlQzBXgw7Wc3C
-         vkPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781664450; x=1782269250;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=21CVZQDbTAMe89ajgAnXDUlzqVCUT7uwZY3Vs9iAWO0=;
-        b=jdhVLachMXTMPLgD6Vg+J4Tz+byQf+vVXHOZtw7rWONo1D2iVWD4zvnzhLbnMw2dzt
-         gbD+1+L0SQo40xzMdOCFdMSqaV0BailI/BJVwXPfyzTe6S6b5RbhanCD6SgS4whFp3UT
-         J5Jx50gWWOZR8zSpVOGELvY9+2JrZtxpJduZD2kc0lkTHrQ027FIamUzXk9ZHkcIQIPy
-         slGrBhAl81j61Gx84xJWhV/lK78Gh+n2B6yQh/oZhaOdMaj/IBsnqGuMrMh/lHeZHbJ4
-         AQPGrNw1oWaZnLP7oq8IO+UyFIJ5Wg1K3UY3oTN/n42bgfJB6R+mAI7/Ar6G+MBZj1As
-         ZLuA==
-X-Forwarded-Encrypted: i=1; AFNElJ9aQopuBUa5Z7no0vk/TovU3vowKrURF6arZEOos02xj9ke2NAB8JCfPHD7J9a5MTvR8q9AHQvXtHqjZg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5VAF3/5VjXZNVm9SjpfPG/34PiymQuTHesGfaPwGgV+tCB4GN
-	cdB/mYad2TK3zL6Yxgutn7f1tFimr4/CayE2eNfWBw9vvOb5FgqMmAqgS8H20YcKbsDeDLsahUx
-	xCKxui/8eXsfz1EymJFTROA91U69+kRg=
-X-Gm-Gg: Acq92OHTr7XLsI6xmeNNoSvhN6CtuHbqkJODJVf51TX3iEpfNcVtcRh+P80H8jK6P0s
-	9fDIJ0F9KtVFTYAy/GyaYy9kNfOkhXqggf9htgSA6E9V6kPBDrCutc58Zp0Ow8Mo2KzcBeqvJXB
-	OltZ2U3PsLFnvbkJd9Tq9JuXd15POzSClj97kcBy3+PHD1IeYc4CajJ6DWdQypJLQNugfqivx3N
-	j+wGybM2hasq1D2mqZG1xvO4yX8FYbJMejwgAZOTzLS5z9cBxH3dS0OgVq0T96a80G4klmzQJAc
-	bs1y6/7OfBfhObfvo1VHyztX2ec=
-X-Received: by 2002:a05:6a20:9f44:b0:3b4:8f18:326 with SMTP id
- adf61e73a8af0-3b8bcc8b463mr2012630637.10.1781664450337; Tue, 16 Jun 2026
- 19:47:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56DA1A317D;
+	Wed, 17 Jun 2026 02:52:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781664766; cv=none; b=XWU632bSAJEuniTJtVPMaDSRi/vCzNQP/gfN8DBBPWARqi44bR5/eVvajCQqC/IrSpOKxF+Fxz09G+mPqIbJU0yMx2YdRR+GLHRuDEniZtj6qSe0EKbikFh+FfR75Op20DNI3GUnAdmNdTV6CksgqZoe2XZC87V5FSxCfyS+Ndw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781664766; c=relaxed/simple;
+	bh=JTII+P4A4RKwW95knSuB6+q8kM13HUjbp9rMuFS9akw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S8bmm7KS6JKQ52YJbuUjgGvQFgVc+u/g9ljX/cc8nz9FwQmtoNVXI3iY/4HzaA7drdq6frqGeLfIyPg+CuWZTO9rGIYR5xcXvDK9qH5gk9pSVX92YUxi2Ksz72SsnHt7znGFr1u9nEbNCkHQziczvg+snpDGapgUKjWE9qf8JmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 99fed40c69f711f1aa26b74ffac11d73-20260617
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:8f298ffb-71e7-439e-94a1-344c664ac186,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:dbae2ecf8b9dc4c6123fb45d81943dc8,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|865|898,TC:nil,Content:0|15|50,EDM:-
+	3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,A
+	V:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 99fed40c69f711f1aa26b74ffac11d73-20260617
+X-User: aichao@kylinos.cn
+Received: from thinksys.. [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <aichao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 787350998; Wed, 17 Jun 2026 10:52:38 +0800
+From: Ai Chao <aichao@kylinos.cn>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	hulianqin@vivo.com,
+	i@rong.moe,
+	g@b4.vu,
+	cryolitia@uniontech.com,
+	pav@iki.fi
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ai Chao <aichao@kylinos.cn>
+Subject: [PATCH] ALSA: usb-audio: Add quirk flags for SC13A
+Date: Wed, 17 Jun 2026 10:52:34 +0800
+Message-Id: <20260617025234.3344935-1-aichao@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260611115901.80438-1-phucduc.bui@gmail.com> <20260611115901.80438-5-phucduc.bui@gmail.com>
- <8bf70242-a64a-4980-90b0-ab0310685a7b@intel.com> <CAABR9nGVKMJjCOQ1S72HR6iAS8Sx+wDT3L0tNyvn2AaAdhWodw@mail.gmail.com>
- <9bb2bc5e-507c-4a73-ae44-dff6659fae93@intel.com>
-In-Reply-To: <9bb2bc5e-507c-4a73-ae44-dff6659fae93@intel.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Wed, 17 Jun 2026 09:47:19 +0700
-X-Gm-Features: AVVi8Ceh3jemIwtDTJTZ0WpoOLM58Ai98wo2lgUTHl7-KaGEEF_Oqoh9qu-lRIY
-Message-ID: <CAABR9nE9LvA0TJ4GxpTvxpENAZ7r2Aa3_GaVZdMty64YW02Z4g@mail.gmail.com>
-Subject: Re: [PATCH 04/20] ASoC: Intel: avs: probes: Use guard() for spin locks
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
+The SC13A ( VID 0x1ff7, PID 0x0f81) not support reading the current
+sample rate and results in an error message printed to kmsg. Set
+QUIRK_FLAG_GET_SAMPLE_RATE to skip the sample rate check.
 
-I see your point.
+Quirky device sample:
+  usb 3-5.2.4.1: new high-speed USB device number 11 using xhci_hcd
+  usb 3-5.2.4.1: New USB device found, idVendor=1ff7, idProduct=0f81
+  usb 3-5.2.4.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+  usb 3-5.2.4.1: Product: SC13A
+  usb 3-5.2.4.1: Manufacturer: Linux Foundation
+  usb 3-5.2.4.1: SerialNumber: 000002
+  usb 3-5.2.4.1: Found UVC 1.50 device SC13A (1ff7:0f81)
+  usb 3-5.2.4.1: 3:1: cannot get freq at ep 0x86
+  usb 3-5.2.4.1: Warning! Unlikely big volume range (=4096),
+    cval->res is probably wrong.
+  usb 3-5.2.4.1: [5] FU [Mic Capture Volume] ch = 1, val = 0/4096/1
+  usbcore: registered new interface driver snd-usb-audio
+  usb 3-5.2.4.1: 3:1: cannot get freq at ep 0x86
+  usb 3-5.2.4.1: 3:1: cannot get freq at ep 0x86
 
-> 3. leave guard() as is. As I mentioned, guard() carries no readability
-> cost what cannot be said about its scoped_guard() friend.
+Signed-off-by: Ai Chao <aichao@kylinos.cn>
+---
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Personally, I find it a bit inconsistent when guard()-based locking
-and the traditional lock/unlock style are mixed within the same driver
-or file.
-Once I'm familiar with the syntax, I find scoped_guard() reasonably
-readable as well.
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 46718c5499df..e6c011cf8ffd 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2413,6 +2413,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
+ 	DEVICE_FLG(0x1bcf, 0x2283, /* NexiGo N930AF FHD Webcam */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
++	DEVICE_FLG(0x1ff7, 0x0f81, /* SC13A Webcam */
++		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x2040, 0x7200, /* Hauppauge HVR-950Q */
+ 		   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
+ 	DEVICE_FLG(0x2040, 0x7201, /* Hauppauge HVR-950Q-MXL */
+-- 
+2.34.1
 
-That said, this is Intel ASoC code and you're maintaining this area,
-so I'm happy to follow your preferred approach for v2.
-
-Best regards,
-Phuc
