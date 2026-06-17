@@ -1,138 +1,90 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFDCC402434
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 13:02:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C033F54C9;
+	Wed, 17 Jun 2026 13:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781701336; cv=none; b=f0j+A9D5sI5krPeBeT3N+r96Ab2fL0EhbQ9XM2QBve1OVwJ/ceR6Q4YI8YUtf+tOpfa+PmOXVStx223q80/FlLFtePZvRTwhcx509cwQAcqgWPs7cnevIPY+K+yjK6KObok4aQTeUN993uFM3NOFFR3PAbwSCJDFr+f+m0iZc8M=
+	t=1781702529; cv=none; b=rkhImfuE1fnjxshJiluX2xiAMOQcuwAPonocnEh68F2nZs+gJGnsPTTEvSGQqEw9odQLCr5frEA0T5Rp0g5szgcdiandIbjlcbxl0zQUOuyxmdeMflBNcox6zM5Gp3AE74DrGyxyl1XJthN/pUmPyZxG6AH3dpM4z9LRhwlWdi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781701336; c=relaxed/simple;
-	bh=ER7cBoORTtCo7YHQmTGpBnqKr/GhDtCtpgQSSh5vv20=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lBRB5cPURJXun9ke6OcovBP1/yEHrRRWB55l5hWHQ9QqC9cQNfjs33uq91alV1kGgAVJH0cAZ11cK6Z6G7xBDxBIwPpH5+rFXIYjeJusln0CtsP2QvX7gM83RvTlyuBUDxzdEbgCxdDZVEY+yd0VkJsZVHJfSdJkg6lsgW74MhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L1iKvp6n; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781702529; c=relaxed/simple;
+	bh=XcHn+OqjLeBAX8IEau6ZDZhceXfurepXWjvJLi5A47U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DPUO3Y76OlIe38XyLjpx+8pY4jjhXiMMUJCTwdYOe5OvnJxrtvBec4hMHoMNX+39WwtXSTh1sZJ4pJo9PXTi/FLjhYMxmmKzPGFmky/6cziakBPgbxz0rrf7IukXJMTgAUEcOE6I0yyeRftNCm0aMrErv1S7BlpOQRDCGCp9T1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LS08RM8p; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L1iKvp6n"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490ac357c55so54184585e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 06:02:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781701333; x=1782306133; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KoyHU0/MnlEjPkHmAG8qUfE8grsoj3Z59or+Bu6rF3E=;
-        b=L1iKvp6n911t1/z4RYAVzXONkBcZHcMSNrWXpD0u2bS8HOIQ34kFk7X6awUB7pVQ4N
-         218Ufk2su+5ij6kCRPLZjz78DZLtdmj3inQiOglyjBdUQU0JHf0/mYn+kA24ZCYXBHr5
-         YtrftHA6ZH02alaH3DcjucF/kG+P1w2EeFx6SjPdzy9Wirc2NrZm72ONjLZbj5zlk0eA
-         KotaMTkmVn8gCxyhqoGzKbgjItmnAGfVe0zww95D854sqmHW81mMRZoPZ/GRvRNrsQZq
-         oyA6CMMkDvVh9yc6+lFS1nyOVqchpQkZN3G6Z/5V1Fye/gghO4QsTxvL8XpUyYXjqBEq
-         1zSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781701333; x=1782306133;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KoyHU0/MnlEjPkHmAG8qUfE8grsoj3Z59or+Bu6rF3E=;
-        b=FupkeX4I4MxGvIxLYrzSS3UuWsx6P/OksrxSDGdL0IYU+7zRKtA8qdO+kyRwMcFaW/
-         bhpclnUJUI6EBvZbS0J3MyVS4fVRrQHu7/RMiiR6vLkRKX+i/sco8MAc4dFF4p1j49kh
-         PFxL+fSNBRmfJhK8vStXC5lUSNatR/whAQeJgyO5j27Z2j8611tl6y+Ay5DZgL+GpcwI
-         jnIp2A+061DF3phQHdSDmcRWOEjFK1vBhGpwkDM1E61uUyxlcwmcvUCDGDYWiX8VsSc7
-         4bPnFijWX778MY5S6GTF9NnFvZVSsrFjt+aJmYaZKDb8+lWmdRuIlsCuZjxvVUNCmdrK
-         2Plw==
-X-Forwarded-Encrypted: i=1; AFNElJ+O0+06XMEzBD5oTg8iyCkdpBL/B1eCxSZWFeVcQwlOBRCPLYlphR8JbyDMOQm6Fd1OPn+PWq72DFtz8w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfYBi5UFip1R8jBX7y1fLlBMepkGsYw1W+Jo2qMQE3NA3+OwRm
-	h45nwxcEyQhcYMYoWw43S8aOQ05nr3C2mMfbd8zl14o4bvJZkfIl3LCE
-X-Gm-Gg: Acq92OHiKMA7Nc1CDvAxVGhGVywW4iswYGkDL+L9RRKiRU4pEhrXUD/d1cLOBcSSrTW
-	A9ZpDQXD/uvdaZKFivEYreicofLh8krq8aD+ZSGh0VPvjx4Ql9+8ohCLCTfakodfP91nCZzzCZV
-	YDM2kO7DqZiHY4yowx+vU/dQOtqPaXVbNZxmy4ktbzHNmi0NnwuofWR0JC8KSdDyFj/hgMiGSnN
-	ku1ATs+fZx5b4/6MUEVmCkSCzEx3qr/twToPpDg41wN9la7Gwcd9chsje+mHHisSzX9sZK9MzYI
-	hNehrHtsSy9JWYVtxyvK7FaWejKyu1NmWYZ0HWfUveLGhZW7AyR4RjUFdO05KUPBNzKfpSkuitH
-	H3Lp4vQ5X0S+XXa7IUfqS5jx46anz9aOQArq/3/rjA29vGmc3U+DX7APcRCFSBx2ImXcm4Tp392
-	igD6cHpxhTyvJaFjmgxedBgRpjYqv9WzwspuiJDivqJGeqxN8XOA==
-X-Received: by 2002:a05:600c:8189:b0:492:32a0:7f92 with SMTP id 5b1f17b1804b1-492333aabe8mr70111375e9.12.1781701332662;
-        Wed, 17 Jun 2026 06:02:12 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49230a4ff67sm157906775e9.6.2026.06.17.06.02.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 06:02:11 -0700 (PDT)
-Date: Wed, 17 Jun 2026 14:02:09 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: phucduc.bui@gmail.com, Mark Brown <broonie@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Cheng-Yi Chiang <cychiang@chromium.org>, Tzung-Bi Shih
- <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, Benson Leung
- <bleung@chromium.org>, David Rhodes <david.rhodes@cirrus.com>, Richard
- Fitzgerald <rf@opensource.cirrus.com>, povik+lin@cutebit.org, Support
- Opensource <support.opensource@diasemi.com>, Nick Li
- <nick.li@foursemi.com>, Herve Codina <herve.codina@bootlin.com>, Srinivas
- Kandagatla <srini@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu
- <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Oder Chiou
- <oder_chiou@realtek.com>, Lars-Peter Clausen <lars@metafoo.de>,
- nuno.sa@analog.com, Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
- patches@opensource.cirrus.com, chrome-platform@lists.linux.dev,
- asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 15/78] ASoC: codecs: cs42l43: Use guard() for mutex
- locks
-Message-ID: <20260617140209.3f89706c@pumpkin>
-In-Reply-To: <ajJ9rbHTspXHo6Ou@opensource.cirrus.com>
-References: <20260617103235.449609-1-phucduc.bui@gmail.com>
-	<20260617103235.449609-16-phucduc.bui@gmail.com>
-	<ajJ9rbHTspXHo6Ou@opensource.cirrus.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LS08RM8p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A86941F00A3A;
+	Wed, 17 Jun 2026 13:22:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781702527;
+	bh=XcHn+OqjLeBAX8IEau6ZDZhceXfurepXWjvJLi5A47U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LS08RM8pAhzITsYqZkoulcLPChoDgGjX48NVOyVTZKbOM+/5nELQYBIkhimKfCHE6
+	 AARTUDjcNzaXKYdvu3tqG4M+e4r9wfYbi+ROyqrME6zJzyOUHEGS9sF4WC2jAc9+v3
+	 SeXNHMn2zwmBMx5ZqShOmh8GH3bu30pS1dMdIDt+ftvpkFd8El4Ucf0beRuQqUDb9e
+	 quA+69q2SponemBzUDeuz8NV+HVLdusTpqO6E/YCzy24lSKv3kfrfdce+JKEBeQQSM
+	 7UAiamNEuCbGeLN3ErZIWXCUv4LuSDJ4yYU49tWyBVLLoujHHVUen0uX/eoendfaOm
+	 tgXpR9ggwZxyw==
+Date: Wed, 17 Jun 2026 14:22:03 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>,
+	bui duc phuc <phucduc.bui@gmail.com>,
+	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	kernel@collabora.com
+Subject: Re: [PATCH] Revert "ASoC: rockchip: rockchip_sai: Use guard() for
+ spin locks"
+Message-ID: <f9babde8-4012-4fc4-a553-101fa94ad50b@sirena.org.uk>
+References: <20260617-sai-revert-v1-1-e46adda2213b@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ESdZ8J34ZAzYqCiE"
+Content-Disposition: inline
+In-Reply-To: <20260617-sai-revert-v1-1-e46adda2213b@collabora.com>
+X-Cookie: Absence makes the heart go wander.
 
-On Wed, 17 Jun 2026 11:57:49 +0100
-Charles Keepax <ckeepax@opensource.cirrus.com> wrote:
 
-> On Wed, Jun 17, 2026 at 05:31:32PM +0700, phucduc.bui@gmail.com wrote:
-> > From: bui duc phuc <phucduc.bui@gmail.com>
-> > 
-> > Clean up the code using guard() for mutex locks.
-> > Merely code refactoring, and no behavior change.
-> > 
-> > Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-> > ---
-> > @@ -913,17 +908,13 @@ int cs42l43_jack_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *u
-> >  	if (override >= e->items)
-> >  		return -EINVAL;
-> >  
-> > -	mutex_lock(&priv->jack_lock);
-> > +	guard(mutex)(&priv->jack_lock);  
-> 
-> I believe you have to use scoped_guard here, as there is a return
-> from the function above, if memory serves it attempts to release
-> the mutex on that path despite it being above the guard.
+--ESdZ8J34ZAzYqCiE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Indeed.
-I believe clang will complain.
-That makes these mechanical conversions of existing code dangerous churn.
+On Wed, Jun 17, 2026 at 01:46:04PM +0200, Nicolas Frattaroli wrote:
+> This reverts commit f7fe9f7073602958d6b63cc58a144094533377fa.
 
-While using guard() (etc) can make it easier to ensure the lock is released
-when functions have multiple error exits, I'm not convinced it makes the
-code any easier to read (other people may disagree).
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-	David
+Please include human readable descriptions of things like commits and
+issues being discussed in e-mail in your mails, this makes them much
+easier for humans to read especially when they have no internet access.
+I do frequently catch up on my mail on flights or while otherwise
+travelling so this is even more pressing for me than just being about
+making things a bit easier to read.
 
-> 
-> Be worth having a quick scan through the rest of the series for
-> this as well.
-> 
-> Thanks,
-> Charles
-> 
+--ESdZ8J34ZAzYqCiE
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoyn3oACgkQJNaLcl1U
+h9CBjAgAhKORSNAME5t9lOsbE4Y5E6rTqR7dHYVslJY3f4/5X3t8jzzbRa16RPo3
+CL0S9U+e3BUYT1LJ2YSoVDzwfsUmGyCE3QAU2pMqhitpJkcs8OxZOa/v4e/I88xM
+8YxLphLW1o/W3Xnk5cPFOceqkB7YBfq+OzzauJNjbZJkv2k5n98/no72MN1tLBh0
+ngDse4ZfUvICI9EzWQFyZ24EW2lVT6kzDIunp7iDZJBoa4IDtWhFAUG+drZLBYZ7
+LdRsdbbEeRqY/CrDSxAU1Xg0HZSa3nQKQ8IR7PRyKOE7qepPRscZ2BNncrInSdHX
+2a08NtpGTUfT+kMtxhQkoGRvQoOotQ==
+=RJhn
+-----END PGP SIGNATURE-----
+
+--ESdZ8J34ZAzYqCiE--
