@@ -1,98 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CDB44B68E;
-	Wed, 17 Jun 2026 15:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A6E466B74
+	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 16:04:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781708528; cv=none; b=XQUXKmPtlLwXM06sDefwAn63AHVlqjSf+Fdp9fsNUxLxt+QSTeIUYbqW7bQLlysPs0khaQs94e6732cSJKcptdYOXhegmuggop0hDaxA0w3GvU9/3MT4z2bMSBmIK8d+4rjjnQKfajJ/0KCx2aGxN+lEeGvP9OmhJ00usSeRoXI=
+	t=1781712285; cv=none; b=SeXhuGtxfqGSMGlXzrIeQuZsrv668VBZ/6V9VHZJB+pOU3wwsfYBpOXElVKGknb76PW1wpXE1yMCTcTZOq7EhPg/ryTaPb45ti0Mby8ry99OYtxrLRnTDu/2pOHYCmL/RGxdFF3D3zBdygEcLpfuf+NmlKue4glR24/OiVzvffI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781708528; c=relaxed/simple;
-	bh=cm9uc4m3hMipx9F0pg0UfZ9wTfj2n5Z59TjaJH031UA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fataE/Q2F2Czm/eZWdFO1Dm6VbeyHr2RXy2N34dOgqg2YOJSXlHPqALQoUZ7CSajvbJtB5AiZAvzGIHA2l0lwDos+Dz55+XDbq8bQJojHsqCiDjcdcrQ6zfidxhLlNvaa3Q5rnMySi974CRYLv1GJGXarXcaLfqLLgOMl0EVjHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S1wwi3Ou; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781712285; c=relaxed/simple;
+	bh=4zt9fRG8i4B404GIocsPe4Sd5IPJaurGxcPlag77gzc=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bSyJAF45xDvtIFWjqij2ldj9SNta4X/YMBjLuHcSoYEqwJy1Z66UAkBgBpQKMMmvIGLsygGJ/Q3ZZoAQXT2yGqqQGHpD6HhOoimrb/CqXNbbzREiS3NEzVXErsWdkT57TE1jGsDpDUdkunxxAcN//5dILE1VnBnz7b7fVc/ZqTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pqrs.dk; spf=pass smtp.mailfrom=pqrs.dk; dkim=pass (2048-bit key) header.d=pqrs.dk header.i=@pqrs.dk header.b=KK5bJUsm; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pqrs.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pqrs.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S1wwi3Ou"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E597C1F000E9;
-	Wed, 17 Jun 2026 15:02:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781708527;
-	bh=cm9uc4m3hMipx9F0pg0UfZ9wTfj2n5Z59TjaJH031UA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=S1wwi3OuRJeNvtoqVXl0GHzA+aX7N3AEkqwrDSaD09+82dtmOoIcrHXDLDZLnV7Z/
-	 jfDMhu/AjdVyozqySXCXXcXczNgxWNgAiMf+YIOCLZKvjaOIvgujmi/2txobWvlqXG
-	 aTG833St+3D76sIARvu9LBJ4TUN7RI9L1jJ40tqU4T/9EVkh8HfV6/Yb1wZu1/FfWp
-	 gaBgKjGj4APSb2YwSCh35ifEVvSClX0qDacbddSBkemJqRpc0OWBkffAnsF1E+Z3Ek
-	 7Fkw9RnJy8KqcMSdTFQrwNBSOGZaHgX6+YNVFDoFe5i9jQT7sj+sfI4xOTLB4YZC9m
-	 OFrj4Nfh+WTbg==
-Date: Wed, 17 Jun 2026 16:02:03 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=pqrs.dk header.i=@pqrs.dk header.b="KK5bJUsm"
+Date: Wed, 17 Jun 2026 18:04:17 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pqrs.dk; s=key1;
+	t=1781712261;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vMdJ95MnJZSV95mH1JBBCzsuTB3uZGofTVqDEGnqnrg=;
+	b=KK5bJUsmiy/Y4vgg0GY9VB1xssW+XN5nU6EywzUeDbobzIem9Yu7Zg/w6HxUx3D33J3bnk
+	+/NpbtYo9ETWWBHKiIDWPjXxmDQUsubccTJrgE7n1KS+da86ZLCG5F6Dl6KqvJeVJy4IGd
+	LT2kQUUMd6REsMJ6G8mAINoqwB10WqFGwMHIrWSrAxYRQ1xg3VbEcZksed0epfdj6uLx2V
+	7ZsVVoFQg42Rds+QiGICu39HBWfh/gSRWkRqPBEC7/aSipx6mwcUNWGH+AayjS6eVxG3Fp
+	74Wq7LAcfDqECcdPRcasj0v6A77WMgHXk2rSgF7+7iz7COvO+omRg2M1FJSQHA==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin.sipraga@analog.com>
 Subject: Re: [PATCH] Revert "ASoC: audio-graph-card2: recommend to use auto
  select DAI format"
-Message-ID: <2867f233-2eb5-4990-91f8-9082e67bcc8b@sirena.org.uk>
-Mail-Followup-To: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin.sipraga@analog.com>
+Message-ID: <p4xa4sbgp2qbm456urqpqhuxgrm4wfrmxdohzme7yronvfy5fg@yz4busbb6ppm>
 References: <20260617145508.327213-1-alvin@pqrs.dk>
+ <2867f233-2eb5-4990-91f8-9082e67bcc8b@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HQGvpTZfrh7PTonm"
-Content-Disposition: inline
-In-Reply-To: <20260617145508.327213-1-alvin@pqrs.dk>
-X-Cookie: Absence makes the heart go wander.
-
-
---HQGvpTZfrh7PTonm
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2867f233-2eb5-4990-91f8-9082e67bcc8b@sirena.org.uk>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Jun 17, 2026 at 04:55:08PM +0200, Alvin =C5=A0ipraga wrote:
-> From: Alvin =C5=A0ipraga <alvin.sipraga@analog.com>
->=20
-> This reverts commit 442cfd58e71260dcd983e393f750e36fe7ab34d0.
+Hi Mark,
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
+On Wed, Jun 17, 2026 at 04:02:03PM +0100, Mark Brown wrote:
+> On Wed, Jun 17, 2026 at 04:55:08PM +0200, Alvin Šipraga wrote:
+> > From: Alvin Šipraga <alvin.sipraga@analog.com>
+> > 
+> > This reverts commit 442cfd58e71260dcd983e393f750e36fe7ab34d0.
+> 
+> Please submit patches using subject lines reflecting the style for the
+> subsystem, this makes it easier for people to identify relevant patches.
+> Look at what existing commits in the area you're changing are doing and
+> make sure your subject lines visually resemble what they're doing.
+> There's no need to resubmit to fix this alone.
 
-Please include human readable descriptions of things like commits and
-issues being discussed in e-mail in your mails, this makes them much
-easier for humans to read especially when they have no internet access.
-I do frequently catch up on my mail on flights or while otherwise
-travelling so this is even more pressing for me than just being about
-making things a bit easier to read.
+Thanks, didn't know this. Is something like the following more correct?
 
---HQGvpTZfrh7PTonm
-Content-Type: application/pgp-signature; name="signature.asc"
+ASoC: audio-graph-card2: don't warn that DAI format is specified by card
 
------BEGIN PGP SIGNATURE-----
+And do you want the inline "This reverts commit xxx" dropped too?
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoytuoACgkQJNaLcl1U
-h9C1gAf/bOQfBvg9bQcy0ctXkq49Q2V5U1GK5A8P+mNQYoYcMVuCUg8sVXX0ohQi
-x8MxphN55HhbJouQT755iPfjHsl+1T5zQI9mIumycK+3LNlshEJ1M9p9LJZD+/xn
-iSvVlDkp86DxoaUev9dzawCF3WZqNDv2zZQKl1cTYO0U4G1+o9SqvueOsVAU6F/s
-cguzLz/6kbCxesSzco5A6wZ532C/uYqcT5sxEcSpH+PfZHNr5mvy6rY8yrMrpGHF
-0iTwGaoljZwPKztcwGGb9XmR7C2+txZftNf2OY9J1ShLAVO8EQitrKFn3hqBvxBW
-mHbG0vTtAgMUGAlaAvaNmd4DvAJT5A==
-=CXtD
------END PGP SIGNATURE-----
+Happy to resubmit, just let me know.
 
---HQGvpTZfrh7PTonm--
+Kind regards,
+Alvin
