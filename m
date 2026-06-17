@@ -1,63 +1,63 @@
 Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A4D42188B
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 10:38:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FAD405C54
+	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 10:38:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781692720; cv=none; b=KhTq5Ve1if7HdVSvP8CFPeEPb9oku8uFaw2vCHC7sSg+NENBF5S4IqRgrqAuKp4FOXjA9hrW0d1MEOzwozbmRLNbuOD19Wx6rf/4kmxITGfUEMZn5SOwLYWHJSE+Zc+fwBD9Vdn4E4wuSiwruEulcVbvyRMPvBYovYQj3Tyv0jE=
+	t=1781692731; cv=none; b=XCVxl5eGTP/kg1LVhOO/bOIY8Ro0WytpnIO+ETZhYrTuuvHdcqXeUYGZ4GfEKcmgb8pYWZw8eiza+qDSiCa1MzAhqEKDb223rXjHO+BGe2ZUs6MHv4w+hEuUCy0NOxoCDyGiCMZVL2ZMtRdxZXxh/wFQdqeJP0dRjHJs0CONhVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781692720; c=relaxed/simple;
-	bh=+Jhubp8Ad5FukANrMioxXXMIcipBw2wUqbSTsnqQwRU=;
+	s=arc-20240116; t=1781692731; c=relaxed/simple;
+	bh=OOjMBd7CyBdHcAZuYiDu+E3s9djgXa4ysbiJU+FU92s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fwkvIKGEoFnU+94hGxFa4A+P9KA2FzHJM6YYBKDSGgE6/F7ShkvgVMlvMyANW6cWIw6LSmt+MjnTDn/fiLgQR1EPvklEkCvx1/x9GYW2apJbJiEkDk1i3JS2Z3GiiAKUizMniFBecXTAl8ZaS2sVVO/d18zdS5E2iOQoJV/lX60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YQyXKaAj; arc=none smtp.client-ip=74.125.82.182
+	 MIME-Version; b=bjSFou4PbFAUp4IHd9lODJWXSvesDTTwcly8pJ1HWSRO+H9cK0+6LJmKyTDFoAcKBusSIN4LDCMmBjOI0BnCUtVjK1Hd280Rbtc/8CBKnVdnjp/ZT0LxniJmZIehZF6afa8qissG9zA50y+9u/RIRGBpgzF6nuZJOTySms0LerU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PXZaXkRY; arc=none smtp.client-ip=74.125.82.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YQyXKaAj"
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-30bdb3eb5f0so151854eec.0
-        for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 03:38:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PXZaXkRY"
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-30bd445db39so182209eec.0
+        for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 03:38:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781692719; x=1782297519; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781692729; x=1782297529; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PJIy1+pwCeD5f5eJrcAwlX5FxN6nvvTgLzD/CiIu9zI=;
-        b=YQyXKaAjuTIy5FgP+Ww5RO+96Uq5XKKL3nv/qat9gByrvzb3Sy1oXPI0eIUlcpigAi
-         smup/TY73rGCyYzA99ZCLLeblNMK4j04FVsydj5OkDzCZC8B6OAvOr9FkTSV7Pj9NVoB
-         CZhbMtoUFouROYpZ69HhCCN0rMWisunBPBsO36+NqFFkkfW02NFUEXN6/NVyGAIwnffb
-         qiAb9FK6OXYarIQqV1w5qRrcDPjg+4UgAd3cnt5t+D0jefEShE49t7dyxnU/035Z5khZ
-         UKJGzFQv+Gcum+PldeIJozLlqvRjJNvHCPdT37CNBye/9fgfBi1R4xirLG87xoGeZgHU
-         gBDQ==
+        bh=oCUXvrbdh2cMObj7Yx72xMWUVLVGbJrlQPkt6NyxLyU=;
+        b=PXZaXkRYmVa+I4eLhfvwYaKp+z3D4mujEuBN++rhGjwQCDphHuG/f6Yw6XMdNDmm0E
+         HujL+wxE32oqVTZ+ATWCqzwVJmwIoNCpP15Wx/frUOKYRBjsQ2S+whx2T0QLGSd2b7Vb
+         hlw9YpiV7YGWJaOlnIOH3AlOYKW7Llrx2zVvQplH0fclB6mlXHuQcybfPq5fyhrI+DBI
+         q0Orz8nB9qIHq62Mo6XgiHH7TzLlmoCi8UaYw/RHga/Re/mSHYifNJznQTdrr1tBVj+u
+         4W/Jw1OtNhw+51KWcV+9xsjRA8DUHUrhT2WY7ree7AMX5Iq9nFK08Lct8sHQT/44BNbc
+         XKlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781692719; x=1782297519;
+        d=1e100.net; s=20251104; t=1781692729; x=1782297529;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=PJIy1+pwCeD5f5eJrcAwlX5FxN6nvvTgLzD/CiIu9zI=;
-        b=mQd/8VLMuFFbmF1Y7aJQNhjTxGTSFFZufNStzGGMKleqO+3L2JBdJEkKy5ChuZ9Pve
-         n9O0h3dEoe48sOKAeMMGB7976XjWD+MtkqDMI9Q/30AX1tQKl+vMvlwC41S+5Fxx1h7S
-         rDXs8o/BTI8BOZjFD+qpbeJVf7tLSvSWNuCG2SI3+7rmaVLIPtjHrEtwt7SoW6zKiQVi
-         3pNX9J8Q5YvEIgwBAr7Gex7THGI02CllxiZ7wgNUGOLuAsLk6nAfxMj7SS7rgn6npqzG
-         fVxRbmPBPONze7M3Nb24RV37TerHmIcHr0osBVN3PlDmsQpUGQJ0d/tDEMyScIeCVk/4
-         8gag==
-X-Forwarded-Encrypted: i=1; AFNElJ9XHa8B1rifKtlcIlsk8sgeQXrxpNYT8XlN3qKtzRdQW8Qu9dlh5jJTglpy8/S82Mlh3lvXr4PcXnVAwA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+iLHmEhfkvo0hMf3cJAyO4Na6XTcoWbVAEWD5Ws7PdFOoY/eW
-	j4FOteedheDTsXX2R+IL0nZByZdaIAhiJ1EsxrHZ4k760/mPOaEoo1ba
-X-Gm-Gg: AfdE7cltcWle00stOV+K26hO2MC832NdrvgBMTH0oS90gprYzcV/FoRcqyLimv+m4Y7
-	Q4W/gWq0L/IZta0w6ahrCxhmf/bS8cxo5fIGmTDKjzLJ6hzs46Y0q4mzaSmwGDX8oAv938t907B
-	Dbiu4mMCYzfbj9/uz2SWBSs8Kzlvm4ZjCT8Tfn4RTbyq2UJeHEw8qKvFywIS6g9c/au+io/RsC8
-	SaeTdRATzewBHXwU8Ts5NK89sRP2MurIij2s6c5EMlC1mdrQBP2O9ar+6co78xnsaa+LYbtsJtm
-	PLgwKLHAw/ABk1nS+OymzCoL6SWHNHWGvuyamm/53sm2biDtfzARPYOUW1ZVRG3Tjf4OAIOuAeG
-	ltrWP/hTDI7Mw858QIt6mwy6pXZ/x23gmGgYda4GYBd9FOD/rkVuEmgk44qI5EY2Q3/5Q1lRN7x
-	49tWTeb+niPXUomPOB4xWy2ooWvmISFJ3GT2ugpYz11uqoMMA=
-X-Received: by 2002:a05:7301:1192:b0:30b:d86b:f250 with SMTP id 5a478bee46e88-30bd86c5dcfmr429093eec.0.1781692718566;
-        Wed, 17 Jun 2026 03:38:38 -0700 (PDT)
+        bh=oCUXvrbdh2cMObj7Yx72xMWUVLVGbJrlQPkt6NyxLyU=;
+        b=mg8UnQzxZSBqAnHjufAGvnc/iepWvP/t/FFdmwTdAqXFX9Mvnw15YByaa3EGApEdDS
+         7mHahZgbtXylpqU6wSZKjgR13YmFBes8h1G/GG3gLL5CESuyw1k/JGDWYGxaK5V967au
+         DvQBR9OPM+YjOH/FE7r3ew1tojoJVxyqmFbAOdhkEiIzFz0SNFlgcfshxeGJX/xytlUQ
+         2YSBI9FMn5zaNXrzC0GrsrF1blG2gyN3hD7kosACtnYnmnFazdvPSlx2PAV4UP8b+Xoa
+         rzME3G1NLhhOQqPKspEeiOuY6vhnusoqzRs8y7tVWEqfGLeO84BGGvEwVsb4yWOChPZR
+         5r8g==
+X-Forwarded-Encrypted: i=1; AFNElJ+afT//aNbm2ItuxyPwR6T2lyS86xlQZT7fd71UbOJl3gl6+Xls9bJVM/m7Nw1tpuJmvf0Xlv0p8tOLkw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YygtULjx3ePrIUj6fF+DaifH7v8QWdn7fxbpqm5fsJVnYRqK3rd
+	qp4r6qeiixqvOT33dmlhwmIOqJBvy7AO0UrM0LHGbabWeevYvQDGvLFj
+X-Gm-Gg: AfdE7cmH93YEg8Rrfl+EYERa+585U7Z0dcWltl3IWwxfh4PZKvMu2D03NxE5F5OhqEV
+	5RMYKb1/x7miTaYEZBXydAHKq9CyfPEashX1nelSFchZXl8JUTL9ZS9nvmXSbmyBnzUVyp7veLb
+	kp19ihQ2yu0q9hLMcw6fujphaNKxFzHC4jSsjQY5n+RL1n4jJA3mkwHIIi+W4jk3u1rSAkwwk5h
+	Rwrs55MB45tuA9Lkr+cvOOiBuVDCnTK0cu7YMXNdJaoYUI42SzUD7kXRPFq9qlYlzNKFXOdCD5J
+	/NaLLQFe4aYBXVD0P2+jFSmnVXman6QcUCiX0DeV+1VVvx533eZ5aRxVLKkucDZ0fZ/ez08Mab2
+	/zr4g9dC5MXFOpuTRDqBratFQk4WwRezs3OjMFldw5WWMyx9VbRJ8JcULfZdIO87t7vnFDWjLoV
+	no0YkMo2fS4CDbWHhtw5EYiT2YP79g9kjj0x4sD5Z744SvALs=
+X-Received: by 2002:a05:7300:3aa8:b0:30b:df3b:fe94 with SMTP id 5a478bee46e88-30bdf3c0705mr265671eec.3.1781692728927;
+        Wed, 17 Jun 2026 03:38:48 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.38.30
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.38.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 03:38:38 -0700 (PDT)
+        Wed, 17 Jun 2026 03:38:48 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 36/78] ASoC: codecs: max98095: Use guard() for mutex locks
-Date: Wed, 17 Jun 2026 17:31:53 +0700
-Message-ID: <20260617103235.449609-37-phucduc.bui@gmail.com>
+Subject: [PATCH 37/78] ASoC: codecs: mt6359-accdet: Use guard() for mutex locks
+Date: Wed, 17 Jun 2026 17:31:54 +0700
+Message-ID: <20260617103235.449609-38-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260617103235.449609-1-phucduc.bui@gmail.com>
 References: <20260617103235.449609-1-phucduc.bui@gmail.com>
@@ -115,61 +115,87 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/max98095.c | 34 +++++++++++++++++++---------------
- 1 file changed, 19 insertions(+), 15 deletions(-)
+ sound/soc/codecs/mt6359-accdet.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/sound/soc/codecs/max98095.c b/sound/soc/codecs/max98095.c
-index ced9bd4d94da..7cdb76f3813b 100644
---- a/sound/soc/codecs/max98095.c
-+++ b/sound/soc/codecs/max98095.c
-@@ -1532,15 +1532,17 @@ static int max98095_put_eq_enum(struct snd_kcontrol *kcontrol,
- 	regsave = snd_soc_component_read(component, M98095_088_CFG_LEVEL);
- 	snd_soc_component_update_bits(component, M98095_088_CFG_LEVEL, regmask, 0);
+diff --git a/sound/soc/codecs/mt6359-accdet.c b/sound/soc/codecs/mt6359-accdet.c
+index ed34cc15b80e..5feefd0cad75 100644
+--- a/sound/soc/codecs/mt6359-accdet.c
++++ b/sound/soc/codecs/mt6359-accdet.c
+@@ -398,14 +398,13 @@ static void mt6359_accdet_work(struct work_struct *work)
+ 	struct mt6359_accdet *priv =
+ 		container_of(work, struct mt6359_accdet, accdet_work);
  
--	mutex_lock(&max98095->lock);
--	snd_soc_component_update_bits(component, M98095_00F_HOST_CFG, M98095_SEG, M98095_SEG);
--	m98095_eq_band(component, channel, 0, coef_set->band1);
--	m98095_eq_band(component, channel, 1, coef_set->band2);
--	m98095_eq_band(component, channel, 2, coef_set->band3);
--	m98095_eq_band(component, channel, 3, coef_set->band4);
--	m98095_eq_band(component, channel, 4, coef_set->band5);
--	snd_soc_component_update_bits(component, M98095_00F_HOST_CFG, M98095_SEG, 0);
--	mutex_unlock(&max98095->lock);
-+	scoped_guard(mutex, &max98095->lock) {
-+		snd_soc_component_update_bits(component, M98095_00F_HOST_CFG,
-+					      M98095_SEG, M98095_SEG);
-+		m98095_eq_band(component, channel, 0, coef_set->band1);
-+		m98095_eq_band(component, channel, 1, coef_set->band2);
-+		m98095_eq_band(component, channel, 2, coef_set->band3);
-+		m98095_eq_band(component, channel, 3, coef_set->band4);
-+		m98095_eq_band(component, channel, 4, coef_set->band5);
-+		snd_soc_component_update_bits(component, M98095_00F_HOST_CFG,
-+					      M98095_SEG, 0);
-+	}
+-	mutex_lock(&priv->res_lock);
++	guard(mutex)(&priv->res_lock);
+ 	priv->pre_accdet_status = priv->accdet_status;
+ 	check_jack_btn_type(priv);
  
- 	/* Restore the original on/off state */
- 	snd_soc_component_update_bits(component, M98095_088_CFG_LEVEL, regmask, regsave);
-@@ -1683,12 +1685,14 @@ static int max98095_put_bq_enum(struct snd_kcontrol *kcontrol,
- 	regsave = snd_soc_component_read(component, M98095_088_CFG_LEVEL);
- 	snd_soc_component_update_bits(component, M98095_088_CFG_LEVEL, regmask, 0);
+ 	if (priv->jack_plugged &&
+ 	    priv->pre_accdet_status != priv->accdet_status)
+ 		mt6359_accdet_jack_report(priv);
+-	mutex_unlock(&priv->res_lock);
+ }
  
--	mutex_lock(&max98095->lock);
--	snd_soc_component_update_bits(component, M98095_00F_HOST_CFG, M98095_SEG, M98095_SEG);
--	m98095_biquad_band(component, channel, 0, coef_set->band1);
--	m98095_biquad_band(component, channel, 1, coef_set->band2);
--	snd_soc_component_update_bits(component, M98095_00F_HOST_CFG, M98095_SEG, 0);
--	mutex_unlock(&max98095->lock);
-+	scoped_guard(mutex, &max98095->lock) {
-+		snd_soc_component_update_bits(component, M98095_00F_HOST_CFG,
-+					      M98095_SEG, M98095_SEG);
-+		m98095_biquad_band(component, channel, 0, coef_set->band1);
-+		m98095_biquad_band(component, channel, 1, coef_set->band2);
-+		snd_soc_component_update_bits(component, M98095_00F_HOST_CFG,
-+					      M98095_SEG, 0);
-+	}
+ static void mt6359_accdet_jd_work(struct work_struct *work)
+@@ -416,7 +415,7 @@ static void mt6359_accdet_jd_work(struct work_struct *work)
+ 	struct mt6359_accdet *priv =
+ 		container_of(work, struct mt6359_accdet, jd_work);
  
- 	/* Restore the original on/off state */
- 	snd_soc_component_update_bits(component, M98095_088_CFG_LEVEL, regmask, regsave);
+-	mutex_lock(&priv->res_lock);
++	guard(mutex)(&priv->res_lock);
+ 	if (priv->jd_sts == M_PLUG_IN) {
+ 		priv->jack_plugged = true;
+ 
+@@ -450,7 +449,6 @@ static void mt6359_accdet_jd_work(struct work_struct *work)
+ 
+ 	if (priv->caps & ACCDET_PMIC_EINT_IRQ)
+ 		recover_eint_setting(priv);
+-	mutex_unlock(&priv->res_lock);
+ }
+ 
+ static irqreturn_t mt6359_accdet_irq(int irq, void *data)
+@@ -459,7 +457,7 @@ static irqreturn_t mt6359_accdet_irq(int irq, void *data)
+ 	unsigned int irq_val = 0, val = 0, value = 0;
+ 	int ret;
+ 
+-	mutex_lock(&priv->res_lock);
++	guard(mutex)(&priv->res_lock);
+ 	regmap_read(priv->regmap, ACCDET_IRQ_ADDR, &irq_val);
+ 
+ 	if (irq_val & ACCDET_IRQ_MASK_SFT) {
+@@ -474,7 +472,6 @@ static irqreturn_t mt6359_accdet_irq(int irq, void *data)
+ 					       1000);
+ 		if (ret) {
+ 			dev_err(priv->dev, "%s(), ret %d\n", __func__, ret);
+-			mutex_unlock(&priv->res_lock);
+ 			return IRQ_NONE;
+ 		}
+ 		regmap_update_bits(priv->regmap, ACCDET_IRQ_ADDR,
+@@ -498,7 +495,6 @@ static irqreturn_t mt6359_accdet_irq(int irq, void *data)
+ 			if (ret) {
+ 				dev_err(priv->dev, "%s(), ret %d\n", __func__,
+ 					ret);
+-				mutex_unlock(&priv->res_lock);
+ 				return IRQ_NONE;
+ 			}
+ 			regmap_update_bits(priv->regmap, ACCDET_IRQ_ADDR,
+@@ -521,7 +517,6 @@ static irqreturn_t mt6359_accdet_irq(int irq, void *data)
+ 			if (ret) {
+ 				dev_err(priv->dev, "%s(), ret %d\n", __func__,
+ 					ret);
+-				mutex_unlock(&priv->res_lock);
+ 				return IRQ_NONE;
+ 			}
+ 			regmap_update_bits(priv->regmap, ACCDET_IRQ_ADDR,
+@@ -540,7 +535,6 @@ static irqreturn_t mt6359_accdet_irq(int irq, void *data)
+ 
+ 		queue_work(priv->jd_workqueue, &priv->jd_work);
+ 	}
+-	mutex_unlock(&priv->res_lock);
+ 
+ 	return IRQ_HANDLED;
+ }
 -- 
 2.43.0
 
