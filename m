@@ -1,189 +1,138 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EEC30F94B
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 12:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFDCC402434
+	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 13:02:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781700363; cv=none; b=hmkff/iPKe+TYAtDKa7n9amm6xu+vRoC02jwjjiNAG4AqQV+pyDgmxV+P2OJt5UFAdxqG9qbeRrr6WRPFHVbGKFEqas32LOCZZ46LgHCuw6FVxGgyiwI7Og2XKvNYxZjR/iYCvumuii6ZbNfxlrzmf62SqZFyry2QP8c/Lfvz70=
+	t=1781701336; cv=none; b=f0j+A9D5sI5krPeBeT3N+r96Ab2fL0EhbQ9XM2QBve1OVwJ/ceR6Q4YI8YUtf+tOpfa+PmOXVStx223q80/FlLFtePZvRTwhcx509cwQAcqgWPs7cnevIPY+K+yjK6KObok4aQTeUN993uFM3NOFFR3PAbwSCJDFr+f+m0iZc8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781700363; c=relaxed/simple;
-	bh=i9g03N7D54yF9sMe8RFTPPjmtQpwyzES9iFfzpB/bNE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=As63BYJQqq27rsO7U5mKSyu/fxKMXRXrjakRDQrkVTMb2UUIRzZxUH5WhMCT73Mh8Z/Yyi2+btkVCc0xXkGRfdPfvdMDPIhUJXrAdrJp04WDhB21YzaAYw5J036RFuzjs5Hk+U3lvX7Yn7/WrutWATif75OVFgEqU5fw8P3pquo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cPkMsXm4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CIn1342z; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PjlJk0Bu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EX30Sbw6; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781701336; c=relaxed/simple;
+	bh=ER7cBoORTtCo7YHQmTGpBnqKr/GhDtCtpgQSSh5vv20=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lBRB5cPURJXun9ke6OcovBP1/yEHrRRWB55l5hWHQ9QqC9cQNfjs33uq91alV1kGgAVJH0cAZ11cK6Z6G7xBDxBIwPpH5+rFXIYjeJusln0CtsP2QvX7gM83RvTlyuBUDxzdEbgCxdDZVEY+yd0VkJsZVHJfSdJkg6lsgW74MhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L1iKvp6n; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cPkMsXm4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CIn1342z";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PjlJk0Bu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EX30Sbw6"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0FE716BEE1;
-	Wed, 17 Jun 2026 12:45:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781700360; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=54f14rgX1uReFjEZaR6JrLIQuS9s9nMHHXdq5+cl6BA=;
-	b=cPkMsXm42Av7ObcG7zlKURDL7zGlGHtBKnrkSzVn2AAyTYvlh+BhZL9JKM8VaI0ac1DwiS
-	qy0PeOqWQ571JUB0h6BoV4+3gRKyaHqy/uGbTs5oJrjhrc5w5IZh4BjG2gTjHj02XjphRi
-	MWD9+PZ5w8ZFiUIFmrnrSndAuKAxLD0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781700360;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=54f14rgX1uReFjEZaR6JrLIQuS9s9nMHHXdq5+cl6BA=;
-	b=CIn1342zffcqAStzX289sMKUo1kyIhbBz0IBIuCaIul2mAnCkjX9RdKgIuZvzO/696PgWF
-	5NVwn7jUJMQGptBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PjlJk0Bu;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=EX30Sbw6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781700359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=54f14rgX1uReFjEZaR6JrLIQuS9s9nMHHXdq5+cl6BA=;
-	b=PjlJk0BuYRYdJbomYgNp5TSQ4FfRcf5g3U8BafpHAUo208kocRVRUtEKmMjHapRV2RZdTc
-	wN/SeDbpSd/oEhlmKGQjAZmrLPAtdmMkhVUp/iX27NSODzrVi5LptEelJ6A06E8VL20KBF
-	u3itS3/GFVru1JDY4kAAnuGOzUO+TkY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781700359;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=54f14rgX1uReFjEZaR6JrLIQuS9s9nMHHXdq5+cl6BA=;
-	b=EX30Sbw6L7ze/oBRrUcJ4c9WBJPP+QDw0LOJHAcKlPNPKXRHca4KgoJLZSd+vPl8oynIS+
-	GI25UYbsmlx7+wBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D6E42779A8;
-	Wed, 17 Jun 2026 12:45:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7vk7MwaXMmqJNQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 17 Jun 2026 12:45:58 +0000
-Date: Wed, 17 Jun 2026 14:45:58 +0200
-Message-ID: <87eci5pc6x.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Maoyi Xie <maoyixie.tju@gmail.com>
-Cc: Daniel Mack <zonque@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: ALSA: caiaq: possible out of bounds read in Traktor Kontrol S4 dispatch
-In-Reply-To: <178169970022.2950989.3295624331262791202@maoyixie.com>
-References: <178169970022.2950989.3295624331262791202@maoyixie.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L1iKvp6n"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490ac357c55so54184585e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 06:02:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781701333; x=1782306133; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KoyHU0/MnlEjPkHmAG8qUfE8grsoj3Z59or+Bu6rF3E=;
+        b=L1iKvp6n911t1/z4RYAVzXONkBcZHcMSNrWXpD0u2bS8HOIQ34kFk7X6awUB7pVQ4N
+         218Ufk2su+5ij6kCRPLZjz78DZLtdmj3inQiOglyjBdUQU0JHf0/mYn+kA24ZCYXBHr5
+         YtrftHA6ZH02alaH3DcjucF/kG+P1w2EeFx6SjPdzy9Wirc2NrZm72ONjLZbj5zlk0eA
+         KotaMTkmVn8gCxyhqoGzKbgjItmnAGfVe0zww95D854sqmHW81mMRZoPZ/GRvRNrsQZq
+         oyA6CMMkDvVh9yc6+lFS1nyOVqchpQkZN3G6Z/5V1Fye/gghO4QsTxvL8XpUyYXjqBEq
+         1zSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781701333; x=1782306133;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=KoyHU0/MnlEjPkHmAG8qUfE8grsoj3Z59or+Bu6rF3E=;
+        b=FupkeX4I4MxGvIxLYrzSS3UuWsx6P/OksrxSDGdL0IYU+7zRKtA8qdO+kyRwMcFaW/
+         bhpclnUJUI6EBvZbS0J3MyVS4fVRrQHu7/RMiiR6vLkRKX+i/sco8MAc4dFF4p1j49kh
+         PFxL+fSNBRmfJhK8vStXC5lUSNatR/whAQeJgyO5j27Z2j8611tl6y+Ay5DZgL+GpcwI
+         jnIp2A+061DF3phQHdSDmcRWOEjFK1vBhGpwkDM1E61uUyxlcwmcvUCDGDYWiX8VsSc7
+         4bPnFijWX778MY5S6GTF9NnFvZVSsrFjt+aJmYaZKDb8+lWmdRuIlsCuZjxvVUNCmdrK
+         2Plw==
+X-Forwarded-Encrypted: i=1; AFNElJ+O0+06XMEzBD5oTg8iyCkdpBL/B1eCxSZWFeVcQwlOBRCPLYlphR8JbyDMOQm6Fd1OPn+PWq72DFtz8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfYBi5UFip1R8jBX7y1fLlBMepkGsYw1W+Jo2qMQE3NA3+OwRm
+	h45nwxcEyQhcYMYoWw43S8aOQ05nr3C2mMfbd8zl14o4bvJZkfIl3LCE
+X-Gm-Gg: Acq92OHiKMA7Nc1CDvAxVGhGVywW4iswYGkDL+L9RRKiRU4pEhrXUD/d1cLOBcSSrTW
+	A9ZpDQXD/uvdaZKFivEYreicofLh8krq8aD+ZSGh0VPvjx4Ql9+8ohCLCTfakodfP91nCZzzCZV
+	YDM2kO7DqZiHY4yowx+vU/dQOtqPaXVbNZxmy4ktbzHNmi0NnwuofWR0JC8KSdDyFj/hgMiGSnN
+	ku1ATs+fZx5b4/6MUEVmCkSCzEx3qr/twToPpDg41wN9la7Gwcd9chsje+mHHisSzX9sZK9MzYI
+	hNehrHtsSy9JWYVtxyvK7FaWejKyu1NmWYZ0HWfUveLGhZW7AyR4RjUFdO05KUPBNzKfpSkuitH
+	H3Lp4vQ5X0S+XXa7IUfqS5jx46anz9aOQArq/3/rjA29vGmc3U+DX7APcRCFSBx2ImXcm4Tp392
+	igD6cHpxhTyvJaFjmgxedBgRpjYqv9WzwspuiJDivqJGeqxN8XOA==
+X-Received: by 2002:a05:600c:8189:b0:492:32a0:7f92 with SMTP id 5b1f17b1804b1-492333aabe8mr70111375e9.12.1781701332662;
+        Wed, 17 Jun 2026 06:02:12 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49230a4ff67sm157906775e9.6.2026.06.17.06.02.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2026 06:02:11 -0700 (PDT)
+Date: Wed, 17 Jun 2026 14:02:09 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: phucduc.bui@gmail.com, Mark Brown <broonie@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Cheng-Yi Chiang <cychiang@chromium.org>, Tzung-Bi Shih
+ <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, Benson Leung
+ <bleung@chromium.org>, David Rhodes <david.rhodes@cirrus.com>, Richard
+ Fitzgerald <rf@opensource.cirrus.com>, povik+lin@cutebit.org, Support
+ Opensource <support.opensource@diasemi.com>, Nick Li
+ <nick.li@foursemi.com>, Herve Codina <herve.codina@bootlin.com>, Srinivas
+ Kandagatla <srini@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu
+ <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Oder Chiou
+ <oder_chiou@realtek.com>, Lars-Peter Clausen <lars@metafoo.de>,
+ nuno.sa@analog.com, Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
+ patches@opensource.cirrus.com, chrome-platform@lists.linux.dev,
+ asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 15/78] ASoC: codecs: cs42l43: Use guard() for mutex
+ locks
+Message-ID: <20260617140209.3f89706c@pumpkin>
+In-Reply-To: <ajJ9rbHTspXHo6Ou@opensource.cirrus.com>
+References: <20260617103235.449609-1-phucduc.bui@gmail.com>
+	<20260617103235.449609-16-phucduc.bui@gmail.com>
+	<ajJ9rbHTspXHo6Ou@opensource.cirrus.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 0FE716BEE1
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,perex.cz,suse.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Transfer-Encoding: 7bit
 
-On Wed, 17 Jun 2026 14:35:00 +0200,
-Maoyi Xie wrote:
-> 
-> Hi all,
-> 
-> I think the Traktor Kontrol S4 input path in sound/usb/caiaq/input.c can read
-> past the end of the URB buffer when the device sends a reply whose length is
-> not a multiple of 16. I would appreciate it if you could take a look.
-> 
-> The dispatch loop walks the reply in fixed 16 byte blocks.
-> 
-> 	while (len) {
-> 		unsigned int i, block_id = (buf[0] << 8) | buf[1];
-> 		...
-> 		len -= TKS4_MSGBLOCK_SIZE;
-> 		buf += TKS4_MSGBLOCK_SIZE;
-> 	}
-> 
-> Each pass reads up to buf[15] and then does len -= 16. But len is the raw
-> device length. It comes straight from urb->actual_length in
-> snd_usb_caiaq_ep4_reply_dispatch and there is no check that it is a multiple
-> of 16. The X1 and Maschine arms in that same handler do bound check the
-> length, but the S4 arm does not.
-> 
-> If len is not a multiple of 16, say 8, the final len -= 16 underflows because
-> len is unsigned. The loop condition while (len) then stays true and the walk
-> keeps consuming 16 byte blocks far past the end of the buffer. That is an out
-> of bounds read. The buffer is cdev->ep4_in_buf of size EP4_BUFSIZE.
-> 
-> The attacker model is a malicious or emulated USB device that claims the
-> Native Instruments Traktor Kontrol S4 id and returns a short reply on its bulk
-> in endpoint once the input device is opened.
-> 
-> I reproduced this under KASAN on 7.1-rc7. A length of one whole block runs the
-> loop once and reads nothing past the buffer. A length of 8 underflows and
-> KASAN reports a slab out of bounds read just past the allocation.
-> 
-> The fix I tried is to only consume a block when a whole block is present.
-> 
-> 	-	while (len) {
-> 	+	while (len >= TKS4_MSGBLOCK_SIZE) {
-> 
-> That stops the decrement from underflowing and drops any trailing partial
-> block.
-> 
-> Does this look like a real bug to you? If the direction is right I am happy to
-> send a proper patch with a Fixes tag pointing at 15c5ab607045 ("ALSA:
-> snd-usb-caiaq: Add support for Traktor Kontrol S4").
+On Wed, 17 Jun 2026 11:57:49 +0100
+Charles Keepax <ckeepax@opensource.cirrus.com> wrote:
 
-Yes, feel free to submit the patch.
+> On Wed, Jun 17, 2026 at 05:31:32PM +0700, phucduc.bui@gmail.com wrote:
+> > From: bui duc phuc <phucduc.bui@gmail.com>
+> > 
+> > Clean up the code using guard() for mutex locks.
+> > Merely code refactoring, and no behavior change.
+> > 
+> > Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> > ---
+> > @@ -913,17 +908,13 @@ int cs42l43_jack_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *u
+> >  	if (override >= e->items)
+> >  		return -EINVAL;
+> >  
+> > -	mutex_lock(&priv->jack_lock);
+> > +	guard(mutex)(&priv->jack_lock);  
+> 
+> I believe you have to use scoped_guard here, as there is a return
+> from the function above, if memory serves it attempts to release
+> the mutex on that path despite it being above the guard.
 
-BTW, it seems that there are lots of other places missing the length
-check, and we'd need to paper over them, too:
-snd_caiaq_input_read_analog(), snd_caiaq_input_read_erp(),
-snd_caiaq_input_read_io(), and snd_usb_caiaq_maschine_dispatch().
+Indeed.
+I believe clang will complain.
+That makes these mechanical conversions of existing code dangerous churn.
 
+While using guard() (etc) can make it easier to ensure the lock is released
+when functions have multiple error exits, I'm not convinced it makes the
+code any easier to read (other people may disagree).
 
-thanks,
+	David
 
-Takashi
+> 
+> Be worth having a quick scan through the rest of the series for
+> this as well.
+> 
+> Thanks,
+> Charles
+> 
+
