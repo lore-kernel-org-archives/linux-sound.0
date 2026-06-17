@@ -1,125 +1,169 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6356391E58;
-	Wed, 17 Jun 2026 08:42:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32AF838AC8D
+	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 08:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781685742; cv=none; b=rR7kscsmto/Lk6JUgE2Hzjpjee6S9hy9LTRLgFTxBKcbETNr92Krig3/Bxb2Bno633nyvpGWpCuMT2ONxWnGuTN1QyEf73wiesLVjxzX7eWahAJ6UwCTn+ykMUAF9ua7uTXBa+Nd3XUUXL42n1hOItU4b54sDd5Pb9QcdMzouJc=
+	t=1781686392; cv=none; b=NMn/HPQ6RqPKGrXma5wHtxEzo4OaPz6ycu9nbpAk9OAWUweIVXaHzVSZo42W0TXKnwI3/4nHoRLk/k1LTMn6bdQww+i3xWYZ2tCHWvApg0Pwg9CsBMDtSw2WarUzKAUskoj9TxTjC3HD8VDffO9jtw3Qw5cVG8dPTlyoylUX+ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781685742; c=relaxed/simple;
-	bh=IgEWT6V8CY0cgZLLZqbe8m4+2QpK1pFExjIpxh4ho+E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FPe0DJqf5EaT4fPCPptbD354hvLmWDPnYaOBg1VkwaDwMMeKkw5ix6QFE5Hy4SG7cpiIVUb1UumptUnRRO67KJFL2pNOZ6P9TGwMhTMINTwHJ6z+APCmog00OcBVNWU9L3mwM+DRh+LX6b+4F0mGNwMMNRP1tOem6zf0BhBY+CU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=BtvzLXXx; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1781686392; c=relaxed/simple;
+	bh=Tr56+HQ7Le3fhj9iwj+QzAzAxLQWHx2fq+cmx68CLhc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p/EohD1PVXDKv0rM5O0tKEh5huGaOgK7U4TJH8kb9A84g2fU2LnVubMEHXCTIj11g/XHIGUsgefB6bQpFpje0ggxdEpfe5b81pkqhF+tYK4UjFlcP4l8CV+d9wRpslYkFgUaLPdeUxggo12gYjsGMRWphV9vxunw8eKFwo+9+2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LxGfehxZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FVqHx1YC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LxGfehxZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FVqHx1YC; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="BtvzLXXx"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 919063E13A;
-	Wed, 17 Jun 2026 10:36:50 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 919063E13A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1781685410; bh=3oq8nyoKQscAxYKHpo0UE7SN/3LE+Z7e20yOtrvWA0E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BtvzLXXxGtYqXh/83Svh9C/8wB0RHBPQKtnfWPrP0ygCeKynQ68bReT1+cL7hx4k+
-	 bt3FQFIwyKTOAtM2A1dOpQdJE5H3sN59bBSFpAVXn9CTFtpakBHpSFdol8DneqtRk3
-	 nznUPykQeVZxVERwWfxA1WHWQgtsq8qzIuuQEfcI=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LxGfehxZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FVqHx1YC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LxGfehxZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FVqHx1YC"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Wed, 17 Jun 2026 10:36:45 +0200 (CEST)
-Message-ID: <0888c20f-0a0f-458f-9a73-f05d85ecddaa@perex.cz>
-Date: Wed, 17 Jun 2026 10:36:44 +0200
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6E2176B6D5;
+	Wed, 17 Jun 2026 08:53:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781686389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U6CpriLP5tEgPbM0Wo1XQUnhHLZC1koASKjaArxLC5c=;
+	b=LxGfehxZS55j55PzA4UKwWHEKsya5O4gqFv8ZF3lUMFiZm5fVrJuE+PNlj5gXNzAYQkGgw
+	4L3BT9kxaej0p3O37laITWfhem19m0mGOnQRwWITK8sOHU3kY9XDBAWis2xXK0Fkmp6pDC
+	8TVrPVZUUe/EeTRa/l31c2frQtGyWls=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781686389;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U6CpriLP5tEgPbM0Wo1XQUnhHLZC1koASKjaArxLC5c=;
+	b=FVqHx1YCWRRULJrGZ0Q+XawBweGbqRP/MxD+v28BjVZ5a2Gxes/ya2yU/xA8xV+pOOhuG7
+	m5QXeb7IIVK6TiAQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=LxGfehxZ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FVqHx1YC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781686389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U6CpriLP5tEgPbM0Wo1XQUnhHLZC1koASKjaArxLC5c=;
+	b=LxGfehxZS55j55PzA4UKwWHEKsya5O4gqFv8ZF3lUMFiZm5fVrJuE+PNlj5gXNzAYQkGgw
+	4L3BT9kxaej0p3O37laITWfhem19m0mGOnQRwWITK8sOHU3kY9XDBAWis2xXK0Fkmp6pDC
+	8TVrPVZUUe/EeTRa/l31c2frQtGyWls=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781686389;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U6CpriLP5tEgPbM0Wo1XQUnhHLZC1koASKjaArxLC5c=;
+	b=FVqHx1YCWRRULJrGZ0Q+XawBweGbqRP/MxD+v28BjVZ5a2Gxes/ya2yU/xA8xV+pOOhuG7
+	m5QXeb7IIVK6TiAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3820E779A8;
+	Wed, 17 Jun 2026 08:53:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id r8hzDHVgMmrFRQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 17 Jun 2026 08:53:09 +0000
+Date: Wed, 17 Jun 2026 10:53:08 +0200
+Message-ID: <87tsr1pmyz.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Ai Chao <aichao@kylinos.cn>,
+	tiwai@suse.com,
+	kees@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: pcm: Show closed for DISCONNECTED state
+In-Reply-To: <0888c20f-0a0f-458f-9a73-f05d85ecddaa@perex.cz>
+References: <20260617071951.3357788-1-aichao@kylinos.cn>
+	<0888c20f-0a0f-458f-9a73-f05d85ecddaa@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: pcm: Show closed for DISCONNECTED state
-To: Ai Chao <aichao@kylinos.cn>, tiwai@suse.com, kees@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260617071951.3357788-1-aichao@kylinos.cn>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
- ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
- E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
- HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
- LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
- aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
- srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
- GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
- 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
- njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
- eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
- BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
- lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
- VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
- 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
- cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
- nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
- LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
- Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
- ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
- +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
- aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
- FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
- 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
- V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
- t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
- +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
- 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
- f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
- z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
- zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
- Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
- MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
- y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
- uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
- ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
- dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
- qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
- 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
- k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
- m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
- WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
-In-Reply-To: <20260617071951.3357788-1-aichao@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 6E2176B6D5
+X-Spam-Score: -3.51
 
-On 6/17/26 09:19, Ai Chao wrote:
-> Hello Takashi
+On Wed, 17 Jun 2026 10:36:44 +0200,
+Jaroslav Kysela wrote:
 > 
->> Thanks, it's a bit clearer.  But it still means that it's a cargo fix
->> only for that specific application.  The program should receive an
->> error for any further syscalls, so that it can close gracefully by
->> itself.  Or it doesn't work as expected?
+> On 6/17/26 09:19, Ai Chao wrote:
+> > Hello Takashi
+> > 
+> >> Thanks, it's a bit clearer.  But it still means that it's a cargo fix
+> >> only for that specific application.  The program should receive an
+> >> error for any further syscalls, so that it can close gracefully by
+> >> itself.  Or it doesn't work as expected?
+> > 
+> > The recording software monitors /proc/asound/card0/pcm0c/sub0/status.
+> > When the USB device is suddenly disconnected, the recording software fails
+> > to capture audio data from the sound card, with both the hardware pointer
+> > and application pointer being 0. The software remains in a pending state,
+> > continuously displaying "Generating recording file". If the status file shows
+> > "closed" (DISCONNECTED), the audio service detects the status change, reinitializes
+> > the device, starts processing the recording file, and either resumes recording or
+> > notifies the user.
 > 
-> The recording software monitors /proc/asound/card0/pcm0c/sub0/status.
-> When the USB device is suddenly disconnected, the recording software fails
-> to capture audio data from the sound card, with both the hardware pointer
-> and application pointer being 0. The software remains in a pending state,
-> continuously displaying "Generating recording file". If the status file shows
-> "closed" (DISCONNECTED), the audio service detects the status change, reinitializes
-> the device, starts processing the recording file, and either resumes recording or
-> notifies the user.
+> The PCM API ioctls should return an error in this case (device
+> disconnection). Does software communicate with the driver through
+> ioctl ? It seems that only mmaped appl/hw pointers are used which is
+> not enough to detect the disconnection.
 
-The PCM API ioctls should return an error in this case (device disconnection). 
-Does software communicate with the driver through ioctl ? It seems that only 
-mmaped appl/hw pointers are used which is not enough to detect the disconnection.
+Right, I suspect that it might be the case.
+Does the change like below help (or worsen) anything?
 
-Obtaining the device state through procfs is really a bad habit.
 
-					Jaroslav
+Takashi
 
--- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+-- 8< --
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -3907,6 +3907,8 @@ static vm_fault_t snd_pcm_mmap_data_fault(struct vm_fault *vmf)
+ 	if (substream == NULL)
+ 		return VM_FAULT_SIGBUS;
+ 	runtime = substream->runtime;
++	if (runtime->state == SNDRV_PCM_STATE_DISCONNECTED)
++		return VM_FAULT_SIGBUS;
+ 	offset = vmf->pgoff << PAGE_SHIFT;
+ 	dma_bytes = PAGE_ALIGN(runtime->dma_bytes);
+ 	if (offset > dma_bytes - PAGE_SIZE)
