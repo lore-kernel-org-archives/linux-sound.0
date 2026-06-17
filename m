@@ -1,63 +1,63 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62CD4279F5
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 10:40:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E736C3AC0EF
+	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 10:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781692834; cv=none; b=Y0vNGjinRpsRzBYe8OeVpgoxrPFGn53E2+Oz4+D5P+KW2/C+hGUiqFDJiPwoMXSOlQJuhWWyBUUQsXpFXgaNImg2xIAlBef8KP8CKZDSZy423xUrhgPgAdGBQP5Qiz0HYid3vgxh0V3iV+LB2jn1OUgd14COFBCQoZwXJr8uNVc=
+	t=1781692843; cv=none; b=HQOFCtPro0kc2l0dsnvKQHQl6m830HROBFSxWP70UfXHbOzJTCldqsHUypUPnf7OYuJImpberoqEgnQcpbxJYkC8yjgNPKOH6lppUdXHLddxclFALqdXhRFJvgMdGtQXovxETjhGnNn5Xub7/ML2fmWw4ITZFBf71Wp5YnhK6Jg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781692834; c=relaxed/simple;
-	bh=9K7Wn9sctZkVTwUAOOJQWTkfDpWZPvgaq5hF1ovj7YM=;
+	s=arc-20240116; t=1781692843; c=relaxed/simple;
+	bh=S6aLS5mgsSniYkFOaIn0mgYqQ7t9JX1w7TYL5UAjCLM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P9Z19nXCEJQ/WT5Brr1NJehdDwxtzP6/xdZ7oYYAA1Vwpp/Xrp7kTDu7ENlaTYPrE7oiUH3bmFpSArMLg3ITC2o+mxFmDqGw5WmNRvXF7xnWTWCjc+HYqaekAJYXz3UfYCYNltPMoj8w+MNnQ4wykNAKY8Laykg6d5tfVXblKiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KqcP/MV6; arc=none smtp.client-ip=74.125.82.54
+	 MIME-Version; b=u0HjD0jeIJxw3S+8yDpTOiibBlF+zT+ZGWQCqxMVX3H81w60rTwkW4UnlzPhjPVYW+sxes+OtnP+hFgG6acNg7iVZTIoEIdiG4e8lIhOftRhTOZWcRFSoQmGK6bSKgLtECUfyarLu2Os1AdnRqdZQVM38e/ONazxZmLZuSL4MrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sbepd/0M; arc=none smtp.client-ip=74.125.82.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KqcP/MV6"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-13810b63a1aso12458574c88.1
-        for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 03:40:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sbepd/0M"
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-30bbe98c3f0so2731687eec.0
+        for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 03:40:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781692832; x=1782297632; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781692840; x=1782297640; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oqjTEpvOFZF2j3RKEWHFL7cl6NP9aT2PlVk1AtH2OzM=;
-        b=KqcP/MV6kRgpfPHYpAquMJ5wEq+42MLsjUejpNentSjSsJyM1MtyJAvykXOGUN5E0t
-         fri7sbFAfpZCOv4aJryEccTn7t1Wey8dHnFboYM3qf/9Sc0ZJrnD2Ua8j2jILgskTAXe
-         tTW68eOmuN9PeyyX7d3sEknIpsh00iB2G5AT094kUWHP0bpUlA/kINGhxx7+JK4JBZp9
-         f9eccvy06xJwNSqDNtR1Btkd7tQ2U6lXP6ptTqxO9ydKMEgmmOO9dOY4wgL9FSnTido1
-         EAoraU8B2y5fubp48elthZkoEw18kopjBTFw9sJdn5le2Q+Ji0Qd1m3h6mLE3SWQn2Lz
-         XtlQ==
+        bh=FmZWowZsE7bM9GZ+ZWjt4RBW+7kbsX1XtIvKLUOx1zA=;
+        b=sbepd/0McaSmYnLTS9yRDH37Mk3SQQw7ER5PQ0lEtwTgwOJkxN3q5LaLQ6rYn3scJC
+         J8NLbzcUemZlOpPOS35itv0EajeD0yUKkoAeKZpLtfdJZabCPtOfHLjiGfz4+dJPS8MG
+         EdmVeHZ7RMDVoUb5GbIDavMbk/AajFvJGZiN0mXjrpU7WLjcp6yTxiSWdW/SsuMdyp/r
+         TrtVCGChOA9piXtHmSpRuwXN3wjdmgvM1tEggXE/u8Hzo2WwZjBg4/c4o35B1/wMHELH
+         AkjPrhRks0WcTQ+IzuIInPXVXSltS3C/BIB7Lm7VDhiOKBrDCnMEshopRAzeNgLXanvh
+         3dFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781692832; x=1782297632;
+        d=1e100.net; s=20251104; t=1781692840; x=1782297640;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=oqjTEpvOFZF2j3RKEWHFL7cl6NP9aT2PlVk1AtH2OzM=;
-        b=Rk8GNPpUQt8X1hzghC+ZR+9e0LCXhtIle0DJUMTNj+CvWC7OQY6grHqfBMhYu3U0qu
-         lcLQAitfLBcYq3/4Kaeql1M7H32mKONWiqrGwr/QJWp/dOSys8XUYtSjn+GaKeExuF3Q
-         Rv5IPbUYKIw8m3FAKBaL/k+DGq7ZXOTal3rXqDcyysNhjk6v1ZULIG9iQhjCPCZNJlCF
-         1YTuD7rww/wY6tQOsSBk4Nhzp7fQioqEBpPz8BKS4xVXnUigTJBKFKjYG4vkvacf5eC4
-         8DnTnjUALdq1G+CH5t0NurYJEXopd5SPXn09wjfoPoDrCNW4ynr9lv8ec1UCAqFjuQv8
-         UM1w==
-X-Forwarded-Encrypted: i=1; AFNElJ8p9DBm4NXOK4PCqZpXmHF296viJe03sKYU72Ncip4apQG/9gFgEWv3CIsWMVyrp6OvCRxuyI0VqgH+gg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOTFFmP8Ysiep5kOz9abOrdomuFAgzBkvD+B0GXEu4RN9HORZZ
-	vIx4qOx9IexRwS1yaILjEkWOLh3FDrKAGiDR42FanlqYn7PtEHzvf08d0rdIbw==
-X-Gm-Gg: AfdE7clWLNi4lLeEW3Vb/6PZTUGN7fUn9ZfCRS5rmDiRczUaLzW+RyYGbocJlzjx+IL
-	C/nEL7/7D0pzXeXEkRA+P+nFLgYqAxyOO6buiUmIuSqsyqpbEgDnl3uLrkGyGNgy8Kj2r0V/gIx
-	RoSg4ejKOgjN0eNX0rXIWA0njg1itpK8PyVJD0ffsh2M7HiMLL7gJBD5ZgCY1cfsM6n5r2uYjLi
-	dNQLnhAS6pbapjWBvCYzMMtjGLB+PBXMK90tJzbqm8TSHqV6ZrhBbSZlTdnMLJ84pvArdHvwtn/
-	61xtP5ggCZlO3cVb+c+C8znq2x6ExrVEwGSo1oibP/4qficTMWmi2XzAJ9a85k/tvLLE04kRwVd
-	nJNb2N6DECSI9p1CnjrhqsPzUBtjtR8iVc0LRwaEqPXHuB+14nqFiNJN0nGgIKWbBbXnXLaO3Af
-	PNuYpelR5BSxr4CpbB8+XtGoBnoLNuQtCuSCyXuAcopurRrWGi61EuDEwqnQ==
-X-Received: by 2002:a05:7300:f694:b0:304:8366:7456 with SMTP id 5a478bee46e88-30bc9cbd62dmr1978749eec.3.1781692831869;
-        Wed, 17 Jun 2026 03:40:31 -0700 (PDT)
+        bh=FmZWowZsE7bM9GZ+ZWjt4RBW+7kbsX1XtIvKLUOx1zA=;
+        b=Jb4pUZq6fSWtdU2MsAbHvtL09iSPly0LghddblH3YRW1HS9LJgFoGXmfVxh2uVgSWA
+         MbyfXb2XuEW0YUA9bP9Fy4rf1K3AkY6JmcsagTfutjtsCNQ3vbBSPThKF8BM9+G5MgNh
+         gDPUHojQ7FuPzTveM4G3vfAlhgpdPXEAPYPkvq/v9W2HuUDV/dPWZCeYD0vfNkdyVx12
+         Z4efQ9bs4lNyjRIHaXNGJg9GVllwlZkyDEkUzdH0moxzxz9JQTzobtEg3Vc1Uj3/WoqD
+         /gQE4Y9cguT0KBZJqFAkrj6VJ/mHHDkW9kqerRu2cch3ESBO+FaxZkog1bE45LTNTw3t
+         exPA==
+X-Forwarded-Encrypted: i=1; AFNElJ+AXVkyBTt0wBGAHw96zGHI212XYuiAl5q4WoYJKnF3yPg8N6VdQRvP/Uj57K7hgKlb2ME4iljmEgNLvw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtPy3/Vj+HzSMeUPFCiyY3zUofSGn2y4/2Fd5c7vjKBbtJ2Dz7
+	IrnIXI+Ue6Xy56bxKIGvZ8gK7wA9acFVYgg5qv9i/byx60Lb7PgrwY/z
+X-Gm-Gg: AfdE7cmPDO/HaHLgNGOBSoVEtGlKPwQTcvKKL+95nIkspi/ZEcv9Q7+RDx7Gr0LsooX
+	OF7DDDDc6xaE0zkFT1usUhb2zxbYB2vYzOS/uogdVcxtcE1Pq3sKnjQwj2R5LacEMTRUL08XOJl
+	nCrgCjDFqKL9gckKeyMJkF025AXttGyGNeWJVIqaPgE8OA9907ITQUgxefVZT5CiNZ3V3UmBWYT
+	C2qVuv9EnwImeqTIkNPxqZXBMXrnPngMPNXgn1f3Ey/EiRTUGkyxmi3q4/Y8tD133+ibJ5CW093
+	iG936WAZ/bCni5WdWKUhjX7TkH2z/nBqtQqLD7NHeEHFNXwyRk6IcZguxONQKiU5CUNbVkM8UZ5
+	UOhlLAnCDG8XN/8h1JOrssDSzfZtO1/AK8cmMZXmKfiTQf6+U1MiGMydOSyXnNfBMf8g6BkvD2i
+	PPBUy6/V1IgQixYQSnl/frLUEzISUyfCijvENaYDhBBLbD+ckD26DQzS/Q1w==
+X-Received: by 2002:a05:7300:a497:b0:2c5:50fe:c795 with SMTP id 5a478bee46e88-30bca0ed5a2mr1722160eec.29.1781692840150;
+        Wed, 17 Jun 2026 03:40:40 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.40.23
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.40.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 03:40:31 -0700 (PDT)
+        Wed, 17 Jun 2026 03:40:39 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 48/78] ASoC: codecs: rt711: Use guard() for mutex locks
-Date: Wed, 17 Jun 2026 17:32:05 +0700
-Message-ID: <20260617103235.449609-49-phucduc.bui@gmail.com>
+Subject: [PATCH 49/78] ASoC: codecs: rt712: Use guard() for mutex locks
+Date: Wed, 17 Jun 2026 17:32:06 +0700
+Message-ID: <20260617103235.449609-50-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260617103235.449609-1-phucduc.bui@gmail.com>
 References: <20260617103235.449609-1-phucduc.bui@gmail.com>
@@ -115,51 +115,49 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/rt711-sdca-sdw.c | 33 +++++++++++++++----------------
- sound/soc/codecs/rt711-sdca.c     |  7 ++-----
- sound/soc/codecs/rt711-sdw.c      | 23 +++++++++++----------
- sound/soc/codecs/rt711.c          | 19 ++++++++----------
- 4 files changed, 37 insertions(+), 45 deletions(-)
+ sound/soc/codecs/rt712-sdca-sdw.c | 34 +++++++++++++++----------------
+ sound/soc/codecs/rt712-sdca.c     |  7 ++-----
+ 2 files changed, 18 insertions(+), 23 deletions(-)
 
-diff --git a/sound/soc/codecs/rt711-sdca-sdw.c b/sound/soc/codecs/rt711-sdca-sdw.c
-index a8164fc3979a..3eb0b622a8ee 100644
---- a/sound/soc/codecs/rt711-sdca-sdw.c
-+++ b/sound/soc/codecs/rt711-sdca-sdw.c
-@@ -268,7 +268,7 @@ static int rt711_sdca_interrupt_callback(struct sdw_slave *slave,
+diff --git a/sound/soc/codecs/rt712-sdca-sdw.c b/sound/soc/codecs/rt712-sdca-sdw.c
+index 581732180473..066d15399bd9 100644
+--- a/sound/soc/codecs/rt712-sdca-sdw.c
++++ b/sound/soc/codecs/rt712-sdca-sdw.c
+@@ -277,7 +277,7 @@ static int rt712_sdca_interrupt_callback(struct sdw_slave *slave,
  	 * scheme. We do want however to prevent new workqueues from being scheduled if
  	 * the disable_irq flag was set during system suspend.
  	 */
--	mutex_lock(&rt711->disable_irq_lock);
-+	guard(mutex)(&rt711->disable_irq_lock);
+-	mutex_lock(&rt712->disable_irq_lock);
++	guard(mutex)(&rt712->disable_irq_lock);
  
- 	ret = sdw_read_no_pm(rt711->slave, SDW_SCP_SDCA_INT1);
+ 	ret = sdw_read_no_pm(rt712->slave, SDW_SCP_SDCA_INT1);
  	if (ret < 0)
-@@ -332,12 +332,9 @@ static int rt711_sdca_interrupt_callback(struct sdw_slave *slave,
+@@ -341,12 +341,9 @@ static int rt712_sdca_interrupt_callback(struct sdw_slave *slave,
  		mod_delayed_work(system_power_efficient_wq,
- 			&rt711->jack_detect_work, msecs_to_jiffies(30));
+ 			&rt712->jack_detect_work, msecs_to_jiffies(30));
  
--	mutex_unlock(&rt711->disable_irq_lock);
+-	mutex_unlock(&rt712->disable_irq_lock);
 -
  	return 0;
  
  io_error:
--	mutex_unlock(&rt711->disable_irq_lock);
+-	mutex_unlock(&rt712->disable_irq_lock);
  	pr_err_ratelimited("IO error in %s, ret %d\n", __func__, ret);
  	return ret;
  }
-@@ -416,13 +413,13 @@ static int rt711_sdca_dev_system_suspend(struct device *dev)
+@@ -428,13 +425,13 @@ static int rt712_sdca_dev_system_suspend(struct device *dev)
  	 * deferred work completes and before the parent disables
  	 * interrupts on the link
  	 */
--	mutex_lock(&rt711_sdca->disable_irq_lock);
--	rt711_sdca->disable_irq = true;
+-	mutex_lock(&rt712_sdca->disable_irq_lock);
+-	rt712_sdca->disable_irq = true;
 -	ret1 = sdw_update_no_pm(slave, SDW_SCP_SDCA_INTMASK1,
 -				SDW_SCP_SDCA_INTMASK_SDCA_0, 0);
 -	ret2 = sdw_update_no_pm(slave, SDW_SCP_SDCA_INTMASK2,
 -				SDW_SCP_SDCA_INTMASK_SDCA_8, 0);
--	mutex_unlock(&rt711_sdca->disable_irq_lock);
-+	scoped_guard(mutex, &rt711_sdca->disable_irq_lock) {
-+		rt711_sdca->disable_irq = true;
+-	mutex_unlock(&rt712_sdca->disable_irq_lock);
++	scoped_guard(mutex, &rt712_sdca->disable_irq_lock) {
++		rt712_sdca->disable_irq = true;
 +		ret1 = sdw_update_no_pm(slave, SDW_SCP_SDCA_INTMASK1,
 +					SDW_SCP_SDCA_INTMASK_SDCA_0, 0);
 +		ret2 = sdw_update_no_pm(slave, SDW_SCP_SDCA_INTMASK2,
@@ -168,192 +166,68 @@ index a8164fc3979a..3eb0b622a8ee 100644
  
  	if (ret1 < 0 || ret2 < 0) {
  		/* log but don't prevent suspend from happening */
-@@ -444,13 +441,15 @@ static int rt711_sdca_dev_resume(struct device *dev)
+@@ -456,14 +453,15 @@ static int rt712_sdca_dev_resume(struct device *dev)
  		return 0;
  
  	if (!slave->unattach_request) {
--		mutex_lock(&rt711->disable_irq_lock);
--		if (rt711->disable_irq == true) {
+-		mutex_lock(&rt712->disable_irq_lock);
+-		if (rt712->disable_irq == true) {
+-
 -			sdw_write_no_pm(slave, SDW_SCP_SDCA_INTMASK1, SDW_SCP_SDCA_INTMASK_SDCA_0);
 -			sdw_write_no_pm(slave, SDW_SCP_SDCA_INTMASK2, SDW_SCP_SDCA_INTMASK_SDCA_8);
--			rt711->disable_irq = false;
-+		scoped_guard(mutex, &rt711->disable_irq_lock) {
-+			if (rt711->disable_irq == true) {
+-			rt712->disable_irq = false;
++		scoped_guard(mutex, &rt712->disable_irq_lock) {
++			if (rt712->disable_irq == true) {
 +				sdw_write_no_pm(slave, SDW_SCP_SDCA_INTMASK1,
 +						SDW_SCP_SDCA_INTMASK_SDCA_0);
 +				sdw_write_no_pm(slave, SDW_SCP_SDCA_INTMASK2,
 +						SDW_SCP_SDCA_INTMASK_SDCA_8);
-+				rt711->disable_irq = false;
++				rt712->disable_irq = false;
 +			}
  		}
--		mutex_unlock(&rt711->disable_irq_lock);
+-		mutex_unlock(&rt712->disable_irq_lock);
  	}
  
- 	ret = sdw_slave_wait_for_init(slave, RT711_PROBE_TIMEOUT);
-diff --git a/sound/soc/codecs/rt711-sdca.c b/sound/soc/codecs/rt711-sdca.c
-index 3a26c782d800..906746a5fe69 100644
---- a/sound/soc/codecs/rt711-sdca.c
-+++ b/sound/soc/codecs/rt711-sdca.c
-@@ -107,7 +107,7 @@ static int rt711_sdca_calibration(struct rt711_sdca_priv *rt711)
+ 	ret = sdw_slave_wait_for_init(slave, RT712_PROBE_TIMEOUT);
+diff --git a/sound/soc/codecs/rt712-sdca.c b/sound/soc/codecs/rt712-sdca.c
+index 4796fce084ff..5db478633f17 100644
+--- a/sound/soc/codecs/rt712-sdca.c
++++ b/sound/soc/codecs/rt712-sdca.c
+@@ -79,7 +79,7 @@ static int rt712_sdca_calibration(struct rt712_sdca_priv *rt712)
  	int chk_cnt = 100;
  	int ret = 0;
  
--	mutex_lock(&rt711->calibrate_mutex);
-+	guard(mutex)(&rt711->calibrate_mutex);
+-	mutex_lock(&rt712->calibrate_mutex);
++	guard(mutex)(&rt712->calibrate_mutex);
  	dev = regmap_get_device(regmap);
  
- 	regmap_read(rt711->regmap, RT711_RC_CAL_STATUS, &val);
-@@ -178,7 +178,6 @@ static int rt711_sdca_calibration(struct rt711_sdca_priv *rt711)
- 	rt711_sdca_index_write(rt711, RT711_VENDOR_REG,
- 		RT711_DIGITAL_MISC_CTRL4, 0x201b);
+ 	/* Set HP-JD source from JD1 */
+@@ -126,7 +126,6 @@ static int rt712_sdca_calibration(struct rt712_sdca_priv *rt712)
+ 	/* Release HP-JD, EN_CBJ_TIE_GL/R open, en_osw gating auto done bit */
+ 	rt712_sdca_index_write(rt712, RT712_VENDOR_REG, RT712_DIGITAL_MISC_CTRL4, 0x0010);
  
--	mutex_unlock(&rt711->calibrate_mutex);
+-	mutex_unlock(&rt712->calibrate_mutex);
  	dev_dbg(dev, "%s calibration complete, ret=%d\n", __func__, ret);
  	return ret;
  }
-@@ -450,7 +449,7 @@ static void rt711_sdca_btn_check_handler(struct work_struct *work)
+@@ -403,7 +402,7 @@ static void rt712_sdca_btn_check_handler(struct work_struct *work)
  
- static void rt711_sdca_jack_init(struct rt711_sdca_priv *rt711)
+ static void rt712_sdca_jack_init(struct rt712_sdca_priv *rt712)
  {
--	mutex_lock(&rt711->calibrate_mutex);
-+	guard(mutex)(&rt711->calibrate_mutex);
+-	mutex_lock(&rt712->calibrate_mutex);
++	guard(mutex)(&rt712->calibrate_mutex);
  
- 	if (rt711->hs_jack) {
+ 	if (rt712->hs_jack) {
  		/* Enable HID1 event & set button RTC mode */
-@@ -515,8 +514,6 @@ static void rt711_sdca_jack_init(struct rt711_sdca_priv *rt711)
+@@ -450,8 +449,6 @@ static void rt712_sdca_jack_init(struct rt712_sdca_priv *rt712)
  
- 		dev_dbg(&rt711->slave->dev, "in %s disable\n", __func__);
+ 		dev_dbg(&rt712->slave->dev, "in %s disable\n", __func__);
  	}
 -
--	mutex_unlock(&rt711->calibrate_mutex);
+-	mutex_unlock(&rt712->calibrate_mutex);
  }
  
- static int rt711_sdca_set_jack_detect(struct snd_soc_component *component,
-diff --git a/sound/soc/codecs/rt711-sdw.c b/sound/soc/codecs/rt711-sdw.c
-index df3c43f2ab6b..9d5dff34de25 100644
---- a/sound/soc/codecs/rt711-sdw.c
-+++ b/sound/soc/codecs/rt711-sdw.c
-@@ -423,12 +423,11 @@ static int rt711_interrupt_callback(struct sdw_slave *slave,
- 	dev_dbg(&slave->dev,
- 		"%s control_port_stat=%x", __func__, status->control_port);
- 
--	mutex_lock(&rt711->disable_irq_lock);
-+	guard(mutex)(&rt711->disable_irq_lock);
- 	if (status->control_port & 0x4 && !rt711->disable_irq) {
- 		mod_delayed_work(system_power_efficient_wq,
- 			&rt711->jack_detect_work, msecs_to_jiffies(250));
- 	}
--	mutex_unlock(&rt711->disable_irq_lock);
- 
- 	return 0;
- }
-@@ -510,11 +509,11 @@ static int rt711_dev_system_suspend(struct device *dev)
- 	 * deferred work completes and before the parent disables
- 	 * interrupts on the link
- 	 */
--	mutex_lock(&rt711->disable_irq_lock);
--	rt711->disable_irq = true;
--	ret = sdw_update_no_pm(slave, SDW_SCP_INTMASK1,
--			       SDW_SCP_INT1_IMPL_DEF, 0);
--	mutex_unlock(&rt711->disable_irq_lock);
-+	scoped_guard(mutex, &rt711->disable_irq_lock) {
-+		rt711->disable_irq = true;
-+		ret = sdw_update_no_pm(slave, SDW_SCP_INTMASK1,
-+				       SDW_SCP_INT1_IMPL_DEF, 0);
-+	}
- 
- 	if (ret < 0) {
- 		/* log but don't prevent suspend from happening */
-@@ -536,12 +535,12 @@ static int rt711_dev_resume(struct device *dev)
- 		return 0;
- 
- 	if (!slave->unattach_request) {
--		mutex_lock(&rt711->disable_irq_lock);
--		if (rt711->disable_irq == true) {
--			sdw_write_no_pm(slave, SDW_SCP_INTMASK1, SDW_SCP_INT1_IMPL_DEF);
--			rt711->disable_irq = false;
-+		scoped_guard(mutex, &rt711->disable_irq_lock) {
-+			if (rt711->disable_irq == true) {
-+				sdw_write_no_pm(slave, SDW_SCP_INTMASK1, SDW_SCP_INT1_IMPL_DEF);
-+				rt711->disable_irq = false;
-+			}
- 		}
--		mutex_unlock(&rt711->disable_irq_lock);
- 	}
- 
- 	ret = sdw_slave_wait_for_init(slave, RT711_PROBE_TIMEOUT);
-diff --git a/sound/soc/codecs/rt711.c b/sound/soc/codecs/rt711.c
-index 5dbe9b67703e..5bc25663be09 100644
---- a/sound/soc/codecs/rt711.c
-+++ b/sound/soc/codecs/rt711.c
-@@ -89,7 +89,7 @@ static int rt711_calibration(struct rt711_priv *rt711)
- 	struct regmap *regmap = rt711->regmap;
- 	int ret = 0;
- 
--	mutex_lock(&rt711->calibrate_mutex);
-+	guard(mutex)(&rt711->calibrate_mutex);
- 	regmap_write(rt711->regmap,
- 		RT711_SET_AUDIO_POWER_STATE, AC_PWRST_D0);
- 
-@@ -128,7 +128,6 @@ static int rt711_calibration(struct rt711_priv *rt711)
- 
- 	regmap_write(rt711->regmap,
- 		RT711_SET_AUDIO_POWER_STATE, AC_PWRST_D3);
--	mutex_unlock(&rt711->calibrate_mutex);
- 
- 	dev_dbg(dev, "%s calibration complete, ret=%d\n", __func__, ret);
- 	return ret;
-@@ -362,7 +361,7 @@ static void rt711_jack_init(struct rt711_priv *rt711)
- {
- 	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(rt711->component);
- 
--	mutex_lock(&rt711->calibrate_mutex);
-+	guard(mutex)(&rt711->calibrate_mutex);
- 	/* power on */
- 	if (snd_soc_dapm_get_bias_level(dapm) <= SND_SOC_BIAS_STANDBY)
- 		regmap_write(rt711->regmap,
-@@ -450,7 +449,6 @@ static void rt711_jack_init(struct rt711_priv *rt711)
- 	if (snd_soc_dapm_get_bias_level(dapm) <= SND_SOC_BIAS_STANDBY)
- 		regmap_write(rt711->regmap,
- 			RT711_SET_AUDIO_POWER_STATE, AC_PWRST_D3);
--	mutex_unlock(&rt711->calibrate_mutex);
- }
- 
- static int rt711_set_jack_detect(struct snd_soc_component *component,
-@@ -511,7 +509,7 @@ static int rt711_set_amp_gain_put(struct snd_kcontrol *kcontrol,
- 	unsigned int read_ll, read_rl;
- 	int i;
- 
--	mutex_lock(&rt711->calibrate_mutex);
-+	guard(mutex)(&rt711->calibrate_mutex);
- 
- 	/* Can't use update bit function, so read the original value first */
- 	addr_h = mc->reg;
-@@ -599,7 +597,6 @@ static int rt711_set_amp_gain_put(struct snd_kcontrol *kcontrol,
- 		regmap_write(rt711->regmap,
- 				RT711_SET_AUDIO_POWER_STATE, AC_PWRST_D3);
- 
--	mutex_unlock(&rt711->calibrate_mutex);
- 	return 0;
- }
- 
-@@ -908,11 +905,11 @@ static int rt711_set_bias_level(struct snd_soc_component *component,
- 		break;
- 
- 	case SND_SOC_BIAS_STANDBY:
--		mutex_lock(&rt711->calibrate_mutex);
--		regmap_write(rt711->regmap,
--			RT711_SET_AUDIO_POWER_STATE,
--			AC_PWRST_D3);
--		mutex_unlock(&rt711->calibrate_mutex);
-+		scoped_guard(mutex, &rt711->calibrate_mutex) {
-+			regmap_write(rt711->regmap,
-+				RT711_SET_AUDIO_POWER_STATE,
-+				AC_PWRST_D3);
-+		}
- 		break;
- 
- 	default:
+ static int rt712_sdca_set_jack_detect(struct snd_soc_component *component,
 -- 
 2.43.0
 
