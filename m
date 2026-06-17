@@ -1,103 +1,98 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AF72E737C
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 14:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CDB44B68E;
+	Wed, 17 Jun 2026 15:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781708184; cv=none; b=ZrrBrpPixgEnB+W+/RpNrT+Ftodg443L7sodqo0u/hg1V7KyGwcwZdYgPxRlP3oISlw/s6fZJcY/LqVffJkr0Dw7O8qm42TJn1mLTMYL2YBk/RObMAaR2+Mi9OfGvAivi+PfkM1BAeaOoInQ3x94ThbmVJY4Owosc5oJAdmXkNo=
+	t=1781708528; cv=none; b=XQUXKmPtlLwXM06sDefwAn63AHVlqjSf+Fdp9fsNUxLxt+QSTeIUYbqW7bQLlysPs0khaQs94e6732cSJKcptdYOXhegmuggop0hDaxA0w3GvU9/3MT4z2bMSBmIK8d+4rjjnQKfajJ/0KCx2aGxN+lEeGvP9OmhJ00usSeRoXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781708184; c=relaxed/simple;
-	bh=FD4MZbubjzQrPudYXoggs8oxWu1u+iRI+HHQovqqAFw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fojtq5ViftgvbtKTl+5KeomMcRjTPcRV58ZzZqMWskZyiVrHEQP8mNd9+/oe83zDDCMxj1sNQSJGX/1wX21lQmRnOz4fDw7d+O5LX1R+3rkeC7k4f2yps8Oxe8olx6OdU4wYGdCGsAI+uEWEIhjJHxxkmAdpGLmWI0JBEJ0SG+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pqrs.dk; spf=pass smtp.mailfrom=pqrs.dk; dkim=pass (2048-bit key) header.d=pqrs.dk header.i=@pqrs.dk header.b=w4AbCBKW; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pqrs.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pqrs.dk
+	s=arc-20240116; t=1781708528; c=relaxed/simple;
+	bh=cm9uc4m3hMipx9F0pg0UfZ9wTfj2n5Z59TjaJH031UA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fataE/Q2F2Czm/eZWdFO1Dm6VbeyHr2RXy2N34dOgqg2YOJSXlHPqALQoUZ7CSajvbJtB5AiZAvzGIHA2l0lwDos+Dz55+XDbq8bQJojHsqCiDjcdcrQ6zfidxhLlNvaa3Q5rnMySi974CRYLv1GJGXarXcaLfqLLgOMl0EVjHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S1wwi3Ou; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pqrs.dk header.i=@pqrs.dk header.b="w4AbCBKW"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pqrs.dk; s=key1;
-	t=1781708170;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=MMwZCh7biXRfQ9OugCAuGNz7dVoKYNV9aSvet6kpUIs=;
-	b=w4AbCBKWNWTnc7tmD0S4hBcpg7kgqHaBjmp81GWs+k1w21uCIP7KzMJpdmCjxHWARO+9Pe
-	+UE96icbSPEadsLg58JP3iOOHXit1Rnh6Qc7Qd99vmKZy5B9RcB/1a0vVnq/MQc0pmZSBL
-	Hkk//hByRlfqlMp/2Hluxv1BBZlt6sCL3CuctiujxCLLDya87cM2qg0NSpmKIbuRTiKVf9
-	zVWeDTa+5bjOX34rXh3LgX0XMUBBUx2Aw+JJ5uIMdiyftg4Ad6miJzDyhiE4VXhVlgeIBh
-	+2fiE9E3pCSYPGWMZcXhpxUsydvCowiivWy7hrOJV6gQcw6PgnYYiKOJyC75yw==
-From: =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alvin@pqrs.dk>
-To: Mark Brown <broonie@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S1wwi3Ou"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E597C1F000E9;
+	Wed, 17 Jun 2026 15:02:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781708527;
+	bh=cm9uc4m3hMipx9F0pg0UfZ9wTfj2n5Z59TjaJH031UA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=S1wwi3OuRJeNvtoqVXl0GHzA+aX7N3AEkqwrDSaD09+82dtmOoIcrHXDLDZLnV7Z/
+	 jfDMhu/AjdVyozqySXCXXcXczNgxWNgAiMf+YIOCLZKvjaOIvgujmi/2txobWvlqXG
+	 aTG833St+3D76sIARvu9LBJ4TUN7RI9L1jJ40tqU4T/9EVkh8HfV6/Yb1wZu1/FfWp
+	 gaBgKjGj4APSb2YwSCh35ifEVvSClX0qDacbddSBkemJqRpc0OWBkffAnsF1E+Z3Ek
+	 7Fkw9RnJy8KqcMSdTFQrwNBSOGZaHgX6+YNVFDoFe5i9jQT7sj+sfI4xOTLB4YZC9m
+	 OFrj4Nfh+WTbg==
+Date: Wed, 17 Jun 2026 16:02:03 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin.sipraga@analog.com>
+Subject: Re: [PATCH] Revert "ASoC: audio-graph-card2: recommend to use auto
+ select DAI format"
+Message-ID: <2867f233-2eb5-4990-91f8-9082e67bcc8b@sirena.org.uk>
+Mail-Followup-To: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin@pqrs.dk>,
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Alvin=20=C5=A0ipraga?= <alvin.sipraga@analog.com>
-Subject: [PATCH] Revert "ASoC: audio-graph-card2: recommend to use auto select DAI format"
-Date: Wed, 17 Jun 2026 16:55:08 +0200
-Message-ID: <20260617145508.327213-1-alvin@pqrs.dk>
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin.sipraga@analog.com>
+References: <20260617145508.327213-1-alvin@pqrs.dk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="HQGvpTZfrh7PTonm"
+Content-Disposition: inline
+In-Reply-To: <20260617145508.327213-1-alvin@pqrs.dk>
+X-Cookie: Absence makes the heart go wander.
 
-From: Alvin Šipraga <alvin.sipraga@analog.com>
 
-This reverts commit 442cfd58e71260dcd983e393f750e36fe7ab34d0.
+--HQGvpTZfrh7PTonm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sometimes the DAI format must be specified in the audio-graph-card2
-device tree, so emitting a warning can be misleading. Revert back to
-emitting no warning.
+On Wed, Jun 17, 2026 at 04:55:08PM +0200, Alvin =C5=A0ipraga wrote:
+> From: Alvin =C5=A0ipraga <alvin.sipraga@analog.com>
+>=20
+> This reverts commit 442cfd58e71260dcd983e393f750e36fe7ab34d0.
 
-A few examples where automatic format selection might not be applicable:
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-- For DPCM, where the other side of the DAI link is not apparent, no
-  proper selection can actually be made. This can lead to disagreeing
-  formats.
+Please include human readable descriptions of things like commits and
+issues being discussed in e-mail in your mails, this makes them much
+easier for humans to read especially when they have no internet access.
+I do frequently catch up on my mail on flights or while otherwise
+travelling so this is even more pressing for me than just being about
+making things a bit easier to read.
 
-- Due to hardware peculiarities, some ostensibly supported formats might
-  not work in practice.
+--HQGvpTZfrh7PTonm
+Content-Type: application/pgp-signature; name="signature.asc"
 
-In either case, the only correct solution is for the sound card to set
-the format
+-----BEGIN PGP SIGNATURE-----
 
-Link: https://lore.kernel.org/all/87ik7s36k2.wl-kuninori.morimoto.gx@renesas.com/
-Signed-off-by: Alvin Šipraga <alvin.sipraga@analog.com>
----
- sound/soc/generic/audio-graph-card2.c | 12 ------------
- 1 file changed, 12 deletions(-)
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmoytuoACgkQJNaLcl1U
+h9C1gAf/bOQfBvg9bQcy0ctXkq49Q2V5U1GK5A8P+mNQYoYcMVuCUg8sVXX0ohQi
+x8MxphN55HhbJouQT755iPfjHsl+1T5zQI9mIumycK+3LNlshEJ1M9p9LJZD+/xn
+iSvVlDkp86DxoaUev9dzawCF3WZqNDv2zZQKl1cTYO0U4G1+o9SqvueOsVAU6F/s
+cguzLz/6kbCxesSzco5A6wZ532C/uYqcT5sxEcSpH+PfZHNr5mvy6rY8yrMrpGHF
+0iTwGaoljZwPKztcwGGb9XmR7C2+txZftNf2OY9J1ShLAVO8EQitrKFn3hqBvxBW
+mHbG0vTtAgMUGAlaAvaNmd4DvAJT5A==
+=CXtD
+-----END PGP SIGNATURE-----
 
-diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
-index 6894bb936cfd..0202ed0ee78e 100644
---- a/sound/soc/generic/audio-graph-card2.c
-+++ b/sound/soc/generic/audio-graph-card2.c
-@@ -778,18 +778,6 @@ static void graph_link_init(struct simple_util_priv *priv,
- 	graph_parse_daifmt(ports_cpu,	&daifmt);
- 	graph_parse_daifmt(ports_codec,	&daifmt);
- 	graph_parse_daifmt(lnk,		&daifmt);
--	if (daifmt) {
--		struct device *dev = simple_priv_to_dev(priv);
--
--		/*
--		 * Recommend to use Auto Select by using .auto_selectable_formats.
--		 * linux/sound/soc/renesas/rcar/core.c can be good sample for it.
--		 *
--		 * One note is that Audio Graph Card2 still keeps compatible to set
--		 * DAI format via DT.
--		 */
--		dev_warn_once(dev, "use .auto_selectable_formats on each corresponding CPU/Codec driver");
--	}
- 
- 	graph_util_parse_link_direction(lnk,		&playback_only, &capture_only);
- 	graph_util_parse_link_direction(ports_cpu,	&playback_only, &capture_only);
--- 
-2.51.2
-
+--HQGvpTZfrh7PTonm--
