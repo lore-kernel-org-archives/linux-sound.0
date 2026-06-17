@@ -1,63 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7783B9DAC;
-	Wed, 17 Jun 2026 07:00:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D7B3B38A2;
+	Wed, 17 Jun 2026 07:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781679616; cv=none; b=FTzCS/W1mvSPjsg+EkNkNFpa7vlqCVenrT3oy4G6DieE3UE51tKm+LvXkz1aORls0L/D8BwlH8QJNBhgGWCJB8TVpk8ZCWbxil81J6IvbqtDT7uKAtwnqldsAo/XLuZgRX/A6wz+lgiCH5gMKNdvUYZCnsBB1YjTLYZWRcMUGQw=
+	t=1781680802; cv=none; b=XL6GtYlrXMVS2Iwb0f53kzlk2Fjz7sd2GRGQ5HTIPhcJFeQCDLO1KnAnQRV7yAC2/tn3wrNpU/cm9Uqa5uUSaidaUqb5TVZG5XiO796DhjjfZe/QaZlRmbXQJasu3iMEYvvp6+v4AFfbSJrr0k6qYJOFUdDkMzeFAturIJ4YzOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781679616; c=relaxed/simple;
-	bh=gEBoH7P4rHLhdGRp31iUM8PUktzjooSJaGoiByHE8jo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uakHZSDMoPTsneJSZOH7sRWwFRDQO9wOWo/iSDxZvIHgvErvndNeuAbjqGAZdYVFBggvgCOzy9L4GXhd1LaGw/MaC7HKHjrpQs5JvYmF9HeDfXcRZCQLITyPbCYThpnaZPBf6qv57erqhu4m9vCFCd9ETvpsEDXV0VzqHWu2pWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W5421pE+; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W5421pE+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF8631F00A3A;
-	Wed, 17 Jun 2026 07:00:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781679611;
-	bh=XBpoUxlFURwMzl39lkkX4tmx4aM2S2NACZ/n3dp5+so=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=W5421pE+zesDptUzhst7HpNXtPpcGlPo/CiLMC/qhE8rYuSI/5U5sNi0I5eArizU0
-	 QvPq4kaZk0RNSQ1jWAf3DhbbAHcSTsnYhjRXUJxqoqJdcPEekxE9yuL8uqHpfcmxrp
-	 ZoVKs/bNRjW2nxQGhG1vy9geof5PQ/m1HL8eAFuuIqSZj9zex6hUnPkC00/uIg3f0Z
-	 /VtC3/amaHyT/cu1heN1M44vFzjhgg4B7WXr6YxAQ8sfU+VG6SvhT2su7RF0K1+KP/
-	 brpGHo9m+WoaRJKWcIrPW+NY2lIeKmfXhYaNbJdQ4LgT9SmJoe+KEHT5JTco6zyYSm
-	 AKtQGmL+zh8uw==
-Date: Wed, 17 Jun 2026 09:00:08 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Luca Leonardo Scorcia <l.scorcia@gmail.com>
-Cc: linux-mediatek@lists.infradead.org, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4] ASoC: dt-bindings: mtk-btcvsd-snd: Convert to DT
- Schema
-Message-ID: <20260617-fuzzy-lorikeet-of-joy-f6bd1e@quoll>
-References: <20260615185810.11804-1-l.scorcia@gmail.com>
+	s=arc-20240116; t=1781680802; c=relaxed/simple;
+	bh=92VcSzdK1XU3FHt5kGNDPSrScWZJ0qlhkKyVOnblico=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RDcDUPAgKnJg7oNv+z0EK0BJ77g4bfDEVYzMLSjNR+U9f8j5q4p6wtBBe6W9sfz0asQIszJMSE0h4K7cjsR7YuAi7MridDWE4byBIRsEX3LRjYkk1r8qgYr5nqZQ7OYA3Gh5RtMfJoFfMt0czVkA9ChTpy9qGkVYFkBwx1778YM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: f06ed3806a1c11f1aa26b74ffac11d73-20260617
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:43de465d-61ae-430e-a2bc-0557b7d994ce,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:62c306cb6730a4abd106aec1c617d982,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|83|102|865|898,TC:nil,Content:0|15|50
+	,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
+	SA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: f06ed3806a1c11f1aa26b74ffac11d73-20260617
+X-User: aichao@kylinos.cn
+Received: from thinksys.. [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <aichao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1263146279; Wed, 17 Jun 2026 15:19:55 +0800
+From: Ai Chao <aichao@kylinos.cn>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	kees@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: Re: Re: [PATCH] ALSA: pcm: Show closed for DISCONNECTED state
+Date: Wed, 17 Jun 2026 15:19:51 +0800
+Message-Id: <20260617071951.3357788-1-aichao@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260615185810.11804-1-l.scorcia@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 15, 2026 at 08:57:50PM +0200, Luca Leonardo Scorcia wrote:
-> Convert the mtk-btcvsd-snd.txt DT binding to DT Schema format.
-> 
-> Signed-off-by: Luca Leonardo Scorcia <l.scorcia@gmail.com>
-> ---
-> Changes in v4:
+Hello Takashi
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Thanks, it's a bit clearer.  But it still means that it's a cargo fix
+> only for that specific application.  The program should receive an
+> error for any further syscalls, so that it can close gracefully by
+> itself.  Or it doesn't work as expected?
 
-Best regards,
-Krzysztof
+The recording software monitors /proc/asound/card0/pcm0c/sub0/status.
+When the USB device is suddenly disconnected, the recording software fails
+to capture audio data from the sound card, with both the hardware pointer
+and application pointer being 0. The software remains in a pending state,
+continuously displaying "Generating recording file". If the status file shows
+"closed" (DISCONNECTED), the audio service detects the status change, reinitializes
+the device, starts processing the recording file, and either resumes recording or
+notifies the user.
 
+Thanks,
+Ai Chao
