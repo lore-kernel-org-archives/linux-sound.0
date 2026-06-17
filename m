@@ -1,63 +1,63 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C4643E9D1
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 10:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2548B42188B
+	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 10:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781692522; cv=none; b=SJEXJYeRzGLm3LvmzQ+/Qv6FyY786f0CLq4Grl+El2FcBM2oLmtfwrmvkStIt1rG+RlCCj8FNf1oCCzrRObClDKwcnF+vtOolAk/URw0jPIcYmGvfQiLQq5IPn1UlcwdZeLMSLBNmwNz48V2mEYh+Ty3630fWpdRobHWyamDmfA=
+	t=1781692533; cv=none; b=JzA/9RmAkM5CWqy45XQ96ubM2/p+exKJvaw2mAYtzj++FaexvC6uZlfW72jS/v2mevI4aeH57zIZ2E/XeXVlEYTD8NVoBiNfXsmWjn35I1OUmmJzHRvjK/PE8tV8UYfn+icvP71Zk+6Gs3QbHQoXg6zr4iIG/PbWGSRa8h+JbLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781692522; c=relaxed/simple;
-	bh=M1AXoaCuL8pjqNql9MYUGjojDAFzwdkOmfsJJ+5uCN0=;
+	s=arc-20240116; t=1781692533; c=relaxed/simple;
+	bh=ywyecjY5IPnCpFu8t60JAxjAocTPdOv2KzNz4XTlQY8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FtMe3J1lqz6rHEW8c1nlppkLK9NOac+OtBjIhCYN2DI7ebfVBPXL2N26vUBjIOgSKTr7RJ4frjoJ2W0fNz/6ASk3YT8w4mjwaBblWF0AFvSy9YN5MT9GDn9j4Ui8PQ4RSkqLRokBHQj6pHqWt8lPFV4TYXCGOTzDCzCJDXuoILk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PsFZ2eq+; arc=none smtp.client-ip=74.125.82.170
+	 MIME-Version; b=iwT7y98Fcx8/7++drPwcqBP0QmI3fM8ZFjz9t4ySM0BRtjL+kQOu9JY2sfvR2dNRpyFblmJK1U3NgEuoMJ/lfpg0QKM/jJT7Ekm6HTdQ8q+68QfHJe/Ip+e1vH8ZIUUESKSSo8XbLKofslecrD/gHu5TWF+/akPn3nRmpOzN3v0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VrtZfzhP; arc=none smtp.client-ip=74.125.82.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PsFZ2eq+"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-30b6dad2382so6290873eec.0
-        for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 03:35:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VrtZfzhP"
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-30b6dad2382so6291164eec.0
+        for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 03:35:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781692520; x=1782297320; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781692529; x=1782297329; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZtDDrpvFiW9v2e0+BVdUVB419JMabOyntlf8qyBQjjg=;
-        b=PsFZ2eq+3pXEoGjElsnP6fBOATbPSIbSrK3hQrQ/7q5OrAqKhDbobuvnVCIyk+IZI9
-         QmlFw+qEHCHiarbA+J7uHDc6LWeKcdwgqKZamx82o9zs153KKSoj6x34Yo+R/6nUD7kf
-         FWbzXxUfCKuuz12c44obpXYZVtB5F5cOX1DLL2F4cB/jEcGkd34oA7ysGt/8jvFHTQMX
-         WO6wGtoL/R54hk6J7j+2UV12QOKlqjfwrMfSY24zhQwtAHQQiljKsbvGxPXGahV2JiXO
-         KTkcZkUKSVz6vjCskAqEOTkAe96ffN3rZeXl/4iHJgTUhe+7vsc3bmAu2X/KzlW7cau+
-         hHyg==
+        bh=HgQKBXBVqugKEAIaw6gam4xuekLuGQC8Pf1ITJyu83w=;
+        b=VrtZfzhPS525+dBmjAIAnd2vduK0otJgA5Mz+6+zrksjLNfXIMsBff363tAZaMfrCj
+         LmDrVZsCxmhvU/M/Zb9fLAcl8HLrKW9cLiKtjCP6V3vTds2eLiIyj33r7JtAdOQ+pwnn
+         pxuDGclgR1d4Rh67+dKWRUbyLiFsJCkOjb/mGo/PIcYojg3aX9ErEKjtH6gXs15kvyF1
+         fSjSoLUfIjaOzKuyDbmBUl7/kk4fuq/Y9s0A+XFw1/QvOmUdb1i4+4u9HhwBhbZxq66P
+         HZaX11HNZEdcjjlUhOHqXdLIEogc7xD74lYmK6FcEsmlLlp38HJFPiyW3eB9kk/0kRJh
+         eVxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781692520; x=1782297320;
+        d=1e100.net; s=20251104; t=1781692529; x=1782297329;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ZtDDrpvFiW9v2e0+BVdUVB419JMabOyntlf8qyBQjjg=;
-        b=ceNmtPcNIkKHFgpTMdbMieJkiwXkrVAGBqQe9CftcDW/RGmUFzh7RGGMWrAfB1Mssa
-         km5h8Vx4qWtvERpJgHXyVdie24yh5IX6Q5aZ5h2SB2G5SdtczvAhiT+5m2kOnA+g3JWT
-         Kwe2GnCvVBq4L+jL7QEuStf03mHk+JBzAOQnO+kmpLVTu0K6wTJ6RfdhaBGVxIG1yJS/
-         VuehwFgf4j1O6mZnooMUKB5r2GQhbCQpriQ1R3IcbzbR/3Y0uOMTY8q0zFKtxhhodCS3
-         v193r68/OYa3NxKKAQPiFiAtHgN0876dgD7Yi2nnAA2pHOx1ZF7p8mN7VHf2mQAUgTe7
-         EX0Q==
-X-Forwarded-Encrypted: i=1; AFNElJ9UA42kWNnq8i+riFSyxFXKADY6UePHdC2P1uoOxRThEDq5PZbzRBvagKVPnna5li9etwHhkXF6WBsfOA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywp+kwA313i01if3F7pgAleLeKjGZal2kY5kHH42V8ShkVclmWX
-	2dGe+FmSPXo1eijampv/q7iOkjl02NdP+lL245xH/baZq9d0E8isjNA1
-X-Gm-Gg: AfdE7cny6BdEKyTln/1BGL/4EVWEayTuCDyKhH39iKTv3Ald+i8WGu2ZlJ9YxFV6v5E
-	NePtVJdNrkgoEvKeFNLddrc0rCbyCKfxVUhumliHUAaWAjdNKygESl5mvBgBumBcinavWdmWAJu
-	Ef9qU50SJpeGoc/7thOmmhn7BpJP4K7+J1pnDHFnV6GMv7UujDiNu91xrDMjgpCaeojAMR3g+7K
-	tQgPgrqWdisFZ15yladVWdHUaYgT8crYnf9VAWTUAY7unrtlBqEcPojG6r/fZvz42/dPwZR1ebZ
-	IpR7ieZonYZjQpGjb3A97onoJkJBlAicXZbsArqPOVc6ivUVC3pMenigv8jkWuDK7YtNisc6gbW
-	FmwLmDdFqI/v6AjX2o5fmEDZhL/v5lro4ibYITiVi3BaKRTRB2/mTLo6cKe4XLqPtRaGLuTgWrF
-	mTtz6KoFWseTHy4pQulPsDHqNovJ0FrqJIS9pUqBc7gEOMzfI=
-X-Received: by 2002:a05:693c:639b:20b0:30b:e4a3:44d2 with SMTP id 5a478bee46e88-30be4a363f6mr103693eec.8.1781692519548;
-        Wed, 17 Jun 2026 03:35:19 -0700 (PDT)
+        bh=HgQKBXBVqugKEAIaw6gam4xuekLuGQC8Pf1ITJyu83w=;
+        b=euCyXZUr//3svyxBWpP0zO/URh7QtkEjFjRtFzNO+nrfs+LoQW5vzPz1ekNr/Bw7r4
+         T6CaFMgArw0yjAyTY1mu4O2bWhxam0zS77e41wQ5bdJI6iRSonQ3g5U97BC3Zaismng9
+         KqxNE/UMjbDRM7fRaFXrr9++cWUMItwqTLiTf9D9As3G4nY5g5ePxejBNoRTrvPl6VF8
+         384V1GNOWyiyxKWwrU2vRvICRLoai9eSRLwR76c/fv0Zu/C2K0LL6lPUOgyQs/lRihpo
+         hlKDAKTh+kSf5eoJdFSmYFYFte+aCE7QOswPWZ31hs9iTdN7smZ8V2mGpJjmMMgJlErP
+         gTOw==
+X-Forwarded-Encrypted: i=1; AFNElJ+IlOEw7Xp30HJ/g5r4szk/ag07ti0O7eol7/e+KemNUrltJC3EooD3CiSQRcJ+p5L+NScW/Z2eCtHgfQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvlOKcXZJQ749taYfzwV0RJhIvw3Bk0sMsQ9Sc9xx+sKVVtkMG
+	35bO4NUx01MELhtZvJ8FqkY2/RBB6eOPADOopY1ASvxrAy3wnPsYsqju
+X-Gm-Gg: AfdE7ck7fqeSJEVhOhUaQ+joUkCnGGSY5ouWhts6C92CCAT+9bPKCIbkVAHLSAgJN3M
+	vijmtxuvBQiZn+/510imrcN1CO0rmuDOkECUKxFa+waaULCtpnEQzslzmfx6NCwr4erQv73/Qiu
+	7jFuXOQ+ekxjSJQDkU4um+LKaG+TKkIvezh3f3cvCvZ3Q1B5kwNH8b+idIwDM4dTC+qZAuwNvmS
+	K0xT6GSBTAvXDDWPkJVSGui2LGZHNc6We/An96r3UEx2dvfVpVlKEL4TUKUxMRzR73FCNphSM8q
+	nXB5aEcRbfsUkAw019n798cDLlBQ8LPZJCd8SEZCRxoW51cFkc3AZ7YnpmX319Z5wnqIE1QWAeq
+	8KaAxLe8UHtufqgHzC4cTnVL4PKIJx1oLx974W4Y97nvvb5ZY2RHI38i/QZ2IFCBvlleD/e24xu
+	Qcz+BxEkUGOO6okcbqHQa01ghixxcl+tUwyx4+KJcGQqTDEo0=
+X-Received: by 2002:a05:7300:6dac:b0:307:91f5:92e2 with SMTP id 5a478bee46e88-30bca90bafbmr1658562eec.4.1781692528915;
+        Wed, 17 Jun 2026 03:35:28 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.35.11
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.35.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 03:35:19 -0700 (PDT)
+        Wed, 17 Jun 2026 03:35:28 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 15/78] ASoC: codecs: cs42l43: Use guard() for mutex locks
-Date: Wed, 17 Jun 2026 17:31:32 +0700
-Message-ID: <20260617103235.449609-16-phucduc.bui@gmail.com>
+Subject: [PATCH 16/78] ASoC: codecs: cs42l84: Use guard() for mutex locks
+Date: Wed, 17 Jun 2026 17:31:33 +0700
+Message-ID: <20260617103235.449609-17-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260617103235.449609-1-phucduc.bui@gmail.com>
 References: <20260617103235.449609-1-phucduc.bui@gmail.com>
@@ -115,171 +115,52 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/cs42l43-jack.c | 57 +++++++++++++--------------------
- sound/soc/codecs/cs42l43.c      | 16 +++------
- 2 files changed, 27 insertions(+), 46 deletions(-)
+ sound/soc/codecs/cs42l84.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/codecs/cs42l43-jack.c b/sound/soc/codecs/cs42l43-jack.c
-index 934666295ee3..d6c0f5139792 100644
---- a/sound/soc/codecs/cs42l43-jack.c
-+++ b/sound/soc/codecs/cs42l43-jack.c
-@@ -445,20 +445,18 @@ irqreturn_t cs42l43_button_release(int irq, void *data)
- 		return iret;
- 	}
+diff --git a/sound/soc/codecs/cs42l84.c b/sound/soc/codecs/cs42l84.c
+index f2a58163de0e..a212f6891b40 100644
+--- a/sound/soc/codecs/cs42l84.c
++++ b/sound/soc/codecs/cs42l84.c
+@@ -281,10 +281,9 @@ static int cs42l84_set_jack(struct snd_soc_component *component, struct snd_soc_
+ 	struct cs42l84_private *cs42l84 = snd_soc_component_get_drvdata(component);
  
--	mutex_lock(&priv->jack_lock);
--
--	if (priv->button_detect_running) {
--		dev_dbg(priv->dev, "Button release IRQ\n");
-+	scoped_guard(mutex, &priv->jack_lock) {
-+		if (priv->button_detect_running) {
-+			dev_dbg(priv->dev, "Button release IRQ\n");
- 
--		snd_soc_jack_report(priv->jack_hp, 0, CS42L43_JACK_BUTTONS);
-+			snd_soc_jack_report(priv->jack_hp, 0, CS42L43_JACK_BUTTONS);
- 
--		iret = IRQ_HANDLED;
--	} else {
--		dev_dbg(priv->dev, "Spurious button release IRQ\n");
-+			iret = IRQ_HANDLED;
-+		} else {
-+			dev_dbg(priv->dev, "Spurious button release IRQ\n");
-+		}
- 	}
- 
--	mutex_unlock(&priv->jack_lock);
--
- 	pm_runtime_put_autosuspend(priv->dev);
- 
- 	return iret;
-@@ -477,22 +475,20 @@ void cs42l43_bias_sense_timeout(struct work_struct *work)
- 		return;
- 	}
- 
--	mutex_lock(&priv->jack_lock);
--
--	if (cs42l43_jack_present(priv) && priv->button_detect_running) {
--		dev_dbg(priv->dev, "Bias sense timeout out, restore bias\n");
-+	scoped_guard(mutex, &priv->jack_lock) {
-+		if (cs42l43_jack_present(priv) && priv->button_detect_running) {
-+			dev_dbg(priv->dev, "Bias sense timeout out, restore bias\n");
- 
--		regmap_update_bits(cs42l43->regmap,
--				   CS42L43_HS_BIAS_SENSE_AND_CLAMP_AUTOCONTROL,
--				   CS42L43_AUTO_HSBIAS_CLAMP_EN_MASK, 0);
--		regmap_update_bits(cs42l43->regmap,
--				   CS42L43_HS_BIAS_SENSE_AND_CLAMP_AUTOCONTROL,
--				   CS42L43_AUTO_HSBIAS_CLAMP_EN_MASK,
--				   CS42L43_AUTO_HSBIAS_CLAMP_EN_MASK);
-+			regmap_update_bits(cs42l43->regmap,
-+					   CS42L43_HS_BIAS_SENSE_AND_CLAMP_AUTOCONTROL,
-+					   CS42L43_AUTO_HSBIAS_CLAMP_EN_MASK, 0);
-+			regmap_update_bits(cs42l43->regmap,
-+					   CS42L43_HS_BIAS_SENSE_AND_CLAMP_AUTOCONTROL,
-+					   CS42L43_AUTO_HSBIAS_CLAMP_EN_MASK,
-+					   CS42L43_AUTO_HSBIAS_CLAMP_EN_MASK);
-+		}
- 	}
- 
--	mutex_unlock(&priv->jack_lock);
--
- 	pm_runtime_put_autosuspend(priv->dev);
- }
- 
-@@ -895,9 +891,8 @@ int cs42l43_jack_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *u
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct cs42l43_codec *priv = snd_soc_component_get_drvdata(component);
- 
--	mutex_lock(&priv->jack_lock);
-+	guard(mutex)(&priv->jack_lock);
- 	ucontrol->value.integer.value[0] = priv->jack_override;
--	mutex_unlock(&priv->jack_lock);
+ 	/* Prevent race with interrupt handler */
+-	mutex_lock(&cs42l84->irq_lock);
++	guard(mutex)(&cs42l84->irq_lock);
+ 	cs42l84->jack = jk;
+ 	snd_soc_jack_report(jk, cs42l84->hs_type, SND_JACK_HEADSET);
+-	mutex_unlock(&cs42l84->irq_lock);
  
  	return 0;
  }
-@@ -913,17 +908,13 @@ int cs42l43_jack_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *u
- 	if (override >= e->items)
- 		return -EINVAL;
+@@ -831,7 +830,7 @@ static irqreturn_t cs42l84_irq_thread(int irq, void *data)
+ 	u8 current_ring_state;
+ 	int i;
  
--	mutex_lock(&priv->jack_lock);
-+	guard(mutex)(&priv->jack_lock);
+-	mutex_lock(&cs42l84->irq_lock);
++	guard(mutex)(&cs42l84->irq_lock);
+ 	/* Read sticky registers to clear interrupt */
+ 	for (i = 0; i < ARRAY_SIZE(stickies); i++) {
+ 		regmap_read(cs42l84->regmap, irq_params_table[i].status_addr,
+@@ -902,8 +901,6 @@ static irqreturn_t cs42l84_irq_thread(int irq, void *data)
+ 				break;
+ 			}
  
--	if (!cs42l43_jack_present(priv)) {
--		mutex_unlock(&priv->jack_lock);
-+	if (!cs42l43_jack_present(priv))
- 		return -EBUSY;
--	}
+-			mutex_unlock(&cs42l84->irq_lock);
+-
+ 			return IRQ_HANDLED;
+ 		}
  
--	if (override == priv->jack_override) {
--		mutex_unlock(&priv->jack_lock);
-+	if (override == priv->jack_override)
- 		return 0;
--	}
- 
- 	priv->jack_override = override;
- 
-@@ -983,7 +974,5 @@ int cs42l43_jack_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *u
- 				    cs42l43_jack_override_modes[override].report);
+@@ -919,8 +916,6 @@ static irqreturn_t cs42l84_irq_thread(int irq, void *data)
+ 		}
  	}
  
--	mutex_unlock(&priv->jack_lock);
+-	mutex_unlock(&cs42l84->irq_lock);
 -
- 	return 1;
- }
-diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
-index f0d6ff0b2976..72c5c0340c48 100644
---- a/sound/soc/codecs/cs42l43.c
-+++ b/sound/soc/codecs/cs42l43.c
-@@ -1208,14 +1208,12 @@ static void cs42l43_spk_vu_sync(struct cs42l43_codec *priv)
- {
- 	struct cs42l43 *cs42l43 = priv->core;
- 
--	mutex_lock(&priv->spk_vu_lock);
-+	guard(mutex)(&priv->spk_vu_lock);
- 
- 	regmap_update_bits(cs42l43->regmap, CS42L43_INTP_VOLUME_CTRL1,
- 			   CS42L43_AMP1_2_VU_MASK, CS42L43_AMP1_2_VU_MASK);
- 	regmap_update_bits(cs42l43->regmap, CS42L43_INTP_VOLUME_CTRL1,
- 			   CS42L43_AMP1_2_VU_MASK, 0);
--
--	mutex_unlock(&priv->spk_vu_lock);
+ 	return IRQ_HANDLED;
  }
  
- static int cs42l43_shutter_get(struct cs42l43_codec *priv, unsigned int shift)
-@@ -1602,7 +1600,7 @@ static int cs42l43_pll_ev(struct snd_soc_dapm_widget *w,
- 	struct cs42l43 *cs42l43 = priv->core;
- 	int ret;
- 
--	mutex_lock(&cs42l43->pll_lock);
-+	guard(mutex)(&cs42l43->pll_lock);
- 
- 	switch (event) {
- 	case SND_SOC_DAPM_PRE_PMU:
-@@ -1627,8 +1625,6 @@ static int cs42l43_pll_ev(struct snd_soc_dapm_widget *w,
- 		break;
- 	}
- 
--	mutex_unlock(&cs42l43->pll_lock);
--
- 	return ret;
- }
- 
-@@ -2566,13 +2562,9 @@ static int cs42l43_set_sysclk(struct snd_soc_component *component, int clk_id,
- {
- 	struct cs42l43_codec *priv = snd_soc_component_get_drvdata(component);
- 	struct cs42l43 *cs42l43 = priv->core;
--	int ret;
- 
--	mutex_lock(&cs42l43->pll_lock);
--	ret = cs42l43_set_pll(priv, src, freq);
--	mutex_unlock(&cs42l43->pll_lock);
--
--	return ret;
-+	guard(mutex)(&cs42l43->pll_lock);
-+	return cs42l43_set_pll(priv, src, freq);
- }
- 
- static int cs42l43_component_probe(struct snd_soc_component *component)
 -- 
 2.43.0
 
