@@ -1,232 +1,235 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF97F3F4DF8
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 13:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4392F7F06
+	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 14:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781704701; cv=none; b=FXn/UqzkLZ6MjlBlqWTJMVBPT3xtUlv9UaVqmi3OFH4gaMISlavmRAYsoFlmDpdlISMrGdO3Kk5m+LG2FJXyG0Dcv7sZEQ30l9yEtr1roBTTo5xb+W30+nLVkOlU4WfqmZ12Ed3cX8qQO0ltkwljU18Gslx/GsqSZ8j96+cjgN4=
+	t=1781705451; cv=none; b=bZcGZCH3XXiO6UiF4ZGFszuDhwsLAsDKrx88B1A4AQBvUIZi5/d8HlpY3H9VxS1mu2YDUSbVrdD+unxoAs1mt+rLLDRiBTCKWj9oyp/+tXE03ommtrDZzCRdrWgDZAdJFnqO+V+QcKNtiVbP/A0+MQNUneR3Jk8IXophzMCUY98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781704701; c=relaxed/simple;
-	bh=hdVVoP84YQPCS4Al45zNH5okQRSdWuww/jZO2WyR/Rk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jdPT0BU5dM063qUCzFQ4boepavNaWmsxOsvC0X8CDAnLSVQXrX89cuOIt9EB6Hg7x/1dtR8jBfuls0jJIZKGTdIohMP9HNc3xvSEE2TGJKPqszLANaUVKMOnqYVw58VC5naFlM0W7sumXmTtTL+yR+Iqv5eZrMrpeAwBiaJ3mAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=a77dKfQJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=V5USZuQl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SJrDubuD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Y+75sAq2; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781705451; c=relaxed/simple;
+	bh=/cOdNw4eHe8hTYxNQrqeEq+7Oeowg6ZIAicBHSyrAF4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=OFrXkKOAejAhssjbGik7N+NpQeIO6X8sDdfT4eTqWa7L8S4wxEAtwYW+cZgYDZdMld8ofqJeljD9JTcwK+9r4CMb4EVkB24idhaxfqWKlFoYidf2l6GAhX3fHZyHdeXZbOjNiisWKROHd9DPtW35Gs9FsimhVirFs7OwXRJLew0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=PmnfSjkI; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a77dKfQJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="V5USZuQl";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SJrDubuD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y+75sAq2"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id EBDC975AE0;
-	Wed, 17 Jun 2026 13:58:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781704698; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1nwGCAZVqnLtndpsO/C4x2lQeeYK6cgLyJwkLfI/1VI=;
-	b=a77dKfQJFuwsSlyDdgySozHn7ZBGA8LJRpFvg7rZ3UIqByrl8zKqfYXWzT1ki/+rRt0Vtg
-	1txpM1ZrDMEuaMU2J0j7o/chP4GGBY9OPAVhD7oH/XBbxZIc5Ob1TKQZY/P1MEb+C0cHov
-	twVf/oqtaFzbUtXI4cPn0EpvfF2PutY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781704698;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1nwGCAZVqnLtndpsO/C4x2lQeeYK6cgLyJwkLfI/1VI=;
-	b=V5USZuQlxfYnGGfK/dpPnVQZJo7e2SgZirR2j2++Z3Ub5hln4Cs61V2gDVlZ9B7Pmn7D5G
-	V3DfCMSbuDdI1/Ag==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781704697; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1nwGCAZVqnLtndpsO/C4x2lQeeYK6cgLyJwkLfI/1VI=;
-	b=SJrDubuD68nbOiWN1d/nbuh016fT9bJHjFJtn84aHaWJAwrFPyKBtnX7x31vvkBykyOZiI
-	5SG8s9nQxuHE6lks3wFdFC7NSYCp05rF0aNDUujt8Xvv2y6Y41PZp5SeqIZYwpyla8xXDg
-	d0K6oSM3C82AUeHoRDJyxtBRua7aoDI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781704697;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1nwGCAZVqnLtndpsO/C4x2lQeeYK6cgLyJwkLfI/1VI=;
-	b=Y+75sAq2tJip6ig+L0xdmT+SKLI/0mKJUS/y5qiT7Kl+n4biY3e8oBI8XZsrbZB7ONVUCk
-	TMVtGn5tjlfatOBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BCE8E779A8;
-	Wed, 17 Jun 2026 13:58:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id z3FsLPmnMmrnfwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 17 Jun 2026 13:58:17 +0000
-Date: Wed, 17 Jun 2026 15:58:17 +0200
-Message-ID: <878q8dp8ue.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Maoyi Xie <maoyixie.tju@gmail.com>
-Cc: Daniel Mack <zonque@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: ALSA: caiaq: possible out of bounds read in Traktor Kontrol S4 dispatch
-In-Reply-To: <87eci5pc6x.wl-tiwai@suse.de>
-References: <178169970022.2950989.3295624331262791202@maoyixie.com>
-	<87eci5pc6x.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="PmnfSjkI"
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260617141046euoutp01cc3a54df04e949d8010654d91ee1c877~546nnrl1A3027730277euoutp01B
+	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 14:10:46 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260617141046euoutp01cc3a54df04e949d8010654d91ee1c877~546nnrl1A3027730277euoutp01B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1781705446;
+	bh=FEhFpQov56YDvvLyOY6YCOwk7YKS2ggS9Wv7b/nZaqE=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=PmnfSjkIQb3Wo2TVbJS7+tulPouOP6Eh/oqWIrbRgdtkuOlvLGoXlLaDQdV8ZxPff
+	 OKu64pJrl3VRoN4X6j4IS0YPPrSE+DRgdFWod3p7cYPx9wYapn2HQlssCS6P2TrBQZ
+	 0zErQ9QVUQ3S3zvA4EXcN5cEpP0kY9nWtw1ww3TQ=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20260617141046eucas1p2e85629d57bfc17449b135b16f9230d57~546nYkL4f2913829138eucas1p2j;
+	Wed, 17 Jun 2026 14:10:46 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20260617141045eusmtip240cc92e101531af7555730beac375b86~546m9QbwB1007910079eusmtip2A;
+	Wed, 17 Jun 2026 14:10:45 +0000 (GMT)
+Message-ID: <4c9156cb-6508-4fda-8e36-7edc4eb7d6f9@samsung.com>
+Date: Wed, 17 Jun 2026 16:10:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-1.79 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.19)[-0.972];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,perex.cz,suse.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Level: 
-X-Spam-Score: -1.79
+MIME-Version: 1.0
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH v2] ASoC: soc-core: Create device_link to ensure correct
+ suspend order
+To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com, Maxime Ripard <mripard@kernel.org>, Dave
+	Stevenson <dave.stevenson@raspberrypi.com>, linux-rpi-kernel
+	<linux-rpi-kernel@lists.infradead.org>, Florian Fainelli
+	<florian.fainelli@broadcom.com>
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20260611110856.1088110-1-rf@opensource.cirrus.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260617141046eucas1p2e85629d57bfc17449b135b16f9230d57
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260617141046eucas1p2e85629d57bfc17449b135b16f9230d57
+X-EPHeader: CA
+X-CMS-RootMailID: 20260617141046eucas1p2e85629d57bfc17449b135b16f9230d57
+References: <20260611110856.1088110-1-rf@opensource.cirrus.com>
+	<CGME20260617141046eucas1p2e85629d57bfc17449b135b16f9230d57@eucas1p2.samsung.com>
 
-On Wed, 17 Jun 2026 14:45:58 +0200,
-Takashi Iwai wrote:
-> 
-> On Wed, 17 Jun 2026 14:35:00 +0200,
-> Maoyi Xie wrote:
-> > 
-> > Hi all,
-> > 
-> > I think the Traktor Kontrol S4 input path in sound/usb/caiaq/input.c can read
-> > past the end of the URB buffer when the device sends a reply whose length is
-> > not a multiple of 16. I would appreciate it if you could take a look.
-> > 
-> > The dispatch loop walks the reply in fixed 16 byte blocks.
-> > 
-> > 	while (len) {
-> > 		unsigned int i, block_id = (buf[0] << 8) | buf[1];
-> > 		...
-> > 		len -= TKS4_MSGBLOCK_SIZE;
-> > 		buf += TKS4_MSGBLOCK_SIZE;
-> > 	}
-> > 
-> > Each pass reads up to buf[15] and then does len -= 16. But len is the raw
-> > device length. It comes straight from urb->actual_length in
-> > snd_usb_caiaq_ep4_reply_dispatch and there is no check that it is a multiple
-> > of 16. The X1 and Maschine arms in that same handler do bound check the
-> > length, but the S4 arm does not.
-> > 
-> > If len is not a multiple of 16, say 8, the final len -= 16 underflows because
-> > len is unsigned. The loop condition while (len) then stays true and the walk
-> > keeps consuming 16 byte blocks far past the end of the buffer. That is an out
-> > of bounds read. The buffer is cdev->ep4_in_buf of size EP4_BUFSIZE.
-> > 
-> > The attacker model is a malicious or emulated USB device that claims the
-> > Native Instruments Traktor Kontrol S4 id and returns a short reply on its bulk
-> > in endpoint once the input device is opened.
-> > 
-> > I reproduced this under KASAN on 7.1-rc7. A length of one whole block runs the
-> > loop once and reads nothing past the buffer. A length of 8 underflows and
-> > KASAN reports a slab out of bounds read just past the allocation.
-> > 
-> > The fix I tried is to only consume a block when a whole block is present.
-> > 
-> > 	-	while (len) {
-> > 	+	while (len >= TKS4_MSGBLOCK_SIZE) {
-> > 
-> > That stops the decrement from underflowing and drops any trailing partial
-> > block.
-> > 
-> > Does this look like a real bug to you? If the direction is right I am happy to
-> > send a proper patch with a Fixes tag pointing at 15c5ab607045 ("ALSA:
-> > snd-usb-caiaq: Add support for Traktor Kontrol S4").
-> 
-> Yes, feel free to submit the patch.
-> 
-> BTW, it seems that there are lots of other places missing the length
-> check, and we'd need to paper over them, too:
-> snd_caiaq_input_read_analog(), snd_caiaq_input_read_erp(),
-> snd_caiaq_input_read_io(), and snd_usb_caiaq_maschine_dispatch().
+Dear All,
 
-Actually for snd_caiaq_input_read_analog() and
-snd_usb_caiaq_maschine_dispatch(), the callers have already the length
-checks, so they are OK.  But snd_caiaq_input_read_erp() and
-snd_caiaq_input_read_io() may be called via
-snd_usb_caiaq_input_dispatch(), and they need the length check,
-something like below (totally untested).
+On 11.06.2026 13:08, Richard Fitzgerald wrote:
+> In snd_soc_bind_card() create a device_link from card to all components
+> to ensure correct order of system_suspend. The card is the consumer and
+> the components are the supplier, so that the card will system_suspend
+> before any of the components.
+>
+> The PM core will normally system_suspend drivers in the opposite order
+> that they registered. This ensures children are suspended before their
+> parents, for example users of a bus driver should suspend before the bus
+> driver suspends.
+>
+> For ASoC, snd_soc_suspend() shuts down any active audio, which requires
+> that the components are still able to communicate with their hardware.
+> Previously there was nothing to ensure this ordering, because there is
+> (usually) no relationship between a machine driver and component drivers.
+> If the machine driver registered before the codec drivers, the codec
+> drivers would be suspended before the machine driver snd_soc_suspend()
+> runs, so that ASoC is attempting to stop audio on a driver that has
+> already suspended.
+>
+> Creating a device_link is safe if there is already a device_link between
+> those devices because of multiple components sharing the same dev.
+> device_link_add() kernel doc says:
+>
+>  "if a device link between the given @consumer and @supplier pair
+>   exists already when this function is called for them, the existing link
+>   will be returned regardless of its current type and status ...
+>   The caller of this function is then expected to treat
+>   the link as though it has just been created, so (in particular) if
+>   DL_FLAG_STATELESS was passed in @flags, the link needs to be released
+>   explicitly when not needed any more"
+>
+> For the same reason it is safe if the codec driver or machine driver
+> later call device_link_add() to create a link between the same two
+> devices.
+>
+> (I have tested creating multiple links between the card->dev and a
+> component->dev and did not encounter any problems with suspend/resume or
+> module unloading.)
+>
+> The DL_FLAG_AUTOREMOVE_* flags assume that they are being called from
+> the probe() function of that device. This isn't guaranteed in ASoC card
+> binding because of deferred binding. The exact behavior and consequences
+> of the DL_FLAG_AUTOREMOVE_* are also unclear from the documentation.
+> So DL_FLAG_STATELESS is used for safety, and the links are removed
+> explicitly when the card unbinds or if the bind fails.
+>
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> ---
 
 
-Takashi
+This patch landed recently in linux-next as commit 0f54ce994b23 ("ASoC:
+soc-core: Create device_link to ensure correct suspend order"). In my
+tests I found that it breaks probing of VC4 DRM subsystem on Raspberry Pi
+3 and 4 boards due to an issue with hdmi-audio-codec:
 
--- 8< --
---- a/sound/usb/caiaq/input.c
-+++ b/sound/usb/caiaq/input.c
-@@ -237,12 +237,16 @@ static void snd_caiaq_input_read_erp(struct snd_usb_caiaqdev *cdev,
- 
- 	switch (cdev->chip.usb_id) {
- 	case USB_ID(USB_VID_NATIVEINSTRUMENTS, USB_PID_AK1):
-+		if (len < 2)
-+			return;
- 		i = decode_erp(buf[0], buf[1]);
- 		input_report_abs(input_dev, ABS_X, i);
- 		input_sync(input_dev);
- 		break;
- 	case USB_ID(USB_VID_NATIVEINSTRUMENTS, USB_PID_KORECONTROLLER):
- 	case USB_ID(USB_VID_NATIVEINSTRUMENTS, USB_PID_KORECONTROLLER2):
-+		if (len < 16)
-+			return;
- 		i = decode_erp(buf[7], buf[5]);
- 		input_report_abs(input_dev, ABS_HAT0X, i);
- 		i = decode_erp(buf[12], buf[14]);
-@@ -263,6 +267,8 @@ static void snd_caiaq_input_read_erp(struct snd_usb_caiaqdev *cdev,
- 		break;
- 
- 	case USB_ID(USB_VID_NATIVEINSTRUMENTS, USB_PID_MASCHINECONTROLLER):
-+		if (len < 22)
-+			return;
- 		/* 4 under the left screen */
- 		input_report_abs(input_dev, ABS_HAT0X, decode_erp(buf[21], buf[20]));
- 		input_report_abs(input_dev, ABS_HAT0Y, decode_erp(buf[15], buf[14]));
-@@ -308,9 +314,13 @@ static void snd_caiaq_input_read_io(struct snd_usb_caiaqdev *cdev,
- 	switch (cdev->chip.usb_id) {
- 	case USB_ID(USB_VID_NATIVEINSTRUMENTS, USB_PID_KORECONTROLLER):
- 	case USB_ID(USB_VID_NATIVEINSTRUMENTS, USB_PID_KORECONTROLLER2):
-+		if (len < 5)
-+			return;
- 		input_report_abs(cdev->input_dev, ABS_MISC, 255 - buf[4]);
- 		break;
- 	case USB_ID(USB_VID_NATIVEINSTRUMENTS, USB_PID_TRAKTORKONTROLX1):
-+		if (len < 7)
-+			return;
- 		/* rotary encoders */
- 		input_report_abs(cdev->input_dev, ABS_X, buf[5] & 0xf);
- 		input_report_abs(cdev->input_dev, ABS_Y, buf[5] >> 4);
+# dmesg | grep vc4
+vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+vc4_hdmi fef00700.hdmi: Failed to create device link to hdmi-audio-codec.1.auto
+vc4_hdmi fef00700.hdmi: error -EINVAL: Could not register sound card
+vc4-drm gpu: failed to bind fef00700.hdmi (ops vc4_hdmi_ops [vc4]): -22
+vc4-drm gpu: adev bind failed: -22
+vc4-drm gpu: probe with driver vc4-drm failed with error -22
+
+
+> for-next
+>
+> Changes in V2:
+> - Use DL_FLAG_STATELESS to avoid unclear/unstated behavior of the
+>   DL_FLAG_AUTOREMOVE_* flags.
+>
+> - Skip creating a device link for a component that is the same device
+>   as the card.
+>
+>  sound/soc/soc-core.c | 46 +++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 45 insertions(+), 1 deletion(-)
+>
+> diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+> index b8c9ddfc4490..ac9b2269c26e 100644
+> --- a/sound/soc/soc-core.c
+> +++ b/sound/soc/soc-core.c
+> @@ -2138,10 +2138,29 @@ static void soc_cleanup_card_resources(struct snd_soc_card *card)
+>  	}
+>  }
+>  
+> +static void snd_soc_remove_device_links(struct snd_soc_card *card,
+> +					struct snd_soc_component *stop_at)
+> +{
+> +	struct snd_soc_component *component;
+> +
+> +	for_each_card_components(card, component) {
+> +		if (card->dev == component->dev)
+> +			continue;
+> +
+> +		device_link_remove(card->dev, component->dev);
+> +
+> +		if (component == stop_at)
+> +			return;
+> +	}
+> +}
+> +
+>  static void snd_soc_unbind_card(struct snd_soc_card *card)
+>  {
+>  	if (snd_soc_card_is_instantiated(card)) {
+>  		card->instantiated = false;
+> +
+> +		snd_soc_remove_device_links(card, NULL);
+> +
+>  		soc_cleanup_card_resources(card);
+>  	}
+>  }
+> @@ -2151,6 +2170,7 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
+>  	struct snd_soc_pcm_runtime *rtd;
+>  	struct snd_soc_component *component;
+>  	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
+> +	struct snd_soc_component *last_devlinked_component = NULL;
+>  	int ret;
+>  
+>  	snd_soc_card_mutex_lock_root(card);
+> @@ -2275,6 +2295,25 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
+>  		}
+>  	}
+>  
+> +	/*
+> +	 * Add device_link from card to component so that system_suspend
+> +	 * will be done in the correct order. The card must suspend first
+> +	 * to stop audio activity before the components suspend.
+> +	 */
+> +	for_each_card_components(card, component) {
+> +		if (card->dev == component->dev)
+> +			continue;
+> +
+> +		if (!device_link_add(card->dev, component->dev, DL_FLAG_STATELESS)) {
+> +			dev_warn(card->dev, "Failed to create device link to %s\n",
+> +				 dev_name(component->dev));
+> +			ret = -EINVAL;
+> +			goto probe_end;
+> +		}
+> +
+> +		last_devlinked_component = component;
+> +	}
+> +
+>  	ret = snd_soc_card_late_probe(card);
+>  	if (ret < 0)
+>  		goto probe_end;
+> @@ -2303,8 +2342,13 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
+>  			pinctrl_pm_select_sleep_state(component->dev);
+>  
+>  probe_end:
+> -	if (ret < 0)
+> +	if (ret < 0) {
+> +		if (last_devlinked_component)
+> +			snd_soc_remove_device_links(card, last_devlinked_component);
+> +
+>  		soc_cleanup_card_resources(card);
+> +	}
+> +
+>  	if (ret == -EPROBE_DEFER) {
+>  		list_add(&card->list, &unbind_card_list);
+>  		ret = 0;
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
