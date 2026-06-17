@@ -1,235 +1,164 @@
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4392F7F06
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 14:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91096175A8F;
+	Wed, 17 Jun 2026 14:53:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781705451; cv=none; b=bZcGZCH3XXiO6UiF4ZGFszuDhwsLAsDKrx88B1A4AQBvUIZi5/d8HlpY3H9VxS1mu2YDUSbVrdD+unxoAs1mt+rLLDRiBTCKWj9oyp/+tXE03ommtrDZzCRdrWgDZAdJFnqO+V+QcKNtiVbP/A0+MQNUneR3Jk8IXophzMCUY98=
+	t=1781708033; cv=none; b=WiAlFAp9E23F/JCBqL4k/WBcNrvO4DPk0YkChlRVnuvZAGJHzl4a8BNuEjPHAJuJGi4uxlIn4TMABnIjuiHv9PXmTM1FPkhalMy8Ov1PXvoEadYK7KTBl2cGWwRBsn52kBFZAXrDBa0vixiAQuVXbgy0LF349xi2m0U0wlGB7ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781705451; c=relaxed/simple;
-	bh=/cOdNw4eHe8hTYxNQrqeEq+7Oeowg6ZIAicBHSyrAF4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=OFrXkKOAejAhssjbGik7N+NpQeIO6X8sDdfT4eTqWa7L8S4wxEAtwYW+cZgYDZdMld8ofqJeljD9JTcwK+9r4CMb4EVkB24idhaxfqWKlFoYidf2l6GAhX3fHZyHdeXZbOjNiisWKROHd9DPtW35Gs9FsimhVirFs7OwXRJLew0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=PmnfSjkI; arc=none smtp.client-ip=210.118.77.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="PmnfSjkI"
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260617141046euoutp01cc3a54df04e949d8010654d91ee1c877~546nnrl1A3027730277euoutp01B
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 14:10:46 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260617141046euoutp01cc3a54df04e949d8010654d91ee1c877~546nnrl1A3027730277euoutp01B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1781705446;
-	bh=FEhFpQov56YDvvLyOY6YCOwk7YKS2ggS9Wv7b/nZaqE=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=PmnfSjkIQb3Wo2TVbJS7+tulPouOP6Eh/oqWIrbRgdtkuOlvLGoXlLaDQdV8ZxPff
-	 OKu64pJrl3VRoN4X6j4IS0YPPrSE+DRgdFWod3p7cYPx9wYapn2HQlssCS6P2TrBQZ
-	 0zErQ9QVUQ3S3zvA4EXcN5cEpP0kY9nWtw1ww3TQ=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20260617141046eucas1p2e85629d57bfc17449b135b16f9230d57~546nYkL4f2913829138eucas1p2j;
-	Wed, 17 Jun 2026 14:10:46 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20260617141045eusmtip240cc92e101531af7555730beac375b86~546m9QbwB1007910079eusmtip2A;
-	Wed, 17 Jun 2026 14:10:45 +0000 (GMT)
-Message-ID: <4c9156cb-6508-4fda-8e36-7edc4eb7d6f9@samsung.com>
-Date: Wed, 17 Jun 2026 16:10:44 +0200
+	s=arc-20240116; t=1781708033; c=relaxed/simple;
+	bh=/d9QxEIMmw0yDj0iH4sk6Tv+//78Yt4lhgfQUiX3Fh0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ldOgiKK+Fdf6/tOk7a36e1Pi730EeptHwYu5+/iyWDll8n4hpYEKZMcaZsi7TBCSvuHD95DwZR0BKiPxG6rzSey8xAG7bFjrba3whPQB8ZwXhSpxLFV1vRxEAwVrhYaWTBh90OS3rEJmaeiQSGQ/xL7UnxjAa7MkBT9VLNAt0pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
+	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 82947200B9E;
+	Wed, 17 Jun 2026 16:48:01 +0200 (CEST)
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1wZrYf-003H6X-1N;
+	Wed, 17 Jun 2026 16:48:01 +0200
+Received: from [::1] (helo=dude05.red.stw.pengutronix.de)
+	by dude05.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1wZrYf-0000000CK2H-1Ou0;
+	Wed, 17 Jun 2026 16:48:01 +0200
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Date: Wed, 17 Jun 2026 16:47:53 +0200
+Subject: [PATCH] ASoC: cs530x: Fix expected MCLK rates for CS5302/4/8
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v2] ASoC: soc-core: Create device_link to ensure correct
- suspend order
-To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com, Maxime Ripard <mripard@kernel.org>, Dave
-	Stevenson <dave.stevenson@raspberrypi.com>, linux-rpi-kernel
-	<linux-rpi-kernel@lists.infradead.org>, Florian Fainelli
-	<florian.fainelli@broadcom.com>
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20260611110856.1088110-1-rf@opensource.cirrus.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260617141046eucas1p2e85629d57bfc17449b135b16f9230d57
-X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260617141046eucas1p2e85629d57bfc17449b135b16f9230d57
-X-EPHeader: CA
-X-CMS-RootMailID: 20260617141046eucas1p2e85629d57bfc17449b135b16f9230d57
-References: <20260611110856.1088110-1-rf@opensource.cirrus.com>
-	<CGME20260617141046eucas1p2e85629d57bfc17449b135b16f9230d57@eucas1p2.samsung.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260617-cs530x-mclk-v1-1-0215b5f1a0a4@pengutronix.de>
+X-B4-Tracking: v=1; b=H4sIAJizMmoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDM0Nz3eRiU2ODCt3c5JxsXUOTFBMjEyNL0xRzSyWgjoKi1LTMCrBp0bE
+ QfnFpUlZqcgnICKXaWgCAEJC2bwAAAA==
+X-Change-ID: 20260617-cs530x-mclk-14d424295d79
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Paul Handrigan <paulha@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org, kernel@pengutronix.de, 
+ Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+ Vitaly Rodionov <vitalyr@opensource.cirrus.com>
+X-Mailer: b4 0.15.2
 
-Dear All,
+When this driver was first added, it accepted rates of 24.56 MHz and
+22.572 MHz for the MCLK when PLL bypass is enabled.
 
-On 11.06.2026 13:08, Richard Fitzgerald wrote:
-> In snd_soc_bind_card() create a device_link from card to all components
-> to ensure correct order of system_suspend. The card is the consumer and
-> the components are the supplier, so that the card will system_suspend
-> before any of the components.
->
-> The PM core will normally system_suspend drivers in the opposite order
-> that they registered. This ensures children are suspended before their
-> parents, for example users of a bus driver should suspend before the bus
-> driver suspends.
->
-> For ASoC, snd_soc_suspend() shuts down any active audio, which requires
-> that the components are still able to communicate with their hardware.
-> Previously there was nothing to ensure this ordering, because there is
-> (usually) no relationship between a machine driver and component drivers.
-> If the machine driver registered before the codec drivers, the codec
-> drivers would be suspended before the machine driver snd_soc_suspend()
-> runs, so that ASoC is attempting to stop audio on a driver that has
-> already suspended.
->
-> Creating a device_link is safe if there is already a device_link between
-> those devices because of multiple components sharing the same dev.
-> device_link_add() kernel doc says:
->
->  "if a device link between the given @consumer and @supplier pair
->   exists already when this function is called for them, the existing link
->   will be returned regardless of its current type and status ...
->   The caller of this function is then expected to treat
->   the link as though it has just been created, so (in particular) if
->   DL_FLAG_STATELESS was passed in @flags, the link needs to be released
->   explicitly when not needed any more"
->
-> For the same reason it is safe if the codec driver or machine driver
-> later call device_link_add() to create a link between the same two
-> devices.
->
-> (I have tested creating multiple links between the card->dev and a
-> component->dev and did not encounter any problems with suspend/resume or
-> module unloading.)
->
-> The DL_FLAG_AUTOREMOVE_* flags assume that they are being called from
-> the probe() function of that device. This isn't guaranteed in ASoC card
-> binding because of deferred binding. The exact behavior and consequences
-> of the DL_FLAG_AUTOREMOVE_* are also unclear from the documentation.
-> So DL_FLAG_STATELESS is used for safety, and the links are removed
-> explicitly when the card unbinds or if the bind fails.
->
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> ---
+These rates seem to have no basis in the datasheets and were thus replaced
+with 45.1584 MHz and 49.152 MHz, respectively, in commit e7ab858390f2
+("ASoC: cs530x: Correct MCLK reference frequency values").
 
+While the new rates are indeed correct for the CS4xxx ICs[0][1][2][3],
+they are incorrect for the CS530x ICs the driver was originally written to
+support as the MCLK frequencies are halved there[4][5][6].
 
-This patch landed recently in linux-next as commit 0f54ce994b23 ("ASoC:
-soc-core: Create device_link to ensure correct suspend order"). In my
-tests I found that it breaks probing of VC4 DRM subsystem on Raspberry Pi
-3 and 4 boards due to an issue with hdmi-audio-codec:
+Fix this by checking against the correct type-appropriate rates.
 
-# dmesg | grep vc4
-vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-vc4_hdmi fef00700.hdmi: Failed to create device link to hdmi-audio-codec.1.auto
-vc4_hdmi fef00700.hdmi: error -EINVAL: Could not register sound card
-vc4-drm gpu: failed to bind fef00700.hdmi (ops vc4_hdmi_ops [vc4]): -22
-vc4-drm gpu: adev bind failed: -22
-vc4-drm gpu: probe with driver vc4-drm failed with error -22
+While at it, drop the CS530X_SYSCLK_REF_* macros. They arguably confuse
+more than they help, especially as they are not applicable to the
+cs5302/4/8.
 
+[0]: https://statics.cirrus.com/pubs/proDatasheet/CS4282P_DS1318F1.pdf
+[1]: https://statics.cirrus.com/pubs/proDatasheet/CS4302P_DS1315F1.pdf
+[2]: https://statics.cirrus.com/pubs/proDatasheet/CS4304P_DS1316F1.pdf
+[3]: https://statics.cirrus.com/pubs/proDatasheet/CS4308P_DS1317F1.pdf
+[4]: https://statics.cirrus.com/pubs/proDatasheet/CS5302P_DS1312F1.pdf
+[5]: https://statics.cirrus.com/pubs/proDatasheet/CS5304P_DS1313F1.pdf
+[6]: https://statics.cirrus.com/pubs/proDatasheet/CS5308P_DS1314F1.pdf
 
-> for-next
->
-> Changes in V2:
-> - Use DL_FLAG_STATELESS to avoid unclear/unstated behavior of the
->   DL_FLAG_AUTOREMOVE_* flags.
->
-> - Skip creating a device link for a component that is the same device
->   as the card.
->
->  sound/soc/soc-core.c | 46 +++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 45 insertions(+), 1 deletion(-)
->
-> diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-> index b8c9ddfc4490..ac9b2269c26e 100644
-> --- a/sound/soc/soc-core.c
-> +++ b/sound/soc/soc-core.c
-> @@ -2138,10 +2138,29 @@ static void soc_cleanup_card_resources(struct snd_soc_card *card)
->  	}
->  }
->  
-> +static void snd_soc_remove_device_links(struct snd_soc_card *card,
-> +					struct snd_soc_component *stop_at)
-> +{
-> +	struct snd_soc_component *component;
-> +
-> +	for_each_card_components(card, component) {
-> +		if (card->dev == component->dev)
-> +			continue;
-> +
-> +		device_link_remove(card->dev, component->dev);
-> +
-> +		if (component == stop_at)
-> +			return;
-> +	}
-> +}
-> +
->  static void snd_soc_unbind_card(struct snd_soc_card *card)
->  {
->  	if (snd_soc_card_is_instantiated(card)) {
->  		card->instantiated = false;
-> +
-> +		snd_soc_remove_device_links(card, NULL);
-> +
->  		soc_cleanup_card_resources(card);
->  	}
->  }
-> @@ -2151,6 +2170,7 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
->  	struct snd_soc_pcm_runtime *rtd;
->  	struct snd_soc_component *component;
->  	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
-> +	struct snd_soc_component *last_devlinked_component = NULL;
->  	int ret;
->  
->  	snd_soc_card_mutex_lock_root(card);
-> @@ -2275,6 +2295,25 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
->  		}
->  	}
->  
-> +	/*
-> +	 * Add device_link from card to component so that system_suspend
-> +	 * will be done in the correct order. The card must suspend first
-> +	 * to stop audio activity before the components suspend.
-> +	 */
-> +	for_each_card_components(card, component) {
-> +		if (card->dev == component->dev)
-> +			continue;
-> +
-> +		if (!device_link_add(card->dev, component->dev, DL_FLAG_STATELESS)) {
-> +			dev_warn(card->dev, "Failed to create device link to %s\n",
-> +				 dev_name(component->dev));
-> +			ret = -EINVAL;
-> +			goto probe_end;
-> +		}
-> +
-> +		last_devlinked_component = component;
-> +	}
-> +
->  	ret = snd_soc_card_late_probe(card);
->  	if (ret < 0)
->  		goto probe_end;
-> @@ -2303,8 +2342,13 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
->  			pinctrl_pm_select_sleep_state(component->dev);
->  
->  probe_end:
-> -	if (ret < 0)
-> +	if (ret < 0) {
-> +		if (last_devlinked_component)
-> +			snd_soc_remove_device_links(card, last_devlinked_component);
-> +
->  		soc_cleanup_card_resources(card);
-> +	}
-> +
->  	if (ret == -EPROBE_DEFER) {
->  		list_add(&card->list, &unbind_card_list);
->  		ret = 0;
+Fixes: 2884c29152c0 ("ASoC: cs530x: Support for cs530x ADCs")
+Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+---
+Cc: Vitaly Rodionov <vitalyr@opensource.cirrus.com>
+---
+ sound/soc/codecs/cs530x.c | 29 ++++++++++++++++++++++++-----
+ sound/soc/codecs/cs530x.h |  6 ------
+ 2 files changed, 24 insertions(+), 11 deletions(-)
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+diff --git a/sound/soc/codecs/cs530x.c b/sound/soc/codecs/cs530x.c
+index 18b5ff75feec..2c7e33135911 100644
+--- a/sound/soc/codecs/cs530x.c
++++ b/sound/soc/codecs/cs530x.c
+@@ -1093,6 +1093,29 @@ static int cs530x_component_probe(struct snd_soc_component *component)
+ 	return 0;
+ }
+ 
++static bool cs530x_mclk_freq_is_valid(struct cs530x_priv *cs530x,
++				      unsigned int freq)
++{
++	/*
++	 * All these chips support 48 kHz- and 44.1 kHz-related sample rates,
++	 * but they differ in what MCLK frequency is required for achieving
++	 * the sample rate.
++	 */
++	switch (cs530x->devtype) {
++	case CS4282:
++	case CS4302:
++	case CS4304:
++	case CS4308:
++		return freq == 49152000 || freq == 45158400;
++	case CS5302:
++	case CS5304:
++	case CS5308:
++		return freq == 24576000 || freq == 22579200;
++	}
++
++	return false;
++}
++
+ static int cs530x_set_sysclk(struct snd_soc_component *component, int clk_id,
+ 			     int source, unsigned int freq, int dir)
+ {
+@@ -1101,11 +1124,7 @@ static int cs530x_set_sysclk(struct snd_soc_component *component, int clk_id,
+ 
+ 	switch (source) {
+ 	case CS530X_SYSCLK_SRC_MCLK:
+-		switch (freq) {
+-		case CS530X_SYSCLK_REF_45_1MHZ:
+-		case CS530X_SYSCLK_REF_49_1MHZ:
+-			break;
+-		default:
++		if (!cs530x_mclk_freq_is_valid(cs530x, freq)) {
+ 			dev_err(component->dev, "Invalid MCLK source rate %d\n", freq);
+ 			return -EINVAL;
+ 		}
+diff --git a/sound/soc/codecs/cs530x.h b/sound/soc/codecs/cs530x.h
+index 1e2f6a7a589c..18aa4dfd0c86 100644
+--- a/sound/soc/codecs/cs530x.h
++++ b/sound/soc/codecs/cs530x.h
+@@ -200,12 +200,6 @@
+ /* IN_VOL_CTL5 and OUT_VOL_CTL5 */
+ #define CS530X_INOUT_VU			BIT(0)
+ 
+-/* MCLK Reference Source Frequency */
+-/* 41KHz related */
+-#define CS530X_SYSCLK_REF_45_1MHZ	45158400
+-/* 48KHz related */
+-#define CS530X_SYSCLK_REF_49_1MHZ	49152000
+-
+ /* System Clock Source */
+ #define CS530X_SYSCLK_SRC_MCLK		0
+ #define CS530X_SYSCLK_SRC_PLL		1
+
+---
+base-commit: 8cd9520d35a6c38db6567e97dd93b1f11f185dc6
+change-id: 20260617-cs530x-mclk-14d424295d79
+
+Best regards,
+--  
+Ahmad Fatoum <a.fatoum@pengutronix.de>
 
