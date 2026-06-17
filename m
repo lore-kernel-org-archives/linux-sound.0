@@ -1,224 +1,62 @@
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D6D3F58C9
-	for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 10:41:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206D5305057;
+	Wed, 17 Jun 2026 10:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781692892; cv=none; b=K3PX0x02RMYHqt6x5gMpY1bDkvPCBTD4zeK5kE6GM6EE90dMDBnvkVx9ADS5TYdRMgEROJoHlM6015LXL0DGSqhP8nm/rEz3Zm+H8BQzF/vBZGt2nIs8GGWy0UK40pd6FY+LC4b2LepLEpzSXx4BiemVi6/soKLY+YzxJMi+Rz0=
+	t=1781693422; cv=none; b=WEzqlZFfNnsLT2H4/VTj1o3HLCS6viRzjnCQKzJvC8ba9rGjpJa7Hlqyjkp5uGptkTsUoTEVu2nMA53FXgPKVThcjZ2FK7IMyZAuqp3MJD4U6//ZwBZZMibBl6IYGXHcYvpAnMYM3Gs4OOw2kebvrmyCsu2oa6KhW8ZEAe1ddJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781692892; c=relaxed/simple;
-	bh=CUFDizm8j2l+aG+O0iqDVpukA4UDOPYwQgm/2dCZpzw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gMFY2Vpu7WqI6C7iIWSTG3+zgD/cDVnX1HlYwGpH7aecy9EaY1rX7ZtEwrWwA88UtlN+nihWzGE7kjwceHpwcycxFqlNDAEWknqV6FetuPeExrjrZx/IQvIqtYUdMCO6gJi7RrWDW9iTGqZRz14722MNFs9zBw5A5G9tIvDba2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AO/RlTVv; arc=none smtp.client-ip=74.125.82.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781693422; c=relaxed/simple;
+	bh=G2SGWa5N6ucn+9UK60WuNYpe8XUcdnVB88n3VTklUnM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CZk9/b5I7yLw61K8GDBeG17B8miy5N60YLVkeVTGDkr0ogOzwXI4Blf/89VAF7Ca6JhHwYSJgv/W/O6w/qL2+RK5ElMwCYZ/yiqvlw3qF6y+gWsA45e775LNPjV1YzL8xiZUoCGdk1Vo1GdDASP1exzMT4dukopQ6ygaHZ8B+eA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mAeWxJNt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AO/RlTVv"
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-137335bc3caso6891547c88.0
-        for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 03:41:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781692890; x=1782297690; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AUF1nUSK8JjVFEerCymxn+O2TFW28hvbz/kOFuEnXM4=;
-        b=AO/RlTVvD6fSYqF29OtDghAnCboUI9orKJmr5ID8kK2caCIPRDm18ZMBzd0cRXAN+u
-         9mkr6oF+PqppVS3RXchI8v28A849GqJVDtenyKmSdrbfPyHiNYyiiH0A0y1CoWXZMAFH
-         qdwZ/8R7V00AfmFlvVY7N9VA8ItSZeAELsiuyoloVIOhmkohtUXxJhjv8rWY5JgOOxlp
-         +ZP7L1JTM+aspDZzmltO32vfT8Uk3p4sBP4jkCd/vP6zcRSRnjrU7rrONNJksDlxSB3Q
-         i+XnRPTBgtofqkb+whDrqEB9U2SfkG6+uDjFx8LKaWNojl/XdAF3y4dquxeKrqy+UZcf
-         YyjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781692890; x=1782297690;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=AUF1nUSK8JjVFEerCymxn+O2TFW28hvbz/kOFuEnXM4=;
-        b=Fi9LfIbflMMi4i7tNhjjMZc0KSLRDI5r8TyLwo6NB1oDCM+q6Joo7K8pEDbx8TyIsy
-         fxSJ09fO0s2V8yDUUlyz5CvVvHaVzl+Cfu3aTUOPdAHuAFR6O5PoOYl3A8v6VldmSTa9
-         zdFgxEaqei6aNpEgQyUqDotxBRWRjmugWEc8p3326UUcGBz8rkjFxlpV3kTZyqErZ4st
-         StZAoiVf2HAqQgd7XENHeyHx2HxG1GSJ5wOlcIx7HpFPO9IkGDjq4sNsNAAmGyh7Fn/F
-         gPfbA4MnNs9H+k2u9mu4Dzga0h0HjxV0/INXFAlO/m8rSzOTzUHZn7G63WXS8oyMGEvq
-         AZ+g==
-X-Forwarded-Encrypted: i=1; AFNElJ/tKGligTijKXaFdCo6iPTUYUzJ6lvzafXCJwceEgOn74oTcv4rKf4gxB82woJ03b3EVNlJBp6h8Fht1w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YznOah4bQ12J6MiLZOypE7yogmUT3g0Ds/PgfGDcRbfNPoNi6Zj
-	f87jAZr5qYM+CQTL0HIaiKpaWidgI8fjyPYKmSN5j910QTW33xF+HcU+
-X-Gm-Gg: Acq92OE76aOMdSr1nMUd6f7WivdxtYAzJ6j3Scg/h4DQoVWEnApGLiaq9qupKd4RK1S
-	Tj2Bq07P+AhDkgEYozOuXWqaQvL6T1FBKvqMVC+Aj4o0jmv/zetAeT6FleRn6WzBSDZP7pqhBp2
-	z2SIklRiSaA1wmbXa186l5Szn/oH7jiTK0NWrtKKWNFCcmEMoJpL4w6zkKq0ybm7x7K5Pjo1o/9
-	R7RGZWNwCOFDJKjww0xDtuwLJdJlGWMZjEn1MIihocm0d69Jm5OYYPy6lTSV427VIOvft0EjD1P
-	fdKhcDJKNPyUoACVjrsLSzHEx9usJJXW1HMFkzaCa8XOmbD+4IxLnr6gwbSmjde27v4xOndUQJJ
-	bKZDETMcbVymbxoxnliiyeyqWWvP+TEjN8wEidzeEeJenBFxvqZuhgnqFuH2e2L0XdQlI78Yb62
-	YEaac3eGBSoBPwmbrlAI7QlY/LULMj9bdFfrew8idLZ7E7LLQib/aUXK0l/Q==
-X-Received: by 2002:a05:7022:112:b0:137:edc4:a5e6 with SMTP id a92af1059eb24-1398f6b4762mr1323943c88.29.1781692889954;
-        Wed, 17 Jun 2026 03:41:29 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d0828sm24616275eec.10.2026.06.17.03.41.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 03:41:29 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	povik+lin@cutebit.org,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Nick Li <nick.li@foursemi.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	nuno.sa@analog.com,
-	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
-	patches@opensource.cirrus.com,
-	chrome-platform@lists.linux.dev,
-	asahi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 55/78] ASoC: codecs: tas2781: Use guard() for mutex locks
-Date: Wed, 17 Jun 2026 17:32:12 +0700
-Message-ID: <20260617103235.449609-56-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260617103235.449609-1-phucduc.bui@gmail.com>
-References: <20260617103235.449609-1-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mAeWxJNt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE3171F000E9;
+	Wed, 17 Jun 2026 10:50:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781693420;
+	bh=gsH/cbSQ8Rdif7hB4wxv5EmRO0rjtZtS7++pqAxuNLU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mAeWxJNtW8Lh29bWoOM6LzkY233JeRBvzVj/kVUQ+z9HtQz8BUlcb/Z24xvODoKUT
+	 kejZelGxWp3RbgL9/L3jYwagrGH6cpd4lvystsUhzAb/b5H2mcGfvH7UPGNo4/VVic
+	 so/NbdAhim2IgKBUTwgsJ5JI3HYRQcmDzTh82s27Q0sPf4sstG8EO7Q/CBZWvakaDX
+	 RYEq3yclOShbGJKrPlHfRubctM7KicRKO269JOF061NarkmoZGdo3pBqTw7U5wyWJR
+	 UwDWoIASzYFMekM1ogB9ObAhgSs+t3Oipd7i6C+AcufozdG57J7GTPW4/AuxQPLPnP
+	 Cr/gbPlr3riWw==
+Date: Wed, 17 Jun 2026 12:50:16 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: "Pablo D. Bergamasco" <danpablo@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Vaibhav Agarwal <vaibhav.sr@gmail.com>, Mark Greer <mgreer@animalcreek.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: sound: add toshiba,apb-dummy-codec binding
+Message-ID: <20260617-marvellous-cunning-curassow-0113ab@quoll>
+References: <20260616185619.1581174-1-danpablo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260616185619.1581174-1-danpablo@gmail.com>
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On Tue, Jun 16, 2026 at 03:56:19PM -0300, Pablo D. Bergamasco wrote:
+> Add device tree binding documentation for the Toshiba APBridge
+> dummy ALSA SoC codec used in the Greybus audio framework.
+> 
+> Fixes the following checkpatch warning:
+>   WARNING: DT compatible string appears un-documented
 
-Clean up the code using guard() for mutex locks.
-Merely code refactoring, and no behavior change.
+Nope. We don't take bindings for staging. Isn't this documented in
+staging docs already?
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/codecs/tas2781-comlib-i2c.c |  4 +---
- sound/soc/codecs/tas2781-i2c.c        | 20 ++++++++------------
- 2 files changed, 9 insertions(+), 15 deletions(-)
-
-diff --git a/sound/soc/codecs/tas2781-comlib-i2c.c b/sound/soc/codecs/tas2781-comlib-i2c.c
-index e24d56a14cfd..85fcb33752a1 100644
---- a/sound/soc/codecs/tas2781-comlib-i2c.c
-+++ b/sound/soc/codecs/tas2781-comlib-i2c.c
-@@ -342,7 +342,7 @@ int tascodec_init(struct tasdevice_priv *tas_priv, void *codec,
- 	/* Codec Lock Hold to ensure that codec_probe and firmware parsing and
- 	 * loading do not simultaneously execute.
- 	 */
--	mutex_lock(&tas_priv->codec_lock);
-+	guard(mutex)(&tas_priv->codec_lock);
- 
- 	if (tas_priv->name_prefix)
- 		scnprintf(tas_priv->rca_binaryname, 64, "%s-%sRCA%d.bin",
-@@ -360,8 +360,6 @@ int tascodec_init(struct tasdevice_priv *tas_priv, void *codec,
- 		dev_err(tas_priv->dev, "request_firmware_nowait err:0x%08x\n",
- 			ret);
- 
--	/* Codec Lock Release*/
--	mutex_unlock(&tas_priv->codec_lock);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(tascodec_init);
-diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
-index 9e6f0ad5f05d..f2b739780f73 100644
---- a/sound/soc/codecs/tas2781-i2c.c
-+++ b/sound/soc/codecs/tas2781-i2c.c
-@@ -843,12 +843,12 @@ static int tasdevice_digital_gain_get(
- 	unsigned char data[4];
- 	int ret;
- 
--	mutex_lock(&tas_dev->codec_lock);
-+	guard(mutex)(&tas_dev->codec_lock);
- 	/* Read the primary device */
- 	ret = tasdevice_dev_bulk_read(tas_dev, 0, reg, data, 4);
- 	if (ret) {
- 		dev_err(tas_dev->dev, "%s, get AMP vol error\n", __func__);
--		goto out;
-+		return ret;
- 	}
- 
- 	target = get_unaligned_be32(&data[0]);
-@@ -868,8 +868,7 @@ static int tasdevice_digital_gain_get(
- 	/* find out the member same as or closer to the current volume */
- 	ucontrol->value.integer.value[0] =
- 		abs(target - ar_l) <= abs(target - ar_r) ? l : r;
--out:
--	mutex_unlock(&tas_dev->codec_lock);
-+
- 	return 0;
- }
- 
-@@ -889,13 +888,13 @@ static int tasdevice_digital_gain_put(
- 	unsigned char data[4];
- 
- 	vol = clamp(vol, 0, max);
--	mutex_lock(&tas_dev->codec_lock);
-+	guard(mutex)(&tas_dev->codec_lock);
- 	/* Read the primary device */
- 	ret = tasdevice_dev_bulk_read(tas_dev, 0, reg, data, 4);
- 	if (ret) {
- 		dev_err(tas_dev->dev, "%s, get AMP vol error\n", __func__);
- 		rc = -1;
--		goto out;
-+		return rc;
- 	}
- 
- 	volrd = get_unaligned_be32(&data[0]);
-@@ -903,7 +902,7 @@ static int tasdevice_digital_gain_put(
- 
- 	if (volrd == volwr) {
- 		rc = 0;
--		goto out;
-+		return rc;
- 	}
- 
- 	for (i = 0; i < tas_dev->ndev; i++) {
-@@ -919,8 +918,7 @@ static int tasdevice_digital_gain_put(
- 
- 	if (status)
- 		rc = -1;
--out:
--	mutex_unlock(&tas_dev->codec_lock);
-+
- 	return rc;
- }
- 
-@@ -1766,12 +1764,10 @@ static int tasdevice_dapm_event(struct snd_soc_dapm_widget *w,
- 	int state = 0;
- 
- 	/* Codec Lock Hold */
--	mutex_lock(&tas_priv->codec_lock);
-+	guard(mutex)(&tas_priv->codec_lock);
- 	if (event == SND_SOC_DAPM_PRE_PMD)
- 		state = 1;
- 	tasdevice_tuning_switch(tas_priv, state);
--	/* Codec Lock Release*/
--	mutex_unlock(&tas_priv->codec_lock);
- 
- 	return 0;
- }
--- 
-2.43.0
+Best regards,
+Krzysztof
 
