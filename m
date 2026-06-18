@@ -1,182 +1,127 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCCC19DF55
-	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 11:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FC83B7B66
+	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 11:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781782536; cv=none; b=kuKXnyuYkVg+uhfQhsI3tC2az8Acx3XVh99wdqgClJlUqr+PdWHD3yJkmNG+CBtGTIA9fEf2InA+04hXezJWUWzvnvZTMAPy8dATIzTJUE3Jiul7ES4y0gzbWeNwNlPNRQIEkccdaR6U+eyOulBe9FZc1gyv534x/x7lpzPY/eU=
+	t=1781783368; cv=none; b=dqf4TXtYUs/WX8/VMf0rnMUhJt61UBUqC0rZ+sHxSXfvCyrQ4cA97u8T0JXWT7B+zSgHS1a1EjH6ObxPONOgHGTO6TlYrOdyHTTAtVts3IB2Xl9dDakO/2G/B8P+x8BjMJJ4qCLk1jkXc//mNAPQp+2LawhV3xr6OC29F8OXGLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781782536; c=relaxed/simple;
-	bh=mlb3na05TSFuumjcboA5bHq99pBRdGeM8PJe1BADJk4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SYZYavcKsR9EJ2xctGbj3Zfuq7f4inEcjSB0wtOuiS/X9YeAzBW7l2keSFyFCUituSq8d3tPL1/S6RaJYcfibZHxd2PrXDwJP7qOHzRmcXSGsgASYCyU2hN7atcdk/J061i3x8QTmSgR5usOQE103+VXZvaQiknSLdRAwachkBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UOKJSaMD; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cY8tgqcK; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1781783368; c=relaxed/simple;
+	bh=odvSwbtTQnAXEjtWJKARAeNkURKvEgQfIfjp4lZx0a4=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=lwLfFqH1+tsYuL0gfCsXHtbXuAw9vgNFRicA7aRzHlkSAqz1X4iTaiYxH6YTnzayKxyZyrn0urWqmXuf5FzJqzk4xI14wEuHm4kkUEil0GdZRjRch1GTRaTtPBf9QhS1/BPcd1hQKoH3iWh5hwyPB+F8dtxQ4+XTzhrCbXqTaNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UiTzSyHB; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UOKJSaMD";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cY8tgqcK"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65IArf2C3763684
-	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 11:35:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=c24HNE6lCA8
-	fpSztzgUnXvl+DfaDo/AAtNxdyNGgpeo=; b=UOKJSaMDiviT73FR9EwfxjtxFdC
-	5HyLYwsYDcz9gObNjlpHyqjeh+gHy1nQ7YuRldJBiMn7sZkTefLoLEEHTUBS5Lq8
-	7hVgnr2zz0Q7Wkfn3SNV6FN0RxYfA1eGJDOJ+T5je88+NMROx74POdOSZjkKO5IQ
-	+hNeUW8O5hejZzW+xjGn38nhU7iY8O7b/+d3FKkSYvanNUxBEE9xkR6j/MEi5fyb
-	BRgURjDh6/X+89SUlahMbUcv3TlgRGClL5lrjz4XcZ+HPfml5E3wp+JEFNRKcS91
-	AY/o46cCwk+9NnsF+ZVyHeDItEVSb1BZ4W6qY+J/5fqoTBH7hkaK6LPPufA==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ev0vk35wn-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 11:35:34 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-37c3620a6faso605581a91.0
-        for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 04:35:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UiTzSyHB"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8453427d3f4so442790b3a.3
+        for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 04:49:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1781782534; x=1782387334; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c24HNE6lCA8fpSztzgUnXvl+DfaDo/AAtNxdyNGgpeo=;
-        b=cY8tgqcKc7NdTzCJ+3OlJyUOZSJZsY4y0lyA4QA6qwtQk+YJL6MM5+h6Q9YqXcdA0d
-         0LhIx0DBAkK/OXV4Gbvjji06+ujAKpKV5wwzg8DWvUf4pz5wG+sSJLQhnjJ8vOXgIGqJ
-         clPEggVGgyq+2SmpKPGu5uzDCG8/GkEhjzAr9UYZAzShEbo4/dv3Vj0GbYbyz9AfwFu9
-         4YlvYZm4rGtfAUR0ix0qmyKdZ+X7sZ4e0P7Y9kAJwztJtjcMI/ipD46zFwEzbYL8jhDh
-         ByJzP39MgEYYIShKhXEgNj4bwkdWYcAGq4EaoDRoSH9Ud3z0938IFpHdDAcRCcptJpj9
-         hJ3Q==
+        d=gmail.com; s=20251104; t=1781783366; x=1782388166; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=myHtXATsL0gzLq7rbAOB3XWead1qGlRenokjaLXcPr4=;
+        b=UiTzSyHBhVBrzrN6g+cwtnSWB7QRUA1byEzT5w6+dWvIBGkgOFmhQCMP0MlgmCPMAa
+         Lj15dwrrLHDHi3af3bxISAZ7zfeOvSsCnpMOhQjkM5epNQgKDpfAu6m8FNqIfzcA9qxd
+         FKj6TqTIfpGBWvT4BnokEYY98KShM3bO0d8r9PYDcu6DUTXirfxVYHQjZVPYdYJdbWS0
+         XWUGu1Bynb4CAozXCelv0gzqY0r1kzt2O+pBpLMBR9dOUHHggINI1mjb9VL1kKvYyGE/
+         LWbEB+XhiLO1i1WMixfw+IMVIS/XxIs41wS4W9RbzUkVWnfLT0h/YukV7l5VSBCAUiYd
+         nRyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781782534; x=1782387334;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=c24HNE6lCA8fpSztzgUnXvl+DfaDo/AAtNxdyNGgpeo=;
-        b=qOWu0qc4Vr8suJvdkUEyktUhOErYJKALtZksCZIo0Y3vM7cCxVWECdCxzHuCUhtTyO
-         TeTJi7i+02E6NO/9xNnwCSxkWqRwBbUy4kzyKUqw+MQMvt6a3ZZ4lBAJSVbbhzyVLU+D
-         OVos1c/4wBMoL4cwnHHMK5y+KN9a1o6BaYIlnLhWkACQ/WDHAYlv2M34MJHNE+wyhJsP
-         bSIPmiyxNyxg5PZLgoL0JMx03yDrnfhdtwD/21wB9JYR/P2aFO7+/vjpGV8wk75Xguhg
-         YNQQRwLQdVFEmeGMnPw1SYmyTF0bPIeQi4UluqNNT6hgTE7SZTVapAXkMSYBz/xpVKo8
-         25Dg==
-X-Forwarded-Encrypted: i=1; AFNElJ81esHleHsf0ctscEsMW/aJLhXlvj1pHMmQ9m3HheIVrtkGnMMTc3G01yRM3FS4WouJdPif/dPf85MuWA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywhp6kOx0xqex8gXcSNqIR4eyILU0ty8HL5gBD4Iqcj1L35yX4y
-	z09Pjh+5vQ+JxhnNPMjM7qwMo9yA5iH1enSCBKVASdS5OWbAGZbgfEng7VdlM8nO12I9zYIgV+X
-	N1+gTbXLqjXMk/ceAYM927aaRiTEm3vfwsssfWveJVpTuPjRXz/MmL1BFsDojWDUXSg==
-X-Gm-Gg: AfdE7cnlIZCDGaN9cNqb4z97di6lrN5hWeOzEKerLQnBxnxuxuZuM0JCG936ZCn9xIb
-	AhzCHuyM57TXbC+YmqQL6knROS2z482Rq8fPM8J5Vub5KPTleUEqpzzcqabWyjYTc003kjVIMxm
-	NnTOsK20a+zB+h6apvQx9Fz4pCPESTqWQtNFMBeX8+jnQXcWLsCV9f4Dia6IGpk6Xkz32kemzzy
-	yF7ilUmBqutF/DJrzhX2Ty0iN/3XCjKTE/Z75ZlLy4QXmnmEB+ANgQ2b7z8RfaaXjNLv/tBE0fw
-	cN1s7qH5jF0TcG0YzlypqCGncCzf0dn53bYg9CJJteU+VEwzPW0cQUvvXoTHIhHZBpT3oefnY68
-	5E/uVI1DBJ34hMHpNuNmgF2wmcpt7zEc2IaIiTXk=
-X-Received: by 2002:a17:90b:1cd0:b0:36d:ee3b:fcae with SMTP id 98e67ed59e1d1-37ce4512df2mr3166713a91.6.1781782533976;
-        Thu, 18 Jun 2026 04:35:33 -0700 (PDT)
-X-Received: by 2002:a17:90b:1cd0:b0:36d:ee3b:fcae with SMTP id 98e67ed59e1d1-37ce4512df2mr3166671a91.6.1781782533508;
-        Thu, 18 Jun 2026 04:35:33 -0700 (PDT)
-Received: from hu-nandam-hyd.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37c521ca7a7sm9067856a91.7.2026.06.18.04.35.29
+        d=1e100.net; s=20251104; t=1781783366; x=1782388166;
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=myHtXATsL0gzLq7rbAOB3XWead1qGlRenokjaLXcPr4=;
+        b=CNzNi9UVgEnC0QqL68fye1f/SfENcIrDNLKvvZqTMAqyiiBquFsiqaf/Sjam6qcydu
+         IZJ0ZLBHghmcQP7hxe8vF38bxAzW1TDsWVHxyUwnDp5ZtqqdMemUxhm+qpheqlD5WQMJ
+         UJ0WrS9bUNiGiXcBdEeXEB8ssDzXEmYVRBYSrnS7UwyD1Bx8aceJwbEyr/Bu5LEdWKQh
+         OlDBSFcO0qG43/JJ4NIjAQLnYPWAii+DmlBmcJ+FtSGpvDBS/e2BBTxZIp+Q+65iJ741
+         zPWx2MeJNsgPqeCzLKXf+OpriOA85bfr2xryhADb8gdFZpzrYJ6VbC6qXaoQ7gWUntZl
+         SomQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+vSBejZ0NkMcvfgcuatQRwnnmRdzhyCcd3Ub1idtbeVG6ztVHak5asWzm6AxB2PPqFbiLyn6i8HwVsJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMgkvoxMxPAqDNLO34ZIe7SDFEStdSKv7v9OgDee7zTnYY0oHI
+	Wt78srdm1wCP169wGcBHoMZSNnLWrgtvve5nq53y27rfkx0EMIi5UYdd
+X-Gm-Gg: AfdE7ckS1Q8sl+6jLOdF50iB4DggVl0uafJEA70+Xfu9e8mW6BuIHiWjt1rbFCaCa7I
+	wGF5DhWNM3GqmfBR2lugwvzfEofs71iYrA0ilLyfqTiCAmyphdqhD9fSyYixUduBrPp2GeETqLV
+	Uh69C/cHIPVew0rlMnRTJSb4veRS/YlR+Mfz37HIWSDHAZyf1QJq8+pRwR2+gUbFreOF4tYEzF0
+	U+XkIXZEJcVoGwNTgr9gGzMhEdO8lunf8FJG+914zbz5QTXGnIJhzknD0Csnjivcmc+iy2jU07l
+	6wxfrSeIWDwm+zUsOs8Yt0b9S0kJXOWk9WeVNLHV5R3xNrrexAn5x2RE5SNi/8I1h3PGKTSnlbQ
+	b5fbZO2NgjjH0dXVl9bmLRp4UuFuzghvw4xR1UmhP8GrXPkrBUv081KE3ZS5Wt29gij4vZsF5DR
+	GT4zOgzfwyNW8XXKICDI5th3PEdJ2ci1a9ii6ZMQ==
+X-Received: by 2002:a05:6a00:2789:b0:842:6fec:1296 with SMTP id d2e1a72fcca58-8453af3a5f6mr3574699b3a.4.1781783366078;
+        Thu, 18 Jun 2026 04:49:26 -0700 (PDT)
+Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8453a8c9770sm2568802b3a.40.2026.06.18.04.49.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 04:35:33 -0700 (PDT)
-From: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ajay.nandam@oss.qualcomm.com
-Subject: [PATCH 2/2] arm64: dts: qcom: shikra: Add MDSP carveout memory and update APM DAIs memory regions
-Date: Thu, 18 Jun 2026 17:05:09 +0530
-Message-Id: <20260618113509.2025881-3-ajay.nandam@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260618113509.2025881-1-ajay.nandam@oss.qualcomm.com>
-References: <20260618113509.2025881-1-ajay.nandam@oss.qualcomm.com>
+        Thu, 18 Jun 2026 04:49:25 -0700 (PDT)
+From: Maoyi Xie <maoyixie.tju@gmail.com>
+To: Clemens Ladisch <clemens@ladisch.de>,
+ Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: ALSA: firewire: isight: possible out of bounds write from a device
+ sample count
+Date: Thu, 18 Jun 2026 19:49:22 +0800
+Message-ID: <178178336260.3522027.4315665976901311151@maoyixie.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: jDeWDSWwie9qZOvRatxCDGl_kMcc01CG
-X-Authority-Analysis: v=2.4 cv=DNy/JSNb c=1 sm=1 tr=0 ts=6a33d806 cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8
- a=giDWo1LGG_5EQGLNojYA:9 a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-GUID: jDeWDSWwie9qZOvRatxCDGl_kMcc01CG
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE4MDEwNyBTYWx0ZWRfX2qySA/80ZGOE
- +gS66LSai5vdoXHWc2tJaIcgcZHv/NDy98vVJlIsh44GjQzfxegr/IT7YNpRc4QFaC8cXSCb8Kp
- N8/pAPgu/KnW8uICUhjriVNrr/+aC34=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE4MDEwNyBTYWx0ZWRfX5E8t8SCtjD0q
- b+8woVVga4qu8nSPa7zqo3yoifJ/ejYksdbeixbY2g8d0BEQ3P9xxy1suvh7fog6U2zyUs22bE0
- Lz3ekmMFBJXQeN/YzR8XjtgpHAnxME2MeRWNnsIv0PmgXMiJYitiNq/izD1upwIiIVaCn/1etjW
- C4A8p3UpPzaigh8VPIeKsligR2zo8hvCztBlqQAkZ6n/+rBl2ClsXHSiJNoEPMqXVLl/ShhTyzT
- qWFFHuHMW/Dtu/n6UK6ajgPnVNiZUjmVtJj616ObIzZvM9PmCvJu8IIOK/43isQui6utyEHBH3K
- LkZh+Qoq+AoBFdPUydwtvd/+htEYRtKKwBdPKlqF7EwHMTWFdQwDsc0IMzTR6/pNnJYVc1ZBV1/
- 2OWZSUuwQT8uUEPCYTKUyEQNfY6duP51xBJfWr8wKPr21JFKXm/ovuaMWT82EkhQYZaOx2mj9KN
- R70AQ4aBWIqlz//ACTg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-18_01,2026-06-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 phishscore=0 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 bulkscore=0 suspectscore=0 malwarescore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606180107
 
-Add a dedicated MDSP carveout memory region for audio usecases on
-Shikra and mark both existing audio heap and MDSP carveout regions
-as shared DMA pools.
+Hi all,
 
-Update the Q6 APM DAI node to reference multiple memory regions,
-where index 0 is used for control path buffers and index 1 is used
-for MDSP data path buffers. This separation ensures proper memory
-allocation and access for APM communication between APSS and MDSP.
+I think isight_samples() in sound/firewire/isight.c can write past the PCM
+DMA buffer when an iSight reports a large sample count. I would appreciate
+it if you could take a look.
 
-Also add shared-dma-pool compatibility to the existing audio heap
-region to align with upstream DMA pool usage.
+isight_packet() reads two values straight from the device iso packet.
 
-Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
----
- arch/arm64/boot/dts/qcom/shikra.dtsi | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+	length = be32_to_cpup(header) >> 16;
+	...
+	count = be32_to_cpu(payload->sample_count);
+	if (likely(count <= (length - 16) / 4))
+		isight_samples(isight, payload->samples, count);
 
-diff --git a/arch/arm64/boot/dts/qcom/shikra.dtsi b/arch/arm64/boot/dts/qcom/shikra.dtsi
-index 88954ee943ef..d744f7e38ca6 100644
---- a/arch/arm64/boot/dts/qcom/shikra.dtsi
-+++ b/arch/arm64/boot/dts/qcom/shikra.dtsi
-@@ -365,7 +365,14 @@ smem_mem: smem@86000000 {
- 		};
- 
- 		audio_heap_mem: audio-heap@86200000 {
--			reg = <0x0 0x86200000 0x0 0x100000>;
-+			compatible = "shared-dma-pool";
-+			reg = <0x0 0x86200000 0x0 0x40000>;
-+			no-map;
-+		};
-+
-+		audio_mdsp_carveout_mem: audio-mdsp-carveout@86240000 {
-+			compatible = "shared-dma-pool";
-+			reg = <0x0 0x86240000 0x0 0x100000>;
- 			no-map;
- 		};
- 
-@@ -1935,7 +1942,10 @@ q6apmbedai: bedais {
- 
- 						q6apmdai: dais {
- 							compatible = "qcom,q6apm-dais";
--							qcom,vmid = <QCOM_SCM_VMID_MSS_MSA>;
-+							memory-region = <&audio_heap_mem
-+									 &audio_mdsp_carveout_mem>;
-+							qcom,vmid = <QCOM_SCM_VMID_LPASS
-+								     QCOM_SCM_VMID_MSS_MSA>;
- 						};
- 					};
- 
--- 
-2.34.1
+length is the iso header data_length and count is the payload sample_count,
+both from the device. The only check on count is against the device-claimed
+length, not against the PCM buffer. With length up to 0xffff the gate allows
+count up to about 16379 frames.
 
+isight_samples() then copies count frames into runtime->dma_area. It never
+clamps count to runtime->buffer_size. isight_open() sets period_bytes_min
+to 1900 and periods_min to 2, so the smallest buffer is 950 frames, about
+3800 bytes. A device that reports a count near 16379 makes the copy run far
+past the buffer, tens of kilobytes out of bounds.
+
+The sibling drop path isight_dropped_samples() does clamp the count against
+runtime->buffer_size before it advances the pointer. The sample copy path
+is missing the same bound.
+
+The controller does not catch this either. The iso header data_length is
+DMA written from the device packet and is never compared against the queued
+payload_length, so a device can over report the length.
+
+The attacker here is a malicious or faulty Apple iSight on the FireWire
+bus. The host only needs the capture stream open and running, which is
+normal use of the microphone.
+
+I reproduced it under KASAN on 7.1-rc7. A count of 16379 makes KASAN report
+a slab out of bounds write past the PCM DMA buffer. A count that fits the
+buffer stays clean.
+
+The fix I tried clamps count to runtime->buffer_size in isight_samples
+before the copy, mirroring isight_dropped_samples.
+
+Does this look like a real bug to you? If it does I am happy to send a
+proper patch with a Fixes tag pointing at 3a691b28a0ca ("ALSA: add Apple
+iSight microphone driver").
+
+Thanks,
+Maoyi
+https://maoyixie.com/
