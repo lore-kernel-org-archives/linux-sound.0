@@ -1,47 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411751DDC1D;
-	Thu, 18 Jun 2026 17:08:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26547349B15;
+	Thu, 18 Jun 2026 18:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781802519; cv=none; b=mrsFfxZkLxCs1TlxohcrkaO5wwU6LD1wePE7hgJuOUG/9IerLDsYwPsvdlsMKa6QY12pqr7o+lYgk2mckUItC+bDw4O/f2FZxVrOLP/RVdbCYwSI38zGhfKVSl8IJMjI5mM0qedKHd/4JntmhFbbXWInpdKi27gY1QTe1a4uiAg=
+	t=1781805811; cv=none; b=uZqdBJ0LWYOOMCbQNGXbofMZHB6SAglh/Wt4+6W9rQg30YACzH9Zr4/PBaKDReK2ICQmNhHw4xNJpH897jHLa+Px5lS56vIH3xZnWNIrO5KvFT2cCJQrX8w2ItpTotF6suCkgP92gKEZu3WSngDpy1ecqDLPSvvxQzzgoUF/+b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781802519; c=relaxed/simple;
-	bh=EVU6bpqhVabSrV5+UZ8+JLzDwOlD3Bl85OauS8nSDFM=;
+	s=arc-20240116; t=1781805811; c=relaxed/simple;
+	bh=rnQhIhLjUekbeVUcLzE815RUSFmKG8GOjaKoqLSuKas=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i8dtI3YcC8rDERKkxT59QpgTHNBxpa1XWV+RbLmygD0yuWOwnPDg3EYzOf/0AXsqUJEHmC1NgoGKKjFMOToa5hG/hvM6GzLMvATCSWYzTXEWfdN6vJXlGo36S+H68u9fsdNeQKj6WSitW8aG2YqfAmeO2RHeeBxoCZsQ8r93nFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mOQwBfD9; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rk6ARIcSnFvkZ8llVupsmqdIrZvuPUeEvBh9YIxyIciSLxQAptJeNzq81cs2BZbLtqGyCnXxWrURTaBG23zMjBRuMSuuhEB4/Rzvyd19VTKr9McRg/kd5o7D8/qy75xjljt1OgblB099zX3SURjzKnU8zEo6ZlwUn4jvdKUz4Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=my1lzVyo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mOQwBfD9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C35101F000E9;
-	Thu, 18 Jun 2026 17:08:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="my1lzVyo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A3521F000E9;
+	Thu, 18 Jun 2026 18:03:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781802517;
-	bh=iZNX6kpVS5q024HVT5sgWl6HEevHLseNsrQkGaAfUuE=;
+	s=k20260515; t=1781805809;
+	bh=TCJanu+C9yPkkIfmCLTiAWEVlukd5W0JlnBZQ6W4Ac4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mOQwBfD9JgH8mbd2fJEaoGfOo/GwBy0FV6yGK0tGMxp5u0moqApG41bPS+4wAqzVq
-	 tql+09CFzP+rNUgNIX4DsH5Zu44iU0mQHqyv4mVndDvm3WZUq0OAGsNPTRVeXbnpLr
-	 bhFXYVkIkvj2PhNCDOekSr4IOjKpDAhv+JwEEfl48cB0ZTHZeiiRh08kXuNe9iJZNo
-	 qF6+SaRTGnhRrphR0A9niai1EaED/XfREaHLCi78z0eHQOCsejOlYMN9wA0qvfgNyj
-	 sjYE948yctSyPswXjpmv16Z0zmLW5TsuAVCBtxgG7xytq+XlnHsTMshHW3gJ/rOyCx
-	 yY4yvRjwKcf4w==
-Date: Thu, 18 Jun 2026 18:08:32 +0100
+	b=my1lzVyobBe+gSUFhL1P9rcxzv1JB6h6dyWJeYYxulFur4V/4gHj4l4cgFaRwsvYe
+	 dxw8H9s+G8kuBQd89PW0NGTXEuQwbuN9hV+1wzBzFlcPHAFlkRAQiXNglVZ4MYaA28
+	 jWmBdhnYI/jZsv0BwNYPdU60bT0SbxHbKBU1mDP9M10lpfIHeQjPLZ9FkdS7PnriR9
+	 lbTSuYUET0mS1GOz2H5hjY+SWUz/ouGuQ822r6YkYFnqdPHKQdDl8xe7kHy+/70ee+
+	 GVvppDVLTKA3LZPq9ABjPwoDBxhhndtojXL6bTAsEjBxsDr+e8XUMWJHitK+E1+XCa
+	 Bt03uOptsBCxA==
+Date: Thu, 18 Jun 2026 19:03:25 +0100
 From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] ASoC: Intel: avs: Use scoped_guard() for scoped
- locking
-Message-ID: <a3aa032c-a106-47b5-a90f-62e99e788641@sirena.org.uk>
-References: <20260618110649.227062-1-phucduc.bui@gmail.com>
- <20260618110649.227062-3-phucduc.bui@gmail.com>
+To: Zhang Yi <zhangyi@everest-semi.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, tiwai@suse.com,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Subject: Re: [PATCH v2 1/7] ASoC: dt-bindings: ES8389: Add members about HPF
+ and clock
+Message-ID: <a619312f-55b8-41f4-b288-d7c343f5f9e9@sirena.org.uk>
+References: <20260618082842.2778-1-zhangyi@everest-semi.com>
+ <20260618082842.2778-2-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,61 +43,57 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="TRyUIblgKBltruib"
+	protocol="application/pgp-signature"; boundary="PkrJ+7oR19bN3hkf"
 Content-Disposition: inline
-In-Reply-To: <20260618110649.227062-3-phucduc.bui@gmail.com>
+In-Reply-To: <20260618082842.2778-2-zhangyi@everest-semi.com>
 X-Cookie: This unit... must... survive.
 
 
---TRyUIblgKBltruib
+--PkrJ+7oR19bN3hkf
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 18, 2026 at 06:06:46PM +0700, phucduc.bui@gmail.com wrote:
+On Thu, Jun 18, 2026 at 04:28:36PM +0800, Zhang Yi wrote:
 
-> Clean up the code using scoped_guard() for mutex & spin locks.
-> Merely code refactoring, and no behavior change.
+> +  everest,mclk-src:
+> +    $ref: /schemas/types.yaml#/definitions/uint8
+> +    description:
+> +      Indicates that SCLK is used as the internal clock.
+> +    minimum: 0
+> +    maximum: 0x01
+> +    default: 0x00
 
-> @@ -338,21 +338,18 @@ static int avs_ipc_wait_busy_completion(struct avs_=
-ipc *ipc, int timeout)
->  	}
-> =20
->  	/* Ongoing notification's bottom-half may cause early wakeup */
-> -	spin_lock(&ipc->rx_lock);
-> -	if (!ipc->rx_completed) {
-> -		if (repeats_left) {
-> +	scoped_guard(spinlock, &ipc->rx_lock) {
-> +		if (!ipc->rx_completed) {
-> +			if (!repeats_left)
-> +				return -ETIMEDOUT;
-> +
->  			/* Reply delayed due to notification. */
->  			repeats_left--;
->  			reinit_completion(&ipc->busy_completion);
-> -			spin_unlock(&ipc->rx_lock);
->  			goto again;
->  		}
-> -
-> -		spin_unlock(&ipc->rx_lock);
-> -		return -ETIMEDOUT;
->  	}
+Could this be done by having a clock API property for the MCLK source
+and then falling back to using SCLK if that's absent?  That would feel
+more natural for DT, and you'll probably want the MCLK property at some
+point.  It's also a bit more of a neutral description of the hardware,
+future versions might switch dynamically between MCLK or SCLK based on
+some criteria or something.
 
-This has a goto from a scoped_guard().
+> +  everest,hpf-frq:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      The frequency of HPF in Hz.
+> +    maximum: 1020
+> +    default: 16
 
---TRyUIblgKBltruib
+Why configure this with a fixed value in the DT - it's the sort of thing
+I'd expect to turn up as an ALSA control so the user can vary it at
+runtime if they want to?
+
+--PkrJ+7oR19bN3hkf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmo0JhAACgkQJNaLcl1U
-h9Cj/gf/fbHzqt61+KxZEtXZEjNx/7hYRt2RupvrL6Sh/mPy6Xv2N5VK9LWa4Vp0
-ZZpa+45liRuVa7ZRvzWUVlcKl4dVq0LFdrsK+qAGY29bjOZD7n7gqVtTt/qd1T8w
-jxVLY4XaWM2Nlv3loFRTYpyFzr+L/mVqA1jGzBOSiCA2fp3OGht0mBMfv7rv5Q11
-WRv3nIQrmDFP4DYbK8h09tWm9kHUPQ577ZPqKvxrfY2wHR44FFvbvowCoIorOd9e
-RyOy5pP/dmwe/agjD+1Of4CeqA7543sOCTLTNgHalEg1pKq6SKS06kWu4g8QGEnj
-NOq14oumQSWM3jQgyZKZcZQIt6xQHQ==
-=cni6
+iQEyBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmo0MuwACgkQJNaLcl1U
+h9Am1gf4xrk9QyoPVPDOh51h23jRQ6hFgvyAiZJxWWyiWDZ/EA9bbztkgNKIQ4Pd
+EAcLHYnMMzd/mt/NjUGjddGJPiPliC1X8AxPkdJ5gTycsq3bGYQWf0ojyrA/h5OE
+O4nd0XMvzv/wo8oSamcmXrAQ+bdjuTBLWedBazcOhelqC9TMkyKTMTIiVjHSTX2j
+6S9pT/gX0LgXAGwxzEqcNOZdCJJH19KpBMJps8bpJhWOVcYzMPCEZLBFu3FL88cq
+vj/JGvNKMlJWgoR6IYu1TSpPGAL9uBqXcYfIkU4NSF25tcGD54tB2hUw/viJQhMm
+/lEt+nCil0ghd4XggqMgQhrnRLfM
+=bKBO
 -----END PGP SIGNATURE-----
 
---TRyUIblgKBltruib--
+--PkrJ+7oR19bN3hkf--
