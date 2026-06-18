@@ -1,111 +1,158 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E3032B128
-	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 16:57:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781801838; cv=pass; b=M7W9WdWfO9hAM11z2Khz7ODrzZrAoUtnGwd2STom1XBNPi1vHnoaKsY8Sb/iABzw3GKpbdRB09xD/BgMZsigO1Ej1FTJJJYSHvzgnx2dCaRw2AkTo2JxxJCkFSjB7LltgDy0NlkgXFXvs9rP0Ymi4sS/VC9ugvOsq1lzcjJX2rc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781801838; c=relaxed/simple;
-	bh=7toO29jg6uvAbLLstXOZkj3XcgAyGBtFa5/dk1T1ei8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XtNI+6FJrn2H9ym808kUjldrL0DNbsnbjrchaKbqdbf/m/2hAAf/ka0KlRvv5h+9GYtqGUjFcjfqz4+Mcd6Iw9E9ba2zptKd+fXon0Xc3gixTQ4dfGWjojdZxD2z235NwLVddaQu4PpSp5aVtFkEV+agX/WFZXIoqEKMy3VN2So=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L1VyhvNb; arc=pass smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C3831E820
+	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 17:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781802017; cv=none; b=lCEJhcMQWZL8KS3qRKpsIN0J/quCXDiNIrq9OqA4viscnZFHWxnwLRB+FBZyGAAZg15sf/WuquNFWnCzODIw9nI72/nl09KI/mqXLdK5WAf4kAWnOqkVuAD3h8uwT7bnbGmGCQfhSeeyno9dxeC+tAG9WgUVdU9irOhpORCQbLc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781802017; c=relaxed/simple;
+	bh=8i6rnHT8h8cpy7K3Jf6lSbPkXondffZ3tpL0kdAcTfU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=odB9JIGpPKxe2AR0oTwKKMknx/77pyoOB+I49Ob3bU1ea+HJfzrIcWTS74h35rBsc7ESKpsknX8ip8PfKcGL/MjPm/svdbCug5RlqxCTs5RBnJXN2cEGV+aBdx7HudEw40JazjNwDGErG40qt0PLbpksTgbBaffGIEHmpY82bhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S4Cr733D; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L1VyhvNb"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7fe723ca5e5so13785197b3.2
-        for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 09:57:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781801837; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ULIatuQkBRbOSK0rpVOhwERzlBvdDVWzlf0wgGuouwzzIW9N7UaFENtQ1iwUQMpTUv
-         GL9zJFSvQuRI3kgcWUVSp+6hXPvd7y6TOS6HPDdwmItKew4TqrfEB5kEyFzHlMNHWmXH
-         ujTd7itfTwCYbhjQInO3gFb3ZGynf+XnJMjezTFhnUL4eOpHwiLFfaXZvMqNbGRqxdLn
-         k1pnWJ08t3yYxuGsijO9wtjPlkgQTGC7VL5OeietNfmZp63T1Qt6tWInaSZJJDFMaZOn
-         5rvIxQDmjKSKfgbu8U12SdlbkZg2qYoKdiBXNJv4inXSG8o8+KSG9B9IHDZWWb7o39Rs
-         uzCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Htg23kzGOcfdBIlQIkS2gqcM01UAh2rRKeggskZLPVI=;
-        fh=rFqmKREa8INut6VLMjJm10TYhY9HtZ1L5BfPGqYvE9A=;
-        b=aAOqj2y3tiUz1dHIam0gEHzSiLnANm+8NlzuVezWuN1KrM03ngg9Lt2MyakAlaGKt0
-         LcVp1hPZ+/2extEMiL7lHk0gr5szbVWhXtvY95QGU/TQj1TtMGGjUPKSJ8yKUnWeqcn/
-         FWuqfLzlGLVSSLUKURZ6XI5bhB1i7I1nEAkOvHBiCSnBtO9rz8+Li/fR4v4vbI+BAlV6
-         swhFqHptL+1niNB/BvBhy9Vz9Jg8rvBXhyf3sYLlT/l8sNw15uXhw2dFuHA2hO2P+ThM
-         LlMDBIjMIWBaV5AlzRLgDxKh/AJjVIyP5L3qojX6QTdBE7Gf5WJ/rhJu9wHVMzJopB6/
-         MPuw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S4Cr733D"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c88d1d4543fso844087a12.0
+        for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 10:00:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781801837; x=1782406637; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Htg23kzGOcfdBIlQIkS2gqcM01UAh2rRKeggskZLPVI=;
-        b=L1VyhvNb1sIs8ZcUKlNXbdPvX1JT0GS7LJ6oyUr0VPieXQyPNBkJmx9HA6PdCwzitS
-         2AWlIQekxSWXP95TL8iD1sM24lR6XXHT0VHLRTBI1PyI6LGUBXSvLYbIMWD6ddvoh7Tq
-         WKmfzHKvjrbYxb0GuqPAAgcWB4NVxdgA7upKv9z1lz4soJnDocYxGLu9QlAnPHqgDBs+
-         DjWlWMuXjv57lGFx4EkxXcytsgW7dpSevRB1T7P44cD9LtP7LcuzbZoK4MzJGZG+Ds88
-         ecvmoA+EXUeh2sRdQg9Uie+MU/h00m0ET8IN6HpiMHBaKjzvfRH/yVUsMfM3yMgd58Kp
-         raaQ==
+        d=gmail.com; s=20251104; t=1781802015; x=1782406815; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nsHSLMMotOY4uePVTEbKQ5VSsYg3aXbvu2XuMkfpzs4=;
+        b=S4Cr733DNIRIkGGyyOt/LKDRUo8YhRT71niDZwApLH9FglColGqJ4jr86ejPpe/tRp
+         B+Bef2JD45TOvEtjhFvZr2ClTijJPKA8f22oDxph97nBcQNpfO2HATWFtI/RSR/mant8
+         XZooNTEI1/R5cVT8RsybGf4O1js99/x9xL0r96DybOMdyJ73zJhfISpZY2N4KmQfMpS7
+         vpEDHJDBVvXBm0ARYrgFxTQt0tD/FnQVflu0QdpOmTm4en2lzKAmZli3eBxBuPEgJ5rZ
+         cowA/mCjGdxaZ9jy5R0Z1Pj6o0uN9wuJGXjcDNVyb9fvrLdihlhKwk/7/8RbKiT3QDj+
+         4OIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781801837; x=1782406637;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1781802015; x=1782406815;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Htg23kzGOcfdBIlQIkS2gqcM01UAh2rRKeggskZLPVI=;
-        b=VT980S+yrm5uu3C3mLS8PIsAg2n26Q15RNWfcMfMUMSWU/z9qJe+olcRwc0Dm2DXQN
-         lRdCggneqA1G3SesnwC65FpoPC1Ef+7VGlURo7+IXR0j0op7pcoiz15uerFvQwOivn2q
-         VuBygJSqhvzHGm9SxKI9+OvteR5bwIbW4INZOhcN4rLVqzzQue8dUfuBTjAmclIKnVYR
-         JfIN5mYaigsZGUcn5hdkOcQm1TgAu7xvDani9Lhtm0TomiCahWJpPNqFbeo5/RyR1M7P
-         uZL/teMDUO0FlrN+bSvd/6+dbDQ9zMhU2QMmIexGU7R8UlSxO7uSQa4bWSxIwoitVYls
-         OEVA==
-X-Forwarded-Encrypted: i=1; AFNElJ9dXWRzo7QiojwBY4auxvlFfI10+0lrNPUDaFRvv45fOPM/+C0JFckNZXFbPLfOFNynYsYfY8Cn7BHytQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGnJyOL5uN6khT/3/X8598H6iGjmBsyBUKBGdzlbWzC0gVM+LA
-	NMDN7eCqQvR+iul051Z2P/sn3O2Tg5dJEfhd/8LXmHLgcXwlOk2opn3jKbXa5Q8ax8yYwUrn7dx
-	GMdrpRIgXYfbExz7+8n9qLuxjBfOMbfU=
-X-Gm-Gg: AfdE7cmbE5DexQ04XE69YBFs6f9ncUHcMycuZ09Lir6noXXUrWDtGk8sK0gOL1TiUu1
-	OK0P6ZiK2FBw0FAdiImxpizNr0rj0QD4+n7ZQpyWy7CgAnsUmzjpR6W99aOTGwFuR5T5Fpl5qJ+
-	ifWPgNbyDcmASIhdV6EiJufgXe/HzKXGGS2vmCvtj502kKAWTLaRtl/4FJNsl90ttrFs+fJUZdb
-	dEsT+roqKP9esLWLunq5vrQwnABph7BJqycyr6NoiWolnan7Q6cOyA2IqyF2Nc+135dxFpxKlE=
-X-Received: by 2002:a05:690c:e1da:20b0:7ff:ec2:ae84 with SMTP id
- 00721157ae682-7ff0ec2cd9bmr65962897b3.46.1781801836500; Thu, 18 Jun 2026
- 09:57:16 -0700 (PDT)
+        bh=nsHSLMMotOY4uePVTEbKQ5VSsYg3aXbvu2XuMkfpzs4=;
+        b=Kz0sEJWGrES5GnJ6Za9zLpfTI81+26ikBoUVyep3CIwIM2MBOR659SjE52AZSGfYSg
+         fseNyf850nub4Tf2LZd0dpVgq9BalvbocDZbh08qjcyIhh6mxgBFXtHhyJEH2NVrmKSu
+         vrp0U+0zvL8c38KVE09UQ6w98VDJqXfNrhVfVpM6sJgsTJ7CYzb1ewPamsWKGWoV78vw
+         cR8HImCSvSpdl49fs2chPFrM79xZxRx5RI5YvoJStUbpGP3lm5tvCK6GZ0LQI3VUNLcI
+         Ai1zgzwwDZy3/Hng6c3Lm5cU7HMtnVRMA8kKaTD051Q4Bd+/qT9PUahF0E6rnzgaXwWy
+         y5PA==
+X-Gm-Message-State: AOJu0YzKJ3ngkbxoKbmwrkD38Un6lru221wn6Fx0HuN1OmpXkGrhdcww
+	CkFZEnckRe/cr5kULwVM0tISkoU24w/FeWhFR8WkeYZR5s8iv0NfLuRE
+X-Gm-Gg: AfdE7ckQLSwlOFTvmGpc8/WaL8mUAZ6HDUqj4WDNpLyKmPQSyaEsBA+x+pll6zj0u3a
+	Gr/5ewTNexJO9WP6uXXRAgl3fU2B8ysYZzmlcxjEA9HRzTkQq9nCkG+YadRb7SvH/qi0y8+jsw6
+	6o0cl9NI/hH2Zn747o3hkmWl2ihu4LC+xq4qfqKsTS0HFqyMpGNI37scvZZ2GWE+JSwpajAOQ9R
+	utnOf9HTO7kN3Uz6b3+18n9p8CSh/EE+3qFJST39PkHW3qaM1+zl/mKGThqHDY2W6ZdqMgRGflP
+	aTN7umyvlSzMeHvGPCShi28hO9U5bEWdrpIbO44Dj/C+Us0h1QLLZ76kBpMwlAziTOA+PJdXy6u
+	eIDPZMNYOJE8g/Q8oX0UKFjluS0TVyQ4g5VbklO0pg2Sm05l2s7tVPN3swnKmJKDeYIkmycJJYm
+	YGURWnSJg=
+X-Received: by 2002:a05:6a20:72a9:b0:3b9:5efb:cb2e with SMTP id adf61e73a8af0-3b9e28cf9abmr4519723637.21.1781802014994;
+        Thu, 18 Jun 2026 10:00:14 -0700 (PDT)
+Received: from localhost ([111.228.63.84])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c88fbaff137sm3534622a12.28.2026.06.18.10.00.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2026 10:00:14 -0700 (PDT)
+From: Cen Zhang <zzzccc427@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	zzzccc427@gmail.com
+Subject: [PATCH v3] ALSA: usb-audio: Kill MIDI 2.0 URBs before freeing endpoints
+Date: Fri, 19 Jun 2026 01:00:10 +0800
+Message-Id: <20260618170010.191433-1-zzzccc427@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260618122209.3655881-1-zzzccc427@gmail.com> <87fr2jkg3p.wl-tiwai@suse.de>
-In-Reply-To: <87fr2jkg3p.wl-tiwai@suse.de>
-From: Cen Zhang <zzzccc427@gmail.com>
-Date: Fri, 19 Jun 2026 00:57:04 +0800
-X-Gm-Features: AVVi8Ceda-SLWdErbRE-wMVAqKlvcTBseBrTUXAMgFH5DlSTit1x2WbrKRzOSEw
-Message-ID: <CAFRLqsU-6VxBGfXmSLoKAq9juT0f+kmQKo5uRQ=aUQ7DGLJEFA@mail.gmail.com>
-Subject: Re: [PATCH v2] ALSA: usb-audio: Disconnect components on probe errors
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Takashi,
+MIDI 2.0 input URBs are started during snd_usb_midi_v2_create(). A
+later setup failure can still jump to snd_usb_midi_v2_free(), which
+currently frees each endpoint and its coherent URB buffers without first
+stopping the submitted URBs. A completion can then dereference the
+embedded URB context and endpoint state after they have been freed, or
+try to resubmit from the stale endpoint.
 
-> Please split this to two patches.  One is a quick fix for
-> free_midi2_endpoint() based on your original one, and another is
-> usb_audio_disconnect_components() I suggested -- those are basically
-> two distinct fixes.  And, the latter one isn't tied with the MIDI2
-> issue, rather a generic hardening, and I'm going to apply the second
-> one after 7.2 merge window, while taking the first one for 7.2-rc1.
->
+This was observed as a KASAN slab-use-after-free in
+input_urb_complete().
 
-Thanks for the clarification.
+The buggy scenario involves two paths, with each column showing the order
+within that path:
 
-Sorry, I misunderstood your suggestion earlier and mixed the two fixes together.
+probe error path:                         USB completion path:
+1. start_input_streams() submits          1. The HCD still owns a
+   input URBs.                               submitted input URB.
+2. A later setup helper returns           2. input_urb_complete() runs
+   an error.                                 with urb->context in ep.
+3. snd_usb_midi_v2_free() frees           3. The completion reads ep
+   endpoint storage and URB buffers.         state and can requeue URBs.
 
-I will split the change into two patches as suggested:
+Make the endpoint destructor follow the same teardown ordering used for
+disconnect when the endpoint has not already been disconnected: publish
+ep->disconnected, kill the URBs synchronously, and drain the endpoint
+before freeing URB buffers and endpoint storage. The guard avoids
+repeating the stop sequence after the normal
+snd_usb_midi_v2_disconnect_all() path, while still synchronizing the
+direct MIDI 2.0 create-error free path.
 
-Best regards,
-Cen Zhang
+Validation reproduced this kernel report:
+BUG: KASAN: slab-use-after-free in input_urb_complete+0x37/0x1b0
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:_raw_spin_unlock_irq+0x2e/0x50
+Read of size 8
+Call trace:
+  dump_stack_lvl+0x77/0xb0
+  print_report+0xce/0x5f0
+  input_urb_complete+0x37/0x1b0 (sound/usb/midi2.c:186)
+  srso_alias_return_thunk+0x5/0xfbef5
+  __virt_addr_valid+0x19f/0x330
+  kasan_report+0xe0/0x110
+  __usb_hcd_giveback_urb+0x112/0x1d0
+  dummy_timer+0xaaa/0x19a0
+  lock_is_held_type+0x9a/0x110
+  __lock_acquire+0x467/0x28b0
+  mark_held_locks+0x40/0x70
+  _raw_spin_unlock_irqrestore+0x44/0x60
+  lockdep_hardirqs_on_prepare+0xbb/0x1a0
+  __hrtimer_run_queues+0x101/0x520
+  hrtimer_run_softirq+0xd0/0x130
+  handle_softirqs+0x15b/0x670
+  __irq_exit_rcu+0xd0/0x170
+  irq_exit_rcu+0xe/0x20
+  sysvec_apic_timer_interrupt+0x6c/0x80
+  asm_sysvec_apic_timer_interrupt+0x1a/0x20
+
+Fixes: d9c99876868c ("ALSA: usb-audio: Create UMP blocks from USB MIDI GTBs")
+Assisted-by: Codex:gpt-5.5
+Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+---
+ sound/usb/midi2.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/sound/usb/midi2.c b/sound/usb/midi2.c
+index 04aeb9052f13..3ec633291772 100644
+--- a/sound/usb/midi2.c
++++ b/sound/usb/midi2.c
+@@ -470,6 +470,11 @@ static int create_midi2_endpoint(struct snd_usb_midi2_interface *umidi,
+ static void free_midi2_endpoint(struct snd_usb_midi2_endpoint *ep)
+ {
+ 	list_del(&ep->list);
++	if (!ep->disconnected) {
++		ep->disconnected = 1;
++		kill_midi_urbs(ep, false);
++		drain_urb_queue(ep);
++	}
+ 	free_midi_urbs(ep);
+ 	kfree(ep);
+ }
+-- 
+2.43.0
+
