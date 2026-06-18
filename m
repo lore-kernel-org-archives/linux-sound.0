@@ -1,72 +1,76 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7826296BCB
-	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 02:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84EA2E7388
+	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 02:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781751131; cv=none; b=SwlxLBM4V7g+htawOLnOweOPva1Zt/XY0d5xhaU9CIPCKtxh1Vbg6EOaQpLktFXrqv+jRz5BtoYMl61SHEw/WNSDotq6RRYVTaqvudEIZu2sw2lI2GRnLUhHZpUzG5GuesOo23DCQOhkO5gy2RDJZId3runTjqppTzcyqA50LDY=
+	t=1781751131; cv=none; b=isRcmiD3CyITq7uHZV0B15GlkUBLKjxIkhIGWT9cQDnWud9js27xSjYbaUQJ5H0APuI60F4d481l85VzIvfIquBXYX7k0cJ7bQNPWJKtcRZxLzyD/1Kh8Wj4/R0NP0J5c/hrSFz2NkMzkMriwcAY3a6VKdlY8Gcak0z6/otOfvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781751131; c=relaxed/simple;
-	bh=I/EkW5rU5GRe7RQ6GLAJkxj4pOhlLop3c5dxiLpmdTE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EtWY+MeD5mysXGezooEyBtINsqWGe/34IZBgZaaP26qexw+3YSEq47wRg7iqbiKLiSpFzDVkzVZFMXMafSU5uJHlm2/cK6Re1iK4sYur5rQP1N/BlkLn0w2WI3IbpCcXHQbFSzSfj3uGbhQhUza5fxNCCFygnfogksbiHn1agnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jwaRosbZ; arc=none smtp.client-ip=209.85.219.45
+	bh=uFI4CbaVHbw7LY/kwNVwR1mG+tDSp9TjV/HGSQ8Xpbk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=olCvn6t4zfiW5V3msyow9d2Fc5esjJOE2nhmUrWxYM/hwKjTGNfrXa4jXzc93o5OdyhZP2sRNw2u2jkFJ9aRfwKAbIuMM0ZcVpw2sN2gkuz4VF7exOBNDBybZGSJiF6uplJlMSJR9TXi+0ou/F7e9uvRZjHzfdmWJH4Uyw3GIyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RN5ew6gd; arc=none smtp.client-ip=209.85.219.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jwaRosbZ"
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-8dc544dda2fso4041446d6.1
-        for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 19:52:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RN5ew6gd"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8ccf887de87so5230586d6.0
+        for <linux-sound@vger.kernel.org>; Wed, 17 Jun 2026 19:52:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781751128; x=1782355928; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pns95xyZYc/RzAvwMu3MvI7erqJsU+5jcWUfTmCGr/4=;
-        b=jwaRosbZ5i/DDEbjAJT7cPpnJ9XRLzUWi/015tqfaidUTeK6VV9VzI23OIdNDRsg5m
-         8peRfBdJvUV2f76VMn3d1FnojEn7LzEbPj0FZhP3MZ4omhuCMe57KQFeYrpswGsdn/ED
-         uxvIDFJg6KaQjLvkU38MQjEawbXFpA3h44efazB8Mgoy004AzbJuexzbTk9gAgFPCxq/
-         w1HbqKp04dwoBhtX0DQJ396Z0I8c/p5trmQZJaC2tlME4tIpbx9i3Lb1OMJ7iCW5pUZ3
-         ygcJAjSIkPzc/lbdcqMxHOjVl4Ohbji5qY8wTaY5FELv9e+SkwJG2fyhiztPvJqKsDOC
-         Dr8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781751128; x=1782355928;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781751130; x=1782355930; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pns95xyZYc/RzAvwMu3MvI7erqJsU+5jcWUfTmCGr/4=;
-        b=SqkyER11JI1Y9bkUsnNnNPKBvF+yJRsqxCYz+j8ussAIlBCBNcQLQNL9Va4/rQCslI
-         PMbR4bSHFU2D7Y/JvbV7L0EPEtIB657e4N2xRIpm6fN017GHj75/6bqq1GafjT183jxf
-         snMg0xWfUImfYiQJlYEz7fGP1YOLFnNtpeXUq+Hje41xdnbQC64pGL1odffIHYiCzyHR
-         OcCyeUmLlTmcmyjc5WwLdGFaxGeOEHgG1CWMcZWmWL9WEnXnQXJUpBc1hamMv6ogvnZg
-         PFs0LIEHFqhzKBnSSL98ZIcQChdyShJeeqj40XtU3Td8WMJoYV1hRJaezKuuVJJtRuvi
-         28/A==
-X-Forwarded-Encrypted: i=1; AFNElJ9qP+V0D29c5eTras5+sIespu0h7Vb4KbWso8fwoL7Iw/2z15cU7bZ5v4sq0hwI/MkqEmcMTdHAK7p1zw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXTqa+YD70prbffLZxyGYYXLtAsbp1pV7vRroGeWhtcpZrBFes
-	nSd4D24+zaYWRRfTnu3qAVACvyEb5+YjiM+53q5a1j3pC+qaBfdSZiBM
-X-Gm-Gg: AfdE7clyk48XhmLUWvwvMOM7Zc3yQnW7Y1KWjrduIZIzOdNXy+asNff74Av1CP3HJLj
-	Exe38pP//gCbshpnookved24zpJsca2LRVf6FyXrJ2Zvz45bHjcSQDD/M54ElTcSJncLlRR+Iib
-	H9RwlYf2u9kLNI6n8IXFPKLqtsIrNrD4cMkh8ZIy+u4ZpdSO+hevP8wUbCB24DXXlhgPH40Q7Pd
-	LB9uj+LcdKXkvQmiNa+7iL/sEev9bojtN3Ed7Ns0Ro/M22yubEyk9iULSnLNR0+y+/tVyrZgmkn
-	ENbsJ9CPraMsBcgx+g/oPKue+HnD50Xcy71oUxjKHnxhgZQY3O9k8+iZON4ZVQ4H1vYz9ypEp68
-	MpC2tU3L6TLUi8LiBz1MxE4y+3C5miWf24HP9HIXP9FcENHDGf8qP7I/OkDC1WCgu/vIGmaTV8P
-	zM1CBhv0V6ZaxGO557RhkWLlKy8rggiTYgFvRVPPKCpiQbpcHSGdXdjcMIUA0+SDejX20C/bR3i
-	QLylWHxllEg8D3rI19bsQcKqgAXno6i
-X-Received: by 2002:a05:6214:1c4e:b0:8cc:defa:eae0 with SMTP id 6a1803df08f44-8dd56ae869fmr4271676d6.30.1781751128565;
-        Wed, 17 Jun 2026 19:52:08 -0700 (PDT)
+        bh=zNhazWWKRcLlrWnSm3UA/eAJwz8pGaK0KJHTqjj4RSA=;
+        b=RN5ew6gdenIg1iqlSKygLE1TV5rK2m0vPkAOtvrwlPUCBjQGXRAkWeOLeInvu4BIIX
+         HquYrCmTYDi5L7lWPXMZFBTRRJW6O+mTe5SygQ25YO9CafofsjxhK80hMEA6tw/PHoPJ
+         b15teHI4S6I5HWPGjzYtUNKYNnnUrLM5ZSjQfePNWTjAlfJUlgdBquJHj7TtfIjviwDL
+         o1p2SHbwftyiJk3N/FtpiJML3mCTgjgkA8oUmYnKTmRyg0rJvvVLDSUN4VPWw/Lg40Lw
+         wAlY9bHGxwbX55do9jc0l1HwTeXCsjKpjc0a7aeJGffBOWBJBoQ32YInGJ1vSkaPcwxP
+         sByw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781751130; x=1782355930;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zNhazWWKRcLlrWnSm3UA/eAJwz8pGaK0KJHTqjj4RSA=;
+        b=Y7sF8UGwtC9CodDT4gFpYdZfvJTGUpwJxJwmi9Bx7ueO/FgzRaBCXYBFFZ6QffL4Fd
+         H4wX/gdkPhgjj0MjFb4rjwQbunjgu2kchkGknHLmKeOb3nlnA0UBONjJcAS0SJ7DvTdC
+         R2vXJYVp5r6zNt4u2m9YWRWXi3zNf2tu272wBek5rGFZAShEW7YHj1TBwxwPDCYesIw6
+         /j7j9Dzn/o7FRdGtEv3kOqaUxle62MAO050yDu5imZjqoaM5tRHxt240BOLGPSzcCR5t
+         7qE0OLuOxjobE9eZ9pjg9lX7p4jkrzG3IFeTLGn30u3m4hbT8+qKJTwZuAKx7QohlzOD
+         xbiA==
+X-Forwarded-Encrypted: i=1; AFNElJ8Id37z9shkF+cBFYFGUnaZv5TBSzw1JRznFp1Yt6DuDtW+Lcxk9Z7hjxq3q6CnmVpl2F5uWVT44/oXEQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YweY2l3nOt470c8aQa3DHULlt74DJm5o11mTqGTPFVBaFKvz9MC
+	5so0z++82u4CM7WYdvZAkhnnycvqaRqXydaWmj/Tet5LWU9+pP1jLaWa
+X-Gm-Gg: AfdE7cmphmQJ2y40pxm6VUxcZwlEVVaPZqG2fniGuyP6t1CNE6cJ4c9SRhvpNKk5Me/
+	mYtB2BY7WTmMSEOqv2pi6Cxeos+F4Z/7IGbXE3rf4fD/3I3+ulxXhBJ0z+n9un5VFhPf7QQFk0f
+	jDWcCfnOApX5Z4HPsXXtVh+hC7JfZtz3O2K6xY4+UtFYagSZFovEgRhcfoHrrbdtKHdYytZf/jk
+	1fJwmDyfXjz7rcNOcjOjxBq7c4J8bVOh45J6NdMSEs8Mw/AeW565eTQFoiQLEaKKPkpauQDN6Je
+	ovhv39bxbGYMf8s78LzK1Ge0RiSGkx063aQVTczSRv/ZIM2tWup56ojV+nXhY9jkOAfxVjOr/QR
+	GMVHpD2DPfuxGuYQK8U+/yMBZaqJox0awb4GToWp2MRi5WXN2sQC1hc3AD1Ng5pDlblbQ2wSmGk
+	iJQmHd1qxaGGAiNGnOiYWyo7zecbcNKjorkwaM62ud4uVI24lQsj1boXIcaVUlbLxEspQuc3OOy
+	VFCHBMmAty+Ona3dt/mHG6fBWPVjOLS
+X-Received: by 2002:a0c:e093:0:b0:8dc:ad48:70a7 with SMTP id 6a1803df08f44-8dcad48711emr49594856d6.26.1781751129711;
+        Wed, 17 Jun 2026 19:52:09 -0700 (PDT)
 Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8dc7f9b4b3fsm25333386d6.31.2026.06.17.19.52.07
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8dc7f9b4b3fsm25333386d6.31.2026.06.17.19.52.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 19:52:07 -0700 (PDT)
+        Wed, 17 Jun 2026 19:52:09 -0700 (PDT)
 From: Michael Bommarito <michael.bommarito@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>
 Cc: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] ALSA: usb-audio: qcom: fix QMI stream-request handling
-Date: Wed, 17 Jun 2026 22:51:24 -0400
-Message-ID: <20260618025126.1862954-1-michael.bommarito@gmail.com>
+Subject: [PATCH 1/2] ALSA: usb-audio: qcom: reject stream disable with no active interface
+Date: Wed, 17 Jun 2026 22:51:25 -0400
+Message-ID: <20260618025126.1862954-2-michael.bommarito@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260618025126.1862954-1-michael.bommarito@gmail.com>
+References: <20260618025126.1862954-1-michael.bommarito@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -75,64 +79,59 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-Two fixes in handle_uaudio_stream_req(), the QMI handler for the Qualcomm
-USB audio offload stream enable/disable requests (reachable from
-unprivileged local userspace over AF_QIPCRTR):
+handle_uaudio_stream_req() resolves an interface index with
+info_idx_from_ifnum(), which returns -EINVAL when no interface matches.
+The enable branch and the response: cleanup label both guard against a
+negative index, but the disable branch does not: it forms
+info = &uadev[pcm_card_num].info[info_idx] and dereferences it.
 
-Patch 1: the disable path dereferences uadev[card].info[info_idx] without
-the info_idx >= 0 guard the enable path and the cleanup label have.
-info_idx is -EINVAL on a non-match and .info is allocated only on enable,
-so this is not only a NULL deref: when .info is allocated (card enabled
-once) and the disable names a non-matching interface, &info[-EINVAL]
-points before the allocation and the pipe fields are an out-of-bounds slab
-read plus a conditional out-of-bounds 4-byte zero-write. A never-enabled
-card instead faults on a wild pointer (oops).
+uadev[].info is a pointer allocated only when a stream is first enabled,
+so a negative info_idx on the disable path is unsafe in two ways:
 
-Patch 2: on enable, subs->opened is set before the service_interval is
-validated; an invalid interval jumps out without clearing it, wedging the
-substream at -EBUSY until disable/disconnect.
+ - If the card was never enabled, .info is NULL and &info[-EINVAL] is a
+   wild pointer; reading info->data_ep_pipe faults (kernel oops).
 
-Impact: on an affected Qualcomm platform, a local unprivileged process that
-can drive the QMI disable path for a card with no active interface would
-oops the kernel (patch 1); patch 2 leaves a substream wedged at -EBUSY.
-See the
-confidence note below: this is a static finding, not yet reproduced.
+ - If the card was enabled at least once (.info allocated) and the
+   disable names an interface that does not match, &info[-EINVAL] points
+   before the allocation; info->data_ep_pipe / info->sync_ep_pipe are an
+   out-of-bounds slab read and, when non-zero, an out-of-bounds 4-byte
+   write (both pipe fields are cleared to 0). That is memory corruption,
+   not just a NULL dereference.
 
-Confidence and testing: this series is from static analysis of current
-mainline; I have NOT reproduced it. CONFIG_SND_USB_AUDIO_QMI builds only on
-Qualcomm SoCs with an audio DSP (no x86 build and no Qualcomm hardware
-here), so there is no splat to show. What I did verify by reading current
-torvalds/master (the offload driver was mainlined in 6.16):
+The request is reachable from unprivileged local userspace over
+AF_QIPCRTR. Reject a disable request with no resolved interface, matching
+the guard the enable path already has.
 
- * Patch 1: in handle_uaudio_stream_req() the enable branch checks
-   "info_idx < 0" before use and the response: cleanup label checks
-   "info_idx >= 0", but the disable branch between them dereferences
-   uadev[pcm_card_num].info[info_idx] with no such check. info_idx is the
-   negative return of info_idx_from_ifnum() when no interface matches, and
-   .info is a pointer allocated only on enable, so for a
-   connected-but-never-enabled card the disable branch forms and then
-   dereferences a wild pointer.
+Fixes: 326bbc348298a ("ALSA: usb-audio: qcom: Introduce QC USB SND offloading support")
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+---
+Not reproduced: static analysis against current mainline only (no Qualcomm
+hardware; CONFIG_SND_USB_AUDIO_QMI does not build on x86). The enable
+branch and the response: cleanup label already guard info_idx; this adds
+the same guard to the disable branch. Please confirm on a Qualcomm build
+whether a disable request can reach this branch with info_idx < 0, and
+whether the out-of-bounds write in the .info-allocated case is reachable.
 
- * Patch 2: subs->opened is set in the enable branch before the
-   service_interval validation; that validation can "goto response" without
-   clearing it, and the response label only clears opened on the disable
-   side, so the substream stays wedged.
+ sound/usb/qcom/qc_audio_offload.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-What I am NOT certain of, and would ask you to confirm on a Qualcomm build:
-whether the QMI flow actually lets a disable request reach the disable
-branch with info_idx < 0 (a disable for a card with no matching interface).
-If the userspace client cannot produce that ordering, patch 1 is hardening
-rather than a live oops; patch 2 stands either way. Both patches only add
-guards that already exist elsewhere in the same function, so they are low
-risk to apply. Please also confirm the Fixes: tag against your tree.
-
-Michael Bommarito (2):
-  ALSA: usb-audio: qcom: reject stream disable with no active interface
-  ALSA: usb-audio: qcom: clear opened when stream enable fails
-
- sound/usb/qcom/qc_audio_offload.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index a3f90cc7c6cad..852a91e4b8686 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -1640,6 +1640,11 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
+ 			subs->opened = 0;
+ 		}
+ 	} else {
++		if (info_idx < 0) {
++			ret = -EINVAL;
++			goto response;
++		}
++
+ 		info = &uadev[pcm_card_num].info[info_idx];
+ 		if (info->data_ep_pipe) {
+ 			ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
 -- 
 2.53.0
 
