@@ -1,89 +1,249 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF803FA5D4;
-	Thu, 18 Jun 2026 15:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D026F1C862D
+	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 15:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781796152; cv=none; b=DH+N2cphkdt1SXCwI07jWVn05LBcE/B9CwE7qbpwqlrgqRZx8AugndTg8e6Gz6ZQgEwrBkgNDqNt+UtBswzB4dx+MOMMzvGWKT890vq3TEQCfUFV6iTkIhnXJhxMShYVP1WnwuJ5ExcyOWNBCvVO3NReWXzKBK+NrkmD3w4rdmk=
+	t=1781796535; cv=none; b=gTnnpwyNpYGkL+IV7dm/hJLwBlFFW6inELGyYx17LVdHQr4qyhKZ10r1OWdtnkbIaR2IBuoBakyHuRN27jW6G1YHGkFwJuHKZfj2KWnwYRl2DUIjPkTTN0I1T/BU++wJD4vkCZT1ilfmZHCjSchfTB0LJcSOkRcWy2xYWz3t9n4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781796152; c=relaxed/simple;
-	bh=jSdlNlpM8SAob/fGvaYLbUYW1FfKn1bUWerBX6EGHS0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ebmCTkb2dzesfOMgXMBGFkEIfNYySrhopvmxK+MXMs9h/kPCdcy95eRfbesYTt9WmK9hzK0gJC8YgKY+ZmEljlFjQ0QYn0k7xriuJPI+N0oUNQ21aq4dAjSHCj5K/f0Mboa0EJsGTrf0CydDXLUyZOsmOsyciPT1W9KeaIp3sOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BCYWCXA4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781796535; c=relaxed/simple;
+	bh=gxBIubiQ6uAurP4C9S45vzu5dGgCDA/RJMSapnnMawo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IVwaBFC+V2AJTHhpk4jBaFEXiERwjl7a7xdwvp+FL8/JLbxx4+6ofKL6jQhJOWG4s7HPZTY2EVGYsXxSvcmY22jPXqLuZqyEXFTSgrQ0WCssxW7LOD6lCfJmO7HNkaHfvZiXeitTqfX2gcONOHQeJkWpO/Fr0e2DXUZCeWWtKYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tcy1tXXN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SW8L3xvE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tcy1tXXN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SW8L3xvE; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BCYWCXA4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EDDD1F000E9;
-	Thu, 18 Jun 2026 15:22:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781796151;
-	bh=jSdlNlpM8SAob/fGvaYLbUYW1FfKn1bUWerBX6EGHS0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BCYWCXA4WBW0a7fOg9IHEBtPOvt4tAiLJQCBJu5A247pvIg6g8zrZqkpCgituH9WU
-	 U4HyXCKQQTCFCbXwePxJLY/YoR84Hz1VyBcO6Hk7Bq++HcYYC+MsXNf+uG2H2QgtzE
-	 tHSYz/hhqbOK8hUycbYK33jM+q6y+Wm5rOLu6OO4yCV+N47cnFbZGP6bimMYALa8Fh
-	 hSrClZbjnhoe6Pkf45gaevjI8voZq2AYTApVrTAuclx+rRW9F35F39tHXUn/6IQ24l
-	 uXWfsd9CyNt2Qa2iDR2RjeK+j8HdGzOaPEAdzdvFV3E5kpiXLuL8SceqVB8ujO/v7k
-	 f9MyiavN9TkdQ==
-Date: Thu, 18 Jun 2026 16:22:26 +0100
-From: Mark Brown <broonie@kernel.org>
-To: david@ixit.cz
-Cc: David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, patches@opensource.cirrus.com,
-	Bjorn Helgaas <bhelgaas@google.com>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	phone-devel@vger.kernel.org
-Subject: Re: [PATCH RFC] dt-bindings: sound: Convert cirrus,cs35l36 to DT
- schema
-Message-ID: <6d0187ac-5b52-43d7-b874-9739a62860aa@sirena.org.uk>
-References: <20260618-dt-cirrus-cs35l36-v1-1-1a43515666ad@ixit.cz>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tcy1tXXN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SW8L3xvE";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tcy1tXXN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SW8L3xvE"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2A5BC75F32;
+	Thu, 18 Jun 2026 15:28:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781796531; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=axBUWVxHphdjRJDPv83NlkzBIj928HOCKMNv6Pr6M8w=;
+	b=tcy1tXXN9ZySVvo9Gs7rDF1JpkvuPagQX8ZenfdR1ewXIGmA9ZLHz1ExzIrvIxRZDv/02U
+	V6ySWM/Mk3PxGGWnXIuZWoUZypFy/qMf8+YMdbvKwf0bHDQ3pDaXIkc6jPOv3kIyuvNgV9
+	yq9LPzVKd2F37XtIaz9KaJqdJ5ekx0Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781796531;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=axBUWVxHphdjRJDPv83NlkzBIj928HOCKMNv6Pr6M8w=;
+	b=SW8L3xvEUh6OCqEZd+s6Cnir16c4GoJ6Vwa9rXM0fM80znwxYXrSsnQOX4nkMBShvp7Rtg
+	VYVIfyd+H2XbACBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781796531; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=axBUWVxHphdjRJDPv83NlkzBIj928HOCKMNv6Pr6M8w=;
+	b=tcy1tXXN9ZySVvo9Gs7rDF1JpkvuPagQX8ZenfdR1ewXIGmA9ZLHz1ExzIrvIxRZDv/02U
+	V6ySWM/Mk3PxGGWnXIuZWoUZypFy/qMf8+YMdbvKwf0bHDQ3pDaXIkc6jPOv3kIyuvNgV9
+	yq9LPzVKd2F37XtIaz9KaJqdJ5ekx0Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781796531;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=axBUWVxHphdjRJDPv83NlkzBIj928HOCKMNv6Pr6M8w=;
+	b=SW8L3xvEUh6OCqEZd+s6Cnir16c4GoJ6Vwa9rXM0fM80znwxYXrSsnQOX4nkMBShvp7Rtg
+	VYVIfyd+H2XbACBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E67E2779A8;
+	Thu, 18 Jun 2026 15:28:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id D3IYN7IONGowWAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 18 Jun 2026 15:28:50 +0000
+Date: Thu, 18 Jun 2026 17:28:50 +0200
+Message-ID: <87h5mzkgul.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Frank van de Pol <fvdpol@gmail.com>
+Cc: tiwai@suse.de,
+	perex@perex.cz,
+	ramiserifpersia@gmail.com,
+	rmxpzlb@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] ALSA: usb: Add support for Reloop Jockey 3 DJ controllers
+In-Reply-To: <20260617203937.1273852-2-fvdpol@gmail.com>
+References: <20260617203937.1273852-1-fvdpol@gmail.com>
+	<20260617203937.1273852-2-fvdpol@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QufLE/0Kc9+EiCqz"
-Content-Disposition: inline
-In-Reply-To: <20260618-dt-cirrus-cs35l36-v1-1-1a43515666ad@ixit.cz>
-X-Cookie: This unit... must... survive.
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,perex.cz,gmail.com,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Level: 
+X-Spam-Score: -3.30
+
+On Wed, 17 Jun 2026 22:39:37 +0200,
+Frank van de Pol wrote:
+> 
+> Introduce a dedicated repository subdirectory and driver for the Reloop
+> Jockey 3 Master Edition and Reloop Jockey 3 Remix USB DJ controllers.
+> 
+> Because these devices utilize a non-standard, proprietary Ploytec USB
+> framing protocol instead of standard USB Audio Class (UAC) mechanisms,
+> they require specialized handling outside of standard quirks.
+> 
+> This driver provides:
+>  - 24-bit multi-channel (6x4) audio capture and playback.
+>  - Support for 44.1, 48, 88.2, and 96 kHz sample rates.
+>  - ALSA RawMIDI input and output mapping for the integrated control surface.
+> 
+> The custom Ploytec encapsulation and streaming format was successfully
+> reverse-engineered via USB protocol analysis and is isolated cleanly into
+> a local hardware-independent codec abstraction.
+> 
+> Signed-off-by: Frank van de Pol <fvdpol@gmail.com>
+> 
+> Updates based on the feedback from code review
+> 
+> address issues from code review, further optimization
+
+Just a few nitpicking below, in addition to Sashiko reviews.
+
+> --- /dev/null
+> +++ b/sound/usb/jockey3/Kconfig
+> @@ -0,0 +1,19 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +config SND_USB_JOCKEY3
+> +	tristate "Reloop Jockey 3 support"
+> +	default m
+
+Drop the "default m".
+
+> +static void jockey3_playback_callback(struct urb *urb)
+> +{
+....
+> +	if (urb->status) {
+> +		if (urb->status == -ENOENT || urb->status == -ECONNRESET ||
+> +		    urb->status == -ESHUTDOWN)
+> +			return;
+> +
+> +		/* Fatal error: stop resubmitting to prevent interrupt storm */
+> +		dev_err(&chip->intf0->dev, "Playback URB fatal error: %d\n", urb->status);
+> +		set_bit(JOCKEY3_FLAG_DISCONNECTED, &chip->flags);
+> +		return;
+> +	}
+
+This code pattern appears repeatedly, so it can be factored out as a
+common helper.
+
+> +	if (unlikely(test_bit(JOCKEY3_FLAG_DISCONNECTED, &chip->flags)))
+> +		return;
+
+Also this check appears very frequently, and can be a form that is
+easier for readers, too.
+
+> +static int jockey3_pcm_open(struct snd_pcm_substream *substream)
+> +{
+....
+> +	runtime->hw.rate_min = 44100;
+> +	runtime->hw.rate_max = 96000;
+> +	runtime->hw.buffer_bytes_max = 1024 * 1024;
+> +	runtime->hw.period_bytes_min = 64;
+> +	runtime->hw.period_bytes_max = 512 * 1024;
+> +	runtime->hw.periods_min = 2;
+> +	runtime->hw.periods_max = 1024;
+
+Maybe worth to mention that those are some sane software limitation
+you chose, not about the hardware limit.
+
+> +
+> +	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+> +		runtime->hw.channels_min = 4;
+> +		runtime->hw.channels_max = 4;
+> +		chip->playback_substream = substream;
+> +	} else {
+> +		runtime->hw.channels_min = 6;
+> +		runtime->hw.channels_max = 6;
+> +		chip->capture_substream = substream;
+> +	}
+
+The substream assignment should be done better with the spinlock, and
+set at last, for avoiding the potential race?  Otherwise...
+
+> +	scoped_guard(mutex, &chip->rate_mutex) {
+> +		if (chip->active_streams > 0) {
+> +			/* Force the new stream to match the existing hardware rate */
+> +			ret = snd_pcm_hw_constraint_single(runtime,
+> +							   SNDRV_PCM_HW_PARAM_RATE,
+> +							   chip->current_rate);
+> +			if (ret < 0)
+> +				return ret;
+
+... here the substream is still set and left.  It might be no serious
+problem, but still better to be cleaned up.
+
+> +static int jockey3_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
+> +{
+> +	struct jockey3_chip *chip = snd_pcm_substream_chip(substream);
+> +
+> +	dev_dbg(&chip->intf0->dev, "PCM trigger stream %d, cmd %d\n", substream->stream, cmd);
+> +
+> +	if (test_bit(JOCKEY3_FLAG_DISCONNECTED, &chip->flags))
+> +		return -ENODEV;
+> +
+> +	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+> +		guard(spinlock_irqsave)(&chip->playback_lock);
+> +		if (cmd == SNDRV_PCM_TRIGGER_START)
+> +			chip->stream_running = true;
+> +		else if (cmd == SNDRV_PCM_TRIGGER_STOP)
+> +			chip->stream_running = false;
+> +	} else {
+> +		guard(spinlock_irqsave)(&chip->capture_lock);
+> +		if (cmd == SNDRV_PCM_TRIGGER_START)
+> +			chip->capture_running = true;
+> +		else if (cmd == SNDRV_PCM_TRIGGER_STOP)
+> +			chip->capture_running = false;
+> +	}
+
+Better to implement SNDRV_PCM_TRIGGER_SUSPEND, too.  It can be just as
+same as the stop operation.  Then the suspend/resume would be
+supported, at least.
 
 
---QufLE/0Kc9+EiCqz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+thanks,
 
-On Thu, Jun 18, 2026 at 04:33:28PM +0200, David Heidelberg via B4 Relay wro=
-te:
-> From: David Heidelberg <david@ixit.cz>
->=20
-> Convert CS35L36 Speaker Amplifier.
-
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
-
---QufLE/0Kc9+EiCqz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmo0DTEACgkQJNaLcl1U
-h9DTvwf/ZDqT6lHklGiiZ/2ew8XLNomY7zRAa0SvFY7yLpFRhNuHbhhFE8O6/nVg
-ayPBn+RsMYmy6brd9UIzOMI0p7h+KU9u4VbCsy5dY3IErlqkSzk/sYiJDRNDJeN6
-QQ+93JnormAA/cFEscwNsB2zM94v51AnC8hpTGdPD6uixRi5lWP4/8v387HgkOcp
-64x1dRAghOwQ1pGQsEVQYTGieF5ex/w68MQUabzgzavHOPR2Lgefi4b3LfUjkAre
-eicUeTAd3V7EYaTtaZXwBLi0JsZM9RObcazADuKPcvMDVIdlcZdATYg3DQIi0cJe
-B5Vn5Y2KRtF6HczMRhMfRvaeflUdPw==
-=SS80
------END PGP SIGNATURE-----
-
---QufLE/0Kc9+EiCqz--
+Takashi
