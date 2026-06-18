@@ -1,190 +1,122 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCCE39B970
-	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 10:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF58F39989D
+	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 10:53:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781779520; cv=none; b=EMyLL4/v24XTLW3dvoI8icv8cfiaBUqXAdfx3mG4Em6KSeJ468itsxsrvx7K+zBb/+ErLEn0EL0e1SaOAssxGksC2efRB7tGqXHu9gF2EHrDliXWCujyKx2BDI46m8AOO6lOLBr2iHZtyXSe7mJspt80NwtNnQ36gZiDiQry3qs=
+	t=1781780018; cv=none; b=Rv5bHvyBxgzFJihB311a+cIGvsZ7VKxalwReems20My/6yKNR5yzu7UMdMHER60eXyrpnqZjxKMDHW5uzm+hqaCFF60v7k4xcgTXc6+RP2+n1lwSGp/d/sxXF1LbAQrHA1buhdwJg9p+pjuyLwLxwjTsBdhblnm2CH2NjvgR218=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781779520; c=relaxed/simple;
-	bh=97Yj5RS2HefemiXfKC4CqbftrjkGqeEtCKTrB+FOdig=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Hc8irtyka/ybwXK/+BrIl/2rnGUF7RajZQIZ9OtLDWX7NqI1L9Pgr0NIGPmP0ZyzgPOPbOvvOLiKsoLu5ArjvHeZ1ntsHEv5v1fkGwK9v9sLAbV7JOGniLlvne3Brbi0QX2pCbV3Pmthlyp0yROKMY407+rdzHFLhHPkl18bZTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TcDrTL3q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sF1aWj0t; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EiJ0c1Yc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=REJvWWtO; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781780018; c=relaxed/simple;
+	bh=kYoJ9Kf/Oh+1bSkgWeHDR3juCfPfjWN/kyhOf5M46mE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PMcdalZfz3dwZk/IsIPdK8gR9TkhahelGh5Xr+fvC5JOlQJkdQBjqdtLeIypvzKgcUYdHQVVOLN7oOxBEw1HS5qF3wFMwVBe1Cf/YiID7Nbt40yx7EtLh0nnmaYXjfoY7qNgFecBcUBWZeLl1FFAvfzkE+GHKL4JdPNW8bL3gW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xj2woxZF; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TcDrTL3q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sF1aWj0t";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EiJ0c1Yc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="REJvWWtO"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D7DC475B80;
-	Thu, 18 Jun 2026 10:45:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781779517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/9/Jz40H0TDb1QxpCV9Q1f5WCQW7jNJg3VqvR3K9WQE=;
-	b=TcDrTL3qNfA3R7D90spO0gqQ8oTMcCtODCZdXQsdlHpVMpB2cRv7FOlfQCy6WB4w9M4j7T
-	Bb/8EN3dgKlTg/n6R4pCqlMX7xm8PBY8ZsVdaZJyB5+sSlFoRRFC6xrdKbsRLu3fA9LkJ3
-	Uu5PRt6Hr47+ZJxZyxOeMptiAXFoAI4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781779517;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/9/Jz40H0TDb1QxpCV9Q1f5WCQW7jNJg3VqvR3K9WQE=;
-	b=sF1aWj0t/+bb6UUIl80kufEreFeMh4CVCeCly7R/RyG2eYJU6uQpmpw1wME8v9BxEUSnLV
-	MgLdlG5S2RygsgAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EiJ0c1Yc;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=REJvWWtO
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781779516; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/9/Jz40H0TDb1QxpCV9Q1f5WCQW7jNJg3VqvR3K9WQE=;
-	b=EiJ0c1YcK4cjMujQc8L8kVmRtdLaOBffx7eN1HOOOWcN8cOMkPoT2TbrcoC5AscW+vQ6TK
-	VDGkhb9X9gJfiUDW0Dcd7O5LhzISWibCzIOJmtBV172qv5Zlacn2lzGWgyWTwsd+e+eYOB
-	ep48QxZqFVc0MJqQck16oNnmZ52ddEA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781779516;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/9/Jz40H0TDb1QxpCV9Q1f5WCQW7jNJg3VqvR3K9WQE=;
-	b=REJvWWtO75qY2rI07cHprPBDWIZgelSLe1DJLwiry7+13CnqPMaemgdJJztOeIWN8RF6HI
-	gEvNL2Gy2pcRtJBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A9707779AB;
-	Thu, 18 Jun 2026 10:45:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9uQvKDzMM2qqOQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 18 Jun 2026 10:45:16 +0000
-Date: Thu, 18 Jun 2026 12:45:16 +0200
-Message-ID: <878q8cnn43.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Michael Bommarito <michael.bommarito@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] ALSA: usb-audio: qcom: fix QMI stream-request handling
-In-Reply-To: <20260618025126.1862954-1-michael.bommarito@gmail.com>
-References: <20260618025126.1862954-1-michael.bommarito@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xj2woxZF"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490ac357c55so6945115e9.1
+        for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 03:53:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781780015; x=1782384815; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=RkWuiKvVeZCHgBuI0UqL+PSzvFxmanvxxnQKqHnympo=;
+        b=Xj2woxZF8PQTIxKuPbO3JQU1+f1Et609kW8yvEWqTcFalVQ7e76R6SlmAD1Y4qgYzZ
+         yiVcvPm0f4xGMSyOawy87oSa0UkgXyay68bcFgW1D0RbA3gc3a+h0llVHwpR4by+FYaA
+         WFIkEql6uc2jYdjw4MOImrwjKQ0mk5tSc4mqTAjx7tYzJVPOTt/YzjpmfH/yrDW2myhW
+         eT5f4FRo/qoeL2bBvDJrq8imptwBee0HltZaJf/ZKWM64Ceo/xvnEjCxDZ0SN0hNyg8d
+         wE7soSmHFwHLv/4JFkl4qYbQT3PyhMjWvMUAX2OZN08G/Yot9lZ4WTk5IeaV66V7WXxP
+         Bm5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781780015; x=1782384815;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RkWuiKvVeZCHgBuI0UqL+PSzvFxmanvxxnQKqHnympo=;
+        b=ZfZEhObyRhUU87kIlNzpUWl46DPf1LG8bEl5icnl8WK46jGM+QM4ProMChPzm6R94m
+         jeYPHSvCc09XMe5M3sK3ewlnoVzhR0fwK13n0wL6hEY5yfLmXSUzMq5vZD6RQpHvx9jK
+         Obe3EZiOIzRKca2P3j6ZF6OXBaZ3oKhpQh+ycq6kMkmLLNMmuZbvXsrBBeTZzxaMvrZG
+         JxlMdVXhq3O78plfTsoRlq8hLu6fBNicl3cG9dpmCDpbxafGglRESkZP3qan4zpC1P0M
+         UAAhACv+b9T0E9myTfEUzLLchdnaZwVqQqb+who5GniGnDzvc3JQRb91CaLQYYZe15Ks
+         bgkQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+PAfUKl6QacHZm/NG+h2S47SZ0/ORpXnH+yfQ99/Lx804xF249HfKDBU98JEYvs6KbLJXp78HpDSiBfA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDlVYyqZFVlsRyjtBK7UsP7Axko1qq4+WsxJgL2Mvgw9S69ZPe
+	fPO+ILfSCm6e9u2mnFIUHV55crSPzTFILnsgXMaSGE0fGYwt1cycftZG
+X-Gm-Gg: AfdE7ckzIM8zhy5asLXjp2UhCxwwzM8UyKjFrlpdNBiST7wZ5MvuTMhd7j7k8DCm2J+
+	wdiItBzLV8V7K6IMPuMlhfxx+v/VISQRJNyYp3g6bhgw6fun0m11xsC9gCzV9j4F1Pfa37UXbbm
+	uZ8BclhfXBy/ksEpuq74JLZRCNhOQSQl+2Q/d0LW52rFl8vDYhXQs90QYHnO0zAlwZZmuOGlxvF
+	4Xo2USuPE2tD4DpIkbnTAGgl4Z47gXQNYTTi7rf+aFchn5V4qbSISD8M0sbcRZbSDUACai4AlCt
+	Et5hq0t3DT8O4bkkwD7io6UmR84WScLtQqAq2fzrBCwSRzMq6rADIL89/cqOvBNjNDagYEKoNT1
+	IGHsxPVtWU2Vv/uht8JjD/glo0ohBL6O/2a9wLmOeaGYSGlCGm4ffgXdPD2sRz8Moip9b4PH3xF
+	RrZU6kb3F5y1k5/IwOFX3B8d0u08VkQmrfr6pJNcWowtusCwUpQIbKcJ+29MfLASr9c6swQYYVF
+	oEiR68=
+X-Received: by 2002:a05:600c:608d:b0:490:53b0:9e53 with SMTP id 5b1f17b1804b1-492333a1556mr152314225e9.1.1781780015080;
+        Thu, 18 Jun 2026 03:53:35 -0700 (PDT)
+Received: from [10.128.11.42] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2c473bsm67004910f8f.28.2026.06.18.03.53.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Jun 2026 03:53:34 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <f6b5a124-63c7-41ba-b268-ff6e76cfe57e@gmail.com>
+Date: Thu, 18 Jun 2026 11:53:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: D7DC475B80
-X-Spam-Score: -2.01
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/1] ALSA: usb: Add support for Reloop Jockey 3 DJ
+ controllers
+To: Frank van de Pol <fvdpol@gmail.com>, tiwai@suse.de, perex@perex.cz
+Cc: ramiserifpersia@gmail.com, rmxpzlb@gmail.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260617203937.1273852-1-fvdpol@gmail.com>
+ <20260617203937.1273852-2-fvdpol@gmail.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <20260617203937.1273852-2-fvdpol@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 18 Jun 2026 04:51:24 +0200,
-Michael Bommarito wrote:
-> 
-> Two fixes in handle_uaudio_stream_req(), the QMI handler for the Qualcomm
-> USB audio offload stream enable/disable requests (reachable from
-> unprivileged local userspace over AF_QIPCRTR):
-> 
-> Patch 1: the disable path dereferences uadev[card].info[info_idx] without
-> the info_idx >= 0 guard the enable path and the cleanup label have.
-> info_idx is -EINVAL on a non-match and .info is allocated only on enable,
-> so this is not only a NULL deref: when .info is allocated (card enabled
-> once) and the disable names a non-matching interface, &info[-EINVAL]
-> points before the allocation and the pipe fields are an out-of-bounds slab
-> read plus a conditional out-of-bounds 4-byte zero-write. A never-enabled
-> card instead faults on a wild pointer (oops).
-> 
-> Patch 2: on enable, subs->opened is set before the service_interval is
-> validated; an invalid interval jumps out without clearing it, wedging the
-> substream at -EBUSY until disable/disconnect.
-> 
-> Impact: on an affected Qualcomm platform, a local unprivileged process that
-> can drive the QMI disable path for a card with no active interface would
-> oops the kernel (patch 1); patch 2 leaves a substream wedged at -EBUSY.
-> See the
-> confidence note below: this is a static finding, not yet reproduced.
-> 
-> Confidence and testing: this series is from static analysis of current
-> mainline; I have NOT reproduced it. CONFIG_SND_USB_AUDIO_QMI builds only on
-> Qualcomm SoCs with an audio DSP (no x86 build and no Qualcomm hardware
-> here), so there is no splat to show. What I did verify by reading current
-> torvalds/master (the offload driver was mainlined in 6.16):
-> 
->  * Patch 1: in handle_uaudio_stream_req() the enable branch checks
->    "info_idx < 0" before use and the response: cleanup label checks
->    "info_idx >= 0", but the disable branch between them dereferences
->    uadev[pcm_card_num].info[info_idx] with no such check. info_idx is the
->    negative return of info_idx_from_ifnum() when no interface matches, and
->    .info is a pointer allocated only on enable, so for a
->    connected-but-never-enabled card the disable branch forms and then
->    dereferences a wild pointer.
-> 
->  * Patch 2: subs->opened is set in the enable branch before the
->    service_interval validation; that validation can "goto response" without
->    clearing it, and the response label only clears opened on the disable
->    side, so the substream stays wedged.
-> 
-> What I am NOT certain of, and would ask you to confirm on a Qualcomm build:
-> whether the QMI flow actually lets a disable request reach the disable
-> branch with info_idx < 0 (a disable for a card with no matching interface).
-> If the userspace client cannot produce that ordering, patch 1 is hardening
-> rather than a live oops; patch 2 stands either way. Both patches only add
-> guards that already exist elsewhere in the same function, so they are low
-> risk to apply. Please also confirm the Fixes: tag against your tree.
-> 
-> Michael Bommarito (2):
->   ALSA: usb-audio: qcom: reject stream disable with no active interface
->   ALSA: usb-audio: qcom: clear opened when stream enable fails
+Hi Frank,
 
-Applied both patches now.  Thanks.
+On 6/17/26 21:39, Frank van de Pol wrote:
 
+> +source "sound/usb/jockey3/Kconfig"
+>  
+>  endif	# SND_USB
+>  
+> diff --git a/sound/usb/Makefile b/sound/usb/Makefile
+> index e62794a87e73..1f045c00dbc9 100644
+> --- a/sound/usb/Makefile
+> +++ b/sound/usb/Makefile
+> @@ -37,3 +37,4 @@ obj-$(CONFIG_SND_USB_US122L) += snd-usbmidi-lib.o
+>  
+>  obj-$(CONFIG_SND) += misc/ usx2y/ caiaq/ 6fire/ hiface/ bcd2000/ qcom/
+>  obj-$(CONFIG_SND_USB_LINE6)	+= line6/
+> +obj-$(CONFIG_SND_USB_JOCKEY3) += jockey3/
+> diff --git a/sound/usb/jockey3/Kconfig b/sound/usb/jockey3/Kconfig
+> new file mode 100644
+> index 000000000000..a1ac80f04450
+> --- /dev/null
+> +++ b/sound/usb/jockey3/Kconfig
+> @@ -0,0 +1,19 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +config SND_USB_JOCKEY3
+> +	tristate "Reloop Jockey 3 support"
+> +	default m
+> +	depends on SND_USB && USB
+> +	select SND_PCM
+> +	select SND_RAWMIDI
 
-Takashi
+The dependency on SND_USB is unnecessary here, since the:
+'source "sound/usb/jockey3/Kconfig"'
+is already inside of an 'if SND_USB' so every config option in that file
+depends on SND_USB.
+
+- Julian Braha
