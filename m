@@ -1,63 +1,63 @@
 Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0AFC3EFFDB
-	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 11:07:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E9A3EFFDB
+	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 11:07:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781780842; cv=none; b=Lk999fTtEqxem/5hK9RlqBiXGjPmbRjKA9EiUEJd5K1mL46x2FI5cSBTUiz46wMtGlF1cV6c++DarwojSmD507iLX2wBRFmwL5KvJv973EDWdRPP1pC9OIKr8dpETN8F9IURlKhHea1CCOrVQ/C2gVgJJMUNo0Pu1kmbNyvxmRM=
+	t=1781780850; cv=none; b=JdBzl5GKqGey5Zyxs1CpQxYJX7yBNHV3Krm4IQ9/tM3YxcZVAW77PwsiHGAoZn1G56hWW9gqSO4Kuf2tjcIO4aB5oxR1a3I3OkiKsBPUD0TINH8jOWlcKDi0RBmEOlY9nhbAaaOeaq8jAkUcqfAp5ycUUCVmlXS3QVVkTUz9+nU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781780842; c=relaxed/simple;
-	bh=pKr3AYdU8CnyimxDI+6+m/7Iq1f7qmLh28rEgagfxEw=;
+	s=arc-20240116; t=1781780850; c=relaxed/simple;
+	bh=5KlzwEdbAuS7Fci58MEpfCxMq/7LN3Sf7AeTYyk2Mgo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UJ24t8IqxsOtbp6Dwgw3NVFUhLE2u3bl2gfnwJHjHaze3SAs54CQ8x2zlcPqo7Nmumw9hDzK6AtJcofqU2QaQmzTWm6ns0jhT6/DNXEZt8QZuF0yeZomPuPsz3CquDA3+9J3rPLXMjWH6PNNLWoMtCXXArGSeneZ2IFOZ1SuoKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TpqN7tSl; arc=none smtp.client-ip=209.85.214.172
+	 MIME-Version; b=BNBYRoiF+qyl9eeThwaazFKVx5RmgaaMJn30eGI5vKOe1EY3MYZ0pM95KqcKsCWqny+16oUGz8z7ElfO5iEzCPThgCC6QbWDQNPd2a70RfLXESwLmyrRo4YiAcq4SyAy5ATKsS77XVJTjX7QRsgtQ2wuHVZQzl7o/sFyM+9oebk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s0RkxWf9; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TpqN7tSl"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2bf22d29dabso5147725ad.2
-        for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 04:07:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s0RkxWf9"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2c6d4851142so9065015ad.1
+        for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 04:07:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781780840; x=1782385640; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781780849; x=1782385649; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=q6MEcBFn1olrju24gIPdkb7TZ2qi41I337ZcWJqGq3g=;
-        b=TpqN7tSlUEYSv5Y9uyGfIFRJjxrJ1par7XKJ602fnMeX0GwreluKV2iV4beW6lm+bx
-         wNLxhJ4k/mNCONxCQdVkWNQc7xgaum38iignVKDotnOqsGtEgDbgd1bNArg30YyaxCOS
-         M19bAde/uSf09A39ECWZfK577cL3KpDJzSCEiGLLENgTMTr0KrUgSgNpyZZIP6DHRcfA
-         LHoNy1Ru+EcgrBv4HZl9T8czvbU0u0iybwfPnu0RfBlrO5aE+2jLp/0rcbIXdTehdT/v
-         QG7e5fuI350dHIcR5SFcuFqrmHy5Hg+nqMiR0pmE/ISirf25aWI1ER/KDNc0N7QJhYL3
-         O4WQ==
+        bh=HMdkUYKjonl/N+cCxaZ7FCNP+F258YD+JL2IKsJVIso=;
+        b=s0RkxWf93GPSt3oUQcf4RWnXswz5IaVLfqlCGfsJDek3OyS39B3GGgOVNcnWw0smzo
+         Wc2Sp4kGADDwsh+Fe28kWJxnboicFFk3viAXcc1c1/QbfypuXhO1uBWuf4Way45Fu+VP
+         8MHff7aIzQkT3UnYNWBSH8St1DtMZQ4Zm47741ZK6sY35SiC4/2YbHwM8EyHIgbJWO7b
+         kmsdG9p9Bktkw43q29wNXgzzi2ISUWy7iaghg6hVaI7lJkx0BQwaH8KTjT3Zp+CBRFUv
+         XfEQeDG1pcaVYRveAUYcgUEjjGXBj5n/Mx8D5ToK/2e+JbjMVE3UmV01O17NVwTlVoQQ
+         HO7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781780840; x=1782385640;
+        d=1e100.net; s=20251104; t=1781780849; x=1782385649;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=q6MEcBFn1olrju24gIPdkb7TZ2qi41I337ZcWJqGq3g=;
-        b=h95uGSPMLrteXrgGPVnjAuxorUN+xQTmRsf9Ia3xyzYkFmDR3AZtxftXjgvwWRD+rW
-         tkUjxaVcEby/XP4J57BbFZm7RNE9RRUgnR3iqz2VX6Zfcpw/VZX+5k3WzqDBrLrF3/Bj
-         asjbq0BsDeLsxeKLJzZv20fuW4HkO44H8v4Uq0GRjV046iC9Ry70WJrYLFejfKQiDI48
-         P/2t1R+LcGGUfQkGVxuMNJ+DHtvK+YHGRjttBG/Pd06fZ1VxX0kHOsKlyzUjFzyW//7u
-         3LZ+wWh46s+soj9Z2aHP6F4w0GKXuACdKz1uUhXZTlBuSg2PBcgb1DhJaqSurV2ZXxKx
-         zCiA==
-X-Forwarded-Encrypted: i=1; AFNElJ+c5XU58XwAuUgSB82LnHvWdSWsb0SjaWt9mUgoZ2Oz/jVx6omBHSjAtfJfreV2z2KjRBCTs1rCiZqjpQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxosQ5XorPyQLTM7XhKaaAsOaVEk0gu2+6EiPDl92y3imlg8gp0
-	kXEdtvk65WzA7gdYogmnO0h5ElADGP5wfrH+8uVUw1mlIOz/aKXJpJCM
-X-Gm-Gg: AfdE7cnNykZMhfCFp+fWZXGdOYRHENvRD1eW6Q58gThGfaE62kgz16Ek22gFczVww25
-	z3yhxIO1mppINWL8/n3CR1HW/QAKVvSLKIO04baKzbie8AWvuaevXQOxJLXFuY8D1mTmK1l8L2G
-	jjll7EidGUouITB61XC29toV4X+a56y/ztzHsNRWw16hMxhIY8dqp5BQNqYjJMgshZlu7yPPIKu
-	FJN/6eEY7pvsBt85NxjynBRYAJT2nnW7p4qYzGpiX56iSJpDesuZc+5Gm642yA1WvtVoePmFu1o
-	3aMb5mr8QwyPgmzmJmm7akh+NdK3Vgj0ekRUZSq8FOBEwIebz5woeyVH33ZMU6l9GXUgHVhmbVT
-	XEJbP4OcqaicnMYSZttMliPo9oZstYTsGp/Gbn2knuuwby74wQj6J9KGAco7pFAGaD2ZvP15kMI
-	XtOCvczhvhNvK4QJICH51+3bxOOORIUiUuMP6gR9P/wrhM6ONmfPMiUPqnUA==
-X-Received: by 2002:a17:903:1a0b:b0:2c2:8659:da43 with SMTP id d9443c01a7336-2c6f340c798mr31266875ad.4.1781780840301;
-        Thu, 18 Jun 2026 04:07:20 -0700 (PDT)
+        bh=HMdkUYKjonl/N+cCxaZ7FCNP+F258YD+JL2IKsJVIso=;
+        b=B4JjKhNyMN1f7B31RJKWmHzxVpxwnLiQsQNtNnBY4ZwXE5Fz2/5PWI23kckl7TkLFv
+         Ba0aZXD5mw7xZc2++Uuj5nhrda9a1uuhpwPHhODg8RwPiU6np+lMvs289LYk8YRytMWu
+         n71M32jHQgy7Q/eCK63d/MDXi6D/bxlEm8+3aOnmLGKRUBQfqo6MJohKAu640gLvjq9E
+         rnq5ltDcM1qLhxsOKlhqzotspA+S/+clH4WXHy2NHvZSKQbQdovK0LNdNGG30P/UCebJ
+         7LZJjHm6C+M/YvXbGgwNAUdcmQEEJZZFkC6nmVP5GC0xawKa0cVhvzHMBnJV5RfdyVBh
+         Zw/g==
+X-Forwarded-Encrypted: i=1; AFNElJ88/nLuEYOBdty+3fexvjWmOwKamSlM9U+2y0hQY2qEVOCeffW9wqDk0dPOTjBnC+4M5vRswWFs539MWQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YymtoKRnFgBOVBN0NDfXDjTzuvfAMrimtvj3HuUpM3wI+44fOm+
+	++PUTzuESJA5cwGK0H3bQEnar3T2dLlGGlzCl2mRUOfgFmp3AYnen1zM
+X-Gm-Gg: AfdE7cl7zvWEKWVU09jASfwltGhYdN0eHi6KufkG+DNBcC4wwMEeHO+mDNZLj0s9GRo
+	JQoTA+8vvgdjcWNHo9M6XuOMyIkGm2/V999K2jgKQZLNA0esyyOCSkq1aXLcK9SQTQgsZ93fFxg
+	+H/HuofeJtWKkVnXuNUBBrnlhi6JXYT4ML4n+hJp72fVn1R18Cyv9IY+N/5LSEpdmloPo5TbetY
+	jIFt6yDkbqFIGTeZdyz6X7iSECuqj1xFp2VHk3KM0XjTlxvBlfePlmu7pbpwxlAyHxJPfp1tr4A
+	B8XMxYoq6uGLNuqInzQBrQCNWaATdlWrYqOSVb5KhH7lmgRaAaCkLEhaaRSjb2HrkOSJxMluHeo
+	PvUS89EqTKu+clb24YMLOPspLz9Yz2kiQA+BUIcF2lc85ytR5k8yonoAiMhazqMY/3zHzhID16m
+	/7SaplyndNhp4ovlQ6Z1M/j+P9cL+V3hef0TEpgY3Rw+EFjNg=
+X-Received: by 2002:a17:902:e84b:b0:2bf:2398:6009 with SMTP id d9443c01a7336-2c6de66740amr31457225ad.14.1781780848308;
+        Thu, 18 Jun 2026 04:07:28 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c6a1878426sm77828025ad.64.2026.06.18.04.07.17
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c6a1878426sm77828025ad.64.2026.06.18.04.07.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 04:07:19 -0700 (PDT)
+        Thu, 18 Jun 2026 04:07:28 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
@@ -71,9 +71,9 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 3/4] ASoC: Intel: atom: Use scoped_guard() for scoped locking
-Date: Thu, 18 Jun 2026 18:06:47 +0700
-Message-ID: <20260618110649.227062-4-phucduc.bui@gmail.com>
+Subject: [PATCH v2 4/4] ASoC: Intel: atom: Use guard() for locking
+Date: Thu, 18 Jun 2026 18:06:48 +0700
+Message-ID: <20260618110649.227062-5-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260618110649.227062-1-phucduc.bui@gmail.com>
 References: <20260618110649.227062-1-phucduc.bui@gmail.com>
@@ -87,129 +87,269 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Convert mutex-protected sections to scoped_guard() helpers and
-simplify cleanup paths. Also use __free(kfree) for the temporary
-stream pointer in sst_media_open().
-
-No functional change intended.
+Clean up the code using guard() for spin & mutex locks.
+Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/intel/atom/sst-atom-controls.c     | 36 ++++++++++----------
- sound/soc/intel/atom/sst-mfld-platform-pcm.c | 26 ++++++--------
- 2 files changed, 29 insertions(+), 33 deletions(-)
+ sound/soc/intel/atom/sst-atom-controls.c     | 28 ++++++--------------
+ sound/soc/intel/atom/sst-mfld-platform-pcm.c | 25 ++++++-----------
+ sound/soc/intel/atom/sst/sst_ipc.c           |  4 +--
+ sound/soc/intel/atom/sst/sst_pvt.c           |  8 +++---
+ 4 files changed, 20 insertions(+), 45 deletions(-)
 
 diff --git a/sound/soc/intel/atom/sst-atom-controls.c b/sound/soc/intel/atom/sst-atom-controls.c
-index 3629ceaaac17..60fe1453d047 100644
+index 60fe1453d047..7d54af5286a7 100644
 --- a/sound/soc/intel/atom/sst-atom-controls.c
 +++ b/sound/soc/intel/atom/sst-atom-controls.c
-@@ -761,27 +761,27 @@ int sst_handle_vb_timer(struct snd_soc_dai *dai, bool enable)
- 			return ret;
- 	}
+@@ -73,14 +73,10 @@ static int sst_fill_and_send_cmd(struct sst_data *drv,
+ 				 u8 ipc_msg, u8 block, u8 task_id, u8 pipe_id,
+ 				 void *cmd_data, u16 len)
+ {
+-	int ret;
++	guard(mutex)(&drv->lock);
  
 -	mutex_lock(&drv->lock);
--	if (enable)
--		timer_usage++;
--	else
--		timer_usage--;
--
--	/*
--	 * Send the command only if this call is the first enable or last
--	 * disable
--	 */
--	if ((enable && (timer_usage == 1)) ||
--	    (!enable && (timer_usage == 0))) {
--		ret = sst_fill_and_send_cmd_unlocked(drv, SST_IPC_IA_CMD,
--				SST_FLAG_BLOCKED, SST_TASK_SBA, 0, &cmd,
--				sizeof(cmd.header) + cmd.header.length);
--		if (ret && enable) {
-+	scoped_guard(mutex, &drv->lock) {
-+		if (enable)
-+			timer_usage++;
-+		else
- 			timer_usage--;
--			enable  = false;
-+
-+		/*
-+		 * Send the command only if this call is the first enable or last
-+		 * disable
-+		 */
-+		if ((enable && (timer_usage == 1)) ||
-+		    (!enable && (timer_usage == 0))) {
-+			ret = sst_fill_and_send_cmd_unlocked(drv, SST_IPC_IA_CMD,
-+					SST_FLAG_BLOCKED, SST_TASK_SBA, 0, &cmd,
-+					sizeof(cmd.header) + cmd.header.length);
-+			if (ret && enable) {
-+				timer_usage--;
-+				enable  = false;
-+			}
- 		}
- 	}
+-	ret = sst_fill_and_send_cmd_unlocked(drv, ipc_msg, block,
+-					task_id, pipe_id, cmd_data, len);
 -	mutex_unlock(&drv->lock);
- 
- 	if (!enable)
- 		sst->ops->power(sst->dev, false);
-diff --git a/sound/soc/intel/atom/sst-mfld-platform-pcm.c b/sound/soc/intel/atom/sst-mfld-platform-pcm.c
-index f074af2499c8..ce2814e206e1 100644
---- a/sound/soc/intel/atom/sst-mfld-platform-pcm.c
-+++ b/sound/soc/intel/atom/sst-mfld-platform-pcm.c
-@@ -304,7 +304,7 @@ static int sst_media_open(struct snd_pcm_substream *substream,
- {
- 	int ret_val = 0;
- 	struct snd_pcm_runtime *runtime = substream->runtime;
--	struct sst_runtime_stream *stream;
-+	struct sst_runtime_stream *stream __free(kfree) = NULL;
- 
- 	stream = kzalloc_obj(*stream);
- 	if (!stream)
-@@ -312,15 +312,14 @@ static int sst_media_open(struct snd_pcm_substream *substream,
- 	spin_lock_init(&stream->status_lock);
- 
- 	/* get the sst ops */
--	mutex_lock(&sst_lock);
--	if (!sst ||
--	    !try_module_get(sst->dev->driver->owner)) {
--		dev_err(dai->dev, "no device available to run\n");
--		ret_val = -ENODEV;
--		goto out_ops;
-+	scoped_guard(mutex, &sst_lock) {
-+		if (!sst ||
-+		    !try_module_get(sst->dev->driver->owner)) {
-+			dev_err(dai->dev, "no device available to run\n");
-+			return -ENODEV;
-+		}
-+		stream->ops = sst->ops;
- 	}
--	stream->ops = sst->ops;
--	mutex_unlock(&sst_lock);
- 
- 	stream->stream_info.str_id = 0;
- 
-@@ -330,7 +329,7 @@ static int sst_media_open(struct snd_pcm_substream *substream,
- 
- 	ret_val = power_up_sst(stream);
- 	if (ret_val < 0)
--		goto out_power_up;
-+		return ret_val;
- 
- 	/*
- 	 * Make sure the period to be multiple of 1ms to align the
-@@ -347,13 +346,10 @@ static int sst_media_open(struct snd_pcm_substream *substream,
- 	snd_pcm_hw_constraint_step(substream->runtime, 0,
- 			   SNDRV_PCM_HW_PARAM_PERIODS, 2);
- 
-+	stream = NULL;
-+
- 	return snd_pcm_hw_constraint_integer(runtime,
- 			 SNDRV_PCM_HW_PARAM_PERIODS);
--out_ops:
--	mutex_unlock(&sst_lock);
--out_power_up:
--	kfree(stream);
--	return ret_val;
+-
+-	return ret;
++	return sst_fill_and_send_cmd_unlocked(drv, ipc_msg, block,
++					      task_id, pipe_id, cmd_data, len);
  }
  
- static void sst_media_close(struct snd_pcm_substream *substream,
+ /*
+@@ -167,7 +163,7 @@ static int sst_slot_get(struct snd_kcontrol *kcontrol,
+ 	unsigned int val, mux;
+ 	u8 *map = is_tx ? sst_ssp_rx_map : sst_ssp_tx_map;
+ 
+-	mutex_lock(&drv->lock);
++	guard(mutex)(&drv->lock);
+ 	val = 1 << ctl_no;
+ 	/* search which slot/channel has this bit set - there should be only one */
+ 	for (mux = e->max; mux > 0;  mux--)
+@@ -175,7 +171,6 @@ static int sst_slot_get(struct snd_kcontrol *kcontrol,
+ 			break;
+ 
+ 	ucontrol->value.enumerated.item[0] = mux;
+-	mutex_unlock(&drv->lock);
+ 
+ 	dev_dbg(c->dev, "%s - %s map = %#x\n",
+ 			is_tx ? "tx channel" : "rx slot",
+@@ -235,7 +230,7 @@ static int sst_slot_put(struct snd_kcontrol *kcontrol,
+ 	if (mux > e->max - 1)
+ 		return -EINVAL;
+ 
+-	mutex_lock(&drv->lock);
++	guard(mutex)(&drv->lock);
+ 	/* first clear all registers of this bit */
+ 	for (i = 0; i < e->max; i++)
+ 		map[i] &= ~val;
+@@ -244,7 +239,6 @@ static int sst_slot_put(struct snd_kcontrol *kcontrol,
+ 		/* kctl set to 'none' and we reset the bits so send IPC */
+ 		ret = sst_check_and_send_slot_map(drv, kcontrol);
+ 
+-		mutex_unlock(&drv->lock);
+ 		return ret;
+ 	}
+ 
+@@ -258,7 +252,6 @@ static int sst_slot_put(struct snd_kcontrol *kcontrol,
+ 
+ 	ret = sst_check_and_send_slot_map(drv, kcontrol);
+ 
+-	mutex_unlock(&drv->lock);
+ 	return ret;
+ }
+ 
+@@ -354,13 +347,12 @@ static int sst_algo_control_set(struct snd_kcontrol *kcontrol,
+ 	struct sst_algo_control *bc = (void *)kcontrol->private_value;
+ 
+ 	dev_dbg(cmpnt->dev, "control_name=%s\n", kcontrol->id.name);
+-	mutex_lock(&drv->lock);
++	guard(mutex)(&drv->lock);
+ 	switch (bc->type) {
+ 	case SST_ALGO_PARAMS:
+ 		memcpy(bc->params, ucontrol->value.bytes.data, bc->max);
+ 		break;
+ 	default:
+-		mutex_unlock(&drv->lock);
+ 		dev_err(cmpnt->dev, "Invalid Input- algo type:%d\n",
+ 				bc->type);
+ 		return -EINVAL;
+@@ -368,7 +360,6 @@ static int sst_algo_control_set(struct snd_kcontrol *kcontrol,
+ 	/*if pipe is enabled, need to send the algo params from here*/
+ 	if (bc->w && bc->w->power)
+ 		ret = sst_send_algo_cmd(drv, bc);
+-	mutex_unlock(&drv->lock);
+ 
+ 	return ret;
+ }
+@@ -475,7 +466,7 @@ static int sst_gain_put(struct snd_kcontrol *kcontrol,
+ 	struct sst_gain_mixer_control *mc = (void *)kcontrol->private_value;
+ 	struct sst_gain_value *gv = mc->gain_val;
+ 
+-	mutex_lock(&drv->lock);
++	guard(mutex)(&drv->lock);
+ 
+ 	switch (mc->type) {
+ 	case SST_GAIN_TLV:
+@@ -497,7 +488,6 @@ static int sst_gain_put(struct snd_kcontrol *kcontrol,
+ 		break;
+ 
+ 	default:
+-		mutex_unlock(&drv->lock);
+ 		dev_err(cmpnt->dev, "Invalid Input- gain type:%d\n",
+ 				mc->type);
+ 		return -EINVAL;
+@@ -506,7 +496,6 @@ static int sst_gain_put(struct snd_kcontrol *kcontrol,
+ 	if (mc->w && mc->w->power)
+ 		ret = sst_send_gain_cmd(drv, gv, mc->task_id,
+ 			mc->pipe_id | mc->instance_id, mc->module_id, 0);
+-	mutex_unlock(&drv->lock);
+ 
+ 	return ret;
+ }
+@@ -521,10 +510,9 @@ static int sst_send_pipe_module_params(struct snd_soc_dapm_widget *w,
+ 	struct sst_data *drv = snd_soc_component_get_drvdata(c);
+ 	struct sst_ids *ids = w->priv;
+ 
+-	mutex_lock(&drv->lock);
++	guard(mutex)(&drv->lock);
+ 	sst_find_and_send_pipe_algo(drv, w->name, ids);
+ 	sst_set_pipe_gain(ids, drv, 0);
+-	mutex_unlock(&drv->lock);
+ 
+ 	return 0;
+ }
+diff --git a/sound/soc/intel/atom/sst-mfld-platform-pcm.c b/sound/soc/intel/atom/sst-mfld-platform-pcm.c
+index ce2814e206e1..f9df5694f049 100644
+--- a/sound/soc/intel/atom/sst-mfld-platform-pcm.c
++++ b/sound/soc/intel/atom/sst-mfld-platform-pcm.c
+@@ -32,16 +32,15 @@ int sst_register_dsp(struct sst_device *dev)
+ 		return -EINVAL;
+ 	if (!try_module_get(dev->dev->driver->owner))
+ 		return -ENODEV;
+-	mutex_lock(&sst_lock);
++	guard(mutex)(&sst_lock);
+ 	if (sst) {
+ 		dev_err(dev->dev, "we already have a device %s\n", sst->name);
+ 		module_put(dev->dev->driver->owner);
+-		mutex_unlock(&sst_lock);
+ 		return -EEXIST;
+ 	}
+ 	dev_dbg(dev->dev, "registering device %s\n", dev->name);
+ 	sst = dev;
+-	mutex_unlock(&sst_lock);
++
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(sst_register_dsp);
+@@ -53,17 +52,15 @@ int sst_unregister_dsp(struct sst_device *dev)
+ 	if (dev != sst)
+ 		return -EINVAL;
+ 
+-	mutex_lock(&sst_lock);
++	guard(mutex)(&sst_lock);
+ 
+-	if (!sst) {
+-		mutex_unlock(&sst_lock);
++	if (!sst)
+ 		return -EIO;
+-	}
+ 
+ 	module_put(sst->dev->driver->owner);
+ 	dev_dbg(dev->dev, "unreg %s\n", sst->name);
+ 	sst = NULL;
+-	mutex_unlock(&sst_lock);
++
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(sst_unregister_dsp);
+@@ -103,21 +100,15 @@ static int sst_media_digital_mute(struct snd_soc_dai *dai, int mute, int stream)
+ void sst_set_stream_status(struct sst_runtime_stream *stream,
+ 					int state)
+ {
+-	unsigned long flags;
+-	spin_lock_irqsave(&stream->status_lock, flags);
++	guard(spinlock_irqsave)(&stream->status_lock);
+ 	stream->stream_status = state;
+-	spin_unlock_irqrestore(&stream->status_lock, flags);
+ }
+ 
+ static inline int sst_get_stream_status(struct sst_runtime_stream *stream)
+ {
+-	int state;
+-	unsigned long flags;
++	guard(spinlock_irqsave)(&stream->status_lock);
+ 
+-	spin_lock_irqsave(&stream->status_lock, flags);
+-	state = stream->stream_status;
+-	spin_unlock_irqrestore(&stream->status_lock, flags);
+-	return state;
++	return stream->stream_status;
+ }
+ 
+ static void sst_fill_alloc_params(struct snd_pcm_substream *substream,
+diff --git a/sound/soc/intel/atom/sst/sst_ipc.c b/sound/soc/intel/atom/sst/sst_ipc.c
+index 0d5e71e8a5b5..6daebbcdaddb 100644
+--- a/sound/soc/intel/atom/sst/sst_ipc.c
++++ b/sound/soc/intel/atom/sst/sst_ipc.c
+@@ -180,9 +180,8 @@ void intel_sst_clear_intr_mrfld(struct intel_sst_drv *sst_drv_ctx)
+ 	union interrupt_reg_mrfld isr;
+ 	union interrupt_reg_mrfld imr;
+ 	union ipc_header_mrfld clear_ipc;
+-	unsigned long irq_flags;
+ 
+-	spin_lock_irqsave(&sst_drv_ctx->ipc_spin_lock, irq_flags);
++	guard(spinlock_irqsave)(&sst_drv_ctx->ipc_spin_lock);
+ 	imr.full = sst_shim_read64(sst_drv_ctx->shim, SST_IMRX);
+ 	isr.full = sst_shim_read64(sst_drv_ctx->shim, SST_ISRX);
+ 
+@@ -200,7 +199,6 @@ void intel_sst_clear_intr_mrfld(struct intel_sst_drv *sst_drv_ctx)
+ 	/* un mask busy interrupt */
+ 	imr.part.busy_interrupt = 0;
+ 	sst_shim_write64(sst_drv_ctx->shim, SST_IMRX, imr.full);
+-	spin_unlock_irqrestore(&sst_drv_ctx->ipc_spin_lock, irq_flags);
+ }
+ 
+ 
+diff --git a/sound/soc/intel/atom/sst/sst_pvt.c b/sound/soc/intel/atom/sst/sst_pvt.c
+index 67b1ab14239f..c872a5958f1d 100644
+--- a/sound/soc/intel/atom/sst/sst_pvt.c
++++ b/sound/soc/intel/atom/sst/sst_pvt.c
+@@ -64,9 +64,8 @@ u64 sst_shim_read64(void __iomem *addr, int offset)
+ void sst_set_fw_state_locked(
+ 		struct intel_sst_drv *sst_drv_ctx, int sst_state)
+ {
+-	mutex_lock(&sst_drv_ctx->sst_lock);
++	guard(mutex)(&sst_drv_ctx->sst_lock);
+ 	sst_drv_ctx->sst_state = sst_state;
+-	mutex_unlock(&sst_drv_ctx->sst_lock);
+ }
+ 
+ /*
+@@ -302,18 +301,17 @@ int sst_assign_pvt_id(struct intel_sst_drv *drv)
+ {
+ 	int local;
+ 
+-	spin_lock(&drv->block_lock);
++	guard(spinlock)(&drv->block_lock);
+ 	/* find first zero index from lsb */
+ 	local = ffz(drv->pvt_id);
+ 	dev_dbg(drv->dev, "pvt_id assigned --> %d\n", local);
+ 	if (local >= SST_MAX_BLOCKS){
+-		spin_unlock(&drv->block_lock);
+ 		dev_err(drv->dev, "PVT _ID error: no free id blocks ");
+ 		return -EINVAL;
+ 	}
+ 	/* toggle the index */
+ 	change_bit(local, &drv->pvt_id);
+-	spin_unlock(&drv->block_lock);
++
+ 	return local;
+ }
+ 
 -- 
 2.43.0
 
