@@ -1,29 +1,29 @@
-Received: from r3-90.sinamail.sina.com.cn (r3-90.sinamail.sina.com.cn [202.108.3.90])
+Received: from r3-89.sinamail.sina.com.cn (r3-89.sinamail.sina.com.cn [202.108.3.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB61D38F253
-	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 08:29:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.90
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC763A5423
+	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 08:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781771380; cv=none; b=GQUvoRQMOdlzNOmWWigm/enhWo8rlbacCqkSm+31E/2SCTK2bdfHCV6YX5BS57IUleTEeyqi51poRKXPc5Anq/BuYJrdYkjvGyhTJqpXjecMQkNcx7/Q3BbJi2C9m8mh7cB82Cam9YUyqlos4CDymXn2BY8Luzbch/oM553h6Vo=
+	t=1781771381; cv=none; b=M9NI5KTxYNtQxe+5uooeU/lGiI6wcqQgRZ2yrLua6XJvOernbdIJFV00iJqHcfZxfMrpg3AvEC52Kj8p/jIVU4J9DqQJXbRQJLsjZshyHR3mowN6uwvNR/kBAHQC7cPGgCXgarNMKSWjmUONTOINGIXcgBq+hva5GLapUKy0Cqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781771380; c=relaxed/simple;
-	bh=lWABAreMV20vCJ5QvqixM9atvBfJRR6eqsq0JTsByHY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=Ft80jSnwweTWg+vGAIfRpKmcowDfza3VbIZch5TW3FGbbWFh6YyHDW44Mdc9qNRVnwoZdbl91ikl9LXYLPLAel6eHP1lWu9QXEPUmS/bDyqwz/MYwnCXWKsgxwyBtTuJbZwnWIOWBx+Wm3SLmDeA1SwP/k5yY6d0Hz3Qkqw/w+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.90
+	s=arc-20240116; t=1781771381; c=relaxed/simple;
+	bh=7BwqC5TPboto/JkR5CdYapJXstcJaqMndv9rEkBniLE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=WO9GP+d7JgPsZuU7w75aYLrT23i1AN9waUSj1HkW3rMF5+XpzaZda5heQ6rUwVkQpigCyst4ptTVe9Y/C9r0w3zTgMVJzBROuu6CJc8NXjK8eK+QAuwIc+4Q6Eyne5mdRqXPAjVFkvBBv9dg/IJxTiw9/zDhI/uCVOY81f6CHvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.89
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
 Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
 	by sina.net (10.54.253.36) with ESMTP
-	id 6A33AC4300004CAE; Thu, 18 Jun 2026 16:28:57 +0800 (CST)
+	id 6A33AC4300004CAE; Thu, 18 Jun 2026 16:28:59 +0800 (CST)
 X-Sender: zhangyi@everest-semi.com
 X-Auth-ID: zhangyi@everest-semi.com
 Authentication-Results: sina.net;
 	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
 	 dkim=none header.i=none;
 	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: C90F691299C64ED09B5319E55A89AF3E
-X-SMAIL-UIID: C90F691299C64ED09B5319E55A89AF3E-20260618-162857
+X-SMAIL-MID: 86ED3D881036476E9FC2018EE42C6294
+X-SMAIL-UIID: 86ED3D881036476E9FC2018EE42C6294-20260618-162859
 From: Zhang Yi <zhangyi@everest-semi.com>
 To: linux-sound@vger.kernel.org,
 	broonie@kernel.org,
@@ -33,9 +33,9 @@ Cc: tiwai@suse.com,
 	krzk+dt@kernel.org,
 	conor+dt@kernel.org,
 	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v2 5/7] ASoC: codecs: ES8389: Modify the initial configuration
-Date: Thu, 18 Jun 2026 16:28:40 +0800
-Message-Id: <20260618082842.2778-6-zhangyi@everest-semi.com>
+Subject: [PATCH v2 7/7] ASoC: codecs: ES8389: Add INPUTL MUX and INPUTR MUX
+Date: Thu, 18 Jun 2026 16:28:42 +0800
+Message-Id: <20260618082842.2778-8-zhangyi@everest-semi.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20260618082842.2778-1-zhangyi@everest-semi.com>
 References: <20260618082842.2778-1-zhangyi@everest-semi.com>
@@ -45,35 +45,82 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-Modify the initial configuration
+Add INPUTL MUX and INPUTR MUX in route
 
 Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
 ---
- sound/soc/codecs/es8389.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/codecs/es8389.c | 35 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 33 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/codecs/es8389.c b/sound/soc/codecs/es8389.c
-index 501b3a16b..04b6a48b0 100644
+index c80cc9601..19f4ced77 100644
 --- a/sound/soc/codecs/es8389.c
 +++ b/sound/soc/codecs/es8389.c
-@@ -793,7 +793,7 @@ static void es8389_init(struct snd_soc_component *component)
+@@ -165,6 +165,16 @@ static const struct soc_enum alc_ramprate =
+ static const struct soc_enum alc_winsize =
+ 	SOC_ENUM_SINGLE(ES8389_ALC_CTL, 0, 16, winsize);
  
- 	regmap_read(es8389->regmap, ES8389_MAX_REGISTER, &reg);
- 	es8389->version = reg;
--	regmap_write(es8389->regmap, ES8389_ISO_CTL, 0x00);
-+	regmap_write(es8389->regmap, ES8389_ISO_CTL, 0x56);
- 	regmap_write(es8389->regmap, ES8389_RESET, 0x7E);
- 	regmap_write(es8389->regmap, ES8389_ISO_CTL, 0x38);
- 	regmap_write(es8389->regmap, ES8389_ADC_HPF1, 0x64);
-@@ -845,7 +845,7 @@ static void es8389_init(struct snd_soc_component *component)
- 	regmap_write(es8389->regmap, ES8389_SCLK_DIV, 0x04);
- 	regmap_write(es8389->regmap, ES8389_LRCK_DIV1, 0x01);
- 	regmap_write(es8389->regmap, ES8389_LRCK_DIV2, 0x00);
--	regmap_write(es8389->regmap, ES8389_OSC_CLK, 0x00);
-+	regmap_write(es8389->regmap, ES8389_OSC_CLK, 0x10);
- 	regmap_write(es8389->regmap, ES8389_ADC_OSR, 0x1F);
- 	regmap_write(es8389->regmap, ES8389_ADC_DSP, 0x7F);
- 	regmap_write(es8389->regmap, ES8389_ADC_MUTE, 0xC0);
++static const char *const es8389_adcl_mux_txt[] = {
++	"Normal",
++	"ADC2 channel to ADC1 channel",
++};
++
++static const char *const es8389_adcr_mux_txt[] = {
++	"Normal",
++	"ADC1 channel to ADC2 channel",
++};
++
+ static const char *const es8389_outl_mux_txt[] = {
+ 	"Normal",
+ 	"DAC2 channel to DAC1 channel",
+@@ -192,6 +202,20 @@ static const unsigned int es8389_pga_values[] = {
+ 	1, 5, 6
+ };
+ 
++static const struct soc_enum es8389_adcl_mux_enum =
++	SOC_ENUM_SINGLE(ES8389_ADC_MODE, 5,
++			ARRAY_SIZE(es8389_adcl_mux_txt), es8389_adcl_mux_txt);
++
++static const struct snd_kcontrol_new es8389_adcl_mux_controls =
++	SOC_DAPM_ENUM("INPUTL MUX", es8389_adcl_mux_enum);
++
++static const struct soc_enum es8389_adcr_mux_enum =
++	SOC_ENUM_SINGLE(ES8389_ADC_MODE, 4,
++			ARRAY_SIZE(es8389_adcr_mux_txt), es8389_adcr_mux_txt);
++
++static const struct snd_kcontrol_new es8389_adcr_mux_controls =
++	SOC_DAPM_ENUM("INPUTR MUX", es8389_adcr_mux_enum);
++
+ static const struct soc_enum es8389_outl_mux_enum =
+ 	SOC_ENUM_SINGLE(ES8389_DAC_MIX, 5,
+ 			ARRAY_SIZE(es8389_outl_mux_txt), es8389_outl_mux_txt);
+@@ -320,6 +344,8 @@ static const struct snd_soc_dapm_widget es8389_dapm_widgets[] = {
+ 			   &es8389_adc_mixer_controls[0],
+ 			   ARRAY_SIZE(es8389_adc_mixer_controls)),
+ 	SND_SOC_DAPM_MUX("ADC MUX", SND_SOC_NOPM, 0, 0, &es8389_dmic_mux_controls),
++	SND_SOC_DAPM_MUX("INPUTL MUX", SND_SOC_NOPM, 0, 0, &es8389_adcl_mux_controls),
++	SND_SOC_DAPM_MUX("INPUTR MUX", SND_SOC_NOPM, 0, 0, &es8389_adcr_mux_controls),
+ 
+ 	SND_SOC_DAPM_MUX("OUTL MUX", SND_SOC_NOPM, 0, 0, &es8389_outl_mux_controls),
+ 	SND_SOC_DAPM_MUX("OUTR MUX", SND_SOC_NOPM, 0, 0, &es8389_outr_mux_controls),
+@@ -333,10 +359,15 @@ static const struct snd_soc_dapm_route es8389_dapm_routes[] = {
+ 	{"ADCL", NULL, "PGAL"},
+ 	{"ADCR", NULL, "PGAR"},
+ 
++	{"INPUTL MUX", "Normal", "ADCL"},
++	{"INPUTL MUX", "ADC2 channel to ADC1 channel", "ADCR"},
++	{"INPUTR MUX", "Normal", "ADCR"},
++	{"INPUTR MUX", "ADC1 channel to ADC2 channel", "ADCL"},
++
+ 	{"ADC Mixer", "DACL ADCL Mixer", "DACL"},
+ 	{"ADC Mixer", "DACR ADCR Mixer", "DACR"},
+-	{"ADC Mixer", NULL, "ADCL"},
+-	{"ADC Mixer", NULL, "ADCR"},
++	{"ADC Mixer", NULL, "INPUTL MUX"},
++	{"ADC Mixer", NULL, "INPUTR MUX"},
+ 
+ 	{"ADC MUX", "AMIC", "ADC Mixer"},
+ 	{"ADC MUX", "DMIC", "DMIC"},
 -- 
 2.17.1
 
