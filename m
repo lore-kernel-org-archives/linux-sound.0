@@ -1,88 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D026F1C862D
-	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 15:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5894F33DEF9
+	for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 15:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781796535; cv=none; b=gTnnpwyNpYGkL+IV7dm/hJLwBlFFW6inELGyYx17LVdHQr4qyhKZ10r1OWdtnkbIaR2IBuoBakyHuRN27jW6G1YHGkFwJuHKZfj2KWnwYRl2DUIjPkTTN0I1T/BU++wJD4vkCZT1ilfmZHCjSchfTB0LJcSOkRcWy2xYWz3t9n4=
+	t=1781797501; cv=none; b=DbXacCCqfNnYZEaIQK1WjtirIDKq6Ne9hq/dTgbbFo2Dm9oIpcmFOmCj3iLUss4bHBr6gI/BhF74QI+6cuqHreSSFT6jfbh5YKfdNfGwuAbvJRi6ZKaMjl3bRuEvIyMGWT1fzKbgwBJhppMvseN3D7gc/x4WcESaSsMShhM/tXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781796535; c=relaxed/simple;
-	bh=gxBIubiQ6uAurP4C9S45vzu5dGgCDA/RJMSapnnMawo=;
+	s=arc-20240116; t=1781797501; c=relaxed/simple;
+	bh=OjEY/3bNIwfWPQ07DfCQPPTBHCaw3Q7Z5zKm3UsVWoo=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IVwaBFC+V2AJTHhpk4jBaFEXiERwjl7a7xdwvp+FL8/JLbxx4+6ofKL6jQhJOWG4s7HPZTY2EVGYsXxSvcmY22jPXqLuZqyEXFTSgrQ0WCssxW7LOD6lCfJmO7HNkaHfvZiXeitTqfX2gcONOHQeJkWpO/Fr0e2DXUZCeWWtKYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tcy1tXXN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SW8L3xvE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tcy1tXXN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SW8L3xvE; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=OjwokUfeeupPUuEp6wwjJYl2meq5O9BmG+mSaamcHXdqnkCX8irBSAgTtZAb4w6Qxd2b7gs7++4RzInjhTooh4SBObC6H3MH+vmSOxM/XPRHgNCvz7dXxg/zasMzNSNtFlwk13Z+yn6gRIjMPPj1wkOjtwT5QwFAiVWgHUkidTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TrcN+dVU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NOGctrol; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TrcN+dVU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NOGctrol; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tcy1tXXN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SW8L3xvE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tcy1tXXN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SW8L3xvE"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TrcN+dVU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NOGctrol";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TrcN+dVU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NOGctrol"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2A5BC75F32;
-	Thu, 18 Jun 2026 15:28:51 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 95B2C6D2DE;
+	Thu, 18 Jun 2026 15:44:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781796531; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1781797498; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=axBUWVxHphdjRJDPv83NlkzBIj928HOCKMNv6Pr6M8w=;
-	b=tcy1tXXN9ZySVvo9Gs7rDF1JpkvuPagQX8ZenfdR1ewXIGmA9ZLHz1ExzIrvIxRZDv/02U
-	V6ySWM/Mk3PxGGWnXIuZWoUZypFy/qMf8+YMdbvKwf0bHDQ3pDaXIkc6jPOv3kIyuvNgV9
-	yq9LPzVKd2F37XtIaz9KaJqdJ5ekx0Y=
+	bh=UoaQKErBBigBky1n2t07CN2fpe+jzbUogIwnBZUYrnE=;
+	b=TrcN+dVUCWNpq3Lpk22ta7IBQIhHhZ0FP8Ul8tUL5TQmB375LxRafeCzj+EgoIK6jwugd2
+	0GxcZBQ0XaIlzMI4NVapZwjtNj5qpTJDlZ/Vqz6h1/IWsW6TxQVuJJLJLq7R29Qz0Ee0k2
+	mi/pYHEV8+7NVXZLiVrhD+TBBr4M6bs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781796531;
+	s=susede2_ed25519; t=1781797498;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=axBUWVxHphdjRJDPv83NlkzBIj928HOCKMNv6Pr6M8w=;
-	b=SW8L3xvEUh6OCqEZd+s6Cnir16c4GoJ6Vwa9rXM0fM80znwxYXrSsnQOX4nkMBShvp7Rtg
-	VYVIfyd+H2XbACBQ==
-Authentication-Results: smtp-out2.suse.de;
+	bh=UoaQKErBBigBky1n2t07CN2fpe+jzbUogIwnBZUYrnE=;
+	b=NOGctrol03PtJr4ZnfSoOzIOsmokvWfu/PGsuZLFJVZV2oy/vPAhZQVaQGEK6z0HXW/Plj
+	jGmdkRfbb+3MJ+BA==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781796531; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1781797498; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=axBUWVxHphdjRJDPv83NlkzBIj928HOCKMNv6Pr6M8w=;
-	b=tcy1tXXN9ZySVvo9Gs7rDF1JpkvuPagQX8ZenfdR1ewXIGmA9ZLHz1ExzIrvIxRZDv/02U
-	V6ySWM/Mk3PxGGWnXIuZWoUZypFy/qMf8+YMdbvKwf0bHDQ3pDaXIkc6jPOv3kIyuvNgV9
-	yq9LPzVKd2F37XtIaz9KaJqdJ5ekx0Y=
+	bh=UoaQKErBBigBky1n2t07CN2fpe+jzbUogIwnBZUYrnE=;
+	b=TrcN+dVUCWNpq3Lpk22ta7IBQIhHhZ0FP8Ul8tUL5TQmB375LxRafeCzj+EgoIK6jwugd2
+	0GxcZBQ0XaIlzMI4NVapZwjtNj5qpTJDlZ/Vqz6h1/IWsW6TxQVuJJLJLq7R29Qz0Ee0k2
+	mi/pYHEV8+7NVXZLiVrhD+TBBr4M6bs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781796531;
+	s=susede2_ed25519; t=1781797498;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=axBUWVxHphdjRJDPv83NlkzBIj928HOCKMNv6Pr6M8w=;
-	b=SW8L3xvEUh6OCqEZd+s6Cnir16c4GoJ6Vwa9rXM0fM80znwxYXrSsnQOX4nkMBShvp7Rtg
-	VYVIfyd+H2XbACBQ==
+	bh=UoaQKErBBigBky1n2t07CN2fpe+jzbUogIwnBZUYrnE=;
+	b=NOGctrol03PtJr4ZnfSoOzIOsmokvWfu/PGsuZLFJVZV2oy/vPAhZQVaQGEK6z0HXW/Plj
+	jGmdkRfbb+3MJ+BA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E67E2779A8;
-	Thu, 18 Jun 2026 15:28:50 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 63335779A8;
+	Thu, 18 Jun 2026 15:44:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id D3IYN7IONGowWAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 18 Jun 2026 15:28:50 +0000
-Date: Thu, 18 Jun 2026 17:28:50 +0200
-Message-ID: <87h5mzkgul.wl-tiwai@suse.de>
+	id 2HKTFnoSNGo0aAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 18 Jun 2026 15:44:58 +0000
+Date: Thu, 18 Jun 2026 17:44:58 +0200
+Message-ID: <87fr2jkg3p.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Frank van de Pol <fvdpol@gmail.com>
-Cc: tiwai@suse.de,
-	perex@perex.cz,
-	ramiserifpersia@gmail.com,
-	rmxpzlb@gmail.com,
+To: Cen Zhang <zzzccc427@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] ALSA: usb: Add support for Reloop Jockey 3 DJ controllers
-In-Reply-To: <20260617203937.1273852-2-fvdpol@gmail.com>
-References: <20260617203937.1273852-1-fvdpol@gmail.com>
-	<20260617203937.1273852-2-fvdpol@gmail.com>
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com
+Subject: Re: [PATCH v2] ALSA: usb-audio: Disconnect components on probe errors
+In-Reply-To: <20260618122209.3655881-1-zzzccc427@gmail.com>
+References: <20260618122209.3655881-1-zzzccc427@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -92,156 +90,102 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Flag: NO
+X-Spam-Score: -3.30
 X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,perex.cz,gmail.com,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,gmail.com];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Level: 
-X-Spam-Score: -3.30
 
-On Wed, 17 Jun 2026 22:39:37 +0200,
-Frank van de Pol wrote:
+On Thu, 18 Jun 2026 14:22:09 +0200,
+Cen Zhang wrote:
 > 
-> Introduce a dedicated repository subdirectory and driver for the Reloop
-> Jockey 3 Master Edition and Reloop Jockey 3 Remix USB DJ controllers.
+> MIDI 2.0 input URBs can be submitted before usb_audio_probe() has
+> finished building and registering the card.  If a later setup step fails,
+> cleanup can reach the card or MIDI 2.0 endpoint free path while those URBs
+> are still owned by the USB core.  The normal disconnect path avoids this by
+> publishing the disconnected state and killing/draining URBs before endpoint
+> storage and coherent transfer buffers are released.
 > 
-> Because these devices utilize a non-standard, proprietary Ploytec USB
-> framing protocol instead of standard USB Audio Class (UAC) mechanisms,
-> they require specialized handling outside of standard quirks.
+> The buggy scenario involves two paths. Each column shows path order:
 > 
-> This driver provides:
->  - 24-bit multi-channel (6x4) audio capture and playback.
->  - Support for 44.1, 48, 88.2, and 96 kHz sample rates.
->  - ALSA RawMIDI input and output mapping for the integrated control surface.
+> probe error path:                         USB completion path:
+> 1. start_input_streams() submits          1. The HCD still owns a
+>    input URBs.                               submitted input URB.
+> 2. A later setup helper returns           2. input_urb_complete() runs
+>    an error.                                 with urb->context in ep.
+> 3. Cleanup frees endpoint storage         3. The completion reads ep
+>    and URB buffers.                          state and can requeue URBs.
 > 
-> The custom Ploytec encapsulation and streaming format was successfully
-> reverse-engineered via USB protocol analysis and is isolated cleanly into
-> a local hardware-independent codec abstraction.
+> Factor the component release sequence out of __usb_audio_disconnect() and
+> call it when usb_audio_probe() is about to free a card that never claimed
+> an interface.  The helper preserves the existing disconnect release order,
+> including snd_usb_midi_v2_disconnect_all().
 > 
-> Signed-off-by: Frank van de Pol <fvdpol@gmail.com>
+> Also make the MIDI 2.0 endpoint destructor perform the local disconnect,
+> kill and drain sequence only when the endpoint has not already been
+> disconnected, so the internal MIDI 2.0 create-error cleanup is synchronized
+> without repeating the stop sequence after normal disconnect.
 > 
-> Updates based on the feedback from code review
+> Validation reproduced this kernel report:
+> BUG: KASAN: slab-use-after-free in input_urb_complete+0x37/0x1b0
+> Workqueue: usb_hub_wq hub_event
+> RIP: 0010:_raw_spin_unlock_irq+0x2e/0x50
+> Read of size 8
+> Call trace:
+>   dump_stack_lvl+0x77/0xb0
+>   print_report+0xce/0x5f0
+>   input_urb_complete+0x37/0x1b0 (sound/usb/midi2.c:186)
+>   srso_alias_return_thunk+0x5/0xfbef5
+>   __virt_addr_valid+0x19f/0x330
+>   kasan_report+0xe0/0x110
+>   __usb_hcd_giveback_urb+0x112/0x1d0
+>   dummy_timer+0xaaa/0x19a0
+>   lock_is_held_type+0x9a/0x110
+>   __lock_acquire+0x467/0x28b0
+>   mark_held_locks+0x40/0x70
+>   _raw_spin_unlock_irqrestore+0x44/0x60
+>   lockdep_hardirqs_on_prepare+0xbb/0x1a0
+>   __hrtimer_run_queues+0x101/0x520
+>   hrtimer_run_softirq+0xd0/0x130
+>   handle_softirqs+0x15b/0x670
+>   __irq_exit_rcu+0xd0/0x170
+>   irq_exit_rcu+0xe/0x20
+>   sysvec_apic_timer_interrupt+0x6c/0x80
+>   asm_sysvec_apic_timer_interrupt+0x1a/0x20
 > 
-> address issues from code review, further optimization
+> Fixes: d9c99876868c ("ALSA: usb-audio: Create UMP blocks from USB MIDI GTBs")
+> Assisted-by: Codex:gpt-5.5
+> Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+> ---
+> v2:
+> Factor USB-audio component disconnect into the probe error path and guard
+> MIDI 2.0 endpoint kill/drain with ep->disconnected, per maintainer feedback.
 
-Just a few nitpicking below, in addition to Sashiko reviews.
-
-> --- /dev/null
-> +++ b/sound/usb/jockey3/Kconfig
-> @@ -0,0 +1,19 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config SND_USB_JOCKEY3
-> +	tristate "Reloop Jockey 3 support"
-> +	default m
-
-Drop the "default m".
-
-> +static void jockey3_playback_callback(struct urb *urb)
-> +{
-....
-> +	if (urb->status) {
-> +		if (urb->status == -ENOENT || urb->status == -ECONNRESET ||
-> +		    urb->status == -ESHUTDOWN)
-> +			return;
-> +
-> +		/* Fatal error: stop resubmitting to prevent interrupt storm */
-> +		dev_err(&chip->intf0->dev, "Playback URB fatal error: %d\n", urb->status);
-> +		set_bit(JOCKEY3_FLAG_DISCONNECTED, &chip->flags);
-> +		return;
-> +	}
-
-This code pattern appears repeatedly, so it can be factored out as a
-common helper.
-
-> +	if (unlikely(test_bit(JOCKEY3_FLAG_DISCONNECTED, &chip->flags)))
-> +		return;
-
-Also this check appears very frequently, and can be a form that is
-easier for readers, too.
-
-> +static int jockey3_pcm_open(struct snd_pcm_substream *substream)
-> +{
-....
-> +	runtime->hw.rate_min = 44100;
-> +	runtime->hw.rate_max = 96000;
-> +	runtime->hw.buffer_bytes_max = 1024 * 1024;
-> +	runtime->hw.period_bytes_min = 64;
-> +	runtime->hw.period_bytes_max = 512 * 1024;
-> +	runtime->hw.periods_min = 2;
-> +	runtime->hw.periods_max = 1024;
-
-Maybe worth to mention that those are some sane software limitation
-you chose, not about the hardware limit.
-
-> +
-> +	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-> +		runtime->hw.channels_min = 4;
-> +		runtime->hw.channels_max = 4;
-> +		chip->playback_substream = substream;
-> +	} else {
-> +		runtime->hw.channels_min = 6;
-> +		runtime->hw.channels_max = 6;
-> +		chip->capture_substream = substream;
-> +	}
-
-The substream assignment should be done better with the spinlock, and
-set at last, for avoiding the potential race?  Otherwise...
-
-> +	scoped_guard(mutex, &chip->rate_mutex) {
-> +		if (chip->active_streams > 0) {
-> +			/* Force the new stream to match the existing hardware rate */
-> +			ret = snd_pcm_hw_constraint_single(runtime,
-> +							   SNDRV_PCM_HW_PARAM_RATE,
-> +							   chip->current_rate);
-> +			if (ret < 0)
-> +				return ret;
-
-... here the substream is still set and left.  It might be no serious
-problem, but still better to be cleaned up.
-
-> +static int jockey3_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
-> +{
-> +	struct jockey3_chip *chip = snd_pcm_substream_chip(substream);
-> +
-> +	dev_dbg(&chip->intf0->dev, "PCM trigger stream %d, cmd %d\n", substream->stream, cmd);
-> +
-> +	if (test_bit(JOCKEY3_FLAG_DISCONNECTED, &chip->flags))
-> +		return -ENODEV;
-> +
-> +	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-> +		guard(spinlock_irqsave)(&chip->playback_lock);
-> +		if (cmd == SNDRV_PCM_TRIGGER_START)
-> +			chip->stream_running = true;
-> +		else if (cmd == SNDRV_PCM_TRIGGER_STOP)
-> +			chip->stream_running = false;
-> +	} else {
-> +		guard(spinlock_irqsave)(&chip->capture_lock);
-> +		if (cmd == SNDRV_PCM_TRIGGER_START)
-> +			chip->capture_running = true;
-> +		else if (cmd == SNDRV_PCM_TRIGGER_STOP)
-> +			chip->capture_running = false;
-> +	}
-
-Better to implement SNDRV_PCM_TRIGGER_SUSPEND, too.  It can be just as
-same as the stop operation.  Then the suspend/resume would be
-supported, at least.
+Please split this to two patches.  One is a quick fix for
+free_midi2_endpoint() based on your original one, and another is
+usb_audio_disconnect_components() I suggested -- those are basically
+two distinct fixes.  And, the latter one isn't tied with the MIDI2
+issue, rather a generic hardening, and I'm going to apply the second
+one after 7.2 merge window, while taking the first one for 7.2-rc1.
 
 
 thanks,
