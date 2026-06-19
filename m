@@ -1,105 +1,129 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3271F2EA151
-	for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 06:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781850286; cv=none; b=lqXhk8KGjtdJxbI4nZIRc6r8db+y4fhnOdskM4chRbLd3oEOB3SPWKoGmspC1flFFZzCJHvweby9eMK4i+qp+vVrSBWef11EYuJ4cn0qeBbrFX34oGMOMHGgyia0uhLzq3HhvKsScvrYN1n38CoVXopwlIKlhU4ogKPedRKgCVQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781850286; c=relaxed/simple;
-	bh=1nwfCdmMnMg65WBKK8lw9ZoudANllkS4N3veO+B0VL4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qG9z80fry9HeUTQS/p5VrBxKiAfy3V9QD2Dovm++la9dZH8j14igmjEXcieUwVV6nA9XaIW063dZzGruJBgHXf+7X8Drvqy8PJDJYAQXARvmD4uWJmznK/xGcG/H0UWznA4wvCYgWPeUkc32DT6WnEMkARsXoPXsEhoHEd5hBy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iitj.ac.in; spf=pass smtp.mailfrom=iitj.ac.in; dkim=pass (1024-bit key) header.d=iitj.ac.in header.i=@iitj.ac.in header.b=FP1ZF9JD; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=iitj.ac.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iitj.ac.in
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E39322A2E
+	for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 06:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781852311; cv=pass; b=qB3W4y0N1QKVyfz7xVxAliSxEnLjVwThi0DLi53DI3a7aPC+Ur3XWWxZA/ghakYhKpcess9O2NzxPj6Ah2eywDsWRXK9Y46IiHjhGuxNmCxsD6ONjrQRdqVvdbb5x4jYbO6PD7oqgOgQ4TpweEtNblMhRX01DgmDWFQVtKDDkjw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781852311; c=relaxed/simple;
+	bh=omTwHM+FxqUGDTH6qWfHVXW2MQBW72PZp+8U6Hx+ykg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WKei1Ywt9RUfEpXVpFwh/vRCftHYen3v6Q/e7G1xLnI7ATiLc6ifPJFd+GPp/J3+51h4Zyh0UUeuy80rumQU5oeytzEWl0pelATtb4Rg/mwA2QleVI75cxxPxcmuQCzdSaMhS7Q4GKiro08W4kIZEg3tzG8ZgZ/HxUKSFQJ2kQE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eWcHAijn; arc=pass smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iitj.ac.in header.i=@iitj.ac.in header.b="FP1ZF9JD"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-842307473b5so1205902b3a.2
-        for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 23:24:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eWcHAijn"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c85d8615b09so1276024a12.3
+        for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 23:58:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781852310; cv=none;
+        d=google.com; s=arc-20240605;
+        b=B+NKVDTKLLooiWXKv17k2L65yXz/4d7jGU130EN+PMfqslqnxckrKJd+D56TkG2D4K
+         E20Zp/QVYnNwimw39ItePwnmh96gYDza4hFHWD5MCDgozW7+1fM0HKAQojsr2WmIqprZ
+         9/O8RcE/NdBCxphTvUWIGCgY+0budnZYgpUY1amamjMg7uFbsVjYs3yW5y8J+/Ap8L6G
+         LS2ofusWBocSrCLna2Oa/q0OHb1nTPgUIlkLvRUjVDDtKGM6ddHPkpdJ6J1nq+mWNVvy
+         pFJhk7oqW1opJp3nsKr2grTWNZg3xCmH2F5e15s5bvE0kja8OTCXJpterMlO2r0ZkAia
+         gefw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=omTwHM+FxqUGDTH6qWfHVXW2MQBW72PZp+8U6Hx+ykg=;
+        fh=nTux7bnpKF6NHOPz9eJty/oS/P+KZu3HRi4aWXOPnQk=;
+        b=bAbJowv0rh+Nz95N7S4LJAHWFYAOPpG2AfMLUK1oZ2nvaDhJTkCAELWl9H/3OdAe6H
+         fA9h9uiUzvkBzWO9A1EIMlEWIyiiY8qh8CTzhWF84RZVwUhKO9HzF0qKS/3YtCOMOPMY
+         +Q8920pM2BeNic0BbdzcGrrtJn5k0EntXevA3xNV0sZkCeAaqXWUYbZkKfSk/hLCzEHF
+         5iL98TS5pcFWLGEflpLadGbeu/+iRTYxECYqmJN+ac2MNuJkmqpNFmUOlsGZUgWcyIIJ
+         +30gq7FRIKUisU5fQz2lLCkwSNKJ0zuzFOCugcW6nd2EabfG86v+yOCloFVVWUivvxyq
+         Lqvw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=iitj.ac.in; s=google; t=1781850282; x=1782455082; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IQo4UvjNVvrYqU7Y+wep4Sy8I2wUm/d5UrrzO59jjuw=;
-        b=FP1ZF9JDEiMgRph3UQlqDTBPxQEPr1Ypsl/EfNh1AqJR5jDBXAXY4SXzpq5hDWyH5P
-         CxvuByMq+6wgypKUBtb8Cb4tOE2kKmFHhznzGeOIWEs+mjn2AKahm4AvKO75b7YrdL/h
-         jW9XDjROlRmHmzTRVDXAG02kyQShIByW9JAEI=
+        d=gmail.com; s=20251104; t=1781852310; x=1782457110; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=omTwHM+FxqUGDTH6qWfHVXW2MQBW72PZp+8U6Hx+ykg=;
+        b=eWcHAijn8Qzpsk5N5T7VnvyCTzQ6Uvqzkoj5D5Ruz5Z469r832FPwLTNeBXNd3EEb8
+         5TkraLu4qw8GqNF6sMQ70Nwc3O6DpgAjhEsJ7JWdI2qfkQubDMFdR7+m2/s/rzX47Ygv
+         JddmylE7cJkP2EG3lxXKd7fQt7kFzPuypvTLjArMf8WiGY04IJgMRonLO7A1bF+zwAb8
+         lb+NJ0Ro2fzC+59bX09k6YHgnaFHKDTfwUPSbPl1VhZvMJHmUq8+n3P6K75phNxkQSm0
+         /ogV4DYkDrvTK6KZ9tFedqYTtoKdIHJDvCefe3rXjS3qpUtAVPBtbCnU8dkSCKbEGpDS
+         OLVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781850282; x=1782455082;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1781852310; x=1782457110;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IQo4UvjNVvrYqU7Y+wep4Sy8I2wUm/d5UrrzO59jjuw=;
-        b=GabYRbe00nJc4QEhodX61t7HFNarildIPN6R0PbcaBfcOk9htbpVj5CM3/LVrcFtVl
-         rU2Fp/sAkJaBJUdzlmKLH5h6cNPmIOZ5tp6I33Pbi0Nbp5EwJQ03ZlWcPwVscIQjCdnk
-         a5roQxeeh2CtkN3BCN/lGqM65ESaMIg6X1wS9EM9eWaum+dwT3oLlMN/Frg/1aY3+hTj
-         69Aq1tUNXZvFUoJf7CxVxM0A70fzG1zwO6K14wOeLcwoPg+teIjBZFfl06ECrUY1e/9I
-         0pNnkg7C7hYmFsZ+oHv6G6Kt+bjkd/Wg5r1e5pWXz4VS29FxuiNMmcxof1Q881x8PG34
-         1feA==
-X-Gm-Message-State: AOJu0YzC7a79JNXz8RHtUTD0D+u29HHsJ4+x8ApHLWAE22Nn1F4ioc1r
-	5oqviD6gN0UINRdOl3o5oolDIZCf0ZW++TBGOzM5z63dKyvs0Xb2N6SNjv9oPI5nV9c=
-X-Gm-Gg: AfdE7cnbW2zz62MuZ/GtdHtjXsNmJCxvBakGGG0EuoHEEGYvf5OgUnCdrVZr8fnj1mw
-	1A+yVjb9wVE/Z4gglEP1NPYzAUlQ7Ac5cMQFgRJN0+DCC6AIiqi/MkLCdGVOmnjtEvENzkmOdUO
-	0cj6p6zSU+OeH4cINqT3dc2IYJbP2qjNqRlmmmv7Vuc2PFOHXw6Fd84gNfwkZGO/ugZPVIPuKHA
-	eztJJMDxi0GchOk4Vx8Aad8HwrhhfWizgluNR9pqCRBJjy/sgBlXmiaScso7RmhGgGckWIGu1oM
-	+ptrfXcW7EJ67YbkfzO8OJlghnOZKnftKD4XfEsdEsbNCMI5pQXpBMfSNf6/iUTKXX7rCa3Igc+
-	MSMF3dKtcM//CmvVuWTyxJCKyjZlxlSQfRBgHegYwXQeCZKG7O+BMttp0bum9hXHR+6vqExGFAm
-	b7LESTy0uu2NfIGa9D
-X-Received: by 2002:a05:6a00:9299:b0:845:42a7:ae81 with SMTP id d2e1a72fcca58-8455606a48fmr1472568b3a.10.1781850282621;
-        Thu, 18 Jun 2026 23:24:42 -0700 (PDT)
-Received: from fedora ([36.255.88.235])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8455364d4e7sm1194882b3a.11.2026.06.18.23.24.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 23:24:42 -0700 (PDT)
-From: Ramcharan Rajpurohit <b23ci1032@iitj.ac.in>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ramcharan Rajpurohit <b23ci1032@iitj.ac.in>
-Subject: [PATCH] ALSA: hda/realtek: Enable mute LED on HP EliteBook 840 G6
-Date: Fri, 19 Jun 2026 11:54:35 +0530
-Message-ID: <20260619062435.26256-1-b23ci1032@iitj.ac.in>
-X-Mailer: git-send-email 2.54.0
+        bh=omTwHM+FxqUGDTH6qWfHVXW2MQBW72PZp+8U6Hx+ykg=;
+        b=LO/cF8fXfFO8z9wletOtrEsqOU4v/31YJjdlT6H/BG2TtNFyTBNYt1Vp9Eubm1uqjX
+         0nwCORpaKg9PbnMpm4CoqFCCb+2kLLh/UvuQo61ksTI22QtU4LCVanRUuCtFHJ6O0JNl
+         A59kbfIXvEOmgKrb5+Dr3QjtVOFRjUk/l6PWqBM+pVhqbN+j48/3fBXCAScPeT4lnDbl
+         Bwri3WwTVxiqa+NbSJ/DrpFCXcELwmTU9u6Sk520LB/VnkXL9YQ1GQeIb7dSAKD8fMTm
+         VkVDd355N7YO1Tqa0Xc1i98NKGl4AQiiX4WyJ+rFr+gEHp84OcyRstKaAPwkvhj80Umg
+         N9Ow==
+X-Forwarded-Encrypted: i=1; AFNElJ8QrevONMx7/LcmAqeVZkXN79Jw9cY2mvYevK6BxNZbd13p7WO5LZL2wP19nsPT9vzEZzNlwWbuFvaBYA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeP2jemO5GjnCRMVbKOFDHXke3i+yPfHgjQs6k4BF3Q/zmba7t
+	SY2/mohxWVH3ccN0DlLnj1+wY8CTu+0N7newhabfEBOFwzTeIL+VEWFpbLldYFM078aTZIAVlTa
+	r5T1fnmqrVVhhb8QBls9eDYG6b61+lTI=
+X-Gm-Gg: AfdE7clXbXRJqKSj9lQgwDe5ifPwW8Evt8kfhVEmA0wEoH3LdFDo9Mh8hXWCj/QDJDc
+	qPk8DYivz87QQTdzHdQqBTVJTYvhCL38w8Nq7ZY8peen2guH78V/kRVJZ7BeWKAg9bMytqz6oQF
+	8J2thpydZ87hf0XLQGxqdCz1n186Lrj360npJdsQIHMla7NoWNv7bEWYnAFf48evxr9dN54ZLYM
+	wJZSvSbVmJRTsb1JLu/vIarRazqjlwFLbaa/XMg7eekgtrrmabc4uiz8DLYiy+4gCXjs2Ul5UbX
+	qPBabPrmGlreqo7MotdTIkpXOdw=
+X-Received: by 2002:a05:6a21:1493:b0:3b5:6b5a:4f29 with SMTP id
+ adf61e73a8af0-3bb33c411fcmr2889534637.30.1781852309935; Thu, 18 Jun 2026
+ 23:58:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260604033554.96996-1-phucduc.bui@gmail.com> <mPIrpl-QRw6_Q9DZcTQ5xA@collabora.com>
+ <CAABR9nGEHmy4YSqFSyh+gqXVwNgpaGOjqBeUZyHBmMibHwvMxA@mail.gmail.com> <D9b19fqJSQK5FO2BflNEKw@collabora.com>
+In-Reply-To: <D9b19fqJSQK5FO2BflNEKw@collabora.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Fri, 19 Jun 2026 13:58:18 +0700
+X-Gm-Features: AVVi8Cdm4erPWecisaOWEQ1-2N07q0qf6x9N5Gw3YmftzXkgKtw2pGyicktpxkc
+Message-ID: <CAABR9nEJg2R9dkGOrn9aZ_b=J7qMU06UKv+HcwdLmzckBoGL3Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] ASoC: rockchip: Use guard() for spin locks
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The HP EliteBook 840 G6 (PCI SSID 103c:854d) has an ALC215 codec whose
-mic-mute and audio-mute LEDs are wired to the same GPIOs as the already
-supported EliteBook 830 G6 and 840 G7. Without a matching quirk the LEDs
-are never registered, so the front-panel mic-mute LED stays permanently
-lit and does not track the mute state.
+Hi Nicolas,
 
-Apply ALC285_FIXUP_HP_GPIO_LED, mirroring the sibling EliteBook entries.
-With this fixup the codec registers an "hda::micmute" LED class device and
-the LED correctly follows the capture-mute state. This was verified on the
-affected machine by forcing the same fixup at runtime via
-snd_sof_intel_hda_generic.hda_model=103c:8548, which made the LED work as
-expected.
+Thanks for the clarification.
 
-Signed-off-by: Ramcharan Rajpurohit <b23ci1032@iitj.ac.in>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+> If you want to try again, do so in a way where you don't have to indent
+> large parts of a function another level, it's possible and the diff
+> will be something I can actually read. Remember that you can place a
+> guard for the spinlock in the middle of a function, and it'll only be
+> picked up then, which should reduce the need for the scoped_guards in
+> this. To avoid having to manually do pm unwind (and therefore require
+> that the spinlock is dropped somehow before function exit), use the
+> runtime pm guard macros as well. That should simplify this immensely.
+>
+> Last but not least, please run things through checkpatch. Even at the
+> default options, it'll warn about the indentation level. With --strict,
+> it'll also tell you about the braces. Personally I just use whatever
+> preset `b4 prep --check` uses, which usually is quite reasonable.
+>
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 5d09baa6d..67855f25f 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6986,6 +6986,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8537, "HP ProBook 440 G6", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8548, "HP EliteBook x360 830 G6", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x854a, "HP EliteBook 830 G6", ALC285_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x854d, "HP EliteBook 840 G6", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x856a, "HP Pavilion 15-cs1xxx", ALC295_FIXUP_HP_PAVILION_MUTE_LED_1B),
- 	SND_PCI_QUIRK(0x103c, 0x85c6, "HP Pavilion x360 Convertible 14-dy1xxx", ALC295_FIXUP_HP_MUTE_LED_COEFBIT11),
- 	SND_PCI_QUIRK(0x103c, 0x85de, "HP Envy x360 13-ar0xxx", ALC285_FIXUP_HP_ENVY_X360),
--- 
-2.54.0
+I do run checkpatch before submitting patches, but I wasn't aware of the
+`--strict` option. I also didn't know that runtime PM could be handled
+with guard helpers.
 
+I agree that using runtime PM guards would make the code much cleaner
+and avoid much of the extra indentation.
+
+These are useful suggestions, and I'll keep them in mind for future
+submissions.
+
+Best regards,
+Phuc
