@@ -1,129 +1,120 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E39322A2E
-	for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 06:58:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5875730BF66
+	for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 07:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.171
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781852311; cv=pass; b=qB3W4y0N1QKVyfz7xVxAliSxEnLjVwThi0DLi53DI3a7aPC+Ur3XWWxZA/ghakYhKpcess9O2NzxPj6Ah2eywDsWRXK9Y46IiHjhGuxNmCxsD6ONjrQRdqVvdbb5x4jYbO6PD7oqgOgQ4TpweEtNblMhRX01DgmDWFQVtKDDkjw=
+	t=1781852766; cv=pass; b=XmRJu6EW2i/Mq98o/HwNdo12iRgkidlD2l951W4GCylJvuSft2ze1hXk21LOU0n1pThCz4SN9zHYrO4Wf2mMfmReJzYP9J6SpzshCZ0t50/WeZryKhS4aZvXUHwmYr8CPyHOXOJwuuXyOyfnQhCZwXOtthWVOYVollnUSAt4I9g=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781852311; c=relaxed/simple;
-	bh=omTwHM+FxqUGDTH6qWfHVXW2MQBW72PZp+8U6Hx+ykg=;
+	s=arc-20240116; t=1781852766; c=relaxed/simple;
+	bh=MFth+nQoWZzi+xQC4nT+m7rq1ssr8ND46G11AXKXufQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WKei1Ywt9RUfEpXVpFwh/vRCftHYen3v6Q/e7G1xLnI7ATiLc6ifPJFd+GPp/J3+51h4Zyh0UUeuy80rumQU5oeytzEWl0pelATtb4Rg/mwA2QleVI75cxxPxcmuQCzdSaMhS7Q4GKiro08W4kIZEg3tzG8ZgZ/HxUKSFQJ2kQE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eWcHAijn; arc=pass smtp.client-ip=209.85.215.178
+	 To:Cc:Content-Type; b=kKpf0na9gy40B8JeWSnEH/aujBt4QzBI1MEnIj6U7KeVrlRf0/XGFtdG1kRXKyIL1YRj2Vx0N4AJKGcBtb4KAp5rf0mz8fYHiURf8hQNXyiBasE5qB7GirLSTTFuwQi4/C4TV8ZHbtB7TJQaI5VN/aTNM77NRryULGZHrAEy5jo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eEevzfr2; arc=pass smtp.client-ip=209.85.215.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eWcHAijn"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c85d8615b09so1276024a12.3
-        for <linux-sound@vger.kernel.org>; Thu, 18 Jun 2026 23:58:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781852310; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eEevzfr2"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c892a0ef503so1179128a12.2
+        for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 00:06:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781852765; cv=none;
         d=google.com; s=arc-20240605;
-        b=B+NKVDTKLLooiWXKv17k2L65yXz/4d7jGU130EN+PMfqslqnxckrKJd+D56TkG2D4K
-         E20Zp/QVYnNwimw39ItePwnmh96gYDza4hFHWD5MCDgozW7+1fM0HKAQojsr2WmIqprZ
-         9/O8RcE/NdBCxphTvUWIGCgY+0budnZYgpUY1amamjMg7uFbsVjYs3yW5y8J+/Ap8L6G
-         LS2ofusWBocSrCLna2Oa/q0OHb1nTPgUIlkLvRUjVDDtKGM6ddHPkpdJ6J1nq+mWNVvy
-         pFJhk7oqW1opJp3nsKr2grTWNZg3xCmH2F5e15s5bvE0kja8OTCXJpterMlO2r0ZkAia
-         gefw==
+        b=Nzz6ewrJeUoKUL9TjZGAZKZKeei/aSOvT/3v0cH9i9QfsKmAnag4RgUcD8b0SliJTL
+         kl33nbYEmroWdv0yzthe/ZdY4PKO+JyvsKrj/Ko6yNNewImOEGGq88VHAomxuLNe1xoL
+         0ZzMPTHu/vF98wWi+wTjQI323A+6L+cSULkh1PoqR38A+Jlf24ESeSBuoqkd8XWJugP9
+         Gepmn1xfx5MhM9MpcS9sTNJztossUbWOZeQUeC6RBgveB98zZM1IodkUVQoxwhyydiow
+         iKtqxQHtCedXKXFXIKKk8Qq081Ehtk+np/V2uhZNmtKYWUI5gWke2HNTNzKeG5Nw3p/8
+         GAKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=omTwHM+FxqUGDTH6qWfHVXW2MQBW72PZp+8U6Hx+ykg=;
-        fh=nTux7bnpKF6NHOPz9eJty/oS/P+KZu3HRi4aWXOPnQk=;
-        b=bAbJowv0rh+Nz95N7S4LJAHWFYAOPpG2AfMLUK1oZ2nvaDhJTkCAELWl9H/3OdAe6H
-         fA9h9uiUzvkBzWO9A1EIMlEWIyiiY8qh8CTzhWF84RZVwUhKO9HzF0qKS/3YtCOMOPMY
-         +Q8920pM2BeNic0BbdzcGrrtJn5k0EntXevA3xNV0sZkCeAaqXWUYbZkKfSk/hLCzEHF
-         5iL98TS5pcFWLGEflpLadGbeu/+iRTYxECYqmJN+ac2MNuJkmqpNFmUOlsGZUgWcyIIJ
-         +30gq7FRIKUisU5fQz2lLCkwSNKJ0zuzFOCugcW6nd2EabfG86v+yOCloFVVWUivvxyq
-         Lqvw==;
+        bh=R5JtmWglfnrBZbXEbrW0sXMeeg+zOFp6mYFu9xJ4UuE=;
+        fh=/F/gHcQiUuJAHT0iLCJ0eyJ3bF05qyO0djGrR8m+uxg=;
+        b=fZlPKlTnINQjnnbw6aqKegkpoKl3PHFt+CCk/ei7q7X6N+tFWDQ4nI7jBfVE5zxEkl
+         UjnYjjBiQjBeTN1nHhYbkPohwQca26i5lQ08ymf90fAWBadDFmF0zvRzmAw85zjPpxli
+         vlwazzFlnoosCAT4Y00zSqcMKLHqBW5I8xvM68yx1oNHvpbwzQsjHJOrSqjfvSddrJdV
+         Hlra8Yp6sXNpLFpaPNE9aszmC4pPMfMnVSWbLRnAVxU2EUqVKyqr72pLL2fjbJSbftjw
+         XKRFRAyXqUiI1XoNf0XArUJNpNwELrRj3mU63HA9Z2ZqYDlv0KIYJYsWQVcC49HEHcQt
+         EIYw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781852310; x=1782457110; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781852765; x=1782457565; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=omTwHM+FxqUGDTH6qWfHVXW2MQBW72PZp+8U6Hx+ykg=;
-        b=eWcHAijn8Qzpsk5N5T7VnvyCTzQ6Uvqzkoj5D5Ruz5Z469r832FPwLTNeBXNd3EEb8
-         5TkraLu4qw8GqNF6sMQ70Nwc3O6DpgAjhEsJ7JWdI2qfkQubDMFdR7+m2/s/rzX47Ygv
-         JddmylE7cJkP2EG3lxXKd7fQt7kFzPuypvTLjArMf8WiGY04IJgMRonLO7A1bF+zwAb8
-         lb+NJ0Ro2fzC+59bX09k6YHgnaFHKDTfwUPSbPl1VhZvMJHmUq8+n3P6K75phNxkQSm0
-         /ogV4DYkDrvTK6KZ9tFedqYTtoKdIHJDvCefe3rXjS3qpUtAVPBtbCnU8dkSCKbEGpDS
-         OLVw==
+        bh=R5JtmWglfnrBZbXEbrW0sXMeeg+zOFp6mYFu9xJ4UuE=;
+        b=eEevzfr2IQUU9GWgSNHtJWwEzbhFAO8lVJ/mnPIHG2w7+V0tXGVnB59AySlH2LJpuZ
+         Zt6PVAxG1UwXLQh2+NxDRFaH6FUOydLSNyhgNR1YB5GcU6fXVSyyo7u+U+HjJEMyOhXa
+         kQj3JQApVSGDOvEhF/QtxPRyQxb8cdRfq8DLtixOFFlek+BCK4xUbmEdmL0rubnL87Id
+         pwrO2906+V9vp979s4gmANHw762BZvFlwr6d9Hg35MR8zyZKK3V/gPWymVXk6NZgLCYm
+         BJt+jk2lKRXtYomqwdsk1uwiwJiAhQ0Jawv3KdwDJWXt/9Fu6GtyeYydEtMna5CbN7Ch
+         vcgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781852310; x=1782457110;
+        d=1e100.net; s=20251104; t=1781852765; x=1782457565;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=omTwHM+FxqUGDTH6qWfHVXW2MQBW72PZp+8U6Hx+ykg=;
-        b=LO/cF8fXfFO8z9wletOtrEsqOU4v/31YJjdlT6H/BG2TtNFyTBNYt1Vp9Eubm1uqjX
-         0nwCORpaKg9PbnMpm4CoqFCCb+2kLLh/UvuQo61ksTI22QtU4LCVanRUuCtFHJ6O0JNl
-         A59kbfIXvEOmgKrb5+Dr3QjtVOFRjUk/l6PWqBM+pVhqbN+j48/3fBXCAScPeT4lnDbl
-         Bwri3WwTVxiqa+NbSJ/DrpFCXcELwmTU9u6Sk520LB/VnkXL9YQ1GQeIb7dSAKD8fMTm
-         VkVDd355N7YO1Tqa0Xc1i98NKGl4AQiiX4WyJ+rFr+gEHp84OcyRstKaAPwkvhj80Umg
-         N9Ow==
-X-Forwarded-Encrypted: i=1; AFNElJ8QrevONMx7/LcmAqeVZkXN79Jw9cY2mvYevK6BxNZbd13p7WO5LZL2wP19nsPT9vzEZzNlwWbuFvaBYA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzeP2jemO5GjnCRMVbKOFDHXke3i+yPfHgjQs6k4BF3Q/zmba7t
-	SY2/mohxWVH3ccN0DlLnj1+wY8CTu+0N7newhabfEBOFwzTeIL+VEWFpbLldYFM078aTZIAVlTa
-	r5T1fnmqrVVhhb8QBls9eDYG6b61+lTI=
-X-Gm-Gg: AfdE7clXbXRJqKSj9lQgwDe5ifPwW8Evt8kfhVEmA0wEoH3LdFDo9Mh8hXWCj/QDJDc
-	qPk8DYivz87QQTdzHdQqBTVJTYvhCL38w8Nq7ZY8peen2guH78V/kRVJZ7BeWKAg9bMytqz6oQF
-	8J2thpydZ87hf0XLQGxqdCz1n186Lrj360npJdsQIHMla7NoWNv7bEWYnAFf48evxr9dN54ZLYM
-	wJZSvSbVmJRTsb1JLu/vIarRazqjlwFLbaa/XMg7eekgtrrmabc4uiz8DLYiy+4gCXjs2Ul5UbX
-	qPBabPrmGlreqo7MotdTIkpXOdw=
-X-Received: by 2002:a05:6a21:1493:b0:3b5:6b5a:4f29 with SMTP id
- adf61e73a8af0-3bb33c411fcmr2889534637.30.1781852309935; Thu, 18 Jun 2026
- 23:58:29 -0700 (PDT)
+        bh=R5JtmWglfnrBZbXEbrW0sXMeeg+zOFp6mYFu9xJ4UuE=;
+        b=J9oZZ89Lt8KSYOMUGdKKZq1zYw35SiuCElKvcBWDh1UOnHTZWO9tCHp4K6MukOYAGS
+         E3rfNqXulSlYMIx2fXBjlraYe9QdpkOrgyOoLm0UWQcfa4h+Xi29gMuNrhsE+9ByvP9M
+         zlgp6lcfkIp2fxlm1Ad1HNAKty1OcJHRYYaeAO9SKq8Nh7D7RpR4qXu6+pXpR3GN+N2X
+         YJaSVMaOmWcTElXr/O7cWVWMIfTTWB1FO7QmO9XHtPe4BB5RVdRxOfrHA1r+ftUvr5n3
+         QxPX5tXo5Fb/IIWjfP+7O6w4J+dQYSO3ReQnW39fdK1XsDciX5s0iU7Ps6I92Oe5Kjg5
+         Qlkw==
+X-Forwarded-Encrypted: i=1; AFNElJ8dle7n7GQZTHS6rfjiy1Ahb1wlAykDZ5gLsYc1QEL2TC/vIShYftY1sYqdob2twwvkGNClDUuEtVtXiA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzI9EbFXXOWpXmIAB9BzT0lwYtAuGBkKJdj2xgd6740dDzhWc5/
+	kLlQ75kczUzjcBXKA8xKYtr1ARbMkdLR3wdW3FHVn8fqyYARuu45YPf4GNVJg3a17oTMTiKP5A+
+	vs6pFdJJHyAeAgMi067tL1J1ZTmIh7Ns=
+X-Gm-Gg: AfdE7clKj78+H0kZTkoWI/rWulGSFVC2p/miMG57SLH/XjG/c81FB1tCeAg4X+mCGA3
+	B3GR+pf7XhCP0ZaqQdjtoRILKGF0UwiDKSKnaf+lOn1dzF63iCyePJ8DXI9G4T2H7cqeUhQ2jDy
+	DEB2miMRAI+cViy7T3yQXW3JqKhFflOQUH+wY62dLExsKmqrJcpfJ+lC1ehSc4syvpvmwWwDuSC
+	MNsIqXNu/bKiKws7CTaxyhX2GoDsX9IwX+M85toVUeX0w2oIFGcnQ24FBnBUll7nwdTJEUY70+l
+	3ay1WM0vXwWZzUjvsb8Y1V6a5C7CSybi6XKmiQ==
+X-Received: by 2002:a05:6a20:ce4b:b0:3ba:cd5b:3dca with SMTP id
+ adf61e73a8af0-3bb3498427cmr2823429637.37.1781852764611; Fri, 19 Jun 2026
+ 00:06:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260604033554.96996-1-phucduc.bui@gmail.com> <mPIrpl-QRw6_Q9DZcTQ5xA@collabora.com>
- <CAABR9nGEHmy4YSqFSyh+gqXVwNgpaGOjqBeUZyHBmMibHwvMxA@mail.gmail.com> <D9b19fqJSQK5FO2BflNEKw@collabora.com>
-In-Reply-To: <D9b19fqJSQK5FO2BflNEKw@collabora.com>
+References: <20260618110649.227062-1-phucduc.bui@gmail.com>
+ <20260618110649.227062-3-phucduc.bui@gmail.com> <a3aa032c-a106-47b5-a90f-62e99e788641@sirena.org.uk>
+In-Reply-To: <a3aa032c-a106-47b5-a90f-62e99e788641@sirena.org.uk>
 From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 19 Jun 2026 13:58:18 +0700
-X-Gm-Features: AVVi8Cdm4erPWecisaOWEQ1-2N07q0qf6x9N5Gw3YmftzXkgKtw2pGyicktpxkc
-Message-ID: <CAABR9nEJg2R9dkGOrn9aZ_b=J7qMU06UKv+HcwdLmzckBoGL3Q@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] ASoC: rockchip: Use guard() for spin locks
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+Date: Fri, 19 Jun 2026 14:05:53 +0700
+X-Gm-Features: AVVi8Cfpo4My71zZqIIH08Kk6WOOuwcr-Jfx5WWSweGiIdq6NVnjRVVMt_ZH-3Q
+Message-ID: <CAABR9nGO4nS9S4M+Bf7PQkboig9qm9rRZoeJop-nAkGznDZK1w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] ASoC: Intel: avs: Use scoped_guard() for scoped locking
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+	Cezary Rojewski <cezary.rojewski@intel.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, linux-sound@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Nicolas,
+Hi Mark,
 
-Thanks for the clarification.
+Thanks for the review.
 
-> If you want to try again, do so in a way where you don't have to indent
-> large parts of a function another level, it's possible and the diff
-> will be something I can actually read. Remember that you can place a
-> guard for the spinlock in the middle of a function, and it'll only be
-> picked up then, which should reduce the need for the scoped_guards in
-> this. To avoid having to manually do pm unwind (and therefore require
-> that the spinlock is dropped somehow before function exit), use the
-> runtime pm guard macros as well. That should simplify this immensely.
+> >                       reinit_completion(&ipc->busy_completion);
+> > -                     spin_unlock(&ipc->rx_lock);
+> >                       goto again;
+> >               }
+> > -
+> > -             spin_unlock(&ipc->rx_lock);
+> > -             return -ETIMEDOUT;
+> >       }
 >
-> Last but not least, please run things through checkpatch. Even at the
-> default options, it'll warn about the indentation level. With --strict,
-> it'll also tell you about the braces. Personally I just use whatever
-> preset `b4 prep --check` uses, which usually is quite reasonable.
->
+> This has a goto from a scoped_guard().
 
-I do run checkpatch before submitting patches, but I wasn't aware of the
-`--strict` option. I also didn't know that runtime PM could be handled
-with guard helpers.
-
-I agree that using runtime PM guards would make the code much cleaner
-and avoid much of the extra indentation.
-
-These are useful suggestions, and I'll keep them in mind for future
-submissions.
+I think converting this code to use `scoped_guard()` is not appropriate here.
+I'll leave this function unchanged in the next version.
 
 Best regards,
 Phuc
