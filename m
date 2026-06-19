@@ -1,140 +1,102 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D839A3B14BF
-	for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 15:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC75F3B9928;
+	Fri, 19 Jun 2026 15:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781881245; cv=none; b=O0IF7brwsLS5+u5l3dtuLzltMz84HbE5zWh/e/X84Cd2fvNU+dlM4KhiJMkDSd2CTk5i0EfULQ5thRJa/cz0I/D5aRbUs13vz1jK5zCWvO/fYzY1cByJPdGSaS5yc7Y0hbYzIdxyTsZZxAKjc2rPN4avEKuH5H78s9Tb9ddGxAI=
+	t=1781884326; cv=none; b=VjbcPhKu4W2yRVTon4WeGs0joZYDIeqwKHDJcLCjSplRMnoMKugarelTEZba3oLTtOxuTmLBLf+GiBPK3vHjre1JVMD1tipSqZsBzfW/b9CMf6/oFXfNRffC9tH0imgfhEK1WUFruxjfEMVh3KoF0o4KUF3jx0ZLhK10FHsWoug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781881245; c=relaxed/simple;
-	bh=/QfzYbffaf8bwih6CIvEpCLzvEWYOwXUbazlryFVh7M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y7bojDNm/Mu2v4DH9v4M8s5ewplXkiIY/2hNsww7A0yuThx78yJRjo+StfwDSkKiY6qXfsHHQHaYqf+u1tR+EA65zaBcNBTMeSRJ2kh8vdBFvZJk3tLrPIAQMfPppcbVBatQJp9b7CSOSkI2RVNRjnlgv48WvPIdjEHiH8Ai4H4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GHFsOEOk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sIzSYWeW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ox47kuih; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GybF9mAO; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781884326; c=relaxed/simple;
+	bh=7HX3UQHS9Diqf7C9vVvPRnTZhnraTE9BET2NGWoOVh8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ch6v5XRpspVDiYOom9e6cTwggj/F7I7kANiyoSE5XGF/wmtaf7vxhnWZGVo+YPv3X1TnbOzJFofC4Wghx+i8NOrqc1IcxfZ0DKjiMYF4g1xN48KbrcGXcjWpKj1R2S7N0w7u/jzRns9ChE19VGOedkZPUnXmN1I2s/BsTZFyvIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QmgOqigc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GHFsOEOk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sIzSYWeW";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ox47kuih";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GybF9mAO"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8893A6DB45;
-	Fri, 19 Jun 2026 15:00:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781881241; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=NS+RAkssP9CJ7FZ+16aScWXBvleUCpHf1yujlCLAJ/8=;
-	b=GHFsOEOkpJ4ApBpOp8aKe5oQkii521dHTnbRqE9wA33yIQQtMegApET/YfnB9S6ZWI9joa
-	JJFf+u3xqRwWj8pNwOsVnDQHRx+JAbLFlJWO0w/uQx01lr32FZoaVFF2r+fOfvfW12UOg3
-	BWMKhNdIL3Lk4FSp7wOInWcqHjT/G8M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781881241;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=NS+RAkssP9CJ7FZ+16aScWXBvleUCpHf1yujlCLAJ/8=;
-	b=sIzSYWeWYE3kLYqZ+nefErlz6xkzNFWGMR/EO5M6pOMeSeUhdR0zcNcNwCxXSqsf0ThGDu
-	aqmJN7HOggDtidBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781881236; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=NS+RAkssP9CJ7FZ+16aScWXBvleUCpHf1yujlCLAJ/8=;
-	b=ox47kuihvof6xBYYTTg2zeDl/OepI4cWYpSuM9FwL+T5VX0JJ8K0bxNwoNHhK30hvyqwjj
-	rLeaJoWN0pSlliiGT6LCpPLUi8ljNN5aoWyyYiW6Ner1i4299JdOn9Y3FWIAucx/ps2t1f
-	NFJGoD8yvZm7Szgv1Y6C6TvaA4Rosls=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781881236;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=NS+RAkssP9CJ7FZ+16aScWXBvleUCpHf1yujlCLAJ/8=;
-	b=GybF9mAODLVq2aEkk+SgnY/R+cugKdAF4o97KPWY6oPV6USFBdrNZjPhak9kY6jz4sTOXe
-	ViQtLw/ny8FO+XCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 62573779A8;
-	Fri, 19 Jun 2026 15:00:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hWO/FpRZNWqOPAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 19 Jun 2026 15:00:36 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Ai Chao <aichao@kylinos.cn>
-Subject: [PATCH] ALSA: pcm: Notify disconnected state at mmap data fault, too
-Date: Fri, 19 Jun 2026 17:00:34 +0200
-Message-ID: <20260619150035.1560937-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QmgOqigc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4703B1F000E9;
+	Fri, 19 Jun 2026 15:51:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781884320;
+	bh=7HX3UQHS9Diqf7C9vVvPRnTZhnraTE9BET2NGWoOVh8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QmgOqigcW8OCktc69QDgRThLHgdheBjNj6QzjnHsopLKDk+9Y2EwtKl+MUqSkPgdT
+	 0aDgCJZkW34F2rYr0TeOmTiLQBdSjkHtdIvoDH9uIWpfHQxeH1YMLRtgBexg0iUIJg
+	 Q1KQmUEpDRl2KGlu7D4GMpP55dYNh9D6tLa1+F/k7pIgelOIDrPu2uGJAobu8hsaUp
+	 6LNquNDoQAWGBwdo11lYile3IxevIOT63MPrBFoG/qs4DHyspyBjBoJjiWtnb7K/Sf
+	 oIacZMxXTMG1YcPu69zl5HXjiZkeyeGOYL7mHfEJZvG9jzMaW5mB+94l9S2WjmQ19i
+	 4J/UadIfcDHsQ==
+Date: Fri, 19 Jun 2026 16:51:55 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com, Maxime Ripard <mripard@kernel.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>
+Subject: Re: [PATCH v2] ASoC: soc-core: Create device_link to ensure correct
+ suspend order
+Message-ID: <23198ec5-398f-48da-a079-47ce208e5c7f@sirena.org.uk>
+References: <20260611110856.1088110-1-rf@opensource.cirrus.com>
+ <CGME20260617141046eucas1p2e85629d57bfc17449b135b16f9230d57@eucas1p2.samsung.com>
+ <4c9156cb-6508-4fda-8e36-7edc4eb7d6f9@samsung.com>
+ <b9e3f7cd-2329-43b0-89ca-0243e4916c16@opensource.cirrus.com>
+ <c29c5ef0-cb10-428f-8ccd-8a84195dd504@samsung.com>
+ <6af1deff-8d1b-472a-8ef3-04f47321689e@opensource.cirrus.com>
+ <4d8b5ea3-299c-4a03-86be-696ce51afd9c@samsung.com>
+ <7d97a6b2-9ff8-44bb-977f-c87deb5a3e88@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Level: 
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ve2PpzO93LhgGYK5"
+Content-Disposition: inline
+In-Reply-To: <7d97a6b2-9ff8-44bb-977f-c87deb5a3e88@opensource.cirrus.com>
+X-Cookie: Courage is your greatest present need.
 
-When a device gets disconnected, the driver waits until the all opened
-file descriptors are closed before releasing the device.  Although PCM
-core emits an error to any further syscalls (except for close), some
-applications don't notice the disconnected state because they mainly
-access only via mmap, and it may block the device release
-unnecessarily too long.
 
-This patch is an attempt to improve the behavior by adding the
-notification of the PCM disconnected state at mmap data faulting.
-When the device is disconnected, it now returns VM_FAULT_SIGBUS, so
-that the application can notice the invalid PCM state.
+--ve2PpzO93LhgGYK5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Reported-and-tested-by: Ai Chao <aichao@kylinos.cn>
-Link: https://lore.kernel.org/20260615132657.2097213-1-aichao@kylinos.cn>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/pcm_native.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Fri, Jun 19, 2026 at 02:33:36PM +0100, Richard Fitzgerald wrote:
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 7dc0060617f1..d4e04b5088c5 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -3907,6 +3907,8 @@ static vm_fault_t snd_pcm_mmap_data_fault(struct vm_fault *vmf)
- 	if (substream == NULL)
- 		return VM_FAULT_SIGBUS;
- 	runtime = substream->runtime;
-+	if (runtime->state == SNDRV_PCM_STATE_DISCONNECTED)
-+		return VM_FAULT_SIGBUS;
- 	offset = vmf->pgoff << PAGE_SHIFT;
- 	dma_bytes = PAGE_ALIGN(runtime->dma_bytes);
- 	if (offset > dma_bytes - PAGE_SIZE)
--- 
-2.54.0
+> It makes this whole device_link stuff less useful if you can't use it to
+> reorder a parent-child suspend order for when the parent-child
+> relationship isn't relevant to the order they should suspend.
 
+> If we skip entries that we can't re-order, is that simply adding
+> confusing complications and _mostly_ ASoC forces the correct order, but
+> in some cases it cannot and then it is up to those affected drivers to
+> figure it out themselves? Can we always guarantee that those drivers
+> will know which they are, or can it all break subtly because a driver
+> doesn't know that in some systems it becomes related to some other
+> driver?
+
+> Mark - should we revert this because of too many corner cases in the
+> device_link code and go back to every codec driver with a system_suspend
+> installing its own device_link to ensure correct suspend order compared
+> to the machine driver?
+
+I think so.
+
+--ve2PpzO93LhgGYK5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmo1ZZoACgkQJNaLcl1U
+h9CtNQf/RSLxlepPaYtescR67cKMHiyVgPeYmKsbro123k0EtkoG1L3jPCbs1QzX
+tQZfCdH2b2XoGpePqMbTUY/D9kF5Qjfqj1bancJ07b8R9dcr1gPjq8g/SqI3kL2C
+dSEhdYaAeVT9/0WAJ9pXQ6uINUe8E9V6jynVzRAdH4UeJ7K3Ov+Bbe9CMAUkVqMl
+J3VNH2LKLs3nWErKsKPyc7WFIia9EN3h2lOsF5tgWStVqZ4gEO4zBuwoZhyD8PXm
+LRDdm9xYX4AjIM8giKWyNmoCJNEo/ScHeONLhVdRuctV1l43BkQ2vhS2LdC8W9tp
+/0zeDZhMBwhMv+1P8ckQerz1Y+3P/g==
+=RhDy
+-----END PGP SIGNATURE-----
+
+--ve2PpzO93LhgGYK5--
