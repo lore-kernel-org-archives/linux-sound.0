@@ -1,211 +1,114 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013034.outbound.protection.outlook.com [40.93.196.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A25372EDB;
-	Fri, 19 Jun 2026 12:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.34
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781873044; cv=fail; b=IF/+U2NxZGD5AzDZ38FePlUH6OYgPoy+Xsab3wh/sJS/mhHAOs8DZAkrU2zDXwh/Ozk0735MJUShnGzAC1W1yE4xdv9ZmrejTB4NIdDlXdYZ8OjDMBW+5I855W/SqeDrL+up+VTrnYlf4F6heRqXpYo7TqwlD1WKsx9ZZZO8Kwc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781873044; c=relaxed/simple;
-	bh=K/mY1/3hx+4duxKs+PdrufkGRXY9heoUdPAtiJyitxE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=n7nxX5p94FCpDjw4xQbKCOfS5ilN5ucVI5n2M32x8YHrfTbacleY+mpm+vYErETo0BfM4HmS6/4vQZtWeBOLWxO8ea7L6WrIu9QG3yzPtEJYALso4IdXeEFqfTWrDoO74I5qXUrjFNppO+tDTXuiYR+CdGw23/eUhCrOJTrsIQQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=KrNsDgBm; arc=fail smtp.client-ip=40.93.196.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A76A38757D
+	for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 13:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781874514; cv=none; b=fvCqkHMN75GBYWPQCCauYpr4wl+C2m0O0Q08D8nx+ZsYwH08KZ3B0AGPYuiNdwKikwqSKyyrl1ggtyWkvPorA/MmUpN8WezIRTkrPoO9lQY9TUnrZsRUZEM1juSa2iGMgcLKjZxRN6OEunPTOnJk2pHUT3u7i5djR3ONK5kbT3E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781874514; c=relaxed/simple;
+	bh=FZPyrhDIKHtZnqWESVoiWoI3FIueJBpbIWsR3B2EWZ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GT9NeFU6l9faqDKD3Ws5RmwT18RehDPE/Q0Dlo0qzNMczq6ELSYSgGQbQ+O8VllwJIYUL6soqToSlqPSgHmfRSmxgsZSjTTyhqd7X+TZ3Bno/UyLNyzVWLMP52mcYjWPZ0o8Of6JemShNP4jREuvLwP8tBVonGjigi2EC1T8HmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gie6Az7b; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="KrNsDgBm"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s15qW7RpK2FJlSTxxeA1PZlXtD7jRBH8Ndx1Ob4GN04yzpxR9ZJXYFxZ9jkj317XLS5UckHTqMLjVCxXSKzlFaFI5bgnxmK5zrobWXh0/+Dovw7f6tF4tJXZ2e5m6MUEgFEDu3oqxFKISxD49mfRPlWzap3WhnqtOWqtcqMkDlXzA7XUPtREjkKaLH38bCZ2iNeYJgvfZbbAAaPLMFNFk633RPZQCx/tJ0laFgAabPT0VOQ5eWPCDclOkL6KLKiU0iamSfFYBS+x31Lp4mcRaGwf5wVCFbPkFauaRHhXEif6eusZHoim7cBo6Gvofzb7cXylqwzQl0Yk8j5pA/O6TA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eigS1vO28hKHtUq/5DncjXy6Wviu1p2RH9A9PILUW7M=;
- b=zFVA9qONeIZIj2cJhMkkmelkiYKOX9ZU6zNOtP36hdKoYK6vcG0/2VSBiWuf//tOP0HXckQjdgzLe+NTFgpSklc4yJkcibpOxh3FpSIsXZeUzXVv0tOdesVPZN6/RhHCrhjVVxFP1+Oft51WH23ZFshIhEtJocTGJ7FWWik7+U52iCK8gYTca69Gj7cXh4ZaUgXRL1Ofag1vriYDgxkhp4Zk8RYYtmWX1bOmAb5G1LFaGOuq2ojk9VBFgsN7wacGyVZRFOcmtA/B1ye9ScA+pJsE+yRT2NXYR24GEiyBYAls0apXAFqpfEbshU59i8tG3z7Md699f/cFl4sWjEbn8w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eigS1vO28hKHtUq/5DncjXy6Wviu1p2RH9A9PILUW7M=;
- b=KrNsDgBmtz+yIgILt2TZtG/3upR0B3j2SLqUAHiqw/6mk63IOvWEhTtSrTstgKR4Cqk3Dj1oZNKOxN9zjzyuBBmhEqYrESLAbOy8RPECDTb8ik7KkVvRUEOrqY7lA6yETscRjUOHciL38nyBlOJkB2bMH45JZ1Y+dj4TWDvi/OI=
-Received: from SJ0PR03CA0088.namprd03.prod.outlook.com (2603:10b6:a03:331::33)
- by PH8PR12MB6817.namprd12.prod.outlook.com (2603:10b6:510:1c8::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Fri, 19 Jun
- 2026 12:43:56 +0000
-Received: from SJ5PEPF000001F6.namprd05.prod.outlook.com
- (2603:10b6:a03:331:cafe::4) by SJ0PR03CA0088.outlook.office365.com
- (2603:10b6:a03:331::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.13 via Frontend Transport; Fri,
- 19 Jun 2026 12:43:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ5PEPF000001F6.mail.protection.outlook.com (10.167.242.74) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.139.8 via Frontend Transport; Fri, 19 Jun 2026 12:43:56 +0000
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Fri, 19 Jun
- 2026 07:43:53 -0500
-Received: from amd-B550M-DS3H.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
- Transport; Fri, 19 Jun 2026 07:43:44 -0500
-From: Syed Saba Kareem <syed.sabakareem@amd.com>
-To: Mark Brown <broonie@kernel.org>, <alsa-devel@alsa-project.org>
-CC: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Sunil-kumar Dommati
-	<Sunil-kumar.Dommati@amd.com>, Arnd Bergmann <arnd@arndb.de>, "Mario
- Limonciello" <mario.limonciello@amd.com>, Syed Saba Kareem
-	<Syed.SabaKareem@amd.com>, Venkata Prasad Potturu
-	<venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Randy Dunlap
-	<rdunlap@infradead.org>, Syed Saba Kareem <syed.sabakareem@amd.com>, "Simon
- Trimmer" <simont@opensource.cirrus.com>, "Mario Limonciello (AMD)"
-	<superm1@kernel.org>, Hasun Park <hasunpark@gmail.com>, "open list:AMD ASoC
- DRIVERS" <linux-sound@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] ASoC: amd: acp: Fix linker error with SDCA quirks
-Date: Fri, 19 Jun 2026 18:13:23 +0530
-Message-ID: <20260619124343.1683484-1-syed.sabakareem@amd.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gie6Az7b"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-46066e640easo1307758f8f.1
+        for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 06:08:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781874512; x=1782479312; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=kZhsgkJerSVKBfdIsaLkYedynvx7vkcSWkFfn2/TgwA=;
+        b=Gie6Az7bjjKPlKAFg/cOiXEPJg+s1YBK3enJ8uOsKyGYxz6BkkdyBGgU+Jj0BbJYt1
+         DL8IYWwfUhXwcpEqCeCQVgGL6BVOzMSNWIKN8pI4UkVMsb6HDdB87B1Kkwe6PbfH+i05
+         gd4CVCubIR4NzsS43L47q07LzUuRWdZX1Lx5UxPVCOy73nwa+qXIoAdi9/KleXyUJRk+
+         Ao5LTKjynD4g9BbzCVZlt+xzpSmVZLQpNlXVsWsfFLc0+xHT7ZgU1V/0rfVxoSaWoZ7v
+         ADVFmJ5qCYVtVSz9z2Ko6Xl/9D7So+PU5hijWQo7/pkmYUX8+JeE9bVBMZfbhp/i6fqy
+         PSOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781874512; x=1782479312;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kZhsgkJerSVKBfdIsaLkYedynvx7vkcSWkFfn2/TgwA=;
+        b=ngBaLskQ9qb/t47ewJfNl1+pMVx8wDpENzzjrYQAbEl1nLUzKKKTOWvhLVtGh812OM
+         yGXLZGbgkXxxuOhwhXWeAz1cB4EyTzYLEr0zw+DbGfymRqLVy2AikYqaXeeoiBWhZ/i9
+         xSI/FurdEZY2AD4SBRF1wfxvbsc3kb/inSrhYuk7OADLF+RM7Wv9bzVLYvEbPDKKuENl
+         hF+VitCToKNsZ2ZYMo3hqKqbrmCx4qXRV2b6hv2WD6FpGw9kBAbOnlSBCedqUldyX8DP
+         91evowdcSedsamqdIEvS5cqn16GFapDAIg89FaO0QNaPNHpXnwQNM8i/ZPb8Q5pq/nQL
+         NgGQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+KZrbrL1mVLa4+9g3kz0qZXB8sbAMF0HKW3XbosfInBbsyH8RNQhyGlsBDaKlfeHOsRl+wKHgK6p948g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzhYz+NFWlMmXYhfhofzFp+LdJbkt1iKPVIi4r1HaRNG3QsX+e
+	oMfXzWdXyLX+08Jj1DESim1yFC48KRoFv6D7shFbzR66zj3iTrrdfbw9
+X-Gm-Gg: AfdE7cnuePwheRdKr0imfztJT+pSD0+BiIRslhXDXkgrbIDDtxCuVpcvNvrWc+CzNkW
+	Py6kxMmZC6ZBHa3+8nAIrIrG8JXXOIvU/PGVmevoPMcJ5Z5NmaaEm/RguKguq0V6AXXdJzXrMgR
+	Zj6+CkTAcVrQokUfD74U4wp856r/lImcUhNa99Yxqs4488sG9GqRdtE0tkG5z5ZZUgv8Skm6Qa4
+	Y2i8CmBiihT0/4ruOnTOkaoBAw8QWXh+x0NI615zvStro6wNBRcrcfWKjWX1eWwuX9kVlWuF6Nv
+	XGGHfC+9UqXoJe/KvF/kVUIvYEEVRvy5D7O0/gEIGIq/fzz2znR8hEMuGZqjgrUenqozOwk4rUl
+	Ax8z0S0RzAojYCpb2Dx5Cvl5lGXHDHzjsP8XaN7P9IEY1aFzNm0NNQPqHD4ZplShjrk9yoXSprJ
+	5Luq90BUB2ZRc0d6myj7X/zvxv6+QxTGi/gIq5kD4RXkhCQe5EyFBPyR5EZDycZ+S4e/db8I/Wu
+	QEnk8w=
+X-Received: by 2002:a05:6000:481b:b0:45e:eaed:afd2 with SMTP id ffacd0b85a97d-465041d5b0amr6899357f8f.0.1781874511611;
+        Fri, 19 Jun 2026 06:08:31 -0700 (PDT)
+Received: from [10.128.11.42] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4650b67a33csm7291097f8f.17.2026.06.19.06.08.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Jun 2026 06:08:30 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <f092d0a0-3188-4fd0-8228-2b715c642a08@gmail.com>
+Date: Fri, 19 Jun 2026 14:08:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F6:EE_|PH8PR12MB6817:EE_
-X-MS-Office365-Filtering-Correlation-Id: ea14fa3d-f184-4d75-7238-08dece006d51
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|376014|82310400026|36860700016|1800799024|56012099006|11063799006|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	8HTn+CVEkeAvrEd0MhivmSeEl08+41cC2zLOwOPGK5aVRwGvm1zHKF/L/UTqPGlqYQX9MQJHo2U0/Y4gKqawW/IIb1XEfizqG3DK0Lqq6qU6gW4QCrC9l7YWyNtjIE7+4wOjT+k6kAC/3xv9Slq5MkuFKhM0Avx1XZO7xo8i6W4V60eUnE4pxRUnVgEVBmYxQ0Lko1MLzGhZsrUzIMZMKK+8hwdq7Azm1+vXqBcqyFAHf5FRM1lNjE9FNIYdoWXLAQ4Eg/hAlLachaHNjWli15o3bCa6W+UQr4yl1mDwmzYAh1c2jfjZdLq3foxF2L0JI3Sw81QjcbeCclmSUUMa+f8aMQ76EOds8c5jZFO/jpIFojX4zOcTeIVDsnUkW04LzcIsynTg7A4WhZcLWs8UUve0HyqEcT7ORlD20yfNf0A0m/QQBTXGwtreXOP8/17jzpVZpOVc9AKgPuu7V9hYh606zZ42xp3B0DTUKWKOQmpSKKsSsr4cpPvnd4fhUaESasws/cRW8UkTqsgi/Zk7yxaZ0Q+l+A5HhoiTQPa2F4BlACPEEdgHBBATSrCikEwIpQ6QJBlvaT3ylbEGuvjJY3yMtszzAQ1SJ52dm6gqJkyntIVgB1fPT91TPNx1yWpx0BQKd/MH38pmMu4wFKZCbNr0ib/CbA+EXBePhj7L3l97P6VlGnePMQlnMpgsK/ow9VGKaIKjgA4YIFqtX4HrfA==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(82310400026)(36860700016)(1800799024)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	6hsZoC0xKOIQXUF7HlMQnrN8IHGqOpjKOCG2mTSlfWae3yGG0MT27PbYfCTUsqB0lll5vqR38mAxDxqpW2IUV4zBtowhOdsfkRmQrujiP6Ltt+pgS6sRc3rx8L65H36Y4MdWSz2OkTSqHDzfxkxzhrRYWODdaIWNN6MV1h5Ltuisc6CNrbtItgD4mq6XlEfVLb6pAxavf1GU4GVLFGHpqwfb8mT5H1vATFg6UyxL9N84G91hRSttg1evqlTIHi6s8E7g7x8N0kkFKPVYQiGGXthgAF/y4JIfL9NZrMkRirYIXFYTosta1kOEGIk4GHi8mi3sYA+oTtT1SLBEflRTO9v1CywxTLDpGAhNtzur0t6ilPxOExMci+TFdBegAwHNPqJ0gXshoXgLUP9aplmNtbp+gjHMt3KrR/nJDnm7gpeQCgVKu3cBmGHviOHFBQQF
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2026 12:43:56.1864
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea14fa3d-f184-4d75-7238-08dece006d51
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001F6.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6817
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: amd: acp: Fix linker error with SDCA quirks
+To: Syed Saba Kareem <syed.sabakareem@amd.com>,
+ Mark Brown <broonie@kernel.org>, alsa-devel@alsa-project.org
+Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
+ Arnd Bergmann <arnd@arndb.de>, Mario Limonciello
+ <mario.limonciello@amd.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Simon Trimmer <simont@opensource.cirrus.com>,
+ "Mario Limonciello (AMD)" <superm1@kernel.org>,
+ Hasun Park <hasunpark@gmail.com>,
+ "open list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20260619124343.1683484-1-syed.sabakareem@amd.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <20260619124343.1683484-1-syed.sabakareem@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+Hi Syed,
 
-Fix undefined reference to `snd_soc_acpi_amd_sdca_is_device_rt712_vb`
-linker error when CONFIG_SND_SOC_ACPI_AMD_MATCH=y and
-CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS=m, which causes built-in code to
-reference a symbol only available in a module.
+On 6/19/26 13:43, Syed Saba Kareem wrote:
 
-Fix this by changing SND_SOC_ACPI_AMD_SDCA_QUIRKS from tristate to bool
-and compiling the quirks code directly into snd-soc-acpi-amd-match
-rather than as a separate module. This ensures the quirks symbols are
-always available at link time when the match tables reference them.
+>  config SND_SOC_ACPI_AMD_SDCA_QUIRKS
+> -	tristate
+> -	depends on ACPI
+> +	bool "AMD ACPI SDCA quirks"
+> +	depends on SND_SOC_ACPI_AMD_MATCH
+>  	depends on SND_SOC_SDCA
+> +        depends on SND_SOC_ACPI_AMD_MATCH = m || SND_SOC_SDCA = y
+> +	default y
+> +	help
+> +	  Enable SDCA quirk support for AMD ACPI match tables.
+> +	  This is compiled into the snd-soc-acpi-amd-match module.
 
-Fixes: 10d366a846be ("ASoC: amd: acp: Fix Kconfig dependencies for SND_SOC_ACPI_AMD_SDCA_QUIRKS")
-Reported-by: Arnd Bergmann <arnd@arndb.de>
-Tested-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Syed Saba Kareem <Syed.SabaKareem@amd.com>
-Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
- sound/soc/amd/acp/Kconfig                    | 10 +++++++---
- sound/soc/amd/acp/Makefile                   |  3 +--
- sound/soc/amd/acp/amd-acp70-acpi-match.c     |  2 +-
- sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c |  4 ----
- 4 files changed, 9 insertions(+), 10 deletions(-)
+This Kconfig file uses tabs instead of spaces. Most of your Kconfig
+additions are formatted correctly, but one line uses spaces.
 
-diff --git a/sound/soc/amd/acp/Kconfig b/sound/soc/amd/acp/Kconfig
-index 977e4f2a7a70..d3c860303a7d 100644
---- a/sound/soc/amd/acp/Kconfig
-+++ b/sound/soc/amd/acp/Kconfig
-@@ -15,13 +15,17 @@ config SND_SOC_AMD_ACP_COMMON
- 
- config SND_SOC_ACPI_AMD_MATCH
- 	tristate
--        select SND_SOC_ACPI_AMD_SDCA_QUIRKS if SND_SOC_SDCA
-         select SND_SOC_ACPI if ACPI
- 
- config SND_SOC_ACPI_AMD_SDCA_QUIRKS
--	tristate
--	depends on ACPI
-+	bool "AMD ACPI SDCA quirks"
-+	depends on SND_SOC_ACPI_AMD_MATCH
- 	depends on SND_SOC_SDCA
-+        depends on SND_SOC_ACPI_AMD_MATCH = m || SND_SOC_SDCA = y
-+	default y
-+	help
-+	  Enable SDCA quirk support for AMD ACPI match tables.
-+	  This is compiled into the snd-soc-acpi-amd-match module.
- 
- if SND_SOC_AMD_ACP_COMMON
- 
-diff --git a/sound/soc/amd/acp/Makefile b/sound/soc/amd/acp/Makefile
-index 81d23aded348..ab5f9dc871a6 100644
---- a/sound/soc/amd/acp/Makefile
-+++ b/sound/soc/amd/acp/Makefile
-@@ -24,10 +24,10 @@ snd-acp-mach-y     := acp-mach-common.o
- snd-acp-legacy-mach-y     := acp-legacy-mach.o acp3x-es83xx/acp3x-es83xx.o
- snd-acp-sof-mach-y     := acp-sof-mach.o
- snd-soc-acpi-amd-match-y := amd-acp63-acpi-match.o amd-acp70-acpi-match.o
-+snd-soc-acpi-amd-match-$(CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS) += soc-acpi-amd-sdca-quirks.o
- snd-acp-sdw-mach-y     := acp-sdw-mach-common.o
- snd-acp-sdw-sof-mach-y += acp-sdw-sof-mach.o
- snd-acp-sdw-legacy-mach-y += acp-sdw-legacy-mach.o
--snd-soc-acpi-amd-sdca-quirks-y += soc-acpi-amd-sdca-quirks.o
- 
- obj-$(CONFIG_SND_SOC_AMD_ACP_PCM) += snd-acp-pcm.o
- obj-$(CONFIG_SND_SOC_AMD_ACP_I2S) += snd-acp-i2s.o
-@@ -41,7 +41,6 @@ obj-$(CONFIG_SND_AMD_ASOC_REMBRANDT) += snd-acp-rembrandt.o
- obj-$(CONFIG_SND_AMD_ASOC_ACP63) += snd-acp63.o
- obj-$(CONFIG_SND_AMD_ASOC_ACP70) += snd-acp70.o
- 
--obj-$(CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS) += snd-soc-acpi-amd-sdca-quirks.o
- obj-$(CONFIG_SND_AMD_SOUNDWIRE_ACPI) += snd-amd-sdw-acpi.o
- obj-$(CONFIG_SND_SOC_AMD_MACH_COMMON) += snd-acp-mach.o
- obj-$(CONFIG_SND_SOC_AMD_LEGACY_MACH) += snd-acp-legacy-mach.o
-diff --git a/sound/soc/amd/acp/amd-acp70-acpi-match.c b/sound/soc/amd/acp/amd-acp70-acpi-match.c
-index 1ae43df5da6c..3782c7014655 100644
---- a/sound/soc/amd/acp/amd-acp70-acpi-match.c
-+++ b/sound/soc/amd/acp/amd-acp70-acpi-match.c
-@@ -731,5 +731,5 @@ MODULE_DESCRIPTION("AMD ACP7.0 & ACP7.1 tables and support for ACPI enumeration"
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Vijendar.Mukunda@amd.com");
- #if IS_ENABLED(CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS)
--MODULE_IMPORT_NS("SND_SOC_ACPI_AMD_SDCA_QUIRKS");
-+MODULE_IMPORT_NS("SND_SOC_SDCA");
- #endif
-diff --git a/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c
-index 63bf9e3c0ae1..9248b6d09e76 100644
---- a/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c
-+++ b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c
-@@ -35,8 +35,4 @@ bool snd_soc_acpi_amd_sdca_is_device_rt712_vb(void *arg)
- 
- 	return false;
- }
--EXPORT_SYMBOL_NS(snd_soc_acpi_amd_sdca_is_device_rt712_vb, "SND_SOC_ACPI_AMD_SDCA_QUIRKS");
- 
--MODULE_DESCRIPTION("ASoC ACPI AMD SDCA quirks");
--MODULE_LICENSE("GPL");
--MODULE_IMPORT_NS("SND_SOC_SDCA");
--- 
-2.43.0
-
+- Julian Braha
