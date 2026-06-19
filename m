@@ -1,119 +1,193 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6844C31E842
-	for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 08:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781857587; cv=pass; b=BAu8EIaEIiGM04XXl7LM0BSUKbZC75uzsnp0c5cM/McFXQCP/3Amav3zOaEgMR1xpbWcOsOVvBbuQQyiMOPmueTe0dBolKEPh9gwmySRG0jMvLT1u0JWX7fyA8RGzYf4n+7sjKLuOkKDPJrZCbnQ+BD4PgTdFVW6Ld7HTYmaI3w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781857587; c=relaxed/simple;
-	bh=AnFgb3/2Jb5tiWkBtABr85eDZSOOJMNFSVQRYJYjzOo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ow3Z3TIXv6e7Avv7+e21YSPTJWfTMmCoiY0/IcRKp0IWAA+7bVOB210N6eyKY+LM6NCxsE7sdzzHj7K8Csh/iNjDjEug8E/nFvhNywizhLS6g3e82QPCLodLCjonASvWYbmN4jHLeqWczFAXb7ZXDSFsClfCtqv+Rzm309/xPvA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xu2EGv2Y; arc=pass smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F13BA34
+	for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 08:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781858984; cv=none; b=X4FEXQKJUaaZY/ImP2CqGqEB+PXXjrCTW+InnXXnBQNxZhDsxdi9fxbaEHlihkFfz4YBcy65PtsQczlzupok7pI3XV5pbEDbyiklNor3ibQzlaie7oZygRsL1WaDIi2jW58kLFJ3NWMrtTqf6tb3XXilQL8Ig/XfcbS+K1Inkbo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781858984; c=relaxed/simple;
+	bh=MBeFmpVa0nvRgd11LrsNrJRvyhSnsVLHPP+EXuyX2lQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gsCipVCE8lEFnkRRLgnzPUnEq0eV0bMUpdHyoshdtwBOPWbPHU6ameTDIA7aXFq4YxLYfWDL4rZOMn5Z+s61WLzR10Utdj9hdowfSqWo7W32d0EKtGH/UwdNAxfSWuWtL46m+bjo8x/i3DfkKorxsc4EmgK7PVGsq/sBTnpyfSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e28LJABC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=17Gm3lRE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e28LJABC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=17Gm3lRE; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xu2EGv2Y"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-37c8e7c8137so979171a91.1
-        for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 01:26:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781857586; cv=none;
-        d=google.com; s=arc-20240605;
-        b=NC1i99dXJ7/enTApliz9uVOkuKu4c5PGQ+CO+4AGaS78R544IiB13f9hGnusC0S9xr
-         v/ohSU90YhXsy/LJeiwQNLGkHhzvxTLxunE5K+jIuhRaqt244FCDqm1OdPwZRA1h8I90
-         Da23FctueGz6EMOHDHSGe+4LS+XEsb4Tx1kd7/397T4mxeltf0vj3GOY5CGzHPBNgdmm
-         ipu76vheySjw9DJFxsbaUX3HvNLbGv7KSf05THTDhJ+VmZJeDHfkkcpWQNWpG1vmt8Et
-         Ji1Sgmy8H/ClEQsCJpem5JOE/OCOERPZwdhdb5HPtd3W2iKgyNg3s7DlraxYQYtNzWQq
-         Yy3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=AnFgb3/2Jb5tiWkBtABr85eDZSOOJMNFSVQRYJYjzOo=;
-        fh=pUzFM0PMIcD3/YWJgfj+QnHbb9nUt1wwW75fzIHJvmc=;
-        b=Hjfj1GushT9ffN8yRoow7ydudvSVrvE8gM4RCb2auQRSbsfijx/QFyZMSjkZ1g0Jf+
-         46RI1FkdrksBg3DLdLiuIUKM7oH8Fiu+HPQpm0WqCBSCM7zi7KwZrdCcwNAkkXvslmcL
-         77Dz5ncqhZbkX0SzuTEwHu2nFaSdjQI+JCWpj/oAaUwodbRA5M7dpxYhBr21mzH9+vqh
-         Cf/niTB5eUu15+Vvy6lXiKSopSsrorPUE5DupCHV+caZZbt6iIR0ZotfNrMGVT1aL6On
-         1RL4hDCUvUyMtZRiyf/coo/eVA74pMVgwFAj5Q10tNV+mGoAzd58Z8p7fnvaJny+v9Ic
-         V/rA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781857586; x=1782462386; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AnFgb3/2Jb5tiWkBtABr85eDZSOOJMNFSVQRYJYjzOo=;
-        b=Xu2EGv2YSGIjOWLNQEqKLgDFhM5g5rNy6TiQC1Z7Vn/8+DF3lLGaTeYdVPshX23EN/
-         XwET/iqHrZBs+4kNw1rfO8vWkK0pIJNf5Ua3wwsdg4Ys6ThW5VUfml9ARu8s1ISXeX9K
-         9nlZJxtihXj4LjuTKaJMadvJLJ7Q6Z1HxC+jMLpBykwZShBvWDRYV9FREnBcOo6BGMyH
-         mWVwsPjcIxjhRvLrJFITMmsGpoaCRIl8e9STI0z6ya8y4ERrKFUns6IQmlWHU9HXm8lX
-         wxoFJFLMXDqAODhAwk9aQQcerYug6OLZx8ruA3zJ8BgFKQejXj07xVETn9BChsHJ06OW
-         e6dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781857586; x=1782462386;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AnFgb3/2Jb5tiWkBtABr85eDZSOOJMNFSVQRYJYjzOo=;
-        b=kMuVAGulxM28OJBWi62UcwrqhDTKtrFR+CRsNcS/aZg/YRK9o0QG3hwdwe267JIW7C
-         /bi/87j8cmcmMchVBRldckkU0FvViHap6jAmnfORX+dmwx6NRK4yyAiav5sdmiubAJwT
-         7TCc75lGMEOx1I2YbTPHFe9om08kTKL0OFKex6/JXnoOUwNdELp+RhoG4p1cExKGwTFp
-         yCp+ehmkL47chrLet+AIEX55AZCzjRr6jdrIw/lxnj6RqNOAgql0JwueGC0GyOfSjz2q
-         FX8AL8humN60oR7JpHlOdEXHI1Ymf3YK5Q24XhP6X9+zjYjf/RjEK+gTTYN2PounN2qv
-         0usg==
-X-Forwarded-Encrypted: i=1; AFNElJ+v/J+h8iPLkI7huwEoa1zDmcXuPKhlUQercve+lfsiw0LU16N/UPVirXr+3ozvkDoCgSSAn/BHK/1ZGw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6XxAOOxX4AAfcVIYZtbH1d3VO6/QWwnJTucVJOkufGlLj6Mv0
-	c3qVbGGhou/Rm+ncPLFdsALKQgQtOSF2S54+l/lfdhSnRgrZmuszMh5sqJIo7bIlttyvS8JJz0P
-	cYzctnsmWFOkF499rdLd21BtxaMxWQps=
-X-Gm-Gg: AfdE7ckp+WicD3eFejiB3B5DgJRV59fSsB/klzsf+ngH890FjdtSyKFDSddwU2npjvS
-	haKCE8Na6xBSR/55XADpO7njDlF4Rpvkd17cfc4gTw7HmrrBEBusIhheMcioEMMOjqrjz0L6+tQ
-	eju0ylZuEBl99GNR3NAh9cKfwHe4FakHgnTCExYn9d2jcicagKXqb7H5Sk5B/XMXjT/ShjYw5ZU
-	we6nUIiaVvIqKkViiAyf0Dhw7YTnNydMAy7JJht2qfutEtj6zby3IKmx2w0iwBRcnb/Xo6Lb2zg
-	PRMcmsn0JB4HcaXnQhIkd4kh+Fo=
-X-Received: by 2002:a17:90b:35c4:b0:36d:cc9b:2f67 with SMTP id
- 98e67ed59e1d1-37d1e8d2625mr1979109a91.19.1781857585816; Fri, 19 Jun 2026
- 01:26:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e28LJABC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="17Gm3lRE";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e28LJABC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="17Gm3lRE"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 50D1C6D9AB;
+	Fri, 19 Jun 2026 08:49:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781858981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4DtvHiaEjA/t6oWw0sA/0dNAtjN8/iz/ew7ZA7/X9Nw=;
+	b=e28LJABCqAVYqzSdO6p0w6FLyVcO7Ru42VYuMWLKicz1aKWGcgx/1aBuyzpNDvzEPHPPGx
+	eGLiKjZ9DiChiGtFugUBMY2IHh+8IlpNZ0iCjjKSOCFBuMiM/dem8ggalNY2F2dbTstP95
+	LvOq8eMN0AVCJRYTaAihbbrFXC5fGrU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781858981;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4DtvHiaEjA/t6oWw0sA/0dNAtjN8/iz/ew7ZA7/X9Nw=;
+	b=17Gm3lREopUO68u8b9db1/lBPlcQeXMglnLvGTKTV9Pgogl/hP325y+OoJXGTnEKDpZIL7
+	zTxpDL4WhT/XAzCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=e28LJABC;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=17Gm3lRE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1781858981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4DtvHiaEjA/t6oWw0sA/0dNAtjN8/iz/ew7ZA7/X9Nw=;
+	b=e28LJABCqAVYqzSdO6p0w6FLyVcO7Ru42VYuMWLKicz1aKWGcgx/1aBuyzpNDvzEPHPPGx
+	eGLiKjZ9DiChiGtFugUBMY2IHh+8IlpNZ0iCjjKSOCFBuMiM/dem8ggalNY2F2dbTstP95
+	LvOq8eMN0AVCJRYTaAihbbrFXC5fGrU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1781858981;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4DtvHiaEjA/t6oWw0sA/0dNAtjN8/iz/ew7ZA7/X9Nw=;
+	b=17Gm3lREopUO68u8b9db1/lBPlcQeXMglnLvGTKTV9Pgogl/hP325y+OoJXGTnEKDpZIL7
+	zTxpDL4WhT/XAzCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 221AB779A8;
+	Fri, 19 Jun 2026 08:49:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pO4MB6UCNWoeSgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 19 Jun 2026 08:49:41 +0000
+Date: Fri, 19 Jun 2026 10:49:40 +0200
+Message-ID: <877bnukj8b.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Cen Zhang <zzzccc427@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com
+Subject: Re: [PATCH v3] ALSA: usb-audio: Kill MIDI 2.0 URBs before freeing endpoints
+In-Reply-To: <20260618170010.191433-1-zzzccc427@gmail.com>
+References: <20260618170010.191433-1-zzzccc427@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260617103235.449609-1-phucduc.bui@gmail.com>
- <20260617103235.449609-12-phucduc.bui@gmail.com> <ajNud7QkwF369lBY@google.com>
-In-Reply-To: <ajNud7QkwF369lBY@google.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 19 Jun 2026 15:26:14 +0700
-X-Gm-Features: AVVi8CddXW5ZNLmY1o-M3ykiX-yfQTjv2vw19gnq_6wH9bwOdl1r4oKcoEQ6Mfw
-Message-ID: <CAABR9nGVAiUpnmnoszLiNDC9ooXx8e9YFmMhv5aWLfaik8tjHg@mail.gmail.com>
-Subject: Re: [PATCH 11/78] ASoC: codecs: cros_ec_codec: Use guard() for mutex locks
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Cheng-Yi Chiang <cychiang@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Benson Leung <bleung@chromium.org>, 
-	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	povik+lin@cutebit.org, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Support Opensource <support.opensource@diasemi.com>, Nick Li <nick.li@foursemi.com>, 
-	Herve Codina <herve.codina@bootlin.com>, Srinivas Kandagatla <srini@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
-	Sen Wang <sen@ti.com>, Oder Chiou <oder_chiou@realtek.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, nuno.sa@analog.com, 
-	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>, patches@opensource.cirrus.com, 
-	chrome-platform@lists.linux.dev, asahi@lists.linux.dev, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,gmail.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 50D1C6D9AB
+X-Spam-Score: -3.51
 
-Hi Tzung-Bi,
+On Thu, 18 Jun 2026 19:00:10 +0200,
+Cen Zhang wrote:
+> 
+> MIDI 2.0 input URBs are started during snd_usb_midi_v2_create(). A
+> later setup failure can still jump to snd_usb_midi_v2_free(), which
+> currently frees each endpoint and its coherent URB buffers without first
+> stopping the submitted URBs. A completion can then dereference the
+> embedded URB context and endpoint state after they have been freed, or
+> try to resubmit from the stale endpoint.
+> 
+> This was observed as a KASAN slab-use-after-free in
+> input_urb_complete().
+> 
+> The buggy scenario involves two paths, with each column showing the order
+> within that path:
+> 
+> probe error path:                         USB completion path:
+> 1. start_input_streams() submits          1. The HCD still owns a
+>    input URBs.                               submitted input URB.
+> 2. A later setup helper returns           2. input_urb_complete() runs
+>    an error.                                 with urb->context in ep.
+> 3. snd_usb_midi_v2_free() frees           3. The completion reads ep
+>    endpoint storage and URB buffers.         state and can requeue URBs.
+> 
+> Make the endpoint destructor follow the same teardown ordering used for
+> disconnect when the endpoint has not already been disconnected: publish
+> ep->disconnected, kill the URBs synchronously, and drain the endpoint
+> before freeing URB buffers and endpoint storage. The guard avoids
+> repeating the stop sequence after the normal
+> snd_usb_midi_v2_disconnect_all() path, while still synchronizing the
+> direct MIDI 2.0 create-error free path.
+> 
+> Validation reproduced this kernel report:
+> BUG: KASAN: slab-use-after-free in input_urb_complete+0x37/0x1b0
+> Workqueue: usb_hub_wq hub_event
+> RIP: 0010:_raw_spin_unlock_irq+0x2e/0x50
+> Read of size 8
+> Call trace:
+>   dump_stack_lvl+0x77/0xb0
+>   print_report+0xce/0x5f0
+>   input_urb_complete+0x37/0x1b0 (sound/usb/midi2.c:186)
+>   srso_alias_return_thunk+0x5/0xfbef5
+>   __virt_addr_valid+0x19f/0x330
+>   kasan_report+0xe0/0x110
+>   __usb_hcd_giveback_urb+0x112/0x1d0
+>   dummy_timer+0xaaa/0x19a0
+>   lock_is_held_type+0x9a/0x110
+>   __lock_acquire+0x467/0x28b0
+>   mark_held_locks+0x40/0x70
+>   _raw_spin_unlock_irqrestore+0x44/0x60
+>   lockdep_hardirqs_on_prepare+0xbb/0x1a0
+>   __hrtimer_run_queues+0x101/0x520
+>   hrtimer_run_softirq+0xd0/0x130
+>   handle_softirqs+0x15b/0x670
+>   __irq_exit_rcu+0xd0/0x170
+>   irq_exit_rcu+0xe/0x20
+>   sysvec_apic_timer_interrupt+0x6c/0x80
+>   asm_sysvec_apic_timer_interrupt+0x1a/0x20
+> 
+> Fixes: d9c99876868c ("ALSA: usb-audio: Create UMP blocks from USB MIDI GTBs")
+> Assisted-by: Codex:gpt-5.5
+> Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Applied now.  Thanks.
 
 
-Thanks for reviewing the patch.
-
-Best regards,
-Phuc
+Takashi
