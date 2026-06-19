@@ -1,120 +1,106 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5875730BF66
-	for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 07:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781852766; cv=pass; b=XmRJu6EW2i/Mq98o/HwNdo12iRgkidlD2l951W4GCylJvuSft2ze1hXk21LOU0n1pThCz4SN9zHYrO4Wf2mMfmReJzYP9J6SpzshCZ0t50/WeZryKhS4aZvXUHwmYr8CPyHOXOJwuuXyOyfnQhCZwXOtthWVOYVollnUSAt4I9g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781852766; c=relaxed/simple;
-	bh=MFth+nQoWZzi+xQC4nT+m7rq1ssr8ND46G11AXKXufQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kKpf0na9gy40B8JeWSnEH/aujBt4QzBI1MEnIj6U7KeVrlRf0/XGFtdG1kRXKyIL1YRj2Vx0N4AJKGcBtb4KAp5rf0mz8fYHiURf8hQNXyiBasE5qB7GirLSTTFuwQi4/C4TV8ZHbtB7TJQaI5VN/aTNM77NRryULGZHrAEy5jo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eEevzfr2; arc=pass smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4B731E842;
+	Fri, 19 Jun 2026 08:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781856542; cv=none; b=efbThqKEj8KnM/DBzNoaBldQ+tQpFpkav/jadc30rVjTXxvskGhQuNlPNnnJOfz9iOKij4cjKghLrE6jo6L3B85Mpl0yuN7G26Nw6yuGCyK2pFVOlskgjv8Vfnb5f37YIhvniqm09o+WRV5DsT8K9JKahbp6QGuCvqu2vTY2sWo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781856542; c=relaxed/simple;
+	bh=HAl7MuYAKWND0Ijwmg9Px4uqJ8fuNKFLF/w9p1jSRkE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZPnGaiGUsDYHqYwa+xyCUyO1xDi3OH+XA8ZrEk7xM5itrOWEDbOerwkPs35gzE+p16TfncFaj6Ntc8WWRNsO3T5rl/HWMvkMGVC3WrIqH+5R+oqVVTuAoVxpFErlsg7xnEfYs5H/iTJWe8OMZ6wfgnwxph1qHNMIoImW63sk7Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=GSpGG9Q5; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eEevzfr2"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c892a0ef503so1179128a12.2
-        for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 00:06:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781852765; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Nzz6ewrJeUoKUL9TjZGAZKZKeei/aSOvT/3v0cH9i9QfsKmAnag4RgUcD8b0SliJTL
-         kl33nbYEmroWdv0yzthe/ZdY4PKO+JyvsKrj/Ko6yNNewImOEGGq88VHAomxuLNe1xoL
-         0ZzMPTHu/vF98wWi+wTjQI323A+6L+cSULkh1PoqR38A+Jlf24ESeSBuoqkd8XWJugP9
-         Gepmn1xfx5MhM9MpcS9sTNJztossUbWOZeQUeC6RBgveB98zZM1IodkUVQoxwhyydiow
-         iKtqxQHtCedXKXFXIKKk8Qq081Ehtk+np/V2uhZNmtKYWUI5gWke2HNTNzKeG5Nw3p/8
-         GAKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=R5JtmWglfnrBZbXEbrW0sXMeeg+zOFp6mYFu9xJ4UuE=;
-        fh=/F/gHcQiUuJAHT0iLCJ0eyJ3bF05qyO0djGrR8m+uxg=;
-        b=fZlPKlTnINQjnnbw6aqKegkpoKl3PHFt+CCk/ei7q7X6N+tFWDQ4nI7jBfVE5zxEkl
-         UjnYjjBiQjBeTN1nHhYbkPohwQca26i5lQ08ymf90fAWBadDFmF0zvRzmAw85zjPpxli
-         vlwazzFlnoosCAT4Y00zSqcMKLHqBW5I8xvM68yx1oNHvpbwzQsjHJOrSqjfvSddrJdV
-         Hlra8Yp6sXNpLFpaPNE9aszmC4pPMfMnVSWbLRnAVxU2EUqVKyqr72pLL2fjbJSbftjw
-         XKRFRAyXqUiI1XoNf0XArUJNpNwELrRj3mU63HA9Z2ZqYDlv0KIYJYsWQVcC49HEHcQt
-         EIYw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781852765; x=1782457565; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=R5JtmWglfnrBZbXEbrW0sXMeeg+zOFp6mYFu9xJ4UuE=;
-        b=eEevzfr2IQUU9GWgSNHtJWwEzbhFAO8lVJ/mnPIHG2w7+V0tXGVnB59AySlH2LJpuZ
-         Zt6PVAxG1UwXLQh2+NxDRFaH6FUOydLSNyhgNR1YB5GcU6fXVSyyo7u+U+HjJEMyOhXa
-         kQj3JQApVSGDOvEhF/QtxPRyQxb8cdRfq8DLtixOFFlek+BCK4xUbmEdmL0rubnL87Id
-         pwrO2906+V9vp979s4gmANHw762BZvFlwr6d9Hg35MR8zyZKK3V/gPWymVXk6NZgLCYm
-         BJt+jk2lKRXtYomqwdsk1uwiwJiAhQ0Jawv3KdwDJWXt/9Fu6GtyeYydEtMna5CbN7Ch
-         vcgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781852765; x=1782457565;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R5JtmWglfnrBZbXEbrW0sXMeeg+zOFp6mYFu9xJ4UuE=;
-        b=J9oZZ89Lt8KSYOMUGdKKZq1zYw35SiuCElKvcBWDh1UOnHTZWO9tCHp4K6MukOYAGS
-         E3rfNqXulSlYMIx2fXBjlraYe9QdpkOrgyOoLm0UWQcfa4h+Xi29gMuNrhsE+9ByvP9M
-         zlgp6lcfkIp2fxlm1Ad1HNAKty1OcJHRYYaeAO9SKq8Nh7D7RpR4qXu6+pXpR3GN+N2X
-         YJaSVMaOmWcTElXr/O7cWVWMIfTTWB1FO7QmO9XHtPe4BB5RVdRxOfrHA1r+ftUvr5n3
-         QxPX5tXo5Fb/IIWjfP+7O6w4J+dQYSO3ReQnW39fdK1XsDciX5s0iU7Ps6I92Oe5Kjg5
-         Qlkw==
-X-Forwarded-Encrypted: i=1; AFNElJ8dle7n7GQZTHS6rfjiy1Ahb1wlAykDZ5gLsYc1QEL2TC/vIShYftY1sYqdob2twwvkGNClDUuEtVtXiA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzI9EbFXXOWpXmIAB9BzT0lwYtAuGBkKJdj2xgd6740dDzhWc5/
-	kLlQ75kczUzjcBXKA8xKYtr1ARbMkdLR3wdW3FHVn8fqyYARuu45YPf4GNVJg3a17oTMTiKP5A+
-	vs6pFdJJHyAeAgMi067tL1J1ZTmIh7Ns=
-X-Gm-Gg: AfdE7clKj78+H0kZTkoWI/rWulGSFVC2p/miMG57SLH/XjG/c81FB1tCeAg4X+mCGA3
-	B3GR+pf7XhCP0ZaqQdjtoRILKGF0UwiDKSKnaf+lOn1dzF63iCyePJ8DXI9G4T2H7cqeUhQ2jDy
-	DEB2miMRAI+cViy7T3yQXW3JqKhFflOQUH+wY62dLExsKmqrJcpfJ+lC1ehSc4syvpvmwWwDuSC
-	MNsIqXNu/bKiKws7CTaxyhX2GoDsX9IwX+M85toVUeX0w2oIFGcnQ24FBnBUll7nwdTJEUY70+l
-	3ay1WM0vXwWZzUjvsb8Y1V6a5C7CSybi6XKmiQ==
-X-Received: by 2002:a05:6a20:ce4b:b0:3ba:cd5b:3dca with SMTP id
- adf61e73a8af0-3bb3498427cmr2823429637.37.1781852764611; Fri, 19 Jun 2026
- 00:06:04 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="GSpGG9Q5"
+Received: from PC-202605011814.localdomain (unknown [58.241.16.34])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 43025e228;
+	Fri, 19 Jun 2026 16:03:40 +0800 (GMT+08:00)
+From: Runyu Xiao <runyu.xiao@seu.edu.cn>
+To: Oder Chiou <oder_chiou@realtek.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Rander Wang <rander.wang@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Runyu Xiao <runyu.xiao@seu.edu.cn>
+Subject: [RFC PATCH] ASoC: rt700-sdw: always drain jack work on remove
+Date: Fri, 19 Jun 2026 16:03:34 +0800
+Message-Id: <20260619080334.2296419-1-runyu.xiao@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260618110649.227062-1-phucduc.bui@gmail.com>
- <20260618110649.227062-3-phucduc.bui@gmail.com> <a3aa032c-a106-47b5-a90f-62e99e788641@sirena.org.uk>
-In-Reply-To: <a3aa032c-a106-47b5-a90f-62e99e788641@sirena.org.uk>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 19 Jun 2026 14:05:53 +0700
-X-Gm-Features: AVVi8Cfpo4My71zZqIIH08Kk6WOOuwcr-Jfx5WWSweGiIdq6NVnjRVVMt_ZH-3Q
-Message-ID: <CAABR9nGO4nS9S4M+Bf7PQkboig9qm9rRZoeJop-nAkGznDZK1w@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] ASoC: Intel: avs: Use scoped_guard() for scoped locking
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
-	Cezary Rojewski <cezary.rojewski@intel.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9edee8335403a1kunm7b0e6913c4de9
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCQk8aVkweS0pOT0lDGUNIHVYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhOQ0
+	NVSktLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=GSpGG9Q5pRbC6uifmJsxGik0gCg0Fsd5Jp5nh+iHHFfg7foR0Y4A1LPPeu6FeZqDkSVpdHdIwRdwdaRC76fePuRZrUz5qrIEd4uFVESwhB9+v63U9AFFpylbWabBDns71j2wPBNDpzs544s51tGZkBeFLC67kD9qSGNtFGQBIOs=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=yWXdYu7So2SE5IxHMLGgGSexCAOASUT+//cGwZ3z9Ds=;
+	h=date:mime-version:subject:message-id:from;
 
-Hi Mark,
+rt700_sdw_remove() drains jack_detect_work and jack_btn_check_work only
+when rt700->hw_init is true. That state bit is cleared by
+rt700_update_status() when the SoundWire slave becomes UNATTACHED, but a
+jack work item can already have been queued by rt700_interrupt_callback()
+or rt700_jack_init() while the device was initialized.
 
-Thanks for the review.
+Do not use hw_init as the remove-time guard for draining these work
+objects. The delayed works are initialized during rt700_init(), so remove
+can cancel them unconditionally and pair the object lifetime with the
+codec-private data lifetime instead of a mutable hardware state bit.
 
-> >                       reinit_completion(&ipc->busy_completion);
-> > -                     spin_unlock(&ipc->rx_lock);
-> >                       goto again;
-> >               }
-> > -
-> > -             spin_unlock(&ipc->rx_lock);
-> > -             return -ETIMEDOUT;
-> >       }
->
-> This has a goto from a scoped_guard().
+This issue was found by our static analysis tool and then confirmed by
+manual review of the SoundWire status, interrupt and remove paths. The
+remove path should drain work based on whether the work object exists, not
+on a runtime hardware state bit that can change after the work was queued.
 
-I think converting this code to use `scoped_guard()` is not appropriate here.
-I'll leave this function unchanged in the next version.
+A QEMU PoC queued jack_detect_work, simulated SDW_SLAVE_UNATTACHED, and
+then entered remove. DEBUG_OBJECTS reported an active timer/work object
+associated with the rt700 jack work path after remove skipped the cancel.
 
-Best regards,
-Phuc
+This is sent as an RFC because the practical trigger depends on SoundWire
+core remove ordering after an UNATTACHED status update. If remove cannot
+run after hw_init has been cleared while jack work is still pending, this
+is a defensive lifecycle cleanup rather than a reachable race on current
+systems.
+
+Fixes: 737ee8bdf682 ("ASoC: rt700-sdw: use cancel_work_sync() in .remove as well as .suspend")
+Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
+---
+ sound/soc/codecs/rt700-sdw.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/sound/soc/codecs/rt700-sdw.c b/sound/soc/codecs/rt700-sdw.c
+index 44543c0da177..f7bd793e3e67 100644
+--- a/sound/soc/codecs/rt700-sdw.c
++++ b/sound/soc/codecs/rt700-sdw.c
+@@ -459,10 +459,8 @@ static int rt700_sdw_remove(struct sdw_slave *slave)
+ {
+ 	struct rt700_priv *rt700 = dev_get_drvdata(&slave->dev);
+ 
+-	if (rt700->hw_init) {
+-		cancel_delayed_work_sync(&rt700->jack_detect_work);
+-		cancel_delayed_work_sync(&rt700->jack_btn_check_work);
+-	}
++	cancel_delayed_work_sync(&rt700->jack_detect_work);
++	cancel_delayed_work_sync(&rt700->jack_btn_check_work);
+ 
+ 	pm_runtime_disable(&slave->dev);
+ 
+-- 
+2.34.1
+
