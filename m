@@ -1,150 +1,74 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F7C243AB0
-	for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 13:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B71278161
+	for <linux-sound@vger.kernel.org>; Fri, 19 Jun 2026 13:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781876067; cv=none; b=JQ1HGEyhM9KfKW1MznxtEih8EWAhuqFJasFuL7b4bJcZaTjTOnPZQN0VWqV4un1DhBraip8DwpyuobRJ4AaiRvY3WAa/J2bXKKJitz+e4WsF66PlR+AZKXO8SdN0SG4d9bwlv7Nlj1JL5Gnc1rFLUrKekb9qvrWQQH3gwx6FCM0=
+	t=1781876547; cv=none; b=kNu+4lODdDh4jEKHFMMhvSImIeZJ4wQe5G/c0Qqwyj4epuhbgqZrqlZmCd9ooSefwtFWXsAfg38NtuOzhbdYEIEyxcpt1lSOp3tl7o/zIcxq6cISS2vPlP7lgHdP+Tw88fr2Sl2ZwPYe2k5B2jQQNwvSalgs4HRBH2xgp4fCP4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781876067; c=relaxed/simple;
-	bh=U9Ky3OGwzH8o7lzfPH8LeOEWqgKKNN9COZzyzCIgLsg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jPiq0ceW1BMfWMSileYI5sr0Js6fG5D76/xK4Edyl0JbR2dVCiyytuF9/gc465iy8ZGRePwf4YEq0/o0ZN0Pu/ujLDrt68FAvOEJI4IxQ0mJPuJVeL5Z4Qp2IP/eJ4beBCCc3cojKADnTbfcaIb3OZJsO1pLsr7jASFI14JPWfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cNBmVyeB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zRGojd0V; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cNBmVyeB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zRGojd0V; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1781876547; c=relaxed/simple;
+	bh=Zrl1wOMoOgmqzdTlUagiOko2coepMWkdVl+x/HpvvBo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mtmFmOcmppDQynt4fZ/vKwLGsOKLqKdfkEnMvY1XaiDVtfI3t41gCgaIsYCuIk4Pj+/EiDT/aETAogTSI4T5ukm0aEIUtMGWXGVXXUuif+wg6K3Q8Mt4EiBQK9Ds8fT4HsM1H41ixcPu/YvMU+tT/U+TTEMZyYAEL+esCN9wioI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=u3kRRVtG; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cNBmVyeB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zRGojd0V";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cNBmVyeB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zRGojd0V"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DE02F75F1C;
-	Fri, 19 Jun 2026 13:34:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781876062; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="u3kRRVtG"
+Message-ID: <7466d545-85e0-4dab-aa3d-79c8e3a9cbda@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781876534;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DtcKKJNSDfUeu/7NM884e4hVARvY72JnCeji8e8f2Hw=;
-	b=cNBmVyeBqYgE2qiYTWvTGhauJRXVPXKVy9g0iYKm9XA+v8l5hXyt7Ok8aU1gYrZYBemv//
-	6S8f4y0t8n36Z26RryXN9QCl2+ldlCkilYa8yG1Hj9hCJIx8wp8ftbOAMQelVsmeFkeEMz
-	qcwn8gZRQbCGtuB1KwtY66nVTJRPoig=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781876062;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DtcKKJNSDfUeu/7NM884e4hVARvY72JnCeji8e8f2Hw=;
-	b=zRGojd0Vip6oPIT5F80oErqhJ8II72gaC1+5zr6CWze47B6qe46+bvAzEg9FmvlJh5cB1q
-	0G/pbwi4X9QUJ3CQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1781876062; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DtcKKJNSDfUeu/7NM884e4hVARvY72JnCeji8e8f2Hw=;
-	b=cNBmVyeBqYgE2qiYTWvTGhauJRXVPXKVy9g0iYKm9XA+v8l5hXyt7Ok8aU1gYrZYBemv//
-	6S8f4y0t8n36Z26RryXN9QCl2+ldlCkilYa8yG1Hj9hCJIx8wp8ftbOAMQelVsmeFkeEMz
-	qcwn8gZRQbCGtuB1KwtY66nVTJRPoig=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1781876062;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DtcKKJNSDfUeu/7NM884e4hVARvY72JnCeji8e8f2Hw=;
-	b=zRGojd0Vip6oPIT5F80oErqhJ8II72gaC1+5zr6CWze47B6qe46+bvAzEg9FmvlJh5cB1q
-	0G/pbwi4X9QUJ3CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ADA5B779A8;
-	Fri, 19 Jun 2026 13:34:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id UokDKV5FNWr/ZQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 19 Jun 2026 13:34:22 +0000
-Date: Fri, 19 Jun 2026 15:34:22 +0200
-Message-ID: <87pl1mirhd.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ai Chao <aichao@kylinos.cn>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	kees@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: pcm: Show closed for DISCONNECTED state
-In-Reply-To: <20260619092936.806715-1-aichao@kylinos.cn>
-References: <20260619092936.806715-1-aichao@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	bh=uj+34lCOzaDBkdO/bp8/xj6EAViL47S5OKUJ18GAU00=;
+	b=u3kRRVtGyo2myHKBAsNqi+QRWO7R0QsWz7L1AZILvsRe5g6ktaFfrmaQcLdEU/EBkYul6N
+	934H4xgm4NxLijJmhkAq3l79VKa/0D0nAc7Bj7w54nN+2/QyDAxtKzeu0TNI2j0k6z93Qe
+	149MJzMsohBS239zjsVitMG35/2Z1z8=
+Date: Fri, 19 Jun 2026 15:41:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-
-On Fri, 19 Jun 2026 11:29:36 +0200,
-Ai Chao wrote:
-> 
-> Hello Takashi
-> 
-> > Right, I suspect that it might be the case.
-> > Does the change like below help (or worsen) anything?
-> 
-> We tested this solution and verified its feasibility.
-
-OK, then I'm going to submit a proper patch later.
-
-As it's a bit drastic change and it's already in a merge window for
-7.2, I'd postpone the fix for 7.3.
+MIME-Version: 1.0
+Subject: Re: [PATCH v3 00/10] Expand SoundWire enumeration helper coverage
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org,
+ vkoul@kernel.org, lee@kernel.org
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+ peter.ujfalusi@linux.intel.com, oder_chiou@realtek.com, jack.yu@realtek.com,
+ shumingf@realtek.com, srini@kernel.org, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@opensource.cirrus.com
+References: <20260608102714.2503120-1-ckeepax@opensource.cirrus.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20260608102714.2503120-1-ckeepax@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
 
-thanks,
+> The patch series in [1] added a new helper to remove common boiler plate
+> waiting for a device to enumerate on SoundWire, however, many devices
+> also wait for enumeration during probe. This series updates things to be
+> suitable such that we can call the same helper at probe time when the
+> unattach_request is not valid.
 
-Takashi
+So if we are no longer testing for unattach_request, should this be definition and its use be removed?
+Looks like there were multiple evolutions since the initial patch
+"soundwire: sdw_slave: track unattach_request to handle all init sequences",
+is an additional cleanup needed?
 
-> 
-> Thanks,
-> Ai Chao
-> 
-> --- a/sound/core/pcm_native.c
-> +++ b/sound/core/pcm_native.c
-> @@ -3907,6 +3907,8 @@ static vm_fault_t snd_pcm_mmap_data_fault(struct vm_fault *vmf)
->      if (substream == NULL)
->          return VM_FAULT_SIGBUS;
->      runtime = substream->runtime;
-> +    if (runtime->state == SNDRV_PCM_STATE_DISCONNECTED)
-> +        return VM_FAULT_SIGBUS;
->      offset = vmf->pgoff << PAGE_SHIFT;
->      dma_bytes = PAGE_ALIGN(runtime->dma_bytes);
->      if (offset > dma_bytes - PAGE_SIZE)
-> 
+> There is one final step outstanding which is to add a core helper
+> that waits for a device to drop off the bus. This is not include
+> in this series and should be the last step of this process.
+
+Humm, I am not following why the core needs to wait for a device to drop off. 
+If there's a bus reset or device reset, it's almost immediate.
+It the devices loses sync then the core wouldn't wait either since it's not expecting the device to drop-off.
+
+
