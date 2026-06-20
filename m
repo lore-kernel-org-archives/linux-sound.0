@@ -1,42 +1,41 @@
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAA8394499;
-	Sat, 20 Jun 2026 13:51:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C732390CBF;
+	Sat, 20 Jun 2026 13:51:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781963472; cv=none; b=Jf8JqwRcrNg0EGvhc71BYAnGS56NZcekoWJ86kPCPcaPhpqambZurGyzGYmS3wvQ+R89U4Ct36wfw7wrSVxUqQR6ebALfAN+HtT1uomh0sEba+GBPYhiBFcsrB6290+x2gKL7iXWkk+g/iy5HtPEQqjXtCEoICo3SNPIfUC8v5k=
+	t=1781963472; cv=none; b=E6UtSOi1OD2Y93QXB9Xl9qP2lTouNT3irjIM9MIGKmSGlh7314T+zbDDTWrnVDjMx4K5H2ZBIhCCLqaPbB9bFBDD71S68TZ6M7VBuu0AHfZIfLJozk009gDijhZoioPoCcP2zyy5HAzaqdV7LTvmAku6qveipZJ0PA8dN0YJsag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781963472; c=relaxed/simple;
-	bh=CDvojPxVpOM+sEeIqGqmH822Kv7W5mWFKE1eek8OHmc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ml5O4nCO32jTiE0ncVenVQwLevhhtlXF1S05L2M31dSD+ZmQ0sOMoDyhbXbR99lUriNP4x7bey8KExDpMEJC8TeBGpo0Bg62x+r1oD+WIBBeCpFiHgmBYNDShklhGCxl6aSeISS1mMnTN2wRsAp/gcaTVwJLniw93G5X08BNXUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LVuiQ2f6; arc=none smtp.client-ip=185.246.85.4
+	bh=vsWvCjtfymrcmay0Rw3p1NHT7lXjUQgkmmFab6mM9xA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ecr4zxZnr6ZIRL2MvxD8mgh8+wE7qhoERcnhGirGxc9iQ/tBh8EFDD1vP03S6oCuQEavw16JlJU9S+KnZbKQXcYEzjf0z2SM9H5UvbcR1XP7220Mp5KfOFPMe9dlnhdSQzqrzQA75Hqhy2d7fLL4k1/mvnYMZ7j7i2IZHgyETYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=neuhJ0iI; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LVuiQ2f6"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="neuhJ0iI"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 500B34E40293;
-	Sat, 20 Jun 2026 13:51:04 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 197BC4E4026D;
+	Sat, 20 Jun 2026 13:51:02 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 2466C601B7;
-	Sat, 20 Jun 2026 13:51:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 97D89106C8906;
-	Sat, 20 Jun 2026 15:51:02 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C6847601B7;
+	Sat, 20 Jun 2026 13:51:01 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2FE40106C8906;
+	Sat, 20 Jun 2026 15:50:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1781963463; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=HPl4CSgoMUUpfbJy08uK5TPTqnyk/iDusqQS0vClhZg=;
-	b=LVuiQ2f6k4IP1W/F8r/2B40yXSTsDXfz876Sluz4FecnC2oL+DSNYgBvAPJ6V1+sgDwtto
-	fvCE5g8QmetItB1xVLXmLpbxeHWX0ys3FkQkx9/yQfsXPNBzuVserPs7gof9PBDL+adF31
-	9Nj0meoeKowEOmY9aTU464uI8z8Gpn/EdB4xf5lTuHcF1sH6bLJ9IliyKKiN8oUvYRy+OB
-	hUCltFoChGXqOe1cvzQwhBc5ZJ445LO83oe5vIJwzst98cbGolEkI9v0rh7DHRwZaOKqSP
-	e4CG7QN1jFH+sEVkBN8YDcSNbgvo0WKIne1/jyGp2LvS6KDWXEaAxk5qVesvYg==
+	t=1781963460; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=SJbxflrCbtXmtC7FblseEmveq5gYKr2WgYAzv782H3Y=;
+	b=neuhJ0iIjELhNf9L+39YGI/qFNon86fpbtC0JGPFEClAImh5vPlGkZ4MaSQ7SZ4/RAl7F/
+	P1D2ElBhRFWenrnoHI5LVqatuqLTEZT8azs0oYBsKwifbmvruOsyzWKbXXQrn7fTnkNExA
+	oVlI2igUN0MOYXky3xMcbPPiLGjRyiG63fo0N6apcZctFU1AccM5fGvPL8A/0r56Tb1mo/
+	hO4zlpvT1Ijn37FPXckwqPXSHYGrqAGQLu5qH/iLx+jw8X7rBMb+eBZ/1Lc7f4pdtopSV/
+	wa9+mcs75vL54US88kD/NtcNjOR9hKhX2NOEmYhQ1X1sKYTcE03iS4MBcPhu2Q==
 From: Diogo Ivo <diogo.ivo@bootlin.com>
-Date: Sat, 20 Jun 2026 15:50:59 +0200
-Subject: [PATCH 2/2] ASoC: rt5677: Enable standalone compilation for
- generic card use
+Subject: [PATCH 0/2] ASoC: rt5677: add GPIO get_direction and enable
+ standalone compilation
+Date: Sat, 20 Jun 2026 15:50:57 +0200
+Message-Id: <20260620-smaug-audio-v1-0-e318acdf5abd@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,9 +44,10 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260620-smaug-audio-v1-2-e318acdf5abd@bootlin.com>
-References: <20260620-smaug-audio-v1-0-e318acdf5abd@bootlin.com>
-In-Reply-To: <20260620-smaug-audio-v1-0-e318acdf5abd@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDMyMD3eLcxNJ03cTSlMx8XWOTNAMjA8s0I6MkEyWgjoKi1LTMCrBp0bE
+ QfnFpUlZqcgnICKXaWgB+FGRPbwAAAA==
+X-Change-ID: 20260620-smaug-audio-34f0209f22b4
 To: Oder Chiou <oder_chiou@realtek.com>, 
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
@@ -55,46 +55,47 @@ To: Oder Chiou <oder_chiou@realtek.com>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-gpio@vger.kernel.org, Diogo Ivo <diogo.ivo@bootlin.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=669; i=diogo.ivo@bootlin.com;
- h=from:subject:message-id; bh=CDvojPxVpOM+sEeIqGqmH822Kv7W5mWFKE1eek8OHmc=;
- b=owEBbQKS/ZANAwAKAQa+fFtWXslFAcsmYgBqNprNRIRmUbYX7IL6LJOiMwmFmayQqoKru/osT
- yhDmD1g2uGJAjMEAAEKAB0WIQTma35o1i1081e8B2UGvnxbVl7JRQUCajaazQAKCRAGvnxbVl7J
- RUypEACOxC6GoIH0VjF/b107YUfI66eDA3fDEchXeyb6gMGdF0/qSg9BaPa84mYkhwRoQcVV00T
- BHHpOSrGs9Q6352vorW4SopwY1rpxmoAQkPZpml7ti9e14QvwaSPZ+gXTvmYdGQl1jwOpqZxUgN
- M8WaZQfdnyNrMl8UvYfKLZoGgvbq85miQE8FI5y7nTGU7hhWMFP9Tn0vGsyntnZLoTQWGlth0eQ
- 1nxwxOKZ+92vg6hZoW/MqhnAHaDgZ8RIJXMwj5i/iDz+y57e6AoRbJj+g4ouBoiyPsxRyibkccd
- YpLvd3Fcib15B80JCIupq+TDlBTcDbEMOJfWeDBLdKXV9aqUNRZsxg2HLwmaa8JJSo+ysZRP1k1
- /RJx2qQpNe/QFpqvZoUPTVcxzV7QCck+IBMCbD0SLy7XZHSQ/1dPB0sErjjfLUUDYm3bGTuAyJ8
- e/U1VQX4I0wYiig2zLrOH+jGnAwsSbPgKmGkNI5XawgB59e9l4id6Cg4S4V4W+Oadw9hIErrgiW
- /C3/3Ltx9ydSq+ohc5zuLI3l17kVAJ2WSnS4hDwy1RoKJppg7X9YE8evj3aC5wTRqcMabl9A27o
- HxgxPOsImYgzXXKHSPGb2P/tYXRpsR2L0gjTGQ7l/FfaeS42ADCYlIT9iAu49KGch4PRx51aff8
- dEI7czDrvcHoqNQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=905; i=diogo.ivo@bootlin.com;
+ h=from:subject:message-id; bh=vsWvCjtfymrcmay0Rw3p1NHT7lXjUQgkmmFab6mM9xA=;
+ b=owEBbQKS/ZANAwAKAQa+fFtWXslFAcsmYgBqNprNAeguCtj5+yJX3pkMkC0ctFR6DII9jZfie
+ 0cXXxCz4b2JAjMEAAEKAB0WIQTma35o1i1081e8B2UGvnxbVl7JRQUCajaazQAKCRAGvnxbVl7J
+ Rf+kEACAgxgnrhDXfyJPZO6sS1D34Tz3BQvo5OA2N7x8tzIrJEDIFBe+Nx4//kLzxcA+hhU/rdx
+ zfhND3y5Cndm9YbtjkJz69Vf5vY0Pf5kGbzN9Xwb1M+0BHqeJnnoSFR68aK8Hnzth70kW5PCWf+
+ yChYZukMLK//jz5oksCIzNsYawlE19h1XwNX6fLQG6wRiSXYS+jGLtJca9mtsYTs5vs6kdDqNBx
+ glmfy1yEz/r2/Xvd72Gz4z7RasH0fAlKEGQ9frzRzV0l+9COiwz++mHsIL3yGm7cUh1FZBGSIpR
+ WFItHPv5BF7D0Kdp8a0dbm8N8/LabkwRCz6BGO8Kz/LSIBUB0OzRpEo898dYoQPM7fuC6iagMhy
+ qzoyqeZ6tOyIfen0V2ICc/2RjBfGeSGKjD5jvyo8txyEolyUHb/e4HspsHkaXDZl7oagJjgcekw
+ Lud5K7halR451ZqTx7CjzJnn2edPuDTQAoslVKA4BXtSPTlU/soSxEKQUaZ7ODrdyBbe+XtDjHr
+ fDQhgqikGJ29yRCecyUmxjeyWQP1iInqirbVT07twckJ1dvyAmoL0MaVSTa65meJJGdy2HR+mVm
+ PiCFmODFtQcc8i5TIAsG3hlyX6p/NvL+2glciGCfFVnVMujELcn5+DzbAWbhcTmG2nRafwkNlEX
+ oKYyy9r+EMkYQIg==
 X-Developer-Key: i=diogo.ivo@bootlin.com; a=openpgp;
  fpr=E66B7E68D62D74F357BC076506BE7C5B565EC945
 X-Last-TLS-Session-Version: TLSv1.3
 
-Add a prompt string to make the RT5677 driver user-selectable, allowing
-it to be built independently for use with generic sound card bindings.
+This small series fixes two issues in the RT5677 ASoC codec driver:
+
+- Patch 1 adds the missing GPIO .get_direction() callback, allowing
+  the direction of GPIO pins to be queried.
+
+- Patch 2 makes the Kconfig option user-visible so the driver can be
+  built standalone for example when using generic audio-graph-card
+  bindings, which do not pull in specific codec drivers via select/imply.
 
 Signed-off-by: Diogo Ivo <diogo.ivo@bootlin.com>
 ---
- sound/soc/codecs/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Diogo Ivo (2):
+      ASoC: rt5677: Add GPIO .get_direction() callback
+      ASoC: rt5677: Enable standalone compilation for generic card use
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 252f683be3c1..e9de333c5c8a 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -1888,7 +1888,7 @@ config SND_SOC_RT5670
- 	depends on I2C
- 
- config SND_SOC_RT5677
--	tristate
-+	tristate "Realtek RT5677 Codec"
- 	depends on I2C
- 	select REGMAP_I2C
- 	select REGMAP_IRQ
+ sound/soc/codecs/Kconfig  |  2 +-
+ sound/soc/codecs/rt5677.c | 17 +++++++++++++++++
+ 2 files changed, 18 insertions(+), 1 deletion(-)
+---
+base-commit: 1a3746ccbb0a97bed3c06ccde6b880013b1dddc1
+change-id: 20260620-smaug-audio-34f0209f22b4
 
--- 
-2.54.0
+Best regards,
+--  
+Diogo Ivo <diogo.ivo@bootlin.com>
 
