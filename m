@@ -1,145 +1,173 @@
-Received: from ixit.cz (ixit.cz [185.100.197.86])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0317F17A2E8;
-	Sun, 21 Jun 2026 12:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02BA25B0A0
+	for <linux-sound@vger.kernel.org>; Sun, 21 Jun 2026 13:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782045281; cv=none; b=U14+lhvfZ+8iqU9KYB4MetOrbpY1R+F5yetUhq+WNJFJ4dyem0F8pFKY3NaG0Ah1VcwQXYEtLAuDBcHZEzbIR6WgsOCXo5qKQ2XsAjveE0QDivOLR5hBsUj/AvE3VYzafscg/1zmXcfQIPCr6DjPLbbBkWZIoObTmjej/AJV8rY=
+	t=1782048682; cv=none; b=YkYUpAdBBzioM8wHMH0cWShSm9ACamxs0KkHjLbN1Qxgz6EYUwS24ya63XnwAoyWtgC5FR4M5bUQJxh45q9Ic4fx9XioA5Cb8Bd35LvAdks4ycxorDo2/+I++F3XEKePSgCZm0wn3IO5hGFzT0x+2zKSxRa2cdZJV4/X0VIkNTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782045281; c=relaxed/simple;
-	bh=oyCUztVd0cgXP58Jkevse17PPkchOZfFJJ+PkKWFrtQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ue/fK0wHy4m/0+4L5AanlHaHVBRAae1/cMB7vLAnlRSHB/yQ4zapftBUx/xUkDprwZArwdBH2Dj3tmhKYMgexDIpwVH7HEDs2R1MgkPJl2Jd6d0m06xYdFpo0lXElBrxsExYveFr7Nvw3N0R8TPHjx5AJN+mP2ONn+/vLKKQso0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=MowIhab3; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1782048682; c=relaxed/simple;
+	bh=D5UHjzFsclIUdNvHH+8HZSouchLWRNF3xV69jz5WiRc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=azIQp5lGZUcA+VU9mBs55u1sa3yjINANDEY7n3fBSb+SZVJGjcuIizObwJHvqpwthee514/YVQHIzjPTqm7jGkUooMTnJBGcvvFvf5clVFuV/FmOSRQa+jt9lczMXDVU3YJ4TanmpkkQPeuKrWoWigIqo1WpZHRN1T+7PnTL3bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=APUhaGr9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jgK5Zk5c; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="MowIhab3"
-Received: from [10.0.0.200] (unknown [10.88.125.21])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 585035340A5E;
-	Sun, 21 Jun 2026 14:27:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1782044821;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Dx8rBPu261wzh5ZLmKTfyCKhUa7yHIczgZe5wPlQ/GY=;
-	b=MowIhab3f0sd+ISYm2dSOCvYG7jEyx7+LNvAy24QtwKjoImT8zwlckdxqruw3WDEFjHh7T
-	ehNRaCbdqraG23PTH6fm7LRpDXdv2iTz5bmIzILJZcohbIrEfALjojmz8ixy6IxoXfKb0Q
-	Qi8jXmgi39ArsGw9JQW8HarBVta0cZs=
-Message-ID: <513dd76c-586e-48e3-8542-5f42d35c7929@ixit.cz>
-Date: Sun, 21 Jun 2026 14:27:00 +0200
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="APUhaGr9";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jgK5Zk5c"
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfout.stl.internal (Postfix) with ESMTP id C343C1D0007C;
+	Sun, 21 Jun 2026 09:31:18 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Sun, 21 Jun 2026 09:31:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1782048678; x=
+	1782135078; bh=nVNTIA8goxYWszep+hbHoW9HkOaK3Al0/hcb+u3/FFo=; b=A
+	PUhaGr9o60ozK51SJDAmgSMG5YcdgudVj80GwEgJYbPzBVmI3T8Ii+1vVwMzNGRi
+	KNa/WUGAFk+ZHzR28/h7a/It2/e3/lwTdplj/ECl++R691TOpKdxQJWWGRCQbRGN
+	78tjOPIubvPJtNag6VuSPrcR7OxLVEXIPYO30b1gIJm2Ldn5OVAeVn7Cnz79wrYA
+	okHw28Wf5NcW9OP63LJsuQrGIIJq0Vk0iCf/YjHmi6g3JRSXFzFBSy5x8x1F7cG0
+	0tQq3ak4WU8sV00gpM4eyh67C0dafchg72n3C226fIzdb/+hSfdWLyVk/l5mXBiE
+	oNjUVzWxwcMCJcHeP8thw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1782048678; x=1782135078; bh=nVNTIA8goxYWszep+hbHoW9HkOaK3Al0/hc
+	b+u3/FFo=; b=jgK5Zk5cExPjNKzjWT37OmBTpXOOCyRsKTfU4QIOZ8VMSNak/n7
+	aKoJyxv1X+owAD7U37olyGab62CNHu3GGBdvXiZATMV9emBY4opXPRGGShIint07
+	Mmlyk7DIbxWkz1JSJfz0p/P8n1dhfI3n9IN03GucOjK3idVT2EyEfxPUizfgPj59
+	VIbcge5/iZk1QQcc4CIWYRhzC8RfT0/6MqwpEFZ9mXlkjsX9TvhN3Xf/sET9HiZW
+	wDnWmucntsIuRyheSkl5ZB6FWNGPpIEMR2rJqaN/1HJQPTjkMgcoYNlhf/xb3BoM
+	l0cd3+t1qvJ4FnbcnN/tMIkqwTygTHh6dcQ==
+X-ME-Sender: <xms:puc3ajTiK7H8nhR6jFUMlRi1SEmQcH71emhwH5nUVa5gU0mt2xP-5w>
+    <xme:puc3aqynbVXbzNNzWCxIisdo5esW455XoRLBOLqghJzGKuvXMjGpMiEsWut4iaSpu
+    eAd9inhf4MOmXGFAJBy-dxlvGBBwJQHFhF_laFAUbCZxnPjN6Tf-dIK>
+X-ME-Received: <xmr:puc3amfiLdOngpT37wrEmmBAdTJ6W2R49OyZDPB3ZKBUBZMJYUv-c7EehEeYs9b1a-NAlFdipZ7vgo9d_hulxbtTvSc8liI>
+X-ME-Proxy-Cause: dmFkZTF2Tq+nSOdhxOKx1ihMJtgOa29pJG/bQw/cH8rdb4jzpBdQu01K4QYzqTt/thvFRT
+    rT3Sso6BQtsK2oUvitBtVJLasOXTnyzGQ66Ob79rVwDYFQQbEiSkLUxOeJ8ncno3VUc78F
+    c+S62+dwpXR1C3y42hlnoGIsOTfV2x5wDeqXWIlk2foq9jzRemPlU1tzvdAqE41NJ/zYZ7
+    pXa7b2wI3KoMTH61RfDSUNk09tUf4QtnWVtvh8PldoeYSccq0qMtrhmBMnYjyst7X9zQvi
+    unN4loGBv5GmX1UPMR5WbcQH62gCifwwUQ8ixiTzsypQfCAEJyAKV5vQrZcYLWHwvyM0tZ
+    ONdy4x7U4J1QcwQzOuvsnRjXT2vnKELHTLRjTUNTeJO0lgi7A1KYpBekV592QWgv5j713g
+    uEOGdIumIAODHVHuvoINzBfwSemSoCw9Bwp57sNLf6f1uOxVsU83I5Ma0nVu9RQtuqiKEZ
+    TGtoR8Uy3Wk8ZKHR+G7+5Z0AFy12qeHl6/ASGGNW1SVTQfj7ReeT8bguJeyQ7arQDWJvLy
+    sYme9Z/4Z1hoqDVDowQZx5OSRu0ltWm04KiJz6Lx5qEX5PBKRA04GA63jzAN29FQsLk5wd
+    vhS1fNbuI5Ba1pZ4us3DCIR7cCkQ62oGcS142MH5oePg+zuDvsFcsaP8VqpQ
+X-ME-Proxy: <xmx:puc3auI4wFR6MZdIJfbW34q0SnsSHxUh2IKMID3US9ZZftMoT8m3Jg>
+    <xmx:puc3avHBER_MgmYyxj8s63RV4u5FGCMBrWh4Vs-JfAgJjwTJu5KayA>
+    <xmx:puc3agoFkpQOOxS8kUIcnYsFhLgXZ2_T3mRN4gX_AQhWQp3DpiSfgA>
+    <xmx:puc3agTUf5-wfIpnNvFogtBeQTwFy8nOY6nqQhXECYOJhDRz4QklGg>
+    <xmx:puc3anDgYhBaF3HRoTyBXEMALVRDy-KXGt5Tt7MdB6bB0R-YVFbRkweH>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 21 Jun 2026 09:31:17 -0400 (EDT)
+Date: Sun, 21 Jun 2026 22:31:14 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Maoyi Xie <maoyixie.tju@gmail.com>
+Cc: linux-sound@vger.kernel.org
+Subject: Re: ALSA: firewire: isight: possible out of bounds write from a
+ device sample count
+Message-ID: <20260621133114.GA321857@sakamocchi.jp>
+References: <178178336260.3522027.4315665976901311151@maoyixie.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] dt-bindings: sound: Convert cirrus,cs35l36 to DT
- schema
-To: "Rhodes, David" <drhodes@opensource.cirrus.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, patches@opensource.cirrus.com,
- Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
-References: <20260618-dt-cirrus-cs35l36-v1-1-1a43515666ad@ixit.cz>
- <fceaba7c-2c9e-4f0f-bcca-ea9ac3aa23d0@opensource.cirrus.com>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <fceaba7c-2c9e-4f0f-bcca-ea9ac3aa23d0@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <178178336260.3522027.4315665976901311151@maoyixie.com>
 
-On 18/06/2026 23:38, Rhodes, David wrote:
-> On 6/18/26 9:33 AM, David Heidelberg via B4 Relay wrote:
->> From: David Heidelberg <david@ixit.cz>
->>
->> Convert CS35L36 Speaker Amplifier.
->>
->> Changes:
->>   - maintainers email to the generic Cirrus email
->>   - Both the codec and downstream worked just fine without
->>     VP-supply provided. Align with datasheet for similar models.
->>   - add dai-common.yaml to cover for '#sound-dai-cells',
->>     'sound-name-prefix'
->>
->> Co-developed-by: Rob Herring (Arm) <robh@kernel.org>
->> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
->> Signed-off-by: David Heidelberg <david@ixit.cz>
->> ---
+Hi,
+
+Thanks for the report.
+
+On Thu, Jun 18, 2026 at 07:49:22PM +0800, Maoyi Xie wrote:
+> Hi all,
 > 
-> Reviewed-by: David Rhodes <David.Rhodes@cirrus.com>
-
-Thanks for the review. btw. could you please verify against datasheet, if the
-
-  - cirrus,classh-wk-fet-delay is also possible for cs35l36 (l35 has it, but l36 
-driver doesn't, thou DT isn't about driver, so checking)
-  - cirrus,weak-fet-disable and cirrus,classh-weak-fet-thld-millivolt are also 
-not implemented in any driver, but present in DT.
-
-If hardware is capable and the driver just doesn't have impl. it's fine, but 
-otherwise I would remove these in v2.
-
-Thank you
-David :D
-
+> I think isight_samples() in sound/firewire/isight.c can write past the PCM
+> DMA buffer when an iSight reports a large sample count. I would appreciate
+> it if you could take a look.
+> 
+> isight_packet() reads two values straight from the device iso packet.
+> 
+> 	length = be32_to_cpup(header) >> 16;
+> 	...
+> 	count = be32_to_cpu(payload->sample_count);
+> 	if (likely(count <= (length - 16) / 4))
+> 		isight_samples(isight, payload->samples, count);
+> 
+> length is the iso header data_length and count is the payload sample_count,
+> both from the device. The only check on count is against the device-claimed
+> length, not against the PCM buffer. With length up to 0xffff the gate allows
+> count up to about 16379 frames.
+> 
+> isight_samples() then copies count frames into runtime->dma_area. It never
+> clamps count to runtime->buffer_size. isight_open() sets period_bytes_min
+> to 1900 and periods_min to 2, so the smallest buffer is 950 frames, about
+> 3800 bytes. A device that reports a count near 16379 makes the copy run far
+> past the buffer, tens of kilobytes out of bounds.
+> 
+> The sibling drop path isight_dropped_samples() does clamp the count against
+> runtime->buffer_size before it advances the pointer. The sample copy path
+> is missing the same bound.
+> 
+> The controller does not catch this either. The iso header data_length is
+> DMA written from the device packet and is never compared against the queued
+> payload_length, so a device can over report the length.
+> 
+> The attacker here is a malicious or faulty Apple iSight on the FireWire
+> bus. The host only needs the capture stream open and running, which is
+> normal use of the microphone.
+> 
+> I reproduced it under KASAN on 7.1-rc7. A count of 16379 makes KASAN report
+> a slab out of bounds write past the PCM DMA buffer. A count that fits the
+> buffer stays clean.
+> 
+> The fix I tried clamps count to runtime->buffer_size in isight_samples
+> before the copy, mirroring isight_dropped_samples.
+> 
+> Does this look like a real bug to you? If it does I am happy to send a
+> proper patch with a Fixes tag pointing at 3a691b28a0ca ("ALSA: add Apple
+> iSight microphone driver").
 > 
 > Thanks,
-> David
+> Maoyi
+> https://maoyixie.com/
 
--- 
-David Heidelberg
+As a quick glance, there seems to be a kind of agreement between the driver
+developers and the device specification that the payload of an isochronous
+packet includes audio frames up to 475[1].
 
+```
+$ git show v7.1:sound/firewire/isight.c | nl -ba
+    ...
+45  #define MAX_FRAMES_PER_PACKET   475
+    ...
+70  struct audio_payload {
+        ...
+75      __be16 samples[2 * MAX_FRAMES_PER_PACKET];
+76  };
+    ...
+```
+
+Keep it in mind that the device multiplexes 2 audio samples into the
+packet. I think you can fix the issue by using it. Please post your
+patch.
+
+I just maintain the driver, and rarely use Apple iSight. So I have no
+interests in the bug reality itself.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/tree/sound/firewire/isight.c?h=v7.1#n45
+
+
+Thanks
+
+Takashi Sakamoto
