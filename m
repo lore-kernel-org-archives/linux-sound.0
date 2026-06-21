@@ -1,125 +1,182 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ixit.cz (ixit.cz [185.100.197.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EAB34F48F
-	for <linux-sound@vger.kernel.org>; Sun, 21 Jun 2026 15:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25501E7C2E;
+	Sun, 21 Jun 2026 15:54:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782054553; cv=none; b=AxlIzGIATkuNfbvXby8rv+7PD/71G7W6ovJnbQbwKhBtmTuJeO07pm0qvHsuoCfOyYnVOv422Byn+aayrsaNmbS+ZKHv5n0JXYPcX6BcRiPra5bWqYR+7CWH5AjWX6wgF0VTGTD7x4pEVPKylqTCmsEi2XXEw7gY3liW7UylWLs=
+	t=1782057264; cv=none; b=SSHuugmpgDhXCZdRxroKjTCNkTANHVVP8//LmXaAqx66ug16oP49FUkQHOm/P2hPcgkQAEMa/IALoihMKnsKVdhVCkIxShwscPgdCV8Lz9Mi5MD3cs3i4GPo2eZM3pwn03xYCjf0htyxr0vaPImzByRSp7xygOsgV28bgVMGXaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782054553; c=relaxed/simple;
-	bh=bGe6auSy2bAcoq3YNv8c9FdmMy0rUqHqUQJP0+7B/4I=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=sAad0l03Pvz5aUlgg8K2A7+WhEZ/vjuSlxCuTuUwxG12TW8ounhfHX6p51JYxvtrBZoGO2pGEAjYZ+9xzD+O91mZZKYyI8V+9E7RIXiUugWG7Z9N3VPZKFHjlBdB/vL2hxasE3HSVnLoFIye319ffBZOvvLfh4NyVCbz365KB5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iymBW88s; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782057264; c=relaxed/simple;
+	bh=kx+1OhR5t+FtwSj9jKoXpxjWKcVf4VDDgIJwp5BPkYY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qqmHi+iq62AJIv3cChh7mXhz91lva/4dWFUgFgoO4hdGqAkKnFrQTlkAPQiFFfgZHR8g8xv7aO9eQMGGu6dCOc5J1n867J+TXhC+DG/mt3r5X9PabcUFCU7eNm1Gzsig4/vlhrCi9aHd7Uj9lIq952rv60v5nrtrGHiszkuHwfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=Cq12duOx; arc=none smtp.client-ip=185.100.197.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iymBW88s"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-84226d0f1d2so2485716b3a.1
-        for <linux-sound@vger.kernel.org>; Sun, 21 Jun 2026 08:09:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782054551; x=1782659351; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=31UQCBSl6VHtaj4HbZ4B9yytESDTf5UVo9IslisOCfo=;
-        b=iymBW88s6DFkORO2NjBKYBMyjdgoeAhgh/RIkmiBNJqEfpW/0J5lkS9uEMjJIIHU3S
-         S1XmS2IRuUap9pHKxe2yD/Iv/4MzUQ6pBBua2V1DPpV9iaX8cogQKFxXIfpcVFn1isYN
-         mjVYpAWalscVvkZEx51eE4vIwpS4zbKu6/ozsoJmzP/rEtgvC2c0GkQhqJl6Cy4aMN4S
-         +UbZVx/dcWQ/3Oic026e9O/7byKGdOBURartKX1OcTI+C2NncQv+BhGXG1E703vxBXft
-         IxR4tYO9Q64MAUYw0E8hoKd36y1DRkNWpLystu5dNx7DoG6aduClg3crH72FWU22fjjN
-         AP+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782054551; x=1782659351;
-        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=31UQCBSl6VHtaj4HbZ4B9yytESDTf5UVo9IslisOCfo=;
-        b=QaCHQQnbYcCX/SsOE2a9GNpjptyq6UTz500+M+cguanucwyEYXm8sNAb8K0CVReDaf
-         XwbBK+VWWFIf+HFeKBAUGe1xtZ4V6iEIamGEGhgfVS/d9vnrdwu52jI0UMgivVRCd5Bm
-         vNfx+SlvlRsQCnXgDxlFX8QlKVs/QiWx9RaCbcHQOvlqjevh6+U83Ja5rHu54mSsEoFO
-         1TiLLlQRZztdHc0p/K0k1rOLZsbEsjh1/Jbjbxoy4Wo+WLbL/NB5iFgXKhl3e6E4cQmB
-         iN8ErDhrrgZaMG8SnKS+nxxPvqO2RTseJnX/+78rN5c8/9AB93Y4FVSwc40TdKKOoaxq
-         OBYA==
-X-Forwarded-Encrypted: i=1; AFNElJ9QtaQJPVheIpTdiFSjnEnKtRf4r6PtMkeR89RlX0pjT3M+vMFjGMulL9X4YQBnpxQer3aaQB5J9fyhbQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjnDBr2HlrPL4Q0Ia+YAhf3RIzOrx5VGEzEXdwazkPJR3ruFNx
-	SeWTEULR+/gZ4h5dM2llkK8Lg8TF6vXkiDY7Y+JoS9dLVbNGFdsYYpLu
-X-Gm-Gg: AfdE7ckzrGVqViVU07Myr02YZOHn1XjmneabCkOtTtGJR9cq4i/BvS56g87C6jCFLK4
-	V0A2/MY/7X9mZFaFNjJUATDgCKk+S97FMI8XVAzLuud2SV8J7vGS6Q6qeDmKhTZe0DdM3fb4RHR
-	t/2GasZmklX88w+YKP2jPyQTjV97XaCp/nMH0xVRFxEDzETUzB0qs5coaQofaEtSWjMQf0d0u7O
-	wnAVm8ro+N+xVBEWCSwcsv7DxtOYyf/kJqrv8/kx8mKsqUSe7ilwT4lhWpO3SII3kSKj5tGfsoT
-	icnSNmcX1K+vwePbcH2sAk237RMgzA5yO02/+IWLEUz7nhVTCJpYe0b1sz8ILkUHvZtEy/Xn6AQ
-	junFiE/WTTOZ8DXMm/gAq9+Vy9PLQuRXUAO0l/m3+fwhmTHL61Avs9oHuJPhc8oN7UvYEcw2/+0
-	RvlBY02Is5IlZ2rGyZIHQufRmpSWhO45b3m6rMZw==
-X-Received: by 2002:a05:6a00:2294:b0:835:45bf:9660 with SMTP id d2e1a72fcca58-845561b605emr11255355b3a.42.1782054550938;
-        Sun, 21 Jun 2026 08:09:10 -0700 (PDT)
-Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564e74727sm4840334b3a.39.2026.06.21.08.09.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jun 2026 08:09:10 -0700 (PDT)
-From: Maoyi Xie <maoyixie.tju@gmail.com>
-To: Clemens Ladisch <clemens@ladisch.de>,
- Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Subject:
- [PATCH] ALSA: firewire: isight: bound the sample count to the packet payload
-Date: Sun, 21 Jun 2026 23:09:07 +0800
-Message-ID: <178205454729.1900991.7807310178296762772@maoyixie.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="Cq12duOx"
+Received: from [10.0.0.200] (unknown [10.88.125.21])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 42FF45340E57;
+	Sun, 21 Jun 2026 17:54:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1782057258;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=M/eNKPvXbgH3Ts2S0ozJ/U1sKefs/BslszFr6hk4YwE=;
+	b=Cq12duOxg33QSMMT9mo1etZGR1ruYnxbEu3HT1ogNlmORnIpk5hFzP53izRHx46f7zgNHm
+	sUXX1WxGd/fG7bHm4Rn+NmZngWvffwMlxXyg94iRL7jwB1rpAas7fkOri7Yugw+wGhezg7
+	mczdd70N+9YdsK0bt8olEHeF//3Mtc4=
+Message-ID: <357aee62-78ec-4ee3-afb8-5be3ffe70cbd@ixit.cz>
+Date: Sun, 21 Jun 2026 17:54:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH QUESTION] ASoC: qcom: sdm845: use DSP_A format for TDM
+ codec DAIs
+To: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>,
+ Richard Acayan <mailingradian@gmail.com>
+References: <20260613-rfc-dsp-b-to-a-v1-1-7d095fe90a05@ixit.cz>
+ <ai3tafRfEgN938cu@sirena.co.uk>
+ <5f262a04-8e92-4ac1-bd7c-1246231d3de2@ixit.cz>
+ <7f94caa0-48ba-46f3-922e-f16e39fd22c9@kernel.org>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <7f94caa0-48ba-46f3-922e-f16e39fd22c9@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-isight_packet() takes the frame count from the device iso packet and
-checks it only against the device claimed iso length.
+On 14/06/2026 23:40, Srinivas Kandagatla wrote:
+> 
+> 
+> On 6/14/26 8:26 AM, David Heidelberg wrote:
+>> On 14/06/2026 01:53, Mark Brown wrote:
+>>> On Sat, Jun 13, 2026 at 09:55:59PM +0200, David Heidelberg via B4
+>>> Relay wrote:
+>>>
+>>>> Currently this worked only because the cs35l36
+>>>> codec mapped both DSP_A and DSP_B to the same hardware register value
+>>>> (asp_fmt = 0), which is inherently DSP_A timing.
+>>>
+>>>> The CPU-side AFE is configured with qcom,tdm-data-delay = <1> which
+>>>> produces DSP_A framing.
+>>>> The codec format should match what is actually on the wire.
+>>>
+>>>> So I'm pretty lost if I should go fixing cs35l36 or sdm845.c.
+>>>
+>>> That sounds like both.  The Cirrus driver is definitely buggy if it's
+>>> mapping DSP A and B to the same register value, at least one of those is
+>>> wrong.
+>>
+>> I need to clarify. The CS35L36 supports by default only DSP_A, but when
+>> extended to "take DSP_B", speaker just works.
+>>
+>> This was done previously.
+>>
+>> Since there isn't any different configuration on the codec side when
+>> added DSP_B into same codepath as DSP_A, I would assume QCOM ASoC send
+>> DSP_A, just marking it as DSP_B ?
+> 
+> 
+> 		qcom,tdm-sync-mode = <0>;
+> 		qcom,tdm-sync-src = <1>;
+> sets the short sync with 1 clk delay making it DSP_A.
+> 
+> for DSP_B you would need, no delay.
 
-	count = be32_to_cpu(payload->sample_count);
-	if (likely(count <= (length - 16) / 4))
-		isight_samples(isight, payload->samples, count);
+Sure, does that mean the sdm845.c is currently correctly setting 
+SND_SOC_DAIFMT_DSP_B there? or there is some missing part of logic deciding it?
 
-length is the iso header data_length. It can be up to 0xffff. So the
-gate allows a count up to about 16379. isight_samples() then copies
-count frames out of payload->samples into the PCM DMA buffer.
+Because the reason audio works when I convince driver either:
 
-payload->samples holds only 2 * MAX_FRAMES_PER_PACKET values. The
-device multiplexes two samples per frame. A count past
-MAX_FRAMES_PER_PACKET reads past the payload. A count past the buffer
-size writes past runtime->dma_area. The smallest PCM buffer is larger
-than MAX_FRAMES_PER_PACKET. Bounding the count to MAX_FRAMES_PER_PACKET
-keeps both the read and the write in range.
+a) sdm845 ASoC it uses BSP_A instead of B ... or
+b) cs35l36 it uses BSP_B instead of A
 
-A malicious or faulty Apple iSight on the FireWire bus reaches this
-during a normal capture.
+implies to me, that:
+  1. both devices are setting the HW to either BSP_A or BSP_B mode (just don't 
+know which one)
+  2. but the driver flag for ASoC or codec we setting on the driver side is wrong
 
-Add the MAX_FRAMES_PER_PACKET bound to the gate.
+If one side really used BSP_A and other BSP_B, the audio should be at best 
+heavily distorted, right?
 
-Fixes: 3a691b28a0ca ("ALSA: add Apple iSight microphone driver")
-Suggested-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Cc: stable@vger.kernel.org
-Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
----
- sound/firewire/isight.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Please correct me, if I misunderstood or if there is nice doc I could read about it.
 
-diff --git a/sound/firewire/isight.c b/sound/firewire/isight.c
-index 2b7f071d593b..33c9dd48b3b0 100644
---- a/sound/firewire/isight.c
-+++ b/sound/firewire/isight.c
-@@ -179,7 +179,8 @@ static void isight_packet(struct fw_iso_context *context, u32 cycle,
- 	if (likely(length >= 16 &&
- 		   payload->signature == cpu_to_be32(0x73676874/*"sght"*/))) {
- 		count = be32_to_cpu(payload->sample_count);
--		if (likely(count <= (length - 16) / 4)) {
-+		if (likely(count <= (length - 16) / 4 &&
-+			   count <= MAX_FRAMES_PER_PACKET)) {
- 			total = be32_to_cpu(payload->sample_total);
- 			if (unlikely(total != isight->total_samples)) {
- 				if (!isight->first_packet)
--- 
-2.34.1
+Thanks
+David
 
+P.S. I did quick search what close-to-mainline repo has for Pixel 3a to reach 
+working audio and it's slightly different, see [1]. There isn't any change done 
+to the cs35l36 driver in the sdm670 tree.
+
+[1] 
+https://gitlab.com/sdm670-mainline/linux/-/commit/9eba5aa993f5fb7b4bf5cc936ec22852987d3f9f
+
+> 
+> --srini
+>>
+>> There isn't any other consumer to check against and I would assume
+>> incorrectly configured TDM slot would lead - at least - to disorted output.
+>>
+>> The reference (which now works) is here [1].
+>>
+>> David
+>>
+>> [1] https://codeberg.org/sdm845/linux/commits/branch/b4/pixel3-audio
+> 
