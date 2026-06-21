@@ -1,289 +1,125 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9849A36606B
-	for <linux-sound@vger.kernel.org>; Sun, 21 Jun 2026 14:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EAB34F48F
+	for <linux-sound@vger.kernel.org>; Sun, 21 Jun 2026 15:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782050485; cv=none; b=CkbJJpkTxVfaDzzKjERJ1R4nTvKWW3OFQj3TmpM9p+HK46nQ/4Nvo64H1/wsCDfbQn3LxOGJeVxTF4RPRMXKPsijrxXeVMhZzNcCGmSkqcxuUrNk/VqX81GWPeLkiqXNsrikDcPj4+z2yYBEzzybjgpBGH3gfft5N1+PB7W2tck=
+	t=1782054553; cv=none; b=AxlIzGIATkuNfbvXby8rv+7PD/71G7W6ovJnbQbwKhBtmTuJeO07pm0qvHsuoCfOyYnVOv422Byn+aayrsaNmbS+ZKHv5n0JXYPcX6BcRiPra5bWqYR+7CWH5AjWX6wgF0VTGTD7x4pEVPKylqTCmsEi2XXEw7gY3liW7UylWLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782050485; c=relaxed/simple;
-	bh=xlZirQ4QOP+p5wkpPE0egRjJTMCI6kAov4Fn+Uffh7E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lb89JKnYjDTrs8PhEfBUF9j4BZCEghnqOkkQe4a7wmc+vfY3b1veOQjf6Yf2OkYidxpKeCzpKCIXuZsagjsBz/O0aGX0F9lGqXD+aA8y9/mf0l676iYRmJn7CcMQtQlXTN4sezVuy/gN/4WmbjBEoHQtVSUED61iVOi9VUfEetM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BPheB/bV; arc=none smtp.client-ip=209.85.208.178
+	s=arc-20240116; t=1782054553; c=relaxed/simple;
+	bh=bGe6auSy2bAcoq3YNv8c9FdmMy0rUqHqUQJP0+7B/4I=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=sAad0l03Pvz5aUlgg8K2A7+WhEZ/vjuSlxCuTuUwxG12TW8ounhfHX6p51JYxvtrBZoGO2pGEAjYZ+9xzD+O91mZZKYyI8V+9E7RIXiUugWG7Z9N3VPZKFHjlBdB/vL2hxasE3HSVnLoFIye319ffBZOvvLfh4NyVCbz365KB5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iymBW88s; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BPheB/bV"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-39677aed4d3so29893811fa.2
-        for <linux-sound@vger.kernel.org>; Sun, 21 Jun 2026 07:01:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iymBW88s"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-84226d0f1d2so2485716b3a.1
+        for <linux-sound@vger.kernel.org>; Sun, 21 Jun 2026 08:09:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782050481; x=1782655281; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NA9ii+SGdlbSDO988cDFeqlR6CO7fgWdFpNu3PHV/i0=;
-        b=BPheB/bVGffsNCRQqbAHZkoZxBhvCf1/ibWJuOp/yOFJg0Tx1z3I1iXUt5VMze2RcM
-         mfKV3gWaDxZIZGrRS93S8KggW7C2W4xpmSEelziE2WDloG+DRDVtnfER9HFtZ3TEhhL+
-         BAHEYs0lv48EHFJVDgt9r+OQ4JYZQ2YMesITv6m7KCXIIq2Oc8thldQQdZ5Hp5TFmt+A
-         PnARBGkyE2BEyhQlfQlOPlkSFZcwQX7MvcJGT86ycs1QutF5K0Gk6TO7wnVMmygBdvxO
-         Vd9++sbTJ03cU6RcGV84qRHvH2Q8Sqgv+r5fW2FgiecTXsm6+cReqkhDESMfETkX0F6y
-         dPzg==
+        d=gmail.com; s=20251104; t=1782054551; x=1782659351; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=31UQCBSl6VHtaj4HbZ4B9yytESDTf5UVo9IslisOCfo=;
+        b=iymBW88s6DFkORO2NjBKYBMyjdgoeAhgh/RIkmiBNJqEfpW/0J5lkS9uEMjJIIHU3S
+         S1XmS2IRuUap9pHKxe2yD/Iv/4MzUQ6pBBua2V1DPpV9iaX8cogQKFxXIfpcVFn1isYN
+         mjVYpAWalscVvkZEx51eE4vIwpS4zbKu6/ozsoJmzP/rEtgvC2c0GkQhqJl6Cy4aMN4S
+         +UbZVx/dcWQ/3Oic026e9O/7byKGdOBURartKX1OcTI+C2NncQv+BhGXG1E703vxBXft
+         IxR4tYO9Q64MAUYw0E8hoKd36y1DRkNWpLystu5dNx7DoG6aduClg3crH72FWU22fjjN
+         AP+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782050481; x=1782655281;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NA9ii+SGdlbSDO988cDFeqlR6CO7fgWdFpNu3PHV/i0=;
-        b=mk9MN+Kup2+3HzukTXoTbTPXwzJsa6xb1Io2SySopY4Hm3ATm63Tpfdq8BFBpw2vd1
-         HYjU4sSNu5qvLTmfrOa38E+nwk32BlpUTi/aqod0aCDTX6OR5aCniezPeYxbkDrb5ZBq
-         YrIHOX9sjCQKxtwxO2Uxb3+ZHCry5u99s+GsPxUwuhTE+ZKKoSIY4T2Kc9jcmXSthr58
-         t4H5orrz5Qx6SGpv6/9YFvCOJAxbl5up4xOrURdUlt1UrizBgSE4Fd1ixmqZnoYwH6g8
-         97Yd8irvUiRyE3owAr+neMI5CvprpnwGxUMEmv7BJ5e5NSRSPDbtBCE6JmH/1ALcaCNI
-         lpEA==
-X-Forwarded-Encrypted: i=1; AFNElJ/AG5TVnV64EeMPlGvKqTdw7IYes703e7Zjna3U8BiafJrR4qu9gzPTcZjL2lW4YnrbkkZGvc0VGNd9MQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOuvaXlXjO0zfF2c+cv2syLwXuQlnLrEA/FcOFbj+jF+2szHUw
-	DKM7TitTQ+7d0ARVkwgOmyY9M89wDDytz9YmDlTvBkMs5K4oI8aQ4X9A
-X-Gm-Gg: AfdE7clcZsNHWFc2uz4wLAer7WBhzA6NbhKFVdI9Ut/PF7GFpgNR94ZiI5dJtlihil6
-	bzgUZVlhNkK5VB7kD/nlptrxU3Boh+QgkvEzjd/jAb8vucRqeKPvL/DiHbGs+4KPURegNECdYwS
-	HZLwnxI4wCiicQtMjE7lHJRHCPodOcfE/WmvCHTWvR6q5dGExZTOAKTp3zHQLuDP+c4kwrSp5RN
-	Ty6cLMdhjofVo8CXKKrLatFOZ26AdHmhwnEC7gTXOC8qVw52RKCgEV1eJnjVZpgHQUdIEfOPdEE
-	YkeP8jdncF5s1dxZOZaa0xOmJBmB1sQwI/os1H91jPhbe0hiv1mbuhjANQpYNKg6ihZzRhGPCjV
-	6SYZUSTXH+SjoRn+e9NpmcrOYHL0YhRTnnntbZC6eSgaKi/MR1cAHo9BgNrtyjYuyNouoA29Hv5
-	pOkbzKyW8h5L4rlGX6uk8Kh9nnkxjUcwUxd9GvqeEjRvMLCIxCVqPwvxQf4i9xEW/gRVL63YY9F
-	MR9Zl6PZ0GN7i/0v7ZcTXU1uPOb
-X-Received: by 2002:a05:651c:2104:b0:38a:27b1:4e60 with SMTP id 38308e7fff4ca-3998e552861mr23014611fa.27.1782050480665;
-        Sun, 21 Jun 2026 07:01:20 -0700 (PDT)
-Received: from fedora (89-67-127-240.dynamic.play.pl. [89.67.127.240])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3999ae80c49sm11674171fa.0.2026.06.21.07.01.17
+        d=1e100.net; s=20251104; t=1782054551; x=1782659351;
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=31UQCBSl6VHtaj4HbZ4B9yytESDTf5UVo9IslisOCfo=;
+        b=QaCHQQnbYcCX/SsOE2a9GNpjptyq6UTz500+M+cguanucwyEYXm8sNAb8K0CVReDaf
+         XwbBK+VWWFIf+HFeKBAUGe1xtZ4V6iEIamGEGhgfVS/d9vnrdwu52jI0UMgivVRCd5Bm
+         vNfx+SlvlRsQCnXgDxlFX8QlKVs/QiWx9RaCbcHQOvlqjevh6+U83Ja5rHu54mSsEoFO
+         1TiLLlQRZztdHc0p/K0k1rOLZsbEsjh1/Jbjbxoy4Wo+WLbL/NB5iFgXKhl3e6E4cQmB
+         iN8ErDhrrgZaMG8SnKS+nxxPvqO2RTseJnX/+78rN5c8/9AB93Y4FVSwc40TdKKOoaxq
+         OBYA==
+X-Forwarded-Encrypted: i=1; AFNElJ9QtaQJPVheIpTdiFSjnEnKtRf4r6PtMkeR89RlX0pjT3M+vMFjGMulL9X4YQBnpxQer3aaQB5J9fyhbQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjnDBr2HlrPL4Q0Ia+YAhf3RIzOrx5VGEzEXdwazkPJR3ruFNx
+	SeWTEULR+/gZ4h5dM2llkK8Lg8TF6vXkiDY7Y+JoS9dLVbNGFdsYYpLu
+X-Gm-Gg: AfdE7ckzrGVqViVU07Myr02YZOHn1XjmneabCkOtTtGJR9cq4i/BvS56g87C6jCFLK4
+	V0A2/MY/7X9mZFaFNjJUATDgCKk+S97FMI8XVAzLuud2SV8J7vGS6Q6qeDmKhTZe0DdM3fb4RHR
+	t/2GasZmklX88w+YKP2jPyQTjV97XaCp/nMH0xVRFxEDzETUzB0qs5coaQofaEtSWjMQf0d0u7O
+	wnAVm8ro+N+xVBEWCSwcsv7DxtOYyf/kJqrv8/kx8mKsqUSe7ilwT4lhWpO3SII3kSKj5tGfsoT
+	icnSNmcX1K+vwePbcH2sAk237RMgzA5yO02/+IWLEUz7nhVTCJpYe0b1sz8ILkUHvZtEy/Xn6AQ
+	junFiE/WTTOZ8DXMm/gAq9+Vy9PLQuRXUAO0l/m3+fwhmTHL61Avs9oHuJPhc8oN7UvYEcw2/+0
+	RvlBY02Is5IlZ2rGyZIHQufRmpSWhO45b3m6rMZw==
+X-Received: by 2002:a05:6a00:2294:b0:835:45bf:9660 with SMTP id d2e1a72fcca58-845561b605emr11255355b3a.42.1782054550938;
+        Sun, 21 Jun 2026 08:09:10 -0700 (PDT)
+Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564e74727sm4840334b3a.39.2026.06.21.08.09.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jun 2026 07:01:19 -0700 (PDT)
-From: Bartosz Juraszewski <bjuraszewski@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Bartosz Juraszewski <bjuraszewski@gmail.com>
-Subject: [PATCH v3] ASoC: tas2783: Update loaded firmware names to linux-firmware 20260519
-Date: Sun, 21 Jun 2026 16:00:01 +0200
-Message-ID: <20260621140001.63829-1-bjuraszewski@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <d2558567-67b9-4fca-b170-c6ece9f8cf23@sirena.org.uk>
-References: <d2558567-67b9-4fca-b170-c6ece9f8cf23@sirena.org.uk>
+        Sun, 21 Jun 2026 08:09:10 -0700 (PDT)
+From: Maoyi Xie <maoyixie.tju@gmail.com>
+To: Clemens Ladisch <clemens@ladisch.de>,
+ Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Subject:
+ [PATCH] ALSA: firewire: isight: bound the sample count to the packet payload
+Date: Sun, 21 Jun 2026 23:09:07 +0800
+Message-ID: <178205454729.1900991.7807310178296762772@maoyixie.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-In linux-firmware commit from 2026-05-19 `2f90f4fe5c67f51a8410907a...`
-`ASoC: tas2783: Add Firmware files for tas2783A projects` by Baojun Xu
-138 new firmware files for tas2783 were added, none of which are loaded
-by the kernel. Kernel expects files to be named with the following
-convention: "%04X-%1X-%1X.bin". However the added firmware files follow
-"-0x%1X.bin" naming instead with `0x` hex prefix, which fails to load
-resulting in following dmesg log:
+isight_packet() takes the frame count from the device iso packet and
+checks it only against the device claimed iso length.
 
-  slave-tas2783 sdw:0:1:0102:0000:01:8: Direct firmware load for 1714-1-8.bin failed with error -2
-  slave-tas2783 sdw:0:1:0102:0000:01:8: Failed to read fw binary 1714-1-8.bin
-  slave-tas2783 sdw:0:1:0102:0000:01:b: Direct firmware load for 1714-1-B.bin failed with error -2
-  slave-tas2783 sdw:0:1:0102:0000:01:b: Failed to read fw binary 1714-1-B.bin
-  slave-tas2783 sdw:0:1:0102:0000:01:8: error playback without fw download
-  slave-tas2783 sdw:0:1:0102:0000:01:8: ASoC error (-22): at snd_soc_dai_hw_params() on tas2783-codec
+	count = be32_to_cpu(payload->sample_count);
+	if (likely(count <= (length - 16) / 4))
+		isight_samples(isight, payload->samples, count);
 
-This same commit removes all 22 symlinks from WHENCE, that used naming
-without the '0x' prefix to only 6 prevoiusly existing .bin files.
+length is the iso header data_length. It can be up to 0xffff. So the
+gate allows a count up to about 16379. isight_samples() then copies
+count frames out of payload->samples into the PCM DMA buffer.
 
-This patch adds `0x` prefix explicitly to the generated firmware name
-allowing file to successfully load. In case prefixed firmware is missing
-due to out of date linux-firmware, we set the fallback flag and attempt
-to load firmware again based on the old file names.
+payload->samples holds only 2 * MAX_FRAMES_PER_PACKET values. The
+device multiplexes two samples per frame. A count past
+MAX_FRAMES_PER_PACKET reads past the payload. A count past the buffer
+size writes past runtime->dma_area. The smallest PCM buffer is larger
+than MAX_FRAMES_PER_PACKET. Bounding the count to MAX_FRAMES_PER_PACKET
+keeps both the read and the write in range.
 
-This prefix change results in functioning firmware loading on ASUS
-ProArt PX13 HN7306EAC, which uses 1714-1-0x8.bin and 1714-1-0xB.bin
-firmware files.
+A malicious or faulty Apple iSight on the FireWire bus reaches this
+during a normal capture.
 
-Tested on top of 7.1 and next-20260619 with SND_SOC_AMD_ACP7X set to no.
+Add the MAX_FRAMES_PER_PACKET bound to the gate.
 
-Signed-off-by: Bartosz Juraszewski <bjuraszewski@gmail.com>
+Fixes: 3a691b28a0ca ("ALSA: add Apple iSight microphone driver")
+Suggested-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Cc: stable@vger.kernel.org
+Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
 ---
-Hi Mark,
+ sound/firewire/isight.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> > @@ -800,6 +815,11 @@ static void tas2783_fw_ready(const struct firmware *fmw, void *context)
-> >  	wake_up(&tas_dev->fw_wait);
-> >  	if (fmw)
-> >  		release_firmware(fmw);
-> > +
-> > +	if (try_load_fallback) {
-> > +		dev_info(tas_dev->dev, "Attempting fallback fw load\n");
-> > +		tas_io_init(tas_dev->dev, tas_dev->sdw_peripheral);
-> > +	}
-> >  }
-> >  
-> 
-> This will unconditionally wake fw_wait even if we've gone for the
-> fallback, meaning that the rest of the driver will think the firmware
-> is ready when it isn't.
-
-Changed the way we load fallback fw to prevent the race condition of
-driver init proceeding before all loads are finished.
-
-v3:
- - tas2783_fw_ready callback no longer calls tas_io_init, only sets flag
- - tas_io_init orchestrates both loads using fw_wait and flag check
- - tas_io_init proceeds with init only after all loads finish
- - new tas_fw_load helper for repeating fw loading and waiting logic
- - renamed fw_using_fallback to fw_use_fallback
- - fw_use_fallback resets on every init now to try both bins again
-v2:
- - new fw_using_fallback device flag; set when new format fw not present
- - if !fw_using_fallback and load fails, set flag and try reloading
- - when fw_using_fallback - generate fw name with old format string
-
- sound/soc/codecs/tas2783-sdw.c | 75 +++++++++++++++++++++++-----------
- 1 file changed, 51 insertions(+), 24 deletions(-)
-
-diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-index 7d70e7e3f24f..bbaeac5837c7 100644
---- a/sound/soc/codecs/tas2783-sdw.c
-+++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -100,6 +100,8 @@ struct tas2783_prv {
- 	wait_queue_head_t fw_wait;
- 	bool fw_dl_task_done;
- 	bool fw_dl_success;
-+	/* use fallback fw name */
-+	bool fw_use_fallback;
- };
- 
- static const struct reg_default tas2783_reg_default[] = {
-@@ -740,11 +742,19 @@ static void tas2783_fw_ready(const struct firmware *fmw, void *context)
- 		goto out;
- 	}
- 
-+	/* firmware binary not found*/
- 	if (!fmw || !fmw->data) {
--		/* firmware binary not found*/
--		dev_err(tas_dev->dev,
--			"Failed to read fw binary %s\n",
--			tas_dev->rca_binaryname);
-+		if (!tas_dev->fw_use_fallback) {
-+			tas_dev->fw_use_fallback = true;
-+			dev_info(tas_dev->dev,
-+				"Failed to read preferred fw binary: %s, attempting fallback binary load\n",
-+				tas_dev->rca_binaryname);
-+		} else {
-+			dev_err(tas_dev->dev,
-+				"Failed to read fallback fw binary %s\n",
-+				tas_dev->rca_binaryname);
-+		}
-+
- 		ret = -EINVAL;
- 		goto out;
- 	}
-@@ -1103,13 +1113,16 @@ static void tas_generate_fw_name(struct sdw_slave *slave, char *name, size_t siz
- 	bool pci_found = false;
- #if IS_ENABLED(CONFIG_PCI)
- 	struct device *dev = &slave->dev;
-+	struct tas2783_prv *tas_dev = dev_get_drvdata(&slave->dev);
- 	struct pci_dev *pci = NULL;
-+	const char *fw_uid_prefix = tas_dev->fw_use_fallback ? "" : "0x";
- 
- 	for (; dev; dev = dev->parent) {
- 		if (dev->bus == &pci_bus_type) {
- 			pci = to_pci_dev(dev);
--			scnprintf(name, size, "%04X-%1X-%1X.bin",
--				  pci->subsystem_device, bus->link_id, unique_id);
-+			scnprintf(name, size, "%04X-%1X-%s%1X.bin",
-+				  pci->subsystem_device, bus->link_id,
-+				  fw_uid_prefix, unique_id);
- 			pci_found = true;
- 			break;
- 		}
-@@ -1121,17 +1134,45 @@ static void tas_generate_fw_name(struct sdw_slave *slave, char *name, size_t siz
- 			  bus->link_id, unique_id);
- }
- 
-+static s32 tas_fw_load(struct tas2783_prv *tas_dev, struct sdw_slave *slave)
-+{
-+	s32 ret;
-+	u8 unique_id = tas_dev->sdw_peripheral->id.unique_id;
-+
-+	tas_generate_fw_name(slave, tas_dev->rca_binaryname,
-+			     sizeof(tas_dev->rca_binaryname));
-+
-+	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
-+				      tas_dev->rca_binaryname, tas_dev->dev,
-+				      GFP_KERNEL, tas_dev, tas2783_fw_ready);
-+	if (ret) {
-+		dev_err(tas_dev->dev,
-+			"firmware request failed for uid=%d, ret=%d\n",
-+			unique_id, ret);
-+		return ret;
-+	}
-+
-+	ret = wait_event_timeout(tas_dev->fw_wait, tas_dev->fw_dl_task_done,
-+				 msecs_to_jiffies(TIMEOUT_FW_DL_MS));
-+	if (!ret) {
-+		dev_err(tas_dev->dev, "fw request, wait_event timeout\n");
-+		return -EAGAIN;
-+	}
-+
-+	return 0;
-+}
-+
- static s32 tas_io_init(struct device *dev, struct sdw_slave *slave)
- {
- 	struct tas2783_prv *tas_dev = dev_get_drvdata(dev);
- 	s32 ret;
--	u8 unique_id = tas_dev->sdw_peripheral->id.unique_id;
- 
- 	if (tas_dev->hw_init)
- 		return 0;
- 
- 	tas_dev->fw_dl_task_done = false;
- 	tas_dev->fw_dl_success = false;
-+	tas_dev->fw_use_fallback = false;
- 
- 	ret = regmap_write(tas_dev->regmap, TAS2783_SW_RESET, 0x1);
- 	if (ret) {
-@@ -1140,25 +1181,11 @@ static s32 tas_io_init(struct device *dev, struct sdw_slave *slave)
- 	}
- 	usleep_range(2000, 2200);
- 
--	tas_generate_fw_name(slave, tas_dev->rca_binaryname,
--			     sizeof(tas_dev->rca_binaryname));
-+	ret = tas_fw_load(tas_dev, slave);
-+	if (!ret && tas_dev->fw_use_fallback)
-+		ret = tas_fw_load(tas_dev, slave);
- 
--	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
--				      tas_dev->rca_binaryname, tas_dev->dev,
--				      GFP_KERNEL, tas_dev, tas2783_fw_ready);
--	if (ret) {
--		dev_err(tas_dev->dev,
--			"firmware request failed for uid=%d, ret=%d\n",
--			unique_id, ret);
--		return ret;
--	}
--
--	ret = wait_event_timeout(tas_dev->fw_wait, tas_dev->fw_dl_task_done,
--				 msecs_to_jiffies(TIMEOUT_FW_DL_MS));
- 	if (!ret) {
--		dev_err(tas_dev->dev, "fw request, wait_event timeout\n");
--		ret = -EAGAIN;
--	} else {
- 		if (tas_dev->sa_func_data)
- 			ret = sdca_regmap_write_init(dev, tas_dev->regmap,
- 						     tas_dev->sa_func_data);
+diff --git a/sound/firewire/isight.c b/sound/firewire/isight.c
+index 2b7f071d593b..33c9dd48b3b0 100644
+--- a/sound/firewire/isight.c
++++ b/sound/firewire/isight.c
+@@ -179,7 +179,8 @@ static void isight_packet(struct fw_iso_context *context, u32 cycle,
+ 	if (likely(length >= 16 &&
+ 		   payload->signature == cpu_to_be32(0x73676874/*"sght"*/))) {
+ 		count = be32_to_cpu(payload->sample_count);
+-		if (likely(count <= (length - 16) / 4)) {
++		if (likely(count <= (length - 16) / 4 &&
++			   count <= MAX_FRAMES_PER_PACKET)) {
+ 			total = be32_to_cpu(payload->sample_total);
+ 			if (unlikely(total != isight->total_samples)) {
+ 				if (!isight->first_packet)
 -- 
-2.54.0
+2.34.1
 
