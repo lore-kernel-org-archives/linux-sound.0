@@ -1,108 +1,157 @@
-Received: from imap5.colo.codethink.co.uk (imap5.colo.codethink.co.uk [78.40.148.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018243AB498;
-	Mon, 22 Jun 2026 13:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.40.148.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3FA363C6C;
+	Mon, 22 Jun 2026 13:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782135788; cv=none; b=OWkm0DqUzQ2KrztjF1OenHESGkG4hWEwSHNiI1Oz1BUoJYNeYttVhgjswYAorBvo1uxB1clblohlv+hjOBczGZVK7HpSlQ/n7RXeJZR4KaSoXuk4o1K7HsmjyrtdkyUERcSIWbH1z/Iew3mCmzVsctMFVX0wutz1BRY3bC4IrmI=
+	t=1782135900; cv=none; b=EjoceUyFbRg5TdRwhNEXeUCiHON/bd55KjHCpn4Z1ct/53c8EtuE81C7U4ySL1+sK7DhUj51YWdZNAWmUQKhUqX1Holm0H0ohvvnEzMYeAvbwnxGfZF152MB4m/9E844g4s+tVCYovThELkCOwJ8/JWbq4hZX572lCzqsb+znsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782135788; c=relaxed/simple;
-	bh=fqekt1IIwTAe9Vv6ULTX8Rq+XV28AsKJPKyvfLchC6g=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pn5cLwKNQgVQJG9ck6/dl4ABdTTEQLTa0Xsl+LmTsH8/+LcJPgYYouh8G+StVYaSoEEjgeIsbuv/9x9OkN9ywfFxh+dAjlCifrV2oeUUNe69kX9TnXBxH2xhH3JtV+jStw3pNBNBbape6ePu9osdzEHWaWlIylNrPgehP7gcY/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.com; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=EQXNNo6I; arc=none smtp.client-ip=78.40.148.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.com
+	s=arc-20240116; t=1782135900; c=relaxed/simple;
+	bh=AMn/qectMbsNOGdS7567ZRiwClBKnVLenDRkPFTN7cA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q/gI/Y4CqQVogweU8LS25TQrNa+C1Zj7fagSDO/jchePm7UZ3qBc9310Yhb9NKxQ9YpGgPDO7b/sjAdPGu9UhWkxmIMbJWwSaC2GHbvVbMLmYVYPC/seM/nC4vjzby+4iaApZNu3YpbFG90N1IUkmJT3miuOIJO0bGC1nfvvr78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HiQM67gG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="EQXNNo6I"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codethink.co.uk; s=imap5-20230908; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:In-Reply-To:
-	References; bh=K2NAXBb8T8hw1MVXPoduQ99H+AoHr+kciJ2g7zRvyjk=; b=EQXNNo6IvFVUoH
-	SwePJ+72V6MrWuO7Ug8j4hIFwPdq8+W8OOiaYbtyFoRaT6MQK3pUmnoyYy7Q1RCaO1jhkjQW/CgMI
-	/bJpYIy2UmuXHDJy9FiG4si8mDOCWT5rIjsXtoHGftjq69n4gjfz2fq+yFYRzC1oSe+9wO+LjERuO
-	SapKeSEcr/MMqbZkpvzWrXW0uDRqPghEaJ3/Fu+ZILPP0ptFEwF2XsMOQs9eDdZXpEVMNCRbH+kWO
-	v/MdvamTvRn1d0cSNGkK72eCVNYWmz78RwMMXpe6L5LxGapscaj+fFckhpYf9agJ1bBLP1Eh5jmCu
-	gyOcbCKBLIsfPYMDor9w==;
-Received: from [167.98.27.226] (helo=rainbowdash)
-	by imap5.colo.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
-	id 1wbevJ-0051Om-9Y; Mon, 22 Jun 2026 14:42:49 +0100
-Received: from ben by rainbowdash with local (Exim 4.99.4)
-	(envelope-from <ben@rainbowdash>)
-	id 1wbevI-00000001x2x-31I7;
-	Mon, 22 Jun 2026 14:42:48 +0100
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Cc: Ben Dooks <ben.dooks@codethink.co.uk>
-Subject: [PATCH] ASoC: SDCA: fix __leXX types in find_sdca_control_range
-Date: Mon, 22 Jun 2026 14:42:47 +0100
-Message-Id: <20260622134247.465275-1-ben.dooks@codethink.co.uk>
-X-Mailer: git-send-email 2.37.2.352.g3c44437643
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HiQM67gG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A14381F000E9;
+	Mon, 22 Jun 2026 13:44:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782135899;
+	bh=PneArOtgyDaQga8dbyMW4ePNwx0Pm+9h8TUrfnv4wdc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=HiQM67gGtDYL8uDLX3JsdD6Fs0hDD8pxwWwzDouur+Cj4nJztv7xN9A2zGUw/E19y
+	 NdPO0u0ibrGyT820xFTDA2KK78jZXESlxZrjfeZfmedrNf5ZlOpYdSLz1gtEHmPkHo
+	 LXwu/dGpxlNVEmpwFTQBYsLBbLgFJOmUz4W8IpdK1w+Yj3sxoUCImHJmyzBYeJF10p
+	 A1vf0KhlnjPQTyR4EYgUza+duEKMLpuHBoWctEnOEIo+dvXNL45enJ5y5vUFiXJ7tS
+	 6AgY0FVzTKLC4v7lRf24SJwyoQUJmMXF9A/tEJAthnDezbrbnRqIuHwNoRteali5sv
+	 7gQ6JY+un26Tg==
+Message-ID: <7ce8356f-ec09-41e2-a57d-60d20a08e850@kernel.org>
+Date: Mon, 22 Jun 2026 15:44:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: srv_ts003@codethink.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 3/8] arm64: dts: qcom: shikra: Add gpr node
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Pratyush Meduri <mpratyus@qti.qualcomm.com>
+References: <20260616201315.2565115-1-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20260616201315.2565115-4-mohammad.rafi.shaik@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260616201315.2565115-4-mohammad.rafi.shaik@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The find_sdca_control_range passes u16 and u32 values to the
-leXX_to_cpu() functions. Change this type and for the data
-loop use the le32_to_cpup() to convert the value using a
-pointer.
+On 16/06/2026 22:13, Mohammad Rafi Shaik wrote:
+> Add GPR(Generic Pack router) node along with
 
-Fixes the following sparse warnings:
-sound/soc/sdca/sdca_functions.c:868:23: warning: cast to restricted __le16
-sound/soc/sdca/sdca_functions.c:869:23: warning: cast to restricted __le16
-sound/soc/sdca/sdca_functions.c:877:34: warning: cast to restricted __le32
+Missing spaces before (.
 
-Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
----
- sound/soc/sdca/sdca_functions.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> APM(Audio Process Manager) and PRM(Proxy resource
+> Manager) audio services.
 
-diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index 77940bd6b33c..2e0b0ac4fa13 100644
---- a/sound/soc/sdca/sdca_functions.c
-+++ b/sound/soc/sdca/sdca_functions.c
-@@ -847,7 +847,7 @@ static int find_sdca_control_range(struct device *dev,
- {
- 	u8 *range_list;
- 	int num_range;
--	u16 *limits;
-+	__le16 *limits;
- 	int i;
- 
- 	num_range = fwnode_property_count_u8(control_node, "mipi-sdca-control-range");
-@@ -863,7 +863,7 @@ static int find_sdca_control_range(struct device *dev,
- 	fwnode_property_read_u8_array(control_node, "mipi-sdca-control-range",
- 				      range_list, num_range);
- 
--	limits = (u16 *)range_list;
-+	limits = (__le16 *)range_list;
- 
- 	range->cols = le16_to_cpu(limits[0]);
- 	range->rows = le16_to_cpu(limits[1]);
-@@ -874,7 +874,7 @@ static int find_sdca_control_range(struct device *dev,
- 		return -EINVAL;
- 
- 	for (i = 0; i < num_range; i++)
--		range->data[i] = le32_to_cpu(range->data[i]);
-+		le32_to_cpup((__le32 *)&range->data[i]);
- 
- 	return 0;
- }
--- 
-2.37.2.352.g3c44437643
 
+Please wrap commit message according to Linux coding style / submission
+process (neither too early nor over the limit):
+https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+
+
+> @@ -1851,6 +1854,42 @@ glink-edge {
+>  				mboxes = <&apcs_glb 12>;
+>  				qcom,remote-pid = <1>;
+>  				label = "mpss";
+> +
+> +				gpr: gpr {
+> +					compatible = "qcom,gpr";
+> +					qcom,glink-channels = "modem_apps";
+> +					qcom,domain = <GPR_DOMAIN_ID_MODEM>;
+> +					qcom,intents = <200 20>;
+> +					#address-cells = <1>;
+> +					#size-cells = <0>;
+> +
+> +					q6apm: service@1 {
+> +						compatible = "qcom,q6apm";
+> +						reg = <GPR_APM_MODULE_IID>;
+> +						#sound-dai-cells = <0>;
+> +
+> +						q6apmbedai: bedais {
+> +							compatible = "qcom,q6apm-lpass-dais";
+> +							#sound-dai-cells = <1>;
+> +						};
+> +
+> +						q6apmdai: dais {
+> +							compatible = "qcom,q6apm-dais";
+> +							qcom,vmid = <QCOM_SCM_VMID_LPASS
+> +								     QCOM_SCM_VMID_MSS_MSA>;
+
+I don't understand what is happening here.
+
+Other patch made a change like:
+
+-qcom,vmid = <QCOM_SCM_VMID_MSS_MSA>;
+
+But even here you do not have it.
+
+I don't understand what is happening here, but for now it looks that
+this patchset is incorrect and incomplete.
+
+> +						};
+> +					};
+> +
+
+
+Best regards,
+Krzysztof
