@@ -1,97 +1,87 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4743364926;
-	Mon, 22 Jun 2026 09:17:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F9839B495;
+	Mon, 22 Jun 2026 09:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782119848; cv=none; b=cMwMd7lb8+Ek0w6wJVtdHjjzsFHDzvQLss95i6EA4X40lP/M/ZujLBDugx7NMrVIL3R3Fsa75CJDYTpVHrRzYIjfUMgr6tNagSwzInxDMGD189zIDRIbp2suvqkpJOTJFzwe2pl7Ixg5PpZm410DCZM8L4Ax2HCktEYXt2NC9ts=
+	t=1782119941; cv=none; b=UaeH4KmJQ5V1z2vV7bkJDHDZcjPDLVmLwWFmv27M0T2PLxA2xg0q0i0onC0IX2fwBJTiM5F3IZOarkVBjhIDegDok+VXBszrUmLUYdBAihanR0Y06TryFbTdGi3Yev0WQRQ6gBwsGXLuL5rL4CcKzRpnOImviGoxGSZNwVExf5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782119848; c=relaxed/simple;
-	bh=rgPgS+rozau0j3ArPejTT1t3tjsTz/IhrdmcUKLNNE0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZB2IHFhYefi40U6lxExVwzUoPq2QFK9ISAwK+PdhW1LmrUCniRweER/WG4G0daxj82VJ+Cz8inr5Ymr72D3ccB6LS99vvEQb9kYZfE5HJwq6Qfk55Fx27MrGA2DPIEnoq8snh2DuLTWhHoXSqJ+MGjzsz0eSmbWROYc2NjnqOVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ZghvcoDL; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1782119941; c=relaxed/simple;
+	bh=rNXWhIqCnCiuZjgJcEM9gRULbQI8ONKE9bL7itt2wxE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dPofWFICHngTC6I7rWZmKRp63Gj6SxHH1YIRKA+kTn8IaDjmzmw3ZlyDd06z53VN/xr545SGhV4xV7QxQz0fWztkpa45l5/Sf36+z1FQVVvJgHFCps/MzGoqjFw9In42d9cRtxE3mrlJmHfa2b8V7mCY6wJokK01a/vvq2Tzc9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LEkQ9Xtm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ZghvcoDL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=3k
-	K32/vHWiIp0p2hsLBCLlspGf3JIL+RZ3PSx08mCdo=; b=ZghvcoDLz62mC2pGCi
-	0fRvzNA7x7vlOXUwPvBkb2iGpJD174xmvGveeV2kdEa2X6+8NyEP8K2rUNwh8tvt
-	Gnk/jxGNEX70w30vEi6KJ1ZQGMM4mL85qELfeRbFXEThffB48EL+hjK+p9zoCXqa
-	8FVctT3eiKmww3P0Eq9Yo0IeQ=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgC337Jl_Thq92UUDg--.60250S2;
-	Mon, 22 Jun 2026 17:16:23 +0800 (CST)
-From: Haoxiang Li <haoxiang_li2024@163.com>
-To: cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	subhransu.s.prusty@intel.com,
-	vkoul@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Haoxiang Li <haoxiang_li2024@163.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] AsoC: intel: sst: fix PCI device reference leak on probe failure
-Date: Mon, 22 Jun 2026 17:16:20 +0800
-Message-Id: <20260622091620.897478-1-haoxiang_li2024@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LEkQ9Xtm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B789B1F000E9;
+	Mon, 22 Jun 2026 09:18:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782119937;
+	bh=rNXWhIqCnCiuZjgJcEM9gRULbQI8ONKE9bL7itt2wxE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LEkQ9XtmIrZkFEhkooQbXgFQHG77Bd28aPmHUdYP5v2g93YlcLZxCQ2vX3rE+JXxB
+	 ntQuYtwCXa9ZLKEX5W7dqzMS2dYd3zAkOHcWQq2cjbibjSw2BuwNsnhrJ96pfG8/da
+	 /wM19OEfkOlPNCqm49mh0XV5/7e6MNE6SC43y6cPNqT6n+NDEB8LMTXxtSzB1FhCIA
+	 7x4hQ8EtRWM8vFQpvVZlN0MS5TeqcxZ8moesBkezQEfKe6gnLp6Vw/1LlFeyYCBHon
+	 xe1+Hk19xFNbMcBRriFpD9vSyaiQOSz/cpvV7QrNmBKd2xZNGBfW4Ly4Q8RfyMlis+
+	 1K4mhSYXuW4gA==
+Date: Mon, 22 Jun 2026 10:18:49 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Russell King <linux@armlinux.org.uk>, Ulf Hansson <ulfh@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Christian Loehle <christian.loehle@arm.com>,
+	Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-sound@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] mfd: db8500-prcmu: Fold dbx500 header into db8500
+Message-ID: <6a1c6e6f-b2a4-4953-878c-2f2f3744d320@sirena.org.uk>
+References: <20260619-mfd-prcmu-merge-headers-v1-1-8ea0ee23b4d6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PygvCgC337Jl_Thq92UUDg--.60250S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7KFWkJr48ury7tF45GF1kuFg_yoW8Jw1rpa
-	n7Wa9Fgr9YgFWFkayDtayxXFn5GFWYvr45Gr47Jw13uw10qrWrG3srJrWUWFW7CrW8GFyF
-	qw4DtrWIvr1rKaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piyE_tUUUUU=
-X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbC7QdBr2o4-WcZmgAA3P
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="F21+nkoAYpsrTplW"
+Content-Disposition: inline
+In-Reply-To: <20260619-mfd-prcmu-merge-headers-v1-1-8ea0ee23b4d6@kernel.org>
+X-Cookie: Now I am depressed ...
 
-intel_sst_probe() takes a reference to the PCI device with pci_dev_get().
-If sst_platform_get_resources() fails afterwards, the probe error path
-cleans up the driver context but does not drop the PCI device reference.
 
-Add a pci_dev_put() error path for failures after pci_dev_get().
+--F21+nkoAYpsrTplW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes: f533a035e4da ("ASoC: Intel: mrfld - create separate module for pci part")
-Cc: stable@vger.kernel.org
-Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
----
- sound/soc/intel/atom/sst/sst_pci.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On Fri, Jun 19, 2026 at 10:27:10PM +0200, Linus Walleij wrote:
+> Move the DBx500 PRCMU definitions into the DB8500 PRCMU
+> header and delete the wrapper header.
 
-diff --git a/sound/soc/intel/atom/sst/sst_pci.c b/sound/soc/intel/atom/sst/sst_pci.c
-index 22ae2d22f121..44bb11c69490 100644
---- a/sound/soc/intel/atom/sst/sst_pci.c
-+++ b/sound/soc/intel/atom/sst/sst_pci.c
-@@ -130,13 +130,15 @@ static int intel_sst_probe(struct pci_dev *pci,
- 	sst_drv_ctx->pci = pci_dev_get(pci);
- 	ret = sst_platform_get_resources(sst_drv_ctx);
- 	if (ret < 0)
--		goto do_free_drv_ctx;
-+		goto do_put_pci;
- 
- 	pci_set_drvdata(pci, sst_drv_ctx);
- 	sst_configure_runtime_pm(sst_drv_ctx);
- 
- 	return ret;
- 
-+do_put_pci:
-+	pci_dev_put(sst_drv_ctx->pci);
- do_free_drv_ctx:
- 	sst_context_cleanup(sst_drv_ctx);
- 	dev_err(sst_drv_ctx->dev, "Probe failed with %d\n", ret);
--- 
-2.25.1
+Acked-by: Mark Brown <broonie@kernel.org>
 
+--F21+nkoAYpsrTplW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmo4/fkACgkQJNaLcl1U
+h9BceAf+JnRRZo3CC7dY7ixwk7zpLhaOOcYrfPWC7UPLCHezOGDW4mYKWhJCKed4
+opIBNonasXPS4Q3MuElsJo8eLwxS5HhDkmVX7k0CoEoPdeTGkbqih/6ZLU0vk0e/
+PTbTPGGJFQj6ewMSK6TZMnor3CNuqVSYDhYD++Wtkpy2Bc+HM46Pj2xGADsWkAk5
+rJTCldPiov2ztl7LN5YsUax/+xulcuqnxvw1yXrS1AExqFqnkLX3AEFdC1p3ycoh
+Lbwo5s6c+lChx+Owkt5DeYeDJ9CQ3qrmiZRZUtHKLb1yd120zbWEXa7CXk5mk8e1
+EGKSYIKOunlL6yCr6AOb+fsg9njECA==
+=27Qz
+-----END PGP SIGNATURE-----
+
+--F21+nkoAYpsrTplW--
