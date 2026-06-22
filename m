@@ -1,81 +1,117 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A9C3A5430;
-	Mon, 22 Jun 2026 10:25:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78A3372064;
+	Mon, 22 Jun 2026 10:37:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782123922; cv=none; b=rYvQEGB91uhhFBxHyUBovCMIUBtE/8Ei/nNqHC39A4NwpRBXHDqgPFg4meXserNMmhBfE6stFxKHpBhQ5zUlB0CyNozUu5UZhtb1GLCLcVXyWmyesO2kH4u5E3Szfb8CD6B726buGFDbHwx3JAeISsVJUjUZfmcJ2o28K9JIKUI=
+	t=1782124675; cv=none; b=Ya0j2f1pmQUi3gzz7KzLg6ZEKqWklfap0szcF/2b4w901NItiNhZSyyaVZZ1OgS9VmbbKqTuAfwE83imqYnv21yGKLTvoYBUuvn/MyP8COKUq2nPUSR9c3Gis/5/nLUgeqvKGffRG0QpnqIcEWr2LcFR2+y8/ocpYvWbJ4I9gR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782123922; c=relaxed/simple;
-	bh=8ytbAmCNhbMsvW71eZJ7xGhofajdwDH7mIpD3eZiW4k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R8VnlVDgq6KY3yNYJaI2hMct2F/dBnVyOysTTAI0JLe4VLcQUozI5iGP14NlabTejAwoAgSzdKIKMOyLr+Xo18txlpzgN9IjsqGJ8e6zoU0H1L0qSkT/p9uPA0bpSI50nHj3d2Lb5Q1SFYYjuFhN4YtEbJBOW9BG5Da1EC36TXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=b4bi+pAn; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+	s=arc-20240116; t=1782124675; c=relaxed/simple;
+	bh=SlXpapcESob2oMAX1fFCfcRVVrRmMpw/0lMMJyMoXZY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XUJpNSUGNU0NYtdBPUkQRKYgcRkTTay5W2c6HaUO0c797WhOWAfJt/1e40z2nlFo2Pka1cxOoAG17U0jTgrwSoiPG3MpNI75hW6mQ/QA1CsGgN+EYsLm6BzFMGS5+PHSJQ0qMHzEYE30jIDdI7ihqeiodKvK3IekKTwTIM9V78g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SjA84rh2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="b4bi+pAn"
-Received: from [10.10.12.8] (business-24-134-105-141.pool2.vodafone-ip.de [24.134.105.141])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id D8A1B2FC005B;
-	Mon, 22 Jun 2026 12:17:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1782123421;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sB2j/8UOwav+/uHf53HBWKO5WylLHjzUuimdl3Bj1EY=;
-	b=b4bi+pAnXvJMZ7Ra1ES1KBWBGlYywI8lJncOu57Th+wp8RM8vD8HSig9ppdckfY6zHm8sY
-	dM5PAWkCLjb7xiEXK/oju1Z95gXsdofKQcZmyKUQ7dvs4PZGiNfj0lwCxc6Rcjc0fCsEdk
-	YHSKM9ggS8EvYjFijjKkVSUHk0qOACQ=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <79bf40d3-6f77-4bf0-93c1-ba48220d7d9a@tuxedocomputers.com>
-Date: Mon, 22 Jun 2026 12:17:00 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SjA84rh2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD5B81F000E9;
+	Mon, 22 Jun 2026 10:37:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782124673;
+	bh=4JaDzGEOq8RviwvqFH3apYO55x+BKM/GmrtegVUEYwo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SjA84rh2vGNpApF7xb/8/QboyqkViBsFqkxGtE93XASJ+6cAjHWGMYiaqrRp/pSwq
+	 nAURq2pW5oZK+5kztm9oQ/j9SKS2UNBEdMeWO9RhLcnT1zJAaz+BD/7G4aqFCvVY4x
+	 QHjPHYeIsBIaY32IwlZUhlFi1+/nLUdPptY22FEUURtZfP4gIY5r57Dig5yPyGWO6W
+	 PSt5y3KkRLPjlfNLCab0Yw1tso96epHP2NtLYknAw8EpAV0q/Tzyg6NBTOlCmVCRNz
+	 ZbyDjiLdaDqPPWkSrczxDGEZC2xL9ZfHm2u9lKJT1zSb47tP99cDSw/BDAWR7yf+Km
+	 VEJxhJdxJ5q7A==
+Date: Mon, 22 Jun 2026 11:37:49 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Zhang Yi <zhangyi@everest-semi.com>
+Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, krzk+dt@kernel.org,
+	linux-sound@vger.kernel.org, robh@kernel.org, tiwai@suse.com
+Subject: Re: [PATCH v2 1/7] ASoC: dt-bindings: ES8389: Add members about HPF
+ and clock
+Message-ID: <65a1d2ba-0790-4c6f-9c00-39ee8b4db7bf@sirena.org.uk>
+References: <a619312f-55b8-41f4-b288-d7c343f5f9e9@sirena.org.uk>
+ <20260622063318.3535-1-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] ALSA: hda/realtek: Fix noisy mic for Clevo V6xxAW
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Aaron Erhardt <aer@tuxedocomputers.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260519155047.106096-1-wse@tuxedocomputers.com>
- <87ecj6lj7u.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <87ecj6lj7u.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qo2N2fpRNvMdPVCU"
+Content-Disposition: inline
+In-Reply-To: <20260622063318.3535-1-zhangyi@everest-semi.com>
+X-Cookie: Now I am depressed ...
 
-Hi,
 
-Am 20.05.26 um 07:53 schrieb Takashi Iwai:
-> On Tue, 19 May 2026 17:49:48 +0200,
-> Werner Sembach wrote:
->> From: Aaron Erhardt <aer@tuxedocomputers.com>
->>
->> Add a PCI quirk to reduce the volume of the internal microphone to prevent
->> extremely noisy signal.
->>
->> Signed-off-by: Aaron Erhardt <aer@tuxedocomputers.com>
->> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
->> Cc: stable@vger.kernel.org
-> Applied now.  Thanks.
+--qo2N2fpRNvMdPVCU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Quick question: To which branch exactly? I can't find it here: 
-https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/
+On Mon, Jun 22, 2026 at 02:33:18PM +0800, Zhang Yi wrote:
+> > > +  everest,mclk-src:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint8
+> > > +    description:
+> > > +      Indicates that SCLK is used as the internal clock.
+> > > +    minimum: 0
+> > > +    maximum: 0x01
+> > > +    default: 0x00
+> >=20
+> > Could this be done by having a clock API property for the MCLK source
+> > and then falling back to using SCLK if that's absent?  That would feel
+> > more natural for DT, and you'll probably want the MCLK property at some
+> > point.  It's also a bit more of a neutral description of the hardware,
+> > future versions might switch dynamically between MCLK or SCLK based on
+> > some criteria or something.
 
-Best regards,
+> Does the implementation below match what you described?
 
-Werner
+>=20
+> es8389->mclk =3D devm_clk_get_optional(component->dev, "mclk");
+> 	if (IS_ERR(es8389->mclk))
+> 		es8389->mclk_src =3D ES8389_SCLK_PIN;
 
->
->
-> Takashi
+Yes.
+
+> > > +  everest,hpf-frq:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description:
+> > > +      The frequency of HPF in Hz.
+> > > +    maximum: 1020
+> > > +    default: 16
+
+> > Why configure this with a fixed value in the DT - it's the sort of thing
+> > I'd expect to turn up as an ALSA control so the user can vary it at
+> > runtime if they want to?
+
+> I don't want users to be able to change the HPF value at any time,
+> as this would affect the codec's startup.
+> Or I can use SOC_SINGLE_EXT to define HPF-related controls
+> and write the modified values to cache when writing to the hardware is no=
+t permitted.
+
+Some devices have custom controls like that already, you could also
+prevent writes while audio is running.
+
+--qo2N2fpRNvMdPVCU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmo5EHwACgkQJNaLcl1U
+h9Ao7gf7By5U0QbeSqltgEe3rmQc/pjTB0u4wp2KBHSYRrwoM6NCiM8V/xI14EqS
+daXlg2i/W4mJMdadyz9Yhb/85pYexqUb9IlIHSiheBOCJ/HMFpTROnVuUgu/LXMV
+00zgMFzgga90YkP7sUW/KxgeMclhhBlkbek4bD+WL0AJE/V73kPlk+BatwQ830aP
+7vn0MRV3XqkXsg2LNUrdS5jtG1QBGznKLKTe1y5+ixDOGJxWioA1h/HLKIjWRTbA
+iQcP8wUY8OL+seDcD4m57FyD3EKA5/zM/x2L5S4AH7dWvZatj5JQoraByQ4z7X8j
+s36VjkEXVY6RHDC5vk6dQzCVYSbgYw==
+=Ddoj
+-----END PGP SIGNATURE-----
+
+--qo2N2fpRNvMdPVCU--
