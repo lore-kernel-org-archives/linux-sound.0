@@ -1,102 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from imap5.colo.codethink.co.uk (imap5.colo.codethink.co.uk [78.40.148.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91A5345CBF;
-	Mon, 22 Jun 2026 13:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018243AB498;
+	Mon, 22 Jun 2026 13:43:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.40.148.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782135740; cv=none; b=AYkcRYUGo3ndK62EpBGkm/oHKfA8uoZ1hkACGeRDHmMOzv45eAncRVtXvYOslD1hfIkZ1vyNntccLpXbVYUWt+fVP2VBKXPDXAkR/sXPlmmFJUL8t/NiwW7OuveSIEvtsK/xpP7WOaMrdhwP9dCoP5ls7zzQBplj/4YDOUUZHro=
+	t=1782135788; cv=none; b=OWkm0DqUzQ2KrztjF1OenHESGkG4hWEwSHNiI1Oz1BUoJYNeYttVhgjswYAorBvo1uxB1clblohlv+hjOBczGZVK7HpSlQ/n7RXeJZR4KaSoXuk4o1K7HsmjyrtdkyUERcSIWbH1z/Iew3mCmzVsctMFVX0wutz1BRY3bC4IrmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782135740; c=relaxed/simple;
-	bh=wPs2KvIcrzxAfqFySRNk66FlQJWyRYYOYsEFmeCGzDU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZMc6TNBhb1q1UynZxXuF/LX9N1ZlaZBO/zy/cAD9dFOKcpaJnsoZ7aIFt5Yvfry6+hCq8RLDNUr0LneDRJHhKZBzP8B/AtzGtA6UP+GU+oebGDdyUFbjT+SOOKmL6FqBE7JXT4e0jLTyM5Xv1rRDtPVgejPGJKgl8iVcH/zk6a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ni93tuwk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782135788; c=relaxed/simple;
+	bh=fqekt1IIwTAe9Vv6ULTX8Rq+XV28AsKJPKyvfLchC6g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pn5cLwKNQgVQJG9ck6/dl4ABdTTEQLTa0Xsl+LmTsH8/+LcJPgYYouh8G+StVYaSoEEjgeIsbuv/9x9OkN9ywfFxh+dAjlCifrV2oeUUNe69kX9TnXBxH2xhH3JtV+jStw3pNBNBbape6ePu9osdzEHWaWlIylNrPgehP7gcY/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.com; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=EQXNNo6I; arc=none smtp.client-ip=78.40.148.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ni93tuwk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A54A1F000E9;
-	Mon, 22 Jun 2026 13:42:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782135739;
-	bh=FC/VBYU4oBVduK0L5ASsa1ThohOhgLydmEOiMbsObKs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ni93tuwkHsNp9dRWNzSEJk/muSbISp48Wg5v+f81pcpNpSxlHzQt8xlHt0cP3Eafs
-	 pw6LXSApGr9mVEBp9Tg2mIztdRfhGjIJaM+9u+Eo9/bU25laEXmaQZxww52wps6Jfh
-	 pAaWXsVpzFT8LchKv6tLVXOFivRB9KP2nfJyJwWlrI+p4sjc0SztY9rMgfSdM1bZnR
-	 Pf1XuLzmMHu5EP1XrBGPRbtbETwIvF+oadfnWIlTmzjfnn6GyQdWB+YGobXCB99ouY
-	 1pw2MlckbKN8paILOwObzbbcsNScuwqzeHwWX1txDeiZwNWb+OOw9Y3oWibzRGVRvD
-	 q7LensQSBnvdw==
-Date: Mon, 22 Jun 2026 15:42:15 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="EQXNNo6I"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codethink.co.uk; s=imap5-20230908; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:In-Reply-To:
+	References; bh=K2NAXBb8T8hw1MVXPoduQ99H+AoHr+kciJ2g7zRvyjk=; b=EQXNNo6IvFVUoH
+	SwePJ+72V6MrWuO7Ug8j4hIFwPdq8+W8OOiaYbtyFoRaT6MQK3pUmnoyYy7Q1RCaO1jhkjQW/CgMI
+	/bJpYIy2UmuXHDJy9FiG4si8mDOCWT5rIjsXtoHGftjq69n4gjfz2fq+yFYRzC1oSe+9wO+LjERuO
+	SapKeSEcr/MMqbZkpvzWrXW0uDRqPghEaJ3/Fu+ZILPP0ptFEwF2XsMOQs9eDdZXpEVMNCRbH+kWO
+	v/MdvamTvRn1d0cSNGkK72eCVNYWmz78RwMMXpe6L5LxGapscaj+fFckhpYf9agJ1bBLP1Eh5jmCu
+	gyOcbCKBLIsfPYMDor9w==;
+Received: from [167.98.27.226] (helo=rainbowdash)
+	by imap5.colo.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+	id 1wbevJ-0051Om-9Y; Mon, 22 Jun 2026 14:42:49 +0100
+Received: from ben by rainbowdash with local (Exim 4.99.4)
+	(envelope-from <ben@rainbowdash>)
+	id 1wbevI-00000001x2x-31I7;
+	Mon, 22 Jun 2026 14:42:48 +0100
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] arm64: dts: qcom: shikra: Add MDSP carveout memory
- and update APM DAIs memory regions
-Message-ID: <20260622-defiant-warthog-of-authority-d9d1ba@quoll>
-References: <20260618113509.2025881-1-ajay.nandam@oss.qualcomm.com>
- <20260618113509.2025881-3-ajay.nandam@oss.qualcomm.com>
+Cc: Ben Dooks <ben.dooks@codethink.co.uk>
+Subject: [PATCH] ASoC: SDCA: fix __leXX types in find_sdca_control_range
+Date: Mon, 22 Jun 2026 14:42:47 +0100
+Message-Id: <20260622134247.465275-1-ben.dooks@codethink.co.uk>
+X-Mailer: git-send-email 2.37.2.352.g3c44437643
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260618113509.2025881-3-ajay.nandam@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+Sender: srv_ts003@codethink.com
 
-On Thu, Jun 18, 2026 at 05:05:09PM +0530, Ajay Kumar Nandam wrote:
-> Add a dedicated MDSP carveout memory region for audio usecases on
-> Shikra and mark both existing audio heap and MDSP carveout regions
-> as shared DMA pools.
-> 
-> Update the Q6 APM DAI node to reference multiple memory regions,
-> where index 0 is used for control path buffers and index 1 is used
-> for MDSP data path buffers. This separation ensures proper memory
-> allocation and access for APM communication between APSS and MDSP.
-> 
-> Also add shared-dma-pool compatibility to the existing audio heap
-> region to align with upstream DMA pool usage.
-> 
-> Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-> ---
->  arch/arm64/boot/dts/qcom/shikra.dtsi | 14 ++++++++++++--
->  1 file changed, 12 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/shikra.dtsi b/arch/arm64/boot/dts/qcom/shikra.dtsi
-> index 88954ee943ef..d744f7e38ca6 100644
-> --- a/arch/arm64/boot/dts/qcom/shikra.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/shikra.dtsi
-> @@ -365,7 +365,14 @@ smem_mem: smem@86000000 {
->  		};
->  
->  		audio_heap_mem: audio-heap@86200000 {
-> -			reg = <0x0 0x86200000 0x0 0x100000>;
-> +			compatible = "shared-dma-pool";
-> +			reg = <0x0 0x86200000 0x0 0x40000>;
-> +			no-map;
-> +		};
-> +
-> +		audio_mdsp_carveout_mem: audio-mdsp-carveout@86240000 {
-> +			compatible = "shared-dma-pool";
-> +			reg = <0x0 0x86240000 0x0 0x100000>;
->  			no-map;
->  		};
->  
-> @@ -1935,7 +1942,10 @@ q6apmbedai: bedais {
->  
->  						q6apmdai: dais {
->  							compatible = "qcom,q6apm-dais";
-> -							qcom,vmid = <QCOM_SCM_VMID_MSS_MSA>;
+The find_sdca_control_range passes u16 and u32 values to the
+leXX_to_cpu() functions. Change this type and for the data
+loop use the le32_to_cpup() to convert the value using a
+pointer.
 
-There is no such line in next-20260619, which means this is some wrong
-base.
+Fixes the following sparse warnings:
+sound/soc/sdca/sdca_functions.c:868:23: warning: cast to restricted __le16
+sound/soc/sdca/sdca_functions.c:869:23: warning: cast to restricted __le16
+sound/soc/sdca/sdca_functions.c:877:34: warning: cast to restricted __le32
 
-Best regards,
-Krzysztof
+Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+---
+ sound/soc/sdca/sdca_functions.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
+index 77940bd6b33c..2e0b0ac4fa13 100644
+--- a/sound/soc/sdca/sdca_functions.c
++++ b/sound/soc/sdca/sdca_functions.c
+@@ -847,7 +847,7 @@ static int find_sdca_control_range(struct device *dev,
+ {
+ 	u8 *range_list;
+ 	int num_range;
+-	u16 *limits;
++	__le16 *limits;
+ 	int i;
+ 
+ 	num_range = fwnode_property_count_u8(control_node, "mipi-sdca-control-range");
+@@ -863,7 +863,7 @@ static int find_sdca_control_range(struct device *dev,
+ 	fwnode_property_read_u8_array(control_node, "mipi-sdca-control-range",
+ 				      range_list, num_range);
+ 
+-	limits = (u16 *)range_list;
++	limits = (__le16 *)range_list;
+ 
+ 	range->cols = le16_to_cpu(limits[0]);
+ 	range->rows = le16_to_cpu(limits[1]);
+@@ -874,7 +874,7 @@ static int find_sdca_control_range(struct device *dev,
+ 		return -EINVAL;
+ 
+ 	for (i = 0; i < num_range; i++)
+-		range->data[i] = le32_to_cpu(range->data[i]);
++		le32_to_cpup((__le32 *)&range->data[i]);
+ 
+ 	return 0;
+ }
+-- 
+2.37.2.352.g3c44437643
 
