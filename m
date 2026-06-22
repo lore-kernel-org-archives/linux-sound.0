@@ -1,160 +1,124 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12F6375AC6
-	for <linux-sound@vger.kernel.org>; Mon, 22 Jun 2026 15:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B2137998B
+	for <linux-sound@vger.kernel.org>; Mon, 22 Jun 2026 15:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782141536; cv=none; b=EEKkTTX1MhytjhzDnhiwNjDJog49ecMhglbiJ+aeepR5quKpbnaZrKkuHZnGCi37V1RsvMzBRO88tXmmwKD5quDN2gXPcN4feWI7onnH1mEGLdcXCdwH66JbE83srw8UMiqgCeyhdcycej/WWWK4m6h05jgnAAHPpU/t8YDb5Po=
+	t=1782142182; cv=none; b=rhwSMnQ3rUFtAriJeXRTd9g6g1oxQWPjUQYGcw9AwQV5XnS+iPEQhw2YK6TrU650zkw/ikg2ngjOSuJ+53E8VTNyWzoAe2yg0jZqRoSzs5rq7IiEnVLzygL+kyagZceWVU6MBdPpgC1tXx75O4KoZoLmVTN0MN2SGnwPd561DYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782141536; c=relaxed/simple;
-	bh=eO98CC1dq9xwepVqr0m1in8xGU1uGdR/vd48GlAlx/o=;
+	s=arc-20240116; t=1782142182; c=relaxed/simple;
+	bh=c8wwsmifyb2pL3pRoyxMkh0iiOmUNLcnkaqNgFLh19k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KViKtTvaKgMpo/o2Kn3aj83CUN49JQXZW4beN0QR1t7c/Ih5b3XKZj9WIisjH3+C/xXiw1GQEH27kkjUo+mAsoeAGwEbkxOKyVLC96sIKsCyiZxUXXDiMU13I3dMzmg160HmD6GoDwaGU0ZwjAdq9ebG+y5R0dSdsCnv8xuI/fA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e6QUJmDR; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type:Content-Disposition; b=fLZk4xAW5zLIPv2YI3kBhO+9H3b4P1BBCjz1L/Y15MpUewaK3Fpg8HA60kLSJ1TEBgBiXfjTl9APsReTMvdrF9NTAFjcjP6wadHtjJ2AV5W8FExfYtPzKoZ68FoTrTr+ksL++Lrs1rB+nQsxAdjulDWVhQIrpBlqe4EldMxt5Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Cec6CAua; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e6QUJmDR"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-519e7faecf1so42512361cf.0
-        for <linux-sound@vger.kernel.org>; Mon, 22 Jun 2026 08:18:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782141534; x=1782746334; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=S/6cLw2+muN50gac7bA2Xzn5QQf7rCJUO16TP8tP150=;
-        b=e6QUJmDRHXFIReAbVdxh3LMsnkhSYcpTYjyzw4EKufchmN1f+yqYpFIqP8qA50xnXf
-         FeMi6ehYMZgFfC/R7W2CWcCeGgZ/7r8yeOxz+G8RWmd1zgJY9a/6Thv4KBe4bQwHiITy
-         +9hmVDtkLIwIXttnoGguXAgFagIwrpfOi2kj6f3Bv0BkOwxRFaE3c3C0tXAeAIP57kBx
-         nS1hhTzz4fmxhjhyzrwHVj6eRZ1GMcxupjzaeBW6iMIxGHnxlRKS/T47WTZkYFhCPxoL
-         ZNTOlE+IgywElLSh8gJF7v1bO6g1gSgFUn90/jGdhgu3lYd4Fl/enwjyqrSphxw8lzqO
-         qlPA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Cec6CAua"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782142178;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JZv8lf2HlFMbPq29wrkvMcL46ITw+rgkk0A4gwUgT7k=;
+	b=Cec6CAuajmg3HjYKL5W0ndK6Phu8QSGuuFiayqN8E2XB6mFgNGX9rC8wekotGwK6Er5Lbz
+	t4hf7DoWcYSXoV8YkQl+5PNgzEKs7tUDYx8co2HJy30D4OKWk7JKefXS5SNtrRO+6HuOM+
+	JF2GNURGJmjFflMb/mn78O6U04coZtc=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-73-fELkWnW9PPmfo5LGZN4hKg-1; Mon, 22 Jun 2026 11:29:37 -0400
+X-MC-Unique: fELkWnW9PPmfo5LGZN4hKg-1
+X-Mimecast-MFC-AGG-ID: fELkWnW9PPmfo5LGZN4hKg_1782142177
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-519fd49d101so244721cf.0
+        for <linux-sound@vger.kernel.org>; Mon, 22 Jun 2026 08:29:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782141534; x=1782746334;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S/6cLw2+muN50gac7bA2Xzn5QQf7rCJUO16TP8tP150=;
-        b=OOeS013ss7eUnqK5vz0/raPsr7gi37sS5EkDNcazQ01xlmmwmw1aLLPkBJheWT8Oow
-         VbXvOnnqKQHuUSVA7ZXxm86P2r1EzT9VZ4BADwS8qCSkYMF/uWZA8FcDwcPK5RIEEBa+
-         mK0hr3v0spK6yaB5rb6GyrimEeHXiPQxID4HJd3sHz4MrqZODebrkTFyGl9eoluf4Vuo
-         lhXzGb3U9PLqyG8+q0DscNpVxMV4Fc6j1xmT8IOIxP2gf75ePaICGlEoBwOX51el6dxw
-         pTLJ4gedutDmecZBimZJ1JwsKKleGYhqiVQ1hb4+c7Y0fXGlJXnS6AYWM/Pv0CiHbBFW
-         Idbw==
-X-Forwarded-Encrypted: i=1; AFNElJ/qTyI8O3jrKbMqmh0fZQwYh32H7vQK8c7Ep/CKICmgtHdsJb92ZrCghaBO49VxDPzTDYDpmkUFi4LOtg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxp6REF0ve0kto0WnZblJizowMIAeWXCEe6vnraohe1W/lLZyE7
-	GZAhQdYgf/ooNNeUYsyHYjDlI3BYLmQFcwGBmxkN8dSV/lKBlj8N4+3G
-X-Gm-Gg: AfdE7cmlE/N2pYVV8rX/S1cKj6PV7i0bKES03x9ksr81Ci8TmRmZ7DVUcA1HJBFoDTE
-	rUZDqT0imcBs07rrVQc2/TCYsDlBvN98FnYhHC0N1elnsqXusI4rHqXb4pI2RB6iErJtBITLMs5
-	YY7qdCApTUsW3oywlSIO8CxwTg98tHJQ+yZMSUIR7DBdjqAoHqROGM34Xvb9p9LFMkvRvpOq7/p
-	emPPRoUc63cNrohzwo2dRUGB2yHsOelp+2kJqBSOWfjRD9fd0eqFQctMaiVW/19dLr9sB85/MrT
-	ixyEVkSOG4HOnYLN1/+Fktw6tkTQp0kdQFSdorNcoabay+scWoQALF0aiDL7HZ95+0aCQAGDGMq
-	9aJGuoHmNa42bP+1OL5pwIYU8bOLxSbmkCwRFKX3YsoRq8GS7ejJ4fjunL8pv4eOvOJUKv4UHY2
-	hHVy/p9vlfOH1kJmce
-X-Received: by 2002:a05:622a:5c1b:b0:516:dcfc:ebc3 with SMTP id d75a77b69052e-519e4c27793mr220029711cf.30.1782141533547;
-        Mon, 22 Jun 2026 08:18:53 -0700 (PDT)
-Received: from localhost ([142.181.163.192])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51a0989f0a8sm70034291cf.22.2026.06.22.08.18.52
+        d=1e100.net; s=20251104; t=1782142177; x=1782746977;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=JZv8lf2HlFMbPq29wrkvMcL46ITw+rgkk0A4gwUgT7k=;
+        b=U5egQLGfChm6gmo3n9coRMIa3hv9kj2pgvgCLL4rJWcmPvo68sx7s2vlZXW5SR51oR
+         //l7PVxhNTy5CTRI7OF9XgheQXKMC6mXx8EqGOLr+lO/+j5uQmXU9/tON9P+zteza50O
+         5g3RCv6Fj4XZNNjnhiELaYxib1ukY2JfPPbVSAJeR3X3am+xqpBGkxvhsdIy5b1ko5oa
+         lFj2aP0OgCe+KH/5FJVyvs85vFfDbGlkMlWaXe0dbOezIv+aiq4eWaNZQbCNaW094z/k
+         x2rijSfpxwqdGJr5Dx/HpNRF9dgZK5pODw5OywXZkgjgMlbfx2UoF3YSxcWqA1vmtXX7
+         4aIA==
+X-Forwarded-Encrypted: i=1; AFNElJ9raSU+o4Gyxbsezy11w/q9FczXM0vnsfIesNWo6YvYHmuWiacbPEkndSrUeGa4E9yr/XcDxlLelFFumg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpcsVZdjatnpV/m9DUr4sg05Z9NM0D/7CKLFxzewVAEEdMZ3c8
+	QqQ4wQeesznb7tJiq1kQazHWv+RkQ3GLYdwbjSAtpyliKHUKeivs/PnUnO0hoEPltQvq5EeYc/o
+	DYK3vywBhbZFvnulaFvcewKBIKBE4s2flJ/W7b8aM//rqVzVSl4a4PNRqfnsX6ZwC
+X-Gm-Gg: AfdE7cnJ4EDRhacFmhPeADNQTpA1LTMP2AZY02R0GcIGSOsevb0M6SEAb+zbvtnnR+P
+	M5U0hpJLe0NqU6Lp/iJgh4WqOfb92wpe4GyNN+Ge2A/M8u3dgNFoe1+Mnk4E4CBvtVJXGUjD4+S
+	Le/2u1AF06+2a/06xmumcpwb5WXeF87cDb9GhwG9aNrmXC+30COGTYNTJ0bPqqebBc+B9Y7Bsgs
+	DHbFni9lFMTMPXHvm8tvU4pfdgUCVVyWbc02hPG1+Y9Na2pfMhEu589MfrPIrOkKP4Za6pInGi6
+	tqsgaj5HC9+Hc4Y6wkWhXsEK092R2WyRXfvLbM9thf/KkycqTUu6bTnvc0+7HoVBtTygBwuYWU5
+	toWRgV3fJ9VzYiWQAN3OMQfiUBMBSh7uI4nG8QVgosTKDBQ==
+X-Received: by 2002:a05:622a:946:20b0:517:2a93:474a with SMTP id d75a77b69052e-51a514b9349mr336231cf.0.1782142176815;
+        Mon, 22 Jun 2026 08:29:36 -0700 (PDT)
+X-Received: by 2002:a05:622a:946:20b0:517:2a93:474a with SMTP id d75a77b69052e-51a514b9349mr335711cf.0.1782142176280;
+        Mon, 22 Jun 2026 08:29:36 -0700 (PDT)
+Received: from redhat.com (c-73-183-53-213.hsd1.pa.comcast.net. [73.183.53.213])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51a0984da98sm70349361cf.15.2026.06.22.08.29.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2026 08:18:52 -0700 (PDT)
-Date: Mon, 22 Jun 2026 11:18:51 -0400
-From: Richard Acayan <mailingradian@gmail.com>
-To: David Heidelberg <david@ixit.cz>
-Cc: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+        Mon, 22 Jun 2026 08:29:35 -0700 (PDT)
+Date: Mon, 22 Jun 2026 11:29:32 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Russell King <linux@armlinux.org.uk>, Ulf Hansson <ulfh@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Christian Loehle <christian.loehle@arm.com>,
+	Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
-	Konrad Dybcio <konradybcio@kernel.org>
-Subject: Re: [PATCH QUESTION] ASoC: qcom: sdm845: use DSP_A format for TDM
- codec DAIs
-Message-ID: <ajlSW1NYc5qh1bL1@rdacayan>
-References: <20260613-rfc-dsp-b-to-a-v1-1-7d095fe90a05@ixit.cz>
- <ai3tafRfEgN938cu@sirena.co.uk>
- <5f262a04-8e92-4ac1-bd7c-1246231d3de2@ixit.cz>
- <7f94caa0-48ba-46f3-922e-f16e39fd22c9@kernel.org>
- <357aee62-78ec-4ee3-afb8-5be3ffe70cbd@ixit.cz>
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-sound@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] mfd: db8500-prcmu: Fold dbx500 header into db8500
+Message-ID: <ajlU3AsNUeviLuj8@redhat.com>
+References: <20260619-mfd-prcmu-merge-headers-v1-1-8ea0ee23b4d6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20260619-mfd-prcmu-merge-headers-v1-1-8ea0ee23b4d6@kernel.org>
+User-Agent: Mutt/2.3.2 (2026-04-26)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: ZjBbuJBw-tQ6WzDN5icdh5Jp9_8qAy1mtKk0DTIAl6o_1782142177
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <357aee62-78ec-4ee3-afb8-5be3ffe70cbd@ixit.cz>
 
-On Sun, Jun 21, 2026 at 05:54:17PM +0200, David Heidelberg wrote:
-> On 14/06/2026 23:40, Srinivas Kandagatla wrote:
-> > On 6/14/26 8:26 AM, David Heidelberg wrote:
-> > > On 14/06/2026 01:53, Mark Brown wrote:
-> > > > On Sat, Jun 13, 2026 at 09:55:59PM +0200, David Heidelberg via B4
-> > > > Relay wrote:
-> > > > 
-> > > > > Currently this worked only because the cs35l36
-> > > > > codec mapped both DSP_A and DSP_B to the same hardware register value
-> > > > > (asp_fmt = 0), which is inherently DSP_A timing.
-> > > > 
-> > > > > The CPU-side AFE is configured with qcom,tdm-data-delay = <1> which
+On Fri, Jun 19, 2026 at 10:27:10PM +0200, Linus Walleij wrote:
+> Move the DBx500 PRCMU definitions into the DB8500 PRCMU
+> header and delete the wrapper header.
+> 
+> Convert users of simple PRCMU wrappers to call the DB8500 helpers
+> directly.
+> 
+> The dbx500-prcmu.h header was the result of an earlier attempt to
+> abstract several DBx5x SoC PRCMU units to use the same abstract
+> header. They are deleted from the kernel and this is not just
+> causing maintenance burden and build errors.
+> 
+> The stub code is using -ENOSYS in a way checkpatch complains about
+> so replace these with -EINVAL while we're at it.
+> 
+> Assisted-by: Codex:gpt-5-5
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202606180825.vUSQntkJ-lkp@intel.com/
+> Signed-off-by: Linus Walleij <linusw@kernel.org>
 
-No I don't think so, this devicetree property has no effect in
-sound/soc/qcom/qdsp6/q6afe-dai.c.
+For clk:
 
-For the Pixel 3a, it only mattered with the RT5514 codec.
+Acked-by: Brian Masney <bmasney@redhat.com>
 
-> > > > > produces DSP_A framing.
-> > > > > The codec format should match what is actually on the wire.
-> > > > 
-> > > > > So I'm pretty lost if I should go fixing cs35l36 or sdm845.c.
-> > > > 
-> > > > That sounds like both.  The Cirrus driver is definitely buggy if it's
-> > > > mapping DSP A and B to the same register value, at least one of those is
-> > > > wrong.
-> > > 
-> > > I need to clarify. The CS35L36 supports by default only DSP_A, but when
-> > > extended to "take DSP_B", speaker just works.
-> > > 
-> > > This was done previously.
-> > > 
-> > > Since there isn't any different configuration on the codec side when
-> > > added DSP_B into same codepath as DSP_A, I would assume QCOM ASoC send
-> > > DSP_A, just marking it as DSP_B ?
-> > 
-> > 
-> > 		qcom,tdm-sync-mode = <0>;
-> > 		qcom,tdm-sync-src = <1>;
-> > sets the short sync with 1 clk delay making it DSP_A.
-> > 
-> > for DSP_B you would need, no delay.
-> 
-> Sure, does that mean the sdm845.c is currently correctly setting
-> SND_SOC_DAIFMT_DSP_B there? or there is some missing part of logic deciding
-> it?
-> 
-> Because the reason audio works when I convince driver either:
-> 
-> a) sdm845 ASoC it uses BSP_A instead of B ... or
-> b) cs35l36 it uses BSP_B instead of A
-> 
-> implies to me, that:
->  1. both devices are setting the HW to either BSP_A or BSP_B mode (just
-> don't know which one)
->  2. but the driver flag for ASoC or codec we setting on the driver side is wrong
-> 
-> If one side really used BSP_A and other BSP_B, the audio should be at best
-> heavily distorted, right?
-> 
-> Please correct me, if I misunderstood or if there is nice doc I could read about it.
-> 
-> Thanks
-> David
-> 
-> P.S. I did quick search what close-to-mainline repo has for Pixel 3a to
-> reach working audio and it's slightly different, see [1]. There isn't any
-> change done to the cs35l36 driver in the sdm670 tree.
-
-I just assumed DSP_A and DSP_B were codec-specific.
-
-> [1] https://gitlab.com/sdm670-mainline/linux/-/commit/9eba5aa993f5fb7b4bf5cc936ec22852987d3f9f
