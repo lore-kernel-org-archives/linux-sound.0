@@ -1,117 +1,104 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFD5215075
-	for <linux-sound@vger.kernel.org>; Mon, 22 Jun 2026 11:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADC0274B2A;
+	Mon, 22 Jun 2026 11:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782129215; cv=none; b=ldZr5yMv1WTuAnzpbmeaLZfRK4SSiwx6rMCapZ2N9Z0oag7oBdx+zWymu+h1DQU45zD/mJXqpUzE0UG/9k8enUxomhGEnX1W/p/cGiYNTqeY0P6VRreeBehD4Beeji7kHbjn+XkP8kgIjLXx7ahCcclnB9ZrVdz5HzbxZIikZbw=
+	t=1782129499; cv=none; b=rxBY5Q98PPLhSNdMZJ9v704iYx3Gz7vRnbQTISzN2XdPV6TOcBT4wEvKXOnGnhFXkvbprnzCg5p+YlJWiT95qp62MZ401SCR1M4Excpc4uNTRHfhix8zrT4Fj0Zt6n84r633RiWzBKrS25zl2G9IiVDSR3ZVhrY05BwcOmddUlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782129215; c=relaxed/simple;
-	bh=ZlY7LiDJbqgSVT9Nf/t6ZTWQFSkggeXli1VFF7vseCU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OgYsSi2b2kFUClwsBPkoeHa+fO2DCqsZ5kSBR0Rc8HKunXWPFdclJX5xAu0HumRXLoMD7OrhWNWGKAgjMq2G0D3suZHsX0GRl3E1BQo0mB8CCLETILRtIcFTy7CxiC2x/nvOMsPtjKZVXx32IrUIsCp8C8B/TbM6+G8zd8lfJDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kChLxFBp; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782129499; c=relaxed/simple;
+	bh=rVH3ig1TpmixAODkax/YfQBEo/kBpfmtGiIN0bk81gI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r5M4cpMHRtgDrfCgogoXKY5B2B3R1Np9Avl6wRTJZQzsar3FYZHyBtrOpvk6l3NrH96UYVZf6uD+aa2A8Eut8B+eZLAJ9nixYoj56GN7uXdc1Ga5XdGjPc3VJudGfIFtogZ0CjZcKay8IrZ2afpKx77JvNsIL7YhnucsrCsepKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cQZl02+n; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kChLxFBp"
-Message-ID: <40ee213b-7aff-4bae-a779-8bbc8a12c307@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782129209;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j16DQTDl5D56r3ONIjaiPaCsohlbcGnNLgUHsyy9OfM=;
-	b=kChLxFBpZ/aXxvpKphfhZDi87fbZPV/mv6O7M9La61jklHQxG4sewcYOs6lcj73z/37KJD
-	n34hVcnKDn7TBQxiR9ThC1vkekQ0piE2rhHc+G5bfKWPJG817Dv8fvxgKYa+iZE/5VUgNM
-	SmiEyhpCd39pALAMq10RfpQdVs1fSX0=
-Date: Mon, 22 Jun 2026 13:53:03 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cQZl02+n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 875BD1F000E9;
+	Mon, 22 Jun 2026 11:58:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782129498;
+	bh=x2dyoHJcG5UVVFYKxXyu1rcfblSKMNx8TbYfl6VgW5E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cQZl02+nfxYwatZtHKtqBK9eYD2AD5SBr7de6D4u47ry8yevB7vB1UBbteiyIVbEU
+	 4lI1W+2kkRKX7a2cp/GOeYYoTC/E2AqCa/QA+U65Ks3xLHUsZfRPCNZHAp7dIs4CB5
+	 1BBNXYze79QKWZRvN2ubsKcsjEzY6K5YE3qEOXXojwr5GpRasaF4tgs+sWEm76y6fr
+	 UjkkTA0JY4+YjTBfSMDt8vm+9JxkwkmjQrmde2fS0J24C3xCQZqz9hLf6pvCJohtvY
+	 67+0W1/23epU7S6kBEAIdVANkBvyrtd4zdOJjT1q5c0PIwwm3Fk/HIThbYz7YCBada
+	 Lcnr1YHpPyZ7w==
+Date: Mon, 22 Jun 2026 12:58:13 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Bartosz Juraszewski <bjuraszewski@gmail.com>
+Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ASoC: tas2783: Update loaded firmware names to
+ linux-firmware 20260519
+Message-ID: <7c3d5b30-a415-48e5-a0e6-8d910424f0fe@sirena.org.uk>
+References: <d2558567-67b9-4fca-b170-c6ece9f8cf23@sirena.org.uk>
+ <20260621140001.63829-1-bjuraszewski@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 00/10] Expand SoundWire enumeration helper coverage
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: broonie@kernel.org, vkoul@kernel.org, lee@kernel.org,
- lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
- peter.ujfalusi@linux.intel.com, oder_chiou@realtek.com, jack.yu@realtek.com,
- shumingf@realtek.com, srini@kernel.org, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20260608102714.2503120-1-ckeepax@opensource.cirrus.com>
- <7466d545-85e0-4dab-aa3d-79c8e3a9cbda@linux.dev>
- <ajVpMYzqnSc0x/YB@opensource.cirrus.com>
- <d4c4ffb9-8ea6-4fb2-bcfe-1e2265c262fa@linux.dev>
- <ajkLfSeJDAG53/ZM@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <ajkLfSeJDAG53/ZM@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Na7jCVgmpDsS3nZ6"
+Content-Disposition: inline
+In-Reply-To: <20260621140001.63829-1-bjuraszewski@gmail.com>
+X-Cookie: Now I am depressed ...
 
-On 6/22/26 12:16, Charles Keepax wrote:
-> On Mon, Jun 22, 2026 at 11:44:01AM +0200, Pierre-Louis Bossart wrote:
->> On 6/19/26 18:07, Charles Keepax wrote:
->>> On Fri, Jun 19, 2026 at 03:41:44PM +0200, Pierre-Louis Bossart wrote:
->>> The problem is mostly from the device side. This usually comes up
->>> from a device reset. So the driver does a reset, device drops off
->>> the bus, the device driver doesn't want to carry on until it
->>> knows the device is back on the bus. So naively one calls
->>> sdw_slave_wait_for_init() but there is nothing the ensures the
->>> core saw the bus disconnection before that call so it might
->>> immediately succeed, causing the driver to attempt to access a
->>> missing device.
->>>
->>> Yeah the fall of the bus is fast but so are processors, you need
->>> to actually ensure you can't shortcut the wait. Although typing
->>> this it occurs to me it probably doesn't have to be a wait one
->>> can probably just manually reinit the initalization_complete
->>> completion. But hopefully I will get this series ready soon and
->>> we can discuss on there.
->>
->> Don't we already have the interface to detect a device was UNATTACHED?
->> In theory the core will invoke the update_status() callback on
->> every status change. Each driver would use the information to
->> know when the UNATTACHED happened and likewise when the device
->> is enumerated/initialized again. So far most drivers just return
->> and do nothing when an UNATTACHED status is reported.
-> 
-> Yeah so update_status() is the normal mechanism for a driver to
-> know if it becomes unattached AFAIK. Indeed what this is working
-> up to is removing the code in cs42l43 that uses that to track if
-> the device is attached. Although also now you can also use the
-> intialization_complete completion for this purpose too, since it
-> was moved to complete_all().
-> 
->> The only thing we can't control at the moment is that when
->> a device reports as device0, the core will enumerate it and
->> attempt to initialize it. If additional time is needed prior
->> to the enumeration, we don't have the hooks for it - that would
->> not be quite standard behavior anyways.
-> 
-> Its not really about additional time, there is always time,
-> events in the real world are not instant.
-> 
-> Thread 1 (driver)                 Thread 2 (core)
-> -----------------                 ---------------
-> Reset device
-> call wait_for_init()
->                                   reinit_completion()
-> 
-> You need something to ensure that wait_for_init() doesn't skip
-> the completion before the core calls reinit_completion(). Or are
-> you saying there is already a mechanism that prevents this that I
-> am missing?
 
-Ah ok I see what you are trying to do.
-I am afraid we don't have a mechanism to do what your Thread1 describes, but you could alternatively have a less sequential mechanism where you only do the reset, and then the rest of the initialization is done in the update_status() callback. Your Thread1 would be implemented in two disjoint parts with no need for waiting.
+--Na7jCVgmpDsS3nZ6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The completions were meant for the suspend/resume cases mostly. I am not sure we want to use completion or any other synchronization between core and peripheral driver, it'd be introducing even more races.
+On Sun, Jun 21, 2026 at 04:00:01PM +0200, Bartosz Juraszewski wrote:
+> In linux-firmware commit from 2026-05-19 `2f90f4fe5c67f51a8410907a...`
+> `ASoC: tas2783: Add Firmware files for tas2783A projects` by Baojun Xu
+> 138 new firmware files for tas2783 were added, none of which are loaded
 
-Anyways, best to follow-up with next series, my comments are speculative and probably somewhat off-track..
+> +{
+> +	s32 ret;
+> +	u8 unique_id = tas_dev->sdw_peripheral->id.unique_id;
+> +
+> +	tas_generate_fw_name(slave, tas_dev->rca_binaryname,
+> +			     sizeof(tas_dev->rca_binaryname));
+> +
+> +	ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_UEVENT,
+> +				      tas_dev->rca_binaryname, tas_dev->dev,
+> +				      GFP_KERNEL, tas_dev, tas2783_fw_ready);
+> +	if (ret) {
+> +		dev_err(tas_dev->dev,
+> +			"firmware request failed for uid=%d, ret=%d\n",
+> +			unique_id, ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = wait_event_timeout(tas_dev->fw_wait, tas_dev->fw_dl_task_done,
+> +				 msecs_to_jiffies(TIMEOUT_FW_DL_MS));
+
+You need to reset fw_dl_task_done for each run through this, _fw_ready()
+will set it unconditionally so if the first attempt to load fails the
+second attempt will see the flag already set and not actually need to
+wait.
+
+--Na7jCVgmpDsS3nZ6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmo5I1UACgkQJNaLcl1U
+h9AaXgf+IcirFW2oSwph5eI+PmUHutnVxfLdgDcejjjrzl04V6zpHYZMCkSnsuZu
+3k5mGr+sV+vYRQgWPsoPDXb/P2VGwXao6+Uyo8sYIWmJjgoJQTtFDcvCbyEXfQPp
+95Wiqba0ozWRhs+n3/WygiyUgY8xoeWlDQB6931HPjRguecmXY+ji/f3P6/eVTUE
+blI05HYsl/3qmYemMrHPUwVkwrAtK7SMiBhyLtd6KDpktv0cZq4DxF59rkbVDLNQ
+EZbZty9tVtuYqIP9ghPZVXvwnf585rWxWgggVLoo5ckWW8gAs5xIxKsmOy3DQqMF
+CRTD1zos0NVIHN2jWCBwwJkw4+6wsg==
+=g/1s
+-----END PGP SIGNATURE-----
+
+--Na7jCVgmpDsS3nZ6--
