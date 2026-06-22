@@ -1,135 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B773A6F1B;
-	Mon, 22 Jun 2026 13:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773763B0ADA
+	for <linux-sound@vger.kernel.org>; Mon, 22 Jun 2026 13:06:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782133454; cv=none; b=JBJHAvADV7QXB9i6j7Te0RAf4JIzHa3Gel+WlvbYETG9q+ISLwFk+qL41XtX6+ViVx8gAUakyayTxN2QR0mW+qDBaMmViondcjhho0Z+ZDOrA4sVnnS/zvABysvNzmo66SZzRoaIyKLbL5gx038APfmdkmELV5mzoSleuNzhXWU=
+	t=1782133614; cv=none; b=S1M3kqTDa2Faut+P2ViqK1+b8L1t1+c3lgT0wg6QZJNnkexNm6RdveqkJKuQda8USaxGEp/GxcJMRdE3Vhyw6BxuTF2tptewCTlSePRLlZjmQlWMj8nn5ouB77XPVrZMm3riSpZniQ5Hx6HgT+Qd1EGONbOE//IbS5vx61bWn/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782133454; c=relaxed/simple;
-	bh=rdbxK10/RF3PYI0ZHOrClGSBqjL+4ueZDFu3DxgEkTo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gkhQxxWbADH/qMguCj/pm8XanssEm6BQimTVqXEoz6irK1AHGMij+dS8cZ8H2jgwAeP8JDXguM5Rt+iTCPQQEiJFvxdSLv6wWFZiagx9ktKWQufdalASdB+aslX63sAfcCbrN+zkyM1FzyN3nwQZ9Biqxtm7w0/oUrHNlrD86gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jH7lhj1E; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782133614; c=relaxed/simple;
+	bh=rEgomYeES1303/3+oBxWiEtLOZncEUHVqywFcqqxico=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RqFFAWj+w7zl6I/GwM1uJK+YXoRWay+mFrbiwIFrYvPSc0XhHJtlLQzMX+B3qy4ehmtEdgV25hiSPQyhBEA3XDp85Za9vWFo+SVpsIiar3KuUPGwe6Wp2k1k7GNy4hXEbv/gVyg3EpBS3/eJCMIspslfPUZTZzWVR8Ch+6XwnHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m2JNRoN9; arc=none smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jH7lhj1E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59A521F000E9;
-	Mon, 22 Jun 2026 13:04:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782133453;
-	bh=9uJLyNreVTlbr1SNYZGicUMtN2H427gOySX/h3LnkcI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jH7lhj1EqyIwd+vhCsjC43yNRV5CTq3QC5YsPrfJaOYXH/R7pF+l/oZOTKBCfbVpT
-	 V7xNLLAgmtFd0+G4BfktMEAJ4iilOuSjdn9sNJ/y7wqXPHaPkQLZbynQj0H9dDteuN
-	 62fpUdATTz1rBkqB10X/12gPWFcaJT1Yv4H6c2MPvCcSwJAVzw4l88f4AgB/M9ve4u
-	 QKU605Qa+x+AVvNUKODHvj1DWMIgK0KSDOop5uxasdLeY5YT2679RapPTF6ZLdtnL7
-	 gacSIBp20D3ZCBGK3Yi1UK6RmmgMG4UaWEob0j6qgGD30N2Sy65D+DUG1vw/Ahzjnl
-	 X9uYwPpy/bEGA==
-Date: Mon, 22 Jun 2026 14:04:08 +0100
-From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: Heiko Stuebner <heiko@sntech.de>, Liam Girdwood <lgirdwood@gmail.com>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: rockchip: rockchip_sai: Hand over hclk control
- exclusively to Runtime PM
-Message-ID: <229ba136-66eb-4a30-a316-58377836b4dc@sirena.org.uk>
-References: <20260622005613.21870-1-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m2JNRoN9"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-139ba7e4009so96722c88.1
+        for <linux-sound@vger.kernel.org>; Mon, 22 Jun 2026 06:06:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782133612; x=1782738412; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=JzlovJlGJX04+5z99oBQpaTuexgmdv5pr10RaNussdc=;
+        b=m2JNRoN9kMMFj4TrOwgFeJgxLdCM8rbBv7wI1kppwdO6aCijke7MWma8ucG2MugTpY
+         F24uOWg9t2NXgM7B2grdN/XYLur/IResnkx5dcKZO6E/omsb+oulW5jhgcCVD8RSI4jH
+         Xi9AUbR4RhqpLnzN+XrFI/dE0JJMXkT7ydgfv0E4Hm59urLeJeEJEx0fu5RkMXLq0slZ
+         3AEecywPLoYMQ6aeXoMYtjk/veSHhCHfkMH93K8mQjdg4VBWW+7LPZb7ZqaFvewM0hJu
+         hOKwQr7HYBt955AucPeHARwOt2oKdvfBfdyrK7OvTr866onTS2vUMVDBebMPaBagwW/S
+         PI1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782133612; x=1782738412;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JzlovJlGJX04+5z99oBQpaTuexgmdv5pr10RaNussdc=;
+        b=eqXa/9X/0QLvAzuDXF+JNRfvQxRWTHmMj8LKEpcd+iqPsHeUv2xUm4z1X+quyjebLP
+         y4XwKRNezYUpUoZUM5x4qs6RQXDGHLQyFpNE9O4ZXN/poL55NWHCl0EuUKGF7tVNr3b2
+         L0lPTc5P4vvJJcE9H9psVuv3GmtLjaCKNqwYqG3toOz5ytcBH4K7Av26jfxcmGbPkoit
+         bAiPN7bGF1H+Tessgc0puXR1z2/0m2oEaM4gHpGtkzejML6Ek23LixlDnAIzDIiNhXvH
+         Ojloxx04T0Km4gwRfYOwPxfMx//cZHA75V8pRaHE6NtW6S+Io/yM0q9gDh3b7XY8XHhg
+         XPfg==
+X-Forwarded-Encrypted: i=1; AFNElJ+faeJGPYh+NQZ1zNVuslahR01igMGUlgdKIeujB/72OlOrRijsdATTRUj0UlRJQ9T+IX/hsXQ7l+DUoA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YycWYEM6cx3Qin2GbIupZgyOrrrc66c2pfAKSEQwwikl1G9U5Mz
+	sWDUS3Oip+12hdAZkjd1o389h9kTEFTfqz9gX4TGwwktqcedsKCwPUg3
+X-Gm-Gg: AfdE7cnTpG17drCpMENgB1o3vBbV6Qsz5a9Xkk5/rNr+wpg1Cd0MndWi74/FtEEyj2l
+	EozUOdIkM5bDwYEd/OrvmUkELo7bkuCkXkoLbEqvLG+yTgE2dyNtrUfCKpkpZbv9B75B8yeLOT7
+	MPSfRpPcgXAsZdVujZVqlO40GYEcDz0QYfLRL8viKw6E/zrWpGBKNfASVNm0hJwxRMwtjCHw5lE
+	8TuDbgT7HZTgFUX2C/mOc8skH6Px5/Bw8wWb6CH0HvLkXXlEawXnVLwqumzWQLDPhBb5CFrRF6Y
+	jUHCHjeakNWdH7Q95cL4VaVgX6GdRj5f4w8DDf2VB3tgUjektAuB0FG07CxVi/4DWK0Fj8dJV+W
+	c4rOqLuV14uVl6JeokifM0Y//xGcl1jURjjdOrbCY5Fh1Qu9IbNAmcwZjm49xUKM9FYs8FyoqS3
+	uYqcu9f5T/dAMetH2ez93uLg1z397gzJ1RJQ3wkG8e2V6l7lxy0y9tZGZXkaM+IQ==
+X-Received: by 2002:a05:7022:e998:b0:136:bb14:b0f8 with SMTP id a92af1059eb24-139a3051a57mr7768480c88.5.1782133611333;
+        Mon, 22 Jun 2026 06:06:51 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-139adccb622sm8183703c88.7.2026.06.22.06.06.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jun 2026 06:06:50 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <ec74f1b8-cf7f-4b33-9157-1fd0bb7da7ba@roeck-us.net>
+Date: Mon, 22 Jun 2026 06:06:48 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cKNKF0zS5mQrCs4i"
-Content-Disposition: inline
-In-Reply-To: <20260622005613.21870-1-phucduc.bui@gmail.com>
-X-Cookie: Now I am depressed ...
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mfd: db8500-prcmu: Fold dbx500 header into db8500
+To: Linus Walleij <linusw@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Ulf Hansson <ulfh@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>,
+ Christian Loehle <christian.loehle@arm.com>, Lee Jones <lee@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ linux-sound@vger.kernel.org, kernel test robot <lkp@intel.com>
+References: <20260619-mfd-prcmu-merge-headers-v1-1-8ea0ee23b4d6@kernel.org>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260619-mfd-prcmu-merge-headers-v1-1-8ea0ee23b4d6@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 6/19/26 13:27, Linus Walleij wrote:
+> Move the DBx500 PRCMU definitions into the DB8500 PRCMU
+> header and delete the wrapper header.
+> 
+> Convert users of simple PRCMU wrappers to call the DB8500 helpers
+> directly.
+> 
+> The dbx500-prcmu.h header was the result of an earlier attempt to
+> abstract several DBx5x SoC PRCMU units to use the same abstract
+> header. They are deleted from the kernel and this is not just
+> causing maintenance burden and build errors.
+> 
+> The stub code is using -ENOSYS in a way checkpatch complains about
+> so replace these with -EINVAL while we're at it.
+> 
+> Assisted-by: Codex:gpt-5-5
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202606180825.vUSQntkJ-lkp@intel.com/
+> Signed-off-by: Linus Walleij <linusw@kernel.org>
+> ---
+>   arch/arm/mach-ux500/cpu-db8500.c |   6 +-
+>   drivers/clk/ux500/clk-prcmu.c    |  20 +-
+>   drivers/clk/ux500/u8500_of_clk.c |   2 +-
+>   drivers/cpuidle/cpuidle-ux500.c  |   6 +-
+>   drivers/mfd/ab8500-core.c        |   2 +-
+>   drivers/mfd/db8500-prcmu.c       |   6 +-
+>   drivers/regulator/db8500-prcmu.c |  12 +-
+>   drivers/thermal/db8500_thermal.c |  10 +-
+>   drivers/watchdog/db8500_wdt.c    |  22 +-
 
---cKNKF0zS5mQrCs4i
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For watchdog:
 
-On Mon, Jun 22, 2026 at 07:56:13AM +0700, phucduc.bui@gmail.com wrote:
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 
-> Although switching to devm_clk_get_enabled() in a previous patch was
-> tested successfully, it introduces overlapping ownership of the clock
-> lifecycle. Since the driver requires early register access to read the
-> device version during probe(), enabling hclk at that point is mandatory.
-
-> Clean up the design by:
-
->    1 Reverting back to devm_clk_get() to remove the implicit devres
->      enable/disable behavior.
->    2 Manually enabling and disabling hclk explicitly only around the
->      early register access before Runtime PM takes over.
->    3 Dropping the stray clk_disable_unprepare() at the end of probe()
->      so Runtime PM solely owns hclk afterward.
-
-Note that runtime PM can be disabled at build time so we might not have
-runtime PM at all...
-
-> Links:=20
-> 1 This change is based on the discussion around manual hclk handing durin=
-g probe(),
->   as raised by Krysztof:
->   https://lore.kernel.org/all/20e4754b-ea9a-404d-b529-ec44a7263cbf@kernel=
-=2Eorg/#t
-> 2 Background for the earlier devm_clk_get_enbabled() conversion:
->   https://lore.kernel.org/all/2818018.CQOukoFCf9@workhorse/
-
-> An alternative approach would be use devm_regmap_init_mmio_clk() and let =
-regmap
-> manage clock enablement around register accesses. If preferred, I can rew=
-ork the=20
-> driver accordingly.
-
-> -	sai->hclk =3D devm_clk_get_enabled(&pdev->dev, "hclk");
-> +	sai->hclk =3D devm_clk_get(&pdev->dev, "hclk");
->  	if (IS_ERR(sai->hclk))
->  		return dev_err_probe(&pdev->dev, PTR_ERR(sai->hclk),
->  				     "Failed to get hclk\n");
-> =20
-> +	ret =3D clk_prepare_enable(sai->hclk);
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret, "Failed to enable hclk\n");
-> +
-
-> @@ -1482,8 +1492,6 @@ static int rockchip_sai_probe(struct platform_devic=
-e *pdev)
->  	pm_runtime_use_autosuspend(&pdev->dev);
->  	pm_runtime_put(&pdev->dev);
-> =20
-> -	clk_disable_unprepare(sai->hclk);
-> -
->  	return 0;
-
-Are you sure that the runtime PM state there is such that it knows a
-reference is held?  The driver used pm_runtime_get_noresume() so the
-device didn't have RPM_ACTIVE set I think?
-
-The runtime PM API really is a miserable collection of landmines :(
-
---cKNKF0zS5mQrCs4i
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmo5MscACgkQJNaLcl1U
-h9CQYQf/adqv8RJKgMokC1NRZh4uUXUMaQXveY6Q+MCWIdNoRHiASHqgFrTG9Pxd
-e7ai470vl9oHiWIgbD5/JmyvhvA/qRMeyl2rTW0dvGddQ2QIpcHGCXe5Q4+iZpnz
-puv6Y3f5+oheBWibcvRji8Iujgv6Lau795A/Nru4W23LbqbUhmmKkHpIQTOeCqK/
-5gW5gPobVrHrlI7GiZVNmtXgOAcbVN0SarwowDibZVU6/a/RFL4fYohXOarhx92z
-PGH6Pu+Ga1e19CAXZD97Rl/tG4Yeye7uMm52FdKYOucHzzu8jNnriptlU4OVom3b
-U+kSp5Fz3tWtqIKtTpspBv01TcoAAA==
-=XgUn
------END PGP SIGNATURE-----
-
---cKNKF0zS5mQrCs4i--
