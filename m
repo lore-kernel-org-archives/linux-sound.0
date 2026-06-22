@@ -1,90 +1,95 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9643030F958;
-	Mon, 22 Jun 2026 14:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02332E54AA;
+	Mon, 22 Jun 2026 15:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782140275; cv=none; b=JjIyYKgBJl05OMSnNUrk5kIVkF2IKHtbyxYojZdJe7przvXyCNCYqUQtJd0GQDbpJjkggvlwcmalT6VVaswUYnqUT7aVvHeFegVgEerhvxMhCnENsdVfB34iNpU9Mrzwj0pmdDn3FO/AzwYsNUjTROB0MxIv2MWqz/5xjSKQO+Q=
+	t=1782140946; cv=none; b=FNLfNrY8uupLHWgricHZ5N5de78nzCUPSPc/Yv2nhRFm15ec2r4UNqUgwg9y/uWcMGOGNgGyy/WsIAFaVs5WgZ89+kbKWCdBxQjsr4H63b5LxSQoK16q3/6sSAT0ytYC4Sd8p4Gs1JlTZdRuC+VB7nmohIYcj02GTmlT/yrTomA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782140275; c=relaxed/simple;
-	bh=YYf68g1Rg/bNLATb9mULw2cV5WPeFjqfRq0ysdUgXGU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=i4w+pp2ckfawFBzRRs+wknuWqawmllhbWBVywLWJbO1iIgFEO/FdFR0eS4Dr2Z+DwpB3Xqp/S40ukfYb6oW6PSxdDoWvIAdywlqDT7fohlZavM5gEVTTTRc46fF+swfHdCMuFvuLD4C8XiEEVJYERfvDWivudZnuALAFnLwBE7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=G1wDpdAS; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1782140946; c=relaxed/simple;
+	bh=U+S/i7ORNb/JlO1tkw7s8wy9l5h+yXETDLH3TMR2hiM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rFpJqRzLhXXMnwy3ZVZ3SMMjJf0176qpZSJ1/iq2SXInR1GEd6ICv7G3AQji+8Xsm1k3UPNNNeXcxvZ9+Z75DHWFqUNp8CRMeNdCEi2lDjUOKNSlwJydqLtRx6v1rzF9wuA6mf5+8flDy+ybYSTgCIVRh+wD4G0PExWoSWDWDP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z8xsDmpM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="G1wDpdAS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Ur
-	UO7o7/Wt4Vl34crWwNFTWFoRKfVps2Hqy9BDR/fK0=; b=G1wDpdAS/M3aJVDp/r
-	Oyyk5DH8nL7c1wk/jZqNs0HaSlUNrID5NfaRr4sabndiU4/SVTbq1ZDOujOaUfzW
-	yQgF0sA7dT7gpgqL1OjblOMXeORXRC7q7fbiZTHTYuhcvgNYR5EcIyWzVoOalgSe
-	68euzoXjijM9EhLsSz0kO+NoQ=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id PCgvCgD3P5UtTTlqJpM_DA--.33730S2;
-	Mon, 22 Jun 2026 22:56:47 +0800 (CST)
-From: Haoxiang Li <haoxiang_li2024@163.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	ckeepax@opensource.cirrus.com,
-	kuninori.morimoto.gx@renesas.com,
-	pierre-louis.bossart@linux.dev,
-	rakesh.a.ughreja@intel.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Haoxiang Li <haoxiang_li2024@163.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: hdac_hda: Fix hlink refcount leak on component registration failure
-Date: Mon, 22 Jun 2026 22:56:45 +0800
-Message-Id: <20260622145645.1184986-1-haoxiang_li2024@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z8xsDmpM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 221301F000E9;
+	Mon, 22 Jun 2026 15:09:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782140945;
+	bh=m4qSLthdRFlmMLKdJ8lGsOirbyKckLfnyBFdbv2lz5E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Z8xsDmpMBL/2c11G09p7v2zTq//4OBra3XEsTf0KW07JFO7x+EDMl6yLbt6Dpnym6
+	 +iSw7O0QPb2W9NlaDERW92kujLiTsg4gf1QtxZi8iPzEXLAYMPUb9z0mM6y6ClLOa9
+	 +9UpuhzNT2kQ7EQFCW71C8PHrbdx2IKaO6shakFAZzcqrc1YgMyqiftiyXWUFXPnEv
+	 HENnxP6j+ODI2WKE/gnUqwWgmUwzhUGR8wY64jNy2g3J06zLCdzUL77U19YRVQsWOl
+	 pFu+gl9FUifBYy3Ta5xjctyfq5jPmR/T+fUNa3K558Vb2uyN9Jsmi8Gbxbs+xOXuhb
+	 IeIRPUvdp7elQ==
+Date: Mon, 22 Jun 2026 16:08:54 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: vkoul@kernel.org, arnd@arndb.de, lgirdwood@gmail.com,
+	pierre-louis.bossart@linux.dev, yung-chuan.liao@linux.intel.com,
+	peter.ujfalusi@linux.intel.com, oder_chiou@realtek.com,
+	jack.yu@realtek.com, shumingf@realtek.com, niranjan.hy@ti.com,
+	shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com, sen@ti.com,
+	zhangyi@everest-semi.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [PATCH 1/5] soundwire: Move wait for initialisation helper to
+ header
+Message-ID: <3d39f181-0d40-47db-8432-2f22dd3aeefc@sirena.org.uk>
+References: <20260620110237.2684234-1-ckeepax@opensource.cirrus.com>
+ <20260620110237.2684234-2-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PCgvCgD3P5UtTTlqJpM_DA--.33730S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWruF17WryfWF1fWF4fKryDKFg_yoWkuFXEk3
-	4vg3yku3s8GFZrGr17CF4rZrs7ZFsakFWIvF1ktFy3Xry5GrWktFn8XFn8urW8Zws3WF98
-	Xa98Zr13CF13AjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRMyCJDUUUUU==
-X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbC7hBItmo5TTAGKwAA3D
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="PRUa/3pG8yjkwWzX"
+Content-Disposition: inline
+In-Reply-To: <20260620110237.2684234-2-ckeepax@opensource.cirrus.com>
+X-Cookie: Now I am depressed ...
 
-hdac_hda_dev_probe() gets the HDA link with snd_hdac_ext_bus_link_get()
-before registering the ASoC component. If component registration fails,
-the function returns without dropping the link reference.
 
-Always call snd_hdac_ext_bus_link_put() after the registration attempt so
-the reference taken during probe is balanced on both success and failure.
+--PRUa/3pG8yjkwWzX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes: 6bae5ea94989 ("ASoC: hdac_hda: add asoc extension for legacy HDA codec drivers")
-Cc: stable@vger.kernel.org
-Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
----
- sound/soc/codecs/hdac_hda.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+On Sat, Jun 20, 2026 at 12:02:33PM +0100, Charles Keepax wrote:
 
-diff --git a/sound/soc/codecs/hdac_hda.c b/sound/soc/codecs/hdac_hda.c
-index 680e341aa7f1..1ab5f8a26e03 100644
---- a/sound/soc/codecs/hdac_hda.c
-+++ b/sound/soc/codecs/hdac_hda.c
-@@ -642,10 +642,8 @@ static int hdac_hda_dev_probe(struct hdac_device *hdev)
- 						&hdac_hda_codec, hdac_hda_dais,
- 						ARRAY_SIZE(hdac_hda_dais));
- 
--	if (ret < 0) {
-+	if (ret < 0)
- 		dev_err(&hdev->dev, "%s: failed to register HDA codec %d\n", __func__, ret);
--		return ret;
--	}
- 
- 	snd_hdac_ext_bus_link_put(hdev->bus, hlink);
- 
--- 
-2.25.1
+> As SoundWire devices tend to enumerate on the bus after probe, drivers
+> frequently need to wait for the device to initialise from common driver
+> code. The common system is to split drivers into a core module and then
 
+> +static inline int sdw_slave_wait_for_init(struct sdw_slave *slave, int timeout_ms)
+> +{
+> +	unsigned long time;
+> +
+> +	if (!slave)
+> +		return 0;
+> +
+> +	time = wait_for_completion_timeout(&slave->initialization_complete,
+> +					   msecs_to_jiffies(timeout_ms));
+
+You need to add an include of linux/jiffies.h for msecs_to_jiffies()
+otherwise we might get build breaks.
+
+--PRUa/3pG8yjkwWzX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmo5UAUACgkQJNaLcl1U
+h9Bimgf/WsuiRE/RfnrVKkCT5oMUC5Gajz/Ze6Uv6OVVxqZnrHbMm8F3PCPZwr3D
+vHv2EM3+d8z3c1UzMEz1SxgiRBU8ik5+1Rvcd9ueSQLp305csJ3iflbANkpVwBrG
+croKaDOWcnj2Buv1VtClOFLyT+OO2ofL/Ax4LFxdlKQlJL7nbXC7gfUjN8kU+xVN
+buJi4r28P/rC7s8VijJJkk2IJeIxFnO6Ncd+N+kPQLXtK0Eb5WhwVP8fGDO5Vo2p
+dckE0srRUSOUvmQs4OWHzxkLFHL5VJ5Ttsis7PDzOTaBcNunQvmkBVf4us3yZ1FU
+F0SEvqBBzplq7RLPT6lDGHt7IY6jBg==
+=ptUR
+-----END PGP SIGNATURE-----
+
+--PRUa/3pG8yjkwWzX--
