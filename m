@@ -1,63 +1,63 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC8A3D34AB
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 10:57:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D993D34B6
+	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 10:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782212276; cv=none; b=AOymaoXgkkhQiY9/TkTqR6xCjDy6Cizv8u8ksEItxSyNUpZzAUv4RP5I7V4r3AEEIzdGJJK8CTuES5ey++D99Jpy28tDrJOrbX0i/f0ppRjQyNOWi1a9XKtie6TV6VvVm+Tugnqk93bzHTStWoDoGaT0oNwLg6N7ZKki01IDgpg=
+	t=1782212279; cv=none; b=DCQLbCZEyLpFhGYrgPl1L4yKTyG8ch9DSFEdqPqLQuBH7/9M9iQXEBT+hOmeodzUsxkM2TknYBeszF8aa3IXceEOTi43l/Jl8J2up51YgzdG5/9/sVDe7t02QloqHmOjAM4CGWBTB0c1qCFyaao/3cnl8SM/2olvHQjvMnym4IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782212276; c=relaxed/simple;
-	bh=NfxZru5YGWfMlbxTcCIyiHOXxl42qb/g8urL2buu6Zo=;
+	s=arc-20240116; t=1782212279; c=relaxed/simple;
+	bh=9MyFcI9cPJOpoQi0eE8Q2rzGHvBU7RxMXpDn6e2gmKQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EIrAgvrmyo8Wt75i8lnSPGuZdiC3O606VuFvQJB6e1qWOqSQ1l4ifVemEE/ad6xTDZNo1cH9bQNUZ6gz6seAlZfdAM0JGLWY/zp+CV1xILcIDNvU3l80hfKMvUFd9YYhqgSleJb3Y0AKxXYacWjgywE6/DJLUQD3Ac4YuAbS2a4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sfDVxY63; arc=none smtp.client-ip=209.85.210.179
+	 MIME-Version; b=l/9l1lhFou1XOoVjs39i9kHph+UsvcpZd0PHGf+5QceoH/AspDdra4k3DJcANEYmYfG2qIUrn+zD/Xjv1cC/vazUbP9w6v2Y/8f9NOhlYVLOrsraiwRy/Qz7AtlbJDD19fXyDqfNkqT8t15mBAvxAqOMue/4TtePfyXEU9Hp8CY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IbfNTp8y; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sfDVxY63"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-84538597e1fso3160435b3a.1
-        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 03:57:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IbfNTp8y"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8422f395a4aso566914b3a.0
+        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 03:57:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782212274; x=1782817074; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782212277; x=1782817077; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gi8Yp1MTuqgHldZZSUpXE5ODH/I5dbN+6AjvSNJi+R8=;
-        b=sfDVxY63cV09U4kvKB1sCeARfE6SHx/oy5434F4EluWD2oiFJw5Y/haPuuRSjnsOq8
-         r8pROIUqkHxmCB5521mqlw2pvea89QqaK6WmC/r5+6EdWvXJgd7h8dRHvgKqo5BOdjLL
-         VVcr9Efw6Q7mGtTegmptNNG0j/RuRSWvT2uCarTcEarv1cmXGr6jSfSd35XbfaOcLQUp
-         NP/Y5qbzBNHLRoT5km2NiIEnvgcDi3SBtg29SFR/TG33jJkP3CNutrFdd61tOg/dVtvb
-         DPYFg3yWN0xv+q7sN9jYRYwz/SiJiEINln8tAn5kotoL/UeXeBksBWsak7w9+WnxdpJl
-         RZYw==
+        bh=4ZitVKxhTy9Co03Ms8Z3kq8u0mcxCfig6tF6agXpmC0=;
+        b=IbfNTp8ydJDNyWIi6cpdmff8+OgLtaYxuBMjD/SF62Ff3kj+7UJHibpbXUsVDkEWXG
+         mohIwkvzqxDNH45XeABiaxVLXVjBmCnCglgBkPls2T3g+KoenPDuLJNR+B/VSn/4hlAL
+         8hlUodPmOpzanq0aEjO/DiUF1LM7THF74wmevm1Yt0a+Tk1DetXLnaVjwZYd2fE9/3LH
+         VngbrCQPWzIy+uJC8Bl/qm+ftb2CtE8ZEDMuPAAWzn/5TKv2PfNsOn+8eup5tVmDh7ZI
+         NDLeB9EIeS+3fDOzQ7rpZrF1tBBs15YaLBW7Z2lPd93tU4jkz8dGqtfGF0Ct8pTAlVIo
+         buYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782212274; x=1782817074;
+        d=1e100.net; s=20251104; t=1782212277; x=1782817077;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=gi8Yp1MTuqgHldZZSUpXE5ODH/I5dbN+6AjvSNJi+R8=;
-        b=R8UdnyfFcbL/9swKjCgykPuhtg5a4Bwd1qIrRHiI6YFXlp+ncrxmG7eFCrz27mHdke
-         FO/LSmyMEe9vLBBqCGyNyKDd6LTXy8OzFxhlRNx00zDwYG/0/so10iVacOUgXSwZjt/+
-         wuUmM9TISZmo4er0nmjGBQ30G0vTE0g8GGmyGtz2MVmx9SN74xrRRd579aXDxriSfp2S
-         R+/AN0VPzo0ZcwLAKUwpiB1yLfkb4t3F9C73qDmDH+T/0oZgiLcR66DnaFnp6wOVBnnW
-         7z643IEkvKySYIJXC7AIzkIhVKerg2p4up7oanTxcND+tgY6xV5wdR4n++8qbvXWi4wr
-         wJVg==
-X-Forwarded-Encrypted: i=1; AFNElJ8JjwLW045PEd0AuhSKEUpi7/Gw18tVeFaieMZVPqz8vbplcPiFKsj8Oa3r44X2KA5O2oMP4ZtXo0mf1g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNJ4eMxHAXFkNmFDLQ0EnVZ9UTIsb4ChWjS0at2FLW1O2ViTqX
-	QtfJvWMpKbNIm9HKKPPdndWx2fLB5tCnfGxG2airqjUwezW7ekW0b1TT
-X-Gm-Gg: AfdE7cm0ef2HQewphUmmcSyHzV1WM/G6RBUgSMWWFgW1xTHLo0gLx8yn2NHOiL9fEMd
-	JbKeIybOEYjAy5R8sD5K7PK93cG4BGcMqIlA2Nvyb+aI2fHGZHtjPbJ4IDR8I3RxJCn683/Ks2z
-	1RhRJuyFTofFa/hyigTd9oAweny0zwHmKOmf2+jHq6GIN6POkKal8iK9Cm3Puo5TMZZioW11zWm
-	WTozYSHIW+OmPFdzeMhGqV1MES65DmV1OAKjmsRDaJhD1hdlfztSkEQMxTzoXl3HOqrbREZMnHq
-	UFC3JgU5vnozC99TtPZM2KPvRARGarRVsh4cbzYv5rzQMkgVpAsoBZbwsZdHn5irqNHcv5FRsHy
-	6rQXRHYv9Nf6KadFvqmOqvLT5H1rHlPy7si/Qt1rKVLbYhlpFtPYFeRUXn9l47nVzEiIu5Snli+
-	Or4/9vBGKulMNPqQNrEntutA0DziCedFtO00tAOJQA0aMNX8s=
-X-Received: by 2002:a05:6a00:909d:b0:845:344f:ef1a with SMTP id d2e1a72fcca58-845952728a2mr2840859b3a.15.1782212273539;
-        Tue, 23 Jun 2026 03:57:53 -0700 (PDT)
+        bh=4ZitVKxhTy9Co03Ms8Z3kq8u0mcxCfig6tF6agXpmC0=;
+        b=BZ598heEBCHU+n2TnFeeELuxag4Fbm3jMpWaFlAHhfcSvle0W4ypzdBJAM2/bDDrgx
+         EaQoEjc3P6R5syFnuNLH4qYAGEu1lCVQm0EeVe2Axtg800/gSEJq3v5/HMfbnc1GarbL
+         pjNXT+rb7ELuLZR8Urf5+s8bGUz4TkL1vI79fA8hjV4cG1XODSlM6HzOuQRA2zsQaQks
+         1UXfKytrdTVLgX1VJuqaDhE1bYQQ4j8snwfIOBxsAxZN2UpV+2w8S8+Nm3UAoeU4Rpcn
+         oh/rXa6xi2R4p1l6l1EVT2G8DblYbNbm3vxu/kZz4kzfESD6O0Atmah3dSEzxoXpgack
+         vxBg==
+X-Forwarded-Encrypted: i=1; AHgh+RpCuTUF61qpF+WlDu+kHBpdr1Y1eL/zHyUDR9dyp12ArZJ820HcYEaI8sCE9JtA/hV7x76M8Kq5qVrCyw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9FrSDGfG9CCiYtwAwMIcuZwDTqxgiKmj7QZErOz/RBa0O9EWA
+	LaivXgG+5DUgxFtWxoVwT5Amu4vKmYV50QYABMR+UuQ/itNh2bZ12Mbg
+X-Gm-Gg: AfdE7cnTFjQzPbTx/WsKnLowhHcregz4ba4KhcosHTE7j4k5C85vhOBYHLW72kf8Dww
+	D90v5dDjJrMIg2j8OfduGweepgRozk8ObTYgfNTj4JaySiqMWydAiG8DmhvJaIUsqNP8CNmZDmF
+	SUGNWXUaP9kH8X52foBcrRshVfWP2v3wwIUzF2RL/pXprphv2Gcx+44SpOxqNBW60hLI/3iYej4
+	IzDHHsFnwmvUDTg2uQiPGvL+j4a3yaSauty0h07gePFTx2UcNjbxy2hLVtFN4KiLkyvZSmvzNip
+	CUHFdiIgI/Dtisl/b9oTS1FlbWLfGcgnVgns9J4TVvUKapSWOA3dTIcyC7Hm/BqflGxXJ7esBWD
+	IJBOnW/JtVC3XzoHcL13iD99dJ2Uimq/V74wkJIr4r0aE1HAqw3jGfSZXCAMciEt+uwyVr1+81m
+	+0fPMA92Pv735hAsfz8cYDg2BFKyxEP9amggceuSsaYeUMt/4=
+X-Received: by 2002:a05:6a00:94d6:b0:842:5bc8:ccf7 with SMTP id d2e1a72fcca58-84591d1f3aamr2788064b3a.34.1782212277578;
+        Tue, 23 Jun 2026 03:57:57 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564d68130sm12343868b3a.10.2026.06.23.03.57.50
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564d68130sm12343868b3a.10.2026.06.23.03.57.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 03:57:53 -0700 (PDT)
+        Tue, 23 Jun 2026 03:57:57 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
@@ -71,9 +71,9 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 2/5] ASoC: Intel: avs: Use guard() for locking
-Date: Tue, 23 Jun 2026 17:57:18 +0700
-Message-ID: <20260623105721.25865-3-phucduc.bui@gmail.com>
+Subject: [PATCH v3 3/5] ASoC: Intel: avs: Use scoped_guard() for scoped locking
+Date: Tue, 23 Jun 2026 17:57:19 +0700
+Message-ID: <20260623105721.25865-4-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260623105721.25865-1-phucduc.bui@gmail.com>
 References: <20260623105721.25865-1-phucduc.bui@gmail.com>
@@ -87,401 +87,154 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Clean up the code using guard() for spin & mutex locks.
+Clean up the code using scoped_guard() for mutex & spin locks.
 Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/intel/avs/apl.c     |  7 ++-----
- sound/soc/intel/avs/control.c |  7 ++-----
- sound/soc/intel/avs/core.c    |  3 +--
- sound/soc/intel/avs/debug.h   |  9 ++------
- sound/soc/intel/avs/ipc.c     | 10 +++------
- sound/soc/intel/avs/path.c    | 29 +++++++-------------------
- sound/soc/intel/avs/utils.c   | 39 ++++++++++++-----------------------
- 7 files changed, 31 insertions(+), 73 deletions(-)
 
-diff --git a/sound/soc/intel/avs/apl.c b/sound/soc/intel/avs/apl.c
-index b922eeaba843..e92a6157fed1 100644
---- a/sound/soc/intel/avs/apl.c
-+++ b/sound/soc/intel/avs/apl.c
-@@ -190,7 +190,7 @@ static bool avs_apl_lp_streaming(struct avs_dev *adev)
- {
- 	struct avs_path *path;
+Changes in v3:
+ - Drop the scoped_guard() conversion in avs_ipc_wait_busy_completion(), 
+   as the function still uses a goto-based cleanup path.
+
+ sound/soc/intel/avs/debugfs.c | 18 ++++++-------
+ sound/soc/intel/avs/ipc.c     | 50 +++++++++++++++++------------------
+ sound/soc/intel/avs/loader.c  | 14 +++++-----
+ 3 files changed, 40 insertions(+), 42 deletions(-)
+
+diff --git a/sound/soc/intel/avs/debugfs.c b/sound/soc/intel/avs/debugfs.c
+index 701c247227bf..f398ebd68e13 100644
+--- a/sound/soc/intel/avs/debugfs.c
++++ b/sound/soc/intel/avs/debugfs.c
+@@ -251,24 +251,22 @@ static int strace_release(struct inode *inode, struct file *file)
+ 	union avs_notify_msg msg = AVS_NOTIFICATION(LOG_BUFFER_STATUS);
+ 	struct avs_dev *adev = file->private_data;
+ 	unsigned long resource_mask;
+-	unsigned long flags, i;
++	unsigned long i;
+ 	u32 num_cores;
  
--	spin_lock(&adev->path_list_lock);
-+	guard(spinlock)(&adev->path_list_lock);
- 	/* Any gateway without buffer allocated in LP area disqualifies D0IX. */
- 	list_for_each_entry(path, &adev->path_list, node) {
- 		struct avs_path_pipeline *ppl;
-@@ -210,14 +210,11 @@ static bool avs_apl_lp_streaming(struct avs_dev *adev)
- 				if (cfg->copier.dma_type == INVALID_OBJECT_ID)
- 					continue;
- 
--				if (!mod->gtw_attrs.lp_buffer_alloc) {
--					spin_unlock(&adev->path_list_lock);
-+				if (!mod->gtw_attrs.lp_buffer_alloc)
- 					return false;
--				}
- 			}
- 		}
- 	}
--	spin_unlock(&adev->path_list_lock);
- 
- 	return true;
- }
-diff --git a/sound/soc/intel/avs/control.c b/sound/soc/intel/avs/control.c
-index a8f05de338e0..370069247a7d 100644
---- a/sound/soc/intel/avs/control.c
-+++ b/sound/soc/intel/avs/control.c
-@@ -27,7 +27,7 @@ static struct avs_path_module *avs_get_volume_module(struct avs_dev *adev, u32 i
- 	struct avs_path_pipeline *ppl;
- 	struct avs_path_module *mod;
- 
--	spin_lock(&adev->path_list_lock);
-+	guard(spinlock)(&adev->path_list_lock);
- 	list_for_each_entry(path, &adev->path_list, node) {
- 		list_for_each_entry(ppl, &path->ppl_list, node) {
- 			list_for_each_entry(mod, &ppl->mod_list, node) {
-@@ -35,14 +35,11 @@ static struct avs_path_module *avs_get_volume_module(struct avs_dev *adev, u32 i
- 
- 				if ((guid_equal(type, &AVS_PEAKVOL_MOD_UUID) ||
- 				     guid_equal(type, &AVS_GAIN_MOD_UUID)) &&
--				    mod->template->ctl_id == id) {
--					spin_unlock(&adev->path_list_lock);
-+				    mod->template->ctl_id == id)
- 					return mod;
--				}
- 			}
- 		}
- 	}
--	spin_unlock(&adev->path_list_lock);
- 
- 	return NULL;
- }
-diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
-index 1a53856c2ffb..d309bcfe7f46 100644
---- a/sound/soc/intel/avs/core.c
-+++ b/sound/soc/intel/avs/core.c
-@@ -273,7 +273,7 @@ static irqreturn_t avs_hda_interrupt(struct hdac_bus *bus)
- 	if (snd_hdac_bus_handle_stream_irq(bus, status, hdac_update_stream))
- 		ret = IRQ_HANDLED;
- 
--	spin_lock_irq(&bus->reg_lock);
-+	guard(spinlock_irq)(&bus->reg_lock);
- 	/* Clear RIRB interrupt. */
- 	status = snd_hdac_chip_readb(bus, RIRBSTS);
- 	if (status & RIRB_INT_MASK) {
-@@ -283,7 +283,6 @@ static irqreturn_t avs_hda_interrupt(struct hdac_bus *bus)
- 		ret = IRQ_HANDLED;
- 	}
- 
--	spin_unlock_irq(&bus->reg_lock);
- 	return ret;
- }
- 
-diff --git a/sound/soc/intel/avs/debug.h b/sound/soc/intel/avs/debug.h
-index 94fe8729a5c1..7c5f97b46f0d 100644
---- a/sound/soc/intel/avs/debug.h
-+++ b/sound/soc/intel/avs/debug.h
-@@ -26,14 +26,9 @@ struct avs_dev;
- 
- static inline int avs_log_buffer_status_locked(struct avs_dev *adev, union avs_notify_msg *msg)
- {
--	unsigned long flags;
--	int ret;
-+	guard(spinlock_irqsave)(&adev->trace_lock);
+ 	resource_mask = adev->logged_resources;
+ 	num_cores = adev->hw_cfg.dsp_cores;
  
 -	spin_lock_irqsave(&adev->trace_lock, flags);
--	ret = avs_dsp_op(adev, log_buffer_status, msg);
++	scoped_guard(spinlock_irqsave, &adev->trace_lock) {
++		/* Gather any remaining logs. */
++		for_each_set_bit(i, &resource_mask, num_cores) {
++			msg.log.core = i;
++			avs_dsp_op(adev, log_buffer_status, &msg);
++		}
+ 
+-	/* Gather any remaining logs. */
+-	for_each_set_bit(i, &resource_mask, num_cores) {
+-		msg.log.core = i;
+-		avs_dsp_op(adev, log_buffer_status, &msg);
++		kfifo_free(&adev->trace_fifo);
+ 	}
+ 
+-	kfifo_free(&adev->trace_fifo);
+-
 -	spin_unlock_irqrestore(&adev->trace_lock, flags);
 -
--	return ret;
-+	return avs_dsp_op(adev, log_buffer_status, msg);
+ 	module_put(adev->dev->driver->owner);
+ 	return 0;
  }
- 
- struct avs_apl_log_buffer_layout {
 diff --git a/sound/soc/intel/avs/ipc.c b/sound/soc/intel/avs/ipc.c
-index c0feb9edd7f6..98403fc08c14 100644
+index 98403fc08c14..26c02dc4520f 100644
 --- a/sound/soc/intel/avs/ipc.c
 +++ b/sound/soc/intel/avs/ipc.c
-@@ -397,7 +397,7 @@ static int avs_dsp_do_send_msg(struct avs_dev *adev, struct avs_ipc_msg *request
- 	if (!ipc->ready)
- 		return -EPERM;
- 
--	mutex_lock(&ipc->msg_mutex);
-+	guard(mutex)(&ipc->msg_mutex);
- 
- 	spin_lock(&ipc->rx_lock);
- 	avs_ipc_msg_init(ipc, reply);
-@@ -412,7 +412,7 @@ static int avs_dsp_do_send_msg(struct avs_dev *adev, struct avs_ipc_msg *request
- 			/* Same treatment as on exception, just stack_dump=0. */
- 			avs_dsp_exception_caught(adev, &msg);
- 		}
--		goto exit;
-+		return ret;
- 	}
- 
- 	ret = ipc->rx.rsp.status;
-@@ -436,8 +436,6 @@ static int avs_dsp_do_send_msg(struct avs_dev *adev, struct avs_ipc_msg *request
- 			memcpy(reply->data, ipc->rx.data, reply->size);
- 	}
- 
--exit:
--	mutex_unlock(&ipc->msg_mutex);
- 	return ret;
- }
- 
-@@ -501,7 +499,7 @@ static int avs_dsp_do_send_rom_msg(struct avs_dev *adev, struct avs_ipc_msg *req
- 	struct avs_ipc *ipc = adev->ipc;
+@@ -99,39 +99,39 @@ static void avs_dsp_recovery(struct avs_dev *adev)
+ 	unsigned int core_mask;
  	int ret;
  
--	mutex_lock(&ipc->msg_mutex);
-+	guard(mutex)(&ipc->msg_mutex);
- 
- 	spin_lock(&ipc->rx_lock);
- 	avs_ipc_msg_init(ipc, NULL);
-@@ -522,8 +520,6 @@ static int avs_dsp_do_send_rom_msg(struct avs_dev *adev, struct avs_ipc_msg *req
- 		dev_err(adev->dev, "%s (0x%08x 0x%08x) failed: %d\n",
- 			name, request->glb.primary, request->glb.ext.val, ret);
- 
--	mutex_unlock(&ipc->msg_mutex);
--
- 	return ret;
- }
- 
-diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
-index 2291f9728a54..c808fd06c2d9 100644
---- a/sound/soc/intel/avs/path.c
-+++ b/sound/soc/intel/avs/path.c
-@@ -69,16 +69,13 @@ avs_path_find_path(struct avs_dev *adev, const char *name, u32 template_id)
- 	if (!template)
- 		return NULL;
- 
--	spin_lock(&adev->path_list_lock);
-+	guard(spinlock)(&adev->path_list_lock);
- 	/* Only one variant of given path template may be instantiated at a time. */
- 	list_for_each_entry(path, &adev->path_list, node) {
--		if (path->template->owner == template) {
--			spin_unlock(&adev->path_list_lock);
-+		if (path->template->owner == template)
- 			return path;
--		}
- 	}
- 
--	spin_unlock(&adev->path_list_lock);
- 	return NULL;
- }
- 
-@@ -1305,7 +1302,7 @@ void avs_path_free(struct avs_path *path)
- 	struct avs_path *cpath, *csave;
- 	struct avs_dev *adev = path->owner;
- 
--	mutex_lock(&adev->path_mutex);
-+	guard(mutex)(&adev->path_mutex);
- 
- 	/* Free all condpaths this path spawned. */
- 	list_for_each_entry_safe(cpath, csave, &path->source_list, source_node)
-@@ -1314,8 +1311,6 @@ void avs_path_free(struct avs_path *path)
- 		avs_condpath_free(path->owner, cpath);
- 
- 	avs_path_free_unlocked(path);
--
--	mutex_unlock(&adev->path_mutex);
- }
- 
- struct avs_path *avs_path_create(struct avs_dev *adev, u32 dma_id,
-@@ -1334,13 +1329,13 @@ struct avs_path *avs_path_create(struct avs_dev *adev, u32 dma_id,
- 	}
- 
- 	/* Serialize path and its components creation. */
--	mutex_lock(&adev->path_mutex);
-+	guard(mutex)(&adev->path_mutex);
- 	/* Satisfy needs of avs_path_find_tplg(). */
 -	mutex_lock(&adev->comp_list_mutex);
-+	guard(mutex)(&adev->comp_list_mutex);
- 
- 	path = avs_path_create_unlocked(adev, dma_id, variant);
- 	if (IS_ERR(path))
--		goto exit;
-+		return path;
- 
- 	ret = avs_condpaths_walk_all(adev, path);
- 	if (ret) {
-@@ -1348,10 +1343,6 @@ struct avs_path *avs_path_create(struct avs_dev *adev, u32 dma_id,
- 		path = ERR_PTR(ret);
- 	}
- 
--exit:
--	mutex_unlock(&adev->comp_list_mutex);
--	mutex_unlock(&adev->path_mutex);
+-	/* disconnect all running streams */
+-	list_for_each_entry(acomp, &adev->comp_list, node) {
+-		struct snd_soc_pcm_runtime *rtd;
+-		struct snd_soc_card *card;
 -
- 	return path;
- }
- 
-@@ -1496,15 +1487,13 @@ static void avs_condpaths_pause(struct avs_dev *adev, struct avs_path *path)
- {
- 	struct avs_path *cpath;
- 
--	mutex_lock(&adev->path_mutex);
-+	guard(mutex)(&adev->path_mutex);
- 
- 	/* If either source or sink stops, so do the attached conditional paths. */
- 	list_for_each_entry(cpath, &path->source_list, source_node)
- 		avs_condpath_pause(adev, cpath);
- 	list_for_each_entry(cpath, &path->sink_list, sink_node)
- 		avs_condpath_pause(adev, cpath);
+-		card = acomp->base.card;
+-		if (!card)
+-			continue;
 -
--	mutex_unlock(&adev->path_mutex);
- }
- 
- int avs_path_pause(struct avs_path *path)
-@@ -1560,7 +1549,7 @@ static void avs_condpaths_run(struct avs_dev *adev, struct avs_path *path, int t
- {
- 	struct avs_path *cpath;
- 
--	mutex_lock(&adev->path_mutex);
-+	guard(mutex)(&adev->path_mutex);
- 
- 	/* Run conditional paths only if source and sink are both running. */
- 	list_for_each_entry(cpath, &path->source_list, source_node)
-@@ -1572,8 +1561,6 @@ static void avs_condpaths_run(struct avs_dev *adev, struct avs_path *path, int t
- 		if (cpath->source->state == AVS_PPL_STATE_RUNNING &&
- 		    cpath->sink->state == AVS_PPL_STATE_RUNNING)
- 			avs_condpath_run(adev, cpath, trigger);
+-		for_each_card_rtds(card, rtd) {
+-			struct snd_pcm *pcm;
+-			int dir;
 -
--	mutex_unlock(&adev->path_mutex);
- }
- 
- int avs_path_run(struct avs_path *path, int trigger)
-diff --git a/sound/soc/intel/avs/utils.c b/sound/soc/intel/avs/utils.c
-index ee36725ac731..ca1236731824 100644
---- a/sound/soc/intel/avs/utils.c
-+++ b/sound/soc/intel/avs/utils.c
-@@ -48,13 +48,12 @@ int avs_get_module_entry(struct avs_dev *adev, const guid_t *uuid, struct avs_mo
- {
- 	int idx;
- 
--	mutex_lock(&adev->modres_mutex);
-+	guard(mutex)(&adev->modres_mutex);
- 
- 	idx = avs_module_entry_index(adev, uuid);
- 	if (idx >= 0)
- 		memcpy(entry, &adev->mods_info->entries[idx], sizeof(*entry));
- 
--	mutex_unlock(&adev->modres_mutex);
- 	return (idx < 0) ? idx : 0;
- }
- 
-@@ -62,13 +61,12 @@ int avs_get_module_id_entry(struct avs_dev *adev, u32 module_id, struct avs_modu
- {
- 	int idx;
- 
--	mutex_lock(&adev->modres_mutex);
-+	guard(mutex)(&adev->modres_mutex);
- 
- 	idx = avs_module_id_entry_index(adev, module_id);
- 	if (idx >= 0)
- 		memcpy(entry, &adev->mods_info->entries[idx], sizeof(*entry));
- 
--	mutex_unlock(&adev->modres_mutex);
- 	return (idx < 0) ? idx : 0;
- }
- 
-@@ -86,13 +84,12 @@ bool avs_is_module_ida_empty(struct avs_dev *adev, u32 module_id)
- 	bool ret = false;
- 	int idx;
- 
--	mutex_lock(&adev->modres_mutex);
-+	guard(mutex)(&adev->modres_mutex);
- 
- 	idx = avs_module_id_entry_index(adev, module_id);
- 	if (idx >= 0)
- 		ret = ida_is_empty(adev->mod_idas[idx]);
- 
--	mutex_unlock(&adev->modres_mutex);
- 	return ret;
- }
- 
-@@ -163,50 +160,44 @@ int avs_module_info_init(struct avs_dev *adev, bool purge)
- 	if (ret)
- 		return AVS_IPC_RET(ret);
- 
--	mutex_lock(&adev->modres_mutex);
-+	guard(mutex)(&adev->modres_mutex);
- 
- 	ret = avs_module_ida_alloc(adev, info, purge);
- 	if (ret < 0) {
- 		dev_err(adev->dev, "initialize module idas failed: %d\n", ret);
--		goto exit;
-+		return ret;
- 	}
- 
- 	/* Refresh current information with newly received table. */
- 	kfree(adev->mods_info);
- 	adev->mods_info = info;
- 
--exit:
--	mutex_unlock(&adev->modres_mutex);
- 	return ret;
- }
- 
- void avs_module_info_free(struct avs_dev *adev)
- {
--	mutex_lock(&adev->modres_mutex);
-+	guard(mutex)(&adev->modres_mutex);
- 
- 	avs_module_ida_destroy(adev);
- 	kfree(adev->mods_info);
- 	adev->mods_info = NULL;
--
--	mutex_unlock(&adev->modres_mutex);
- }
- 
- int avs_module_id_alloc(struct avs_dev *adev, u16 module_id)
- {
- 	int ret, idx, max_id;
- 
--	mutex_lock(&adev->modres_mutex);
-+	guard(mutex)(&adev->modres_mutex);
- 
- 	idx = avs_module_id_entry_index(adev, module_id);
- 	if (idx == -ENOENT) {
- 		dev_err(adev->dev, "invalid module id: %d", module_id);
--		ret = -EINVAL;
--		goto exit;
-+		return -EINVAL;
- 	}
- 	max_id = adev->mods_info->entries[idx].instance_max_count - 1;
- 	ret = ida_alloc_max(adev->mod_idas[idx], max_id, GFP_KERNEL);
--exit:
--	mutex_unlock(&adev->modres_mutex);
+-			pcm = rtd->pcm;
+-			if (!pcm || rtd->dai_link->no_pcm)
++	scoped_guard(mutex, &adev->comp_list_mutex) {
++		/* disconnect all running streams */
++		list_for_each_entry(acomp, &adev->comp_list, node) {
++			struct snd_soc_pcm_runtime *rtd;
++			struct snd_soc_card *card;
 +
- 	return ret;
- }
++			card = acomp->base.card;
++			if (!card)
+ 				continue;
  
-@@ -214,17 +205,13 @@ void avs_module_id_free(struct avs_dev *adev, u16 module_id, u8 instance_id)
- {
- 	int idx;
+-			for_each_pcm_streams(dir) {
+-				struct snd_pcm_substream *substream;
++			for_each_card_rtds(card, rtd) {
++				struct snd_pcm *pcm;
++				int dir;
  
--	mutex_lock(&adev->modres_mutex);
-+	guard(mutex)(&adev->modres_mutex);
+-				substream = pcm->streams[dir].substream;
+-				if (!substream || !substream->runtime)
++				pcm = rtd->pcm;
++				if (!pcm || rtd->dai_link->no_pcm)
+ 					continue;
  
- 	idx = avs_module_id_entry_index(adev, module_id);
--	if (idx == -ENOENT) {
-+	if (idx == -ENOENT)
- 		dev_err(adev->dev, "invalid module id: %d", module_id);
--		goto exit;
--	}
--
--	ida_free(adev->mod_idas[idx], instance_id);
--exit:
--	mutex_unlock(&adev->modres_mutex);
-+	else
-+		ida_free(adev->mod_idas[idx], instance_id);
- }
+-				/* No need for _irq() as we are in nonatomic context. */
+-				snd_pcm_stream_lock(substream);
+-				snd_pcm_stop(substream, SNDRV_PCM_STATE_DISCONNECTED);
+-				snd_pcm_stream_unlock(substream);
++				for_each_pcm_streams(dir) {
++					struct snd_pcm_substream *substream;
++
++					substream = pcm->streams[dir].substream;
++					if (!substream || !substream->runtime)
++						continue;
++
++					/* No need for _irq() as we are in nonatomic context. */
++					snd_pcm_stream_lock(substream);
++					snd_pcm_stop(substream, SNDRV_PCM_STATE_DISCONNECTED);
++					snd_pcm_stream_unlock(substream);
++				}
+ 			}
+ 		}
+ 	}
+-	mutex_unlock(&adev->comp_list_mutex);
  
- /*
+ 	/* forcibly shutdown all cores */
+ 	core_mask = GENMASK(adev->hw_cfg.dsp_cores - 1, 0);
+diff --git a/sound/soc/intel/avs/loader.c b/sound/soc/intel/avs/loader.c
+index 353e343b1d28..3b158039acb2 100644
+--- a/sound/soc/intel/avs/loader.c
++++ b/sound/soc/intel/avs/loader.c
+@@ -630,15 +630,15 @@ static int avs_load_firmware(struct avs_dev *adev, bool purge)
+ 	if (ret)
+ 		goto reenable_gating;
+ 
+-	mutex_lock(&adev->comp_list_mutex);
+-	list_for_each_entry(acomp, &adev->comp_list, node) {
+-		struct avs_tplg *tplg = acomp->tplg;
++	scoped_guard(mutex, &adev->comp_list_mutex) {
++		list_for_each_entry(acomp, &adev->comp_list, node) {
++			struct avs_tplg *tplg = acomp->tplg;
+ 
+-		ret = avs_dsp_load_libraries(adev, tplg->libs, tplg->num_libs);
+-		if (ret < 0)
+-			break;
++			ret = avs_dsp_load_libraries(adev, tplg->libs, tplg->num_libs);
++			if (ret < 0)
++				break;
++		}
+ 	}
+-	mutex_unlock(&adev->comp_list_mutex);
+ 
+ reenable_gating:
+ 	avs_hda_l1sen_enable(adev, true);
 -- 
 2.43.0
 
