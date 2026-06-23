@@ -1,182 +1,209 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1CB34E75A
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 10:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46A73CFF50
+	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 10:42:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782211171; cv=none; b=YzfQ2zWhiebcPaPq2KCeJkq5+YMC186hMp2hvLOMu9E422nUoO7TjN3d8LzEixu8UN2pGu5tDosPrPc4B6qAaoLMVxgvsINrXawHvue3JAqxnKv1NFHq4NjvHOUJz0F9aJEXqQs4k/safNHESQyYIfbKCW5P/Y3JESxKpHcBk7U=
+	t=1782211350; cv=none; b=m+rjRYCKVFa8jFle5eTXN5nX4SQYWm8Vo6EAD65y4b46/5HqYMW2I8H44nAcIvh7GSz6YVG0J4fYP89kqfFQ4cuI1pvAUyoABXCv1rGugyCpiqMxkawDMvO/M4AM3nuKiG+4K3T2iseR9K5VLayc9A5p/w4S/wxELWTjZ/WfAZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782211171; c=relaxed/simple;
-	bh=/NUOjGpR06LiuYNhocWRui2/SejORkKPZY7b0Bmr/4g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VWHv0I2HQ/H6nU8lciSnJnolr3bxcy2HKBv/ZH1fuB0kJMBCt1FLshJmp3DhVXvLK6ejO86fzRTmGirh7kylgkkJNhQULeooesnNZcjNS/Zohz+5G6Nv1Quw4fUvQ87zfg0S0zl2asQ91b/axYwC7qS0KzGwPvqczk0j93FKqk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dB00+i4G; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UFAIIawF; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1782211350; c=relaxed/simple;
+	bh=fj4TM5GiqKMPxzp8vFBJmMjQV8IHAoHFczXKwVkuk1I=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Bf+XGnakN1bFghiHWis7YH3B+7n8Ze7r9mcV8Bo+aIVgvETKo1qZ5tZUn6S/VaLapranpXvvwZNZ/labfJlwanH7ncMX+K9SI0o0HRaRdY+kKl88pLCrWEAuHaru0XaoFMqYbFnMAtVoKjE3ZG7PQcbIkflZ41goQ07HBSIDgXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BmXLD5p6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oxuSTUe2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TWrdVZJF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hLHVYt1n; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dB00+i4G";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UFAIIawF"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65NA3Iwg952949
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 10:39:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	0AnmVE/w9h5hL5i/LojsNUjrWiTJ2fNVG/BGWsEwtbE=; b=dB00+i4GDiRjbw/a
-	7UAckYbnj/lhAE5lfGRGiDglwdb8dBk6QfRyNfOKfS47YhzR+xny9mk5GhEy2ROa
-	0v3Swl1PPeBA5Q5wpi9Kbi+HkZ/EQWI219fPo8f5EwU+XuN6EXld+xbQjOtYcyQu
-	zZ0Cjj5HK1wH7lANlPSHS7pLQk7jjOumesCr1HMeCUbT15KsGdljCTA2E4mUMGG6
-	mtpV5nDBPnX4wnrDBkrHWez8/Z36awBL3gTCI4BavjrsQczZGeE+pSKl6bEtSvwZ
-	z1AMlD9UggvJWd4/5Jr8VkTKw5oILrBEV//OH6b4tzuOt4hWRvQRL1yvnbk4lQwc
-	x7nzeQ==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eyr28r4vj-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 10:39:29 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-920f826bcb4so58668785a.3
-        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 03:39:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782211168; x=1782815968; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0AnmVE/w9h5hL5i/LojsNUjrWiTJ2fNVG/BGWsEwtbE=;
-        b=UFAIIawFAhI9wJvsZPDSEPyms+Ctvl8xMlwPjH0fosyVMhZVfLOe6wPdWvldTCb3iS
-         gyVZqWCUlsbu5R0GKz+CmmJYXAAJt5Rr9jkJjk/C7DWtpN0MkIlaj2c/tUyYuHj0MfQB
-         +SbEUvF7NBYtIpkrxo2Inj5IxlXeqtK8WxQ/ZRlN3z3ot5DlsSvx2hiKh4h9G4EBhOcw
-         10D+BQvK5DBo0PycPz9Woztz29T2Iz3OVmdhoxe95G+p/UzahCHeNhbTqUxNoCTpNbfv
-         qKlg1HZDGbTA9JhkIH9dubR2baxNHk4CKBqKfLDXXT4g0kktS5CFB9doA9BhMs0bGWBA
-         XPkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782211168; x=1782815968;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0AnmVE/w9h5hL5i/LojsNUjrWiTJ2fNVG/BGWsEwtbE=;
-        b=WUIv953DVzIRO0coS5UTzcAQfugsAIJuKoPDK+EwPi6zNH568ehIhQMGU7jxqawz0T
-         ZQ/fhLzufk/A7stOseduPP+A8uUK+e600uhr5K5Q9nr9vU74p8XPitqLpN8BG5MyKv8R
-         ri8yEklEab28AIoxlTeQwWLhKEOrJfY/SOub9TmF5GS9/NbAv7hyZgU/CgNaNr+GK126
-         t3kaEx7osqJWcOqKZF58YroGuKpumYMsOMDb+1+gCbZlVjTtuGa6HNu/euWOOjWvVIip
-         rZRSrpMNPGiXcEi+O1DTxn3A5XliqGW/MrVwaHi9TEw+dm956pVEcWja/yPHwCNtXsRn
-         sYJg==
-X-Gm-Message-State: AOJu0YwYfj/cjFrvI1e+2E8EeLZ/ZmAQ8YffKH1K/ISmzAhmOdKPcEyU
-	x2Gq/Mu1LfhVyucegd3Gdi5SDBcK2ytGAKmeXjCPEyZarhgY6Y0gE283JLNisuRS2Ma5LX3m9Tg
-	Gq1ihW7LfIJNfG979J5O+RiDTOSuVG/KXx433ThWH1BWThoH2x6KhVi0hzWajJo2dkpOddk+DZw
-	==
-X-Gm-Gg: AfdE7ck9ZsgnlmmWsAJql5D/WDZQB6bmi5dzYKxZSe/zVDCPLpG3kSwuDuzfkSS66Dz
-	IgfccAaWom+ZtBdEaPZEKB3XYrn+/RsVGHlgmiw5prBe95iCml8Tbx0iVJ9Q35PULLXxIrUJwfg
-	1lZ1gj0bBTtm+qhP0wX9895gkbmNiRL3ULVRQH0NxITpBOSXNk8YC+jr4DjuJkX4SfquaDqRD23
-	YISik+ydVvDKf35mUtiNMQ9AV81tNT/J5pDRd8hTZA1+2EHtlrZ1zyRI5A1E2d/zIN4D+LCawFN
-	oDxXYNzPTA234iOn93wQTEy4L5bM04mTxE9ZsIzf2zVGYgGKm/RcKpEO/dI1AKuY3Q6G/HCb8Mr
-	8eZg30Y7yD3IHoYfeDcmMiQfSD1ADtn6QcNU=
-X-Received: by 2002:a05:620a:44d2:b0:8d7:ed38:8189 with SMTP id af79cd13be357-925c393485amr505047985a.0.1782211168553;
-        Tue, 23 Jun 2026 03:39:28 -0700 (PDT)
-X-Received: by 2002:a05:620a:44d2:b0:8d7:ed38:8189 with SMTP id af79cd13be357-925c393485amr505045885a.0.1782211168118;
-        Tue, 23 Jun 2026 03:39:28 -0700 (PDT)
-Received: from [192.168.120.170] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6977b82f95dsm4759720a12.3.2026.06.23.03.39.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2026 03:39:26 -0700 (PDT)
-Message-ID: <89c4fb14-9884-44a0-8921-fc361a9303f9@oss.qualcomm.com>
-Date: Tue, 23 Jun 2026 12:39:24 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BmXLD5p6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oxuSTUe2";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TWrdVZJF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hLHVYt1n"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8BE2275EBF;
+	Tue, 23 Jun 2026 10:42:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782211346; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hy6046PHjFNJcqAqNcMr6FxqQ0UmVmimIhMer13BW88=;
+	b=BmXLD5p63EHYRNX5weWx1e0UUWQ+0xHP2omMjMeUg8yfuY4yAtwBLIe3/Sq5BAcFMyGsOJ
+	mm/pGr4o73NIGZgtnFW2xOahSMIYond8N9jE1qRbTwITGAH/R4VLXaBw8HBKU3y5nsyXAB
+	+BZxeL6AX/8l84q5AdG8JKHbsJGhCu8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782211346;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hy6046PHjFNJcqAqNcMr6FxqQ0UmVmimIhMer13BW88=;
+	b=oxuSTUe2seF2CVFmebQul9bhXz35fD3b+qWeK4SoMOlS3L0nu0mRCG7jFIzs8WHfFqrX3A
+	mzC58WI9qZe30HCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TWrdVZJF;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hLHVYt1n
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782211345; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hy6046PHjFNJcqAqNcMr6FxqQ0UmVmimIhMer13BW88=;
+	b=TWrdVZJFQ0Nm2+9hc6ocSoYAk/u1Nuy1luYXVlAgXQDznUi5jUX+bTT8ehO2I6cpEks4KJ
+	20ihLcvdzsVuBIvjo7WDpLwj9vAfNVI6bG6ps/Uz0P3fbO/0x2mjoelkncumvjP6T6A7ve
+	JvXt//69teQw1JfWjz4SaiMAYoxDNEA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782211345;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hy6046PHjFNJcqAqNcMr6FxqQ0UmVmimIhMer13BW88=;
+	b=hLHVYt1n5BBnQwiKkXXOpBk8v1axLTiUVE0pdDPiudm4jw+3FB2b46+zBmJQRKklTPn/2y
+	8/CuJZDUOeA8KaDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6BDCD779A8;
+	Tue, 23 Jun 2026 10:42:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UzWsGBFjOmpfTQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 23 Jun 2026 10:42:25 +0000
+Date: Tue, 23 Jun 2026 12:42:25 +0200
+Message-ID: <87cxxhczce.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Christopher =?ISO-8859-1?Q?H=F6ner?= <christopher-hoener@web.de>
+Cc: tiwai@suse.de,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Subject: Re: [PATCH v2] ALSA: hda/realtek: Enable internal speakers on Razer Blade 16 (2025)
+In-Reply-To: <20260622174309.5873-1-christopher-hoener@web.de>
+References: <87ldc7dkdx.wl-tiwai@suse.de>
+	<20260622174309.5873-1-christopher-hoener@web.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/3] ASoC: codecs: lpass-va-macro: Switch to PM clock
- framework for runtime PM
-To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>, broonie@kernel.org,
-        lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, srini@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20260623071708.2822269-3-ajay.nandam@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260623071708.2822269-3-ajay.nandam@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDA4NiBTYWx0ZWRfX5nSBRqKeKeD5
- 1l4lqb44hR/eegIP3DfRuaducMamS6wQliyebyI0i7kcIVqafp42J3/sa16yMXaoejwdXxyL8mB
- nWMFJHWijFi3svlhq/OoPWhU6ppix9A=
-X-Authority-Analysis: v=2.4 cv=b4KCJNGx c=1 sm=1 tr=0 ts=6a3a6261 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=vZmOQDSLvvN2LDkdrM8A:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: 5Pf8p_baSAOVyCyZ_eyc0cWm524m3jDp
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDA4NiBTYWx0ZWRfXzZAkaz3Xxb84
- 7TxPvP8yYCEwA+8Wo6fEe2fo50yx/nGp09hFPxuC6c4lLGOMCvRp7DzE+JammMVmvVd8jH6bNOd
- rEZ96atSnAANr6Ddx1RfFStGmbMu0MGqbE8rGEthvHOiErdc8GUgaYRZxG9+B0eLR5sRtIQRYNR
- M7mQDW187RpN6LCJNDAkX4Ts/pftCTg04Vd1ewmLi8rs12+Y/qUD53RcfItH9K+wXuXqMxEtOy5
- i5BoR9yJBJA4wOypb7xH42IbitOYf3gfOlb2O+Csc03s4Aa3PUCy22PC/iKvsesu7pAAhl7tBtJ
- TR4mHXsl+egLO7JI3JiWv0IPdt4YmYRj7a/I/CHAWspVeCLEgwsH8w+BMi4bVEbhbWrjRJfylDv
- MD5s1bjAEXutLydivRVAh1PnD7krslyAQQhY5wRB/wH7pdaKTABKen7m0uQIUwA2b8OrBo/U8of
- 6cVJoLCnAK0tO1QyC4Q==
-X-Proofpoint-ORIG-GUID: 5Pf8p_baSAOVyCyZ_eyc0cWm524m3jDp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-23_02,2026-06-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 adultscore=0 impostorscore=0 spamscore=0
- suspectscore=0 phishscore=0 priorityscore=1501 clxscore=1015 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606230086
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 8BE2275EBF
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[web.de];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[web.de];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On 6/23/26 9:17 AM, Ajay Kumar Nandam wrote:
-> Convert the LPASS VA macro codec driver to runtime PM clock management by
-> using the PM clock framework.
+On Mon, 22 Jun 2026 19:43:09 +0200,
+Christopher Höner wrote:
 > 
-> Replace manual macro/dcodec/mclk/npl clock handling with PM clock helpers
-> and runtime PM callbacks, and keep runtime PM references around fsgen clock
-> gating so PM-clock-managed clocks remain active while fsgen is enabled.
+> Hi Takashi,
 > 
-> Set autosuspend delay to 100 ms so PM-clock-managed votes are dropped soon
-> after idle while still avoiding suspend/resume churn on short gaps.
+> Thanks for the review.
 > 
-> Add a PM_CLK dependency to SND_SOC_LPASS_VA_MACRO since this patch
-> introduces PM clock APIs.
+> On the size: agreed, that was too much to sit inline. v3 moves the
+> captured DSP tables into a separate header (alc298_rb16_2025.h) that the
+> codec includes, so alc269.c keeps only the apply helper, the PCM hook
+> and the fixup.
+
+Thanks!  We have this kind of large code in sound/hda/codecs/helpers,
+and you can follow the pattern, too.
+
+> On power_save_node: I tried it and it does work. The catch is that the
+> amp wake and park have to come out of the init sequence first, the park
+> in particular. If the amp is parked at the end of init, nothing wakes it
+> again, since power_save_node only toggles the codec's own widgets and the
+> amp isn't one of them; it sits behind the coef mailbox on NID 0x20 and
+> isn't a power-managed node. Dropping the init wake as well seemed fine
+> here, though I'm less sure about that one, since the Windows driver does
+> send a wake at init.
 > 
-> Improve failure unwind paths: handle runtime PM put errors in probe/fsgen
-> paths and restore regcache state correctly on resume failure.
+> With the amp left on and power_save_node handling the widget PM, playback
+> is fine. The one thing I noticed is that every stream then starts with a
+> small but audible click, the speaker DAC and pin going D3->D0 in a single
+> step. The mailbox wake/park ramps the amp up and down instead, so the
+> hook path doesn't click, and for me that transition is the nicer result.
 > 
-> Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-> ---
+> The trade-offs run the other way too. power_save_node would let the codec
+> power its widgets down when idle, which on a laptop is probably worth
+> having, and I can't really put a number on what the hook costs by leaving
+> them up, so I'm not weighing that part heavily. The fact that it's
+> codec-wide is presumably a good thing for the headphone and the mics too;
+> I don't know that side well enough to have a strong opinion there.
+> 
+> Where I landed for v3 was the pcm_playback_hook with power_save_node left
+> at its default, mostly for the cleaner transition, and because it matches
+> the other ALC298 external-amp fixups: Samsung and LG Gram both drive the
+> amp from a pcm_playback_hook and leave power_save_node alone,
+> alc274_fixup_bind_dacs sets it to 0, and alc_fixup_tpt440_dock sets it to
+> 0 specifically to avoid click noises.
+> 
+> That said, you've seen far more of these than I have, and I don't have a
+> strong stake in the PM side beyond that transition. If you'd rather this
+> used power_save_node, say so and I'll switch v3 over: drop the wake/park
+> and let the widgets manage themselves.
 
-[...]
+Hm, indeed there is no direct hook associated to each widget node for
+the power amp.  A tricky way would be, though, to use the existing
+codec->power_filter callback; you can define something like:
 
-> --- a/sound/soc/codecs/lpass-va-macro.c
-> +++ b/sound/soc/codecs/lpass-va-macro.c
-> @@ -11,6 +11,7 @@
->  #include <linux/of_platform.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/pm_clock.h>
+static int razer_amp_power_filter(struct hda_codec *codec, hda_nid_t nid,
+				  unsigned int power_state)
+{
+	int state = snd_hda_gen_path_power_filter(codec, nid, power_state);
 
-includes should be sorted
+	if (nid == SOME_OUTPUT_PIN) {
+		if (state == AC_PWRST_D0)
+			power_up_amp(codec, nid);
+		else
+			power_down_amp(codec, nid);
+	}
 
-[...]
+	return state;
+}
 
-> +static int va_macro_setup_pm_clocks(struct device *dev)
-> +{
-> +	int ret;
-> +
-> +	ret = devm_pm_clk_create(dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = of_pm_clk_add_clks(dev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
->  }
+and set codec->power_filter = razer_amp_power_filter in the fixup,
+together with codec->power_save_node = 1.
 
-Can't these 2 calls simply be part of .probe()?
+It's just an idea, and if this doesn't look working well, we can go
+with your approach with the PCM hook, too.
 
-Konrad
+
+thanks,
+
+Takashi
