@@ -1,45 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F0C22CBE6;
-	Wed, 24 Jun 2026 11:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA7621ABD7
+	for <linux-sound@vger.kernel.org>; Wed, 24 Jun 2026 11:57:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782302243; cv=none; b=Y4RWnN4a2RA33FrqTHwbInH8Gyjw0VbKNTsREcB/pJnfJ3X3X4gcmLn6flkFk8lyEDzmzrEzmXk6co8HWp9IVx8Ar3GHnp37LCOVs/VusA+fRpagT411fTs/lb4kIQ+0r72AH7lRMnh9CbPzH/1sI0m+FwZ7zHPvf4ZVE7YMH4s=
+	t=1782302247; cv=none; b=q2DpfO7+LA+Pg4Bq29Jev9Mg3k4t15NnicOJ+nQltT0RnswTj2SEgXNu0qI3XYWaWuh6rbVwTJ/2r5RR5odslmeL8t2IXrjVLkqvwmWBaTBIXa2ZyVyVIzysLeYdhQakTtjHoJ5h+xc685Y5Sj6nZJXKlHM84g1N9em3uP0k6LQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782302243; c=relaxed/simple;
-	bh=lf3E6UequG5FgmKrvnHgFxwOPw75DTtm1SON/AJGkP0=;
+	s=arc-20240116; t=1782302247; c=relaxed/simple;
+	bh=HZE0Wpkes/sXFG8NUUqT95HIZzkTEP+tgnTjM53t6js=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=D3X1RB4Vkqu9c8xM4wkzziCmS9P8w5c9nTTOCfyFlOleNBsSOYVJjbZx4pp5pOSjfZOUOGzcn0gT1Vv5120C712tWGNY3toHfBSkgeYV6VLduR10uuEz28lg84vSWM84YsFLyiF4jKWP9CxrWSX2VJZv6qD8/oHQh1dDjenZFXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CGADCkv1; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=UDVkxDsNPd37Q3TsHX+ruVbmq1ZmnWWV7/OFDZ+eMPvEzqaoMi3+0OCDazjNEtgfcSYURbQ3a8kqmi3oiSBQ5v2nyT55FGZq4caFdYzZ41ArsMHJg+9HEVwCtOtLUd97Hni1EDr5UqV2XLXq2i1yh8e2MwadY0sDnTYiACDvgXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W19ThR9l; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CGADCkv1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC3461F000E9;
-	Wed, 24 Jun 2026 11:57:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W19ThR9l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A50E1F000E9;
+	Wed, 24 Jun 2026 11:57:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782302242;
-	bh=dY2/Ilz1M7gPLoR/ULjDm5+xmtKNwxZoqlJOos61R/4=;
+	s=k20260515; t=1782302246;
+	bh=CvgMz7wHS2PP4gXqP8xz3z5glwIxUVdU9SASUbWmlsQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=CGADCkv1SsZfNf141fEhZYBn299+4YlDfwf2Cvsn2WSMQy2nv+c4NAmOKn18uDhUD
-	 XFVZDnwplSanWidV5yo6EeSnREKXeRRUd0njpcR5+PgiPAPh++t1he2vD3HYSqKGv6
-	 A04e+rUJXgGjozW9EeXz28SXbpAVaWHPGKd8fHtCnxlV9N3XGCsui64iMubfQKRpTO
-	 mOy9TOpFqP/CiWonrMaZTj55wED/Y4BXH1dGr5blx+Ut2OKwYtbnDbP+CVH56xqPkP
-	 l73kZpZuO9rtJ4C5FAiwx/fNwefKsyuyK+GXA2AA08/LQe+qeRvo1P5g42IXOc2mPO
-	 w4j5Rz9tjn60g==
+	b=W19ThR9ldbWjQVtNNPT2wA8L802OQXvhTfhlxjfKDRtQhx5hUIawBspEclwLRNHpX
+	 18LZmBa2hNU2Koz8C/x7z0hDrtJnmMnDOGnAjJmvvGjdCrY+GXLDeTgq55WwXZ4Bc1
+	 b7BZGASWGl3HLyKNrlv5SjS6TEbQytkR1S2gZ5zgzahtu7VfmwU7T+cpkTLpY1tYQ9
+	 QK6tOMSdI9wb4MZ8/s8n9gfcMkp1oV75c9uwSKwscGOq5/BEVuzY0C+Yk1MFGJCMBr
+	 YxaU2w13RI51n5F8AloCoAM3iFyEaiYRcYcnjEHtnfv0scupYA+jQF+gYVHyxPuWGA
+	 8oNw7k+fmftAg==
 From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: vkoul@kernel.org, arnd@arndb.de, lgirdwood@gmail.com, 
- pierre-louis.bossart@linux.dev, yung-chuan.liao@linux.intel.com, 
- peter.ujfalusi@linux.intel.com, oder_chiou@realtek.com, jack.yu@realtek.com, 
- shumingf@realtek.com, niranjan.hy@ti.com, shenghao-ding@ti.com, 
- kevin-lu@ti.com, baojun.xu@ti.com, sen@ti.com, zhangyi@everest-semi.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260623101814.24044-1-ckeepax@opensource.cirrus.com>
-References: <20260623101814.24044-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH v2 0/5] Fix SoundWire randconfig issues
-Message-Id: <178222245507.59996.14109233253281177602.b4-ty@b4>
-Date: Tue, 23 Jun 2026 14:47:35 +0100
+To: lgirdwood@gmail.com, Oder Chiou <oder_chiou@realtek.com>
+Cc: linux-sound@vger.kernel.org, flove@realtek.com, shumingf@realtek.com, 
+ jack.yu@realtek.com, derek.fang@realtek.com, 
+ kernel test robot <lkp@intel.com>
+In-Reply-To: <20260623102514.2422990-1-oder_chiou@realtek.com>
+References: <20260623102514.2422990-1-oder_chiou@realtek.com>
+Subject: Re: [PATCH] ASoC: rt5575: Use __le32 for SPI burst write address
+Message-Id: <178222344062.59996.1232312314102593171.b4-ty@b4>
+Date: Tue, 23 Jun 2026 15:04:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,29 +45,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1933; i=broonie@kernel.org;
- h=from:subject:message-id; bh=lf3E6UequG5FgmKrvnHgFxwOPw75DTtm1SON/AJGkP0=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqO8Yd1txpmLi/ZAI6Y1dj/jnc88TA97LirV683
- 7mnKOfZ8QiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCajvGHQAKCRAk1otyXVSH
- 0OqzCACFagur29xcGQJFMM1sfq6Nb061QUeukG29S1jdpVG++IfH6SWuUMHBPCtmEs/CpiUnjmX
- JWVp2P3jwVMEQz/M6vJ3LZRIl9an3zrOewsTWisU2BTT0N0T4D3HWZyrguUP3eGkJOUoDFHb24d
- Iu802JYrli3kT73H4p7mZgJzONpmsY4fGfo3p7mm7cYQZIFPI7q9My1G054hcRmbb7TAd9dZ33l
- VSew8n+ZnOdlnO8AloVXpAc3pQtbmDSKOr6fU9nG2UpWhjYWgDYNUjF7EQa4x36KYzNxqZmVYig
- 2Otb/Tynp71GKUTYClk2+7xk/UU1GUe112xH3PyN8Mfc4i7d
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1120; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=HZE0Wpkes/sXFG8NUUqT95HIZzkTEP+tgnTjM53t6js=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqO8YkL7m+m4apBkbGzez4VWX8OU+/REVgJbRiV
+ n6vmJVb6nOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCajvGJAAKCRAk1otyXVSH
+ 0FkgB/9qvy/TBU8R35pA9zw1P03ZD3+0UZGMErGl7ZrSvfMJGP0hR3wWH40TzKUzQAMuF5EzubO
+ MM4KI6NFQE4K4H9s8LIo3fC6+9UgABYyF8QqcsxCl1K82HACHhjBGK/yLZW+YoZEcnOZJ+4aBmk
+ JdZgLfvxsj1Qj6Ztc5Z4YcEw9F4bj0+IzE9frqsf0/hexM+/Fe+nG9qQZpc1mNr1risnt+tg89b
+ z8vaWd3S/mf8nXyQ/cRY7bgbCLQOyZDVJNZzhZHJB2AfZe1qO7XHxEfbEtGisFawYihc2dFhkod
+ LeLvJHxYnEJpuV2+YkqrAAt+P7DgmthHG/DCjgTOVAMt8v3X
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 23 Jun 2026 11:18:09 +0100, Charles Keepax wrote:
-> Fix SoundWire randconfig issues
-> 
-> Moving all the waiting for soundwire devices to enumerate into the core
-> code [1] has caused some randconfig issues. This is the second attempt
-> to fix this after there were some short coming in [2].
-> 
-> Sorry for sending during the merge window, but people are keen to see
-> a solution posted.
-> 
-> [...]
+On Tue, 23 Jun 2026 18:25:14 +0800, Oder Chiou wrote:
+> ASoC: rt5575: Use __le32 for SPI burst write address
 
 Applied to
 
@@ -79,16 +66,8 @@ Applied to
 
 Thanks!
 
-[1/5] soundwire: Move wait for initialisation helper to header
-      https://git.kernel.org/broonie/sound/c/5714c8359f4f
-[2/5] ASoC: es9356: Add back local call to sdw_show_ping_status()
-      https://git.kernel.org/broonie/sound/c/ce52450319fb
-[3/5] ASoC: max98373: Add back local call to sdw_show_ping_status()
-      https://git.kernel.org/broonie/sound/c/1921303a1d2f
-[4/5] ASoC: ti: Add back local call to sdw_show_ping_status()
-      https://git.kernel.org/broonie/sound/c/ea9ff3b7bcfb
-[5/5] ASoC: realtek: Add back local call to sdw_show_ping_status()
-      https://git.kernel.org/broonie/sound/c/6540b9d9ccc3
+[1/1] ASoC: rt5575: Use __le32 for SPI burst write address
+      https://git.kernel.org/broonie/sound/c/d0c415f0076b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
