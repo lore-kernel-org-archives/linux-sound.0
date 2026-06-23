@@ -1,638 +1,177 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3278B3CF962
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 12:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B6926F2BF;
+	Tue, 23 Jun 2026 12:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782217095; cv=pass; b=cyYrW4p+nuOB3ZXwr8R/VGEstkzf1n4xHaCqDOrhg5Dp7udXIav53G6/IUe5AJNc7D45AK9ABYSyj4Ckz0CYE1nYA8IAKeK5/ynkDzNwPJx+ENQra8QhZQ0ldcbgwjNqosM5cP+yjOybG5XYQz8/ySnagBbbm+Wm3lQkY7znX7c=
+	t=1782217227; cv=fail; b=J6IVzp2yu+Ks9tM16tDSxXw5TCJzUJ7my+elObO0VEwCWf/rm245+Ht3ET1EfKYC9KcNPi2c2v5vZvX2gBDyLC2TbCsSohW/LZZln9NlunzP0W+y/rSNCwIOnK2846m1Ub/S8o2ZPKHcj6PCThykjJE93F/9nycGg4NockV17/Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782217095; c=relaxed/simple;
-	bh=a0JAOOvquFV2mJKI+AEZWdNC60V924jZEjFC8KAQ4Qs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Uw1g5gwRBK/9QM/lXAEaIhvz7hUFnhjiVxPRYjoRpnoaqfZdfZb3dknS78/AS9yfFwpbKwPbVBpcC4G5+NwvPHMN3o0qegXTbTYzmzeavGPB8zfOgyh/90MYIULkshtlLelFGOuZfRk9tiNEukiRhSeSjK8o+AhpTg6umFzkvRM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Xojd0zZn; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ksLSBANC; arc=pass smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1782217227; c=relaxed/simple;
+	bh=TyEcGp1h59u4H9upCzKGShNFORbiyRMBhxKDpO1nqJw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iA8BAJuMtK0gbbJ4X1zacx71VRPAk3uBxMyFPv0/8geE6ovcZNSgRg14GdZF4C/yedRIJRiczzXzBHVaIUHd/pTK0ldY+s2tY/wjIQ7R0sWdTnRirkZk+xnQAeWFYj4UW7sg/GVBQru3qZHVyCHueREUr9mDItUTI+MvOWqxAkA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=qhoGJTyJ; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=tNHqvJaA; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Xojd0zZn";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ksLSBANC"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65NBZLth4017177
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 12:18:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	t4oV7/+gmA3XnnkjBZpQltV40hAmvUYgobOXd8ETLdI=; b=Xojd0zZnacxDUbYP
-	jMkgTl2gStxYOeEaavPZCVOUlq5Sm715/1b5KIsOf2oRBmnq9CjI6ihgngXJQy8E
-	N+oBEaYT3xo1xnsNK307OHioXjyLMH8/4R4Zmm148oujz/Ar3k9m4bv365/W9ggA
-	Te1reYRkHuVqFgjzoZZAde18kYdykxcL9SM0ciCP0jIG6dB2QGINAwLY4rfRMIzx
-	jc7A4gXXQTaAqVI2iaGGYo0kNEEWms0hbPdRqAl7o42YnRfX8FJrB4xeKfv55Hdc
-	ZskbsT2ReVY4p49BaEsg9djQI+ENG4CYeSvnfEhaLqN8p3Q3nXJN5WgNmNSlnXUo
-	CvUP+g==
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com [209.85.128.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eygkjj7nk-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 12:18:11 +0000 (GMT)
-Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-7ff58c89959so110530187b3.0
-        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 05:18:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782217090; cv=none;
-        d=google.com; s=arc-20240605;
-        b=SmcfbhZLnae1FdeS+tbEY1GDwYFqcQPC5ZY0CHbJrqvEl+h67iPFKyYzEyH4nh5nuf
-         xaU+QkwkFSlVOHfqcb8oGzD6L9vIgCvbXlXJ0ONJ9d0GDOguIUAR42MhDgso3u8uRyoa
-         bbOmZ3+kbC14oThOmldefaQhAqScCX+o3IH7hVN9P+jKw/K/suhsWEFionXmNnBE/Q9M
-         yQE4k4G40UVXU4gOX/qRJr7h9hxQuZw0vCI+zYN6Hn42wUMK14kkH1zSM6wTOg/sykWz
-         STDu8m5PUAt2HtuGB5DFCgrnswpebG0P/5jTIq6lgLQOVjPn5XcZZliT2l6BjDmsBEl2
-         QvyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=t4oV7/+gmA3XnnkjBZpQltV40hAmvUYgobOXd8ETLdI=;
-        fh=/UGsr1kVfIaRpXO7UMYld1QOYaHHwFqqQv9QEBbFA1A=;
-        b=FPzSB55JegRMktUvbZEaeT3xrsPnpJAvrWwBp7QfaclCr1DmQ5sQTnboGmvw4GHrHe
-         HExtVKj5WRZv4O/0SXFpAjxqVXRMzklUA3f1JQqlkSV0DDNZwSafqsvMGjQhEwxTv5Lw
-         CW39VCIM2KnH2z1wfLqnx+AMHUQRHwcPx5MSEd8uHIGcJHLMKA+oqi9aORCvzlTRTzt2
-         f0vp0m0iWE9ZZM7S2jqaVrWvAi0yHcwZI/83O5rvUfW7lgCqsV3knl6KXTaAEVrV9LmL
-         wolUsWvZqK9OVuWkvd8jH3JXAd3Ul2fuym2kAymk5Cl812gZi2nv/LCqV+XNxxxF3jed
-         807Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="qhoGJTyJ";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="tNHqvJaA"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65N4m0HS1105576;
+	Tue, 23 Jun 2026 07:20:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=y/RgMvxFSSdphWGujw
+	gF3M7eDJJJ1cWMR/8mXEyeeH8=; b=qhoGJTyJXBDA+qfD/e13kQJ1yK32L81byl
+	3AcFac8L097Z7F3MYHrPB7JfNe2SBBzJFIdCMjPGaQrlnOX5RHSPnUUN6/RguKfY
+	2nBP/Bgq6VpQCQq8AMjk2RfxArLbQgxgmq4QOKasPwUpI4p1o+IMfATwvtoiTDCD
+	0CPw//JvHnfY6QC9EHhYmWgUzXNFP8Hdfs+BddY1x8NPssQ52keSft+eO4FZ4C8T
+	MgCKwKqx2Icu3xrPH4wZlcRYwL83DM+Hf2+npS1UnOcavzCZ3nOFLpUTAPJmgU9z
+	4Re9WW4sBKgZHzKbJ4bvN11HqWwaZNYvnG8wbWTWO5Ksr0ssZpcA==
+Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11022123.outbound.protection.outlook.com [40.107.209.123])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4ewq9jk9wt-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 23 Jun 2026 07:20:11 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qjc2stic+W1WSmttG4tWxClRSlkq9a++45wx9FH9Hl2SEZ8Au2ICXnT6TrfV8fe/7RnII0mC83LQAzTZ7cN8lffO/cwFW+IM+FuOmGdAUy0FlVTNREg71T9wZmZxmQA9nf0XqNMUjXCtuGPf6xJhFRcw3xufZYVyoohApLqbQkydLZe08M95exXPPq3z+GRCj9H0tCPBFaKHKWU3ogtr2walJXzQ3LIrAPvPSQuU9dToJicsw5A+9WJGAwOTJ0Ri7NtW2+tS1iDhoXtpPS8iYoplhA7LNgNSmC951zoCFqrK3v7CAbG/yjKaXBfatRxNH6KTcXyWXP7Sqqh3oyaA8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y/RgMvxFSSdphWGujwgF3M7eDJJJ1cWMR/8mXEyeeH8=;
+ b=wVANdGv77L0Q6cwOG4LR82McdbIqHmQdM5Ce1HT9mTt+MNgZTvKbtF2+Wa8wNboCMvwARMLuGNPMAcQEOHoBmrr36SrywmendnaC0b38RvU4KNBEWXHFHmoeEaTuvtwI/k8J3UjH/1aWq56gwKWSbnFWSTJjw4IJTU/XJ5xvE0In1ouDQ4jwUBmvay8VspzTaFuUdeILMdW6cOPabuO1rLWW0Hi5HMReRcyWndIgred1tr9sr5Q0fYH7eDnB/vCBMZHabOcsVUtOQ8oXGGZTXZS6TRHs7Ehujx+q4XrjdWO+1IjEeXFI3VLR1uTn+PpOS7EsEJq1VMufTK4YmuOH1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=gmail.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782217090; x=1782821890; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t4oV7/+gmA3XnnkjBZpQltV40hAmvUYgobOXd8ETLdI=;
-        b=ksLSBANCAoM90cJdnW6CsLbB4NTzptfxRQxaPJ4UEp0JN+Re4qb0g8WxrzTwicC8g7
-         tqKxzyKX3mNR/xxobsPpNoQy7bcZS5K6MqzsT7YpusU7xfMMg8AQYih/kUCsAjxHurvt
-         u4DwuIsoMelnF8csrxtmI/TS7K8S079gZUssVvO31zI8JAy21J0s9U+ya3TDwH4u/eGb
-         kfdq5qJjsd1RHmh6VJYSJNgy2RVnRcOGf/cq7aM2ZGTdIOWExmzt7u2yb4o4fBYXesNi
-         i8n43xvbMCXS04syH51J4xczEmQKvptDPlhgOF3zr4GaM6aUQwpclcSRUHFQTF5SIDtW
-         QlKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782217090; x=1782821890;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=t4oV7/+gmA3XnnkjBZpQltV40hAmvUYgobOXd8ETLdI=;
-        b=PTj3X++jfxpRkH7jdEYUhsuskiyh6h57bE09/a9DRFZF1HrkcQkuBUAto2vWTXLFLq
-         tC6qfjuaWscX+/daPfze+uwIfpYBiWAr/B3/oCWHyjcQt0V8MGBvhjyvSmY0cB2uiY6V
-         Q+8DrCaL4Nn1kHYz19iA6OCyoTSYct7HGxuTEOIVv9zyEPFUEtzFqyyNoaB7Xya/UCaK
-         B93wZRRAOo5tc7+ihg0QJ6qFA9NNvvqwobRvw9qSaRPVXbY7TNRRK7KHWGergonNBfdP
-         QZzLVdhzQ1QAKSpAXP225KUHFSzus5KGgbiRn2mi+m2nRGwXvDo0ZgodBIXmN59dsEqa
-         j6AA==
-X-Forwarded-Encrypted: i=1; AHgh+RoxAXUGAhsq5cBBiujqTqK/t7CZfQrP+sQKbNyKzY/3nxXxl9993v/BZykRu7SkUAJkJfsIzY0Uy//Dkg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNtl6QP7aik5PmVBfeSkLUb15UGN8+bu8lphtjPY+a1t/X+FZ9
-	hRXcfIwUN+BaKu9k7uEY+nifqBssaqKLap0OzWLKyf+Iw569F/34/MwxwcCuEBfvSZrfcE27i0R
-	/3yRbDcB+WzEKWHtb3OhvTomtll8k75GqT9GhPgDbzO8Uv4QNOu1guiOMm/RuzC1dhRNVM+1rl6
-	vv70ocAmV11zUmu0wHf+jdMuw38lSwU0nJpEMEL4my
-X-Gm-Gg: AfdE7cm6sf2PBx/kFsiaI/sGhYGRcqNJPH49QZAROGVBYh5qyAuimQkM3xUB8gUxnuq
-	ufVaYbVMfkpuZPlR8NiEeIkWjEiaSJyzjE5yYFer6SSI531F1HGVVTwbVlUKfFSCpTI0hC/c2AS
-	zAPDVHWFogI0sc+nMgcW7AGCfyQ7IH1SvWnO1gN8z5D7tuv9ZS2agX/20uL+rvnlPrWmWJ
-X-Received: by 2002:a05:690c:6d08:b0:7dc:4ba:ee09 with SMTP id 00721157ae682-806c44f1e72mr20371897b3.46.1782217090363;
-        Tue, 23 Jun 2026 05:18:10 -0700 (PDT)
-X-Received: by 2002:a05:690c:6d08:b0:7dc:4ba:ee09 with SMTP id
- 00721157ae682-806c44f1e72mr20371357b3.46.1782217089801; Tue, 23 Jun 2026
- 05:18:09 -0700 (PDT)
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y/RgMvxFSSdphWGujwgF3M7eDJJJ1cWMR/8mXEyeeH8=;
+ b=tNHqvJaAS8nnOAJ0ghmtE3D9haV7p49BaqIkQ8qe5FQ7rgTgfc6rIifWfr0SXUsbtpex6l0zxEqBgAHLaL8A6iez2PQvaewjb/ju03NwpTdv7Y5WxBRMJNi4FXdfCJo00pUTjn8o6iO00+KS+AfDTRwRbvl8ztYWw8c3t4DJ+x0=
+Received: from BN9PR03CA0944.namprd03.prod.outlook.com (2603:10b6:408:108::19)
+ by DS0PR19MB8435.namprd19.prod.outlook.com (2603:10b6:8:193::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.20; Tue, 23 Jun
+ 2026 12:20:06 +0000
+Received: from BL02EPF0001A106.namprd05.prod.outlook.com
+ (2603:10b6:408:108:cafe::6f) by BN9PR03CA0944.outlook.office365.com
+ (2603:10b6:408:108::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.11 via Frontend Transport; Tue, 23
+ Jun 2026 12:20:06 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ BL02EPF0001A106.mail.protection.outlook.com (10.167.241.139) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.10
+ via Frontend Transport; Tue, 23 Jun 2026 12:20:04 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 22505406544;
+	Tue, 23 Jun 2026 12:20:03 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 0D3C282025A;
+	Tue, 23 Jun 2026 12:20:03 +0000 (UTC)
+Date: Tue, 23 Jun 2026 13:20:01 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: HyeongJun An <sammiee5311@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+        Maciej Strozek <mstrozek@opensource.cirrus.com>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: SDCA: Validate written enum value in
+ ge_put_enum_double()
+Message-ID: <ajp58Vd72dnppcx3@opensource.cirrus.com>
+References: <20260623110526.813217-1-sammiee5311@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260605103739.3557573-1-harendra.gautam@oss.qualcomm.com>
- <20260605103739.3557573-3-harendra.gautam@oss.qualcomm.com> <69d2e4a7-eb2e-42f2-83e4-0d8ca4b62da8@kernel.org>
-In-Reply-To: <69d2e4a7-eb2e-42f2-83e4-0d8ca4b62da8@kernel.org>
-From: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-Date: Tue, 23 Jun 2026 17:47:57 +0530
-X-Gm-Features: AVVi8CeqQCSbxlG2O_pG5LG4Cg5aMh_5wPMj9ibxrDHiq7VDf0Z8G8UW2dxLKrY
-Message-ID: <CAC-tS8AEJBbUT8bPRPQTTOmgQgCJLr7pxc+7gPxzGeSBYvRWeg@mail.gmail.com>
-Subject: Re: [PATCH 2/13] dt-bindings: sound: Add Qualcomm QAIF binding
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDEwMCBTYWx0ZWRfX6weWsI+K7k//
- oHKrWbeo7zgi5bKnzbC1MC/W6b3jkiWzvyiYiRzVqHLta4Fxe+QzVeW1pOAbWwSNArv6fwDxOwB
- 8s9sGFAuXXQCpKRinkfleod0/0ZkeW3sa0zumQNi+5PO+Bxgl6DlJxpfHRqir8g/7TvkLNs9vuC
- kD2zvoWpApYPR2prsGLArVPDnnWw4C9V7BLyy+Khh9zkiII/ZjayzWS5xnk3Pu3KqVzg2RQFwr3
- PPuUsaPLVT5FZEniamRO0CUcPyJlBJ3L2G/0/+iuuf84DDZrp/GFAYZ6+GioEQI5pi3XmnCq3c8
- 4TZTURnHIHbp85YVoBJyYCidIh5YvQtx9Uu0Pn4Dtw0BXf33BOqFyjqKJDL74OIkymVktY1dPZU
- Yi1/Id0GkGqcLAUda/Rf8FjxWIeT7YNpCtp3/ifwF8Qlb82CK3uM0aM7B8gW1JHPc/qjPBdezYX
- IKtCgl+tW4X7zgGBC3g==
-X-Proofpoint-GUID: 7vZzTu18dEbTLhjFjT7IyzSlz1WYu73o
-X-Authority-Analysis: v=2.4 cv=SoKgLvO0 c=1 sm=1 tr=0 ts=6a3a7983 cx=c_pps
- a=72HoHk1woDtn7btP4rdmlg==:117 a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=yx91gb_oNiZeI1HMLzn7:22 a=gEfo2CItAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=nMCE5c-j9JwJCRtBYlAA:9 a=QEXdDO2ut3YA:10 a=kA6IBgd4cpdPkAWqgNAz:22
- a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDEwMCBTYWx0ZWRfXwVVCBZjBQ7Ep
- cP4pO3Lz1wYDRjQYGl+kVeqRds2xqvPDq7ekq1tUu5IxOYjOgPKQdzr/k/r3P1Hdi7GGn/bd0Tz
- INvIkPg30/npB2oQqvSTd8VOBYgoqKM=
-X-Proofpoint-ORIG-GUID: 7vZzTu18dEbTLhjFjT7IyzSlz1WYu73o
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-23_03,2026-06-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 suspectscore=0 spamscore=0 malwarescore=0
- priorityscore=1501 bulkscore=0 clxscore=1015 adultscore=0 phishscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2606230100
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260623110526.813217-1-sammiee5311@gmail.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A106:EE_|DS0PR19MB8435:EE_
+X-MS-Office365-Filtering-Correlation-Id: 98818046-6924-4f6f-eb93-08ded121c18f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|61400799027|23010399003|36860700016|376014|13003099007|16102099003|18002099003|22082099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	vu1eVVea+OW99TgeISI5HwHdaYlva9EpVJg6/s1rE5npTsyH+Tjn1hcMThPFnLEsVGWsz9wyWC3yi2yuwZOHmMSRAljqMR7A99osf3aj/4VlDM68GuieeEREOj32Xqhsdlk/dzsvPv86gssTQjrFF4waAPSKK3R+Q6rcnszDFRQx687L8hcR+doBUNuanvw3CQdAA4L9Yn5TpdQkQ3TeAtZ6GL1icWAjdhyRlIT0Uj0gKuNMUxwJilV1hKoNlx3rYvO1ma1cgfSQOz1YZV0tUduv39xXWkKlxcBhO5cnQIwIh873GLlU5xGOcLTxv87Bf9EpR7M33wyL0rZWFHcOmP56cb1IN2Um+c3d2AJhWtDM4XiKKFp/kfoTFTsB9IP6KlIybfPoGpYAqqTycxUwj51kYdPPk4qv1qRqzYyeCxv/At/F/MrBIQePj3lXMWW6loJy6myDl75AfYJFW/Y0bUHqGO1fDMf7Y7GIBOEQd5CXJgirpScGFHzWETLhfizlbejdk9ZbqujIghhydIdM4NwaSMuqDvqoekD4cNhgkyUOIjjPvfi9+3VaaJNxaMGQPFGZKIxBxB+pGy8Bf2v4gIEx2uhhP7kaf8cqJ7j3Ku9eASMm3O66noXiAMLHPnePF3v6hgDr+0hJOdMYMxVf9HW74M8Wv10lN5Q3Ym2/aLAzjzX5MP/PVqpSkHwQkRaUoUEXuN/PCbBINxN/ERB2nw==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(61400799027)(23010399003)(36860700016)(376014)(13003099007)(16102099003)(18002099003)(22082099003)(56012099006)(11063799006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	PNheOH3ZU/M2oc+1metJHm/5LNt6Ex0gDQhfNgN+F8C9KvBUtzOmiH6sukl1h13e5oKBhKv4iTpOyUtl3Yz0qaV77vW4m8ajZ7WRQRfVD3RdnoOA6+zvFErtgVerxMSV5NYwlmG4JUXB8ye3hLnCaA2g3m9fsC9dYHd5epMOZXgLbPsd/OF1Hhc6/i9K8OTZcbRaPofuKISG/1AzyzOgxJFs1SAHQvrXD9Tue+M0yCk/m5yESRxKG/gT2Atj9XmjY98CECTNKqxBcx5soCPZYrw9+5DbBSq3TOTmRdg9fYVcO1evhmBeiMuRVRmLhifC3A1sPiBsedW7Hi428/lbE3gbDvglPJCMoixRrbGtCpAleVhR+HTkSJ59/zr2CCoiSuPaRUiAxTDL6/p6QGGUiY6lFet83WCsrEeSi6aVqE+CvOB/18KGHp5ilxDxUHeJ
+X-Exchange-RoutingPolicyChecked:
+	rj02+bLgB1cTc2nDQCzx5uam8uhpti7u7BkUMcN1wsM/CxO9xUEtKtUrD4iLbQax7vQnN9jQ0gBW/QAqob7t1nuEgYzW92pfY7GQuPFSCxllHQti8LBgIy4CTpllbHTzLTPND45Q8D50az0iBQNLzW/LrHajpgCrmRW8u9gI5gn0svMQGYoMnpaDajrGbRj32w/ynqrCx7GNIkpnSJvB9yfudVqwkU2pe3tTu8V7wiw+w73SLNtdFjE6mitqz/tdSMBw3/zdyy8pELCuYBFwDLBIJy7roxdL8s5wQCnkEkYuumt04m/1aUemxkr8pZYihYoHQTNfzivGRRxvWKzOsA==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2026 12:20:04.2697
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98818046-6924-4f6f-eb93-08ded121c18f
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL02EPF0001A106.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR19MB8435
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDEwMCBTYWx0ZWRfXwM49gFNeDCzM
+ Z/XK8XsIiammOTt53wZUd5cl7TlrNaj1/EUToPhFsJ04e2TzDzaDYeu3MHMdYm1OBSkmDEItbXC
+ iYt5O3NpftVOfEH8X5dt5BgW1ooGA8XnCou8q0xpUrV2Z+tEn2h+6zauY3fPyz81kfhDLulfYQV
+ t4HcGp5M0WZYc8tFY+KW2gvS5X/29KQp/QIYjktkhYe0cLaVr0qUKdMZzOwhMitBc6SIn5e7p65
+ lhXt4NICe1iU4r4Si8QGA7I835e4dXWohzMGL1NjmOgYUHJqaLmQRNZdwKjKGJP2fujh64hN4MD
+ KMYT16KyQN2Stvu3w1TeanJieXY/XTvcSL7Z/sNpB4HsPnsXI/A/CMfktxMsTs7JKjS9/dp+Mvs
+ IaLJKxsNeAHp1C9JK1lJObRC3BOaUH2HKzno9GO/Hhst/slpsk8ZiG+rutoKDcR+gJ8B1Yx/zbK
+ r/ASwxPq0y54OLFVfRw==
+X-Proofpoint-ORIG-GUID: -QkvwksAZQu_hl8MKylXlpLQG92UVRwY
+X-Authority-Analysis: v=2.4 cv=SajHsPRu c=1 sm=1 tr=0 ts=6a3a79fb cx=c_pps
+ a=EEuUCq1UVZeKBjwkVe0TyA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=FelO9ux0wxsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=w1d2syhTAAAA:8 a=A3AeqPEmJqMbhak1AnoA:9
+ a=CjuIK1q_8ugA:10 a=D5E-lV8vLpwA:10
+X-Proofpoint-GUID: -QkvwksAZQu_hl8MKylXlpLQG92UVRwY
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDEwMCBTYWx0ZWRfX5mXZI0P+plOY
+ pG1v8Uc609Ba7vCHxT4vOOv/1erd8atVY20DkGSQIHVP2SEU6eZOPHvJO7apAjJEYeFkAyY+KjA
+ TqJETZUNUhFU6wYQ2zSxB1ZPs+IUuic=
+X-Proofpoint-Spam-Reason: safe
 
-On Wed, Jun 17, 2026 at 1:29=E2=80=AFAM Srinivas Kandagatla <srini@kernel.o=
-rg> wrote:
->
->
->
-> On 6/5/26 11:37 AM, Harendra Gautam wrote:
-> > Add a Devicetree binding for the Qualcomm Audio Interface (QAIF) CPU DA=
-I
-> > controller used on the Shikra audio platform.
-> >
-> > QAIF moves PCM data between system memory and external serial audio
-> > interfaces through the AIF path, and between memory and the internal Bo=
-lero
-> > digital codec through the CIF path. The controller needs a binding so
-> > platform Devicetree files can describe its MMIO region, DMA IOMMU strea=
-m,
-> > clocks, interrupt, DAI cells and per-interface AIF configuration.
-> >
-> > Describe the single register region, one EE interrupt, the required GCC
-> > LPASS and audio core clocks, the DMA IOMMU mapping, and 'aif-interface@=
-N'
-> > child nodes used for static PCM, TDM or MI2S configuration.
-> >
-> > Signed-off-by: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-> > ---
-> >  .../devicetree/bindings/sound/qcom,qaif.yaml  | 353 ++++++++++++++++++
-> >  1 file changed, 353 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/sound/qcom,qaif.y=
-aml
-> >
-> > diff --git a/Documentation/devicetree/bindings/sound/qcom,qaif.yaml b/D=
-ocumentation/devicetree/bindings/sound/qcom,qaif.yaml
->
-> Pl run dt-bindings checks before posting.
-> > new file mode 100644
-> > index 000000000000..5b385e05a650
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/sound/qcom,qaif.yaml
-> > @@ -0,0 +1,361 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/sound/qcom,qaif.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Qualcomm Audio Interface (QAIF) CPU DAI Controller
-> > +
-> > +maintainers:
-> > +  - Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-> > +
-> > +description:
-> > +  |
-> > +  The Qualcomm Audio Interface (QAIF) is a fully configurable DMA-base=
-d
-> > +  audio subsystem controller. It serialises and deserialises PCM audio
-> > +  between system memory and external serial audio peripherals (PCM, TD=
-M,
-> > +  I2S, MI2S) through the AIF path, and transfers parallel audio betwee=
-n
-> > +  memory and an internal WCD codec through the CIF path.
-> > +
-> > +  AIF (Audio Interface): up to 13 multi-lane Unified Audio Interfaces,
-> > +  each supporting up to 8 independent data lanes. Each lane is individ=
-ually
-> > +  configurable as TX (output/speaker) or RX (input/mic). All lanes of =
-an
-> > +  interface share a single bit clock and frame sync. Supported modes a=
-re
-> > +  PCM (short/long sync), TDM, and MI2S (stereo/mono). Per-interface
-> > +  configuration includes sync source (master/slave), sync mode, sync d=
-elay,
-> > +  sync inversion, slot width (8/16/24/32-bit), sample width, active sl=
-ot
-> > +  masks (up to 32 slots), bits-per-lane frame size, lane enable/direct=
-ion
-> > +  masks, loopback, output-enable control, and full-cycle path support =
-for
-> > +  long chip-to-chip connections.
-> > +
-> > +  CIF (Codec Interface): up to 32 RDDMA (playback) and 32 WRDMA (captu=
-re)
-> > +  channels connecting to an internal codec over a parallel bus. Each c=
-hannel
-> > +  supports active-channel enable mask (up to 16 channels), frame-sync
-> > +  selection, frame-sync delay, frame-sync output gating, dynamic clock
-> > +  gating, and 16-bit packing/unpacking.
-> > +
-> > +  Note on RX/TX naming convention: in QAIF, RX refers to the capture p=
-ath
-> > +  (audio received from the interface into memory) and TX refers to the
-> > +  playback path (audio transmitted from memory to the interface). This
-> > +  applies to both AIF lane directions and CIF slot/mask properties.
-> > +
-> > +  DMA engine: RDDMA fetches audio from DDR/TCM/LPM into a shared SRAM
-> > +  latency buffer (SHRAM) and drains it to the interface. WRDMA collect=
-s
-> > +  data from the interface into SHRAM and writes it to memory. Each DMA
-> > +  owns a private SHRAM region defined by start address and length regi=
-sters.
-> > +  Burst sizes of 1/2/4/8/16 beats (64-bit) are supported with up to 4
-> > +  outstanding transactions per DMA. Two QSB master ports (QXM0 for TCM=
-,
-> > +  QXM1 for DDR/LPM) provide the memory interface.
-> > +
-> > +  Resources are partitioned among up to 5 Execution Engines (EEs) via
-> > +  EE map registers. Each EE owns a set of DMAs, audio interfaces, and
-> > +  interface groups, and receives its own independent interrupt output.
-> > +  The interrupt hierarchy has a two-level structure: a summary registe=
-r
-> > +  identifies the event class (DMA period, underflow/overflow, error
-> > +  response, audio interface underflow/overflow, group done, rate detec=
-tor,
-> > +  VFR), and per-resource status registers identify the specific channe=
-l.
-> > +
-> > +  Interface grouping (bonding) allows up to 6 groups of audio and code=
-c
-> > +  interfaces to start synchronously and align their DMA period interru=
-pts
-> > +  within half a frame duration using the RDDMA padding feature.
-> > +
-> > +  Two rate detector blocks measure the frequency of incoming frame syn=
-c or
-> > +  word select signals and generate interrupts on rate change, undetect=
-ed
-> > +  rate, or sync timeout.
-> > +
-> > +  Block diagram::
-> > +
-> > +    System Memory (DDR / LPM / TCM)
-> > +    +---------------------------------+
-> > +    |  Circular Buffers (ping-pong)   |
-> > +    +----------+----------+-----------+
-> > +               |          ^
-> > +         64-bit AXI  64-bit AXI
-> > +               |          |
-> > +    +----------v----------+-----------+
-> > +    |        QSB Master Ports         |
-> > +    |  +----------+  +----------+     |
-> > +    |  |   QXM0   |  |   QXM1   |     |
-> > +    |  +----+-----+  +-----+----+     |
-> > +    +-------|--------------|----------+
-> > +            |              |
-> > +    +-------v--------------v----------+
-> > +    |         Shared RAM (SHRAM)       |
-> > +    |  +------------+  +------------+ |
-> > +    |  | QXM0 Read  |  | QXM0 Write | |
-> > +    |  | SHRAM      |  | SHRAM      | |
-> > +    |  +------------+  +------------+ |
-> > +    |  +------------+  +------------+ |
-> > +    |  | QXM1 Read  |  | QXM1 Write | |
-> > +    |  | SHRAM      |  | SHRAM      | |
-> > +    |  +------------+  +------------+ |
-> > +    +---+--------+--------+-------+---+
-> > +        |        |        |       |
-> > +    +---v--+  +--v---+ +--v---+ +-v----+
-> > +    |RDDMA |  |RDDMA | |WRDMA | |WRDMA |
-> > +    | AIF  |  | CIF  | | AIF  | | CIF  |
-> > +    |[0..n]|  |[0..n]| |[0..n]| |[0..n]|
-> > +    +--+---+  +--+---+ +--+---+ +-+----+
-> > +       |         |       ^          ^
-> > +       | TX      | TX    | RX       | RX
-> > +       v         v       |          |
-> > +    +--+--------------------+  +----+----------+
-> > +    |  Unified Audio Intf   |  | Codec DMA     |
-> > +    |  (AIF 0..12)          |  | Interface     |
-> > +    |                       |  | (CIF)         |
-> > +    |  AUD_INTFa block:     |  |               |
-> > +    |  - Serializer (TX)    |  | RDDMA: DDR -> |
-> > +    |  - De-serializer (RX) |  |   internal    |
-> > +    |  - Sync gen/detect    |  |   codec       |
-> > +    |  - Up to 8 data lanes |  | WRDMA: codec  |
-> > +    |  - PCM / TDM / MI2S   |  |   -> DDR      |
-> > +    |  - Near Pad Logic     |  | Up to 16 ch   |
-> > +    +--+--------------------+  +----+----------+
-> > +       |  Lane 0..7 (TX/RX)       |  Parallel bus
-> > +       |  Bit clk + Frame sync    |  + Frame sync
-> > +       v                          v
-> > +    +--+--------+          +------+------+
-> > +    | External  |          | Internal    |
-> > +    | Serial    |          | Digital     |
-> > +    | Peripherals|         | Codec       |
-> > +    | (PCM/TDM/ |          | (Bolero/    |
-> > +    |  MI2S)    |          |  WCD)       |
-> > +    +-----------+          +-------------+
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - qcom,shikra-qaif-cpu
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  iommus:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    minItems: 15
-> > +    maxItems: 15
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: lpass_config_clk
-> > +      - const: lpass_core_axim_clk
-> > +      - const: aud_dma_clk
-> > +      - const: aud_dma_mem_clk
-> > +      - const: bus_clk
-> > +      - const: aif_if0_ebit_clk
-> > +      - const: aif_if0_ibit_clk
-> > +      - const: aif_if1_ebit_clk
-> > +      - const: aif_if1_ibit_clk
-> > +      - const: aif_if2_ebit_clk
-> > +      - const: aif_if2_ibit_clk
-> > +      - const: aif_if3_ebit_clk
-> > +      - const: aif_if3_ibit_clk
-> > +      - const: ext_mclka_clk
-> > +      - const: ext_mclkb_clk
->
->
-> Also do we really need to specify these 15 clocks even though I use only
-> one aif interface on my board.
-As an example added all supported clock in this binding, in board
-specific DT required clocks can be used.
---Harendra
->
-> should some of these clocks belong to each aif child node instead of
-> global qaif-cpu?
-some of these clocks are interface related like aif_if0_ibit, kept in
-parent node by taking reference from lpass-cpu driver.
---Harendra
->
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  '#sound-dai-cells':
-> > +    const: 1
-> > +
-> > +  '#address-cells':
-> > +    const: 1
-> > +
-> > +  '#size-cells':
-> > +    const: 0
-> > +
-> > +  status: true
-> > +
-> > +patternProperties:
-> > +  "^aif-interface@[0-9a-f]+$":
-> > +    type: object
-> > +    description:
-> > +      AIF interface configuration child node. The compatible string
-> > +      identifies the serial protocol the interface is wired for on the
-> > +      board. The unit address matches the hardware AIF interface index=
-.
-> > +    properties:
-> > +      compatible:
-> > +        enum:
-> > +          - qcom,qaif-pcm-dai
-> > +          - qcom,qaif-tdm-dai
-> > +          - qcom,qaif-mi2s-dai
-> > +      reg:
-> > +        maxItems: 1
-> > +        description: |
-> > +          Hardware AIF interface index (AUD_INTFa block index). This v=
-alue
-> > +          also serves as the ALSA DAI ID; it corresponds directly to t=
-he
-> > +          QAIF_MI2S_TDM_AIFn constants in <dt-bindings/sound/qcom,qaif=
-.h>
-> > +          (e.g. reg =3D <2> selects QAIF_MI2S_TDM_AIF2).
-> > +      qcom,qaif-aif-sync-mode:
-> > +        $ref: /schemas/types.yaml#/definitions/uint32
->
-> These should be enum instead of uint32, simillar comments apply to some
-> of the properties that have only few supported values.
-Okay
->
-> > +        description:
-> > +          Sync mode. Use QAIF_AIF_SYNC_MODE_SHORT (0) for short (pulse=
-)
-> > +          sync or QAIF_AIF_SYNC_MODE_LONG (1) for long (level) sync.
-> > +      qcom,qaif-aif-sync-src:
-> > +        $ref: /schemas/types.yaml#/definitions/uint32
-> > +        description:
-> > +          Sync source. Use QAIF_AIF_SYNC_SRC_SLAVE (0) for slave mode
-> > +          or QAIF_AIF_SYNC_SRC_MASTER (1) for master mode.
-> > +      qcom,qaif-aif-invert-sync:
-> > +        type: boolean
-> > +        description: Invert the frame sync polarity.
-> > +      qcom,qaif-aif-sync-delay:
-> > +        $ref: /schemas/types.yaml#/definitions/uint32
-> > +        description: Number of bit-clock cycles to delay the data rela=
-tive to sync.
->
-> This looks redundant to qcom,qaif-aif-sync-mode, which already indicates
-> the delay information?
-SYNC_MODE defines the pulse width/duration (Short/Long/One-slot),
-whereas SYNC_DELAY specifies the independent cycle offset for the MSB
-data start relative to the sync edge.
->
-> > +      qcom,qaif-aif-slot-width-rx:
-> > +        $ref: /schemas/types.yaml#/definitions/uint32
-> > +        description:
-> > +          RX slot width in bits. This is a board-specific hardware con=
-straint
-> > +          determined by the wiring of the serial audio interface.
-> > +      qcom,qaif-aif-slot-width-tx:
-> > +        $ref: /schemas/types.yaml#/definitions/uint32
-> > +        description:
-> > +          TX slot width in bits. This is a board-specific hardware con=
-straint
-> > +          determined by the wiring of the serial audio interface.
-> > +      qcom,qaif-aif-slot-en-rx-mask:
-> > +        $ref: /schemas/types.yaml#/definitions/uint32
-> > +        description:
-> > +          Bitmask of active RX slots. Board-specific =E2=80=94 determi=
-ned by which
-> > +          TDM slots the codec is wired to on this board.
-> > +      qcom,qaif-aif-slot-en-tx-mask:
-> > +        $ref: /schemas/types.yaml#/definitions/uint32
-> > +        description:
-> > +          Bitmask of active TX slots. Board-specific =E2=80=94 determi=
-ned by which
-> > +          TDM slots the codec is wired to on this board.
-> > +      qcom,qaif-aif-loopback:
-> > +        type: boolean
-> > +        description: Enable loopback mode (presence enables loopback).
->
-> What is this mode used for, testing ?
-this is used to test/validate DMA and interface level loopback with QAIF IP=
-.
->
-> > +      qcom,qaif-aif-ctrl-data-oe:
-> > +        type: boolean
-> > +        description: Enable output drive on the control/data line.
->
-> will this be ever false?
-Yes, as per HPG whenever there is point to point connection this has
-to be false.
->
-> > +      qcom,qaif-aif-lane-config:
-> > +        $ref: /schemas/types.yaml#/definitions/uint32-matrix
-> > +        description:
-> > +          Lane configuration matrix. Each row is a pair <enable direct=
-ion>
-> > +          for one lane starting from lane 0, up to 8 lanes. Use
-> > +          QAIF_AIF_LANE_ENABLE (1) or QAIF_AIF_LANE_DISABLE (0) for en=
-able.
-> > +          Use QAIF_AIF_LANE_DIR_TX (0) for TX (speaker) or QAIF_AIF_LA=
-NE_DIR_RX
-> > +          (1) for RX (mic). TX and RX lanes should each be grouped con=
-tiguously.
-> what do  you mean ? can you elobrate how can you enforce this?
-intention to have matrix from DT, where each rows are Lanes and in
-each row, col[0] =3D lane enable/disable and col[1]=3Dspkr/mic
->
-> > +        maxItems: 8
-> > +        items:
-> > +          items:
-> > +            - description: Lane enable (0 =3D disabled, 1 =3D enabled)
-> > +              enum: [0, 1]
-> > +            - description: Lane direction (0 =3D TX/speaker, 1 =3D RX/=
-mic)
-> > +              enum: [0, 1]
-> > +      qcom,qaif-aif-full-cycle-en:
-> > +        type: boolean
-> > +        description: Enable full-cycle sync (effective in sync master =
-mode).
-> > +      qcom,qaif-aif-bits-per-lane:
-> > +        $ref: /schemas/types.yaml#/definitions/uint32
-> > +        description:
-> > +          Number of slots per lane. The frame length is computed as
->
-> bits per lane?
-Yes.
->
-> > +          slot-width multiplied by bits-per-lane.
-> > +    if:
-> > +      properties:
-> > +        compatible:
-> > +          const: qcom,qaif-mi2s-dai
-> > +    then:
-> > +      description:
-> > +        MI2S interface. Sync mode and slot-enable masks are fixed by t=
-he
-> > +        MI2S protocol and must not be set in DT. Mono/stereo mode is
-> > +        determined at runtime from the stream channel count.
-> > +      properties:
-> > +        qcom,qaif-aif-sync-mode: false
-> > +        qcom,qaif-aif-slot-en-rx-mask: false
-> > +        qcom,qaif-aif-slot-en-tx-mask: false
-> > +    else:
-> > +      description:
-> > +        PCM or TDM interface. Sync mode and slot-enable masks are
-> > +        board-specific and must be provided. Mono mode does not apply.
-> > +      required:
-> > +        - qcom,qaif-aif-sync-mode
-> > +        - qcom,qaif-aif-slot-en-rx-mask
-> > +        - qcom,qaif-aif-slot-en-tx-mask
-> > +
-> > +    required:
-> > +      - compatible
-> > +      - reg
-> > +    additionalProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - iommus
-> do we
-yes.
-> > +  - clocks
-> > +  - clock-names
-> > +  - interrupts
-> > +  - '#sound-dai-cells'
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    /* Shikra platform example */
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +    #include <dt-bindings/sound/qcom,qaif.h>
-> > +    #include <dt-bindings/clock/qcom,shikra-audiocorecc.h>
-> > +    #include <dt-bindings/clock/qcom,gcc-shikra.h>
-> > +
-> > +    qaif_cpu: audio@a000000 {
-> > +        compatible =3D "qcom,shikra-qaif-cpu";
-> > +        reg =3D <0x0 0x0a000000 0x0 0x20000>;
-> > +        iommus =3D <&apps_smmu 0x1c0 0x0>;
-> > +        clocks =3D <&gcc GCC_LPASS_CONFIG_CLK>,
-> > +                 <&gcc GCC_LPASS_CORE_AXIM_CLK>,
-> > +                 <&audiocorecc AUDIO_CORE_CC_AUD_DMA_CLK>,
-> > +                 <&audiocorecc AUDIO_CORE_CC_AUD_DMA_MEM_CLK>,
-> > +                 <&audiocorecc AUDIO_CORE_CC_BUS_CLK>,
-> > +                 <&audiocorecc AUDIO_CORE_CC_AIF_IF0_EBIT_CLK>,
-> > +                 <&audiocorecc AUDIO_CORE_CC_AIF_IF0_IBIT_CLK>,
-> > +                 <&audiocorecc AUDIO_CORE_CC_AIF_IF1_EBIT_CLK>,
-> > +                 <&audiocorecc AUDIO_CORE_CC_AIF_IF1_IBIT_CLK>,
-> > +                 <&audiocorecc AUDIO_CORE_CC_AIF_IF2_EBIT_CLK>,
-> > +                 <&audiocorecc AUDIO_CORE_CC_AIF_IF2_IBIT_CLK>,
-> > +                 <&audiocorecc AUDIO_CORE_CC_AIF_IF3_EBIT_CLK>,
-> > +                 <&audiocorecc AUDIO_CORE_CC_AIF_IF3_IBIT_CLK>,
-> > +                 <&audiocorecc AUDIO_CORE_CC_EXT_MCLKA_OUT_CLK>,
-> > +                 <&audiocorecc AUDIO_CORE_CC_EXT_MCLKB_OUT_CLK>;
-> > +        clock-names =3D "lpass_config_clk",
-> > +                      "lpass_core_axim_clk",
-> > +                      "aud_dma_clk",
-> > +                      "aud_dma_mem_clk",
-> > +                      "bus_clk",
-> > +                      "aif_if0_ebit_clk",
-> > +                      "aif_if0_ibit_clk",
-> > +                      "aif_if1_ebit_clk",
-> > +                      "aif_if1_ibit_clk",
-> > +                      "aif_if2_ebit_clk",
-> > +                      "aif_if2_ibit_clk",
-> > +                      "aif_if3_ebit_clk",
-> > +                      "aif_if3_ibit_clk",
-> > +                      "ext_mclka_clk",
-> > +                      "ext_mclkb_clk";
-> > +        #sound-dai-cells =3D <1>;
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +        interrupts =3D <GIC_SPI 331 IRQ_TYPE_LEVEL_HIGH>;
-> > +        status =3D "okay";
-> > +
-> > +        qaif_aif_if2: aif-interface@2 {
-> > +            compatible =3D "qcom,qaif-tdm-dai";
-> > +            reg =3D <QAIF_MI2S_TDM_AIF2>;
-> > +            qcom,qaif-aif-sync-mode =3D <QAIF_AIF_SYNC_MODE_LONG>;
-> > +            qcom,qaif-aif-sync-src =3D <QAIF_AIF_SYNC_SRC_MASTER>;
-> > +            qcom,qaif-aif-sync-delay =3D <1>;
-> > +            qcom,qaif-aif-slot-width-rx =3D <32>;
-> > +            qcom,qaif-aif-slot-width-tx =3D <32>;
-> > +            qcom,qaif-aif-slot-en-rx-mask =3D <0x3>;
-> > +            qcom,qaif-aif-slot-en-tx-mask =3D <0x3>;
-> > +            qcom,qaif-aif-ctrl-data-oe;
-> > +            /* Lane 0: RX (mic); Lane 1: TX (speaker) */
-> > +            qcom,qaif-aif-lane-config =3D <QAIF_AIF_LANE_ENABLE QAIF_A=
-IF_LANE_DIR_RX>,
-> > +                                        <QAIF_AIF_LANE_ENABLE QAIF_AIF=
-_LANE_DIR_TX>;
-> > +            /* frame length =3D slot-width (32) * bits-per-lane (2) =
-=3D 64 bits */
-> > +            qcom,qaif-aif-bits-per-lane =3D <2>;
-> > +        };
-> > +    };
->
+On Tue, Jun 23, 2026 at 08:05:26PM +0900, HyeongJun An wrote:
+> ge_put_enum_double() passes the user-supplied enumeration index
+> item[0] to snd_soc_enum_item_to_val() without checking it against the
+> number of items in the enum:
+> 
+> 	ret = snd_soc_enum_item_to_val(e, item[0]);
+> 
+> snd_soc_enum_item_to_val() indexes the heap-allocated e->values[] array
+> with that index (e->values is set from a devm_kcalloc() of e->items
+> entries), so a control write with an out-of-range item[0] reads past the
+> end of the values buffer.  The bounds check in
+> snd_soc_dapm_put_enum_double() only runs afterwards, so it does not
+> prevent the read here.
+> 
+> Reject an out-of-range item before using it, matching the other enum put
+> handlers.
+> 
+> This issue was pointed out by the Sashiko AI review bot while reviewing a
+> related enum-validation series:
+> https://lore.kernel.org/all/20260609125735.CEB651F00893@smtp.kernel.org/
+> 
+> Fixes: 812ff1baa764 ("ASoC: SDCA: Limit values user can write to Selected Mode")
+> Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
+> ---
+
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+
+Thanks,
+Charles
