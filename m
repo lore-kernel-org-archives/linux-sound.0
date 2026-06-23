@@ -1,217 +1,281 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E4C34C9AD
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 12:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1643D37EFFF;
+	Tue, 23 Jun 2026 13:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782217843; cv=pass; b=nIIFw2+TK7yBkvZkITMdxxYiMlqhdCSphDI4wfOQvcvajU+7aUtDA0uEBTBKtAB51lJehQEtbRv7677bfHuzqyaOr6OZB6GK72ybfeoWSjacewCQon0k6yxN8IDOqBQZfkjqDQPV1qXsaaySGJGm82q2mOaQETZLv8jJrvd+kI0=
+	t=1782223122; cv=fail; b=FB5P/yS0sFs/dZekQW3ySNummWKkrN//GPpn2KHzGc9V5Rtrww2VY66REHJG0BBY0pBhod8QaCOoo26MzgdMt7yZP6nwv9VHmTio4m6gI8PeOmGuu11+RJGRrxJAm4bMo188lIu5lXbkCCFuXCnjvwg87q2nrd3a8cq41Y4xZpI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782217843; c=relaxed/simple;
-	bh=KqJ9tR9MwbyLMUZlwEX/xSNTx/JemCMTpgM7qmlLJYg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uu4EbwXIm8iT4Xbt7d9RmOCPQ4hjyMbZjGoZQiNX+BiRDIZaUHreia7uHybwpdmfG8qOOEbwQDAiF3JSHAMWMTHZYveVcWo3GNxtx4t+rZwO62GrMyhNWds5BGwp2ReQpbW22L7zk22TE2Jt6ZgM8C2vqgNEADWHKPGJtK2hmsM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aYB6eHcq; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ggeBtpTY; arc=pass smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1782223122; c=relaxed/simple;
+	bh=RcvxlUbyGEnU/oYDJ8q6U1qlLzpKt2DE/KY23pGEHXg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=r+emwPMmB14SdMDT2A7cnfGPKtWSzBq1ktRY8/iy+DSlPoceJ4K5NQj8Xl85O1wQWLqyR95Zr9JoQuONOxg4NhrDYrzTJ+ZQR8cn6J1Yq29UIX85+2+Ek08jIK7A8CnxvHNA+G+NBLXn5LWVR79D8ANG8+2MmTMR/M0tfz1p2Qo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=QL3drgIj; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=Y+VvagdX; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aYB6eHcq";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ggeBtpTY"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65NBXm2d3668740
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 12:30:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	l/F9MuVrs0A1V4OkOG1O5HRm1rsfFqA413eFJZD2SZM=; b=aYB6eHcqzB/b/0pG
-	nCdPspOI0ZMFcQSsHfco2vgglQkoGteLxesnSme7Z77+46aCDsq1xRp3pbzErHe8
-	Ke8KsH7KR8LjCqQqB6Y3m7f+fJ9+ouOz1rlkOY6JMxzLKdgakDtZTEokfXUhifhM
-	iL93tuIAy9aBWYEPZHSEQ579O2tORdzxhJ6IsrbTUkALg+x1f1QCI+WZ5eSnSI7r
-	61AWBmlM09BTX89DDn/LwhPjGypY04JS8iqxbBbmL8nuvL/YA1xk5UC4rDMZke75
-	+orAQ3ZSGj+u5qnbjYzZaZJJwug1jQ8k6fc61zHH+tCVwZqTbAgZWRtIHaHj+t7S
-	76kkMg==
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com [209.85.128.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eyppygxvp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 12:30:41 +0000 (GMT)
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-80533a7a4ebso36393277b3.2
-        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 05:30:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782217841; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CjD5AfO+HmGvFDud1fJsYVpu1CeXasi2m+AwDmTOrmkH2JSD29q0ZK5Cwye/U6TWdf
-         YZ4J1g0nfL517tPt5eXki8XY/NRYA7TpCne4vxHLAU51i/bNfFicLT3vNjTW20aURhkt
-         sBbL3rHcrGaktwNBGq9hkWYDvlCyVvQ86D4Ej73gmZslXbYtP6Al5T0D5cJG2I4cB9x5
-         B+Uq4DT83ZCMvTqwl7+MKt6e2uKmb1DJ1ehOONDeUn4IaiXPcS9jkYX4HwfAnlf6swjx
-         MWOXGx/qh0pac/YlhzryZkIR8KvqUwKNlDR5/wgJ7sdAxvBcIJGipJilzDgUdXeedKB4
-         J81A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=l/F9MuVrs0A1V4OkOG1O5HRm1rsfFqA413eFJZD2SZM=;
-        fh=lVA6coZ/RVktwsgi/7yhyL0onRajYR+H/Bw31OB9d8k=;
-        b=gKRbPjVUjDUmMR6lbVfjVviR/bSpfutzpc+C3wKWA0erlkF0PQFOk3M1ipSSVFVms/
-         ++K5b3eElr6G1c9rUwbz5LIJg16N3i5pQr9HCoj3rUhW8IMLx3Wj8dpO8Tiy4EsoX8iQ
-         8ODxOphQot+0yDgVoeOx79yOyAketFYRbPSZ157FEOF7x6N1cx5P9HjxoIUo5uY4DGOw
-         fzSLpa3vrNWC4xJeRK/fwm1b/5xvxar8q8CB3wZNXlQKJx2wfzxqox8Ilyd+NiKUzQ/g
-         wdM4PR6dcR9yHjhl+IXHjObnKdhjBzvfsslPkNWqQLLvL4u3n18kHjYEptQUN24kAXvT
-         JoCw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="QL3drgIj";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="Y+VvagdX"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65NCPjYX081152;
+	Tue, 23 Jun 2026 08:58:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=f7RvRGM4RGNOCp9H
+	uK6mLpWnfiaTFegP+eqXChY8we8=; b=QL3drgIjRew+7Ameo3FqMLeVBfQMHPhG
+	Wb3pPzvKhh+Ek6vcS9bUhhGmmFXpgm3Tvl9aamVfG2IQWHwHx6hBCBqrWQGfdsRV
+	8tkqo2M/d9rkAFx+sEcJUPojPfYXbwvy+NFi1CEpUjUrGA73yhHVp/9yVWZwZMY2
+	FBz81igg80vuEaC+dyTuFzpqqm66ZBqOY9hhrP1CgI4TtulNJAUhnPBiFQWcf5UZ
+	cbd5lwQeE0+lKqIgpc0WwAwSD9j4Uzn34YCiA0HLDoD4fHgX3hEgb2OK53xauS2Y
+	tD0EvBsuT2tawxer8H4l3Ks9sk5DTDLCfPJgThpErWFuQUYa1leGDQ==
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11021104.outbound.protection.outlook.com [52.101.52.104])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4ewr8x3euv-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 23 Jun 2026 08:58:30 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QrOJKeDGQrNEQ7tODidvZVBtUdaLHqK1tSkJ5Te50AcA2sczkAaoE/C6nCqpuTiEZdpMHz3BdD7/7jW5q7mjV3E1L33RX+W2z4wbknWfZ1oe6aHPEE2bwku2+lK72LtWtDVRBCEiiozjLTdJrM70jFeAxa+BbZnrsYgceMgTuHLusgUoMh6I6ORmPJt26aYL4Luz0cAIQvTWe/vmjsCdj91pB71uICbwgSj+qvIkhj8+jKq9Udw75Z0G+45npFGG/z6LKskOuis8b56/jJzmdb96vxSKgmCbrOveo562aBsvr3zPe2QM/W4THMNVw3XjMFIYkdeexEgzIq2Ay+Qlsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=f7RvRGM4RGNOCp9HuK6mLpWnfiaTFegP+eqXChY8we8=;
+ b=Bcu9VtWlXNxWTTevz7b5KE2ea/Iq/MEc591KN1zxhkAtEcN+Rw1vmqvgoTsJOHleGtE5rKXimOLN6f/2OBlzhY+wL7iULNIDmi4NcvUfEfB8iaEgdILbhlybMAtd393uUjEN+jYK+mROkhdiqOaMIWAKbwUTnwiCLy/nwh6vDH5yh8x9Wn56ciM74AV7RpSiM75ZaOc1rANGWa2qzU2lSukuG+RdssOS5m2/cfVkCJXJKxgLn48tREuxbPnklb8hYM4JBat2P8MgRUJJGoo38Ph52RsKzn4uLZq7YiXK9PDbCNip+StDlqJTZn33T//FAoTcoV1XM2Jxg0IQKzqSKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=broadcom.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782217841; x=1782822641; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l/F9MuVrs0A1V4OkOG1O5HRm1rsfFqA413eFJZD2SZM=;
-        b=ggeBtpTYgHSNWkJBBiKVeQQA5o6sY0u8dtaacbZYesSyAuPpsPW11hmsR8ela2uGNv
-         /SXB9YdvgAEDQFLWCyr03I8p1M49j4TE0YW5jacat98lDvBAlgpmqRANL3jeLrTbYeES
-         j7i17oP/ymyWtUEex6d1aff1NJC1UWV2/w/LLaJRJG2fW9GrsLY+DtU6XB1TmWHN0Cx9
-         RVQrcEireIPx4Ibmv3CqnKIJrQks1fZ1ZR4SJLDvYaC6SoiZIsrEt6NScTYYEM85GB1h
-         wH0V9CHF8GajMGcuORhoIuJwNzbriPTs6lnrR7NmTdX59tVoIm5ET2RaftFSwX3o+zdL
-         D9+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782217841; x=1782822641;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=l/F9MuVrs0A1V4OkOG1O5HRm1rsfFqA413eFJZD2SZM=;
-        b=ZSDtzHT5vI/QS9VKKa7g2Ann0xxYscGZxy2RFnktuox9iVhPWsHr1wGBku0QxYA3BW
-         oMrlJYpcgr5bCwNsvHH9ojWvNkZEeFFFm9k8fjZui4oJMs86UP4h0MPNvpjYolE9MGNR
-         j3f4ZK+4XDDoyNiTUzAEp9t0NNKhzSYx7xoT0gKFXmCb7JJyjTe+i1sgM/eRBBtT72CZ
-         BmPvsCJVEeWikTX1GgIWY1fYwVrdXXijQDYmljBDVrOsmlnNE8A+1lW2jAnbH7Hrr2wn
-         wfukMiYKXTJ8WEoMk8EeGwXFNRM+U4KG5tv2Sq0XGir7v29jFb6a4tyJCb2rYm4u1hh9
-         j22g==
-X-Forwarded-Encrypted: i=1; AHgh+RqwGzr99+IBi8h3b9yTzYkMZytLx0TV3zhMjF2PT5pq3HG5pKAY+RZPhfGsZFbllpZijcfDXayPHpT9cA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVf/zE35+7Ah9LSgOvAdIdPyBHOH4Q7l7JX8S+tflD27U21Ldl
-	9M8uoyIG41EJsrrMQ/V3JCpSC7hSSYjB157VhC1KaMxbnyiSS4BtQXqCtClk+LUBqgKLXLbtUjq
-	Xb8Ov+kgIfXZHaqYg601Yj9POVGiZ73VLajvwWKf4WNwPn1NIuYgpwhUjC3kxV7n+WiBqxdrr+r
-	qYtsc5U/QPHWsYa+4KBJNDnxje3HovAKauwctkSlAd
-X-Gm-Gg: AfdE7cmR6v7Bz2ZktLGl62K4chK672IkIMulnOqT/dWbBSVgPNSg+Z8Yu4iMtEUigyU
-	/TFxtcKZTGGjleZAtFrz8X3fVSS1ViCGSPJArdXy2adQBVcxLiIUcAuQyph9VkLYm8wWTaXgc0/
-	O6Z/RHsTQjzqgVyAef+CDGr7OWZAqXh7fOJRI8NOFmmxKl96EJvvaNEkPlaIYk9CKBlzZA
-X-Received: by 2002:a05:690c:46c6:b0:7ff:3a40:d97f with SMTP id 00721157ae682-801323710bbmr187404927b3.28.1782217840738;
-        Tue, 23 Jun 2026 05:30:40 -0700 (PDT)
-X-Received: by 2002:a05:690c:46c6:b0:7ff:3a40:d97f with SMTP id
- 00721157ae682-801323710bbmr187404447b3.28.1782217840128; Tue, 23 Jun 2026
- 05:30:40 -0700 (PDT)
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=f7RvRGM4RGNOCp9HuK6mLpWnfiaTFegP+eqXChY8we8=;
+ b=Y+VvagdXeRwWdSe8lrNC3I7nzuUkUOtRl1Mj29HECV9DGeor+h7yHlvXRZ8v2X8g4dHN37QW0Wz52pHA1aO25EVEa5Fz1Ii4i2tkT8EWs+Uj+IZ/26KxDWAbfVnyDivOu/osFaEEjTKBlCmPeNbgh+AmKJsEYvknxb6ugLdeQoo=
+Received: from SN7PR18CA0026.namprd18.prod.outlook.com (2603:10b6:806:f3::18)
+ by SA1PR19MB5498.namprd19.prod.outlook.com (2603:10b6:806:232::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.19; Tue, 23 Jun
+ 2026 13:58:23 +0000
+Received: from SA2PEPF00003AE9.namprd02.prod.outlook.com
+ (2603:10b6:806:f3:cafe::81) by SN7PR18CA0026.outlook.office365.com
+ (2603:10b6:806:f3::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.12 via Frontend Transport; Tue,
+ 23 Jun 2026 13:58:23 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SA2PEPF00003AE9.mail.protection.outlook.com (10.167.248.9) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.10
+ via Frontend Transport; Tue, 23 Jun 2026 13:58:22 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id C70A0406541;
+	Tue, 23 Jun 2026 13:58:21 +0000 (UTC)
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.13])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id ABDF182025A;
+	Tue, 23 Jun 2026 13:58:21 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com, m.szyprowski@samsung.com,
+        mripard@kernel.org, dave.stevenson@raspberrypi.com,
+        linux-rpi-kernel@lists.infradead.org, florian.fainelli@broadcom.com
+Subject: [PATCH] ASoC: soc-core: Don't fail if device_link could not be created
+Date: Tue, 23 Jun 2026 14:58:21 +0100
+Message-ID: <20260623135821.4125543-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260605103739.3557573-1-harendra.gautam@oss.qualcomm.com>
- <20260605103739.3557573-3-harendra.gautam@oss.qualcomm.com> <178065883033.3171433.8446753794680185025.robh@kernel.org>
-In-Reply-To: <178065883033.3171433.8446753794680185025.robh@kernel.org>
-From: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-Date: Tue, 23 Jun 2026 18:00:29 +0530
-X-Gm-Features: AVVi8CeP8QNIhESCYgjuAS6yT63Uj8PaIaSkaRLC7VCSJ8oFpUWf6gegnGmTHYI
-Message-ID: <CAC-tS8B6xFMxsZ=Zqw8Ox+YLLG7XfY1WTDab4aZoopXuRYScHw@mail.gmail.com>
-Subject: Re: [PATCH 2/13] dt-bindings: sound: Add Qualcomm QAIF binding
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDEwMiBTYWx0ZWRfX9gXh7U4lKcwQ
- hzg8J9AcVdwpxsJbAkn0vtTQ0PlunrR19t+L7etZAJgACI8FAGT8XRJxQ5ikFcL4iU9n3rrTC/Y
- WXsNhEVhNmP4P6nLjS0PtBhHI8hqXQ+khS+HPlhoNuXmDjBHCJOKzTXM2RL5KkReyovADJqH0kb
- f0PUtJEkfSd4qvdddgB2eGJbLQIAIQ+Aez0xrN1F78fPGgxpJPKPnJ9bsv2aIOc+6lIH79LOuDA
- tHC3vP4wptT4LpQXNpOMn4tEpu+vLARs06YhdIvrNRJhIqxxNnCwHlcJbvY4vQGm2fGOdP3foL3
- b1igIodFY9pfqAjJ7b+TJ3wzdVBe+LU8/H6zZ+I535yEgucrvzh4fJPpcJMhEmAzvAtDVHESaWB
- kTLO5ZhtpHhyhaCI1KFgnB8lKw+Nt4pZWygQt4PKslknGbIuYMvLYGBRNU0Ee+f0nVYE9smXWsZ
- v1BMmFBjVFN/D3dv4aQ==
-X-Proofpoint-GUID: 68X6BoQyHR1eXb2W70ObrPF2gV1gyayN
-X-Authority-Analysis: v=2.4 cv=dvfrzVg4 c=1 sm=1 tr=0 ts=6a3a7c71 cx=c_pps
- a=0mLRTIufkjop4KoA/9S1MA==:117 a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=_K5XuSEh1TEqbUxoQ0s3:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=mfCsxB9_3l_S4IKQe5AA:9 a=QEXdDO2ut3YA:10 a=WgItmB6HBUc_1uVUp3mg:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDEwMiBTYWx0ZWRfX2ptkAQA+Ni2a
- ajoRKCgy2dGYgKmARr+M/PTybfUo40vaeoeE/ToAT8dNafwQdM5FaDTXh9cvJQGv7lsjAZTvHiW
- PBf9JXZIeuG/JCc1ANb7JjLgPBkITFU=
-X-Proofpoint-ORIG-GUID: 68X6BoQyHR1eXb2W70ObrPF2gV1gyayN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-23_03,2026-06-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 phishscore=0 spamscore=0 adultscore=0 clxscore=1015
- suspectscore=0 malwarescore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606230102
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE9:EE_|SA1PR19MB5498:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 1d3d59c2-ae48-494e-7484-08ded12f7d79
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|36860700016|376014|82310400026|61400799027|7136999003|56012099006|11063799006|18002099003|16102099003;
+X-Microsoft-Antispam-Message-Info:
+	pjZajmBpuo+Q3R56F6FDY8KesDEB7YERgSXsyUsqVDbm4u4bKvZcWrGUn0AqSlq+KbJnL+OoPREWVAzcFRxeD4B8+nNGPK6JFKepyCdwWU0s7dgALuG6ni8fLSMwwMBHGgQYs26aIpfHYXl0iAZ4lZ83axJfwbbLuVVEyxgUaNDVr6QGfZ07eUeeVoALxXuaJyjplOn4n3buaA6a+l2OfVe5p0ZkUWhdtLcsdouTlNtTC9DaqWXciEIYYUtJYDLgOFNaPlVrG+E0v3ZXORL7XE+em47cYP34hLKo8asH7dN6Tw/1sL5ctjnLeVoP20Iajqo0zvZRM5oJRgEEIcGXRr2NQcfzKwST21ZEBn7P+1lnrE+85wJeop9hOUBRQeLF0AUYCNU5dhaHXcBd4rosPaHO+ig1mViWzzkHe1ISZJYxZo0MuPGnDbEFBQFmAtY99nNpUzpxyj6BIIq30JKsFIIQ7oy3bzMUWDEtUBQLgJ7FVZt/UKrbO70g4UjP5D4JNG57x8YFjep8jkX1zw+CJtox3ao3Q4Q/ngwSeG2mP1YOIw9YY8T8Oft/mHFXO8K98ZrAlmRs1T6dCGsMWGtnLonpwhg+x7H8w1F1Bj4bP38G78giSlnQZB6V42/4yBlTRIBFNe/+erhXrsR2rS8uOzMPWlL6zwQltiEGAESQiAo6o+z4Et2kK84Boce7J/MNc3d6oyMYUakQlTyShd8zbQ==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(376014)(82310400026)(61400799027)(7136999003)(56012099006)(11063799006)(18002099003)(16102099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	OPzcThz0zv2UCwzEiuCUbmAIoDt+rqmfqR4XQKnfvCAbdy539WQQYoEOOi0p5Z0ivUG/vlUcYnB1paWU8H6ueuFjGS342+aLUrZbQ2oZYymrl1RQNq+n1DFHca4dCbx/o1Ez/o78EvIAii8y7OLDxpuwsM1Iano7i9Q8oSKG4K7W6pSf26ejx1veFyQicuczjDwDFA8aA84g09a/wBobXsBbiicv5e0MsFpISdbftFg5qB//U3jtu4GbgbxVWkXfcnGIOd938/ZeICKIL5yYR7ddVnKvmJgDQdJ90MTGuZmvqwRGN9EsXNyLIixavKeDaQQl5GcnD3WEJIUoTwhVOKJ957PQprGtVNw0WahuInPMV71XZmxS7hzrHsGQ6Sx0G12Ws406VMhzT7LiKF+UMxq4jt+R76v1f+F3+zX3iMOEGiwc1dWJW+K0ynOwM3Cc
+X-Exchange-RoutingPolicyChecked:
+	ifCIP+tfuwztMJ4g2eratvG1tU48JCYg6aevXcL93ti77IOpqDnI+nK1LdmEj7aLGd6/NroH1/dI0zXxQ1Fjpwe2bNQZtZbqiVBtXPrQBX8PlJNabPDDQRVbSgPVVW1E8Lo9NKYvV/cA/avX5CrZOB8xOO3s+4gmxqypobG61089bi5yDY+bSwdGBcWZUCL1aPHjp7s7War4D5/OEowmFvoJ9xJUSBhw5ruw7NQugaSdvDS5/uxO63hVJzy1bMjSEUZcBuucocMlhr+5l9mMD7iRtXXQdek713w6RJK9Euln7fYq8DSwzaD5+JVnYzPZJh6vm10upWu470UnmkgchA==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2026 13:58:22.9180
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d3d59c2-ae48-494e-7484-08ded12f7d79
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF00003AE9.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB5498
+X-Authority-Analysis: v=2.4 cv=UJ3t2ify c=1 sm=1 tr=0 ts=6a3a9107 cx=c_pps
+ a=l/exgBlJIAx+5Sipbyuv7Q==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=FelO9ux0wxsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=VwQbUJbxAAAA:8 a=w1d2syhTAAAA:8 a=hD80L64hAAAA:8 a=Ec85s8B7YpnXUF10jvEA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDExNSBTYWx0ZWRfX6b1sKyj6NrKH
+ Wd3nFDWVeDW4qUJ1ZjpOMnPglXI5hi5KS8O6XHo0DXvjMaJ2IobdflNjfVyv9Yoi1hPtKUKzf5B
+ OQ+So3hCUp69zZQhd9KKioSAowi7e8OoHZFNU2quXyFqjt3WWe9inDXFI2RfsxPAjAHBPA+zqri
+ 0BVTpOtXmz6RVeedij43YMco1DtsBbrkVHOy7ksjAhm9RoUHzvjTigqr9yVDQ1dkBf1Y/Xmx4vz
+ cGfLXcyZyirtdkERUnPblEG52mjoTx+a2MfHaydURiRfuB0H3g4oZxYTp4nT6uT60LU89rZIDzd
+ YesXK+40NwQn3DtxAeMeuQcF6KY5vrrxdHuqVg211pll5DmLF3TTAZRDjeLpMX2wZ5HREhZt1wz
+ jggIulMB7rExteYKnVgoig3IUKIYTKNRG2ouwWmwJ8ebwyWY2m8aIfW3SM9i1zlMIxJMs114sOS
+ WJ2prd0ACz1oLjO2Rig==
+X-Proofpoint-ORIG-GUID: pPezew4Y5kl1huApcq6HoPmJGxwFtNRd
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDExNSBTYWx0ZWRfX3wqUmWpphDCy
+ IRcFB7uf7f6QxSW0XEvXu+Q35qXAbzWvu8YO93JPnvgk1XuSuwSJbXazwZyAP7GK3ltTTRLlba7
+ BVzTsN7PAysqPFuYkmXSjriszMxHSaU=
+X-Proofpoint-GUID: pPezew4Y5kl1huApcq6HoPmJGxwFtNRd
+X-Proofpoint-Spam-Reason: safe
 
-On Fri, Jun 5, 2026 at 4:57=E2=80=AFPM Rob Herring (Arm) <robh@kernel.org> =
-wrote:
->
->
-> On Fri, 05 Jun 2026 16:07:28 +0530, Harendra Gautam wrote:
-> > Add a Devicetree binding for the Qualcomm Audio Interface (QAIF) CPU DA=
-I
-> > controller used on the Shikra audio platform.
-> >
-> > QAIF moves PCM data between system memory and external serial audio
-> > interfaces through the AIF path, and between memory and the internal Bo=
-lero
-> > digital codec through the CIF path. The controller needs a binding so
-> > platform Devicetree files can describe its MMIO region, DMA IOMMU strea=
-m,
-> > clocks, interrupt, DAI cells and per-interface AIF configuration.
-> >
-> > Describe the single register region, one EE interrupt, the required GCC
-> > LPASS and audio core clocks, the DMA IOMMU mapping, and 'aif-interface@=
-N'
-> > child nodes used for static PCM, TDM or MI2S configuration.
-> >
-> > Signed-off-by: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-> > ---
-> >  .../devicetree/bindings/sound/qcom,qaif.yaml  | 353 ++++++++++++++++++
-> >  1 file changed, 353 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/sound/qcom,qaif.y=
-aml
-> >
->
-> My bot found errors running 'make dt_binding_check' on your patch:
->
-> yamllint warnings/errors:
->
-> dtschema/dtc warnings/errors:
-> Documentation/devicetree/bindings/sound/qcom,qaif.example.dts:28:18: fata=
-l error: dt-bindings/clock/qcom,shikra-audiocorecc.h: No such file or direc=
-tory
->    28 |         #include <dt-bindings/clock/qcom,shikra-audiocorecc.h>
->       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> compilation terminated.
-> make[2]: *** [scripts/Makefile.dtbs:140: Documentation/devicetree/binding=
-s/sound/qcom,qaif.example.dtb] Error 1
-> make[2]: *** Waiting for unfinished jobs....
-> make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1662: dt_bin=
-ding_check] Error 2
-> make: *** [Makefile:248: __sub-make] Error 2
->
-> doc reference errors (make refcheckdocs):
->
-> See https://patchwork.kernel.org/project/devicetree/patch/20260605103739.=
-3557573-3-harendra.gautam@oss.qualcomm.com
->
-> The base for the series is generally the latest rc1. A different dependen=
-cy
-> should be noted in *this* patch.
->
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
->
-> pip3 install dtschema --upgrade
->
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your sch=
-ema.
->
-Thanks for pointing out and sharing the steps, the dependent changes
-are also under review,
-Will mark that as dependency here in the next patch.
---Harendra
+If device_link_add() fails in snd_soc_bind_card() just skip that
+driver pair and carry on.
+
+This means that ASoC must now keep track of which components it was
+able to device_link to the card->dev. The new card_device_link member
+of struct snd_soc_component is non-NULL if a device_link exists.
+
+The intent of the device link is to ensure that the machine driver
+system-suspends before the component drivers, to prevent ASoC
+suspend attempting to reconfigure a driver that has already suspended.
+
+It isn't possible to create this device link if the machine driver is
+a parent of the component driver or already has a device_link in the
+opposite direction. In this case skip the link. A warn is placed in
+kernel log since this might indicate a genuine design problem with
+those two drivers (this can be downgraded to dbg in future when
+people are happy that all these special drivers correctly handle their
+reversed shutdown order).
+
+Fixes: 0f54ce994b23 ("ASoC: soc-core: Create device_link to ensure correct suspend order")
+Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Closes: https://lore.kernel.org/linux-sound/61bd38e7-5eb9-4448-a93f-afa2ccbd1c9d@opensource.cirrus.com/T/#m496fe5a11b0a3649afd2e85da5e1cea82bb16d8a
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+---
+ include/sound/soc-component.h |  4 ++++
+ sound/soc/soc-core.c          | 35 +++++++++++++++--------------------
+ 2 files changed, 19 insertions(+), 20 deletions(-)
+
+diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
+index 11bc9527653f..aa423865dbe7 100644
+--- a/include/sound/soc-component.h
++++ b/include/sound/soc-component.h
+@@ -10,6 +10,8 @@
+ 
+ #include <sound/soc.h>
+ 
++struct device_link;
++
+ /*
+  * Component probe and remove ordering levels for components with runtime
+  * dependencies.
+@@ -216,6 +218,8 @@ struct snd_soc_component {
+ 	struct list_head card_aux_list; /* for auxiliary bound components */
+ 	struct list_head card_list;
+ 
++	struct device_link *card_device_link;
++
+ 	const struct snd_soc_component_driver *driver;
+ 
+ 	struct list_head dai_list;
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 86b6c752a56b..7817beea5b3b 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -1980,19 +1980,15 @@ static void soc_cleanup_card_resources(struct snd_soc_card *card)
+ 	}
+ }
+ 
+-static void snd_soc_remove_device_links(struct snd_soc_card *card,
+-					struct snd_soc_component *stop_at)
++static void snd_soc_remove_device_links(struct snd_soc_card *card)
+ {
+ 	struct snd_soc_component *component;
+ 
+ 	for_each_card_components(card, component) {
+-		if (card->dev == component->dev)
+-			continue;
+-
+-		device_link_remove(card->dev, component->dev);
+-
+-		if (component == stop_at)
+-			return;
++		if (component->card_device_link) {
++			device_link_del(component->card_device_link);
++			component->card_device_link = NULL;
++		}
+ 	}
+ }
+ 
+@@ -2001,7 +1997,7 @@ static void snd_soc_unbind_card(struct snd_soc_card *card)
+ 	if (snd_soc_card_is_instantiated(card)) {
+ 		card->instantiated = false;
+ 
+-		snd_soc_remove_device_links(card, NULL);
++		snd_soc_remove_device_links(card);
+ 
+ 		soc_cleanup_card_resources(card);
+ 	}
+@@ -2012,7 +2008,6 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
+ 	struct snd_soc_pcm_runtime *rtd;
+ 	struct snd_soc_component *component;
+ 	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
+-	struct snd_soc_component *last_devlinked_component = NULL;
+ 	int ret;
+ 
+ 	snd_soc_card_mutex_lock_root(card);
+@@ -2141,19 +2136,21 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
+ 	 * Add device_link from card to component so that system_suspend
+ 	 * will be done in the correct order. The card must suspend first
+ 	 * to stop audio activity before the components suspend.
++	 *
++	 * If a driver pair already have a link in the opposite direction
++	 * they must manage their own suspend order.
+ 	 */
+ 	for_each_card_components(card, component) {
+ 		if (card->dev == component->dev)
+ 			continue;
+ 
+-		if (!device_link_add(card->dev, component->dev, DL_FLAG_STATELESS)) {
+-			dev_warn(card->dev, "Failed to create device link to %s\n",
++		component->card_device_link = device_link_add(card->dev,
++							      component->dev,
++							      DL_FLAG_STATELESS);
++		if (!component->card_device_link) {
++			dev_warn(card->dev, "Could not create device link to %s\n",
+ 				 dev_name(component->dev));
+-			ret = -EINVAL;
+-			goto probe_end;
+ 		}
+-
+-		last_devlinked_component = component;
+ 	}
+ 
+ 	ret = snd_soc_card_late_probe(card);
+@@ -2185,9 +2182,7 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
+ 
+ probe_end:
+ 	if (ret < 0) {
+-		if (last_devlinked_component)
+-			snd_soc_remove_device_links(card, last_devlinked_component);
+-
++		snd_soc_remove_device_links(card);
+ 		soc_cleanup_card_resources(card);
+ 	}
+ 
+-- 
+2.47.3
+
