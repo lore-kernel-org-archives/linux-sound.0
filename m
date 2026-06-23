@@ -1,178 +1,140 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708A43D0905
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 10:53:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782212021; cv=pass; b=U70P9HavmHpPH4Lj+LsWLbR6DoS9jWSf+jiS2qHr4j0uh2TbofN20at5E2z/1eAMiCP2cnXqQXCey20m/Qeh7QgrU7U0QW8LXy86QpH5THG8KFUyXtIiwLt1Q8NcxvykDTnS/21pLNCmgFbSvNNV+JrX+dyhu4uT7zhQ/ztMBFA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782212021; c=relaxed/simple;
-	bh=/btRBz4iJF96KbhaBsDhjmj4pM02xLdJ1Mk/5GVjzkA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rRFiJydmlmL0opAufL/4ncBSKeR0uTfPr4uGTC55btuQOpThhDvls/WDU98WHH0WFqNrt4/2d1R/04avGTacuG/peSLpaqrka8aFdsHh5g5PndwXbJkbBRM0QZJJ1g+4y4fr6xaWhVx/lm8dZGYUsiGqej9Q5icvNYGGNM3Tolw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HiBcRDhQ; arc=pass smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E85A3D0935
+	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 10:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782212264; cv=none; b=rZrhGxTZ1ZDLLzfwYxeM/HVOV89wRbsydoFa/beu1QFmY3hEn5zyQ4bHJMpuG+C0TfEX2vChrBPN/zQp/BmCsYSVmGLE9BdkI5qk/ib7mg5LBOVOnBF/p0g/PsBlrVs2ChbP0tvQUggbPyIhfvH/BqrFcg1kKyRbT/LwFbwBxiU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782212264; c=relaxed/simple;
+	bh=TKYhzfs8VtgqqRD2PS/7BaDFJ8zd46QEOjrGAO7/Oog=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FWQ0PAQOiWy3aKJWkYiWKutrg/CuokhMQkcgHyEPG6pIrMwXtsjSVvCjeopeib+gDSuU+TIWQNGHTt0ntk8bvP9JqHZPxLqfAwVq4z+IhUwMIcDzvPHxz/fFC/MO+r9xToGX91fcjYy3twSYJAFHbmfA9QA91pzAxMZs6IYLlFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CZfvUPbq; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HiBcRDhQ"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-36b8d414666so3034515a91.3
-        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 03:53:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782212020; cv=none;
-        d=google.com; s=arc-20240605;
-        b=iAuUiMfxxp9CSJ6iJ26NYEU4k0QIxUusynH3yp6kYBtzQba6C5Aw0sNYRqMO43Kqye
-         Y1Fu0s/okDoif4SEsrIuqv2z7JonZvFeHb9eHObKFgQ/yXZIrTEQSqD0U7fmAz7cwTM4
-         l52koKS9kUTY0hgMwTpEA9xu4lvYAUkVN6OlB3pI2s31Sk/y4ZAn22dbaEU8wy3+8vtO
-         d7maj7a7e4ee+SN1mLXCNobGUWT0wdXpLuYB6PxpgVfJe/CY6SLriYa7y2Uj8XghFScY
-         IqRWS9Wk1ZjSjDtPojWTJ4GLRURp30OAkHemZjSQ90zdH5p5WJGYsWFsEvDaxGRWNtoH
-         HBlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0t8B9KiaKml1jWkv/ehgW2nxgxFMiIhxgi2j8Q8oeTs=;
-        fh=CLJOopznzuttPNTMhJ88iTYPKmf4WvqkXrTytu+RlZg=;
-        b=SikuH+Cnt4uWIva0t/iVJ9wgowZbg3TMpUPdvOdqXCcp8O1EDyka3KLK6kf6MfhzK4
-         PiPLnS+mPiMV633W2cZ0RNx2V3qO6rUeMssC9H00DSsM8fbA20TM/wZ7Rv9qTZ9UfgHq
-         xo+yS9cAa6Z/3Hk17wNubfI243ClxjBtXDBca2x1gyod/ZVsfbm5Fx2BS8BlLjT/VAdi
-         HY8J9xnupWzqJcwNz9jPDuna4+eDDPG5NiGblz6NuTJKm8yV2Ge9e4AjvSGZIEEttScb
-         8XgfdEy0IZSpmnux4EYlN7rhy+ujJM73CD903hKZeLBO0CMT20TyDjVDSDfVMz9H3o7w
-         tcTA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CZfvUPbq"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8453a67659fso2998654b3a.1
+        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 03:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782212020; x=1782816820; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0t8B9KiaKml1jWkv/ehgW2nxgxFMiIhxgi2j8Q8oeTs=;
-        b=HiBcRDhQuprYofcr/6Y1E+VlgHtgTCbluTtcasreqS82O23LY5RLUdXpLBDZy1fR8r
-         /sVoMxz9ebvWdPzg9YloaqIxMZfyNHpNY57S3Xp8lQ9rINZQdj2rJGOT9t6BbfapvCmD
-         xnOYiSbQERF2jl1WxoEr4eSOyNNLAdxw5U8mxXOQGQuF/twrPr+AivzIDFV/JlyZm/nd
-         0Bg4Vz2C4iGs+XFMIhtPltso6fxjR96jy2GArRpRVIiR+bSUsIcWeF+WWzBRT3bFOg0J
-         HxqlXozUCT2EFnO7E5mE0XPlLrAAv95yaQnK/s/xyJW1FmDSgto8+3dbmeWQRDHIjFqc
-         f7UA==
+        d=gmail.com; s=20251104; t=1782212262; x=1782817062; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y7r5rbaAzJXbJdKI5D18Ck1wPIXNOOhR7cgcimtV+0M=;
+        b=CZfvUPbqGmh8/RBul8PfOUHtFzwNwyLhaiOaoGpxv8vJQ4GZwteHxn664N6r8tISdJ
+         oyQ+t6BYPw8wPGof9VrkhyW7m5tll1Ep42590D4PflT/xyLCE0DBa0U7HPncFQw1/9ai
+         WSdv87yYEAABB8MasVyseYex+45MhkHSnZ4Sdei0Bspvp4m76ncCiEBYrh1ogmVEr3ym
+         fGNGhjiqvJqvB2TbCDZD86JNfFQayrgzzTaiKLXgHqr3l2bBrfjyY4NZ3w0AMtoVB2O9
+         OyBVXXxmTuNOj5kJhfPb/ABjhzjKLso4eFR1RB6Epr10KCdf5qXvBfMauifsGORDe3X+
+         FPyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782212020; x=1782816820;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1782212262; x=1782817062;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0t8B9KiaKml1jWkv/ehgW2nxgxFMiIhxgi2j8Q8oeTs=;
-        b=ld12gy15ahUhVmngbZH3cAkaIdZop4UzlPxc80NBRFtJJquHHuVAv49lRSmFo4nfSK
-         E+TuKvFnGiuuaEKWAsyXJjT0ZFgml0emPfuqWXpvofbjb66dmxGMtE9IJyGedkiicHNk
-         voCNkGavz11M0d1wKNd1R2IcTAMXRCKfWb2Eux3k61S0Qsr1rA8mDl7jymflVl7YQflB
-         mXKZQiv8H6FG9e+JiGCkQ/AI+pbu4NrXpvv5qT69kgjZ4JPQKhfkazPLmPZ3a6WHvWA2
-         q1IW1vEfn6frFGo1leqJxxw2EckA5NlBSMCtQbAbwxpdW41M2khbrfnnwSedU3Y9f/MY
-         nYYQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8ltLLn0nvZkTCvJ6xQu4QCwcr6IQZCmQ5Zz71u2laiJUcjAi+zhpxp7rhCcq/z76Xnv+cchdt5mDSNdA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbkQUiweDmVsUSXG3MY1eDngbuUKDR/cnwEFU00PRf6g4NIAIT
-	SiZ5jvqA54hxIdYqvFhS+vPXPOJUxTL0/jkv6rn1aLNFkbwEYu535Uz5fgfN3GANF/VhLiwi9dT
-	A8llsty0fnEOw2m/Ihx6Kp4ze/uBONGMv+xS5
-X-Gm-Gg: AfdE7cn3G3FWEFP2nnYSdp9Uvjl+1tktR8rlMgWerFZ0ik/deSZAsxKAhLBdjzzmqqw
-	AJe0vh6AaXqXQm/lFQHi3lzumrgEUqldQKk5v9JvaQH1QiZw1nW7ngsKo2rXMtnQNwCZ5mYHAYC
-	JweJB3d8sf2i/CLSQFMXKzqcU/ioAQ2zJqyuWdlIzvBa9xEhYznHZpF/vfRdRr07cgavAPPIOG2
-	vqi6oSWtd5zx21bIgE/1wHyHp5SchLJOciKVcmAK99OGeFqh+plo9DoFEbIkWnmO4kGXM7OE7Y1
-	RhiC5/D6GvMgI8rqy2f1gpvlRD3HSLh12Qgh9Q==
-X-Received: by 2002:a05:6a20:d045:b0:3b4:904f:c9cd with SMTP id
- adf61e73a8af0-3bc5181907emr16930605637.6.1782212019669; Tue, 23 Jun 2026
- 03:53:39 -0700 (PDT)
+        bh=Y7r5rbaAzJXbJdKI5D18Ck1wPIXNOOhR7cgcimtV+0M=;
+        b=K6gGrxM0wZB9A8S967+dYC7Ss63xv/Q4loVV/Xw3I5ragNkIEAesvhj5zaDhzzJucL
+         sp7kSPcpMrGHk7SCaTROgBPY8mExxsFP7sCfrddwSLGMACEcn3hZoBj4WJI5OZ+nnRGS
+         aYz6z4Mm4gFQG4vLjTKX4zntxr//FSCpyTQMALufkKevrfaw4bApj1/Y7ovgBZQsNlPW
+         AYOsf/iintU05bAgzIRIcr+sf6R+FHUQbBULPPx1q4T6FfgSudZPR1XGOg1gaki8g0Wn
+         DwhJ7b+jcuj6iQr6kuiyP4QmdBPjkaThTVzU5hJSPKoVofZVmI75J9QZF7VR7KodsOGN
+         bzPQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+V7jAHC+UoxI+ViNL//TxB0JyDltKrQQNQ8pvp4NGrEK8BvjhKYs590FW7EtJcC7wj9UWPMZbxszeXlA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7/OQ1j3QdDm4hOGsphexchbSy9FYfp7RDyVdG/b1abAaA2Bwj
+	NSjGid/0Txq/z23bJaUr1GJAGHBdaRzmiz3Xm7VIQgIweAgm5IIA4HUs
+X-Gm-Gg: AfdE7ckp9RV6zM/QTAnRhv07qFc2w6Qrq1Gs0FcpG/yVDnzl7LcCT3x/1nlILJg1Ydr
+	2Yvj8R1WPI5efYlix34RORNTOJu/0uJfldvpqR+DRgI9z7zbh9ekMepLKt0ElmvtAIWnXFzZNm1
+	Co7u60dqJfuEW6JsbauIMdqociflGLf4bRgRFGb4nJR6thXoOFxktIy4Tt7Jwvhrt1rkRUzNZC2
+	l8fs4xfuWcGib9Tt+VBySsvXUNA1im/K88m4NjVtaJWcQEnQWqQNOvrM+BEc8s5O7GO4vDl6hEC
+	USledT1Kjmsep0Dw8/SYaAhcUDEezOvEGQxHhU4ALqsLL2D51g9uGikd+OQHamSaQR4487aGVhK
+	DPOJo29wYvAmgpIFqVHYa69c1Aa6Ltfe9KKwdJNuzjoz94iJYH4yeW94TJCyEQdnFNqhyANWBW1
+	aFuy/2bWjI57efdF15EEMUO/uX8TnAooXIcsVjD+OdRI438vI=
+X-Received: by 2002:a05:6a00:4502:b0:842:2419:6c0b with SMTP id d2e1a72fcca58-845970652bdmr2689804b3a.10.1782212262282;
+        Tue, 23 Jun 2026 03:57:42 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564d68130sm12343868b3a.10.2026.06.23.03.57.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 03:57:42 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v3 0/5] ASoC: Intel: Convert locking to guard()/scoped_guard()
+Date: Tue, 23 Jun 2026 17:57:16 +0700
+Message-ID: <20260623105721.25865-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260622005613.21870-1-phucduc.bui@gmail.com> <229ba136-66eb-4a30-a316-58377836b4dc@sirena.org.uk>
-In-Reply-To: <229ba136-66eb-4a30-a316-58377836b4dc@sirena.org.uk>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 23 Jun 2026 17:53:28 +0700
-X-Gm-Features: AVVi8CfJTdkORwgI_XliseheOLtan_Kjx0p8qfbLbr6t29reUwoDQB9fLtkHz3Q
-Message-ID: <CAABR9nG6BL+-urEg0qDzJHYmowm7O=du_0T4+K2ogdrcD30CXA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: rockchip: rockchip_sai: Hand over hclk control
- exclusively to Runtime PM
-To: Mark Brown <broonie@kernel.org>
-Cc: Heiko Stuebner <heiko@sntech.de>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Mark,
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Thank you for your review.
+Hi all,
 
-> >    1 Reverting back to devm_clk_get() to remove the implicit devres
-> >      enable/disable behavior.
-> >    2 Manually enabling and disabling hclk explicitly only around the
-> >      early register access before Runtime PM takes over.
-> >    3 Dropping the stray clk_disable_unprepare() at the end of probe()
-> >      so Runtime PM solely owns hclk afterward.
->
-> Note that runtime PM can be disabled at build time so we might not have
-> runtime PM at all...
->
+This series converts mutex and spinlock handling in Intel ASoC drivers
+to use guard()/scoped_guard() helpers.
 
-Thanks for pointing this out. You're right that with !CONFIG_PM, the
-driver only relies on the
-two manual calls to rokchip_sai_runtime_resume() / suspend(), so hclk
-stays enabled the
-whole time. I understand this is unvavoidable in that configuration,
-throgh, since there's no
-Runtime PM to re-enable the clock when it's needed.
+Most changes are straightforward conversions intended to simplify lock
+handling and cleanup paths, with no intended functional changes.
 
-I'll update the commit message to reflect that the driver uses a
-combination of Runtime PM
-and explicit manual enable/disable, rather than relying on Runtime PM alone.
+The series has been compile-tested only.
 
-> > Links:
-> > 1 This change is based on the discussion around manual hclk handing during probe(),
-> >   as raised by Krysztof:
-> >   https://lore.kernel.org/all/20e4754b-ea9a-404d-b529-ec44a7263cbf@kernel.org/#t
-> > 2 Background for the earlier devm_clk_get_enbabled() conversion:
-> >   https://lore.kernel.org/all/2818018.CQOukoFCf9@workhorse/
->
-> > An alternative approach would be use devm_regmap_init_mmio_clk() and let regmap
-> > manage clock enablement around register accesses. If preferred, I can rework the
-> > driver accordingly.
->
-> > -     sai->hclk = devm_clk_get_enabled(&pdev->dev, "hclk");
-> > +     sai->hclk = devm_clk_get(&pdev->dev, "hclk");
-> >       if (IS_ERR(sai->hclk))
-> >               return dev_err_probe(&pdev->dev, PTR_ERR(sai->hclk),
-> >                                    "Failed to get hclk\n");
-> >
-> > +     ret = clk_prepare_enable(sai->hclk);
-> > +     if (ret)
-> > +             return dev_err_probe(&pdev->dev, ret, "Failed to enable hclk\n");
-> > +
->
-> > @@ -1482,8 +1492,6 @@ static int rockchip_sai_probe(struct platform_device *pdev)
-> >       pm_runtime_use_autosuspend(&pdev->dev);
-> >       pm_runtime_put(&pdev->dev);
-> >
-> > -     clk_disable_unprepare(sai->hclk);
-> > -
-> >       return 0;
->
-> Are you sure that the runtime PM state there is such that it knows a
-> reference is held?  The driver used pm_runtime_get_noresume() so the
-> device didn't have RPM_ACTIVE set I think?
+Link v1:
+https://lore.kernel.org/all/20260611115901.80438-1-phucduc.bui@gmail.com/
 
+Link v2:
+https://lore.kernel.org/all/20260618110649.227062-1-phucduc.bui@gmail.com/
 
-You are right, pm_runtime_get_noresume() doesn't set RPM_ACTIVE. I
-think we need to add
-pm_runtime_set_active() before pm_runtime_enable(). Otherwise, with CONFIG_PM,
-the pm_runtime_put() at the end of probe() might skip the suspend,
-since the core still considers
-the device suspended .
+Changes in v2:
+ - Reduce the series from 20 patches to 4 patches.
+ - Drop smaller conversions that did not provide clear benefits.
 
->
-> The runtime PM API really is a miserable collection of landmines :(
-
-Yeah, plenty of landmines indeed :(
-I checked, and rockchip_spdif.c does use devm_regmap_init_mmio_clk() for hclk,
-rather than wrapping every register access in pm_runtime_get_sync() /
-pm_runtime_put()
-the way rockchip_sai does.
+Changes in v3:
+ - Drop the scoped_guard() conversion for the function that still used
+   a goto-based cleanup path.
+ - Move the __free(kfree) conversion into a separate patch.
 
 Best regards,
 Phuc
+
+
+bui duc phuc (5):
+  ASoC: intel: sst-mfld-platform-pcm: Use __free(kfree) for stream
+    pointer
+  ASoC: Intel: avs: Use guard() for locking
+  ASoC: Intel: avs: Use scoped_guard() for scoped locking
+  ASoC: Intel: atom: Use scoped_guard() for scoped locking
+  ASoC: Intel: atom: Use guard() for locking
+
+ sound/soc/intel/atom/sst-atom-controls.c     | 66 +++++++++-----------
+ sound/soc/intel/atom/sst-mfld-platform-pcm.c | 58 ++++++++---------
+ sound/soc/intel/atom/sst/sst_ipc.c           |  4 +-
+ sound/soc/intel/atom/sst/sst_pvt.c           |  8 +--
+ sound/soc/intel/avs/apl.c                    |  7 +--
+ sound/soc/intel/avs/control.c                |  7 +--
+ sound/soc/intel/avs/core.c                   |  3 +-
+ sound/soc/intel/avs/debug.h                  |  9 +--
+ sound/soc/intel/avs/debugfs.c                | 18 +++---
+ sound/soc/intel/avs/ipc.c                    | 60 +++++++++---------
+ sound/soc/intel/avs/loader.c                 | 14 ++---
+ sound/soc/intel/avs/path.c                   | 29 +++------
+ sound/soc/intel/avs/utils.c                  | 39 ++++--------
+ 13 files changed, 128 insertions(+), 194 deletions(-)
+
+-- 
+2.43.0
+
