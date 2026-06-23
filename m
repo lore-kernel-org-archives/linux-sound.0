@@ -1,50 +1,49 @@
 Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1A02E7F39;
-	Tue, 23 Jun 2026 07:02:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7C93C4161;
+	Tue, 23 Jun 2026 07:14:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782198151; cv=none; b=l1K+KJZVSwVVkYTJNi7N31UcjIYCmBfzsqrQEQi5T3NgSp+PDSqDaTsUKHdPFfqKUTUV7Svf2vrCz/76Kl6ovSgYSQcMQ2t752tDRvLUETMyRMSHk99yFZDElfOLib9Byc7QCPb++NUpAPSjWsWk0i0WS8JLjmim33kEktqAQcY=
+	t=1782198852; cv=none; b=W0ajKynzOksDpd2UhdsHfJ3BUDNWjYB+pz4XoPuXO+2K90EnZe3OppxY9idlHJyydx4jtGEflKJB63oUZaV6IL5AjprzsJSi4cw4IzfvSoM4ZoLZt//IucegnM2Kxo+SzBMk/6CDWTXKmeMIdBL1nk433oB3/FN1+mV8hu1ud1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782198151; c=relaxed/simple;
-	bh=ZgXH+aCDWXar/8+anbPvu5vGqVHBhnWpBl8e9EnT6GY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n3EAlmcuCCzl8SvMagDeEXH7N3ph9Z4CIA+lXkdbKxqapw12eMyl5GBNcZyWqXbJGicMuNA0FQ6+ON4ESV3TxVHzIjs8GaLwKuLQPiUbwrI6fZyKPSM8J6kIPvAdwPZTaYS1+o/dQTWAJnRjVMqRaMCH+NCbs0KpooB+gfya8aU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=f2Vr8R14; arc=none smtp.client-ip=54.204.34.130
+	s=arc-20240116; t=1782198852; c=relaxed/simple;
+	bh=EcLcK4dIYWtgXf2HtZAEyr+bUN1NWKljqV7ti9HeKD8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BljDJOaKi6xR73ZRBvhUnugUoh1GQ7MMQvFZpzZg8Z4cmxfVvLnhonXd1fbIeDeA0voLhONtXcLSY3eHBysFVTun08TZ/E4ZIWsW6gQ2M5aC4Q8XxRfG6rddRB0QIx0HtMRqvfITu9DWEj3rUHFwhNHbNr+76mq7gggt/luYLZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=JlKUlRhO; arc=none smtp.client-ip=54.204.34.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="f2Vr8R14"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="JlKUlRhO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1782198045;
-	bh=LwFDhizuo2+Ik8+Y9y71yGttfQKl3HJtlleYl5W4Tg8=;
+	s=onoh2408; t=1782198796;
+	bh=OOOX4IdnzL5+NaQ8WKpPYzBE7qpcRsguu7SiqddTdLo=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=f2Vr8R14E/6w8ahu7e9qcO1G2uFqrgibTtCzYP3xGMjJWrxbwMGHMsOGZq6Q/Tnz7
-	 wtAcTB28lePcq679nXzDuhQVlaRFXjPAuMCYJ2yD2wpb/tZ3eSr14+D1SmjDAg89Wd
-	 LfCa7TM3bweX65pa9eHVn3Npvsw9y0uMPAr8o2PQ=
-X-QQ-mid: zesmtpgz4t1782198027t97f7c958
-X-QQ-Originating-IP: K4HrqM9NJPvFIGR6trAEofPxRX96V0Z0Hx5XFKTP9aA=
+	b=JlKUlRhOlDPORLi8TzAWJxBARilbB/sPv7W1w8A6aRNTnk/8dQs7W5BqItdcwa5xE
+	 f5cgJhSHpfCX9RsMYsxQ6UY+xoE2uG6Eu7UHTDvlz7wmZWR1c2+Ewwprx3jrhPehbb
+	 pnKuTZo75gnicoRcHicIEuVyAoXrXQ7g5XScCaOs=
+X-QQ-mid: esmtpgz15t1782198791tc23560ea
+X-QQ-Originating-IP: fiTGSepmScylx8eYzHbEUlh7MCnoo0Qw8yL+cShU6cY=
 Received: from PEN202512010004 ( [113.57.152.160])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 23 Jun 2026 15:00:25 +0800 (CST)
+	id ; Tue, 23 Jun 2026 15:13:09 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 9120168397622121029
-EX-QQ-RecipientCnt: 10
+X-BIZMAIL-ID: 10345933106261499510
+EX-QQ-RecipientCnt: 9
 From: raoxu <raoxu@uniontech.com>
 To: perex@perex.cz
 Cc: tiwai@suse.com,
 	wangdicheng@kylinos.cn,
 	cassiogabrielcontato@gmail.com,
 	kees@kernel.org,
-	gregkh@linuxfoundation.org,
 	guanyulin@google.com,
+	raoxu@uniontech.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	raoxu@uniontech.com
-Subject: [PATCH 1/3] ALSA: usb-audio: qcom: Free QMI handle
-Date: Tue, 23 Jun 2026 15:00:23 +0800
-Message-ID: <30D641147F438936+20260623070023.2533877-1-raoxu@uniontech.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ALSA: usb-audio: qcom: Free QMI handle
+Date: Tue, 23 Jun 2026 15:13:08 +0800
+Message-ID: <9108EC860F3F87DF+20260623071308.2549182-1-raoxu@uniontech.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -54,24 +53,25 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: OHfGufoZnzRG2wlVYur2HeP4CGzgonchNAw3WaFUggW6Fnoi+UBJL8XY
-	N5Wh4qZ/JpIG1sY6VElQRD3XC/LpTUzP9kwj5W5sMfalTeJGo7G+0IcWeiOGA3JdZ95cYEi
-	jAjYPPTf3l+En5EqiPUZfHHgnjGNgypolngrHSQmsoYLrTxQBhJ7bnsvA6Zy8VGVvVN9Kv4
-	U+KKgdDtgjaNr2cVzqXqzkNPjZLn/1NsXzemxxMLZjm3PXRdnze2cCHXx/ismj76eHoWkj3
-	PGlcPSLjsE32gPYbZzdc/UzZN+J0FxIcMeKEBbVeuE9cHVXjGsmaSF4xb/fe/wu7XO7qsU/
-	plohogdoYFHrzadUq2mu8oITHSsWBi/iMpGwXsKdSTPo44kOPuw/s3f5RSuI5OG6/PvNYLD
-	LinO49fPjroF/gvUk6f9KZSSDCwgoIBlrZldC/Mhy2cThXBaMepd7zjBs+dmo4U1WQK6PBt
-	YEfeRz8voJ5XIygHVq0UyQHE9YO2ldO/I8QD28AULZLVjBIvW1ED1poZXHHitUW/jbaDnP2
-	/ye/xzHERUxEAslOp7Zj2VmxlAlm2u7KgmgbO774DP5pOM5bOQ7oji4I9Bsp1lCJVjRNULE
-	ppY7ad+ArWG0o/iHxYjwLOhTqVITSLMrX2wyCxM8X9e4dOZT4cdFlov5bv65Bbedyta1hJK
-	SLD5NX4yQxT5SxbgmJCH3mwSPlh6eA8vk2my5u5AQszHgQKCRRk21obEGqheeSa6fr8dpAC
-	aqtvslMZKxKvQqh8psLDJ6jl4djGzCR6ihAzoCRhq0qUa1SulhJo6zcevP2impt/+I23E6U
-	H7Hjap4vkInbulb1CMTXuD+pdNu3JSlIdVisWNvW1jMxXgvL/8q56x1eJkbod26hlz66cb7
-	p/XZy1E6M9v0uI+wnHRAgMnJ6/IXxJCnFnR+KXah5OjYkEQ9cRNfBBNPSUtKO8c5ExoAUl9
-	OAEfCi+y3pSrck+OZPCaskbpDpaX6f6ecPxh0AXigSsmkaR+XPif9lJETZrUy0va1602Jfh
-	rxC1WTck+wsHKOMxjtd6maKWLmXdCJwk1cS5qr6kU7mhdMO2kE
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: MJ+1k5A5PRMjzmD+5nLLyXsWfKuaLfFum6VszQlpQamOediiVsp4KEVt
+	llSRqEP3xfuSJ5F8q4/C3+Tl6vT8k91Qh3Y2yj65zmGGcN4iKt8Tscw5rMvAgO54FZi8nBF
+	n5ZxomihWHafPUo9xuMQUvOyVdE+hCcM81Ni0JE0Ssqu6RJTjXdwtzxGB37X/hi4ETTnaVe
+	HgBMSklMkTbaqPoG3m9cIfaq9Sea9uU/L3rXwmFSruXP5BCMcRhdrU1ic1hWunkdLcolZfc
+	sOFxekrki0Hn3K1U51Rt5InhbU+etgLrdzEL4BAyfP16tkodwth4kY+dQMUPTzqAmDGNe2H
+	HDw+xT80wPJQxzFCZBXNULUwsnoViO7VXFtRmyNtQ1YKYniErnHiV+eGRESrQ2Cntr6jtbZ
+	3/ugdX9miHID9l94JisDjEiUP1h+98ZrSqQhkUACSKRtYnQ2eqr99enP/k5rEtZ9iGwmfYB
+	iHLEv5GydIdxFLEoLqgGqQVkO4vBJ3L7uClZZyD69BXECIXVsRY5H7qFos2D72rLGraKX+4
+	5hU2UY/yqJNbD6WUnh7gHcvNPLOfcqA/UBGAEGSK6JSvyIsVH0cXsJpWiNumhvmpP62YIZY
+	l0jTAG2Cf433+Kxj+BegI/TbQffHsKXkR1Puuersh0E9SzOcWPP0hpmM3fHnVCWlHSsFs44
+	Z7Tk8mswStTsTnNSkwilEFypOCN47vvCUMCBUwO2mNEA4hddpCSeex5b8mmx04qZ2hrr+sJ
+	Q8Xcacmox6uKZb1veSYk1Q/fItch9Of0Z1RTPCER+G1DIifa4CNmNTI3Mbt5Uj1oA7wc1DA
+	9tJaXdyV+1VpunP1fD/1qkZEkr6IRF5f7+w4VLe/JTykGcLozvM/LeKFANarUIygA59MaIE
+	hXlM+D57ft6XcMPPqd0WtjB5zTpRK+cstxMjODNaqC46t5qG8V2wPFcrmg2BnF9qcb1s8ar
+	G/kqqUrPm65yhKvhbH1LNCwTVZuotqDOr1Y8X/WOKRzAx6Vrm611NfdCxk+Gu9gZgmMfkto
+	uQZW+v7xUABTvtY+7KCf3BWdm2EioN6r60Zv/dtsWIj/4lvPHmMzsz6l2FFmbks/wa4ULjv
+	Ae56ap/hkn1xAQYnkDM8LCLFhkcSFe3WA==
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
 X-QQ-RECHKSPAM: 0
 
 From: Xu Rao <raoxu@uniontech.com>
@@ -92,6 +92,9 @@ Free the handle after qmi_handle_release() in both paths.
 
 Signed-off-by: Xu Rao <raoxu@uniontech.com>
 ---
+Changes in v2:
+- Fix the subject prefix for a single patch.
+
  sound/usb/qcom/qc_audio_offload.c | 2 ++
  1 file changed, 2 insertions(+)
 
