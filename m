@@ -1,86 +1,86 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1561C2E06D2
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 09:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F7330CD89
+	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 09:14:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782205636; cv=none; b=m8pKjkwB0C7ZJJ2pv1UyTAyfp+9BZzzBYLHBkRrNjK3l4qZouiVCy+U2tLVKv96P7r4Uy6/rYOzEBL6ivuLyjl9od0tAcJrl/nMvevuDecA+cz9aX/EeEb1f3V62L6h4yhTuMqYIXYwdUA8COvH/LUA6/aasuxvTeqUm4X3aVDI=
+	t=1782206043; cv=none; b=urW9kNRA3EYk4RaMjo0RJPxPLxXj/gu93tg77GyNWGP31ljSMJCQ4AV5WWoqbW/9CaE93F8/REzhTmNNRYSgEMkH54ADGw/6AM2XheLpsyD5aaQLAviZQjb/J398PTZH++zvt+Q4Rn7BzHVL8FdS8btFsm9HOm8zC/dXldPETfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782205636; c=relaxed/simple;
-	bh=WukhzqxNcZwMEQXcGdz89FN159EkYgGHDb4TCOJ19SU=;
+	s=arc-20240116; t=1782206043; c=relaxed/simple;
+	bh=cQKjFSMQE+XeYyiWc+t1WYLYYKCy4O9bStOxNKaGyvM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S7dHiZpO+kYuAh9g8RP/57Mkz1HZrfIKQ0SUt0xK2EYPbMoR4hiIqimt+/ZS4IQKhHf/mJwslKvutFSx7lSHuIdG1cXt/FtMSxIx+HYh70HKbJ1UMc0J959OfMw4OcaU3qv3N9GoNKm9gOa0sd4mAY3/Oedze/DaEvwnAx3zMJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Mgp0G0dF; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jK9W367I; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=tJ9kKFya56TubRE51s6d6b4t22+wXoWaaaw/ePzakgU8fjNcMQdnkfgBJ9TkUHSnFgwrNq/bTR8r0Bm2zSIajk8GE8JaVTSyju98yHJIKmZy0a2WpT1QQVtaf4QdO+VyLIk6e1zFN+T+tuV8AEw8VMuRwOsYih0S7qHrNqDUrk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=A4mS7UH9; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FTrE63RZ; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Mgp0G0dF";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jK9W367I"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65N6caxi3646633
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 09:07:14 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="A4mS7UH9";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FTrE63RZ"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65N6cqaH3547392
+	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 09:14:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ynNpB9XvAD6eSLMQywfDBUNke/Uf1A8kYmXY2NhjcL8=; b=Mgp0G0dFB8pbwVk0
-	wj9ryNpuqJbsNfD0LfJuCfFhYshjeTITf8942Z2YbyqEF5QhWqpEwGzz96VTF5dr
-	94Jo07mIDrkXisOOUXKwyJby7AXRU0CmqX5D9jNg3s4mC9Fp7YfqFxycjZWSfGu/
-	r3NWrAyJ0z9oVnlvnOXV9mo1HabYIYRwipKYtFhASmM5A1he1pjWjsZiakVYqYi1
-	R966iBcb0fUwcrWgxIRuygV+GYFFsXiankjWL+6MLton7ac+q9ag6Zc8HR80NiRZ
-	ARFbUttYAfJOJNxr5Fl1LB5tjUc0sDxsNzs2gWnx3R952Dei1U4GRC57Bjq7/m/8
-	n0YvCg==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ey6tmum1f-1
+	24B/vWc0OHfdLJwPCzXWYKyFsXHSMgBg7admOM5KrsU=; b=A4mS7UH9cMUAFje6
+	A0r8LqRcNxoAq7P0nSPp7j7UH+rGGDrFJ6XHXWLsqzS+YWI3HvZiMZwWJqIkrA4I
+	AoUVIo+2n0Qks0KtLcggUx9+rPxok5ME4EiHCtEk3HdOU+C8Lmt1GEyZNUEVXqSy
+	5/P5OL7cE/GhGd8rVLAzZcGLTrIMJHqoMFRJze7Ct6AVBGTG+ccWCdIKO3/dnITf
+	ElE4W8bwg7Kjx8ZgIM3IgyM9+8LgzyJljD54Q1/TLJj/VZjuxKGw8ouZpleqURJX
+	RQToHzvomedlloJJZ8sdKpIPQZpqSpH2pw0tm+apD02wy8kNm07e9Bwfe8Frpqd5
+	4KmKbw==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ey3ebcd9q-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 09:07:13 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2bf1dece2ecso60347435ad.1
-        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 02:07:13 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 09:14:01 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-8453a81b846so7812159b3a.2
+        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 02:14:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782205633; x=1782810433; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1782206041; x=1782810841; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ynNpB9XvAD6eSLMQywfDBUNke/Uf1A8kYmXY2NhjcL8=;
-        b=jK9W367IT4DOi3pyzW+JYy/woyV2Wm33NodipDAnQlRd00M7DuSa0epui4mZumwKJX
-         pI3DQPjcvy3iv4K4oicOiRoSEefO8JEFJbGIrGHVrlg7jMztS/xWqQ6vIAznQ77o7Lde
-         rcRfSJkb+fAHLogFu1O+/E3gns/OFHhXOBYaxkfzYexlqNl6xYic27tFShT/fns59xso
-         /oZCsdF72v1uVPUCYrhh//Kc2IlMsp+0Ve1AA/yGVLmYKgEHmQuA3KFYebJhIZdCS1+F
-         LpSFe+l/Tzt5kigYnHWEKBxRlF2z+o/vgtofGsd/ihUjMIKgG2ANIDLf0h39/dW++RET
-         j6YA==
+        bh=24B/vWc0OHfdLJwPCzXWYKyFsXHSMgBg7admOM5KrsU=;
+        b=FTrE63RZTZXpWOmNB5p4G7awUJHn2DDWLB1S2RIeAGtDG9m06+eVvMCWB5Oug6Way6
+         jcOEjD8FYkuuvADjHK8nesOsEJTJ8lTLV1S8SFYwSlJeVcqe/bcn/Uzv71AyaP2eVAFK
+         mEXpQ5KaBOD2xSwVp80BFdJUU/RXGsAJaN+cXddqIj7tvNx61Xn81E5m3HEXJNVFxcoI
+         y3Tmw3h9vU7gGdYLdxbqVfizlxOF+UpLrgON2arpGA6fF7nnfLAJFfRTNXiEXAKia3cf
+         yk271TUgK80oWLPZNfId95M4Snr7VagYFpo/Ao2cND78ECxYfMXY36HmVfBtaLJl6fBJ
+         kV/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782205633; x=1782810433;
+        d=1e100.net; s=20251104; t=1782206041; x=1782810841;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ynNpB9XvAD6eSLMQywfDBUNke/Uf1A8kYmXY2NhjcL8=;
-        b=Iv8CyMOwpsEZ2MIJ3VKE/LETFXjVgKKqfKL44/Dhj59itYVb8dEhym3HP6zXM3RFFV
-         gi2xEMHNrruqqlgvGSIwH3A/kwosXaHYoSqLukDPhv5vC9szdybl2c+y1MhwQkbVcS1F
-         oBLPuSb5FgqNOmlXKHjWyWLUTiIyMB+TMGKkmaggQtO92ox3534S065D1NaD5XPBrry8
-         0TsAhsohCtS5Wu4ZF4SI8hZeSXf7TXD/kl/8jYCK13ZMYhp78CPB7nNPuZauhsf6YrSP
-         Em1rMH0RQ54kKoHDYxUHjubm0qxUXht3PB2QoBP8UB4auqBequifGsxDZNSHR6A3c8El
-         RN+w==
-X-Forwarded-Encrypted: i=1; AHgh+RonSAbIAPMGjzXHesmcLD10JvH1IJECRs+sscmdCm2xMkCeMH8Ey4j7RuMgn3Tdc6OGJF0sH6fC2m0OMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyAqjJ6chOVpRFLFC4rdncjhFvuN8BEcnJnpPG4xtOQa0yG2Vj3
-	HSbXkEGdR8wMvX92oo1Kgi6PC4GMdQ0jnS7u23/OureF+NDZzuu9wVetBj5oR47F1U41mTZOI6i
-	zN5w+Fk7quphEl0HIH+K8JIiJ0auy8TWlyh+uiIxvsL4OW4N/uhHO33dyVOqgPun5KA==
-X-Gm-Gg: AfdE7cmjW/mpCnPtLIsbMchBwfU2ypR8MU+1v9mZHQBk7yOs2SoSnDwitkH9K4ih7Qg
-	z9Mt6T9pXvO0RG2MhUg6U99Y2oU5VBmw7/kErgz4twXuLKz7oVDodagZncLLDPmxoOLEufLTnbz
-	YTfg7q2eRi+T4lUhn0S1Gaf5S8drQZAsKNCeLp2qtcP5yboUd4SX8B251PLyk7/2P15ZVcmOHHF
-	HVldJikroMC074TBp6GR1z9PrfwQmh/prA2E3hIBNval5mNQJHVU083OLcGtcUN7ISvIkV66KhQ
-	Dtr+sFoRp19pst/SAz5K5M5Z92owkt95y39T7BHqNuf19UUiMIQ9pJRZizP5YJpvHwJ85JfEQay
-	k3nO7VqzvmHruUKn2NO/NKGGewSy7swbaRKo2Xbl9tTtt
-X-Received: by 2002:a17:903:1a68:b0:2c0:b19b:ef0d with SMTP id d9443c01a7336-2c7c99de67dmr14775735ad.19.1782205632584;
-        Tue, 23 Jun 2026 02:07:12 -0700 (PDT)
-X-Received: by 2002:a17:903:1a68:b0:2c0:b19b:ef0d with SMTP id d9443c01a7336-2c7c99de67dmr14775255ad.19.1782205631977;
-        Tue, 23 Jun 2026 02:07:11 -0700 (PDT)
+        bh=24B/vWc0OHfdLJwPCzXWYKyFsXHSMgBg7admOM5KrsU=;
+        b=KjylXWxVcTEaFvNOF16zoTUm8JczTz6B+HSzGeEz5nLvjL+drlNMxluvMuMZGjwby2
+         apbtdQzcg8BvHmW2caQbKFp4Sq24NtVlAyeY4DriWycHtJnSjEd9Y0E8LLqt4Tj5M/+Q
+         abjCnYqogLNthskA9wQAlMzYmEN4yist8tOfiJS9BP1x9J5H/diJLHeL2Cl41bhMMscr
+         vJEue01w1fz669kCqP4PMjvGr0Xu2PkptY8v1wujQy1D6KcDlu2B/8czc+MlkEfH19El
+         rC9JeC3P5+KrOIqy3BjzVUu4TwWarqh/LuMB9rzdH5PfO9jG3wDrAKvUVipSj1ft9ot/
+         x0rA==
+X-Forwarded-Encrypted: i=1; AFNElJ+qkIU2/XAFaHlTSlkFrliv9p7kq4avxQ07H3/HFftlyrZiAv/Y373cMT0Zzw1gveFPpRc/1oShkgpHvw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzoaIrBo1vHNid4Thk86w2FGIGwm1oOYq/g3iiBUjkmB1wgWe/6
+	u2bXDHwkkoghA63M2dIWRkH3J7+vaJyO1/JOn+WKsXdA0hvfNo8lhy5ZGYMSiH6nt4XzpSpzrE5
+	X7baMssjOI29nb/bQf+ZwSYiq/J4agVT9JAoFt64MgkH/6aBOf7e8VnrBZkPcHrR4Cw==
+X-Gm-Gg: AfdE7clRymlM0fkb5ngG0RVYwXXM5J3mqGTpCsj/jRju9AjSr0bvy42hrjnO+Bp0eLa
+	AQ0u3j00ebncI6l/iS3YqkAIWQvbwsQeYi4OpofBzS9kAooO2EdOx+3sj+hkd23PF+oRtyaHfva
+	6Ds6IPWdv0HPupXRr/9YpZcXMXZpiT7A0ArJAwlDlqIIXQg/8q21m068iPMt4wUedtrWSn4jkDl
+	qljPe7DTWdIQSDHQrw/7Q+CMNAv725U2XKIWAH05gLYUE/r1un29Ou6GZPalyLiuG/CPNGWZ/LX
+	6nq4cJL3yVblLWARMRsU1t13mItCiBvqoKZALkibWCAQjBGGkNsxBgV+sPPhWJKbvwJFuFYo/WZ
+	pB3zjkAxPjY/DyFL66L+mQrouOjkPYuOlyyLo5qph027F
+X-Received: by 2002:a05:6a00:14c4:b0:82c:b808:4c59 with SMTP id d2e1a72fcca58-845970ff8e1mr1946826b3a.46.1782206040631;
+        Tue, 23 Jun 2026 02:14:00 -0700 (PDT)
+X-Received: by 2002:a05:6a00:14c4:b0:82c:b808:4c59 with SMTP id d2e1a72fcca58-845970ff8e1mr1946786b3a.46.1782206040140;
+        Tue, 23 Jun 2026 02:14:00 -0700 (PDT)
 Received: from [172.20.10.7] ([106.192.20.130])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7436d3505sm102101125ad.19.2026.06.23.02.07.02
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564ed3bd8sm9568565b3a.56.2026.06.23.02.13.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2026 02:07:11 -0700 (PDT)
-Message-ID: <89dad28f-c691-488c-bfc2-6ca3bd2068a8@oss.qualcomm.com>
-Date: Tue, 23 Jun 2026 14:37:01 +0530
+        Tue, 23 Jun 2026 02:13:59 -0700 (PDT)
+Message-ID: <81f10859-b7b9-4a37-a260-b77e36f0267a@oss.qualcomm.com>
+Date: Tue, 23 Jun 2026 14:43:49 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,7 +88,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] dt-bindings: sound: add qcom,wsa885x-i2c
+Subject: Re: [PATCH v1 2/2] ASoC: codecs: add Qualcomm WSA885X I2C codec
+ driver
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Srinivas Kandagatla <srini@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -102,202 +103,206 @@ Cc: Srinivas Kandagatla <srini@kernel.org>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-gpio@vger.kernel.org
 References: <20260610155708.151067-1-prasad.kumpatla@oss.qualcomm.com>
- <20260610155708.151067-2-prasad.kumpatla@oss.qualcomm.com>
- <20260611-debonair-barnacle-of-action-ee9d22@quoll>
+ <20260610155708.151067-3-prasad.kumpatla@oss.qualcomm.com>
+ <20260611-straight-refined-beetle-e2c934@quoll>
 Content-Language: en-US
 From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-In-Reply-To: <20260611-debonair-barnacle-of-action-ee9d22@quoll>
+In-Reply-To: <20260611-straight-refined-beetle-e2c934@quoll>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDA3MiBTYWx0ZWRfXzUhMiMn61I0J
- Z5Jf1bkupjADX80VsUVmdwevVPiWpAUA0XhgBVtQatqBN+TdbEaoY2iKjV6tg4jOs+asQwOFg+v
- OQkOTuF8PQXwEy/DciK6CzAtS5saWkU=
-X-Proofpoint-GUID: RcFGYCaz2yO3DG-FWBaHZzXBKjK8zR6K
-X-Proofpoint-ORIG-GUID: RcFGYCaz2yO3DG-FWBaHZzXBKjK8zR6K
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDA3MiBTYWx0ZWRfX2282EHqH9jKe
- +qYfjq4gP4ZyOHq1JUMNSJIDy9DXRdutN2eX/pF9XpIIlus1cYYz0cvU+MAL+BTQXbQALzW0BS2
- RD1EAbtqi2I7/Yn+sNB62eb1o1NLvqV7NFU14K7bc0YiOOrCtPGRy8JDsZFVw/tstzflspN8Ysk
- lUrDHK9HSJDei4Eu8vQVVudXNLGHRfBDlDBi9ItikqtVfMoYqbHknjSlRY56jgKMTLgYwJTr3v4
- nk/ckbQ+Yd1dEdGAzb7xLe+TuR4/ThubS0IWMpUuIco9wxt6vKOeE5XpAlF3nR+e/EH3Pd3Ops/
- tXztkhBJ0EMikzbKvuxXpveR5opzb9i2DikSTfT3mYP+pxSoVwgyZfFVCmCWU3ssjJ/LD380oCl
- bCPoF1qqvBKMUZl5vSLFLqZp4t8du6yiq5lQ/5pws5T0V8ZWqGWGU+x2TtqSKt9gXeeKNWX7lF/
- nB3u6SqB32M5z0p7TFQ==
-X-Authority-Analysis: v=2.4 cv=H4HrBeYi c=1 sm=1 tr=0 ts=6a3a4cc1 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=GtHFPjVsJ1z6j8OeKiQY1g==:17
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDA3NCBTYWx0ZWRfX8f0v3MYtNoRi
+ VnG1JlZEpyXS0kSgC2sha7K2MwPIAg+NgHebkdIqC8IfFNZ+F6myFPXcJfmsYlrGq88s8TwlYVk
+ 1GfpQ1pYYW/vL1SGDBhpZb4Q7bnMmZQ=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDA3NCBTYWx0ZWRfX9owYARmMdn6k
+ LOPWMafk4uxuGVkxjOigef90KwTp2D685n9GWa18BEquHgeoaAT3HZjfDGTwgDKBkLoc30s0/ZD
+ uh2dgkAEAxHpL3RzAPmRcHiU5LYDkuDw6YLEuFZAMusWr1q6dEbsBJL/2oGLs8sCqvroJEnPktG
+ LaReV9L8zvZOW5DWL6ZFRazqOBu5z6fTIyHlNf7+ckJ7qvh985zI1FuFo1I39ixdKEog0kbVbGe
+ pwjprAf3gc+sUIUum686bjm0SHl/mHPJ7SLkqGt090UC0PEzcg75ACZxBxFfUQOrQBZO0SnYPJU
+ Fnkpq3dqj8V7n/gbMLVlEVpcpIO3aJO0Vd+VhBlZRttlvyfU0T/97L9uYJoI3Gl1BqcN186Pt3Z
+ mnf0JDvTT+3YvrYfF/ojhQxgpZsGadnVP1l0dAVSyq6Q8fSF0BdF8hvP7aDab2Wg0EPJsutwVJz
+ L2zex665uoRu98lC7bw==
+X-Authority-Analysis: v=2.4 cv=ILIyzAvG c=1 sm=1 tr=0 ts=6a3a4e59 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=GtHFPjVsJ1z6j8OeKiQY1g==:17
  a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=gEfo2CItAAAA:8 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
- a=1GWs3Cmanii3QIT9qZoA:9 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
- a=sptkURWiP4Gy88Gu7hUp:22 a=cvBusfyB2V15izCimMoJ:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=YAGGjYiUH1UqZGlMsp0A:9 a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-GUID: 9Twi3vv83hmn51YOZk_XH66zxxZJsgR5
+X-Proofpoint-ORIG-GUID: 9Twi3vv83hmn51YOZk_XH66zxxZJsgR5
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-23_02,2026-06-22_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0 clxscore=1015 phishscore=0 bulkscore=0
- priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2606230072
+ phishscore=0 priorityscore=1501 bulkscore=0 clxscore=1015 adultscore=0
+ suspectscore=0 malwarescore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606230074
 
 
-On 6/11/2026 3:04 PM, Krzysztof Kozlowski wrote:
-> On Wed, Jun 10, 2026 at 09:27:07PM +0530, Prasad Kumpatla wrote:
->> Document the Qualcomm WSA885X I2C smart amplifier binding.
->>
->> Describe the required supplies, powerdown and interrupt GPIOs, the
->> optional battery configuration, and the optional init-table property
->> used to program the device during codec initialization.
->>
->> This matches the driver programming model and documents the DT data
-> Binding matches hardware, not driver. Please describe the hardware.
+On 6/11/2026 3:09 PM, Krzysztof Kozlowski wrote:
+> On Wed, Jun 10, 2026 at 09:27:08PM +0530, Prasad Kumpatla wrote:
+>> +};
+>> +
+>> +static void wsa885x_gpio_set(struct wsa885x_i2c_priv *wsa885x, bool val)
+>> +{
+>> +	if (!wsa885x || !wsa885x->sd_n)
+> How wsa885x can be NULL?
+>
+> This wrapper is pointless. Avoid creating abstraction layers over single
+> call to standard kernel interfaces.
 
 Hi Krzysztof,
 
-Thanks for reviewing the patch and for the feedback.
+Thanks for reviewing and comments on patch.
 
-Ack, Will add more HW details in next version.
+Agree. The NULL check is unnecessary, and the helper does not add any 
+meaningful abstraction.
 
->
->> needed to use the codec on platforms with Audio IF playback.
->>
->> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
->> ---
->>   .../bindings/sound/qcom,wsa885x-i2c.yaml      | 89 +++++++++++++++++++
->>   1 file changed, 89 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml b/Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml
->> new file mode 100644
->> index 000000000..1069f470d
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml
-> There is no I2C in device name.
-
-Ack, Will remove.
+I'll remove the wrapper and use the GPIO API directly in the next revision.
 
 >
->> @@ -0,0 +1,89 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/sound/qcom,wsa885x-i2c.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +		return;
 >> +
->> +title: Qualcomm WSA885x I2C smart speaker amplifier
+>> +	gpiod_set_value_cansleep(wsa885x->sd_n, val);
+>> +}
 >> +
->> +maintainers:
->> +  - Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
->> +  - Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+> ...
+>
 >> +
->> +description: |
-> Do not need '|' unless you need to preserve formatting.
-Ack, Will Update.
->
->> +  WSA885x is a Qualcomm Aqstic smart speaker amplifier with an I2C control
->> +  interface and a digital audio interface exposed through ASoC DAI callbacks.
+>> +static void wsa885x_gpio_powerdown(void *data)
+>> +{
+>> +	struct wsa885x_i2c_priv *wsa885x = data;
 >> +
->> +allOf:
->> +  - $ref: dai-common.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    const: qcom,wsa885x-i2c
-> Same here
->
-> Also, incorrect usage of wildcard. Look at other bindings how this is
-> written, so you will not repeat the same comments:
-> https://lore.kernel.org/all/20250522-rb2_audio_v3-v3-3-9eeb08cab9dc@linaro.org/
->
-> Read writing bindings before posting next version.
->
-> I also cannot find traces of internal review of this. Did it happen? Did
-> you receive toolset comments?
+>> +	if (!wsa885x)
+>> +		return;
+> How is this possible?
 
-Ack, Thanks for the reference link, will cross check and update the 
-bindings.
+No, I will remove all the unnecessary checks in the next version of patch.
 
-No, there is o internal review done for this patch due to timelines.
 
 >
 >> +
->> +  reg:
->> +    maxItems: 1
+>> +	wsa885x_gpio_set(wsa885x, true);
+>> +}
 >> +
->> +  '#sound-dai-cells':
->> +    const: 0
->> +
->> +  powerdown-gpios:
->> +    description: GPIO controlling the SD_N powerdown pin.
->> +    maxItems: 1
->> +
->> +  interrupt-gpios:
-> No, interrupts are never written as GPIOs.
+> ...
 >
-> Where is this binding coming from?
-
-
-Agree, Will remove this and come up standard interrupt bindings in next 
-version.
-
+>> +	if (count > 0) {
+>> +		if (count % 2) {
+>> +			dev_err(dev, "%s: Invalid number of elements in %s (%d)\n",
+>> +				__func__, init_table_prop, count);
+>> +			return -EINVAL;
+>> +		}
+>> +		if (count > WSA885X_INIT_TABLE_MAX_ITEMS) {
+>> +			dev_err(dev, "%s: %s has too many elements (%d > %u)\n",
+>> +				__func__, init_table_prop, count,
+>> +				WSA885X_INIT_TABLE_MAX_ITEMS);
+>> +			return -EINVAL;
+>> +		}
+>> +		wsa885x->init_table_size = count;
+>> +
+>> +		wsa885x->init_table = devm_kcalloc(dev, wsa885x->init_table_size,
+>> +						   sizeof(*wsa885x->init_table), GFP_KERNEL);
+>> +		if (!wsa885x->init_table)
+>> +			return -ENOMEM;
+>> +
+>> +		if (device_property_read_u32_array(dev, init_table_prop,
+>> +						   wsa885x->init_table,
+>> +						   wsa885x->init_table_size)) {
+>> +			dev_err(dev, "%s: Failed to read %s\n",
+>> +				__func__, init_table_prop);
+>> +			return -EINVAL;
+>> +		}
+>> +	}
+>> +
+>> +	ret = device_property_read_u32(dev, "qcom,battery-config",
+>> +				       &wsa885x->batt_conf);
+>> +	if (ret) {
+>> +		wsa885x->batt_conf = WSA885X_BATT_1S;
+>> +	} else if (wsa885x->batt_conf != WSA885X_BATT_1S &&
+>> +		   wsa885x->batt_conf != WSA885X_BATT_2S) {
+>> +		return dev_err_probe(dev, -EINVAL,
+>> +				     "Invalid battery config %u (expected 1S or 2S)\n",
+>> +				     wsa885x->batt_conf);
+>> +	}
+>> +
+>> +	for (i = 0; i < WSA885X_SUPPLIES_NUM; i++)
+>> +		wsa885x->supplies[i].supply = wsa885x_supply_name[i];
+>> +
+>> +	ret = devm_regulator_bulk_get(dev, WSA885X_SUPPLIES_NUM, wsa885x->supplies);
+>> +	if (ret)
+>> +		return dev_err_probe(dev, ret, "Failed to get regulators\n");
+>> +
+>> +	ret = regulator_bulk_enable(WSA885X_SUPPLIES_NUM, wsa885x->supplies);
+>> +	if (ret)
+>> +		return dev_err_probe(dev, ret, "Failed to enable regulators\n");
+>> +
+>> +	ret = devm_add_action_or_reset(dev, wsa885x_regulator_disable, wsa885x);
+> Why you cannot simply use devm_regulator_get_enable?
+Ack, will use.
 >
->> +    description: GPIO used for the codec interrupt output.
->> +    maxItems: 1
+>> +	if (ret)
+>> +		return dev_err_probe(dev, ret, "devm_add_action_or_reset failed\n");
 >> +
->> +  vdd-1p8-supply: true
->> +
->> +  vdd-io-supply: true
->> +
->> +  qcom,battery-config:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description: Speaker battery configuration, 1 for 1S and 2 for 2S.
-> Use string
-Ack.
+>> +	wsa885x->sd_n = devm_gpiod_get(dev, "powerdown", GPIOD_OUT_HIGH);
+>> +	if (IS_ERR(wsa885x->sd_n))
+>> +		return dev_err_probe(dev, PTR_ERR(wsa885x->sd_n),
+>> +							 "Shutdown Control GPIO not found\n");
+> Messed/misaligned indentation.
+Ack, Will update
 >
->> +    default: 1
->> +    enum: [1, 2]
 >> +
->> +  qcom,wsa885x-init-table:
->> +    $ref: /schemas/types.yaml#/definitions/uint32-array
->> +    minItems: 2
->> +    maxItems: 256
->> +    description: |
->> +      Sequence of register/value pairs applied during codec hardware
-> No, we don't store register values usually.
-
-
-Ack,I'll move them into the driver as a register table,
-
-making them easier to maintain and avoiding opaque DT data.
-
->> +      initialization. Entries are encoded as alternating register address and
->> +      register value cells. The number of entries must be even (register/value
->> +      pairs); maxItems is 256 (128 pairs).
+>> +	wsa885x_gpio_set(wsa885x, false);
 >> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - '#sound-dai-cells'
->> +  - powerdown-gpios
->> +  - interrupt-gpios
->> +  - vdd-1p8-supply
->> +  - vdd-io-supply
+>> +	ret = devm_add_action_or_reset(dev, wsa885x_gpio_powerdown, wsa885x);
+>> +	if (ret)
+>> +		return dev_err_probe(dev, ret, "devm_add_action_or_reset failed\n");
 >> +
->> +additionalProperties: false
-> unevaluated instead. Again, OPEN other existing bindings. Why doing
-> something completely different? Is there any WSA88xx binding with
-> additionalProperties? No.
+>> +	i2c_set_clientdata(client, wsa885x);
+>> +
+>> +	wsa885x->intr_pin = devm_gpiod_get(dev, "interrupt", GPIOD_IN);
+>> +	if (IS_ERR(wsa885x->intr_pin))
+>> +		return dev_err_probe(dev, PTR_ERR(wsa885x->intr_pin),
+>> +							 "Interrupt GPIO not found\n");
+>> +
+>> +	ret = wsa885x_register_irq(wsa885x);
+>> +	if (ret)
+>> +		return dev_err_probe(dev, ret, "wsa885x irq registration failed\n");
+>> +
+>> +	ret = devm_snd_soc_register_component(dev, component_driver,
+>> +					      wsa885x_i2c_dai,
+>> +					      ARRAY_SIZE(wsa885x_i2c_dai));
+>> +	if (ret)
+>> +		return dev_err_probe(dev, ret, "Codec component registration failed\n");
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static const struct of_device_id wsa885x_i2c_dt_match[] = {
+>> +	{
+>> +		.compatible = "qcom,wsa885x-i2c",
+>> +	},
+>> +	{}
+>> +};
+>> +
+>> +static const struct i2c_device_id wsa885x_id_i2c[] = {
+>> +	{"wsa885x_i2c", 0},
+> Used named initializers.
+Ack, Will update
+>
+>> +	{}
+>> +};
+>> +
+>> +MODULE_DEVICE_TABLE(i2c, wsa885x_id_i2c);
+>> +MODULE_DEVICE_TABLE(of, wsa885x_i2c_dt_match);
+> Don't come with own coding style. Each above goes IMMEDIATELY after the table.
 
-Thanks for pointing this out. I'll align the schema with the existing 
-WSA88xx
-
-bindings and replace additionalProperties: false with 
-unevaluatedProperties: false
-
-in the next revision.
+Agreed. I'll place each MODULE_DEVICE_TABLE() immediately after its 
+associated table to match the existing kernel style.
 
 Thanks,
 
 Prasad
+
 
 >
 > Best regards,
