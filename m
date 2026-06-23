@@ -1,86 +1,86 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBCF3CF1E0
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 08:54:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1561C2E06D2
+	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 09:07:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782204857; cv=none; b=skti3C7vAXqLRj1an/1JnQxx1M6moL2SY12tiiU5mOFKW9nV+3vFweQfWIvm1xU9DS4uEILZWfADVoQIQx2tDc/4xQrKc2c+kskUEoQ9yxo6WtF8UjbjRqsFAp4gCVfTEMhM2hOLN7OcaL58UamSsCk9lX8D0TEx3OiOnQoQ9jA=
+	t=1782205636; cv=none; b=m8pKjkwB0C7ZJJ2pv1UyTAyfp+9BZzzBYLHBkRrNjK3l4qZouiVCy+U2tLVKv96P7r4Uy6/rYOzEBL6ivuLyjl9od0tAcJrl/nMvevuDecA+cz9aX/EeEb1f3V62L6h4yhTuMqYIXYwdUA8COvH/LUA6/aasuxvTeqUm4X3aVDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782204857; c=relaxed/simple;
-	bh=UKPeFZkVjoN1f5cOoU9zC8RjUtGvrmqD0t/+VYvZqs4=;
+	s=arc-20240116; t=1782205636; c=relaxed/simple;
+	bh=WukhzqxNcZwMEQXcGdz89FN159EkYgGHDb4TCOJ19SU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g8h6Fla7HGcEuIX6D0wPSRVllNUIDir0wRghf7zb5ZVfISQL5JdDXz4s7hgCSNcl/KzNl4TX1gelAV9+WW09szGk0q1jMB4aPUbwdNyU2zYSvUVdY4JWj+mrrQsKsfPUgItM/GHX7VaOMqeoV2jmlgan9pvXQ9XliTLsGxb97hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dY63+Hl7; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ETmjHYrd; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=S7dHiZpO+kYuAh9g8RP/57Mkz1HZrfIKQ0SUt0xK2EYPbMoR4hiIqimt+/ZS4IQKhHf/mJwslKvutFSx7lSHuIdG1cXt/FtMSxIx+HYh70HKbJ1UMc0J959OfMw4OcaU3qv3N9GoNKm9gOa0sd4mAY3/Oedze/DaEvwnAx3zMJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Mgp0G0dF; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jK9W367I; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dY63+Hl7";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ETmjHYrd"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65N6cwPU3547461
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 08:54:14 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Mgp0G0dF";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jK9W367I"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65N6caxi3646633
+	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 09:07:14 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	CSmLihCC6mZQWr5AxByQaYexpwIz57mc1SOGzHGUD3E=; b=dY63+Hl7lHY6DDfC
-	wbdVJO8lUv0CVAgrHUtRCtn+WuBd0LqrsjAQDdXv+cp0eOIjIwxqQQRO6ivV97iC
-	3ZOp9wLemg5Cw36x+SiD6jpaDWK5jSkTB4LH5z9DaOuE5LEsJ/W9ZM3EowrqVp//
-	FAPITVA8wPafSijfp+99umvyxWXKXYSymRrlwtOrWgC6oymjv0cATCTZvWNq+YJF
-	SO0VLF+QqrkCYrQeArb964o80WCM2pwV3DsJwawV3CebamRh8Z2NgBfXG0I/5AlZ
-	nMxoOYaWRgB+oUyGeFUAnMWf9Jrt5SM19hZHpCkdvL+qukrXda8DJ6JW1cM9RXpM
-	PRoYyQ==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ey3ebcad3-1
+	ynNpB9XvAD6eSLMQywfDBUNke/Uf1A8kYmXY2NhjcL8=; b=Mgp0G0dFB8pbwVk0
+	wj9ryNpuqJbsNfD0LfJuCfFhYshjeTITf8942Z2YbyqEF5QhWqpEwGzz96VTF5dr
+	94Jo07mIDrkXisOOUXKwyJby7AXRU0CmqX5D9jNg3s4mC9Fp7YfqFxycjZWSfGu/
+	r3NWrAyJ0z9oVnlvnOXV9mo1HabYIYRwipKYtFhASmM5A1he1pjWjsZiakVYqYi1
+	R966iBcb0fUwcrWgxIRuygV+GYFFsXiankjWL+6MLton7ac+q9ag6Zc8HR80NiRZ
+	ARFbUttYAfJOJNxr5Fl1LB5tjUc0sDxsNzs2gWnx3R952Dei1U4GRC57Bjq7/m/8
+	n0YvCg==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ey6tmum1f-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 08:54:13 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-37c9d82cd57so5597499a91.1
-        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 01:54:13 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 09:07:13 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2bf1dece2ecso60347435ad.1
+        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 02:07:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782204853; x=1782809653; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1782205633; x=1782810433; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=CSmLihCC6mZQWr5AxByQaYexpwIz57mc1SOGzHGUD3E=;
-        b=ETmjHYrdQIX7/8mmi8lrTVZYWBEtbc/1PhypjlslEMfOogmlUMMjiNRV5QMaFbv5LR
-         36dkbfx4X3LLYI9yEhMzBfFC3iRf6uGpxmHOGJKzgXy0jfKfcHAsAuNUmmFbzPfcJEz9
-         nwHUmzeWUAedWXJieXBJOrKx2QXDO319P6tDSNXgmC31RKuzdTDpHTawD43NllesG/jw
-         NYOYQqMFBhM6SclMwTv3FrZ35pG6uctsF6VwLo90Rio0EfFUmdRhhNp++ieSTPBKL8Nw
-         njCwVKPqYc+afKs/LIHQylLl5L0B29+Yb5Kpcjl33vXxErofTBYVizxWjfzZewdUD86m
-         8qwA==
+        bh=ynNpB9XvAD6eSLMQywfDBUNke/Uf1A8kYmXY2NhjcL8=;
+        b=jK9W367IT4DOi3pyzW+JYy/woyV2Wm33NodipDAnQlRd00M7DuSa0epui4mZumwKJX
+         pI3DQPjcvy3iv4K4oicOiRoSEefO8JEFJbGIrGHVrlg7jMztS/xWqQ6vIAznQ77o7Lde
+         rcRfSJkb+fAHLogFu1O+/E3gns/OFHhXOBYaxkfzYexlqNl6xYic27tFShT/fns59xso
+         /oZCsdF72v1uVPUCYrhh//Kc2IlMsp+0Ve1AA/yGVLmYKgEHmQuA3KFYebJhIZdCS1+F
+         LpSFe+l/Tzt5kigYnHWEKBxRlF2z+o/vgtofGsd/ihUjMIKgG2ANIDLf0h39/dW++RET
+         j6YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782204853; x=1782809653;
+        d=1e100.net; s=20251104; t=1782205633; x=1782810433;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CSmLihCC6mZQWr5AxByQaYexpwIz57mc1SOGzHGUD3E=;
-        b=mabGA/jVYGe7nhhOW+T/ybYcwhXvmIwiZW0oYiskYuasUwg497atUlT5Kng4mm/oOT
-         +O0KPJyaKwQqMg5v4kXrIoNmOFKOnybyt5yi+NvuxTT4+jzaHqt7H58qojLUjQ6Cs0iA
-         Ge7OXN+wz/L6AgCNS6LXZHSAy9MzrP+lPqWXMAItNzLwUDzTLdhxIGT3AK/XmPemlQU2
-         LTqwITzubLRz/NMZI78v8XPjPNHbsrHHKHD3twL4br4c0cPdem3gJqiTmEiLYsMEo6Aa
-         mpkc9LqS3h2fxHCdxHOAkLkAYVDIySQVuAg6hR6RwCulOcyHaP88onIX5oowSURs8XPl
-         YZWw==
-X-Forwarded-Encrypted: i=1; AHgh+RpWRuqRZlxPBBUVUiD0k3hxt8E6wpTLrYGFncIRWrYuyvY+sZLEUEnGpmuX7NIupvK2OSEfOON2J/Djjw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyg4NVKGAS1jimm0DIuVDfQiWlNBCm2uRjHlWJITnwtatZjp+Kl
-	27R1F+t9+zeqgJWScLegOZlXWrnnVXwToWJPd4KdWtM35q4ai2qWWG5kY890ors5U9e0oYp+lPl
-	cAG7ici6QhnBA5IDI+mIog4uQlCOfsptxqNe9HTsJqgyB30ix+IkDp26znpmida2Rsg==
-X-Gm-Gg: AfdE7clTUf02spA1nqBLR8N6DM9hpXkzT/JId1xgJJMLxmlexfPFN2EROL0Ducfn7f3
-	9K+r0ShzKM30OWxRXY8CKAM1jgzbwDqjdwKMFWaDSgCnHovIZxJzQX9PwpfNEA9r6qMH9RlbqNm
-	c2j5D3IMB45/Ob9/hWOTqNsUznUqiABjcTZJXb5WWdM6k68ItGQNL3mHDxZeRbHbnTJuyuFOBiJ
-	HbQTKruY25EM0qSNsDZi8TO4LghoOqzJaPOnKtveuU9UQ8psQHvTPqIUgOXZcXPmdKsM1L8E8kb
-	vxHwQ/B07WCcE/3keL2w2DJeQ+n/TjaDCw2KiOLbDeCn6GD7eMnVbE3kgzb7Z+8oG8l61K/SLln
-	6wc+d2247g7UIDJZRjN/ABAFnA+bkLdxvulUfqdeJ+3Jb
-X-Received: by 2002:a17:90b:35cf:b0:36b:8baa:a683 with SMTP id 98e67ed59e1d1-37dd176c01dmr1791498a91.19.1782204852990;
-        Tue, 23 Jun 2026 01:54:12 -0700 (PDT)
-X-Received: by 2002:a17:90b:35cf:b0:36b:8baa:a683 with SMTP id 98e67ed59e1d1-37dd176c01dmr1791480a91.19.1782204852457;
-        Tue, 23 Jun 2026 01:54:12 -0700 (PDT)
+        bh=ynNpB9XvAD6eSLMQywfDBUNke/Uf1A8kYmXY2NhjcL8=;
+        b=Iv8CyMOwpsEZ2MIJ3VKE/LETFXjVgKKqfKL44/Dhj59itYVb8dEhym3HP6zXM3RFFV
+         gi2xEMHNrruqqlgvGSIwH3A/kwosXaHYoSqLukDPhv5vC9szdybl2c+y1MhwQkbVcS1F
+         oBLPuSb5FgqNOmlXKHjWyWLUTiIyMB+TMGKkmaggQtO92ox3534S065D1NaD5XPBrry8
+         0TsAhsohCtS5Wu4ZF4SI8hZeSXf7TXD/kl/8jYCK13ZMYhp78CPB7nNPuZauhsf6YrSP
+         Em1rMH0RQ54kKoHDYxUHjubm0qxUXht3PB2QoBP8UB4auqBequifGsxDZNSHR6A3c8El
+         RN+w==
+X-Forwarded-Encrypted: i=1; AHgh+RonSAbIAPMGjzXHesmcLD10JvH1IJECRs+sscmdCm2xMkCeMH8Ey4j7RuMgn3Tdc6OGJF0sH6fC2m0OMw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAqjJ6chOVpRFLFC4rdncjhFvuN8BEcnJnpPG4xtOQa0yG2Vj3
+	HSbXkEGdR8wMvX92oo1Kgi6PC4GMdQ0jnS7u23/OureF+NDZzuu9wVetBj5oR47F1U41mTZOI6i
+	zN5w+Fk7quphEl0HIH+K8JIiJ0auy8TWlyh+uiIxvsL4OW4N/uhHO33dyVOqgPun5KA==
+X-Gm-Gg: AfdE7cmjW/mpCnPtLIsbMchBwfU2ypR8MU+1v9mZHQBk7yOs2SoSnDwitkH9K4ih7Qg
+	z9Mt6T9pXvO0RG2MhUg6U99Y2oU5VBmw7/kErgz4twXuLKz7oVDodagZncLLDPmxoOLEufLTnbz
+	YTfg7q2eRi+T4lUhn0S1Gaf5S8drQZAsKNCeLp2qtcP5yboUd4SX8B251PLyk7/2P15ZVcmOHHF
+	HVldJikroMC074TBp6GR1z9PrfwQmh/prA2E3hIBNval5mNQJHVU083OLcGtcUN7ISvIkV66KhQ
+	Dtr+sFoRp19pst/SAz5K5M5Z92owkt95y39T7BHqNuf19UUiMIQ9pJRZizP5YJpvHwJ85JfEQay
+	k3nO7VqzvmHruUKn2NO/NKGGewSy7swbaRKo2Xbl9tTtt
+X-Received: by 2002:a17:903:1a68:b0:2c0:b19b:ef0d with SMTP id d9443c01a7336-2c7c99de67dmr14775735ad.19.1782205632584;
+        Tue, 23 Jun 2026 02:07:12 -0700 (PDT)
+X-Received: by 2002:a17:903:1a68:b0:2c0:b19b:ef0d with SMTP id d9443c01a7336-2c7c99de67dmr14775255ad.19.1782205631977;
+        Tue, 23 Jun 2026 02:07:11 -0700 (PDT)
 Received: from [172.20.10.7] ([106.192.20.130])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37d15de53ffsm12654566a91.12.2026.06.23.01.54.04
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7436d3505sm102101125ad.19.2026.06.23.02.07.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2026 01:54:12 -0700 (PDT)
-Message-ID: <3705ac5e-7e9c-43ec-bd1f-9757445984b3@oss.qualcomm.com>
-Date: Tue, 23 Jun 2026 14:24:01 +0530
+        Tue, 23 Jun 2026 02:07:11 -0700 (PDT)
+Message-ID: <89dad28f-c691-488c-bfc2-6ca3bd2068a8@oss.qualcomm.com>
+Date: Tue, 23 Jun 2026 14:37:01 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,120 +89,110 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1 1/2] dt-bindings: sound: add qcom,wsa885x-i2c
-To: Linus Walleij <linusw@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Srinivas Kandagatla <srini@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
         Rob Herring <robh@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Bartosz Golaszewski <brgl@kernel.org>,
+        Takashi Iwai <tiwai@suse.com>, Linus Walleij <linusw@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
         linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-gpio@vger.kernel.org
 References: <20260610155708.151067-1-prasad.kumpatla@oss.qualcomm.com>
  <20260610155708.151067-2-prasad.kumpatla@oss.qualcomm.com>
- <CAD++jLkFPb4CZqTsAh_qX1Jt9pWxhwhgbhREe9uybL_S7-t60Q@mail.gmail.com>
+ <20260611-debonair-barnacle-of-action-ee9d22@quoll>
 Content-Language: en-US
 From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-In-Reply-To: <CAD++jLkFPb4CZqTsAh_qX1Jt9pWxhwhgbhREe9uybL_S7-t60Q@mail.gmail.com>
+In-Reply-To: <20260611-debonair-barnacle-of-action-ee9d22@quoll>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDA3MSBTYWx0ZWRfX3EkrOKu+LLxN
- /HJhvs3L1I4Xo5Oy939gmKXMl4JZ1X0ADGc5jMlWhQCzaMNBnuKJ6q7XY1c0N4CQOUokKHHmmP1
- J5Ahgvla4s6P5rj3MP6qFfifojXak0M=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDA3MSBTYWx0ZWRfX+HAT0oYUORhG
- WEfA/FmE0Q/Tx4Y/v7d7dJxRVF3/3fQO7aYbXHhBRK80rbYzdI6WW9fJyHmM+hSvvEtKXa45lqk
- gtg3KEJOB8wTlzcD8F/+QOv/sNx+5+zQcUZ78PMFo6ZmkGmapKRhCLj3t7KkZ5ifv1WT9Tja6zF
- m2ADXByWLm6Zfqwuso89sRpfahEG/vhJ4NpT5A/DnTV2c9Fs/3XUd0rQIph9ipFE/HdHEzzvRqJ
- ZDA+ynRUn5pUWvRPN4W8hDSkVUG/puhmKcuxiqAkMcebTiWVCKpwXOMY4RsegQ/MpeKUu2QIGdV
- hqNp5XDAYr3SV4z8ddbLZV4QAb65njI6H3eI8926eYZ9MtpCy1yCrpm2ulsnuoTBX3CYfbSkcUQ
- iK37+dOS+BML622oW9D20+PjgwM4tPKkJ/725A0OlH5tO6zns4gzi+ksylZfl/omtEmmg5TYRq+
- jBNJXlkG4lE6bnqaSEQ==
-X-Authority-Analysis: v=2.4 cv=ILIyzAvG c=1 sm=1 tr=0 ts=6a3a49b5 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=GtHFPjVsJ1z6j8OeKiQY1g==:17
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDA3MiBTYWx0ZWRfXzUhMiMn61I0J
+ Z5Jf1bkupjADX80VsUVmdwevVPiWpAUA0XhgBVtQatqBN+TdbEaoY2iKjV6tg4jOs+asQwOFg+v
+ OQkOTuF8PQXwEy/DciK6CzAtS5saWkU=
+X-Proofpoint-GUID: RcFGYCaz2yO3DG-FWBaHZzXBKjK8zR6K
+X-Proofpoint-ORIG-GUID: RcFGYCaz2yO3DG-FWBaHZzXBKjK8zR6K
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDA3MiBTYWx0ZWRfX2282EHqH9jKe
+ +qYfjq4gP4ZyOHq1JUMNSJIDy9DXRdutN2eX/pF9XpIIlus1cYYz0cvU+MAL+BTQXbQALzW0BS2
+ RD1EAbtqi2I7/Yn+sNB62eb1o1NLvqV7NFU14K7bc0YiOOrCtPGRy8JDsZFVw/tstzflspN8Ysk
+ lUrDHK9HSJDei4Eu8vQVVudXNLGHRfBDlDBi9ItikqtVfMoYqbHknjSlRY56jgKMTLgYwJTr3v4
+ nk/ckbQ+Yd1dEdGAzb7xLe+TuR4/ThubS0IWMpUuIco9wxt6vKOeE5XpAlF3nR+e/EH3Pd3Ops/
+ tXztkhBJ0EMikzbKvuxXpveR5opzb9i2DikSTfT3mYP+pxSoVwgyZfFVCmCWU3ssjJ/LD380oCl
+ bCPoF1qqvBKMUZl5vSLFLqZp4t8du6yiq5lQ/5pws5T0V8ZWqGWGU+x2TtqSKt9gXeeKNWX7lF/
+ nB3u6SqB32M5z0p7TFQ==
+X-Authority-Analysis: v=2.4 cv=H4HrBeYi c=1 sm=1 tr=0 ts=6a3a4cc1 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=GtHFPjVsJ1z6j8OeKiQY1g==:17
  a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=EUspDBNiAAAA:8 a=gEfo2CItAAAA:8 a=K5i35rRROUDlzIanDXoA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22 a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-GUID: BIon8CChLD9YHJf_iLu0QCygWCekxEMX
-X-Proofpoint-ORIG-GUID: BIon8CChLD9YHJf_iLu0QCygWCekxEMX
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=gEfo2CItAAAA:8 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
+ a=1GWs3Cmanii3QIT9qZoA:9 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+ a=sptkURWiP4Gy88Gu7hUp:22 a=cvBusfyB2V15izCimMoJ:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-23_02,2026-06-22_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 bulkscore=0 clxscore=1015 adultscore=0
- suspectscore=0 malwarescore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606230071
+ spamscore=0 suspectscore=0 clxscore=1015 phishscore=0 bulkscore=0
+ priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2606230072
 
 
-On 6/11/2026 2:50 AM, Linus Walleij wrote:
-> Hi Prasad,
->
-> thanks for your patch!
-
-Hi Linus Walleij,
-
-Thanks for reviewing the patch and for the feedback.
-
->
-> On Wed, Jun 10, 2026 at 5:57 PM Prasad Kumpatla
-> <prasad.kumpatla@oss.qualcomm.com> wrote:
->
+On 6/11/2026 3:04 PM, Krzysztof Kozlowski wrote:
+> On Wed, Jun 10, 2026 at 09:27:07PM +0530, Prasad Kumpatla wrote:
 >> Document the Qualcomm WSA885X I2C smart amplifier binding.
-> Skip I2C? We don't need to tell e.g. "PCI" in some device on PCI and
-> there is no reason to mention I2C for this device, the fact that it sits
-> on an I2C bus will be apparent later.
-
-Ack, Will rename the file name.
-
->
+>>
 >> Describe the required supplies, powerdown and interrupt GPIOs, the
 >> optional battery configuration, and the optional init-table property
 >> used to program the device during codec initialization.
 >>
 >> This matches the driver programming model and documents the DT data
+> Binding matches hardware, not driver. Please describe the hardware.
+
+Hi Krzysztof,
+
+Thanks for reviewing the patch and for the feedback.
+
+Ack, Will add more HW details in next version.
+
+>
 >> needed to use the codec on platforms with Audio IF playback.
 >>
 >> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-> Perhaps add
-> Link: https://www.qualcomm.com/audio/applications/compute-and-mobile-audio/products/wsa8815
->
-> (...)
-Checking internal to get product Doc to publish.
 >> ---
 >>   .../bindings/sound/qcom,wsa885x-i2c.yaml      | 89 +++++++++++++++++++
 >>   1 file changed, 89 insertions(+)
 >>   create mode 100644 Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml
 >>
 >> diff --git a/Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml b/Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml
-> Drop the -i2c suffix on the files.
-Ack, Will update.
->
 >> new file mode 100644
 >> index 000000000..1069f470d
 >> --- /dev/null
 >> +++ b/Documentation/devicetree/bindings/sound/qcom,wsa885x-i2c.yaml
+> There is no I2C in device name.
+
+Ack, Will remove.
+
+>
 >> @@ -0,0 +1,89 @@
 >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 >> +%YAML 1.2
 >> +---
 >> +$id: http://devicetree.org/schemas/sound/qcom,wsa885x-i2c.yaml#
-> Drop the -i2c suffix.
-Ack, Will update.
->
 >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 >> +
 >> +title: Qualcomm WSA885x I2C smart speaker amplifier
-> Drop I2C.
-Ack, Will update.
->
+>> +
 >> +maintainers:
 >> +  - Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 >> +  - Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 >> +
 >> +description: |
+> Do not need '|' unless you need to preserve formatting.
+Ack, Will Update.
+>
 >> +  WSA885x is a Qualcomm Aqstic smart speaker amplifier with an I2C control
 >> +  interface and a digital audio interface exposed through ASoC DAI callbacks.
 >> +
@@ -212,9 +202,24 @@ Ack, Will update.
 >> +properties:
 >> +  compatible:
 >> +    const: qcom,wsa885x-i2c
-> Drop -i2c
-Ack, Will update.
+> Same here
 >
+> Also, incorrect usage of wildcard. Look at other bindings how this is
+> written, so you will not repeat the same comments:
+> https://lore.kernel.org/all/20250522-rb2_audio_v3-v3-3-9eeb08cab9dc@linaro.org/
+>
+> Read writing bindings before posting next version.
+>
+> I also cannot find traces of internal review of this. Did it happen? Did
+> you receive toolset comments?
+
+Ack, Thanks for the reference link, will cross check and update the 
+bindings.
+
+No, there is o internal review done for this patch due to timelines.
+
+>
+>> +
 >> +  reg:
 >> +    maxItems: 1
 >> +
@@ -226,6 +231,15 @@ Ack, Will update.
 >> +    maxItems: 1
 >> +
 >> +  interrupt-gpios:
+> No, interrupts are never written as GPIOs.
+>
+> Where is this binding coming from?
+
+
+Agree, Will remove this and come up standard interrupt bindings in next 
+version.
+
+>
 >> +    description: GPIO used for the codec interrupt output.
 >> +    maxItems: 1
 >> +
@@ -236,8 +250,8 @@ Ack, Will update.
 >> +  qcom,battery-config:
 >> +    $ref: /schemas/types.yaml#/definitions/uint32
 >> +    description: Speaker battery configuration, 1 for 1S and 2 for 2S.
-> What is a "1S" and a "2S"? Include description here.
-Ack, Will Update more details for 1s and 2s in next version.
+> Use string
+Ack.
 >
 >> +    default: 1
 >> +    enum: [1, 2]
@@ -248,29 +262,44 @@ Ack, Will Update more details for 1s and 2s in next version.
 >> +    maxItems: 256
 >> +    description: |
 >> +      Sequence of register/value pairs applied during codec hardware
+> No, we don't store register values usually.
+
+
+Ack,I'll move them into the driver as a register table,
+
+making them easier to maintain and avoiding opaque DT data.
+
 >> +      initialization. Entries are encoded as alternating register address and
 >> +      register value cells. The number of entries must be even (register/value
 >> +      pairs); maxItems is 256 (128 pairs).
-> Can this just be a table inside the driver, if it will be the same
-> array for every user? If this is board-unique then it needs to describe
-> what each value is actually doing well enough so engineers can use this
-> documentation right here to configure their board without looking through
-> register maps and what not.
->
-> Something more abstract using SI units etc is probably needed here.
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - '#sound-dai-cells'
+>> +  - powerdown-gpios
+>> +  - interrupt-gpios
+>> +  - vdd-1p8-supply
+>> +  - vdd-io-supply
+>> +
+>> +additionalProperties: false
+> unevaluated instead. Again, OPEN other existing bindings. Why doing
+> something completely different? Is there any WSA88xx binding with
+> additionalProperties? No.
 
-These values are part of a fixed hardware initialization sequence and 
-are not board-specific.
+Thanks for pointing this out. I'll align the schema with the existing 
+WSA88xx
 
-I'll move them into the driver as a register table, making them easier 
-to maintain and
+bindings and replace additionalProperties: false with 
+unevaluatedProperties: false
 
-avoiding opaque DT data.
+in the next revision.
 
 Thanks,
 
 Prasad
 
 >
-> Yours,
-> Linus Walleij
+> Best regards,
+> Krzysztof
+>
