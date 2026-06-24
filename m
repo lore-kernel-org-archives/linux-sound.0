@@ -1,125 +1,233 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40E038F22D
-	for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 23:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782257935; cv=none; b=rK0W03W74X905IjFdtblE10TsjET1ydo8GTc87sGLFGr/hHDDrxsUT6cx7+Hou9D0VXeRchWfpCLUU50adghr5b6n2RpRpm1mk+oyKexcdZmXO7eRUkP96+rhuw02WnTMILV68uOMsbn0pGzvyCTIEYgPdoWOkQDI+D7GaEp99A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782257935; c=relaxed/simple;
-	bh=anz1ToNpFKVzUDh7jTcBYy8XV/g88YgN/mz66Rdp+is=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ArV2qe1Gjp+DZQ8a4meCfRxAlIn/NrH8TbiNxUpTPCeWph742L9uEVT9Jeu1RYbikiRFcKfE8JrasxCWImhYwWF0gHXhMcm+mEkWEf1AqLeKpurQXfE640JzBTFX46nJmgS9Fv0ThonT9aRa+fHCsKgICoy4f3NgotZrcEL5lcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UU12PTIu; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB8A2F7F0A
+	for <linux-sound@vger.kernel.org>; Wed, 24 Jun 2026 02:37:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782268668; cv=pass; b=Apd6DQlv2sSBwHo3a/VFaoxR8fehWjegfHII1hBZrlHqKl7oQXbzV/IW5ofYm34SpDBJaQrOwMBf72Ed+KWrh+Tx71q9NjNO2bXLSHG1CXPHqvtrFjl/GuTmu2zd1QH6flgU7wqDFZ/iyK3m00/xLJmyIxdsWxIV7aInUJVYpqE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782268668; c=relaxed/simple;
+	bh=B/ln2cCY95JHYWnm1J+LiqXJhsX3Vj7BZ3VZc2i4tjk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gryC8wQLIMVz2prjqVmH6rTTuJAzKI8vddWH00YIb6FNz413U19RxCmwspny67UCFtXr+aMiiAfv2xSr6cLmW0ZffDFXTF71JKKKAvb47QYAS4DjnjUxcGJd8hkvzV4Mfn0Jca/xegs27W7HowxMsFIlh9M7Axwd8AI1jT6wQOw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iXY+kCbf; arc=pass smtp.client-ip=209.85.215.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UU12PTIu"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2c0aa420401so1992385ad.3
-        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 16:38:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iXY+kCbf"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c897468a244so150719a12.3
+        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 19:37:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782268666; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jOJZfgMLimjJUrtkPOPefPmOwqy1xcjqxQtjmIWSd8S7fKdWdX0OUv0mM4Hz2qrAjn
+         Gx/0NS0E6mceoQIBtMj1+GWmvpHuSI8NxaMXC18KcAVLa58DIN7yD9jy5gosaoeBBuzJ
+         QkA9ri0hLB+FOL6IIS6F5mxNpMyx3+FooBxxmsrtuOV/3Ug5xnwOCIQmo3GNQFLRTPE9
+         LFFZK5IgMajCUgM3D5HbNCm43ws7VEvK0u0mPY8j0vn8J7N5Nq1zOSDbt09aN3vJ3e4t
+         IeHAcOh0WxH2e0MUQKuKvZn6bhKouXGINSes51hYuS/tPI3qTJWGOcWI++d+pg7K5nCt
+         f0tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=rtXYQIYCd0esCeVGWFzBX+QPBDwNJiFP1FbIt4E6AKA=;
+        fh=YQvSaH7n6Q8qWSwFNqtGpSg4cdpGrcqIsKCMLuaMMJg=;
+        b=XgEti5oAiZk+PVIbgZ9+aZ7MHuWpeXTw28tS4mGGBjkNigkWinBMtrTxK8SubeByeS
+         /lzSFdKfQ+1otONu0M12EVbJA220KrsjBBdSh6tXOKRzW2rp491iXSrIltgasoFMtqNK
+         6t+wuRpchtuiyZ0gmvKilIzB++yFz2GwPBsyfxqmJnLYJcGqrD5dPJMNV/C+NI2hLw0L
+         vE9QWojSFnpRgGRyDEm5LhoF7Tt7DpRiAd3PobUCR7HBqbl1UwdBJ9Wzi7I10WB03/GC
+         IcHDeAtqrFBj7i99hTBdFVilCZBlomGGJlAbyvsvJq1V9gVmV3J2KIrHBl921W0dekae
+         GTCg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782257934; x=1782862734; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fw6+3fh/QLPaU0s83lcitL0HJwJ4R/4raPAKb7sIerQ=;
-        b=UU12PTIuTkt9361I5MS3m8DEAXydtZEozHHYwC68MlioIftlRs6xuGJxvd3FmgGm4/
-         DP04PK2uSrVgkfXPALSrpD06ou1Rc0ib9yYMcbWRpsJxT5PdNUUodbvwb09Y0hPRzM+D
-         ghU0CcwcQIf9IHfbcxqivdu52TcRiEYLT6mJSr8mawjCyZjnYNaLFAiVITKG7Z95N7L1
-         MERnxf+11Cns3HAow31iozyPGvEe6dgymPrUKoVDTeUHOEbTF47NjDGlAM3HEYjcoNDx
-         ZSZwSQH6hmzV7No/TetCdKnwpFXvOdkweGhNZ1g8mYHmrDxxZjerX6w1ePsjjBgS9AAo
-         h2Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782257934; x=1782862734;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782268666; x=1782873466; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Fw6+3fh/QLPaU0s83lcitL0HJwJ4R/4raPAKb7sIerQ=;
-        b=kTUqnJO+5sDXJu/uypkPa4v1o3fnX8uc1o5bUWMyu2s4UP1gl/miYJ/mxIWvcP9dVD
-         vgh/9wJvjwzTlqsXvREfRElK439/UUJMHoPDU3ScD+EhX8LA4AZIOH+FYAc0DxxwfJVx
-         LcXMRjyzKPi3/bLFYrE4PFYv5aDxAM/EN8W4EZ92XCXNmWcUP1SAk3wyJj8DzB+t+MQJ
-         CyQFeVfo+yN0YL4a5uE9EsTz1YEIaZRW+hSyFEKNnymb0PivjAZTZ8nP+41ZkxJP3LNd
-         mYcCf9xRshIcbDx8Mort+bPp8+62eIi/lnrXE3JNa1++9BbgWBqkkiGzUAeuk4DPLyYx
-         7WVw==
-X-Gm-Message-State: AOJu0Yzr3gn9m1iTD5vWPVshl3e4GAt2MqyjIB15vgeOXjV6VO4KWekU
-	mtLbisJjuvClIaLlJzV0WNUavroAuB/QlfmgFeI55JlZPRYCz/qDPpi/W0T2eqmY
-X-Gm-Gg: AfdE7cm7zmngMSNYZg1d6r9XzkvrC0lIoOCeu/bn5Q1ypgeJCFjVJKbb4atvTdtjC/4
-	qsgWXybBNOAiB0xfjfpwiH70DcykW3Ye6xf/8SUxnOrbMpIA7ruX0K1IYVl2ZAC6hhRtDsmI265
-	5C3zHy28B3PjPc78at3HS6e/xJAw0rM4ZEuS98xRX4PeFNlS0yzzv6RWB46dNOXdZLjS++SKNC0
-	sCpjE0IxKuVgRzGxzYGIKxSyl9qU83NnIPhAUIVUOHO95C8P+5L7SdPKntJNSssgIJl5QqM6e4E
-	bZVJll31e+Dtq34r35OHy4sZh6HI/6QtbO6UgEtono75SF6LLu8VFw8Gat84r95Ey1mfyL4AFSv
-	nu9tVzKDGj3NxbFcCTO/ZhwK+n876ioLsgrKl12QBpA/106egk9gHlgs1eNycrFVjT0v6e/Ri3X
-	uqE1kPdlfOs8pzb3r1IYjyScPKv6A77FRMyClCt1m0Bqtau8n48PUTzz0i+GUYWAcfdabOOzH0X
-	mSy8A==
-X-Received: by 2002:a17:903:3bc7:b0:2c4:608:167c with SMTP id d9443c01a7336-2c7c759693bmr52363295ad.6.1782257933696;
-        Tue, 23 Jun 2026 16:38:53 -0700 (PDT)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7436d6c16sm119647755ad.23.2026.06.23.16.38.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 16:38:51 -0700 (PDT)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: seq: Fix uninitialised heap leak in snd_seq_event_dup()
-Date: Wed, 24 Jun 2026 08:38:40 +0900
-Message-ID: <20260623233841.853326-1-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=rtXYQIYCd0esCeVGWFzBX+QPBDwNJiFP1FbIt4E6AKA=;
+        b=iXY+kCbfL++LL+C8tLgqxThNNHm8ZpXZe3Rx3OBUqyptfTnrPPsf5Ew4uscY6/RWFL
+         zN3iNRtGVuOC9Fxa6fSwp+YiO1kZcMa22TYpYxoHpZVqyqpny0Q4ezBVvYzfi2qZLyzU
+         jfrdNCfUZ3SoT7UwW21YIbCNFXucJrGPaKBMZAU3DDd1KaB/REYVLVftbdRzGc4KLhPY
+         9yrHaqO0sacO7McigZVxYf3NnOY8lw/YckiEjP7zL44HjO4mmAq3HQh/gNLX/ukqgUv+
+         cCTeeBw9Hbhafh25Nlbtdw59x92nU0eI2HmaUyvNlGfHUJc+1BR0PMXwU3Hi2zZIXUVn
+         np9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782268666; x=1782873466;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rtXYQIYCd0esCeVGWFzBX+QPBDwNJiFP1FbIt4E6AKA=;
+        b=IeK0e3wr1wSm1ABkoqtejPkuqAbEPzHGXlRNs0a6NLeEN7MK/Fn5UqEqXjIT5lVgmW
+         g59HulOAQzoLH8piuCYjcuZ8aGP5fOcsdnarj8r8TpAH7NlYSPYNCcQvssU2HPS+WXYY
+         v2j0mQTsTBOwBnkT9SQJEAsiV92hcnxu9YfWVZviBKvGC7RK1HpZNgzM1O74tDlapbuf
+         f6kDowknLMJeCNATVDToLM07kclZO6UxD8NCjGJaGETvLNtkbtPBYk0VSxqu7rvW5+Bc
+         d5uLS2MwOd6DXTxRSn2MtOVeZh2qrFU3Jr7Z548pe4NiG8vKBIxV1yA6wBVjt5vMK5g4
+         MVyA==
+X-Forwarded-Encrypted: i=1; AFNElJ+lEmmhsTTmX8yqozCH56G+KtMwrMOE3BZQEBhaEy7ayMlVf4BEl1q8W9SC/l9pO4pGSGXUkeMmLPh6Hw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWeFPEqQ/+QTx7Fh6/rJ7HPdp1W+aytr2VW0Ny53x4tM4g95d5
+	mtJYfGbgsIDwCKLMbZb8QWXNO78Uy7xBKoV4zvfZX0M39v6FJQzTN7pGqjrNM1wd/YApynetHxg
+	lCWXobWC2iijuu5a+3A9Uv67oYdvkH7U=
+X-Gm-Gg: AfdE7cmhLQEJbvthlgnFDPIXstSrMIuWWe3vrahkLbFJw+u5eDpAP/oysHGir3fMYOV
+	E06/4BYnlaBdAJwjHK7QJkOQ5Bufjptt0WktC1kNiI9I/n0gYGcqQMupuomk5eFSP/1/cYXx2oz
+	0uwVQHYtXtNJaq0EoTKQnuH4CX40E1+7WmNuWXKxY4DEHkHMX5PbxNhKWVfRBoI10jdEWhoMccf
+	NJ+i6uOEcMSha12Y5wQM7vFSS/pIddUSCc68nSK/JrjLUdvCHuY6ke7aXAd0a9bhBrhG1Uw/3Nb
+	/Qv8xFVEgej1jjxlg9MnAAfJlj4=
+X-Received: by 2002:a05:6300:49:b0:3aa:f2c7:fd87 with SMTP id
+ adf61e73a8af0-3bd2d23dcb9mr1656815637.31.1782268666306; Tue, 23 Jun 2026
+ 19:37:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260622005613.21870-1-phucduc.bui@gmail.com> <229ba136-66eb-4a30-a316-58377836b4dc@sirena.org.uk>
+ <CAABR9nG6BL+-urEg0qDzJHYmowm7O=du_0T4+K2ogdrcD30CXA@mail.gmail.com>
+In-Reply-To: <CAABR9nG6BL+-urEg0qDzJHYmowm7O=du_0T4+K2ogdrcD30CXA@mail.gmail.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Wed, 24 Jun 2026 09:37:33 +0700
+X-Gm-Features: AVVi8CdkK8REN-AFfjq_xzCg7k_Htq4uHz7WQJiam5YaqT9kTDS7xjGfn0ufY28
+Message-ID: <CAABR9nF8GebpxX0ry-MMLCfsyPJ6EUpkEtYdASAep2jX+d5gnw@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: rockchip: rockchip_sai: Hand over hclk control
+ exclusively to Runtime PM
+To: Mark Brown <broonie@kernel.org>
+Cc: Heiko Stuebner <heiko@sntech.de>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-snd_seq_event_dup() copies an incoming event into a pool cell and, in
-the UMP-enabled build, clears the trailing cell->ump.raw.extra word that
-the memcpy() did not cover.  The guard deciding whether to clear it
-compares the copied size against sizeof(cell->event):
+Hi all,
 
-	memcpy(&cell->ump, event, size);
-	if (size < sizeof(cell->event))
-		cell->ump.raw.extra = 0;
+Regarding the case where PM configuration is not enabled, with the old
+source code, I suspect there is an unbalanced clk_disable_unprepare()
+call on hclk when the driver is unbound after a successful probe under
+CONFIG_PM=3Dn.
 
-For a legacy (non-UMP) event, size == sizeof(struct snd_seq_event) ==
-sizeof(cell->event), so the condition is false and the extra word keeps
-stale data.  The cell pool is allocated with kvmalloc() (not zeroed) and
-cells are reused via a free list, so that word holds uninitialised heap
-or leftover event data.
+The actual enable_count / prepare_count sequence for hclk (with values
+clamped at 0) would be:
 
-When such a cell is delivered to a UMP client (client->midi_version > 0)
-that set SNDRV_SEQ_FILTER_NO_CONVERT -- so the legacy event reaches it
-unconverted -- snd_seq_read() reads it out as the larger struct
-snd_seq_ump_event and copies the stale word to user space, a 4-byte
-kernel heap infoleak to an unprivileged /dev/snd/seq client.
+probe:
 
-Compare against sizeof(cell->ump) instead, so the trailing word is zeroed
-for every event shorter than the UMP cell.
+devm_clk_get_enabled           0 -> 1
+runtime_resume (manual)       1 -> 2
+clk_disable_unprepare            2 -> 1 (at the end of probe)
 
-Fixes: 46397622a3fa ("ALSA: seq: Add UMP support")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
----
- sound/core/seq/seq_memory.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+unbind:
 
-diff --git a/sound/core/seq/seq_memory.c b/sound/core/seq/seq_memory.c
-index ca9f6db0022c..209b08c2a940 100644
---- a/sound/core/seq/seq_memory.c
-+++ b/sound/core/seq/seq_memory.c
-@@ -364,7 +364,7 @@ int snd_seq_event_dup(struct snd_seq_pool *pool, struct snd_seq_event *event,
- 	size = snd_seq_event_packet_size(event);
- 	memcpy(&cell->ump, event, size);
- #if IS_ENABLED(CONFIG_SND_SEQ_UMP)
--	if (size < sizeof(cell->event))
-+	if (size < sizeof(cell->ump))
- 		cell->ump.raw.extra = 0;
- #endif
- 
--- 
-2.43.0
+remove -> runtime_suspend   1 -> 0 (ops->disable/unprepare executed here)
+devm cleanup                          0 -> WARN "already disabled" /
+"already unprepared"
 
+This conclusion is based solely on code inspection; I do not have
+hardware available to verify it.
+I noticed that Nicolas tested and ACKed the use of devm_clk_get_enabled(),
+so I'm not sure whether that testing included the CONFIG_PM=3Dn configurati=
+on.
+
+https://lore.kernel.org/all/2818018.CQOukoFCf9@workhorse/
+
+If it did, then I may have overlooked something.
+
+@Nicolas (or anyone familiar with this), could you please help
+double-check if my understanding is correct?
+
+Best regards,
+Phuc
+
+
+
+On Tue, Jun 23, 2026 at 5:53=E2=80=AFPM Bui Duc Phuc <phucduc.bui@gmail.com=
+> wrote:
+>
+> Hi Mark,
+>
+> Thank you for your review.
+>
+> > >    1 Reverting back to devm_clk_get() to remove the implicit devres
+> > >      enable/disable behavior.
+> > >    2 Manually enabling and disabling hclk explicitly only around the
+> > >      early register access before Runtime PM takes over.
+> > >    3 Dropping the stray clk_disable_unprepare() at the end of probe()
+> > >      so Runtime PM solely owns hclk afterward.
+> >
+> > Note that runtime PM can be disabled at build time so we might not have
+> > runtime PM at all...
+> >
+>
+> Thanks for pointing this out. You're right that with !CONFIG_PM, the
+> driver only relies on the
+> two manual calls to rokchip_sai_runtime_resume() / suspend(), so hclk
+> stays enabled the
+> whole time. I understand this is unvavoidable in that configuration,
+> throgh, since there's no
+> Runtime PM to re-enable the clock when it's needed.
+>
+> I'll update the commit message to reflect that the driver uses a
+> combination of Runtime PM
+> and explicit manual enable/disable, rather than relying on Runtime PM alo=
+ne.
+>
+> > > Links:
+> > > 1 This change is based on the discussion around manual hclk handing d=
+uring probe(),
+> > >   as raised by Krysztof:
+> > >   https://lore.kernel.org/all/20e4754b-ea9a-404d-b529-ec44a7263cbf@ke=
+rnel.org/#t
+> > > 2 Background for the earlier devm_clk_get_enbabled() conversion:
+> > >   https://lore.kernel.org/all/2818018.CQOukoFCf9@workhorse/
+> >
+> > > An alternative approach would be use devm_regmap_init_mmio_clk() and =
+let regmap
+> > > manage clock enablement around register accesses. If preferred, I can=
+ rework the
+> > > driver accordingly.
+> >
+> > > -     sai->hclk =3D devm_clk_get_enabled(&pdev->dev, "hclk");
+> > > +     sai->hclk =3D devm_clk_get(&pdev->dev, "hclk");
+> > >       if (IS_ERR(sai->hclk))
+> > >               return dev_err_probe(&pdev->dev, PTR_ERR(sai->hclk),
+> > >                                    "Failed to get hclk\n");
+> > >
+> > > +     ret =3D clk_prepare_enable(sai->hclk);
+> > > +     if (ret)
+> > > +             return dev_err_probe(&pdev->dev, ret, "Failed to enable=
+ hclk\n");
+> > > +
+> >
+> > > @@ -1482,8 +1492,6 @@ static int rockchip_sai_probe(struct platform_d=
+evice *pdev)
+> > >       pm_runtime_use_autosuspend(&pdev->dev);
+> > >       pm_runtime_put(&pdev->dev);
+> > >
+> > > -     clk_disable_unprepare(sai->hclk);
+> > > -
+> > >       return 0;
+> >
+> > Are you sure that the runtime PM state there is such that it knows a
+> > reference is held?  The driver used pm_runtime_get_noresume() so the
+> > device didn't have RPM_ACTIVE set I think?
+>
+>
+> You are right, pm_runtime_get_noresume() doesn't set RPM_ACTIVE. I
+> think we need to add
+> pm_runtime_set_active() before pm_runtime_enable(). Otherwise, with CONFI=
+G_PM,
+> the pm_runtime_put() at the end of probe() might skip the suspend,
+> since the core still considers
+> the device suspended .
+>
+> >
+> > The runtime PM API really is a miserable collection of landmines :(
+>
+> Yeah, plenty of landmines indeed :(
+> I checked, and rockchip_spdif.c does use devm_regmap_init_mmio_clk() for =
+hclk,
+> rather than wrapping every register access in pm_runtime_get_sync() /
+> pm_runtime_put()
+> the way rockchip_sai does.
+>
+> Best regards,
+> Phuc
