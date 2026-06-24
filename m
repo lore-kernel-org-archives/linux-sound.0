@@ -1,111 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8847377ECA;
-	Wed, 24 Jun 2026 17:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE071FFC48;
+	Wed, 24 Jun 2026 17:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782320765; cv=none; b=JAR8VfUxsAwSu9IIU23dVETmUAxQ4ZyVBwjbp8dArYdGvK3MvddUGrOSDmVllMkrWscHSHTsRauULGslpnCyqwzUka5JEGNBkHqWWqH9BoEr6XFLpCTE4/duLfcuwGAYqbPTotFd+d7LyXM8De5TXjlV7CmAd2x+PEY1gMDO8EE=
+	t=1782322237; cv=none; b=ROJfJ2t+Oc90WtDarSjsENX6QwtvOSEafKPwqdDfFm98xroY2akrW16gaMnUBnOQgDZu562dZw5+G+jXrRVHPl1v+EqlO4uLSpqHXOFw8aukkEOrk+c+hrJJoY40t4n1icdulptroi9smsrEOtTNbYe2C1Zn73A5IY3nrr9MY4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782320765; c=relaxed/simple;
-	bh=YCDGEuINTLe++ujMs0MLsvBendFNcyERfYr932ENZlY=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=h1I6cm44QdM6ba71p99AOfKq/lgi32wx5O/DhIVg8WSQahsQDBVprY46YHxr5eX4YC4mkyqnsogWppw8szUvcS6fgRg08OsI/VZjwyzPCv/9GYABoMCipXoGPjLSuGdHab8nbbMzUF07pX1H118vJoEikuuJ1mtiuTOvkkXX8qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NAbFzUeU; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1782322237; c=relaxed/simple;
+	bh=1NW8xouruuORoUuB1OXUIgSirStgX6IUnPKVsubKicE=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=l/zRrOiZ9ZpM4OZlmLcYoFZLzFhMZJfwhoEDFN0kT4T7DE/gje6dQuFjmdAQwZD0wAHusCTyBBY0yxk3oA8JIft4y8wBdSF858fchH4oueFokMKheNJRpKr42DOSqe9hzJfUMdk1cTogQ61uxpREJccpf0P0+NSs1yAFBeH/JLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E08dD9M/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NAbFzUeU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782320763; x=1813856763;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=YCDGEuINTLe++ujMs0MLsvBendFNcyERfYr932ENZlY=;
-  b=NAbFzUeUJY1E9YIY5LQvqx1LHGSF47mGBW7g+8N84azQbBf/QbcH6AYz
-   FWjedB/oL8TOnekLZJKxbO45gGD1ESv9igr4cxw3jfC0Hw2TDeeQ+7kJi
-   5VUr40syok9G7UCFJA+CjtIHAJJQ9Sz6tcMls6dw2f3wTEbmbysOCmPAz
-   /bHNsUiyDzr+4Gbi2ZEzVHDp4xgIZfcQy5BVHCctOwJ7s0Qr1cFp2UJtQ
-   ZvQBWVJZE4FcBtGLS2K0pA+lWwXot6DCVk3ezc3EvyR5zjnOukITP4TJ9
-   MVQBt+wXyrkk4m5ikS56OSzoVRUUfZfwzQBfavRF5GqEJFB8Yuw6HIU9v
-   g==;
-X-CSE-ConnectionGUID: H6CTjG0KSK2ovFUoynmwEg==
-X-CSE-MsgGUID: z0bREPv0TnikE0tdX+c8ZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="70599477"
-X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
-   d="scan'208";a="70599477"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 10:04:57 -0700
-X-CSE-ConnectionGUID: CGqLnAELQLinR1/MALmkCg==
-X-CSE-MsgGUID: 53XqoACrRRKO7EfJ4Y9shw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
-   d="scan'208";a="255030529"
-Received: from zzombora-mobl1 ([10.245.244.173])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 10:04:54 -0700
-Date: Wed, 24 Jun 2026 20:04:50 +0300 (EEST)
-From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-To: Alexander Kaplan <alexander.kaplan@sms-medipool.de>
-cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-    =?ISO-8859-15?Q?P=E9ter_Ujfalusi?= <peter.ujfalusi@intel.com>, 
-    =?ISO-8859-15?Q?P=E9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>, 
-    Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-    Jaroslav Kysela <perex@perex.cz>, 
-    Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
-    stable@vger.kernel.org, Uma Shankar <uma.shankar@intel.com>
-Subject: Re: [PATCH] ALSA: hda/hdmi: disable KAE for Intel Panther Lake
-In-Reply-To: <178196763509.3248.8656978100050911066@sms-medipool.de>
-Message-ID: <b6e4caac-53f1-729f-51d2-aa0ca514ab04@linux.intel.com>
-References: <f7d26e4d-8810-430a-b727-52c00d2d6edc@intel.com> <20260612181314.5577-1-alexander.kaplan@sms-medipool.de> <e5a56b3c-1fd7-35ad-f072-e490e2b471a9@linux.intel.com> <178196763509.3248.8656978100050911066@sms-medipool.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7 02160 Espoo
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E08dD9M/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F4041F000E9;
+	Wed, 24 Jun 2026 17:30:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782322236;
+	bh=NtllajPUK8pNbCH5Sg5mf10NWoNUabwl2VDQFDahwnA=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject;
+	b=E08dD9M/e9JmkMjl3YBHeGU/wLLjM8y/g+n7W0mtj6SKi9A2ManngzK2KwP89NLkK
+	 jHrpgOWaOuIg/56kxzJbKhYamupU2arK7w/Snzz+WR7n0JPIdv2OBIj6DpCw9P+65w
+	 e3gHHKlmH2jViZzmulMkbJ2NHBGZTubsiDL+0HfNgykjwcl69k11espZCUPpCKLkDw
+	 MLckr+9WweAhxjqN5m/o3jI4OHqlmJXXLxj+UvbpcER1puUoUQvcfzR8csf/exHsmz
+	 pgaoaCUSYcKXHqHfxtmVhiWRSEZYXqDB4mKQ70ZxE0eUd3491CyJP3fas2f6XiwO69
+	 Ru7VuV3WCgzgw==
+Date: Wed, 24 Jun 2026 12:30:35 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: David Rhodes <david.rhodes@cirrus.com>, linux-sound@vger.kernel.org, 
+ Bjorn Helgaas <bhelgaas@google.com>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, phone-devel@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>, patches@opensource.cirrus.com, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ David Rhodes <David.Rhodes@cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>
+To: David Heidelberg <david@ixit.cz>
+In-Reply-To: <20260624-dt-cirrus-cs35l36-v2-1-74eccdbd8fe4@ixit.cz>
+References: <20260624-dt-cirrus-cs35l36-v2-1-74eccdbd8fe4@ixit.cz>
+Message-Id: <178232223507.468387.3561420324292249199.robh@kernel.org>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: Convert cirrus,cs35l36 to DT
+ schema
 
-Hello Alexander,
 
-On Sat, 20 Jun 2026, Alexander Kaplan wrote:
-
-> thanks for the quick test patch.
+On Wed, 24 Jun 2026 18:02:25 +0200, David Heidelberg wrote:
+> Convert CS35L36 Speaker Amplifier to yaml.
 > 
-> I ran it on Panther Lake with PTL kept at MODEL_ADLP so the KAE path is
-> active.
-[...]
->   # speaker-test -D hw:0,3 -c6   (silent)
->   hdmi_pin_setup_infoframe: pin NID=0xa channels=6 ca=0x0b
->   HDMI: KAE 0 cvt-NID=0x3
->   hdmi_pin_hbr_setup: NID=0xa, pinctl=0x40
->   i915_hsw_setup_stream: HDMI: multichannel stream, disable KAE
+> Changes:
+>  - maintainers email to the generic Cirrus email
+>  - Both the codec and downstream worked just fine without
+>    VP-supply provided. Align with datasheet for similar models.
+>  - add dai-common.yaml to cover for '#sound-dai-cells',
+>    'sound-name-prefix'
 > 
->   # speaker-test -D hw:0,3 -c2   (stays silent)
->   hdmi_pin_setup_infoframe: pin NID=0xa channels=2 ca=0x00
->   HDMI: KAE 0 cvt-NID=0x3
->   hdmi_pin_hbr_setup: NID=0xa, pinctl=0x40
->   HDMI: KAE 1 cvt-NID=0x3
-[...]
-> So the wedge happens earlier in the sequence, as you suspected, not at
-> the re-arm.
-> The trigger looks like the multichannel DMA start itself once the KAE
-> block has been active in the running power cycle, below the codec verb
-> level.
+> Reviewed-by: David Rhodes <David.Rhodes@cirrus.com>
+> Co-developed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+> Relevant for Pixel 3 / 3XL / 4.
+> ---
+> Changes in v2:
+> - Rename the commit. (Mark)
+> - Link to v1: https://lore.kernel.org/r/20260618-dt-cirrus-cs35l36-v1-1-1a43515666ad@ixit.cz
+> ---
+>  .../devicetree/bindings/sound/cirrus,cs35l36.yaml  | 224 +++++++++++++++++++++
+>  .../devicetree/bindings/sound/cs35l36.txt          | 168 ----------------
+>  2 files changed, 224 insertions(+), 168 deletions(-)
+> 
 
-thanks for the quick test. I'm working with our display folks to test
-this out with some Synaptic DP-alt HDMI converter. This same test
-worked ok with one converter (Lenovo USB-C to HDMI Adapter GX90K37871),
-but I'll try to get someone to test with more converters. Given you see
-this with multiple DP-HDMI converters, we should be able to hit this.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-And a bit suspicious how this could work with the Lenovo adapter. I wonder 
-if we have something else differing in the test setup. Given you cannot 
-recover by unplugging and reconnecting the converter, it would seem the 
-issue is on transmitter side and should be visible with all DP-alt 
-receivers.
+yamllint warnings/errors:
 
-I filed a bug to Xe/display to track this effort:
-https://gitlab.freedesktop.org/drm/xe/kernel/-/work_items/8412
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/cirrus,cs35l36.yaml: properties:cirrus,vpbr-config:type: 'boolean' was expected
+	hint: A vendor boolean property can use "type: boolean"
+	from schema $id: http://devicetree.org/meta-schemas/vendor-props.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/cirrus,cs35l36.yaml: Unresolvable reference: /schemas/sound/dai-common.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/cirrus,cs35l36.example.dtb: codec@40 (cirrus,cs35l36): Unevaluated properties are not allowed ('cirrus,weak-fet-delay', 'cirrus,weak-fet-thld' were unexpected)
+	from schema $id: http://devicetree.org/schemas/cirrus,cs35l36.yaml
 
-Br, Kai
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20260624-dt-cirrus-cs35l36-v2-1-74eccdbd8fe4@ixit.cz
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
