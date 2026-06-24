@@ -1,108 +1,111 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF7D1E1A17
-	for <linux-sound@vger.kernel.org>; Wed, 24 Jun 2026 16:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8847377ECA;
+	Wed, 24 Jun 2026 17:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782319742; cv=none; b=qoZO8WUXjPl1g0v9LF6uZm57B/EXArA3vzXsKCfvTVzFsYqL6tGCycQ9cJViQbaxlUKnhTsjZlQz3b6qZPmeI8UMkLwUDtdxplnirSK+seNJoQ09iMvjl4suYvUVRnYaWhn8ICZ/B5BmcyZ4T7wbVI2Lptju9Pt8W6imBwDY+Xk=
+	t=1782320765; cv=none; b=JAR8VfUxsAwSu9IIU23dVETmUAxQ4ZyVBwjbp8dArYdGvK3MvddUGrOSDmVllMkrWscHSHTsRauULGslpnCyqwzUka5JEGNBkHqWWqH9BoEr6XFLpCTE4/duLfcuwGAYqbPTotFd+d7LyXM8De5TXjlV7CmAd2x+PEY1gMDO8EE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782319742; c=relaxed/simple;
-	bh=I0mJ9RDsmaLtxXImalqDe4AtiflLnN+GS5Tu6DG17QA=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To; b=dzq3mG3OmONSlHfUde07z+ZdlT+i4yPXnQxWZN4oXeCsxjEq644ceDYTYfs+N//mnOesskIfcHCKS2DFCR4yq92bF3Qwbs2/UFBlfrFM/iKa/vuGHJ2+KDCrGCRacoZs1aDTITgPszktU930CdHnelYleF11nen9atZz4qVHp90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ckKaXjt9; arc=none smtp.client-ip=74.125.82.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782320765; c=relaxed/simple;
+	bh=YCDGEuINTLe++ujMs0MLsvBendFNcyERfYr932ENZlY=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=h1I6cm44QdM6ba71p99AOfKq/lgi32wx5O/DhIVg8WSQahsQDBVprY46YHxr5eX4YC4mkyqnsogWppw8szUvcS6fgRg08OsI/VZjwyzPCv/9GYABoMCipXoGPjLSuGdHab8nbbMzUF07pX1H118vJoEikuuJ1mtiuTOvkkXX8qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NAbFzUeU; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ckKaXjt9"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-30c6c8d7503so2499536eec.0
-        for <linux-sound@vger.kernel.org>; Wed, 24 Jun 2026 09:49:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782319741; x=1782924541; darn=vger.kernel.org;
-        h=to:from:subject:message-id:date:content-transfer-encoding
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mubFC22CSLLB6diA8ThYgBPTgqW0pRItmPC7CBfNrH4=;
-        b=ckKaXjt9pu/3cslnRHmzMzDxz+ucYiyxwEnpdK3v7Ln8WhsU1YeDVC+txswJpp3rK4
-         x43+1qjwV6FxH+O8de+eWhPv5lgaLlVhY7AboXKtAhoQfD96Fc7avszgmVC1KqWdusKt
-         iJ3JpWvDrdA7wiIaPiw4XXAxd6K0BFxA/+3PBaK/3qHp/STTpDnw2WRfWl5jAZCLdNPD
-         +MPjANRatjM9SWMI9cT28GNBzS7qzhL9QzHcFjlO4YpmmDn7zFS6qhpOKkI0zdVo1OMJ
-         RaA9is/2e5b69z8WC7KbcU993sowat+ALPo0kWsVLogdDh84t+qVm13gIpNMJZAu7uc6
-         zilQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782319741; x=1782924541;
-        h=to:from:subject:message-id:date:content-transfer-encoding
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mubFC22CSLLB6diA8ThYgBPTgqW0pRItmPC7CBfNrH4=;
-        b=EH2fR0WRqyy/jBHNtC/byyyxIA8ZX6aC39U91WGzA7rTimKlpB1gBvpACLNlZ3pwBt
-         PGB4+qvjSWvnT+nVrXFNFiHKlyidgANP5wJE11xn2dmM0ugnA8xo0QH6YBSHOPU+21+c
-         IJsFs+tgBadpzBzyK7gmZUxF8rqVq+O6YWV0XLbApWTpUOdtkYbHnDLSqbt0Ly5CjQgf
-         a+t7MYHyamxGACGhzXlGHE295b6BmeD4stIO5U/vhLtlUX8lO53a9cQKaKmX0j6x8TN5
-         /pulvFw/Pog9k7cY6OVHosxtMfjQla5fpdH29ehKsCS6K1H9BVzlVwrzkO5wOC1Sq7BE
-         5ySQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqHfmpDBWrYY1MGt+p8/ExM2BdijXMpeM1Jmsah+XkwEoopAGY8O5zDKR+HBI9GTHx1sUmoKOrcFe4s3A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyk0wJJXuIi46FyRs37+Fulu90kte+8rsKsry+efebI4b8hHPkT
-	baoqawImUtQMJ9OtzZZNvHFUx+UMVdt3s90KnXOR7qdiNJUtCMlc9yoX
-X-Gm-Gg: AfdE7ckRTAYgLAHYHXB/GGSNMnz98DRWcpqn7rJBjA/kJRC0xYREsJK7rB4QHeMuiQS
-	HmwSrMXZtjlPdK0ij/u+Jn9WxhY/d4Dcwvkr9VDisd1Z+hRMHk2Wr4Edraiwcwf2u+eVVx0yXfF
-	tuGu9swtcTlETgdq2kxFzcTYzq9NwpuEIG7u2YYMEQB/zBXAUfCpHI+Ma0glGj1hNZpEyf6rvtp
-	ag5ECHyrrIn6muQ3F73YLGYjNpfzZXzqoUu6u86p7JKR/m5XP8AMfZN3Jj5OsAKCB8Hai8g94w8
-	U67OzCXihCPrx8NFa90nAGYEDpgT5lQLU8howD7e0kTZzSliD6QluP04RbPGE+xxqgXscCwx8UY
-	WZK8m60uAcFvrPBd0Ll+PkHDpW78Kg1SerI4g20rHs3PAv7pTFe6GXV4VyWgdTCIiiWx2CH+kY3
-	uoL2VPHe9QvxTUrYOqZw+mi1Ne/3bi
-X-Received: by 2002:a05:7300:3210:b0:30b:dd58:e167 with SMTP id 5a478bee46e88-30c6938c45bmr4076419eec.29.1782319740564;
-        Wed, 24 Jun 2026 09:49:00 -0700 (PDT)
-Received: from localhost ([2402:e280:3e1d:59f:6752:398e:c71d:48d2])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c9e9214sm395425eec.20.2026.06.24.09.48.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 09:49:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NAbFzUeU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782320763; x=1813856763;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=YCDGEuINTLe++ujMs0MLsvBendFNcyERfYr932ENZlY=;
+  b=NAbFzUeUJY1E9YIY5LQvqx1LHGSF47mGBW7g+8N84azQbBf/QbcH6AYz
+   FWjedB/oL8TOnekLZJKxbO45gGD1ESv9igr4cxw3jfC0Hw2TDeeQ+7kJi
+   5VUr40syok9G7UCFJA+CjtIHAJJQ9Sz6tcMls6dw2f3wTEbmbysOCmPAz
+   /bHNsUiyDzr+4Gbi2ZEzVHDp4xgIZfcQy5BVHCctOwJ7s0Qr1cFp2UJtQ
+   ZvQBWVJZE4FcBtGLS2K0pA+lWwXot6DCVk3ezc3EvyR5zjnOukITP4TJ9
+   MVQBt+wXyrkk4m5ikS56OSzoVRUUfZfwzQBfavRF5GqEJFB8Yuw6HIU9v
+   g==;
+X-CSE-ConnectionGUID: H6CTjG0KSK2ovFUoynmwEg==
+X-CSE-MsgGUID: z0bREPv0TnikE0tdX+c8ZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="70599477"
+X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
+   d="scan'208";a="70599477"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 10:04:57 -0700
+X-CSE-ConnectionGUID: CGqLnAELQLinR1/MALmkCg==
+X-CSE-MsgGUID: 53XqoACrRRKO7EfJ4Y9shw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
+   d="scan'208";a="255030529"
+Received: from zzombora-mobl1 ([10.245.244.173])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 10:04:54 -0700
+Date: Wed, 24 Jun 2026 20:04:50 +0300 (EEST)
+From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+To: Alexander Kaplan <alexander.kaplan@sms-medipool.de>
+cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+    =?ISO-8859-15?Q?P=E9ter_Ujfalusi?= <peter.ujfalusi@intel.com>, 
+    =?ISO-8859-15?Q?P=E9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>, 
+    Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+    Jaroslav Kysela <perex@perex.cz>, 
+    Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+    stable@vger.kernel.org, Uma Shankar <uma.shankar@intel.com>
+Subject: Re: [PATCH] ALSA: hda/hdmi: disable KAE for Intel Panther Lake
+In-Reply-To: <178196763509.3248.8656978100050911066@sms-medipool.de>
+Message-ID: <b6e4caac-53f1-729f-51d2-aa0ca514ab04@linux.intel.com>
+References: <f7d26e4d-8810-430a-b727-52c00d2d6edc@intel.com> <20260612181314.5577-1-alexander.kaplan@sms-medipool.de> <e5a56b3c-1fd7-35ad-f072-e490e2b471a9@linux.intel.com> <178196763509.3248.8656978100050911066@sms-medipool.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7 02160 Espoo
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 24 Jun 2026 22:18:57 +0530
-Message-Id: <DJHFM80510BV.26U78LFDNJLG9@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Add mic mute LED quirk for HP Laptop
- 15-fd0xxx
-From: "Kshamendra Kumar Mishra" <kshamendrakumarmishra@gmail.com>
-To: "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 
-The HP Laptop 15-fd0xxx uses GPIO bit 0 to control the mic mute LED,
-but currently the quirk only enables the speaker mute LED (via coef
-bit). Switch to the existing ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO
-fixup which additionally registers a GPIO-based mic mute LED, mapping
-to the same verbs (SET_GPIO_DATA/SET_GPIO_DIRECTION bit 0) that the
-platform firmware uses.
+Hello Alexander,
 
-Signed-off-by: Kshamendra Kumar Mishra <kshamendrakumarmishra@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sat, 20 Jun 2026, Alexander Kaplan wrote:
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/a=
-lc269.c
-index XXXXXXXX..YYYYYYYY 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7185,7 +7185,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] =
-=3D {
- 	SND_PCI_QUIRK(0x103c, 0x8dc9, "HP Laptop 15-fc0xxx", ALC236_FIXUP_HP_DMIC=
-),
- 	SND_PCI_QUIRK(0x103c, 0x8dd4, "HP EliteStudio 8 AIO", ALC274_FIXUP_HP_AIO=
-_BIND_DACS),
--	SND_PCI_QUIRK(0x103c, 0x8dd7, "HP Laptop 15-fd0xxx", ALC236_FIXUP_HP_MUTE=
-_LED_COEFBIT2),
-+	SND_PCI_QUIRK(0x103c, 0x8dd7, "HP Laptop 15-fd0xxx", ALC236_FIXUP_HP_MUTE=
-_LED_MICMUTE_GPIO),
- 	SND_PCI_QUIRK(0x103c, 0x8de8, "HP Gemtree", ALC245_FIXUP_TAS2781_SPI_2),
- 	SND_PCI_QUIRK(0x103c, 0x8de9, "HP Gemtree", ALC245_FIXUP_TAS2781_SPI_2),
- 	SND_PCI_QUIRK(0x103c, 0x8dec, "HP EliteBook 640 G12", ALC236_FIXUP_HP_GPI=
-O_LED),
---
-2.54.0
+> thanks for the quick test patch.
+> 
+> I ran it on Panther Lake with PTL kept at MODEL_ADLP so the KAE path is
+> active.
+[...]
+>   # speaker-test -D hw:0,3 -c6   (silent)
+>   hdmi_pin_setup_infoframe: pin NID=0xa channels=6 ca=0x0b
+>   HDMI: KAE 0 cvt-NID=0x3
+>   hdmi_pin_hbr_setup: NID=0xa, pinctl=0x40
+>   i915_hsw_setup_stream: HDMI: multichannel stream, disable KAE
+> 
+>   # speaker-test -D hw:0,3 -c2   (stays silent)
+>   hdmi_pin_setup_infoframe: pin NID=0xa channels=2 ca=0x00
+>   HDMI: KAE 0 cvt-NID=0x3
+>   hdmi_pin_hbr_setup: NID=0xa, pinctl=0x40
+>   HDMI: KAE 1 cvt-NID=0x3
+[...]
+> So the wedge happens earlier in the sequence, as you suspected, not at
+> the re-arm.
+> The trigger looks like the multichannel DMA start itself once the KAE
+> block has been active in the running power cycle, below the codec verb
+> level.
+
+thanks for the quick test. I'm working with our display folks to test
+this out with some Synaptic DP-alt HDMI converter. This same test
+worked ok with one converter (Lenovo USB-C to HDMI Adapter GX90K37871),
+but I'll try to get someone to test with more converters. Given you see
+this with multiple DP-HDMI converters, we should be able to hit this.
+
+And a bit suspicious how this could work with the Lenovo adapter. I wonder 
+if we have something else differing in the test setup. Given you cannot 
+recover by unplugging and reconnecting the converter, it would seem the 
+issue is on transmitter side and should be visible with all DP-alt 
+receivers.
+
+I filed a bug to Xe/display to track this effort:
+https://gitlab.freedesktop.org/drm/xe/kernel/-/work_items/8412
+
+Br, Kai
