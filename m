@@ -1,233 +1,201 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB8A2F7F0A
-	for <linux-sound@vger.kernel.org>; Wed, 24 Jun 2026 02:37:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12253033FD
+	for <linux-sound@vger.kernel.org>; Wed, 24 Jun 2026 03:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782268668; cv=pass; b=Apd6DQlv2sSBwHo3a/VFaoxR8fehWjegfHII1hBZrlHqKl7oQXbzV/IW5ofYm34SpDBJaQrOwMBf72Ed+KWrh+Tx71q9NjNO2bXLSHG1CXPHqvtrFjl/GuTmu2zd1QH6flgU7wqDFZ/iyK3m00/xLJmyIxdsWxIV7aInUJVYpqE=
+	t=1782270091; cv=pass; b=LQ31ywz+S1vYd4r/+tKBFxvCKnDUFSobCBe7YF/x5bI6UpbfCJb6KQTv+c13MokSGo50LnbFDvYknvkaD7V+DV08SijmU9PtnTlIBniL8Nfhp0vlutPTDr70bVAZ43iRBrfSSamqlWKeAuBt5fKTt1MQQcisJzDRUV4PoQloYqk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782268668; c=relaxed/simple;
-	bh=B/ln2cCY95JHYWnm1J+LiqXJhsX3Vj7BZ3VZc2i4tjk=;
+	s=arc-20240116; t=1782270091; c=relaxed/simple;
+	bh=guHUT8GiNVGl4dxs8Z5rjcX/cS6lcLri1PCfUPvgiCs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gryC8wQLIMVz2prjqVmH6rTTuJAzKI8vddWH00YIb6FNz413U19RxCmwspny67UCFtXr+aMiiAfv2xSr6cLmW0ZffDFXTF71JKKKAvb47QYAS4DjnjUxcGJd8hkvzV4Mfn0Jca/xegs27W7HowxMsFIlh9M7Axwd8AI1jT6wQOw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iXY+kCbf; arc=pass smtp.client-ip=209.85.215.180
+	 To:Cc:Content-Type; b=p9inzAzDLfpHdQsaK9w1q15mft0HRNnpfZJUzHS4hMV7OZKaUau3lHFbAaOxvpSS6oFF/xhqEEUHcrn50jTEb9ZHXLSvU878VZoYjKU7xLZj33o7OXhFAmoOFXpvbT/F5PcjqUZfw2vdUF+r9E0jPJe93j70sePOpeUZTKRqMsw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GsKSZ/4R; arc=pass smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iXY+kCbf"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c897468a244so150719a12.3
-        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 19:37:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782268666; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jOJZfgMLimjJUrtkPOPefPmOwqy1xcjqxQtjmIWSd8S7fKdWdX0OUv0mM4Hz2qrAjn
-         Gx/0NS0E6mceoQIBtMj1+GWmvpHuSI8NxaMXC18KcAVLa58DIN7yD9jy5gosaoeBBuzJ
-         QkA9ri0hLB+FOL6IIS6F5mxNpMyx3+FooBxxmsrtuOV/3Ug5xnwOCIQmo3GNQFLRTPE9
-         LFFZK5IgMajCUgM3D5HbNCm43ws7VEvK0u0mPY8j0vn8J7N5Nq1zOSDbt09aN3vJ3e4t
-         IeHAcOh0WxH2e0MUQKuKvZn6bhKouXGINSes51hYuS/tPI3qTJWGOcWI++d+pg7K5nCt
-         f0tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GsKSZ/4R"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-37c5b9d42efso983448a91.1
+        for <linux-sound@vger.kernel.org>; Tue, 23 Jun 2026 20:01:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782270089; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rb72LuiGGKYh+e8YpZ0dlfJSmrmKheWi39qOBM2/P54JHAfTE6T43ZFVJRqoq4n7uo
+         SPzslOpAn+x/VCOfDoJmaPR2LvfIq7kdaWetgWkoVFViuTB3qW5P0wptHaEcZASXG+b1
+         YkWbtQH9Xw0QuOVOfWjvXBFVtNB1e+GD+6yTsVwqvHUQed1VvlOMGBSk1TMZuvH8FNiN
+         isBlKrjlRB+N7B1IU+GmNPZlz02aRA6kSVwhQut6avi2l6Ug2qlwloRl7xLEn56M2Mfa
+         2MLjGEvxDz2Mp4Bh1FetV3NudFjge44nbb9UYhCaJQdn8nINF3qOtgubo43uh12h3Anz
+         hlMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=rtXYQIYCd0esCeVGWFzBX+QPBDwNJiFP1FbIt4E6AKA=;
-        fh=YQvSaH7n6Q8qWSwFNqtGpSg4cdpGrcqIsKCMLuaMMJg=;
-        b=XgEti5oAiZk+PVIbgZ9+aZ7MHuWpeXTw28tS4mGGBjkNigkWinBMtrTxK8SubeByeS
-         /lzSFdKfQ+1otONu0M12EVbJA220KrsjBBdSh6tXOKRzW2rp491iXSrIltgasoFMtqNK
-         6t+wuRpchtuiyZ0gmvKilIzB++yFz2GwPBsyfxqmJnLYJcGqrD5dPJMNV/C+NI2hLw0L
-         vE9QWojSFnpRgGRyDEm5LhoF7Tt7DpRiAd3PobUCR7HBqbl1UwdBJ9Wzi7I10WB03/GC
-         IcHDeAtqrFBj7i99hTBdFVilCZBlomGGJlAbyvsvJq1V9gVmV3J2KIrHBl921W0dekae
-         GTCg==;
+        bh=Rz2M93K2OvfErtDCnBiaR8Aa021afDkuQ7RpTv0tMyo=;
+        fh=zqejwDNimTgpDLERLHtIOkpdMEQBcHXeFNJx0QJKd5g=;
+        b=G5bJU6PU3J4YyF31jlrlShcQEwk/RVTJxFUZNmina0l3p0exOBpeb6j+1e8F43xDwF
+         GPe7m4f292mIB56fxnXf92wsc7q/Rz7/srMOvqPi6zhksQfzWtkp09Svv78Kz1ZEn2F/
+         ZfmN5mYbTGy/wSrb796qQ/95Yc76PvlrdICv7TZu7d5pxLK2cCa4bREzIz7MgGfS9CUZ
+         iS7/p+UI4A6IG9RLuaOW6sLp/ksOkFidUQ1J+BhsGbKkGIxJdn1nXlxcgbozuydwkWNC
+         A+17nHwcmhVadlgPHxpX9u6Eo5X2x2xo32vZxCaeuFmqYlCHEjae0XHu/9kbxc0ovgGs
+         wnaw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782268666; x=1782873466; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782270089; x=1782874889; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rtXYQIYCd0esCeVGWFzBX+QPBDwNJiFP1FbIt4E6AKA=;
-        b=iXY+kCbfL++LL+C8tLgqxThNNHm8ZpXZe3Rx3OBUqyptfTnrPPsf5Ew4uscY6/RWFL
-         zN3iNRtGVuOC9Fxa6fSwp+YiO1kZcMa22TYpYxoHpZVqyqpny0Q4ezBVvYzfi2qZLyzU
-         jfrdNCfUZ3SoT7UwW21YIbCNFXucJrGPaKBMZAU3DDd1KaB/REYVLVftbdRzGc4KLhPY
-         9yrHaqO0sacO7McigZVxYf3NnOY8lw/YckiEjP7zL44HjO4mmAq3HQh/gNLX/ukqgUv+
-         cCTeeBw9Hbhafh25Nlbtdw59x92nU0eI2HmaUyvNlGfHUJc+1BR0PMXwU3Hi2zZIXUVn
-         np9g==
+        bh=Rz2M93K2OvfErtDCnBiaR8Aa021afDkuQ7RpTv0tMyo=;
+        b=GsKSZ/4RBOxlifOykikugUXmsixu4Hq47ikGHOUBp4EV23S+r3vEbmTRykYJ0A+ePC
+         16a1ind/iVddxvbEc8HJgilDx9ckaFNeFbuvBLcHnX6SPc3vKt29mIH0hrkxd1DRMQj1
+         bBoVl0JcMz2V3u7aqKHjlUjW4o9fh6th9rvcL4DaJshKjLMYPs2PGz26F2BeosMpIIRz
+         U4tmXTzfm4b3UTZWDjBVKHJd5D/8KfTELq3TWvOSPpbo7Wh7dDCYeuJkFTE8eeFxB6NG
+         OpiudNWD+W7V9eqmrxBHHQ9qtJmZOV3BiLg3b3JgKQ04UJPfouUjBQ/Sazxaz5Dwlqjk
+         uPwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782268666; x=1782873466;
+        d=1e100.net; s=20251104; t=1782270089; x=1782874889;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=rtXYQIYCd0esCeVGWFzBX+QPBDwNJiFP1FbIt4E6AKA=;
-        b=IeK0e3wr1wSm1ABkoqtejPkuqAbEPzHGXlRNs0a6NLeEN7MK/Fn5UqEqXjIT5lVgmW
-         g59HulOAQzoLH8piuCYjcuZ8aGP5fOcsdnarj8r8TpAH7NlYSPYNCcQvssU2HPS+WXYY
-         v2j0mQTsTBOwBnkT9SQJEAsiV92hcnxu9YfWVZviBKvGC7RK1HpZNgzM1O74tDlapbuf
-         f6kDowknLMJeCNATVDToLM07kclZO6UxD8NCjGJaGETvLNtkbtPBYk0VSxqu7rvW5+Bc
-         d5uLS2MwOd6DXTxRSn2MtOVeZh2qrFU3Jr7Z548pe4NiG8vKBIxV1yA6wBVjt5vMK5g4
-         MVyA==
-X-Forwarded-Encrypted: i=1; AFNElJ+lEmmhsTTmX8yqozCH56G+KtMwrMOE3BZQEBhaEy7ayMlVf4BEl1q8W9SC/l9pO4pGSGXUkeMmLPh6Hw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWeFPEqQ/+QTx7Fh6/rJ7HPdp1W+aytr2VW0Ny53x4tM4g95d5
-	mtJYfGbgsIDwCKLMbZb8QWXNO78Uy7xBKoV4zvfZX0M39v6FJQzTN7pGqjrNM1wd/YApynetHxg
-	lCWXobWC2iijuu5a+3A9Uv67oYdvkH7U=
-X-Gm-Gg: AfdE7cmhLQEJbvthlgnFDPIXstSrMIuWWe3vrahkLbFJw+u5eDpAP/oysHGir3fMYOV
-	E06/4BYnlaBdAJwjHK7QJkOQ5Bufjptt0WktC1kNiI9I/n0gYGcqQMupuomk5eFSP/1/cYXx2oz
-	0uwVQHYtXtNJaq0EoTKQnuH4CX40E1+7WmNuWXKxY4DEHkHMX5PbxNhKWVfRBoI10jdEWhoMccf
-	NJ+i6uOEcMSha12Y5wQM7vFSS/pIddUSCc68nSK/JrjLUdvCHuY6ke7aXAd0a9bhBrhG1Uw/3Nb
-	/Qv8xFVEgej1jjxlg9MnAAfJlj4=
-X-Received: by 2002:a05:6300:49:b0:3aa:f2c7:fd87 with SMTP id
- adf61e73a8af0-3bd2d23dcb9mr1656815637.31.1782268666306; Tue, 23 Jun 2026
- 19:37:46 -0700 (PDT)
+        bh=Rz2M93K2OvfErtDCnBiaR8Aa021afDkuQ7RpTv0tMyo=;
+        b=QKe7lfXrOCWdr9xe5wP9MpQvbd5wliloLlW2wGW7Ux7jJIFMNHbMtz7q7dCgrZpwFG
+         /u+TR1yNe89uO2lJzI0fzwcFC/IpnLdqqSSIWBVrolh1Jg8F6/2gSCCCykZQ9kcsp84F
+         q/fN/hH12BjKQsx8HA15dY+Qs4/tiaMaLuFgW3Yz5GB4LZ+Oflp7E8CxsZH9GKD82LWb
+         dor8FGPcM+F9fm8Vm+54i/YM7IOxvllkM6kjD/H1SdbVTWosLwzEYKnftF9WYp9cnWFa
+         JZzOmlNMxNLo6y8s/E0oMA4GH8YQ+6/ZmEl7onUhiQYlzMPY4onRYzksS/dtcObhL+Wl
+         R8Aw==
+X-Forwarded-Encrypted: i=1; AFNElJ9BTxqPDNI2d94fJszgEhaHaW+wcdTfDzys8lJrjwoeLj+TAmR7Mn4ZqCc69Ppk3f/XMuEcnnEqFXHVcw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZgqYQQdg7JPBLewy1yheXBnpKUO7I1Rt79LbVOG4dFcvn4wIn
+	VPGTivQvHrOkvT1/mxK+7qW7L7l6dphUNGCJ345CASqK6Wt1HPSQBaLPL6I4MT0dOmgfI7nx3US
+	Dr2JX5Fj0meUaKieiuYigXiYazs+8o0A=
+X-Gm-Gg: AfdE7cmu37Ho3gfHbLoOdYEpbJRb2lcUh93MmIHUtshRWEM+m/iNOxKdp//qd8tFr/+
+	XiSNhia9nfi7vFjCHyCFYCj8eOJZa5ntsiE7IXQ89GOtFHzMflXJsKo6z/OAtKZXEdMTDdcnLjK
+	ny6uqNgeP/UvNXoM9w8ZMN3XQPRUewht85laAPkHyew9n6CV1M/9903c5C+5Vjg1t0aow+d0UlC
+	APawL/oGi2Z2q0nsVV7j0E91fDJq9s3VXhYNADE1CSqU4+W+zVFDlqn++2xrBSp2PsvmhF20Yl7
+	W40FhZTv1oQpj9ofMCJfjuGWJck=
+X-Received: by 2002:a05:6a21:2293:b0:3b9:5efb:cb2e with SMTP id
+ adf61e73a8af0-3bd10b019cdmr5917959637.21.1782270089047; Tue, 23 Jun 2026
+ 20:01:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260622005613.21870-1-phucduc.bui@gmail.com> <229ba136-66eb-4a30-a316-58377836b4dc@sirena.org.uk>
- <CAABR9nG6BL+-urEg0qDzJHYmowm7O=du_0T4+K2ogdrcD30CXA@mail.gmail.com>
-In-Reply-To: <CAABR9nG6BL+-urEg0qDzJHYmowm7O=du_0T4+K2ogdrcD30CXA@mail.gmail.com>
+References: <20260623105721.25865-1-phucduc.bui@gmail.com> <20260623105721.25865-2-phucduc.bui@gmail.com>
+ <fffe4925-c5aa-42a5-ab8a-d8da4989b9b9@intel.com>
+In-Reply-To: <fffe4925-c5aa-42a5-ab8a-d8da4989b9b9@intel.com>
 From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Wed, 24 Jun 2026 09:37:33 +0700
-X-Gm-Features: AVVi8CdkK8REN-AFfjq_xzCg7k_Htq4uHz7WQJiam5YaqT9kTDS7xjGfn0ufY28
-Message-ID: <CAABR9nF8GebpxX0ry-MMLCfsyPJ6EUpkEtYdASAep2jX+d5gnw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: rockchip: rockchip_sai: Hand over hclk control
- exclusively to Runtime PM
-To: Mark Brown <broonie@kernel.org>
-Cc: Heiko Stuebner <heiko@sntech.de>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
+Date: Wed, 24 Jun 2026 10:01:17 +0700
+X-Gm-Features: AVVi8Cfis4_zHv9r2Orkj7vx0CZGaMhWB6zOgsOtjshAYc3xZ5zL6AjoCaP_Wt4
+Message-ID: <CAABR9nGh3nHnRx8yROqUuHLVZ1nWsDWKxJqAJaX3q+fiOBL+Kg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] ASoC: intel: sst-mfld-platform-pcm: Use
+ __free(kfree) for stream pointer
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi all,
+Hi Cezary,
 
-Regarding the case where PM configuration is not enabled, with the old
-source code, I suspect there is an unbalanced clk_disable_unprepare()
-call on hclk when the driver is unbound after a successful probe under
-CONFIG_PM=3Dn.
+Thank you for the feedback.
+I will definitely fix the commit titles and group the patches by driver
+(atom and avs) as you suggested in the next version.
 
-The actual enable_count / prepare_count sequence for hclk (with values
-clamped at 0) would be:
+Regarding the ordering of this cleanup patch and the locking update,
+I wanted to share the rationale behind placing it before the locking patch.
 
-probe:
+According to cleanup.h guidelines and community best practices (as
+also pointed out by Charles in a similar discussion [1]),
+mixing guard()/scoped_guard() with traditional goto labels is highly
+discouraged and error-prone.
 
-devm_clk_get_enabled           0 -> 1
-runtime_resume (manual)       1 -> 2
-clk_disable_unprepare            2 -> 1 (at the end of probe)
+In sst_media_open(), there are currently two goto labels: one for
+mutex unlock and one for kfree(stream).
+If I introduce the scoped_guard for locking first, that patch would
+still be mixed with the remaining goto label for kfree.
 
-unbind:
+To ensure clean, safe, and bisectable patches without mixing guard and goto=
+,
+I had to eliminate the kfree error-path first using __free(kfree).
+This allows the subsequent locking patch to completely and cleanly replace
+the remaining mutex goto pattern with scoped_guard.
 
-remove -> runtime_suspend   1 -> 0 (ops->disable/unprepare executed here)
-devm cleanup                          0 -> WARN "already disabled" /
-"already unprepared"
-
-This conclusion is based solely on code inspection; I do not have
-hardware available to verify it.
-I noticed that Nicolas tested and ACKed the use of devm_clk_get_enabled(),
-so I'm not sure whether that testing included the CONFIG_PM=3Dn configurati=
-on.
-
-https://lore.kernel.org/all/2818018.CQOukoFCf9@workhorse/
-
-If it did, then I may have overlooked something.
-
-@Nicolas (or anyone familiar with this), could you please help
-double-check if my understanding is correct?
+Please let me know if this makes sense, or if you still prefer a
+different approach to untangle this dependency.
 
 Best regards,
 Phuc
 
+[1] https://lore.kernel.org/all/ajUcTfG3vSGz3n3d@opensource.cirrus.com/
 
-
-On Tue, Jun 23, 2026 at 5:53=E2=80=AFPM Bui Duc Phuc <phucduc.bui@gmail.com=
-> wrote:
+On Wed, Jun 24, 2026 at 2:35=E2=80=AFAM Cezary Rojewski
+<cezary.rojewski@intel.com> wrote:
 >
-> Hi Mark,
->
-> Thank you for your review.
->
-> > >    1 Reverting back to devm_clk_get() to remove the implicit devres
-> > >      enable/disable behavior.
-> > >    2 Manually enabling and disabling hclk explicitly only around the
-> > >      early register access before Runtime PM takes over.
-> > >    3 Dropping the stray clk_disable_unprepare() at the end of probe()
-> > >      so Runtime PM solely owns hclk afterward.
+> On 6/23/2026 12:57 PM, phucduc.bui@gmail.com wrote:
+> > From: bui duc phuc <phucduc.bui@gmail.com>
 > >
-> > Note that runtime PM can be disabled at build time so we might not have
-> > runtime PM at all...
+> > Declare 'stream' with __free(kfree) so it is automatically freed when
+> > leaving scope. This allows direct returns from error paths and removes
+> > the explicit kfree(stream) call.
+> > Set 'stream' to NULL after ownership has been transferred to
+> > runtime->private_data to prevent it from being freed on the success pat=
+h.
+>
+> Hi Phuc,
+>
+> Thank you for separating the change.  The design of the patchset is off
+> though.  __free() is by no means a requirement for the locking update -
+> it should be located at the back.  Also, grouping changes targeting the
+> same driver makes the entire patchset easier to follow.  Right now we
+> have 2 avs patches surrounded by atom ones from either side.
+>
+> Last but not least, please drop the filename in the commit title.  We do
+> not do that here - some filenames are long and the approach leaves
+> little space for answering the _what_ question when building a proper
+> commit title.  "ASoC: Intel: atom:" is what you want here.
+>
+> >   sound/soc/intel/atom/sst-mfld-platform-pcm.c | 19 +++++++++++++------
+> >   1 file changed, 13 insertions(+), 6 deletions(-)
+>
+> ...
+>
+>
+> > @@ -347,12 +347,19 @@ static int sst_media_open(struct snd_pcm_substrea=
+m *substream,
+> >       snd_pcm_hw_constraint_step(substream->runtime, 0,
+> >                          SNDRV_PCM_HW_PARAM_PERIODS, 2);
+> >
+> > -     return snd_pcm_hw_constraint_integer(runtime,
+> > -                      SNDRV_PCM_HW_PARAM_PERIODS);
+> > +     ret_val =3D snd_pcm_hw_constraint_integer(runtime,
+> > +                                             SNDRV_PCM_HW_PARAM_PERIOD=
+S);
+> > +
+> > +     if (ret_val < 0)
+> > +             return ret_val;
+> > +
+> > +     stream =3D NULL;
+> > +
+> > +     return ret_val;
+> > +
+>
+> The entire construct looks bad, unfortunately.  Guess the reason comes
+> from its follow up - the locking update.  The delta (+13, -6) isn't
+> exactly a good advertisement for the cleanup either.  Again, I see this
+> patch as last in the set.  Should lower the delta too.
+>
+> >   out_ops:
+> >       mutex_unlock(&sst_lock);
+> > -out_power_up:
+> > -     kfree(stream);
+> > +
+> >       return ret_val;
+> >   }
 > >
 >
-> Thanks for pointing this out. You're right that with !CONFIG_PM, the
-> driver only relies on the
-> two manual calls to rokchip_sai_runtime_resume() / suspend(), so hclk
-> stays enabled the
-> whole time. I understand this is unvavoidable in that configuration,
-> throgh, since there's no
-> Runtime PM to re-enable the clock when it's needed.
->
-> I'll update the commit message to reflect that the driver uses a
-> combination of Runtime PM
-> and explicit manual enable/disable, rather than relying on Runtime PM alo=
-ne.
->
-> > > Links:
-> > > 1 This change is based on the discussion around manual hclk handing d=
-uring probe(),
-> > >   as raised by Krysztof:
-> > >   https://lore.kernel.org/all/20e4754b-ea9a-404d-b529-ec44a7263cbf@ke=
-rnel.org/#t
-> > > 2 Background for the earlier devm_clk_get_enbabled() conversion:
-> > >   https://lore.kernel.org/all/2818018.CQOukoFCf9@workhorse/
-> >
-> > > An alternative approach would be use devm_regmap_init_mmio_clk() and =
-let regmap
-> > > manage clock enablement around register accesses. If preferred, I can=
- rework the
-> > > driver accordingly.
-> >
-> > > -     sai->hclk =3D devm_clk_get_enabled(&pdev->dev, "hclk");
-> > > +     sai->hclk =3D devm_clk_get(&pdev->dev, "hclk");
-> > >       if (IS_ERR(sai->hclk))
-> > >               return dev_err_probe(&pdev->dev, PTR_ERR(sai->hclk),
-> > >                                    "Failed to get hclk\n");
-> > >
-> > > +     ret =3D clk_prepare_enable(sai->hclk);
-> > > +     if (ret)
-> > > +             return dev_err_probe(&pdev->dev, ret, "Failed to enable=
- hclk\n");
-> > > +
-> >
-> > > @@ -1482,8 +1492,6 @@ static int rockchip_sai_probe(struct platform_d=
-evice *pdev)
-> > >       pm_runtime_use_autosuspend(&pdev->dev);
-> > >       pm_runtime_put(&pdev->dev);
-> > >
-> > > -     clk_disable_unprepare(sai->hclk);
-> > > -
-> > >       return 0;
-> >
-> > Are you sure that the runtime PM state there is such that it knows a
-> > reference is held?  The driver used pm_runtime_get_noresume() so the
-> > device didn't have RPM_ACTIVE set I think?
->
->
-> You are right, pm_runtime_get_noresume() doesn't set RPM_ACTIVE. I
-> think we need to add
-> pm_runtime_set_active() before pm_runtime_enable(). Otherwise, with CONFI=
-G_PM,
-> the pm_runtime_put() at the end of probe() might skip the suspend,
-> since the core still considers
-> the device suspended .
->
-> >
-> > The runtime PM API really is a miserable collection of landmines :(
->
-> Yeah, plenty of landmines indeed :(
-> I checked, and rockchip_spdif.c does use devm_regmap_init_mmio_clk() for =
-hclk,
-> rather than wrapping every register access in pm_runtime_get_sync() /
-> pm_runtime_put()
-> the way rockchip_sai does.
->
-> Best regards,
-> Phuc
