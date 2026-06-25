@@ -1,226 +1,231 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-190e.mail.infomaniak.ch (smtp-190e.mail.infomaniak.ch [185.125.25.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F50B39A7FA
-	for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 10:54:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782384885; cv=pass; b=d6FN9hQ29ym81wy4g/s/5iYzx4iT2I8QVB5U+JIeUapSFqYgZbNF25rJL62PocYQ+Xr77zmzpGfDwWAEXzBapM52Tc9FpV8FepwP221NUKSi5yn0MXuT7MANBb0Ty/iWu4ZGG2/rc7hnkzcmhvRMb/pUpPnyCqPlTk/73CRlOEg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782384885; c=relaxed/simple;
-	bh=7I4SA8pnVzxFcOb4tuAVlI4fvhM7JEAewQ9oeC84SVk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IP43AghR715HERgxbRriwHdCvK/LuAQ8B0hoo7ZmpWzyJjjz0Ew/poCTKao0WxQiDKbGHjuaHhkv0AFNc8Ig39aMdbNNcMvk2weQbltsIl2Hw3B7xTCf1DQdliwM0CBQHVMDDR0ous4jPzapXaNX3jMsaLWTl4+PG/AlitY8AVU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lrbGdD14; arc=pass smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA773D75BE
+	for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 11:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782386126; cv=none; b=LX31fSRjfIiZaoRkU8Jl1bnE3j2IF+kQ464en5LcYW+wZIHedfUuVzaDnD+il36vjaqqxNFjT614/vKFPnKZid58BDtTsRizkicNWaq4vOZvotqHaqR3S09hEyryUkkTieaDGjPG2ACELe5RESv4tr2ijTvpKOCUq9tswUg8sD0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782386126; c=relaxed/simple;
+	bh=zs3dvOESsas88reCmr/AEl3w73h5yut3msWRRmjK2sM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=qKp0rOFStYaoRT60ptIzlcP8YsONwJaa9/ousXy54XtXHWEJYn11ISY+RrtgAtxIDMWuxUPMswyPT80xJWy490aq5MQ45BMDiQ45hlZa4+Mgk8u49ZblPlHeKzFdjqYxpVywlR9HQbHL2wtx+pFhiVCo9z2BSB+BNlLYOwMNT3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fbengineering.ch; spf=pass smtp.mailfrom=fbengineering.ch; dkim=pass (1024-bit key) header.d=fbengineering.ch header.i=@fbengineering.ch header.b=cDhloHT6; arc=none smtp.client-ip=185.125.25.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fbengineering.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fbengineering.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lrbGdD14"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c86214eead7so301359a12.0
-        for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 03:54:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782384881; cv=none;
-        d=google.com; s=arc-20260327;
-        b=nH59lJBVpp1UQNY9wvHeExWUW4hM6qlaOKYTP8IVUVIkSlxp3rE/7aSqEh4OOhcWzR
-         4404EloqrzpWEyjzcDnVrPxsf2CMVwKXPqaUrk3jur9/UWFcuxfgvQKd8mYnliy26k7r
-         diM9G35658CzjIeTV9FpH2tT5gGYzUSdsJMNww02kL3PBo5rAKx+ugulhTfXLt0tHMYQ
-         yvBWlZSTFfVlOd2pHzR75s3cwOyAt+Zg+rGYxKX8e5WL11T5n+D+bxtr6L2u6uYkdsIf
-         VZGolkOdVMrYYMtDV7I9+hE0ToORnidVZu+i30WQsg+ZlZ3rw0GaxIijM5FBc7I7M5W3
-         2WWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Xx0OFGrEBnyqf1LFeqLT5XV1uITdiY7yYAyMZx/zOAg=;
-        fh=sAdr1UG6UppRjpd7gnsJB0LooC59bcqERhPe5wsmhsY=;
-        b=qas5CAEpyhyzF34eXgpLjIPxY4ffO8ck3rnod7bXBY7KqY3kkHh18KtP1jE1yC1bcf
-         RwWyOFNAZnSstDb47C2OLh5E5twg/jJG0PIN59MRiXnsRsBOLlc41/QbY0CYM+MW4/fx
-         4FFON1AIGg/S8NJuiP+c2xm3JiY5Laj0gFwkKAJ7O51rPEb+parkXLb8hfJeBtVSpCIK
-         N4AwOUjW3lBQRBUdNhx5nk8W3huTy/ZVEtCAMnwAB0r14Y0DtbHltASCw32pT8Whg7qz
-         zXRUJ72v4GcPLg1vCkGMIzNUt30JH2zNgGqE0zUf6z5hulqMFcUGwiws15exBXoIumg3
-         avfg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782384881; x=1782989681; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xx0OFGrEBnyqf1LFeqLT5XV1uITdiY7yYAyMZx/zOAg=;
-        b=lrbGdD14RgSH/OVEpgFZzZ3jlPBtuilPqezK6K1EyJbnhmUrWtqDXxrrUXDnU1L50s
-         wDejpURScQV5V1tLO2IwuiU39nVyCxa+cJ3JsIfr7kTo4cXvmLUIJiGD646qfOSneh1U
-         Wj9lFMXdRLH02Y5iDG3uZflhiZZhHCBWvCEpntAnXzfuJDKBzvJIcEIm9EMFRjomwnGH
-         ZEbOijW5MOyHqoMKz8YtvLuxSLw93S9V+xOmnRk/ox177ZNCH1vRFM9YyLnWeTfn3OIs
-         UsmD1ybegcEh6n2sop1rm3zY8QIICRPZgaMhVHVOsDwBS+Ctl6J+mQIAUzEOIRYIqmX7
-         VgIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782384881; x=1782989681;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Xx0OFGrEBnyqf1LFeqLT5XV1uITdiY7yYAyMZx/zOAg=;
-        b=cGQa4sLeb79bOJRRCxh6ezPfq2Kc6Dj542B4tyPRZHMxrWuqusDK72jzIASSkLpKDw
-         uVtJ/uCTz+ZQEc3oGpI2MWQ7YxRH7BVdvsWXL6Ek0vrp4n6xMcMB9GFllBT/OGXqSFD0
-         1c43qTZrJZ39trsyc0sDip0R2hu7IhstOUIMDNiCcArHP6x3NzaxJikHcuqgnzzc6Vwj
-         GnezJoJhH4KNBJeMlCXg+zInMj84hUypMB91GE3RJKC/xlOYN5QW3VtG8yTD0uhWPbWe
-         fR1d/o3MPmgU5DdxKDyJ5E5hriSq7dPa9VmC4T9h4A0V8cgDDdDXZm/r9Vmimuavoyj5
-         4hYA==
-X-Forwarded-Encrypted: i=1; AFNElJ9DIPaw4y5rU18dM30QlhXZuIsykeSuPGpQNSwPAcTDQ7Znjwz8xZHFdOXLtmx395LMj4r6DynOZJU4Dw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQi8SdFRfasjal76fhD34sIC7ciZ+Q9/cMIyc+9JofoJK6FW+c
-	Zo/kSg6EAaKbxqAcketurMBHuhNYSg5yWKPu0yYIn+kO3ZD3LoDIydpqh/alO/Ihi9phqGVV0Wa
-	CyZRgbD2mBWs1UgvGuFoFFX9T0SyFEGw=
-X-Gm-Gg: AfdE7cnKPk+6h63bUeyLqKPzQ2filfZORnXEfxGota55Vs/iCotMXkdNxl+zvAEw4J4
-	pdm4PfRuzjtFwy+Gm7i7AJtl90Y+Ahq7L90yQX0jlGlNr/i9nXsnzceKxycTj8aBeWS5D2XmMlO
-	t//cximqzPdcqk6a7NDOm2qZ1a7JKrynHSML7G+bO0L8mkY9086taEPmBIXBlAvABXDbe2u3Tbc
-	vuusrgr/PSI3z5V8Bl6td3HfjxV5e1GAGRP9YDtDKlXooX75V2osru3FWoRjMsnz09jBeKznTuv
-	gvOk1SO9OqciuHoFHDQtjFTMSOQ=
-X-Received: by 2002:a05:6a21:1519:b0:3ab:30d:c7a0 with SMTP id
- adf61e73a8af0-3bd10b3fc61mr11718362637.32.1782384880641; Thu, 25 Jun 2026
- 03:54:40 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=fbengineering.ch header.i=@fbengineering.ch header.b="cDhloHT6"
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246b])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4gmGKD0KR5zhBd;
+	Thu, 25 Jun 2026 13:09:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fbengineering.ch;
+	s=20220212; t=1782385759;
+	bh=Dzj+e+4XyJyd2QqAMQgHkmCoz8+ZaySGMyd36Cqm0II=;
+	h=From:To:Subject:Date:From;
+	b=cDhloHT6MVx7gZKK76jruRBd4j7paRl94gOjHVXInWSuRWLFE8DjvLRP0o0FZ1Xsb
+	 IWMvdqmiicSyWzqseM/ElW2QgL6yi4rP6O0IkaR3kgqqIpZYUtSab7fcsSemfAMCiR
+	 0A7p9mooy+cES1Zqg7ewXfyMKzpoYiDxNu0rttuc=
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4gmGK96VlRzPLJ;
+	Thu, 25 Jun 2026 13:09:17 +0200 (CEST)
+From: Federico Beffa <beffa@fbengineering.ch>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	willerz@gmail.com,
+	abhi220204@gmail.com,
+	jpfuentealbabizama@gmail.com,
+	uwe@kuechler.org,
+	beffa@fbengineering.ch,
+	jean-louis.colaco@orange.fr,
+	cassiogabrielcontato@gmail.com,
+	cryolitia@uniontech.com,
+	yury.norov@gmail.com,
+	i@rong.moe,
+	tasos@tasossah.com,
+	geert+renesas@glider.be,
+	simon@mungewell.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Add support for Pioneer DJ DJM-S11
+Date: Thu, 25 Jun 2026 13:08:09 +0200
+Message-ID: <20260625110809.821006-1-beffa@fbengineering.ch>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260623105721.25865-1-phucduc.bui@gmail.com> <20260623105721.25865-2-phucduc.bui@gmail.com>
- <fffe4925-c5aa-42a5-ab8a-d8da4989b9b9@intel.com> <CAABR9nGh3nHnRx8yROqUuHLVZ1nWsDWKxJqAJaX3q+fiOBL+Kg@mail.gmail.com>
-In-Reply-To: <CAABR9nGh3nHnRx8yROqUuHLVZ1nWsDWKxJqAJaX3q+fiOBL+Kg@mail.gmail.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Thu, 25 Jun 2026 17:54:29 +0700
-X-Gm-Features: AVVi8CeP2tAWjLoDOyAErmzOvG6RLTovn3vxUqPf3-cNBhREi3e9UUqRaCIIf5U
-Message-ID: <CAABR9nGZjz+VZJOJBB_BF72iYQtCs3Fvc_zskaHF8DPFodzX8w@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] ASoC: intel: sst-mfld-platform-pcm: Use
- __free(kfree) for stream pointer
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Infomaniak-Routing: alpha
 
-Hi Cezary,
+The Pioneer DJ DJM-S11, a professional 2-port DJ mixer, is currently not
+recognized as an audio interface and therefore not usable on Linux. This
+patch enables its full audio functionality.
 
-On Wed, Jun 24, 2026 at 10:01=E2=80=AFAM Bui Duc Phuc <phucduc.bui@gmail.co=
-m> wrote:
->
-> Hi Cezary,
->
-> Thank you for the feedback.
-> I will definitely fix the commit titles and group the patches by driver
-> (atom and avs) as you suggested in the next version.
->
-> Regarding the ordering of this cleanup patch and the locking update,
-> I wanted to share the rationale behind placing it before the locking patc=
-h.
->
-> According to cleanup.h guidelines and community best practices (as
-> also pointed out by Charles in a similar discussion [1]),
-> mixing guard()/scoped_guard() with traditional goto labels is highly
-> discouraged and error-prone.
->
-> In sst_media_open(), there are currently two goto labels: one for
-> mutex unlock and one for kfree(stream).
-> If I introduce the scoped_guard for locking first, that patch would
-> still be mixed with the remaining goto label for kfree.
->
-> To ensure clean, safe, and bisectable patches without mixing guard and go=
-to,
-> I had to eliminate the kfree error-path first using __free(kfree).
-> This allows the subsequent locking patch to completely and cleanly replac=
-e
-> the remaining mutex goto pattern with scoped_guard.
->
-> Please let me know if this makes sense, or if you still prefer a
-> different approach to untangle this dependency.
->
-> Best regards,
-> Phuc
->
-> [1] https://lore.kernel.org/all/ajUcTfG3vSGz3n3d@opensource.cirrus.com/
->
-> On Wed, Jun 24, 2026 at 2:35=E2=80=AFAM Cezary Rojewski
-> <cezary.rojewski@intel.com> wrote:
-> >
-> > On 6/23/2026 12:57 PM, phucduc.bui@gmail.com wrote:
-> > > From: bui duc phuc <phucduc.bui@gmail.com>
-> > >
-> > > Declare 'stream' with __free(kfree) so it is automatically freed when
-> > > leaving scope. This allows direct returns from error paths and remove=
-s
-> > > the explicit kfree(stream) call.
-> > > Set 'stream' to NULL after ownership has been transferred to
-> > > runtime->private_data to prevent it from being freed on the success p=
-ath.
-> >
-> > Hi Phuc,
-> >
-> > Thank you for separating the change.  TheCh=E1=BB=89 =C4=91=E1=BB=95i g=
-uard() =E2=86=92 code kh=C3=B4ng =C4=91=E1=BA=B9p, v=E1=BA=ABn ph=E1=BA=A3i=
- v=E1=BA=ADt l=E1=BB=99n v=E1=BB=9Bi goto. design of the patchset is off
-> > though.  __free() is by no means a requirement for the locking update -
-> > it should be located at the back.  Also, grouping changes targeting the
-> > same driver makes the entire patchset easier to follow.  Right now we
-> > have 2 avs patches surrounded by atom ones from either side.
-> >
-> > Last but not least, please drop the filename in the commit title.  We d=
-o
-> > not do that here - some filenames are long and the approach leaves
-> > little space for answering the _what_ question when building a proper
-> > commit title.  "ASoC: Intel: atom:" is what you want here.
-> >
-> > >   sound/soc/intel/atom/sst-mfld-platform-pcm.c | 19 +++++++++++++----=
---
-> > >   1 file changed, 13 insertions(+), 6 deletions(-)
-> >
-> > ...
-> >
-> >
-> > > @@ -347,12 +347,19 @@ static int sst_media_open(struct snd_pcm_substr=
-eam *substream,
-> > >       snd_pcm_hw_constraint_step(substream->runtime, 0,
-> > >                          SNDRV_PCM_HW_PARAM_PERIODS, 2);
-> > >
-> > > -     return snd_pcm_hw_constraint_integer(runtime,
-> > > -                      SNDRV_PCM_HW_PARAM_PERIODS);
-> > > +     ret_val =3D snd_pcm_hw_constraint_integer(runtime,
-> > > +                                             SNDRV_PCM_HW_PARAM_PERI=
-ODS);
-> > > +
-> > > +     if (ret_val < 0)
-> > > +             return ret_val;
-> > > +
-> > > +     stream =3D NULL;
-> > > +
-> > > +     return ret_val;
-> > > +
-> >
-> > The entire construct looks bad, unfortunately.  Guess the reason comes
-> > from its follow up - the locking update.  The delta (+13, -6) isn't
-> > exactly a good advertisement for the cleanup either.  Again, I see this
-> > patch as last in the set.  Should lower the delta too.
-> >
-> > >   out_ops:
-> > >       mutex_unlock(&sst_lock);
-> > > -out_power_up:
-> > > -     kfree(stream);
-> > > +
-> > >       return ret_val;
-> > >   }
-> > >
-> >
+Like other mixers in the Pioneer DJ DJM family, the DJM-S11 uses
+vendor-specific USB class descriptors (0xff) and requires custom mixer
+quirks to expose the hardware's input capture routing and volume
+controls.
 
-After re-reading the cleanup.h guidelines,
-I think I was mistaken about suggesting an ordering between the
-__free() and guard() patches.
-Sorry for the confusion.
-Since both conversions are part of the same goto-to-scope-cleanup transitio=
-n,
-combining them into a single patch seems more appropriate.
-That said, I'm happy to follow your preference.
-Would you prefer a single patch or two separate patches?
+Add the USB vendor and product ID (2b73:0037) to quirks-table.h, mapping
+the control interface (Interface 0) to trigger the standard mixer quirks,
+and establishing the audio formats for the playback and capture streams.
 
-Best regards,
-Phuc
+Control interface 3 is likely related to the touchscreen which is
+capable to display waveforms, etc. This functionality is not supported.
+
+In mixer_quirks.c, add the DSP routing options for the DJM-S11. This
+creates the ALSA kcontrols for selecting the capture sources (Phono,
+Line, Post-fader, etc.) and initializes the default DSP state during
+the device probe.
+
+Note that the DJM-S11's capture endpoint clock is strictly slaved to
+its playback endpoint. Capturing audio (e.g., timecode vinyl DVS input)
+physically requires an active playback stream on the output channels
+to feed the master word clock back to the capture stage. Userspace
+audio servers (such as PipeWire or JACK) should be configured in
+full-duplex mode or have automatic node suspension disabled to maintain
+the clock line and prevent I/O errors during capture.
+
+Signed-off-by: Federico Beffa <beffa@fbengineering.ch>
+---
+ sound/usb/mixer_quirks.c | 21 ++++++++++++-
+ sound/usb/quirks-table.h | 67 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 87 insertions(+), 1 deletion(-)
+
+diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+index f6f2bc8e97a7..4ba409796d7e 100644
+--- a/sound/usb/mixer_quirks.c
++++ b/sound/usb/mixer_quirks.c
+@@ -3936,6 +3936,7 @@ static int snd_rme_digiface_controls_create(struct usb_mixer_interface *mixer)
+ #define SND_DJM_450_IDX		0x5
+ #define SND_DJM_A9_IDX		0x6
+ #define SND_DJM_V10_IDX	0x7
++#define SND_DJM_S11_IDX	0x8
+ 
+ #define SND_DJM_CTL(_name, suffix, _default_value, _windex) { \
+ 	.name = _name, \
+@@ -4276,6 +4277,21 @@ static const struct snd_djm_ctl snd_djm_ctls_v10[] = {
+ 	// playback channels are fixed and controlled by hardware knobs on the mixer
+ };
+ 
++// DJM-S11
++static const u16 snd_djm_opts_s11_cap1[] = {
++	0x0100, 0x0103, 0x0106, 0x0107, 0x0108, 0x0109, 0x010d };
++static const u16 snd_djm_opts_s11_cap2[] = {
++	0x0200, 0x0203, 0x0206, 0x0207, 0x0208, 0x0209, 0x020d };
++static const u16 snd_djm_opts_s11_cap3[] = {
++	0x0307, 0x0308, 0x0309, 0x030a, 0x030d, 0x0311, 0x0312 };
++
++static const struct snd_djm_ctl snd_djm_ctls_s11[] = {
++	SND_DJM_CTL("Master Input Level Capture Switch", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
++	SND_DJM_CTL("Input 1 Capture Switch", s11_cap1, 1, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 2 Capture Switch", s11_cap2, 1, SND_DJM_WINDEX_CAP),
++	SND_DJM_CTL("Input 3 Capture Switch", s11_cap3, 3, SND_DJM_WINDEX_CAP)
++};
++
+ static const struct snd_djm_device snd_djm_devices[] = {
+ 	[SND_DJM_250MK2_IDX] = SND_DJM_DEVICE(250mk2),
+ 	[SND_DJM_750_IDX] = SND_DJM_DEVICE(750),
+@@ -4285,6 +4301,7 @@ static const struct snd_djm_device snd_djm_devices[] = {
+ 	[SND_DJM_450_IDX] = SND_DJM_DEVICE(450),
+ 	[SND_DJM_A9_IDX] = SND_DJM_DEVICE(a9),
+ 	[SND_DJM_V10_IDX] = SND_DJM_DEVICE(v10),
++	[SND_DJM_S11_IDX] = SND_DJM_DEVICE(s11),
+ };
+ 
+ static int snd_djm_controls_info(struct snd_kcontrol *kctl,
+@@ -4589,9 +4606,11 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
+ 	case USB_ID(0x2b73, 0x0034): /* Pioneer DJ DJM-V10 */
+ 		err = snd_djm_controls_create(mixer, SND_DJM_V10_IDX);
+ 		break;
++	case USB_ID(0x2b73, 0x0037): /* Pioneer DJ DJM-S11 */
++		err = snd_djm_controls_create(mixer, SND_DJM_S11_IDX);
++		break;
+ 	case USB_ID(0x03f0, 0x0269): /* HP TB Dock G2 */
+ 		err = hp_dock_mixer_create(mixer);
+-		break;
+ 	}
+ 
+ 	return err;
+diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+index 71444c2898b4..938908671d93 100644
+--- a/sound/usb/quirks-table.h
++++ b/sound/usb/quirks-table.h
+@@ -3310,6 +3310,73 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+ 		}
+ 	}
+ },
++{
++	/*
++	 * Pioneer DJ / AlphaTheta DJM-S11
++	 */
++	USB_DEVICE(0x2b73, 0x0037),
++	QUIRK_DRIVER_INFO {
++		QUIRK_DATA_COMPOSITE {
++			{
++				QUIRK_DATA_STANDARD_MIXER(0)
++			},
++			{
++				QUIRK_DATA_AUDIOFORMAT(1) {
++					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
++					.channels = 14,
++					.iface = 1,
++					.altsetting = 1,
++					.altset_idx = 1,
++					.endpoint = 0x01,
++					.ep_attr = USB_ENDPOINT_XFER_ISOC |
++						   USB_ENDPOINT_SYNC_ASYNC,
++					.rates = SNDRV_PCM_RATE_48000,
++					.rate_min = 48000,
++					.rate_max = 48000,
++					.nr_rates = 1,
++					.rate_table = (unsigned int[]) { 48000 },
++					.clock = 1,
++					.fmt_type = UAC_FORMAT_TYPE_I
++				}
++			},
++			{
++				QUIRK_DATA_AUDIOFORMAT(2) {
++					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
++					.channels = 10,
++					.iface = 2,
++					.altsetting = 1,
++					.altset_idx = 1,
++					.endpoint = 0x82,
++					.ep_attr = USB_ENDPOINT_XFER_ISOC |
++						   USB_ENDPOINT_SYNC_ASYNC |
++						   USB_ENDPOINT_USAGE_IMPLICIT_FB,
++					.rates = SNDRV_PCM_RATE_48000,
++					.rate_min = 48000,
++					.rate_max = 48000,
++					.nr_rates = 1,
++					.rate_table = (unsigned int[]) { 48000 },
++					.clock = 1,
++					.fmt_type = UAC_FORMAT_TYPE_I
++				}
++			},
++			{
++				/* Audio Control (unknown purpose) */
++				.ifnum = 3,
++				.type = QUIRK_IGNORE_INTERFACE
++			},
++			{
++				.ifnum = 4,
++				.type = QUIRK_MIDI_STANDARD_INTERFACE
++			},
++			{
++				/* HID */
++				.ifnum = 5,
++				.type = QUIRK_IGNORE_INTERFACE
++			},
++			QUIRK_COMPOSITE_END
++		}
++	}
++},
+ 
+ /*
+  * MacroSilicon MS2100/MS2106 based AV capture cards
+-- 
+2.54.0
+
