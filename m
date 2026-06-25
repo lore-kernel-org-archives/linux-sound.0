@@ -1,230 +1,155 @@
-Received: from smtp-bc0c.mail.infomaniak.ch (smtp-bc0c.mail.infomaniak.ch [45.157.188.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86FD3A1A23
-	for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 12:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3153DD537
+	for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 12:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782388836; cv=none; b=g7uwpE1zhQqGeZuo9qBFplDmNDmgciVGmNryed5r81umI6ORxu4QTRQ0uzia/JCMINec9rxVs/SlXe+toEOWDAq72R2gkbi86Ox/tICdRUP8mD2OQ+tdmr53GNSiHF/Xfs85sbzeGolLEl51uUNvVCL9LY8k/WFiAsjdhpx98SU=
+	t=1782388980; cv=none; b=QcF+bpxSEfA/h3J3rs1s3X8HNX28MN66MzHi/PhN278F82eA9wN12yBgELKG6O6j2udHLtUY4s10pywHSeCH2awKJ9QVR4+D5xdVusqS5brl/MCeoBwfbLISTN8p3YIW8gZI6Z5g2nbfuKESD6ycNPNR6MEad6yMl40ypL75cfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782388836; c=relaxed/simple;
-	bh=QGlLep63JIccvlNx1UY8HjfUKKGWWiOpWt2qvjsjiR8=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=trEL7PkNHma188TK/IQlLpTIvn2R+wD6gn1jLgc29Bv5+h9dPhzwEMk+l1FJc+QSDwpkCKzYOuW35Mya1qaKZf9gjcpHOUq/m1UJfTfFnS8fvEZO53m6AMXEKFJU8GCBWVqQvig1lcMj3XwzN5mMBgQiMFcp7HGM4gNyALIHaqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fbengineering.ch; spf=pass smtp.mailfrom=fbengineering.ch; dkim=pass (1024-bit key) header.d=fbengineering.ch header.i=@fbengineering.ch header.b=AwnP/Vj7; arc=none smtp.client-ip=45.157.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fbengineering.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fbengineering.ch
+	s=arc-20240116; t=1782388980; c=relaxed/simple;
+	bh=xyjYE+wdCRqfeXrLoCjAccvmSLZbMOpLrWkbvLXVmmY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YUWaKTboCiviYS9hOPiQbBfrk1JXVqp1semFSCtDqREerenkt0Qdjzg7Pthd+hjTM6qEar5upcHO4jbcZrh81YpgZykIlnwnlFoA+dq5DkUYYz+zKOiIacsuIrP0/K+ZeSxt0ZXpHWuH8VChnqALW4r0QF1R9GSmp6QuAZnB6hI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Efm1c2SR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m46NOzkK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rXg3UsSV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PGgCAjbw; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fbengineering.ch header.i=@fbengineering.ch header.b="AwnP/Vj7"
-Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4gmHJm3llbzCc4;
-	Thu, 25 Jun 2026 13:54:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fbengineering.ch;
-	s=20220212; t=1782388440;
-	bh=b+5RoU3zIhBCODVVd8lUflQROEZ4Monkl7+J8I3kVg8=;
-	h=From:To:Subject:Date:From;
-	b=AwnP/Vj7H8CnfTq2vTTxOtdJ6aHTOhsNmwFF55R1XdzKaHN6X3WIRZp78I6xjrMBV
-	 v/n3c56ymajUqWFqgqUClk+mApAw7BIkUHiRL9rHNsElkSniyHDBTMoqtYwGe89qBv
-	 SHK/Ha9mkMkB8aCToYk1xrftsrQbIUK2DWYzbDbo=
-Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4gmHJk3WQ2zr1d;
-	Thu, 25 Jun 2026 13:53:58 +0200 (CEST)
-From: Federico Beffa <beffa@fbengineering.ch>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	willerz@gmail.com,
-	abhi220204@gmail.com,
-	jpfuentealbabizama@gmail.com,
-	uwe@kuechler.org,
-	beffa@fbengineering.ch,
-	jean-louis.colaco@orange.fr,
-	cassiogabrielcontato@gmail.com,
-	cryolitia@uniontech.com,
-	yury.norov@gmail.com,
-	i@rong.moe,
-	tasos@tasossah.com,
-	geert+renesas@glider.be,
-	simon@mungewell.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Efm1c2SR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m46NOzkK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rXg3UsSV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PGgCAjbw"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 166E271B00;
+	Thu, 25 Jun 2026 12:02:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782388977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cPS0ijg5scPFhq5gmIRPoChf+Roc+10cb3JS4k6uAcU=;
+	b=Efm1c2SR5cf8AO19tbRlWmG45eSot0YIIOde1bhJX1hsy8Qvy+0w93Lu/MhPAhKGELn91u
+	XTVMV04GrNw2ht7JO8jbFV/Aetls+HVsJ2n1wzevtOfvvoov4b2qiwRj8PrvQ4rrABAKEI
+	Q1x4LkxWdrBjYMgnY0D3fAlA2eTG5J8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782388977;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cPS0ijg5scPFhq5gmIRPoChf+Roc+10cb3JS4k6uAcU=;
+	b=m46NOzkKBeuSEsQenk4/EWjCil4ConygAczDw/m8movtvFeh0q7qCwwxejcomqF27WgICn
+	6Cquffn69hn6AEBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782388976; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cPS0ijg5scPFhq5gmIRPoChf+Roc+10cb3JS4k6uAcU=;
+	b=rXg3UsSV8xbC4U5qEXG1BmO4VFwGugx36jhsQ32yPk2AVSKwn1nopsBuDNBzecGACpBjM1
+	nmi2SS/EWAcWq+N8oVu28glRJESn8fiSDETmMSkiLffOdgNrfbtcKufNnowrMFzv/br3gl
+	e/J07JjXjP4uEpc/qc21XL59YV4uyXk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782388976;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cPS0ijg5scPFhq5gmIRPoChf+Roc+10cb3JS4k6uAcU=;
+	b=PGgCAjbwplxstk0ADQoYutIuJinvUhk+MUi6Mhc6GcaSg7E/6KvYtcQmSh8dtNHP+7bNkq
+	K1ZecFmSBn3+hRBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D87B6779A8;
+	Thu, 25 Jun 2026 12:02:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 36vSM+8YPWruCAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 25 Jun 2026 12:02:55 +0000
+Date: Thu, 25 Jun 2026 14:02:51 +0200
+Message-ID: <877bnmvndg.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Maoyi Xie <maoyixie.tju@gmail.com>
+Cc: Clemens Ladisch <clemens@ladisch.de>,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ALSA: usb-audio: Add support for Pioneer DJ DJM-S11
-Date: Thu, 25 Jun 2026 13:46:28 +0200
-Message-ID: <20260625115340.823184-1-beffa@fbengineering.ch>
-X-Mailer: git-send-email 2.54.0
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: firewire: isight: bound the sample count to the packet payload
+In-Reply-To: <178205454729.1900991.7807310178296762772@maoyixie.com>
+References: <178205454729.1900991.7807310178296762772@maoyixie.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Level: 
 
-The Pioneer DJ DJM-S11, a professional 2-port DJ mixer, is currently not
-recognized as an audio interface and therefore not usable on Linux. This
-patch enables its full audio functionality.
+On Sun, 21 Jun 2026 17:09:07 +0200,
+Maoyi Xie wrote:
+> 
+> isight_packet() takes the frame count from the device iso packet and
+> checks it only against the device claimed iso length.
+> 
+> 	count = be32_to_cpu(payload->sample_count);
+> 	if (likely(count <= (length - 16) / 4))
+> 		isight_samples(isight, payload->samples, count);
+> 
+> length is the iso header data_length. It can be up to 0xffff. So the
+> gate allows a count up to about 16379. isight_samples() then copies
+> count frames out of payload->samples into the PCM DMA buffer.
+> 
+> payload->samples holds only 2 * MAX_FRAMES_PER_PACKET values. The
+> device multiplexes two samples per frame. A count past
+> MAX_FRAMES_PER_PACKET reads past the payload. A count past the buffer
+> size writes past runtime->dma_area. The smallest PCM buffer is larger
+> than MAX_FRAMES_PER_PACKET. Bounding the count to MAX_FRAMES_PER_PACKET
+> keeps both the read and the write in range.
+> 
+> A malicious or faulty Apple iSight on the FireWire bus reaches this
+> during a normal capture.
+> 
+> Add the MAX_FRAMES_PER_PACKET bound to the gate.
+> 
+> Fixes: 3a691b28a0ca ("ALSA: add Apple iSight microphone driver")
+> Suggested-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
 
-Like other mixers in the Pioneer DJ DJM family, the DJM-S11 uses
-vendor-specific USB class descriptors (0xff) and requires custom mixer
-quirks to expose the hardware's input capture routing and volume
-controls.
+Thanks, applied now.
 
-Add the USB vendor and product ID (2b73:0037) to quirks-table.h, mapping
-the control interface (Interface 0) to trigger the standard mixer quirks,
-and establishing the audio formats for the playback and capture streams.
 
-Control interface 3 is likely related to the touchscreen which is
-capable to display waveforms, etc. This functionality is not supported.
-
-In mixer_quirks.c, add the DSP routing options for the DJM-S11. This
-creates the ALSA kcontrols for selecting the capture sources (Phono,
-Line, Post-fader, etc.) and initializes the default DSP state during
-the device probe.
-
-Note that the DJM-S11's capture endpoint clock is strictly slaved to
-its playback endpoint. Capturing audio (e.g., timecode vinyl DVS input)
-physically requires an active playback stream on the output channels
-to feed the master word clock back to the capture stage. Userspace
-audio servers (such as PipeWire or JACK) should be configured in
-full-duplex mode or have automatic node suspension disabled to maintain
-the clock line and prevent I/O errors during capture.
-
-Signed-off-by: Federico Beffa <beffa@fbengineering.ch>
----
-We reinserted the inadvertenly deleted 'break;' line in mixer_quirks.c.
-
- sound/usb/mixer_quirks.c | 20 ++++++++++++
- sound/usb/quirks-table.h | 67 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 87 insertions(+)
-
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index f6f2bc8e97a7..989157a8baaf 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -3936,6 +3936,7 @@ static int snd_rme_digiface_controls_create(struct usb_mixer_interface *mixer)
- #define SND_DJM_450_IDX		0x5
- #define SND_DJM_A9_IDX		0x6
- #define SND_DJM_V10_IDX	0x7
-+#define SND_DJM_S11_IDX	0x8
- 
- #define SND_DJM_CTL(_name, suffix, _default_value, _windex) { \
- 	.name = _name, \
-@@ -4276,6 +4277,21 @@ static const struct snd_djm_ctl snd_djm_ctls_v10[] = {
- 	// playback channels are fixed and controlled by hardware knobs on the mixer
- };
- 
-+// DJM-S11
-+static const u16 snd_djm_opts_s11_cap1[] = {
-+	0x0100, 0x0103, 0x0106, 0x0107, 0x0108, 0x0109, 0x010d };
-+static const u16 snd_djm_opts_s11_cap2[] = {
-+	0x0200, 0x0203, 0x0206, 0x0207, 0x0208, 0x0209, 0x020d };
-+static const u16 snd_djm_opts_s11_cap3[] = {
-+	0x0307, 0x0308, 0x0309, 0x030a, 0x030d, 0x0311, 0x0312 };
-+
-+static const struct snd_djm_ctl snd_djm_ctls_s11[] = {
-+	SND_DJM_CTL("Master Input Level Capture Switch", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
-+	SND_DJM_CTL("Input 1 Capture Switch", s11_cap1, 1, SND_DJM_WINDEX_CAP),
-+	SND_DJM_CTL("Input 2 Capture Switch", s11_cap2, 1, SND_DJM_WINDEX_CAP),
-+	SND_DJM_CTL("Input 3 Capture Switch", s11_cap3, 3, SND_DJM_WINDEX_CAP)
-+};
-+
- static const struct snd_djm_device snd_djm_devices[] = {
- 	[SND_DJM_250MK2_IDX] = SND_DJM_DEVICE(250mk2),
- 	[SND_DJM_750_IDX] = SND_DJM_DEVICE(750),
-@@ -4285,6 +4301,7 @@ static const struct snd_djm_device snd_djm_devices[] = {
- 	[SND_DJM_450_IDX] = SND_DJM_DEVICE(450),
- 	[SND_DJM_A9_IDX] = SND_DJM_DEVICE(a9),
- 	[SND_DJM_V10_IDX] = SND_DJM_DEVICE(v10),
-+	[SND_DJM_S11_IDX] = SND_DJM_DEVICE(s11),
- };
- 
- static int snd_djm_controls_info(struct snd_kcontrol *kctl,
-@@ -4589,6 +4606,9 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
- 	case USB_ID(0x2b73, 0x0034): /* Pioneer DJ DJM-V10 */
- 		err = snd_djm_controls_create(mixer, SND_DJM_V10_IDX);
- 		break;
-+	case USB_ID(0x2b73, 0x0037): /* Pioneer DJ DJM-S11 */
-+		err = snd_djm_controls_create(mixer, SND_DJM_S11_IDX);
-+		break;
- 	case USB_ID(0x03f0, 0x0269): /* HP TB Dock G2 */
- 		err = hp_dock_mixer_create(mixer);
- 		break;
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index 71444c2898b4..938908671d93 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -3310,6 +3310,73 @@ YAMAHA_DEVICE(0x7010, "UB99"),
- 		}
- 	}
- },
-+{
-+	/*
-+	 * Pioneer DJ / AlphaTheta DJM-S11
-+	 */
-+	USB_DEVICE(0x2b73, 0x0037),
-+	QUIRK_DRIVER_INFO {
-+		QUIRK_DATA_COMPOSITE {
-+			{
-+				QUIRK_DATA_STANDARD_MIXER(0)
-+			},
-+			{
-+				QUIRK_DATA_AUDIOFORMAT(1) {
-+					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
-+					.channels = 14,
-+					.iface = 1,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.endpoint = 0x01,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC |
-+						   USB_ENDPOINT_SYNC_ASYNC,
-+					.rates = SNDRV_PCM_RATE_48000,
-+					.rate_min = 48000,
-+					.rate_max = 48000,
-+					.nr_rates = 1,
-+					.rate_table = (unsigned int[]) { 48000 },
-+					.clock = 1,
-+					.fmt_type = UAC_FORMAT_TYPE_I
-+				}
-+			},
-+			{
-+				QUIRK_DATA_AUDIOFORMAT(2) {
-+					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
-+					.channels = 10,
-+					.iface = 2,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.endpoint = 0x82,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC |
-+						   USB_ENDPOINT_SYNC_ASYNC |
-+						   USB_ENDPOINT_USAGE_IMPLICIT_FB,
-+					.rates = SNDRV_PCM_RATE_48000,
-+					.rate_min = 48000,
-+					.rate_max = 48000,
-+					.nr_rates = 1,
-+					.rate_table = (unsigned int[]) { 48000 },
-+					.clock = 1,
-+					.fmt_type = UAC_FORMAT_TYPE_I
-+				}
-+			},
-+			{
-+				/* Audio Control (unknown purpose) */
-+				.ifnum = 3,
-+				.type = QUIRK_IGNORE_INTERFACE
-+			},
-+			{
-+				.ifnum = 4,
-+				.type = QUIRK_MIDI_STANDARD_INTERFACE
-+			},
-+			{
-+				/* HID */
-+				.ifnum = 5,
-+				.type = QUIRK_IGNORE_INTERFACE
-+			},
-+			QUIRK_COMPOSITE_END
-+		}
-+	}
-+},
- 
- /*
-  * MacroSilicon MS2100/MS2106 based AV capture cards
--- 
-2.54.0
-
+Takashi
