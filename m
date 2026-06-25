@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 327A436CE10;
-	Mon, 29 Jun 2026 12:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B5B367B92;
+	Mon, 29 Jun 2026 12:14:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782735256; cv=none; b=pGTgkPYhzVeNcXx6u0qEVmMjsh3NJzQFnWk8Z33gauKcGW1jq7KLHmzneWcLx5M678ArDLCeAFGGiA31CDud2x+UOKuQAPU10ELpaHLL0sfUksSCDT14pUuHcup/iirfcsR9QZNSDsHJGBlPzYHTJaFt/CLF7TYCl1uR0cXMdoU=
+	t=1782735261; cv=none; b=X5UKOqVB+4pAzutUPhlXCPXOBaGrYLK7S56gKYvdAe4cp8CYwX6DLD/QIX5vuPk4gMx4CLak4wm4YTGMUTdtE130Id7IFMlOWBZlMaCwK1/xosqYKlczYjp/UbUTP4zebw4irWHabJpDf0icgCZZo45hn6W7PKzLk5mrZOeZb+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782735256; c=relaxed/simple;
-	bh=S1uHXem2NPKorcIgxQtqKkiIBFoLN4lrRepfZPijNe0=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jDUHPJG2s+EyyItbZ7IX+CZMiKpdmNyWLdkvbb4P5ebTTATRsFs4A9r7+BQRLgfLcOfxMM8rLwV52M7RcEIYOyDwz9vir2sxKVCT7REv+Lsrn+fDxujTbgs3gDjKsnygzQza/4f5T8LG7s/H+lRz/ia0A1ACZboNm4sxIPTp2Vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Of51FpbA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782735261; c=relaxed/simple;
+	bh=j4tTC8L08dx67eEqwQjX2ZrqrjILr0i7/qz5JeYey7c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=u/QKgxz7PYW3aTQZ4FpwIRJNJs4yHl9+VHLgcKNQvymDHPGry6lpgqP5S3MbtW4Sope2/0fi/GGZnGEG6x+vdK9T/W9vtltvzZzfhhcjextUk1Xik6gkzk4zC/ACwriP/VYGVYGIaj3B221b9ptMi+x5e3s1DMhloJ9Otmw20WA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g4AAO4w/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Of51FpbA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1B551F00A3A;
-	Mon, 29 Jun 2026 12:14:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g4AAO4w/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB8AA1F000E9;
+	Mon, 29 Jun 2026 12:14:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782735254;
-	bh=n+coV1M1k9ivDucBnlClOj7zKR27F4vBF8Pokzkw63Y=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=Of51FpbA6HZf9/yVnds+0yyBzWj8QCMKAo0CYcwO6gMOYO/mvx7EWIGwefwRhRHwS
-	 JB581U6jI+P4OYASwOG/Aqc+cHn0tIOsxWN6i+7TXRnh5iEg1YahtmqfXY+Smiappl
-	 Aw8aMt+kYoGhCMVhYEboehvN7Yw0c9+aBg8fLR3NaKokErsRp+tTRxeeyK7o7wbVyS
-	 HfwHStRiv0i8oJZJscXlRdEfHfR4f4R4m4nBSw52s8qnkkKtDTnVoAbFxC68Uq7yw4
-	 5lH30uDaR44kTY5KeIu5JD7dJ5CKSnyzLP+X14QFXkHApMRWM0x52tcXLXuB6zYWzr
-	 xejSUPDC73oPA==
+	s=k20260515; t=1782735259;
+	bh=XeJBYikpzrcLaEXcXwsdkWiCmc3M7uiee5cBFjsu3tI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=g4AAO4w/+Eqb4KcTEar0BztPYyjNoJ196nIwKLHOlqopg+D3NMDjm8Vn46o64TLAc
+	 6Lm7BosMl76Y8FmTm/4M1fnWW2osnSraK2elDO5rQXYzwwonZ7hVixUo0Iw/lgQyHH
+	 ZJT9zS6fTeMgaGYOssIFv41b2W97hITp4Rh0jnEKlaq1yvGefbiF7Gbu1433w5WWYW
+	 BIPedwK/aMGjOri25eB22FY7OItzDfNbU6crsenkuYbktMTSbiuy9U03+yYLO6FU8I
+	 +CrV6OcS/CfrCIVPWFSUCQTR2COEdoCfR0+gtgOR1eM9S0qhkMZ60xvy//KD9qRtVm
+	 vT02ZPfFqTIqg==
 From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, shengjiu.wang@oss.nxp.com
-In-Reply-To: <20260625102416.424911-1-shengjiu.wang@oss.nxp.com>
-References: <20260625102416.424911-1-shengjiu.wang@oss.nxp.com>
-Subject: Re: [PATCH] ASoC: fsl_asrc_dma: fix eDMA maxburst misalignment
- with channel count
-Message-Id: <178239587658.51343.2769093541201001196.b4-ty@b4>
-Date: Thu, 25 Jun 2026 14:57:56 +0100
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: tiwai@suse.de, andriy.shevchenko@linux.intel.com, 13916275206@139.com, 
+ alsa-devel@alsa-project.org, shenghao-ding@ti.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, k-yi@ti.com, 
+ henry.lo@ti.com, robinchen@ti.com, niranjan.hy@ti.com
+In-Reply-To: <20260625102815.20043-1-baojun.xu@ti.com>
+References: <20260625102815.20043-1-baojun.xu@ti.com>
+Subject: Re: [PATCH v1] ASoC: tas2781: Update default register address to
+ TAS2563
+Message-Id: <178239364221.51343.11187259135012325485.b4-ty@b4>
+Date: Thu, 25 Jun 2026 14:20:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,20 +47,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1169; i=broonie@kernel.org;
- h=from:subject:message-id; bh=S1uHXem2NPKorcIgxQtqKkiIBFoLN4lrRepfZPijNe0=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqQmGTG5TwQoa6xRAxjRcbu9vHK0fnsbEKCdAdt
- 1FXmqZvZ3qJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakJhkwAKCRAk1otyXVSH
- 0JfeB/0TG2IJV8dN6ol8F4L57VLrZBoF7T+7fvk1ZvZat7083qw8BgAq4M1SP4lKZqqC8VcwvM7
- gyHOadeU30f+zwRWtC8vLRF4LY7CcAhZTr83IJKDLlPfqTQ0+20q/xXaiBQj9sIPq1I1P0XHKiU
- Eg56u/k78XIchupjk+6wReOxi++HRMZ73Hy41hxD7b/degqTwGcFyfxoTobXXGAGeS061MKrTzi
- g1fSZz2G0fXIgqiOjHVU8XXYF7o1caxLQ7hPi9+2lJXIXCGPDF6Dv1Pd4EB8ZCAu/TjEO+FKvjw
- BwYiw5pXnyHTNoPy/vIXVA0rycSYxu8bzMbYi3Dor9GCx86j
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1129; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=j4tTC8L08dx67eEqwQjX2ZrqrjILr0i7/qz5JeYey7c=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqQmGYqab8ptxvjnPu+xehDYkB8UiXBh1H1XAld
+ FfY6OjzD8qJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakJhmAAKCRAk1otyXVSH
+ 0JWAB/9l8M4VR0E9CAcTdXizgF8VR1T6B0jSizFsFUcuiGZuC5VdEcJiURZ0vaMm8inqMzZIINh
+ Cx64xpDXLVPmNX0ELLZhRKyuDY3r/EG2OVVmnpfn8SpdchP07gsHZILUbB93/PeqHLdYMhORG+k
+ Jh5uIuN5XW8aliuvYbZTFxFllA9uQ1nUmUmtt0TGNRxwn27gyS/6Choaz41YfBP3+tHGFI1EhEH
+ xrBw+kaJU6nx37YKjlwAQp3BcX4BInye3p7YsuqmdzcYS/KpKFh9AsL5plg1T4fkfGt3+brg39p
+ 3ipQ+OOEq+ogvKy5AG/nRd1L5/DT/f0vswHC326qY6HgJChl
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 25 Jun 2026 18:24:16 +0800, shengjiu.wang@oss.nxp.com wrote:
-> ASoC: fsl_asrc_dma: fix eDMA maxburst misalignment with channel count
+On Thu, 25 Jun 2026 18:28:15 +0800, Baojun Xu wrote:
+> ASoC: tas2781: Update default register address to TAS2563
 
 Applied to
 
@@ -67,8 +68,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: fsl_asrc_dma: fix eDMA maxburst misalignment with channel count
-      https://git.kernel.org/broonie/sound/c/cf6f56990ea2
+[1/1] ASoC: tas2781: Update default register address to TAS2563
+      https://git.kernel.org/broonie/sound/c/64184f07e751
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
