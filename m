@@ -1,118 +1,161 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614C53DA7C5
-	for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 11:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DD43DD532
+	for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 11:53:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782388109; cv=none; b=QxaKlBiiv/7KMAGg6iwCkT1JIWH6qAvGE+cvGFQVuMic0VpcO1lpDxiUYWUIZq8rE28zAFdZFe55z4iVX31j9ltiDcQBiK5DprWLMF2/3pGA7bCwTigQHOCZE7IAJwyEUKf2GHaa3qciHo6SB/yH9G11a0Il/NpKWsteezXtHLA=
+	t=1782388384; cv=none; b=i3Br/u0HUULo24FALHnbt8RjU/dJ/tpUS5wtdUmwe1OemQfX1KDeDg7i+s9fbWUaptaFwbw3NsIT1Ec1CjpgspLFNwLg31TshjGJ4WLQFSaOOL/cEYFMuWg6AFQLq73xCP3znM1rBfbjbbjQcysVdz4CThVaA0t4Z1bw402WOHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782388109; c=relaxed/simple;
-	bh=reh+VQsJ/yIoZFMwNqlFcbMLXcfZRxZ444wPqb1Igoo=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Eel2pq+wqDIDKDvXnTM59NSI4oioW34lTvUSyg9bozZNRXRzaDkomYdO2dzqcpy+UjDYlF7uz/JRDwQma7u62skFvZS4xh9PGmcVGYvI+Q1h0+F87ybD8dN1Gf1WOrk/WqoNxHx4/N8IQDQNnjQ91KPN/A+oAglFb3i9iz+t4a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BMz1uGbk; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782388384; c=relaxed/simple;
+	bh=jrBCAYYtFmZ59LxFcrWWQftFhm4twriePx+2/nHbRvY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c+W51rvTdsRwCNw/xeBKBBdUwFfLtTi8Go/owZCveYDlh4XSpbffE12oI6ueylPQoeswS//GBBzVwoJV/8PSa+FZL7rLB3a4iSiqQSnTdTfyHXJigvCg721riuTs/1vwgOyr7vKSCYQ5f/LDAYR+91nBkKc88vv2i1XLTDC0/XU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Abwx7VKl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=A5jb2rbm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1zjJX7qc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pNthpy5O; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BMz1uGbk"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4626fdc829aso1698905f8f.3
-        for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 04:48:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782388106; x=1782992906; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=c2nr4Zfai6Pu/V4xdOMDDDUBnQsxOhCcFatWRe77nj4=;
-        b=BMz1uGbkxBL42j7IxJhisSuRqKbk3lH4/hO1I8abg53UKVAfqM8SRtl+XekUz8qvx1
-         mRonsUOSqjapMDF24xNDWBfVWbLexdbPJYcXL2tlOEBAcX1Zp71gcOK5Y/wNuSQqPhPf
-         1SikGVY5rergqWxiiOZ3Jv8ltBmlEadgTOd4GUTHp960rSVj7KcO25UzWd2ExlzNhMqP
-         P7LvhIbx67xlHP8WVRdJzcMMH46SY08F/A2fgcfG8iL+RFUmbtsZuIMX3I+siGAq1tQt
-         LLWJYF693xk3sXV3rNz1uCj33MVol26e2X0vU94Zo0r+MoCGis0zAOktUHMuHnEY2fFN
-         i2KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782388106; x=1782992906;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c2nr4Zfai6Pu/V4xdOMDDDUBnQsxOhCcFatWRe77nj4=;
-        b=iOxVw7Fp/wIkcwCLxvaJ3Kn2NcUfL+uGZNSaUsYu2wmTY4hZf761h8Xp47BDBGZMZQ
-         NbcOOhDuqdM5MHSADhjxHDD5VCy0b8X9bk/e6rkoUMc+D7Rxg23JuFBEMuaw2pcMIlUa
-         UK1W/KqJrGQD0Ka3ZEWTe0CmHR2Mmv1+NY3d3LwV0Ofzhp/pzicZAfmgT0/koro0fQbL
-         pdZ8VtC2wJZdskh8Fzig78oqoADMPkf0aNLApDWAWpD7yGJsOJwj4rD6UTefRk749AN4
-         bTn8CQgnC1exoRs1advDU5+vQn8L7qCKut3DEcdkwNgutfAv4kGGSoGCb/8wwJTafEGM
-         FQpA==
-X-Forwarded-Encrypted: i=1; AFNElJ8ulyz/lS06J1w4WLuOtoSJqN+z6iOBoQflYCCKTRGpa/p2O7L0lD1nn7DBkU7BdeMgi6B2yCrma67f9A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0rFcPw3PQUGl2tiZ5wkgIRO8D4B7Gn7BItqOTkGL46GgN1xpE
-	3z/++MMgbgVHoMZYY5znH5N0vX69X4e0KZdJu8xB6HDeiCQlycLgekuf
-X-Gm-Gg: AfdE7cmt/p5N675Guh0Tam+q51OIuuzHkpCtUU0oV5ylUsKUSjUUGzd26lgcvXx4SQV
-	dPPjU7AWjJhPLQoLAnyqZd1U5QvfEpE9TudLepxE5tx0w+xpc+MKiwglY/LS03KfFqYWwAADvXo
-	0TGZk6faKF3h7wNjW8o/nFn1PUJ8rxIfquJjcQVjba6IWkXfW0JdPJ3DNjWPBIzu4MzijLCn2Zg
-	Z2hrk/Dv97Dg+gb9GZtPzkcGs/n24AIEEXPKKhZGTDtsgQanj6OKd0FdUvqZLcqjSs/ocpBr01T
-	nFoXaf19TEmcuU2GXnuF5smtqpAIcH4kA9HzcnD6ly7nDEACXMiy4TtStj1dvN+x8x7IDr1vwEw
-	cLCnG2oiJI7V92nzzIMa0pXTlSf2X5QBnn7u6EvxICh9TLTF4et/bG06qZXdzTllm4zY+NoRdA7
-	PDxiinF7GwBht4eHiWcl/3WflLELs=
-X-Received: by 2002:a05:600c:a011:b0:492:6489:72b2 with SMTP id 5b1f17b1804b1-492668986a5mr29342455e9.20.1782388105344;
-        Thu, 25 Jun 2026 04:48:25 -0700 (PDT)
-Received: from toolbox.. ([87.200.95.144])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492660adae1sm52237985e9.4.2026.06.25.04.48.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 04:48:24 -0700 (PDT)
-From: Christian Hewitt <christianshewitt@gmail.com>
-To: Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Abwx7VKl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A5jb2rbm";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1zjJX7qc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pNthpy5O"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6DD8771AFE;
+	Thu, 25 Jun 2026 11:52:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782388379; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mWfIbRiq3pUIbkqvkNhafBzQwY/dIy5+RX96V68LkSE=;
+	b=Abwx7VKli0TOUE8e7fbEGMfDUknqyuV4Z8Hq/FJv60rTFV7jcbBmgtAUricn+cXuTsyTCR
+	IFHOeJG8SbLBn+1svtObLLzsFR4GiPkRjW5Pvx0Xsg0wjIGEYtMYoeKSah+KeGA6Pzj67v
+	NoSdaMpdCrXucLNG5H8ujFMS876lQbY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782388379;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mWfIbRiq3pUIbkqvkNhafBzQwY/dIy5+RX96V68LkSE=;
+	b=A5jb2rbmWS8KXOmI2r8+8K/O6IPGwmPNrkC4MbFwwdAcv5GXQBqZMO/tc9BQRHV606F4jF
+	VdOZUfpEYVwVsbCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1zjJX7qc;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pNthpy5O
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782388378; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mWfIbRiq3pUIbkqvkNhafBzQwY/dIy5+RX96V68LkSE=;
+	b=1zjJX7qcsfvfvTAgm9KkAAHgp70MqWuKqPxspaviiZRDo6zFu8qwUi7hm0FYhZuOnRQOrh
+	i0lRq3QdxVh3n0Tof+BSDvcUETQwxXTXCo4b6phmdYbqg6pyc42azbw3oh+raEZGrjZ5cP
+	BB8uLzgch6HLE41zc4yvHM1/DqB13Nw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782388378;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mWfIbRiq3pUIbkqvkNhafBzQwY/dIy5+RX96V68LkSE=;
+	b=pNthpy5ObKYWHMkrlBvDvLM05U9T0BlN6vPTCR056lVAm0yqsBnvoQEotunxxd6QX7tZLA
+	Lut9c/XZX06NiYBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 42E99779A8;
+	Thu, 25 Jun 2026 11:52:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ISVSD5oWPWpUfgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 25 Jun 2026 11:52:58 +0000
+Date: Thu, 25 Jun 2026 13:52:53 +0200
+Message-ID: <87bjcyvnu2.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Darvell Long <contact@darvell.me>
+Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] WIP: ASoC: codecs: pcm512x: only print info once on no sclk
-Date: Thu, 25 Jun 2026 11:48:20 +0000
-Message-ID: <20260625114820.4055340-1-christianshewitt@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: avoid kobject path lookup in DualSense match
+In-Reply-To: <20260624143723.2986353-1-contact@darvell.me>
+References: <20260624143723.2986353-1-contact@darvell.me>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 6DD8771AFE
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,darvell.me:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-If sclk is not provided the driver falls back to using bclk and prints
-an info message in the system log. Under normal operations the message
-is repeated many times:
+On Wed, 24 Jun 2026 16:37:23 +0200,
+Darvell Long wrote:
+> 
+> The DualSense jack-detection input handler verifies that a matching input
+> device belongs to the same physical controller by building kobject path
+> strings for both the input device and the USB audio device, then comparing
+> the path prefix.
+> 
+> This was observed when a weak physical connection caused the controller
+> to rapidly disconnect and reconnect. During that repeated hotplug,
+> snd_dualsense_ih_match() can run while the controller's USB device is
+> being disconnected. kobject_get_path() walks ancestor kobjects and
+> dereferences their names; if the USB device kobject name is no longer
+> valid, this can fault in strlen():
+> 
+>   RIP: 0010:strlen+0x10/0x30
+>   Call Trace:
+>    kobject_get_path+0x34/0x150
+>    snd_dualsense_ih_match+0x49/0xd0 [snd_usb_audio]
+>    input_register_device+0x566/0x6a0
+>    ps_probe+0xb89/0x1590 [hid_playstation]
+> 
+> The same ownership check can be done without building kobject path
+> strings. The input device is parented below the HID device, USB interface
+> and USB device, so walking the input device parent chain and comparing
+> against the mixer USB device preserves the check without dereferencing
+> kobject names during disconnect.
+> 
+> Fixes: 79d561c4ec04 ("ALSA: usb-audio: Add mixer quirk for Sony DualSense PS5")
+> Cc: <stable@vger.kernel.org>
+> Assisted-by: Cute:gpt-5.5
+> Signed-off-by: Darvell Long <contact@darvell.me>
 
-[   17.929576] pcm512x 0-004c: No SCLK, using BCLK: -2
-[   17.949172] pcm512x 0-004c: No SCLK, using BCLK: -2
-[   17.953029] pcm512x 0-004c: No SCLK, using BCLK: -2
-[   17.965059] pcm512x 0-004c: No SCLK, using BCLK: -2
-[   82.592980] pcm512x 0-004c: No SCLK, using BCLK: -2
-[   82.866293] pcm512x 0-004c: No SCLK, using BCLK: -2
+Thanks, applied now.
 
-Switch from dev_info to dev_info_once to reduce log noise.
 
-Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
----
-This was observed on an Odroid Hifi-Sheild2 board used with Kodi
-which appears to reset the audio connection frequently resulting
-in 100+ repeats of the message over time.
-
- sound/soc/codecs/pcm512x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/pcm512x.c b/sound/soc/codecs/pcm512x.c
-index fdef98ce52f1..fe3b5011fa16 100644
---- a/sound/soc/codecs/pcm512x.c
-+++ b/sound/soc/codecs/pcm512x.c
-@@ -633,7 +633,7 @@ static int pcm512x_dai_startup_slave(struct snd_pcm_substream *substream,
- 	struct regmap *regmap = pcm512x->regmap;
- 
- 	if (IS_ERR(pcm512x->sclk)) {
--		dev_info(dev, "No SCLK, using BCLK: %ld\n",
-+		dev_info_once(dev, "No SCLK, using BCLK: %ld\n",
- 			 PTR_ERR(pcm512x->sclk));
- 
- 		/* Disable reporting of missing SCLK as an error */
--- 
-2.43.0
-
+Takashi
