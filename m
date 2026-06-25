@@ -1,147 +1,121 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3321D3E172A;
-	Thu, 25 Jun 2026 12:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5D132E121
+	for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 13:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782391658; cv=none; b=H4lzyFb7SpwIyMECnawkSNsCHLbX1vElbiZkr+rgq60Cy6dQoyzJyE+9w2MPCNV2QI0bvw3NMkUfrX0i4j412uUH1LdE2ysM00rYpz2BgJl/ytPe2qQI79JZNM40iFCBJ+YX6V4odvhlsvjDeK6mqABNEXhiYJcP6s7pKr+wqA4=
+	t=1782395386; cv=none; b=MQ809zGqtN/dAa7pAFFe/vnq0/aw5Jjdr8KqXPWVtMpBvA+RqtkaOTmXBpMBHeN+4hIQ/wlPUcVkERTyOYId68FsAC+D0aFuhAf+fCVrhOoHvAB8uzTwl1Xq9Cm32ZFEjmzV9jVxuAn4YPtPK/6s6YZv8O5Ia+nO+2Y2cKWcZ6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782391658; c=relaxed/simple;
-	bh=Fg4zLlVmXBqOTUbbss+KCEWbpgX7kv25EIqZLHKV2cc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZzBA1qQmp/sWTBAMnPHys6Geqoo0G1xgBzE0ishUvPtL2JHLHe793OavHd22ZLCNJqknTuYIIvnhmwH/M8nDicD5Z9o7V53/5cVzkla5ztroS2AosnctBd0ITOM2XmH4cipWnLQy4VgH47nC1yFzvzJ6eVGDxFL+YcsNHdjkybE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=SvQBQB+v; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1782395386; c=relaxed/simple;
+	bh=0j10HpgS7g5Mv8FnqnJHchW/TDiJpokSZ0cwx3BiuqM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qPhfcWrQFXXkuHIUgd/IkYYdXu24wqJTHr0nCxVjsPGxABQzFrNbnRWyR6VsX8mUkt2HKRs25PEq6UjzmiQoCUZEWDDLs2cUS+/KlnMl+S7Qvpvy6USMqx2N1PN2mVI6VYG9N9WB02zxt7urWgfbsD/VQNW+fXt54ikddxmz7Gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eRXn9b1X; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="SvQBQB+v"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 449663E13D;
-	Thu, 25 Jun 2026 14:40:43 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 449663E13D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1782391243; bh=d+kB3dJMn9oJgCZeihcvD/dE7VY5YXZiDzYgRmxG4oo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SvQBQB+vEJZkxyo3rgxp3CkXq8XCAjziDGkp0xzeilk6r5Xuj7v6WsBra72f8hLkq
-	 hhq+beGQ1OYVwhCXwDyuFu2x8VpUa0DTmMTDmdvgDkvwJKehCyOh/Wn3e73WlFZ+Zj
-	 cqdnpIN9KF7qMdZ7x2Uludcj5QSw4oAwP8MQ5z1I=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Thu, 25 Jun 2026 14:40:37 +0200 (CEST)
-Message-ID: <123fc447-bc60-48a3-a2a1-46ee9041e6ea@perex.cz>
-Date: Thu, 25 Jun 2026 14:40:36 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eRXn9b1X"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c8584e80d59so969708a12.2
+        for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 06:49:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782395384; x=1783000184; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Gpk5mEcSHW0k3CQKLZOt1G55CYbzQ3Yr6RfffLmInkM=;
+        b=eRXn9b1XRBqaLaLez4Hv7R/PkWvjoqGEnvJr+LiKgWmjRvo4Oh3miOn+N+gG/quXSc
+         7ZtGC0VIPpf36WBIS1jrAsRMjF0Ko89UHO488wxM39v0EwbBqM+waCj0cXH6gp58F7FW
+         jNXug8i+NsjdT0YUKbq/8f/nwoE/t4ytLXe5xnAgRMgUSY4ycIuztm1zSqoEfkA6DeoC
+         JGhYzw/exKyh2TOmMjGste0XyoZWmuAVHp5ix2zxx9MDSxsqXchMzeRDlkxONy4qje/D
+         n+ivIB9jtH8/6IZxTqukswLZ5jdYTXNBqCjeKTayFUs8TwbP26S2xjzQbX7KLLqKaj55
+         UZVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782395384; x=1783000184;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Gpk5mEcSHW0k3CQKLZOt1G55CYbzQ3Yr6RfffLmInkM=;
+        b=S8ry4ppOJzeK4jUhxrH4VMyNl/omtxhnzFMlCYtE4BA9BSMd6fbkdu78nCZ/mcZTnX
+         S2VwqcLkASAx91uD19vxaR6injoYW6SoilJKQRA6X2wDrqLPgUMi+zw2XaNaMZAPfaIb
+         p7PxP8IVuBMJjQLpsbMX5OCIkPZ5idzCL+s/s1WYKf9hc6tdImFqBwwXhHIVuGAg+YtF
+         GdKId81RQ09pOl9erHIWXsTwhS0d+JqsUlnTUBQsz3/HrUq27+PVPOt6CUy3tvcLO2Hp
+         9hYzlTWdp1XT3gzfpGXOyxURSpr3dVXVwF2XDMCZiBvYEGsiHHqyKz868qbTvK2a9LHv
+         l7vQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqQQRiIaWwFB7n9QMXdKRFgj0kQhIQ/Vmz4Zq3HidkXYYu+MnIk7hXL6iK/+ijujy5cJAsThMztls+i+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUVtHV6a2FgQGxwxoqeVYywHczxxVmwqrBex9PtZv7JjNGXPHb
+	CA8AGZXqCC4IFvgCpV4KKp0Jug4lEtK1ByoNX6cUfMZ57ZWsSmlq/p4f
+X-Gm-Gg: AfdE7cmEt+F+kaEjw8PQc8ml+uo8LVUeU8212L6N3qOWiChFbGEDVc0GVmu0s5qZy1Y
+	kETM63frHB5UuZbI42cf4T9IFzI6n/V+q+cV2ygUEQ6412CKduB4j+1lfIHHnLg1OiH7pkAdya2
+	dr8F/b6W0oBrWjTdjkHzJWvZjPhAMLEMNzFhXOyTqKUV9oqAMkJ8rcfnbb70dkR7IrztkRlNqNW
+	wcWCTPHMZTqR9JBpnUh/dfmQStYDRF2scytJwehgSYEgCQTs26SOi9whkKCvvVpILE7EzITrP4+
+	H0f1mTtLqa5N6eGCVubTFs0y2Ep/7yZSc1uKFA33HdGb3iWT/9/5HXhJQnDITgqupZY6xGGGK3w
+	sXhkfwXhlmS+lvp+mfCkuriTDnVw39UTKBgDoC5GSu7zfdQdaSMBwYkTG3G2irXxJMBat5t9Xau
+	l8eOf30wyy0ZNKCo8lPItzl/Z0
+X-Received: by 2002:a17:902:e78e:b0:2c4:608:167c with SMTP id d9443c01a7336-2c7fc663951mr27342185ad.6.1782395383335;
+        Thu, 25 Jun 2026 06:49:43 -0700 (PDT)
+Received: from ustb520lab-MS-7E07.. ([123.124.147.27])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7f6509ca0sm20329075ad.81.2026.06.25.06.49.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2026 06:49:42 -0700 (PDT)
+From: Jiaming Zhang <r772577952@gmail.com>
+To: tiwai@suse.de
+Cc: g@b4.vu,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	r772577952@gmail.com,
+	syzkaller@googlegroups.com,
+	tiwai@suse.com
+Subject: [PATCH] ALSA: FCP: Fix NULL pointer dereference in interface lookup
+Date: Thu, 25 Jun 2026 21:49:33 +0800
+Message-ID: <20260625134933.425785-1-r772577952@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <87echuvo7x.wl-tiwai@suse.de>
+References: <87echuvo7x.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v4 2/2] ALSA: control: add ioctl to retrieve full
- card components
-To: Maciej Strozek <mstrozek@opensource.cirrus.com>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- alsa-devel@alsa-project.org, patches@opensource.cirrus.com
-References: <20260625120741.3404473-1-mstrozek@opensource.cirrus.com>
- <20260625120741.3404473-2-mstrozek@opensource.cirrus.com>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <20260625120741.3404473-2-mstrozek@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 6/25/26 14:07, Maciej Strozek wrote:
+A malformed USB device can provide a vendor-specific interface without
+any endpoint descriptors. fcp_find_fc_interface() currently selects the
+first vendor-specific interface and reads endpoint 0 from it, without
+checking whether the interface actually has any endpoints.
 
-...
+When bNumEndpoints is zero, no endpoint array is allocated for the parsed
+alternate setting, so get_endpoint(..., 0) yields an invalid endpoint
+descriptor pointer. Dereferencing it through usb_endpoint_num() then
+triggers a NULL pointer dereference.
 
-> +struct snd_ctl_card_bytes {
-> +	unsigned int type;		/* SND_CTL_CARD_BTYPE_* */
-> +	unsigned int data_allocated;	/* size of @data buffer in bytes */
-> +	unsigned int data_len;		/* in/out: actual data length in bytes */
-> +	unsigned char *data;		/* user buffer */
+Skip vendor-specific interfaces that do not have any endpoints.
 
-I know that I suggested to add code to the compat layer. But it seems that new 
-UAPIs are using just '__u64 data' here with padding to 8 bytes (I would add 
-new reserved field and perhaps we may use force `__u32' type for all other 
-fields). The code in kernel sound translate the u64 data to pointer using 
-u64_to_user_ptr() function.
+Fixes: 46757a3e7d50 ("ALSA: FCP: Add Focusrite Control Protocol driver")
+Reported-by: Jiaming Zhang <r772577952@gmail.com>
+Closes: https://lore.kernel.org/lkml/CANypQFb1EHj0xX8bA1WxSOSK-5xca6ZNKzOQcp12=s=puY7VFw@mail.gmail.com/
+Signed-off-by: Jiaming Zhang <r772577952@gmail.com>
+---
+ sound/usb/fcp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-So like:
+diff --git a/sound/usb/fcp.c b/sound/usb/fcp.c
+index ea746bdb36ff..6f5dcd35e1d4 100644
+--- a/sound/usb/fcp.c
++++ b/sound/usb/fcp.c
+@@ -1083,6 +1083,8 @@ static int fcp_find_fc_interface(struct usb_mixer_interface *mixer)
+ 
+ 		if (desc->bInterfaceClass != 255)
+ 			continue;
++		if (desc->bNumEndpoints < 1)
++			continue;
+ 
+ 		epd = get_endpoint(intf->altsetting, 0);
+ 		private->bInterfaceNumber = desc->bInterfaceNumber;
 
-struct snd_ctl_card_bytes {
-       __u32 type;
-       __u32 data_allocated;
-       __u32 data_len;
-       __u32 reserved;   /* explicit pad */
-       __u64 data;       /* pointer as __u64 */
-};
-
-> +static int snd_ctl_card_bytes(struct snd_card *card,
-> +			      struct snd_ctl_card_bytes *info,
-> +			      unsigned int __user *data_len_out)
-> +{
-> +	unsigned int data_len;
-> +
-> +	switch (info->type) {
-> +	case SND_CTL_CARD_BTYPE_COMPONENTS:
-> +		scoped_guard(rwsem_read, &snd_ioctl_rwsem) {
-> +			data_len = strlen(card->components) + 1;
-
-The field card->components may be NULL here, also fix other uses like in 
-snd_ctl_card_info().
-
-		Thank you,
-			Jaroslav
-
+base-commit: ab9de95c9cf952332ab79453b4b5d1bfca8e514f
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat
+2.43.0
+
