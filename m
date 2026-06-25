@@ -1,525 +1,149 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1A463E8342
-	for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 15:29:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3618C23E25B
+	for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 17:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782401342; cv=none; b=hVY7+o5PN82CQuxp3kTfk0Yl3xsnfFOZUYP5V6CC4SyWfQpMfQwBKqTM/itmNL+oRqrHRaDX7RA0xQSLsCcH3RAa0+4t0S2v0NaCYfnnqdudzbyCH157EB1UswQeDApY+YMUL4Vzkh2tUzVjf65WBQTwU2pjkMU/3T3WuNgAb2I=
+	t=1782406889; cv=none; b=Q7deAz1PMT7l8OZJXmLbRnFD5AykMG8GGE4DX5TJfqC84nZ1Cth1K09UDYPxpZLMhIGxeXWVNmfl5DdoRPL2nMaA7dfotxp1NxVYzML5xTqGAHabA2tKr7S9s/qG9clHE7qYkGnO9V8Y6k8WObXkDY6OX5M2DXM2kA7DrqtiLVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782401342; c=relaxed/simple;
-	bh=A/M7gP2ggKRXz+cidJVmlL5bJf9us559MomwqlClaU4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=srvgcFoT4puhjWu/G4QZKMipOIroXUGEMRA00a02CFllzoqRcKQyN6bSvC5nbkXGem0+kFHqmoGTB0FlQF5NDtzROYkqmJq0IlYrhUoECK+V9f1oM/wYvp12Viucagm6dNb4cy77SsA+fzx6UpBRZrDcueiXNYAbh16cIq0ZA0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c55PPGRE; arc=none smtp.client-ip=74.125.82.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782406889; c=relaxed/simple;
+	bh=V3t0lYJfVLfi6ASNtlsskXfQdiP7sp/9Kyfp7JhIjdQ=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=FgfBMZt1TfFE3OZSP+CTNXyQIP9K7D4KzDyXobzfwij/VF+HfPyZopkla4lppajPOUklEnNiJLXXA8dGAJPHcDVF5exi1TKxZuSeuwMmQW1griKvhaq5rpKjuPPOo/7BsJ+j4mFX1Sc54ClAz5RyDWfw+rgvR7Aqg7r0Xfi5hfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T5yhb5Sb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c55PPGRE"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-30c52f96f60so4540156eec.1
-        for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 08:29:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782401340; x=1783006140; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ELJpRRWVEPEyA+tUppkYfBJhu/rFd652LB2QumVysgg=;
-        b=c55PPGRE8dYWI9rYsn1VI5lml1ajpfqYI6xq7f1YHH9J8Uj1i6L/q5/8dRQpRaPS+s
-         uoTrFQhLyV7jWKIGRpk9bXo3rp7ILK2EHdMPgKE3JFOv9hY35ht1xiKVKJNW0rMBb+lF
-         wcZptQMDjcr46jLPf6nit0sVtpoFbcfx4tXpfetJYawGhOtQvqG4MFPqdL4/coU5hvx2
-         fGI166vb9bEGLvnjFIudZGVjmrFQ4ujam9Xgowt7C9Ks5yiUnIICC/uHHMfjc/Lxfc+w
-         p1+7NtLVJ4ZyqnrLPnOEIVTHtA3P9500CrQJNuoJFrUpSlzi8h6aBJuX6kS0knYsIqum
-         8G0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782401340; x=1783006140;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ELJpRRWVEPEyA+tUppkYfBJhu/rFd652LB2QumVysgg=;
-        b=C8xoWC6wEQA4G1qHANwMWSOM4JHUe9fZzVcfbD2NU+sWgxntI+U6CBF8LBQdY5o75r
-         MF9oKUEmHm/733Il2UuJiXuVkKp3dmpniLEq5pmkcg2jVY8kHzy7rUupI+qs+tCeW1/s
-         ToaEZ1J5hsIZnevUFBrUchnBGdynqLvxyjproHomNJYe1vEXu4VgPdEDkrxaRXwNCiOL
-         wTVl8t/Fd6Q2va7QTSAhDQeLMsrkMqkMOB0m3DddZseOlyhFnpkCw35W1C3yeCuy9/wO
-         aZsbUBmvCzZ8w3sPp6VAEASzRDXKWPpX1RXpCucDcDMEEIySMIIcros4vdnfdk+Uhmjs
-         H7ug==
-X-Gm-Message-State: AOJu0YzkPmwgcZ7s+oOfTSYBPicO9/sxzgiVEtn0lSHw9h5+yC2zcqi+
-	HzXRqJSQG3A3BWPG3UzJFEt2bIapVdw/JwBWdsgwMSai5iFeXWrwoFtn
-X-Gm-Gg: AfdE7cn8oCTw9G51rAEUkD0/PRGJZMfAX+Kv0yL922nNOiYgL7+8X08FwHK/FP0Gx7w
-	XrM73+vTeFqYVcsHf4dQa06k2TykeL2mdj1uxp/6UbebhHU7RaQqDLmxg3nkFDD04r1zxYIQAKY
-	qbdy9ITSyNhGH53ML+yAddzOp8kQ8+3pxWf6IxSvAcbmrtQcgdG1P3HYj30b9TbnkuDeOaOh6He
-	qIaMspS5uNWuM34M9+3lAWxzSlyEsOUfX7yr5SDd0JMJdnrPHYa3o1XGDE/1S/p5jk+OkeLEkBJ
-	ROlkG+7WOk0AZ2u9H3HWMOdcsjFJEgSafkTMigXHZQKV+6kCoPZhoG/8ishGaccl3bPT7yu2GUR
-	p0U9TL7K/e5mfd6kwP7lAye1YQEmWi1VYtbZ6E0Us37bwQ5gCqByygyjZVFqBEZUA1iQRYkC8ZL
-	QfKSpClbH98CVndw3SQ2F0f/GSKTdPu2pNUQ==
-X-Received: by 2002:a05:693c:2c92:b0:304:cd60:b6a6 with SMTP id 5a478bee46e88-30c84db6bbdmr2836748eec.30.1782401339440;
-        Thu, 25 Jun 2026 08:28:59 -0700 (PDT)
-Received: from Black-Pearl.localdomain ([49.207.56.32])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-30c7cac87dcsm10593005eec.31.2026.06.25.08.28.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 08:28:59 -0700 (PDT)
-From: Charan Pedumuru <charan.pedumuru@gmail.com>
-Date: Thu, 25 Jun 2026 15:28:48 +0000
-Subject: [PATCH v2] ASoC: dt-bindings: sound: nvidia,tegra30-ahub: Convert
- to DT schema
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T5yhb5Sb"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 62F4D1F000E9;
+	Thu, 25 Jun 2026 17:01:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782406887;
+	bh=TqWxG8nR5Xf9Ymfer2/6ARrr2Ipm/881jg9J2i1RkYU=;
+	h=From:To:Cc:Subject:Date;
+	b=T5yhb5SbbKVeXsiFBrrenpKIIyO9l0wfy+eRVKbJ+9BExVD0jM6JZW1Q3fhNNyH49
+	 LFW8il9EmAd91IQGW9CWt8cpeSCzdFhE7ZdtLcGi+AW4kXXHgRsXPEr6vymkZ2J2l+
+	 M3akEl1GcCKEUsiD7VFzJs7sLIC2Md98RP/Q0QmlDz5mO/qHnO0nDndRUoe6d4jO0S
+	 6xzmFpv60bxGnCTlB2wgc7br5G9dKBl2ZP6OMq5GfNaEs+tnXMrre/gMFzKute8nyw
+	 wm6+nLnr1KXL+1mzBNtz3BcItQZCk1QdqJe5fDnUlPtEs8RMvNeMeK5k0VpsI/2nMt
+	 uskTbAApxxvKQ==
+Message-ID: <8d888870bec370f9abaad606055cdb75@kernel.org>
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v7.2-merge-window
+Date: Thu, 25 Jun 2026 18:01:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260625-nvidia-ahub-v2-1-eb041c30f1f8@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAC9JPWoC/1WNyw6CMBBFf4XM2pp2CtS48j8Mi7aMMEbAtNBoC
- P8uj5XLk5x77gyRAlOEazZDoMSRh34FPGXgW9s3JLheGVBiKXNE0Seu2QrbTk7U6MlJbdDkOay
- Ld6AHf/bavTo4Tu5JftwSm9FyHIfw3e+S2ryjXCr9V05KKFE4Q5dCS2V0eWs6y6+zHzqolmX5A
- RJPV4S4AAAA
-X-Change-ID: 20260422-nvidia-ahub-d2ceb0372744
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Charan Pedumuru <charan.pedumuru@gmail.com>
-X-Mailer: b4 0.15.2
 
-Convert NVIDIA Tegra Audio Hub (AHUB) binding to DT schema.
+The following changes since commit 4346d91cfa47b0d9303533edde8acd33e4b9ca40:
 
-Per-SoC differences in reg, reset-names, and dma-names are enforced
-via allOf conditionals.
+  ASoC: dt-bindings: Fix RT5677 "realtek,gpio-config" type (2026-06-14 01:03:38 +0100)
 
-Add patternProperties for i2s child nodes referencing
-nvidia,tegra30-i2s.yaml, reflecting actual DTSI usage where i2s
-controllers are placed directly under ahub. nvidia,ahub-cif-ids is
-not redeclared here as it is defined in the child i2s schema.
+are available in the Git repository at:
 
-Signed-off-by: Charan Pedumuru <charan.pedumuru@gmail.com>
----
-Changes in v2:
-- Modify the subject line to match with upstreaming standards and change
-  commit message to exaplin the changes.
-- compatible: collapsed three standalone const entries into an enum,
-  sorted alphanumerically (tegra114 < tegra124 < tegra30)
-- reset-names: moved per-SoC ordered items lists from a top-level oneOf
-  into the allOf if/then blocks; top-level now has only minItems/maxItems
-- dma-names: dropped oneOf, kept single 20-item items list with minItems: 8;
-  per-SoC min/maxItems constraints moved into allOf if/then blocks
-- "#address-cells": replaced $ref: types with enum: [1, 2] at top level;
-  added const: 1 in tegra30 and tegra114 if/then blocks, const: 2 in
-  tegra124 if/then block to match actual dtsi values
-- "#size-cells": same treatment as #address-cells
-- patternProperties i2s child: replaced allOf + $ref wrapper with direct
-  $ref; removed properties/required block (nvidia,ahub-cif-ids belongs in
-  the i2s schema).
-- Link to v1: https://patch.msgid.link/20260613-nvidia-ahub-v1-1-5b7e85301736@gmail.com
----
- .../bindings/sound/nvidia,tegra30-ahub.txt         |  88 ------
- .../bindings/sound/nvidia,tegra30-ahub.yaml        | 297 +++++++++++++++++++++
- 2 files changed, 297 insertions(+), 88 deletions(-)
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.2-merge-window
 
-diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.txt b/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.txt
-deleted file mode 100644
-index 0e9a1895d7fb..000000000000
---- a/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.txt
-+++ /dev/null
-@@ -1,88 +0,0 @@
--NVIDIA Tegra30 AHUB (Audio Hub)
--
--Required properties:
--- compatible : For Tegra30, must contain "nvidia,tegra30-ahub".  For Tegra114,
--  must contain "nvidia,tegra114-ahub".  For Tegra124, must contain
--  "nvidia,tegra124-ahub".  Otherwise, must contain "nvidia,<chip>-ahub",
--  plus at least one of the above, where <chip> is tegra132.
--- reg : Should contain the register physical address and length for each of
--  the AHUB's register blocks.
--  - Tegra30 requires 2 entries, for the APBIF and AHUB/AUDIO register blocks.
--  - Tegra114 requires an additional entry, for the APBIF2 register block.
--- interrupts : Should contain AHUB interrupt
--- clocks : Must contain an entry for each entry in clock-names.
--  See ../clocks/clock-bindings.txt for details.
--- clock-names : Must include the following entries:
--  - d_audio
--  - apbif
--- resets : Must contain an entry for each entry in reset-names.
--  See ../reset/reset.txt for details.
--- reset-names : Must include the following entries:
--  Tegra30 and later:
--  - d_audio
--  - apbif
--  - i2s0
--  - i2s1
--  - i2s2
--  - i2s3
--  - i2s4
--  - dam0
--  - dam1
--  - dam2
--  - spdif
--  Tegra114 and later additionally require:
--  - amx
--  - adx
--  Tegra124 and later additionally require:
--  - amx1
--  - adx1
--  - afc0
--  - afc1
--  - afc2
--  - afc3
--  - afc4
--  - afc5
--- ranges : The bus address mapping for the configlink register bus.
--  Can be empty since the mapping is 1:1.
--- dmas : Must contain an entry for each entry in clock-names.
--  See ../dma/dma.txt for details.
--- dma-names : Must include the following entries:
--  - rx0 .. rx<n>
--  - tx0 .. tx<n>
--  ... where n is:
--  Tegra30: 3
--  Tegra114, Tegra124: 9
--- #address-cells : For the configlink bus. Should be <1>;
--- #size-cells : For the configlink bus. Should be <1>.
--
--AHUB client modules need to specify the IDs of their CIFs (Client InterFaces).
--For RX CIFs, the numbers indicate the register number within AHUB routing
--register space (APBIF 0..3 RX, I2S 0..5 RX, DAM 0..2 RX 0..1, SPDIF RX 0..1).
--For TX CIFs, the numbers indicate the bit position within the AHUB routing
--registers (APBIF 0..3 TX, I2S 0..5 TX, DAM 0..2 TX, SPDIF TX 0..1).
--
--Example:
--
--ahub@70080000 {
--	compatible = "nvidia,tegra30-ahub";
--	reg = <0x70080000 0x200 0x70080200 0x100>;
--	interrupts = < 0 103 0x04 >;
--	nvidia,dma-request-selector = <&apbdma 1>;
--	clocks = <&tegra_car 106>, <&tegra_car 107>;
--	clock-names = "d_audio", "apbif";
--	resets = <&tegra_car 106>, <&tegra_car 107>, <&tegra_car 30>,
--		<&tegra_car 11>, <&tegra_car 18>, <&tegra_car 101>,
--		<&tegra_car 102>, <&tegra_car 108>, <&tegra_car 109>,
--		<&tegra_car 110>, <&tegra_car 10>;
--	reset-names = "d_audio", "apbif", "i2s0", "i2s1", "i2s2",
--		"i2s3", "i2s4", "dam0", "dam1", "dam2",
--		"spdif";
--	dmas = <&apbdma 1>, <&apbdma 1>;
--	       <&apbdma 2>, <&apbdma 2>;
--	       <&apbdma 3>, <&apbdma 3>;
--	       <&apbdma 4>, <&apbdma 4>;
--	dma-names = "rx0", "tx0", "rx1", "tx1", "rx2", "tx2", "rx3", "tx3";
--	ranges;
--	#address-cells = <1>;
--	#size-cells = <1>;
--};
-diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.yaml
-new file mode 100644
-index 000000000000..1c3fc7a97465
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.yaml
-@@ -0,0 +1,297 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/nvidia,tegra30-ahub.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: NVIDIA Tegra Audio Hub (AHUB)
-+
-+maintainers:
-+  - Jonathan Hunter <jonathanh@nvidia.com>
-+
-+description:
-+  The NVIDIA Tegra AHUB (Audio Hub) is an audio interconnect block used to
-+  route data between various audio clients such as I2S, DAM, SPDIF, and
-+  APBIF. It exposes multiple register regions and supports different
-+  configurations depending on the Tegra SoC generation. The AHUB also
-+  provides a configlink bus for child audio components, which use CIF
-+  (Client Interface) IDs to identify their data paths. The number of DMA
-+  channels, reset lines, and additional modules varies across Tegra30,
-+  Tegra114, and Tegra124 platforms.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - enum:
-+          - nvidia,tegra114-ahub
-+          - nvidia,tegra124-ahub
-+          - nvidia,tegra30-ahub
-+      - items:
-+          - const: nvidia,tegra132-ahub
-+          - const: nvidia,tegra124-ahub
-+
-+  reg:
-+    minItems: 2
-+    maxItems: 3
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: Clock for the D_AUDIO domain
-+      - description: Clock for the APBIF interface
-+
-+  clock-names:
-+    items:
-+      - const: d_audio
-+      - const: apbif
-+
-+  resets:
-+    minItems: 11
-+    maxItems: 21
-+
-+  reset-names:
-+    minItems: 11
-+    maxItems: 21
-+
-+  dmas:
-+    minItems: 8
-+    maxItems: 20
-+
-+  dma-names:
-+    minItems: 8
-+    items:
-+      - const: rx0
-+      - const: tx0
-+      - const: rx1
-+      - const: tx1
-+      - const: rx2
-+      - const: tx2
-+      - const: rx3
-+      - const: tx3
-+      - const: rx4
-+      - const: tx4
-+      - const: rx5
-+      - const: tx5
-+      - const: rx6
-+      - const: tx6
-+      - const: rx7
-+      - const: tx7
-+      - const: rx8
-+      - const: tx8
-+      - const: rx9
-+      - const: tx9
-+
-+  "#address-cells":
-+    enum: [1, 2]
-+
-+  "#size-cells":
-+    enum: [1, 2]
-+
-+  ranges: true
-+
-+patternProperties:
-+  "^i2s@[0-9a-f]+$":
-+    $ref: /schemas/sound/nvidia,tegra30-i2s.yaml#
-+    unevaluatedProperties: false
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: nvidia,tegra30-ahub
-+    then:
-+      properties:
-+        reg:
-+          minItems: 2
-+          maxItems: 2
-+
-+        resets:
-+          minItems: 11
-+          maxItems: 11
-+
-+        reset-names:
-+          items:
-+            - const: d_audio
-+            - const: apbif
-+            - const: i2s0
-+            - const: i2s1
-+            - const: i2s2
-+            - const: i2s3
-+            - const: i2s4
-+            - const: dam0
-+            - const: dam1
-+            - const: dam2
-+            - const: spdif
-+
-+        dmas:
-+          minItems: 8
-+          maxItems: 8
-+
-+        dma-names:
-+          minItems: 8
-+          maxItems: 8
-+
-+        "#address-cells":
-+          const: 1
-+
-+        "#size-cells":
-+          const: 1
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: nvidia,tegra114-ahub
-+    then:
-+      properties:
-+        reg:
-+          minItems: 3
-+          maxItems: 3
-+
-+        resets:
-+          minItems: 13
-+          maxItems: 13
-+
-+        reset-names:
-+          items:
-+            - const: d_audio
-+            - const: apbif
-+            - const: i2s0
-+            - const: i2s1
-+            - const: i2s2
-+            - const: i2s3
-+            - const: i2s4
-+            - const: dam0
-+            - const: dam1
-+            - const: dam2
-+            - const: spdif
-+            - const: amx
-+            - const: adx
-+
-+        dmas:
-+          minItems: 20
-+          maxItems: 20
-+
-+        dma-names:
-+          minItems: 20
-+          maxItems: 20
-+
-+        "#address-cells":
-+          const: 1
-+
-+        "#size-cells":
-+          const: 1
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: nvidia,tegra124-ahub
-+    then:
-+      properties:
-+        reg:
-+          minItems: 3
-+          maxItems: 3
-+
-+        resets:
-+          minItems: 21
-+          maxItems: 21
-+
-+        reset-names:
-+          items:
-+            - const: d_audio
-+            - const: apbif
-+            - const: i2s0
-+            - const: i2s1
-+            - const: i2s2
-+            - const: i2s3
-+            - const: i2s4
-+            - const: dam0
-+            - const: dam1
-+            - const: dam2
-+            - const: spdif
-+            - const: amx
-+            - const: amx1
-+            - const: adx
-+            - const: adx1
-+            - const: afc0
-+            - const: afc1
-+            - const: afc2
-+            - const: afc3
-+            - const: afc4
-+            - const: afc5
-+
-+        dmas:
-+          minItems: 20
-+          maxItems: 20
-+
-+        dma-names:
-+          minItems: 20
-+          maxItems: 20
-+
-+        "#address-cells":
-+          const: 2
-+
-+        "#size-cells":
-+          const: 2
-+
-+required:
-+  - reg
-+  - compatible
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - resets
-+  - reset-names
-+  - dmas
-+  - dma-names
-+  - "#address-cells"
-+  - "#size-cells"
-+  - ranges
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/tegra30-car.h>
-+    ahub@70080000 {
-+        compatible = "nvidia,tegra30-ahub";
-+        reg = <0x70080000 0x200>, <0x70080200 0x100>;
-+        interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&tegra_car TEGRA30_CLK_D_AUDIO>,
-+                 <&tegra_car TEGRA30_CLK_APBIF>;
-+        clock-names = "d_audio", "apbif";
-+        resets = <&tegra_car 106>, <&tegra_car 107>,
-+                 <&tegra_car 30>, <&tegra_car 11>,
-+                 <&tegra_car 18>, <&tegra_car 101>,
-+                 <&tegra_car 102>, <&tegra_car 108>,
-+                 <&tegra_car 109>, <&tegra_car 110>,
-+                 <&tegra_car 10>;
-+        reset-names = "d_audio", "apbif",
-+                      "i2s0", "i2s1", "i2s2", "i2s3", "i2s4",
-+                      "dam0", "dam1", "dam2",
-+                      "spdif";
-+        dmas = <&apbdma 1>, <&apbdma 1>,
-+               <&apbdma 2>, <&apbdma 2>,
-+               <&apbdma 3>, <&apbdma 3>,
-+               <&apbdma 4>, <&apbdma 4>;
-+        dma-names = "rx0", "tx0", "rx1", "tx1",
-+                    "rx2", "tx2", "rx3", "tx3";
-+        ranges;
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+
-+        i2s@70080300 {
-+            compatible = "nvidia,tegra30-i2s";
-+            reg = <0x70080300 0x100>;
-+            nvidia,ahub-cif-ids = <4 4>;
-+            clocks = <&tegra_car TEGRA30_CLK_I2S0>;
-+            resets = <&tegra_car 30>;
-+            reset-names = "i2s";
-+        };
-+    };
-+...
+for you to fetch changes up to cf6f56990ea21172e085f0588e5bbf2089ce8f58:
 
----
-base-commit: db7efce4ae23ad5e42f5f55428f529ff62b86fab
-change-id: 20260422-nvidia-ahub-d2ceb0372744
+  ASoC: fsl_asrc_dma: fix eDMA maxburst misalignment with channel count (2026-06-25 14:56:27 +0100)
 
-Best regards,
---  
-Charan Pedumuru <charan.pedumuru@gmail.com>
+----------------------------------------------------------------
+ASoC: Fixes for v7.2
 
+We've got a good collection of device specific fix here, plus a couple
+of stand out things:
+
+ - Richard fixed some special cases with the new device_link creation
+   by more gracefully handling any errors during creation.
+ - Charles did some light refactoring of the SoundWire interfaces to
+   fix some persistent randconfig issues that people kept running into.
+
+----------------------------------------------------------------
+Ahmad Fatoum (1):
+      ASoC: cs530x: Fix expected MCLK rates for CS5302/4/8
+
+Alvin Šipraga (1):
+      ASoC: audio-graph-card2: Drop warning for manually selected DAI formats
+
+Baojun Xu (1):
+      ASoC: tas2781: Update default register address to TAS2563
+
+Bartosz Juraszewski (1):
+      ASoC: tas2783: Update loaded firmware names to linux-firmware 20260519
+
+Charles Keepax (5):
+      soundwire: Move wait for initialisation helper to header
+      ASoC: es9356: Add back local call to sdw_show_ping_status()
+      ASoC: max98373: Add back local call to sdw_show_ping_status()
+      ASoC: ti: Add back local call to sdw_show_ping_status()
+      ASoC: realtek: Add back local call to sdw_show_ping_status()
+
+Christian Hewitt (1):
+      ASoC: codecs: pcm512x: only print info once on no sclk
+
+HyeongJun An (1):
+      ASoC: SDCA: Validate written enum value in ge_put_enum_double()
+
+Mark Brown (1):
+      ASoC: Fix SoundWire randconfig issues
+
+Nicolas Frattaroli (1):
+      ASoC: rockchip: Drop problematic guard() changes
+
+Oder Chiou (1):
+      ASoC: rt5575: Use __le32 for SPI burst write address
+
+Richard Fitzgerald (1):
+      ASoC: soc-core: Don't fail if device_link could not be created
+
+Sen Wang (1):
+      ASoC: tlv320aic3x: restrict CLKDIV bypass Q values in dual-rate mode
+
+Shengjiu Wang (1):
+      ASoC: fsl_asrc_dma: fix eDMA maxburst misalignment with channel count
+
+Shuming Fan (1):
+      ASoC: rt5650: enhance spk protection function
+
+Srinivas Kandagatla (1):
+      ASoC: qcom: q6apm: fix NULL pointer dereference in graph_callback
+
+Uwe Kleine-König (The Capable Hub) (1):
+      ASoC: rockchip: rockchip_sai: #include <linux/platform_device.h> explicitly
+
+ drivers/soundwire/bus.c               |  28 ----
+ include/linux/soundwire/sdw.h         |  38 +++--
+ include/sound/soc-component.h         |   4 +
+ include/sound/tas2781.h               |   4 +-
+ sound/soc/codecs/cs530x.c             |  29 +++-
+ sound/soc/codecs/cs530x.h             |   6 -
+ sound/soc/codecs/es9356.c             |   4 +-
+ sound/soc/codecs/max98373-sdw.c       |   4 +-
+ sound/soc/codecs/pcm512x.c            |   2 +-
+ sound/soc/codecs/rt1017-sdca-sdw.c    |   4 +-
+ sound/soc/codecs/rt1308-sdw.c         |   4 +-
+ sound/soc/codecs/rt1316-sdw.c         |   4 +-
+ sound/soc/codecs/rt5575-spi.c         |   2 +-
+ sound/soc/codecs/rt5645.c             |   6 +-
+ sound/soc/codecs/rt5645.h             |   1 +
+ sound/soc/codecs/rt5682-sdw.c         |   4 +-
+ sound/soc/codecs/rt700-sdw.c          |   4 +-
+ sound/soc/codecs/rt711-sdca-sdw.c     |   4 +-
+ sound/soc/codecs/rt712-sdca-dmic.c    |   4 +-
+ sound/soc/codecs/rt712-sdca-sdw.c     |   4 +-
+ sound/soc/codecs/rt715-sdca-sdw.c     |   4 +-
+ sound/soc/codecs/rt715-sdw.c          |   4 +-
+ sound/soc/codecs/rt721-sdca-sdw.c     |   4 +-
+ sound/soc/codecs/rt722-sdca-sdw.c     |   4 +-
+ sound/soc/codecs/tac5xx2-sdw.c        |   4 +-
+ sound/soc/codecs/tas2783-sdw.c        |  77 ++++++----
+ sound/soc/codecs/tlv320aic3x.c        |  25 +++-
+ sound/soc/fsl/fsl_asrc_dma.c          |  20 +++
+ sound/soc/generic/audio-graph-card2.c |  12 --
+ sound/soc/qcom/qdsp6/q6apm.c          |   8 ++
+ sound/soc/rockchip/rockchip_sai.c     | 263 +++++++++++++++++-----------------
+ sound/soc/sdca/sdca_asoc.c            |   3 +
+ sound/soc/soc-core.c                  |  35 ++---
+ 33 files changed, 362 insertions(+), 261 deletions(-)
