@@ -1,231 +1,306 @@
-Received: from smtp-190e.mail.infomaniak.ch (smtp-190e.mail.infomaniak.ch [185.125.25.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA773D75BE
-	for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 11:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.25.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BBE3DC4C6
+	for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 11:44:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782386126; cv=none; b=LX31fSRjfIiZaoRkU8Jl1bnE3j2IF+kQ464en5LcYW+wZIHedfUuVzaDnD+il36vjaqqxNFjT614/vKFPnKZid58BDtTsRizkicNWaq4vOZvotqHaqR3S09hEyryUkkTieaDGjPG2ACELe5RESv4tr2ijTvpKOCUq9tswUg8sD0=
+	t=1782387883; cv=none; b=ixMoqJ1VNIo4Sf0LErYUNZV0jdE8tvh50sOpRT3omjKH2uwNThh+B44u4HWWrgO9WtFqOYKwQ+41NjPW206kBasr4/B+QsMi+g8i4KLDeWhbpCNKAhzTGlPp7RefZaiKJlVZNKHh3IIdVCILG8i45CLVCgaYbcK4jjPCJnUIi70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782386126; c=relaxed/simple;
-	bh=zs3dvOESsas88reCmr/AEl3w73h5yut3msWRRmjK2sM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=qKp0rOFStYaoRT60ptIzlcP8YsONwJaa9/ousXy54XtXHWEJYn11ISY+RrtgAtxIDMWuxUPMswyPT80xJWy490aq5MQ45BMDiQ45hlZa4+Mgk8u49ZblPlHeKzFdjqYxpVywlR9HQbHL2wtx+pFhiVCo9z2BSB+BNlLYOwMNT3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fbengineering.ch; spf=pass smtp.mailfrom=fbengineering.ch; dkim=pass (1024-bit key) header.d=fbengineering.ch header.i=@fbengineering.ch header.b=cDhloHT6; arc=none smtp.client-ip=185.125.25.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fbengineering.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fbengineering.ch
+	s=arc-20240116; t=1782387883; c=relaxed/simple;
+	bh=RaBgv3C5EvMaobvZ71EXhk5iOpI7mpnD93IlLixen90=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KqKFZ41l3F7/51+dPXDTlhrB6N4L5j+vASP7YQmtncNoN8EKnSMNZ4GnRaYMXnV+CAyCIq6O+/Upgcylzt9DSWtm6+UTu8y6wFezxCapAwhVOqi0yiRAO6QMHhqSpOCBV7lYVddKpxLJkGPtUu1V869isa7gBLk/MMKhmj2xL2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u2E1CbYc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UGrikbVD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u2E1CbYc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UGrikbVD; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fbengineering.ch header.i=@fbengineering.ch header.b="cDhloHT6"
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [IPv6:2001:1600:4:17::246b])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4gmGKD0KR5zhBd;
-	Thu, 25 Jun 2026 13:09:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fbengineering.ch;
-	s=20220212; t=1782385759;
-	bh=Dzj+e+4XyJyd2QqAMQgHkmCoz8+ZaySGMyd36Cqm0II=;
-	h=From:To:Subject:Date:From;
-	b=cDhloHT6MVx7gZKK76jruRBd4j7paRl94gOjHVXInWSuRWLFE8DjvLRP0o0FZ1Xsb
-	 IWMvdqmiicSyWzqseM/ElW2QgL6yi4rP6O0IkaR3kgqqIpZYUtSab7fcsSemfAMCiR
-	 0A7p9mooy+cES1Zqg7ewXfyMKzpoYiDxNu0rttuc=
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4gmGK96VlRzPLJ;
-	Thu, 25 Jun 2026 13:09:17 +0200 (CEST)
-From: Federico Beffa <beffa@fbengineering.ch>
-To: perex@perex.cz,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u2E1CbYc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UGrikbVD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u2E1CbYc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UGrikbVD"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 774C1719E0;
+	Thu, 25 Jun 2026 11:44:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782387879; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8Vpu+YhU6tvPqYSKlTkmG4VIkglOhLO5CZgQ6IrZyJ8=;
+	b=u2E1CbYc+aF3tyhDKncsyAYQ0QYVCAuIpwM0YjEiInV6lh2YEMjJPrEHRrwjIsjzIAJKvH
+	UcHGaXfUIP8Y08KbZR2yh3d8MzxtHipBgOJ6XDZDxQXLTzTIMhuU9Zgsz9ylm6a/FTsepH
+	/zPUwi9qQTtJqaVwXzyFZfj/u19YX9E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782387879;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8Vpu+YhU6tvPqYSKlTkmG4VIkglOhLO5CZgQ6IrZyJ8=;
+	b=UGrikbVDNE4t4CQFsTtTo7LIzF6E5LZUhFyh9z4ZcjEiGGYtntSyf4N1inSDHhMpiGSSKr
+	qDlRtprAz/1w5PDQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=u2E1CbYc;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UGrikbVD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782387879; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8Vpu+YhU6tvPqYSKlTkmG4VIkglOhLO5CZgQ6IrZyJ8=;
+	b=u2E1CbYc+aF3tyhDKncsyAYQ0QYVCAuIpwM0YjEiInV6lh2YEMjJPrEHRrwjIsjzIAJKvH
+	UcHGaXfUIP8Y08KbZR2yh3d8MzxtHipBgOJ6XDZDxQXLTzTIMhuU9Zgsz9ylm6a/FTsepH
+	/zPUwi9qQTtJqaVwXzyFZfj/u19YX9E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782387879;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8Vpu+YhU6tvPqYSKlTkmG4VIkglOhLO5CZgQ6IrZyJ8=;
+	b=UGrikbVDNE4t4CQFsTtTo7LIzF6E5LZUhFyh9z4ZcjEiGGYtntSyf4N1inSDHhMpiGSSKr
+	qDlRtprAz/1w5PDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4ABDA779A8;
+	Thu, 25 Jun 2026 11:44:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id iscWEacUPWrXdQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 25 Jun 2026 11:44:39 +0000
+Date: Thu, 25 Jun 2026 13:44:34 +0200
+Message-ID: <87echuvo7x.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jiaming Zhang <r772577952@gmail.com>
+Cc: g@b4.vu,
+	perex@perex.cz,
 	tiwai@suse.com,
-	willerz@gmail.com,
-	abhi220204@gmail.com,
-	jpfuentealbabizama@gmail.com,
-	uwe@kuechler.org,
-	beffa@fbengineering.ch,
-	jean-louis.colaco@orange.fr,
-	cassiogabrielcontato@gmail.com,
-	cryolitia@uniontech.com,
-	yury.norov@gmail.com,
-	i@rong.moe,
-	tasos@tasossah.com,
-	geert+renesas@glider.be,
-	simon@mungewell.org,
 	linux-sound@vger.kernel.org,
+	syzkaller@googlegroups.com,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Add support for Pioneer DJ DJM-S11
-Date: Thu, 25 Jun 2026 13:08:09 +0200
-Message-ID: <20260625110809.821006-1-beffa@fbengineering.ch>
-X-Mailer: git-send-email 2.54.0
+Subject: Re: [Linux Kernel Bug] general protection fault in snd_fcp_init
+In-Reply-To: <CANypQFb1EHj0xX8bA1WxSOSK-5xca6ZNKzOQcp12=s=puY7VFw@mail.gmail.com>
+References: <CANypQFb1EHj0xX8bA1WxSOSK-5xca6ZNKzOQcp12=s=puY7VFw@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Infomaniak-Routing: alpha
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 774C1719E0
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-The Pioneer DJ DJM-S11, a professional 2-port DJ mixer, is currently not
-recognized as an audio interface and therefore not usable on Linux. This
-patch enables its full audio functionality.
+On Thu, 25 Jun 2026 12:24:49 +0200,
+Jiaming Zhang wrote:
+> 
+> Dear Linux kernel developers and maintainers,
+> 
+> We are writing to report a general protection fault discovered in the
+> sound subsystem with our modified syzkaller. The issue is reproducible
+> on the latest version of linux (v7.1, commit
+> 8cd9520d35a6c38db6567e97dd93b1f11f185dc6). Below is the KASAN report:
+> 
+> ---
+> input: AT Translated Set 2 keyboard as
+> /devices/platform/i8042/serio0/input/input1
+> input: ImExPS/2 Generic Explorer Mouse as
+> /devices/platform/i8042/serio1/input/input3
+> faux_driver regulatory: Direct firmware load for regulatory.db failed
+> with error -2
+> faux_driver regulatory: Falling back to sysfs fallback for: regulatory.db
+> cfg80211: failed to load regulatory.db
+> usb 1-1: Using ep0 maxpacket: 32
+> usb 1-1: unable to get BOS descriptor or descriptor too short
+> usb 1-1: config 1 has an invalid descriptor of length 0, skipping
+> remainder of the config
+> usb 1-1: config 1 has 2 interfaces, different from the descriptor's value: 3
+> usb 1-1: New USB device found, idVendor=1235, idProduct=821d, bcdDevice= 0.40
+> usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+> usb 1-1: Product: syz
+> usb 1-1: Manufacturer: syz
+> usb 1-1: SerialNumber: syz
+> Oops: general protection fault, probably for non-canonical address
+> 0xdffffc0000000000: 0000 [#1] SMP KASAN NOPTI
+> KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+> CPU: 0 UID: 0 PID: 801 Comm: kworker/0:2 Not tainted 7.1.0 #14 PREEMPT(full)
+> Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix,
+> 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> Workqueue: usb_hub_wq hub_event
+> RIP: 0010:usb_endpoint_num include/uapi/linux/usb/ch9.h:483 [inline]
+> RIP: 0010:fcp_find_fc_interface sound/usb/fcp.c:1089 [inline]
+> RIP: 0010:snd_fcp_init+0x42a/0x920 sound/usb/fcp.c:1112
+> Code: 9a 88 01 00 00 48 89 d8 48 c1 e8 03 42 0f b6 04 38 84 c0 4d 89
+> fc 0f 85 bc 03 00 00 44 88 33 49 8d 5d 02 48 89 d8 48 c1 e8 03 <42> 0f
+> b6 04 20 84 c0 0f 85 c0 03 00 00 44 0f b6 33 41 80 e6 0f 48
+> RSP: 0018:ffffc9000441e760 EFLAGS: 00010246
+> RAX: 0000000000000000 RBX: 0000000000000002 RCX: 0000000000000000
+> RDX: ffff888026b71c00 RSI: 00000000000000ff RDI: ffff888041f68b20
+> RBP: ffffc9000441e850 R08: 0000000000000003 R09: 0000000000000000
+> R10: dffffc0000000000 R11: ffffed1004d6e38b R12: dffffc0000000000
+> R13: 0000000000000000 R14: 0000000000000001 R15: dffffc0000000000
+> FS:  0000000000000000(0000) GS:ffff888098af7000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 000055efe3be0ff0 CR3: 000000004b5a7000 CR4: 0000000000752ef0
+> PKRU: 55555554
+> Call Trace:
+>  <TASK>
+>  snd_usb_mixer_apply_create_quirk+0x1579/0x1a70 sound/usb/mixer_quirks.c:4454
+>  snd_usb_create_mixer+0x1ae6/0x27c0 sound/usb/mixer.c:3802
+>  usb_audio_probe+0x1892/0x2310 sound/usb/card.c:1035
+>  usb_probe_interface+0x659/0xc80 drivers/usb/core/driver.c:396
+>  call_driver_probe drivers/base/dd.c:-1 [inline]
+>  really_probe+0x267/0xb10 drivers/base/dd.c:709
+>  __driver_probe_device+0x1f7/0x420 drivers/base/dd.c:871
+>  driver_probe_device+0x4f/0x240 drivers/base/dd.c:901
+>  __device_attach_driver+0x279/0x430 drivers/base/dd.c:1029
+>  bus_for_each_drv+0x251/0x2e0 drivers/base/bus.c:500
+>  __device_attach+0x2b7/0x430 drivers/base/dd.c:1101
+>  device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1156
+>  bus_probe_device+0x12a/0x220 drivers/base/bus.c:613
+>  device_add+0x7e9/0xbb0 drivers/base/core.c:3706
+>  usb_set_configuration+0x1a5c/0x20f0 drivers/usb/core/message.c:2268
+>  usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
+>  usb_probe_device+0x1c4/0x3c0 drivers/usb/core/driver.c:291
+>  call_driver_probe drivers/base/dd.c:-1 [inline]
+>  really_probe+0x267/0xb10 drivers/base/dd.c:709
+>  __driver_probe_device+0x1f7/0x420 drivers/base/dd.c:871
+>  driver_probe_device+0x4f/0x240 drivers/base/dd.c:901
+>  __device_attach_driver+0x279/0x430 drivers/base/dd.c:1029
+>  bus_for_each_drv+0x251/0x2e0 drivers/base/bus.c:500
+>  __device_attach+0x2b7/0x430 drivers/base/dd.c:1101
+>  device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1156
+>  bus_probe_device+0x12a/0x220 drivers/base/bus.c:613
+>  device_add+0x7e9/0xbb0 drivers/base/core.c:3706
+>  usb_new_device+0xb9d/0x1a30 drivers/usb/core/hub.c:2695
+>  hub_port_connect drivers/usb/core/hub.c:5567 [inline]
+>  hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+>  port_event drivers/usb/core/hub.c:5871 [inline]
+>  hub_event+0x2885/0x4cf0 drivers/usb/core/hub.c:5953
+>  process_one_work kernel/workqueue.c:3314 [inline]
+>  process_scheduled_works+0xb4b/0x1840 kernel/workqueue.c:3397
+>  worker_thread+0x8a3/0xda0 kernel/workqueue.c:3478
+>  kthread+0x38a/0x480 kernel/kthread.c:436
+>  ret_from_fork+0x509/0xb70 arch/x86/kernel/process.c:158
+>  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+>  </TASK>
+> Modules linked in:
+> Dumping ftrace buffer:
+>    (ftrace buffer empty)
+> ---[ end trace 0000000000000000 ]---
+> RIP: 0010:usb_endpoint_num include/uapi/linux/usb/ch9.h:483 [inline]
+> RIP: 0010:fcp_find_fc_interface sound/usb/fcp.c:1089 [inline]
+> RIP: 0010:snd_fcp_init+0x42a/0x920 sound/usb/fcp.c:1112
+> Code: 9a 88 01 00 00 48 89 d8 48 c1 e8 03 42 0f b6 04 38 84 c0 4d 89
+> fc 0f 85 bc 03 00 00 44 88 33 49 8d 5d 02 48 89 d8 48 c1 e8 03 <42> 0f
+> b6 04 20 84 c0 0f 85 c0 03 00 00 44 0f b6 33 41 80 e6 0f 48
+> RSP: 0018:ffffc9000441e760 EFLAGS: 00010246
+> RAX: 0000000000000000 RBX: 0000000000000002 RCX: 0000000000000000
+> RDX: ffff888026b71c00 RSI: 00000000000000ff RDI: ffff888041f68b20
+> RBP: ffffc9000441e850 R08: 0000000000000003 R09: 0000000000000000
+> R10: dffffc0000000000 R11: ffffed1004d6e38b R12: dffffc0000000000
+> R13: 0000000000000000 R14: 0000000000000001 R15: dffffc0000000000
+> FS:  0000000000000000(0000) GS:ffff888098af7000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00005645e3e76808 CR3: 000000000e14a000 CR4: 0000000000752ef0
+> PKRU: 55555554
+> ----------------
+> Code disassembly (best guess), 1 bytes skipped:
+>    0:   88 01                   mov    %al,(%rcx)
+>    2:   00 00                   add    %al,(%rax)
+>    4:   48 89 d8                mov    %rbx,%rax
+>    7:   48 c1 e8 03             shr    $0x3,%rax
+>    b:   42 0f b6 04 38          movzbl (%rax,%r15,1),%eax
+>   10:   84 c0                   test   %al,%al
+>   12:   4d 89 fc                mov    %r15,%r12
+>   15:   0f 85 bc 03 00 00       jne    0x3d7
+>   1b:   44 88 33                mov    %r14b,(%rbx)
+>   1e:   49 8d 5d 02             lea    0x2(%r13),%rbx
+>   22:   48 89 d8                mov    %rbx,%rax
+>   25:   48 c1 e8 03             shr    $0x3,%rax
+> * 29:   42 0f b6 04 20          movzbl (%rax,%r12,1),%eax <-- trapping
+> instruction
+>   2e:   84 c0                   test   %al,%al
+>   30:   0f 85 c0 03 00 00       jne    0x3f6
+>   36:   44 0f b6 33             movzbl (%rbx),%r14d
+>   3a:   41 80 e6 0f             and    $0xf,%r14b
+>   3e:   48                      rex.W
+> ---
+> 
+> The root cause is that the malicious USB device provides a
+> vendor-specific interface with no endpoint descriptors. During USB
+> descriptor parsing, no endpoint array is allocated for that alternate
+> setting, so altsetting->endpoint remains NULL. fcp_find_fc_interface()
+> does not check bNumEndpoints before calling get_endpoint(..., 0), and
+> the resulting endpoint descriptor pointer is later dereferenced by
+> usb_endpoint_num(), leading to null-ptr-deref.
+> 
+> A potential fix is as follows:
+> 
+> ```
+> diff --git a/sound/usb/fcp.c b/sound/usb/fcp.c
+> index 0fc4d063c48a..c45dbe4d4532 100644
+> --- a/sound/usb/fcp.c
+> +++ b/sound/usb/fcp.c
+> @@ -1083,6 +1083,8 @@ static int fcp_find_fc_interface(struct
+> usb_mixer_interface *mixer)
+> 
+>         if (desc->bInterfaceClass != 255)
+>             continue;
+> +       if (desc->bNumEndpoints < 1)
+> +           continue;
+> 
+>         epd = get_endpoint(intf->altsetting, 0);
+>         private->bInterfaceNumber = desc->bInterfaceNumber;
+> ```
+> 
+> On my machine, the reproducer no longer triggers the issue with the
+> above patch. If this solution is acceptable, we are happy to submit a
+> formal patch.
+> 
+> The kernel console output, kernel config, syzkaller reproducer, and C
+> reproducer are also available at google drive:
+> https://drive.google.com/drive/folders/1hE9rfMe-sNFwcrt_tPLiwzpYD1iJ7Hma?usp=sharing
+> 
+> Please let me know if any further information is required.
 
-Like other mixers in the Pioneer DJ DJM family, the DJM-S11 uses
-vendor-specific USB class descriptors (0xff) and requires custom mixer
-quirks to expose the hardware's input capture routing and volume
-controls.
+The patch looks reasonable.  Could you just submit a proper patch?
 
-Add the USB vendor and product ID (2b73:0037) to quirks-table.h, mapping
-the control interface (Interface 0) to trigger the standard mixer quirks,
-and establishing the audio formats for the playback and capture streams.
 
-Control interface 3 is likely related to the touchscreen which is
-capable to display waveforms, etc. This functionality is not supported.
+thanks,
 
-In mixer_quirks.c, add the DSP routing options for the DJM-S11. This
-creates the ALSA kcontrols for selecting the capture sources (Phono,
-Line, Post-fader, etc.) and initializes the default DSP state during
-the device probe.
-
-Note that the DJM-S11's capture endpoint clock is strictly slaved to
-its playback endpoint. Capturing audio (e.g., timecode vinyl DVS input)
-physically requires an active playback stream on the output channels
-to feed the master word clock back to the capture stage. Userspace
-audio servers (such as PipeWire or JACK) should be configured in
-full-duplex mode or have automatic node suspension disabled to maintain
-the clock line and prevent I/O errors during capture.
-
-Signed-off-by: Federico Beffa <beffa@fbengineering.ch>
----
- sound/usb/mixer_quirks.c | 21 ++++++++++++-
- sound/usb/quirks-table.h | 67 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 87 insertions(+), 1 deletion(-)
-
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index f6f2bc8e97a7..4ba409796d7e 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -3936,6 +3936,7 @@ static int snd_rme_digiface_controls_create(struct usb_mixer_interface *mixer)
- #define SND_DJM_450_IDX		0x5
- #define SND_DJM_A9_IDX		0x6
- #define SND_DJM_V10_IDX	0x7
-+#define SND_DJM_S11_IDX	0x8
- 
- #define SND_DJM_CTL(_name, suffix, _default_value, _windex) { \
- 	.name = _name, \
-@@ -4276,6 +4277,21 @@ static const struct snd_djm_ctl snd_djm_ctls_v10[] = {
- 	// playback channels are fixed and controlled by hardware knobs on the mixer
- };
- 
-+// DJM-S11
-+static const u16 snd_djm_opts_s11_cap1[] = {
-+	0x0100, 0x0103, 0x0106, 0x0107, 0x0108, 0x0109, 0x010d };
-+static const u16 snd_djm_opts_s11_cap2[] = {
-+	0x0200, 0x0203, 0x0206, 0x0207, 0x0208, 0x0209, 0x020d };
-+static const u16 snd_djm_opts_s11_cap3[] = {
-+	0x0307, 0x0308, 0x0309, 0x030a, 0x030d, 0x0311, 0x0312 };
-+
-+static const struct snd_djm_ctl snd_djm_ctls_s11[] = {
-+	SND_DJM_CTL("Master Input Level Capture Switch", cap_level, 0, SND_DJM_WINDEX_CAPLVL),
-+	SND_DJM_CTL("Input 1 Capture Switch", s11_cap1, 1, SND_DJM_WINDEX_CAP),
-+	SND_DJM_CTL("Input 2 Capture Switch", s11_cap2, 1, SND_DJM_WINDEX_CAP),
-+	SND_DJM_CTL("Input 3 Capture Switch", s11_cap3, 3, SND_DJM_WINDEX_CAP)
-+};
-+
- static const struct snd_djm_device snd_djm_devices[] = {
- 	[SND_DJM_250MK2_IDX] = SND_DJM_DEVICE(250mk2),
- 	[SND_DJM_750_IDX] = SND_DJM_DEVICE(750),
-@@ -4285,6 +4301,7 @@ static const struct snd_djm_device snd_djm_devices[] = {
- 	[SND_DJM_450_IDX] = SND_DJM_DEVICE(450),
- 	[SND_DJM_A9_IDX] = SND_DJM_DEVICE(a9),
- 	[SND_DJM_V10_IDX] = SND_DJM_DEVICE(v10),
-+	[SND_DJM_S11_IDX] = SND_DJM_DEVICE(s11),
- };
- 
- static int snd_djm_controls_info(struct snd_kcontrol *kctl,
-@@ -4589,9 +4606,11 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
- 	case USB_ID(0x2b73, 0x0034): /* Pioneer DJ DJM-V10 */
- 		err = snd_djm_controls_create(mixer, SND_DJM_V10_IDX);
- 		break;
-+	case USB_ID(0x2b73, 0x0037): /* Pioneer DJ DJM-S11 */
-+		err = snd_djm_controls_create(mixer, SND_DJM_S11_IDX);
-+		break;
- 	case USB_ID(0x03f0, 0x0269): /* HP TB Dock G2 */
- 		err = hp_dock_mixer_create(mixer);
--		break;
- 	}
- 
- 	return err;
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index 71444c2898b4..938908671d93 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -3310,6 +3310,73 @@ YAMAHA_DEVICE(0x7010, "UB99"),
- 		}
- 	}
- },
-+{
-+	/*
-+	 * Pioneer DJ / AlphaTheta DJM-S11
-+	 */
-+	USB_DEVICE(0x2b73, 0x0037),
-+	QUIRK_DRIVER_INFO {
-+		QUIRK_DATA_COMPOSITE {
-+			{
-+				QUIRK_DATA_STANDARD_MIXER(0)
-+			},
-+			{
-+				QUIRK_DATA_AUDIOFORMAT(1) {
-+					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
-+					.channels = 14,
-+					.iface = 1,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.endpoint = 0x01,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC |
-+						   USB_ENDPOINT_SYNC_ASYNC,
-+					.rates = SNDRV_PCM_RATE_48000,
-+					.rate_min = 48000,
-+					.rate_max = 48000,
-+					.nr_rates = 1,
-+					.rate_table = (unsigned int[]) { 48000 },
-+					.clock = 1,
-+					.fmt_type = UAC_FORMAT_TYPE_I
-+				}
-+			},
-+			{
-+				QUIRK_DATA_AUDIOFORMAT(2) {
-+					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
-+					.channels = 10,
-+					.iface = 2,
-+					.altsetting = 1,
-+					.altset_idx = 1,
-+					.endpoint = 0x82,
-+					.ep_attr = USB_ENDPOINT_XFER_ISOC |
-+						   USB_ENDPOINT_SYNC_ASYNC |
-+						   USB_ENDPOINT_USAGE_IMPLICIT_FB,
-+					.rates = SNDRV_PCM_RATE_48000,
-+					.rate_min = 48000,
-+					.rate_max = 48000,
-+					.nr_rates = 1,
-+					.rate_table = (unsigned int[]) { 48000 },
-+					.clock = 1,
-+					.fmt_type = UAC_FORMAT_TYPE_I
-+				}
-+			},
-+			{
-+				/* Audio Control (unknown purpose) */
-+				.ifnum = 3,
-+				.type = QUIRK_IGNORE_INTERFACE
-+			},
-+			{
-+				.ifnum = 4,
-+				.type = QUIRK_MIDI_STANDARD_INTERFACE
-+			},
-+			{
-+				/* HID */
-+				.ifnum = 5,
-+				.type = QUIRK_IGNORE_INTERFACE
-+			},
-+			QUIRK_COMPOSITE_END
-+		}
-+	}
-+},
- 
- /*
-  * MacroSilicon MS2100/MS2106 based AV capture cards
--- 
-2.54.0
-
+Takashi
