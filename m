@@ -1,122 +1,144 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF62388397;
-	Fri, 26 Jun 2026 11:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7DC379EE8
+	for <linux-sound@vger.kernel.org>; Fri, 26 Jun 2026 11:03:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782471786; cv=none; b=SCh7ULWTDdWPnCkXh6R0PBqF82w3b/sHRzWLU1ncI9W2dDYKF66cI9c8u0/XRBxsb7Qj7vrH0Qx5AePH6mP3iIaVHKOERnA4MCYNQYpqsPzfM8+NlLCGEBT+7ib6XqNzJreYHybQhoSVBhPnYb1g8x+1cbcT535LH4UlQwmCrUI=
+	t=1782471819; cv=none; b=jJUOkXSL+SZzpgmxIUDl2XCvrlEe7ETGHsz+Y4zcdXE6XImPh5T/x8LN0pYNY3MYzUKUXV1W6iXEbZyr6V3lUqEU7iui3wvUxqJ07qR273+4qnU7LwA9n8iJEm1Vd1Vncqowk4H0Sr+svug8KLp8bd07K953cdUksk8iHAGk5BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782471786; c=relaxed/simple;
-	bh=4xhENnZVz/hdk7ZqW2LTM+Brps5lFoVyNoXxRb45eQs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=elFKo/R94ZTBbVBIf9vo9pr2PlvD6JQDnwayWdWW1Uh0DM8D8dNGj4dJkbnrGjYbA0JUzA5/9t5PfaKaPBUufDV4hHg+plvBtk4yOxbv3AD3rXtq0YoGsSMmKxzIrqdJPfa7tgRuxeV5AqRc+hyyzlDN3sa+uiFWl7sq3ye2768=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VV20kC8s; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VD0cw75g; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1782471819; c=relaxed/simple;
+	bh=EzRQM6OI2kppfwj8kWMT2isITc9GVWsvpHmLQyd6QX4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PzQZ1NqZni9H2KP9da63J4O6AR+GJA+p8B/xaHkNq1pjZDVI3uQxtnvVH/N9rp/Xxa/HauTSllEggF0/fE9Upb6jnaVgqTrsd5vEQcSvdFxfAkk2hFODmURT8KfAvhhkBVtU3vR6ALhgxsYwNK4txL0+6fQosF3+3GlyEkJzAWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JvOeDnui; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PxqVVgGK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JvOeDnui; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PxqVVgGK; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VV20kC8s";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VD0cw75g"
-Date: Fri, 26 Jun 2026 13:03:00 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1782471783;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JvOeDnui";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PxqVVgGK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JvOeDnui";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PxqVVgGK"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7896275B33;
+	Fri, 26 Jun 2026 11:03:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782471810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vgyG4JYr6Vz+QgoLYeDfXMNz2G667R6u0Wnv+qmfHYs=;
-	b=VV20kC8sI1KhN1xrUd12GIm4/ufvjTTeGzq1YZqPfrkX05CDqlXNT6/VNsOei7WgrqHmEl
-	VTGheMYRboFZj8o5lNiqjrsRUbyvwDwOJdumd+jPauJcoYnuMMTWfdvmdziBpNAL7T/Ua6
-	7WnEEUSWlVZOIrUJf4Zvod837Zntq6++4qfeT8q0DzM7dD7u4s1sxk77fC48ujuwURpr2a
-	AFwXVYK04GZ6Ee05Ki/eEyivi5JwtgMcVgNHuD2308sLsuqw8WdEQXP4i90wAT9akFtUgN
-	IejmztjUkC0bGzk7jycYNeETVCUb7vTRHgI2vXec4RXJpJLpjDE5C1LWc8l6YA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1782471783;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	bh=L+A4ISRCw2qaxZ8t9GACjOAIzRGA5qLb/RtkUaiNEQI=;
+	b=JvOeDnuiK9n68PM9RY4QmA4naapQXmH+p68PsvixoY96jhSIKwoHbDrnEW9WGK2t14zaA8
+	uQLtHYs6cb0NsMwTAanfduugVFr1balT/rfv1Yc1IYr7zc2Yxpz/bLty69PTkc4eanURjK
+	ApT0VdWzDWLwN+q1EbW5/zgg7hi8LQ0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782471810;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vgyG4JYr6Vz+QgoLYeDfXMNz2G667R6u0Wnv+qmfHYs=;
-	b=VD0cw75gmuwO8c0fdsJwZsj6ROZ9uCOzpzatMkjVmqqbuatKXXwevrrx+szNIH4sxsRkjN
-	VxWr8Ld4nl248HBA==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, 
-	David Woodhouse <dwmw2@infradead.org>, Miroslav Lichvar <mlichvar@redhat.com>, 
-	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
-	Arthur Kiyanovski <akiyano@amazon.com>, Rodolfo Giometti <giometti@enneenne.com>, 
-	Vincent Donnefort <vdonnefort@google.com>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, Oliver Upton <oupton@kernel.org>, 
-	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>, Johannes Berg <johannes.berg@intel.com>, 
-	Jacob Keller <jacob.e.keller@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Peter Hilber <peter.hilber@oss.qualcomm.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, virtualization@lists.linux.dev, linux-wireless@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Subject: Re: [patch 09/24] timekeeping: Add CLOCK_AUX support for
- ktime_get_snapshot_id()
-Message-ID: <20260626125819-d8b197fc-7671-4d12-a578-9025affc52d9@linutronix.de>
-References: <20260526165826.392227559@kernel.org>
- <20260526171223.374814973@kernel.org>
- <20260626103359-66ab2b54-d36f-416b-94a4-3f3708dccced@linutronix.de>
- <87echtk24a.ffs@fw13>
+	bh=L+A4ISRCw2qaxZ8t9GACjOAIzRGA5qLb/RtkUaiNEQI=;
+	b=PxqVVgGK6t5uczBACJuNei4BzJLL8Bw0VzUa2cbj34RvdF8MzmcDN/uh3RJhDA2+3ULKZe
+	gVFcR47c7nKpG4CQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782471810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L+A4ISRCw2qaxZ8t9GACjOAIzRGA5qLb/RtkUaiNEQI=;
+	b=JvOeDnuiK9n68PM9RY4QmA4naapQXmH+p68PsvixoY96jhSIKwoHbDrnEW9WGK2t14zaA8
+	uQLtHYs6cb0NsMwTAanfduugVFr1balT/rfv1Yc1IYr7zc2Yxpz/bLty69PTkc4eanURjK
+	ApT0VdWzDWLwN+q1EbW5/zgg7hi8LQ0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782471810;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L+A4ISRCw2qaxZ8t9GACjOAIzRGA5qLb/RtkUaiNEQI=;
+	b=PxqVVgGK6t5uczBACJuNei4BzJLL8Bw0VzUa2cbj34RvdF8MzmcDN/uh3RJhDA2+3ULKZe
+	gVFcR47c7nKpG4CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 59AE4779A8;
+	Fri, 26 Jun 2026 11:03:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id N2LMFIJcPmrgHQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 26 Jun 2026 11:03:30 +0000
+Date: Fri, 26 Jun 2026 13:03:26 +0200
+Message-ID: <87bjcxtvgh.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC fixes for v7.2-merge-window
+In-Reply-To: <8d888870bec370f9abaad606055cdb75@kernel.org>
+References: <8d888870bec370f9abaad606055cdb75@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87echtk24a.ffs@fw13>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Level: 
 
-On Fri, Jun 26, 2026 at 12:49:41PM +0200, Thomas Gleixner wrote:
-> On Fri, Jun 26 2026 at 10:48, Thomas Weißschuh wrote:
-> > On Tue, May 26, 2026 at 07:14:13PM +0200, Thomas Gleixner wrote:
-> > (...)
-> >
-> >>  static inline void tk_update_aux_offs(struct timekeeper *tk, ktime_t offs)
-> >> @@ -1218,6 +1223,12 @@ bool ktime_get_snapshot_id(struct system
-> >>  		tkd = &tk_core;
-> >>  		offs = &tk_core.timekeeper.offs_boot;
-> >>  		break;
-> >> +	case CLOCK_AUX ... CLOCK_AUX_LAST:
-> >> +		tkd = aux_get_tk_data(clock_id);
-> >> +		if (!tkd)
-> >> +			return false;
-> >> +		offs = &tkd->timekeeper.offs_aux;
-> >> +		break;
-> >
-> > 'tkd' is also used to compute 'monoraw'. However 'tkr_raw' and 'tkr_mono'
-> > are the same for auxilary clocks, so this will compute a wrong 'monoraw'.
+On Thu, 25 Jun 2026 19:01:19 +0200,
+Mark Brown wrote:
 > 
-> AUX clocks are independent in the first place and the MONORAW part is
-> the "MONORAW" related to the AUX clock itself. 
+> The following changes since commit 4346d91cfa47b0d9303533edde8acd33e4b9ca40:
 > 
-> > Instead 'monoraw' should be computed based on 'tk_core'.
-> > Which then also requires the sequence locking of 'tk_core'.
+>   ASoC: dt-bindings: Fix RT5677 "realtek,gpio-config" type (2026-06-14 01:03:38 +0100)
 > 
-> No. From a PTP and steering point of view you want the "raw" value which
-> is related to the AUX clock itself and not the global one.
-
-Ack.
-
-However the kdocs call it 'CLOCK_MONOTONIC_RAW'. Can we clean this up?
-
-> The global MONORAW and the AUX clock MONORAW are related obviously as
-> they share the same conversion factors.
+> are available in the Git repository at:
 > 
->      MONORAW(AUX$N) = MONORAW(GLOBAL) + OFFSET(AUX$N)
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.2-merge-window
 > 
-> We don't have that information anywhere right now and we might want to
-> expose it to allow user space a proper correlation, but that's an
-> orthogonal problem.
+> for you to fetch changes up to cf6f56990ea21172e085f0588e5bbf2089ce8f58:
 > 
-> From a PTP/steering point of view the code is correct as is.
+>   ASoC: fsl_asrc_dma: fix eDMA maxburst misalignment with channel count (2026-06-25 14:56:27 +0100)
+> 
+> ----------------------------------------------------------------
+> ASoC: Fixes for v7.2
+> 
+> We've got a good collection of device specific fix here, plus a couple
+> of stand out things:
+> 
+>  - Richard fixed some special cases with the new device_link creation
+>    by more gracefully handling any errors during creation.
+>  - Charles did some light refactoring of the SoundWire interfaces to
+>    fix some persistent randconfig issues that people kept running into.
 
-Thanks for the clarifications.
+Thanks, pulled now.
 
 
-Thomas
+Takashi
