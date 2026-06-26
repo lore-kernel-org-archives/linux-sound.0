@@ -1,136 +1,146 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010005.outbound.protection.outlook.com [52.101.228.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581DA3D649D
-	for <linux-sound@vger.kernel.org>; Fri, 26 Jun 2026 06:16:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782454592; cv=none; b=jMiAOCnwGFSG9qV/YPzaMISNfOTOkzoVhjiLjAhuYiutRqLHrGdiEWE9dVN0//IoDvGRxNRxuZKICugICtXnVtVNBWRpBTAPo+MC20E3+zagT8oECiJu7LFbvLcjFfbkBltrkCnN8khGzaBo8k3vR6/r+y+j/SRvXtS70/guz4A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782454592; c=relaxed/simple;
-	bh=maiamEYW/VmulEyBtMYwj0uqdV8jgFn/WOixNWVxsn8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fymhb6M1R+w5D5lV9+dr9cQUQR5UGQYBVsebidnKvIA4AugWDsJPi11KV8zae9KXgwhIfSbjiNcNF3XbSHXtzxK2a6roSfKWQxdzzJcLobEpKNz5wZyfnFaYl7796aXSEBmI/XAJ2u8mNbwp73+G4MyHIK5ZNNPHGnSt4vRk1xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A5jn5651; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDB93D7D9B
+	for <linux-sound@vger.kernel.org>; Fri, 26 Jun 2026 06:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.5
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782455271; cv=fail; b=P1ofUKs85RMyIPjPF1Xj8YFhfFfadj+rKgw30GNVNyv2uUwcnbfkmkwfHdQgCB7+5U6vh1yQMjvtqtKcUzvN6CyEQ/I8oV4QlLpdGtNRjiT7vPT2HX9By5Zh/5fLghc/nxPjCm6J2Zn+iZJju73tN5l3Ims+o6uL1EPC/i/5nbs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782455271; c=relaxed/simple;
+	bh=gwlk5HkCyphBjq6fJm2pMoLPCDvoNO4bDKelekeEKiY=;
+	h=Message-ID:From:Subject:To:Cc:Content-Type:Date:MIME-Version; b=E7Q8nVWtibqTjDDLk7P4ATJ39r6Rrn2GcMMb3YIEsLJo+K4mazb7JmubSIGcO6NTK6SZdmSbtoidGLNmzHB+33y563rWZ5A8orAQy9qDDcDBMxB8NAAP+lPXG0u/4YqY0BwQuX2QFgi+HmR3fBovnMl0yX4soeaAFsEHe6OWNEo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ZtzDl0/8; arc=fail smtp.client-ip=52.101.228.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A5jn5651"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-36b9d265355so293567a91.2
-        for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 23:16:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782454591; x=1783059391; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SX8XmTSnrku861xf5UWM+H3QucQPdKfApxb7WoywOqQ=;
-        b=A5jn5651V18eYOgCuHY1GpRIFVeOCLjOmAqmvQU/xH4U4C+wEad316BCyVG2eqYiL1
-         ydCO5gZsyP5HrrF2q48OwQxfvu++6EZQYWnpwbljROrVgPAKsI5bRd5uDiA4gtf0m1o/
-         0o2Xqo0yhomI7cVnVYTF03B+/a9RjfMHrnQmr7c8z9Rj4FOJhHTBut28DPER9VWXZiJ3
-         vtiF3QFCS15zVORiryQbxXMEnepmAp1bQi6wqcUgBsA1AvCzA5bK1yv6zCrs/BEVoatV
-         1zo5rZ8EBP3XfOvVihPhTA/r/PWexsfXdej1fLIxCUlpbzEe0mkMoYkeXROVQuwPI02Y
-         3c/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782454591; x=1783059391;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SX8XmTSnrku861xf5UWM+H3QucQPdKfApxb7WoywOqQ=;
-        b=GYiiOkldSuSm5Y8Bx7X0Nh21mbniwkSyDn+k2YIMz05Lda8p1abOqclzvN7PpOF6wu
-         5PZKqk2ihDkCfVVQjzGlV4l+NAQw4Uj1MKgNluMXmHN5SwbOiioPkAdgXPPjLuYYWiDo
-         ViJd59Dnk3G8OLzBcTpu9VnlcdnTe++KVzpmh5fho7tEQLXH+bqFG3faZQjsnBpB/oXs
-         NGjkuAsql5Y3/4cPS1NEI0KmOF63S+tgC6U0jSe8QSJ9kf7xynzRDeYWq8OTEWfZyRYA
-         UTNwCr8V3rK5aJNklW1NHxRwI2SAQgbmO8AyyK1Uglr2Mrf+GiLOhU7Qv1YpNwCadp6X
-         qRNA==
-X-Forwarded-Encrypted: i=1; AHgh+RowoBKSZKLdHZT0jbmRUF8jSDeNxOJUFOeZuChonWFTVhHVPLSKDwcnq8BGSgZBxQL2MhGMU4/oFSUk+A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxM9s/9KXQilZXt2ymPP29vp8y9s6lvnzobq7YurpzRiwrP/IMq
-	MCP4RUGRBRJMLXEtMRoW6k58KMiC4apW+crwe0l4UvES1gQQJMxm7YfH
-X-Gm-Gg: AfdE7ckeXKCJM42kD2lGe9TDbc4CHXL15bRaPYzoaY0VO1fWKvOaCd97rK/Ym0YLJOP
-	lB1EMjTYlL7ucUUtopxZb2+nFE4itAqX/K6Ck8QwIgaz3jdUMSXkNSST4U4JL5fVbtH+P7bvFo/
-	vs/C7dAGHhjCM2nvOpxRcihBxN3MLAC+HKZyIm+PkSAnIKYkuXpExEC8CzY0SIvI9+rBtBOtI35
-	BiVbbgq0mIHHrbzGouPVYThfpYWTsvmLBp9KO6XkJ+wWK1IVtW64jYGzkO64bcUjbPvQsWiuI0f
-	5XPvm8xJBQ+0Rk/bllfxS4zaq0ZgpSytxY32WTFyBNivsyyCjwMiDtnuOfBDXMRHF0DnueFWaQz
-	3N/6cCj7gXRoilwmYpg9uExt3QKyr8EQPiLq0LutZzmIb9j13nUn5d5jAo3V0/Gu5FARXzhJ02X
-	YKivVQHoAaWox9grmvQRRSHhnGcizYLBWcvG97WS0zp0NarDY=
-X-Received: by 2002:a17:90a:d444:b0:37e:2a6:8cbb with SMTP id 98e67ed59e1d1-37e02a68d34mr3887125a91.19.1782454590646;
-        Thu, 25 Jun 2026 23:16:30 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37e12da6ec4sm302051a91.2.2026.06.25.23.16.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 23:16:30 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	povik+lin@cutebit.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	chrome-platform@lists.linux.dev,
-	asahi@lists.linux.dev,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 24/24] ASoC: codecs: cs2072x: Use guard() for mutex locks
-Date: Fri, 26 Jun 2026 13:13:29 +0700
-Message-ID: <20260626061329.23264-25-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260626061329.23264-1-phucduc.bui@gmail.com>
-References: <20260626061329.23264-1-phucduc.bui@gmail.com>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ZtzDl0/8"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WEMMveBWdESsnqHoWhBqr3S8TlOGsr+toRLZpc7/QYd27oJgF2HuWKyQglUp0+YiGsWIDdZXNKIFVW+/mluCiVCIS8Df3bP8EeCZWMTJx35ontWUrfENi2sK97cfO0ELMCgYS1fnYdqXskQrN0h5EmDyzC0BqqCr8DBmOLcaeH3KknuMZ6Urwoiryrb2rZk4A41hv1xffldEDj+OJg8OCOdBankudQbGfUCg0cP1o8+nSY5yUqLFWTtL+7SqSvxhHw7Z2RksqAtFJ+J3OrUrcJ+g8BGcMU6ZPyGQ1gymhjSZtW64y2c/Rw7s82g0HUlkTB88nqxsp9hH7ycYg9zH+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=56uMG6wt+h853iWRGW9Bgdc5pFVxtNza/CzGTC/FU6Q=;
+ b=Oma8E/gmEUbynNTfp+9UlAt9HIYKZqY5MLvm7eb+rsJHM1ZIIkX8G/WN0OtEKG/UatyCb+dMajG1gU1eV8Uqr3JV5A9J6mJHZj77D+tPI4m+xkeOzHuM7LhJsU4f9TV4XT9VNwsx1svtZEM6OgH+/sqYZNjxWV8yYl1kQHlobxEdrFhRnUdTMsj0rw/uEg+f+6zIrBwjcAjrxJoW4sJelz4gSMhf1/xveOmS7Djdegmv1FMG/9SxZ9dc2gVyHYbkoxthHyzS7F/IUqTEuGGMERAukwBtznpXywX1cifw4K7MiLIDxTpKQzGW+8CE8RJ8Ab0GrUHvS+UWYWliszPZ0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=56uMG6wt+h853iWRGW9Bgdc5pFVxtNza/CzGTC/FU6Q=;
+ b=ZtzDl0/8eX6FuM7PRxPxEDiahxfQ70omqRRy0xyc/ixG845Ie8WOXn0pOahmIqbmv8yLvJJS1bUlRmiY/3kN7jRjGPPMQX9gvBZ0Xye9cFZ8zk260i0jNyr41PY/0C0qyXItIf5OnaIWATNfa24etTzHn9fL1IW1yTiLxbcBWYU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by OS9PR01MB15751.jpnprd01.prod.outlook.com (2603:1096:604:3bd::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.16; Fri, 26 Jun
+ 2026 06:27:46 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0159.015; Fri, 26 Jun 2026
+ 06:27:46 +0000
+Message-ID: <877bnlerz1.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH 00/12] ASoC: cleanup simple-card/audio-graph-card1/2
+User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Date: Fri, 26 Jun 2026 06:27:46 +0000
+X-ClientProxiedBy: TY4P301CA0078.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:36f::16) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OS9PR01MB15751:EE_
+X-MS-Office365-Filtering-Correlation-Id: 62bc9d35-7043-46d5-d47e-08ded34c097a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|23010399003|38350700014|18002099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	+BNZlrPxuUDr7hghJ1ArcgO2nEGYZmp7yVqrnba3qCJwtuIjzbWz/ZS7VJwrJ+bMOtAlcDNE/DkUyrtw//ekBKFFLVGdGjRGqEjF1yXpadjuMmx/mvGkwNvYZVtrY+sGcq8TPf0kcGQi89aXrWZ4ZTeqdHtI5NHOzglgBmuFCscI7jAj1znbc13jhdLM5Pea/FQXM3WW95vN/uB4CeXZEdbU6W8LfMAzW88UihWp81JGmhoJgkDaII1WJhUZ+xZjwKPB7hfbzpGqnIqCW8qlGapegX4spOUXteaBLdmfevicEWE/GBeB01aTQZvpSFFqaSlJRtq8BkyTELYIpxwV0/wFIQBEPfefk4wbYE6OUyalTUzmCTqtyFU5h41WmYZdmz0d8sHJTUQNKtSYyUe7Ose0bILMkl3vOMwponmk65b250TKJZcfyYxYcafA5xTMqx3uz4nB0Vr8WqU0CKzCqDo/tVv2RlGNG/DALJQvK0ZrjlOFOXFUwpuqryVSVwVwaeCiWFS+l4s+xOgBkLS5hIUP5UY1HvqhgX2aRNeIhrGN6sWMU2ezgP/qv4j+L7p+/eOnIjG6NyMPen52ltOunYqkVZl8oCdzz6H/VWWRLanwO8mukTprwviHv3nlPk0Y1lQjAuM+R9U5QIZfACk8P/9x+4ZLlals9UcsDNAr51Eh1qSY/hdciwoFmbJc2bxbJH49FcDx+mgJIYZcBSH6NRkuYKjTXjpaavHvmI7jM1k=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(23010399003)(38350700014)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?FzET08gUVhRfQkUpE9RSej5eL7DFXyDCES+JZIejOO3levuor1Ilk/tsIhVJ?=
+ =?us-ascii?Q?vLMyW/6BYwZaci30Ugzp8P+xL/rYOmmAiUA48AuLsoLqW3ull04INX6R1Wys?=
+ =?us-ascii?Q?YkYrBx6aDbmv/4DnZfE+OJCCaqHglN0UU8vQ5XkczH0rBfP07zcTFBdWpJ+W?=
+ =?us-ascii?Q?tFUFdH6cpTdqdVWDgpmy45vnETlvFFgHpDneyOEINogigHKheHzy8Uj8vHcl?=
+ =?us-ascii?Q?fjXF8IY16DpKjqdv1DkpNR99HSCRNZTMd7bOeylA8X/d87aZsdunGuEaUQUG?=
+ =?us-ascii?Q?X/2bpMXtVJ/vkoC/A41kixR4BDrZMkx8D3fJ7rCUY5WTx71Pi1f1QlTzk4/n?=
+ =?us-ascii?Q?XB3LqjMXtr630o9GA5txZfYSs1ZC6X/iQPPmlFHXR47BFPwHkB6tCEclOP6d?=
+ =?us-ascii?Q?UrMa2C+ue33/NTK4ZaZli2Ndo6HNa/BNY3N7SAR08sB0Btdv+wri8nGw2aFh?=
+ =?us-ascii?Q?oZiHNxLX7PemJwyju770bRYcyGWMv/eLpVxX5bh0WzGQZjeBEx16FFo03V73?=
+ =?us-ascii?Q?KuZ1ZlgZoZ1CCkC1NWXnEQIdusjBE/z9AKzNwtFBd1mGZOIhtVUSIX3JoYzQ?=
+ =?us-ascii?Q?QF8kUuGrwtqhmAXtvk8RCK30cEGwORnlM7Igw0aYUHHtSlIz1okAKzav/QzM?=
+ =?us-ascii?Q?q2pNqQk4OvAqAL5HbD0HfHvynEN3aYVUyhDzqeGwwAyFXQXGxnzFW3+SL/Hc?=
+ =?us-ascii?Q?rsyxNk2mjhjCCBOSneNy0MMBRK6vvXZB0WOUV2eyp0DFxNXHAE4yowJrBhGT?=
+ =?us-ascii?Q?9jWD29zY8Mt4/1b0EoNuDvoHkZwAA1I+lsqGHhlPYAxZasnh1GjPAGuZD25C?=
+ =?us-ascii?Q?KNcoyRn0eF6OEKxTbtKF/xL35HrdeVr04D12ITiluuolvhtOKlaslaXUiUZj?=
+ =?us-ascii?Q?T6MXNcCtuGLvOdwfLVTgg/JA7FHjX2VBV8Z9NwUOCJvfgBeR+nbS3a3/qQFw?=
+ =?us-ascii?Q?1IJc8UU28K6DG589EVit6H56UAfIUZkD7kklYYK1UvGoSjIdvLf3lHyMUtg8?=
+ =?us-ascii?Q?uqYwFUtyBP8fqv5pUEzYjY+RhxxJEIIj7C3vIcDrcNZbrPWWBymC18WtrTmM?=
+ =?us-ascii?Q?xmulIQOVD8vCaXIBm27t+fHdDPSEASAtzMqgW8/GNapn9BwUMtfo7BAWZ2op?=
+ =?us-ascii?Q?1TsTrxHeNxQW5eUCuuUozeAYRHt9mzJzFVEwgEZuXL7Cb+viEuC0rMp6xmOW?=
+ =?us-ascii?Q?+IYpBwP6L4nSwvGlJnifd0xltUaeLexowUVDQeV7VlhUN4ox1YnZGMBSJS0P?=
+ =?us-ascii?Q?wE1ww6ufRp32gCwgQST8YaRJq8hn8Pw/kqoxNduiiMGPfHpyAei5gSL7KtVP?=
+ =?us-ascii?Q?26DCcAs9cWEmfOM5reN6V6Fxf2jgu0l7O5ek5I3rHiCyGK2W85CVvwTWsepN?=
+ =?us-ascii?Q?cgiDHp9cSZvDvSyCiD5etwfLHrwlqYfueiJ0A3My96YOj1ve2iBCqGbEONF5?=
+ =?us-ascii?Q?LubxB3dz0Xd8olM9yI3pwacrasvHA54fs0daxEv4NNefb36ZrVKLrBwJfSuk?=
+ =?us-ascii?Q?C6OIFoul3mu2+/XfcBp+StSnbJAbyK+J0NEsJyhEyvIc5I61tDoO3s/KvEnA?=
+ =?us-ascii?Q?aGjR8+WB7+NTgq41D+SaJl4LFwfUwPb3c0IU8qz3J7ZnPW+rFcZpPuvvpQW8?=
+ =?us-ascii?Q?pUm3VH2OnTOC1azR8hXanPtVvIq/H//gy+isLgkkt9way0MazJFUxDVwT3Di?=
+ =?us-ascii?Q?+38OjyFF8f+lD73UTXdLapKMFtmMDikoth6cc82LIH/s4F9wBWL/izGAAQBn?=
+ =?us-ascii?Q?qWgQUCYMCFZrhX9JUEGVEeAPga/DVB3iAwWAec7a0kZ+Pc+Qu9wX?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62bc9d35-7043-46d5-d47e-08ded34c097a
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 06:27:46.5091
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: THV6+yudbFnh4QLjTXWEXMvLlj/SbVjs146eQjOD6pbYbR6IfV7IHHmF3ZQousQTqL7gxJrQiphWH0UeBN3mZphoMgSRcrDFk97CX7VusgIIGwbIoN9mVjC0JPVl42O7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB15751
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+Hi Mark
 
-Clean up the code using guard() for mutex locks.
-Merely code refactoring, and no behavior change.
+Simple Card has removed platform data support.
+We can cleanup and sync more them.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/codecs/cx2072x.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+These are cleanup for simple-card/audio-graph-card1/2.
 
-diff --git a/sound/soc/codecs/cx2072x.c b/sound/soc/codecs/cx2072x.c
-index 83c6cbd40804..908344ee5892 100644
---- a/sound/soc/codecs/cx2072x.c
-+++ b/sound/soc/codecs/cx2072x.c
-@@ -9,6 +9,7 @@
- //
- 
- #include <linux/acpi.h>
-+#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/gpio.h>
-@@ -1408,7 +1409,7 @@ static int cx2072x_jack_status_check(void *data)
- 	unsigned int type = 0;
- 	int state = 0;
- 
--	mutex_lock(&cx2072x->lock);
-+	guard(mutex)(&cx2072x->lock);
- 
- 	regmap_read(cx2072x->regmap, CX2072X_PORTA_PIN_SENSE, &jack);
- 	jack = jack >> 24;
-@@ -1434,8 +1435,6 @@ static int cx2072x_jack_status_check(void *data)
- 	/* clear interrupt */
- 	regmap_write(cx2072x->regmap, CX2072X_UM_INTERRUPT_CRTL_E, 0x12 << 24);
- 
--	mutex_unlock(&cx2072x->lock);
--
- 	dev_dbg(codec->dev, "CX2072X_HSDETECT type=0x%X,Jack state = %x\n",
- 		type, state);
- 	return state;
+Kuninori Morimoto (12):
+  ASoC: simple-card: move simple_parse_of()
+  ASoC: simple-card: merge extra method into simple_parse_of()
+  ASoC: audio-graph-card2: Tidyup audio_graph2_parse_of() around error
+  ASoC: audio-graph-card: Tidyup audio_graph_parse_of() around error
+  ASoC: simple_card_utils: add simple_util_parse_property()
+  ASoC: simple-card: tidyup simple_util_parse_card_name()
+  ASoC: simple_card_utils: add simple_util_parse_aux_devs()
+  ASoC: simple-card: tidyup simple_util_parse_xxx() in simple_parse_of()
+  ASoC: audio-graph-card: tidyup simple_util_parse_xxx() in audio_graph_parse_of()
+  ASoC: audio-graph-card2: tidyup simple_util_parse_xxx() in audio_graph2_parse_of()
+  ASoC: simple-card-utils: tidyup simple_util_init_aux_jacks()
+  ASoC: simple-card-utils: tidyup simple_util_clean_reference()
+
+ include/sound/simple_card_utils.h     |  37 ++++++--
+ sound/soc/generic/audio-graph-card.c  |  23 +++--
+ sound/soc/generic/audio-graph-card2.c |  40 ++++----
+ sound/soc/generic/simple-card-utils.c |  94 +++++++------------
+ sound/soc/generic/simple-card.c       | 126 +++++++++++++-------------
+ 5 files changed, 153 insertions(+), 167 deletions(-)
+
 -- 
-2.43.0
+2.53.0
 
