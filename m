@@ -1,147 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E338537B020;
-	Fri, 26 Jun 2026 15:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782487076; cv=none; b=kbKu3HXbMD7tJDgkFOy4Z/sZ9n47wm41RJ0GA75mSqJpsL3ackf4ju99qsbwrZxU5GMK4LLvZh9HL7xaEY7DmU5qTILIJBAmo8hznuujBHVJC2BSnDsO/aoAPgePXj+gDWoVJq6ZP4wTIc+A+bLi7DezcMcFu8m8FlaeSxX7ges=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782487076; c=relaxed/simple;
-	bh=+2WMSpeYQauY3ayqAWmihAgxFm5GiuL3JVnsZFr/NDM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=f+w5t6OSNUV4w9D96tZ169AzQSTcg+5ehML59ansUStTHIlAPlwi0w9nnqvWdP3lTCsV7sriFremSc4dmkVL9VzbjBBxaEC7n2JUvFUv/+k0Ik5/QsEgkLy1lJX6hcA8CVQRFhuYmiIY/LUHFVguauMVHLygO/QxEFDf9VsLbRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WNDxtU8y; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C273F1AC9;
+	Fri, 26 Jun 2026 15:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782488872; cv=pass; b=oKBRN8tOTJLRvSQdZ672XnFBzOTQgvAdcpwMbpW42iffkdjb5vqPWHZNFbH5PA+XlMEPiS6TGrsHZoSZrNMDjMdw2jbZ69fkgMk2Uwmr1iKmNqTOuDIDuvb28vxf3lBlG4H5EfoArZLyBlwxyKVOOfu3HVLUSHMxBo5TbALSdL0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782488872; c=relaxed/simple;
+	bh=juEO04f7mz/Xn9KaAhAynncu3Boam4pl9NzIIN+xwrQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DoUtVkWS4MdpgVDUskeThO+R7+kjLyQ8HPE6hwoLsmgCVIcXIVTQmW2LXU7hgh44VxM5/VeU7HQaGMUCTwr1cz6eHDK/Rl/3Rx/ian30MF2rjB84W0FK8InIIIHs7EHOBV/KWhx55INXWvIJN1wHNE0HAqqL+/w7SUifhm4IzhY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b=YYLdeQQq; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WNDxtU8y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE5531F000E9;
-	Fri, 26 Jun 2026 15:17:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782487075;
-	bh=JkUVs+kU43zS2CPMfq3q5ID+5rkKg3CG5Y2R5GSNDYM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=WNDxtU8yHc2NVDKr01ddEY4wTI1nZFABN1wZqtcq8gJ3HLwowFBdSSRf13AvQ6+AK
-	 KrUPVgy5zp+5DbFIV9NYl+F1JqOc1G55tLbOPBhnBQzK1R6UFqBIsmqNNwR/2ed+RS
-	 93CpYL0hJ5pDCDa3FjX41wu4KnsvHEVo/5vO46UuwWtnOMPlWBvHarRbQAVe0T6seO
-	 DAhRi4rEArIi1MX+Dc0gAF3VnI7yDW5mkwDeC0TAdk62Nz+16DO7c4JKLXFjGVlCMX
-	 L1sb1Oe8QYroTWv2Bs2Eq20hSysa77IDKHYDXZ0fvWCjzR8uiN7xcVqDE/XcrJE1VV
-	 k3ifRTCUaO0Rw==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, David Woodhouse
- <dwmw2@infradead.org>, Miroslav Lichvar <mlichvar@redhat.com>, John Stultz
- <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, Anna-Maria Behnsen
- <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>,
- Arthur Kiyanovski <akiyano@amazon.com>, Rodolfo Giometti
- <giometti@enneenne.com>, Vincent Donnefort <vdonnefort@google.com>, Marc
- Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- kvmarm@lists.linux.dev, Oliver Upton <oupton@kernel.org>, Richard Cochran
- <richardcochran@gmail.com>, netdev@vger.kernel.org, Takashi Iwai
- <tiwai@suse.com>, Miri Korenblit <miriam.rachel.korenblit@intel.com>,
- Johannes Berg <johannes.berg@intel.com>, Jacob Keller
- <jacob.e.keller@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
- Saeed Mahameed <saeedm@nvidia.com>, Peter Hilber
- <peter.hilber@oss.qualcomm.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- virtualization@lists.linux.dev, linux-wireless@vger.kernel.org,
- linux-sound@vger.kernel.org
-Subject: Re: [patch 09/24] timekeeping: Add CLOCK_AUX support for
- ktime_get_snapshot_id()
-In-Reply-To: <20260626125819-d8b197fc-7671-4d12-a578-9025affc52d9@linutronix.de>
-References: <20260526165826.392227559@kernel.org>
- <20260526171223.374814973@kernel.org>
- <20260626103359-66ab2b54-d36f-416b-94a4-3f3708dccced@linutronix.de>
- <87echtk24a.ffs@fw13>
- <20260626125819-d8b197fc-7671-4d12-a578-9025affc52d9@linutronix.de>
-Date: Fri, 26 Jun 2026 17:17:52 +0200
-Message-ID: <87fr29ib4v.ffs@fw13>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b="YYLdeQQq"
+ARC-Seal: i=1; a=rsa-sha256; t=1782488859; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=LkKMvbjOEl4j/LU1lzl0FbQYAzGDDdOeNd9AMdNET9fAJ88H7H10KQ0rWglfgoLRG8VhB0NGXLp47BF1q2ChJ8oz8m918c/Zz0rwAlFOjSh7LLQqFFIL9XSCUUEYTEKXCtEKDpw1Wwu4S3xidKdTCC7Vqbj63C0FcN+y5rkOR0M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1782488859; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=NeoSU2F+v5GS27ePgUO8U6jDZ2UQkgaPTcU+VUtiljE=; 
+	b=luWFnfFosjREmCIpupoxNNL/BgHDtTBpDuLvaoetVEBxjkvg+S2f8mpzCkjcrIlIoANywY3jM2K2gAZuaW6YEa1sJMe7sm/SFl7pktQiBDY3fHg5dM1SrQWb1UQoQwLJuL+wnRr2O8vMcbsc8Yzz1vjeQqSPFoXAiNwTw6ptfV8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nfraprado@collabora.com;
+	dmarc=pass header.from=<nfraprado@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1782488859;
+	s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
+	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Cc:Cc:Reply-To;
+	bh=NeoSU2F+v5GS27ePgUO8U6jDZ2UQkgaPTcU+VUtiljE=;
+	b=YYLdeQQq6wXct3xVt1Oeg3qgHO1X769LzmxYCxGWEicTLwZXNqyGJZIZklTt/Ec8
+	skhncSqTRFyxup66+ChQrDW5U6LEKa9IU/xR3bzrg/mmvKQlnLAM8pd+gREPl2Hkfh6
+	rz8bGfSf9HKfufwdpunSXzwABJQJn7XDJWn93B2Y=
+Received: by mx.zohomail.com with SMTPS id 1782488857784585.15466243059;
+	Fri, 26 Jun 2026 08:47:37 -0700 (PDT)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Date: Fri, 26 Jun 2026 11:47:22 -0400
+Subject: [PATCH] ALSA: hda: Force resume if acomp notified during system
+ suspend
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260626-hda-force-resume-eld-notify-v1-1-a92cb01393e0@collabora.com>
+X-B4-Tracking: v=1; b=H4sIAAmfPmoC/x3MQQqDMBAF0KvIrDugsYzYq0gX1vzUAZvIpBWLe
+ PeGLt/mHZRhiky36iDDpllTLGguFU3zGJ9g9cXkaie1OOHZjxySTWBD/rzAWDzH9Nbw5aa9dmg
+ fvUgXqAyrIej+34f7ef4ARcg9ZW0AAAA=
+X-Change-ID: 20260626-hda-force-resume-eld-notify-1347e3b9667f
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+X-Mailer: b4 0.14.3
+X-ZohoMailClient: External
 
-On Fri, Jun 26 2026 at 13:03, Thomas Wei=C3=9Fschuh wrote:
-> On Fri, Jun 26, 2026 at 12:49:41PM +0200, Thomas Gleixner wrote:
->> On Fri, Jun 26 2026 at 10:48, Thomas Wei=C3=9Fschuh wrote:
->> > On Tue, May 26, 2026 at 07:14:13PM +0200, Thomas Gleixner wrote:
->> > (...)
->> >
->> >>  static inline void tk_update_aux_offs(struct timekeeper *tk, ktime_t=
- offs)
->> >> @@ -1218,6 +1223,12 @@ bool ktime_get_snapshot_id(struct system
->> >>  		tkd =3D &tk_core;
->> >>  		offs =3D &tk_core.timekeeper.offs_boot;
->> >>  		break;
->> >> +	case CLOCK_AUX ... CLOCK_AUX_LAST:
->> >> +		tkd =3D aux_get_tk_data(clock_id);
->> >> +		if (!tkd)
->> >> +			return false;
->> >> +		offs =3D &tkd->timekeeper.offs_aux;
->> >> +		break;
->> >
->> > 'tkd' is also used to compute 'monoraw'. However 'tkr_raw' and 'tkr_mo=
-no'
->> > are the same for auxilary clocks, so this will compute a wrong 'monora=
-w'.
->>=20
->> AUX clocks are independent in the first place and the MONORAW part is
->> the "MONORAW" related to the AUX clock itself.=20
->>=20
->> > Instead 'monoraw' should be computed based on 'tk_core'.
->> > Which then also requires the sequence locking of 'tk_core'.
->>=20
->> No. From a PTP and steering point of view you want the "raw" value which
->> is related to the AUX clock itself and not the global one.
->
-> Ack.
->
-> However the kdocs call it 'CLOCK_MONOTONIC_RAW'. Can we clean this up?
+Currently if an HDMI cable is connected while the system is suspended,
+the HDMI audio jack status stays off after resume.
 
-Yes. Something like the below?
+This is due to the jack state not being synced by the HDA HDMI codec
+device's runtime resume, as that never happens if the device was runtime
+suspended before the system suspended, or by the acomp notification
+triggered from the DRM side if that happens before the HDA HDMI codec
+device has resumed.
 
-Thanks,
+To fix this, if snd_hda_hdmi_acomp_pin_eld_notify() gets called before
+the HDA HDMI codec device has resumed, mark it to be forcefully runtime
+resumed at the next PM complete time.
 
-        tglx
+Do this using a separate acomp_requested_resume flag that can be
+temporarily set without overwriting forced_resume for drivers that
+always want to force resume.
+
+Assisted-by: Copilot:claude-sonnet-4.6
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 ---
---- a/kernel/time/timekeeping.c
-+++ b/kernel/time/timekeeping.c
-@@ -1202,10 +1202,21 @@ static inline u64 tk_clock_read_snapshot
-=20
- /**
-  * ktime_get_snapshot_id -  Simultaneously snapshot a given clock ID with
-- *			    CLOCK_MONOTONIC_RAW and the underlying
-+ *			    the corresponding monotonic raw the underlying
-  *			    clocksource counter value.
-  * @clock_id:		The clock ID to snapshot
-  * @systime_snapshot:	Pointer to struct receiving the system time snapshot
-+ *
-+ * For the system time keeping clocks (REALTIME, MONOTONIC and BOOTTIME) t=
-he
-+ * monotonic raw clock is CLOCK_MONOTONIC_RAW. For AUX clocks this is the
-+ * monotonic raw clock related to the AUX clock. These AUX clock related
-+ * monotonic raw clocks have a strict linear offset to the system time
-+ * CLOCK_MONOTONIC_RAW:
-+ *
-+ *	MONOTONIC_RAW(AUX$N) =3D CLOCK_MONOTONIC_RAW(system) + offset(AUX$N)
-+ *
-+ * The offset is established when a AUX clock is initialized, but it is
-+ * currently not accessible.
-  */
- void ktime_get_snapshot_id(clockid_t clock_id, struct system_time_snapshot=
- *systime_snapshot)
- {
-@@ -1512,6 +1523,9 @@ EXPORT_SYMBOL_GPL(ktime_real_to_base_clo
-  * @xtstamp:		Receives simultaneously captured system and device time
-  *
-  * Reads a timestamp from a device and correlates it to system time
-+ *
-+ * See documentation for ktime_get_snapshot_id() for information about the=
- raw
-+ * monotonic time stamp which is used here.
-  */
- int get_device_system_crosststamp(int (*get_time_fn)
- 				  (ktime_t *device_time,
+ include/sound/hda_codec.h    | 1 +
+ sound/hda/codecs/hdmi/hdmi.c | 4 +++-
+ sound/hda/common/codec.c     | 5 ++++-
+ 3 files changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
+index 17945ab5e6e2..c05b6d44c491 100644
+--- a/include/sound/hda_codec.h
++++ b/include/sound/hda_codec.h
+@@ -256,6 +256,7 @@ struct hda_codec {
+ 	unsigned int link_down_at_suspend:1; /* link down at runtime suspend */
+ 	unsigned int relaxed_resume:1;	/* don't resume forcibly for jack */
+ 	unsigned int forced_resume:1; /* forced resume for jack */
++	unsigned int acomp_requested_resume:1; /* resume requested by acomp */
+ 	unsigned int no_stream_clean_at_suspend:1; /* do not clean streams at suspend */
+ 	unsigned int ctl_dev_id:1; /* old control element id build behaviour */
+ 	unsigned int eld_jack_detect:1;	/* Machine jack-detection by ELD */
+diff --git a/sound/hda/codecs/hdmi/hdmi.c b/sound/hda/codecs/hdmi/hdmi.c
+index 1f4d646724ed..0b6816018a42 100644
+--- a/sound/hda/codecs/hdmi/hdmi.c
++++ b/sound/hda/codecs/hdmi/hdmi.c
+@@ -2233,8 +2233,10 @@ void snd_hda_hdmi_acomp_pin_eld_notify(void *audio_ptr, int port, int dev_id)
+ 	/* skip notification during system suspend (but not in runtime PM);
+ 	 * the state will be updated at resume
+ 	 */
+-	if (codec->core.dev.power.power_state.event == PM_EVENT_SUSPEND)
++	if (codec->core.dev.power.power_state.event == PM_EVENT_SUSPEND) {
++		codec->acomp_requested_resume = 1;
+ 		return;
++	}
+ 
+ 	snd_hda_hdmi_check_presence_and_report(codec, pin_nid, dev_id);
+ }
+diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
+index ef533770179b..b9ded149ea11 100644
+--- a/sound/hda/common/codec.c
++++ b/sound/hda/common/codec.c
+@@ -2967,8 +2967,11 @@ static void hda_codec_pm_complete(struct device *dev)
+ 		dev->power.power_state = PMSG_RESUME;
+ 
+ 	if (pm_runtime_suspended(dev) && (codec->jackpoll_interval ||
+-	    hda_codec_need_resume(codec) || codec->forced_resume))
++	    hda_codec_need_resume(codec) || codec->forced_resume ||
++	    codec->acomp_requested_resume)) {
++		codec->acomp_requested_resume = 0;
+ 		pm_request_resume(dev);
++	}
+ }
+ 
+ static int hda_codec_pm_suspend(struct device *dev)
+
+---
+base-commit: 30ffa8de54e5cc80d93fd211ca134d1764a7011f
+change-id: 20260626-hda-force-resume-eld-notify-1347e3b9667f
+
+Best regards,
+-- 
+Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
