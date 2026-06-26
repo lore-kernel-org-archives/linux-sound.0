@@ -1,165 +1,122 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723893EFFB3;
-	Fri, 26 Jun 2026 10:58:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782471539; cv=fail; b=SsxaE5d66AmCuLqinkWLuE0HjjgwIjiTr8ILThh/M/kyL7VSiSOHdWITenT8hrMeaGDk/p79Mm/S/Y1z5xd2Rz8F3CIqSzXbnVOpd6GrvDRiFlrjRAlTNSJglN8JtFLReWGiH8zgvQ41hUhiDlsCVcWn2ORdFHeJCk7tcUBOJr0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782471539; c=relaxed/simple;
-	bh=NIjJG1tC/zIEDnZCu4Ofobn1Q+6pGrjy4+YG6XMEoKY=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF62388397;
+	Fri, 26 Jun 2026 11:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782471786; cv=none; b=SCh7ULWTDdWPnCkXh6R0PBqF82w3b/sHRzWLU1ncI9W2dDYKF66cI9c8u0/XRBxsb7Qj7vrH0Qx5AePH6mP3iIaVHKOERnA4MCYNQYpqsPzfM8+NlLCGEBT+7ib6XqNzJreYHybQhoSVBhPnYb1g8x+1cbcT535LH4UlQwmCrUI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782471786; c=relaxed/simple;
+	bh=4xhENnZVz/hdk7ZqW2LTM+Brps5lFoVyNoXxRb45eQs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OgM03wrOMNy2GgU9jhzAik6F4kn4VYATZR53JT7Eg02cCskC+UJ6UNAljneN8D/fBEJsezGhbVmq5OVXdmFQtZRh/MbtyfWzyTdebifpI9i1lIOVpzy96cjUYTNO0LFPPdMTYpFsLn1uK1UlGwpbeYOwTo+szLNbedCXtskRbW0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=RVW01VoY; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=DcWWlH72; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=elFKo/R94ZTBbVBIf9vo9pr2PlvD6JQDnwayWdWW1Uh0DM8D8dNGj4dJkbnrGjYbA0JUzA5/9t5PfaKaPBUufDV4hHg+plvBtk4yOxbv3AD3rXtq0YoGsSMmKxzIrqdJPfa7tgRuxeV5AqRc+hyyzlDN3sa+uiFWl7sq3ye2768=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VV20kC8s; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VD0cw75g; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="RVW01VoY";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="DcWWlH72"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65Q3XCRk2095346;
-	Fri, 26 Jun 2026 05:58:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=fUIp7oOKKxZbh1n/Hm
-	MCVKreQfwJnFs6+lRmVx9hqQo=; b=RVW01VoYQvdeBBQenD/v471tfjkrr3R8R9
-	bdhNHnMKOpxR63+ZlzmTjOQY9OEr5JihItLUlG+zRqF8zcBVeYZ8MEiByrxKaD2u
-	0y/j4ihQoA4v4Vd1sbhKtarZvPcKtmibn9hBC80591HrqS5n8+WvASgcLaqXi/Ye
-	RddQmhXRxmrzY7CRvsYBsHnnfLx0e3R2ngJoizPGdhObBDZ39CF+0WreNJNw98fb
-	mmVsTbXEbqY4g4qw9usQziBp82uneVzvtXemvOeFAmSKHzuUZsgU0eR1uoVesac4
-	K7r0GH8m++JmmdvwfSA2gfwA97UX+TnlRgvqjX40uxgI1k2+OU0A==
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11020084.outbound.protection.outlook.com [52.101.201.84])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4f167017cc-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 26 Jun 2026 05:58:30 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EpZX45kZu3NW8/YUzTPCN0PTFEI9zcED7xUsVgFxAskVpp/IYeDZ2ptt3BAYAX1fqH33pPBuuxGkHPWdGHeAQ75p4CUQuzCpd3V2Y8MebIXdR1kYLZwPCXhXUzBgiUkMzk7kkbYYarTEqpYiafY9tytTAL81Qb/S2nnAZgGa4QXK4MonxPyRaOmNMCiGE/tLUROknC6o9NCK4dqNL4EY8M/DoPuBVl5417RZqlCOSrv5HP42diUCtYYoWwCZVR1t/+aXLiw3XysOfYid0EsX6SUcAa+31q3oyPW2uCUQ2ujecfWbupTiWLTnkTn+e8bhPsF81b14wf2BKvm1gS2TJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fUIp7oOKKxZbh1n/HmMCVKreQfwJnFs6+lRmVx9hqQo=;
- b=N+lVTlUj+XbwO+qV1v/0aXEbv4d9m2Gx1yOdCstTIUDbVRWYOm6A2+vWz8ggVR4yc+dLkpqcPLkXlWAlVt/KXgnWKG0U/SN4N1j15kZCf50n07zblEU985/KpwPvpN1mA3INptJX+MMczVkqXoEavlqqMBPYPs5Iw2HRjCuzOTI3PSQR3A+7j8qa56PDM7bXX2meo0XdmXcDJxFTY7VWMA2F7FEKqMi6SrbHokRW51GXtzEzj1B7NB16xQaQAYPdNqve3hXd7yE+ngN8LYQAVEEpaBPBUwIxzx+4OfeWgnqRbys/J0d/R1bz88nAmcJr0jJa2gc1kCrE/hi8/9t1eA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=chromium.org
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fUIp7oOKKxZbh1n/HmMCVKreQfwJnFs6+lRmVx9hqQo=;
- b=DcWWlH72KYdpKTAGhHgwhCTf0co7rI9sdw6gVk8B8f39HRS9mv9OlVkEZbkTBVOxzNc2gQta4g19FV4aJmbihwkGT6BhcJrft1OTIJ63Rnlnt4HkhN9PpGTs31/lcTJeAXAGns9CTXfbdBTd8eNtNHfwuhzv9zKeZTq58JNYl+s=
-Received: from DS7P220CA0043.NAMP220.PROD.OUTLOOK.COM (2603:10b6:8:224::8) by
- IA0PR19MB8132.namprd19.prod.outlook.com (2603:10b6:208:487::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.14; Fri, 26 Jun
- 2026 10:58:26 +0000
-Received: from DS3PEPF000099DB.namprd04.prod.outlook.com
- (2603:10b6:8:224:cafe::25) by DS7P220CA0043.outlook.office365.com
- (2603:10b6:8:224::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.18 via Frontend Transport; Fri,
- 26 Jun 2026 10:58:26 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- DS3PEPF000099DB.mail.protection.outlook.com (10.167.17.197) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.6
- via Frontend Transport; Fri, 26 Jun 2026 10:58:25 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 189B8406541;
-	Fri, 26 Jun 2026 10:58:24 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 15A5182254D;
-	Fri, 26 Jun 2026 10:58:24 +0000 (UTC)
-Date: Fri, 26 Jun 2026 11:58:23 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: phucduc.bui@gmail.com
-Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-        Tzung-Bi Shih <tzungbi@kernel.org>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-        Cheng-Yi Chiang <cychiang@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>, povik+lin@cutebit.org,
-        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com, chrome-platform@lists.linux.dev,
-        asahi@lists.linux.dev
-Subject: Re: [PATCH 16/24] ASoC: codecs: cs42l84: Use guard() for mutex locks
-Message-ID: <aj5bT3fCP7UzxP6Q@opensource.cirrus.com>
-References: <20260626061329.23264-1-phucduc.bui@gmail.com>
- <20260626061329.23264-17-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VV20kC8s";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VD0cw75g"
+Date: Fri, 26 Jun 2026 13:03:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1782471783;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vgyG4JYr6Vz+QgoLYeDfXMNz2G667R6u0Wnv+qmfHYs=;
+	b=VV20kC8sI1KhN1xrUd12GIm4/ufvjTTeGzq1YZqPfrkX05CDqlXNT6/VNsOei7WgrqHmEl
+	VTGheMYRboFZj8o5lNiqjrsRUbyvwDwOJdumd+jPauJcoYnuMMTWfdvmdziBpNAL7T/Ua6
+	7WnEEUSWlVZOIrUJf4Zvod837Zntq6++4qfeT8q0DzM7dD7u4s1sxk77fC48ujuwURpr2a
+	AFwXVYK04GZ6Ee05Ki/eEyivi5JwtgMcVgNHuD2308sLsuqw8WdEQXP4i90wAT9akFtUgN
+	IejmztjUkC0bGzk7jycYNeETVCUb7vTRHgI2vXec4RXJpJLpjDE5C1LWc8l6YA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1782471783;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vgyG4JYr6Vz+QgoLYeDfXMNz2G667R6u0Wnv+qmfHYs=;
+	b=VD0cw75gmuwO8c0fdsJwZsj6ROZ9uCOzpzatMkjVmqqbuatKXXwevrrx+szNIH4sxsRkjN
+	VxWr8Ld4nl248HBA==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, 
+	David Woodhouse <dwmw2@infradead.org>, Miroslav Lichvar <mlichvar@redhat.com>, 
+	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
+	Arthur Kiyanovski <akiyano@amazon.com>, Rodolfo Giometti <giometti@enneenne.com>, 
+	Vincent Donnefort <vdonnefort@google.com>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, Oliver Upton <oupton@kernel.org>, 
+	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>, Johannes Berg <johannes.berg@intel.com>, 
+	Jacob Keller <jacob.e.keller@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Peter Hilber <peter.hilber@oss.qualcomm.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, virtualization@lists.linux.dev, linux-wireless@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+Subject: Re: [patch 09/24] timekeeping: Add CLOCK_AUX support for
+ ktime_get_snapshot_id()
+Message-ID: <20260626125819-d8b197fc-7671-4d12-a578-9025affc52d9@linutronix.de>
+References: <20260526165826.392227559@kernel.org>
+ <20260526171223.374814973@kernel.org>
+ <20260626103359-66ab2b54-d36f-416b-94a4-3f3708dccced@linutronix.de>
+ <87echtk24a.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260626061329.23264-17-phucduc.bui@gmail.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099DB:EE_|IA0PR19MB8132:EE_
-X-MS-Office365-Filtering-Correlation-Id: 713a4ce5-ca81-40cc-674c-08ded371d8f1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|82310400026|61400799027|376014|7416014|36860700016|11063799006|56012099006|4143699003|16102099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	LfmdHNKEExLcqqv8HGI495QNsHd3rRSLEDxOG0oiSiEuUBk/3OGlUhobqRPsbsUAzto8peq1bU4R++qKHaiZkRmoCW7LAB1ioqFGAn9aHYPrfVCF+8iDBpJoAihLWoP0sx6wOEuXKuq/Y0wp17/rSw+zuqXCexDJiqd/fwkvNQsaHD/87dQceKB6H0CuAuT6I9Ctfrf0t05w/q/6NSW1fKf8wlcLI+VNuxP7ZjdSoZ92nEXh+6KRbO5cYgnIhYkEzJx07gF9Cc2En9hz38k6RM7rE8KSLra9ZqF9II74ERIt4paV270U5PAa6M+iUQadjREgNm7xHgjIYxaZklNRzg7NlfRZ2hS8GwTzCk5lNAfifrERFaIrvrH92uiT7+uT9QJEcc9UdL62vEduPEpol+ocJNlk8wYGUUwN1SyDu3FteeJOwZUb23CNBBMyGHIsDqaQdPt7wgVRi3rxhgwAS0ZAIHBdDY45X2dwcI2RJGSEnlkpt45SwcKGuw8fm/84SHY56/qjD7kxn4xw1j6uodoNLPMcHcgzJX2Ftx1kfnQ3l5LeuPx9SzMyfbTzchRS23pRZNAbBBTgiuO3GbWA8CLAy855GbOFs4ZYlt4JafQDwYPeQXd0bOMOleE1uifHdmD+xaW8uxwvoQQEcyIwTckSnb9cjesOLTTXdWNPuiM2sh/9AcQRidf2hwC/oXSHcpvx9FJ0khn+FtlG8W+WBQ==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(82310400026)(61400799027)(376014)(7416014)(36860700016)(11063799006)(56012099006)(4143699003)(16102099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	lnQKZ5lJ8EAgiS1zk9e22EvGl1VkCp/wSP74JV89yLY8+HhkPXc+16ixByPXC1VBzIWAk7/QQ8iQB+HICjKrfO2gFPepqLceFc1ZFVukwvDyt3MKNWKMv/6WnugiBfRysJJXwukOTrkTv6tMIj+E6Ql6NwMLNmUYEQkNn1tRqx2rWYfJl5K8jMWDGwxegxLT3ub23d8ZFLK2bHL5Vv2LJQ1JPaGi4V9bqnNeEbLtiDISdyuB+jhejpturK0PCQ0mqdbbo/q1+drCVftcydLFF2DCVuaN2M/DhXpBsReel+VRLLOC8scl7DKxd34TwWNbO1yFvoBN1IdXGFHwnyAbjXL9DW4tGibLg6yEDscFhCt7amjZMLIDet9zhYhCM5JtYyxXb2PuLaPdJ/zEs4swvg3lLogC5P+74mmi6/Oi3qaSYUCwe+X+CE7mDNW9qdZw
-X-Exchange-RoutingPolicyChecked:
-	aM2KlIZuAQctL2R6hfXB9HxoaEjmGZ/55nk6nC550k8iwyIUdpZeJYptzGr5tB4QbEjEPUyryIYuoZW1Ic4uryw7AVKyD/eSsoIxKdBfLoL7oNaBomaKr60WGOpx5tql958jvV54HtjKJXxWbf8EnnMyQUs9p3cOptvs/6en3N3cMjBYB6iNQE/MR4AwUL6I6P+Yo+vnkO48lUvDLHkY8Z3YWotS/S8VZEUAW+8E01E/unY45//raZuGihdXL7h+77VmpNX+8tO7Gmb1PhaiHgDljl+zq7xpAuJirj6g0U4FB42n2DwdR/7yyauAuIGjrSxsTfNcuGLCk7t2SqjAMA==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 10:58:25.4869
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 713a4ce5-ca81-40cc-674c-08ded371d8f1
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS3PEPF000099DB.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR19MB8132
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI2MDA4OSBTYWx0ZWRfX/NrtPoRaHtQb
- AwCoL61ZCPbcKMkE3hZv7kkYReB0NHg+HVbSP4fyfilv7XVwOgwW3DPaSbGLB0VU/TqOIundXeB
- OA8nrMUmLX5oqtV0LnaYOG8W9G4ik+I=
-X-Authority-Analysis: v=2.4 cv=foXsol4f c=1 sm=1 tr=0 ts=6a3e5b56 cx=c_pps
- a=MpfTxiBaMh6MIwR6HTKnTw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=FelO9ux0wxsA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=pGLkceISAAAA:8 a=w1d2syhTAAAA:8 a=2LXkwXwYv1G787AwtbYA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: XdJdTLdphe2OFROO1zSzLAjw6tETdA9-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI2MDA4OSBTYWx0ZWRfXzs9jR8S1kt8w
- qdgKuT/pPWU6eAa3qWJBj3Hy4qfuglBRJjnazxcF4tWZYxijv1xqXc/eRuiCL410+8SRb27H71z
- IbBNXdOajA6sK79z/9SxXwtdt5vvaYMTt2DFCUJzOzkgoQFJ7I6Em7S1l6keG1mILkWtP7AVCtb
- 5NOxo0PCwnYl8SnBbt7B+atYkD+hUojdO9nAWhsQkSVa26QsP+3chp68zXpmKfmYslsXflEBu/K
- PBwnLsk7M7T4Mit7kPKXfh8BoNLLc6MvZIhlB8J06gUmXVIiePUjgz3DhS2w/MKLsgacm46H6GG
- XbtTDOyD0mR7Cv+MtfeCPnKsKKArah1uFoEIICv+T8hiSV0ZAx58FbiifS0r2+iE5XJZKuneglj
- HxSC/AaUGcwYWLAYsVrtz1SoKedUpHrkd6wwSGQZRRDfC1sr8PxQmE8d1mMRX64ReDpNuKPaVPD
- 154AQrKZ333FmCu1QdA==
-X-Proofpoint-GUID: XdJdTLdphe2OFROO1zSzLAjw6tETdA9-
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87echtk24a.ffs@fw13>
 
-On Fri, Jun 26, 2026 at 01:13:21PM +0700, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
+On Fri, Jun 26, 2026 at 12:49:41PM +0200, Thomas Gleixner wrote:
+> On Fri, Jun 26 2026 at 10:48, Thomas Weißschuh wrote:
+> > On Tue, May 26, 2026 at 07:14:13PM +0200, Thomas Gleixner wrote:
+> > (...)
+> >
+> >>  static inline void tk_update_aux_offs(struct timekeeper *tk, ktime_t offs)
+> >> @@ -1218,6 +1223,12 @@ bool ktime_get_snapshot_id(struct system
+> >>  		tkd = &tk_core;
+> >>  		offs = &tk_core.timekeeper.offs_boot;
+> >>  		break;
+> >> +	case CLOCK_AUX ... CLOCK_AUX_LAST:
+> >> +		tkd = aux_get_tk_data(clock_id);
+> >> +		if (!tkd)
+> >> +			return false;
+> >> +		offs = &tkd->timekeeper.offs_aux;
+> >> +		break;
+> >
+> > 'tkd' is also used to compute 'monoraw'. However 'tkr_raw' and 'tkr_mono'
+> > are the same for auxilary clocks, so this will compute a wrong 'monoraw'.
 > 
-> Clean up the code using guard() for mutex locks.
-> Merely code refactoring, and no behavior change.
+> AUX clocks are independent in the first place and the MONORAW part is
+> the "MONORAW" related to the AUX clock itself. 
 > 
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-> ---
+> > Instead 'monoraw' should be computed based on 'tk_core'.
+> > Which then also requires the sequence locking of 'tk_core'.
+> 
+> No. From a PTP and steering point of view you want the "raw" value which
+> is related to the AUX clock itself and not the global one.
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Ack.
 
-Thanks,
-Charles
+However the kdocs call it 'CLOCK_MONOTONIC_RAW'. Can we clean this up?
+
+> The global MONORAW and the AUX clock MONORAW are related obviously as
+> they share the same conversion factors.
+> 
+>      MONORAW(AUX$N) = MONORAW(GLOBAL) + OFFSET(AUX$N)
+> 
+> We don't have that information anywhere right now and we might want to
+> expose it to allow user space a proper correlation, but that's an
+> orthogonal problem.
+> 
+> From a PTP/steering point of view the code is correct as is.
+
+Thanks for the clarifications.
+
+
+Thomas
