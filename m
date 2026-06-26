@@ -1,207 +1,117 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26C7286415
-	for <linux-sound@vger.kernel.org>; Fri, 26 Jun 2026 09:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782464446; cv=none; b=EU73CHrc2meLoVZdTmovBbYQsapPasrMVDkWk3TsrFUQEciwpmFxPH6EsGMbIb33oya089XBJoVEg4qo23O/7JKREpR9Vh1dVewIaxdV9vconRmlBoklsvQCjJUxmfUAEzlE5+ckqa0ZhsmHOV4ar88VCZo+Y1gKdWuy52VCkQ0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782464446; c=relaxed/simple;
-	bh=JMMtPICAgyfWaaJ5+c0rBFVkWzNEOFLQpQ3FXtOEqn0=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To; b=qvl2MvZGD9mjPi/oW/1IebcEGs3dIvOFRjYPUoif3LxBJb+7HIGr6zdGcAnyYrlt/Q0TZJMs0TRdrAmDXlglH+ZEuRRq5T79AA11MHUqbHnNFzYVa69mvjstjz8C+YTKW5tcVs89FhwqhuKVytl93UkL4yac89F8m47WviG/420=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com; spf=pass smtp.mailfrom=cknow-tech.com; dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b=PqqRLeY4; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow-tech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382653E3DBD
+	for <linux-sound@vger.kernel.org>; Fri, 26 Jun 2026 09:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782466627; cv=pass; b=FqxoIpor5AWsXVvTY9HSDC0YEgcpYRc9DNTTZ8t2RFiM8XSYUzt5w89YXvPPbNlwE+ljDDOaHN6uCRiYatYzf94Dn+x61C5o2FPJjmBAk/DSleDbJSJd00mMTXQDZmQw/9BtdITYsWQ6by+Xfuln3Jxr6FXgYs8n+xPYx4OYqHU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782466627; c=relaxed/simple;
+	bh=iXrS8XyD7+E51Xx718NVbOMH9auYGubjj5hM2VNlCUo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mgC/qIUXbfUfMmMH6EV676hUOlyqoFToelm1tgqm1rW/kbDceOqX6ooCr0yYIkQ9te4chwutSuBxY1mQUMUndic+o+mq0fHQ69nKM2N6+HBF2BLRMPyRdZL5/VRE37PgGmSRsdUZZMQUsj4gA3caQhu1ydlUfiJCdWZhM6cuEUY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QdPfA6aW; arc=pass smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b="PqqRLeY4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QdPfA6aW"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-37d46e0d246so335909a91.2
+        for <linux-sound@vger.kernel.org>; Fri, 26 Jun 2026 02:37:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782466624; cv=none;
+        d=google.com; s=arc-20260327;
+        b=std2hEVd7tU5+h4/RPmq0NKSUQoKDmfvgn3ZyxZni5gQHhK8mfWmvV4uhzbV3e5buk
+         zicCoYzeSg/SYPLHdIdElQq94d0wg7ilEZvnBcWGrhFBMP4gGQo7EEXLjg9Vt6HJ3idu
+         Djvyo//64S4UJdIpnRrevRQYWHdNiMfX+fWz4hofTgzm8N2Lp+CGA56WORjnUwPUN+tE
+         6OmvZbGXlP7xcbnmcggRweo/1vu3W7RKorMXdQZNbA6FyVq3jXDS4rdxyFcWchxNUp3c
+         kwQI0oJXLssVGFQZCcJPF6OmIwj5CD6lbTxEucH6pYsSphVor/5jm62tr+JBjIA3G5dj
+         EDOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=iXrS8XyD7+E51Xx718NVbOMH9auYGubjj5hM2VNlCUo=;
+        fh=7fs+TmwkHAOGlbGUJtgGcqC+9qNOTkp0vYJw1gScUmA=;
+        b=hdQp7z4P0nZmc2ljHjdBgbXmty/IuVrrG1bKX+APZ7xMcRYJEbJYeH4dH8ul8WPAMC
+         EYEz1lkQfCOCZMAHWRWkpfYU62MYXHRZ9oyGvcvFj95sERijrt6iN3wWX58Xsx1RkNnc
+         KyQtxgd/hTXoMi3px39AXSyd0EwDs8ZnqTPkIC0aC6kKo6Fhj1d9kfamRydD+sODPjNw
+         ZYPN8LICSXvtmgZsJWx1cTY6FUNIcaOgSyPZF1jDMGmO+Unz9gB/dfHTjfpWIOpHp0H9
+         G1cqhpG/E909L+vuQj1oMNStJYBHI7ZvN+/2/4qCSPjALPvZyx3/y8OCq1krOao0BVd2
+         WY0A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782466624; x=1783071424; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=iXrS8XyD7+E51Xx718NVbOMH9auYGubjj5hM2VNlCUo=;
+        b=QdPfA6aWqkmhRgev5c39hJbYLlADNoFfYySqIdAaLnclKWlaWmBrljpE6WziwjyNrp
+         6bSBFPfIJltWkW9+dqaqe+nO6N76t9Xu6WOKw1cBN7O6fF1VhYj0PGGt0Fc54mv5vuf6
+         zKrotYzoYdZLSA/T7Mvuy5TxsC4yNbZ/dVBMEbxD6yT6uaSJDsCc6Tp/X2CXwvPjwwZQ
+         g1W1rWglOxEziChjCu/DJSCj6anhEJ5p5iVaJ/JbtkMd57REK5weWzFVByTg3SFiGmfw
+         ikCm8Y4gRBTenyZKZ0BTxxXXqSKsDFQScyAVYqEoVtnPXwOJlxckhKcH0qSGWQh/IXgZ
+         Hm+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782466624; x=1783071424;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iXrS8XyD7+E51Xx718NVbOMH9auYGubjj5hM2VNlCUo=;
+        b=SihIJv8mLqrDS62B/qXAtcN1IBaaSfG9BbAjVVjHnassVBZ6QdYsNoJMeq/kkrn+33
+         GsP9KiDm/bEzzc1ODgTOSUXg4yog+bK4m3GqHWDsfEnKubwPz9EXyI94pu8QFOW80BDo
+         4Lv0bo8wPwmLZzh4147Gh5Tfdxytr5QhBDf5PASO+2I5kFQ9oTEfhNqRg6PTWimJDf+O
+         ZMEdXvU+qw/+dZZTpTohERN99hDOiAWi3UjGU9jDdilFLldow8qN7INfL9vJtBsngtj4
+         CubpwvhTvB+7YnKHrBdP651qeHKVGJeVE/hmwZZ06luUoE4zR1lHTHhArNFKMm4zB2Yd
+         8RJw==
+X-Forwarded-Encrypted: i=1; AHgh+RolSnPhBU3aFB3PFGFv5zQfMY/JXqnQKTG8e3N60gA4EZUbExBgZICj8A/QjAVq8ySWicyhjJVadKehrQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsPiRUnjeyd0Vm7G3IftM8Jh6MF4lDa34wD77Iub5kiUjf+lI5
+	LoR2WK5bZ2NUzV5BUIH4QUoJejMmXGSjezXh+G0aCl9LctbVieWIG5oXNcH4ZabJ0n/uqIrmbcf
+	MKoudrDz709GjSFHUClzSzARCDnGv8YU=
+X-Gm-Gg: AfdE7ck1N23HxEcOghiv+9SSVrS3H23dvshkDy64hToKfhlWq/kfSwlkZ/ak9WKEdX/
+	JR6aXEryuzX22vybYu1bDwS3nWB2wQ70IWqeVZASvUzbhdCnYyu82n8iLvdxDB716pkhy1FagZ4
+	RvPYk1TMD284J6QpPqKwzL6r7WV1Z8KkhPMgZbuoIuiXjtcMem3MGinYKM6kOxxmDOXIqxX/XXE
+	vhWQzPByySR4jmQkPsLavDXCyT9hoF62o6Vz64PkPf9kGKtj7YAXOioHbWwtmBf03nb0ReAyP5C
+	Td/2wUji6C6d1qEwvXKAr5o+Lo8=
+X-Received: by 2002:a17:90b:3d81:b0:35f:b647:d98a with SMTP id
+ 98e67ed59e1d1-37dfa1d3fdemr5625529a91.5.1782466624154; Fri, 26 Jun 2026
+ 02:37:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow-tech.com;
-	s=key1; t=1782464437;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=4Cce86tKE0+UdE8KSgNVtbD02Bo09VNCIPBUKHGYHd0=;
-	b=PqqRLeY4G0QgfWHUv1ujyDOtlEjJyebxS1HjL8r5gi3PhbAVYrvD3kiJ1Fnfz1xWiI4uGL
-	0bjpz33vMwwSqZCDHck84U5Grc1NKvGYdRhHa/GOiFx/2m2ujpjew0nRf2UiHiJmLO2H6j
-	idzLhOnSdzcClJNAY8nSuXXqZl+0yY8xSwOLFVC8v2vR+PZF5nUoEo3vfcthbHTEMETLti
-	EmIrXVBTIcZwWQ8mAXsE3nHJIOPs5i1jlmjJ6I5yEWqRGbmjZK+3X58cLgHm03ilnV5Im3
-	W2t7BE9mnCQkcZQqCPa128F8hsCej+ugGzp+lGDGI74jgem3BJxoxsirdDBuAQ==
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 26 Jun 2026 11:00:27 +0200
-Message-Id: <DJIUWLPIHZ48.5H5T2EI2YI8D@cknow-tech.com>
-Subject: BUG in es8389_set_bias_level?
-Cc: "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown"
- <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
- <tiwai@suse.com>, "Charles Keepax" <ckeepax@opensource.cirrus.com>,
- "Diederik de Haas" <diederik@cknow-tech.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Diederik de Haas" <diederik@cknow-tech.com>
-To: <linux-sound@vger.kernel.org>, "Zhang Yi" <zhangyi@everest-semi.com>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+References: <20260626061329.23264-1-phucduc.bui@gmail.com> <20260626061329.23264-13-phucduc.bui@gmail.com>
+ <9a31d81e-5656-4525-b5c0-89b02f179cc8@opensource.cirrus.com>
+In-Reply-To: <9a31d81e-5656-4525-b5c0-89b02f179cc8@opensource.cirrus.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Fri, 26 Jun 2026 16:36:52 +0700
+X-Gm-Features: AVVi8CcOicQMwfYGu0k3_RwjtDGGSW54p-K768oBHJj-nyjVSxC7BUEKxDmUHf0
+Message-ID: <CAABR9nHxu4_BkSKC+9qAobgSw4x7XkFz9nVHLKWVi-i+6_Xg2A@mail.gmail.com>
+Subject: Re: [PATCH 12/24] ASoC: codecs: cs-amp-lib: Use guard() for mutex locks
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, David Rhodes <david.rhodes@cirrus.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Cheng-Yi Chiang <cychiang@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Benson Leung <bleung@chromium.org>, povik+lin@cutebit.org, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@opensource.cirrus.com, chrome-platform@lists.linux.dev, 
+	asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-I'm working on adding support for the FriendlyElec NanoPC-T6 Plus [1] which
-uses the es8389 codec. And while analog audio does work, I always get the
-following stack trace in dmesg:
+>
+> It doesn't look cleaner.
+> But anyway,
+> Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+>
 
-[   10.072410] ------------[ cut here ]------------
-[   10.073686] i2s0_8ch_mclkout_to_io already disabled
-[   10.074943] WARNING: drivers/clk/clk.c:1188 at clk_core_disable+0x224/0x=
-260, CPU#6: kworker/u32:0/12
-[   10.076547] Modules linked in: aes_ce_blk ghash_ce gf128mul rockchip_vde=
-c joydev snd_soc_simple_card(+) snd_soc_es8389 snd_soc_rockchip_i2s_tdm snd=
-_soc_hdmi_codec(+) v4l2_vp9 snd_soc_simple_card_utils rockchip_iep2 rockchi=
-p_rga synopsys_hdmirx pwm_fan leds_gpio rockchip_iep_common v4l2_h264 v4l2_=
-dv_timings snd_soc_core v4l2_mem2mem videobuf2_dma_contig videobuf2_dma_sg =
-gpio_ir_recv videobuf2_memops snd_compress videobuf2_v4l2 snd_pcm_dmaengine=
- panthor ofpart snd_pcm videodev snd_timer spi_nor videobuf2_common drm_gpu=
-vm snd rockchip_rng mtd rockchip_thermal mc soundcore gpu_sched rk805_pwrke=
-y drm_exec drm_shmem_helper evdev cpufreq_dt pkcs8_key_parser nvme_fabrics =
-efi_pstore configfs autofs4 ext4 hid_generic crc16 usbhid mbcache jbd2 hid =
-r8169 realtek onboard_usb_dev phy_package mdio_devres of_mdio fixed_phy fwn=
-ode_mdio libphy mdio_bus nvme xhci_plat_hcd xhci_hcd nvme_core rk808_regula=
-tor nvme_keyring nvme_auth rockchipdrm dw_hdmi_qp dw_mipi_dsi fusb302 tcpm =
-dw_hdmi rtc_hym8563 aux_hpd_bridge analogix_dp fan53555
-[   10.076648]  drm_dp_aux_bus drm_display_helper cec phy_rockchip_usbdp gp=
-io_rockchip phy_rockchip_snps_pcie3 dw_mmc_rockchip phy_rockchip_naneng_com=
-bphy fixed sdhci_of_dwcmshc rockchip_saradc rc_core display_connector sdhci=
-_pltfm typec ohci_platform dw_mmc_pltfm industrialio_triggered_buffer dwc3 =
-sdhci drm_client_lib ehci_platform kfifo_buf dw_mmc udc_core spi_rockchip e=
-hci_hcd ohci_hcd dw_wdt cqhci phy_rockchip_samsung_hdptx drm_dma_helper nvm=
-em_rockchip_otp pl330 rockchip_dfi spi_rockchip_sfc drm_kms_helper usbcore =
-drm i2c_rk3x adc_keys pwm_rockchip phy_rockchip_inno_usb2 industrialio ulpi=
- usb_common
-[   10.095597] CPU: 6 UID: 0 PID: 12 Comm: kworker/u32:0 Not tainted 7.1-rc=
-7+unreleased-arm64-cknow #1 PREEMPTLAZY  Debian 7.1~rc7-2
-[   10.097473] Hardware name: FriendlyElec NanoPC-T6 Plus (DT)
-[   10.098826] Workqueue: async async_run_entry_fn
-[   10.100094] pstate: 604000c9 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=
-=3D--)
-[   10.101564] pc : clk_core_disable+0x224/0x260
-[   10.102818] lr : clk_core_disable+0x224/0x260
-[   10.104059] sp : ffff80008021bc30
-[   10.105189] x29: ffff80008021bc30 x28: 0000000000000000 x27: 00000000000=
-00000
-[   10.106663] x26: ffff000100040c28 x25: 00000000fffffef7 x24: ffff0001001=
-9be05
-[   10.108135] x23: ffff000107fa2028 x22: ffff000105217880 x21: 00000000000=
-00001
-[   10.109596] x20: 0000000000000000 x19: ffff00010035a800 x18: 00000000000=
-0000a
-[   10.111056] x17: 0000000000000000 x16: ffffb1911af0cef0 x15: 00000000000=
-00000
-[   10.112497] x14: ffffffffffffffff x13: ffff000109d7c480 x12: 3ffffffffff=
-fefff
-[   10.113922] x11: 0000000000017fe8 x10: ffffb1911d05c148 x9 : ffffb1911af=
-a4a8c
-[   10.115333] x8 : ffffb1911d0e4310 x7 : ffffffffffffefff x6 : 00000000000=
-00001
-[   10.116735] x5 : ffff0005fdf361c8 x4 : ffff4e74e0fec000 x3 : ffff0001009=
-2ca00
-[   10.118141] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0001009=
-2ca00
-[   10.119550] Call trace:
-[   10.120539]  clk_core_disable+0x224/0x260 (P)
-[   10.121686]  clk_disable+0x40/0x70
-[   10.122743]  es8389_set_bias_level+0x17c/0x238 [snd_soc_es8389]
-[   10.124013]  snd_soc_component_set_bias_level+0x2c/0x70 [snd_soc_core]
-[   10.125329]  snd_soc_dapm_set_bias_level+0x60/0x2c0 [snd_soc_core]
-[   10.126604]  dapm_pre_sequence_async+0x5c/0x110 [snd_soc_core]
-[   10.127844]  async_run_entry_fn+0x40/0x1a0
-[   10.128915]  process_one_work+0x17c/0x510
-[   10.129964]  worker_thread+0x18c/0x310
-[   10.130994]  kthread+0x134/0x150
-[   10.131958]  ret_from_fork+0x10/0x20
-[   10.132950] ---[ end trace 0000000000000000 ]---
-[   10.134217] ------------[ cut here ]------------
-[   10.135476] i2s0_8ch_mclkout_to_io already unprepared
-[   10.136833] WARNING: drivers/clk/clk.c:1047 at clk_core_unprepare+0x274/=
-0x2c0, CPU#6: kworker/u32:0/12
-[   10.138576] Modules linked in: aes_ce_blk ghash_ce gf128mul rockchip_vde=
-c joydev snd_soc_simple_card(+) snd_soc_es8389 snd_soc_rockchip_i2s_tdm snd=
-_soc_hdmi_codec(+) v4l2_vp9 snd_soc_simple_card_utils rockchip_iep2 rockchi=
-p_rga synopsys_hdmirx pwm_fan leds_gpio rockchip_iep_common v4l2_h264 v4l2_=
-dv_timings snd_soc_core v4l2_mem2mem videobuf2_dma_contig videobuf2_dma_sg =
-gpio_ir_recv videobuf2_memops snd_compress videobuf2_v4l2 snd_pcm_dmaengine=
- panthor ofpart snd_pcm videodev snd_timer spi_nor videobuf2_common drm_gpu=
-vm snd rockchip_rng mtd rockchip_thermal mc soundcore gpu_sched rk805_pwrke=
-y drm_exec drm_shmem_helper evdev cpufreq_dt pkcs8_key_parser nvme_fabrics =
-efi_pstore configfs autofs4 ext4 hid_generic crc16 usbhid mbcache jbd2 hid =
-r8169 realtek onboard_usb_dev phy_package mdio_devres of_mdio fixed_phy fwn=
-ode_mdio libphy mdio_bus nvme xhci_plat_hcd xhci_hcd nvme_core rk808_regula=
-tor nvme_keyring nvme_auth rockchipdrm dw_hdmi_qp dw_mipi_dsi fusb302 tcpm =
-dw_hdmi rtc_hym8563 aux_hpd_bridge analogix_dp fan53555
-[   10.138686]  drm_dp_aux_bus drm_display_helper cec phy_rockchip_usbdp gp=
-io_rockchip phy_rockchip_snps_pcie3 dw_mmc_rockchip phy_rockchip_naneng_com=
-bphy fixed sdhci_of_dwcmshc rockchip_saradc rc_core display_connector sdhci=
-_pltfm typec ohci_platform dw_mmc_pltfm industrialio_triggered_buffer dwc3 =
-sdhci drm_client_lib ehci_platform kfifo_buf dw_mmc udc_core spi_rockchip e=
-hci_hcd ohci_hcd dw_wdt cqhci phy_rockchip_samsung_hdptx drm_dma_helper nvm=
-em_rockchip_otp pl330 rockchip_dfi spi_rockchip_sfc drm_kms_helper usbcore =
-drm i2c_rk3x adc_keys pwm_rockchip phy_rockchip_inno_usb2 industrialio ulpi=
- usb_common
-[   10.158082] CPU: 6 UID: 0 PID: 12 Comm: kworker/u32:0 Tainted: G        =
-W           7.1-rc7+unreleased-arm64-cknow #1 PREEMPTLAZY  Debian 7.1~rc7-2
-[   10.160114] Tainted: [W]=3DWARN
-[   10.161231] Hardware name: FriendlyElec NanoPC-T6 Plus (DT)
-[   10.162575] Workqueue: async async_run_entry_fn
-[   10.163848] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=
-=3D--)
-[   10.165316] pc : clk_core_unprepare+0x274/0x2c0
-[   10.166574] lr : clk_core_unprepare+0x274/0x2c0
-[   10.167831] sp : ffff80008021bc30
-[   10.168959] x29: ffff80008021bc30 x28: 0000000000000000 x27: 00000000000=
-00000
-[   10.170417] x26: ffff000100040c28 x25: 00000000fffffef7 x24: ffff0001001=
-9be05
-[   10.171886] x23: ffff000107fa2028 x22: ffff000105217880 x21: 00000000000=
-00001
-[   10.173342] x20: 0000000000000000 x19: ffff00010035a800 x18: ffff4e74e0f=
-ec000
-[   10.174809] x17: 0000000000000000 x16: ffffb1911beae608 x15: ffffb1911d0=
-321c8
-[   10.176271] x14: ffffb1911cf4a100 x13: 00000000000000c0 x12: ffff0005fdf=
-36100
-[   10.177720] x11: 00000000000000c0 x10: 0000000000000db0 x9 : ffffb1911af=
-2a084
-[   10.179177] x8 : ffff00010092d810 x7 : 0000000000000004 x6 : 00000000000=
-00000
-[   10.180626] x5 : ffff4e74e0fec000 x4 : ffff00010092ca00 x3 : ffff0001009=
-01280
-[   10.182061] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0001009=
-2ca00
-[   10.183505] Call trace:
-[   10.184503]  clk_core_unprepare+0x274/0x2c0 (P)
-[   10.185676]  clk_unprepare+0x38/0x60
-[   10.186745]  es8389_set_bias_level+0x184/0x238 [snd_soc_es8389]
-[   10.187997]  snd_soc_component_set_bias_level+0x2c/0x70 [snd_soc_core]
-[   10.189264]  snd_soc_dapm_set_bias_level+0x60/0x2c0 [snd_soc_core]
-[   10.190520]  dapm_pre_sequence_async+0x5c/0x110 [snd_soc_core]
-[   10.191701]  async_run_entry_fn+0x40/0x1a0
-[   10.192683]  process_one_work+0x17c/0x510
-[   10.193623]  worker_thread+0x18c/0x310
-[   10.194540]  kthread+0x134/0x150
-[   10.195425]  ret_from_fork+0x10/0x20
-[   10.196326] ---[ end trace 0000000000000000 ]---
-[   29.109243] snd_parse_eld: 6 callbacks suppressed
+Thanks for the review.
 
-The NanoPC-T6 Plus is quite a lot like the T6 LTS ... apart from that the L=
-TS
-uses a Realtek ALC5616 codec and it does not have such a stack trace, hence=
- my
-suspicion that the bug is in es8389.
+Guards are particularly nice when they can eliminate goto labels and
+make the code easier to follow.
+In this file, as you pointed out, they don't make much difference.
+Even so, I wanted to keep the style consistent across the driver,
+so I tried to convert as many suitable cases as possible.
 
-Or did I do anything wrong?
-Happy to provide additional info and/or run tests.
-
-Cheers,
-  Diederik
-
-[1] WIP branch: https://git.sr.ht/~diederik/linux-kernel/tree/rk3588-nanopc=
--t6-plus
+Best regards,
+Phuc
