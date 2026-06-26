@@ -1,119 +1,116 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2948028640B
-	for <linux-sound@vger.kernel.org>; Fri, 26 Jun 2026 01:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782439185; cv=pass; b=YeY/lErGODvlwh/rp+b5fIF55mD4NtMEm06o3NAamiIEAQwU1UOpW9Q+2mDcL2J84o5zv/c/NY2E+euYXpFuGW0ZrZ9ccDNWiY80tcMg1qSBJfQzdY6ZgGdonA0eAALFuIgBB2wyXOeNuVndFOndKAY+qUUY71wY5+Yluws8MlY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782439185; c=relaxed/simple;
-	bh=HCbDJQz4gth93IXWHwSGzV/oEOV4eExUY5vmaWc7/3I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JnLHPM6t+9Wj6Cn6SEr15y8/vmgA13ZM95NvgMKz+9uKWhICDSEZ0wLYzELOTUiBQJuwnHbO3RHngs4gnRKEHIoUyJG1LffLiqCEGtCC5kPCuVmC0mXwRB/6xwnK2OFiJ/78sW9ItviGEd8bcjMI4879DjTN0Rybn1U0dz4i2zU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oK6cNoAO; arc=pass smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oK6cNoAO"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2c7ee0d7f1fso3369435ad.2
-        for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 18:59:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782439183; cv=none;
-        d=google.com; s=arc-20260327;
-        b=n9g0gXiU/0X1iybUmL+569LIeT1XVPUrgiRWlcawf4eNdKBeNHpQE6QkMvuEiJLBvw
-         JMb6eRrpWP2V7yWwmOR8shg/AkemFFxop+gYu9wxq8OKnNGybe8rwVy6vODVl1zjOTCP
-         W8WyIq38NY30P1twqFHp2SvEieeiSINBvCAt4rB3cSSCbyqn3Q7+eQErmDmJ3VpAeonk
-         xWzK39g7SBEKVcX6461jWBXzx71gM3HWDz1gynAfn7gKj00wsJS3rrAY0UJZWZf40Go1
-         oyXe65zypWX7QnCGppgWv1AtKUi+61hDX9Cj+p8uVSmhETxSS4jxFqwhoQHGya27jRDT
-         yoBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=OPBTjJpE1U2eSt3lAidjTgLsqQGyArQt2QVWSy0xOrM=;
-        fh=w/pTAJ9qwiXI7uOj2WKvxXsUXfq1NJXYmfHujirrIBU=;
-        b=oOnQ8etFDNtim/MJdfOCKpzMNEOYiYFnW3cA/8CYhhZfTCDnrAtrNMlE47BOoN35tg
-         ihviHPDmTH9KGTrSKNm2FqYI5Ug5ZkeFJfxCgxwxwN3KENTP/e+cA24w6OKOVPdtCUsN
-         2SI+rE2Vy7osPkU1G4APEz860/eUsZwcpHTGmOqn2vFEEf2+WzN7NNWHhizpATbtbDYH
-         mX9I5VQVj/CuXmnh6Z0MlU/fGeVbUrSlkzGdnAyu91f2qkcnkWTbyZhWyAqxS7E0GiKR
-         njWJRgCbOgL7vJdzaAvHExmENu+yt+kiUOUhlmvfUoPTX8PQs+F0mI2/BrFu1/hGssa1
-         a63A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782439183; x=1783043983; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OPBTjJpE1U2eSt3lAidjTgLsqQGyArQt2QVWSy0xOrM=;
-        b=oK6cNoAOXFlSZbrPQm+DN7dIp//itocS6zqKUxsTdhH+0/eDqJO4mXOojIxwmQKvoP
-         LFny9yHNE9TGbZ0auu1ZI2RVv42FVECr+gnMnaA/RGnBZQ+MyGDgr1REbx7FLCCtOaiK
-         lC6yEjxobTalGXOBvc83lIEofN/P1u+ejPkc/PGqVi6OWWVKRVa1QEIYKZ/Ei/Wk4/lH
-         brPhMDtsVr5OE8/A/+MYdJsJmXrBQ1bAXhQrS5lk75lQ2Ph/8WcnZT4zlUCaA6jl97sg
-         hPahWhJRbac6+fAd9oC3iNWi1UTcoQq+40+C/0o9FGIqHihv+s1f37wL2+VFkEqv26bF
-         AKVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782439183; x=1783043983;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OPBTjJpE1U2eSt3lAidjTgLsqQGyArQt2QVWSy0xOrM=;
-        b=HD6uPdZNDBm6+J8lFrUsLbhE+VSHw4Vk5yuKYeYXIW/g01fdasETJVckcOEV4e+RhH
-         WBTaA6yMEsClCUdTruBWG1FbvOZJzFa1DGpw90e5TzqdhXjnoz/9Zyvl+Tfm3Ke0OFJS
-         NKpRf7JOzqQskmzhHGR5n4TeqIZ6SstD9No/9kAmN2keO/b5IGjCuXCBca4tSYteByrP
-         zN1ISMlQNdSjvUgcKUSzpvqtqScWeaEeA2f8PBm1H4acK1O3q/gyReNTDyJgIMqvTyEG
-         BXUYs1eSd3CFAaGZmouPJAPxk4ZALvei/kVur7N4k1vrX5AKdR3CkQ+OJYgt5rKhM4j0
-         8mUw==
-X-Forwarded-Encrypted: i=1; AHgh+Ro2l+PS47igMlVSEtX90DgVGfeappY9BDMt6yN/eyFtPwsPbZecnoKr/8NwXQzdSDixXO86/vpw0PSjAw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyJLX+rFCdfWJCNmBUpWqi3PPu2ZWk3OQ66hl5HxX7au2dUm5Q
-	8JtOeVDxUIaAohviQS+Z2S37AkoxRkFZ64Kl6Tqx8PUHOofUJ+T9L0ZRAKDOmmmkuqU5qjAxJ2n
-	w3eX9sdgfdFyMCAj7vEwui9HEx5/ch3o=
-X-Gm-Gg: AfdE7cll0iSshJbp0Or8jluAwIwUT6Vw7nWl9riGxJX5MlYzk9l65MACEGedGCe3D6q
-	VWdZMiQaVInW3rePc52qaDOB1rRLcNz77QP0i2xqtDHrpSxln+O5FvfIHESepwL1CK93LQC9SNN
-	rqccFtu+5rYBFRn6bl1+QOOIWx9CYWFdheutfxKPBdEQGy7V5zuPKJJA3brb0LzXj5aUFsiQtD3
-	5NJA48e/wBojqdemqIjnGUrYD57TAxiavjmvFI+lxayybtcr3RDi6OFc3ZdkfTWUCQpnuSt5Iu4
-	98FevhVnLzYKWw9VE+MQJTiLgZo=
-X-Received: by 2002:a17:902:e741:b0:2c6:a9c8:7e03 with SMTP id
- d9443c01a7336-2c7fc8a2cc0mr45389135ad.33.1782439183322; Thu, 25 Jun 2026
- 18:59:43 -0700 (PDT)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6699A1419A4;
+	Fri, 26 Jun 2026 02:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782440845; cv=none; b=Nz0Y4rnyyWywRC8nXARgAOyddbOX1ZYzZy76updPGimX4jNmjq+gT2PNbElOVB14dZuyycxwo5d0pw+eM0OrIQPkRtSSt++rBglLTVzUEzS/4j+8IlUnQmcEWVCSEYpCbDeImjsc77tn16ToFv0zBysWhxAeds6W65xQtLQg4A0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782440845; c=relaxed/simple;
+	bh=pucuPKYeEQsDEIUZdJKJOC9pWrmnuAkB6Se8YHDWU8U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=RAqxbSMgNRjhSpvDncNlmSsKkxd8iqx0fRb7FXhaA05HKsJMcdNySGKXZFD9F/ZsqMjtH1rJ+7CcMHX9vhCdNXsYegcgZY02NJCKEC8uXKDZaQcnHBtyE1kQVz4JGdnGmzBdMG268r5uj4GKS5a7pDSiL28HkbNVsIf/okXozG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.68.155])
+	by gateway (Coremail) with SMTP id _____8Bx+HiJ4z1qvzAYAA--.37489S3;
+	Fri, 26 Jun 2026 10:27:21 +0800 (CST)
+Received: from kernelserver (unknown [223.64.68.155])
+	by front1 (Coremail) with SMTP id qMiowJBxSeCC4z1qim2zAA--.12873S3;
+	Fri, 26 Jun 2026 10:27:18 +0800 (CST)
+From: Binbin Zhou <zhoubinbin@loongson.cn>
+To: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Keguang Zhang <keguang.zhang@gmail.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+	Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	stable@vger.kernel.org,
+	Sashiko <sashiko-bot@kernel.org>
+Subject: [PATCH v3 1/9] ASoC: loongson: Fix error handling in ACPI property parsing
+Date: Fri, 26 Jun 2026 10:27:03 +0800
+Message-ID: <08e44a54708eae053be148524346bb8dfcd55b03.1782439646.git.zhoubinbin@loongson.cn>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1782439646.git.zhoubinbin@loongson.cn>
+References: <cover.1782439646.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260623105721.25865-1-phucduc.bui@gmail.com> <20260623105721.25865-2-phucduc.bui@gmail.com>
- <fffe4925-c5aa-42a5-ab8a-d8da4989b9b9@intel.com> <CAABR9nGh3nHnRx8yROqUuHLVZ1nWsDWKxJqAJaX3q+fiOBL+Kg@mail.gmail.com>
- <CAABR9nGZjz+VZJOJBB_BF72iYQtCs3Fvc_zskaHF8DPFodzX8w@mail.gmail.com> <b5692a55-40be-48a7-ba51-9c2ebe40a846@intel.com>
-In-Reply-To: <b5692a55-40be-48a7-ba51-9c2ebe40a846@intel.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 26 Jun 2026 08:59:31 +0700
-X-Gm-Features: AVVi8CeC9LabI0te6xDH1BET4_5-Q2T9HKrz_iL6iYPdDIrmr7oIrNWfJ7OMxGI
-Message-ID: <CAABR9nGjLPh3u=0E6a1QDpYuknhHkx43FsegWODtHWfRwA67Kw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] ASoC: intel: sst-mfld-platform-pcm: Use
- __free(kfree) for stream pointer
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJBxSeCC4z1qim2zAA--.12873S3
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAgEKCGo8wzAaFAAAsq
+X-Coremail-Antispam: 1Uk129KBj93XoW7CFy3CFyrAFy8GF17Kw13ZFc_yoW8CF4UpF
+	nxAa90grW5trn2ywn5XryrAFyay34ruwsrJFZrGwn7K3s7Awn8ury3KF1YqF4SyFy0yFyj
+	vFW8GFZ5Ka4UGFcCm3ZEXasCq-sJn29KB7ZKAUJUUUU7529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUBYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	Gr0_Gr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
+	kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWr
+	XwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
+	8JMxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
+	6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+	0xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4
+	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AK
+	xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8EPfPUUUUU==
 
-> Thank you for revisiting your take.  In regard to your question, I'd
-> prefer separating __free() from locking.
->
-> As a sidenote: even if that my take from technical perspective would be
-> a complete miss, the commit message should plainly state: a preparation
-> step for upcoming locking changes.  With such statement, a maintainer is
-> aware that there is more to the change than just pointers cleanup and
-> placing it at the front is intentional.
+In loongson_card_parse_acpi(), the return value of
+device_property_read_string() for the `codec-dai-name` property was
+ignored. If the property is missing or invalid, an uninitialized pointer
+would be used later, potentially leading to undefined behavior.
 
-Hi Crazek,
+Fix this by checking the return value and propagating the error
+appropriately.
 
-Thank you for the explanation and the suggestion.
-I'll update the commit message to make it clear that this is a preparation step
-for the upcoming locking changes.
+Cc: stable@vger.kernel.org
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://sashiko.dev/#/patchset/cover.1780538113.git.zhoubinbin@loongson.cn?part=5
+Fixes: ddb538a3004b ("ASoC: loongson: Factor out loongson_card_acpi_find_device() function")
+Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+---
+ sound/soc/loongson/loongson_card.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Best regards,
-Phuc
+diff --git a/sound/soc/loongson/loongson_card.c b/sound/soc/loongson/loongson_card.c
+index 7910d5d9ac4f..ea895fe6b5e9 100644
+--- a/sound/soc/loongson/loongson_card.c
++++ b/sound/soc/loongson/loongson_card.c
+@@ -91,7 +91,7 @@ static int loongson_card_parse_acpi(struct loongson_card_data *data)
+ 	const char *codec_dai_name;
+ 	struct acpi_device *adev;
+ 	struct device *phy_dev;
+-	int i;
++	int i, ret;
+ 
+ 	/* fixup platform name based on reference node */
+ 	adev = loongson_card_acpi_find_device(card, "cpu");
+@@ -108,7 +108,9 @@ static int loongson_card_parse_acpi(struct loongson_card_data *data)
+ 		return -ENOENT;
+ 	snprintf(codec_name, sizeof(codec_name), "i2c-%s", acpi_dev_name(adev));
+ 
+-	device_property_read_string(card->dev, "codec-dai-name", &codec_dai_name);
++	ret = device_property_read_string(card->dev, "codec-dai-name", &codec_dai_name);
++	if (ret)
++		return ret;
+ 
+ 	for (i = 0; i < card->num_links; i++) {
+ 		loongson_dai_links[i].platforms->name = dev_name(phy_dev);
+-- 
+2.52.0
+
