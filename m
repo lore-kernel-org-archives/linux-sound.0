@@ -1,88 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE06827A92D
-	for <linux-sound@vger.kernel.org>; Fri, 26 Jun 2026 08:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59553DB335
+	for <linux-sound@vger.kernel.org>; Fri, 26 Jun 2026 08:37:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782462763; cv=fail; b=A5ezMUuiRv5cju1pNHu8NpwU2yczCkjQ1LRb/72kBU2YCjIbq1F+3xVVimhfkEVepu3smyaszIa1A+nXHfcuijhiwkH+0eSgIb1NJf6oOTNmrR2BXIk6KmTRQ3lmmuOFTfnEDqqZJIiANhP/IJUXders+k6nNNorsAeCctnL9wk=
+	t=1782463053; cv=fail; b=u2mzF+7RydRjKsA1TxMp0UXrwTkgMeOAf0bILHBfJKtyyA9lcQIJZcmmz3B0MvrfpghVszZY0gjgGaNdwdttGNxiM4oJZQF4CRx23BlsUSlXrjIFVtfnTInlZmFqXl4dCkCtQ2v9PkKd7Nb8mIFOOEmTUtSrHILX2xkiRSA0sDI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782462763; c=relaxed/simple;
-	bh=d/KNntz/sBTpIiM/qE/Yrnc5UJ/9rLOQD6eo8LAbOxk=;
+	s=arc-20240116; t=1782463053; c=relaxed/simple;
+	bh=GOjdpxd4yFgN6SAi2d39OeHCVqkReLdwaBgAAjkMA+4=;
 	h=Message-ID:Date:Subject:To:References:CC:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=MVCCVhc0xzkbGVWdF4R4YoZrM4R02Oa+PAHinmNNiuANRDw/Lfp59+rZL4cI1Vzk35ZZKqoLjjqFucti2hLXx1K7xYvqQ5nSiKnqsnRzl9ezinipUfG4z8h/fBT8g3voUGO86kB6ZFzB4DKe0wClP0af4TP5fuhKPemRpP0SfKs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d81gpgZv; arc=fail smtp.client-ip=192.198.163.17
+	 Content-Type:MIME-Version; b=BItecqYERZNR36FzUEXC6wij1kDxqYkOLkUEK25nR/YMNfXLu6qQ/Q874rLk8r3T2oZc+XYxUkAs2z9mOgEUBu/kflfmrL4Hhl9m95cPciucixCrp2nWF8mBAWwrWgJMYxqv3FllHRH/swRSnhwFy/t+VzcaKl3NJBkgthrUATo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kApVoPLz; arc=fail smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d81gpgZv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kApVoPLz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782462761; x=1813998761;
+  t=1782463052; x=1813999052;
   h=message-id:date:subject:to:references:cc:from:
    in-reply-to:content-transfer-encoding:mime-version;
-  bh=d/KNntz/sBTpIiM/qE/Yrnc5UJ/9rLOQD6eo8LAbOxk=;
-  b=d81gpgZvRqzorcx8FGLqCon23RL6jK72pjdzt6rkjpGT7RVP6pwXEPn4
-   rxeX13VrlnmyxatwdjWl4UOJ85KWUQJOjrfKS49WlUAgeFTwOR+y69Pqk
-   MfVnXFOHNYRVl9FnkJ87GumWrrDvpfByB/Kbn/MKiq65uwhfaMytY46kB
-   9Yy2KC0lywZUJkYlpflIwCcjVBvYU0iV7P9UU9o6Bw46nK39HVWHTtVSl
-   ieN9M4bksdxC6xp/Nr5sfb9aH4B8kUl1ky/oUqN2PtpYINO8FlVDIxToD
-   YCWyoiOOiUvl78DA1xYf3T8FrXnQnPpBEeZz1ITDc/1uQ0OD1cX//2dZo
-   w==;
-X-CSE-ConnectionGUID: u3N17JlcQa6z2KlfVBu75w==
-X-CSE-MsgGUID: 77XeWQJKSiqd5rDQCxh2uQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="83134851"
+  bh=GOjdpxd4yFgN6SAi2d39OeHCVqkReLdwaBgAAjkMA+4=;
+  b=kApVoPLzQd7Ui2VJMb65haZdhhDE8RiVhCYQcFRR6izHrjaD0kR7Br7e
+   UD8BN4Fx3dkr8kRAhn4g0sTEYXIK2g/48+78EHX4r/Bo4wDsfnsETo11F
+   NIRhXhYbghmZfF7b+82cv+Oe+sLT3qcbDYgVXeuuPAF0i7fk6gL7/A7eQ
+   XF22dPaa3bVKprxJ/1sZ1b1zMxd8J0wPfbU9lVO7YYJLTrOvjbsuImVGw
+   UjNJjN92y2pcOa6JRmmn+z2ehd249up409D+AtTdznEZavQ6ZVrcFfIRn
+   FpDelUsFq2GB41Et81oxN/Po2cYbURQG7D3ujSSCcmgFdoYy3kjehHeL8
+   A==;
+X-CSE-ConnectionGUID: /1/ZVuGkSrCsM6aqwq99Zw==
+X-CSE-MsgGUID: +gycZk/dRee+DIVL0mEpQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="93843283"
 X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
-   d="scan'208";a="83134851"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 01:32:40 -0700
-X-CSE-ConnectionGUID: sBRhfrajRDS83lvdlRLfGQ==
-X-CSE-MsgGUID: 8eIKbgy7T4OJJVI8CXMeGw==
+   d="scan'208";a="93843283"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 01:37:28 -0700
+X-CSE-ConnectionGUID: 2gRzLQrhTkOhEarnsPqmGw==
+X-CSE-MsgGUID: gJI74um4TFqY8WbCCICkKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
-   d="scan'208";a="253189125"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 01:32:40 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+   d="scan'208";a="255268580"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 01:37:27 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 26 Jun 2026 01:32:39 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ 15.2.2562.37; Fri, 26 Jun 2026 01:37:26 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Fri, 26 Jun 2026 01:32:39 -0700
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.70) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ 15.2.2562.37 via Frontend Transport; Fri, 26 Jun 2026 01:37:26 -0700
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.32) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 26 Jun 2026 01:32:39 -0700
+ 15.2.2562.37; Fri, 26 Jun 2026 01:37:25 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SzTpVnzxLNMP6jERY3jBAyaejF7ABZaV3IB7RDug9RMD3Z1j8BiIMkEAfWgCTg6MRY5Wi8BVOcA8gh36BDbNj4ZItJPlSUP6ajOsLIyTXcqpZM+6/8G6N/4fmuDaC5+gYOV8QZEikKfcZSw//Wfi7DFW5K/P/TbscuY4sn9aLu2LkEXgiqNNih1/H39eoBECnmXcPJyR+BPQYW0IuK70/hrurogC4xb1rkY6WkoE6QhJviEHcN+q6wCYxTF/7K/slhAoH87nn84QNYCIArUY7HFZJg/2siCreH2+6NwH1tMqyaupj0nE5Cn/uGGZD/pFjYis1tgma4gn2o2MDPkaEg==
+ b=IilG4SKBg4501KWj3Jab8pIfU8UMGKcLMzV9Fc1qCBoj7iqa+u1Bw1pPHC9q+3rUOYUEdpio5d+UJ63PWkzo/nFGdfNAxTcK542DHwQehyC20JG8uPqMHz9PX/DQWFlytJrFfXEQ17uw8m2/MkzjG/pstNG6cW16POLd3YNqRBe7sgqi5RpcGNOYWnK41STYnTzD19cxuApv9dG4aYu/um42j4OwNQtAt+55cvJDAgtRO8Bn3hreCYKPWZf8PGxKK8XgefsPIP2ATBE5kZyt1PEqigHhFz5qyQ3KU2XSlbwOjV8CILN55zkL37TtJReoYYk4bYBMRu1yXsTWwkmn3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TJs8uCtXZ3uACzjKd8VjLVALjCTCsaqNcartshZ0GVw=;
- b=cOjSREAlENfto86cetyGCrC/CWYg/WcPbxBCBOa2a6JyIjL1+3n2cQCFNX3zTWnkVdx1+dXq4UHsUO0TQ1IkGYbcSrNVjfAbupbdcngXW3VUx3bch/GKO6PuImZuqnTnpE9WNPa5TthBsfnLNm6loGWcM2kNYj1C5NUxnUM3iQ5FJHWxQCmANBML9RLslBW8MzBA6uU/NHGtP6GwkjNi1wlyw9/FcOJKAUmIQgb+P16uzRaGq4Vm7cwnra5aezcuRqFS8bPee648tFGJCDzhgT4UgkObevb52yP9fF9kJkr+/NSwbkuEuRV5540UB+EHZbBCUZvWWF3S7Mdkf5QQXw==
+ bh=havs7Kq8mSfgMFF+FnF+Ce1JO1JU/ev+Iw7nR0VQRp8=;
+ b=Wg8i0fD5OEnWoYNJiz6OxyrrvWM0r2lnS0/YMRTQxdHQlqqdbvazSW3/kSWOKOoeMOLkOt5LlHlgNkLcdo91DTTqS01VyRTCYwVzMsM/AOyPoG3/hyz4FntkWRRal778LVL3YO2m7cGjdTfkh/yXSiiMoknvQiZu5bHzpcvwkSyiSXFSXxkxT1hutXNvQdk8C5O0DZYdBpvYCkN4fivEuNRHZGqyUJeO4A+ip06WqW84sq44DbwZfdYu4sK8srY/qoGAWGvJQxOE6y6JWf+nlkBycXZGGmaUJT3ojNyFE6NmwYWD/FwZu+JlPDEj0HVnmPG6g/2PFyKh2kYhg4O5Mw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
- by DM4PR11MB6432.namprd11.prod.outlook.com (2603:10b6:8:ba::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.159.17; Fri, 26 Jun 2026 08:32:33 +0000
+ by MW3PR11MB4636.namprd11.prod.outlook.com (2603:10b6:303:5a::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.17; Fri, 26 Jun
+ 2026 08:37:17 +0000
 Received: from SA1PR11MB6967.namprd11.prod.outlook.com
  ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
  ([fe80::36a9:3aca:a63e:c8f4%3]) with mapi id 15.21.0159.015; Fri, 26 Jun 2026
- 08:32:33 +0000
-Message-ID: <9045a819-950d-4598-b99b-fd7217de6e00@intel.com>
-Date: Fri, 26 Jun 2026 10:32:27 +0200
+ 08:37:17 +0000
+Message-ID: <8f4c2253-e1a1-4ee2-8825-6290eb552e71@intel.com>
+Date: Fri, 26 Jun 2026 10:37:12 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ASoC: sdw_utils: tidyup
- asoc_sdw_parse_sdw_endpoints()
+Subject: Re: [PATCH 1/2] ASoC: sdw_utils: tidyup .count_sidecar
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 References: <87ldc1etyp.wl-kuninori.morimoto.gx@renesas.com>
- <87ik75etxw.wl-kuninori.morimoto.gx@renesas.com>
+ <87jyrlety1.wl-kuninori.morimoto.gx@renesas.com>
 Content-Language: en-US
 CC: Bard Liao <yung-chuan.liao@linux.intel.com>, Jaroslav Kysela
 	<perex@perex.cz>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, Liam Girdwood
@@ -92,11 +92,11 @@ CC: Bard Liao <yung-chuan.liao@linux.intel.com>, Jaroslav Kysela
 	<tiwai@suse.com>, Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
 	Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <87ik75etxw.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87jyrlety1.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR0102CA0024.eurprd01.prod.exchangelabs.com
- (2603:10a6:802::37) To SA1PR11MB6967.namprd11.prod.outlook.com
+X-ClientProxiedBy: VI1PR0102CA0003.eurprd01.prod.exchangelabs.com
+ (2603:10a6:802::16) To SA1PR11MB6967.namprd11.prod.outlook.com
  (2603:10b6:806:2bb::15)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -105,164 +105,173 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|DM4PR11MB6432:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed4a74b7-2726-42b5-126f-08ded35d7800
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|MW3PR11MB4636:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8bb40758-4cb5-4685-7bcf-08ded35e2179
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|23010399003|1800799024|4143699003|56012099006|11063799006|6133799003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: xUqU/acjoE2z9xNn0RKCFMpkyN+vdSBccBMTCUCRq4NvaC6jVUgd+72/Sd88jJz+qSuFCLY4a3UKVcue5SRA5tPUlwbcnOyEGE4Apx0sbAzZP0xlk3eFPrV7sKdT4DkcXL2U4gvJwLAkHft9bMhKs/6mTzoX1muiTYpNM+ANh4PZLKzaMVp+c6y3anOkJgvEzWCi2KYhqaSrvKIXPiSrcpDn0jLXKEBsEDokznhWvHiJRsbLERIsHcIzRCpduG4KQlukMlxOG5t3BoefRWEk++Pvqad22ZwhH9hzWYXO46+4eSavgn+uqR8UASrwn16VP6Ksh8jc/5bhqJ9hC/C1T1cZ4mdWyT/8LVCi1rclMq/tSxVsX4udlT9gSkJ8KcFHQ6Q4wHh3yFBnPNzmp/vzT2p7HtcGS7D26ciX0wUEZ4ZXMMj/BVXvMFN/CEqA4ubEZlkq3qjN078/jKA5B6Q62X8o9jseXdONrZyr18iKhhXkxOUEFjaT6xnIInbibeBl838gBhWppjCAW8PEwahzNt2EpNHJf/I5dUvJZMKrovTnlbVLXpA2mvwVFt7s8ggHeNaPPNhAckhEsHn3w1itzJaEoPqWQ/pL1C8RvQfOndzR9xzqL53yGvHfPt9vfBG9B/a/pL9S6xlyklunMGHHtWOHhq4XrPMCBi+/asQCGxo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(23010399003)(1800799024)(4143699003)(56012099006)(11063799006)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|7416014|376014|1800799024|366016|6133799003|11063799006|4143699003|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: +B7xHqa9SD1wae2NuY8WEC1JBT9BW+cl/GTZTePVHJNvLwrXph52sjK9u+7SvOfZzUU9Vm2i68G9SBoWcZ8PsNRdXGioX8Cr+1YIVfhd1LX+xxPTyQbmYjZUeQevLKuc7uNYeKTyWxQx4kkh7OoEEEblIXu9q7Aezfu/Lf/KibvVUisywi29ZH99JcnSGeWq9NEEjQ6ggittWhoxNoE+MO0oZsHt1ioNOhUJCSO0LnKweOhc9EggLamxQ32W/y/AsZhTEiyFWWVib4nj6r6q48lptUn/kb7CUosW5+XxcizxAdgAFsgDLsUU0Jdqzeas6JvPVYy7/lMovhNfewZjIQMfjAKnBUe8rKh3FQhmA+nypixH3SmqNyO/KNfwwgKwkdWCO8UApqNhc2x+WUT5TLJuVlUO1t8HsIT1jEo3P3VzW5RN76LIM9z9m7XCRJnuXDg6/aA8QyOiKcwjtBsIg+wV4WZO8jJ5FUSBNBsqF9cMulGGMJI7XBQNvmicBZcuhc0FRZu0Vq/teHVNkMF1TV/TWtmXwnxaFGWucwLTDN4qWZS/WNJuRbSlCQPNRIS88WN/G/kutn3VTFNMNIjCJ+TuLkr3UP/3C9mr9ifqRQshNW116H8oO7Qw/+ekCePI+NyJdX2wPUZ+AsXzAzIpWALchfl2YdadArtOTfT+38k=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(1800799024)(366016)(6133799003)(11063799006)(4143699003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K1R6eG5ZdllnMGtoRC9YSWF2UUpJcVZyanJybFFGK0NYL2wwOHpyRWE1eFhY?=
- =?utf-8?B?cXRDdTM2K3dzYVN1bk5Gdnl3MHlYV25wV0JqT2taZ1g4ZFlmd0ZYM1hIMVBW?=
- =?utf-8?B?YVVoam1EUHREaFd3dDF6aGFmTEZLcFpLSEtiTVVjVXN6NE10WVVyQkFjMmpk?=
- =?utf-8?B?anQxYkdwSmo4WkVHNThGY3gzalZFTXdHcWhOc3Nwbm5tVzArcDhBayt6RWRy?=
- =?utf-8?B?UVltMFRxZmhyeGpZSllDVmhSelZsbklsZWV5ZndhRlcxclF6aDdQNUdXUGhr?=
- =?utf-8?B?REM4WHpqellqVVU2OTdQVThnNmYvYkhuajNwWjRZTzJqeGRRTGV6MFV3MTFB?=
- =?utf-8?B?MnhWUXJ0Q0tIaWFHMVZEdmx3ejU3ODErdHBmMEwxVGhiaWtqVlVhM0s5bmgw?=
- =?utf-8?B?WVNrbktVdW9rb0VzL0ppTTFWTUE1OENJTkNPQ2xTS2tzRHdjVXFqb0ZmREhZ?=
- =?utf-8?B?eENLYWoyK2E1QnVUei9ITEEwYkNrK2lQUlByU0l4R0VScTJqUmhUOUtiKzI4?=
- =?utf-8?B?UHhsVnNzWXVndzV0M3d6b1YxSWhvUkMzSWJRSVFNeUYzc005ajZpQy9lSjUv?=
- =?utf-8?B?ZWt4Y3Z1NTFOU1p2cTM3eWVoeVdqUzh5cVpJdmFOUWJyS3UyQTdkczNmbVds?=
- =?utf-8?B?UlowRTFVbXhHQmNNMEdyV0JqcVhvT3ZISzdTS09Bb1d6VFBwUEgrWGYzelNU?=
- =?utf-8?B?YXhaUm5pZ2RNMmpiNXJrTmZpS1RTbnZEUTlQNFk4S0ZFZnhYYTFIcWt6NUtT?=
- =?utf-8?B?NFVPN0JUZy9TUEJqTmFMbFNCQkFUSDN5dHpWYmw2Q0RQbE1yYUdIYkxKaEtN?=
- =?utf-8?B?M25wU0lvSm9iTWNDVTdYeld5OG9FMHBCNDNYbS9RSWZRc2pTMzJwWEVLOFUv?=
- =?utf-8?B?aHRuOCtNZjF5NFhtVnhBYVFBdWhFSlo4bFFsVVQyTVdUNEVsSjRjMTM2eVIw?=
- =?utf-8?B?WUIvWW9KR2F3dUoxREpRV1VyK1Z4QW9SQWl2UUFDUDEzSXN0T1hXdnJPVlQw?=
- =?utf-8?B?b09nN2FkZUpXdmxGbUNtbjQ2VFBMcVlLSlVGV0dyNUcybVVQT1k3cTRIMy95?=
- =?utf-8?B?TWVWMU5sbCtVcjkwMi9Ec3BKVERqOGFaWlliWDVzbUlOT0JTZmc0WVhYcE9r?=
- =?utf-8?B?bTZUU3hzL2ZTNUxhOFJLOG9CcHkxTXRvVk9jM3ZPd2FUeHZjc21rd2dNSjVR?=
- =?utf-8?B?MS9lQTc2RU5ZNDNOMUZzbXRpVHFmYTg5Zm15K2VZMGM2Ylh0UDNoVnZBTWxo?=
- =?utf-8?B?WkIyMlBCbHlsRHhSaEJNNFpRc0NKRVFvSXdibGNKdmVMYm5WZW0xWURHeHh3?=
- =?utf-8?B?YWJRbU91UktpWEJDM0ZxUWk5SlBReWFsSmlwaFZMT3FDKzVsdHU4Q0dNbTNz?=
- =?utf-8?B?N2tuUEJWTEhHQWxOMXlKdUUzZXUwNU92UzlLUEJMbWpEeHhVbHhSVnVKYkRX?=
- =?utf-8?B?azVoai9SUzN6Nk1MVVd0Z0tUYnY1NXpmd3l5MXVnNlBsKzRoekF2VWhHVzNL?=
- =?utf-8?B?MzV3NnoyZWRrNHZEbkRpWkJPZVBBaW1Ta1ZDLzBKZnExcFhCa2FLQWlYZjEv?=
- =?utf-8?B?Umd6UE0vMXJRY1BqMlhIWUIxMnl6NDBCZitFM3ZDUGNFWGlhV2Y5Q2pTVC9t?=
- =?utf-8?B?dzkvTThxMFdpQ0hsUUszTTVEZnZ5N2xxU2tSWUhtR04vTkVBTjZBMEo3ZENM?=
- =?utf-8?B?TGhkWnFjWmxsN2hXNVZSdm10RDZYWWVXVStucXlBb25JSjVYRWs3RWgxOVhD?=
- =?utf-8?B?b3cyaGhnbU9NMjBQTEkwQ0NBdW9wYmJFQ0M0YkpyMExvOGhnMWFPc0wxaWZJ?=
- =?utf-8?B?bTBIR3hKb0VTVzNoYkNRUjVMQnA0L2g3L3dLeTh1bkFzQWgydjJac3RWbjVB?=
- =?utf-8?B?VUE4REpmNXdjb21mL0hvUkFEOVJsenA0SW9hdlRDQjF0NWp2dGFkdTAyTGpl?=
- =?utf-8?B?WXFKNzEreThnMGliWURZQ2VIeTZua09ZdVdicXBaNWgxWi9PMVE0cVVjdlQz?=
- =?utf-8?B?Z1UraDU1SVlzbXdnb1hLeUplZGozMTdqK2tldldVODFrTFJWRDlzdC9GVVVT?=
- =?utf-8?B?elV2MllpQkhiL3pianA0RmhOVmRjcWJuM1kvcWc0NzR1WXpzNy9pSjd2REFG?=
- =?utf-8?B?V0w5aUFsTXR6dDdRcVRXeUY2SzdtRHBLQ2h4ayswOXdMaXV4cWxGVmdRTEhr?=
- =?utf-8?B?LzZWYWs4bmtnR0NBYWY0WXNWNVhIMlZXRExGeGpDOUNybEE5KzVNRTdWV0dp?=
- =?utf-8?B?NTJ2dS9uOXNkMisrSDdGVmtCKzdHc2xqRFp3cjhKT2hCV2xSTmQxeHpER3VT?=
- =?utf-8?B?ZjBZcWFOUnhYeGJkaUpHT1A5QjZHUzJJZEZCb0JOVlJLdU5PUjRMWHkvOFFr?=
- =?utf-8?Q?R/QTgaswN9rHoS/o=3D?=
-X-Exchange-RoutingPolicyChecked: T/k7Sjx3SmlXzwoVoSSQCTYE4QJJCC+qacpVNURySiN80UQtTP64qk/qzrzGNDJDYopn1vRIAoDC9od6t3IpQADj+aqwE5HV3A7D2vuBD74+AdFAAmcs+oZi8lyO02g9fTYJtyghMPoHUa3WWGOSGgYoo6JnjKH8rSXwfT0RV/Dn0AdBCRk5Gsdr/LHZyF81hKAYFjDPX69u5zK6dy+i2L+PL5N7X0e1aoifzVGV05W+majC174couYsN4Zuvyc+wNV9NNPET0VeFkKGAb6Yt75kLslkEEE4rO/RW7RYiq+YigoP2YA1Ipew9uvF7/N6UBzHPS3BB+YsCNGAfNMW6Q==
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed4a74b7-2726-42b5-126f-08ded35d7800
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cDNwQ2dQUEI4RFVFZmpqRXZLaktNc1Zqc3F4YjB5L2JWRyt0VU9vSGdIVTkz?=
+ =?utf-8?B?d3pMMzZiK3VVYUkxcVpZU0YyN1ZQekluT3I0aGZqWE10MktEWjFaeFJ3RVN2?=
+ =?utf-8?B?NDdZSVRkNktsTW5lUGpVYUlHSGw2OHVRS1FQMkwwN0pjS1NITGw2cExTNlpt?=
+ =?utf-8?B?UVdaUXlFWTNsRTVKUDlkN2JGQSswUjF2MGtJbHZJTGxBUW5ZaVJQZmFTaXQy?=
+ =?utf-8?B?S3RMVkJ6R0h1Y3djeWNWamZmVllNTk4zRUdGeWlRUHJhdG1DOHRoUGdpUS9K?=
+ =?utf-8?B?cWtPSHBmWjJwTit1MUR2UnNTb1BIa0xyaDkzNFlZZ1pwTjhHS2FzK1dlck1X?=
+ =?utf-8?B?TmpNT2dra2ZuZG5kUDZLQzY2VTNWTmlZOTNTbkxRTDZSSFZDZmpQU2I1eDJY?=
+ =?utf-8?B?dTV3d2d1YyttMml1VzRoTC9BcnQzS3BZckN6b2I1L2x1MWNNNTZnbUxvU2ZB?=
+ =?utf-8?B?R1JXWEVkU3h6OHFmbytTMGFXSzlEQVNqcGR6Tm80aDRIeTZCZk9sOVBwN0VD?=
+ =?utf-8?B?dmo4MWxiQWV0cnl4cFpyZVpzMmc5OGJqM3JkdHhDYmZFd0pPSzNnRUxucU9N?=
+ =?utf-8?B?RWNVSFVWNzdjL3VDY3AyRUZieVA5bDREM29Nc0YwbThPZ3FyYmFDbGRtVTY0?=
+ =?utf-8?B?d0I2aDlwelNOYjhHMVRUWmwvemtOOWZFTUFIMGxqeUozc2U2MGZHcnlYRUlt?=
+ =?utf-8?B?YTd5TDRlbGJLNk5oRWE2N29GaXZIT3hiWVF2VG42djlqVWZpejJENEpEYU4z?=
+ =?utf-8?B?MjdITTN4TGZkSVpUUTJrQUhOaXkyM3crSmZFMkU5UjhCOHlLQ1d4VlhNTnRi?=
+ =?utf-8?B?WWZrZmlxaVhzUVA0YlcvbEtVM25hNGJkL0xMakMrQlZtb3Zhd3lEc1VSaVJl?=
+ =?utf-8?B?blNJUXFXK3JCaDNTQ24rbFQ1RkN6K0FReERtV3N0WmJ5bWlvUXNTbkJLSFFu?=
+ =?utf-8?B?MHRjWFVvR3FqcCtFWElrTzk2RmxvRXllS2hkMXRxN2loenE3Q29Mc3JROUZ2?=
+ =?utf-8?B?dHFlbUxHblB2MENlOENRY0RDQXpYTWpINjR5R2Q4RmtlSDJEMzVuY1lpRXRV?=
+ =?utf-8?B?NU80QXd2bldvQ3JXWmhBZzRhaDEyS1R6bGZtMEpEMm9tblErUG9qd0syR3Yz?=
+ =?utf-8?B?Slpxb2t3TmpkSGZweStUTWxvMkpMSU1DbHh4VHVJMTJIaUNGeGNFQjZrdENH?=
+ =?utf-8?B?YTdQbVlsSDNlOFZVdWtRWk9jSUJWeGJoZ3BjUmhSY2JpMlQvOVFieEUyaEVm?=
+ =?utf-8?B?NTBpVC9HVWdHQitpeVRUVkwvcjkvaWx1Y2llSU13SWY0QUFyZzNoNjRGOUNt?=
+ =?utf-8?B?cThWbEFhVWxHQ2VKMHAvZHFacHlQL0k1Qi9rSUdSU0M3clZMdWxKM0gxbHR2?=
+ =?utf-8?B?ckhCRjdYMW9aZ01FN1dUbmE5YmwzM2dqWTI0Qnkra3VSSEdqNWFRWEZLWmlX?=
+ =?utf-8?B?U1E2WW5WVVgwK0YyYlE4WG5ZT0sxdnZHMG9ZTmNaNVdHM3VYRlBueTFaZjZn?=
+ =?utf-8?B?VnlybFIwbGdSVXJzenRvWnYwdThkOHFQenc3VGVWbk9uV1dTb1FMb3VWQlBk?=
+ =?utf-8?B?T0N1cDdPMERkc3VGcDV1YXNTSHNNOTh0MmppSmVoYm9PVXVzdzlzK28zNDZZ?=
+ =?utf-8?B?Tk9RakxFZlRGM1VQajNFSnpWTHZnT3JyNmpiVXBEWDhWSHpaOVR2L1RPSXJB?=
+ =?utf-8?B?SmNLNkNodkQrN1AxMWxGd2RjUnREVWNHWlpyQWVKek96OHE5T1A3R01Venhh?=
+ =?utf-8?B?MEVETzZXUjdPcHBWdmZWV1JOdTRGYXZTWXB6T0tkVlNjU0NHZTNpQVRzcXBj?=
+ =?utf-8?B?SWQ3TGQvMFpHRmVRZnJybU10b0E2aVpUbGN4TllNWHFXYWFadWJMZVFacll2?=
+ =?utf-8?B?UFJDNHlEcjkySU50NE1rTnF2MUdZUXJ6bWVCckNVZk1hMmJiYVN4ZHNXTWdv?=
+ =?utf-8?B?T0d3VXVrYnEyQWtEcWMyYVRwc1VicUxGakpKU3dFcVYvS2I4eURhaW9KS2RC?=
+ =?utf-8?B?NEs5VEk2MHFCaFdNZTI5WTFBNnpBQks1dHBLR0ZPNmhxUGQwVllkOUg2SlQz?=
+ =?utf-8?B?WkxXTk5XcWxaczN4UWZpUDk2bDdKQytvVnkxV3BjRGRwQVhaa2ttYmVEZm5x?=
+ =?utf-8?B?YjZtSHJqSW5CQ1JVSXgyRFVnUjFLMmNWMktRekVGS3J1bnZHa1pabXB5U3hR?=
+ =?utf-8?B?SzFBY2FvMUdhM1hZMER5djFuTlpYSTY0UFM1LzJidUE2N2RVNnNZTm5MS3Zi?=
+ =?utf-8?B?UFRUbHQyRHBTdFNzcS9BSGZHQmdDWEtsbkljWkx0Rm1TYVZWeWlldjU1YnVk?=
+ =?utf-8?B?cmZ5UzRNTXdreFBRb1FncmFvWHI1eWcrMDFGR1pXVFF6a0lsd1Mxdz09?=
+X-Exchange-RoutingPolicyChecked: Nn2EakjdLWQepPvknHAsXXNzJPmXZBRiemum77BnZwik6tfxoDkkqU4hC8AAQAvJv+XhFB2zW+0fmGAbZ9KmbQoKzfEoH8iVWA00jZxQrR4Q2D4oGNFyiS0Lrhy1kkaMocXNnmyFyjpG1k+1qU7IJm/c8a4Rp/opodBpTWjybXZ3i/B0broPhlvAn/J94mArBn9EAjaWYtjD328S8Jz8AiJmrFxaA1hjrjnMjG4VAQtd0QN/ffKxekyvVljQfPn8wORl/YCS2i35UhI0+pjCDyskRzrmUkkzQmGFY5r59Zm2hR1rshZPfKBA+n99hPWFmMkIXCLZs7oUZTp8wK7/DQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8bb40758-4cb5-4685-7bcf-08ded35e2179
 X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 08:32:33.2955
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 08:37:17.8235
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UVbb5bFKGLmWigJ3gSwgBTMBpFT9WYWHn53bxizGnyQjECwG0KSMfNKJgbTQnNvm9xOrHfhujgl/8LtwL8wAKZs6IKtfS/gFoDD35qc4otI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6432
+X-MS-Exchange-CrossTenant-UserPrincipalName: jdyuvNYt7hcQdDWdorYlxJTEMxXclaB2CJbCeBepYLJxkxAGM81c3aceMQJhFrrbEXMnAJYlrMRpVmMrg6M4K8voIp92Htb386KdCgv6Aps=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4636
 X-OriginatorOrg: intel.com
 
 On 6/26/2026 7:45 AM, Kuninori Morimoto wrote:
-> We can avoid to use *card. Tidyup it.
+> count_sidecar() is not using *card. Tidyup it.
 > 
 > Current code makes old style / new style conversion difficult.
 > To make future conversions easier to understand, this patch clean up the
 > code a little. but no functional change.
+
 LGTM
 
 Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
 
-Sidenote: Thanks to this review I realised that type: 'struct 
-asoc_sdw_mc_private' holds both card and jack as.. fields.  The design 
-seems off, the private context should never encompass the card.
-
-Meh, now I'm not gonna unsee this for weeks.
+Sidenote: 'private' context within 'public' domain, meh.
 
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > ---
->   include/sound/soc_sdw_utils.h           | 3 ++-
->   sound/soc/amd/acp/acp-sdw-legacy-mach.c | 2 +-
->   sound/soc/amd/acp/acp-sdw-sof-mach.c    | 2 +-
->   sound/soc/intel/boards/sof_sdw.c        | 2 +-
->   sound/soc/sdw_utils/soc_sdw_utils.c     | 5 ++---
->   5 files changed, 7 insertions(+), 7 deletions(-)
+>   include/sound/soc_sdw_utils.h                | 28 ++++++++++----------
+>   sound/soc/sdw_utils/soc_sdw_bridge_cs35l56.c |  4 +--
+>   sound/soc/sdw_utils/soc_sdw_utils.c          |  2 +-
+>   3 files changed, 16 insertions(+), 18 deletions(-)
 > 
 > diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
-> index 443d63dc6ea37..9b28e9aef4f1d 100644
+> index 79c21966220b2..443d63dc6ea37 100644
 > --- a/include/sound/soc_sdw_utils.h
 > +++ b/include/sound/soc_sdw_utils.h
-> @@ -182,7 +182,8 @@ struct asoc_sdw_dailink *asoc_sdw_find_dailink(struct asoc_sdw_dailink *dailinks
->   					       const struct snd_soc_acpi_endpoint *new);
->   int asoc_sdw_get_dai_type(u32 type);
+> @@ -44,6 +44,18 @@
 >   
-> -int asoc_sdw_parse_sdw_endpoints(struct snd_soc_card *card,
-> +int asoc_sdw_parse_sdw_endpoints(struct device *dev,
-> +				 struct asoc_sdw_mc_private *ctx,
->   				 struct snd_soc_aux_dev *soc_aux,
->   				 struct asoc_sdw_dailink *soc_dais,
->   				 struct asoc_sdw_endpoint *soc_ends,
-> diff --git a/sound/soc/amd/acp/acp-sdw-legacy-mach.c b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-> index e8b6819cc4b45..9726a9d33ec6e 100644
-> --- a/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-> +++ b/sound/soc/amd/acp/acp-sdw-legacy-mach.c
-> @@ -432,7 +432,7 @@ static int soc_card_dai_links_create(struct snd_soc_card *card)
->   	if (!soc_aux)
->   		return -ENOMEM;
+>   struct asoc_sdw_codec_info;
 >   
-> -	ret = asoc_sdw_parse_sdw_endpoints(card, soc_aux, soc_dais, soc_ends, &num_confs);
-> +	ret = asoc_sdw_parse_sdw_endpoints(dev, ctx, soc_aux, soc_dais, soc_ends, &num_confs);
->   	if (ret < 0)
->   		return ret;
+> +struct asoc_sdw_mc_private {
+> +	struct snd_soc_card card;
+> +	struct snd_soc_jack sdw_headset;
+> +	struct device *headset_codec_dev; /* only one headset per card */
+> +	struct device *amp_dev1, *amp_dev2;
+> +	bool append_dai_type;
+> +	bool ignore_internal_dmic;
+> +	void *private;
+> +	unsigned long mc_quirk;
+> +	int codec_info_list_count;
+> +};
+> +
+>   struct asoc_sdw_dai_info {
+>   	const bool direction[2]; /* playback & capture support */
+>   	const char *codec_name;
+> @@ -88,25 +100,13 @@ struct asoc_sdw_codec_info {
 >   
-> diff --git a/sound/soc/amd/acp/acp-sdw-sof-mach.c b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-> index a423853f3a97d..963ce6fd40122 100644
-> --- a/sound/soc/amd/acp/acp-sdw-sof-mach.c
-> +++ b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-> @@ -303,7 +303,7 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
->   	if (!sof_aux)
->   		return -ENOMEM;
+>   	int (*codec_card_late_probe)(struct snd_soc_card *card);
 >   
-> -	ret = asoc_sdw_parse_sdw_endpoints(card, sof_aux, sof_dais, sof_ends, &num_devs);
-> +	ret = asoc_sdw_parse_sdw_endpoints(dev, ctx, sof_aux, sof_dais, sof_ends, &num_devs);
->   	if (ret < 0)
->   		return ret;
+> -	int  (*count_sidecar)(struct snd_soc_card *card,
+> +	int  (*count_sidecar)(struct asoc_sdw_mc_private *ctx,
+>   			      int *num_dais, int *num_devs);
+>   	int  (*add_sidecar)(struct snd_soc_card *card,
+>   			    struct snd_soc_dai_link **dai_links,
+>   			    struct snd_soc_codec_conf **codec_conf);
+>   };
 >   
-> diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-> index d43daf9b025df..24226a387cc2a 100644
-> --- a/sound/soc/intel/boards/sof_sdw.c
-> +++ b/sound/soc/intel/boards/sof_sdw.c
-> @@ -1285,7 +1285,7 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
->   		goto err_dai;
->   	}
+> -struct asoc_sdw_mc_private {
+> -	struct snd_soc_card card;
+> -	struct snd_soc_jack sdw_headset;
+> -	struct device *headset_codec_dev; /* only one headset per card */
+> -	struct device *amp_dev1, *amp_dev2;
+> -	bool append_dai_type;
+> -	bool ignore_internal_dmic;
+> -	void *private;
+> -	unsigned long mc_quirk;
+> -	int codec_info_list_count;
+> -};
+> -
+>   struct asoc_sdw_endpoint {
+>   	struct list_head list;
 >   
-> -	ret = asoc_sdw_parse_sdw_endpoints(card, sof_aux, sof_dais, sof_ends, &num_confs);
-> +	ret = asoc_sdw_parse_sdw_endpoints(dev, ctx, sof_aux, sof_dais, sof_ends, &num_confs);
->   	if (ret < 0)
->   		goto err_end;
+> @@ -235,7 +235,7 @@ int asoc_sdw_es9356_amp_init(struct snd_soc_card *card,
+>   int asoc_sdw_es9356_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link);
 >   
+>   /* CS AMP support */
+> -int asoc_sdw_bridge_cs35l56_count_sidecar(struct snd_soc_card *card,
+> +int asoc_sdw_bridge_cs35l56_count_sidecar(struct asoc_sdw_mc_private *ctx,
+>   					  int *num_dais, int *num_devs);
+>   int asoc_sdw_bridge_cs35l56_add_sidecar(struct snd_soc_card *card,
+>   					struct snd_soc_dai_link **dai_links,
+> diff --git a/sound/soc/sdw_utils/soc_sdw_bridge_cs35l56.c b/sound/soc/sdw_utils/soc_sdw_bridge_cs35l56.c
+> index e0e32a279787c..129a437ae397e 100644
+> --- a/sound/soc/sdw_utils/soc_sdw_bridge_cs35l56.c
+> +++ b/sound/soc/sdw_utils/soc_sdw_bridge_cs35l56.c
+> @@ -99,11 +99,9 @@ static const struct snd_soc_dai_link bridge_dai_template = {
+>   	SND_SOC_DAILINK_REG(asoc_sdw_bridge_dai),
+>   };
+>   
+> -int asoc_sdw_bridge_cs35l56_count_sidecar(struct snd_soc_card *card,
+> +int asoc_sdw_bridge_cs35l56_count_sidecar(struct asoc_sdw_mc_private *ctx,
+>   					  int *num_dais, int *num_devs)
+>   {
+> -	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+> -
+>   	if (ctx->mc_quirk & SOC_SDW_SIDECAR_AMPS) {
+>   		(*num_dais)++;
+>   		(*num_devs) += ARRAY_SIZE(bridge_cs35l56_name_prefixes);
 > diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-> index 073f3f9205a73..dd2cc57059d6a 100644
+> index d8db8fc5313ee..073f3f9205a73 100644
 > --- a/sound/soc/sdw_utils/soc_sdw_utils.c
 > +++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-> @@ -1976,14 +1976,13 @@ static int is_sdca_endpoint_present(struct device *dev,
->   	return ret;
->   }
+> @@ -2045,7 +2045,7 @@ int asoc_sdw_parse_sdw_endpoints(struct snd_soc_card *card,
+>   			ctx->ignore_internal_dmic |= codec_info->ignore_internal_dmic;
 >   
-> -int asoc_sdw_parse_sdw_endpoints(struct snd_soc_card *card,
-> +int asoc_sdw_parse_sdw_endpoints(struct device *dev,
-> +				 struct asoc_sdw_mc_private *ctx,
->   				 struct snd_soc_aux_dev *soc_aux,
->   				 struct asoc_sdw_dailink *soc_dais,
->   				 struct asoc_sdw_endpoint *soc_ends,
->   				 int *num_devs)
->   {
-> -	struct device *dev = card->dev;
-> -	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
->   	struct snd_soc_acpi_mach *mach = dev_get_platdata(dev);
->   	struct snd_soc_acpi_mach_params *mach_params = &mach->mach_params;
->   	const struct snd_soc_acpi_link_adr *adr_link;
+>   			if (codec_info->count_sidecar && codec_info->add_sidecar) {
+> -				ret = codec_info->count_sidecar(card, &num_dais, num_devs);
+> +				ret = codec_info->count_sidecar(ctx, &num_dais, num_devs);
+>   				if (ret)
+>   					return ret;
+>   
 
