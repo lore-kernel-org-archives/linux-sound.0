@@ -1,61 +1,63 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF6C3D1CBE
-	for <linux-sound@vger.kernel.org>; Fri, 26 Jun 2026 06:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002B93D3482
+	for <linux-sound@vger.kernel.org>; Fri, 26 Jun 2026 06:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782454431; cv=none; b=rmU114Lvh7Eiby8U3vGYkbmDeCLF66SKWNg1/dmuchZZSOldkdmQKskWIhYOR1VM3HJeBx9lxeg5JjkSM1V+ZZVS3/e7tShfLT1dQT5nXf25PE9NRkH5aTIGJpu76aNjdFzKKRL1feXL/87YP0teubXVKq8LTxrjt6BLKWIuEPs=
+	t=1782454436; cv=none; b=H/gHAXyRq/jW0MUzoRV0lYG9x+26wbMyjx4oKKwblmKoyVWzru6eUZy0OO0kVBt4XMAmaQyqfx2/SPL6dEoGOVoRuOdlUQC3ALXk8y2J1hvTHBBkkA2GysC/e9XQ/5ebflO/cJIasPW7JA1SdZpgEROKoDwg7li4mlHm2NHHNIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782454431; c=relaxed/simple;
-	bh=R6SYI3hSlHmFpqmI6l4ZS+xTVB2si9oTQsINCx6aWdI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QYl/IeCbAkI393BMiFSfCtN2kB8I/LNKrm4i3IiEURjPqGDtaZXU7ydjawqKVN0aFCc0nnMggK7DW28XnHA4UG2MyeX8xVldt08NZJ6YkOWoZ1i01rfGL6DpCSAjLgAMWs8bB9WBmiPpeXln3THM/wn/kmAGpaETn3plPLdqV4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fSZtKjLa; arc=none smtp.client-ip=209.85.216.43
+	s=arc-20240116; t=1782454436; c=relaxed/simple;
+	bh=aeZjPmGhDWlaPCT1RRDfgeSEVWLZ95Hfqxv0L4cptwI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=eh0iR75/25AirDDX3niNfbu/Yt4zQXTKFtAJTGbrAsc7SOw1IsQ36VFzGhL4SFu3O1yYvaXYTi9uLIniQ4pCS2EPRQGJKhODNEMPUAdxUAByWbSm+2sLRWCgHlCa8lxf5lRNN41RkO9Va8PVRM/3d0768pJ5OMXls1bJOIYNDUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fCln5B7F; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fSZtKjLa"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-37dedd62b90so375395a91.1
-        for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 23:13:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fCln5B7F"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-37defb2f231so336011a91.2
+        for <linux-sound@vger.kernel.org>; Thu, 25 Jun 2026 23:13:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782454428; x=1783059228; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V/0td7aWGEXYKguHC2/uXp2GMai6pr3CtkzjBaJbjro=;
-        b=fSZtKjLaLR3Ro/lI2L7GMg72kfm+7mqkfl3RPZl9AJYpmSVKdV/vr53oTWlN9bCSpS
-         AMDpG1vttQFUu+6AJLbs5n6fo8ljrL5Ia5Gy9N6OUQ8QAeGsYHXnoN8m5ZVAtlNlMte+
-         TmVfxNHuP8NZrR3z4wYrxOHA2/ektT/L3RB4GL5/FfHt042iAlM0tUMlaATtg4QcPpBT
-         mQDNN5HHm5yEH35Kq/6aZf8EP2gq5fSJsyIeBXOkaJTm1nP8pgoVsb0YsUs8Jt/s7Tfk
-         gQlmM5ZtUM9cVPxn4CuAeWWW8U7nrndjVoHoqW5e3FGIuByLV17v/DiFy/blYMKAaToZ
-         UmYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782454428; x=1783059228;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782454434; x=1783059234; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V/0td7aWGEXYKguHC2/uXp2GMai6pr3CtkzjBaJbjro=;
-        b=nVId7sEIlQWqvrSuuOc2hyaUO1KUAQtXppyIdGqisHLZNfV+vbO6AC/GSkUG8fvBvN
-         f7/m+9MA7Kl/OvK77UFAAUwPvlIbXrzYb8t9Qq2XEl++Vvop2Ki4m81emi8xR73x3MZD
-         +vqPWeAlGeUuylVrQ6nNb1nDOt12c6ouVSJsci35TOnR/G13g5qB1h93aOTEO44LW4Ln
-         m7kcQFnU4Pmq3MkF/feYzsqOvNDmiCR+sCUe9PsTlHJT2akbp3KbzkasgJxcT9Plq3GP
-         dabaOtH8mOXyiUATx9x0rgeUwal2xWdHsld7JP6Edd/UosUtl30FO91n9n0AwXpw4gyy
-         gqCA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpx8/l0caUvil9Am12hUydfMqe2WWRcTgyRChvDXAoEx5Gx8uqVxUIMTvplRaewLXemPA6pCryfw2CzMQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YySOzvAk/nKCmXJY9fMHo25vNPvAdHHkUX2bf7ENtzu8ueCcQcX
-	GeqtzlnG43Ka5JOKdfWi2yDh9eKwa/54/128St0Q0OKVZdsXqBCRwDWO
-X-Gm-Gg: AfdE7cn/X6iC6bOcr5NwwPlbONrvPst2iN5dfoqhyWTg3m6fl/gU1yKBHzO3v8Zo9wL
-	QnNpqwM1sTUG+HdCnvCYU4bJqxal+p8ukSMVdKZlw6v5IkEo5WARcSVuJaC0+9riE2fuoq0YGaQ
-	BmFFjEb+47LCKd6XzqViY3+vy1ic1L/fw2juKHBtOGoZHeiyUuFJwywOuysP8iMstDPI8d2G1AD
-	Bl/K8Vrl2MXnuudH+9SosKBPK6BvMHpAJgRKV35GPZqr387YTv8EHxIRryelEq9ADRj1Ph9I2Cd
-	5NIhOULkylxPpSU277ZZUOT59frfFVeEu3PM+eIRRtc180jlPU4tWeZFbJoimyrPZNQf5WjS9eZ
-	gfe/8ie0V0aOYw+fdolcvwIdgqhlNiV3e3zwRbrz0R5dpYP5htn7hmbERXWcOmxthVOuHFFs20n
-	+s7+16BiSTd8598QcM9FT5hbS3XLhWrpP7xoUft5gSQrEn3RQ=
-X-Received: by 2002:a17:90b:5387:b0:36b:769c:c037 with SMTP id 98e67ed59e1d1-37df90a85cemr3835851a91.5.1782454428422;
-        Thu, 25 Jun 2026 23:13:48 -0700 (PDT)
+        bh=wH3PeQGMbk7TOW2LRX9VqMPl97RF/TvWYaO8+1NfNuc=;
+        b=fCln5B7FdmU3m2Rl0GF+7UE0Kf8+mw8lZhS6lS+D8HoO0PrXLSsQoWpbixQ0OSXKfz
+         bIB+V1YMiBNwLpwXowuWfzODzMx1bJUPsz5smsW2e++J82bxub+1jQehH5nfAr5XH+pQ
+         ayS5GQwBH/QM0MhJuCyws1dsHb8g1zZEiDVAWKFmZBqFo9Je42IKPmumz3qzYyXQg33R
+         p6vXrss97QyvntR8hC9af/XJzoBKQUrYENaaAKcw3MW1rmt9gHOCq7eP7t4Ba6BHWRF4
+         M3Yy2aHUefHC7p3XxE1thW95SC6/4KZGo23xnp+Lx68g216qnMC1xwOYSbXrcVxKYPTK
+         +LTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782454434; x=1783059234;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wH3PeQGMbk7TOW2LRX9VqMPl97RF/TvWYaO8+1NfNuc=;
+        b=KZa9AgVYW77QJcpwV3hY3biJPydmFRsxNFBeVogcJzD4C4b+Sprj0AwYnRd35X5pfp
+         x8nduBnffVap9dzg6UnMWx0mhlpbAG+EHCo8s7pgyPu9KOwsSMI9NJHdmsrRrRDT735k
+         GAeIR+6nY18J+Py+eTvMMC+3ZJjnzG9yW576LbHqL9DIHcgfJQeNo7CNIdF5nDQ9ELGF
+         XL2fymVczeIhlhXTdC7jR85hBtNDLmUb7wjiZH74bEqQUz+gwf4o8CDN1oFRAMe4U3f6
+         7NDXO0NgtWq469yOxWhbvjHPM8UcmkJIbhMSCnCTg/p0xqntBjAiu0DANQXEXBLHVEqM
+         ts8A==
+X-Forwarded-Encrypted: i=1; AHgh+RqCgRbZMcW1yT66YOEjf1CBlA3hlrqf7B27UciN+tXHpU4EQ/skbISMXFflhmnMDn95n2VGFnZbNX92tA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVb9KDtyq8Emx7hX4E3/5jDQZdNdfYLfzZnWlzSNsbkkL7jDH1
+	Q10yO4kQNqbq3U+ZCp3/R6t4vUPTtlC0WmJw6FfLaXWkWi4ed7wmB8yK
+X-Gm-Gg: AfdE7ckdCJpTAS0ThDAKaV7E/BYBBs0R3HtP19HB8wpNPxl01/lwnv055rW66U8YTnu
+	OYrFB7/wybhQo0QiFdSJC9WzzD3lbYZE3wBupomDejhWoYRhSXp5I6eZZ3Nvx6ovpTkxaOeVI7e
+	rDF+ORKBm9iAfxiTKdi/qG1D/kID6nHk9+/P+vfHlpvBAVy8Mg6I2qDfm7uV1K0dLH5FR9gHsOa
+	g1Z/mbuPfAUdT0Dx8gFB0CTmuGQKYh3GWSyoL4grHvOOOCy/FPDmMlbq8Z1ug4Y7V7A0X7uXd4p
+	zw7rrf3lLEpvf2/EsuS5BV4ZSTFMl/OBkDWNPKPdSEc3zhpkQMX8JQN8dKpnkshbyXt+yWfXgd7
+	MDAkihZNeVqNYuWGE6Faid8BhjRPxDGpM8zaEudkCHflAo1UlmmMXGdf+h11eKcGaSXg/JEzhzQ
+	oD1g/EaLXfSg1+5QyKtM5lSBUu+9i08ZgGqe2ciexKp8xEzzA=
+X-Received: by 2002:a17:90b:2707:b0:37d:f5e2:dff4 with SMTP id 98e67ed59e1d1-37dfa1ded31mr5302285a91.11.1782454434182;
+        Thu, 25 Jun 2026 23:13:54 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37e12da6ec4sm302051a91.2.2026.06.25.23.13.43
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37e12da6ec4sm302051a91.2.2026.06.25.23.13.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 23:13:48 -0700 (PDT)
+        Thu, 25 Jun 2026 23:13:53 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -75,10 +77,12 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	chrome-platform@lists.linux.dev,
 	asahi@lists.linux.dev,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 00/24] ASoC: codecs: Use guard() for mutex & spin locks
-Date: Fri, 26 Jun 2026 13:13:05 +0700
-Message-ID: <20260626061329.23264-1-phucduc.bui@gmail.com>
+Subject: [PATCH 01/24] ASoC: codecs: ab8500: Use guard() for mutex locks
+Date: Fri, 26 Jun 2026 13:13:06 +0700
+Message-ID: <20260626061329.23264-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260626061329.23264-1-phucduc.bui@gmail.com>
+References: <20260626061329.23264-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,76 +93,66 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi all,
+Clean up the code using guard() for mutex locks.
+Merely code refactoring, and no behavior change.
 
-This series converts mutex and spinlock handling in ASoC codec drivers
-to use the guard() and scoped_guard() helpers.
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/codecs/ab8500-codec.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-This series is split out from a larger 78-patch series to improve
-reviewability and allow for incremental review:
-https://lore.kernel.org/all/20260617103235.449609-1-phucduc.bui@gmail.com/
-
-The changes are purely refactoring and have no functional impact.
-
-Compile-tested only.
-
-Best regards,
-Phuc
-
-bui duc phuc (24):
-  ASoC: codecs: ab8500: Use guard() for mutex locks
-  ASoC: codecs: ak4613: Use guard() for mutex locks
-  ASoC: codecs: arizona-jack: Use guard() cleanup helpers
-  ASoC: codecs: arizona: Use guard() for mutex locks
-  ASoC: codecs: aw87390: Use guard() for mutex locks
-  ASoC: codecs: aw88081: Use guard() for mutex locks
-  ASoC: codecs: aw88166: Use guard() for mutex locks
-  ASoC: codecs: aw88261: Use guard() for mutex locks
-  ASoC: codecs: aw88395: Use guard() for mutex locks
-  ASoC: codecs: aw88399: Use guard() for mutex locks
-  ASoC: codecs: cros_ec_codec: Use guard() for mutex locks
-  ASoC: codecs: cs-amp-lib: Use guard() for mutex locks
-  ASoC: codecs: cs35l56: Use guard() and PM runtime scope helpers
-  ASoC: codecs: cs42l42: Use guard() cleanup helpers
-  ASoC: codecs: cs42l43: Use guard() and PM runtime scope helpers
-  ASoC: codecs: cs42l84: Use guard() for mutex locks
-  ASoC: codecs: cs43130: Use guard() for mutex locks
-  ASoC: codecs: cs47l15: Use guard() for mutex locks
-  ASoC: codecs: cs47l35: Use guard() for mutex locks
-  ASoC: codecs: cs47l85: Use guard() for mutex locks
-  ASoC: codecs: cs47l90: Use guard() for mutex locks
-  ASoC: codecs: cs47l92: Use guard() for mutex locks
-  ASoC: codecs: cs48l32: Use guard() for mutex locks
-  ASoC: codecs: cs2072x: Use guard() for mutex locks
-
- sound/soc/codecs/ab8500-codec.c           |  12 ++-
- sound/soc/codecs/ak4613.c                 |  83 +++++++++--------
- sound/soc/codecs/arizona-jack.c           |  39 ++++----
- sound/soc/codecs/arizona.c                |  26 +++---
- sound/soc/codecs/aw87390.c                |  10 +--
- sound/soc/codecs/aw88081.c                |  18 ++--
- sound/soc/codecs/aw88166.c                |  24 +++--
- sound/soc/codecs/aw88261.c                |  21 ++---
- sound/soc/codecs/aw88395/aw88395.c        |  24 +++--
- sound/soc/codecs/aw88395/aw88395_device.c |  40 +++------
- sound/soc/codecs/aw88399.c                |  15 ++--
- sound/soc/codecs/cros_ec_codec.c          |  18 ++--
- sound/soc/codecs/cs-amp-lib.c             |  11 ++-
- sound/soc/codecs/cs35l56-shared.c         |  19 ++--
- sound/soc/codecs/cs42l42.c                |  54 +++++------
- sound/soc/codecs/cs42l43-jack.c           | 104 +++++++++-------------
- sound/soc/codecs/cs42l43.c                |  16 ++--
- sound/soc/codecs/cs42l84.c                |  10 +--
- sound/soc/codecs/cs43130.c                |  72 +++++++--------
- sound/soc/codecs/cs47l15.c                |  11 ++-
- sound/soc/codecs/cs47l35.c                |  11 ++-
- sound/soc/codecs/cs47l85.c                |  11 ++-
- sound/soc/codecs/cs47l90.c                |  11 ++-
- sound/soc/codecs/cs47l92.c                |  11 ++-
- sound/soc/codecs/cs48l32.c                |  29 +++---
- sound/soc/codecs/cx2072x.c                |   5 +-
- 26 files changed, 305 insertions(+), 400 deletions(-)
-
+diff --git a/sound/soc/codecs/ab8500-codec.c b/sound/soc/codecs/ab8500-codec.c
+index 6e8ef9cd1b31..2cf96cbdd294 100644
+--- a/sound/soc/codecs/ab8500-codec.c
++++ b/sound/soc/codecs/ab8500-codec.c
+@@ -14,6 +14,7 @@
+  *         for ST-Ericsson.
+  */
+ 
++#include <linux/cleanup.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/device.h>
+@@ -989,9 +990,8 @@ static int sid_status_control_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct ab8500_codec_drvdata *drvdata = dev_get_drvdata(component->dev);
+ 
+-	mutex_lock(&drvdata->ctrl_lock);
++	guard(mutex)(&drvdata->ctrl_lock);
+ 	ucontrol->value.enumerated.item[0] = drvdata->sid_status;
+-	mutex_unlock(&drvdata->ctrl_lock);
+ 
+ 	return 0;
+ }
+@@ -1014,7 +1014,7 @@ static int sid_status_control_put(struct snd_kcontrol *kcontrol,
+ 		return -EIO;
+ 	}
+ 
+-	mutex_lock(&drvdata->ctrl_lock);
++	guard(mutex)(&drvdata->ctrl_lock);
+ 
+ 	sidconf = snd_soc_component_read(component, AB8500_SIDFIRCONF);
+ 	if (((sidconf & BIT(AB8500_SIDFIRCONF_FIRSIDBUSY)) != 0)) {
+@@ -1025,7 +1025,8 @@ static int sid_status_control_put(struct snd_kcontrol *kcontrol,
+ 		} else {
+ 			status = -EBUSY;
+ 		}
+-		goto out;
++		dev_dbg(component->dev, "%s: Exit\n", __func__);
++		return status;
+ 	}
+ 
+ 	snd_soc_component_write(component, AB8500_SIDFIRADR, 0);
+@@ -1043,9 +1044,6 @@ static int sid_status_control_put(struct snd_kcontrol *kcontrol,
+ 
+ 	drvdata->sid_status = SID_FIR_CONFIGURED;
+ 
+-out:
+-	mutex_unlock(&drvdata->ctrl_lock);
+-
+ 	dev_dbg(component->dev, "%s: Exit\n", __func__);
+ 
+ 	return status;
 -- 
 2.43.0
 
