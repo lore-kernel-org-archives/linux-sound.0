@@ -1,22 +1,23 @@
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B1942ED84A;
-	Fri, 26 Jun 2026 02:27:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC67B2F8E8B;
+	Fri, 26 Jun 2026 02:27:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782440846; cv=none; b=H/mwScywh/+P3TwMY4L1M7g/5ugsiQMSAmdLO7PfeINjV9o6l9BIiexgYay522X085G5g6OTcBGqT4xD5B8P6WGZXs2mmQD25pML/cXaogklfVWywgqL5L3Lu5n2NL5TylJoSjDrYO+KGon4B57G3HWxhV+F9p9lQvLV7rVtxRQ=
+	t=1782440846; cv=none; b=jr0P2YuKFuOcddboIFBA7/yyD9qpDxgjWbU82DvPm/q/HfVUVnjVZ07m6arbw6H5u8iVAtHaZYz1ay6gx1LRk8BrKp7jvGDuGxw4bq5zy0bT62qFH/E1ujOCom3p6N8RSIG62NrslpJbNV4ZPkCkU7tm5TCcIGnf/hA60sy2Yfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1782440846; c=relaxed/simple;
-	bh=lvVxjrbdPD39TkmjEb3d6UFMQJyJbOOk9m165/3zjvE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RD7bLANuGffxLLsSigblzb8/8Uem3qfyPPmzolyVtqwPQK2NCqUuuSXhGzVKS0HKPMaskt0SjdIYthR/UmGoLyfzS9qtMstDg+//9Pcm86Gy0nomxr4RgX94iDRGlqVxGJizKpywrkDvieBIAZfyxbi0jPRkfDxqYLkqxDO1S4E=
+	bh=cnNgj9pJvi1Jaw/xuqtn5898J8vGRaR5GE1xKTSfKG4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DmfLPUp3JSe+dx9IzQpDw6wkrhYJyG7keAOOE7Zdiq7Ujpf+tUJu9wXM1NfTf8RJbH9Ha+HvRAYxWf6A8lDt5gG6pkc+dUkGnY4cI7LBSF3N/cwClDlopMDYWVJPrJ/VYbx0i1C/EfszvxCk/1xYk9PovJqy4WPm3pMBIRlQJMo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
 Received: from loongson.cn (unknown [223.64.68.155])
-	by gateway (Coremail) with SMTP id _____8DxVXiG4z1quDAYAA--.37427S3;
-	Fri, 26 Jun 2026 10:27:18 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____8CxhniK4z1qzDAYAA--.37404S3;
+	Fri, 26 Jun 2026 10:27:22 +0800 (CST)
 Received: from kernelserver (unknown [223.64.68.155])
-	by front1 (Coremail) with SMTP id qMiowJBxSeCC4z1qim2zAA--.12873S2;
-	Fri, 26 Jun 2026 10:27:15 +0800 (CST)
+	by front1 (Coremail) with SMTP id qMiowJBxSeCC4z1qim2zAA--.12873S4;
+	Fri, 26 Jun 2026 10:27:21 +0800 (CST)
 From: Binbin Zhou <zhoubinbin@loongson.cn>
 To: Binbin Zhou <zhoubb.aaron@gmail.com>,
 	Huacai Chen <chenhuacai@loongson.cn>,
@@ -33,11 +34,14 @@ Cc: Huacai Chen <chenhuacai@kernel.org>,
 	loongarch@lists.linux.dev,
 	devicetree@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH v3 0/9] ASoC: Add Loongson-2K0300 I2S controller and sound card support
-Date: Fri, 26 Jun 2026 10:27:02 +0800
-Message-ID: <cover.1782439646.git.zhoubinbin@loongson.cn>
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH v3 2/9] ASoC: dt-bindings: loongson,ls2k1000-i2s: Document Loongson-2K0300 compatible
+Date: Fri, 26 Jun 2026 10:27:04 +0800
+Message-ID: <af092f9eabdc170c3d7951b29eee6512f748eb48.1782439646.git.zhoubinbin@loongson.cn>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1782439646.git.zhoubinbin@loongson.cn>
+References: <cover.1782439646.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,122 +49,81 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJBxSeCC4z1qim2zAA--.12873S2
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAgEKCGo8wzAaEwAAst
-X-Coremail-Antispam: 1Uk129KBj93XoWxXr43uw15XF4rtw13Cr1Utwc_yoW5tFyDpF
-	s3u39xGryUGFyjyFZxXry8Cr4fZ34xJa9rJF45J34kJanrC3yjv34qy3WYvF47ZrZ5GrWj
-	qrn5KF4rWFy5ZFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+X-CM-TRANSID:qMiowJBxSeCC4z1qim2zAA--.12873S4
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAQEKCGo8w2QalwAAs+
+X-Coremail-Antispam: 1Uk129KBj93XoW7KFWxGr1UAr13Kr4Dtry3Jrc_yoW8Xw4UpF
+	sxCa17GryIqF13C398ta48Cw1rZ3s3AanrJF47Gr17Kwn0q3y0vw13Kr1Yqa13urWxXrW3
+	uFy8Kr45GayUCwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
 	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUB0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	0xBIdaVrnRJUUUBFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
 	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	Gr0_Gr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
-	kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWU
-	AwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
-	8JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
-	6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
-	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
-	0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4
-	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AK
-	xVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUc9a9UUUUU
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4j6r4UJwAaw2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_
+	WrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+	xGrwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+	vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+	x2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
+	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
+	wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jr9NsUUUUU=
 
-Hi all:
+Add a new compatible string `loongson,ls2k0300-i2s` for the I2S
+controller found on Loongson-2K0300 SoC.
 
-This series adds ASoC support for the Loongson-2K0300 SoC and its
-associated development boards, including the CTCISZ Forever Pi and the
-ATK-DL2K0300B.
+Unlike Loongson-2K1000, Loongson-2K0300 does not require the second
+register region for APB DMA configuration, so update the binding to
+allow a single reg entry.
 
-Key changes:
-- Extend DT bindings to support ls2k0300-i2s and new audio card
-  compatibles.
-- Refactor the platform I2S driver to handle SoC differences via per-device
-  configuration (rev_id, optional APB DMA config, reset sequence).
-- Refactor the audio machine driver to support board-specific DAI formats,
-  GPIO-based headphone detection/control, speaker enable, and DAPM routing.
-- Add jack detection and automatic switching between headphones and
-  speakers for the DL2K0300B board.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+---
+ .../bindings/sound/loongson,ls2k1000-i2s.yaml | 22 ++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
-The patchset also cleans up the existing audio card binding by
-referencing the common sound-card properties, and adds new compatibles
-for the Loongson-2K0300 variants with proper DAI format handling.
-
-All changes have been tested on Loongson-2K2000 (PCI), Loongson-2K0300
-Forever Pi and Loongson-2K0300 DL2K0300B boards.
-
-Thanks.
-Binbin
-
-========
-V3:
-Patch (1/9):
-  - New patch;
-  - Error handling reported by AI Sashiko;
-Patch (3/9):
-  - Mark platform configuration structures as `const`;
-Patch (4/9):
-  - Add Acked-by tag from Rob, thanks;
-Patch (5/9):
-  - Correct commit message;
-Patch (7/9):
-  - Drop `loongson` prefix;
-  - Change `gpiod_hp_mute` to `gpiod_hp_ctl`;
-Patch (8/9):
-  - Add `add_dapm_routes` to  loongson_card_config;
-  - Move gpiod* register ops into loongson_card_parse_of();
-  - Change `gpiod_hp_mute` to `gpiod_hp_ctl`;
-  - Add `ls_priv->gpiod_hp_det` judgment in loongson_asoc_machine_init()
-    to avoid double-free;
-Patch (9/9):
-  - New patch;
-  - Add DAPM routes from MIC inputs to Mic Bias. 
-
-Link to V2:
-https://lore.kernel.org/all/cover.1780538113.git.zhoubinbin@loongson.cn/
-
-v2:
-- The first four patches for V1 (related to code cleanup) have been
-  accepted as a separate series. The link is as follows:
-https://lore.kernel.org/all/178041371415.93058.4794135670349989571.b4-ty@b4/
-
-Patch (1/7):
-  - Add Reviewed-by tag from Krzysztof Kozlowski;
-Patch (3/7):
-  - New patch;
-  - Reference sound-card-common.yaml, drop custom model property;
-Patch (4/7)(5/7):
-  - New patches;
-  - Support Forever Pi board with different DAI format;
-Patch (6/7)(7/7):
-  - New patches;
-  - Implement headphone jack detection and DAPM routing for ATK-DL2K0300B
-    board.
-
-Link to V1:
-https://lore.kernel.org/all/cover.1773107475.git.zhoubinbin@loongson.cn/
-
-Binbin Zhou (9):
-  ASoC: loongson: Fix error handling in ACPI property parsing
-  ASoC: dt-bindings: loongson,ls2k1000-i2s: Document Loongson-2K0300
-    compatible
-  ASoC: loongson: Add Loongson-2K0300 I2S controller support
-  ASoC: dt-bindings: loongson,ls-audio-card: Use common sound card
-  ASoC: dt-bindings: loongson,ls-audio-card: Add ctcisz forever pi
-    compatible
-  ASoC: loongson: Add Loongson-2K0300 CTCISZ Forever Pi sound card
-    support
-  ASoC: dt-bindings: loongson,ls-audio-card: Add ATK-DL2K0300B
-    compatible
-  ASoC: loongson: Add headphone jack detection and DAPM routing
-  ASoC: es8328: Add DAPM routes from MIC inputs to Mic Bias
-
- .../sound/loongson,ls-audio-card.yaml         |  53 +++++-
- .../bindings/sound/loongson,ls2k1000-i2s.yaml |  22 ++-
- sound/soc/codecs/es8328.c                     |   5 +
- sound/soc/loongson/loongson_card.c            | 171 ++++++++++++++++--
- sound/soc/loongson/loongson_i2s_plat.c        |  42 ++++-
- 5 files changed, 267 insertions(+), 26 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/sound/loongson,ls2k1000-i2s.yaml b/Documentation/devicetree/bindings/sound/loongson,ls2k1000-i2s.yaml
+index da79510bb2d9..51e23c189f7a 100644
+--- a/Documentation/devicetree/bindings/sound/loongson,ls2k1000-i2s.yaml
++++ b/Documentation/devicetree/bindings/sound/loongson,ls2k1000-i2s.yaml
+@@ -14,9 +14,12 @@ allOf:
+ 
+ properties:
+   compatible:
+-    const: loongson,ls2k1000-i2s
++    enum:
++      - loongson,ls2k0300-i2s
++      - loongson,ls2k1000-i2s
+ 
+   reg:
++    minItems: 1
+     items:
+       - description: Loongson I2S controller Registers.
+       - description: APB DMA config register for Loongson I2S controller.
+@@ -49,6 +52,23 @@ required:
+ 
+ unevaluatedProperties: false
+ 
++if:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - loongson,ls2k1000-i2s
++
++then:
++  properties:
++    reg:
++      minItems: 2
++
++else:
++  properties:
++    reg:
++      maxItems: 1
++
+ examples:
+   - |
+     #include <dt-bindings/clock/loongson,ls2k-clk.h>
 -- 
 2.52.0
 
