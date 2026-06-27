@@ -1,88 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE683161BA;
-	Sat, 27 Jun 2026 16:07:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A01D380FC5;
+	Sat, 27 Jun 2026 21:13:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782576465; cv=none; b=SPNlPXe9V5FNqbuWDc0OVJbZ3tVfVun5Kcqfg542eaQexdDvNJW/BB+3kWOk28nv1YmlUyZmU3npxu1NzJD+jiQdGjK44/RyR/UVBjkoy4vdioRoS4bREauJiu4p86FaeQgOy7HNrhW7+M0zj5U1zz4FMHdFr9GBoF3sivP2fqM=
+	t=1782594811; cv=none; b=G0v/mssxFLXcUWSrtkC/WAPUb7mqNEpiSLW2hkSxNg351zkgtF/ZwwTbZJWTQRd+3dBzQbFIuwrWY74C3PqvQ/bAuug0+j2rMZ6HZvjtThM9mM74woOHHQ9LTETgmfNLzc4X6S3MvNwEfNRDOHXWPQs5+FvLPOvb3mdx4S/6g7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782576465; c=relaxed/simple;
-	bh=kbXE+e2kShUdFQUZEtzV5kb5kIHvO0+olg3vo8dAYAI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=QVIWMeaa2RUosxF2ZKkdx5Qbzu4wuJjA+f3NDKn1y0aqXogXgBvq2l1Shxt6lGEzla+KUv6ZpKEwK6t7BmXWcar0u0In155TyXTsu6x/6fCxfjF/EJy+/AT05+iz7W2sxrKVf7F1Rxiv0Gz7onQCEPjdcD1tJa12M9U780ta9SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qw2Y59Rm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782594811; c=relaxed/simple;
+	bh=dkblK99qhRsR9LKx8eeFIdpvUCl+zQQT8XcFA7SXhN4=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=OIMekK3pPR6wMwQpxxuKMHS9FNK5yvxN184KqIt+rZM82wKTsJ77ncDWM44meIJks586Stf0P06L/cSILRtl8cmDxIGyYbjo0E0QfBzXa4h2QPdRyWBOi93jXu3oK5HReELtR3DNVrkT/0qGuQ1SgmIa8RvyvxdE4pSlKGd6f7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dcpNIDO0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qw2Y59Rm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24B671F000E9;
-	Sat, 27 Jun 2026 16:07:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dcpNIDO0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1123A1F000E9;
+	Sat, 27 Jun 2026 21:13:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782576463;
-	bh=Eai9illNnwIVHHx82Y8oRRChAijNkCdc6Gtuf6pgPNA=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To;
-	b=Qw2Y59RmKIirc9QicmPqL66sTrj2a2pRKQ4q1v06L1xA9E/C/n8ujusPhFM+JyAMq
-	 Sc7C+LA2hGDEhdfXPP6JFmdPW/lxQo9uwCywxV3gUUCsoaqp/p8gFp8rSRqgPX9Rot
-	 aq3TQmnmHDhFsytBp0U3bmY62h9aCkV7OgVPCbZZlU8BaFdjaz9P3zEBUeuvx5tPmD
-	 4Tx2RvxcWeTQ2au9N+Wnor838KKBkB0xRChuAMilaNqmNIuEwn8ueK3uR1GU+mDUy3
-	 YyRV47jAv1zDKiToKjdTIwjPqIKhSumFkr9k6T4RB7BOfeDsDOS70P4Gje9HvpGVAd
-	 5T1h6xlOziCJQ==
+	s=k20260515; t=1782594810;
+	bh=saBj7TYMHUWg3owjuxsgL8FppaAxp0rIvoE6KWV9KE0=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=dcpNIDO0wcNWONFbQkLeFUeTxJG2bC69j2yKDonqMtkyjSlhz5zweCSQjv4kVZZid
+	 X0t+4SG1SYUwIeRQmZhZJ1OAS++8c713PmIKh4kZGLC0mnKfB2T9hfGggiIICJXcpF
+	 pjobXIqZdYJcqSzaKd3H7j1E4EMYU81MsXLs7RnHErO85bdTz+j/fEK/YO2I56aQMo
+	 +RrDo3TSEXN+MHamjfbffeOkbJRjTZo595xtfzcLc5zsTL8/Tjg0TpEs/LeJKyzgBZ
+	 9BXPpgFuwC/5P0SVzsWfupmuJnvCPmSrCz54TaPAdcY3hxPzgw88FILeJVPYR/6abS
+	 xlPDokpsvj9Yg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 19C6B3938452;
+	Sat, 27 Jun 2026 21:13:17 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 7.2-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <8733y8rqo3.wl-tiwai@suse.de>
+References: <8733y8rqo3.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <8733y8rqo3.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-7.2-rc1
+X-PR-Tracked-Commit-Id: e1e31e0ec8a609e17fd2e86b77bc00d9cbb24d7c
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 14923571e78ae448ff4cc250d46d6f5fa442761c
+Message-Id: <178259479567.1431938.11151483722854116859.pr-tracker-bot@kernel.org>
+Date: Sat, 27 Jun 2026 21:13:15 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 27 Jun 2026 18:07:32 +0200
-Message-Id: <DJJYM56GLGXX.2L6RY669ZOJSC@kernel.org>
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Mark Brown" <broonie@kernel.org>, "Nathan
- Chancellor" <nathan@kernel.org>, "Nick Desaulniers"
- <nick.desaulniers+lkml@gmail.com>, "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>, "Raag Jadav"
- <raag.jadav@intel.com>, "Sohil Mehta" <sohil.mehta@intel.com>, "Dave
- Hansen" <dave.hansen@linux.intel.com>, "Rob Herring" <robh@kernel.org>,
- "Saravana Kannan" <saravanak@kernel.org>, "Bjorn Helgaas"
- <bhelgaas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, "Len Brown"
- <lenb@kernel.org>, "Andi Shyti" <andi.shyti@kernel.org>,
- <linux-kernel@vger.kernel.org>, "Yemike Abhilash Chandra"
- <y-abhilashchandra@ti.com>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
- <linux-media@vger.kernel.org>, "Nicolas Frattaroli"
- <nicolas.frattaroli@collabora.com>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Heiko
- Stuebner" <heiko@sntech.de>, <linux-rockchip@lists.infradead.org>,
- <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <driver-core@lists.linux.dev>, "Jonathan Cameron" <jic23@kernel.org>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Bartosz Golaszewski"
- <bartosz.golaszewski@oss.qualcomm.com>, "Pei Xiao" <xiaopei01@kylinos.cn>,
- "Shashank Balaji" <shashank.mahadasyam@sony.com>, "Ben Horgan"
- <ben.horgan@arm.com>, "Johan Hovold" <johan@kernel.org>,
- <linux-usb@vger.kernel.org>, "Nikita Kravets" <teackot@gmail.com>, "Hans de
- Goede" <hansg@kernel.org>, =?utf-8?q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, <platform-driver-x86@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-i2c@vger.kernel.org>, "Daniel Scally"
- <dan.scally@ideasonboard.com>, "Sakari Ailus"
- <sakari.ailus@linux.intel.com>, "Minas Harutyunyan" <hminas@synopsys.com>,
- "Tianrui Zhao" <zhaotianrui@loongson.cn>, "Bibo Mao" <maobibo@loongson.cn>,
- "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
- <kvm@vger.kernel.org>, <loongarch@lists.linux.dev>
-To: =?utf-8?b?VXdlIEtsZWluZS1Lw7ZuaWcgKFRoZSBDYXBhYmxlIEh1Yik=?=
- <u.kleine-koenig@baylibre.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 00/17] mod_devicetable.h: Split into per subsystem
- headers
-References: <cover.1782490566.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <cover.1782490566.git.u.kleine-koenig@baylibre.com>
 
-On Fri Jun 26, 2026 at 8:00 PM CEST, Uwe Kleine-K=C3=B6nig (The Capable Hub=
-) wrote:
-> Uwe Kleine-K=C3=B6nig (The Capable Hub) (17):
->   mod_devicetable.h: Split into per subsystem headers
->   driver: core: Include headers for acpi_device_id and of_device_id for s=
-truct device_driver
->   driver core: platform: Include header for struct platform_device_id
+The pull request you sent on Sat, 27 Jun 2026 16:42:04 +0200:
 
-With the suggested rename,
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-7.2-rc1
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/14923571e78ae448ff4cc250d46d6f5fa442761c
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
