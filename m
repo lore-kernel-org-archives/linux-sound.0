@@ -1,125 +1,367 @@
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0002e601.pphosted.com (mx0b-0002e601.pphosted.com [148.163.154.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954B53A544A
-	for <linux-sound@vger.kernel.org>; Sun, 28 Jun 2026 11:43:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782647007; cv=none; b=E8oBTmBYztaZwHsfQ3uZGYC23GL9FWlJAt5XmYK+qijUqCdYEoAHSnSg8SUINue/Wl1OsR08wTB7EmRVFlvvAEWfMU66QfAXfvKfUM8t9ucU0AzbwW8pnfZcXbq+e8G2iI7n8T5gBs58pz1UV4nWZe7FEcDwkw+fyseZWazg4Ys=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782647007; c=relaxed/simple;
-	bh=f9Z8Po5dG+RGUXsODFlcTQisxKau0phFttvagFoIj8Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sKES0mP2gq1Nt3tTO3o/QHonKhHpuvyVHDMPzVBLWcf/EbnPjCdxokoeX/Jijoa2eVCYDqs5tgLnnPHrzKF4qxyRz0Gn0byZF9ytES5Jggk2E2si1rag48jrF5dnGrkPZ1kgj7+8XC6S8AzNO3tfNjxcvY4tZyDkDxYya/QKplU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oGqWx02p; arc=none smtp.client-ip=74.125.82.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FC32BEC45;
+	Sun, 28 Jun 2026 12:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.154.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782649612; cv=fail; b=Qx7L2jGsP4VKSr/SyVu+YrO4GkSbcsW0K8y5g1GGJwFGIcCWIa5jOMMBpqyGiDn3C8kW6MzH0eEUw01OcSoPsXiAUVFa4QHrt5aXuFOhgFk62KCRbI3kL5sBOmReZkJ8CNqwNVt0C7BfQ2R3NlHyGPxgKtLBSpDk5FQo29ko0eE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782649612; c=relaxed/simple;
+	bh=lDedeQgodsJI59cK1a6u8k+pfAqQr74OAHHiBkmd0sE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=W4MVw3EoTAGXc5P+O7L6AsRSZxOeqzGazUA15cJ7ORd674g5Wd9+gdrbkq+NLKpsUCcyqwVwBIk/sp/ydC+KLxn6QWUTg8LIUVf3WhliqEACh4j+Bb7FD2EXZS08Jlo73zrvwmCbVkdmbJBxw+mP9hZIv7ozgsUBsNV9tw94H+A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b=mlc4q0Sp; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ZBan+GeQ; arc=fail smtp.client-ip=148.163.154.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oGqWx02p"
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-30ec3dfbcd1so350277eec.0
-        for <linux-sound@vger.kernel.org>; Sun, 28 Jun 2026 04:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782647006; x=1783251806; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZVxBwO9ofhwXsj5qcE/m/Bgq+dyvGwnXosapaOuR78s=;
-        b=oGqWx02ptb+vosiIuY+goYbR/fkBHnGbCEW8aASZVXo0kw7YG1At87QkUGu2bjO5xL
-         H0vZj4qoML43+u98TICvVUSRzEBGs8nDseGlW3YUR4GgBP5/r+w0p+VuLqJ0uMh4ahMN
-         3ViBk48Gzk2o3lDg8dH44s8FDWR3TVsdNZUJJCk29aPnlJHlKf69ayiD6RWa+SLjUEGY
-         4b5WHXguxRS5N+yIsuawjN9NQhzIfsS3J1SOe4DsjeYjceyM4XgG8FWzkk1W+jCdP7Qh
-         joGjX7KxjHWYqX/XsN1moaV/rEJ4n8/O3kMV6lJM4MS6aQe3fHu3VO9l9BrDwaq6gO08
-         wz+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782647006; x=1783251806;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZVxBwO9ofhwXsj5qcE/m/Bgq+dyvGwnXosapaOuR78s=;
-        b=P3wLImo3lwK6b2N6wNbmzb3PGHLQZ5BwobKHs8tgkOFZBAH76glcu6z2fN23EJvEQ1
-         lgST6cq7NnYpb7KawkTiNLPmF98xtC1O/9qt9axfJrvfyWmOk1jV/Z2zseDMVR3PnTWG
-         teXkiDC3LUrsx8s+jeaGMfEPCcc3BKYUb+T3lafZB4xM8FpD+ardIZTkL6JNUtJf/On+
-         pMquZKP4SuKmabqurKgJif0nXwLBNp0j4l5vUlOZPztWQVTbqW93J0jngMoNQwT7osFJ
-         l7TV6zFxV6HjnGAeoiNPs4wyinImckt9TzkDuR0X3aI3gb4moa30hm9/x8Fcug9xj5nJ
-         gQnw==
-X-Forwarded-Encrypted: i=1; AHgh+RrGZNwVSej1ZxZTDak1PlmwkmmnlAvAxtBI0OW3vt6myeKRORBx8LQtR5EYb0q6o6M3q2wdonf8fhvZ4w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxP+va08tzvyhRE8q65Do9ImM2IQNtcMRyegZw8MEALpwVJt+0A
-	xlPCzx/BrBxQE2jZJiPuTSe41ig4ASq8WGJ/KPg/ke11BUzGcOxKh83Z
-X-Gm-Gg: AfdE7cnfuOMCr4Hu6l1tTU9/Z+eF0XBDVqCNwRACvHE15sx//fqwq5gbq/BDjABlMSs
-	49E8+qFCFTnvnrfoHGSvZl9nRzEjzBJmR+pVlFW4dNAtCPzXRHmDkeFYZMYftHjiNzdczc7Edp+
-	W76QEC1xKBBoomNXpdA9h4acADK4c7H5Y/KsD+1bQ/2C5Gh2lWzKPMQrZkPdEUx+PDmlncTB1M6
-	6qfYXu7flUDbbNbtFFb6cIT1RRN5bkSD+BA1+b95+Iao6dSMmeKu1aLySTs1e3FhY0r4G9qPcli
-	UcX9/n/rgoL8WC/RvI4HORqB+je8JAHjmegi/M6UyIMLJIbdtSXCSSp0UwjmH9QZVffd3ZnMPGM
-	17ekaRiN+OwdzsKQoKne0k4gdItEJznmXMgfeDFlzrxE5ZMh/IhNSTbr9C19DYaC5acCbNoG25m
-	wiqDJ2y42b+2cZYEHf3j10LOXA+qWE1lIfoRhyjyRuLIwIP5g40M4zqR8q2hUN5FWr6YefTyCTK
-	c3+njMJGAAZ2P1AHT+b0kddrOPNV39dDJLn8cst5cqYQsMk4LJTUcnooQD4x32UOA==
-X-Received: by 2002:a05:7300:a485:b0:2d8:7302:d3d with SMTP id 5a478bee46e88-30c84d5034emr11553921eec.8.1782647005659;
-        Sun, 28 Jun 2026 04:43:25 -0700 (PDT)
-Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c8b1a80sm34520756eec.18.2026.06.28.04.43.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2026 04:43:25 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 28 Jun 2026 21:42:05 +1000
-Subject: [PATCH v2 7/7] ASoC: apple: mca: Add delay after configuring clock
+	dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b="mlc4q0Sp";
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ZBan+GeQ"
+Received: from pps.filterd (m0374955.ppops.net [127.0.0.1])
+	by mx0b-0002e601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65SBCTcB3392791;
+	Sun, 28 Jun 2026 07:26:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=proofpoint-05-2026; bh=3WAAQhvQd7r6V
+	IpfxNodqGNfvnp7vmx9ue65tGsrx1o=; b=mlc4q0Spli0S8dIUq/q50iVg/RiyM
+	81D7htkBVE2ZTqRMgwQyuYBNsN/cTCvz0pzj6CKJ/vyq1JEh31MlZA42zwCAVxs2
+	26dgr4uD3FxvFTeFwFZ79bJQkVePVLA7H0Xw7ibbbPnAkQOsDgCRpHAB661Mqq9N
+	3uhajvNXeu8QbRJr9o7K+WVEugUD0tgAfwUSvQEr1H58mvn6twsuWwOp+3w3z8OY
+	0INVVugPESFns/Ni0ARDUGhcMvQSJVrLT5cEzTIaVsM4jVzrbNlgNOnvk8Eoesog
+	XjXj5N0aQ8rvZdDPCi6STOtoh0FdzmD65Dy/wncswEqFGg08g+WFxQfWg==
+Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012002.outbound.protection.outlook.com [52.101.53.2])
+	by mx0b-0002e601.pphosted.com (PPS) with ESMTPS id 4f32hjg72a-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Sun, 28 Jun 2026 07:26:23 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CKi3R40ZHZQWGrpxgKT38Be0rryNm38+dOTD+VBoAOzGDZrF3AClqslojPGGZ6Gjl35A8kIr5daApR9QgD0H0lxhuS288o+BVlVR36U7pno1Y5SUy8RaLpKcAMbj+jxmzqYJV/77pqK7ibSgASbIbhA4bvf8bS9EMWF7yCSkCY/j6CEAp9dyq+7JivuGyZry9e4v2apCIIVOfdyTHMjJTTeCOWh0F/kjUf9nUnDLf0zJtEK0+UtHLwDL3wEecVTUqnGs72GopLy/y2BErFIGijU2V7cRIwMNerXreOAiUNb2nRMyipSgr0ueMMn8SH1muCl+dZS6MMoT9UKifL4AMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3WAAQhvQd7r6VIpfxNodqGNfvnp7vmx9ue65tGsrx1o=;
+ b=ryH3wcqcNZ21de22q4wdr4xCrjZfELzSBmni0cY+YxHZwhRIq9zUmJTc2BIRBihEuqthHyT74oLAWBQWx2uVayKHYHTTUbZRqt+Mgq4A49m0H70CCww/2YuFLfUEDA4+qnR5YAu/2YHq+B9zOki4YvFeMbbrXN1SUOVN6JrsFbL6S1cOp7eYzNz/6G4F078FFmkl68QRqK23035zWuYOMLqP3a4E52omff2KPUkR96JruZOGilWSHvZbEg9DsBqsJjfInzHTx9LREXfj5kI3kiqv0UUC2BeQxrZbmcgtfgO1LZif5zFsRX+SVaeEN98+vFYsvWZNzNVzvSLwkEpnmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3WAAQhvQd7r6VIpfxNodqGNfvnp7vmx9ue65tGsrx1o=;
+ b=ZBan+GeQum5JX2+ISuqFgxp2oaSy+AU3bFXTRdI2YKBUdxP+qj3kgB/SOvyARrSrPFxiRDep0zatSqJL8Ia291cKjKNqU2HVobN105nwO9KCKi8PdH/Mv2amJoRrIHOXZ+l6D+I3hPdnM6KSWYhH/ptwdeKcz0UgoC6BloqcjVE=
+Received: from SJ0PR03CA0133.namprd03.prod.outlook.com (2603:10b6:a03:33c::18)
+ by SN7PR10MB6523.namprd10.prod.outlook.com (2603:10b6:806:2a6::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.20; Sun, 28 Jun
+ 2026 12:26:19 +0000
+Received: from SJ1PEPF00001CE2.namprd05.prod.outlook.com
+ (2603:10b6:a03:33c:cafe::5c) by SJ0PR03CA0133.outlook.office365.com
+ (2603:10b6:a03:33c::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.19 via Frontend Transport; Sun,
+ 28 Jun 2026 12:26:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ SJ1PEPF00001CE2.mail.protection.outlook.com (10.167.242.10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Sun, 28 Jun 2026 12:26:19 +0000
+Received: from DLEE213.ent.ti.com (157.170.170.116) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Sun, 28 Jun
+ 2026 07:26:18 -0500
+Received: from DLEE211.ent.ti.com (157.170.170.113) by DLEE213.ent.ti.com
+ (157.170.170.116) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Sun, 28 Jun
+ 2026 07:26:18 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE211.ent.ti.com
+ (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
+ Transport; Sun, 28 Jun 2026 07:26:18 -0500
+Received: from lelvem-mr06.itg.ti.com ([10.250.165.105])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 65SCQCt01716969;
+	Sun, 28 Jun 2026 07:26:13 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <broonie@kernel.org>
+CC: <tiwai@suse.de>, <andriy.shevchenko@linux.intel.com>,
+        <13916275206@139.com>, <alsa-devel@alsa-project.org>,
+        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <k-yi@ti.com>, <henry.lo@ti.com>, <robinchen@ti.com>,
+        <niranjan.hy@ti.com>
+Subject: [PATCH v1] ASoC: Intel: soc-acpi-ptl-match: add tas2783 support
+Date: Sun, 28 Jun 2026 20:25:43 +0800
+Message-ID: <20260628122543.757-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260628-apple-audio-redux-v2-7-6328269c9652@gmail.com>
-References: <20260628-apple-audio-redux-v2-0-6328269c9652@gmail.com>
-In-Reply-To: <20260628-apple-audio-redux-v2-0-6328269c9652@gmail.com>
-To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>, 
- James Calligeros <jcalligeros99@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1040;
- i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=FKofmjv+HMrQuSW7ticy2BojcrI4dpO37WSVpG9Fvcc=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFmOHHs2zPshPdexky1RRnnzjANxF16Eyh9O8Z+T1+/lX
- z1RxKGvYyILgxgXg6WYIsuGJiGP2UZsN/tFKvfCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
- RjrGOkYMXJwCMNUGcxj+55rULluzUllXxTu2fv4Pp2OvfqtYZkl82lLp5584vfZWFyPDTqt+rbt
- 2+9dfEFFRX/7va8+rhddYT0bFz63Y8nOHlm0mIwA=
-X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
- fpr=B08212489B3206D98F1479BDD43632D151F77960
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE2:EE_|SN7PR10MB6523:EE_
+X-MS-Office365-Filtering-Correlation-Id: 17cb735f-8c98-4d8e-776a-08ded5107539
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|82310400026|1800799024|36860700016|376014|18002099003|56012099006|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	1sd9qkRU2dmeY0BvxRG05GCd7UTnheJ2qiBbQPOoDYikcUqyyaIS/N4pJA4u+omNxmytTMsHbeU+3/8Garhoc4RDwsYo7up+5anBtFzdCXxyG9jgLNoC18woqgUEN5AOvoQIDDziV9DmMI2nGb8KbuGXqXswvX+B3b6PnKNIKqQaxRCzBsoXzFeeoOwXwlXomYBAHhYUDXItpgY4DIVeXAgyY8NTugXR1pVIYcitnUeq3jdZVQk7iTqO045Mnp2xm7MyiOXvhLDsTYP0lsYd13RVKpIYfhSKf5VygkOBXEdlTtOeRQiMHxZ5YsDgSAhBNX3ArFQ0t+4UdLRE8YOdLbznemf+FaDXFX2HQ9OKr6kibPm51PDtHMwXnvuIGK/LjAvtu5K7TAIajGE2kUMazvL6VwAGumOZQ1w8I+x8n5RZYb2Wa4p9aFAScEsDvpU0M/B9K4ap1KWBc0liwjNNG916sAOWaqag9v6SDUGJr//xWFx4NfDvt5V+SpS+nXIOOaYKWYa5o572vPg6JlblYSyK4BQ3c9dvEOOK4NrFHJFCq7lxr10dKyxv17Tki1yxadAMDWkx5WZr/altXfVuEXjG5IbuCPTWEsGtLHWUW9r2eih7C+oTul2Z4B+5cQfVd4YQzFKjieKLWn29obKC89oaA/tt+F97YUhudQ9irS5wHhb11UfplzSIf1+/fdzUPDWxy/xn+qTmVfyabY9G/A==
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(82310400026)(1800799024)(36860700016)(376014)(18002099003)(56012099006)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	21Ombh9Adt+tJ57gKpNdEhpIAxkDZ9eshwkK26DDpfXCsE5LFXQx6BIOgPrSTWF+YpM46q2zO8A0vSuhqityJqCq3rntI8GG133Nj4j0VUa8Enm7Tmlc791bSxnYZeR/XRiVBxLSuo6waz262Arwr7WnWTupis5BQhkJuTDt3JASuM7f0qF6wga/50MuFyzo9rTOjnHV7B8DPansOkw172YZcMd1UoyjCONuudJhsBZ++3UFLquB6uBVathyVmDmrRv7I3edWJliQ0DMwpm1C6w/yPoU9m+v51VeV3NiIOeKff3Y6DC968eWcStEoCWeuaEfgOMjRi6YBACvw23Ull2gWklM7iKl3YbIbeIsBMIgh4h+5zQ+TRzWEplvAgjRwsUHCNdBgHLsnz3tA89Bvh0/0fJrX8TpRN4ppACteLgWj0lOONkx2wqUUza3MvOL
+X-Exchange-RoutingPolicyChecked:
+	QYzzRUujtMoseiSGgoiDNzepFQTf3bU9QI0lKxFXSUHyRptQxUqj5GUc0t8n74uYA7uuIBpcdyfxes8OU/UY4GhM8JZMiGRUIMRyD4YIcqm8eXQJJXT+aqzifnLAtaCmVRs7UijevIQR3Um6OiKpAF+quH9AGwv7sDUDhXVZoInNSu8SAzyfUHCNIL+coJguMxRhI2bTr6FUaClQ/6UGxoWhB8TgLSOyIyF9zvfKMD1rdcc3iaQ1rWEHqlm5lRGkNMDpeO+JOkZRNq0ldU9DWmN2FBmAzKSQFdwo47EMa8BpLvS6fc3RMJPKUNqLo30gz3eDLZ6MUeMO0JD4Wy4d3Q==
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2026 12:26:19.4717
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17cb735f-8c98-4d8e-776a-08ded5107539
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00001CE2.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB6523
+X-Authority-Analysis: v=2.4 cv=DrlmPm/+ c=1 sm=1 tr=0 ts=6a4112ef cx=c_pps
+ a=boTDQTO5XcRoDQ12XycLVw==:117 a=WotqVVQAdb04rnGuttW3Kw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=FelO9ux0wxsA:10 a=s63m1ICgrNkA:10
+ a=V5UXEbMT0ywA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22
+ a=fPAWb5peG099m5CrUpKH:22 a=sozttTNsAAAA:8 a=6vQK-t_yByiTr5j5hSsA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI4MDEwOSBTYWx0ZWRfX/aQW/MmSQ81B
+ 8+uZBftE/z+Y3Uk/N51EzfOiAzSEeY14gdavYpYRfLpxkP8GF72QsHKtDA4lIdBQnY7uGZ1KuEv
+ xANdix+C+kRml4rxjCx6JCikMPe/3oyIUz5uSAHWGCxnkqFh0TdYwmi5L9o0aan4GDHQIFYNmlC
+ X5NEhgdOwFD0gUaeERXTImg4l/iLntAJFOtUb5CG3qK3EGkd4V6V+/Hr2vIUsHqRz2ToRToQ8Dt
+ asF5c5Rxb9+FRdOd/KJ0bXdIEI/8yAo/UjfX6RoF3tHfV3STHS3LWQH+WWEYUT1IFeDxxuBq3ug
+ ZxY67rJF9lTlQgKPU6kFi5Ps4kaRwlJJBTl3TeQRcqFcQsqDWpqAO4oHEbgbhv6jmoRuwZCLNpJ
+ WKR+nvUrbnffvHraHgDXLArTxuRHiYyx9RoF6lBzvGtrfDqbkgfzMo3nly+C/DnfqXGH+0m6RaL
+ FbWlwuNKfq2OTyVsbNA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI4MDEwOSBTYWx0ZWRfXwyeP7jF6mq/w
+ WC2qweqMPji6N91RcIcTd0PMGt9vzDrraGvVAe7vEVD1toBXJtFtDEbGWMtTlU+h/YUrvGfv6Yo
+ CJuSJQyp4Z9bxsrdaHjzgLquES5H//E=
+X-Proofpoint-GUID: hmAK2QOIJE3WsiWLTw0HmYRZsguGqOVH
+X-Proofpoint-ORIG-GUID: hmAK2QOIJE3WsiWLTw0HmYRZsguGqOVH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-28_03,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015 spamscore=0 phishscore=0 adultscore=0
+ suspectscore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2606280109
 
-From: Hector Martin <marcan@marcan.st>
+Added tas2783 support in some projects.
 
-Right after the early FE setup, ADMAC gets told to start the DMA. This
-can end up in a weird "slip" state with the channels transposed. Waiting
-a bit fixes this; presumably this allows the clock to stabilize.
-
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 ---
- sound/soc/apple/mca.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ sound/soc/amd/acp/amd-acp70-acpi-match.c      | 64 ++++++++++++++++
+ .../intel/common/soc-acpi-intel-ptl-match.c   | 74 +++++++++++++++++++
+ 2 files changed, 138 insertions(+)
 
-diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
-index a1da01b0be32..eaa4e81f9a3b 100644
---- a/sound/soc/apple/mca.c
-+++ b/sound/soc/apple/mca.c
-@@ -225,6 +225,12 @@ static void mca_fe_early_trigger(struct snd_pcm_substream *substream, int cmd,
- 			   FIELD_PREP(SERDES_CONF_SYNC_SEL, 0));
- 		mca_modify(cl, serdes_conf, SERDES_CONF_SYNC_SEL,
- 			   FIELD_PREP(SERDES_CONF_SYNC_SEL, cl->no + 1));
-+		/*
-+		 * ADMAC gets started right after this. This delay seems
-+		 * to be needed for that to be reliable, e.g. ensure the
-+		 * clock is stable?
-+		 */
-+		udelay(100);
- 		break;
- 	default:
- 		break;
-
+diff --git a/sound/soc/amd/acp/amd-acp70-acpi-match.c b/sound/soc/amd/acp/amd-acp70-acpi-match.c
+index 18f2918d4ada..a04075730f4f 100644
+--- a/sound/soc/amd/acp/amd-acp70-acpi-match.c
++++ b/sound/soc/amd/acp/amd-acp70-acpi-match.c
+@@ -45,6 +45,21 @@ static const struct snd_soc_acpi_endpoint spk_3_endpoint = {
+ 	.group_id = 1
+ };
+ 
++static const struct snd_soc_acpi_endpoint tas2783_endpoints[] = {
++	{ /*Playback Endpoint*/
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	{ /*Mic Capture Endpoint*/
++		.num = 1,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++};
++
+ static const struct snd_soc_acpi_endpoint jack_amp_g1_dmic_endpoints[] = {
+ 	/* Jack Endpoint */
+ 	{
+@@ -91,6 +106,15 @@ static const struct snd_soc_acpi_endpoint jack_dmic_endpoints[] = {
+ 	},
+ };
+ 
++static const struct snd_soc_acpi_adr_device tas2783_0_adr[] = {
++	{
++		.adr = 0x0000300102278301ull,
++		.num_endpoints = ARRAY_SIZE(tas2783_endpoints),
++		.endpoints = tas2783_endpoints,
++		.name_prefix = "tas2783"
++	}
++};
++
+ static const struct snd_soc_acpi_adr_device rt712_vb_1_group1_adr[] = {
+ 	{
+ 		.adr = 0x000130025D071201ull,
+@@ -406,6 +430,15 @@ static const struct snd_soc_acpi_link_adr acp70_cs35l63x4_l0u0246[] = {
+ 	{}
+ };
+ 
++static const struct snd_soc_acpi_link_adr tas2783_l0[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(tas2783_0_adr),
++		.adr_d = tas2783_0_adr,
++	},
++	{}
++};
++
+ static const struct snd_soc_acpi_link_adr acp70_cs42l43_l0u1[] = {
+ 	{
+ 		.mask = BIT(0),
+@@ -553,6 +586,32 @@ static const struct snd_soc_acpi_link_adr acp70_rt722_l0_rt1320_l1[] = {
+ 	{}
+ };
+ 
++static const struct snd_soc_acpi_adr_device tas2783_2_adr[] = {
++	{
++		/* left */
++		.adr = 0x0000390102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "tas2783-1"
++	},
++	{
++		/* right */
++		.adr = 0x00003c0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "tas2783-2"
++	},
++};
++
++static const struct snd_soc_acpi_link_adr acp70_tas2783_2[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(tas2783_2_adr),
++		.adr_d = tas2783_2_adr,
++	},
++	{}
++};
++
+ static const struct snd_soc_acpi_adr_device rt1320_0_single_adr[] = {
+ 	{
+ 		.adr = 0x000030025D132001ull,
+@@ -659,6 +718,11 @@ static const struct snd_soc_acpi_link_adr acp70_rt721_only[] = {
+ };
+ 
+ struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sdw_machines[] = {
++	{
++		.link_mask = BIT(0),
++		.links = acp70_tas2783_2,
++		.drv_name = "amd_sdw",
++	},
+ 	{
+ 		.link_mask = BIT(0) | BIT(1),
+ 		.links = acp70_rt1320_l0_rt722_l1,
+diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+index f7694b2a2b02..6b27b09d9f98 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+@@ -301,6 +301,68 @@ static const struct snd_soc_acpi_adr_device rt1320_3_group2_adr[] = {
+ 	}
+ };
+ 
++/* For 0x8EB4103C. */
++static const struct snd_soc_acpi_adr_device tas2783_0_adr[] = {
++	{
++		.adr = 0x00013A0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "tas2783-1"
++	},
++	{
++		.adr = 0x00013D0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "tas2783-2"
++	},
++	{
++		.adr = 0x0002390102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "tas2783-3"
++	},
++	{
++		.adr = 0x00023C0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "tas2783-4"
++	}
++};
++
++/* For 0x8EA4103C, 0x8EA5103C, 0x8EA6103C, 0x8EA8103C. */
++static const struct snd_soc_acpi_adr_device tas2783_1_adr[] = {
++	{
++		.adr = 0x00023C0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "tas2783-1"
++	},
++	{
++		.adr = 0x0002390102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "tas2783-2"
++	}
++};
++
++static const struct snd_soc_acpi_link_adr tas2783_link0[] = {
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(tas2783_0_adr),
++		.adr_d = tas2783_0_adr,
++	},
++	{}
++};
++
++static const struct snd_soc_acpi_link_adr tas2783_link1[] = {
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(tas2783_1_adr),
++		.adr_d = tas2783_1_adr,
++	},
++	{}
++};
++
+ static const struct snd_soc_acpi_link_adr ptl_cs42l43_agg_l3_cs35l56_l2[] = {
+ 	{
+ 		.mask = BIT(3),
+@@ -464,6 +526,18 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+ 		.drv_name = "sof_sdw",
+ 		.sof_tplg_filename = "sof-ptl-rt722.tplg", /* Reuse the existing tplg file */
+ 	},
++	{
++		.link_mask = BIT(1) | BIT(2),
++		.links = tas2783_link0,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-ptl-tas2783-2ch.tplg",
++	},
++	{
++		.link_mask = BIT(2),
++		.links = tas2783_link1,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-ptl-tas2783-2ch.tplg",
++	},
+ 	{
+ 		.link_mask = BIT(1) | BIT(2) | BIT(3),
+ 		.links = ptl_sdw_rt713_vb_l2_rt1320_l13,
 -- 
-2.54.0
+2.25.1
 
