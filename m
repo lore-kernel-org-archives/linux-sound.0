@@ -1,230 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342613B83F0;
-	Mon, 29 Jun 2026 14:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782744706; cv=fail; b=MLzqVKtV2NmXu0kU+DSVCLo3beko1bv4O7T+GBbXKkxFJlD6YS14EVHc00Lpm49m9gfq9AgKg5FP5H9pU37kehKO9aJKi6VfV5ZhqTwYGlOHfR73Cvt6URAXvp5F0vnK4/Q94xKlKaWVX6VpFN5DWPylm3xxVeUjgNCaeKD2rCk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782744706; c=relaxed/simple;
-	bh=buvPMNjfwNlLt0pVBQ7KM8GpUj3qs3Y9BQwpD5odKAM=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=R2dJ47DsqjEuetM1tGSo3Sy7y1OL2DgKdlcZ1nAAFLqcuiqO/6FEh+7ARk+87BfRGSX/qEMJrMgMP3Xzwy6zSLeUEIdXhKTDCc2j1cC0cQYSjyYNk9GOJuZLLcfq7F1GlcextV3Kjwk48pcSR7nG89S2F5uhVsYXSICNXxJ5kEQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EoLdEdrK; arc=fail smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4E4449EC3
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 16:03:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782748995; cv=none; b=q2EYNoZVUgWEnJ9x2FujrL92rV5yBJMblJsyTsGAUxi6nNDJ9ijblRYug+uu+UE6IIS/2KFq6biv6H8b6W+saA42hssw+Jw2mrVHgOAqsY/r45Yg/ozooKTfMmJCUzn5W7XRNICTi3OQW4sTgFqy9N5kFhVXeC+t2v00VNDL4JI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782748995; c=relaxed/simple;
+	bh=lQmecfKWXMNpAC1+Cnv36CUgf5YpezZ1D5mIRnH5Eeo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EikvuOheUMhLIlrIt/nfBPoE5Htfg4cJfD48qUlMYF4a4FXSH0zScHjFP28t4J8dC8gyINKIbvrIHC7dx7o2CswTtYeN6/owrNj3tVf9L1h9ZAJ1pL5Pr8PAPTnByB5B7vSyJtrhGNhqvVmuQR9A9FmWszHKn82vsOxx/afZ8pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LGm+x0Qp; arc=none smtp.client-ip=74.125.224.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EoLdEdrK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782744705; x=1814280705;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=buvPMNjfwNlLt0pVBQ7KM8GpUj3qs3Y9BQwpD5odKAM=;
-  b=EoLdEdrKlSsInhKcK55JjCqgjZ83sAjCDNStNAtcOHJ1xVMcax+WGTWs
-   jqNWWpkpjqtBmCYJc9zSUchk4TVr7P8keunxu6lj0k5P/oJZRKq20X3Xa
-   C8LX8pKiFG7QWyvIYGFHooFugNdW75E8eUb4Nl6zlX5/tCdPzeTDecxcW
-   F14+d5GUY+1jtZBDSrDmEdhzH+WLQ3go9ugKFdaq0uS7miih9UH3D86eA
-   cxRHx6e9BF/SM1/b3GuWei1qb+uuRghjcG3re3L+ser3xkN7IOcrHaSRL
-   ZOb1zW777jvhIC/2epyIKgoWY2+c2N+cdiQDgK3RBb/8Vn+kZlMa+Sstb
-   g==;
-X-CSE-ConnectionGUID: ZufYGSC6QNiwZ9zluTt1+g==
-X-CSE-MsgGUID: +Y1VkHkeSFCB0g6dsCrWsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="106229564"
-X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="106229564"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 07:51:44 -0700
-X-CSE-ConnectionGUID: PSWEK+upS0i7SjBzPy/yIQ==
-X-CSE-MsgGUID: KCDnS2dRQnOJNhJ24mQljw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="250286167"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 07:51:44 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 29 Jun 2026 07:51:43 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Mon, 29 Jun 2026 07:51:43 -0700
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.37) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 29 Jun 2026 07:51:43 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IUmfUIbHI7lTHTd1bYdqPSNYDjzWj36jlxAtlH+0XivCFsqu3XlmHP/la7I4VvvO2YkZhqlcKUAiIe3hrPBTDnGgXy6p0jLS6TOw0LStUe7zSC5PwmELcZy1xAICd9/hSEbtoShKh/FrW9zoGtfMpbqrZjOsweO3DBa4gAoL93ixLRRDokTQRed00OZGitItB2c9gnU6wdwVJLPWU7JFQXTtT3PpPgOahRizW5odg71waRspLOcgLAtFhblb8w/qNt/IA2/JUHZps790kZ5tL+yESCTTPjyigscHqwg82hshiFv+/cuv4dgFyuhpwuzSKx1YKPYVnfo0O3dins9N+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z/C5bKcUVtAq4p5WnrTbA6zY5OKHR4Z4Q3vsJmjbQ9Q=;
- b=PcE5HihK3FmxqHoKMOWc5lBPE4tDG3nn9o2njkbpZcQDf+DtrlyoB3K1/Ei7q6Fjm3hY1DG9SiAwjKLvUeBu8QxB/xtfM1WJ/wHe3Rcwu6LdFcKXTClvow0aL3dOKzU/VsmQg9HDFcSEVwMwsdM+LAjeCk73n7E8cRUL/OgSNYo9u5fNiCubWG21QPMO+pcr7edIO+6KU/pCHAxV2ZmI2m+fR6aHKLssb95ua3nPyNs3IhMsGAc8pcedKI+vGaf6N8LwFO5+VN4jZBCAXyk8JBeBnOHEIfwF9a8fbQe11M3C/yZZkPf12spSpRshbJhlEFE9te3da3XXTMFDFOk2PQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
- by IA1PR11MB6444.namprd11.prod.outlook.com (2603:10b6:208:3a7::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
- 2026 14:51:37 +0000
-Received: from SA1PR11MB6967.namprd11.prod.outlook.com
- ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
- ([fe80::36a9:3aca:a63e:c8f4%3]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
- 14:51:37 +0000
-Message-ID: <a55aae2d-ba47-4c03-9f64-49ff679759e6@intel.com>
-Date: Mon, 29 Jun 2026 16:51:30 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] ASoC: Intel: Convert locking to
- guard()/scoped_guard()
-To: Bui Duc Phuc <phucduc.bui@gmail.com>
-CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Peter
- Ujfalusi" <peter.ujfalusi@linux.intel.com>, Bard Liao
-	<yung-chuan.liao@linux.intel.com>, Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Mark Brown <broonie@kernel.org>, "Liam
- Girdwood" <liam.r.girdwood@linux.intel.com>
-References: <20260626082904.32344-1-phucduc.bui@gmail.com>
- <0b095ccb-5208-4813-959d-e82480bda50d@intel.com>
- <CAABR9nGtu83T-_riRpbndPyqbhxQpNrcXU-avy2m1VC-H4_AZg@mail.gmail.com>
- <e0a41c2a-3fa1-44d8-afda-71e21d210db8@intel.com>
- <CAABR9nFoDBdGYVDNLEkyGHHksjE2z+Xd7MV7mwdFjieQvD+47Q@mail.gmail.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <CAABR9nFoDBdGYVDNLEkyGHHksjE2z+Xd7MV7mwdFjieQvD+47Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1P191CA0009.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:800:1ba::13) To SA1PR11MB6967.namprd11.prod.outlook.com
- (2603:10b6:806:2bb::15)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LGm+x0Qp"
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-664d4478a64so1371386d50.3
+        for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 09:03:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782748993; x=1783353793; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GXjqjkEnArKhELdb/6igy1wcxHxSmnOWp+uuYS8u7bY=;
+        b=LGm+x0Qp10dprJDZ1i/VVZ5ES9R1WT6Xk8PirxUfQb64A8vZ4ZnqVwx0eBaVbbgiOx
+         mkHGkUAwSiGKWcURB2e8/cwV0242XNpK3oV0HJvX8cRUh3aQSs9Ki9niMazcd8yVBIcN
+         Pk6V5LrNWbhoeOnkmFTjOy/caNaT85YsDT1RqkbooEVy4Kw0e+AP71UM8G9KcEFSXPNZ
+         Jdntpg4aFkZGdILrymp8PX+AN4LCeCGrrC+Z/Zhqc+EK/j53cXDpVpGD+7h0a7lIWFDA
+         2Aht5kVB4QAhYjcSkMPk0WP+SjC2CvFOdFfrSF9GSjcxvhT86nga5OcjnYPzdHgPThaX
+         8HvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782748993; x=1783353793;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GXjqjkEnArKhELdb/6igy1wcxHxSmnOWp+uuYS8u7bY=;
+        b=kPHRZxj+KbHqMvrBllP0TLmGj/+IK0Zc0O0w4KXJRArmx7kc4AElfe9zR//XVqEvSK
+         YMen1b9HR+gB+i1wKX99ZxGf8eqxFQqML8/MiqnAk0HlzGHooJSaJqugy1C83fL3sP1C
+         obDyjG6OHuaVSqrDFEdHMGmMoCjwFMBATgeLJBbsvaJ7an/Jz47gEBPrahCSZi5kYkHz
+         N3J+7xn/sPhCiNOLZnPJrtn7YTfkbx/jxKF/PRCrYkVOq66RRZKU6b6+Ey9TBXu6r+wx
+         uwhrvU/dtmWnN0O7G3S5mj7H6f9hNPzCkiqoPIzdr80YklF0Rph/WUKZI44Vh6J1NzWB
+         fClQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq+6FIU+xQYbqvGGfAw2qXN1YUDOXIi7i9H5tQIyoEEPeM3hCU9zOBIsQRMyBYUu+MV4m1iAUph4g7EfQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXjmck4piTNyQ8zcvlZKHwsTE/D6T9T15UJNQRc6r2JCJxYJ8A
+	KecKPtSnYn8NoBZmTWtRLAHbfm1zee8/SwIf56Q2vqGQsusgYNqrLx8e
+X-Gm-Gg: AfdE7ckh4rDWk7ymXgwyTGUwhek4eQcY8DwmHRCxrQcycl/PJbk035LUhLSianAWeVc
+	Rh6oK6I/6ESeWT4w7vTSnYmS7MG0vL2YMXNbo3Ackv0eHiYTF6fgnPk6lhATgZJeZvASABxL9hU
+	o89rZLcU74F6knbjV5cH6vIPJadH+hRSqJ6w7RdPHkRLEo7lFmumdd4Giu+ZM93RRI4KLP/96FC
+	jRFfnbxH9evcDEY9fy7SHKUOL+70hj+24Bx/xdRjcxonp7b/L+7whz1s99NBXOVdH7YHzQ/pi3l
+	2Mv2c4R/oW3Plct+I1R2+hOijZrwPsFY4zP99cVfDhf2sHP46vgPpLOkh2p3p9HSvQOhoVXjczA
+	Mai67rnHMR8MwwbPmNs1yMhZuv3GHI8c8GjlAhG+jE5MA62Jz/Ah2bhdhVe7SOlfebILjytb9+S
+	plF1w3zKHId56W3nE8RdaDNZs77g==
+X-Received: by 2002:a05:690e:484b:b0:664:d447:7474 with SMTP id 956f58d0204a3-664f99fdcd0mr159824d50.57.1782748992767;
+        Mon, 29 Jun 2026 09:03:12 -0700 (PDT)
+Received: from Dev-Null-MSI ([2a0d:3344:52ac:a808:98a4:4381:be45:536f])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-664a4076f53sm4905211d50.11.2026.06.29.09.03.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 09:03:12 -0700 (PDT)
+From: Yousef Alhouseen <alhouseenyousef@gmail.com>
+To: "Geoffrey D . Bennett" <g@b4.vu>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yousef Alhouseen <alhouseenyousef@gmail.com>
+Subject: [PATCH] ALSA: usb-audio: scarlett2: unwind notify URB init failures
+Date: Mon, 29 Jun 2026 18:02:32 +0200
+Message-ID: <20260629160232.29158-1-alhouseenyousef@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|IA1PR11MB6444:EE_
-X-MS-Office365-Filtering-Correlation-Id: b6a97507-c31a-4384-b248-08ded5edebaa
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|23010399003|1800799024|4143699003|6133799003|56012099006|11063799006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: rUTfqTzpmolJkm95USJlQ0Qc42JBhSbM4F+WssmQSyoXYeWrmA1o+IDTBdEWL6LcU5jrO815r0Rw1UdrYoixGDoBu+o40Shq0wv7na0PIDc7o5m3ASxQ/VF95rkkwhCckJBhwkqnYUlhUIxzFyYZMcx+eVPYLxuDe2idiasujEjgVWILfLao5LULZ14u+WP5ZHtg9glIgqlPwsYzivH4/u/0I3TPrwag9Clq9dTW4RHq/POnfOcnEPx5k7lGWjZQJp0vOWuvEMEQwOCrDD3dSvKeKeqxmdqf+lQZFEsE2egS6llSz4yvD87d0UtDayE7+3MC3k2pOc52yMe/X7C4JS2cTa1/IUfD6AYRbL3dusFWu6pAvebibNzQ/lhDDhDo2W52uPIRFU6plEtveumArU9bWFc/9R6rAgDPW7nPLPzbBIYTVp2LgU4W+sROVu4YkoAMgA6Hno33z5l7Aou/+oWYYyRqbgbcV6MQn2gFL+3FxgOioOg/TU2USZMxcXR2H9w5vKP7zSrIkTrk0V4IVWVCFuyfgduivG8xQ9Kl/MC5sz3Xe8n7jH+tERP04Zg/Uq6MnBRcllNA2YF+cfgQ0426Hkwg2E1mV2tDTbVjqtQvVAQMCgexZxx2TJEcToaGYzu0MV2XGoLeDwhDlK4nLZs074Lq0APURRLlfFYqf8M=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(23010399003)(1800799024)(4143699003)(6133799003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aVBRMTczNjArN1FqUFRET3Z0Y2U3WnBTUk9mRE5GeDFpYlV2b0pCMjRuUitq?=
- =?utf-8?B?b2FMeFltYkh6a1NBSEc4RjlWd054UEgvVlFzb2MrMWxtVGgvaUNRM0RqbXlE?=
- =?utf-8?B?Rnl3OUxxK3VONlhlOEN4VlEyTkM0dS90KzFWdnV2L1VFUVNjYWR4ZVBxcExi?=
- =?utf-8?B?emhKYjk3aWtwd2Q4YmErRGhPSkR0d3lqRDdicFZ0UHhKcUdrZVNKTEd6NVRa?=
- =?utf-8?B?cEMvOHQzc3ViR0Zwb3poYmxpQ29OZWdCaURSYi93OUNaQU43Wld3QzhmUUxR?=
- =?utf-8?B?MC8wMGFQT0JyU2pFSmpVbVJSbHFnYVFLcGJwRkJmQ3ZTWXppRDRmaFpLZTh2?=
- =?utf-8?B?dzlDVmg1RlhUMGZmVk4yTDBJU3J1Sk5PUjdIK2hMRk1mVHhHNWRDWUJBWmx1?=
- =?utf-8?B?dXA5RHcrVHROZzlFUHp5aG50M3NPVG5PUG1pVFV1dTJUQVU3eVFxN3hSNGRj?=
- =?utf-8?B?SmdCNXFuS2tXMFBUQjhxSFVQbWFCV0N2TFI1QTF2TG9jRG5lbWpjMm5DeUph?=
- =?utf-8?B?aUQvaElZZHgrRDN1TUN0SzZkdWpTbVJGN1l0cWNVeFc2ZGxQWVAxSEFUMEFl?=
- =?utf-8?B?SzdoUGY4MzZmaUNDTWxrRThNL3dwMHJrTjlxdy9qOEFSbXVKYm42WDRKME92?=
- =?utf-8?B?SUQyU1pUSTlCK09ESjVmWGNTQm11dnR3MkJvNUI2SkI4NVcyUUhXK1NYdTJh?=
- =?utf-8?B?djVTZzdER1N6VWJpazFoTVJPVXB0KzlSbjFQUnBuTmduZEN5bHFKaGFNT2R4?=
- =?utf-8?B?N0dIUnE0Um1xa1loYklHMWFwRjBtYmxaL2tibGd5RGFMRG9zZTdhaWdUOFBm?=
- =?utf-8?B?SnVDcWUvWmFoV09NMlRiMUQ2aTZpU0ZKQ3MzM3lVOC9BbUR1NUt3TC9WbGEr?=
- =?utf-8?B?OEtydlZ3b1RpSUxPY3BsNFk0WGRsc3g5YjJYVjJnSERRZnk1dStncFJjT3lX?=
- =?utf-8?B?cll6RXp2YjhoSzc0K0JoaTJUc3laSjVORHJYaDZTRjBCWUFkYnh4YXhJelJn?=
- =?utf-8?B?NHFBZ3oxbFZvcE44alhRRXlETEY4NnQ2OGphNi9jNDVqc1VYRnZCL1h0MmlZ?=
- =?utf-8?B?VlNWclREMi9xbFRra1VHNkQ1TDFLRDZoSnZsSm5sZURBQm9DNWlwb3JRN2dH?=
- =?utf-8?B?SFlFUmxOOWdiWkJ3U24yenNFd0R1aGV4Nk1LL1kzNlp4UkliK3BZOEdiL0JL?=
- =?utf-8?B?T1hSeWhCQzdtbSttSmVadDdBYU8rVFFzVk91NU5QdEJNSmdoYlZDdTU5MzFt?=
- =?utf-8?B?Ti9oRVlXeFpDbDJVS3Rzb0FYMjNDK2MvS2lFazhabEZwMDB1bFphL0xCbVVp?=
- =?utf-8?B?NGJNbmlUNkFsVkdnQkxjOERNNHBLYys4N3FicUdCcjRqOWY5VUtHWEYrMEQ5?=
- =?utf-8?B?d2RWQ1Awcms2eklPejloZCt2R2VTV2dpdk1jTWV0enhjQjAyc1RybW5BM0Iy?=
- =?utf-8?B?eDlkajMwbzRYNnJkdDBlV2I4UGFtSUlyL2FpeDNQeTFodUE5MFF1NUI4aXg4?=
- =?utf-8?B?YzNKY3FoTCttUWZ2S0IvOHBpM0JqTkV4d3I4NWlwK3h4VDNCTjlkNlgzM2Vr?=
- =?utf-8?B?VWNpT29IaDliNFA0K3N4UEdNNDdnbFA1cU02QUlQQllOWnB2S3BEcExvN2JK?=
- =?utf-8?B?MHI0S2VlYVZNdWJZTFpBSURETlhMNWJ4L2VOMzJIdzhIWEVLdWdHcHFMTXpP?=
- =?utf-8?B?RG9zbVE5M1VQblRkRjEveGFEdUg0ZXhySzFpeW42OTR6NFJNTnBEcUZMOGMx?=
- =?utf-8?B?NkhlSjNDTWEyL1VHN0s3T2pOWTVyQWdPQXRpQ0ZEUHpSNk5zQXNPNkVSRHZS?=
- =?utf-8?B?Znhmc0V2bXA4aVF1WkR2SjBpNTZLc0tKcUVzeUZqSjZaNHdEelc3V1RBejRt?=
- =?utf-8?B?Wm5nQ0VTUFQwMUVnS3d2RnhlL2FNYkUwdk9hdk8rOWY0ci9YUm42K0xDekpX?=
- =?utf-8?B?cWtTTWhNQVFFdlZVQjhHQTlXUHBTMG5NbnNZKytMd0dNLzVXY2lSQkN6Z2V1?=
- =?utf-8?B?K0dITEd6emhwMmFvL1JqblVWWU95VjJUQ0REQ2w4Yy9jU0F5dE03ajVlcWhQ?=
- =?utf-8?B?UnRMKzRhUENUL1FQbTYwL3NkbFM4dGtpV2tLTHlyVDlZYjFXblpYQmsrM3ZX?=
- =?utf-8?B?V2hQWGJXaEJzOFBDU0lTaHZSaStscTlWT0hsdHE2ZlgvOTVtU0o1TDRUdXdM?=
- =?utf-8?B?WnlKU1dWdHJTU2dqYnVndmJKdlZzdjN6aXZkY1R5TncrdzIrUzJ0MmdPNDBY?=
- =?utf-8?B?NkxMcGRZTUtBMzNIeHNoMHBuZ0xhS1pCNXhNODNQcDZBdnBnS3drNVcwdXJO?=
- =?utf-8?B?YVdjL1FmVlc4Q2E4VUNDSktqK2ZuUmE3TW4ycnJuaUdHN2J3UkwrczI4NnlB?=
- =?utf-8?Q?wEcrScKEkg6jOdss=3D?=
-X-Exchange-RoutingPolicyChecked: S79WhIYiKZBWE0EIvipsypbEMwL19kbriK7qmJd3wx6ZC331PTOwW3hKfpT3E7Ybr07mn1GbXWrgUWV3VX5G0Z1Dy2uSMF6vjRuB+h3Gk/2i9L3DfRETmAWsFdAn6IpHHzD05/VMtPiLdXUuGzZjG5VdfSbSW2fb+WzjoLoyHFYEEUPl5N+uhvsrb8aNEZNut3kAi7EqRyz5vHQmnWnMlV60U2runQ7cGMRv/b8Ph8IRRLM14vCBmdd5lb6cn9w5QoTwjqG1TTbs3Py4Cw+IXlX5YoRgdmpU+gCR0O5/aDyN9eUc/qEUckyeZHtvNS3QxLHphAGoReggpuSuExYeUg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6a97507-c31a-4384-b248-08ded5edebaa
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 14:51:37.4834
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ERwB3sqf1KuVCJ+LoLiadRO+PT+RUt+DRWl8slfh4DHK5b0LCiz3aQtPsLuQBT1B5VwAZD3CBqgzuYnVeGyFjLpiUKYhid32MTZIBaT9Q+g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6444
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-On 6/29/2026 4:26 PM, Bui Duc Phuc wrote:
-> On Mon, Jun 29, 2026 at 8:25 PM Cezary Rojewski
-> <cezary.rojewski@intel.com> wrote:
+scarlett2_init_notify() stores the newly allocated URB in mixer->urb
+before allocating the transfer buffer and submitting the URB. If a later
+step fails, the function returns an error while leaving a partially
+initialized notification URB attached to the mixer.
 
->> Cannot share the details but I'm talking about actual long-term-support
->> CI with large amount of corporate resources invested.  A lab, high
->> number of physical setups with intention to cover every Intel's AudioDSP
->> architecture version (starting from Haswell) and streaming-interface
->> type (HDAudio, DMIC etc.).
->>
->> All functional tests are fully automated - imitate every single scenario
->> we do expose for our clients, regardless of the OS type.  While again, I
->> cannot list the tests, the basics are quite simple - bucket the
->> "functions" e.g.: system states (SXes), device states (DXes),
->> multi-threading, clocking (the list goes on) and do: atomic test and
->> then a combination for each feature from each bucket (if valid).
->> Incomplete example for basic playback:
->>
->> - 1x default endpoint pb before s3
->> - 1x default endpoint pb during s3
->> - 1x default endpoint pb after s3
->> - 1x default endpoint pb before s4
->> - 1x default endpoint pb during s4
->> - 1x default endpoint pb after s4
->>
->> Wait, does that mean the tests go in thousands?  Yeah, several thousands.
->>
->> However, without such investment, people like me would not be able to
->> propose and provide reliable contributions for Intel and ASoC both.
->>
-> 
-> Thanks for the detailed explanation.
-> 
-> That sounds like a very impressive CI infrastructure. Having such a well-funded
-> and comprehensive validation system is clearly a huge advantage when developing
-> and reviewing patches. Running thousands of functional scenarios
-> across different
-> DSP generations and streaming interfaces certainly gives much higher confidence
-> in changes.
-> 
-> That said, it also made me think about the `sst_media_open()` case.
-> Unless I misunderstood something, the CI didn't catch the memory leak
-> caused by `kfree(stream)` when `snd_pcm_hw_constraint_integer()`
-> returns an error.
-> That issue only became apparent while doing the cleanup work.
+Clean up the URB and transfer buffer locally on those failure paths.
+Leave mixer->urb NULL so later cleanup or retry paths do not see a
+stale notification URB.
 
-Nah, the CI hasn't been run yet. Maintenance takes a long time :)
-Unfortunately for "atom", it's outside of the support window.  My 
-Tested-by: would go for the platforms support by avs (and catpt) driver.
-> So perhaps the patch  ASoC: intel: atom: Use __free(kfree) for stream pointer
->   is not merely a cleanup patch after all—it also fixes a real memory leak.
-> 
-> Out of curiosity, has this function been covered by the CI before?
-> Or is this simply one of those corner cases that are difficult to exercise,
-> even with such extensive functional testing?
-No CI is not 100% bullet-proof window, it never is going to find 
-everything, that's why you need still us - developers.
+Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+---
+ sound/usb/mixer_scarlett2.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
+index 78fb72e626ca..67a089ad7723 100644
+--- a/sound/usb/mixer_scarlett2.c
++++ b/sound/usb/mixer_scarlett2.c
+@@ -8729,6 +8729,7 @@ static int scarlett2_init_notify(struct usb_mixer_interface *mixer)
+ 	struct scarlett2_data *private = mixer->private_data;
+ 	unsigned int pipe = usb_rcvintpipe(dev, private->bEndpointAddress);
+ 	void *transfer_buffer;
++	int err;
+ 
+ 	if (mixer->urb) {
+ 		usb_audio_err(mixer->chip,
+@@ -8744,8 +8745,11 @@ static int scarlett2_init_notify(struct usb_mixer_interface *mixer)
+ 		return -ENOMEM;
+ 
+ 	transfer_buffer = kmalloc(private->wMaxPacketSize, GFP_KERNEL);
+-	if (!transfer_buffer)
++	if (!transfer_buffer) {
++		usb_free_urb(mixer->urb);
++		mixer->urb = NULL;
+ 		return -ENOMEM;
++	}
+ 
+ 	usb_fill_int_urb(mixer->urb, dev, pipe,
+ 			 transfer_buffer, private->wMaxPacketSize,
+@@ -8753,7 +8757,17 @@ static int scarlett2_init_notify(struct usb_mixer_interface *mixer)
+ 
+ 	init_completion(&private->cmd_done);
+ 
+-	return usb_submit_urb(mixer->urb, GFP_KERNEL);
++	err = usb_submit_urb(mixer->urb, GFP_KERNEL);
++	if (err) {
++		usb_audio_err(mixer->chip,
++			      "%s: usb_submit_urb failed: %d\n",
++			      __func__, err);
++		kfree(transfer_buffer);
++		usb_free_urb(mixer->urb);
++		mixer->urb = NULL;
++	}
++
++	return err;
+ }
+ 
+ /* Cargo cult proprietary initialisation sequence */
+-- 
+2.54.0
 
