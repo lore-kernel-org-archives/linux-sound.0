@@ -1,40 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29655407CD1
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 11:17:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4383F9F5C;
+	Tue, 30 Jun 2026 11:17:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782818224; cv=none; b=erw4HTAvv+IBoX3bunk1duYpIyfZPSpaq1joiOQHsyuwiMbmfSLitVnt4LcYzcT+eAGPUV0/iL6XdhF7Ksn2J25usSraz+2t1EyBrHGt9OtV5GxcdrrbX7qS5AqXTPIwhTxXk4Kd7ujo1wOKkoAOUmSuvoWftvjleqJP4EwKvgk=
+	t=1782818228; cv=none; b=m8p6zEVX5zUXtvYK1tvFw0BG4VWfBDpvvZdWPXDIL2a2JAwvzTZABOsn7zFOPZB//VU2G2T0Rdj27ztJoMyplhM0YdOXf45L3gWY0Z7JmqKSWWuQ8OHASCjxtp1TzOKVWJdk8JKHQ9GLaGYEtqFwImqKsbUClIeOGnJbibFZaJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782818224; c=relaxed/simple;
-	bh=XWM1tBSmHmcvvvMLnUM5en612WeaCaKVmBqXFYQoHAA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uTgIPpnga4XVDm8BOm6mxxQTLJNN5QYXQJ9gQeqkpkPDA8O3U5vAUQN4gVpYOQYTHoubLRI/R/K2jZ60S5rXASytcua7g7TfaBHx+HnCw1KXySV+ZHS9Eqtz7dXd9dLY+ITySick73gTRPoI+2tX68E+02EVzS+8+8rrfifTnZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSV+QAJC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782818228; c=relaxed/simple;
+	bh=7o8T46mUWRP2pOFK6GQovQtsAMPl+zcFQr79cEg2xv8=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=S+NmxCZ0qYGUSWDgqTU+cUxNhq4NWSfUwyekLmEFQxIeB3EA+ilBTKHyv74Gyzp2m1i4KLgnExwoV/cGZfYGfSffCDTD2yLvRdD8tV2dIlHPI5pnLTi5quqndkxyu1EYTYlDJYCtJ55DK9EasMxc0TVprg9mFAApxZfLYcrt2LI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c8l3Uk+N; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSV+QAJC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF1861F000E9;
-	Tue, 30 Jun 2026 11:17:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c8l3Uk+N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A395C1F00A3F;
+	Tue, 30 Jun 2026 11:17:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782818222;
-	bh=JCUTcEhXamoZQUFmoPDoRoQqkyUwmtSTegiBq46MNLo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=ZSV+QAJCRNDUPUY1Iad7XZPbJ1sdctv0Ap/1TNrzQHnxB1WW1wJKu+pEmXdVc/xV4
-	 GVQWrZ1wy+apV2QYleRO5vD7TaLv6PVeJI4kN5KKky0Soq1oIM8xypM7F8/AGr5fhi
-	 Mi9p7PfmKHfAWnnYbFBtbuOBth12ywMnfkfpFVevpOKp1RCY2MKREdJPmmOLnAssXK
-	 oyPL0yswibnRqBvIJ0b7LKsuVdw2QsuDYHMdDo6NfQ2Va1eHNj6kDUzegsjPq5d/gQ
-	 hcbEnmm1Jlp3ScMrQC2mm+zqwG70T0a+JJL2uIxk95z6Qabt3ql/2yeVMfBzTXcyjG
-	 P+rJp/Mb3bmJQ==
+	s=k20260515; t=1782818227;
+	bh=UPVCsAw0BBo9JnaZGT2RHjdd5iq8diD/Vh1wORBXAzg=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=c8l3Uk+NYeO3M/gCUelq7dDqEgG1RwdbDXh1XlQXPvo8GIahATRkdxiXUnrNHFgnN
+	 pWZbU/hsC64dEt4gvWGsAl0pXFr6FQhTNBqzQZ/zme29nJwbiYQonuztzFSnkKYNvk
+	 E+nC9csbcqpyNhlUAcEcTULINBsb+2sbM7QS1U6O2291qyz+IeK19KRb/oub9btxEI
+	 I76hBw5FIw9RZ7BzN+p22pahwrwy16Nti7P+jYh6NACygNr+eumDdhoaS/+PXnl7m6
+	 kQfgpHPI9bpVmMb0K2AmRWKM2K35Ot9H4L3j2ALMzCZDr6v/g8zhICVwVc7ZVRU9gk
+	 qMe7ExVlytJyw==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, 
- peter.ujfalusi@linux.intel.com
-In-Reply-To: <20260615134439.1044872-1-yung-chuan.liao@linux.intel.com>
-References: <20260615134439.1044872-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: add Intel UAOL sof_ipc_dai_type
-Message-Id: <178275426019.47562.10862524279863154430.b4-ty@b4>
-Date: Mon, 29 Jun 2026 18:31:00 +0100
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Pengpeng Hou <pengpeng@iscas.ac.cn>
+In-Reply-To: <20260615064549.34110-1-pengpeng@iscas.ac.cn>
+References: <20260615064549.34110-1-pengpeng@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: tlv320aic26: remove keyclick sysfs file
+Message-Id: <178275419988.47562.11107424536946605364.b4-ty@b4>
+Date: Mon, 29 Jun 2026 18:29:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,20 +46,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1099; i=broonie@kernel.org;
- h=from:subject:message-id; bh=XWM1tBSmHmcvvvMLnUM5en612WeaCaKVmBqXFYQoHAA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqQ6WsLvYjLcFtGCOs2ZiTp12dBWvBMySGDZ4o+
- iX8/YMsxvaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakOlrAAKCRAk1otyXVSH
- 0KLpB/9rVtUZrb5h3zNf23UQHL5AWFVzt1af0HgZgAMwdDTg5e1jrcfKV2aO21LPAPEbb25VCOD
- //TKGj2PQXmP1+XXTkyNzKZXxzlMhOJZxnG/aICXmHhT6/Ky0gc5c3FgplrHseaKbMJCTxtbGdx
- PbvRq7k1I+loIX3J6XRr3rPYfoj/VpdiojbsROPuqbgwZlKZtiYBlWlQE0DDR6x1bv0PGKEdDmG
- 1L8Sg/fQ89FvNJY4On4yVZEIsA3zcCBNvGk850wNZ1m/+TvABjRcz0eRtPhuVWU+OoxE5W4J0Ek
- ovQU4uPJSprkeiXDd3VXzsQMIRjR++vSdNfkwADaMUiuLgWD
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1108; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=7o8T46mUWRP2pOFK6GQovQtsAMPl+zcFQr79cEg2xv8=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqQ6WweEU4aAAyoJqnHvV7JUZDr2vwJD3ttf0eh
+ 5DkkLknU1uJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakOlsAAKCRAk1otyXVSH
+ 0OT7B/9I6FDlaMaFXhDDKfzrwYLvcuXjqna2lIqozjAvisqxF5ZD/dBYqOgolxc6DOic3tf753F
+ RbXjLy5AKw+c+PigOlzUxXcNu0eJC7fvTRvwYfQLhXVVRVH1ny+kJxEQ3cKY59KPRhJ8o2jpmMB
+ WsMHXGN6uFYpvz0qjmqbTLrFKAMixw5Qa6Jgxx0vF/SP2ZfFRWgiH3pbbPEUFiGBH0uyNqzGlKI
+ EkPYLBLFFMmqKFBSGLZW7loxpfNNy1HKZB6byGfie3+zmOWK71QeixAiV6GYQf0MdI6xBmGkbjN
+ +6byhwR3EBB2mORA2ozR8DMSKp86Sn6GafFT6xQ2ijbP+DRp
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 15 Jun 2026 21:44:39 +0800, Bard Liao wrote:
-> ASoC: SOF: add Intel UAOL sof_ipc_dai_type
+On Mon, 15 Jun 2026 14:45:48 +0800, Pengpeng Hou wrote:
+> ASoC: tlv320aic26: remove keyclick sysfs file
 
 Applied to
 
@@ -65,8 +67,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: add Intel UAOL sof_ipc_dai_type
-      https://git.kernel.org/broonie/sound/c/e9f08e779976
+[1/1] ASoC: tlv320aic26: remove keyclick sysfs file
+      https://git.kernel.org/broonie/sound/c/ae375f8d063d
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
