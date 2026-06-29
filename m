@@ -1,160 +1,252 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F34836A023
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 14:20:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7BF346771;
+	Mon, 29 Jun 2026 14:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782742820; cv=none; b=XLrSgaXWSiM662k4fYmbUXPrKlJ/WbMkxOwja53KLRgvSS8TugXjJX736/T1y51155gXdGeZIcIlrge51g9n08+pLh1XcRlOQUVsuPrB2N1YeO/BDw3cGV4CQL28HJj7oSkEaEulgkGbmg55cbTzCYwv+M0nGrhTgSJewHhz2tI=
+	t=1782743094; cv=none; b=QRj6tIa3KwzxoXXM3n4CslIXw155vQvkk0T1+hZgLuoHYMU+iDTiuv0yUkkByMkdRt19Gl8jfVB1x0aYYE9R8Sdoy7V+8mtFtHB+C6hSXOMLgEKvMFu3h83/DcGe9Y7aulH66UPhRtPMkUuPwlIUB/WRJNVvEifKAEul+989Cp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782742820; c=relaxed/simple;
-	bh=MQh+JXfosgRnp2N26Os6WR38uYswed1Wst4QmxMK5Tg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mQ9GQzh4PKSMgpeXjfB3PkyLZzI1PzWwppmVbil7M8mRo3m0EtUxF2nTRupdDfJctd5Hqsh+kWLhrW6c+xbAQOnz52RwMx5SroWfi7V0yHJlpG29FAr3eRYXLerrE/BYZaLpTt2knrIEjdlHEi+s+2z+0AgeGRW/jpMQMbl7OoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dqx9fx2P; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ex+lDoR0; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1782743094; c=relaxed/simple;
+	bh=jKYy6z/LZavsIGCtCAO9WeqrOdZS55WfnuhWxAytq6A=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=rgkjrXa7zLKFSL5Anvr/7HTJUP3ep6/ZfW9FfGVbL971w9O8RzsANsZFhDykUr+zTTeWOWo4sX9zO+/UCj3RAhaBn4PlKbskZR2tBo72qF5WimzovhlRf/5Uape8Ak5l5d5PHrWFbHJWFV5dsOnv5mp6MER8zaEdKOPuW7/hDFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=QpqdxALB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eD8S00wy; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dqx9fx2P";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ex+lDoR0"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65TASu3J2640837
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 14:20:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YcbBWRwgvOfDz0077NvOLOZL5oIr0SL2V9Tnm8G3NhU=; b=dqx9fx2PQAOvAON0
-	JjBJ0NIs00NhAoOl8X0upWn5qL9M/6W0Aut5eOYg7/7UnqkfTH5vlFcDiaK359hZ
-	pkdSCZmp13RYcD2hsYQUYJAtAEFSkgTbAp7hPCq/iA/QMXnevPZRsDsgm9Fa3tzk
-	z4PZ0aNKLdsTh7y/i9hJqPwexJ5FatfArLMbpQS/UxT99O+70cfYn9xzZjvLrMlQ
-	Mobo7u7Z2maSQiFxf1KjNxMaNbG5wWBGQhG4LM9tKDptMvIIiUE1yE5KYnbX7oMm
-	CDpOW9re3f+U3M4sAgmRvRmcPsJTuvLts7NAsUm+DPxpzwL6+Aujf679t9Be8Y4b
-	tvcgxA==
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com [209.85.217.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f3n5s1cu0-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 14:20:17 +0000 (GMT)
-Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-7386e55c63cso40962137.3
-        for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 07:20:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782742817; x=1783347617; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YcbBWRwgvOfDz0077NvOLOZL5oIr0SL2V9Tnm8G3NhU=;
-        b=ex+lDoR0PcBtq+QrR1TGjmlvtviQYQG9TSmPlrQyq5dKIiQhirpzjoKPcFVgIXotiN
-         HE1ER0BewaXuFx+UXByl+OT1bzxiLjMCbJK9XzcKzXwN5xjwvGJIldh2XIqHUFUS3E2j
-         qoGi2RH0kZJ+/d6opjEAfEvz7+cWO0rrAWDThBSzUiVboKuoi3p61UsfzhZtPnCq+T7U
-         Svp+3hAKXNrXh6Xy8m4Jip8omLjXRV26b9I/8PG/LSYYtk8D8JMmbbdldABzT1MlBOkg
-         +7+DbvvgLTJZJ3hhT+ICMkiKLjMntNLGZWEa8b0RZvJDyOijS9elZWFql/3cc0jHjPfb
-         FrZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782742817; x=1783347617;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YcbBWRwgvOfDz0077NvOLOZL5oIr0SL2V9Tnm8G3NhU=;
-        b=K+OeVUw8+fPRhlhRBJKYokpw0Y/bNmvgWIeTJiymTrviNlJpIr8WJ5pKnXEXfF0fRR
-         LiRX0rGOQLn1D85D8vJ15RRY5reYzgl+evz96FbNzDjlJB1B2X9pN5uHbvuuLpvQ6oBd
-         XcdJTs6Jj/h7UWLx82rwMALZ+qGOsS18Bv3VCjZqJC7Pe0NEB2iUkmqCONYFXSbUk8LA
-         Mw3gfoAfgFNw3VwXpzI035Yy0eEMVmVQ5tKSizh2gK/TbZ48DJKhoNQ77Yz+q5t5vSyv
-         lJpst67mt93ZNvUaujsrpb97ExXNtarpd6CnzYe0X5hFczy6SbwcCjElfgvSL8VjqNYb
-         6sFw==
-X-Forwarded-Encrypted: i=1; AHgh+RqHQpzOyplvbYbEWths0LoFR9NGyXmalAEkywhC6A45TvNITk7oGS9Hr/8AOhog/FYsVey29W0A66xYMg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdcU3jq0ove/IkieSRDCRyHzmzykY7SlyPb72TWlwWDnBaM9Jk
-	lnLae2riYcBqdzxKTEt51fcBbXZUk5n3Y9Z7bRChQ5YVwC1TQP9T7vQdFmVdPIzlw6jYxs9ozsH
-	veUgQXo+T2Nny1jb7XkDVTvF4vJhhU87NHuCucuVyXzocSYu66GIcRlLZ9bT6i7XJhg==
-X-Gm-Gg: AfdE7ckf001ujV7MmbSbH/nE6Rvj2H7ZCNZYRADNzaoU7lJGnZdZQvgXzZSniDmwsK4
-	ysn7acqT5FRIB4UMY3MZ95K38sOqlTLQokU50KWA3T+SK04Sn5A6LKjCFcGG8Qcc1BhJsUjEgUW
-	ViDV3dWZl7XYfl0qQUJeATukdsTGHiDm5tg5hpY5yUT91MddsRzjOY/KjVD0VlhOYGggEf7kWGD
-	o3MJk+CdUihVv/M+lpDVCqLlmqPe5mfxZ0iArHfCB+RGRsol3labHPZCgTFiPXBy5jhrVqRLU66
-	AV5f6ECBOIftMRQhYoR0IdfLgOVCzXZT1qbJzcMrDg5s0xMt7CcNGCPUWhkOCFVeNFaZo2QrIC6
-	TvNElozIh3jFKk16fVcIpvk6kgt6Qsqtybd8=
-X-Received: by 2002:a05:6102:4423:b0:739:de1e:6c28 with SMTP id ada2fe7eead31-739de1e81fcmr222973137.0.1782742816497;
-        Mon, 29 Jun 2026 07:20:16 -0700 (PDT)
-X-Received: by 2002:a05:6102:4423:b0:739:de1e:6c28 with SMTP id ada2fe7eead31-739de1e81fcmr222966137.0.1782742815983;
-        Mon, 29 Jun 2026 07:20:15 -0700 (PDT)
-Received: from [192.168.120.170] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69847322ef9sm3615315a12.5.2026.06.29.07.20.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jun 2026 07:20:14 -0700 (PDT)
-Message-ID: <17b655b0-708a-491a-8a7a-93ebdbf1770c@oss.qualcomm.com>
-Date: Mon, 29 Jun 2026 16:20:12 +0200
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="QpqdxALB";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eD8S00wy"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 5DA241D0004C;
+	Mon, 29 Jun 2026 10:24:50 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-04.internal (MEProxy); Mon, 29 Jun 2026 10:24:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1782743090;
+	 x=1782829490; bh=ST6f+Ye0p9/T3JscEZ5f79X56UQF/QbBzy9biCJtv04=; b=
+	QpqdxALBlVVbSg1RXbbjqLWGXcZOg6UqpE3Vp6LevI4Da066273Jj7jYVeGLX46X
+	LinpDyHOTAAY1ongsWzSZL+cCdadSKdT0xgB5OPkSaEwxh5/PislXxwdCzTIn1oC
+	REt8J2lpL+fvicpf35ivwedoOFMDa8U26a+Af0XNlCdSTmG3z5R12GILfzE6SmTw
+	FSZhN3jd43gzf68bIdGOSAU4nIKKt3MyN2QskGPZia8vNMzlX9e7VXzhu4kxYVYg
+	UDp5rYOlGWSODvbwl5w7pVhSokE3VL50QWNcbqiwsUhiYZ7tyEoxKDIwx448Lzze
+	gpc1InqfpdaZWMjyp3kd3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782743090; x=
+	1782829490; bh=ST6f+Ye0p9/T3JscEZ5f79X56UQF/QbBzy9biCJtv04=; b=e
+	D8S00wyxDWIHB4Vh6oD0X5VzqSqT3z4JotdW/BevQ/hvoQRvSJ4gTpnwUbUNiVvN
+	G8siwGcgZmVG/TiUnnHXTn1tsmN/subJSQHJswtPIGvID4LqW/bOCUf3i8XXJylD
+	WXFxcFkgAA51bD9rS9zR/PPIXlhSNlheEG9hBMoaX7lGzr2EPU8twS2qKcETnnQm
+	Qs5hEZixKNmtvZib/V3CaUcHSInjjz5LDs6JZn2Dya+ogiS20nIaSB/Wve0+l3vU
+	4lYeZ8peAB5opxA5w2Az8mr0V2i2rBQh06bw6SfOrM/yaqhg/PcE4nsPAcFWerV8
+	TtuULrK3Mxq74ikYvQblg==
+X-ME-Sender: <xms:MIBCaql7Lgd3sryMBTzkKROi9XQHyr-mPzl__i6jqTbD1qnnWKapeA>
+    <xme:MIBCaspQPzsdeixLixlgpZMYG5LAHo2BNmL19hPCnpr36VcfZX9X-UrFYGxcz-wzQ
+    FHMcFjDOH5GNavn-sKvTKphcbpDb8uMr6ot8UHnPkfiaw3UDeqj7rPH>
+X-ME-Proxy-Cause: dmFkZTFwMprh5ZTFo5dfY8jM7ZxjUWaH+6tuhRdcmlFtEOFs7CUeegyqf4KKEhiSUkhGfs
+    shXdXn9QyoPevOyt3wuw7W3b5VIqMtvVsBDfkCDz6NnAXXSMKMS5RqJu9AKvF7V/7Z/6Bi
+    o0wdMW9CiqJY/GgvBhOb0boUTG3wawZBpqPqCJpYSmm0ZUUPAxL/htVEpmvED9VgSAp9uO
+    zvahS1FdRiM/3V4XEQKoztXK7nRXCyS0PV0utsqTVPI12PA5tNhyvrCWLN5gRjPD2bHxU6
+    yOkzZKnYaHdZcjhI1InBzIpD6AI5/7LesBqxsjdlhlSFuvuQ25fjoVntskThnjOfxN+lZE
+    lFlNPLX+2itzUULLge6bWTtAB4gI3sI98mx95AMy7L7s3J2Lv71eLqppsCyvkKkEp2BD1K
+    X6EPcmiBSA1+8CjSwZ9bnZEcfmRccnhjlt2iNkvsKWyLj1/wdv94pbMwFcIJuz9wDCbxo9
+    iBNu3jQYL8WYsjMfsNE2vt4jeYv+M/ZCxcL9u0F0peViPJlj6wA+lX7v8n1XmcHqI61L+w
+    oLntPH/4/NI3qcbGTonJrQKLjbjbudgB6r41pCwHJNyhc1FcWRmp+vAdOlmUYuMVG7tHGh
+    6rD7rTPwVD+A8OzG+9MFeYdJfte1jipxt2d5zch6FCoqCZ/4EPVTxch9C7GQ
+X-ME-Proxy: <xmx:MIBCatSPI8gdpFe_jZGU980MEecKsgaD01fqwY3y0NFvfmGlqDlOxA>
+    <xmx:MIBCao34oOmlMnXycJ5rfPkhkaUAebnqg9lvHyA5mty5cHOJD-WBYA>
+    <xmx:MIBCag-Iqfk-FL1_oE5qTJym1-rZQx9v3Q9OVRepLRT0ApXpjHMnWA>
+    <xmx:MIBCap_cFbmtt8ZxWbtOgzQq15eYwtPWSzjtzUotI0VkfSQ6bHQfuw>
+    <xmx:MoBCasDybz41gqrB1Ue2uuwv7YF9L8UCJORz1VN9UqDok726_y_e3jKq>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 1B5D1182007E; Mon, 29 Jun 2026 10:24:48 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] arm64: dts: qcom: shikra: Add MDSP carveout memory
- and update APM DAIs memory regions
-To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260618113509.2025881-1-ajay.nandam@oss.qualcomm.com>
- <20260618113509.2025881-3-ajay.nandam@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260618113509.2025881-3-ajay.nandam@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+X-ThreadId: AbUlhqeXux_w
+Date: Mon, 29 Jun 2026 16:24:27 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Andreas Schwab" <schwab@linux-m68k.org>,
+ "Arnd Bergmann" <arnd@kernel.org>
+Cc: "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ "Bartosz Golaszewski" <brgl@kernel.org>, "Andrew Lunn" <andrew@lunn.ch>,
+ "Sebastian Hesselbarth" <sebastian.hesselbarth@gmail.com>,
+ "Gregory Clement" <gregory.clement@bootlin.com>,
+ "Frank Li" <Frank.Li@nxp.com>, "Robert Jarzmik" <robert.jarzmik@free.fr>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>,
+ "Greg Ungerer" <gerg@linux-m68k.org>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "Hauke Mehrtens" <hauke@hauke-m.de>,
+ =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>,
+ "Yoshinori Sato" <ysato@users.sourceforge.jp>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "Linus Walleij" <linusw@kernel.org>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
+ "Dominik Brodowski" <linux@dominikbrodowski.net>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
+ linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org
+Message-Id: <bb0e4e89-cefb-40e7-9373-f76ce6c0efa5@app.fastmail.com>
+In-Reply-To: <mvmik71win7.fsf@suse.de>
+References: <20260629132633.1300009-1-arnd@kernel.org>
+ <mvmik71win7.fsf@suse.de>
+Subject: Re: [PATCH 00/13] treewide: replace linux/gpio.h
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI5MDExOSBTYWx0ZWRfX338oMDR1bdRK
- eishiY2uFAGfMm5oYF7zD8tgh8osR4mZmX5TubgWcKWKE9Q6cHqg9SUXjzYdh2xWmkbDHRwRfY/
- 43o3TMpx/oUvQC3hZRdtPeLtoG3DFQU=
-X-Proofpoint-ORIG-GUID: GxQzMHUzMizvynbUU1j2fmLBkszwhhZ6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI5MDExOSBTYWx0ZWRfX7+p5JUh9F8qO
- Y/zy/fhYBABtSTNLLs0ly59FSm0KH5yYBkBpgE+tK5A2kcslv+gR1VDbAWB4/m97pbaTRAe1vFL
- LOyZDPhxOMYaTBaQryNGIu53saptP6bNHLkHdQjTJqyw1QOtwg5WY0/xFOqloXs82LCEBNEeSc6
- V+l+ojgz8UNOuP9cl4fZKEp/YHondUci06IUF4+jzoytg+/tjAyUNYQN87Pzxj7awVxD8dRN58o
- Gs0d1LyiYOzjVT2Ex0t2eMxBGr7Ux8b+rctgIrtRcji4uaY7phb4+2WPMbGeiHyFT2Z4FrGcMZf
- OKAheK6FfngoZe1Z7WessIRGENdVAkXgb0n+m+70LcMD7qfRyyRrwTegqQNT0kaOKS8qTUEAqa/
- DdAhTJlw8fuHJ0fNm7EI5P4V66ZKdO3+aB0mlVcRWRlDPvalbIAWGzu9I9yesZs/AyBWtiHhNEK
- eakAO7SCqemKlMGxrBg==
-X-Authority-Analysis: v=2.4 cv=NZzWEWD4 c=1 sm=1 tr=0 ts=6a427f21 cx=c_pps
- a=5HAIKLe1ejAbszaTRHs9Ug==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=EUspDBNiAAAA:8 a=02jZw4jujDeG9Hx5Bn4A:9 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
- a=gYDTvv6II1OnSo0itH1n:22
-X-Proofpoint-GUID: GxQzMHUzMizvynbUU1j2fmLBkszwhhZ6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-29_03,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 spamscore=0 adultscore=0 suspectscore=0
- clxscore=1015 bulkscore=0 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2606290119
 
-On 6/18/26 1:35 PM, Ajay Kumar Nandam wrote:
-> Add a dedicated MDSP carveout memory region for audio usecases on
-> Shikra and mark both existing audio heap and MDSP carveout regions
-> as shared DMA pools.
-> 
-> Update the Q6 APM DAI node to reference multiple memory regions,
-> where index 0 is used for control path buffers and index 1 is used
-> for MDSP data path buffers. This separation ensures proper memory
-> allocation and access for APM communication between APSS and MDSP.
-> 
-> Also add shared-dma-pool compatibility to the existing audio heap
-> region to align with upstream DMA pool usage.
-> 
-> Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-> ---
+On Mon, Jun 29, 2026, at 16:01, Andreas Schwab wrote:
+> On Jun 29 2026, Arnd Bergmann wrote:
+>
+>> From: Arnd Bergmann <arnd@arndb.de>
+>>
+>> The linux/gpio.h header used to be the global definition for the gpio
+>> interfaces, with 1100 users back in linux-3.17. In linux-7.2, only about
+>> 130 of those remain, so this series cleans out the rest.
+>>
+>> In each subsystem, we can replace the header either with
+>> linux/gpio/consumer.h for users of the modern gpio descriptor interface,
+>
+> A few of them already used <linux/gpio/consumer.h>, and is duplicated
+> now.
 
-So, would audio not work with the base of this patch but without
-this one?
+Indeed, I have removed the extra ones now and folded those into
+the patches.
 
-Konrad
+     Arnd
+
+diff --git a/drivers/gpib/gpio/gpib_bitbang.c b/drivers/gpib/gpio/gpib_bitbang.c
+index 2e8d895db06a..34d14b94a0b8 100644
+--- a/drivers/gpib/gpio/gpib_bitbang.c
++++ b/drivers/gpib/gpio/gpib_bitbang.c
+@@ -64,7 +64,6 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/gpio/driver.h>
+ #include <linux/gpio/machine.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/irq.h>
+ 
+ static int sn7516x_used = 1, sn7516x;
+diff --git a/drivers/input/keyboard/matrix_keypad.c b/drivers/input/keyboard/matrix_keypad.c
+index 98d0269a978f..8863b741d1a3 100644
+--- a/drivers/input/keyboard/matrix_keypad.c
++++ b/drivers/input/keyboard/matrix_keypad.c
+@@ -16,7 +16,6 @@
+ #include <linux/interrupt.h>
+ #include <linux/jiffies.h>
+ #include <linux/module.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/input/matrix_keypad.h>
+ #include <linux/slab.h>
+ #include <linux/of.h>
+diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
+index eb11bf2e9436..a6c984205123 100644
+--- a/drivers/input/misc/soc_button_array.c
++++ b/drivers/input/misc/soc_button_array.c
+@@ -15,7 +15,6 @@
+ #include <linux/dmi.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/gpio_keys.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/platform_device.h>
+ 
+ static bool use_low_level_irq;
+diff --git a/drivers/net/ethernet/oki-semi/pch_gbe/pch_gbe_main.c b/drivers/net/ethernet/oki-semi/pch_gbe/pch_gbe_main.c
+index 88c5c52e0e38..5f5adc9c9e83 100644
+--- a/drivers/net/ethernet/oki-semi/pch_gbe/pch_gbe_main.c
++++ b/drivers/net/ethernet/oki-semi/pch_gbe/pch_gbe_main.c
+@@ -16,7 +16,6 @@
+ #include <linux/net_tstamp.h>
+ #include <linux/ptp_classify.h>
+ #include <linux/ptp_pch.h>
+-#include <linux/gpio/consumer.h>
+ 
+ #define PCH_GBE_MAR_ENTRIES		16
+ #define PCH_GBE_SHORT_PKT		64
+diff --git a/drivers/net/phy/mdio_device.c b/drivers/net/phy/mdio_device.c
+index a18263d5bb02..06151f207134 100644
+--- a/drivers/net/phy/mdio_device.c
++++ b/drivers/net/phy/mdio_device.c
+@@ -9,7 +9,6 @@
+ #include <linux/delay.h>
+ #include <linux/errno.h>
+ #include <linux/gpio/consumer.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/init.h>
+ #include <linux/interrupt.h>
+ #include <linux/kernel.h>
+diff --git a/drivers/phy/broadcom/phy-bcm-ns2-usbdrd.c b/drivers/phy/broadcom/phy-bcm-ns2-usbdrd.c
+index d9c06129ed23..171bf097a8b8 100644
+--- a/drivers/phy/broadcom/phy-bcm-ns2-usbdrd.c
++++ b/drivers/phy/broadcom/phy-bcm-ns2-usbdrd.c
+@@ -4,7 +4,6 @@
+ #include <linux/delay.h>
+ #include <linux/extcon-provider.h>
+ #include <linux/gpio/consumer.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/init.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+diff --git a/drivers/phy/ti/phy-j721e-wiz.c b/drivers/phy/ti/phy-j721e-wiz.c
+index 2233babc0078..1f5dba49ace4 100644
+--- a/drivers/phy/ti/phy-j721e-wiz.c
++++ b/drivers/phy/ti/phy-j721e-wiz.c
+@@ -12,7 +12,6 @@
+ #include <linux/clk.h>
+ #include <linux/clk-provider.h>
+ #include <linux/gpio/consumer.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+ #include <linux/mfd/syscon.h>
+diff --git a/include/linux/mfd/ti-lmu.h b/include/linux/mfd/ti-lmu.h
+index 5040c7d1e1b9..2089ec5124e8 100644
+--- a/include/linux/mfd/ti-lmu.h
++++ b/include/linux/mfd/ti-lmu.h
+@@ -10,7 +10,6 @@
+ #ifndef __MFD_TI_LMU_H__
+ #define __MFD_TI_LMU_H__
+ 
+-#include <linux/gpio/consumer.h>
+ #include <linux/notifier.h>
+ #include <linux/regmap.h>
+ #include <linux/gpio/consumer.h>
+diff --git a/sound/soc/codecs/cs42l84.c b/sound/soc/codecs/cs42l84.c
+index 36c3abc21fed..f2448b4c11fc 100644
+--- a/sound/soc/codecs/cs42l84.c
++++ b/sound/soc/codecs/cs42l84.c
+@@ -16,7 +16,6 @@
+ #include <linux/init.h>
+ #include <linux/delay.h>
+ #include <linux/i2c.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/regmap.h>
+ #include <linux/slab.h>
+ #include <linux/acpi.h>
+diff --git a/sound/soc/codecs/dmic.c b/sound/soc/codecs/dmic.c
+index 8b05d6f9b429..cbed11136935 100644
+--- a/sound/soc/codecs/dmic.c
++++ b/sound/soc/codecs/dmic.c
+@@ -7,7 +7,6 @@
+ 
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/platform_device.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
