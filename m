@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5C740BCDC;
-	Tue, 30 Jun 2026 11:17:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B1F401494
+	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 11:18:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782818279; cv=none; b=Xbxmj7Uamw0kpjhyYmq1vY/txn8qWuV/S4y8v6xhDBaJ9cNdh1xRmD4anTfkHvzHsQislBLsZ9xeBP8drxb2+YueAWj1O0kgMDrVP/lROeGQX4fA+o/8bCrnd57LGuDerYs3oHfjpvpScHQ5AtoWeajSo+mTHQxbGYTORL5gBe4=
+	t=1782818283; cv=none; b=hkRCeIqsHwV6z9YQk12fcNoV0dz9DunzrhdtgBN1/zIpArIVKrMqZ8EHy+olawFlepM5HQZveTaer7I/aDzai2twyXHmrMSCVNXZXFGcSdDN4h4sdoimlihIVhP31PPhILTTmGKRU8RzV4jKDdjwHPgtfvs4MZ4jjKvI5ZlsE4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782818279; c=relaxed/simple;
-	bh=9/YDBUVtaVW6S4CrG6wouoMrNJChPfP/QJL3on0HzmA=;
+	s=arc-20240116; t=1782818283; c=relaxed/simple;
+	bh=BRv4D5HXu+6YSbs/I8JujyFvtmeeXzrgmVrXwIm4TlU=;
 	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=PvpGZy3XTAuscpovEUQUvgPDuF6x6W/socXy4qhPA+F7nA4Vtd0ElnLP8tQmUKNX9t4xcmkz7Ppgof58bfA5M3L0UGlc+4BrkViclh1a9cwTuIj1BHnazd0B8bCztV+68MZluzCtXlV+jdGWwaNM+DpQ6mgpfTImikNPM2wt+YA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fLdROPEg; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=csj+CCUAUtw0I5s3gUYnNECnkUyxG8fUa2nT0XwygsssA92uTroe4CJXaTAESSpFp/Ip8hWXyZb24KfCpAli09ANzYZQQ6WVj6ODkQgOK+KcjRcf0K+jlxQjU1SSpNM2avFVgkZ1Dx0BIAEO+Kt86RkFqjyzV27DSUO02blAYoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DO5079/q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fLdROPEg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A9291F000E9;
-	Tue, 30 Jun 2026 11:17:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DO5079/q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E9141F000E9;
+	Tue, 30 Jun 2026 11:18:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782818278;
-	bh=mNYmvI7fy1S/QZNsIS84bHZwcpw6Z3RHt86wJ+hbZA8=;
+	s=k20260515; t=1782818282;
+	bh=83LmPhIDWhw5xHlGqAOgDAn3G+vpsiqnM2JUTiu7lGw=;
 	h=From:To:In-Reply-To:References:Subject:Date;
-	b=fLdROPEg1iSFGXo0GRh6uDCuaChfVv/ePiqoq2hSHB6tVPuT8O4H1I9gWglk7im5h
-	 QgIGJOzHuoIxKju6Ztvoj9acBsFJAHslx47vhev96GU5sbOLBs+x9Y0DsQjuXkGG2a
-	 f78WZGCEtepeuXOfJFDa1Illgme3oGOML5boMa1VmCwqTS7Kckf1XLmtUYgwBw9OQa
-	 1YICylUr/Qckc/P05yVNnlQVqEGy6ENYxSe30ZgjBxJWHncmLbrpYFYBsTXl2YL+I8
-	 FT/akuy9vq8VS11lpt08lxHEhIfTWrU90FOtAU5jYpuEEpD860ILEZ9FNBOa9y6BRA
-	 aCxGmOh6MiFRw==
+	b=DO5079/qvjNrcBneY5LSbibT7XuxThwpEkQoHyOUdIo0lh3hyRDlbSRrY9hkVSfoi
+	 CaHw6lBBi5SfpzY6Pcdsq82x5iwK210ugcBgaOsFk95HrKXVc0To1B4VCO5RdSO4Oc
+	 9nruYRdMCDD3o+H8XDjFBWOrL5kKaok6RlMjji2PzeAAESl7eOAiOak/M4re29ackY
+	 u3Q7nTzpb1KOfT+dlWm0ZzSbxiyJe3DUII+L0d9EN63JztcIgM9Qmk6SO/dj9O45nO
+	 fMZKJeMliQyfWBGamzjdJd9Q0PYYEZDIXZ5lL0PyGsCrkp3gIPavxJBD+SLN/tURf9
+	 vkDTpIwi28JDg==
 From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Christian Hewitt <christianshewitt@gmail.com>
-In-Reply-To: <20260625122811.4056274-1-christianshewitt@gmail.com>
-References: <20260625122811.4056274-1-christianshewitt@gmail.com>
-Subject: Re: [PATCH v2] ASoC: codecs: pcm512x: only print info once on no
- sclk
-Message-Id: <178273909454.47562.12205602859787359059.b4-ty@b4>
-Date: Mon, 29 Jun 2026 14:18:14 +0100
+To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
+ linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87zf0ids7p.wl-kuninori.morimoto.gx@renesas.com>
+References: <87zf0ids7p.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: codecs: max98090: add missing describe "data"
+ for max98090_set_jack()
+Message-Id: <178275557772.47562.550574669396940999.b4-ty@b4>
+Date: Mon, 29 Jun 2026 18:52:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,29 +45,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1130; i=broonie@kernel.org;
- h=from:subject:message-id; bh=9/YDBUVtaVW6S4CrG6wouoMrNJChPfP/QJL3on0HzmA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqQ6XkjxGR+d8+o+8JweTewChMuA6PLfEmRnTW5
- uYJN9Efy6KJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakOl5AAKCRAk1otyXVSH
- 0P0SB/477BRsptiGZ+yMS2xBzEhLQoHlVvaE0VoZsX58ZoaFd9Ph97lM7OasSyrbExXCZSd1WOw
- RcXf9oTvICqieYKVNZowQBK1WHlaC315kuI/4a5vTUw9vEWhWKHus2SHMqr8ltQ5U0htszcisj+
- hbbmjhWppvA4RbZ9sXUisH/lZSPbNqVvspxr6GqSVbQfKC3PEiGW4txGCmX8nsI1rWSVResuMs9
- I6qKo8YX4tXjFwxlR1u5c7ET3S2MVdZUZxkh8+SEVU8icQ86dBKGP+OFdU1j8ZLwM5XPuXcL8JN
- 771qnMuRarLWH/3fYwEDN//ZS9QTXRiOkuHLVbru/FWvEVp/
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1173; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=BRv4D5HXu+6YSbs/I8JujyFvtmeeXzrgmVrXwIm4TlU=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqQ6Xob+t5VJfK2NfzLPTO4vYDcmqgvwaDjoyRo
+ 23iJK75CqOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakOl6AAKCRAk1otyXVSH
+ 0BrTB/45pVLR/F6FUnYsd30vXD/fH3qPfThLcyWm/nrv+JQfM2baQ82zRZvYqSQN+pb4RptD5Qm
+ UyKdgA2uc/x7VDHrXF/k9Z5FvU7RML9zXse+om2gr0AeX3evcHRomksw40B8MI8i37keJSnAoGP
+ RT7zR4D34GPzp6r1oBbvU5ePiaXVdnzRHIZv+HFwXRw1pI7YfYBy4jYSXaaUanOqCrN6hTJpYQp
+ XFqdn0Kr0LK84SqHh2XfvxFFjVkHFWlpqpu4/KQJ5rTNyYOroqQN949kKj2iwDpe8d3IR9eurjr
+ c5LlHd/BdhqhPqIfTm9rfHWI2x/lEKiN1IMm8/6S2JgfOqW/
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 25 Jun 2026 12:28:11 +0000, Christian Hewitt wrote:
-> ASoC: codecs: pcm512x: only print info once on no sclk
+On Fri, 26 Jun 2026 01:07:54 +0000, Kuninori Morimoto wrote:
+> ASoC: codecs: max98090: add missing describe "data" for max98090_set_jack()
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
 Thanks!
 
-[1/1] ASoC: codecs: pcm512x: only print info once on no sclk
-      https://git.kernel.org/broonie/sound/c/c5315c8dcbcb
+[1/1] ASoC: codecs: max98090: add missing describe "data" for max98090_set_jack()
+      https://git.kernel.org/broonie/sound/c/2e5bf7f48bf1
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
