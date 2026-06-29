@@ -1,61 +1,156 @@
-Received: from r3-212.sinamail.sina.com.cn (r3-212.sinamail.sina.com.cn [202.108.3.212])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DDB9BA3D
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 03:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.212
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CAED2D3A7C;
+	Mon, 29 Jun 2026 03:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782704306; cv=none; b=m1i0tCUczwCiP0zHgjY2r7uuou0Ypym8AMhSI7zlrWjI/jVTmO2cSxg+lX+thK0gJsvxLcQqpJnfzSowb9fdt1jtMyQWER7i0HZiiL+YZSMU3V78nyDAAtAjBEnBOq6gIcvOoMHOnZd2Hzo5KsJrmSsiYrIkC+wen0C8HFFS9DU=
+	t=1782705317; cv=none; b=HLMR2ij9j8Ar7RWTaCKWGOZC9dYjuuDKz2IUknAbgYe8YTepwXVvF7QxmEdQdQbHF0oEpECtpYKFjQ5ElieMe2I4W/jnrNsCH+xBgQvmbDwE9G+derFrK2V7DAv0MJnX64jt30ySs0VyAw4/9eQKL7bgWkLP7FSVIA3SDwCiNxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782704306; c=relaxed/simple;
-	bh=UykXNke+68MAdxwpv21yMIbhKNaYMs+YO6NtyiXK0xc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=D+PC16Amq6Wx+n8Z/kFQjennonSnWU6wmluaR8KKBsls8Nln0C2PE7M+/U33RS1rPaLh4yedC/Gx5G8EZ4zR9dtzhcGynsmbejTvcpJyRIgoRVYQnGYNJrb2sC0u6Xm8Bi11bMipcjo8PFn08t54ja6meHuJYNNEVNLm48o/jCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
-	by sina.net (10.54.253.38) with ESMTP
-	id 6A41E7660000355F; Mon, 29 Jun 2026 11:32:55 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: C4DB14F2C91045DF8372E3FD5084B2CE
-X-SMAIL-UIID: C4DB14F2C91045DF8372E3FD5084B2CE-20260629-113255
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	tiwai@suse.com,
-	zhangyi@everest-semi.com
-Subject: RE: [PATCH v3 2/6] ASoC: codecs: ES8389: Fix the issue about mclk_src
-Date: Mon, 29 Jun 2026 11:32:52 +0800
-Message-Id: <20260629033252.3731-1-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <ecf88274-4474-4856-b9bc-842a382ca772@sirena.org.uk>
-References: <ecf88274-4474-4856-b9bc-842a382ca772@sirena.org.uk>
+	s=arc-20240116; t=1782705317; c=relaxed/simple;
+	bh=+9Gt5xbV0f6uwKj3h75aKeru0YfHJBPFQCGeKZXf2cU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Eufzna1K0BcqIFLBEf679ZSQk/90bZBehL6iPcQPF1aSP7ho8RkhHOw1yje50f1EuLDpUS/g013HDoQPYEgm1l0KA4mTOVnbXvYJ/zTOlBtlEdglI3dEwJvdC4S+SbIyuB8zITK0EOOfMTa863xRjkEVGalCLDmLB/0QmW0FirA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Pft78SEo; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=mhU/07WU; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Pft78SEo";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="mhU/07WU"
+Date: Mon, 29 Jun 2026 05:55:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1782705313;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fphPRIfC3c7/rVG8Mt/TDc8McgZz28sFey5ZU2tWKdc=;
+	b=Pft78SEoAU9N4qr3lmpoTg0M92qy3Nft6vgej121eR9dSbMe0f8peTU3UQ5ZdZp4xb32eB
+	b7WgzU76UpqfIi0KH7Nok5zMxvDv0BWBBliu/F8F1xalkGFAYdD3oGsQzbc0O5OjAwtWCF
+	mXycnLD/Wd7oQtN0SElsTscfGpUIJ3xYAESLabeu0rfoa+vtgLN19lNYJ3atZNfWAGOetu
+	XZifQFpTfhxnNu61bjULxpRwl9PAqqmE3eXNeppbBRnouZ1TD+2oTzJkKTam5Hq6Pq/Lz1
+	Zl42CcwgABCE3nJlNBy1i0YxdmOXGkBpyzioiyLcnR307F4EAjjODdDMzVT1mA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1782705313;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fphPRIfC3c7/rVG8Mt/TDc8McgZz28sFey5ZU2tWKdc=;
+	b=mhU/07WU2k0PFYZQUZgClVivDlMZa7FcCpph6HWnRTGAFP5kbPcuuzB14gmyxBBGCv5W+f
+	6CGdzH8OyJeCbxDw==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Thomas Gleixner <tglx@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, 
+	David Woodhouse <dwmw2@infradead.org>, Miroslav Lichvar <mlichvar@redhat.com>, 
+	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
+	Arthur Kiyanovski <akiyano@amazon.com>, Rodolfo Giometti <giometti@enneenne.com>, 
+	Vincent Donnefort <vdonnefort@google.com>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, Oliver Upton <oupton@kernel.org>, 
+	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>, Johannes Berg <johannes.berg@intel.com>, 
+	Jacob Keller <jacob.e.keller@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Peter Hilber <peter.hilber@oss.qualcomm.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, virtualization@lists.linux.dev, linux-wireless@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+Subject: Re: [patch 09/24] timekeeping: Add CLOCK_AUX support for
+ ktime_get_snapshot_id()
+Message-ID: <20260629055344-b74c43de-2a2b-4608-ae4e-ed0ac8e12fd1@linutronix.de>
+References: <20260526165826.392227559@kernel.org>
+ <20260526171223.374814973@kernel.org>
+ <20260626103359-66ab2b54-d36f-416b-94a4-3f3708dccced@linutronix.de>
+ <87echtk24a.ffs@fw13>
+ <20260626125819-d8b197fc-7671-4d12-a578-9025affc52d9@linutronix.de>
+ <87fr29ib4v.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87fr29ib4v.ffs@fw13>
 
-> > +		/*
-> > +		 * If the MCLK property cannot be accessed,
-> > +		 * switch the codec's internal MCLK_SOURCE to the SCLK pin.
-> > +		 */
-> > +		es8389->mclk_src = ES8389_SCLK_PIN;
+On Fri, Jun 26, 2026 at 05:17:52PM +0200, Thomas Gleixner wrote:
+> On Fri, Jun 26 2026 at 13:03, Thomas Weißschuh wrote:
+> > On Fri, Jun 26, 2026 at 12:49:41PM +0200, Thomas Gleixner wrote:
+> >> On Fri, Jun 26 2026 at 10:48, Thomas Weißschuh wrote:
+> >> > On Tue, May 26, 2026 at 07:14:13PM +0200, Thomas Gleixner wrote:
+> >> > (...)
+> >> >
+> >> >>  static inline void tk_update_aux_offs(struct timekeeper *tk, ktime_t offs)
+> >> >> @@ -1218,6 +1223,12 @@ bool ktime_get_snapshot_id(struct system
+> >> >>  		tkd = &tk_core;
+> >> >>  		offs = &tk_core.timekeeper.offs_boot;
+> >> >>  		break;
+> >> >> +	case CLOCK_AUX ... CLOCK_AUX_LAST:
+> >> >> +		tkd = aux_get_tk_data(clock_id);
+> >> >> +		if (!tkd)
+> >> >> +			return false;
+> >> >> +		offs = &tkd->timekeeper.offs_aux;
+> >> >> +		break;
+> >> >
+> >> > 'tkd' is also used to compute 'monoraw'. However 'tkr_raw' and 'tkr_mono'
+> >> > are the same for auxilary clocks, so this will compute a wrong 'monoraw'.
+> >> 
+> >> AUX clocks are independent in the first place and the MONORAW part is
+> >> the "MONORAW" related to the AUX clock itself. 
+> >> 
+> >> > Instead 'monoraw' should be computed based on 'tk_core'.
+> >> > Which then also requires the sequence locking of 'tk_core'.
+> >> 
+> >> No. From a PTP and steering point of view you want the "raw" value which
+> >> is related to the AUX clock itself and not the global one.
+> >
+> > Ack.
+> >
+> > However the kdocs call it 'CLOCK_MONOTONIC_RAW'. Can we clean this up?
 > 
-> If there's an actual error here I'd expect us to return the error code
-> rather than silently ignore the clock....
-> 
-> > +	} else {
-> > +		if (!es8389->mclk)
-> > +			dev_err(component->dev, "%s, assuming static mclk\n", __func__);
-> 
-> ...if it's genuinely missing we'll end up in this case (which shouldn't
-> be reported as an error, that's a totally valid configuration).
-> Consider for example -EPROBE_DEFER.
+> Yes. Something like the below?
 
-OK
+Looks good, thanks.
+The corresponding structure definitions are a also affected, though.
+
+> Thanks,
+> 
+>         tglx
+> ---
+> --- a/kernel/time/timekeeping.c
+> +++ b/kernel/time/timekeeping.c
+> @@ -1202,10 +1202,21 @@ static inline u64 tk_clock_read_snapshot
+>  
+>  /**
+>   * ktime_get_snapshot_id -  Simultaneously snapshot a given clock ID with
+> - *			    CLOCK_MONOTONIC_RAW and the underlying
+> + *			    the corresponding monotonic raw the underlying
+>   *			    clocksource counter value.
+>   * @clock_id:		The clock ID to snapshot
+>   * @systime_snapshot:	Pointer to struct receiving the system time snapshot
+> + *
+> + * For the system time keeping clocks (REALTIME, MONOTONIC and BOOTTIME) the
+> + * monotonic raw clock is CLOCK_MONOTONIC_RAW. For AUX clocks this is the
+> + * monotonic raw clock related to the AUX clock. These AUX clock related
+> + * monotonic raw clocks have a strict linear offset to the system time
+> + * CLOCK_MONOTONIC_RAW:
+> + *
+> + *	MONOTONIC_RAW(AUX$N) = CLOCK_MONOTONIC_RAW(system) + offset(AUX$N)
+> + *
+> + * The offset is established when a AUX clock is initialized, but it is
+> + * currently not accessible.
+>   */
+>  void ktime_get_snapshot_id(clockid_t clock_id, struct system_time_snapshot *systime_snapshot)
+>  {
+> @@ -1512,6 +1523,9 @@ EXPORT_SYMBOL_GPL(ktime_real_to_base_clo
+>   * @xtstamp:		Receives simultaneously captured system and device time
+>   *
+>   * Reads a timestamp from a device and correlates it to system time
+> + *
+> + * See documentation for ktime_get_snapshot_id() for information about the raw
+> + * monotonic time stamp which is used here.
+>   */
+>  int get_device_system_crosststamp(int (*get_time_fn)
+>  				  (ktime_t *device_time,
+> 
