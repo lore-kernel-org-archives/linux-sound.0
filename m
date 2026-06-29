@@ -1,113 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1D33932F7;
-	Mon, 29 Jun 2026 08:39:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D093F86FC
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 09:06:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782722373; cv=none; b=MdLMRKqNfqnW2gzooSgvUOIg2tMftwdc+caUyQb000X9GD5uXT0Hi+RU+EaoKmICYH3RosdbnIpYJPOErG1l3TcjUZVGZaLOnxgbqXuuOL92KA3L7sQkHC7IvabkOhBHclt8qzttOkaTsP7kPzx8sifLr3RvXhuXLYBXRzNn5M4=
+	t=1782723973; cv=none; b=aAsVGVQygQXWN0RQdIoLbLoINpk6Ma+IrV8lsGsD+gRzgQfQdQuDk5K3k5XY3cP8k3QS49Ma9yT1z8fCXirE0NnKrHgpoKIk9x8t2CNB//fVy0H/BmNyaVsCiu7ZAFW2B0faScku4CLdtr3khCuGNueTt+CB+okWcpjv+u0l+qE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782722373; c=relaxed/simple;
-	bh=c4sIW5ycgpKIzndr7OBsugpKjXxHJyhKvNXgVBgHeU4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=LFy8mFWRDuEQS6JACV50YjB7neu0+Zbt4F0q2ffy7yPMDLqFFtSvXdWQjB/I2i+Zk4uH8APkb8jfZoCQZOIryD+us4Yni7GAj2RyR1AdELeGZZ3Bw5mV5zXsaunY9rzBOh9Q/Q7dBgzBcX7pPDwgXhq70o4RUrclAEkkvRmuu/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g0jrwcN7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782723973; c=relaxed/simple;
+	bh=qB4tJg2aYLg8hehpYin2dptPRoadEzGzbBpoppNMyKk=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Fb8CME2bVhcrtd+S5L3asRjLesa2n8XWmbcKvRHS6po3hQ+sP/e7S+Xk1lf091KLxIw3+crYs3YimWFzNlrtNxlC8k+rdZ8UeKp/oO8Zo/aiOkRFCjLz+tmfXTL7RAmWLgyFQ+0PXFUm3dHaNkYYxOCSSCI5VRjMHxh/OvvJ1IY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iyUhTV03; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g0jrwcN7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D224C1F000E9;
-	Mon, 29 Jun 2026 08:39:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iyUhTV03"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C9EE1F000E9
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 09:06:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782722372;
-	bh=lq5LQ9JJIDNlCaG6JOmQhcLy406DV5gppuzq/19j6u4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=g0jrwcN7FicUiZjmTdmUTBj9Jd6bDziwdyJEXWr9dwXtodAHHfT4gyhX90rCOLzMG
-	 LZ/WbKKfW/llBWAnPUID5vrxbWnIsEMzfnmmGlddoEw07yl0+kN0xTCAnYFMAM1lgw
-	 VfQZ+UddMWjc14ffDQM+l63bdsgK0VxxksGsknHAOJfI4QtBSUKewhoH7Zg50oam7D
-	 BqB5DEpDacVIFF3iKVxhOclY55m87G0cONuxRo9/FtK7dRlsqIymFhcCpQ6mQGksTH
-	 q0ZAahQkgb57Le0NwhxkQtp0csuXF43ZGmnQ3v0UfdtZvb8F5+QwwU8dDaVVxRiAnh
-	 0/tWhLjmKBD7Q==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, David Woodhouse
- <dwmw2@infradead.org>, Miroslav Lichvar <mlichvar@redhat.com>, John Stultz
- <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, Anna-Maria Behnsen
- <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>,
- Arthur Kiyanovski <akiyano@amazon.com>, Rodolfo Giometti
- <giometti@enneenne.com>, Vincent Donnefort <vdonnefort@google.com>, Marc
- Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- kvmarm@lists.linux.dev, Oliver Upton <oupton@kernel.org>, Richard Cochran
- <richardcochran@gmail.com>, netdev@vger.kernel.org, Takashi Iwai
- <tiwai@suse.com>, Miri Korenblit <miriam.rachel.korenblit@intel.com>,
- Johannes Berg <johannes.berg@intel.com>, Jacob Keller
- <jacob.e.keller@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
- Saeed Mahameed <saeedm@nvidia.com>, Peter Hilber
- <peter.hilber@oss.qualcomm.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- virtualization@lists.linux.dev, linux-wireless@vger.kernel.org,
- linux-sound@vger.kernel.org
-Subject: Re: [patch 09/24] timekeeping: Add CLOCK_AUX support for
- ktime_get_snapshot_id()
-In-Reply-To: <20260629055344-b74c43de-2a2b-4608-ae4e-ed0ac8e12fd1@linutronix.de>
-References: <20260526165826.392227559@kernel.org>
- <20260526171223.374814973@kernel.org>
- <20260626103359-66ab2b54-d36f-416b-94a4-3f3708dccced@linutronix.de>
- <87echtk24a.ffs@fw13>
- <20260626125819-d8b197fc-7671-4d12-a578-9025affc52d9@linutronix.de>
- <87fr29ib4v.ffs@fw13>
- <20260629055344-b74c43de-2a2b-4608-ae4e-ed0ac8e12fd1@linutronix.de>
-Date: Mon, 29 Jun 2026 10:39:26 +0200
-Message-ID: <87bjctsptt.ffs@fw13>
+	s=k20260515; t=1782723971;
+	bh=qB4tJg2aYLg8hehpYin2dptPRoadEzGzbBpoppNMyKk=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=iyUhTV03bOKBX3P50ZCu5uI5Z9GdSG5FaWYf46X7lJcOmFmX+TOB5ZSHaEGQvoVvi
+	 w7QBgX5wGnlIt9PwETkpMRIPTtL2gcrwvVGZlvQ9UEO6y0jwZX9Mmn6Zpk9DscDEuY
+	 F0AAPET4mFlLtpb3GilD+x3+Q8aLT5LUaL+qRXeepLEhJbSMjM6672Tt+0t+JTi4Ib
+	 aZbeAoeQD4GZ24bf76pYRPdkOembLX2HEF5nuge3oTrb5EA6IK7gusKHdgBYLt0wZe
+	 2UB/jbL1RUF+Rd3fa80u2w1VGLhbQLmwYrqVheU88CxYlRSZkCxTIpqImYjye4YPzK
+	 QVoyZa2wkJ4iA==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-39af6402933so14210151fa.2
+        for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 02:06:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RpSY8PE2pBiW/W3szx9TqCdt3HPu+irMFA8uLpkErdq1zxC51AhjtTW6CSWomhlDJ97gsdcDBwQV6VICg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFB4Pq83o0xYSEvf9argkI5/j0CqaxSvuzWMyuXo+ie3DmpT7/
+	R8i7TTKmFi/wY7WNrhAIAit2GK3B6LrDKRc76PRCi2+nOe8f5jzsliisYG6271Ok/xCAwd5Hj+5
+	/IyMuVV5Y+ANyN/gCaPq/q+G3mJO47t0E7ZJi6Z2/jA==
+X-Received: by 2002:a05:651c:1587:b0:39a:e3c7:6644 with SMTP id
+ 38308e7fff4ca-39ae3c76ecdmr17150311fa.12.1782723969253; Mon, 29 Jun 2026
+ 02:06:09 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 29 Jun 2026 09:06:07 +0000
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 29 Jun 2026 09:06:07 +0000
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <ah9QPgco9BxEix7T@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
+ <20260521-pdev-fwnode-ref-v1-21-88c324a1b8d2@oss.qualcomm.com> <ah9QPgco9BxEix7T@ashevche-desk.local>
+Date: Mon, 29 Jun 2026 09:06:07 +0000
+X-Gmail-Original-Message-ID: <CAMRc=McSDNdBMc_MAbBiOgeWusQXPEvivxniX5dJq+X6rp3UZw@mail.gmail.com>
+X-Gm-Features: AVVi8Cem7nS_T_r8P1YOw4p48wRJJJKggepy3MNLXmsKDTbaRpH5jyNSSJ0YwZw
+Message-ID: <CAMRc=McSDNdBMc_MAbBiOgeWusQXPEvivxniX5dJq+X6rp3UZw@mail.gmail.com>
+Subject: Re: [PATCH 21/23] usb: musb: use platform_device_set_of_node_from_dev()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Lee Jones <lee@kernel.org>, Mark Brown <broonie@opensource.wolfsonmicro.com>, 
+	Thierry Reding <thierry.reding@avionic-design.de>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Maximilian Luz <luzmaximilian@gmail.com>, 
+	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
+	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jun 29 2026 at 05:55, Thomas Wei=C3=9Fschuh wrote:
-> On Fri, Jun 26, 2026 at 05:17:52PM +0200, Thomas Gleixner wrote:
->> On Fri, Jun 26 2026 at 13:03, Thomas Wei=C3=9Fschuh wrote:
->> > On Fri, Jun 26, 2026 at 12:49:41PM +0200, Thomas Gleixner wrote:
->> >> On Fri, Jun 26 2026 at 10:48, Thomas Wei=C3=9Fschuh wrote:
->> >> > On Tue, May 26, 2026 at 07:14:13PM +0200, Thomas Gleixner wrote:
->> >> > (...)
->> >> >
->> >> >>  static inline void tk_update_aux_offs(struct timekeeper *tk, ktim=
-e_t offs)
->> >> >> @@ -1218,6 +1223,12 @@ bool ktime_get_snapshot_id(struct system
->> >> >>  		tkd =3D &tk_core;
->> >> >>  		offs =3D &tk_core.timekeeper.offs_boot;
->> >> >>  		break;
->> >> >> +	case CLOCK_AUX ... CLOCK_AUX_LAST:
->> >> >> +		tkd =3D aux_get_tk_data(clock_id);
->> >> >> +		if (!tkd)
->> >> >> +			return false;
->> >> >> +		offs =3D &tkd->timekeeper.offs_aux;
->> >> >> +		break;
->> >> >
->> >> > 'tkd' is also used to compute 'monoraw'. However 'tkr_raw' and 'tkr=
-_mono'
->> >> > are the same for auxilary clocks, so this will compute a wrong 'mon=
-oraw'.
->> >>=20
->> >> AUX clocks are independent in the first place and the MONORAW part is
->> >> the "MONORAW" related to the AUX clock itself.=20
->> >>=20
->> >> > Instead 'monoraw' should be computed based on 'tk_core'.
->> >> > Which then also requires the sequence locking of 'tk_core'.
->> >>=20
->> >> No. From a PTP and steering point of view you want the "raw" value wh=
-ich
->> >> is related to the AUX clock itself and not the global one.
->> >
->> > Ack.
->> >
->> > However the kdocs call it 'CLOCK_MONOTONIC_RAW'. Can we clean this up?
->>=20
->> Yes. Something like the below?
+On Tue, 2 Jun 2026 23:50:54 +0200, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> said:
+> On Thu, May 21, 2026 at 10:36:44AM +0200, Bartosz Golaszewski wrote:
+>> Ahead of reworking the reference counting logic for platform devices,
+>> encapsulate the assignment of the OF node from another device for
+>> dynamically allocated platform devices with the provided helper.
 >
-> Looks good, thanks.
-> The corresponding structure definitions are a also affected, though.
+> Same Q as per chipidea. Do they provide a pin control facility at the same time?
+>
+> Otherwise simple device_set_node() or whatever platform analogue should suffice.
+>
 
-True.
+Hi!
+
+I don't know and I can't test it so let me respin the series as is. This can
+always be amended separately later.
+
+Bart
