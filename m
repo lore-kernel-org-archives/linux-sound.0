@@ -1,47 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9256236DA04;
-	Mon, 29 Jun 2026 11:17:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CC540D598;
+	Mon, 29 Jun 2026 11:22:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782731830; cv=none; b=VCGRcL8mLA6RBcTncEovRRE5+qt5X+dXm1wJdPVHTS5Co3rtqON+tXuTGMK6wlhILhggV7ax52d7rlYrZ9fi2G4bs/yKr1sGi+yVxZmJw1SLXgUQbCTQpMnitAXVmJTE5Hi4A5WEYWNjRH0wTF61G66GUiUZDG8aiuupbH/NL1k=
+	t=1782732168; cv=none; b=qaQKkRLaQ+dMB9RHTKk3KuwKi2vmRKcmX/RAlSt8laV8gJ0nyX5AB3dz3bSEENyuWxPjPjIwUNCSqwaNaIg4ke2pvebkbNT103XkjUoPLerpTmne1ATzQdiAECQOyCnduugH9jX4UFZM6xRlobJvIm9+xok4P2MmVN7dE92NZGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782731830; c=relaxed/simple;
-	bh=RAoFJgva2OnXFgc+hG2ERuMvz4Y3eEdIecTjeIOc9bU=;
+	s=arc-20240116; t=1782732168; c=relaxed/simple;
+	bh=R8yifLFnqJzUH1P7/YT0As6VAy6Hi9WFvxUr9kRqlro=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QmKWzq6S7I5MlMYx8Bn6u1LKLueSAgHRd5l+wUFy30Z+toHwjd28IkkqwokwrPVre+dQ4B+TrOdquJAbojCvyZSdJ9hs/G7nxI2wjg0xWmtyjPCwRz3nZk87kMTBm+QXHh2d6mzpZUERH5BgqcfTk+Ol0VdG88AYAiLlVVeiSqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oWNxJPpi; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=j+Q2dSkcf9bSrzXRR3EQqmQngPoPyJaISO729WCXqBb1Aa38OocQNs2Dj+4goVKxfKvkgWYU2EHCegVqXvaCCGNroJBiEwGEyoCs6gflOD65leup1RwablHlglIMkBj+/0hLbwAAVYIYj5nnYqhNzBJiBwr4KEUxkoUyCE5KBgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RWH9tdHr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oWNxJPpi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D99751F000E9;
-	Mon, 29 Jun 2026 11:17:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RWH9tdHr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 756311F000E9;
+	Mon, 29 Jun 2026 11:22:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782731829;
-	bh=oMPAh37KwybGZcR5RFOuI4DyOQCzHhSpxnlzwI6uDGY=;
+	s=k20260515; t=1782732167;
+	bh=R8yifLFnqJzUH1P7/YT0As6VAy6Hi9WFvxUr9kRqlro=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oWNxJPpi04a5yzN1p35HYelJNO089ZpIMQ9NN7m9LIHZdMdvCiJgi/K632pTjK/fG
-	 9TplplIDVgaz8liV7ldeUTuBncNSZqfeh4aUkkeDDOLzG8fZNxT8DE5QJupw1r0Jsb
-	 ZhahLK/5zphSJaYkLBbHiGG2WR3jG54mkJjsJsgAfYewjaarJSQD3Aq+rmJmbEG9O9
-	 RHKN/fY+SJ0sIdoEoQstCFp38R79bs8OuwWfAnaZavXAV5kROh+Hhsv/Tcrwu8OU4H
-	 jbOfxeJ54ENcIB6pnp0HAFq7S1nYY3LHDXXij62zt/Zb7sNdk3SeVYj7V12U0gNt5q
-	 v0sjnBoByrxbA==
-Date: Mon, 29 Jun 2026 12:17:04 +0100
+	b=RWH9tdHruTeGVzbeyeLbLoqbO1nAcWOkQJSuM4WbKNBsl3iVLK74M9ilP/FRPx4G0
+	 t3k1VVewdOs6kkJz8xnqR7/c53vebvqY0oViszBuygnUkrgbulp6oip8/JX3ugdgN4
+	 1wWw3r9n2pW3BNWOmXskqceUlMpFwme/rPVlLHusOAiXC3pJWN/WMuEzE9BO9eSqmp
+	 B1urn10a0sksFg7vAVEIFwnlWSXnnQjgGaDKfn6Y2LIo+JaWIrplXJsyyOa9ndFNv1
+	 uqY8stpepqBkBsjrFP7J4O205O0XZf7c6657c9Y54k9rFyI3lhILY4xib+jXspUQR8
+	 1KMth3GpknufQ==
+Date: Mon, 29 Jun 2026 12:22:42 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 03/17] ASoC: rockchip: rockchip_sai: #include
- <linux/platform_device.h> explicitly
-Message-ID: <8dcfcd10-4b9d-4775-9e23-3884b896a7b9@sirena.org.uk>
-References: <cover.1782490566.git.u.kleine-koenig@baylibre.com>
- <d2fe7dc85277b01526f9320ed5baab2acd29660b.1782490566.git.u.kleine-koenig@baylibre.com>
+To: WenTao Liang <vulab@iscas.ac.cn>
+Cc: srini@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] fix: sound/soc/qcom: qcom_snd_parse_of: leaked
+ device_node reference from of_parse_phandle on error path
+Message-ID: <be400453-5df9-4897-8144-34378f8f8d8e@sirena.org.uk>
+References: <20260627034915.59929-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,39 +43,38 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HJyhBMaH9dnz+AzZ"
+	protocol="application/pgp-signature"; boundary="YGfqRBIy/LPWFpQ8"
 Content-Disposition: inline
-In-Reply-To: <d2fe7dc85277b01526f9320ed5baab2acd29660b.1782490566.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <20260627034915.59929-1-vulab@iscas.ac.cn>
 
 
---HJyhBMaH9dnz+AzZ
-Content-Type: text/plain; charset=iso-8859-1
+--YGfqRBIy/LPWFpQ8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 26, 2026 at 08:00:22PM +0200, Uwe Kleine-K=F6nig (The Capable H=
-ub) wrote:
-> Currently that header is only included via:
->=20
-> 	<sound/dmaengine_pcm.h> ->
-> 	<sound/soc.h> ->
-> 	<linux/platform_device.h>
+On Sat, Jun 27, 2026 at 11:49:15AM +0800, WenTao Liang wrote:
+> In qcom_snd_parse_of(), of_parse_phandle() at line 124 acquires a
+> reference on the platform's sound-dai node, stored in
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
---HJyhBMaH9dnz+AzZ
+--YGfqRBIy/LPWFpQ8
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpCVC8ACgkQJNaLcl1U
-h9BEaQf+LJKVjBR3CzfB5LfeTicF2UG1SITyPebmdLt+bwwJIPIgmCv6j8lpadLr
-/LqHY5ijaBG9wrx97zfqolLd1p2JS6aXEjUZrpyd2Qmwuee4p1g/h4xG1g7l5x04
-RMAOa/z8PmmYZEgZ/ASTyQ8Wm8AUOtvM+2ArPr0bxhLcnSLQhpSneG8cw6Swm8dd
-Jb2uCXxGvffL9jt422oyK6rJGxCg/vuTAJjFoi1FMOiSsp4XeVCOSCtJD6wgfsLj
-M5LmMJJ88yAJanf4SnBEed464Jfbx+V1cL4ZN2kOu17o5OKBdUy58sGXnZtdUdph
-uT+DGfzAzsR20BYjYjyxsQLiaoLFhg==
-=7V8g
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpCVYIACgkQJNaLcl1U
+h9Bm6Af8D6UortXePgrmV9GYmLax13roMLkP5TMIkXN4KksLpI9Y/M0Te0AJVoL9
+/SLp3akLWnbq01fH59otkW8br8bHfOIfnKBsA/GXn78VKM3gGlWDbUXJjVZTh3du
+ToeCNcWfSEOCrIRfN8H6oex2t/ilO5dtMhPUAmrtQGJl8RyOq62WwPBmj3GmRJds
+2zmusJYTjPg+MHvmXDsdyAUza2y4CtTfVK45tU3km9EquEraIiO+tQ/HDO00UEoq
+apEGZ98iZMI+S+boTrJgnureJ8SShRCrwk/ylscFmBntkc5y6AQshayDXSfZiwG6
+BhyPLg15E2miUUme2fwh5GL6mcZigg==
+=iXjp
 -----END PGP SIGNATURE-----
 
---HJyhBMaH9dnz+AzZ--
+--YGfqRBIy/LPWFpQ8--
