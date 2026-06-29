@@ -1,143 +1,269 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011027.outbound.protection.outlook.com [52.101.125.27])
+Received: from flow-a8-smtp.messagingengine.com (flow-a8-smtp.messagingengine.com [103.168.172.143])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D0D3B6356;
-	Mon, 29 Jun 2026 23:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.27
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782776008; cv=fail; b=aFjkPg27djRGzrWReKZfQVFHl8YkeNgRoVC1Z19t9INp9TdbP4VqqdR4d5QODh716gmG4SxDrBgMM6/oyBB4WCm6duBppX/5GfxFcmZs6agluaQ/D1b1rNg/8JpqZ2GtIe3S8H4iKBiipMfuNkNi0s8PX7t4cdCwE1S0VhWHU9E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782776008; c=relaxed/simple;
-	bh=w1CKPi41kOXvxF1mv5lnUxZXgjMyzux1/U8xhKx3If4=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=Y+e1gLJFbZjfXktvxrfu1L5HNNVMQFJfO9NLfY94itcm3ILhz85M84XXmaKF3sFgFLUVje1z3U6onbjY72T1wa9qI5kr9SC4zLlWZYA5JHXxCyA0NwD6ZFlbkTv4swSuZ43gA/No5Yvn8SJr3wWQLu/qFXB5Sc4FpJ6Sdw/FC6g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Eb0n96j1; arc=fail smtp.client-ip=52.101.125.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1836518871F;
+	Mon, 29 Jun 2026 23:58:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.143
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782777504; cv=none; b=emT2c/1XRTQA4nYwBB210PbZwDn4Zr7TsPCfpx/aZBXIcg/qV3jS1qjOP488mlerCzjU/TQFGePENg6TdB/tVN7oHIdgHotoaekishfnxjd82RGoz0iu47uR4cRVBNmjOiCuSBemRWyRBdX/H5h/1SK3wIfaOz+NWWiRjiKKmI8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782777504; c=relaxed/simple;
+	bh=qx9osW3wKKlKpE0YvFkVp52jSRf+weom0e3+8EbHzJg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PSNUouzR0lUnJ8+TdOrAqv5ol1qwFlX5yRnbW3xPodh/UECFd+A5m0XM8xFtxyFUEkk8gV2X9DBUU0hAZuwsvDBEvGE9c4/S+Hj2qQ5LsnPPFDgE9r1BEZhJ7hxLUL7sHYe4lYDyU/3ds19k9mkG1RqNK8bPanZd9nZdl8h8q7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=v8s/eY4L; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RMKRqs/f; arc=none smtp.client-ip=103.168.172.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Eb0n96j1"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dfkhMmdXlLZ7N95Jxsj+fR0jgN+EVyv2P4NDSH0sBuIcblDDj8oEXgs3BjG7uH0Yqv90QNvoIoordtzTlhSHvPdHclabEEHExQfjjngRXmzgHylFcOqBxi3n5KWb2KbDdMfBiRXJEWgt4cggzu+hT5w7oVs/ah8dmBMJAmpKcucMTlsVZjgUio6hX43GiM56oGRY9xCYO4T93OE83GC/G8ZoDp3Qydk7zw6eGyEF6+fdO+l7lukFPlDluHbgPeOl6LHlrXP8sYdU4Nu1BKX5MiQmiiWTg6Qx7UEITRMawhMOxnkRXzlEFs7pyrjxYCaPT52X/BLh855oTV5teSiE0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Xqunn6QDBno5NLt7GfpuRu27TFjZBDyJ4Gyh2szXoVg=;
- b=GH4wMVUQ+gMB9g4hjRqrPlt1B9zYcvWWuaQ6fB+THwEOSPLI8JxnQ9j7ZJ7hVuHGd42GIAuKkbztj84k2ygwi26coDplB1xbScO9BqH4LODYiUlXpwSdGx1irfR5G+lPIEvtZ4pjcoQS2S2s4f4s0d0wjAvRV4tXYNkol7VV5K4jA2vwe41/o8HFTpvau/hNi00jx7g2gEsbkQo9y9hTHzTwSUA+LIcI1OF0KiYJF5SA7NDtxpxAEavwbXN7BDA+2tD6CNdqPDAXWiOE9wsGAC0FqiJEabWezFJp/fytHVOLY5SwU703IxNjXL/XjuWRPZg20QrtiF4cZqXCXjUREw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Xqunn6QDBno5NLt7GfpuRu27TFjZBDyJ4Gyh2szXoVg=;
- b=Eb0n96j1Q7O42bh7E8F/ulJDSDdSa1pjpcyeYdACHKpZA5pd7e7ypRTbpIk8AlUEcaN+5VKeN4gPYmevbSh/PwKQrrRHzpCU+qeKhLqJd1448bhufDnxxLJP7yCPkTRFYtfMnlWkcpYQVmKAXtL4DfJ0HgD7QS2so8y6hIUs79s=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by TY4PR01MB12976.jpnprd01.prod.outlook.com (2603:1096:405:1da::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.18; Mon, 29 Jun
- 2026 23:33:22 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
- 23:33:22 +0000
-Message-ID: <878q7wexc0.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
-Cc: broonie@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: renesas: fsi: Propagate platform_get_irq() errors
-In-Reply-To: <20260629095326.37302-1-ahmisaranrao@gmail.com>
-References: <20260629095326.37302-1-ahmisaranrao@gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 29 Jun 2026 23:33:22 +0000
-X-ClientProxiedBy: TYCPR01CA0144.jpnprd01.prod.outlook.com
- (2603:1096:400:2b7::20) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="v8s/eY4L";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RMKRqs/f"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id 0BA48138039B;
+	Mon, 29 Jun 2026 19:58:21 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Mon, 29 Jun 2026 19:58:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
+	 t=1782777501; x=1782784701; bh=ntoVNrERxl6CnLB0Obl/d+Xz+xme4tJI
+	lufgMOjhiwA=; b=v8s/eY4L5HFOcjqnQZ823UAS/LHyaUEm85qu0XmCc71uXnG2
+	cvkOxCYPzFLBCTTDnPAcBSYZzJ2+yE6N4fPa6sEGIBJIYZcOAN8qpj2nfzQLi9F5
+	jV1vvPyEhEYVlWNvh8/BzDIhVuyYzX2LsFle0pATeuiAfDmcO3X28y0E1iNUPJEo
+	v25JyyyfCNSgY9W7bLDK2Py5B4SD2vS47HoLtwLlZyt9XfpB5i8DFFy195aCWoC2
+	x+AKL61GGQIyWrIINs+YyoIPvM9+DgmiU0kab1MThff7LoEH0Es/Wytho4Ztqxwh
+	iCSNYBGhKHSWeVvvsd1OdF/pOZcK2ttl+46V3A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782777501; x=
+	1782784701; bh=ntoVNrERxl6CnLB0Obl/d+Xz+xme4tJIlufgMOjhiwA=; b=R
+	MKRqs/flHUni4dlOeHuhwjnnYx/qu2zwQCJtPfIIEPz3gE6dP2SS+kO/SxtUM2p+
+	fXsMgk2rDlTf/sTkRba30Ghras5RPXULAH1/GPHEEhmblWPHjyqELBYhA/qibNmQ
+	ECYEK6oVYBifehsJjj32qWlobcGKFSrZa0HHgz9Iqwgpdu9YvkzR7VNNHw/jTwz+
+	bqoNgLB8cMrHpQ6+9NaoaPyDNO4HCQS72/HZv8UteAS8Rigl8p00Y6G1kFdS+1jK
+	6qPb3zwn5qYMTokX9EPzqE5AEbRmeo/zQ0VssHNfuoJG0EVsyiXKgURmOHD0sUV1
+	H0rRl8dpjOEVmRoTwUZ1Q==
+X-ME-Sender: <xms:mQZDaluSBeKP6-3dxlZW1Qy-wiZuV30hOCgoY0KTdW_FR9USmttnIA>
+    <xme:mQZDaqsTDIOLYRFhhc3J9nrb24WnM6JX0P1jalpuT12eGcDRrsNO7C0AiHmIdhI6S
+    wZZ_GAF_hVaMLpQHvr5u3l1DmczGXIt02C9zTRQlweayP0y6j60MtE>
+X-ME-Received: <xmr:mQZDaiaKXC3v0RK_n7k7uRKLanjcoEkW0Ynaj3uQGwXdvyRJ9nlk3vd6xHlSeNwReywIoC38Dirstc3cHFJimVEGnsusng>
+X-ME-Proxy-Cause: dmFkZTE1nPznX32V2kRYPd7dlOJ1rQMxQ97lS3kACD5+oEF3K9KIS5kEvZ60kMOO9SW4/K
+    QPw1fJ0Uyhmt7TDZBpmrns6QqSMdNA56CqP8WoSfum8fnJ6ROXsuIW1V0IRazJ9YoofPdA
+    sTTZjseo2amkBTK2yB8676gAjYCnTj4WiXvzDEoqMGHljUjgOtAHWVMwabts+S3qWRtyzK
+    4E9/EeTGdZ7uavjZ/gsD8IHy6BDQ3FsBKJrzbjVNgjW3Z/maBbDFLwVIvKVTB+FB58t2Nf
+    6IC6zRUoalXGvpiS7NeraM3cciwz14beoWbfR17QqVpm8xj9z6j1i325oVQMRhakNlULd5
+    LZDHjkZMhVaJOCK5sNu7C567TC6G74BcKbIUFX8Y7L5R/J5HFqJpTz5QFRAfF6pNDZXMRw
+    NNT721SX2qmWOzpsbLjvz7baHpP6tE5XnMymltgojO/d+aMQ8ZSVKdM2OoEzaoH016syXZ
+    LXR91cDsgFgly6bjeAUpymfC5EHpfadwr1qHn8fxadSgempnoWd6aBNScmoRMpmKbMNqfw
+    SOO/eYhVEtRjJvkDcQZ5ZyEDYkQzi3vZqOB51rSkn6prTNuNuxVGEjwdaA6cQo5MEz4nhz
+    PKvXIWkmhe258dVI/0CMIo7RXUSN9DEF8/fLk8wWAe6GpwU+34F0ICv2ylcg
+X-ME-Proxy: <xmx:mQZDasgnrDakzWEqB7_AjeS2c_t5Xc3WBZuoKa0aZ4s3n7SEHjJv-Q>
+    <xmx:mQZDavUcRf_YCMSZCbYUJMoSGXurxjrs99xK4QubABtZxnkbGNT_Mg>
+    <xmx:mQZDauVcra2E5kWpNBgjezjqhXIgqwPYvcnnMt7uQ1KIYOQ6F3GKDw>
+    <xmx:mQZDajhAFNO6LVldX5NJt5ll8F8-azSI6SjWkRx169oeJqn6IZVlXA>
+    <xmx:nQZDaqvpp383SrPNL_mk4gMnSCyGdO9-6LDFSBkbgsdwZ1j1U-4qLPWs>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 29 Jun 2026 19:58:06 -0400 (EDT)
+Date: Tue, 30 Jun 2026 08:58:04 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>,	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,	Justin Stitt <justinstitt@google.com>,
+	Raag Jadav <raag.jadav@intel.com>,	Sohil Mehta <sohil.mehta@intel.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,	Len Brown <lenb@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>,	linux-kernel@vger.kernel.org,
+	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,	linux-media@vger.kernel.org,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,	Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,	Heiko Stuebner <heiko@sntech.de>,
+	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,	Danilo Krummrich <dakr@kernel.org>,
+ driver-core@lists.linux.dev,	Jonathan Cameron <jic23@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Pei Xiao <xiaopei01@kylinos.cn>,
+	Shashank Balaji <shashank.mahadasyam@sony.com>,
+	Ben Horgan <ben.horgan@arm.com>, Johan Hovold <johan@kernel.org>,
+	linux-usb@vger.kernel.org, Nikita Kravets <teackot@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	platform-driver-x86@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-i2c@vger.kernel.org,	Daniel Scally <dan.scally@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Minas Harutyunyan <hminas@synopsys.com>,
+	Tianrui Zhao <zhaotianrui@loongson.cn>,	Bibo Mao <maobibo@loongson.cn>,
+ Huacai Chen <chenhuacai@kernel.org>,	WANG Xuerui <kernel@xen0n.name>,
+ kvm@vger.kernel.org,	loongarch@lists.linux.dev
+Subject: Re: [PATCH v3 00/16] mod_devicetable.h: Split into per subsystem
+ headers
+Message-ID: <20260629235804.GA414914@sakamocchi.jp>
+Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?=
+ <u.kleine-koenig@baylibre.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>,	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,	Justin Stitt <justinstitt@google.com>,
+	Raag Jadav <raag.jadav@intel.com>,	Sohil Mehta <sohil.mehta@intel.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,	Len Brown <lenb@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>,	linux-kernel@vger.kernel.org,
+	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,	linux-media@vger.kernel.org,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,	Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,	Heiko Stuebner <heiko@sntech.de>,
+	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,	Danilo Krummrich <dakr@kernel.org>,
+ driver-core@lists.linux.dev,	Jonathan Cameron <jic23@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Pei Xiao <xiaopei01@kylinos.cn>,
+	Shashank Balaji <shashank.mahadasyam@sony.com>,
+	Ben Horgan <ben.horgan@arm.com>, Johan Hovold <johan@kernel.org>,
+	linux-usb@vger.kernel.org, Nikita Kravets <teackot@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	platform-driver-x86@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-i2c@vger.kernel.org,	Daniel Scally <dan.scally@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Minas Harutyunyan <hminas@synopsys.com>,
+	Tianrui Zhao <zhaotianrui@loongson.cn>,	Bibo Mao <maobibo@loongson.cn>,
+ Huacai Chen <chenhuacai@kernel.org>,	WANG Xuerui <kernel@xen0n.name>,
+ kvm@vger.kernel.org,	loongarch@lists.linux.dev
+References: <cover.1782682124.git.ukleinek@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TY4PR01MB12976:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4467184c-c9f4-4bea-afb3-08ded636cee6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|23010399003|11063799006|18002099003|22082099003|56012099006|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	7lGasP3mWRudToJhTCnlGKFhEohCubfJ6ozupwga1gIUf3hTzoXy3xC9ieRZ8n5IDLa8O6BVp8Hjcs0TAkogveBWWvDoqdt588uYLDcru2tPBQxercnHwSiZMJs1HgVA8Sv8VQnYZOxkVUF0MvTFfxT9E7nRGG726v0tV3jnNZbHLLbz3Tq3qDioajjPMpEjUPqY5dKWDnbH4CxtV+zQgTsgxfSTngpugdVNQlvOqFJyM7aBj+OavWdrfFCgjTHE7knlTr/LL5N53aJRC4k1V3HfW1Cd+MGUG44t5WLo1MLbRtd609MlkVlZucAyj0KxEkujZ+Dmbmu1F01Bsc0aIDr+nOWu5QC9Tdr4DZGo8Ikh2YNE4NSwxaW6ejnj/R/A7syob1WghXYhmOFlzGuFL8w8OuD3HJLb4G4ca+Vjvs6tl62xDe1duXMyGK5P4b30GeZFseg4YpMmsrUbVVZ1R5Ne97rldTDjx4X1/Cz3FlHZTpkqBRzWgLXzBoukWqQepQz9pOCWgIH/+TG8l1cE8KpGGc4cLqPvFwe78jqjKFOKy0ipy1C0WMmep7WJSZ41U3EkEm2IsL835BerihSBBBijrxk6RolnE4md+dClfDTmGX6znqTaw8kp1KgFbQy6P6PmZmUNvkbch3z+ILiAfB4BZAL1asqXiuUqIG2sJ7tfoInHj9BisJE6BLmEFFl63k2Mb6NGaqbAug0mpl70Og==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(23010399003)(11063799006)(18002099003)(22082099003)(56012099006)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?EXe5AgiW5s6xDBu2AI40zLHGozV56TUg5g5AL7xAuAWmFSdvMjxiBQNUl3OJ?=
- =?us-ascii?Q?72NwGfFnzUenoG4RKcbPbU8BoJIufllJ73wpJkyNA9DBCDts+WSM85E3aSBf?=
- =?us-ascii?Q?LykgwnJbwpRQQPHYlwh4W1JnCPT6CVqkERECPDFsKYtJ0quGqo+gYJ3CAly1?=
- =?us-ascii?Q?zYMD7A8X0/8dzG1YrephliBxArM0w76xgF8V/C5AIQS3d+TZbBRJfzZwMJMQ?=
- =?us-ascii?Q?Fa6P4FWmRR+E783cVrlP2SeyZ2c+R7oMYUzLHZVDs1N6sclgVzPYlyt8OjGK?=
- =?us-ascii?Q?trPZVeVA+ytRxEIGg/5otDULmW0zka8KijMydf1j+TjVyDnkbPDpGNO54lPQ?=
- =?us-ascii?Q?zKdaAfHskGokk0Dh56vgYDhGkDJt1/HUkP0yAtw5WDqXA7cGkWZoOepl4lcC?=
- =?us-ascii?Q?ARRNZkm3vXArKCoIzbMcltA5tW1RbzJwcj6mIkRplN3vds5Dk394nAGUWK7X?=
- =?us-ascii?Q?kwQhMsZ4lqZ2l93NGbCdlbXYkbxzd63EtpJ93ZcfuBhKi36OxeASTSCD17TU?=
- =?us-ascii?Q?UTjnyczpjB+aYsru5VFdyZWmwSFyZCrdNbInvtg6w7jCpdkjkbufls3dsLx3?=
- =?us-ascii?Q?wK+GYp0Fnq1MUme+OUX/iV90oAREmczyErGB4hvmFV6EpNiRSjUoOhrNLTkm?=
- =?us-ascii?Q?GOBdLW7aFMkILkqz4rhVEQFHHL8Xxp5qHZOAfMb+YLrrnr039JAbGpY80F05?=
- =?us-ascii?Q?/in7v6ai99Vl/ifJK2BxsGaWsl1Z4dz7M12kH5y4wu01nt9WUw2eDIUYYaOB?=
- =?us-ascii?Q?E4L9YIstSjkQjIxuUn3H3FvJVoJCCenDNWX/nW7+eihPqcfPyk8ydjmv538q?=
- =?us-ascii?Q?qEpzLsNhPJNUZCTrLjMdMI9BjT74bfDvK5exS3VR+AhAnRDPyeRb4YTjwzJ1?=
- =?us-ascii?Q?O8EqyRpw3gSXipcP9bkMJXkbnHGUH7OgA57hA3PgWvYzuO+IJutrbsHHcSIM?=
- =?us-ascii?Q?rQQqWpv7oB3aSUSo6JbZO82vq6WCA4O7hSwZqRFApn3JfpsOD0CTY18Jwx7i?=
- =?us-ascii?Q?4wjw7OrI55M923AZt5AIMh7umkdTuqMy6X4ENO/TEIjvZYDZr6iJA6Nzza0U?=
- =?us-ascii?Q?9ORovGffVfZI0MmXANs8gfgDLuLAH3eJjc7u0uy19s+CaMnhvepof10ao/GW?=
- =?us-ascii?Q?sRxl/z6Ho4PGT/IALRnQUhlQSVDsEwRG7oJN9U3TGk0BvHVhWWTsqMaW+d9R?=
- =?us-ascii?Q?q7Md5GICvsWXWKC/I62P/webhjANizt+xWGXXpqlqb2r/xIlb91FtCA0xxgE?=
- =?us-ascii?Q?0P/koRgrCLpXcazbUZOKrgzDPmK8lNLujs2r96GWx2AUElZuqHbTr8+dgF9r?=
- =?us-ascii?Q?27dZ/Bu6FfjVbzl03S2h7jLFrPyvuMobgUweq9S8KWFDgi1x8WaB8+JDY7CQ?=
- =?us-ascii?Q?j2lV1MwhJbwiVh6X+OYSCWbzNDbLdT7OcZ43Cauxyib1xThz6/fUIYOe0vSu?=
- =?us-ascii?Q?Ih1P6Wzog8i+HhnSqS7o4PPFGtXZ6J8sz3/O4gzFI4Vj4A6MOkQpNDP3ZlMW?=
- =?us-ascii?Q?fAsRxiaWkW/n0fz/pDRQ+Fmk7kVJgawcFCuvsMS1MN1CUmQCg8zXcNKQAGkA?=
- =?us-ascii?Q?Ejsyj4FhxVejNszjbLGTFp/eZYUyGa6Pv2PBaNrGvMBKHplk9Av8uZQM46R5?=
- =?us-ascii?Q?dhuFwgBjoC7BZew1YWllEDvfZJNYvBNzfCCBNyAo3QdmbQsf2sjoZaOmLNSR?=
- =?us-ascii?Q?sxqYN0ea6EBz9oZTvPLJgbaF/dGc5BAK5emVydulOTmT14dahXx7CR3WZOW7?=
- =?us-ascii?Q?tEG6YN6e7+fyEhViwlwYYjCDElq660e6vmR+vtJi5OgkzlWkJvza?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4467184c-c9f4-4bea-afb3-08ded636cee6
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 23:33:22.2651
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 25DV3lal1wQxrfdhb/6n+pfNNh7M5y7ruLIy9xfi0Cn94uHq2xQItIHeb9K8aEWq2Qn5UIoYHcMr5DcBCFUudC7H/218NMe8ATsVBcCPRLJQ1pFHBu5J54o2qFPsZCDO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB12976
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1782682124.git.ukleinek@kernel.org>
 
+Hi,
 
-Hi Narasimharao
-
-> platform_get_irq() returns a negative error code on failure. The
-> driver currently stores the return value in an unsigned int and returns
-> -ENODEV for all failures, which loses useful errors such as
-> -EPROBE_DEFER.
+On Sun, Jun 28, 2026 at 11:58:35PM +0200, Uwe Kleine-König (The Capable Hub) wrote:
+> Hello,
 > 
-> Store the IRQ in an int and return the error from platform_get_irq()
-> directly.
+> v2 is available at
+> https://lore.kernel.org/lkml/cover.1782490566.git.u.kleine-koenig@baylibre.com
+> .
 > 
-> Signed-off-by: Narasimharao Vadlamudi <ahmisaranrao@gmail.com>
-> ---
+> Changes since then:
+> 
+>  - rebased to v7.2-rc1
+>  - rename the directory containing the new per device-id headers from
+>    "mod_device_id" to "device-id".
+>  - Adding Acks received
+>  - ASoC patch (formerly patch #3) dropped as it was already merged as
+>    commit 83d53eca7e55 ("ASoC: rockchip: rockchip_sai: #include
+>    <linux/platform_device.h> explicitly") in v7.2-rc1.
+> 
+> This series survived an allmodconfig build on alpha, arc, arm64,
+> loongarch, m68k, mips, powerpc, riscv, s390, sh, sparc, and x86_64.
+> (Well, some failures, but I see these also on vanilla v7.2-rc1.)
+> 
+> There are a few headers left that include <linux/mod_devicetable.h>, but
+> these can be addressed in the next dev cycle without much impact as all
+> the much included headers are covered here.
+> 
+> I will apply this series to
+> 
+> 	https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git device-id-rework
+> 
+> which is included in next to expose it to the build bots and testers (in
+> the hope that there won't occur much merge conflict with v7.3 material).
+> I will add review tags and address (the hopefully very few) build issues
+> that might pop up. My plan is to let Linus merge it end of the week for
+> -rc2.
+> 
+> Best regards
+> Uwe
+> 
+> Uwe Kleine-König (The Capable Hub) (16):
+>   mod_devicetable.h: Split into per subsystem headers
+>   media: ti: vpe: #include <linux/platform_device.h> explicitly
+>   driver: core: Include headers for acpi_device_id and of_device_id for
+>     struct device_driver
+>   driver core: platform: Include header for struct platform_device_id
+>   usb: serial: Include <linux/usb.h> in <linux/usb/serial.h>
+>   platform/x86: msi-ec: Ensure dmi_system_id is defined
+>   of: Explicitly include <linux/types.h> and <linux/err.h>
+>   i2c: Let i2c-core.h include <linux/i2c.h>
+>   platform/x86: x86-android-tablets: Add include defining struct
+>     dmi_system_id
+>   platform/x86: int3472: Add include defining struct dmi_system_id
+>   usb: dwc2: Add include defining struct pci_device_id
+>   ALSA: hda/core: Add include defining struct hda_device_id
+>   LoongArch: KVM: Add include defining struct cpu_feature
+>   media: em28xx: Add include for struct usb_device_id
+>   Replace <linux/mod_devicetable.h> by more specific
+>     <linux/device-id/*.h> (headers)
+>   Replace <linux/mod_devicetable.h> by more specific
+>     <linux/device-id/*.h> (c files)
+> 
+>  ...
+>  drivers/firewire/core-device.c                |    1 -
+>  drivers/firewire/net.c                        |    1 -
+>  drivers/firewire/sbp2.c                       |    1 -
+>  ...
+>  drivers/media/firewire/firedtv-fw.c           |    1 -
+>  ...
+>  include/linux/firewire.h                      |    3 +-
+>  ...
+>  sound/firewire/isight.c                       |    1 -
+>  ...
+>  1649 files changed, 1575 insertions(+), 2544 deletions(-)
+>  ...
+>  create mode 100644 include/linux/device-id/ieee1394.h
 
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+I have no objection to the above changes relevant to firewire subsystem.
+
+Acked-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+Consequently, unit drivers just include include/linux/firewire.h to refer 
+to 'struct ieee1394_device_id'. After merging the changes, I'll post more
+patches to modify the following unit drivers, since they are left from the
+patchset.
+
+* drivers/media/firewire/firedtv.h
+* sound/firewire/bebob/bebob.h
+* sound/firewire/dice/dice.h
+* sound/firewire/digi00x/digi00x.h
+* sound/firewire/fireface/ff.h
+* sound/firewire/fireworks/fireworks.h
+* sound/firewire/motu/motu.h
+* sound/firewire/oxfw/oxfw.h
+* sound/firewire/tascam/tascam.h
+
+By the way, the changes touch so many files. If it takes more time to
+apply, I think it better to make steps to modify across several kernel
+generation. For example, getting rid of direct reference of
+mod_devicetable.h from drivers at first (in the case of firewire
+subsystem, for 'Replace <linux/mod_devicetable.h> by more specific
+<linux/device-id/*.h> (headers))', then adding these per-subsystem
+headers and applying relevant changes.
+
+Of course, I don't mind to apply the v3 patchset as is in upstream.
 
 
-Thank you for your help !!
+Thanks
 
-Best regards
----
-Kuninori Morimoto
+Takashi Sakamoto
