@@ -1,94 +1,97 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0973E1206
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 10:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E56382F31
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 10:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782728963; cv=none; b=X0ySoyBJG/DxZ6pzje9YjpHt9Nnw79BqtLbSn2DfA1h7yTWrlEmCzoe1m3vi71nOlo7iWVvtSqvIWhtUIW4WLsDpl105cb35fgTis0qDK52tsWHa00SVeCo7qBma/9+Xpqcbv0Cz8XXQ2VGy83YTSkijHC6LOppe92158O5KVhg=
+	t=1782729015; cv=none; b=OwSCILOpC92mTptrBP7fM81bm7A17HbOT17sEINLsQf3X3KSOBAEOJQ6SHsnEzSCmLo4v1owvgqZP6fNN7rArVee0z6RWa0hbpBEro1UDfodoBL9SaM4hx2ju9odaA6avfyUuSo5JzZIQT5NwhsAFfzy4rbizXn0nA+FN4iCg78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782728963; c=relaxed/simple;
-	bh=1GHzUnKxdnsNqlTcFxg0/UswViPlA97gm4+F68SgfWM=;
+	s=arc-20240116; t=1782729015; c=relaxed/simple;
+	bh=tqi5EniToFvEHvBnbiKS3cwpUL4FXlHqGggRuAVHJGw=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HgaTh7IG3n+jOn2Mgpk5oCzI7z1fT9wNXNVeM+BUDvYEQ45rrC7wIvLDhn3HPp8aLTdGr9wqubuYzu6OF9LUzfG0xUUiz1PZdim+uyQhjeMMHPCNUqXVA1UaNyVgzewl7EYM6FpQR34KocU2rs8HIk6x10JTGNxUtzJ/tr/SLOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rS4X8+MH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vvXvm+6w; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rS4X8+MH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vvXvm+6w; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=WNRG514Pk0Ihi0qKluA5lmCPMbo9fZf8Ul+1kVP9clwKRWlP2J6woF4OxVvSngqy2ANSamPumEiTY5Bq/3oVM9ANxhC4F2p82zqOhgxxgUnh4DlCsaCeRsMoifMNsycFjWRG3WyvAqLNos3QjBeNUJ482W6dARrbAM64RpNLQaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ngNR6czo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Sj0fkFX/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ngNR6czo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Sj0fkFX/; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rS4X8+MH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vvXvm+6w";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rS4X8+MH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vvXvm+6w"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ngNR6czo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Sj0fkFX/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ngNR6czo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Sj0fkFX/"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2905A73011;
-	Mon, 29 Jun 2026 10:29:20 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3DD8175D81;
+	Mon, 29 Jun 2026 10:30:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782728960; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1782729011; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aOF2XB6r1n4WKjqa53VYJkKB3LX7c2wxUBN35G76kas=;
-	b=rS4X8+MHPa4VWDETNd3VK88qcXOf3XirjT/6aCcsJCUgy7ZDrMYKyUDN6u/6kSBEdHL6jC
-	41EZ8qOE2QZFxggNHEiTJH6fldVoYAFS79byvcOeD2QZ+s3lhCXJqp6cEclJLpjOrcR0gT
-	pi5qGm095V/PojLVpoyFcq1PUpgj5H0=
+	bh=0TpqkXEII5P2mbTBPf+VPf5pOk55FiEfaOD0EiV4Yao=;
+	b=ngNR6czoG1yARr4WdAEzjp70XWD/PKqmBiZS2INC5PUtVTmEWxtQektUhFUNOU2tJaQE7f
+	h+zDagPewfG7VThHUnvY5Fp+QNfmUyARCPvou0FfY4fCvwg6eSqwZITeUGEH247vRO6lG2
+	fgNQZP2hyMUwPZOIWsnVHt7Hl4xak+k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782728960;
+	s=susede2_ed25519; t=1782729011;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aOF2XB6r1n4WKjqa53VYJkKB3LX7c2wxUBN35G76kas=;
-	b=vvXvm+6wby8dkMYlqdXGS3iz0C5vGK7zb/O9Bdcd+JOXGii9ZtrwxWd30Bjn6VMxzMM5qe
-	vYfGl3HbPxOvwJAQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rS4X8+MH;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vvXvm+6w
+	bh=0TpqkXEII5P2mbTBPf+VPf5pOk55FiEfaOD0EiV4Yao=;
+	b=Sj0fkFX/+Cf52BJ7DJadHdy8Sh26UdMY3EzJ5AouTiGCV8oyvOX28WPHaMznyZOOW1jKOL
+	m/Do99hzBRxBcrBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782728960; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1782729011; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aOF2XB6r1n4WKjqa53VYJkKB3LX7c2wxUBN35G76kas=;
-	b=rS4X8+MHPa4VWDETNd3VK88qcXOf3XirjT/6aCcsJCUgy7ZDrMYKyUDN6u/6kSBEdHL6jC
-	41EZ8qOE2QZFxggNHEiTJH6fldVoYAFS79byvcOeD2QZ+s3lhCXJqp6cEclJLpjOrcR0gT
-	pi5qGm095V/PojLVpoyFcq1PUpgj5H0=
+	bh=0TpqkXEII5P2mbTBPf+VPf5pOk55FiEfaOD0EiV4Yao=;
+	b=ngNR6czoG1yARr4WdAEzjp70XWD/PKqmBiZS2INC5PUtVTmEWxtQektUhFUNOU2tJaQE7f
+	h+zDagPewfG7VThHUnvY5Fp+QNfmUyARCPvou0FfY4fCvwg6eSqwZITeUGEH247vRO6lG2
+	fgNQZP2hyMUwPZOIWsnVHt7Hl4xak+k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782728960;
+	s=susede2_ed25519; t=1782729011;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aOF2XB6r1n4WKjqa53VYJkKB3LX7c2wxUBN35G76kas=;
-	b=vvXvm+6wby8dkMYlqdXGS3iz0C5vGK7zb/O9Bdcd+JOXGii9ZtrwxWd30Bjn6VMxzMM5qe
-	vYfGl3HbPxOvwJAQ==
+	bh=0TpqkXEII5P2mbTBPf+VPf5pOk55FiEfaOD0EiV4Yao=;
+	b=Sj0fkFX/+Cf52BJ7DJadHdy8Sh26UdMY3EzJ5AouTiGCV8oyvOX28WPHaMznyZOOW1jKOL
+	m/Do99hzBRxBcrBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DCBAE779A8;
-	Mon, 29 Jun 2026 10:29:19 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A16B3779A8;
+	Mon, 29 Jun 2026 10:30:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oxCsNP9IQmrsHQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 29 Jun 2026 10:29:19 +0000
-Date: Mon, 29 Jun 2026 12:29:19 +0200
-Message-ID: <87zf0dprls.wl-tiwai@suse.de>
+	id G+JMJDJJQmrEHgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 29 Jun 2026 10:30:10 +0000
+Date: Mon, 29 Jun 2026 12:30:10 +0200
+Message-ID: <87y0fxprkd.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Christopher =?ISO-8859-1?Q?H=F6ner?= <christopher-hoener@web.de>
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
+To: Federico Beffa <beffa@fbengineering.ch>
+Cc: perex@perex.cz,
 	tiwai@suse.com,
-	tiwai@suse.de
-Subject: Re: [PATCH v4] ALSA: hda/realtek: Enable internal speakers on Razer Blade 16 (2025)
-In-Reply-To: <20260623191436.6605-1-christopher-hoener@web.de>
-References: <20260620144128.13602-1-christopher-hoener@web.de>
-	<20260621205711.11127-1-christopher-hoener@web.de>
-	<20260622174309.5873-1-christopher-hoener@web.de>
-	<20260623191436.6605-1-christopher-hoener@web.de>
+	willerz@gmail.com,
+	abhi220204@gmail.com,
+	jpfuentealbabizama@gmail.com,
+	uwe@kuechler.org,
+	jean-louis.colaco@orange.fr,
+	cassiogabrielcontato@gmail.com,
+	cryolitia@uniontech.com,
+	yury.norov@gmail.com,
+	i@rong.moe,
+	tasos@tasossah.com,
+	geert+renesas@glider.be,
+	simon@mungewell.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: usb-audio: Add support for Pioneer DJ DJM-S11
+In-Reply-To: <20260625115340.823184-1-beffa@fbengineering.ch>
+References: <20260625115340.823184-1-beffa@fbengineering.ch>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -96,81 +99,67 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 2905A73011
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spam-Score: -1.80
+X-Spamd-Result: default: False [-1.80 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[web.de];
+	RCPT_COUNT_TWELVE(0.00)[17];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[web.de];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	TAGGED_RCPT(0.00)[renesas];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,orange.fr];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,kuechler.org,orange.fr,uniontech.com,rong.moe,tasossah.com,glider.be,mungewell.org,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Level: 
 
-On Tue, 23 Jun 2026 21:14:36 +0200,
-Christopher Höner wrote:
+On Thu, 25 Jun 2026 13:46:28 +0200,
+Federico Beffa wrote:
 > 
-> On the Razer Blade 16 (2025) (Realtek ALC298, PCI SSID 1a58:300e) the
-> internal speakers are driven through an external smart amplifier whose
-> crossover, voicing and protection live in a DSP reached over a vendor
-> coef mailbox on NID 0x20.  Both speaker pins are fed from one DAC
-> through a mixer and the amplifier does the crossover.  The BIOS leaves
-> the tweeter pin (NID 0x14) disabled (default config 0x411111f0), so the
-> tweeters are not exposed and the amplifier is never programmed for this
-> machine under Linux.
+> The Pioneer DJ DJM-S11, a professional 2-port DJ mixer, is currently not
+> recognized as an audio interface and therefore not usable on Linux. This
+> patch enables its full audio functionality.
 > 
-> Add a fixup for the machine that:
+> Like other mixers in the Pioneer DJ DJM family, the DJM-S11 uses
+> vendor-specific USB class descriptors (0xff) and requires custom mixer
+> quirks to expose the hardware's input capture routing and volume
+> controls.
 > 
->   - re-exposes the tweeter pin (NID 0x14) as an internal speaker in the
->     same association (2) as the woofer (NID 0x17), so the controls come
->     out as "Speaker"/"Bass Speaker", with auto-mute on headphone
->     insertion;
+> Add the USB vendor and product ID (2b73:0037) to quirks-table.h, mapping
+> the control interface (Interface 0) to trigger the standard mixer quirks,
+> and establishing the audio formats for the playback and capture streams.
 > 
->   - pins every output to a fixed converter via preferred_dacs so the
->     routing does not depend on the generic parser's DAC-allocation
->     heuristics: both speaker pins share DAC 0x03 (the only converter
->     that drives the woofer on this machine) through the mixer, while the
->     headphone (NID 0x21) keeps DAC 0x02.  Without a fixed assignment the
->     parser brings up only one speaker pin and leaves the other silent;
+> Control interface 3 is likely related to the touchscreen which is
+> capable to display waveforms, etc. This functionality is not supported.
 > 
->   - wakes the external amp, programs its DSP over the NID-0x20 mailbox
->     at init (boot and resume) and parks it; it is woken again for
->     playback and parked afterwards from a pcm_playback_hook, like the
->     existing Samsung and LG Gram amplifier fixups.
+> In mixer_quirks.c, add the DSP routing options for the DJM-S11. This
+> creates the ALSA kcontrols for selecting the capture sources (Phono,
+> Line, Post-fader, etc.) and initializes the default DSP state during
+> the device probe.
 > 
-> The DSP sequence was obtained by capturing the Windows driver's HD-audio
-> traffic via QEMU/VFIO passthrough of the controller and reducing it to
-> the NID-0x20 writes this machine needs; everything else the parser
-> rebuilds.  The captured tables are large, so the programming and
-> the fixup live in a separate file under
-> sound/hda/codecs/helpers/ that the codec driver includes.
+> Note that the DJM-S11's capture endpoint clock is strictly slaved to
+> its playback endpoint. Capturing audio (e.g., timecode vinyl DVS input)
+> physically requires an active playback stream on the output channels
+> to feed the master word clock back to the capture stage. Userspace
+> audio servers (such as PipeWire or JACK) should be configured in
+> full-duplex mode or have automatic node suspension disabled to maintain
+> the clock line and prevent I/O errors during capture.
 > 
-> Signed-off-by: Christopher Höner <christopher-hoener@web.de>
+> Signed-off-by: Federico Beffa <beffa@fbengineering.ch>
 
 Applied to for-next branch now.  Thanks.
 
