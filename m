@@ -1,198 +1,159 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C417E31F996
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 04:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782707752; cv=pass; b=G0U6AdDaphy7/aJI1UwoxUf6srcbuxbs87C6bWCPn0SU9elfvhGwaMK4w+OW9BIFWyMS5BkL+fdfYW81UVKhV6AjaW7xF0scxuHw+HWHzb9nLUf5k41Ihto4wiU1GKyUWD0TIJVnwkyFCaAvE1wbgACkGkSnqq8AbUupyZdY62U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782707752; c=relaxed/simple;
-	bh=2muzAUWj5D/JqlkRo9dFGKRFyLdNfyC5bWBard2rmAY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ErY/c8zxIDzzdw3/3qks7CFU6upoDygs3W4p28VW+5lCMGFowIa1IHU1Fs12wcYpGcsncT5TW4VKrhG8IzLAhVnrE+tMZG1RT+SAZLiKjpnqfzJelCcgoi+NxZVAuItfvdTEW1Pcv8ZRmfdVuYHskcoeijrElFdMWPY7YVdAJMA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cke7R4uC; arc=pass smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4C032BF5C
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 04:36:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782707774; cv=none; b=OAjXkotiRUiEH7V/yLntmpa1GPJ7Pae6HmT1aZN0ma7sYvEOJkmP4OmsfrGxSw9eB8axukCHdg4WJQMjMdMKvqfb0Czy2Mqhy3b9a1BtkD58jWga9CciGHcYTLQ02y5TBRdB1p/TaZiyVzMKK51BObxBpJzy+/mxWmBWQFkC8Tc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782707774; c=relaxed/simple;
+	bh=1vWqKd3eNE3bm0tTg9hwNonUHgCRyR2vof7sgLP4Eas=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gPC5Xp6frhi7IUADD0bgdKS+HVRlLDufJ5l1gQgpn/PPiRwwbSL0mQbfQizyg2LMQnxeYzBS/rqmx7N80EH0f2Rk/3tkoP+PsiT76luSkNk8obo9DFY34be2cX3+p1rcfrAv6829eNd/WXdSo1+jUe9ijiD53cirTZFOG3YD32k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=AdX/GXzF; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Tb0hVFuw; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cke7R4uC"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6983d3dae7aso2755138a12.0
-        for <linux-sound@vger.kernel.org>; Sun, 28 Jun 2026 21:35:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782707749; cv=none;
-        d=google.com; s=arc-20260327;
-        b=dED5iKAHig8ry0mcMmDdxIaF15b/xSSqFKdSTmVNAf/UYR9tSv+ORCfm6FrIByCdAX
-         G/7ousR8dcXlFjd55Rc1vNmloDN2GmazGpb/0COzBYHj/E96Axf5jT/n+jJ+35lO/0w7
-         LkjiAFaHNWe8byYylJ3m0hgsI1rnPBq7szE2GAGCELMYO3OymcyVAzC2vceIxKIiyFZq
-         q8RlGuRqNEGly3zrHL21InoGb7TCXF/ipJEqDZy4PoXbFnJoAAJ6bRXByDBQvkxxEKbl
-         MtUV/gc5NN5TQcZF68fXZxrAdGxPxPTmkIV9TyJtK2WhWDIYkW9womVTNdR7ui6F26TL
-         qgUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=R9/v7FkvKXdZj0GFin7tsYJbb7xrv9WwRRAkYYJomJc=;
-        fh=MSQQLJy8IIfuCT6mDPGU6Au1bBSd6VsWsdVlAFO+wVQ=;
-        b=nfRyzPjvihnZMew+DbP5L0s187RE3V/6nVwFN0vmCNo6l434M0OBltGoB4dmMhvh/+
-         wAusM3kstX5zjusL9+h900nmwwod7QprChyKauEJopZM9xme3mzwMSk1Ro+gbJI0r5Mj
-         2Z9GTkU53PCKJ3gPAIvMmpcgkOe5+V+XW2pVwlkD+QSTagRYSWPpHlbPPZTw79eYNvkI
-         1LwfYCd8U5Zkhw55zGQ0zSfU8a60L3I4ZEnjybYNbfI/80Mw+lGruQ+lKNSBTM7/LzfL
-         Z819FG3J25sfR0otgPibBjLRTIhbyG59A6VZ532pGgUhc43GWW03Mes5oDIA0vQK3iBS
-         3u3A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="AdX/GXzF";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Tb0hVFuw"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65T4NNkY1724998
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 04:36:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	K013aSi2o1LL4A83paEr1QAp5G9Gn4rQrPWRzJNpvn0=; b=AdX/GXzFyeCNY7t0
+	uHxOsSQWp8looAJYrwkon2GPs8JQzGe/qGMaUucy6BKaXsSarjEUkxfMrtstRquF
+	0k2XZ5GqVfPm07CpYTRDrBbTyYZR1eOcqdTcNA+HGTaj431LpYSkTBElOezQ1IYX
+	+YvXKfKhWtn5QInJDDave3YUBllbry6iycIKDR5O4khKraSZlPKhMLr8oOx6yU0t
+	xSbQr37Ko6u0dQG1jajNAVYwcpNCOLuBkI0VR1eup1l1BaWprAtz5vZjHWmTvZgX
+	ApAQpnqQxK0GX9EnIvG1UYVcwf0ZWJsl9XobZmxtmyoTV1VQM20OwWhHlkdwPWXw
+	ZmeKow==
+Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f26w6mgd3-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 04:36:11 +0000 (GMT)
+Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-1383723dfddso4519116c88.0
+        for <linux-sound@vger.kernel.org>; Sun, 28 Jun 2026 21:36:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782707749; x=1783312549; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R9/v7FkvKXdZj0GFin7tsYJbb7xrv9WwRRAkYYJomJc=;
-        b=Cke7R4uCG1vhbqBjXCjc/v4EXI4YMpkpKD0y0w4636tspXObYBtpGlC4aBEe2m1PSR
-         0z9gMrmgV1B/4hDQiOKyWVEanoxXOGL/TvSU43KeTXaQeHR34s+aJU+kFZkm1CJ6S1Mr
-         KN32YdmtjNVD5lMlvE/xhK2kERmVNDFwLLXzRp3M5XXaTU84yysbLbCDb+bzJrGDAQ3q
-         5+RpC4loJzXCXg7Qqk91hkC53ozjXgk6a+XEG4zufxSx7Mmqc3VpAVGsttV7DqEJlRpz
-         gFEF36PlCXP6LH7S6kwwuh+NhlC+JqDv6cS4ZH3zU3v31Y2s/I43NeJq/0b5KfnIemzf
-         KbAA==
+        d=oss.qualcomm.com; s=google; t=1782707771; x=1783312571; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K013aSi2o1LL4A83paEr1QAp5G9Gn4rQrPWRzJNpvn0=;
+        b=Tb0hVFuwNsYGGu3Y7xV4l5YM4U3holfnuPRbeYxu5//Mc2QhBgo5S+mT2JNQiq8RHW
+         157Zb00VwG3pPKBGD1zdKmYNQF8eJw2K7uMd4PC/b9CoECI4NAB+YxX1/mFfes3yGd/U
+         j17khVLiitO2lCDRzSWK6NHXw5q5b6Mi+eBsxAddLaSALcWbt6cVkNo1Bd8uIYPAaT4l
+         lCsSErTRWOrNZz8c01nA/Jv2wzBnYFB8LCWjnn2x0Z2xDktKCALpedmJwEL+kjU98VHe
+         C47deP6UHlix5dfw073f3uMmq9MZvdYAGCTUG8Y5HjoL7T5e1zu4KOwp/E680mMcN4Eq
+         pmvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782707749; x=1783312549;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=R9/v7FkvKXdZj0GFin7tsYJbb7xrv9WwRRAkYYJomJc=;
-        b=UpNlLYzuiZr5DUt1esqdC4n/5fNieicG+jiuFSdkOqoAs9JBEndAFlv/2pIlTi9RQ8
-         uHSgjMsVaf41JRUUqKYgHgtpz4fxAJ+InhkpSGnwgvXiQXex3qegRa47RV8p/87aZJTG
-         AsCqc3FLdI9wKHqS+rdBoVcjixb1CpFL5oAbAmJQCebjEN8sUen6gku5ekPUvTilsEWs
-         0Zzq20sbBF9Ef4r5K35Wy60b3CZREs9Qo7h2GeDV8C0mF8dhFCJz8XvH3TF6vlGKzF/F
-         MrwiYzY7N3UWn61CEzYVvVOuVwtSwaLFJULSzrihrha6oEtLDRrOd2azLYB3JM7W0iPh
-         hKaA==
-X-Forwarded-Encrypted: i=1; AHgh+RrJDyF3yc7/pI+sDF2+SprCEX2Smw+4+0c1iwQ3djtYOszZQRN9xkQAQnSyXH/bq1SDjX26fKeKk8b5ZQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrPsm3534dtG8xYIydSoporPr7GCQO2FJtw6mUJ35DbpecuzYm
-	ltYBQJxx7EB8Z4CErTDWoCDC4Ujdo1e7DhggVaI048cb5lUQ3CfdEOxkCeMyOTvHZ+f3832Kz6B
-	z6nuE9WKT5KaqbIay4VqkjyMDoocvuqY=
-X-Gm-Gg: AfdE7cmYhFqPqS54TA/Tr8BtWtB3d4ACPM/yzTnAgPrLU/eGJmR+PojNYSYQaeHrhxA
-	j7Qlc7pF13EuYH2BZulVReIrxoMNYf7Ef0n+upmIB9UNIgk4/fx5YBVu+RxJI3S+pzLb27TqOMZ
-	2+AKahs0t7TtM4bP90+mb/0LS+20ooXm7P03zll1Hm9EmH0oqKUQBUHIIkw/ZOXe+EXWPh2izLT
-	t1cKE0+sYVa+zoATTKz5XP2brisWvHcf/Dz0Wi2Xv4ksbWyS7XDRKbOdaQLWObYa3YoRgnZPqhb
-	M/+cIxLY8Q==
-X-Received: by 2002:a17:906:9c86:b0:c12:3bce:c3c4 with SMTP id
- a640c23a62f3a-c123bcecceemr304395966b.3.1782707748954; Sun, 28 Jun 2026
- 21:35:48 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782707771; x=1783312571;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K013aSi2o1LL4A83paEr1QAp5G9Gn4rQrPWRzJNpvn0=;
+        b=lG1juXA1TZkEKY+Gv/+kexAI6jqFBNWo882G+Ho1anbpejvvvpGtwB/SXvJXf4jFMH
+         CEShs7IX9kx1oEq8L4mmRKh+r/DQ7R3/iaw//ReJGpwO2vZWd++kxKFspwGAWSR+4xWh
+         9wt++hBBBWUt5PuZegnG/0xLUbpieXVTLHQi2MlZmiAs/CWdC7ia4MqgQATJ6+uf5tnx
+         5pUbpwb9gCOSidpr8zR7u1GL6vJFGxESrqKazLw1voNeunuy1X0ZtMrl8+8VWqtMu2sA
+         IxlEWLNLeWCkBMzHglbe3WbqW23wiO6Gyd7/GZXajnQKALiLr+gAoLJnKUNToL38hS4w
+         g0fA==
+X-Forwarded-Encrypted: i=1; AFNElJ/IdeB5zmwF8KdjAQT3stWFLBJuLG+4+mkNKYxw6XOm9MjYJsPHYU5YSOI+eiPR7OUAIT69kodtyeCvYg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxi2g8Vkn+jUc0041/bO7TzYPvnpdFpIiZcFhwUk8klz0T463/F
+	kBde2aU9w4ru3dsnjXoCzqeobax7FDTUqU2XeLTJZBktKpy06igMlzEQPC2MwbQqtmA8LK1mFID
+	0ReqDRXA7i7WIV6biPlhAJSAXJJOLeZbJLeNyRGmMq1P4pAJLgv1toUualv60RausfA==
+X-Gm-Gg: AfdE7clWTTnCr/Mi8gY+EP+u7lOh1J7BhRlyFjlJbt1YkQsw79LLAmemZA02+I4CkHX
+	ewDbKUVM3yf6UG5nFMv+3QDhJz9DqQZX7SqTZ8hDGeCyyMiYAmayHMG5Xf5ValY/GBUzNhXlZRW
+	xYvQcgE36lErX9DNUF8m9yDT4GfrBg8FoRp57hikk+SFYqt2Lq2SKySB9slDIytKZzSAUaRxRGz
+	hVD1WWHA95OGBbN1qSeuiL/XFsn5dKz4kBlgn52e9pGYE7WSQPYgKCtwOHedXDjICc87ELMLWJx
+	H57vjmPi7ofQ5eXaDmmyIfzWCRjgVTTk9c5s+FxRZrSTHPLpdstImXqmp2vE5CMR6QtSVkqEcew
+	M1r3Yh8BPXkdT1du5vTvEsRVKIRxjqale/ySBv0F23/RCmWh5pw==
+X-Received: by 2002:a05:7022:3d09:b0:138:1130:5fd3 with SMTP id a92af1059eb24-139dba2e948mr11141261c88.10.1782707770799;
+        Sun, 28 Jun 2026 21:36:10 -0700 (PDT)
+X-Received: by 2002:a05:7022:3d09:b0:138:1130:5fd3 with SMTP id a92af1059eb24-139dba2e948mr11141241c88.10.1782707770268;
+        Sun, 28 Jun 2026 21:36:10 -0700 (PDT)
+Received: from [10.218.21.154] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-139d91006afsm51499458c88.12.2026.06.28.21.36.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Jun 2026 21:36:09 -0700 (PDT)
+Message-ID: <91ce4536-b2c9-4ad1-8ac4-d7abad76ac3f@oss.qualcomm.com>
+Date: Mon, 29 Jun 2026 10:06:04 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1782439646.git.zhoubinbin@loongson.cn> <71430fcee5951fb7a7d52e2091a87707db85e06c.1782439646.git.zhoubinbin@loongson.cn>
- <20260626-devout-vulture-of-reading-4fbfad@quoll>
-In-Reply-To: <20260626-devout-vulture-of-reading-4fbfad@quoll>
-From: Binbin Zhou <zhoubb.aaron@gmail.com>
-Date: Mon, 29 Jun 2026 12:35:37 +0800
-X-Gm-Features: AVVi8Cc7WMGsN5EZIx98cF3b5b5_LIlSupnHTYu_LzUQSZvj-OZPI5GWvv7BNrU
-Message-ID: <CAMpQs4LJkaLOPyiATEdEqFNNooUue7j6uJfCA68f0TF1=Qp2fQ@mail.gmail.com>
-Subject: Re: [PATCH v3 7/9] ASoC: dt-bindings: loongson,ls-audio-card: Add
- ATK-DL2K0300B compatible
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Keguang Zhang <keguang.zhang@gmail.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev, 
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 0/2] soundwire: qcom: add support for EE-aware register
+ layout
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Rao Mandadapu <quic_srivasam@quicinc.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20260608175345.3118060-1-mohammad.rafi.shaik@oss.qualcomm.com>
+ <adc18723-a194-4e0b-81ff-6c90ec9bda9c@oss.qualcomm.com>
+Content-Language: en-US
+From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+In-Reply-To: <adc18723-a194-4e0b-81ff-6c90ec9bda9c@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 4Y_xDfnVF6lhmOGifcLA3jvQTKy8y0ai
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI5MDAzNiBTYWx0ZWRfXyp5S5vL+KJ5R
+ QlLiTHiLD9c2B8AXzm0KVzpuXhgJjWSiz1SeDZC+XjZDu2BXLx1eagBc0QOhvvEST99IpIvSKdT
+ bBnWxbgFu669vkMehpoUEGiVvuGu2ic=
+X-Proofpoint-GUID: 4Y_xDfnVF6lhmOGifcLA3jvQTKy8y0ai
+X-Authority-Analysis: v=2.4 cv=SuugLvO0 c=1 sm=1 tr=0 ts=6a41f63b cx=c_pps
+ a=kVLUcbK0zfr7ocalXnG1qA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=khzunKVQOklLbZjlMdUA:9 a=QEXdDO2ut3YA:10 a=vr4QvYf-bLy2KjpDp97w:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI5MDAzNiBTYWx0ZWRfX6p4LBo2o6C/O
+ jk5rRbbB09zRWVOLAi50A1WjzNfZrxkozMTFRqoLbhM3dwz+GuHCzTC50PelIUR0g5bNfC7R42y
+ 3FvD3G2ptpoCYfc8hLu98kQ+xCS9ttRmto5ynV2lCbLPzHmTPbKnp4hxBqi/NqryqE/8aNJ/C5k
+ EBfwywL4XywfMFVlVMuKOJMCmHtkUbuQHFYyMjmEs0m1HP/B5LCRMLMg1vKo2BhIzz3k0kapjpJ
+ Vg4UE2U9CD9Asfw2xFxjMslp9LfeW8vijY9rrxl1/z4ItpSuJEOX2rGcgkE+DxxFABWbF7Ktmkt
+ WlOk5tp+B1lLpEtYcZozw8g98UQcO08fN7pCnBzmpWWmW9ZjMETWqZdLf2VI2pyYw1a4VtlxX7Y
+ j+QuCgMRV/lj6am4eNB1KmfNTkmd5foiY9rLjdoJk4y0M6qEUTGzRj8OCwrJ5Vq/f7zXY3JDaHw
+ MwOM/Y4GbzfwWTFabew==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-29_01,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 priorityscore=1501 clxscore=1015
+ phishscore=0 bulkscore=0 impostorscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606290036
 
-Hi Krzysztof:
 
-On Fri, Jun 26, 2026 at 6:01=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On Fri, Jun 26, 2026 at 10:27:28AM +0800, Binbin Zhou wrote:
-> > Add new compatible for the ATK-DL2K0300B development board based on
-> > Loongson-2K0300.
-> >
-> > Unlike others, this board features GPIO-controlled headphone detection,
-> > headphone control, and speaker enable.
-> >
-> > Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
-> > ---
-> >  .../sound/loongson,ls-audio-card.yaml         | 38 +++++++++++++++++++
-> >  1 file changed, 38 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/sound/loongson,ls-audio-=
-card.yaml b/Documentation/devicetree/bindings/sound/loongson,ls-audio-card.=
-yaml
-> > index 8c214e5d04b1..dc7f4afbb777 100644
-> > --- a/Documentation/devicetree/bindings/sound/loongson,ls-audio-card.ya=
-ml
-> > +++ b/Documentation/devicetree/bindings/sound/loongson,ls-audio-card.ya=
-ml
-> > @@ -23,6 +23,7 @@ properties:
-> >      enum:
-> >        - loongson,ls-audio-card  # Loongson-2K1000/Loongson-2K2000/LS7A
-> >        - loongson,ls2k0300-forever-pi-audio-card # CTCISZ Forever Pi
-> > +      - loongson,ls2k0300-dl2k0300b-audio-card # ATK-DL2K0300B
-> >
-> >    mclk-fs:
-> >      $ref: simple-card.yaml#/definitions/mclk-fs
-> > @@ -47,6 +48,18 @@ properties:
-> >      required:
-> >        - sound-dai
-> >
-> > +  spkr-en-gpios:
-> > +    maxItems: 1
-> > +    description: The GPIO that enables the speakers
-> > +
-> > +  hp-ctl-gpios:
-> > +    maxItems: 1
-> > +    description: The GPIO that control the headphones
-> > +
-> > +  hp-det-gpios:
-> > +    maxItems: 1
-> > +    description: The GPIO that detect headphones are plugged in
-> > +
->
-> Add allOf:if:then: block after "required:" block and disallow these
-> ("...: false") for other variants.
 
-Sorry, the `allOf:if:then` block in the previous email was incomplete.
-It has been corrected as follows:
+On 6/9/2026 1:47 PM, Konrad Dybcio wrote:
+> On 6/8/26 7:53 PM, Mohammad Rafi Shaik wrote:
+>> This series adds support for execution environment (EE) aware register
+>> layouts in the Qualcomm SoundWire master controller driver.
+>>
+>> On SoundWire v2.0+ hardware, some controllers bank the interrupt, FIFO, and
+>> status registers in EE-specific windows separated by a stride of 0x1000.
+>> Typically, the driver assumes EE1, but platforms like Shikra have the
+>> controller routed on EE0.
+> 
+> Do these EEs have any names associated with them, that would help
+> explain why the change is needed?
+> 
 
-@@ -55,6 +68,24 @@ required:
+will add more description what this EE value and why we need this.
 
- unevaluatedProperties: false
+Thanks,
+Rafi.
 
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        const: loongson,ls2k0300-dl2k0300b-audio-card
-+
-+then:
-+  required:
-+    - spkr-en-gpios
-+    - hp-ctl-gpios
-+    - hp-det-gpios
-+
-+else:
-+  properties:
-+    spkr-en-gpios: false
-+    hp-ctl-gpios: false
-+    hp-det-gpios: false
-+
- examples:
-   - |
-     sound {
+> Konrad
 
->
-> If these stay, because I have doubts. spkr-en-gpios sounds like
-> enable-gpios of each speaker, so not suitable here but should go to
-> individual speaker codec nodes.
-
-About this, please refer to the previous email.
->
-> Best regards,
-> Krzysztof
->
-
---
-Thanks.
-Binbin
