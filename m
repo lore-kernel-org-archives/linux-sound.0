@@ -1,80 +1,83 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D40B416CED
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 14:16:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E6C3FFFB9
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 14:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782742612; cv=none; b=JY8j/jUhxk3AtqSEzfWF+aPq4aS43vPNUkPM6y4EWJ9+ZJlNdFZ/kXU+B9R3D/HEXVrTDllhZ6XrHJ018erwiGH5MNfDEM75afiyqAl7qNl7c+xrFULojIkYkocIYM864yFPG4Q9VGz8hCtUogidj6w9WrTGLGcxpBk/KaZUC3k=
+	t=1782742618; cv=none; b=tgUroVCq9ymeLq62xzDoNN5q5e5VwzZmOc+asFFBJ4KIw3Dr3pqgfmPpW0HEVey7IM5Q/xM31xAFnF6Kl1ETVWeS5IShLoXruvdWjQDBr982VYbc7bzm7Z9ffFmC4PmrCmr0klVMKnGm7nUWh9MGtHnlkZprYIlbxYKFs7FZK3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782742612; c=relaxed/simple;
-	bh=ujKFGrBXfqzzTWYWiLZhzbg8yaOGSF7iUYvN9/dYiJI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mLaY+mVaYVaR8XLeI5uSg4Mfj4Mt58jn7JQQKgrvdzgjfPG63iY2X21S3A7dQrfd5WwlPKz5JPu0H19/YLz4k0T4A4LbiATugD9gUvFBPvLzl8bwlL5cc/4mqlZRYz5mSF++Q2aWyDopOM77Oe3gmWz3lo7JiFYPJd6R+vwA0uE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=I4V20ZYJ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=L+2h7g6H; arc=none smtp.client-ip=205.220.180.131
+	s=arc-20240116; t=1782742618; c=relaxed/simple;
+	bh=fUvFc3fENqrCdtYGcnwIQZGyeEr3x3tj/FL3fDKbygo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tWrU9XxiczICuUjb7O6NuxnIAPNQuSWxTnsjdLfdroBLm2aI5OEQzyfUFVXVniT/b5P9xeck65Le2KiCwdfwhrNipsvBch77jynkREcfqf+l2Ltp0oDYAgLfbM/M/FuzyNCsFB5BQZok94cbu3Hi3UJ+0DWvl/hH5PSSF3ky2vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lbn+4ocR; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GHQefGer; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="I4V20ZYJ";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="L+2h7g6H"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65TAT4602627852
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 14:16:50 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lbn+4ocR";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GHQefGer"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65TATSWi2579625
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 14:16:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=3BPlLjvuawkSXnix132EPJTzuTnANMmOQWr
-	ZnYK/bR8=; b=I4V20ZYJlZ/zhQTKKzMSOaOyTstEz3yCPBg6wZ6zBt8aRQFHWUH
-	lBTeXK3WiaqJD62QP901tGkPKZtv0Nq6IFrq5ufLqW97azJ9esbh4QjjQRnStlZc
-	U2VmZb/3RIeHiooJGn6+wN00thfpi27kPive5H6n42G1yvXmJbK+enjYRja9D69V
-	yW0ljbT84UNCTH+oCXBsZBIJQwCGROKdZBQyENcRs3gathxHMBE2NAnha/RXDdjX
-	qFdzge/q3W5WpRhUs0ePGcj+OBwqFZyXDCGx5ZiPFcD8dIK+e0SRx7rdXEQ6NLqd
-	wUUenp65p6ULMEkY8yQS1BelpZp9s6LODVw==
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com [209.85.210.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f3nbgs939-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	3SjUvXL/mX56mOYrPBguEs1h3doPmK8H6vkztD3URlg=; b=lbn+4ocRVkoZVnNE
+	yD8zRV04Vo2axT6kVqEI4NsRhqHaqVpNwKgncF89EcNsy3miEGchJpJMVXaEzKwi
+	R5UgEaruRUnjJ1iyHH8Atx8poYrHKtunNdqTc3RAwNIKq5F+iSdG6deAbkMk4PON
+	SGwLM9tZO4chqQEnPPMXpbExYUc01vLxImzSdgldO45CV/KGJF+RvbbVFw9Bgzo7
+	QZQT3kvwsce4c42qv/rpTTQRUdM2HqCE7likLCqpDP74BDr12pkxl76QPkzkn0B1
+	GNLmH9KlPBoTkGmz6SC5AtIU8sr+pPzsZcrErlLvIHWdR8lbS/Vj3e6KDpfzGgzt
+	zoucNQ==
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com [209.85.161.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f3kp7hqyt-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 14:16:50 +0000 (GMT)
-Received: by mail-ot1-f69.google.com with SMTP id 46e09a7af769-7e60737a964so5443981a34.3
-        for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 07:16:50 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 14:16:57 +0000 (GMT)
+Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-6a14c4681d2so4420873eaf.0
+        for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 07:16:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782742609; x=1783347409; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3BPlLjvuawkSXnix132EPJTzuTnANMmOQWrZnYK/bR8=;
-        b=L+2h7g6HbgditjzHzvybO00yEw9leQSKFiQsj8NrRZu0/Bg5Tg/fg9bHgFHVZtILcG
-         eTY0HFUr0rKUr+5hGq72R8R7Zbdh2TibSV1B5zNrgm8VSwzGfzGNWvn8+prmZ9UVofZW
-         IFhjwmBYPnMHcxtO9Wew/3Swrf9Mc+/8RjGNrJn2FkJJ96ZmSVCQF8hF1XsQhqfVzdNT
-         9kVzu4yc8df5mWHsn4yCJbvyt4krOOC0Ffn1dHsJ68Gm3xK4CcL8ZKiy39tNcuQBt3/U
-         GsXLH1IjjVhSk2nIpmQFJG2RKFTpkkcH8x9WL9z33IdL744iTFlybS/9OVdKrhE+3pNE
-         iWYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782742609; x=1783347409;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=oss.qualcomm.com; s=google; t=1782742616; x=1783347416; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3BPlLjvuawkSXnix132EPJTzuTnANMmOQWrZnYK/bR8=;
-        b=V4BUXiVIxq9czYJSEoJzYIc8Ng1wv02i61auXbT+2lbT2Q+OkKzvRdgjVDXdu0Ow8m
-         xeQSUp7cdO5IoJ2rJWXEJmWgzWVsZoHyega1rK8tizu3gQIJy0lKa+BG6gu7gpiSg+KB
-         lnf3svXGEuN0iTf9yEXi72iHFa5z/ArKdylfPVCf5MUghz7beI1UW6AxvgqNJXstKscg
-         f45iCSYX0gSFcURRupWE00JoxuLZPCDNpHxMsYY9wv7UnOWwp5XguBWY/KMSMN2Whkqi
-         AUI26MXuHB6Qk4kVVRtMs+xLNL0EJ/+rS6/8NDgKQ13o7TucWR3krfQFbU0L8BAchnKK
-         CWfg==
-X-Forwarded-Encrypted: i=1; AFNElJ/6YQ5rUeeXpxnplvdgPXJORaYA1k6wl55mcicHG8Hu7wZNM1zHjYQEQYTPqRH4cqXbEzgYlu5IBGii3Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGIX+9BkQn6K1V/VXzs3TePU5D9K8mrj4yCSdqvgy5feTkWlcD
-	DmAYgnbFwrKJHrIiJcX/rF5p4lIjYwCPTOyfrtlcHsVFMdSEKYXTO1RxsKj5HQsHY/Yflgxqjl9
-	9LRw1EpBB/G/JjOCHaB/mdbpE+lEPT4QSGsxrD+BO5Rpltqmpoiz+4NslYYLZR9K4Fw==
-X-Gm-Gg: AfdE7cn5RlrUTz2NbQ1swdyK3a7uCzAZNkKHglxV5/ieKrldhXzkPMxT9gpG3bpGDm3
-	zBhfx1uHnBbJOQ6Wd4wDMLLindHEUP5tdsXbyI9+5fyWGZ+Rm7cJZZAk6DLWZ4whhx+h8fkr+3G
-	Hp+QlRmnLIP8BBuZZLniSgcScmLYCp5RLx/I0jdwQtfPQ5SrHzJkIDUpC6YqoOgxIT5Da+zUTx8
-	9KxQqNLDt/PoVp+AGKnrsyRYWg8WW6lGtR6RiJNsT7M1297HMcRcDbZGcwVuYQAZPdvsntRUXxW
-	kLuxbfEe2WrINJssKSk+noYsCdBG0MLYYMXEghBRrKme7plo/HgYkEplYOxx/KgjZG366QsP77r
-	m9NVwB+54pRmjwTVH1Ku1KdV0t8n9Mb273Bh7LJQKls2rhGo=
-X-Received: by 2002:a05:6830:f83:b0:7e9:eaf2:edff with SMTP id 46e09a7af769-7e9eaf2f456mr125050a34.26.1782742609390;
-        Mon, 29 Jun 2026 07:16:49 -0700 (PDT)
-X-Received: by 2002:a05:6830:f83:b0:7e9:eaf2:edff with SMTP id 46e09a7af769-7e9eaf2f456mr125019a34.26.1782742608855;
-        Mon, 29 Jun 2026 07:16:48 -0700 (PDT)
+        bh=3SjUvXL/mX56mOYrPBguEs1h3doPmK8H6vkztD3URlg=;
+        b=GHQefGeragr51ir4quh9bILiJjpxHSdZN7/lHiayR4iPxBNWZUdaccvrVZOd0kN5kf
+         vy4gpTQ0zuTVLC4qkRawz6WGMVx+nGLnoaJkMPq6XYh2Q1dCQ4AR5p7NCZHt6oVcXQvA
+         MUVfycrqinIAK1j1+9CocjqgTsscZCQwgDdxsEI/IBIK+J/KIa9xGCUv5GXf6jOoapyJ
+         cyMpCVQ8RE20e+U+VVJAeImZhUTPuLqA10PIQBc55p+h8WzOlflPTiuB2qB3j9XxR542
+         ga9GF6xd9EpLKoCXc20Y1anxA1m+8c6aOiyZOyYmQfH+L4cfPn2qV9cSi2yfxw9JCp+C
+         HviA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782742616; x=1783347416;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3SjUvXL/mX56mOYrPBguEs1h3doPmK8H6vkztD3URlg=;
+        b=clW6nBu7/2JrmkJDXq5T0n0orUQsKdNyD+VyaWC+GkQEoSoks3OLYcmWsL6zhksOMB
+         Q+7RFKwk3XbeX0D7ufaZLHTEEJsTI3RYQCMPxp/UtRc5edQfLFDN5N7YLCLab8s7VNRI
+         /eyKNAQCsGM14WOMp2u99ee71vWy5oVk7Y1fqxB77ybOxUU1PzgXjKCvOWw2bqqJOkvS
+         u9keYbdMBCqRcLfatqZR4ASFyNFVxDsIexxIPQSMgtNnzKeOOCRog9TOjiWJRQ4mSz0U
+         k+HyXQELDi42zcHTU3x1Z3g6gQSnixHFZqAF9c4E/IiQ/p2eTl0C5+zmuT/58G8im/Oi
+         OtDQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/ZZVoInPtALX70pFwuFvmUqPEjIYm4QeeCfFdg2cbdBh85vdHJZseZd5ku3AkNGeHL5A5017kb4fIWWg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoDqW5QpAbU9R2t8H6vao5R2W8dKxsMY1nXUN3OfsJeim5yD9W
+	ndXvqwqvrjN0iZc6uIxQbd1nQEavHgYEVCnMwnDQ5RNkGeOdvghowqYUx/J8yNm7fHCsZsCncaV
+	XuiSXGaFJggqfjjSB6yt2JQLb+3pG1GR0bUADiirsEtqXLfF55y9bRuy2hUOUgBjjzg==
+X-Gm-Gg: AfdE7cmoF5WDf8OmzGzAKaZ2POl9spVCTd/CTvREKaDTdS5zarSflPMaDKAkE/PY3MU
+	lcBjGk93trRBT7QuqnzMfuj+gsPI8LNWh2hHTYcYshGsVHabRVWGpuByG1NpzFOgRlGdZQDx1fz
+	pD9adFP766Yk8j0DYFOeph8vFYI00wdZ+SDjd9BvZLeHTaj0pHSI/j1eOgWt7cAmCRaQE270sZA
+	Av4ZlfP7LRTtKh/DofPQN2PyGpA8zzYWq7MMzuA2hjyTL2gHId99prdqhK0P1ydHy5rv0vF7OM7
+	BVCYKxv+a9I+EjkPYw3L5eADArTr7hBBhz2vUG9jNpgo+k1N86vQXz/DGHE3Y0LivmID4B3+STN
+	rftJJokD7HTtZedXz38m6h6lMe06WLttmk9p7EgowBG0E5Uc=
+X-Received: by 2002:a05:6820:4b87:b0:69e:53fb:7867 with SMTP id 006d021491bc7-6a13434f2a1mr10237314eaf.17.1782742616017;
+        Mon, 29 Jun 2026 07:16:56 -0700 (PDT)
+X-Received: by 2002:a05:6820:4b87:b0:69e:53fb:7867 with SMTP id 006d021491bc7-6a13434f2a1mr10237234eaf.17.1782742614096;
+        Mon, 29 Jun 2026 07:16:54 -0700 (PDT)
 Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e9aa5d3500sm8584812a34.8.2026.06.29.07.16.43
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e9aa5d3500sm8584812a34.8.2026.06.29.07.16.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 07:16:48 -0700 (PDT)
+        Mon, 29 Jun 2026 07:16:53 -0700 (PDT)
 From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
 To: Srinivas Kandagatla <srini@kernel.org>, Vinod Koul <vkoul@kernel.org>,
         Bard Liao <yung-chuan.liao@linux.intel.com>,
@@ -84,73 +87,102 @@ To: Srinivas Kandagatla <srini@kernel.org>, Vinod Koul <vkoul@kernel.org>,
 Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
         linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v1 0/2] soundwire: qcom: Restore and fix set_channel_map support for SWR master
-Date: Mon, 29 Jun 2026 19:46:31 +0530
-Message-Id: <20260629141633.86657-1-mohammad.rafi.shaik@oss.qualcomm.com>
+Subject: [PATCH v1 1/2] ASoC: qcom: sdm845: skip set_channel_map for SDW stream DAIs
+Date: Mon, 29 Jun 2026 19:46:32 +0530
+Message-Id: <20260629141633.86657-2-mohammad.rafi.shaik@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260629141633.86657-1-mohammad.rafi.shaik@oss.qualcomm.com>
+References: <20260629141633.86657-1-mohammad.rafi.shaik@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: aOZwAGKaD8OrGU41KDw-LPKiqTPVzrMf
-X-Authority-Analysis: v=2.4 cv=Z4Hc2nRA c=1 sm=1 tr=0 ts=6a427e52 cx=c_pps
- a=z9lCQkyTxNhZyzAvolXo/A==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=pegW1h1avVakzY11HMUA:9
- a=EyFUmsFV_t8cxB2kMr4A:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI5MDExOCBTYWx0ZWRfX3/a9KAiQD+cd
- 5LNuuzU9De9R7rwbnLjdUW4H1uIKc7WUthfbXs7cJR968O5+U8RZ1+AY2e1Bj0P5uv0GY/hyuNA
- Zms/bO7UVaOo6ZBM8nfr+6Vs5pPQO5o=
-X-Proofpoint-GUID: aOZwAGKaD8OrGU41KDw-LPKiqTPVzrMf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI5MDExOCBTYWx0ZWRfX2yVwLliX0T/D
- EZmwBx4QS6AzdQqhU7/xKMUVGSklMkCMWeNQt1Xt9jX0mbgZxIgkw88i/yr9cew3WxmGNvTrdwi
- ps5RUiqmrZLqRUDrQpGed8vYjI5p5hWceW7RvcIc8o+q9T4hqcUgheG5i3iNMOJn21KRf149X0O
- 2kGIq5GigryyJIp4/qKPM5S1K01FYHYuW3p1lNMk37xkpYEeuXeSJQeGrFcraYIWa1ODmO5F+9K
- SNJWx5zlR/jO+pMcrPpFVQiAqL35ZqgqlDNpah4t6+Ta+P4uaafxth/Cx4MlbM2RdXQe7OcEbK9
- kNtajUXwAWw07OSv7lRRMxNVRDof8acP06UrwQIq3C7QRk0xNinAfk84Z11zDNGu5lqCGGXJ6eZ
- UzIl+GjGpgtDPyoA0ruG/DVqQ5E5RKkZKA23K0J3hOfVq4bm0W+9gsuKIXPwsM95z251/u4MCRi
- xCutH9wAriCNe37h53w==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI5MDExOCBTYWx0ZWRfX6CUBjb72yOEw
+ 1twDYV9DNWbs3wHJoGi4PY2Mb8pNINLDCtkGpJLh2mXbGAcbckAhQrUJc8Nf8i9ej/oYm3xg+zC
+ 1G2CguHHc6RyYUI/c2vmHWXdlhsS2rE=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI5MDExOCBTYWx0ZWRfX3FwlRal9f9ZL
+ em9E6aFUnkyt0q5ZfIGJGYtBMuvW39fxwHTPGHlpf2HnazAMQYSQ2lF+u7ntSKTX9yC7hhP1tlp
+ UIwkWOp718C122N+p7hr+HL7SkF1qLAreHYHQLc4QLgi9T1ZhDje5TL2ZvyKz7oYVxQVmVuMNN/
+ AUugmZ1HfQLDKmkus+X+TGhhI8uqW4SCktHVoU2D9KB7nMHiQul29MXRRdHpyxB4UMDy8yIoOcS
+ mo5/wgKePaf+bv8lAG0Ueqp6BRiT+KC2OwFAdosfn82LfxBPgl3k0b1kFILjTKSlMJSOzTwgWRR
+ mO9HR9PN9XGoZm1bivUyg3QjrQRT3sWzqxyNGYOs9LO7Uvc2peZHOllplDJz1ptJWR15MxVneVe
+ ySmBKTOvRfpUBI9TVXLM0GsaLPIjc3Axz9CyR4FMcX3pgCJTBM+VKMEg9PxZWbwvcZ5d3OWo6l/
+ qDQzg/su2iakdkOq1Ww==
+X-Proofpoint-ORIG-GUID: FuTQBxq3eLdgyseb-qKOGrRxYkuGgAbW
+X-Authority-Analysis: v=2.4 cv=MZJcfZ/f c=1 sm=1 tr=0 ts=6a427e59 cx=c_pps
+ a=lkkFf9KBb43tY3aOjL++dA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=EUspDBNiAAAA:8 a=fJR0_yvY6LQ15X-jUkIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=k4UEASGLJojhI9HsvVT1:22
+X-Proofpoint-GUID: FuTQBxq3eLdgyseb-qKOGrRxYkuGgAbW
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-29_03,2026-06-26_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501
- bulkscore=0 spamscore=0 impostorscore=0 phishscore=0 clxscore=1015
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2606290118
+ lowpriorityscore=0 priorityscore=1501 adultscore=0 clxscore=1015 phishscore=0
+ bulkscore=0 impostorscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606290118
 
-The original support for set_channel_map in the Qualcomm SoundWire master
-commit 7796c97df6b1 ("soundwire: qcom: Add set_channel_map api support")
-was reverted due to multiple issues reported on sdm845 board, including
-kernel crashes and data structure corruption. The root causes included
-incorrect port indexing, array size mismatches, and improper handling
-of TX/RX channel information. This series reintroduces set_channel_map
-support with a corrected and safer implementation, and fixes the sdm845
-machine driver to avoid misuse ofthe API.
+On sdm845 the SLIM Playback backend lists wcd934x alongside the qcom
+SoundWire master and its SWR slave speaker codecs as codec DAIs on the
+same link. sdm845_dai_init() was calling set_channel_map with hardcoded
+wcd934x SLIM channel numbers for every codec DAI on that link, including
+the SoundWire ones, corrupting their channel configuration.
 
-Add a robust qcom_swrm_set_channel_map() implementation that stores
-per-port TX/RX channel masks safely under controller lock. Ensure the
-configuration is only applied to valid ports and does not corrupt memory
-or overwrite unrelated data. Preserve existing behavior for ports that do
-not use set_channel_map, by falling back to the default SoundWire stream
-configuration. Fix the sdm845 machine driver to avoid applying SLIMbus
-channel maps to SoundWire DAIs by skipping DAIs that own an SDW stream
-(identified via .set_stream).
+Skip set_channel_map for any DAI that implements .set_stream, as that op
+is the distinguishing marker of DAIs that own an SDW stream path — both
+the qcom SWR master and SWR slave codecs register it, while wcd934x does
+not. This confines the SLIM channel map to wcd934x where it belongs.
 
-Mohammad Rafi Shaik (2):
-  ASoC: qcom: sdm845: skip set_channel_map for SDW stream DAIs
-  soundwire: qcom: Add set_channel_map support to SWR master DAI
+Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+---
+ sound/soc/qcom/sdm845.c | 27 ++++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
 
- drivers/soundwire/qcom.c | 54 ++++++++++++++++++++++++++++++++++++++++
- sound/soc/qcom/sdm845.c  | 27 ++++++++++++++------
- 2 files changed, 74 insertions(+), 7 deletions(-)
-
-
-base-commit: 3d5670d672ae08b8c534b7beed6f57c8b44e7b43
+diff --git a/sound/soc/qcom/sdm845.c b/sound/soc/qcom/sdm845.c
+index 0ce9dff4dc52..509d7a551397 100644
+--- a/sound/soc/qcom/sdm845.c
++++ b/sound/soc/qcom/sdm845.c
+@@ -294,13 +294,26 @@ static int sdm845_dai_init(struct snd_soc_pcm_runtime *rtd)
+ 			return 0;
+ 
+ 		for_each_rtd_codec_dais(rtd, i, codec_dai) {
+-			rval = snd_soc_dai_set_channel_map(codec_dai,
+-							  ARRAY_SIZE(tx_ch),
+-							  tx_ch,
+-							  ARRAY_SIZE(rx_ch),
+-							  rx_ch);
+-			if (rval != 0 && rval != -ENOTSUPP)
+-				return rval;
++			component = codec_dai->component;
++
++			if (!component || !component->dev)
++				continue;
++
++			/*
++			 * Only wcd934x (SLIM codec) needs these static channel maps.
++			 * DAIs that own an SDW stream — the qcom SWR master and SWR
++			 * slave speaker codecs — implement .set_stream; skip them.
++			 */
++			if (!codec_dai->driver || !codec_dai->driver->ops ||
++			    !codec_dai->driver->ops->set_stream) {
++				rval = snd_soc_dai_set_channel_map(codec_dai,
++								   ARRAY_SIZE(tx_ch),
++								   tx_ch,
++								   ARRAY_SIZE(rx_ch),
++								   rx_ch);
++				if (rval != 0 && rval != -ENOTSUPP)
++					return rval;
++			}
+ 
+ 			snd_soc_dai_set_sysclk(codec_dai, 0,
+ 					       WCD934X_DEFAULT_MCLK_RATE,
 -- 
 2.34.1
 
