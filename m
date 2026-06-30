@@ -1,139 +1,120 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945823C5DBE
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 09:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EF53A8FE6;
+	Tue, 30 Jun 2026 10:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782813426; cv=none; b=Hsv7IqsyvIXilcyUsJwGH+dcOf1QnJ69Li2c0GOx2meYrUzxQxxiWp3tPLEZiWGYfd84kBmelNu/HpqqXsnTO3sFfDjC5p24NLaIDu/7Hz2FOA0uZHcYt6kQ137+dEtReTCmBwqSqOBYtq/9CH6ycQorJHP89jdJFIS3wJLl6Vc=
+	t=1782815047; cv=none; b=OL5HJPr9/p4QJKHBNG+w6ks5T9QV51e2BJ1s/um9CAxpJc72aRvOzBx/Cm0y2OKAnzJNMX+cB5vHD3kQlymaOFyRmBJBEmiNCqeAcTXumR7zvcyjnKuX4AsXDg0R19/blGLgdgo0wozn6GK6lpHDRUrJwv4CIuL52rk4+gbQDM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782813426; c=relaxed/simple;
-	bh=27L8QoKnUfRk/TTWzZC+9Oy9w5wxRSVpm7pq3ShurFo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HWWmapiYvsu243HmTPqqLTlmLL1zmtiWBQoFC/zb8kufBQbOYZGsKO+4SbQK+fwT6OHGHmJDFjVKC3+fwWyBpv7kZ/tD025DxBHF5kmAFRzEY3EXRHekfuCXruRlsNrXw9RQCsardd1o5ftP0wezI3jtkMakP+eizEv1UfidPVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pEIirkfj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HHqTO6h7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pEIirkfj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HHqTO6h7; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1782815047; c=relaxed/simple;
+	bh=ktunQaDDS5EVOVO47fVPmptPD5p+avnAGjEgEXLkbp0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Rbim+d2YDrsCp8zJtdpnKdjWr+gnTyq6k4rY0xoWhpqSlfbnAglWRWB2JH0JOBXojHbSwFWYxzdTsDoRfUxG23XUWIUlyqsTEReODRCBeKVj9qoRNpZCoBnOL0tJAxQDsyR+XQ9hHj8CbUEyiyfF35frfoJC1g75gqTws8HFxJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=icQ/wQmM; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pEIirkfj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HHqTO6h7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pEIirkfj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HHqTO6h7"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 90CFF719A8;
-	Tue, 30 Jun 2026 09:57:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782813421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jKMcsERPNSH3vdbWBqnaZGhimkLwW9AhcHFxktb7/FM=;
-	b=pEIirkfjgdymEBCu+jTGxvPfy/Am0S31xJ+xnQZQJEyP4AIVqOsUnj1KLqdhDasICD6v3N
-	Txf4Gj7y2+Q5P72Zu6aSoS2wvlfgl8eAkpfpeSpyq5qJ1MRje760iRHQ1C2OEHGaLpcRcZ
-	SZzfjaHwXYfE5/zoRQ2rkQf8qf/MiEY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782813421;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jKMcsERPNSH3vdbWBqnaZGhimkLwW9AhcHFxktb7/FM=;
-	b=HHqTO6h7FQ1c69dE2sEnY7tuDfWK3VPc40BAyXwm+zR5qnP1BINjTeUeMtutRu/GlgVgQS
-	0+zzQGM/l+MLLVBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pEIirkfj;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HHqTO6h7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782813421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jKMcsERPNSH3vdbWBqnaZGhimkLwW9AhcHFxktb7/FM=;
-	b=pEIirkfjgdymEBCu+jTGxvPfy/Am0S31xJ+xnQZQJEyP4AIVqOsUnj1KLqdhDasICD6v3N
-	Txf4Gj7y2+Q5P72Zu6aSoS2wvlfgl8eAkpfpeSpyq5qJ1MRje760iRHQ1C2OEHGaLpcRcZ
-	SZzfjaHwXYfE5/zoRQ2rkQf8qf/MiEY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782813421;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jKMcsERPNSH3vdbWBqnaZGhimkLwW9AhcHFxktb7/FM=;
-	b=HHqTO6h7FQ1c69dE2sEnY7tuDfWK3VPc40BAyXwm+zR5qnP1BINjTeUeMtutRu/GlgVgQS
-	0+zzQGM/l+MLLVBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7AF12779A8;
-	Tue, 30 Jun 2026 09:57:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QqR1He2SQ2rNbAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 30 Jun 2026 09:57:01 +0000
-Date: Tue, 30 Jun 2026 11:56:57 +0200
-Message-ID: <87tsqkwdue.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: shubhamnayak392reborn@gmail.com
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for HP Victus 16-e0xxx (88EE) to enable mute LED
-In-Reply-To: <20260629-hp-victus-16-mute-led-v1-1-ab0f4a8a533b@gmail.com>
-References: <20260629-hp-victus-16-mute-led-v1-1-ab0f4a8a533b@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="icQ/wQmM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782815045; x=1814351045;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=ktunQaDDS5EVOVO47fVPmptPD5p+avnAGjEgEXLkbp0=;
+  b=icQ/wQmMyVZEeQ41y0s/RD11IysL84RlqYL/arY/vH1/dWVzn1+QLLrf
+   ueBMWmMjezVhy+WaJXO+3iNQGGIcbJzXI6eieapAM1kBIjGjhhVCaXSQm
+   TOdxhxZcTJ6IN/W0mgmM+fsTXj3LXTIHco9RasSd9cPj/qGSeyCO0W2Wz
+   KbLi3LZ7d4xjSij4MOQWw89C0LFz2W4TDpD3vv6oGlWF6PGxSVzs/7RtK
+   R4U6BszKlVT+/8x5p+jGiXmDLemCjiVPuYg/rmmaXKWDznfJUbi98POac
+   d+XGxySUIzljPn21oJFt6BBAIK0pXw+4U1qaOJf6g5aG7EdN+AsAIzC0X
+   w==;
+X-CSE-ConnectionGUID: u+aCKVkgTeGawSelnWB4hg==
+X-CSE-MsgGUID: ElGvpXLJS5OtmCjngCQmbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83581389"
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="83581389"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 03:24:04 -0700
+X-CSE-ConnectionGUID: jgq2xSQuTZCC6QLcUYS3Dw==
+X-CSE-MsgGUID: Tgh3e1tLRQ2N4h0xSzOsDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="245877673"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.148])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 03:23:47 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Lorenzo Stoakes <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Madhavan Srinivasan
+ <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Lucas Stach
+ <l.stach@pengutronix.de>, Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim
+ <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin
+ <peter.griffin@linaro.org>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark
+ <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, Lyude
+ Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Tomi
+ Valkeinen <tomi.valkeinen@ideasonboard.com>, Sandy Huang
+ <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan
+ <andy.yan@rock-chips.com>, Thierry Reding <thierry.reding@kernel.org>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko
+ <dmitry.osipenko@collabora.com>, Zack Rusin <zack.rusin@broadcom.com>,
+ Matthew Brost <matthew.brost@intel.com>, Thomas Hellstrom
+ <thomas.hellstrom@linux.intel.com>, Oleksandr Andrushchenko
+ <oleksandr_andrushchenko@epam.com>, Helge Deller <deller@gmx.de>, Benjamin
+ LaHaise <bcrl@kvack.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Muchun Song
+ <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, David
+ Hildenbrand <david@kernel.org>, Zi Yan <ziy@nvidia.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, "Liam R . Howlett" <liam@infradead.org>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, Dev
+ Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, Lance Yang
+ <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, Vlastimil Babka
+ <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn
+ <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, Kees Cook
+ <kees@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, linux-mips@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ xen-devel@lists.xenproject.org, linux-fbdev@vger.kernel.org,
+ linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-sound@vger.kernel.org
+Subject: Re: [PATCH 08/13] mm: introduce vma_get_page_prot() and use it
+In-Reply-To: <3bb8bdc4788230c33102166d56cbc5abfad9d4cb.1782760670.git.ljs@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <cover.1782760670.git.ljs@kernel.org>
+ <3bb8bdc4788230c33102166d56cbc5abfad9d4cb.1782760670.git.ljs@kernel.org>
+Date: Tue, 30 Jun 2026 13:23:44 +0300
+Message-ID: <d6d75626287ddd46d7da136cf013f7b21b1afc06@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 90CFF719A8
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Mon, 29 Jun 2026 15:34:55 +0200,
-Shubham Nayak via B4 Relay wrote:
-> 
-> From: Shubham Nayak <shubhamnayak392reborn@gmail.com>
-> 
-> The mute LED on the HP Victus 16-e0xxx (board ID 88EE, ALC245 codec)
-> does not function by default. Add the ALC245_FIXUP_HP_MUTE_LED_COEFBIT
-> quirk to enable it. Tested on my HP Victus 16-e0xxx with kernel 7.1.2.
-> 
-> Signed-off-by: Shubham Nayak <shubhamnayak392reborn@gmail.com>
+On Mon, 29 Jun 2026, Lorenzo Stoakes <ljs@kernel.org> wrote:
+>  drivers/gpu/drm/i915/gem/i915_gem_mman.c    | 12 ++++++------
 
-Applied now.  Thanks.
+For i915,
+
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
 
-Takashi
+
+-- 
+Jani Nikula, Intel
