@@ -1,215 +1,232 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010070.outbound.protection.outlook.com [52.101.84.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0583F44F3
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 12:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C222D5436;
+	Tue, 30 Jun 2026 12:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.70
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782822885; cv=pass; b=ZZUrft5bJ7/okwSmDNPSKqpzw9kmqOcdDDTf4xbT68W2m4zNKnvf39UZShvN1J2nJlaizIkoZ3iK37qbAUds5MbSs1rrcKeYFtqoFyq+De7u9vZq2L2+Xb7r8x6hwc6ZsQTWZYt6pOsriuklTAtJdN1CPFNg7lMc8u18O3WJ/Ms=
+	t=1782822933; cv=fail; b=GUyKKJwvMSmZ9QHCQJ+EXdU0ks8BKqkbHnMbL1z88T56gavlDMCV8J+0DsSvNHSs59sOjVDXqKgCnGrOcM4MVOPMe047bUmO7G+/DuEvcOil/hqw8xBwCfu0BHJrc1Y2mlkcNOZci/fgyP8EP6JiRjtz22wPyGQhyGDlW4/+wg4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782822885; c=relaxed/simple;
-	bh=iTea2PODuwMhXHvxypo87T8mQ/sR20EabzzD7QApbII=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=muZJmZb271fnpLym4jCnqbXGBHz02rjFc911L1egMTmeAi+K0VY3jI/O2KXwVA6kv+yxdsHdm4y5PWfnPYA7HEOL3+lfE7jqRtU3ch7KtxZOg8/Kr4B9/s/aX3og+Rs0dRXHBTM4Q9qvnBu4oAF/XYarcbCJ3b0kV2jp7/kcLPo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UA2nmGvw; arc=pass smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782822933; c=relaxed/simple;
+	bh=Tbd0QPdERS0358Xv+ULqpWwn1ZFw+w+N8SGp6hNhj9Y=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=BeCPczTwTApZUfrlRdGq/PF3hqkDZbo0dKDeboUTApOU5hkFOZ6A+7DKWtnbJgUNM4Wt7ktvzs5B8he9WxjwYM4FD7etaFZWbM50GPt+zo0QoBy39MxrvRfOq1dvIT2/MtV3zr6df4dI8IaymsE4522gcDsMMFxSqj5T93LTRrc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=QmF/CO4d; arc=fail smtp.client-ip=52.101.84.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UA2nmGvw"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-37fa06b39b4so2439720a91.2
-        for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 05:34:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782822882; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BaBusrD/yUDNFm0HtD+oqrvkrXSIh2j1v6h6pyWi7pdo3R4zpw+BonyBzknkGuTjoc
-         xuvEhh/v8GKoSJtPRSa9/STJrB8U7blw9ErNctH9m5+nuBL4w+nhLYSMykvZNmNpn6Qu
-         FIHvcWbdkiYV6BuBw6vF6KonYMC1afrsBCyte4K7pdfK/hMTojLgV9EJ3vmA6LcH74yF
-         ulGK81ObjdwdI4z+1VHBDq869Soo2z+6SsA7UbuOCVvp9+WhCdChXDFHZlbA/SrnXaeO
-         C1eOghDvUy87tj1sNLBn6MDFrTtyodlZEqFpDwJJOb7/WuO8giu8cPWDcJEOuhf3pqH7
-         Blhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8cTZGQWdZGBUbtMIqk3jv7rpPUO86WUjTSNnrFYPk0E=;
-        fh=0JH6+ts5j/PouUhCMb4iSYZsNk0QmUsk+FzbqaYCh8Q=;
-        b=NdmRGFprMUG6D3L6lQcBa0byUPkg5LjE5wPl8lOCU9e6ReOMwVEoRSXFl1uSKqulRq
-         n9rY8Xc1OWHxvw+uBRX33zydqsJWKnZ7iJIdxzsGFT7A9+Cezi1qfXHny3+01j2kAN3R
-         ZplW1GBo1iC1sGFLMYLnZdvp6+ve1qYRAYC/x3+v7TQnwKQDsYTdviUdUyOuJWAwvJRq
-         vO6svkVgQEPuJyJSX++8CkwRqqm/EZbPr75RFFdQzeABksJMmX+NTmDBcnz/pxpPf7+M
-         UVj2Y1HjMDVhua0YIM1GsOk5ENvNrCG0sMVlWBeqxkWtuMsDV8FfSC653pQ+HirOis9C
-         XO/A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782822882; x=1783427682; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8cTZGQWdZGBUbtMIqk3jv7rpPUO86WUjTSNnrFYPk0E=;
-        b=UA2nmGvwoGA+8HV1d+kM6+dPmbbAHtG+n//Th8G0my53/3GW0LzuUTsfMB8p4ddFwL
-         136BlB5patsgkrn/1gIxqZjykkV51cNeeXI4usnijgM0Bb878z4v/PYVFcf2cp56nsxP
-         ExVCEF+zvngfhY2Cz9vvNBPVgyZghfgop8KzmbL5o1vElCwfyRRUmkQE2k/BxvE13cup
-         qAeEy1LqQh0/3ByHoMl7FylQnbqxbiDMU972Y5cFi9v2vItPJSu77/ZWlB7+fZru3CON
-         eA3YqSFTuWqv5S/fz9PRrDTDPQu4bgcpbw1SNXA9lnAbQjEe3BYqAk830WbP6K9UMwnQ
-         rmDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782822882; x=1783427682;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8cTZGQWdZGBUbtMIqk3jv7rpPUO86WUjTSNnrFYPk0E=;
-        b=iIG+HE8NRKGEDbW6x5FJ6OP9l5GCOghgQuxEayEjt7ZkY2cJl72306NzAzFIGE4VZ3
-         ohrXU0cS3xW/D/oq2wijdP7jmJN/8tnZdiM9HIwFkUc7S+0m0UQEcFPs7UOzPs6YmcSk
-         qL7oNq3CWxjL+K/eBptyD4q11cr+WIF1N1OWu9VXQ3xzLqLgIZUvbLCyTwxFMZnrV8sd
-         FGBIqL0dG+3SEXFfjN4+/QHy1K26L8q8/d7plOoxct8Sp2mFAFrd/kRcetbkpW6hHBbU
-         fD7mEgoAHRLdnLVlv/iNmf1yIcg1A4yw9J8X8gzGg9IKKKotlzTX0q/3pGs/4b/Kfo0m
-         xJ3Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/KCXto1wSuCaFQQQZqWJFWH/Gc45uAFFA30hmhT+UQngn/fwAQLmZz7TuD4indDxQoW8Yt+tXx3VahdQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDYOA1WGaAdB8m0yMA9lIC5dF+C5Wh+XeMSCs+GJEV2S5y+9YT
-	KLzOyWg95CcSvJWlT3ZswQYxC+MzQkGEhYmObQlfB4qPQ0wufDR3GcxjyR8cIHHCZKRPd0diBNt
-	QJCbMfoRLnmsX1Dyl2tvSjxUG2/GRa3OWZg==
-X-Gm-Gg: AfdE7ckqNfvsyTCrZuLR37oxig9vF5VSN66wvtNSBQGPnCAMjXeJRStwWuDuJMGI2fW
-	BvWBR1xau7NLMqz/YVh9JXpOf6hEhBcj3dl137OiVteDTApHtJUVrtaAty+ivGjbu0ggZhyx/AA
-	RR2ht2PPFtbK6jQRWaNj7XPLHuJ+R6/hdVt+/HlrG4xxTznzNNeKNUCCLruIfVxw0r3ukWp+nWS
-	rUdKAmleN1yl8HyLkWyO4UGpcwp+whwIN58wF1NFQRFdFBTiDr5ho/nq+yzvmwxPTEC9hpl1cKo
-	u+Y/ew==
-X-Received: by 2002:a05:6a21:730c:b0:3bf:8604:9a3c with SMTP id
- adf61e73a8af0-3bfdc6960a0mr159009637.28.1782822881873; Tue, 30 Jun 2026
- 05:34:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="QmF/CO4d"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aNvpGWByM8peNZsyQlSd0y+aBbVUnPVPfYVUG7oUry/F/7q1IGQmjoRzveP8aqoYSb9/ZBdQg1pmlM0+llQYppxjjuaqotIVtrVSxsO8/Wbdi8wDAlMkVHeHSbO3fqCYX6KFPVOQsYdM9KFL0fS4OR7WNSta2q+w+iE+fOHTF/mssHHIds7uGNrn6FcgZ4hdfChP8LRuMj2yTWKXRCk/0q+fPg7irooj4q1XV4bB5ZF9QXQzEdZk0M7Q20D1lh0VSARLuT55jToStby1sNkMiYaUeyWIP0ou4YHXj4KzS7kNTNsS7iRoxsGu3kbmhKKLD4KS8soEYWg0Y+loaTZWZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rIX9yQuXazTT55tOiPNwB3xkzORBainoVimaa3L3SzM=;
+ b=KdLo/3FFzqsl+2B41ylBtAaiFBkz+UoCgmoOmkCsmHAEnGYVzszsSZXCClB4BL92A3gl78HLBbrV6fmzVGhsJZ7jRvV3jGorxuwocSyp44fk5Xw5Bdd5PN4i3bIRav3G31XIEI0JDte5RLMf/Hm/m9lDcNPsbXMQmS2RtJUhwT36AUivKd3srCGmOzH9zud93xVqPAwgpjGITK/r3DAX98VbUpsDfLx+A5xPe8RnJUwhV/EzS4XCig2STYC2bMqEuL96nLBAYYiuJnSSKQzmk/CkKZ3OqkQ6W8Txka2sEKccx0sGu+XV1a+IQavwcCSLyGho6TqaWQODXxf/e21Yzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rIX9yQuXazTT55tOiPNwB3xkzORBainoVimaa3L3SzM=;
+ b=QmF/CO4dEruhtqW/Tj9KXF8HfW9eB3S5TNymbe86H08qTfdBcIO35ICg9V9+dRWsJ44UOlyiXGzN4H9t6rrcBSS5roEuO5DVtv5PIvNiH75e1OZVO4t7LziuSWg6KDqJSPXEd+Q8sxYP31OniNxW/TncLzLAa1rKycfLnHv4/rax72ZejpH4h24L+tzE7wij6yPRlg7rNDtJg+/3evXTVY1FUnh8cIRxghvOvlzD8V8XXmJ9qJ9fU1d4FLHt9hskrdxDbwpFKMoggxeOZH+dQOxUXZPEpg+rpaD822eUPIjfxVRcGS/TwFI7Z77+SEC8UDrO2CfvGQaMNQ+JRLHp4A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB9351.eurprd04.prod.outlook.com (2603:10a6:102:2b6::17)
+ by GV2PR04MB12582.eurprd04.prod.outlook.com (2603:10a6:150:36f::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Tue, 30 Jun
+ 2026 12:35:28 +0000
+Received: from PAXPR04MB9351.eurprd04.prod.outlook.com
+ ([fe80::1058:a430:52c1:5aa]) by PAXPR04MB9351.eurprd04.prod.outlook.com
+ ([fe80::1058:a430:52c1:5aa%6]) with mapi id 15.21.0159.018; Tue, 30 Jun 2026
+ 12:35:28 +0000
+From: shengjiu.wang@oss.nxp.com
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH V3] ASoC: fsl_audmix: rework runtime PM handling in probe
+Date: Tue, 30 Jun 2026 20:40:16 +0800
+Message-Id: <20260630124016.645114-1-shengjiu.wang@oss.nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MA0P287CA0011.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:d9::7) To PAXPR04MB9351.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b6::17)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260618023818.31618-1-shengjiu.wang@oss.nxp.com>
-In-Reply-To: <20260618023818.31618-1-shengjiu.wang@oss.nxp.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Tue, 30 Jun 2026 20:34:13 +0800
-X-Gm-Features: AVVi8CfAJzmiJgX_RFr2-7EAvsuYt47fANCiqBHiroPWd01EydFM7sAOdVTrYjk
-Message-ID: <CAA+D8AOqc_OBopHQBFDjvLiZLD0EnfpzFsgFcSnb1kdbZxhDew@mail.gmail.com>
-Subject: Re: [PATCH V2] ASoC: fsl_audmix: rework runtime PM handling in probe
-To: shengjiu.wang@oss.nxp.com
-Cc: Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
-	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9351:EE_|GV2PR04MB12582:EE_
+X-MS-Office365-Filtering-Correlation-Id: d62fb861-b1ea-46d7-4f75-08ded6a410a8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|19092799006|7416014|23010399003|376014|6133799003|11063799006|18002099003|56012099006|921020;
+X-Microsoft-Antispam-Message-Info:
+	eNdoiqMkkqmodxSxbOyoqruFTDar0yhp330mv1CUmYsreVuPTWvviuBXjxPPa+mqLlO3C3BSvcH5glzIlaiR4UNHKe7UbI1SGjhN0Vt4dGC95zul1hHdhaObeisRkvR3NOtoRnVQTfZinH74f1ccHN4aUeGeQvY+ts/abUr8OWy0uslRdDznHlbFLoLfJO0lhvwV7PCMyeuO2SmBuyMcq9VYcizL0uOOnpTvw3I/FmD06Z21N2grY3/1NtKaPdx5E17rTPpVQOVTH/exTjvdU8yeZiGMVSPyo6QYm8XtrWxZ28gJpuPSkL/sUIYlBmscXnagwWWmg9dgjqkYLtd7gloRL6R56PUHTyHfbdZS3JEh0h+YlRNeeEsHX8+hyr/arWxuaIJd8XLv6U3yCrCKlkTmHVOIUvquubfXk/wXpI4MyN/FNhS7ULnR+lCk8cKchg7gVfuOP61qFwPIExD4t+HMbc58gSt85R/XYJAYqNPQYdr7V7nL11C1ujoXUOOQ3GaYKQ/5bf1JnMwroUpML+NG0HTQugMGKfAmArwjcl4uS4KWrKMcnEvHw3h8GsIYMI1AdE2paZfkdSaR8gaxEmAnp+FLZdfAO5w7oibMkNo9oHSF/QpB8XRdvX8w1lqYP/caP9TtjOZU/hWFYTJRQhkNMHqye7SMkSTyB7wioRNkBOX1mALTVHWDJJQYvNplnL9IZzNthh5iL+v2SB85Lg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9351.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(19092799006)(7416014)(23010399003)(376014)(6133799003)(11063799006)(18002099003)(56012099006)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?0Gn04st/8T6YPGdNsNQpRBfjrRBXQ5vBHHZbOZ1fUdvXNGejyXKcNoJ50Zep?=
+ =?us-ascii?Q?WbxcjDYt/Mtn8MyouRSVsza1gRuP6Im2hSUvnnf+2ulJks7ApFwUOCX4NMqd?=
+ =?us-ascii?Q?xAOwkE8qZWzO3iYnzawc+9Z8KU9s0ujdCeVwgiwgVc/qP89UURZL0vl7ERyS?=
+ =?us-ascii?Q?Bnr2af29JLnvbi0drHbd4X1gfX9sstrKkeWepzQnLNKAiwSUejcaDM9/rZfN?=
+ =?us-ascii?Q?zwK67FtY3tX3a3olCPp//IHu8oE7BpCLqyquXz924FD68X0ZdcuKAq+ktPdU?=
+ =?us-ascii?Q?5kItu+nDSSJl/EqfKiX6y91Pfet0MZoa8u+uSDW9DF/UDCOqLaQg8Yn34N8l?=
+ =?us-ascii?Q?vLkfArx4KfOY45OGz28v2K7SZi6pRYmlUhO3MGg5w+m07pQvl35QbjOC7iGQ?=
+ =?us-ascii?Q?NASj6uD3U2hlziCbPAvk6BK+jKuDJHfgf33xrdd6lPfAPk3T1tP2SM2PIXnv?=
+ =?us-ascii?Q?xtGVNsGL0wwHLWbNqupuQGU1g1JkcKL/aKK4Dm3ubigDcDJLoKU7gEtpx3hl?=
+ =?us-ascii?Q?YcKMhW6yvTLd2yP5tpkZnYMcqwY/BsVPpYkA6BTGgFns3n9uPO1DZrHIgNDK?=
+ =?us-ascii?Q?gyO9H+W+AYhbaGzIfrfj7oy44eJRZuAf6yMaFgcOZUN8CN/cAmnZjKn6NNvA?=
+ =?us-ascii?Q?8cE4ImeCOhpbPxYrGeEw9af8dGbP1w4ogPku475BpEEls+lHOXNRMxe1hwyo?=
+ =?us-ascii?Q?n27Gi5V+/BR/WHo+6snTvW9zPoIMafWIDfclNYefTc2T3elM6S9r7ne0adRg?=
+ =?us-ascii?Q?sTpz+9J6QcT81HDaFz4S+xWTVGLSHp36zq+jO8ZjfKlqYb7DD8DAWMZgIbsu?=
+ =?us-ascii?Q?44smHdHQuynO9t9ILBikM3uzFR0qm8vJtdbID7xFB1+QEBpBSMeLQ5KA1VQd?=
+ =?us-ascii?Q?WLLRsyPJ/yXxTkDF19VlIQQh/e5chJjti0REXbBZCW3KwJvBFg1TcoEGYSGD?=
+ =?us-ascii?Q?W09oyzIDkfAzopXf+39yEkeT6zMG+pgGajgvo7ctWj2AmOiO1PVzvEwBhxzq?=
+ =?us-ascii?Q?N6yce7AUOn5N5Ai52OIX+DJwf65OF75/cuuSCB4zDWYwitxMLSm5odp1D8Jn?=
+ =?us-ascii?Q?Ax1RH2lu4B7wyMIpVxdz6MHa7vQgUG0hnq38FssHBESjnRp7AonakWLMRTQc?=
+ =?us-ascii?Q?ZS3xYp+6K1yPT6V6P/LLbe/uJQZX3/WIIIAMk2OZuH/8ccgUitDgcdaT/Ail?=
+ =?us-ascii?Q?XNvQXypaTQT2t1eMrMwzzlOeaoFPvJdm1JiakS0OFwuul6/JnuOogH9CWxCr?=
+ =?us-ascii?Q?JrIxZPNKZ4nS9kN8saEX+FvkxRlLKuw+wn4ErgC6HA9F/xMi164NgM8K6XD9?=
+ =?us-ascii?Q?eOBsMd2K6Mv3GqxQVossb9USccMLurv1ZEaTWcU5HA9ldmEnMIL3YG0e4sJW?=
+ =?us-ascii?Q?0fY/ZDWHEsB6wHQ+izlkgGdKRMoG5Tdaf1M8Z0Rn45svnSXfCCeKOwq+4twS?=
+ =?us-ascii?Q?cvqGew4RlJ7NRr06yGH4fxYzsG0HcrTELB9GT4+h0ssIfzpOoHFyjo7dT+6d?=
+ =?us-ascii?Q?xX5om4MCCtHMhPulSSCfvN6xYFSyUqsy3xnYN+wNUn0Eyw/NQDK3GZ4EDRqs?=
+ =?us-ascii?Q?CdY4eJPqtikvroY6t4S+bIg5qjm4u5Ge6Bb6fRpmz0LdECx/iaTi8E2GdHp0?=
+ =?us-ascii?Q?XQm4WAZr28oaoNQFojKvYbQt+R6glY8w2TufA7pBcbR/32BxfPXnEP4yRqfT?=
+ =?us-ascii?Q?lJl/1plCwJahGra1cBcdDhjgYYu4nmyopYdrjtE4hVsWKTpGrbnG3ljbYO9H?=
+ =?us-ascii?Q?qxwiCJclFxMu7EKbqLm5TOcn/RA0Ao7hiZ9xiq9+8pAy5HScSTYw?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d62fb861-b1ea-46d7-4f75-08ded6a410a8
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9351.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 12:35:28.1634
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rOKkGK0Ie9H0Sam7yLF+dGVQ+liPa5Guo6hlhI49CpYkbXZUe6xt/bxXfn3QTAYZ6E5X3s/sFXxuA4eDf3sJFXyaFE0PaBy5ZnheiK/LGgkSXDUfbsLtDpiUzzq87Bb/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB12582
 
-On Thu, Jun 18, 2026 at 10:33=E2=80=AFAM <shengjiu.wang@oss.nxp.com> wrote:
->
-> From: Shengjiu Wang <shengjiu.wang@nxp.com>
->
-> After pm_runtime_enable() the AUDMIX block is powered off and stays
-> suspended until the first runtime resume. Register writes issued between
-> probe() and the first resume (e.g. from DAPM or ALSA control paths)
-> target unpowered hardware and cause a system hang.
->
-> Fix this by calling pm_runtime_resume_and_get() immediately after
-> pm_runtime_enable() to power the hardware up and enable its clocks.
-> Release the reference afterwards with pm_runtime_put() to allow the
-> runtime PM framework to suspend the device and switch the regmap to
-> cache-only mode when idle.
->
-> When CONFIG_PM is disabled or runtime PM is not enabled, pm_runtime_*
-> calls are stubs that do not power up the hardware. Handle this case
-> explicitly by calling fsl_audmix_runtime_resume() directly so the
-> hardware is always initialised and its clocks are enabled, ensuring
-> register accesses succeed regardless of PM configuration.
->
-> Fixes: be1df61cf06ef ("ASoC: fsl: Add Audio Mixer CPU DAI driver")
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
-> Changes in v2:
-> - remove the call of regcache_cache_only in probe, rework the runtime
->   handling in probe, call the pm_runtime_put() to enable the cache only.
-> - refine the commit message
->
->  sound/soc/fsl/fsl_audmix.c | 24 ++++++++++++++++++++++--
->  1 file changed, 22 insertions(+), 2 deletions(-)
->
-> diff --git a/sound/soc/fsl/fsl_audmix.c b/sound/soc/fsl/fsl_audmix.c
-> index f819f33ec46b..2885cc10b02d 100644
-> --- a/sound/soc/fsl/fsl_audmix.c
-> +++ b/sound/soc/fsl/fsl_audmix.c
-> @@ -457,6 +457,9 @@ static const struct of_device_id fsl_audmix_ids[] =3D=
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+
+After pm_runtime_enable() the AUDMIX block is powered off and stays
+suspended until the first runtime resume. Register writes issued between
+probe() and the first resume (e.g. from DAPM or ALSA control paths)
+target unpowered hardware and cause a system hang.
+
+Fix this by calling pm_runtime_resume_and_get() immediately after
+pm_runtime_enable() to power the hardware up and enable its clocks.
+Release the reference afterwards with pm_runtime_put_sync() to allow
+the runtime PM framework to suspend the device and switch the regmap to
+cache-only mode when idle.
+
+When CONFIG_PM is disabled or runtime PM is not enabled, pm_runtime_*
+calls are stubs that do not power up the hardware. Handle this case
+explicitly by calling fsl_audmix_runtime_resume() directly so the
+hardware is always initialised and its clocks are enabled, ensuring
+register accesses succeed regardless of PM configuration.
+
+Fixes: be1df61cf06ef ("ASoC: fsl: Add Audio Mixer CPU DAI driver")
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+---
+Changes in v3:
+- address the comments from sashiko.dev
+- replace the pm_runtime_put() with pm_runtime_put_sync() to fix the
+  race of async 
+
+Changes in v2:
+- remove the call of regcache_cache_only in probe, rework the runtime
+  handling in probe, call the pm_runtime_put() to enable the cache only.
+- refine the commit message
+
+ sound/soc/fsl/fsl_audmix.c | 26 ++++++++++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/fsl/fsl_audmix.c b/sound/soc/fsl/fsl_audmix.c
+index f819f33ec46b..f45d3ef02b72 100644
+--- a/sound/soc/fsl/fsl_audmix.c
++++ b/sound/soc/fsl/fsl_audmix.c
+@@ -457,6 +457,9 @@ static const struct of_device_id fsl_audmix_ids[] = {
+ };
+ MODULE_DEVICE_TABLE(of, fsl_audmix_ids);
+ 
++static int fsl_audmix_runtime_resume(struct device *dev);
++static int fsl_audmix_runtime_suspend(struct device *dev);
++
+ static int fsl_audmix_probe(struct platform_device *pdev)
  {
->  };
->  MODULE_DEVICE_TABLE(of, fsl_audmix_ids);
->
-> +static int fsl_audmix_runtime_resume(struct device *dev);
-> +static int fsl_audmix_runtime_suspend(struct device *dev);
-> +
->  static int fsl_audmix_probe(struct platform_device *pdev)
->  {
->         struct device *dev =3D &pdev->dev;
-> @@ -488,13 +491,25 @@ static int fsl_audmix_probe(struct platform_device =
-*pdev)
->         spin_lock_init(&priv->lock);
->         platform_set_drvdata(pdev, priv);
->         pm_runtime_enable(dev);
-> +       if (!pm_runtime_enabled(dev)) {
-> +               ret =3D fsl_audmix_runtime_resume(dev);
-> +               if (ret)
-> +                       goto err_disable_pm;
-> +       }
-> +
-> +       ret =3D pm_runtime_resume_and_get(dev);
-> +       if (ret < 0)
-> +               goto err_pm_get_sync;
-> +
-> +       /* To enable regmap cache only when runtime PM enabled */
-> +       pm_runtime_put(dev);
+ 	struct device *dev = &pdev->dev;
+@@ -488,13 +491,27 @@ static int fsl_audmix_probe(struct platform_device *pdev)
+ 	spin_lock_init(&priv->lock);
+ 	platform_set_drvdata(pdev, priv);
+ 	pm_runtime_enable(dev);
++	if (!pm_runtime_enabled(dev)) {
++		ret = fsl_audmix_runtime_resume(dev);
++		if (ret)
++			goto err_disable_pm;
++	}
++
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret < 0)
++		goto err_pm_get_sync;
++
++	/* To enable regmap cache only when runtime PM enabled */
++	ret = pm_runtime_put_sync(dev);
++	if (ret < 0 && ret != -ENOSYS)
++		goto err_pm_get_sync;
+ 
+ 	ret = devm_snd_soc_register_component(dev, &fsl_audmix_component,
+ 					      fsl_audmix_dai,
+ 					      ARRAY_SIZE(fsl_audmix_dai));
+ 	if (ret) {
+ 		dev_err(dev, "failed to register ASoC DAI\n");
+-		goto err_disable_pm;
++		goto err_pm_get_sync;
+ 	}
+ 
+ 	/*
+@@ -506,12 +523,15 @@ static int fsl_audmix_probe(struct platform_device *pdev)
+ 		if (IS_ERR(priv->pdev)) {
+ 			ret = PTR_ERR(priv->pdev);
+ 			dev_err(dev, "failed to register platform: %d\n", ret);
+-			goto err_disable_pm;
++			goto err_pm_get_sync;
+ 		}
+ 	}
+ 
+ 	return 0;
+ 
++err_pm_get_sync:
++	if (!pm_runtime_status_suspended(dev))
++		fsl_audmix_runtime_suspend(dev);
+ err_disable_pm:
+ 	pm_runtime_disable(dev);
+ 	return ret;
+@@ -522,6 +542,8 @@ static void fsl_audmix_remove(struct platform_device *pdev)
+ 	struct fsl_audmix *priv = dev_get_drvdata(&pdev->dev);
+ 
+ 	pm_runtime_disable(&pdev->dev);
++	if (!pm_runtime_status_suspended(&pdev->dev))
++		fsl_audmix_runtime_suspend(&pdev->dev);
+ 
+ 	if (priv->pdev)
+ 		platform_device_unregister(priv->pdev);
+-- 
+2.34.1
 
-Check the comments from Sashiko. Needs to use pm_runtime_put_sync to
-avoid the race
-of asynchronous.
-Will send the next version.
-
-Best regards
-Shengjiu Wang
->
->         ret =3D devm_snd_soc_register_component(dev, &fsl_audmix_componen=
-t,
->                                               fsl_audmix_dai,
->                                               ARRAY_SIZE(fsl_audmix_dai))=
-;
->         if (ret) {
->                 dev_err(dev, "failed to register ASoC DAI\n");
-> -               goto err_disable_pm;
-> +               goto err_pm_get_sync;
->         }
->
->         /*
-> @@ -506,12 +521,15 @@ static int fsl_audmix_probe(struct platform_device =
-*pdev)
->                 if (IS_ERR(priv->pdev)) {
->                         ret =3D PTR_ERR(priv->pdev);
->                         dev_err(dev, "failed to register platform: %d\n",=
- ret);
-> -                       goto err_disable_pm;
-> +                       goto err_pm_get_sync;
->                 }
->         }
->
->         return 0;
->
-> +err_pm_get_sync:
-> +       if (!pm_runtime_status_suspended(dev))
-> +               fsl_audmix_runtime_suspend(dev);
->  err_disable_pm:
->         pm_runtime_disable(dev);
->         return ret;
-> @@ -522,6 +540,8 @@ static void fsl_audmix_remove(struct platform_device =
-*pdev)
->         struct fsl_audmix *priv =3D dev_get_drvdata(&pdev->dev);
->
->         pm_runtime_disable(&pdev->dev);
-> +       if (!pm_runtime_status_suspended(&pdev->dev))
-> +               fsl_audmix_runtime_suspend(&pdev->dev);
->
->         if (priv->pdev)
->                 platform_device_unregister(priv->pdev);
-> --
-> 2.34.1
->
