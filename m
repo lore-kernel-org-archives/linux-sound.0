@@ -1,115 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02AA841C307
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 13:22:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA219407CFD;
+	Tue, 30 Jun 2026 13:25:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782825741; cv=none; b=dxs3ZF7mSAkcmDA6AzYzIiX88WAm7SjsVtpy5qr/mFzHDMmKjOVP7fj+TfSRbqPeD1vW8toBXquzNtGiiHFOkHW9h+hsROzS7a2eviDj0B2zCPbOOb4ko1c/7RbFUi3COXoGIupib2vMepk2+2aWIfY++OvQA2uq9mibeBMQDsM=
+	t=1782825922; cv=none; b=ZwScDYqcV717nncIzHWpNcCheB57rZagP32Cr6HvOGms6v49J7QX3JS34bG/MrGaUxYQ9l6lUIeH17WqFoNIXzP9bbWIu0SYMd55wYmTWckRQZlVOqI3NQUBTZqnXK2veV6swSOtlf5/HqVTtKSwa5z04P/gfEMtcXuDDtXNU44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782825741; c=relaxed/simple;
-	bh=Yu5mqQ8nw8gfVDomx+A+E2dr0aoWMwEfUHHcXE5j1Sc=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hOVw3s3ThjxTu6bW+DwtTIHLgftEHxs2S5gl1VvUU6B5jJQ+a9GKd7ryOAWNvGQVCJAYXXkYqgXuh+BYJgkV4IXyvRqBoo47jSMcG9NWSbWIpyJjoA3MPK9UqolitHGgdATn7qI7N5UXApq81xlFHBe4dM7jf6OZCPJxj8oDBWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AwMqGpzZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782825922; c=relaxed/simple;
+	bh=FcLJPhH4M4zTiLQGk+qNu5fLEbmYRaKQWFaFRa0vazw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gyZXc8EyglhrgrZh0Kn0UUwIyK0APnUVSlV+Xm/ryWSzaK3DCtsGDbfP7glVJJBLxN/lytY+2pK/qf2NgCfxTk6LRGYlcS4vITyJbNEzJbjWlOwScBpeSIo5R5tpPNSIKvkrOzygH8MIP24GGSnBah6WJj3P7Ikz6/Ub2FwD+mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PPGrUUeS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AwMqGpzZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E17E1F01560
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 13:22:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PPGrUUeS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 941CF1F00A3D;
+	Tue, 30 Jun 2026 13:25:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782825739;
-	bh=siJF0S+CSX6SKMbF6lhMt/C1v2E/StqLW87OFuT5mug=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=AwMqGpzZSvDnV5vSM2z0wkwmPZcuy6Z0HxhXFqaldHKlF6D4sOyHQK4L/B0fF/itF
-	 Z9C2BVuksw1mr1+6ch02R+Zz8gUAI5fDmwZjU0wGMt2h6Gvq8cC5ZOCtMOofX5R+yU
-	 1Hy/oyLq2B0fQTEZyfgl3xfrexpVhETu+CQgBxy7/99a3XMItUDuxVCBl4oiSjn1eD
-	 o38KeGOoUlFVb5zZeSXv+WtlmGXFDo9Wxn8ecfVThX04SgSmZnYMsm+XWmLmYZpjIC
-	 zdm9J6iEsk3ibRX/F7HoLCPZU+tHrUTrb8Qp73PbRYfYDyWDS2X2Ru7diIgwCebdnz
-	 9GKoHZxfVlf+A==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5aebf9a509eso501118e87.3
-        for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 06:22:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RozAxEtMLwDCq2GMIL/H2pc84MIfVhj/aOX+sEr0FYTRwwfwKDBeRp+GGeE7sNHsZ2PK5EwdpNt/jmQJw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4mJPGMENRXPoB8q9lI6FLwlyaY2yUqFydJUNAu7J7dZZdHO7b
-	H608B8oehs73kSeHgv70DNn1Bha8Mm7W5pN8PUJXbzqgqWaYcPJwNqOzAAVcM5CZenKUU3c22N9
-	FK1tm7BhNGxsCYeCKY5Pc82R1BU7ESRjBSOLopT76iw==
-X-Received: by 2002:a05:6512:8041:b0:5ad:4f1c:8e50 with SMTP id
- 2adb3069b0e04-5aebdba2f7fmr745427e87.37.1782825738263; Tue, 30 Jun 2026
- 06:22:18 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 30 Jun 2026 09:22:16 -0400
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 30 Jun 2026 09:22:16 -0400
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <263f58b418a27a2339fc2478f93234e0208b0ad9.camel@mailbox.org>
+	s=k20260515; t=1782825907;
+	bh=aN3AhlhZvp+Vej1wTa9tcQgECOaxstihSa4ef2eA6j4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PPGrUUeSl/XrMhQtEga5FLzhwJipIBhyy+Cl2YlPEKnbd13fF0wc9hMSdiRwnO5S/
+	 FsEv3G5Wtln7mjfJypkaeJ1fqn4Cr962msmXnlH308MOswPjSfDa71eOvV70fDxfBw
+	 IIuq33OvNwHzzY+yCmZxkbm7mxAG163Gq3135+/QCZctY+po8c49SgYbekXWt9X8LC
+	 49nyZ7qXskvfBjTypvDirUlkvZB73efQ5s1/g6t8BNTc0AgADRndfTp/gFf1ewvG7m
+	 XXOHBNhXt0DVzo8/6yuzsFoz5QPQurWFcm1pJmv4IuCkLUNkqOGXFbXabcdCVjL72R
+	 8pQTfvoE2PB4g==
+Date: Tue, 30 Jun 2026 14:25:03 +0100
+From: Mark Brown <broonie@kernel.org>
+To: shengjiu.wang@oss.nxp.com
+Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3] ASoC: fsl_audmix: rework runtime PM handling in probe
+Message-ID: <e0367509-358c-4ace-a7b3-56b903cee0d9@sirena.org.uk>
+References: <20260630124016.645114-1-shengjiu.wang@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260629-pdev-fwnode-ref-v2-0-8abe2513f96e@oss.qualcomm.com>
-	 <20260629-pdev-fwnode-ref-v2-2-8abe2513f96e@oss.qualcomm.com> <263f58b418a27a2339fc2478f93234e0208b0ad9.camel@mailbox.org>
-Date: Tue, 30 Jun 2026 09:22:16 -0400
-X-Gmail-Original-Message-ID: <CAMRc=MdQURjypSn+QjSDJfEiOMC8bbEZmZLgjpt=EquAM1Q1pw@mail.gmail.com>
-X-Gm-Features: AVVi8CeQXBZd5M2B6MhLUb095jshYyZGAJu3z11iktq0q6r491Qj_z_hr6U3W70
-Message-ID: <CAMRc=MdQURjypSn+QjSDJfEiOMC8bbEZmZLgjpt=EquAM1Q1pw@mail.gmail.com>
-Subject: Re: [PATCH v2 02/19] driver core: platform: provide platform_device_set_of_node()
-To: Manuel Ebner <manuelebner@mailbox.org>
-Cc: brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
-	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Lee Jones <lee@kernel.org>, 
-	Thierry Reding <thierry.reding@avionic-design.de>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	Andi Shyti <andi.shyti@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Doug Berger <opendmb@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Matthew Brost <matthew.brost@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
-	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Maximilian Luz <luzmaximilian@gmail.com>, 
-	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="k7GzKw/gt5Rm2Xcy"
+Content-Disposition: inline
+In-Reply-To: <20260630124016.645114-1-shengjiu.wang@oss.nxp.com>
+X-Cookie: Air is water with holes in it.
 
-On Tue, 30 Jun 2026 13:37:54 +0200, Manuel Ebner <manuelebner@mailbox.org> said:
-> On Mon, 2026-06-29 at 11:12 +0200, Bartosz Golaszewski wrote:
->> [...]
->>
->> +/**
->> + * platform_device_set_of_node - assign an OF node to device
->> + * @pdev: platform device to add the node for
->> + * @np: new device node
->> + *
->> + * Assign an OF node to this platform device. Internally keep track of the
->> + * reference count. Devices created with platform_device_alloc() must use this
->> + * function instead of assigning the node manually.
->
-> Doesn't it make sense to add a remark to the kernel doc of platform_device_alloc()?
->
-> Thanks
->  Manuel
->
->>  [...]
->
 
-Sure, will do in the next iteration.
+--k7GzKw/gt5Rm2Xcy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Bart
+On Tue, Jun 30, 2026 at 08:40:16PM +0800, shengjiu.wang@oss.nxp.com wrote:
+
+> Changes in v3:
+> - address the comments from sashiko.dev
+> - replace the pm_runtime_put() with pm_runtime_put_sync() to fix the
+>   race of async=20
+
+I already applied v2, please submit new changes with these updates.
+
+--k7GzKw/gt5Rm2Xcy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpDw64ACgkQJNaLcl1U
+h9BvwQf9Hij/dQrKYeOKMveHecl8CVNUC7XqMFWQpw1P5aqN+PrK+R9mZnTrKUxe
+S5BpWKmNeEN4hwPpZA2FfPZlKoRWDN+3/ecyQWqBvAy6Vl0ThGKMWrzxYhTvov0C
+nanG7svDN36m8qyiitKuYNGB1c/FsizZe15G4Q5PPM6Z/7fbFC7asTAUQVaCJd3K
+T/m3WsHbzYyqEmXPSCgHJU9fwroFT1/aclyUoscscLDEAaFrfQi1A9W9s0CH0nzt
+V3G4dbU0O+xkA+zCDsn819YOv3ighnoJIVumTQFlkv91FXYfUUnO+4MvB+wWlmJX
+Qn/hQV2+4tWeSOAhCJYBgyF+dz6AZg==
+=Gc+K
+-----END PGP SIGNATURE-----
+
+--k7GzKw/gt5Rm2Xcy--
