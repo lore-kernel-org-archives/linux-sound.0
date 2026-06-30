@@ -1,63 +1,63 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5705A367F3A
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 06:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1E23CF217
+	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 06:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782801336; cv=none; b=CRjoyvrNhTRq70QS3kqcb+n2xDcBxY1VGHduu7Bhxy2+J8zzuh397pWARA1awwSuCQedmm3z31mLhVJj07jJWi2qmAtPnTS9PeTX2kFe3r5rXCWMoymLrOoZP4Q4Snbf5bUZSEIJXdDbPt7ik2HvKccLUV5STVhWYydMOvI8t9M=
+	t=1782801341; cv=none; b=kB/Y6VylIbRYgQkWi/pPW7F+wF10F9f6t3UxMgsexGQVQpiiXWsmvngCSLtvUcLECyo/dUEEE6uWKUDCtJTxs6j52b6pPdMeZP5MemO0sOs0ct1J3VIEv9rQZ0gB8/B3/9QYQs89T9l3rRQxa9yLkN7Sx1anlEsC7+agrtbcfZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782801336; c=relaxed/simple;
-	bh=vGG3xbNRD9aTcWhmHrqO23PJ1N/lJS4R0ZsiliefWlE=;
+	s=arc-20240116; t=1782801341; c=relaxed/simple;
+	bh=Nw9I/srswcYHcD3WiPHI5wa7OL9sfHmNK5DnVVQpY1s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ppteohq17sxKf/lxl110F1Vuh3XGbi161WAcSrqPUXnzH57Hrh1CykF+y3t3URiQql9YECCPrKa020mg5hqdWwXIYJW/zPwK4RzWfabW1RF8oBnOnJlmotx3+d/7MpL7B6NTcL52sYYLxyGw+Ff2nfmtu9Z7BKEQoDkYOfHOaKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iikW7/XF; arc=none smtp.client-ip=209.85.210.177
+	 MIME-Version; b=iankCt9jdN1CnNLTMQ+eeZ3HO6Tuo58ib85XVKKwScXH0Hm3Oom1xW05Z72CDNjFtNpRsv2Rg6k2X4ABk+O0MK745TyzeNSfm6KyMXO9MZ0CTiVo/qVSB4L562cv6dY5BlnhlZ4LMQC8HCUma77KJ0YcwZetjof5vZbHSdAw1bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eaV5O4Aq; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iikW7/XF"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-845eb7b96feso1193329b3a.0
-        for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 23:35:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eaV5O4Aq"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-845ea8924a2so958414b3a.1
+        for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 23:35:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782801330; x=1783406130; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782801337; x=1783406137; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RozeYceB4iwycNfbGDK46tH90J5JBru51kfxpqOiyNk=;
-        b=iikW7/XFxMIYt2zCfY1OKO1XlDleR5pTxxM21X07QOl+ZdDlfS6BXSg2guTIYNIXAw
-         vE7GvrjRwKPyoGBUigc/itaSuDgOubzczDdsw/q8czzxTFbSBG2FkJb0J/XoLD0y+gYL
-         V/unBJJctmC3eL9xiV4k5QBMRvdqsOuT/G7afHnlj/4L4d+If8vvHQ+uRB7tXo4ouxVf
-         US6NqYj78nKeNnHweZ09MwwnBgP6VzB5SBB2kJU3XPVWLUSso0nu5Yyt7NZEM4wA3Kzp
-         NvbukxgTcBFShxwHLY0fip6Wo4dYyqMg7geyBhdhLn0lBzRh604NpRNSfqTrk2WTyWLH
-         hYMA==
+        bh=glNXCWo3feUPJNoiqEbeBkuoiMlb+JtOjIAbpp+cCDQ=;
+        b=eaV5O4AqRTJFiHrwuQ7Tj/Izk37nnPCesEz2mQ38l3Pu2+lkX1MWo+YGaDyve9UXxK
+         6y5l8ep2E/zPfFIK0EVfU20tlsFN2jSskHjUJNGbVO8193Ale3MNbfPDcQWo2Fp74VZ8
+         Ek4jZI3vZnTcmgXh90hR1N2n2/pvs13T4hipqSnYYZ0TMuQGcEN2sM1TmWLHb353HJ4K
+         C8TgJYpYyFntEJvf6nChSqSZ90umiUPH04v9RUZ9VdgumeuLkq8y9A/BCTMx2ZBGBHNS
+         LwRqnyhupTSzCczVxTF3SMuKTi44H3N1GLQ7w5J9O8ZoN3fW97pidTB5e7KScia/CT2B
+         XBLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782801330; x=1783406130;
+        d=1e100.net; s=20251104; t=1782801337; x=1783406137;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=RozeYceB4iwycNfbGDK46tH90J5JBru51kfxpqOiyNk=;
-        b=hWmpqcDN1NuIDDWKwU4BwWwWGKXO5s2rHZMzRrfbP6yO1+cQNdLlBbqIxn/pkyrwQ/
-         jcFmRPGb8A5RUGeQPFPEjPS8I1KS/4MGwjzxCD6Eqm4dNzEmdrRgvYsw3iV29wseOS0J
-         61EeVjumaMETTVa6KWimcJrZz8Z0drAQ6MFovlqZayQoMBg6sXbiQ06t3KpYfBE5pQbY
-         CnVLciVVUcJDurMrZBM/QxHBhj/nyeb9sr4GEJxo6w+13Lx5Y2QfchtSLmXfrO4LsA94
-         hQO1voMWlpCb1RTn4mooWSZa4bvIs/ssaWG8HBAtGZUJzaiqkdNk4AJiv5BOtXB6EmMq
-         cn6A==
-X-Forwarded-Encrypted: i=1; AHgh+Rp4SRujsfxk2p38e2MUliDpIhVqU3fzm2YTNsoThqMexC/G1Gdq3aulKE5fOh6pIb5Oug6S1Usw/bqMvQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDy/WA8/mBH20WCwyZMu+fP/bzhxYlcj0OU7CSL6csg24uYFB2
-	Uhqtrn/tkLuk4eZTGKlhVTc0bsSkb6/ISwm1bCE64eIyrNLkYy79r/Xy
-X-Gm-Gg: AfdE7clUHXeJTt0UcHRu/y87EnaoFOjP7TiOkUweCYtzOYok91PaHPtOl84AMEp0A6f
-	vaKxN1UHbiXliXl9ZjASp5QapTDYwribNSo6+oWjc/WOgG6M1T5DWTx59WLGS2us26+m3MJgAnR
-	5InbPg2Q/XtrhCN17NnR597dQ1q+IzEttHApD3tepn5/Nkzuw4whovXmlXUwuQ3LSaUCgh6IxNM
-	plajhh1s3BecAb702zYF/5HIhBtDL5DLmo/YJv5uBkhLiROPpkUTW9xvusgkBiJ1W35AylH6QjR
-	lHpGjuPphs80uyJb6KEFxjizBlZtCsrfoLDqawyutZHj8BV2Hcpuco87DHgEL4GBqFSZCuEET96
-	GPnqIsjvFnXwHXpTuCzvjuLnTexZCZcu+T4bL5H7XB8vKQFfflniXekFGA7dBUhruYszTeI0mAV
-	DqgeDbTruGDSLG1zCZvzDu0UWT1G5GIWSrzpkhH95VpSYmBA4=
-X-Received: by 2002:a05:6a00:3d04:b0:845:cf73:c1d8 with SMTP id d2e1a72fcca58-8479f1004f4mr1954813b3a.14.1782801329607;
-        Mon, 29 Jun 2026 23:35:29 -0700 (PDT)
+        bh=glNXCWo3feUPJNoiqEbeBkuoiMlb+JtOjIAbpp+cCDQ=;
+        b=eqna82Jrv5XhGDsRuqOdr63Oo7nsIyha1ukbtx+4D7ydNX8saU1PiRcRrHQNK7rGkQ
+         xErXfwgZWQ53gSTqWK2gkUlC7Q7PIAihE1f4U9hg4VSVxGN8uAXS0V7QVipGvi1qMESR
+         2wLF7IwvKzYfi5BCBWC+ka+QvOVlXwTSPoIF0nn3X7T+VLjpOfT5eaQv3075KHo+pOf6
+         mPYk0Kke225O4EEWBdmZ5pACgVGRApl1dFxHdOw3C0A81FU/WPtNTtSMrHYjty7NiGh6
+         4nSqCzLw5rm3QNu4vXQj2KM0eRHzt0tdZAyqvH0W4dySKteu245ezV87dZTnoCyc8IRJ
+         0lUQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoUR03UtT0eETSTVUVrYnQnAmeX+uLDe1SuPKYXj63ExKoyLk4JhyHhkuKZPV6H8HLwIaw3ghYFSi27rg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywb3fPDhBu03VjP1TVzsndiEp0yZuJw/bOCHAQ0LDZ0floWfpg1
+	rQEXm0UcxJYz8YEkwKr5eP5JtM4Brs+aMbVNsRTh6PgxKe76WZcM69Y5
+X-Gm-Gg: AfdE7ckxZFEfjfT53QBvJOu8mB2dBDezv4zYaTKrF+O3NwbWqkGBO/ungFBSq06PqYS
+	aDQmC00QEPEg1mK6Yjm0moQVRUBpXwTuPGXDwE77JnkfQsqtdUCVgnylrVxgr4QREQZ0EOOUhsX
+	efJOz38y/qkEsPos44Ma0/jCq7FfsiFtACNVqkcU+eeXfaeCiF3KFvEqqpdcGBnArusNVJ3WRT7
+	aTrpiHiisRMran3tFBjsdDgFy6VvA9basyuxy9iDgG/gxslR3d9IAn4+OHTjJN3GUYypZ/ICO5w
+	UMDY2M42EaHuJji3vqjtBOLjzM0CNCLKzwryxa41/tvISLc7DDi0Upu0OLnFLdUCIdVrCNDIlHE
+	dMHT7DyIOsxMU2vHl9qkxwcDV4akOMNUmLyL/QNXp2T3d5ONpBoAHFBrHWEBuLjuLLNcdvvRASG
+	XSw3ruCaTMJk3Dre16iA4/jMC5hENNImq6DhP7zZut99oGYNw=
+X-Received: by 2002:a05:6a00:1894:b0:847:888f:9b16 with SMTP id d2e1a72fcca58-8479eed1d62mr2006682b3a.18.1782801337316;
+        Mon, 29 Jun 2026 23:35:37 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847a02cd237sm1165061b3a.32.2026.06.29.23.35.23
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847a02cd237sm1165061b3a.32.2026.06.29.23.35.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 23:35:29 -0700 (PDT)
+        Mon, 29 Jun 2026 23:35:37 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -92,9 +92,9 @@ Cc: Support Opensource <support.opensource@diasemi.com>,
 	linux-arm-msm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 03/27] ASoC: codecs: es8316: Use guard() for mutex locks
-Date: Tue, 30 Jun 2026 13:34:25 +0700
-Message-ID: <20260630063449.503996-4-phucduc.bui@gmail.com>
+Subject: [PATCH 04/27] ASoC: codecs: es8326: Use guard() for mutex locks
+Date: Tue, 30 Jun 2026 13:34:26 +0700
+Message-ID: <20260630063449.503996-5-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260630063449.503996-1-phucduc.bui@gmail.com>
 References: <20260630063449.503996-1-phucduc.bui@gmail.com>
@@ -113,94 +113,118 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/es8316.c | 31 +++++++++++++------------------
- 1 file changed, 13 insertions(+), 18 deletions(-)
+ sound/soc/codecs/es8326.c | 30 +++++++++++++-----------------
+ 1 file changed, 13 insertions(+), 17 deletions(-)
 
-diff --git a/sound/soc/codecs/es8316.c b/sound/soc/codecs/es8316.c
-index 6a428387e496..e83dab0b7083 100644
---- a/sound/soc/codecs/es8316.c
-+++ b/sound/soc/codecs/es8316.c
-@@ -9,6 +9,7 @@
+diff --git a/sound/soc/codecs/es8326.c b/sound/soc/codecs/es8326.c
+index a79b2da35099..c5460589a88b 100644
+--- a/sound/soc/codecs/es8326.c
++++ b/sound/soc/codecs/es8326.c
+@@ -6,6 +6,7 @@
+ // Authors: David Yang <yangxiaohua@everest-semi.com>
+ //
  
- #include <linux/module.h>
- #include <linux/acpi.h>
 +#include <linux/cleanup.h>
  #include <linux/clk.h>
- #include <linux/delay.h>
  #include <linux/i2c.h>
-@@ -621,15 +622,15 @@ static irqreturn_t es8316_irq(int irq, void *data)
- 	struct snd_soc_component *comp = es8316->component;
- 	unsigned int flags;
+ #include <linux/interrupt.h>
+@@ -790,7 +791,7 @@ static void es8326_jack_button_handler(struct work_struct *work)
+ 	if (!(es8326->jack->status & SND_JACK_HEADSET)) /* Jack unplugged */
+ 		return;
  
--	mutex_lock(&es8316->lock);
-+	guard(mutex)(&es8316->lock);
+-	mutex_lock(&es8326->lock);
++	guard(mutex)(&es8326->lock);
+ 	iface = snd_soc_component_read(comp, ES8326_HPDET_STA);
+ 	switch (iface) {
+ 	case 0x93:
+@@ -845,7 +846,6 @@ static void es8326_jack_button_handler(struct work_struct *work)
+ 		}
+ 		es8326_disable_micbias(es8326->component);
+ 	}
+-	mutex_unlock(&es8326->lock);
+ }
  
- 	regmap_read(es8316->regmap, ES8316_GPIO_FLAG, &flags);
- 	if (flags == 0x00)
--		goto out; /* Powered-down / reset */
-+		return IRQ_HANDLED; /* Powered-down / reset */
+ static void es8326_jack_detect_handler(struct work_struct *work)
+@@ -855,7 +855,7 @@ static void es8326_jack_detect_handler(struct work_struct *work)
+ 	struct snd_soc_component *comp = es8326->component;
+ 	unsigned int iface;
  
- 	/* Catch spurious IRQ before set_jack is called */
- 	if (!es8316->jack)
--		goto out;
-+		return IRQ_HANDLED;
+-	mutex_lock(&es8326->lock);
++	guard(mutex)(&es8326->lock);
+ 	iface = snd_soc_component_read(comp, ES8326_HPDET_STA);
+ 	dev_dbg(comp->dev, "gpio flag %#04x", iface);
  
- 	if (es8316->jd_inverted)
- 		flags ^= ES8316_GPIO_FLAG_HP_NOT_INSERTED;
-@@ -682,8 +683,6 @@ static irqreturn_t es8316_irq(int irq, void *data)
+@@ -873,7 +873,7 @@ static void es8326_jack_detect_handler(struct work_struct *work)
+ 		regmap_update_bits(es8326->regmap, ES8326_HPDET_TYPE,
+ 					ES8326_HP_DET_JACK_POL, (es8326->jd_inverted ?
+ 					~es8326->jack_pol : es8326->jack_pol));
+-		goto exit;
++		return;
+ 	}
+ 
+ 	if ((iface & ES8326_HPINSERT_FLAG) == 0) {
+@@ -930,7 +930,7 @@ static void es8326_jack_detect_handler(struct work_struct *work)
+ 			queue_delayed_work(system_dfl_wq, &es8326->jack_detect_work,
+ 					msecs_to_jiffies(400));
+ 			es8326->hp = 1;
+-			goto exit;
++			return;
+ 		}
+ 		if (es8326->jack->status & SND_JACK_HEADSET) {
+ 			/* detect button */
+@@ -939,7 +939,7 @@ static void es8326_jack_detect_handler(struct work_struct *work)
+ 					(ES8326_INT_SRC_PIN9 | ES8326_INT_SRC_BUTTON));
+ 			es8326_enable_micbias(es8326->component);
+ 			queue_delayed_work(system_dfl_wq, &es8326->button_press_work, 10);
+-			goto exit;
++			return;
+ 		}
+ 		if ((iface & ES8326_HPBUTTON_FLAG) == 0x01) {
+ 			dev_dbg(comp->dev, "Headphone detected\n");
+@@ -958,8 +958,6 @@ static void es8326_jack_detect_handler(struct work_struct *work)
+ 			usleep_range(10000, 15000);
  		}
  	}
- 
--out:
--	mutex_unlock(&es8316->lock);
- 	return IRQ_HANDLED;
+-exit:
+-	mutex_unlock(&es8326->lock);
  }
  
-@@ -700,18 +699,16 @@ static void es8316_enable_jack_detect(struct snd_soc_component *component,
- 	es8316->jd_inverted = device_property_read_bool(component->dev,
- 							"everest,jack-detect-inverted");
+ static irqreturn_t es8326_irq(int irq, void *dev_id)
+@@ -1200,13 +1198,12 @@ static void es8326_enable_jack_detect(struct snd_soc_component *component,
+ {
+ 	struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
  
--	mutex_lock(&es8316->lock);
-+	scoped_guard(mutex, &es8316->lock) {
-+		es8316->jack = jack;
- 
--	es8316->jack = jack;
+-	mutex_lock(&es8326->lock);
+-	if (es8326->jd_inverted)
+-		snd_soc_component_update_bits(component, ES8326_HPDET_TYPE,
+-					      ES8326_HP_DET_JACK_POL, ~es8326->jack_pol);
+-	es8326->jack = jack;
 -
--	if (es8316->jack->status & SND_JACK_MICROPHONE)
--		es8316_enable_micbias_for_mic_gnd_short_detect(component);
--
--	snd_soc_component_update_bits(component, ES8316_GPIO_DEBOUNCE,
--				      ES8316_GPIO_ENABLE_INTERRUPT,
--				      ES8316_GPIO_ENABLE_INTERRUPT);
-+		if (es8316->jack->status & SND_JACK_MICROPHONE)
-+			es8316_enable_micbias_for_mic_gnd_short_detect(component);
- 
--	mutex_unlock(&es8316->lock);
-+		snd_soc_component_update_bits(component, ES8316_GPIO_DEBOUNCE,
-+					      ES8316_GPIO_ENABLE_INTERRUPT,
-+					      ES8316_GPIO_ENABLE_INTERRUPT);
+-	mutex_unlock(&es8326->lock);
++	scoped_guard(mutex, &es8326->lock) {
++		if (es8326->jd_inverted)
++			snd_soc_component_update_bits(component, ES8326_HPDET_TYPE,
++						      ES8326_HP_DET_JACK_POL, ~es8326->jack_pol);
++		es8326->jack = jack;
 +	}
- 
- 	/* Enable irq and sync initial jack state */
- 	enable_irq(es8316->irq);
-@@ -727,7 +724,7 @@ static void es8316_disable_jack_detect(struct snd_soc_component *component)
- 
- 	disable_irq(es8316->irq);
- 
--	mutex_lock(&es8316->lock);
-+	guard(mutex)(&es8316->lock);
- 
- 	snd_soc_component_update_bits(component, ES8316_GPIO_DEBOUNCE,
- 				      ES8316_GPIO_ENABLE_INTERRUPT, 0);
-@@ -738,8 +735,6 @@ static void es8316_disable_jack_detect(struct snd_soc_component *component)
- 	}
- 
- 	es8316->jack = NULL;
--
--	mutex_unlock(&es8316->lock);
+ 	es8326_irq(es8326->irq, es8326);
  }
  
- static int es8316_set_jack(struct snd_soc_component *component,
+@@ -1219,13 +1216,12 @@ static void es8326_disable_jack_detect(struct snd_soc_component *component)
+ 		return; /* Already disabled (or never enabled) */
+ 	cancel_delayed_work_sync(&es8326->jack_detect_work);
+ 
+-	mutex_lock(&es8326->lock);
++	guard(mutex)(&es8326->lock);
+ 	if (es8326->jack->status & SND_JACK_MICROPHONE) {
+ 		es8326_disable_micbias(component);
+ 		snd_soc_jack_report(es8326->jack, 0, SND_JACK_HEADSET);
+ 	}
+ 	es8326->jack = NULL;
+-	mutex_unlock(&es8326->lock);
+ }
+ 
+ static int es8326_set_jack(struct snd_soc_component *component,
 -- 
 2.43.0
 
