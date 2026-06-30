@@ -1,376 +1,201 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2EE39A04C;
-	Tue, 30 Jun 2026 07:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C309C3DDDBB;
+	Tue, 30 Jun 2026 07:39:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782804522; cv=none; b=u3LG40gVF2plDhR1viGNj8Lr92jBYc8VFjW3T1B8BQ3Uv8wITqH30MOYvqxcXH9DflvEUMRLh7Rf8pX/G1Fvvs+HCsFQahaPzzIz7WdAensrdsbvX24vxm40hUalH3FwC7PLrLJiVhxGaQ9TzdR+0ah8hmbrQvjbcijmE5R09p8=
+	t=1782805159; cv=none; b=CwC6rpGfSwVswnEfzptLP/rGkR4PbE5aENsd/warvrH3LN5Omy0wJk19IQyni5GumdNVOYJ/8Wpwp7A3EiWefMXmAUvu+EZ3eqFyXKr+kV7TzEvteBnBOSBV+UapkKwGDKStP1ZmB0JpvaYVrX7EqwD1DmP3wfBsVwfvM+jY/ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782804522; c=relaxed/simple;
-	bh=n98DbZAfEwyiL+IrGWqjessjvYIdtAj8qzQ9fzvKBCQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bLiP7M/Q0EsdnPqPA+mJv+PTClJYkNo0vgB8N1pf2734fjxBZJl+UT9DtBehLc4AOm5sdlk4YEYI+vPUR6jFrRn0pLZAETsBEKchlHUm37hTRUqzcYv9Piz2ftA8sWXqXvHBggVQLh49xjS43wWz088ZBbZfYm17cMsWNZ1UrsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=tSh8o5EX; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1782805159; c=relaxed/simple;
+	bh=lvjAdPL/53pFYItQkwcVoVpd0+EC0h2230TPbhE1lZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HmSpzoSYxrc4H5ztsmq6lCNMe1UnwxMnCR6alLswoUBlxALPDtcz9XI4vOhxpZZI+6+wzjuvcin7O/PEafze9SLaaJMMufggJK3GI+Tk2WUKOpUDSa0gNDa/G9QkNqlN1ict13FNuALj8TYZM44J5QoNM0tpvdCM1tK3gNL5rGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fDaf4ZqW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="tSh8o5EX"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 0C78DC5CD4C;
-	Tue, 30 Jun 2026 07:28:48 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8F20560233;
-	Tue, 30 Jun 2026 07:28:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8717E106F1C5E;
-	Tue, 30 Jun 2026 09:28:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782804516; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=eOZmL/ZJF5PXVjklkVc8tdOX8zn3v66j7gUpnXwBMhg=;
-	b=tSh8o5EXJRoEvFUH6ROnUDpliRhoQOuyFThGBrwMz5o+Uaev3sXnLLUFJfgN2KXDmlhafH
-	xV/ryJcugRS3EQmEPltw+d3e2PK7DmkmT4G9XguWKGY0bo7yRfyh9SXh0EBLNFxF/rvDlI
-	NtTdKRdfaM2v0thCtXBlM16Y8UGnSysZ1mS6ViaPsWeyuZKbsaZ2PZ0dQT6+GS4l6jqD7a
-	dHBhIoUSpE2Mi+hqqD9X9se27YimKgaL6+xmb/kFHcB0Dhsg8wj6s/BHsKQRI4WTuNik7w
-	VM2g65RwO6ApWeZLs7d9AtEXBf8878QwBZynGzSr7dSc2yGSYKPIitXXjZhVnA==
-Date: Tue, 30 Jun 2026 09:28:21 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: phucduc.bui@gmail.com
-Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, Nick Li
- <nick.li@foursemi.com>, Support Opensource
- <support.opensource@diasemi.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Srinivas Kandagatla <srini@kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu
- <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Oder Chiou
- <oder_chiou@realtek.com>, Linus Walleij <linusw@kernel.org>, Kuninori
- Morimoto <kuninori.morimoto.gx@renesas.com>, u.kleine-koenig@baylibre.com,
- Zhang Yi <zhangyi@everest-semi.com>, Marco Crivellari
- <marco.crivellari@suse.com>, Kees Cook <kees@kernel.org>, HyeongJun An
- <sammiee5311@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Qianfeng Rong
- <rongqianfeng@vivo.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 09/27] ASoC: codecs: idt821034: Use guard() for mutex
- locks
-Message-ID: <20260630092821.650c30ec@bootlin.com>
-In-Reply-To: <20260630063449.503996-10-phucduc.bui@gmail.com>
-References: <20260630063449.503996-1-phucduc.bui@gmail.com>
-	<20260630063449.503996-10-phucduc.bui@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fDaf4ZqW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8F3C1F00A3D;
+	Tue, 30 Jun 2026 07:38:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782805156;
+	bh=QFTirDmiRXM2E2UxDPivyHpH5WU8vmAPSC3LpjlrT8o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fDaf4ZqW3PD9fY8acsrJCsXc7pOEzc4lLsW2jgJhfYGl7NXG5KcVo4Pxek2Uz+Nla
+	 tOcu2NuZHwmic0JpBPUEEgMmuaTGNKExmRCbT0ES7+8QhHL9YqeimbRUf62O0HtMfs
+	 LYny1udM2eWLdF0sRgHD+bBsvogcyV+srg+CrLasOfuUZDDcJr8dZlygrFZBfDoggP
+	 p2mllhEamdnPs77YGrH3WGaXXIkqv4Xgyt7g+R7YVqHEf/NFyfi55aJUF3SRsQX/b0
+	 NUbVhpaMaUvlKWWtDdlDlkLmrVKracrOVgHvCwNbE5g49j/+vG6Xvy5Wxh+acQ6BjY
+	 MYjz8K0OvlQ3A==
+Date: Tue, 30 Jun 2026 08:38:51 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Lucas Stach <l.stach@pengutronix.de>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin <peter.griffin@linaro.org>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Thierry Reding <thierry.reding@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>, Zack Rusin <zack.rusin@broadcom.com>, 
+	Matthew Brost <matthew.brost@intel.com>, Thomas Hellstrom <thomas.hellstrom@linux.intel.com>, 
+	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>, Helge Deller <deller@gmx.de>, Benjamin LaHaise <bcrl@kvack.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	"Liam R . Howlett" <liam@infradead.org>, Nico Pache <npache@redhat.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Hugh Dickins <hughd@google.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, Kees Cook <kees@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+	nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, 
+	virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, 
+	linux-fbdev@vger.kernel.org, linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 01/13] mm: introduce vma_flags_can_grow() and
+ vma_can_grow()
+Message-ID: <akNucoP3eaDN2_Vz@lucifer>
+References: <cover.1782760670.git.ljs@kernel.org>
+ <f2e8c32515d328db62279cc8bab8398ea278d74f.1782760670.git.ljs@kernel.org>
+ <DJLTDCPWMXDL.4ICZ77A1LPZZ@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DJLTDCPWMXDL.4ICZ77A1LPZZ@nvidia.com>
 
-Hi,
+On Mon, Jun 29, 2026 at 04:26:18PM -0400, Zi Yan wrote:
+> On Mon Jun 29, 2026 at 3:25 PM EDT, Lorenzo Stoakes wrote:
+> > These test whether the VMA has stack sematics, i.e. is able to grow upwards
+> > or downwards depending on the architecture.
+> >
+> > In order to account for arches which do not support upward-growing stacks,
+> > introduce VMA_GROWSUP whose definition depends on the architecture
+> > supporting it, and use vma_flags_test_single_mask() in vma_flags_can_grow()
+> > to account for this.
+> >
+> > Update the VMA userland tests to reflect the changes
+> >
+> > No functional change intended.
+> >
+> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+> > ---
+> >  include/linux/mm.h              | 21 ++++++++++++++++++---
+> >  tools/testing/vma/include/dup.h |  4 ++++
+> >  2 files changed, 22 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > index 868b2334bff3..cf7df1569052 100644
+> > --- a/include/linux/mm.h
+> > +++ b/include/linux/mm.h
+> > @@ -472,6 +472,7 @@ enum {
+> >  #define VM_SAO		INIT_VM_FLAG(SAO)
+> >  #elif defined(CONFIG_PARISC)
+> >  #define VM_GROWSUP	INIT_VM_FLAG(GROWSUP)
+> > +#define VMA_GROWSUP	mk_vma_flags(VMA_GROWSUP_BIT)
+> >  #elif defined(CONFIG_SPARC64)
+> >  #define VM_SPARC_ADI	INIT_VM_FLAG(SPARC_ADI)
+> >  #define VM_ARCH_CLEAR	INIT_VM_FLAG(ARCH_CLEAR)
+> > @@ -483,6 +484,7 @@ enum {
+> >  #endif
+> >  #ifndef VM_GROWSUP
+> >  #define VM_GROWSUP	VM_NONE
+> > +#define VMA_GROWSUP	EMPTY_VMA_FLAGS
+> >  #endif
+> >  #ifdef CONFIG_ARM64_MTE
+> >  #define VM_MTE		INIT_VM_FLAG(MTE)
+> > @@ -1563,11 +1565,24 @@ static inline bool vma_is_initial_stack(const struct vm_area_struct *vma)
+> >  		vma->vm_end >= vma->vm_mm->start_stack;
+> >  }
+> >
+> > -static inline bool vma_is_temporary_stack(const struct vm_area_struct *vma)
+> > +static inline bool vma_flags_can_grow(const vma_flags_t *flags)
+> >  {
+> > -	int maybe_stack = vma->vm_flags & (VM_GROWSDOWN | VM_GROWSUP);
+> > +	if (vma_flags_test_single_mask(flags, VMA_GROWSUP))
+> > +		return true;
+> > +	if (vma_flags_test(flags, VMA_GROWSDOWN_BIT))
+> > +		return true;
+> > +
+> > +	return false;
+> > +}
+> >
+> > -	if (!maybe_stack)
+> > +static inline bool vma_can_grow(const struct vm_area_struct *vma)
+> > +{
+> > +	return vma_flags_can_grow(&vma->flags);
+>
+> Would it save vma_flags_can_grow() if we do below?
+>
+> return vma_test(vma, VMA_GROWSDOWN_BIT) || vma_test_single_mask(vma, VMA_GROWSUP);
+>
+> I find these two functions when I am reading mm.h.
 
-On Tue, 30 Jun 2026 13:34:31 +0700
-phucduc.bui@gmail.com wrote:
+Yeah but we require vma_flags_can_grow() for code in mmap.c, the majority of
+checks of this have only vma_flags_t to work with not a VMA :)
 
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> Clean up the code using guard() for mutex locks.
-> Merely code refactoring, and no behavior change.
-> 
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-> ---
->  sound/soc/codecs/idt821034.c | 121 +++++++++++++++--------------------
->  1 file changed, 51 insertions(+), 70 deletions(-)
-> 
-> diff --git a/sound/soc/codecs/idt821034.c b/sound/soc/codecs/idt821034.c
-> index 084090ccef77..078de6c9c395 100644
-> --- a/sound/soc/codecs/idt821034.c
-> +++ b/sound/soc/codecs/idt821034.c
-> @@ -6,6 +6,7 @@
->  //
->  // Author: Herve Codina <herve.codina@bootlin.com>
->  
-> +#include <linux/cleanup.h>
->  #include <linux/bitrev.h>
->  #include <linux/gpio/driver.h>
->  #include <linux/module.h>
+>
+> > +}
+> > +
+> > +static inline bool vma_is_temporary_stack(const struct vm_area_struct *vma)
+> > +{
+> > +	if (!vma_can_grow(vma))
+> >  		return false;
+> >
+> >  	if ((vma->vm_flags & VM_STACK_INCOMPLETE_SETUP) ==
+> > diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
+> > index 5d7d0afd7765..6f5bcd7fbcd8 100644
+> > --- a/tools/testing/vma/include/dup.h
+> > +++ b/tools/testing/vma/include/dup.h
+> > @@ -245,8 +245,10 @@ enum {
+> >  #define VM_STACK	INIT_VM_FLAG(STACK)
+> >  #ifdef CONFIG_STACK_GROWS_UP
+> >  #define VM_STACK_EARLY	INIT_VM_FLAG(STACK_EARLY)
+> > +#define VMA_STACK_EARLY mk_vma_flags(VMA_STACK_EARLY_BIT)
+> >  #else
+> >  #define VM_STACK_EARLY	VM_NONE
+> > +#define VMA_STACK_EARLY EMPTY_VMA_FLAGS
+> >  #endif
+> >  #ifdef CONFIG_ARCH_HAS_PKEYS
+> >  #define VM_PKEY_SHIFT ((__force int)VMA_HIGH_ARCH_0_BIT)
+> > @@ -315,6 +317,8 @@ enum {
+> >
+> >  /* Bits set in the VMA until the stack is in its final location */
+> >  #define VM_STACK_INCOMPLETE_SETUP (VM_RAND_READ | VM_SEQ_READ | VM_STACK_EARLY)
+> > +#define VMA_STACK_INCOMPLETE_SETUP append_vma_flags(		\
+> > +	VMA_STACK_EARLY, VMA_RAND_READ_BIT, VMA_SEQ_READ_BIT)
+> >
+> >  #define TASK_EXEC_BIT ((current->personality & READ_IMPLIES_EXEC) ? \
+> >  		       VM_EXEC_BIT : VM_READ_BIT)
+>
+> Why are VMA_STACK_EARLY and VMA_STACK_INCOMPLETE_SETUP added here but
+> not in mm.h?
 
-Alphabetic order. Move <linux/cleanup.h> after <linux/bitrev.h>.
+Yeah urgh oops my bad. It doesn't really break anything but I'll fix it if a
+respin is needed...
 
-...
+>
+>
+> --
+> Best Regards,
+> Yan, Zi
+>
 
-> @@ -456,7 +457,7 @@ static int idt821034_kctrl_gain_put(struct snd_kcontrol *kcontrol,
->  
->  	ch = IDT821034_ID_GET_CHAN(mc->reg);
->  
-> -	mutex_lock(&idt821034->mutex);
-> +	guard(mutex)(&idt821034->mutex);
->  
->  	if (IDT821034_ID_IS_OUT(mc->reg)) {
->  		amp = &idt821034->amps.ch[ch].amp_out;
-> @@ -466,21 +467,18 @@ static int idt821034_kctrl_gain_put(struct snd_kcontrol *kcontrol,
->  		gain_type = IDT821034_GAIN_TX;
->  	}
->  
-> -	if (amp->gain == val) {
-> -		ret = 0;
-> -		goto end;
-> -	}
-> +	if (amp->gain == val)
-> +		return 0;
->  
->  	if (!amp->is_muted) {
->  		ret = idt821034_set_gain_channel(idt821034, ch, gain_type, val);
->  		if (ret)
-> -			goto end;
-> +			return ret;
->  	}
->  
->  	amp->gain = val;
->  	ret = 1; /* The value changed */
-> -end:
-> -	mutex_unlock(&idt821034->mutex);
-> +
->  	return ret;
-
-Instead of
-	ret = 1; /* The value changed */
-	return ret;
-
-Call directly
-	return 1; /* The value changed */
-
->  }
-
-...
-> @@ -521,7 +519,7 @@ static int idt821034_kctrl_mute_put(struct snd_kcontrol *kcontrol,
->  	ch = IDT821034_ID_GET_CHAN(id);
->  	is_mute = !ucontrol->value.integer.value[0];
->  
-> -	mutex_lock(&idt821034->mutex);
-> +	guard(mutex)(&idt821034->mutex);
->  
->  	if (IDT821034_ID_IS_OUT(id)) {
->  		amp = &idt821034->amps.ch[ch].amp_out;
-> @@ -531,20 +529,17 @@ static int idt821034_kctrl_mute_put(struct snd_kcontrol *kcontrol,
->  		gain_type = IDT821034_GAIN_TX;
->  	}
->  
-> -	if (amp->is_muted == is_mute) {
-> -		ret = 0;
-> -		goto end;
-> -	}
-> +	if (amp->is_muted == is_mute)
-> +		return 0;
->  
->  	ret = idt821034_set_gain_channel(idt821034, ch, gain_type,
->  					 is_mute ? 0 : amp->gain);
->  	if (ret)
-> -		goto end;
-> +		return ret;
->  
->  	amp->is_muted = is_mute;
->  	ret = 1; /* The value changed */
-> -end:
-> -	mutex_unlock(&idt821034->mutex);
-> +
->  	return ret;
-
-Instead of
-	ret = 1; /* The value changed */
-	return ret;
-
-Call directly
-	return 1; /* The value changed */
-
->  }
->  
-> @@ -629,7 +624,7 @@ static int idt821034_power_event(struct snd_soc_dapm_widget *w,
->  	ch = IDT821034_ID_GET_CHAN(id);
->  	mask = IDT821034_ID_IS_OUT(id) ? IDT821034_CONF_PWRUP_RX : IDT821034_CONF_PWRUP_TX;
->  
-> -	mutex_lock(&idt821034->mutex);
-> +	guard(mutex)(&idt821034->mutex);
->  
->  	power = idt821034_get_channel_power(idt821034, ch);
->  	if (SND_SOC_DAPM_EVENT_ON(event))
-> @@ -638,8 +633,6 @@ static int idt821034_power_event(struct snd_soc_dapm_widget *w,
->  		power &= ~mask;
->  	ret = idt821034_set_channel_power(idt821034, ch, power);
->  
-> -	mutex_unlock(&idt821034->mutex);
-> -
->  	return ret;
-
-Instead of
-	ret = idt821034_set_channel_power(idt821034, ch, power);
-	return ret;
-
-return directly:
-
-	return idt821034_set_channel_power(idt821034, ch, power);
-
-and remove the 'ret' variable (no more used)
-
->  }
->  
-
-...
-> @@ -771,7 +764,7 @@ static int idt821034_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
->  	u8 conf;
->  	int ret;
->  
-> -	mutex_lock(&idt821034->mutex);
-> +	guard(mutex)(&idt821034->mutex);
->  
->  	conf = idt821034_get_codec_conf(idt821034);
->  
-> @@ -785,12 +778,10 @@ static int idt821034_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
->  	default:
->  		dev_err(dai->dev, "Unsupported DAI format 0x%x\n",
->  			fmt & SND_SOC_DAIFMT_FORMAT_MASK);
-> -		ret = -EINVAL;
-> -		goto end;
-> +		return -EINVAL;
->  	}
->  	ret = idt821034_set_codec_conf(idt821034, conf);
-> -end:
-> -	mutex_unlock(&idt821034->mutex);
-> +
->  	return ret;
-
-Instead of
-	ret = idt821034_set_codec_conf(idt821034, conf);
-	return ret;
-
-return directly:
-	return idt821034_set_codec_conf(idt821034, conf);
-
-and remove the 'ret' variable.
-
->  }
->  
-> @@ -802,7 +793,7 @@ static int idt821034_dai_hw_params(struct snd_pcm_substream *substream,
->  	u8 conf;
->  	int ret;
->  
-> -	mutex_lock(&idt821034->mutex);
-> +	guard(mutex)(&idt821034->mutex);
->  
->  	conf = idt821034_get_codec_conf(idt821034);
->  
-> @@ -816,12 +807,10 @@ static int idt821034_dai_hw_params(struct snd_pcm_substream *substream,
->  	default:
->  		dev_err(dai->dev, "Unsupported PCM format 0x%x\n",
->  			params_format(params));
-> -		ret = -EINVAL;
-> -		goto end;
-> +		return -EINVAL;
->  	}
->  	ret = idt821034_set_codec_conf(idt821034, conf);
-> -end:
-> -	mutex_unlock(&idt821034->mutex);
-> +
->  	return ret;
-
-Idem here:
-	return idt821034_set_codec_conf(idt821034, conf);
-
-and remove 'ret'.
-
-
->  }
->  
-> @@ -897,11 +886,11 @@ static int idt821034_reset_audio(struct idt821034 *idt821034)
->  	int ret;
->  	u8 i;
->  
-> -	mutex_lock(&idt821034->mutex);
-> +	guard(mutex)(&idt821034->mutex);
->  
->  	ret = idt821034_set_codec_conf(idt821034, 0);
->  	if (ret)
-> -		goto end;
-> +		return ret;
->  
->  	for (i = 0; i < IDT821034_NB_CHANNEL; i++) {
->  		idt821034->amps.ch[i].amp_out.gain = IDT821034_GAIN_OUT_INIT_RAW;
-> @@ -909,23 +898,22 @@ static int idt821034_reset_audio(struct idt821034 *idt821034)
->  		ret = idt821034_set_gain_channel(idt821034, i, IDT821034_GAIN_RX,
->  						 idt821034->amps.ch[i].amp_out.gain);
->  		if (ret)
-> -			goto end;
-> +			return ret;
->  
->  		idt821034->amps.ch[i].amp_in.gain = IDT821034_GAIN_IN_INIT_RAW;
->  		idt821034->amps.ch[i].amp_in.is_muted = false;
->  		ret = idt821034_set_gain_channel(idt821034, i, IDT821034_GAIN_TX,
->  						 idt821034->amps.ch[i].amp_in.gain);
->  		if (ret)
-> -			goto end;
-> +			return ret;
->  
->  		ret = idt821034_set_channel_power(idt821034, i, 0);
->  		if (ret)
-> -			goto end;
-> +			return ret;
->  	}
->  
->  	ret = 0;
-> -end:
-> -	mutex_unlock(&idt821034->mutex);
-> +
->  	return ret;
-
-Instead of
-	ret = 0;
-	return ret;
-
-return directly
-	return 0;
-
->  }
->  
-...
-
->  
-> @@ -1079,23 +1061,22 @@ static int idt821034_reset_gpio(struct idt821034 *idt821034)
->  	int ret;
->  	u8 i;
->  
-> -	mutex_lock(&idt821034->mutex);
-> +	guard(mutex)(&idt821034->mutex);
->  
->  	/* IO0 and IO1 as input for all channels and output IO set to 0 */
->  	for (i = 0; i < IDT821034_NB_CHANNEL; i++) {
->  		ret = idt821034_set_slic_conf(idt821034, i,
->  					      IDT821034_SLIC_IO1_IN | IDT821034_SLIC_IO0_IN);
->  		if (ret)
-> -			goto end;
-> +			return ret;
->  
->  		ret = idt821034_write_slic_raw(idt821034, i, 0);
->  		if (ret)
-> -			goto end;
-> +			return ret;
->  
->  	}
->  	ret = 0;
-> -end:
-> -	mutex_unlock(&idt821034->mutex);
-> +
->  	return ret;
-
-return 0;
-
->  }
->  
-
-Best regards,
-Hervé
-
+Thanks, Lorenzo
