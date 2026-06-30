@@ -1,119 +1,97 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A740644BCB1;
-	Wed,  1 Jul 2026 10:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4693F077C;
+	Wed,  1 Jul 2026 11:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782903507; cv=none; b=Q41wKG4AvWgFsY63bb2zqUmnpOn5MgqmNl5oxwxQ0ctnYKFCBmu9LxKfpKP7DPvbfeJJ8pa0Jg3f86HE1Yxn2Vsqxjst9z4AuCzUN6eEnuyWmXmdDoPyPe1h5GB0dwtIjrcKPLQ9G0LLpi5NLQCle/I9uHviB4TIBOaI0i3BDMQ=
+	t=1782903774; cv=none; b=bRLE7G+Tur0gI0HRJ/Y7Ro2JgSXj0m/nrB4EyC1fMgrpUpLNK9JO8+6ItLUaKKiqTOV7+sUw/L580U9YWpgWZ05glYaPBbUp77M31yPHdTFDgKmVOFPdhVb6g6GUSmKXUE1JSsWfV3U2JPQ6YGrsl5VMDySe3AXZtzVOFZ+4mP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782903507; c=relaxed/simple;
-	bh=8isK/wX6cEjw60htLkUFSb45rDr1K/PpF3SuqOkP3fY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nqbOzhHxGC1/PFbACHUdP90TxYw/TCWeuy/cHGBFkCM/zPa2+XaiO0CT3K4AM2vu3u9h2OnfFyVSmzQbc9tZhFqIfh2Cjxg2SiO3yIw9OGQClbBk24cavSg7h+gqLQSY34lr7qS1qgfAY3BQ9pvoMQn5QqWIfrYAh/j3BWdxth0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=n8Ufmywx; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1782903774; c=relaxed/simple;
+	bh=NQhTOH7lbS22lqnZrsXUeoym6lJDp0e+hYPviGfdbvM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=AUO7NSOvOFzUCfKBZbfj4mK06bm7Gr1U9NkEVNvSt2iWwsw/8YwbGxEYw45KF20b5Q4J5IcGfNU2yGDgmvzB3El4viQ4nP0XPZYSFmd32Tpb6o+P8fGb0uMc4zWHzb4ID7yJQEfWWmxtBDtqrl4aGl42iDEa0knTusr7TqhrHmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WVN92ySH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="n8Ufmywx"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 661AGJEX793847;
-	Wed, 1 Jul 2026 10:58:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=JcMXX5JmIXo
-	Rh534qQlBYuxwBr8D2+SJ4dkI5oK6uKo=; b=n8Ufmywxz4D8eYk8ir+Bhmo87pp
-	s9Zt+grbdSii+aDgGbyAEZVcHwQNWKHBOjlkY+nEyto42mFfPE76iz72Wm/Zh2qV
-	1o9JZjXbYxqVDOh/UwZH1FT5eiQPc2oDaw2oWfYNh6N+tiEmd/GXkMfdIx/jSxNL
-	ue9iz6t4EFagv+5ucUbPUpMMixS41FfDTjJRpR6TkwWcP5t4OdxlRDbsCadeYA+/
-	43petB6Z+wcQvb4FC/f13tIu9FQN7wLz6Sv+kYD0dXQNofVuHzF15pArYTPpclwE
-	764KjHtuPwvFd0OhJOTs64CtewuPeDyIFcJeYW8/Pmhxnqb9d8j9cy0QIPQ==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f510ag615-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 Jul 2026 10:58:24 +0000 (GMT)
-Received: from hu-hgautam-hyd.qualcomm.com (hu-hgautam-hyd.qualcomm.com [10.147.247.91])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 661Aw2JF011886;
-	Wed, 1 Jul 2026 10:58:20 GMT
-From: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 11/11] MAINTAINERS: Add Qualcomm QAIF driver entry
-Date: Wed,  1 Jul 2026 16:27:57 +0530
-Message-Id: <20260701105757.2779738-12-harendra.gautam@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260701105757.2779738-1-harendra.gautam@oss.qualcomm.com>
-References: <20260701105757.2779738-1-harendra.gautam@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WVN92ySH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF2821F000E9;
+	Wed,  1 Jul 2026 11:02:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782903772;
+	bh=9vUHsAg9pHC1O7gXCUAYGBB5kTl+vq03cakkfnwM53s=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=WVN92ySHyfzvL75b//qrAfhwt7Qlioi0mb+PAguWj/6T/wBFDaacsGLk0q++viysd
+	 VCk4hQCUz0B/e5FabPlrdJ6lmadxYkQY8x48fRd3lTnCMlj834ygvxBKK6jbd6jmRH
+	 I9ehFbVqCcmrQGZgk6fIgSCYUVE4dFXLJs2M6HmxVDqch4jANqfR4JxjzqCcLNnuv8
+	 coC5v7WNLOT1EGSiCVzZkJgD6DDX/KLZV6Z9U3nmCIdj+8CKvPh5/+YY/ty9DxBUNN
+	 ynapR5dT/jL4ZAl5/toY+RUV7o8MRFn2hmTAC/jy3m6T2MaOnnYcETZWNeJbJSP4hQ
+	 pxf7BOqB12tsQ==
+From: Mark Brown <broonie@kernel.org>
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, patches@opensource.cirrus.com, 
+ Bjorn Helgaas <bhelgaas@google.com>, David Heidelberg <david@ixit.cz>
+Cc: David Rhodes <drhodes@opensource.cirrus.com>, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
+ David Rhodes <David.Rhodes@cirrus.com>
+In-Reply-To: <20260624-dt-cirrus-cs35l36-v3-1-ec451d5a2908@ixit.cz>
+References: <20260624-dt-cirrus-cs35l36-v3-1-ec451d5a2908@ixit.cz>
+Subject: Re: [PATCH v3] ASoC: dt-bindings: Convert cirrus,cs35l36 to DT
+ schema
+Message-Id: <178284521305.368110.12236626138017371767.b4-ty@b4>
+Date: Tue, 30 Jun 2026 19:46:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-Proofpoint-GUID: J5khxe35qyrzaHVXfPNwum6ll11l8P7h
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDExNSBTYWx0ZWRfXy0uroBjbbAjO
- DRZy5i/vHF0+1YxhRyWYI1ljVtsb20vaPJcRhTOdsXVA1jt9P1ygFO9+YhVyYK5uI827Bxb2hfh
- zs7AtzGOot4AsC+2Vz2w2/1N+VprUE0Um+YTDjEnMUoamAACxUyF7a2n3MID5wvIP9AnqKwDAI8
- 8zeABZtoz6AfmlZloMLU81/hZHpMm+leCS5YeoCIyuPTAE719aT30BzEj8xHWcX1qScaCv6w/Qv
- VM6TM8fAPywD5OhD/ROfz87KnqHaWnaaQMiRhY4/FowJb4GtzJGZuttaP8WrvzMaSvva9XerE8K
- +nXpttePsoWZuapSDCTOSgPj5z4Ksgmk3Cliv/ZW1g9cS3eG7OoNz7SSzT7vaF4aXLC4snayZcl
- 9DAKUPgL3sG9Dm5GylUA9oagv1TH+FJDUdlEJOhAuD4Z6K3rmatKXb1gZOXmIFJ6YDK/QywNAsD
- r/8x6PhqfYVo5MAvdhw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDExNSBTYWx0ZWRfX5epVU5tcr6yT
- MROuxYsBeS3GwsdjgOcJ8dL4Ybqax7qmHFCAYyMEWJ2uIBm/ZLfmEElCFHEEQrcHhrDCCEJf7Nc
- qP0CsBFKJHTSWbrRlebNMAjd51sPjis=
-X-Authority-Analysis: v=2.4 cv=JpXBas4C c=1 sm=1 tr=0 ts=6a44f2d0 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
- a=5TfRDjBtmgYofzZU2EMA:9 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: J5khxe35qyrzaHVXfPNwum6ll11l8P7h
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-01_03,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0 malwarescore=0 impostorscore=0 clxscore=1015
- spamscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607010115
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1130; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=NQhTOH7lbS22lqnZrsXUeoym6lJDp0e+hYPviGfdbvM=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqRPPYH6cLjC3o/TM6h/i25kDWgoXC9C9yNFpec
+ csCGChOIqOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakTz2AAKCRAk1otyXVSH
+ 0Em9B/47mZmiZdgWsDglKabwgp6ZTCbgVxGNlVo3K5MZ3oC3SaAobaEHvGByFTIUoAmonoBEwnI
+ kZ/B8TH8LTTTrn5DnbHNgzuwIZku2HwI0m9lGmQ6fqNR3Wob77fa6OhzdulYrEeAbvyVjvzvivM
+ dI8/0cPwJLeFhGUaoyowgyimar5W4+kw2DF+PiuPUODPRt8GOB6di/iBDW3lSzUiamN16MJW//l
+ jKB8wqlFWWRWRJPaxXLZivMewvPbUszjRF7sEKabqi2kbm7vmGyulQs0zDNJPHpi6nytNwU+aGl
+ LwY5GwjaNSDqs1WkyZO3YHXrTQV3qvhl5QZDVjl5+qUjFvra
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Add MAINTAINERS coverage for the Qualcomm Audio Interface (QAIF) driver
-so changes to its devicetree binding, CPU DAI driver, and PCM platform
-driver are routed to the Qualcomm ASoC maintainers and lists.
+On Wed, 24 Jun 2026 23:10:02 +0200, David Heidelberg wrote:
+> ASoC: dt-bindings: Convert cirrus,cs35l36 to DT schema
 
-Signed-off-by: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
----
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Applied to
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f877e5aaf2c7..b38f03680ef3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21707,6 +21707,16 @@ F:	sound/soc/codecs/wcd93*.*
- F:	sound/soc/codecs/wsa88*.*
- F:	sound/soc/qcom/
- 
-+QCOM AUDIO INTERFACE (QAIF) DRIVER
-+M:	Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-+M:	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-+L:	linux-sound@vger.kernel.org
-+L:	linux-arm-msm@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/sound/qcom,qaif-cpu.yaml
-+F:	include/dt-bindings/sound/qcom,qaif.h
-+F:	sound/soc/qcom/qaif*
-+
- QCOM EMBEDDED USB DEBUGGER (EUD)
- M:	Souradeep Chowdhury <quic_schowdhu@quicinc.com>
- L:	linux-arm-msm@vger.kernel.org
--- 
-2.34.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+
+Thanks!
+
+[1/1] ASoC: dt-bindings: Convert cirrus,cs35l36 to DT schema
+      https://git.kernel.org/broonie/sound/c/bff7fad1010e
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
