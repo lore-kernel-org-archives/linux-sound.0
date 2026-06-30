@@ -1,269 +1,123 @@
-Received: from flow-a8-smtp.messagingengine.com (flow-a8-smtp.messagingengine.com [103.168.172.143])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1836518871F;
-	Mon, 29 Jun 2026 23:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.143
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566BC40D587
+	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 00:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782777504; cv=none; b=emT2c/1XRTQA4nYwBB210PbZwDn4Zr7TsPCfpx/aZBXIcg/qV3jS1qjOP488mlerCzjU/TQFGePENg6TdB/tVN7oHIdgHotoaekishfnxjd82RGoz0iu47uR4cRVBNmjOiCuSBemRWyRBdX/H5h/1SK3wIfaOz+NWWiRjiKKmI8=
+	t=1782779659; cv=none; b=ClaKRqqcGRnt8X1C5R4A8YviDIU7wpf4sqDAiqhqnJv5R2UeGPJX6Dw51su34WfDuZtyaOi+Xr7PIjdjFsldABI9dajDOiwyVu9dulTLVbbDds9Gd6eiWmDZqNhjqiDh8Xe+VFLBgAsfm+TmbhoAF0o4lfM5WbBOa2ygGeV6ALw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782777504; c=relaxed/simple;
-	bh=qx9osW3wKKlKpE0YvFkVp52jSRf+weom0e3+8EbHzJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PSNUouzR0lUnJ8+TdOrAqv5ol1qwFlX5yRnbW3xPodh/UECFd+A5m0XM8xFtxyFUEkk8gV2X9DBUU0hAZuwsvDBEvGE9c4/S+Hj2qQ5LsnPPFDgE9r1BEZhJ7hxLUL7sHYe4lYDyU/3ds19k9mkG1RqNK8bPanZd9nZdl8h8q7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=v8s/eY4L; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RMKRqs/f; arc=none smtp.client-ip=103.168.172.143
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1782779659; c=relaxed/simple;
+	bh=EV7xC+brCLGphfeQYIDWLE8kcEQPnaqdwLrnyixwvas=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QW7sKIVIvh3eOKjWJ0D6HYGaxTVu0+AAFfFbeyCj58UpWZtsw6dG8wI9zC03ClQc/LFlZUq1BO5PYic8p1BV5gUVYkgG70Ekptyp7ogg303nHhyEVtwVSnFL81Y/Tj71FdmoDD2/ZMDjCWTf0Z1HrmpBlFClO55ghJEWdJv+9Uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i//+m750; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="v8s/eY4L";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RMKRqs/f"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailflow.phl.internal (Postfix) with ESMTP id 0BA48138039B;
-	Mon, 29 Jun 2026 19:58:21 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Mon, 29 Jun 2026 19:58:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
-	 t=1782777501; x=1782784701; bh=ntoVNrERxl6CnLB0Obl/d+Xz+xme4tJI
-	lufgMOjhiwA=; b=v8s/eY4L5HFOcjqnQZ823UAS/LHyaUEm85qu0XmCc71uXnG2
-	cvkOxCYPzFLBCTTDnPAcBSYZzJ2+yE6N4fPa6sEGIBJIYZcOAN8qpj2nfzQLi9F5
-	jV1vvPyEhEYVlWNvh8/BzDIhVuyYzX2LsFle0pATeuiAfDmcO3X28y0E1iNUPJEo
-	v25JyyyfCNSgY9W7bLDK2Py5B4SD2vS47HoLtwLlZyt9XfpB5i8DFFy195aCWoC2
-	x+AKL61GGQIyWrIINs+YyoIPvM9+DgmiU0kab1MThff7LoEH0Es/Wytho4Ztqxwh
-	iCSNYBGhKHSWeVvvsd1OdF/pOZcK2ttl+46V3A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782777501; x=
-	1782784701; bh=ntoVNrERxl6CnLB0Obl/d+Xz+xme4tJIlufgMOjhiwA=; b=R
-	MKRqs/flHUni4dlOeHuhwjnnYx/qu2zwQCJtPfIIEPz3gE6dP2SS+kO/SxtUM2p+
-	fXsMgk2rDlTf/sTkRba30Ghras5RPXULAH1/GPHEEhmblWPHjyqELBYhA/qibNmQ
-	ECYEK6oVYBifehsJjj32qWlobcGKFSrZa0HHgz9Iqwgpdu9YvkzR7VNNHw/jTwz+
-	bqoNgLB8cMrHpQ6+9NaoaPyDNO4HCQS72/HZv8UteAS8Rigl8p00Y6G1kFdS+1jK
-	6qPb3zwn5qYMTokX9EPzqE5AEbRmeo/zQ0VssHNfuoJG0EVsyiXKgURmOHD0sUV1
-	H0rRl8dpjOEVmRoTwUZ1Q==
-X-ME-Sender: <xms:mQZDaluSBeKP6-3dxlZW1Qy-wiZuV30hOCgoY0KTdW_FR9USmttnIA>
-    <xme:mQZDaqsTDIOLYRFhhc3J9nrb24WnM6JX0P1jalpuT12eGcDRrsNO7C0AiHmIdhI6S
-    wZZ_GAF_hVaMLpQHvr5u3l1DmczGXIt02C9zTRQlweayP0y6j60MtE>
-X-ME-Received: <xmr:mQZDaiaKXC3v0RK_n7k7uRKLanjcoEkW0Ynaj3uQGwXdvyRJ9nlk3vd6xHlSeNwReywIoC38Dirstc3cHFJimVEGnsusng>
-X-ME-Proxy-Cause: dmFkZTE1nPznX32V2kRYPd7dlOJ1rQMxQ97lS3kACD5+oEF3K9KIS5kEvZ60kMOO9SW4/K
-    QPw1fJ0Uyhmt7TDZBpmrns6QqSMdNA56CqP8WoSfum8fnJ6ROXsuIW1V0IRazJ9YoofPdA
-    sTTZjseo2amkBTK2yB8676gAjYCnTj4WiXvzDEoqMGHljUjgOtAHWVMwabts+S3qWRtyzK
-    4E9/EeTGdZ7uavjZ/gsD8IHy6BDQ3FsBKJrzbjVNgjW3Z/maBbDFLwVIvKVTB+FB58t2Nf
-    6IC6zRUoalXGvpiS7NeraM3cciwz14beoWbfR17QqVpm8xj9z6j1i325oVQMRhakNlULd5
-    LZDHjkZMhVaJOCK5sNu7C567TC6G74BcKbIUFX8Y7L5R/J5HFqJpTz5QFRAfF6pNDZXMRw
-    NNT721SX2qmWOzpsbLjvz7baHpP6tE5XnMymltgojO/d+aMQ8ZSVKdM2OoEzaoH016syXZ
-    LXR91cDsgFgly6bjeAUpymfC5EHpfadwr1qHn8fxadSgempnoWd6aBNScmoRMpmKbMNqfw
-    SOO/eYhVEtRjJvkDcQZ5ZyEDYkQzi3vZqOB51rSkn6prTNuNuxVGEjwdaA6cQo5MEz4nhz
-    PKvXIWkmhe258dVI/0CMIo7RXUSN9DEF8/fLk8wWAe6GpwU+34F0ICv2ylcg
-X-ME-Proxy: <xmx:mQZDasgnrDakzWEqB7_AjeS2c_t5Xc3WBZuoKa0aZ4s3n7SEHjJv-Q>
-    <xmx:mQZDavUcRf_YCMSZCbYUJMoSGXurxjrs99xK4QubABtZxnkbGNT_Mg>
-    <xmx:mQZDauVcra2E5kWpNBgjezjqhXIgqwPYvcnnMt7uQ1KIYOQ6F3GKDw>
-    <xmx:mQZDajhAFNO6LVldX5NJt5ll8F8-azSI6SjWkRx169oeJqn6IZVlXA>
-    <xmx:nQZDaqvpp383SrPNL_mk4gMnSCyGdO9-6LDFSBkbgsdwZ1j1U-4qLPWs>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 29 Jun 2026 19:58:06 -0400 (EDT)
-Date: Tue, 30 Jun 2026 08:58:04 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>,	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,	Justin Stitt <justinstitt@google.com>,
-	Raag Jadav <raag.jadav@intel.com>,	Sohil Mehta <sohil.mehta@intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,	Len Brown <lenb@kernel.org>,
- Andi Shyti <andi.shyti@kernel.org>,	linux-kernel@vger.kernel.org,
-	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,	linux-media@vger.kernel.org,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,	Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,	Heiko Stuebner <heiko@sntech.de>,
-	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,	Danilo Krummrich <dakr@kernel.org>,
- driver-core@lists.linux.dev,	Jonathan Cameron <jic23@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Pei Xiao <xiaopei01@kylinos.cn>,
-	Shashank Balaji <shashank.mahadasyam@sony.com>,
-	Ben Horgan <ben.horgan@arm.com>, Johan Hovold <johan@kernel.org>,
-	linux-usb@vger.kernel.org, Nikita Kravets <teackot@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	platform-driver-x86@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-i2c@vger.kernel.org,	Daniel Scally <dan.scally@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Minas Harutyunyan <hminas@synopsys.com>,
-	Tianrui Zhao <zhaotianrui@loongson.cn>,	Bibo Mao <maobibo@loongson.cn>,
- Huacai Chen <chenhuacai@kernel.org>,	WANG Xuerui <kernel@xen0n.name>,
- kvm@vger.kernel.org,	loongarch@lists.linux.dev
-Subject: Re: [PATCH v3 00/16] mod_devicetable.h: Split into per subsystem
- headers
-Message-ID: <20260629235804.GA414914@sakamocchi.jp>
-Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?=
- <u.kleine-koenig@baylibre.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>,	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,	Justin Stitt <justinstitt@google.com>,
-	Raag Jadav <raag.jadav@intel.com>,	Sohil Mehta <sohil.mehta@intel.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,	Len Brown <lenb@kernel.org>,
- Andi Shyti <andi.shyti@kernel.org>,	linux-kernel@vger.kernel.org,
-	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,	linux-media@vger.kernel.org,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,	Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,	Heiko Stuebner <heiko@sntech.de>,
-	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,	Danilo Krummrich <dakr@kernel.org>,
- driver-core@lists.linux.dev,	Jonathan Cameron <jic23@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Pei Xiao <xiaopei01@kylinos.cn>,
-	Shashank Balaji <shashank.mahadasyam@sony.com>,
-	Ben Horgan <ben.horgan@arm.com>, Johan Hovold <johan@kernel.org>,
-	linux-usb@vger.kernel.org, Nikita Kravets <teackot@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	platform-driver-x86@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-i2c@vger.kernel.org,	Daniel Scally <dan.scally@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Minas Harutyunyan <hminas@synopsys.com>,
-	Tianrui Zhao <zhaotianrui@loongson.cn>,	Bibo Mao <maobibo@loongson.cn>,
- Huacai Chen <chenhuacai@kernel.org>,	WANG Xuerui <kernel@xen0n.name>,
- kvm@vger.kernel.org,	loongarch@lists.linux.dev
-References: <cover.1782682124.git.ukleinek@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i//+m750"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-37df416c44bso2104825a91.2
+        for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 17:34:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782779658; x=1783384458; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QkAz7Fw+OhuQ2RgOnnwrSLo3SJNJurxmJJ7+lfEcNOI=;
+        b=i//+m7501c9iKrz+t4Jb4YzdsvvNlm9peuByLhiNJlKiRXFTplkVCp2VVOPkudIMXT
+         4ZYxhuULSOTaYnEozm9mAF0xHGk0VDkBn709tR0jCykNR0Vjh8sSIyKzjwNtGfr+42bh
+         eaKkn16mWZ86nwfJ1bhiDtHU23Sgao2PbzqKRKl4+0JAnTUvRL0DvaCBhdZ5Hdd0a/0Z
+         ZMELvY5S/0MBnTd/3E3UiHUZoHJCrstWdBHajnliPcvs/SXuVo8vei0k79BRGM6l/Jpq
+         2VY/A/0j9gxD7GK+7ja6RO0+mQmRsnKmn+YK6pbUteToRYhrVc5DP4KKVOXyksWCAEqv
+         gDdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782779658; x=1783384458;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QkAz7Fw+OhuQ2RgOnnwrSLo3SJNJurxmJJ7+lfEcNOI=;
+        b=RSTnMBkPa/Y2ZkQFXGZAk/lVr/CRiHsNCI8/tnEuffJOjhdQAti6Iqo4J5pjsTfdZI
+         a0IyDloQiXY8JIhbMMgHyD5BBnY/57VoHawz/s5K+36Y3X+dwjqWXCjO8C1wOb+gNcJ7
+         dsxLSmEoVS2LJ3VvWkea/SbkwxAq+X6X6TI2m/R9NCjnklojiOSOM0nwi5FmxHb1rDPg
+         5TdyzJYFfbxSU7Psly1INmyzrcVo6RID3PNaLKEG0ZAL2N3ZvhMS0drOKiFW/U3aAwTW
+         WCXO/BopEnv9eKB5OkaWd0c+9qDR5zU10ypyR1BvWmLWMZn3IWhHzb3TR80cdtzCrvev
+         pCGQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpllMIZZPGAInKohJxLk/Dplq5M1A1LQUVFrg1uhmlElzoOtQbdXPO4vCAGSBf2irJ81drRXG/cUnGd8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSkwcfO7ROKLD4hsqmVWH+YhhDeAbTZ7KV/uV6yhKc6n6Kf4pg
+	Cld1dgGQrEi0dkax2RlTIbP9ZgezxoY680+8/SOoCdcOXOr910DzVBo1
+X-Gm-Gg: AfdE7clS5Mcr8Mp/drh7dvR/Ik0FP/UuaQPZ2t7kPgAuTdTrxT/saJzxx17VFRvnddX
+	MHsmiH/BYldgcnuI2QglJqNu/ugiUFsNbWEzWik46mQGVYZwoI2kE1jyJxKWwLU72fhflAc//xy
+	ggSGc6s04SRouhWJ0fPufiYuoPv1i5GLaMEU44rFFuOIY/Di2me8UWdJxI3rbgEKKVxX+GhOlCZ
+	ziCAGEA0Gb00hJBHHuQBccAsEdShX5VKTt6ejE7AjhGpYT6kC5TeJsCIJKsfF+bUm89ZQdRnusH
+	i/+UrPj0LwYrNe3UL8oDEtIjgwzj4ca7ihU9yLfNLTeHUta7gW7r47PKpxErh5AMAFEe4T/Apv8
+	/0SDs8IZ7iYcGXolR6JyK1VFIbiaRb69hL9AQ/e/A+IU6pJdQLeWALiK1t7kzskV96LA/S8w9wN
+	FM9BPFC3CAYzosZp8kzBPJ1UD4lBDBMc0CMZI8NSXQOh7B2Q==
+X-Received: by 2002:a17:90b:2fc7:b0:380:21b7:e727 with SMTP id 98e67ed59e1d1-380526a1e29mr1179631a91.14.1782779657403;
+        Mon, 29 Jun 2026 17:34:17 -0700 (PDT)
+Received: from alienware-m17 ([240d:f:d4c:3d00:da80:83ff:fea1:fcc7])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-380529ab9f4sm555174a91.7.2026.06.29.17.34.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 17:34:16 -0700 (PDT)
+From: Jetha Chan <jethachan@gmail.com>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: amd: yc: Add Alienware m15 R7 AMD to DMIC quirk table
+Date: Tue, 30 Jun 2026 09:33:28 +0900
+Message-ID: <20260630003328.15675-1-jethachan@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1782682124.git.ukleinek@kernel.org>
 
-Hi,
+The Alienware m15 R7 AMD exposes an ACP6x DMIC path, but its DMI
+product name is not present in the Yellow Carp ACP quirk table. As a
+result, the ACP machine driver does not enable the DMIC card on this
+system.
 
-On Sun, Jun 28, 2026 at 11:58:35PM +0200, Uwe Kleine-König (The Capable Hub) wrote:
-> Hello,
-> 
-> v2 is available at
-> https://lore.kernel.org/lkml/cover.1782490566.git.u.kleine-koenig@baylibre.com
-> .
-> 
-> Changes since then:
-> 
->  - rebased to v7.2-rc1
->  - rename the directory containing the new per device-id headers from
->    "mod_device_id" to "device-id".
->  - Adding Acks received
->  - ASoC patch (formerly patch #3) dropped as it was already merged as
->    commit 83d53eca7e55 ("ASoC: rockchip: rockchip_sai: #include
->    <linux/platform_device.h> explicitly") in v7.2-rc1.
-> 
-> This series survived an allmodconfig build on alpha, arc, arm64,
-> loongarch, m68k, mips, powerpc, riscv, s390, sh, sparc, and x86_64.
-> (Well, some failures, but I see these also on vanilla v7.2-rc1.)
-> 
-> There are a few headers left that include <linux/mod_devicetable.h>, but
-> these can be addressed in the next dev cycle without much impact as all
-> the much included headers are covered here.
-> 
-> I will apply this series to
-> 
-> 	https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git device-id-rework
-> 
-> which is included in next to expose it to the build bots and testers (in
-> the hope that there won't occur much merge conflict with v7.3 material).
-> I will add review tags and address (the hopefully very few) build issues
-> that might pop up. My plan is to let Linus merge it end of the week for
-> -rc2.
-> 
-> Best regards
-> Uwe
-> 
-> Uwe Kleine-König (The Capable Hub) (16):
->   mod_devicetable.h: Split into per subsystem headers
->   media: ti: vpe: #include <linux/platform_device.h> explicitly
->   driver: core: Include headers for acpi_device_id and of_device_id for
->     struct device_driver
->   driver core: platform: Include header for struct platform_device_id
->   usb: serial: Include <linux/usb.h> in <linux/usb/serial.h>
->   platform/x86: msi-ec: Ensure dmi_system_id is defined
->   of: Explicitly include <linux/types.h> and <linux/err.h>
->   i2c: Let i2c-core.h include <linux/i2c.h>
->   platform/x86: x86-android-tablets: Add include defining struct
->     dmi_system_id
->   platform/x86: int3472: Add include defining struct dmi_system_id
->   usb: dwc2: Add include defining struct pci_device_id
->   ALSA: hda/core: Add include defining struct hda_device_id
->   LoongArch: KVM: Add include defining struct cpu_feature
->   media: em28xx: Add include for struct usb_device_id
->   Replace <linux/mod_devicetable.h> by more specific
->     <linux/device-id/*.h> (headers)
->   Replace <linux/mod_devicetable.h> by more specific
->     <linux/device-id/*.h> (c files)
-> 
->  ...
->  drivers/firewire/core-device.c                |    1 -
->  drivers/firewire/net.c                        |    1 -
->  drivers/firewire/sbp2.c                       |    1 -
->  ...
->  drivers/media/firewire/firedtv-fw.c           |    1 -
->  ...
->  include/linux/firewire.h                      |    3 +-
->  ...
->  sound/firewire/isight.c                       |    1 -
->  ...
->  1649 files changed, 1575 insertions(+), 2544 deletions(-)
->  ...
->  create mode 100644 include/linux/device-id/ieee1394.h
+Add the DMI product name for this machine. With this quirk applied, the
+kernel reports:
 
-I have no objection to the above changes relevant to firewire subsystem.
+  acp_yc_mach acp_yc_mach.0: Enabling ACP DMIC support via DMI
 
-Acked-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+and ALSA exposes the ACP DMIC capture device:
 
-Consequently, unit drivers just include include/linux/firewire.h to refer 
-to 'struct ieee1394_device_id'. After merging the changes, I'll post more
-patches to modify the following unit drivers, since they are left from the
-patchset.
+  card 3: acp6x
+  device 0: DMIC capture dmic-hifi-0
 
-* drivers/media/firewire/firedtv.h
-* sound/firewire/bebob/bebob.h
-* sound/firewire/dice/dice.h
-* sound/firewire/digi00x/digi00x.h
-* sound/firewire/fireface/ff.h
-* sound/firewire/fireworks/fireworks.h
-* sound/firewire/motu/motu.h
-* sound/firewire/oxfw/oxfw.h
-* sound/firewire/tascam/tascam.h
+Tested on an Alienware m15 R7 AMD with product SKU 0B59.
 
-By the way, the changes touch so many files. If it takes more time to
-apply, I think it better to make steps to modify across several kernel
-generation. For example, getting rid of direct reference of
-mod_devicetable.h from drivers at first (in the case of firewire
-subsystem, for 'Replace <linux/mod_devicetable.h> by more specific
-<linux/device-id/*.h> (headers))', then adding these per-subsystem
-headers and applying relevant changes.
+Link: https://jethachan.net/dev/2026/03/21/fixing-internal-microphone-alienware-linux.html
+Assisted-by: OpenAI-Codex:gpt-5.5
+Signed-off-by: Jetha Chan <jethachan@gmail.com>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Of course, I don't mind to apply the v3 patchset as is in upstream.
-
-
-Thanks
-
-Takashi Sakamoto
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 000000000000..000000000000 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -504,6 +504,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "Alienware"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Alienware m15 R7 AMD"),
++		}
++	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Alienware"),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Alienware m17 R5 AMD"),
+ 		}
+ 	},
+-- 
+2.50.0
