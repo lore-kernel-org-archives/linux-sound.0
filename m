@@ -1,53 +1,53 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6FF38759C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F2F385D80;
 	Tue, 30 Jun 2026 09:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782811236; cv=none; b=jOHCOXSheukPc2V/7NNNKiFFD2uoXdrJJb9x/0cxMnS4tN0xt0XnRcBnNqbA9aV8KmFdgacPz8t3EGyh2CGApMXdCR8jLVmlSDxTbil9qn5EPffgTw5m5D40GxekjKPLI10nMr4GunYiRvGTMTlsdlhim0ZXrujA0cSh2q74FVg=
+	t=1782811236; cv=none; b=Ncl6Q0xbeTPTYozdiyGytzMEcjtI1Ol79+gFtw39K2FbOA/ABW/W977QjK+m7hSpIBGTsPnOc6vGybCGolcgxrZgvLrnLyn8F0JfotofkM3+rLr3/Q1a+Lwbfsu3XXxKZ508LZcsVtWSguo0LF0oy0PbcmfYwAmchlq/9cTPVtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1782811236; c=relaxed/simple;
-	bh=r2LRHp27kUHJmPDaDaBEl3ANGp8fdDJbKZoLGiFaqcs=;
+	bh=qSr2maQjJ72qr1EA80DRbP4ffTwjbZKOFOit5emFU7A=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dDsccNzoyePurwv6DtKFf8q4NGD7nWRia8o+QYQDRd0lRk8EEpiXJDdCeJbr+srKPP+6lAtwzCcWMl1wGPaute1Q8Cu7MnRGNuV7+TDupBIWWWNgoX4dwEYpP/Z7qVuKyn0qNgzR4+kvBBFApS/ARamsGuER+e7Kwrcj6ts/xd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ef1d/EKs; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version; b=sm69XaHArlI64d4ISukYl37UBTV50yI0lNY5IYgG2LK6Vn4hpxtrTuTLgimjefZek0CTmVc/mAsOkw7wHGT8xfL3tJBcaThNbsx99ViiG89LFOXStXFO/G/G7cEv5BjbeJvl49pPOgAB/xXRnZGPhfLFxTT+b06gE4fOc65YG00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pIMDeT2H; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ef1d/EKs"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65U6CJgZ1008539;
-	Tue, 30 Jun 2026 09:20:23 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pIMDeT2H"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65U6CR691097902;
+	Tue, 30 Jun 2026 09:20:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=MV5zapE0MNu
-	eViQXZSzUokA95E/Eqbax2GeNMvI3Uo4=; b=Ef1d/EKsVL7SqaPzOKe4WgBDDPL
-	H0mNfBQ92zJHWW8elvHwDJ0LRLxPVKTnOI5qf5HxfMWT1CMAAKz6iXCSW2akv+6Q
-	u8zkDRNonXOkO3sKz8KDDC9Hy77MDsgdz0zXPSvS41nJgVMurVifKGVmG7Lx7+ru
-	x8BblsiqmSjdxpkfc0Y29EAORhOYMhnl6a4Nqgv5P2DlDsR0vf+qx30oVCI1G9Q7
-	LHN55ktpYJb7ldvMg4AmI44CiOk2GFeCWcSeLkUWU1xFkzOHKsNYGjTQrJ4YLfRR
-	fI03kukABS05HBNHp25ZxCCaHPTrBCFMAfI4tI/K+e3ZXyq49914D11rtbQ==
+	:mime-version:references:subject:to; s=qcppdkim1; bh=QkEnlFD7LT/
+	tb9JRPG7m5jV2epsVn6brOK/+iB5zvig=; b=pIMDeT2HpZj78a2K5qOfii3Ue8z
+	k70h7OwlEf3K9mfPAp3L81BptI0x7/JMaJlPmdDduXcLO1Zb0GkCdNeQmjHTCSMQ
+	lUVv2fazbqqqajJ66GcN58p6DnKl3Y07jZMHf32cbm+tDVbN9VuM56yXSxHv44QQ
+	LLFGTGYX3D86W+eI0SL4WTphvJtOee4ptmxa2WYAh+fISBMLJw3EB+nkaBoxzDT5
+	6sCshHSzsY7STYrNYIJ8pyT1QkA4DozvCe9oF1WgthgWt7LG83jWm9EcH8cqPpEL
+	YVIc0ob3wdaHrmIexDqRrmBf7tf6/3ZzU2/LRH1xaIPxIxUA9XFyOABWTQQ==
 Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f3yw92htn-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f3x1cu0tg-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 30 Jun 2026 09:20:22 +0000 (GMT)
+	Tue, 30 Jun 2026 09:20:21 +0000 (GMT)
 Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 65U9KH6C010617;
-	Tue, 30 Jun 2026 09:20:19 GMT
+	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 65U9KICO010622;
+	Tue, 30 Jun 2026 09:20:18 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4f27kjmequ-1
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4f27kjmep2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 30 Jun 2026 09:20:19 +0000 (GMT)
+	Tue, 30 Jun 2026 09:20:18 +0000 (GMT)
 Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 65U9KJUm010704;
-	Tue, 30 Jun 2026 09:20:19 GMT
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 65U9KHJ0010594;
+	Tue, 30 Jun 2026 09:20:17 GMT
 Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 65U9KIxp010692
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 65U9KHkg010583
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 30 Jun 2026 09:20:19 +0000 (GMT)
+	Tue, 30 Jun 2026 09:20:17 +0000 (GMT)
 Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
-	id 9679763A; Tue, 30 Jun 2026 14:50:16 +0530 (+0530)
+	id 7E9BF62D; Tue, 30 Jun 2026 14:50:16 +0530 (+0530)
 From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -58,9 +58,9 @@ To: Srinivas Kandagatla <srini@kernel.org>,
 Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Subject: [PATCH v2 6/7] ASoC: qcom: common: add DAI-node TDM slot helpers
-Date: Tue, 30 Jun 2026 14:46:04 +0530
-Message-Id: <20260630091605.4043426-7-prasad.kumpatla@oss.qualcomm.com>
+Subject: [PATCH v2 1/7] ASoC: qcom: qdsp6: add topology-driven Audio IF support
+Date: Tue, 30 Jun 2026 14:45:59 +0530
+Message-Id: <20260630091605.4043426-2-prasad.kumpatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260630091605.4043426-1-prasad.kumpatla@oss.qualcomm.com>
 References: <20260630091605.4043426-1-prasad.kumpatla@oss.qualcomm.com>
@@ -73,254 +73,536 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QCInternal: smtphost
 X-QCInternal: smtphost
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjMwMDA4MyBTYWx0ZWRfX0CD+XawFfI5f
- TGaeMN/JbZjnIlDSY4xCs7OLiXoa+W07zeeeF85AoOitvIAaEp+q93GwEbYWVO7HTKz2jx90G22
- 1F8U6XDnKHLTQCtcB4l6GvyHeYxv/q0=
-X-Authority-Analysis: v=2.4 cv=KfDidwYD c=1 sm=1 tr=0 ts=6a438a56 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjMwMDA4MyBTYWx0ZWRfX/VlTiF5/MPjT
+ A0IDs0uUPXl2UkzVdUWnP0O6E+IufTAmNT8hHWcDt0iPC4RGXZ6EJVLCK2stUrlvlm5Rz62JCwp
+ ipERVy1IuOn2nO7jY4ohIWbLVvM4iG4H4SnAi3TXbZzKlbHkU0qnCCkm/8hQqb+ZcwTosXB39r+
+ RooYuHkljk01ffN0Kaj3gDMgp2a8J9LKMpgFQprJXtAXLqo86RegT8TXuU73WNuhIiZvWmtpEhp
+ FVLUX5Z+hmlyc0JfdepdcOCHGdid/bCIgPMpc5KyKE4rpkCCksv03D0qkBfq14zWdTOfBPFXrTN
+ Ycplm/ej13qBfsZLrnubn4JDtwuijb4KoXJ3L2pPoAtSPBEBYRK84KCekFyFbV4IAk1ZtplLHCL
+ 7zgqzJutALFjdyJAzfCDaMUd/22Y0eedrv+hFk4uXuvp9qKpUHsTy+CToS3oOa/AMTkV5beTHPt
+ 9QZFQcvlip9AJ7ZjjyA==
+X-Proofpoint-ORIG-GUID: LLwAxKhqgFZ9BryS5w6H8TWp-cQBxPn9
+X-Proofpoint-GUID: LLwAxKhqgFZ9BryS5w6H8TWp-cQBxPn9
+X-Authority-Analysis: v=2.4 cv=ftfsol4f c=1 sm=1 tr=0 ts=6a438a55 cx=c_pps
  a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
  a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8 a=QQzHM_gvdhGi4T2-EgIA:9
-X-Proofpoint-GUID: uW1llb92Tf9wRTY38ihlQUUK2ujOgU6g
-X-Proofpoint-ORIG-GUID: uW1llb92Tf9wRTY38ihlQUUK2ujOgU6g
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjMwMDA4MyBTYWx0ZWRfXwSNs1RorSpSz
- 0DL5vPYOWmbIUPZDzHHQ/tselkHLhR4YAKzQNK0/C1J5ndHsIhu+4nL7USCxmvrYQ4xstJxUnHf
- ldUy5QCJpB19W4xGEfT8alLZa9t4G6lyGwJ72Qh0SHHEjb+durQNf9/YoWQU+jQ+c849ca0ax9p
- aMBnBiZV7kJwOuCw7eojXSeUZOWtzhV2KvbqF8azXEaGh3SYgHd202GEHsIM39pzSTmRzkrPoQa
- n53qd+l0qFCcIOnx2Ye93oyGI2C13Oei8Go3G2EFMgyDAbBAUk8rgOqmKWZN/7zi0RNi7+8xToH
- nZH6UQKnvIBEhIBltsEcPvlgk+Fe2XVXU91FRU69TxovTpBZUPcjQOatsPgrAV3EptZqEhSccwI
- ucFV4siaXpM3GibP3mW9rWYKArHSebkGw/F9H+vqlRDhxxicjy977bVIRbOLxrN0wrr7nYAHnXX
- rkdMJBXn76OfgJogoYA==
+ a=_glEPmIy2e8OvE2BGh3C:22 a=EUspDBNiAAAA:8 a=Chi9EtqzsJgtiY9FReMA:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjMwMDA4MyBTYWx0ZWRfX2wqU6xovEfWp
+ crNSlm4VvQvUzyaBf35d6pSM3NjNFrWwI2oAeo9aZIyIcdqzQUu4OF+czPjZdBMt8rT5+o0rg9a
+ ckiWXQgscEGauqIYXVpPZXju1APeYIA=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-30_02,2026-06-26_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 impostorscore=0 bulkscore=0 clxscore=1015
- spamscore=0 priorityscore=1501 lowpriorityscore=0 malwarescore=0 adultscore=0
+ priorityscore=1501 adultscore=0 spamscore=0 clxscore=1015 malwarescore=0
+ phishscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606300083
 
-Add common helpers to parse standard dai-tdm-slot-* properties from the
-CPU and codec child nodes of a backend DAI link and apply the result to
-the active DAIs.
+Add topology parsing and media-format programming for Audio IF source and
+sink modules.
 
-QCOM machine drivers already use qcom_snd_parse_of() to build links from
-DT, but they lacked a shared helper to translate endpoint TDM properties
-into snd_soc_dai_set_tdm_slot() calls. Boards therefore had to carry ad
-hoc parsing or rely on non-standard DT properties.
+Add the Audio IF module IDs, the required topology tokens, and a dedicated
+topology loader that stores the parsed interface configuration in the
+AudioReach module state. Also add the Audio IF media-format path that
+sends the interface configuration, hardware endpoint media format, and
+frame-duration parameters for Audio IF modules.
 
-The helpers parse endpoint masks, validate the shared slot count and
-slot width, and program CPU and codec DAIs with the resulting slot
-configuration. A cfg-based apply helper is provided for callers that
-already parsed the DT data and want to avoid a second DT traversal.
+This keeps the serial-interface configuration topology-driven while still
+allowing the machine driver to provide runtime slot and media format
+settings. The same Audio IF path can then be reused for TDM, PCM, and I2S
+style backends.
+
+The new UAPI tokens (AR_TKN_U16_MODULE_SYNC_SRC=262 through
+AR_TKN_U8_MODULE_INV_EXT_BIT_CLK=276) are added, together with the value
+defines used by the sync source, sync mode, data delay, interface mode,
+bit clock type, and polarity tokens.
+
+MODULE_ID_AUDIO_IF_SINK (0x0700117C) and MODULE_ID_AUDIO_IF_SOURCE
+(0x0700117D) are introduced in this patch.
+
+This Module is validated on Hawi and Shikra platforms.
 
 Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 ---
- sound/soc/qcom/common.c | 165 ++++++++++++++++++++++++++++++++++++++++
- sound/soc/qcom/common.h |  14 ++++
- 2 files changed, 179 insertions(+)
+ include/uapi/sound/snd_ar_tokens.h |  89 ++++++++++++++++++++++++
+ sound/soc/qcom/qdsp6/audioreach.c  |  97 ++++++++++++++++++++++++++
+ sound/soc/qcom/qdsp6/audioreach.h  |  81 ++++++++++++++++++++++
+ sound/soc/qcom/qdsp6/topology.c    | 105 +++++++++++++++++++++++++++++
+ 4 files changed, 372 insertions(+)
 
-diff --git a/sound/soc/qcom/common.c b/sound/soc/qcom/common.c
-index edc4611691f7..08949b2c4e81 100644
---- a/sound/soc/qcom/common.c
-+++ b/sound/soc/qcom/common.c
-@@ -23,6 +23,171 @@ static const struct snd_soc_dapm_widget qcom_jack_snd_widgets[] = {
- 	SND_SOC_DAPM_SPK("DP7 Jack", NULL),
- };
+diff --git a/include/uapi/sound/snd_ar_tokens.h b/include/uapi/sound/snd_ar_tokens.h
+index 6b8102eaa121..bda65311cfa9 100644
+--- a/include/uapi/sound/snd_ar_tokens.h
++++ b/include/uapi/sound/snd_ar_tokens.h
+@@ -168,6 +168,58 @@ enum ar_event_types {
+  *						LOG_WAIT = 0,
+  *						LOG_IMMEDIATELY = 1
+  *
++ * %AR_TKN_U16_MODULE_SYNC_SRC:			Frame sync source
++ *						AR_AUDIO_IF_SYNC_SRC_EXTERNAL = 0,
++ *						AR_AUDIO_IF_SYNC_SRC_INTERNAL = 1
++ *
++ * %AR_TKN_U16_MODULE_CTRL_DATA_OUT_ENABLE:	Enable data-out tri-state control
++ *						AR_AUDIO_IF_CTRL_DATA_OE_DISABLE = 0,
++ *						AR_AUDIO_IF_CTRL_DATA_OE_ENABLE = 1
++ *
++ * %AR_TKN_U32_MODULE_SLOT_MASK:			Active TDM slot bitmask
++ *
++ * %AR_TKN_U16_MODULE_NSLOTS_PER_FRAME:		Number of slots per TDM frame
++ *
++ * %AR_TKN_U16_MODULE_SLOT_WIDTH:		Slot width in bits (16 or 32)
++ *
++ * %AR_TKN_U16_MODULE_SYNC_MODE:			Frame sync mode
++ *						AR_AUDIO_IF_FRAME_SYNC_MODE_SHORT = 0,
++ *						AR_AUDIO_IF_FRAME_SYNC_MODE_ONE_SLOT = 1,
++ *						AR_AUDIO_IF_FRAME_SYNC_MODE_LONG = 2
++ *
++ * %AR_TKN_U16_MODULE_CTRL_INVERT_SYNC_PULSE:	Invert frame sync pulse polarity
++ *						AR_AUDIO_IF_SYNC_NORMAL = 0,
++ *						AR_AUDIO_IF_SYNC_INVERTED = 1
++ *
++ * %AR_TKN_U16_MODULE_CTRL_SYNC_DATA_DELAY:	Data delay relative to frame sync
++ *						AR_AUDIO_IF_DATA_DELAY_NONE = 0,
++ *						AR_AUDIO_IF_DATA_DELAY_1_CYCLE = 1,
++ *						AR_AUDIO_IF_DATA_DELAY_2_CYCLE = 2
++ *
++ * %AR_TKN_U16_MODULE_INTF_MODE:			Audio IF interface mode
++ *						AR_AUDIO_IF_INTF_MODE_TDM = 0,
++ *						AR_AUDIO_IF_INTF_MODE_PCM = 1,
++ *						AR_AUDIO_IF_INTF_MODE_I2S = 2
++ *
++ * %AR_TKN_U16_MODULE_QAIF_TYPE:			QAIF hardware port type index
++ *
++ * %AR_TKN_U32_MODULE_ACTIVE_LANE_MASK:		Active lane bitmask for multi-lane
++ *
++ * %AR_TKN_U32_MODULE_FRAME_SYNC_RATE:		Frame sync rate in Hz
++ *
++ * %AR_TKN_U16_MODULE_BIT_CLK_TYPE:		Bit clock type
++ *						AR_AUDIO_IF_BIT_CLK_INTERNAL = 0,
++ *						AR_AUDIO_IF_BIT_CLK_EXTERNAL = 1,
++ *						AR_AUDIO_IF_BIT_CLK_SKIP = 2
++ *
++ * %AR_TKN_U8_MODULE_INV_INT_BIT_CLK:		Invert internal bit clock
++ *						AR_AUDIO_IF_CLK_NORMAL = 0,
++ *						AR_AUDIO_IF_CLK_INVERTED = 1
++ *
++ * %AR_TKN_U8_MODULE_INV_EXT_BIT_CLK:		Invert external bit clock
++ *						AR_AUDIO_IF_CLK_NORMAL = 0,
++ *						AR_AUDIO_IF_CLK_INVERTED = 1
++ *
+  * %AR_TKN_DAI_INDEX:				dai index
+  *
+  */
+@@ -240,6 +292,43 @@ enum ar_event_types {
+ #define AR_TKN_U32_MODULE_LOG_TAP_POINT_ID	260
+ #define AR_TKN_U32_MODULE_LOG_MODE		261
  
-+static struct device_node *qcom_snd_get_link_node(struct snd_soc_pcm_runtime *rtd)
++#define AR_TKN_U16_MODULE_SYNC_SRC		262
++#define AR_TKN_U16_MODULE_CTRL_DATA_OUT_ENABLE	263
++#define AR_TKN_U32_MODULE_SLOT_MASK		264
++#define AR_TKN_U16_MODULE_NSLOTS_PER_FRAME	265
++#define AR_TKN_U16_MODULE_SLOT_WIDTH		266
++#define AR_TKN_U16_MODULE_SYNC_MODE		267
++#define AR_TKN_U16_MODULE_CTRL_INVERT_SYNC_PULSE	268
++#define AR_TKN_U16_MODULE_CTRL_SYNC_DATA_DELAY	269
++#define AR_TKN_U16_MODULE_INTF_MODE		270
++#define AR_TKN_U16_MODULE_QAIF_TYPE		271
++#define AR_TKN_U32_MODULE_ACTIVE_LANE_MASK	272
++#define AR_TKN_U32_MODULE_FRAME_SYNC_RATE	273
++#define AR_TKN_U16_MODULE_BIT_CLK_TYPE		274
++#define AR_TKN_U8_MODULE_INV_INT_BIT_CLK	275
++#define AR_TKN_U8_MODULE_INV_EXT_BIT_CLK	276
++
++#define AR_AUDIO_IF_SYNC_SRC_EXTERNAL		0
++#define AR_AUDIO_IF_SYNC_SRC_INTERNAL		1
++#define AR_AUDIO_IF_CTRL_DATA_OE_DISABLE	0
++#define AR_AUDIO_IF_CTRL_DATA_OE_ENABLE		1
++#define AR_AUDIO_IF_INTF_MODE_TDM		0
++#define AR_AUDIO_IF_INTF_MODE_PCM		1
++#define AR_AUDIO_IF_INTF_MODE_I2S		2
++#define AR_AUDIO_IF_FRAME_SYNC_MODE_SHORT	0
++#define AR_AUDIO_IF_FRAME_SYNC_MODE_ONE_SLOT	1
++#define AR_AUDIO_IF_FRAME_SYNC_MODE_LONG	2
++#define AR_AUDIO_IF_SYNC_NORMAL			0
++#define AR_AUDIO_IF_SYNC_INVERTED		1
++#define AR_AUDIO_IF_DATA_DELAY_NONE		0
++#define AR_AUDIO_IF_DATA_DELAY_1_CYCLE		1
++#define AR_AUDIO_IF_DATA_DELAY_2_CYCLE		2
++#define AR_AUDIO_IF_BIT_CLK_INTERNAL		0
++#define AR_AUDIO_IF_BIT_CLK_EXTERNAL		1
++#define AR_AUDIO_IF_BIT_CLK_SKIP		2
++#define AR_AUDIO_IF_CLK_NORMAL			0
++#define AR_AUDIO_IF_CLK_INVERTED		1
++
+ #define SND_SOC_AR_TPLG_MODULE_CFG_TYPE 0x01001006
+ struct audioreach_module_priv_data {
+ 	__le32 size;	/* size in bytes of the array, including all elements */
+diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
+index e6e9eb2e85aa..62140ce8eb81 100644
+--- a/sound/soc/qcom/qdsp6/audioreach.c
++++ b/sound/soc/qcom/qdsp6/audioreach.c
+@@ -152,6 +152,13 @@ struct apm_i2s_module_intf_cfg {
+ 
+ #define APM_I2S_INTF_CFG_PSIZE ALIGN(sizeof(struct apm_i2s_module_intf_cfg), 8)
+ 
++struct apm_audio_if_module_intf_cfg {
++	struct apm_module_param_data param_data;
++	struct param_id_audio_if_intf_cfg cfg;
++} __packed;
++
++#define APM_AUDIO_IF_INTF_CFG_PSIZE ALIGN(sizeof(struct apm_audio_if_module_intf_cfg), 8)
++
+ struct apm_module_hw_ep_mf_cfg {
+ 	struct apm_module_param_data param_data;
+ 	struct param_id_hw_ep_mf mf;
+@@ -168,6 +175,13 @@ struct apm_module_frame_size_factor_cfg {
+ 
+ #define APM_FS_CFG_PSIZE ALIGN(sizeof(struct apm_module_frame_size_factor_cfg), 8)
+ 
++struct apm_module_hw_ep_frame_duration_cfg {
++	struct apm_module_param_data param_data;
++	struct param_id_hw_ep_frame_duration frame_duration;
++} __packed;
++
++#define APM_HW_EP_FRAME_DURATION_PSIZE ALIGN(sizeof(struct apm_module_hw_ep_frame_duration_cfg), 8)
++
+ struct apm_module_hw_ep_power_mode_cfg {
+ 	struct apm_module_param_data param_data;
+ 	struct param_id_hw_ep_power_mode_cfg power_mode;
+@@ -1042,6 +1056,85 @@ static int audioreach_i2s_set_media_format(struct q6apm_graph *graph,
+ 	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
+ }
+ 
++static int audioreach_audio_if_set_media_format(struct q6apm_graph *graph,
++						const struct audioreach_module *module,
++						const struct audioreach_module_config *cfg)
 +{
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct snd_soc_card *card = rtd->card;
-+	struct device_node *np;
-+	struct device_node *cpu_np;
-+	struct of_phandle_args args;
-+	int ret;
++	struct apm_module_hw_ep_frame_duration_cfg *fd_cfg;
++	struct apm_module_param_data *param_data;
++	struct apm_audio_if_module_intf_cfg *intf_cfg;
++	struct apm_module_hw_ep_mf_cfg *hw_cfg;
++	int ic_sz = APM_AUDIO_IF_INTF_CFG_PSIZE;
++	int ep_sz = APM_HW_EP_CFG_PSIZE;
++	int fd_sz = APM_HW_EP_FRAME_DURATION_PSIZE;
++	int size = ic_sz + ep_sz + fd_sz;
++	/*
++	 * A zero machine override means use the topology default; zero is not
++	 * a valid override for these TDM slot fields.
++	 */
++	u32 slot_mask = cfg->slot_mask ? cfg->slot_mask : module->slot_mask;
++	u16 nslots_per_frame = cfg->nslots_per_frame ?
++				 (u16)cfg->nslots_per_frame : module->nslots_per_frame;
++	u16 slot_width = cfg->slot_width ? (u16)cfg->slot_width : module->slot_width;
++	void *p;
 +
-+	if (!card->dev || !card->dev->of_node)
-+		return NULL;
++	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(size, APM_CMD_SET_CFG, 0);
++	if (IS_ERR(pkt))
++		return PTR_ERR(pkt);
 +
-+	for_each_available_child_of_node(card->dev->of_node, np) {
-+		cpu_np = of_get_child_by_name(np, "cpu");
-+		if (!cpu_np)
-+			continue;
++	p = (void *)pkt + GPR_HDR_SIZE + APM_CMD_HDR_SIZE;
++	intf_cfg = p;
 +
-+		ret = of_parse_phandle_with_args(cpu_np, "sound-dai", "#sound-dai-cells", 0,
-+						 &args);
-+		of_node_put(cpu_np);
-+		if (ret)
-+			continue;
++	param_data = &intf_cfg->param_data;
++	param_data->module_instance_id = module->instance_id;
++	param_data->error_code = 0;
++	param_data->param_id = PARAM_ID_AUDIO_IF_INTF_CFG;
++	param_data->param_size = ic_sz - APM_MODULE_PARAM_DATA_SIZE;
++	intf_cfg->cfg.qaif_type = module->qaif_type;
++	intf_cfg->cfg.intf_idx = (u16)module->hw_interface_idx;
++	intf_cfg->cfg.intf_mode = module->intf_mode;
++	intf_cfg->cfg.ctrl_data_out_enable = module->ctrl_data_out_enable;
++	intf_cfg->cfg.active_slot_mask = slot_mask;
++	intf_cfg->cfg.nslots_per_frame = nslots_per_frame;
++	intf_cfg->cfg.slot_width = slot_width;
++	intf_cfg->cfg.active_lane_mask = module->active_lane_mask;
++	intf_cfg->cfg.frame_sync_rate = module->frame_sync_rate;
++	intf_cfg->cfg.frame_sync_src = module->sync_src;
++	intf_cfg->cfg.frame_sync_mode = module->sync_mode;
++	intf_cfg->cfg.invert_frame_sync_pulse = module->ctrl_invert_sync_pulse;
++	intf_cfg->cfg.frame_sync_data_delay = module->ctrl_sync_data_delay;
++	intf_cfg->cfg.bit_clk_type = module->bit_clk_type;
++	intf_cfg->cfg.inv_int_bit_clk = module->inv_int_bit_clk;
++	intf_cfg->cfg.inv_ext_bit_clk = module->inv_ext_bit_clk;
 +
-+		if (args.np == rtd->dai_link->cpus[0].of_node &&
-+		    args.args_count == 1 && args.args[0] == cpu_dai->id) {
-+			of_node_put(args.np);
-+			return np;
++	p += ic_sz;
++	hw_cfg = p;
++	param_data = &hw_cfg->param_data;
++	param_data->module_instance_id = module->instance_id;
++	param_data->error_code = 0;
++	param_data->param_id = PARAM_ID_HW_EP_MF_CFG;
++	param_data->param_size = ep_sz - APM_MODULE_PARAM_DATA_SIZE;
++
++	hw_cfg->mf.sample_rate = cfg->sample_rate;
++	hw_cfg->mf.bit_width = cfg->bit_width;
++	hw_cfg->mf.num_channels = cfg->num_channels;
++	hw_cfg->mf.data_format = module->data_format;
++
++	p += ep_sz;
++	fd_cfg = p;
++	param_data = &fd_cfg->param_data;
++	param_data->module_instance_id = module->instance_id;
++	param_data->error_code = 0;
++	param_data->param_id = PARAM_ID_HW_EP_FRAME_DURATION;
++	param_data->param_size = fd_sz - APM_MODULE_PARAM_DATA_SIZE;
++	fd_cfg->frame_duration.frame_duration_in_us = AUDIO_IF_FRAME_DURATION_US;
++	fd_cfg->frame_duration.allow_frame_duration_normalization = 1;
++	fd_cfg->frame_duration.min_normalized_frame_dur_us = 1;
++	fd_cfg->frame_duration.max_normalized_frame_dur_us = 100000;
++
++	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
++}
++
+ static int audioreach_logging_set_media_format(struct q6apm_graph *graph,
+ 					       const struct audioreach_module *module)
+ {
+@@ -1411,6 +1504,10 @@ int audioreach_set_media_format(struct q6apm_graph *graph,
+ 		if (!rc)
+ 			rc = audioreach_module_enable(graph, module, true);
+ 		break;
++	case MODULE_ID_AUDIO_IF_SOURCE:
++	case MODULE_ID_AUDIO_IF_SINK:
++		rc = audioreach_audio_if_set_media_format(graph, module, cfg);
++		break;
+ 
+ 	default:
+ 		rc = 0;
+diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
+index 62a2fd79bbcb..d57ba4e6a970 100644
+--- a/sound/soc/qcom/qdsp6/audioreach.h
++++ b/sound/soc/qcom/qdsp6/audioreach.h
+@@ -36,6 +36,8 @@ struct q6apm_graph;
+ #define MODULE_ID_SPEAKER_PROTECTION	0x070010E2
+ #define MODULE_ID_SPEAKER_PROTECTION_VI	0x070010E3
+ #define MODULE_ID_OPUS_DEC		0x07001174
++#define MODULE_ID_AUDIO_IF_SINK		0x0700117C
++#define MODULE_ID_AUDIO_IF_SOURCE	0x0700117D
+ 
+ #define APM_CMD_GET_SPF_STATE		0x01001021
+ #define APM_CMD_RSP_GET_SPF_STATE	0x02001007
+@@ -544,6 +546,65 @@ struct param_id_i2s_intf_cfg {
+ #define PORT_ID_I2S_OUPUT		1
+ #define I2S_STACK_SIZE			2048
+ 
++#define PARAM_ID_AUDIO_IF_INTF_CFG	0x08001B11
++
++#define AUDIO_IF_INTF_MODE_TDM		AR_AUDIO_IF_INTF_MODE_TDM
++#define AUDIO_IF_INTF_MODE_PCM		AR_AUDIO_IF_INTF_MODE_PCM
++#define AUDIO_IF_INTF_MODE_I2S		AR_AUDIO_IF_INTF_MODE_I2S
++
++/*
++ * struct param_id_audio_if_intf_cfg - Audio interface configuration
++ * @qaif_type: Audio interface type (e.g. QAIF, QAIF_VA)
++ * @intf_idx: Interface instance index
++ * @intf_mode: Interface operating mode (TDM/PCM/I2S)
++ * @ctrl_data_out_enable: Enable sharing of data-out signal with other masters
++ * @active_slot_mask: Bitmask indicating active slots
++ * @nslots_per_frame: Number of slots per audio frame
++ * @slot_width: Width of each slot in bits
++ * @active_lane_mask: Bitmask of active data lanes
++ * @frame_sync_rate: Frame sync rate in Hz
++ * @frame_sync_src: Frame sync source selection
++ * @frame_sync_mode: Frame sync mode configuration
++ * @invert_frame_sync_pulse: Invert frame sync polarity when set
++ * @frame_sync_data_delay: Data delay from frame sync in bit clocks
++ * @bit_clk_type: Bit clock type (internal / external)
++ * @inv_int_bit_clk: Invert internal bit clock when set
++ * @inv_ext_bit_clk: Invert external bit clock when set
++ *
++ * This structure defines configuration parameters for the Qualcomm
++ * Audio Interface (QAIF) block. It is used to program interface
++ * characteristics such as slot configuration, clocking and frame
++ * synchronization behaviour.
++ */
++struct param_id_audio_if_intf_cfg {
++	u16 qaif_type;
++	u16 intf_idx;
++	u16 intf_mode;
++	u16 ctrl_data_out_enable;
++	u32 active_slot_mask;
++	u16 nslots_per_frame;
++	u16 slot_width;
++	u32 active_lane_mask;
++	u32 frame_sync_rate;
++	u16 frame_sync_src;
++	u16 frame_sync_mode;
++	u16 invert_frame_sync_pulse;
++	u16 frame_sync_data_delay;
++	u16 bit_clk_type;
++	u8 inv_int_bit_clk;
++	u8 inv_ext_bit_clk;
++} __packed;
++
++#define PARAM_ID_HW_EP_FRAME_DURATION	0x08001B2F
++#define AUDIO_IF_FRAME_DURATION_US		1000
++
++struct param_id_hw_ep_frame_duration {
++	u32 frame_duration_in_us;
++	u32 allow_frame_duration_normalization;
++	u32 min_normalized_frame_dur_us;
++	u32 max_normalized_frame_dur_us;
++} __packed;
++
+ #define PARAM_ID_DISPLAY_PORT_INTF_CFG		0x08001154
+ 
+ struct param_id_display_port_intf_cfg {
+@@ -877,6 +938,23 @@ struct audioreach_module {
+ 	uint32_t data_format;
+ 	uint32_t hw_interface_type;
+ 
++	/* Audio IF module (TDM/PCM/I2S) */
++	u32 slot_mask;
++	u32 active_lane_mask;
++	u32 frame_sync_rate;
++	u16 qaif_type;
++	u16 sync_src;
++	u16 ctrl_data_out_enable;
++	u16 nslots_per_frame;
++	u16 slot_width;
++	u16 intf_mode;
++	u16 sync_mode;
++	u16 ctrl_invert_sync_pulse;
++	u16 ctrl_sync_data_delay;
++	u16 bit_clk_type;
++	u8 inv_int_bit_clk;
++	u8 inv_ext_bit_clk;
++
+ 	/* PCM module specific */
+ 	uint32_t interleave_type;
+ 
+@@ -907,6 +985,9 @@ struct audioreach_module_config {
+ 	u32	channel_allocation;
+ 	u32	sd_line_mask;
+ 	int	fmt;
++	u32	slot_mask;
++	u16	nslots_per_frame;
++	u16	slot_width;
+ 	struct snd_codec codec;
+ 	u8 channel_map[AR_PCM_MAX_NUM_CHANNEL];
+ };
+diff --git a/sound/soc/qcom/qdsp6/topology.c b/sound/soc/qcom/qdsp6/topology.c
+index 1f69fba6de26..3dd0a5c29a6e 100644
+--- a/sound/soc/qcom/qdsp6/topology.c
++++ b/sound/soc/qcom/qdsp6/topology.c
+@@ -753,6 +753,105 @@ static int audioreach_widget_i2s_module_load(struct audioreach_module *mod,
+ 	return 0;
+ }
+ 
++static int audioreach_widget_audio_if_module_load(struct audioreach_module *mod,
++						  const struct snd_soc_tplg_vendor_array *mod_array)
++{
++	const struct snd_soc_tplg_vendor_value_elem *mod_elem;
++	int tkn_count = 0;
++	u32 val;
++
++	mod_elem = mod_array->value;
++
++	while (tkn_count < le32_to_cpu(mod_array->num_elems)) {
++		val = le32_to_cpu(mod_elem->value);
++		switch (le32_to_cpu(mod_elem->token)) {
++		case AR_TKN_U32_MODULE_HW_IF_IDX:
++			if (val > U16_MAX)
++				return -EINVAL;
++			mod->hw_interface_idx = val;
++			break;
++		case AR_TKN_U32_MODULE_FMT_DATA:
++			mod->data_format = val;
++			break;
++		case AR_TKN_U16_MODULE_SYNC_SRC:
++			if (val > U16_MAX)
++				return -EINVAL;
++			mod->sync_src = (u16)val;
++			break;
++		case AR_TKN_U16_MODULE_CTRL_DATA_OUT_ENABLE:
++			if (val > U16_MAX)
++				return -EINVAL;
++			mod->ctrl_data_out_enable = (u16)val;
++			break;
++		case AR_TKN_U32_MODULE_SLOT_MASK:
++			mod->slot_mask = val;
++			break;
++		case AR_TKN_U16_MODULE_NSLOTS_PER_FRAME:
++			if (val > U16_MAX)
++				return -EINVAL;
++			mod->nslots_per_frame = (u16)val;
++			break;
++		case AR_TKN_U16_MODULE_SLOT_WIDTH:
++			if (val > U16_MAX)
++				return -EINVAL;
++			mod->slot_width = (u16)val;
++			break;
++		case AR_TKN_U16_MODULE_INTF_MODE:
++			if (val > U16_MAX)
++				return -EINVAL;
++			mod->intf_mode = (u16)val;
++			break;
++		case AR_TKN_U16_MODULE_SYNC_MODE:
++			if (val > U16_MAX)
++				return -EINVAL;
++			mod->sync_mode = (u16)val;
++			break;
++		case AR_TKN_U16_MODULE_CTRL_INVERT_SYNC_PULSE:
++			if (val > U16_MAX)
++				return -EINVAL;
++			mod->ctrl_invert_sync_pulse = (u16)val;
++			break;
++		case AR_TKN_U16_MODULE_CTRL_SYNC_DATA_DELAY:
++			if (val > U16_MAX)
++				return -EINVAL;
++			mod->ctrl_sync_data_delay = (u16)val;
++			break;
++		case AR_TKN_U16_MODULE_QAIF_TYPE:
++			if (val > U16_MAX)
++				return -EINVAL;
++			mod->qaif_type = (u16)val;
++			break;
++		case AR_TKN_U32_MODULE_ACTIVE_LANE_MASK:
++			mod->active_lane_mask = val;
++			break;
++		case AR_TKN_U32_MODULE_FRAME_SYNC_RATE:
++			mod->frame_sync_rate = val;
++			break;
++		case AR_TKN_U16_MODULE_BIT_CLK_TYPE:
++			if (val > U16_MAX)
++				return -EINVAL;
++			mod->bit_clk_type = (u16)val;
++			break;
++		case AR_TKN_U8_MODULE_INV_INT_BIT_CLK:
++			if (val > U8_MAX)
++				return -EINVAL;
++			mod->inv_int_bit_clk = (u8)val;
++			break;
++		case AR_TKN_U8_MODULE_INV_EXT_BIT_CLK:
++			if (val > U8_MAX)
++				return -EINVAL;
++			mod->inv_ext_bit_clk = (u8)val;
++			break;
++		default:
++			break;
 +		}
-+
-+		of_node_put(args.np);
++		tkn_count++;
++		mod_elem++;
 +	}
-+
-+	return NULL;
-+}
-+
-+static int qcom_snd_parse_tdm_slot(struct device_node *np,
-+				   struct qcom_snd_tdm_slot_cfg *cfg)
-+{
-+	memset(cfg, 0, sizeof(*cfg));
-+
-+	return snd_soc_of_parse_tdm_slot(np, &cfg->tx_mask, &cfg->rx_mask,
-+					 &cfg->slots, &cfg->slot_width);
-+}
-+
-+static int qcom_snd_normalize_tdm_slots(struct qcom_snd_tdm_slot_cfg *cpu_cfg,
-+					struct qcom_snd_tdm_slot_cfg *codec_cfg)
-+{
-+	unsigned int slots;
-+	unsigned int slot_width;
-+
-+	if (cpu_cfg->slots && codec_cfg->slots && cpu_cfg->slots != codec_cfg->slots)
-+		return -EINVAL;
-+
-+	if (cpu_cfg->slot_width && codec_cfg->slot_width &&
-+	    cpu_cfg->slot_width != codec_cfg->slot_width)
-+		return -EINVAL;
-+
-+	slots = cpu_cfg->slots ?: codec_cfg->slots;
-+	if (!slots)
-+		return 0;
-+
-+	slot_width = cpu_cfg->slot_width ?: codec_cfg->slot_width;
-+	if (!slot_width)
-+		return -EINVAL;
-+
-+	cpu_cfg->slots = slots;
-+	codec_cfg->slots = slots;
-+	cpu_cfg->slot_width = slot_width;
-+	codec_cfg->slot_width = slot_width;
 +
 +	return 0;
 +}
 +
-+static int qcom_snd_parse_dai_tdm_slots(struct snd_soc_pcm_runtime *rtd,
-+					struct qcom_snd_tdm_slot_cfg *cpu_cfg,
-+					struct qcom_snd_tdm_slot_cfg *codec_cfg)
-+{
-+	struct device_node *link_np;
-+	struct device_node *cpu_np = NULL;
-+	struct device_node *codec_np = NULL;
-+	int ret;
-+
-+	link_np = qcom_snd_get_link_node(rtd);
-+	if (!link_np)
-+		return -EINVAL;
-+
-+	cpu_np = of_get_child_by_name(link_np, "cpu");
-+	codec_np = of_get_child_by_name(link_np, "codec");
-+	if (!cpu_np || !codec_np) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	ret = qcom_snd_parse_tdm_slot(cpu_np, cpu_cfg);
-+	if (ret)
-+		goto out;
-+
-+	ret = qcom_snd_parse_tdm_slot(codec_np, codec_cfg);
-+out:
-+	of_node_put(codec_np);
-+	of_node_put(cpu_np);
-+	of_node_put(link_np);
-+
-+	return ret;
-+}
-+
-+int qcom_snd_get_dai_tdm_slots(struct snd_soc_pcm_runtime *rtd,
-+			       struct qcom_snd_tdm_slot_cfg *cpu_cfg,
-+			       struct qcom_snd_tdm_slot_cfg *codec_cfg)
-+{
-+	int ret;
-+
-+	ret = qcom_snd_parse_dai_tdm_slots(rtd, cpu_cfg, codec_cfg);
-+	if (ret)
-+		return ret;
-+
-+	return qcom_snd_normalize_tdm_slots(cpu_cfg, codec_cfg);
-+}
-+EXPORT_SYMBOL_GPL(qcom_snd_get_dai_tdm_slots);
-+
-+int qcom_snd_apply_dai_tdm_slots_cfg(struct snd_soc_pcm_runtime *rtd,
-+				     const struct qcom_snd_tdm_slot_cfg *cpu_cfg,
-+				     const struct qcom_snd_tdm_slot_cfg *codec_cfg)
-+{
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct snd_soc_dai *codec_dai;
-+	int i;
-+	int ret;
-+
-+	if (!cpu_cfg->slots)
-+		return 0;
-+
-+	ret = snd_soc_dai_set_tdm_slot(cpu_dai, cpu_cfg->tx_mask, cpu_cfg->rx_mask,
-+				       cpu_cfg->slots, cpu_cfg->slot_width);
-+	if (ret)
-+		return ret;
-+
-+	for_each_rtd_codec_dais(rtd, i, codec_dai) {
-+		ret = snd_soc_dai_set_tdm_slot(codec_dai,
-+					       codec_cfg->tx_mask,
-+					       codec_cfg->rx_mask,
-+					       codec_cfg->slots,
-+					       codec_cfg->slot_width);
+ static int audioreach_widget_dp_module_load(struct audioreach_module *mod,
+ 					    const struct snd_soc_tplg_vendor_array *mod_array)
+ {
+@@ -806,6 +905,12 @@ static int audioreach_widget_load_buffer(struct snd_soc_component *component,
+ 	case MODULE_ID_I2S_SOURCE:
+ 		audioreach_widget_i2s_module_load(mod, mod_array);
+ 		break;
++	case MODULE_ID_AUDIO_IF_SINK:
++	case MODULE_ID_AUDIO_IF_SOURCE:
++		ret = audioreach_widget_audio_if_module_load(mod, mod_array);
 +		if (ret)
 +			return ret;
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(qcom_snd_apply_dai_tdm_slots_cfg);
-+
-+int qcom_snd_apply_dai_tdm_slots(struct snd_soc_pcm_runtime *rtd)
-+{
-+	struct qcom_snd_tdm_slot_cfg cpu_cfg;
-+	struct qcom_snd_tdm_slot_cfg codec_cfg;
-+	int ret;
-+
-+	ret = qcom_snd_get_dai_tdm_slots(rtd, &cpu_cfg, &codec_cfg);
-+	if (ret)
-+		return ret == -EINVAL ? 0 : ret;
-+
-+	return qcom_snd_apply_dai_tdm_slots_cfg(rtd, &cpu_cfg, &codec_cfg);
-+}
-+EXPORT_SYMBOL_GPL(qcom_snd_apply_dai_tdm_slots);
-+
- int qcom_snd_parse_of(struct snd_soc_card *card)
- {
- 	struct device *dev = card->dev;
-diff --git a/sound/soc/qcom/common.h b/sound/soc/qcom/common.h
-index ee6662885593..02b24caec485 100644
---- a/sound/soc/qcom/common.h
-+++ b/sound/soc/qcom/common.h
-@@ -9,7 +9,21 @@
- 
- #define LPASS_MAX_PORT			(SENARY_MI2S_TX + 1)
- 
-+struct qcom_snd_tdm_slot_cfg {
-+	unsigned int tx_mask;
-+	unsigned int rx_mask;
-+	unsigned int slots;
-+	unsigned int slot_width;
-+};
-+
- int qcom_snd_parse_of(struct snd_soc_card *card);
-+int qcom_snd_get_dai_tdm_slots(struct snd_soc_pcm_runtime *rtd,
-+			       struct qcom_snd_tdm_slot_cfg *cpu_cfg,
-+			       struct qcom_snd_tdm_slot_cfg *codec_cfg);
-+int qcom_snd_apply_dai_tdm_slots_cfg(struct snd_soc_pcm_runtime *rtd,
-+				     const struct qcom_snd_tdm_slot_cfg *cpu_cfg,
-+				     const struct qcom_snd_tdm_slot_cfg *codec_cfg);
-+int qcom_snd_apply_dai_tdm_slots(struct snd_soc_pcm_runtime *rtd);
- int qcom_snd_wcd_jack_setup(struct snd_soc_pcm_runtime *rtd,
- 			    struct snd_soc_jack *jack, bool *jack_setup);
- int qcom_snd_dp_jack_setup(struct snd_soc_pcm_runtime *rtd,
++		break;
+ 	case MODULE_ID_DISPLAY_PORT_SINK:
+ 		audioreach_widget_dp_module_load(mod, mod_array);
+ 		break;
 -- 
 2.34.1
 
