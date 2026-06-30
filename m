@@ -1,108 +1,106 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1E846AEE2
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 15:49:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C7C3B9D84;
+	Tue, 30 Jun 2026 16:23:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782834560; cv=none; b=t4fUqocPm+LY1UWYILejyGc8zUNNMnCOSJJAN+/1RxhecdGulT71iPaSKqgCS1fInQQTKcHrI5ZEuFUg9Hrzw7g0JPlQDSqKTA9N74fwTEm2hlwrMyvigjR7v2NwO3H7KeRQSPOAn0icRmZ/Xqch3JZpQmBSSv2eI1ZRxRgBB0g=
+	t=1782836595; cv=none; b=I4luzN0eDYziqXrMiHftVK9uoCcYsMp2rNYqMiPUDG5zYbmmg9oz6AUhvJJlM5ezx31/9UzB/Rv4shrRQ/wm8cFGEc7MfEBeSdPmWAR2LO8OnbhEN6udlVzB8d804dgg6DNGG+tQFTkOJb/e5S3ciphvkGtxyhL0tdcwQcFWG7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782834560; c=relaxed/simple;
-	bh=J2Ubpj6UDQ8dhXJs1/efR1cIg4QETMCXdOrqc0h7Q9w=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Qt3C+1LW2u7AfCbv6JI/oqaiFIF0q86vsuJp5tO63Yk14OZuBKbIqEPug9Xo7jhmFvg36yNOe6ZM+WdAxUNTh8BSKbv0YezXrDWgnPgPrW2UmNUMqygY3nNrEubCbcknSITvXj3SN+dur4VvFa9YXOeldtZ0pIRS8RcefF+Suj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V8FHbz0E; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782836595; c=relaxed/simple;
+	bh=KhkxMedQQRIcfwWXYlMxNfQJ2Izk6ZD+3c/eD9pgzWE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sUD5hWLkijXJINmj76FCTTw19ISKZpVzKoR2ti2Lc+E7/EbyAl1Dh3iBCf1EJI+Xa8cH9pamwCgH6GJV+i0pw0Rds2rFmlH8wEpSnQ1pOlaL2XdBPhBxvuB2XZMKDSfGFfiCuk9jXHOo6x3bvGcSNqNiw0MFc31r0KzL8Vs+Mgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JNfllhvJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V8FHbz0E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 680C91F000E9;
-	Tue, 30 Jun 2026 15:49:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JNfllhvJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 578711F000E9;
+	Tue, 30 Jun 2026 16:23:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782834559;
-	bh=Dc57ihpUVF0a7ZxSKY0jk347wjuQpNBYp55lag1yZzg=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=V8FHbz0E2ACHTvuz+e/OpewwcRSrPKOqymGoL2LcQfCKS89FDXYuEMq3GVlC7YyTV
-	 XEi0hbkMPpCJopKhnAK6ZDMzVoCLGoNBzGq6IBABJcWGhCHK1jsXJ3q6V4MI0YtxhL
-	 hlkLYjGPhBOLnScKDyhX6JzdiV5JdtSkCrutJk7T9A+P1zUVs/8Rw8os+ISBRDGR4e
-	 JOm6Qwt1FUfr7HTyj9y8pF/7HeXTdp1cNiHqWudHzb5IHfFdedCmNthqm8UG3xtstC
-	 mDymQjg6v/AxfhdSCitR2SlzqG1wqPwCbTmfUmhLVw32G6xDUaS27CoItiJXdohnX9
-	 rohDoAsX66fSA==
-From: Mark Brown <broonie@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Cezary Rojewski <cezary.rojewski@intel.com>, 
- Jaroslav Kysela <perex@perex.cz>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Takashi Iwai <tiwai@suse.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87ldc1etyp.wl-kuninori.morimoto.gx@renesas.com>
-References: <87ldc1etyp.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH 0/2] ASoC: sdw_utils: tidyup functions
-Message-Id: <178282590914.79320.1305270680066783962.b4-ty@b4>
-Date: Tue, 30 Jun 2026 14:25:09 +0100
+	s=k20260515; t=1782836594;
+	bh=+aWdnoMMtLoLPwWqfxE5l3Mi7c2BQoVXxXHwRngYLxw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JNfllhvJO5N5wVksTw9WwBnKjPMOZJR9RPF/WorjJxlD8KUYbkA4Q4dSG2pA/I73v
+	 gsXcWinbucwHVI7odj5o3AyzaWa/BqtUnNrimAB0mBaQ2a2LiKDQdW/NAPLFHe6nlb
+	 plldkahii6Oq62o/LzINmEQidRkhIVLWD06xYCBlJRxpkzt/f9XEF54F7EqSi1Njsq
+	 7Tocnxzk0anOnFEcNOFGVQsiL6nY5DBDwAojIJF4wiRJt3B3veBixbNcSzi0SVuNEb
+	 G5UOS23xJsTx3LPgWzSSv3Mf8adTLtbKDZEWHFlWBlLKQg8KLa06RLHv37U43Ps/0+
+	 xm/DekhQ25N+A==
+Date: Tue, 30 Jun 2026 11:23:13 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: David Heidelberg <david@ixit.cz>
+Cc: devicetree@vger.kernel.org, David Rhodes <david.rhodes@cirrus.com>,
+	phone-devel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, patches@opensource.cirrus.com,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	David Rhodes <drhodes@opensource.cirrus.com>,
+	David Rhodes <David.Rhodes@cirrus.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>
+Subject: Re: [PATCH v3] ASoC: dt-bindings: Convert cirrus,cs35l36 to DT schema
+Message-ID: <178283659300.3869832.12251843257328309264.robh@kernel.org>
+References: <20260624-dt-cirrus-cs35l36-v3-1-ec451d5a2908@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1483; i=broonie@kernel.org;
- h=from:subject:message-id; bh=J2Ubpj6UDQ8dhXJs1/efR1cIg4QETMCXdOrqc0h7Q9w=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqQ+V8RF4WdZ1dV+yC8bAN/XQYizA/+8SxIXNeJ
- z9R0wnaMYuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakPlfAAKCRAk1otyXVSH
- 0A/GB/4uieVBxkUGHyxuR6M6McwKKtktHVbGlnWgGBGFOQIkkod8DYHLJ9/WZaQGSG4tE1XABuu
- 4OsrOBSKcynn9a6oV6vwTdvJzwTHgMQkLmGH0OwXa7NLXqWEngdqTx/x0IMAAmV3MPGDKKcwe+y
- zGaYT8KcCbI/gCwXTVK6j5cc2YKDn/aLhCMtTodI+PklkesBscYHAu90ANVkPCxEGcDixx9nUtt
- 3rJ1xVIwb1kGV6kJiNw2R5/iOmtpahVi26jihZQ4RATVOvQWyCzOJen70+iTbwWGMjnYE8fN15d
- yc2LjOXVEdPMP8W1EmrtW46X8GZN2b6pEQwEVwljnxTMZfy7
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260624-dt-cirrus-cs35l36-v3-1-ec451d5a2908@ixit.cz>
 
-On Fri, 26 Jun 2026 05:44:46 +0000, Kuninori Morimoto wrote:
-> ASoC: sdw_utils: tidyup functions
+
+On Wed, 24 Jun 2026 23:10:02 +0200, David Heidelberg wrote:
+> Convert CS35L36 Speaker Amplifier to yaml.
 > 
-> Hi
+> Changes:
+>  - maintainers email to the generic Cirrus email
+>  - Both the codec and downstream worked just fine without
+>    VP-supply provided. Align with datasheet for similar models.
+>  - add dai-common.yaml to cover for '#sound-dai-cells',
+>    'sound-name-prefix'
+>  - updated not yet implemented:
+>      cirrus,weak-fet-delay -> cirrus,classh-wk-fet-delay-ms
+>        (in both definition and example)
+>      cirrus,weak-fet-thld -> cirrus,weak-fet-thld-millivolt
+>        (only in the example)
+>  - added two required properties:
+>      cirrus,boost-ctl-millivolt
+>      cirrus,boost-peak-milliamp
 > 
-> I will post DAI/Component/Card capsuling patch, but
-> current code makes old style / new style conversion difficult.
-> To make future conversions easier to understand, this patch clean up the
-> code a little. but no functional change.
+> Assisted-by: OpenAI:gpt-4
+> Reviewed-by: David Rhodes <David.Rhodes@cirrus.com>
+> Co-developed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+> Relevant for Pixel 3 / 3XL / 4.
+> ---
+> Changes in v3:
+> - Corrected properties which has been unimplemented and also
+>   conflicting between definition and the sample.
+> - Removed units from description where units are part of the property
+>   name.
+> - Added sound into the $id path. (Mark)
+> - Readded James and removed Bjorn. (Rob)
+> - Made path to dai-common shorter.
+> - Added two required properties
+>   cirrus,boost-ctl-millivolt and cirrus,boost-peak-milliamp.
+> - Use $defs for the cirrus,vpbr-config to prevent matching it against
+>   vendor defined properties. The driver is already mainlined with
+>   cirrus, vendor part, so we have to keep it compatible.
+> - Link to v2: https://lore.kernel.org/r/20260624-dt-cirrus-cs35l36-v2-1-74eccdbd8fe4@ixit.cz
 > 
-> [...]
+> Changes in v2:
+> - Rename the commit. (Mark)
+> - Link to v1: https://lore.kernel.org/r/20260618-dt-cirrus-cs35l36-v1-1-1a43515666ad@ixit.cz
+> ---
+>  .../devicetree/bindings/sound/cirrus,cs35l36.yaml  | 240 +++++++++++++++++++++
+>  .../devicetree/bindings/sound/cs35l36.txt          | 168 ---------------
+>  2 files changed, 240 insertions(+), 168 deletions(-)
+> 
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
-
-Thanks!
-
-[1/2] ASoC: sdw_utils: tidyup .count_sidecar
-      https://git.kernel.org/broonie/sound/c/c97f0bf5f705
-[2/2] ASoC: sdw_utils: tidyup asoc_sdw_parse_sdw_endpoints()
-      https://git.kernel.org/broonie/sound/c/a1332be2a070
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
