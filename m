@@ -1,293 +1,309 @@
-Received: from mx0b-0002e601.pphosted.com (mx0b-0002e601.pphosted.com [148.163.154.28])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010058.outbound.protection.outlook.com [52.101.46.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A0143C048;
-	Tue, 30 Jun 2026 14:49:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.154.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911E231D372;
+	Tue, 30 Jun 2026 15:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.58
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782831000; cv=fail; b=hBB+QlPfOfIRMKfUYbenoC69BpsqmDiy+X7thTvqcUO8sWg9P+iPW5dxc0CZ8ET+vy6GpiG4c51O/EUIi9A1PjTVLdx9sRswXetenHCOpeDQV0XogDw3B4vfk5owfhahIznT0dYVCKfcm1rrS/El2iHQ7fj0crWDidFbWVOdw2c=
+	t=1782832210; cv=fail; b=ZXgqJgYSF0et949ZlthOU4L7t96Hce2B4VvbMip878r4F0vmXjTEFo50ousj8jAq6US6RFjgFAI9p3ob1dh7H3RKd0MtyhzJ3ZvBavR52Pglq9mwSILahDmcYyjT3zxgoCWb0EgodLA7tkONDh1b5qS8v0Kqjg2W7TEtddxfAhk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782831000; c=relaxed/simple;
-	bh=K9PzNUDFBy2SuiGRu4ck52iyp0WH7M2FBWsEHDTUDuQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YXLTsM7PqvV3BGs6o6R4AG1srxxLczKAaH7KvAhrYZyF/Y7SiFueEB+gAMXYiSA6KI9d1bo4Lnc1R5I8Lipx0gLFzgY2mEqSxiNdHOamjrBzflYcOlnkuDOJovbBqX0NP20DX9kXtWQBnPZZP4Sqg6SgxYxMTxyRtoZeQvX3Rqw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b=Ytzq2SJs; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=t+vwF+tI; arc=fail smtp.client-ip=148.163.154.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1782832210; c=relaxed/simple;
+	bh=YjhMD/X8efnDY2WF7veY95gMjgkKm0MmsYu8IKrkECY=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	 In-Reply-To:MIME-Version; b=HPtFkKmZ34EdoVknEd1IprRPW0e8AdITJx+I/Kswp9oU/dwvbYozaMjmi0aRtdL99Kz6nEtnaAI2oGjlM/7me8W9+g5Qxkh6KzPz+GJqS7D+xLMELhBUroKuyRuFCldPEZizLggKx0O8RX2LBbCyiY6+iHwe6lYjX76vLUbuNf8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=sYufEBUR; arc=fail smtp.client-ip=52.101.46.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b="Ytzq2SJs";
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="t+vwF+tI"
-Received: from pps.filterd (m0374955.ppops.net [127.0.0.1])
-	by mx0b-0002e601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65UEdZkL1092955;
-	Tue, 30 Jun 2026 09:49:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=proofpoint-05-2026; bh=MzYdQTV6ctDa2
-	423+8vpWXjyYKYbShSWt5aFg/MaoWw=; b=Ytzq2SJsSLfmavlyIHM3FOAHTDBr6
-	bih87+ozNbZr5iP8oFyRb/CEvYykulKYkIqtTa955v9gOtDWzWEVXDC2W4UF3PAW
-	pLKqrEWI63WSo4Aj4k9fygi+oXnjkpxTHQG0UMtOGpizNZozRv8HL290DneKPGK6
-	qsJ+JNd6ehc/nIwmWmMt2MtEWTEhkMR5Dl+d09+DRSTkTReLJ9OIiNhw8zNwvd9k
-	H/5xMdMA+/rfY8S54g6r6kdXT63X/q0dXDMCKlbxYDJt6ti0s6rMPTyyjg/GM1An
-	LrcHBHkoh9kvdLvTqtmh7OglhUrcsMj2O/SIVPFHasTPbVnxzbfMFyUHw==
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010000.outbound.protection.outlook.com [52.101.201.0])
-	by mx0b-0002e601.pphosted.com (PPS) with ESMTPS id 4f4cpvs66h-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 30 Jun 2026 09:49:41 -0500 (CDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="sYufEBUR"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WgnpFumGcB0h244CBkkutkUjESy0x++gHI6wOhkkCC4QeG7OYy3+n+7s4+urU+/ZZt85ghSpXM6gzTdoIrK7NhAfTMwO8JX7DIwTxwNqcD1fMDuUrhWAWGdOcl3aiH0lbVnQAOwcNKR5SL36o2UZ30eKlK8PnuYuCWYGgc1xjgmnlBCv8tLQlqsyb1Idc6Alo9fIt/ZycxmbGiUQwrcBNwwfZ4HVHO3ahH3gh3uIOsVltulhLnwVZ4Tr0S7fl1STFtX82ElWeln99d4/SjzshtEcTxCN+TOz2ovjnE8xGTM/AfEwf/6bl+/qfXG5NTqzefn9rucP9/Dbs4w020i98Q==
+ b=iP9bh3XjRxU1vdlXRbKMD9i06YGwBrYWhLC8ZCTV/WkM3VAhnzc5VXTsgcVfa59tzuEyXufQfLBrlJKiRzgF/yOjW8QSyap1KYTsv6X/9jTpqkDcs+x1a3tOYy0ZIStDKMshqlM1vJi029XJbUiKc48uE/m5662u3UilBE7+J2RyDcy4srddMjI8noIEHc05g6nN/2ASZD39txL68ct12mvqc7+TpCwu2MDDO/yoJvjN8nMmnZowIWxSn1aoj0khN9xEn6GoTyemMyA16ZgVJPLeOFrJmH79DlbOapFbeb09g4wDan7Waxz0gM8+UBQp04G7S3uB9PIRmvzmoXXymw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MzYdQTV6ctDa2423+8vpWXjyYKYbShSWt5aFg/MaoWw=;
- b=kqGs+n1dmbDTTSdyXM78uzvOlQ2WSqS0N/tCDdRANU2UkOq4re/VHZutDKBMRiAaSyxzjmTe1gA2kD1XEQzXMwWbQTbs/cKqnqKJRQ6yphK02okXVBg1vETfSiHf1SMuvHkeMh0u9Hx9inY1JjtociqfzrtUchrpbiWrrMjc7pRHUifhz5+7odY/8ehxCo03YuHZ4866tSnQC4Q48TbXUqNi2fJhi7VVn1CzWT8bT3MtoASG/pgKXEiV22YpRFyaliUGv13pSY/1kprCEcgsbZuKdv7Jqj7lU/mYxpjISEcRMB0Cexf6zqWu479daspLE70+nSo3xCCPhKZpF4b0YA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ bh=eoxaXJsILjU7jh80C1WkESw+OFwhH8/Tpv2coL+xT8E=;
+ b=YB/F4pZtNrmkPxw/tRPV1REk1I6y0wRs718Griep8Kyxe585eDh6kesp8bgDAgYNBGMIfGcqISmU/xE5JxZ5R5KwxDaZKCU2L0qmWvamXAtOvW0GklCY8XWsQhWlJuKUjthre+gkP0Wsmt1l5YYOB6KOtu4z6DWSi7S2X9XOjEWxmcRaOL4TZLC4yPN3sp9WhD+p4djOfBYAlYezBAnFdx1rPDEzdTGlXgAteodFOzB+qtY4XMbZfFj22I//R+N2lXr4NypSA8TnnMx8EStIjUnIepSzJLmZsjKmEqo3+D0ol6hKCPMHtKj4rDvElyDko4hKvCYKvu+MlVjhhn7Qpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MzYdQTV6ctDa2423+8vpWXjyYKYbShSWt5aFg/MaoWw=;
- b=t+vwF+tIn/EqlTYWpY1qUYiFeRUlDxHgWbocz20jIkx4dxcjFC4CPEDgSQW7+9I13PO7e3xQfqWW2s0vy4SC0dUkkSHTCo+8Coj+CvovQw3BXiVqhoiuRF8x5ep1Gmq7kQYPNFwgGCYf8JXH9cTE0xWhj02r4Yx5O9OFj7xlgIU=
-Received: from MW4PR04CA0358.namprd04.prod.outlook.com (2603:10b6:303:8a::33)
- by MN2PR10MB4176.namprd10.prod.outlook.com (2603:10b6:208:1da::11) with
+ bh=eoxaXJsILjU7jh80C1WkESw+OFwhH8/Tpv2coL+xT8E=;
+ b=sYufEBURKFZymRK3+8C4mnt8zdWAPa4JwHgBQzD6jaNAGXgnqmy9elZ8lxdkAc6nQUok6vtduK+y0ZVX+QIwCqS4wvRlA+u54bK9NterRLTqMgfweHu+1++dfN22QgUW+X1LwdBD/QjdfV4H0tNh2MvtDBKFVWzk7OY+zAkLheua3ZMRtG4uIlhz79dY6S92UEplqahT9ysOrmyeQUi6uporvMJo+4DiWFp8sQt1fAHXbhzC6oIA+AabSfcBIuCtFNSrNlHkLjksnu4FtXtqJAEgAwC2P0hEBB8CtYvrYsLLo4G+uPkRI8x47I2MJiO05NAT31IoiTgT4085ko4srg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by SN7PR12MB7202.namprd12.prod.outlook.com (2603:10b6:806:2a9::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Tue, 30 Jun
- 2026 14:49:38 +0000
-Received: from MW1PEPF0001615F.namprd21.prod.outlook.com
- (2603:10b6:303:8a:cafe::3c) by MW4PR04CA0358.outlook.office365.com
- (2603:10b6:303:8a::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.8 via Frontend Transport; Tue, 30
- Jun 2026 14:49:38 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- MW1PEPF0001615F.mail.protection.outlook.com (10.167.249.90) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.202.0 via Frontend Transport; Tue, 30 Jun 2026 14:49:38 +0000
-Received: from DLEE201.ent.ti.com (157.170.170.76) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Tue, 30 Jun
- 2026 09:49:36 -0500
-Received: from DLEE211.ent.ti.com (157.170.170.113) by DLEE201.ent.ti.com
- (157.170.170.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Tue, 30 Jun
- 2026 09:49:36 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE211.ent.ti.com
- (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
- Transport; Tue, 30 Jun 2026 09:49:36 -0500
-Received: from lelvem-mr06.itg.ti.com ([10.250.165.105])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 65UEnUir3298208;
-	Tue, 30 Jun 2026 09:49:31 -0500
-From: Baojun Xu <baojun.xu@ti.com>
-To: <broonie@kernel.org>
-CC: <tiwai@suse.de>, <andriy.shevchenko@linux.intel.com>,
-        <13916275206@139.com>, <alsa-devel@alsa-project.org>,
-        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <k-yi@ti.com>, <henry.lo@ti.com>, <robinchen@ti.com>,
-        <niranjan.hy@ti.com>
-Subject: [PATCH v2] ASoC: amd: acp: amd-acp70-acpi-match: Add tas2783 support
-Date: Tue, 30 Jun 2026 22:49:04 +0800
-Message-ID: <20260630144904.865-1-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+ 2026 15:09:59 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%5]) with mapi id 15.21.0181.008; Tue, 30 Jun 2026
+ 15:09:58 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 30 Jun 2026 11:09:56 -0400
+Message-Id: <DJMH9O7CWAWX.5E207D1UQL27@nvidia.com>
+Subject: Re: [PATCH 01/13] mm: introduce vma_flags_can_grow() and
+ vma_can_grow()
+Cc: "Andrew Morton" <akpm@linux-foundation.org>, "Thomas Bogendoerfer"
+ <tsbogend@alpha.franken.de>, "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Michael Ellerman" <mpe@ellerman.id.au>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Lucas Stach"
+ <l.stach@pengutronix.de>, "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo
+ Kim" <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, "Peter Griffin"
+ <peter.griffin@linaro.org>, "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi"
+ <rodrigo.vivi@intel.com>, "Tvrtko Ursulin" <tursulin@ursulin.net>, "Rob
+ Clark" <robin.clark@oss.qualcomm.com>, "Dmitry Baryshkov"
+ <lumag@kernel.org>, "Lyude Paul" <lyude@redhat.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>,
+ "Sandy Huang" <hjc@rock-chips.com>, =?utf-8?q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, "Andy Yan" <andy.yan@rock-chips.com>, "Thierry Reding"
+ <thierry.reding@kernel.org>, "Mikko Perttunen" <mperttunen@nvidia.com>,
+ "Jonathan Hunter" <jonathanh@nvidia.com>, "Gerd Hoffmann"
+ <kraxel@redhat.com>, "Dmitry Osipenko" <dmitry.osipenko@collabora.com>,
+ "Zack Rusin" <zack.rusin@broadcom.com>, "Matthew Brost"
+ <matthew.brost@intel.com>, "Thomas Hellstrom"
+ <thomas.hellstrom@linux.intel.com>, "Oleksandr Andrushchenko"
+ <oleksandr_andrushchenko@epam.com>, "Helge Deller" <deller@gmx.de>,
+ "Benjamin LaHaise" <bcrl@kvack.org>, "Alexander Viro"
+ <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
+ "Muchun Song" <muchun.song@linux.dev>, "Oscar Salvador"
+ <osalvador@suse.de>, "David Hildenbrand" <david@kernel.org>, "Baolin Wang"
+ <baolin.wang@linux.alibaba.com>, "Liam R . Howlett" <liam@infradead.org>,
+ "Nico Pache" <npache@redhat.com>, "Ryan Roberts" <ryan.roberts@arm.com>,
+ "Dev Jain" <dev.jain@arm.com>, "Barry Song" <baohua@kernel.org>, "Lance
+ Yang" <lance.yang@linux.dev>, "Hugh Dickins" <hughd@google.com>, "Vlastimil
+ Babka" <vbabka@kernel.org>, "Mike Rapoport" <rppt@kernel.org>, "Suren
+ Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Jann
+ Horn" <jannh@google.com>, "Pedro Falcato" <pfalcato@suse.de>, "Kees Cook"
+ <kees@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
+ <tiwai@suse.com>, <linux-mips@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+ <dri-devel@lists.freedesktop.org>, <etnaviv@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-samsung-soc@vger.kernel.org>, <intel-gfx@lists.freedesktop.org>,
+ <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
+ <nouveau@lists.freedesktop.org>, <linux-rockchip@lists.infradead.org>,
+ <linux-tegra@vger.kernel.org>, <virtualization@lists.linux.dev>,
+ <intel-xe@lists.freedesktop.org>, <xen-devel@lists.xenproject.org>,
+ <linux-fbdev@vger.kernel.org>, <linux-aio@kvack.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-sound@vger.kernel.org>
+To: "Lorenzo Stoakes" <ljs@kernel.org>
+From: "Zi Yan" <ziy@nvidia.com>
+X-Mailer: aerc 0.21.0
+References: <cover.1782760670.git.ljs@kernel.org>
+ <f2e8c32515d328db62279cc8bab8398ea278d74f.1782760670.git.ljs@kernel.org>
+ <DJLTDCPWMXDL.4ICZ77A1LPZZ@nvidia.com> <akNucoP3eaDN2_Vz@lucifer>
+In-Reply-To: <akNucoP3eaDN2_Vz@lucifer>
+X-ClientProxiedBy: BL1PR13CA0239.namprd13.prod.outlook.com
+ (2603:10b6:208:2bf::34) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW1PEPF0001615F:EE_|MN2PR10MB4176:EE_
-X-MS-Office365-Filtering-Correlation-Id: 985ca72b-1438-48d0-cd2a-08ded6b6cf75
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SN7PR12MB7202:EE_
+X-MS-Office365-Filtering-Correlation-Id: 25ba0c9a-ab30-4465-4f4d-08ded6b9a6a4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|82310400026|36860700016|18002099003|6133799003|56012099006;
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|23010399003|6133799003|22082099003|18002099003|4143699003|11063799006|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	Qir5MHACwIWKr+afHw8xljxYlaD1+1/baC1RmFzbWhCtDhL9mfbGM8Ut+YApCA93htRz+fDV5BdSn2MBJvjjo5QZCwC4xl0ANSoFQ3GuFHIG48xpMe9fTEfTm9mIIX2NZUiVrmY9thTWX25E7eYPU+E8VpT5JxPSNUdt6GkCFuc7l0XKbSZPfUf+dAyY1bmQFWDulil27o+VzFMzX/K+FUkCgM3RsqDO9ECtlQnbxO/GcF8LTFnk553jdmNY3rBuqwEKxkmHfl+FEznfnogASAvj2+lIct0O4CekVpg0YKXVKTwK/uRp4/qfoqJS+ddf5hFRyO9Bg1/dWio5BqCzxjpK+Z40AcgWFL1dMuSxZU40DfLutTtoBmeZgjq8dT2s+gJZiq9+hcq+4PDuyOctZF/sS6ghQgOd5kswmXMefV7NGWVuwZBas3clg3AF6S7L+yiTWbUyqClO/wDWgSlIJLjsZ9srqgZOuMOKHoJkK/0hpUcdX0n1DD44xN9QHXOcQoXfcbA7rZ5jrY7ZYWR8ri0kshlGXQCD5z7DRis5YXSvhxhAQMBpcWy0RKIf3lwMzcIeoLiWBND3CBIES41XqETsueLJWIsxBaLmantRAWBd4wNQXqXSAUY1F8XaZtYmon7V8QXSYly8Wi5L8t6PBOrbTNtKQbjvlIWybwoFAoN4Bl1bf1GkS0U8Nl0bodiSDA88Yyp9ntIuZ9PWOIKJnQ==
+	oJiFFAY1O1XOi+MaYZztPsDKyPeuL2ihjhq2EovLixzr8+9G5MQL5kZqvqPRN0HTISwWv2Cb+KyDnchA0tkycwebBRXF4SBNmXVvHZ0jXLk4OiWdJaf9/EqEmhs6gpXEIS0LAjp2GsPd3fEeUi812PL+ggQIntyQyokgEO/5TFpebHEIqHyJMyk39tanhjyagdmoPex1u6MXuTRvfNESuBPqeVRarXswd2hEnFVKPk2SiYf5NsKV1k1aBPfNPMFiyPZxnXM5D8M92yWYQph8JN+iaX6jXvbv1a52zIJpAM5qz4672oNMMSqBwWVTbND1wEALjZXUQLF1wANHnR4DsZOnhY+9VnBKtbBmFlUrMNiEjfDic8NnBYkHrurUSZd9/s12NOqF/YhxdqW/n6kwFaMcujtq66Ucdc7vVPhAOwU6v5HDNHIpq5pcL0HrFpzpr3aCjRsAg9FB7YcawGOKaPoADuEjuQjBuo1tPTNpJra02DlFZ1hIUwdufJGFb8SDisVWGl+5RWvRh+HNKjp3A3ewX7wY+NtpJWhWkZ1z+dv8T+26iwmI1XvmgtAXB1hvcxeENaiy4E5QEHtZC9z1p6IwK3kWI2OCK409mSJNVN+uhth7xocnZ5yRCNqgV/aJ25ot3ruVYXNujVj8nPPzb61lwV+1fEzmNDLto35Db+Q=
 X-Forefront-Antispam-Report:
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(82310400026)(36860700016)(18002099003)(6133799003)(56012099006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(23010399003)(6133799003)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	0uejS278Q5/gpZ1NeaoHy3x+DIZpr7hh30MFcDkLfizccvHOa7TEEuYLS2Cd009SlSBJADmchgClhg6Fay9hdEqwl2pfOZwa9xJn+jMKSFEYZ4pslRIBYoyWek8ZNc2QMooB6tgPti9jKXZjXSGX4MfaCVRi4GrzD/0RNNmmq3X7pXro1Y8+v5Rfyrt9npXRvmWbbLYR30PrDtHpVHSwLhjeOy4GGaSgs3Ylq2Y/knIpNAWs++9R9LU1Ee7ymszezuUN48GuRcr7MTagwt5pknohShi6+q/Fc/ymWPJdNHGGJ5wmq9UtCRJivkuAyx254omUpcgBOCf7Ez6ONfTQoDrkTuYs+qROEau4dTEQmLBAlUVZhiEz9H/0TvlBuGDJCwV2rgleVe28cqUAI/KqbGlILzCGNUuJt8+xk8gD21ocZqTFbtxPv4ONF2solhlv
-X-Exchange-RoutingPolicyChecked:
-	osv0wqKYFjV3Y8e9rf7z0G7S9HgF/dTzgdzaWHOLXUrsb701Wh99MhlYUuTh7SFo/wUZ8unaonYWj0DGP5J2PWKWQf1DR5qEmnfcmm6+m99w2KxApfCJrHF1dB0CwOP+6WC9qeXCQzRVThpp/RWeXbeGfzXfMIf4waiQE1pL31a9sn4BDZc/YtsmXMot2aUA0XpvCQ/takTeHHhtT/6FwIrccrv7eSBY1k66V4hC3s3tn28Sti7iVvW4/JEtsKdz60ZQ5V+NPcDUAi780c+H47kBtCc1Yq/jV+1lUETr1QRF2P/C/rEFJkrbV/30kGaS0YySH1f2d4NpEnygreTEyA==
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 14:49:38.4926
+	=?utf-8?B?aXM0WCtReWtGUVBJTWR6TmdrK1BDRTE0Q0UxbVQrN0YxTWJVV0JtRjJQVENl?=
+ =?utf-8?B?dGZja3VaWW1OWkZmMEgwZkFDWGJ4L1BvRkQyWVl2MWtaWkI3aU5PYUIzcjZt?=
+ =?utf-8?B?L2RGaGlkWW1uTVVLVVJtM0tMUGdPUHpEU3V4TWc3N2xEeUp5d3hNOHdmSng1?=
+ =?utf-8?B?VGt3UEFSU2ZVY1M3ODRvS2ZvT2hxUjMwVmNiejI2SW5UZzQ3UnQraTJRalVP?=
+ =?utf-8?B?OWc0NHVmOXlLdmlwUWlMTGlhUHliVkpPSFY0T3dtUElyMWgzdE5zSVhrKzNu?=
+ =?utf-8?B?OEViV0FUQ2JWTmZQcG1IV0xROWpUOVg3ZU1RVnJYMVNBd2xjMG9kTTlwWWg2?=
+ =?utf-8?B?M2FxcjFjU3pILytIUk05NnBhYXdtU1AyWFBvY0tGR3NHWDF5MkZGNHVRNzhz?=
+ =?utf-8?B?VW5GSnlxeDF2SUxCNTVxeEdYOUxVTXNVZEdqYjd5MHlUV1ljNDlwYU91Z0gw?=
+ =?utf-8?B?OHhjMFI2a2ZhYlZ5Y0IzK0RoS1BTQ0hITUVVbThwK1duaTNMSWdOdkFSVm9L?=
+ =?utf-8?B?MWZSbmxQQ0FoSlZsSVhXZGsyNFBpTU9YUDhQWWk4TCtTL0s3ZDdWWXR1emN5?=
+ =?utf-8?B?V2lnNml3dFdTaENOZjV6SjRxSjZobEpkVE9nNktPWEFjL0d0UURhaGpOVERM?=
+ =?utf-8?B?V3hRWm9jZ2xvNDUyZlhFSUh6V2RaODhZTVdUeXBhL1gxdGJqT215UXFpZWdn?=
+ =?utf-8?B?VFlGdzhkTG9Td2xsbjdBTnRPTnhXWC90TVNHZzM4L29QRitRUFhQNkZVYStN?=
+ =?utf-8?B?d3hkMjQwMnU4NXZvSDkwRUZwa01ueVZsNGxrL3NwTkdWR2hhL1lXdVZmcmhC?=
+ =?utf-8?B?TkUxYklISzFmRTcxNzZ3VjkwcEJWQjlpblplazdNSzdRVXE5RnZCN013OUJy?=
+ =?utf-8?B?UnF1V1o2SE1mZzBmaHhyc3VYWDF1aE1NaGM5WjJjNENreXRPTUxLM1VEV01N?=
+ =?utf-8?B?V3NpdVl4VTkzU05wRWdGdkRldnhqcDV4WFUyNFNPZ2NOdVV6NnpZd09sSWh5?=
+ =?utf-8?B?UTdySHp1OStGQjZwNG9MVm03VklkRi9IMWVOR1NONjRTSWhySUdldm93WjFT?=
+ =?utf-8?B?d1RqT2lQQWlkaDRHQmxxOS9Ob3MrUU5wL0pRdVlGYzV2RGJQK0tvV1RMQWl6?=
+ =?utf-8?B?dW8rM0RjUGg2MHZablA3aklscm9kMnhudlVKK3BTSmU2QlR2NzFFL0xUd054?=
+ =?utf-8?B?NXNuVmhISXdxeFM3OU8yaGhtaUtjVkVTZTd1OWtvSWV3OG83d2VQdXplL0dF?=
+ =?utf-8?B?OHg1bm90UlpIWVd4WkNFN3FtNEJmRTlvbUIza3FiaEE5UU9NNTFYZjNGcE9r?=
+ =?utf-8?B?bzQ3L1RUSnNocTZCNDU4NDVXdFJ5UVU0NzhPWEZpY2xQWm9HcXlFeFNyb1d0?=
+ =?utf-8?B?UTYxMFQ2dms0cWtTRkp2bWVqQnZqWkIwOHdHSStlL0dNNEpRRzJWd2RVSzNn?=
+ =?utf-8?B?WGg0TWVaS2FBUHp3QmtYZFlLSUtRQkVBRUl5SThoSXhtUEpaSThqNUl5ZVZz?=
+ =?utf-8?B?YW5PUjNpR2dkbjZSTHFtN3JEU1FPa2pqRi9xRWRuYUVGUXBzNmpvREx6VDdJ?=
+ =?utf-8?B?WDFqdU1GSUVTN0pYUU1GOG14TjhEQ2xLMXdLaHl5VG42bmZ1eEIyQk5hN0Ra?=
+ =?utf-8?B?Z1BsTWRxYkVsTG96V3BXb3lTblRoZUJFOEkxV1lmQzhWVDBpZGxNeTBTM1Fi?=
+ =?utf-8?B?L1J5R2k0elllRzBaU3I4T1F0UGFqQ1lrbUsrMG9naEtXNStqeHp2UnEvSEV5?=
+ =?utf-8?B?Q2J3dkp1ZjJiUWhBWHdZSnloT2E5Z0RkYWg2V0c2Q0FHVzZXaENkMkIxWXZn?=
+ =?utf-8?B?RTd2R1ZxaVNrRUZ1dGhNVUU0anpkM0tGbDI2ZFFaUDNScHY0WXFUOCs4L1Uz?=
+ =?utf-8?B?K2NqeFdZdTc1QTBFQkNseCsvbWtGd1dtdWo3QXZBcWVMVEcxNmcyUnh5N1lB?=
+ =?utf-8?B?Z2h6ampNeU1adXNsYjVNYUV2VVpHTnV0RG9OSzA2ZDJEQ0JDelJ6dWlZdmt0?=
+ =?utf-8?B?WS93OERIYXdibnErL1NuRFF5MTcwVHVGRDg3bklLbitxUnVYNkxRaklkdGpi?=
+ =?utf-8?B?SzdockgxNGZPYmtHMEttblVTblVzY3l1Q3lZRmYwTHFXTjhRZDVzMzl6cXl5?=
+ =?utf-8?B?Ukk4RzNYZ1lXZW04VC9JV1pDTWNUT2Z5WVpCOCtDeDRHdlJWaFhaQTlDZHpH?=
+ =?utf-8?B?ZWxJck5FQVJOTUZhdnJhNldMVnk3UVlkYUdnaTZteXd1Ri8vZjNodExPZkcz?=
+ =?utf-8?B?VEx0T0FMNGxpWGRoVmxJRnF6N1QrY2xKRWU5Y0FuRGJ2NjVrQW5wUTJicTg1?=
+ =?utf-8?Q?VXmBPftHdX8EVsIops?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25ba0c9a-ab30-4465-4f4d-08ded6b9a6a4
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 15:09:58.7994
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 985ca72b-1438-48d0-cd2a-08ded6b6cf75
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MW1PEPF0001615F.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4176
-X-Authority-Analysis: v=2.4 cv=c6abhx9l c=1 sm=1 tr=0 ts=6a43d785 cx=c_pps
- a=0bDVNUKav+K/acou55tioQ==:117 a=f+v6EHfkeJbVwR46tk4DMg==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=FelO9ux0wxsA:10 a=s63m1ICgrNkA:10
- a=V5UXEbMT0ywA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22
- a=fPAWb5peG099m5CrUpKH:22 a=sozttTNsAAAA:8 a=H77KnCZ5ihsEuogUPfoA:9
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjMwMDEzOSBTYWx0ZWRfX8fl5tKoJVB7x
- As7CDSKpKtUke42asZY1goUdtw/ktgKJbVB7ByEi/2djlmfjr9v3OIKwNgrFB0w5EHqT6uXvs2X
- OfBjEq23Vc3uxGQQBubxe8A+fTDH8L0=
-X-Proofpoint-GUID: uPpNQOB8O79Pe-Qr-HOFYNrOjPmSTF0X
-X-Proofpoint-ORIG-GUID: uPpNQOB8O79Pe-Qr-HOFYNrOjPmSTF0X
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjMwMDEzOSBTYWx0ZWRfX9T8Qle9BlU7U
- f5/Fz5pRpcdusmjM8ZX3lsHpMHXpbGst0INDHXIphz+sM7PXUpGbo+b1EbMFPl18pJdyz3lCFib
- 6rON+/HdAuU0far57Iyw17gOr8/w3JooSsYbtzmIhhuIWhOpjFTZZDpsP6cv2IbwH7Zs1HF1L0O
- dALrwnjjk5uGj8kNH8/7BbDzSeFjDJA/yMy02z7fxA54e2OdcuK5bWl5NTDvoaBG2EwVCaNgJAp
- qmSrEV8geo0aTVuzJeRFLAmK1IkOJjvr0ZhZ5s+2VMUhs+h5G8HSH5ZHtsQtO/aOd4FBpt+JDJU
- aVlgwDLezyfs/tlt/hpw/EeyL0+WuGoZ1W6lwErHJOq7Qs5MkhiiwpyxiLre9JV5tMmpm2BKSTh
- c5s0qymdS55VIOmYevy/WXQTWp40U2qT2E5Ilkgzg2shxlfNFJGY9w25RPZwjPI+n6yP1ZjPBlM
- l1t9j9rBbbD84oURsfw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-30_04,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 spamscore=0 impostorscore=0 suspectscore=0
- adultscore=0 malwarescore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606300139
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JnAYTkFnPevWfBepW6Rd8YtqtMSRQbCTBTdlMJEJeNmkdtpxg3jlpUgR9RhMt7p8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7202
 
-Add driver data and ACPI match table entries for the TAS2783 on ACP7.0 and
-ACP7.1 platforms using SoundWire link 0.
+On Tue Jun 30, 2026 at 3:38 AM EDT, Lorenzo Stoakes wrote:
+> On Mon, Jun 29, 2026 at 04:26:18PM -0400, Zi Yan wrote:
+>> On Mon Jun 29, 2026 at 3:25 PM EDT, Lorenzo Stoakes wrote:
+>> > These test whether the VMA has stack sematics, i.e. is able to grow up=
+wards
+>> > or downwards depending on the architecture.
+>> >
+>> > In order to account for arches which do not support upward-growing sta=
+cks,
+>> > introduce VMA_GROWSUP whose definition depends on the architecture
+>> > supporting it, and use vma_flags_test_single_mask() in vma_flags_can_g=
+row()
+>> > to account for this.
+>> >
+>> > Update the VMA userland tests to reflect the changes
+>> >
+>> > No functional change intended.
+>> >
+>> > Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+>> > ---
+>> >  include/linux/mm.h              | 21 ++++++++++++++++++---
+>> >  tools/testing/vma/include/dup.h |  4 ++++
+>> >  2 files changed, 22 insertions(+), 3 deletions(-)
+>> >
+>> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+>> > index 868b2334bff3..cf7df1569052 100644
+>> > --- a/include/linux/mm.h
+>> > +++ b/include/linux/mm.h
+>> > @@ -472,6 +472,7 @@ enum {
+>> >  #define VM_SAO		INIT_VM_FLAG(SAO)
+>> >  #elif defined(CONFIG_PARISC)
+>> >  #define VM_GROWSUP	INIT_VM_FLAG(GROWSUP)
+>> > +#define VMA_GROWSUP	mk_vma_flags(VMA_GROWSUP_BIT)
+>> >  #elif defined(CONFIG_SPARC64)
+>> >  #define VM_SPARC_ADI	INIT_VM_FLAG(SPARC_ADI)
+>> >  #define VM_ARCH_CLEAR	INIT_VM_FLAG(ARCH_CLEAR)
+>> > @@ -483,6 +484,7 @@ enum {
+>> >  #endif
+>> >  #ifndef VM_GROWSUP
+>> >  #define VM_GROWSUP	VM_NONE
+>> > +#define VMA_GROWSUP	EMPTY_VMA_FLAGS
+>> >  #endif
+>> >  #ifdef CONFIG_ARM64_MTE
+>> >  #define VM_MTE		INIT_VM_FLAG(MTE)
+>> > @@ -1563,11 +1565,24 @@ static inline bool vma_is_initial_stack(const =
+struct vm_area_struct *vma)
+>> >  		vma->vm_end >=3D vma->vm_mm->start_stack;
+>> >  }
+>> >
+>> > -static inline bool vma_is_temporary_stack(const struct vm_area_struct=
+ *vma)
+>> > +static inline bool vma_flags_can_grow(const vma_flags_t *flags)
+>> >  {
+>> > -	int maybe_stack =3D vma->vm_flags & (VM_GROWSDOWN | VM_GROWSUP);
+>> > +	if (vma_flags_test_single_mask(flags, VMA_GROWSUP))
+>> > +		return true;
+>> > +	if (vma_flags_test(flags, VMA_GROWSDOWN_BIT))
+>> > +		return true;
+>> > +
+>> > +	return false;
+>> > +}
+>> >
+>> > -	if (!maybe_stack)
+>> > +static inline bool vma_can_grow(const struct vm_area_struct *vma)
+>> > +{
+>> > +	return vma_flags_can_grow(&vma->flags);
+>>
+>> Would it save vma_flags_can_grow() if we do below?
+>>
+>> return vma_test(vma, VMA_GROWSDOWN_BIT) || vma_test_single_mask(vma, VMA=
+_GROWSUP);
+>>
+>> I find these two functions when I am reading mm.h.
+>
+> Yeah but we require vma_flags_can_grow() for code in mmap.c, the majority=
+ of
+> checks of this have only vma_flags_t to work with not a VMA :)
+>
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
----
-v2:
- - Add comma for the non-terminator entries.
- - Correct endpoints from spk_r_endpoint to spk_l_endpont.
- - Add two more devices for current test project.
----
- sound/soc/amd/acp/amd-acp70-acpi-match.c | 78 ++++++++++++++++++++++++
- 1 file changed, 78 insertions(+)
+Got it. I think I need to finish this series. :)
 
-diff --git a/sound/soc/amd/acp/amd-acp70-acpi-match.c b/sound/soc/amd/acp/amd-acp70-acpi-match.c
-index 18f2918d4ada..10ef2aeb939c 100644
---- a/sound/soc/amd/acp/amd-acp70-acpi-match.c
-+++ b/sound/soc/amd/acp/amd-acp70-acpi-match.c
-@@ -45,6 +45,21 @@ static const struct snd_soc_acpi_endpoint spk_3_endpoint = {
- 	.group_id = 1
- };
- 
-+static const struct snd_soc_acpi_endpoint tas2783_endpoints[] = {
-+	{ /*Playback Endpoint*/
-+		.num = 0,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{ /*Mic Capture Endpoint*/
-+		.num = 1,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+};
-+
- static const struct snd_soc_acpi_endpoint jack_amp_g1_dmic_endpoints[] = {
- 	/* Jack Endpoint */
- 	{
-@@ -91,6 +106,15 @@ static const struct snd_soc_acpi_endpoint jack_dmic_endpoints[] = {
- 	},
- };
- 
-+static const struct snd_soc_acpi_adr_device tas2783_0_adr[] = {
-+	{
-+		.adr = 0x0000300102278301ull,
-+		.num_endpoints = ARRAY_SIZE(tas2783_endpoints),
-+		.endpoints = tas2783_endpoints,
-+		.name_prefix = "tas2783",
-+	}
-+};
-+
- static const struct snd_soc_acpi_adr_device rt712_vb_1_group1_adr[] = {
- 	{
- 		.adr = 0x000130025D071201ull,
-@@ -406,6 +430,15 @@ static const struct snd_soc_acpi_link_adr acp70_cs35l63x4_l0u0246[] = {
- 	{}
- };
- 
-+static const struct snd_soc_acpi_link_adr tas2783_l0[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(tas2783_0_adr),
-+		.adr_d = tas2783_0_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr acp70_cs42l43_l0u1[] = {
- 	{
- 		.mask = BIT(0),
-@@ -553,6 +586,46 @@ static const struct snd_soc_acpi_link_adr acp70_rt722_l0_rt1320_l1[] = {
- 	{}
- };
- 
-+static const struct snd_soc_acpi_adr_device tas2783_2_adr[] = {
-+	{
-+		/* left */
-+		.adr = 0x00003c0102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "tas2783-1",
-+	},
-+	{
-+		/* right */
-+		.adr = 0x00003d0102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "tas2783-2",
-+	},
-+	{
-+		/* left */
-+		.adr = 0x0000390102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "tas2783-3",
-+	},
-+	{
-+		/* right */
-+		.adr = 0x00003a0102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "tas2783-4",
-+	},
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp70_tas2783_2[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(tas2783_2_adr),
-+		.adr_d = tas2783_2_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_adr_device rt1320_0_single_adr[] = {
- 	{
- 		.adr = 0x000030025D132001ull,
-@@ -659,6 +732,11 @@ static const struct snd_soc_acpi_link_adr acp70_rt721_only[] = {
- };
- 
- struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sdw_machines[] = {
-+	{
-+		.link_mask = BIT(0),
-+		.links = acp70_tas2783_2,
-+		.drv_name = "amd_sdw",
-+	},
- 	{
- 		.link_mask = BIT(0) | BIT(1),
- 		.links = acp70_rt1320_l0_rt722_l1,
--- 
-2.25.1
+>>
+>> > +}
+>> > +
+>> > +static inline bool vma_is_temporary_stack(const struct vm_area_struct=
+ *vma)
+>> > +{
+>> > +	if (!vma_can_grow(vma))
+>> >  		return false;
+>> >
+>> >  	if ((vma->vm_flags & VM_STACK_INCOMPLETE_SETUP) =3D=3D
+>> > diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/inclu=
+de/dup.h
+>> > index 5d7d0afd7765..6f5bcd7fbcd8 100644
+>> > --- a/tools/testing/vma/include/dup.h
+>> > +++ b/tools/testing/vma/include/dup.h
+>> > @@ -245,8 +245,10 @@ enum {
+>> >  #define VM_STACK	INIT_VM_FLAG(STACK)
+>> >  #ifdef CONFIG_STACK_GROWS_UP
+>> >  #define VM_STACK_EARLY	INIT_VM_FLAG(STACK_EARLY)
+>> > +#define VMA_STACK_EARLY mk_vma_flags(VMA_STACK_EARLY_BIT)
+>> >  #else
+>> >  #define VM_STACK_EARLY	VM_NONE
+>> > +#define VMA_STACK_EARLY EMPTY_VMA_FLAGS
+>> >  #endif
+>> >  #ifdef CONFIG_ARCH_HAS_PKEYS
+>> >  #define VM_PKEY_SHIFT ((__force int)VMA_HIGH_ARCH_0_BIT)
+>> > @@ -315,6 +317,8 @@ enum {
+>> >
+>> >  /* Bits set in the VMA until the stack is in its final location */
+>> >  #define VM_STACK_INCOMPLETE_SETUP (VM_RAND_READ | VM_SEQ_READ | VM_ST=
+ACK_EARLY)
+>> > +#define VMA_STACK_INCOMPLETE_SETUP append_vma_flags(		\
+>> > +	VMA_STACK_EARLY, VMA_RAND_READ_BIT, VMA_SEQ_READ_BIT)
+>> >
+>> >  #define TASK_EXEC_BIT ((current->personality & READ_IMPLIES_EXEC) ? \
+>> >  		       VM_EXEC_BIT : VM_READ_BIT)
+>>
+>> Why are VMA_STACK_EARLY and VMA_STACK_INCOMPLETE_SETUP added here but
+>> not in mm.h?
+>
+> Yeah urgh oops my bad. It doesn't really break anything but I'll fix it i=
+f a
+> respin is needed...
+
+Sure.
+
+--=20
+Best Regards,
+Yan, Zi
 
