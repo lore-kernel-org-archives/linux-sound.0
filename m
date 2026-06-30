@@ -1,129 +1,88 @@
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B932B38551A
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 12:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C527540E8E3;
+	Tue, 30 Jun 2026 12:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782823087; cv=none; b=M0k1tk1feAh19NHl5w1W3oSHTMMt1+7KRMVFTql1Qa7rsw9zJFYyywjQmalxAodI7Q4YsAqSIjb76zP26T8t7cpJZNMOvl4/gGiIKr3IhuxTXMBZRd8fHk6ZOcg3lBfDITT8safIULoqq0QvW6ChjQXq1KudV4JwDbL2uDnkg/4=
+	t=1782823718; cv=none; b=HrLMceVeN5c4cN/Y3p4RtQqcR4c9yVwfemnNFp8AqiDG7IB77uWuOwrA/0u8MGXSNtc271FKsJZC9UgO6mWnYSuj3bFrqe00P8+cVCQ/mDb0Ac67RHKjEgjhEOXGN0rlrnfhImbOt2ZPK9tCs2/KwHBdwY6ce53cBrZUNnQItvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782823087; c=relaxed/simple;
-	bh=TLqRy6bjOHSiZOheCSXLMq0h+jbPiyBod8GUeZEy2CQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=daVbU5YpIeP291JIpuSw1fxi7rgy4l+Rd4wsCyYlkFVvREB695/cd5MQ1SNjvDfN4xMG2PZXT9gcY3XCWCbbK/VCoFhKiaE0HNZI3h1q3PTzqbfcucIk0M0pa7RSXHu40LFhzwfbkt3NJ2CliJC7rjQ/6OUln5QfW6o6FVnvTrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=HwuRAXFI; arc=none smtp.client-ip=95.215.58.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782823718; c=relaxed/simple;
+	bh=GxmbrJ0PqYuqnBSUuSgcvdWmxqzfrNbZS/935D+1KVQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lqQnQXT6iYKuH7KlRNlo43YBCx3D0mFx3tWtoNlWSlTp8ugAYQHFmCIju+vXr4zKWCJLGrzljBQ3KEAGZ2JxXe//TnO5jOMuyseIrdCfjsWWOUxIcpLBCMJoENsnKfZxzFvojzEyYb5Pjb2+RExwh/26FQ27AR3KvYkjFGSPFoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UbpIDbZD; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="HwuRAXFI"
-Message-ID: <46af3cdf-d704-4cd2-bb24-cbe9fb1303db@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782823082;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4luJcNs7cpCca4BLDs7MDKIlyBLX5Cs6F16Lmamjgbg=;
-	b=HwuRAXFIyOPthPwQFxH0yWjvr/HT8/tatDJvGZKxBw5dZXtEaEBW2adwb86pHnVXmjwdNF
-	asR4SdCO5yaxvpwPrzHUNNNLgueEok+uIj+RZI2OHVIqTNOlPFpbTkUYMkaalBcuZySeqG
-	MbyYoQkuDbiinv2ISGlooOtPQTccL7A=
-Date: Tue, 30 Jun 2026 14:36:31 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UbpIDbZD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782823717; x=1814359717;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=GxmbrJ0PqYuqnBSUuSgcvdWmxqzfrNbZS/935D+1KVQ=;
+  b=UbpIDbZDzgI/i/sQa9Jaus0EPgka+lwId/3wUp1fRtt/YGeam6J/Mxy3
+   Sow7WfG58N6j1KRRePMOzVWQJgoVB58n7QhlEwzlwB8U58+E8ViIr4EV1
+   1F2tHjIwQtUiLRhvcYqgbT69UInl+p+6Xt/au7mogLNMdkOLVo0y00IZv
+   RhgeGHQCEPKUlWvg1awmITCXrqkZNRQJnRaZ6+K14HlTN2PkT95PI5Fk3
+   gjIKimkb9px2M1eBvY001d67Rz/K9Amo3O35M8I5xFMKvtC8EvthS+SfJ
+   HSak6s84RkdqqFBjE+QvRk3VLo8u9DSclxvXvAcI35EA46bRNTZ0WUeiD
+   w==;
+X-CSE-ConnectionGUID: gjejwnb4TNGP9jUhGsKoQA==
+X-CSE-MsgGUID: H5YmiI1LQvGa0DtP0s5QCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="86084946"
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="86084946"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 05:48:36 -0700
+X-CSE-ConnectionGUID: HnLsjyBvSSS+AaP9cqvKmA==
+X-CSE-MsgGUID: Y5nDMRiZRE+nkP4CF2qFpg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="290382837"
+Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 05:48:33 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	peter.ujfalusi@linux.intel.com,
+	bard.liao@intel.com
+Subject: [PATCH 0/5] soundwire: add BRA properties
+Date: Tue, 30 Jun 2026 20:48:20 +0800
+Message-ID: <20260630124825.2263243-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] soundwire: Intel: stop sdw clock in system suspend
-To: Richard Fitzgerald <rf@opensource.cirrus.com>,
- "Liao, Bard" <bard.liao@intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "vkoul@kernel.org" <vkoul@kernel.org>
-Cc: "vinod.koul@linaro.org" <vinod.koul@linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
- Richard Fitzgerald <Richard.Fitzgerald@cirrus.com>
-References: <20260629144450.2096823-1-yung-chuan.liao@linux.intel.com>
- <20260629144450.2096823-3-yung-chuan.liao@linux.intel.com>
- <11f8d158-9ddc-46fc-9cd5-11a696d3413f@linux.dev>
- <SJ2PR11MB842410EE22537B0673173EECFFF72@SJ2PR11MB8424.namprd11.prod.outlook.com>
- <520f67ca-941b-4e08-8985-03f0e09b0313@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <520f67ca-941b-4e08-8985-03f0e09b0313@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
+This series adds mipi-sdw-bra-mode-max-data-per-frame and
+mipi-sdw-bra-mode-block-alignment properties support and fixes the
+BRA_NumBytes[8] support in cadence_master driver.
 
->>>> --- a/drivers/soundwire/intel_auxdevice.c
->>>> +++ b/drivers/soundwire/intel_auxdevice.c
->>>> @@ -669,7 +669,8 @@ static int __maybe_unused intel_suspend(struct
->>> device *dev)
->>>>           return 0;
->>>>       }
->>>>
->>>> -    ret = sdw_intel_stop_bus(sdw, false);
->>>> +    /* No need to keep the SoundWire clock active in system suspend */
->>>> +    ret = sdw_intel_stop_bus(sdw, true);
->>>
->>> erm, are you sure about this change?
->>>
->>> What this does is stop the SoundWire clock before entering system suspend.
->>> Is this needed? The whole point of system suspend is that the host will stop
->>> operating completely.
-> 
-> Not necessarily. There are multiple types of system suspend, like
-> suspend-to-RAM. The system doesn't always shut down.
+Bard Liao (4):
+  soundwire: cadence_master: add BRA_NumBytes[8] support
+  soundwire: intel: handle Peripheral bra_block_alignment
+  soundwire: get mipi-sdw-bra-mode-max-data-per-frame property
+  soundwire: intel_ace2x: handle the max_data_per_frame property
 
-Let's be clear: all types of system suspend do not use the clock stop mode, at least on Intel platforms.
+Richard Fitzgerald (1):
+  soundwire: Add bra_block_alignment property support
 
-The clock stop mode is ONLY used in the pm_runtime suspend.
+ drivers/soundwire/cadence_master.c | 35 +++++++++++++++++++++++++-----
+ drivers/soundwire/cadence_master.h |  1 +
+ drivers/soundwire/intel_ace2x.c    | 20 +++++++++++++++--
+ drivers/soundwire/mipi_disco.c     |  6 +++++
+ include/linux/soundwire/sdw.h      | 14 ++++++++++++
+ 5 files changed, 68 insertions(+), 8 deletions(-)
 
-The main reason for this is that the host cannot keep a detector alive to restart the bus at the request of a peripheral.
-As a result, the jack detection only works in pm_runtime suspend and NOT in system suspend. It's been the default since we introduced support of clock stop...
-
-Note that in case where the peripheral is not capable of generating a wake, the clock stop is not used either. No need to keep that detector alive on the host if it's never going to see a wake.
-
-> Also depends on the OS: Android seems to use system suspend as a deep
-> sleep state.
-> 
->>
->> Yes, that's what we need. The purpose is to inform the Peripheral to go
->> into the deserved clock stop mode before system suspend.
-
-Sorry but this isn't what this patch does. 
-
-I think you are confusing power savings in clock stop mode with the ability for the codec to enter a lower power in system suspend.
-
-If you do need the ability to put the peripheral in a lower power mode, it's perfectly acceptable, but that can be done in the system suspend routine of the peripheral driver. You do not need or want to piggy-back on the clock stop mechanism which isn't used in system suspend.
-
->>> There is in theory no need to stop the clock because the clock restart capability
->>> will not be used.
-> 
-> As Bard says, the peripherals should be informed that the clock will be
-> stopped. They at least should have the opportunity to act on that. And
-> they could still be powered across one of the lighter forms of system
-> suspend.
-
-Again it'd be fine to reach a lower power for the peripheral or keep some power rails active, but that's orthogonal to the clock stop.
-
->>> Think for example of jack detection, it's supported in pm_runtime suspend
->>> with the SoundWire interrupt capability, but not in system suspend.
->>
->> An example that we need clock stop1 in system suspend is to keep the amp's
->> firmware in system suspend. In other words, we don't want to reload the
->> firmware after system resume
-
-If you want to use lower power modes in system suspend, that's fine. The suspend/resume routines can be modified to introduce lower power modes on the peripheral side.
-I am not disagreeing with the concept of lowering power consumption in system suspend, just on the mechanisms that you trying to use.
-
-But keeping the context on the peripheral is one bridge too far I am afraid. Intel platforms perform a bus reset in all cases, including in clock-stop modes, that was the hardware guidance. That means that no matter what you do prior to pm_runtime and system suspend the peripheral WILL lose context.
-
-To rehash the different points:
-- The only significant difference between pm_runtime and system suspend is the wake detection capability which is only supported in the former case. 
-- On Intel platforms, context is lost on the peripheral in all resume routines because of the bus reset, the latency on resume is pretty much the same in both cases
-- The peripheral driver can introduce a lower-power mode in system suspend by changing the system suspend routine.
+-- 
+2.43.0
 
