@@ -1,215 +1,194 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B91029A9FE
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 06:04:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCEE3E63A6
+	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 06:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782799473; cv=none; b=meJTWVdtbyX3HOn3XKo9haH5w7NdQiaxCJqbsKWr3AIgu+ynZv8CVle4CsRUL6GdzetzeuVZ898/dqFSAYs/Bm28IDbTxkhuaiArkAtEtSdvtUhqdSxq08NhfgIRPsNZvrfFe9mNnguQ14IIPBVbSRBiQxjdoJx8oQ888dXRX2Q=
+	t=1782801310; cv=none; b=S671d4Nk6fl91bO/rfiv2lI9WAsKQWzjeO5CTfH9vk54Es8UtSuFcdra6AWxrYe48J5g2DQN/ucu5SO+zkfE7N6PutpFj7X+deCYngkbmJ5I80w+HKPjQRSFAzMHzgIVBamlmramMKmRAGnBylsygtRLDeAD4Zj1IaOYkTOKpNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782799473; c=relaxed/simple;
-	bh=q9HQDf6uU3KOpf7X+h0FkXT0BRmTsT0Ka85jPZxYGjU=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EdVv6UHRl6U5ILuZDiO7Tn8I64cgSH6N9oUsy33eIEKBkbcqOVfG7kBo9RKoB0VPo0T9i73TqPcbPev/Z7dR9C9TRSBGqfhae0JPzNBwLqBmi/mUL5S4pJUZNadnkV7YQ+VWzp/c8F70elcy0Jmz+LyqyS56QXje4ypvNmjaWww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=ktwxb7CX; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1782801310; c=relaxed/simple;
+	bh=jq36afZkFRxy4toa7BFIIUku4sKPif97JtHBPvHPWg4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ERYphkpukAuhYxMYQbDgbw/cye1OvqEZxxnpuV4OM4MxuxKw0EbTu7Y1zh7iZF9Pu3rZUltHeTo+GHB7HEP2BBU0nXTVeh8S8vnxzmUNHoKBBlMXgdobi4XvITcc8/gVYjtMGUyrgPnotwM/vPOdAmPV5zcSRPbCn5uFE/bZTQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dVckGCh0; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="ktwxb7CX"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493b786d6c0so3591005e9.2
-        for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 23:04:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dVckGCh0"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-84783bce476so1650955b3a.0
+        for <linux-sound@vger.kernel.org>; Mon, 29 Jun 2026 23:35:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1782799469; x=1783404269; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=b5BBnItCnxunKMbKk5r5XGq35MhHqmNERXs298mNYZQ=;
-        b=ktwxb7CXt+trnAajnkzA9h9gdeaP+NWWqiQtMnj/0fmN71drYBEJJVqA/zdDPOHA+j
-         tx53cU1g/94nmCKnfAZI3uM4N20ZfXbOrGesn2v8kLV408YjA0rqDDhX/rgJwy6yAMAx
-         RHuc5qOE1EEd+PNOB/7AVM6ZKg1kPXmDutlUdICaEZh79ksn91a3posF345m56bEi96d
-         N3fxZ84jT3pXm8b8Vnk4HkRUvEcpZIrhYwKHSeZAEHqu8PzndfN05M6wyGGRylM8ZzM2
-         GlE2jFRlS3Dsmd36Hh6dzBH61f9OpFXTs900Z0kPYXTJM4l+T3BlB2wf6TAGsYHsX3mL
-         IlpA==
+        d=gmail.com; s=20251104; t=1782801306; x=1783406106; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=syBpKBFGjGejGwg1BjAhn4n5QdMB5B8yOZv838BwUKA=;
+        b=dVckGCh03U0GckHpCByvkP0J8p9lJ1pLYawntPT7vic6dUzRWIHu6/1Xq+ciTsJlI7
+         s2NFIMR6u8xpFLKnCjakUgO1h+TuSzg07BvYgiHX2VNId19rBFi9ri/43Hn8HjBEeGO2
+         Bslz/PnDxPw1jqJjSGBciGowDqAat1jJWsjxfxJ9QeqHcf4Q33g2J9bPCXfI2oix+jw5
+         9Mo0owedhyuvPh/rD/x3HPuAChMrwHNLWYa7YbmVlFCk855xPG1pU7I5T8x9o+Fj0NCp
+         7SDiCJQ3Vv1BTqlDYLv116PiwBCbuqj94lo5WOEVYzfWkV1sMhM8iPIc9Is/P32bNN/5
+         Lvbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782799469; x=1783404269;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=b5BBnItCnxunKMbKk5r5XGq35MhHqmNERXs298mNYZQ=;
-        b=lmzbcFeUW9WYWeB2JZbDvWOWhaKcYaHHs9pVCyCjrYzKb/IqDmzDiwYf0PptJiVqAf
-         0VVTlKmRtZDAZxxyCbaZb3M+rffd3/5wIiOxSIOZlqz+yGJ87GGxmXIQNIxMKx3qnNBe
-         NNj6BIANgimE0KXU0rMF4K+pO3aYJPAi4B8bMRqnj2UhV+afAZrScMi9gawFeS00z1ky
-         v40ZOzCOb7TR9PIpIBaUzmDp+hbpqbJYx5mbWuixfiv4vkHSTW+UFD4AuVxsd3/cL3dJ
-         Cag6xGwdlG1S1EC6Xm4ZvLKjGaveJaKQCKS55WtOLbsLbpPmrtDXTJr/Ld6I7UtCxuoD
-         uixQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+emEDFHdrk3uIVsGmQuFqZgGI0KL4rk/sJzgBgl3b7NzFVEbf3mciNbrqlGqm4B+SwnE0IdJ9A4XdeZw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yys13RLcceGneRCZlQOMpG1Ir6UjQVRPVq/+SVAi9pYqeYK0GIk
-	3pDhcmRpd6bN1RuhCXeQzDGnENmFJdJf8bFNrgZkyfalCpsWhi++1o449lgVsdi8kTc=
-X-Gm-Gg: AfdE7cmh14MtPhh8uY+UrapwHXbYHrCD5yipJRJnBdCXk3cZpr5Gg8D1GTJ9UdT5m5B
-	UdHlfgRUFTBMi6JIzaBj33gddqiRjVI38QTKmzbJg2nFo6JGaScdRtF4tHL1SlmzKSXZsw6rGLD
-	0FvCmIVb3liQuk4gXCbDoabqtOAFg5W1TMxQEw7MvLSwYGF9VqjWNiPHINObPFhdQrxRMlQ25yu
-	8Tg11hfGFLlFOo0eUuhrnfEW6vQGiEsWdlm5Qzl0OW3GS7tb2eNOQH1awlDwYbu/f9pk4VgEZHr
-	VVZSbgajXULQSCGX8wQFmLgF85JrsPbf3tPpEdKIF8FxLYfRWgEXDnxHNiC9MxUcQg9lKJQrNg0
-	sSiX/0tzF2oSSer55gH8HA8xmIdt9W6cC5+li193fZe9GMW7zHxTvgSRO3f4PRM7r7lxq7vQnAW
-	Fnj32b8QDP47QMAGW4Qg==
-X-Received: by 2002:a05:600c:8285:b0:493:bacb:1341 with SMTP id 5b1f17b1804b1-493bacb176dmr13964925e9.4.1782799468463;
-        Mon, 29 Jun 2026 23:04:28 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:559d:eec2:887f:c200])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493b8cd3018sm45429405e9.5.2026.06.29.23.04.27
+        d=1e100.net; s=20251104; t=1782801306; x=1783406106;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=syBpKBFGjGejGwg1BjAhn4n5QdMB5B8yOZv838BwUKA=;
+        b=KC0MOnq2uppplcrA4bV1d21UKiC5ashBShyo/iRcfE4k99IVTGtF5J2OTlTMPdx0AU
+         8FfHCQMtVPW+4W+MPjyzfd9AoXtQBAxjh+jRYanYTSREr3oCgX+cp2BYFynKvNBx6rRC
+         PYcXhKss2DWL40zN53xOmdL5DCCCq0WtfHmTW0xheiLaMvm/8YbaIUurrbEkdziirABc
+         gFPGZjoP/OgXsGTRD3YHorR95rkkqb2ZOjG98Tl7VPhnFa1nqJQuu/SqpS1PC8JEYaIb
+         LB3xUJ14OfMIjMfwv91ReLysXD9+StybiOmTiAGWcyx32ccJfZmd7IS5xQRQtrgYEbOr
+         U9/A==
+X-Forwarded-Encrypted: i=1; AHgh+Rr9XeCsG8gWpRVMRroKBb6SH91Ism/3kHb9QHvvyj+aMrxbJ3I1B42wcOPx76N7CUJXJPKM1isbuknFyA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuUam1r+P5sOL4VMZvjFeJWxNnSo0MqpYX0FJzDlahP1aonjWq
+	2YQTWPYCCC5QHWdOFsu8fZ4X5+Jsrnex5MNyhsvGRbufTLpAYWoe1FN9
+X-Gm-Gg: AfdE7clxn0ur4CX/U7pQq0gSEn2CckyUV87pjuTcPG7sTlraiHiTS+hXSezoEQsopw7
+	aj9wEqjPD2p0OV3Hc77mIYTObbH3B8mI4omRPXMIAYj7kHprc9YyQ+TsE/p9R67iqA4eG+AkEeL
+	P2/javDCgXqOdhHuZJqiVopbt8ks/5WWG4s9b4vP0mtDs+x4CVntpIYGfvtRJpiu483leWEA5/e
+	+t/90Nn3DNNQzMvNIsiye8JOBEn4cTIRWh3FQG29DC0+oXXDvluibRicp1sqi/RL/GHU2l2+GXp
+	SKsWTyxeu2RSqfy81wEKd7LDrLhbX2cSlGPJ6hRnpKj7hggVQIGpCPmJ0xkEwPdJLBvKTL2e0A4
+	vB0TMlJKCrUq8XOgmOv167j9tKFF9DmbrV3aAzJy4mjaGcZXMr+/JUtskph2oV2UTt1hKC06QDY
+	8fMp/mzeVJbWRPgGhhXj6eREG21YP9bUO+Ph1LVRwdbn5UOo54jkotSXg43A==
+X-Received: by 2002:a05:6a00:b481:b0:845:e44c:2e5 with SMTP id d2e1a72fcca58-8479f109b70mr1989863b3a.22.1782801306377;
+        Mon, 29 Jun 2026 23:35:06 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847a02cd237sm1165061b3a.32.2026.06.29.23.34.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 23:04:27 -0700 (PDT)
-Date: Tue, 30 Jun 2026 08:04:26 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Mark Brown <broonie@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Raag Jadav <raag.jadav@intel.com>, 
-	Sohil Mehta <sohil.mehta@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Len Brown <lenb@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, linux-kernel@vger.kernel.org, 
-	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org, Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Heiko Stuebner <heiko@sntech.de>, linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Danilo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, 
-	Jonathan Cameron <jic23@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Pei Xiao <xiaopei01@kylinos.cn>, 
-	Shashank Balaji <shashank.mahadasyam@sony.com>, Ben Horgan <ben.horgan@arm.com>, Johan Hovold <johan@kernel.org>, 
-	linux-usb@vger.kernel.org, Nikita Kravets <teackot@gmail.com>, 
-	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	platform-driver-x86@vger.kernel.org, devicetree@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	Daniel Scally <dan.scally@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Tianrui Zhao <zhaotianrui@loongson.cn>, Bibo Mao <maobibo@loongson.cn>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, kvm@vger.kernel.org, 
-	loongarch@lists.linux.dev
-Subject: Re: [PATCH v3 00/16] mod_devicetable.h: Split into per subsystem
- headers
-Message-ID: <akNYUdAS3sbEdRqC@monoceros>
-References: <cover.1782682124.git.ukleinek@kernel.org>
- <20260629235804.GA414914@sakamocchi.jp>
+        Mon, 29 Jun 2026 23:35:06 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Nick Li <nick.li@foursemi.com>,
+	Herve Codina <herve.codina@bootlin.com>
+Cc: Support Opensource <support.opensource@diasemi.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>,
+	Oder Chiou <oder_chiou@realtek.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	u.kleine-koenig@baylibre.com,
+	Zhang Yi <zhangyi@everest-semi.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Kees Cook <kees@kernel.org>,
+	HyeongJun An <sammiee5311@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Qianfeng Rong <rongqianfeng@vivo.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 00/27] ASoC: codecs: Use guard() for mutex & spin locks
+Date: Tue, 30 Jun 2026 13:34:22 +0700
+Message-ID: <20260630063449.503996-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bjsp2vxvxtx3lqot"
-Content-Disposition: inline
-In-Reply-To: <20260629235804.GA414914@sakamocchi.jp>
+Content-Transfer-Encoding: 8bit
 
+From: bui duc phuc <phucduc.bui@gmail.com>
 
---bjsp2vxvxtx3lqot
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 00/16] mod_devicetable.h: Split into per subsystem
- headers
-MIME-Version: 1.0
+Hi all,
 
-Hello Takashi,
+This series converts mutex and spinlock handling in ASoC codec drivers
+to use the guard() and scoped_guard() helpers.
 
-On Tue, Jun 30, 2026 at 08:58:04AM +0900, Takashi Sakamoto wrote:
-> On Sun, Jun 28, 2026 at 11:58:35PM +0200, Uwe Kleine-K=F6nig (The Capable=
- Hub) wrote:
-> >  ...
-> >  drivers/firewire/core-device.c                |    1 -
-> >  drivers/firewire/net.c                        |    1 -
-> >  drivers/firewire/sbp2.c                       |    1 -
-> >  ...
-> >  drivers/media/firewire/firedtv-fw.c           |    1 -
-> >  ...
-> >  include/linux/firewire.h                      |    3 +-
-> >  ...
-> >  sound/firewire/isight.c                       |    1 -
-> >  ...
-> >  1649 files changed, 1575 insertions(+), 2544 deletions(-)
-> >  ...
-> >  create mode 100644 include/linux/device-id/ieee1394.h
->=20
-> I have no objection to the above changes relevant to firewire subsystem.
->=20
-> Acked-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+This is part 2 of a larger 78-patch conversion series. Part 1 (24
+patches) has already been posted, while this series contains the next
+27 patches to keep the review manageable.
 
-Thanks! Added to my tree.
+https://lore.kernel.org/all/20260617103235.449609-1-phucduc.bui@gmail.com/
 
-> Consequently, unit drivers just include include/linux/firewire.h to refer=
-=20
-> to 'struct ieee1394_device_id'. After merging the changes, I'll post more
-> patches to modify the following unit drivers, since they are left from the
-> patchset.
->=20
-> * drivers/media/firewire/firedtv.h
-> * sound/firewire/bebob/bebob.h
-> * sound/firewire/dice/dice.h
-> * sound/firewire/digi00x/digi00x.h
-> * sound/firewire/fireface/ff.h
-> * sound/firewire/fireworks/fireworks.h
-> * sound/firewire/motu/motu.h
-> * sound/firewire/oxfw/oxfw.h
-> * sound/firewire/tascam/tascam.h
->=20
-> By the way, the changes touch so many files. If it takes more time to
-> apply, I think it better to make steps to modify across several kernel
-> generation.
+The changes are purely refactoring and have no functional impact.
 
-Touching so many files is the motivation to do all the high-impact
-changes in a single go. As of v7.2-rc1 <linux/mod_devicetable.h> is
-included (transitively) in ~18000 of 21500 .o files below drivers/ for a
-x86_64 allmodconfig[1]. So touching that file requires a near complete
-rebuild. If we spread the changes over several trees/kernel releases the
-need to recompile the whole tree repeats more often than necessary. Note
-this bites not only during the merge window when building the
-development tree, but also during bisection.
+Compile-tested only.
 
-> For example, getting rid of direct reference of
-> mod_devicetable.h from drivers at first (in the case of firewire
-> subsystem, for 'Replace <linux/mod_devicetable.h> by more specific
-> <linux/device-id/*.h> (headers))', then adding these per-subsystem
-> headers and applying relevant changes.
+Best regards,
+Phuc
 
-The impact of these firewire changes is limited to the firewire
-subsystem. So doing these later is a smaller issue. I plan to tackle
-these when this series is in. (But if you want to care about the
-firewire bits, that's fine, too.)
-=20
-> Of course, I don't mind to apply the v3 patchset as is in upstream.
+bui duc phuc (27):
+  ASoC: codecs: da7213: Use guard() for mutex locks
+  ASoC: codecs: da7219: Use guard() for mutex locks
+  ASoC: codecs: es8316: Use guard() for mutex locks
+  ASoC: codecs: es8326: Use guard() for mutex locks
+  ASoC: codecs: es9356: Use guard() for mutex locks
+  ASoC: codecs: fs210x: Use guard() for mutex locks
+  ASoC: codecs: hdac_hdmi: Use guard() for mutex locks
+  ASoC: codecs: hdmi-codec: Use guard() for mutex locks
+  ASoC: codecs: idt821034: Use guard() for mutex locks
+  ASoC: codecs: lpass-macro: Use guard() for mutex locks
+  ASoC: codecs: madera: Use guard() for mutex locks
+  ASoC: codecs: max98095: Use guard() for mutex locks
+  ASoC: codecs: mt6359-accdet: Use guard() for mutex locks
+  ASoC: codecs: pcm512x: Use guard() for mutex locks
+  ASoC: codecs: pcm6240: Use guard() for mutex locks
+  ASoC: codecs: peb2466: Use guard() for mutex locks
+  ASoC: codecs: rt5514-spi: Use guard() for mutex locks
+  ASoC: codecs: rt5645: Use guard() for mutex locks
+  ASoC: codecs: rt5665: Use guard() for mutex locks
+  ASoC: codecs: rt5668: Use guard() for mutex locks
+  ASoC: codecs: rt5677: Use guard() for mutex locks
+  ASoC: codecs: rt5682: Use guard() for mutex locks
+  ASoC: codecs: rt700: Use guard() for mutex locks
+  ASoC: codecs: rt711: Use guard() for mutex locks
+  ASoC: codecs: rt712: Use guard() for mutex locks
+  ASoC: codecs: rt721: Use guard() for mutex locks
+  ASoC: codecs: rt722: Use guard() for mutex locks
 
-There are a few changes that I collected (Added SPDX markers, a few less
-#includes added as my script evolved, a new patch to fix a hppa
-fallout), so I will send a v4 later today.
+ sound/soc/codecs/da7213.c             |  37 ++----
+ sound/soc/codecs/da7219.c             |  55 +++------
+ sound/soc/codecs/es8316.c             |  31 +++--
+ sound/soc/codecs/es8326.c             |  30 +++--
+ sound/soc/codecs/es9356.c             |  29 ++---
+ sound/soc/codecs/fs210x.c             |  87 +++++---------
+ sound/soc/codecs/hdac_hdmi.c          | 117 +++++++++----------
+ sound/soc/codecs/hdmi-codec.c         |  15 +--
+ sound/soc/codecs/idt821034.c          | 121 ++++++++-----------
+ sound/soc/codecs/lpass-macro-common.c |  12 +-
+ sound/soc/codecs/madera.c             |  32 ++----
+ sound/soc/codecs/max98095.c           |  35 +++---
+ sound/soc/codecs/mt6359-accdet.c      |  13 +--
+ sound/soc/codecs/pcm512x.c            |  19 +--
+ sound/soc/codecs/pcm6240.c            |  25 ++--
+ sound/soc/codecs/peb2466.c            |  16 +--
+ sound/soc/codecs/rt5514-spi.c         |  21 ++--
+ sound/soc/codecs/rt5645.c             | 160 +++++++++++++-------------
+ sound/soc/codecs/rt5665.c             |  15 ++-
+ sound/soc/codecs/rt5668.c             |  10 +-
+ sound/soc/codecs/rt5677-spi.c         |  36 +++---
+ sound/soc/codecs/rt5677.c             |  75 ++++++------
+ sound/soc/codecs/rt5682-sdw.c         |  24 ++--
+ sound/soc/codecs/rt5682.c             |   5 +-
+ sound/soc/codecs/rt5682s.c            |  17 +--
+ sound/soc/codecs/rt700-sdw.c          |  14 +--
+ sound/soc/codecs/rt711-sdca-sdw.c     |  30 ++---
+ sound/soc/codecs/rt711-sdca.c         |   8 +-
+ sound/soc/codecs/rt711-sdw.c          |  24 ++--
+ sound/soc/codecs/rt711.c              |  46 ++++----
+ sound/soc/codecs/rt712-sdca-sdw.c     |  30 ++---
+ sound/soc/codecs/rt712-sdca.c         |   8 +-
+ sound/soc/codecs/rt721-sdca-sdw.c     |  29 ++---
+ sound/soc/codecs/rt721-sdca.c         |   5 +-
+ sound/soc/codecs/rt722-sdca-sdw.c     |  29 ++---
+ sound/soc/codecs/rt722-sdca.c         |   4 +-
+ 36 files changed, 557 insertions(+), 707 deletions(-)
 
-Best regards
-Uwe
+-- 
+2.43.0
 
-[1] I did in my build tree (with the series applied)
-
-	$ find drivers -name \*.o.cmd -not -name \*.mod.o.cmd | xargs grep -l /dev=
-ice-id/ | wc -l
-	19221
-	$ find drivers -name \*.o.cmd -not -name \*.mod.o.cmd | wc -l
-	21597
-
-That's a bit wrong as my series changes the numbers, but the ballpark
-should be right. In
-https://lore.kernel.org/all/20260622210733.1743063-2-u.kleine-koenig@baylib=
-re.com/
-I found similar numbers for 7.1 (17038/21330).
-
---bjsp2vxvxtx3lqot
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpDXGcACgkQj4D7WH0S
-/k6p0wf8C/fqLWElPKeEJ6VYZOMbHAVQFFSaiocKgLhyatujJO/xABylQtIrG2bm
-oNQHPUayrcWacObHGF3fEjQy4hRJLu10iu9WrGW/FvZUPjhCWUzPdhuXpmSnE4fH
-zd/NVmkNUTbomy4rUfxcWTKfXtWxqi+pwwPvcbEeQBUCqK/R3MK9MTJPeo+fuS0w
-N7J2Vv4yLihgZU1OW8Y9uT+TbrHb5Kn77XyKCF3bvRyrDK82GHBAEy0UIojDpJnT
-sIhHykaiFL1/5jUZb/iCqMx0+2OUeNz8HOywoSete10zzE2qFPFgI683oSrO6gcY
-cBQF6NX+zboS6GmYI42xlkzJTj7ODw==
-=GSrp
------END PGP SIGNATURE-----
-
---bjsp2vxvxtx3lqot--
