@@ -1,119 +1,230 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7223F4DC6
-	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 09:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1333A1A58
+	for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 09:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782811546; cv=none; b=pgFPrvisQoFF3TyRo/8V4gOpITcUvqCdlv5JY0dLuJyeDpwZH7EUnhhrsYe2ziDqpYehXA083YxwqczQv0Du2XprPbIJBSB3ZVpkybxWLQ831YSfXx0XIVNK0ABPUj+Ygvu8ZM4DXnXCAVQZfZxIHVhrfx+PVlja/xwAAIw3768=
+	t=1782812688; cv=none; b=A1UTXxNSnGNEVua+9hkdyyD+/D0De4YYLut7ZA5FemHG4rBa+DeAXjR+U0HFmCm8D9wADdefevgXmnTXeaPrXfhbYJvQnLyzApqR+CprWnE8QaqzORlN7ysIKCuk4fKH9pE9Wqz8Is/GX3e4TPYZuoUta49qKispK9P2afU4DLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782811546; c=relaxed/simple;
-	bh=eZiIYoauFR0S5Pv5ozC7tjSH+NQaTcvMyl6TtdKObdg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pLyA9UL8YyU9+WyfnpyuM8slyK9cFHgGlMA+qWPLUDUDqmGL+lzho/hdcdtL22F1b9IdQE62hbVzJ9nj+wkmQXx1loA8jszDuzsdKn0NAKbcGaYR5iwfeVj1QtJF7jPd4NloGEvKZlrP22eb6Syth/xU0MWEhGpgUC5CqqSjJuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=pAVGmS2K; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1782812688; c=relaxed/simple;
+	bh=tQSLkJy5Rd1l9NtUckxT1AInGUiKvmg7ELIqi/PFI6w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RH0x18onLDK9woyMsyvOkkuXbOuM/mZajsjSQfe7WfESyaEdbY3VJM/IrPqfrbL5Kh2eFkCTF3Ik7eSWY7pf9vBrTfNQNyOQfjX0w2dDUkPNGie8n9XsRhdXhGvAwSAFVNaWppRSTaKuEp/Bo0lM6hOF/9c9Hs2w+claqHFXeZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ghiVG2nk; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="pAVGmS2K"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-493ba701891so3366865e9.3
-        for <linux-sound@vger.kernel.org>; Tue, 30 Jun 2026 02:25:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1782811543; x=1783416343; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qAjhS/COqLtvcZj1Fqx19sywI+eIhpJuSH2R68/3Jjs=;
-        b=pAVGmS2KIFhyx2yFtaIqewqRbeQ22hVoShwkMdGA0ZIFDfBXMlXDUOeQXgtpsbUMzX
-         JGHQn9HOR/HmkhFb8z1EAtG5GkFDDZFtKgqhHzmT7WvY6fgZ/4ZBnWj+nBD5Zky3ed5y
-         b08fTRbUWJWGaijqAnE3dISW3IRFiLVmI+gs3W59C3rYrCWl9CEAyxs5iQExNfuF5bJW
-         Fd9OUafK2pwk6O6GACSbKjolVAExVb2bgN43pAJgSN4KkxgS8dAc7Pxbc/9q7k26vMke
-         qI9ZHN1mU1mNhZPeUN+bqWA4rhkuhHtTiG5qtDcKGCQmXhB20LnYagB38scFS0CCRZuJ
-         KpRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782811543; x=1783416343;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=qAjhS/COqLtvcZj1Fqx19sywI+eIhpJuSH2R68/3Jjs=;
-        b=d1cdTY/3/MevsgfvWYNJt9REI8xauuSNV1So7iLqzQEGhfaDGkzucuykVpfssu2x2G
-         Q35SGZQy/nCR8IVjoVhxWJSyvFZkEYFpezF0/tf86OBG+gAW72k0w+e1fufOV6DmRo0p
-         OLoU+V3gvlnpAZX0kh32Q+BUP4djiQhxQfzzQqxaXA5eLZxPdut4unLZiBelXvt72fn0
-         uW1QB7pu8JfFHGRQxRpfUrKMWYKYbOx2t4pHAl//p8FvMMW/c3OHicPTh4LorJBCk341
-         y+WDOCdDzNRL8bKaYOsH49x+Nbz6ajy1RJqYZ5ga812FSZ8hsgEAWdN7wdjCZbfJndsb
-         UtLg==
-X-Forwarded-Encrypted: i=1; AFNElJ+f2rw/ouw9nR9Xqkxf4gwUaR40J5MZOlnKxQFGsd+IL+dSnbxWiouTSsUDSt2SMGqBwhowscO6DT5vGg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyE7MHS65WEvnkwQ8/Ad8pkX17/XBARCS9C2WyC8QY3fIIf48v4
-	+OhK04xzabVrN6QxqvzYCI18riNuFoxIVxsNqOYvwSK+vur/f82+joTInQY8aauAHMc=
-X-Gm-Gg: AfdE7cmjeFBBeYpJXCCgLPQw5rKjvwB8wceY6ewEWQCr7F+LOWE83yZiRvqM15LjzuJ
-	KuA+gOOmIGBLgsm4lJAzYh9lvpWTh9DNc8EahrceGjZo5uM/TvCrOYoIdfs5aGBhssXtLOM0sEg
-	11+aQ5uc1lc01vNuMH6LmlgZRb1vGWsCMg8r8ihBwxM8aOFKittz7ArlyGUv2JA8OynnHiWMUI9
-	fYwZGtOrh5z1Whd75Cy6Z9Hv6B4gc//zo6fcUUL3P8dNLeu11dyviP7VvbORUhnEn/A8dlrbRty
-	5QWbZclBFYP/0STIqvypsdXRi1su1RfDkHr2Q2seliu5ZmZft8PTN9dIsvjKLPV+/VWtFLvS+v3
-	2g5hDxXbs1rNJSswXalKHO3nzTj07/XqZwt4tqH9nusPS4hDar0jDJqXmrjdLF1XLiy/EpG/DC7
-	0hB5Tn4RfanGtIYpA7exgtfma8DHt9P+x3LW0lCBHdyT2Uex9MfBNSnfYyyIlnNwt8ESFU3rSLK
-	DFC
-X-Received: by 2002:a05:600c:3f19:b0:48f:d612:3c59 with SMTP id 5b1f17b1804b1-493b8289bc8mr43558695e9.9.1782811543338;
-        Tue, 30 Jun 2026 02:25:43 -0700 (PDT)
-Received: from localhost (p200300f65f47db042c439d749f38355a.dip0.t-ipconnect.de. [2003:f6:5f47:db04:2c43:9d74:9f38:355a])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493bc19f4b0sm26282905e9.1.2026.06.30.02.25.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 02:25:42 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Subject: [PATCH v4 12/17] ALSA: hda/core: Add include defining struct hda_device_id
-Date: Tue, 30 Jun 2026 11:24:31 +0200
-Message-ID: <376883bc5889d5cca01efb6f8d4e07a20158f2b8.1782808461.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1782808460.git.u.kleine-koenig@baylibre.com>
-References: <cover.1782808460.git.u.kleine-koenig@baylibre.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ghiVG2nk"
+Message-ID: <ca8eb233-0e40-4900-aaca-69b8fe783f06@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782812685;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cg7pDGrSUrNha2ltpI0ocvZ0kO7l4Ce+GQS9ztoo1n0=;
+	b=ghiVG2nkOMFWi3Qhe/7OkWmBPLu/WtWmRsBDKLWYDc8M9U69lXzgiWs1PZJwEHRVYzySmC
+	NydMugSqFUhNMqcxQ1zIxMS4GE2npg3qPWx7AlHH1vlqkA4L7v3t36/wNakubaljfH20wH
+	bc13fxdqcC1xxbsBh/VKsgIuCwRQc4o=
+Date: Tue, 30 Jun 2026 11:42:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH 1/2] soundwire: bus: add CLOCK_STOP_MODE1 support back
+To: Bard Liao <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org,
+ vkoul@kernel.org
+Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org,
+ peter.ujfalusi@linux.intel.com, bard.liao@intel.com
+References: <20260629144450.2096823-1-yung-chuan.liao@linux.intel.com>
+ <20260629144450.2096823-2-yung-chuan.liao@linux.intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20260629144450.2096823-2-yung-chuan.liao@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1209; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=eZiIYoauFR0S5Pv5ozC7tjSH+NQaTcvMyl6TtdKObdg=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqQ4tncN0VLB6L8UsP4kKGB8hQsZaca83eopfGE mCx+As6ddyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCakOLZwAKCRCPgPtYfRL+ TlwlB/98dBnvNEzsn6EzESeSrJO7d4R677qthIVfvm/5ObxixtPhhZrtroTRXJYm3Z/jo6YaL+Q rpcgkrNSCWLoormPSEjrsMj3K9Pkk9wHyZlDNu1tIddTTtWQl1INtfng2QaQs6nREkmc2sxNeYa guMBSoOD5pn9TyOXvFoQCxBor/xzbpBSLBMrAe7UJKqJ5lOV0zW20gIEoRPP2DpcSicei95L9V1 YHW3gtHA3jna2DsLCiUZjs2EJzk3r/Fmx3rb5/tK4AEhJrZIapKYBFwkqnBm956s4qXkC/NxT/g lKpLCjWDihpHiUQaDWJ7owTlrnKRVvbuUOAzdL3WLcOF0mDo
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Traditionally all *_device_id were defined in a single header
-<linux/mod_devicetable.h>. This was split now with the objective that
-only the relevant bits are included. So including <linux/pci.h> won't be
-enough to get a definition of (the unrelated to pci) struct
-hda_device_id.
+On 6/29/26 16:44, Bard Liao wrote:
+> CLOCK_STOP_MODE1 is used when the Peripheral might have entered a deeper
+> power-saving mode that does not retain state while the Clock is stopped.
+> It is useful when the device is more power consumption sensitive. Add it
+> back to allow the Peripheral use CLOCK_STOP_MODE1.
+> 
+> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-Add an explicit include for the header defining struct hda_device_id to
-keep working when <linux/pci.h> stops providing this defintion.
+This patch looks fine with the understanding that the DisCo property is defined on a system-by-system basis and isn't a codec property extracted from a datasheet.
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
-Acked-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Link: https://patch.msgid.link/2e365146b67ced2a1897785fcc0c222c382f14fb.1782682124.git.ukleinek@kernel.org
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
----
- include/sound/hdaudio.h | 1 +
- 1 file changed, 1 insertion(+)
+If it was a codec property, this could be problematic in some cases. For example in a latency-constrained environment, the host could require peripherals to use the clock-stop mode0 to restart faster, even if this means writing-off power saving that the peripheral supports.
 
-diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
-index f11bfc6b9f42..aa994d6e6d35 100644
---- a/include/sound/hdaudio.h
-+++ b/include/sound/hdaudio.h
-@@ -11,6 +11,7 @@
- #include <linux/io.h>
- #include <linux/io-64-nonatomic-lo-hi.h>
- #include <linux/iopoll.h>
-+#include <linux/device-id/hda.h>
- #include <linux/pci.h>
- #include <linux/pm_runtime.h>
- #include <linux/timecounter.h>
--- 
-2.47.3
+In other words, if the OEMs use a copy-pasted DisCo definition this could be problematic, and at some point we may have to discard the codec property. For now it's fine, so here's my
+
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+
+> ---
+>  drivers/soundwire/bus.c       | 45 +++++++++++++++++++----------------
+>  include/linux/soundwire/sdw.h |  4 ++++
+>  2 files changed, 29 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
+> index 0490777fa406..21d8d6d7147a 100644
+> --- a/drivers/soundwire/bus.c
+> +++ b/drivers/soundwire/bus.c
+> @@ -956,8 +956,22 @@ static void sdw_modify_slave_status(struct sdw_slave *slave,
+>  	mutex_unlock(&bus->bus_lock);
+>  }
+>  
+> +static enum sdw_clk_stop_mode sdw_get_clk_stop_mode(struct sdw_slave *slave)
+> +{
+> +	struct device *dev = &slave->dev;
+> +	struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
+> +
+> +	/*
+> +	 * Query for clock stop mode if Slave implements
+> +	 * ops->get_clk_stop_mode, else read from property.
+> +	 */
+> +	if (drv->ops && drv->ops->get_clk_stop_mode)
+> +		return drv->ops->get_clk_stop_mode(slave);
+> +
+> +	return slave->prop.clk_stop_mode1 ? SDW_CLK_STOP_MODE1 : SDW_CLK_STOP_MODE0;
+> +}
+> +
+>  static int sdw_slave_clk_stop_callback(struct sdw_slave *slave,
+> -				       enum sdw_clk_stop_mode mode,
+>  				       enum sdw_clk_stop_type type)
+>  {
+>  	int ret = 0;
+> @@ -969,7 +983,7 @@ static int sdw_slave_clk_stop_callback(struct sdw_slave *slave,
+>  		struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
+>  
+>  		if (drv->ops && drv->ops->clk_stop)
+> -			ret = drv->ops->clk_stop(slave, mode, type);
+> +			ret = drv->ops->clk_stop(slave, slave->clk_stop_mode, type);
+>  	}
+>  
+>  	mutex_unlock(&slave->sdw_dev_lock);
+> @@ -978,7 +992,6 @@ static int sdw_slave_clk_stop_callback(struct sdw_slave *slave,
+>  }
+>  
+>  static int sdw_slave_clk_stop_prepare(struct sdw_slave *slave,
+> -				      enum sdw_clk_stop_mode mode,
+>  				      bool prepare)
+>  {
+>  	bool wake_en;
+> @@ -990,7 +1003,7 @@ static int sdw_slave_clk_stop_prepare(struct sdw_slave *slave,
+>  	if (prepare) {
+>  		val = SDW_SCP_SYSTEMCTRL_CLK_STP_PREP;
+>  
+> -		if (mode == SDW_CLK_STOP_MODE1)
+> +		if (slave->clk_stop_mode == SDW_CLK_STOP_MODE1)
+>  			val |= SDW_SCP_SYSTEMCTRL_CLK_STP_MODE1;
+>  
+>  		if (wake_en)
+> @@ -1078,9 +1091,9 @@ int sdw_bus_prep_clk_stop(struct sdw_bus *bus)
+>  		/* Identify if Slave(s) are available on Bus */
+>  		is_slave = true;
+>  
+> -		ret = sdw_slave_clk_stop_callback(slave,
+> -						  SDW_CLK_STOP_MODE0,
+> -						  SDW_CLK_PRE_PREPARE);
+> +		slave->clk_stop_mode = sdw_get_clk_stop_mode(slave);
+> +
+> +		ret = sdw_slave_clk_stop_callback(slave, SDW_CLK_PRE_PREPARE);
+>  		if (ret < 0 && ret != -ENODATA) {
+>  			dev_err(&slave->dev, "clock stop pre-prepare cb failed:%d\n", ret);
+>  			return ret;
+> @@ -1090,9 +1103,7 @@ int sdw_bus_prep_clk_stop(struct sdw_bus *bus)
+>  		if (!slave->prop.simple_clk_stop_capable) {
+>  			simple_clk_stop = false;
+>  
+> -			ret = sdw_slave_clk_stop_prepare(slave,
+> -							 SDW_CLK_STOP_MODE0,
+> -							 true);
+> +			ret = sdw_slave_clk_stop_prepare(slave, true);
+>  			if (ret < 0 && ret != -ENODATA) {
+>  				dev_err(&slave->dev, "clock stop prepare failed:%d\n", ret);
+>  				return ret;
+> @@ -1130,9 +1141,7 @@ int sdw_bus_prep_clk_stop(struct sdw_bus *bus)
+>  		    slave->status != SDW_SLAVE_ALERT)
+>  			continue;
+>  
+> -		ret = sdw_slave_clk_stop_callback(slave,
+> -						  SDW_CLK_STOP_MODE0,
+> -						  SDW_CLK_POST_PREPARE);
+> +		ret = sdw_slave_clk_stop_callback(slave, SDW_CLK_POST_PREPARE);
+>  
+>  		if (ret < 0 && ret != -ENODATA) {
+>  			dev_err(&slave->dev, "clock stop post-prepare cb failed:%d\n", ret);
+> @@ -1204,8 +1213,7 @@ int sdw_bus_exit_clk_stop(struct sdw_bus *bus)
+>  		/* Identify if Slave(s) are available on Bus */
+>  		is_slave = true;
+>  
+> -		ret = sdw_slave_clk_stop_callback(slave, SDW_CLK_STOP_MODE0,
+> -						  SDW_CLK_PRE_DEPREPARE);
+> +		ret = sdw_slave_clk_stop_callback(slave, SDW_CLK_PRE_DEPREPARE);
+>  		if (ret < 0)
+>  			dev_warn(&slave->dev, "clock stop pre-deprepare cb failed:%d\n", ret);
+>  
+> @@ -1213,9 +1221,7 @@ int sdw_bus_exit_clk_stop(struct sdw_bus *bus)
+>  		if (!slave->prop.simple_clk_stop_capable) {
+>  			simple_clk_stop = false;
+>  
+> -			ret = sdw_slave_clk_stop_prepare(slave, SDW_CLK_STOP_MODE0,
+> -							 false);
+> -
+> +			ret = sdw_slave_clk_stop_prepare(slave, false);
+>  			if (ret < 0)
+>  				dev_warn(&slave->dev, "clock stop deprepare failed:%d\n", ret);
+>  		}
+> @@ -1243,8 +1249,7 @@ int sdw_bus_exit_clk_stop(struct sdw_bus *bus)
+>  		    slave->status != SDW_SLAVE_ALERT)
+>  			continue;
+>  
+> -		ret = sdw_slave_clk_stop_callback(slave, SDW_CLK_STOP_MODE0,
+> -						  SDW_CLK_POST_DEPREPARE);
+> +		ret = sdw_slave_clk_stop_callback(slave, SDW_CLK_POST_DEPREPARE);
+>  		if (ret < 0)
+>  			dev_warn(&slave->dev, "clock stop post-deprepare cb failed:%d\n", ret);
+>  	}
+> diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
+> index b484784e2690..c1d2fc69bed5 100644
+> --- a/include/linux/soundwire/sdw.h
+> +++ b/include/linux/soundwire/sdw.h
+> @@ -612,6 +612,7 @@ struct sdw_bus_params {
+>   * @update_status: Update Slave status
+>   * @bus_config: Update the bus config for Slave
+>   * @port_prep: Prepare the port with parameters
+> + * @get_clk_stop_mode: Get the clock stop mode of the Slave
+>   * @clk_stop: handle imp-def sequences before and after prepare and de-prepare
+>   */
+>  struct sdw_slave_ops {
+> @@ -625,6 +626,7 @@ struct sdw_slave_ops {
+>  	int (*port_prep)(struct sdw_slave *slave,
+>  			 struct sdw_prepare_ch *prepare_ch,
+>  			 enum sdw_port_prep_ops pre_ops);
+> +	enum sdw_clk_stop_mode (*get_clk_stop_mode)(struct sdw_slave *slave);
+>  	int (*clk_stop)(struct sdw_slave *slave,
+>  			enum sdw_clk_stop_mode mode,
+>  			enum sdw_clk_stop_type type);
+> @@ -643,6 +645,7 @@ struct sdw_slave_ops {
+>   * @node: node for bus list
+>   * @port_ready: Port ready completion flag for each Slave port
+>   * @m_port_map: static Master port map for each Slave port
+> + * @clk_stop_mode: The clock stop mode of the Slave
+>   * @dev_num: Current Device Number, values can be 0 or dev_num_sticky
+>   * @dev_num_sticky: one-time static Device Number assigned by Bus
+>   * @probed: boolean tracking driver state
+> @@ -677,6 +680,7 @@ struct sdw_slave {
+>  	struct list_head node;
+>  	struct completion port_ready[SDW_MAX_PORTS];
+>  	unsigned int m_port_map[SDW_MAX_PORTS];
+> +	enum sdw_clk_stop_mode clk_stop_mode;
+>  	u16 dev_num;
+>  	u16 dev_num_sticky;
+>  	bool probed;
 
