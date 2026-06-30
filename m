@@ -1,86 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1383291C10;
-	Tue, 30 Jun 2026 06:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C123019A9;
+	Tue, 30 Jun 2026 06:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782801616; cv=none; b=q102Y7x/C/NnuPs0IE7+8FXcOMSNhVUEj9THay1ecz8UqTAbTQqvSuaBS+NIyOIbD92V8R+FkcZ2pvUkGLcK//iEul4fbH3LHRabhjBZNUknYWNxGuSx1G1QExX4vTZkmtEfQxobQYgFtt7Ia2RO3hAEScXGs8SCwAwPTRXnhOE=
+	t=1782802498; cv=none; b=IgWSFh7/NhTmTs1IrzwV2nesuB6CZNmFgBhIYKpFhA/0GIu56VsWeZo0ADuGZ7FK2MHOqlP51uOvZE2yLdIRAP2542SWVcDihnwNhU0nfaMsYLXV2NGST183ASThtMp2c9e37KJq4HC8Hz63SMisl3BsHSIJgNRVsRQDSs6K2nA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782801616; c=relaxed/simple;
-	bh=tPzUUgKX5I6bopctVswm3qvHLGFdUqAjogaDEX43PGk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g8aQcy6j4CVyZY4xjmZWl40IOPlPevMo2Ebt/YW6OxqX7b/KN7rfyJHmQv3bujlRSV8gQmGt9rfuIExOE1WLDpqD2ySyMvdHTRG9mT9i7pdsjoWJJOlWcVoFAPRR2x00c6lLDkFn7UTuE3hBcziCGgjKkrDR/w1WlIWrMZL/JQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zo82KfFn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782802498; c=relaxed/simple;
+	bh=y3DkgpE/xKHOP0+3rkDBVCpOOaZc9o2nQXMHrqK5ZKU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XrRax1WXzRzMx/fxDVTvEBzinpy59dz5Rpt8Yh9lpdpmOJa+tUFatzSgG9JbA5qhQdZoYnYuzBH7SdcyNp5fPqTCEk7p6/0OK82D8kSNQCBXOmIblC3IR0p1CTp3RGLflu/u5gaifUpKoD8bt17VA960Lx21pi7PLJsB3vKXQDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Z8d/49Ey; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zo82KfFn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 387281F000E9;
-	Tue, 30 Jun 2026 06:40:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782801612;
-	bh=1zK/FCFxCZYzG1d3MdwSXsiqqSvH2UuFILULEPPXJy4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Zo82KfFnm91JHEO9rwac1k3/5D5cvqSQmCvj1Q4EebADzTxSiqpGE5nBAo3o2tFqJ
-	 KlsBv8Fk38EmtJilevk3enjxTjq8fc+QIsiYDB7Wq0tFplDDKvyg7mq5CZos4/e/YT
-	 +lNp5bEf4lUZGBzcvhb4VgHRhiLqFtLxOM6tvJ2UROdFvUEuRPPtm8puKfOyhv/Woc
-	 tuti6clWePWEnPsoB8vJAb3bZjBXJSN0pLsQwPSiV8u+rIm9n3fSjx0rv83YE+MlC9
-	 OHR8Rkufpt41k4PsiMXWPkjifxv1npflyHTKy9BGGikfnEv2vLUHU0BV+UqeSBpf/3
-	 CtAzTa0sqA9rQ==
-Date: Tue, 30 Jun 2026 08:40:08 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Neo Chang <YLCHANG2@nuvoton.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, 
-	robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, alsa-devel@alsa-project.org, neo.chang70@gmail.com, 
-	kchsu0@nuvoton.com, sjlin0@nuvoton.com
-Subject: Re: [PATCH v5 1/2] ASoC: dt-bindings: nuvoton,nau8360: Add NAU83G60
-Message-ID: <20260630-amusing-striped-urchin-d49c93@quoll>
-References: <20260630021510.821919-1-YLCHANG2@nuvoton.com>
- <20260630021510.821919-2-YLCHANG2@nuvoton.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Z8d/49Ey"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 061CE1A0D57;
+	Tue, 30 Jun 2026 06:54:54 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C712560233;
+	Tue, 30 Jun 2026 06:54:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 08518106F1C24;
+	Tue, 30 Jun 2026 08:54:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1782802492; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=IyZqIa5MSoFJjLuTNcs1EIIWqpAU9hip3sA0H6a8zU0=;
+	b=Z8d/49Eys89RVLsciixPBotekygSHb1peRZ8C1zf/KK6JdTXPV58v3pivGMR9KWAM/SHDd
+	V6eyfhgpYfmiSK/ta19YL/n/Lthu3O2PWazx6BfBzSHA/6FinA7MVx9dxz5OG5iqBSkgLk
+	5UxQvx3mRqvcxCeuRYu3HIZvBzN5H9cmx1tuGBG/rD5zbKjuZYRBGj8C9wLZEHqCtNA3Ep
+	HyVtnjWABpiHBs1iK06Y82Qh3FLa8k8TuMdNCh+BCe1a5sNyozuoRpoVPIxileLwL5zQEa
+	rqfZSyv/R3YFfmkKW7mwuSV/dmBBQlika2iqYfeLoZE/Gc9Fphjy+8ni9N2xZA==
+Date: Tue, 30 Jun 2026 08:54:39 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: phucduc.bui@gmail.com
+Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, Nick Li
+ <nick.li@foursemi.com>, Support Opensource
+ <support.opensource@diasemi.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Srinivas Kandagatla <srini@kernel.org>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, Richard Fitzgerald
+ <rf@opensource.cirrus.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu
+ <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Oder Chiou
+ <oder_chiou@realtek.com>, Linus Walleij <linusw@kernel.org>, Kuninori
+ Morimoto <kuninori.morimoto.gx@renesas.com>, u.kleine-koenig@baylibre.com,
+ Zhang Yi <zhangyi@everest-semi.com>, Marco Crivellari
+ <marco.crivellari@suse.com>, Kees Cook <kees@kernel.org>, HyeongJun An
+ <sammiee5311@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Qianfeng Rong
+ <rongqianfeng@vivo.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 16/27] ASoC: codecs: peb2466: Use guard() for mutex
+ locks
+Message-ID: <20260630085439.2483f232@bootlin.com>
+In-Reply-To: <20260630063449.503996-17-phucduc.bui@gmail.com>
+References: <20260630063449.503996-1-phucduc.bui@gmail.com>
+	<20260630063449.503996-17-phucduc.bui@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260630021510.821919-2-YLCHANG2@nuvoton.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, Jun 30, 2026 at 10:15:09AM +0800, Neo Chang wrote:
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: mclk
-> +
-> +  firmware-name:
-> +    items:
-> +      - description: |
+Hi,
 
-Drop |
+On Tue, 30 Jun 2026 13:34:38 +0700
+phucduc.bui@gmail.com wrote:
 
-> +          Left DSP core firmware.
-> +          In PBTL mode, the Left firmware is ignored and only the Right is applied.
-> +      - description: Right DSP core firmware.
-> +
-> +  nuvoton,pbtl-enable:
-> +    type: boolean
-> +    description: NAU83G60 supports PBTL mode for mono output.
-> +
-> +  nuvoton,dac-cur-enable:
-> +    type: boolean
-> +    description: |
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> Clean up the code using guard() for mutex locks.
+> Merely code refactoring, and no behavior change.
+> 
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> ---
+>  sound/soc/codecs/peb2466.c | 16 ++++++----------
+>  1 file changed, 6 insertions(+), 10 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/peb2466.c b/sound/soc/codecs/peb2466.c
+> index 2d71d204d8fa..5a1ed02abb84 100644
+> --- a/sound/soc/codecs/peb2466.c
+> +++ b/sound/soc/codecs/peb2466.c
 
-Drop |
-
-There is no formartting to preserve and I did not ask to introduce it
-here. I commented in completely different place.
-
-With these two fixed:
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Reviewed-by: Herve Codina <herve.codina@bootlin.com>
 
 Best regards,
-Krzysztof
+Hervé
 
