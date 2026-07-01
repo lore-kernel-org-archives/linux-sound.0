@@ -1,46 +1,46 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010033.outbound.protection.outlook.com [52.101.56.33])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012049.outbound.protection.outlook.com [40.93.195.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A54C40759B;
-	Wed,  1 Jul 2026 09:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB657408038;
+	Wed,  1 Jul 2026 09:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782899943; cv=fail; b=fRYkGEXXDZNNYhd0YmzxaDAK0Ao4LjE6+g3m2I0XMoN9Nk4j9J6PVlb2jyMk0SgynR8aDx8JdgUmMn9+V7KVpMrBIkfv9q7hKOUu1dO/tt+Fjw/vpcEo0S8SsWjB2PsIrzhZ24jkhWoIlxcH4SgBZtrab0TxcY9YBT8Z5AIUsVg=
+	t=1782899947; cv=fail; b=DwwP4axa+CvGxMiJj+lFKQZgpOxDFVGTJD9r61VfeCU7jhfwpak5jC6T/GRu0dygmKDE0YswXz+DEH2WBdUU+ZUsYk+O5zY76FQLzKPyTNXBe6oJ5sRro2y9a5iP3AYeJ5SbbJvkAxBwVutZs1/FS+FrHtKzDpRmrHjvbfEPhvQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782899943; c=relaxed/simple;
-	bh=pLmevQXBvtPnAAfwPH4Q8Yreou4Fu4MPkcxZCPsqBCA=;
+	s=arc-20240116; t=1782899947; c=relaxed/simple;
+	bh=Z/nhGkqoiCPlTHqXSqYYn8bkFRs89ZCVP9hQQfgK9TI=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ruZzKf/ebGzomyL4FAQX14c0SLqTZavG0nfEP0xrnXRZdDHMYWupRp2kaPvlTnb47C9bAn3UcVn5hslv6uXF4UHuzO1P6+RsaNv2yTwwaAZY2gV62Y6Y1dP8IINkK3PVYrX9wWpX5jvCcO+rWUu/+fW5dAYRRXm4ovPjoTBNq88=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Xq6bJXCr; arc=fail smtp.client-ip=52.101.56.33
+	 MIME-Version:Content-Type; b=pG6uaeH7Qo0MCaYggEJda0JAhTs3b48MZLG6GgUDUn+7pM11SsHfXwRBHa8NpTr2rYuexBIEj9xh4QnkvE6seteYO0lUQFkvy5LPOQlHEoOpGWAIY8zzuq3ViqnaXEuZBHBgtBOw1odC4tLkiUoeOXAdOc6NFNJ5n0q0Gvf+kLA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5h7Dso6Y; arc=fail smtp.client-ip=40.93.195.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Xq6bJXCr"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5h7Dso6Y"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dQipyj5r/sgSCNzN5ZGMNpYkyAxGs8wlwSF5tE22UYlym/d3m/PuK6tEdov+zy/NmOSzvi2Nj8E3xvGuaf7zaAs+NV8Fzqr5YVFQ0No93w4sMxLfkrFnjh/SdtdwdmPrIpICfuz280v0GkCxF9t43hq7NDeO5dD/r7qZJFmoLPT88YyXiAtMB5OZ8A3AcwXkFaAmGtASK0LQobeLCIaT0mmDrq8ItIbgisj+TNYpc8fmBjkaSjSDTkZFH3o9I/tp99FChHqwD4GkmppoMBQh8vD4uTE70/IdCdvKC/c6Dpoe57VDz+SppJ0q922IWOAQTwxUjYsr1OZuR9UkSVN0zw==
+ b=q/VaW4x8/kQTLKhsCOSQ3RJDaRGGGlwCvBwb+jCjOZhVucY/9aE7aUgL4n0cvyflrmtgoVT3NVWY7NdJ9s2r2O83mr8PsBxG+ti7mJf0hk245mwQHDLnCB77HdpI2EU5D1fY7doZCi4CSU5AFTirr5qhkeeTikmczgz9WhDMhKchpzaq5hv9koi1UBo8HhvFzLvGbSWZpjryUmWUa+YmtR8fEZu/osp5uAqkfD0sWRoTVX829b+JfGOVKsfrGLtoipVWMaUXtpHyQPW0gM0bUH3L2VvfGbKcG2VDXJ+O54JTHdV9GKgr1p0axAP5G+hipzEMMaU7vzhTjp0dVQrbXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kTaZwC4o/U+2xTW8tfgTqgpSCmEzHiM9+pjG67t7gj4=;
- b=fVBBOj33ft0pN8lahAu6wnjyWKAzj/dME0+sCgyWNwUAv8qxuF0daSyTBEjxoG+EmOrkQjlcCyICicR0PbaSok8I/PCCvSrRmFUtKkS5hz1uXWH5VxwmgcKaXIxT8rCUGrtDfiq9/2+X8MATzIAVwDZzWtniC2G7/DOo3221UmfaWtuSz8wzK16o+6452UIyL/h2fabTQdSDxF+nMJzbs02+ayaJMBFEPmXSDqh5tVtwvaQMw9Ie72XDlIkD6VXCpMUnv3pvZ1kc4sPAfrjkWL65E1YTyQwsb/4Mi7VOuYgDrBvlin4l1ssrlcxIGwJ/XU0+QvKtPjyzGPjm+DyInQ==
+ bh=dpXWY3UZxyEbSWD/rqvF46n98WSdjj5pbHhYpvGzeoA=;
+ b=hxSZeu/YhCaSg08YgP6SEFxW5KhkYa1q2JO1MX4xMWkqogUFzLZWlzwpuVsTx4JgCc+7lVRCPNUBIUfhj8ACzjqCOfGeOa53sK6b12TEtMiDokxejUTExYNqDysVdfD8a2tdGwmgQbkBVQBmhSS1eEHTkZZWsQVR11UAsitMWkcv6zyZfxxvCUrtjyqZvzKS/pZC1yqUj1vq8qbDhwNtShlVn+kntESCprwqq22GBni/89AHP4I66B5s9YCGbfzAA09nPAeVkYFYmT7d/B6G/13O7F/0PsgcWGmjHldj1DYFF2ZDDN9Dsk7vaWOBDA7hQGN24ifJQNAScJgC0eTmew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kTaZwC4o/U+2xTW8tfgTqgpSCmEzHiM9+pjG67t7gj4=;
- b=Xq6bJXCrlDdqFoECVL7Mg0Hf1lFR4q4DG6vY84cvKvoE4QfJwLizahdH1HO+z4Ukaov7G5ndMUlSlrcyZv+DRglIPPbyCPnqLvZK2KjILHhdA3MsUBrsBmw+eQDowNlNQ+igH66swez7fmXF/17JWK4CLJZSDq6Hr9wRdhB1Zqk=
-Received: from SA1PR03CA0008.namprd03.prod.outlook.com (2603:10b6:806:2d3::7)
- by PH8PR12MB6817.namprd12.prod.outlook.com (2603:10b6:510:1c8::6) with
+ bh=dpXWY3UZxyEbSWD/rqvF46n98WSdjj5pbHhYpvGzeoA=;
+ b=5h7Dso6YHyUp0XYQX51FykyXL9UVji9ZlfrnmqlYfIopXFCFlYL9hbNxkRLAF9atWfsoYMwKX8HOga4+BorCaO40mvDyvH9bYl0njJn2pEWOb5yZPg2sHpHk/nG2ddjniU7/M8Lk0fTOQrxvTLNGnYsq7qs8hUhOoVtzQA4uanA=
+Received: from PH7P220CA0124.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:327::27)
+ by SN7PR12MB7956.namprd12.prod.outlook.com (2603:10b6:806:328::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Wed, 1 Jul
- 2026 09:58:56 +0000
-Received: from SA2PEPF00003F67.namprd04.prod.outlook.com
- (2603:10b6:806:2d3:cafe::33) by SA1PR03CA0008.outlook.office365.com
- (2603:10b6:806:2d3::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 1 Jul 2026
+ 09:59:00 +0000
+Received: from SA2PEPF00003F64.namprd04.prod.outlook.com
+ (2603:10b6:510:327:cafe::1) by PH7P220CA0124.outlook.office365.com
+ (2603:10b6:510:327::27) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.9 via Frontend Transport; Wed, 1
- Jul 2026 09:58:56 +0000
+ Jul 2026 09:59:00 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- SA2PEPF00003F67.mail.protection.outlook.com (10.167.248.42) with Microsoft
+ SA2PEPF00003F64.mail.protection.outlook.com (10.167.248.39) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Wed, 1 Jul 2026 09:58:55 +0000
+ 15.21.181.6 via Frontend Transport; Wed, 1 Jul 2026 09:58:59 +0000
 Received: from vijendar-linux.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Wed, 1 Jul
- 2026 04:58:51 -0500
+ 2026 04:58:55 -0500
 From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 To: <broonie@kernel.org>
 CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>,
@@ -64,9 +64,9 @@ CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>,
 	<mario.limonciello@amd.com>, <linux-sound@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <sound-open-firmware@alsa-project.org>,
 	Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Subject: [PATCH 07/16] ASoC: SOF: amd: extend signed firmware pre-run for ACP7x
-Date: Wed, 1 Jul 2026 15:25:08 +0530
-Message-ID: <20260701095759.1012929-8-Vijendar.Mukunda@amd.com>
+Subject: [PATCH 08/16] ASoC: SOF: amd: require full ACP header for ACP7 signed firmware
+Date: Wed, 1 Jul 2026 15:25:09 +0530
+Message-ID: <20260701095759.1012929-9-Vijendar.Mukunda@amd.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20260701095759.1012929-1-Vijendar.Mukunda@amd.com>
 References: <20260701095759.1012929-1-Vijendar.Mukunda@amd.com>
@@ -82,90 +82,57 @@ X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003F67:EE_|PH8PR12MB6817:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e95f40a-d1bd-422e-5e9a-08ded7575d1d
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F64:EE_|SN7PR12MB7956:EE_
+X-MS-Office365-Filtering-Correlation-Id: 159896ba-e8ac-48f2-b206-08ded7575f91
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|7416014|376014|36860700016|23010399003|56012099006|11063799006|18002099003|22082099003;
+	BCL:0;ARA:13230040|82310400026|23010399003|7416014|376014|36860700016|1800799024|18002099003|22082099003|56012099006|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	3U96bbYnVHfME7nfXQ8bqH9bDf9C41wjSYH5Lywfnf2n2+9MSXvYDvgS2ayck0BQ7II71Fl8YiEJ69UAEG+80ovbS2cq0HLnYbBObH4ZFr3pUu07kEZahDn7KthkXdHmbz/7/3YfidHm2qE605EC0Z2xTMjyp51Keg4HOIqrhzXJ7e2POxugl4UCOj+kCLf+fw4YPzF6J1iPxJDgkRK6BO1INv9JjcBiwKNJp5AdqBHuSVD3fCpimx22FCMojemijhr+robrOVFlxXJhOmdnnbM8P8qTGGJTQLvcBJenVZrM22RIHEd4XRX1CTwgqxcdROfvUnn6yakHK90oxxEfwRfwdkQncx7xnMHnsVIXoZ79LTnpeyn8Dq9RMlswGStKi4hVAwj7wMJJbQrAlUM5cc2UoDlLKGjWng8ojwjCT+uPka2q856KhUVo/Ex8jM55/hQJX1x+VQlBJu3ZJCpIPKYe3kBjQcPW+wvZpupdlPX5RCnJ4vi38vTkSm8H+tDCvG1cicgmQ58Mz+7DrThtezGtDSP/3nk9ub9OklYldV7/3gq+pONQf21Jicf6O2hJXmFg27oVysrlEpKGl7LjjP59iW2Xojdt4Vzlz7MxecAYo4FokoKgo0Gmt/j2fCsad1d8PsGbb6Rm/Bc/rJxi2xEHZDPaJwJqZoqkUJmAYsLabwCz788WYHryl1Oa0BqbmHULLwkywEFXHwCtSnY0Rw==
+	mmE2NAKaa1fg8RDBUC3weDaMiH3PMBSoBu8O+xTC7tDA/Fl/O3iLV+M7wiPeEy55meK/Oc/AZf2ae+YaqOv5UB4okpmoXh9EAJR7XbDaH/GwfCfEe3DU9R/A4EQ479tCiNE27IjsekDdnTE+sJySHZyS/bfiY+5PeymS96I2rUDXLNSuxFCz4pM9ccwiM4avvf5YMluTTzNO67hui+bHA/u58q5htotcURKOOVXXZ3n5O7tdiWoOsf+MtP0vOrAEp9dht+Cos/b0VYRVGp9a7ANBzxA0UZUobC4+giqHK754gZkeAKGEsEJAHVy7C0LN+a2iBBqPZXLQaUJzlhtYutIhuTfv3jQh96HbWWX+KTxWfAol9LMZlU1y7i3Z03N1ciGgb2c/iFpSgjdL/OOE8wEKoX/R7WZiOwytnr73Nono51ZGI346gFPtcIFsLk6Eoh1szwhLeb4Dro9ph2dYDS4TkiemECTcY/dXbwYpjMScfG89SquGrTP5FVmaoyaTo8+0BGoTzLuja/RLBSBysiIMMIZn0SeNHGo0hp1O3OzWldk+8Hjf9n0hh5UC8cMgu1uJcvBiTLRMf+ml6JdfnWmeFzoc+8Doo2984l6YcEps1hi5CseLgIxs4Rkv650oXs9AjQyYTQ+2vv1LnbZrsjYbDcDba2Rpov4qPlRLgfx/gNplrc79Nx46muwVnRwNO3x1UNN1x4lB4g/lDl+bww==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(36860700016)(23010399003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(23010399003)(7416014)(376014)(36860700016)(1800799024)(18002099003)(22082099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	12aOODwbuXx9wbZkPVMWb7uutABiZfiIHdznrY4lhlc7B7l7ysGT0mAPIMFNwJMbqvweftaR+RAhvDctU2NB+rDyprlgMCHpOJ1qOOiG2BovYEKYd1X+M912B/AcbTXhw12vWot9DENnfuUTrZGHKrGGj/KLixck2lzec1IxKHUzOd+YCQmEnI/9ZxNV08pj2tDFN3jW1cWnGCnIMq/hfeqN/8QraTk2kl8ferz+hB9pbj82ndM5/xZSptzFdSRgT4MCm7SVE3nwAAkcnc2mAHyNblZ4/9BFj/X2XYhEg48otCEmDGWee/hiukuc2gLK2BlcD+mq5qQrxx4cm3oA6Q6IKc14nCGOi1TjFFSQa8c1PAHQTtaJhjUN63v8p8CEX8oVhEbwTG87ucBaMx+qfZR88R3v3RK2yqvHHt5htsvjH8X4pKcng7lJ0AiQLun9
+	MIYQKwxl0uDacels0NPqC3nBn9lr/u0usAnqwSv2ylNMImtcdO2VKRncksvcdOuRZocoe7biiMUK4bJyBBv1mXNjI5a8FqTu8zi8eqxjrCSKgy1VvtCkngZSzTeBH9s4HWenoGhQbi8Dqk34TE3t+7PqKCLv9WWVcXShQ5tUz42mv2A+EausegehJ2iPcRU4pyY4awlv8DQGi3q+Bmu1OWsCMFPXkxpI/Etd6PAh7ANhiT3/WUt3rzv8pN+z3aY/dqdKEoIJtaljuGIsnFjDSyBQHRf9Uf3BZ+O0N5azi/TWVvyUcWDOs5afd/Rnw+XHq0e0sBomjcfAzaGQoGK4HU4QL01uwBybrrjAWS7bRJXiUtss6z4uyZJ5hPk6Igf7EqzdKsFjI+tBdbH8A82z0tNoBCSKlWAtuBOpioAUxIZzJ/04eYSceZDfn7125Rl4
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 09:58:55.7173
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 09:58:59.8093
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e95f40a-d1bd-422e-5e9a-08ded7575d1d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 159896ba-e8ac-48f2-b206-08ded7575f91
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00003F67.namprd04.prod.outlook.com
+	SA2PEPF00003F64.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6817
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7956
 
-Parse SizeFWSigned from the ACP image header when loading signed
-firmware on ACP7.B/7.F platforms. Keep the legacy
-ACP_FIRMWARE_SIGNATURE subtraction for pre-7B platforms using quirks.
+ACP7.B/7.F signed images read SizeFWSigned from a fixed offset inside
+the ACP header. Reject firmware buffers shorter than the header so we
+never read past the end of the supplied image.
 
 Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- sound/soc/sof/amd/acp-loader.c | 14 ++++++++++++--
- sound/soc/sof/amd/acp.h        |  3 +++
- 2 files changed, 15 insertions(+), 2 deletions(-)
+ sound/soc/sof/amd/acp-loader.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/sound/soc/sof/amd/acp-loader.c b/sound/soc/sof/amd/acp-loader.c
-index 98324bbade15..af04f053fd65 100644
+index af04f053fd65..e4a17e6656c0 100644
 --- a/sound/soc/sof/amd/acp-loader.c
 +++ b/sound/soc/sof/amd/acp-loader.c
-@@ -14,6 +14,7 @@
- #include <linux/firmware.h>
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/unaligned.h>
+@@ -176,6 +176,11 @@ int acp_dsp_pre_fw_run(struct snd_sof_dev *sdev)
  
- #include "../ops.h"
- #include "acp-dsp-offset.h"
-@@ -173,10 +174,19 @@ int acp_dsp_pre_fw_run(struct snd_sof_dev *sdev)
- 
- 	adata = sdev->pdata->hw_pdata;
- 
--	if (adata->quirks && adata->quirks->signed_fw_image)
-+	if (adata->pci_rev >= ACP7B_PCI_ID) {
-+		if (adata->acp_sof_signed_firmware_image) {
-+			size_fw = get_unaligned_le32(adata->bin_buf +
-+						     ACP_IMAGE_HDR_SIZE_FW_SIGNED_OFF);
-+			size_fw += ACP_IMAGE_HEADER_SIZE;
-+		} else {
-+			size_fw = adata->fw_bin_size;
-+		}
-+	} else if (adata->quirks && adata->quirks->signed_fw_image) {
- 		size_fw = adata->fw_bin_size - ACP_FIRMWARE_SIGNATURE;
--	else
-+	} else {
- 		size_fw = adata->fw_bin_size;
-+	}
- 
- 	page_count = PAGE_ALIGN(size_fw) >> PAGE_SHIFT;
- 	adata->fw_bin_page_count = page_count;
-diff --git a/sound/soc/sof/amd/acp.h b/sound/soc/sof/amd/acp.h
-index 46b946132de8..c2f3add05d0c 100644
---- a/sound/soc/sof/amd/acp.h
-+++ b/sound/soc/sof/amd/acp.h
-@@ -113,6 +113,9 @@
- #define PROBE_STATUS_BIT			BIT(31)
- 
- #define ACP_FIRMWARE_SIGNATURE			0x100
-+#define ACP_IMAGE_HEADER_SIZE			ACP_FIRMWARE_SIGNATURE
-+#define ACP_IMAGE_HDR_SIZE_FW_SIGNED_OFF	0x14
-+
- #define ACP_ERROR_IRQ_MASK			BIT(29)
- #define ACP_SDW0_IRQ_MASK			BIT(21)
- #define ACP_SDW1_IRQ_MASK			BIT(2)
+ 	if (adata->pci_rev >= ACP7B_PCI_ID) {
+ 		if (adata->acp_sof_signed_firmware_image) {
++			if (adata->fw_bin_size <= ACP_IMAGE_HEADER_SIZE) {
++				dev_err(sdev->dev, "Invalid signed firmware size %u\n",
++					adata->fw_bin_size);
++				return -EINVAL;
++			}
+ 			size_fw = get_unaligned_le32(adata->bin_buf +
+ 						     ACP_IMAGE_HDR_SIZE_FW_SIGNED_OFF);
+ 			size_fw += ACP_IMAGE_HEADER_SIZE;
 -- 
 2.45.2
 
