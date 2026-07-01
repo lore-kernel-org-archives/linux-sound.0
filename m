@@ -1,47 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEF73CAA57;
-	Fri,  3 Jul 2026 11:57:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BF13CB8F0
+	for <linux-sound@vger.kernel.org>; Fri,  3 Jul 2026 11:57:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783079823; cv=none; b=FvdhLEvehtqjzEa/KtQyzwjNYYsyxUdjiv7eZ17tuh7wPa05ib502Q7vEbYAo48KN7oL4JXa3fogqCpiaS2t4F0sTr51mfZiRwg3hEFW7Mu1cpgd5yX7nJ++1HHTPqzAukbArF6/XHuy1P37tGItZed2dkXM9zUJfgSZA8vxcpo=
+	t=1783079827; cv=none; b=N08IPt4MPRJbSFjjsP7bkRlIPelbkuybVYaILWkislZMJwVwNaLS+90zC9Q0e5eVbo4voqlwTCLPrymPseA1tbR7OxwK67Ugjr7TyZTnhEqKE14c66uJfmyEuDGRdjP8ld5e3dJFiKC5A1H0Uu+5MzBVD9dSfdIRMILTYnbYaF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783079823; c=relaxed/simple;
-	bh=9fkNopJlziDc4GTqU8dPUBH/Po6TqTsNY6qttFClkFI=;
+	s=arc-20240116; t=1783079827; c=relaxed/simple;
+	bh=DHzSjS5nmSDwAyjhso6u7UvYo1zPstaiaupaei1yLaY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=tD0kFsPR6atERhnz1urwZXjVVZO9fdJdFhEcyu40xBiSEd4L/DohpvrOaL3ZRkc7wusI8DjCWtUY4ksF4mlZSKOkTsqNv/QaG0cK/NmWFH8Y1yKKl8YdIVsJbe3MQEnciw6bQSGIMlJGidfB5W2d+xN3QGiJKCaAbLaqkWystVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gvTkQJ7k; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=HIS9f/EFdHv9OK16ZxqzsL91sVpa9qpe0q1KGMVsV8e9lfah+aePUET4HYbFV7FJZeZ+WbyfliClXjVVA6ORZgx7R8dJrFJZ/kMY3WiG8CVjLax1ZKpb7oGF4BGjVZIFWLtUvXY4hHQal9dEeOYdYk/06xmDC3Gq5Um4gFtuxXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QMyFt8q7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gvTkQJ7k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EBB81F000E9;
-	Fri,  3 Jul 2026 11:56:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QMyFt8q7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 272BD1F00A3D;
+	Fri,  3 Jul 2026 11:57:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783079822;
-	bh=sM/2S5Be0jfInrOEmvladGpBvCeTqeQv2zf3HbupS9A=;
+	s=k20260515; t=1783079825;
+	bh=frfwuPqeIVOqyMMZ2DdV2MRvqfcJ+kQ/SHS4yHiTWOw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=gvTkQJ7kZvHVxY28E55ON485YTQRCor/YY5Y3vBm9jPTTnD00HITrIEM27MrKYL2H
-	 tpAWs6ukRLXmVRf843eE4+3/Rtg+x5DI5d8y9UD23hTjS76cRDFawqgm/VlffgWNTJ
-	 UCM+Ga3AU/SMT042VXVjMDF512PI7EzsTRzlKy3XHXXoeA+PiCOVs3kukWDD9qemot
-	 Ukno2TQdwHGmRjlwEvQBo/7EipVOwonKI7vDbzZiU4Fjr/gHjO4TwxIQvESwlxmeO5
-	 fEYBKo6docFl0z+qg+AJ6ANM/RruSqNN/bndKNz/KrTohQ82aBtkhdBSFIMPa+m6+m
-	 hUja+4OJ3cKeA==
+	b=QMyFt8q7zY215XhzCq1Du3UbWCNJDlCI+GKrxywhHzK81nQz3M2btw8QSjJsZudny
+	 MFhTxNkNJYdvX08R084e1c04eq7g/yX5LHsKuONtM2RFmntzaped/0QyWSHVCR6vte
+	 Ch+Y9HHT0Z0lQEEC3tLDiNlHwjNQwmJ2nOfhMQneQYANBsRKaYtFOWsYYwPrwYwvvs
+	 pwzdr1NEEnwZMOiSNCFl6HXjSnvgmm4Jfw79/WyinhGxswkayiSYtl1THN+Gho+5qJ
+	 eLwVNQ9qZOpFLIt8SEgZ5YncUaFwsVndRdRrF4DLuvCrEdCEgCZjDu2RTDQfH9MzaF
+	 +qgO8e8VZIzag==
 From: Mark Brown <broonie@kernel.org>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Keguang Zhang <keguang.zhang@gmail.com>, 
- Huacai Chen <chenhuacai@kernel.org>, Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: Huacai Chen <chenhuacai@kernel.org>, Xuerui Wang <kernel@xen0n.name>, 
- loongarch@lists.linux.dev, devicetree@vger.kernel.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <cover.1782439646.git.zhoubinbin@loongson.cn>
-References: <cover.1782439646.git.zhoubinbin@loongson.cn>
-Subject: Re: [PATCH v3 0/9] ASoC: Add Loongson-2K0300 I2S controller and
- sound card support
-Message-Id: <178301908251.189993.17039644134468947360.b4-ty@b4>
-Date: Thu, 02 Jul 2026 20:04:42 +0100
+To: linux-sound@vger.kernel.org, Zhang Yi <zhangyi@everest-semi.com>
+Cc: tiwai@suse.com
+In-Reply-To: <20260630072311.8427-1-zhangyi@everest-semi.com>
+References: <20260630072311.8427-1-zhangyi@everest-semi.com>
+Subject: Re: [PATCH v4 0/6] ASoC: codecs: ES8389: Modify the ES8389 driver
+Message-Id: <178291863280.38925.5011079351614169537.b4-ty@b4>
+Date: Wed, 01 Jul 2026 16:10:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,26 +43,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2403; i=broonie@kernel.org;
- h=from:subject:message-id; bh=9fkNopJlziDc4GTqU8dPUBH/Po6TqTsNY6qttFClkFI=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqR6OKGeq1/scVMGYWbom2WY402C26y59J82jg8
- PeNfPULzwmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakejigAKCRAk1otyXVSH
- 0GxjB/9IMNImexECK1xw4wWQgbXjs4SKHYXNuqlJfALVe3qJgjuoULdxVxzz74G2+YgJLP/wwr5
- N9uAtm10+qm/TLuKIgtf7nwDpCmLMPjbnD7iTlwCDlz9VlGhwttXJJsMyFx6sYa9/JlazGhs3ta
- D3GC/rAsPRvokuipUTJVdje5fbMtuqQP4LJYCTgJRlsYRUbdBCJc+7LIItMCtuKVNC19ORmI4+n
- SWo+uIePLTJJ7glHn59Eprzt64yqf2EcAwn6AKQ9PWqY1lGETtUpnW7qdhnjWlg4BFIxXpiwn11
- w5lx6rMKKHpeYA5T291B2DrUkqjaLsURpymLKQh9PgK2FzXM
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1978; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=DHzSjS5nmSDwAyjhso6u7UvYo1zPstaiaupaei1yLaY=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqR6OQjM+w1iNtamlHN8Y0LSfvYueEMtXMVe4bp
+ tajRvdrt2WJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakejkAAKCRAk1otyXVSH
+ 0B2LB/9qXB1YTfuVOXABydx4cvt1+6B9ELuFLDriX8/2Z33RD/J49C85yzFz4dnH7TBaNorxRdI
+ rLr2bI767U/+w6t1yPgUhSeZc9kmOT/lc9twF9KomkPWgw/sxVsv0v+LeSTv+OcRbUuHwV/Rn47
+ zZKsx1hXmNpZq74xecT4wA/Z/FtnAMCsyicBA9LSm9FadiPznAFXT45jS+YnCEdo1wqpJxDjB4s
+ W4aZaIf5Q3guyR2qBFNtGBEovmub7ubCJ0kGQdZvLdgV5AbEkvAs19t9znJcJvGvq9CO06YiaWv
+ i56PfHUyMfBWxdjBS9+sMIj8Kng7zOraqzuU8hrMOENHiQEa
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 26 Jun 2026 10:27:02 +0800, Binbin Zhou wrote:
-> ASoC: Add Loongson-2K0300 I2S controller and sound card support
+On Tue, 30 Jun 2026 15:23:05 +0800, Zhang Yi wrote:
+> ASoC: codecs: ES8389: Modify the ES8389 driver
 > 
-> Hi all:
+> Modify the initialization configuration and routes for ES8389,
+> and add private members.
 > 
-> This series adds ASoC support for the Loongson-2K0300 SoC and its
-> associated development boards, including the CTCISZ Forever Pi and the
-> ATK-DL2K0300B.
+> v4 -> v3:
+> 	-Modify the maximum value for the HPF-related kcontrol
+> 	-No longer returns an error when the corresponding
+> 	 configuration is not found in hw_params
 > 
 > [...]
 
@@ -80,24 +74,18 @@ Applied to
 
 Thanks!
 
-[1/9] ASoC: loongson: Fix error handling in ACPI property parsing
-      https://git.kernel.org/broonie/sound/c/0eb0e3c623ac
-[2/9] ASoC: dt-bindings: loongson,ls2k1000-i2s: Document Loongson-2K0300 compatible
-      https://git.kernel.org/broonie/sound/c/914e95aaec0d
-[3/9] ASoC: loongson: Add Loongson-2K0300 I2S controller support
-      https://git.kernel.org/broonie/sound/c/41ab1f8a0eda
-[4/9] ASoC: dt-bindings: loongson,ls-audio-card: Use common sound card
-      https://git.kernel.org/broonie/sound/c/95133a9ac817
-[5/9] ASoC: dt-bindings: loongson,ls-audio-card: Add ctcisz forever pi compatible
-      https://git.kernel.org/broonie/sound/c/5460b4ddc76a
-[6/9] ASoC: loongson: Add Loongson-2K0300 CTCISZ Forever Pi sound card support
-      https://git.kernel.org/broonie/sound/c/da659805e0b0
-[7/9] ASoC: dt-bindings: loongson,ls-audio-card: Add ATK-DL2K0300B compatible
-      https://git.kernel.org/broonie/sound/c/3ddae79479f6
-[8/9] ASoC: loongson: Add headphone jack detection and DAPM routing
-      https://git.kernel.org/broonie/sound/c/dde4064a4913
-[9/9] ASoC: es8328: Add DAPM routes from MIC inputs to Mic Bias
-      https://git.kernel.org/broonie/sound/c/5f988d622318
+[1/6] ASoC: codecs: ES8389: Modify volatile_register
+      https://git.kernel.org/broonie/sound/c/882e55031187
+[2/6] ASoC: codecs: ES8389: Fix the issue about mclk_src
+      https://git.kernel.org/broonie/sound/c/cbc559dd8d46
+[3/6] ASoC: codecs: ES8389: Modify the clock table
+      https://git.kernel.org/broonie/sound/c/9367a244afc2
+[4/6] ASoC: codecs: ES8389: Modify the initial configuration
+      https://git.kernel.org/broonie/sound/c/3bea836903c2
+[5/6] ASoC: codecs: ES8389: Add private members about HPF
+      https://git.kernel.org/broonie/sound/c/87592da1a490
+[6/6] ASoC: codecs: ES8389: Add INPUTL MUX and INPUTR MUX
+      https://git.kernel.org/broonie/sound/c/2264927316e5
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
