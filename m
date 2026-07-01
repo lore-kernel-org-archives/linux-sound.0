@@ -1,42 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FFD3CF21A;
-	Fri,  3 Jul 2026 11:57:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0C93CD8CC;
+	Fri,  3 Jul 2026 11:57:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783079847; cv=none; b=TV+MlfISics5TCLcc3XpZ27NnS+RSRPQ2w9TQTdApUnmMi9hpAjXt3KMZoOt4zvs1CnqtiNUjvU0U+qEExbrxu443T57Jhc7wMwyg5tDfVbhThuTz3ZgyxRg/Zz1+5JUcOIzzSrGuMBtSSt0tLFk0GGIfs2ve+B02mvltPWJmtE=
+	t=1783079852; cv=none; b=k7IoBiJL5KI2PLbcyCQIPsm839xHQIQ6grTxKPeDdLGh3qiAoJaiTePtYNoaIzq+FpLpsOXTdEbxllw7Zq+rdHHF5g/HX8DfswWnMntS1n+7Hy2P6R5mwxlUPyVr8a+2hQOY6V6OQwtZHOjuYk5ZnceODr7h3nw/mtvmq9Mhj8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783079847; c=relaxed/simple;
-	bh=mjhiZ9vBbTTiylqj5boTzLy0FJak0YGzhXp4JcMwe0I=;
+	s=arc-20240116; t=1783079852; c=relaxed/simple;
+	bh=6l8rDfcrzK5XIACDAY+/dmyjhmfDE7ndpOJ0lt5IzgA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gfmgyJWH6k0PD61pZwlPmrQsVG2uJCB6gqC9xx+berCjQHwfgaFYlWW+m6aA/7HTXMe6kzjbx0+iStPO9JcZxkspLPqgwVO5gdqk+8cIQEGDPDoXhqtcJ7JZit8w6pm0gjUd+AD+9X5VYVffJhin52HR0duyDu2zuElQKnJG4PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TrN7YCcS; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=WKs1qUWbSY8JKZvKHgLVUKngr6EOJJvomDp/fzscqd7ENxFUREeoCgL31Gex4NyMvrnYsnMR1CYUbt2e+oiqG4H4fNE9mbNaCJI4sQOk9vZmd4UMOuMZDmJcmSv8aIyYj4z6a2VoXyGC8DsVY9XPXS2IDYDPKGILeNp1NbytcVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LW+piVZo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TrN7YCcS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F295D1F00A3A;
-	Fri,  3 Jul 2026 11:57:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LW+piVZo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67E8E1F000E9;
+	Fri,  3 Jul 2026 11:57:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783079846;
-	bh=VUzWpEIvVN3vzln3ZJKFLP88HgPmFtAHMwv8Tpk38G8=;
+	s=k20260515; t=1783079851;
+	bh=o5f7tntUekXIcPK7LTER4AJya+oAIL74O6kw2RKlGiE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=TrN7YCcSB42TXNtZ6N5NRiGL548hrVac3XDJX7kjz3jT9sxudKRzYcyxJ73CRPoXC
-	 V/vnbWiuYEF5wgcJINzgeIxRiB8vpateLErBJ9OHsFLJFshA6q64JGAwtWbx5TSoZU
-	 LJD5Krx5w3h9BCIbNRmKmMzHPrmrbllHRv0RkbyWYUEok9Wz2QCgCHsbCxEF1eIO26
-	 Uqhr2JgZTJTn4QvR5DZYaMJziO7ftTzip3bfw+GwHae+vumt1/Zg6s0FstA5q2MrQh
-	 11/S+M/AUAHKPW+Qf0ju+Thiju6faFVCf519EmO4f2Sm2b9eUJy+j78EqaBPhcSk2f
-	 vDzXk68yPO0KQ==
+	b=LW+piVZovAtQ3+D6sb5V6UvQOueswjCRf3J3FVdZjT1vvV4nFTjhxnEYveMy0rtes
+	 fvPbte9nosNagGhFn29rHAIAQ3z42jW8cQQCWt2h8DpfsneEojzQtMS8MZyFLGUpr2
+	 Ib8Q2qG6exlBFviSUhk+omK9XRBPLiVPzD0Ub4GM7bQ0hW9JdGdmD7Xl0a2l2I5b9c
+	 1vVIoLCVnMkdp1PYB8MvsQ02646DgC8dJOMhRH2T5XhwCzVkNkMRaftCphStcByJPV
+	 GP4N12fPjGXjCWfaOWX2mnqn2eMvGJAVOAaeDC/aBnvIzHp33+xpEa3Xzx1VX1dzgv
+	 Si8edx83D0zOw==
 From: Mark Brown <broonie@kernel.org>
-To: s.nawrocki@samsung.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, WenTao Liang <vulab@iscas.ac.cn>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org
-In-Reply-To: <20260627035251.60172-1-vulab@iscas.ac.cn>
-References: <20260627035251.60172-1-vulab@iscas.ac.cn>
-Subject: Re: [PATCH] fix: sound/soc/samsung: aries_audio_probe: double
- of_node_put due to direct assignment without of_node_get
-Message-Id: <178292410864.38925.7549836942770345369.b4-ty@b4>
-Date: Wed, 01 Jul 2026 17:41:48 +0100
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Yousef Alhouseen <alhouseenyousef@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260628000329.18606-1-alhouseenyousef@gmail.com>
+References: <20260628000329.18606-1-alhouseenyousef@gmail.com>
+Subject: Re: [PATCH] ASoC: SOF: validate probe info element counts
+Message-Id: <178290827353.38925.9612630838163287056.b4-ty@b4>
+Date: Wed, 01 Jul 2026 13:17:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,29 +51,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1230; i=broonie@kernel.org;
- h=from:subject:message-id; bh=mjhiZ9vBbTTiylqj5boTzLy0FJak0YGzhXp4JcMwe0I=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqR6Ojd4JVrzFrQUxKOQhFE/u8/H0FJK/XuUrjs
- pTRvL0VHOmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakejowAKCRAk1otyXVSH
- 0EM4B/9y1THQslVzPossxAkEEXRlaFTGlFoRSn1pMYZmBkiBn6FnnK9kUEAMwCzOv4GNUV/j8U8
- dUt0o925XjpbqUU7AgMmx8/rKMV69sR0jo2zCtd+STtFv1wfyjSL+nOCRxSuzZJ7FpAkoU2o/Of
- XRXMB6soOWn3qtJQEvKSHUvhWEcOKL+1vHuQ9NxcBg7eHGPWBFm9PkYXYrO3woGnVNucNqHgh8T
- MtRcYVGkMvLiHFoRjC++48AkBPzGVzex3igAxjr0rd/Xi/fp6OYPSwoxMrrKuVouKlHtP78dAu9
- vqZOl3t3hVenRA2rMl/gdIP46RKX8kMgOYf7zcdunKE9zKbp
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1112; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=6l8rDfcrzK5XIACDAY+/dmyjhmfDE7ndpOJ0lt5IzgA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqR6OoI9ZtHDDL1fEPVNIBdLkNUDBktQQijM5YI
+ vKFnn0x3d6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakejqAAKCRAk1otyXVSH
+ 0NSfB/oD03A+un74sDURP3d4J1h1UyFe12Uvuk06A0gvrUTuKK6AL+860+EkPzkDddvFxjUOjYl
+ qDLk0ALSei1g9Po9ukJiwWnjOEYoaL1C6fmgTfc1ZGKPGz5Xt5+/VFoVHdDaRj7f8ufa/uqBihI
+ tGCArY9ZrMf8HPeNHONDG6gUtG6a9KwCulUFvbRdvFON0WuT7LFvkBxw2ivWkbLpd0QEzL8JM0Z
+ RqrbuLSR2uGrKw49+/zEtxVJTOLEItAckdElRA+wHKycLqWLfBveGLwq+bT1Qij/A6NFkhCIXc5
+ r8Hw2ogBl8UJysWwksabMZk6mwJijizXYCr7qETa2ViT3pPj
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sat, 27 Jun 2026 11:52:51 +0800, WenTao Liang wrote:
-> fix: sound/soc/samsung: aries_audio_probe: double of_node_put due to direct assignment without of_node_get
+On Sun, 28 Jun 2026 02:03:29 +0200, Yousef Alhouseen wrote:
+> ASoC: SOF: validate probe info element counts
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
 Thanks!
 
-[1/1] fix: sound/soc/samsung: aries_audio_probe: double of_node_put due to direct assignment without of_node_get
-      https://git.kernel.org/broonie/sound/c/fb5d1b1c5f8a
+[1/1] ASoC: SOF: validate probe info element counts
+      https://git.kernel.org/broonie/sound/c/95edf2dbb492
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
