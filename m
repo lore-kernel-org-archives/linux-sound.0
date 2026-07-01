@@ -1,237 +1,225 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728213BAD8B
-	for <linux-sound@vger.kernel.org>; Wed,  1 Jul 2026 08:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732A53BADB5
+	for <linux-sound@vger.kernel.org>; Wed,  1 Jul 2026 09:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782895860; cv=none; b=pmjh7aS7fYWzTOLu/kJb6gcNjDDv6kc8wydvayW4P8Qeqjyxv9NTS6MuFUT8DEEn7Z/snME5peklOoIORuAfaWuDCQhfpa+ZmLvg0oTAE9nQ7ve6G+CPULTeXfdCJz6a7zmPAyFfvN1ia8rE4V5m1obrJDXyfIe7ClSVdWkvT9I=
+	t=1782896777; cv=none; b=DVMbp5H184FjsggCGnTGLMDMRDG9RSdK1OjXb2b3PJ0JRUE7ThPoK1vKWb9odKbFL9TXgCAbNhXaU6wwsFDSaijgomBuE/LEIBev5QcoFRVaaOsuzkU82MH5dY7Ugf7kS6aOa6+jR8e07V4HDZ99Z4j1qh0AuVst9sI5FJrn+FU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782895860; c=relaxed/simple;
-	bh=Y/cozOHSPQMMSo3WRLwd4rCT9ufJEqgOFGg/hQ9MpIY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SzxCd4Dr8Ly7rSJpA3NprD5sdmShXCdc+LEFF81hPExi215loB0ls5M9C4QqJWQaWYhDUFOs7Bgs10JnJquJbG/ELCXEyE5coi/cCRWH2UhTEvw6o2L6rHKPJbASR9WHBrKFY1iDAdzByiunQEGHY8CIcojpl0GLnbmjDc5GOOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gNfBPlta; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oGA3xDA7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gNfBPlta; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oGA3xDA7; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1782896777; c=relaxed/simple;
+	bh=YTezhMXUNZ+lT07JrY7LOttTe2l9JBCxCY2VoNMENDA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FZtCpynEHE8s4aBP6nBUqS6WPaQNQi9S39MWA1M4/Ksix7vOpr0BeyFxzkZMOCkVWLxaDZbLFL4deZse12q0DHoSZQI4xDyH7ueUPnsMQO/dArLPW/6zxAVHvCoKjuAzrkqipqW4EWFtnWRJl6pqxvHt/sj7iWMSSXUFtfgbm4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=UowDnypI; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gNfBPlta";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oGA3xDA7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gNfBPlta";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oGA3xDA7"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9E15071FB2;
-	Wed,  1 Jul 2026 08:50:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782895856; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+YPd0gL7HTgwaLFo3KJqUZzD8DEDLOZM7IKoXS4xxKs=;
-	b=gNfBPltaNe8Dg1MEeQ/r/Z9fjbGh86+jxUhQdRpjqQ2gwvgVe9aGhYJe3rxnU81Vcagm+3
-	mhepgq3O7lgF6d/SPHFt6Uudb6SfOooTkf61pSOOoah3nPEBAjr1m0gdLNzvuhWgXl7XC6
-	zXd6xSMPgjewS+ivQIfsdFRaPnZSRSM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782895856;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+YPd0gL7HTgwaLFo3KJqUZzD8DEDLOZM7IKoXS4xxKs=;
-	b=oGA3xDA7HAzDU5UTLlSrLq9wGtpts1V8f3Q4DkidQUc2mn57g3BGLzVC7dW5Gxx80octmE
-	nxrDflCBLSeKfMDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782895856; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+YPd0gL7HTgwaLFo3KJqUZzD8DEDLOZM7IKoXS4xxKs=;
-	b=gNfBPltaNe8Dg1MEeQ/r/Z9fjbGh86+jxUhQdRpjqQ2gwvgVe9aGhYJe3rxnU81Vcagm+3
-	mhepgq3O7lgF6d/SPHFt6Uudb6SfOooTkf61pSOOoah3nPEBAjr1m0gdLNzvuhWgXl7XC6
-	zXd6xSMPgjewS+ivQIfsdFRaPnZSRSM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782895856;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+YPd0gL7HTgwaLFo3KJqUZzD8DEDLOZM7IKoXS4xxKs=;
-	b=oGA3xDA7HAzDU5UTLlSrLq9wGtpts1V8f3Q4DkidQUc2mn57g3BGLzVC7dW5Gxx80octmE
-	nxrDflCBLSeKfMDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6C59F779AA;
-	Wed,  1 Jul 2026 08:50:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4nPrGPDURGqlagAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 01 Jul 2026 08:50:56 +0000
-Date: Wed, 01 Jul 2026 10:50:55 +0200
-Message-ID: <87ldbvum8g.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: os_dengxiang82  <os_dengxiang82@126.com>
-Cc: tiwai@suse.com,
-	bo.liu@senarytech.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH] ALSA: hda/conexant: Fix microphone mute after power-on reboot
-In-Reply-To: <4932c551.6ece.19f1cdd10ba.Coremail.os_dengxiang82@126.com>
-References: <20260701065533.72517-1-os_dengxiang82@126.com>
-	<87se63upn1.wl-tiwai@suse.de>
-	<235d28fc.65dd.19f1cc1a68d.Coremail.os_dengxiang82@126.com>
-	<87o6grun6p.wl-tiwai@suse.de>
-	<4932c551.6ece.19f1cdd10ba.Coremail.os_dengxiang82@126.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="UowDnypI"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 66195eb161033135, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1782896741; bh=/GNeFsoIkud9nOLItlstXYerDeLwbg7ma9n9A63bR4U=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=UowDnypI4OvoLPi45GP94WZ+wUONQPW6XI2+h0+hEL+vhwgaTatZH5fAHU4zMiRp3
+	 Yldz7QI7Jvw6lFnlO5vbPAGMNuvjMUQjyO/9HZD4mYi6S73dMZY8vR1H+Iec9eqsfp
+	 0jgXa6C0I9gIYVuKOOfOv+aKDZzBVbghaVQuaglswkJPKjhNzWUif/uWaXwCi+On4m
+	 I6QKyTW0vhE3x7GVC0uZlqzOg7BGgKUdJIG3epbeMoBj0YE8kVaGcEzqY3dWPTdb9x
+	 bd5qOAnyDk9rHT8lvgH5uzxwgA6vEnpplT+Fao+eTW4m9WGMQTOjELwxwxJUAJp4xj
+	 S+RlNz/SkcXwQ==
+Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 66195eb161033135
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 1 Jul 2026 17:05:41 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Wed, 1 Jul 2026 17:05:40 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server id
+ 15.2.2562.17 via Frontend Transport; Wed, 1 Jul 2026 17:05:39 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
+	<dirk.su@canonical.com>, <pin-hao.huang@hp.com>, Shuming Fan
+	<shumingf@realtek.com>
+Subject: [PATCH] ASoC: rt712: add mute led control for specific machines
+Date: Wed, 1 Jul 2026 17:05:30 +0800
+Message-ID: <20260701090530.3754881-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-7
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[126.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[126.com];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Score: -3.30
+Content-Type: text/plain
 
-On Wed, 01 Jul 2026 10:47:57 +0200,
-os_dengxiang82 wrote:
-> 
-> 
-> I have already tried calling regcache_mark_dirty() and snd_hda_regmap_sync()
-> inside the resume callback, and I¢ve also attempted this during the bootup
-> phase. But the issue is still present.
+From: Shuming Fan <shumingf@realtek.com>
 
-Then you need to investigate why this doesn't suffice, instead of an
-ad hoc workaround :)  We can take a workaround fix, too, but only when
-it's the only appropriate solution.
+Certain HP platforms use the RT712 GPIOs to control the microphone mute LED and mute LED.
+This patch registers LED class devices in the codec driver to control the GPIOs
+through the LED subsystem.
 
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
+---
+ sound/soc/codecs/rt712-sdca-sdw.h |  3 +
+ sound/soc/codecs/rt712-sdca.c     | 91 +++++++++++++++++++++++++++++++
+ sound/soc/codecs/rt712-sdca.h     |  3 +
+ 3 files changed, 97 insertions(+)
 
-thanks,
+diff --git a/sound/soc/codecs/rt712-sdca-sdw.h b/sound/soc/codecs/rt712-sdca-sdw.h
+index 99fd2d67f04d..0f54bbd64f4d 100644
+--- a/sound/soc/codecs/rt712-sdca-sdw.h
++++ b/sound/soc/codecs/rt712-sdca-sdw.h
+@@ -45,6 +45,9 @@ static const struct reg_default rt712_sdca_mbq_defaults[] = {
+ 	{ 0x5b00029, 0x3fff },
+ 	{ 0x5b0002a, 0xf000 },
+ 	{ 0x6100000, 0x04e4 },
++	{ 0x6100009, 0x0000 },
++	{ 0x610000a, 0x0000 },
++	{ 0x610000b, 0x0020 },
+ 	{ 0x610000e, 0x0007 },
+ 	{ 0x6100045, 0x0860 },
+ 	{ 0x6100046, 0x0029 },
+diff --git a/sound/soc/codecs/rt712-sdca.c b/sound/soc/codecs/rt712-sdca.c
+index 4796fce084ff..2cbf3144a275 100644
+--- a/sound/soc/codecs/rt712-sdca.c
++++ b/sound/soc/codecs/rt712-sdca.c
+@@ -13,6 +13,7 @@
+ #include <sound/initval.h>
+ #include <sound/jack.h>
+ #include <linux/kernel.h>
++#include <linux/leds.h>
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/pm_runtime.h>
+@@ -23,6 +24,7 @@
+ #include <linux/slab.h>
+ #include <sound/soc-dapm.h>
+ #include <sound/tlv.h>
++#include <linux/dmi.h>
+ #include "rt712-sdca.h"
+ 
+ static int rt712_sdca_index_write(struct rt712_sdca_priv *rt712,
+@@ -71,6 +73,87 @@ static int rt712_sdca_index_update_bits(struct rt712_sdca_priv *rt712,
+ 	return rt712_sdca_index_write(rt712, nid, reg, tmp);
+ }
+ 
++static const struct dmi_system_id dmi_rt712_quirk_table[] = {
++	{
++		.ident = "HP",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "8E86"),
++		}
++	},
++	{ }
++};
++
++#ifdef CONFIG_LEDS_TRIGGERS
++static int rt712_sdca_mute_led_set(struct led_classdev *led_cdev,
++			       enum led_brightness brightness)
++{
++	struct rt712_sdca_priv *rt712 = led_cdev->trigger_data;
++	struct device *dev = rt712->component->dev;
++	unsigned int value = (brightness != LED_OFF);
++	unsigned int gpio_pin;
++	int ret;
++
++	ret = pm_runtime_resume(rt712->component->dev);
++	if (ret < 0 && ret != -EACCES)
++		return ret;
++
++	if (!strcmp(led_cdev->name, "rt712::micmute"))
++		gpio_pin = 3;
++	else if (!strcmp(led_cdev->name, "rt712::mute")) {
++		gpio_pin = 4;
++		rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
++			RT712_HDA_LEGACY_CONFIG_CTL0, 0x000c, 0x0004);
++	} else
++		return -EINVAL;
++
++	rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
++		RT712_HDA_GPIO_EN_CTL, (1 << gpio_pin), (1 << gpio_pin));
++	rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
++		RT712_HDA_GPIO_DIRECTION_CTL, (1 << gpio_pin), (1 << gpio_pin));
++	rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
++		RT712_HDA_GPIO_SET_CTL, (1 << gpio_pin), (value << gpio_pin));
++
++	dev_dbg(dev, "%s LED %s\n", led_cdev->name, value ? "on" : "off");
++
++	return 0;
++}
++
++static struct led_classdev mute_led_cdev[NUM_AUDIO_LEDS] = {
++	[LED_AUDIO_MUTE] = {
++		.name = "rt712::mute",
++		.max_brightness = 1,
++		.brightness_set_blocking = rt712_sdca_mute_led_set,
++		.default_trigger = "audio-mute",
++	},
++	[LED_AUDIO_MICMUTE] = {
++		.name = "rt712::micmute",
++		.max_brightness = 1,
++		.brightness_set_blocking = rt712_sdca_mute_led_set,
++		.default_trigger = "audio-micmute",
++	},
++};
++
++static int rt712_sdca_mute_led_init(struct rt712_sdca_priv *rt712)
++{
++	int i, err;
++
++	for (i = 0; i < NUM_AUDIO_LEDS; i++) {
++		mute_led_cdev[i].trigger_data = (void *)rt712;
++		err = devm_led_classdev_register(rt712->component->dev, &mute_led_cdev[i]);
++		if (err < 0)
++			return err;
++	}
++	return 0;
++}
++#else
++static int rt712_sdca_mute_led_init(struct rt712_sdca_priv *rt712)
++{
++	dev_dbg(rt712->component->dev, "Please enable CONFIG_LEDS_TRIGGERS to support mute LED\n");
++	return 0;
++}
++#endif
++
+ static int rt712_sdca_calibration(struct rt712_sdca_priv *rt712)
+ {
+ 	unsigned int val, loop_rc = 0, loop_dc = 0;
+@@ -1031,6 +1114,14 @@ static int rt712_sdca_probe(struct snd_soc_component *component)
+ 			rt712_sdca_spk_dapm_routes, ARRAY_SIZE(rt712_sdca_spk_dapm_routes));
+ 	}
+ 
++	if (dmi_check_system(dmi_rt712_quirk_table)) {
++		ret = rt712_sdca_mute_led_init(rt712);
++		if (ret) {
++			dev_err(component->dev, "failed to register mute LED, ret = %d\n", ret);
++			return ret;
++		}
++	}
++
+ 	if (!rt712->first_hw_init)
+ 		return 0;
+ 
+diff --git a/sound/soc/codecs/rt712-sdca.h b/sound/soc/codecs/rt712-sdca.h
+index 7ab7d5feb50a..191225838d4f 100644
+--- a/sound/soc/codecs/rt712-sdca.h
++++ b/sound/soc/codecs/rt712-sdca.h
+@@ -113,6 +113,9 @@ struct rt712_dmic_kctrl_priv {
+ #define RT712_HDA_LEGACY_MUX_CTL0			0x00
+ #define RT712_HDA_LEGACY_CONFIG_CTL0			0x06
+ #define RT712_HDA_LEGACY_RESET_CTL			0x08
++#define RT712_HDA_GPIO_EN_CTL				0x09
++#define RT712_HDA_GPIO_DIRECTION_CTL			0x0a
++#define RT712_HDA_GPIO_SET_CTL				0x0b
+ #define RT712_HDA_LEGACY_GPIO_WAKE_EN_CTL		0x0e
+ #define RT712_DMIC_ENT_FLOAT_CTL			0x10
+ #define RT712_DMIC_GAIN_ENT_FLOAT_CTL0			0x11
+-- 
+2.54.0
 
-Takashi
-
-> At 2026-07-01 16:30:22, "Takashi Iwai" <tiwai@suse.de> wrote:
-> >On Wed, 01 Jul 2026 10:18:00 +0200,
-> >os_dengxiang82 wrote:
-> >> 
-> >> 
-> >> Hi Takashi,
-> >> 
-> >>   This failure occurs during bootup as well as after runtime resume. Does
-> >> runtime resume here refer to the resume handler, like .resume = cx_resume? or
-> >> something else? Looking forward to your reply.
-> >
-> >It's hda_codec_runtime_resume().  We have no Conexant-specific resume
-> >callback, hence the standard procedure is applied, i.e.
-> >regcache_mark_dirty() and snd_hda_regmap_sync() make the codec verbs
-> >resumed that have been touched.  So, you'd need to check whether the
-> >needed amp has been already accessed via regmap, and check whether the
-> >value gets restored properly in the procedure above.
-> >
-> >
-> >Takashi
-> >
-> >> 
-> >> xiang
-> >> 
-> >> At 2026-07-01 15:37:22, "Takashi Iwai" <tiwai@suse.de> wrote:
-> >> >On Wed, 01 Jul 2026 08:55:33 +0200,
-> >> >dengxiang wrote:
-> >> >> 
-> >> >> Some devices have mute settings in their firmware set by the factory.
-> >> >> This is to stop popping noise when the devices turn on. But this setting
-> >> >> makes the microphones unable to record sound properly. This patch
-> >> >> solves this problem and is compatible with conexant chips.
-> >> >> 
-> >> >> Signed-off-by: dengxiang <os_dengxiang82@126.com>
-> >> >
-> >> >Hmm, this doesn't look like a right solution.
-> >> >
-> >> >Is it only the problem after the boot?  Or is it an issue after the
-> >> >runtime PM suspend?  The amp value must be restored by the runtime
-> >> >resume, and if this doesn't work expected, it's a thing to be
-> >> >addressed there, not in the PCM hook at all.
-> >> >
-> >> >
-> >> >thanks,
-> >> >
-> >> >Takashi
-> >> >
-> >> >> ---
-> >> >>  sound/hda/codecs/conexant.c | 21 +++++++++++++++++++++
-> >> >>  1 file changed, 21 insertions(+)
-> >> >> 
-> >> >> diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
-> >> >> index 3d92262763f6..3229f9ef5969 100644
-> >> >> --- a/sound/hda/codecs/conexant.c
-> >> >> +++ b/sound/hda/codecs/conexant.c
-> >> >> @@ -1184,6 +1184,24 @@ static void add_cx5051_fake_mutes(struct hda_codec *codec)
-> >> >>                    spec->gen.dac_min_mute = true;
-> >> >>  }
-> >> >>  
-> >> >> +static void cxt_fixed_mic_boost(struct hda_codec *codec, hda_nid_t node_id)
-> >> >> +{
-> >> >> +                  struct conexant_spec *spec = codec->spec;
-> >> >> +                  unsigned int value = 0;
-> >> >> +
-> >> >> +                  value = snd_hda_codec_read(codec, node_id, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0);
-> >> >> +                  snd_hda_codec_amp_stereo(codec, node_id, HDA_INPUT, 0, HDA_AMP_VOLMASK, value);
-> >> >> +}
-> >> >> +
-> >> >> +static void cxt_capture_hook(struct hda_pcm_stream *hinfo,  struct hda_codec *codec,
-> >> >> +                                                                     struct snd_pcm_substream *substream, int action)
-> >> >> +{
-> >> >> +                  struct conexant_spec *spec = codec->spec;
-> >> >> +                  hda_nid_t mux_pin = spec->gen.imux_pins[spec->gen.cur_mux[0]];
-> >> >> +
-> >> >> +                  cxt_fixed_mic_boost(codec, mux_pin);
-> >> >> +}
-> >> >> +
-> >> >>  static int cx_probe(struct hda_codec *codec, const struct hda_device_id *id)
-> >> >>  {
-> >> >>                    struct conexant_spec *spec;
-> >> >> @@ -1271,6 +1289,9 @@ static int cx_probe(struct hda_codec *codec, const struct hda_device_id *id)
-> >> >>                    if (err < 0)
-> >> >>                                          goto error;
-> >> >>  
-> >> >> +                  if (spec->gen.pcm_capture_hook == NULL)
-> >> >> +                                        spec->gen.pcm_capture_hook = cxt_capture_hook;
-> >> >> +
-> >> >>                    /* Some laptops with Conexant chips show stalls in S3 resume,
-> >> >>                     * which falls into the single-cmd mode.
-> >> >>                     * Better to make reset, then.
-> >> >> -- 
-> >> >> 2.39.5
-> >> >>
-> >>
-> 
