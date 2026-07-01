@@ -1,90 +1,95 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF074395AD1
-	for <linux-sound@vger.kernel.org>; Wed,  1 Jul 2026 19:30:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290693DBD57
+	for <linux-sound@vger.kernel.org>; Wed,  1 Jul 2026 19:30:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782934223; cv=none; b=ONpZkUPVKU3IKVq/f/Bp7vpqjDe9r7gWkQtYZ1H434oHAUbZhj8c3NfsGl1SNZl6cjaQ1haSCt1P2mI8JUjCVn2xPb71ezV4Mj7OAqdKOcTDFHUt2PPnRW1cWIckCMDAnuMqGgu0flvmthRcLZPR+DF7wtEkiXlWsaWHjHrANCA=
+	t=1782934224; cv=none; b=h+evLwjm+E1Y6I6JVnHHiISFF5y1hy/ceRgBCDfZl73vIKr69b4TMl6IzktWGOko0YLJGKPNhCvG5EmCrKfpLJ/15RYNtLqaDdAKI+lskEnGs7DSaXEsTNO4hE7vmpzrCU0A+xbsDYWaU+QKTTAAcuKNQcEKUxYMS0jPdu2m0e4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782934223; c=relaxed/simple;
-	bh=+3usITQGeBP/caOcJ4T87j2VOX2nM25kO9QIY38/XTo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nOBF1cEb1M3rF5lQmKEcSca5Ku2r1F7A1nMJBmZg3+rBiDft4U6td1iSHIMG2G/fVU+kV1yKch4OIRxSvBo5+AaM9eRffa5XvFwsUi6kmnFN2CJcW76iOvrgrhOKbWVZvNOF5wO/PuliUepqDqSuFOANcxctyhH1zkVlVdMsGqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dAueNVVk; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hXCxUj9k; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1782934224; c=relaxed/simple;
+	bh=MYPoYRF0x1RELKNLtMu5ZwrPH+l0mMKrWn8KMLIpN2s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=q7No4swh0MSdnKsurL15Cauy+lzeywLynJ8YzHBS36s4RipNp/mmwLDHdyxDUVj1om+dzngcwP9KwcmST1qUAtXFIW9iCTBkF2CjEb+6jscef9e4JqjqozQzlOKEwCnd4zHpWtfK6g8IdRwkMlGdFM1m6ZI03pxu0K+mxpnb6Ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RCQxhiih; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=buA5rVAf; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dAueNVVk";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hXCxUj9k"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 661GmqHj1590097
-	for <linux-sound@vger.kernel.org>; Wed, 1 Jul 2026 19:30:21 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RCQxhiih";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="buA5rVAf"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 661GmibY1730720
+	for <linux-sound@vger.kernel.org>; Wed, 1 Jul 2026 19:30:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=JP1731msC651BB/VkadNagnugoH7NQWr3Ce
-	rTNsZZTQ=; b=dAueNVVkEUzv0SkZwGkwUGB5GoTSViPBT2TU5cjXB8d9NS8t1jt
-	Zv9WG4leVSVa0wubhu/PAtWYwd+yLQcXz+vSIZ2v8QMZOrZ/D2QQIa6whbNyVNl5
-	t+cRXRDUTSjeMdCAFloDxD9WhQFkypj5NG9jBIZmstMAWWEdKY3LFI+NgUd9DCxe
-	PxH5QyjrdghEwAOgo3Bq743rVw40x0ffT06pPU7w77LSjTNau8p6iE0hocTT80Qc
-	pvfWifDmRYUC4VQNne3uyTQZpethTiAws6UyBsbIwX5AcNbRLo1klRULzT8qiyHU
-	evmsVeuRN24HH/Td7qXHUTRwCBLXl9jr74A==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f53q09gqw-1
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=rnPd10WcdOH
+	mEsRs91BWIgfBdXahim2EReLYaWIIX84=; b=RCQxhiihEw7iLyfyd+aKp8a75ge
+	XYHeicJF2I3IBzh+wi5xH6597HOtoMeKDcO74pCUIFShezvLKpmLY0xQlpN7A6PF
+	R+gLQFqInT/Lr9eRWmzBjXvVf029PiZ5cT8NSXAZHYovWrk8FZSqPcoUtsVC/p9O
+	8inaehoFIlT9bL1ciFF35LxsGxUwb7HyMX0xRoWYI059cd7IAfMZ1KlgpMxHalH+
+	F/3F9BnpIjRBAJSRIPjNgBmAK/cbRCimXRiVyyX9hPr0XTG+/1+WFXXQp11nPIlh
+	q7MZu88eHWFCLrE9LTQv9uDZMIjX2OpayUZ0lH4JWvM3ciqGS4JMFBd5M3A==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f510ajaev-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 01 Jul 2026 19:30:21 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-92e63df032bso303916985a.0
-        for <linux-sound@vger.kernel.org>; Wed, 01 Jul 2026 12:30:20 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Wed, 01 Jul 2026 19:30:22 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-92e632390d2so205988685a.3
+        for <linux-sound@vger.kernel.org>; Wed, 01 Jul 2026 12:30:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782934220; x=1783539020; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JP1731msC651BB/VkadNagnugoH7NQWr3CerTNsZZTQ=;
-        b=hXCxUj9kyOzlQi59MXnMCkk8a0bnbwnOpkorVpvn+xSEH2127vE5KoF0ZM5zeo4psg
-         CNTn3xcf53tfAWegFG9D09s8gvHJyKnZkeMsW+iCgISf5uAvncywsfyrHI8Ydvdsh2tg
-         zJKZFHHqW//q+hNJGIuB+jLmWXk3EcXrOtFitcZv/Juwplj6cUV8m0pAJXYVMN+k5Pm6
-         gcYVfkS1/NDahwMNYSQoSnxHhk7IRdhGIhkP15L9JKPMsYDO1OWpCl5Knqklxq2uM+ew
-         H+IXYnkSgt7QCUv8jIm2sO5nMQQP2PW8P3MEUrvywUmmax8qlRt1HfDw0NoHBw8XMq39
-         03Vg==
+        d=oss.qualcomm.com; s=google; t=1782934221; x=1783539021; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rnPd10WcdOHmEsRs91BWIgfBdXahim2EReLYaWIIX84=;
+        b=buA5rVAfepzJ9DxQkRfLH6dI+WDw+GPfhtEF3efEqBYMDrGCmlxViP1ruYyPtoPGUF
+         YhBjdSVFis4bD9JsrcewBldiqhnzCCuffbjIa2xhKaBkjEFzinlTRKX/dLfQnHXakzsA
+         nq5uV1uCOWLhB55Y/s9l1s+NgJN79ACDDmLkHQHZnI3cQJDzhP9oFMesAbqDIaOXvmzR
+         hwIYYNrw5Ox5OtizzIuPyVY0NJl/GW08wS2rQtieWNTFSInUKOiEcmo5/b0m4mr8PlqM
+         QGUNFJtC3FriJhjOt5sRRx3R7OYhSr0qb+fDJYRRa0kZahI2zxx7JZH6Rc8V38ywnuDZ
+         LOFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782934220; x=1783539020;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JP1731msC651BB/VkadNagnugoH7NQWr3CerTNsZZTQ=;
-        b=qzloIn8fyadRhXHpmX8jCzpU7PxLVzbPjFoA8Ypwuk/0LVil5g1XThYEbvCVQuuUTM
-         VqVGNzbAQDr/4kR6GV7V4bQkp6XVLijjb75PckvMkDomKwC7QJRhPW28p1IMHp4FyJ1V
-         Zmpbcazre6R2mnQJdvlplObNqw4Mr0mLBy6qxqicZtn0C4avk3hmVPv31vMSkdpHngXF
-         mWsojL3z8AWR7VQ4qOyEhOALmRKd6XqO9PwY5EIvU1xDDeOjyIKZ9R33XmLdBB0KlbCQ
-         PqDj253ELJmDBLXGEx33LE6+wjmgFSsdMRJ6WlYB98AUI7DsDk1y1FI+Gjo0X048AU5r
-         n6OQ==
-X-Forwarded-Encrypted: i=1; AFNElJ84XMoeTxFakci/VnBZnw1n9vJYzOmCDVS4/3yZwEFvuJsY38O2mKB9e+UTo4XoOPQ8CpSOMJjx7JnUqg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOGJ+YXt2U2ElTVGLBJojTLOk9NkP+zoOBer1hDvFZLR5U4EFF
-	miKJ/Ur7Y2+rfzZvu6dAi5tLPtpVxjVpPDoH/m+WP5ZSS54l+f3LU3qe/S/fQQEDu/7oilvVTY9
-	akDi2jO94lN6szbF25qP/xkLjdHRG8ueYlX5PbbVw0G6ho1U3f9sw5NhkO2StEk7RPg==
-X-Gm-Gg: AfdE7cmoVuvK2pG463bTq+cSSBJt1TJY2LmMcTard8zOUJt71GKrTshFlTvzm3s4do6
-	abM3BT//V0NVTo20xX0xEeFivc8ezDWTM50faO5qIo9QW/d9A7eB1EHmqa6pQEyY+YqnYmYP/8y
-	E2dwbdwHmkL1GwkXH2lv8bi5k2PeEX+QB60NwQ+o/PG8NrxVm9Xo+oAheR2DWmd95x3z6KWxgpR
-	TM+W0XzI/7H1C9LaI+gR1QRiU6JDMtzr24mm0mc3QhQjm2aPIeYh3PaLqsLMVhE2EMHbqn7Pyi4
-	yZyRq1NFMgtKL9RZlVmc2LVybBMJ7nOyMIrtmuSISOQacZdoCxKPU2hRYnttoTwMcGS4rZLQIh4
-	tGBfE+7tIqVaUpa/9C5WF2oXf
-X-Received: by 2002:a05:620a:1b8e:b0:915:9eb1:f08a with SMTP id af79cd13be357-92e6971d04amr911843585a.18.1782934220071;
+        d=1e100.net; s=20251104; t=1782934221; x=1783539021;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rnPd10WcdOHmEsRs91BWIgfBdXahim2EReLYaWIIX84=;
+        b=NnQa6m2kXiNg33/G+yqfiU7Est/qFMqBwoEv1107YzsyS0T+m5bn3iDvGe3pXEdmOy
+         T2/RQL0OFXJM5h5o+L5o3PmCCJv9KOs4EUSR1x3bbXg3XUx8CvbRjyYQGvKXaqHzHlj6
+         ZdNiBJFH9Sz9dcTD/aDlrvbPrRVsYPsAKg8PyWlv73cyJ4bdgW2GxL3XTJMmg4ut8Jdw
+         G6jwGs3VrX5aHQrASsnoLdkwriucMSfxoDmriZruF2nlkNyJ7r7vo3Im0YYPVDkwoDAB
+         nVT7CjIZAq7dUIfIyMQhkVQoel/VBhI2n8xMeV0tmLV/izsp5No0FMEkwG/7IGJAoXbu
+         no/g==
+X-Forwarded-Encrypted: i=1; AFNElJ90c6gfl7cyRbx6jjYmH9za/p7Nq3rut3xyp3jrVpw4al/fSvvQT+fT5INnHV38eW5/r0xaXM4znGSCeg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyyKGPJfYQYTDyAnqq8YPE6alFZTy1lrah/dB30UXwSCm5V6ev2
+	d8mStFl4fg2P8ppTPpvoqR+qwA6elcT6bn5wmZbFWcRaQqTJeSFYEHesVi8sHnvoLnk68Mgh8lS
+	J1i0ndUREClOq+PUYEBU6CKzpXDF3hURVyOyL6MDCBHfF/bm40HwamPsVHEDPK4Dc5Q==
+X-Gm-Gg: AfdE7cnaDjDzmuB1cpzeKYhlFbg/f60kDEEDGW9QXh3pYxzRHrlRO/J5TlKYkPvOh0V
+	hM51Am73CVgmm4M58T0Z6DI9ZZXP3MR4ZkwOHXESjxtOburHG9dd0psog3PedQlvNrttWmDI14f
+	DiFiVUCdgvL7RqMN0eX6devmHu4w/K0Yfod4xt1JfiBO7J2dM5o1E2Umd9FAixxofIzQ3xQt/pJ
+	69NnXXZ/AF0xMuUKk433p6EQ3lkMGmLquIwV5+ITPAfO8XQUcbKg57eAn87JC0JZZYE3wLRwLoi
+	IzCTuPsWTrgMHdNT1h4hw0FRuRGmZ1icPE5RQ+8m15TUSOBjZWghreT+PIF/WUefeR89SbkeZwV
+	JE3rXN8Ax/aPtjg4RhVHLTIRA
+X-Received: by 2002:a05:620a:1794:b0:92a:3679:7978 with SMTP id af79cd13be357-92e7afd903amr344423485a.18.1782934221268;
+        Wed, 01 Jul 2026 12:30:21 -0700 (PDT)
+X-Received: by 2002:a05:620a:1794:b0:92a:3679:7978 with SMTP id af79cd13be357-92e7afd903amr344415585a.18.1782934220725;
         Wed, 01 Jul 2026 12:30:20 -0700 (PDT)
-X-Received: by 2002:a05:620a:1b8e:b0:915:9eb1:f08a with SMTP id af79cd13be357-92e6971d04amr911834185a.18.1782934219296;
-        Wed, 01 Jul 2026 12:30:19 -0700 (PDT)
 Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493bef11338sm78261885e9.1.2026.07.01.12.30.17
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493bef11338sm78261885e9.1.2026.07.01.12.30.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 12:30:18 -0700 (PDT)
+        Wed, 01 Jul 2026 12:30:19 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 To: vkoul@kernel.org
 Cc: srini@kernel.org, yung-chuan.liao@linux.intel.com,
         pierre-louis.bossart@linux.dev, linux-arm-msm@vger.kernel.org,
         linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH 0/2] soundwire: qcom: Fix port handling bugs
-Date: Wed,  1 Jul 2026 20:30:04 +0100
-Message-ID: <20260701193006.4113-1-srinivas.kandagatla@oss.qualcomm.com>
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        sashiko-bot <sashiko-bot@kernel.org>
+Subject: [PATCH 1/2] soundwire: qcom: Fix port exhaustion check in stream_alloc_ports
+Date: Wed,  1 Jul 2026 20:30:05 +0100
+Message-ID: <20260701193006.4113-2-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260701193006.4113-1-srinivas.kandagatla@oss.qualcomm.com>
+References: <20260701193006.4113-1-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -92,54 +97,60 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=dtnrzVg4 c=1 sm=1 tr=0 ts=6a456acd cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+X-Proofpoint-GUID: n3Rs_EhJHabrB1a48fjAv9q07jhnVf5R
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDIwOCBTYWx0ZWRfX6c+zAJl1eRGG
+ ZRgPpR4Xwtj3oSOhp+U8obU9cm6BVSD472deGx45bZwLOV8wSvqiwSz4y6kzakVYCNzH1gvkccz
+ Gr/kzqq21EBJ3eV6ArX96K5AJqOtMxpsag92L9MKoGQoLZWAnga/PFaC2hsqtW3WecoQBS6FYeJ
+ yn0SBRXKpwaTuwN8m3hPAcoiP/SQtWUkaWTwsThCgh1PMDiKobUJIDGIUAwMuL5/YKLf8Z6adaz
+ XxgbcQirtnAVuZEKl9PPsCaxGPzU+BTQoFoC7bHs3VRK4Cr927jETbLJuEsX4lmqsCsyqw+pXgl
+ 8P8h5CQxfgKbiu1QMyeqZK0maP2rbsuz3J9QkYko7JuhjjiD++1vGWY/oLUPJabwY7qPP6sHOFL
+ Sb3t2nO0RJdUBfxSjhtJdxifwwb4w2RONxu4g0R2F/d2zYKCu9RyLuOUZTMfAs5hFSP29YHkxjb
+ oAW9odKJrPYh3mnjpkA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDIwOCBTYWx0ZWRfX8a1PWnzcj/IC
+ P9c7L3EKdWmJ70MLx3yDgX+PCHwDREsIxx8mX5eXjsrJihJ4JE+bQeRrJ+IJjeEmUAmjGtl1tZh
+ gyyBN1+OURTPNK6ZbSYW/FB/8wjPrnU=
+X-Authority-Analysis: v=2.4 cv=JpXBas4C c=1 sm=1 tr=0 ts=6a456ace cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
  a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=fR8blbD0ELB2GWmyDQ0A:9
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-ORIG-GUID: uKcbMiYrf9uRI1SiBWrzZ64e9vJ9B6ja
-X-Proofpoint-GUID: uKcbMiYrf9uRI1SiBWrzZ64e9vJ9B6ja
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDIwOCBTYWx0ZWRfXyEx7LAE3qt4K
- nig0fHV45vac2kpOqlLV64/NYKzv6/Ou3W2IKYykihY86QJG8goUwuRoAILhPJIyrOVsGF+G4Jm
- ooXH7zPWQsGhaMMWlWeQ67K9IfbUcG9oPWm5HJOelQX2JVR8s/ERfKy4uBi23Fw13uIarYPi20Z
- 8VgFWzOgLexfcxQUk9N77mqwx44fuq4SWihWDf7r83CVraoF0vTsqHVjdht9NKihRbIjc3iPZ48
- OY1r6A3WkDPWhaSzzhHGJewO1/2io3aMFEfhd2tRX0VWbzuebuStN5gRd6hplE8u8KP0l3V4OMp
- Stb8CcN2Tx84lx3xha/F21z5vIYoKT8F2/WCHu81YFwgPRTGULfmb6gumICy0ErTAy9UvOZzCoq
- s+eh2N4GJytt/D29Y+MmskGUk3eqg3COpUbaj7BDahOnC60jEkzGTt+ECV3amIjomJu00rjal1a
- lPMDD7UnKrZZZlR7W4A==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDIwOCBTYWx0ZWRfX4aFw0JeX+uL5
- pcp580zGhWuX01ZbIsWIfbeBVXrtSuBbMX2ln6HAxy3idqSpES7R2324Vn7oeU2eTCfgTVk9IHM
- wotDkPiUVGMSx/TnVxAIS+R7xxB2/dA=
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=8nePQdK_g4Z6DuqQSbIA:9 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: n3Rs_EhJHabrB1a48fjAv9q07jhnVf5R
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-07-01_04,2026-06-26_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015 priorityscore=1501 suspectscore=0 spamscore=0
- lowpriorityscore=0 phishscore=0 malwarescore=0 bulkscore=0 adultscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 impostorscore=0 clxscore=1015
+ spamscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607010208
 
-This series fixes two bugs in the Qualcomm SoundWire controller driver
-spotted by sashiko-bot:
+find_first_zero_bit(mask, n) returns n (not n+1) when all bits are set,
+so the guard `pn > maxport` is never true on exhaustion.  The driver
+would silently call set_bit(maxport, port_mask) and assign the
+out-of-range port instead of returning -EBUSY.  Fix the comparison to
+`pn >= maxport`.
 
-1. An off-by-one in the port exhaustion check: find_first_zero_bit()
-   returns the size argument (not size+1) when no free bit is found, so
-   the existing `pn > maxport` guard is never true.  The driver would
-   silently assign an out-of-range port instead of returning -EBUSY.
+Fixes: 02efb49aa805 ("soundwire: qcom: add support for SoundWire controller")
+Reported-by: sashiko-bot <sashiko-bot@kernel.org>
+Assisted-by: Claude Sonnet 4.6
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+---
+ drivers/soundwire/qcom.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-2. The sruntime[] array was sized by a hardcoded SWRM_MAX_DAIS constant
-   (0xF = 15), while the actual port count comes from hardware and can
-   exceed that with controllers supporting up to 17 ports.  Switch to a
-   dynamic allocation at probe time so the limit tracks the hardware
-   automatically.
-
-Srinivas Kandagatla (2):
-  soundwire: qcom: Fix port exhaustion check in stream_alloc_ports
-  soundwire: qcom: Allocate sruntime array dynamically
-
- drivers/soundwire/qcom.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+index 3d8f5a81eff1..b288218f64b4 100644
+--- a/drivers/soundwire/qcom.c
++++ b/drivers/soundwire/qcom.c
+@@ -1271,7 +1271,7 @@ static int qcom_swrm_stream_alloc_ports(struct qcom_swrm_ctrl *ctrl,
+ 				else
+ 					pn = find_first_zero_bit(port_mask, maxport);
+ 
+-				if (pn > maxport) {
++				if (pn >= maxport) {
+ 					dev_err(ctrl->dev, "All ports busy\n");
+ 					return -EBUSY;
+ 				}
 -- 
 2.53.0
 
