@@ -1,141 +1,92 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A397E42EEAD
-	for <linux-sound@vger.kernel.org>; Wed,  1 Jul 2026 11:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54D448096F
+	for <linux-sound@vger.kernel.org>; Wed,  1 Jul 2026 11:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782906975; cv=none; b=TkF9PEFYY72eIW8eJ/KBr6+DPyc4k/zLHpNfaGdA7QHSMXILbiZI51nLKUOgoJudEdkW7Z17aZaVGinT5s0604R1Wlap1j77C23UW5kBp0ws8nu3NcB8SvgFkjAsX0yrRlqpaW2rz56URhmzQf0DELekLlNeKciigrKOuWtEkxc=
+	t=1782907071; cv=none; b=d4fpoB3DTh1BFfUJbZpwrHbb5X0sH9IZt+tb6XLn5c5Lg6lHQrNWZLXWZ3BeYFisoHmcqySd4Wtz/Jxgs1bALGRFMwgtszfUjq0sqbUvgoYzNq3xw1KgGtAJb4roZa2Ek64aMNqHc+zLoMj8OaYLKooaFhidYbnvmGBU37toZaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782906975; c=relaxed/simple;
-	bh=xdWuBup5ubjAz5buhIS9hoT7rNPTlXU2jJVUJvO5hRk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ssDMP0ChloDV5dAZTz6EWoYdBKCtqMybrfOyPAB5N1c+Xdi85/t6PStZl9PjnbojgkALks34LWjI+3QsCPCFEfY9hSoQKor4+U0hDGYPVizveXceFP/kczffIOYpTlfoaAYVqA/hWZjO+LAQlDAMeV/l+KqXS3d8Y30914Ca4vU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=otTxxeV7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vpGqYG+n; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EhTOw44i; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=v7YhbTbB; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1782907071; c=relaxed/simple;
+	bh=agWTOqYQFeVMxpuTePasPYOR/Yfz06h5htSGKbV/Tak=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ALT2JE/kXnMsYSBlBoR4qMWEfJlh2Y34p6xUoYzpDz0y2B9eViIrvTgo/+0Q9egsHyj2BJ8FE7W+cMwuSBFOOF4sfKSmgfCWAKO4/nDUhETjy0vTGmZBv1ZEnD8qg0UdEUYTMud7NNpHBwe2FSExdIwnu38C2cf9OpYqFdVRPLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=YyGlhqDX; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="otTxxeV7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vpGqYG+n";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EhTOw44i";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="v7YhbTbB"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 20E7A71A6C;
-	Wed,  1 Jul 2026 11:56:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782906973; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="YyGlhqDX"
+Message-ID: <74bb6575-7d92-43af-98fd-dd46a83b2fac@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782907067;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0oBuriCx++643jX+EuMc7fV9KpRmTnufU63j8vvKNSM=;
-	b=otTxxeV7JzNN7452Lmbpom542iesBd/JzhUbGaszscgc6HLiPT3V6Qm+vfqjRBm7ebUYsq
-	yiL2M5bI6aToSjtsQihXLmUevtB17g0gjhXq0NXK0x1ed/9OzOnOIyByqAte1ckZfzgTVr
-	HGyRUKdTSMO/nUOuENMiuQMUhykOjQs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782906973;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0oBuriCx++643jX+EuMc7fV9KpRmTnufU63j8vvKNSM=;
-	b=vpGqYG+njd5BaCoCHSG5jt7yutxiNQT373bfP/w4S+ZpGdFLH/XshFR4S52aVLUP3AuRVo
-	N11rKUBwMX1eRJBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782906972; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0oBuriCx++643jX+EuMc7fV9KpRmTnufU63j8vvKNSM=;
-	b=EhTOw44iy8T/1/otd8pQFZcc3RvAFRpy8rIa2QuIUpKR81rQn0x6DaNi4iIKMOvOBsZMpM
-	agtG2ClqzpjQNXqwW36XfOWV77XlZVhxTPdBQvw/4Qd3F6J+6l+jwyxCcnbjAhH1lI9dY5
-	GwK0FwTgKoRHJkPeA5eyI9eG076/g9Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782906972;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0oBuriCx++643jX+EuMc7fV9KpRmTnufU63j8vvKNSM=;
-	b=v7YhbTbBRoAJwjBqXk2FZ+oAw/uKJo7boI0FD/O9pCpzbk7yma/J+lqn8P1e9c9gBhLnT0
-	yHy4TPK8uRuwmZCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DF0C3779AA;
-	Wed,  1 Jul 2026 11:56:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XWLqNFsARWrDKQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 01 Jul 2026 11:56:11 +0000
-Date: Wed, 01 Jul 2026 13:56:11 +0200
-Message-ID: <8733y2vs84.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: HyeongJun An <sammiee5311@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,	Jaroslav Kysela <perex@perex.cz>,
-	=?ISO-8859-2?Q?=A9erif?= Rami <ramiserifpersia@gmail.com>,
-	linux-sound@vger.kernel.org,	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usx2y: us144mkii: fix work UAF on disconnect
-In-Reply-To: <20260701095231.1020811-1-sammiee5311@gmail.com>
-References: <20260701095231.1020811-1-sammiee5311@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	bh=agWTOqYQFeVMxpuTePasPYOR/Yfz06h5htSGKbV/Tak=;
+	b=YyGlhqDX/gGe5BRl3L8gHuzqP88bhFxmMouM3XNITp7KXzE+KuMDeXWgKYIbVqGnWJB6s7
+	FmawNEXudszuFjo/cR9PBLtL8lf/qnGlLMNS2D0DZQ/u7g/iJ3GdTVRZXzBI/V5YCud6FN
+	PSyHPlZiNJf3y8gAAxwMcVarz1gp94Q=
+Date: Wed, 1 Jul 2026 13:55:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.com,perex.cz,gmail.com,vger.kernel.org];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Level: 
-
-On Wed, 01 Jul 2026 11:52:31 +0200,
-HyeongJun An wrote:
-> 
-> tascam_disconnect() cancels capture_work and midi_in_work before
-> usb_kill_anchored_urbs() kills the capture/MIDI-in URBs.  Those URBs
-> self-resubmit, and their completion handlers reschedule the work.
-> 
-> A URB that completes in the small window between cancel_work_sync() and
-> usb_kill_anchored_urbs() therefore re-arms the work after its only
-> cancel.  Nothing cancels it again before snd_card_free() frees the
-> card-private tascam structure, so the work handler then runs on freed
-> memory.
-> 
-> Kill the anchored URBs before cancelling the work; once the work is
-> cancelled no remaining URB can complete to re-arm it.
-> 
-> Fixes: c1bb0c13e430 ("ALSA: usb-audio: us144mkii: Implement audio capture and decoding")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Claude:claude-opus-4-8
-> Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
-
-Applied now.  Thanks.
+MIME-Version: 1.0
+Subject: Re: [PATCH 2/2] soundwire: Intel: stop sdw clock in system suspend
+To: Richard Fitzgerald <rf@opensource.cirrus.com>,
+ "Liao, Bard" <bard.liao@intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "vkoul@kernel.org" <vkoul@kernel.org>
+Cc: "vinod.koul@linaro.org" <vinod.koul@linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
+ Richard Fitzgerald <Richard.Fitzgerald@cirrus.com>
+References: <20260629144450.2096823-1-yung-chuan.liao@linux.intel.com>
+ <20260629144450.2096823-3-yung-chuan.liao@linux.intel.com>
+ <11f8d158-9ddc-46fc-9cd5-11a696d3413f@linux.dev>
+ <SJ2PR11MB842410EE22537B0673173EECFFF72@SJ2PR11MB8424.namprd11.prod.outlook.com>
+ <520f67ca-941b-4e08-8985-03f0e09b0313@opensource.cirrus.com>
+ <46af3cdf-d704-4cd2-bb24-cbe9fb1303db@linux.dev>
+ <e326c51a-4690-44c4-bf3d-0870591b1eed@opensource.cirrus.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <e326c51a-4690-44c4-bf3d-0870591b1eed@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
 
-Takashi
+> If the Manager doesn't send a clock-stop, the peripherals don't get a
+> notification that they can enter a lower-power mode. The clock suddenly
+> disappears without warning and without the peripherals being notified
+> why, so they don't have any information to know what is happening.
+
+that's not quite right, see below.
+
+> The Manager should send a clock-stop notification before stopping the
+> clock.
+
+That's exactly the existing logic in drivers/soundwire/bus.c, the core does notify all peripheral drivers of a clock stop transition.
+
+sdw_slave_clk_stop_callback(slave, SDW_CLK_PRE_PREPARE);
+sdw_slave_clk_stop_callback(slave, SDW_CLK_POST_PREPARE);
+
+These pre- and post callback that can be used by the peripheral for imp-def actions.
+
+I am not sure if the POST_PREPARE makes sense, since the clock is already stopped the peripheral cannot be programmed. IIRC it was added for symmetry.
+The PRE_PREPARE is most likely what you are looking for in the implementation of the drv->ops->clk_stop callback.
+
+Hope this helps!
+
+
+
+
+
+
+
+
+
