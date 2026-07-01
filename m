@@ -1,41 +1,40 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6521D436367;
-	Wed,  1 Jul 2026 10:58:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AA443C054;
+	Wed,  1 Jul 2026 10:58:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782903496; cv=none; b=iNF5avOJSQi1fMqokW6BlOqVCW6rRjDk2sLtjEd1v7xFcOCmdR4ylhXQna35gbTmyZODvDkHC+A4xFscwdy7LCKdBkGcVq/M3W5NJFSFP+sTCRwU+X0I1k1SMgNDOIxTCND72pZHT5m/DyncQFEqv8EYJqCcwa72Zydp7av6Khs=
+	t=1782903498; cv=none; b=WCXyb/2wqVF7AMoAYsb49J+lFJ+/xhbMxV4zXhS6+7pdrQo0DJupGgNi9wXDdRJYzeKvSHdgJC5LgbDwyIzRk4QDc2mgwCwU4jB2TEcrvqAjW2R7L/kxyRaKXl4eGoLbr/SuS/QHjWXiCZAiFzJR3tyr+h8/sazkoDuM74t7siQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782903496; c=relaxed/simple;
-	bh=QHXc+Vxn3n51HPg8ntlxQUVTdFYMq0GGyO3zXprMi4E=;
+	s=arc-20240116; t=1782903498; c=relaxed/simple;
+	bh=7r/qYh7mF1hEjiFDFlWEtaDDhLcSZJa0aGdY9evLFWU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pjFQYNDow1Au7P5xwr+BmL9GIrKELSEf4jicP6YOWaIADCHtwlnYPpHYxp2nToAmW4fPjBP647Qg+wozfx/fdupqI99uQdk5T+Xl1oIq6jV7RvrohcdbW5W1SKpGOUYLpfNHue4dogREXqfpZ6VATVhL9UGYsvoefOwsw9jbCWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JsTCC71a; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version; b=Aj9uVBjwqY3YcPQH1CHh+e3230Qc0a0sVJQmBuhAZ76I7IV2CaH6GDVuWxijkzmruDIFXEKJcPP2Uqo93Vb3n+QpbviSaUVtMKSOTpoBxF2apq6Xosb6vR38Xuabd8+HdNfdfwg8fLPl3W2fsNWw6FPeYkABdFHGdNJUgNZTWnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XQW9QprO; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JsTCC71a"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 661A8Rtr761288;
-	Wed, 1 Jul 2026 10:58:11 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XQW9QprO"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 661AGJER793847;
+	Wed, 1 Jul 2026 10:58:14 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ol3hAH1aLQFwy54dEXdQNDJOCvIhrmX1CgLwPHtr2pY=; b=JsTCC71a9LkCndeg
-	LZOrcO3tVRWc0PsIkoThv5jy/BH8XglNm33SUto+PVZ73zyZP3N/u0Q8EBF2Pk1X
-	UrGRpocVngO5VyITXOKs543jmOK8HQasn2GK3k8MwZPKEkagUfekFMvlybo0Ajnx
-	50FmCxrXoUPHKYPf2RpCZcPLqLchbSA0K8OlWIoDJnhOtxKsqlzdkiy53M4zXf31
-	L771TuuMUHXzcSn4JYEn9sdxg7qq4ROIUEPJg4jVH3Ej/6YQbd2DiZYiMNrt67BF
-	D+Q54NxX9BfSb1Caa3qqToSXgVZOkARvLzIGqlzJ+IAcMhAEcnjd17nmvOpZkmL5
-	e1EQkA==
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=3pWxCFkQ6kQ
+	ZSUAvMQVReaT65jnuQRIoNVfRtMg76M4=; b=XQW9QprO90kjF1PheUmtmoNoeCL
+	S6gE3/umy4ZZubojF8NrvDO5Y9xriQoMJEWSN2NnYuXpu96i8ZrZR4Gv2vw/g6YV
+	Qy/nb0BqlwaFD68bGwP6IADvFWx1p577HsUf0ME5sNXsAdiIrel8rdLJTyIcY3Jc
+	OwwXWsbk/FbpTlfKxGWyHer4G+vXA6Taf/dbwR1fE5G2OP8Z7xX/fZUSLqa8Yras
+	Bh4uiX4PGasmy8YvlP7mnUPA3AGf+/U3Qg0TARQbrXfKB1Ac5rYl/NEIcK0bdzup
+	tUdy/edVjifd+IgEYVU7TcuGo5EgNo6yvZ6OZa6p9TQvbx9jrN3RcTsYQbQ==
 Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f4kgw3nsh-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f510ag606-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 Jul 2026 10:58:10 +0000 (GMT)
+	Wed, 01 Jul 2026 10:58:13 +0000 (GMT)
 Received: from hu-hgautam-hyd.qualcomm.com (hu-hgautam-hyd.qualcomm.com [10.147.247.91])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 661Aw2J7011886;
-	Wed, 1 Jul 2026 10:58:07 GMT
+	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 661Aw2J9011886;
+	Wed, 1 Jul 2026 10:58:10 GMT
 From: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
 To: Srinivas Kandagatla <srini@kernel.org>
 Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
@@ -44,9 +43,9 @@ Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
         Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 03/11] ASoC: qcom: Add QAIF shared data structures and variant interface
-Date: Wed,  1 Jul 2026 16:27:49 +0530
-Message-Id: <20260701105757.2779738-4-harendra.gautam@oss.qualcomm.com>
+Subject: [PATCH v2 05/11] ASoC: qcom: Add QAIF AIF DAI ops
+Date: Wed,  1 Jul 2026 16:27:51 +0530
+Message-Id: <20260701105757.2779738-6-harendra.gautam@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260701105757.2779738-1-harendra.gautam@oss.qualcomm.com>
 References: <20260701105757.2779738-1-harendra.gautam@oss.qualcomm.com>
@@ -56,570 +55,533 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-QCInternal: smtphost
-X-Authority-Analysis: v=2.4 cv=Co2PtH4D c=1 sm=1 tr=0 ts=6a44f2c2 cx=c_pps
+X-Proofpoint-GUID: RdfewrdHdF62-R4iQ-_7oYVtM0H7Dcz5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDExNSBTYWx0ZWRfX/AeNOj9vYclL
+ w4j1QfLseBS/eC6MAbQK4gP6Wu+IyVu144ApwAuudF6JMcO6bbmd5NMreQ6IzovgVCNnpE2fUzm
+ UWUH2wtnyL6A/itH7XixlJXFZEHQqzr6QOOgZHJImf9VTLQojSfjHTseUOpRFVjeLzcbCDWRKWZ
+ wsEfB0MfY46NIx2445zT9Agwzj1NL0E8qOyi7TFuIEjSgHXZJtf7kYaTfSIlkruvlUiiPUjS/cf
+ b7JfvKTKU+V0PGB7aTGtJMBrbcmf0NpOk/jvDxMnLb6DxFmRpUPh8rWvns/2bcq266n4WdYPnLb
+ 2tN7MChGKWUfXyYoqkrFnSn0fFxy8kV8jeynzLdFfs7O4bnb7zYE6Jz+o+uNvKqT4mj4ubDgQuo
+ AsgLR2hXTpO/WnNuOCRLSUBs3nEnRnVKFZcGxIt/UONGT5eWEKW4s6/cp+qNo1OVPSzai+HjIB9
+ DS+Z/bgB3j1C007jFXg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDExNSBTYWx0ZWRfXxI66m6Ml/sqi
+ BpitXvC7rSngd57qR73bWOkoi47IEUq7b2E+p6mQBsASUbaVhVUocrYGClgcAfn0Wd3om7QMPEE
+ KW4NS17SW4oU/XIDOGZwvhJ2aeVJRNs=
+X-Authority-Analysis: v=2.4 cv=JpXBas4C c=1 sm=1 tr=0 ts=6a44f2c6 cx=c_pps
  a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=EUspDBNiAAAA:8
- a=9_Zj-HJDUCFsqN2nHeAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: 8dhQAF6eCCIZWYtncoMO6z6D-W7jF27k
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDExNSBTYWx0ZWRfX63oE4RSGoROg
- W2qaukfJuA+a9HBL7bKwzDFIriwB8joUZXSwuRvQ57IeZcwa7Lbg+8onVbz6AlTNQiWOt3e6OCP
- onjxbU86SGH2U++6+IU14VsiuyJ/NIs=
-X-Proofpoint-GUID: 8dhQAF6eCCIZWYtncoMO6z6D-W7jF27k
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDExNSBTYWx0ZWRfX7eIBPp6UYv84
- /s9WM9dV2FjbXG1aksDPurAZxL5V3PWPiJm0mJApzmtTc0Ghw8hgZnV7kE5CYJhW2oEHE55e5g2
- NXoLFYnywmBSfKSZ3R3lVoWb0QAR7VmnPEkoEbpuuU8OVMqCkDdnDVnX9Z31cTgEIsS7DDSiMxM
- 1wILIU3yoRDWAxFHBXUzVzDEdQEJrDY1/N/aEwwSlLNsOCd/vm+UzM/aWoqH9LMTakdPDroDEeh
- FLMLm3nO97x7fjLnXQ+R/M3Mhl+iWRGzfHOEZuokX+Q7B+JL8JWwc4LUDUfGjX8AFXSOFymjaOb
- q0LuHTnSOJ0JKVB6jKFfJlpXayyIeASS2GhwPhF0HDLeL9dnfSbKTCrpW9kWjIysEKwSiAGSbZn
- DVl80mAd5rP03cYK388gpY42NpfC4gMWpE1BReh4CCLMBtRdSi4wBH2o/Q74UWXxrjszpWoC/X8
- GKCOaJ79JO5n2SZOCFw==
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8 a=MYsBvJ0p-XDPe8fRrhQA:9
+X-Proofpoint-ORIG-GUID: RdfewrdHdF62-R4iQ-_7oYVtM0H7Dcz5
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-07-01_03,2026-06-26_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 bulkscore=0 suspectscore=0 phishscore=0
- spamscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0 malwarescore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 impostorscore=0 clxscore=1015
+ spamscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607010115
 
-Add qaif.h to define the common data structures used by the QAIF CPU DAI
-and PCM platform drivers.
+Add the CPU DAI operations and regmap field setup needed to use the QAIF
+AIF (MI2S) path.
 
-QAIF exposes AIF DMA paths for external audio interfaces and CIF DMA paths
-for the internal codec interface. Both paths need shared state for DMA
-channel allocation, regmap fields, interrupt dispatch, SHRAM buffer
-tracking and per-stream runtime data.
+The existing QAIF CPU support does not provide the AIF callbacks needed to
+configure and control MI2S playback and capture streams. Add the AIF-
+specific register field allocation and DAI callbacks to program the
+AUD_INTF configuration, set the MI2S bit clock, configure the codec DAI TDM
+format, and enable or disable the interface during stream triggers.
 
-Introduce the common QAIF driver data, AIF and CIF register-field
-descriptions, IRQ mapping helpers and the SoC variant descriptor. The
-variant descriptor provides the register layout, DMA channel counts, clock
-names, DAI table and platform callbacks needed by later QAIF driver code.
-
-Also define the QAIF-private MI2S port IDs used for the senary and
-septenary interfaces.
+This allows QAIF to route playback through RDDMA channels and capture
+through WRDMA channels to external serial audio devices over MI2S.
 
 Signed-off-by: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
 ---
- sound/soc/qcom/qaif.h | 506 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 506 insertions(+)
- create mode 100644 sound/soc/qcom/qaif.h
+ sound/soc/qcom/qaif-cpu.c | 474 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 474 insertions(+)
 
-diff --git a/sound/soc/qcom/qaif.h b/sound/soc/qcom/qaif.h
-new file mode 100644
-index 000000000000..75d3a119d36b
---- /dev/null
-+++ b/sound/soc/qcom/qaif.h
-@@ -0,0 +1,506 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-+ *
-+ * qaif.h -- Shared data structures and definitions for the Qualcomm Audio Interface (QAIF)
-+ */
-+#ifndef __QAIF_H__
-+#define __QAIF_H__
+diff --git a/sound/soc/qcom/qaif-cpu.c b/sound/soc/qcom/qaif-cpu.c
+index 18df81e3ed9d..be524e64f806 100644
+--- a/sound/soc/qcom/qaif-cpu.c
++++ b/sound/soc/qcom/qaif-cpu.c
+@@ -319,3 +319,477 @@ const struct snd_soc_dai_ops asoc_qcom_qaif_cif_dai_ops = {
+ 	.trigger	= qaif_cif_daiops_trigger,
+ };
+ EXPORT_SYMBOL_GPL(asoc_qcom_qaif_cif_dai_ops);
 +
-+#include <linux/clk.h>
-+#include <linux/dma-mapping.h>
-+#include <sound/soc.h>
-+#include <sound/soc-dai.h>
-+#include <dt-bindings/sound/qcom,qaif.h>
-+
-+#define LPASS_MAX_MI2S_PORTS			(8)
-+#define LPASS_MAX_AIF_DMA_IDX			(8)
-+#define LPASS_MAX_CIF_DMA_IDX		(8)
-+#define QAIF_CIF_DMA_INTF_ONE_CHANNEL		(0x01)
-+#define QAIF_CIF_DMA_INTF_TWO_CHANNEL		(0x03)
-+#define QAIF_CIF_DMA_INTF_FOUR_CHANNEL		(0x0F)
-+#define QAIF_CIF_DMA_INTF_SIX_CHANNEL		(0x3F)
-+#define QAIF_CIF_DMA_INTF_EIGHT_CHANNEL		(0xFF)
-+
-+#define QAIF_DMACTL_ENABLE_ON		1
-+#define QAIF_DMACTL_ENABLE_OFF		0
-+
-+#define QAIF_DMACTL_DYNCLK_ON		1
-+#define QAIF_DMACTL_DYNCLK_OFF		0
-+
-+#define QAIF_AIF_CTL_ENABLE_ON		1
-+#define QAIF_AIF_CTL_ENABLE_OFF		0
-+
-+#define QAIF_CIF_16BIT_UNPACK_ENABLE		1
-+#define QAIF_CIF_16BIT_UNPACK_DISABLE		0
-+
-+#define QAIF_CIF_DMA_FS_SEL_DEFAULT			0
-+
-+#define QAIF_DMA_DEFAULT_BIT_WIDTH			32
-+
-+#define QAIF_DMA_BYTES_TO_WORDS_SHIFT			3
-+
-+#define QAIF_MAX_VARIANT_CLKS				32
-+
-+#define QAIF_DMA_CLOCK_FREQ				38400000
-+
-+#define QAIF_MAX_AIF_CFG_CNT (LPASS_MAX_AIF_DMA_IDX / 2)
-+
-+#define QAIF_AUD_INTF_CTL_MONO				1  /* Mono Mode True */
-+#define QAIF_AUD_INTF_CTL_STEREO			0  /* Mono Mode False */
-+
-+#define QAIF_AIF_SAMPLE_WIDTH(bits)			((bits) - 1)
-+#define QAIF_AIF_SLOT_WIDTH(bits)			((bits) - 1)
-+
-+#define QAIF_DMACTL_WM_5					4
-+#define QAIF_DMACTL_WM_8					7
-+#define QAIF_DMACTL_BURSTEN					1
-+
-+#define QAIF_MAX_LANES						8
-+
-+enum qxm_sel {
-+	QXM0 = 0,
-+	QXM1 = 1,
-+	MAX_QXM_TYPE,
-+};
-+
-+static inline bool is_cif_dma_port(int dai_id)
++static int qaif_aif_cfg_cpu_init_bitfields(struct device *dev,
++					   struct regmap *map)
 +{
-+	switch (dai_id) {
-+	case QAIF_CDC_DMA_RX0 ... QAIF_CDC_DMA_RX9:
-+	case QAIF_CDC_DMA_TX0 ... QAIF_CDC_DMA_TX9:
-+	case QAIF_CDC_DMA_VA_TX0 ... QAIF_CDC_DMA_VA_TX9:
-+		return true;
++	struct qaif_drv_data *drvdata = dev_get_drvdata(dev);
++	const struct qaif_variant *v = drvdata->variant;
++	struct qaif_aud_intfctl *aif_intfctl;
++
++	aif_intfctl = devm_kzalloc(dev, sizeof(*aif_intfctl), GFP_KERNEL);
++	if (!aif_intfctl)
++		return -ENOMEM;
++
++	/*
++	 * Bulk-allocate all AIF intfctl fields in one call.
++	 * Order must match struct qaif_aud_intfctl member order:
++	 * inv_sync, sync_delay, sync_mode, sync_src,
++	 * slot_width_rx, slot_width_tx, sample_width_rx, sample_width_tx,
++	 * mono_mode_rx, mono_mode_tx,
++	 * lane_en, lane_dir, loopback_en, ctrl_data_oe,
++	 * slot_en_rx_mask, slot_en_tx_mask,
++	 * full_cycle_en, bits_per_lane,
++	 * enable, enable_tx, enable_rx,
++	 * reset, reset_tx, reset_rx
++	 */
++	{
++		const struct reg_field aif_intfctl_fields[] = {
++			v->aif_inv_sync,
++			v->aif_sync_delay,
++			v->aif_sync_mode,
++			v->aif_sync_src,
++			v->aif_slot_width_rx,
++			v->aif_slot_width_tx,
++			v->aif_sample_width_rx,
++			v->aif_sample_width_tx,
++			v->aif_mono_mode_rx,
++			v->aif_mono_mode_tx,
++			v->aif_lane_en,
++			v->aif_lane_dir,
++			v->aif_loopback_en,
++			v->aif_ctrl_data_oe,
++			v->aif_slot_en_rx_mask,
++			v->aif_slot_en_tx_mask,
++			v->aif_full_cycle_en,
++			v->aif_bits_per_lane,
++			v->aif_enable,
++			v->aif_enable_tx,
++			v->aif_enable_rx,
++			v->aif_reset,
++			v->aif_reset_tx,
++			v->aif_reset_rx,
++		};
++		int ret = devm_regmap_field_bulk_alloc(dev, map,
++						       &aif_intfctl->inv_sync,
++						       aif_intfctl_fields,
++						       ARRAY_SIZE(aif_intfctl_fields));
++		if (ret) {
++			dev_err(dev, "error allocating AIF interface regmap fields: %d\n", ret);
++			return ret;
++		}
 +	}
-+	return false;
++
++	drvdata->aif_intfctl = aif_intfctl;
++
++	return 0;
 +}
 +
-+enum qaif_type_t {
-+	QAIF_INVALID = -1,
-+	QAIF = 0,
-+	QAIF_VA,
-+	QAIF_MAX_TYPES
++static int qaif_aif_cpu_init_bitfields(struct device *dev,
++				       struct regmap *map)
++{
++	struct qaif_drv_data *drvdata = dev_get_drvdata(dev);
++	const struct qaif_variant *v = drvdata->variant;
++	struct qaif_dmactl *rd_dmactl;
++	struct qaif_dmactl *wr_dmactl;
++
++	rd_dmactl = devm_kzalloc(dev, sizeof(*rd_dmactl), GFP_KERNEL);
++	if (!rd_dmactl)
++		return -ENOMEM;
++
++	wr_dmactl = devm_kzalloc(dev, sizeof(*wr_dmactl), GFP_KERNEL);
++	if (!wr_dmactl)
++		return -ENOMEM;
++
++	/*
++	 * Bulk-allocate AIF RDDMA dmactl fields.
++	 * Order must match struct qaif_dmactl member order:
++	 * enable, reset, num_ot, dma_dyncclk, burst16, burst8, burst4, burst2, burst1, shram_wm
++	 */
++	{
++		const struct reg_field aif_rd_dmactl_fields[] = {
++			v->rddma_enable,
++			v->rddma_reset,
++			v->rddma_num_ot,
++			v->rddma_dma_dyncclk,
++			v->rddma_burst16,
++			v->rddma_burst8,
++			v->rddma_burst4,
++			v->rddma_burst2,
++			v->rddma_burst1,
++			v->rddma_shram_wm,
++		};
++		int ret = devm_regmap_field_bulk_alloc(dev, map,
++						       &rd_dmactl->enable,
++						       aif_rd_dmactl_fields,
++						       ARRAY_SIZE(aif_rd_dmactl_fields));
++		if (ret) {
++			dev_err(dev, "error allocating AIF RDDMA dmactl regmap fields: %d\n", ret);
++			return ret;
++		}
++	}
++
++	/*
++	 * Bulk-allocate AIF WRDMA dmactl fields.
++	 * Order must match struct qaif_dmactl member order:
++	 * enable, reset, num_ot, dma_dyncclk, burst16, burst8, burst4, burst2, burst1, shram_wm
++	 */
++	{
++		const struct reg_field aif_wr_dmactl_fields[] = {
++			v->wrdma_enable,
++			v->wrdma_reset,
++			v->wrdma_num_ot,
++			v->wrdma_dma_dyncclk,
++			v->wrdma_burst16,
++			v->wrdma_burst8,
++			v->wrdma_burst4,
++			v->wrdma_burst2,
++			v->wrdma_burst1,
++			v->wrdma_shram_wm,
++		};
++		int ret = devm_regmap_field_bulk_alloc(dev, map,
++						       &wr_dmactl->enable,
++						       aif_wr_dmactl_fields,
++						       ARRAY_SIZE(aif_wr_dmactl_fields));
++		if (ret) {
++			dev_err(dev, "error allocating AIF WRDMA dmactl regmap fields: %d\n", ret);
++			return ret;
++		}
++	}
++
++	drvdata->aif_rd_dmactl = rd_dmactl;
++	drvdata->aif_wr_dmactl = wr_dmactl;
++
++	return 0;
++}
++
++static int qaif_aif_cpu_daiops_startup(struct snd_pcm_substream *substream,
++				       struct snd_soc_dai *dai)
++{
++	struct qaif_drv_data *drvdata = snd_soc_dai_get_drvdata(dai);
++	const struct qaif_variant *v = drvdata->variant;
++	int idx, ret = 0;
++
++	idx = v->get_dma_idx(dai->driver->id);
++	if (idx < 0) {
++		dev_err(dai->dev, "%s: Invalid DMA index: %d\n", __func__, idx);
++		return -EINVAL;
++	}
++
++	ret = clk_prepare(drvdata->mi2s_bit_clk[idx]);
++	if (ret) {
++		dev_err(dai->dev, "error in enabling mi2s bit clk: %d\n", ret);
++		return ret;
++	}
++	return 0;
++}
++
++static void qaif_aif_cpu_daiops_shutdown(struct snd_pcm_substream *substream,
++					 struct snd_soc_dai *dai)
++{
++	struct qaif_drv_data *drvdata = snd_soc_dai_get_drvdata(dai);
++	const struct qaif_variant *v = drvdata->variant;
++	struct qaif_aud_intfctl *aif_intfctl = drvdata->aif_intfctl;
++	const struct qaif_aif_config *aif_intf_cfg;
++	int idx = v->get_dma_idx(dai->driver->id);
++
++	if (idx < 0) {
++		dev_err(dai->dev, "%s: Invalid DMA index: %d\n", __func__, idx);
++		return;
++	}
++
++	aif_intf_cfg = &drvdata->aif_intf_cfg[idx];
++
++	if (aif_intf_cfg->loopback_en)
++		regmap_fields_write(aif_intfctl->enable, idx, QAIF_AIF_CTL_ENABLE_OFF);
++	else if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
++		regmap_fields_write(aif_intfctl->enable_tx, idx, QAIF_AIF_CTL_ENABLE_OFF);
++	else
++		regmap_fields_write(aif_intfctl->enable_rx, idx, QAIF_AIF_CTL_ENABLE_OFF);
++
++	clk_unprepare(drvdata->mi2s_bit_clk[idx]);
++}
++
++static int qaif_aif_cpu_daiops_hw_free(struct snd_pcm_substream *substream,
++				       struct snd_soc_dai *dai)
++{
++	struct qaif_drv_data *drvdata = snd_soc_dai_get_drvdata(dai);
++	const struct qaif_variant *v = drvdata->variant;
++	int idx = v->get_dma_idx(dai->driver->id);
++
++	if (idx < 0)
++		return 0;
++
++	clk_disable(drvdata->mi2s_bit_clk[idx]);
++	return 0;
++}
++
++static int qaif_aif_cpu_daiops_hw_params(struct snd_pcm_substream *substream,
++					 struct snd_pcm_hw_params *params,
++					 struct snd_soc_dai *dai)
++{
++	struct qaif_drv_data *drvdata = snd_soc_dai_get_drvdata(dai);
++	struct snd_soc_pcm_runtime *rtd = substream->private_data;
++	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
++	const struct qaif_variant *v = drvdata->variant;
++	struct qaif_aud_intfctl *aif_intfctl = drvdata->aif_intfctl;
++	const struct qaif_aif_config *aif_intf_cfg = NULL;
++	int idx;
++	snd_pcm_format_t format = params_format(params);
++	unsigned int channels = params_channels(params);
++	unsigned int rate = params_rate(params);
++	unsigned int slot_width = 32;
++	int bitwidth, ret;
++
++	if (!aif_intfctl) {
++		dev_err(dai->dev, "AIF interface control not initialized\n");
++		return -EINVAL;
++	}
++
++	idx = v->get_dma_idx(dai->driver->id);
++
++	if (idx < 0) {
++		dev_err(dai->dev, "%s: Invalid DMA index: %d\n", __func__, idx);
++		return -EINVAL;
++	}
++
++	aif_intf_cfg = &drvdata->aif_intf_cfg[idx];
++
++	if (!aif_intf_cfg) {
++		dev_err(dai->dev, "AIF interface config not found\n");
++		return -EINVAL;
++	}
++	bitwidth = snd_pcm_format_width(format);
++	if (bitwidth < 0) {
++		dev_err(dai->dev, "invalid bit width given: %d\n", bitwidth);
++		return bitwidth;
++	}
++
++	/* SYNC_CFG: write all four sync fields */
++	ret = regmap_fields_write(aif_intfctl->inv_sync, idx, aif_intf_cfg->invert_sync);
++	if (ret) {
++		dev_err(dai->dev, "Failed to write inv_sync: %d\n", ret);
++		return ret;
++	}
++	ret = regmap_fields_write(aif_intfctl->sync_delay, idx, aif_intf_cfg->sync_delay);
++	if (ret) {
++		dev_err(dai->dev, "Failed to write sync_delay: %d\n", ret);
++		return ret;
++	}
++	ret = regmap_fields_write(aif_intfctl->sync_mode, idx, aif_intf_cfg->sync_mode);
++	if (ret) {
++		dev_err(dai->dev, "Failed to write sync_mode: %d\n", ret);
++		return ret;
++	}
++	ret = regmap_fields_write(aif_intfctl->sync_src, idx, aif_intf_cfg->sync_src);
++	if (ret) {
++		dev_err(dai->dev, "Failed to write sync_src: %d\n", ret);
++		return ret;
++	}
++
++	/* LANE_CFG: write all four lane fields */
++	ret = regmap_fields_write(aif_intfctl->loopback_en, idx, aif_intf_cfg->loopback_en);
++	if (ret) {
++		dev_err(dai->dev, "Failed to write loopback_en: %d\n", ret);
++		return ret;
++	}
++	ret = regmap_fields_write(aif_intfctl->ctrl_data_oe, idx, aif_intf_cfg->ctrl_data_oe);
++	if (ret) {
++		dev_err(dai->dev, "Failed to write ctrl_data_oe: %d\n", ret);
++		return ret;
++	}
++	ret = regmap_fields_write(aif_intfctl->lane_en, idx, aif_intf_cfg->lane_en_mask);
++	if (ret) {
++		dev_err(dai->dev, "Failed to write lane_en (mask=0x%02X): %d\n",
++			aif_intf_cfg->lane_en_mask, ret);
++		return ret;
++	}
++	ret = regmap_fields_write(aif_intfctl->lane_dir, idx, aif_intf_cfg->lane_dir_mask);
++	if (ret) {
++		dev_err(dai->dev, "Failed to write lane_dir (mask=0x%02X): %d\n",
++			aif_intf_cfg->lane_dir_mask, ret);
++		return ret;
++	}
++
++	/* CFG: full_cycle_en */
++	ret = regmap_fields_write(aif_intfctl->full_cycle_en, idx, aif_intf_cfg->full_cycle_en);
++	if (ret) {
++		dev_err(dai->dev, "Failed to write full_cycle_en: %d\n", ret);
++		return ret;
++	}
++
++	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
++		slot_width = aif_intf_cfg->slot_width_tx;
++		/* BIT_WIDTH_CFG: TX slot width and sample width */
++		ret = regmap_fields_write(aif_intfctl->slot_width_tx, idx,
++					  QAIF_AIF_SLOT_WIDTH(slot_width));
++		if (ret) {
++			dev_err(dai->dev, "Failed to write slot_width_tx: %d\n", ret);
++			return ret;
++		}
++		ret = regmap_fields_write(aif_intfctl->sample_width_tx, idx,
++					  QAIF_AIF_SAMPLE_WIDTH(bitwidth));
++		if (ret) {
++			dev_err(dai->dev, "Failed to write sample_width_tx: %d\n", ret);
++			return ret;
++		}
++
++		/* ACTV_SLOT_EN_TX */
++		ret = regmap_fields_write(aif_intfctl->slot_en_tx_mask, idx,
++					  aif_intf_cfg->slot_en_tx_mask);
++		if (ret) {
++			dev_err(dai->dev, "Failed to write slot_en_tx_mask (0x%08X): %d\n",
++				aif_intf_cfg->slot_en_tx_mask, ret);
++			return ret;
++		}
++
++		/* FRAME_CFG: bits_per_lane */
++		ret = regmap_fields_write(aif_intfctl->bits_per_lane, idx,
++					  (slot_width * aif_intf_cfg->bits_per_lane) - 1);
++		if (ret) {
++			dev_err(dai->dev, "Failed to write bits_per_lane: %d\n", ret);
++			return ret;
++		}
++
++		/* MI2S_CFG: TX mono mode */
++		ret = regmap_fields_write(aif_intfctl->mono_mode_tx, idx,
++					  (channels >= 2) ? QAIF_AUD_INTF_CTL_STEREO
++					  : QAIF_AUD_INTF_CTL_MONO);
++		if (ret) {
++			dev_err(dai->dev, "Failed to write mono_mode_tx: %d\n", ret);
++			return ret;
++		}
++	} else {
++		slot_width = aif_intf_cfg->slot_width_rx;
++		/* BIT_WIDTH_CFG: RX slot width and sample width */
++		ret = regmap_fields_write(aif_intfctl->slot_width_rx, idx,
++					  QAIF_AIF_SLOT_WIDTH(slot_width));
++		if (ret) {
++			dev_err(dai->dev, "Failed to write slot_width_rx: %d\n", ret);
++			return ret;
++		}
++		ret = regmap_fields_write(aif_intfctl->sample_width_rx, idx,
++					  QAIF_AIF_SAMPLE_WIDTH(bitwidth));
++		if (ret) {
++			dev_err(dai->dev, "Failed to write sample_width_rx: %d\n", ret);
++			return ret;
++		}
++
++		/* ACTV_SLOT_EN_RX */
++		ret = regmap_fields_write(aif_intfctl->slot_en_rx_mask, idx,
++					  aif_intf_cfg->slot_en_rx_mask);
++		if (ret) {
++			dev_err(dai->dev, "Failed to write slot_en_rx_mask (0x%08X): %d\n",
++				aif_intf_cfg->slot_en_rx_mask, ret);
++			return ret;
++		}
++
++		/* FRAME_CFG: bits_per_lane */
++		ret = regmap_fields_write(aif_intfctl->bits_per_lane, idx,
++					  (slot_width * aif_intf_cfg->bits_per_lane) - 1);
++		if (ret) {
++			dev_err(dai->dev, "Failed to write bits_per_lane: %d\n", ret);
++			return ret;
++		}
++
++		/* MI2S_CFG: RX mono mode */
++		ret = regmap_fields_write(aif_intfctl->mono_mode_rx, idx,
++					  (channels >= 2) ? QAIF_AUD_INTF_CTL_STEREO
++					  : QAIF_AUD_INTF_CTL_MONO);
++		if (ret) {
++			dev_err(dai->dev, "Failed to write mono_mode_rx: %d\n", ret);
++			return ret;
++		}
++	}
++
++	ret = clk_set_rate(drvdata->mi2s_bit_clk[idx],
++			   rate * slot_width * aif_intf_cfg->bits_per_lane);
++	if (ret) {
++		dev_err(dai->dev, "error setting mi2s bitclk to %u: %d\n",
++			rate * slot_width * aif_intf_cfg->bits_per_lane, ret);
++		return ret;
++	}
++	dev_dbg(dai->dev, "setting IBIT clock to %u\n",
++		rate * slot_width * aif_intf_cfg->bits_per_lane);
++
++	ret = clk_enable(drvdata->mi2s_bit_clk[idx]);
++	if (ret) {
++		dev_err(dai->dev, "error in enabling mi2s bit clk: %d\n", ret);
++		return ret;
++	}
++	snd_soc_dai_set_tdm_slot(codec_dai, 0x0f, 0b11, aif_intf_cfg->bits_per_lane, slot_width);
++	snd_soc_dai_set_sysclk(codec_dai, 0, rate * aif_intf_cfg->bits_per_lane * slot_width, 0);
++
++	return 0;
++}
++
++static int qaif_aif_cpu_daiops_trigger(struct snd_pcm_substream *substream,
++				       int cmd, struct snd_soc_dai *dai)
++{
++	struct qaif_drv_data *drvdata = snd_soc_dai_get_drvdata(dai);
++	const struct qaif_variant *v = drvdata->variant;
++	int idx, ret = -EINVAL;
++	const struct qaif_aif_config *aif_intf_cfg;
++
++	idx = v->get_dma_idx(dai->driver->id);
++	if (idx < 0) {
++		dev_err(dai->dev, "%s: Invalid DMA index: %d\n", __func__, idx);
++		return -EINVAL;
++	}
++
++	aif_intf_cfg = &drvdata->aif_intf_cfg[idx];
++
++	switch (cmd) {
++	case SNDRV_PCM_TRIGGER_START:
++	case SNDRV_PCM_TRIGGER_RESUME:
++	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
++		if (aif_intf_cfg->loopback_en)
++			ret = regmap_fields_write(drvdata->aif_intfctl->enable,
++						  idx, QAIF_AIF_CTL_ENABLE_ON);
++		else if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
++			ret = regmap_fields_write(drvdata->aif_intfctl->enable_tx,
++						  idx, QAIF_AIF_CTL_ENABLE_ON);
++		else
++			ret = regmap_fields_write(drvdata->aif_intfctl->enable_rx,
++						  idx, QAIF_AIF_CTL_ENABLE_ON);
++		if (ret)
++			dev_err(dai->dev, "error writing to AIF CTL reg: %d\n", ret);
++
++		ret = clk_enable(drvdata->mi2s_bit_clk[idx]);
++		if (ret) {
++			dev_err(dai->dev, "error in enabling mi2s bit clk: %d\n", ret);
++			return ret;
++		}
++		break;
++	case SNDRV_PCM_TRIGGER_STOP:
++	case SNDRV_PCM_TRIGGER_SUSPEND:
++	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
++
++		if (aif_intf_cfg->loopback_en)
++			ret = regmap_fields_write(drvdata->aif_intfctl->enable,
++						  idx, QAIF_AIF_CTL_ENABLE_OFF);
++		else if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
++			ret = regmap_fields_write(drvdata->aif_intfctl->enable_tx,
++						  idx, QAIF_AIF_CTL_ENABLE_OFF);
++		else
++			ret = regmap_fields_write(drvdata->aif_intfctl->enable_rx,
++						  idx, QAIF_AIF_CTL_ENABLE_OFF);
++		if (ret)
++			dev_err(dai->dev, "error writing to AIF CTL reg: %d\n", ret);
++
++		clk_disable(drvdata->mi2s_bit_clk[idx]);
++
++		break;
++	}
++
++	return ret;
++}
++
++const struct snd_soc_dai_ops asoc_qcom_qaif_aif_cpu_dai_ops = {
++	.startup	= qaif_aif_cpu_daiops_startup,
++	.shutdown	= qaif_aif_cpu_daiops_shutdown,
++	.hw_free	= qaif_aif_cpu_daiops_hw_free,
++	.hw_params	= qaif_aif_cpu_daiops_hw_params,
++	.trigger	= qaif_aif_cpu_daiops_trigger,
 +};
-+
-+enum qaif_irq_type {
-+	QAIF_AIF_IRQ = 0,
-+	QAIF_CIF_IRQ = 1,
-+	QAIF_AUD_INTF_IRQ = 2,
-+	QAIF_IRQ_MAX = 3
-+};
-+
-+enum qaif_dma_type {
-+	QAIF_AIF_DMA = 0,
-+	QAIF_CIF_DMA = 1,
-+	QAIF_DMA_TYPE_MAX
-+};
-+
-+struct qaif_dmactl {
-+	/* AUDIO_CORE_QAIF_CODEC_xDMAa_CTL */
-+	struct regmap_field *enable;
-+	struct regmap_field *reset;
-+
-+	/* AUDIO_CORE_QAIF_CODEC_xDMAa_CFG */
-+	struct regmap_field *num_ot; /* outstanding transactions */
-+	struct regmap_field *dma_dyncclk;
-+	struct regmap_field *burst16;
-+	struct regmap_field *burst8;
-+	struct regmap_field *burst4;
-+	struct regmap_field *burst2;
-+	struct regmap_field *burst1;
-+	struct regmap_field *shram_wm; /* SHRAM watermark */
-+
-+};
-+
-+struct qaif_cdc_intfctl {
-+	/* AUDIO_CORE_QAIF_CODEC_xDMAa_INTF_CFG */
-+	struct regmap_field *active_ch_en;
-+	struct regmap_field *fs_sel;
-+	struct regmap_field *fs_delay;
-+	struct regmap_field *fs_out_gate;
-+	struct regmap_field *intf_dyncclk;
-+	struct regmap_field *en_16bit_unpack;
-+};
-+
-+struct qaif_aud_intfctl {
-+	/* AUDIO_CORE_QAIF_AUD_INTFa_SYNC_CFG */
-+	struct regmap_field *inv_sync;
-+	struct regmap_field *sync_delay;
-+	struct regmap_field *sync_mode;
-+	struct regmap_field *sync_src;
-+
-+	/* AUDIO_CORE_QAIF_AUD_INTFa_BIT_WIDTH_CFG */
-+	struct regmap_field *slot_width_rx;
-+	struct regmap_field *slot_width_tx;
-+	struct regmap_field *sample_width_rx;
-+	struct regmap_field *sample_width_tx;
-+
-+	/* AUDIO_CORE_QAIF_AUD_INTFa_MI2S_CFG */
-+	struct regmap_field *mono_mode_rx;
-+	struct regmap_field *mono_mode_tx;
-+
-+	/* AUDIO_CORE_QAIF_AUD_INTFa_LANE_CFG */
-+	struct regmap_field *lane_en;           /* Lane enable mask (bits 8-15) */
-+	struct regmap_field *lane_dir;          /* Lane direction mask (bits 0-7, 0=TX, 1=RX) */
-+	struct regmap_field *loopback_en;
-+	struct regmap_field *ctrl_data_oe;
-+
-+	/* AUDIO_CORE_QAIF_AUD_INTFa_ACTV_SLOT_EN_RX */
-+	struct regmap_field *slot_en_rx_mask;
-+
-+	/* AUDIO_CORE_QAIF_AUD_INTFa_ACTV_SLOT_EN_TX */
-+	struct regmap_field *slot_en_tx_mask;
-+
-+	/* AUDIO_CORE_QAIF_AUD_INTFa_CFG */
-+	struct regmap_field *full_cycle_en;
-+	/* AUDIO_CORE_QAIF_AUD_INTFa_FRAME_CFG */
-+	struct regmap_field *bits_per_lane;
-+
-+	/* AUDIO_CORE_QAIF_AUD_INTFa_CTL */
-+	struct regmap_field *enable;
-+	struct regmap_field *enable_tx;
-+	struct regmap_field *enable_rx;
-+	struct regmap_field *reset;
-+	struct regmap_field *reset_tx;
-+	struct regmap_field *reset_rx;
-+};
-+
-+/* Lane configuration structure */
-+struct qaif_lane_config {
-+	u32 enable;     /* 1 = enabled, 0 = disabled */
-+	u32 direction;  /* 0 = TX_SPKR, 1 = RX_MIC */
-+};
-+
-+/*
-+ * AIF interface protocol mode — set by the DT compatible string and
-+ * used to select mode-specific register defaults and property parsing.
-+ */
-+enum qaif_aif_mode {
-+	QAIF_AIF_MODE_PCM,
-+	QAIF_AIF_MODE_TDM,
-+	QAIF_AIF_MODE_MI2S,
-+};
-+
-+/* QAIF Audio Interface Configuration Structure */
-+struct qaif_aif_config {
-+	/* Interface protocol mode derived from DT compatible */
-+	enum qaif_aif_mode mode;
-+	/* Sync configuration */
-+	u32 sync_mode;
-+	u32 sync_src;
-+	u32 invert_sync;
-+	u32 sync_delay;
-+	/* Slot and sample width configuration */
-+	u32 slot_width_rx;
-+	u32 slot_width_tx;
-+	u32 sample_width_rx;
-+	u32 sample_width_tx;
-+	/* Slot enable masks (32-bit masks for 32 slots) */
-+	u32 slot_en_rx_mask;
-+	u32 slot_en_tx_mask;
-+	/* Control configuration */
-+	u32 loopback_en;
-+	u32 ctrl_data_oe;
-+	/* Lane configuration */
-+	u32 num_lanes;          /* Number of lanes configured */
-+	struct qaif_lane_config lane_cfg[QAIF_MAX_LANES];
-+	u32 lane_en_mask;
-+	u32 lane_dir_mask;
-+	/* Frame configuration */
-+	u32 full_cycle_en;
-+	u32 bits_per_lane;
-+};
-+
-+struct qaif_pcm_data {
-+	int stream_dma_idx;
-+};
-+
-+struct qaif_dma_mem_info {
-+	dma_addr_t dma_addr;
-+	size_t alloc_size;
-+	void *vaddr;
-+};
-+
-+struct qaif_dmaidx_dai_map {
-+	unsigned int dai_id;
-+};
-+
-+/* Both the CPU DAI and platform drivers will access this data */
-+struct qaif_drv_data {
-+	/* MI2S bit clock (derived from system clock by a divider) */
-+	struct clk *mi2s_bit_clk[LPASS_MAX_MI2S_PORTS];
-+
-+	/* SOC specific clock list */
-+	struct clk_bulk_data *clks;
-+	int num_clks;
-+
-+	struct clk *aud_dma_clk;
-+	struct clk *aud_dma_mem_clk;
-+
-+	/* Qualcomm audio interface (QAIF) registers */
-+	void __iomem *audio_qaif;
-+
-+	/* regmap backed by the Qualcomm audio interface (QAIF) registers */
-+	struct regmap *audio_qaif_map;
-+
-+	/* interrupts from the Qualcomm audio interface (QAIF) */
-+	int audio_qaif_irq;
-+
-+	/* serializes qaif_init() and ref_cnt across concurrent opens */
-+	struct mutex stream_lock;
-+
-+	/* QAIF init config refcount*/
-+	unsigned int qaif_init_ref_cnt;
-+
-+	/* SOC specific variations in the QAIF IP integration */
-+	const struct qaif_variant *variant;
-+
-+	/* Runtime-allocated regmap field handles (populated at probe) */
-+	struct qaif_dmactl *aif_rd_dmactl;
-+	struct qaif_dmactl *aif_wr_dmactl;
-+	struct qaif_dmactl *cif_rd_dmactl;
-+	struct qaif_dmactl *cif_wr_dmactl;
-+	struct qaif_aud_intfctl *aif_intfctl;
-+	struct qaif_cdc_intfctl *cif_rddma_intfctl;
-+	struct qaif_cdc_intfctl *cif_wrdma_intfctl;
-+	struct qaif_aif_config aif_intf_cfg[QAIF_MAX_AIF_CFG_CNT];
-+
-+	/* bit map to keep track of dma idx allocations */
-+	unsigned long aif_dma_idx_bit_map;
-+	unsigned long cif_dma_idx_bit_map;
-+
-+	/* used it for handling interrupt per dma channel */
-+	struct snd_pcm_substream *aif_substream[LPASS_MAX_AIF_DMA_IDX];
-+	struct snd_pcm_substream *cif_substream[LPASS_MAX_CIF_DMA_IDX];
-+
-+	u32 smmu_csid_bits;
-+
-+	/* DMA info handle per stream/dma idx */
-+	struct qaif_dma_mem_info *aif_dma_heap[LPASS_MAX_AIF_DMA_IDX];
-+	struct qaif_dma_mem_info *cif_dma_heap[LPASS_MAX_CIF_DMA_IDX];
-+
-+};
-+
-+enum qaif_summary_irq_bitmask {
-+	QAIF_SUMMARY_BITMASK_AIF_PERIOD_RDDMA		= BIT(0),
-+	QAIF_SUMMARY_BITMASK_AIF_UNDERFLOW_RDDMA	= BIT(1),
-+	QAIF_SUMMARY_BITMASK_AIF_ERR_RSP_RDDMA		= BIT(2),
-+	QAIF_SUMMARY_BITMASK_AIF_PERIOD_WRDMA		= BIT(3),
-+	QAIF_SUMMARY_BITMASK_AIF_OVERFLOW_WRDMA		= BIT(4),
-+	QAIF_SUMMARY_BITMASK_AIF_ERR_RSP_WRDMA		= BIT(5),
-+
-+	QAIF_SUMMARY_BITMASK_AUD_OVERFLOW			= BIT(6),
-+	QAIF_SUMMARY_BITMASK_AUD_UNDERFLOW			= BIT(7),
-+
-+	QAIF_SUMMARY_BITMASK_RATE_DET				= BIT(8),
-+	QAIF_SUMMARY_BITMASK_VFR					= BIT(9),
-+	QAIF_SUMMARY_BITMASK_GRP					= BIT(10),
-+	QAIF_SUMMARY_BITMASK_RDDMA_OVERLAP			= BIT(11),
-+	QAIF_SUMMARY_BITMASK_WRDMA_OVERLAP			= BIT(12),
-+	QAIF_SUMMARY_BITMASK_INTF_OVERLAP			= BIT(13),
-+	QAIF_SUMMARY_BITMASK_GRP_OVERLAP			= BIT(14),
-+
-+	QAIF_SUMMARY_BITMASK_CIF_OVERLAP_RDDMA		= BIT(15),
-+	QAIF_SUMMARY_BITMASK_EXT_RDDMA_OVERLAP		= BIT(16),
-+	QAIF_SUMMARY_BITMASK_CIF_OVERLAP_WRDMA		= BIT(17),
-+	QAIF_SUMMARY_BITMASK_CIF_PERIOD_RDDMA		= BIT(18),
-+	QAIF_SUMMARY_BITMASK_CIF_UNDERFLOW_RDDMA	= BIT(19),
-+	QAIF_SUMMARY_BITMASK_CIF_ERR_RSP_RDDMA		= BIT(20),
-+	QAIF_SUMMARY_BITMASK_CIF_PERIOD_WRDMA		= BIT(24),
-+	QAIF_SUMMARY_BITMASK_CIF_OVERFLOW_WRDMA		= BIT(25),
-+	QAIF_SUMMARY_BITMASK_CIF_ERR_RSP_WRDMA		= BIT(26)
-+
-+};
-+
-+enum qaif_client_status_register_bitmask_info {
-+	QAIF_BITMASK_GROUP_INF			= 0x400,
-+	QAIF_BITMASK_AIF_RDDMA_WRDMA	= 0x3F,
-+	QAIF_BITMASK_CIF_RDDMA_WRDMA	= 0x71c0000,
-+	QAIF_BITMASK_DP_RDDMA			= 0xe00000,
-+	QAIF_BITMASK_AUD_INF			= 0xC0,
-+};
-+
-+struct qaif_irq_map {
-+	int client_id;
-+	u32 mask;
-+	irqreturn_t (*client_irq_handler)(struct qaif_drv_data *drvdata, u32 irq_status);
-+};
-+
-+enum qaif_dma_dir {
-+	QAIF_DMA_RDDMA,
-+	QAIF_DMA_WRDMA
-+};
-+
-+enum qaif_irq {
-+	QAIF_IRQ_PERIOD,
-+	QAIF_IRQ_OVERFLOW,
-+	QAIF_IRQ_UNDERFLOW,
-+	QAIF_IRQ_ERROR
-+};
-+
-+enum qaif_client_info {
-+	QAIF_CLIENT_ID_GROUP_INF = 0,
-+	QAIF_CLIENT_ID_AIF_DMA	= 1,
-+	QAIF_CLIENT_ID_CIF_DMA	= 2,
-+	QAIF_CLIENT_ID_DP_DMA	 = 3,
-+	QAIF_CLIENT_ID_AUD_INF	= 4,
-+	QAIF_CLIENT_ID_MAX
-+};
-+
-+struct qaif_variant {
-+	u32 ee;
-+	u32 qaif_type;
-+
-+	u32 num_rddma;
-+	u32 num_wrdma;
-+	u32 wrdma_start;
-+
-+	u32 num_codec_rddma;	/* RX */
-+	u32 num_codec_wrdma;	/* TX */
-+	u32 codec_wrdma_start;
-+	u32 num_intf;
-+
-+	u32 rddma_reg_base;
-+	u32 rddma_stride;
-+	u32 codec_rddma_reg_base;
-+	u32 codec_rddma_stride;
-+
-+	u32 wrdma_reg_base;
-+	u32 wrdma_stride;
-+	u32 codec_wrdma_reg_base;
-+	u32 codec_wrdma_stride;
-+
-+	u32 rddma_irq_reg_base;
-+	u32 rddma_irq_stride;
-+	u32 codec_rddma_irq_reg_base;
-+	u32 codec_rddma_irq_stride;
-+
-+	u32 wrdma_irq_reg_base;
-+	u32 wrdma_irq_stride;
-+	u32 codec_wrdma_irq_reg_base;
-+	u32 codec_wrdma_irq_stride;
-+
-+	u32 qxm_type;
-+	u32 rd_len;
-+	u32 rddma_shram_len;
-+	u32 rddma_shram_start_addr[QAIF_DMA_TYPE_MAX];
-+	u32 wr_len;
-+	u32 wrdma_shram_len;
-+	u32 wrdma_shram_start_addr[QAIF_DMA_TYPE_MAX];
-+
-+	/* AIF RDDMA register fields */
-+	const struct reg_field rddma_enable;
-+	const struct reg_field rddma_reset;
-+	const struct reg_field rddma_num_ot;
-+	const struct reg_field rddma_dma_dyncclk;
-+	const struct reg_field rddma_burst16;
-+	const struct reg_field rddma_burst8;
-+	const struct reg_field rddma_burst4;
-+	const struct reg_field rddma_burst2;
-+	const struct reg_field rddma_burst1;
-+	const struct reg_field rddma_shram_wm;
-+
-+	/* AIF WRDMA register fields */
-+	const struct reg_field wrdma_enable;
-+	const struct reg_field wrdma_reset;
-+	const struct reg_field wrdma_num_ot;
-+	const struct reg_field wrdma_dma_dyncclk;
-+	const struct reg_field wrdma_burst16;
-+	const struct reg_field wrdma_burst8;
-+	const struct reg_field wrdma_burst4;
-+	const struct reg_field wrdma_burst2;
-+	const struct reg_field wrdma_burst1;
-+	const struct reg_field wrdma_shram_wm;
-+
-+	/* CODEC RDDMA register fields */
-+	const struct reg_field cif_rddma_enable;
-+	const struct reg_field cif_rddma_reset;
-+	const struct reg_field cif_rddma_num_ot;
-+	const struct reg_field cif_rddma_dma_dyncclk;
-+	const struct reg_field cif_rddma_burst16;
-+	const struct reg_field cif_rddma_burst8;
-+	const struct reg_field cif_rddma_burst4;
-+	const struct reg_field cif_rddma_burst2;
-+	const struct reg_field cif_rddma_burst1;
-+	const struct reg_field cif_rddma_shram_wm;
-+	const struct reg_field cif_rddma_active_ch_en;
-+	const struct reg_field cif_rddma_fs_sel;
-+	const struct reg_field cif_rddma_fs_delay;
-+	const struct reg_field cif_rddma_fs_out_gate;
-+	const struct reg_field cif_rddma_intf_dyncclk;
-+	const struct reg_field cif_rddma_en_16bit_unpack;
-+
-+	/* CODEC WRDMA register fields */
-+	const struct reg_field cif_wrdma_enable;
-+	const struct reg_field cif_wrdma_reset;
-+	const struct reg_field cif_wrdma_num_ot;
-+	const struct reg_field cif_wrdma_dma_dyncclk;
-+	const struct reg_field cif_wrdma_burst16;
-+	const struct reg_field cif_wrdma_burst8;
-+	const struct reg_field cif_wrdma_burst4;
-+	const struct reg_field cif_wrdma_burst2;
-+	const struct reg_field cif_wrdma_burst1;
-+	const struct reg_field cif_wrdma_shram_wm;
-+	const struct reg_field cif_wrdma_active_ch_en;
-+	const struct reg_field cif_wrdma_fs_sel;
-+	const struct reg_field cif_wrdma_fs_delay;
-+	const struct reg_field cif_wrdma_fs_out_gate;
-+	const struct reg_field cif_wrdma_intf_dyncclk;
-+	const struct reg_field cif_wrdma_en_16bit_unpack;
-+
-+	/* Regmap fields of AIF interface registers bitfields */
-+	const struct reg_field aif_inv_sync;
-+	const struct reg_field aif_sync_delay;
-+	const struct reg_field aif_sync_mode;
-+	const struct reg_field aif_sync_src;
-+	const struct reg_field aif_sample_width_rx;
-+	const struct reg_field aif_sample_width_tx;
-+	const struct reg_field aif_slot_width_rx;
-+	const struct reg_field aif_slot_width_tx;
-+	const struct reg_field aif_bits_per_lane;
-+	const struct reg_field aif_slot_en_tx_mask;
-+	const struct reg_field aif_slot_en_rx_mask;
-+	const struct reg_field aif_loopback_en;
-+	const struct reg_field aif_ctrl_data_oe;
-+	const struct reg_field aif_lane_en;
-+	const struct reg_field aif_lane_dir;
-+	const struct reg_field aif_mono_mode_rx;
-+	const struct reg_field aif_mono_mode_tx;
-+	const struct reg_field aif_full_cycle_en;
-+
-+	/* AUDIO_CORE_QAIF_AUD_INTFa_CTL bitfields */
-+	const struct reg_field aif_enable;
-+	const struct reg_field aif_enable_tx;
-+	const struct reg_field aif_enable_rx;
-+	const struct reg_field aif_reset;
-+	const struct reg_field aif_reset_tx;
-+	const struct reg_field aif_reset_rx;
-+
-+	/* Platform-specific data */
-+	const char **clk_name;
-+	int num_clks;
-+	struct snd_soc_dai_driver *dai_driver;
-+	int num_dai;
-+	const char **dai_osr_clk_names;
-+	const char **dai_bit_clk_names;
-+
-+	/* Platform-specific function pointers */
-+	int (*clk_init)(struct platform_device *pdev);
-+	int (*clk_deinit)(struct platform_device *pdev);
-+	int (*alloc_stream_dma_idx)(struct qaif_drv_data *data, int direction, unsigned int dai_id);
-+	int (*free_stream_dma_idx)(struct qaif_drv_data *data, int chan, unsigned int dai_id);
-+	int (*get_dma_idx)(unsigned int dai_id);
-+
-+};
-+
-+/* External DAI ops structures defined in qaif-cpu.c */
-+extern const struct snd_soc_dai_ops asoc_qcom_qaif_cif_dai_ops;
-+extern const struct snd_soc_dai_ops asoc_qcom_qaif_aif_cpu_dai_ops;
-+
-+/* Platform driver functions defined in qaif-cpu.c */
-+int asoc_qcom_qaif_cpu_platform_probe(struct platform_device *pdev);
-+int asoc_qcom_qaif_platform_register(struct platform_device *pdev);
-+void asoc_qcom_qaif_cpu_platform_remove(struct platform_device *pdev);
-+void asoc_qcom_qaif_cpu_platform_shutdown(struct platform_device *pdev);
-+
-+#endif /* __QAIF_H__ */
++EXPORT_SYMBOL_GPL(asoc_qcom_qaif_aif_cpu_dai_ops);
 -- 
 2.34.1
 
