@@ -1,41 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7665C262FD0;
-	Wed,  1 Jul 2026 16:50:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15519389E13;
+	Wed,  1 Jul 2026 18:21:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782924603; cv=none; b=akSprN+G5Jb4DSIuf9zLPX1efhUugELxPYOPQDoKpCR5q2Vsv9MYV0N74TMVxyp4tYdaiOMqMeXdqHa/LK4CJ/X76irQ/brriB+OXDl9l8JgOVlyj79HjE/nWZ26aSsRegzl+yOsViBhn9dkaoFx2rmtfTPiSbJpBNoLGWb/xZM=
+	t=1782930069; cv=none; b=VF9dBFMvgbjwX3LFcw9mrYR5MoDjyLW4c7VZw81vPph5owNJah4RqVpLLtZj7TNiG6SfndWS7YtezknhzQ3F2NSCgU1PdOz7kNtpkghSX456D3cQCT6vG+uwsws5vhflGfDNKbgodLyiDQAdJdJITzIN/rxKakqWBM1NfIUBCxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782924603; c=relaxed/simple;
-	bh=zA7Ymi/b3OiuLUkH8YU6LdnM8Ey0Xw2bQAC8t9F7idA=;
+	s=arc-20240116; t=1782930069; c=relaxed/simple;
+	bh=SPJjNBOdLnus/niDqbSYCMhD49X0R1V2BT2ev1PNCQM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nmH7uncLMhuhGzWuLtENeilSuDNJ4dY5PsgGEiA8+LNuNa/0/tuaYzO1QPkP8eEJcZPx5hjKTxfKtBoz4cnZhYo/6rQIIKOe1t6EvsnXMLFi7IfLUjYEQmuf+s1mheuxXxiQ2El32nefAwSS2o2l774VM5d3twnleuFHP8NcXHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HLOxq5EY; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=qOQSEW3AS0uO4jWMXOBr5qIzR/FwNVHPBbO4SYSbkCUOEcZlH63/Q1RsVMh0EGtcXJW1EZbYZp+3POaKTi3HI/M24Bm+752YkzA5ZA7lIeEFEq3FeY3ExA2ptnUK4VI932j7FAm31iYqx8MdTVbH6LdrZb5wyWStyXHGFF0abdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I2Y6UDHB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HLOxq5EY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F4421F000E9;
-	Wed,  1 Jul 2026 16:50:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I2Y6UDHB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 799901F000E9;
+	Wed,  1 Jul 2026 18:21:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782924602;
-	bh=jLbiszPFpSFYZ6KZ6Fk2pESh9JefSlc9Ztaf/QjWd/g=;
+	s=k20260515; t=1782930068;
+	bh=dWESgHXPzQP1SIE7M5Gl/JtaO4ZOYr1I0S/sGw6JZds=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HLOxq5EYVJOr8HaeRF1w67/0ZKXvk8OyUxB2jeFTl33wp9v92jdZFHB2U6oeIKfWs
-	 u/Bi4ITjOJMIPwTr2d/OerjaV+7zhcan0WxE525XM59QUcgHJniAqbWv1T63iQMJT6
-	 rwkQ4R0281naCy1QqnbFyhb6MI+v6mPe9/24q6PEtRg1/3g9eXE8CfW0fOJj+xjNRR
-	 h5bQG1zCKD4zs3lfUEDe7mAIWhMa1eJFdKm/4vKYDmK301JJ+K339A1hNaYyn6iQ6L
-	 iXpPfNgmYmVRpGZMHkeoBySn01nQo6hI0iVH26aqUYW8RWOn6/voIwUiNXW6tFOF8d
-	 bsJG8GDGd32Yw==
-Date: Wed, 1 Jul 2026 17:49:57 +0100
+	b=I2Y6UDHBBPAWJzdFSiHKVo42ZtGN7Dj6eTqY6yd41MJaorf0eleDYx9qh7wSPN54P
+	 jPUbV6mktiDEoLlUSfP2DjDziBK/30/kJ+mKpLp/rCNB25vm3QwY3uaMNHJjDJvZdM
+	 iglv6F9fs9h4MmTv7/4FdG5+arO/RMRtjQLgMNsVk6hGG2EHYHfPrw76lIp+SBoGb8
+	 yiacv8vr1ENWJguzXcf2rmeJ7UR/vcqkxjEY0IIKsIga0cqcmFOhY+Zrlq5umsSc3a
+	 xjXznETunk8Lo9Eb/AGzhh59uE8CEO4NSu6MWy8nAAs/7RqPYRHH9m2iJQ4yBWarNn
+	 VQEbxfBPlstNw==
+Date: Wed, 1 Jul 2026 19:21:03 +0100
 From: Mark Brown <broonie@kernel.org>
-To: WenTao Liang <vulab@iscas.ac.cn>
-Cc: s.nawrocki@samsung.com, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] fix: sound/soc/samsung: snow_probe: leaked of_node
- references on devm_snd_soc_register_card failure
-Message-ID: <bf95ef0c-d80c-4e56-924f-5b41ef629603@sirena.org.uk>
-References: <20260627035925.60472-1-vulab@iscas.ac.cn>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: tiwai@suse.de, andriy.shevchenko@linux.intel.com, 13916275206@139.com,
+	alsa-devel@alsa-project.org, shenghao-ding@ti.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	k-yi@ti.com, henry.lo@ti.com, robinchen@ti.com, niranjan.hy@ti.com
+Subject: Re: [PATCH v2] ASoC: amd: acp: amd-acp70-acpi-match: Add tas2783
+ support
+Message-ID: <d0f4beec-1092-482f-b214-2749c87d7be4@sirena.org.uk>
+References: <20260630144904.865-1-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,45 +44,44 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+HR+mjIYGdKN8HL5"
+	protocol="application/pgp-signature"; boundary="v74EOz3zzM3IS2EN"
 Content-Disposition: inline
-In-Reply-To: <20260627035925.60472-1-vulab@iscas.ac.cn>
+In-Reply-To: <20260630144904.865-1-baojun.xu@ti.com>
 X-Cookie: Do unto others before they undo you.
 
 
---+HR+mjIYGdKN8HL5
+--v74EOz3zzM3IS2EN
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jun 27, 2026 at 11:59:25AM +0800, WenTao Liang wrote:
-> In snow_probe(), snd_soc_of_get_dai_link_codecs() acquires of_node
-> references for codecs, and of_parse_phandle() acquires a reference for
+On Tue, Jun 30, 2026 at 10:49:04PM +0800, Baojun Xu wrote:
+> Add driver data and ACPI match table entries for the TAS2783 on ACP7.0 and
+> ACP7.1 platforms using SoundWire link 0.
 
-> @@ -203,6 +203,7 @@ static int snow_probe(struct platform_device *pdev)
->  		}
->  	}
-> =20
-> +	of_node_get(link->cpus->of_node);
->  	link->platforms->of_node =3D link->cpus->of_node;
-> =20
->  	/* Update card-name if provided through DT, else use default name */
+> +static const struct snd_soc_acpi_link_adr tas2783_l0[] = {
+> +	{
+> +		.mask = BIT(0),
+> +		.num_adr = ARRAY_SIZE(tas2783_0_adr),
+> +		.adr_d = tas2783_0_adr,
+> +	},
+> +	{}
+> +};
 
-Where does this reference get dropped in non-error paths?
+This doesn't seem to be referenced anywhere?
 
---+HR+mjIYGdKN8HL5
+--v74EOz3zzM3IS2EN
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpFRTUACgkQJNaLcl1U
-h9CSNgf9HIZZcyZn0ldKzQ458OYMcid3zUmMkDYPealpVF7EktlifZgakKg0xYn6
-94z1hDk7jrKs/pv5KTmcZCLKTdSjR9AMifb3H35ct/Ujd+jZ0RKy6tx+iITBgAlV
-NfjJinxq4ypMuIiyUkqCbvXrZj2VLbS8HJMCFbCaRaS36vafwctANbfXp7gKrQDr
-xoGUXzUelrhh79RNPzvILovCjHfuzjlAAdqCi32tgYelEvyTEQdILXkLvPAafR4J
-6M8915V5F8dyMHYVFtwHBLAxaTQlmmdpzK/auGofg5dyXCaBvDuYg9uVlxfmFFSi
-gGfTGJYPoC/QMT41DobgUW9pfNLY5g==
-=aiNz
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpFWo4ACgkQJNaLcl1U
+h9AflQf+L1NQ2Nzaa3JVlIDDZYpbVQfz9ZfIWOfjbJARTKWQJoJYFdWFWDPsk7Qt
+w4x7My0W5aov1hd92ggE/RUbRam1k0qOg5yth8JZxqS8kjObtE99h3EjglWtoqf2
+oPNjmL+sZHbG8VelAjIhGGFTQtQ058rlO9K525XD090xlW01RXIBMne6KnakpbBB
+LemQYNu5xZ95kOuQHesTmPiaGGVIOHGAoVrd4F+17isYJV8/cNCvcztMFOHKFrCy
+YyiTtCoVtIgT8Q5W0OCRKHZtWbGrcjVhn+YafP9BiKBSgdWdyNxKPs/a9T2KK8CY
+rGEgZ8x5UEFR4k5C2ADrwSMDIzVTDQ==
+=cI/m
 -----END PGP SIGNATURE-----
 
---+HR+mjIYGdKN8HL5--
+--v74EOz3zzM3IS2EN--
