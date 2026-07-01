@@ -1,193 +1,203 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazolkn19011013.outbound.protection.outlook.com [52.103.66.13])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22770349B15;
-	Wed,  1 Jul 2026 14:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.66.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0663023E320;
+	Wed,  1 Jul 2026 14:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782917815; cv=fail; b=qUdkZlJtkbTG468sXY78+1pBBRwYZ3+0vPmOq7uTfoyN46CsVmlBSwT7rt+HJ7xqA3ceTAIYvpHQLmJHkRR/e/vq+KE7oP51RoB0Ubioc1SkTL8MJV9dd+7EbuRgmmLbGl6NMAJDREGXdlDHyubGhu68LJKL9XO5IX1RIpfOErw=
+	t=1782918001; cv=fail; b=OdFOfULHIglXxahCYBRG10cxgiziHfT9G6bAUe45+yLZQrpbjgd+IkcRkTfftZM3PeJvvMlBjetD8wQVM1SFmVuUZcVroXwdOpznzuqd0Vv5pdNoj/yNfiGLTWpegJLybdKpsT0awnzQIfsn4I4Q5ZhkGYxX1r1jplrQ3rSyVR0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782917815; c=relaxed/simple;
-	bh=gWy1q2O6d2/95z7dm8WqVdMfh2ya7JBQghHbH2bth7E=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=FhjWXqfXifV0o4vcaibVE6jWovmaCSb1QJsyFMwnRcNFr90UQzWyCbeyZbX9BeFcO2/BeXRzkgZjBNpfRMJ3kArYi7VE7TXmcWDexmuNWRPAjrCy+NlxtN5ifOnmpDpoCspTxWtwo0eP6HGL2ASTmk+nFXL5EiTewYFTWNJk0aA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=FyiFh0Bi; arc=fail smtp.client-ip=52.103.66.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	s=arc-20240116; t=1782918001; c=relaxed/simple;
+	bh=zuC6JeRq5uVoT4+TMzeglW0CwvP8ijQshaRl/kAcSjo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=koHuBYNignYD1iHtyD5ZPt8G8EZlTaccitINixRb21DFyftE0stAgcyOhlhj74WJwWdvTqI2TR6XNV331eUUhSHOYK+r7xTq1zPpzjFFPUo2HojO/n0wtGhs9VAa/W8liJ5tHsj8kcS7unBQtSHD8p8S9Ug8NQ426S9rjwBKUFM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=pW2GO8/b; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=Ccc0j4j8; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="FyiFh0Bi"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="pW2GO8/b";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="Ccc0j4j8"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 661EHI0D2366768;
+	Wed, 1 Jul 2026 09:59:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=3ZyVzkkK4g+YmH/0x3QuNoc24xQXx3PxoYu33g8jtko=; b=
+	pW2GO8/b6puaCifL9dM52+MFRVtcxSsc0fkgD82uzXNG6tcTGAFdIBmRU/+g7FCc
+	J+9Tw6RBdGPv4R5U3NhANSYd9iCcGi2ItQQAckqdwhK+4LVhbHOgSmPagMcEN1Ug
+	kSDZ/7xHWOneHsKjXV4j0NmF2d//GVG+Jg2HlOIQTe6xx7JRXP2UOrQlm3/uh3n9
+	6yZ6SJIszN9r2eTdqo3HRYmLIHT5ZsyL5C49/YXJ1W55SzicrafLRxp0j6IAW01N
+	2ikpxlm1PSpAOcDuCWGJk8Zn1SNQmSmoBFsLXyNRAinf+E193Q0EKdL+HnxoephE
+	Pj/Ql3ngdW0QEE0ezz8EnQ==
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11022095.outbound.protection.outlook.com [40.107.200.95])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4f4e5r232b-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 01 Jul 2026 09:59:23 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JdXKeNnvSVvEDZKd58sLHWA2TckOoBqIrrcI6Y9i87/nG4wZ9lg+/ZCxvE1sKxAvKUY+qm+lLDH1C1MvVvEU+EJtfIED4n673ihgtCBk3bMvbf6xFDI2EXwcgYJS9try+1/0XpYeyBLWhEAtXmjHtgLJveh/zRA7qr2ABxxPDUq7lPO5y5wNanVDMKx97h9PAhE0UOb2sMw7BchcoSYiBxZ+FNGpso1He0MwR+Q48bCZVj+aOW3F36IzOWCqjZROpDeQ3DdX1xWgBP4dLfPEwQwCfIzdueanupeD9mBZO+ah4E+BUgYVrjQFyesfiMc5ZOrKXyuGQgtFw236vBLqNg==
+ b=HBzLP5OycEnh1F32rqnqIN0Tcc7Q02SFURz3zDKdMkKDCilugjGDLRKielDjpkfXkeVNXBy1uZ8/4Pd+OZiKkCpu9tpKBLhnNbPYFf8LTh0AOwsmP8o8pn7TliDcU805ND+a9H+Qrol1AuQL2GD9CoDHgv7PAQvpDqHiEzHed9lW4EXkz74dYzUtzR7UruoRO3hpRePPl7jCjYrKRiy7ocNgxZ7Fgbgsf3DvUxf7VYjES+mKdL8oyz4CGPIN4JQHM8oos34Q5wOWBN4tMR9sy4rDkgOUNsmmohSuKWo0tn+c04GJWR/2dYZbju/USvzyHL3StUI294UBpd91JNTqtg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RJ/+YO5qyKHEUDM1u7Wj1A5En0eB1fcfDGy9AsQVGUY=;
- b=nT+/+81DFNmq4AMaYxdmkdOUU7+ZQDXXNFDztvbGWg+Fl0qMFEvzlGR0036vscrbdic2SJgwDLyBJO7ZjyY5ubUcu2GOf458gX/CIOLH2zbVlk2Aa7j1Ff1Kic+0tvwlVT0IppxCQxhcHXJR9aaEpTx0aTY0UAZYkwjRwbycLy1tSxg0Y/mzVtP9lMDfr5JOKYn5HkefrhE2l2bVvMcReUZJU140sH+53D20JyV91LD6qNk3DPAPIm3G0BGCyqzKnwoE5pjYngt4hCo+9damr71TVnmHdDHpdmjOOdY9kSvmlawSkRfZ7a/gQsiFbsIQ6OqcdB+XTzZJSsT+JHv9gA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
+ bh=3ZyVzkkK4g+YmH/0x3QuNoc24xQXx3PxoYu33g8jtko=;
+ b=Pcht+Yv0MnEZn22eRngyKQNywPlNcVP6reFbV2X/I4/XPE5w7WIkywwCGb15/xrkh3QGoobtdGsyf10rhN+9kAdI+UhpZO4+/Q/GFwCl+FRck/2XnQYWU2WRnFZi1vv7Xuo+pEKucFvSwk5HRP8tfcW/jubkC4QeK567ZBSrYetAlOSdyU1YeOmolbPhIaHrAFh0tCmXrymI5VRzSxz++TAJQ7kYohpdBXUeDJZpqOlp1Uc0McqgocgvHHqu6vKCxJg2AsVKetrcaUJCdZwdAw5mqcRm4CXtg0sbqmhCGFPkerUyauUBgzD2R7v+el/uIdgmf2OgVt88ip8dEfQT5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RJ/+YO5qyKHEUDM1u7Wj1A5En0eB1fcfDGy9AsQVGUY=;
- b=FyiFh0Bitz+uTccBHeSfOjlOGsIOqR0rkJZwM5FnwvghzMGFiVptL+BRUkDwjDzUFGsxov3QpokSo4FEcFX6lffnr0J3JmM3uwToUUWU6fLqYEWFEnB8M1CW6PFPKmzP/2+TrnUSDHQy7e4Aq6dlidUjHugJ9/oKVujK4Lmy8XSGT7fEwBwFSeijdpYNJpXjJdrlw2OZOFjyWlmBXj1hbCZMnzKkwibhImoqWjXl4YP1Bg+Lte/3PPpm0YX0Wry6fMtvWHwMRcubK+trUtb3CcuigBjuSOtShQz33+RJYOg+yBKAkECDjyORB7zPxsu9xIbYP0nAmEPM9ccMFE6NHQ==
-Received: from TYWPR01MB8728.jpnprd01.prod.outlook.com (2603:1096:400:16d::5)
- by OS7PR01MB18069.jpnprd01.prod.outlook.com (2603:1096:604:4c5::5) with
+ bh=3ZyVzkkK4g+YmH/0x3QuNoc24xQXx3PxoYu33g8jtko=;
+ b=Ccc0j4j8QbezgOscYJ1X7seOeeVFIB80ILXtWUus6JBerz256RkTfSG30xwx9+ZYG4o+QchLA97LXi9t2X51FlPCeFMgRmt2IQ4lcKm2Vvdz86JHeyL70NzPLWIMQCyiFVO+M2zVX/7eqAI9Y6u25ptwkfAT+58fF+aOkzrAlOY=
+Received: from SA0PR11CA0045.namprd11.prod.outlook.com (2603:10b6:806:d0::20)
+ by BN0PR19MB5279.namprd19.prod.outlook.com (2603:10b6:408:152::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 1 Jul 2026
- 14:56:51 +0000
-Received: from TYWPR01MB8728.jpnprd01.prod.outlook.com
- ([fe80::8cb1:624f:bd48:e92a]) by TYWPR01MB8728.jpnprd01.prod.outlook.com
- ([fe80::8cb1:624f:bd48:e92a%5]) with mapi id 15.21.0181.008; Wed, 1 Jul 2026
- 14:56:50 +0000
-From: Tianze Shao <shaotianze@outlook.com>
-To: linux-sound@vger.kernel.org
-Cc: Shuming Fan <shumingf@realtek.com>,
-	Tianze Shao <shaotianze@outlook.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: rt712-sdca: reset codec at io_init to fix silent headphone
-Date: Wed,  1 Jul 2026 16:56:06 +0200
-Message-ID:
- <TYCPR01MB872223CB999D2099A5E0F58DC4F62@TYCPR01MB8722.jpnprd01.prod.outlook.com>
-X-Mailer: git-send-email 2.53.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CWXP123CA0019.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:401:73::31) To TYCPR01MB8722.jpnprd01.prod.outlook.com
- (2603:1096:400:18e::7)
-X-Microsoft-Original-Message-ID:
- <20260701145606.49647-1-shaotianze@outlook.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Wed, 1 Jul
+ 2026 14:59:20 +0000
+Received: from SN1PEPF0002BA4E.namprd03.prod.outlook.com
+ (2603:10b6:806:d0:cafe::69) by SA0PR11CA0045.outlook.office365.com
+ (2603:10b6:806:d0::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.9 via Frontend Transport; Wed, 1
+ Jul 2026 14:59:20 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SN1PEPF0002BA4E.mail.protection.outlook.com (10.167.242.71) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.6
+ via Frontend Transport; Wed, 1 Jul 2026 14:59:19 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 0D333406541;
+	Wed,  1 Jul 2026 14:59:18 +0000 (UTC)
+Received: from [198.90.208.11] (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 00B5D82025A;
+	Wed,  1 Jul 2026 14:59:18 +0000 (UTC)
+Message-ID: <da17c492-2767-443d-b186-70e004b4ecd7@opensource.cirrus.com>
+Date: Wed, 1 Jul 2026 15:59:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] soundwire: Intel: stop sdw clock in system suspend
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        "Liao, Bard" <bard.liao@intel.com>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+        "vkoul@kernel.org" <vkoul@kernel.org>
+Cc: "vinod.koul@linaro.org" <vinod.koul@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
+        Richard Fitzgerald <Richard.Fitzgerald@cirrus.com>
+References: <20260629144450.2096823-1-yung-chuan.liao@linux.intel.com>
+ <20260629144450.2096823-3-yung-chuan.liao@linux.intel.com>
+ <11f8d158-9ddc-46fc-9cd5-11a696d3413f@linux.dev>
+ <SJ2PR11MB842410EE22537B0673173EECFFF72@SJ2PR11MB8424.namprd11.prod.outlook.com>
+ <520f67ca-941b-4e08-8985-03f0e09b0313@opensource.cirrus.com>
+ <46af3cdf-d704-4cd2-bb24-cbe9fb1303db@linux.dev>
+ <e326c51a-4690-44c4-bf3d-0870591b1eed@opensource.cirrus.com>
+ <74bb6575-7d92-43af-98fd-dd46a83b2fac@linux.dev>
+ <f895956a-a5fb-4b52-813c-110dfce8549d@opensource.cirrus.com>
+ <ddc5fd9b-84ae-4180-a470-679d5cc3d629@linux.dev>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <ddc5fd9b-84ae-4180-a470-679d5cc3d629@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYWPR01MB8728:EE_|OS7PR01MB18069:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5e7a079-10b9-4900-1328-08ded780f9dc
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA4E:EE_|BN0PR19MB5279:EE_
+X-MS-Office365-Filtering-Correlation-Id: bac7183b-ae62-430a-12a8-08ded7815415
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|19110799012|8060799015|21061999006|22141099003|4140399003|25010399006|39105399006|5072599009|5062599005|15080799012|23021999003|24021099003|25031999004|440099028|3412199025|40105399003|1710799026;
+	BCL:0;ARA:13230040|61400799027|23010399003|82310400026|376014|36860700016|16102099003|22082099003|11063799006|18002099003|4143699003|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?MOMJ5UMJCTwVyppJtSHgx+HHngvdDx5xijJIekQk58aWSGDDtluEG9mJI8oh?=
- =?us-ascii?Q?Xe3xVHOz3lDDarL6mUn1aIp8GA+a0RyG5mYkqglH2xBjln62fiStN2/8cWOE?=
- =?us-ascii?Q?qbEjxTd3pWRRFYUxkUzh29HjviBOCwtbs/p6kylfQhb7qVMnMggjIOT0x9Hv?=
- =?us-ascii?Q?jCGNMtElPXmkdTp8psDWqG4hxqbrCjC9/lgFktTWUBJIgOZumMXOi3FjN+cb?=
- =?us-ascii?Q?yPl1U6K5ItgjBvFLY242EF2VicLteI+ah1jKUo7jMYoXBT0cIvZlKMET6Ept?=
- =?us-ascii?Q?hhLc6BIleYWN5V9HghRlHRs4OFtk++SWlttXCqLQQUwrSQkHLYkBGxsmVthv?=
- =?us-ascii?Q?iuUUfjXwo/3XSMyuOOveflgy8aQaKzyXjAMFHEqvDCWKRRgcljEQ18X1YRBI?=
- =?us-ascii?Q?j+MN+o2fNDXVjeqqumgf7BQ1v19nGdPWtGBxvdwraIB4J6KpRCPb9GHkJJ1z?=
- =?us-ascii?Q?cclGeYZk4INZZWhqwnJ+FFkyiSnEgAfhPw029V7LNTcfoj7wgx+vaNPsSGUM?=
- =?us-ascii?Q?oHI40UbINW8unyyZjs/hN2G/sWmc3nHBVAF5ehxbZK0sz/Ejhvo/Tf6BHN1o?=
- =?us-ascii?Q?PzLyfb/56PcPa4jcXb80H1guW98AqxfQSa1ujdCnnBMhtTLr9VrTAQSy3ajX?=
- =?us-ascii?Q?IA5PumBjd5bOI/q+P84iqJTTOSpLJl9SAy7aIQundgdwcvE8KJR5UZnizhmo?=
- =?us-ascii?Q?+kRETBrznFeVxm3QKRFBl+ixizuAy2bpewPzLUrmnHPq5pg9368Gx/sH+Tsf?=
- =?us-ascii?Q?3y3CwHelzNVN8sLuZ4wkhPz0OoliboPHBBjRc5/QHR+mo3d8T2naHRqz0OuC?=
- =?us-ascii?Q?03txS9XRlep++1KpDqj3v1dFyr5eUAaA03QgU/XrDuURi/OXsMfu6DfA6yyS?=
- =?us-ascii?Q?lnN8K9f3ab2ArDfJ/PPCLcsZB5wqwBsrmdd9Q5gjm6JY5m+oxR9RRDf/Nux/?=
- =?us-ascii?Q?9BU1Nk5i45/Mw5G1/b2NyvnEAaZCtDx32WOPYsrUeYtxVC2jlOe8ERn/xmVQ?=
- =?us-ascii?Q?hHd0LSw3NXgaF7VomRV+eiwKKRripRlBNW9lVscvM4qVpw61YxHN7sXkRO1S?=
- =?us-ascii?Q?XeUx4lNWVpLkaTDYIZl+H4kexXZ69g=3D=3D?=
+	MaEwBLktgGRUINc/Yazw3lkU4pOQTN6ZCtjH5vTku+eGEE2yNUyCet66Npzm7ReDM+PPoyhP/GCwboYv164PbXeh/UsVAkCqKNtvq4PwDGt3rpaEaa/94ZoZxkSSMv6BJuG/FHVFZ6gVXbPvsz2h4R4oDM9EBG4gHksW+FS2D5OSfPmR32UE1kPD3NHcFPUCpI9Jl/6KsZe2yVmPQM3HPKcsI05Apepo4QAXX5QIQ/bsyqFKyWHHDyHg76IZZzi58zbMsMJ2We/Q7RmKAdDiKej3pQvlkU/kCp8QURYA9qp61L9gpylN0vBQQSEqOQtH98aL8LhXW8BPqXXgGWEGUv5pBzE/TJejjqgMiujQC3Pj2NeLG8LL1VWZrS/OyDAe1LgKzvFVPrwXBUDdCgUzxx3BUrsaUbGuDMhqIcbC5visXsnemZJDW6mm3mA9mEwNX0pPzbxU8s5ozSEnFq12/SQf6EQf2AseZ2xefDh4VsX787ae3xNT+pGLM6eCfylhw524WD60nBpUgiDgIEVdQ/uvfrO3qcyUuccgoecXJ7QEkC+ykOUomF9lHuw7gVuFKBs3ZB1gWlNm2nzQUTo0SzTKGTRhuKEkPHYmU9/Lr0sh4aYN1qe0w/+ROpkfRKUSohvzswuUndZCxtuthm1RX59/qZakgA0nITFxEqZEGW2aoAJuZku/radX7WifvsB3ODZa47GBYhaRN/m7Mbh6jQ==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(23010399003)(82310400026)(376014)(36860700016)(16102099003)(22082099003)(11063799006)(18002099003)(4143699003)(56012099006);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?NPAh/Bd+ww1NcCB3BmV+RpkB0jyGjYm6SHTPYc6UxbcgPzHqenmcRulQia+c?=
- =?us-ascii?Q?kmCqvXfJG6bUb/5KTTgo+d1ljMC4AbnIe1+hMK92fXJGDvxYPBeKWSB7BQEC?=
- =?us-ascii?Q?h5evEygAp6snpuXFdP4rlmvs5IjfhgB61QT2JJg6dGjtHYNFenN81ZsHCQxj?=
- =?us-ascii?Q?W5KPcI66072/ltS49YPvSTmI1EF/YOYWLq5cQvg3ZWTM+c5GhqXt0KaTdZyQ?=
- =?us-ascii?Q?c4O2PIHelIMQ0C27jew8GUlgtym9xy9b7PJDPNr1duEs9BsUc5Ljry/+9pOa?=
- =?us-ascii?Q?+sRdDg2CGkLYVO7CHeC9j5jHcLe+uVkV/dRXu/DoylV3kmpFkIjmq2+I1Nlw?=
- =?us-ascii?Q?o0IF1wst+VtUKusmYKdx7csetL5hUDDcMy7R7xIZZ7WEA+5EqGjPmVTN9LrJ?=
- =?us-ascii?Q?Cqk3H9j2v/+9/3VCerLssWq5p6rhl4xzQOA1QzQzribkKK+XcVd3ALy2dy/g?=
- =?us-ascii?Q?TZXLQWvr+wyMOo9zfn4ycc+4/7geIym1O6LTYRKP8+nwTjn/EwE1bJ8esx4S?=
- =?us-ascii?Q?iFSl3kfEz2Pp7afKtOQltpBQVTueZ04dXp0WGajtpnnhTK/s6Qaw2z7FQjl9?=
- =?us-ascii?Q?1ExNUCH72HmksJSAKxsuHm+1Mf9S92m3H15TulNYLbP0xdL1ozxvTmopnKl0?=
- =?us-ascii?Q?uVtZHZR16NCRwPh0EHMzAFZ8J0MOQ6xeMC8eQt/b7j7oVmjQ6/1VaV77j2Ga?=
- =?us-ascii?Q?O6bkMR5mEViVp0OjeIqU8fzFndf059eRSIpw7w/XhKgbhUXO01NMK0NmXQ9f?=
- =?us-ascii?Q?lHDp15KC62UNLtIKHwS2OnxuLbdrIYMeiUXqCkwYfnHow7wk576MSZ3gzzIp?=
- =?us-ascii?Q?kHZM/4xN5Fr3BvPE3I8SO6IcxNveG4UIWWlepZjpXgobWiGQSHHsPv3bB0eM?=
- =?us-ascii?Q?swVX0hCO/7CODZTkGkL5ZVC5DDwBVA83vC9Cvsc/l+KUX4vg10oUX/CIhgqX?=
- =?us-ascii?Q?XduV/oqQ9TzzCYHWIyCo3neNJsIuJSY4r/HQ45fFVF3IakNhw5HPNSFpRtBL?=
- =?us-ascii?Q?eawBOh0TeH/rp1ZagMGgLZmhSnt3Le7XonU1sI9cjIJz6vlEFx4e1Fz/2r4f?=
- =?us-ascii?Q?vzBl5jhblN7kGW14huWSo/kjPPksWBTXFhObLDrmz+ByCf/82g3Bi1wuEoCl?=
- =?us-ascii?Q?EchCkjoz2/9HgP7lIvKLu3noSZXzSHKxwMfQY6O5aQwKLEXzMddXcUHRoHtm?=
- =?us-ascii?Q?DAqygYylDzzCR9HmxxVWTgbmPy/5YylrPVYgFOi55yGN29A2T7YvDWNGbuOE?=
- =?us-ascii?Q?wXdIkvkCSi4WY9+iW/xwE9TkZu/+WpR0XL8cHYWlQGVA3r/lgmZ9YwCUyb62?=
- =?us-ascii?Q?sudYVzr/sbgRSL7QvCy9YU87UeaHeFa+i8GvYmTG0feiy2FSkAgezT7YAgiF?=
- =?us-ascii?Q?gSHNXiBt+C4vZFJwAgRVj0DQv62BS5xdvBm6Vbc3ZXSE8CQRT3I30IJzLJUC?=
- =?us-ascii?Q?EZnx5HZB/KGnWzpX4y4HFv/Dmqz3LwOa?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5e7a079-10b9-4900-1328-08ded780f9dc
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB8722.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 14:56:50.9035
+	3s/7WapOSJIGqlVbD7Y1JKXc5qFcKruv5wwPR8o3ntM+ckmTVkO13oel3nDj6bBPHMPjw850HqSjNW8W4e/BRYZ3l30G0gbLFqncjCxr+agQFUt6dK0FwcqlWSkIn1IOQgsXAKBf25Y3+muciyz8t7yaOi3mHSh4z+UceBEjkcOkBdln8Pc2fqzctUmJaXGZlkG0h6245mYsJtWz3ULAUaFB01dCUBJMbf3PcSmb3ViO8reFiapCgDHHJ+tdSYiR9yRvUba9PfempCd2kxxKEMNn6T6E/fOFu9x3h5FtT9QPzk7n0iswkRsCmQnasotm1TMDdRL6BB59pEnuTC+cWTteyqSGdupM+qPZFFIiQPmHM7WFWUBPZRlGIg5VgXlyCWv2c/4r04EcKWLeDzoNnjITdpAF31af1U/sykKla4H9LcgvJMKhBTkMLPhoE1aS
+X-Exchange-RoutingPolicyChecked:
+	ZUv0qmfO5aVucuLZtBJMZCA9UWylL7sMkUC7IyAiOwdCrSKggWPlUH7Auty31IF9Ecf4JoIwg5xPSL1xFt+0axjM7ZsQ4UL9+C2y5R04kKeaypS3vNg6Tvb+9JHoSsCnu9t1TowNvOKt9F3MVg8waJSxQT4JUqUX5wvfmfNAAxRXU4fzghPNMcY7N1J5+XWbT+o+BZwEv5lIYAFQ31f2E9bGmudNmWOlnbM9qba2JaJIEqfRsKvEKa9WCDxv7E71etL5SZlIAWBH/DCUJ/LytuEWpwpvYb40nqkz4QQYRYBfcZ5EEqUAX3JPF82nyEOOo8eIIrYpahST/IS6k4M8kw==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 14:59:19.1797
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB18069
+X-MS-Exchange-CrossTenant-Network-Message-Id: bac7183b-ae62-430a-12a8-08ded7815415
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SN1PEPF0002BA4E.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR19MB5279
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDE1OCBTYWx0ZWRfX10gkrTrhfD3p
+ czvuNaTdRFwW6xdhihXEnHbvLI6YEmYr/d91dnWFLhHBFL45DRRGjFQWJjdpt5lhjeWqEcu92YQ
+ VFHKf5/v6dtXW9muFuVvSdoWuezAqJY=
+X-Proofpoint-ORIG-GUID: EoYo-CAKudHkJEQjv5iMoRCabICnRhbT
+X-Proofpoint-GUID: EoYo-CAKudHkJEQjv5iMoRCabICnRhbT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDE1OCBTYWx0ZWRfXy0sb9c+8D0MQ
+ ksx5kjyWWkvs2xWoMvViQdFW7bM3Clt2LimGlnczlRmVDHl7EKWt/DDRcR0UQSk3LIni/nRWd73
+ Woqz2VWj1lwl8Yq4ZSWx2kGQbuW5ttEFnhw1BnQWTeGkZyTYivjZ/avWPDL5PDjTuQOLSH8cupr
+ 57Fs9eAM31qMiSlufZ7Bk9yC9mbpNrw02nfa2ONB/piz8bWwwCCoX9u6y47N2kCNDjRz2nJ4M8U
+ B7T9lRYqpgKRmVdG+j8newr5PwfTnkWPwxU5LR86HMdxX+hfDldIjDAqbcidTVO2VAHg9Jeed7i
+ imhpBu6ntXOwKJB8zU2ovui5v8wMU9gt+OiuEk15KFhI+wwqZlZgohLbpBMQnPBA/gdlXLZkyCN
+ tDIm42SXBeqrnxcLxu0x8+TN0Z7tz971kymeJqIjDvhSaN/SGfGrhLXYdL+YVkhP5TCEod7WjsO
+ RgE+Dkl59OrN85PMAMw==
+X-Authority-Analysis: v=2.4 cv=eLojSnp1 c=1 sm=1 tr=0 ts=6a452b4b cx=c_pps
+ a=jEVDRQfOmVlFoCNyrWPCQg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=vnjw43IDo-HT5bwvykUA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Reason: safe
 
-On ThinkPad X1 Carbon Gen 13 (Lunar Lake, RT712-SDCA version VA) the
-3.5mm headphone jack is silent after rebooting from Windows.
-rt712_sdca_va_io_init() gates rt712_sdca_calibration() on the persisted
-vendor SW_CONFIG1 flag, and io_init writes SW_CONFIG1=1 at the end
-regardless of whether the calibration succeeded. Across a warm reboot
-the codec keeps power, so SW_CONFIG1 stays unchanged, the calibration
-may be skipped, and the retained state can be invalid, leaving the
-headphone amp disabled.
+On 01/07/2026 3:09 pm, Pierre-Louis Bossart wrote:
+> On 7/1/26 14:15, Richard Fitzgerald wrote:
+>> On 01/07/2026 12:55 pm, Pierre-Louis Bossart wrote:
+>>>
+>>>> If the Manager doesn't send a clock-stop, the peripherals don't get a
+>>>> notification that they can enter a lower-power mode. The clock suddenly
+>>>> disappears without warning and without the peripherals being notified
+>>>> why, so they don't have any information to know what is happening.
+>>>
+>>> that's not quite right, see below.
+>>>
+>>>> The Manager should send a clock-stop notification before stopping the
+>>>> clock.
+>>>
+>>> That's exactly the existing logic in drivers/soundwire/bus.c, the core does notify all peripheral drivers of a clock stop transition.
+>>>
+>>
+>> It's been observed with logic analyzer captures on real hardware
+>> that the clock stop is only being sent in runtime suspends, not
+>> system suspends.
+> 
+> That's the expected behavior.
+> 
+>> Because of this, if the bus was in a runtime-resumed state when
+>> system suspend started the clock would stop without warning.
+>>
+>> Bard - that's the observed behavior this patch is fixing, right?
+> 
+> I think you are confusing 'clock stop' and 'clock pause', this is a well-known confusion in SoundWire. See Section 8.1.2.2 Clock Pause in the 1.2.1 spec.
+> 
+> The clock stop mechanism refers to the ability to remove all transitions on the clock line, but restart the transitions when the data line is driven high for some time.
+> In other words, the "clock stop" used in pm_runtime suspend will also arm a detector on the data line. That's the problematic part on the host, this detector cannot be kept alive in system suspend since it has standby power implications.
+> 
+> In addition, on Intel platforms, there's a well-known issue where you cannot remove power to the SoundWire IP while this wake detector is active. That's the reason why we introduced a pm_runtime resume before the system suspend, the transition from pm_runtime suspended to system suspended is not supported. see intel_pm_prepare().
+> 
+> the 'clock pause' is what you see with a logic analyzer, it's not the same as the full blown 'clock stop' mechanism because there is no handshake to prepare the wake, and no support for the detector. There is indeed no signaling or known timing on when this pause occurs in the system suspend phase.
+> 
+> But again such signaling is not required: if you want to enter a lower power mode prior to system suspend, you can do so in your peripheral driver. You do not need to know if/when the clock will be paused. Just add the relevant programming sequence before the device transitions to system suspend.
+> 
 
-This patch mimics the reset sequence in rt711-sdca.c, it adds an
-rt712_sdca_reset() helper, and calls it from io_init so the codec is
-reset before initialization. RT712_PARA_VERB_CTL,
-RT712_HIDDEN_REG_SW_RESET and RT712_HDA_LEGACY_RESET_CTL are already
-defined but were unused. The reset clears SW_CONFIG1 and the analog
-state so rt712_sdca_calibration() runs from a clean state and
-completes.
-
-Problem reproducible: boot Windows (headphone is good) -> reboot
-to Linux (silent).
-The reproducibility may depend on Windows' behaviour.
-
-Signed-off-by: Tianze Shao <shaotianze@outlook.com>
----
- sound/soc/codecs/rt712-sdca.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/sound/soc/codecs/rt712-sdca.c b/sound/soc/codecs/rt712-sdca.c
-index 4796fce084ff..d6353af07380 100644
---- a/sound/soc/codecs/rt712-sdca.c
-+++ b/sound/soc/codecs/rt712-sdca.c
-@@ -1843,6 +1843,15 @@ static void rt712_sdca_vb_io_init(struct rt712_sdca_priv *rt712)
- 	}
- }
- 
-+static void rt712_sdca_reset(struct rt712_sdca_priv *rt712)
-+{
-+	rt712_sdca_index_update_bits(rt712, RT712_VENDOR_REG,
-+		RT712_PARA_VERB_CTL, RT712_HIDDEN_REG_SW_RESET,
-+		RT712_HIDDEN_REG_SW_RESET);
-+	rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
-+		RT712_HDA_LEGACY_RESET_CTL, 0x1, 0x1);
-+}
-+
- int rt712_sdca_io_init(struct device *dev, struct sdw_slave *slave)
- {
- 	struct rt712_sdca_priv *rt712 = dev_get_drvdata(dev);
-@@ -1870,6 +1879,8 @@ int rt712_sdca_io_init(struct device *dev, struct sdw_slave *slave)
- 
- 	pm_runtime_get_noresume(&slave->dev);
- 
-+	rt712_sdca_reset(rt712);
-+
- 	rt712_sdca_index_read(rt712, RT712_VENDOR_REG, RT712_JD_PRODUCT_NUM, &val);
- 	rt712->hw_id = (val & 0xf000) >> 12;
- 	rt712->version_id = (val & 0x0f00) >> 8;
-
-base-commit: 665159e246749578d4e4bfe106ee3b74edcdab18
--- 
-2.53.0
+So you're saying that if we're running on an Intel platform the codec
+driver will have to write the clock-stop-1 notification to the device?
 
