@@ -1,45 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166D63CF1FE
-	for <linux-sound@vger.kernel.org>; Fri,  3 Jul 2026 11:57:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1FFD3CF21A;
+	Fri,  3 Jul 2026 11:57:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783079836; cv=none; b=MEZyAOj1cOAL5BmWo1+j5QeGk6GwbWMh+Zy94ti8uDpnwzZOo8TM3FR7uxmfdlPAbDN7/9CDchyuXLIb+jsi+nxFQ1tiF2/E0FvtAu/IcCBbia7BMOnffb7UeDTCFSmqOaLrS3/ZnOn0m6CghKY//AOcANavSat2UkQsmzuSdDE=
+	t=1783079847; cv=none; b=TV+MlfISics5TCLcc3XpZ27NnS+RSRPQ2w9TQTdApUnmMi9hpAjXt3KMZoOt4zvs1CnqtiNUjvU0U+qEExbrxu443T57Jhc7wMwyg5tDfVbhThuTz3ZgyxRg/Zz1+5JUcOIzzSrGuMBtSSt0tLFk0GGIfs2ve+B02mvltPWJmtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783079836; c=relaxed/simple;
-	bh=l6RzNGIAWMOhY+SR52423w3htRgrV/DeBSB6BlO635Q=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=B6Ud2rjoe5rPfl7ikkpJLb0KDemUi2DhSIZgrnFCFAqLToOsSf564FjPKUzEXQXqzfnuAxsoWrX+xrlxI8J49ZRHSa/XWwrmR4nVTHijLRzX299cwVsodHG0e30eNYinL0F7isZduiKa4tjjC53pE2Mf57AEuwtyvtd+QEoL+lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RFYtNfLc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783079847; c=relaxed/simple;
+	bh=mjhiZ9vBbTTiylqj5boTzLy0FJak0YGzhXp4JcMwe0I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gfmgyJWH6k0PD61pZwlPmrQsVG2uJCB6gqC9xx+berCjQHwfgaFYlWW+m6aA/7HTXMe6kzjbx0+iStPO9JcZxkspLPqgwVO5gdqk+8cIQEGDPDoXhqtcJ7JZit8w6pm0gjUd+AD+9X5VYVffJhin52HR0duyDu2zuElQKnJG4PQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TrN7YCcS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RFYtNfLc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C42611F000E9;
-	Fri,  3 Jul 2026 11:57:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TrN7YCcS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F295D1F00A3A;
+	Fri,  3 Jul 2026 11:57:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783079834;
-	bh=onM1lYcvNdxWMDWkfsGxKVtxcvPDpKihbDwcv56pl/4=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=RFYtNfLcFHUUZpTcKK2Rh3432FtD3HXxlFXMVMVp/u9W1+l3lbXNv/Nj/b+bhCKOv
-	 eKymIC9hmbAu7gxsFqJjWAuNWyisA72Zmxm3H6pd5A/VrZ7L5LXLzOrnhkVWxDs3/5
-	 f27iTdUFogZlXE/ktWIAgfcM7ne/QCv8uDZ2Nxv5kgfIsPQZKiz4FfeoBO5H9zJmm5
-	 ZLA/E98VZJdwCl3XFNTdV90eYY8AUEcSHtXmHw3fIcMpWgniHdIkq+A5/OSvGs8sd1
-	 YyloirXDWhcQsNGFDG5evILzUXKEacwznMbU0+WIAMeza+6FzmGcmjdATjty+J4Ojz
-	 tpE7v5Uia9XMQ==
+	s=k20260515; t=1783079846;
+	bh=VUzWpEIvVN3vzln3ZJKFLP88HgPmFtAHMwv8Tpk38G8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=TrN7YCcSB42TXNtZ6N5NRiGL548hrVac3XDJX7kjz3jT9sxudKRzYcyxJ73CRPoXC
+	 V/vnbWiuYEF5wgcJINzgeIxRiB8vpateLErBJ9OHsFLJFshA6q64JGAwtWbx5TSoZU
+	 LJD5Krx5w3h9BCIbNRmKmMzHPrmrbllHRv0RkbyWYUEok9Wz2QCgCHsbCxEF1eIO26
+	 Uqhr2JgZTJTn4QvR5DZYaMJziO7ftTzip3bfw+GwHae+vumt1/Zg6s0FstA5q2MrQh
+	 11/S+M/AUAHKPW+Qf0ju+Thiju6faFVCf519EmO4f2Sm2b9eUJy+j78EqaBPhcSk2f
+	 vDzXk68yPO0KQ==
 From: Mark Brown <broonie@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, Jaroslav Kysela <perex@perex.cz>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87h5mpet2c.wl-kuninori.morimoto.gx@renesas.com>
-References: <87h5mpet2c.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: sof: topology: use for_each_card_rtds()
-Message-Id: <178291874661.38925.486774098429195879.b4-ty@b4>
-Date: Wed, 01 Jul 2026 16:12:26 +0100
+To: s.nawrocki@samsung.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, WenTao Liang <vulab@iscas.ac.cn>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+In-Reply-To: <20260627035251.60172-1-vulab@iscas.ac.cn>
+References: <20260627035251.60172-1-vulab@iscas.ac.cn>
+Subject: Re: [PATCH] fix: sound/soc/samsung: aries_audio_probe: double
+ of_node_put due to direct assignment without of_node_get
+Message-Id: <178292410864.38925.7549836942770345369.b4-ty@b4>
+Date: Wed, 01 Jul 2026 17:41:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,20 +46,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1113; i=broonie@kernel.org;
- h=from:subject:message-id; bh=l6RzNGIAWMOhY+SR52423w3htRgrV/DeBSB6BlO635Q=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqR6OXIFGwovA9/sGkEf++YTMiDsgVKvEoe9v+c
- yZL4k5Dc72JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakejlwAKCRAk1otyXVSH
- 0DVeB/9qKEUwscaM/zAHrWPPoOV53E6IKTGEsyH3qMtQlDGpsdFizWzelpq7kI+OWLpMD2C/WS3
- 6Y/x06sGxsqZ3pc6SdZ4I6GndGu35SK2vYX0XStDVtVD9PWC+mvgTX7MY/jYhohyhkVPk8It4q/
- XHGp/YFDw3Yr2PSSeZxa3KRBVuHQbnEYN3UuyTIWwprEDXTWfdPuk4kdjjf2I9nGseq6R13HOOw
- FvmWPEk0qnY+sqlni+YV/nSi6X2wdtcTYFiyQEtZ6anT6W28K27jF11n+yLPWBWoIIstQw6Eneb
- hHhfr41Y9pa76NkoIfOSZXJG4Gsvb/HqpQwVHNVNtRvyU4vy
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1230; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=mjhiZ9vBbTTiylqj5boTzLy0FJak0YGzhXp4JcMwe0I=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqR6Ojd4JVrzFrQUxKOQhFE/u8/H0FJK/XuUrjs
+ pTRvL0VHOmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakejowAKCRAk1otyXVSH
+ 0EM4B/9y1THQslVzPossxAkEEXRlaFTGlFoRSn1pMYZmBkiBn6FnnK9kUEAMwCzOv4GNUV/j8U8
+ dUt0o925XjpbqUU7AgMmx8/rKMV69sR0jo2zCtd+STtFv1wfyjSL+nOCRxSuzZJ7FpAkoU2o/Of
+ XRXMB6soOWn3qtJQEvKSHUvhWEcOKL+1vHuQ9NxcBg7eHGPWBFm9PkYXYrO3woGnVNucNqHgh8T
+ MtRcYVGkMvLiHFoRjC++48AkBPzGVzex3igAxjr0rd/Xi/fp6OYPSwoxMrrKuVouKlHtP78dAu9
+ vqZOl3t3hVenRA2rMl/gdIP46RKX8kMgOYf7zcdunKE9zKbp
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 26 Jun 2026 06:04:20 +0000, Kuninori Morimoto wrote:
-> ASoC: sof: topology: use for_each_card_rtds()
+On Sat, 27 Jun 2026 11:52:51 +0800, WenTao Liang wrote:
+> fix: sound/soc/samsung: aries_audio_probe: double of_node_put due to direct assignment without of_node_get
 
 Applied to
 
@@ -70,8 +67,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: sof: topology: use for_each_card_rtds()
-      https://git.kernel.org/broonie/sound/c/e3653722b94d
+[1/1] fix: sound/soc/samsung: aries_audio_probe: double of_node_put due to direct assignment without of_node_get
+      https://git.kernel.org/broonie/sound/c/fb5d1b1c5f8a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
