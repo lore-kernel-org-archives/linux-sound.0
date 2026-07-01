@@ -1,39 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BF13CB8F0
-	for <linux-sound@vger.kernel.org>; Fri,  3 Jul 2026 11:57:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166D63CF1FE
+	for <linux-sound@vger.kernel.org>; Fri,  3 Jul 2026 11:57:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783079827; cv=none; b=N08IPt4MPRJbSFjjsP7bkRlIPelbkuybVYaILWkislZMJwVwNaLS+90zC9Q0e5eVbo4voqlwTCLPrymPseA1tbR7OxwK67Ugjr7TyZTnhEqKE14c66uJfmyEuDGRdjP8ld5e3dJFiKC5A1H0Uu+5MzBVD9dSfdIRMILTYnbYaF8=
+	t=1783079836; cv=none; b=MEZyAOj1cOAL5BmWo1+j5QeGk6GwbWMh+Zy94ti8uDpnwzZOo8TM3FR7uxmfdlPAbDN7/9CDchyuXLIb+jsi+nxFQ1tiF2/E0FvtAu/IcCBbia7BMOnffb7UeDTCFSmqOaLrS3/ZnOn0m6CghKY//AOcANavSat2UkQsmzuSdDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783079827; c=relaxed/simple;
-	bh=DHzSjS5nmSDwAyjhso6u7UvYo1zPstaiaupaei1yLaY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HIS9f/EFdHv9OK16ZxqzsL91sVpa9qpe0q1KGMVsV8e9lfah+aePUET4HYbFV7FJZeZ+WbyfliClXjVVA6ORZgx7R8dJrFJZ/kMY3WiG8CVjLax1ZKpb7oGF4BGjVZIFWLtUvXY4hHQal9dEeOYdYk/06xmDC3Gq5Um4gFtuxXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QMyFt8q7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783079836; c=relaxed/simple;
+	bh=l6RzNGIAWMOhY+SR52423w3htRgrV/DeBSB6BlO635Q=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=B6Ud2rjoe5rPfl7ikkpJLb0KDemUi2DhSIZgrnFCFAqLToOsSf564FjPKUzEXQXqzfnuAxsoWrX+xrlxI8J49ZRHSa/XWwrmR4nVTHijLRzX299cwVsodHG0e30eNYinL0F7isZduiKa4tjjC53pE2Mf57AEuwtyvtd+QEoL+lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RFYtNfLc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QMyFt8q7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 272BD1F00A3D;
-	Fri,  3 Jul 2026 11:57:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RFYtNfLc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C42611F000E9;
+	Fri,  3 Jul 2026 11:57:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783079825;
-	bh=frfwuPqeIVOqyMMZ2DdV2MRvqfcJ+kQ/SHS4yHiTWOw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=QMyFt8q7zY215XhzCq1Du3UbWCNJDlCI+GKrxywhHzK81nQz3M2btw8QSjJsZudny
-	 MFhTxNkNJYdvX08R084e1c04eq7g/yX5LHsKuONtM2RFmntzaped/0QyWSHVCR6vte
-	 Ch+Y9HHT0Z0lQEEC3tLDiNlHwjNQwmJ2nOfhMQneQYANBsRKaYtFOWsYYwPrwYwvvs
-	 pwzdr1NEEnwZMOiSNCFl6HXjSnvgmm4Jfw79/WyinhGxswkayiSYtl1THN+Gho+5qJ
-	 eLwVNQ9qZOpFLIt8SEgZ5YncUaFwsVndRdRrF4DLuvCrEdCEgCZjDu2RTDQfH9MzaF
-	 +qgO8e8VZIzag==
+	s=k20260515; t=1783079834;
+	bh=onM1lYcvNdxWMDWkfsGxKVtxcvPDpKihbDwcv56pl/4=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=RFYtNfLcFHUUZpTcKK2Rh3432FtD3HXxlFXMVMVp/u9W1+l3lbXNv/Nj/b+bhCKOv
+	 eKymIC9hmbAu7gxsFqJjWAuNWyisA72Zmxm3H6pd5A/VrZ7L5LXLzOrnhkVWxDs3/5
+	 f27iTdUFogZlXE/ktWIAgfcM7ne/QCv8uDZ2Nxv5kgfIsPQZKiz4FfeoBO5H9zJmm5
+	 ZLA/E98VZJdwCl3XFNTdV90eYY8AUEcSHtXmHw3fIcMpWgniHdIkq+A5/OSvGs8sd1
+	 YyloirXDWhcQsNGFDG5evILzUXKEacwznMbU0+WIAMeza+6FzmGcmjdATjty+J4Ojz
+	 tpE7v5Uia9XMQ==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Zhang Yi <zhangyi@everest-semi.com>
-Cc: tiwai@suse.com
-In-Reply-To: <20260630072311.8427-1-zhangyi@everest-semi.com>
-References: <20260630072311.8427-1-zhangyi@everest-semi.com>
-Subject: Re: [PATCH v4 0/6] ASoC: codecs: ES8389: Modify the ES8389 driver
-Message-Id: <178291863280.38925.5011079351614169537.b4-ty@b4>
-Date: Wed, 01 Jul 2026 16:10:32 +0100
+To: Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87h5mpet2c.wl-kuninori.morimoto.gx@renesas.com>
+References: <87h5mpet2c.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: sof: topology: use for_each_card_rtds()
+Message-Id: <178291874661.38925.486774098429195879.b4-ty@b4>
+Date: Wed, 01 Jul 2026 16:12:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,30 +49,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1978; i=broonie@kernel.org;
- h=from:subject:message-id; bh=DHzSjS5nmSDwAyjhso6u7UvYo1zPstaiaupaei1yLaY=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqR6OQjM+w1iNtamlHN8Y0LSfvYueEMtXMVe4bp
- tajRvdrt2WJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakejkAAKCRAk1otyXVSH
- 0B2LB/9qXB1YTfuVOXABydx4cvt1+6B9ELuFLDriX8/2Z33RD/J49C85yzFz4dnH7TBaNorxRdI
- rLr2bI767U/+w6t1yPgUhSeZc9kmOT/lc9twF9KomkPWgw/sxVsv0v+LeSTv+OcRbUuHwV/Rn47
- zZKsx1hXmNpZq74xecT4wA/Z/FtnAMCsyicBA9LSm9FadiPznAFXT45jS+YnCEdo1wqpJxDjB4s
- W4aZaIf5Q3guyR2qBFNtGBEovmub7ubCJ0kGQdZvLdgV5AbEkvAs19t9znJcJvGvq9CO06YiaWv
- i56PfHUyMfBWxdjBS9+sMIj8Kng7zOraqzuU8hrMOENHiQEa
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1113; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=l6RzNGIAWMOhY+SR52423w3htRgrV/DeBSB6BlO635Q=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqR6OXIFGwovA9/sGkEf++YTMiDsgVKvEoe9v+c
+ yZL4k5Dc72JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakejlwAKCRAk1otyXVSH
+ 0DVeB/9qKEUwscaM/zAHrWPPoOV53E6IKTGEsyH3qMtQlDGpsdFizWzelpq7kI+OWLpMD2C/WS3
+ 6Y/x06sGxsqZ3pc6SdZ4I6GndGu35SK2vYX0XStDVtVD9PWC+mvgTX7MY/jYhohyhkVPk8It4q/
+ XHGp/YFDw3Yr2PSSeZxa3KRBVuHQbnEYN3UuyTIWwprEDXTWfdPuk4kdjjf2I9nGseq6R13HOOw
+ FvmWPEk0qnY+sqlni+YV/nSi6X2wdtcTYFiyQEtZ6anT6W28K27jF11n+yLPWBWoIIstQw6Eneb
+ hHhfr41Y9pa76NkoIfOSZXJG4Gsvb/HqpQwVHNVNtRvyU4vy
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 30 Jun 2026 15:23:05 +0800, Zhang Yi wrote:
-> ASoC: codecs: ES8389: Modify the ES8389 driver
-> 
-> Modify the initialization configuration and routes for ES8389,
-> and add private members.
-> 
-> v4 -> v3:
-> 	-Modify the maximum value for the HPF-related kcontrol
-> 	-No longer returns an error when the corresponding
-> 	 configuration is not found in hw_params
-> 
-> [...]
+On Fri, 26 Jun 2026 06:04:20 +0000, Kuninori Morimoto wrote:
+> ASoC: sof: topology: use for_each_card_rtds()
 
 Applied to
 
@@ -74,18 +70,8 @@ Applied to
 
 Thanks!
 
-[1/6] ASoC: codecs: ES8389: Modify volatile_register
-      https://git.kernel.org/broonie/sound/c/882e55031187
-[2/6] ASoC: codecs: ES8389: Fix the issue about mclk_src
-      https://git.kernel.org/broonie/sound/c/cbc559dd8d46
-[3/6] ASoC: codecs: ES8389: Modify the clock table
-      https://git.kernel.org/broonie/sound/c/9367a244afc2
-[4/6] ASoC: codecs: ES8389: Modify the initial configuration
-      https://git.kernel.org/broonie/sound/c/3bea836903c2
-[5/6] ASoC: codecs: ES8389: Add private members about HPF
-      https://git.kernel.org/broonie/sound/c/87592da1a490
-[6/6] ASoC: codecs: ES8389: Add INPUTL MUX and INPUTR MUX
-      https://git.kernel.org/broonie/sound/c/2264927316e5
+[1/1] ASoC: sof: topology: use for_each_card_rtds()
+      https://git.kernel.org/broonie/sound/c/e3653722b94d
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
