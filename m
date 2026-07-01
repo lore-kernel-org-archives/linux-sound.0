@@ -1,121 +1,222 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC573CB2CF
-	for <linux-sound@vger.kernel.org>; Wed,  1 Jul 2026 08:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4062C0260
+	for <linux-sound@vger.kernel.org>; Wed,  1 Jul 2026 08:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782893135; cv=none; b=uQwXdf3kCZzwufDXYU4+P6QpINbnXnqqL3Ib5omcddkkTZCBJQsh10Cb6m5d7phpBF4HPYJkvkuoI5SiQ2maGwIdKh3U+24Jp7+nHxzEG+9RwbGDVuc7pWsEt/3ONGUy5PxugMj1mPeQeTn3WvpkOBWjLI9UZqTiC2ELmRtJQDo=
+	t=1782894626; cv=none; b=ClZ3RYdRQhy0G5Jx5+JaO2Jt92eWEWjSxWAR4g1UodkR5iXceZ8+Ex4njbIDS0GUWjNZjg00FT8D0uElx9xNDLuMuq/goOSRuB6xCQPu0eD1Z0Gw5gYqOnpNss1fNrza8DovNpvYMKh8/Tap3ujzZnG6TEzyykMpUWqItXOowpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782893135; c=relaxed/simple;
-	bh=yb0MFHFxJuuQ5y1vAfOyStDO6ECSivCDb0ZRWwvICp8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ChQ45cCcxcrWP3rDMJ/ZUf8fGRebHahwDLNT/fHUW8RClH7ZFCAFK38sKwpKGqlxu6dO/l1fq60UWIKMn8IU/O2yvrqFQAdbLqEtnjws3jcmwegUY8kJ4ahDTsABTpKFJwggIgFLlWiA94WoWSvJ3Q70sijucA0dz6W6cqmhFtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SdH8xgSL; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782894626; c=relaxed/simple;
+	bh=huT1fZuKN/2ckM5oBoZk7h64yCIFLi3n5OGKZqQkL6s=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eACm+507/cOBniTi9NT2Q53TlLytVAzZIcc5kDOPIdzEEa0WknDmLUJUDI3j/KKAsTFFvmsN3W1FG+MIRzMtyOoIlPaBlWZdJS5e4Dl1ANpPFq14+ODyMck4pSySVwr+sG/SSlv9/2TuKk/njH/bL7tAaAAOyIqGXCCyBPaoeCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=btIIf50c; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hSFbvj+6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=l4Cd2dBY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nh6SmtH5; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SdH8xgSL"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-847917c3678so603129b3a.1
-        for <linux-sound@vger.kernel.org>; Wed, 01 Jul 2026 01:05:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782893132; x=1783497932; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YZgET5sP7s4+Gl/MNxq10s0JbKQ5og9R+YfjQjFjLIs=;
-        b=SdH8xgSLOZjCjrCFVYWr1Xyqgbb4PbU7CVUjTNSmNPqlG0dm9OqbZh5VXdnLFkjQJa
-         WAnjatAFq0yn1lagmfsv2M+zII2RNe253UGwtPZQ/A6j+TOcmmzqI4GohxIr9zfHKrbi
-         qwYvEagTY3TdMfR7/BgbyWsmcnsjfkK0O922In1Jfy50J2pmcUVL9VWGFzlDsgAQtv+z
-         muzI90/D66SYDmkmZfl9qoeG9qlXFpF2u6f48XcUZ9z+yeUNgHZyb8clf9cR/uBJlQ9B
-         aIpRTwWaN+/y8dgUnxiPE/jOb7bvrr1kd8afuoBPpJc918k50+DPtp+Zk6M7BeoVFpyh
-         7EUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782893132; x=1783497932;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YZgET5sP7s4+Gl/MNxq10s0JbKQ5og9R+YfjQjFjLIs=;
-        b=UmaLxEuuz2ZEVoPBPftfNTEF/R2yt3E4aaiPaKvrn9LilzyVcFBVDiKKivbKYfnd9u
-         xNZBV6QM8EvJf3j1cNg8Bq8F5DgO+Y4hZYWUoz2JpDj4e0Rs6fX8V7H5fHqNUuJwYWOT
-         IJIGcwCnN/2ybMopYTbYyRpwQ1XcYKeMmSr4bo5BlVDGt5945Ds8U5Z2rZtfmimk3sEh
-         V+tJaHCPC9JoSVReCrMXdL16uPsY13DuKduqqCp3xbH5SP4/32e+rob0FW83kZWhzN0g
-         ezrfibE4D7Gwp6nDdD4FQ4/58hFCfwD6LaK6Ob5YeN0qfBmT60BWnfeIgCRF/ZaA1cqB
-         s8Lw==
-X-Forwarded-Encrypted: i=1; AFNElJ85bF4C0RCd7fSkbBYIKs2zaty+zmmoxNSOw4X4S/KCFQuM4jjGdqmFjbSwfLMup1SmgXX9yWNadbIX6Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzluHvai0A1Gae5aAknAjbFQJbKU3gY3Dtor8ZZPxmUFhUt7jah
-	SPVQm+gQ5bFy9+v8MIWxn3VNaFdYV/7rJ4P4T5H77pI8GP83twB1kG8D
-X-Gm-Gg: AfdE7cnLJTs7VoYR/+wYYe+YKqDJmnmBaQ5oTqbRVJBT3xE4V9UVJpCnTm9V3IAqofG
-	tfNahKT0cXb605JtGGUpzH/vy9/JyldKMaL4+PxIxqgpgPlnCsxma15/vbzN4v6tPFQzaHPjtns
-	cQfBQupYx0BZGVIGLqRYYgCifts3FbpJtBLCTCvmsiJfwU0PpZOitbN0Ukp1WE32NH7B85plcGp
-	VRVcl5NnJdirU5XtU0Ck+SCqMeSDBHhauV46S5W+zRiq4bYEb0eKpe3TSKIbdOKU6tkUKzUvPzY
-	7vIGih2isTt9taRV0yENIkUF7zaqGvGoAv/S/78YnbFZgoM53cjpZvNkta8gyxqFt8/CyAxC552
-	FQRBCowd6wGho8l5SsqW/WlD0czF2RVzIf6ZtfJmsqCahjJP3ROqC6aTrkArkqZ4XAXPROlQGXV
-	4uQhqOAVMvmJ+GfklQfeJutkp17AG1mJEvoBpmmiRt7LVhvT0=
-X-Received: by 2002:aa7:8893:0:b0:845:e6d0:62c0 with SMTP id d2e1a72fcca58-847bf941e22mr555545b3a.18.1782893132031;
-        Wed, 01 Jul 2026 01:05:32 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847a02cd382sm3566656b3a.35.2026.07.01.01.05.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 01:05:31 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="btIIf50c";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hSFbvj+6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="l4Cd2dBY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nh6SmtH5"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CF3BC71BB8;
+	Wed,  1 Jul 2026 08:30:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782894623; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BSIafWuVc++KEh/oK1eXMjht4pdHqqhwr3pJzJaw54A=;
+	b=btIIf50cEJN57D28PGTc6E3dO39kNCm/3xy++o0zWeNhGJ6LvstdPTVhtetnBFUN2pijSb
+	QV5X4dj8SbJxQoA1X5krfldXMwMMaYXEWL3G0HQJ76SDAy7U28uarHNqabJPn2+P50RaRE
+	k7+IvoMzYb/9V8R4OHun5eDIz2bW7G0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782894623;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BSIafWuVc++KEh/oK1eXMjht4pdHqqhwr3pJzJaw54A=;
+	b=hSFbvj+6Oo4cuPY8/7dYBENsxxgGWnw8eQlDV16JBgmXNIK6cKwooIPDNq3v8HRTYX+idz
+	ZHHHCbRwdK3sEtAQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=l4Cd2dBY;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nh6SmtH5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1782894622; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BSIafWuVc++KEh/oK1eXMjht4pdHqqhwr3pJzJaw54A=;
+	b=l4Cd2dBYmU+rx2eYQZD4uaC2UBflPwwZJx4q0MxM+Gssgnxs7zLBN0IE8DL94YA+NGUPZA
+	FAU1Zh2+7oGmm1yAb2ZE7qcMrNEaC9xBWYZFoeu9p/5aU3Pmj01RqOZ8Fm2FIsI/DCCowR
+	FwtS6Wq8XrxuEW1hU0+Mv5Sj5Ipp3TQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1782894622;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BSIafWuVc++KEh/oK1eXMjht4pdHqqhwr3pJzJaw54A=;
+	b=nh6SmtH58Gc9nVo5EWaw6ee775iVLzliLAQpH8oxDoaQtfxThKY7Q58aExlwi9kdfC7wHc
+	ij/ydpIQSAnP8xCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9FDE2779AA;
+	Wed,  1 Jul 2026 08:30:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id nenPJR7QRGoJVQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 01 Jul 2026 08:30:22 +0000
+Date: Wed, 01 Jul 2026 10:30:22 +0200
+Message-ID: <87o6grun6p.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: os_dengxiang82  <os_dengxiang82@126.com>
+Cc: tiwai@suse.com,
+	bo.liu@senarytech.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH] ASoC: samsung: spdif: Preserve the original clock acquisition error
-Date: Wed,  1 Jul 2026 15:05:17 +0700
-Message-ID: <20260701080517.298294-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH] ALSA: hda/conexant: Fix microphone mute after power-on reboot
+In-Reply-To: <235d28fc.65dd.19f1cc1a68d.Coremail.os_dengxiang82@126.com>
+References: <20260701065533.72517-1-os_dengxiang82@126.com>
+	<87se63upn1.wl-tiwai@suse.de>
+	<235d28fc.65dd.19f1cc1a68d.Coremail.os_dengxiang82@126.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: CF3BC71BB8
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.990];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[126.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[126.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On Wed, 01 Jul 2026 10:18:00 +0200,
+os_dengxiang82 wrote:
+> 
+> 
+> Hi Takashi,
+> 
+>   This failure occurs during bootup as well as after runtime resume. Does
+> runtime resume here refer to the resume handler, like .resume = cx_resume? or
+> something else? Looking forward to your reply.
 
-devm_clk_get() may return different error codes, including -EPROBE_DEFER.
-The current code overwrites the original error with -ENOENT, preventing
-deferred probing from working correctly.
-Replace dev_err() with dev_err_probe() so the original error code is
-preserved and propagated to the caller.
+It's hda_codec_runtime_resume().  We have no Conexant-specific resume
+callback, hence the standard procedure is applied, i.e.
+regcache_mark_dirty() and snd_hda_regmap_sync() make the codec verbs
+resumed that have been touched.  So, you'd need to check whether the
+needed amp has been already accessed via regmap, and check whether the
+value gets restored properly in the procedure above.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/samsung/spdif.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/samsung/spdif.c b/sound/soc/samsung/spdif.c
-index 7fc46d55c522..53eaabaf8956 100644
---- a/sound/soc/samsung/spdif.c
-+++ b/sound/soc/samsung/spdif.c
-@@ -380,8 +380,8 @@ static int spdif_probe(struct platform_device *pdev)
- 
- 	spdif->pclk = devm_clk_get(&pdev->dev, "spdif");
- 	if (IS_ERR(spdif->pclk)) {
--		dev_err(&pdev->dev, "failed to get peri-clock\n");
--		ret = -ENOENT;
-+		ret = dev_err_probe(&pdev->dev, PTR_ERR(spdif->pclk),
-+				    "failed to get peri-clock\n");
- 		goto err0;
- 	}
- 	ret = clk_prepare_enable(spdif->pclk);
-@@ -390,8 +390,8 @@ static int spdif_probe(struct platform_device *pdev)
- 
- 	spdif->sclk = devm_clk_get(&pdev->dev, "sclk_spdif");
- 	if (IS_ERR(spdif->sclk)) {
--		dev_err(&pdev->dev, "failed to get internal source clock\n");
--		ret = -ENOENT;
-+		ret = dev_err_probe(&pdev->dev, PTR_ERR(spdif->sclk),
-+				    "failed to get internal source clock\n");
- 		goto err1;
- 	}
- 	ret = clk_prepare_enable(spdif->sclk);
--- 
-2.43.0
+Takashi
 
+> 
+> xiang
+> 
+> At 2026-07-01 15:37:22, "Takashi Iwai" <tiwai@suse.de> wrote:
+> >On Wed, 01 Jul 2026 08:55:33 +0200,
+> >dengxiang wrote:
+> >> 
+> >> Some devices have mute settings in their firmware set by the factory.
+> >> This is to stop popping noise when the devices turn on. But this setting
+> >> makes the microphones unable to record sound properly. This patch
+> >> solves this problem and is compatible with conexant chips.
+> >> 
+> >> Signed-off-by: dengxiang <os_dengxiang82@126.com>
+> >
+> >Hmm, this doesn't look like a right solution.
+> >
+> >Is it only the problem after the boot?  Or is it an issue after the
+> >runtime PM suspend?  The amp value must be restored by the runtime
+> >resume, and if this doesn't work expected, it's a thing to be
+> >addressed there, not in the PCM hook at all.
+> >
+> >
+> >thanks,
+> >
+> >Takashi
+> >
+> >> ---
+> >>  sound/hda/codecs/conexant.c | 21 +++++++++++++++++++++
+> >>  1 file changed, 21 insertions(+)
+> >> 
+> >> diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+> >> index 3d92262763f6..3229f9ef5969 100644
+> >> --- a/sound/hda/codecs/conexant.c
+> >> +++ b/sound/hda/codecs/conexant.c
+> >> @@ -1184,6 +1184,24 @@ static void add_cx5051_fake_mutes(struct hda_codec *codec)
+> >>                    spec->gen.dac_min_mute = true;
+> >>  }
+> >>  
+> >> +static void cxt_fixed_mic_boost(struct hda_codec *codec, hda_nid_t node_id)
+> >> +{
+> >> +                  struct conexant_spec *spec = codec->spec;
+> >> +                  unsigned int value = 0;
+> >> +
+> >> +                  value = snd_hda_codec_read(codec, node_id, 0, AC_VERB_GET_AMP_GAIN_MUTE, 0);
+> >> +                  snd_hda_codec_amp_stereo(codec, node_id, HDA_INPUT, 0, HDA_AMP_VOLMASK, value);
+> >> +}
+> >> +
+> >> +static void cxt_capture_hook(struct hda_pcm_stream *hinfo,  struct hda_codec *codec,
+> >> +                                                                     struct snd_pcm_substream *substream, int action)
+> >> +{
+> >> +                  struct conexant_spec *spec = codec->spec;
+> >> +                  hda_nid_t mux_pin = spec->gen.imux_pins[spec->gen.cur_mux[0]];
+> >> +
+> >> +                  cxt_fixed_mic_boost(codec, mux_pin);
+> >> +}
+> >> +
+> >>  static int cx_probe(struct hda_codec *codec, const struct hda_device_id *id)
+> >>  {
+> >>                    struct conexant_spec *spec;
+> >> @@ -1271,6 +1289,9 @@ static int cx_probe(struct hda_codec *codec, const struct hda_device_id *id)
+> >>                    if (err < 0)
+> >>                                          goto error;
+> >>  
+> >> +                  if (spec->gen.pcm_capture_hook == NULL)
+> >> +                                        spec->gen.pcm_capture_hook = cxt_capture_hook;
+> >> +
+> >>                    /* Some laptops with Conexant chips show stalls in S3 resume,
+> >>                     * which falls into the single-cmd mode.
+> >>                     * Better to make reset, then.
+> >> -- 
+> >> 2.39.5
+> >>
+> 
