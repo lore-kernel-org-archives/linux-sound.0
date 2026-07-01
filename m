@@ -1,47 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0C93CD8CC;
-	Fri,  3 Jul 2026 11:57:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7734B3CE497;
+	Fri,  3 Jul 2026 11:57:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783079852; cv=none; b=k7IoBiJL5KI2PLbcyCQIPsm839xHQIQ6grTxKPeDdLGh3qiAoJaiTePtYNoaIzq+FpLpsOXTdEbxllw7Zq+rdHHF5g/HX8DfswWnMntS1n+7Hy2P6R5mwxlUPyVr8a+2hQOY6V6OQwtZHOjuYk5ZnceODr7h3nw/mtvmq9Mhj8I=
+	t=1783079857; cv=none; b=loEPmpQIP01rj9KmCa8skFz7KTgsPEOUKl+aaou3aKEReuOvslLWb+NfVePXCUVGEJqy2egeack34WoTYoQ+I4aMZeSNV1Tc6czAortXG5Qu19xKhuq3/RP3l6t5l2lY9WDe2F8ZiEz5FpXhz9z8+eisGOG3oJ+3VtBW8YO6ZaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783079852; c=relaxed/simple;
-	bh=6l8rDfcrzK5XIACDAY+/dmyjhmfDE7ndpOJ0lt5IzgA=;
+	s=arc-20240116; t=1783079857; c=relaxed/simple;
+	bh=Ad3AznC8y5gdvOZW6mIxAsMbNU09ix8WyumjmsG3Pys=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=WKs1qUWbSY8JKZvKHgLVUKngr6EOJJvomDp/fzscqd7ENxFUREeoCgL31Gex4NyMvrnYsnMR1CYUbt2e+oiqG4H4fNE9mbNaCJI4sQOk9vZmd4UMOuMZDmJcmSv8aIyYj4z6a2VoXyGC8DsVY9XPXS2IDYDPKGILeNp1NbytcVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LW+piVZo; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=cHpshCp/bMrNxm99IIieak0GDeyHoUS0C9nl0y3xbdzR//SdxvPizSbJTt+1Gj6y8qA9i8BzAnznSTnlSFKGHgqs0syWOC6I/dO4uxHom57ja3zJv1YeNdC6SkjGjoKeNTubmbQRWjxIuy2gY4z3shx7Id9Qv4ctXNuUXsOnx8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mgzPS/R4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LW+piVZo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67E8E1F000E9;
-	Fri,  3 Jul 2026 11:57:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mgzPS/R4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 716301F00A3A;
+	Fri,  3 Jul 2026 11:57:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783079851;
-	bh=o5f7tntUekXIcPK7LTER4AJya+oAIL74O6kw2RKlGiE=;
+	s=k20260515; t=1783079856;
+	bh=X1+OmlMZk/IVc9S8qstSzjPlOvyRlN77dcmmUPKXAKg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=LW+piVZovAtQ3+D6sb5V6UvQOueswjCRf3J3FVdZjT1vvV4nFTjhxnEYveMy0rtes
-	 fvPbte9nosNagGhFn29rHAIAQ3z42jW8cQQCWt2h8DpfsneEojzQtMS8MZyFLGUpr2
-	 Ib8Q2qG6exlBFviSUhk+omK9XRBPLiVPzD0Ub4GM7bQ0hW9JdGdmD7Xl0a2l2I5b9c
-	 1vVIoLCVnMkdp1PYB8MvsQ02646DgC8dJOMhRH2T5XhwCzVkNkMRaftCphStcByJPV
-	 GP4N12fPjGXjCWfaOWX2mnqn2eMvGJAVOAaeDC/aBnvIzHp33+xpEa3Xzx1VX1dzgv
-	 Si8edx83D0zOw==
+	b=mgzPS/R4K1+vHbeCGqoVn2NFuLM36qDCPUFB+0bbhjwLSuBz5rEbhhEEII9E/5c0c
+	 9zABxkArRPq13Jr0yFTjsl1xHlftVYlw973abP1liaqhBelw7zUfsGHugu2Qrjtq5p
+	 u21InfhLo/2oARmzVjHmMllD4Sftyx7pdzKc5VGk+5cVojbQagob2OwKT3Ul7bWntK
+	 3t/fVvxsYEJmZjxgH5orp47t0Goda8OlCur4SkD4O7tB5BYJWeRwumE4aDtl8/02/4
+	 2+UakC8+SRov4zkYfuvt11qv/3FYdNJ5xsRH53eQMsUJk/qajBRfpy3qylvl3CtObY
+	 iSn4U7PZZEUYw==
 From: Mark Brown <broonie@kernel.org>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Yousef Alhouseen <alhouseenyousef@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260628000329.18606-1-alhouseenyousef@gmail.com>
-References: <20260628000329.18606-1-alhouseenyousef@gmail.com>
-Subject: Re: [PATCH] ASoC: SOF: validate probe info element counts
-Message-Id: <178290827353.38925.9612630838163287056.b4-ty@b4>
-Date: Wed, 01 Jul 2026 13:17:53 +0100
+To: shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com, 
+ Sen Wang <sen@ti.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260630183126.2588322-1-sen@ti.com>
+References: <20260630183126.2588322-1-sen@ti.com>
+Subject: Re: [PATCH 0/3] ASoC: codecs: tas675x: sound bugfixes and minor
+ changes
+Message-Id: <178293202205.38925.16683483749223778344.b4-ty@b4>
+Date: Wed, 01 Jul 2026 19:53:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,20 +46,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1112; i=broonie@kernel.org;
- h=from:subject:message-id; bh=6l8rDfcrzK5XIACDAY+/dmyjhmfDE7ndpOJ0lt5IzgA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqR6OoI9ZtHDDL1fEPVNIBdLkNUDBktQQijM5YI
- vKFnn0x3d6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakejqAAKCRAk1otyXVSH
- 0NSfB/oD03A+un74sDURP3d4J1h1UyFe12Uvuk06A0gvrUTuKK6AL+860+EkPzkDddvFxjUOjYl
- qDLk0ALSei1g9Po9ukJiwWnjOEYoaL1C6fmgTfc1ZGKPGz5Xt5+/VFoVHdDaRj7f8ufa/uqBihI
- tGCArY9ZrMf8HPeNHONDG6gUtG6a9KwCulUFvbRdvFON0WuT7LFvkBxw2ivWkbLpd0QEzL8JM0Z
- RqrbuLSR2uGrKw49+/zEtxVJTOLEItAckdElRA+wHKycLqWLfBveGLwq+bT1Qij/A6NFkhCIXc5
- r8Hw2ogBl8UJysWwksabMZk6mwJijizXYCr7qETa2ViT3pPj
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1704; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Ad3AznC8y5gdvOZW6mIxAsMbNU09ix8WyumjmsG3Pys=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqR6OtJOjYk6g5bTAnvUM+GvbiSpaSaMqP64Pvy
+ 3zBmmSji5qJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakejrQAKCRAk1otyXVSH
+ 0J7UB/9C73LpfHZSkp5yq5vabflXKYDvyKzcYhhwiEVxCc01sh3QZTehIoYCDNNGexkpYfQxlkH
+ 5yCuNgLrdLUE6x3qSk5Xd2rr20c4gTHbc3gyS1+Ll0l3wv7QNtepokPYrSkvhNXYeBkav+6t9VB
+ ZQnDXrG84r52V7ExxOkc/uVdTZrHxAIDNrU1Ouczm3zBM52dAWt61RMMU2YTwoebOt2tz8uGqa0
+ mh4FYlup9pR46k8+Om8kI4CfibpJax3Ya53Wq+1TmizvwDcsgy4r8vujIyoua+paTA/dVNygI7p
+ eLo1xyF9faRLE/uV7MFMGiqiRHT8Y9T4TosJx66Ew8mnu7RA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sun, 28 Jun 2026 02:03:29 +0200, Yousef Alhouseen wrote:
-> ASoC: SOF: validate probe info element counts
+On Tue, 30 Jun 2026 13:31:19 -0500, Sen Wang wrote:
+> ASoC: codecs: tas675x: sound bugfixes and minor changes
+> 
+> Few soundellaneous bug fixes after the initial merge of TAS675x driver, of
+> which includes:
+> 
+> - Adding READ_ONCE for all concurrent read params
+> - Corrected kcontrol bits for temperature range
+> - Corrected conversion notes in the driver documentation
+> 
+> [...]
 
 Applied to
 
@@ -72,8 +76,12 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: validate probe info element counts
-      https://git.kernel.org/broonie/sound/c/95edf2dbb492
+[1/3] ASoC: codecs: tas675x: use READ_ONCE for params to be used concurrently
+      https://git.kernel.org/broonie/sound/c/12272cb1b23e
+[2/3] ASoC: codecs: tas675x: Fix CHx temperature range register bit fields
+      https://git.kernel.org/broonie/sound/c/a044f99d000d
+[3/3] Documentation: sound: tas675x: Fix temperature range and impedance documentation
+      https://git.kernel.org/broonie/sound/c/c34a4be8b846
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
