@@ -1,243 +1,299 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AF53BED08
-	for <linux-sound@vger.kernel.org>; Wed,  1 Jul 2026 09:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501D13BFE41;
+	Wed,  1 Jul 2026 09:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782898571; cv=fail; b=FMlNaUM1Ax6ly3mJOXH+t1ZMfuA7bhIlpsmRHDXiOd+Ana1OHtpeLspmbt8SyQXLQlJElLBQ49fKM2bsVhcFlKRG2SrguTmx1/PCr3su14/3Av7mD4KWrf+j4hFgdfARmOxbcfMm8LsGyN3iuLK6ovqGcup0plAyDWQ4AtnyUZE=
+	t=1782899214; cv=fail; b=e0uidpsbnu+uMJ8bZ4pQvi6Q0mSow/kMzdFoFHZaolpMq5nBxRMYZMrAi6pvXaE9SCMqdwIkG888SPFTLie6VvwxySM13gFvnFkk0t50/IB1/BXtN2N9rX24Hln6jOJjOq9RZ4IGuP3cqYWZ1XMh3AJeqwpW6uHSODZsbCD3m4k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782898571; c=relaxed/simple;
-	bh=xZJejbwAQHjFqMgTYBzaDzSIiYsKpvVJSV+PXsD8Lhg=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Lfh0dZV2Yn+A3D1ivxkyuCHGtFANB7JVmNH1HwMff280dmXVCcQHYJVxI5k2c/AwpfsJhe92k0bFv6AhRNDbBa6qlgAfJu3P4WWwoxT6qknhxrsmvqWRx3Z/lTh++5oXx28A0KlXqgs6GTmbEmhFaiGhlXGR1v36PxZYehRFT/g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lwxe6a6V; arc=fail smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782899214; c=relaxed/simple;
+	bh=AeBwOMZiMQHjDblUvrOPVu994s+fxiFLr8G7zVWwS8U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Mm2yKqPM7SvwHR9sWI0+ltoSSa0BZWdytWMQom0E/KFyjjxf5zT2Vt6hLHYUaf1b120ix921X/+m9TCFWGJJx7gXBTawH5PmJjPdaQsqr/wfiiAaeH1giw51I6zWc47y/Jv31Dw7LcGmZJoVchS2C9oYfiJzW4ZvvvPwiIUCj2o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=aeznNAVW; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=cyPxJ9KW; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lwxe6a6V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782898570; x=1814434570;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=xZJejbwAQHjFqMgTYBzaDzSIiYsKpvVJSV+PXsD8Lhg=;
-  b=Lwxe6a6Vaz4SRqIZDVSSc2X2iwfgjjjNKNZ+ZriZZ1JaujFs1XsGt/AC
-   3zUdC50fOjKyfZKwsg8yS8/JjXtYU7/LxN0BWxN0CgTFMq/9DSC02hMt4
-   JAk7XPu3kPDj/MT2uFvWKH5OJfPcdWm9N/v/OXTEgvMZ4C6w6yDWbbcjn
-   rFSEHEmnMwI9xhiAKEMSLhR/8Nu+T2CQ/eQj6trtxykBkcWhHXiset62H
-   YTEgO+pFvpa3E7xM8BAKjjB6k9GRJ+Z3nnPbIwoCoEypK97L6uQy0gQnx
-   Q0H+p+V0x43Azmvs75WM7ekz/JJGMHdk5RNrCbGYrXCJhkrCHo0ips9FC
-   w==;
-X-CSE-ConnectionGUID: USXbaAJ2QMKJbcSwdgIomA==
-X-CSE-MsgGUID: OWiuVAN9QGGabj6lke3z3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="87460944"
-X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
-   d="scan'208";a="87460944"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 02:36:09 -0700
-X-CSE-ConnectionGUID: bNxIv1OjRzunK61WJuG/CA==
-X-CSE-MsgGUID: O5ZaERaSShqMvjjN9lnFTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
-   d="scan'208";a="248058019"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 02:36:08 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Wed, 1 Jul 2026 02:36:07 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Wed, 1 Jul 2026 02:36:07 -0700
-Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.29) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Wed, 1 Jul 2026 02:36:07 -0700
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="aeznNAVW";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="cyPxJ9KW"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6615Ga9W1082044;
+	Wed, 1 Jul 2026 04:46:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=FNMWvy6R9Nn54j+YmF9pYP0GKA8kWFP37NIA7YAP3pw=; b=
+	aeznNAVWKma/jCniMr9+N0d/zifvxA4t96qKLPVs2KRxkA9lVZRUEP2vily+qydG
+	RtxrElSqm7zlmmGxYeMveNf17dgFk1cG3fYKYmzR+cb6s3Ixhx54eBP0rKhY5P7O
+	+urWrvw1DxMdB/hzTsUH5Jas/HOtOTtYMxHVCKLUu7YROyaN7krdnKnTGmBLSbeE
+	MBP+lCnvkJl/C+M9qIKIeFrpyohOMSiKpIkQTsN3iKV7r0xZlfVQ6hwzV2xIWwCt
+	IMFB9dMrR6HCBE/SW7Hady3hzf/usTGaV9NoG9X0tidzJve/WTn5rn3ydE9fO4N2
+	rfYWoT3W8fCsJ+cQNLikEw==
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11022122.outbound.protection.outlook.com [40.107.200.122])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4f4e679mq8-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 01 Jul 2026 04:46:25 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AgnJNxRj87epPGXp+znHCM2FDgz8X75qLRnWsCWMjwJzo/SuvV35rIIUHJItWketUqmoBZbXfXqALFf9BOMn0LE4m784IJDZD77vatTPBa5GJts8UbJy48t3g3I7O90O62SSKKc0ZCbiZoVRM6Ny1lTHDQgcSfNrwx+NT+kagdGI3PXP7wRUSiBlP62xHDdsckGGgRiRr5fkH7hzia55QRKcs7q3JlMaOkjmI5mCYAZpoWXneWe73d8meihK6gnHT5snZIoYeKTD8njPpFxnY0Biu+ArnhygKFPF9Mb98l+dPYp3Zw65zGashXsw7a2I53YYIQOZmGafzuTaC9iRUA==
+ b=rIvS+VTBkEZl5ZrOXx0Jz31gaOzRiMcv7L2YG8qkurlvk8G975/ZUfanPus3PGbQ0Ro03s3r7HBgAqxPmBf8HJBWfsiRCPG3h/0qPknw4z3b05CKkII1k19p+s5LO+BJSrNXYnlnFARZ7jM2rEfkOfUnIpmkOVhlNZm4PtUQ+TY0oWtuV7U1pFIwNjbAeiqevWP7UhKaqTlpwUlgmonidO70dhKYV0WxOqBx/KLJyLWqwGgEnw/BRMr+DVY1rcl6nCN3di9Fvk7ARXDB/rs7O+TiFHGOb5UiA0poyclxaCbjSs5LviwHWOsEea0Fkf2Vsal7GJZC7RAoW9xqTSMOXw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WRF0C4+jnejEvzMJ+h2/xxjF0Wl4CEKwfo/2Jugqj8s=;
- b=RFGaXjZk5LrHnNKn88ZEkd8pSe41yIiOGigYj2ID8Byuc0I408A/IhrdtVMedn0zOTOs6VEVOX4rrSgkV3vti/mCugdMpgS1yiZvPKUXvv1c5b/Ojd2iVHJo7+tSe5OEn/YYO8hMrPmQCW0ybuID/AiqxPJg5ZBW8bdlb7y+PvVz0p8DyAtI+wcjpujEeetJqmDLeO71cdq3vBklFoTuj3EtUKsXCKjpLNUH/0Nl3L+l/9XAl+ov7QY8pzSpK79u6omv/MbwI9IZ/oDs7TmItkon3dPli1jdtc8a++yW2QIqSbJnQw3p77OTOCNNrlMY5r4U0DH9yioiwdK/v+U7QA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
- by PH7PR11MB5885.namprd11.prod.outlook.com (2603:10b6:510:134::22) with
+ bh=FNMWvy6R9Nn54j+YmF9pYP0GKA8kWFP37NIA7YAP3pw=;
+ b=Vn9jJwr/CoqWu7JcEEhh3mN7On4s/+ORp0YP8tqA61Qhpsi9ZNaKCtxDLKt9hjl6nsa0ctwdM3hcP+8GCgVCBAf2GiCR//Idvc/wL0jz/Uf4/PpD6nVJYpLpJgpBRMl8idD9vGyyzh3lV04foRe05qZRDufDxhltKbjdkJ2WDGJpnZhJPxcHCsk36l1UKomcb8ClN/q7gFFChIq1ervSr5W/L5Y8TBMlUFELD3FPsNZSFt9OUuYx2GyYRZ8HDqOKwJsoCgQ3kTCuS0mxQV+lXrqVnfC79hlVjgs44bBlfRoTTuGX2OsycTvwAj1lC+RHWIaOohIgVOMX0BhFL9verg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=163.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FNMWvy6R9Nn54j+YmF9pYP0GKA8kWFP37NIA7YAP3pw=;
+ b=cyPxJ9KWKta0Tl4g9bLryl4Opnvoq9JWFdUveMn83OT0i5+dOoPIJUxJiWT/9rX41pN7dk+NpH7S/gEIgDaGrCYPROHq8aHeWNJIYGB6HIHyxnPbMlvA44V6V1ZA8i3o+hIK4lgOfN7cF2Zuo7DpkeLbfoMLNvtSmrHXuUH3AFc=
+Received: from SA9P221CA0028.NAMP221.PROD.OUTLOOK.COM (2603:10b6:806:25::33)
+ by LV3PR19MB8477.namprd19.prod.outlook.com (2603:10b6:408:21d::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Wed, 1 Jul
- 2026 09:35:57 +0000
-Received: from SA1PR11MB6967.namprd11.prod.outlook.com
- ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
- ([fe80::36a9:3aca:a63e:c8f4%3]) with mapi id 15.21.0159.018; Wed, 1 Jul 2026
- 09:35:57 +0000
-Message-ID: <dfb5efcd-6c9a-462d-85f7-e8fff3ded624@intel.com>
-Date: Wed, 1 Jul 2026 11:35:52 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] ASoC: intel: use component_name for Component name
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-CC: Bard Liao <yung-chuan.liao@linux.intel.com>, Jaroslav Kysela
-	<perex@perex.cz>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>, Mark Brown
-	<broonie@kernel.org>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Takashi Iwai
-	<tiwai@suse.com>
-References: <87fr29esth.wl-kuninori.morimoto.gx@renesas.com>
- <d5e3fc22-8a17-4672-ba5f-167d8cab2aa8@intel.com>
- <87se66dyqp.wl-kuninori.morimoto.gx@renesas.com>
- <2965d6d5-6cf0-4fba-97a0-7a97861fbbaa@intel.com>
- <87o6grd4ol.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <87o6grd4ol.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR04CA0074.eurprd04.prod.outlook.com
- (2603:10a6:802:2::45) To SA1PR11MB6967.namprd11.prod.outlook.com
- (2603:10b6:806:2bb::15)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Wed, 1 Jul 2026
+ 09:46:20 +0000
+Received: from SA2PEPF0000150B.namprd04.prod.outlook.com
+ (2603:10b6:806:25:cafe::85) by SA9P221CA0028.outlook.office365.com
+ (2603:10b6:806:25::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.8 via Frontend Transport; Wed, 1
+ Jul 2026 09:46:20 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SA2PEPF0000150B.mail.protection.outlook.com (10.167.242.43) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.6
+ via Frontend Transport; Wed, 1 Jul 2026 09:46:19 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 70AE0406541;
+	Wed,  1 Jul 2026 09:46:18 +0000 (UTC)
+Received: from [198.90.208.11] (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 5F332820244;
+	Wed,  1 Jul 2026 09:46:18 +0000 (UTC)
+Message-ID: <32d2c13a-25f1-4783-ab53-b59ff41940a8@opensource.cirrus.com>
+Date: Wed, 1 Jul 2026 10:46:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] ALSA: hda/cs35l56: Use scoped_guard() for irq_lock in
+ cs35l56_hda_fw_load()
+To: wangdich9700@163.com, perex@perex.cz, tiwai@suse.com,
+        wangdicheng@kylinos.cn
+Cc: david.rhodes@cirrus.com, patches@opensource.cirrus.com,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260701065108.596046-1-wangdich9700@163.com>
+ <20260701065108.596046-3-wangdich9700@163.com>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20260701065108.596046-3-wangdich9700@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|PH7PR11MB5885:EE_
-X-MS-Office365-Filtering-Correlation-Id: 53dca2aa-1052-416d-e4e8-08ded754278e
+X-MS-TrafficTypeDiagnostic: SA2PEPF0000150B:EE_|LV3PR19MB8477:EE_
+X-MS-Office365-Filtering-Correlation-Id: 22c3add2-7e1d-4c2c-4945-08ded7559ab8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|23010399003|22082099003|18002099003|56012099006|11063799006|6133799003|4143699003;
-X-Microsoft-Antispam-Message-Info: /wjW/6E84eUsteH5RHsWIBqdHCIqyWmbM4Jnv2lpz3sPBbHwjffn23asGvC1yfBpAB71lG+uULiZC+0FgISavs/sAbzxt5iIFRP3v+GT7mmYhZuZjWKxWmU5+96n/3il+neFtiI2NnpXKugM+ZYBuqgThU8jYmCz14ARf2eQxf34OvtBftOCRZ3AIvIMD4lxJQ/6Ouz0Lv5Wa6rQIub0lpIshggCC8hL0KeJ9sSOBNCLzBBm2o5dNpSH8OgATTKzYMHACjqz7HVXZkZMK9N5aDYGnAQACamyMKSU3k+bU1efZnUhSYDeairv1z7X/mRfV7FhFk8lZYvvhorlqbe7CM1J851h+hWegRD5uqTJsvYZV5Zdq0eI2TPJ1JweG5t8wdGSB9Olqs6QJMJiYiVtpZX2RpzlLWdGWDnIb2zqBQJ2LQSLaLsowXSOPS788cBikgSdLXUiyBjQPlx7P/KCt+3S//l3Tm+jBqn9m7KdgFveMrUosFuOSSslmtu3AomA+IzeLVnsTPmHxLISnIQkcP8zpD1vo/cnEqnzWE8meKtJIkZE54zl+PqYD5LCm9sknD//qOLpVm29DyYMRM2A4gY0ZVJE/jtg724VaoqRvgoNmq5WxLhLE+siQTSw+lxp5LHFWtH7rBoRnwzStf9BlfxonOP9Dwnb/+01nA+JgAU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(23010399003)(22082099003)(18002099003)(56012099006)(11063799006)(6133799003)(4143699003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|61400799027|376014|36860700016|23010399003|82310400026|16102099003|22082099003|18002099003|4143699003|11063799006|56012099006|5023799004;
+X-Microsoft-Antispam-Message-Info:
+	Bqzeq+lsT7XLNxDZ1YqNp8c6B1DWDGalm6kCE/c0uDvJoE4kM3DaKKzeLXwdDyly86Y1t0Hk9zoxwwbZjujtZclZb+WYDXLqwQVjOClS+Dnd5+awiHjrqzjge+66RNJKFMwsdwjTMEpLXMgRu882S7ACHyHlGKx+FEzO1t8owSlpRnPFOA/pF10+tYyDR3T3maD9HOmsRUNlkfeMtQmvKpksLc0FfW33AKTq3xmALfKb+lYT5QmLl7bLffU5CplOsdvRh5TEu6j0ilnABcEXMN05217gun7nNyF1+ot3TSyu22AwbCGHvMGPWp93K93D7HCzBymnd5GBfkc6a4t+zlYJGZV/MhZ4QDNIr9hoaHgfcEPe3c3pOK2NVd8F0lDsEzFP9KCFK9FIGpgD17BKIViEuu/uN7oJTYJVvG0/mPVuqgyr7RvLiy4AKvjpIYEd5BSeAictADB677xp+oAfTo3DOcOx66jwBn/oRdL7+3O60m83cS2wF4kYWyCBvxsdJpNHjURVXc/8IVjD7wHJ3VkfrCQl58EuUpCiukRvQCdVFmfytSn2ii985O4Zko1srEqYAdAWokrbiH5fGe37QR4Q6YTT/oWvRs4qrfpoHzNPjqhfU7pEodF8qk5nVze4wuXb8FyjLnhl5tKMSbLHgmYjKot1ybtkp5txEl9O3sQ/96uYYGZNfhiHf1nTtRfueClv5KE0SKj6lrHeoDBElg==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(376014)(36860700016)(23010399003)(82310400026)(16102099003)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006)(5023799004);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U0lzRjFNYXdLUkx0UVBKbHh3TVVHSjIyQ2FTai80ZVNwN2M5NWNDMm93OTJx?=
- =?utf-8?B?eFU4NTYvVCtxQ1MrbFFCZlRkbFRnYXU4MytONGJvdVFQUHo2ZXBIUEpDNmZ6?=
- =?utf-8?B?THFYSzdBTXAreUd3VzQ0RFhsMmMzY0s4aFBjbGE1MTQ4d2FrcjhSREM5aGpl?=
- =?utf-8?B?OVo5VGNyZXVwTVBKWCtIUjMwWUh2Rlp4MjhScHFmczVZZDFRN2NqajI3eThX?=
- =?utf-8?B?Y1Y3bEg3SC9ZVzgrZ2NjdFpGOEZONm4vb21QVkdlVEl6OGc5SWYvNVp2Z1Vr?=
- =?utf-8?B?clQ1aHJ6OGpab2VMSHhwcDB6eUNXazA0THZ3Z1I0aGVHZUhUYjF0QjJma1pv?=
- =?utf-8?B?UTFrN3JsS1dRdU1TUjU3WUVqNFQ5TTRncE1GeDFxMFIxWXBteGRnQUI4SEhy?=
- =?utf-8?B?Q2NITWZMay9CVWJBWjh1VHQ3ZGZiS0x6amlKMDF1Z0JNeUhrZE1yVklRdzU5?=
- =?utf-8?B?TmoveW11TEc5TUcwMDQ5MU1URFVsNEFiSjRUaGpMVHp2NTBjV1pTSXpycWVL?=
- =?utf-8?B?VEo1aDZjUHMzWGJ1dDlSME5NNEVYZDhlV1pnOWhkUXh6VFZqZXJtV21TMVBL?=
- =?utf-8?B?cm1KcDBwME1PYWpsZHMwMlAwSTh0SitnWlBwRTVzcDBGM0wvcmx1YTFiUzVU?=
- =?utf-8?B?KzNFeGlEd2piV2RYVndTTEtGN1pMSmhyUVUvdG5zYm9wTnpLNk8xeUwrV1M1?=
- =?utf-8?B?UEhpSmpPMjBUc001L1JFUmxGaDk1ajJFbndaazIzSkFoajFQTkoreVFnUXp4?=
- =?utf-8?B?Q0M5RGVkTGhTNHFXV1BEcURmMEJvMlpUbFU2TTJRQzB2L2pPQnVxQmNWRTdi?=
- =?utf-8?B?clV6cFltTkpXWXRxS2RoemR6SXZzTjR0bkdsY0E4bHZhMG1oZUpUWVJpMCs5?=
- =?utf-8?B?bkdKcWM4Mll3cmRxd3ltd3hwaFM5bDBiQTNOWHQ2ZDdkMmtyditOUXlKTGFh?=
- =?utf-8?B?Uno0WUdDZVR2YUl4L2JqUGF6NVRIcVJQT3V5V3BYUWJ1VlRPNTJETm5JT2RC?=
- =?utf-8?B?cUtzVkhhVHZNS1JlTXE0cmxlQUtZekhTb0hOcHhtQ2NJakZQYzRWSWo0VU9z?=
- =?utf-8?B?TjRjTlJDWndMS0dUN0c3Vlo0MHZFaXlpbFF3cVJIVTVBVWRCZW9kU3hPMW03?=
- =?utf-8?B?WGhvcVFoMGRlN2Fvdk5RS2w0bzVhRFpKUjlteXBZUmVWMDNyNWZJdk02TGZ5?=
- =?utf-8?B?N0tUWTdoYWFHdS9WVE1saFo5RnZoVURQcytZSHJrS2c0bHhqaDRVYmg5YnNR?=
- =?utf-8?B?N0lPQllsbThQMGYva3FCMWRYOG5XS0x4Z2lsTFZLdk1tdk5yT214bnlORVVB?=
- =?utf-8?B?bnRCdzhBSHdCRHdTT25sV1JjUDRIQ1djclUxaWc4R3hUQnlYYzR3SzJNYTdC?=
- =?utf-8?B?SkNEbmZpdEdVUTlDYUhuVzhodDlPaGxPLzZ6NGxrOWw5Q1kzcFk1TzZ3SzBq?=
- =?utf-8?B?WFAxMnVNUHltK3ZRU0c4dDJocmYwcXcwMVozWSsyZ0lnV1AxS1VjSy9ybUtU?=
- =?utf-8?B?MzIyOWdQdGpZNWdPb0RwZjB2b0RoYnlRZmVnTUdPWmZsUWNzQnRYVW9hOXAx?=
- =?utf-8?B?THM3OUZZWUFITVl3MUhJV1M2UlA2bGJQTXdRTjVmTCtFem5iSmpTalU1bjlD?=
- =?utf-8?B?cU13UWVONENSOVJqMURNSFNNR1FRNHMwVWlNOW43OVU5WWFldHpROXBGMmxn?=
- =?utf-8?B?dVlSeXlUWmpxZSs1NUNLSGlsQ0dFeTMxTzZDbHpLUmpWVzdVaGRaV0Z2cVRJ?=
- =?utf-8?B?K2ttd29xZGM1bnNQdW1sZFdrSWJ0bUdMN3FPZjVjTDZhK0JrancvREhJcUxl?=
- =?utf-8?B?VDE0VlNoSmJoVGdRMVdYS1RNL3FiSnl6bVN4dk9xeXJPelM2Snk3VVhlTFNw?=
- =?utf-8?B?VWRST2ZFcHpROXdhSzdGdnVSeWtVakpFNndJc2JNYVZjUWVxdC84VVY0cjhh?=
- =?utf-8?B?ZUxRaVZsWit0U2JEU1RvQmJ5Z2RlcVh5WUJXR3BRM3JwaFpucE1Dbzk0eGE2?=
- =?utf-8?B?OGVNMjB6Y2dnNnA3OUFWb3huaTgxUW5RVlNrZnJjK1BhdEVmemN3NDJtcUVl?=
- =?utf-8?B?YnBCRWxOQWMySUlETE5sWlJQZVR3cGNWZllWdktJWGRUa0xnYnVwckVud0Vl?=
- =?utf-8?B?Mm4xdkIxVDh2QkNFb3FaUkMyWDlDRzZGRXo1V20vbk8wcVVkVWVMZzFDZTFY?=
- =?utf-8?B?a3QyZytlaWY4bXRlcjJnR1ZNWXFob2lHRFEwTy80NCtxL3FLbGJlRE5FTlBN?=
- =?utf-8?B?ZmlVY0hpRjdmaVQ4NkZQUTlsVzZ1cWxZZy9OWGVNN2Y1YUpxeVh0cDhPekc4?=
- =?utf-8?B?VjRsZ2gvLzU2ZDgwbkxiQnRBR1pWUCtHRy92QWRJQ0lPdDZjOVlWQTJ4OFIv?=
- =?utf-8?Q?JFkDMHhYkGT3VWXs=3D?=
-X-Exchange-RoutingPolicyChecked: HPDuxvwbpWPjCJFnBPyLjckf9JTec/Uzmu5yITFzs2iFFXYZc2RlbbX1cpQaeFfJFGfVM0F7+9B+a26ZC5ngHyAt6ITahdAdnddDsLDBPNFpQjXTFqwDxsBeXBu0g77klqHNDRvQU47o6avrD0/EAcDKc2Tz+5bCftORZiygJr2m+/RqUSirAyCLQ/UjPan2kJME5ULIv1+XX9WX1rxGfCcg2hGcJ7g3WiQEE2jWAfSn5/NluBecNQTt76Zvm4qyROauaP5LggsQHJEu1v+ZgRxmkzgBEs1n2qbL9cXmF6TExk6rXqSXs51RGp21cE6AvyOTqBtJ+sxmX8kfehC43Q==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53dca2aa-1052-416d-e4e8-08ded754278e
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 09:35:57.5586
+X-MS-Exchange-AntiSpam-MessageData-0:
+	MKlauXAX6dBM14ddQ1kvBGkGTKLumAHyx1ltG1UrBPI0ouC1crCwimmf4YHDewKeHnAcrpdTpeEYgfZAUbCiIuO0C1Tz4u75zgkIvJKwqHy7d/mKF99F2W9UMMAJqtoHBimicheVMkyBVxDZrRx+FgRzKWo0cg2pJNIBPysbKRKKKM9r/OpkVBAtMxV4VyBcdc/jZizCfZ10I7QaZ+/NB9DU04vtNfyi5TLB7p20twZQVRMNBpwmzpAeBrPEIBokoNlZta1c+95PIbm9ZOkRpktt2nlu9t+NQtvYrzUbGUinXm/07vlOzj+jiEVQAFTn4YoCZ2u2efbaQgxI1eniIL/fzVZJuC7D7lBlF3MliJOy35beMD5MDJ+nz9uaN8bkUG32m24CMs1NvD5tp2WUpjYobaWxzL4K3yTeJiSZqSaLkfamBTmGBCC+ztE5GwiT
+X-Exchange-RoutingPolicyChecked:
+	JqkMTeTOZlVhPLOIkocvOKF17Nlc6vzH5sVhwxHaVKBvN6W//7bI27yNwd6sELxf0swgaacJ9oFyDU2Hglkd5JhBjVOEtGOVEo6YygyNXjYcLt4cFinLzuBlDUFPm/WBA9nQlVPauQQrTzlfFcJCl2BesItr7pC9HwypY/0z5qJaL9mFmIwOL/OZNkdCiTO4wSR60xcM2Nh3Z9KJEXhayTqVQUObgVxq3aLWl91VLhIW1A7AgRTZ9un08lILzEHvO4zvMB6IyKsv80nlLmBVvAy4Dagb/91LgL0RYzarRTvdkyjyLK08BoXgUZ+AOteFbB1mm0M0OwZTySVQ08Igag==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 09:46:19.8336
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C9uP9rW5OBQluK3frTqJ2zbeQ5TvMXcDa9zaz+DlKK96Rh2o3nZBVKzUK0S7zIPNiw9xQnD17M/5ZCcfAVh+L6Mhjg3urJxs2R/RkIoDVhI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5885
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 22c3add2-7e1d-4c2c-4945-08ded7559ab8
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF0000150B.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR19MB8477
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAxMDEwMCBTYWx0ZWRfX3SfGPK2lmXjb
+ 7EokAY+rK9eN/R9Q2BIOCjQdPoIneJdCKKYRCmHFZPSbLxMZG+BeuoXZUo8HsmSiB67NSzmPsFY
+ 8TCsJ+rYGgA2hY203RAzvJo9M+FlWUY=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAxMDEwMCBTYWx0ZWRfX/hYytISdpEj6
+ 8Q1XJJrVKM3yN9zPPxiw61pSPGsAQ6U5RbyvCXneSfJWreyhevTG259WW0/5h+9mPJxfuu9D4CF
+ JS0i8N0ErsfI6ohDDQlrZiGmbuwYJqCe6zXoebkse79SBQ0fmuNHlDqpeS+h1HnknXYCmI1fjmA
+ ufqzhDl+fsbaEYHthFkIXxpr1DB6cqjEEuOa10b0nGMI3JVaV90GW6dFSdBmAtvnYXI0dooa9Hs
+ Iijc21r90pbJCFLeaar87vo9hE2J98kVZknXzCYuiFNo5Y203IqxzlMuN2N0LfpeatPdZI7qwyF
+ 62m4NarlVbXpSWm36J9DSN59u7I4HcvpFt2Xx0Fko+ThSkeniQVfEECZy/rjq+JN1ybIwh75WWU
+ hoUpAZPWf+VMVP1DHi6bAcDkyZxjyc6Cth4GurtWvYpFlSOI/zM2fKPCLld/9OvzalVhhZHjg4Z
+ uI9YMCuI35wzK/roNFA==
+X-Proofpoint-ORIG-GUID: o2UzzxkG5nS0ErZeIrn4ifEjHkqjb5HO
+X-Proofpoint-GUID: o2UzzxkG5nS0ErZeIrn4ifEjHkqjb5HO
+X-Authority-Analysis: v=2.4 cv=PrSjqQM3 c=1 sm=1 tr=0 ts=6a44e1f1 cx=c_pps
+ a=jsJx5cRpnMcsqjM19+T+dw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=Byx-y9mGAAAA:8 a=9wctomZQMzHt_drke44A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Reason: safe
 
-On 7/1/2026 12:49 AM, Kuninori Morimoto wrote:
-
->>> But basically, I would like to capsuling DAI/Component/Card into each
->>> soc-dai/component/card.c. Because current ASoC is not capsuled,
->>> each driver can directly access to each members randomly.
->>
->> What do you mean by "access each members randomly" ?
+On 01/07/2026 7:51 am, wangdich9700@163.com wrote:
+> From: wangdicheng <wangdicheng@kylinos.cn>
 > 
-> We can access each members without restriction, like below.
-> Because of this, there was a driver which is using the member a
-> way other than intended.
+> Replace the manual mutex_lock/mutex_unlock of irq_lock with
+> scoped_guard(). This lets the compiler guarantee the lock is
+> released on all exit paths, eliminating the err label that
+> previously existed only to reach the unlock call.
 > 
-> 	component->aaa = aaa;
-> 	component->bbb = bbb;
-> 	component->ccc = ccc;
-
-I see your point but that's very close to over-defensive programming. 
-If a developer wants to break their driver/configuration, we can't stop 
-them anyway, no matter how tight the API is.
-
-Why over-defend?
-
->>> 	int snd_soc_register_component(...)
->>> 	{
->>> 		...
->>> (B)		component = devm_kzalloc(...);
->>> 		if (!component)
->>> 			return -ENOMEM;
->>>
->>> (X)		ret = snd_soc_component_initialize(...);
->>> 		...
->>> 	}
->> I hope you do not mean to privatize/drop the
->> snd_soc_component_initialize() and snd_soc_component_add().  These give
->> us a) flexibility and b) dd-alike API (the device-driver API).
+> No functional changes.
 > 
-> Yes, my plan is makes them local function.
-> 
-> We have snd_soc_register_{dai/component/card}(), but only component
-> has such style. The biggest reason is regsiter_component() allocs
-> component inside, but initialize() assues component already had some
-> member (->name, ->debugfs_prefix).
-> 
-> So, if user want to set own driver name, he need to
-> 	- alloc component
-> 	- call initialize()
-> 	- call add()
-> This flexibility is simply needed to set the name.
-> But, I don't think it is strange that the *component_driver gives its
-> name.
-> 
-> And more, if component capsuling has done, you can't directly alloc
-> component.
+> Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+> ---
 
-Meaning with this you break a) flexibility b) alignment with dd API.
+Is this fixing any bugs?
 
-The flexibility is needed only for the name, _currently_.
-It's not _only_ the soc-component which has such style, device-driver 
-does too.
+This is a lot of code churn to fix nothing.
 
-
->> Moving on, does this mean we are getting dev_name()/dev_set_name() for
->> the component?
->>
->> 	snd_soc_component_name(comp)
->> 	snd_soc_component_set_name(comp, str)
+>   sound/hda/codecs/side-codecs/cs35l56_hda.c | 104 ++++++++++-----------
+>   1 file changed, 51 insertions(+), 53 deletions(-)
 > 
-> ?
-> You can set name via component_driver->name;
-Asking about the getter part too.  How, after privatizing component 
-_and_ component->name, one accesses the component's name?  Let's say 
-from snd_soc_dai_hw_params() context.
+> diff --git a/sound/hda/codecs/side-codecs/cs35l56_hda.c b/sound/hda/codecs/side-codecs/cs35l56_hda.c
+> index a0ea08eb96a9..2d9d75053293 100644
+> --- a/sound/hda/codecs/side-codecs/cs35l56_hda.c
+> +++ b/sound/hda/codecs/side-codecs/cs35l56_hda.c
+> @@ -625,74 +625,72 @@ static void cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
+>   		goto err_fw_release;
+>   	}
+>   
+> -	mutex_lock(&cs35l56->base.irq_lock);
+> +	scoped_guard(mutex, &cs35l56->base.irq_lock) {
+> +		/*
+> +		 * If the firmware hasn't been patched it must be shutdown before
+> +		 * doing a full patch and reset afterwards. If it is already
+> +		 * running a patched version the firmware files only contain
+> +		 * tunings and we can use the lower cost reinit sequence instead.
+> +		 */
+> +		if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
+> +			ret = cs35l56_firmware_shutdown(&cs35l56->base);
+> +			if (ret)
+> +				goto err_fw_release;
+> +		}
+>   
+> -	/*
+> -	 * If the firmware hasn't been patched it must be shutdown before
+> -	 * doing a full patch and reset afterwards. If it is already
+> -	 * running a patched version the firmware files only contain
+> -	 * tunings and we can use the lower cost reinit sequence instead.
+> -	 */
+> -	if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
+> -		ret = cs35l56_firmware_shutdown(&cs35l56->base);
+> -		if (ret)
+> -			goto err;
+> -	}
+> +		ret = cs_dsp_power_up(&cs35l56->cs_dsp, wmfw_firmware, wmfw_filename,
+> +				      coeff_firmware, coeff_filename, "misc");
+> +		if (ret) {
+> +			dev_dbg(cs35l56->base.dev, "%s: cs_dsp_power_up ret %d\n", __func__, ret);
+> +			goto err_fw_release;
+> +		}
+>   
+> -	ret = cs_dsp_power_up(&cs35l56->cs_dsp, wmfw_firmware, wmfw_filename,
+> -			      coeff_firmware, coeff_filename, "misc");
+> -	if (ret) {
+> -		dev_dbg(cs35l56->base.dev, "%s: cs_dsp_power_up ret %d\n", __func__, ret);
+> -		goto err;
+> -	}
+> +		if (wmfw_filename)
+> +			dev_dbg(cs35l56->base.dev, "Loaded WMFW Firmware: %s\n", wmfw_filename);
+> +
+> +		if (coeff_filename)
+> +			dev_dbg(cs35l56->base.dev, "Loaded Coefficients: %s\n", coeff_filename);
+>   
+> -	if (wmfw_filename)
+> -		dev_dbg(cs35l56->base.dev, "Loaded WMFW Firmware: %s\n", wmfw_filename);
+> +		/* If we downloaded firmware, reset the device and wait for it to boot */
+> +		if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
+> +			cs35l56_system_reset(&cs35l56->base, false);
+> +			regcache_mark_dirty(cs35l56->base.regmap);
+> +			ret = cs35l56_wait_for_firmware_boot(&cs35l56->base);
+> +			if (ret)
+> +				goto err_powered_up;
+>   
+> -	if (coeff_filename)
+> -		dev_dbg(cs35l56->base.dev, "Loaded Coefficients: %s\n", coeff_filename);
+> +			regcache_cache_only(cs35l56->base.regmap, false);
+> +		}
+>   
+> -	/* If we downloaded firmware, reset the device and wait for it to boot */
+> -	if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
+> -		cs35l56_system_reset(&cs35l56->base, false);
+> -		regcache_mark_dirty(cs35l56->base.regmap);
+> -		ret = cs35l56_wait_for_firmware_boot(&cs35l56->base);
+> +		/* Disable auto-hibernate so that runtime_pm has control */
+> +		ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_PREVENT_AUTO_HIBERNATE);
+>   		if (ret)
+>   			goto err_powered_up;
+>   
+> -		regcache_cache_only(cs35l56->base.regmap, false);
+> -	}
+> -
+> -	/* Disable auto-hibernate so that runtime_pm has control */
+> -	ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_PREVENT_AUTO_HIBERNATE);
+> -	if (ret)
+> -		goto err_powered_up;
+> -
+> -	regcache_sync(cs35l56->base.regmap);
+> +		regcache_sync(cs35l56->base.regmap);
+>   
+> -	regmap_clear_bits(cs35l56->base.regmap,
+> -			  cs35l56->base.fw_reg->prot_sts,
+> -			  CS35L56_FIRMWARE_MISSING);
+> -	cs35l56->base.fw_patched = true;
+> +		regmap_clear_bits(cs35l56->base.regmap,
+> +				  cs35l56->base.fw_reg->prot_sts,
+> +				  CS35L56_FIRMWARE_MISSING);
+> +		cs35l56->base.fw_patched = true;
+>   
+> -	ret = cs_dsp_run(&cs35l56->cs_dsp);
+> -	if (ret)
+> -		dev_dbg(cs35l56->base.dev, "%s: cs_dsp_run ret %d\n", __func__, ret);
+> +		ret = cs_dsp_run(&cs35l56->cs_dsp);
+> +		if (ret)
+> +			dev_dbg(cs35l56->base.dev, "%s: cs_dsp_run ret %d\n", __func__, ret);
+>   
+> -	/* Don't need to check return code, it's not fatal if this fails */
+> -	cs35l56_hda_apply_calibration(cs35l56);
+> +		/* Don't need to check return code, it's not fatal if this fails */
+> +		cs35l56_hda_apply_calibration(cs35l56);
+>   
+> -	ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_AUDIO_REINIT);
+> -	if (ret)
+> -		cs_dsp_stop(&cs35l56->cs_dsp);
+> +		ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_AUDIO_REINIT);
+> +		if (ret)
+> +			cs_dsp_stop(&cs35l56->cs_dsp);
+>   
+> -	cs35l56_log_tuning(&cs35l56->base, &cs35l56->cs_dsp);
+> +		cs35l56_log_tuning(&cs35l56->base, &cs35l56->cs_dsp);
+>   
+>   err_powered_up:
+> -	if (!cs35l56->base.fw_patched)
+> -		cs_dsp_power_down(&cs35l56->cs_dsp);
+> -err:
+> -	mutex_unlock(&cs35l56->base.irq_lock);
+> +		if (!cs35l56->base.fw_patched)
+> +			cs_dsp_power_down(&cs35l56->cs_dsp);
+> +	}
+>   err_fw_release:
+>   	cs35l56_hda_release_firmware_files(wmfw_firmware, wmfw_filename,
+>   					   coeff_firmware, coeff_filename);
 
