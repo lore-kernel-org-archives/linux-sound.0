@@ -1,284 +1,211 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA593EEAD0
-	for <linux-sound@vger.kernel.org>; Wed,  1 Jul 2026 10:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782900207; cv=none; b=kRkvj4kWXCv3oFfJCtLqX09u4fmz1hgC9npQkg3xb4cIGnarP+fWZHgQM5J7sIJQODE0iV1SYnipHZ9GJ23zUeYBh/CliU8FBycO553EXH67f/sYfVt65JFX5kZozqNUVoZAgEpAnDiKqJMSAdEY3Bb7SO7juj+GPtOE07/pRv8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782900207; c=relaxed/simple;
-	bh=oR9PMCifHmYzIvF1f/TeSoP6QtSM378Nlq0Xd4jrnl8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H4xm0EnD45FhrgvaTdIzxUGfS9ODQQwaN4weCOcQj4TUl17mSiZnMxh2Cgmh4CC3+xlNLZThRAeWYsZtIj5+1nHYs9OQWC1vqLcwH/wDhVtnuAoNld+8jFTCI90Iw0spZZjtmM1uYI6hFV5ud6HHkuJmN3zJXVwptPT4nLtlgsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JubSgTko; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nyPcNsLH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W8uUJi2I; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=01PxVXRh; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325DD2BEC2B
+	for <linux-sound@vger.kernel.org>; Wed,  1 Jul 2026 10:08:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782900518; cv=fail; b=O5A6xa46e41pyCQp/E2t/5KaTA89hAM5I8XTsR4H8dsIW6NLgvFhI6Bo6uzk75wkLal6r2fXPMfQI1TErlJ3GhuaptIsehpl5c6MSLQitvj+Gh1Ra0lO91gXMu6pSMtPkQyzy8uIcg4t6v6J5M8Zy8QkLtWnL6z99NnB9KLbw4M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782900518; c=relaxed/simple;
+	bh=usERg42JC9EprxOrtT4rXfYWEUS7UwcMZO5c+qVYrqY=;
+	h=Message-ID:Date:Subject:To:References:CC:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=QAAg1kqo3UG1R8MZBR8OZuabBZTWdHMg9RddHs+VyOPAawhsAIRO3sqfo7lh+ri497/D/pRBeD7BptL3UtFHXydZdeJzoTjhj/7vS0aySFodJVpJN8cbxeFvZ7vd0d+NImI3g4SwsO1pdolxieyD/rmlyEsAlkLR/IkNt6nqrek=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sbe5Hjwx; arc=fail smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JubSgTko";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nyPcNsLH";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W8uUJi2I";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="01PxVXRh"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C5F6C75F59;
-	Wed,  1 Jul 2026 10:03:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782900203; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=le31d2tbOy5TJIvSiv+6y6dMNVk5perAPFF83mCDD1Q=;
-	b=JubSgTko0bICHgO8TZ4PR1A3mLWT87/E/UBqEPg2xmkYrfYrH0UD4UlR5h1n4lWHAfF41y
-	4J+Tii4ZQlzXsJ51wbgdeqY2sw+tw5kRYoAMUVKJ0gXqRJJH1yourTKIiytScVVyAnsCAI
-	Ez6ORcqeSly6OsloSZnQwwY3U3jMQzw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782900203;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=le31d2tbOy5TJIvSiv+6y6dMNVk5perAPFF83mCDD1Q=;
-	b=nyPcNsLHpT9N1z82DTx58cD79GvLQxkqpm/9i67YwPpMxXb3xLBJUUH2nSmXZvjGnXs66k
-	H7KRHc6zkPpZjXCg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782900202; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=le31d2tbOy5TJIvSiv+6y6dMNVk5perAPFF83mCDD1Q=;
-	b=W8uUJi2IY10NtB42LYjSZyXj+dHGKkxXmPC7KPzg5a1c2PdAX1cHQVNks5hYN0/Ry00YKA
-	UCcrJQyqjtTCObDM3z2mjfMHyXLF7BGeyQ5YmwshGQbGhu435v+iZ+oI+OF2O5zCB3Pcz+
-	+bq+AkxOwKnXdTApp42Whr34lgbf8MQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782900202;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=le31d2tbOy5TJIvSiv+6y6dMNVk5perAPFF83mCDD1Q=;
-	b=01PxVXRhqup5WmycK7hlEl0wI8E7Lu+INRZbS6lpCRWnLUx9xGogYZDEoZiU71GTW0PgsI
-	GC/CuWXidheEQ6Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 87918779AA;
-	Wed,  1 Jul 2026 10:03:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PfrIH+rlRGqMNgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 01 Jul 2026 10:03:22 +0000
-Date: Wed, 01 Jul 2026 12:03:22 +0200
-Message-ID: <87cxx7uivp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: wangdich9700@163.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	wangdicheng@kylinos.cn,
-	david.rhodes@cirrus.com,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] ALSA: hda/cs35l56: Use scoped_guard() for irq_lock in cs35l56_hda_fw_load()
-In-Reply-To: <32d2c13a-25f1-4783-ab53-b59ff41940a8@opensource.cirrus.com>
-References: <20260701065108.596046-1-wangdich9700@163.com>
-	<20260701065108.596046-3-wangdich9700@163.com>
-	<32d2c13a-25f1-4783-ab53-b59ff41940a8@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sbe5Hjwx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782900516; x=1814436516;
+  h=message-id:date:subject:to:references:cc:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=usERg42JC9EprxOrtT4rXfYWEUS7UwcMZO5c+qVYrqY=;
+  b=Sbe5HjwxB6JYKoH2OYIwbPUXXBpYuu38VbzwlWlVD7xaa3yh1MJof/0O
+   /710GrwKTGFl1dNtwvvXof4uQWgHxvytS8TxjMpAlk06QEkEtlbSbBvbr
+   vskIUYzso0rub7GhpFvAZZzEMWwmkbx+ZvZC4KPLYytkDtgTHNfld0x4Y
+   +RG5MYDuw2zgy8AYdskik4TLROqMvJ3J6N3tloko4sUMQbrc/C+NRT+lU
+   Vgkqauo1FyV7FfEhWz/KNaDlUkvgLs4pPvY/87AXVjALumDbuizfEZi7O
+   oDPLEmhf27eOJ7krfwyhxE43okxLH/kcCktlkwilwpKvjmzGX9nU9bKwX
+   w==;
+X-CSE-ConnectionGUID: efvQPFzMRFeweNtAtRdXUQ==
+X-CSE-MsgGUID: JWwYOKm3RJ21y+aXVzS1Tg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11833"; a="83764497"
+X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
+   d="scan'208";a="83764497"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 03:08:35 -0700
+X-CSE-ConnectionGUID: Art4G2pMT0+wpU9+I3nBPg==
+X-CSE-MsgGUID: l4iX+7B0QKymczudhBh9rA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,235,1774335600"; 
+   d="scan'208";a="257427802"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 03:08:35 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Wed, 1 Jul 2026 03:08:34 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43 via Frontend Transport; Wed, 1 Jul 2026 03:08:34 -0700
+Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.30) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Wed, 1 Jul 2026 03:08:33 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IB8ion5AdbgDFvrJdW9wFgz589HSHemCjpe1Rv3t+9buys3wo+4vG3ZoRwcuE2qPmFMNbltjp7GxqlD2ZUoBCpv6RHMutNoqwvfXnMEemFGcLrAnhstN8FPkBnsO85a5888AmwxLIbrZliYHCaA03S16mlRjlpK7V53v5YgvuYTiNbo2nDhkzK8HDcYwzHt4EetkXFcilAo8Ye4gv8SIcv+ufQBmQgd0BemKxlOXTTTA2u5EYsGUEUNExKElT6yw7V2jZBOe3ttRDxgztVEEuoig0i7hC5QtijhLA5jIFTP23UjWgoYz0u42WT7cmRqyTn8ixSdz3w5d6qxTOC3NxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XuvHFW3mXWBL620n6aM+mPmSLg3GtktBU+nfHade+zo=;
+ b=f1UK+XyYy/O0INZeDaui1CERUzsQfyECF3x2/Juanzv6Nw+L5I+0qiMhVirugiZW77aREhonz9OAOHPFsCR4ImQ5URpTy9LPnOToCFv8fbrcNhaVItpr1qhEdHhGfe1kL6q8cRle1gCabvVl5kgibwrWmFnVPTNDKP3oTvOCDozzIqpUoGXVcSa0nZTkyDFxawDn/j13APV4gqRZrCl9BkdVRcFnvQCH8Svj7lMSCadMmQ5l3SgxYSkuNkDmOm9zuTzxOoiNRW7bQDt+mDD83UUCu+TBNLIswg9CrMFBK6TztlATmwSN0N27USRexjl8QTSfBiGKKKATPRD/Mel7Fw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
+ by IA3PR11MB9327.namprd11.prod.outlook.com (2603:10b6:208:57a::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Wed, 1 Jul
+ 2026 10:08:31 +0000
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4%3]) with mapi id 15.21.0159.018; Wed, 1 Jul 2026
+ 10:08:31 +0000
+Message-ID: <8e9229a7-f58c-4f9c-ba26-f4f12d91e279@intel.com>
+Date: Wed, 1 Jul 2026 12:08:26 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] ASoC: intel: avs: pcm: use component_name for
+ Component name
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+References: <87fr29esth.wl-kuninori.morimoto.gx@renesas.com>
+ <87bjcxessn.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+CC: Bard Liao <yung-chuan.liao@linux.intel.com>, Jaroslav Kysela
+	<perex@perex.cz>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, Liam Girdwood
+	<lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>, Mark Brown
+	<broonie@kernel.org>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Takashi Iwai
+	<tiwai@suse.com>
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <87bjcxessn.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: WA2P291CA0042.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1f::14) To SA1PR11MB6967.namprd11.prod.outlook.com
+ (2603:10b6:806:2bb::15)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.992];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[163.com,perex.cz,suse.com,kylinos.cn,cirrus.com,opensource.cirrus.com,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,kylinos.cn:email]
-X-Spam-Level: 
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|IA3PR11MB9327:EE_
+X-MS-Office365-Filtering-Correlation-Id: 47c9b54b-ac5e-46da-5c45-08ded758b3fb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7416014|23010399003|18002099003|11063799006|4143699003|22082099003|56012099006;
+X-Microsoft-Antispam-Message-Info: Swp/gtXvSmXJewDSlr1SGvDxAUQHaBuTQ4XH8MG/MVWvMaIoeU0ShWdH06Bi1Mgl1VPw/5WQ9sT5LlYrepQPxAlhTl5NbJ/8evFFqGPd/Gsc3smpOHJb7Pj3KG8VxX+ScW9Hu2ovutTA0P6+XeTvX2g4Cb/QRqHx4QcbEVV46nAHthML+Bv+CMn96v6m+9U2Q/SEejwCTEtXo4KlbXw7Xmwfjy3AnB7Hm9Pskxr/c9kVkwn5ouxtqi16hFDJ53OTWE12DFhsFlvMzBb5dDT+sYAim2k06BxmpLH+sJBU/FDvFQoZm47G6oMfZSbKd5ege/tp2MFLD8xobZSuQhpeKZLXw0uxTLp8EEW1N74bmUxU2GaJyQcNtuSEcgEXkK4qEJXFUif6ZrQZfbnIJ2wVu9EiBVObARY/+2mQkxvLSJ9gMVYfv9IYpCRmfUn6mCi/qMJJrq/hqCUZrxqBkxodySOqKKIJoxHBCr/JnuqPjJY7jT8vHEFLGX43jaHstw/OvQvpOnEP8LEYSoLpj2o+5K7fL4vFnHmMKh3WxuDrkpuARsyzCuytfRdosa2QhIfBeHJWXpNthXghqhKmGp8uTnfcLKSpiyetYj2AZsLhZ8Wqy+tW54XuREq2GpWqpxjoLuqhDtpKUX906DPOd0lRvEV2IIgx+vPkzvlXuvCMvAM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7416014)(23010399003)(18002099003)(11063799006)(4143699003)(22082099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UzB3RFJUdVhDL3R3NUlGY3FGcDFCZ1ZsMTFDcVh2WnlwV2pVcEFvT2RlV2FQ?=
+ =?utf-8?B?bEZ1bkkxUEw1SVoxR1I5cVVkOE1idDdnMVVYV1haMkwwbDFHWWNhUnpRbkVN?=
+ =?utf-8?B?aGJTeGpLY1J5eWdhdUJJNVNDOFE5cDB4TzFzRHlySW5YMEdxRkF1L3ZOMVJu?=
+ =?utf-8?B?TkE1NjgvY3lzajVaVHUrejdRR2liM216RFErQXBBT2dPT1EvWjg4cmo3d0ow?=
+ =?utf-8?B?N3dSRE1VSEVLZ1JaUlBjWDFVc0hwcEwxMnRFMnZjLzN1TTZqNFdVU2tONTlR?=
+ =?utf-8?B?dDRQejU3VllsMFhKcDVGTUU5RW1xSVpUdmgyeDd3RmVWLzUxR1N3S2ErTmxQ?=
+ =?utf-8?B?R2xGajVHY2FBU3VDQWtHd3lZbTI0T3JxOGhpZEZzdTRQZmN5ZDZ2RjJWVy9w?=
+ =?utf-8?B?M1Q0Y1Y3bHhhY2FHT1FETlY5Ny9SdnlyQ2lNbnN5NnZub2ZPRjA1Znhod1NH?=
+ =?utf-8?B?eHhDVGMzaVhReTZzN1ozVjNvR2VJbjhKT1lyRCtqRDBKK0VtYVBtM0NWOXhC?=
+ =?utf-8?B?YlhoMzJuNHBaRTU0SEJ1Um9ibzYzd1dWRG1XTVVPcEtvV0poRkRzN3ZiTG5n?=
+ =?utf-8?B?d2l0WFoxOENvN3A5MDFvcFRNbjQxMWg1aHd5aWVab2VYcUxpZDY0ZmljbjBT?=
+ =?utf-8?B?ZUdYdEovNi9pQU9PZnV2L1ZlMmV2Tm9TaFFXYy81SXl4ckRDUGdtWGpxUERB?=
+ =?utf-8?B?UUNyUEtmQWxDMjNPckthRlVhZHpBLzFKRGZJa040YXpyQXVEZnREZHhsMDdV?=
+ =?utf-8?B?M2YvUkU2V3RhaDRUR040eDdscjV2c1l3Y042Q21BRkxCUU41V0ZST3ZyT25V?=
+ =?utf-8?B?eGxSNVlML0o1L2szQ3JPNlBhcjJOMzdRTnVPWXQ0b21BSkdPSWVmYzlkNm1p?=
+ =?utf-8?B?ZitqVS9mVmNydS81YUVkaXAzQjNnZFViZ2hRWkRBZjlaQ3F1cDJITVhTc3lL?=
+ =?utf-8?B?Z1ZMWjkxRlRNcVJkcmVzZzNNMW5rd2dBdVJwTitRL2JoNlFUblJIODVhc3Ax?=
+ =?utf-8?B?a2Y0MHREdmlldFNnUjBscE9zaVg1WmMwU1NKYlpUYTVMUkEwWHRTeGpma2F2?=
+ =?utf-8?B?bjNtUlFybDQvSUhRb0JJMjRjZ1lnUWFhcmVVQ0FwTVBSSG92R1pkekxKRkFJ?=
+ =?utf-8?B?WEN6ZWxGWCtkNG40SE1xdW1Vb0dsREJMZi9maCtrVURoalA3V21kR2RNaG5S?=
+ =?utf-8?B?cG5pSTRlSTg5MzA3K21TZmxNUUdEaUtGeFhnMWo5THBKR0FzRVh6ckdqSTU4?=
+ =?utf-8?B?L3Vab3FjYm5NeUlsZWZZZitKMGw4UHVFR25WMGdlQWhvQ2loM1dQbWRoTnRr?=
+ =?utf-8?B?Z0FDRGtLcDg4ZGk0TUFWSVRGU3dBRVNIb1RIMXc3M2RHUmJxbS9tcCtSNUdC?=
+ =?utf-8?B?VFVPaGNSYWJQVjF1eVBPQnpLbjd6UlJyVi94RkFScEwvaTFteWt3MDVkWnF5?=
+ =?utf-8?B?L2ljRnl5dGV6VUdFdUxuYkpBclRCTHUrczZjdURyMGdUU0hUQnA0U1NQMGY5?=
+ =?utf-8?B?WU04ZEZySWhEemhHd2NXbGI1enVOV1BiMWlYSEZpZlRBQmpCbkZXTVlvQ3dk?=
+ =?utf-8?B?Y0I2WmRkeGc0WFpPZW5YNUdMOVk5cURFTWUzT082WWF4ekFlVXNRWWMyNFBm?=
+ =?utf-8?B?czBvUzR1d0hIUmc1bHRnRURZc2E4d1VYL1pTVTkyV0hiMGhuY3ZHbVFTZ1dF?=
+ =?utf-8?B?aEJqK1grTkFiSEp3MVpmbktUelhibjJtZHdUa29CMDBvd29FV2Y3OHBOTnJi?=
+ =?utf-8?B?ekJJZlhMcHVIWXhhckpXUHQzN0d0YzRjeDk3K2ZpM012ZGJMOTE4OTBRYWpr?=
+ =?utf-8?B?Y3c1aDdMcmQ2UWFNK0pSbGE4V2EwQVR0aTdFMnVmd2M4c09TWlloZDNQS3lZ?=
+ =?utf-8?B?bFJnbWtBdHhZUll4RTBZY2xoMkFJaEFNN0dsdEpkWEkwVGZOejU3Y3hzNEtu?=
+ =?utf-8?B?UWZ3QVEzck5qNDdRL1hxTlp4TytjUmdSeTQyL2FCUFE0SXdIWXRZWGpVYmRi?=
+ =?utf-8?B?TmlpT0t6dkdnbmdlVUc4MU1oNVBvZEs3U1ZkbVRsNm8vLzJtN25qS2JObWt5?=
+ =?utf-8?B?OVoyckNNd1E2dGkvNStkVEFGSytoZFRMN1ZBbWYwRVp2Nm9RNE51eFkzRjgz?=
+ =?utf-8?B?OGRVNVRhRThGSFQzeUJ0SWtYY3JCd2E3OHJ3ekRIMWlBWHlVV0FHRDU1UEk2?=
+ =?utf-8?B?d1pJR1lNRVhTVmpKQzlBNGJobFZmTmdWVmZ2RkxyRFhxUjB2blFlaTZPcGxj?=
+ =?utf-8?B?NVN5Wkltc0hiQnJuTW1LYTFRSW9PNG96b2wzRC9KZmJRSGlFcytBYmZpUU9j?=
+ =?utf-8?B?SnU5SlhXSjFUbmtLRFhYVFhmblZidm1hUnBqdmZBcStrYTNrNlZDN0lnbm8z?=
+ =?utf-8?Q?JbIxgxEkKgPlMpJs=3D?=
+X-Exchange-RoutingPolicyChecked: RyYTP1bsPRPfoRRLWhJpobA+tspWSMz3mwVkenhp2OMqiwdQYEJdNm/QKPA1t6Bx66VuSZCmJB5GseEbecTL1XPs6sWBE4A+EtSA8UUWS9SepiMVCwmeYg0wOYSEVQg9fnrb4FrSq0WbZ3UG6d93s41ZjTXXtoGb7TWQWX/KolpdWO87daYkgNn0/7sjNXyiUUt2NVrTpgRe1+0uO//u1yPSRBcHV6w5nRr5VYQUcu45kXIsifBzbkkEDllqCTuUVnEziDLLGSPMmB+OLh3eA+MFYX9dGjg5voaC8ggtZaMgOAoz5qJld53JAYwEo9pcedZpCGSgHym77B8VIiDsoQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47c9b54b-ac5e-46da-5c45-08ded758b3fb
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2026 10:08:31.0744
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: A1mgFz+5Dcl/Bz2jpiykmMm2FlBD4DrjjY2Oq2ZPHjQQJsNrQA2VArfvuSAAHOGC+AQcTnGZ13AOegeBKu82DY6vZkqNW75RjnRX9cIPLFE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9327
+X-OriginatorOrg: intel.com
 
-On Wed, 01 Jul 2026 11:46:18 +0200,
-Richard Fitzgerald wrote:
+On 6/26/2026 8:10 AM, Kuninori Morimoto wrote:
+> We can set component->name via component_driver->component_name.
+> Use it
 > 
-> On 01/07/2026 7:51 am, wangdich9700@163.com wrote:
-> > From: wangdicheng <wangdicheng@kylinos.cn>
-> > 
-> > Replace the manual mutex_lock/mutex_unlock of irq_lock with
-> > scoped_guard(). This lets the compiler guarantee the lock is
-> > released on all exit paths, eliminating the err label that
-> > previously existed only to reach the unlock call.
-> > 
-> > No functional changes.
-> > 
-> > Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
-> > ---
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>   sound/soc/intel/avs/pcm.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Is this fixing any bugs?
-> 
-> This is a lot of code churn to fix nothing.
+> diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
+> index 797b9c9163b49..1a0b7cd26d9f1 100644
+> --- a/sound/soc/intel/avs/pcm.c
+> +++ b/sound/soc/intel/avs/pcm.c
+> @@ -1393,8 +1393,8 @@ int avs_register_component(struct device *dev, const char *name,
+>   	if (!acomp)
+>   		return -ENOMEM;
+>   
+> -	acomp->base.name = devm_kstrdup(dev, name, GFP_KERNEL);
+> -	if (!acomp->base.name)
+> +	drv->component_name = devm_kstrdup(dev, name, GFP_KERNEL);
+> +	if (!drv->component_name)
 
-IMO, as a cleanup, such a change *may* be acceptable.  Dropping the
-manual locking calls can reduce the mistakes and makes the code better
-maintained.
+Unfortunately, things are not that easy.  You're modifying member of a 
+staticly-declared component driver.
+That's a no.
 
-Most of changes are due to the indentation, and you can ignore them
-via -w option of git-diff or git-show.  (It's difficult to do it in
-the review of manual patches, though.)
+After taking look at it again, I'm even further away from agreeing to 
+the idea:
 
-But, one thing still needs to be clarified: such changes must be
-verified with clang W=1 build, at least, too; the combination of
-guard() and goto aren't always good.
+- components should be populated dynamically as their description may or 
+may not differ between instances
+- component-drivers can be left static as they describe behavior and the 
+behavior operates on (component) pointers
 
+With the proposed changes, instead of assigning memory for the driver 
+once (for avs, once per interface type), we are going to do that each 
+and every time new component pops up?  1:1 relation between components 
+and component-drivers heralds bad design.  Plus a waste of memory.
 
-thanks,
+>   		return -ENOMEM;
+>   
+>   	INIT_LIST_HEAD(&acomp->node);
 
-Takashi
-
-> 
-> >   sound/hda/codecs/side-codecs/cs35l56_hda.c | 104 ++++++++++-----------
-> >   1 file changed, 51 insertions(+), 53 deletions(-)
-> > 
-> > diff --git a/sound/hda/codecs/side-codecs/cs35l56_hda.c b/sound/hda/codecs/side-codecs/cs35l56_hda.c
-> > index a0ea08eb96a9..2d9d75053293 100644
-> > --- a/sound/hda/codecs/side-codecs/cs35l56_hda.c
-> > +++ b/sound/hda/codecs/side-codecs/cs35l56_hda.c
-> > @@ -625,74 +625,72 @@ static void cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
-> >   		goto err_fw_release;
-> >   	}
-> >   -	mutex_lock(&cs35l56->base.irq_lock);
-> > +	scoped_guard(mutex, &cs35l56->base.irq_lock) {
-> > +		/*
-> > +		 * If the firmware hasn't been patched it must be shutdown before
-> > +		 * doing a full patch and reset afterwards. If it is already
-> > +		 * running a patched version the firmware files only contain
-> > +		 * tunings and we can use the lower cost reinit sequence instead.
-> > +		 */
-> > +		if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
-> > +			ret = cs35l56_firmware_shutdown(&cs35l56->base);
-> > +			if (ret)
-> > +				goto err_fw_release;
-> > +		}
-> >   -	/*
-> > -	 * If the firmware hasn't been patched it must be shutdown before
-> > -	 * doing a full patch and reset afterwards. If it is already
-> > -	 * running a patched version the firmware files only contain
-> > -	 * tunings and we can use the lower cost reinit sequence instead.
-> > -	 */
-> > -	if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
-> > -		ret = cs35l56_firmware_shutdown(&cs35l56->base);
-> > -		if (ret)
-> > -			goto err;
-> > -	}
-> > +		ret = cs_dsp_power_up(&cs35l56->cs_dsp, wmfw_firmware, wmfw_filename,
-> > +				      coeff_firmware, coeff_filename, "misc");
-> > +		if (ret) {
-> > +			dev_dbg(cs35l56->base.dev, "%s: cs_dsp_power_up ret %d\n", __func__, ret);
-> > +			goto err_fw_release;
-> > +		}
-> >   -	ret = cs_dsp_power_up(&cs35l56->cs_dsp, wmfw_firmware,
-> > wmfw_filename,
-> > -			      coeff_firmware, coeff_filename, "misc");
-> > -	if (ret) {
-> > -		dev_dbg(cs35l56->base.dev, "%s: cs_dsp_power_up ret %d\n", __func__, ret);
-> > -		goto err;
-> > -	}
-> > +		if (wmfw_filename)
-> > +			dev_dbg(cs35l56->base.dev, "Loaded WMFW Firmware: %s\n", wmfw_filename);
-> > +
-> > +		if (coeff_filename)
-> > +			dev_dbg(cs35l56->base.dev, "Loaded Coefficients: %s\n", coeff_filename);
-> >   -	if (wmfw_filename)
-> > -		dev_dbg(cs35l56->base.dev, "Loaded WMFW Firmware: %s\n", wmfw_filename);
-> > +		/* If we downloaded firmware, reset the device and wait for it to boot */
-> > +		if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
-> > +			cs35l56_system_reset(&cs35l56->base, false);
-> > +			regcache_mark_dirty(cs35l56->base.regmap);
-> > +			ret = cs35l56_wait_for_firmware_boot(&cs35l56->base);
-> > +			if (ret)
-> > +				goto err_powered_up;
-> >   -	if (coeff_filename)
-> > -		dev_dbg(cs35l56->base.dev, "Loaded Coefficients: %s\n", coeff_filename);
-> > +			regcache_cache_only(cs35l56->base.regmap, false);
-> > +		}
-> >   -	/* If we downloaded firmware, reset the device and wait for it
-> > to boot */
-> > -	if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
-> > -		cs35l56_system_reset(&cs35l56->base, false);
-> > -		regcache_mark_dirty(cs35l56->base.regmap);
-> > -		ret = cs35l56_wait_for_firmware_boot(&cs35l56->base);
-> > +		/* Disable auto-hibernate so that runtime_pm has control */
-> > +		ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_PREVENT_AUTO_HIBERNATE);
-> >   		if (ret)
-> >   			goto err_powered_up;
-> >   -		regcache_cache_only(cs35l56->base.regmap, false);
-> > -	}
-> > -
-> > -	/* Disable auto-hibernate so that runtime_pm has control */
-> > -	ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_PREVENT_AUTO_HIBERNATE);
-> > -	if (ret)
-> > -		goto err_powered_up;
-> > -
-> > -	regcache_sync(cs35l56->base.regmap);
-> > +		regcache_sync(cs35l56->base.regmap);
-> >   -	regmap_clear_bits(cs35l56->base.regmap,
-> > -			  cs35l56->base.fw_reg->prot_sts,
-> > -			  CS35L56_FIRMWARE_MISSING);
-> > -	cs35l56->base.fw_patched = true;
-> > +		regmap_clear_bits(cs35l56->base.regmap,
-> > +				  cs35l56->base.fw_reg->prot_sts,
-> > +				  CS35L56_FIRMWARE_MISSING);
-> > +		cs35l56->base.fw_patched = true;
-> >   -	ret = cs_dsp_run(&cs35l56->cs_dsp);
-> > -	if (ret)
-> > -		dev_dbg(cs35l56->base.dev, "%s: cs_dsp_run ret %d\n", __func__, ret);
-> > +		ret = cs_dsp_run(&cs35l56->cs_dsp);
-> > +		if (ret)
-> > +			dev_dbg(cs35l56->base.dev, "%s: cs_dsp_run ret %d\n", __func__, ret);
-> >   -	/* Don't need to check return code, it's not fatal if this
-> > fails */
-> > -	cs35l56_hda_apply_calibration(cs35l56);
-> > +		/* Don't need to check return code, it's not fatal if this fails */
-> > +		cs35l56_hda_apply_calibration(cs35l56);
-> >   -	ret = cs35l56_mbox_send(&cs35l56->base,
-> > CS35L56_MBOX_CMD_AUDIO_REINIT);
-> > -	if (ret)
-> > -		cs_dsp_stop(&cs35l56->cs_dsp);
-> > +		ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_AUDIO_REINIT);
-> > +		if (ret)
-> > +			cs_dsp_stop(&cs35l56->cs_dsp);
-> >   -	cs35l56_log_tuning(&cs35l56->base, &cs35l56->cs_dsp);
-> > +		cs35l56_log_tuning(&cs35l56->base, &cs35l56->cs_dsp);
-> >     err_powered_up:
-> > -	if (!cs35l56->base.fw_patched)
-> > -		cs_dsp_power_down(&cs35l56->cs_dsp);
-> > -err:
-> > -	mutex_unlock(&cs35l56->base.irq_lock);
-> > +		if (!cs35l56->base.fw_patched)
-> > +			cs_dsp_power_down(&cs35l56->cs_dsp);
-> > +	}
-> >   err_fw_release:
-> >   	cs35l56_hda_release_firmware_files(wmfw_firmware, wmfw_filename,
-> >   					   coeff_firmware, coeff_filename);
-> 
