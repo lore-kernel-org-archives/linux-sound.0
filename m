@@ -1,138 +1,240 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from mx0a-0002e601.pphosted.com (mx0a-0002e601.pphosted.com [148.163.150.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868E9481A96
-	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 10:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782986966; cv=none; b=ZX19JHkZFDu0bQJalRDm+gVXNkI9MkR6J651LyKl1jGqJSqt2EngRub4jXQbHiACCLniOri9auhw50qwJ3oyNH9fxkbzwLcizWpJUXzhNFXLJqedMjKWFW/g8Qq0V6+i7UpAheChaBuspo6VA1xvkZT5AbqcbHZG7Gr70T7KGUY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782986966; c=relaxed/simple;
-	bh=te4K9t+kHIATeqLK66rx58ECocNh3Mn3DLY1Jt0hLrA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=idifS5SikKlVKDBOpce32qGjQomKXBGpyotDeKA9Y17y4V3Teac/9e6KU/5qUSn3VTcn0MVTlXlmwvTKu5AlfHNN+OVb4EEm53eeVjNYvFe0mV0FxxYPfK0umOkg+W4UHzbavZTbejEY5zrPuRsXbt4e7LRPMPFRXG3eMFryY7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=JC9mtMNE; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DBF3A873A;
+	Thu,  2 Jul 2026 10:45:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.150.75
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782989125; cv=fail; b=PVy3zyTwo6shrhPY69YMD0aplbFjyoNbLqcwwovXhoE0pFKkK+GeU7micndSOjiUMfy1+3i49PprGaOph2ivBFEaIyCEkF3fbQYV1vAbeCUwQar523pUK9sQjGbhkGWRLtq17xfcAhqZtPSLrr74vX5JAFaUA6T0ckA59alOfTY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782989125; c=relaxed/simple;
+	bh=5d8Nw6ZQIOeP2rTKY8ofE/NK+WmxgDCqDRW2Ol/rKTw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ai84AJc+qGsFIj9S+yFghrO7VV/x5+vMom+qv0A+lKt2apDTZ9bFtMEivfgoGQXursKpZgCqfeW7ZYK/LZPrxpwVIgdkTOjJ7gsC6TeJ17FwDpmI+PQaAVKZNiyDuIlBcOmzMhi1GkPwhSvaVSCZn7QSpeWRLLA+oVuLKZwMwUY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b=HjqWwGkU; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=mq2k7CSd; arc=fail smtp.client-ip=148.163.150.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="JC9mtMNE"
-Message-ID: <15cc2199-9ada-44f1-b2f5-956bc788a1c7@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782986961;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ueRwimUi/D1Q/NzXhRkrySpIuyDHI+C4qdBt8OqPP+Q=;
-	b=JC9mtMNEyl01dZEzNjzJrPgbcXzs//sRmrF8LYjNN/MzI8vPzO+MbObZ6V7U3wTGYMgqTd
-	NcRe1hDEDqOqGJP+sSB8zNlLfKHWXFL6srFV/LEewJL0lHOTR3WangfWYVNbhrMNAdkgSg
-	8XSNmq5f/L25w8sDTvP8q0577ZiSPBw=
-Date: Thu, 2 Jul 2026 12:09:07 +0200
+	dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b="HjqWwGkU";
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="mq2k7CSd"
+Received: from pps.filterd (m0380145.ppops.net [127.0.0.1])
+	by m0380145.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 6628boDM1954268;
+	Thu, 2 Jul 2026 05:45:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=proofpoint-05-2026; bh=o28C8TnGlEJmY
+	o4VONYt9ouLor/xPSb3fJbV4MQuOn8=; b=HjqWwGkUH08cq3xaU/WbLhJNESwLA
+	A6g7yBa/mI/mp0joqJkDzQvqqac8vx6dI5il0QeA0ejwDavwq2AWAOOuzGGVv7Vk
+	OagfQdNXBOU3CZdSo/U4znWysi3W68yRkvaz4dJMlw4ydARbBoyDCqZPO5r37MJ0
+	AZ50zw7tbcUuzpVWO2SLo19XkR+JiVccsVSKREkH5wBHUI5HHzYFnTvHYg12h6Jt
+	QzFoanCtMWBaABaJVJHzKbdmFbZarzPJ7E8m91+m/1xbXkULayacrjpTZ/t57aAM
+	ATrFf9rmIUbkwszaZeChNIN1znidhnMZLBXCXbAkIiYNQUmzqGRE5okzA==
+Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011009.outbound.protection.outlook.com [52.101.57.9])
+	by m0380145.ppops.net (PPS) with ESMTPS id 4f5mn58jtj-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 02 Jul 2026 05:45:05 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MeMPvsd7S19pKgdhMx0tb2fGS+DuzI4E4QkJqCDAgArbr6aIadX/n9uxU3TBMieFDx7TA1gXxDyMW2TI1mCWFFippwtXGVtGMHiGJDfO/+dVeo+qv3Qj5q4yCuNrCFFEAim/AGlx3Va3V1c0POAudGCNK3mz/5TLnbyYJ+rXAMyz44W1+mCASJOB2T6F1sxiVTURbNXY1UExHiuyVMn99wcZQIc6Akfdwrh8/NxGQAJekvqAtWTM81+76ctNrMZIuq5aJw9GzTjE6XweO6Vx++iJZKolKA5dkeTFC5JrBYq2gSEbuNSGIYJ+ejsFjq+8xaB++bHSh1/qkKMTEdiWDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o28C8TnGlEJmYo4VONYt9ouLor/xPSb3fJbV4MQuOn8=;
+ b=m9RHvqflN9PTyF88K40l8jXfdImkVkRYRrlKVeIOixuxz+ZPV1P9tLlC6iNSaZp86/PhvqVhmG3/cx1EsafHig1ySPHIoBWl8G9VvFsLYmSmdaYkoU2H09fkE+7ggsRBPuAAubuJZpYJ0OMDJa5d7PYsI0bEryzVezrdMjhEdoK0DoV3RghCGOSuTEcPeQjCFBzjw02+KiSn30EAtBTc/yLDsuyDxJfkzkamQyE1+SnESvDLorw6FYTlrgJ1t6ic+af5Jqkv6nwvpsNNgtk2gHU3mzkAwVfiFIS7ZUFPCER5cXR2Hm1/ujMYhqv6r6csMdv9G90mB976K2vl5DyExw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=amd.com smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o28C8TnGlEJmYo4VONYt9ouLor/xPSb3fJbV4MQuOn8=;
+ b=mq2k7CSdYLzlvHQTiFxJHcEDS2LYYxBkM067Tug3YEqlE4ssTrOwEcj2R4y7Sf3MrVc1nGZAtZ3WkiDVzkF1IF5X/x2fcJxKr3KUHaPAbx0xJhZHefgZ/okeZyao9oEXY7knmfYPpdB+a1/4BLR4WVw/cwNbfnxfb0RVBQcL6S4=
+Received: from DS3P220CA0008.NAMP220.PROD.OUTLOOK.COM (2603:10b6:8:45f::10) by
+ DS0PR10MB7429.namprd10.prod.outlook.com (2603:10b6:8:15d::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.10; Thu, 2 Jul 2026 10:45:02 +0000
+Received: from SA2PEPF000015CD.namprd03.prod.outlook.com
+ (2603:10b6:8:45f:cafe::81) by DS3P220CA0008.outlook.office365.com
+ (2603:10b6:8:45f::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.10 via Frontend Transport; Thu, 2
+ Jul 2026 10:45:02 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ SA2PEPF000015CD.mail.protection.outlook.com (10.167.241.203) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Thu, 2 Jul 2026 10:45:01 +0000
+Received: from DLEE214.ent.ti.com (157.170.170.117) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 2 Jul
+ 2026 05:45:01 -0500
+Received: from DLEE211.ent.ti.com (157.170.170.113) by DLEE214.ent.ti.com
+ (157.170.170.117) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 2 Jul
+ 2026 05:45:00 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE211.ent.ti.com
+ (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
+ Transport; Thu, 2 Jul 2026 05:45:00 -0500
+Received: from lelvem-mr06.itg.ti.com ([10.250.165.105])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 662Aish03742421;
+	Thu, 2 Jul 2026 05:44:55 -0500
+From: Baojun Xu <baojun.xu@ti.com>
+To: <broonie@kernel.org>
+CC: <tiwai@suse.de>, <andriy.shevchenko@linux.intel.com>,
+        <13916275206@139.com>, <alsa-devel@alsa-project.org>,
+        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <k-yi@ti.com>, <henry.lo@ti.com>, <robinchen@ti.com>,
+        <niranjan.hy@ti.com>, <Syed.SabaKareem@amd.com>
+Subject: [PATCH v3] ASoC: amd: acp: amd-acp70-acpi-match: Add tas2783 support
+Date: Thu, 2 Jul 2026 18:44:29 +0800
+Message-ID: <20260702104429.1157-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] soundwire: Intel: stop sdw clock in system suspend
-To: Richard Fitzgerald <rf@opensource.cirrus.com>,
- "Liao, Bard" <bard.liao@intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "vkoul@kernel.org" <vkoul@kernel.org>
-Cc: "vinod.koul@linaro.org" <vinod.koul@linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>,
- Richard Fitzgerald <Richard.Fitzgerald@cirrus.com>
-References: <20260629144450.2096823-1-yung-chuan.liao@linux.intel.com>
- <20260629144450.2096823-3-yung-chuan.liao@linux.intel.com>
- <11f8d158-9ddc-46fc-9cd5-11a696d3413f@linux.dev>
- <SJ2PR11MB842410EE22537B0673173EECFFF72@SJ2PR11MB8424.namprd11.prod.outlook.com>
- <520f67ca-941b-4e08-8985-03f0e09b0313@opensource.cirrus.com>
- <46af3cdf-d704-4cd2-bb24-cbe9fb1303db@linux.dev>
- <e326c51a-4690-44c4-bf3d-0870591b1eed@opensource.cirrus.com>
- <74bb6575-7d92-43af-98fd-dd46a83b2fac@linux.dev>
- <f895956a-a5fb-4b52-813c-110dfce8549d@opensource.cirrus.com>
- <ddc5fd9b-84ae-4180-a470-679d5cc3d629@linux.dev>
- <da17c492-2767-443d-b186-70e004b4ecd7@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <da17c492-2767-443d-b186-70e004b4ecd7@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF000015CD:EE_|DS0PR10MB7429:EE_
+X-MS-Office365-Filtering-Correlation-Id: d4720bd8-f535-4127-7300-08ded826f851
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|82310400026|376014|23010399003|1800799024|18002099003|56012099006|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	+Vj5+tMdsUNDjVZfBfXEOcSTanaLn2Mq+t8Qk8gfZHPT0XbNDSdC0pde8//MF5//Qra+bKUPcst13C7OPN55hYSlKYlSOP6DxCARojBTR+aBLzHyj9bDv/DNoE6g/+sv+thVpMUuJ5xn/i5XGOBlruqo9OaLfzsOssWRVm3O4zxTO79dw5qec14fpCvkt5IecmdQY1jkw2yhPolkDpHrAFUnTY74v5mweh/rElzL8CUwP1V45mdrsVrIe7m9RJEh6O0QdXcN4cOEWlT1qjjn9KNnlxZjCPGpbmZozu/csfIvSiagxbbLZgfxBUkcRXAzUXCSwQSyNyUWVPetUJh95OvWfuCJC+3r1QLLjWqfS480r0oHyZLVSiUg7M9MhHD4t5Jmzqwk+MGVTb4Xh0OLj+K5+QXIRz2vNvNvGR3z3da479nZry1C2GOYDXbdBrYckQaebTkB2fJ+I7GhO4NzuuvgVhJpEt3niY7wmKOq3wS/dnCmZBevKL2rp3G1h0WnJLyPwREJoddOABDdDZzyLDaWLTpLm/D6b++uYCCe2LAEGzqHNu/aGDR3+c9pEZkmtIUpn17Dgwlthyr2eZzf3yxVxwQLV5poAV9E5wycIvrajp/yGxXrsr59AKteQaMZatU0zQIE6mI/CgMskp0y751uNtDjQzHuVzTvcimf4zCBhk5LXW/PFn/4nCLGQWcq4pbzCQnCv2SLHefWxE4TFg==
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(376014)(23010399003)(1800799024)(18002099003)(56012099006)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	+fWXh9urikEyxMtJBvzdwggnAZ68iQHu/GnDmCjKQ1k8qzjGS9uOjrb74gb8P7H3z3Pp+d0FwfIj/feke7cVPDkFhkgR1Iz5f0DKTi4n/OOqp38p0N7UgZBJMzQCMk8u2ozPPxtXyKdV6lHlK42GmMMUXGtITxkOVpDXv5ObvliB2yD/fVLS5vR9V3fEhXYpeDL5mLFAP2EPwXkDpdZVTkptwsOq0/qbchHKB9ktiKqhamPyJAJpXGutm2JYdvtKrNkYN0b+vAvQz/N/LpCBmHt0ABeVH4j/lpEhsCsyWxEJtoVcgAoUzfqGYRQ+8x0zBxiDHWw8PNpQsso+761+c70zOLC9+zu90wScZMTVqmphQd73V/is/KWiqM38AdHfZDHff2V/6IOAO0QbGuQWpaI8E5h9Wj9T7J9ZCZiVzaon7+UDlncO07zX6dhddBHS
+X-Exchange-RoutingPolicyChecked:
+	rks9j0iU0edDlM2u5lszbl4jnLnM1nM7A7bhktInDR0K0N8OGw4M0P02oMvZLEhk8E1Daihlx6/tyr6FefVr1FmIJpnV6eY5cqKGLqGbnFELfq9ThdCnqYr9LsdI59mLc8E2Q2Xw33VriY1XWBtCRv1SIplmEJv+s4jbALw4B7Jaejqea73Mqi3TCAnHWMk1O2+Yn2IDWPFVAuX/5RprcZCaPwODYs2z69u5s01tIScNyaaBSdKGZf3SAkNtOpPU+Nrz0j20OPRjL7eG9AfpupBqFo131QCKJx1evjorhagX38NeBIOeI8Hm8QminHrCbyyQnXvEjGH7V/0+qsQTWw==
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 10:45:01.8860
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4720bd8-f535-4127-7300-08ded826f851
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF000015CD.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7429
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAyMDExMSBTYWx0ZWRfX298NHC7USoLb
+ BFARyviQ1sk2Fe8+kLJl3OgJxBeFkhNPQ5QkB39hi3v1MxJVnRb6sGDpL63Fi2EBCQnNNPOgRtm
+ HhJVxJXc/pqu2lOFXJwPI8dWjRAVYywI8QRcLFg2uQFXcyrhpL3pwAFYPADvClG4d8bRle5kc5q
+ rzPlgmrr1UpRGRRRKYFE9McwGzhv0Hth1iu8a1Xg6Q/uEoGaZHkAnq63bCHZxpKwzUFIrIZWGCV
+ JtrDLcx4RjCQUdpJCcC0Ut2aO+bnhXc4vMd3CoX174kVV9vgQ9Noop92QGqcKygB7lj8WIMf74T
+ GdUjr09ZnS6Yu3m9JA8jzrMV+ECNRIc0YJdWiAE+fWzQOeHo0X1qfKloL/8AN6KxVL4DzD3VtJ2
+ BhNuHoJYKGRVVJTtX5jKAS7Hs9iv/Qwk0xhSNGYuN0Cwo4j0hhHZ4OWhT4fqvtvnkC8LGCgx5E3
+ GNiY+QrxEisfA5uFiqA==
+X-Authority-Analysis: v=2.4 cv=EMA2FVZC c=1 sm=1 tr=0 ts=6a464131 cx=c_pps
+ a=0F+T9beUwIReeq27KEkavQ==:117 a=WotqVVQAdb04rnGuttW3Kw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10
+ a=V5UXEbMT0ywA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22
+ a=gO1vWkAQAl3rybz1DQOp:22 a=sozttTNsAAAA:8 a=u63tYauSxxi1GrxpF78A:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAyMDExMSBTYWx0ZWRfX3m5l8CoXsMw3
+ sRwMTQTkKhSI/ETNutTSy/yaNSw9s/lOz/u14K05L6y/556sRkrOJVqyqL3XeMNI85YX/i1Kil4
+ gvABu975CqWz8fI9fXoT/q2oU3lHl9c=
+X-Proofpoint-GUID: U7xlKU02ocN18SOC0vaSpEoUx3myniFO
+X-Proofpoint-ORIG-GUID: U7xlKU02ocN18SOC0vaSpEoUx3myniFO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-07-02_01,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 clxscore=1015 spamscore=0
+ adultscore=0 suspectscore=0 malwarescore=0 phishscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607020111
 
-On 7/1/26 16:59, Richard Fitzgerald wrote:
-> On 01/07/2026 3:09 pm, Pierre-Louis Bossart wrote:
->> On 7/1/26 14:15, Richard Fitzgerald wrote:
->>> On 01/07/2026 12:55 pm, Pierre-Louis Bossart wrote:
->>>>
->>>>> If the Manager doesn't send a clock-stop, the peripherals don't get a
->>>>> notification that they can enter a lower-power mode. The clock suddenly
->>>>> disappears without warning and without the peripherals being notified
->>>>> why, so they don't have any information to know what is happening.
->>>>
->>>> that's not quite right, see below.
->>>>
->>>>> The Manager should send a clock-stop notification before stopping the
->>>>> clock.
->>>>
->>>> That's exactly the existing logic in drivers/soundwire/bus.c, the core does notify all peripheral drivers of a clock stop transition.
->>>>
->>>
->>> It's been observed with logic analyzer captures on real hardware
->>> that the clock stop is only being sent in runtime suspends, not
->>> system suspends.
->>
->> That's the expected behavior.
->>
->>> Because of this, if the bus was in a runtime-resumed state when
->>> system suspend started the clock would stop without warning.
->>>
->>> Bard - that's the observed behavior this patch is fixing, right?
->>
->> I think you are confusing 'clock stop' and 'clock pause', this is a well-known confusion in SoundWire. See Section 8.1.2.2 Clock Pause in the 1.2.1 spec.
->>
->> The clock stop mechanism refers to the ability to remove all transitions on the clock line, but restart the transitions when the data line is driven high for some time.
->> In other words, the "clock stop" used in pm_runtime suspend will also arm a detector on the data line. That's the problematic part on the host, this detector cannot be kept alive in system suspend since it has standby power implications.
->>
->> In addition, on Intel platforms, there's a well-known issue where you cannot remove power to the SoundWire IP while this wake detector is active. That's the reason why we introduced a pm_runtime resume before the system suspend, the transition from pm_runtime suspended to system suspended is not supported. see intel_pm_prepare().
->>
->> the 'clock pause' is what you see with a logic analyzer, it's not the same as the full blown 'clock stop' mechanism because there is no handshake to prepare the wake, and no support for the detector. There is indeed no signaling or known timing on when this pause occurs in the system suspend phase.
->>
->> But again such signaling is not required: if you want to enter a lower power mode prior to system suspend, you can do so in your peripheral driver. You do not need to know if/when the clock will be paused. Just add the relevant programming sequence before the device transitions to system suspend.
->>
-> 
-> So you're saying that if we're running on an Intel platform the codec
-> driver will have to write the clock-stop-1 notification to the device?
+Add driver data and ACPI match table entries for the TAS2783 on ACP7.0 and
+ACP7.1 platforms using SoundWire link 0.
 
-Not sure I am following the question. My entire argument was that the clock stop mechanism shouldn't be used unless the wake capabilities are needed.
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+---
+v3:
+ - Remove unreferenced link_adr, adr_device and endpoints for tas2783_l0.
+v2:
+ - Add comma for the non-terminator entries.
+ - Correct endpoints from spk_r_endpoint to spk_l_endpont.
+ - Add two more devices for current test project.
+---
+ sound/soc/amd/acp/amd-acp70-acpi-match.c | 45 ++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
-Maybe I missed something in the peripheral capabilities. Is the lower power mode entered by
-- programming registers, e.g. move to PS3 or something equivalent?
-- tracking the level of the clock and data lines?
-- tracking the ClockStopNow bit in the PCP_Ctrl Register?
-- a combination of multiple actions?
-
-I don't think letting the peripheral driver send a command that sets this bit is a valid option. The Manager is supposed to own all the bits in the frame and bring the signals to a Low level, if the command is sent by a peripheral driver that sequence couldn't possibly be enforced on the Manager side.
-
-If you insist that the clock stop mechanism be used in all suspend modes, both system and pm_runtime, then thinking out loud one would need to create a bespoke mode where the clock-stop signaling is used to unleash power savings on the peripheral side but the wake detector is not enabled on the host to avoid known/documented issues. 
-
-This piece of code is where I think the problem is, see intel_stop_bus(struct sdw_intel *sdw, bool clock_stop)
-
-if (clock_stop) {
-	ret = sdw_cdns_clock_stop(cdns, true);
-	if (ret < 0)
-		dev_err(dev, "%s: cannot stop clock: %d\n", __func__, ret);
-	else
-		wake_enable = true; <<< HERE, that can't be enabled in system suspend.
-}
-
-I guess you'd need to change the clock_stop argument to have more than just boolean values, so that the wake_enable remains false in the system suspend case.
-
-That would be a significant change requiring quite a bit of testing, probably only for new platforms and not a generic change that applies to all generations since 2018. Again just trying to throw some ideas to make progress.
-
-Just enabling clock-stop in system suspend across all generations will fail, that's pretty much guaranteed based on known bug reports related to the wake detector.
-
+diff --git a/sound/soc/amd/acp/amd-acp70-acpi-match.c b/sound/soc/amd/acp/amd-acp70-acpi-match.c
+index 18f2918d4ada..f92c6f5831af 100644
+--- a/sound/soc/amd/acp/amd-acp70-acpi-match.c
++++ b/sound/soc/amd/acp/amd-acp70-acpi-match.c
+@@ -553,6 +553,46 @@ static const struct snd_soc_acpi_link_adr acp70_rt722_l0_rt1320_l1[] = {
+ 	{}
+ };
+ 
++static const struct snd_soc_acpi_adr_device tas2783_2_adr[] = {
++	{
++		/* left */
++		.adr = 0x00003c0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "tas2783-1",
++	},
++	{
++		/* right */
++		.adr = 0x00003d0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "tas2783-2",
++	},
++	{
++		/* left */
++		.adr = 0x0000390102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "tas2783-3",
++	},
++	{
++		/* right */
++		.adr = 0x00003a0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "tas2783-4",
++	},
++};
++
++static const struct snd_soc_acpi_link_adr acp70_tas2783_2[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(tas2783_2_adr),
++		.adr_d = tas2783_2_adr,
++	},
++	{}
++};
++
+ static const struct snd_soc_acpi_adr_device rt1320_0_single_adr[] = {
+ 	{
+ 		.adr = 0x000030025D132001ull,
+@@ -659,6 +699,11 @@ static const struct snd_soc_acpi_link_adr acp70_rt721_only[] = {
+ };
+ 
+ struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sdw_machines[] = {
++	{
++		.link_mask = BIT(0),
++		.links = acp70_tas2783_2,
++		.drv_name = "amd_sdw",
++	},
+ 	{
+ 		.link_mask = BIT(0) | BIT(1),
+ 		.links = acp70_rt1320_l0_rt722_l1,
+-- 
+2.25.1
 
