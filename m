@@ -1,65 +1,66 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13063E1732
-	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 10:56:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E7E3EA973
+	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 10:56:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782989819; cv=none; b=mDgmrzJ68plR0mbwO1bNaJhgoYAEwcrvJAYGDNpoWTPXdncdn6VqPTfl2pY2fqeBaHqpV7IhIgF1TM3ZFwlqkF+E2RHp5pcCObBRJ+c+wNBvtgwpv9ty1okNJcoHUQfJlI8QQWBMWZk8mRY085RQcQrrFTuo9EQWLcA0fTfZg5g=
+	t=1782989819; cv=none; b=gZ49ezRseh5fsCrtDt5VdXeX3Iy7z9sbliVAa6nfQxduLEmgi3J5bocHZcSNEX7Tdy7STyhQmtg278/WipMkMDdwmjr+Z9scpgry7m1/63R8UjUrDvT5THkXTCQgowig0lgS1xHjOi8/1qgH4ZV1uI5W/7bxxTrRcpboTT2MHWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1782989819; c=relaxed/simple;
-	bh=KNk3Ydn1EVAsr7JuVTIdcH5PBqVqNrLHBwSrm2suX8o=;
+	bh=4RUGcMFAUmz4WZn+oUeIShFgv+Faz7ysyRFbheUvpog=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eQUAiAmCIW/ulVs8tQMCR3r6eBOWMBNhSfyDMbLNYXRd5JZOzOxLovErRJa7MgjDzD9mWMPSxKI1XPC+5Q9YoIlbLdRrhdqxoB8yh/P2bIgeWSBaBJPOwN5sbOPkai+OcTKS6FCI15I/c/lm2aUZSdMaVE3Jc9ua8XjVq8omZMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=oXFjgWKa; arc=none smtp.client-ip=209.85.128.53
+	 In-Reply-To:To:Cc; b=rKb1sOkXvkpKpY4ICcy5gv18QNAUhp1Nbn8RHze8QJt9lb/GixE9dD6x50ySWzclNqw3pOZuSVJx7nJgKFDzeOOE19HEGuslBUBVOQZ2FpVPdq1qW51c3Qb0xSJL3u0F39Luk2Dif4Ap9skJ7RDDC5z5ruXuamzsXdNEQPFJhvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=Jpo+ZAJ8; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="oXFjgWKa"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493bc8fda98so14730415e9.0
-        for <linux-sound@vger.kernel.org>; Thu, 02 Jul 2026 03:56:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="Jpo+ZAJ8"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-493c19bad03so13438055e9.2
+        for <linux-sound@vger.kernel.org>; Thu, 02 Jul 2026 03:56:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1782989815; x=1783594615; darn=vger.kernel.org;
+        d=baylibre.com; s=google; t=1782989816; x=1783594616; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MOLhbH57Fit41sYED3YzTSdJ1tqwyQs+QYySkLyPWHY=;
-        b=oXFjgWKaCFg8pHqpxsB/JkIU6Uwu+ByGWA4oMsmlYj6bhq5XEerEWMfZER8VT8C8g7
-         C8gvxpKstVTv3GDoCrLiTZuLRAQBSvYliRpsQ3kl7yI/jR2hMMcHdDELsn1LEt3aY5nU
-         NEpSfOYzD/8DJbKIaAjuxllZ3V2onB+k2D3hTlJE0/KF60eCCwbZKUGt3ZwJhZErw9Yq
-         6xTa00NWOQalAMaanc3R2I/1OahUbkNYQa7/VBZiZBFYA0OR9YUg/bRtX+FqRNDf4Cpl
-         QxRfn8msekh9aQigoCWTUqoAdwgL2mcbQst2C7FRvksy/9j4vNtLYhTbctrlaTW4kUfR
-         dDIA==
+        bh=hgDVuxY1KD6XzliacX6/nWGKC8dFyYuIdBWxcG4BfyI=;
+        b=Jpo+ZAJ8J0ohAOznIpjaJx9QapLTTz9WSbfw0aAK4pl3kRzertMCwyZCvKk3ioYfPN
+         v/CYy060g9IHd+bRfZ97K1Qaa4WIjN7XS6rjV/9z0S6vK4meqWmYo1waSi/YW+CBEvlg
+         fKhLm45vVJammtWtnLUMiPIbU/jIz6tYLxAbXWkYHC0UN3UOPrKPrAql/unAKcF6VmJp
+         /kaGXi90anAFreopJFN1FSYbNVUfkctMtvRtejzFClUSy9lG7RQgQxG9Vh1Qwm4RibUC
+         Ul57cqfRamBiTwfdaWJ1t2estSM+/yP9iioe+QjJID5I5Ih3W6k2N53X25GmcRyvGAvh
+         BJTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782989815; x=1783594615;
+        d=1e100.net; s=20251104; t=1782989816; x=1783594616;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=MOLhbH57Fit41sYED3YzTSdJ1tqwyQs+QYySkLyPWHY=;
-        b=U7EtGKHBkxrzLIkUfVsjqzeIRjdZ5dhw8wyvdbu4MPQ7uiwQ3tVUVXdtCDu/dr91lQ
-         uUXPOASAMTrbI5VwM6K+wkSwgcweGuw3M7RtHsRQpwZ+l/ZUqG/hMtDk2DjnW2kYK5f/
-         vDoZIQmpJW88Hf94w8nLaHN7io7WclfNMWkEvifIZIPP//HDEQay5iYYVhF2spMQ0FzO
-         Ult/r5KHt8Cwd/pupdGL60R8lfLN5ApkMObdI0TCgXL77MSJi9XqkNIT3jFQEdqKoKM9
-         s6rIpgmoHv9cjotnp7IFbrS0bWkFOz0QVc4Fi+GGe5r9cgSJx3HE3KfysSKiEqaf4EEJ
-         ELUg==
-X-Gm-Message-State: AOJu0Yw1w/Qndv5LsPneV0rJzF5VDe/3jS8ReiLa/H12u50o3Ti7Vf3K
-	q5fkzTDnZ3dAUtSMn+GoRSy0vsQC43FymhJjwIgaAx56vY6uH6ZTiarlpMkRdkzzSg4=
-X-Gm-Gg: AfdE7cnla4cQvs5qnpS1ZMOu/AaD99V4EmvviAr6Mo/l5l1hoZDIV7EXNBuulV1peBW
-	s+YyngqdTxMM6u6sL8sNta16t/FBgYZ2VMMaObrRLGw+PZwVRtyGg6StJicRx84c9Rl2kYS41PU
-	hwR5PRcz8ztsmHRbrH7c/abFUeazX48sOIbF17RsEapzwKH9mGEJ78rhKVlX+Ty+L16n5jcLp9w
-	zfNlcqtdz+CcEzQzhl+1waUqNoA5FbwZz+tdWiJdNam+KULjswHloO4iwKcLXRkhx7Bt41JFmFY
-	Ycska26/xroKWcMphkXZTQx1BGWlZaPA60SHmAmgpgASLbqF3azvX38wtEreNlGsTGlYQzakmIC
-	ZpwDzO7eiHyyJBwLO3d4K5BkfG1cNNSjTj/Gko0Wi4jId/8GBUhbXe/sNTDk1NZfrPuQay4Bkl5
-	k9rdUCcpz8d+XkZL5M/cRq
-X-Received: by 2002:a05:600c:37c6:b0:493:a5d0:d1a1 with SMTP id 5b1f17b1804b1-493c3cfb686mr59304145e9.31.1782989815167;
-        Thu, 02 Jul 2026 03:56:55 -0700 (PDT)
+        bh=hgDVuxY1KD6XzliacX6/nWGKC8dFyYuIdBWxcG4BfyI=;
+        b=IYhDHsvMqJicqIZXaFoKgmbXUOA0Sm3UwLIU8ADKJf+AyKOkpOaCrz9EWu7tyyl4SQ
+         ZRIS6WtqpQCS1tXwllHrP2r5m6EBfPyjYetkOY6HyzA6941R+EP83Sec1fh3+6iC1cV3
+         D7CWNZlHfPe9OF68FTTEZuDUSRskwUWZpgpMra3ZgtfJVqg4Gq7yn6E1Ko/YnqkDd9yV
+         O0rZOulaSX4M2Nc+GrEJLSG9ncam4Tf0gVshqbp69iKvQ120S/dS+3LouGpOCNPqGfK5
+         7q4zLOIp0tzo9CJ1S/0A8sGHqGzPBQbCo3ECCoHw3jixUt3CoMgJWO9w7HHXidXCkgug
+         N3ZQ==
+X-Gm-Message-State: AOJu0Yzg//EkYTfNBTQQ7n6q8XfGttt2Czo76YCKLvCyOsFltXlpL2U9
+	5xsD6hrAEJXV96dxd3WtbIy9G5+b8DcMC4ob/niexq3Y8IiW3pJyc3ezvvbEh06RgzI=
+X-Gm-Gg: AfdE7cnqsWT5iymenNtG5cMMbysicI9EYT08yDmLztg84jzJmWJknvnu+0hsP8Cgra3
+	ViVd9PYz5bPWP5YNcuSMYpGP0sRUfoAH2ZraOWkuGN2PgCOBxJIWO6q2ukuHo7JrWcBKp0oNum7
+	uFu8OGv26rcbpzpoHooMWSE21OcNygZnrAEmXyBXJHOC3+iITWKlME8ycGmizr/4fFfn8BOmCZY
+	bslNp2w2Y8s4Wf5y1a+EVec9rYbfRxtWozeMKbcA/QRLHOdn84PWYhV/yTstgWwJm28Xb2e2evf
+	49Z0eDXJZhLTuILPVW2yEK66vgVFOTz3AewH+JOm4JVX+SY4kB4pi4uHk17pHBv4+vXvVXdN6Li
+	Hh0sHym63zuM4HUYLiqd7L35XetoztMGo1PWVuyYo59Yyx7zTaELfncfCyS/wXvr2haaEVVUvEj
+	a3UAK0Wpg0Ug==
+X-Received: by 2002:a05:600c:c3cd:10b0:493:b7c8:6530 with SMTP id 5b1f17b1804b1-493c2b56d6dmr58237385e9.16.1782989816159;
+        Thu, 02 Jul 2026 03:56:56 -0700 (PDT)
 Received: from [127.0.1.1] ([151.41.178.17])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c6372a31sm42649685e9.13.2026.07.02.03.56.54
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c6372a31sm42649685e9.13.2026.07.02.03.56.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 03:56:54 -0700 (PDT)
+        Thu, 02 Jul 2026 03:56:55 -0700 (PDT)
 From: Valerio Setti <vsetti@baylibre.com>
-Date: Thu, 02 Jul 2026 12:56:40 +0200
-Subject: [PATCH 1/2] ASoC: meson: gx-formatter: prepare on attach
+Date: Thu, 02 Jul 2026 12:56:41 +0200
+Subject: [PATCH 2/2] ASoC: meson: aiu-formatter: remove pipeline reset from
+ prepare
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,7 +69,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260702-fix-24-bit-i2s-playback-v1-1-bcd3a43fe32a@baylibre.com>
+Message-Id: <20260702-fix-24-bit-i2s-playback-v1-2-bcd3a43fe32a@baylibre.com>
 References: <20260702-fix-24-bit-i2s-playback-v1-0-bcd3a43fe32a@baylibre.com>
 In-Reply-To: <20260702-fix-24-bit-i2s-playback-v1-0-bcd3a43fe32a@baylibre.com>
 To: Jerome Brunet <jbrunet@baylibre.com>, 
@@ -81,124 +82,52 @@ Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org, 
  Valerio Setti <vsetti@baylibre.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3733; i=vsetti@baylibre.com;
- h=from:subject:message-id; bh=KNk3Ydn1EVAsr7JuVTIdcH5PBqVqNrLHBwSrm2suX8o=;
- b=owGbwMvMwCV2z3ty7kUrRgbG02pJDFluzl/iFTavmra14WhqXMnXrbxNBk/2/k6/8truOttr7
- 433nHwzOkpZGMS4GGTFFFlYpt/7XVCq9tA44WQBzBxWJpAhDFycAjCRdF5Ghu/JHjWfhbg6W5m3
- 9D5fqc7o+MxCw8TxeWv9pXM/V3VuucPwP8LksofO6uO6l6pcH7nU8XxUK1Kc3Pp3XegvkW+vwnK
- l+AE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1340; i=vsetti@baylibre.com;
+ h=from:subject:message-id; bh=4RUGcMFAUmz4WZn+oUeIShFgv+Faz7ysyRFbheUvpog=;
+ b=kA0DAAoW3kuTbdE6AQAByyZiAGpGQ/Sgr43tFvQDLVWfktUEH2N4EZ4yRZb+Gfs4KRffN0R+h
+ 4h1BAAWCgAdFiEEBJfe+3B1JuEzYMlw3kuTbdE6AQAFAmpGQ/QACgkQ3kuTbdE6AQD5mAD/Qntp
+ SFISL2mv7knxonSk71KphYdR6KENd59KnmN+luUBAP3VB++RaKUjr3VxQ0tqKnyc3ANTCrvX31+
+ XLiMN8doF
 X-Developer-Key: i=vsetti@baylibre.com; a=openpgp;
  fpr=0497DEFB707526E13360C970DE4B936DD13A0100
 
-Instead of calling the formatter driver prepare and enable at the same
-time when 'gx_stream_start' is called (which happens at trigger time),
-split the operation in 2: prepare is called when the widget is powered
-up, whereas enable is kept on 'gx_stream_start'.
-
-This resolves a problem related to i2s playback in 24-bit mode. Commit
-c7852d2dcf66 ("ASoC: meson: aiu: align I2S design to the AXG one") moved
-the content of what was once called 'aiu_encoder_i2s_setup_desc' from
-'aiu-encoder-i2s' to 'aiu-formatter-i2s'.
-
-'aiu_encoder_i2s_setup_desc' was basically accomplishing two tasks:
-- reset the i2s pipeline.
-- configure number of channels and physical samples width.
-Before being moved 'aiu_encoder_i2s_setup_desc' was called in the encoder
-DAI 'hw_params()', whereas after the move it is called at trigger time
-('aiu_encoder_i2s_trigger'->'gx_stream_start' -> 'gx_formatter_enable' ->
-'aiu_formatter_i2s_prepare').
-
-In parallel 'aiu-fifo-i2s' (DAI FE) already performs the very same reset
-of the pipeline at trigger time in 'aiu_fifo_i2s_trigger' and then it
-triggers the playback.
-
-Since the DAI triggering order is the default one (FE before BE) this
-means that the pipeline reset happens when the BE already did it and
-started the playback. This cause the 24-bit playback mode to be
-corrupted.
-
-This commit re-orders operations so that 'aiu_formatter_i2s_prepare' is
-called after DAIs' prepare, but before triggering them.
+'aiu-formatter-i2s' already performs the very same reset in
+'aiu_fifo_i2s_trigger' for all relevant trigger scenarios. There is no
+need to duplicate the operation in the formatter.
 
 Signed-off-by: Valerio Setti <vsetti@baylibre.com>
 ---
- sound/soc/meson/gx-formatter.c | 33 +++++++++++++++++++++++++--------
- 1 file changed, 25 insertions(+), 8 deletions(-)
+ sound/soc/meson/aiu-formatter-i2s.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/meson/gx-formatter.c b/sound/soc/meson/gx-formatter.c
-index 311e63affb23..c7333f624b15 100644
---- a/sound/soc/meson/gx-formatter.c
-+++ b/sound/soc/meson/gx-formatter.c
-@@ -15,27 +15,38 @@ struct gx_formatter {
- 	struct gx_stream *stream;
- 	const struct gx_formatter_driver *drv;
- 	bool enabled;
-+	bool prepared;
- 	struct regmap *map;
- };
+diff --git a/sound/soc/meson/aiu-formatter-i2s.c b/sound/soc/meson/aiu-formatter-i2s.c
+index b4604734fe88..cb554c2e7ce4 100644
+--- a/sound/soc/meson/aiu-formatter-i2s.c
++++ b/sound/soc/meson/aiu-formatter-i2s.c
+@@ -13,7 +13,6 @@
+ #define AIU_I2S_SOURCE_DESC_MODE_8CH	BIT(0)
+ #define AIU_I2S_SOURCE_DESC_MODE_24BIT	BIT(5)
+ #define AIU_I2S_SOURCE_DESC_MODE_32BIT	BIT(9)
+-#define AIU_RST_SOFT_I2S_FAST		BIT(0)
  
--static int gx_formatter_enable(struct gx_formatter *formatter)
-+static int gx_formatter_prepare(struct gx_formatter *formatter)
+ #define AIU_I2S_DAC_CFG_MSB_FIRST	BIT(2)
+ 
+@@ -55,11 +54,11 @@ static int aiu_formatter_i2s_prepare(struct regmap *map,
  {
- 	int ret;
+ 	/* Always operate in split (classic interleaved) mode */
+ 	unsigned int desc = 0;
+-	unsigned int tmp;
  
--	/* Do nothing if the formatter is already enabled */
--	if (formatter->enabled)
-+	if (formatter->prepared)
- 		return 0;
+-	/* Reset required to update the pipeline */
+-	regmap_write(map, AIU_RST_SOFT, AIU_RST_SOFT_I2S_FAST);
+-	regmap_read(map, AIU_I2S_SYNC, &tmp);
++	/*
++	 * Pipeline reset is already implemented in aiu_fifo_i2s_trigger() at
++	 * trigger time.
++	 */
  
- 	/* Setup the stream parameter in the formatter */
- 	if (formatter->drv->ops->prepare) {
- 		ret = formatter->drv->ops->prepare(formatter->map,
--					   formatter->drv->quirks,
--					   formatter->stream);
-+						   formatter->drv->quirks,
-+						   formatter->stream);
- 		if (ret)
- 			return ret;
- 	}
- 
--	/* Finally, actually enable the formatter */
-+	formatter->prepared = true;
-+
-+	return 0;
-+}
-+
-+static int gx_formatter_enable(struct gx_formatter *formatter)
-+{
-+	/* Do nothing if the formatter is already enabled */
-+	if (formatter->enabled)
-+		return 0;
-+
-+	/* Enable the formatter */
- 	if (formatter->drv->ops->enable)
- 		formatter->drv->ops->enable(formatter->map);
- 
-@@ -63,6 +74,12 @@ static int gx_formatter_attach(struct gx_formatter *formatter)
- 
- 	mutex_lock(&ts->lock);
- 
-+	ret = gx_formatter_prepare(formatter);
-+	if (ret) {
-+		pr_err("failed to prepare the formatter\n");
-+		goto out;
-+	}
-+
- 	/* Catch up if the stream is already running when we attach */
- 	if (ts->ready) {
- 		ret = gx_formatter_enable(formatter);
-@@ -87,9 +104,9 @@ static void gx_formatter_detach(struct gx_formatter *formatter)
- 
- 	mutex_lock(&ts->lock);
- 	list_del(&formatter->list);
--	mutex_unlock(&ts->lock);
--
- 	gx_formatter_disable(formatter);
-+	formatter->prepared = false;
-+	mutex_unlock(&ts->lock);
- }
- 
- static int gx_formatter_power_up(struct gx_formatter *formatter,
+ 	switch (ts->physical_width) {
+ 	case 16: /* Nothing to do */
 
 -- 
 2.47.3
