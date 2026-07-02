@@ -1,150 +1,180 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED233890F1
-	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 06:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9F538D686;
+	Thu,  2 Jul 2026 06:50:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782973930; cv=none; b=nnsxO+IWMcRevF2f/vhIoM39OqTW5JsMPscX04E567AFolVBLzIpLMPL+1cc4yro3F5iyI4Te88bVDx5IuCm/lUxthfIb+3i7Il0Q17cOuKeR+snQcA/K2PM2POOL/03DAr92ujqjQZ0sXDawOtCZ4SNbFOemZ7GUqziExB5dSA=
+	t=1782975011; cv=none; b=Mqry+TXixC6GkEdZrlTCkYRNptA/dB2mQ1u5NuIm7UyC7xvnVyKilCXZIzs9gWed0swtoNScvPj5L0PNCezwmg1MzZSo6nOWkI/Fp2T1IduZZw57o2bFrymTceO2ixxvo4Y6W/4pHwycw5gS3zJ/Q++dpB5sPiKxNlKDva1ySjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782973930; c=relaxed/simple;
-	bh=ezSTqTTyBGFhigxAlLrLusnQsmbWlTjeDJA634A9ywM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D7/alq3HWh4hZjg2TCEwIlZtcy7bck01NgS6K172CUsavqba1rxfnyH9MGiqiw5ndXG5Jxk10ucudsG9OAOJV3MGEnqr21GXV8wPShSpXbPbjASw7eybJmMFDmNO7U4d6F+u4+Jh/ec55A2I/YxNgu8nf1x7TDr/TMqMFyYzfs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TszyZBfc; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782975011; c=relaxed/simple;
+	bh=bkNR+h7i8XtRjTR7MH35ML5P+7LwZhwwecN8CO/eqp8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AgiwMzj/se11WdKmB3cEpLPe3U4cRz7B+h4FvN5rP0wQ1uPkuYCHbi+ihtngaSbUh1T1DjwKKGgscqobe1Mx6j+67Mb4Bj5iBSnt443bf2sww+XCndyi7wtkM2OqAGhTzfyXgvmzylCgdlMY6ghU8paEqOgZAsAK7bJJ5eXp6lM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bJWjsFxm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TszyZBfc"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2c9e89fded0so12955215ad.2
-        for <linux-sound@vger.kernel.org>; Wed, 01 Jul 2026 23:32:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782973928; x=1783578728; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oyuadsrLS81NHqHm0Hn0mdT4fJKqMPl6qVcybVPUQso=;
-        b=TszyZBfcRuBW7xOFTDN1+Y8R0K8Boi95oOnhT014ISXFobsAhsM1WLuXMcEmivc5BZ
-         YldRbvUq4i0bWn7/GnSSB7o+Uybh9ydo52lCzdlwmCVJcYDOsIUxn3W9/RiJVOXFji99
-         aC/gZ6rAKdyYqtHfeMKD2Kya6Wz/CTAN2pDXIGmb5elMJbsKxcUVd6lnnN4q5Gwhypzu
-         lDfTJ1eaYI12F105M7cbGRbyStQew27OF1d6QTSkZWhyYTU1Dv8BH4LFaGNyRif8hiaR
-         A8RQ4biwPci3xpswfxAK9iSh7swz8DfuZREe+ncjKeia7Qt0EA0DwhEFw0P9vSLyEgZn
-         N3/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782973928; x=1783578728;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=oyuadsrLS81NHqHm0Hn0mdT4fJKqMPl6qVcybVPUQso=;
-        b=d9sFqIBs+muvEHqHzww9L0jWjz06gEUQuC0nfYgowT3enCtB5AJ8mXWtdMD4eJhjCS
-         AMFMWx/E8Ec7mWSSFoWRGLcrlowkp3UzxhYmYOo/ShsrcjseQfVDW1ZCISC3pTIWwfXm
-         p/uzgD9CFu8TiFUnjWfir3BxMlh8FXvp4w5H77NKauAwbJSKXuA9doS61c7MsapYC8cN
-         ETqFIoUF7v0llhZdDp93QD7RujxyF/xVA+wgO4S1BnUIYy7hynqS04yjjxc8HH+D+HVT
-         5jz4W8mfEkfko2bvd0OkQkdk8P9IGSu3ymqIVWOAzZ72cBvMSuVIfmdeMDmVIvJz0boS
-         2EbA==
-X-Forwarded-Encrypted: i=1; AHgh+RqwYOj7AubmieK5T9JyY5WY7TFHcUfjeDUi/kZpsYHeQcPtvvp3SqhbiLI+Cj4K4NbG5EwNPnX/JZWMGw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YynAX3fvpn4aSH08fVHluFdWPG4pABslcVOfQPI/MExCw5NQpy8
-	o0VtzpNqTcRWWQGzCOSRgzjrgLFWw+QBcQiWlMqFFK6N2Fki3IpTdH0S
-X-Gm-Gg: AfdE7cm7+VN6F+0k2lcqsgZchxJlT/vT9mUEK2fWO5kytJgxv1TLvkfI4I314FkhoLU
-	tsRO7BYrQ8vW1LS/bmbhy1LKiXKpuSOfz/U6VG7oafKmv0BOsWn9vesMKlU64bZsdE0P1mykNwv
-	Qz7DuCRAMYEGdzDf6eXxmeZp60TwBHOvAigKbmCSsbWshM8/s3UvmEDzLjGKSx/iFeAWqCLkjcx
-	RhNv/q/ecHIA47a4bAL8c/cnWJ6+FH0JXqm9S1Shh3mMa8THIl7FLa66ZYojxn4VQxA5jsmpDva
-	eucwOn/OZWa1RCY0cKPb53ebLnXFHSaxCL+v24JZBMLfVSTEHDS0FTciMGKD6233dWfxU5UdDNu
-	sweriuyCWHRFlNXAZBhU+zvTLFEovVZcDGl6GKrBtwdZeItyUrc9KyktANS17Lp5cWtSi/+02Xl
-	bpnBgogStZuZ13JdW6RLFcsyUUhrUZFt+KtXCAa22GoAJ3csw=
-X-Received: by 2002:a17:902:f712:b0:2c9:e2c1:4fb5 with SMTP id d9443c01a7336-2ca911d7bdbmr33936035ad.22.1782973927785;
-        Wed, 01 Jul 2026 23:32:07 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca9a8dec40sm8676435ad.5.2026.07.01.23.32.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 23:32:07 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: cassiogabrielcontato@gmail.com,
-	Kees Cook <kees@kernel.org>,
-	HariKrishna Sagala <hariconscious@gmail.com>,
-	Cen Zhang <zzzccc427@gmail.com>,
-	Len Bao <len.bao@gmx.us>,
-	HanQuan <eilaimemedsnaimel@gmail.com>,
-	Kyle Zeng <kylebot@openai.com>,
-	Dewei Meng <mengdewei@cqsoftware.com.cn>,
-	Maoyi Xie <maoyixie.tju@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH] ALSA: core: Drop redundant stream_open() return check
-Date: Thu,  2 Jul 2026 13:31:53 +0700
-Message-ID: <20260702063153.291425-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bJWjsFxm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22F461F000E9;
+	Thu,  2 Jul 2026 06:50:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782975010;
+	bh=H68M3pSDEtjkA1BdTYx+RoorfU7H3yfF/UXaB8nZkRc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=bJWjsFxmc7yGMXCHoLO1nOXiV9jl0RaHe7gFR9havHqZYdWe3Ribw5o2aOso25M+/
+	 gjYjRZTz7POHQGlnSJm3ZZ8UNpanZYMXHCWsNHtFh1p2NqVIN0bXVrmEIqK2aNHY/l
+	 pVKFVrzDD/wt2tAQZHSxrmRYdEXVsYCoa9w97KuXEudoQzeV84FbbWKtLU0CgE+bEt
+	 ZR3UfwTtq7gauh9W0FXomLgG/lIbaa9GeQLomTLWj9/daQqUoy30jWm1ldL4U5ZpSg
+	 J07QeIB838DB+AYuqTG4pGKG37HGcMNcoeDv/GEC2jeWv0BYSWsCOPnBWgNE7FwM2D
+	 1WYCVfvpnyCiw==
+Date: Thu, 2 Jul 2026 08:50:06 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/11] dt-bindings: sound: qcom,qaif-cpu: Add binding
+Message-ID: <20260702-magnetic-fennec-from-eldorado-cec489@quoll>
+References: <20260701105757.2779738-1-harendra.gautam@oss.qualcomm.com>
+ <20260701105757.2779738-2-harendra.gautam@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260701105757.2779738-2-harendra.gautam@oss.qualcomm.com>
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On Wed, Jul 01, 2026 at 04:27:47PM +0530, Harendra Gautam wrote:
+> Add a dt-bindings header for the Qualcomm Audio Interface (QAIF) controller
+> DAI IDs. This provides shared constants for devicetree sound-dai references
+> and QAIF aif-interface reg values instead of using raw numeric IDs.
+> 
+> Add a Devicetree binding for the Qualcomm Audio Interface (QAIF) CPU DAI
+> controller used on the Shikra audio platform.
+> 
+> QAIF moves PCM data between system memory and external serial audio
+> interfaces through the AIF path, and between memory and the internal Bolero
+> digital codec through the CIF path. The controller needs a binding so
+> platform Devicetree files can describe its MMIO region, DMA IOMMU stream,
+> clocks, interrupt, DAI cells and per-interface AIF configuration.
+> 
+> Describe the single register region, one EE interrupt, the required GCC
+> LPASS and audio core clocks, the DMA IOMMU mapping, and 'aif-interface@N'
+> child nodes used for static PCM, TDM or MI2S configuration.
+> 
+> Depends-on: [PATCH 0/4] clk: qcom: Add Audio Core clock controller
+>   support on Qualcomm Shikra SoC
+>   https://lore.kernel.org/linux-clk/20260605-shikra-audiocorecc-v1-0-7ee6b5f2d928@oss.qualcomm.com/
 
-The previous conversion from nonseekable_open() to stream_open() retained
-the existing error check.
-Since stream_open() always returns 0, remove the dead error handling path.
+There is no such tag. Why would you want to include it in the Git
+history?
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/core/rawmidi.c           | 4 +---
- sound/core/seq/seq_clientmgr.c | 5 +----
- sound/core/timer.c             | 5 +----
- 3 files changed, 3 insertions(+), 11 deletions(-)
+...
 
-diff --git a/sound/core/rawmidi.c b/sound/core/rawmidi.c
-index 4dfd9d53e6d3..789254a88e53 100644
---- a/sound/core/rawmidi.c
-+++ b/sound/core/rawmidi.c
-@@ -441,9 +441,7 @@ static int snd_rawmidi_open(struct inode *inode, struct file *file)
- 	if ((file->f_flags & O_APPEND) && !(file->f_flags & O_NONBLOCK))
- 		return -EINVAL;		/* invalid combination */
- 
--	err = stream_open(inode, file);
--	if (err < 0)
--		return err;
-+	stream_open(inode, file);
- 
- 	if (maj == snd_major) {
- 		rmidi = snd_lookup_minor_data(iminor(inode),
-diff --git a/sound/core/seq/seq_clientmgr.c b/sound/core/seq/seq_clientmgr.c
-index 28782e1776fa..8fe872367568 100644
---- a/sound/core/seq/seq_clientmgr.c
-+++ b/sound/core/seq/seq_clientmgr.c
-@@ -296,11 +296,8 @@ static int snd_seq_open(struct inode *inode, struct file *file)
- 	int c, mode;			/* client id */
- 	struct snd_seq_client *client;
- 	struct snd_seq_user_client *user;
--	int err;
- 
--	err = stream_open(inode, file);
--	if (err < 0)
--		return err;
-+	stream_open(inode, file);
- 
- 	scoped_guard(mutex, &register_mutex) {
- 		client = seq_create_client1(-1, SNDRV_SEQ_DEFAULT_EVENTS);
-diff --git a/sound/core/timer.c b/sound/core/timer.c
-index 51c6ac4df9f4..937d7996f7ab 100644
---- a/sound/core/timer.c
-+++ b/sound/core/timer.c
-@@ -1531,11 +1531,8 @@ static int realloc_user_queue(struct snd_timer_user *tu, int size)
- static int snd_timer_user_open(struct inode *inode, struct file *file)
- {
- 	struct snd_timer_user *tu;
--	int err;
- 
--	err = stream_open(inode, file);
--	if (err < 0)
--		return err;
-+	stream_open(inode, file);
- 
- 	tu = kzalloc_obj(*tu);
- 	if (tu == NULL)
--- 
-2.43.0
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - qcom,qaif-cpu
+
+How did this appear?
+
+You ignored my previous comments (I checked one or two).
+
+
+> +      - qcom,shikra-qaif-cpu
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 9
+> +
+> +  clock-names:
+> +    items:
+> +      - const: lpass_config
+> +      - const: lpass_core_axim
+> +      - const: aud_dma
+> +      - const: aud_dma_mem
+> +      - const: bus
+> +      - const: aif_if0_ibit
+> +      - const: aif_if1_ibit
+> +      - const: aif_if2_ibit
+> +      - const: aif_if3_ibit
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  '#sound-dai-cells':
+> +    const: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +
+
+Why double line break?
+
+> +patternProperties:
+> +  "^aif-interface@[0-9a-f]+$":
+
+Use consistent quotes.
+
+> +    type: object
+> +    description:
+> +      AIF interface configuration child node. The compatible string
+> +      identifies the serial protocol the interface is wired for on the
+> +      board. The unit address matches the hardware AIF interface index.
+> +    properties:
+> +      compatible:
+> +        enum:
+> +          - qcom,qaif-pcm-dai
+> +          - qcom,qaif-tdm-dai
+> +          - qcom,qaif-mi2s-dai
+> +      reg:
+> +        maxItems: 1
+> +        description: |
+> +          Hardware AIF interface index (AUD_INTFa block index). This value
+> +          also serves as the ALSA DAI ID; it corresponds directly to the
+> +          QAIF_MI2S_TDM_AIFn constants in <dt-bindings/sound/qcom,qaif.h>
+> +          (e.g. reg = <2> selects QAIF_MI2S_TDM_AIF2).
+> +      qcom,qaif-aif-sync-mode:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        enum: [0, 1, 2]
+> +        description:
+> +          Defines the FRAME SYNC mode for the audio interface.
+> +            0 = SHORT - FRAME SYNC is high for 1 INTF clock cycle per frame
+> +            1 = ONE_SLOT - FRAME SYNC is high for 1 slot per frame (pulse
+> +                stretched by MIN(RPCM_WIDTH, TPCM_WIDTH))
+> +            2 = LONG - FRAME SYNC is high for half the frame duration
+> +      qcom,qaif-aif-sync-src:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        enum: [0, 1]
+> +        description:
+> +          Sync clock/frame source. Independent of sync-mode;
+> +          all combinations of sync-mode and sync-src are valid.
+> +            0 = External source (slave)
+> +            1 = Internal source (master)
+> +      qcom,qaif-aif-invert-sync:
+> +        type: boolean
+> +        description: Invert the frame sync polarity.
+
+There is no such style of such text flow. Open any existing binding.
+
+Either you disregarded existing code or you just vibe coded something.
+Both cases are not right.
+
+Combining missed comments, that's a NAK
+
+Best regards,
+Krzysztof
 
