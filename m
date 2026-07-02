@@ -1,119 +1,138 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32983D967F
-	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 08:32:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782981157; cv=pass; b=PwMZw6PPnX3rQtUxmuqZyhL8VcGSWfZ+3czDu5uw21G31c6iygi8rBTz2FjEcohsw4gw1/Gd2BZegSgSrnhfIFQt3+6aeJotv+OTO8cqWe7FEe+5FWMSwrouWwYr5vnsOhuN8imj3CVclqbAMO/Fj7KqnD19JphYH68azS1ytL0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782981157; c=relaxed/simple;
-	bh=tkrK3lO038Qd1HBHNXNXTc2bJNVlp52VG2v4u5e2UJs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OMHMWdfuFlY2v4Y/btXZZJ16CxRbRyZtv1xg8PiVXQonuvFK97EFhjsKPFcLJvjR3J7b4mu91CXtDavNhCbhrpnQCasYmIErY5ZetkbVHs1aZaMfsVEnI00FFgVxKEkBQdC4Xhb+8bWHyssRZ4IVnvTm95WiAWLp4awol33I5dA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TDQLI8Hs; arc=pass smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1811F4252AC
+	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 08:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782981911; cv=none; b=I2HYpgb4atmb80qCZIKuJSZJBiDLk7Hc9kGEh+NssjaFsUENuj61gE6S9ran+3gcA1DfG3zxF2iO/OFLkkDteYMFA7zy9402206mbEPBNc3JQA1zZkA8ctRxrck00EjMDYt5RheSzhtOvHS86pAvOPGEpv4WBVdTFfyWc+UWRvE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782981911; c=relaxed/simple;
+	bh=4wUOlaRIbhKBaxGXz7dOQvYCJ3ALv11ugMrbqSWl/Og=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lhGWt4nzWFrm17WnALKtBN1aTNPkN6q52r7O9gsAyVs6Hixprk5ZvWuVLJQsrP4cks9rbdxaRzCZmo7YsU/MimlEY2q7CA28ZR55H7L8VqRXJiIBsnY1YCxGI84qNmeD4P+3GVk4CITPRixI68rskX/qgpgSocnePtm9VsDxPgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sY4IFNcl; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TDQLI8Hs"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2c825c88744so14826535ad.1
-        for <linux-sound@vger.kernel.org>; Thu, 02 Jul 2026 01:32:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782981155; cv=none;
-        d=google.com; s=arc-20260327;
-        b=AUWCU7u+NgjZqtbZmQBC5y5xTt1vTn7ZnpomZt3hlVWUo075i9o1O86uCjglwTOLUQ
-         GvdsVxqFBiEY+Qs0CAsdM8od2WE/vl0gYS6YSeIGQEzJviNJRopsxQoZEzq6BEwcyeKD
-         kSrtPQlJ+DeQVo0RIx5zUm8ZQP3nC4JK6rhWx4ZS22ocAGr9Tvm4Esx70j8/P8neWki1
-         A8Jj7hX+pg913N+fzBKEaVKLrHiMTNcFe7JK6fDracPPbWrR3FWkdVY+2XbwjZer5Hmg
-         Ukj5sOlFfIjf0ex+8oARowU0vyXWFV+bt+/nKBLsEBkh19hRwMTNzxAB14YG23DV0fqJ
-         rrew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=rVM4Sv1XrLTHLgqIUV62wGm9lV4mGy+I0fwH5TWlIOk=;
-        fh=m7/HsjIet10bH5Q1kka1PVVLhEX0sD5Mkv1uOkBRZB8=;
-        b=ffwHHzBHBmG841M29bePbpnf0ZrxbTm4SGV+PsIwWjCLt7zSc/8QCg5IW3ci56NHHs
-         RcMXaZXJNdoZH+mGN4nmKFl6w1T4dDJHGUjBZhkgt+M4cxcFQuXvCdrNkcK7mwtiyjL6
-         GnFw44W+53IVwj5stK2nX7q9+wiUAOhjgFH+YksVn5vg+uTt/rSjana3J0eU8z7f5MwV
-         7X9HIA6TU+KHCdGoU1YieAYLjhms2QGWWWpxtg6BDLD+RlNgOgeJepfMNdWYFmj7rj9g
-         ShfYoD55UbHwYtiQJvZ6PYExRgu+Kg/D3x4am1yTSqb1CUEhvGJiRMME4SO8j1ckYeh/
-         KEaA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sY4IFNcl"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-37fdee9276fso1626398a91.3
+        for <linux-sound@vger.kernel.org>; Thu, 02 Jul 2026 01:45:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782981155; x=1783585955; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rVM4Sv1XrLTHLgqIUV62wGm9lV4mGy+I0fwH5TWlIOk=;
-        b=TDQLI8Hs+/6bGM+gUkl1IokA4ffV3MQBmfAXU5l1n2kWAIHOFB0B308nfmG8xMJKld
-         j5zUNwL0Z8b2KTLdP50uqYHrfxsMBIe/hg/YXVmgbZgh8ZcP81/Wr/eYCV1JE8ryA3GJ
-         5TZkKo298/vTNl9P8A6diuEH3ba+CCo6SxrcVx4//tq3Q4+SxmvzJ6tlWlYXAWcinvcK
-         DeTW2OtL3q5m6IW5AK6tfw62Fn96TSkX4uO2vF/blkpI/RLLtEIYUjW3p3OSrgi0KTjw
-         3CkdK7aI9+rKmMwL61Vt/4rmL18aVB6uXm1flFWvS96LKjfbGmqzw2jMgM19cNGxA4LD
-         naRw==
+        d=gmail.com; s=20251104; t=1782981909; x=1783586709; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fcRYwuw5PQQfqSUU5fD6q6zAC9xCDDszrpykhw3M5xc=;
+        b=sY4IFNcleA0l4kkm5WJ+L8uiRKeOeeGautuLzuNjhW+50inl49CMC0DQBoM9uJkwiE
+         7aqI1IHJvJ/RWYc29TY4fOVY03l2tWHPj3qlDnAdca0Z2qS9k6qS6d2o34mpdFG7Zxo6
+         HPgt+ZjgvTXV34XqbCqqOu0OixK8gwS/P7qGUUnuUJz+dkjaB2WtCg5oG5S3jtOp2FW6
+         6u7p002tArw9Ms0I4YXoldRYYFGflduaIFnBWmy6b64WOrdcQ0LSgXBm3MJ0K0mqbPr4
+         JPmUwzCIUmGc+yU80byv4wOct8KDbMNPBvpjBXjxZpAk8un5m59B9xt/sZFhJUN6oHMD
+         E5AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782981155; x=1783585955;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1782981909; x=1783586709;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rVM4Sv1XrLTHLgqIUV62wGm9lV4mGy+I0fwH5TWlIOk=;
-        b=i6mNXoH6Oz187mu1kjlkWGWqZ8IqUbBLpD+PSWcRNTkxzwygDTmQELPAZQmozcu30T
-         2dalJWaR84vxJpT56kxJ/MhVD7xNEOHoCh5/mawkADwghorMR8bEHmR872N0ERc1ylw9
-         zJYJZlrnksGGjCfTWxO4+YnJlPlhXr+KIAEHoKJerFfp3KvwwWvwJnlSSds+RrQb3r8X
-         u14xALNZI6j7ZiiypiUt0VZTVlDDzIlGhB1cl36RK7NMGOZGLLy6Pt35vS3ky2k+VRCI
-         7B/95Ra84go7koZZPmuV1HLxIKhalrdsOh9W8MEkS5rFjNL7CLjopsSG/NaFXwXjQ5n5
-         Uz4A==
-X-Forwarded-Encrypted: i=1; AHgh+RpD8tXClI+hrnEU0Ow8mSbWWJue6JD7G2HAbGmpI+21gZD6y2WHrrqBlRDSt8x2J1UoFCWfjggyBysFQw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfW7wz8NXwX0n+gxmWmLey54aDlpEXkp5HN+aC4ATXRz6peJts
-	7s3BWKRLTtK4ZKkOnzXU0nsta0ruFb5l2DYl1jsZGLgBiwhemnORgOiuwcbDSEB4exVoswWfYbi
-	GOOUi0QmPLpLyHWSwWa0pbyhuLrNYhU0=
-X-Gm-Gg: AfdE7cmBvai0GNGBFSWtXmU0SA6+C3nHDWPRPeM53Ibhy0oBPY5t4JeSJFv+D5+L7wK
-	91W4wb57VvwXuhLfCjBr+TyvlqwOmKFgg3tfUICNFdT4wcYpmVb/Pc3KRzDQeDectwriuPOQSDN
-	NhUqlW/42P/s92umElRGgfxZ0UssjPlswi1RJ7HV/9fyGhKHEgvfC6tqnLD0KIfgDcmGE3TwO2m
-	l48RCm1UUvl1EirlKT0pC9rFpyZGCg+MWg4NmPhtehCEGHn8u9xGB7yNNnd6Znj4ssTOnST6WD9
-	D01kT3NdbDmSJ1j5VrVMptH8Ee4=
-X-Received: by 2002:a17:903:9cc:b0:2c9:97a8:8c1a with SMTP id
- d9443c01a7336-2ca7e8d9f82mr53072385ad.45.1782981154935; Thu, 02 Jul 2026
- 01:32:34 -0700 (PDT)
+        bh=fcRYwuw5PQQfqSUU5fD6q6zAC9xCDDszrpykhw3M5xc=;
+        b=AVAqQuXRVdroB+Vjkq5JHFPMNRuYWzn+OhJAUhNmU3W8RwWvQztn2hszaS9jQtDumd
+         zUQRYhNbdTxaAExsHUF51q5aa6KytxmzBffLjlQVXOc/Ww2//dlZ234/V38llnFSZd+H
+         X35B/sOZoUOjSgW5RJcqJ86ZGD6lKjiHinl+mxYHvfUx3C66JwFP8OY7Ri41Grj35eBx
+         nE2k7MwCD7fg2y3Dnyjah0QPeaf7H2nzuJJdYqe5M1gVhxqQXcRc+brkhHxH/tGeAoFN
+         NPilaSUS8Sb1wKsOWfQTaAUafOmCsAOIVfqhOv0dhFOMCOFZcOpFiKMAOkZW/bODDeIk
+         xZQw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro0jsTi0fEvsUFH0RhUwTvVsfiqaYwniSEYNBJEgiLi0ZI9fALC7QtP1K4FyKJSS+6MPKJ/UhfAA3IwPA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxiz5G/gTevCKoUumuFVclIdka6qUNGRuH0dbNRlQjdPEDG2hsz
+	LNEpbRxrufvAB4igKBWDQELbJ2DPXvunCyvX53DgBvnx6iJa5CeygrIv
+X-Gm-Gg: AfdE7cllghUWtCEC4r24NNb2lWmIGgVCoO7LVMCl8jYrej3hf7OzyDGClWPNuSrGN+q
+	brgTgAOngPhxLjtnjhGqoNZu3nGUCUdDquuVkt+M1j6ot/5+fnlqlmzqpiARlXcW09XaIC1guMF
+	fr2McrABuSShpc0YjO6AylZ4RBsgwd4iUQAynlQaOt81Uqz63wieJ/JudlwNt2hcpzUQzr1vvgb
+	cXxfczJFQDKOgC/xoq2TaTo5eYuXInhYhGwE5B/fArh/+qm7r8GiLAULARC7bv9nK4iB+vhbK80
+	5TDcL/xy0+UhjP7N7vi0MJINDk1zftQWNbSUA6+6lDIUDtFIbIiLKsxlVzPyweU4YkKvJj9iUky
+	KsehRcLXF4jP5c7SfGkVEpj3QMmiFFgi1ZtrFVTOd+hUN8zeMDzel0b7pItoWf9BO1mPvqJqHuI
+	troA10mZ6uua2PfXxAXCyeXnlWaWEVfJZT61aJLQJ/C4q+36g=
+X-Received: by 2002:a17:90b:2d90:b0:380:9d0d:7af4 with SMTP id 98e67ed59e1d1-380ba86979fmr4587276a91.12.1782981909211;
+        Thu, 02 Jul 2026 01:45:09 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-380e18fbdb4sm693955a91.17.2026.07.02.01.45.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2026 01:45:08 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: cassiogabrielcontato@gmail.com,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Kees Cook <kees@kernel.org>,
+	Ziqing Chen <chenziqing@xiaomi.com>,
+	HariKrishna Sagala <hariconscious@gmail.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Cen Zhang <zzzccc427@gmail.com>,
+	Len Bao <len.bao@gmx.us>,
+	HanQuan <eilaimemedsnaimel@gmail.com>,
+	Kyle Zeng <kylebot@openai.com>,
+	Dewei Meng <mengdewei@cqsoftware.com.cn>,
+	Maoyi Xie <maoyixie.tju@gmail.com>,
+	Mehul Rao <mehulrao@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v2 0/7] ALSA: Remove redundant open helper return checks
+Date: Thu,  2 Jul 2026 15:44:37 +0700
+Message-ID: <20260702084445.519669-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260702035704.27092-1-phucduc.bui@gmail.com> <87echlam6x.wl-tiwai@suse.de>
-In-Reply-To: <87echlam6x.wl-tiwai@suse.de>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Thu, 2 Jul 2026 15:32:22 +0700
-X-Gm-Features: AVVi8CdZ7UbIXQEHlONt6FOhGjm3kj7OeTFPJedgHvdvNolpjpYP18nvUAke_d8
-Message-ID: <CAABR9nHUzp28g4_p4453jV+ZgKomovC5sw7dDqN1oZ1G07f6wQ@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: pcm: Drop reduntant nonseekable_open() return check
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, cassiogabrielcontato@gmail.com, 
-	Cen Zhang <zzzccc427@gmail.com>, Kees Cook <kees@kernel.org>, Mehul Rao <mehulrao@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Mark Brown <broonie@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	eilaimemedsnaimel@gmail.com, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Takashi-san,
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Thank you for your review!
+Hi all,
 
-> >       struct snd_pcm *pcm;
-> >       int err = nonseekable_open(inode, file);
-> > -     if (err < 0)
-> > -             return err;
-> > +
->
-> We don't have to assign err here, right?
-> Keeping it looks rather confusing.
->
-> I see a similar pattern in your other patches.  Please try to address
-> it and resubmit -- at best, as a v2 series of patches.
->
+This series removes redundant error checks after calls to
+nonseekable_open() and stream_open() in the ALSA core.
 
-I'll update the patches accordingly and send a v2 patch series shortly.
+nonseekable_open() always returns 0, so checking its return value is
+unnecessary.
+
+Several users were later converted from nonseekable_open() to
+stream_open(), but the original error checks were retained.
+Since stream_open() also always returns 0, those checks are likewise
+unnecessary.
+
+As a result, all patches simply remove dead error handling paths with no
+functional change.
+
+Change in v2 : 
+ - Drop the unnecessary assignment of the return value from
+   nonseekable_open()/stream_open(), as suggested by Takashi.
+ - Merge the individual patches into a single patch series.
 
 Best regards,
 Phuc
+
+bui duc phuc (7):
+  ALSA: control: Drop redundant stream_open() return check
+  ALSA: mixer: oss: Drop redundant nonseekable_open() return check
+  ALSA: pcm: oss: Drop redundant nonseekable_open() return check
+  ALSA: pcm: Drop redundant nonseekable_open() return check
+  ALSA: rawmidi: Drop redundant stream_open() return check
+  ALSA: seq: Drop redundant stream_open() return check
+  ALSA: timer: Drop redundant stream_open() return check
+
+ sound/core/control.c           |  4 +---
+ sound/core/oss/mixer_oss.c     |  4 +---
+ sound/core/oss/pcm_oss.c       |  4 +---
+ sound/core/pcm_native.c        | 14 ++++++++------
+ sound/core/rawmidi.c           |  4 +---
+ sound/core/seq/seq_clientmgr.c |  5 +----
+ sound/core/timer.c             |  5 +----
+ 7 files changed, 14 insertions(+), 26 deletions(-)
+
+-- 
+2.43.0
+
