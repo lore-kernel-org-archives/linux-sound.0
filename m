@@ -1,50 +1,50 @@
 Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010008.outbound.protection.outlook.com [52.101.229.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903B52641C6
-	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 01:21:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F75427AC4D
+	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 01:21:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.8
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782955315; cv=fail; b=ZLVi6CXem223E9UoF8pSXVC1R+YxsMcIZWjJfx49XPbR4xlA/YvsHw/j3Z+hCK/jczRMbXI70vnUo9GGSQHphMEn7jQ7CSBWyspThFd0xEPIQOojpgIxuAzgCMkKTgD4rDatHouh7QnkU1II1HS9wPNatWNeoSv5bl7UGOz841g=
+	t=1782955316; cv=fail; b=KZOcendNgShI5BV14of6FJUsywu127fdx9wEBkhMUIJTEB5cdL77JbPUfTIEhsQg0DvdaBau7xjLOul3aW3aUgc5SYuwwZY9kH4H/89k34bCdaUdqd//+DLHQm4DnEJLk9XBmoCnx5nbgvKAPcTFEQZhL3Vu4qLXycOI3pizX9o=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782955315; c=relaxed/simple;
-	bh=FvAOmjmlPu8clr+/v04o0e+MRWzMYtbF3cfgqN2XPGI=;
+	s=arc-20240116; t=1782955316; c=relaxed/simple;
+	bh=8ZWiamL9TodvEDZUqrpweUycikFnl3upEZOTt3HAoUk=;
 	h=Message-ID:From:Subject:To:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=ki4MvVDwyZ/nUV3j/Xiacs2exNOFgMa1lGdr1O3YA0/ae974g+pG/MgRKpS5X3A5TXMJjnUL4kiGIDwqEbvdkpNHhfdxkM3VeZ9ZBBIdw2QkFmRVrzX4hbnd0XHIgjFOnWLzZ4A68sHvqPNMXep3N3cgGlOSwJig1XoNQJ2J2mQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ijg68oB8; arc=fail smtp.client-ip=52.101.229.8
+	 Date:MIME-Version; b=VEmJDdcbQZFaS2LcssAvCynxCUJ2sIlUg9rD1k0tBVpwA4k6J9lpdwPm78PEgkfupfZ0yw0EEcBEwkUE574Pl/FxP6mqwxixxluG2DS/rL+s4jGm4C/8HNuqdc9d9Am/QV1PycIbnMmq49VJkutmUz4SzB/XLnMx4iIB08Qpruo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=JiD5CHi1; arc=fail smtp.client-ip=52.101.229.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ijg68oB8"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="JiD5CHi1"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PCMxAIlCaifruXP8YHQUOulhcrkwJOW7WQaAbuC7fW0mmUTUhZbS3xNVM6z5542Nn61VVBLoZ5+cwfs32hu+mJ04UYsaQhswz5OxP2Rqz5rj8YVDKTrJTtCy0TKt+KfsSi8jWf2Gj2ugz8IWx5Ms9nscN9i1VfuBH+TAqV+XqJ6rSY2lC2W5rXUBwE/OhPP6lgWztFCLN5vRaMUQkTM5G8E97KYSv38nefYvL5D1HdhrbjH9OEzl0Dyd6zDjJmTJgbQVcXag+TlMXcwgjR/pHQ1an0QLinmosrwEBYEPkZclfqZSaxQdHHMlvANbes5u+89PE9MIWwtekk988GTOeQ==
+ b=JmBuiJaMXUdat7dAzt+Sl/4eOjoVJ+ueUP+y5kbw+2ur7sx492Go1/jbV6HkpD0gFcQCBu6Hlp8b3XkLhT2t+vGxGBdkObJOsl3wVtxnnAG2VLzs9S6/21qsaZxmXsiAKuaW4XHZunuaoH/wCbagVWrEFwWxjgyZU/4TZ5Alj7sVLvrkkuFKtzurVdbE6CXRImYX5McTwEiqiOMJoKpf0znX7QQ+ACzE8uYQyvWoWxQgktot0KY+7kvcjdXa8tSoeF3wv2WTLL15WzMI0zk6t01UYR3YjiBQW/mEj9Wwe6ZM0ftnFAzwqbHS3nf0Fa0JcdaikjZcwtq15OrSRDhJBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3sbT36D4n4U69oQJ6vrHe8eKE/LN9DbN0dYUP/honWo=;
- b=xplezMRmvKj0sk871GPjWxF4u8nxc7eEaRsK7fWfeAZHm6gIpAarBw1maKnT6tNBgQ8Xum51vm5py8Dd0BWw0ZerYreVwk5+vHHO0mjrTkNnx8542WGvIy74bimie6cX8tPgiqz/HGPptcVnStuFPuJa1Glnbbi/5jeYyo9jskdOBNI0WnlwgA9VBpW4YX/dLKUeU04ayJWIvzg/fjkulDbJ75TK2t2u/0VRNa48pdTcwqFPGZAuWAH2k6xxygj1ZjhypI54x72MvgYR0esCVTHsj2ymzegPdQ3BNndGCgz+MqLrS8lBZ8VT8mI1UVJzFbZrhCjozcVRjlapfKwydA==
+ bh=p7WJxCtrVXzQqoEyNddZwtFClDm4QWIe+yKFQVBt5Do=;
+ b=cYVCLrzc28EWGtrDiKehJjYFjb4x+YVoRpX7guF9UklaKmIOkyjcGAL5wE/Uau6a8Str6JYQRMT0geBrW55usnrUADRJfobhH6a3lVHxikuJtVfp8YvHLSbiFyF+Bj0oZvR+m+KHcei/yYixPa/nlntOYANIuyP0g8M1uu70CoEB++9R12EgU007OclvKa9jNCN8XkLIAHB9tqPLKPzcIG1munrXtMOGXYrl7SnB03hf9Znq5i+MzCzN93XZZwfm00iHQqfgxo0KqQZrSFlrBjXIcrgLQR/GDnMz2VQ2MyT5OHOajRrBvO7CWREC4YHzZ0S8vKM6zZBmpp6VAohOjA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3sbT36D4n4U69oQJ6vrHe8eKE/LN9DbN0dYUP/honWo=;
- b=ijg68oB8R0SDQVNTRf8S9YwwRM9pMQXqeLWCHUzG93z+TlSE6CZU+/nxAgFJNVOyNzm9+1by3U1RmEETI8Lgr/YFk2VHk3LiZVd7chddEIUBM3MmxxlT9dtEi8svI4db+tpPV7lTEbPGJWqEeZOXya21ggSfc69/7lSiW+3X/EY=
+ bh=p7WJxCtrVXzQqoEyNddZwtFClDm4QWIe+yKFQVBt5Do=;
+ b=JiD5CHi1uhfx4S/r4b/NYLqERClWbX6d+5ODHG2f73DxHzyzOEkHRKWGbfd8mA3SNcSyaJPrll4PPCoL5enfCZT2ZtbsH4EbFbulQVDGvf9ljGkYfgCEfWjZcQ8Vxq7yMpCjxFSBY0m72YWEDEL6ERevBRODQzh6Jpk3O8WT7xI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from OSRPR01MB11811.jpnprd01.prod.outlook.com (2603:1096:604:235::9)
  by OSCPR01MB16080.jpnprd01.prod.outlook.com (2603:1096:604:3e6::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Thu, 2 Jul 2026
- 01:21:49 +0000
+ 01:21:53 +0000
 Received: from OSRPR01MB11811.jpnprd01.prod.outlook.com
  ([fe80::a2c7:5e53:c133:d834]) by OSRPR01MB11811.jpnprd01.prod.outlook.com
  ([fe80::a2c7:5e53:c133:d834%5]) with mapi id 15.21.0181.008; Thu, 2 Jul 2026
- 01:21:49 +0000
-Message-ID: <87ldbuxk2b.wl-kuninori.morimoto.gx@renesas.com>
+ 01:21:53 +0000
+Message-ID: <87jyrexk27.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 7/8] ASoC: soc-topology-test: use snd_soc_component_register()
+Subject: [PATCH 8/8] ASoC: soc-core: makes snd_soc_component_initialize() / snd_soc_add_component() local
 To: =?ISO-8859-2?Q?=22Amadeusz_S=B3awi=F1ski=22?=
  <amadeuszx.slawinski@linux.intel.com>,	Bard Liao
  <yung-chuan.liao@linux.intel.com>,	bui duc phuc <phucduc.bui@gmail.com>,
@@ -59,9 +59,9 @@ To: =?ISO-8859-2?Q?=22Amadeusz_S=B3awi=F1ski=22?=
 In-Reply-To: <87v7ayxk3s.wl-kuninori.morimoto.gx@renesas.com>
 References: <87v7ayxk3s.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 2 Jul 2026 01:21:48 +0000
-X-ClientProxiedBy: TYCP286CA0176.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c6::8) To OSRPR01MB11811.jpnprd01.prod.outlook.com
+Date: Thu, 2 Jul 2026 01:21:53 +0000
+X-ClientProxiedBy: TYCP286CA0103.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b4::16) To OSRPR01MB11811.jpnprd01.prod.outlook.com
  (2603:1096:604:235::9)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -71,253 +71,139 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: OSRPR01MB11811:EE_|OSCPR01MB16080:EE_
-X-MS-Office365-Filtering-Correlation-Id: 605bdca4-e5b3-4eca-87aa-08ded7d84a47
+X-MS-Office365-Filtering-Correlation-Id: dc660e7e-7dd7-4301-3861-08ded7d84cbd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|376014|52116014|56012099006|11063799006|22082099003|18002099003|921020|38350700014;
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|7416014|376014|52116014|6133799003|56012099006|11063799006|22082099003|18002099003|921020|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	qnO09wBdLMPNikHLN2lTstLQYAp4VbEPJIuILK3UCLTaUHPBh4TuVKSp67sgFRUtLUlmCQFw0lErhMB8WxBdkoi8dtkjhq4e/SXErAa7ktDvT23HXdpmGPbp9eNJiZkTqfrKR98OyE3Cro/Xpb2y7hlCDJ+irn7/KsiO9lgbbDhIxx/FNiRDFTqVI8gr+8DEpL0rxwhUvt03B3DL3964ObUeGOt4I360QwdPxDxb0cRBBy8ner+g0ByyFSfXcndYXUg3GOMrpBO1ccbPtpdUunQC6cG/OChpdXvoKyKUhd9T6Ap/41tZZDhbFbMOgxg0k72Qbtw1drtX2GKaxzLVLy4aLVlp8O63X6NY7TUdcSPMC1IG62PXWEIxNLuZdOBLAQL/eTsmanqr1Ken2la1WHvrM2VLB2g7hsNozyBHMlFUr7Pbw0xphuXCNhEVf5ufZT0v5IX5gfBAWw8t6yazve/aDJ2wBqNPKoeDWqGj7ktmEL8J0rea8TqrdkZNZmvg6QrbuprrDKhmatZ5CjjsuPcDOwQ+EVUGiQAl/1wTZUlo/Uw+gVzsuH1gBfB2fpiO6k5/LrrMA5hXikj3eqmh6cY8wiSMP+97t0LlyaWF3ba+taab9NGi43xYb0el2Qe6TxtsEZv0/N5zyYR9OXLnz/gw9qugcw0nLviqzQs7sP/AmrCMmRd11s+miFpvT0kOYl5FtFmmmzIKmsciQD2Yf7SV+XchRm1r0Oo7psNt7kc=
+	jQYyGd1tDCHdcN3k79V0oJyCla/9I0wujoqkm7sfd4/Na7bSgibbvhi8LGo89lEBv4WUWivupHQcnjbAbcUbJE1sBrpaS7Bm6NLCQms4e2ywdbQnjndUHCI61J22Htc8l/kwvMj168l54wpYVgo460u57twFIXU/90GHAA+pwRudMbiyvxo2vBsRSpubVlTEcENzAAAM4haB0r4WXVhbVryCd8b0aV1f4U8ENguuZ2pjacX+hyLD3MHv3heigNJ5hQe22Lf0qBbV0Tgjko6hi/sv9wjg6ZxfqHca68Qvq4fViFpU10rVDY0pd80C/Vzida4Ui0VAVH1TmQqj3rsGY4FNnwP4rWbfVdR/kgXoc7KQziKd+UMdPF5Z8s8Pqp6o1uESBFu6szEMKPdSR3VUHjtEdTSw3b1RQICZZkH85WCLVrdJq1gupO99bYEpQ831BfkR5hFHxDz+PBZ2EdOrSq8+NkeVLSjXxcf6UD/lFSzQ2icIN1c1/NjNF8wgqnN4su+0UlfCkEw7HhokTSs61paEo9n32yoz+m1P4144KSSYfrvbU+FiqxRtoGyNmpS4x3Jj2mszIZkMd21xdKJgaBAjsUbCgYCLlIXhNPvyR7x4WgR+GuVGLn6nAOr52I2KArHNDn9xVawbFAETIin8snT+gcAe3QXaZ7BZn/PYG4kQQIlbLBTysGbi4U+Y5KDtcx958xFneM3JYfQz2mc2UrX1t/wqdGW9cAAu7Ko2ZWs31sHrsjBvX11r7kKuYUE7
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSRPR01MB11811.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(376014)(52116014)(56012099006)(11063799006)(22082099003)(18002099003)(921020)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSRPR01MB11811.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(7416014)(376014)(52116014)(6133799003)(56012099006)(11063799006)(22082099003)(18002099003)(921020)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?bJGLIaclNRuPdcrG2uc1p8Ik5Nehc9bMz3NMkjSpm8PRiv/NZiMhawVrO/3F?=
- =?us-ascii?Q?DZDS2U1kb7ExYu4LhYEFDOFsqMb6ZLmhZ1Qv7kFRKaLtxV8pa9sGLMeYv4Dn?=
- =?us-ascii?Q?11JCG11VLP8vxMnLolXs8JWAYFaC8/KkkVq7G0Vswhheb5ls7tVBKqMze8d1?=
- =?us-ascii?Q?iqSYYN7dz2GvlTMPj2RLKyCNsultQsQ36lBR/laf59TsZx4g9kyqCdnKbzIg?=
- =?us-ascii?Q?0EW0QxBsVF/61r0V/XO95K61uz9imeAhu1s9jXBDLCw+OdUH1M/RzD/rPRRs?=
- =?us-ascii?Q?/tG9xIysuT6tYthKLyTvOp/qMjCsBVUDUSkZimgOqc2pHgcs8xTe67NqOxLR?=
- =?us-ascii?Q?QmdE1fJMMs6rIxjR2uGUpW7gLBo/Krhz7J9OawkWz1LY3Pd2nvaGgYomfz00?=
- =?us-ascii?Q?Rt8LAa+VR52BW4rk20F8SFek43ha806kFou9MyE5DPY2iklejXtdsSN1w2QM?=
- =?us-ascii?Q?eT46nX0SN5y9gM+37gz55QJ+MmxoawFFvF94feKZLHN72jm6i4UAE3eN9y9s?=
- =?us-ascii?Q?Eiej1HuDb0TW6n8QcadOM1yAEKkWIy+KIlU63S8c0flPfAqgmoY26pPOOdKO?=
- =?us-ascii?Q?1zriMRtFOPCBQvb7cgUtxWkZrI1tiAJ600CTP/NDP/3Tym7X23Ck71CbqtnQ?=
- =?us-ascii?Q?mIO6uYFk1BewWQjMAHxlNL3oNcblGUYkUj9RBoWQUYq2blTczRw5x1BgJGsS?=
- =?us-ascii?Q?OgCMe9ehy/1RxZZdzFQXN3cUQQm9G5/iqWwsQiTHn6QZMZdmx8LRfynaoo65?=
- =?us-ascii?Q?6JadPSISae25sv55pWvXicZRIV+IORYBC6LfUrNIpnB7cqLQ9FG0jYga5YQh?=
- =?us-ascii?Q?L7NwyXaLvdbjs2xOYzhbxvdu4Xz7px4xJE470r6eJ79tK2TU+2907xepql1/?=
- =?us-ascii?Q?mC+5KBk5pwwMzSyoHRFGedGIxwOUgLFkUWtx7GiuVN+7yNb2TCJVahgnVoAO?=
- =?us-ascii?Q?uGpxEq7Gtxhpj2dsPVqcBI7tqjtrsRNZC+WP/WXkOONV9lJVa7x6pFzplMEu?=
- =?us-ascii?Q?lQ7XBV9wcrWp3pWRhG8UpiG5XORPqPI1gT0WhnzR02h4BaYlaMrih5Hekj9h?=
- =?us-ascii?Q?Ng3rkd2VoksmYkCVSw7PE1AepS4hB4piRuI/LceqabwRt1FDkUJt9PZaAMQO?=
- =?us-ascii?Q?XcfmDyQErwscGs71VSj+5pnHwiStqVtbYdlYrzZOPd7eAyv1xtEQ1G+IqB63?=
- =?us-ascii?Q?SdrIWlhbhl1ib4TER7vgxjkBAj3t2vyJUROVE7o1FiAb97Yj1Z99F8qATHme?=
- =?us-ascii?Q?zMqBV8PiCa9W5tBZF10asVUqJrhU15/mAW1n2LPYImUmqChBQmzIO4JvV1MC?=
- =?us-ascii?Q?lEPHrPTR2FSJLsxNq2jiAFdHWE87V0bG3+UANAlSTgNP317+tzp9to9DbGNi?=
- =?us-ascii?Q?S7vAU3OP88RPIH7Y1KdNy3udbxDlcIkWQYxe3cMMbvSSanS08Lw+SaRWeLyr?=
- =?us-ascii?Q?EMUsSBg18R8l2UuK1JXizt4dwOI8yDTzZYbZzPKg0qrBJR+0RZdm5/DlLxXY?=
- =?us-ascii?Q?8dZ6m9p2h7ren12S242qzJ04MF2kiC+QUmk6N/uE05bR0AEDMFZ8ReT3hA2B?=
- =?us-ascii?Q?s9gPvQ/W3Ddud3prEQ8b9ptrAOdCsZ31sANROtG9iWGRKW26djRzFzfn9KbG?=
- =?us-ascii?Q?Th4egI+VjLqIuJx/BNvD3oHUTkKkd7K5mFL9UkAarS6EzAaqjYoEpSmPsi7O?=
- =?us-ascii?Q?wR0ExLDR3JJNz/WxMPNKmtRycBTdOJlOHjXA+2hBZoLGU1kpoVxYLYEiqVzP?=
- =?us-ascii?Q?JLorQBMYisQIAu2ToQ8ziwjdNisvSuzd+3nCbDub5xgwOOzzFCBK?=
+	=?us-ascii?Q?54fyX8SaBvDtt3Q3VU/k/r0wZQkUDIYcJDwkCBIGD0OgS4Lfj6IzOha02AaV?=
+ =?us-ascii?Q?IcfQd0IYNERiyCpoVX5pA3VdHRBBmK85kgW04dXeCyk7T87zu+0qQpza+3AX?=
+ =?us-ascii?Q?391rAaJamUrdUbjI/yhfV4x+X6GjD/g7T3U+xsz/J+ZS8mMQHB1OXihXFn60?=
+ =?us-ascii?Q?vJkmj2tTP3E0wzJbyceM8tlRpzmbUS2tzTugMgrb4Na02nx/XJo5erI3X+si?=
+ =?us-ascii?Q?KIyPlhdj4szplJrDZH3U2pi3OrLyop1btPWsOXt8/3B/VjWGLvD5quUBQewM?=
+ =?us-ascii?Q?HOdpRyDfTdo0X/hWEdKGcURB8/Li0S3I6AsCqqG1k2X0XJSXpTsy8H2jOXWI?=
+ =?us-ascii?Q?tMrS5cGqUND9E0kuFrT0TCBtnJAlSCMZnyCViQbafIthMbRw8+b+UVZOLlEe?=
+ =?us-ascii?Q?vtCCBmFxufSSTPoiJEjAw0MlTEdvOiXxlxe6YXJbD0bYz0eM6uIY/gMz8gOP?=
+ =?us-ascii?Q?8T6Mm6+bCTEn/ycCyU4KNK3yDDkDrmRUkejIqgrLNZ0ZIm86/oEwcY6QvjqF?=
+ =?us-ascii?Q?w4IQBtYcY620QFvjIVp2dzc4YghF+skne+kPCqL7xdn7H6w8klMvwLqDep1/?=
+ =?us-ascii?Q?PKTlX+ws8Zt4AUQChZXcPBIshnCt4pSamxEs0WUjtWwMaMxF1ff88M+5Ounr?=
+ =?us-ascii?Q?5aMaOtGMIK0Ilpq6eoMwIquczxrKMrw03R8iDTG3F6CoNVKjfMoLz3DBiLPh?=
+ =?us-ascii?Q?+aqgafl4iIjuojTuf7bV40Uah7vuLFUiffOzMJ0W1sLwm1Q0RMUcT+fNsx3p?=
+ =?us-ascii?Q?ly40RdM999/U2D405NYZsuDQ6ObC85V+M4x5Y45HqoEX49pbKM0w8sj6vf+U?=
+ =?us-ascii?Q?okkr9JKlOGWnO3i8VA8q5MBE3O6jxRpkSXqocO42pGW8KfmvsTTj0rKkOE4/?=
+ =?us-ascii?Q?/+woi53VZ4s++deI1/IUDP8kq/DVa4OG+Boygv0xrQ5N4g43jzR8J0hmsuD2?=
+ =?us-ascii?Q?DGj0+8a4YLJE1S+fMNob2DoHdAidqr5iiGXBioMlyHn/hGkMU23iwws/4N2/?=
+ =?us-ascii?Q?EI/PM6RzaXrIbyx+sO+hXzty5w+E6rzxnON6mVqlZbK9CIfeNKcBq/TJZdCK?=
+ =?us-ascii?Q?y3Dn8Z0+LlldOevApGezC1DI+l9fC6TOrDH8ECmlOsKu8+mPhDMYX2TO3CF+?=
+ =?us-ascii?Q?l2H4tOn+aiY0m8AmRqcc8C88igEFw5cyQS04SlxQ835wGJeScjto/phJqRZh?=
+ =?us-ascii?Q?i31y9o55SxpQ7RFXgAEPeyA0ppDXVymQdeVJNpSKVMwXvDzWl4rWgJs0AXGd?=
+ =?us-ascii?Q?ZhDgNx9f+26BLIGLDnmXp3v2FohV4B9qHzOkJp7mZv0zoE2wvBgTPMkam/Ni?=
+ =?us-ascii?Q?MN0LeOfsw606IOFQYX0T31wahgV23aWPrfGUH0NWpc6j4JpJaTqvKDdJAY9s?=
+ =?us-ascii?Q?nvzCyhJAsgUG43QdQI/FIgQdT9Z3JVQubd6Zdl5lE8mqyglujiuS0Dwe3qyU?=
+ =?us-ascii?Q?2ui7OCWR6NwC+hjrvJWCb1x3FAMoNbbDzjGB04pheUHEl6pANiTR5zc0acmF?=
+ =?us-ascii?Q?IW/IBi81n153FskIDZzlX28XdtQJvgDcJU0Y2CBqj4A8tiNnV/SATenArpEk?=
+ =?us-ascii?Q?kpIDIRzjJIG62egQfkBv3O+vGhXuq173NIxYsLjsI6A8uYjZuFTmp9kwOP7b?=
+ =?us-ascii?Q?rLD+tggfyhGAkdrTGiRQNu76/71GzaUISeke85ux6uRuS5JiVjfy4OvoP5v2?=
+ =?us-ascii?Q?pt/acZucWRJiakvkqUTeCb/L3ao3pmKjeDhhuG4iBgu+FRgpEHXzK92JvHJF?=
+ =?us-ascii?Q?R2VCIqg5z5iuPYZitrZnqPKBcDIdU8RWcRJVq7kqSylSiUUXccBL?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 605bdca4-e5b3-4eca-87aa-08ded7d84a47
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc660e7e-7dd7-4301-3861-08ded7d84cbd
 X-MS-Exchange-CrossTenant-AuthSource: OSRPR01MB11811.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 01:21:49.3670
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 01:21:53.4827
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6p41QKz3LJmrcq/QydCEqJt0dKML7T0INKUcbZY1n3ArqRe7OK8LrwcJMtjRxlz5GpusjZSbpNSxKhkxtih6u3ZQkKSTpA27QZl2EuIELq7lypUurvZ5ZSJXfRP4yj8K
+X-MS-Exchange-CrossTenant-UserPrincipalName: icMa7NiuyvcRSa2zoCeo+FRclYuRWcIm+Qa3WwUA6mrYvR/5e8EF17YagL8MBeVM6EQk1VOWNrh8XAlMNhAzlptnOm86NDpaVthHPBPIz3MZO/g6UljZ6LUn8OIozwiv
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB16080
 
-Current soc-topology-test is calling snd_soc_component_initialize() /
-snd_soc_component_add(). Use snd_soc_component_register() instead.
-
-It is using container_of() to get kunit_soc_component from component,
-but we can use snd_soc_component_to_priv() instead.
+No one is calling snd_soc_component_initialize() / snd_soc_add_component()
+calling from driver. Makes them local functions.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/soc-topology-test.c | 67 ++++++++---------------------------
- 1 file changed, 15 insertions(+), 52 deletions(-)
+ include/sound/soc.h  |  6 ------
+ sound/soc/soc-core.c | 18 ++++++++----------
+ 2 files changed, 8 insertions(+), 16 deletions(-)
 
-diff --git a/sound/soc/soc-topology-test.c b/sound/soc/soc-topology-test.c
-index c8f2ec29e9703..9dcde35dc2e21 100644
---- a/sound/soc/soc-topology-test.c
-+++ b/sound/soc/soc-topology-test.c
-@@ -45,15 +45,13 @@ static void snd_soc_tplg_test_exit(struct kunit *test)
- struct kunit_soc_component {
- 	struct kunit *kunit;
- 	int expect; /* what result we expect when loading topology */
--	struct snd_soc_component comp;
- 	struct snd_soc_card card;
- 	struct firmware fw;
- };
+diff --git a/include/sound/soc.h b/include/sound/soc.h
+index b02f0443874fc..9224c8a507085 100644
+--- a/include/sound/soc.h
++++ b/include/sound/soc.h
+@@ -447,12 +447,6 @@ static inline int snd_soc_resume(struct device *dev)
+ }
+ #endif
+ int snd_soc_poweroff(struct device *dev);
+-int snd_soc_component_initialize(struct snd_soc_component *component,
+-				 const struct snd_soc_component_driver *driver,
+-				 struct device *dev);
+-int snd_soc_add_component(struct snd_soc_component *component,
+-			  struct snd_soc_dai_driver *dai_drv,
+-			  int num_dai);
+ int snd_soc_register_component_with_name6(struct device *dev,
+ 			 const char *name,
+ 			 const struct snd_soc_component_driver *component_driver,
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 6bbf8d381f7f7..a9825ea36ff4c 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -2702,9 +2702,9 @@ static void snd_soc_del_component_unlocked(struct snd_soc_component *component)
+ 	list_del(&component->list);
+ }
  
- static int d_probe(struct snd_soc_component *component)
+-int snd_soc_component_initialize(struct snd_soc_component *component,
+-				 const struct snd_soc_component_driver *driver,
+-				 struct device *dev)
++static int soc_component_initialize(struct snd_soc_component *component,
++				    const struct snd_soc_component_driver *driver,
++				    struct device *dev)
  {
--	struct kunit_soc_component *kunit_comp =
--			container_of(component, struct kunit_soc_component, comp);
-+	struct kunit_soc_component *kunit_comp = snd_soc_component_to_priv(component);
- 	int ret;
+ 	component->dapm = snd_soc_dapm_alloc(dev);
+ 	if (!component->dapm)
+@@ -2730,11 +2730,10 @@ int snd_soc_component_initialize(struct snd_soc_component *component,
  
- 	ret = snd_soc_tplg_component_load(component, NULL, &kunit_comp->fw);
-@@ -65,8 +63,7 @@ static int d_probe(struct snd_soc_component *component)
+ 	return 0;
+ }
+-EXPORT_SYMBOL_GPL(snd_soc_component_initialize);
  
- static void d_remove(struct snd_soc_component *component)
+-int snd_soc_add_component(struct snd_soc_component *component,
+-			  struct snd_soc_dai_driver *dai_drv,
+-			  int num_dai)
++static int soc_add_component(struct snd_soc_component *component,
++			     struct snd_soc_dai_driver *dai_drv,
++			     int num_dai)
  {
--	struct kunit_soc_component *kunit_comp =
--			container_of(component, struct kunit_soc_component, comp);
-+	struct kunit_soc_component *kunit_comp = snd_soc_component_to_priv(component);
+ 	struct snd_soc_card *card, *c;
  	int ret;
+@@ -2773,7 +2772,6 @@ int snd_soc_add_component(struct snd_soc_component *component,
  
- 	ret = snd_soc_tplg_component_remove(component);
-@@ -214,8 +211,7 @@ static struct tplg_tmpl_002 tplg_tmpl_with_pcm = {
-  */
- static int d_probe_null_comp(struct snd_soc_component *component)
- {
--	struct kunit_soc_component *kunit_comp =
--			container_of(component, struct kunit_soc_component, comp);
-+	struct kunit_soc_component *kunit_comp = snd_soc_component_to_priv(component);
- 	int ret;
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(snd_soc_add_component);
  
- 	/* instead of passing component pointer as first argument, pass NULL here */
-@@ -254,10 +250,7 @@ static void snd_soc_tplg_test_load_with_null_comp(struct kunit *test)
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
+ int snd_soc_register_component_with_name6(struct device *dev,
+ 			const char *name,
+@@ -2791,11 +2789,11 @@ int snd_soc_register_component_with_name6(struct device *dev,
+ 	component->name = name;
+ 	component->priv = priv;
  
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component_null_comp, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(test_dev, &test_component_null_comp, NULL, 0, kunit_comp);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
+-	ret = snd_soc_component_initialize(component, component_driver, dev);
++	ret = soc_component_initialize(component, component_driver, dev);
+ 	if (ret < 0)
+ 		return ret;
  
- 	/* cleanup */
-@@ -296,10 +289,7 @@ static void snd_soc_tplg_test_load_with_null_ops(struct kunit *test)
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
+-	return snd_soc_add_component(component, dai_drv, num_dai);
++	return soc_add_component(component, dai_drv, num_dai);
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_register_component_with_name6);
  
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(test_dev, &test_component, NULL, 0);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -318,8 +308,7 @@ static void snd_soc_tplg_test_load_with_null_ops(struct kunit *test)
-  */
- static int d_probe_null_fw(struct snd_soc_component *component)
- {
--	struct kunit_soc_component *kunit_comp =
--			container_of(component, struct kunit_soc_component, comp);
-+	struct kunit_soc_component *kunit_comp = snd_soc_component_to_priv(component);
- 	int ret;
- 
- 	/* instead of passing fw pointer as third argument, pass NULL here */
-@@ -358,10 +347,7 @@ static void snd_soc_tplg_test_load_with_null_fw(struct kunit *test)
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component_null_fw, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(test_dev, &test_component_null_fw, NULL, 0, kunit_comp);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -406,10 +392,7 @@ static void snd_soc_tplg_test_load_empty_tplg(struct kunit *test)
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(test_dev, &test_component, NULL, 0, kunit_comp);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -461,10 +444,7 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_magic(struct kunit *test)
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(test_dev, &test_component, NULL, 0, kunit_comp);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -516,10 +496,7 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_abi(struct kunit *test)
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(test_dev, &test_component, NULL, 0, kunit_comp);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -571,10 +548,7 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_size(struct kunit *test)
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(test_dev, &test_component, NULL, 0, kunit_comp);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -627,10 +601,7 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_payload_size(struct kunit *tes
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(test_dev, &test_component, NULL, 0, kunit_comp);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -675,10 +646,7 @@ static void snd_soc_tplg_test_load_pcm_tplg(struct kunit *test)
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(test_dev, &test_component, NULL, 0, kunit_comp);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	snd_soc_unregister_component(test_dev);
-@@ -726,10 +694,8 @@ static void snd_soc_tplg_test_load_pcm_tplg_reload_comp(struct kunit *test)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
- 	for (i = 0; i < 100; i++) {
--		ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--		KUNIT_EXPECT_EQ(test, 0, ret);
- 
--		ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+		ret = snd_soc_register_component(test_dev, &test_component, NULL, 0, kunit_comp);
- 		KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 		snd_soc_unregister_component(test_dev);
-@@ -773,10 +739,7 @@ static void snd_soc_tplg_test_load_pcm_tplg_reload_card(struct kunit *test)
- 	kunit_comp->card.fully_routed = true;
- 
- 	/* run test */
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(test_dev, &test_component, NULL, 0, kunit_comp);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	for (i = 0; i < 100; i++) {
 -- 
 2.53.0
 
