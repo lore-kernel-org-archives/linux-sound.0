@@ -1,89 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4598D34C130;
-	Thu,  2 Jul 2026 18:33:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2E935E1CC
+	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 18:57:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783017189; cv=none; b=D0syYMNLvwPgm0l2PQD/2haF2EGd1CQ1wkeJvVzhnIUPL5oG/w4Or6h+LhRdIkzPGnZVzj2bwBhZb39ZaLGvP4PuDh3iObcV+LVUj6RcQP7Owp+PMCDcI58e8L+uB+FcVbYfSB/gNT7/uq1fdSv8zy9M9UH/YtX60pFs9NjlRds=
+	t=1783018637; cv=none; b=UAYiS2h/UqGkugEcq1/QCsupdKtQtiQHMboIE4mROWIESCa5xrDBhskZgQX5YsVpoOGYLAQtywN21cWCV1yUjVm6fGq5M+qmxEqmOEoGS4Ed2cmEak4AWv1cRFpSUOP8iSbf8cCWv0im+h5PGlQL021ON+cHq5tiJq0fOPLVons=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783017189; c=relaxed/simple;
-	bh=fDiisAO+/G9RNY6V7cFMhWsVqb+s5dZ/p6x2IiHBzGc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nY38bv528ZQo15M/dTw675Jr1jTo7dvfRBNE6nKEWRWFXu8odU7fGEwJWg5AoGiQUspCiZ1cADkLV4wZn2Nh6QAin9VSaFmdzdREDNibuUJnsgb2+Xm2Rf6s+mqQFBtqaSzLHKhehUcC4Xp86+EvCNV7IcWFH+nSWkz8VtNy8dI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jVclXSRE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783018637; c=relaxed/simple;
+	bh=CLSuzdCc+04rTJajNgr/4YoXL0buOBV+ftEj0jyiyHE=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=FVaXtEcUJwSEIQeIu23IeJRnG5nKcQzLtgXk0F0kf8DeVax4Ig8oeZavSPoLath715wpXpY/g99UV9gvPBadvNUqDOLKUXmbuA9nxIjn5UdAt0cPyplhapjYkEMgTXRo9FoJO4jidQLFXo2ht8qNNcIrXgvTJDt1cVip+npPlZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nIcakNYS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jVclXSRE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD8771F00A3D;
-	Thu,  2 Jul 2026 18:33:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nIcakNYS"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 564A21F000E9;
+	Thu,  2 Jul 2026 18:57:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783017187;
-	bh=iKhT3vG6Ne54QoZ5v4Za8qBp+EQHr0QjXvpIIa9RjKg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jVclXSREZh41Y6iae0JKZkrjQaVkjIrJxtE1sBU4v9hDuvmb9EJJBSBKx5dEa7gtY
-	 QXxV3xb0pZkH5fG16V1AUQO0ZTRZHcfzy055W2zptnpx+XR/FEKVTUvjHT3qQqSRZn
-	 80RzGGub21pitpwJvB3/F8yMTYJi/XuNEcXARSwuLpfZ09oQsSRRAwLXo4j0uqvH6C
-	 FckAfH+Dy1tHIU0jJqI8dqLDYqWBoCPsSgZuUSV36TWKKVywhODTtyPdJmTbuvo4t8
-	 RwHQ1K+Bk4TxC5OA2llFqSB/3wMTOJQLdEE0eP169mKzylOf4hZRMYPRyPsrWp5IId
-	 lUiioj1PWQkKw==
-Date: Thu, 2 Jul 2026 19:33:03 +0100
+	s=k20260515; t=1783018635;
+	bh=dI9q2GiXTUCWlGPiMDSgFHntAYfnC4FC2hwVFyuyAJA=;
+	h=From:To:Cc:Subject:Date;
+	b=nIcakNYS9VrpIskmzOuMbsPvoqEcbI/h1YxPN7gq2Yb+QTok4BeZi4hCecUVZUSHj
+	 zdipYe2JILoWCuNfbkKEGPzgzw//EYmmJgqP3zEjN5Royz04h0lPV0UTAk48OCEOeB
+	 f6bO0D1HLSNK+QkLeTfEzvWbWhgTK5r0Z+uNzhBbBBK7Mi3zCH4kSdG84BboZaJdLE
+	 fUIgZ9dMVK/cXCInU4tswxkc+h+IAlBx9HZtIa9zDxwZsL5ZAk0fRNcsBO0ejbk7pq
+	 MMGIoyc14e564p2vuXenpk70P+alc2KiDbUrswBmNnTl6af/eWt1ta79yNiJt7xvGp
+	 9YwjjqCtQeW7w==
+Message-ID: <706f31e9c125d17fbca0a5ed648f4933@kernel.org>
 From: Mark Brown <broonie@kernel.org>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: tas2781: bound firmware description string parsing
-Message-ID: <d4fc66ad-70d2-4e57-8298-788e8724b8ea@sirena.org.uk>
-References: <20260701053255.29087-1-pengpeng@iscas.ac.cn>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v7.2-rc1
+Date: Thu, 02 Jul 2026 19:57:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="D2BlXoTSWgar3jKi"
-Content-Disposition: inline
-In-Reply-To: <20260701053255.29087-1-pengpeng@iscas.ac.cn>
-X-Cookie: Reactor error - core dumped!
 
+The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e52491777482:
 
---D2BlXoTSWgar3jKi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  Linux 7.2-rc1 (2026-06-28 12:01:31 -0700)
 
-On Wed, Jul 01, 2026 at 01:32:55PM +0800, Pengpeng Hou wrote:
+are available in the Git repository at:
 
-> @@ -2165,7 +2205,12 @@ static int fw_parse_calibration_data(struct tasdev=
-ice_priv *tas_priv,
->  		calibration =3D &(tas_fmw->calibrations[i]);
->  		offset +=3D 64;
-> =20
-> -		n =3D strlen((char *)&data[offset]);
-> +		n =3D tasdevice_fw_strnlen(fmw, offset);
-> +		if (n < 0) {
-> +			dev_err(tas_priv->dev, "Description err\n");
-> +			offset =3D n;
-> +			goto out;
-> +		}
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.2-rc1
 
-In this case n is an unsigned number so the error check is broken here.
+for you to fetch changes up to 83245e7a436c04e511378af14dd81fd188b41541:
 
---D2BlXoTSWgar3jKi
-Content-Type: application/pgp-signature; name="signature.asc"
+  ASoC: rsnd: src: Add missing scu_supply clock to suspend/resume (2026-07-02 18:56:38 +0100)
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+ASoC: Fixes for v7.2
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpGrt4ACgkQJNaLcl1U
-h9Ctpwf/Tw/ajbqKHfje41/0samzYPHZxK9Ga8meogvl4UhZairU2sjYiOJGkEO8
-t3UXGVgcZcdhSwAMD1xoaxuNRazM0Hkmlyc0Wz70dUUJr3ulwA+3i6U4OwYdcOUE
-CPVx9BMP+Zo6qmUxYP5GrmOmZCok753ibWH5mfx7se65kmvVqv6ZVE1WymOIjPRd
-q9A5wQztqtKcKyu5VfHKIhDZlgYLJYV36NfkX0HIyj1tgY7nbzhLkEq4ghRArTEW
-whKQ4UO1ZZantRcikv4aQShY5pUFe+pGvkHjZotBlfKRXfr2PS/QfC+4HDHiOX02
-Dp9/EsxypRnyNsOoYADy3LDlp6wxyA==
-=sAnr
------END PGP SIGNATURE-----
+A fairly standard set of driver specific fixes and quirks that have come
+in since the merge window, plus a MAINTAINERS update.  The tas675x
+READ_ONCE change is probably not actually fixing issues properly but we
+need a whole new approach to concurrency there and it came along with
+some good fixes.
 
---D2BlXoTSWgar3jKi--
+----------------------------------------------------------------
+Jetha Chan (1):
+      ASoC: amd: yc: Add Alienware m15 R7 AMD to DMIC quirk table
+
+John Madieu (2):
+      ASoC: rsnd: adg: make rsnd_adg_clk_control() idempotent
+      ASoC: rsnd: src: Add missing scu_supply clock to suspend/resume
+
+Luca Weiss (1):
+      ASoC: codecs: lpass-va-macro: Fix LPASS Codec Version for SC7280
+
+Mark Brown (1):
+      ASoC: codecs: tas675x: misc bugfixes and minor changes
+
+Sen Wang (3):
+      ASoC: codecs: tas675x: use READ_ONCE for params to be used concurrently
+      ASoC: codecs: tas675x: Fix CHx temperature range register bit fields
+      Documentation: sound: tas675x: Fix temperature range and impedance documentation
+
+Vijendar Mukunda (1):
+      MAINTAINERS: ASoC: SOF: add AMD reviewer for Sound Open Firmware
+
+Yousef Alhouseen (1):
+      ASoC: SOF: validate probe info element counts
+
+ Documentation/sound/codecs/tas675x.rst | 11 ++++++-----
+ MAINTAINERS                            |  1 +
+ sound/soc/amd/yc/acp6x-mach.c          |  7 +++++++
+ sound/soc/codecs/lpass-va-macro.c      |  7 ++++++-
+ sound/soc/codecs/tas675x.c             | 14 +++++++-------
+ sound/soc/renesas/rcar/adg.c           | 29 ++++++++++++++++++++++++++++-
+ sound/soc/renesas/rcar/src.c           |  2 ++
+ sound/soc/sof/sof-client-probes-ipc3.c | 23 +++++++++++++++++++----
+ sound/soc/sof/sof-client-probes-ipc4.c | 11 ++++++++++-
+ 9 files changed, 86 insertions(+), 19 deletions(-)
