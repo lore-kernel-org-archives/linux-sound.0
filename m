@@ -1,240 +1,205 @@
-Received: from mx0a-0002e601.pphosted.com (mx0a-0002e601.pphosted.com [148.163.150.75])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DBF3A873A;
-	Thu,  2 Jul 2026 10:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.150.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782989125; cv=fail; b=PVy3zyTwo6shrhPY69YMD0aplbFjyoNbLqcwwovXhoE0pFKkK+GeU7micndSOjiUMfy1+3i49PprGaOph2ivBFEaIyCEkF3fbQYV1vAbeCUwQar523pUK9sQjGbhkGWRLtq17xfcAhqZtPSLrr74vX5JAFaUA6T0ckA59alOfTY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782989125; c=relaxed/simple;
-	bh=5d8Nw6ZQIOeP2rTKY8ofE/NK+WmxgDCqDRW2Ol/rKTw=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ai84AJc+qGsFIj9S+yFghrO7VV/x5+vMom+qv0A+lKt2apDTZ9bFtMEivfgoGQXursKpZgCqfeW7ZYK/LZPrxpwVIgdkTOjJ7gsC6TeJ17FwDpmI+PQaAVKZNiyDuIlBcOmzMhi1GkPwhSvaVSCZn7QSpeWRLLA+oVuLKZwMwUY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b=HjqWwGkU; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=mq2k7CSd; arc=fail smtp.client-ip=148.163.150.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13063E1732
+	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 10:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782989819; cv=none; b=mDgmrzJ68plR0mbwO1bNaJhgoYAEwcrvJAYGDNpoWTPXdncdn6VqPTfl2pY2fqeBaHqpV7IhIgF1TM3ZFwlqkF+E2RHp5pcCObBRJ+c+wNBvtgwpv9ty1okNJcoHUQfJlI8QQWBMWZk8mRY085RQcQrrFTuo9EQWLcA0fTfZg5g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782989819; c=relaxed/simple;
+	bh=KNk3Ydn1EVAsr7JuVTIdcH5PBqVqNrLHBwSrm2suX8o=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=eQUAiAmCIW/ulVs8tQMCR3r6eBOWMBNhSfyDMbLNYXRd5JZOzOxLovErRJa7MgjDzD9mWMPSxKI1XPC+5Q9YoIlbLdRrhdqxoB8yh/P2bIgeWSBaBJPOwN5sbOPkai+OcTKS6FCI15I/c/lm2aUZSdMaVE3Jc9ua8XjVq8omZMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=oXFjgWKa; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b="HjqWwGkU";
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="mq2k7CSd"
-Received: from pps.filterd (m0380145.ppops.net [127.0.0.1])
-	by m0380145.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 6628boDM1954268;
-	Thu, 2 Jul 2026 05:45:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=proofpoint-05-2026; bh=o28C8TnGlEJmY
-	o4VONYt9ouLor/xPSb3fJbV4MQuOn8=; b=HjqWwGkUH08cq3xaU/WbLhJNESwLA
-	A6g7yBa/mI/mp0joqJkDzQvqqac8vx6dI5il0QeA0ejwDavwq2AWAOOuzGGVv7Vk
-	OagfQdNXBOU3CZdSo/U4znWysi3W68yRkvaz4dJMlw4ydARbBoyDCqZPO5r37MJ0
-	AZ50zw7tbcUuzpVWO2SLo19XkR+JiVccsVSKREkH5wBHUI5HHzYFnTvHYg12h6Jt
-	QzFoanCtMWBaABaJVJHzKbdmFbZarzPJ7E8m91+m/1xbXkULayacrjpTZ/t57aAM
-	ATrFf9rmIUbkwszaZeChNIN1znidhnMZLBXCXbAkIiYNQUmzqGRE5okzA==
-Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11011009.outbound.protection.outlook.com [52.101.57.9])
-	by m0380145.ppops.net (PPS) with ESMTPS id 4f5mn58jtj-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 02 Jul 2026 05:45:05 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MeMPvsd7S19pKgdhMx0tb2fGS+DuzI4E4QkJqCDAgArbr6aIadX/n9uxU3TBMieFDx7TA1gXxDyMW2TI1mCWFFippwtXGVtGMHiGJDfO/+dVeo+qv3Qj5q4yCuNrCFFEAim/AGlx3Va3V1c0POAudGCNK3mz/5TLnbyYJ+rXAMyz44W1+mCASJOB2T6F1sxiVTURbNXY1UExHiuyVMn99wcZQIc6Akfdwrh8/NxGQAJekvqAtWTM81+76ctNrMZIuq5aJw9GzTjE6XweO6Vx++iJZKolKA5dkeTFC5JrBYq2gSEbuNSGIYJ+ejsFjq+8xaB++bHSh1/qkKMTEdiWDw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o28C8TnGlEJmYo4VONYt9ouLor/xPSb3fJbV4MQuOn8=;
- b=m9RHvqflN9PTyF88K40l8jXfdImkVkRYRrlKVeIOixuxz+ZPV1P9tLlC6iNSaZp86/PhvqVhmG3/cx1EsafHig1ySPHIoBWl8G9VvFsLYmSmdaYkoU2H09fkE+7ggsRBPuAAubuJZpYJ0OMDJa5d7PYsI0bEryzVezrdMjhEdoK0DoV3RghCGOSuTEcPeQjCFBzjw02+KiSn30EAtBTc/yLDsuyDxJfkzkamQyE1+SnESvDLorw6FYTlrgJ1t6ic+af5Jqkv6nwvpsNNgtk2gHU3mzkAwVfiFIS7ZUFPCER5cXR2Hm1/ujMYhqv6r6csMdv9G90mB976K2vl5DyExw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=amd.com smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o28C8TnGlEJmYo4VONYt9ouLor/xPSb3fJbV4MQuOn8=;
- b=mq2k7CSdYLzlvHQTiFxJHcEDS2LYYxBkM067Tug3YEqlE4ssTrOwEcj2R4y7Sf3MrVc1nGZAtZ3WkiDVzkF1IF5X/x2fcJxKr3KUHaPAbx0xJhZHefgZ/okeZyao9oEXY7knmfYPpdB+a1/4BLR4WVw/cwNbfnxfb0RVBQcL6S4=
-Received: from DS3P220CA0008.NAMP220.PROD.OUTLOOK.COM (2603:10b6:8:45f::10) by
- DS0PR10MB7429.namprd10.prod.outlook.com (2603:10b6:8:15d::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.10; Thu, 2 Jul 2026 10:45:02 +0000
-Received: from SA2PEPF000015CD.namprd03.prod.outlook.com
- (2603:10b6:8:45f:cafe::81) by DS3P220CA0008.outlook.office365.com
- (2603:10b6:8:45f::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.10 via Frontend Transport; Thu, 2
- Jul 2026 10:45:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- SA2PEPF000015CD.mail.protection.outlook.com (10.167.241.203) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Thu, 2 Jul 2026 10:45:01 +0000
-Received: from DLEE214.ent.ti.com (157.170.170.117) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 2 Jul
- 2026 05:45:01 -0500
-Received: from DLEE211.ent.ti.com (157.170.170.113) by DLEE214.ent.ti.com
- (157.170.170.117) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 2 Jul
- 2026 05:45:00 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE211.ent.ti.com
- (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
- Transport; Thu, 2 Jul 2026 05:45:00 -0500
-Received: from lelvem-mr06.itg.ti.com ([10.250.165.105])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 662Aish03742421;
-	Thu, 2 Jul 2026 05:44:55 -0500
-From: Baojun Xu <baojun.xu@ti.com>
-To: <broonie@kernel.org>
-CC: <tiwai@suse.de>, <andriy.shevchenko@linux.intel.com>,
-        <13916275206@139.com>, <alsa-devel@alsa-project.org>,
-        <shenghao-ding@ti.com>, <baojun.xu@ti.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <k-yi@ti.com>, <henry.lo@ti.com>, <robinchen@ti.com>,
-        <niranjan.hy@ti.com>, <Syed.SabaKareem@amd.com>
-Subject: [PATCH v3] ASoC: amd: acp: amd-acp70-acpi-match: Add tas2783 support
-Date: Thu, 2 Jul 2026 18:44:29 +0800
-Message-ID: <20260702104429.1157-1-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="oXFjgWKa"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493bc8fda98so14730415e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 02 Jul 2026 03:56:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1782989815; x=1783594615; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MOLhbH57Fit41sYED3YzTSdJ1tqwyQs+QYySkLyPWHY=;
+        b=oXFjgWKaCFg8pHqpxsB/JkIU6Uwu+ByGWA4oMsmlYj6bhq5XEerEWMfZER8VT8C8g7
+         C8gvxpKstVTv3GDoCrLiTZuLRAQBSvYliRpsQ3kl7yI/jR2hMMcHdDELsn1LEt3aY5nU
+         NEpSfOYzD/8DJbKIaAjuxllZ3V2onB+k2D3hTlJE0/KF60eCCwbZKUGt3ZwJhZErw9Yq
+         6xTa00NWOQalAMaanc3R2I/1OahUbkNYQa7/VBZiZBFYA0OR9YUg/bRtX+FqRNDf4Cpl
+         QxRfn8msekh9aQigoCWTUqoAdwgL2mcbQst2C7FRvksy/9j4vNtLYhTbctrlaTW4kUfR
+         dDIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782989815; x=1783594615;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=MOLhbH57Fit41sYED3YzTSdJ1tqwyQs+QYySkLyPWHY=;
+        b=U7EtGKHBkxrzLIkUfVsjqzeIRjdZ5dhw8wyvdbu4MPQ7uiwQ3tVUVXdtCDu/dr91lQ
+         uUXPOASAMTrbI5VwM6K+wkSwgcweGuw3M7RtHsRQpwZ+l/ZUqG/hMtDk2DjnW2kYK5f/
+         vDoZIQmpJW88Hf94w8nLaHN7io7WclfNMWkEvifIZIPP//HDEQay5iYYVhF2spMQ0FzO
+         Ult/r5KHt8Cwd/pupdGL60R8lfLN5ApkMObdI0TCgXL77MSJi9XqkNIT3jFQEdqKoKM9
+         s6rIpgmoHv9cjotnp7IFbrS0bWkFOz0QVc4Fi+GGe5r9cgSJx3HE3KfysSKiEqaf4EEJ
+         ELUg==
+X-Gm-Message-State: AOJu0Yw1w/Qndv5LsPneV0rJzF5VDe/3jS8ReiLa/H12u50o3Ti7Vf3K
+	q5fkzTDnZ3dAUtSMn+GoRSy0vsQC43FymhJjwIgaAx56vY6uH6ZTiarlpMkRdkzzSg4=
+X-Gm-Gg: AfdE7cnla4cQvs5qnpS1ZMOu/AaD99V4EmvviAr6Mo/l5l1hoZDIV7EXNBuulV1peBW
+	s+YyngqdTxMM6u6sL8sNta16t/FBgYZ2VMMaObrRLGw+PZwVRtyGg6StJicRx84c9Rl2kYS41PU
+	hwR5PRcz8ztsmHRbrH7c/abFUeazX48sOIbF17RsEapzwKH9mGEJ78rhKVlX+Ty+L16n5jcLp9w
+	zfNlcqtdz+CcEzQzhl+1waUqNoA5FbwZz+tdWiJdNam+KULjswHloO4iwKcLXRkhx7Bt41JFmFY
+	Ycska26/xroKWcMphkXZTQx1BGWlZaPA60SHmAmgpgASLbqF3azvX38wtEreNlGsTGlYQzakmIC
+	ZpwDzO7eiHyyJBwLO3d4K5BkfG1cNNSjTj/Gko0Wi4jId/8GBUhbXe/sNTDk1NZfrPuQay4Bkl5
+	k9rdUCcpz8d+XkZL5M/cRq
+X-Received: by 2002:a05:600c:37c6:b0:493:a5d0:d1a1 with SMTP id 5b1f17b1804b1-493c3cfb686mr59304145e9.31.1782989815167;
+        Thu, 02 Jul 2026 03:56:55 -0700 (PDT)
+Received: from [127.0.1.1] ([151.41.178.17])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c6372a31sm42649685e9.13.2026.07.02.03.56.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2026 03:56:54 -0700 (PDT)
+From: Valerio Setti <vsetti@baylibre.com>
+Date: Thu, 02 Jul 2026 12:56:40 +0200
+Subject: [PATCH 1/2] ASoC: meson: gx-formatter: prepare on attach
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF000015CD:EE_|DS0PR10MB7429:EE_
-X-MS-Office365-Filtering-Correlation-Id: d4720bd8-f535-4127-7300-08ded826f851
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|82310400026|376014|23010399003|1800799024|18002099003|56012099006|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	+Vj5+tMdsUNDjVZfBfXEOcSTanaLn2Mq+t8Qk8gfZHPT0XbNDSdC0pde8//MF5//Qra+bKUPcst13C7OPN55hYSlKYlSOP6DxCARojBTR+aBLzHyj9bDv/DNoE6g/+sv+thVpMUuJ5xn/i5XGOBlruqo9OaLfzsOssWRVm3O4zxTO79dw5qec14fpCvkt5IecmdQY1jkw2yhPolkDpHrAFUnTY74v5mweh/rElzL8CUwP1V45mdrsVrIe7m9RJEh6O0QdXcN4cOEWlT1qjjn9KNnlxZjCPGpbmZozu/csfIvSiagxbbLZgfxBUkcRXAzUXCSwQSyNyUWVPetUJh95OvWfuCJC+3r1QLLjWqfS480r0oHyZLVSiUg7M9MhHD4t5Jmzqwk+MGVTb4Xh0OLj+K5+QXIRz2vNvNvGR3z3da479nZry1C2GOYDXbdBrYckQaebTkB2fJ+I7GhO4NzuuvgVhJpEt3niY7wmKOq3wS/dnCmZBevKL2rp3G1h0WnJLyPwREJoddOABDdDZzyLDaWLTpLm/D6b++uYCCe2LAEGzqHNu/aGDR3+c9pEZkmtIUpn17Dgwlthyr2eZzf3yxVxwQLV5poAV9E5wycIvrajp/yGxXrsr59AKteQaMZatU0zQIE6mI/CgMskp0y751uNtDjQzHuVzTvcimf4zCBhk5LXW/PFn/4nCLGQWcq4pbzCQnCv2SLHefWxE4TFg==
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(376014)(23010399003)(1800799024)(18002099003)(56012099006)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	+fWXh9urikEyxMtJBvzdwggnAZ68iQHu/GnDmCjKQ1k8qzjGS9uOjrb74gb8P7H3z3Pp+d0FwfIj/feke7cVPDkFhkgR1Iz5f0DKTi4n/OOqp38p0N7UgZBJMzQCMk8u2ozPPxtXyKdV6lHlK42GmMMUXGtITxkOVpDXv5ObvliB2yD/fVLS5vR9V3fEhXYpeDL5mLFAP2EPwXkDpdZVTkptwsOq0/qbchHKB9ktiKqhamPyJAJpXGutm2JYdvtKrNkYN0b+vAvQz/N/LpCBmHt0ABeVH4j/lpEhsCsyWxEJtoVcgAoUzfqGYRQ+8x0zBxiDHWw8PNpQsso+761+c70zOLC9+zu90wScZMTVqmphQd73V/is/KWiqM38AdHfZDHff2V/6IOAO0QbGuQWpaI8E5h9Wj9T7J9ZCZiVzaon7+UDlncO07zX6dhddBHS
-X-Exchange-RoutingPolicyChecked:
-	rks9j0iU0edDlM2u5lszbl4jnLnM1nM7A7bhktInDR0K0N8OGw4M0P02oMvZLEhk8E1Daihlx6/tyr6FefVr1FmIJpnV6eY5cqKGLqGbnFELfq9ThdCnqYr9LsdI59mLc8E2Q2Xw33VriY1XWBtCRv1SIplmEJv+s4jbALw4B7Jaejqea73Mqi3TCAnHWMk1O2+Yn2IDWPFVAuX/5RprcZCaPwODYs2z69u5s01tIScNyaaBSdKGZf3SAkNtOpPU+Nrz0j20OPRjL7eG9AfpupBqFo131QCKJx1evjorhagX38NeBIOeI8Hm8QminHrCbyyQnXvEjGH7V/0+qsQTWw==
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 10:45:01.8860
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4720bd8-f535-4127-7300-08ded826f851
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF000015CD.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7429
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAyMDExMSBTYWx0ZWRfX298NHC7USoLb
- BFARyviQ1sk2Fe8+kLJl3OgJxBeFkhNPQ5QkB39hi3v1MxJVnRb6sGDpL63Fi2EBCQnNNPOgRtm
- HhJVxJXc/pqu2lOFXJwPI8dWjRAVYywI8QRcLFg2uQFXcyrhpL3pwAFYPADvClG4d8bRle5kc5q
- rzPlgmrr1UpRGRRRKYFE9McwGzhv0Hth1iu8a1Xg6Q/uEoGaZHkAnq63bCHZxpKwzUFIrIZWGCV
- JtrDLcx4RjCQUdpJCcC0Ut2aO+bnhXc4vMd3CoX174kVV9vgQ9Noop92QGqcKygB7lj8WIMf74T
- GdUjr09ZnS6Yu3m9JA8jzrMV+ECNRIc0YJdWiAE+fWzQOeHo0X1qfKloL/8AN6KxVL4DzD3VtJ2
- BhNuHoJYKGRVVJTtX5jKAS7Hs9iv/Qwk0xhSNGYuN0Cwo4j0hhHZ4OWhT4fqvtvnkC8LGCgx5E3
- GNiY+QrxEisfA5uFiqA==
-X-Authority-Analysis: v=2.4 cv=EMA2FVZC c=1 sm=1 tr=0 ts=6a464131 cx=c_pps
- a=0F+T9beUwIReeq27KEkavQ==:117 a=WotqVVQAdb04rnGuttW3Kw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10
- a=V5UXEbMT0ywA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22
- a=gO1vWkAQAl3rybz1DQOp:22 a=sozttTNsAAAA:8 a=u63tYauSxxi1GrxpF78A:9
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAyMDExMSBTYWx0ZWRfX3m5l8CoXsMw3
- sRwMTQTkKhSI/ETNutTSy/yaNSw9s/lOz/u14K05L6y/556sRkrOJVqyqL3XeMNI85YX/i1Kil4
- gvABu975CqWz8fI9fXoT/q2oU3lHl9c=
-X-Proofpoint-GUID: U7xlKU02ocN18SOC0vaSpEoUx3myniFO
-X-Proofpoint-ORIG-GUID: U7xlKU02ocN18SOC0vaSpEoUx3myniFO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-02_01,2026-06-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 clxscore=1015 spamscore=0
- adultscore=0 suspectscore=0 malwarescore=0 phishscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607020111
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260702-fix-24-bit-i2s-playback-v1-1-bcd3a43fe32a@baylibre.com>
+References: <20260702-fix-24-bit-i2s-playback-v1-0-bcd3a43fe32a@baylibre.com>
+In-Reply-To: <20260702-fix-24-bit-i2s-playback-v1-0-bcd3a43fe32a@baylibre.com>
+To: Jerome Brunet <jbrunet@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Valerio Setti <vsetti@baylibre.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3733; i=vsetti@baylibre.com;
+ h=from:subject:message-id; bh=KNk3Ydn1EVAsr7JuVTIdcH5PBqVqNrLHBwSrm2suX8o=;
+ b=owGbwMvMwCV2z3ty7kUrRgbG02pJDFluzl/iFTavmra14WhqXMnXrbxNBk/2/k6/8truOttr7
+ 433nHwzOkpZGMS4GGTFFFlYpt/7XVCq9tA44WQBzBxWJpAhDFycAjCRdF5Ghu/JHjWfhbg6W5m3
+ 9D5fqc7o+MxCw8TxeWv9pXM/V3VuucPwP8LksofO6uO6l6pcH7nU8XxUK1Kc3Pp3XegvkW+vwnK
+ l+AE=
+X-Developer-Key: i=vsetti@baylibre.com; a=openpgp;
+ fpr=0497DEFB707526E13360C970DE4B936DD13A0100
 
-Add driver data and ACPI match table entries for the TAS2783 on ACP7.0 and
-ACP7.1 platforms using SoundWire link 0.
+Instead of calling the formatter driver prepare and enable at the same
+time when 'gx_stream_start' is called (which happens at trigger time),
+split the operation in 2: prepare is called when the widget is powered
+up, whereas enable is kept on 'gx_stream_start'.
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+This resolves a problem related to i2s playback in 24-bit mode. Commit
+c7852d2dcf66 ("ASoC: meson: aiu: align I2S design to the AXG one") moved
+the content of what was once called 'aiu_encoder_i2s_setup_desc' from
+'aiu-encoder-i2s' to 'aiu-formatter-i2s'.
+
+'aiu_encoder_i2s_setup_desc' was basically accomplishing two tasks:
+- reset the i2s pipeline.
+- configure number of channels and physical samples width.
+Before being moved 'aiu_encoder_i2s_setup_desc' was called in the encoder
+DAI 'hw_params()', whereas after the move it is called at trigger time
+('aiu_encoder_i2s_trigger'->'gx_stream_start' -> 'gx_formatter_enable' ->
+'aiu_formatter_i2s_prepare').
+
+In parallel 'aiu-fifo-i2s' (DAI FE) already performs the very same reset
+of the pipeline at trigger time in 'aiu_fifo_i2s_trigger' and then it
+triggers the playback.
+
+Since the DAI triggering order is the default one (FE before BE) this
+means that the pipeline reset happens when the BE already did it and
+started the playback. This cause the 24-bit playback mode to be
+corrupted.
+
+This commit re-orders operations so that 'aiu_formatter_i2s_prepare' is
+called after DAIs' prepare, but before triggering them.
+
+Signed-off-by: Valerio Setti <vsetti@baylibre.com>
 ---
-v3:
- - Remove unreferenced link_adr, adr_device and endpoints for tas2783_l0.
-v2:
- - Add comma for the non-terminator entries.
- - Correct endpoints from spk_r_endpoint to spk_l_endpont.
- - Add two more devices for current test project.
----
- sound/soc/amd/acp/amd-acp70-acpi-match.c | 45 ++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ sound/soc/meson/gx-formatter.c | 33 +++++++++++++++++++++++++--------
+ 1 file changed, 25 insertions(+), 8 deletions(-)
 
-diff --git a/sound/soc/amd/acp/amd-acp70-acpi-match.c b/sound/soc/amd/acp/amd-acp70-acpi-match.c
-index 18f2918d4ada..f92c6f5831af 100644
---- a/sound/soc/amd/acp/amd-acp70-acpi-match.c
-+++ b/sound/soc/amd/acp/amd-acp70-acpi-match.c
-@@ -553,6 +553,46 @@ static const struct snd_soc_acpi_link_adr acp70_rt722_l0_rt1320_l1[] = {
- 	{}
+diff --git a/sound/soc/meson/gx-formatter.c b/sound/soc/meson/gx-formatter.c
+index 311e63affb23..c7333f624b15 100644
+--- a/sound/soc/meson/gx-formatter.c
++++ b/sound/soc/meson/gx-formatter.c
+@@ -15,27 +15,38 @@ struct gx_formatter {
+ 	struct gx_stream *stream;
+ 	const struct gx_formatter_driver *drv;
+ 	bool enabled;
++	bool prepared;
+ 	struct regmap *map;
  };
  
-+static const struct snd_soc_acpi_adr_device tas2783_2_adr[] = {
-+	{
-+		/* left */
-+		.adr = 0x00003c0102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "tas2783-1",
-+	},
-+	{
-+		/* right */
-+		.adr = 0x00003d0102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "tas2783-2",
-+	},
-+	{
-+		/* left */
-+		.adr = 0x0000390102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "tas2783-3",
-+	},
-+	{
-+		/* right */
-+		.adr = 0x00003a0102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "tas2783-4",
-+	},
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp70_tas2783_2[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(tas2783_2_adr),
-+		.adr_d = tas2783_2_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_adr_device rt1320_0_single_adr[] = {
- 	{
- 		.adr = 0x000030025D132001ull,
-@@ -659,6 +699,11 @@ static const struct snd_soc_acpi_link_adr acp70_rt721_only[] = {
- };
+-static int gx_formatter_enable(struct gx_formatter *formatter)
++static int gx_formatter_prepare(struct gx_formatter *formatter)
+ {
+ 	int ret;
  
- struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sdw_machines[] = {
-+	{
-+		.link_mask = BIT(0),
-+		.links = acp70_tas2783_2,
-+		.drv_name = "amd_sdw",
-+	},
- 	{
- 		.link_mask = BIT(0) | BIT(1),
- 		.links = acp70_rt1320_l0_rt722_l1,
+-	/* Do nothing if the formatter is already enabled */
+-	if (formatter->enabled)
++	if (formatter->prepared)
+ 		return 0;
+ 
+ 	/* Setup the stream parameter in the formatter */
+ 	if (formatter->drv->ops->prepare) {
+ 		ret = formatter->drv->ops->prepare(formatter->map,
+-					   formatter->drv->quirks,
+-					   formatter->stream);
++						   formatter->drv->quirks,
++						   formatter->stream);
+ 		if (ret)
+ 			return ret;
+ 	}
+ 
+-	/* Finally, actually enable the formatter */
++	formatter->prepared = true;
++
++	return 0;
++}
++
++static int gx_formatter_enable(struct gx_formatter *formatter)
++{
++	/* Do nothing if the formatter is already enabled */
++	if (formatter->enabled)
++		return 0;
++
++	/* Enable the formatter */
+ 	if (formatter->drv->ops->enable)
+ 		formatter->drv->ops->enable(formatter->map);
+ 
+@@ -63,6 +74,12 @@ static int gx_formatter_attach(struct gx_formatter *formatter)
+ 
+ 	mutex_lock(&ts->lock);
+ 
++	ret = gx_formatter_prepare(formatter);
++	if (ret) {
++		pr_err("failed to prepare the formatter\n");
++		goto out;
++	}
++
+ 	/* Catch up if the stream is already running when we attach */
+ 	if (ts->ready) {
+ 		ret = gx_formatter_enable(formatter);
+@@ -87,9 +104,9 @@ static void gx_formatter_detach(struct gx_formatter *formatter)
+ 
+ 	mutex_lock(&ts->lock);
+ 	list_del(&formatter->list);
+-	mutex_unlock(&ts->lock);
+-
+ 	gx_formatter_disable(formatter);
++	formatter->prepared = false;
++	mutex_unlock(&ts->lock);
+ }
+ 
+ static int gx_formatter_power_up(struct gx_formatter *formatter,
+
 -- 
-2.25.1
+2.47.3
 
