@@ -1,202 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outbound.ci.icloud.com (ci-2003c-snip4-11.eps.apple.com [57.103.91.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EC24DBD97;
-	Thu,  2 Jul 2026 14:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B65F4E3772
+	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 14:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.91.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783001810; cv=none; b=ocERjdrKULWaF075KA3mU/X3rA/EduwLm6tSk5mnjt+vXcF9YnTRbumitTtaLnfeAwzm+mjvCnI/0yHFjFPSEvgkJ3OqMCcfuz4cqIbVdc27GFIEcYkC4Uar/QjTio7d/UGOVy7krt8h33CehitiC7LwJpiF/fsdOzp3ljQNdA4=
+	t=1783003455; cv=none; b=FHhJjVV2Ug/mKZqK06mYP3WzaR6Ba2+ZYzXmTKIhMKLcd3RnwO4Z/+hRD7GNcLe7vTGw2tdoBGDsbuUbn0D5j9uu9N3DhgTY/21606jRm7xUacmh2Ys0/vDMQb4dBSjhVu6WTw/b1UKdv2m5DFdC00tnP/rC+VgURXhD3eOQQWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783001810; c=relaxed/simple;
-	bh=BMNaohWnQQE3GUJu1xKZgGxifcOf8Us5+ymgGbhFLCY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CogNPrqzffeyPM8KO/CUIhMNrQTLgjQwWhFgUE1ybyvvqc5M93jguDIJA9A/Onz+ENzs3gBLkoHgagF+5O/0aPkQZX7p0lHIxIwa4eoSvNCXGAaF4Dv8RRdx9IT7QsiWvfxUznaa5nFKc8XUXh5OF9pRLjfSxDAzZcH9Paw8jBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nBuFO4OK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783003455; c=relaxed/simple;
+	bh=9J41KpXy583620lYLt2ot5D+uQKtK04JtcRtKQT2HlM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=X2H6O9D9JU8KM90PfxFQiuA6rUbioJfkoNH7vpVlQMiKcL5K5uV7eDMNUCsxjm3Eh4DCMEITC6HLPgHXcsIuGYk2U8csCDsimsn6/tONoqXv+J+kgEsikFdAN305UFfg3BxqCWw0icUrTHRJ9OlwSoE6bMtK5NmtjU9pkMm6cdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=PDLXYgid; arc=none smtp.client-ip=57.103.91.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nBuFO4OK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B77881F00A3A;
-	Thu,  2 Jul 2026 14:16:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783001804;
-	bh=vcXV/OFRF3o5nc90hy/rNYztoQp19dfE8boUb7skCPA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nBuFO4OKuZkx4g9lHIILMu0GcvZdBu9Hnc71+r10+sQ+KcL0n3xj7kUQucOnqcAk3
-	 AkoJXlYf1oNjG50cQd8gf2TOHQhPraHIQjZt480Xg/htWdV6q91LBwFijLRn3TQOuu
-	 DUzRy0MHOPnAYLdnUDmlOOE6s8dMsOCBWennldGjml9Hl6vq1cQQi9Nbr1EERzrjN/
-	 Lkc41jqy6VqEbMgqwe1omDOJT4iOl7aycvqDHrKI8KUC4jXNXsDmIx9h9ZJsJesofT
-	 OviVXSDvnQJkEiSWSZwtp7bcBRhTwnjivbJlK0EsZWjLSEUjELxUeBndnhMBbTL5bE
-	 /U9iv5KrQkB8g==
-Date: Thu, 2 Jul 2026 15:16:20 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: akpm@linux-foundation.org, tsbogend@alpha.franken.de, 
-	maddy@linux.ibm.com, mpe@ellerman.id.au, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
-	l.stach@pengutronix.de, inki.dae@samsung.com, sw0312.kim@samsung.com, 
-	kyungmin.park@samsung.com, krzk@kernel.org, peter.griffin@linaro.org, 
-	jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com, 
-	tursulin@ursulin.net, robin.clark@oss.qualcomm.com, lumag@kernel.org, lyude@redhat.com, 
-	dakr@kernel.org, tomi.valkeinen@ideasonboard.com, hjc@rock-chips.com, 
-	heiko@sntech.de, andy.yan@rock-chips.com, thierry.reding@kernel.org, 
-	mperttunen@nvidia.com, jonathanh@nvidia.com, kraxel@redhat.com, 
-	dmitry.osipenko@collabora.com, zack.rusin@broadcom.com, matthew.brost@intel.com, 
-	thomas.hellstrom@linux.intel.com, oleksandr_andrushchenko@epam.com, deller@gmx.de, bcrl@kvack.org, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, muchun.song@linux.dev, osalvador@suse.de, 
-	david@kernel.org, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
-	liam@infradead.org, npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com, 
-	baohua@kernel.org, hughd@google.com, vbabka@kernel.org, rppt@kernel.org, 
-	surenb@google.com, mhocko@suse.com, jannh@google.com, pfalcato@suse.de, 
-	kees@kernel.org, perex@perex.cz, tiwai@suse.com, linux-mips@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
-	etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
-	freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
-	intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, linux-fbdev@vger.kernel.org, 
-	linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 02/13] mm/vma: update do_mmap() to use vma_flags_t
-Message-ID: <akZwsS-_cywsXSjL@lucifer>
-References: <e0ac58ad2b88ff7e2f0024e3286b2e786f79ca32.1782760670.git.ljs@kernel.org>
- <20260702111531.64883-1-lance.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="PDLXYgid"
+Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-central-1k-100-percent-10 (Postfix) with ESMTPS id 65F40180095C;
+	Thu, 02 Jul 2026 14:44:12 +0000 (UTC)
+X-ICL-RepId: 019f2349-93eb-7f56-9e88-39978181e68e
+X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQxWBlUZWgpHF0kFVBcOVk1PGVcEWkVeCUodXQZYRUcReRFQAVgeVl5aF15NUQ8PGVoUXBhTRVEfVFhBDgpcEhhcFFxQWB5GElYNXQkZCFteUBtfAkIPHBNWFRMdQxkPKwhKBEMHRQJeCyUTCVNWWxNVF0YJGQhdHRkVWgkKVwBAC04DWgdZA0QNSQdaGVoCQAxKAEAFRkQRXRFeQ1sSQRVXE1xDQgpyGVoUXBhTRVEfVEYTGU4bV01QG18CQg8=
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1783003453; x=1785595453; bh=jB7iw3ZA/vLJdxMx2jJp2AaIeG4Ubg/HppbFZFmApXA=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=PDLXYgidQr3RthSxnkY3zQoksZF2XehMciVgp8mcnsj+TbZBEvF3cfGWzN2cNznDVh20534pt1KCyD3P10XBi55JdF3X5gwITn8gLR4LCezZ1ygMt81qZYMZik9J8vKXPVSV4N/ofzG6B4rRlEbH6KUap/JrSSHTn1FMsOtgFXUDlfDd8ieGnxye5brnHBqyLByzWNpIfDwBFEu4MlVKE1furc5jOS5woyiGVdWh5mSb5QjXe2row9AknM6Q+ihhdXde8eYfIIgtFurotmkWIAxjHObSWlMwQHmY/9dw84WtJiQlmBhzbiYV1yZwmE9LtfkAvLtoa+6dKMCl2dWhFg==
+Received: from duduphudu-alienwarex16r2.lan (unknown [17.57.156.36])
+	by p00-icloudmta-asmtp-us-central-1k-100-percent-10 (Postfix) with ESMTPSA id 97E1C1802240;
+	Thu, 02 Jul 2026 14:42:00 +0000 (UTC)
+From: Vadim Lysenko <vadim.lysenko.ua@icloud.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] ALSA: hda/realtek: Add quirk for Alienware x16 R2 speakers
+Date: Thu,  2 Jul 2026 17:41:46 +0300
+Message-ID: <20260702144147.100523-2-vadim.lysenko.ua@icloud.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260702144147.100523-1-vadim.lysenko.ua@icloud.com>
+References: <20260702144147.100523-1-vadim.lysenko.ua@icloud.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260702111531.64883-1-lance.yang@linux.dev>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: WFVtn57GLg9hagivtG49ws2q4QwepBKr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAyMDE1NCBTYWx0ZWRfXyt+/dNmkKrCC
+ AohT1FVYxAS/ysJYxZkB/F85qoZ9zpXXKyfWO2+l3YBvMc+8uc8qGDrmmomYbnmLbx77CJBuMqd
+ qYGA9PQAztMo6h0/Kv3bpgxQeyOMBnfAGqwBBUmISASdbrSJ7CNuJrp+o6dGozS/T0l/lGl/FKU
+ fBuPMqjFqhIUXIdiCD7ywJUGwBwFlUUwG3DZVFWL8ADVjOg7xeOUcRX7tTYn34gWGI1RaSPcZlA
+ iv8zA+xw7kwt3xkyZnOgZ0q+TooB4tnKH5Jj1ArszM+OjqO8xvVGrVJXzrS/HdcRmz6MOZIRm0N
+ pdLq8u1B3me0TcxdTe9
+X-Proofpoint-GUID: WFVtn57GLg9hagivtG49ws2q4QwepBKr
 
-On Thu, Jul 02, 2026 at 07:15:31PM +0800, Lance Yang wrote:
->
-> On Mon, Jun 29, 2026 at 08:25:25PM +0100, Lorenzo Stoakes wrote:
-> >The core do_mmap() function accepts a vm_flags_t parameter which it then
-> >manipulates before passing to mmap_region() to do the heavy lifting of the
-> >memory mapping.
-> >
-> >Update do_mmap() to instead accept a vma_flags_t parameter, and adjust all
-> >the logic within do_mmap() to manipulate this instead.
-> >
-> >This is as part of the ongoing effort to convert VMA flags from a system
-> >word size to a bitmap type which allows us to unrestrict the number of VMA
-> >flags, as well as gain control over how VMA flag manipulation occurs.
-> >
-> >We do not cascade these changes to all functions which accept vm_flags_t,
-> >but rather use vma_flags_to_legacy() where necessary, specifically
-> >deferring converting calc_vm_prot_bits(), calc_vm_flag_bits() and
-> >__get_unmapped_area() to vma_flags_t.
-> >
-> >Also utilise the new vma_flags_can_grow() predicate which correctly handles
-> >the case of architectures without upward growing stacks.
-> >
-> >As part of this change, introduce VMA_SHADOW_STACK so we can correctly
-> >handle the case of the shadow stack not being defined.
-> >
-> >No functional change intended.
-> >
-> >Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
-> >---
->
-> Not exactly a small one :) I stared at this patch for a while, hopefully
-> don't miss anythig ...
+The Alienware x16 R2 (Dell subsystem 0x1028:0x0c90) pairs a Realtek
+ALC289 codec with two Cirrus Logic CS35L41 amplifiers on SPI - the
+same topology as the Dell XPS 15 9530 (0x0beb). Without a quirk the
+ALC289 speaker pins are not routed to the amplifiers (speaker_outs=0)
+and the internal speakers are barely audible.
 
-Yeah sorry maybe I could have broken this down more!
+Add a quirk reusing ALC289_FIXUP_DELL_CS35L41_SPI_2 so the speaker
+path is wired to the amplifiers and both CS35L41 components are bound
+to the codec.
 
->
-> Just one tiny nit below. Overall, LGTM, feel free to add:
->
-> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+Tested on an Alienware x16 R2: both amplifiers bind via
+cs35l41_hda_comp_ops and the speakers play with full range.
 
-Thanks!
+Signed-off-by: Vadim Lysenko <vadim.lysenko.ua@icloud.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
->
-> [...]
-> >diff --git a/mm/mmap.c b/mm/mmap.c
-> >index 46174e706bbe..547352183214 100644
-> >--- a/mm/mmap.c
-> >+++ b/mm/mmap.c
-> [...]
-> >@@ -488,23 +496,27 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
-> > 		 * Check to see if we are violating any seals and update VMA
-> > 		 * flags if necessary to avoid future seal violations.
-> > 		 */
-> >-		err = memfd_check_seals_mmap(file, &vm_flags);
-> >+		err = memfd_check_seals_mmap(file, &vma_flags);
-> > 		if (err)
-> > 			return (unsigned long)err;
-> > 	} else {
-> > 		switch (flags & MAP_TYPE) {
-> > 		case MAP_SHARED:
-> >-			if (vm_flags & (VM_GROWSDOWN|VM_GROWSUP))
-> >+			if (vma_flags_can_grow(&vma_flags))
-> > 				return -EINVAL;
-> > 			/*
-> > 			 * Ignore pgoff.
-> > 			 */
-> > 			pgoff = 0;
-> >-			vm_flags |= VM_SHARED | VM_MAYSHARE;
-> >+			vma_flags_set(&vma_flags, VMA_SHARED_BIT, VMA_MAYSHARE_BIT);
-> > 			break;
-> >-		case MAP_DROPPABLE:
-> >-			if (VM_DROPPABLE == VM_NONE)
-> >+		case MAP_DROPPABLE: {
-> >+			vma_flags_t droppable = VMA_DROPPABLE;
-> >+
-> >+			if (vma_flags_empty(&droppable))
-> > 				return -EOPNOTSUPP;
-> >+			vma_flags_set_mask(&vma_flags, droppable);
-> >+
-> > 			/*
-> > 			 * A locked or stack area makes no sense to be droppable.
-> > 			 *
-> >@@ -515,23 +527,24 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
-> > 			 */
-> > 			if (flags & (MAP_LOCKED | MAP_HUGETLB))
-> > 			        return -EINVAL;
-> >-			if (vm_flags & (VM_GROWSDOWN | VM_GROWSUP))
-> >+			if (vma_flags_can_grow(&vma_flags))
-> > 			        return -EINVAL;
-> >
-> >-			vm_flags |= VM_DROPPABLE;
->
-> Old code checked VM_GROWSDOWN|VM_GROWSUP before seting VM_DROPPABLE. New
-> code flips that around. Hmm, shouldn't master, just made me look twice ;)
->
-> Maybe keep old order?
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index d9e2384fc..01047f6ce 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6883,6 +6883,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1028, 0x0b37, "Dell Inspiron 16 Plus 7620 2-in-1", ALC295_FIXUP_DELL_INSPIRON_TOP_SPEAKERS),
+ 	SND_PCI_QUIRK(0x1028, 0x0b71, "Dell Inspiron 16 Plus 7620", ALC295_FIXUP_DELL_INSPIRON_TOP_SPEAKERS),
+ 	SND_PCI_QUIRK(0x1028, 0x0beb, "Dell XPS 15 9530 (2023)", ALC289_FIXUP_DELL_CS35L41_SPI_2),
++	SND_PCI_QUIRK(0x1028, 0x0c90, "Alienware x16 R2", ALC289_FIXUP_DELL_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1028, 0x0c03, "Dell Precision 5340", ALC269_FIXUP_DELL4_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1028, 0x0c0b, "Dell Oasis 14 RPL-P", ALC289_FIXUP_RTK_AMP_DUAL_SPK),
+ 	SND_PCI_QUIRK(0x1028, 0x0c0d, "Dell Oasis", ALC289_FIXUP_RTK_AMP_DUAL_SPK),
+-- 
+2.54.0
 
-I guess I feared that defining droppable above then referencing it below would
-be less clear?
-
-Can move if you feel strongly about it, and sorry for making the move at the
-same time as the general vm_flags_t -> vma_flags_t refactor as it does make that
-less clear...
-
->
-> Cheers, Lance
->
-> >-
-> > 			/*
-> > 			 * If the pages can be dropped, then it doesn't make
-> > 			 * sense to reserve them.
-> > 			 */
-> >-			vm_flags |= VM_NORESERVE;
-> >+			vma_flags_set(&vma_flags, VMA_NORESERVE_BIT);
-> >
-> > 			/*
-> > 			 * Likewise, they're volatile enough that they
-> > 			 * shouldn't survive forks or coredumps.
-> > 			 */
-> >-			vm_flags |= VM_WIPEONFORK | VM_DONTDUMP;
-> >+			vma_flags_set(&vma_flags, VMA_WIPEONFORK_BIT,
-> >+				      VMA_DONTDUMP_BIT);
-> >+
-> > 			fallthrough;
-> >+		}
-> > 		case MAP_PRIVATE:
-> > 			/*
-> > 			 * Set pgoff according to addr for anon_vma.
-> [...]
-
-Thanks, Lorenzo
