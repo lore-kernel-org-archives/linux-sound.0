@@ -1,185 +1,148 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8B63537FB
-	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 07:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88BE33911C5
+	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 07:28:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782977065; cv=none; b=HUuiF/4ArzVv9HeQeyP9UgngBz7J+BsXCkMyQhHaRo0kdhsy9iUCxV4xfzvBNAtPvnWtsyKGYKbK6x0fqnN20Z0KwAhmwDnXy/xnM0z59Pkxp1bOnj/sTwPjyCK5Yx0hgB1jEXG6gxz7BBjGRT/F9bUr+Upimb72S2GAwsaKAiQ=
+	t=1782977297; cv=none; b=ps2HPoXDK5y0tP+SIwfInIlge0Dfj/8Xc+xPffxRX+R5KFwLEARmBvVID8r21pb3tt6aTIDMnidUgCciWf6nwM5mF1orkNBERmLdoXNVVgLpWIUAZIYQRIeAe5JLIxEKLVsXuRIu1MwAINkfTRol6bzw5YSL7kNe6HyGgPNLGBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782977065; c=relaxed/simple;
-	bh=C5EJalEpbTq1zTjP+eG4qO5ubes8G4WpRpQ2w/xUEIw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k4AjuyE4cILml7ahEu5UstZgy2sHZeWJUEdYGyLJoSbiOcqKcpzTylstaOpJRP7VtJuiTbfdp/sNUox99pWKLYCn/uSVdx+7tFL9OMF+3YBL8vSBM3z9MfCtBpFoQWGBCsasGrSqy1QvXylLo4gCabW54lC8N0Nhab1P8hasngI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XRfI7mSk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MGsBop/W; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XRfI7mSk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MGsBop/W; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1782977297; c=relaxed/simple;
+	bh=cdXAMvaGTLXZ4tRHqX+15mFjqPO5NJv7/lbzInUeZeM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=S0Ixgx6bojeVx8KXvdWw5velIlcmsXI2VBKXuWGTh6AXLMuiS9SghHYaIfmHGZf9xWsz1yF6QnEDiZF3qqf6bHLXb86HxtXFtnEKtgmFrjnCOHCdy3kHzUhrlcxFtWjWpH6S+n+c+2GZNQCgKFJP1R2qNxdwpur0Z+UTDZFNdII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UUw36nfQ; arc=none smtp.client-ip=95.215.58.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XRfI7mSk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MGsBop/W";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XRfI7mSk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MGsBop/W"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id AFB8F727B2;
-	Thu,  2 Jul 2026 07:24:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782977062; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UUw36nfQ"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782977290;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wJUEQArF+jgD03zH7p0kcxjju9aThl4S1v4j2Q2QR+I=;
-	b=XRfI7mSkkU2XyMb3tohzG1OyfLDCvzma9ZHWrYapMzOOcGsLnnqlpr3XRUkib+fnlew89W
-	t/0GRA+bRVjbmpWiYHIpTgTrxmVB3BRtGusWua7USJLoZ5UbAuD/bzQ8TzsT7kSMhTKK1f
-	WYbIds68XI1aapz44chMBnyJLLgKAbw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782977062;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wJUEQArF+jgD03zH7p0kcxjju9aThl4S1v4j2Q2QR+I=;
-	b=MGsBop/WIQzdNAwTr+1dRzzxVi+lQZvT0kRJcEaRlERJOkpTqfwVpH01eRpqnqnucoGJ9d
-	AUta/5T8qEWQjJAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XRfI7mSk;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="MGsBop/W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782977062; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wJUEQArF+jgD03zH7p0kcxjju9aThl4S1v4j2Q2QR+I=;
-	b=XRfI7mSkkU2XyMb3tohzG1OyfLDCvzma9ZHWrYapMzOOcGsLnnqlpr3XRUkib+fnlew89W
-	t/0GRA+bRVjbmpWiYHIpTgTrxmVB3BRtGusWua7USJLoZ5UbAuD/bzQ8TzsT7kSMhTKK1f
-	WYbIds68XI1aapz44chMBnyJLLgKAbw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782977062;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wJUEQArF+jgD03zH7p0kcxjju9aThl4S1v4j2Q2QR+I=;
-	b=MGsBop/WIQzdNAwTr+1dRzzxVi+lQZvT0kRJcEaRlERJOkpTqfwVpH01eRpqnqnucoGJ9d
-	AUta/5T8qEWQjJAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57C38779AA;
-	Thu,  2 Jul 2026 07:24:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KDgYFCYSRmqCewAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 02 Jul 2026 07:24:22 +0000
-Date: Thu, 02 Jul 2026 09:24:22 +0200
-Message-ID: <87echlam6x.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: phucduc.bui@gmail.com
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	cassiogabrielcontato@gmail.com,
-	Cen Zhang <zzzccc427@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	Mehul Rao <mehulrao@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Mark Brown <broonie@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	eilaimemedsnaimel@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: pcm: Drop reduntant nonseekable_open() return check
-In-Reply-To: <20260702035704.27092-1-phucduc.bui@gmail.com>
-References: <20260702035704.27092-1-phucduc.bui@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	bh=cdXAMvaGTLXZ4tRHqX+15mFjqPO5NJv7/lbzInUeZeM=;
+	b=UUw36nfQUDO4ek5W5MoGxv/bQdNbTQycY1qQKAEoJymjql+ZXc8a2FUo9eNrafl6xDrEni
+	1302Z8Y+Ma+0qxdUDhBISoxry5nus7uGAN8fTkB0ZcU/zUf+14Ol9iIljWhjg5Yh/mt933
+	8BhSh84bNWygA1To4TaXOltx56F5hgs=
+From: Lance Yang <lance.yang@linux.dev>
+To: ljs@kernel.org
+Cc: akpm@linux-foundation.org,
+	tsbogend@alpha.franken.de,
+	maddy@linux.ibm.com,
+	mpe@ellerman.id.au,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	l.stach@pengutronix.de,
+	inki.dae@samsung.com,
+	sw0312.kim@samsung.com,
+	kyungmin.park@samsung.com,
+	krzk@kernel.org,
+	peter.griffin@linaro.org,
+	jani.nikula@linux.intel.com,
+	joonas.lahtinen@linux.intel.com,
+	rodrigo.vivi@intel.com,
+	tursulin@ursulin.net,
+	robin.clark@oss.qualcomm.com,
+	lumag@kernel.org,
+	lyude@redhat.com,
+	dakr@kernel.org,
+	tomi.valkeinen@ideasonboard.com,
+	hjc@rock-chips.com,
+	heiko@sntech.de,
+	andy.yan@rock-chips.com,
+	thierry.reding@kernel.org,
+	mperttunen@nvidia.com,
+	jonathanh@nvidia.com,
+	kraxel@redhat.com,
+	dmitry.osipenko@collabora.com,
+	zack.rusin@broadcom.com,
+	matthew.brost@intel.com,
+	thomas.hellstrom@linux.intel.com,
+	oleksandr_andrushchenko@epam.com,
+	deller@gmx.de,
+	bcrl@kvack.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	muchun.song@linux.dev,
+	osalvador@suse.de,
+	david@kernel.org,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	hughd@google.com,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	jannh@google.com,
+	pfalcato@suse.de,
+	kees@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org,
+	etnaviv@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	linux-rockchip@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org,
+	xen-devel@lists.xenproject.org,
+	linux-fbdev@vger.kernel.org,
+	linux-aio@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 01/13] mm: introduce vma_flags_can_grow() and vma_can_grow()
+Date: Thu,  2 Jul 2026 15:27:50 +0800
+Message-Id: <20260702072750.45641-1-lance.yang@linux.dev>
+In-Reply-To: <f2e8c32515d328db62279cc8bab8398ea278d74f.1782760670.git.ljs@kernel.org>
+References: <f2e8c32515d328db62279cc8bab8398ea278d74f.1782760670.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: AFB8F727B2
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,kernel.org,linutronix.de,renesas.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-
-On Thu, 02 Jul 2026 05:57:04 +0200,
-phucduc.bui@gmail.com wrote:
-> 
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> nonseekable_open() always returns 0, so the error check is unnecessary.
-> Remove the dead error handling path.
-> 
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-> ---
->  sound/core/pcm_native.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-> index 7dc0060617f1..b245b596d95a 100644
-> --- a/sound/core/pcm_native.c
-> +++ b/sound/core/pcm_native.c
-> @@ -2874,8 +2874,7 @@ static int snd_pcm_playback_open(struct inode *inode, struct file *file)
->  {
->  	struct snd_pcm *pcm;
->  	int err = nonseekable_open(inode, file);
-> -	if (err < 0)
-> -		return err;
-> +
-
-We don't have to assign err here, right?
-Keeping it looks rather confusing.
-
->  	pcm = snd_lookup_minor_data(iminor(inode),
->  				    SNDRV_DEVICE_TYPE_PCM_PLAYBACK);
->  	err = snd_pcm_open(file, pcm, SNDRV_PCM_STREAM_PLAYBACK);
-> @@ -2888,8 +2887,7 @@ static int snd_pcm_capture_open(struct inode *inode, struct file *file)
->  {
->  	struct snd_pcm *pcm;
->  	int err = nonseekable_open(inode, file);
-> -	if (err < 0)
-> -		return err;
-> +
-
-Ditto.
-
-I see a similar pattern in your other patches.  Please try to address
-it and resubmit -- at best, as a v2 series of patches.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
 
-thanks,
+On Mon, Jun 29, 2026 at 08:25:24PM +0100, Lorenzo Stoakes wrote:
+>These test whether the VMA has stack sematics, i.e. is able to grow upwards
+>or downwards depending on the architecture.
+>
+>In order to account for arches which do not support upward-growing stacks,
+>introduce VMA_GROWSUP whose definition depends on the architecture
+>supporting it, and use vma_flags_test_single_mask() in vma_flags_can_grow()
+>to account for this.
+>
+>Update the VMA userland tests to reflect the changes
+>
+>No functional change intended.
+>
+>Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+>---
 
-Takashi
+Nice cleanup! Feel free to add:
+
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
