@@ -1,108 +1,190 @@
-Received: from outbound.ci.icloud.com (ci-2003j-snip4-11.eps.apple.com [57.103.91.231])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CC54E3778
-	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 14:44:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.91.231
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D26A381EA6
+	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 14:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783003456; cv=none; b=KTb9xRUYdAqmU2oXdYdvOkIPiySzcLfmtJS+bOdxbzFxNDuTrZ4f/bM4lHAS7DUqx50F4BnOOizNQzW2P6IiVze6UrG+4uMzKrj/yZB9WmXEpRY3Yvv6ayy84mb1PlhwcgQB87Bg15lgz5wRDLvdCqRpVKt+4HiBLkEuV1azQnM=
+	t=1783004044; cv=none; b=DF3I9dK9WG6vb13byZWpydAeSLxywAvEYGuE35RyxhF6UVO1rx6ufePyHAT0Y5foiziprv348XZ02s+lYMz1kTc3AvrV8sQJzCmNf1YjMZImYDQxAG/vH/rq7REf5XeeVUcZ3Sebivsjz88+OwCPGMT4UgexjBG0+/Ep5GgiHD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783003456; c=relaxed/simple;
-	bh=y652DsvbOqEb9TALjQffW29UBM+s1LTwISVbmx0aUcA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kUEiQJCQkGx7K8MzjNCUUAu8aW9RC6S6gM5lp6frojKX4XFLHzASRg9V/bVY+/4ET4qDTMMJLsTOI5Zol98k1rtYDYX00HyhS2VveNkiHPZX6wkQLtcxB4thyd8yQarQGTE7jWRBLcgCmkpvmoFvIgOK4nOaVMlGh6mccA6paVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=RKWWcmTT; arc=none smtp.client-ip=57.103.91.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1783004044; c=relaxed/simple;
+	bh=xnvnSkh4mR8ONwsduDg/BLAZXZr6/CxgasUbEs0w6+o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=isH/7rSeNejKv67BgFXB8T9usbSA9A9mR9wrBdCrK7RXhN4SQH/HKMuet2bE0Fit1RVc3aUd/ljk5B92yLCO7xlJyLsMcFxbHaX21q82e7OoMRFo/ms0ejJ9QIi8HfPmdKNQdzJgIafyILz0PMMn+lch2l4l9mZFStUMKD73YyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=nq/Ym8qC; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="RKWWcmTT"
-Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-central-1k-100-percent-10 (Postfix) with ESMTPS id 7A49C180081B;
-	Thu, 02 Jul 2026 14:44:13 +0000 (UTC)
-X-ICL-RepId: 019f2349-9827-766e-afa8-094b18f18536
-X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQxWBlUZWgpHF0kFVBcOVk1PGVcEWkVeCUodXQZYRUcReRFQAVgeVl5aF15NUQ8PGVoUXBhTRVEfVFhBDgpcEhhcFFxQWB5GElYNXQkZCFteUBtfAkIPHBNWFRMdQxkPKwhKBEMHRQJeCyUTCVNWWxNVF0YJGQhdHRkVWgkKVwBAC04DWgdZA0QNSQdaGVoCQAxKAEAERkQRXRFeQ1sSQRVXE1xDQgpyGVoUXBhTRVEfVEYTGU4bV01QG18CQg8=
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1783003454; x=1785595454; bh=BKvzxFodbEZjkxSEB3J+8UXfchMeL2sE+ziUv22QFJo=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=RKWWcmTTZfHykBK6WVHx/97ukDeNzXnmVWQyUh5A0r+YcuRbR5SbfFzHCF3h9vPL59Ym4DIyZhc/AFDsMjALU+fijasCgb2/tRtBln9TZAjfhaS5iqh50TbwkQSYue8Wq2jm2N6hC1BEtooa5VMFru8EjBxSf/Px5eSDtw+qgMniMzzraoPpeMoi32N4Ls6gkqT8EGLoTbF5JNE+hBQcSyW/hhfPOKaS5CQNVgiLUnZfOUWMAoYwsH0nhTi7E7SO5tGJq1YgRwKSNPH9qGEf2L6PzXxd7ckrqOwADJxHSokyCmIzNpwq101DAr2dSgR/fjjYXUOC0Nk2d+bcgkD43g==
-Received: from duduphudu-alienwarex16r2.lan (unknown [17.57.156.36])
-	by p00-icloudmta-asmtp-us-central-1k-100-percent-10 (Postfix) with ESMTPSA id 03E90180011F;
-	Thu, 02 Jul 2026 14:42:01 +0000 (UTC)
-From: Vadim Lysenko <vadim.lysenko.ua@icloud.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="nq/Ym8qC"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-493c83474ddso4424095e9.3
+        for <linux-sound@vger.kernel.org>; Thu, 02 Jul 2026 07:54:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1783004040; x=1783608840; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kF1f5OWyBovrnxJrEidKvqNse56WBHXzqnAOUsyHHJQ=;
+        b=nq/Ym8qCx3EKLOFZ3coOhZOgAykyFBl5VNKSJjNCGrSpuRzkj36WVP6b6WLk11V+uT
+         sA8K7XfEnaLnDKGeTinJ8dkMeeol+rVweO9IAStQxrUMRxepuyKjTelCqU1xlFmH9atp
+         OFQfD2SQrvR/awbqaxaXO9f952pf+VpDRcddjpjEx2nubP2Je7G08CgT7qRVElw+2rek
+         8egnSfdyNJQl0RrfQ7fbT6lpSIEhKS+g2xcgrZwC5Dc00MrO4/FOxYUOj3/BDya7YGN7
+         ix9xZQXeu6j6x/5iUhHXauQvhoQY0fGe29OxaUIchzrB5GYsObUBBFliIE3QZgq/flhq
+         aTDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783004040; x=1783608840;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kF1f5OWyBovrnxJrEidKvqNse56WBHXzqnAOUsyHHJQ=;
+        b=ENxROufT/e2BEjYu+Tf8WnG1BKQerBsI4MdMoP5lCwxpWxl3ooXtrncE79UkxK6s0G
+         emsFKU8lyaqDZlcyaKuMU5lp9UsRpbuf5rPHtmIaAupKqhygHltxDgqAThQx3UuqwSla
+         5qGARnyBkASsPzoIGzhPhoSl2e/t/DYu8Sm818uYwSV92YNc1MuB+UE8e7wA/tOtWnjw
+         VRHxVkJFx1vI3B6Rf2odkMqf2zqNuj2skjVxEuPCkXD2djWTWst0i+e81rmwo9iahUtb
+         2QfmPcBI916h+EE0yok6EOYdaxR5UmoORNlYooP3o9k2YpjDkxuvAOQjktErmz8E5jTe
+         pL7Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9MChGQPliWcJQKGNpqFNE5pYLHJ4kEEsfbTpWQYII45p6v8VnugEljKLskKjDdkKiHp21Jzjyz+IZQ3w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YygCIfxLsmVe2JmOhHzNJwn8FBMEMzEXbjXv1mHABk4XFkjAG1s
+	syqYSeizuekVS88w2zX6Z3Xi+GjQh1ehESz+luGvtb+eVvJw91FiRxGtAYBK/pJwI6S6FDtOYh9
+	B+7FwNhX9ng==
+X-Gm-Gg: AfdE7cnogVotEHCjVsnMQBIkZBMg/u+vHSBI00vu28NFw1jNHwytxofspprInDBwcUa
+	T8jn1ssjPjWlyqKB4jbj+L3yCSR39PnPfcqZ9c3KefbwZak+M4p2aYhl9PMEuNdX2UH2mkRlc1i
+	kvSN4zNM3Sz47TySxrbaFZWUUQ6UvnZDsMQpPqi+L7DfK/cA1LCpVfxwphrIaPlnJyLXp2NSrtW
+	TU6arbJO7cIohT0sfsFiq1lk9Y5F2qloQRn8++HIy52fIP9ZUavL1jv1vViFS4f7GvKAlENbpFn
+	xvivwSI8KJtp6GHJsky5M10ZrFyTjgPXAChJ6K7bJT0Py/ItmG12AgpSQ89qs5Z42diqeJgLJfg
+	CQ4Sp5m5CEumWa9LmvmSySyn7A6vEwzTEdGYvp8eJt/x4lVvawgfLq6eSJlXvcEy7WnbOfE/pP6
+	PuQ7hTOWmpjfjqsc/nDt+fgpJHdwCLXFL1uU0CHA92Xhl+F+i3v082yIkUORUwiiWYN/H8jR8WR
+	M52
+X-Received: by 2002:a05:600c:705:b0:493:b962:4abe with SMTP id 5b1f17b1804b1-493c3dfacf0mr54863745e9.36.1783004039655;
+        Thu, 02 Jul 2026 07:53:59 -0700 (PDT)
+Received: from localhost (p200300f65f47db04bdb9899c6dd79ae8.dip0.t-ipconnect.de. [2003:f6:5f47:db04:bdb9:899c:6dd7:9ae8])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493c63b6f1bsm49814885e9.10.2026.07.02.07.53.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2026 07:53:59 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Lee Jones <lee@kernel.org>
+Cc: Colin Foster <colin.foster@in-advantage.com>,
+	linux-kernel@vger.kernel.org,
+	James Ogletree <jogletre@opensource.cirrus.com>,
+	Fred Treven <fred.treven@cirrus.com>,
+	Ben Bright <ben.bright@cirrus.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
 	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ALSA: hda: cs35l41: Add support for Alienware x16 R2
-Date: Thu,  2 Jul 2026 17:41:47 +0300
-Message-ID: <20260702144147.100523-3-vadim.lysenko.ua@icloud.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260702144147.100523-1-vadim.lysenko.ua@icloud.com>
-References: <20260702144147.100523-1-vadim.lysenko.ua@icloud.com>
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>
+Subject: [PATCH v1 0/3] mfd: Initialize spi_device_id arrays using member names
+Date: Thu,  2 Jul 2026 16:53:38 +0200
+Message-ID: <cover.1783003256.git.u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3505; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=xnvnSkh4mR8ONwsduDg/BLAZXZr6/CxgasUbEs0w6+o=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqRnty/yxLuXfqpkyn+N9SjKdq6zQf5RlY3lz4I 55PYGK74jGJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCakZ7cgAKCRCPgPtYfRL+ Tn6eCACqswh1Rk+hVIVYEKELUVvKdCmO7XKTWIrWdpQ/WlV0lqQ0YKOrgltvPWKMEUm2uG3Cyru clzgwExexTgigLBkspq263IUPvp7cK/ScLoq3veeoxtVpG3wNHil3Mwz5LKuwxjf+uVKmVokmnl Hnxb1CC4HTHZyPnpdwJBdO7PmNj+4GlSvJ52KUcs2f7WbrUY/u0MgbYFl0bYJCXwUnVyj4OVldu gDLZlTzgj/sCimLCa9vG+nNQvuERsiPBJ/fiwcApIv2M/M/cB3BLpz/oMjZJOaLK5aJaCWGNvjE CunjE3evQ4iBKLGvR+9mGYHc8IiSiTg1cvNAiBYIHqJ15gWZ
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAyMDE1NCBTYWx0ZWRfX89hADkYVbwyL
- j7wIkXuvKUf/eeGYmyIOaUPpDH4apizlUjhZYlsOV3OaYRInMqILqIYf2gcX7R1wK2uD4M2BMEz
- Bt9jogkx6Pb1fTlXnDSaiWFicdeNakXg+loMyxlJfvcHZXdvJxNic/bVNwaJ2+DTF4LOkPlbruY
- 4iDDmLoZhNbJG1/W1+NsFIgzi7toteIcQ5brgdNSKvgerowFWg+H5hRRxT3W5WjMyTQGeLJX9O8
- ViEfghR5HigLD+8ebTBH+ccV+/nnLRNnJHGLltX6HVEZ4OoVPxp1CqGS1xDqkzXyu1juwqPucjY
- GnuqfEvqqYAxKySz6/8
-X-Proofpoint-GUID: bmFEl72CA_L7bc55A0wJhLNT8sL_Qtrs
-X-Proofpoint-ORIG-GUID: bmFEl72CA_L7bc55A0wJhLNT8sL_Qtrs
 
-The Alienware x16 R2 (Dell subsystem 0x1028:0x0c90) has two CS35L41
-amplifiers on SPI described by an ACPI CSC3551 device, but the
-firmware provides no _DSD properties, so the amplifiers fail to probe:
+Hello,
 
-  spi_master spi0: error -EINVAL: failed to add SPI device CSC3551:00
-  serial-multi-instantiate CSC3551:00: probe failed with error -22
+this series targets to use named initializers for spi_device_id arrays.
+In general these are better readable for humans and more robust to
+changes in the respective struct definition.
 
-Add a cs35l41_config entry so the driver supplies the missing
-properties. The values were derived from the machine's ACPI _CRS and
-validated on hardware:
+This robustness is needed as I want to do
 
-  - 2 amps, left/right, shared reset on GpioIo index 1
-    (kernel reports "Reset line busy, assuming shared reset")
-  - speaker-id on GpioIo index 5 (driver reads SPKID: 1)
-  - chip-select on GpioIo index 0 for the second amp; this lets both
-    amplifiers enumerate ("Instantiated 2 SPI devices")
-  - internal boost, matching the sibling Dell 0x0b27/0x0b28 entries;
-    both amplifiers then identify as CS35L41 rev B2 and play with no
-    boost faults
+	diff --git a/include/linux/device-id/spi.h b/include/linux/device-id/spi.h
+	index 812e7c3854a7..93d9cd45569a 100644
+	--- a/include/linux/device-id/spi.h
+	+++ b/include/linux/device-id/spi.h
+	@@ -13,7 +13,11 @@ typedef unsigned long kernel_ulong_t;
+	 
+	 struct spi_device_id {
+		char name[SPI_NAME_SIZE];
+	-	kernel_ulong_t driver_data;	/* Data private to the driver */
+	+	union {
+	+		/* Data private to the driver */
+	+		kernel_ulong_t driver_data;
+	+		const void *driver_data_ptr;
+	+	};
+	 };
+	 
+	 #endif /* ifndef LINUX_MOD_DEVICE_ID_SPI_H */
 
-After this change both amplifiers bind to the ALC289 codec (see the
-realtek quirk) and the internal speakers work.
+which allows dropping several casts and eases porting CHERI to mainline
+Linux. A possible follow-up change is the following example:
 
-Signed-off-by: Vadim Lysenko <vadim.lysenko.ua@icloud.com>
----
- sound/hda/codecs/side-codecs/cs35l41_hda_property.c | 2 ++
- 1 file changed, 2 insertions(+)
+	diff --git a/drivers/mfd/intel-m10-bmc-spi.c b/drivers/mfd/intel-m10-bmc-spi.c
+	index 94b9c99bb4f8..28a3cc84b778 100644
+	--- a/drivers/mfd/intel-m10-bmc-spi.c
+	+++ b/drivers/mfd/intel-m10-bmc-spi.c
+	@@ -70,7 +70,7 @@ static int intel_m10_bmc_spi_probe(struct spi_device *spi)
+		if (!ddata)
+			return -ENOMEM;
+	 
+	-	info = (struct intel_m10bmc_platform_info *)id->driver_data;
+	+	info = id->driver_data_ptr;
+		ddata->dev = dev;
+	 
+		ddata->regmap = devm_regmap_init_spi_avmm(spi, &intel_m10bmc_regmap_config);
+	@@ -160,9 +160,9 @@ static const struct intel_m10bmc_platform_info m10bmc_spi_n5010 = {
+	 };
+	 
+	 static const struct spi_device_id m10bmc_spi_id[] = {
+	-	{ .name = "m10-n3000", .driver_data = (kernel_ulong_t)&m10bmc_spi_n3000 },
+	-	{ .name = "m10-d5005", .driver_data = (kernel_ulong_t)&m10bmc_spi_d5005 },
+	-	{ .name = "m10-n5010", .driver_data = (kernel_ulong_t)&m10bmc_spi_n5010 },
+	+	{ .name = "m10-n3000", .driver_data_ptr = &m10bmc_spi_n3000 },
+	+	{ .name = "m10-d5005", .driver_data_ptr = &m10bmc_spi_d5005 },
+	+	{ .name = "m10-n5010", .driver_data_ptr = &m10bmc_spi_n5010 },
+		{ }
+	 };
+	 MODULE_DEVICE_TABLE(spi, m10bmc_spi_id);
 
-diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-index 416d7bf3e..de70d511c 100644
---- a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-+++ b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-@@ -38,6 +38,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "10280B28", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
- 	{ "10280BEB", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, -1, 0, 0, 0, 0 },
- 	{ "10280C4D", 4, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, CS35L41_LEFT, CS35L41_RIGHT }, 0, 1, -1, 1000, 4500, 24 },
-+	{ "10280C90", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 5, 0, 1000, 4500, 24 },
- /*
-  * Device 103C89C6 does have _DSD, however it is setup to use the wrong boost type.
-  * We can override the _DSD to correct the boost type here.
-@@ -470,6 +471,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "10280B28", generic_dsd_config },
- 	{ "CSC3551", "10280BEB", generic_dsd_config },
- 	{ "CSC3551", "10280C4D", generic_dsd_config },
-+	{ "CSC3551", "10280C90", generic_dsd_config },
- 	{ "CSC3551", "103C89C6", generic_dsd_config },
- 	{ "CSC3551", "103C8A28", generic_dsd_config },
- 	{ "CSC3551", "103C8A29", generic_dsd_config },
+increasing readability due to less explicit casting. This also yields
+tighter type checking as the assignment in the first hunk results in a
+warning if info wasn't a pointer to a const type.
+
+If you consider the last patch mostly churn, just drop it.
+
+There are no dependencies between the patches, and they are merge window
+material.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (The Capable Hub) (3):
+  mfd: Drop unused assignment of spi_device_id driver data
+  mfd: Initialize spi_device_id arrays using member names
+  mfd: Unify style of spi_device_id arrays
+
+ drivers/mfd/altera-a10sr.c      |  2 +-
+ drivers/mfd/arizona-spi.c       | 12 ++++++------
+ drivers/mfd/cs40l50-spi.c       |  4 ++--
+ drivers/mfd/da9052-spi.c        | 12 ++++++------
+ drivers/mfd/intel-m10-bmc-spi.c |  6 +++---
+ drivers/mfd/madera-spi.c        | 18 +++++++++---------
+ drivers/mfd/motorola-cpcap.c    |  6 +++---
+ drivers/mfd/ocelot-spi.c        |  2 +-
+ drivers/mfd/rk8xx-spi.c         |  2 +-
+ drivers/mfd/rsmu_spi.c          | 12 ++++++------
+ drivers/mfd/sprd-sc27xx-spi.c   |  2 +-
+ drivers/mfd/stmpe-spi.c         | 12 ++++++------
+ drivers/mfd/tps65912-spi.c      |  2 +-
+ drivers/mfd/wm831x-spi.c        | 16 ++++++++--------
+ 14 files changed, 54 insertions(+), 54 deletions(-)
+
+
+base-commit: 4f441960e691d37c880d2cc004de06bb5b6bd5e4
 -- 
-2.54.0
+2.55.0.11.g153666a7d9bb
 
