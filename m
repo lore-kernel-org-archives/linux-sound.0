@@ -1,73 +1,121 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9563EDE5E;
-	Thu,  2 Jul 2026 11:24:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE972E173D;
+	Thu,  2 Jul 2026 11:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782991449; cv=none; b=Qos6Gl87XQmOIkxAC62XM9hnvzayNhnWI++uoBgZqDHIREW3YXdrbrYK05d0p+u+Yfh5h7UTsgUtTYXgacq0LppPZvxQo5SWzRo8ojcDWF6SlUn2t4FQZfsHEHEAMh1VPRB8Eo8+4rPlMlDedpHaXKRxk/lPeFpBSSF55gSSo0o=
+	t=1782992280; cv=none; b=m0QOreAZ7ICHosggg2NjoouhURJ/s1xE2QvHHBa2Yax0mzB06eFTeD3WSi+oitDciYexnlreuVXrtgi4NG6hmTn8CG8GiPyavJi6bYTMCNmZ4Qw1l3vBGfDE4tKgXrFYGSH66iV2CYJUaIkKtBWZHSqEIRkcYEEYnG+cBGF+2RI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782991449; c=relaxed/simple;
-	bh=qkoV9s2y6x4yNdhq0hTzUvepfbsJFBQynC64lFxnuaw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Rus/Hn6a37lSDZnwUkroGeQCCRLKDSFut0f+CbxXggWgNitPeQHlUIuJ79YBeXmtX1QGiL5bAc0UUNcI+p/HkoP1itAVZPgMXOHpVNUjfqJu9we9Wq40jbushQuAnHZy54TL2+X/Ago5l6JOC3mKz7qxsY+U+hP8oh8wLAZpnv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=gRKPHQdn; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1782992280; c=relaxed/simple;
+	bh=s4zTiOPxPEEvh+Z2LMv+6gqe9ZZvh+3yTK3Yc5UnT/U=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cgH4L+AXD1jPfDMewXSGkkxnxJ17V5gagoH+Pe6xhQfwW7BJ4JDH3F32N6ljIziC+FFIjT+t+ibeUwPtoyzvKeN68csYJEn6usmkL9FI+rEyKDjSEGBkhUNQJIUwLeufjS7TEkbzMDHm/grzF0oQ5USLbi7JdOe865fYo/rWlRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AkD1PO3E; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="gRKPHQdn"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 6457AC4FED8;
-	Thu,  2 Jul 2026 11:24:15 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C2EE85FF03;
-	Thu,  2 Jul 2026 11:24:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EEBBF104C9625;
-	Thu,  2 Jul 2026 13:23:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782991441; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=UhZPL9qBPAYg4jDprXnZJkURUAU98LtK2IDx/RRjPVY=;
-	b=gRKPHQdndkfSqFS49JzsIHQw2aOVyEHrPo49N6M5vahEK4abVvfiNdgAcQZ85BqTYrDYa7
-	bgLIWbFxIEkSIFB0swC6iE9XJv8Ex/UNCwCUK2VH602vIVMKlgsgkVCB0kMkLUyVlXGAwh
-	WrlKxRi9YwfmHOoRW6XGCBIo2DbY76dKZcM2qU5WCc/tgL8G73urX+4WNs4mRzBaqFyTms
-	wzbg1YIUbmzkq/tLQjIDWEDm3GV8tSD7knUa16eYfGis9bnzsGsQnl51p65DzPCBQGMT2K
-	5finRL11wVel1S/u3qrLN6S4dAT3WZZiydzHKCLvRx/mUD38ag2hi2cYxOCn9w==
-Date: Thu, 2 Jul 2026 13:23:48 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Richard Cheng <icheng@nvidia.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Saravana
- Kannan <saravanak@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald
- <rf@opensource.cirrus.com>, Charles Keepax <ckeepax@opensource.cirrus.com>,
- Linus Walleij <linusw@kernel.org>, Len Brown <lenb@kernel.org>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally
- <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Davidlohr Bueso
- <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>, Dave Jiang
- <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>,
- Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Lizhi Hou
- <lizhi.hou@amd.com>, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-cxl@vger.kernel.org, Allan Nielsen <allan.nielsen@microchip.com>,
- Horatiu Vultur <horatiu.vultur@microchip.com>, Daniel Machon
- <daniel.machon@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v8 7/8] PCI: of: Set fwnode device of newly created PCI
- device nodes
-Message-ID: <20260702132348.034264b6@bootlin.com>
-In-Reply-To: <akXg4G4ksietvkwE@MWDK4CY14F>
-References: <20260630102804.413563-1-herve.codina@bootlin.com>
-	<20260630102804.413563-8-herve.codina@bootlin.com>
-	<akXg4G4ksietvkwE@MWDK4CY14F>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AkD1PO3E"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782992273;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s4zTiOPxPEEvh+Z2LMv+6gqe9ZZvh+3yTK3Yc5UnT/U=;
+	b=AkD1PO3EYh/hmuzqNyG5+F4iFU+xRbougp+bY+xotWctIjwUQvMKpAwXsjPb5kG+NxyY12
+	mV0mEGNoe2Czu7JdCtguHySTk1KxuHzjRfZnXIBhIe71SSOqRiI6wOFZz62JhxqVX83KFA
+	KhWu2A9hV9btjfbdFeq0dyXUttdl5PQ=
+From: Lance Yang <lance.yang@linux.dev>
+To: ljs@kernel.org
+Cc: akpm@linux-foundation.org,
+	tsbogend@alpha.franken.de,
+	maddy@linux.ibm.com,
+	mpe@ellerman.id.au,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	l.stach@pengutronix.de,
+	inki.dae@samsung.com,
+	sw0312.kim@samsung.com,
+	kyungmin.park@samsung.com,
+	krzk@kernel.org,
+	peter.griffin@linaro.org,
+	jani.nikula@linux.intel.com,
+	joonas.lahtinen@linux.intel.com,
+	rodrigo.vivi@intel.com,
+	tursulin@ursulin.net,
+	robin.clark@oss.qualcomm.com,
+	lumag@kernel.org,
+	lyude@redhat.com,
+	dakr@kernel.org,
+	tomi.valkeinen@ideasonboard.com,
+	hjc@rock-chips.com,
+	heiko@sntech.de,
+	andy.yan@rock-chips.com,
+	thierry.reding@kernel.org,
+	mperttunen@nvidia.com,
+	jonathanh@nvidia.com,
+	kraxel@redhat.com,
+	dmitry.osipenko@collabora.com,
+	zack.rusin@broadcom.com,
+	matthew.brost@intel.com,
+	thomas.hellstrom@linux.intel.com,
+	oleksandr_andrushchenko@epam.com,
+	deller@gmx.de,
+	bcrl@kvack.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	muchun.song@linux.dev,
+	osalvador@suse.de,
+	david@kernel.org,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	hughd@google.com,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	jannh@google.com,
+	pfalcato@suse.de,
+	kees@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org,
+	etnaviv@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	linux-rockchip@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org,
+	xen-devel@lists.xenproject.org,
+	linux-fbdev@vger.kernel.org,
+	linux-aio@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 03/13] mm: convert __get_unmapped_area() to use vma_flags_t
+Date: Thu,  2 Jul 2026 19:37:22 +0800
+Message-Id: <20260702113722.97837-1-lance.yang@linux.dev>
+In-Reply-To: <b1ad7c4443f5cba622e4c48c5a9ef15427001a93.1782760670.git.ljs@kernel.org>
+References: <b1ad7c4443f5cba622e4c48c5a9ef15427001a93.1782760670.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -76,82 +124,23 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+X-Migadu-Flow: FLOW_OUT
 
-Hi Richard,
 
-On Thu, 2 Jul 2026 12:02:35 +0800
-Richard Cheng <icheng@nvidia.com> wrote:
+On Mon, Jun 29, 2026 at 08:25:26PM +0100, Lorenzo Stoakes wrote:
+>Update __get_unmapped_area() to be parameterised by vma_flags_t rather than
+>vm_flags_t as part of the effort to move VMA flags from a system word to a
+>bitmap.
+>
+>We cascade the changes up to arch_get_unmapped_area_topdown() and
+>arch_get_unmapped_area(), where, for now, we use vma_flags_to_legacy() in
+>order to propagate the VMA flags.
+>
+>No functional change intended.
+>
+>Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+>---
 
-> > @@ -709,6 +709,13 @@ void of_pci_make_dev_node(struct pci_dev *pdev)
-> >  	if (ret)
-> >  		goto out_free_node;
-> >  
-> > +	/*
-> > +	 * Set the fwnode device in order to have fw_devlink creating links
-> > +	 * pointing to this PCI device instead of walking up to the PCI host
-> > +	 * bridge.
-> > +	 */
-> > +	fw_devlink_set_device(&np->fwnode, &pdev->dev);
-> > +
-> >  	ret = of_changeset_apply(cset);
-> >  	if (ret)
-> >  		goto out_free_node;
-> > -- 
-> > 2.54.0
-> > 
-> >  
-> 
-> Hi Herve,
-> 
-> I wonder if this part has some issue, it sets np->fwnode.dev = &pdev->dev,
-> but I don't see am matching clear on removal path, I doubt the back-pointer
-> can outlive the pci_dev.
-> 
-> device_del() do the check
-> """
-> if (dev->fwnode && dev->fwnode->dev == dev)
->     fw_devlink_set_device(dev->fwnode, NULL);
-> """
-> 
-> On removal, pci_stop_dev() calls of_pci_remove_node() before pci_destroy_dev()
-> calls device_del(), and of_pci_remove_node() -> device_remove_of_node() has already NULLed pdev->dev.fwnode by then, so the "dev->fwnode" guard is false, and
-> of_pci_remove_node() itself never clears np->fwnode.dev
-> 
-> If something holds an extra ref on np past removal, e.g. a DT overlay applied via configfs that pins np through its gragment targets,
-> np survives, the pci_dev is freed, and np->fwnode.dev dnalges into freed memory.
-> Then fw_devlink walker that resolve it via get_dev_from_fwnode() -> get_device() would hit a use-after-free .
-> 
-> I think of_pci_remove_node() should cleaer the back-pointer it set,
-> before dropping the node's ref, e.g.
-> 
-> """
-> np = pci_device_to_OF_node(pdev);
-> if (!np || !of_node_check_flag(np, OF_DYNAMIC))
->     return;
-> 
-> fw_devlink_set_device(&np->fwnode, NULL);
-> device_remove_of_node(&pdev->dev);
-> of_changeset_revert(np->data);
-> """
-> 
-> Does that make sense to you ?
-> 
+Nothing suspicious that I could spot :) Feel free to add:
 
-Thanks for pointed out this issue.
-
-I am not sure that the scenario you proposed using configfs which can lead
-to the use-after-free is relevant but anyway this use-after-free is possible.
-
-The fwnode->dev is set by of_pci_make_dev_node() and so it is consistent 
-to unset it (set to NULL) in of_pci_remove_node().
-
-I will update this patch to add the fw_devlink_set_device(&np->fwnode, NULL);
-call in the next iteration.
-
-Also I will had a new patch in the next iteration to perform same operation
-for PCI root bridge. Same kind of code path, and so same issue but with
-of_pci_make_host_bridge_node() and of_pci_remove_host_bridge_node().
-
-Best regards,
-Hervé
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
