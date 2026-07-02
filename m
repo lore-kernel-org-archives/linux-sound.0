@@ -1,145 +1,242 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A773C872A
-	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 10:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72483ED5C5
+	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 11:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782989819; cv=none; b=lXDmu9TkLcdD+Wz3pkb2ySKhDYsRIz/bpswlHa42vmXAKf1rlen9SV2ummOtHoshcXlhDnBU0QAM/mJIW2WDDXEOOC/Bb5/r3dUbcK+hiTNSGX0Yg5StbjNrw188kibYBBUVQIIAB02MYexTb9IVuF7R+bvBTyFm3kLzkQXfXEo=
+	t=1782990967; cv=none; b=ntQ65ibm/AdFe8xAWMh3w6HN4rE3WAsnbFNT+6DDuCykZJ2VKyPyaiMwxCV4WzwLgSaOQc6+RLrUJQJ+1r0UCFtFCU5mYJxEGeOyy8Sba/pEU+QwHdcrx3K3gWRZ3qnTCxuhbl+XX6Qgn3VsHHVaDt005A55jKeK6K9ALrYp81c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782989819; c=relaxed/simple;
-	bh=ZGpbg2z/BcDMR3QWPvQQyG4U7Q/PzwR7ljHElEr4bCQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=A8jTYcST1UPLTS56Gzi7q6ZL7FtNrUJ1eToDFsdZgLHllxLDD12RzqYxKbYP9LRTFtVYAet7RMrODgW7MmsFVBCK1+48xykDb/7hYmqBFVz9VUPENZlRUp1l7f7a/sUb7ohWm9q14YWHPNFo1sZxbIzmK5fS1M0+ITTEcqNk8ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=cPNQ7ePL; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1782990967; c=relaxed/simple;
+	bh=GnYBDGATmtulOrbHYieuBQYJQv+WuoHKcBOPpP2DOUE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EZ1uyQ5yVRjaJR6kpDvhoTtuM5iPGvMwBHK0SAP/n6MEEKMaNBKPYfA2ucj5Q+x+4U7hIvplCnDz+1xUomIqOwAGD5yvYw7Z1U3nH3fJffeG5FyOX7BtpGShw6/L8kHyWKCA7zKQyWZOLYSK4xB9muLvMNBFj7guTiDWxng+3hQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SNO+TI3y; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="cPNQ7ePL"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493c55d5c7aso6051825e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 02 Jul 2026 03:56:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1782989814; x=1783594614; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nhPyR/JHI+8SvwQdakUo+27AIHgXTbajazll57qRqz4=;
-        b=cPNQ7ePLR/xliG1dFthn4nm30W3FlFv4l6ngBOEjn10o08w2QrntoS/eObAmk4MPt+
-         VpH/K/wcdEEJLlC3in/HX9MMvWyHKpmc4b5Mh1hRTxahU/CSP2jJUW8mERgTm/fv3HDo
-         mKCkWGQiNcAjo6SoxmRzZ2bF7cMSobtPc/uoCcoMgrGX8dlIVxAGRuqAy5HhRg4J8ZVW
-         pe1r99U3cqu9d7Y2n32hCxxrHu+nIhwcJ4RGEERBPzg3FSMkNlOP+G7Uwa2kx4twb50q
-         KfT4b8D4K84anIXgLzzrHXAEfKtwvtd/X1Q6SNB4+BUizkEqSD2osSyB2lFBXkZ1EKHR
-         bvRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782989814; x=1783594614;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nhPyR/JHI+8SvwQdakUo+27AIHgXTbajazll57qRqz4=;
-        b=AoH/jPjqFjNsBqA2VhlxMZX50oCfx2ynE6cTXgQ0PdqTedl9Dz+yv4e1XbnCB6pku6
-         W5MPzsUOLD1iIDNC8Q0E7gtJ8uysiik91wCzMiahmFvWjxT+oqiLD8ay6ICbamRwXM0A
-         YDgu0i/cnlDMFro4BcDMzbMLhMftZs5vG3NhlxPs+pD9Isj79m6qewZJEYAkpsRpWE5+
-         0N1jM5fnF7noDxaZbkQrAHM6s1FlYEnr+pgze/LUa3KpjWqgkDatkMwWZ415ABEfj4/O
-         jezBXKRJAtRtlKjW8TjD5IChBOKXcpCTqvV/Uj9UAi3EYjuTgSEpsdUxcyb47SsF/afU
-         fm0A==
-X-Gm-Message-State: AOJu0YyBTswfO2TdWua8R/H0sHoVOVcpYotT+balX1lewy7f/3ik7Mgt
-	eMqOkaz+2lwOw8j8Nonqz8SBWQohsCGjvltqR2FgplRjqZ49Pg1makwGBaWgLuirM1A=
-X-Gm-Gg: AfdE7cm0BWtaDOKq9tiieGUzEaHNC5foJ0Ot5Y6dAGw0RVcwjpGF7/dfSlewcS1oaoc
-	gXXzyJpsPX+nPFWOR5M5HJEt9Ywjl0YkNpAYfAx9IVzx6EC7J5nssCdartkyY+WNZg3ZEIByCki
-	FvS3zkMWmy5oJFXvpbGodDxux+Mx4YfMzu5mzVlOSCCAvSVnoWydXlJSnY0nRCICkYh1e2cZX0t
-	1wsxkmMlevKds+CWK4f7ZrLw2BJORBIVB6mH7+buwUXyCpGOQ1udvunH2FTaffzyTa/Lp+Hd+DF
-	LXKpMnTith0WVppeAABxlhJ/WNe3XdTOqzAp8EchSH4ybc0Xxu7/TPKdm1OH6VuteCkowrP5Mzm
-	Tip7M51zf3wA1aaK8iumUmGnTZ84t06YJ7XT8n67L/bQ7uLvYBy58qpjAgN9hbUQyRWTJ0MFOSe
-	NDtokiXHzrnQ==
-X-Received: by 2002:a05:600c:34d4:b0:490:5057:f5f7 with SMTP id 5b1f17b1804b1-493c2b4a99bmr74553955e9.11.1782989814221;
-        Thu, 02 Jul 2026 03:56:54 -0700 (PDT)
-Received: from [127.0.1.1] ([151.41.178.17])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c6372a31sm42649685e9.13.2026.07.02.03.56.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 03:56:53 -0700 (PDT)
-From: Valerio Setti <vsetti@baylibre.com>
-Subject: [PATCH 0/2] ASoC: meson: aiu: fix playback issue for 24-bit mode
-Date: Thu, 02 Jul 2026 12:56:39 +0200
-Message-Id: <20260702-fix-24-bit-i2s-playback-v1-0-bcd3a43fe32a@baylibre.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SNO+TI3y"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782990951;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MXoiAeiZxppUV0bbr36tbNoILtIVkAZHXOhXlmlq9aE=;
+	b=SNO+TI3ysBG4+DhR3hPTF1SvhO32c4IR52yjAPmkR78MakGGmD/cQOYIcE8MmMX2BXfJ/B
+	PngJwUk8MPDHueMWfaVQgxbOjSa6VTjHZniUa88SClGCvA5JNzJYRen32CdMAokXiIgXtC
+	8TVZTPLK3UhpO1X2vjoT/Jd84+uq0gc=
+From: Lance Yang <lance.yang@linux.dev>
+To: ljs@kernel.org
+Cc: akpm@linux-foundation.org,
+	tsbogend@alpha.franken.de,
+	maddy@linux.ibm.com,
+	mpe@ellerman.id.au,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	l.stach@pengutronix.de,
+	inki.dae@samsung.com,
+	sw0312.kim@samsung.com,
+	kyungmin.park@samsung.com,
+	krzk@kernel.org,
+	peter.griffin@linaro.org,
+	jani.nikula@linux.intel.com,
+	joonas.lahtinen@linux.intel.com,
+	rodrigo.vivi@intel.com,
+	tursulin@ursulin.net,
+	robin.clark@oss.qualcomm.com,
+	lumag@kernel.org,
+	lyude@redhat.com,
+	dakr@kernel.org,
+	tomi.valkeinen@ideasonboard.com,
+	hjc@rock-chips.com,
+	heiko@sntech.de,
+	andy.yan@rock-chips.com,
+	thierry.reding@kernel.org,
+	mperttunen@nvidia.com,
+	jonathanh@nvidia.com,
+	kraxel@redhat.com,
+	dmitry.osipenko@collabora.com,
+	zack.rusin@broadcom.com,
+	matthew.brost@intel.com,
+	thomas.hellstrom@linux.intel.com,
+	oleksandr_andrushchenko@epam.com,
+	deller@gmx.de,
+	bcrl@kvack.org,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	muchun.song@linux.dev,
+	osalvador@suse.de,
+	david@kernel.org,
+	ziy@nvidia.com,
+	baolin.wang@linux.alibaba.com,
+	liam@infradead.org,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	dev.jain@arm.com,
+	baohua@kernel.org,
+	lance.yang@linux.dev,
+	hughd@google.com,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	jannh@google.com,
+	pfalcato@suse.de,
+	kees@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-mips@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org,
+	etnaviv@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	linux-rockchip@lists.infradead.org,
+	linux-tegra@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	intel-xe@lists.freedesktop.org,
+	xen-devel@lists.xenproject.org,
+	linux-fbdev@vger.kernel.org,
+	linux-aio@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 02/13] mm/vma: update do_mmap() to use vma_flags_t
+Date: Thu,  2 Jul 2026 19:15:31 +0800
+Message-Id: <20260702111531.64883-1-lance.yang@linux.dev>
+In-Reply-To: <e0ac58ad2b88ff7e2f0024e3286b2e786f79ca32.1782760670.git.ljs@kernel.org>
+References: <e0ac58ad2b88ff7e2f0024e3286b2e786f79ca32.1782760670.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOdDRmoC/yXMQQrCQAyF4auUrA1MQ+iAVxEXM2nUqNQyacVSe
- veOuvzgvX8F12LqcGxWKPo2t9dQ0R4akFsarorWVwMF6kIMhBf7IDFmm9DIcXymJSd5YMfMbWS
- J0keo77Fonf7Kp/PfPue7yvTNwbbtWmYAkHsAAAA=
-X-Change-ID: 20260702-fix-24-bit-i2s-playback-6444174c7cd7
-To: Jerome Brunet <jbrunet@baylibre.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Valerio Setti <vsetti@baylibre.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2223; i=vsetti@baylibre.com;
- h=from:subject:message-id; bh=ZGpbg2z/BcDMR3QWPvQQyG4U7Q/PzwR7ljHElEr4bCQ=;
- b=owGbwMvMwCV2z3ty7kUrRgbG02pJDFluzl/szCo/TP5e//H1mz8NC19vCJVoclxsM8nIlLln+
- aa1+54u6ChlYRDjYpAVU2RhmX7vd0Gp2kPjhJMFMHNYmUCGMHBxCsBEMkoY/pf27ao5di34+5sD
- 1Ruf7LCI1FtXNHnl+alRdTyzpE1+i5sx/E98VLpAXzz5tGu1qq5K+OvXR7UWSwQe1f75JuaOzW5
- XLlYA
-X-Developer-Key: i=vsetti@baylibre.com; a=openpgp;
- fpr=0497DEFB707526E13360C970DE4B936DD13A0100
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-A patch series has recently been merged in c7852d2dcf66
-("ASoC: meson: aiu: align I2S design to the AXG one") which unfortunately
-introduces a bug in 24 bit mode playback which this new series resolves.
 
-Among other things the previous series moved the content of what was once
-called 'aiu_encoder_i2s_setup_desc' from 'aiu-encoder-i2s' to
-'aiu-formatter-i2s'.
-'aiu_encoder_i2s_setup_desc' was basically accomplishing two tasks:
-- reset the i2s pipeline.
-- configure number of channels and physical samples width.
-Before being moved 'aiu_encoder_i2s_setup_desc' was called in the encoder
-DAI 'hw_params()', whereas after the move it is called at trigger time
-('aiu_encoder_i2s_trigger'->'gx_stream_start' -> 'gx_formatter_enable' ->
-'aiu_formatter_i2s_prepare').
+On Mon, Jun 29, 2026 at 08:25:25PM +0100, Lorenzo Stoakes wrote:
+>The core do_mmap() function accepts a vm_flags_t parameter which it then
+>manipulates before passing to mmap_region() to do the heavy lifting of the
+>memory mapping.
+>
+>Update do_mmap() to instead accept a vma_flags_t parameter, and adjust all
+>the logic within do_mmap() to manipulate this instead.
+>
+>This is as part of the ongoing effort to convert VMA flags from a system
+>word size to a bitmap type which allows us to unrestrict the number of VMA
+>flags, as well as gain control over how VMA flag manipulation occurs.
+>
+>We do not cascade these changes to all functions which accept vm_flags_t,
+>but rather use vma_flags_to_legacy() where necessary, specifically
+>deferring converting calc_vm_prot_bits(), calc_vm_flag_bits() and
+>__get_unmapped_area() to vma_flags_t.
+>
+>Also utilise the new vma_flags_can_grow() predicate which correctly handles
+>the case of architectures without upward growing stacks.
+>
+>As part of this change, introduce VMA_SHADOW_STACK so we can correctly
+>handle the case of the shadow stack not being defined.
+>
+>No functional change intended.
+>
+>Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
+>---
 
-In parallel 'aiu-fifo-i2s' (DAI FE) already performs the very same reset
-of the pipeline at trigger time in 'aiu_fifo_i2s_trigger' and then it
-triggers the playback.
+Not exactly a small one :) I stared at this patch for a while, hopefully
+don't miss anythig ...
 
-Since the DAI triggering order is the default one (FE before BE) this
-means that the pipeline reset happens when the BE already did it and
-started the playback. This cause the 24-bit playback mode to be
-corrupted.
+Just one tiny nit below. Overall, LGTM, feel free to add:
 
-This series:
-- re-orders operations so that 'aiu_formatter_i2s_prepare' is called after
-  DAIs' prepare, but before triggering them.
-- removes pipeline reset from 'aiu_formatter_i2s_prepare' because the
-  very same operation is done by 'aiu-fifo-i2s' on trigger.
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
 
-This series depends on c7852d2dcf66 ("ASoC: meson: aiu: align I2S design
-to the AXG one") which exists in 'broonie/sound.git#for-7.3', but which
-has not been mainlined yet.
+[...]
+>diff --git a/mm/mmap.c b/mm/mmap.c
+>index 46174e706bbe..547352183214 100644
+>--- a/mm/mmap.c
+>+++ b/mm/mmap.c
+[...]
+>@@ -488,23 +496,27 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
+> 		 * Check to see if we are violating any seals and update VMA
+> 		 * flags if necessary to avoid future seal violations.
+> 		 */
+>-		err = memfd_check_seals_mmap(file, &vm_flags);
+>+		err = memfd_check_seals_mmap(file, &vma_flags);
+> 		if (err)
+> 			return (unsigned long)err;
+> 	} else {
+> 		switch (flags & MAP_TYPE) {
+> 		case MAP_SHARED:
+>-			if (vm_flags & (VM_GROWSDOWN|VM_GROWSUP))
+>+			if (vma_flags_can_grow(&vma_flags))
+> 				return -EINVAL;
+> 			/*
+> 			 * Ignore pgoff.
+> 			 */
+> 			pgoff = 0;
+>-			vm_flags |= VM_SHARED | VM_MAYSHARE;
+>+			vma_flags_set(&vma_flags, VMA_SHARED_BIT, VMA_MAYSHARE_BIT);
+> 			break;
+>-		case MAP_DROPPABLE:
+>-			if (VM_DROPPABLE == VM_NONE)
+>+		case MAP_DROPPABLE: {
+>+			vma_flags_t droppable = VMA_DROPPABLE;
+>+
+>+			if (vma_flags_empty(&droppable))
+> 				return -EOPNOTSUPP;
+>+			vma_flags_set_mask(&vma_flags, droppable);
+>+
+> 			/*
+> 			 * A locked or stack area makes no sense to be droppable.
+> 			 *
+>@@ -515,23 +527,24 @@ unsigned long do_mmap(struct file *file, unsigned long addr,
+> 			 */
+> 			if (flags & (MAP_LOCKED | MAP_HUGETLB))
+> 			        return -EINVAL;
+>-			if (vm_flags & (VM_GROWSDOWN | VM_GROWSUP))
+>+			if (vma_flags_can_grow(&vma_flags))
+> 			        return -EINVAL;
+> 
+>-			vm_flags |= VM_DROPPABLE;
 
-Please apologize for the inconvenience.
+Old code checked VM_GROWSDOWN|VM_GROWSUP before seting VM_DROPPABLE. New
+code flips that around. Hmm, shouldn't master, just made me look twice ;)
 
-Signed-off-by: Valerio Setti <vsetti@baylibre.com>
----
-Valerio Setti (2):
-      ASoC: meson: gx-formatter: prepare on attach
-      ASoC: meson: aiu-formatter: remove pipeline reset from prepare
+Maybe keep old order?
 
- sound/soc/meson/aiu-formatter-i2s.c |  9 ++++-----
- sound/soc/meson/gx-formatter.c      | 33 +++++++++++++++++++++++++--------
- 2 files changed, 29 insertions(+), 13 deletions(-)
----
-base-commit: bff7fad1010eea6f183fb110b54171cf8700ef8e
-change-id: 20260702-fix-24-bit-i2s-playback-6444174c7cd7
+Cheers, Lance
 
-Best regards,
---  
-Valerio Setti <vsetti@baylibre.com>
-
+>-
+> 			/*
+> 			 * If the pages can be dropped, then it doesn't make
+> 			 * sense to reserve them.
+> 			 */
+>-			vm_flags |= VM_NORESERVE;
+>+			vma_flags_set(&vma_flags, VMA_NORESERVE_BIT);
+> 
+> 			/*
+> 			 * Likewise, they're volatile enough that they
+> 			 * shouldn't survive forks or coredumps.
+> 			 */
+>-			vm_flags |= VM_WIPEONFORK | VM_DONTDUMP;
+>+			vma_flags_set(&vma_flags, VMA_WIPEONFORK_BIT,
+>+				      VMA_DONTDUMP_BIT);
+>+
+> 			fallthrough;
+>+		}
+> 		case MAP_PRIVATE:
+> 			/*
+> 			 * Set pgoff according to addr for anon_vma.
+[...]
