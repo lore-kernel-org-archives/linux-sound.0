@@ -1,271 +1,187 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0002e601.pphosted.com (mx0b-0002e601.pphosted.com [148.163.154.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4A024E4C3
-	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 17:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783011845; cv=none; b=uWOq15hqrDq0cMnxbkGb0f0Hb8BfKCYO4F9w+hGCKKkin+hjg+q+q/OKYRUaZ+dAEgA4CwLQsoUpVXxNihUPKv2vnR+B/JoYwcZgFb+BS2ZaFHMt5Dip5O+LbZRBgr072BKWuuVFJBNLUXe2/9dvrOyiSazEpm4r6G58gYl7434=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783011845; c=relaxed/simple;
-	bh=PsWFbF7lcU6rHjHzmjR+BC28POHHscFYbUN7hXQAxKI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kLY0C/8iqVQOGFtFreUxZA2elA3Sxbjq8vWfmz9f62Ui4QtOOW76/zizImsw0unlHwqulHzkEsma5KsY/E8IpS+qtR6wlY3J9vfGuA+r8CzovUYS2FOQSSPcQE+eEoiuQweFN71otp40xw9Y1bJaxasmOLHT8+HZwjzjGKrGb2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JwTN6EPb; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE8737A83D;
+	Thu,  2 Jul 2026 17:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.154.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783015161; cv=fail; b=DCX3FtfK1VzDA8Lv5SIgT4tySJ8cuyn+Pgi4Uwcbc0uHTyNuzWPr2jjBufdYTjXqpC2QW2yHLLUvW6FEFrkjiMiq1ZfEMafmGBGBvzwp2VgHglLoMESUuVAsBoKTgV5Edyml7v/AJqaao6azD6lSxPTGe2va3m2IXc/EJBNmZpE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783015161; c=relaxed/simple;
+	bh=qF7qoU5PAkSU4U+et5MmBXbiQIOEBI6AmnARfacsUE8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=eNK8aqadpU45Nu48m3zginYd6Nd8/hdDULo2k1MttHItKsb52z0LiIJVuSu3LPj8OlTeOF3ieb8YdPdOArhtUSxT1aqcbEJrOz1b397j8EPLAirBz3BR5ZETGZ2+sZrTVK5t1to1AWv4kJeZiDkxXCK+kwh4sed4IN7owlLfjTw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b=O89WN8vO; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=PcV1m+mZ; arc=fail smtp.client-ip=148.163.154.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JwTN6EPb"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8454160043aso1749254b3a.3
-        for <linux-sound@vger.kernel.org>; Thu, 02 Jul 2026 10:04:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1783011843; x=1783616643; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WSPVrVC1VsbE9rN9yZNSgzSl/s9NouB60tZGU31qh5s=;
-        b=JwTN6EPbMA9k/lIgyTwQouHzLc83ml3cduw6aQF1Di2Ji76xdlez7l9sYm4vJK0jAC
-         RtSm/b8IGSGt3qDIIWw+ezo9oYalPTsevBKz8+0Bh6c2cPI2Cw9iUmzGDk+mHRjng65I
-         2Luwyu1vcm7kjMiYl47pQqaoj6tHexLXmXjjc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783011843; x=1783616643;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WSPVrVC1VsbE9rN9yZNSgzSl/s9NouB60tZGU31qh5s=;
-        b=W4aZ/gJicwGBtolY+u0jeIuuwQqfdxXr84D25LoUCy6WRTF5IgrK++axj11pFpXouC
-         o0FdlvkC5IiHopopIjko2727dEMn9mkluITi9rie5Bzfy0SoeVDPxEdIVjj46xSssXka
-         W1vcYfZGAphtSWueGOxpvwfgv9f/2HYDtkJP/lCu4ldrXdbzZ8h1DQCkcIcSlFrTz+BI
-         KEsvW4SK0d75BaX97N8sxgq52Ql3obLwFn6Vdp15FFc/d+/yDJZTQGY8vYKUKWBLsRgr
-         OZkxpVuiLqWxRlq9vicYUIY4B4ha1VkQauRueb7fFis4blfKeNd6LuhqnAsj7k2ey50a
-         57Lg==
-X-Forwarded-Encrypted: i=1; AFNElJ9hP50QxDilwtcEItq2p64drVt8M2WIZ/GuyJ4ywfyFI5uXdOWxk54r0Wj1U5f8kHfLWHh7XCztkH6YYw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywl8VwQYKM1rRGB6U2F03P1AaEYHQHmc4Xr12d36HeUUdwgRgmy
-	jsH5EW6CDcyz5/VOymCpXc4vtKMq8Hd3mmOHvyYAonjMAhWdbMSsw/m8MIBkkLITjA==
-X-Gm-Gg: AfdE7cmqq3rj/2R3zvi2zcKKLNrrFXdSk7BnRRCp76MaxXk3KA21MMRqHU2zUswVAuj
-	8vBdAPHeYDc8iJkJnbz6qAoz1FqI6UBYRzTHowpvQ3n5zXVRQuf0xjQH0ekQB6cIuH7CG5pwTBz
-	2rkY4qdAE+sIaVb1b9jsCD8mFkTVhzUvyMhm/tVpe337fslRehKsHHc89PP3AHiSKVECwQX7hFQ
-	GDUztRGehutpPZ8K2PZhN9tvoRogGpRDmrvcj5rB4GoUjL81vRyuWSFYLnNYph8/gvDdwa1Wl2m
-	IolNel4o0hduZ+IksGnoVzZIstnNlmt3GC8qHS3t2nVQHhaIecmXRrpoPvn2ZcTb73H/qtMBUWA
-	OWRDWAgsvcA4XsD/sbz+Bo0asYiWoKJhAQEk1WGdRHKLMJpppZdfwlc2gCyWx0CunwCU7Kawp7T
-	tQuSZZ7V4eWlUuLmzWOSieySZLieTChjJtb17wy3XqIbxuSihb18c=
-X-Received: by 2002:a05:6a00:1745:b0:847:9518:a6fc with SMTP id d2e1a72fcca58-847c096d066mr6658578b3a.33.1783011842925;
-        Thu, 02 Jul 2026 10:04:02 -0700 (PDT)
-Received: from localhost (140.152.81.34.bc.googleusercontent.com. [34.81.152.140])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-c9e8f1ddd7fsm1554093a12.8.2026.07.02.10.04.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jul 2026 10:04:02 -0700 (PDT)
-From: Yu-Hsuan Hsu <yuhsuan@chromium.org>
-To: linux-kernel@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Yu-Hsuan Hsu <yuhsuan@chromium.org>,
-	=?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: aloop: Add 'hrtimer' option to timer_source
-Date: Thu,  2 Jul 2026 17:03:48 +0000
-Message-ID: <20260702170356.3418432-1-yuhsuan@chromium.org>
-X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
+	dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b="O89WN8vO";
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="PcV1m+mZ"
+Received: from pps.filterd (m0374956.ppops.net [127.0.0.1])
+	by mx0b-0002e601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 662E1Wnl2616467;
+	Thu, 2 Jul 2026 12:59:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	proofpoint-05-2026; bh=zYy3sT0q5xTMXtA3I36lmQc4vq8oL36V1c2Yktnt9
+	zA=; b=O89WN8vOfoMr/kEzoxLMjdSh/A8yhDNR1z7Q2Y0KBLFwTvTyqqw0izZq+
+	4TkyEVGeqmdKvm6ZMLGhWZht6kFYSK/L3qMQGUWe9xwBmxwOVF/zkDuD/0tMqkTC
+	bktvhqs8cLFFknGRlTMDfH2MqSl3ccD3Vpkt0GqTKqKzpPth39Wvn1/H76/oYmqb
+	eTBm70Q2a0J8ZhBxOlkyImrPtHfMYmVtij15zVX2jI2uSBz3+ugJY9i8semp3UTj
+	t3tOgNzNHS51HutEO0JXDkXsnU21txzJRLu1eDNmhPHWR+tZKggHi5gppmopOTBd
+	jbQ/ozmD/It0SYLMbhK1hGaH6kcjQ==
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11010048.outbound.protection.outlook.com [52.101.85.48])
+	by mx0b-0002e601.pphosted.com (PPS) with ESMTPS id 4f5n23jxb1-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 02 Jul 2026 12:59:07 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BHJlEM+xFWpvKbRncvQehQmDBsLviSrDfwMYuDiat/9GKRNBrcBxEbU3zHkEli4HnBPtjYgFwTGXeU5j1yQ7CEYo56mxdqjFlq0xI6XBLlmMPw2StOnZI7I0w7GxsPdd3ZBZbfQ0eYf1DFi3O+QRrgAdr2hprpsWiSG8tSMQpArPXdTfIQrol50pnc0E+pAW3BJ9UZ4LR+t+H5yhnGYPrWaZWkaHPw5YO4rGZLxJhsX55QfWjscvGagLsUetBUs1jr+t2wsxkfoYeaq6sK4RjS1DIQ6NH43jlBJriGygqTkLlP+9uHAObScoDJ5ExYPcw8HAV5jO9dN413yw26I/4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zYy3sT0q5xTMXtA3I36lmQc4vq8oL36V1c2Yktnt9zA=;
+ b=ovqaOIiYSCejjJ48yHyvBe6rzSZOVNWx/Ma+mhuVhZWkR7SdgThzX8KGTRomMv5HPhl2y0r+MZfSmWK6bVlvGKz4hO3hYbp/R3dTyhLO4gaa8CiKtREdxELBTDloCjD6eFfjhmPPgCne3d4mLzfcXlSJEbT/BwdXFNjyoQNqbtHsxDgSijNDy2SiR4ubpl9t68nD6k4hMMT0wByeQU6SmJbEwh5ah2ixecUjcD9DnUZ8vFPejqU32Axt6RhuVZGfO3jSvTniQyOBqU9hoeBXMb9U9G45+Uh3JWf3YEvJHndCxvx145PGgMZVeSHCllQ+03aMB6raOqdhoAn4sNmLaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zYy3sT0q5xTMXtA3I36lmQc4vq8oL36V1c2Yktnt9zA=;
+ b=PcV1m+mZCRD86iuP/XudSZeop7qrwTbX0rz+W41NlPn6f3eI6k3X6MfTrZss2diC5Td8yEZECPEWiBuFV3C30VAbjPPlValQmHKcjVGLPITbZw5iQyOVyGZticWxKacZx9xZtCa7O/5xHe4N24eZKqxyOkyfemKCIC1po3ENh/k=
+Received: from SA9PR10CA0029.namprd10.prod.outlook.com (2603:10b6:806:a7::34)
+ by SJ0PR10MB4605.namprd10.prod.outlook.com (2603:10b6:a03:2d9::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Thu, 2 Jul
+ 2026 17:59:05 +0000
+Received: from SA2PEPF00001507.namprd04.prod.outlook.com
+ (2603:10b6:806:a7:cafe::5f) by SA9PR10CA0029.outlook.office365.com
+ (2603:10b6:806:a7::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.159.19 via Frontend Transport; Thu, 2
+ Jul 2026 17:59:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ SA2PEPF00001507.mail.protection.outlook.com (10.167.242.39) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Thu, 2 Jul 2026 17:59:04 +0000
+Received: from DLEE211.ent.ti.com (157.170.170.113) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 2 Jul
+ 2026 12:59:04 -0500
+Received: from DLEE211.ent.ti.com (157.170.170.113) by DLEE211.ent.ti.com
+ (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 2 Jul
+ 2026 12:59:04 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE211.ent.ti.com
+ (157.170.170.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
+ Transport; Thu, 2 Jul 2026 12:59:04 -0500
+Received: from [10.60.39.92] (ltpf5gwk6l.dhcp.ti.com [10.60.39.92])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 662Hx3a94020225;
+	Thu, 2 Jul 2026 12:59:04 -0500
+Message-ID: <c52dfaad-ad3c-41a0-bfb4-7a9c33beba13@ti.com>
+Date: Thu, 2 Jul 2026 12:59:03 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] ASoC: codecs: tas675x: use READ_ONCE for params to be
+ used concurrently
+To: Mark Brown <broonie@kernel.org>
+CC: <shenghao-ding@ti.com>, <kevin-lu@ti.com>, <baojun.xu@ti.com>,
+        <lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20260630183126.2588322-1-sen@ti.com>
+ <20260630183126.2588322-2-sen@ti.com>
+ <53fe396b-12c6-46d0-9cb6-d492e8cc7d96@sirena.org.uk>
+Content-Language: en-US
+From: "Wang, Sen" <sen@ti.com>
+In-Reply-To: <53fe396b-12c6-46d0-9cb6-d492e8cc7d96@sirena.org.uk>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00001507:EE_|SJ0PR10MB4605:EE_
+X-MS-Office365-Filtering-Correlation-Id: 742f50c5-2c1b-4556-c94a-08ded8639af6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|36860700016|82310400026|22082099003|18002099003|56012099006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	Wk6wGvpmhQ6wgtu1ICODmnb9o6JUOv4e4Q/JHVbSRTjDRzXCjmBZlAyVQKJnklEHrXqpaU+uzOo9d/kks17liBpL++y/5Cm9ebVPMgIbVZNRKXZg3PJoG5PiZa63gjQul5gFHKF97oOpPbdyFpD5pJqp8me3GAUB6KDBn6WkZpkRwx4aW5O0lZ4D3b2BNFg9eDYQqaqkTHhqhFYsk9O2yc/g9YJ1RmsPNXs82oIaeJOwiTrcnkrPCEUu+cNpT3iGa5JZwRNqifzpXv998Ra/rs5mRGMyHWyJ4vxNyVzEOhQfRS4UDRDBXX1VTD9+4ssmp36ppXelr88mrGT5CrQTMQlIvEbTbkfELqy52/SJPqMiutTUr/znz8WI1kkN6N6iRDW5lEZDo4P5uMETrutNMEoxZnZj61PJp8QPtT6mrmgHS8/pMsClZr39mICdvLtbJ5hsvDHlIMJ5+W0BJeYipo6g0j04p+/WaVjEG8RWihsy/B5+hnXc0McnEKiyd4lmZ6lnSMmS6aPcAOOwuIJkZBEjLn3N5OoxgHqc1wPR6ARuncUkGIms/QwhyAMpbtUZ/LKCeEWf1qtaXc8CO4ErbQuiDaJb1uv+cWG0iAUbPrv9xyLZJGeStO/Z+DmoLGDPxfsiLzVY88vTdlRoo226Ouwgv19PbAVI4gogvgF/s4Najk4OUx9Js5SmvFC7nsjMx7sSiOR/0lm/qXAO3bhZZQ==
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(36860700016)(82310400026)(22082099003)(18002099003)(56012099006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	p9JgX9EOMcqwJm46dEqKNH3nxvGgxNIOsQCRzk2Qogf2whuP/Xqfzc40WpGQVZPW2AohcDl1bCdyfJMQ01FRsSi7RBqJzMWS0mKHFDsWf+sfmDZXuniOkUJQjob/JzEZj9km71SOtV5XDBpd/E8hqSjmNGwOAIWoQ+rhL3WWYhVJooAvPUzSNEpNEGoiEw3cHgIkd6OAm9LokBbth17XkWa8X7Y7AKurigblN6MlDSZOduEUTfNe5CHC2iOHi+xinYGmJzWIO9rOiTzdvSu36IvIFEvsOs7y5a+AFdtQ67h2gZSqB48kwCw6oNRydzb7wFl2a6k4Rp2O78aQx2bnfIEP+xojfM4xtkUFjKQiQJ6gI6UIEjJkkVcWFmyQ1Ur0ZUjKdts21F9fZsATrsSgrXl+z3vbucROy7cdYlWNNsXuoY2YLdeKktMN3fEz2byq
+X-Exchange-RoutingPolicyChecked:
+	f7eDRGPgavnlucTjkaRpko0aJzeRvXXee/YXluxP6atWiqymbL8pQGwF288fxpzW27Bf4s1UDgyQL1bu7MAqrlwNb0zUJ1UiadSKzBiLHbS4pu8VT2WGsXJsjP/TBW71zjbrZL3boIf+B0iH+502aLhC34oBBC5g+m1/xO3/2W4kp/vKVIBu1Tx/k59q1fjA2SSiRV8cFq05iQXWVUSC+k+9Vp9FQW1F5ZJx5k69ySX9ac8vsTbQ8eCyQDMzFOuDSJSAJKyGpfpL3/su6izHkA63YaoPga6Og8K6BwLIgMQvOpib8vrj0cdCuQOYIPBYGb20pLVKqJOwtif+M0HdpQ==
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 17:59:04.5627
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 742f50c5-2c1b-4556-c94a-08ded8639af6
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00001507.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4605
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAyMDE4OCBTYWx0ZWRfXyci/+v6cEdpq
+ KNIZoemIPmp+EKMEgq6uEHjIc5dxz2FNYz/aPDGmRIB89dha5ACZ4DFPJIw1n0MQTZ4xc7vkf1T
+ nn9acoZrBcRcON0IGVtD5hCYCQ9fhko=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAyMDE4OCBTYWx0ZWRfX10BVjIW6ECEM
+ /NWVcwTyq7yIl65BaNWvqcf3slMamlP6oLOOf7gj/pMnmOTyKSHzpzLzLMZlMe8t7WInGdCj3Uc
+ OjthpzkVeRB3cWG+6VM6XLBgW5Qf01rMEt5Q9gGC8ouLizOqVlt9XZ/iunUpXNidx2oX+Xbs+md
+ YZpdwJfCaZSe3Noe4EbRWjGtj2qg+zKaTHnnp/Yo1hB8pRgXlQ02M1LoQQj09svsjN0auM/I2h9
+ M75MNofoZO0rSaEBNZ8dynFS9jMTJbUXN3JD5SNql339mdPRVsRTMfJALLOnd692EEDq8Dcg3sU
+ YWxqCzK18Q6RLnG87g1v2wDaW8eO496MYLT5iciTw3g6unAokpwEqQfThNIuxfigKfebSGTbBPS
+ x4aWImNX4FJwaoNN2L7tpSDpDuoFwf5GjPlhXbexruo01pxJCZck3eodTgWxY+YcN6S3mroUovq
+ R8qn0HRcUmON1XMWS7Q==
+X-Authority-Analysis: v=2.4 cv=DN+/JSNb c=1 sm=1 tr=0 ts=6a46a6ec cx=c_pps
+ a=INYzEgT09ABq+JfORImVWw==:117 a=WotqVVQAdb04rnGuttW3Kw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10
+ a=s63m1ICgrNkA:10 a=V5UXEbMT0ywA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Z8NIEmU8O1QQgoT56wFK:22 a=jwouBfj2j3NM8CExmVVE:22 a=1j9htcRMC34D0xNDXH0A:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: 9RsFIvW_v2ZeEZbmOY2AYC1dx2QIfNYn
+X-Proofpoint-ORIG-GUID: 9RsFIvW_v2ZeEZbmOY2AYC1dx2QIfNYn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-07-02_02,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 malwarescore=0 adultscore=0 impostorscore=0
+ clxscore=1015 bulkscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607020188
 
-The snd-aloop driver currently defaults to using the system jiffies
-timer (struct timer_list). On systems configured with a low timer
-interrupt frequency (e.g., CONFIG_HZ=250), the jiffies resolution
-(4ms per tick) is insufficient for precise audio timing. For
-example, a 10ms audio period requires 2.5 jiffies ticks, causing
-timing jitter that leads to capture underruns.
+On 7/1/2026 1:55 PM, Mark Brown wrote:
+> On Tue, Jun 30, 2026 at 01:31:20PM -0500, Sen Wang wrote:
+>> active_playback_dais and active_capture_dais are written atomically via
+>> set_bit()/clear_bit() and can be read concurrently from the
+>> fault_check_work delayed work handler.
+>>
+>> fault_check_work already uses READ_ONCE; extend the same guard to all other
+>> reads in tas675x_hw_params() and tas675x_mute_stream().
+> 
+> I'm not convinced that any of this READ_ONCE stuff is safe, that's a
+> very unusual pattern for an I2C device like these, but given that I
+> missed it earlier I'll take the patch for now.
 
-Introduce "hrtimer" as a supported timer_source option. When
-timer_source="hrtimer" is set, aloop uses high-resolution timers
-(hrtimer) to drive period updates. This provides nanosecond-level
-accuracy regardless of CONFIG_HZ and operates independently of other
-hardware audio cards.
+You're right mark, READ_ONCE only makes the variable volatile. I had a 
+false assumption that it also adds memory barrier as well. This patch 
+should be dropped as it provides no inherent benefit.
 
-Signed-off-by: Yu-Hsuan Hsu <yuhsuan@chromium.org>
----
- sound/drivers/aloop.c | 101 ++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 98 insertions(+), 3 deletions(-)
-
-diff --git a/sound/drivers/aloop.c b/sound/drivers/aloop.c
-index 06bfe09eae1a..35018c33a92b 100644
---- a/sound/drivers/aloop.c
-+++ b/sound/drivers/aloop.c
-@@ -23,6 +23,7 @@
- #include <linux/wait.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-+#include <linux/hrtimer.h>
- #include <sound/core.h>
- #include <sound/control.h>
- #include <sound/pcm.h>
-@@ -55,7 +56,7 @@ MODULE_PARM_DESC(pcm_substreams, "PCM substreams # (1-8) for loopback driver.");
- module_param_array(pcm_notify, int, NULL, 0444);
- MODULE_PARM_DESC(pcm_notify, "Break capture when PCM format/rate/channels changes.");
- module_param_array(timer_source, charp, NULL, 0444);
--MODULE_PARM_DESC(timer_source, "Sound card name or number and device/subdevice number of timer to be used. Empty string for jiffies timer [default].");
-+MODULE_PARM_DESC(timer_source, "Sound card name or number and device/subdevice number of timer to be used. Empty string for jiffies timer [default], 'hrtimer' for high-resolution timer.");
- 
- #define NO_PITCH 100000
- 
-@@ -161,8 +162,9 @@ struct loopback_pcm {
- 	unsigned int period_size_frac;	/* period size in jiffies ticks */
- 	unsigned int last_drift;
- 	unsigned long last_jiffies;
--	/* If jiffies timer is used */
-+	/* If jiffies / hrtimer is used */
- 	struct timer_list timer;
-+	struct hrtimer hrtimer;
- 
- 	/* size of per channel buffer in case of non-interleaved access */
- 	unsigned int channel_buf_n;
-@@ -232,6 +234,29 @@ static int loopback_jiffies_timer_start(struct loopback_pcm *dpcm)
- 	return 0;
- }
- 
-+/* call in cable->lock */
-+static int loopback_hrtimer_start(struct loopback_pcm *dpcm)
-+{
-+	unsigned long tick;
-+	unsigned int rate_shift = get_rate_shift(dpcm);
-+
-+	if (rate_shift != dpcm->pcm_rate_shift) {
-+		dpcm->pcm_rate_shift = rate_shift;
-+		dpcm->period_size_frac = frac_pos(dpcm, dpcm->pcm_period_size);
-+	}
-+	if (dpcm->period_size_frac <= dpcm->irq_pos) {
-+		dpcm->irq_pos %= dpcm->period_size_frac;
-+		dpcm->period_update_pending = 1;
-+	}
-+	tick = dpcm->period_size_frac - dpcm->irq_pos;
-+	tick = DIV_ROUND_UP(tick, dpcm->pcm_bps);
-+	hrtimer_start(&dpcm->hrtimer,
-+		      ns_to_ktime(div_u64((u64)tick * NSEC_PER_SEC, HZ)),
-+		      HRTIMER_MODE_REL_SOFT);
-+
-+	return 0;
-+}
-+
- /* call in cable->lock */
- static int loopback_snd_timer_start(struct loopback_pcm *dpcm)
- {
-@@ -270,6 +295,14 @@ static inline int loopback_jiffies_timer_stop(struct loopback_pcm *dpcm)
- 	return 0;
- }
- 
-+/* call in cable->lock */
-+static inline int loopback_hrtimer_stop(struct loopback_pcm *dpcm)
-+{
-+	hrtimer_cancel(&dpcm->hrtimer);
-+
-+	return 0;
-+}
-+
- /* call in cable->lock */
- static int loopback_snd_timer_stop(struct loopback_pcm *dpcm)
- {
-@@ -300,6 +333,13 @@ static inline int loopback_jiffies_timer_stop_sync(struct loopback_pcm *dpcm)
- 	return 0;
- }
- 
-+static inline int loopback_hrtimer_stop_sync(struct loopback_pcm *dpcm)
-+{
-+	hrtimer_cancel(&dpcm->hrtimer);
-+
-+	return 0;
-+}
-+
- /* call in loopback->cable_lock */
- static int loopback_snd_timer_close_cable(struct loopback_pcm *dpcm)
- {
-@@ -734,6 +774,28 @@ static void loopback_jiffies_timer_function(struct timer_list *t)
- 		snd_pcm_period_elapsed(dpcm->substream);
- }
- 
-+static enum hrtimer_restart loopback_hrtimer_function(struct hrtimer *t)
-+{
-+	struct loopback_pcm *dpcm = container_of(t, struct loopback_pcm, hrtimer);
-+	bool period_elapsed = false;
-+
-+	scoped_guard(spinlock_irqsave, &dpcm->cable->lock) {
-+		if (loopback_jiffies_timer_pos_update(dpcm->cable) &
-+		    (1 << dpcm->substream->stream)) {
-+			loopback_hrtimer_start(dpcm);
-+			if (dpcm->period_update_pending) {
-+				dpcm->period_update_pending = 0;
-+				period_elapsed = true;
-+			}
-+		}
-+	}
-+
-+	if (period_elapsed)
-+		snd_pcm_period_elapsed(dpcm->substream);
-+
-+	return HRTIMER_NORESTART;
-+}
-+
- /* call in cable->lock */
- static int loopback_snd_timer_check_resolution(struct snd_pcm_runtime *runtime,
- 					       unsigned long resolution)
-@@ -907,6 +969,19 @@ static void loopback_jiffies_timer_dpcm_info(struct loopback_pcm *dpcm,
- 	snd_iprintf(buffer, "    timer_expires:\t%lu\n", dpcm->timer.expires);
- }
- 
-+static void loopback_hrtimer_dpcm_info(struct loopback_pcm *dpcm,
-+				       struct snd_info_buffer *buffer)
-+{
-+	snd_iprintf(buffer, "    update_pending:\t%u\n",
-+		    dpcm->period_update_pending);
-+	snd_iprintf(buffer, "    irq_pos:\t\t%u\n", dpcm->irq_pos);
-+	snd_iprintf(buffer, "    period_frac:\t%u\n", dpcm->period_size_frac);
-+	snd_iprintf(buffer, "    last_jiffies:\t%lu (%lu)\n",
-+		    dpcm->last_jiffies, jiffies);
-+	snd_iprintf(buffer, "    timer_expires:\t%llu\n",
-+		    ktime_to_ns(hrtimer_get_expires(&dpcm->hrtimer)));
-+}
-+
- static void loopback_snd_timer_dpcm_info(struct loopback_pcm *dpcm,
- 					 struct snd_info_buffer *buffer)
- {
-@@ -1097,6 +1172,24 @@ static const struct loopback_ops loopback_jiffies_timer_ops = {
- 	.dpcm_info = loopback_jiffies_timer_dpcm_info,
- };
- 
-+static int loopback_hrtimer_open(struct loopback_pcm *dpcm)
-+{
-+	hrtimer_setup(&dpcm->hrtimer, loopback_hrtimer_function,
-+		      CLOCK_MONOTONIC, HRTIMER_MODE_REL_SOFT);
-+
-+	return 0;
-+}
-+
-+static const struct loopback_ops loopback_hrtimer_ops = {
-+	.open = loopback_hrtimer_open,
-+	.start = loopback_hrtimer_start,
-+	.stop = loopback_hrtimer_stop,
-+	.stop_sync = loopback_hrtimer_stop_sync,
-+	.close_substream = loopback_hrtimer_stop_sync,
-+	.pos_update = loopback_jiffies_timer_pos_update,
-+	.dpcm_info = loopback_hrtimer_dpcm_info,
-+};
-+
- static int loopback_parse_timer_id(const char *str,
- 				   struct snd_timer_id *tid)
- {
-@@ -1274,7 +1367,9 @@ static int loopback_open(struct snd_pcm_substream *substream)
- 		spin_lock_init(&cable->lock);
- 		snd_refcount_init(&cable->stop_count);
- 		cable->hw = loopback_pcm_hardware;
--		if (loopback->timer_source)
-+		if (loopback->timer_source && !strcmp(loopback->timer_source, "hrtimer"))
-+			cable->ops = &loopback_hrtimer_ops;
-+		else if (loopback->timer_source && loopback->timer_source[0])
- 			cable->ops = &loopback_snd_timer_ops;
- 		else
- 			cable->ops = &loopback_jiffies_timer_ops;
--- 
-2.55.0.rc0.799.gd6f94ed593-goog
-
+Tracing back, the reasons for needing to keeping a separate record of 
+active DAIs was the unreliable active count when calling 
+snd_soc_component_active in mute_stream when I first developed the 
+driver, I should look deeper into that instead...
